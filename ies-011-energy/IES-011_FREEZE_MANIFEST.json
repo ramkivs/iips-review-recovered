@@ -1,0 +1,35 @@
+{
+  "standard": "IES-011",
+  "title": "Energy Sector Engine",
+  "status": "FROZEN",
+  "freezeDate": "2026-08-08",
+  "approver": "IIPS Engineering Standards Maintainer",
+  "methodologyVersion": "1.0",
+  "calibrationProfile": "energy-calibration-1.0.0",
+  "goldenDataset": "energy-golden-reference-1.0.0",
+  "expectedOutputs": "energy-expected-outputs-1.0.0",
+  "replayDataset": "energy-replay-dataset-1.0.0",
+  "validationFixtures": "energy-validation-fixtures-1.0.0",
+  "engineeringDocs": "IES-011-D01..D19 (19 documents)",
+  "reviewArtifacts": [
+    "ENERGY_CALIBRATION_BOUNDARY_MATRIX.md",
+    "ENERGY_REPLAY_COVERAGE_MATRIX.md",
+    "IES-011_ARCHITECTURE_REVIEW.md"
+  ],
+  "documentHashes": {
+    "calibration": "sha256:aa0e364c6543825727ae944c4a56102176af0e1cc6391fb3b9b669adaaba1b3d",
+    "goldenDataset": "sha256:2591a07dd479f4dffc96078216dc20feb3593dd1f6bfc015154124b99b40b562",
+    "expectedOutputs": "sha256:cddd6b244c2f572ece915fb31538241a5b5d2e7cd760ab678c36825708097398",
+    "replayDataset": "sha256:05baadfa6bb2e8689fb59bb5fddfe9b2b0f82935ec08fbe40a0eaff9eb287157",
+    "validationFixtures": "sha256:9964ba952371919e1a1c44d9cd70bc397793dc5f564300da2c142d9c28bfe243",
+    "normativeCalculationAppendix": "sha256:e24a6817ec3322c53d10767ca59a592bee46e39876a6f34d0c8ac41e482d9a02",
+    "decisionEngine": "sha256:aec9adcf5803ee0d1286f3d3900c36f3ce66b06628d1bbd926aef7c45b8e5843",
+    "calibrationBoundaryMatrix": "sha256:0976cd166a6ffd8cb89fb228acfc8f93ee0e5e907913fdcf771ac76892955fc5",
+    "replayCoverageMatrix": "sha256:2365e06298d306ef57f8704db280694003457285f06306deaac111f8eac9e785",
+    "architectureReview": "sha256:97caa1987164ac22522d33de9800ec08233bfc29e45a84b8865221f328943521"
+  },
+  "consumedPlatform": "iips-platform unchanged (IES-005/005.1)",
+  "consumedCapabilities": ["CSIP (ontology registration, zero change)"],
+  "releaseTag": "ies-011-v1.0.0",
+  "postFreezeRule": "Any methodology/calibration change requires a new version, never modification of the frozen baseline."
+}

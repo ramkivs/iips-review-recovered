@@ -1,0 +1,21 @@
+{
+  "dataset": "portfolio-replay-dataset",
+  "version": "1.0.0",
+  "program": "v1.1 Track 5 — CSIP",
+  "purpose": "Replay verification at the portfolio level — must reproduce identical rankings, allocations, reports, diversification scores, and evidence.",
+  "note": "Replay uses the same golden portfolio inputs twice; outputs must be byte-identical.",
+  "replayScenario": "PF-05 Multi-sector Balanced",
+  "holdings": [
+    { "companyId": "BK-002", "sector": "Banking", "conviction": 72, "confidence": 0.8, "quality": 78, "risk": 25 },
+    { "companyId": "IN-001", "sector": "Insurance", "conviction": 72, "confidence": 0.8, "quality": 75, "risk": 20 },
+    { "companyId": "CM-005", "sector": "Capital Markets", "conviction": 82, "confidence": 0.8, "quality": 80, "risk": 30 },
+    { "companyId": "HC-006", "sector": "Healthcare", "conviction": 82, "confidence": 0.8, "quality": 80, "risk": 35 }
+  ],
+  "replayAssertions": [
+    "identical rankings",
+    "identical allocations",
+    "identical reports",
+    "identical diversification scores",
+    "identical evidence"
+  ]
+}

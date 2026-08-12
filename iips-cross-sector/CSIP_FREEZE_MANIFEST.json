@@ -1,0 +1,49 @@
+{
+  "capability": "CSIP",
+  "title": "Cross-Sector Intelligence Platform",
+  "program": "v1.1 Track 5",
+  "status": "FROZEN",
+  "freezeDate": "2026-08-08",
+  "approver": "IIPS Engineering Standards Maintainer",
+  "methodologyVersion": "1.0",
+  "ontologyVersion": "universal-investment-ontology-1.0.0",
+  "standardVersion": "cross-sector-intelligence-standard-1.0.0",
+  "architectureVersion": "portfolio-architecture-1.0.0",
+  "referenceDataVersion": "portfolio-reference-data-1.0.0",
+  "goldenDataset": "portfolio-golden-dataset-1.0.0",
+  "expectedOutputs": "portfolio-expected-outputs-1.0.0",
+  "replayDataset": "portfolio-replay-dataset-1.0.0",
+  "allocationFixtures": "allocation-fixtures-1.0.0",
+  "diversificationFixtures": "diversification-fixtures-1.0.0",
+  "allocationDecisionMatrix": "allocation-decision-matrix-1.0.0",
+  "evidenceModel": "cross-sector-evidence-model-1.0.0",
+  "architectureReviewArtifacts": [
+    "PORTFOLIO_DECISION_TRACE_MATRIX.md",
+    "ONTOLOGY_CONSISTENCY_MATRIX.md",
+    "ALLOCATION_RULE_PRECEDENCE_TABLE.md",
+    "CROSS_SECTOR_COVERAGE_MATRIX.md",
+    "ARCHITECTURE_REVIEW.md"
+  ],
+  "documentHashes": {
+    "UNIVERSAL_INVESTMENT_ONTOLOGY.md": "sha256:8cb22dd432433ca708a75251ced50767a81aeeb922de14160230f597e020232e",
+    "CROSS_SECTOR_INTELLIGENCE_STANDARD.md": "sha256:7462b76108f6836bab016bfb5975c31568e26a0a71f7b413c2375e5b1b661798",
+    "PORTFOLIO_ARCHITECTURE.md": "sha256:a6fa1542e9310f9c27a1074b68dbce06f296eea2ef10589bff7f1a3e1b0be70a",
+    "PORTFOLIO_REFERENCE_DATA.md": "sha256:2def0bab0e881f118291dcf5ce656768520f56ec74dc946978dee02f6933bad4",
+    "ALLOCATION_DECISION_MATRIX.md": "sha256:55d10cae289d7a4e078f4b2d8616de85d89f62dc82ac5d09a9091c853a43ee5f",
+    "CROSS_SECTOR_EVIDENCE_MODEL.md": "sha256:a1dd4261b221769df06b3f07f75126bb3e676af3704f2c65cb54ded15f69aaf6",
+    "PORTFOLIO_GOLDEN_DATASET.json": "sha256:f70002b35fd47d1e27fafde92bf2bca0b4f9ae38a240ff59b698ce1d5b880be7",
+    "PORTFOLIO_EXPECTED_OUTPUTS.json": "sha256:a6a341d0ccb7bf5274c68907575b2b2477b7b3114210305a59f1314fde1c3137",
+    "PORTFOLIO_REPLAY_DATASET.json": "sha256:b4cda9d8dd130b87b755554b657de263a12df04d613459f941320cc98d4c38d9",
+    "ALLOCATION_FIXTURES.json": "sha256:a8e31bbbc48da99ef620e6a489e7201f78e6c78ec9935947e278c9779ea00db8",
+    "DIVERSIFICATION_FIXTURES.json": "sha256:a4e7ae2ccdbe3745642e2881e2beea419e6f6ea1f31b5647328f9800b4ecf673",
+    "ARCHITECTURE_REVIEW/ARCHITECTURE_REVIEW.md": "sha256:43022c88f122009849be3f5f62bfef1776f26502b349e20c9f5dd091363b3bfc"
+  },
+  "consumedEngineVersions": [
+    "banking-engine-v1.0.0",
+    "insurance-engine-v1.0.0",
+    "capital-markets-engine-v1.0.0",
+    "healthcare-engine-v1.0.0"
+  ],
+  "releaseTag": "csip-v1.0.0",
+  "postFreezeRule": "Any change to the Universal Investment Ontology, CSIP standard, or reference assets requires a new capability/version, never modification of the frozen baseline. The four consumed sector engines remain immutable and authoritative."
+}

@@ -1,0 +1,22 @@
+{
+  "dataset": "technology-replay-dataset-1.0.0",
+  "standard": "IES-015",
+  "version": "1.0.0",
+  "program": "v1.1 Track 6",
+  "contractVersion": "IES-015 v1.3 (D15 normative)",
+  "calibrationVersion": "technology-calibration-1.0.0",
+  "purpose": "Replay verification for the Technology Sector Engine — must reproduce identical composites, verdicts, pillars, overrides, evidence, and resolved calibration version.",
+  "note": "Replay uses the same golden provider inputs twice; outputs must be byte-identical. The resolved calibration profile version (including any calibrated band-table overrides) is part of the replay identity (D15 §6a.4): identical inputs + identical resolved calibration version -> identical composite + verdict.",
+  "replayAssertions": [
+    "identical composite scores",
+    "identical verdicts",
+    "identical pillars",
+    "identical overrides",
+    "identical evidence",
+    "identical resolved calibration version"
+  ],
+  "providers": [
+    "TE-001", "TE-002", "TE-003", "TE-004", "TE-005", "TE-006",
+    "TE-007", "TE-008", "TE-009", "TE-010", "TE-011", "TE-012", "TE-013"
+  ]
+}

@@ -1,0 +1,11 @@
+graph TD
+    INPUT[Industrials Inputs] --> MET[IndustrialsMetrics]
+    MET --> SCORE[IndustrialsScoreEngine]
+    SCORE --> PILLAR[Pillars: Quality / Growth / Risk / Profitability / CapitalEfficiency / Valuation]
+    PILLAR --> COMP[Composite Score]
+    COMP --> DEC[IndustrialsDecision]
+    DEC --> VERDICT[Verdict + Overrides]
+    DEC --> EVID[IndustrialsEvidence]
+    EVID --> SNAP[Snapshot + Replay]
+    COMP --> ONTO[Ontology Registration]
+    ONTO --> CSIP[CSIP / Portfolio Intelligence]

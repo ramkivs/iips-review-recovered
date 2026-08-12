@@ -1,0 +1,34 @@
+{
+  "standard": "IES-014",
+  "title": "Industrials Sector Engine",
+  "status": "FROZEN",
+  "freezeDate": "2026-08-09",
+  "approver": "IIPS Engineering Standards Maintainer",
+  "methodologyVersion": "IES-014 v1.2 (D15 normative contract)",
+  "calibrationProfile": "industrials-calibration-1.0.0",
+  "goldenDataset": "industrials-golden-reference-1.0.0",
+  "expectedOutputs": "industrials-expected-outputs-1.0.0",
+  "replayDataset": "industrials-replay-dataset-1.0.0",
+  "validationFixtures": "industrials-validation-fixtures-1.0.0",
+  "ontologyMetadata": "industrials-ontology-metadata-1.0.0",
+  "engineeringDocs": "IES-014-D01..D19 (19 documents, v1.1/v1.2)",
+  "reviewArtifacts": [
+    "INDUSTRIALS_CALIBRATION_INDEPENDENCE_MATRIX.md",
+    "IES-014_ARCHITECTURE_REVIEW.md"
+  ],
+  "documentHashes": {
+    "calibration": "sha256:abaa02d0c96055febbc69a3175b28d354aed515fe9695acb089fd3f849ee05be",
+    "goldenDataset": "sha256:59fcbd489d81a3d645b274ce999cb85294a9df229965a928e7b2fc573f6ccbd8",
+    "expectedOutputs": "sha256:577773339ad351fd912bca12af5f669e04ef9e75c83ed7c770515468c2b0df36",
+    "replayDataset": "sha256:98380dc51afe907c5ae0434b9985bc43e74a555e8da1044253e6e1ef55461d5a",
+    "validationFixtures": "sha256:9ca65f64b388a8a9fbf29d0ddb0fc106e1a59c3472daaca37e3d5cc8341d5348",
+    "normativeCalculationAppendix": "sha256:2179ce3c230a4f1b66e3aac1b5408c368761504c85575876765946900abdc580",
+    "decisionEngine": "sha256:c95c07ef097c55d42385a223ced2e619e82b8bf9f225924e9fcb57a64a927106",
+    "calibrationIndependenceMatrix": "sha256:6b7b1ac606b532e1b3173ac758efafc309bb974510d1d3b97b1c7247f2f7e56f",
+    "architectureReview": "sha256:c9eaef320f19d177399577b6aa5261a8d9ae90acefdd775e6e26b684f2a4394e"
+  },
+  "consumedPlatform": "iips-platform unchanged (IES-005/005.1)",
+  "consumedCapabilities": ["CSIP (ontology registration, zero change)"],
+  "releaseTag": "ies-014-v1.0.0",
+  "postFreezeRule": "Any methodology/calibration change requires a new version, never modification of the frozen baseline. Reference assets are the authoritative test oracle; implementation disagreement is an implementation defect."
+}

@@ -1,0 +1,11 @@
+graph TD
+    INPUT[Consumer Inputs] --> MET[ConsumerMetrics]
+    MET --> SCORE[ConsumerScoreEngine]
+    SCORE --> PILLAR[Pillars: Quality / Growth / Risk / Profitability / CapitalEfficiency / Valuation]
+    PILLAR --> COMP[Composite Score]
+    COMP --> DEC[ConsumerDecision]
+    DEC --> VERDICT[Verdict + Overrides]
+    DEC --> EVID[ConsumerEvidence]
+    EVID --> SNAP[Snapshot + Replay]
+    COMP --> ONTO[Ontology Registration]
+    ONTO --> CSIP[CSIP / Portfolio Intelligence]

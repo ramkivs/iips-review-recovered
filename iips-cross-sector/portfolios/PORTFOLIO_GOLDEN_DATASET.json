@@ -1,0 +1,66 @@
+{
+  "dataset": "portfolio-golden-dataset",
+  "version": "1.0.0",
+  "program": "v1.1 Track 5 — CSIP",
+  "purpose": "Authoritative regression benchmark for the Cross-Sector Intelligence Platform. Contains entire portfolios (not individual companies), covering diverse scenarios.",
+  "portfolios": [
+    {
+      "id": "PF-01",
+      "name": "Conservative Portfolio",
+      "scenario": "Conservative",
+      "holdings": [
+        { "companyId": "BK-002", "sector": "Banking", "conviction": 72, "confidence": 0.8, "quality": 78, "risk": 25 },
+        { "companyId": "IN-001", "sector": "Insurance", "conviction": 72, "confidence": 0.8, "quality": 75, "risk": 20 },
+        { "companyId": "CM-005", "sector": "Capital Markets", "conviction": 82, "confidence": 0.8, "quality": 80, "risk": 30 }
+      ]
+    },
+    {
+      "id": "PF-02",
+      "name": "Growth Portfolio",
+      "scenario": "Growth",
+      "holdings": [
+        { "companyId": "CM-006", "sector": "Capital Markets", "conviction": 85, "confidence": 0.8, "quality": 82, "risk": 40 },
+        { "companyId": "HC-006", "sector": "Healthcare", "conviction": 82, "confidence": 0.8, "quality": 80, "risk": 35 }
+      ]
+    },
+    {
+      "id": "PF-03",
+      "name": "Income Portfolio",
+      "scenario": "Income",
+      "holdings": [
+        { "companyId": "BK-002", "sector": "Banking", "conviction": 72, "confidence": 0.8, "quality": 78, "risk": 25 },
+        { "companyId": "IN-001", "sector": "Insurance", "conviction": 72, "confidence": 0.8, "quality": 75, "risk": 20 }
+      ]
+    },
+    {
+      "id": "PF-04",
+      "name": "Over-concentrated Portfolio",
+      "scenario": "Over-concentrated",
+      "holdings": [
+        { "companyId": "BK-002", "sector": "Banking", "conviction": 72, "confidence": 0.8, "quality": 78, "risk": 25 },
+        { "companyId": "BK-001", "sector": "Banking", "conviction": 47, "confidence": 0.8, "quality": 50, "risk": 55 },
+        { "companyId": "BK-005", "sector": "Banking", "conviction": 34, "confidence": 0.8, "quality": 40, "risk": 70 }
+      ]
+    },
+    {
+      "id": "PF-05",
+      "name": "Multi-sector Balanced Portfolio",
+      "scenario": "Balanced",
+      "holdings": [
+        { "companyId": "BK-002", "sector": "Banking", "conviction": 72, "confidence": 0.8, "quality": 78, "risk": 25 },
+        { "companyId": "IN-001", "sector": "Insurance", "conviction": 72, "confidence": 0.8, "quality": 75, "risk": 20 },
+        { "companyId": "CM-005", "sector": "Capital Markets", "conviction": 82, "confidence": 0.8, "quality": 80, "risk": 30 },
+        { "companyId": "HC-006", "sector": "Healthcare", "conviction": 82, "confidence": 0.8, "quality": 80, "risk": 35 }
+      ]
+    },
+    {
+      "id": "PF-06",
+      "name": "Crisis Portfolio",
+      "scenario": "Crisis",
+      "holdings": [
+        { "companyId": "BK-005", "sector": "Banking", "conviction": 34, "confidence": 0.8, "quality": 40, "risk": 70 },
+        { "companyId": "IN-005", "sector": "Insurance", "conviction": 34, "confidence": 0.8, "quality": 35, "risk": 75 }
+      ]
+    }
+  ]
+}
