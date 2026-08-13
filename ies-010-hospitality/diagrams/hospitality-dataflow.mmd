@@ -1,0 +1,11 @@
+graph TD
+    INPUT[Hospitality Inputs] --> MET[HospitalityMetrics]
+    MET --> SCORE[HospitalityScoreEngine]
+    SCORE --> PILLAR[Pillars: Occupancy / Demand-RevPAR / Growth / Profitability / EarningsQuality / CapitalRisk]
+    PILLAR --> COMP[Composite Score]
+    COMP --> DEC[HospitalityDecision]
+    DEC --> VERDICT[Verdict + Overrides]
+    DEC --> EVID[HospitalityEvidence]
+    EVID --> SNAP[Snapshot + Replay]
+    COMP --> ONTO[Ontology Registration]
+    ONTO --> CSIP[CSIP / Portfolio Intelligence]

@@ -1,0 +1,16 @@
+{
+  "dataset": "consumer-replay-dataset-1.0.0",
+  "standard": "IES-013",
+  "version": "1.0.0",
+  "program": "v1.1 Track 6",
+  "purpose": "Replay verification for the Consumer Sector Engine — must reproduce identical composites, verdicts, pillars, overrides, and evidence.",
+  "note": "Replay uses the same golden provider inputs twice; outputs must be byte-identical.",
+  "replayAssertions": [
+    "identical composite scores",
+    "identical verdicts",
+    "identical pillars",
+    "identical overrides",
+    "identical evidence"
+  ],
+  "providers": ["CS-001", "CS-002", "CS-003", "CS-004", "CS-005", "CS-006", "CS-007", "CS-008", "CS-009", "CS-010"]
+}

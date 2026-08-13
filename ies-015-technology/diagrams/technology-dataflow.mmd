@@ -1,0 +1,19 @@
+graph TD
+    RAW[Technology Raw Metrics TM-001..TM-012] --> SEG[Subsegment Resolution]
+    SEG --> ARCH[Archetype Resolution]
+    ARCH --> PROF[Calibration Profile Selection]
+    PROF --> EBT[Effective Band-Table Resolution<br/>calibrated ?? baseline<br/>boundaries + scores together<br/>conservativeBandTable() on conflict]
+    EBT --> MBS[Metric to Band to Score]
+    MBS --> PILLAR[Pillars: Quality / Growth / Risk / Profitability / CapitalEfficiency / Valuation]
+    PILLAR --> WTS[Effective Weights / Risk Multiplier<br/>wR = wR x archetype_risk]
+    WTS --> COMP[Composite Score<br/>round_half_to_even at composite]
+    COMP --> OVR[Override Min-Rank<br/>finalVerdict = min_rank(base, caps)]
+    OVR --> VERDICT[Verdict: Strong Buy..Avoid]
+    COMP --> EVID[TechnologyEvidence + Resolved Calibration Version]
+    EVID --> SNAP[Snapshot + Replay]
+    VERDICT --> ONTO[Ontology Registration]
+    ONTO --> CSIP[CSIP / Portfolio Intelligence]
+
+    style EBT fill:#eaf6ff,stroke:#2b6cb0
+    style COMP fill:#f0fff4,stroke:#2f855a
+    style OVR fill:#fffaf0,stroke:#c05621

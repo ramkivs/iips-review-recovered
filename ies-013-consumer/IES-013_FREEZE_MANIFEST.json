@@ -1,0 +1,33 @@
+{
+  "standard": "IES-013",
+  "title": "Consumer Sector Engine",
+  "status": "FROZEN",
+  "freezeDate": "2026-08-08",
+  "approver": "IIPS Engineering Standards Maintainer",
+  "methodologyVersion": "1.0",
+  "calibrationProfile": "consumer-calibration-1.0.0",
+  "goldenDataset": "consumer-golden-reference-1.0.0",
+  "expectedOutputs": "consumer-expected-outputs-1.0.0",
+  "replayDataset": "consumer-replay-dataset-1.0.0",
+  "validationFixtures": "consumer-validation-fixtures-1.0.0",
+  "engineeringDocs": "IES-013-D01..D19 (19 documents)",
+  "reviewArtifacts": [
+    "CONSUMER_CALIBRATION_BOUNDARY_REVIEW_MATRIX.md",
+    "IES-013_ARCHITECTURE_REVIEW.md"
+  ],
+  "documentHashes": {
+    "calibration": "sha256:2c25fa39cb85f4202eafb0f57c08996aa4c6cd0619c7f462f3a8ca118833b0c9",
+    "goldenDataset": "sha256:4044130bc856ec0392fe5fd60874cd27ea887177d80b6c253a9fae9359c0a6ec",
+    "expectedOutputs": "sha256:5ae32bcd24749a67cf1d09c927130d84b32c736f57ebfa1fc02c1e88c4ff794c",
+    "replayDataset": "sha256:c3657943d665f45740523cfa40cb9231d7abd820bfed86271dcece581dd21720",
+    "validationFixtures": "sha256:4b6acc44d1d317f3a38cced54b7e6c25a8b3e43bf6d70f4a167658a9f11e299e",
+    "normativeCalculationAppendix": "sha256:23edc9d57b760ee50df232b62e53f81056b04fa1122c5c89247b1acca12c201f",
+    "decisionEngine": "sha256:2f9490927a5023e28b4c20d1987acc8879e39721112b941de01e65a7762f67d4",
+    "calibrationBoundaryReviewMatrix": "sha256:c9c906d872e973eaaa7720003d34121b83a16ba739f4f73b3c6f5638541e0a47",
+    "architectureReview": "sha256:c45c985797c621762650f16e9674abda1f66d3d99aa327f4328db18d932a369a"
+  },
+  "consumedPlatform": "iips-platform unchanged (IES-005/005.1)",
+  "consumedCapabilities": ["CSIP (ontology registration, zero change)"],
+  "releaseTag": "ies-013-v1.0.0",
+  "postFreezeRule": "Any methodology/calibration change requires a new version, never modification of the frozen baseline."
+}

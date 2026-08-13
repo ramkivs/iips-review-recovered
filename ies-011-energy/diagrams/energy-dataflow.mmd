@@ -1,0 +1,11 @@
+graph TD
+    INPUT[Energy Inputs] --> MET[EnergyMetrics]
+    MET --> SCORE[EnergyScoreEngine]
+    SCORE --> PILLAR[Pillars: Quality / Growth / Risk / Profitability / CapitalEfficiency / Valuation]
+    PILLAR --> COMP[Composite Score]
+    COMP --> DEC[EnergyDecision]
+    DEC --> VERDICT[Verdict + Overrides]
+    DEC --> EVID[EnergyEvidence]
+    EVID --> SNAP[Snapshot + Replay]
+    COMP --> ONTO[Ontology Registration]
+    ONTO --> CSIP[CSIP / Portfolio Intelligence]

@@ -1,0 +1,13 @@
+{
+  "fixtures": "diversification-fixtures",
+  "version": "1.0.0",
+  "source": "CSIP Diversification Analyzer + golden portfolios",
+  "note": "Expected diversification behavior per concentration scenario. Deterministic.",
+  "scenarios": [
+    { "id": "DIV-01", "portfolio": "PF-05 Multi-sector Balanced", "expectedConcentration": 25.0, "expectedDiversification": "High", "detect": "balanced" },
+    { "id": "DIV-02", "portfolio": "PF-04 Over-concentrated", "expectedConcentration": 100.0, "expectedDiversification": "Very Low", "detect": "sector concentration" },
+    { "id": "DIV-03", "portfolio": "PF-02 Growth", "expectedConcentration": 50.0, "expectedDiversification": "Moderate", "detect": "single-factor exposure (growth)" },
+    { "id": "DIV-04", "portfolio": "PF-06 Crisis", "expectedConcentration": 50.0, "expectedDiversification": "Moderate", "detect": "elevated risk / correlated downside" },
+    { "id": "DIV-05", "portfolio": "PF-01 Conservative", "expectedConcentration": 33.3, "expectedDiversification": "Good", "detect": "quality tilt" }
+  ]
+}

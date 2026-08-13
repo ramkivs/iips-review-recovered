@@ -1,0 +1,11 @@
+graph TD
+    INPUT[Utilities Inputs] --> MET[UtilitiesMetrics]
+    MET --> SCORE[UtilitiesScoreEngine]
+    SCORE --> PILLAR[Pillars: Quality / Growth / Risk / Profitability / CapitalEfficiency / Valuation]
+    PILLAR --> COMP[Composite Score]
+    COMP --> DEC[UtilitiesDecision]
+    DEC --> VERDICT[Verdict + Overrides]
+    DEC --> EVID[UtilitiesEvidence]
+    EVID --> SNAP[Snapshot + Replay]
+    COMP --> ONTO[Ontology Registration]
+    ONTO --> CSIP[CSIP / Portfolio Intelligence]

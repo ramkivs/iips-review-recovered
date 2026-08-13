@@ -1,0 +1,16 @@
+{
+  "dataset": "utilities-replay-dataset-1.0.0",
+  "standard": "IES-012",
+  "version": "1.0.0",
+  "program": "v1.1 Track 6",
+  "purpose": "Replay verification for the Utilities Sector Engine — must reproduce identical composites, verdicts, pillars, overrides, and evidence.",
+  "note": "Replay uses the same golden provider inputs twice; outputs must be byte-identical.",
+  "replayAssertions": [
+    "identical composite scores",
+    "identical verdicts",
+    "identical pillars",
+    "identical overrides",
+    "identical evidence"
+  ],
+  "providers": ["UT-001", "UT-002", "UT-003", "UT-004", "UT-005", "UT-006", "UT-007", "UT-008", "UT-009", "UT-010", "UT-011"]
+}

@@ -1,0 +1,33 @@
+{
+  "standard": "IES-012",
+  "title": "Utilities Sector Engine",
+  "status": "FROZEN",
+  "freezeDate": "2026-08-08",
+  "approver": "IIPS Engineering Standards Maintainer",
+  "methodologyVersion": "1.0",
+  "calibrationProfile": "utilities-calibration-1.0.0",
+  "goldenDataset": "utilities-golden-reference-1.0.0",
+  "expectedOutputs": "utilities-expected-outputs-1.0.0",
+  "replayDataset": "utilities-replay-dataset-1.0.0",
+  "validationFixtures": "utilities-validation-fixtures-1.0.0",
+  "engineeringDocs": "IES-012-D01..D19 (19 documents)",
+  "reviewArtifacts": [
+    "UTILITIES_CALIBRATION_INDEPENDENCE_MATRIX.md",
+    "IES-012_ARCHITECTURE_REVIEW.md"
+  ],
+  "documentHashes": {
+    "calibration": "sha256:cd60d644c92f999cc6484b31ae3842376ced07c7727fe5dd7b13a67a7f2f0ab8",
+    "goldenDataset": "sha256:27c191a3289bcfcdd4a2df12735adca6c35f8a8a6940d88a7ce907800c4caa4e",
+    "expectedOutputs": "sha256:0abb710ff6dbc3452fc690426e004e7ba7bb10dea4b5f3c546db5ccb67176103",
+    "replayDataset": "sha256:ed8818a51c3872e17ec51d8b5dbfbbfd8574621316eac47a2478fb1ee1f6129b",
+    "validationFixtures": "sha256:b0edbffd1d1b6eceeb4efdf93b9c2d5923a12d92e8744469fe4b02fe5367921e",
+    "normativeCalculationAppendix": "sha256:e472e6eb9251e7dbebe6000e060cd985a228d0e9ee084abd838af65ffeb88f08",
+    "decisionEngine": "sha256:2c8e0991b78665054e59df7e8e882e105d472364cf5b80214e6a100aa91cb5ce",
+    "calibrationIndependenceMatrix": "sha256:1ce226ec214b75472015145bd7b09e035a4eec7e5f9081567f27840eb664439a",
+    "architectureReview": "sha256:1cc1053cb0948e2e6dd2b6626ddf90def31edcf52d610835410d9a9b2a23f263"
+  },
+  "consumedPlatform": "iips-platform unchanged (IES-005/005.1)",
+  "consumedCapabilities": ["CSIP (ontology registration, zero change)"],
+  "releaseTag": "ies-012-v1.0.0",
+  "postFreezeRule": "Any methodology/calibration change requires a new version (per Frozen Calibration Change Policy), never modification of the frozen baseline."
+}

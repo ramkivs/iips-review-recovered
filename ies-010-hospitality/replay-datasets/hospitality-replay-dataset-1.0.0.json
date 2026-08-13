@@ -1,0 +1,16 @@
+{
+  "dataset": "hospitality-replay-dataset-1.0.0",
+  "standard": "IES-010",
+  "version": "1.0.0",
+  "program": "v1.1 Track 6",
+  "purpose": "Replay verification for the Hospitality Sector Engine — must reproduce identical composites, verdicts, pillars, and evidence.",
+  "note": "Replay uses the same golden provider inputs twice; outputs must be byte-identical.",
+  "replayAssertions": [
+    "identical composite scores",
+    "identical verdicts",
+    "identical pillars",
+    "identical overrides",
+    "identical evidence"
+  ],
+  "providers": ["HP-001", "HP-002", "HP-003", "HP-004", "HP-005", "HP-006", "HP-007", "HP-008", "HP-009"]
+}

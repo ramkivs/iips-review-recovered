@@ -1,0 +1,16 @@
+{
+  "dataset": "energy-replay-dataset-1.0.0",
+  "standard": "IES-011",
+  "version": "1.0.0",
+  "program": "v1.1 Track 6",
+  "purpose": "Replay verification for the Energy Sector Engine — must reproduce identical composites, verdicts, pillars, overrides, and evidence.",
+  "note": "Replay uses the same golden provider inputs twice; outputs must be byte-identical.",
+  "replayAssertions": [
+    "identical composite scores",
+    "identical verdicts",
+    "identical pillars",
+    "identical overrides",
+    "identical evidence"
+  ],
+  "providers": ["EN-001", "EN-002", "EN-003", "EN-004", "EN-005", "EN-006", "EN-007", "EN-008", "EN-009"]
+}

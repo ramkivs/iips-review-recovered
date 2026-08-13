@@ -1,0 +1,22 @@
+{
+  "ontology": "universal-investment-ontology",
+  "ontologyVersion": "UIO-1.0",
+  "engineId": "sector.industrials",
+  "standard": "IES-014",
+  "methodologyVersion": "IES-014 v1.2 (frozen)",
+  "calibrationProfile": "industrials-calibration-1.0.0",
+  "mapping": {
+    "composite": "Conviction",
+    "confidence": "Confidence",
+    "qualityScore": "Quality",
+    "growthScore": "Growth",
+    "riskScore": "Risk",
+    "valuationScore": "Valuation",
+    "capitalEfficiency": "Capital Efficiency",
+    "franchiseScore": "Moat"
+  },
+  "dimensionsCovered": [
+    "Conviction", "Confidence", "Quality", "Growth", "Risk", "Valuation", "Capital Efficiency", "Moat"
+  ],
+  "csipCompatibility": "zero CSIP change (ontology registration only)"
+}

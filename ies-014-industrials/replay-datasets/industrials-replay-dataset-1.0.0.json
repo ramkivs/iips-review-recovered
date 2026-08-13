@@ -1,0 +1,17 @@
+{
+  "dataset": "industrials-replay-dataset-1.0.0",
+  "standard": "IES-014",
+  "version": "1.0.0",
+  "program": "v1.1 Track 6",
+  "contractVersion": "IES-014 v1.2 (D15 normative)",
+  "purpose": "Replay verification for the Industrials Sector Engine — must reproduce identical composites, verdicts, pillars, overrides, and evidence.",
+  "note": "Replay uses the same golden provider inputs twice; outputs must be byte-identical.",
+  "replayAssertions": [
+    "identical composite scores",
+    "identical verdicts",
+    "identical pillars",
+    "identical overrides",
+    "identical evidence"
+  ],
+  "providers": ["IN-001", "IN-002", "IN-003", "IN-004", "IN-005", "IN-006", "IN-007", "IN-008", "IN-009", "IN-010"]
+}

@@ -1,0 +1,16 @@
+{
+  "fixtures": "allocation-fixtures",
+  "version": "1.0.0",
+  "source": "CSIP Allocation Decision Matrix",
+  "note": "Expected allocation behavior per scenario/strategy. Deterministic.",
+  "scenarios": [
+    { "id": "ALLOC-01", "scenario": "Banking overweight", "strategy": "Balanced", "expectedAction": "Reduce Banking" },
+    { "id": "ALLOC-02", "scenario": "Healthcare underweight", "strategy": "Balanced", "expectedAction": "Increase Healthcare" },
+    { "id": "ALLOC-03", "scenario": "Diversification poor", "strategy": "Conservative", "expectedAction": "Recommend diversification" },
+    { "id": "ALLOC-04", "scenario": "High conviction concentrated", "strategy": "Growth", "expectedAction": "Hold concentration" },
+    { "id": "ALLOC-05", "scenario": "Multiple equivalent opportunities", "strategy": "Balanced", "expectedAction": "Preserve diversification" },
+    { "id": "ALLOC-06", "scenario": "Crisis", "strategy": "Conservative", "expectedAction": "Reduce risk / raise quality / increase diversification" },
+    { "id": "ALLOC-07", "scenario": "Income strategy", "strategy": "Income", "expectedAction": "Favor income sectors, reduce growth weight" },
+    { "id": "ALLOC-08", "scenario": "Growth strategy", "strategy": "Growth", "expectedAction": "Favor growth sectors, accept higher risk" }
+  ]
+}

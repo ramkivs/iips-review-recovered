@@ -1,0 +1,178 @@
+{
+  "basis": "Frozen portfolio expected outputs derived from CSIP standard + allocation decision matrix.",
+  "version": "1.0.0",
+  "expected": [
+    {
+      "portfolioId": "PF-01",
+      "scenario": "Conservative",
+      "sectorExposure": {
+        "Banking": 33.3,
+        "Insurance": 33.3,
+        "Capital Markets": 33.3
+      },
+      "concentration": 33.3,
+      "diversificationScore": 72.7,
+      "avgConviction": 75.3,
+      "avgQuality": 77.7,
+      "avgRisk": 25.0,
+      "ranking": [
+        {
+          "companyId": "CM-005",
+          "sector": "Capital Markets",
+          "conviction": 82
+        },
+        {
+          "companyId": "BK-002",
+          "sector": "Banking",
+          "conviction": 72
+        },
+        {
+          "companyId": "IN-001",
+          "sector": "Insurance",
+          "conviction": 72
+        }
+      ]
+    },
+    {
+      "portfolioId": "PF-02",
+      "scenario": "Growth",
+      "sectorExposure": {
+        "Capital Markets": 50.0,
+        "Healthcare": 50.0
+      },
+      "concentration": 50.0,
+      "diversificationScore": 53.0,
+      "avgConviction": 83.5,
+      "avgQuality": 81.0,
+      "avgRisk": 37.5,
+      "ranking": [
+        {
+          "companyId": "CM-006",
+          "sector": "Capital Markets",
+          "conviction": 85
+        },
+        {
+          "companyId": "HC-006",
+          "sector": "Healthcare",
+          "conviction": 82
+        }
+      ]
+    },
+    {
+      "portfolioId": "PF-03",
+      "scenario": "Income",
+      "sectorExposure": {
+        "Banking": 50.0,
+        "Insurance": 50.0
+      },
+      "concentration": 50.0,
+      "diversificationScore": 53.0,
+      "avgConviction": 72.0,
+      "avgQuality": 76.5,
+      "avgRisk": 22.5,
+      "ranking": [
+        {
+          "companyId": "BK-002",
+          "sector": "Banking",
+          "conviction": 72
+        },
+        {
+          "companyId": "IN-001",
+          "sector": "Insurance",
+          "conviction": 72
+        }
+      ]
+    },
+    {
+      "portfolioId": "PF-04",
+      "scenario": "Over-concentrated",
+      "sectorExposure": {
+        "Banking": 100.0
+      },
+      "concentration": 100.0,
+      "diversificationScore": 6.0,
+      "avgConviction": 51.0,
+      "avgQuality": 56.0,
+      "avgRisk": 50.0,
+      "ranking": [
+        {
+          "companyId": "BK-002",
+          "sector": "Banking",
+          "conviction": 72
+        },
+        {
+          "companyId": "BK-001",
+          "sector": "Banking",
+          "conviction": 47
+        },
+        {
+          "companyId": "BK-005",
+          "sector": "Banking",
+          "conviction": 34
+        }
+      ]
+    },
+    {
+      "portfolioId": "PF-05",
+      "scenario": "Balanced",
+      "sectorExposure": {
+        "Banking": 25.0,
+        "Insurance": 25.0,
+        "Capital Markets": 25.0,
+        "Healthcare": 25.0
+      },
+      "concentration": 25.0,
+      "diversificationScore": 84.0,
+      "avgConviction": 77.0,
+      "avgQuality": 78.2,
+      "avgRisk": 27.5,
+      "ranking": [
+        {
+          "companyId": "CM-005",
+          "sector": "Capital Markets",
+          "conviction": 82
+        },
+        {
+          "companyId": "HC-006",
+          "sector": "Healthcare",
+          "conviction": 82
+        },
+        {
+          "companyId": "BK-002",
+          "sector": "Banking",
+          "conviction": 72
+        },
+        {
+          "companyId": "IN-001",
+          "sector": "Insurance",
+          "conviction": 72
+        }
+      ]
+    },
+    {
+      "portfolioId": "PF-06",
+      "scenario": "Crisis",
+      "sectorExposure": {
+        "Banking": 50.0,
+        "Insurance": 50.0
+      },
+      "concentration": 50.0,
+      "diversificationScore": 53.0,
+      "avgConviction": 34.0,
+      "avgQuality": 37.5,
+      "avgRisk": 72.5,
+      "ranking": [
+        {
+          "companyId": "BK-005",
+          "sector": "Banking",
+          "conviction": 34
+        },
+        {
+          "companyId": "IN-005",
+          "sector": "Insurance",
+          "conviction": 34
+        }
+      ]
+    }
+  ]
+}

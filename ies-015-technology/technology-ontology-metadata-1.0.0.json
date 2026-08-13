@@ -1,0 +1,39 @@
+{
+  "ontology": "universal-investment-ontology",
+  "ontologyVersion": "UIO-1.0",
+  "engineId": "sector.technology",
+  "standard": "IES-015",
+  "methodologyVersion": "IES-015 v1.3 (frozen reference contract)",
+  "calibrationProfile": "technology-calibration-1.0.0",
+  "mapping": {
+    "composite": "Conviction",
+    "confidence": "Confidence",
+    "qualityScore": "Quality",
+    "growthScore": "Growth",
+    "riskScore": "Risk",
+    "profitabilityScore": "Profitability",
+    "capitalEfficiency": "Capital Efficiency",
+    "valuationScore": "Valuation"
+  },
+  "dimensionsCovered": [
+    "Conviction",
+    "Confidence",
+    "Quality",
+    "Growth",
+    "Risk",
+    "Profitability",
+    "Capital Efficiency",
+    "Valuation"
+  ],
+  "subsegmentsCovered": [
+    "software-saas", "it-services", "semiconductors", "electronics-hardware",
+    "digital-platforms", "internet-consumer-tech", "cybersecurity",
+    "data-infrastructure", "tech-enabled-services"
+  ],
+  "archetypesCovered": [
+    "license", "subscription", "usage-based", "transaction-platform",
+    "hardware", "foundry-manufacturing", "services-project",
+    "managed-services", "hybrid"
+  ],
+  "csipCompatibility": "zero CSIP change (ontology registration only)"
+}

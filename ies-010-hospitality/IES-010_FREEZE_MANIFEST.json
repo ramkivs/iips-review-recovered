@@ -1,0 +1,38 @@
+{
+  "standard": "IES-010",
+  "title": "Hospitality Sector Engine",
+  "status": "FROZEN",
+  "freezeDate": "2026-08-08",
+  "approver": "IIPS Engineering Standards Maintainer",
+  "methodologyVersion": "1.0",
+  "calibrationProfile": "hospitality-calibration-1.0.0",
+  "goldenDataset": "hospitality-golden-reference-1.0.0",
+  "expectedOutputs": "hospitality-expected-outputs-1.0.0",
+  "replayDataset": "hospitality-replay-dataset-1.0.0",
+  "validationFixtures": "hospitality-validation-fixtures-1.0.0",
+  "engineeringDocs": "IES-010-D01..D19 (19 documents)",
+  "reviewArtifacts": [
+    "HOSPITALITY_BUSINESS_MODEL_CONSISTENCY_MATRIX.md",
+    "HOSPITALITY_OVERRIDE_PRECEDENCE_MATRIX.md",
+    "HOSPITALITY_REVPAR_DECISION_TRACE_EXAMPLES.md",
+    "HOSPITALITY_ONTOLOGY_REGISTRATION_REVIEW.md",
+    "IES-010_ARCHITECTURE_REVIEW.md"
+  ],
+  "documentHashes": {
+    "calibration": "sha256:0869096c260a295b90e7c117da85051c7dd17553b4a27a5b523d896a7ecf35a8",
+    "goldenDataset": "sha256:bcc0b9c92fa27ecb725abb683fe468e25b36443c04c7a4bd5dc38409b757d6a1",
+    "expectedOutputs": "sha256:9615fc981e6c3d7442bf0dea8a1d37cbc4808cecb4cce1e5a4b918c40516301c",
+    "replayDataset": "sha256:9099bad909c83f67f67c9a09ae070dff009ceb4f426c75307060e2ade5871ba8",
+    "validationFixtures": "sha256:411cc9162b0ede0a5909a816fe01043d2e7bb58b9ca0710e8c121b76d61545a2",
+    "normativeCalculationAppendix": "sha256:a040fee4bcd09a5659efd00e72be0c7df40916a8540b2349199ab1f674879cbd",
+    "decisionEngine": "sha256:d15d45ab31c771d11c7de7add6d5182ebd85deda8e6bba6ce9afec818db58de1",
+    "businessModelConsistencyMatrix": "sha256:d8e63ef7ea2be3a4986007a06b7a94f5e40fb20623d334b06df3ffa8e12453c0",
+    "overridePrecedenceMatrix": "sha256:efc5199a163f62086e0f1954c9abb09992b6a90c147dcda99b8afdb05097b393",
+    "ontologyRegistrationReview": "sha256:e99c708a72918eca633d7ed39b1a824bc2be5ae598e3789d09a133e2d19e2bc3",
+    "architectureReview": "sha256:c04b45a806a0a651477ed32ca793180a559607b05a5739ceaebf320499e8518e"
+  },
+  "consumedPlatform": "iips-platform unchanged (IES-005/005.1)",
+  "consumedCapabilities": ["CSIP (ontology registration, zero change)"],
+  "releaseTag": "ies-010-v1.0.0",
+  "postFreezeRule": "Any methodology/calibration change requires a new version, never modification of the frozen baseline."
+}
