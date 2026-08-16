@@ -25,7 +25,7 @@ export function Drawer({ open, onClose, title, children }: { open: boolean; onCl
   const containerRef = useDialogFocus<HTMLDivElement>(open, onClose);
   if (!open) return null;
   return (
-    <div role="dialog" aria-modal="true" aria-label={title} data-testid="drawer" tabIndex={-1} ref={containerRef} style={{ position: 'fixed', right: 0, top: 0, bottom: 0, width: 420, background: 'var(--color-surface-0)', boxShadow: 'var(--elev-3)', padding: 24, zIndex: 150, overflow: 'auto' }}>
+    <div role="dialog" aria-modal="true" aria-label={title} data-testid="drawer" tabIndex={-1} ref={containerRef} style={{ position: 'fixed', right: 0, top: 0, bottom: 0, width: 'min(420px, 100vw)', background: 'var(--color-surface-0)', boxShadow: 'var(--elev-3)', padding: 24, zIndex: 150, overflow: 'auto' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 12 }}><strong>{title}</strong><button type="button" onClick={onClose} aria-label="Close">✕</button></div>
       {children}
     </div>

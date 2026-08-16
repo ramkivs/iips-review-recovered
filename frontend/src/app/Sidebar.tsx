@@ -11,19 +11,7 @@ export function Sidebar() {
   const items = visibleNav(session.role);
 
   return (
-    <ul
-      style={{
-        listStyle: 'none',
-        margin: 0,
-        padding: '12px 8px',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '2px',
-        height: '100%',
-        background: 'var(--color-surface-1)',
-        borderRight: '1px solid var(--color-border)',
-      }}
-    >
+    <ul className="app-nav">
       {items.map((item) => (
         <li key={item.path}>
           <NavLink

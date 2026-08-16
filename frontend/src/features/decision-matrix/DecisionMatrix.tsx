@@ -80,9 +80,9 @@ export function DecisionMatrix() {
           Valuation (certified, 0–100)
         </div>
         {positioned.map((c) => {
-          // Position within plot area; null axis -> pin to edge with explicit unavailable marker.
-          const px = 60 + (c.xNull ? 0 : (c.x / 100) * 460);
-          const py = 40 + (c.yNull ? 320 : (1 - c.y / 100) * 320);
+          // Phase 13-Hardening (B1): percentage positioning (no fixed-px overflow on narrow viewports).
+          const leftPct = c.xNull ? 4 : 4 + (c.x / 100) * 92;
+          const topPct = c.yNull ? 96 : 4 + ((100 - c.y) / 100) * 92;
           return (
             <button
               key={c.sector}
@@ -92,7 +92,7 @@ export function DecisionMatrix() {
               title={`${c.sector}: quality ${c.quality ?? 'n/a'}, valuation ${c.valuation ?? 'n/a'}`}
               aria-label={`${c.sector}, quality ${c.quality ?? 'unavailable'}, valuation ${c.valuation ?? 'unavailable'}`}
               style={{
-                position: 'absolute', left: px, top: py, transform: 'translate(-50%,-50%)',
+                position: 'absolute', left: `${leftPct}%`, top: `${topPct}%`, transform: 'translate(-50%,-50%)',
                 width: 14, height: 14, borderRadius: '50%', border: '2px solid var(--color-surface-0)',
                 background: c.yNull ? 'repeating-linear-gradient(45deg,var(--color-border),var(--color-border) 2px,transparent 2px,transparent 4px)' : 'var(--color-status-informational)',
                 cursor: 'pointer', padding: 0,

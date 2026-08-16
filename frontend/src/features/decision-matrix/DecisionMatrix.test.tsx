@@ -71,4 +71,12 @@ describe('Decision Matrix', () => {
     expect(scatter.getAttribute('role')).not.toBe('img');
     expect(screen.getByRole('button', { name: /A, quality 85, valuation 60/ })).toBeInTheDocument();
   });
+
+  it('B1: matrix points use percentage positioning (responsive, no fixed-px overflow)', async () => {
+    render(<MemoryRouter><DecisionMatrix /></MemoryRouter>);
+    await screen.findByTestId('matrix-scatter');
+    const point = screen.getByTestId('matrix-point-A');
+    expect(point.style.left).toMatch(/%$/);
+    expect(point.style.top).toMatch(/%$/);
+  });
 });

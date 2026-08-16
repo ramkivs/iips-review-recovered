@@ -12,22 +12,15 @@ import { useSession } from '../core/session/SessionContext';
 export function AppShell() {
   const { session } = useSession();
   return (
-    <div
-      style={{
-        display: 'grid',
-        gridTemplateColumns: '240px 1fr',
-        gridTemplateRows: '56px 1fr',
-        gridTemplateAreas: '"topbar topbar" "sidebar content"',
-        height: '100vh',
-      }}
-    >
-      <div style={{ gridArea: 'topbar' }}>
+    <div className="app-shell">
+      <a className="skip-link" href="#main-content">Skip to main content</a>
+      <div className="app-topbar">
         <TopBar role={session.role} tenantId={session.tenantId} />
       </div>
-      <nav style={{ gridArea: 'sidebar' }} aria-label="Primary">
+      <nav className="app-sidebar" aria-label="Primary">
         <Sidebar />
       </nav>
-      <main style={{ gridArea: 'content', overflow: 'auto', padding: '24px' }}>
+      <main className="app-main" id="main-content" tabIndex={-1}>
         <Outlet />
       </main>
     </div>

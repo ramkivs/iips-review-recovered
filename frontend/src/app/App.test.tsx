@@ -65,4 +65,11 @@ describe('Application Shell', () => {
     renderAt('/nonsense', 'analyst');
     expect(screen.getByTestId('shell-not-authorized')).toBeInTheDocument();
   });
+
+  it('B2: provides a skip link to the main content region', () => {
+    renderAt('/executive');
+    const skip = screen.getByRole('link', { name: /skip to main content/i });
+    expect(skip).toHaveAttribute('href', '#main-content');
+    expect(document.getElementById('main-content')).toBeInTheDocument();
+  });
 });

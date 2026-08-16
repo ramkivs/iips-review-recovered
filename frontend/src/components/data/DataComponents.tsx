@@ -21,7 +21,7 @@ export function MetricCard({ label, value, unit, direction }: { label: string; v
 export function MetricGroup({ label, children }: { label: string; children: ReactNode }) {
   return (
     <section data-testid="metric-group" aria-label={label}>
-      <h4 style={{ margin: '12px 0 8px', fontSize: 13, textTransform: 'uppercase', letterSpacing: '0.04em', color: 'var(--color-ink-secondary)' }}>{label}</h4>
+      <h3 style={{ margin: '12px 0 8px', fontSize: 13, textTransform: 'uppercase', letterSpacing: '0.04em', color: 'var(--color-ink-secondary)' }}>{label}</h3>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))', gap: 12 }}>{children}</div>
     </section>
   );
@@ -38,18 +38,20 @@ export function DataTable<T>({ columns, rows, emptyLabel = 'No data available' }
     return <div data-testid="data-table-empty">{emptyLabel}</div>;
   }
   return (
-    <table data-testid="data-table" style={{ borderCollapse: 'collapse', width: '100%', fontSize: 13 }}>
-      <thead>
-        <tr>{columns.map((c) => <th key={c.key} scope="col" style={{ textAlign: 'left', padding: '8px', borderBottom: '1px solid var(--color-border)', fontWeight: 600 }}>{c.header}</th>)}</tr>
-      </thead>
-      <tbody>
-        {rows.map((row, i) => (
-          <tr key={i} style={{ borderBottom: '1px solid var(--color-border)' }}>
-            {columns.map((c) => <td key={c.key} style={{ padding: '8px' }}>{c.render(row)}</td>)}
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <div className="table-scroll">
+      <table data-testid="data-table" style={{ borderCollapse: 'collapse', width: '100%', fontSize: 13 }}>
+        <thead>
+          <tr>{columns.map((c) => <th key={c.key} scope="col" style={{ textAlign: 'left', padding: '8px', borderBottom: '1px solid var(--color-border)', fontWeight: 600 }}>{c.header}</th>)}</tr>
+        </thead>
+        <tbody>
+          {rows.map((row, i) => (
+            <tr key={i} style={{ borderBottom: '1px solid var(--color-border)' }}>
+              {columns.map((c) => <td key={c.key} style={{ padding: '8px' }}>{c.render(row)}</td>)}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 }
 
@@ -66,10 +68,12 @@ export function TrendIndicator({ direction, label }: { direction: 'up' | 'down' 
 
 export function ComparisonTable({ headers, rows }: { headers: readonly string[]; rows: readonly ReactNode[][] }) {
   return (
-    <table data-testid="comparison-table" style={{ borderCollapse: 'collapse', width: '100%', fontSize: 13 }}>
-      <thead><tr>{headers.map((h, i) => <th key={i} scope="col" style={{ textAlign: 'left', padding: 8, borderBottom: '1px solid var(--color-border)' }}>{h}</th>)}</tr></thead>
-      <tbody>{rows.map((r, i) => <tr key={i} style={{ borderBottom: '1px solid var(--color-border)' }}>{r.map((cell, j) => <td key={j} style={{ padding: 8 }}>{cell}</td>)}</tr>)}</tbody>
-    </table>
+    <div className="table-scroll">
+      <table data-testid="comparison-table" style={{ borderCollapse: 'collapse', width: '100%', fontSize: 13 }}>
+        <thead><tr>{headers.map((h, i) => <th key={i} scope="col" style={{ textAlign: 'left', padding: 8, borderBottom: '1px solid var(--color-border)' }}>{h}</th>)}</tr></thead>
+        <tbody>{rows.map((r, i) => <tr key={i} style={{ borderBottom: '1px solid var(--color-border)' }}>{r.map((cell, j) => <td key={j} style={{ padding: 8 }}>{cell}</td>)}</tr>)}</tbody>
+      </table>
+    </div>
   );
 }
 

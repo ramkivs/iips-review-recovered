@@ -26,18 +26,18 @@ export function SimpleBarChart({ data, max }: { data: readonly ChartDatum[]; max
   }
   const peak = max ?? Math.max(...data.map((d) => d.value ?? 0), 1);
   return (
-    <div data-testid="simple-bar-chart" role="img" aria-label="Bar chart" style={{ display: 'flex', alignItems: 'flex-end', gap: 8, height: '100%' }}>
+    <div data-testid="simple-bar-chart" role="group" aria-label="Bar chart" style={{ display: 'flex', alignItems: 'flex-end', gap: 8, height: '100%' }}>
       {data.map((d, i) => {
         const pct = d.value === null ? 0 : Math.max(0, Math.min(100, (d.value / peak) * 100));
         return (
           <div key={i} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, height: '100%' }}>
             <div
               data-testid={`bar-${d.label}`}
-              role="img"
-              aria-label={`${d.label}: ${d.value === null ? 'unavailable' : d.value}`}
+              aria-hidden="true"
               style={{ width: '100%', background: d.value === null ? 'repeating-linear-gradient(45deg,var(--color-border),var(--color-border) 3px,transparent 3px,transparent 6px)' : 'var(--color-status-informational)', height: `${pct}%`, minHeight: d.value === null ? 8 : 2 }}
             />
             <span style={{ fontSize: 11 }}>{d.label}</span>
+            <span className="sr-only">{d.value === null ? 'unavailable' : d.value}</span>
           </div>
         );
       })}

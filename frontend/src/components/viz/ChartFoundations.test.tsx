@@ -23,4 +23,12 @@ describe('Chart foundations', () => {
     render(<LegendConventions items={[{ label: 'Certified', colorVar: 'var(--color-authority-certified)' }]} />);
     expect(screen.getByTestId('legend')).toHaveTextContent('Certified');
   });
+
+  it('B2: SimpleBarChart exposes data without nested role="img"', () => {
+    render(<SimpleBarChart data={[{ label: 'A', value: 50 }]} />);
+    expect(screen.getByTestId('simple-bar-chart')).toHaveAttribute('role', 'group');
+    expect(screen.queryByRole('img', { name: /A: 50/ })).not.toBeInTheDocument();
+    // Value remains available to assistive tech via sr-only text.
+    expect(screen.getByTestId('simple-bar-chart')).toHaveTextContent('50');
+  });
 });
