@@ -17,7 +17,21 @@ const FIXTURE = {
 };
 
 beforeEach(() => {
-  globalThis.fetch = vi.fn().mockResolvedValue({ ok: true, json: async () => FIXTURE }) as never;
+  // URL-aware transport mock: admin surfaces receive an admin-shaped DTO; all other
+  // feature surfaces receive the executive/portfolio FIXTURE (matches the real contract).
+  globalThis.fetch = vi.fn((input: unknown) => {
+    const url = String(input);
+    if (url.includes('/api/admin/')) {
+      return Promise.resolve({
+        ok: true,
+        json: async () => ({
+          platform: { state: 'OPERATIONAL', nodesHealthy: 1, nodesTotal: 2, enginesRegistered: 10, enginesCertified: 10, liveDataQuality: 'good', recentAuditCount: 3 },
+          provenance: { dataSource: 'governed', freshness: 'SNAPSHOT', authority: 'PLATFORM', transportSemantics: 'read-only' },
+        }),
+      }) as never;
+    }
+    return Promise.resolve({ ok: true, json: async () => FIXTURE }) as never;
+  }) as never;
 });
 
 function renderAt(path: string, role: 'viewer' | 'analyst' | 'admin' = 'analyst') {
@@ -53,12 +67,13 @@ describe('Application Shell', () => {
     expect(screen.queryByRole('link', { name: 'Administration' })).not.toBeInTheDocument();
   });
 
-  it('shows the Administration surface for admin role (Phase 12.1)', () => {
+  it('shows the Administration surface for admin role (Phase 12.1)', async () => {
     renderAt('/admin', 'admin');
     expect(screen.getByRole('link', { name: 'Administration' })).toBeInTheDocument();
     // Phase 12.1 wires the real read-only Administration surface, not the placeholder.
     expect(screen.queryByTestId('shell-not-authorized')).not.toBeInTheDocument();
-    expect(screen.getByRole('heading', { name: 'Administration' })).toBeInTheDocument();
+    // Lazy-loaded route (Phase 13-Hardening code splitting): await the workspace.
+    expect(await screen.findByRole('heading', { name: 'Administration' })).toBeInTheDocument();
   });
 
   it('renders the unknown-route placeholder for an unmatched route', () => {

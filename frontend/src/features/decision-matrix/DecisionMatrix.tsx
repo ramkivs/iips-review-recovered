@@ -9,7 +9,7 @@
  * quadrants, thresholds, or any classification. Valuation is null where the certified engine
  * does not expose it (shown unavailable). No scoring/classification logic in React.
  */
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { fetchDecisionMatrixData, type DecisionMatrixData, type MatrixCompany } from '../../api/decisionMatrix';
 import { MetricCard, MetricGroup } from '../../components/data/DataComponents';
@@ -33,16 +33,19 @@ export function DecisionMatrix() {
     return () => { active = false; };
   }, []);
 
+  // Phase 13-Hardening (C): memoize the presentational positioning (recomputed only when data changes).
+  const positioned = useMemo(() => {
+    if (!data) return [];
+    return data.companies.map((c) => {
+      const q = c.quality ?? 0;
+      const v = c.valuation ?? 0;
+      return { ...c, x: q, y: v, xNull: c.quality === null, yNull: c.valuation === null };
+    });
+  }, [data]);
+
   if (loading) return <LoadingState />;
   if (error) return <ErrorState message={`Unable to load decision matrix: ${error}`} />;
   if (!data) return <UnavailableState />;
-
-  // Presentational positioning only: map certified (quality, valuation) to x/y pixel positions.
-  const positioned = data.companies.map((c) => {
-    const q = c.quality ?? 0;
-    const v = c.valuation ?? 0;
-    return { ...c, x: q, y: v, xNull: c.quality === null, yNull: c.valuation === null };
-  });
 
   return (
     <section aria-label="Decision matrix">

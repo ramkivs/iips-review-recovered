@@ -9,7 +9,7 @@
  * Freshness is surfaced (SNAPSHOT for the certified reference portfolio). Authority separation:
  * CERTIFIED result vs AI explanation (no AI on this surface) vs PLATFORM info.
  */
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { fetchExecutiveData, type ExecutiveData, type RankedSector } from '../../api/executive';
 import { ChartContainer, SimpleBarChart } from '../../components/viz/ChartFoundations';
 import { DecisionBadge } from '../../components/decision/DecisionComponents';
@@ -33,18 +33,27 @@ export function ExecutiveDashboard() {
     return () => { active = false; };
   }, []);
 
+  // Phase 13-Hardening (C): memoize derived presentation arrays (recomputed only when data changes).
+  const evidenceRefs: EvidenceReference[] = useMemo(() => {
+    if (!data) return [];
+    return data.decisions.map((d) => ({
+      evidenceId: `ev_${d.sector}`,
+      engineId: `sector.${d.sector.toLowerCase()}`,
+      recommendation: d.verdict,
+      compositeScore: d.composite,
+    }));
+  }, [data]);
+
+  const rankedRows: RankedRow[] = useMemo(() => {
+    if (!data) return [];
+    return data.ranking.map((r, i) => ({ ...r, index: i }));
+  }, [data]);
+
   if (loading) return <LoadingState />;
   if (error) return <ErrorState message={`Unable to load certified executive data: ${error}`} />;
   if (!data) return <UnavailableState />;
 
-  const { portfolio, diversification, ranking, opportunity, correlation, decisions, provenance } = data;
-
-  const evidenceRefs: EvidenceReference[] = decisions.map((d) => ({
-    evidenceId: `ev_${d.sector}`,
-    engineId: `sector.${d.sector.toLowerCase()}`,
-    recommendation: d.verdict,
-    compositeScore: d.composite,
-  }));
+  const { portfolio, diversification, opportunity, correlation, decisions, provenance } = data;
 
   return (
     <section aria-label="Executive dashboard">
@@ -84,7 +93,7 @@ export function ExecutiveDashboard() {
           { key: 'conviction', header: 'Conviction', render: (r: RankedRow) => r.conviction },
           { key: 'trend', header: 'Trend', render: (r: RankedRow) => <TrendIndicator direction={r.index < 3 ? 'up' : 'flat'} /> },
         ]}
-        rows={ranking.map((r, i) => ({ ...r, index: i }))}
+        rows={rankedRows}
         emptyLabel="No opportunities available"
       />
 

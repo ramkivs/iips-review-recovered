@@ -118,9 +118,26 @@ function csipInputs(sector: string, golden: Record<string, { pillars: Record<str
 
 const GOLDEN_PILLARS = loadGoldenPillars();
 
+/** Phase 13-Hardening (B5): transport-local engine-output DTO.
+ * The certified platform EngineOutput declares non-null pillar scores, but the governed
+ * golden-pillar source may legitimately omit a pillar (null — never fabricated). This DTO
+ * models that runtime contract; it is bridged to EngineOutput only at the csip.run boundary
+ * (runtime behaviour unchanged). */
+type TransportEngineOutput = Omit<
+  EngineOutput,
+  'qualityScore' | 'riskScore' | 'growthScore' | 'valuationScore' | 'capitalEfficiency' | 'franchiseScore'
+> & {
+  qualityScore: number | null;
+  riskScore: number | null;
+  growthScore: number | null;
+  valuationScore: number | null;
+  capitalEfficiency: number | null;
+  franchiseScore: number | null;
+};
+
 /** Build the certified runtime and execute all frozen engines on their frozen inputs. */
 function computeCertifiedPlatform(): {
-  engineOutputs: EngineOutput[];
+  engineOutputs: TransportEngineOutput[];
   engineDetails: Record<string, {
     sector: string;
     verdict: string;
@@ -150,7 +167,7 @@ function computeCertifiedPlatform(): {
   }
 
   // Run each frozen engine ONCE on its frozen golden input -> genuinely computed results.
-  const engineOutputs: EngineOutput[] = [];
+  const engineOutputs: TransportEngineOutput[] = [];
   const engineDetails: Record<string, {
     sector: string; verdict: string; composite: number;
     overrides: readonly string[]; pillars: Record<string, number> | null;
@@ -194,8 +211,10 @@ function computeCertifiedPlatform(): {
   }
 
   // Run the certified CSIP engine over the real engine outputs -> real portfolio intelligence.
+  // Phase 13-Hardening (B5): nullable pillars are bridged to the platform EngineOutput shape
+  // at this single boundary; the platform engine already receives these values at runtime.
   const csip = new CrossSectorEngine();
-  const pr = csip.run({ portfolioId: 'PF-REAL', scenario: 'Balanced', strategy: 'Balanced', outputs: engineOutputs, topN: 10 });
+  const pr = csip.run({ portfolioId: 'PF-REAL', scenario: 'Balanced', strategy: 'Balanced', outputs: engineOutputs as unknown as EngineOutput[], topN: 10 });
 
   return { engineOutputs, engineDetails, csip: pr };
 }
