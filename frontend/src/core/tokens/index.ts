@@ -12,12 +12,16 @@
 export const color = {
   ink900: '#0B1B2B',
   ink600: '#3D4E5E',
-  ink400: '#7A8794',
+  // Phase 13-Hardening (A5): #7A8794 = 3.67:1 (below WCAG AA). #5C6875 = 5.69:1 on white.
+  ink400: '#5C6875',
   surface0: '#FFFFFF',
   surface1: '#F7F9FB',
   surface2: '#EDF1F5',
   border: '#D5DCE3',
   focus: '#1F6FEB',
+  // Phase 13-Hardening (A1): primary interactive accent (matches focus). Used as a solid
+  // fill under white text (selected admin tab, primary action buttons). White-on-accent = 4.63:1 (AA).
+  accent: '#1F6FEB',
 } as const;
 
 // --- Semantic status (non-color-only: always paired with icon + label) ---
@@ -25,7 +29,8 @@ export const status = {
   positive: '#1E7A46',
   negative: '#B3261E',
   neutral: '#5A6672',
-  warning: '#B26A00',
+  // Phase 13-Hardening (A5): #B26A00 = 4.24:1 (below AA). #965C00 = 5.49:1 on white.
+  warning: '#965C00',
   critical: '#B3261E',
   informational: '#1F6FEB',
 } as const;
@@ -41,7 +46,8 @@ export const authority = {
 export const freshness = {
   live: '#1E7A46',
   snapshot: '#1F6FEB',
-  stale: '#B26A00',
+  // Phase 13-Hardening (A5): matches the corrected warning treatment (AA on white + surface-1).
+  stale: '#965C00',
   unavailable: '#B3261E',
   replay: '#5A6672',
 } as const;

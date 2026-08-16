@@ -17,6 +17,7 @@ interface ThemeVars {
   '--color-surface-2': string;
   '--color-border': string;
   '--color-focus': string;
+  '--color-accent': string;
   '--color-status-positive': string;
   '--color-status-negative': string;
   '--color-status-neutral': string;
@@ -49,6 +50,7 @@ const LIGHT: ThemeVars = {
   '--color-surface-2': color.surface2,
   '--color-border': color.border,
   '--color-focus': color.focus,
+  '--color-accent': color.accent,
   '--color-status-positive': status.positive,
   '--color-status-negative': status.negative,
   '--color-status-neutral': status.neutral,
