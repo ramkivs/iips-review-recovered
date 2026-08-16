@@ -1,5 +1,7 @@
 import { describe, it, expect } from 'vitest';
+import { useState } from 'react';
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { EvidenceReference, SnapshotMetadata, ProvenancePanel, EvidenceDrawer, EvidenceCard } from './EvidenceComponents';
 
 describe('Evidence components', () => {
@@ -32,5 +34,21 @@ describe('Evidence components', () => {
   it('EvidenceCard renders a reference', () => {
     render(<EvidenceCard reference={ref} />);
     expect(screen.getByTestId('evidence-card')).toHaveTextContent('ev_1');
+  });
+
+  it('A2: EvidenceDrawer closes on Escape', async () => {
+    const user = userEvent.setup();
+    function Harness() {
+      const [open, setOpen] = useState(true);
+      return (
+        <div>
+          <EvidenceDrawer open={open} onClose={() => setOpen(false)}><p>evidence body</p></EvidenceDrawer>
+        </div>
+      );
+    }
+    render(<Harness />);
+    expect(screen.getByTestId('evidence-drawer')).toBeInTheDocument();
+    await user.keyboard('{Escape}');
+    expect(screen.queryByTestId('evidence-drawer')).not.toBeInTheDocument();
   });
 });

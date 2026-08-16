@@ -68,8 +68,8 @@ export function DecisionMatrix() {
       <h2 style={{ fontSize: 18, marginTop: 24 }}>Business Quality × Valuation (certified)</h2>
       <div
         data-testid="matrix-scatter"
-        role="img"
-        aria-label="Scatter of certified business quality and valuation"
+        role="group"
+        aria-label="Scatter of certified business quality and valuation. Each point is a button; activate to inspect a company."
         style={{ position: 'relative', height: 400, border: '1px solid var(--color-border)', borderRadius: 6, background: 'var(--color-surface-1)', overflow: 'hidden' }}
       >
         {/* Axis labels (no bands/quadrants) */}

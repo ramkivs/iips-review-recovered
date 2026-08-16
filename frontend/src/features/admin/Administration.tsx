@@ -7,6 +7,7 @@
  */
 import { useState } from 'react';
 import { PermissionDeniedState } from '../../components/state/StateComponents';
+import { useTabList } from '../../components/interaction/useTabList';
 import { AdminOverview } from './AdminOverview';
 import { AdminIdentity } from './AdminIdentity';
 import { AdminTenancy } from './AdminTenancy';
@@ -29,6 +30,9 @@ const TABS = [
 
 export function Administration() {
   const [active, setActive] = useState<string>('overview');
+  const tabIds = TABS.map((t) => t.id);
+  const activeIndex = TABS.findIndex((t) => t.id === active);
+  const { tabProps, onKeyDown, idFor, panelIdFor } = useTabList(tabIds, active, setActive);
 
   // Presentation-only permission placeholder. The SERVER enforces admin access (403 otherwise).
   const serverDenied = false;
@@ -42,13 +46,13 @@ export function Administration() {
         Read-first governed administration. Surfaces shown are those with an existing governed
         v2.0 contract. Unavailable capabilities are intentionally not presented as editable.
       </p>
-      <div role="tablist" aria-label="Administration sections" style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 16 }}>
-        {TABS.map((t) => (
+      <div role="tablist" aria-label="Administration sections" onKeyDown={onKeyDown} style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 16 }}>
+        {TABS.map((t, i) => (
           <button
             key={t.id}
-            role="tab"
-            aria-selected={active === t.id}
-            onClick={() => setActive(t.id)}
+            type="button"
+            {...tabProps(t.id, i)}
+            aria-controls={panelIdFor(i)}
             style={{
               padding: '6px 12px', border: '1px solid var(--color-border)', borderRadius: 4,
               background: active === t.id ? 'var(--color-accent)' : 'var(--color-surface-1)',
@@ -59,7 +63,9 @@ export function Administration() {
           </button>
         ))}
       </div>
-      <div role="tabpanel">{TABS.find((t) => t.id === active)?.node}</div>
+      <div role="tabpanel" id={panelIdFor(activeIndex)} aria-labelledby={idFor(activeIndex)} tabIndex={0}>
+        {TABS.find((t) => t.id === active)?.node}
+      </div>
     </div>
   );
 }

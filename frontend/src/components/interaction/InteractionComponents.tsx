@@ -5,11 +5,14 @@
  * data-source agnostic. No business logic.
  */
 import { useState, type ReactNode } from 'react';
+import { useDialogFocus } from './useDialogFocus';
+import { useTabList } from './useTabList';
 
 export function Modal({ open, onClose, title, children }: { open: boolean; onClose: () => void; title: string; children: ReactNode }) {
+  const containerRef = useDialogFocus<HTMLDivElement>(open, onClose);
   if (!open) return null;
   return (
-    <div role="dialog" aria-modal="true" aria-label={title} data-testid="modal" style={{ position: 'fixed', inset: 0, background: 'rgba(11,27,43,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 200 }}>
+    <div role="dialog" aria-modal="true" aria-label={title} data-testid="modal" tabIndex={-1} ref={containerRef} style={{ position: 'fixed', inset: 0, background: 'rgba(11,27,43,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 200 }}>
       <div style={{ background: 'var(--color-surface-0)', borderRadius: 6, boxShadow: 'var(--elev-3)', padding: 24, width: 480, maxWidth: '90vw' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 12 }}><strong>{title}</strong><button type="button" onClick={onClose} aria-label="Close">✕</button></div>
         {children}
@@ -19,9 +22,10 @@ export function Modal({ open, onClose, title, children }: { open: boolean; onClo
 }
 
 export function Drawer({ open, onClose, title, children }: { open: boolean; onClose: () => void; title: string; children: ReactNode }) {
+  const containerRef = useDialogFocus<HTMLDivElement>(open, onClose);
   if (!open) return null;
   return (
-    <div role="dialog" aria-modal="true" aria-label={title} data-testid="drawer" style={{ position: 'fixed', right: 0, top: 0, bottom: 0, width: 420, background: 'var(--color-surface-0)', boxShadow: 'var(--elev-3)', padding: 24, zIndex: 150, overflow: 'auto' }}>
+    <div role="dialog" aria-modal="true" aria-label={title} data-testid="drawer" tabIndex={-1} ref={containerRef} style={{ position: 'fixed', right: 0, top: 0, bottom: 0, width: 420, background: 'var(--color-surface-0)', boxShadow: 'var(--elev-3)', padding: 24, zIndex: 150, overflow: 'auto' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 12 }}><strong>{title}</strong><button type="button" onClick={onClose} aria-label="Close">✕</button></div>
       {children}
     </div>
@@ -29,10 +33,11 @@ export function Drawer({ open, onClose, title, children }: { open: boolean; onCl
 }
 
 export function Tabs({ tabs, active, onChange }: { tabs: readonly string[]; active: string; onChange: (tab: string) => void }) {
+  const { tabProps, onKeyDown } = useTabList(tabs, active, onChange);
   return (
-    <div data-testid="tabs" role="tablist" style={{ display: 'flex', gap: 4, borderBottom: '1px solid var(--color-border)' }}>
-      {tabs.map((t) => (
-        <button key={t} type="button" role="tab" aria-selected={t === active} onClick={() => onChange(t)} style={{ padding: '8px 12px', border: 'none', borderBottom: t === active ? '2px solid var(--color-status-informational)' : '2px solid transparent', background: 'transparent', color: t === active ? 'var(--color-ink)' : 'var(--color-ink-secondary)', fontWeight: t === active ? 600 : 400 }}>
+    <div data-testid="tabs" role="tablist" onKeyDown={onKeyDown} style={{ display: 'flex', gap: 4, borderBottom: '1px solid var(--color-border)' }}>
+      {tabs.map((t, i) => (
+        <button key={t} type="button" {...tabProps(t, i)} style={{ padding: '8px 12px', border: 'none', borderBottom: t === active ? '2px solid var(--color-status-informational)' : '2px solid transparent', background: 'transparent', color: t === active ? 'var(--color-ink)' : 'var(--color-ink-secondary)', fontWeight: t === active ? 600 : 400 }}>
           {t}
         </button>
       ))}

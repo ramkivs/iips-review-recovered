@@ -63,4 +63,12 @@ describe('Decision Matrix', () => {
     render(<MemoryRouter><DecisionMatrix /></MemoryRouter>);
     expect(await screen.findByTestId('state-error')).toHaveTextContent('Unable to load decision matrix');
   });
+
+  it('A4: scatter is a group of real buttons, not a role="img" wrapper', async () => {
+    render(<MemoryRouter><DecisionMatrix /></MemoryRouter>);
+    const scatter = await screen.findByTestId('matrix-scatter');
+    expect(scatter.getAttribute('role')).toBe('group');
+    expect(scatter.getAttribute('role')).not.toBe('img');
+    expect(screen.getByRole('button', { name: /A, quality 85, valuation 60/ })).toBeInTheDocument();
+  });
 });

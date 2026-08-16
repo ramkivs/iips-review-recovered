@@ -3,7 +3,7 @@
  * Verifies read-only governed surfaces render; no fabrication; unavailable states.
  */
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
 import { Administration } from './Administration';
@@ -134,5 +134,34 @@ describe('Administration (read-only governed surfaces)', () => {
     expect(await screen.findByTestId('classify-success')).toHaveTextContent('Classification updated');
     const classifyCall = (fetchMock.mock.calls as Array<[unknown, { body?: string }?]>).find((c) => String(c[0]).includes('/data-governance/classify'));
     expect(JSON.parse(classifyCall?.[1]?.body ?? '{}')).toEqual({ dataId: 'd', classification: 'restricted' });
+  });
+});
+
+describe('Administration — Phase 13-Hardening (A1/A3)', () => {
+  it('A1: active admin tab uses the now-defined --color-accent token', async () => {
+    render(<MemoryRouter><Administration /></MemoryRouter>);
+    await screen.findByText('Platform Overview');
+    expect(screen.getByRole('tab', { name: 'Overview' }).style.background).toBe('var(--color-accent)');
+  });
+
+  it('A3: ArrowRight moves to the next admin tab with a correct tab/tabpanel relationship', async () => {
+    render(<MemoryRouter><Administration /></MemoryRouter>);
+    await screen.findByText('Platform Overview');
+    const overview = screen.getByRole('tab', { name: 'Overview' });
+    overview.focus();
+    fireEvent.keyDown(overview, { key: 'ArrowRight' });
+    const identity = screen.getByRole('tab', { name: 'Identity & Access' });
+    expect(identity.getAttribute('aria-selected')).toBe('true');
+    const panel = screen.getByRole('tabpanel');
+    expect(panel.id).toBe(identity.getAttribute('aria-controls'));
+    expect(panel.getAttribute('aria-labelledby')).toBe(identity.id);
+    await screen.findByText('Keycloak (OIDC)');
+  });
+
+  it('A3: roving tabindex — only the active admin tab is tabbable', async () => {
+    render(<MemoryRouter><Administration /></MemoryRouter>);
+    await screen.findByText('Platform Overview');
+    expect(screen.getByRole('tab', { name: 'Overview' }).tabIndex).toBe(0);
+    expect(screen.getByRole('tab', { name: 'Audit' }).tabIndex).toBe(-1);
   });
 });
