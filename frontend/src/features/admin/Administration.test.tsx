@@ -164,4 +164,13 @@ describe('Administration — Phase 13-Hardening (A1/A3)', () => {
     expect(screen.getByRole('tab', { name: 'Overview' }).tabIndex).toBe(0);
     expect(screen.getByRole('tab', { name: 'Audit' }).tabIndex).toBe(-1);
   });
+
+  it('Phase 14: workflow administration surface renders through its tab', async () => {
+    render(<MemoryRouter><Administration /></MemoryRouter>);
+    const user = userEvent.setup();
+    await user.click(await screen.findByRole('tab', { name: 'Migration / Workflow / Marketplace' }));
+    expect(await screen.findByRole('heading', { name: 'Workflow definitions (read-only)' })).toBeInTheDocument();
+    // Fixture serves an empty workflow list -> governed empty state, never fabricated.
+    expect(screen.getByText('No workflow definitions available')).toBeInTheDocument();
+  });
 });

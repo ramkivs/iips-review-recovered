@@ -9,6 +9,7 @@ import { adminApi, type AdminMigration as M, type AdminWorkflow as W, type Admin
 import { DataTable } from '../../components/data/DataComponents';
 import { LoadingState, ErrorState } from '../../components/state/StateComponents';
 import { PlatformBadge, StatusBadge } from '../../components/ui/Badges';
+import { WorkflowDefinitionPanel } from './WorkflowDefinitionPanel';
 
 export function AdminOperations() {
   const [migration, setMigration] = useState<M | null>(null);
@@ -56,18 +57,7 @@ export function AdminOperations() {
         emptyLabel="No migration history available"
       />
 
-      <h4 style={{ marginTop: 24, fontSize: 13, textTransform: 'uppercase', letterSpacing: '0.04em', color: 'var(--color-ink-secondary)' }}>
-        Workflow definitions (read-only)
-      </h4>
-      <DataTable
-        columns={[
-          { key: 'id', header: 'Workflow', render: (r) => r.workflowId },
-          { key: 'v', header: 'Version', render: (r) => r.version },
-          { key: 'n', header: 'Nodes', render: (r) => r.nodes.map((n) => `${n.id}:${n.type}`).join(', ') },
-        ]}
-        rows={workflow.workflows}
-        emptyLabel="No workflow definitions available"
-      />
+      <WorkflowDefinitionPanel workflow={workflow} />
 
       <h4 style={{ marginTop: 24, fontSize: 13, textTransform: 'uppercase', letterSpacing: '0.04em', color: 'var(--color-ink-secondary)' }}>
         Marketplace / modules (read-only)
