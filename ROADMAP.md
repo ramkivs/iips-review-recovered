@@ -2,7 +2,7 @@
 
 # ROADMAP
 
-**Repository:** iips-engineering-standards  
+**Repository:** iips-engineering-standards
 **Version:** 1.0
 
 ---
@@ -15,39 +15,31 @@ Build a complete family of institutional engineering standards covering platform
 
 # Current Status
 
-## Completed
+## Completed (delivered + frozen)
 
 | Standard | Title | Status |
 |----------|-------|--------|
 | IES-005 | Sector Engine Calibration Platform | ✅ Production |
-| IES-006 | Banking Sector Engine | ✅ Frozen v1.0 (reference baseline) |
-
----
-
-# In Progress
-
-| Standard | Focus |
-|----------|-------|
+| IES-006.2A | Banking Sector Engine | ✅ Frozen v1.0 (reference baseline) |
 | IES-007 | Insurance Sector Engine | ✅ Frozen v1.0 |
+| IES-008 | Capital Markets Sector Engine | ✅ Frozen v1.0 |
+| IES-009 | Healthcare Sector Engine | ✅ Frozen v1.0 |
+| IES-010 | Hospitality Sector Engine | ✅ Frozen v1.0 |
+| IES-011 | Energy Sector Engine | ✅ Frozen v1.0 |
+| IES-012 | Utilities Sector Engine | ✅ Frozen v1.0 |
+| IES-013 | Consumer Sector Engine | ✅ Frozen v1.0 |
+| IES-014 | Industrials Sector Engine | ✅ Frozen v1.0 |
+| IES-015 | Technology Sector Engine | ✅ Frozen v1.0 |
+| CSIP | Cross-Sector Intelligence Platform | ✅ Frozen v1.0 |
 
 ---
 
-# Planned Engineering Standards
+# Planned Engineering Standards (pipeline — no implementation present)
 
 | ID | Standard |
 |----|----------|
-| IES-008 | Capital Markets Sector Engine | ✅ Frozen v1.0 |
-| IES-009 | Healthcare Sector Engine | ✅ Frozen v1.0 |
-| IES-010 | Hospitality Sector Engine |
-| IES-011 | Utilities Sector Engine |
-| IES-012 | Energy Sector Engine |
-| IES-013 | Information Technology Sector Engine |
-| IES-014 | Chemicals Sector Engine |
-| IES-015 | Realty Sector Engine |
 | IES-016 | Telecommunications Sector Engine |
 | IES-017 | Automobile Sector Engine |
-| IES-018 | Consumer Sector Engine |
-| IES-019 | Industrials Sector Engine |
 | IES-020 | Materials & Metals Sector Engine |
 
 ---
@@ -60,7 +52,6 @@ Build a complete family of institutional engineering standards covering platform
 - Portfolio Optimizer
 - Risk Analytics Framework
 - Macro Intelligence Engine
-- Cross-Sector Comparative Engine
 
 ---
 
@@ -68,13 +59,13 @@ Build a complete family of institutional engineering standards covering platform
 
 ## Phase 1
 - Publish IES-005
-- Publish IES-006
+- Publish IES-006.2A
 
 ## Phase 2
 - Complete IES-007 to IES-010
 
 ## Phase 3
-- Complete remaining sector standards
+- Complete remaining sector standards (IES-011 … IES-015, CSIP)
 
 ## Phase 4
 - Build production implementations

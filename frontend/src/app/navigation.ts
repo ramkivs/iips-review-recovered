@@ -1,25 +1,35 @@
 /**
- * Program v3.0 — Phase 3: Global navigation model.
+ * Program v3.0 — Global navigation model.
  *
  * Role-aware navigation (admin-only surfaces hidden for non-admins). The frontend reflects
- * platform RBAC; it does NOT decide permissions. At this phase roles come from a minimal
- * session stub (to be connected to the transport/EnterpriseRuntime in a later phase).
+ * platform RBAC; it does NOT decide permissions.
+ *
+ * Milestone N (Integration & Documentation Reconciliation): each top-level surface now
+ * carries a presentation-only `status` so the UI can honestly distinguish implemented
+ * surfaces from partial/future ones. A navigation entry existing does NOT mean its module
+ * is fully implemented — the status field is the honest marker, and it is display-only
+ * (never a route, permission, or authorization decision).
  */
 import type { Role } from '../core/session/session';
+
+/** Presentation-only honesty marker. `partial` = some sub-surfaces implemented, module-level scope future. */
+export type NavStatus = 'implemented' | 'partial' | 'future';
 
 export interface NavItem {
   label: string;
   path: string;
   minRole: Role;
+  status?: NavStatus;
   children?: NavItem[];
 }
 
 export const NAV: NavItem[] = [
-  { label: 'Executive', path: '/executive', minRole: 'viewer' },
+  { label: 'Executive', path: '/executive', minRole: 'viewer', status: 'implemented' },
   {
     label: 'Portfolio',
     path: '/portfolio',
     minRole: 'viewer',
+    status: 'implemented',
     children: [
       { label: 'Overview', path: '/portfolio', minRole: 'viewer' },
       { label: 'Holdings', path: '/portfolio/:id/holdings', minRole: 'viewer' },
@@ -29,6 +39,7 @@ export const NAV: NavItem[] = [
     label: 'Research',
     path: '/research',
     minRole: 'viewer',
+    status: 'partial',
     children: [
       { label: 'Company', path: '/research/company/:id', minRole: 'viewer' },
       { label: 'Sector', path: '/research/sector/:id', minRole: 'viewer' },
@@ -39,6 +50,7 @@ export const NAV: NavItem[] = [
     label: 'Intelligence',
     path: '/intelligence',
     minRole: 'viewer',
+    status: 'partial',
     children: [
       { label: 'Opportunities', path: '/intelligence/opportunities', minRole: 'viewer' },
       { label: 'Risks', path: '/intelligence/risks', minRole: 'viewer' },
@@ -50,6 +62,7 @@ export const NAV: NavItem[] = [
     label: 'Evidence',
     path: '/evidence',
     minRole: 'viewer',
+    status: 'partial',
     children: [
       { label: 'Decision Evidence', path: '/evidence', minRole: 'viewer' },
       { label: 'Snapshots', path: '/evidence/snapshots', minRole: 'viewer' },
@@ -60,6 +73,7 @@ export const NAV: NavItem[] = [
     label: 'Administration',
     path: '/admin',
     minRole: 'admin',
+    status: 'implemented',
     children: [
       { label: 'Users', path: '/admin/users', minRole: 'admin' },
       { label: 'Roles', path: '/admin/roles', minRole: 'admin' },
@@ -68,6 +82,13 @@ export const NAV: NavItem[] = [
     ],
   },
 ];
+
+/** Human-facing label for a nav status (presentation only). */
+export const NAV_STATUS_LABEL: Record<NavStatus, string> = {
+  implemented: 'Implemented',
+  partial: 'Partial',
+  future: 'Future',
+};
 
 /** Filter nav items visible to a given role. */
 export function visibleNav(role: Role): NavItem[] {

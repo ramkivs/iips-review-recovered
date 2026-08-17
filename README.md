@@ -2,7 +2,7 @@
 
 # Repository Home Page (README)
 
-**Repository:** iips-engineering-standards  
+**Repository:** iips-engineering-standards (recovered as `iips-review-recovered`)
 **Version:** 1.0
 
 ---
@@ -21,30 +21,31 @@ Build a complete family of engineering standards that enable deterministic, expl
 
 ---
 
-# Published Standards
+# Published Standards (delivered + frozen)
+
+The following standards are implemented, certified, runtime-integrated, and UI-integrated. Per-engine evidence is recorded in `docs/v3.0/INTEGRATION_VERIFICATION_MATRIX.md`.
 
 | Standard | Title | Status |
 |----------|-------|--------|
 | IES-005 | Sector Engine Calibration Platform | Production |
-| IES-006 | Banking Sector Engine | Draft v1.0 |
+| IES-006.2A | Banking Sector Engine | Frozen v1.0 |
+| IES-007 | Insurance Sector Engine | Frozen v1.0 |
+| IES-008 | Capital Markets Sector Engine | Frozen v1.0 |
+| IES-009 | Healthcare Sector Engine | Frozen v1.0 |
+| IES-010 | Hospitality Sector Engine | Frozen v1.0 |
+| IES-011 | Energy Sector Engine | Frozen v1.0 |
+| IES-012 | Utilities Sector Engine | Frozen v1.0 |
+| IES-013 | Consumer Sector Engine | Frozen v1.0 |
+| IES-014 | Industrials Sector Engine | Frozen v1.0 |
+| IES-015 | Technology Sector Engine | Frozen v1.0 |
+| CSIP | Cross-Sector Intelligence Platform | Frozen v1.0 |
 
 ---
 
-# Planned Standards
+# Planned Standards (pipeline — no implementation present)
 
-- IES-007 — Insurance Sector Engine
-- IES-008 — Capital Markets Sector Engine
-- IES-009 — Healthcare Sector Engine
-- IES-010 — Hospitality Sector Engine
-- IES-011 — Utilities Sector Engine
-- IES-012 — Energy Sector Engine
-- IES-013 — Information Technology Sector Engine
-- IES-014 — Chemicals Sector Engine
-- IES-015 — Realty Sector Engine
 - IES-016 — Telecommunications Sector Engine
 - IES-017 — Automobile Sector Engine
-- IES-018 — Consumer Sector Engine
-- IES-019 — Industrials Sector Engine
 - IES-020 — Materials & Metals Sector Engine
 
 ---
@@ -53,10 +54,18 @@ Build a complete family of engineering standards that enable deterministic, expl
 
 ```text
 iips-engineering-standards/
-├── ies-005-platform/
-├── ies-006-banking/
-├── shared/
-└── implementations/
+├── iips-platform/            # runtime foundation + sector engines + release/report artifacts
+├── frontend/                 # Program v3.0 React application + transport servers
+├── iips-cross-sector/        # CSIP (cross-sector) engineering standards
+├── ies-010-hospitality/      # per-sector standards (IES-010 … IES-015)
+├── ies-011-energy/
+├── ies-012-utilities/
+├── ies-013-consumer/
+├── ies-014-industrials/
+├── ies-015-technology/
+├── program-v1.1-certification/
+├── governance/
+└── docs/
 ```
 
 ---
@@ -107,4 +116,4 @@ Apache License 2.0
 
 # Status
 
-This repository is under active development and serves as the canonical source for all IIPS engineering standards.
+This repository is under active development and serves as the canonical source for all IIPS engineering standards. Program v3.0 integration status (engines, runtime, UI, certification) is reconciled in `docs/v3.0/INTEGRATION_VERIFICATION_MATRIX.md`.
