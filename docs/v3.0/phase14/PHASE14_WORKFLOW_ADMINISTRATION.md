@@ -3,9 +3,11 @@
 **Status:** IMPLEMENTED (frontend/ only) · **iips-platform/ verify-only (untouched)**
 **Certified base:** `7325aeda8c9881ebdf2b96f64323998f1c46ba26` (tag `v3.0-phase12-certified`)
 **Phase 13-Hardening head:** `254e472` (preserved)
-**Phase 14 commit:** `6f7ab8a`
+**Phase 14 implementation commit:** `6f7ab8a` — feat: harden governed workflow administration
+**Phase 14 documentation commit:** `be41d88` — docs: record Phase 14 workflow administration
 
-> Note on naming: this is the **authoritative certified lineage** (`7325aeda → 29a92a7 → … → 254e472 → 6f7ab8a`).
+> Note on naming: this is the **authoritative certified lineage**
+> (`7325aeda → 29a92a7 → c784e44 → 6ef9487 → 36ff73c → 254e472 → 6f7ab8a → be41d88`).
 > `docs/v3.0/phase14/` did not exist on this lineage and is created here. A separate, divergent
 > recovered history (`main` @ `c65d533`) also carries a `docs/v3.0/phase14/` directory describing a
 > different (contract-inspection / standalone workflow-endpoint) workstream; that is a distinct body
@@ -71,8 +73,8 @@ A frontend/src/features/admin/AdminOperations.test.tsx    (4 state tests)
 
 ```
 branch:      phase13-next
-HEAD:        6f7ab8a (feat: harden governed workflow administration)
-parent:      254e472 (Phase 13-Hardening head — intact)
+HEAD:        be41d88 (docs: record Phase 14 workflow administration)
+parent:      6f7ab8a (feat: harden governed workflow administration)
 certified:   7325aeda (v3.0-phase12-certified — intact)
 working tree: clean
 ```
