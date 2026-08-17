@@ -60,6 +60,8 @@ interface TransientState {
   readonly verifier: string;
   readonly state: string;
   readonly nonce: string;
+  /** Same-origin application path to return to after login (path only — never a token/credential). */
+  readonly returnTo?: string | null;
 }
 
 const DEFAULT_ISSUER = 'http://localhost:8080/realms/iips';
@@ -73,6 +75,9 @@ let accessToken: string | null = null;
 let idToken: string | null = null;
 let refreshToken: string | null = null;
 let expiresAt = 0;
+
+// --- In-memory post-login destination (a path, never a token) ---
+let pendingReturnTo: string | null = null;
 
 let endpointsCache: OidcEndpoints | null = null;
 let completeInFlight: Promise<TokenSet> | null = null;
@@ -175,15 +180,47 @@ export function buildAuthorizeUrl(
   return `${authorizationEndpoint}?${query.toString()}`;
 }
 
-/** Begin the login flow: stash PKCE/state/nonce, then redirect to Keycloak. */
+/** Begin the login flow: stash PKCE/state/nonce + the same-origin returnTo path, then redirect. */
 export async function beginLogin(): Promise<void> {
   const endpoints = await discover();
   const verifier = generateVerifier();
   const challenge = await generateChallenge(verifier);
   const state = generateState();
   const nonce = generateNonce();
-  saveTransient({ verifier, state, nonce });
+  const returnTo = buildReturnTo(window.location.pathname, window.location.search);
+  saveTransient({ verifier, state, nonce, returnTo });
   window.location.assign(buildAuthorizeUrl(endpoints.authorizationEndpoint, { challenge, state, nonce }));
+}
+
+/**
+ * Capture the pre-login destination as a same-origin path (+search). `/callback` is never a
+ * meaningful return target, so it yields null (→ default). Returns a PATH only — never a token.
+ */
+export function buildReturnTo(pathname: string, search: string): string | null {
+  if (!pathname || pathname === '/callback') return null;
+  return `${pathname}${search ?? ''}`;
+}
+
+/**
+ * Strict same-origin/path guard for a saved return destination. Rejects external URLs,
+ * protocol-relative (network-path) values, backslash-normalization tricks, and control
+ * characters — so a malicious/foreign saved value can never become an open redirect.
+ * Returns the safe path, or null (caller falls back to /executive).
+ */
+export function sanitizeReturnTo(raw: unknown): string | null {
+  if (typeof raw !== 'string' || raw.length === 0) return null;
+  if (!raw.startsWith('/')) return null; // must be an app-internal path
+  if (raw.startsWith('//')) return null; // protocol-relative URL → reject
+  if (raw.startsWith('/\\')) return null; // backslash-normalization trick → reject
+  if (/[\u0000-\u001F]/.test(raw)) return null; // control characters → reject
+  return raw;
+}
+
+/** Read + clear the sanitized post-login destination (set during the callback exchange). */
+export function takeReturnTo(): string | null {
+  const value = pendingReturnTo;
+  pendingReturnTo = null;
+  return value;
 }
 
 /** True when the current URL is the OIDC callback carrying an authorization code. */
@@ -226,12 +263,13 @@ export function hasSession(): boolean {
   return accessToken !== null && now < expiresAt - EXPIRY_SKEW_SECONDS;
 }
 
-/** Clear all in-memory credentials. */
+/** Clear all in-memory credentials (and any pending return destination). */
 export function clearSession(): void {
   accessToken = null;
   idToken = null;
   refreshToken = null;
   expiresAt = 0;
+  pendingReturnTo = null;
 }
 
 async function doCompleteLogin(callbackUrl: string): Promise<TokenSet> {
@@ -242,6 +280,9 @@ async function doCompleteLogin(callbackUrl: string): Promise<TokenSet> {
 
   const transient = takeTransient();
   if (!transient || state !== transient.state) throw new Error('state-mismatch');
+
+  // Preserve the sanitized same-origin return destination (path only) for AuthProvider.
+  pendingReturnTo = sanitizeReturnTo(transient.returnTo);
 
   const endpoints = await discover();
   const res = await fetch(endpoints.tokenEndpoint, {

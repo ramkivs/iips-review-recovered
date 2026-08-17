@@ -9,6 +9,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import {
   buildAuthorizeUrl,
   buildLogoutUrl,
+  buildReturnTo,
   clearSession,
   completeLogin,
   configure,
@@ -21,6 +22,8 @@ import {
   getAccessToken,
   getTokens,
   hasSession,
+  sanitizeReturnTo,
+  takeReturnTo,
 } from './oidcClient';
 
 const B64URL = /^[A-Za-z0-9_-]+$/;
@@ -229,5 +232,77 @@ describe('oidcClient — callback / storage / expiry', () => {
     expect(a.tokenEndpoint).toBe(DISCOVERY.token_endpoint);
     expect(b).toEqual(a);
     expect(globalThis.fetch).toHaveBeenCalledTimes(1);
+  });
+});
+
+// --- N+1A: post-login destination preservation ---
+
+describe('oidcClient — returnTo capture & sanitization (N+1A)', () => {
+  it('buildReturnTo captures a same-origin path + search', () => {
+    expect(buildReturnTo('/admin/engines', '')).toBe('/admin/engines');
+    expect(buildReturnTo('/admin/engines', '?tab=audit')).toBe('/admin/engines?tab=audit');
+  });
+
+  it('buildReturnTo yields null for /callback or an empty path', () => {
+    expect(buildReturnTo('/callback', '')).toBeNull();
+    expect(buildReturnTo('', '')).toBeNull();
+  });
+
+  it('sanitizeReturnTo accepts a plain internal path', () => {
+    expect(sanitizeReturnTo('/admin/engines')).toBe('/admin/engines');
+    expect(sanitizeReturnTo('/evidence/abc?x=1')).toBe('/evidence/abc?x=1');
+  });
+
+  it('sanitizeReturnTo rejects external / protocol-relative / backslash / control / non-path values', () => {
+    expect(sanitizeReturnTo('https://evil.example')).toBeNull();
+    expect(sanitizeReturnTo('//evil.example/x')).toBeNull();
+    expect(sanitizeReturnTo('/\\evil.example')).toBeNull();
+    expect(sanitizeReturnTo('/admin/\u0000engines')).toBeNull();
+    expect(sanitizeReturnTo('admin/engines')).toBeNull(); // no leading slash
+    expect(sanitizeReturnTo(null)).toBeNull();
+    expect(sanitizeReturnTo(undefined)).toBeNull();
+    expect(sanitizeReturnTo('')).toBeNull();
+  });
+});
+
+describe('oidcClient — returnTo restoration through the callback (N+1A)', () => {
+  beforeEach(() => {
+    sessionStorage.clear();
+    clearSession();
+    configure({ issuer: ISSUER, clientId: CLIENT, redirectUri: REDIRECT });
+  });
+  afterEach(() => {
+    sessionStorage.clear();
+    clearSession();
+  });
+
+  function mockDiscoveryAndToken(): void {
+    mockFetch((url) => {
+      if (url.endsWith('/.well-known/openid-configuration')) {
+        return { ok: true, status: 200, json: async () => DISCOVERY };
+      }
+      return { ok: true, status: 200, json: async () => ({ access_token: 'at-1', expires_in: 300 }) };
+    });
+  }
+
+  it('restores a saved same-origin returnTo after a successful callback', async () => {
+    sessionStorage.setItem('iips.oidc.transient', JSON.stringify({ verifier: 'v', state: 'st', nonce: 'n', returnTo: '/admin/engines' }));
+    mockDiscoveryAndToken();
+    await completeLogin(`${REDIRECT}?code=abc&state=st`);
+    expect(takeReturnTo()).toBe('/admin/engines');
+  });
+
+  it('sanitizes an external returnTo to null (upstream falls back to /executive)', async () => {
+    sessionStorage.setItem('iips.oidc.transient', JSON.stringify({ verifier: 'v', state: 'st', nonce: 'n', returnTo: 'https://evil.example' }));
+    mockDiscoveryAndToken();
+    await completeLogin(`${REDIRECT}?code=abc&state=st`);
+    expect(takeReturnTo()).toBeNull();
+  });
+
+  it('yields null returnTo when none was saved', async () => {
+    sessionStorage.setItem('iips.oidc.transient', JSON.stringify({ verifier: 'v', state: 'st', nonce: 'n' }));
+    mockDiscoveryAndToken();
+    await completeLogin(`${REDIRECT}?code=abc&state=st`);
+    expect(takeReturnTo()).toBeNull();
   });
 });

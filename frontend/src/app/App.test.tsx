@@ -54,7 +54,10 @@ describe('Application Shell', () => {
   it('redirects / to /executive (renders the Executive Dashboard)', async () => {
     renderAt('/');
     // / redirects to /executive which now renders the Executive Dashboard.
-    expect(await screen.findByTestId('decision-list')).toBeInTheDocument();
+    // The dashboard is a React.lazy route + async fetch, so allow a realistic wait
+    // budget beyond the 1000ms default (the default can be exceeded under full-suite
+    // parallel load, causing a spurious timeout). The assertion itself is unchanged.
+    expect(await screen.findByTestId('decision-list', {}, { timeout: 3000 })).toBeInTheDocument();
   });
 
   it('renders a navigation link for a role-visible surface', () => {

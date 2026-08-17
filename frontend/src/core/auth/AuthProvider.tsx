@@ -29,6 +29,7 @@ import {
   hasSession,
   isCallbackUrl,
   logout as oidcLogout,
+  takeReturnTo,
   type TokenSet,
 } from './oidcClient';
 import { LoadingState, ErrorState } from '../../components/state/StateComponents';
@@ -109,7 +110,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           if (cancelled) return;
           setSession(deriveSession(getTokens()));
           setStatus('authenticated');
-          navigate('/executive', { replace: true });
+          // Restore the sanitized same-origin destination; /executive is the safe fallback.
+          const returnTo = takeReturnTo();
+          navigate(returnTo ?? '/executive', { replace: true });
         } else if (hasSession()) {
           if (cancelled) return;
           setSession(deriveSession(getTokens()));

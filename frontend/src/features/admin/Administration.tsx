@@ -6,6 +6,7 @@
  * React is not an authorization authority; the server enforces admin-only via the G3 boundary.
  */
 import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { PermissionDeniedState } from '../../components/state/StateComponents';
 import { useTabList } from '../../components/interaction/useTabList';
 import { AdminOverview } from './AdminOverview';
@@ -33,6 +34,14 @@ export function Administration() {
   const tabIds = TABS.map((t) => t.id);
   const activeIndex = TABS.findIndex((t) => t.id === active);
   const { tabProps, onKeyDown, idFor, panelIdFor } = useTabList(tabIds, active, setActive);
+
+  // Milestone N+1: deep-linking. The route is /admin/* (splat); a child link like
+  // /admin/engines selects the matching tab. Unknown segments fall back to Overview.
+  // Presentation-only — the server remains the authorization authority.
+  const { '*': splat } = useParams();
+  useEffect(() => {
+    if (splat && TABS.some((t) => t.id === splat)) setActive(splat);
+  }, [splat]);
 
   // The SERVER enforces admin access (403 otherwise). When a governed API call returns
   // 403, the transport dispatches iips:auth:forbidden and this surface renders the

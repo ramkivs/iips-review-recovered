@@ -9,7 +9,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter, useLocation } from 'react-router-dom';
 import * as oidc from './oidcClient';
 import { AuthProvider, deriveSession } from './AuthProvider';
 import { useSession } from '../session/SessionContext';
@@ -23,6 +23,8 @@ vi.mock('./oidcClient', async (importOriginal) => {
     hasSession: vi.fn(() => false),
     getTokens: vi.fn(() => null),
     beginLogin: vi.fn(async () => {}),
+    completeLogin: vi.fn(async () => ({ accessToken: 'at', idToken: null, refreshToken: null, expiresAt: 0 })),
+    takeReturnTo: vi.fn(() => null),
     logout: vi.fn(async () => {}),
     getAccessToken: vi.fn(async () => null),
   };
@@ -54,6 +56,12 @@ function tokenWith(accessPayload: Record<string, unknown>, idPayload?: Record<st
 function SessionProbe() {
   const { session } = useSession();
   return <span data-testid="probe">{`${session.userId}:${session.role}:${session.tenantId}`}</span>;
+}
+
+/** Reveals the router's current pathname so we can assert post-login navigation. */
+function LocationProbe() {
+  const location = useLocation();
+  return <span data-testid="loc">{location.pathname}</span>;
 }
 
 const mocks = vi.mocked(oidc, true);
@@ -173,5 +181,55 @@ describe('AuthProvider states', () => {
     expect(await screen.findByTestId('probe')).toHaveTextContent('analyst-a:analyst');
     fireEvent(window, new CustomEvent('iips:auth:unauthorized'));
     expect(await screen.findByText(/Sign in with Keycloak/)).toBeInTheDocument();
+  });
+});
+
+describe('AuthProvider — post-login destination restoration (N+1A)', () => {
+  beforeEach(() => {
+    mocks.isCallbackUrl.mockReturnValue(true);
+    mocks.hasSession.mockReturnValue(false);
+    mocks.getTokens.mockReturnValue(
+      tokenWith({ preferred_username: 'admin-a', sub: 'u1', tenant: 'tenant-A', realm_access: { roles: ['iips-admin'] } }),
+    );
+  });
+
+  function renderCallback() {
+    return render(
+      <MemoryRouter initialEntries={['/callback?code=abc&state=s']}>
+        <AuthProvider>
+          <LocationProbe />
+        </AuthProvider>
+      </MemoryRouter>,
+    );
+  }
+
+  it('restores /admin/engines after a successful callback', async () => {
+    mocks.takeReturnTo.mockReturnValue('/admin/engines');
+    renderCallback();
+    expect(await screen.findByTestId('loc')).toHaveTextContent('/admin/engines');
+  });
+
+  it('restores /admin/tenants after a successful callback', async () => {
+    mocks.takeReturnTo.mockReturnValue('/admin/tenants');
+    renderCallback();
+    expect(await screen.findByTestId('loc')).toHaveTextContent('/admin/tenants');
+  });
+
+  it('restores /admin/audit after a successful callback', async () => {
+    mocks.takeReturnTo.mockReturnValue('/admin/audit');
+    renderCallback();
+    expect(await screen.findByTestId('loc')).toHaveTextContent('/admin/audit');
+  });
+
+  it('restores another valid same-origin deep link', async () => {
+    mocks.takeReturnTo.mockReturnValue('/evidence/abc');
+    renderCallback();
+    expect(await screen.findByTestId('loc')).toHaveTextContent('/evidence/abc');
+  });
+
+  it('falls back to /executive when no return destination exists', async () => {
+    mocks.takeReturnTo.mockReturnValue(null);
+    renderCallback();
+    expect(await screen.findByTestId('loc')).toHaveTextContent('/executive');
   });
 });

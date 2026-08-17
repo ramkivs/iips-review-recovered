@@ -4,7 +4,7 @@
  */
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
 import { Administration } from './Administration';
 import type { AdminOverview, AdminIdentity, AdminEngines, AdminAudit } from '../../api/admin';
@@ -172,5 +172,30 @@ describe('Administration — Phase 13-Hardening (A1/A3)', () => {
     expect(await screen.findByRole('heading', { name: 'Workflow definitions (read-only)' })).toBeInTheDocument();
     // Fixture serves an empty workflow list -> governed empty state, never fabricated.
     expect(screen.getByText('No workflow definitions available')).toBeInTheDocument();
+  });
+});
+
+describe('Administration — Milestone N+1 deep-linking', () => {
+  it('opens the Engines tab from the /admin/engines route param', async () => {
+    render(
+      <MemoryRouter initialEntries={['/admin/engines']}>
+        <Routes>
+          <Route path="/admin/*" element={<Administration />} />
+        </Routes>
+      </MemoryRouter>,
+    );
+    // Engines tab renders both the registry and certification tables (multiple occurrences).
+    expect((await screen.findAllByText('sector.banking')).length).toBeGreaterThan(0);
+  });
+
+  it('falls back to the Overview tab for an unknown admin segment', async () => {
+    render(
+      <MemoryRouter initialEntries={['/admin/unknown-segment']}>
+        <Routes>
+          <Route path="/admin/*" element={<Administration />} />
+        </Routes>
+      </MemoryRouter>,
+    );
+    expect(await screen.findByText('Platform Overview')).toBeInTheDocument();
   });
 });
