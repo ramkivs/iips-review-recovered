@@ -30,9 +30,18 @@ function FeaturePlaceholder({ surface }: { surface: string }) {
   return <NotYetAuthorized surface={surface} />;
 }
 
+/**
+ * OIDC callback route. The real code→token exchange is handled by AuthProvider on
+ * mount; this route is the minimal fallback surface for http://localhost:5173/callback.
+ */
+function SignInCallback() {
+  return <LoadingState />;
+}
+
 export function App() {
   return (
     <Routes>
+      <Route path="/callback" element={<SignInCallback />} />
       <Route element={<AppShell />}>
         <Route index element={<Navigate to="/executive" replace />} />
         <Route path="/executive" element={<Lazy><ExecutiveDashboard /></Lazy>} />

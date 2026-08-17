@@ -7,6 +7,7 @@
  * React is NOT an authorization authority; every admin endpoint is enforced server-side.
  */
 import type { Role } from '../core/session/session';
+import { authFetch, ApiError } from './authFetch';
 
 export type Freshness = 'LIVE' | 'SNAPSHOT' | 'STALE' | 'UNAVAILABLE' | 'REPLAY';
 
@@ -215,28 +216,28 @@ export interface AdminMarketplace {
 const BASE = '/api/admin';
 
 async function get<T>(path: string): Promise<T> {
-  const res = await fetch(`${BASE}${path}`);
-  if (res.status === 401) throw new Error('Authentication required (401)');
-  if (res.status === 403) throw new Error('Authorization denied (403)');
-  if (!res.ok) throw new Error(`admin transport returned ${res.status}`);
+  const res = await authFetch(`${BASE}${path}`);
+  if (res.status === 401) throw new ApiError(401, 'Authentication required (401)');
+  if (res.status === 403) throw new ApiError(403, 'Authorization denied (403)');
+  if (!res.ok) throw new ApiError(res.status, `admin transport returned ${res.status}`);
   return (await res.json()) as T;
 }
 
 /** Narrowly-scoped governed mutation: reclassify an existing tenant-owned governed resource. */
 export async function classifyData(req: ClassifyRequest): Promise<ClassifyResult> {
-  const res = await fetch(`${BASE}/data-governance/classify`, {
+  const res = await authFetch(`${BASE}/data-governance/classify`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(req),
   });
-  if (res.status === 401) throw new Error('Authentication required (401)');
-  if (res.status === 403) throw new Error('Authorization denied (403)');
-  if (res.status === 404) throw new Error('Governed resource not found');
+  if (res.status === 401) throw new ApiError(401, 'Authentication required (401)');
+  if (res.status === 403) throw new ApiError(403, 'Authorization denied (403)');
+  if (res.status === 404) throw new ApiError(404, 'Governed resource not found');
   if (res.status === 422) {
     const e = (await res.json().catch(() => ({}))) as { error?: string };
-    throw new Error(e.error ?? 'Invalid classification request');
+    throw new ApiError(422, e.error ?? 'Invalid classification request');
   }
-  if (!res.ok) throw new Error(`admin transport returned ${res.status}`);
+  if (!res.ok) throw new ApiError(res.status, `admin transport returned ${res.status}`);
   return (await res.json()) as ClassifyResult;
 }
 

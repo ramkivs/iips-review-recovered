@@ -1,8 +1,9 @@
 /**
  * Program v3.0 — Phase 3: TopBar.
- * Brand + session identity (role/tenant). Presentation-only.
+ * Brand + session identity (role/tenant) + sign-out. Presentation-only.
  */
 import type { Role } from '../core/session/session';
+import { useAuth } from '../core/auth/AuthProvider';
 
 interface TopBarProps {
   role: Role;
@@ -10,6 +11,7 @@ interface TopBarProps {
 }
 
 export function TopBar({ role, tenantId }: TopBarProps) {
+  const { status, logout } = useAuth();
   return (
     <header
       style={{
@@ -26,6 +28,11 @@ export function TopBar({ role, tenantId }: TopBarProps) {
       <div style={{ display: 'flex', gap: '16px', alignItems: 'center', fontSize: '13px' }}>
         <span data-testid="topbar-tenant">Tenant: {tenantId}</span>
         <span data-testid="topbar-role">Role: {role}</span>
+        {status === 'authenticated' && (
+          <button type="button" data-testid="sign-out" onClick={() => { void logout(); }}>
+            Sign out
+          </button>
+        )}
       </div>
     </header>
   );

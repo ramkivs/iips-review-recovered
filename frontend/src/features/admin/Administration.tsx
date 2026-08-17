@@ -5,7 +5,7 @@
  * Phase 12.1 exposes the READ surfaces only. Each tab is a read-only governed surface.
  * React is not an authorization authority; the server enforces admin-only via the G3 boundary.
  */
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { PermissionDeniedState } from '../../components/state/StateComponents';
 import { useTabList } from '../../components/interaction/useTabList';
 import { AdminOverview } from './AdminOverview';
@@ -34,8 +34,18 @@ export function Administration() {
   const activeIndex = TABS.findIndex((t) => t.id === active);
   const { tabProps, onKeyDown, idFor, panelIdFor } = useTabList(tabIds, active, setActive);
 
-  // Presentation-only permission placeholder. The SERVER enforces admin access (403 otherwise).
-  const serverDenied = false;
+  // The SERVER enforces admin access (403 otherwise). When a governed API call returns
+  // 403, the transport dispatches iips:auth:forbidden and this surface renders the
+  // governed denial UI. React is NOT the authority — it only reflects the server decision.
+  const [serverDenied, setServerDenied] = useState(false);
+
+  useEffect(() => {
+    function onForbidden(): void {
+      setServerDenied(true);
+    }
+    window.addEventListener('iips:auth:forbidden', onForbidden);
+    return () => window.removeEventListener('iips:auth:forbidden', onForbidden);
+  }, []);
 
   if (serverDenied) return <PermissionDeniedState />;
 
