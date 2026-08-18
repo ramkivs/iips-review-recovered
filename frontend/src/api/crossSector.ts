@@ -4,6 +4,7 @@
  */
 import type { Verdict } from '../components/decision/DecisionComponents';
 import type { ExecutiveProvenance } from './executive';
+import { authFetch } from './authFetch';
 
 export interface CrossSectorData {
   readonly portfolio: {
@@ -25,7 +26,7 @@ export interface CrossSectorData {
 }
 
 export async function fetchCrossSectorData(baseUrl = ''): Promise<CrossSectorData> {
-  const res = await fetch(`${baseUrl}/api/cross-sector`);
+  const res = await authFetch(`${baseUrl}/api/cross-sector`);
   if (!res.ok) throw new Error(`cross-sector transport returned ${res.status}`);
   return (await res.json()) as CrossSectorData;
 }

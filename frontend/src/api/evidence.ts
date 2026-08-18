@@ -5,6 +5,7 @@
  */
 import type { Verdict } from '../components/decision/DecisionComponents';
 import type { ExecutiveProvenance } from './executive';
+import { authFetch } from './authFetch';
 
 export interface EvidenceData {
   readonly decision: { readonly verdict: Verdict; readonly composite: number; readonly confidence: number | null };
@@ -35,7 +36,7 @@ export interface EvidenceData {
 }
 
 export async function fetchEvidenceData(sector: string, baseUrl = ''): Promise<EvidenceData> {
-  const res = await fetch(`${baseUrl}/api/evidence/${encodeURIComponent(sector)}`);
+  const res = await authFetch(`${baseUrl}/api/evidence/${encodeURIComponent(sector)}`);
   if (!res.ok) throw new Error(`evidence transport returned ${res.status}`);
   return (await res.json()) as EvidenceData;
 }

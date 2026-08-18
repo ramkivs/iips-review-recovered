@@ -6,6 +6,7 @@
  * Presentation-only. No business logic.
  */
 import type { Verdict } from '../components/decision/DecisionComponents';
+import { authFetch } from './authFetch';
 
 export interface PortfolioSummary {
   readonly portfolioId: string;
@@ -56,7 +57,7 @@ export interface ExecutiveData {
 
 /** Fetch the certified executive data from the v3.0 transport. */
 export async function fetchExecutiveData(baseUrl = ''): Promise<ExecutiveData> {
-  const res = await fetch(`${baseUrl}/api/executive`);
+  const res = await authFetch(`${baseUrl}/api/executive`);
   if (!res.ok) throw new Error(`executive transport returned ${res.status}`);
   return (await res.json()) as ExecutiveData;
 }

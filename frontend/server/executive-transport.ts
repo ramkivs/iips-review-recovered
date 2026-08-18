@@ -1,5 +1,5 @@
 /**
- * Program v3.0 — Phase 5: Executive Dashboard — minimal G2 transport/adapter (semantically inert).
+ * Program v3.0 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Phase 5: Executive Dashboard ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â minimal G2 transport/adapter (semantically inert).
  *
  * Runs the ACTUAL certified v2.0 platform in-process and exposes the Executive Dashboard's
  * required surface over HTTP. Every displayed value is genuinely COMPUTED by the certified
@@ -11,7 +11,7 @@
  *   This server maps certified results to DTOs 1:1. It does NOT compute scores, confidence,
  *   rankings, thresholds, weights, or reinterpret verdicts.
  *
- * IMPORTANT — data source & auth boundary:
+ * IMPORTANT ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â data source & auth boundary:
  *  - The portfolio displayed is the CERTIFIED REFERENCE portfolio (the frozen v1.1 Replay
  *    Baseline inputs), labeled SNAPSHOT. It is not live tenant production data.
  *  - Authentication/session is a MINIMAL development-mode mechanism (a session header is
@@ -49,6 +49,7 @@ import { ConsumerEngine, CONSUMER_ENGINE_ID } from '../../iips-platform/src/sect
 import { IndustrialsEngine, INDUSTRIALS_ENGINE_ID } from '../../iips-platform/src/sector-engines/industrials/IndustrialsEngine';
 import { TechnologyEngine, TECHNOLOGY_ENGINE_ID } from '../../iips-platform/src/sector-engines/technology/TechnologyEngine';
 import type { EngineOutput } from '../../iips-platform/src/sector-engines/cross-sector/ontology/OntologyMapper';
+import { AuthError } from '../src/core/auth/keycloakAdapter';
 
 const ENGINE_FACTORY: Record<string, () => unknown> = {
   [BANKING_ENGINE_ID]: () => new BankingEngine(),
@@ -120,7 +121,7 @@ const GOLDEN_PILLARS = loadGoldenPillars();
 
 /** Phase 13-Hardening (B5): transport-local engine-output DTO.
  * The certified platform EngineOutput declares non-null pillar scores, but the governed
- * golden-pillar source may legitimately omit a pillar (null — never fabricated). This DTO
+ * golden-pillar source may legitimately omit a pillar (null ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â never fabricated). This DTO
  * models that runtime contract; it is bridged to EngineOutput only at the csip.run boundary
  * (runtime behaviour unchanged). */
 type TransportEngineOutput = Omit<
@@ -182,7 +183,7 @@ function computeCertifiedPlatform(): {
     // the certified golden pillar values (frozen expected-outputs) as the traceable source.
     const goldenPillars = GOLDEN_PILLARS[s.sector]?.pillars ?? null;
     const csip = csipInputs(s.sector, GOLDEN_PILLARS);
-    // Engine output (for CSIP) — fed from governed golden pillar inputs (OntologyMapper mapping).
+    // Engine output (for CSIP) ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â fed from governed golden pillar inputs (OntologyMapper mapping).
     engineOutputs.push({
       companyId: `${s.sector}-H1`,
       sector: s.sector,
@@ -258,7 +259,7 @@ function computeCertifiedExecutive(): unknown {
   };
 }
 
-/** Portfolio DTO (Phase 6) — holdings, allocation, risk, opportunities, history surface. */
+/** Portfolio DTO (Phase 6) ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â holdings, allocation, risk, opportunities, history surface. */
 function computeCertifiedPortfolio(): unknown {
   const { engineOutputs, csip: pr } = computeCertifiedPlatform();
   // Holdings: each sector engine output is a holding (certified). Sector exposure from CSIP.
@@ -311,7 +312,7 @@ function computeCertifiedPortfolio(): unknown {
   };
 }
 
-/** Decision-matrix DTO (Phase 9) — presentational scatter of CERTIFIED axes only. */
+/** Decision-matrix DTO (Phase 9) ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â presentational scatter of CERTIFIED axes only. */
 function computeCertifiedDecisionMatrix(): unknown {
   const { engineDetails, csip: pr } = computeCertifiedPlatform();
   // Certified axes: quality + valuation per company. There is NO certified matrix/quadrant
@@ -328,7 +329,7 @@ function computeCertifiedDecisionMatrix(): unknown {
       verdict: d.verdict,
       composite: d.composite,
       quality: q,        // certified quality axis (or null)
-      valuation,          // certified valuation axis (or null — 4 sectors have no valuation pillar)
+      valuation,          // certified valuation axis (or null ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â 4 sectors have no valuation pillar)
     };
   });
   return {
@@ -349,7 +350,7 @@ function computeCertifiedDecisionMatrix(): unknown {
   };
 }
 
-/** Replay DTO (Phase 11) — governed ReplayResult surface only. */
+/** Replay DTO (Phase 11) ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â governed ReplayResult surface only. */
 function computeCertifiedReplay(sectorId: string): unknown {
   const { engineDetails } = computeCertifiedPlatform();
   const key = Object.keys(engineDetails).find((k) => k.toLowerCase() === sectorId.toLowerCase());
@@ -357,7 +358,7 @@ function computeCertifiedReplay(sectorId: string): unknown {
   const d = engineDetails[key];
   const golden = GOLDEN_PILLARS[key];
   // Replay uses ONLY the governed ReplayResult fields (reproduced, byteIdentical, evidenceRefs).
-  // NO field-level/metric-level diff is computed — the governed ReplayService does not provide one.
+  // NO field-level/metric-level diff is computed ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â the governed ReplayService does not provide one.
   return {
     original: {
       snapshotId: `snap_${d.sector}`,
@@ -394,7 +395,7 @@ function computeCertifiedReplay(sectorId: string): unknown {
   };
 }
 
-/** Evidence DTO (Phase 10) — governed evidence chain, inspection-only. */
+/** Evidence DTO (Phase 10) ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â governed evidence chain, inspection-only. */
 function computeCertifiedEvidence(sectorId: string): unknown {
   const { engineDetails } = computeCertifiedPlatform();
   const key = Object.keys(engineDetails).find((k) => k.toLowerCase() === sectorId.toLowerCase());
@@ -452,7 +453,7 @@ function computeCertifiedEvidence(sectorId: string): unknown {
   };
 }
 
-/** Cross-sector DTO (Phase 8) — governed CSIP surface only. */
+/** Cross-sector DTO (Phase 8) ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â governed CSIP surface only. */
 function computeCertifiedCrossSector(): unknown {
   const { engineOutputs, csip: pr } = computeCertifiedPlatform();
   // All values are certified CSIP outputs or certified engine outputs; 1:1 mapping.
@@ -486,7 +487,7 @@ function computeCertifiedCrossSector(): unknown {
   };
 }
 
-/** Company DTO (Phase 7) — governed surface only. */
+/** Company DTO (Phase 7) ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â governed surface only. */
 function computeCertifiedCompany(sectorId: string): unknown {
   const { engineDetails } = computeCertifiedPlatform();
   const key = Object.keys(engineDetails).find((k) => k.toLowerCase() === sectorId.toLowerCase());
@@ -528,14 +529,47 @@ function computeCertifiedCompany(sectorId: string): unknown {
 // --- Minimal HTTP server (development-mode). ---
 const port = Number(process.env.EXEC_TRANSPORT_PORT ?? 8787);
 
-// Lazily-created live admin executor (real Keycloak), cached across requests.
+// Lazily-created live executors (real Keycloak), cached across requests.
 let adminExecutor: import('./secured-executor').SecuredExecutor | null = null;
+let readExecutor: import('./secured-executor').SecuredExecutor | null = null;
+
+/** Map a request URL to its governed read surface name (N+2), or null for non-read paths. */
+function readSurfaceFor(url: string | undefined): string | null {
+  if (!url) return null;
+  const path = url.split('?')[0];
+  if (path === '/api/executive') return 'executive';
+  if (path === '/api/portfolio') return 'portfolio';
+  if (path === '/api/decision-matrix') return 'decision-matrix';
+  if (path === '/api/cross-sector') return 'cross-sector';
+  if (path.startsWith('/api/company/')) return 'company';
+  if (path.startsWith('/api/evidence/')) return 'evidence';
+  if (path.startsWith('/api/replay/')) return 'replay';
+  return null;
+}
+
+/**
+ * Authenticate + authorize a governed read (N+2 hardening). Writes 401/403 and returns
+ * null when denied (or when no IdP is configured); returns the granted Principal otherwise.
+ */
+async function authorizeRead(req: http.IncomingMessage, res: http.ServerResponse, surface: string): Promise<import('../../iips-platform/src/distributed/EnterpriseRuntime').Principal | null> {
+  const admin = await import('./admin-transport');
+  let executor = readExecutor;
+  if (!executor) { executor = await admin.createLiveReadExecutor(); readExecutor = executor; }
+  if (!executor) { res.writeHead(401); res.end(JSON.stringify({ error: 'authentication unavailable (no IdP configured)' })); return null; }
+  const token = (req.headers.authorization ?? '').replace(/^Bearer /, '').trim();
+  try {
+    return await admin.guardRead(executor, token, surface);
+  } catch (e) {
+    if (e instanceof AuthError) { res.writeHead(e.status); res.end(JSON.stringify({ error: e.message })); return null; }
+    throw e;
+  }
+}
 
 const server = http.createServer((req, res) => {
   res.setHeader('Content-Type', 'application/json');
   res.setHeader('Access-Control-Allow-Origin', '*');
   if (req.method === 'OPTIONS') { res.writeHead(204); res.end(); return; }
-  // Administration read endpoints (Phase 12.1) — G3-boundary enforced server-side.
+  // Administration read endpoints (Phase 12.1) ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â G3-boundary enforced server-side.
   if (req.url?.startsWith('/api/admin/')) {
     void (async () => {
       try {
@@ -550,61 +584,62 @@ const server = http.createServer((req, res) => {
     })();
     return;
   }
-  try {
-    if (req.url === '/api/health') {
-      res.writeHead(200); res.end(JSON.stringify({ status: 'ok', transport: 'program-v3.0 executive (dev)' })); return;
-    }
-    if (req.url === '/api/executive') {
-      // Minimal dev-mode session mapping (see header note). NOT production auth.
-      const data = computeCertifiedExecutive();
-      res.writeHead(200); res.end(JSON.stringify(data)); return;
-    }
-    if (req.url?.startsWith('/api/replay/')) {
-      const id = decodeURIComponent(req.url.slice('/api/replay/'.length));
-      try {
-        const data = computeCertifiedReplay(id);
-        res.writeHead(200); res.end(JSON.stringify(data)); return;
-      } catch (e) {
-        res.writeHead(404); res.end(JSON.stringify({ error: String(e) })); return;
-      }
-    }
-    if (req.url?.startsWith('/api/evidence/')) {
-      const id = decodeURIComponent(req.url.slice('/api/evidence/'.length));
-      try {
-        const data = computeCertifiedEvidence(id);
-        res.writeHead(200); res.end(JSON.stringify(data)); return;
-      } catch (e) {
-        res.writeHead(404); res.end(JSON.stringify({ error: String(e) })); return;
-      }
-    }
-    if (req.url === '/api/decision-matrix') {
-      // Minimal dev-mode session mapping (see header note). NOT production auth.
-      const data = computeCertifiedDecisionMatrix();
-      res.writeHead(200); res.end(JSON.stringify(data)); return;
-    }
-    if (req.url === '/api/cross-sector') {
-      // Minimal dev-mode session mapping (see header note). NOT production auth.
-      const data = computeCertifiedCrossSector();
-      res.writeHead(200); res.end(JSON.stringify(data)); return;
-    }
-    if (req.url === '/api/portfolio') {
-      // Minimal dev-mode session mapping (see header note). NOT production auth.
-      const data = computeCertifiedPortfolio();
-      res.writeHead(200); res.end(JSON.stringify(data)); return;
-    }
-    if (req.url?.startsWith('/api/company/')) {
-      const id = decodeURIComponent(req.url.slice('/api/company/'.length));
-      try {
-        const data = computeCertifiedCompany(id);
-        res.writeHead(200); res.end(JSON.stringify(data)); return;
-      } catch (e) {
-        res.writeHead(404); res.end(JSON.stringify({ error: String(e) })); return;
-      }
-    }
-    res.writeHead(404); res.end(JSON.stringify({ error: 'not found' }));
-  } catch (e) {
-    res.writeHead(500); res.end(JSON.stringify({ error: 'executive transport error', detail: String(e) }));
+  // /api/health stays open (liveness probe).
+  if (req.url === '/api/health') {
+    res.writeHead(200); res.end(JSON.stringify({ status: 'ok', transport: 'program-v3.0 executive (dev)' })); return;
   }
+  // Governed read endpoints ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â G3 boundary enforced server-side (N+2 hardening).
+  void (async () => {
+    try {
+      const surface = readSurfaceFor(req.url);
+      if (!surface) { res.writeHead(404); res.end(JSON.stringify({ error: 'not found' })); return; }
+      const principal = await authorizeRead(req, res, surface);
+      if (!principal) return; // 401/403 already written
+
+      if (req.url === '/api/executive') {
+        res.writeHead(200); res.end(JSON.stringify(computeCertifiedExecutive())); return;
+      }
+      if (req.url === '/api/portfolio') {
+        res.writeHead(200); res.end(JSON.stringify(computeCertifiedPortfolio())); return;
+      }
+      if (req.url === '/api/decision-matrix') {
+        res.writeHead(200); res.end(JSON.stringify(computeCertifiedDecisionMatrix())); return;
+      }
+      if (req.url === '/api/cross-sector') {
+        res.writeHead(200); res.end(JSON.stringify(computeCertifiedCrossSector())); return;
+      }
+      if (req.url?.startsWith('/api/company/')) {
+        const id = decodeURIComponent(req.url.slice('/api/company/'.length));
+        try {
+          const payload = computeCertifiedCompany(id);
+          res.writeHead(200); res.end(JSON.stringify(payload)); return;
+        } catch (e) {
+          res.writeHead(404); res.end(JSON.stringify({ error: String(e) })); return;
+        }
+      }
+      if (req.url?.startsWith('/api/evidence/')) {
+        const id = decodeURIComponent(req.url.slice('/api/evidence/'.length));
+        try {
+          const payload = computeCertifiedEvidence(id);
+          res.writeHead(200); res.end(JSON.stringify(payload)); return;
+        } catch (e) {
+          res.writeHead(404); res.end(JSON.stringify({ error: String(e) })); return;
+        }
+      }
+      if (req.url?.startsWith('/api/replay/')) {
+        const id = decodeURIComponent(req.url.slice('/api/replay/'.length));
+        try {
+          const payload = computeCertifiedReplay(id);
+          res.writeHead(200); res.end(JSON.stringify(payload)); return;
+        } catch (e) {
+          res.writeHead(404); res.end(JSON.stringify({ error: String(e) })); return;
+        }
+      }
+      res.writeHead(404); res.end(JSON.stringify({ error: 'not found' }));
+    } catch (e) {
+      res.writeHead(500); res.end(JSON.stringify({ error: 'executive transport error', detail: String(e) }));
+    }
+  })();
 });
 
 if (process.env.NODE_ENV !== 'test') {

@@ -4,6 +4,7 @@
  */
 import type { Verdict } from '../components/decision/DecisionComponents';
 import type { ExecutiveProvenance } from './executive';
+import { authFetch } from './authFetch';
 
 export interface ReplayData {
   readonly original: {
@@ -25,7 +26,7 @@ export interface ReplayData {
 }
 
 export async function fetchReplayData(sector: string, baseUrl = ''): Promise<ReplayData> {
-  const res = await fetch(`${baseUrl}/api/replay/${encodeURIComponent(sector)}`);
+  const res = await authFetch(`${baseUrl}/api/replay/${encodeURIComponent(sector)}`);
   if (!res.ok) throw new Error(`replay transport returned ${res.status}`);
   return (await res.json()) as ReplayData;
 }

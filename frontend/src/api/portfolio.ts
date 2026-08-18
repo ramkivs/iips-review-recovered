@@ -4,6 +4,7 @@
  */
 import type { Verdict } from '../components/decision/DecisionComponents';
 import type { ExecutiveProvenance } from './executive';
+import { authFetch } from './authFetch';
 
 export interface PortfolioHolding {
   readonly companyId: string;
@@ -38,7 +39,7 @@ export interface PortfolioData {
 }
 
 export async function fetchPortfolioData(baseUrl = ''): Promise<PortfolioData> {
-  const res = await fetch(`${baseUrl}/api/portfolio`);
+  const res = await authFetch(`${baseUrl}/api/portfolio`);
   if (!res.ok) throw new Error(`portfolio transport returned ${res.status}`);
   return (await res.json()) as PortfolioData;
 }

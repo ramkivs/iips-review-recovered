@@ -5,6 +5,7 @@
  */
 import type { Verdict } from '../components/decision/DecisionComponents';
 import type { ExecutiveProvenance } from './executive';
+import { authFetch } from './authFetch';
 
 export interface MatrixCompany {
   readonly companyId: string;
@@ -24,7 +25,7 @@ export interface DecisionMatrixData {
 }
 
 export async function fetchDecisionMatrixData(baseUrl = ''): Promise<DecisionMatrixData> {
-  const res = await fetch(`${baseUrl}/api/decision-matrix`);
+  const res = await authFetch(`${baseUrl}/api/decision-matrix`);
   if (!res.ok) throw new Error(`decision-matrix transport returned ${res.status}`);
   return (await res.json()) as DecisionMatrixData;
 }

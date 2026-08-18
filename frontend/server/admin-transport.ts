@@ -225,6 +225,18 @@ function adminResourceGate(principal: Principal, action: string): boolean {
   return principal.roles.includes('admin');
 }
 
+/**
+ * ApiSecurity-style resource gate for governed READ surfaces (N+2 hardening).
+ * admin → all actions · analyst → read/execute · viewer → read only.
+ * Mirrors the action-aware gate already proven by the G3 LIVE suite.
+ */
+function readResourceGate(principal: Principal, action: string): boolean {
+  if (principal.roles.includes('admin')) return true;
+  if (principal.roles.includes('analyst')) return action === 'read' || action === 'execute';
+  if (principal.roles.includes('viewer')) return action === 'read';
+  return false;
+}
+
 export interface AdminExecutorDeps {
   readonly runtime?: EnterpriseRuntime;
   readonly directory?: TenantDirectory;
@@ -243,24 +255,64 @@ export function createAdminExecutor(deps: AdminExecutorDeps): SecuredExecutor {
   );
 }
 
+/** Read-capable executor (N+2): same construction as the admin executor but with the action-aware read gate. */
+export function createReadExecutor(deps: AdminExecutorDeps): SecuredExecutor {
+  return new SecuredExecutor(
+    deps.runtime ?? new EnterpriseRuntime(clock),
+    deps.directory ?? ADMIN_DIRECTORY,
+    deps.resourceAccess ?? readResourceGate,
+    deps.metadata,
+    deps.verifier,
+  );
+}
+
+/** OIDC discovery for the live realm (Keycloak). Returns null when no IdP is configured. */
+async function discoverLiveMetadata(): Promise<{ metadata: OidcRealmMetadata; verifier: OidcVerifier } | null> {
+  const kc = process.env.KEYCLOAK_URL;
+  if (!kc) return null;
+  const { RealKeycloakVerifier } = await import('./live/real-oidc-verifier');
+console.log(
+  '[N+2 DISCOVERY DEBUG]',
+  'kc=', JSON.stringify(kc),
+  'len=', kc.length,
+  'codes=', [...kc].map(c => c.charCodeAt(0)).join(','),
+  'url=', JSON.stringify(`${kc}/realms/iips/.well-known/openid-configuration`),
+);
+  const disc = await (await fetch(`${kc}/realms/iips/.well-known/openid-configuration`)).json() as { issuer: string; jwks_uri: string };
+  const metadata: OidcRealmMetadata = { issuer: disc.issuer, jwksUri: disc.jwks_uri, clientId: 'iips-spa' };
+  return { metadata, verifier: new RealKeycloakVerifier(metadata.issuer, metadata.jwksUri, metadata.clientId) };
+}
+
 /**
  * Build the live admin executor against a real Keycloak realm when KEYCLOAK_URL is set.
  * Returns null (no auth available -> admin endpoints 401) otherwise. This is the wiring used
  * by the dev transport server; tests inject a mock verifier instead.
  */
 export async function createLiveAdminExecutor(): Promise<SecuredExecutor | null> {
-  const kc = process.env.KEYCLOAK_URL;
-  if (!kc) return null;
-  const { RealKeycloakVerifier } = await import('./live/real-oidc-verifier');
-  const disc = await (await fetch(`${kc}/realms/iips/.well-known/openid-configuration`)).json() as { issuer: string; jwks_uri: string };
-  const metadata: OidcRealmMetadata = { issuer: disc.issuer, jwksUri: disc.jwks_uri, clientId: 'iips-spa' };
-  return createAdminExecutor({ metadata, verifier: new RealKeycloakVerifier(metadata.issuer, metadata.jwksUri, metadata.clientId) });
+  const live = await discoverLiveMetadata();
+  return live ? createAdminExecutor(live) : null;
+}
+
+/**
+ * Build the live READ executor (N+2) against a real Keycloak realm. Same discovery as the
+ * admin executor but with the action-aware read gate (viewer/analyst may read).
+ */
+export async function createLiveReadExecutor(): Promise<SecuredExecutor | null> {
+  const live = await discoverLiveMetadata();
+  return live ? createReadExecutor(live) : null;
 }
 
 /** Authenticate + authorize an admin read (action 'admin' -> admin-only via governed RBAC + gate). */
 async function guardAdmin(executor: SecuredExecutor, token: string, surface: string): Promise<Principal> {
   const p = await executor.authenticate(token);          // 401 on failure
   executor.authorize(p, 'admin', `admin.${surface}`, 0, 1000); // 403 on deny (governed RBAC + gate + audit)
+  return p;
+}
+
+/** Authenticate + authorize a governed READ (action 'read' — viewer/analyst/admin per governed RBAC + gate). */
+export async function guardRead(executor: SecuredExecutor, token: string, surface: string): Promise<Principal> {
+  const p = await executor.authenticate(token);            // 401 on failure
+  executor.authorize(p, 'read', `read.${surface}`, 0, 1000); // 403 on deny (governed RBAC + gate + audit)
   return p;
 }
 

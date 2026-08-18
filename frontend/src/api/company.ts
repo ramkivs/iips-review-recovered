@@ -5,6 +5,7 @@
  */
 import type { Verdict } from '../components/decision/DecisionComponents';
 import type { ExecutiveProvenance } from './executive';
+import { authFetch } from './authFetch';
 
 export interface CompanyData {
   readonly companyId: string;
@@ -21,7 +22,7 @@ export interface CompanyData {
 }
 
 export async function fetchCompanyData(sector: string, baseUrl = ''): Promise<CompanyData> {
-  const res = await fetch(`${baseUrl}/api/company/${encodeURIComponent(sector)}`);
+  const res = await authFetch(`${baseUrl}/api/company/${encodeURIComponent(sector)}`);
   if (!res.ok) throw new Error(`company transport returned ${res.status}`);
   return (await res.json()) as CompanyData;
 }
