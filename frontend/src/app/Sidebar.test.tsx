@@ -54,6 +54,13 @@ describe('Sidebar — Milestone N+1 child rendering', () => {
     expect(screen.getByRole('link', { name: 'Cross-Sector' })).toBeInTheDocument();
   });
 
+  it('N+7: the Company link resolves to the concrete /research/company/Banking route', () => {
+    renderSidebar('analyst');
+    const company = screen.getByRole('link', { name: 'Company' });
+    expect(company).toHaveAttribute('href', '/research/company/Banking');
+    expect(company.getAttribute('href')).not.toContain(':id');
+  });
+
   it('does not render the dead snapshots entry', () => {
     renderSidebar('analyst');
     expect(screen.queryByRole('link', { name: 'Snapshots' })).not.toBeInTheDocument();

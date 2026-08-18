@@ -1,26 +1,31 @@
 /**
- * Program v3.0 — Phase 7: Company Intelligence workspace.
+ * Program v3.0 — Phase 7 (+ N+5): Company Intelligence workspace.
  *
  * Route: /research/company/:id. Answers "What does the certified platform say about this
- * company, why, and can I verify/replay it?"
+ * company, why, and can I verify/replay it?" — now as a complete governed trust chain:
+ *   Decision (header) → Evidence (why) → Replay (reproducible) → Provenance.
  *
- * GOVERNANCE: every displayed value has a traceable certified source. No frontend analytical
- * calculation. Pillar sections (Business Quality/Growth/Valuation/Risk) show "unavailable"
- * where the certified engine does NOT expose them (all sectors except Technology) — never
- * fabricated or derived. Certified input metrics are shown as SNAPSHOT inputs (traceable).
+ * N+5: composes the THREE guarded read endpoints client-side (/api/company, /api/evidence,
+ * /api/replay) into one surface. Sector is the only variable; no sector-specific logic,
+ * no recomputation, no fabrication. Pillars/confidence show "unavailable" where the
+ * certified source does not provide them (all sectors except Technology for pillars).
  */
 import { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { fetchCompanyData, type CompanyData } from '../../api/company';
+import { fetchEvidenceData, type EvidenceData } from '../../api/evidence';
+import { fetchReplayData, type ReplayData } from '../../api/replay';
 import { CompanyHeader } from '../../components/company/CompanyHeader';
 import { MetricGroup, MetricCard, DataTable } from '../../components/data/DataComponents';
-import { EvidenceCard } from '../../components/evidence/EvidenceComponents';
 import { LoadingState, ErrorState, UnavailableState } from '../../components/state/StateComponents';
 import { StatusBadge } from '../../components/ui/Badges';
+import { CompanyTrustChain } from './CompanyTrustChain';
 
 export function CompanyIntelligence() {
   const { id } = useParams<{ id: string }>();
-  const [data, setData] = useState<CompanyData | null>(null);
+  const [company, setCompany] = useState<CompanyData | null>(null);
+  const [evidence, setEvidence] = useState<EvidenceData | null>(null);
+  const [replay, setReplay] = useState<ReplayData | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -28,8 +33,11 @@ export function CompanyIntelligence() {
     if (!id) return;
     let active = true;
     setLoading(true);
-    fetchCompanyData(id)
-      .then((d) => { if (active) { setData(d); setError(null); } })
+    // N+5: three-call governed composition (Bearer propagated via authFetch in each client).
+    Promise.all([fetchCompanyData(id), fetchEvidenceData(id), fetchReplayData(id)])
+      .then(([c, e, r]) => {
+        if (active) { setCompany(c); setEvidence(e); setReplay(r); setError(null); }
+      })
       .catch((e) => { if (active) setError(String(e)); })
       .finally(() => { if (active) setLoading(false); });
     return () => { active = false; };
@@ -37,27 +45,29 @@ export function CompanyIntelligence() {
 
   if (loading) return <LoadingState />;
   if (error) return <ErrorState message={`Unable to load company data: ${error}`} />;
-  if (!data) return <UnavailableState />;
+  if (!company || !evidence || !replay) return <UnavailableState />;
 
-  const pillarEntries = data.pillars ? Object.entries(data.pillars).map(([k, v]) => ({ key: k, value: v })) : null;
+  const pillarEntries = company.pillars
+    ? Object.entries(company.pillars).map(([k, v]) => ({ key: k, value: v }))
+    : null;
 
   return (
     <section aria-label="Company intelligence">
       <CompanyHeader
-        companyName={`${data.sector} (reference)`}
-        sector={data.sector}
-        verdict={data.decision.verdict}
-        composite={data.decision.composite}
-        confidence={data.decision.confidence}
-        freshness={data.provenance.freshness}
-        subLabel={data.resolvedSubsegment ? `${data.resolvedSubsegment}${data.resolvedArchetype ? ` · ${data.resolvedArchetype}` : ''}` : null}
+        companyName={`${company.sector} (reference)`}
+        sector={company.sector}
+        verdict={company.decision.verdict}
+        composite={company.decision.composite}
+        confidence={company.decision.confidence}
+        freshness={company.provenance.freshness}
+        subLabel={company.resolvedSubsegment ? `${company.resolvedSubsegment}${company.resolvedArchetype ? ` · ${company.resolvedArchetype}` : ''}` : null}
       />
 
       {/* Overrides */}
-      {data.overrides.length > 0 && (
+      {company.overrides.length > 0 && (
         <MetricGroup label="Overrides Applied">
           <ul data-testid="company-overrides" style={{ paddingLeft: 20 }}>
-            {data.overrides.map((o) => <li key={o}><StatusBadge status="warning" label={o} /></li>)}
+            {company.overrides.map((o) => <li key={o}><StatusBadge status="warning" label={o} /></li>)}
           </ul>
         </MetricGroup>
       )}
@@ -83,22 +93,16 @@ export function CompanyIntelligence() {
           { key: 'key', header: 'Metric', render: (r: { key: string }) => r.key },
           { key: 'value', header: 'Value', render: (r: { key: string; value: unknown }) => (typeof r.value === 'number' ? r.value : String(r.value ?? 'unavailable')) },
         ]}
-        rows={data.inputs}
+        rows={company.inputs}
         emptyLabel="No input metrics available"
       />
 
-      {/* Evidence + replay entry */}
-      <h2 style={{ fontSize: 18, marginTop: 24 }}>Evidence &amp; Replay</h2>
-      <div data-testid="company-evidence" style={{ display: 'grid', gap: 12, gridTemplateColumns: 'repeat(auto-fill,minmax(280px,1fr))' }}>
-        <EvidenceCard reference={data.evidence} />
-      </div>
-      <p style={{ marginTop: 8 }}>
-        <Link to={`/evidence/replay/${data.sector}`}>Open replay for this company →</Link>
-      </p>
+      {/* N+5: governed trust chain — Decision → Evidence → Replay → Provenance */}
+      <CompanyTrustChain evidence={evidence} replay={replay} />
 
       {/* Provenance */}
       <p data-testid="company-provenance" style={{ color: 'var(--color-ink-secondary)', fontSize: 12, marginTop: 16 }}>
-        {data.provenance.dataSource} · freshness {data.provenance.freshness}
+        {company.provenance.dataSource} · freshness {company.provenance.freshness}
       </p>
     </section>
   );

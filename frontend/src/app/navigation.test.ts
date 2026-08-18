@@ -5,6 +5,7 @@
  */
 import { describe, it, expect } from 'vitest';
 import { NAV, NAV_STATUS_LABEL, visibleNav } from './navigation';
+import { ROUTES } from './routes';
 
 const byLabel = Object.fromEntries(NAV.map((n) => [n.label, n]));
 
@@ -86,6 +87,14 @@ describe('navigation model — Milestone N+1 child reconciliation', () => {
     expect(statusOf('Research', 'Cross-Sector')).toBe('implemented');
     expect(statusOf('Intelligence', 'Decision Matrix')).toBe('implemented');
     expect(statusOf('Evidence', 'Replay')).toBe('implemented');
+  });
+
+  it('N+7: the Company entry resolves to a concrete route, not the literal :id template', () => {
+    const company = childrenOf('Research').find((c) => c.label === 'Company');
+    expect(company?.path).toBe('/research/company/Banking');
+    expect(company?.path).not.toContain(':id');
+    // The route declaration itself remains a valid sector-template for concrete values.
+    expect(ROUTES.researchCompany).toBe('/research/company/:id');
   });
 
   it('marks all Administration children as implemented', () => {

@@ -48,7 +48,12 @@ export const NAV: NavItem[] = [
     minRole: 'viewer',
     status: 'partial',
     children: [
-      { label: 'Company', path: '/research/company/:id', minRole: 'viewer', status: 'implemented' },
+      // N+7 remediation: the Company entry must resolve to a CONCRETE company/sector route,
+      // not the literal template "/research/company/:id" (which made React Router treat
+      // ":id" as the id and 404). Banking is the frozen reference-baseline sector and the
+      // N+6 LIVE-certified concrete route. The route declaration /research/company/:id
+      // remains valid for all concrete sector values (unchanged).
+      { label: 'Company', path: '/research/company/Banking', minRole: 'viewer', status: 'implemented' },
       { label: 'Sector', path: '/research/sector/:id', minRole: 'viewer', status: 'future' },
       { label: 'Cross-Sector', path: '/research/cross-sector', minRole: 'viewer', status: 'implemented' },
     ],
