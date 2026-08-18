@@ -1,14 +1,22 @@
 /**
- * Program v3.0 — Phase 6: Portfolio Workspace.
+ * Program v3.0 — Phase 6 (+ N+8): Portfolio Workspace.
  *
  * Answers "What is happening in my portfolio, and what deserves investigation?"
  * Navigation: Executive -> Portfolio -> Holding -> Company -> Evidence -> Replay.
  * Data: typed API client over the certified v2.0 transport (CSIP + engine outputs).
  * No portfolio-management logic in React (no rebalance/risk/quality/priority/limits/thresholds).
  * Only presentational operations (sort/filter/group/paginate/format).
+ *
+ * N+8: holding-level governed trust chain. Selecting a holding composes the existing
+ * governed endpoints for that holding's ACTUAL sector — /api/evidence/:sector and
+ * /api/replay/:sector — and renders the shared, payload-driven CompanyTrustChain
+ * (Decision → Evidence → Replay → Provenance). Sector is the only variable; no
+ * recomputation, no fabrication. Client-side composition only (no server changes).
  */
 import { useEffect, useMemo, useState } from 'react';
 import { fetchPortfolioData, type PortfolioData, type PortfolioHolding } from '../../api/portfolio';
+import { fetchEvidenceData, type EvidenceData } from '../../api/evidence';
+import { fetchReplayData, type ReplayData } from '../../api/replay';
 import { ChartContainer, SimpleBarChart, LegendConventions } from '../../components/viz/ChartFoundations';
 import { MetricCard, MetricGroup, DataTable, TrendIndicator } from '../../components/data/DataComponents';
 import { DecisionBadge } from '../../components/decision/DecisionComponents';
@@ -16,6 +24,7 @@ import { EvidenceCard, type EvidenceReference } from '../../components/evidence/
 import { Accordion } from '../../components/interaction/InteractionComponents';
 import { LoadingState, ErrorState, UnavailableState } from '../../components/state/StateComponents';
 import { CertifiedBadge, FreshnessBadge } from '../../components/ui/Badges';
+import { CompanyTrustChain } from '../company/CompanyTrustChain';
 
 type SortKey = 'sector' | 'composite' | 'weight';
 
@@ -24,6 +33,13 @@ export function PortfolioWorkspace() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [sortKey, setSortKey] = useState<SortKey>('weight');
+
+  // N+8: holding selection + governed trust-chain state.
+  const [selectedSector, setSelectedSector] = useState<string | null>(null);
+  const [chainEvidence, setChainEvidence] = useState<EvidenceData | null>(null);
+  const [chainReplay, setChainReplay] = useState<ReplayData | null>(null);
+  const [chainLoading, setChainLoading] = useState(false);
+  const [chainError, setChainError] = useState<string | null>(null);
 
   useEffect(() => {
     let active = true;
@@ -34,6 +50,19 @@ export function PortfolioWorkspace() {
       .finally(() => { if (active) setLoading(false); });
     return () => { active = false; };
   }, []);
+
+  // N+8: compose the governed trust chain for the selected holding's actual sector.
+  useEffect(() => {
+    if (!selectedSector) { setChainEvidence(null); setChainReplay(null); setChainError(null); return; }
+    let active = true;
+    setChainLoading(true);
+    setChainError(null);
+    Promise.all([fetchEvidenceData(selectedSector), fetchReplayData(selectedSector)])
+      .then(([e, r]) => { if (active) { setChainEvidence(e); setChainReplay(r); } })
+      .catch((e) => { if (active) setChainError(String(e)); })
+      .finally(() => { if (active) setChainLoading(false); });
+    return () => { active = false; };
+  }, [selectedSector]);
 
   // Presentational sorting only (does not change investment semantics).
   const sortedHoldings = useMemo(() => {
@@ -87,7 +116,7 @@ export function PortfolioWorkspace() {
       </ChartContainer>
       <LegendConventions items={[{ label: 'Sector weight (%)', colorVar: 'var(--color-status-informational)' }]} />
 
-      {/* Holdings (sortable, presentational) */}
+      {/* Holdings (sortable, presentational) — the trust-chain selector (N+8) */}
       <h2 style={{ fontSize: 18, marginTop: 24 }}>Holdings</h2>
       <div role="group" aria-label="Sort holdings" style={{ display: 'flex', gap: 8, marginBottom: 8 }}>
         {(['weight', 'composite', 'sector'] as SortKey[]).map((k) => (
@@ -105,10 +134,40 @@ export function PortfolioWorkspace() {
           { key: 'risk', header: 'Risk', render: (r: PortfolioHolding) => r.risk },
           { key: 'weight', header: 'Weight %', render: (r: PortfolioHolding) => r.weight },
           { key: 'trend', header: 'Trend', render: () => <TrendIndicator direction="flat" label="—" /> },
+          {
+            key: 'details',
+            header: 'Details',
+            render: (r: PortfolioHolding) => (
+              <button
+                type="button"
+                data-testid={`inspect-${r.sector}`}
+                aria-pressed={selectedSector === r.sector}
+                onClick={() => setSelectedSector(selectedSector === r.sector ? null : r.sector)}
+              >
+                {selectedSector === r.sector ? 'Hide' : 'Inspect'}
+              </button>
+            ),
+          },
         ]}
         rows={sortedHoldings}
         emptyLabel="No holdings available"
       />
+
+      {/* N+8: holding-level governed trust chain (Decision → Evidence → Replay → Provenance) */}
+      {selectedSector && (
+        <section
+          data-testid="portfolio-trust-chain"
+          aria-label={`Holding trust chain ${selectedSector}`}
+          style={{ marginTop: 16, border: '1px solid var(--color-border)', borderRadius: 6, padding: 16, background: 'var(--color-surface-0)' }}
+        >
+          <h2 style={{ fontSize: 18, marginTop: 0 }}>Holding Trust Chain — {selectedSector}</h2>
+          {chainLoading && <LoadingState />}
+          {chainError && <ErrorState message={`Unable to load holding evidence: ${chainError}`} />}
+          {!chainLoading && !chainError && chainEvidence && chainReplay && (
+            <CompanyTrustChain evidence={chainEvidence} replay={chainReplay} />
+          )}
+        </section>
+      )}
 
       {/* Opportunities */}
       <h2 style={{ fontSize: 18, marginTop: 24 }}>Opportunities</h2>
