@@ -1,5 +1,5 @@
 /**
- * Program v3.0 — Phase 9: Decision Matrix.
+ * Program v3.0 — Phase 9 (+ N+9): Decision Matrix.
  *
  * PRESENTATIONAL scatter of CERTIFIED axes (Business Quality × Valuation).
  *
@@ -8,20 +8,34 @@
  * Therefore this UI POSITIONS the certified scores visually and does NOT compute bands,
  * quadrants, thresholds, or any classification. Valuation is null where the certified engine
  * does not expose it (shown unavailable). No scoring/classification logic in React.
+ *
+ * N+9: selecting a point now composes the existing governed endpoints for that company's
+ * ACTUAL sector — /api/evidence/:sector + /api/replay/:sector — and renders the shared,
+ * payload-driven CompanyTrustChain (Decision → Evidence → Replay → Provenance). Sector is the
+ * only variable; client-side composition only (no server changes), no fabrication.
  */
 import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { fetchDecisionMatrixData, type DecisionMatrixData, type MatrixCompany } from '../../api/decisionMatrix';
+import { fetchEvidenceData, type EvidenceData } from '../../api/evidence';
+import { fetchReplayData, type ReplayData } from '../../api/replay';
 import { MetricCard, MetricGroup } from '../../components/data/DataComponents';
 import { DecisionBadge } from '../../components/decision/DecisionComponents';
 import { LoadingState, ErrorState, UnavailableState } from '../../components/state/StateComponents';
 import { CertifiedBadge, FreshnessBadge } from '../../components/ui/Badges';
+import { CompanyTrustChain } from '../company/CompanyTrustChain';
 
 export function DecisionMatrix() {
   const [data, setData] = useState<DecisionMatrixData | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [selected, setSelected] = useState<MatrixCompany | null>(null);
+
+  // N+9: governed trust-chain state for the selected company's actual sector.
+  const [chainEvidence, setChainEvidence] = useState<EvidenceData | null>(null);
+  const [chainReplay, setChainReplay] = useState<ReplayData | null>(null);
+  const [chainLoading, setChainLoading] = useState(false);
+  const [chainError, setChainError] = useState<string | null>(null);
 
   useEffect(() => {
     let active = true;
@@ -32,6 +46,19 @@ export function DecisionMatrix() {
       .finally(() => { if (active) setLoading(false); });
     return () => { active = false; };
   }, []);
+
+  // N+9: compose the governed trust chain for the selected company's sector.
+  useEffect(() => {
+    if (!selected) { setChainEvidence(null); setChainReplay(null); setChainError(null); return; }
+    let active = true;
+    setChainLoading(true);
+    setChainError(null);
+    Promise.all([fetchEvidenceData(selected.sector), fetchReplayData(selected.sector)])
+      .then(([e, r]) => { if (active) { setChainEvidence(e); setChainReplay(r); } })
+      .catch((e) => { if (active) setChainError(String(e)); })
+      .finally(() => { if (active) setChainLoading(false); });
+    return () => { active = false; };
+  }, [selected]);
 
   // Phase 13-Hardening (C): memoize the presentational positioning (recomputed only when data changes).
   const positioned = useMemo(() => {
@@ -114,6 +141,22 @@ export function DecisionMatrix() {
         </div>
       ) : (
         <p data-testid="matrix-select-hint" style={{ marginTop: 16 }}>Select a point to inspect a company.</p>
+      )}
+
+      {/* N+9: selected-company governed trust chain (Decision → Evidence → Replay → Provenance) */}
+      {selected && (
+        <section
+          data-testid="matrix-trust-chain"
+          aria-label={`Trust chain ${selected.sector}`}
+          style={{ marginTop: 16, border: '1px solid var(--color-border)', borderRadius: 6, padding: 16, background: 'var(--color-surface-0)' }}
+        >
+          <h2 style={{ fontSize: 18, marginTop: 0 }}>Trust Chain — {selected.sector}</h2>
+          {chainLoading && <LoadingState />}
+          {chainError && <ErrorState message={`Unable to load company evidence: ${chainError}`} />}
+          {!chainLoading && !chainError && chainEvidence && chainReplay && (
+            <CompanyTrustChain evidence={chainEvidence} replay={chainReplay} />
+          )}
+        </section>
       )}
 
       <p style={{ color: 'var(--color-ink-secondary)', fontSize: 12, marginTop: 16 }}>
