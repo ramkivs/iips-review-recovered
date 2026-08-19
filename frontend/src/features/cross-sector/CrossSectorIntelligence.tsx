@@ -1,20 +1,28 @@
 /**
- * Program v3.0 — Phase 8: Cross-Sector Intelligence.
+ * Program v3.0 — Phase 8 (+ N+11): Cross-Sector Intelligence.
  *
  * Answers "Where are the strongest opportunities, risks and decision patterns across sectors?"
  * using CERTIFIED CSIP outputs ONLY. React performs only presentational operations (sort/filter/
  * group/format). NO ranking/normalization/percentile/opportunity/risk/confidence/comparison/
  * threshold/allocation logic in the frontend.
+ *
+ * N+11: each sector-ranking row is now selectable — selecting a sector composes the existing
+ * governed endpoints for that ACTUAL sector (/api/evidence/:sector + /api/replay/:sector) and
+ * renders the shared, payload-driven CompanyTrustChain (Decision → Evidence → Replay →
+ * Provenance). Client-side composition only (no server changes), no fabrication.
  */
 import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { fetchCrossSectorData, type CrossSectorData } from '../../api/crossSector';
+import { fetchEvidenceData, type EvidenceData } from '../../api/evidence';
+import { fetchReplayData, type ReplayData } from '../../api/replay';
 import { MetricCard, MetricGroup, DataTable } from '../../components/data/DataComponents';
 import { DecisionBadge } from '../../components/decision/DecisionComponents';
 import { ChartContainer, SimpleBarChart, LegendConventions } from '../../components/viz/ChartFoundations';
 import { Accordion } from '../../components/interaction/InteractionComponents';
 import { LoadingState, ErrorState, UnavailableState } from '../../components/state/StateComponents';
 import { CertifiedBadge, FreshnessBadge } from '../../components/ui/Badges';
+import { CompanyTrustChain } from '../company/CompanyTrustChain';
 
 type SortKey = 'conviction' | 'sector';
 
@@ -23,6 +31,13 @@ export function CrossSectorIntelligence() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [sortKey, setSortKey] = useState<SortKey>('conviction');
+
+  // N+11: sector selection + governed trust-chain state.
+  const [selectedSector, setSelectedSector] = useState<string | null>(null);
+  const [chainEvidence, setChainEvidence] = useState<EvidenceData | null>(null);
+  const [chainReplay, setChainReplay] = useState<ReplayData | null>(null);
+  const [chainLoading, setChainLoading] = useState(false);
+  const [chainError, setChainError] = useState<string | null>(null);
 
   useEffect(() => {
     let active = true;
@@ -33,6 +48,19 @@ export function CrossSectorIntelligence() {
       .finally(() => { if (active) setLoading(false); });
     return () => { active = false; };
   }, []);
+
+  // N+11: compose the governed trust chain for the selected sector.
+  useEffect(() => {
+    if (!selectedSector) { setChainEvidence(null); setChainReplay(null); setChainError(null); return; }
+    let active = true;
+    setChainLoading(true);
+    setChainError(null);
+    Promise.all([fetchEvidenceData(selectedSector), fetchReplayData(selectedSector)])
+      .then(([e, r]) => { if (active) { setChainEvidence(e); setChainReplay(r); } })
+      .catch((e) => { if (active) setChainError(String(e)); })
+      .finally(() => { if (active) setChainLoading(false); });
+    return () => { active = false; };
+  }, [selectedSector]);
 
   // Presentational sorting only (does not change certified meaning).
   const sortedRanking = useMemo(() => {
@@ -77,7 +105,7 @@ export function CrossSectorIntelligence() {
         <MetricCard label="Diversification" value={portfolio.diversificationScore} direction="positive" />
       </MetricGroup>
 
-      {/* Sector ranking (certified CSIP ranking; presentational sort) */}
+      {/* Sector ranking (certified CSIP ranking; presentational sort; N+11 selectable) */}
       <h2 style={{ fontSize: 18, marginTop: 24 }}>Sector Ranking</h2>
       <div role="group" aria-label="Sort ranking" style={{ display: 'flex', gap: 8, marginBottom: 8 }}>
         {(['conviction', 'sector'] as SortKey[]).map((k) => (
@@ -91,10 +119,40 @@ export function CrossSectorIntelligence() {
           { key: 'sector', header: 'Sector', render: (r: { sector: string }) => <Link to={`/research/company/${r.sector}`}>{r.sector}</Link> },
           { key: 'conviction', header: 'Conviction', render: (r: { conviction: number }) => r.conviction },
           { key: 'trend', header: 'Rank', render: (r: { rank: number }) => `#${r.rank}` },
+          {
+            key: 'details',
+            header: 'Details',
+            render: (r: { sector: string }) => (
+              <button
+                type="button"
+                data-testid={`inspect-${r.sector}`}
+                aria-pressed={selectedSector === r.sector}
+                onClick={() => setSelectedSector(selectedSector === r.sector ? null : r.sector)}
+              >
+                {selectedSector === r.sector ? 'Hide' : 'Inspect'}
+              </button>
+            ),
+          },
         ]}
         rows={sortedRanking.map((r, i) => ({ ...r, rank: i + 1 }))}
         emptyLabel="No sector ranking available"
       />
+
+      {/* N+11: selected-sector governed trust chain (Decision → Evidence → Replay → Provenance) */}
+      {selectedSector && (
+        <section
+          data-testid="cross-sector-trust-chain"
+          aria-label={`Trust chain ${selectedSector}`}
+          style={{ marginTop: 16, border: '1px solid var(--color-border)', borderRadius: 6, padding: 16, background: 'var(--color-surface-0)' }}
+        >
+          <h2 style={{ fontSize: 18, marginTop: 0 }}>Trust Chain — {selectedSector}</h2>
+          {chainLoading && <LoadingState />}
+          {chainError && <ErrorState message={`Unable to load sector evidence: ${chainError}`} />}
+          {!chainLoading && !chainError && chainEvidence && chainReplay && (
+            <CompanyTrustChain evidence={chainEvidence} replay={chainReplay} />
+          )}
+        </section>
+      )}
 
       {/* Decision distribution (certified decisions, presentational grouping) */}
       <h2 style={{ fontSize: 18, marginTop: 24 }}>Decision Distribution</h2>
