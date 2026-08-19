@@ -1,5 +1,5 @@
 /**
- * Program v3.0 — Phase 5: Executive Dashboard.
+ * Program v3.0 — Phase 5 (+ N+10): Executive Dashboard.
  *
  * The canonical enterprise entry experience. Answers "What requires my attention?"
  * using the frozen hierarchy: Decision -> Confidence -> Why -> Drivers -> Metrics -> Evidence.
@@ -8,20 +8,35 @@
  * genuinely computed by the certified platform (frozen engines + CSIP); nothing is fabricated.
  * Freshness is surfaced (SNAPSHOT for the certified reference portfolio). Authority separation:
  * CERTIFIED result vs AI explanation (no AI on this surface) vs PLATFORM info.
+ *
+ * N+10: each "Recent Decisions" card is now selectable — selecting a card composes the existing
+ * governed endpoints for that decision's ACTUAL sector (/api/evidence/:sector + /api/replay/:sector)
+ * and renders the shared, payload-driven CompanyTrustChain (Decision → Evidence → Replay →
+ * Provenance). Client-side composition only (no server changes), no fabrication.
  */
 import { useEffect, useMemo, useState } from 'react';
 import { fetchExecutiveData, type ExecutiveData, type RankedSector } from '../../api/executive';
+import { fetchEvidenceData, type EvidenceData } from '../../api/evidence';
+import { fetchReplayData, type ReplayData } from '../../api/replay';
 import { ChartContainer, SimpleBarChart } from '../../components/viz/ChartFoundations';
 import { DecisionBadge } from '../../components/decision/DecisionComponents';
 import { MetricCard, MetricGroup, DataTable, TrendIndicator } from '../../components/data/DataComponents';
 import { EvidenceCard, type EvidenceReference } from '../../components/evidence/EvidenceComponents';
 import { LoadingState, ErrorState, StaleDataState, UnavailableState } from '../../components/state/StateComponents';
 import { CertifiedBadge, FreshnessBadge } from '../../components/ui/Badges';
+import { CompanyTrustChain } from '../company/CompanyTrustChain';
 
 export function ExecutiveDashboard() {
   const [data, setData] = useState<ExecutiveData | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+
+  // N+10: decision selection + governed trust-chain state.
+  const [selectedSector, setSelectedSector] = useState<string | null>(null);
+  const [chainEvidence, setChainEvidence] = useState<EvidenceData | null>(null);
+  const [chainReplay, setChainReplay] = useState<ReplayData | null>(null);
+  const [chainLoading, setChainLoading] = useState(false);
+  const [chainError, setChainError] = useState<string | null>(null);
 
   useEffect(() => {
     let active = true;
@@ -32,6 +47,19 @@ export function ExecutiveDashboard() {
       .finally(() => { if (active) setLoading(false); });
     return () => { active = false; };
   }, []);
+
+  // N+10: compose the governed trust chain for the selected decision's actual sector.
+  useEffect(() => {
+    if (!selectedSector) { setChainEvidence(null); setChainReplay(null); setChainError(null); return; }
+    let active = true;
+    setChainLoading(true);
+    setChainError(null);
+    Promise.all([fetchEvidenceData(selectedSector), fetchReplayData(selectedSector)])
+      .then(([e, r]) => { if (active) { setChainEvidence(e); setChainReplay(r); } })
+      .catch((e) => { if (active) setChainError(String(e)); })
+      .finally(() => { if (active) setChainLoading(false); });
+    return () => { active = false; };
+  }, [selectedSector]);
 
   // Phase 13-Hardening (C): memoize derived presentation arrays (recomputed only when data changes).
   const evidenceRefs: EvidenceReference[] = useMemo(() => {
@@ -111,7 +139,7 @@ export function ExecutiveDashboard() {
         <SimpleBarChart data={decisions.map((d) => ({ label: d.sector, value: d.composite }))} max={100} />
       </ChartContainer>
 
-      {/* Recent decisions with CERTIFIED authority + evidence entry points */}
+      {/* Recent decisions with CERTIFIED authority + evidence entry points (N+10: selectable) */}
       <h2 style={{ fontSize: 18, marginTop: 24 }}>Recent Decisions</h2>
       <div data-testid="decision-list" style={{ display: 'grid', gap: 12, gridTemplateColumns: 'repeat(auto-fill,minmax(260px,1fr))' }}>
         {decisions.map((d) => (
@@ -119,9 +147,35 @@ export function ExecutiveDashboard() {
             <strong>{d.sector}</strong>
             <div style={{ margin: '6px 0' }}><DecisionBadge verdict={d.verdict} /></div>
             <span>Composite: {d.composite}</span>
+            <div style={{ marginTop: 8 }}>
+              <button
+                type="button"
+                data-testid={`inspect-${d.sector}`}
+                aria-pressed={selectedSector === d.sector}
+                onClick={() => setSelectedSector(selectedSector === d.sector ? null : d.sector)}
+              >
+                {selectedSector === d.sector ? 'Hide' : 'Inspect'}
+              </button>
+            </div>
           </article>
         ))}
       </div>
+
+      {/* N+10: selected-decision governed trust chain (Decision → Evidence → Replay → Provenance) */}
+      {selectedSector && (
+        <section
+          data-testid="executive-trust-chain"
+          aria-label={`Trust chain ${selectedSector}`}
+          style={{ marginTop: 16, border: '1px solid var(--color-border)', borderRadius: 6, padding: 16, background: 'var(--color-surface-0)' }}
+        >
+          <h2 style={{ fontSize: 18, marginTop: 0 }}>Trust Chain — {selectedSector}</h2>
+          {chainLoading && <LoadingState />}
+          {chainError && <ErrorState message={`Unable to load decision evidence: ${chainError}`} />}
+          {!chainLoading && !chainError && chainEvidence && chainReplay && (
+            <CompanyTrustChain evidence={chainEvidence} replay={chainReplay} />
+          )}
+        </section>
+      )}
 
       {/* Evidence / replay entry points (progressive disclosure to Evidence surface) */}
       <h2 style={{ fontSize: 18, marginTop: 24 }}>Evidence &amp; Replay</h2>
