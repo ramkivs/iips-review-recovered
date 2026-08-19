@@ -1,5 +1,5 @@
 /**
- * Program v3.0 — Phase 7 (+ N+5): Company Intelligence workspace.
+ * Program v3.0 — Phase 7 (+ N+5, + N+12): Company Intelligence workspace.
  *
  * Route: /research/company/:id. Answers "What does the certified platform say about this
  * company, why, and can I verify/replay it?" — now as a complete governed trust chain:
@@ -9,12 +9,19 @@
  * /api/replay) into one surface. Sector is the only variable; no sector-specific logic,
  * no recomputation, no fabrication. Pillars/confidence show "unavailable" where the
  * certified source does not provide them (all sectors except Technology for pillars).
+ *
+ * N+12: adds a governed sector selector so every certified sector engine is reachable through
+ * this surface. The selector options are sourced ONLY from the existing governed
+ * /api/decision-matrix payload (via fetchDecisionMatrixData) — never hardcoded. Selecting a
+ * sector navigates to /research/company/:sector, and the exact sector propagates to
+ * /api/company/:sector, /api/evidence/:sector, and /api/replay/:sector.
  */
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { fetchCompanyData, type CompanyData } from '../../api/company';
 import { fetchEvidenceData, type EvidenceData } from '../../api/evidence';
 import { fetchReplayData, type ReplayData } from '../../api/replay';
+import { fetchDecisionMatrixData, type MatrixCompany } from '../../api/decisionMatrix';
 import { CompanyHeader } from '../../components/company/CompanyHeader';
 import { MetricGroup, MetricCard, DataTable } from '../../components/data/DataComponents';
 import { LoadingState, ErrorState, UnavailableState } from '../../components/state/StateComponents';
@@ -22,12 +29,17 @@ import { StatusBadge } from '../../components/ui/Badges';
 import { CompanyTrustChain } from './CompanyTrustChain';
 
 export function CompanyIntelligence() {
+  const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const [company, setCompany] = useState<CompanyData | null>(null);
   const [evidence, setEvidence] = useState<EvidenceData | null>(null);
   const [replay, setReplay] = useState<ReplayData | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+
+  // N+12: governed sector list (sourced from /api/decision-matrix; never hardcoded).
+  const [sectors, setSectors] = useState<MatrixCompany[] | null>(null);
+  const [sectorsError, setSectorsError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!id) return;
@@ -42,6 +54,15 @@ export function CompanyIntelligence() {
       .finally(() => { if (active) setLoading(false); });
     return () => { active = false; };
   }, [id]);
+
+  // N+12: fetch the governed sector universe once (independent of the selected company).
+  useEffect(() => {
+    let active = true;
+    fetchDecisionMatrixData()
+      .then((d) => { if (active) setSectors([...d.companies]); })
+      .catch((e) => { if (active) setSectorsError(String(e)); });
+    return () => { active = false; };
+  }, []);
 
   if (loading) return <LoadingState />;
   if (error) return <ErrorState message={`Unable to load company data: ${error}`} />;
@@ -62,6 +83,34 @@ export function CompanyIntelligence() {
         freshness={company.provenance.freshness}
         subLabel={company.resolvedSubsegment ? `${company.resolvedSubsegment}${company.resolvedArchetype ? ` · ${company.resolvedArchetype}` : ''}` : null}
       />
+
+      {/* N+12: governed sector selector — options sourced only from /api/decision-matrix */}
+      <div data-testid="company-sector-selector" style={{ marginTop: 16 }}>
+        {sectorsError ? (
+          <span data-testid="sector-selector-error" style={{ color: 'var(--color-status-critical)', fontSize: 13 }}>
+            Unable to load sector list: {sectorsError}
+          </span>
+        ) : !sectors ? (
+          <span data-testid="sector-selector-loading" style={{ color: 'var(--color-ink-secondary)', fontSize: 13 }}>
+            Loading sectors&hellip;
+          </span>
+        ) : (
+          <label style={{ fontSize: 13 }}>
+            Company / Sector{' '}
+            <select
+              data-testid="sector-select"
+              aria-label="Select sector"
+              value={id ?? ''}
+              onChange={(e) => navigate(`/research/company/${e.target.value}`)}
+              style={{ padding: '4px 8px', border: '1px solid var(--color-border)', borderRadius: 4, background: 'var(--color-surface-0)' }}
+            >
+              {sectors.map((s) => (
+                <option key={s.sector} value={s.sector}>{s.sector}</option>
+              ))}
+            </select>
+          </label>
+        )}
+      </div>
 
       {/* Overrides */}
       {company.overrides.length > 0 && (

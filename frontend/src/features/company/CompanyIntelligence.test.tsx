@@ -1,17 +1,25 @@
 /**
- * Program v3.0 — N+5: Company Intelligence tests (three-call governed composition).
+ * Program v3.0 — N+5 (+ N+12): Company Intelligence tests (governed three-call composition
+ * + governed sector reachability).
  *
  * Verifies the vertical slice: decision header + overrides + pillars + certified inputs +
- * inline governed Evidence chain + inline Replay result + provenance. No fabrication
- * (null confidence/pillars stay unavailable). Deterministic URL-aware fetch mocks.
+ * inline governed Evidence chain + inline Replay result + provenance, and (N+12) the governed
+ * sector selector sourced ONLY from /api/decision-matrix. No fabrication (null
+ * confidence/pillars stay unavailable). Deterministic URL-aware fetch mocks.
  */
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter, Routes, Route } from 'react-router-dom';
+import userEvent from '@testing-library/user-event';
 import { CompanyIntelligence } from './CompanyIntelligence';
 import type { CompanyData } from '../../api/company';
 import type { EvidenceData } from '../../api/evidence';
 import type { ReplayData } from '../../api/replay';
+import type { DecisionMatrixData } from '../../api/decisionMatrix';
+
+const PROVENANCE = {
+  dataSource: 'fixture (test-only)', freshness: 'SNAPSHOT', calibratedAt: '2026-08-01T00:00:00.000Z', transportSemantics: '1:1',
+} as const;
 
 const COMPANY_TECH: CompanyData = {
   companyId: 'Technology-H1', sector: 'Technology',
@@ -20,7 +28,7 @@ const COMPANY_TECH: CompanyData = {
   resolvedSubsegment: 'software-saas', resolvedArchetype: 'subscription', calibrationVersion: '1.0.0',
   inputs: [{ key: 'revenueGrowth', value: 22 }, { key: 'debtEbitda', value: 1.5 }],
   evidence: { evidenceId: 'ev_Tech', engineId: 'sector.technology', recommendation: 'Buy', compositeScore: 76.3 },
-  provenance: { dataSource: 'fixture (test-only)', freshness: 'SNAPSHOT', calibratedAt: '2026-08-01T00:00:00.000Z', transportSemantics: '1:1' },
+  provenance: PROVENANCE,
 };
 
 const COMPANY_BANK: CompanyData = {
@@ -30,7 +38,18 @@ const COMPANY_BANK: CompanyData = {
   resolvedSubsegment: null, resolvedArchetype: null, calibrationVersion: null,
   inputs: [{ key: 'BM-001', value: 0.55 }],
   evidence: { evidenceId: 'ev_Bank', engineId: 'sector.banking', recommendation: 'Watch', compositeScore: 47.1 },
-  provenance: { dataSource: 'fixture (test-only)', freshness: 'SNAPSHOT', calibratedAt: '2026-08-01T00:00:00.000Z', transportSemantics: '1:1' },
+  provenance: PROVENANCE,
+};
+
+const SECTORS: DecisionMatrixData = {
+  matrixType: 'scatter',
+  note: 'presentational scatter; no classification computed',
+  companies: [
+    { companyId: 'Banking-H1', sector: 'Banking', verdict: 'Watch', composite: 47.1, quality: 40, valuation: 50 },
+    { companyId: 'Technology-H1', sector: 'Technology', verdict: 'Buy', composite: 76.3, quality: 85, valuation: 60 },
+  ],
+  universe: { avgConviction: 60, avgQuality: 57, holdings: 2 },
+  provenance: PROVENANCE,
 };
 
 function evidenceFor(sector: string, composite: number): EvidenceData {
@@ -46,7 +65,7 @@ function evidenceFor(sector: string, composite: number): EvidenceData {
     },
     snapshot: { snapshotId: `snap_${sector}`, engineId: `sector.${sector.toLowerCase()}`, schemaVersion: '1.0', generatedAt: '2026-08-01T00:00:00.000Z', verdict: 'Buy', scores: {} },
     replay: { snapshotId: `snap_${sector}`, reproduced: true, byteIdentical: true, evidenceRefs: [`ev_${sector}`] },
-    provenance: { dataSource: 'fixture (test-only)', freshness: 'SNAPSHOT', calibratedAt: '2026-08-01T00:00:00.000Z', transportSemantics: '1:1' },
+    provenance: PROVENANCE,
   };
 }
 
@@ -61,18 +80,42 @@ function replayFor(sector: string, byteIdentical: boolean): ReplayData {
     differenceAvailable: false,
     note: byteIdentical ? 'Replay reproduced successfully; byte-identical: MATCH' : 'Replay reproduced; outputs differ',
     evidenceRefs: [`ev_${sector}`],
-    provenance: { dataSource: 'fixture (test-only)', freshness: 'SNAPSHOT', calibratedAt: '2026-08-01T00:00:00.000Z', transportSemantics: '1:1' },
+    provenance: PROVENANCE,
   };
 }
 
-function renderCompany(company: CompanyData, id: string, byteIdentical = true) {
-  globalThis.fetch = vi.fn((input: unknown) => {
+interface MockOpts {
+  replayBIdentical?: boolean;
+  sectorListFails?: boolean;
+  companyFails?: boolean;
+  sectorsOverride?: DecisionMatrixData;
+}
+
+function urlAwareMock(opts: MockOpts = {}): ReturnType<typeof vi.fn> {
+  return vi.fn((input: unknown) => {
     const url = String(input);
-    if (url.includes('/api/company/')) return Promise.resolve({ ok: true, json: async () => company }) as never;
-    if (url.includes('/api/evidence/')) return Promise.resolve({ ok: true, json: async () => evidenceFor(company.sector, company.decision.composite) }) as never;
-    if (url.includes('/api/replay/')) return Promise.resolve({ ok: true, json: async () => replayFor(company.sector, byteIdentical) }) as never;
+    if (url.includes('/api/decision-matrix')) {
+      if (opts.sectorListFails) return Promise.reject(new Error('sector list down')) as never;
+      return Promise.resolve({ ok: true, json: async () => (opts.sectorsOverride ?? SECTORS) }) as never;
+    }
+    if (url.includes('/api/company/')) {
+      if (opts.companyFails) return Promise.reject(new Error('company down')) as never;
+      const sector = url.includes('/api/company/Technology') ? 'Technology' : 'Banking';
+      return Promise.resolve({ ok: true, json: async () => (sector === 'Technology' ? COMPANY_TECH : COMPANY_BANK) }) as never;
+    }
+    if (url.includes('/api/evidence/')) {
+      const sector = url.includes('/api/evidence/Technology') ? 'Technology' : 'Banking';
+      return Promise.resolve({ ok: true, json: async () => evidenceFor(sector, sector === 'Technology' ? 76.3 : 47.1) }) as never;
+    }
+    if (url.includes('/api/replay/')) {
+      const sector = url.includes('/api/replay/Technology') ? 'Technology' : 'Banking';
+      return Promise.resolve({ ok: true, json: async () => replayFor(sector, opts.replayBIdentical ?? true) }) as never;
+    }
     return Promise.resolve({ ok: false, status: 404, json: async () => ({}) }) as never;
-  }) as never;
+  });
+}
+
+function renderCompany(id: string) {
   return render(
     <MemoryRouter initialEntries={[`/research/company/${id}`]}>
       <Routes>
@@ -84,9 +127,10 @@ function renderCompany(company: CompanyData, id: string, byteIdentical = true) {
 
 beforeEach(() => { globalThis.fetch = vi.fn() as never; });
 
-describe('Company Intelligence — N+5 vertical slice', () => {
+describe('Company Intelligence — N+5 vertical slice (preserved behavior)', () => {
   it('keeps the decision header + certified badge intact', async () => {
-    renderCompany(COMPANY_TECH, 'Technology');
+    globalThis.fetch = urlAwareMock();
+    renderCompany('Technology');
     expect(await screen.findByTestId('company-header')).toBeInTheDocument();
     expect(screen.getByTestId('decision-badge-Buy')).toHaveTextContent('Buy');
     expect(screen.getByTestId('company-composite')).toHaveTextContent('76.3');
@@ -94,7 +138,8 @@ describe('Company Intelligence — N+5 vertical slice', () => {
   });
 
   it('renders the inline governed Evidence payload (supporting metrics + evidence record + snapshot)', async () => {
-    renderCompany(COMPANY_TECH, 'Technology');
+    globalThis.fetch = urlAwareMock();
+    renderCompany('Technology');
     await screen.findByTestId('company-header');
     expect(screen.getByText('Evidence (governed)')).toBeInTheDocument();
     expect(screen.getByText('Asset Quality')).toBeInTheDocument();
@@ -103,7 +148,8 @@ describe('Company Intelligence — N+5 vertical slice', () => {
   });
 
   it('renders the inline governed Replay result (MATCH equivalence + refs)', async () => {
-    renderCompany(COMPANY_TECH, 'Technology', true);
+    globalThis.fetch = urlAwareMock();
+    renderCompany('Technology');
     await screen.findByTestId('company-header');
     expect(screen.getByText('Replay Verification (governed)')).toBeInTheDocument();
     expect(screen.getByTestId('company-replay-equivalence')).toHaveTextContent('MATCH — byte-identical');
@@ -111,69 +157,195 @@ describe('Company Intelligence — N+5 vertical slice', () => {
   });
 
   it('renders DIFFERENCE when the governed replay is not byte-identical', async () => {
-    renderCompany(COMPANY_BANK, 'Banking', false);
+    globalThis.fetch = urlAwareMock({ replayBIdentical: false });
+    renderCompany('Banking');
     await screen.findByTestId('company-header');
     expect(screen.getByTestId('company-replay-equivalence')).toHaveTextContent('DIFFERENCE');
   });
 
   it('shows pillar scores only where the engine exposes them', async () => {
-    renderCompany(COMPANY_TECH, 'Technology');
+    globalThis.fetch = urlAwareMock();
+    renderCompany('Technology');
     await screen.findByTestId('company-header');
     expect(screen.queryByTestId('pillars-unavailable')).not.toBeInTheDocument();
     expect(screen.getByText('Business Quality / Growth / Valuation / Risk')).toBeInTheDocument();
   });
 
   it('shows pillars-unavailable and confidence-unavailable (no fabrication) for non-Technology', async () => {
-    renderCompany(COMPANY_BANK, 'Banking');
+    globalThis.fetch = urlAwareMock();
+    renderCompany('Banking');
     await screen.findByTestId('company-header');
     expect(screen.getByTestId('pillars-unavailable')).toHaveTextContent('not exposed');
     expect(screen.getByText('Confidence unavailable')).toBeInTheDocument();
   });
 
   it('renders certified input metrics (SNAPSHOT) table', async () => {
-    renderCompany(COMPANY_TECH, 'Technology');
+    globalThis.fetch = urlAwareMock();
+    renderCompany('Technology');
     await screen.findByTestId('company-header');
     expect(screen.getByText('Company Inputs (SNAPSHOT)')).toBeInTheDocument();
     expect(screen.getByText('revenueGrowth')).toBeInTheDocument();
   });
 
   it('provenance remains visible', async () => {
-    renderCompany(COMPANY_TECH, 'Technology');
+    globalThis.fetch = urlAwareMock();
+    renderCompany('Technology');
     await screen.findByTestId('company-header');
     expect(screen.getByTestId('company-provenance')).toBeInTheDocument();
   });
 
   it('renders error state when any governed call fails', async () => {
     globalThis.fetch = vi.fn().mockRejectedValue(new Error('down')) as never;
-    render(
-      <MemoryRouter initialEntries={['/research/company/X']}>
-        <Routes><Route path="/research/company/:id" element={<CompanyIntelligence />} /></Routes>
-      </MemoryRouter>,
-    );
+    renderCompany('Banking');
     expect(await screen.findByTestId('state-error')).toHaveTextContent('Unable to load company data');
   });
 
   it('N+7: requests the exact governed endpoints for the concrete Banking route', async () => {
-    const called: string[] = [];
+    const calls: string[] = [];
+    const base = urlAwareMock();
     globalThis.fetch = vi.fn((input: unknown) => {
       const url = String(input);
-      called.push(url);
-      if (url.includes('/api/company/')) return Promise.resolve({ ok: true, json: async () => COMPANY_BANK }) as never;
-      if (url.includes('/api/evidence/')) return Promise.resolve({ ok: true, json: async () => evidenceFor('Banking', 47.1) }) as never;
-      if (url.includes('/api/replay/')) return Promise.resolve({ ok: true, json: async () => replayFor('Banking', true) }) as never;
-      return Promise.resolve({ ok: false, status: 404, json: async () => ({}) }) as never;
+      calls.push(url);
+      return base(input);
     }) as never;
 
-    render(
-      <MemoryRouter initialEntries={['/research/company/Banking']}>
-        <Routes><Route path="/research/company/:id" element={<CompanyIntelligence />} /></Routes>
-      </MemoryRouter>,
-    );
+    renderCompany('Banking');
     await screen.findByTestId('company-header');
 
-    expect(called).toContain('/api/company/Banking');
-    expect(called).toContain('/api/evidence/Banking');
-    expect(called).toContain('/api/replay/Banking');
-    expect(called).not.toContain('/api/company/%3Aid');
+    expect(calls).toContain('/api/company/Banking');
+    expect(calls).toContain('/api/evidence/Banking');
+    expect(calls).toContain('/api/replay/Banking');
+    expect(calls).not.toContain('/api/company/%3Aid');
+  });
+});
+
+describe('Company Intelligence — N+12 governed sector reachability', () => {
+  it('renders the sector selector options from the governed /api/decision-matrix payload', async () => {
+    globalThis.fetch = urlAwareMock();
+    renderCompany('Banking');
+    const select = await screen.findByTestId('sector-select');
+    const options = Array.from(select.querySelectorAll('option')).map((o) => o.value);
+    expect(options).toContain('Banking');
+    expect(options).toContain('Technology');
+  });
+
+  it('does NOT hardcode the sector list (options reflect the governed payload)', async () => {
+    const customSectors: DecisionMatrixData = {
+      matrixType: 'scatter', note: 'test',
+      companies: [
+        { companyId: 'X-H1', sector: 'Alpha', verdict: 'Buy', composite: 60, quality: 55, valuation: 50 },
+        { companyId: 'Y-H1', sector: 'Beta', verdict: 'Hold', composite: 40, quality: 45, valuation: 55 },
+      ],
+      universe: { avgConviction: 50, avgQuality: 50, holdings: 2 },
+      provenance: PROVENANCE,
+    };
+    globalThis.fetch = urlAwareMock({ sectorsOverride: customSectors });
+    renderCompany('Banking');
+    const select = await screen.findByTestId('sector-select');
+    const options = Array.from(select.querySelectorAll('option')).map((o) => o.value);
+    expect(options).toContain('Alpha');
+    expect(options).toContain('Beta');
+    expect(options).not.toContain('Banking');
+    expect(options).not.toContain('Technology');
+  });
+
+  it('selecting a sector navigates to /research/company/:sector (selected Technology loads)', async () => {
+    const user = userEvent.setup();
+    globalThis.fetch = urlAwareMock();
+    renderCompany('Banking');
+    await screen.findByTestId('sector-select');
+    await user.selectOptions(screen.getByTestId('sector-select'), 'Technology');
+    expect(await screen.findByTestId('company-composite')).toHaveTextContent('76.3');
+    expect(screen.getByTestId('company-header')).toHaveTextContent('Technology');
+  });
+
+  it('propagates the selected sector exactly to company/evidence/replay', async () => {
+    const user = userEvent.setup();
+    const calls: string[] = [];
+    const base = urlAwareMock();
+    globalThis.fetch = vi.fn((input: unknown) => {
+      const url = String(input);
+      calls.push(url);
+      return base(input);
+    }) as never;
+
+    renderCompany('Banking');
+    await screen.findByTestId('sector-select');
+    await user.selectOptions(screen.getByTestId('sector-select'), 'Technology');
+    await screen.findByTestId('company-composite');
+
+    expect(calls).toContain('/api/company/Technology');
+    expect(calls).toContain('/api/evidence/Technology');
+    expect(calls).toContain('/api/replay/Technology');
+  });
+
+  it('selecting Technology does NOT trigger additional Banking endpoint calls (only the initial Banking mount)', async () => {
+    const user = userEvent.setup();
+    const calls: string[] = [];
+    const base = urlAwareMock();
+    globalThis.fetch = vi.fn((input: unknown) => {
+      const url = String(input);
+      calls.push(url);
+      return base(input);
+    }) as never;
+
+    renderCompany('Banking');
+    await screen.findByTestId('sector-select');
+    const callsAfterInitialMount = calls.length; // initial load is Banking (the route param)
+    await user.selectOptions(screen.getByTestId('sector-select'), 'Technology');
+    await screen.findByTestId('company-composite');
+
+    const postSelection = calls.slice(callsAfterInitialMount);
+    expect(postSelection).toContain('/api/company/Technology');
+    expect(postSelection).toContain('/api/evidence/Technology');
+    expect(postSelection).toContain('/api/replay/Technology');
+    expect(postSelection).not.toContain('/api/company/Banking');
+    expect(postSelection).not.toContain('/api/evidence/Banking');
+    expect(postSelection).not.toContain('/api/replay/Banking');
+  });
+
+  it('renders the governed trust chain (MATCH) for the newly selected sector', async () => {
+    const user = userEvent.setup();
+    globalThis.fetch = urlAwareMock();
+    renderCompany('Banking');
+    await screen.findByTestId('sector-select');
+    await user.selectOptions(screen.getByTestId('sector-select'), 'Technology');
+    expect(await screen.findByText('Evidence (governed)')).toBeInTheDocument();
+    expect(screen.getByText('Replay Verification (governed)')).toBeInTheDocument();
+    expect(screen.getByTestId('company-replay-equivalence')).toHaveTextContent('MATCH — byte-identical');
+  });
+
+  it('renders DIFFERENCE for the selected sector when the governed replay is not byte-identical', async () => {
+    const user = userEvent.setup();
+    globalThis.fetch = urlAwareMock({ replayBIdentical: false });
+    renderCompany('Banking');
+    await screen.findByTestId('sector-select');
+    await user.selectOptions(screen.getByTestId('sector-select'), 'Banking');
+    expect(await screen.findByTestId('company-replay-equivalence')).toHaveTextContent('DIFFERENCE');
+  });
+
+  it('shows a governed error state when the sector-list fetch fails (company content preserved)', async () => {
+    globalThis.fetch = urlAwareMock({ sectorListFails: true });
+    renderCompany('Banking');
+    expect(await screen.findByTestId('sector-selector-error')).toHaveTextContent('Unable to load sector list');
+    // The company surface itself still renders its certified content.
+    expect(screen.getByTestId('company-header')).toBeInTheDocument();
+  });
+
+  it('preserves existing Company content alongside the selector (inputs + provenance)', async () => {
+    globalThis.fetch = urlAwareMock();
+    renderCompany('Technology');
+    await screen.findByTestId('company-header');
+    expect(screen.getByTestId('sector-select')).toBeInTheDocument();
+    expect(screen.getByText('Company Inputs (SNAPSHOT)')).toBeInTheDocument();
+    expect(screen.getByTestId('company-provenance')).toBeInTheDocument();
+  });
+
+  it('preserves no-fabrication for a non-Technology sector (pillars + confidence unavailable)', async () => {
+    globalThis.fetch = urlAwareMock();
+    renderCompany('Banking');
+    await screen.findByTestId('sector-select');
+    expect(screen.getByTestId('pillars-unavailable')).toHaveTextContent('not exposed');
+    expect(screen.getByText('Confidence unavailable')).toBeInTheDocument();
   });
 });
