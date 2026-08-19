@@ -59,6 +59,34 @@ describe('Sidebar — Milestone N+1 child rendering', () => {
     expect(screen.queryByTestId('nav-status-Decision Evidence')).not.toBeInTheDocument();
   });
 
+  it('N+17: renders future-only children as non-navigable text (never links)', () => {
+    renderSidebar('analyst');
+    expect(screen.getByTestId('nav-future-Sector')).toHaveTextContent('Sector');
+    expect(screen.getByTestId('nav-future-Opportunities')).toHaveTextContent('Opportunities');
+    expect(screen.getByTestId('nav-future-Risks')).toHaveTextContent('Risks');
+    expect(screen.getByTestId('nav-future-Rankings')).toHaveTextContent('Rankings');
+    expect(screen.queryByRole('link', { name: 'Sector' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('link', { name: 'Opportunities' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('link', { name: 'Risks' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('link', { name: 'Rankings' })).not.toBeInTheDocument();
+  });
+
+  it('N+17: does not render the dead Replay entry', () => {
+    renderSidebar('analyst');
+    expect(screen.queryByRole('link', { name: 'Replay' })).not.toBeInTheDocument();
+    expect(screen.queryByTestId('nav-future-Replay')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('nav-status-Replay')).not.toBeInTheDocument();
+  });
+
+  it('N+17: no rendered navigation link contains a route template (:id)', () => {
+    renderSidebar('admin');
+    const links = screen.getAllByRole('link');
+    expect(links.length).toBeGreaterThan(0);
+    for (const link of links) {
+      expect(link.getAttribute('href')).not.toContain(':id');
+    }
+  });
+
   it('renders child links for implemented children', () => {
     renderSidebar('analyst');
     expect(screen.getByRole('link', { name: 'Decision Matrix' })).toBeInTheDocument();

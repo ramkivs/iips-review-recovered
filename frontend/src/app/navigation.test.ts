@@ -4,7 +4,7 @@
  * and role filtering.
  */
 import { describe, it, expect } from 'vitest';
-import { NAV, NAV_STATUS_LABEL, visibleNav } from './navigation';
+import { NAV, NAV_STATUS_LABEL, visibleNav, type NavItem } from './navigation';
 import { ROUTES } from './routes';
 
 const byLabel = Object.fromEntries(NAV.map((n) => [n.label, n]));
@@ -82,6 +82,29 @@ describe('navigation model — Milestone N+1 child reconciliation', () => {
     expect(childrenOf('Portfolio').map((c) => c.path)).not.toContain('/portfolio/:id/holdings');
   });
 
+  it('N+17: removes the dead Evidence Replay child (route-template, no concrete sector)', () => {
+    const evidence = childrenOf('Evidence');
+    expect(evidence.map((c) => c.label)).not.toContain('Replay');
+    expect(evidence.map((c) => c.path)).not.toContain('/evidence/replay/:id');
+    expect(evidence.map((c) => c.label)).toEqual(['Decision Evidence']);
+    expect(evidence.map((c) => c.path)).toEqual(['/evidence']);
+  });
+
+  it('N+17: no navigable (implemented/partial) entry exposes a route template (:id)', () => {
+    const walk = (items: NavItem[], acc: NavItem[] = []): NavItem[] => {
+      for (const item of items) {
+        acc.push(item);
+        if (item.children) walk(item.children, acc);
+      }
+      return acc;
+    };
+    const navigable = walk(NAV).filter((n) => n.status !== 'future');
+    expect(navigable.length).toBeGreaterThan(0);
+    for (const n of navigable) {
+      expect(n.path).not.toContain(':id');
+    }
+  });
+
   it('marks implemented children as implemented', () => {
     const statusOf = (group: string, label: string) =>
       childrenOf(group).find((c) => c.label === label)?.status;
@@ -89,7 +112,6 @@ describe('navigation model — Milestone N+1 child reconciliation', () => {
     expect(statusOf('Research', 'Company')).toBe('implemented');
     expect(statusOf('Research', 'Cross-Sector')).toBe('implemented');
     expect(statusOf('Intelligence', 'Decision Matrix')).toBe('implemented');
-    expect(statusOf('Evidence', 'Replay')).toBe('implemented');
     expect(statusOf('Evidence', 'Decision Evidence')).toBe('implemented');
   });
 

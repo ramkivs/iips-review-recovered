@@ -19,6 +19,11 @@
  * Milestone N+16 (Navigation & Status Reconciliation): the dead Portfolio "Holdings" child
  * (a route-template placeholder with no dedicated surface) is removed, and the Evidence
  * "Decision Evidence" child now reflects the implemented N+14 Evidence Hub at /evidence.
+ *
+ * Milestone N+17 (Navigation Dead-Link Elimination): the dead Evidence "Replay" child
+ * (route-template /evidence/replay/:id with no concrete sector) is removed — the Evidence
+ * Hub (N+14) remains the governed replay entry point — and future-only children are
+ * rendered by the Sidebar as non-navigable text with a Future badge (never links).
  */
 import type { Role } from '../core/session/session';
 
@@ -78,7 +83,8 @@ export const NAV: NavItem[] = [
     minRole: 'viewer',
     status: 'partial',
     children: [
-      { label: 'Replay', path: '/evidence/replay/:id', minRole: 'viewer', status: 'implemented' },
+      // N+17: the dead Replay route-template child (/evidence/replay/:id) is removed — the
+      // N+14 Evidence Hub remains the governed replay entry point for concrete sectors.
       // N+16: /evidence is now the implemented Evidence Hub (N+14) directory entry point.
       { label: 'Decision Evidence', path: '/evidence', minRole: 'viewer', status: 'implemented' },
     ],
