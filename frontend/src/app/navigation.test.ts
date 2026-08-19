@@ -105,6 +105,15 @@ describe('navigation model — Milestone N+1 child reconciliation', () => {
     }
   });
 
+  it('N+18: the route map no longer documents non-existent Portfolio surfaces', () => {
+    // N+16 declared Holdings to have no dedicated surface; PortfolioWorkspace has no
+    // per-holding detail route (it renders the same workspace for any /portfolio/* path).
+    expect(ROUTES).not.toHaveProperty('portfolioDetail');
+    expect(ROUTES).not.toHaveProperty('portfolioHoldings');
+    // The implemented architecture keeps the generic portfolio workspace entry only.
+    expect(ROUTES.portfolio).toBe('/portfolio');
+  });
+
   it('marks implemented children as implemented', () => {
     const statusOf = (group: string, label: string) =>
       childrenOf(group).find((c) => c.label === label)?.status;

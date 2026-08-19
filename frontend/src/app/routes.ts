@@ -4,13 +4,16 @@
  * Presentation-only route definitions. Milestone N+1: aligned with the real surfaces —
  * the dead `/evidence/snapshots` entry is removed and Administration routes match the
  * 8 governed read-only tabs (deep-linkable). No business logic.
+ *
+ * Milestone N+18 (Route-Map Dead-Metadata Reconciliation): the stale Portfolio
+ * "detail"/"holdings" constants are removed — the implemented architecture has no
+ * per-holding detail surface (PortfolioWorkspace renders the same workspace for any
+ * /portfolio/* path, and N+16 declared Holdings to have no dedicated surface).
  */
 export const ROUTES = {
   root: '/',
   executive: '/executive',
   portfolio: '/portfolio',
-  portfolioDetail: '/portfolio/:id',
-  portfolioHoldings: '/portfolio/:id/holdings',
   research: '/research',
   researchCompany: '/research/company/:id',
   researchSector: '/research/sector/:id',
