@@ -416,7 +416,7 @@ function computeCertifiedEvidence(sectorId: string): unknown {
       engineId: `sector.${d.sector.toLowerCase()}`,
       recommendation: d.verdict,
       compositeScore: d.composite,
-      confidence: golden?.confidence ?? 0.8,
+      confidence: golden?.confidence ?? null,
       keyMetrics,                    // governed input metrics
       supportingScores,              // governed pillar scores
       calibrationVersion: d.calibrationVersion ?? '1.0.0',

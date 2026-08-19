@@ -47,6 +47,23 @@ describe('Evidence Explorer', () => {
     expect(screen.getByTestId('evidence-record-card')).toHaveTextContent('ev_Tech');
   });
 
+  it('N+20: renders Confidence unavailable when evidence confidence is null (never fabricated)', async () => {
+    const nullConfidence: EvidenceData = {
+      ...FIXTURE,
+      decision: { ...FIXTURE.decision, confidence: null },
+      evidence: { ...FIXTURE.evidence, confidence: null },
+    };
+    globalThis.fetch = vi.fn().mockResolvedValue({ ok: true, json: async () => nullConfidence }) as never;
+    render(
+      <MemoryRouter initialEntries={['/evidence/Technology']}>
+        <Routes><Route path="/evidence/:id" element={<EvidenceExplorer />} /></Routes>
+      </MemoryRouter>,
+    );
+    const card = await screen.findByTestId('evidence-record-card');
+    expect(card).toHaveTextContent('Confidence unavailable');
+    expect(card).not.toHaveTextContent('80%');
+  });
+
   it('renders the evidence chain timeline (inspection)', async () => {
     renderEvidence();
     expect(await screen.findByTestId('evidence-timeline')).toBeInTheDocument();

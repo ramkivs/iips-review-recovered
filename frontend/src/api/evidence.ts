@@ -14,7 +14,7 @@ export interface EvidenceData {
     readonly engineId: string;
     readonly recommendation: string;
     readonly compositeScore: number;
-    readonly confidence: number;
+    readonly confidence: number | null;
     readonly keyMetrics: readonly { readonly id: string; readonly name: string; readonly value: number }[];
     readonly supportingScores: readonly { readonly id: string; readonly name: string; readonly value: number }[];
     readonly calibrationVersion: string;

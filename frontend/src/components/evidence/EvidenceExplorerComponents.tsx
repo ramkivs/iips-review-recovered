@@ -19,7 +19,7 @@ export function EvidenceTimeline({ steps }: { steps: readonly { label: string; c
 }
 
 export function EvidenceRecordCard({ evidence }: {
-  evidence: { evidenceId: string; engineId: string; recommendation: string; compositeScore: number; confidence: number; calibrationVersion: string; decisionRulesApplied: readonly string[]; generatedAt: string };
+  evidence: { evidenceId: string; engineId: string; recommendation: string; compositeScore: number; confidence: number | null; calibrationVersion: string; decisionRulesApplied: readonly string[]; generatedAt: string };
 }) {
   return (
     <article data-testid="evidence-record-card" style={{ border: '1px solid var(--color-border)', borderRadius: 6, padding: 16, background: 'var(--color-surface-1)' }}>
@@ -28,7 +28,7 @@ export function EvidenceRecordCard({ evidence }: {
         <span style={{ fontSize: 12, color: 'var(--color-ink-secondary)' }}>{evidence.generatedAt}</span>
       </div>
       <p style={{ margin: '4px 0' }}>Engine <code>{evidence.engineId}</code> · Recommendation: {evidence.recommendation}</p>
-      <p style={{ margin: '4px 0' }}>Composite {evidence.compositeScore} · Confidence {Math.round(evidence.confidence * 100)}% · Calibration <code>{evidence.calibrationVersion}</code></p>
+      <p style={{ margin: '4px 0' }}>Composite {evidence.compositeScore} · Confidence {evidence.confidence === null ? 'unavailable' : `${Math.round(evidence.confidence * 100)}%`} · Calibration <code>{evidence.calibrationVersion}</code></p>
       {evidence.decisionRulesApplied.length > 0 && <p style={{ margin: '4px 0' }}>Rules: {evidence.decisionRulesApplied.join(', ')}</p>}
     </article>
   );
