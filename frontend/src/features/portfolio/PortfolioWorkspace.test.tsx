@@ -4,7 +4,7 @@
  * governed Evidence + Replay (MATCH/DIFFERENCE), loading/error/no-fabrication behavior.
  */
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { PortfolioWorkspace } from './PortfolioWorkspace';
 import type { PortfolioData } from '../../api/portfolio';
@@ -107,6 +107,34 @@ describe('Portfolio Workspace (existing behavior)', () => {
     globalThis.fetch = vi.fn().mockRejectedValue(new Error('down')) as never;
     render(<PortfolioWorkspace />);
     expect(await screen.findByTestId('state-error')).toHaveTextContent('Unable to load certified portfolio data');
+  });
+});
+
+describe('Portfolio Workspace — N+21 confidence null-honesty', () => {
+  it('renders unavailable for null confidence and never fabricates a percentage', async () => {
+    const nullConfidence: PortfolioData = {
+      ...FIXTURE,
+      holdings: [
+        { companyId: 'A-H1', sector: 'A', decision: 'Buy', composite: 65, confidence: null, quality: 75, risk: 30, weight: 60 },
+        { companyId: 'B-H1', sector: 'B', decision: 'Hold', composite: 50, confidence: 0.73, quality: 60, risk: 50, weight: 40 },
+      ],
+    };
+    globalThis.fetch = vi.fn((input: unknown) => {
+      const url = String(input);
+      if (url.includes('/api/portfolio')) return Promise.resolve({ ok: true, json: async () => nullConfidence }) as never;
+      if (url.includes('/api/evidence/')) return Promise.resolve({ ok: true, json: async () => evidenceFor('A', 65) }) as never;
+      if (url.includes('/api/replay/')) return Promise.resolve({ ok: true, json: async () => replayFor('A', true) }) as never;
+      return Promise.resolve({ ok: false, status: 404, json: async () => ({}) }) as never;
+    }) as never;
+
+    render(<PortfolioWorkspace />);
+    const table = await screen.findByTestId('data-table');
+    // Null confidence renders honestly as "unavailable" (never Math.round(null * 100)).
+    expect(within(table).getByText('unavailable')).toBeInTheDocument();
+    // Real numeric confidence still renders (0.73 → 73).
+    expect(within(table).getByText('73')).toBeInTheDocument();
+    // No fabricated percentage for the null-confidence sector.
+    expect(within(table).queryByText('80')).not.toBeInTheDocument();
   });
 });
 

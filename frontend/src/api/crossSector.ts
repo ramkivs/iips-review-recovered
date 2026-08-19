@@ -21,7 +21,7 @@ export interface CrossSectorData {
   readonly ranking: readonly { readonly companyId: string; readonly sector: string; readonly conviction: number }[];
   readonly opportunity: readonly { readonly companyId: string; readonly sector: string; readonly conviction: number }[];
   readonly correlation: { readonly flags: readonly string[]; readonly concentrationSectors: readonly string[] };
-  readonly decisions: readonly { readonly sector: string; readonly verdict: Verdict; readonly composite: number; readonly confidence: number }[];
+  readonly decisions: readonly { readonly sector: string; readonly verdict: Verdict; readonly composite: number; readonly confidence: number | null }[];
   readonly provenance: ExecutiveProvenance;
 }
 

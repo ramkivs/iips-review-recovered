@@ -130,7 +130,7 @@ export function PortfolioWorkspace() {
           { key: 'sector', header: 'Sector', render: (r: PortfolioHolding) => r.sector },
           { key: 'decision', header: 'Decision', render: (r: PortfolioHolding) => <DecisionBadge verdict={r.decision} /> },
           { key: 'composite', header: 'Composite', render: (r: PortfolioHolding) => r.composite },
-          { key: 'confidence', header: 'Confidence', render: (r: PortfolioHolding) => Math.round(r.confidence * 100) },
+          { key: 'confidence', header: 'Confidence', render: (r: PortfolioHolding) => (r.confidence === null ? 'unavailable' : Math.round(r.confidence * 100)) },
           { key: 'risk', header: 'Risk', render: (r: PortfolioHolding) => r.risk },
           { key: 'weight', header: 'Weight %', render: (r: PortfolioHolding) => r.weight },
           { key: 'trend', header: 'Trend', render: () => <TrendIndicator direction="flat" label="—" /> },

@@ -35,7 +35,7 @@ export interface DecisionSummary {
   readonly sector: string;
   readonly verdict: Verdict;
   readonly composite: number;
-  readonly confidence: number;
+  readonly confidence: number | null;
 }
 
 export interface ExecutiveProvenance {

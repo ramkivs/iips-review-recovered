@@ -126,7 +126,7 @@ const GOLDEN_PILLARS = loadGoldenPillars();
  * (runtime behaviour unchanged). */
 type TransportEngineOutput = Omit<
   EngineOutput,
-  'qualityScore' | 'riskScore' | 'growthScore' | 'valuationScore' | 'capitalEfficiency' | 'franchiseScore'
+  'qualityScore' | 'riskScore' | 'growthScore' | 'valuationScore' | 'capitalEfficiency' | 'franchiseScore' | 'confidence'
 > & {
   qualityScore: number | null;
   riskScore: number | null;
@@ -134,6 +134,9 @@ type TransportEngineOutput = Omit<
   valuationScore: number | null;
   capitalEfficiency: number | null;
   franchiseScore: number | null;
+  // N+21: confidence is null where the certified golden source does not expose it
+  // (6 of 10 sectors) — never fabricated.
+  confidence: number | null;
 };
 
 /** Build the certified runtime and execute all frozen engines on their frozen inputs. */
@@ -188,7 +191,9 @@ function computeCertifiedPlatform(): {
       companyId: `${s.sector}-H1`,
       sector: s.sector,
       composite: m.composite as number,
-      confidence: 0.8,
+      // N+21: confidence from the certified golden expected-outputs (governed), else null —
+      // never a fabricated fallback (the CSIP engine does not consume this field).
+      confidence: GOLDEN_PILLARS[s.sector]?.confidence ?? null,
       qualityScore: csip.quality ?? null,
       riskScore: csip.risk ?? null,
       growthScore: csip.growth ?? null,

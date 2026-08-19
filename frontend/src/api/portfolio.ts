@@ -11,7 +11,7 @@ export interface PortfolioHolding {
   readonly sector: string;
   readonly decision: Verdict;
   readonly composite: number;
-  readonly confidence: number;
+  readonly confidence: number | null;
   readonly quality: number;
   readonly risk: number;
   readonly weight: number;
