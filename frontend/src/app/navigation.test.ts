@@ -71,12 +71,15 @@ describe('navigation model — Milestone N+1 child reconciliation', () => {
   it('marks future-only children as future (never implemented)', () => {
     const statusOf = (group: string, label: string) =>
       childrenOf(group).find((c) => c.label === label)?.status;
-    expect(statusOf('Portfolio', 'Holdings')).toBe('future');
     expect(statusOf('Research', 'Sector')).toBe('future');
     expect(statusOf('Intelligence', 'Opportunities')).toBe('future');
     expect(statusOf('Intelligence', 'Risks')).toBe('future');
     expect(statusOf('Intelligence', 'Rankings')).toBe('future');
-    expect(statusOf('Evidence', 'Decision Evidence')).toBe('future');
+  });
+
+  it('N+16: removes the dead Portfolio Holdings child (no dedicated surface)', () => {
+    expect(childrenOf('Portfolio').map((c) => c.label)).not.toContain('Holdings');
+    expect(childrenOf('Portfolio').map((c) => c.path)).not.toContain('/portfolio/:id/holdings');
   });
 
   it('marks implemented children as implemented', () => {
@@ -87,6 +90,7 @@ describe('navigation model — Milestone N+1 child reconciliation', () => {
     expect(statusOf('Research', 'Cross-Sector')).toBe('implemented');
     expect(statusOf('Intelligence', 'Decision Matrix')).toBe('implemented');
     expect(statusOf('Evidence', 'Replay')).toBe('implemented');
+    expect(statusOf('Evidence', 'Decision Evidence')).toBe('implemented');
   });
 
   it('N+7: the Company entry resolves to a concrete route, not the literal :id template', () => {

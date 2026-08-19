@@ -43,9 +43,20 @@ describe('Sidebar — navigation honesty badges (top level)', () => {
 describe('Sidebar — Milestone N+1 child rendering', () => {
   it('shows Future badges on future-only children', () => {
     renderSidebar('analyst');
+    expect(screen.getByTestId('nav-status-Sector')).toHaveTextContent('Future');
     expect(screen.getByTestId('nav-status-Opportunities')).toHaveTextContent('Future');
     expect(screen.getByTestId('nav-status-Risks')).toHaveTextContent('Future');
-    expect(screen.getByTestId('nav-status-Holdings')).toHaveTextContent('Future');
+  });
+
+  it('N+16: does not render the dead Holdings entry', () => {
+    renderSidebar('analyst');
+    expect(screen.queryByRole('link', { name: 'Holdings' })).not.toBeInTheDocument();
+  });
+
+  it('N+16: renders the implemented Decision Evidence (Evidence Hub) entry without a Future badge', () => {
+    renderSidebar('analyst');
+    expect(screen.getByRole('link', { name: 'Decision Evidence' })).toHaveAttribute('href', '/evidence');
+    expect(screen.queryByTestId('nav-status-Decision Evidence')).not.toBeInTheDocument();
   });
 
   it('renders child links for implemented children', () => {

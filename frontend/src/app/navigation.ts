@@ -13,8 +13,12 @@
  * Milestone N+1 (Navigation & Route Reconciliation): children now match the real
  * implemented surfaces — Administration children are the 8 governed read-only tabs
  * (deep-linkable), the dead `/evidence/snapshots` entry is removed, and future-only
- * children (Holdings, Sector, Opportunities/Risks/Rankings, Decision Evidence) are
- * marked `future` so they are never mistaken for implemented capabilities.
+ * children (Sector, Opportunities/Risks/Rankings) are marked `future` so they are never
+ * mistaken for implemented capabilities.
+ *
+ * Milestone N+16 (Navigation & Status Reconciliation): the dead Portfolio "Holdings" child
+ * (a route-template placeholder with no dedicated surface) is removed, and the Evidence
+ * "Decision Evidence" child now reflects the implemented N+14 Evidence Hub at /evidence.
  */
 import type { Role } from '../core/session/session';
 
@@ -38,8 +42,6 @@ export const NAV: NavItem[] = [
     status: 'implemented',
     children: [
       { label: 'Overview', path: '/portfolio', minRole: 'viewer', status: 'implemented' },
-      // No distinct holdings surface exists yet (/portfolio/* renders the same workspace).
-      { label: 'Holdings', path: '/portfolio/:id/holdings', minRole: 'viewer', status: 'future' },
     ],
   },
   {
@@ -77,8 +79,8 @@ export const NAV: NavItem[] = [
     status: 'partial',
     children: [
       { label: 'Replay', path: '/evidence/replay/:id', minRole: 'viewer', status: 'implemented' },
-      // The evidence list hub (/evidence) is a placeholder; no snapshots surface exists.
-      { label: 'Decision Evidence', path: '/evidence', minRole: 'viewer', status: 'future' },
+      // N+16: /evidence is now the implemented Evidence Hub (N+14) directory entry point.
+      { label: 'Decision Evidence', path: '/evidence', minRole: 'viewer', status: 'implemented' },
     ],
   },
   {
