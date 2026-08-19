@@ -16,6 +16,7 @@ import { LoadingState } from '../components/state/StateComponents';
 const ExecutiveDashboard = lazy(() => import('../features/executive/ExecutiveDashboard').then((m) => ({ default: m.ExecutiveDashboard })));
 const PortfolioWorkspace = lazy(() => import('../features/portfolio/PortfolioWorkspace').then((m) => ({ default: m.PortfolioWorkspace })));
 const CompanyIntelligence = lazy(() => import('../features/company/CompanyIntelligence').then((m) => ({ default: m.CompanyIntelligence })));
+const ResearchHub = lazy(() => import('../features/research/ResearchHub').then((m) => ({ default: m.ResearchHub })));
 const CrossSectorIntelligence = lazy(() => import('../features/cross-sector/CrossSectorIntelligence').then((m) => ({ default: m.CrossSectorIntelligence })));
 const DecisionMatrix = lazy(() => import('../features/decision-matrix/DecisionMatrix').then((m) => ({ default: m.DecisionMatrix })));
 const EvidenceExplorer = lazy(() => import('../features/evidence/EvidenceExplorer').then((m) => ({ default: m.EvidenceExplorer })));
@@ -47,7 +48,7 @@ export function App() {
         <Route path="/executive" element={<Lazy><ExecutiveDashboard /></Lazy>} />
         <Route path="/portfolio" element={<Lazy><PortfolioWorkspace /></Lazy>} />
         <Route path="/portfolio/*" element={<Lazy><PortfolioWorkspace /></Lazy>} />
-        <Route path="/research" element={<FeaturePlaceholder surface="Research" />} />
+        <Route path="/research" element={<Lazy><ResearchHub /></Lazy>} />
         <Route path="/research/company/:id" element={<Lazy><CompanyIntelligence /></Lazy>} />
         <Route path="/research/sector/:id" element={<FeaturePlaceholder surface="Sector" />} />
         <Route path="/research/cross-sector" element={<Lazy><CrossSectorIntelligence /></Lazy>} />
