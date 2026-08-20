@@ -8,9 +8,9 @@
 
 ## 1. Summary
 
-- **11 engines implemented**: 10 sector engines + 1 cross-sector engine (CSIP).
-- **All 11 classified A** — implemented + certified + runtime-integrated + UI-integrated.
-- The Administration UI figure **"10 registered / 10 certified"** is programmatically correct for the **10 sector engines**; **CSIP is intentionally outside that count** (it is the cross-sector layer, not a sector engine).
+- **14 engines implemented**: 13 sector engines + 1 cross-sector engine (CSIP).
+- **All 14 classified A** — implemented + certified + runtime-integrated + UI-integrated.
+- The Administration UI figure **"13 registered / 13 certified"** is programmatically correct for the **13 sector engines**; **CSIP is intentionally outside that count** (it is the cross-sector layer, not a sector engine).
 
 ## 2. Integration classification
 
@@ -39,21 +39,24 @@ Implementation = `iips-platform/src/sector-engines/<name>/` (Engine + calibratio
 | `sector.consumer` | Consumer | IES-013 | **A** | `ConsumerEngine.ts` + … | `ENGINE_FACTORY` + `runtime.execute` | `ies-013-consumer/` + `IES013_FINAL_READINESS_CERTIFICATE.md` + `IES013_INDEPENDENT_VERIFICATION_REPORT.md` | same |
 | `sector.industrials` | Industrials | IES-014 | **A** | `IndustrialsEngine.ts` + … | `ENGINE_FACTORY` + `runtime.execute` | `ies-014-industrials/` + `IES014_FINAL_READINESS_CERTIFICATE.md` + `IES014_INDEPENDENT_VERIFICATION_REPORT.md` | same |
 | `sector.technology` | Technology | IES-015 | **A** | `TechnologyEngine.ts` + … | `ENGINE_FACTORY` + `runtime.execute` | `ies-015-technology/` + `IES015_FINAL_READINESS_CERTIFICATE.md` + `IES015_INDEPENDENT_VERIFICATION_REPORT.md` | same |
-| CSIP (`CrossSectorEngine`) | Cross-Sector | CSIP | **A** | `CrossSectorEngine.ts` + allocation/correlation/diversification/ontology/opportunity/portfolio/ranking/reporting | instantiated directly → `csip.run({ outputs })` (consumes the 10 engine outputs) | `iips-cross-sector/` (FREEZE_MANIFEST + READINESS_CERTIFICATE + TRACEABILITY) + `CSIP_FINAL_READINESS_CERTIFICATE.md` + `CSIP_INDEPENDENT_VERIFICATION_REPORT.md` | Cross-Sector Intelligence + Executive + Decision Matrix |
+| `sector.telecommunications` | Telecommunications | IES-016 | **A** | `TelecommunicationsEngine.ts` + calibration/decision/evidence/metrics/scoring + frozen-assets | `ENGINE_FACTORY` + `runtime.execute` | `ies-016-telecommunications/` + `TELECOMMUNICATIONS_DISCOVERY_PACK.md` + `TELECOMMUNICATIONS_ENGINE_ACCEPTANCE_MATRIX.md` + `RELEASE_NOTES_IES-016_v1.0.0.md` | same (auto-extended universe) |
+| `sector.automobile` | Automobile | IES-017 | **A** | `AutomobileEngine.ts` + calibration/decision/evidence/metrics/scoring + frozen-assets | `ENGINE_FACTORY` + `runtime.execute` | `ies-017-automobile/` + `AUTOMOBILE_DISCOVERY_PACK.md` + acceptance matrix + `RELEASE_NOTES_IES-017_v1.0.0.md` | same (auto-extended universe) |
+| `sector.materials-metals` | Materials & Metals | IES-020 | **A** | `MaterialsMetalsEngine.ts` + calibration/decision/evidence/metrics/scoring + frozen-assets | `ENGINE_FACTORY` + `runtime.execute` | `ies-020-materials-metals/` + `MATERIALS_METALS_DISCOVERY_PACK.md` + acceptance matrix + `RELEASE_NOTES_IES-020_v1.0.0.md` | same (auto-extended universe) |
+| CSIP (`CrossSectorEngine`) | Cross-Sector | CSIP | **A** | `CrossSectorEngine.ts` + allocation/correlation/diversification/ontology/opportunity/portfolio/ranking/reporting | instantiated directly → `csip.run({ outputs })` (consumes the 13 engine outputs) | `iips-cross-sector/` (FREEZE_MANIFEST + READINESS_CERTIFICATE + TRACEABILITY) + `CSIP_FINAL_READINESS_CERTIFICATE.md` + `CSIP_INDEPENDENT_VERIFICATION_REPORT.md` | Cross-Sector Intelligence + Executive + Decision Matrix |
 
-Per-engine regression acceptance tests exist for all 11: `iips-platform/tests/regression/<name>-acceptance.test.ts` (+ `cross-sector-acceptance.test.ts`).
+Per-engine regression acceptance tests exist for all 14: `iips-platform/tests/regression/<name>-acceptance.test.ts` (+ `cross-sector-acceptance.test.ts`).
 
 ## 4. Runtime integration trace (concrete)
 
 ```
 engine implementation   iips-platform/src/sector-engines/<name>/*Engine.ts (+ identity/manifest)
         ↓
-registration            frontend/server/executive-transport.ts — ENGINE_FACTORY (10 sector engines)
+registration            frontend/server/executive-transport.ts — ENGINE_FACTORY (13 sector engines)
         ↓
 plugin load/init        plugins.load(ENGINE_FACTORY[id]()) + plugins.initialize(id)
         ↓
 execution               runtime.execute(s.engineId, { inputs }) for each sector in
-                        program-v1.1-certification/PROGRAM_v1.1_REPLAY_BASELINE.json (10 sectors)
+                        program-v1.1-certification/PROGRAM_v1.1_REPLAY_BASELINE.json (13 sectors)
         ↓
 certified transport     /api/executive · /api/portfolio · /api/company/:sector · /api/cross-sector
                         · /api/decision-matrix · /api/evidence/:id · /api/replay/:id · /api/admin/*
@@ -69,7 +72,7 @@ UI                      ExecutiveDashboard · PortfolioWorkspace · CompanyIntel
 
 | Item | Classification | Note |
 |---|---|---|
-| IES-016 Telecommunications · IES-017 Automobile · IES-020 Materials & Metals | **E — PIPELINE / PLANNED** | README/ROADMAP only; no code |
+| IES-016 Telecommunications · IES-017 Automobile · IES-020 Materials & Metals | **A — IMPLEMENTED + CERTIFIED + RUNTIME INTEGRATED + UI INTEGRATED** | promoted on `phase13-next` (IES-016 `9bf91d1`, IES-017 `d51b120`, IES-020 `6355949`); see §3 rows |
 | `iips-platform/sector-engines/` (root, `.gitkeep`) + empty `{banking,insurance}` subdirs | **F — EMPTY DUPLICATE** | real engines live in `src/sector-engines/` |
 | `iips-platform/shared/`, `iips-platform/runtime/` (`.gitkeep`) | **F — EMPTY SCAFFOLDING** | candidates for pruning |
 | `iips-platform/release-candidate` + `-capital-markets` + `-insurance` (RC report + manifest) | **F — SUPERSEDED STAGING** | superseded by canonical implementations |

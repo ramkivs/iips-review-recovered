@@ -30,17 +30,16 @@ Build a complete family of institutional engineering standards covering platform
 | IES-013 | Consumer Sector Engine | ✅ Frozen v1.0 |
 | IES-014 | Industrials Sector Engine | ✅ Frozen v1.0 |
 | IES-015 | Technology Sector Engine | ✅ Frozen v1.0 |
+| IES-016 | Telecommunications Sector Engine | ✅ Frozen v1.0 |
+| IES-017 | Automobile Sector Engine | ✅ Frozen v1.0 |
+| IES-020 | Materials & Metals Sector Engine | ✅ Frozen v1.0 |
 | CSIP | Cross-Sector Intelligence Platform | ✅ Frozen v1.0 |
 
 ---
 
-# Planned Engineering Standards (pipeline — no implementation present)
+# Planned Engineering Standards
 
-| ID | Standard |
-|----|----------|
-| IES-016 | Telecommunications Sector Engine |
-| IES-017 | Automobile Sector Engine |
-| IES-020 | Materials & Metals Sector Engine |
+None — the sector-engine pipeline is exhausted (13 sector engines + CSIP delivered).
 
 ---
 

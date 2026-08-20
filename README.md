@@ -38,15 +38,16 @@ The following standards are implemented, certified, runtime-integrated, and UI-i
 | IES-013 | Consumer Sector Engine | Frozen v1.0 |
 | IES-014 | Industrials Sector Engine | Frozen v1.0 |
 | IES-015 | Technology Sector Engine | Frozen v1.0 |
+| IES-016 | Telecommunications Sector Engine | Frozen v1.0 |
+| IES-017 | Automobile Sector Engine | Frozen v1.0 |
+| IES-020 | Materials & Metals Sector Engine | Frozen v1.0 |
 | CSIP | Cross-Sector Intelligence Platform | Frozen v1.0 |
 
 ---
 
-# Planned Standards (pipeline — no implementation present)
+# Planned Standards
 
-- IES-016 — Telecommunications Sector Engine
-- IES-017 — Automobile Sector Engine
-- IES-020 — Materials & Metals Sector Engine
+None — the sector-engine pipeline is exhausted (13 sector engines + CSIP delivered, certified, runtime-integrated, and UI-integrated).
 
 ---
 
@@ -63,6 +64,9 @@ iips-engineering-standards/
 ├── ies-013-consumer/
 ├── ies-014-industrials/
 ├── ies-015-technology/
+├── ies-016-telecommunications/
+├── ies-017-automobile/
+├── ies-020-materials-metals/
 ├── program-v1.1-certification/
 ├── governance/
 └── docs/
