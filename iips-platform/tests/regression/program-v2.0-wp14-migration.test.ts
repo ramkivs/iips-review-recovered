@@ -24,6 +24,7 @@ import { UtilitiesEngine, UTILITIES_ENGINE_ID } from '../../src/sector-engines/u
 import { ConsumerEngine, CONSUMER_ENGINE_ID } from '../../src/sector-engines/consumer/ConsumerEngine';
 import { IndustrialsEngine, INDUSTRIALS_ENGINE_ID } from '../../src/sector-engines/industrials/IndustrialsEngine';
 import { TechnologyEngine, TECHNOLOGY_ENGINE_ID } from '../../src/sector-engines/technology/TechnologyEngine';
+import { TelecommunicationsEngine, TELECOMMUNICATIONS_ENGINE_ID } from '../../src/sector-engines/telecommunications/TelecommunicationsEngine';
 import type { SectorPlugin } from '../../src/plugin-loader/PluginContract';
 
 const BASELINE = JSON.parse(
@@ -41,6 +42,7 @@ const ENGINE_FACTORY: Record<string, () => SectorPlugin> = {
   [CONSUMER_ENGINE_ID]: () => new ConsumerEngine(),
   [INDUSTRIALS_ENGINE_ID]: () => new IndustrialsEngine(),
   [TECHNOLOGY_ENGINE_ID]: () => new TechnologyEngine(),
+  [TELECOMMUNICATIONS_ENGINE_ID]: () => new TelecommunicationsEngine(),
 };
 
 const MR = new MigrationRuntime();

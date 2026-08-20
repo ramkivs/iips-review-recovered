@@ -48,6 +48,7 @@ import { UtilitiesEngine, UTILITIES_ENGINE_ID } from '../../iips-platform/src/se
 import { ConsumerEngine, CONSUMER_ENGINE_ID } from '../../iips-platform/src/sector-engines/consumer/ConsumerEngine';
 import { IndustrialsEngine, INDUSTRIALS_ENGINE_ID } from '../../iips-platform/src/sector-engines/industrials/IndustrialsEngine';
 import { TechnologyEngine, TECHNOLOGY_ENGINE_ID } from '../../iips-platform/src/sector-engines/technology/TechnologyEngine';
+import { TelecommunicationsEngine, TELECOMMUNICATIONS_ENGINE_ID } from '../../iips-platform/src/sector-engines/telecommunications/TelecommunicationsEngine';
 import type { EngineOutput } from '../../iips-platform/src/sector-engines/cross-sector/ontology/OntologyMapper';
 import { AuthError } from '../src/core/auth/keycloakAdapter';
 
@@ -62,6 +63,7 @@ const ENGINE_FACTORY: Record<string, () => unknown> = {
   [CONSUMER_ENGINE_ID]: () => new ConsumerEngine(),
   [INDUSTRIALS_ENGINE_ID]: () => new IndustrialsEngine(),
   [TECHNOLOGY_ENGINE_ID]: () => new TechnologyEngine(),
+  [TELECOMMUNICATIONS_ENGINE_ID]: () => new TelecommunicationsEngine(),
 };
 
 // Frozen certified reference inputs (the v1.1 Replay Baseline).
@@ -74,6 +76,7 @@ const SECTOR_DIR: Record<string, string> = {
   Banking: 'banking', Insurance: 'insurance', 'Capital Markets': 'capital-markets',
   Healthcare: 'healthcare', Hospitality: 'hospitality', Energy: 'energy',
   Utilities: 'utilities', Consumer: 'consumer', Industrials: 'industrials', Technology: 'technology',
+  Telecommunications: 'telecommunications',
 };
 
 /**

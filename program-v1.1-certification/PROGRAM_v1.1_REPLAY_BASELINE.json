@@ -289,6 +289,36 @@
         "verdict": "Buy"
       },
       "calibrationProfile": "technology-calibration-1.0.0"
+    },
+    {
+      "sector": "Telecommunications",
+      "engineId": "sector.telecommunications",
+      "engineVersion": "1.0.0",
+      "standard": "IES-016",
+      "contractVersion": "IES-016 v1.0 (D16 normative)",
+      "calibrationVersion": "1.0.0",
+      "input": {
+        "id": "TC-001",
+        "subsegment": "wireless-mno",
+        "archetype": "consumer",
+        "ebitdaMargin": 42,
+        "revenueGrowth": 6,
+        "debtEbitda": 2.2,
+        "arpu": 34,
+        "churnRate": 1.1,
+        "postpaidMix": 88,
+        "fcfYield": 6,
+        "roic": 12,
+        "capexIntensity": 15,
+        "spectrumCost": 0.8,
+        "evEbitda": 6.5,
+        "usageGrowth": 22
+      },
+      "expectedOutput": {
+        "composite": 77.8,
+        "verdict": "Buy"
+      },
+      "calibrationProfile": "telecommunications-calibration-1.0.0"
     }
   ]
 }

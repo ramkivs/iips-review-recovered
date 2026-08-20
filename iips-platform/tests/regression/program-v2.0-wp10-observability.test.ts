@@ -24,6 +24,7 @@ import { UtilitiesEngine, UTILITIES_ENGINE_ID } from '../../src/sector-engines/u
 import { ConsumerEngine, CONSUMER_ENGINE_ID } from '../../src/sector-engines/consumer/ConsumerEngine';
 import { IndustrialsEngine, INDUSTRIALS_ENGINE_ID } from '../../src/sector-engines/industrials/IndustrialsEngine';
 import { TechnologyEngine, TECHNOLOGY_ENGINE_ID } from '../../src/sector-engines/technology/TechnologyEngine';
+import { TelecommunicationsEngine } from '../../src/sector-engines/telecommunications/TelecommunicationsEngine';
 import type { SectorPlugin } from '../../src/plugin-loader/PluginContract';
 
 const BASELINE = JSON.parse(
@@ -33,7 +34,7 @@ const BASELINE = JSON.parse(
 const ALL_ENGINES: Array<() => SectorPlugin> = [
   () => new BankingEngine(), () => new InsuranceEngine(), () => new CapitalMarketsEngine(),
   () => new HealthcareEngine(), () => new HospitalityEngine(), () => new EnergyEngine(),
-  () => new UtilitiesEngine(), () => new ConsumerEngine(), () => new IndustrialsEngine(), () => new TechnologyEngine(),
+  () => new UtilitiesEngine(), () => new ConsumerEngine(), () => new IndustrialsEngine(), () => new TechnologyEngine(), () => new TelecommunicationsEngine(),
 ];
 
 const obs = new V2Observability();
@@ -147,7 +148,7 @@ test('O2-CERT-08: sector identity remains isolated across the traced chain', () 
     const exec = obs.byTrace(t).find((r) => r.event === 'execution.completed')!;
     ids.add(JSON.stringify([exec.engineId, exec.snapshotId]));
   }
-  assert.equal(ids.size, 10, '10 isolated sector traces (no cross-contamination)');
+  assert.equal(ids.size, 11, '11 isolated sector traces (no cross-contamination)');
 });
 
 test('O2-CERT-09: observability itself cannot modify deterministic outputs', () => {
