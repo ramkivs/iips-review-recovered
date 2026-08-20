@@ -29,6 +29,7 @@ import { IndustrialsEngine, INDUSTRIALS_ENGINE_ID } from '../../src/sector-engin
 import { TechnologyEngine, TECHNOLOGY_ENGINE_ID } from '../../src/sector-engines/technology/TechnologyEngine';
 import { TelecommunicationsEngine } from '../../src/sector-engines/telecommunications/TelecommunicationsEngine';
 import { AutomobileEngine } from '../../src/sector-engines/automobile/AutomobileEngine';
+import { MaterialsMetalsEngine } from '../../src/sector-engines/materials-metals/MaterialsMetalsEngine';
 import type { SectorPlugin } from '../../src/plugin-loader/PluginContract';
 
 const BASELINE = JSON.parse(
@@ -38,7 +39,7 @@ const BASELINE = JSON.parse(
 const ALL_ENGINES: Array<() => SectorPlugin> = [
   () => new BankingEngine(), () => new InsuranceEngine(), () => new CapitalMarketsEngine(),
   () => new HealthcareEngine(), () => new HospitalityEngine(), () => new EnergyEngine(),
-  () => new UtilitiesEngine(), () => new ConsumerEngine(), () => new IndustrialsEngine(), () => new TechnologyEngine(), () => new TelecommunicationsEngine(), () => new AutomobileEngine(),
+  () => new UtilitiesEngine(), () => new ConsumerEngine(), () => new IndustrialsEngine(), () => new TechnologyEngine(), () => new TelecommunicationsEngine(), () => new AutomobileEngine(), () => new MaterialsMetalsEngine(),
 ];
 
 /** Fresh cluster: fresh DistributedRuntime + context, registers n1+n2 with all engines. */
@@ -51,7 +52,7 @@ function makeCluster(seed = 'ha-A'): { DR: DistributedRuntime; ctx: ReturnType<t
   return { DR, ctx, HA };
 }
 
-test('H-CERT-01: HA startup — all 12 engines available across the cluster', () => {
+test('H-CERT-01: HA startup — all 13 engines available across the cluster', () => {
   const { HA } = makeCluster();
   assert.equal(HA.nodeCount(), 2);
   for (const s of BASELINE.sectors) {
@@ -112,7 +113,7 @@ test('H-CERT-06: isolation — tenant/node/sector state cannot leak', () => {
     const r = HA.execute(s.engineId, { requestId: `ha-iso-${s.engineId}`, inputs: s.input });
     composites.add(JSON.stringify([r.metadata.composite, r.metadata.verdict]));
   }
-  assert.equal(composites.size, 12, '12 distinct sector outputs (no leakage)');
+  assert.equal(composites.size, 13, '13 distinct sector outputs (no leakage)');
 });
 
 test('H-CERT-07: split-brain prevention — a minority node refuses to execute (quorum guard)', () => {

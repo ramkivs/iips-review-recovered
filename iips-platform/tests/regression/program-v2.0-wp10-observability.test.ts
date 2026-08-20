@@ -26,6 +26,7 @@ import { IndustrialsEngine, INDUSTRIALS_ENGINE_ID } from '../../src/sector-engin
 import { TechnologyEngine, TECHNOLOGY_ENGINE_ID } from '../../src/sector-engines/technology/TechnologyEngine';
 import { TelecommunicationsEngine } from '../../src/sector-engines/telecommunications/TelecommunicationsEngine';
 import { AutomobileEngine } from '../../src/sector-engines/automobile/AutomobileEngine';
+import { MaterialsMetalsEngine } from '../../src/sector-engines/materials-metals/MaterialsMetalsEngine';
 import type { SectorPlugin } from '../../src/plugin-loader/PluginContract';
 
 const BASELINE = JSON.parse(
@@ -35,7 +36,7 @@ const BASELINE = JSON.parse(
 const ALL_ENGINES: Array<() => SectorPlugin> = [
   () => new BankingEngine(), () => new InsuranceEngine(), () => new CapitalMarketsEngine(),
   () => new HealthcareEngine(), () => new HospitalityEngine(), () => new EnergyEngine(),
-  () => new UtilitiesEngine(), () => new ConsumerEngine(), () => new IndustrialsEngine(), () => new TechnologyEngine(), () => new TelecommunicationsEngine(), () => new AutomobileEngine(),
+  () => new UtilitiesEngine(), () => new ConsumerEngine(), () => new IndustrialsEngine(), () => new TechnologyEngine(), () => new TelecommunicationsEngine(), () => new AutomobileEngine(), () => new MaterialsMetalsEngine(),
 ];
 
 const obs = new V2Observability();
@@ -149,7 +150,7 @@ test('O2-CERT-08: sector identity remains isolated across the traced chain', () 
     const exec = obs.byTrace(t).find((r) => r.event === 'execution.completed')!;
     ids.add(JSON.stringify([exec.engineId, exec.snapshotId]));
   }
-  assert.equal(ids.size, 12, '12 isolated sector traces (no cross-contamination)');
+  assert.equal(ids.size, 13, '13 isolated sector traces (no cross-contamination)');
 });
 
 test('O2-CERT-09: observability itself cannot modify deterministic outputs', () => {

@@ -25,6 +25,7 @@ import { IndustrialsEngine, INDUSTRIALS_ENGINE_ID } from '../../src/sector-engin
 import { TechnologyEngine, TECHNOLOGY_ENGINE_ID } from '../../src/sector-engines/technology/TechnologyEngine';
 import { TelecommunicationsEngine } from '../../src/sector-engines/telecommunications/TelecommunicationsEngine';
 import { AutomobileEngine } from '../../src/sector-engines/automobile/AutomobileEngine';
+import { MaterialsMetalsEngine } from '../../src/sector-engines/materials-metals/MaterialsMetalsEngine';
 import type { SectorPlugin } from '../../src/plugin-loader/PluginContract';
 
 const BASELINE = JSON.parse(
@@ -34,10 +35,10 @@ const BASELINE = JSON.parse(
 const ALL_ENGINES: Array<() => SectorPlugin> = [
   () => new BankingEngine(), () => new InsuranceEngine(), () => new CapitalMarketsEngine(),
   () => new HealthcareEngine(), () => new HospitalityEngine(), () => new EnergyEngine(),
-  () => new UtilitiesEngine(), () => new ConsumerEngine(), () => new IndustrialsEngine(), () => new TechnologyEngine(), () => new TelecommunicationsEngine(), () => new AutomobileEngine(),
+  () => new UtilitiesEngine(), () => new ConsumerEngine(), () => new IndustrialsEngine(), () => new TechnologyEngine(), () => new TelecommunicationsEngine(), () => new AutomobileEngine(), () => new MaterialsMetalsEngine(),
 ];
 
-/** Execute all 12 sectors on a primary node; returns { node, resultRefs }.*/
+/** Execute all 13 sectors on a primary node; returns { node, resultRefs }.*/
 function executeAll(DR: DistributedRuntime, ctx: ReturnType<typeof DistributedRuntime.defaultContext>, engineId?: string) {
   const node = DR.provisionNode('primary', ctx, ALL_ENGINES);
   const refs: string[] = [];
@@ -57,9 +58,9 @@ test('DR-CERT-01: backup export — the full snapshot + replay lineage is portab
   const backup = dr.exportBackup(node);
   assert.ok(backup.backupId.startsWith('dr-backup-'));
   assert.equal(backup.lineage, 'run-dr-A');
-  assert.equal(backup.snapshotIds.length, 12, '12 sector snapshots exported');
-  assert.equal(backup.snapshots.length, 12);
-  assert.ok(refs.length === 12);
+  assert.equal(backup.snapshotIds.length, 13, '13 sector snapshots exported');
+  assert.equal(backup.snapshots.length, 13);
+  assert.ok(refs.length === 13);
 });
 
 test('DR-CERT-02: replay lineage — backup carries replayable snapshot identities', () => {
@@ -86,7 +87,7 @@ test('DR-CERT-03: restore — recovery node reconstructs identical state from ba
   // Re-execute to reconstruct the lineage (simulating recovery from backup).
   for (const s of BASELINE.sectors) DR.execute(recovery, s.engineId, { requestId: `dr-${s.engineId}`, inputs: s.input });
   const result = dr.restore(backup, recovery);
-  assert.equal(result.restored, 12, 'all 12 restored');
+  assert.equal(result.restored, 13, 'all 13 restored');
   assert.equal(result.byteIdentical, true, 'restored state byte-identical (replay-based, no recompute)');
 });
 
@@ -112,7 +113,7 @@ test('DR-CERT-05: RPO/RTO — measured recovery metrics (replay-based restoratio
   const dr = new DisasterRecoveryRuntime(DR, ctx);
   const backup = dr.exportBackup(node);
   const m = dr.measureRpoRto(backup, node, (id) => node.replay.replay(id)?.reproduced ?? false);
-  assert.equal(m.rpoSnapshots, 12, 'RPO: 12 snapshots to recover');
+  assert.equal(m.rpoSnapshots, 13, 'RPO: 13 snapshots to recover');
   assert.ok(m.rtoMs >= 0 && Number.isFinite(m.rtoMs), 'RTO measured (replay-based)');
 });
 
@@ -136,7 +137,7 @@ test('DR-CERT-07: quorum/recovery semantics — recovery requires a healthy site
   const { node } = executeAll(DR, ctx);
   const dr = new DisasterRecoveryRuntime(DR, ctx);
   const backup = dr.exportBackup(node);
-  assert.ok(backup.snapshotIds.length === 12, 'complete backup for quorum recovery');
+  assert.ok(backup.snapshotIds.length === 13, 'complete backup for quorum recovery');
   // A second backup is byte-identical (deterministic export).
   const backup2 = dr.exportBackup(node);
   assert.equal(JSON.stringify(backup2), JSON.stringify(backup), 'backup export deterministic');

@@ -349,6 +349,36 @@
         "verdict": "Buy"
       },
       "calibrationProfile": "automobile-calibration-1.0.0"
+    },
+    {
+      "sector": "Materials & Metals",
+      "engineId": "sector.materials-metals",
+      "engineVersion": "1.0.0",
+      "standard": "IES-020",
+      "contractVersion": "IES-020 v1.0 (D20 normative)",
+      "calibrationVersion": "1.0.0",
+      "input": {
+        "id": "MM-001",
+        "subsegment": "diversified-miners",
+        "archetype": "integrated",
+        "ebitdaMargin": 32,
+        "revenueGrowth": 9,
+        "debtEbitda": 1.4,
+        "reserveLife": 22,
+        "cashCostCurve": 20,
+        "realizedPriceSpread": 106,
+        "fcfYield": 8,
+        "roic": 14,
+        "capexIntensity": 11,
+        "inventoryDays": 40,
+        "evEbitda": 5.5,
+        "recyclingInputMix": 15
+      },
+      "expectedOutput": {
+        "composite": 82.5,
+        "verdict": "Strong Buy"
+      },
+      "calibrationProfile": "materials-metals-calibration-1.0.0"
     }
   ]
 }

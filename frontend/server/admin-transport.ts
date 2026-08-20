@@ -46,6 +46,7 @@ import { IndustrialsEngine, INDUSTRIALS_ENGINE_ID } from '../../iips-platform/sr
 import { TechnologyEngine, TECHNOLOGY_ENGINE_ID } from '../../iips-platform/src/sector-engines/technology/TechnologyEngine';
 import { TelecommunicationsEngine, TELECOMMUNICATIONS_ENGINE_ID } from '../../iips-platform/src/sector-engines/telecommunications/TelecommunicationsEngine';
 import { AutomobileEngine, AUTOMOBILE_ENGINE_ID } from '../../iips-platform/src/sector-engines/automobile/AutomobileEngine';
+import { MaterialsMetalsEngine, MATERIALS_METALS_ENGINE_ID } from '../../iips-platform/src/sector-engines/materials-metals/MaterialsMetalsEngine';
 
 const ENGINE_FACTORY: Record<string, () => SectorPlugin> = {
   [BANKING_ENGINE_ID]: () => new BankingEngine(),
@@ -60,6 +61,7 @@ const ENGINE_FACTORY: Record<string, () => SectorPlugin> = {
   [TECHNOLOGY_ENGINE_ID]: () => new TechnologyEngine(),
   [TELECOMMUNICATIONS_ENGINE_ID]: () => new TelecommunicationsEngine(),
   [AUTOMOBILE_ENGINE_ID]: () => new AutomobileEngine(),
+  [MATERIALS_METALS_ENGINE_ID]: () => new MaterialsMetalsEngine(),
 };
 
 // Frozen banking baseline input (v1.1 Replay Baseline) — used only for a genuinely measured
