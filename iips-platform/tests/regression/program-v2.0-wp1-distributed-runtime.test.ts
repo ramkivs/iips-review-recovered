@@ -4,7 +4,7 @@
  * Verification-only (infrastructure proving ground). Proves the hardest constitutional test:
  *   Same frozen input + contract + calibration + runtime configuration
  *     -> same deterministic result on ONE node or MULTIPLE nodes.
- * Covers: multi-node determinism across all 11 sectors, deterministic context propagation,
+ * Covers: multi-node determinism across all 12 sectors, deterministic context propagation,
  * immutable execution inputs, snapshot ownership + persistence, exactly-once/idempotent
  * execution, node-failure + replay recovery, no cross-sector state leakage, no cross-node
  * leakage, authenticated node identity (context-bound), and WP-0 guard unchanged.
@@ -28,6 +28,7 @@ import { ConsumerEngine, CONSUMER_ENGINE_ID } from '../../src/sector-engines/con
 import { IndustrialsEngine, INDUSTRIALS_ENGINE_ID } from '../../src/sector-engines/industrials/IndustrialsEngine';
 import { TechnologyEngine, TECHNOLOGY_ENGINE_ID } from '../../src/sector-engines/technology/TechnologyEngine';
 import { TelecommunicationsEngine, TELECOMMUNICATIONS_ENGINE_ID } from '../../src/sector-engines/telecommunications/TelecommunicationsEngine';
+import { AutomobileEngine, AUTOMOBILE_ENGINE_ID } from '../../src/sector-engines/automobile/AutomobileEngine';
 
 const BASELINE = JSON.parse(
   fs.readFileSync(path.resolve(__dirname, '../../../program-v1.1-certification/PROGRAM_v1.1_REPLAY_BASELINE.json'), 'utf8'),
@@ -45,11 +46,12 @@ const ENGINE_FACTORY: Record<string, () => import('../../src/plugin-loader/Plugi
   [INDUSTRIALS_ENGINE_ID]: () => new IndustrialsEngine(),
   [TECHNOLOGY_ENGINE_ID]: () => new TechnologyEngine(),
   [TELECOMMUNICATIONS_ENGINE_ID]: () => new TelecommunicationsEngine(),
+  [AUTOMOBILE_ENGINE_ID]: () => new AutomobileEngine(),
 };
 const ALL_ENGINES = Object.values(ENGINE_FACTORY);
 const DR = new DistributedRuntime();
 
-test('D-CERT-01: multi-node determinism — all 11 sectors reproduce the frozen baseline on EVERY node', () => {
+test('D-CERT-01: multi-node determinism — all 12 sectors reproduce the frozen baseline on EVERY node', () => {
   // Two nodes, same context -> identical results on both, and equal to the frozen baseline.
   const ctx = DistributedRuntime.defaultContext();
   const n1 = DR.provisionNode('n1', ctx, ALL_ENGINES);
@@ -138,7 +140,7 @@ test('D-CERT-07: no cross-sector state leakage — each sector result independen
     const r = DR.execute(node, s.engineId, { requestId: `d-iso-${s.engineId}`, inputs: s.input });
     composites.add(JSON.stringify([r.metadata.composite, r.metadata.verdict]));
   }
-  assert.equal(composites.size, 11, '11 distinct sector outputs (no leakage)');
+  assert.equal(composites.size, 12, '12 distinct sector outputs (no leakage)');
 });
 
 test('D-CERT-08: no cross-node leakage — nodes with different lineages do not interfere', () => {

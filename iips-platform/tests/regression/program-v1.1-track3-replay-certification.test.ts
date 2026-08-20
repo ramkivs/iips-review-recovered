@@ -5,7 +5,7 @@
  * same input + contract version + calibration version + runtime configuration ->
  * identical output + evidence + metadata + replay. Establishes the Program v1.1 Replay
  * Baseline (PROGRAM_v1.1_REPLAY_BASELINE.json) using representative golden executions from
- * all 11 released sector engines, and certifies replay identity across:
+ * all 12 released sector engines, and certifies replay identity across:
  *   deterministic computation, evidence determinism, execution-identity determinism,
  *   snapshot->replay, calibration/contract/runtime version binding, cross-sector replay,
  *   repeated replay byte-identity, and fresh-process replay.
@@ -38,6 +38,7 @@ import { ConsumerEngine, CONSUMER_ENGINE_ID } from '../../src/sector-engines/con
 import { IndustrialsEngine, INDUSTRIALS_ENGINE_ID } from '../../src/sector-engines/industrials/IndustrialsEngine';
 import { TechnologyEngine, TECHNOLOGY_ENGINE_ID } from '../../src/sector-engines/technology/TechnologyEngine';
 import { TelecommunicationsEngine, TELECOMMUNICATIONS_ENGINE_ID } from '../../src/sector-engines/telecommunications/TelecommunicationsEngine';
+import { AutomobileEngine, AUTOMOBILE_ENGINE_ID } from '../../src/sector-engines/automobile/AutomobileEngine';
 
 interface BaselineSector {
   sector: string; engineId: string; standard: string; contractVersion: string;
@@ -61,6 +62,7 @@ const ENGINE_FACTORY: Record<string, () => SectorPlugin> = {
   [INDUSTRIALS_ENGINE_ID]: () => new IndustrialsEngine(),
   [TECHNOLOGY_ENGINE_ID]: () => new TechnologyEngine(),
   [TELECOMMUNICATIONS_ENGINE_ID]: () => new TelecommunicationsEngine(),
+  [AUTOMOBILE_ENGINE_ID]: () => new AutomobileEngine(),
 };
 
 function makeRuntime() {
@@ -132,7 +134,7 @@ test('T3-CERT-04: same input -> same metadata (execution-identity determinism)',
   }
 });
 
-test('T3-CERT-05: snapshot -> replay reproduced for all 11 sectors (persistence/replay correctness)', () => {
+test('T3-CERT-05: snapshot -> replay reproduced for all 12 sectors (persistence/replay correctness)', () => {
   for (const sec of BASELINE.sectors) {
     const rt = makeRuntime();
     assert.equal(rt.plugins.load(ENGINE_FACTORY[sec.engineId]()), true);
@@ -184,7 +186,7 @@ test('T3-CERT-08: runtime configuration binding — fixed clock + deterministic 
   }
 });
 
-test('T3-CERT-09: cross-sector replay — all 11 sectors replay byte-identical through the shared runtime', () => {
+test('T3-CERT-09: cross-sector replay — all 12 sectors replay byte-identical through the shared runtime', () => {
   const rt = makeRuntime();
   const refs: Record<string, string> = {};
   for (const sec of BASELINE.sectors) {
@@ -193,8 +195,8 @@ test('T3-CERT-09: cross-sector replay — all 11 sectors replay byte-identical t
     const r = rt.runtime.execute(sec.engineId, { requestId: `cs-${sec.engineId}`, inputs: sec.input as never });
     refs[sec.engineId] = r.result.snapshotRef as string;
   }
-  assert.equal(rt.plugins.size, 11);
-  assert.equal(rt.store.size, 11);
+  assert.equal(rt.plugins.size, 12);
+  assert.equal(rt.store.size, 12);
   for (const sec of BASELINE.sectors) {
     assert.equal(rt.replay.replay(refs[sec.engineId])?.reproduced, true, `${sec.sector} cross-sector replay`);
   }

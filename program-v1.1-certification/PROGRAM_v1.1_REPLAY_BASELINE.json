@@ -319,6 +319,36 @@
         "verdict": "Buy"
       },
       "calibrationProfile": "telecommunications-calibration-1.0.0"
+    },
+    {
+      "sector": "Automobile",
+      "engineId": "sector.automobile",
+      "engineVersion": "1.0.0",
+      "standard": "IES-017",
+      "contractVersion": "IES-017 v1.0 (D17 normative)",
+      "calibrationVersion": "1.0.0",
+      "input": {
+        "id": "AB-001",
+        "subsegment": "mass-market-oem",
+        "archetype": "full-line",
+        "ebitdaMargin": 12,
+        "revenueGrowth": 8,
+        "debtEbitda": 1.8,
+        "vehicleMargin": 9,
+        "capacityUtilization": 85,
+        "evMix": 30,
+        "fcfYield": 5,
+        "roic": 12,
+        "capexIntensity": 12,
+        "inventoryDays": 45,
+        "evEbitda": 5.5,
+        "aftersalesMix": 18
+      },
+      "expectedOutput": {
+        "composite": 71.3,
+        "verdict": "Buy"
+      },
+      "calibrationProfile": "automobile-calibration-1.0.0"
     }
   ]
 }

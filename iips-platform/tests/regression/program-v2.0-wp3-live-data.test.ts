@@ -29,6 +29,7 @@ import { ConsumerEngine, CONSUMER_ENGINE_ID } from '../../src/sector-engines/con
 import { IndustrialsEngine, INDUSTRIALS_ENGINE_ID } from '../../src/sector-engines/industrials/IndustrialsEngine';
 import { TechnologyEngine, TECHNOLOGY_ENGINE_ID } from '../../src/sector-engines/technology/TechnologyEngine';
 import { TelecommunicationsEngine } from '../../src/sector-engines/telecommunications/TelecommunicationsEngine';
+import { AutomobileEngine } from '../../src/sector-engines/automobile/AutomobileEngine';
 import type { SectorPlugin } from '../../src/plugin-loader/PluginContract';
 
 const BASELINE = JSON.parse(
@@ -38,7 +39,7 @@ const BASELINE = JSON.parse(
 const ALL_ENGINES: Array<() => SectorPlugin> = [
   () => new BankingEngine(), () => new InsuranceEngine(), () => new CapitalMarketsEngine(),
   () => new HealthcareEngine(), () => new HospitalityEngine(), () => new EnergyEngine(),
-  () => new UtilitiesEngine(), () => new ConsumerEngine(), () => new IndustrialsEngine(), () => new TechnologyEngine(), () => new TelecommunicationsEngine(),
+  () => new UtilitiesEngine(), () => new ConsumerEngine(), () => new IndustrialsEngine(), () => new TechnologyEngine(), () => new TelecommunicationsEngine(), () => new AutomobileEngine(),
 ];
 
 function buildExec() {

@@ -7,7 +7,7 @@
  *   SAME FROZEN v1.1 INPUT -> v1.1 LTS PATH -> RESULT A
  *                          -> v2.0 PATH (live-data snapshot -> workflow -> distributed runtime
  *                             -> HA/node -> AI ON advisory) -> RESULT B
- *   A === B (across all 11 sectors)
+ *   A === B (across all 12 sectors)
  *   RESULT -> Evidence -> Snapshot -> Replay -> DR restore -> RESULT' ; RESULT === RESULT'
  *
  * If that passes, v2.0 infrastructure has NOT changed the meaning of the v1.1 deterministic
@@ -32,6 +32,7 @@ import { ConsumerEngine, CONSUMER_ENGINE_ID } from '../../src/sector-engines/con
 import { IndustrialsEngine, INDUSTRIALS_ENGINE_ID } from '../../src/sector-engines/industrials/IndustrialsEngine';
 import { TechnologyEngine, TECHNOLOGY_ENGINE_ID } from '../../src/sector-engines/technology/TechnologyEngine';
 import { TelecommunicationsEngine, TELECOMMUNICATIONS_ENGINE_ID } from '../../src/sector-engines/telecommunications/TelecommunicationsEngine';
+import { AutomobileEngine, AUTOMOBILE_ENGINE_ID } from '../../src/sector-engines/automobile/AutomobileEngine';
 import type { SectorPlugin } from '../../src/plugin-loader/PluginContract';
 
 const BASELINE = JSON.parse(
@@ -50,6 +51,7 @@ const ENGINE_FACTORY: Record<string, () => SectorPlugin> = {
   [INDUSTRIALS_ENGINE_ID]: () => new IndustrialsEngine(),
   [TECHNOLOGY_ENGINE_ID]: () => new TechnologyEngine(),
   [TELECOMMUNICATIONS_ENGINE_ID]: () => new TelecommunicationsEngine(),
+  [AUTOMOBILE_ENGINE_ID]: () => new AutomobileEngine(),
 };
 
 const MR = new MigrationRuntime();
@@ -73,7 +75,7 @@ function v20Result(engineId: string, makeEngine: () => SectorPlugin, input: Reco
   return adv.result;
 }
 
-test('FC-CORE: END-TO-END CONSTITUTIONAL EQUIVALENCE — v1.1 path (A) == v2.0 path (B) across all 11 sectors', () => {
+test('FC-CORE: END-TO-END CONSTITUTIONAL EQUIVALENCE — v1.1 path (A) == v2.0 path (B) across all 12 sectors', () => {
   for (const s of BASELINE.sectors) {
     const A = v11Result(s.engineId, ENGINE_FACTORY[s.engineId], s.input);
     const B = v20Result(s.engineId, ENGINE_FACTORY[s.engineId], s.input);
@@ -173,7 +175,7 @@ test('FC-9: end-to-end chain — live data -> workflow -> engine -> evidence -> 
   assert.equal(B.metadata.composite, te.expectedOutput.composite, 'end-to-end chain == frozen baseline');
 });
 
-test('FC-10: cross-sector — all 11 engines retain v1.1 semantics', () => {
+test('FC-10: cross-sector — all 12 engines retain v1.1 semantics', () => {
   for (const s of BASELINE.sectors) {
     const A = v11Result(s.engineId, ENGINE_FACTORY[s.engineId], s.input);
     assert.equal(A.metadata.composite, s.expectedOutput.composite, `${s.sector} v1.1 semantics retained`);

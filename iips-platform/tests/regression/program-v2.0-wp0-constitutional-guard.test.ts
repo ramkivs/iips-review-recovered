@@ -39,6 +39,7 @@ import { ConsumerEngine, CONSUMER_ENGINE_ID } from '../../src/sector-engines/con
 import { IndustrialsEngine, INDUSTRIALS_ENGINE_ID } from '../../src/sector-engines/industrials/IndustrialsEngine';
 import { TechnologyEngine, TECHNOLOGY_ENGINE_ID } from '../../src/sector-engines/technology/TechnologyEngine';
 import { TelecommunicationsEngine, TELECOMMUNICATIONS_ENGINE_ID } from '../../src/sector-engines/telecommunications/TelecommunicationsEngine';
+import { AutomobileEngine, AUTOMOBILE_ENGINE_ID } from '../../src/sector-engines/automobile/AutomobileEngine';
 
 const BASELINE = JSON.parse(
   fs.readFileSync(path.resolve(__dirname, '../../../program-v1.1-certification/PROGRAM_v1.1_REPLAY_BASELINE.json'), 'utf8'),
@@ -56,6 +57,7 @@ const ENGINE_FACTORY: Record<string, () => SectorPlugin> = {
   [INDUSTRIALS_ENGINE_ID]: () => new IndustrialsEngine(),
   [TECHNOLOGY_ENGINE_ID]: () => new TechnologyEngine(),
   [TELECOMMUNICATIONS_ENGINE_ID]: () => new TelecommunicationsEngine(),
+  [AUTOMOBILE_ENGINE_ID]: () => new AutomobileEngine(),
 };
 
 function makeRuntime() {
@@ -126,7 +128,7 @@ test('WP0-A4: 12 MUST-PRESERVE constitutional invariants hold', () => {
   // 3. Common runtime/plugin contract (all engines are SectorPlugin via PluginLoader).
   const rt = makeRuntime();
   for (const s of BASELINE.sectors) assert.equal(rt.plugins.load(ENGINE_FACTORY[s.engineId]()), true);
-  assert.equal(rt.plugins.size, 11, 'common plugin contract hosts all 11');
+  assert.equal(rt.plugins.size, 12, 'common plugin contract hosts all 12');
   // 4. Frozen-oracle discipline: engine outputs match the frozen Replay Baseline (WP0-A1).
   // 5. Deterministic replay (WP0-A3). 6. Evidence traceability:
   for (const s of BASELINE.sectors) {
@@ -136,7 +138,7 @@ test('WP0-A4: 12 MUST-PRESERVE constitutional invariants hold', () => {
   // 7. CSIP sector neutrality (CSIP consumes normalized outputs; not re-run here, certified in Track 6).
   // 8. No silent methodology change (baseline outputs unchanged -> methodology unchanged).
   // 9. Backward-compatibility policy (additive; no engine change).
-  // 10. v1.1 engines runnable (all 11 loaded + executed, proven throughout).
+  // 10. v1.1 engines runnable (all 12 loaded + executed, proven throughout).
   // 11. Replay + Performance baselines as references (this harness IS the replay-baseline guard).
   // 12. No-randomness contract: engines execute deterministically (identical metadata WP0-A2).
   assert.ok(true, '12 constitutional invariants hold (asserted via deterministic execution)');
