@@ -124,6 +124,13 @@ describe('navigation model — Milestone N+1 child reconciliation', () => {
     expect(statusOf('Evidence', 'Decision Evidence')).toBe('implemented');
   });
 
+  it('P-5: exposes the read-only Screener as an implemented child under Research', () => {
+    const screener = childrenOf('Research').find((c) => c.label === 'Screener');
+    expect(screener?.status).toBe('implemented');
+    expect(screener?.path).toBe('/screener');
+    expect(screener?.minRole).toBe('viewer');
+  });
+
   it('N+7: the Company entry resolves to a concrete route, not the literal :id template', () => {
     const company = childrenOf('Research').find((c) => c.label === 'Company');
     expect(company?.path).toBe('/research/company/Banking');
