@@ -21,6 +21,9 @@
  *    authorization for the actual platform.
  */
 import http from 'node:http';
+import https from 'node:https';
+import tls from 'node:tls';
+import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import fs from 'node:fs';
@@ -53,6 +56,7 @@ import { AutomobileEngine, AUTOMOBILE_ENGINE_ID } from '../../iips-platform/src/
 import { MaterialsMetalsEngine, MATERIALS_METALS_ENGINE_ID } from '../../iips-platform/src/sector-engines/materials-metals/MaterialsMetalsEngine';
 import type { EngineOutput } from '../../iips-platform/src/sector-engines/cross-sector/ontology/OntologyMapper';
 import { AuthError } from '../src/core/auth/keycloakAdapter';
+import { MoSPISourceAdapter, MacroSourceError, type MacroSourceErrorCode } from './macro/mospi-source';
 
 const ENGINE_FACTORY: Record<string, () => unknown> = {
   [BANKING_ENGINE_ID]: () => new BankingEngine(),
@@ -554,10 +558,20 @@ function readSurfaceFor(url: string | undefined): string | null {
   if (path === '/api/portfolio') return 'portfolio';
   if (path === '/api/decision-matrix') return 'decision-matrix';
   if (path === '/api/cross-sector') return 'cross-sector';
+  if (path === '/api/macro') return 'macro';
   if (path.startsWith('/api/company/')) return 'company';
   if (path.startsWith('/api/evidence/')) return 'evidence';
   if (path.startsWith('/api/replay/')) return 'replay';
   return null;
+}
+
+/** Lazily obtain the governed READ executor (real Keycloak; cached); null when no IdP is configured. */
+async function getReadExecutor(): Promise<import('./secured-executor').SecuredExecutor | null> {
+  if (!readExecutor) {
+    const admin = await import('./admin-transport');
+    readExecutor = await admin.createLiveReadExecutor();
+  }
+  return readExecutor;
 }
 
 /**
@@ -565,16 +579,137 @@ function readSurfaceFor(url: string | undefined): string | null {
  * null when denied (or when no IdP is configured); returns the granted Principal otherwise.
  */
 async function authorizeRead(req: http.IncomingMessage, res: http.ServerResponse, surface: string): Promise<import('../../iips-platform/src/distributed/EnterpriseRuntime').Principal | null> {
-  const admin = await import('./admin-transport');
-  let executor = readExecutor;
-  if (!executor) { executor = await admin.createLiveReadExecutor(); readExecutor = executor; }
+  const executor = await getReadExecutor();
   if (!executor) { res.writeHead(401); res.end(JSON.stringify({ error: 'authentication unavailable (no IdP configured)' })); return null; }
   const token = (req.headers.authorization ?? '').replace(/^Bearer /, '').trim();
   try {
+    const admin = await import('./admin-transport');
     return await admin.guardRead(executor, token, surface);
   } catch (e) {
     if (e instanceof AuthError) { res.writeHead(e.status); res.end(JSON.stringify({ error: e.message })); return null; }
     throw e;
+  }
+}
+
+// --- WP-MACRO-02: governed LIVE Macro read surface (MoSPI) ----------------------------
+
+/**
+ * Scoped, certificate-verified HTTPS transport for the MoSPI source adapter.
+ *
+ * api.mospi.gov.in requires legacy TLS renegotiation (the official MoSPI Python client
+ * mounts a custom SSL adapter for the same reason). This enables ONLY the
+ * SSL_OP_ALLOW_UNSAFE_LEGACY_RENEGOTIATION flag on a per-request-scoped secure context:
+ * certificate verification REMAINS fully enabled (no rejectUnauthorized=false), nothing
+ * is configured globally, and no process-wide or browser TLS setting is touched.
+ */
+function createScopedTlsFetch(): typeof fetch {
+  const secureContext = tls.createSecureContext({
+    secureOptions: crypto.constants.SSL_OP_ALLOW_UNSAFE_LEGACY_RENEGOTIATION,
+  });
+  const agent = new https.Agent({ secureContext });
+  return (input, init) =>
+    new Promise<Response>((resolve, reject) => {
+      const url = new URL(String(input));
+      const req = https.request(
+        {
+          hostname: url.hostname,
+          port: url.port || 443,
+          path: `${url.pathname}${url.search}`,
+          method: (init?.method ?? 'GET').toUpperCase(),
+          headers: (init?.headers as Record<string, string>) ?? {},
+          agent,
+        },
+        (res) => {
+          const chunks: Buffer[] = [];
+          res.on('data', (c: Buffer) => chunks.push(c));
+          res.on('end', () => {
+            resolve(new Response(Buffer.concat(chunks).toString('utf8'), {
+              status: res.statusCode ?? 200,
+              headers: res.headers as Record<string, string>,
+            }));
+          });
+        },
+      );
+      req.on('error', reject);
+      if (init?.body) req.write(String(init.body));
+      req.end();
+    });
+}
+
+/** Governed MacroSourceError → HTTP status mapping (WP-MACRO-02 fixed decision). */
+function macroErrorStatus(code: MacroSourceErrorCode): number {
+  switch (code) {
+    case 'INVALID_FILTER':
+    case 'EXCLUDED_DATASET':
+      return 422;
+    case 'SOURCE_CONTRACT':
+      return 502;
+    case 'SOURCE_UNAVAILABLE':
+      return 503;
+  }
+}
+
+const MACRO_PROVENANCE = {
+  dataSource: 'MoSPI National Statistical Office',
+  freshness: 'LIVE',
+  transportSemantics: '1:1 normalization; no derivation',
+} as const;
+
+/**
+ * Governed LIVE Macro read surface (WP-MACRO-02).
+ *
+ * Reuses the existing read authorization exactly (guardRead → read gate: viewer/analyst/admin
+ * may read; 401/403). Query parameters are passed through verbatim to the approved
+ * MoSPISourceAdapter (WP-MACRO-01) — SERIES_POLICY/assertValidFilters remain the source of
+ * truth; no universal filter schema is invented. No snapshot machinery is invoked: Macro is
+ * LIVE, never SNAPSHOT.
+ */
+export async function handleMacroReadRequest(
+  req: http.IncomingMessage,
+  res: http.ServerResponse,
+  executor: import('./secured-executor').SecuredExecutor,
+  opts: { readonly fetchImpl?: typeof fetch } = {},
+): Promise<void> {
+  const token = (req.headers.authorization ?? '').replace(/^Bearer /, '').trim();
+  try {
+    const { guardRead } = await import('./admin-transport');
+    await guardRead(executor, token, 'macro'); // 401/403 on failure (AuthError)
+  } catch (e) {
+    if (e instanceof AuthError) {
+      res.writeHead(e.status, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: e.message }));
+      return;
+    }
+    res.writeHead(500, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ error: 'executive transport error', detail: String(e) }));
+    return;
+  }
+
+  try {
+    const url = new URL(req.url ?? '/', 'http://localhost');
+    const dataset = url.searchParams.get('dataset');
+    if (!dataset) {
+      throw new MacroSourceError('INVALID_FILTER', 'dataset is required');
+    }
+    // Pass dataset-specific filters through verbatim; no universal schema is invented.
+    const filters: Record<string, string> = {};
+    url.searchParams.forEach((value, key) => {
+      if (key !== 'dataset') filters[key] = value;
+    });
+
+    const adapter = new MoSPISourceAdapter({ fetchImpl: opts.fetchImpl ?? createScopedTlsFetch() });
+    const data = await adapter.getData({ dataset, filters });
+
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ data, provenance: MACRO_PROVENANCE }));
+  } catch (e) {
+    if (e instanceof MacroSourceError) {
+      res.writeHead(macroErrorStatus(e.code), { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: e.message, code: e.code }));
+      return;
+    }
+    res.writeHead(500, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ error: 'executive transport error', detail: String(e) }));
   }
 }
 
@@ -606,6 +741,14 @@ const server = http.createServer((req, res) => {
     try {
       const surface = readSurfaceFor(req.url);
       if (!surface) { res.writeHead(404); res.end(JSON.stringify({ error: 'not found' })); return; }
+      // WP-MACRO-02: the Macro read surface authenticates/authorizes inside its own handler
+      // (same guardRead → read gate) against the shared lazy READ executor.
+      if (surface === 'macro') {
+        const executor = await getReadExecutor();
+        if (!executor) { res.writeHead(401); res.end(JSON.stringify({ error: 'authentication unavailable (no IdP configured)' })); return; }
+        await handleMacroReadRequest(req, res, executor);
+        return;
+      }
       const principal = await authorizeRead(req, res, surface);
       if (!principal) return; // 401/403 already written
 
