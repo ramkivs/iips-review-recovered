@@ -19,6 +19,7 @@ export const ROUTES = {
   researchSector: '/research/sector/:id',
   researchEvents: '/research/events/:id',
   researchCrossSector: '/research/cross-sector',
+  researchMacro: '/research/macro',
   intelligence: '/intelligence',
   intelligenceOpportunities: '/intelligence/opportunities',
   intelligenceRisks: '/intelligence/risks',

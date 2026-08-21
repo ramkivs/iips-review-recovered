@@ -121,6 +121,7 @@ describe('navigation model — Milestone N+1 child reconciliation', () => {
     expect(statusOf('Research', 'Sector')).toBe('implemented');
     expect(statusOf('Research', 'Events')).toBe('implemented');
     expect(statusOf('Research', 'Cross-Sector')).toBe('implemented');
+    expect(statusOf('Research', 'Macro')).toBe('implemented');
     expect(statusOf('Intelligence', 'Decision Matrix')).toBe('implemented');
     expect(statusOf('Evidence', 'Decision Evidence')).toBe('implemented');
   });
@@ -156,6 +157,15 @@ describe('navigation model — Milestone N+1 child reconciliation', () => {
     expect(events?.path).not.toContain(':id');
     // The route declaration itself remains a valid sector-template for concrete values.
     expect(ROUTES.researchEvents).toBe('/research/events/:id');
+  });
+
+  it('WP-MACRO-03: exposes Macro as an implemented child under Research with the concrete route', () => {
+    const macro = childrenOf('Research').find((c) => c.label === 'Macro');
+    expect(macro?.status).toBe('implemented');
+    expect(macro?.minRole).toBe('viewer');
+    expect(macro?.path).toBe('/research/macro');
+    expect(macro?.path).not.toContain(':id');
+    expect(ROUTES.researchMacro).toBe('/research/macro');
   });
 
   it('marks all Administration children as implemented', () => {

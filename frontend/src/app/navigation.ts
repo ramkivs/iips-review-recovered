@@ -71,6 +71,8 @@ export const NAV: NavItem[] = [
       { label: 'Events', path: '/research/events/Banking', minRole: 'viewer', status: 'implemented' },
       { label: 'Cross-Sector', path: '/research/cross-sector', minRole: 'viewer', status: 'implemented' },
       { label: 'Screener', path: '/screener', minRole: 'viewer', status: 'implemented' },
+      // WP-MACRO-03: Macro national-statistics context (concrete route; no :id template).
+      { label: 'Macro', path: '/research/macro', minRole: 'viewer', status: 'implemented' },
     ],
   },
   {
