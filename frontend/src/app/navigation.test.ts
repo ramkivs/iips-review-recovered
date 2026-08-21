@@ -119,6 +119,7 @@ describe('navigation model — Milestone N+1 child reconciliation', () => {
     expect(statusOf('Portfolio', 'Overview')).toBe('implemented');
     expect(statusOf('Research', 'Company')).toBe('implemented');
     expect(statusOf('Research', 'Sector')).toBe('implemented');
+    expect(statusOf('Research', 'Events')).toBe('implemented');
     expect(statusOf('Research', 'Cross-Sector')).toBe('implemented');
     expect(statusOf('Intelligence', 'Decision Matrix')).toBe('implemented');
     expect(statusOf('Evidence', 'Decision Evidence')).toBe('implemented');
@@ -145,6 +146,16 @@ describe('navigation model — Milestone N+1 child reconciliation', () => {
     expect(sector?.path).not.toContain(':id');
     // The route declaration itself remains a valid sector-template for concrete values.
     expect(ROUTES.researchSector).toBe('/research/sector/:id');
+  });
+
+  it('P-4 Research Events: exposes Events as an implemented child under Research with a concrete route', () => {
+    const events = childrenOf('Research').find((c) => c.label === 'Events');
+    expect(events?.status).toBe('implemented');
+    expect(events?.minRole).toBe('viewer');
+    expect(events?.path).toBe('/research/events/Banking');
+    expect(events?.path).not.toContain(':id');
+    // The route declaration itself remains a valid sector-template for concrete values.
+    expect(ROUTES.researchEvents).toBe('/research/events/:id');
   });
 
   it('marks all Administration children as implemented', () => {

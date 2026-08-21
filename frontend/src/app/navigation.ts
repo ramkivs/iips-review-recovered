@@ -65,6 +65,10 @@ export const NAV: NavItem[] = [
       // remediation — Banking is the frozen reference-baseline sector). The route declaration
       // /research/sector/:id remains valid for all concrete sector values (unchanged).
       { label: 'Sector', path: '/research/sector/Banking', minRole: 'viewer', status: 'implemented' },
+      // P-4 Research Events: concrete route (mirrors the N+7 Company and P-4 Sector
+      // remediations — Banking is the frozen reference-baseline sector). The route declaration
+      // /research/events/:id remains valid for all concrete sector values (unchanged).
+      { label: 'Events', path: '/research/events/Banking', minRole: 'viewer', status: 'implemented' },
       { label: 'Cross-Sector', path: '/research/cross-sector', minRole: 'viewer', status: 'implemented' },
       { label: 'Screener', path: '/screener', minRole: 'viewer', status: 'implemented' },
     ],
