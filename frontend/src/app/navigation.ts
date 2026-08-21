@@ -61,7 +61,10 @@ export const NAV: NavItem[] = [
       // N+6 LIVE-certified concrete route. The route declaration /research/company/:id
       // remains valid for all concrete sector values (unchanged).
       { label: 'Company', path: '/research/company/Banking', minRole: 'viewer', status: 'implemented' },
-      { label: 'Sector', path: '/research/sector/:id', minRole: 'viewer', status: 'future' },
+      // P-4: the Sector entry resolves to a CONCRETE sector route (mirrors the N+7 Company
+      // remediation — Banking is the frozen reference-baseline sector). The route declaration
+      // /research/sector/:id remains valid for all concrete sector values (unchanged).
+      { label: 'Sector', path: '/research/sector/Banking', minRole: 'viewer', status: 'implemented' },
       { label: 'Cross-Sector', path: '/research/cross-sector', minRole: 'viewer', status: 'implemented' },
       { label: 'Screener', path: '/screener', minRole: 'viewer', status: 'implemented' },
     ],

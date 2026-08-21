@@ -43,7 +43,6 @@ describe('Sidebar — navigation honesty badges (top level)', () => {
 describe('Sidebar — Milestone N+1 child rendering', () => {
   it('shows Future badges on future-only children', () => {
     renderSidebar('analyst');
-    expect(screen.getByTestId('nav-status-Sector')).toHaveTextContent('Future');
     expect(screen.getByTestId('nav-status-Opportunities')).toHaveTextContent('Future');
     expect(screen.getByTestId('nav-status-Risks')).toHaveTextContent('Future');
   });
@@ -61,11 +60,9 @@ describe('Sidebar — Milestone N+1 child rendering', () => {
 
   it('N+17: renders future-only children as non-navigable text (never links)', () => {
     renderSidebar('analyst');
-    expect(screen.getByTestId('nav-future-Sector')).toHaveTextContent('Sector');
     expect(screen.getByTestId('nav-future-Opportunities')).toHaveTextContent('Opportunities');
     expect(screen.getByTestId('nav-future-Risks')).toHaveTextContent('Risks');
     expect(screen.getByTestId('nav-future-Rankings')).toHaveTextContent('Rankings');
-    expect(screen.queryByRole('link', { name: 'Sector' })).not.toBeInTheDocument();
     expect(screen.queryByRole('link', { name: 'Opportunities' })).not.toBeInTheDocument();
     expect(screen.queryByRole('link', { name: 'Risks' })).not.toBeInTheDocument();
     expect(screen.queryByRole('link', { name: 'Rankings' })).not.toBeInTheDocument();
@@ -98,6 +95,14 @@ describe('Sidebar — Milestone N+1 child rendering', () => {
     const company = screen.getByRole('link', { name: 'Company' });
     expect(company).toHaveAttribute('href', '/research/company/Banking');
     expect(company.getAttribute('href')).not.toContain(':id');
+  });
+
+  it('P-4: the Sector link resolves to the concrete /research/sector/Banking route (implemented)', () => {
+    renderSidebar('analyst');
+    const sector = screen.getByRole('link', { name: 'Sector' });
+    expect(sector).toHaveAttribute('href', '/research/sector/Banking');
+    expect(sector.getAttribute('href')).not.toContain(':id');
+    expect(screen.queryByTestId('nav-status-Sector')).not.toBeInTheDocument();
   });
 
   it('does not render the dead snapshots entry', () => {

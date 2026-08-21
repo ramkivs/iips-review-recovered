@@ -71,7 +71,6 @@ describe('navigation model — Milestone N+1 child reconciliation', () => {
   it('marks future-only children as future (never implemented)', () => {
     const statusOf = (group: string, label: string) =>
       childrenOf(group).find((c) => c.label === label)?.status;
-    expect(statusOf('Research', 'Sector')).toBe('future');
     expect(statusOf('Intelligence', 'Opportunities')).toBe('future');
     expect(statusOf('Intelligence', 'Risks')).toBe('future');
     expect(statusOf('Intelligence', 'Rankings')).toBe('future');
@@ -119,6 +118,7 @@ describe('navigation model — Milestone N+1 child reconciliation', () => {
       childrenOf(group).find((c) => c.label === label)?.status;
     expect(statusOf('Portfolio', 'Overview')).toBe('implemented');
     expect(statusOf('Research', 'Company')).toBe('implemented');
+    expect(statusOf('Research', 'Sector')).toBe('implemented');
     expect(statusOf('Research', 'Cross-Sector')).toBe('implemented');
     expect(statusOf('Intelligence', 'Decision Matrix')).toBe('implemented');
     expect(statusOf('Evidence', 'Decision Evidence')).toBe('implemented');
@@ -137,6 +137,14 @@ describe('navigation model — Milestone N+1 child reconciliation', () => {
     expect(company?.path).not.toContain(':id');
     // The route declaration itself remains a valid sector-template for concrete values.
     expect(ROUTES.researchCompany).toBe('/research/company/:id');
+  });
+
+  it('P-4: the Sector entry resolves to a concrete route, not the literal :id template', () => {
+    const sector = childrenOf('Research').find((c) => c.label === 'Sector');
+    expect(sector?.path).toBe('/research/sector/Banking');
+    expect(sector?.path).not.toContain(':id');
+    // The route declaration itself remains a valid sector-template for concrete values.
+    expect(ROUTES.researchSector).toBe('/research/sector/:id');
   });
 
   it('marks all Administration children as implemented', () => {
