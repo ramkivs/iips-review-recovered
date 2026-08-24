@@ -32,6 +32,7 @@ import { PluginMarketplace } from '../../iips-platform/src/distributed/PluginMar
 import { MarketDataSource } from '../../iips-platform/src/distributed/LiveDataRuntime';
 import type { SectorPlugin } from '../../iips-platform/src/plugin-loader/PluginContract';
 import { SecuredExecutor, type TenantDirectory } from './secured-executor';
+import { emitClassificationNotifications } from './notifications/notification-service';
 import { AuthError, type OidcRealmMetadata, type OidcVerifier } from '../src/core/auth/keycloakAdapter';
 // Engine factories (frozen).
 import { BankingEngine, BANKING_ENGINE_ID } from '../../iips-platform/src/sector-engines/banking/BankingEngine';
@@ -354,6 +355,76 @@ function governedDataDto(g: GovernedData): { dataId: string; tenantId: string; c
 
 /** HTTP handler for /api/admin/* read endpoints (enforces G3 boundary). */
 /**
+ * P-1 notification handlers (U-2a + R-1-a).
+ *
+ * The handlers live HERE (U-2a: admin-transport.ts + guardRead + recipient scoping) but are
+ * DISPATCHED from executive-transport.ts with the EXISTING read executor (R-1-a), because the
+ * `/api/admin/*` dispatch supplies the admin executor whose `adminResourceGate` rejects
+ * action='read'. This mirrors the promoted `handleMacroReadRequest` cross-module pattern.
+ *
+ * Authorization: `guardRead` is the primitive; RECIPIENT IDENTITY is the access restriction.
+ * These are NOT admin-only, and no second RBAC model is introduced. `adminResourceGate` and
+ * `readResourceGate` are unmodified.
+ */
+export async function handleNotificationRequest(
+  req: http.IncomingMessage,
+  res: http.ServerResponse,
+  executor: SecuredExecutor,
+  opts: { readonly store?: import('./persistence/persistence-service').PersistenceService } = {},
+): Promise<void> {
+  const url = (req.url ?? '').split('?')[0];
+  const token = (req.headers.authorization ?? '').replace(/^Bearer /, '').trim();
+  res.setHeader('Content-Type', 'application/json');
+  try {
+    const svc = await import('./notifications/notification-service');
+    const store = opts.store ?? svc.getNotificationPersistence();
+
+    // GET /api/notifications — own notifications, createdAt DESC, with the unread count
+    // carried in the SAME envelope (U-2b: no dedicated unread-count endpoint).
+    if (url === '/api/notifications' && (req.method ?? 'GET') === 'GET') {
+      const p = await guardRead(executor, token, 'notifications'); // 401/403
+      const data = svc.listNotifications(p.tenantId, p.userId, store);
+      res.writeHead(200); res.end(JSON.stringify({
+        data,
+        unreadCount: svc.unreadCount(p.tenantId, p.userId, store),
+        provenance: {
+          dataSource: 'governed P-1 notifications (PF-1 durable journal)',
+          freshness: 'LIVE',
+          authority: 'PLATFORM',
+          transportSemantics: 'recipient-scoped historical assertions; not a current-state read model',
+        },
+      })); return;
+    }
+
+    // POST /api/notifications/{id}/read — idempotent, NON-REVERSIBLE mark-read.
+    const markRead = /^\/api\/notifications\/([^/]+)\/read$/.exec(url);
+    if (markRead && req.method === 'POST') {
+      const p = await guardRead(executor, token, 'notifications'); // 401/403
+      const id = decodeURIComponent(markRead[1]);
+      // Recipient scoping: PF-1 is queried with the principal's own tenant + userId, so an
+      // unknown OR foreign record is indistinguishable and yields 404 (never another user's).
+      const updated = svc.markNotificationRead(p.tenantId, p.userId, id, store);
+      if (!updated) throw new TransportError(404, 'notification-not-found');
+      res.writeHead(200); res.end(JSON.stringify({
+        data: updated,
+        provenance: {
+          dataSource: 'governed P-1 notifications (PF-1 durable journal)',
+          freshness: 'LIVE',
+          authority: 'PLATFORM',
+          transportSemantics: 'recipient-scoped idempotent mark-read; read is not reversible',
+        },
+      })); return;
+    }
+
+    res.writeHead(404); res.end(JSON.stringify({ error: 'notification endpoint not found' }));
+  } catch (e) {
+    if (e instanceof AuthError) { res.writeHead(e.status); res.end(JSON.stringify({ error: e.message })); return; }
+    if (e instanceof TransportError) { res.writeHead(e.status); res.end(JSON.stringify({ error: e.message })); return; }
+    res.writeHead(500); res.end(JSON.stringify({ error: 'notification transport error', detail: String(e) }));
+  }
+}
+
+/**
  * PF-2 TW-2 — injected sync-trigger seam.
  *
  * Mirrors `handleMacroReadRequest`'s injected `fetchImpl`: optional and backward-compatible,
@@ -490,6 +561,16 @@ export async function handleAdminRequest(
       governedStore[idx] = updated;
       // Governed ALLOW audit for the completed mutation.
       executor.authorize(p, 'admin', `data.classify:${dataId}`, 0, 1000);
+      // --- P-1 N1(a): emit data-governance.classified notifications ---
+      // Direct in-handler call — no event bus/broker/queue/scheduler/worker. The emitter NEVER
+      // throws: per U-2c/U-2d/U-2d(ii) a notification failure never fails, rolls back, or alters
+      // this promoted classify mutation.
+      emitClassificationNotifications({
+        tenantId: resource.tenantId,
+        dataId: updated.dataId,
+        classification: updated.classification,
+        actorUserId: p.userId,
+      });
       res.writeHead(200); res.end(JSON.stringify({
         data: governedDataDto(updated),
         auditId: `audit-${executor.auditLog().length}`,

@@ -736,6 +736,24 @@ const server = http.createServer((req, res) => {
   if (req.url === '/api/health') {
     res.writeHead(200); res.end(JSON.stringify({ status: 'ok', transport: 'program-v3.0 executive (dev)' })); return;
   }
+  // P-1 (R-1-a): the notification surface uses admin-transport's exported handler (U-2a) but is
+  // DISPATCHED here with the EXISTING read executor, because the /api/admin/* dispatch supplies
+  // the admin executor whose adminResourceGate rejects action='read'. Mirrors the promoted
+  // handleMacroReadRequest cross-module pattern. Not admin-only; guardRead + recipient scoping
+  // remain the authorization; no new RBAC model; no new notification transport module.
+  if (req.url?.startsWith('/api/notifications')) {
+    void (async () => {
+      try {
+        const executor = await getReadExecutor();
+        if (!executor) { res.writeHead(401); res.end(JSON.stringify({ error: 'authentication unavailable (no IdP configured)' })); return; }
+        const admin = await import('./admin-transport');
+        await admin.handleNotificationRequest(req, res, executor);
+      } catch (e) {
+        res.writeHead(500); res.end(JSON.stringify({ error: 'notification transport error', detail: String(e) }));
+      }
+    })();
+    return;
+  }
   // Governed read endpoints ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â G3 boundary enforced server-side (N+2 hardening).
   void (async () => {
     try {

@@ -12,11 +12,14 @@ import { Outlet } from 'react-router-dom';
 import { Sidebar } from './Sidebar';
 import { TopBar } from './TopBar';
 import { CommandPalette } from '../features/shell/CommandPalette';
+import { NotificationDrawer } from '../features/notifications/NotificationDrawer';
 import { useSession } from '../core/session/SessionContext';
 
 export function AppShell() {
   const { session } = useSession();
   const [paletteOpen, setPaletteOpen] = useState(false);
+  const [notificationsOpen, setNotificationsOpen] = useState(false);
+  const [unreadCount, setUnreadCount] = useState(0);
 
   // G3: Ctrl+K (Windows/Linux) / Cmd+K (macOS) opens the palette. No other global shortcuts.
   useEffect(() => {
@@ -34,7 +37,13 @@ export function AppShell() {
     <div className="app-shell">
       <a className="skip-link" href="#main-content">Skip to main content</a>
       <div className="app-topbar">
-        <TopBar role={session.role} tenantId={session.tenantId} onOpenPalette={() => setPaletteOpen(true)} />
+        <TopBar
+          role={session.role}
+          tenantId={session.tenantId}
+          onOpenPalette={() => setPaletteOpen(true)}
+          onOpenNotifications={() => setNotificationsOpen(true)}
+          unreadCount={unreadCount}
+        />
       </div>
       <nav className="app-sidebar" aria-label="Primary">
         <Sidebar />
@@ -43,6 +52,11 @@ export function AppShell() {
         <Outlet />
       </main>
       <CommandPalette open={paletteOpen} onClose={() => setPaletteOpen(false)} />
+      <NotificationDrawer
+        open={notificationsOpen}
+        onClose={() => setNotificationsOpen(false)}
+        onUnreadCountChange={setUnreadCount}
+      />
     </div>
   );
 }

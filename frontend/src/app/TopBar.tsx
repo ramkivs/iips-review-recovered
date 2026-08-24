@@ -12,9 +12,13 @@ interface TopBarProps {
   tenantId: string;
   /** Opens the AppShell-mounted command palette (P-1). Optional for non-shell usage. */
   onOpenPalette?: () => void;
+  /** Opens the AppShell-mounted notification drawer (P-1, PD5). Optional for non-shell usage. */
+  onOpenNotifications?: () => void;
+  /** Unread notification count for the badge (PD2 — own unread only). */
+  unreadCount?: number;
 }
 
-export function TopBar({ role, tenantId, onOpenPalette }: TopBarProps) {
+export function TopBar({ role, tenantId, onOpenPalette, onOpenNotifications, unreadCount = 0 }: TopBarProps) {
   const { status, logout } = useAuth();
   return (
     <header
@@ -33,6 +37,19 @@ export function TopBar({ role, tenantId, onOpenPalette }: TopBarProps) {
         {onOpenPalette && (
           <button type="button" data-testid="palette-trigger" onClick={onOpenPalette} aria-label="Open command palette">
             ⌕ Search
+          </button>
+        )}
+        {onOpenNotifications && (
+          <button
+            type="button"
+            data-testid="notification-trigger"
+            onClick={onOpenNotifications}
+            aria-label={unreadCount > 0 ? `Open notifications, ${unreadCount} unread` : 'Open notifications'}
+          >
+            {'\u2691'} Notifications
+            {unreadCount > 0 && (
+              <span data-testid="notification-badge" style={{ marginLeft: 6 }}>({unreadCount})</span>
+            )}
           </button>
         )}
         <span data-testid="topbar-tenant">Tenant: {tenantId}</span>
