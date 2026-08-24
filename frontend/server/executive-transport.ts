@@ -798,8 +798,22 @@ const server = http.createServer((req, res) => {
   })();
 });
 
-if (process.env.NODE_ENV !== 'test') {
+/**
+ * PF-2 TW-4 — await-before-listen bootstrap.
+ *
+ * The startup seed is AWAITED before the HTTP server begins listening. Per TW-1
+ * (continue-degraded) `startupSeed()` never throws: a failed seed is logged/audited, the
+ * roster stays NO_SYNC / fail-closed, and the server listens regardless. There is no
+ * scheduler, no background worker, and no fire-and-forget initialization.
+ */
+async function start(): Promise<void> {
+  const { startupSeed } = await import('./directory/directory-wiring');
+  await startupSeed({ log: (m) => console.log(m) });
   server.listen(port, () => console.log(`Executive transport listening on :${port}`));
+}
+
+if (process.env.NODE_ENV !== 'test') {
+  void start();
 }
 
 export { computeCertifiedExecutive, computeCertifiedPortfolio, computeCertifiedCompany, computeCertifiedCrossSector, computeCertifiedDecisionMatrix, computeCertifiedEvidence, computeCertifiedReplay };

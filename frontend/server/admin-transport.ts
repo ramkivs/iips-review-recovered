@@ -353,7 +353,22 @@ function governedDataDto(g: GovernedData): { dataId: string; tenantId: string; c
 }
 
 /** HTTP handler for /api/admin/* read endpoints (enforces G3 boundary). */
-export async function handleAdminRequest(req: http.IncomingMessage, res: http.ServerResponse, executor: SecuredExecutor, state: AdminPlatformState): Promise<void> {
+/**
+ * PF-2 TW-2 — injected sync-trigger seam.
+ *
+ * Mirrors `handleMacroReadRequest`'s injected `fetchImpl`: optional and backward-compatible,
+ * so the existing call site is unchanged and tests can drive the endpoint offline. When
+ * absent, the promoted process wiring (`runGuardedSync`) is used.
+ */
+export type AdminSyncTrigger = () => Promise<import('./directory/idp-sync').SyncResult>;
+
+export async function handleAdminRequest(
+  req: http.IncomingMessage,
+  res: http.ServerResponse,
+  executor: SecuredExecutor,
+  state: AdminPlatformState,
+  opts: { readonly syncTrigger?: AdminSyncTrigger } = {},
+): Promise<void> {
   const url = (req.url ?? '').split('?')[0];
   const token = (req.headers.authorization ?? '').replace(/^Bearer /, '').trim();
   res.setHeader('Content-Type', 'application/json');
@@ -479,6 +494,48 @@ export async function handleAdminRequest(req: http.IncomingMessage, res: http.Se
         data: governedDataDto(updated),
         auditId: `audit-${executor.auditLog().length}`,
         provenance: { dataSource: 'governed DataGovernanceRuntime.classify', freshness: 'LIVE', authority: 'PLATFORM', transportSemantics: 'governed mutation; server-enforced tenant + RBAC + audit' },
+      })); return;
+    }
+    // --- PF-2 TW-2: governed admin directory-sync mutation (trigger only) ---
+    // Distinct from the forbidden TD-6 admin roster HTTP view: this returns the sync-result
+    // envelope (counts only) and exposes NO user/role lists. Request body is ignored.
+    if (url === '/api/admin/directory/sync' && req.method === 'POST') {
+      const p = await guardAdmin(executor, token, 'directory'); // 401/403 (no second RBAC model)
+      const trigger: AdminSyncTrigger =
+        opts.syncTrigger ?? (async () => {
+          const wiring = await import('./directory/directory-wiring');
+          return wiring.runGuardedSync();
+        });
+      let result: import('./directory/idp-sync').SyncResult;
+      try {
+        result = await trigger();
+      } catch (e) {
+        const code = (e as { code?: string }).code;
+        // TW-5: deterministic concurrent-trigger rejection.
+        if (code === 'SYNC_IN_PROGRESS') {
+          res.writeHead(409); res.end(JSON.stringify({ error: 'sync-in-progress', code: 'SYNC_IN_PROGRESS' })); return;
+        }
+        // Pinned SyncError mapping: IdP source unavailable -> 503; source contract -> 502.
+        if (code === 'TOKEN_FAILED' || code === 'USERS_FAILED' || code === 'ROLES_FAILED') {
+          res.writeHead(503); res.end(JSON.stringify({ error: 'idp-unavailable', code })); return;
+        }
+        if (code === 'SYNC_FAILED') {
+          res.writeHead(502); res.end(JSON.stringify({ error: 'idp-source-contract', code })); return;
+        }
+        throw e;
+      }
+      // Governed ALLOW audit for the completed mutation (mirrors the classify mutation).
+      executor.authorize(p, 'admin', 'directory.sync', 0, 1000);
+      res.writeHead(200); res.end(JSON.stringify({
+        data: {
+          syncId: result.syncId,
+          syncedAt: result.syncedAt,
+          realm: result.realm,
+          tenantCount: result.tenantCount,
+          userCount: result.userCount,
+        },
+        auditId: `audit-${executor.auditLog().length}`,
+        provenance: { dataSource: 'governed PF-2 directory sync', freshness: 'LIVE', authority: 'PLATFORM', transportSemantics: 'admin-triggered whole-snapshot sync' },
       })); return;
     }
     if (url === '/api/admin/migration') {
