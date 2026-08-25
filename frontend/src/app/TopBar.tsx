@@ -3,6 +3,7 @@
  * Brand + session identity (role/tenant) + sign-out. Presentation-only.
  *
  * P-1: exposes the command-palette trigger (opens the AppShell-mounted palette).
+ * P-2 (S-9a): exposes the Notes trigger (opens the AppShell-mounted Notes drawer).
  */
 import type { Role } from '../core/session/session';
 import { useAuth } from '../core/auth/AuthProvider';
@@ -16,9 +17,11 @@ interface TopBarProps {
   onOpenNotifications?: () => void;
   /** Unread notification count for the badge (PD2 — own unread only). */
   unreadCount?: number;
+  /** Opens the AppShell-mounted Notes drawer (P-2, S-9a). Optional for non-shell usage. */
+  onOpenNotes?: () => void;
 }
 
-export function TopBar({ role, tenantId, onOpenPalette, onOpenNotifications, unreadCount = 0 }: TopBarProps) {
+export function TopBar({ role, tenantId, onOpenPalette, onOpenNotifications, unreadCount = 0, onOpenNotes }: TopBarProps) {
   const { status, logout } = useAuth();
   return (
     <header
@@ -50,6 +53,11 @@ export function TopBar({ role, tenantId, onOpenPalette, onOpenNotifications, unr
             {unreadCount > 0 && (
               <span data-testid="notification-badge" style={{ marginLeft: 6 }}>({unreadCount})</span>
             )}
+          </button>
+        )}
+        {onOpenNotes && (
+          <button type="button" data-testid="notes-trigger" onClick={onOpenNotes} aria-label="Open notes">
+            {'\u270E'} Notes
           </button>
         )}
         <span data-testid="topbar-tenant">Tenant: {tenantId}</span>

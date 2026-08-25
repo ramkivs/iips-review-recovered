@@ -323,6 +323,20 @@ export async function guardRead(executor: SecuredExecutor, token: string, surfac
   return p;
 }
 
+/**
+ * P-2 (S-2a): authenticate + authorize a governed EXECUTE action.
+ *
+ * Reuses the EXISTING ranked `readResourceGate` (admin → all actions; analyst → read+execute;
+ * viewer → read only), so analyst-and-above authorship (D-3) is enforced by the promoted gate.
+ * `guardRead` is deliberately NOT modified and NO second RBAC model is introduced — this
+ * helper differs only in the action it presents to the same executor + gate.
+ */
+export async function guardExecute(executor: SecuredExecutor, token: string, surface: string): Promise<Principal> {
+  const p = await executor.authenticate(token);               // 401 on failure
+  executor.authorize(p, 'execute', `read.${surface}`, 0, 1000); // 403 on deny (viewer denied)
+  return p;
+}
+
 function tenantFilter<T>(rows: readonly T[], p: Principal, tenantOf: (r: T) => string): T[] {
   return rows.filter((r) => p.tenantId === tenantOf(r));
 }
@@ -421,6 +435,77 @@ export async function handleNotificationRequest(
     if (e instanceof AuthError) { res.writeHead(e.status); res.end(JSON.stringify({ error: e.message })); return; }
     if (e instanceof TransportError) { res.writeHead(e.status); res.end(JSON.stringify({ error: e.message })); return; }
     res.writeHead(500); res.end(JSON.stringify({ error: 'notification transport error', detail: String(e) }));
+  }
+}
+
+/**
+ * P-2 Notes handlers (S-6).
+ *
+ * Placed HERE alongside the other governed handlers, but DISPATCHED from
+ * executive-transport.ts with the EXISTING READ executor — the `/api/admin/*` dispatch supplies
+ * the admin executor, whose `adminResourceGate` rejects every action except 'admin' and would
+ * therefore 403 both 'read' and 'execute'. Mirrors the promoted P-1 R-1-a pattern.
+ *
+ * Authorization: `guardExecute` (S-2a) for create → analyst-and-above (D-3); `guardRead` for
+ * list. OWNER IDENTITY is the access restriction (D-4). No second RBAC model.
+ *
+ * S-5: there is deliberately NO length validation branch — a body of any size is accepted.
+ * Only presence and type are validated (S-8).
+ */
+export async function handleNotesRequest(
+  req: http.IncomingMessage,
+  res: http.ServerResponse,
+  executor: SecuredExecutor,
+  opts: { readonly store?: import('./persistence/persistence-service').PersistenceService } = {},
+): Promise<void> {
+  const url = (req.url ?? '').split('?')[0];
+  const token = (req.headers.authorization ?? '').replace(/^Bearer /, '').trim();
+  res.setHeader('Content-Type', 'application/json');
+  try {
+    const svc = await import('./notes/notes-service');
+    const store = opts.store ?? svc.getNotesPersistence();
+
+    // GET /api/notes — the caller's OWN notes, canonical PF-1 order (S-7).
+    if (url === '/api/notes' && (req.method ?? 'GET') === 'GET') {
+      const p = await guardRead(executor, token, 'notes'); // 401/403
+      res.writeHead(200); res.end(JSON.stringify({
+        data: svc.listNotes(p.tenantId, p.userId, store),
+        provenance: {
+          dataSource: 'governed P-2 notes (PF-1 durable journal)',
+          freshness: 'LIVE',
+          authority: 'PLATFORM',
+          transportSemantics: 'owner-scoped immutable notes; notes cannot be edited or deleted',
+        },
+      })); return;
+    }
+
+    // POST /api/notes — create one immutable note (analyst-and-above, D-3 via S-2a).
+    if (url === '/api/notes' && req.method === 'POST') {
+      const p = await guardExecute(executor, token, 'notes'); // 401/403 (viewer denied)
+      const body = await readBody(req);
+      const raw = body.body;
+      // S-8: presence first, then type. NO length branch exists (S-5 is unbounded).
+      if (raw === undefined || raw === null) throw new TransportError(400, 'note-body-required');
+      if (typeof raw !== 'string') throw new TransportError(422, 'invalid-note-body');
+      if (raw.trim() === '') throw new TransportError(400, 'note-body-required');
+      // Tenant + owner + author are server-derived from the principal; never client-supplied.
+      const created = svc.createNote(p.tenantId, p.userId, raw, store);
+      res.writeHead(201); res.end(JSON.stringify({
+        data: created,
+        provenance: {
+          dataSource: 'governed P-2 notes (PF-1 durable journal)',
+          freshness: 'LIVE',
+          authority: 'PLATFORM',
+          transportSemantics: 'owner-scoped immutable notes; notes cannot be edited or deleted',
+        },
+      })); return;
+    }
+
+    res.writeHead(404); res.end(JSON.stringify({ error: 'note-not-found' }));
+  } catch (e) {
+    if (e instanceof AuthError) { res.writeHead(e.status); res.end(JSON.stringify({ error: e.message })); return; }
+    if (e instanceof TransportError) { res.writeHead(e.status); res.end(JSON.stringify({ error: e.message })); return; }
+    res.writeHead(500); res.end(JSON.stringify({ error: 'notes transport error', detail: String(e) }));
   }
 }
 

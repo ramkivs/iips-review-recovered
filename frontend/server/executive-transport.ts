@@ -754,6 +754,24 @@ const server = http.createServer((req, res) => {
     })();
     return;
   }
+  // P-2 (S-6): the Notes surface uses admin-transport's exported handler but is DISPATCHED
+  // here with the EXISTING READ executor, because the /api/admin/* dispatch supplies the admin
+  // executor whose adminResourceGate rejects action='read' AND action='execute'. Mirrors the
+  // promoted P-1 R-1-a pattern. Not admin-only; guardRead/guardExecute + owner scoping remain
+  // the authorization; no new RBAC model; no new notes transport module.
+  if (req.url?.startsWith('/api/notes')) {
+    void (async () => {
+      try {
+        const executor = await getReadExecutor();
+        if (!executor) { res.writeHead(401); res.end(JSON.stringify({ error: 'authentication unavailable (no IdP configured)' })); return; }
+        const admin = await import('./admin-transport');
+        await admin.handleNotesRequest(req, res, executor);
+      } catch (e) {
+        res.writeHead(500); res.end(JSON.stringify({ error: 'notes transport error', detail: String(e) }));
+      }
+    })();
+    return;
+  }
   // Governed read endpoints ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â G3 boundary enforced server-side (N+2 hardening).
   void (async () => {
     try {
