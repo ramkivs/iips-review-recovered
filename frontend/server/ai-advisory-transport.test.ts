@@ -400,3 +400,177 @@ describe('S1 — deterministic in-process advisor constraints', () => {
     expect(advice.nonAuthoritative).toBe(true);
   });
 });
+
+// --- G-DISPATCH-COVERAGE — real-socket coverage of the production dispatch branch -----------
+/**
+ * G-DISPATCH-COVERAGE (authorized by `DEC-G-AI-IMPL-CERT-CRITERIA` §4).
+ *
+ * Every test above calls `handleAiAdvisoryRequest` DIRECTLY. The only production path that
+ * reaches the advisory is the `/api/ai-advisory/` DISPATCH branch inside the module-scope
+ * `http.createServer(...)` callback in `executive-transport.ts`, which was previously covered
+ * by no test. These tests cover it over a REAL socket on a REAL ephemeral port, using the
+ * repository's existing `createServer` + `listen(0)` convention (`admin-transport.test.ts`).
+ *
+ * The production request listener is CAPTURED, never re-implemented: `http.createServer` is
+ * observed while `executive-transport` is (re)imported, and the listener it registers is then
+ * served on `listen(0)`. No production file is modified and no 14th path is created — this
+ * block lives inside the already-authorized `frontend/server/ai-advisory-transport.test.ts`.
+ *
+ * `vi.resetModules()` is used so each test gets a fresh `executive-transport` instance and
+ * therefore a fresh module-level `readExecutor` cache, keeping the no-IdP and authenticated
+ * cases independent and deterministic. Servers are always closed in a `finally`.
+ *
+ * Offline-safe: no container runtime, Keycloak, browser or external provider is used.
+ */
+
+type ServedDispatch = {
+  get(path: string, token?: string): Promise<{ status: number; body: Record<string, unknown> }>;
+  close(): Promise<void>;
+};
+
+/**
+ * Serve the REAL executive-transport dispatch listener on a real ephemeral port.
+ *
+ * `roles === null` simulates "no IdP configured": `createLiveReadExecutor` resolves to null,
+ * which is exactly what production returns when Keycloak discovery fails, so the dispatch's
+ * fail-closed 401 branch is exercised for real.
+ *
+ * The executor is built from the SAME fresh module registry as the freshly imported
+ * `executive-transport` / `ai-advisory-transport`. That matters: `vi.resetModules()` gives those
+ * modules a fresh `AuthError` class, and an executor built from the file's original static
+ * import would throw a different class identity, so the handler's `e instanceof AuthError`
+ * would miss and report 500 instead of 401. Building it here keeps class identity consistent
+ * and the assertions honest.
+ */
+async function serveRealDispatch(roles: string[] | null, username = 'viewer-a'): Promise<ServedDispatch> {
+  // `executive-transport.ts` does `import http from 'node:http'`, which vitest resolves to the
+  // mutable CJS default export — not the frozen ESM namespace, which cannot be redefined.
+  const ns = await import('node:http');
+  const nodeHttp = (ns.default ?? ns) as typeof ns;
+  const realCreateServer = nodeHttp.createServer as unknown as (...a: unknown[]) => {
+    listen(port: number, cb?: () => void): unknown;
+    address(): unknown;
+    close(cb?: () => void): unknown;
+  };
+
+  let dispatch: ((req: unknown, res: unknown) => void) | undefined;
+  const createServerSpy = vi.spyOn(nodeHttp, 'createServer').mockImplementation(((...args: unknown[]) => {
+    dispatch = args[0] as (req: unknown, res: unknown) => void;
+    return realCreateServer.apply(nodeHttp, args);
+  }) as unknown as typeof nodeHttp.createServer);
+
+  const adminSpies: Array<{ mockRestore(): void }> = [];
+  try {
+    vi.resetModules();
+    const admin = await import('./admin-transport');
+    const executor = roles
+      ? admin.createReadExecutor({ metadata: METADATA, verifier: verifier(claims(username, roles)) })
+      : null;
+    adminSpies.push(
+      vi.spyOn(admin, 'createLiveReadExecutor').mockResolvedValue(executor as never),
+    );
+    // Importing runs the module body, which calls http.createServer(<the dispatch listener>).
+    await import('./executive-transport');
+  } finally {
+    createServerSpy.mockRestore();
+  }
+
+  if (!dispatch) throw new Error('executive-transport registered no http request listener');
+  const captured: (req: unknown, res: unknown) => void = dispatch;
+
+  const server = realCreateServer.call(nodeHttp, captured);
+  await new Promise<void>((r) => server.listen(0, r));
+  const addr = server.address() as { port: number } | null;
+  const port = addr ? addr.port : 0;
+
+  return {
+    async get(path: string, token?: string) {
+      const r = await fetch(`http://127.0.0.1:${port}${path}`, {
+        headers: token ? { Authorization: `Bearer ${token}` } : {},
+      });
+      const body = await r.json().catch(() => ({}));
+      return { status: r.status, body: body as Record<string, unknown> };
+    },
+    close: () => new Promise<void>((r) => server.close(() => r())),
+  };
+}
+
+describe('G-DISPATCH-COVERAGE — real-socket /api/ai-advisory/ dispatch (executive-transport)', () => {
+  it('routes /api/ai-advisory/ through the real dispatch to the governed advisory and returns the 12-field DTO (200)', async () => {
+    const served = await serveRealDispatch(['iips-viewer']);
+    try {
+      const { status, body } = await served.get('/api/ai-advisory/Banking', 'real-token');
+      expect(status).toBe(200);
+      expect(body.label).toBe(ADVISORY_LABEL);
+      expect(body.text).toBe(ADVISORY_TEXT);
+      expect(body.freshness).toBe(ADVISORY_FRESHNESS);
+      expect(body.nonAuthoritative).toBe(true);
+      expect(body.kind).toBe('explanation');
+      expect(body.grounded).toBe(true);
+      expect(typeof body.adviceId).toBe('string');
+      expect(typeof body.engineResultId).toBe('string');
+      // SR-1 — the genuine canonical form is the opaque `SNAP_<hex>`; the prohibited form is
+      // the lowercase synthesized `snap_<sector>` presentation reference (same convention as
+      // the SR-1 contract test above).
+      expect(typeof body.engineResultRef).toBe('string');
+      expect(String(body.engineResultRef)).toMatch(/^SNAP_[0-9A-F]{8}$/);
+      expect(String(body.engineResultRef)).not.toMatch(/^snap_[A-Za-z]/);
+      expect(String(body.engineResultRef).toLowerCase()).not.toContain('banking');
+      expect(Object.keys(body).sort()).toEqual([
+        'adviceId', 'engineResultId', 'engineResultRef', 'freshness', 'grounded', 'kind',
+        'label', 'model', 'modelVersion', 'nonAuthoritative', 'text', 'unavailable',
+      ]);
+    } finally {
+      await served.close();
+    }
+  });
+
+  it('fails closed through the real dispatch when no IdP is configured (401, advisory body never produced)', async () => {
+    const served = await serveRealDispatch(null);
+    try {
+      const { status, body } = await served.get('/api/ai-advisory/Banking', 'real-token');
+      expect(status).toBe(401);
+      expect(body.error).toBe('authentication unavailable (no IdP configured)');
+      // no advisory payload is fabricated on the fail-closed path
+      expect(body.label).toBeUndefined();
+      expect(body.text).toBeUndefined();
+      expect(body.adviceId).toBeUndefined();
+    } finally {
+      await served.close();
+    }
+  });
+
+  it('yields no unauthenticated advisory success path through the real dispatch (401 with no token)', async () => {
+    const served = await serveRealDispatch(['iips-viewer']);
+    try {
+      const { status, body } = await served.get('/api/ai-advisory/Banking');
+      expect(status).toBe(401);
+      expect(body.text).toBeUndefined();
+      expect(body.adviceId).toBeUndefined();
+    } finally {
+      await served.close();
+    }
+  });
+
+  it('preserves the pre-existing 404 semantics for an unknown sector through the real dispatch', async () => {
+    const served = await serveRealDispatch(['iips-viewer']);
+    try {
+      const { status, body } = await served.get('/api/ai-advisory/NotASector', 'real-token');
+      expect(status).toBe(404);
+      expect(String(body.error)).toContain('engine result not found');
+    } finally {
+      await served.close();
+    }
+  });
+
+  it('dispatches only the /api/ai-advisory/ prefix — a lookalike path is not captured by the advisory branch', async () => {
+    const served = await serveRealDispatch(['iips-viewer']);
+    try {
+      const { status, body } = await served.get('/api/ai-advisory-lookalike/Banking', 'real-token');
+      expect(status).toBe(404);
+      expect(body.error).toBe('not found');
+    } finally {
+      await served.close();
+    }
+  });
+});
