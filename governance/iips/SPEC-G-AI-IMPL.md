@@ -55,7 +55,13 @@
 | **T9** | `adviceId` produced by the platform helper (SR-3) |
 | **T10** | `freshness === 'SNAPSHOT'` (SR-2) |
 
-## 4. Change surface — exactly 11 paths
+## 4. Change surface — exactly 13 paths (5 NEW + 8 MODIFY)
+
+> **Amended by `DEC-G-AI-IMPL-PATH-COUNT` (D-11V13).** The heading previously read
+> "exactly 11 paths" and the MODIFY subsection "MODIFY — 6"; both counted table **rows**,
+> not paths. MODIFY row 5 enumerates **three** distinct paths, so the distinct-path surface
+> is 5 NEW + 8 MODIFY = **13**, which is what COL-5 already declared authoritative. Only the
+> cardinality is corrected; the path set, the rows and every requirement are unchanged.
 
 ### NEW — 5
 
@@ -67,7 +73,7 @@
 | `frontend/server/ai-advisory-transport.test.ts` | T1, T2, T9, T10 |
 | `frontend/src/components/ai/AiExplanation.test.tsx` | T3, T4, T8 |
 
-### MODIFY — 6
+### MODIFY — 8 (six table rows; row 5 enumerates three paths)
 
 | Path | Permitted change |
 |---|---|
@@ -78,7 +84,7 @@
 | `frontend/src/features/company/CompanyIntelligence.test.tsx` · `frontend/src/features/research/SectorIntelligence.test.tsx` · `frontend/src/features/decision-matrix/DecisionMatrix.test.tsx` | T5, T6 |
 | `frontend/src/app/navigation.test.ts` | T7 — assert no AI navigation entry |
 
-No path outside these 11 may be created, modified, deleted, renamed, restored, copied, staged,
+No path outside these 13 may be created, modified, deleted, renamed, restored, copied, staged,
 committed or pushed.
 
 ## 5. Must-not-touch boundaries — 10

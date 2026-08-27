@@ -7,7 +7,7 @@
 - **Date/time:** 2026-08-27 (reconstituted) · 2026-08-27 (amended)
 - **Amendment:** `DEC-G-AI-IMPL-B1-AUTH-AMEND` — establishes canonical `85bbd49` as the authorized
   **executable** implementation baseline and defines the controlled transition mechanism. The
-  implementation scope (SR-1…SR-5, T1…T10, 11 paths, 10 fences) is **unchanged** by the amendment.
+  implementation scope (SR-1…SR-5, T1…T10, 13 paths, 10 fences) is **unchanged** by the amendment.
 - **Authority relationship:** issued originally at gate **G-AI-IMPL** as outcome **A — AUTHORIZE
   IMPLEMENTATION**; reconstituted here. Binds the implementation scope only. It does **not** bind the
   controlled-change gate, which must separately re-verify this record before any implementation
@@ -52,7 +52,7 @@ Authorized: the exact specification-derived delta and test contract recorded in 
 |---|---|
 | Specification requirements | **SR-1 … SR-5** |
 | Test obligations | **T1 … T10** |
-| Change surface | **5 new files + 6 modified files = 11 paths** |
+| Change surface | **5 new files + 8 modified files = 13 paths** *(count corrected by `DEC-G-AI-IMPL-PATH-COUNT` / D-11V13; previously stated 11 by counting MODIFY table rows rather than paths — see `SPEC-G-AI-IMPL` §4 row 5, which enumerates three paths. The path set is unchanged.)* |
 | Must-not-touch boundaries | **10** |
 | Scope constraints | **D1 … D8**, incorporated by reference |
 
@@ -85,9 +85,16 @@ Until that gate returns **IMPLEMENTATION GO**, implementation remains **BLOCKED*
 - Implementation of `guardRead` or introduction of a second read-authorization model
 - Route or navigation creation
 - Certification, or any attempt at live-Keycloak certification
-- Commit or push of implementation work
+- ~~Commit or push of implementation work~~ — **AMENDED by `DEC-G-AI-IMPL-IMPL-COMMIT-PUSH`
+  (D-AUTH-CP):** the implementation commit `e5d59981c10578db0bf7a5b656acccb9450f45e0`
+  (13 paths, parent `85bbd49`) and its fast-forward, non-forced push to
+  `origin/gai-impl-canonical` **were** explicitly authorized by the maintainer in-session,
+  at two separate gates, and were performed. No durable authorization existed beforehand and
+  none is fabricated here; that record makes the grants durable. The original prohibition is
+  preserved for history and **continues to apply to every further commit or push**, each of
+  which requires its own separate grant.
 - Any change to PC-4, N+5, E2E-017, or the Engine Master Matrix
-- Any expansion beyond the 11 authorized paths
+- Any expansion beyond the 13 authorized paths
 
 ## 5. Current status
 
