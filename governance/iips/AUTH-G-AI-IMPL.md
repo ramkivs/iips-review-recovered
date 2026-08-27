@@ -84,7 +84,14 @@ Until that gate returns **IMPLEMENTATION GO**, implementation remains **BLOCKED*
   transition has occurred, because both exist at `85bbd49`; not otherwise authorized)*
 - Implementation of `guardRead` or introduction of a second read-authorization model
 - Route or navigation creation
-- Certification, or any attempt at live-Keycloak certification
+- ~~Certification, or any attempt at live-Keycloak certification~~ — **AMENDED by
+  `DEC-G-AI-IMPL-CERTIFICATION`:** the **implementation** certification of the 13-path
+  G-AI-IMPL delta at `f63a9b493118643725568a95b86405a5835a30a0` (baseline `85bbd49`) was
+  determined at the `G-AI-IMPL FINAL CERTIFICATION GATE` and is durably recorded in that
+  record. **Live-Keycloak certification remains NOT PERFORMED** and is recorded there as an
+  Option-D limitation, not as a pass. No certification version or release was promoted and
+  **P7 was not reopened**. The original prohibition is preserved for history and continues to
+  apply to every **further** certification act, each of which requires its own grant.
 - ~~Commit or push of implementation work~~ — **AMENDED by `DEC-G-AI-IMPL-IMPL-COMMIT-PUSH`
   (D-AUTH-CP):** the implementation commit `e5d59981c10578db0bf7a5b656acccb9450f45e0`
   (13 paths, parent `85bbd49`) and its fast-forward, non-forced push to
