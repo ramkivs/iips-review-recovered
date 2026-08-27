@@ -8,7 +8,7 @@
  * confidence/pillars stay unavailable). Deterministic URL-aware fetch mocks.
  */
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter, Routes, Route } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
 import { CompanyIntelligence } from './CompanyIntelligence';
@@ -89,6 +89,25 @@ interface MockOpts {
   sectorListFails?: boolean;
   companyFails?: boolean;
   sectorsOverride?: DecisionMatrixData;
+  advisoryFails?: boolean;
+}
+
+/** G-AI-IMPL (T5/T6) — the governed advisory DTO for a host sector key. */
+function aiAdvisoryFor(sector: string) {
+  return {
+    adviceId: 'A1B2C3D4',
+    engineResultId: sector,
+    kind: 'explanation',
+    text: 'This is a supplementary advisory explanation. It is not a certified engine result and does not alter the certified result.',
+    grounded: true,
+    nonAuthoritative: true,
+    model: 'iips-deterministic-advisor',
+    modelVersion: '1.0.0',
+    engineResultRef: 'SNAP_F3F53B67',
+    label: 'AI EXPLANATION ≠ CERTIFIED RESULT',
+    freshness: 'SNAPSHOT',
+    unavailable: ['timestamp', 'tenant', 'provider', 'confidence', 'citations', 'decision'],
+  };
 }
 
 function urlAwareMock(opts: MockOpts = {}): ReturnType<typeof vi.fn> {
@@ -110,6 +129,12 @@ function urlAwareMock(opts: MockOpts = {}): ReturnType<typeof vi.fn> {
     if (url.includes('/api/replay/')) {
       const sector = url.includes('/api/replay/Technology') ? 'Technology' : 'Banking';
       return Promise.resolve({ ok: true, json: async () => replayFor(sector, opts.replayBIdentical ?? true) }) as never;
+    }
+    // G-AI-IMPL (T5/T6): the embedded advisory surface, bound to the host's sector key.
+    if (url.includes('/api/ai-advisory/')) {
+      if (opts.advisoryFails) return Promise.resolve({ ok: false, status: 503, json: async () => ({ error: 'advisory unavailable', code: 'advisory-unavailable' }) }) as never;
+      const sector = decodeURIComponent(url.slice(url.indexOf('/api/ai-advisory/') + '/api/ai-advisory/'.length));
+      return Promise.resolve({ ok: true, json: async () => aiAdvisoryFor(sector) }) as never;
     }
     return Promise.resolve({ ok: false, status: 404, json: async () => ({}) }) as never;
   });
@@ -347,5 +372,56 @@ describe('Company Intelligence — N+12 governed sector reachability', () => {
     await screen.findByTestId('sector-select');
     expect(screen.getByTestId('pillars-unavailable')).toHaveTextContent('not exposed');
     expect(screen.getByText('Confidence unavailable')).toBeInTheDocument();
+  });
+});
+
+describe('G-AI-IMPL — embedded AI explanation (T5 host binding · T6 no regression)', () => {
+  it('renders the advisory bound to the host sector key (T5)', async () => {
+    globalThis.fetch = urlAwareMock();
+    renderCompany('Technology');
+    expect(await screen.findByTestId('ai-explanation')).toBeInTheDocument();
+    const calls = (globalThis.fetch as unknown as { mock: { calls: unknown[][] } }).mock.calls.map((c) => String(c[0]));
+    expect(calls.some((u) => u === '/api/ai-advisory/Technology')).toBe(true);
+  });
+
+  it('follows the host sector when the governed sector selector changes (T5)', async () => {
+    globalThis.fetch = urlAwareMock();
+    renderCompany('Technology');
+    await screen.findByTestId('ai-explanation');
+    await userEvent.selectOptions(screen.getByTestId('sector-select'), 'Banking');
+    await waitFor(() => {
+      const calls = (globalThis.fetch as unknown as { mock: { calls: unknown[][] } }).mock.calls.map((c) => String(c[0]));
+      expect(calls.some((u) => u === '/api/ai-advisory/Banking')).toBe(true);
+    });
+  });
+
+  it('keeps the certified result surface unchanged alongside the advisory (T6)', async () => {
+    globalThis.fetch = urlAwareMock();
+    renderCompany('Technology');
+    expect(await screen.findByTestId('company-header')).toBeInTheDocument();
+    expect(screen.getByTestId('badge-certified')).toHaveTextContent('CERTIFIED RESULT');
+    expect(screen.getByTestId('decision-badge-Buy')).toHaveTextContent('Buy');
+    expect(screen.getByTestId('company-composite')).toHaveTextContent('76.3');
+    // The advisory is present and remains visually and textually distinct from the certified result.
+    expect(screen.getByTestId('ai-explanation')).toBeInTheDocument();
+    expect(screen.getByTestId('ai-explanation-label')).toHaveTextContent('AI EXPLANATION ≠ CERTIFIED RESULT');
+  });
+
+  it('adds no sector selector and no navigation entry of its own (D2/D3/D4)', async () => {
+    globalThis.fetch = urlAwareMock();
+    const { container } = renderCompany('Technology');
+    await screen.findByTestId('ai-explanation');
+    const advisory = screen.getByTestId('ai-explanation');
+    expect(advisory.querySelector('select')).toBeNull();
+    expect(container.querySelectorAll('nav')).toHaveLength(0);
+  });
+
+  it('renders the canonical ErrorState on advisory failure without disturbing the host (T6 · S4)', async () => {
+    globalThis.fetch = urlAwareMock({ advisoryFails: true });
+    renderCompany('Technology');
+    expect(await screen.findByTestId('company-header')).toBeInTheDocument();
+    expect(await screen.findByTestId('state-error')).toBeInTheDocument();
+    expect(screen.getByTestId('badge-certified')).toHaveTextContent('CERTIFIED RESULT');
+    expect(screen.queryByText(/supplementary advisory explanation/)).not.toBeInTheDocument();
   });
 });

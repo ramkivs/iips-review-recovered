@@ -24,6 +24,7 @@ import { DecisionBadge } from '../../components/decision/DecisionComponents';
 import { LoadingState, ErrorState, UnavailableState } from '../../components/state/StateComponents';
 import { CertifiedBadge, FreshnessBadge } from '../../components/ui/Badges';
 import { CompanyTrustChain } from '../company/CompanyTrustChain';
+import { AiExplanation } from '../../components/ai/AiExplanation';
 
 export function DecisionMatrix() {
   const [data, setData] = useState<DecisionMatrixData | null>(null);
@@ -156,6 +157,10 @@ export function DecisionMatrix() {
           {!chainLoading && !chainError && chainEvidence && chainReplay && (
             <CompanyTrustChain evidence={chainEvidence} replay={chainReplay} />
           )}
+
+          {/* G-AI-IMPL (D2): embedded read-only AI explanation, bound to the authoritative
+              selected.sector. No route, no navigation entry, no sector selector. */}
+          <AiExplanation sectorKey={selected.sector} />
         </section>
       )}
 

@@ -28,6 +28,7 @@ import { MetricGroup, MetricCard, DataTable } from '../../components/data/DataCo
 import { DecisionBadge } from '../../components/decision/DecisionComponents';
 import { LoadingState, ErrorState, UnavailableState } from '../../components/state/StateComponents';
 import { CertifiedBadge, FreshnessBadge, StatusBadge } from '../../components/ui/Badges';
+import { AiExplanation } from '../../components/ai/AiExplanation';
 
 export function SectorIntelligence() {
   const navigate = useNavigate();
@@ -203,6 +204,10 @@ export function SectorIntelligence() {
           Open the full company trust chain for {company.sector} (Decision → Evidence → Replay → Provenance)
         </Link>
       </p>
+
+      {/* G-AI-IMPL (D2): embedded read-only AI explanation, bound to this host's sector key.
+          No route, no navigation entry, no sector selector. */}
+      <AiExplanation sectorKey={company.sector} />
 
       {/* Provenance footer (1:1) */}
       <p data-testid="sector-provenance" style={{ color: 'var(--color-ink-secondary)', fontSize: 12, marginTop: 16 }}>

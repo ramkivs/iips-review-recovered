@@ -95,6 +95,25 @@ interface MockOptions {
   evidence?: EvidenceData;
   replay?: ReplayData;
   matrix?: DecisionMatrixData;
+  advisoryFails?: boolean;
+}
+
+/** G-AI-IMPL (T5/T6) — the governed advisory DTO for a host sector key. */
+function aiAdvisoryFor(sector: string) {
+  return {
+    adviceId: 'A1B2C3D4',
+    engineResultId: sector,
+    kind: 'explanation',
+    text: 'This is a supplementary advisory explanation. It is not a certified engine result and does not alter the certified result.',
+    grounded: true,
+    nonAuthoritative: true,
+    model: 'iips-deterministic-advisor',
+    modelVersion: '1.0.0',
+    engineResultRef: 'SNAP_F3F53B67',
+    label: 'AI EXPLANATION ≠ CERTIFIED RESULT',
+    freshness: 'SNAPSHOT',
+    unavailable: ['timestamp', 'tenant', 'provider', 'confidence', 'citations', 'decision'],
+  };
 }
 
 function urlAwareMock(opts: MockOptions = {}): ReturnType<typeof vi.fn> {
@@ -116,6 +135,12 @@ function urlAwareMock(opts: MockOptions = {}): ReturnType<typeof vi.fn> {
     }
     if (url.includes('/api/decision-matrix')) {
       return Promise.resolve({ ok: true, json: async () => matrix }) as never;
+    }
+    // G-AI-IMPL (T5/T6): the embedded advisory surface, bound to the host's sector key.
+    if (url.includes('/api/ai-advisory/')) {
+      if (opts.advisoryFails) return Promise.resolve({ ok: false, status: 503, json: async () => ({ error: 'advisory unavailable', code: 'advisory-unavailable' }) }) as never;
+      const sector = decodeURIComponent(url.slice(url.indexOf('/api/ai-advisory/') + '/api/ai-advisory/'.length));
+      return Promise.resolve({ ok: true, json: async () => aiAdvisoryFor(sector) }) as never;
     }
     return Promise.resolve({ ok: false, status: 404, json: async () => ({}) }) as never;
   });
@@ -259,5 +284,40 @@ describe('Sector Information — route integration', () => {
     );
     expect(await screen.findByRole('heading', { name: 'Banking' })).toBeInTheDocument();
     expect(screen.queryByTestId('shell-not-authorized')).not.toBeInTheDocument();
+  });
+});
+
+describe('G-AI-IMPL — embedded AI explanation (T5 host binding · T6 no regression)', () => {
+  it('renders the advisory bound to the host sector key (T5)', async () => {
+    globalThis.fetch = urlAwareMock();
+    renderSector();
+    expect(await screen.findByTestId('ai-explanation')).toBeInTheDocument();
+    const calls = (globalThis.fetch as unknown as { mock: { calls: unknown[][] } }).mock.calls.map((c) => String(c[0]));
+    expect(calls.some((u) => u === '/api/ai-advisory/Banking')).toBe(true);
+  });
+
+  it('keeps the certified sector surface unchanged alongside the advisory (T6)', async () => {
+    globalThis.fetch = urlAwareMock();
+    renderSector();
+    // Await the host's governed composition first, then the advisory embedded within it.
+    expect(await screen.findByTestId('sector-company-link')).toBeInTheDocument();
+    expect(screen.getByTestId('sector-provenance')).toBeInTheDocument();
+    expect(await screen.findByTestId('ai-explanation')).toBeInTheDocument();
+    expect(screen.getByTestId('ai-explanation-label')).toHaveTextContent('AI EXPLANATION ≠ CERTIFIED RESULT');
+  });
+
+  it('adds no sector selector of its own (D2/D6)', async () => {
+    globalThis.fetch = urlAwareMock();
+    renderSector();
+    await screen.findByTestId('ai-explanation');
+    expect(screen.getByTestId('ai-explanation').querySelector('select')).toBeNull();
+  });
+
+  it('renders the canonical ErrorState on advisory failure without disturbing the host (T6 · S4)', async () => {
+    globalThis.fetch = urlAwareMock({ advisoryFails: true });
+    renderSector();
+    expect(await screen.findByTestId('sector-company-link')).toBeInTheDocument();
+    expect(await screen.findByTestId('state-error')).toBeInTheDocument();
+    expect(screen.queryByText(/supplementary advisory explanation/)).not.toBeInTheDocument();
   });
 });

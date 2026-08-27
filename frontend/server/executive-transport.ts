@@ -79,6 +79,31 @@ const BASELINE = JSON.parse(
   fs.readFileSync(path.resolve(__dirname, '../../program-v1.1-certification/PROGRAM_v1.1_REPLAY_BASELINE.json'), 'utf8'),
 ) as { sectors: Array<{ sector: string; engineId: string; input: Record<string, unknown> }> };
 
+/**
+ * G-AI-IMPL (SR-5 / D5 / D6) — resolve a sector key to its governed engine and frozen inputs.
+ *
+ * Coverage is DERIVED from the governed ENGINE_FACTORY mapping and the frozen v1.1 Replay Baseline;
+ * no sector is enumerated here, so this automatically covers exactly the registered engines (13).
+ * Matching is case-insensitive on the sector display name. Returns null for an unknown or
+ * unresolvable sector key, which the advisory transport maps to the pre-existing 404 semantics.
+ *
+ * This is the ONLY addition to this module's exports for G-AI-IMPL; no existing behavior is altered.
+ */
+export function resolveSectorEngine(sectorKey: string): import('./ai-advisory-transport').ResolvedSectorEngine | null {
+  const key = sectorKey.trim().toLowerCase();
+  if (!key) return null;
+  const entry = BASELINE.sectors.find((s) => s.sector.toLowerCase() === key);
+  if (!entry) return null;
+  const factory = ENGINE_FACTORY[entry.engineId];
+  if (!factory) return null;
+  return {
+    sector: entry.sector,
+    engineId: entry.engineId,
+    makeEngine: factory as () => import('../../iips-platform/src/plugin-loader/PluginContract').SectorPlugin,
+    inputs: entry.input,
+  };
+}
+
 // Sector display-name -> engine dir (for locating frozen expected-outputs).
 const SECTOR_DIR: Record<string, string> = {
   Banking: 'banking', Insurance: 'insurance', 'Capital Markets': 'capital-markets',
@@ -768,6 +793,23 @@ const server = http.createServer((req, res) => {
         await admin.handleNotesRequest(req, res, executor);
       } catch (e) {
         res.writeHead(500); res.end(JSON.stringify({ error: 'notes transport error', detail: String(e) }));
+      }
+    })();
+    return;
+  }
+  // G-AI-IMPL: the read-only AI Advisory surface is DISPATCHED here with the EXISTING READ
+  // executor, mirroring the promoted P-1/P-2 cross-module pattern. Authorization is the existing
+  // canonical guardRead (SR-4) inside the advisory handler — no new RBAC model, no new executor,
+  // and readSurfaceFor is not extended. Not admin-only; viewer/analyst/admin may read.
+  if (req.url?.startsWith('/api/ai-advisory/')) {
+    void (async () => {
+      try {
+        const executor = await getReadExecutor();
+        if (!executor) { res.writeHead(401); res.end(JSON.stringify({ error: 'authentication unavailable (no IdP configured)' })); return; }
+        const ai = await import('./ai-advisory-transport');
+        await ai.handleAiAdvisoryRequest(req, res, executor, resolveSectorEngine);
+      } catch (e) {
+        res.writeHead(500); res.end(JSON.stringify({ error: 'ai advisory transport error', detail: String(e) }));
       }
     })();
     return;

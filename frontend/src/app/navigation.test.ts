@@ -193,3 +193,32 @@ describe('navigation model — role filtering (unchanged semantics)', () => {
     }
   });
 });
+
+describe('G-AI-IMPL T7 — no standalone AI route or navigation entry (D3/D4)', () => {
+  const allItems: NavItem[] = NAV.flatMap((n) => [n, ...(n.children ?? [])]);
+
+  it('adds no AI navigation entry at any level, and no Intelligence child', () => {
+    for (const item of allItems) {
+      expect(item.label).not.toMatch(/AI|advisory|explanation/i);
+      expect(item.path).not.toMatch(/ai|advisory|explanation/i);
+    }
+    const intelligence = NAV.find((n) => n.label === 'Intelligence');
+    expect(intelligence).toBeDefined();
+    for (const child of intelligence?.children ?? []) {
+      expect(child.label).not.toMatch(/AI|advisory|explanation/i);
+    }
+  });
+
+  it('adds no standalone AI route to the route map', () => {
+    for (const [key, path] of Object.entries(ROUTES)) {
+      expect(key).not.toMatch(/^ai|advisory/i);
+      expect(String(path)).not.toMatch(/ai-advisory|ai-explanation/i);
+    }
+  });
+
+  it('leaves the navigation inventory unchanged in size and top-level labels', () => {
+    expect(NAV.map((n) => n.label)).toEqual([
+      'Executive', 'Portfolio', 'Research', 'Intelligence', 'Evidence', 'Administration',
+    ]);
+  });
+});

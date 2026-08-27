@@ -5,7 +5,7 @@
  * loading/error/no-fabrication behavior.
  */
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
 import { DecisionMatrix } from './DecisionMatrix';
@@ -56,10 +56,34 @@ function replayFor(sector: string, byteIdentical: boolean): ReplayData {
   };
 }
 
-function urlAwareMock(opts: { replayBIdentical?: boolean; evidenceFails?: boolean } = {}) {
+/** G-AI-IMPL (T5/T6) — the governed advisory DTO for a host sector key. */
+function aiAdvisoryFor(sector: string) {
+  return {
+    adviceId: 'A1B2C3D4',
+    engineResultId: sector,
+    kind: 'explanation',
+    text: 'This is a supplementary advisory explanation. It is not a certified engine result and does not alter the certified result.',
+    grounded: true,
+    nonAuthoritative: true,
+    model: 'iips-deterministic-advisor',
+    modelVersion: '1.0.0',
+    engineResultRef: 'SNAP_F3F53B67',
+    label: 'AI EXPLANATION ≠ CERTIFIED RESULT',
+    freshness: 'SNAPSHOT',
+    unavailable: ['timestamp', 'tenant', 'provider', 'confidence', 'citations', 'decision'],
+  };
+}
+
+function urlAwareMock(opts: { replayBIdentical?: boolean; evidenceFails?: boolean; advisoryFails?: boolean } = {}) {
   return vi.fn((input: unknown) => {
     const url = String(input);
     if (url.includes('/api/decision-matrix')) return Promise.resolve({ ok: true, json: async () => FIXTURE }) as never;
+    // G-AI-IMPL (T5/T6): the embedded advisory surface, bound to the authoritative selected.sector.
+    if (url.includes('/api/ai-advisory/')) {
+      if (opts.advisoryFails) return Promise.resolve({ ok: false, status: 503, json: async () => ({ error: 'advisory unavailable', code: 'advisory-unavailable' }) }) as never;
+      const sector = decodeURIComponent(url.slice(url.indexOf('/api/ai-advisory/') + '/api/ai-advisory/'.length));
+      return Promise.resolve({ ok: true, json: async () => aiAdvisoryFor(sector) }) as never;
+    }
     if (url.includes('/api/evidence/')) {
       if (opts.evidenceFails) return Promise.reject(new Error('evidence down')) as never;
       const sector = url.includes('/api/evidence/B') ? 'B' : 'A';
@@ -205,5 +229,58 @@ describe('Decision Matrix — N+9 selected-company trust chain', () => {
     // The certified scatter detail still shows the governed (unavailable-safe) values.
     expect(screen.getByTestId('matrix-selected')).toHaveTextContent('Watch');
     expect(screen.getByTestId('matrix-selected')).toHaveTextContent('Valuation: 90');
+  });
+});
+
+describe('G-AI-IMPL — embedded AI explanation (T5 host binding · T6 no regression)', () => {
+  it('renders the advisory bound to the authoritative selected.sector (T5)', async () => {
+    globalThis.fetch = urlAwareMock();
+    const user = userEvent.setup();
+    render(<MemoryRouter><DecisionMatrix /></MemoryRouter>);
+    await user.click(await screen.findByTestId('matrix-point-A'));
+    expect(await screen.findByTestId('ai-explanation')).toBeInTheDocument();
+    const calls = (globalThis.fetch as unknown as { mock: { calls: unknown[][] } }).mock.calls.map((c) => String(c[0]));
+    expect(calls.some((u) => u === '/api/ai-advisory/A')).toBe(true);
+  });
+
+  it('follows the authoritative selected.sector when another point is selected (T5)', async () => {
+    globalThis.fetch = urlAwareMock();
+    const user = userEvent.setup();
+    render(<MemoryRouter><DecisionMatrix /></MemoryRouter>);
+    await user.click(await screen.findByTestId('matrix-point-A'));
+    await screen.findByTestId('ai-explanation');
+    await user.click(await screen.findByTestId('matrix-point-B'));
+    await waitFor(() => {
+      const calls = (globalThis.fetch as unknown as { mock: { calls: unknown[][] } }).mock.calls.map((c) => String(c[0]));
+      expect(calls.some((u) => u === '/api/ai-advisory/B')).toBe(true);
+    });
+  });
+
+  it('keeps the certified matrix surface unchanged alongside the advisory (T6)', async () => {
+    globalThis.fetch = urlAwareMock();
+    const user = userEvent.setup();
+    render(<MemoryRouter><DecisionMatrix /></MemoryRouter>);
+    await user.click(await screen.findByTestId('matrix-point-A'));
+    expect(await screen.findByTestId('ai-explanation')).toBeInTheDocument();
+    expect(screen.getByTestId('matrix-point-A')).toBeInTheDocument();
+    expect(screen.getByTestId('matrix-point-B')).toBeInTheDocument();
+    expect(screen.getByTestId('ai-explanation-label')).toHaveTextContent('AI EXPLANATION ≠ CERTIFIED RESULT');
+  });
+
+  it('renders no advisory at all until a point is selected (D2)', async () => {
+    globalThis.fetch = urlAwareMock();
+    render(<MemoryRouter><DecisionMatrix /></MemoryRouter>);
+    await screen.findByTestId('matrix-point-A');
+    expect(screen.queryByTestId('ai-explanation')).toBeNull();
+  });
+
+  it('renders the canonical ErrorState on advisory failure without disturbing the matrix (T6 · S4)', async () => {
+    globalThis.fetch = urlAwareMock({ advisoryFails: true });
+    const user = userEvent.setup();
+    render(<MemoryRouter><DecisionMatrix /></MemoryRouter>);
+    await user.click(await screen.findByTestId('matrix-point-A'));
+    expect(await screen.findByTestId('state-error')).toBeInTheDocument();
+    expect(screen.getByTestId('matrix-point-A')).toBeInTheDocument();
+    expect(screen.queryByText(/supplementary advisory explanation/)).not.toBeInTheDocument();
   });
 });

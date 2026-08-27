@@ -27,6 +27,7 @@ import { MetricGroup, MetricCard, DataTable } from '../../components/data/DataCo
 import { LoadingState, ErrorState, UnavailableState } from '../../components/state/StateComponents';
 import { StatusBadge } from '../../components/ui/Badges';
 import { CompanyTrustChain } from './CompanyTrustChain';
+import { AiExplanation } from '../../components/ai/AiExplanation';
 
 export function CompanyIntelligence() {
   const navigate = useNavigate();
@@ -148,6 +149,10 @@ export function CompanyIntelligence() {
 
       {/* N+5: governed trust chain — Decision → Evidence → Replay → Provenance */}
       <CompanyTrustChain evidence={evidence} replay={replay} />
+
+      {/* G-AI-IMPL (D2): embedded read-only AI explanation, bound to this host's sector key.
+          No route, no navigation entry, no sector selector. */}
+      <AiExplanation sectorKey={company.sector} />
 
       {/* Provenance */}
       <p data-testid="company-provenance" style={{ color: 'var(--color-ink-secondary)', fontSize: 12, marginTop: 16 }}>
