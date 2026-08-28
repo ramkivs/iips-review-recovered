@@ -1,7 +1,7 @@
 # PROGRAM v3.0 — ENGINE INTEGRATION VERIFICATION MATRIX
 
 **Milestone:** N — Integration & Scope Reconciliation
-**Basis:** canonical `phase13-next` @ `7f6b27d5e28ce3ec96b2b8c7fd00faecbd2445aa`
+**Basis:** reconciled at `3514d47908afa560d6c733d815452adae8bd9e91` (2026-08-20); re-verified unchanged at `85bbd49cd31c215a8fd0e7651b718861944dfe45` (canonical `phase13-next`).
 **Nature:** evidence-based reconciliation (read-only findings, rendered as a standing artifact). No engine/platform/server semantics changed.
 
 ---
@@ -27,24 +27,54 @@
 
 Implementation = `iips-platform/src/sector-engines/<name>/` (Engine + calibration + decision + evidence + metrics + scoring + frozen-assets JSON). Registration/execution = `frontend/server/executive-transport.ts` (`ENGINE_FACTORY` + `runtime.execute`). Certification = governed `PluginMarketplace` registry (`frontend/server/admin-transport.ts`) + per-sector artifacts.
 
-| Engine ID | Sector | IES | Class | Implementation | Runtime link | Certification evidence | UI surface |
-|---|---|---|---|---|---|---|---|
-| `sector.banking` | Banking | IES-006.2A | **A** | `BankingEngine.ts` + calibration/decision/evidence/metrics/scoring + frozen-assets | `ENGINE_FACTORY` + `runtime.execute` | WP1–4 + `reports/` (independent verification + final readiness) + `RELEASE_NOTES_banking-engine-v1.0.0.md` + rc report | Admin registry + Executive + Company Intelligence |
-| `sector.insurance` | Insurance | IES-007 | **A** | `InsuranceEngine.ts` + … | `ENGINE_FACTORY` + `runtime.execute` | WP1–4 + `reports-insurance/` + release notes | same |
-| `sector.capital-markets` | Capital Markets | IES-008 | **A** | `CapitalMarketsEngine.ts` + … | `ENGINE_FACTORY` + `runtime.execute` | WP1–4 + `reports-capital-markets/` + `IMPLEMENTATION_REUSE_REPORT_IES008.md` + release notes | same |
-| `sector.healthcare` | Healthcare | IES-009 | **A** | `HealthcareEngine.ts` + … | `ENGINE_FACTORY` + `runtime.execute` | WP1–4 + `reports-healthcare/` + `IMPLEMENTATION_REUSE_REPORT_IES009.md` + release notes | same |
-| `sector.hospitality` | Hospitality | IES-010 | **A** | `HospitalityEngine.ts` + … | `ENGINE_FACTORY` + `runtime.execute` | `ies-010-hospitality/` (FREEZE_MANIFEST + READINESS_CERTIFICATE + release notes) + `IES010_FINAL_READINESS_CERTIFICATE.md` + `IES010_INDEPENDENT_VERIFICATION_REPORT.md` | same |
-| `sector.energy` | Energy | IES-011 | **A** | `EnergyEngine.ts` + … | `ENGINE_FACTORY` + `runtime.execute` | `ies-011-energy/` + `IES011_FINAL_READINESS_CERTIFICATE.md` + `IES011_INDEPENDENT_VERIFICATION_REPORT.md` | same |
-| `sector.utilities` | Utilities | IES-012 | **A** | `UtilitiesEngine.ts` + … | `ENGINE_FACTORY` + `runtime.execute` | `ies-012-utilities/` + `IES012_FINAL_READINESS_CERTIFICATE.md` + `IES012_INDEPENDENT_VERIFICATION_REPORT.md` | same |
-| `sector.consumer` | Consumer | IES-013 | **A** | `ConsumerEngine.ts` + … | `ENGINE_FACTORY` + `runtime.execute` | `ies-013-consumer/` + `IES013_FINAL_READINESS_CERTIFICATE.md` + `IES013_INDEPENDENT_VERIFICATION_REPORT.md` | same |
-| `sector.industrials` | Industrials | IES-014 | **A** | `IndustrialsEngine.ts` + … | `ENGINE_FACTORY` + `runtime.execute` | `ies-014-industrials/` + `IES014_FINAL_READINESS_CERTIFICATE.md` + `IES014_INDEPENDENT_VERIFICATION_REPORT.md` | same |
-| `sector.technology` | Technology | IES-015 | **A** | `TechnologyEngine.ts` + … | `ENGINE_FACTORY` + `runtime.execute` | `ies-015-technology/` + `IES015_FINAL_READINESS_CERTIFICATE.md` + `IES015_INDEPENDENT_VERIFICATION_REPORT.md` | same |
-| `sector.telecommunications` | Telecommunications | IES-016 | **A** | `TelecommunicationsEngine.ts` + calibration/decision/evidence/metrics/scoring + frozen-assets | `ENGINE_FACTORY` + `runtime.execute` | `ies-016-telecommunications/` + `TELECOMMUNICATIONS_DISCOVERY_PACK.md` + `TELECOMMUNICATIONS_ENGINE_ACCEPTANCE_MATRIX.md` + `RELEASE_NOTES_IES-016_v1.0.0.md` | same (auto-extended universe) |
-| `sector.automobile` | Automobile | IES-017 | **A** | `AutomobileEngine.ts` + calibration/decision/evidence/metrics/scoring + frozen-assets | `ENGINE_FACTORY` + `runtime.execute` | `ies-017-automobile/` + `AUTOMOBILE_DISCOVERY_PACK.md` + acceptance matrix + `RELEASE_NOTES_IES-017_v1.0.0.md` | same (auto-extended universe) |
-| `sector.materials-metals` | Materials & Metals | IES-020 | **A** | `MaterialsMetalsEngine.ts` + calibration/decision/evidence/metrics/scoring + frozen-assets | `ENGINE_FACTORY` + `runtime.execute` | `ies-020-materials-metals/` + `MATERIALS_METALS_DISCOVERY_PACK.md` + acceptance matrix + `RELEASE_NOTES_IES-020_v1.0.0.md` | same (auto-extended universe) |
-| CSIP (`CrossSectorEngine`) | Cross-Sector | CSIP | **A** | `CrossSectorEngine.ts` + allocation/correlation/diversification/ontology/opportunity/portfolio/ranking/reporting | instantiated directly → `csip.run({ outputs })` (consumes the 13 engine outputs) | `iips-cross-sector/` (FREEZE_MANIFEST + READINESS_CERTIFICATE + TRACEABILITY) + `CSIP_FINAL_READINESS_CERTIFICATE.md` + `CSIP_INDEPENDENT_VERIFICATION_REPORT.md` | Cross-Sector Intelligence + Executive + Decision Matrix |
+| Engine ID | Sector | IES | Class | Evidence | Implementation | Runtime link | Certification evidence | UI surface |
+|---|---|---|---|---|---|---|---|---|
+| `sector.banking` | Banking | IES-006.2A | **A** | **A2** | `BankingEngine.ts` + calibration/decision/evidence/metrics/scoring + frozen-assets | `ENGINE_FACTORY` + `runtime.execute` | WP1–4 + `reports/` (independent verification + final readiness) + `RELEASE_NOTES_banking-engine-v1.0.0.md` + rc report | Admin registry + Executive + Company Intelligence |
+| `sector.insurance` | Insurance | IES-007 | **A** | **A2** | `InsuranceEngine.ts` + … | `ENGINE_FACTORY` + `runtime.execute` | WP1–4 + `reports-insurance/` + release notes | same |
+| `sector.capital-markets` | Capital Markets | IES-008 | **A** | **A2** | `CapitalMarketsEngine.ts` + … | `ENGINE_FACTORY` + `runtime.execute` | WP1–4 + `reports-capital-markets/` + `IMPLEMENTATION_REUSE_REPORT_IES008.md` + release notes | same |
+| `sector.healthcare` | Healthcare | IES-009 | **A** | **A2** | `HealthcareEngine.ts` + … | `ENGINE_FACTORY` + `runtime.execute` | WP1–4 + `reports-healthcare/` + `IMPLEMENTATION_REUSE_REPORT_IES009.md` + release notes | same |
+| `sector.hospitality` | Hospitality | IES-010 | **A** | **A1** | `HospitalityEngine.ts` + … | `ENGINE_FACTORY` + `runtime.execute` | `ies-010-hospitality/` (FREEZE_MANIFEST + READINESS_CERTIFICATE + release notes) + `IES010_FINAL_READINESS_CERTIFICATE.md` + `IES010_INDEPENDENT_VERIFICATION_REPORT.md` | same |
+| `sector.energy` | Energy | IES-011 | **A** | **A1** | `EnergyEngine.ts` + … | `ENGINE_FACTORY` + `runtime.execute` | `ies-011-energy/` + `IES011_FINAL_READINESS_CERTIFICATE.md` + `IES011_INDEPENDENT_VERIFICATION_REPORT.md` | same |
+| `sector.utilities` | Utilities | IES-012 | **A** | **A1** | `UtilitiesEngine.ts` + … | `ENGINE_FACTORY` + `runtime.execute` | `ies-012-utilities/` + `IES012_FINAL_READINESS_CERTIFICATE.md` + `IES012_INDEPENDENT_VERIFICATION_REPORT.md` | same |
+| `sector.consumer` | Consumer | IES-013 | **A** | **A1** | `ConsumerEngine.ts` + … | `ENGINE_FACTORY` + `runtime.execute` | `ies-013-consumer/` + `IES013_FINAL_READINESS_CERTIFICATE.md` + `IES013_INDEPENDENT_VERIFICATION_REPORT.md` | same |
+| `sector.industrials` | Industrials | IES-014 | **A** | **A1** | `IndustrialsEngine.ts` + … | `ENGINE_FACTORY` + `runtime.execute` | `ies-014-industrials/` + `IES014_FINAL_READINESS_CERTIFICATE.md` + `IES014_INDEPENDENT_VERIFICATION_REPORT.md` | same |
+| `sector.technology` | Technology | IES-015 | **A** | **A1** | `TechnologyEngine.ts` + … | `ENGINE_FACTORY` + `runtime.execute` | `ies-015-technology/` + `IES015_FINAL_READINESS_CERTIFICATE.md` + `IES015_INDEPENDENT_VERIFICATION_REPORT.md` | same |
+| `sector.telecommunications` | Telecommunications | IES-016 | **A** | **A2** | `TelecommunicationsEngine.ts` + calibration/decision/evidence/metrics/scoring + frozen-assets | `ENGINE_FACTORY` + `runtime.execute` | `ies-016-telecommunications/` + `TELECOMMUNICATIONS_DISCOVERY_PACK.md` + `TELECOMMUNICATIONS_ENGINE_ACCEPTANCE_MATRIX.md` + `RELEASE_NOTES_IES-016_v1.0.0.md` | same (auto-extended universe) |
+| `sector.automobile` | Automobile | IES-017 | **A** | **A2** | `AutomobileEngine.ts` + calibration/decision/evidence/metrics/scoring + frozen-assets | `ENGINE_FACTORY` + `runtime.execute` | `ies-017-automobile/` + `AUTOMOBILE_DISCOVERY_PACK.md` + acceptance matrix + `RELEASE_NOTES_IES-017_v1.0.0.md` | same (auto-extended universe) |
+| `sector.materials-metals` | Materials & Metals | IES-020 | **A** | **A2** | `MaterialsMetalsEngine.ts` + calibration/decision/evidence/metrics/scoring + frozen-assets | `ENGINE_FACTORY` + `runtime.execute` | `ies-020-materials-metals/` + `MATERIALS_METALS_DISCOVERY_PACK.md` + acceptance matrix + `RELEASE_NOTES_IES-020_v1.0.0.md` | same (auto-extended universe) |
+| CSIP (`CrossSectorEngine`) | Cross-Sector | CSIP | **A** | **A1** | `CrossSectorEngine.ts` + allocation/correlation/diversification/ontology/opportunity/portfolio/ranking/reporting | instantiated directly → `csip.run({ outputs })` (consumes the 13 engine outputs) | `iips-cross-sector/` (FREEZE_MANIFEST + READINESS_CERTIFICATE + TRACEABILITY) + `CSIP_FINAL_READINESS_CERTIFICATE.md` + `CSIP_INDEPENDENT_VERIFICATION_REPORT.md` | Cross-Sector Intelligence + Executive + Decision Matrix + Screener |
 
 Per-engine regression acceptance tests exist for all 14: `iips-platform/tests/regression/<name>-acceptance.test.ts` (+ `cross-sector-acceptance.test.ts`).
+
+### 3.1 Evidence maturity (A1 / A2)
+
+> **Class A capability status is unchanged for all 14 capabilities. A1/A2 represents evidence
+> maturity only; A2 does not mean capability failure, de-certification, or evidence-blocked
+> capability.**
+
+Authority: `governance/iips/DEC-D5-EVIDENCE-MATURITY.md` (sub-classification authorized as
+D5 Option A) and `governance/iips/DEC-D3-MATRIX-REBASELINE.md` (representation authorized as
+D3-2). Classification: **A1 — full evidence** (7): IES-010, IES-011, IES-012, IES-013,
+IES-014, IES-015, CSIP. **A2 — partial evidence** (7): IES-006.2A, IES-007, IES-008,
+IES-009, IES-016, IES-017, IES-020. Evidence-depth provenance: `iips-platform/IES0xx_*`,
+`iips-platform/reports*/`, `ies-0xx-*/IES-0xx_FREEZE_MANIFEST.json`,
+`iips-platform/tests/regression/`.
+
+**D5-S1 — regression threshold explicitly unquantified (D3-3 = A).** The A1 phrase
+*"required regression evidence"* **remains unquantified**. **No numeric threshold is
+authorized, and none may be inferred.** The 7/7 split above is unchanged for **any**
+threshold from 0 to 4, because every A2 capability already lacks at least one
+non-regression artifact. **D5-S1 remains an open methodology sub-gap.**
+
+**UI-surface column semantics (D3-5).** The UI-surface column represents **primary
+per-engine UI surfaces for the 13 sector rows; composed cross-sector views belong on the
+CSIP row.** Accordingly `Screener` is recorded on the CSIP row: it composes the existing
+certified Decision Matrix data (a composed cross-sector view over per-sector engine
+details) rather than presenting a single engine's result.
+
+**AI Advisory (D3-4).** A certified non-engine AI Advisory surface exists at
+`f63a9b493118643725568a95b86405a5835a30a0`; its matrix treatment is deferred to **D4**. It
+is **not** one of the 14 capabilities and has **no row and no placeholder** in this matrix.
 
 ## 4. Runtime integration trace (concrete)
 
