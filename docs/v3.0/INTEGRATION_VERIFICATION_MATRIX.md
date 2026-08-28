@@ -72,9 +72,45 @@ CSIP row.** Accordingly `Screener` is recorded on the CSIP row: it composes the 
 certified Decision Matrix data (a composed cross-sector view over per-sector engine
 details) rather than presenting a single engine's result.
 
-**AI Advisory (D3-4).** A certified non-engine AI Advisory surface exists at
-`f63a9b493118643725568a95b86405a5835a30a0`; its matrix treatment is deferred to **D4**. It
-is **not** one of the 14 capabilities and has **no row and no placeholder** in this matrix.
+### 3.2 Non-engine certified surfaces
+
+The per-engine matrix in §3 covers the **14 engine capabilities only**. Certified surfaces
+that are **not** engines are recorded here, separately, and are **not** added as rows to the
+per-engine table.
+
+| Surface | Class | Evidence | Certified at | Certification evidence | UI surface |
+|---|---|---|---|---|---|
+| **AI Advisory** (embedded, non-authoritative explanation) | **A** | **A2 — partial** | `f63a9b493118643725568a95b86405a5835a30a0` | `governance/iips/DEC-G-AI-IMPL-CERTIFICATION.md` | Embedded in Company Intelligence, Sector Intelligence and Decision Matrix. **No standalone route or navigation entry** (deliberate, per D3/D4 of the AI Advisory scope) |
+
+**Scope.** AI Advisory is **not** one of the 14 engine capabilities and has **no
+`ENGINE_FACTORY` registration and no `sector.*` engine ID**. Its certified scope is exactly
+the previously certified **13-path implementation delta** — no wider.
+
+**Evidence maturity A2 — partial**, per `governance/iips/DEC-D5-EVIDENCE-MATURITY.md`:
+capability and implementation validated, with one or more full-evidence artifacts absent.
+**A2 does not mean capability failure, de-certification, or an evidence-blocked
+capability.**
+
+**Recorded limitation (Option D) — carried exactly as certified.** The following criteria
+are **NOT PERFORMED**. They are recorded as a **limitation, not a failure**, and are **not**
+recorded as PASS. The limitation is **not self-clearing**: if the infrastructure becomes
+available, these must be performed and the limitation withdrawn by a further governance
+record.
+
+| Criterion | Status |
+|---|---|
+| **H** — authenticated live HTTP 200 advisory request | **NOT PERFORMED** |
+| **I** — real Keycloak authentication | **NOT PERFORMED** |
+| **J** — live browser rendering | **NOT PERFORMED** |
+
+Reason recorded at certification: no container runtime, no Keycloak IdP and no browser were
+available; the advisory dispatch returns `401 authentication unavailable (no IdP
+configured)` without an executor, so an authenticated live 200 is unreachable by
+construction. See `governance/iips/DEC-G-AI-IMPL-CERTIFICATION.md` §5 and
+`governance/iips/DEC-G-AI-IMPL-CERT-CRITERIA.md` (Option D).
+
+Criteria **A–F, K, L, M1–M3** were **PASSED** at certification. **No unavailable test is
+recorded as PASS.**
 
 ## 4. Runtime integration trace (concrete)
 
