@@ -75,7 +75,22 @@ A separate **controlled implementation gate** must, before any implementation mu
 4. re-verify all 10 fences;
 5. confirm the executable baseline decision **B1**.
 
-Until that gate returns **IMPLEMENTATION GO**, implementation remains **BLOCKED**.
+~~Until that gate returns **IMPLEMENTATION GO**, implementation remains **BLOCKED**.~~ —
+**AMENDED by `DEC-D11-STANDING-CONSISTENCY` (D11 §3 = B):** the **present-tense status**
+*"implementation remains BLOCKED"* is no longer true, and is struck for the same reason D9
+struck the identical wording at §5. Implementation was **authorized by the maintainer
+in-session, at two separate gates**, and was performed: commit
+`e5d59981c10578db0bf7a5b656acccb9450f45e0` (parent `85bbd49`, **13 paths**), then
+`f63a9b493118643725568a95b86405a5835a30a0`. See `DEC-G-AI-IMPL-IMPL-COMMIT-PUSH`, which records
+expressly that **no durable authorization existed beforehand** and fabricates none.
+**No `GATE` record asserting `IMPLEMENTATION GO` exists in this store, and none is created or
+implied by this amendment.**
+
+**The dependency rule itself is unchanged and remains in force:** implementation mutation still
+requires a controlled implementation gate that re-verifies items 1–5 above, and any **further**
+implementation act requires its own gate and its own separate grant. **Live-Keycloak
+certification (H / I / J) remains `NOT PERFORMED`** — an Option-D limitation, not a pass, and not
+self-clearing. No certification version or release was promoted.
 
 ## 4. Not authorized by this record
 
