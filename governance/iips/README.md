@@ -12,7 +12,38 @@ findings remain in their existing locations and are referenced from here, never 
 
 ## Record classes
 
-Every record declares exactly one class.
+~~Every record declares exactly one class.~~
+
+**AMENDED by `DEC-D12-CLASSIFICATION-CONVENTION` (finding `D-CLASS-DUAL`, gate D11/D12 §1 = D).**
+A record declares **exactly one *primary* class**, drawn from the table below, and **may**
+additionally carry **at most one optional descriptive qualifier**. The original sentence is
+preserved above for history.
+
+| Class | Meaning |
+|---|---|
+| `AUTHORIZATION` | Establishes permission to act |
+| `SPECIFICATION` | Establishes required behaviour, scope and boundaries |
+| `DECISION` | Resolves a named decision point |
+| `GATE` | Records a gate's outcome and the preconditions it verified |
+
+### Primary class and qualifier
+
+| Rule | Statement |
+|---|---|
+| **Primary class** | **Exactly one**, and **always** one of the four declared above. It is **the declared class**, wherever it appears in the `Class:` line — **position does not matter** |
+| **Qualifier** | **Optional; at most one.** A **descriptive label only**, naming the record's subject matter or function |
+| **A qualifier is not a class** | It is **not** added to the table above, confers **no** authority, and **never** changes what the record may establish |
+| **Authority derives from the primary class alone** | Per *AUTHORITY vs EVIDENCE vs REFERENCE vs IMPLEMENTATION* below: a qualifier such as `AUTHORITY`, `POLICY` or `METHODOLOGY AUTHORITY` **does not** make a record an `AUTHORIZATION`, and **must never be read as doing so** |
+| **Form** | `**Class:** \`<PRIMARY>\` / \`<qualifier>\`` — or simply `**Class:** \`<PRIMARY>\`` |
+
+**Effect on existing records.** This amendment **retroactively validates** the **15** records that
+already declare a primary class together with a qualifier. **No record is edited by it.** The
+seven qualifiers in current use are `AUTHORITY` (8 records), `METHODOLOGY AUTHORITY` (2), and
+`CERTIFICATION`, `POLICY`, `EXECUTION RECORD`, `AUTHORITY RECONCILIATION` and
+`DOCUMENTATION CORRECTION` (1 each). **In every one of the 15 the primary class is `DECISION`.**
+Note that `DEC-G-AI-IMPL-CERTIFICATION` is the only one of the 15 with its qualifier listed
+**first** (`CERTIFICATION / DECISION`); because the primary class is identified by **declaration,
+not position**, that record is valid as written and is **not** amended.
 
 | Class | Meaning |
 |---|---|
@@ -61,6 +92,12 @@ be marked **unverified** rather than accepted silently.
 This is a minimal convention. It introduces no broader governance framework and no enterprise-wide
 ADR policy, and it does not modify any other governance convention in this repository. New record
 classes or metadata fields are added only by a `DECISION` record.
+
+**AMENDED by `DEC-D12-CLASSIFICATION-CONVENTION`:** "classes" in that sentence means **primary
+classes**. A new **primary class** still requires a `DECISION` record, exactly as before. A
+**descriptive qualifier is not a class**, requires no separate record, and **confers no
+authority**. This clarification is required for internal consistency: without it the qualifiers
+already in use would remain non-compliant with the sentence above.
 
 ## Current state
 
