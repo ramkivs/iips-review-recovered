@@ -68,7 +68,17 @@ classes or metadata fields are added only by a `DECISION` record.
 |---|---|
 | G1 — durable authority location | `GATE` recorded — repository authority store required |
 | G1-M — authority store establishment | `GATE` recorded — see `GATE-G1-M.md` |
-| G-AI-IMPL authorization | **NOT ESTABLISHED** |
-| G-AI-IMPL implementation specification | **NOT ESTABLISHED** |
-| Decisions B1–B4, S1–S4 | **UNRESOLVED** |
-| G-AI-IMPL implementation | **BLOCKED** |
+| G-AI-IMPL authorization | **ESTABLISHED** — `AUTH-G-AI-IMPL.md` |
+| G-AI-IMPL implementation specification | **ESTABLISHED** — `SPEC-G-AI-IMPL.md` |
+| Decisions B1–B4, S1–S4 | **RESOLVED** — `DEC-G-AI-IMPL-B1*`, `-B2-B4`, `-S1-S4`, `-S2`, `-S4`, `-SR1` |
+| G-AI-IMPL implementation | **IMPLEMENTED + TESTED + CERTIFIED** — `e5d59981…` → `f63a9b49…`; see `DEC-G-AI-IMPL-CERTIFICATION` |
+
+**Amended by `DEC-D9-RECORD-CORRECTION` (finding `D-README-STALE`).** The four rows above
+previously read **NOT ESTABLISHED / NOT ESTABLISHED / UNRESOLVED / BLOCKED**. Those statements
+were accurate when this table was written and are **superseded, not falsified**: the
+authorization, specification, decisions and implementation are all recorded in this directory.
+
+**This table records governance-record state only.** It asserts no implementation change, no
+certification change, no certification version and no release or promotion. In particular the
+**H / I / J Option-D limitation** recorded in `DEC-G-AI-IMPL-CERTIFICATION` §5 **remains in
+force, remains `NOT PERFORMED`, and is not self-clearing**.

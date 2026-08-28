@@ -70,7 +70,15 @@ Consequences, stated explicitly so nothing is inferred later:
 1. **H, I and J are genuine requirements**, not optional extras. They are unmet **solely**
    because the environment lacks a container runtime and an IdP — measured this gate:
    `docker`, `podman`, `docker-compose`, `nerdctl` all **NOT FOUND**; `127.0.0.1:8080` →
-   `000`; no compose or IdP configuration tracked in the repository.
+   `000`; ~~no compose or IdP configuration tracked in the repository~~.
+   **AMENDED by `DEC-D9-RECORD-CORRECTION` (defect `D-HIJ-CONFIG`):** this is the
+   **originating** statement of the error corrected in `DEC-G-AI-IMPL-CERTIFICATION` §5, and is
+   corrected here for the same reason. **No compose** configuration is tracked (0 files) — that
+   half is correct. **Keycloak IdP configuration IS tracked** — 5 artifacts, including the
+   provisioning harness `frontend/server/live/keycloak-provision.mjs`. The correct reason is
+   that **no Keycloak server was reachable and no container runtime existed to start one**.
+   H, I and J remain **`NOT PERFORMED`**; the limitation remains **not self-clearing**; **no**
+   result is converted to PASS.
 2. **Absence is a recorded limitation, not a failure.** Certification may proceed with the
    limitation recorded verbatim in the certification record.
 3. **The limitation is not self-clearing.** If an IdP and browser later become available,

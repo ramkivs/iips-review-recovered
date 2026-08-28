@@ -105,12 +105,24 @@ Until that gate returns **IMPLEMENTATION GO**, implementation remains **BLOCKED*
 
 ## 5. Current status
 
-**IMPLEMENTATION: BLOCKED.** See `DEC-G-AI-IMPL-BS` for the decision state of B1–B4 and S1–S4, and
-`DEC-G-AI-IMPL-B1-AUTH-AMEND` for the baseline authority.
+~~**IMPLEMENTATION: BLOCKED.**~~ — **AMENDED by `DEC-D9-RECORD-CORRECTION` (finding
+`D-README-STALE`):** the controlled implementation gate subsequently returned **IMPLEMENTATION
+GO**, and the authorized delta was implemented and tested. Verified: commit
+`e5d59981c10578db0bf7a5b656acccb9450f45e0` — **parent `85bbd49`**, **13 paths changed** —
+followed by `f63a9b493118643725568a95b86405a5835a30a0` on `origin/gai-impl-canonical`; see
+`DEC-G-AI-IMPL-IMPL-COMMIT-PUSH` and `DEC-G-AI-IMPL-CERTIFICATION`. **Live-Keycloak
+certification (H / I / J) remains `NOT PERFORMED`** — an Option-D limitation, not a pass, and
+**not self-clearing**. No certification version or release was promoted. This correction
+changes **no** prohibition in §4. See `DEC-G-AI-IMPL-BS` for the decision state of B1–B4 and
+S1–S4, and `DEC-G-AI-IMPL-B1-AUTH-AMEND` for the baseline authority.
 
-**BASELINE TRANSITION: NOT PERFORMED.** The current checkout remains recovery `c65d533`. Amending this
-record does **not** execute the transition; a separate controlled baseline-transition and verification
-gate must do so.
+~~**BASELINE TRANSITION: NOT PERFORMED.** The current checkout remains recovery `c65d533`.~~ —
+**AMENDED by `DEC-D9-RECORD-CORRECTION`:** the single controlled transition to `85bbd49`
+authorized by §6.3 was subsequently performed at the dedicated baseline-transition gate, and
+implementation proceeded against `85bbd49`. Verified: `85bbd49` is an ancestor of `f63a9b49`,
+and `e5d59981`'s parent is `85bbd49`. The rule that **amending this record does not itself
+execute a transition remains correct and unchanged** — a separate controlled gate is still
+required for any further transition.
 
 ---
 

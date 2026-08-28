@@ -132,9 +132,33 @@ Recorded verbatim. **These are limitations, not failures, and they are not PASS.
 > J live browser inspection) is **required when the infrastructure exists**. The
 > infrastructure did not exist at certification: `docker`, `podman`, `docker-compose`,
 > `nerdctl`, `chromium`, `google-chrome` and `firefox` were all **NOT FOUND**; nothing
-> answered on `127.0.0.1:8080`; no compose or IdP configuration is tracked in the
-> repository. Under `DEC-G-AI-IMPL-CERT-CRITERIA` Option D this absence is recorded as a
+> answered on `127.0.0.1:8080`; ~~no compose or IdP configuration is tracked in the
+> repository~~. Under `DEC-G-AI-IMPL-CERT-CRITERIA` Option D this absence is recorded as a
 > **certification limitation, not a failure**.
+
+**AMENDED by `DEC-D9-RECORD-CORRECTION` (defect `D-HIJ-CONFIG`; discovered at D8, evidenced in
+`DEC-D8-HIJ-CONFIG-DEFECT`).** The struck clause is **factually incorrect** and is corrected
+here. The original wording is preserved above for history; the "recorded verbatim" label now
+applies to the blockquote **as amended**.
+
+| Claim as originally recorded | Verdict |
+|---|---|
+| No container runtime, no browser, nothing on `127.0.0.1:8080` | **CORRECT — unchanged** |
+| No **compose** configuration tracked | **CORRECT** — 0 compose files at `85bbd49`, `f63a9b49` and `phase13-next` |
+| No **IdP** configuration tracked | **INCORRECT** — 5 Keycloak artifacts tracked at all three commits |
+
+Tracked IdP material: `docs/v3.0/g3-build/keycloak-architecture.md`,
+`docs/v3.0/g3-build/keycloak-configuration.md`,
+`frontend/server/live/keycloak-provision.mjs` (blob `c4e5705812b90423c815735e067211d8e9e75454`,
+an executable provisioning harness), `frontend/src/core/auth/keycloakAdapter.ts` and
+`frontend/src/core/auth/keycloakAdapter.test.ts`.
+
+**Corrected reason:** IdP configuration and a provisioning harness **are** tracked; what was
+absent was **a reachable Keycloak server and a container runtime to start one**.
+
+**STATUS UNCHANGED — H, I and J remain `NOT PERFORMED`.** This corrects the recorded *reason*
+only. **No** criterion is converted to PASS, **no** limitation is withdrawn, and the limitation
+remains **not self-clearing**. Criteria **A–F, K, L, M1–M3** remain **PASSED** as recorded.
 
 Additional recorded facts:
 
