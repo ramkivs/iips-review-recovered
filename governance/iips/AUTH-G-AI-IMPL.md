@@ -66,7 +66,12 @@ A separate **controlled implementation gate** must, before any implementation mu
 
 1. re-verify this record and `SPEC-G-AI-IMPL` from the durable store;
 2. re-verify the decisions `DEC-G-AI-IMPL-BS`;
-3. re-verify the exact 11-path delta against the then-current baseline;
+3. re-verify the exact ~~11-path~~ **13-path** delta against the then-current baseline;
+   **AMENDED by `DEC-D10-PATH-COUNT-CONSISTENCY` (D-AUTH-11PATH):** the count is **13**
+   (5 NEW + 8 MODIFY), per `DEC-G-AI-IMPL-PATH-COUNT` (D-11V13), `SPEC-G-AI-IMPL` §5.1 / COL-5,
+   and verified independently against commit `e5d59981` (13 paths: 5 added, 8 modified). The
+   original "11" counted table **rows**, not paths, and is preserved here for history. **No path
+   is added, removed or reworded**; the path set and every requirement are unchanged.
 4. re-verify all 10 fences;
 5. confirm the executable baseline decision **B1**.
 

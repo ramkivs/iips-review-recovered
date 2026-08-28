@@ -8,8 +8,14 @@
 - **Authority relationship:** issued originally at the G-AI specification-discovery gate (classified
   **CASE B — IMPLEMENTABLE DELTA EXISTS**) and authorized by `AUTH-G-AI-IMPL`. Binds implementation
   once a controlled-change gate returns `IMPLEMENTATION GO`.
-- **Scope:** the 11-path delta below. Excludes baseline transition, recovery-evidence replacement,
-  canonical-content import, certification, and every path in §5.
+- **Scope:** the ~~11-path~~ **13-path** delta below. Excludes baseline transition,
+  recovery-evidence replacement, canonical-content import, certification, and every path in §5.
+  **AMENDED by `DEC-D10-PATH-COUNT-CONSISTENCY` (D-AUTH-11PATH):** the count is **13**
+  (5 NEW + 8 MODIFY), consistent with this record's §4 heading, §4's closing sentence and
+  `DEC-G-AI-IMPL-PATH-COUNT` (D-11V13), and verified independently against commit `e5d59981`.
+  The original "11" counted table **rows**, not paths, and is preserved here for history. **No
+  path is added, removed or reworded and no requirement, obligation or boundary is widened or
+  narrowed** — only the stated cardinality is corrected.
 - **Provenance:** see `AUTH-G-AI-IMPL` — reconstituted from previously issued session content after
   the original out-of-repo artifact was destroyed by sandbox re-clones. No requirement has been added,
   weakened or inferred.
