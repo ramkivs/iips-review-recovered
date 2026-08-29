@@ -100,11 +100,11 @@ committed or pushed.
 | 1 | `frontend/src/app/routes.ts` (D3) |
 | 2 | `frontend/src/app/navigation.ts` (D4) |
 | 3 | `frontend/src/app/Sidebar.tsx`, `AppShell.tsx`, `App.tsx` (D3/D4) |
-| 4 | `iips-platform/**` including `AiAssistedRuntime.ts` and all sector engines (engine matrix) |
+| 4 | `iips-platform/**` including `AiAssistedRuntime.ts` and all sector engines (engine matrix) — *Amended by D28 (`DEC-D28-FENCE-RELIEF-AUTHORIZATION`): narrow relief for **exactly** the 9 enumerated Tier-3 A1 paths in §5.2. **No other path receives relief; no general relaxation.*** |
 | 5 | `frontend/server/admin-transport.ts` — `guardRead` is reused **as-is** |
 | 6 | `frontend/server/secured-executor.ts` — no security-model change |
 | 7 | `program-v1.1-certification/PROGRAM_v1.1_REPLAY_BASELINE.json` — certified baseline |
-| 8 | `ies-010 … ies-020`, `iips-cross-sector` — certification baselines; CSIP excluded per D5 |
+| 8 | `ies-010 … ies-020`, `iips-cross-sector` — certification baselines; CSIP excluded per D5 — *Amended by D28 (`DEC-D28-FENCE-RELIEF-AUTHORIZATION`): narrow relief for **exactly** the 6 enumerated Tier-3 A1 paths/actions in §5.2. **No other path receives relief; no general relaxation.*** |
 | 9 | `ROADMAP.md`, `docs/v3.0/INTEGRATION_VERIFICATION_MATRIX.md` — D8, wave unassigned |
 | 10 | The six recovered AI files — **reference evidence only; no restoration, copying, modification, replacement or deletion.** *Amended by COL-1: this is an **evidence-preservation** constraint, not a permanent pathname reservation. It protects the six recovered blobs as historical evidence, and that protection is discharged by their preservation on the `arena` branch / `origin`. It does not reserve those pathnames against an independently authored canonical implementation at a path that is NEW relative to canonical baseline `85bbd49` (all three colliding paths are ABSENT at `85bbd49`). See `DEC-G-AI-IMPL-COL-RESOLUTION.md`.* |
 
@@ -129,6 +129,42 @@ committed or pushed.
    three recovery blob hashes as provenance evidence.
 5. **COL-5 — Change surface.** The existing **13-path implementation surface remains authoritative**.
    No relocation of the three paths is required, and T1–T10 traceability is unchanged.
+
+### 5.2 Fence-4 and fence-8 Tier-3 A1 relief (D28, authorized)
+
+Authorized by `DEC-D28-FENCE-RELIEF-AUTHORIZATION`, scoped exactly by
+`DEC-D27-FENCE-RELIEF-SCOPE`. **Narrow, path-specific relief only. No general relaxation of fence 4
+or fence 8. No path other than those enumerated below receives relief.**
+
+**Fence 4 — 9 files, creation only (0 amended, 0 deleted):**
+
+1. `iips-platform/IES016_INDEPENDENT_VERIFICATION_REPORT.md`
+2. `iips-platform/IES017_INDEPENDENT_VERIFICATION_REPORT.md`
+3. `iips-platform/IES020_INDEPENDENT_VERIFICATION_REPORT.md`
+4. `iips-platform/tests/regression/telecommunications-framework-integration.test.ts`
+5. `iips-platform/tests/regression/telecommunications-reuse-verification.test.ts`
+6. `iips-platform/tests/regression/automobile-framework-integration.test.ts`
+7. `iips-platform/tests/regression/automobile-reuse-verification.test.ts`
+8. `iips-platform/tests/regression/materials-metals-framework-integration.test.ts`
+9. `iips-platform/tests/regression/materials-metals-reuse-verification.test.ts`
+
+**Fence 8 — 3 files created + 3 files amended (0 deleted):**
+
+1. CREATE `ies-016-telecommunications/IES-016_FREEZE_MANIFEST.json`
+2. CREATE `ies-017-automobile/IES-017_FREEZE_MANIFEST.json`
+3. CREATE `ies-020-materials-metals/IES-020_FREEZE_MANIFEST.json`
+4. AMEND `ies-016-telecommunications/IES-016_IMPLEMENTATION_READINESS_CERTIFICATE.md`
+5. AMEND `ies-017-automobile/IES-017_IMPLEMENTATION_READINESS_CERTIFICATE.md`
+6. AMEND `ies-020-materials-metals/IES-020_IMPLEMENTATION_READINESS_CERTIFICATE.md`
+
+**Not relieved:** `docs/v3.0/INTEGRATION_VERIFICATION_MATRIX.md` (fence 9 — separate authority);
+every other fence 1–10 boundary; the 60-artifact documentation programme; and every exclusion
+enumerated in `DEC-D28-FENCE-RELIEF-AUTHORIZATION` §9.
+
+**This relief authorizes nothing else.** It does not authorize A2 → A1 promotion, certification,
+matrix amendment, or any change to A1/A2 authority, and it does not alter the methodology
+acceptance recorded at `DEC-D25-TIER3-EVIDENTIARY-STANDARD`. **Authorization is not execution** —
+the underlying work requires a separate gate.
 
 ## 6. Data contract
 
