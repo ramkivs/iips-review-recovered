@@ -2,6 +2,9 @@
 # IMPLEMENTATION READINESS CERTIFICATE (v1.0)
 
 **Standard:** IES-020 · **Engine:** `sector.materials-metals` · **sectorFamily:** `Materials & Metals`
+**Status:** AUTHORIZED — implementation may begin against the frozen baseline
+**Issued:** 2026-08-29
+**Issuer:** IIPS Engineering Standards Maintainer
 **Contract:** D20 v1.0 (M1–M15 ACCEPTED by the maintainer/domain authority)
 **Baseline:** canonical `d51b120b2ac8a524bf088ed8fe80b904c29a628b`
 

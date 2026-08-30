@@ -2,6 +2,9 @@
 # IMPLEMENTATION READINESS CERTIFICATE (v1.0)
 
 **Standard:** IES-016 · **Engine:** `sector.telecommunications` · **sectorFamily:** `Telecommunications`
+**Status:** AUTHORIZED — implementation may begin against the frozen baseline
+**Issued:** 2026-08-29
+**Issuer:** IIPS Engineering Standards Maintainer
 **Contract:** D16 v1.0 (M1–M15 ACCEPTED by the maintainer/domain authority)
 **Baseline:** canonical `c3041aa6f72c2d2c712730ca72efec07a1a88d35`
 

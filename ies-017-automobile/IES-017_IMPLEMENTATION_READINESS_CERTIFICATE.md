@@ -2,6 +2,9 @@
 # IMPLEMENTATION READINESS CERTIFICATE (v1.0)
 
 **Standard:** IES-017 · **Engine:** `sector.automobile` · **sectorFamily:** `Automobile`
+**Status:** AUTHORIZED — implementation may begin against the frozen baseline
+**Issued:** 2026-08-29
+**Issuer:** IIPS Engineering Standards Maintainer
 **Contract:** D17 v1.0 (M1–M15 ACCEPTED by the maintainer/domain authority)
 **Baseline:** canonical `9bf91d148a8013e0e51bc0d0c22e70894e0dab15`
 
