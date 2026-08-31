@@ -2,10 +2,10 @@
 # SPECIFICATION & DISCOVERY PACK (v1.0)
 
 **Workstream:** IIPS v3.0 Engine Certification Program (IES-016 CLOSED at `9bf91d1`).
-**Document type:** **D17 v1.0 SPECIFICATION — METHODOLOGY ACCEPTED** (M1–M15 ACCEPTED + G1–G6 DECIDED, recorded 2026-08-20 in `D17_AUTHORITY_REVIEW.md`). The methodology values below are now the accepted D17 authority. **Engine implementation remains NOT authorized.**
+**Document type:** **D17 v1.0 SPECIFICATION — METHODOLOGY ACCEPTED** (D17 v1.0 methodology including M1–M15 + G1–G6, accepted as a fresh forward-looking acceptance, recorded 2026-08-29 in `DEC-D25-TIER3-EVIDENTIARY-STANDARD`; historical acceptance is NOT established and `D17_AUTHORITY_REVIEW.md` does not exist). The methodology values below are the accepted D17 authority under DEC-D25. **Engine implementation remains NOT authorized.**
 **Baseline anchor:** canonical `9bf91d148a8013e0e51bc0d0c22e70894e0dab15` (`feat: add telecommunications sector to IES-016`).
 **Reference template:** certified IES-015 Technology / IES-016 Telecommunications engine (structure only — **Automobile methodology is NOT inherited**).
-**Status:** PROPOSED — supersedes the IES-017 "AUTHORITY GAP" STOP state only once the maintainer accepts the D17 methodology via `D17_AUTHORITY_REVIEW.md`.
+**Status:** ACCEPTED (fresh forward-looking, 2026-08-29, `DEC-D25-TIER3-EVIDENTIARY-STANDARD`) — supersedes the IES-017 "AUTHORITY GAP" STOP state under DEC-D25, while **engine implementation remains NOT authorized** (engine remains A2).
 
 ---
 
@@ -145,7 +145,7 @@ Caps: `governance` → Avoid; `recall-risk`, `battery-cost-shock`, `demand-colla
 
 Mirrors the certified template: evidence package per execution (engineId `sector.automobile`, recommendation = final verdict, compositeScore, supporting scores = quality/growth/risk/profitability, decisionRulesApplied = overrides, calibrationVersion, replayReference, provenance). **Confidence is not fabricated by the engine**; golden expected outputs carry no confidence → governed transport reports `null` → UI "unavailable".
 
-> **Open question (recorded, requires explicit maintainer decision):** the certified platform `EvidencePipeline.build` requires a non-nullable numeric `confidence`. IES-016 resolved this via **Option A** (internal `0.8` plumbing only; metadata absent; governed null). **That decision does NOT auto-transfer to IES-017** — see `D17_AUTHORITY_REVIEW.md` Part D (G-item).
+> **Confidence decision (recorded):** the certified platform `EvidencePipeline.build` requires a non-nullable numeric `confidence`. IES-016 resolved this via **Option A** (internal `0.8` plumbing only; metadata absent; governed null). **That decision does NOT auto-transfer to IES-017** — the IES-017 decision is recorded at `IES-017_IMPLEMENTATION_READINESS_CERTIFICATE.md:27–29`; see `DEC-D25-TIER3-EVIDENTIARY-STANDARD` §7.2.
 
 ---
 
@@ -198,7 +198,7 @@ Coverage: all 6 verdict bands; overrides (AB-006/011/012); multi-subsegment + hy
 
 ---
 
-## 10. Acceptance gates (when/if methodology is approved)
+## 10. Acceptance gates (after D25 methodology acceptance — implementation/certification still NOT authorized)
 
 ```text
 [ ] Engine reproduces the 13 frozen expected outputs byte-identically
@@ -224,9 +224,9 @@ Coverage: all 6 verdict bands; overrides (AB-006/011/012); multi-subsegment + hy
 
 | Risk | Severity | Mitigation |
 |---|---|---|
-| Methodology not yet authority | CRITICAL | Everything PROPOSED; authority review gate before any implementation |
+| Methodology acceptance established (D25) but implementation not yet authorized | CRITICAL | DEC-D25 accepted D17 v1.0 fresh forward-looking (2026-08-29); engine implementation and certification remain NOT authorized |
 | Fabricated golden data | CRITICAL | Fixtures are PROPOSED synthetic; must be approved by domain authority before certification |
-| Evidence confidence contract conflict | HIGH | Requires explicit maintainer decision (Option-A analog) — see D17_AUTHORITY_REVIEW Part D |
+| Evidence confidence contract conflict | RESOLVED (recorded) | G5 (Option-A analog, maintainer) recorded at `IES-017_IMPLEMENTATION_READINESS_CERTIFICATE.md:27–29`; see `DEC-D25-TIER3-EVIDENTIARY-STANDARD` §7.2 |
 | Oracle/engine float divergence | HIGH | Identical IEEE-754 + summation order; byte-exact composite |
 | Certification-test 11→12 extension | MEDIUM | 12 files mechanical; Track-1/2/6/8 frozen |
 | CSIP/framework drift | HIGH | Zero CSIP/platform/framework change (ontology registration) |
@@ -235,12 +235,12 @@ Coverage: all 6 verdict bands; overrides (AB-006/011/012); multi-subsegment + hy
 
 ## 13. Unresolved / follow-ups
 
-1. **Maintainer acceptance** of M1–M15 (all PENDING in `D17_AUTHORITY_REVIEW.md`).
-2. **Confidence decision** (Option-A analog) — explicit IES-017 decision required.
+1. **Maintainer acceptance** of M1–M15 — established as a fresh forward-looking acceptance of the D17 v1.0 methodology by `DEC-D25-TIER3-EVIDENTIARY-STANDARD` (2026-08-29); historical acceptance is NOT established.
+2. **Confidence decision** — recorded (G5, Option-A analog, maintainer) at `IES-017_IMPLEMENTATION_READINESS_CERTIFICATE.md:27–29`; see `DEC-D25-TIER3-EVIDENTIARY-STANDARD` §7.2.
 3. **Naming**: sector display `Automobile`, engine dir `automobile`.
 4. Live production data out of scope (frozen reference convention).
 
 ---
 
-**IES-017 D17 SPECIFICATION STATUS: METHODOLOGY ACCEPTED (M1–M15 + G1–G6, recorded 2026-08-20)**
+**IES-017 D17 SPECIFICATION STATUS: METHODOLOGY ACCEPTED (D17 v1.0, fresh forward-looking, recorded 2026-08-29 in `DEC-D25-TIER3-EVIDENTIARY-STANDARD`; historical acceptance NOT established)**
 **ENGINE IMPLEMENTATION: NOT AUTHORIZED**

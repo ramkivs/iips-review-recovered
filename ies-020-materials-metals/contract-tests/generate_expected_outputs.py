@@ -9,13 +9,13 @@ inherited):
   * hybrid / multi-subsegment resolution (hybridDominant, subsegmentDominant,
     most-conservative-risk = highest leverageAlert, tie-break lexicographic)
   * round-half-to-even at the composite only (pillars kept at full precision)
-  * M15 (accepted): LEFT-TO-RIGHT summation for the composite (NOT Python sum())
+  * M15 (accepted as part of the D20 v1.0 fresh forward-looking acceptance under DEC-D25-TIER3-EVIDENTIARY-STANDARD): LEFT-TO-RIGHT summation for the composite (NOT Python sum())
   * missing primitive -> dropped + weights renormalized; empty pillar -> 0.0
   * min_rank(baseVerdict, all applicable override caps); leverage-breach when
     debtEbitda >= subsegment leverageAlert
 
 This is a reference oracle / transcription tool — NOT an authority. Every value derives from
-the ACCEPTED calibration (see D20_AUTHORITY_REVIEW.md, recorded 2026-08-20). No random/date/time
+the D20 v1.0 calibration accepted under DEC-D25-TIER3-EVIDENTIARY-STANDARD (fresh forward-looking, recorded 2026-08-29; D20_AUTHORITY_REVIEW.md does not exist). No random/date/time
 sources. Deterministic only.
 """
 import json, math, os
