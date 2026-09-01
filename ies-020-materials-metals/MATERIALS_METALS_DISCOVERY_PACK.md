@@ -3,9 +3,9 @@
 
 ```text
 IES-020 D20 SPECIFICATION
-STATUS: METHODOLOGY ACCEPTED (D20 v1.0, fresh forward-looking acceptance, recorded 2026-08-29 in DEC-D25-TIER3-EVIDENTIARY-STANDARD; historical acceptance NOT established)
+STATUS: METHODOLOGY ACCEPTED (M1–M15 ACCEPTED; G1–G6 DECIDED — recorded 2026-08-20)
 
-Reference/replay outputs are FROZEN in the certified replay baseline; maintainer-issued reference-asset freezing is NOT established (see DEC-D25-TIER3-EVIDENTIARY-STANDARD §8.1; D20_CERTIFICATION_DATA_ACCEPTANCE.md does not exist).
+Certification data is FROZEN (see D20_CERTIFICATION_DATA_ACCEPTANCE.md).
 No implementation authorization exists.
 No repository implementation is authorized.
 ```
@@ -13,7 +13,7 @@ No repository implementation is authorized.
 **Workstream:** IIPS v3.0 Engine Certification Program (IES-016 CLOSED; IES-017 PROMOTED at `d51b120`).
 **Baseline anchor:** canonical `d51b120b2ac8a524bf088ed8fe80b904c29a628b`.
 **Reference:** certified IES-015/016/017 engines — **structural/process precedent ONLY. No domain methodology is inherited.**
-**Status:** ACCEPTED (fresh forward-looking, 2026-08-29, `DEC-D25-TIER3-EVIDENTIARY-STANDARD`) — supersedes the IES-020 "AUTHORITY GAP" STOP state under DEC-D25, while **engine implementation remains NOT authorized** (engine remains A2).
+**Status:** PROPOSED — supersedes the IES-020 "AUTHORITY GAP" STOP state only once the maintainer accepts the D20 methodology via `D20_AUTHORITY_REVIEW.md`.
 
 ---
 
@@ -137,9 +137,9 @@ Calibrated band tables (M9, PROPOSED): `precious-metals` MM-004 (longer reserve 
 
 ---
 
-## 16. Confidence / evidence treatment (G-decision recorded — see `DEC-D25-TIER3-EVIDENTIARY-STANDARD` §7.3 and `IES-020_IMPLEMENTATION_READINESS_CERTIFICATE.md:27–29`)
+## 16. Proposed confidence / evidence treatment (G-decision — see D20_AUTHORITY_REVIEW Part D)
 
-Engine never fabricates confidence; golden expected outputs carry none → governed transport reports `null` → UI "unavailable". The internal `EvidencePipeline.build(confidence: number)` non-nullable contract requires an explicit **G-decision**; it is recorded at `IES-020_IMPLEMENTATION_READINESS_CERTIFICATE.md:27–29` (see `DEC-D25-TIER3-EVIDENTIARY-STANDARD` §7.3; the IES-016/017 Option-A does **not** auto-transfer).
+Engine never fabricates confidence; golden expected outputs carry none → governed transport reports `null` → UI "unavailable". The internal `EvidencePipeline.build(confidence: number)` non-nullable contract requires an explicit **G-decision** (the IES-016/017 Option-A does **not** auto-transfer).
 
 ---
 
@@ -163,7 +163,7 @@ Round-half-to-even at 1 decimal (composite only); **left-to-right summation**; n
 
 ## 22. Proposed synthetic/provider assumptions (ILLUSTRATIVE ONLY)
 
-13 synthetic reference providers (MM-001…MM-013) + 2 edge cases (MM-014, MM-015) — the IES-015/016/017 frozen-Replay-Baseline convention. **NOT real companies.** The D20 v1.0 methodology was accepted as a fresh forward-looking acceptance (recorded 2026-08-29 in `DEC-D25-TIER3-EVIDENTIARY-STANDARD`); reference/replay outputs are frozen in the certified replay baseline (`D20_CERTIFICATION_DATA_ACCEPTANCE.md` does not exist).
+13 synthetic reference providers (MM-001…MM-013) + 2 edge cases (MM-014, MM-015) — the IES-015/016/017 frozen-Replay-Baseline convention. **NOT real companies.** Accepted under D20 M1–M15 (recorded 2026-08-20); frozen as certification data (see `D20_CERTIFICATION_DATA_ACCEPTANCE.md`).
 
 ---
 
@@ -202,7 +202,7 @@ Both `ENGINE_FACTORY` registries + `SECTOR_DIR: 'Materials & Metals': 'materials
 
 ## 27. Proposed certification-data requirements
 
-After implementation/certification authority: freeze the calibration, golden-reference, validation-fixtures, expected-outputs, replay-dataset, and ontology metadata with recorded SHA256; acceptance matrix + readiness certificate + risk register + release notes. Reference/replay outputs are frozen in the certified replay baseline; maintainer-issued reference-asset freezing is NOT established (DEC-D25 §8.1). All other artifacts remain **PROPOSED/ILLUSTRATIVE**; no maintainer-issued A1 certificate exists.
+After methodology authority: freeze the calibration, golden-reference, validation-fixtures, expected-outputs, replay-dataset, and ontology metadata with recorded SHA256; acceptance matrix + readiness certificate + risk register + release notes. All currently **PROPOSED/ILLUSTRATIVE — NOT FROZEN**.
 
 ---
 
@@ -218,5 +218,5 @@ After implementation/certification authority: freeze the calibration, golden-ref
 
 ---
 
-**IES-020 D20 SPECIFICATION STATUS: METHODOLOGY ACCEPTED (D20 v1.0, fresh forward-looking, recorded 2026-08-29 in `DEC-D25-TIER3-EVIDENTIARY-STANDARD`; historical acceptance NOT established); REFERENCE/REPLAY OUTPUTS FROZEN in the certified replay baseline; maintainer-issued reference-asset freezing NOT established (DEC-D25 §8.1)**
+**IES-020 D20 SPECIFICATION STATUS: METHODOLOGY ACCEPTED (M1–M15 + G1–G6, recorded 2026-08-20); CERTIFICATION DATA FROZEN**
 **ENGINE IMPLEMENTATION: NOT AUTHORIZED**
