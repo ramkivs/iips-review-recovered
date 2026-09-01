@@ -1,29 +1,31 @@
-# DEC-G-AI-IMPL-IMPL-COMMIT-PUSH — Implementation Commit & Push Authority Record
+﻿# DEC-G-AI-IMPL-IMPL-COMMIT-PUSH â€” Implementation Commit & Push Authority Record
 
 - **Record ID:** `DEC-G-AI-IMPL-IMPL-COMMIT-PUSH`
-- **Title:** G-AI-IMPL Implementation Commit and Push — Retrospective Authority Record (D-AUTH-CP)
+- **Title:** G-AI-IMPL Implementation Commit and Push â€” Retrospective Authority Record (D-AUTH-CP)
 - **Class:** `DECISION` / `AUTHORITY RECONCILIATION`
-- **Status:** `RECORDED — D-AUTH-CP RESOLVED`
+- **Status:** `RECORDED â€” D-AUTH-CP RESOLVED`
 - **Date:** 2026-08-27
-- **Authority relationship:** gate `G-AI-IMPL CERTIFICATION-PRECONDITION AUTHORITY`, §3. The maintainer
+- **Authority relationship:** gate `G-AI-IMPL CERTIFICATION-PRECONDITION AUTHORITY`, Â§3. The maintainer
   explicitly selected the proposed D-AUTH-CP treatment and granted recording authority
   (record + commit + push to `origin/arena/01a03e3b-iips-review-recovered`).
 - **Scope:** records an authority fact that already occurred and reconciles `AUTH-G-AI-IMPL`
   with it. It authorizes **nothing new**. It does **not** authorize certification, a
   further commit, or a further push.
 
+**Provenance:** pre-existing governance record; provenance reconstructed from the authoritative governance record and execution lineage available at the time of D33-C1 amendment. This metadata amendment records provenance only and does not alter the record's substantive decision, authorization, scope, or evidentiary determination.
+
 ---
 
-## 1. DEFECT BEING RESOLVED — D-AUTH-CP
+## 1. DEFECT BEING RESOLVED â€” D-AUTH-CP
 
 Identified by the post-push certification-readiness review. Verified this gate:
 
 | Durable statement (before this record) | Location |
 |---|---|
-| "Commit or push of implementation work" listed under *Not authorized by this record* | `AUTH-G-AI-IMPL.md` §4 |
+| "Commit or push of implementation work" listed under *Not authorized by this record* | `AUTH-G-AI-IMPL.md` Â§4 |
 | "COMMIT AUTHORITY: NOT GRANTED BY THIS GATE (implementation commit not authorized)" | `DEC-G-AI-IMPL-COMMIT-TARGET.md` |
 | "PUSH AUTHORITY: GRANTED for the branch ref only; NOT granted for implementation" | `DEC-G-AI-IMPL-COMMIT-TARGET.md` |
-| `grep -rn "e5d59981" governance/iips/` → **no matches** | all 16 records |
+| `grep -rn "e5d59981" governance/iips/` â†’ **no matches** | all 16 records |
 
 Against that, the durable remote state was:
 
@@ -41,13 +43,13 @@ issued by the maintainer in-session, at two separate gates, each with an explici
 
 | Action | Gate at which the maintainer granted it | Scope of the grant |
 |---|---|---|
-| Implementation **commit** | `G-AI-IMPL IMPLEMENTATION VALIDATION & COMMIT AUTHORITY` §10, confirmed explicitly when asked | Single commit; the 13-path delta only; on branch `gai-impl-canonical`; based on `85bbd49`; no other files; no merge/rebase/cherry-pick/reset; no governance or fence mutation; **push withheld** |
-| Implementation **push** | `G-AI-IMPL IMPLEMENTATION PUSH` gate | Push commit `e5d59981…` only, to `origin/gai-impl-canonical` only; no force; no other ref |
+| Implementation **commit** | `G-AI-IMPL IMPLEMENTATION VALIDATION & COMMIT AUTHORITY` Â§10, confirmed explicitly when asked | Single commit; the 13-path delta only; on branch `gai-impl-canonical`; based on `85bbd49`; no other files; no merge/rebase/cherry-pick/reset; no governance or fence mutation; **push withheld** |
+| Implementation **push** | `G-AI-IMPL IMPLEMENTATION PUSH` gate | Push commit `e5d59981â€¦` only, to `origin/gai-impl-canonical` only; no force; no other ref |
 
 Both grants were conditional on validation passing, and validation did pass
-(§4 below).
+(Â§4 below).
 
-## 3. THE COMPLETED ACTION — VERIFIED FROM DURABLE STATE THIS GATE
+## 3. THE COMPLETED ACTION â€” VERIFIED FROM DURABLE STATE THIS GATE
 
 ```
 commit          e5d59981c10578db0bf7a5b656acccb9450f45e0
@@ -80,11 +82,11 @@ M 5e96a75f0c5e  frontend/src/features/research/SectorIntelligence.test.tsx
 M 858f1f89fe81  frontend/src/features/research/SectorIntelligence.tsx
 ```
 
-Durable tree comparison `85bbd49` → `e5d59981`: 1000 blobs → 1005 blobs, and the differing
+Durable tree comparison `85bbd49` â†’ `e5d59981`: 1000 blobs â†’ 1005 blobs, and the differing
 set is **exactly these 13 paths**. Nothing else changed. All ten must-not-touch fences are
 byte-identical across the two trees.
 
-## 4. VALIDATION CONDITION — SATISFIED
+## 4. VALIDATION CONDITION â€” SATISFIED
 
 Recorded durably in the commit message of `e5d59981`:
 
@@ -97,7 +99,7 @@ authorized T1-T10 subset                130 passed / 0 failed
 Not certified. Live-Keycloak and live-browser checks NOT PERFORMED (no IdP available).
 ```
 
-## 5. SIDE EFFECT — D-DUR-7 CLOSED
+## 5. SIDE EFFECT â€” D-DUR-7 CLOSED
 
 The seven implementation hashes that previously appeared in **no** durable record are now
 durably reachable from `origin/gai-impl-canonical` at `e5d59981`, verified against the
@@ -114,12 +116,12 @@ bb96a540f9a6  DecisionMatrix.tsx             033f42e5167b  DecisionMatrix.test.t
 
 ## 6. AMENDMENT TO `AUTH-G-AI-IMPL`
 
-Minimum necessary, following the amendment convention already used in that record. §4's line
+Minimum necessary, following the amendment convention already used in that record. Â§4's line
 "Commit or push of implementation work" is struck and annotated; the original prohibition is
 preserved for history and continues to apply to every **future** commit or push, each of
 which requires its own grant. No historical `DEC-` record is rewritten;
 `DEC-G-AI-IMPL-COMMIT-TARGET` stands exactly as written and remains correct **as of its own
-date** — it did not grant implementation commit or push, and this record does not claim
+date** â€” it did not grant implementation commit or push, and this record does not claim
 otherwise.
 
 ## 7. WHAT THIS RECORD DOES NOT DO
@@ -130,12 +132,12 @@ otherwise.
 | Authorize any further implementation commit | **NO** |
 | Authorize any further push | **NO** |
 | Reopen P7 | **NO** |
-| Alter S1–S4, SR-1–SR-5, B1–B4, D1–D8, or any fence | **NO** |
+| Alter S1â€“S4, SR-1â€“SR-5, B1â€“B4, D1â€“D8, or any fence | **NO** |
 | Rewrite any historical decision record | **NO** |
-| Assert that a durable authorization existed before this record | **NO — it did not** |
+| Assert that a durable authorization existed before this record | **NO â€” it did not** |
 
 ## 8. CLASSIFICATION
 
-# **D-AUTH-CP — RESOLVED**
+# **D-AUTH-CP â€” RESOLVED**
 
 The durable authority store and `origin/gai-impl-canonical` are now consistent.

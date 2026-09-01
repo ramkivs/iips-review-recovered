@@ -1,11 +1,11 @@
-# DEC-A2-A1-CLOSURE-STRATEGY — A2 → A1 Evidence-Debt Closure Strategy
+﻿# DEC-A2-A1-CLOSURE-STRATEGY â€” A2 â†’ A1 Evidence-Debt Closure Strategy
 
 - **Record ID:** `DEC-A2-A1-CLOSURE-STRATEGY`
-- **Title:** A2 → A1 Evidence-Debt Closure — Tiered Strategy, and Verified Provenance of the Tier-2 Pruned Artifacts
+- **Title:** A2 â†’ A1 Evidence-Debt Closure â€” Tiered Strategy, and Verified Provenance of the Tier-2 Pruned Artifacts
 - **Class:** `DECISION` / `AUTHORITY`
-- **Status:** `RECORDED — CLOSURE STRATEGY = OPTION B (TIERED); NO EVIDENCE ARTIFACT AUTHORIZED OR CREATED`
+- **Status:** `RECORDED â€” CLOSURE STRATEGY = OPTION B (TIERED); NO EVIDENCE ARTIFACT AUTHORIZED OR CREATED`
 - **Date:** 2026-08-28
-- **Authority relationship:** gate `PROGRAM v3.0 / IES CAPABILITY RE-BASELINE — A2 → A1
+- **Authority relationship:** gate `PROGRAM v3.0 / IES CAPABILITY RE-BASELINE â€” A2 â†’ A1
   EVIDENCE-DEBT CLOSURE AUTHORITY GATE`. Closure-strategy options A / B / C / D were
   presented **without recommendation**; the maintainer explicitly selected **B (tiered
   closure)**, separately authorized a **read-only search** for the Tier-2 pruned artifacts,
@@ -14,40 +14,42 @@
   no evidence-artifact creation, amends no matrix, changes no Class A status, and performs no
   closure.**
 
+**Provenance:** pre-existing governance record; provenance reconstructed from the authoritative governance record and execution lineage available at the time of D33-C1 amendment. This metadata amendment records provenance only and does not alter the record's substantive decision, authorization, scope, or evidentiary determination.
+
 ---
 
-## 1. DECISION — OPTION B, TIERED CLOSURE
+## 1. DECISION â€” OPTION B, TIERED CLOSURE
 
-A2 → A1 closure is to be pursued **differently for Tier 2 and Tier 3**, on the ground of
+A2 â†’ A1 closure is to be pursued **differently for Tier 2 and Tier 3**, on the ground of
 **artifact provenance**, which is verified below and is **not** an assumption about
 historical age.
 
 | Tier | Capabilities | Route to A1 |
 |---|---|---|
-| **Tier 2** | IES-006.2A banking, IES-007 insurance, IES-008 capital-markets, IES-009 healthcare | **Restoration** of the pruned artifacts — **now established as unavailable** (§3) — **or** an explicit **re-verification performed now and dated as new work**. **Never** by authoring replacement documents presented as the original historical evidence |
-| **Tier 3** | IES-016 telecommunications, IES-017 automobile, IES-020 materials-metals | **Genuine new evidence production** — the artifacts never existed, so producing them is new certification work, honestly dated as such |
+| **Tier 2** | IES-006.2A banking, IES-007 insurance, IES-008 capital-markets, IES-009 healthcare | **Restoration** of the pruned artifacts â€” **now established as unavailable** (Â§3) â€” **or** an explicit **re-verification performed now and dated as new work**. **Never** by authoring replacement documents presented as the original historical evidence |
+| **Tier 3** | IES-016 telecommunications, IES-017 automobile, IES-020 materials-metals | **Genuine new evidence production** â€” the artifacts never existed, so producing them is new certification work, honestly dated as such |
 
 **All 14 capabilities remain Class A.** Nothing in this record downgrades, de-certifies or
 evidence-blocks any capability.
 
-## 2. EVIDENCE INVENTORY (read-only, at `origin/phase13-next` `357b34dac1bd…`)
+## 2. EVIDENCE INVENTORY (read-only, at `origin/phase13-next` `357b34dac1bdâ€¦`)
 
 | Capability | Src files | acceptance | framework-integration | reuse-verification | wp4-validation | Independent verification | Final readiness | Freeze manifest | Pack |
 |---|---|---|---|---|---|---|---|---|---|
-| IES-006.2A banking | 11 | ✓ | ✗ | ✗ | ✗ | ✓ `iips-platform/reports/` | ✗ | ✗ | **ABSENT (pruned)** |
-| IES-007 insurance | 11 | ✓ | ✓ | ✓ | ✗ | ✓ `reports-insurance/` | ✗ | ✗ | **ABSENT (pruned)** |
-| IES-008 capital-markets | 10 | ✓ | ✓ | ✓ | ✗ | ✓ `reports-capital-markets/` | ✗ | ✗ | **ABSENT (pruned)** |
-| IES-009 healthcare | 10 | ✓ | ✓ | ✓ | ✗ | ✓ `reports-healthcare/` | ✗ | ✗ | **ABSENT (pruned)** |
-| IES-016 telecommunications | 11 | ✓ | ✗ | ✗ | ✓ | ✗ | ✗ | ✗ | **PRESENT (12)** |
-| IES-017 automobile | 11 | ✓ | ✗ | ✗ | ✓ | ✗ | ✗ | ✗ | **PRESENT (12)** |
-| IES-020 materials-metals | 11 | ✓ | ✗ | ✗ | ✓ | ✗ | ✗ | ✗ | **PRESENT (12)** |
+| IES-006.2A banking | 11 | âœ“ | âœ— | âœ— | âœ— | âœ“ `iips-platform/reports/` | âœ— | âœ— | **ABSENT (pruned)** |
+| IES-007 insurance | 11 | âœ“ | âœ“ | âœ“ | âœ— | âœ“ `reports-insurance/` | âœ— | âœ— | **ABSENT (pruned)** |
+| IES-008 capital-markets | 10 | âœ“ | âœ“ | âœ“ | âœ— | âœ“ `reports-capital-markets/` | âœ— | âœ— | **ABSENT (pruned)** |
+| IES-009 healthcare | 10 | âœ“ | âœ“ | âœ“ | âœ— | âœ“ `reports-healthcare/` | âœ— | âœ— | **ABSENT (pruned)** |
+| IES-016 telecommunications | 11 | âœ“ | âœ— | âœ— | âœ“ | âœ— | âœ— | âœ— | **PRESENT (12)** |
+| IES-017 automobile | 11 | âœ“ | âœ— | âœ— | âœ“ | âœ— | âœ— | âœ— | **PRESENT (12)** |
+| IES-020 materials-metals | 11 | âœ“ | âœ— | âœ— | âœ“ | âœ— | âœ— | âœ— | **PRESENT (12)** |
 
 All seven hold 4 frozen-asset JSONs (calibration, golden-reference, expected-outputs,
-validation-fixtures) and 10–11 source files. **All 14 capabilities' implementations are
-intact — no capability gap and no implementation gap.** `*-helpers.ts` modules are not test
+validation-fixtures) and 10â€“11 source files. **All 14 capabilities' implementations are
+intact â€” no capability gap and no implementation gap.** `*-helpers.ts` modules are not test
 files and satisfy no regression kind.
 
-## 3. TIER-2 PROVENANCE SEARCH — CONCLUSIVE NEGATIVE
+## 3. TIER-2 PROVENANCE SEARCH â€” CONCLUSIVE NEGATIVE
 
 A read-only search was explicitly authorized and performed. Every recovery route claimed by
 `docs/v3.0/housekeeping-option-a-prune.md` (2026-08-11) was tested.
@@ -58,15 +60,15 @@ A read-only search was explicitly authorized and performed. Every recovery route
 | `CHECKSUM.txt` + `RESTORE_INSTRUCTIONS.md` "alongside" | Filesystem search for both filenames | **NOT FOUND** anywhere |
 | Annotated tag `prune-pre-v3-phase12/option-a` | `git ls-remote origin` filtered for `prune`; `git ls-remote --tags origin`; GitHub API `repos/.../tags` | **ABSENT.** The only tag in the repository, locally and on GitHub, is `v3.0-phase12-certified` |
 | Pre-prune commit `a838bd5` | `git cat-file -t a838bd5`; GitHub API `repos/.../commits/a838bd5` | **`fatal: Not a valid object name a838bd5`** locally; GitHub API returns **HTTP 422 "No commit found for SHA: a838bd5"** |
-| Any other branch holding pre-prune history | GitHub API `repos/.../branches` | 6 branches — `arena/01a03e3b-…`, `gai-impl-canonical`, `main`, `phase13-hardening-delivery`, `phase13-next`, `program-v3-matrix-rebaseline`. **None is a pre-prune branch** |
+| Any other branch holding pre-prune history | GitHub API `repos/.../branches` | 6 branches â€” `arena/01a03e3b-â€¦`, `gai-impl-canonical`, `main`, `phase13-hardening-delivery`, `phase13-next`, `program-v3-matrix-rebaseline`. **None is a pre-prune branch** |
 
-### Conclusion — recorded as a new open item
+### Conclusion â€” recorded as a new open item
 
 > **The Tier-2 pruned artifacts are definitively unrecoverable in this environment.** The
 > archive, the pre-prune tag and the pre-prune commit are all absent from both the
 > filesystem and the repository, locally and on GitHub. Tier-2 A1 closure is therefore
 > **blocked on provenance, not merely on authority.** Its only honest route is an explicit
-> **re-verification performed now and dated as new work** — which is **new certification
+> **re-verification performed now and dated as new work** â€” which is **new certification
 > activity**, not closure of the original debt, and must be recorded as such whenever it is
 > undertaken.
 
@@ -80,7 +82,7 @@ possible.
 > IES-006.2A, IES-007, IES-008 or IES-009.** Those artifacts were produced in 2026-08 and
 > destroyed. Any replacement must be dated as new work and labelled as a re-verification.
 
-## 4. TIER-3 METHODOLOGICAL BLOCKER — IDENTIFIED, NOT RESOLVED
+## 4. TIER-3 METHODOLOGICAL BLOCKER â€” IDENTIFIED, NOT RESOLVED
 
 Tier 3's missing limbs are: `framework-integration` and `reuse-verification` regression kinds,
 plus independent verification, final readiness and freeze manifest.
@@ -112,14 +114,14 @@ authorized implicitly.
 **No implementation change is required for any of it.** Every missing item is an evidence,
 documentation or test artifact; all 14 implementations are intact.
 
-## 6. BOUNDARY — FOUR SEPARATE AUTHORITY ACTIONS
+## 6. BOUNDARY â€” FOUR SEPARATE AUTHORITY ACTIONS
 
 | # | Action | Status |
 |---|---|---|
-| 1 | Deciding **what** evidence closure requires | **DONE — this record** |
+| 1 | Deciding **what** evidence closure requires | **DONE â€” this record** |
 | 2 | Authorizing **creation** of that evidence | **NOT DONE** |
-| 3 | Actually **creating** the evidence | **NOT DONE** — and for Tier 3's independence limb requires a decision on who performs it |
-| 4 | Updating the matrix from **A2 → A1** | **NOT DONE** — requires separate matrix-amendment authority |
+| 3 | Actually **creating** the evidence | **NOT DONE** â€” and for Tier 3's independence limb requires a decision on who performs it |
+| 4 | Updating the matrix from **A2 â†’ A1** | **NOT DONE** â€” requires separate matrix-amendment authority |
 
 **No independent-verification report, final-readiness certificate, freeze manifest or
 regression test was created. The Integration Verification Matrix was not modified. No engine
@@ -130,7 +132,7 @@ or implementation was changed. No Class A capability status was changed.**
 Per the recording grant, the next gate is named here. **It is not executed by this record and
 requires its own authority.**
 
-# Next: **A2 → A1 EVIDENCE-ARTIFACT CREATION AUTHORITY GATE (TIER 3 FIRST)**
+# Next: **A2 â†’ A1 EVIDENCE-ARTIFACT CREATION AUTHORITY GATE (TIER 3 FIRST)**
 
 **Why Tier 3 first.** Tier 3's route is genuine new evidence production and does not depend
 on any unavailable source. Tier 2's route depends on `D7-TIER2-PROVENANCE`, which is now
@@ -140,8 +142,8 @@ authorized and dated as new work.
 **What it must decide.**
 1. Whether to authorize creation of the Tier-3 artifacts (2 regression test kinds each +
    final readiness + freeze manifest).
-2. **Who performs the Tier-3 independent verification** (`D7-TIER3-INDEPENDENCE`) — the
-   integrity rule in §3 applies equally here: a report by the implementing party is not
+2. **Who performs the Tier-3 independent verification** (`D7-TIER3-INDEPENDENCE`) â€” the
+   integrity rule in Â§3 applies equally here: a report by the implementing party is not
    independent.
 3. Whether to authorize a **Tier-2 re-verification** explicitly dated as new work
    (`D7-TIER2-PROVENANCE`), or leave Tier 2 as permanent A2.
@@ -158,20 +160,20 @@ whether any capability remains permanently A2.
 
 | Item | Status |
 |---|---|
-| **D7-TIER2-PROVENANCE** (new) | **OPEN — conclusively negative.** Archive, pre-prune tag and pre-prune commit all absent locally and on GitHub. Tier-2 closure requires an explicitly dated re-verification |
+| **D7-TIER2-PROVENANCE** (new) | **OPEN â€” conclusively negative.** Archive, pre-prune tag and pre-prune commit all absent locally and on GitHub. Tier-2 closure requires an explicitly dated re-verification |
 | **D7-TIER3-INDEPENDENCE** (new) | **OPEN.** Who performs Tier-3 independent verification is undecided |
-| `program-v3-matrix-rebaseline` disposition | **OPEN** — content already on `phase13-next` via `33dc1a7d…` |
-| Dangling-citation annotation | **OPEN** — per `DEC-D6-DURABLE-RECORDING-POLICY` §3 |
-| `AUTH-G-AI-IMPL` §4 referent-less prohibition annotation | **OPEN** — per `DEC-D2-DANGLING-VOCABULARY` |
-| H / I / J Option-D validation | **OPEN** — infrastructure, not self-clearing |
-| P7 referent | **OPEN** — identify, or record permanently that it has no referent; never claimed as PASS |
+| `program-v3-matrix-rebaseline` disposition | **OPEN** â€” content already on `phase13-next` via `33dc1a7dâ€¦` |
+| Dangling-citation annotation | **OPEN** â€” per `DEC-D6-DURABLE-RECORDING-POLICY` Â§3 |
+| `AUTH-G-AI-IMPL` Â§4 referent-less prohibition annotation | **OPEN** â€” per `DEC-D2-DANGLING-VOCABULARY` |
+| H / I / J Option-D validation | **OPEN** â€” infrastructure, not self-clearing |
+| P7 referent | **OPEN** â€” identify, or record permanently that it has no referent; never claimed as PASS |
 
 ## 9. WHAT THIS RECORD DOES NOT DO
 
-No evidence artifact created · no matrix amendment · no engine or implementation change · no
-Class A capability status change · no certification change · no release/version/tag promotion
-· no P7 reopening · no threshold change (D5-S1 kind-set unchanged) · no restoration attempted
-· no branch merged or rebased · no historical record amended · no ref other than `arena`
+No evidence artifact created Â· no matrix amendment Â· no engine or implementation change Â· no
+Class A capability status change Â· no certification change Â· no release/version/tag promotion
+Â· no P7 reopening Â· no threshold change (D5-S1 kind-set unchanged) Â· no restoration attempted
+Â· no branch merged or rebased Â· no historical record amended Â· no ref other than `arena`
 moved.
 
 ## 10. CLASSIFICATION

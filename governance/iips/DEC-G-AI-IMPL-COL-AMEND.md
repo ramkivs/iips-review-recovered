@@ -1,31 +1,33 @@
-# DEC-G-AI-IMPL-COL-AMEND — 3-Path Collision Amendment Authority
+﻿# DEC-G-AI-IMPL-COL-AMEND â€” 3-Path Collision Amendment Authority
 
 - **Record ID:** `DEC-G-AI-IMPL-COL-AMEND`
-- **Title:** 3-Path Collision Specification Amendment — Authority Outcome
+- **Title:** 3-Path Collision Specification Amendment â€” Authority Outcome
 - **Class:** `DECISION`
-- **Status:** `RECORDED — DEFERRED (no COL decision authorized)`
+- **Status:** `RECORDED â€” DEFERRED (no COL decision authorized)`
 - **Date/time:** 2026-08-27
 - **Authority relationship:** gate `G-AI-IMPL 3-PATH COLLISION SPECIFICATION AMENDMENT AUTHORITY`.
   Records the authority outcome only. Does **not** amend `SPEC-G-AI-IMPL`.
-- **Scope:** the authority outcome for COL-1…COL-5. Nothing else.
+- **Scope:** the authority outcome for COL-1â€¦COL-5. Nothing else.
 - **Supersession / revision:** supersedes no record. `SPEC-G-AI-IMPL` is **unmodified**.
+
+**Provenance:** pre-existing governance record; provenance reconstructed from the authoritative governance record and execution lineage available at the time of D33-C1 amendment. This metadata amendment records provenance only and does not alter the record's substantive decision, authorization, scope, or evidentiary determination.
 
 ---
 
 ## 1. DECISION
 
-# **D — REMAIN DEFERRED**
+# **D â€” REMAIN DEFERRED**
 
 The maintainer granted **no** COL authority at this gate. The contradiction between the 13-path
 implementation surface and Fence 10 therefore **remains open**.
 
 | Decision | Outcome |
 |---|---|
-| **COL-1** — fence 10 as evidence-preservation, not pathname reservation | **DEFERRED** |
-| **COL-2** — creation of the three canonical NEW paths after transition | **DEFERRED** |
-| **COL-3** — preservation on arena/origin satisfies fence 10 | **DEFERRED** |
-| **COL-4** — independent authorship / provenance requirement | **DEFERRED** |
-| **COL-5** — 13-path surface remains authoritative | **DEFERRED** |
+| **COL-1** â€” fence 10 as evidence-preservation, not pathname reservation | **DEFERRED** |
+| **COL-2** â€” creation of the three canonical NEW paths after transition | **DEFERRED** |
+| **COL-3** â€” preservation on arena/origin satisfies fence 10 | **DEFERRED** |
+| **COL-4** â€” independent authorship / provenance requirement | **DEFERRED** |
+| **COL-5** â€” 13-path surface remains authoritative | **DEFERRED** |
 
 **SPECIFICATION AMENDMENT: NOT AUTHORIZED.** Per the gate rule, no partial amendment was made:
 `SPEC-G-AI-IMPL` is unmodified, fence 10 is unmodified, and the 13-path surface is unchanged.
@@ -34,15 +36,15 @@ implementation surface and Fence 10 therefore **remains open**.
 
 ## 2. CONFIRMED CONTRADICTION (unchanged)
 
-`SPEC-G-AI-IMPL` §4 lists as **NEW** implementation paths:
+`SPEC-G-AI-IMPL` Â§4 lists as **NEW** implementation paths:
 
 1. `frontend/server/ai-advisory-transport.ts`
 2. `frontend/server/ai-advisory-transport.test.ts`
 3. `frontend/src/api/aiAdvisory.ts`
 
-`SPEC-G-AI-IMPL` §5 fence 10 states, verbatim:
+`SPEC-G-AI-IMPL` Â§5 fence 10 states, verbatim:
 
-> | 10 | The six recovered AI files — **reference evidence only; no restoration, copying, modification,
+> | 10 | The six recovered AI files â€” **reference evidence only; no restoration, copying, modification,
 > replacement or deletion** |
 
 All three NEW paths were verified to be **three of those six** recovered evidence paths at `c65d533`.
@@ -57,9 +59,9 @@ contradiction is confirmed and **unresolved**.
 |---|---|
 | Canonical target | `85bbd49cd31c215a8fd0e7651b718861944dfe45` |
 | Durable authority tip | `origin/arena` @ `aed45df9dcb5611c1cae6586741a99e00a5e4e9a` |
-| Six recovery blobs | **all six byte-identical on `origin/arena`** — `0792a6a4ef32`, `775d9150bd45`, `2bcaac3329de`, `322726b6023c`, `8eda5c51b21b`, `1113a6e3023b` |
-| The three collisions | **unchanged** — `c65d533` blobs `0792a6a4ef32` / `775d9150bd45` / `322726b6023c`; **ABSENT** at `85bbd49`; worktree `e257814e3eb2` / `8ae5a4ab3623` / `2258e54c179e` (byte-distinct) |
-| Implementation integrity | **intact** — all six hashes match the inspected state; 3/3 host embeds present |
+| Six recovery blobs | **all six byte-identical on `origin/arena`** â€” `0792a6a4ef32`, `775d9150bd45`, `2bcaac3329de`, `322726b6023c`, `8eda5c51b21b`, `1113a6e3023b` |
+| The three collisions | **unchanged** â€” `c65d533` blobs `0792a6a4ef32` / `775d9150bd45` / `322726b6023c`; **ABSENT** at `85bbd49`; worktree `e257814e3eb2` / `8ae5a4ab3623` / `2258e54c179e` (byte-distinct) |
+| Implementation integrity | **intact** â€” all six hashes match the inspected state; 3/3 host embeds present |
 
 ---
 
@@ -68,12 +70,12 @@ contradiction is confirmed and **unresolved**.
 The maintainer authorized creating this record durably in `governance/iips/`, which requires committing
 on the `arena` branch. To do that, two operations were performed:
 
-1. `git checkout arena/01a03e3b-iips-review-recovered` — the branch was already the checked-out branch;
+1. `git checkout arena/01a03e3b-iips-review-recovered` â€” the branch was already the checked-out branch;
    HEAD was at `c65d533` because the sandbox re-clone had reset it.
-2. `git merge --ff-only refs/remotes/origin/arena-published` — a **fast-forward** of the local branch
+2. `git merge --ff-only refs/remotes/origin/arena-published` â€” a **fast-forward** of the local branch
    to its already-published tip `aed45df`.
 
-**Effect:** HEAD moved `c65d533 → aed45df`. No commit was created by the fast-forward; `origin/arena`
+**Effect:** HEAD moved `c65d533 â†’ aed45df`. No commit was created by the fast-forward; `origin/arena`
 was already at `aed45df`. No file content was authored or altered by these operations, and all six
 implementation hashes were re-verified intact afterwards.
 
@@ -88,14 +90,14 @@ record on the arena branch, and it aligned the local branch with its already-pub
 - Fence 10 **remains unresolved** against the 13-path surface.
 - The 13-path surface **remains authoritative** (unchanged, and not re-specified).
 - **No implementation path is authorized beyond the existing 13.**
-- No threshold, methodology, product behavior, S1–S4, SR-1–SR-5 or certification decision is changed.
+- No threshold, methodology, product behavior, S1â€“S4, SR-1â€“SR-5 or certification decision is changed.
 - **Implementation remains BLOCKED.**
 
 Still outstanding, in order:
 
-1. **COL-1…COL-5 authority** (this gate deferred them).
-2. **Commit-target authority** — a detached canonical HEAD is not a branch.
-3. **Worktree-unblocking authority** — the 8 tracked-modified blockers and 191 canonical-only files.
+1. **COL-1â€¦COL-5 authority** (this gate deferred them).
+2. **Commit-target authority** â€” a detached canonical HEAD is not a branch.
+3. **Worktree-unblocking authority** â€” the 8 tracked-modified blockers and 191 canonical-only files.
 4. **Implementation execution gate.**
 
 ---
@@ -133,24 +135,24 @@ FENCE-10:
 UNRESOLVED
 
 RECOVERY EVIDENCE:
-PRESERVED — all six blobs byte-identical on origin/arena @ aed45df
+PRESERVED â€” all six blobs byte-identical on origin/arena @ aed45df
 
 IMPLEMENTATION:
 BLOCKED
 
 WORKTREE MUTATION:
 NONE (implementation files unmodified; HEAD fast-forwarded to the already-published
-arena tip to enable recording — disclosed in §4)
+arena tip to enable recording â€” disclosed in Â§4)
 
 COMMIT:
-PERFORMED — authority-only, this record only, on arena
+PERFORMED â€” authority-only, this record only, on arena
 
 PUSH:
-PERFORMED — authority-only
+PERFORMED â€” authority-only
 
 CERTIFICATION:
 NOT PERFORMED
 
 FINAL DECISION:
-D — REMAIN DEFERRED
+D â€” REMAIN DEFERRED
 ```
