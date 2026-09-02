@@ -5,18 +5,20 @@
   "freezeDate": "2026-08-29",
   "approver": "IIPS Engineering Standards Maintainer",
   "methodologyVersion": "IES-016 v1.0 (D16 normative contract)",
-  "engineeringStandardVersion": "IES-016 discovery pack v1.0 (see engineeringDocs)",
+  "engineeringStandardVersion": "IES-016 discovery pack v1.0 + D36 documentation set (see engineeringDocs)",
   "calibrationProfile": "telecommunications-calibration-1.0.0",
   "goldenDataset": "telecommunications-golden-reference-1.0.0",
   "expectedOutputs": "telecommunications-expected-outputs-1.0.0",
   "replayDataset": "telecommunications-replay-dataset-1.0.0",
   "validationFixtures": "telecommunications-validation-fixtures-1.0.0",
   "ontologyMetadata": "telecommunications-ontology-metadata-1.0.0",
-  "engineeringDocs": "No IES-016-D01..D19 engineering-document set exists for this standard. The normative calculation contract is the TELECOMMUNICATIONS_DISCOVERY_PACK.md discovery pack; section 3 of that pack is the normative calculation contract for sector.telecommunications.",
+  "engineeringDocs": "IES-016-D01..D19 documentation set exists: docs/IES-016_01_README.md through docs/IES-016_19_REFERENCE_DATA_SOURCES.md (19 documents), created under DEC-D36-TIER3-DOCUMENTATION-PARITY-AUTHORITY on phase13-next commit 0a8e287 dated 2026-09-01; new documentation, not recovered historical evidence. The normative calculation contract remains section 3 of TELECOMMUNICATIONS_DISCOVERY_PACK.md.",
   "reviewArtifacts": [
     "TELECOMMUNICATIONS_ENGINE_ACCEPTANCE_MATRIX.md",
     "TELECOMMUNICATIONS_IMPLEMENTATION_RISK_REGISTER.md",
-    "IES-016_IMPLEMENTATION_READINESS_CERTIFICATE.md"
+    "IES-016_IMPLEMENTATION_READINESS_CERTIFICATE.md",
+    "IES-016_ARCHITECTURE_REVIEW.md",
+    "D16_AUTHORITY_REVIEW.md"
   ],
   "documentHashes": {
     "calibration": "sha256:2d22256e2c13b0e5b855c0869558f9d12898ddb12a7f3d0f611f6c9b16cba7e0",
@@ -28,8 +30,11 @@
     "discoveryPack": "sha256:4f35d9f51cb29d03b60a87f6a5f3d23db9c3dc0c275fbd73d591389c04e9438a",
     "acceptanceMatrix": "sha256:1e344fa5e65e46d633d4b3774dfd7acbd71488b464b1086bc9d672c31321c665",
     "riskRegister": "sha256:bb45049d2d22facd5048fc3b15f7e645962dbee09a5e9b4324be4a356f2b2f07",
-    "contractTestGenerator": "sha256:807a7dafba619d01543f78bbe13cb169165bf56ae8f4939c1fb8285711e8ae48"
+    "contractTestGenerator": "sha256:807a7dafba619d01543f78bbe13cb169165bf56ae8f4939c1fb8285711e8ae48",
+    "architectureReview": "sha256:96ef579479a55aa880902384058003888b9d72d911e931bb3cb316211b3cb4c7",
+    "authorityReview": "sha256:369cadebf1953fcd3c520e7e6c5619783c3d2ac440af978c3ecf1bab8fc81802"
   },
+  "hashNormalization": "architectureReview and authorityReview are SHA-256 hashes of the repository LF blob representation of the named files at phase13-next commit 100a90237d4ac3db29d10019423b67afe99e2819. The pre-existing ten documentHashes entries retain their historical CRLF-rendering convention and were not recomputed.",
   "consumedPlatform": "iips-platform unchanged (IES-005/005.1)",
   "consumedCapabilities": [
     "CSIP (ontology registration, zero change)"
