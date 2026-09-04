@@ -33,6 +33,7 @@ export const NAV: NavItem[] = [
       { label: 'Company', path: '/research/company/:id', minRole: 'viewer' },
       { label: 'Sector', path: '/research/sector/:id', minRole: 'viewer' },
       { label: 'Cross-Sector', path: '/research/cross-sector', minRole: 'viewer' },
+      { label: 'Engines', path: '/research/engines', minRole: 'viewer' },
     ],
   },
   {

@@ -509,6 +509,10 @@ function computeCertifiedCompany(sectorId: string): unknown {
 // --- Minimal HTTP server (development-mode). ---
 const port = Number(process.env.EXEC_TRANSPORT_PORT ?? 8787);
 
+// IIPS v3.0 — E2E-025 Engine Integration — additive engine API adapter (certified engines, no methodology change).
+import { EngineApiAdapter } from '../../iips-platform/src/integration/EngineApiAdapter';
+const engineApi = new EngineApiAdapter();
+
 // Lazily-created live executors (real Keycloak), cached across requests.
 let adminExecutor: import('./secured-executor').SecuredExecutor | null = null;
 let aiExecutor: import('./secured-executor').SecuredExecutor | null = null;
@@ -546,6 +550,49 @@ const server = http.createServer((req, res) => {
       }
     })();
     return;
+  }
+  // E2E-025 Engine Integration — public certified-engine registry + direct dispatch (additive; uses governed runtime, not a scoring recomputation).
+  if (req.url === '/api/engines' && req.method === 'GET') {
+    res.writeHead(200); res.end(JSON.stringify(engineApi.listEngines())); return;
+  }
+  if (req.method === 'POST' && req.url?.startsWith('/api/engines/') && req.url?.endsWith('/execute')) {
+    const m = req.url.match(/^\/api\/engines\/([^/]+)\/execute$/);
+    if (m) {
+      const pathEngineId = decodeURIComponent(m[1]);
+      void (async () => {
+        try {
+          const chunks: Buffer[] = [];
+          req.on('data', (c: Buffer) => chunks.push(c));
+          req.on('end', () => {
+            try {
+              const raw = Buffer.concat(chunks).toString('utf8');
+              const body = raw ? JSON.parse(raw) as Record<string, unknown> : {};
+              // Body engineId must match path if provided; path is authoritative.
+              const bodyEngineId = typeof body.engineId === 'string' ? body.engineId : pathEngineId;
+              if (bodyEngineId !== pathEngineId) {
+                res.writeHead(400); res.end(JSON.stringify({ error: 'engineId mismatch between path and body' })); return;
+              }
+              const result = engineApi.execute({
+                apiVersion: (body.apiVersion as string) ?? '1.0',
+                engineId: pathEngineId,
+                requestId: (body.requestId as string) ?? `req-${Date.now()}`,
+                inputs: (body.inputs as Record<string, unknown>) ?? {},
+              });
+              if (result.state === 'DENIED') { res.writeHead(404); res.end(JSON.stringify({ ...result, error: result.reason })); return; }
+              if (result.state === 'FAILED') { res.writeHead(400); res.end(JSON.stringify({ ...result, error: result.reason })); return; }
+              res.writeHead(200); res.end(JSON.stringify(result));
+            } catch (e) {
+              const msg = String(e);
+              const status = msg.includes('unsupported-api-version') ? 422 : msg.includes('missing') || msg.includes('must be') ? 400 : msg.includes('uncertified') ? 404 : 400;
+              res.writeHead(status); res.end(JSON.stringify({ error: msg }));
+            }
+          });
+        } catch (e) {
+          res.writeHead(500); res.end(JSON.stringify({ error: 'engine transport error', detail: String(e) }));
+        }
+      })();
+      return;
+    }
   }
   try {
     if (req.url === '/api/health') {
