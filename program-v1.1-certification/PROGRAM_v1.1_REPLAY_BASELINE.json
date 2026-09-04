@@ -1,10 +1,10 @@
 {
   "baseline": "program-v1.1-replay-baseline",
   "program": "v1.1",
-  "version": "1.0.0",
-  "date": "2026-08-09",
-  "standard": "Program v1.1 Final Certification",
-  "contractVersion": "Program v1.1 (10 sector engines frozen; ARM/CSIP/Performance/Observability/CI-CD certified)",
+  "version": "1.1.0",
+  "date": "2026-09-04",
+  "standard": "Program v1.1 + D38 Frozen Extension \u2014 13 sector engines (10 LTS + 3 deferred frozen evidence baseline, implementation NOT AUTHORIZED)",
+  "contractVersion": "Program v1.1 (13 sector engines frozen evidence: 10 LTS certified + 3 deferred FROZEN evidence baseline via D38 Freeze Authority; implementation NOT AUTHORIZED, GATE0 remains BLOCKED, E2E-030 remains 10-engine certified until Opening+Certification)",
   "purpose": "Authoritative program-level replay baseline: representative golden execution from each of the 10 released sector engines. Certifies replay identity \u2014 same input + contract version + calibration version + runtime configuration -> identical output + evidence + metadata + replay.",
   "runtimeConfiguration": {
     "clock": "fixed",
@@ -289,6 +289,98 @@
         "verdict": "Buy"
       },
       "calibrationProfile": "technology-calibration-1.0.0"
+    },
+    {
+      "sector": "Telecommunications",
+      "engineId": "sector.telecom",
+      "engineVersion": "1.0.0",
+      "standard": "IES-016",
+      "contractVersion": "IES-016 v1.0",
+      "calibrationVersion": "1.0.0",
+      "calibrationProfile": "telecommunications-calibration-1.0.0",
+      "input": {
+        "TL-001": 72,
+        "TL-002": 4500,
+        "TL-003": 15.2,
+        "TL-004": 38,
+        "TL-005": 8.5,
+        "TL-006": 12,
+        "TL-007": 28,
+        "TL-008": 4.2
+      },
+      "expectedOutput": {
+        "composite": 68.4,
+        "verdict": "Accumulate"
+      },
+      "historicalSource": "G:\\IIPS\\D36_REHYDRATION_WORK\\historical-package/expected-outputs/telecommunications-expected-outputs-1.0.0.json sha256:3cfb9d93f545d45d749cc48c88e25bab23075b013911ea7751212b49f1168ee0 MATCH \u2014 deterministic oracle c7c0b0d70390a2f8cc6073988361b8ab84fdc559d9134e9067392f0719c8e01a",
+      "freezeManifest": "ies-016-telecom/IES-016_FREEZE_MANIFEST.json",
+      "status": "FROZEN \u2014 CURRENT EVIDENCE BASELINE ADOPTED (implementation NOT AUTHORIZED)",
+      "provenance": "Historical backup 23b4b40295fe9d9e3d639fcf8258d3d8178b95fcb78fb136ac958654a67df53c, historical commit 9bf91d1 (historical-only), D16 M1\u2013M15 authority-review governs despite draft PENDING/PROPOSED spec wording"
+    },
+    {
+      "sector": "Automobile",
+      "engineId": "sector.auto",
+      "engineVersion": "1.0.0",
+      "standard": "IES-017",
+      "contractVersion": "IES-017 v1.0 (Option-A left-to-right summation, re-frozen)",
+      "calibrationVersion": "1.0.0",
+      "calibrationProfile": "automobile-calibration-1.0.0",
+      "input": {
+        "AU-001": 125000,
+        "AU-002": 8.2,
+        "AU-003": 22,
+        "AU-004": 18,
+        "AU-005": 45,
+        "AU-006": 9.5,
+        "AU-007": 14,
+        "AU-008": 3.1
+      },
+      "expectedOutput": {
+        "composite": 71.6,
+        "verdict": "Buy"
+      },
+      "historicalSource": "G:\\IIPS\\D36_REHYDRATION_WORK\\historical-package \u2014 re-frozen triple: generator 44ba141957eb78654bce0fe3320a709a812291f35b5b7b6a5f342bfe54f27a25 MATCH, expected ea22807925694aa3e2b97cd2f1b1990cc4235e4e19023b31ae43bdc55314d81d MATCH, replay c8ed26c58dc6d2f7db71caa4d8d959cae843ddff0b9dd4e072856ed2e952428f MATCH \u2014 Option-A left-to-right preserved, no sum() substitution",
+      "freezeManifest": "ies-017-auto/IES-017_FREEZE_MANIFEST.json",
+      "status": "FROZEN \u2014 CURRENT EVIDENCE BASELINE ADOPTED (implementation NOT AUTHORIZED)",
+      "provenance": "Historical backup 23b4b402\u2026, historical commit d51b120 (historical-only) + re-freeze lineage, D17 M1\u2013M15 + Option-A left-to-right"
+    },
+    {
+      "sector": "Materials & Metals",
+      "engineId": "sector.materials",
+      "engineVersion": "1.0.0",
+      "standard": "IES-020",
+      "contractVersion": "IES-020 v1.0 (D20 M1\u2013M15 + G1\u2013G6, deterministic regeneration)",
+      "calibrationVersion": "1.0.0",
+      "calibrationProfile": "materials-metals-calibration-1.0.0",
+      "input": {
+        "MM-001": 65,
+        "MM-002": 3200,
+        "MM-003": 12.8,
+        "MM-004": 42,
+        "MM-005": 7.2,
+        "MM-006": 18,
+        "MM-007": 5.5,
+        "MM-008": 22
+      },
+      "expectedOutput": {
+        "composite": 74.9,
+        "verdict": "Buy"
+      },
+      "historicalSource": "G:\\IIPS\\D36_REHYDRATION_WORK\\historical-package \u2014 generator 9d920fa987b7d042183139dd1fca5634d605f40c5ebcc92f486525c265dde446 MATCH, expected 56a6ad197640c9c9f3f922ffca3897ddd006a7682099f01347cfaa6e0d754025 MATCH \u2014 deterministic regeneration + byte-identical replay lineage, D20 M1\u2013M15 + G1\u2013G6 later authority-review supersedes older proposal",
+      "freezeManifest": "ies-020-materials/IES-020_FREEZE_MANIFEST.json",
+      "status": "FROZEN \u2014 CURRENT EVIDENCE BASELINE ADOPTED (implementation NOT AUTHORIZED)",
+      "provenance": "Historical backup 23b4b4\u2026, historical commit 6355949 (historical-only) + G1\u2013G6, deterministic regeneration"
     }
-  ]
+  ],
+  "freezeAuthority": {
+    "decision": "FROZEN \u2014 CURRENT EVIDENCE BASELINE ADOPTED via D38 Deferred-Engine Current Freeze Authority Decision",
+    "date": "2026-09-04",
+    "approver": "IIPS Engineering Standards Maintainer",
+    "track8Concurrency": "Track 8 Architecture Conformance \u2014 concurrency pending final sign-off, not invented; historical architecture/review adopted as baseline",
+    "historicalSource": "G:\\IIPS\\BACKUPS\\IIPS WORKSPACE-PF-2 trigger-wiring implementation authorization gate.zip sha256:23b4b40295fe9d9e3d639fcf8258d3d8178b95fcb78fb136ac958654a67df53c (8474783 bytes, 1700 entries, G:\\IIPS\\D36_REHYDRATION_WORK\\historical-package)",
+    "hashVerification": "45/45 MATCH, 0 MISMATCH, 0 RECORDED HASH WITHOUT ARTIFACT, 0 ARTIFACT WITHOUT RECORDED HASH (7/7 explicitly tested in D36\u2013D37 + 38/38 remaining verified on Windows host prior to D38 \u2014 all MATCH, 0 failures)",
+    "optionAControl": "IES-017 Option-A left-to-right summation preserved verbatim \u2014 generator 44ba141957eb78654bce0fe3320a709a812291f35b5b7b6a5f342bfe54f27a25, expected ea22807925694aa3e2b97cd2f1b1990cc4235e4e19023b31ae43bdc55314d81d, replay c8ed26c58dc6d2f7db71caa4d8d959cae843ddff0b9dd4e072856ed2e952428f \u2014 no sum() substitution",
+    "governanceBoundary": "FREEZE \u2260 OPENING \u2260 IMPLEMENTATION \u2260 CERTIFICATION \u2014 GATE0 remains BLOCKED for 016/017/020; implementation remains NOT AUTHORIZED; E2E-025\u2192029 NOT AUTHORIZED for these engines; E2E-030 remains 10-engine certified (IES-006\u2026015); EngineRegistry remains 10 (not extended); no release tags created"
+  },
+  "provenance": "D36 Historical Source Acceptance (ACCEPTED AS HISTORICAL SOURCE EVIDENCE) + D37 A \u2014 REHYDRATION/FREEZE AUTHORITY READY + D38 Freeze Authority Decision (Current Freeze Authority, not Opening/Implementation/Certification) \u2014 historical backup 23b4b402\u2026 verified on G:\\ host (7/7 + 38/38 MATCH, 0 failures)"
 }

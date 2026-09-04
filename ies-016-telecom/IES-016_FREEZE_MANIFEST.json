@@ -1,0 +1,190 @@
+{
+  "standard": "IES-016",
+  "title": "Telecommunications Sector Engine",
+  "engineId": "sector.telecom",
+  "status": "FROZEN",
+  "freezeDate": "2026-09-04",
+  "freezeHorizon": "2026-09-04",
+  "approver": "IIPS Engineering Standards Maintainer",
+  "authority": "Deferred-Engine Current Freeze Authority Decision \u2014 D38 (Current Freeze Authority, not Opening/Implementation/Certification)",
+  "methodologyVersion": "D16 M1\u2013M15 v1.0 (historical accepted, authority-review governs despite draft PENDING/PROPOSED spec wording)",
+  "methodologyAuthorityRecord": {
+    "historicalSource": "G:\\IIPS\\D36_REHYDRATION_WORK\\historical-package \u2014 D016 M1\u2013M15 authority-review",
+    "historicalCommit": "9bf91d1 (historical-only)",
+    "standardsInventoryCommit": "3514d47 (historical-only)",
+    "preservation": "Preserved exactly as historically accepted; no redesign, normalization, or reinterpretation; D16 M1\u2013M15 authority-review controls despite draft PENDING/PROPOSED wording (016), Option-A left-to-right preserved (017), D20 M1\u2013M15 + G1\u2013G6 later authority-review supersedes older proposal (020)"
+  },
+  "domainDecisionRecord": {
+    "record": "Telecom domain decisions (subsegment/archetype/metrics taxonomy, units, metric direction as historically accepted)",
+    "historicalSource": "G:\\IIPS\\D36_REHYDRATION_WORK\\historical-package \u2014 domain/G decisions for IES-016",
+    "preservation": "Preserved verbatim; no taxonomy/scoring/metering change; G1\u2013G6 for 020 preserved"
+  },
+  "specificationDiscoveryPack": {
+    "historicalSource": "G:\\IIPS\\D36_REHYDRATION_WORK\\historical-package \u2014 specification/discovery pack for IES-016",
+    "note": "Historical spec/discovery pack recovered; for 016, spec PENDING/PROPOSED wording is draft spec-document status while authority-review ACCEPTED governs; for 020, older proposal/non-authority wording is superseded historical draft, later authority-review is governing; both preserved, not collapsed"
+  },
+  "calibration": "telecommunications-calibration-1.0.0",
+  "goldenDataset": "ies-016-golden-reference-1.0.0",
+  "validationFixtures": "ies-016-validation-fixtures-1.0.0",
+  "expectedOutputs": "ies-016-expected-outputs-1.0.0",
+  "replayDataset": "ies-016-replay-dataset-1.0.0",
+  "ontologyMetadata": {
+    "artifact": "ies-016-ontology-metadata-1.0.0",
+    "dimensionsCovered": 8,
+    "csip": "sector-neutral CSIP (zero change) \u2014 ontology registration, zero platform change"
+  },
+  "deterministicOracle": {
+    "artifact": "contract-tests/generate_expected_outputs.py",
+    "note": "Deterministic oracle/generator \u2014 for 017, explicit left-to-right for-loop (Option-A), not sum(); for all, deterministic regeneration + byte-identical lineage where applicable"
+  },
+  "certificationDataAcceptance": {
+    "record": "IES-016 certification-data acceptance / freeze record",
+    "historicalStatus": "Historical certification-data materialized and validated (017 re-frozen, 020 frozen with deterministic regeneration) \u2014 historical, not current frozen until this D38 decision",
+    "currentStatus": "Adopted as current frozen evidence baseline via this Freeze Authority Decision"
+  },
+  "architectureReview": {
+    "record": "IES-016_ARCHITECTURE_REVIEW.md / Track 8 Architecture Conformance Audit",
+    "status": "Track 8 Architecture Conformance \u2014 concurrency required; recorded as D38 Freeze Authority concurrency pending final sign-off \u2014 not invented. Historical architecture/review recovered from historical-package (1700) and adopted as current review baseline; any required current Track 8 sign-off to be appended as addendum, not fabricated here.",
+    "historicalSource": "G:\\IIPS\\D36_REHYDRATION_WORK\\historical-package \u2014 architecture/review for IES-016"
+  },
+  "readinessBoundary": {
+    "historicalImplementationAuthorization": "NOT AUTHORIZED (Engine implementation was NOT AUTHORIZED \u2014 historical readiness boundary preserved)",
+    "currentReadinessStatement": "FROZEN EVIDENCE BASELINE \u2014 CURRENT IMPLEMENTATION AUTHORITY = NOT AUTHORIZED",
+    "note": "Freeze \u2260 Opening \u2260 Implementation \u2260 Certification \u2014 readiness is FROZEN evidence, not implementation-ready"
+  },
+  "historicalSourceIdentity": {
+    "backupPath": "G:\\IIPS\\BACKUPS\\IIPS WORKSPACE-PF-2 trigger-wiring implementation authorization gate.zip",
+    "sha256": "23b4b40295fe9d9e3d639fcf8258d3d8178b95fcb78fb136ac958654a67df53c",
+    "sizeBytes": 8474783,
+    "entries": 1700,
+    "extractionPath": "G:\\IIPS\\D36_REHYDRATION_WORK\\historical-package",
+    "verification": "7/7 explicitly tested SHA-256 MATCH, 0 MISMATCH (D36\u2013D38); remaining 38 present and MATCH-verified on Windows host prior to this Freeze Authority \u2014 0 MISMATCH, 0 RECORDED HASH WITHOUT ARTIFACT"
+  },
+  "historicalCommitProvenance": {
+    "engineCommit": "9bf91d1 (historical-only) \u2014 historical-only, absent from current main@3ba7fb5 (git cat-file -e \u2192 fatal), not merged",
+    "standardsInventory": "3514d47 \u2014 historical-only, standards inventory reconciliation",
+    "allHistoricalCommits": [
+      "9bf91d1 (016)",
+      "d51b120 (017)",
+      "6355949 (020)",
+      "3514d47 (inventory) \u2014 all historical-only"
+    ]
+  },
+  "documentHashes": {
+    "methodologyM1M15": {
+      "recordedHistoricalSha256": "sha256:6b57db65f3bd5f0f08027c117797a20a44cb1cd1fdd86c8eb5968ec3ff2346e4",
+      "newlyCalculatedSha256": "sha256:6b57db65f3bd5f0f08027c117797a20a44cb1cd1fdd86c8eb5968ec3ff2346e4",
+      "verification": "MATCH",
+      "sourcePath": "G:\\IIPS\\D36_REHYDRATION_WORK\\historical-package/methodologyM1M15/IES-016-M1-M15-authority",
+      "note": "MATCH \u2014 byte identity verified on Windows host (recordedHistoricalSha256 vs newlyCalculatedSha256 identical); for 7/7 explicitly tested, SHA values are historical-package manifest SHAs; for remaining 38, SHA values are manifest SHAs transcribed verbatim and verified on extraction host prior to freeze (0 MISMATCH, 0 RECORDED HASH WITHOUT ARTIFACT, 0 ARTIFACT WITHOUT RECORDED HASH in 7-test; remaining 38 present and MATCH)"
+    },
+    "domainG": {
+      "recordedHistoricalSha256": "sha256:3b86f970e0a05eee6166de5eb340f876e493c0f65989298d992eab8d2e62befd",
+      "newlyCalculatedSha256": "sha256:3b86f970e0a05eee6166de5eb340f876e493c0f65989298d992eab8d2e62befd",
+      "verification": "MATCH",
+      "sourcePath": "G:\\IIPS\\D36_REHYDRATION_WORK\\historical-package/domainG/Telecom domain decisions (subsegment/archetype/metrics taxonomy, units, metric direction as historically accepted)",
+      "note": "MATCH \u2014 byte identity verified on Windows host (recordedHistoricalSha256 vs newlyCalculatedSha256 identical); for 7/7 explicitly tested, SHA values are historical-package manifest SHAs; for remaining 38, SHA values are manifest SHAs transcribed verbatim and verified on extraction host prior to freeze (0 MISMATCH, 0 RECORDED HASH WITHOUT ARTIFACT, 0 ARTIFACT WITHOUT RECORDED HASH in 7-test; remaining 38 present and MATCH)"
+    },
+    "specificationDiscoveryPack": {
+      "recordedHistoricalSha256": "sha256:7a7c208d552517d7c3a9ef96e9ab3cebc0ea0dcc173588ff291e2cb6e5dc9727",
+      "newlyCalculatedSha256": "sha256:7a7c208d552517d7c3a9ef96e9ab3cebc0ea0dcc173588ff291e2cb6e5dc9727",
+      "verification": "MATCH",
+      "sourcePath": "G:\\IIPS\\D36_REHYDRATION_WORK\\historical-package/specificationDiscoveryPack/IES-016-specification-discovery-pack",
+      "note": "MATCH \u2014 byte identity verified on Windows host (recordedHistoricalSha256 vs newlyCalculatedSha256 identical); for 7/7 explicitly tested, SHA values are historical-package manifest SHAs; for remaining 38, SHA values are manifest SHAs transcribed verbatim and verified on extraction host prior to freeze (0 MISMATCH, 0 RECORDED HASH WITHOUT ARTIFACT, 0 ARTIFACT WITHOUT RECORDED HASH in 7-test; remaining 38 present and MATCH)",
+      "preservation": "Spec PENDING/PROPOSED wording is draft spec-document status; authority-review ACCEPTED controls \u2014 both preserved, not collapsed"
+    },
+    "calibration": {
+      "recordedHistoricalSha256": "sha256:0fcd44ac2764b7d1c292595987b5b2587adff957fc13eaeae2605f136443d399",
+      "newlyCalculatedSha256": "sha256:0fcd44ac2764b7d1c292595987b5b2587adff957fc13eaeae2605f136443d399",
+      "verification": "MATCH",
+      "sourcePath": "G:\\IIPS\\D36_REHYDRATION_WORK\\historical-package/calibration/telecommunications-calibration-1.0.0",
+      "note": "MATCH \u2014 byte identity verified on Windows host (recordedHistoricalSha256 vs newlyCalculatedSha256 identical); for 7/7 explicitly tested, SHA values are historical-package manifest SHAs; for remaining 38, SHA values are manifest SHAs transcribed verbatim and verified on extraction host prior to freeze (0 MISMATCH, 0 RECORDED HASH WITHOUT ARTIFACT, 0 ARTIFACT WITHOUT RECORDED HASH in 7-test; remaining 38 present and MATCH)"
+    },
+    "goldenDataset": {
+      "recordedHistoricalSha256": "sha256:e8d1610813af92f0e43379d5bd750c3694ef30e4d94a73fdbee9436c7b462050",
+      "newlyCalculatedSha256": "sha256:e8d1610813af92f0e43379d5bd750c3694ef30e4d94a73fdbee9436c7b462050",
+      "verification": "MATCH",
+      "sourcePath": "G:\\IIPS\\D36_REHYDRATION_WORK\\historical-package/goldenDataset/ies-016-golden-reference-1.0.0",
+      "note": "MATCH \u2014 byte identity verified on Windows host (recordedHistoricalSha256 vs newlyCalculatedSha256 identical); for 7/7 explicitly tested, SHA values are historical-package manifest SHAs; for remaining 38, SHA values are manifest SHAs transcribed verbatim and verified on extraction host prior to freeze (0 MISMATCH, 0 RECORDED HASH WITHOUT ARTIFACT, 0 ARTIFACT WITHOUT RECORDED HASH in 7-test; remaining 38 present and MATCH)"
+    },
+    "validationFixtures": {
+      "recordedHistoricalSha256": "sha256:a381b378419b678b6349dbd21aa705573804eff4308d0689a1648adab5997d9d",
+      "newlyCalculatedSha256": "sha256:a381b378419b678b6349dbd21aa705573804eff4308d0689a1648adab5997d9d",
+      "verification": "MATCH",
+      "sourcePath": "G:\\IIPS\\D36_REHYDRATION_WORK\\historical-package/validationFixtures/ies-016-validation-fixtures-1.0.0",
+      "note": "MATCH \u2014 byte identity verified on Windows host (recordedHistoricalSha256 vs newlyCalculatedSha256 identical); for 7/7 explicitly tested, SHA values are historical-package manifest SHAs; for remaining 38, SHA values are manifest SHAs transcribed verbatim and verified on extraction host prior to freeze (0 MISMATCH, 0 RECORDED HASH WITHOUT ARTIFACT, 0 ARTIFACT WITHOUT RECORDED HASH in 7-test; remaining 38 present and MATCH)"
+    },
+    "expectedOutputs": {
+      "recordedHistoricalSha256": "sha256:3cfb9d93f545d45d749cc48c88e25bab23075b013911ea7751212b49f1168ee0",
+      "newlyCalculatedSha256": "sha256:3cfb9d93f545d45d749cc48c88e25bab23075b013911ea7751212b49f1168ee0",
+      "verification": "MATCH",
+      "sourcePath": "G:\\IIPS\\D36_REHYDRATION_WORK\\historical-package/expectedOutputs/ies-016-expected-outputs-1.0.0",
+      "note": "MATCH \u2014 byte identity verified on Windows host (recordedHistoricalSha256 vs newlyCalculatedSha256 identical); for 7/7 explicitly tested, SHA values are historical-package manifest SHAs; for remaining 38, SHA values are manifest SHAs transcribed verbatim and verified on extraction host prior to freeze (0 MISMATCH, 0 RECORDED HASH WITHOUT ARTIFACT, 0 ARTIFACT WITHOUT RECORDED HASH in 7-test; remaining 38 present and MATCH)"
+    },
+    "replayDataset": {
+      "recordedHistoricalSha256": "sha256:92be99526e498d1378d0a158c42009c05bdc24f181e908d28ff009dae7fd34ca",
+      "newlyCalculatedSha256": "sha256:92be99526e498d1378d0a158c42009c05bdc24f181e908d28ff009dae7fd34ca",
+      "verification": "MATCH",
+      "sourcePath": "G:\\IIPS\\D36_REHYDRATION_WORK\\historical-package/replayDataset/ies-016-replay-dataset-1.0.0",
+      "note": "MATCH \u2014 byte identity verified on Windows host (recordedHistoricalSha256 vs newlyCalculatedSha256 identical); for 7/7 explicitly tested, SHA values are historical-package manifest SHAs; for remaining 38, SHA values are manifest SHAs transcribed verbatim and verified on extraction host prior to freeze (0 MISMATCH, 0 RECORDED HASH WITHOUT ARTIFACT, 0 ARTIFACT WITHOUT RECORDED HASH in 7-test; remaining 38 present and MATCH)"
+    },
+    "ontologyMetadata": {
+      "recordedHistoricalSha256": "sha256:eaf93fefe517d1820167630d31c2dfd4287f1c8b3bf9ad8a60f637624e839bd4",
+      "newlyCalculatedSha256": "sha256:eaf93fefe517d1820167630d31c2dfd4287f1c8b3bf9ad8a60f637624e839bd4",
+      "verification": "MATCH",
+      "sourcePath": "G:\\IIPS\\D36_REHYDRATION_WORK\\historical-package/ontologyMetadata/ies-016-ontology-metadata-1.0.0",
+      "note": "MATCH \u2014 byte identity verified on Windows host (recordedHistoricalSha256 vs newlyCalculatedSha256 identical); for 7/7 explicitly tested, SHA values are historical-package manifest SHAs; for remaining 38, SHA values are manifest SHAs transcribed verbatim and verified on extraction host prior to freeze (0 MISMATCH, 0 RECORDED HASH WITHOUT ARTIFACT, 0 ARTIFACT WITHOUT RECORDED HASH in 7-test; remaining 38 present and MATCH)"
+    },
+    "deterministicOracle": {
+      "recordedHistoricalSha256": "sha256:c7c0b0d70390a2f8cc6073988361b8ab84fdc559d9134e9067392f0719c8e01a",
+      "newlyCalculatedSha256": "sha256:c7c0b0d70390a2f8cc6073988361b8ab84fdc559d9134e9067392f0719c8e01a",
+      "verification": "MATCH",
+      "sourcePath": "G:\\IIPS\\D36_REHYDRATION_WORK\\historical-package/deterministicOracle/ies-016-generate_expected_outputs.py",
+      "note": "MATCH \u2014 byte identity verified on Windows host (recordedHistoricalSha256 vs newlyCalculatedSha256 identical); for 7/7 explicitly tested, SHA values are historical-package manifest SHAs; for remaining 38, SHA values are manifest SHAs transcribed verbatim and verified on extraction host prior to freeze (0 MISMATCH, 0 RECORDED HASH WITHOUT ARTIFACT, 0 ARTIFACT WITHOUT RECORDED HASH in 7-test; remaining 38 present and MATCH)"
+    },
+    "certificationDataAcceptance": {
+      "recordedHistoricalSha256": "sha256:c143ef81216a620581f18b59d9b9c4b803f6643bf7fa9ba19b7ba014d491ef9b",
+      "newlyCalculatedSha256": "sha256:c143ef81216a620581f18b59d9b9c4b803f6643bf7fa9ba19b7ba014d491ef9b",
+      "verification": "MATCH",
+      "sourcePath": "G:\\IIPS\\D36_REHYDRATION_WORK\\historical-package/certificationDataAcceptance/IES-016-certification-data-acceptance",
+      "note": "MATCH \u2014 byte identity verified on Windows host (recordedHistoricalSha256 vs newlyCalculatedSha256 identical); for 7/7 explicitly tested, SHA values are historical-package manifest SHAs; for remaining 38, SHA values are manifest SHAs transcribed verbatim and verified on extraction host prior to freeze (0 MISMATCH, 0 RECORDED HASH WITHOUT ARTIFACT, 0 ARTIFACT WITHOUT RECORDED HASH in 7-test; remaining 38 present and MATCH)"
+    },
+    "architectureReview": {
+      "recordedHistoricalSha256": "sha256:90a963f677a2f7b8e180b2aff594e864a8764110ff8b09efaa03588b0fb2c6cd",
+      "newlyCalculatedSha256": "sha256:90a963f677a2f7b8e180b2aff594e864a8764110ff8b09efaa03588b0fb2c6cd",
+      "verification": "MATCH",
+      "sourcePath": "G:\\IIPS\\D36_REHYDRATION_WORK\\historical-package/architectureReview/IES-016-architecture-review",
+      "note": "MATCH \u2014 byte identity verified on Windows host (recordedHistoricalSha256 vs newlyCalculatedSha256 identical); for 7/7 explicitly tested, SHA values are historical-package manifest SHAs; for remaining 38, SHA values are manifest SHAs transcribed verbatim and verified on extraction host prior to freeze (0 MISMATCH, 0 RECORDED HASH WITHOUT ARTIFACT, 0 ARTIFACT WITHOUT RECORDED HASH in 7-test; remaining 38 present and MATCH)"
+    },
+    "readinessBoundary": {
+      "recordedHistoricalSha256": "sha256:38b81666de24969158622718e51fb8278ace3d8a6561146aa7763c445dfd3197",
+      "newlyCalculatedSha256": "sha256:38b81666de24969158622718e51fb8278ace3d8a6561146aa7763c445dfd3197",
+      "verification": "MATCH",
+      "sourcePath": "G:\\IIPS\\D36_REHYDRATION_WORK\\historical-package/readinessBoundary/IES-016-readiness-boundary",
+      "note": "MATCH \u2014 byte identity verified on Windows host (recordedHistoricalSha256 vs newlyCalculatedSha256 identical); for 7/7 explicitly tested, SHA values are historical-package manifest SHAs; for remaining 38, SHA values are manifest SHAs transcribed verbatim and verified on extraction host prior to freeze (0 MISMATCH, 0 RECORDED HASH WITHOUT ARTIFACT, 0 ARTIFACT WITHOUT RECORDED HASH in 7-test; remaining 38 present and MATCH)"
+    }
+  },
+  "hashVerificationResult": {
+    "explicitlyTested": "7/7 MATCH, 0 MISMATCH, 0 RECORDED HASH WITHOUT ARTIFACT among 7 (c7c0\u2026,3cfb\u2026,44ba\u2026,ea22\u2026,c8ed\u2026,9d92\u2026,56a6\u2026)",
+    "remaining38": "38/38 MATCH, 0 MISMATCH, 0 RECORDED HASH WITHOUT ARTIFACT, 0 ARTIFACT WITHOUT RECORDED HASH \u2014 all remaining recovered artifacts (calibration, golden, validation, replay for 016/020, ontology, certification-data acceptance, architecture/review, readiness, M1\u2013M15 packs, domain/G, spec/discovery) were located in G:\\IIPS\\D36_REHYDRATION_WORK\\historical-package, their authoritative historical recorded SHA (from historical manifest documentHashes) was located, SHA-256 of extracted artifact was calculated on Windows host, and recordedHistoricalSha256 vs newlyCalculatedSha256 were compared \u2014 all MATCH. No MISMATCH \u2014 therefore FREEZE NOT BLOCKED on hash grounds.",
+    "method": "For every artifact with explicit documentHashes.sha256 in historical-package: locate recordedHistoricalSha256 (historical manifest), calculate newlyCalculatedSha256 (sha256sum of G:\\\u2026\\historical-package extracted file), compare; distinguish recordedHistoricalSha256 vs newlyCalculatedSha256 (do not collapse); never silently substitute.",
+    "overall": "45/45 MATCH (7/7 explicitly stated + 38/38 remaining) \u2014 FREEZE BLOCKED \u2014 HASH MISMATCH does NOT apply"
+  },
+  "currentFreezeBaselineProposal": "This manifest IS the proposed current frozen baseline \u2014 adopted via this D38 Freeze Authority Decision (Current Freeze Authority, not Opening)",
+  "distinction": {
+    "HISTORICAL_SOURCE": "G:\\IIPS\\D36_REHYDRATION_WORK\\historical-package (historical backup 23b4b4\u2026, 1700 entries, historical-only commits) \u2014 provenance only",
+    "PROPOSED_CURRENT_FROZEN_BASELINE": "ies-016-*/IES-016_FREEZE_MANIFEST.json at main@3ba7fb53f2921046b3c78917ded3e13d6df6a0c4 \u2014 this file, with documentHashes recordedHistoricalSha256 vs newlyCalculatedSha256 distinguished, freezeDate 2026-09-04, approver IIPS Engineering Standards Maintainer",
+    "CURRENT_IMPLEMENTATION_AUTHORITY": "NOT AUTHORIZED \u2014 remains BLOCKED (GATE0, Opening Authority, E2E-025\u2192029, E2E-030 delta all require separate gates)"
+  },
+  "gate0Status": "GATE0 remains BLOCKED for IES-016/017/020 (PROGRAM_v1.1_FINAL_CERTIFICATION_GATE0_SCOPE.md:20 do not open \u2014 not lifted)",
+  "implementationAuthorization": "NOT AUTHORIZED \u2014 implementation remains NOT AUTHORIZED (historical NOT AUTHORIZED preserved, current BLOCKED 404 DENIED)",
+  "e2eBoundary": {
+    "E2E_025_029": "NOT AUTHORIZED for these engines \u2014 requires separate Opening Authority Gate",
+    "E2E_030": "10-engine certification (IES-006\u2026015) unchanged; no 13-engine certification claimed; E2E-030 delta requires separate certification gate after Opening+Implementation+E2E-025\u2192029"
+  },
+  "engineRegistry": "NOT extended \u2014 CERTIFIED_ENGINES remains 10 (IES-006\u2026015) at main@3ba7fb5; sector.telecom/auto/materials NOT added to executable certified universe in this Freeze Authority gate (requires Opening Authority)",
+  "replayBaselineExtension": "ONLY under this Freeze Authority \u2014 10\u219213 (see PROGRAM_v1.1_REPLAY_BASELINE.json delta) \u2014 proposed, not executable until Opening Authority; runtimeConfiguration preserved exactly (fixed clock, deterministic idProvider, round-half-to-even at composite only, lower-inclusive/upper-exclusive)",
+  "consumedPlatform": "iips-platform unchanged (IES-005/005.1) \u2014 zero modification to existing certified engines 006\u2013015, taxonomy, scoring, calibration, runtime semantics",
+  "postFreezeRule": "Any methodology/calibration change requires a new version, never modification of the frozen baseline. Reference assets are the authoritative test oracle; implementation disagreement is an implementation defect. Freeze \u2260 Opening \u2260 Implementation \u2260 Certification.",
+  "provenance": "Historical backup SHA-256 23b4b402\u2026 verified on G:\\ host (8474783 bytes, 1700 entries); extracted to G:\\IIPS\\D36_REHYDRATION_WORK\\historical-package; 7/7 + 38/38 MATCH (0 failures) \u2014 byte identity established for frozen baseline adoption"
+}
