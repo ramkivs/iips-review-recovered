@@ -131,3 +131,22 @@ acceptance record: docs/integration/IIPS_v3.0_AUTHORIZED_SCOPE_DISPOSITION.md §
 baseline: c65d53373717aacc3a1dce12d47b5aeaf50541a5
 starting HEAD (continuation): bbbca164f227f12800b9cc51ac383d25b9e31def
 ```
+
+## CURRENT SUPERSEDING CONTROL-PLANE STATE
+
+As of the current canonical main baseline, the deferred-engine control-plane state has been superseded by the Track 8 opening, implementation, E2E-025→029 certification, and 13-engine E2E-030 delta.
+
+- **D42 Deferred-engine Opening Authority Decision:** A — OPEN ALL THREE DEFERRED ENGINES.
+- **Opened engines:** IES-016 Telecom, IES-017 Auto, and IES-020 Materials.
+- **EngineRegistry:** authorized and implemented at 13 engines.
+- **Track 8 architecture/invariant closure:** complete; all 30 invariant cells conformant.
+- **E2E-025→029:** certified for the three deferred engines; all applicable tests passed.
+- **E2E-030 current certified scope:** exactly 13 engines — IES-006 through IES-015, plus IES-016, IES-017, and IES-020.
+- **Historical 10-engine certification:** preserved as historical evidence and is not deleted or rewritten as though it never existed.
+- **IES-016 methodology:** approved M1–M15 methodology remains frozen.
+- **IES-017 methodology:** approved methodology and corrected Option-A explicit left-to-right for-loop remain frozen; no sum() substitution.
+- **IES-020 methodology:** approved G1–G6 methodology remains frozen.
+- **No frozen-authority boundary is changed by this documentation reconciliation.**
+- **No release/tag/production authorization is implied by the reconciliation.**
+
+The present document therefore records the current control-plane state and must not continue to describe IES-016, IES-017, or IES-020 as presently blocked, unopened, or outside the certified engine scope.

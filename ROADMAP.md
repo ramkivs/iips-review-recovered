@@ -96,3 +96,27 @@ Build a complete family of institutional engineering standards covering platform
 # Status
 
 This roadmap is updated as new engineering standards and implementation projects are approved.
+
+## CURRENT SUPERSEDING PROGRAM STATE
+
+The earlier roadmap sequencing is superseded by the authoritative completed work through the current canonical main baseline.
+
+### Deferred-engine / Track 8 completion
+
+- **D42 — Deferred-engine Opening Authority:** complete; decision A — OPEN ALL THREE DEFERRED ENGINES.
+- **IES-016 Telecom:** opened, implemented, and certified.
+- **IES-017 Auto:** opened, implemented, and certified.
+- **IES-020 Materials:** opened, implemented, and certified.
+- **Track 8 architecture/invariant closure:** complete; all 30 invariant cells conformant.
+- **E2E-025→029:** complete for the three deferred engines.
+- **E2E-030:** current certification scope is exactly 13 engines:
+  - IES-006 through IES-015
+  - IES-016
+  - IES-017
+  - IES-020
+
+### Control-plane interpretation
+
+The historical 10-engine LTS baseline remains preserved as historical evidence. It must not be interpreted as the current certified scope.
+
+The current frozen governance boundary and approved methodology decisions remain authoritative. Documentation reconciliation does not modify those frozen authorities and does not imply release/tag/production authorization.

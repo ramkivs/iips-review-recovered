@@ -157,3 +157,22 @@ Aggregate all 9 Tracks into a single certification verdict → promote to **PROG
 ## 8. Status
 
 **GATE 0 — SCOPE COMPLETE.** Awaiting approval before Track 1 (Platform Certification).
+
+## CURRENT SUPERSEDING CONTROL-PLANE STATE
+
+The historical Gate 0 pre-opening language in this document is superseded by the subsequent authoritative Track 8 and deferred-engine decisions.
+
+Current state:
+
+- D42 authorized **A — OPEN ALL THREE DEFERRED ENGINES**.
+- IES-016 Telecom, IES-017 Auto, and IES-020 Materials were opened under the existing governance boundary.
+- Implementation was completed with EngineRegistry expanded from 10 to 13 engines.
+- Track 8 implementation closure was completed with all 30 invariant cells conformant.
+- E2E-025→029 certification was completed for the three deferred engines.
+- E2E-030 was additively extended to certify the exact 13-engine scope.
+- The current certified scope is exactly IES-006 through IES-015, IES-016, IES-017, and IES-020.
+- The historical 10-engine baseline and prior Gate 0 evidence remain preserved as historical evidence.
+- The frozen governance boundary, methodology decisions, and certification controls remain unchanged.
+- This reconciliation does not authorize release, tagging, or production deployment.
+
+Accordingly, this document must no longer state that IES-016, IES-017, or IES-020 are awaiting Gate 0 opening or that they are presently prohibited from opening.
