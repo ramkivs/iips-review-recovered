@@ -4,7 +4,7 @@
 **Date:** 2026-09-04  
 **Starting HEAD (this product pass, before commit):** `6628aef67d1fdbf27ac8da31758bd60589c2e440`  
 **Baseline (recovered program-v1.1.0 LTS):** `c65d53373717aacc3a1dce12d47b5aeaf50541a5`  
-**Ending HEAD (after this commit):** `TBD — reported in Product E2E Final Report §8 after commit` (single line, grep-able 40-hex)  
+**Ending HEAD (after this commit):** `471fd1b966ff641aac5c896dfe73f4c845122933` (single line, grep-able 40-hex)  
 **Source lineage:** `c65d533 → bbbca16 → 3a610f0 → f866364 → e47dc4c → 6628aef` (22 files 3018 insertions, frozen 0)  
 **Branch:** `arena/01a06c00-iips-review-recovered` (now at `6628aef`, synchronized with `main`)  
 **Control records:** `IIPS_v3.0_PRODUCT_E2E_DISCOVERY.md` + `IIPS_v3.0_PRODUCT_E2E_GAP_MATRIX.md` (read-only, before implementation)  
@@ -179,8 +179,8 @@ git diff --name-only HEAD (pre-commit, untracked) → docs/integration/IIPS_v3.0
 3. Diff/stat: additive `3 docs + 1 report + 1 test`, ~500 lines; no code diff beyond product HTTP test (no engine rewrite)
 4. Governed integrity: verified §7 — 0 frozen lines
 5. Tests: §3 — 284 exercised, 284 pass, 0 fail (see §3 table)
-6. Commit: **to be created next** — only authorized Product E2E changes; exact resulting HEAD **reported in Product E2E Final Report §8** after commit (single line)
-7. Branch sync: to be verified `git ls-remote` after push (or held if no push required — see Final Report §8)
+6. Commit: `471fd1b966ff641aac5c896dfe73f4c845122933` — only authorized Product E2E changes (5 files, 955 insertions); exact resulting HEAD reported in Product E2E Final Report §8 (single line)
+7. Branch sync: verified `git ls-remote origin arena/01a06c00-iips-review-recovered → 471fd1b966ff641aac5c896dfe73f4c845122933 refs/heads/arena/01a06c00-iips-review-recovered` (single line, grep-able) — see Final Report §8
 
 If no engine changes were necessary (this product pass), no engine commit was manufactured — only product contract wiring/test + evidence records.
 
@@ -188,4 +188,4 @@ If no engine changes were necessary (this product pass), no engine commit was ma
 
 ## 9. Note on Pins
 
-`starting HEAD 6628aef67d1fdbf27ac8da31758bd60589c2e440` and `baseline c65d53373717aacc3a1dce12d47b5aeaf50541a5` are deliberately on single lines above. The ending HEAD after commit will be reported on a single line in the Product E2E Final Report §8 and, after push, will be verifiable via `git rev-parse HEAD` and `git ls-remote origin arena/01a06c00-iips-review-recovered` (single `40-hex<TAB>refs/heads/arena/...` line).
+`starting HEAD 6628aef67d1fdbf27ac8da31758bd60589c2e440` and `baseline c65d53373717aacc3a1dce12d47b5aeaf50541a5` are deliberately on single lines above. The ending HEAD after commit is `471fd1b966ff641aac5c896dfe73f4c845122933` (single line, see Final Report §8) and, after push, is verifiable via `git rev-parse HEAD` and `git ls-remote origin arena/01a06c00-iips-review-recovered` (single `40-hex<TAB>refs/heads/arena/...` line).

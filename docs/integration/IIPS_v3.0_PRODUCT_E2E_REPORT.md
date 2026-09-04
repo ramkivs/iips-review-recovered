@@ -5,8 +5,8 @@
 **Branch:** `arena/01a06c00-iips-review-recovered` (product branch, from `main@6628aef`)  
 **Baseline (recovered program-v1.1.0 LTS):** `c65d53373717aacc3a1dce12d47b5aeaf50541a5`  
 **Starting HEAD (this product pass, before commit):** `6628aef67d1fdbf27ac8da31758bd60589c2e440`  
-**Ending HEAD (after Product E2E discovery+gap+implementation+evidence):** `TBD — reported in §8 after commit` (single line, grep-able 40-hex)  
-**Remote sync:** `to be verified after push`  
+**Ending HEAD (after Product E2E discovery+gap+implementation+evidence):** `471fd1b966ff641aac5c896dfe73f4c845122933` (single line, grep-able 40-hex)  
+**Remote sync:** `git ls-remote origin arena/01a06c00-iips-review-recovered → 471fd1b966ff641aac5c896dfe73f4c845122933 refs/heads/arena/01a06c00-iips-review-recovered` (single line, grep-able)  
 **Engine scope:** `IES-006…IES-015` (10 LTS, `sector.banking`…`technology`, 1.0.0 FROZEN, `holdings 10`) — **authoritative**  
 **Blocked:** `IES-016 Telecom`, `IES-017 Auto`, `IES-020 Materials` — **BLOCKED / OUTSIDE SCOPE**  
 **Taxonomy frozen:** `IT→IES-015`, `Chemicals→IES-014`, `Realty→IES-015` (`TAXONOMY_RESOLVED 422`)  
@@ -83,7 +83,7 @@ All re-run **after** product gap implementation, **before** commit — no frozen
 | Product discovery (read-only) | `docs/integration/IIPS_v3.0_PRODUCT_E2E_DISCOVERY.md` | `6628aef` + this commit |
 | Product gap matrix (read-only) | `docs/integration/IIPS_v3.0_PRODUCT_E2E_GAP_MATRIX.md` | `6628aef` + this commit |
 | Product evidence (fresh) | `docs/integration/IIPS_v3.0_PRODUCT_E2E_EVIDENCE.md` | this commit |
-| This report | `docs/integration/IIPS_v3.0_PRODUCT_E2E_REPORT.md` | `TBD` (this commit) |
+| This report | `docs/integration/IIPS_v3.0_PRODUCT_E2E_REPORT.md` | `471fd1b966ff641aac5c896dfe73f4c845122933` |
 | Product transport tests | `frontend/server/product-transport.test.ts` | this commit |
 | Engine integration chain | `docs/integration/IIPS_v3.0_ENGINE_INTEGRATION_*` + `AUTHORIZED_SCOPE_DISPOSITION.md` + `CONTINUATION_EVIDENCE.md` + `FINAL_CONTINUATION_REPORT.md` | `6628aef` (merged) |
 | Platform CSIP | `iips-platform/src/sector-engines/cross-sector/CrossSectorEngine.ts` | `6628aef` |
@@ -113,14 +113,14 @@ git diff --stat c65d533..HEAD -- iips-platform/src/sector-engines/ → 0 lines (
 3. Diff/stat: additive `4 docs + 1 test`, ~600 lines; no engine rewrite
 4. Governed integrity: 0 lines
 5. Tests: §4 — 284 exercised, 284 pass (see §4)
-6. Commit: `TBD` (this product pass — discovery+gap+implementation+evidence+report) — exact HEAD to be recorded after commit (§8)
-7. Branch sync: to be verified `git ls-remote` after push
+6. Commit: `471fd1b966ff641aac5c896dfe73f4c845122933` (this product pass — discovery+gap+implementation+evidence+report, 5 files, 955 insertions) — exact HEAD recorded (§8)
+7. Branch sync: verified `git ls-remote origin arena/01a06c00-iips-review-recovered → 471fd1b966ff641aac5c896dfe73f4c845122933 refs/heads/arena/01a06c00-iips-review-recovered` (single line, grep-able)
 
 ---
 
 ## 8. Note on Pins
 
-`starting HEAD 6628aef67d1fdbf27ac8da31758bd60589c2e440` and `baseline c65d53373717aacc3a1dce12d47b5aeaf50541a5` are single-line above. The ending HEAD after commit will be reported on a single line after commit and, after push, verifiable via `git rev-parse HEAD` and `git ls-remote origin arena/01a06c00-iips-review-recovered`.
+`starting HEAD 6628aef67d1fdbf27ac8da31758bd60589c2e440` and `baseline c65d53373717aacc3a1dce12d47b5aeaf50541a5` are single-line above. The ending HEAD after commit is `471fd1b966ff641aac5c896dfe73f4c845122933` (single line) and, after push, verifiable via `git rev-parse HEAD` and `git ls-remote origin arena/01a06c00-iips-review-recovered`.
 
 ---
 
@@ -171,5 +171,5 @@ No other dependency. No frozen change required for product.
 3. Diff/stat: additive `5` files, ~600 lines; no engine rewrite
 4. Governed integrity: 0 lines
 5. Tests: §4 — 284 exercised, 284 pass
-6. Commit: `TBD` — exact HEAD after commit (single line, to be filled in evidence EVIDENCE.md §8 and verified via `git rev-parse HEAD`)
-7. Branch sync: to be verified `git ls-remote` after push
+6. Commit: `471fd1b966ff641aac5c896dfe73f4c845122933` — exact HEAD after commit (single line, verified via `git rev-parse HEAD`)
+7. Branch sync: verified `git ls-remote origin arena/01a06c00-iips-review-recovered → 471fd1b966ff641aac5c896dfe73f4c845122933 refs/heads/arena/01a06c00-iips-review-recovered` (single line, grep-able)
