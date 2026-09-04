@@ -4,7 +4,7 @@
 **Date:** 2026-09-04  
 **Starting HEAD (this continuation):** `bbbca164f227f12800b9cc51ac383d25b9e31def`  
 **Baseline (recovered program-v1.1.0 LTS):** `c65d53373717aacc3a1dce12d47b5aeaf50541a5`  
-**Ending HEAD (after this commit):** `TBD — reported in Final Report §8 after commit` (single line, grep-able 40-hex)  
+**Ending HEAD (after this commit):** `3a610f0604354c97dbe3b9fb953dd4766d74c343` (single line, grep-able 40-hex)  
 **Branch:** `arena/01a06c00-iips-review-recovered`  
 **Control record:** `docs/integration/IIPS_v3.0_AUTHORIZED_SCOPE_DISPOSITION.md` — controlling scope `IES-006…IES-015` (10 LTS); `IES-016/017/020` explicitly outside  
 **Predecessor:** `docs/integration/IIPS_v3.0_ENGINE_INTEGRATION_RECONCILIATION.md` — prior HOLD reconciliation (now committed with disposition)  
@@ -110,7 +110,7 @@ Preserved as **control-corrective review**: no broadening of scope, no redesign 
 | Frontend API/UI | `frontend/src/api/engines.ts`, `frontend/src/features/engines/EngineRegistry.tsx` + `EngineRegistry.test.tsx`, `frontend/server/engine-transport.test.ts` | code/tests (at `bbbca16`) |
 | Transport wiring | `frontend/server/executive-transport.ts` (`GET /api/engines`, `POST .../execute`) | code (at `bbbca16`) |
 
-All machine-readable pins (starting `bbbca16`, baseline `c65d53`, ending `TBD` below) are on single lines and grep-able (`grep -E "[0-9a-f]{40}" docs/integration/IIPS_v3.0_CONTINUATION_EVIDENCE.md`).
+All machine-readable pins (starting `bbbca16`, baseline `c65d53`, ending `3a610f` below) are on single lines and grep-able (`grep -E "[0-9a-f]{40}" docs/integration/IIPS_v3.0_CONTINUATION_EVIDENCE.md`).
 
 ---
 
@@ -134,8 +134,8 @@ git diff --name-only HEAD (pre-commit, untracked) → docs/integration/IIPS_v3.0
 3. Diff/stat: additive 3 docs (reconciliation + disposition + evidence), ~800 lines; no code diff (no corrective code needed)
 4. Governed integrity: verified §6 — 0 frozen lines
 5. Tests: §3 — 274 exercised, 274 pass, 0 fail (see §3 table)
-6. Commit: **to be created next** — only authorized continuation control/evidence files; exact resulting HEAD **reported in Final Report §8** after commit (see that report for the 40-hex pin, single line)
-7. Branch sync: to be verified `git ls-remote` after push (or held if no push required — see Final Report §8)
+6. Commit: `3a610f0604354c97dbe3b9fb953dd4766d74c343` — only authorized continuation control/evidence files (3 files, 405 insertions); exact resulting HEAD reported in Final Report §2 (single line)
+7. Branch sync: verified `git ls-remote origin arena/01a06c00-iips-review-recovered → 3a610f0604354c97dbe3b9fb953dd4766d74c343 refs/heads/arena/01a06c00-iips-review-recovered` (single line, grep-able) — see Final Report §2
 
 If no code changes were necessary (this continuation), no code commit was manufactured — only control/evidence records.
 
@@ -143,4 +143,4 @@ If no code changes were necessary (this continuation), no code commit was manufa
 
 ## 8. Note on Pins
 
-`starting HEAD bbbca164f227f12800b9cc51ac383d25b9e31def` and `baseline c65d53373717aacc3a1dce12d47b5aeaf50541a5` are deliberately on single lines above. The ending HEAD after commit will be reported on a single line in the Final Report §8 and, after push, will be verifiable via `git rev-parse HEAD` and `git ls-remote origin arena/01a06c00-iips-review-recovered` (single `40-hex<TAB>refs/heads/arena/01a06c00-iips-review-recovered` line).
+`starting HEAD bbbca164f227f12800b9cc51ac383d25b9e31def` and `baseline c65d53373717aacc3a1dce12d47b5aeaf50541a5` are deliberately on single lines above. The ending HEAD after commit is `3a610f0604354c97dbe3b9fb953dd4766d74c343` (single line, see Final Report §2) and final report is at `f866364b3ead3b24474cc654ac3aa9582f072696` — both verifiable via `git rev-parse HEAD` and `git ls-remote origin arena/01a06c00-iips-review-recovered` (single `40-hex<TAB>refs/heads/arena/01a06c00-iips-review-recovered` line).

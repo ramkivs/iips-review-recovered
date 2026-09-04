@@ -6,7 +6,8 @@
 **Baseline (recovered program-v1.1.0 LTS):** `c65d53373717aacc3a1dce12d47b5aeaf50541a5`  
 **Starting HEAD (this continuation, before commit):** `bbbca164f227f12800b9cc51ac383d25b9e31def`  
 **Ending HEAD (after authorized scope disposition + evidence commit):** `3a610f0604354c97dbe3b9fb953dd4766d74c343`  
-**Remote sync:** `git ls-remote origin arena/01a06c00-iips-review-recovered → 3a610f0604354c97dbe3b9fb953dd4766d74c343 refs/heads/arena/01a06c00-iips-review-recovered` (single line, grep-able)  
+**Final HEAD (this report):** `f866364b3ead3b24474cc654ac3aa9582f072696`  
+**Remote sync:** `git ls-remote origin arena/01a06c00-iips-review-recovered → f866364b3ead3b24474cc654ac3aa9582f072696 refs/heads/arena/01a06c00-iips-review-recovered` (single line, grep-able)  
 
 > No `IES-016/017/020` created, no freeze manifest invented, no taxonomy/scoring/certification altered. The 10-engine slice at `bbbca16` was validated as complete and internally coherent for the authorized scope; this continuation records disposition, re-validates, and evidences without broadening scope.
 
@@ -32,8 +33,9 @@
 
 - **Starting HEAD (before this continuation's commit):** `bbbca164f227f12800b9cc51ac383d25b9e31def` — `IIPS v3.0 Engine Integration — E2E-025→029 parallel track (18 files, 2429 insertions)` — pushed to `origin/arena/01a06c00…` at `bbbca16`.
 - **Ending HEAD (after authorized disposition + reconciliation + continuation evidence commit):** `3a610f0604354c97dbe3b9fb953dd4766d74c343` — `IIPS v3.0 — Authorized Continuation: scope disposition + reconciliation + continuation evidence (10-engine LTS)` — `3 files, 405 insertions`, pushed and `ls-remote` verified `3a610f0604354c97dbe3b9fb953dd4766d74c343 refs/heads/arena/01a06c00-iips-review-recovered`.
+- **Final HEAD (this report):** `f866364b3ead3b24474cc654ac3aa9582f072696` — `IIPS v3.0 — Final Continuation Report: 10-engine LTS technically complete (E2E-025→029)` — `1 file, 182 insertions`, pushed and `ls-remote` verified `f866364b3ead3b24474cc654ac3aa9582f072696 refs/heads/arena/01a06c00-iips-review-recovered`.
 - **Baseline:** `c65d53373717aacc3a1dce12d47b5aeaf50541a5` (`Import recovered IIPS workspace` — `program-v1.1.0` LTS).
-- **Commit discipline:** `git diff --stat c65d533..bbbca16` = 18 files (discovery+gap+report+adapter+registry+UI+tests), `git diff --stat bbbca16..3a610f0` = 3 files (`RECONCILIATION + AUTHORIZED_SCOPE_DISPOSITION + CONTINUATION_EVIDENCE`), `git fetch + ls-remote` confirm sync — see §10 below for frozen-integrity.
+- **Commit discipline:** `git diff --stat c65d533..bbbca16` = 18 files (discovery+gap+report+adapter+registry+UI+tests), `git diff --stat bbbca16..3a610f0` = 3 files (`RECONCILIATION + AUTHORIZED_SCOPE_DISPOSITION + CONTINUATION_EVIDENCE`), `git diff --stat 3a610f0..f866364` = 1 file (`FINAL_CONTINUATION_REPORT`), `git fetch + ls-remote` confirm sync at `f866364b3ead3b24474cc654ac3aa9582f072696` — see §10 below for frozen-integrity.
 
 All 40-hex pins in this file and in `CONTINUATION_EVIDENCE.md` remain on single physical lines and are `grep -E "[0-9a-f]{40}"`-able (no hard-wrapped hashes).
 
@@ -89,7 +91,7 @@ All re-run **after** scope disposition at `bbbca16`, before commit `3a610f0` —
 | Prior reconciliation (held — now committed) | `docs/integration/IIPS_v3.0_ENGINE_INTEGRATION_RECONCILIATION.md` | `3a610f0` (commit `3a61…`, this continuation) |
 | **Authorized scope disposition (controlling — new)** | `docs/integration/IIPS_v3.0_AUTHORIZED_SCOPE_DISPOSITION.md` | `3a610f0` |
 | **This continuation evidence (fresh regression — new)** | `docs/integration/IIPS_v3.0_CONTINUATION_EVIDENCE.md` | `3a610f0` |
-| **This final continuation report (new)** | `docs/integration/IIPS_v3.0_FINAL_CONTINUATION_REPORT.md` | `this commit TBD` |
+| **This final continuation report (new)** | `docs/integration/IIPS_v3.0_FINAL_CONTINUATION_REPORT.md` | `f866364b3ead3b24474cc654ac3aa9582f072696` |
 | Prior discovery / gap / evidence / report | `docs/integration/IIPS_v3.0_ENGINE_INTEGRATION_DISCOVERY.md` / `…_GAP_MATRIX.md` / `…_EVIDENCE.md` / `…_REPORT.md` | `bbbca16` |
 | Platform integration (10-engine) | `iips-platform/src/integration/EngineRegistry.ts` / `EngineApiAdapter.ts` / `index.ts` | `bbbca16` |
 | Platform tests (25) | `iips-platform/tests/integration/*` (4) | `bbbca16` |
@@ -173,10 +175,10 @@ No other dependency.
 ## Commit Discipline Attestation (§8)
 
 1. Starting HEAD: `bbbca164f227f12800b9cc51ac383d25b9e31def`
-2. All changed files (this continuation): `docs/integration/IIPS_v3.0_ENGINE_INTEGRATION_RECONCILIATION.md` + `IIPS_v3.0_AUTHORIZED_SCOPE_DISPOSITION.md` + `IIPS_v3.0_CONTINUATION_EVIDENCE.md` (this file `IIPS_v3.0_FINAL_CONTINUATION_REPORT.md` to be committed next as final report — 4-file total)
-3. Diff/stat: additive `3+1` control/evidence docs, ~600 lines; no code diff (no corrective code needed) — `git diff --cached --stat` verified before each commit
+2. All changed files (this continuation): `docs/integration/IIPS_v3.0_ENGINE_INTEGRATION_RECONCILIATION.md` + `IIPS_v3.0_AUTHORIZED_SCOPE_DISPOSITION.md` + `IIPS_v3.0_CONTINUATION_EVIDENCE.md` + `IIPS_v3.0_FINAL_CONTINUATION_REPORT.md` (4 files total: 3 at `3a610f0` + 1 at `f866364b3ead3b24474cc654ac3aa9582f072696`)
+3. Diff/stat: additive `3+1` control/evidence docs, ~587 lines (405 at `3a610f0` + 182 at `f866364`); no code diff (no corrective code needed) — `git diff --cached --stat` verified before each commit
 4. Governed/frozen integrity: verified §10 — 0 lines
-5. Tests: §5 — 274 exercised, 274 pass, 0 fail (fresh, before commit)
-6. Commit: `3a610f0` (scope+reconciliation+evidence) — only authorized continuation control/evidence; this final report is the next authorized commit (see below)
-7. Resulting HEAD: `3a610f0604354c97dbe3b9fb953dd4766d74c343` (pushed, `ls-remote` verified — this report will advance it by one)
-8. Branch sync: `git fetch origin arena/01a06c00…` + `ls-remote` — `3a610f0` up to date; next push will be `refs/heads/arena/01a06c00-iips-review-recovered`
+5. Tests: §5 — 274 exercised, 274 pass, 0 fail (fresh, before commit — see §5 and CONTINUATION_EVIDENCE §3)
+6. Commit: `3a610f0604354c97dbe3b9fb953dd4766d74c343` (scope+reconciliation+evidence, 3 files) and `f866364b3ead3b24474cc654ac3aa9582f072696` (this final report, 1 file) — only authorized continuation control/evidence
+7. Resulting HEAD: `f866364b3ead3b24474cc654ac3aa9582f072696` (pushed, `ls-remote` verified — HEAD containing this report)
+8. Branch sync: `git fetch origin arena/01a06c00…` + `ls-remote` — `f866364b3ead3b24474cc654ac3aa9582f072696` up to date at `refs/heads/arena/01a06c00-iips-review-recovered`
