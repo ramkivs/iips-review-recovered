@@ -1,7 +1,7 @@
 /**
  * IIPS v3.0 — E2E-025 Engine Integration — Certified Engine Registry (read-only, frozen)
  *
- * Governed registry mapping the 10 Program v1.1 LTS certified sector engines.
+ * Governed registry mapping the 13 Program v1.1 certified sector engines (10 LTS + 3 deferred via D42).
  * This file is the single source for engine ↔ IES ↔ sectorFamily ↔ capabilities
  * used by the EngineApiAdapter, the HTTP adapter, and the frontend API client.
  *
@@ -10,6 +10,7 @@
  * Adding a new sector (e.g. IES-016 Telecom, IES-020 Materials) requires a new
  * freeze manifest and certification — it is a governance event, never a coding
  * shortcut (see IIPS_v3.0_ENGINE_INTEGRATION_DISCOVERY.md authority block).
+ * D42 authorizes expansion from 10 → 13 for IES-016/017/020 (sector.telecom/auto/materials, 1.0.0, calibration 1.0.0).
  */
 
 import { BANKING_ENGINE_ID } from '../sector-engines/banking/BankingEngine';
@@ -22,6 +23,9 @@ import { UTILITIES_ENGINE_ID } from '../sector-engines/utilities/UtilitiesEngine
 import { CONSUMER_ENGINE_ID } from '../sector-engines/consumer/ConsumerEngine';
 import { INDUSTRIALS_ENGINE_ID } from '../sector-engines/industrials/IndustrialsEngine';
 import { TECHNOLOGY_ENGINE_ID } from '../sector-engines/technology/TechnologyEngine';
+import { TELECOM_ENGINE_ID } from '../sector-engines/telecom/TelecomEngine';
+import { AUTO_ENGINE_ID } from '../sector-engines/auto/AutoEngine';
+import { MATERIALS_ENGINE_ID } from '../sector-engines/materials/MaterialsEngine';
 
 export interface EngineRegistryEntry {
   readonly engineId: string;
@@ -41,9 +45,10 @@ export interface EngineRegistryEntry {
 }
 
 /**
- * The 10 Program v1.1 LTS certified engines — frozen list.
- * Values mirror the freeze manifests (IES-006…015) and
- * program-v1.1-certification/PROGRAM_v1.1_REPLAY_BASELINE.json.
+ * The 13 Program v1.1 certified engines — frozen list (10 LTS + 3 deferred via D42).
+ * Values mirror the freeze manifests (IES-006…020) and
+ * program-v1.1-certification/PROGRAM_v1.1_REPLAY_BASELINE.json v1.1.0.
+ * D42 authorizes expansion from 10 → 13 for IES-016/017/020.
  */
 export const CERTIFIED_ENGINES: readonly EngineRegistryEntry[] = [
   {
@@ -205,6 +210,54 @@ export const CERTIFIED_ENGINES: readonly EngineRegistryEntry[] = [
     ontologyDimensions: 8,
     freezeManifest: 'ies-015-technology/IES-015_FREEZE_MANIFEST.json',
     readinessCertificate: 'iips-platform/IES015_FINAL_READINESS_CERTIFICATE.md',
+  },
+  {
+    engineId: TELECOM_ENGINE_ID,
+    ies: 'IES-016',
+    iesTitle: 'Telecommunications Sector Engine',
+    sectorFamily: 'Telecommunications',
+    engineVersion: '1.0.0',
+    secVersion: '1.0',
+    semcVersion: '1.0',
+    calibrationProfile: 'telecommunications-calibration-1.0.0',
+    calibrationVersion: '1.0.0',
+    contractVersion: 'IES-016 v1.0',
+    capabilities: ['metrics', 'scoring', 'calibration', 'decision', 'evidence', 'ontology'],
+    ontologyDimensions: 8,
+    freezeManifest: 'ies-016-telecom/IES-016_FREEZE_MANIFEST.json',
+    readinessCertificate: 'iips-platform/IES016_FINAL_READINESS_CERTIFICATE.md',
+  },
+  {
+    engineId: AUTO_ENGINE_ID,
+    ies: 'IES-017',
+    iesTitle: 'Automobile Sector Engine',
+    sectorFamily: 'Automobile',
+    engineVersion: '1.0.0',
+    secVersion: '1.0',
+    semcVersion: '1.0',
+    calibrationProfile: 'automobile-calibration-1.0.0',
+    calibrationVersion: '1.0.0',
+    contractVersion: 'IES-017 v1.0 (Option-A left-to-right summation, re-frozen)',
+    capabilities: ['metrics', 'scoring', 'calibration', 'decision', 'evidence', 'ontology'],
+    ontologyDimensions: 8,
+    freezeManifest: 'ies-017-auto/IES-017_FREEZE_MANIFEST.json',
+    readinessCertificate: 'iips-platform/IES017_FINAL_READINESS_CERTIFICATE.md',
+  },
+  {
+    engineId: MATERIALS_ENGINE_ID,
+    ies: 'IES-020',
+    iesTitle: 'Materials & Metals Sector Engine',
+    sectorFamily: 'Materials & Metals',
+    engineVersion: '1.0.0',
+    secVersion: '1.0',
+    semcVersion: '1.0',
+    calibrationProfile: 'materials-metals-calibration-1.0.0',
+    calibrationVersion: '1.0.0',
+    contractVersion: 'IES-020 v1.0 (D20 M1-M15 + G1-G6, deterministic regeneration)',
+    capabilities: ['metrics', 'scoring', 'calibration', 'decision', 'evidence', 'ontology'],
+    ontologyDimensions: 8,
+    freezeManifest: 'ies-020-materials/IES-020_FREEZE_MANIFEST.json',
+    readinessCertificate: 'iips-platform/IES020_FINAL_READINESS_CERTIFICATE.md',
   },
 ] as const;
 

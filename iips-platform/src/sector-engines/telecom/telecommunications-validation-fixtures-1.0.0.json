@@ -1,0 +1,38 @@
+{
+  "fixtures": "telecommunications-validation-fixtures-1.0.0",
+  "standard": "IES-016",
+  "version": "1.0.0",
+  "program": "v1.1 Track 6",
+  "note": "Expected behavior per scenario. Deterministic.",
+  "scenarios": [
+    {
+      "id": "TLC-01",
+      "provider": "TL-001",
+      "scenario": "Integrated leader — replay baseline 68.4 Accumulate",
+      "expectedVerdict": "Accumulate",
+      "composite": 68.4
+    },
+    {
+      "id": "TLC-02",
+      "provider": "TL-002",
+      "scenario": "Wireless growth — high metrics",
+      "expectedVerdict": "Buy",
+      "composite": 79.9
+    },
+    {
+      "id": "TLC-03",
+      "provider": "TL-003",
+      "scenario": "Leverage stressed — Watch via leverage alert",
+      "expectedVerdict": "Watch",
+      "composite": 49.9
+    },
+    {
+      "id": "TLC-04",
+      "provider": "TL-004",
+      "scenario": "Governance failure → Avoid",
+      "expectedVerdict": "Avoid",
+      "composite": 68.4,
+      "override": "governance"
+    }
+  ]
+}

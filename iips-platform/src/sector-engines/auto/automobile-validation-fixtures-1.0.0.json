@@ -1,0 +1,44 @@
+{
+  "fixtures": "automobile-validation-fixtures-1.0.0",
+  "standard": "IES-017",
+  "version": "1.0.0",
+  "program": "v1.1 Track 6",
+  "note": "Expected behavior per scenario. Option-A left-to-right preserved.",
+  "scenarios": [
+    {
+      "id": "AUC-01",
+      "provider": "AU-001",
+      "scenario": "OEM Leader — replay baseline 71.6 Buy (Option-A)",
+      "expectedVerdict": "Buy",
+      "composite": 71.6
+    },
+    {
+      "id": "AUC-02",
+      "provider": "AU-002",
+      "scenario": "Supplier growth — moderate",
+      "expectedVerdict": "Accumulate",
+      "composite": 62
+    },
+    {
+      "id": "AUC-03",
+      "provider": "AU-003",
+      "scenario": "Leverage stressed — Watch",
+      "expectedVerdict": "Watch",
+      "composite": 40
+    },
+    {
+      "id": "AUC-04",
+      "provider": "AU-004",
+      "scenario": "Recall governance → Avoid",
+      "expectedVerdict": "Avoid",
+      "composite": 71.6,
+      "override": "governance"
+    },
+    {
+      "id": "AUC-05",
+      "provider": null,
+      "scenario": "Option-A left-to-right summation — explicit for-loop, not sum()",
+      "check": "for (let i=0; i<pillarValues.length; i++) compositeRaw += pillarValues[i]*weightValues[i]; // no sum() substitution"
+    }
+  ]
+}

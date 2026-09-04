@@ -1,0 +1,59 @@
+{
+  "dataset": "automobile-golden-reference-1.0.0",
+  "standard": "IES-017",
+  "version": "1.0.0",
+  "program": "v1.1 Track 6",
+  "contractVersion": "IES-017 v1.0 (Option-A left-to-right)",
+  "purpose": "Frozen golden reference inputs for Automobile Sector Engine. Deterministic oracle per D17 M1-M15 Option-A.",
+  "providers": [
+    {
+      "id": "AU-001",
+      "name": "Auto OEM Leader",
+      "AU-001": 125000,
+      "AU-002": 8.2,
+      "AU-003": 22,
+      "AU-004": 18,
+      "AU-005": 45,
+      "AU-006": 9.5,
+      "AU-007": 14,
+      "AU-008": 3.1
+    },
+    {
+      "id": "AU-002",
+      "name": "Supplier Growth",
+      "AU-001": 80000,
+      "AU-002": 6,
+      "AU-003": 12,
+      "AU-004": 12,
+      "AU-005": 25,
+      "AU-006": 6,
+      "AU-007": 10,
+      "AU-008": 2
+    },
+    {
+      "id": "AU-003",
+      "name": "Leverage Stressed Auto",
+      "AU-001": 40000,
+      "AU-002": 3,
+      "AU-003": 1,
+      "AU-004": 5,
+      "AU-005": 15,
+      "AU-006": 2,
+      "AU-007": 6,
+      "AU-008": 6
+    },
+    {
+      "id": "AU-004",
+      "name": "Recall Governance",
+      "AU-001": 125000,
+      "AU-002": 8.2,
+      "AU-003": 22,
+      "AU-004": 18,
+      "AU-005": 45,
+      "AU-006": 9.5,
+      "AU-007": 14,
+      "AU-008": 3.1,
+      "governance": true
+    }
+  ]
+}

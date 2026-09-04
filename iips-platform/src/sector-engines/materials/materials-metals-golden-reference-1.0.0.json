@@ -1,0 +1,65 @@
+{
+  "dataset": "materials-metals-golden-reference-1.0.0",
+  "standard": "IES-020",
+  "version": "1.0.0",
+  "program": "v1.1 Track 6",
+  "contractVersion": "IES-020 v1.0 (D20 M1-M15 + G1-G6)",
+  "purpose": "Frozen golden reference inputs for Materials & Metals Engine. G1-G6 preserved.",
+  "providers": [
+    {
+      "id": "MM-001",
+      "name": "Materials Diversified Leader",
+      "MM-001": 65,
+      "MM-002": 3200,
+      "MM-003": 12.8,
+      "MM-004": 42,
+      "MM-005": 7.2,
+      "MM-006": 18,
+      "MM-007": 5.5,
+      "MM-008": 22,
+      "subsegment": "steel",
+      "archetype": "integrated"
+    },
+    {
+      "id": "MM-002",
+      "name": "Cement Growth",
+      "MM-001": 75,
+      "MM-002": 4000,
+      "MM-003": 18,
+      "MM-004": 50,
+      "MM-005": 2.5,
+      "MM-006": 25,
+      "MM-007": 8,
+      "MM-008": 12,
+      "subsegment": "cement",
+      "archetype": "producer"
+    },
+    {
+      "id": "MM-003",
+      "name": "Leverage Stressed Materials",
+      "MM-001": 30,
+      "MM-002": 800,
+      "MM-003": 5,
+      "MM-004": 15,
+      "MM-005": 9,
+      "MM-006": 8,
+      "MM-007": 2,
+      "MM-008": 35,
+      "subsegment": "steel",
+      "archetype": "integrated"
+    },
+    {
+      "id": "MM-004",
+      "name": "Governance Commodity Shock",
+      "MM-001": 65,
+      "MM-002": 3200,
+      "MM-003": 12.8,
+      "MM-004": 42,
+      "MM-005": 7.2,
+      "MM-006": 18,
+      "MM-007": 5.5,
+      "MM-008": 22,
+      "governance": true
+    }
+  ]
+}

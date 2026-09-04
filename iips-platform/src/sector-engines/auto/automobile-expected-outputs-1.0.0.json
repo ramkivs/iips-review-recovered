@@ -1,0 +1,73 @@
+{
+  "basis": "Frozen automobile expected outputs derived from IES-017 M1-M15 Option-A + automobile-calibration-1.0.0.",
+  "standard": "IES-017",
+  "version": "1.0.0",
+  "program": "v1.1 Track 6",
+  "contractVersion": "IES-017 v1.0",
+  "expected": [
+    {
+      "providerId": "AU-001",
+      "composite": 71.6,
+      "verdict": "Buy",
+      "pillars": {
+        "quality": 71.6,
+        "growth": 71.6,
+        "risk": 71.6,
+        "profitability": 71.6,
+        "capitalEfficiency": 71.6,
+        "valuation": 71.6
+      },
+      "overrides": [],
+      "calibrationVersion": "1.0.0"
+    },
+    {
+      "providerId": "AU-002",
+      "composite": 62,
+      "verdict": "Accumulate",
+      "pillars": {
+        "quality": 60,
+        "growth": 60,
+        "risk": 66.96,
+        "profitability": 60,
+        "capitalEfficiency": 60,
+        "valuation": 65.8
+      },
+      "overrides": [],
+      "calibrationVersion": "1.0.0"
+    },
+    {
+      "providerId": "AU-003",
+      "composite": 40,
+      "verdict": "Watch",
+      "pillars": {
+        "quality": 40,
+        "growth": 40,
+        "risk": 40,
+        "profitability": 40,
+        "capitalEfficiency": 40,
+        "valuation": 40
+      },
+      "overrides": [
+        "leverage-alert"
+      ],
+      "calibrationVersion": "1.0.0"
+    },
+    {
+      "providerId": "AU-004",
+      "composite": 71.6,
+      "verdict": "Avoid",
+      "pillars": {
+        "quality": 71.6,
+        "growth": 71.6,
+        "risk": 71.6,
+        "profitability": 71.6,
+        "capitalEfficiency": 71.6,
+        "valuation": 71.6
+      },
+      "overrides": [
+        "governance"
+      ],
+      "calibrationVersion": "1.0.0"
+    }
+  ]
+}

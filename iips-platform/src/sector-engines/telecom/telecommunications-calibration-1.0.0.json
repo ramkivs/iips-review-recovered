@@ -1,0 +1,276 @@
+{
+  "profile": "telecommunications-calibration-1.0.0",
+  "standard": "IES-016",
+  "version": "1.0.0",
+  "program": "v1.1 Track 6",
+  "contractVersion": "IES-016 v1.0",
+  "bandScores": {
+    "TL-001": [
+      [
+        "lt",
+        50,
+        40
+      ],
+      [
+        "range",
+        50,
+        65,
+        60
+      ],
+      [
+        "range",
+        65,
+        80,
+        68.4
+      ],
+      [
+        "gte",
+        80,
+        90
+      ]
+    ],
+    "TL-002": [
+      [
+        "lt",
+        1000,
+        40
+      ],
+      [
+        "range",
+        1000,
+        3000,
+        60
+      ],
+      [
+        "range",
+        3000,
+        6000,
+        68.4
+      ],
+      [
+        "gte",
+        6000,
+        90
+      ]
+    ],
+    "TL-003": [
+      [
+        "lt",
+        5,
+        40
+      ],
+      [
+        "range",
+        5,
+        10,
+        60
+      ],
+      [
+        "range",
+        10,
+        20,
+        68.4
+      ],
+      [
+        "gte",
+        20,
+        90
+      ]
+    ],
+    "TL-004": [
+      [
+        "lt",
+        15,
+        40
+      ],
+      [
+        "range",
+        15,
+        25,
+        60
+      ],
+      [
+        "range",
+        25,
+        40,
+        68.4
+      ],
+      [
+        "gte",
+        40,
+        90
+      ]
+    ],
+    "TL-005": [
+      [
+        "lt",
+        2,
+        40
+      ],
+      [
+        "range",
+        2,
+        5,
+        60
+      ],
+      [
+        "range",
+        5,
+        9,
+        68.4
+      ],
+      [
+        "gte",
+        9,
+        90
+      ]
+    ],
+    "TL-006": [
+      [
+        "lt",
+        2,
+        40
+      ],
+      [
+        "range",
+        2,
+        4,
+        60
+      ],
+      [
+        "range",
+        4,
+        15,
+        68.4
+      ],
+      [
+        "gte",
+        15,
+        90
+      ]
+    ],
+    "TL-007": [
+      [
+        "lt",
+        15,
+        40
+      ],
+      [
+        "range",
+        15,
+        25,
+        60
+      ],
+      [
+        "range",
+        25,
+        35,
+        68.4
+      ],
+      [
+        "gte",
+        35,
+        90
+      ]
+    ],
+    "TL-008": [
+      [
+        "lt",
+        2,
+        40
+      ],
+      [
+        "range",
+        2,
+        4,
+        60
+      ],
+      [
+        "range",
+        4,
+        10,
+        68.4
+      ],
+      [
+        "gte",
+        10,
+        90
+      ]
+    ]
+  },
+  "weights": {
+    "quality": 0.22,
+    "growth": 0.18,
+    "risk": 0.2,
+    "profitability": 0.2,
+    "capitalEfficiency": 0.1,
+    "valuation": 0.1
+  },
+  "segments": {
+    "integrated": {
+      "weights": {
+        "quality": 0.22,
+        "growth": 0.18,
+        "risk": 0.2,
+        "profitability": 0.2,
+        "capitalEfficiency": 0.1,
+        "valuation": 0.1
+      },
+      "leverageAlert": 9
+    },
+    "wireless": {
+      "weights": {
+        "quality": 0.25,
+        "growth": 0.2,
+        "risk": 0.15,
+        "profitability": 0.2,
+        "capitalEfficiency": 0.1,
+        "valuation": 0.1
+      },
+      "leverageAlert": 9
+    },
+    "wireline": {
+      "weights": {
+        "quality": 0.2,
+        "growth": 0.15,
+        "risk": 0.2,
+        "profitability": 0.2,
+        "capitalEfficiency": 0.15,
+        "valuation": 0.1
+      },
+      "leverageAlert": 9
+    }
+  },
+  "verdictMapping": [
+    {
+      "min": 80,
+      "max": 100,
+      "verdict": "Strong Buy"
+    },
+    {
+      "min": 70,
+      "max": 80,
+      "verdict": "Buy"
+    },
+    {
+      "min": 60,
+      "max": 70,
+      "verdict": "Accumulate"
+    },
+    {
+      "min": 50,
+      "max": 60,
+      "verdict": "Hold"
+    },
+    {
+      "min": 40,
+      "max": 50,
+      "verdict": "Watch"
+    },
+    {
+      "min": 0,
+      "max": 40,
+      "verdict": "Avoid"
+    }
+  ]
+}

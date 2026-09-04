@@ -1,0 +1,59 @@
+{
+  "dataset": "telecommunications-golden-reference-1.0.0",
+  "standard": "IES-016",
+  "version": "1.0.0",
+  "program": "v1.1 Track 6",
+  "contractVersion": "IES-016 v1.0",
+  "purpose": "Frozen golden reference inputs for Telecommunications Sector Engine. Deterministic oracle per D16 M1-M15.",
+  "providers": [
+    {
+      "id": "TL-001",
+      "name": "Telecom Integrated Leader",
+      "TL-001": 72,
+      "TL-002": 4500,
+      "TL-003": 15.2,
+      "TL-004": 38,
+      "TL-005": 8.5,
+      "TL-006": 12,
+      "TL-007": 28,
+      "TL-008": 4.2
+    },
+    {
+      "id": "TL-002",
+      "name": "Wireless Growth",
+      "TL-001": 85,
+      "TL-002": 6000,
+      "TL-003": 22,
+      "TL-004": 25,
+      "TL-005": 2,
+      "TL-006": 6,
+      "TL-007": 35,
+      "TL-008": 12
+    },
+    {
+      "id": "TL-003",
+      "name": "Leverage Stressed",
+      "TL-001": 45,
+      "TL-002": 800,
+      "TL-003": 2,
+      "TL-004": 12,
+      "TL-005": 5.5,
+      "TL-006": 1,
+      "TL-007": 12,
+      "TL-008": 35
+    },
+    {
+      "id": "TL-004",
+      "name": "Governance Failure",
+      "TL-001": 72,
+      "TL-002": 4500,
+      "TL-003": 15.2,
+      "TL-004": 38,
+      "TL-005": 8.5,
+      "TL-006": 12,
+      "TL-007": 28,
+      "TL-008": 4.2,
+      "governance": true
+    }
+  ]
+}

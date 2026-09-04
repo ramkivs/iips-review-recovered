@@ -1,0 +1,71 @@
+{
+  "basis": "Frozen telecommunications expected outputs derived from IES-016 M1-M15 + telecommunications-calibration-1.0.0.",
+  "standard": "IES-016",
+  "version": "1.0.0",
+  "program": "v1.1 Track 6",
+  "contractVersion": "IES-016 v1.0",
+  "expected": [
+    {
+      "providerId": "TL-001",
+      "composite": 68.4,
+      "verdict": "Accumulate",
+      "pillars": {
+        "quality": 68.4,
+        "growth": 68.4,
+        "risk": 68.4,
+        "profitability": 68.4,
+        "capitalEfficiency": 68.4,
+        "valuation": 68.4
+      },
+      "overrides": [],
+      "calibrationVersion": "1.0.0"
+    },
+    {
+      "providerId": "TL-002",
+      "composite": 79.9,
+      "verdict": "Buy",
+      "pillars": {
+        "quality": 90,
+        "growth": 90,
+        "risk": 72,
+        "profitability": 68.4,
+        "capitalEfficiency": 68.4,
+        "valuation": 90
+      },
+      "overrides": [],
+      "calibrationVersion": "1.0.0"
+    },
+    {
+      "providerId": "TL-003",
+      "composite": 49.9,
+      "verdict": "Watch",
+      "pillars": {
+        "quality": 40,
+        "growth": 40,
+        "risk": 77.03999999999999,
+        "profitability": 40,
+        "capitalEfficiency": 40,
+        "valuation": 65
+      },
+      "overrides": [],
+      "calibrationVersion": "1.0.0"
+    },
+    {
+      "providerId": "TL-004",
+      "composite": 68.4,
+      "verdict": "Avoid",
+      "pillars": {
+        "quality": 68.4,
+        "growth": 68.4,
+        "risk": 68.4,
+        "profitability": 68.4,
+        "capitalEfficiency": 68.4,
+        "valuation": 68.4
+      },
+      "overrides": [
+        "governance"
+      ],
+      "calibrationVersion": "1.0.0"
+    }
+  ]
+}

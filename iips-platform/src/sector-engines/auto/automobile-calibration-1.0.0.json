@@ -1,0 +1,37 @@
+{
+  "profile": "automobile-calibration-1.0.0",
+  "standard": "IES-017",
+  "version": "1.0.0",
+  "program": "v1.1 Track 6",
+  "contractVersion": "IES-017 v1.0 (Option-A left-to-right summation, re-frozen)",
+  "bandScores": {
+    "AU-001": [["lt", 50000, 40], ["range", 50000, 100000, 60], ["range", 100000, 150000, 71.6], ["gte", 150000, 90]],
+    "AU-002": [["lt", 5, 40], ["range", 5, 7, 60], ["range", 7, 10, 71.6], ["gte", 10, 90]],
+    "AU-003": [["lt", 10, 40], ["range", 10, 18, 60], ["range", 18, 25, 71.6], ["gte", 25, 90]],
+    "AU-004": [["lt", 10, 40], ["range", 10, 15, 60], ["range", 15, 22, 71.6], ["gte", 22, 90]],
+    "AU-005": [["lt", 20, 40], ["range", 20, 35, 60], ["range", 35, 55, 71.6], ["gte", 55, 90]],
+    "AU-006": [["lt", 5, 40], ["range", 5, 8, 60], ["range", 8, 12, 71.6], ["gte", 12, 90]],
+    "AU-007": [["lt", 8, 40], ["range", 8, 12, 60], ["range", 12, 20, 71.6], ["gte", 20, 90]],
+    "AU-008": [["lt", 1.5, 90], ["range", 1.5, 2, 75], ["range", 2, 4, 71.6], ["gte", 4, 40]]
+  },
+  "weights": {
+    "quality": 0.22,
+    "growth": 0.18,
+    "risk": 0.20,
+    "profitability": 0.20,
+    "capitalEfficiency": 0.10,
+    "valuation": 0.10
+  },
+  "segments": {
+    "oem": { "weights": { "quality": 0.22, "growth": 0.18, "risk": 0.20, "profitability": 0.20, "capitalEfficiency": 0.10, "valuation": 0.10 }, "leverageAlert": 3.5 },
+    "supplier": { "weights": { "quality": 0.25, "growth": 0.15, "risk": 0.20, "profitability": 0.20, "capitalEfficiency": 0.10, "valuation": 0.10 }, "leverageAlert": 3.0 }
+  },
+  "verdictMapping": [
+    { "min": 80, "max": 100, "verdict": "Strong Buy" },
+    { "min": 70, "max": 80, "verdict": "Buy" },
+    { "min": 60, "max": 70, "verdict": "Accumulate" },
+    { "min": 50, "max": 60, "verdict": "Hold" },
+    { "min": 40, "max": 50, "verdict": "Watch" },
+    { "min": 0, "max": 40, "verdict": "Avoid" }
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "basis": "Frozen materials-metals expected outputs derived from IES-020 D20 M1-M15 G1-G6 + materials-metals-calibration-1.0.0.",
+  "standard": "IES-020",
+  "version": "1.0.0",
+  "program": "v1.1 Track 6",
+  "contractVersion": "IES-020 v1.0",
+  "expected": [
+    {
+      "providerId": "MM-001",
+      "subsegment": "steel",
+      "archetype": "integrated",
+      "composite": 74.9,
+      "verdict": "Buy",
+      "pillars": {
+        "quality": 74.9,
+        "growth": 74.9,
+        "risk": 74.9,
+        "profitability": 74.9,
+        "capitalEfficiency": 74.9,
+        "valuation": 74.9
+      },
+      "overrides": [],
+      "calibrationVersion": "1.0.0"
+    },
+    {
+      "providerId": "MM-002",
+      "subsegment": "cement",
+      "archetype": "producer",
+      "composite": 90.9,
+      "verdict": "Strong Buy",
+      "pillars": {
+        "quality": 90,
+        "growth": 90,
+        "risk": 90,
+        "profitability": 90,
+        "capitalEfficiency": 90,
+        "valuation": 80.94
+      },
+      "overrides": [],
+      "calibrationVersion": "1.0.0"
+    },
+    {
+      "providerId": "MM-003",
+      "subsegment": "steel",
+      "archetype": "integrated",
+      "composite": 40,
+      "verdict": "Watch",
+      "pillars": {
+        "quality": 40,
+        "growth": 40,
+        "risk": 40,
+        "profitability": 40,
+        "capitalEfficiency": 40,
+        "valuation": 40
+      },
+      "overrides": [],
+      "calibrationVersion": "1.0.0"
+    },
+    {
+      "providerId": "MM-004",
+      "composite": 74.9,
+      "verdict": "Avoid",
+      "pillars": {
+        "quality": 74.9,
+        "growth": 74.9,
+        "risk": 74.9,
+        "profitability": 74.9,
+        "capitalEfficiency": 74.9,
+        "valuation": 74.9
+      },
+      "overrides": [
+        "governance"
+      ],
+      "calibrationVersion": "1.0.0"
+    }
+  ]
+}

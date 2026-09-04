@@ -1,0 +1,286 @@
+{
+  "profile": "materials-metals-calibration-1.0.0",
+  "standard": "IES-020",
+  "version": "1.0.0",
+  "program": "v1.1 Track 6",
+  "contractVersion": "IES-020 v1.0 (D20 M1-M15 + G1-G6, deterministic regeneration)",
+  "bandScores": {
+    "MM-001": [
+      [
+        "lt",
+        40,
+        40
+      ],
+      [
+        "range",
+        40,
+        60,
+        60
+      ],
+      [
+        "range",
+        60,
+        75,
+        74.9
+      ],
+      [
+        "gte",
+        75,
+        90
+      ]
+    ],
+    "MM-002": [
+      [
+        "lt",
+        1000,
+        40
+      ],
+      [
+        "range",
+        1000,
+        2500,
+        60
+      ],
+      [
+        "range",
+        2500,
+        4000,
+        74.9
+      ],
+      [
+        "gte",
+        4000,
+        90
+      ]
+    ],
+    "MM-003": [
+      [
+        "lt",
+        8,
+        40
+      ],
+      [
+        "range",
+        8,
+        11,
+        60
+      ],
+      [
+        "range",
+        11,
+        15,
+        74.9
+      ],
+      [
+        "gte",
+        15,
+        90
+      ]
+    ],
+    "MM-004": [
+      [
+        "lt",
+        25,
+        40
+      ],
+      [
+        "range",
+        25,
+        35,
+        60
+      ],
+      [
+        "range",
+        35,
+        50,
+        74.9
+      ],
+      [
+        "gte",
+        50,
+        90
+      ]
+    ],
+    "MM-005": [
+      [
+        "lt",
+        3,
+        90
+      ],
+      [
+        "range",
+        3,
+        8,
+        74.9
+      ],
+      [
+        "range",
+        8,
+        9,
+        60
+      ],
+      [
+        "gte",
+        9,
+        40
+      ]
+    ],
+    "MM-006": [
+      [
+        "lt",
+        10,
+        40
+      ],
+      [
+        "range",
+        10,
+        15,
+        60
+      ],
+      [
+        "range",
+        15,
+        25,
+        74.9
+      ],
+      [
+        "gte",
+        25,
+        90
+      ]
+    ],
+    "MM-007": [
+      [
+        "lt",
+        3,
+        40
+      ],
+      [
+        "range",
+        3,
+        5,
+        60
+      ],
+      [
+        "range",
+        5,
+        8,
+        74.9
+      ],
+      [
+        "gte",
+        8,
+        90
+      ]
+    ],
+    "MM-008": [
+      [
+        "lt",
+        10,
+        90
+      ],
+      [
+        "range",
+        10,
+        25,
+        74.9
+      ],
+      [
+        "range",
+        25,
+        30,
+        60
+      ],
+      [
+        "gte",
+        30,
+        40
+      ]
+    ]
+  },
+  "segments": {
+    "steel": {
+      "weights": {
+        "quality": 0.2,
+        "growth": 0.15,
+        "risk": 0.2,
+        "profitability": 0.2,
+        "capitalEfficiency": 0.15,
+        "valuation": 0.1
+      },
+      "leverageAlert": 9
+    },
+    "cement": {
+      "weights": {
+        "quality": 0.25,
+        "growth": 0.1,
+        "risk": 0.2,
+        "profitability": 0.25,
+        "capitalEfficiency": 0.1,
+        "valuation": 0.1
+      },
+      "leverageAlert": 9
+    },
+    "aluminium": {
+      "weights": {
+        "quality": 0.2,
+        "growth": 0.15,
+        "risk": 0.25,
+        "profitability": 0.2,
+        "capitalEfficiency": 0.1,
+        "valuation": 0.1
+      },
+      "leverageAlert": 9
+    },
+    "diversified": {
+      "weights": {
+        "quality": 0.22,
+        "growth": 0.15,
+        "risk": 0.2,
+        "profitability": 0.2,
+        "capitalEfficiency": 0.13,
+        "valuation": 0.1
+      },
+      "leverageAlert": 9
+    }
+  },
+  "archetypeRisk": {
+    "integrated": 1,
+    "producer": 1.1,
+    "processor": 1,
+    "hybrid": 1
+  },
+  "verdictMapping": [
+    {
+      "min": 80,
+      "max": 100,
+      "verdict": "Strong Buy"
+    },
+    {
+      "min": 70,
+      "max": 80,
+      "verdict": "Buy"
+    },
+    {
+      "min": 60,
+      "max": 70,
+      "verdict": "Accumulate"
+    },
+    {
+      "min": 50,
+      "max": 60,
+      "verdict": "Hold"
+    },
+    {
+      "min": 40,
+      "max": 50,
+      "verdict": "Watch"
+    },
+    {
+      "min": 0,
+      "max": 40,
+      "verdict": "Avoid"
+    }
+  ],
+  "ontologyDimensions": 8
+}

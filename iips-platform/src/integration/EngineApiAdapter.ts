@@ -39,6 +39,9 @@ import { UtilitiesEngine } from '../sector-engines/utilities/UtilitiesEngine';
 import { ConsumerEngine } from '../sector-engines/consumer/ConsumerEngine';
 import { IndustrialsEngine } from '../sector-engines/industrials/IndustrialsEngine';
 import { TechnologyEngine } from '../sector-engines/technology/TechnologyEngine';
+import { TelecomEngine } from '../sector-engines/telecom/TelecomEngine';
+import { AutoEngine } from '../sector-engines/auto/AutoEngine';
+import { MaterialsEngine } from '../sector-engines/materials/MaterialsEngine';
 
 import {
   CERTIFIED_ENGINES,
@@ -65,6 +68,9 @@ const ENGINE_FACTORY: Record<string, EngineFactory> = {
   'sector.consumer': () => new ConsumerEngine(),
   'sector.industrials': () => new IndustrialsEngine(),
   'sector.technology': () => new TechnologyEngine(),
+  'sector.telecom': () => new TelecomEngine(),
+  'sector.auto': () => new AutoEngine(),
+  'sector.materials': () => new MaterialsEngine(),
 };
 
 export function makeCertifiedEngine(engineId: string): SectorPlugin {
@@ -209,7 +215,7 @@ export class EngineApiAdapter {
       provenance: {
         certifiedCount: CERTIFIED_ENGINES.length,
         source:
-          'Program v1.1 LTS — 10 frozen sector engines (IES-006…015) — freeze manifests + replay baseline',
+          'Program v1.1 — 13 frozen sector engines (IES-006…015 LTS + IES-016/017/020 via D42) — freeze manifests + replay baseline v1.1.0',
         freshness: 'FROZEN',
         runtimeConfig: { clock: 'fixed', idProvider: 'deterministic' },
       },
