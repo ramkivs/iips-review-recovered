@@ -55,57 +55,57 @@ Columns: certified surface; capability; certified-product evidence (repository s
 
 | # | Certified surface | Capability | Certified-product evidence (repository side) | Repository-side provenance | Screenshot / UI evidence (live side) | Live-side provenance | Parity |
 |---|---|---|---|---|---|---|---|
-| 1 | Admin registry (Engines & Certification) | `sector.banking` (IES-006.2A) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-006.2A | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | ABSENT |
-| 2 | Executive | `sector.banking` (IES-006.2A) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-006.2A | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | ABSENT |
-| 3 | Company Intelligence | `sector.banking` (IES-006.2A) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-006.2A | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | ABSENT |
-| 4 | Admin registry (Engines & Certification) | `sector.insurance` (IES-007) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-007 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | ABSENT |
-| 5 | Executive | `sector.insurance` (IES-007) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-007 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | ABSENT |
-| 6 | Company Intelligence | `sector.insurance` (IES-007) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-007 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | ABSENT |
-| 7 | Admin registry (Engines & Certification) | `sector.capital-markets` (IES-008) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-008 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | ABSENT |
-| 8 | Executive | `sector.capital-markets` (IES-008) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-008 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | ABSENT |
-| 9 | Company Intelligence | `sector.capital-markets` (IES-008) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-008 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | ABSENT |
-| 10 | Admin registry (Engines & Certification) | `sector.healthcare` (IES-009) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-009 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | ABSENT |
-| 11 | Executive | `sector.healthcare` (IES-009) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-009 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | ABSENT |
-| 12 | Company Intelligence | `sector.healthcare` (IES-009) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-009 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | ABSENT |
-| 13 | Admin registry (Engines & Certification) | `sector.hospitality` (IES-010) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-010 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | ABSENT |
-| 14 | Executive | `sector.hospitality` (IES-010) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-010 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | ABSENT |
-| 15 | Company Intelligence | `sector.hospitality` (IES-010) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-010 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | ABSENT |
-| 16 | Admin registry (Engines & Certification) | `sector.energy` (IES-011) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-011 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | ABSENT |
-| 17 | Executive | `sector.energy` (IES-011) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-011 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | ABSENT |
-| 18 | Company Intelligence | `sector.energy` (IES-011) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-011 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | ABSENT |
-| 19 | Admin registry (Engines & Certification) | `sector.utilities` (IES-012) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-012 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | ABSENT |
-| 20 | Executive | `sector.utilities` (IES-012) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-012 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | ABSENT |
-| 21 | Company Intelligence | `sector.utilities` (IES-012) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-012 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | ABSENT |
-| 22 | Admin registry (Engines & Certification) | `sector.consumer` (IES-013) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-013 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | ABSENT |
-| 23 | Executive | `sector.consumer` (IES-013) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-013 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | ABSENT |
-| 24 | Company Intelligence | `sector.consumer` (IES-013) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-013 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | ABSENT |
-| 25 | Admin registry (Engines & Certification) | `sector.industrials` (IES-014) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-014 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | ABSENT |
-| 26 | Executive | `sector.industrials` (IES-014) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-014 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | ABSENT |
-| 27 | Company Intelligence | `sector.industrials` (IES-014) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-014 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | ABSENT |
-| 28 | Admin registry (Engines & Certification) | `sector.technology` (IES-015) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-015 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | ABSENT |
-| 29 | Executive | `sector.technology` (IES-015) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-015 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | ABSENT |
-| 30 | Company Intelligence | `sector.technology` (IES-015) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-015 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | ABSENT |
-| 31 | Admin registry (Engines & Certification) (auto-extended universe, per IVM) | `sector.telecommunications` (IES-016) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-016 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | ABSENT |
-| 32 | Executive (auto-extended universe, per IVM) | `sector.telecommunications` (IES-016) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-016 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | ABSENT |
-| 33 | Company Intelligence (auto-extended universe, per IVM) | `sector.telecommunications` (IES-016) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-016 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | ABSENT |
-| 34 | Admin registry (Engines & Certification) (auto-extended universe, per IVM) | `sector.automobile` (IES-017) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-017 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | ABSENT |
-| 35 | Executive (auto-extended universe, per IVM) | `sector.automobile` (IES-017) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-017 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | ABSENT |
-| 36 | Company Intelligence (auto-extended universe, per IVM) | `sector.automobile` (IES-017) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-017 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | ABSENT |
-| 37 | Admin registry (Engines & Certification) (auto-extended universe, per IVM) | `sector.materials-metals` (IES-020) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-020 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | ABSENT |
-| 38 | Executive (auto-extended universe, per IVM) | `sector.materials-metals` (IES-020) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-020 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | ABSENT |
-| 39 | Company Intelligence (auto-extended universe, per IVM) | `sector.materials-metals` (IES-020) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-020 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | ABSENT |
-| 40 | Cross-Sector Intelligence | CSIP (`CrossSectorEngine`) | IVM `cada0451` section 3 CSIP row; E2E-017 section 2 row 14 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | ABSENT |
-| 41 | Executive | CSIP (`CrossSectorEngine`) | IVM `cada0451` section 3 CSIP row; E2E-017 section 2 row 14 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | ABSENT |
-| 42 | Decision Matrix | CSIP (`CrossSectorEngine`) | IVM `cada0451` section 3 CSIP row; E2E-017 section 2 row 14 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | ABSENT |
-| 43 | Screener (composed cross-sector view, per IVM D3-5) | CSIP (`CrossSectorEngine`) | IVM `cada0451` section 3 CSIP row; E2E-017 section 2 row 14 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | ABSENT |
+| 1 | Admin registry (Engines & Certification) | `sector.banking` (IES-006.2A) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-006.2A | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | UNVERIFIABLE |
+| 2 | Executive | `sector.banking` (IES-006.2A) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-006.2A | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | UNVERIFIABLE |
+| 3 | Company Intelligence | `sector.banking` (IES-006.2A) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-006.2A | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | UNVERIFIABLE |
+| 4 | Admin registry (Engines & Certification) | `sector.insurance` (IES-007) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-007 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | UNVERIFIABLE |
+| 5 | Executive | `sector.insurance` (IES-007) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-007 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | UNVERIFIABLE |
+| 6 | Company Intelligence | `sector.insurance` (IES-007) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-007 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | UNVERIFIABLE |
+| 7 | Admin registry (Engines & Certification) | `sector.capital-markets` (IES-008) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-008 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | UNVERIFIABLE |
+| 8 | Executive | `sector.capital-markets` (IES-008) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-008 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | UNVERIFIABLE |
+| 9 | Company Intelligence | `sector.capital-markets` (IES-008) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-008 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | UNVERIFIABLE |
+| 10 | Admin registry (Engines & Certification) | `sector.healthcare` (IES-009) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-009 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | UNVERIFIABLE |
+| 11 | Executive | `sector.healthcare` (IES-009) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-009 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | UNVERIFIABLE |
+| 12 | Company Intelligence | `sector.healthcare` (IES-009) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-009 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | UNVERIFIABLE |
+| 13 | Admin registry (Engines & Certification) | `sector.hospitality` (IES-010) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-010 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | UNVERIFIABLE |
+| 14 | Executive | `sector.hospitality` (IES-010) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-010 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | UNVERIFIABLE |
+| 15 | Company Intelligence | `sector.hospitality` (IES-010) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-010 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | UNVERIFIABLE |
+| 16 | Admin registry (Engines & Certification) | `sector.energy` (IES-011) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-011 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | UNVERIFIABLE |
+| 17 | Executive | `sector.energy` (IES-011) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-011 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | UNVERIFIABLE |
+| 18 | Company Intelligence | `sector.energy` (IES-011) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-011 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | UNVERIFIABLE |
+| 19 | Admin registry (Engines & Certification) | `sector.utilities` (IES-012) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-012 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | UNVERIFIABLE |
+| 20 | Executive | `sector.utilities` (IES-012) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-012 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | UNVERIFIABLE |
+| 21 | Company Intelligence | `sector.utilities` (IES-012) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-012 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | UNVERIFIABLE |
+| 22 | Admin registry (Engines & Certification) | `sector.consumer` (IES-013) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-013 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | UNVERIFIABLE |
+| 23 | Executive | `sector.consumer` (IES-013) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-013 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | UNVERIFIABLE |
+| 24 | Company Intelligence | `sector.consumer` (IES-013) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-013 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | UNVERIFIABLE |
+| 25 | Admin registry (Engines & Certification) | `sector.industrials` (IES-014) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-014 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | UNVERIFIABLE |
+| 26 | Executive | `sector.industrials` (IES-014) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-014 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | UNVERIFIABLE |
+| 27 | Company Intelligence | `sector.industrials` (IES-014) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-014 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | UNVERIFIABLE |
+| 28 | Admin registry (Engines & Certification) | `sector.technology` (IES-015) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-015 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | UNVERIFIABLE |
+| 29 | Executive | `sector.technology` (IES-015) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-015 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | UNVERIFIABLE |
+| 30 | Company Intelligence | `sector.technology` (IES-015) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-015 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | UNVERIFIABLE |
+| 31 | Admin registry (Engines & Certification) (auto-extended universe, per IVM) | `sector.telecommunications` (IES-016) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-016 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | UNVERIFIABLE |
+| 32 | Executive (auto-extended universe, per IVM) | `sector.telecommunications` (IES-016) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-016 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | UNVERIFIABLE |
+| 33 | Company Intelligence (auto-extended universe, per IVM) | `sector.telecommunications` (IES-016) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-016 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | UNVERIFIABLE |
+| 34 | Admin registry (Engines & Certification) (auto-extended universe, per IVM) | `sector.automobile` (IES-017) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-017 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | UNVERIFIABLE |
+| 35 | Executive (auto-extended universe, per IVM) | `sector.automobile` (IES-017) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-017 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | UNVERIFIABLE |
+| 36 | Company Intelligence (auto-extended universe, per IVM) | `sector.automobile` (IES-017) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-017 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | UNVERIFIABLE |
+| 37 | Admin registry (Engines & Certification) (auto-extended universe, per IVM) | `sector.materials-metals` (IES-020) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-020 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | UNVERIFIABLE |
+| 38 | Executive (auto-extended universe, per IVM) | `sector.materials-metals` (IES-020) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-020 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | UNVERIFIABLE |
+| 39 | Company Intelligence (auto-extended universe, per IVM) | `sector.materials-metals` (IES-020) | IVM `cada0451` section 3 row; E2E-017 section 2 row for IES-020 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | UNVERIFIABLE |
+| 40 | Cross-Sector Intelligence | CSIP (`CrossSectorEngine`) | IVM `cada0451` section 3 CSIP row; E2E-017 section 2 row 14 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | UNVERIFIABLE |
+| 41 | Executive | CSIP (`CrossSectorEngine`) | IVM `cada0451` section 3 CSIP row; E2E-017 section 2 row 14 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | UNVERIFIABLE |
+| 42 | Decision Matrix | CSIP (`CrossSectorEngine`) | IVM `cada0451` section 3 CSIP row; E2E-017 section 2 row 14 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | UNVERIFIABLE |
+| 43 | Screener (composed cross-sector view, per IVM D3-5) | CSIP (`CrossSectorEngine`) | IVM `cada0451` section 3 CSIP row; E2E-017 section 2 row 14 | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | UNVERIFIABLE |
 
 ### 3.1 Non-engine certified surface (separate table)
 
 | # | Certified surface | Capability | Certified-product evidence (repository side) | Repository-side provenance | Screenshot / UI evidence (live side) | Live-side provenance | Parity |
 |---|---|---|---|---|---|---|---|
-| A1 | AI Advisory embedded in Company Intelligence | AI Advisory (non-engine; IVM section 3.2) | `governance/iips/DEC-G-AI-IMPL-CERTIFICATION.md`; certified at `f63a9b493118643725568a95b86405a5835a30a0`; no standalone route or navigation entry | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | ABSENT |
-| A2 | AI Advisory embedded in Sector Intelligence | AI Advisory (non-engine; IVM section 3.2) | as above | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | ABSENT |
-| A3 | AI Advisory embedded in Decision Matrix | AI Advisory (non-engine; IVM section 3.2) | as above | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | ABSENT |
+| A1 | AI Advisory embedded in Company Intelligence | AI Advisory (non-engine; IVM section 3.2) | `governance/iips/DEC-G-AI-IMPL-CERTIFICATION.md`; certified at `f63a9b493118643725568a95b86405a5835a30a0`; no standalone route or navigation entry | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | UNVERIFIABLE |
+| A2 | AI Advisory embedded in Sector Intelligence | AI Advisory (non-engine; IVM section 3.2) | as above | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | UNVERIFIABLE |
+| A3 | AI Advisory embedded in Decision Matrix | AI Advisory (non-engine; IVM section 3.2) | as above | CURRENT-REPOSITORY | ABSENT | ABSENT-UNVERIFIABLE | UNVERIFIABLE |
 
 **Summary at creation:** 43 engine-surface rows + 3 non-engine rows; every screenshot cell `ABSENT`; every parity cell `ABSENT`; every live-side provenance `ABSENT-UNVERIFIABLE`. Zero image files exist in the product tree at `f8aa038`; `docs/v3.0/e2e-018-screenshots/` does not exist and is not authorized by the creation authority.
 
