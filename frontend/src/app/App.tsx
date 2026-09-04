@@ -15,6 +15,7 @@ import { CrossSectorIntelligence } from '../features/cross-sector/CrossSectorInt
 import { DecisionMatrix } from '../features/decision-matrix/DecisionMatrix';
 import { EvidenceExplorer } from '../features/evidence/EvidenceExplorer';
 import { ReplayExplorer } from '../features/replay/ReplayExplorer';
+import { EngineRegistry } from '../features/engines/EngineRegistry';
 import { Administration } from '../features/admin/Administration';
 
 function FeaturePlaceholder({ surface }: { surface: string }) {
@@ -33,6 +34,7 @@ export function App() {
         <Route path="/research/company/:id" element={<CompanyIntelligence />} />
         <Route path="/research/sector/:id" element={<FeaturePlaceholder surface="Sector" />} />
         <Route path="/research/cross-sector" element={<CrossSectorIntelligence />} />
+        <Route path="/research/engines" element={<EngineRegistry />} />
         <Route path="/intelligence/decision-matrix" element={<DecisionMatrix />} />
         <Route path="/intelligence/*" element={<FeaturePlaceholder surface="Intelligence" />} />
         <Route path="/evidence" element={<FeaturePlaceholder surface="Evidence" />} />
