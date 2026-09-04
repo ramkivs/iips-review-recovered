@@ -31,25 +31,25 @@ const adapter = new EngineApiAdapter();
 // List / registry
 // ------------------------------------------------------------------
 
-test('[E2E-025] GET /api/engines — certified registry (10, frozen, no fabrication)', () => {
+test('[E2E-025] GET /api/engines — certified registry (13, frozen, no fabrication — 10 LTS + 3 deferred via D42)', () => {
   const list = adapter.listEngines();
   assert.equal(list.apiVersion, '1.0');
-  assert.equal(list.engines.length, 10, 'certified engine count must be 10 (Program v1.1 LTS)');
-  assert.equal(list.provenance.certifiedCount, 10);
+  assert.equal(list.engines.length, 13, 'certified engine count must be 13 (Program v1.1 10 LTS + 3 deferred via D42)');
+  assert.equal(list.provenance.certifiedCount, 13);
   assert.equal(list.provenance.freshness, 'FROZEN');
-  assert.ok(list.provenance.source.includes('Program v1.1 LTS'));
+  assert.ok(list.provenance.source.includes('Program v1.1'));
   // Every engine has the governed fields (never fabricated)
   for (const e of list.engines) {
     assert.ok(e.engineId.startsWith('sector.'), `engineId ${e.engineId}`);
-    assert.ok(e.ies.match(/^IES-0(0[6-9]|1[0-5])$/), `IES ${e.ies} for ${e.engineId}`);
+    assert.ok(e.ies.match(/^IES-0(0[6-9]|1[0-9]|20)$/), `IES ${e.ies} for ${e.engineId}`);
     assert.ok(e.engineVersion === '1.0.0');
     assert.ok(e.calibrationProfile.endsWith('-calibration-1.0.0'));
     assert.ok(e.capabilities.length > 0);
   }
-  // IES ordering must be 006..015 (no IES-016/017/020 invented)
+  // IES ordering must be 006..015 plus 016/017/020 (D42)
   const iesList = list.engines.map((e) => e.ies);
-  assert.deepEqual(iesList, ['IES-006','IES-007','IES-008','IES-009','IES-010','IES-011','IES-012','IES-013','IES-014','IES-015']);
-  console.log('[E2E-025] registry — 10 certified engines with IES identity — PASS');
+  assert.deepEqual(iesList, ['IES-006','IES-007','IES-008','IES-009','IES-010','IES-011','IES-012','IES-013','IES-014','IES-015','IES-016','IES-017','IES-020']);
+  console.log('[E2E-025] registry — 13 certified engines (10 LTS + 3 deferred via D42) with IES identity — PASS');
 });
 
 test('[E2E-025] certified engines are the EXACT replay-baseline engines (no drift)', () => {
@@ -114,8 +114,8 @@ test('[E2E-025] API error paths — validation → deterministic error semantics
     () => adapter.execute({ apiVersion: '1.0', engineId: 'Banking', requestId: 'x', inputs: {} }),
     (e: Error) => /must be a certified engineId/.test(e.message),
   );
-  // Uncertified capability → DENIED (404-like) with provenance preserved + reason
-  const denied = adapter.execute({ apiVersion: '1.0', engineId: 'sector.materials', requestId: 'x', inputs: {} });
+  // Uncertified capability → DENIED (404-like) with provenance preserved + reason (sector.materials is now certified via D42, so test uses a truly unknown sector)
+  const denied = adapter.execute({ apiVersion: '1.0', engineId: 'sector.unknown', requestId: 'x', inputs: {} });
   assert.equal(denied.state, 'DENIED');
   assert.equal(denied.reason, 'uncertified-capability');
   assert.equal(denied.ies, 'UNKNOWN');

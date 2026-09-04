@@ -93,7 +93,7 @@ test('[E2E-027] Snapshot/evidence chain — snapshotId is the replayReference (a
   console.log('[E2E-027] snapshot↔evidence traceability (snapshotId↔evidenceRef) — PASS');
 });
 
-test('[E2E-027] EngineApiAdapter → full provenance chain (10 engines) — API response carries engine/IES/version/snapshot/evidence/timestamp', () => {
+test('[E2E-027] EngineApiAdapter → full provenance chain (13 engines — 10 LTS + 3 deferred via D42) — API response carries engine/IES/version/snapshot/evidence/timestamp', () => {
   const adapter = new EngineApiAdapter();
   for (const sector of baseline.sectors) {
     const res = adapter.execute({ apiVersion: '1.0', engineId: sector.engineId, requestId: `prov-${sector.engineId}`, inputs: sector.input as Record<string, unknown> });
@@ -112,7 +112,7 @@ test('[E2E-027] EngineApiAdapter → full provenance chain (10 engines) — API 
     assert.equal(res.snapshotRef, res.provenance.snapshotId);
     assert.equal(res.evidenceRef, res.provenance.evidenceId);
   }
-  console.log('[E2E-027] API provenance chain (10 engines, engine/IES/version/snapshot/evidence/timestamp) — PASS');
+  console.log('[E2E-027] API provenance chain (13 engines, 10 LTS + 3 deferred, engine/IES/version/snapshot/evidence/timestamp) — PASS');
 });
 
 test('[E2E-027] Known LTS deviations are preserved (R2 staleness + R3 calibration exposure), not silently patched — provenance note', () => {

@@ -46,7 +46,7 @@ function harness() {
   return { clock, id, container, plugins, snap, store, replay, runtime };
 }
 
-test('[E2E-028] RuntimeCoordinator → ReplayService — all 10 engines are byte-identical replayable', () => {
+test('[E2E-028] RuntimeCoordinator → ReplayService — all 13 engines (10 LTS + 3 deferred via D42) are byte-identical replayable', () => {
   for (const sector of baseline.sectors) {
     const { plugins, store, replay, runtime, snap } = harness();
     // Resolve engine factory via adapter helper (certified only)
@@ -63,7 +63,7 @@ test('[E2E-028] RuntimeCoordinator → ReplayService — all 10 engines are byte
       'sector.banking': BankingEngine, 'sector.technology': TechnologyEngine,
     } as Record<string, new () => { identity: { engineId: string } }>;
 
-    // For full 10, use the replay baseline inputs directly for the 2 representative engines,
+    // For full 13, use the replay baseline inputs directly for the 2 representative engines,
     // and for all sectors assert via the API deterministic guarantee (already proven byte-identical via harness).
     if (h2.plugins && h2.store) {
       // Determinism check: same adapter call twice → same snapshotRef
@@ -72,7 +72,7 @@ test('[E2E-028] RuntimeCoordinator → ReplayService — all 10 engines are byte
       assert.equal(apiRes.evidenceRef, second.evidenceRef, `deterministic evidenceRef for ${sector.engineId}`);
     }
   }
-  console.log('[E2E-028] 10-engine byte-identical replay determinism (via EngineApiAdapter deterministic clock/id) — PASS');
+  console.log('[E2E-028] 13-engine byte-identical replay determinism (via EngineApiAdapter deterministic clock/id, 10 LTS + 3 deferred) — PASS');
 });
 
 test('[E2E-028] ReplayService — reproduced + byteIdentical + evidenceRefs (governed surface, no invented diff)', () => {

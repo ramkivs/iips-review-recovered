@@ -29,13 +29,19 @@ function loadGoldenPillars(): Record<string, { pillars: Record<string, number>; 
     Banking: 'banking', Insurance: 'insurance', 'Capital Markets': 'capital-markets',
     Healthcare: 'healthcare', Hospitality: 'hospitality', Energy: 'energy',
     Utilities: 'utilities', Consumer: 'consumer', Industrials: 'industrials', Technology: 'technology',
+    Telecommunications: 'telecom', Automobile: 'auto', 'Materials & Metals': 'materials',
   };
   const out: Record<string, { pillars: Record<string, number>; composite: number }> = {};
   for (const [sector, dir] of Object.entries(SECTOR_DIR)) {
     const base = path.join(__dirname, `../../src/sector-engines/${dir}`);
-    const file = fs.existsSync(path.join(base, `${dir}-expected-outputs-1.0.0.json`))
-      ? path.join(base, `${dir}-expected-outputs-1.0.0.json`)
-      : path.join(base, `frozen-assets/${dir}-expected-outputs-1.0.0.json`);
+    // Map dir to calibration prefix for deferred engines (telecom -> telecommunications, auto -> automobile, materials -> materials-metals)
+    const prefixMap: Record<string,string> = { telecom: 'telecommunications', auto: 'automobile', materials: 'materials-metals' };
+    const prefix = prefixMap[dir] ?? dir;
+    const file = fs.existsSync(path.join(base, `${prefix}-expected-outputs-1.0.0.json`))
+      ? path.join(base, `${prefix}-expected-outputs-1.0.0.json`)
+      : fs.existsSync(path.join(base, `${dir}-expected-outputs-1.0.0.json`))
+        ? path.join(base, `${dir}-expected-outputs-1.0.0.json`)
+        : path.join(base, `frozen-assets/${dir}-expected-outputs-1.0.0.json`);
     const d = JSON.parse(fs.readFileSync(file, 'utf8')) as { expected: Array<{ pillars?: Record<string, number>; composite?: number; compositeScore?: number }> };
     const first = d.expected[0];
     out[sector] = { pillars: first.pillars ?? {}, composite: first.composite ?? first.compositeScore ?? 0 };
@@ -83,12 +89,12 @@ function buildEngineOutputs(): EngineOutput[] {
   return outputs;
 }
 
-test('[E2E-029] CrossSectorEngine — sector results → CSIP aggregation (10 engines, no methodology change)', () => {
+test('[E2E-029] CrossSectorEngine — sector results → CSIP aggregation (13 engines, no methodology change — 10 LTS + 3 deferred via D42)', () => {
   const outputs = buildEngineOutputs();
-  assert.equal(outputs.length, 10, 'must aggregate 10 certified sector outputs');
+  assert.equal(outputs.length, 13, 'must aggregate 13 certified sector outputs (10 LTS + 3 deferred via D42)');
 
   const csip = new CrossSectorEngine();
-  const pr = csip.run({ portfolioId: 'PF-E2E-029', scenario: 'Balanced', strategy: 'Balanced', outputs, topN: 10 });
+  const pr = csip.run({ portfolioId: 'PF-E2E-029', scenario: 'Balanced', strategy: 'Balanced', outputs, topN: 13 });
 
   // Portfolio intelligence is deterministic and certified-sector-count coherent
   assert.equal(pr.intelligence.holdings, outputs.length);
@@ -99,7 +105,7 @@ test('[E2E-029] CrossSectorEngine — sector results → CSIP aggregation (10 en
   assert.ok(typeof pr.intelligence.concentration === 'number');
   assert.ok(typeof pr.intelligence.diversificationScore === 'number');
 
-  // Ranking: every sector appears, top = max composite, sectors are the 10 certified families
+  // Ranking: every sector appears, top = max composite, sectors are the 13 certified families (10 LTS + 3 deferred via D42)
   assert.equal(pr.ranking.length, outputs.length);
   const rankedSectors = pr.ranking.map((r) => r.sector).sort();
   const sourceSectors = outputs.map((o) => o.sector).sort();
@@ -119,23 +125,24 @@ test('[E2E-029] CrossSectorEngine — sector results → CSIP aggregation (10 en
   assert.ok(Array.isArray(pr.reports) && pr.reports.length > 0);
 
   // Determinism: rerun same inputs → byte-identical intelligence
-  const pr2 = csip.run({ portfolioId: 'PF-E2E-029', scenario: 'Balanced', strategy: 'Balanced', outputs, topN: 10 });
+  const pr2 = csip.run({ portfolioId: 'PF-E2E-029', scenario: 'Balanced', strategy: 'Balanced', outputs, topN: 13 });
   assert.equal(pr.intelligence.avgConviction, pr2.intelligence.avgConviction);
   assert.equal(pr.intelligence.concentration, pr2.intelligence.concentration);
   assert.deepEqual(pr.ranking.map((r) => r.conviction), pr2.ranking.map((r) => r.conviction));
 
-  console.log('[E2E-029] CSIP aggregation determinism + 10-sector coherence — PASS');
+  console.log('[E2E-029] CSIP aggregation determinism + 13-sector coherence (10 LTS + 3 deferred) — PASS');
 });
 
 test('[E2E-029] No duplicate sector engines / taxonomy unchanged — adapter rejects taxonomy-resolved fabrication', () => {
   const adapter = new EngineApiAdapter();
-  // The adapter's validate path rejects non-certified creation; taxonomy-resolved sector creation is an authority block.
-  const denied = adapter.execute({ apiVersion: '1.0', engineId: 'sector.materials', requestId: 'tax-001', inputs: {} });
+  // The adapter's validate path rejects non-certified creation; taxonomy-resolved sector creation is an authority block. sector.materials is now certified via D42, so test uses a truly unknown sector.
+  const denied = adapter.execute({ apiVersion: '1.0', engineId: 'sector.unknown', requestId: 'tax-001', inputs: {} });
   assert.equal(denied.state, 'DENIED');
 
-  // The registry is exactly 10 — no shadow IT/Chemicals/Realty engines
+  // The registry is exactly 13 — no shadow IT/Chemicals/Realty engines
   const { listEngines } = adapter as unknown as { listEngines: () => { engines: { engineId: string }[] } };
   const ids = adapter.listEngines().engines.map((e) => e.engineId);
+  assert.equal(ids.length, 13, 'registry must be 13 (10 LTS + 3 deferred)');
   assert.ok(!ids.includes('sector.it'));
   assert.ok(!ids.includes('sector.chemicals'));
   assert.ok(!ids.includes('sector.realty'));
@@ -147,7 +154,7 @@ test('[E2E-029] Sector → CSIP → portfolio DTO → provenance (full product E
   // Mirrors the executive transport's computeCertifiedCrossSector provenance guard
   const outputs = buildEngineOutputs();
   const csip = new CrossSectorEngine();
-  const pr = csip.run({ portfolioId: 'PF-REAL', scenario: 'Balanced', strategy: 'Balanced', outputs, topN: 10 });
+  const pr = csip.run({ portfolioId: 'PF-REAL', scenario: 'Balanced', strategy: 'Balanced', outputs, topN: 13 });
 
   // Simulate the executive DTO shape: must carry governed source + freshness + semantics
   const dtoProvenance = {
