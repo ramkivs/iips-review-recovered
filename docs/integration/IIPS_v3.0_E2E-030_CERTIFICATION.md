@@ -245,7 +245,7 @@ No further implementation is required for the certified 10-engine LTS scope. The
 
 **Date:** 2026-09-04
 
-**Canonical certified HEAD (delta):** `TO_BE_FILLED_AFTER_COMMIT` (single line, grep-able 40-hex — the HEAD after this delta certification commit, child of `e156cf6`)
+**Canonical certified HEAD (delta):** `67e89aa52dabb5819e5f7af9c83787546dafdfb7` (single line, grep-able 40-hex — the HEAD after this delta certification commit, child of `e156cf6`)
 
 **Pre-delta HEAD:** `e156cf6a7b33acd727d1d64c0e8021c0bd67343f` (pre-certification reconciliation verified HEAD == origin/main, clean)
 
@@ -305,7 +305,7 @@ No further implementation is required for the certified 10-engine LTS scope. The
 
 **Certification date:** 2026-09-04
 
-**Certification commit (delta):** `TO_BE_FILLED_AFTER_COMMIT` — this file's commit, child of `e156cf6`, with `HEAD == origin/main`, clean, no tag/release
+**Certification commit (delta):** `67e89aa52dabb5819e5f7af9c83787546dafdfb7` — this file's commit, child of `e156cf6`, with `HEAD == origin/main`, clean, no tag/release
 
 **This is a 13-engine E2E-030 delta certification, not a reimplementation or methodology change.** No taxonomy, scoring, metric, calibration, methodology, or ontology reinterpretation was performed to obtain certification; frozen `D16 M1–M15`, `D17 M1–M15 + Option-A`, `D20 M1–M15 + G1–G6` are preserved verbatim. The original 10-engine certification (§§1–11) remains as historical record; this delta expands scope to 13.
 
@@ -315,7 +315,7 @@ No further implementation is required for the certified 10-engine LTS scope. The
 
 After delta certification, verify:
 
-- `git rev-parse HEAD` == `TO_BE_FILLED_AFTER_COMMIT` (new delta HEAD)
+- `git rev-parse HEAD` == `67e89aa52dabb5819e5f7af9c83787546dafdfb7` (new delta HEAD)
 - `git rev-parse origin/main` == same
 - `git status --porcelain` → 0 (clean)
 - `git tag --list` → 0 (no tag/release)
