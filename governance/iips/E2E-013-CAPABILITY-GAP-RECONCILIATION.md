@@ -64,12 +64,12 @@ The D36 artifacts establish documentation/parity evidence. They do not retroacti
 
 ## E2E-017 / E2E-018 Reconciliation
 
-The E2E-013 discovery did not locate authoritative current repository artifacts corresponding to:
+The E2E-013 discovery recorded the following current-repository existence states, as corrected under decision E2E-013-DOC-AUTH-2026-09-04:
 
-- **E2E-017 — Engine Master Matrix**
+- **E2E-017 — Engine Master Matrix — PRESENT / CURRENT-REPOSITORY**: docs/v3.0/E2E-017_ENGINE_MASTER_MATRIX.md, committed at product HEAD 2f1049d0db348733f4d4f15fb4dcc57d4f2742fa; raw file SHA-256 6e8316688af0b677c0a31ff4c6e3e6811aac3b5b258a4da3b7d5752b9208f2a8 (23322 bytes); Git blob ID d84956071bebda4e65b5cd1193116a382b5c19a6; distinct evidence classes; existence/evidence state only (EVIDENCE-ONLY)
 - **E2E-018 — Screenshot-to-Certified-Product Parity Matrix**
 
-**Classification:** ABSENT / NOT LOCATED
+**Classification:** E2E-017 PRESENT / CURRENT-REPOSITORY (EVIDENCE-ONLY; corrected per decision E2E-013-DOC-AUTH-2026-09-04); E2E-018 remains ABSENT / NOT LOCATED (outside the decision scope)
 
 This classification records the repository evidence state only. It does not infer that the underlying E2E-017 or E2E-018 requirements are unsatisfied.
 
@@ -110,6 +110,6 @@ E2E-013 establishes an authoritative current-state capability/evidence reconcili
 
 The Tier-3 D36 artifacts for IES-016, IES-017, and IES-020 are recorded as current/D36 evidence and are not treated as recovered historical certification evidence.
 
-E2E-017 and E2E-018 are recorded as ABSENT / NOT LOCATED without negative inference.
+E2E-017 is recorded as PRESENT / CURRENT-REPOSITORY (corrected per decision E2E-013-DOC-AUTH-2026-09-04); E2E-018 remains recorded as ABSENT / NOT LOCATED without negative inference.
 
 **NO IMPLEMENTATION AUTHORITY IS IMPLIED.**
