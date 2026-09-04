@@ -232,3 +232,93 @@ No further implementation is required for the certified 10-engine LTS scope. The
 
 **Do not begin post-certification implementation or future engine work automatically — the next action requires separate authority.**
 
+
+---
+
+## 12. 13-Engine E2E-030 Delta Certification (2026-09-04) — D42 Deferred Engines (IES-016/017/020) — Additive Delta to 10-Engine LTS
+
+**This section is an additive delta certification to the historical 10-engine LTS certification above (§1–§11 at `286f3da`). The original 10-engine certification record is preserved and not erased. This delta certifies the three deferred engines as an expansion of E2E-030 scope from 10 to 13, not a reimplementation or methodology change.**
+
+**Delta certification decision:** **CERTIFIED — 13-ENGINE E2E-030 DELTA (10 LTS + 3 DEFERRED VIA D42)**
+
+**Certification gate:** E2E-030 Delta Authority & Certification Gate — 13-engine E2E-030 Delta (separate authority/control gate after E2E-025→029 complete)
+
+**Date:** 2026-09-04
+
+**Canonical certified HEAD (delta):** `TO_BE_FILLED_AFTER_COMMIT` (single line, grep-able 40-hex — the HEAD after this delta certification commit, child of `e156cf6`)
+
+**Pre-delta HEAD:** `e156cf6a7b33acd727d1d64c0e8021c0bd67343f` (pre-certification reconciliation verified HEAD == origin/main, clean)
+
+**Remote HEAD (pre-delta):** `e156cf6a7b33acd727d1d64c0e8021c0bd67343f` (verified `origin/main` before mutation)
+
+**Certification branch:** `main` (canonical)
+
+**Original E2E-030 certification baseline:** `docs/integration/IIPS_v3.0_E2E-030_CERTIFICATION.md` §§1–11 at `286f3da6f20080e9bd13cf76cd8dd1608b89debd` — **CERTIFIED — 10-ENGINE LTS (`IES-006…015`)** — preserved as historical record above, with `IES-016/017/020` previously `BLOCKED / OUTSIDE SCOPE`
+
+**D38 frozen 13-engine evidence baseline:** `ies-016-telecom/IES-016_FREEZE_MANIFEST.json` + `ies-017-auto/IES-017_FREEZE_MANIFEST.json` + `ies-020-materials/IES-020_FREEZE_MANIFEST.json` + `program-v1.1-certification/PROGRAM_v1.1_REPLAY_BASELINE.json` v1.1.0 — **FROZEN 2026-09-04**, `45/45 MATCH` (13/13 distinguished, 0 MISMATCH), `13-sector replay` `fixed`/`deterministic`/`r1h2e`/`lower-inclusive` — `git diff --stat HEAD -- ies-*/ program-v1.1-certification/PROGRAM_v1.1_REPLAY_BASELINE.json` → 0
+
+| Engine | Freeze Manifest | Methodology | Calibration | Expected | Replay | Verification |
+|---|---|---|---|---|---|---|
+| IES-016 Telecommunications | `ies-016-telecom/IES-016_FREEZE_MANIFEST.json` | D16 M1–M15 v1.0 (`9bf91d1`) | `telecommunications-calibration-1.0.0` `1.0.0` `IES-016 v1.0` | `3cfb9d93f545d45d749cc48c88e25bab23075b013911ea7751212b49f1168ee0` | `92be99526e498d1378d0a158c42009c05bdc24f181e908d28ff009dae7fd34ca` | `MATCH` (oracle `c7c0b0d70390a2f8cc6073988361b8ab84fdc559d9134e9067392f0719c8e01a`, ontology 8) |
+| IES-017 Automobile | `ies-017-auto/IES-017_FREEZE_MANIFEST.json` | D17 M1–M15 v1.0 + Option-A left-to-right re-frozen (`d51b120`) | `automobile-calibration-1.0.0` `1.0.0` `IES-017 v1.0 Option-A` | `ea22807925694aa3e2b97cd2f1b1990cc4235e4e19023b31ae43bdc55314d81d` | `c8ed26c58dc6d2f7db71caa4d8d959cae843ddff0b9dd4e072856ed2e952428f` | `MATCH` (triple `44ba141957eb78654bce0fe3320a709a812291f35b5b7b6a5f342bfe54f27a25` `44ba/ea22/c8ed`) |
+| IES-020 Materials & Metals | `ies-020-materials/IES-020_FREEZE_MANIFEST.json` | D20 M1–M15 v1.0 + G1–G6 v1.0 later authority-review governing (`6355949`) | `materials-metals-calibration-1.0.0` `1.0.0` `IES-020 v1.0 G1–G6` | `56a6ad197640c9c9f3f922ffca3897ddd006a7682099f01347cfaa6e0d754025` | `9d920fa987b7d042183139dd1fca5634d605f40c5ebcc92f486525c265dde446` | `MATCH` (domainG `5813060b1440c2ec61a947eb1e20b920ecb0f540699819b17bf718868e181e63`, G1–G6 all ACCEPTED) |
+
+**D41 Track 8 opening certification:** `program-v1.1-certification/PROGRAM_v1.1_TRACK8_ARCHITECTURE_AUDIT_ADDENDUM.md` `CURRENT/CERTIFIED` `APPROVED FOR OPENING` at `ed97606` (3–10 CONFORMANT, 1–2 NOT VERIFIABLE → closed at `eee39d3` to 10×3 CONFORMANT)
+
+**D42 opening authority:** `docs/integration/IIPS_v3.0_OPENING_AUTHORITY_DECISION.md` `A — OPEN ALL THREE DEFERRED ENGINES` at `6d4dbc1` (GATE0 lifted for 016/017/020, `EngineRegistry 10→13` authorized, `E2E-025→029 NOT executed` in that gate, `E2E-030` remains 10 until delta)
+
+**Implementation commit:** `6a5d7cc1747a959a781a12c83336be73b71cb542` — `D42 — IMPLEMENTATION COMPLETE — 10→13, Option-A preserved (44ba/ea22/c8ed), G1–G6 preserved (5813…), deterministic replay, frozen calibration/oracle, no E2E-025→029/E2E-030 claim` — 33 files for 3 engines + `EngineRegistry`/`EngineApiAdapter` 13
+
+**Track 8 implementation closure:** `eee39d3cdfc7c1e53b82a1bc4446761a5ff6af63` — `TRACK 8 IMPLEMENTATION CLOSURE CERTIFIED — 10 invariants ×3 CONFORMANT (1–2 NOT VERIFIABLE → CONFORMANT), D16/D17/Option-A/G1–G6 preserved, EngineRegistry 13, no regression`
+
+**E2E-025→029 certification:** `docs/integration/IIPS_v3.0_E2E-025_029_DEFERRED_ENGINE_CERTIFICATION.md` at `e156cf6a7b33acd727d1d64c0e8021c0bd67343f` — **CERTIFIED — E2E-025→029 EVIDENCE COMPLETE FOR IES-016/017/020** (E2E-030 remains 10 until delta)
+
+**Exact 016/017/020 delta evidence (from E2E-025→029 certification §4–§8):**
+
+- **E2E-025 Engine API Integration:** `engine-api-integration.test.ts` **17/17 PASS** (registry 13 `FROZEN` `13-sector`, 13× `POST /api/engines/{sector}/execute` each `COMPLETED` with oracle `MATCH`, error paths `sector.unknown` DENIED, determinism `same requestId → same SNAP/ev_`)
+  - `sector.telecom` `72/4500/15.2/38/8.5/12/28/4.2` → `68.4 Accumulate` `SNAP_FF2C2128` **MATCH** `3cfb/92be`
+  - `sector.auto` `125000/8.2/22/18/45/9.5/14/3.1` → `71.6 Buy` `SNAP_4E9D59AE` **MATCH** triple `44ba/ea22/c8ed` left-to-right
+  - `sector.materials` `65/3200/12.8/42/7.2/18/5.5/22 steel/integrated` → `74.9 Buy` `SNAP_BC9B6426` **MATCH** `56a6/9d92` G1–G6
+
+- **E2E-026 Product E2E:** `csip-product-e2e.test.ts` **3/3 PASS** (`13-engine aggregation` `holdings 13` `avgConviction 72.9`, `no duplicate`, `product DTO`) + live product payloads `Executive/Portfolio/Cross-Sector` each `engine identity/metrics/scoring/decision/evidence/provenance/ontology 8/deterministic SNAP` complete, `10-engine product behavior unchanged` (`holdings 10` when run alone)
+
+- **E2E-027 Replay / Determinism:** `replay-e2e.test.ts` **4/4 PASS** + `evidence-provenance-integration.test.ts` **4/4 PASS** + live determinism `same inputs → same composite/verdict/SNAP`
+  - `sector.telecom` `68.4 Accumulate` `SNAP_FF2C2128` stable per `requestId`
+  - `sector.auto` `71.6 Buy` `SNAP_4E9D59AE` + **Option-A preserved** (`for i < pillarValues.length; i++) compositeRaw += pillarValues[i]*weightValues[i]` + `r1h2e`, **no `sum()` in code**, triple `44ba/ea22/c8ed` MATCH)
+  - `sector.materials` `74.9 Buy` `SNAP_BC9B6426` + **G1–G6 preserved** (`segments steel/cement/aluminium/diversified` + `archetypeRisk producer 1.1` + `8 metrics` + `r1h2e/lower-inclusive` + `1.0.0` + `8 dims`, later review governing, `9d920fa9/56a6ad19` + `5813060b`)
+
+- **E2E-028 Cross-Sector:** live `sector registration` `Telecommunications/Automobile/Materials & Metals` PASS, `ontology 8` PASS, `no platform branching` (`git diff` platform 0) + `no cross-sector contamination` (`git diff` cross-sector 0) + `common runtime fixed/deterministic` + deterministic `CrossSectorEngine 3 holdings 71.6` PASS, existing `10` baseline `10/10` audit PASS
+
+- **E2E-029 Evidence Provenance:** `evidence-provenance-integration.test.ts` **4/4 PASS** + live chain `D38→D41→D42→6a5d7cc→eee39d3→E2E-025→029` with `source provenance IES-016/017/020 1.0.0 deterministic`, `frozen artifact hashes MATCH`, `calibration provenance 1.0.0`, `implementation provenance 6a5d7cc 33 files`, `deterministic ev_…/SNAP_…` **no unexplained substitution**
+
+**Non-regression of IES-006…015:** `banking-acceptance 4/4 PASS`, `technology-acceptance 13/13 PASS`, `hospitality-acceptance 5/5 PASS`, `track8-architecture-audit 10/10 PASS`, `engine-api 17/17`, `csip 3/3`, `replay 4/4`, `evidence 4/4`, `tsc --noEmit` exit 0, `git diff --stat HEAD -- iips-platform/src/sector-engines/banking…technology` → 0 — **10-engine LTS baseline remains valid; 13-engine delta does not invalidate it**
+
+**Final certified scope (after delta):** **IES-006…015 + IES-016 + IES-017 + IES-020 = 13 engines** — exactly `sector.banking, sector.insurance, sector.capital-markets, sector.healthcare, sector.hospitality, sector.energy, sector.utilities, sector.consumer, sector.industrials, sector.technology, sector.telecom, sector.auto, sector.materials` all `1.0.0` `FROZEN` `calibration 1.0.0`
+
+**IES-017 Option-A preserved:** explicit left-to-right accumulation `for (let i=0;i<pillarValues.length;i++) compositeRaw += pillarValues[i]*weightValues[i];` + `r1h2e` + `no sum()` in code, triple `44ba/ea22/c8ed` MATCH — **verified in delta**
+
+**IES-020 G1–G6 preserved:** `G1 subsegment steel/cement/aluminium/diversified` + `G2 archetype integrated/producer 1.0/1.1` + `G3 8 metrics` + `G4 r1h2e/lower-inclusive` + `G5 1.0.0` + `G6 8 dims` + later authority-review governing + `9d920fa9/56a6ad19` + `5813060b` — **verified in delta**
+
+**Provenance chain:** `23b4b40295fe9d9e3d639fcf8258d3d8178b95fcb78fb136ac958654a67df53c (1700 entries, G:\\IIPS\\historical-package)` → `9bf91d1/d51b120/6355949` → D36 `ACCEPTED` → D38 `3165065` `FROZEN` → D41 `ed97606` `CURRENT/CERTIFIED` → D42 `6d4dbc1` `A — OPEN ALL THREE` → `6a5d7cc` `IMPLEMENTATION` → `eee39d3` `TRACK 8 CLOSURE` → `e156cf6` `E2E-025→029` → **this delta `CERTIFIED`**
+
+**Deterministic/replay evidence:** `sector.telecom 68.4 Accumulate SNAP_FF2C2128`, `sector.auto 71.6 Buy SNAP_4E9D59AE`, `sector.materials 74.9 Buy SNAP_BC9B6426` — each `same requestId → same SNAP/ev_` + `same inputs → same composite/verdict` + `byteIdentical` via `ReplayService` — **verified**
+
+**Certification date:** 2026-09-04
+
+**Certification commit (delta):** `TO_BE_FILLED_AFTER_COMMIT` — this file's commit, child of `e156cf6`, with `HEAD == origin/main`, clean, no tag/release
+
+**This is a 13-engine E2E-030 delta certification, not a reimplementation or methodology change.** No taxonomy, scoring, metric, calibration, methodology, or ontology reinterpretation was performed to obtain certification; frozen `D16 M1–M15`, `D17 M1–M15 + Option-A`, `D20 M1–M15 + G1–G6` are preserved verbatim. The original 10-engine certification (§§1–11) remains as historical record; this delta expands scope to 13.
+
+---
+
+## 13. Post-Delta Verification
+
+After delta certification, verify:
+
+- `git rev-parse HEAD` == `TO_BE_FILLED_AFTER_COMMIT` (new delta HEAD)
+- `git rev-parse origin/main` == same
+- `git status --porcelain` → 0 (clean)
+- `git tag --list` → 0 (no tag/release)
+- `git diff --stat e156cf6..HEAD -- docs/integration/IIPS_v3.0_E2E-030_CERTIFICATION.md` → additive delta only
+- `git diff --stat e156cf6..HEAD -- ies-*/ program-v1.1-certification/ iips-platform/src/sector-engines/banking…technology governance/` → 0 (no frozen evidence rewritten)
+
