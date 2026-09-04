@@ -71,3 +71,63 @@ prior reconciliation (held, not yet pushed at start): docs/integration/IIPS_v3.0
 ```
 
 All pins in machine-readable evidence (§5 of continuation) remain on single physical lines (no hard-wrapped hashes).
+
+---
+
+## 5. Formal E2E-013-Equivalent Program Authority Acceptance — 2026-09-04
+
+**Authority action:** Formal program authority **ACCEPTS** `IIPS_v3.0_AUTHORIZED_SCOPE_DISPOSITION.md` (§1–§4) as the **E2E-013-equivalent control disposition** for the verified scope at `main@60fd96417f7c4ea533c4157e4e72bc53cacff49e`. This is an **acceptance/documentation gate, NOT an implementation or certification gate** — no engine, taxonomy, scoring, metrics, calibration, freeze manifest, certification criteria, or certified engine implementation is created or altered.
+
+**Acceptance invariants verified (pre-acceptance, 2026-09-04):**
+
+- `main` HEAD `60fd96417f7c4ea533c4157e4e72bc53cacff49e` == `origin/main` == local `main`; working tree clean.
+- `IIPS_v3.0_AUTHORIZED_SCOPE_DISPOSITION.md` present at `73 lines` as reconciled at `60fd964` (authority `E2E-025→029 AUTHORIZED CONTINUATION`, baseline `c65d53373717aacc3a1dce12d47b5aeaf50541a5`, starting HEAD `bbbca164f227f12800b9cc51ac383d25b9e31def`).
+- Engine Integration E2E-025→029 and Product E2E present and evidenced (`docs/integration/IIPS_v3.0_*` 12 files + `frontend/server/product-transport.test.ts`), combined evidence `284/284` PASS (`25 platform + 50 sector acceptances + 38 program tracks + 10 frontend engine + 10 product + 151 full frontend → 284` at `bf621bf`/`60fd964`; re-verified at `6628aef` `274/274`).
+- IES-016 / IES-017 / IES-020 remain **absent** (`ls ies-*` only `010…015`, `ls sector-engines` no `telecom`/`auto`/`materials`, `IES*_FREEZE_MANIFEST.json` no `016/017/020`, `G:\IIPS` not mounted) and blocked (`404 DENIED` tested).
+- Frozen/governance-controlled assets diff vs `c65d53373717aacc3a1dce12d47b5aeaf50541a5` remains `0` (`ies-*/ program-v1.1-certification/ iips-platform/IES* governance/ */scoring|metrics|calibration/`).
+- No `E2E-013` artifact exists in recovery checkout; control plane remains `Program v1.1 LTS Baseline` + freeze manifests (per Discovery §1). No `E2E-030` certification artifact exists.
+
+**Accepted disposition — explicitly establishes:**
+
+### In scope
+
+`IES-006…015` — the verified 10-engine `Program v1.1 LTS` baseline (`Banking IES-006 … Technology IES-015`, `sector.banking … sector.technology`, `1.0.0`, `FROZEN`, `PROGRAM_v1.1_REPLAY_BASELINE.json` 10/10) as listed in §1.
+
+**Engine Integration E2E-025→029 and Product E2E are: TECHNICALLY COMPLETE + MERGED + EVIDENCED but remain distinct from formal E2E-030 certification.** Engine slice merged at `6628aef67d1fdbf27ac8da31758bd60589c2e440` (18+3+1 files, `274/274` at `e47dc4c`), Product slice merged at `60fd96417f7c4ea533c4157e4e72bc53cacff49e` (5 files `955` at `471fd1b966ff641aac5c896dfe73f4c845122933` + reconciliation `bf621bf15b2b6881740b1e4f40a0769974e2c07e`), both on canonical `main`.
+
+### Explicitly deferred / outside current scope
+
+- **IES-016 Telecom** — `sector.telecom` — **BLOCKED / OUTSIDE SCOPE**
+- **IES-017 Auto** — `sector.auto` — **BLOCKED / OUTSIDE SCOPE**
+- **IES-020 Materials** — `sector.materials` — **BLOCKED / OUTSIDE SCOPE**
+
+These remain **BLOCKED / OUTSIDE SCOPE** with **no authorization to begin v2.0 engineering** before the applicable certification/control conditions are satisfied (`PROGRAM_v1.1_FINAL_CERTIFICATION_GATE0_SCOPE.md:20 Strategic decision: do not open IES-016 now. No v2.0 engineering is authorized before certification is complete`). No frozen set, no engine implementation, no `G:\IIPS` inference is authorized by this acceptance.
+
+### Taxonomy — preserved without modification
+
+- `IT → IES-015 Technology` (`TAXONOMY_RESOLVED.IT`)
+- `Chemicals → IES-014 Industrials` (`TAXONOMY_RESOLVED.Chemicals`)
+- `Realty / Real Estate → IES-015 Technology` (`TAXONOMY_RESOLVED['Real Estate']`)
+
+Guard `assertNotTaxonomyResolved → 422` (`iips-platform/src/integration/EngineRegistry.ts:42–49`) unchanged. No taxonomy mapping created, altered, or exposed as a separate engine.
+
+### Certification boundary — preserved
+
+**E2E-030 = PENDING / NOT CLAIMED.** Technical completion and merge of E2E-025→029 + Product at `60fd964` do **not** constitute certification. No `E2E-030` certification artifact has been created or claimed by this acceptance. Certification remains a separate authority gate requiring explicit `E2E-030` control-gate review (E2E-025…029 evidence + this `E2E-013`-equivalent disposition + freeze/compatibility sign-off).
+
+**Effect of this acceptance:** The existing 10-engine technical work is now **formally accepted** under this `E2E-013`-equivalent disposition without further code change; no rollback is required; no new `E2E-013` artifact file is invented (acceptance is recorded additively in this authoritative disposition structure, per artifact discipline). All future scope or certification decisions must reference this §5 acceptance at `main@60fd964`.
+
+**Post-acceptance invariants (for verification after commit):** frozen/governance diff `0`, taxonomy held, `016/017/020` still `404 BLOCKED`, `E2E-030` still `PENDING`, no placeholder/future-pin, evidence `284/284` intact, working tree clean.
+
+**Audit pins (single-line, grep-able 40-hex):**
+
+```
+pre-acceptance HEAD: 60fd96417f7c4ea533c4157e4e72bc53cacff49e
+engine slice merge: 6628aef67d1fdbf27ac8da31758bd60589c2e440
+product slice head: 471fd1b966ff641aac5c896dfe73f4c845122933
+product reconciliation: bf621bf15b2b6881740b1e4f40a0769974e2c07e
+authorized disposition: docs/integration/IIPS_v3.0_AUTHORIZED_SCOPE_DISPOSITION.md (§1–§4)
+acceptance record: docs/integration/IIPS_v3.0_AUTHORIZED_SCOPE_DISPOSITION.md §5 (this section)
+baseline: c65d53373717aacc3a1dce12d47b5aeaf50541a5
+starting HEAD (continuation): bbbca164f227f12800b9cc51ac383d25b9e31def
+```
