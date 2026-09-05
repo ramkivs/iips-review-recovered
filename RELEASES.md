@@ -210,6 +210,28 @@ Post-freeze rule: any methodology change requires a new calibration/profile vers
 
 ---
 
+## program-v1.2.0 — 13-Engine Successor LTS (RELEASE CANDIDATE — PREPUBLICATION)
+
+**Version identifier:** `program-v1.2.0` / `v1.2.0` (planned tag `program-v1.2.0` — TAG PLANNED, NOT YET CREATED)
+**Release date:** **2026-09-05**
+**Release status:** **RELEASE CANDIDATE — PREPUBLICATION** (not yet released, not yet tagged, not yet published) — **PUBLICATION APPROVED — AWAITING PUBLICATION EXECUTION** (sign-off `2026-09-05`, Engineering Reviewer `Ramki`, Repository Maintainer `Sai`, `Approved for Release`)
+**Release type:** **MINOR successor** to `program-v1.1.0` (10-engine LTS) — `MINOR = New published standards / major additions` per `governance/VERSIONING_POLICY.md` and `RELEASES.md` Semantic Versioning
+**Engineering standards / Engines:** `IES-006 Banking` · `IES-007 Insurance` · `IES-008 Capital Markets` · `IES-009 Healthcare` · `IES-010 Hospitality` · `IES-011 Energy` · `IES-012 Utilities` · `IES-013 Consumer` · `IES-014 Industrials` · `IES-015 Technology` · **`IES-016 Telecommunications (sector.telecom) v1.0 FROZEN`** · **`IES-017 Automobile (sector.auto) v1.0 FROZEN Option-A`** · **`IES-020 Materials & Metals (sector.materials) v1.0 FROZEN G1–G6`** — **13/13** `1.0.0` `FROZEN`, `calibrationVersion 1.0.0`
+
+**Summary of changes:** Additive successor to `program-v1.1.0` — carries forward entire 10-engine deterministic foundation (platform contracts, CSIP `csip-v1.0.0`, Replay/Performance baselines, 10×10 Track 8 zero blocking) and adds three deferred sector engines that were FROZEN via D38 `3165065` (`45/45 MATCH`), opened via D42 `6d4dbc1` `A — OPEN ALL THREE`, implemented at `6a5d7cc1747a959a781a12c83336be73b71cb542` (33 files, Registry `10→13`), closed via Track 8 `eee39d3` **30/30 CONFORMANT**, certified via `E2E-025→029` at `e156cf6` (17/17, 3/3, 4/4, 4/4) and `E2E-030` delta at `67e89aa` (`0e362ed` fixup) **CERTIFIED — 13-ENGINE DELTA**, reconciled at `da01a82`. No methodology invented; D16 M1–M15, D17 M1–M15 + Option-A `44ba/ea22/c8ed` (left-to-right `for(i…) compositeRaw+=…` `r1h2e` no `sum()`), D20 M1–M15 + G1–G6 `5813…` preserved verbatim. Deterministic replay `68.4 Accumulate SNAP_FF2C2128` / `71.6 Buy SNAP_4E9D59AE` / `74.9 Buy SNAP_BC9B6426` byte-identical.
+
+**Compatibility notes:** **Fully backward compatible** — existing 10 engines `IES-006…015` unchanged (`git diff 0`, `banking 4/4`, `technology 13/13`, `track8 10/10`), platform `git diff 0`, taxonomy `IT→015, Chemicals→014, Realty→015` held. **Breaking changes: none evidenced.** Migration = additive engine discovery (`GET /api/engines` now 13) and execution (`POST sector.telecom/auto/materials`); no destructive migration; rollback additive-only to `program-v1.1.0`.
+
+**Dependencies:** No new external dependencies; reuses `iips-platform` runtime/framework/snapshot/replay/distributed + `CrossSectorEngine` unchanged.
+
+**Historical preservation:** `program-v1.1.0` remains **historical 10-engine LTS** (`PROGRAM_v1.1_LTS_BASELINE.md` 10-engine FROZEN, `PROGRAM_v1.1_FINAL_READINESS_CERTIFICATE.md` ISSUED, `RELEASE_NOTES_PROGRAM_v1.1.0.md` Tag `program-v1.1.0`) — **preserved verbatim, not rewritten**. This `v1.2.0` is additive successor.
+
+**Release boundary:** This ledger entry is **PREPUBLICATION preparation** — tag `program-v1.2.0` **PLANNED, NOT YET CREATED**, GitHub Release **NOT YET PUBLISHED**, production **NOT PROMOTED**. Publication requires separate release-execution gate after `RELEASE_CHECKLIST.md` Phases 1–6 sign-off.
+
+**Evidence:** `PROGRAM_v1.2_LTS_BASELINE.md` `v1.2.0` RC, `RELEASE_NOTES_PROGRAM_v1.2.0.md`, `PROGRAM_v1.2.0_COMPATIBILITY_AND_MIGRATION.md`, `PROGRAM_v1.2_FINAL_READINESS_CERTIFICATE.md` RC, all additive at `da01a82`.
+
+---
+
 # Upcoming Releases
 
 | Version | Standard | Planned Status |

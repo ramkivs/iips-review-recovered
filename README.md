@@ -28,6 +28,10 @@ Build a complete family of engineering standards that enable deterministic, expl
 | IES-005 | Sector Engine Calibration Platform | Production |
 | IES-006 | Banking Sector Engine | Draft v1.0 |
 
+> **Current LTS vs Release Candidate (as of `da01a82` 13-engine certified `main`):**
+> - **Historical LTS `program-v1.1.0` = 10-engine LTS** (`IES-006…015`, `PROGRAM_v1.1_LTS_BASELINE.md` FROZEN, `PROGRAM_v1.1_FINAL_READINESS_CERTIFICATE.md` ISSUED 2026-08-09, Tag `program-v1.1.0`) — **preserved verbatim**.
+> - **Successor `v1.2.0` = 13-engine Release Candidate — PREPUBLICATION** (`IES-006…015 + IES-016/017/020`, `PROGRAM_v1.2_LTS_BASELINE.md` `v1.2.0` RC, `E2E-030` 13-engine delta at `67e89aa`, D40 `da01a82` reconciled) — **TAG PLANNED `program-v1.2.0`, NOT YET CREATED**, GitHub Release **NOT YET PUBLISHED**. See `program-v1.1-certification/RELEASE_NOTES_PROGRAM_v1.2.0.md` and `PROGRAM_v1.2.0_COMPATIBILITY_AND_MIGRATION.md`.
+
 ---
 
 # Planned Standards
