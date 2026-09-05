@@ -30,7 +30,6 @@ The in-engine certificate %s is classified by DEC-D25 (§3, rank 5) and the P1 a
 
 | Evidence (verbatim) | Result |
 | --- | --- |
-| Evidence | Result |
 | 13/13 frozen expected outputs reproduced (composite + verdict + overrides + resolution) | PASS |
 | Pillars match (round-half-to-even 1dp) | PASS |
 | Round-half-to-even boundary (TC-012: 55.05 → 55.0) | PASS |
@@ -42,7 +41,7 @@ The in-engine certificate %s is classified by DEC-D25 (§3, rank 5) and the P1 a
 | Replay byte-identical (deterministic) | PASS |
 | Engine registrations (runtime + admin ENGINE_FACTORY) | 10 → 11 |
 | Replay-baseline 11th sector entry | PASS |
-| Governed transport/API auto-extension (`/api/company | evidence |
+| Governed transport/API auto-extension (`/api/company\|evidence\|replay/Telecommunications`) | PASS |
 | Null-confidence honesty (governed output `null` → "unavailable") | PASS |
 | Full frontend suite / typecheck / server typecheck / build | PASS (recorded in implementation report) |
 
