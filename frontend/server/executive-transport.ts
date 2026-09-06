@@ -14,11 +14,12 @@
  * IMPORTANT — data source & auth boundary:
  *  - The portfolio displayed is the CERTIFIED REFERENCE portfolio (the frozen v1.1 Replay
  *    Baseline inputs), labeled SNAPSHOT. It is not live tenant production data.
- *  - Authentication/session is a MINIMAL development-mode mechanism (a session header is
- *    accepted and mapped to a role). A real authentication/session layer is a SEPARATE,
- *    still-pending requirement before production tenant data is served. This is the exact
- *    G2 auth gap (Phase 0 audit G3). This server does NOT weaken EnterpriseRuntime/PlatformApi
- *    authorization for the actual platform.
+ *  - Authentication/session: the Executive read (`/api/executive`) now enforces the REAL
+ *    OIDC boundary (Bearer credential → SecuredExecutor real-Keycloak/JWKS validation →
+ *    governed RBAC read gate; 401/403). The remaining routes below still use the MINIMAL
+ *    development-mode mapping (a session header accepted and mapped to a role) and remain a
+ *    SEPARATE, still-pending requirement before production tenant data is served on those
+ *    surfaces. This server does NOT weaken EnterpriseRuntime/PlatformApi authorization.
  */
 import http from 'node:http';
 import { fileURLToPath } from 'node:url';
@@ -26,6 +27,8 @@ import path from 'node:path';
 import fs from 'node:fs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+import { AuthError } from '../src/core/auth/keycloakAdapter';
 
 // --- Import the certified platform ---
 import { Container } from '../../iips-platform/src/di/Container';
@@ -512,6 +515,37 @@ const port = Number(process.env.EXEC_TRANSPORT_PORT ?? 8787);
 // Lazily-created live executors (real Keycloak), cached across requests.
 let adminExecutor: import('./secured-executor').SecuredExecutor | null = null;
 let aiExecutor: import('./secured-executor').SecuredExecutor | null = null;
+let readExecutor: import('./secured-executor').SecuredExecutor | null = null;
+
+/**
+ * Authenticated Executive read (G3 handoff remediation): the browser's genuine OIDC Bearer
+ * credential is validated through the approved server-side verification boundary —
+ * SecuredExecutor.authenticate (real Keycloak discovery + JWKS RS256; 401 on absent/invalid)
+ * → EnterpriseRuntime RBAC + resource gate (403 on deny) — BEFORE any certified data is
+ * served. Client claims are never trusted; authorization stays server-side; the certified
+ * Executive DTO itself is unchanged (computeCertifiedExecutive is the same certified path).
+ */
+export async function handleExecutiveReadRequest(
+  req: http.IncomingMessage,
+  res: http.ServerResponse,
+  executor: import('./secured-executor').SecuredExecutor,
+): Promise<void> {
+  try {
+    const token = (req.headers.authorization ?? '').replace(/^Bearer /, '').trim();
+    const principal = await executor.authenticate(token);        // 401 on missing/invalid/expired
+    executor.authorize(principal, 'read', 'executive.dashboard', 0, 1000); // 403 on deny
+    res.writeHead(200);
+    res.end(JSON.stringify(computeCertifiedExecutive()));
+  } catch (e) {
+    if (e instanceof AuthError) {
+      res.writeHead(e.status);
+      res.end(JSON.stringify({ error: e.message }));
+      return;
+    }
+    res.writeHead(500);
+    res.end(JSON.stringify({ error: 'executive transport error', detail: String(e) }));
+  }
+}
 
 const server = http.createServer((req, res) => {
   res.setHeader('Content-Type', 'application/json');
@@ -551,10 +585,23 @@ const server = http.createServer((req, res) => {
     if (req.url === '/api/health') {
       res.writeHead(200); res.end(JSON.stringify({ status: 'ok', transport: 'program-v3.0 executive (dev)' })); return;
     }
-    if (req.url === '/api/executive') {
-      // Minimal dev-mode session mapping (see header note). NOT production auth.
-      const data = computeCertifiedExecutive();
-      res.writeHead(200); res.end(JSON.stringify(data)); return;
+    if (req.url?.split('?')[0] === '/api/executive') {
+      // G3 handoff remediation: REAL OIDC authentication + governed read authorization
+      // (401/403) via the existing live read executor — NOT the dev-mode session mapping.
+      void (async () => {
+        try {
+          let executor = readExecutor;
+          if (!executor) {
+            const ai = await import('./ai-advisory-transport');
+            readExecutor = executor = await ai.createLiveAiExecutor();
+          }
+          if (!executor) { res.writeHead(401); res.end(JSON.stringify({ error: 'authentication unavailable (no IdP configured)' })); return; }
+          await handleExecutiveReadRequest(req, res, executor);
+        } catch (e) {
+          res.writeHead(500); res.end(JSON.stringify({ error: 'executive transport error', detail: String(e) }));
+        }
+      })();
+      return;
     }
     if (req.url?.startsWith('/api/replay/')) {
       const id = decodeURIComponent(req.url.slice('/api/replay/'.length));

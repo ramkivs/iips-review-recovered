@@ -8,12 +8,20 @@ import { ANONYMOUS_SESSION, type Session } from './session';
 
 export interface SessionContextValue {
   session: Session;
+  /** Optional browser-login affordances (real OIDC, Keycloak). Absent in tests/dev shells. */
+  readonly onLogin?: () => void;
+  readonly onLogout?: () => void;
 }
 
 const SessionContext = createContext<SessionContextValue>({ session: ANONYMOUS_SESSION });
 
-export function SessionProvider({ session, children }: { session: Session; children: ReactNode }) {
-  return <SessionContext.Provider value={{ session }}>{children}</SessionContext.Provider>;
+export function SessionProvider({ session, onLogin, onLogout, children }: {
+  session: Session;
+  onLogin?: () => void;
+  onLogout?: () => void;
+  children: ReactNode;
+}) {
+  return <SessionContext.Provider value={{ session, onLogin, onLogout }}>{children}</SessionContext.Provider>;
 }
 
 export function useSession(): SessionContextValue {

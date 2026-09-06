@@ -10,7 +10,7 @@ import { TopBar } from './TopBar';
 import { useSession } from '../core/session/SessionContext';
 
 export function AppShell() {
-  const { session } = useSession();
+  const { session, onLogin, onLogout } = useSession();
   return (
     <div
       style={{
@@ -22,7 +22,7 @@ export function AppShell() {
       }}
     >
       <div style={{ gridArea: 'topbar' }}>
-        <TopBar role={session.role} tenantId={session.tenantId} />
+        <TopBar role={session.role} tenantId={session.tenantId} onLogin={onLogin} onLogout={onLogout} />
       </div>
       <nav style={{ gridArea: 'sidebar' }} aria-label="Primary">
         <Sidebar />
