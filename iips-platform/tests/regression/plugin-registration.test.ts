@@ -55,3 +55,19 @@ test('REGRESSION: same engineId remains rejected even when plugin instances diff
   assert.equal(loader.size, 1);
   assert.deepEqual(loader.list(), ['sector.banking']);
 });
+
+test('REGRESSION: bounded plugin namespace is keyed by identity engineId', () => {
+  const container = new Container({ clock: createClock('fixed'), idProvider: createIdProvider('deterministic') });
+  const loader = new PluginLoader(container);
+
+  const banking = makeStubPlugin('sector.banking', 'Banking');
+  const energy = makeStubPlugin('sector.energy', 'Energy');
+
+  assert.equal(loader.load(banking), true);
+  assert.equal(loader.load(energy), true);
+
+  assert.equal(loader.has('sector.banking'), true);
+  assert.equal(loader.has('sector.energy'), true);
+  assert.deepEqual(loader.list().sort(), ['sector.banking', 'sector.energy']);
+  assert.equal(loader.size, 2);
+});

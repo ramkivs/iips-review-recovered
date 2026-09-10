@@ -1,9 +1,10 @@
-/** Plugin Loader — governed plugin lifecycle (IES-005 P4 §14, IES-006.2A WP-1). */
+/** Plugin Loader â€” governed plugin lifecycle (IES-005 P4 Â§14, IES-006.2A WP-1). */
 import type { Container } from '../di/Container';
 import type { ExecutionRequest, ExecutionResult, SectorPlugin } from './PluginContract';
+import { PluginNamespace } from './PluginNamespace';
 
 export class PluginLoader {
-  private readonly plugins = new Map<string, SectorPlugin>();
+  private readonly namespace = new PluginNamespace();
   private readonly phases = new Map<string, string>();
 
   constructor(private readonly container: Container) {}
@@ -13,7 +14,7 @@ export class PluginLoader {
     if (!plugin.identity?.engineId) return false;
     if (!plugin.manifest?.engineId) return false;
     if (!plugin.onRegister) return false;
-    if (this.plugins.has(plugin.identity.engineId)) return false;
+    if (this.namespace.has(plugin.identity.engineId)) return false;
 
     plugin.onDiscover();
     this.phases.set(plugin.identity.engineId, 'Discovered');
@@ -23,14 +24,14 @@ export class PluginLoader {
       this.phases.delete(plugin.identity.engineId);
       return false;
     }
-    this.plugins.set(plugin.identity.engineId, plugin);
+    if (!this.namespace.register(plugin)) return false;
     this.phases.set(plugin.identity.engineId, 'Registration');
     return true;
   }
 
   /** Initialize a registered plugin. */
   initialize(engineId: string): boolean {
-    const p = this.plugins.get(engineId);
+    const p = this.namespace.get(engineId);
     if (!p) return false;
     p.onInitialize(this.container);
     this.phases.set(engineId, 'Initialization');
@@ -39,7 +40,7 @@ export class PluginLoader {
 
   /** Execute a plugin. */
   execute(engineId: string, request: ExecutionRequest): ExecutionResult | undefined {
-    const p = this.plugins.get(engineId);
+    const p = this.namespace.get(engineId);
     if (!p) return undefined;
     this.phases.set(engineId, 'Execution');
     const result = p.execute(this.container, request);
@@ -50,7 +51,7 @@ export class PluginLoader {
 
   /** True if a plugin is registered. */
   has(engineId: string): boolean {
-    return this.plugins.has(engineId);
+    return this.namespace.has(engineId);
   }
 
   /** Current lifecycle phase of a plugin. */
@@ -60,10 +61,10 @@ export class PluginLoader {
 
   /** List registered plugin ids. */
   list(): string[] {
-    return [...this.plugins.keys()];
+    return this.namespace.list();
   }
 
   get size(): number {
-    return this.plugins.size;
+    return this.namespace.size;
   }
 }
