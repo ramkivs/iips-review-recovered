@@ -25,3 +25,33 @@ test('REGRESSION: duplicate plugin rejected', () => {
   loader.load(makeStubPlugin('sector.banking', 'Banking'));
   assert.equal(loader.load(makeStubPlugin('sector.banking', 'Banking')), false);
 });
+
+test('REGRESSION: plugin identity engineId is the registration key', () => {
+  const container = new Container({ clock: createClock('fixed'), idProvider: createIdProvider('deterministic') });
+  const loader = new PluginLoader(container);
+
+  const first = makeStubPlugin('sector.banking', 'Banking');
+  const second = makeStubPlugin('sector.energy', 'Energy');
+
+  assert.equal(loader.load(first), true);
+  assert.equal(loader.load(second), true);
+
+  assert.equal(loader.has('sector.banking'), true);
+  assert.equal(loader.has('sector.energy'), true);
+  assert.deepEqual(loader.list().sort(), ['sector.banking', 'sector.energy']);
+  assert.equal(loader.size, 2);
+});
+
+test('REGRESSION: same engineId remains rejected even when plugin instances differ', () => {
+  const container = new Container({ clock: createClock('fixed'), idProvider: createIdProvider('deterministic') });
+  const loader = new PluginLoader(container);
+
+  const first = makeStubPlugin('sector.banking', 'Banking');
+  const duplicate = makeStubPlugin('sector.banking', 'Banking');
+
+  assert.equal(loader.load(first), true);
+  assert.equal(loader.load(duplicate), false);
+
+  assert.equal(loader.size, 1);
+  assert.deepEqual(loader.list(), ['sector.banking']);
+});
