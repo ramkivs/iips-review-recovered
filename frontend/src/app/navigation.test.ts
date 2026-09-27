@@ -20,10 +20,12 @@ describe('navigation model — status classification (top level)', () => {
     expect(byLabel['Administration'].status).toBe('implemented');
   });
 
-  it('marks Research / Intelligence / Evidence as partial (module-level scope future)', () => {
+  it('marks Research / Intelligence / Evidence status honestly (NP-18: Intelligence implemented)', () => {
     expect(byLabel['Research'].status).toBe('partial');
-    expect(byLabel['Intelligence'].status).toBe('partial');
     expect(byLabel['Evidence'].status).toBe('partial');
+    // NP-18: the Intelligence group is now implemented — its three framing views
+    // (Opportunities / Risks / Rankings) are implemented surfaces.
+    expect(byLabel['Intelligence'].status).toBe('implemented');
   });
 
   it('provides a human-facing label for every status', () => {
@@ -68,12 +70,17 @@ describe('navigation model — Milestone N+1 child reconciliation', () => {
     expect(paths).not.toContain('/evidence/snapshots/');
   });
 
-  it('marks future-only children as future (never implemented)', () => {
+  it('NP-18: marks the Intelligence children implemented — no future-only child remains', () => {
     const statusOf = (group: string, label: string) =>
       childrenOf(group).find((c) => c.label === label)?.status;
-    expect(statusOf('Intelligence', 'Opportunities')).toBe('future');
-    expect(statusOf('Intelligence', 'Risks')).toBe('future');
-    expect(statusOf('Intelligence', 'Rankings')).toBe('future');
+    expect(statusOf('Intelligence', 'Opportunities')).toBe('implemented');
+    expect(statusOf('Intelligence', 'Risks')).toBe('implemented');
+    expect(statusOf('Intelligence', 'Rankings')).toBe('implemented');
+    // The honest-marker machinery is preserved: now that every declared surface is
+    // implemented, nothing claims `future` — and nothing over-claims by omission.
+    const walk = (items: NavItem[]): NavItem[] =>
+      items.flatMap((i) => [i, ...(i.children ? walk(i.children) : [])]);
+    expect(walk(NAV).filter((n) => n.status === 'future')).toHaveLength(0);
   });
 
   it('N+16: removes the dead Portfolio Holdings child (no dedicated surface)', () => {

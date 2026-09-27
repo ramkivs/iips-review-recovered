@@ -10,6 +10,7 @@
 import { lazy, Suspense, type ReactNode } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { AppShell } from './AppShell';
+import { ROUTES } from './routes';
 import { NotYetAuthorized } from '../components/shell/ShellStates';
 import { LoadingState } from '../components/state/StateComponents';
 
@@ -23,6 +24,11 @@ const MacroContext = lazy(() => import('../features/research/MacroContext').then
 const CrossSectorIntelligence = lazy(() => import('../features/cross-sector/CrossSectorIntelligence').then((m) => ({ default: m.CrossSectorIntelligence })));
 const DecisionMatrix = lazy(() => import('../features/decision-matrix/DecisionMatrix').then((m) => ({ default: m.DecisionMatrix })));
 const IntelligenceHub = lazy(() => import('../features/intelligence/IntelligenceHub').then((m) => ({ default: m.IntelligenceHub })));
+// NP-18: the three authorized Intelligence framing views over the SAME certified
+// cross-sector slice (Discovery / Action, Portfolio Risk, Ordered Comparison).
+const IntelligenceOpportunities = lazy(() => import('../features/intelligence/IntelligenceOpportunities').then((m) => ({ default: m.IntelligenceOpportunities })));
+const IntelligenceRisks = lazy(() => import('../features/intelligence/IntelligenceRisks').then((m) => ({ default: m.IntelligenceRisks })));
+const IntelligenceRankings = lazy(() => import('../features/intelligence/IntelligenceRankings').then((m) => ({ default: m.IntelligenceRankings })));
 const EvidenceExplorer = lazy(() => import('../features/evidence/EvidenceExplorer').then((m) => ({ default: m.EvidenceExplorer })));
 const EvidenceHub = lazy(() => import('../features/evidence/EvidenceHub').then((m) => ({ default: m.EvidenceHub })));
 const ReplayExplorer = lazy(() => import('../features/replay/ReplayExplorer').then((m) => ({ default: m.ReplayExplorer })));
@@ -63,6 +69,12 @@ export function App() {
         <Route path="/screener" element={<Lazy><Screener /></Lazy>} />
         <Route path="/intelligence" element={<Lazy><IntelligenceHub /></Lazy>} />
         <Route path="/intelligence/decision-matrix" element={<Lazy><DecisionMatrix /></Lazy>} />
+        {/* NP-18: the three implemented Intelligence framing views, declared before the
+            /intelligence/* catch-all so they resolve to their surfaces, using the existing
+            route identifiers from routes.ts (which is not modified). */}
+        <Route path={ROUTES.intelligenceOpportunities} element={<Lazy><IntelligenceOpportunities /></Lazy>} />
+        <Route path={ROUTES.intelligenceRisks} element={<Lazy><IntelligenceRisks /></Lazy>} />
+        <Route path={ROUTES.intelligenceRankings} element={<Lazy><IntelligenceRankings /></Lazy>} />
         <Route path="/intelligence/*" element={<FeaturePlaceholder surface="Intelligence" />} />
         <Route path="/evidence" element={<Lazy><EvidenceHub /></Lazy>} />
         <Route path="/evidence/:id" element={<Lazy><EvidenceExplorer /></Lazy>} />

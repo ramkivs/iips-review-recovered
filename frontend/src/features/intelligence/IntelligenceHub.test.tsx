@@ -14,6 +14,7 @@ import { IntelligenceHub } from './IntelligenceHub';
 import { App } from '../../app/App';
 import { SessionProvider } from '../../core/session/SessionContext';
 import type { DecisionMatrixData } from '../../api/decisionMatrix';
+import type { CrossSectorData } from '../../api/crossSector';
 
 const PROVENANCE = {
   dataSource: 'fixture (test-only)', freshness: 'SNAPSHOT', calibratedAt: '2026-08-01T00:00:00.000Z', transportSemantics: '1:1',
@@ -31,12 +32,36 @@ const DIRECTORY: DecisionMatrixData = {
   provenance: PROVENANCE,
 };
 
+/**
+ * NP-18: the implemented Intelligence framing views read the SAME certified cross-sector
+ * payload, so the mock serves that existing guarded path alongside the directory path.
+ */
+const CROSS_SECTOR: CrossSectorData = {
+  portfolio: { portfolioId: 'PF-1', scenario: 'Balanced', holdings: 3, avgConviction: 60, avgQuality: 57, avgRisk: 44, concentration: 61, diversificationScore: 90 },
+  diversification: { band: 'Good', flags: ['sector spread adequate'] },
+  ranking: [
+    { companyId: 'Banking-H1', sector: 'Banking', conviction: 47 },
+    { companyId: 'Technology-H1', sector: 'Technology', conviction: 76 },
+    { companyId: 'Energy-H1', sector: 'Energy', conviction: 55 },
+  ],
+  opportunity: [
+    { companyId: 'Technology-H1', sector: 'Technology', conviction: 76 },
+    { companyId: 'Energy-H1', sector: 'Energy', conviction: 55 },
+  ],
+  correlation: { flags: ['pairwise correlation elevated'], concentrationSectors: ['Banking'] },
+  decisions: [{ sector: 'Technology', verdict: 'Buy', composite: 76.3, confidence: 0.8 }],
+  provenance: PROVENANCE,
+};
+
 function urlAwareMock(payload: DecisionMatrixData = DIRECTORY, opts: { fails?: boolean } = {}): ReturnType<typeof vi.fn> {
   return vi.fn((input: unknown) => {
     const url = String(input);
     if (url.includes('/api/decision-matrix')) {
       if (opts.fails) return Promise.reject(new Error('directory down')) as never;
       return Promise.resolve({ ok: true, json: async () => payload }) as never;
+    }
+    if (url.includes('/api/cross-sector')) {
+      return Promise.resolve({ ok: true, json: async () => CROSS_SECTOR }) as never;
     }
     return Promise.resolve({ ok: false, status: 404, json: async () => ({}) }) as never;
   });
@@ -138,14 +163,16 @@ describe('Intelligence Hub — governed intelligence directory', () => {
     expect(screen.queryByText('0')).not.toBeInTheDocument();
   });
 
-  it('marks future intelligence surfaces honestly (text only, no fabricated links)', async () => {
+  it('NP-18: exposes the three implemented intelligence views as genuine entry points', async () => {
     globalThis.fetch = urlAwareMock();
     renderHub();
     await screen.findByText('Banking');
-    expect(screen.getByTestId('intelligence-future')).toHaveTextContent('Opportunities · Risks · Rankings');
-    expect(screen.queryByRole('link', { name: /Opportunities/ })).not.toBeInTheDocument();
-    expect(screen.queryByRole('link', { name: /Risks/ })).not.toBeInTheDocument();
-    expect(screen.queryByRole('link', { name: /Rankings/ })).not.toBeInTheDocument();
+    const views = screen.getByTestId('intelligence-views');
+    expect(within(views).getByRole('link', { name: 'Opportunities' })).toHaveAttribute('href', '/intelligence/opportunities');
+    expect(within(views).getByRole('link', { name: 'Risks' })).toHaveAttribute('href', '/intelligence/risks');
+    expect(within(views).getByRole('link', { name: 'Rankings' })).toHaveAttribute('href', '/intelligence/rankings');
+    // The obsolete future marker is gone: these are implemented surfaces, not promises.
+    expect(screen.queryByTestId('intelligence-future')).not.toBeInTheDocument();
   });
 
   it('renders the governed ErrorState when /api/decision-matrix fails', async () => {
@@ -169,7 +196,7 @@ describe('Intelligence Hub — route integration', () => {
     expect(screen.queryByTestId('shell-not-authorized')).not.toBeInTheDocument();
   });
 
-  it('future intelligence children (/intelligence/opportunities) remain placeholders', async () => {
+  it('NP-18: /intelligence/opportunities now renders the implemented view, not a placeholder', async () => {
     globalThis.fetch = urlAwareMock();
     render(
       <MemoryRouter initialEntries={['/intelligence/opportunities']}>
@@ -178,6 +205,31 @@ describe('Intelligence Hub — route integration', () => {
         </SessionProvider>
       </MemoryRouter>,
     );
-    expect(await screen.findByTestId('shell-not-authorized')).toBeInTheDocument();
+    expect(await screen.findByRole('heading', { name: 'Opportunities' })).toBeInTheDocument();
+    expect(screen.queryByTestId('shell-not-authorized')).not.toBeInTheDocument();
+  });
+
+  it('NP-18: /intelligence/risks and /intelligence/rankings resolve to their implemented views', async () => {
+    globalThis.fetch = urlAwareMock();
+    const risks = render(
+      <MemoryRouter initialEntries={['/intelligence/risks']}>
+        <SessionProvider session={{ userId: 'u1', tenantId: 'tenant-A', role: 'analyst', authenticated: true }}>
+          <App />
+        </SessionProvider>
+      </MemoryRouter>,
+    );
+    expect(await screen.findByRole('heading', { name: 'Risks' })).toBeInTheDocument();
+    expect(screen.queryByTestId('shell-not-authorized')).not.toBeInTheDocument();
+    risks.unmount();
+
+    render(
+      <MemoryRouter initialEntries={['/intelligence/rankings']}>
+        <SessionProvider session={{ userId: 'u1', tenantId: 'tenant-A', role: 'analyst', authenticated: true }}>
+          <App />
+        </SessionProvider>
+      </MemoryRouter>,
+    );
+    expect(await screen.findByRole('heading', { name: 'Rankings' })).toBeInTheDocument();
+    expect(screen.queryByTestId('shell-not-authorized')).not.toBeInTheDocument();
   });
 });

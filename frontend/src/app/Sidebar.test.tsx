@@ -29,8 +29,10 @@ describe('Sidebar — navigation honesty badges (top level)', () => {
   it('shows a Partial badge for partial surfaces only', () => {
     renderSidebar('analyst');
     expect(screen.getByTestId('nav-status-Research')).toHaveTextContent('Partial');
-    expect(screen.getByTestId('nav-status-Intelligence')).toHaveTextContent('Partial');
     expect(screen.getByTestId('nav-status-Evidence')).toHaveTextContent('Partial');
+    // NP-18: Intelligence is now implemented, so its badge is gone — badges are rendered
+    // for non-implemented surfaces only.
+    expect(screen.queryByTestId('nav-status-Intelligence')).not.toBeInTheDocument();
   });
 
   it('shows no badge for implemented surfaces', () => {
@@ -41,10 +43,11 @@ describe('Sidebar — navigation honesty badges (top level)', () => {
 });
 
 describe('Sidebar — Milestone N+1 child rendering', () => {
-  it('shows Future badges on future-only children', () => {
+  it('NP-18: shows no Future badge for the now-implemented Intelligence children', () => {
     renderSidebar('analyst');
-    expect(screen.getByTestId('nav-status-Opportunities')).toHaveTextContent('Future');
-    expect(screen.getByTestId('nav-status-Risks')).toHaveTextContent('Future');
+    expect(screen.queryByTestId('nav-status-Opportunities')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('nav-status-Risks')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('nav-status-Rankings')).not.toBeInTheDocument();
   });
 
   it('N+16: does not render the dead Holdings entry', () => {
@@ -58,14 +61,15 @@ describe('Sidebar — Milestone N+1 child rendering', () => {
     expect(screen.queryByTestId('nav-status-Decision Evidence')).not.toBeInTheDocument();
   });
 
-  it('N+17: renders future-only children as non-navigable text (never links)', () => {
+  it('NP-18: renders the implemented Intelligence children as navigable links (no future placeholders)', () => {
     renderSidebar('analyst');
-    expect(screen.getByTestId('nav-future-Opportunities')).toHaveTextContent('Opportunities');
-    expect(screen.getByTestId('nav-future-Risks')).toHaveTextContent('Risks');
-    expect(screen.getByTestId('nav-future-Rankings')).toHaveTextContent('Rankings');
-    expect(screen.queryByRole('link', { name: 'Opportunities' })).not.toBeInTheDocument();
-    expect(screen.queryByRole('link', { name: 'Risks' })).not.toBeInTheDocument();
-    expect(screen.queryByRole('link', { name: 'Rankings' })).not.toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Opportunities' })).toHaveAttribute('href', '/intelligence/opportunities');
+    expect(screen.getByRole('link', { name: 'Risks' })).toHaveAttribute('href', '/intelligence/risks');
+    expect(screen.getByRole('link', { name: 'Rankings' })).toHaveAttribute('href', '/intelligence/rankings');
+    // The non-navigable future-text rendering no longer applies to these three surfaces.
+    expect(screen.queryByTestId('nav-future-Opportunities')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('nav-future-Risks')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('nav-future-Rankings')).not.toBeInTheDocument();
   });
 
   it('N+17: does not render the dead Replay entry', () => {

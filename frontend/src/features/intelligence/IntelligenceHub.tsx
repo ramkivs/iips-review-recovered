@@ -7,9 +7,11 @@
  * This surface is DISCOVER → SELECT → NAVIGATE only. It renders the certified intelligence
  * universe (summary + company directory with the certified quality/valuation axes) from the
  * governed /api/decision-matrix payload (via the existing fetchDecisionMatrixData client), with
- * primary entry links to the implemented Decision Matrix and Cross-Sector surfaces. Future
- * intelligence surfaces (Opportunities / Risks / Rankings) are marked honestly — no links, no
- * fabricated data. Never hardcodes sectors, never recomputes, never derives values.
+ * primary entry links to the implemented Decision Matrix and Cross-Sector surfaces, plus
+ * genuine entry points to the three implemented NP-18 framing views (Opportunities / Risks /
+ * Rankings) over the SAME certified cross-sector payload — no additional intelligence
+ * capability is created here, and no fabricated data is ever shown. Never hardcodes sectors,
+ * never recomputes, never derives values.
  */
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -72,11 +74,21 @@ export function IntelligenceHub() {
         </Link>
       </div>
 
-      {/* Future intelligence surfaces (honest markers — no links, no fabrication) */}
-      <h2 style={{ fontSize: 18, marginTop: 8 }}>Future Intelligence Surfaces</h2>
-      <p data-testid="intelligence-future" style={{ fontSize: 13, color: 'var(--color-ink-secondary)', marginTop: 0 }}>
-        Opportunities · Risks · Rankings — future Program v3.0 surfaces (not yet implemented).
-      </p>
+      {/* NP-18: the three implemented framing views over the SAME certified cross-sector
+          payload. These are genuine entry points to implemented surfaces — the hub creates
+          no intelligence capability of its own. */}
+      <h2 style={{ fontSize: 18, marginTop: 8 }}>Intelligence Views</h2>
+      <div data-testid="intelligence-views" style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginBottom: 16 }}>
+        <Link to="/intelligence/opportunities" style={{ padding: '10px 16px', border: '1px solid var(--color-border)', borderRadius: 6, background: 'var(--color-surface-1)', textDecoration: 'none', color: 'var(--color-ink)' }}>
+          Opportunities
+        </Link>
+        <Link to="/intelligence/risks" style={{ padding: '10px 16px', border: '1px solid var(--color-border)', borderRadius: 6, background: 'var(--color-surface-1)', textDecoration: 'none', color: 'var(--color-ink)' }}>
+          Risks
+        </Link>
+        <Link to="/intelligence/rankings" style={{ padding: '10px 16px', border: '1px solid var(--color-border)', borderRadius: 6, background: 'var(--color-surface-1)', textDecoration: 'none', color: 'var(--color-ink)' }}>
+          Rankings
+        </Link>
+      </div>
 
       {/* Governed intelligence universe summary */}
       <MetricGroup label="Intelligence Universe">

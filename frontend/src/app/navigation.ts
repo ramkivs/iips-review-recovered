@@ -24,6 +24,12 @@
  * (route-template /evidence/replay/:id with no concrete sector) is removed — the Evidence
  * Hub (N+14) remains the governed replay entry point — and future-only children are
  * rendered by the Sidebar as non-navigable text with a Future badge (never links).
+ *
+ * Milestone NP-18 (Intelligence Exposure Implementation): the Intelligence group and its
+ * Opportunities / Risks / Rankings children move to `implemented` — the three authorized
+ * framing views are implemented as presentation-only projections of the SAME certified
+ * cross-sector payload. The `future` member of NavStatus and its NAV_STATUS_LABEL entry are
+ * preserved unchanged: the honest-marker machinery is neither narrowed nor removed.
  */
 import type { Role } from '../core/session/session';
 
@@ -79,12 +85,12 @@ export const NAV: NavItem[] = [
     label: 'Intelligence',
     path: '/intelligence',
     minRole: 'viewer',
-    status: 'partial',
+    status: 'implemented',
     children: [
       { label: 'Decision Matrix', path: '/intelligence/decision-matrix', minRole: 'viewer', status: 'implemented' },
-      { label: 'Opportunities', path: '/intelligence/opportunities', minRole: 'viewer', status: 'future' },
-      { label: 'Risks', path: '/intelligence/risks', minRole: 'viewer', status: 'future' },
-      { label: 'Rankings', path: '/intelligence/rankings', minRole: 'viewer', status: 'future' },
+      { label: 'Opportunities', path: '/intelligence/opportunities', minRole: 'viewer', status: 'implemented' },
+      { label: 'Risks', path: '/intelligence/risks', minRole: 'viewer', status: 'implemented' },
+      { label: 'Rankings', path: '/intelligence/rankings', minRole: 'viewer', status: 'implemented' },
     ],
   },
   {
