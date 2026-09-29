@@ -17,11 +17,21 @@ import type {
   PitReadDomain,
   PitReadFailureReason,
   PitReadHit,
+  PitReadMiss,
   PitReadProvenance,
   PitReadRequest,
-} from '../server/pit/pitReadContract.js';
+  PitReadResult,
+} from '../../server/pit/pitReadContract.js';
 
-export type { PitReadDomain, PitReadFailureReason, PitReadHit, PitReadProvenance, PitReadRequest };
+export type {
+  PitReadDomain,
+  PitReadFailureReason,
+  PitReadHit,
+  PitReadMiss,
+  PitReadProvenance,
+  PitReadRequest,
+  PitReadResult,
+};
 
 const PIT_MARKET_DATA_ROUTE = '/api/pit/market-data';
 
@@ -45,9 +55,3 @@ export async function fetchPitAsOf(request: PitReadRequest, baseUrl = ''): Promi
   const res = await fetch(`${baseUrl}${buildQuery(request)}`);
   return (await res.json()) as PitReadResult;
 }
-
-type PitReadResult =
-  | { readonly found: true; readonly securityId: string; readonly domain: PitReadDomain; readonly asOf: string; readonly resolvedAsOf: string; readonly payload: unknown; readonly provenance: PitReadProvenance }
-  | { readonly found: false; readonly reason: PitReadFailureReason };
-
-export type { PitReadResult };
