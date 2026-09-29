@@ -523,11 +523,14 @@ let aiExecutor: import('./secured-executor').SecuredExecutor | null = null;
 let pitPort: import('./pit/pitReadPort').PitReadPort | null = null;
 async function getPitReadPort(): Promise<import('./pit/pitReadPort').PitReadPort> {
   if (pitPort) return pitPort;
-  const [{ createIpdPitReadPort }, { createNonProductionPitStore }] = await Promise.all([
+  // IU-6 — the one authoritative IPD store is now populated by REAL D114
+  // historical ingestion as well as the retained deterministic fixture set.
+  // Composition only; the read path, contract and route are unchanged.
+  const [{ createIpdPitReadPort }, { createNonProductionRuntimePitStore }] = await Promise.all([
     import('./pit/ipdPitReadAdapter'),
-    import('./pit/nonProductionPitStore'),
+    import('./pit/nonProductionRuntimePitStore'),
   ]);
-  pitPort = createIpdPitReadPort(createNonProductionPitStore());
+  pitPort = createIpdPitReadPort(createNonProductionRuntimePitStore());
   return pitPort;
 }
 

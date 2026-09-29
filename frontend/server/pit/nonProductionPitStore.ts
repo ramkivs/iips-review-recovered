@@ -89,7 +89,23 @@ function fixtureEnvelope(
  */
 export function createNonProductionPitStore(): PointInTimeStore<unknown> {
   const store = new PointInTimeStore<unknown>();
+  appendNonProductionFixtures(store);
+  return store;
+}
 
+/**
+ * Append the synthetic fixture set to an ALREADY EXISTING IPD store.
+ *
+ * IU-6 — this is a pure extraction of the body of
+ * `createNonProductionPitStore` and changes nothing about what that function
+ * produces. It exists so the non-production runtime can hold exactly ONE
+ * authoritative IPD `PointInTimeStore` that carries both this fixture set and
+ * the D114-ingested records, instead of acquiring a second store.
+ *
+ * It still only APPENDS. It resolves no vintage, selects no series and owns no
+ * state.
+ */
+export function appendNonProductionFixtures(store: PointInTimeStore<unknown>): void {
   // --- D01_QUOTES -------------------------------------------------------
   store.append(
     fixtureEnvelope(
@@ -173,6 +189,4 @@ export function createNonProductionPitStore(): PointInTimeStore<unknown> {
       'np-d02-eq-2',
     ),
   );
-
-  return store;
 }
