@@ -1,12 +1,12 @@
 /**
  * IIPS v3.0 — Product E2E — HTTP transport tests for Product APIs
  *
- * Verifies CSIP→Product data flow for the authorized 10-engine LTS baseline:
+ * Verifies CSIP→Product data flow for the authorized 13-engine product baseline:
  *   GET /api/executive, /api/portfolio, /api/cross-sector,
  *   GET /api/company/:id, /api/evidence/:id, /api/replay/:id,
  *   provenance (SNAPSHOT, calibratedAt 2026-08-09, dataSource certified),
  *   determinism (rerun identical), replay (byteIdentical, differenceAvailable:false),
- *   negative/boundary (404 for IES-016/017/020 + taxonomy-resolved + unknown).
+ *   negative/boundary (404 for taxonomy-resolved + unknown sectors).
  *
  * Uses the real executive-transport handlers via HTTP (offline-safe, no mock of business logic).
  * The executive transport's computeCertified* functions are pure and deterministic (fixed clock + deterministic IdProvider);
@@ -111,7 +111,7 @@ async function request(path: string): Promise<{ status: number; json: unknown }>
   }
 }
 
-const TEN_SECTORS = [
+const CERTIFIED_SECTORS = [
   'Banking',
   'Insurance',
   'Capital Markets',
@@ -122,10 +122,13 @@ const TEN_SECTORS = [
   'Consumer',
   'Industrials',
   'Technology',
+  'Telecommunications',
+  'Automobile',
+  'Materials & Metals',
 ];
 
 describe('Product transport (E2E Product HTTP)', () => {
-  it('GET /api/executive returns 10 holdings with SNAPSHOT provenance (no fabrication)', async () => {
+  it('GET /api/executive returns 13 holdings with SNAPSHOT provenance (no fabrication)', async () => {
     const { status, json } = await request('/api/executive');
     expect(status).toBe(200);
     const body = json as {
@@ -136,24 +139,20 @@ describe('Product transport (E2E Product HTTP)', () => {
       decisions: Array<{ sector: string; verdict: string; composite: number }>;
       provenance: { dataSource: string; freshness: string; calibratedAt: string; transportSemantics: string };
     };
-    expect(body.portfolio.holdings).toBe(10);
+    expect(body.portfolio.holdings).toBe(13);
     expect(typeof body.portfolio.avgConviction).toBe('number');
-    expect(body.ranking.length).toBe(10);
-    expect(body.decisions.length).toBe(10);
+    expect(body.ranking.length).toBe(13);
+    expect(body.decisions.length).toBe(13);
     expect(body.provenance.freshness).toBe('SNAPSHOT');
     expect(body.provenance.calibratedAt).toBe('2026-08-09T00:00:00.000Z');
     expect(body.provenance.dataSource).toMatch(/certified v2\.0 platform/);
     expect(body.provenance.transportSemantics).toMatch(/1:1 mapping/);
-    // No 016/017/020 sector ever appears
     const sectors = body.decisions.map((d) => d.sector);
-    expect(sectors).not.toContain('Telecom');
-    expect(sectors).not.toContain('Auto');
-    expect(sectors).not.toContain('Materials');
-    // All 10 authorized sectors present
-    for (const s of TEN_SECTORS) expect(sectors).toContain(s);
+    // All 13 certified sectors present
+    for (const s of CERTIFIED_SECTORS) expect(sectors).toContain(s);
   });
 
-  it('GET /api/portfolio returns 10 holdings with allocation and SNAPSHOT provenance', async () => {
+  it('GET /api/portfolio returns 13 holdings with allocation and SNAPSHOT provenance', async () => {
     const { status, json } = await request('/api/portfolio');
     expect(status).toBe(200);
     const body = json as {
@@ -163,19 +162,18 @@ describe('Product transport (E2E Product HTTP)', () => {
       evidenceRefs: Array<{ evidenceId: string; engineId: string }>;
       provenance: { freshness: string; calibratedAt: string };
     };
-    expect(body.portfolio.holdings).toBe(10);
-    expect(body.holdings.length).toBe(10);
-    expect(body.evidenceRefs.length).toBe(10);
+    expect(body.portfolio.holdings).toBe(13);
+    expect(body.holdings.length).toBe(13);
+    expect(body.evidenceRefs.length).toBe(13);
     expect(body.allocation.strategy).toBe('Balanced');
     expect(typeof body.allocation.recommendation).toBe('string');
     expect(body.provenance.freshness).toBe('SNAPSHOT');
     expect(body.provenance.calibratedAt).toBe('2026-08-09T00:00:00.000Z');
     const sectors = body.holdings.map((h) => h.sector);
-    expect(sectors).not.toContain('Telecom');
-    for (const s of TEN_SECTORS) expect(sectors).toContain(s);
+    for (const s of CERTIFIED_SECTORS) expect(sectors).toContain(s);
   });
 
-  it('GET /api/cross-sector returns 10 ranking with SNAPSHOT provenance', async () => {
+  it('GET /api/cross-sector returns 13 ranking with SNAPSHOT provenance', async () => {
     const { status, json } = await request('/api/cross-sector');
     expect(status).toBe(200);
     const body = json as {
@@ -184,17 +182,16 @@ describe('Product transport (E2E Product HTTP)', () => {
       decisions: Array<{ sector: string }>;
       provenance: { freshness: string };
     };
-    expect(body.portfolio.holdings).toBe(10);
-    expect(body.ranking.length).toBe(10);
-    expect(body.decisions.length).toBe(10);
+    expect(body.portfolio.holdings).toBe(13);
+    expect(body.ranking.length).toBe(13);
+    expect(body.decisions.length).toBe(13);
     expect(body.provenance.freshness).toBe('SNAPSHOT');
     const sectors = body.ranking.map((r) => r.sector);
-    expect(sectors).not.toContain('Telecom');
-    for (const s of TEN_SECTORS) expect(sectors).toContain(s);
+    for (const s of CERTIFIED_SECTORS) expect(sectors).toContain(s);
   });
 
-  it('GET /api/company/:id returns certified company for all 10 authorized sectors', async () => {
-    for (const sector of TEN_SECTORS) {
+  it('GET /api/company/:id returns certified company for all 13 certified sectors', async () => {
+    for (const sector of CERTIFIED_SECTORS) {
       const { status, json } = await request(`/api/company/${encodeURIComponent(sector)}`);
       expect(status).toBe(200);
       const body = json as { sector: string; decision: { verdict: string; composite: number } };
@@ -204,15 +201,15 @@ describe('Product transport (E2E Product HTTP)', () => {
     }
   });
 
-  it('GET /api/company/:id returns 404 for IES-016/017/020 and taxonomy-resolved categories', async () => {
-    for (const bad of ['Telecom', 'Auto', 'Materials', 'telecom', 'materials', 'auto', 'IT', 'Chemicals', 'Realty']) {
+  it('GET /api/company/:id returns 404 for taxonomy-resolved categories and unknown sectors', async () => {
+    for (const bad of ['IT', 'Chemicals', 'Realty', 'UnknownSector', 'sector.unknown']) {
       const { status } = await request(`/api/company/${encodeURIComponent(bad)}`);
       expect(status).toBe(404);
     }
   });
 
-  it('GET /api/evidence/:id and /api/replay/:id return attributable, replayable evidence for all 10', async () => {
-    for (const sector of TEN_SECTORS) {
+  it('GET /api/evidence/:id and /api/replay/:id return attributable, replayable evidence for all 13', async () => {
+    for (const sector of CERTIFIED_SECTORS) {
       const ev = await request(`/api/evidence/${encodeURIComponent(sector)}`);
       expect(ev.status).toBe(200);
       const evb = ev.json as { evidence: { evidenceId: string; replayReference: string }; provenance: { freshness: string } };
@@ -229,8 +226,8 @@ describe('Product transport (E2E Product HTTP)', () => {
     }
   });
 
-  it('GET /api/evidence/:id and /api/replay/:id return 404 for unknown / IES-016/017/020', async () => {
-    for (const bad of ['Telecom', 'UnknownSector', 'sector.telecom']) {
+  it('GET /api/evidence/:id and /api/replay/:id return 404 for taxonomy-resolved and unknown sectors', async () => {
+    for (const bad of ['IT', 'Chemicals', 'Realty', 'UnknownSector', 'sector.unknown']) {
       const { status: es } = await request(`/api/evidence/${encodeURIComponent(bad)}`);
       expect(es).toBe(404);
       const { status: rs } = await request(`/api/replay/${encodeURIComponent(bad)}`);
@@ -261,33 +258,36 @@ describe('Product transport (E2E Product HTTP)', () => {
     expect((ca.json as { ranking: unknown }).ranking).toEqual((cb.json as { ranking: unknown }).ranking);
   });
 
-  it('Product responses never include IES-016/017/020 or taxonomy-resolved IT/Chemicals/Realty', async () => {
+  it('Product responses reject taxonomy-resolved categories while permitting all certified engines', async () => {
     const ex = await request('/api/executive');
     const body = ex.json as { decisions: Array<{ sector: string }>; ranking: Array<{ sector: string }>; opportunity: Array<{ sector: string }> };
     const allSectors = [...body.decisions.map((d) => d.sector), ...body.ranking.map((r) => r.sector), ...body.opportunity.map((o) => o.sector)];
-    for (const forbidden of ['Telecom', 'Auto', 'Materials', 'IT', 'Chemicals', 'Realty']) {
+    for (const forbidden of ['IT', 'Chemicals', 'Realty']) {
       expect(allSectors).not.toContain(forbidden);
     }
-    // Also ensure no sector.it / sector.chemicals in evidenceRefs via portfolio
     const pf = await request('/api/portfolio');
     const pfb = pf.json as { evidenceRefs: Array<{ engineId: string }> };
-    for (const ref of pfb.evidenceRefs) {
-      expect(ref.engineId).not.toMatch(/sector\.telecom|sector\.auto|sector\.materials|sector\.it/);
+    const engineIds = pfb.evidenceRefs.map((ref) => ref.engineId);
+    for (const forbidden of ['sector.it', 'sector.chemicals', 'sector.realty']) {
+      expect(engineIds).not.toContain(forbidden);
+    }
+    for (const certified of ['sector.telecom', 'sector.auto', 'sector.materials']) {
+      expect(engineIds).toContain(certified);
     }
   });
 
-  it('Product CSIP→DTO preserves certified 10-engine baseline — holdings/ranking traceable', async () => {
-    // Holdings weight comes from CSIP sectorExposure which sums from 10 engine outputs; ranking is CSIP ranking.
+  it('Product CSIP→DTO preserves certified 13-engine baseline — holdings/ranking traceable', async () => {
+    // Holdings weight comes from CSIP sectorExposure which sums from 13 engine outputs; ranking is CSIP ranking.
     const ex = await request('/api/executive');
     const pf = await request('/api/portfolio');
     const cs = await request('/api/cross-sector');
     const exb = ex.json as { portfolio: { holdings: number }; ranking: Array<{ sector: string }> };
     const pfb = pf.json as { portfolio: { holdings: number }; holdings: Array<{ sector: string }> };
     const csb = cs.json as { portfolio: { holdings: number }; ranking: Array<{ sector: string }> };
-    // All three surfaces agree: 10 holdings
-    expect(exb.portfolio.holdings).toBe(10);
-    expect(pfb.portfolio.holdings).toBe(10);
-    expect(csb.portfolio.holdings).toBe(10);
+    // All three surfaces agree: 13 holdings
+    expect(exb.portfolio.holdings).toBe(13);
+    expect(pfb.portfolio.holdings).toBe(13);
+    expect(csb.portfolio.holdings).toBe(13);
     // Holdings sectors equal ranking sectors (same CSIP source)
     expect(new Set(pfb.holdings.map((h) => h.sector))).toEqual(new Set(exb.ranking.map((r) => r.sector)));
     expect(new Set(csb.ranking.map((r) => r.sector))).toEqual(new Set(exb.ranking.map((r) => r.sector)));
