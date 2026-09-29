@@ -225,7 +225,7 @@ export const CERTIFIED_ENGINES: readonly EngineRegistryEntry[] = [
     capabilities: ['metrics', 'scoring', 'calibration', 'decision', 'evidence', 'ontology'],
     ontologyDimensions: 8,
     freezeManifest: 'ies-016-telecom/IES-016_FREEZE_MANIFEST.json',
-    readinessCertificate: 'iips-platform/IES016_FINAL_READINESS_CERTIFICATE.md',
+    readinessCertificate: 'program-v1.1-certification (Telecommunications)',
   },
   {
     engineId: AUTO_ENGINE_ID,
@@ -241,7 +241,7 @@ export const CERTIFIED_ENGINES: readonly EngineRegistryEntry[] = [
     capabilities: ['metrics', 'scoring', 'calibration', 'decision', 'evidence', 'ontology'],
     ontologyDimensions: 8,
     freezeManifest: 'ies-017-auto/IES-017_FREEZE_MANIFEST.json',
-    readinessCertificate: 'iips-platform/IES017_FINAL_READINESS_CERTIFICATE.md',
+    readinessCertificate: 'program-v1.1-certification (Automobile)',
   },
   {
     engineId: MATERIALS_ENGINE_ID,
@@ -257,7 +257,7 @@ export const CERTIFIED_ENGINES: readonly EngineRegistryEntry[] = [
     capabilities: ['metrics', 'scoring', 'calibration', 'decision', 'evidence', 'ontology'],
     ontologyDimensions: 8,
     freezeManifest: 'ies-020-materials/IES-020_FREEZE_MANIFEST.json',
-    readinessCertificate: 'iips-platform/IES020_FINAL_READINESS_CERTIFICATE.md',
+    readinessCertificate: 'program-v1.1-certification (Materials & Metals)',
   },
 ] as const;
 
