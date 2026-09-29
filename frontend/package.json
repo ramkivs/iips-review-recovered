@@ -12,6 +12,7 @@
     "test": "vitest run"
   },
   "dependencies": {
+    "iips-production-market-data": "github:ramkivs/iips-production-market-data#c2b2f1985ff0fc06962d286231d563774cadc41b",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.28.0"

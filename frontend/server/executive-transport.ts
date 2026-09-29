@@ -517,6 +517,20 @@ const engineApi = new EngineApiAdapter();
 let adminExecutor: import('./secured-executor').SecuredExecutor | null = null;
 let aiExecutor: import('./secured-executor').SecuredExecutor | null = null;
 
+// IU-5 — the non-production PIT read seam, wired into the REAL server composition.
+// One port, built once, over a real IPD PointInTimeStore read through the real
+// IPD PitReadService. Cached so every request shares one authoritative store.
+let pitPort: import('./pit/pitReadPort').PitReadPort | null = null;
+async function getPitReadPort(): Promise<import('./pit/pitReadPort').PitReadPort> {
+  if (pitPort) return pitPort;
+  const [{ createIpdPitReadPort }, { createNonProductionPitStore }] = await Promise.all([
+    import('./pit/ipdPitReadAdapter'),
+    import('./pit/nonProductionPitStore'),
+  ]);
+  pitPort = createIpdPitReadPort(createNonProductionPitStore());
+  return pitPort;
+}
+
 const server = http.createServer((req, res) => {
   res.setHeader('Content-Type', 'application/json');
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -547,6 +561,23 @@ const server = http.createServer((req, res) => {
         await ai.handleAiAdvisoryRequest(req, res, executor);
       } catch (e) {
         res.writeHead(500); res.end(JSON.stringify({ error: 'ai-advisory transport error', detail: String(e) }));
+      }
+    })();
+    return;
+  }
+  // IU-5 — non-production PIT market-data read (securityId-addressed, IPD-backed).
+  // Dispatched on the `/api/pit/` namespace only. The handler enforces EXACT
+  // route equality, so a path that merely starts with the PIT route (e.g.
+  // /api/pit/market-dataEVIL) is a 404 and never reaches the PIT boundary.
+  // This is purely additive: no existing route, and in particular the
+  // sector-keyed /api/company/:id route, is touched.
+  if (req.url?.startsWith('/api/pit/')) {
+    void (async () => {
+      try {
+        const pit = await import('./pit-transport');
+        await pit.handlePitReadRequest(req, res, await getPitReadPort());
+      } catch (e) {
+        res.writeHead(500); res.end(JSON.stringify({ found: false, reason: 'AMBIGUOUS', error: 'pit transport error', detail: String(e) }));
       }
     })();
     return;
@@ -654,5 +685,10 @@ const server = http.createServer((req, res) => {
 if (process.env.NODE_ENV !== 'test') {
   server.listen(port, () => console.log(`Executive transport listening on :${port}`));
 }
+
+// IU-5 — the real composed server, exported so the runtime integration suite
+// drives THIS composition (the real route table, including the PIT seam) on an
+// ephemeral port, rather than re-implementing the routes inside a test.
+export { server };
 
 export { computeCertifiedExecutive, computeCertifiedPortfolio, computeCertifiedCompany, computeCertifiedCrossSector, computeCertifiedDecisionMatrix, computeCertifiedEvidence, computeCertifiedReplay, computeCertifiedPlatform };
