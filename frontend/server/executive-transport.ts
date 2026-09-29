@@ -48,6 +48,9 @@ import { UtilitiesEngine, UTILITIES_ENGINE_ID } from '../../iips-platform/src/se
 import { ConsumerEngine, CONSUMER_ENGINE_ID } from '../../iips-platform/src/sector-engines/consumer/ConsumerEngine';
 import { IndustrialsEngine, INDUSTRIALS_ENGINE_ID } from '../../iips-platform/src/sector-engines/industrials/IndustrialsEngine';
 import { TechnologyEngine, TECHNOLOGY_ENGINE_ID } from '../../iips-platform/src/sector-engines/technology/TechnologyEngine';
+import { TelecomEngine, TELECOM_ENGINE_ID } from '../../iips-platform/src/sector-engines/telecom/TelecomEngine';
+import { AutoEngine, AUTO_ENGINE_ID } from '../../iips-platform/src/sector-engines/auto/AutoEngine';
+import { MaterialsEngine, MATERIALS_ENGINE_ID } from '../../iips-platform/src/sector-engines/materials/MaterialsEngine';
 import type { EngineOutput } from '../../iips-platform/src/sector-engines/cross-sector/ontology/OntologyMapper';
 
 const ENGINE_FACTORY: Record<string, () => unknown> = {
@@ -61,6 +64,9 @@ const ENGINE_FACTORY: Record<string, () => unknown> = {
   [CONSUMER_ENGINE_ID]: () => new ConsumerEngine(),
   [INDUSTRIALS_ENGINE_ID]: () => new IndustrialsEngine(),
   [TECHNOLOGY_ENGINE_ID]: () => new TechnologyEngine(),
+  [TELECOM_ENGINE_ID]: () => new TelecomEngine(),
+  [AUTO_ENGINE_ID]: () => new AutoEngine(),
+  [MATERIALS_ENGINE_ID]: () => new MaterialsEngine(),
 };
 
 // Frozen certified reference inputs (the v1.1 Replay Baseline).
@@ -73,6 +79,14 @@ const SECTOR_DIR: Record<string, string> = {
   Banking: 'banking', Insurance: 'insurance', 'Capital Markets': 'capital-markets',
   Healthcare: 'healthcare', Hospitality: 'hospitality', Energy: 'energy',
   Utilities: 'utilities', Consumer: 'consumer', Industrials: 'industrials', Technology: 'technology',
+  Telecommunications: 'telecom', Automobile: 'auto', 'Materials & Metals': 'materials',
+};
+
+// Frozen expected-output assets are named after the sector family (the calibration
+// profile prefix), which differs from the engine directory for the three D42 engines
+// (IES-016/017/020). Existing assets are authoritative and are not renamed.
+const ASSET_PREFIX: Record<string, string> = {
+  telecom: 'telecommunications', auto: 'automobile', materials: 'materials-metals',
 };
 
 /**
@@ -83,9 +97,10 @@ function loadGoldenPillars(): Record<string, { pillars: Record<string, number>; 
   const out: Record<string, { pillars: Record<string, number>; composite: number; confidence: number | null }> = {};
   for (const [sector, dir] of Object.entries(SECTOR_DIR)) {
     const base = path.resolve(__dirname, `../../iips-platform/src/sector-engines/${dir}`);
-    const file = fs.existsSync(path.join(base, `${dir}-expected-outputs-1.0.0.json`))
-      ? path.join(base, `${dir}-expected-outputs-1.0.0.json`)
-      : path.join(base, 'frozen-assets', `${dir}-expected-outputs-1.0.0.json`);
+    const prefix = ASSET_PREFIX[dir] ?? dir;
+    const file = fs.existsSync(path.join(base, `${prefix}-expected-outputs-1.0.0.json`))
+      ? path.join(base, `${prefix}-expected-outputs-1.0.0.json`)
+      : path.join(base, 'frozen-assets', `${prefix}-expected-outputs-1.0.0.json`);
     const d = JSON.parse(fs.readFileSync(file, 'utf8')) as { expected: Array<{ pillars?: Record<string, number>; composite?: number; compositeScore?: number; confidence?: number }> };
     const first = d.expected[0];
     out[sector] = {
