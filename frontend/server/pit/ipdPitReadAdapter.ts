@@ -19,7 +19,7 @@
  * whose answers are returned, verbatim.
  *
  * The dependency is the authorized IU-5A package boundary, pinned to IPD
- * `c2b2f1985ff0fc06962d286231d563774cadc41b` and consumed through its public
+ * `0dab1221fb0f89e2e0601ea905d642bfe72d5f9c` and consumed through its public
  * `iips-production-market-data/pit` subpath. No deep import into IPD's source
  * tree and no second transport.
  */
