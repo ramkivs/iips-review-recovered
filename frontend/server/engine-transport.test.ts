@@ -1,7 +1,7 @@
 /**
  * IIPS v3.0 — E2E-025 Engine Integration — HTTP transport tests for /api/engines
  *
- * Verifies: GET /api/engines (registry, 10, provenance, no fabrication)
+ * Verifies: GET /api/engines (registry, 13, provenance, no fabrication)
  *           POST /api/engines/:engineId/execute (dispatch → provenance + deterministic)
  *           Error paths (400/404/422) and unknown-engine DENIED
  *
@@ -76,16 +76,19 @@ async function request(method: string, path: string, body?: unknown): Promise<{ 
 }
 
 describe('Engine transport (E2E-025 HTTP)', () => {
-  it('GET /api/engines returns 10 certified engines with provenance (no fabrication)', async () => {
+  it('GET /api/engines returns 13 certified engines with provenance (no fabrication)', async () => {
     const { status, json } = await request('GET', '/api/engines');
     expect(status).toBe(200);
     const body = json as { engines: Array<{ engineId: string; ies: string }>; provenance: { certifiedCount: number; freshness: string } };
-    expect(body.engines.length).toBe(10);
-    expect(body.provenance.certifiedCount).toBe(10);
+    expect(body.engines.length).toBe(13);
+    expect(body.provenance.certifiedCount).toBe(13);
     expect(body.provenance.freshness).toBe('FROZEN');
     expect(body.engines.every((e) => e.engineId && e.ies)).toBe(true);
     expect(body.engines.map((e) => e.ies)).toContain('IES-014');
     expect(body.engines.map((e) => e.ies)).toContain('IES-015');
+    expect(body.engines.map((e) => e.ies)).toContain('IES-016');
+    expect(body.engines.map((e) => e.ies)).toContain('IES-017');
+    expect(body.engines.map((e) => e.ies)).toContain('IES-020');
   });
 
   it('POST /api/engines/sector.technology/execute — governed dispatch with provenance', async () => {
@@ -108,7 +111,7 @@ describe('Engine transport (E2E-025 HTTP)', () => {
   });
 
   it('POST with unknown/uncertified engine → 404 DENIED', async () => {
-    const { status, json } = await request('POST', '/api/engines/sector.materials/execute', { apiVersion: '1.0', engineId: 'sector.materials', requestId: 'x', inputs: {} });
+    const { status, json } = await request('POST', '/api/engines/sector.unknown/execute', { apiVersion: '1.0', engineId: 'sector.unknown', requestId: 'x', inputs: {} });
     expect(status).toBe(404);
     expect((json as { reason?: string }).reason ?? (json as { error?: string }).error).toMatch(/uncertified/);
   });
