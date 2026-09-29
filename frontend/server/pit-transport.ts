@@ -86,6 +86,14 @@ function writeJson(res: ServerResponse, status: number, body: unknown): void {
  *
  * Only GET is served. Any other method on this route is rejected with 405 so
  * that the PIT surface cannot be driven by a write verb.
+ *
+ * IU-5 / D3 — the route is matched by EXACT equality against the path portion
+ * of the request, never by prefix. A prefix test would capture unrelated paths
+ * that merely begin with the same characters — `/api/pit/market-dataEVIL` and
+ * `/api/pit/market-data/../company/banking` both satisfy
+ * `startsWith(PIT_MARKET_DATA_ROUTE)` — and would then be served a PIT hit on a
+ * route that does not exist. Anything that is not precisely the PIT route is a
+ * 404 and is never handed to the PIT boundary.
  */
 export async function handlePitReadRequest(
   req: IncomingMessage,
@@ -93,8 +101,9 @@ export async function handlePitReadRequest(
   port: PitReadPort,
 ): Promise<void> {
   const rawUrl = req.url ?? '';
+  const path = rawUrl.split('?')[0];
 
-  if (!rawUrl.split('?')[0].startsWith(PIT_MARKET_DATA_ROUTE)) {
+  if (path !== PIT_MARKET_DATA_ROUTE) {
     writeJson(res, 404, { found: false, reason: 'NOT_FOUND' });
     return;
   }

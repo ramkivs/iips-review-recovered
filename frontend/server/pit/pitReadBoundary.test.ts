@@ -1,12 +1,24 @@
 /**
  * Gate 43 — First non-production IRR <-> IPD integration vertical slice.
  *
- * IRR-SIDE PIT READ BOUNDARY — 38 CASES (IU3R-01 .. IU3R-38).
+ * IRR-SIDE PIT READ BOUNDARY — 38 CASES (IU3R-01 .. IU3R-38) plus the IU-5
+ * D1/D2/D3 regression cases (IU3R-39 .. IU3R-45).
  *
- * Deliberately uses node:test rather than vitest: the vitest dependency is
- * absent in this environment, and a suite that cannot run proves nothing.
+ * IU-5 RUNNER NOTE — this suite previously declared itself as `node:test` and
+ * could not actually be executed by either runner available here:
+ * `node --test --experimental-strip-types` fails with ERR_MODULE_NOT_FOUND
+ * because Node does not map `.js` specifiers to `.ts` files, and vitest does
+ * not collect `node:test` suites ("No test suite found in file"). The header
+ * rationale for choosing `node:test` — that "the vitest dependency is absent
+ * in this environment" — no longer holds: vitest is a declared devDependency
+ * and is the runner wired to `npm test`.
  *
- * Coverage:
+ * So the suite now runs on vitest, the project's actual test runner. Every
+ * original case ID (IU3R-01..IU3R-38) and every original assertion is
+ * preserved unchanged; only the test-runner import differs. The assertions
+ * still use `node:assert/strict`, which behaves identically under vitest.
+ *
+ * Original coverage map (all still present):
  *   identity validation (fail closed)   IU3R-01..08
  *   domain validation                   IU3R-09..12
  *   asOf validation                     IU3R-13..17
@@ -15,8 +27,11 @@
  *   future-leakage protection           IU3R-31..33
  *   transport surface                   IU3R-34..36
  *   preservation of existing IRR routes IU3R-37..38
+ *   IU-5 D1/D2/D3 regressions           IU3R-39..45
+ *
+ * @vitest-environment node
  */
-import { describe, it } from 'node:test';
+import { describe, it } from 'vitest';
 import assert from 'node:assert/strict';
 import http from 'node:http';
 import fs from 'node:fs';
@@ -33,10 +48,11 @@ import {
   isValidSecurityId,
   isPitReadDomain,
   type PitReadHit,
-  type PitReadPort,
+  type PitReadMiss,
   type PitReadRequest,
   type PitReadResult,
 } from './pitReadContract.js';
+import type { PitReadPort } from './pitReadPort.js';
 import { queryPitAsOf, validatePitReadRequest } from './pitReadBoundary.js';
 import { handlePitReadRequest, PIT_MARKET_DATA_ROUTE } from '../pit-transport.js';
 
@@ -445,11 +461,28 @@ describe('IRR PIT read boundary — transport surface', () => {
 describe('IRR PIT read boundary — preservation of existing surfaces', () => {
   it('IU3R-37 /api/company/:id remains sector-keyed and the PIT route is distinct', () => {
     const source = readSource('server/executive-transport.ts');
+    // The company route is intact and is still keyed by a sector identifier.
     assert.equal(source.includes('/api/company/'), true);
-    assert.equal(source.includes('/api/pit/market-data'), false);
     assert.equal(stripComments(source).includes('securityId'), false);
     assert.equal(PIT_MARKET_DATA_ROUTE, '/api/pit/market-data');
     assert.equal(PIT_MARKET_DATA_ROUTE.startsWith('/api/company'), false);
+
+    // IU-5: the PIT handler is now REGISTERED in the real server composition.
+    // The original assertion that the PIT route was absent from the server has
+    // been superseded by the authorized registration; what must still hold is
+    // that the two surfaces are separately dispatched and neither is conflated.
+    // The PIT route is matched in the `/api/pit/` namespace, which cannot
+    // capture the company route, and the company route is still dispatched on
+    // its own prefix.
+    const bare = stripComments(source);
+    // The PIT seam and the company route are dispatched by SEPARATE conditions,
+    // on disjoint namespaces, so neither can capture the other.
+    assert.equal(bare.includes("req.url?.startsWith('/api/pit/')"), true);
+    assert.equal(bare.includes("req.url?.startsWith('/api/company/')"), true);
+    // The company dispatch condition must not mention the PIT namespace.
+    const companyDispatch = bare.match(/if \(req\.url\?\.startsWith\('\/api\/company\/'\)\)/);
+    assert.notEqual(companyDispatch, null);
+    assert.equal(companyDispatch?.[0].includes('/api/pit/'), false);
   });
 
   it('IU3R-38 the boundary declares no companyId, tenantId, userId or PIT store', () => {
@@ -467,5 +500,130 @@ describe('IRR PIT read boundary — preservation of existing surfaces', () => {
     assert.equal(Object.isFrozen(PIT_READ_DOMAINS), true);
     assert.equal(SECURITY_ID_PREFIX, 'ISIN');
     assert.equal(SECURITY_ID_ISIN_LENGTH, 12);
+  });
+});
+// ---------------------------------------------------------------------------
+// IU3R-39 .. IU3R-45 — IU-5 D1/D2/D3 regressions
+// ---------------------------------------------------------------------------
+describe('IRR PIT read boundary — IU-5 D1/D2/D3 regressions', () => {
+  // --- D1: strict calendar validation -------------------------------------
+
+  it('IU3R-39 D1 rejects impossible calendar dates that Date.parse accepts', () => {
+    // Date.parse is permissive here and silently rolls each of these over:
+    //   2026-02-30 -> 2026-03-02, 2026-04-31 -> 2026-05-01,
+    //   2026-06-31 -> 2026-07-01, 2027-02-29 -> 2027-03-01.
+    // A shape-only check would admit them; the round-trip guard must not.
+    assert.equal(Number.isFinite(Date.parse('2026-02-30T12:00:00Z')), true);
+    assert.equal(Number.isFinite(Date.parse('2027-02-29T00:00:00Z')), true);
+    assert.equal(isValidAsOf('2026-02-30T12:00:00Z'), false);
+    assert.equal(isValidAsOf('2026-04-31T00:00:00Z'), false);
+    assert.equal(isValidAsOf('2026-06-31T00:00:00Z'), false);
+    assert.equal(isValidAsOf('2027-02-29T00:00:00Z'), false);
+  });
+
+  it('IU3R-39b D1 fails closed at the boundary with INVALID_ASOF', () => {
+    for (const impossible of ['2026-02-30T12:00:00Z', '2026-04-31T00:00:00Z', '2026-13-01T00:00:00Z']) {
+      const rejection = validatePitReadRequest({
+        securityId: SWAN_BL,
+        domain: 'D01_QUOTES',
+        asOf: impossible,
+      });
+      assert.notEqual(rejection, null, `${impossible} must be rejected`);
+      assert.equal((rejection as PitReadMiss).reason, 'INVALID_ASOF', `${impossible} must be rejected`);
+    }
+  });
+
+  it('IU3R-39c D1 still accepts every real instant, including leap days', () => {
+    assert.equal(isValidAsOf('2026-01-05T09:15:00.000Z'), true);
+    assert.equal(isValidAsOf('2024-02-29T00:00:00Z'), true); // 2024 IS a leap year
+    assert.equal(isValidAsOf('2026-12-31T23:59:59.999Z'), true);
+    assert.equal(isValidAsOf('2026-01-01T00:00:00Z'), true);
+  });
+
+  // --- D2: the vintage guard is anchored to the ORIGINAL request ------------
+
+  it('IU3R-40 D2 a future vintage is refused even when the adapter widens asOf', async () => {
+    // The adapter echoes a LATER asOf than was requested, which under the old
+    // guard made the future record look admissible relative to its own echo.
+    const leaky: PitReadPort = {
+      async queryAsOf(): Promise<PitReadResult> {
+        return hit(SWAN_BL, 'D01_QUOTES', T3, T3, BL_PAYLOAD);
+      },
+    };
+    const result = await queryPitAsOf(leaky, { securityId: SWAN_BL, domain: 'D01_QUOTES', asOf: T1 });
+    assert.equal(result.found, false);
+    if (result.found) return;
+    assert.equal(result.reason, 'AMBIGUOUS');
+  });
+
+  it('IU3R-40b D2 a hit for a different securityId than requested is refused', async () => {
+    const wrongIdentity: PitReadPort = {
+      async queryAsOf(): Promise<PitReadResult> {
+        return hit(SWAN_EQ, 'D01_QUOTES', T3, T1, EQ_PAYLOAD);
+      },
+    };
+    const result = await queryPitAsOf(wrongIdentity, { securityId: SWAN_BL, domain: 'D01_QUOTES', asOf: T3 });
+    assert.equal(result.found, false);
+    if (result.found) return;
+    assert.equal(result.reason, 'AMBIGUOUS');
+  });
+
+  it('IU3R-40c D2 a hit for a different domain than requested is refused', async () => {
+    const wrongDomain: PitReadPort = {
+      async queryAsOf(): Promise<PitReadResult> {
+        return { ...hit(SWAN_BL, 'D01_QUOTES', T3, T1, BL_PAYLOAD), domain: 'D02_OHLCV' } as PitReadHit;
+      },
+    };
+    const result = await queryPitAsOf(wrongDomain, { securityId: SWAN_BL, domain: 'D01_QUOTES', asOf: T3 });
+    assert.equal(result.found, false);
+    if (result.found) return;
+    assert.equal(result.reason, 'AMBIGUOUS');
+  });
+
+  it('IU3R-40d D2 an admissible hit is still returned unchanged', async () => {
+    // The D2 guard must not reject legitimate results.
+    const result = await queryPitAsOf(makePort(), { securityId: SWAN_BL, domain: 'D01_QUOTES', asOf: T3 });
+    assert.equal(result.found, true);
+    if (!result.found) return;
+    assert.equal(result.resolvedAsOf, T1);
+    assert.deepEqual(result.payload, BL_PAYLOAD);
+  });
+
+  // --- D3: exact route matching -------------------------------------------
+
+  it('IU3R-41 D3 a path that merely starts with the PIT route is not served', async () => {
+    await withServer(async (baseUrl) => {
+      const res = await fetch(
+        `${baseUrl}${PIT_MARKET_DATA_ROUTE}EVIL?securityId=${encodeURIComponent(SWAN_BL)}&domain=D01_QUOTES&asOf=${encodeURIComponent(T3)}`,
+      );
+      assert.equal(res.status, 404);
+      const body = (await res.json()) as Record<string, unknown>;
+      assert.equal(body.found, false);
+      // The decisive part: no PIT record was served on a non-PIT path.
+      assert.equal('payload' in body, false);
+      assert.equal('resolvedAsOf' in body, false);
+    });
+  });
+
+  it('IU3R-42 D3 extra path segments after the PIT route are not served', async () => {
+    await withServer(async (baseUrl) => {
+      const res = await fetch(
+        `${baseUrl}${PIT_MARKET_DATA_ROUTE}/extra?securityId=${encodeURIComponent(SWAN_BL)}&domain=D01_QUOTES&asOf=${encodeURIComponent(T3)}`,
+      );
+      assert.equal(res.status, 404);
+      const body = (await res.json()) as Record<string, unknown>;
+      assert.equal('payload' in body, false);
+    });
+  });
+
+  it('IU3R-43 D3 the exact PIT route still serves a hit', async () => {
+    await withServer(async (baseUrl) => {
+      const res = await fetch(
+        `${baseUrl}${PIT_MARKET_DATA_ROUTE}?securityId=${encodeURIComponent(SWAN_BL)}&domain=D01_QUOTES&asOf=${encodeURIComponent(T3)}`,
+      );
+      assert.equal(res.status, 200);
+      const body = (await res.json()) as PitReadResult;
+      assert.equal(body.found, true);
+    });
   });
 });

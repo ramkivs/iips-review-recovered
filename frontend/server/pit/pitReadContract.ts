@@ -117,17 +117,57 @@ export function isPitReadDomain(value: unknown): value is PitReadDomain {
 }
 
 /**
+ * The exact ISO-8601 UTC shape this contract admits, with the calendar
+ * components captured so they can be verified rather than merely matched.
+ */
+const ISO_UTC_PATTERN = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(?:\.(\d+))?Z$/;
+
+/**
  * Strict ISO-8601 UTC validation of `asOf`.
  *
  * Requires an explicit date-time with a UTC designator. A bare date, a local
  * offset and an unparseable string are all rejected so that no caller can
  * silently supply a non-UTC instant.
+ *
+ * IU-5 / D1 — `Date.parse` alone is NOT a validity oracle. It is permissive
+ * about the calendar: `2026-02-30T12:00:00Z` parses successfully and is
+ * silently ROLLED OVER to 2 March, and the same holds for `2026-04-31` and
+ * `2026-06-31`. A shape-only regex therefore admits impossible instants and a
+ * future-leakage comparison can be performed against an instant the caller
+ * never actually asked for.
+ *
+ * So the parsed value is round-tripped against the literal calendar fields the
+ * caller supplied. If any field moved, the instant does not exist and the
+ * value is rejected. This fails closed: an impossible calendar date is a miss,
+ * never a substituted or normalised date.
+ *
+ * A consequence, deliberate: `24:00:00Z` is rejected. It is legal ISO-8601 for
+ * midnight, but it denotes the *following* day at `00:00`, and admitting it
+ * would reintroduce exactly the rollover this guard exists to prevent. The
+ * canonical `00:00:00Z` spelling of that instant remains valid.
  */
 export function isValidAsOf(value: unknown): value is string {
   if (!isNonBlankString(value)) return false;
   if (value !== value.trim()) return false;
-  if (!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?Z$/.test(value)) return false;
-  return Number.isFinite(Date.parse(value));
+
+  const match = ISO_UTC_PATTERN.exec(value);
+  if (match === null) return false;
+
+  const millis = Date.parse(value);
+  if (!Number.isFinite(millis)) return false;
+
+  const [, year, month, day, hour, minute, second] = match;
+  const instant = new Date(millis);
+
+  // Round-trip every resolved calendar field against the literal request.
+  if (instant.getUTCFullYear() !== Number(year)) return false;
+  if (instant.getUTCMonth() + 1 !== Number(month)) return false;
+  if (instant.getUTCDate() !== Number(day)) return false;
+  if (instant.getUTCHours() !== Number(hour)) return false;
+  if (instant.getUTCMinutes() !== Number(minute)) return false;
+  if (instant.getUTCSeconds() !== Number(second)) return false;
+
+  return true;
 }
 
 /** Epoch milliseconds of a validated asOf. Throws on an invalid value. */
