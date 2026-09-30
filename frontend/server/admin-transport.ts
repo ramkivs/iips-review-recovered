@@ -243,6 +243,24 @@ export function createAdminExecutor(deps: AdminExecutorDeps): SecuredExecutor {
   );
 }
 
+/** Read-capable executor: same construction as the admin executor but with the action-aware read gate. */
+export function readResourceGate(principal: Principal, action: string): boolean {
+  if (principal.roles.includes('admin')) return true;
+  if (principal.roles.includes('analyst')) return action === 'read' || action === 'execute';
+  if (principal.roles.includes('viewer')) return action === 'read';
+  return false;
+}
+
+export function createReadExecutor(deps: AdminExecutorDeps): SecuredExecutor {
+  return new SecuredExecutor(
+    deps.runtime ?? new EnterpriseRuntime(clock),
+    deps.directory ?? ADMIN_DIRECTORY,
+    deps.resourceAccess ?? readResourceGate,
+    deps.metadata,
+    deps.verifier,
+  );
+}
+
 /**
  * Build the live admin executor against a real Keycloak realm when KEYCLOAK_URL is set.
  * Returns null (no auth available -> admin endpoints 401) otherwise. This is the wiring used
@@ -257,10 +275,36 @@ export async function createLiveAdminExecutor(resourceAccess?: (p: Principal, ac
   return createAdminExecutor({ metadata, verifier: new RealKeycloakVerifier(metadata.issuer, metadata.jwksUri, metadata.clientId), resourceAccess: resourceAccess ?? adminResourceGate });
 }
 
+/**
+ * Build the live READ executor against a real Keycloak realm.
+ */
+export async function createLiveReadExecutor(): Promise<SecuredExecutor | null> {
+  const kc = process.env.KEYCLOAK_URL;
+  if (!kc) return null;
+  const { RealKeycloakVerifier } = await import('./live/real-oidc-verifier');
+  const disc = await (await fetch(`${kc}/realms/iips/.well-known/openid-configuration`)).json() as { issuer: string; jwks_uri: string };
+  const metadata: OidcRealmMetadata = { issuer: disc.issuer, jwksUri: disc.jwks_uri, clientId: 'iips-spa' };
+  return createReadExecutor({ metadata, verifier: new RealKeycloakVerifier(metadata.issuer, metadata.jwksUri, metadata.clientId) });
+}
+
 /** Authenticate + authorize an admin read (action 'admin' -> admin-only via governed RBAC + gate). */
 async function guardAdmin(executor: SecuredExecutor, token: string, surface: string): Promise<Principal> {
   const p = await executor.authenticate(token);          // 401 on failure
   executor.authorize(p, 'admin', `admin.${surface}`, 0, 1000); // 403 on deny (governed RBAC + gate + audit)
+  return p;
+}
+
+/** Authenticate + authorize a governed READ (action 'read' — viewer/analyst/admin per governed RBAC + gate). */
+export async function guardRead(executor: SecuredExecutor, token: string, surface: string): Promise<Principal> {
+  const p = await executor.authenticate(token);            // 401 on failure
+  executor.authorize(p, 'read', `read.${surface}`, 0, 1000); // 403 on deny (governed RBAC + gate + audit)
+  return p;
+}
+
+/** Authenticate + authorize a governed EXECUTE action (analyst-and-above). */
+export async function guardExecute(executor: SecuredExecutor, token: string, surface: string): Promise<Principal> {
+  const p = await executor.authenticate(token);               // 401 on failure
+  executor.authorize(p, 'execute', `read.${surface}`, 0, 1000); // 403 on deny (viewer denied)
   return p;
 }
 

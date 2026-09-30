@@ -46,6 +46,7 @@ describe('Application Shell', () => {
   it('renders a navigation link for a role-visible surface', () => {
     renderAt('/executive', 'analyst');
     expect(screen.getByRole('link', { name: 'Executive' })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Watchlists' })).toBeInTheDocument();
   });
 
   it('hides Administration for non-admin roles', () => {

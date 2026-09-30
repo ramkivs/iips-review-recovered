@@ -531,6 +531,62 @@ const engineApi = new EngineApiAdapter();
 // Lazily-created live executors (real Keycloak), cached across requests.
 let adminExecutor: import('./secured-executor').SecuredExecutor | null = null;
 let aiExecutor: import('./secured-executor').SecuredExecutor | null = null;
+let readExecutor: import('./secured-executor').SecuredExecutor | null = null;
+
+async function getReadExecutor(): Promise<import('./secured-executor').SecuredExecutor | null> {
+  if (!readExecutor) {
+    const admin = await import('./admin-transport');
+    readExecutor = await admin.createLiveReadExecutor();
+  }
+  return readExecutor;
+}
+
+export function buildGovernedUniverseProvider(): import('./watchlists/watchlists-transport').GovernedUniverseProvider {
+  return {
+    async screenerUniverse() {
+      const data = computeCertifiedDecisionMatrix() as {
+        companies: Array<{
+          companyId: string;
+          sector: string;
+          verdict: string;
+          composite: number;
+          quality: number | null;
+          valuation: number | null;
+        }>;
+        provenance?: { calibratedAt?: string };
+      };
+      const asOf = data.provenance?.calibratedAt ?? '2026-08-09T00:00:00.000Z';
+      return data.companies.map((c) => ({
+        canonicalSecurityId: c.sector,
+        companyId: c.companyId,
+        sector: c.sector,
+        verdict: c.verdict,
+        composite: c.composite,
+        qualityAxis: c.quality,
+        valuation: c.valuation,
+        quality: c.quality !== null ? 'good' : 'unavailable',
+        completenessPct: 100,
+        asOf,
+      }));
+    },
+    async searchUniverse() {
+      return this.screenerUniverse('default');
+    },
+    async securities() {
+      return this.screenerUniverse('default');
+    },
+    async vintage() {
+      return {
+        asOf: '2026-08-09T00:00:00.000Z',
+        dataVersion: 'v1.1-replay-baseline',
+        mode: 'SNAPSHOT',
+        dataSource: 'governed:certified-v2.0-reference-universe',
+        classification: 'REAL',
+        contributingSnapshotIds: ['snap_Banking'],
+      };
+    },
+  };
+}
 
 // IU-5 — the non-production PIT read seam, wired into the REAL server composition.
 // One port, built once, over a real IPD PointInTimeStore read through the real
@@ -596,6 +652,20 @@ const server = http.createServer((req, res) => {
         await pit.handlePitReadRequest(req, res, await getPitReadPort());
       } catch (e) {
         res.writeHead(500); res.end(JSON.stringify({ found: false, reason: 'AMBIGUOUS', error: 'pit transport error', detail: String(e) }));
+      }
+    })();
+    return;
+  }
+  // UI07 Watchlists (NP-09) — owner-scoped persistent lists with triggers.
+  if (req.url?.startsWith('/api/watchlists')) {
+    void (async () => {
+      try {
+        const executor = await getReadExecutor();
+        if (!executor) { res.writeHead(401); res.end(JSON.stringify({ error: 'authentication unavailable (no IdP configured)' })); return; }
+        const wl = await import('./watchlists/watchlists-transport');
+        await wl.handleWatchlistsRequest(req, res, executor, buildGovernedUniverseProvider());
+      } catch (e) {
+        res.writeHead(500); res.end(JSON.stringify({ error: 'watchlists transport error', detail: String(e) }));
       }
     })();
     return;

@@ -25,6 +25,7 @@ export const NAV: NavItem[] = [
       { label: 'Holdings', path: '/portfolio/:id/holdings', minRole: 'viewer' },
     ],
   },
+  { label: 'Watchlists', path: '/watchlists', minRole: 'viewer' },
   {
     label: 'Research',
     path: '/research',
