@@ -716,6 +716,21 @@ const server = http.createServer((req, res) => {
     })();
     return;
   }
+  // UI12 Settings (NP-11) — private, owner-scoped personal configuration. Dispatched on the
+  // exact `/api/settings` namespace only; the handler fails closed on any other path or method.
+  if (req.url === '/api/settings' || req.url?.startsWith('/api/settings/')) {
+    void (async () => {
+      try {
+        const executor = await getReadExecutor();
+        if (!executor) { res.writeHead(401); res.end(JSON.stringify({ error: 'authentication unavailable (no IdP configured)' })); return; }
+        const st = await import('./settings/settings-transport');
+        await st.handleSettingsRequest(req, res, executor);
+      } catch (e) {
+        res.writeHead(500); res.end(JSON.stringify({ error: 'settings transport error', detail: String(e) }));
+      }
+    })();
+    return;
+  }
   // E2E-025 Engine Integration — public certified-engine registry + direct dispatch (additive; uses governed runtime, not a scoring recomputation).
   if (req.url === '/api/engines' && req.method === 'GET') {
     res.writeHead(200); res.end(JSON.stringify(engineApi.listEngines())); return;

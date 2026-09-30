@@ -13,6 +13,7 @@ export const ROUTES = {
   portfolioHoldings: '/portfolio/:id/holdings',
   watchlists: '/watchlists',
   collaboration: '/collaboration',
+  settings: '/settings',
   research: '/research',
   researchCompany: '/research/company/:id',
   researchSector: '/research/sector/:id',
