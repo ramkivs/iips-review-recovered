@@ -588,6 +588,38 @@ export function buildGovernedUniverseProvider(): import('./watchlists/watchlists
   };
 }
 
+/**
+ * UI10 Collaboration (NP-10) — the GOVERNED reference universe and vintage for a tenant.
+ *
+ * Both identity forms the certified platform emits for a governed company are accepted: the
+ * certified sector-keyed identity (the identifier `/api/company/:id` resolves and UI07 stores as
+ * `canonicalSecurityId`) and the certified `companyId`. Evidence uses the `ev_<sector>` identity
+ * the platform emits in `/api/portfolio` and `/api/replay/:id`. No other form is accepted, and
+ * no governed value is derived here.
+ */
+export function buildGovernedReferenceProvider(): import('./collaboration/collaboration-resolvers').GovernedReferenceProvider {
+  const matrix = () => computeCertifiedDecisionMatrix() as {
+    companies: Array<{ companyId: string; sector: string }>;
+    provenance?: { calibratedAt?: string };
+  };
+  return {
+    async companyIds() {
+      return matrix().companies.flatMap((c) => [c.companyId, c.sector]);
+    },
+    async evidenceIds() {
+      return matrix().companies.map((c) => `ev_${c.sector}`);
+    },
+    async vintage() {
+      const asOf = matrix().provenance?.calibratedAt ?? '2026-08-09T00:00:00.000Z';
+      return {
+        asOf,
+        dataVersion: 'v1.1-replay-baseline',
+        mode: 'SNAPSHOT',
+      };
+    },
+  };
+}
+
 // IU-5 — the non-production PIT read seam, wired into the REAL server composition.
 // One port, built once, over a real IPD PointInTimeStore read through the real
 // IPD PitReadService. Cached so every request shares one authoritative store.
@@ -666,6 +698,20 @@ const server = http.createServer((req, res) => {
         await wl.handleWatchlistsRequest(req, res, executor, buildGovernedUniverseProvider());
       } catch (e) {
         res.writeHead(500); res.end(JSON.stringify({ error: 'watchlists transport error', detail: String(e) }));
+      }
+    })();
+    return;
+  }
+  // UI10 Collaboration (NP-10) — private, owner-scoped threads over governed objects.
+  if (req.url === '/api/collaboration' || req.url?.startsWith('/api/collaboration/')) {
+    void (async () => {
+      try {
+        const executor = await getReadExecutor();
+        if (!executor) { res.writeHead(401); res.end(JSON.stringify({ error: 'authentication unavailable (no IdP configured)' })); return; }
+        const collab = await import('./collaboration/collaboration-transport');
+        await collab.handleCollaborationRequest(req, res, executor, buildGovernedReferenceProvider());
+      } catch (e) {
+        res.writeHead(500); res.end(JSON.stringify({ error: 'collaboration transport error', detail: String(e) }));
       }
     })();
     return;

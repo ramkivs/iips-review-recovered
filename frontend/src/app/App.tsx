@@ -18,6 +18,7 @@ import { ReplayExplorer } from '../features/replay/ReplayExplorer';
 import { EngineRegistry } from '../features/engines/EngineRegistry';
 import { Administration } from '../features/admin/Administration';
 import { Watchlists } from '../features/watchlists/Watchlists';
+import { Collaboration } from '../features/collaboration/Collaboration';
 
 function FeaturePlaceholder({ surface }: { surface: string }) {
   return <NotYetAuthorized surface={surface} />;
@@ -32,6 +33,7 @@ export function App() {
         <Route path="/portfolio" element={<PortfolioWorkspace />} />
         <Route path="/portfolio/*" element={<PortfolioWorkspace />} />
         <Route path="/watchlists" element={<Watchlists />} />
+        <Route path="/collaboration" element={<Collaboration />} />
         <Route path="/research" element={<FeaturePlaceholder surface="Research" />} />
         <Route path="/research/company/:id" element={<CompanyIntelligence />} />
         <Route path="/research/sector/:id" element={<FeaturePlaceholder surface="Sector" />} />

@@ -26,6 +26,7 @@ export const NAV: NavItem[] = [
     ],
   },
   { label: 'Watchlists', path: '/watchlists', minRole: 'viewer' },
+  { label: 'Collaboration', path: '/collaboration', minRole: 'viewer' },
   {
     label: 'Research',
     path: '/research',
