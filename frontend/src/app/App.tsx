@@ -14,6 +14,8 @@ import { CompanyIntelligence } from '../features/company/CompanyIntelligence';
 import { CrossSectorIntelligence } from '../features/cross-sector/CrossSectorIntelligence';
 import { DecisionMatrix } from '../features/decision-matrix/DecisionMatrix';
 import { EvidenceExplorer } from '../features/evidence/EvidenceExplorer';
+import { EvidenceLanding } from '../features/evidence/EvidenceLanding';
+import { ReservedEvidencePath } from '../features/evidence/ReservedEvidencePath';
 import { ReplayExplorer } from '../features/replay/ReplayExplorer';
 import { EngineRegistry } from '../features/engines/EngineRegistry';
 import { Administration } from '../features/admin/Administration';
@@ -43,7 +45,11 @@ export function App() {
         <Route path="/research/engines" element={<EngineRegistry />} />
         <Route path="/intelligence/decision-matrix" element={<DecisionMatrix />} />
         <Route path="/intelligence/*" element={<FeaturePlaceholder surface="Intelligence" />} />
-        <Route path="/evidence" element={<FeaturePlaceholder surface="Evidence" />} />
+        {/* NP-13 (D1/D5): `/evidence` is the read-only Decision Evidence landing. The two reserved paths are
+            declared explicitly so they can never be captured by `/evidence/:id` as evidence subjects. */}
+        <Route path="/evidence" element={<EvidenceLanding />} />
+        <Route path="/evidence/snapshots" element={<ReservedEvidencePath surface="Snapshots" />} />
+        <Route path="/evidence/replay" element={<ReservedEvidencePath surface="Replay" />} />
         <Route path="/evidence/:id" element={<EvidenceExplorer />} />
         <Route path="/evidence/replay/:id" element={<ReplayExplorer />} />
         <Route path="/admin/*" element={<Administration />} />
