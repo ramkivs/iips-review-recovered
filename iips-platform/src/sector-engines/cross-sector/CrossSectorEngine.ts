@@ -17,6 +17,7 @@ import { OpportunityEngine } from './opportunity/OpportunityEngine';
 import { CorrelationEngine } from './correlation/CorrelationEngine';
 import { ReportingEngine, type ReportType } from './reporting/ReportingEngine';
 import { CrossSectorEvidenceBuilder, type CrossSectorEvidence } from './evidence/CrossSectorEvidence';
+import { ScreeningPopulationGuard, type ScreeningPopulation } from './population/ScreeningPopulation';
 import type { PortfolioIntelligenceReport, RankedOpportunity } from './types';
 
 export interface PipelineInput {
@@ -31,6 +32,11 @@ export interface PipelineInput {
 export interface PipelineResult {
   readonly portfolioId: string;
   readonly scenario: string;
+  /** Governed Screening population identity and canonical member set (NP-12 G4/G5). */
+  readonly population: {
+    readonly identity: string;
+    readonly members: ScreeningPopulation['members'];
+  };
   readonly intelligence: PortfolioIntelligenceReport;
   readonly ranking: RankedOpportunity[];
   readonly allocation: ReturnType<AllocationEngine['recommend']>;
@@ -56,8 +62,17 @@ export class CrossSectorEngine {
   run(input: PipelineInput): PipelineResult {
     const { portfolioId, scenario, strategy = 'Balanced', outputs, topN = 10 } = input;
 
-    // 1. Ontology Mapper
-    const holdings = this.ontology.mapAll([...outputs]);
+    // 1a. Governed Screening population boundary (NP-12 G1 → G2 → G3 → G5 → G4).
+    //     Sector normalization, composite uniqueness, duplicate rejection, canonical
+    //     ordering, and membership-only population identity all bind here, before any
+    //     member reaches evaluation. Fail-closed: an invalid or duplicate population
+    //     throws rather than being normalized, merged, or silently deduplicated.
+    const population = ScreeningPopulationGuard.fromOutputs(outputs);
+
+    // 1. Ontology Mapper — consumes the population with canonical sector spelling, in the
+    //    caller's original input order. Canonical ordering is a population-identity concern
+    //    and is deliberately NOT applied here: it is not the RankingEngine presentation order.
+    const holdings = this.ontology.mapAll([...population.normalizedOutputs]);
 
     // 2. Portfolio Intelligence
     const intelligence = this.portfolio.compute(portfolioId, scenario, holdings);
@@ -86,6 +101,18 @@ export class CrossSectorEngine {
       this.reporting.build(rt, portfolioId, intelligence, ranking, allocation, diversification, opportunity, correlation),
     );
 
-    return { portfolioId, scenario, intelligence, ranking, allocation, diversification, opportunity, correlation, evidence, reports };
+    return {
+      portfolioId,
+      scenario,
+      population: { identity: population.identity, members: population.members },
+      intelligence,
+      ranking,
+      allocation,
+      diversification,
+      opportunity,
+      correlation,
+      evidence,
+      reports,
+    };
   }
 }

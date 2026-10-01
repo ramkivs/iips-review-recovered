@@ -1,5 +1,6 @@
 export * from './types';
 export * from './ontology/OntologyMapper';
+export * from './population/ScreeningPopulation';
 export * from './portfolio/PortfolioIntelligence';
 export * from './ranking/RankingEngine';
 export * from './allocation/AllocationEngine';
