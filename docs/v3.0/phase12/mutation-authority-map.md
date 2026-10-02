@@ -36,6 +36,38 @@ Rule (§19): if the governed platform does **not** support a mutation, **DO NOT 
 | Approve/reassign/retry workflow | ❌ | UNAVAILABLE |
 | Activate/deactivate module | ❌ (only certify/revoke) | UNAVAILABLE |
 
+## Bounded availability: IIPS product-tier tenant membership (G3-DEP-3)
+
+> **Scope limit.** This subsection applies **only** to the IIPS-owned **product-tier
+> tenant-membership capability** defined by the G3 governance records
+> (`PROGRAM_v3.0_G3_TENANT_MEMBERSHIP_GOVERNANCE_DECISION.md`, and the G3 technical decision
+> `PROGRAM_v3.0_G3_TENANT_MEMBERSHIP_SUBSTRATE_TECHNICAL_AUTHORITY.md`). It amends nothing else
+> in this map, and it does not broaden the authority model, create a parallel mutation path, or
+> create a new mutation-authority framework. **Authority: Program Authority decision
+> `PROGRAM_v3.0_G3_DEP3_MUTATION_AUTHORITY_AMENDMENT_DECISION.md`.** All other entries above —
+> including the §19 rule and every UNAVAILABLE entry — remain unchanged.
+
+| Mutation | Governed contract | Authorization | Tenant validation | Audit | Risk | v3.0 decision |
+|---|---|---|---|---|---|---|
+| Tenant membership **lookup** (`userId → tenantId`) | `TenantDirectory.tenantForUser` resolution against the durable IRR membership store | server-side only; no client authority | n/a (resolves tenant; fails closed) | governed | **READ** | ✅ **AVAILABLE — READ ONLY** for the bounded capability; unresolvable membership fails closed, never a default |
+| Tenant membership **assignment** | bounded membership mutation, `userId ↔ tenantId` | `EnterpriseRuntime`/`ApiSecurity` via the existing executor chain; server-side only | principal tenant validated | required (allow + deny) | **HIGH** | ✅ **AVAILABLE — BOUNDED** for the bounded capability |
+| Tenant membership **revocation** | bounded membership mutation, `userId ↔ tenantId` | `EnterpriseRuntime`/`ApiSecurity` via the existing executor chain; server-side only | principal tenant validated | required (allow + deny) | **HIGH** | ✅ **AVAILABLE — BOUNDED** for the bounded capability |
+| Tenant membership **reassignment** | — | — | — | — | — | ⛔ **DEFERRED — G3-DEP-1.** Not authorized by this amendment. |
+
+**Explicitly NOT authorized by this amendment** (each remains exactly as recorded above):
+user creation · user disablement · general user mutation · tenant creation · tenant deletion ·
+tenant quota mutation · role assignment/removal · permission-policy mutation · Keycloak user
+lifecycle mutation · client-side authority · client-supplied tenant authority ·
+`companyId` · `runtimeCompanyId`.
+
+**Binding conditions on the three available entries:** server-side-only execution;
+`EnterpriseRuntime`/`ApiSecurity` authorization chain; authenticated principal validation; tenant
+validation; governed audit; fail-closed lookup; durable server-side membership state; the bounded
+`userId ↔ tenantId` contract with `Principal { userId, tenantId, roles }` unchanged; and the
+certification tests specified in **"Required future certification tests"** below. No additional
+identity field is introduced, and Keycloak remains the identity/authentication authority — it is
+**not** the IIPS tenant-membership authority.
+
 ## Recommended v3.0 stance
 
 - **v3.0 Phase 12 is, at core, a governed READ/inspection surface.** The honest answer is that
