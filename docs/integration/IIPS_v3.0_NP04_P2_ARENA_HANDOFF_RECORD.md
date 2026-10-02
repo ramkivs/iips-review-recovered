@@ -87,11 +87,41 @@ Two points are recorded rather than glossed:
 
 | Artifact | SHA-256 | Arena status | Windows authoritative status |
 |---|---|---|---|
-| `np04-persistence-handoff.tar.gz` | `2474d680186ba0ea4ce0e32c86e8126bd47c187040f4cad1c90af1b68a7c00d5` | **PREPARED** | **NOT YET APPLIED** |
-| `HANDOFF_MANIFEST.md` | `266db17febbe8060181a491fcb4bbbcaa2279451a71d532f04050e54d3dd1bf1` | **PREPARED** | **NOT YET APPLIED** |
+| `np04-persistence-handoff.tar.gz` | `7b9c926582ab7269983ca657db13d905e6fc71e1bda421134c4d4d0325701bc8` | **PREPARED** | **NOT YET APPLIED** |
+| `np04-persistence-handoff.zip` | `74ad7f48a16920fa030ceb0449e946ea81d826241dd510e4f2536fbde34ffd04` | **PREPARED** | **NOT YET APPLIED** |
+| `HANDOFF_MANIFEST.md` | `fa87f77a784ce18d0b2d6f59c01c3eb60ca553aa0d225e89727cf9c67662009a` | **PREPARED** | **NOT YET APPLIED** |
 
-Both are **Arena-only handoff artifacts**, labelled as such per the handoff gate §8. Neither is
-asserted to be Windows-authoritative, and neither is claimed as durable implementation.
+All are **Arena-only handoff artifacts**, labelled as such per the handoff gate §8. None is
+asserted to be Windows-authoritative, and none is claimed as durable implementation.
+
+### 4.0 Regeneration amendment (mandatory reading)
+
+**The handoff directory lived outside the IRR Git repository and was destroyed by an Arena sandbox
+reset after the original preparation.** This is recorded because it is a real durability hazard of
+the Arena preparation model: **Git-backed content survives a reset; non-Git workspace content does
+not.**
+
+The package was therefore **regenerated**, and every payload file was verified against the
+**per-file SHA-256 values recorded durably in this record**:
+
+| Payload file | Result |
+|---|---|
+| `src/persistence/types.ts` | **byte-identical** |
+| `src/persistence/governedPersistence.ts` | **byte-identical** |
+| `src/persistence/index.ts` | **byte-identical** |
+| `tests/np04_governed_persistence.test.ts` | **byte-identical** |
+
+**All four payload files are byte-identical to the originally recorded hashes.** The payload is
+therefore provably unchanged; only the container differs.
+
+**Container hashes changed** — the original `.tar.gz` used default container metadata (mtimes,
+gzip stream timestamp), which is **not byte-reproducible**. The regenerated container is built
+deterministically (`--mtime`, `--owner=0`, `--group=0`, `--sort=name`, `gzip -n`). A `.zip`
+container is also provided for Windows convenience.
+
+> **The authoritative integrity check is the per-file hash table in §4.1 — not the container hash.**
+> A container-hash difference is expected and is **not** a fail-closed condition; a **per-file**
+> mismatch remains a hard stop.
 
 ### 4.1 Delivered files (4 added, 0 modified, 0 deleted)
 
@@ -124,6 +154,7 @@ constraints; ownership by write-once column values.
 
 | Check | Result |
 |---|---|
+| **Payload SHA-256 vs the durably recorded per-file values (post-regeneration)** | **4/4 IDENTICAL** |
 | Archive extraction + per-file SHA-256 cross-check | **4/4 OK** |
 | Typecheck under IPD's exact `tsconfig` compilerOptions (`strict`, `NodeNext`, target ES2022) with `@types/node@22.13.9` | **0 errors** |
 | Compile to `dist` | **exit 0** |
@@ -158,6 +189,13 @@ governance-boundary tests.
 
 ## 8. Windows handoff procedure
 
+The artifacts are exposed through an **Arena download server** (authority record §9.2: *"Arena must
+expose the artifact through the download server, with a manifest carrying per-file SHA-256
+values"*), serving an index with the per-file hash table, `HANDOFF_MANIFEST.md`, `SHA256SUMS.txt`,
+and both container formats. **The download URL is sandbox-scoped and therefore deliberately not
+recorded durably here** — a durable governance record must not carry an ephemeral endpoint. The
+manifest carries the hashes, which is what durability of the artifact requires.
+
 Full instructions, per-file hashes, test commands, and fail-closed conditions are recorded in
 `HANDOFF_MANIFEST.md` §11–§12. Summary of the required sequence:
 
@@ -165,7 +203,8 @@ Full instructions, per-file hashes, test commands, and fail-closed conditions ar
    `4d3e1cdca3a33da0ec3be8b336b17128108a502c`. **Stop rather than force-apply on mismatch**
    (authority record §9.3).
 2. **Verify** — `sha256sum np04-persistence-handoff.tar.gz` must equal
-   `2474d680186ba0ea4ce0e32c86e8126bd47c187040f4cad1c90af1b68a7c00d5`; then verify each extracted
+   `7b9c926582ab7269983ca657db13d905e6fc71e1bda421134c4d4d0325701bc8` (see §4.0: a container-hash
+   difference is expected and is **not** a stop condition); then verify each extracted
    file against §4.1. **On mismatch: STOP.**
 3. **Apply** — copy the four files into `src/persistence/` and `tests/`.
 4. **Validate** — Node version, npm version, dependency install, typecheck, the NP-04 suite, and the
