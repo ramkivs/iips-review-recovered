@@ -1,0 +1,548 @@
+{
+  "source": "NP-12-N4-CANONICAL-BYTE-GRAMMAR-DECISION-RECORD.md",
+  "sourceCommit": "06775f44d432f6df95a2f47bb78ef381352cf575",
+  "sourceBlob": "6d823aeecc2a6047782f48dad33d61f26bbe89d8",
+  "bindingAssumption": "P0/P1 are the exact independently bound illustrative references assumed by governance \u00a711; these fixtures do not register populations or derive G1\u2013G5 identity.",
+  "examples": [
+    {
+      "example": "E01",
+      "title": "empty predicate collection",
+      "inputs": [
+        {
+          "definitionId": "d",
+          "version": "1",
+          "populationIdentity": "0000000000000000000000000000000000000000000000000000000000000000",
+          "predicates": []
+        }
+      ],
+      "canonical": {
+        "definitionId": "d",
+        "version": "1",
+        "populationIdentity": "0000000000000000000000000000000000000000000000000000000000000000",
+        "predicates": []
+      },
+      "octets": 91,
+      "preimageHex": "4e503132444546000100000001640000000131000000403030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303000000000",
+      "sha256": "48ee9df1ac3918785b5500528aab8433ff349ffa8576cdcb03d9593dffeb0f77"
+    },
+    {
+      "example": "E02",
+      "title": "one numeric predicate, integer 75",
+      "inputs": [
+        {
+          "definitionId": "d",
+          "version": "1",
+          "populationIdentity": "0000000000000000000000000000000000000000000000000000000000000000",
+          "predicates": [
+            {
+              "field": "conviction",
+              "operator": "gte",
+              "operand": "75"
+            }
+          ]
+        }
+      ],
+      "canonical": {
+        "definitionId": "d",
+        "version": "1",
+        "populationIdentity": "0000000000000000000000000000000000000000000000000000000000000000",
+        "predicates": [
+          {
+            "field": "conviction",
+            "operator": "gte",
+            "operand": "75"
+          }
+        ]
+      },
+      "octets": 118,
+      "preimageHex": "4e5031324445460001000000016400000001310000004030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030000000010000000a636f6e76696374696f6e00000003677465000000023735",
+      "sha256": "fbad4144d5eddd15cc6e518f710d89d025076977536dd55ad0041af4cc055a20"
+    },
+    {
+      "example": "E03",
+      "title": "fractional operand 0.5",
+      "inputs": [
+        {
+          "definitionId": "d",
+          "version": "1",
+          "populationIdentity": "0000000000000000000000000000000000000000000000000000000000000000",
+          "predicates": [
+            {
+              "field": "growth",
+              "operator": "gt",
+              "operand": "0.5"
+            }
+          ]
+        },
+        {
+          "definitionId": "d",
+          "version": "1",
+          "populationIdentity": "0000000000000000000000000000000000000000000000000000000000000000",
+          "predicates": [
+            {
+              "field": "growth",
+              "operator": "gt",
+              "operand": "0.500000"
+            }
+          ]
+        }
+      ],
+      "canonical": {
+        "definitionId": "d",
+        "version": "1",
+        "populationIdentity": "0000000000000000000000000000000000000000000000000000000000000000",
+        "predicates": [
+          {
+            "field": "growth",
+            "operator": "gt",
+            "operand": "0.5"
+          }
+        ]
+      },
+      "octets": 114,
+      "preimageHex": "4e5031324445460001000000016400000001310000004030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030000000010000000667726f77746800000002677400000003302e35",
+      "sha256": "d2742f480b9b44b9f92b03fae82fd6571520c2eae563660f376b22c65588368a"
+    },
+    {
+      "example": "E04",
+      "title": "six fractional digits, 75.123456",
+      "inputs": [
+        {
+          "definitionId": "d",
+          "version": "1",
+          "populationIdentity": "0000000000000000000000000000000000000000000000000000000000000000",
+          "predicates": [
+            {
+              "field": "quality",
+              "operator": "lte",
+              "operand": "75.123456"
+            }
+          ]
+        }
+      ],
+      "canonical": {
+        "definitionId": "d",
+        "version": "1",
+        "populationIdentity": "0000000000000000000000000000000000000000000000000000000000000000",
+        "predicates": [
+          {
+            "field": "quality",
+            "operator": "lte",
+            "operand": "75.123456"
+          }
+        ]
+      },
+      "octets": 122,
+      "preimageHex": "4e503132444546000100000001640000000131000000403030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303000000001000000077175616c697479000000036c74650000000937352e313233343536",
+      "sha256": "afcfba27d9adbfd3ef31e4c47480ae887eb1444d8fec15264fef2eca8c3869df"
+    },
+    {
+      "example": "E05",
+      "title": "equivalent numeric spellings in separate inputs",
+      "inputs": [
+        {
+          "definitionId": "d",
+          "version": "1",
+          "populationIdentity": "0000000000000000000000000000000000000000000000000000000000000000",
+          "predicates": [
+            {
+              "field": "conviction",
+              "operator": "gte",
+              "operand": "75"
+            }
+          ]
+        },
+        {
+          "definitionId": "d",
+          "version": "1",
+          "populationIdentity": "0000000000000000000000000000000000000000000000000000000000000000",
+          "predicates": [
+            {
+              "field": "conviction",
+              "operator": "gte",
+              "operand": "75.0"
+            }
+          ]
+        },
+        {
+          "definitionId": "d",
+          "version": "1",
+          "populationIdentity": "0000000000000000000000000000000000000000000000000000000000000000",
+          "predicates": [
+            {
+              "field": "conviction",
+              "operator": "gte",
+              "operand": "75.000000"
+            }
+          ]
+        }
+      ],
+      "canonical": {
+        "definitionId": "d",
+        "version": "1",
+        "populationIdentity": "0000000000000000000000000000000000000000000000000000000000000000",
+        "predicates": [
+          {
+            "field": "conviction",
+            "operator": "gte",
+            "operand": "75"
+          }
+        ]
+      },
+      "octets": 118,
+      "preimageHex": "4e5031324445460001000000016400000001310000004030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030000000010000000a636f6e76696374696f6e00000003677465000000023735",
+      "sha256": "fbad4144d5eddd15cc6e518f710d89d025076977536dd55ad0041af4cc055a20"
+    },
+    {
+      "example": "E06",
+      "title": "multiple predicates in different input orders",
+      "inputs": [
+        {
+          "definitionId": "d",
+          "version": "1",
+          "populationIdentity": "0000000000000000000000000000000000000000000000000000000000000000",
+          "predicates": [
+            {
+              "field": "quality",
+              "operator": "lt",
+              "operand": "75.123456"
+            },
+            {
+              "field": "growth",
+              "operator": "gt",
+              "operand": "0.5"
+            },
+            {
+              "field": "conviction",
+              "operator": "gte",
+              "operand": "75"
+            },
+            {
+              "field": "growth",
+              "operator": "eq",
+              "operand": "10"
+            },
+            {
+              "field": "growth",
+              "operator": "eq",
+              "operand": "2"
+            },
+            {
+              "field": "growth",
+              "operator": "gt",
+              "operand": "2"
+            }
+          ]
+        },
+        {
+          "definitionId": "d",
+          "version": "1",
+          "populationIdentity": "0000000000000000000000000000000000000000000000000000000000000000",
+          "predicates": [
+            {
+              "field": "growth",
+              "operator": "gt",
+              "operand": "2"
+            },
+            {
+              "field": "growth",
+              "operator": "eq",
+              "operand": "2"
+            },
+            {
+              "field": "growth",
+              "operator": "eq",
+              "operand": "10"
+            },
+            {
+              "field": "conviction",
+              "operator": "gte",
+              "operand": "75"
+            },
+            {
+              "field": "growth",
+              "operator": "gt",
+              "operand": "0.5"
+            },
+            {
+              "field": "quality",
+              "operator": "lt",
+              "operand": "75.123456"
+            }
+          ]
+        }
+      ],
+      "canonical": {
+        "definitionId": "d",
+        "version": "1",
+        "populationIdentity": "0000000000000000000000000000000000000000000000000000000000000000",
+        "predicates": [
+          {
+            "field": "conviction",
+            "operator": "gte",
+            "operand": "75"
+          },
+          {
+            "field": "growth",
+            "operator": "eq",
+            "operand": "2"
+          },
+          {
+            "field": "growth",
+            "operator": "eq",
+            "operand": "10"
+          },
+          {
+            "field": "growth",
+            "operator": "gt",
+            "operand": "0.5"
+          },
+          {
+            "field": "growth",
+            "operator": "gt",
+            "operand": "2"
+          },
+          {
+            "field": "quality",
+            "operator": "lt",
+            "operand": "75.123456"
+          }
+        ]
+      },
+      "octets": 235,
+      "preimageHex": "4e5031324445460001000000016400000001310000004030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030000000060000000a636f6e76696374696f6e000000036774650000000237350000000667726f77746800000002657100000001320000000667726f7774680000000265710000000231300000000667726f77746800000002677400000003302e350000000667726f7774680000000267740000000132000000077175616c697479000000026c740000000937352e313233343536",
+      "sha256": "5429e9c5c43a86267daad339782507af283d2ee2964d135289aa6a810679bc5d"
+    },
+    {
+      "example": "E07",
+      "title": "exact canonical duplicate removal",
+      "inputs": [
+        {
+          "definitionId": "d",
+          "version": "1",
+          "populationIdentity": "0000000000000000000000000000000000000000000000000000000000000000",
+          "predicates": [
+            {
+              "field": "conviction",
+              "operator": "gte",
+              "operand": "75"
+            },
+            {
+              "field": "conviction",
+              "operator": "gte",
+              "operand": "75"
+            },
+            {
+              "field": "conviction",
+              "operator": "gte",
+              "operand": "75.0"
+            },
+            {
+              "field": "conviction",
+              "operator": "gte",
+              "operand": "75.000000"
+            }
+          ]
+        }
+      ],
+      "canonical": {
+        "definitionId": "d",
+        "version": "1",
+        "populationIdentity": "0000000000000000000000000000000000000000000000000000000000000000",
+        "predicates": [
+          {
+            "field": "conviction",
+            "operator": "gte",
+            "operand": "75"
+          }
+        ]
+      },
+      "octets": 118,
+      "preimageHex": "4e5031324445460001000000016400000001310000004030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030000000010000000a636f6e76696374696f6e00000003677465000000023735",
+      "sha256": "fbad4144d5eddd15cc6e518f710d89d025076977536dd55ad0041af4cc055a20"
+    },
+    {
+      "example": "E08",
+      "title": "negative zero and zero",
+      "inputs": [
+        {
+          "definitionId": "d",
+          "version": "1",
+          "populationIdentity": "0000000000000000000000000000000000000000000000000000000000000000",
+          "predicates": [
+            {
+              "field": "growth",
+              "operator": "eq",
+              "operand": "-0"
+            }
+          ]
+        },
+        {
+          "definitionId": "d",
+          "version": "1",
+          "populationIdentity": "0000000000000000000000000000000000000000000000000000000000000000",
+          "predicates": [
+            {
+              "field": "growth",
+              "operator": "eq",
+              "operand": "-0.000000"
+            }
+          ]
+        },
+        {
+          "definitionId": "d",
+          "version": "1",
+          "populationIdentity": "0000000000000000000000000000000000000000000000000000000000000000",
+          "predicates": [
+            {
+              "field": "growth",
+              "operator": "eq",
+              "operand": "0"
+            }
+          ]
+        }
+      ],
+      "canonical": {
+        "definitionId": "d",
+        "version": "1",
+        "populationIdentity": "0000000000000000000000000000000000000000000000000000000000000000",
+        "predicates": [
+          {
+            "field": "growth",
+            "operator": "eq",
+            "operand": "0"
+          }
+        ]
+      },
+      "octets": 112,
+      "preimageHex": "4e5031324445460001000000016400000001310000004030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030000000010000000667726f7774680000000265710000000130",
+      "sha256": "4150290668fd82b4b220698ab396ca1afc6ea8d3d702febe303e08bd34464e8c"
+    },
+    {
+      "example": "E09",
+      "title": "differing definitionId, including case significance",
+      "inputs": [
+        {
+          "definitionId": "D",
+          "version": "1",
+          "populationIdentity": "0000000000000000000000000000000000000000000000000000000000000000",
+          "predicates": []
+        }
+      ],
+      "canonical": {
+        "definitionId": "D",
+        "version": "1",
+        "populationIdentity": "0000000000000000000000000000000000000000000000000000000000000000",
+        "predicates": []
+      },
+      "octets": 91,
+      "preimageHex": "4e503132444546000100000001440000000131000000403030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303000000000",
+      "sha256": "9f175d838bda0b4d8000eb2a850369d7b8eaedd816b95eda09792d86b3f85adc"
+    },
+    {
+      "example": "E10",
+      "title": "differing version, preserving \"01\"",
+      "inputs": [
+        {
+          "definitionId": "d",
+          "version": "01",
+          "populationIdentity": "0000000000000000000000000000000000000000000000000000000000000000",
+          "predicates": []
+        }
+      ],
+      "canonical": {
+        "definitionId": "d",
+        "version": "01",
+        "populationIdentity": "0000000000000000000000000000000000000000000000000000000000000000",
+        "predicates": []
+      },
+      "octets": 92,
+      "preimageHex": "4e50313244454600010000000164000000023031000000403030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303000000000",
+      "sha256": "b42a70659934fa88d76404eca9695703fd44fbcaf0bbf9c61c52bb33de02a485"
+    },
+    {
+      "example": "E11",
+      "title": "differing populationIdentity",
+      "inputs": [
+        {
+          "definitionId": "d",
+          "version": "1",
+          "populationIdentity": "0000000000000000000000000000000000000000000000000000000000000001",
+          "predicates": []
+        }
+      ],
+      "canonical": {
+        "definitionId": "d",
+        "version": "1",
+        "populationIdentity": "0000000000000000000000000000000000000000000000000000000000000001",
+        "predicates": []
+      },
+      "octets": 91,
+      "preimageHex": "4e503132444546000100000001640000000131000000403030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303100000000",
+      "sha256": "d76606a436f01b640c0bfb12885ce26c2de48e0501ec865c282f32450a51f289"
+    },
+    {
+      "example": "E12",
+      "title": "Unicode spelling, precomposed scalar",
+      "inputs": [
+        {
+          "definitionId": "\u00e9",
+          "version": "1",
+          "populationIdentity": "0000000000000000000000000000000000000000000000000000000000000000",
+          "predicates": []
+        }
+      ],
+      "canonical": {
+        "definitionId": "\u00e9",
+        "version": "1",
+        "populationIdentity": "0000000000000000000000000000000000000000000000000000000000000000",
+        "predicates": []
+      },
+      "octets": 92,
+      "preimageHex": "4e503132444546000100000002c3a90000000131000000403030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303000000000",
+      "sha256": "11691bded231712ef571b53c6dd9bad445861450a1ee955f8f1bde3a7463a5ed"
+    },
+    {
+      "example": "E13",
+      "title": "distinct decomposed Unicode spelling",
+      "inputs": [
+        {
+          "definitionId": "e\u0301",
+          "version": "1",
+          "populationIdentity": "0000000000000000000000000000000000000000000000000000000000000000",
+          "predicates": []
+        }
+      ],
+      "canonical": {
+        "definitionId": "e\u0301",
+        "version": "1",
+        "populationIdentity": "0000000000000000000000000000000000000000000000000000000000000000",
+        "predicates": []
+      },
+      "octets": 93,
+      "preimageHex": "4e50313244454600010000000365cc810000000131000000403030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303000000000",
+      "sha256": "893a595e3dd5ceb697c75705f1359b45014286dffeb3c431bebf93e610de5550"
+    },
+    {
+      "example": "E14",
+      "title": "meaningful leading and trailing whitespace",
+      "inputs": [
+        {
+          "definitionId": " d ",
+          "version": "1",
+          "populationIdentity": "0000000000000000000000000000000000000000000000000000000000000000",
+          "predicates": []
+        }
+      ],
+      "canonical": {
+        "definitionId": " d ",
+        "version": "1",
+        "populationIdentity": "0000000000000000000000000000000000000000000000000000000000000000",
+        "predicates": []
+      },
+      "octets": 93,
+      "preimageHex": "4e5031324445460001000000032064200000000131000000403030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303000000000",
+      "sha256": "a12b6c0090ab451e5315119a05e59b8659faa31b4050ede694309a0a31ebdfd4"
+    }
+  ]
+}
