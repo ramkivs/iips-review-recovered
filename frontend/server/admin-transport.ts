@@ -302,7 +302,16 @@ function tenantFilter<T>(rows: readonly T[], p: Principal, tenantOf: (r: T) => s
 
 /** Transport-level error for governed validation failures (400/404/422) — distinct from auth 401/403. */
 export class TransportError extends Error {
-  constructor(readonly status: 400 | 404 | 422, message: string) {
+  /**
+   * `message` is a stable machine code (never an echo of client input). `detail` is optional and
+   * used only for server-side capability failures (e.g. 503 when an authoritative dependency is
+   * unavailable), so a caller can be told precisely what is missing without leaking input.
+   */
+  constructor(
+    readonly status: 400 | 403 | 404 | 405 | 422 | 503,
+    message: string,
+    readonly detail?: Readonly<Record<string, unknown>>,
+  ) {
     super(message);
     this.name = 'TransportError';
   }
