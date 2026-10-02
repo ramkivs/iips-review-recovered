@@ -531,6 +531,7 @@ const engineApi = new EngineApiAdapter();
 // Lazily-created live executors (real Keycloak), cached across requests.
 let adminExecutor: import('./secured-executor').SecuredExecutor | null = null;
 let aiExecutor: import('./secured-executor').SecuredExecutor | null = null;
+let reportsExecutor: import('./secured-executor').SecuredExecutor | null = null;
 
 // IU-5 — the non-production PIT read seam, wired into the REAL server composition.
 // One port, built once, over a real IPD PointInTimeStore read through the real
@@ -579,6 +580,24 @@ const server = http.createServer((req, res) => {
         await ai.handleAiAdvisoryRequest(req, res, executor);
       } catch (e) {
         res.writeHead(500); res.end(JSON.stringify({ error: 'ai-advisory transport error', detail: String(e) }));
+      }
+    })();
+    return;
+  }
+  // Reports product transport (G3 / NP-06 P1) — read-only boundary, G3-enforced.
+  // Dispatched on the `/api/reports/` namespace only, and bound to SecuredExecutor so that no
+  // Reports request can reach product code without server-derived principal enforcement. Fails
+  // closed with 401 when no executor is available (no IdP / no authoritative membership store).
+  if (req.url?.startsWith('/api/reports/')) {
+    void (async () => {
+      try {
+        const reports = await import('./reports-transport');
+        let executor = reportsExecutor;
+        if (!executor) { executor = await reports.createLiveReportsExecutor(); reportsExecutor = executor; }
+        if (!executor) { res.writeHead(401); res.end(JSON.stringify({ error: 'authentication unavailable (no IdP configured)' })); return; }
+        await reports.handleReportsRequest(req, res, executor);
+      } catch (e) {
+        res.writeHead(500); res.end(JSON.stringify({ error: 'reports transport error', detail: String(e) }));
       }
     })();
     return;
