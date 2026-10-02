@@ -35,12 +35,13 @@
  *     untrusted URL text, so a client cannot select (or escape) the authorized resource.
  *
  * Process composition:
- *   The authoritative NP-04 store CANNOT be constructed inside this repository today — the pinned
- *   dependency predates NP-04 and NP-04 publishes no persistence subpath (see `NP04_BOUNDARY`).
- *   This module therefore never fabricates one: `createLiveReportsPersistence()` resolves the
- *   authoritative module and returns `null` when it is unavailable, and artifact operations then
- *   fail closed with 503. There is no in-memory, test-only, or otherwise substituted store on any
- *   production path. `/api/reports/context` remains available because it does not touch storage.
+ *   The dependency boundary is RESOLVED — the pinned NP-04 commit exports `./persistence` and is
+ *   directly consumable (see `NP04_BOUNDARY`). The store is still constructed BY the authoritative
+ *   module, never by this repository: `createLiveReportsPersistence()` resolves it and returns
+ *   `null` when it is unavailable in this process (for example with no server-owned database path
+ *   configured), and artifact operations then fail closed with 503. There is no in-memory,
+ *   test-only, or otherwise substituted store on any production path. `/api/reports/context`
+ *   remains available because it does not touch storage.
  */
 import type http from 'node:http';
 import { AuthError } from '../src/core/auth/keycloakAdapter';
@@ -186,8 +187,9 @@ export async function createLiveReportsExecutor(): Promise<SecuredExecutor | nul
  * Resolve the authoritative NP-04 persistence store for this process.
  *
  * The narrowest composition interface the boundary permits: it resolves the authoritative module
- * through the declared port and adapts the store it exposes, and returns `null` when the module is
- * not available — which is the current, verified state (see `NP04_BOUNDARY`).
+ * through the declared port and adapts the store it exposes, and returns `null` when a live store
+ * cannot be produced in this process — for example when no server-owned database path is configured
+ * (see `NP04_BOUNDARY`; the dependency boundary itself is resolved).
  *
  * It NEVER substitutes a local, in-memory, or test-only implementation, and it constructs no
  * database of its own: the governed database is owned by NP-04 and by the process that owns it.

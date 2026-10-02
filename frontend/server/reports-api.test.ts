@@ -1,13 +1,14 @@
 /**
  * Program v3.0 — NP-06 Reports: Reports API / transport surface tests.
  *
- * HOW THIS IS TESTED WITHOUT THE NP-04 PACKAGE.
- * The authoritative NP-04 package cannot be imported in this repository (verified: the pinned
- * dependency predates NP-04 and NP-04 publishes no persistence subpath — see `NP04_BOUNDARY`).
- * Executing the real foundation is therefore done OUT of this suite:
+ * HOW THIS IS TESTED.
+ * The dependency boundary is RESOLVED: the pin is the published NP-04 commit `2e11fa3b`, which
+ * exports the `./persistence` subpath (see `NP04_BOUNDARY`). This suite still drives the HTTP
+ * surface through a TEST-ONLY port double rather than a live database, so that API semantics are
+ * isolated from storage. Executing the real foundation stays OUT of this suite:
  *   - NP-04's own dedicated 22-test suite, executed separately (reported);
- *   - an end-to-end run of THIS HTTP surface against the authoritative NP-04 module extracted at
- *     `bd5229d0`, over a real socket and across a real process restart (reported).
+ *   - an end-to-end run of THIS HTTP surface against the authoritative NP-04 module, over a real
+ *     socket and across a real process restart (reported).
  *
  * What lives here is the API contract, driven over REAL HTTP through a REAL `http.Server` and the
  * REAL `SecuredExecutor`. The port double below is TEST-ONLY: it is defined in this file, never
@@ -296,11 +297,17 @@ describe('NP-06 Reports API — this is a durability surface, not a transport st
     }
   });
 
-  it('reports the exact boundary as the 503 detail rather than degrading', async () => {
+  it('reports the exact boundary state as the 503 detail rather than degrading', async () => {
     const { body } = await call(ANALYST_A(), null, '/api/reports/artifacts', { token: 't' });
     const detail = body.detail as Record<string, unknown>;
-    expect(String(detail.blocker)).toMatch(/does not export a persistence subpath/);
-    expect(detail.authoritativeCommit).toBe('bd5229d01955feb0757bb1aa33252f9dc49dd68f');
+    // The boundary is reconciled: the detail must carry the PUBLISHED truth, not the historical
+    // blocker, and must still say why THIS process has no store.
+    expect(String(detail.blocker)).not.toMatch(/does not export a persistence subpath/);
+    expect(String(detail.blocker)).toMatch(/No dependency-boundary blocker remains/);
+    expect(String(detail.blocker)).toMatch(/server-owned database path/);
+    expect(detail.authoritativeCommit).toBe('2e11fa3b689d1a3674a5e4ba1f1de9a559e20494');
+    // No authorization change is outstanding on either side of the boundary.
+    expect(detail.requiresAuthorizedChange).toEqual([]);
   });
 
   it('keeps the non-durable context surface working without a store, and reports binding honestly', async () => {

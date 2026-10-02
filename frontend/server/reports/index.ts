@@ -46,9 +46,10 @@ export {
   type FrozenReportingEngineOutput,
 } from './composition.js';
 
-// Reports -> NP-04 persistence binding. The port is DECLARED, not imported: the authoritative
-// NP-04 package does not yet export a persistence subpath (see `NP04_BOUNDARY`). Reports owns no
-// storage; the port is injected by whoever owns the process.
+// Reports -> NP-04 persistence binding. The port is DECLARED structurally and the authoritative
+// module is resolved at runtime, so composition fails closed rather than failing to build; the
+// published NP-04 commit exports `./persistence` and is directly consumable (see `NP04_BOUNDARY`).
+// Reports owns no storage; the port is provided by whoever owns the process.
 export {
   PersistenceBoundaryError,
   assertNp04PersistencePort,

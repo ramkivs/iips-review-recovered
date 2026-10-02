@@ -1,14 +1,18 @@
 /**
  * Program v3.0 — NP-06 Reports: Reports → NP-04 persistence binding tests.
  *
- * HOW THIS IS TESTED WITHOUT THE NP-04 PACKAGE.
- * The authoritative NP-04 package cannot be imported in this environment (verified: the pinned
- * dependency predates NP-04, the NP-04 tip exports no persistence subpath, and the two have
- * diverged — see `NP04_BOUNDARY`). Executing the real foundation is therefore done OUT of this
- * suite, two ways:
- *   - NP-04's own dedicated 22-test suite, executed separately (reported);
- *   - an end-to-end run of THIS binding against the authoritative NP-04 module extracted at
- *     `bd5229d0`, including a real cross-process restart (reported).
+ * HOW THIS IS TESTED.
+ * The dependency boundary is RESOLVED: `frontend/package.json` pins the published NP-04 commit
+ * `2e11fa3b`, which exports the `./persistence` subpath, so the authoritative module now resolves in
+ * this environment and the descriptor's claims about it are asserted against reality rather than
+ * restated (see the boundary-descriptor test at the end of this file, and 15c).
+ *
+ * The binding contract itself is still exercised against a TEST-ONLY port double that reproduces
+ * NP-04's observable semantics, because the suite must not depend on a live database. Executing the
+ * real foundation stays OUT of this suite, two ways (both reported):
+ *   - NP-04's own dedicated 22-test suite, executed separately;
+ *   - an end-to-end run of THIS binding against the authoritative NP-04 module, including a real
+ *     cross-process restart.
  *
  * The resolver is additionally gated on a SERVER-OWNED database path, because NP-04 owns the schema
  * and migrations and must open its own handle: with no path configured it fails closed (see 15c/15e).
@@ -19,6 +23,8 @@
  * The double is defined IN THIS TEST FILE and is never imported by production code — there is no
  * Reports-local persistence implementation.
  */
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 import { describe, it, expect, vi } from 'vitest';
 import { ReportingEngine } from '../../../iips-platform/src/sector-engines/cross-sector/reporting/ReportingEngine';
 import type { Principal } from '../../../iips-platform/src/distributed/EnterpriseRuntime';
@@ -611,9 +617,13 @@ describe('Reports -> NP-04 binding — no Reports-specific storage', () => {
     }
   });
 
-  it('15c. the authoritative module is not resolvable today, and the boundary is reported', async () => {
+  it('15c. with no server-owned database path the resolver still fails closed, and states why', async () => {
     // Precondition made explicit: the resolver composes only when this process has a server-owned
     // database path. With none configured it must fail closed whatever the module state.
+    //
+    // The dependency boundary is now RESOLVED, so this is the fail-closed proof that matters: the
+    // published subpath being consumable must NOT cause the resolver to invent a store when the
+    // deployment has supplied no path.
     const saved = process.env[NP04_DATABASE_PATH_ENV];
     delete process.env[NP04_DATABASE_PATH_ENV];
     try {
@@ -622,9 +632,17 @@ describe('Reports -> NP-04 binding — no Reports-specific storage', () => {
       const resolution = await resolveAuthoritativeNp04Port();
       expect(resolution.available).toBe(false);
       if (!resolution.available) {
-        expect(resolution.boundary.directlyConsumable).toBe(false);
-        expect(resolution.boundary.persistedSubpathExported).toBe(false);
-        expect(resolution.reason).toMatch(/does not export a persistence subpath/);
+        // The published boundary: the subpath IS exported and IS consumable.
+        expect(resolution.boundary.persistedSubpathExported).toBe(true);
+        expect(resolution.boundary.directlyConsumable).toBe(true);
+        // So the reported reason must no longer claim a dependency blocker. It has to name the
+        // residual, deployment-side condition instead — and it must be the descriptor's own text,
+        // not a second hand-written opinion that could drift from it.
+        expect(resolution.reason).not.toMatch(/does not export a persistence subpath/);
+        expect(resolution.reason).not.toMatch(/requiresAuthorizedChange|not yet authorized/i);
+        expect(resolution.reason).toMatch(/server-owned database path/);
+        expect(resolution.reason).toMatch(/fail(s)? closed/);
+        expect(resolution.reason).toBe(NP04_BOUNDARY.blocker);
       }
     } finally {
       if (saved === undefined) delete process.env[NP04_DATABASE_PATH_ENV];
@@ -747,13 +765,58 @@ describe('Reports -> NP-04 binding — content mapping and canonicalization auth
     })).toBe(artifact.reportKey);
   });
 
-  it('the boundary descriptor pins the verified blocker', () => {
-    expect(NP04_BOUNDARY.authoritativeCommit).toBe('bd5229d01955feb0757bb1aa33252f9dc49dd68f');
-    expect(NP04_BOUNDARY.pinnedCommit).toBe('0dab1221fb0f89e2e0601ea905d642bfe72d5f9c');
-    expect(NP04_BOUNDARY.requiresAuthorizedChange).toHaveLength(2);
-    // The runtime half of the composition seam is stated separately from the dependency half:
-    // a server-owned path is deployment configuration, not a change to the published boundary.
+  it('the boundary descriptor states the published dependency truth coherently', async () => {
+    // --- the published half ----------------------------------------------------------------
+    expect(NP04_BOUNDARY.authoritativeBranch).toBe('np04-governed-persistence-windows');
+    expect(NP04_BOUNDARY.authoritativeCommit).toBe('2e11fa3b689d1a3674a5e4ba1f1de9a559e20494');
+    expect(NP04_BOUNDARY.pinnedDependency).toBe('iips-production-market-data');
+    expect(NP04_BOUNDARY.pinnedCommit).toBe('2e11fa3b689d1a3674a5e4ba1f1de9a559e20494');
+
+    // --- coherence with the REAL manifest, not with a second copy of the constant ----------
+    // Read the specifier this repository actually declares. A descriptor that has drifted from the
+    // manifest is precisely the failure this test must catch, so it must not be self-referential.
+    // Vitest's `import.meta.url` is not a `file:` URL, so resolve from the suite root explicitly
+    // and self-check that the manifest read is really this package's.
+    const manifest = JSON.parse(
+      readFileSync(resolve(process.cwd(), 'package.json'), 'utf8'),
+    ) as { name: string; dependencies: Record<string, string> };
+    expect(manifest.name).toBe('@iips/v3-frontend');
+    expect(manifest.dependencies[NP04_BOUNDARY.pinnedDependency]).toBe(
+      `github:ramkivs/iips-production-market-data#${NP04_BOUNDARY.pinnedCommit}`,
+    );
+    // The pin must track the published NP-04 commit — never a different commit, `main`, another
+    // branch, a `file:`/local path, or an Arena scratch package.
+    expect(NP04_BOUNDARY.pinnedCommit).toBe(NP04_BOUNDARY.authoritativeCommit);
+
+    // --- the consumability claims must be TRUE of reality, not merely asserted -------------
+    expect(NP04_BOUNDARY.persistedSubpathExported).toBe(true);
+    expect(NP04_BOUNDARY.directlyConsumable).toBe(true);
+    const mod = (await import(
+      /* @vite-ignore */ ['iips-production-market-data', 'persistence'].join('/')
+    )) as Record<string, unknown>;
+    // The subpath the descriptor says is exported really does resolve, and exposes exactly the
+    // authoritative members the resolver composes from: the descriptor is not overclaiming.
+    expect(typeof mod.openDatabase).toBe('function');
+    expect(typeof mod.GovernedArtifactStore).toBe('function');
+    const storePrototype = (mod.GovernedArtifactStore as { prototype: Record<string, unknown> })
+      .prototype;
+    for (const op of ['createInstance', 'appendVersion', 'resolveById', 'queryByOwner', 'listSupersededBy']) {
+      expect(typeof storePrototype[op], op).toBe('function');
+    }
+
+    // --- the resolved boundary must no longer require any authorization change -------------
+    expect(NP04_BOUNDARY.requiresAuthorizedChange).toEqual([]);
+    // No stale blocker text may survive the reconciliation.
+    expect(NP04_BOUNDARY.blocker).not.toMatch(/does not export a persistence subpath/);
+    expect(NP04_BOUNDARY.blocker).not.toMatch(/requires both|has diverged/);
+    expect(NP04_BOUNDARY.blocker).toMatch(/No dependency-boundary blocker remains/);
+
+    // --- the runtime half is unchanged, still server-owned, still deployment-scoped --------
+    // A server-owned path is deployment configuration, not a change to the published boundary.
     expect(NP04_BOUNDARY.runtimeDatabasePathEnv).toBe('IIPS_NP04_DATABASE_PATH');
     expect(NP04_BOUNDARY.runtimeComposition).toMatch(/absolute path/);
+    expect(NP04_BOUNDARY.runtimeComposition).toMatch(/server-owned/);
+    // The deployment variable stays single-sourced between the descriptor and the resolver.
+    expect(NP04_BOUNDARY.runtimeDatabasePathEnv).toBe(NP04_DATABASE_PATH_ENV);
   });
 });

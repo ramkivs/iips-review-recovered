@@ -22,8 +22,8 @@ import {
  * Bind an already-constructed authoritative NP-04 store instance.
  *
  * This is the composition-root entry point: whoever owns the process (the real server, or a test
- * harness) constructs the NP-04 store and injects it here. Reports never constructs it, because
- * constructing it requires the IPD dependency the boundary finding shows is not yet available.
+ * harness) constructs the NP-04 store and injects it here, or lets the resolver construct it from
+ * the published `./persistence` subpath. Reports never constructs a store of its own.
  */
 export function adaptNp04Store(store: unknown): ReportsPersistencePort {
   return assertNp04PersistencePort(store);

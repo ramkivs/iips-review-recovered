@@ -2,32 +2,36 @@
  * Program v3.0 — NP-06 Reports: the Reports → NP-04 persistence boundary.
  *
  * This module declares the EXACT consumer contract of the authoritative NP-04 common governed
- * persistence foundation, structurally. It has **no runtime dependency** on IPD: the types below
- * mirror `iips-production-market-data@bd5229d0:src/persistence/{store,identity}.ts` so that the
- * binding can be compiled, tested, and reviewed without the package being resolvable.
+ * persistence foundation, structurally. The types below mirror
+ * `iips-production-market-data@2e11fa3b:src/persistence/{store,identity}.ts` — the published commit
+ * this repository pins — so that the binding can be compiled, tested, and reviewed without the
+ * package having to be resolvable at build time.
  *
- * WHY A DECLARED PORT AND NOT A DIRECT IMPORT — the dependency boundary (verified, not assumed):
+ * THE DEPENDENCY BOUNDARY — RESOLVED (verified, not assumed):
  *
  *   1. The IRR dependency pin `frontend/package.json` →
- *      `github:ramkivs/iips-production-market-data#0dab1221fb0f89e2e0601ea905d642bfe72d5f9c`
- *      **predates NP-04 entirely**: that commit contains no `src/persistence` and exports only
- *      `./pit` and `./d114-non-production`.
- *   2. The authoritative NP-04 tip (`np04-governed-persistence-windows@bd5229d0`) **still does not
- *      export a persistence subpath**: `exports` contains only `./pit` and `./d114-non-production`,
- *      and `files: ["dist/package"]` means `src/persistence` is not even in the published file set.
- *      `import 'iips-production-market-data/persistence'` therefore fails with
- *      ERR_PACKAGE_PATH_NOT_EXPORTED even after `npm ci`.
- *   3. The pinned commit and the NP-04 branch have **diverged** (not ancestor/descendant).
+ *      `github:ramkivs/iips-production-market-data#2e11fa3b689d1a3674a5e4ba1f1de9a559e20494`
+ *      is the NP-04 commit published from the Windows authoritative checkout on
+ *      `np04-governed-persistence-windows` (parent `bd5229d0`).
+ *   2. That commit exports the `./persistence` subpath (`types` + `import`) and ships
+ *      `dist/package/persistence/`, so `import 'iips-production-market-data/persistence'` resolves
+ *      and exposes `openDatabase` and `GovernedArtifactStore`. That is the AUTHORITATIVE
+ *      implementation reached by subpath — not a copy, and not a second persistence surface.
+ *   3. HISTORICAL, NOW SUPERSEDED: the previously pinned commit `0dab1221` predated NP-04 (no
+ *      `src/persistence`; exports only `./pit` and `./d114-non-production`) and had diverged from
+ *      the NP-04 branch, so direct consumption was impossible. Both changes that were then required
+ *      — the IRR dependency pin, and the NP-04 persistence export plus its build config — have
+ *      since been made and durably published. No dependency-side authorization change remains.
  *
- * Consuming NP-04 directly therefore requires BOTH (a) an IRR dependency-pin change to the NP-04
- * commit/branch and (b) an NP-04 change adding a persistence export + build config. (b) is a
- * modification of NP-04 made for the convenience of this dependency, and (a) is a
- * dependency/lockfile change; neither is authorized by this step. Per instruction, that portion is
- * **not worked around** — no parallel persistence implementation is created, and no second
- * canonicalization authority is created.
+ * WHY THE PORT IS STILL DECLARED, AND STILL RESOLVED AT RUNTIME. The port remains structurally
+ * declared and the authoritative module is still resolved dynamically, for reasons that outlive the
+ * resolved blocker:
+ *   - composition must FAIL CLOSED rather than fail to build, so a process without the package, or
+ *     without the server-owned database path, answers 503 instead of substituting a store;
+ *   - Reports binds to exactly five named operations, so a candidate object is validated against
+ *     the declared port before use — a Reports-local store cannot masquerade as the foundation.
  *
- * This port is the smallest seam that makes the binding real and testable today, and makes the
- * eventual direct binding a one-line composition change once the boundary is authorized.
+ * Reports still owns NO storage: the store reached through this seam is NP-04's own.
  */
 
 /** An NP-04 stored artifact identity. Globally unique; never derived from canonical content. */
@@ -151,15 +155,37 @@ export function assertNp04PersistencePort(candidate: unknown): ReportsPersistenc
   return candidate as ReportsPersistencePort;
 }
 
-/** The verified dependency-boundary blocker, recorded in code so it cannot be silently forgotten. */
+/**
+ * The verified dependency-boundary state, recorded in code so it cannot drift silently.
+ *
+ * RECONCILIATION NOTE (NP-06 Reports — NP-04 boundary reconciliation). This descriptor previously
+ * recorded a BLOCKER: the pinned dependency predated NP-04 and the published package exposed no
+ * persistence subpath. Both required changes have since been made and durably published, so the
+ * descriptor now records the published, consumable state. The descriptor itself is deliberately
+ * RETAINED rather than deleted: a boundary record that is removed can be silently forgotten,
+ * whereas a reconciled one states exactly what is now true and what still has to hold.
+ */
 export interface Np04BoundaryDescriptor {
   readonly authoritativeBranch: string;
+  /** The published NP-04 commit consumed through the dependency pinned below. */
   readonly authoritativeCommit: string;
   readonly pinnedDependency: string;
+  /** The commit `frontend/package.json` / `package-lock.json` actually pin. */
   readonly pinnedCommit: string;
-  readonly persistedSubpathExported: false;
-  readonly directlyConsumable: false;
+  /** The published package declares and ships the `./persistence` export subpath. */
+  readonly persistedSubpathExported: true;
+  /** The authoritative store is reachable through that subpath. No dependency blocker remains. */
+  readonly directlyConsumable: true;
+  /**
+   * Residual condition for a LIVE store in a given process.
+   *
+   * With the dependency boundary resolved this no longer records a dependency blocker: the only
+   * thing between a process and a live authoritative store is DEPLOYMENT configuration — the
+   * server-owned database path. `requiresAuthorizedChange` is therefore empty, because no
+   * authorization change is outstanding on either side of the boundary.
+   */
   readonly blocker: string;
+  /** Dependency-side authorization changes still outstanding. Empty: none remain. */
   readonly requiresAuthorizedChange: readonly string[];
   /**
    * Server-owned environment variable naming the authoritative NP-04 database file.
@@ -176,20 +202,18 @@ export interface Np04BoundaryDescriptor {
 
 export const NP04_BOUNDARY: Np04BoundaryDescriptor = Object.freeze({
   authoritativeBranch: 'np04-governed-persistence-windows',
-  authoritativeCommit: 'bd5229d01955feb0757bb1aa33252f9dc49dd68f',
+  authoritativeCommit: '2e11fa3b689d1a3674a5e4ba1f1de9a559e20494',
   pinnedDependency: 'iips-production-market-data',
-  pinnedCommit: '0dab1221fb0f89e2e0601ea905d642bfe72d5f9c',
-  persistedSubpathExported: false,
-  directlyConsumable: false,
+  pinnedCommit: '2e11fa3b689d1a3674a5e4ba1f1de9a559e20494',
+  persistedSubpathExported: true,
+  directlyConsumable: true,
   blocker:
-    "The authoritative NP-04 tip does not export a persistence subpath (exports: only './pit' and " +
-    "'./d114-non-production'; files: ['dist/package']), and the IRR dependency pin predates NP-04 " +
-    'and has diverged from it. Direct consumption requires both an IRR dependency-pin change and ' +
-    'an NP-04 change adding a persistence export + build config.',
-  requiresAuthorizedChange: [
-    'IRR: change frontend/package.json + package-lock.json pin to the NP-04 commit/branch',
-    'NP-04: add a persistence export subpath and its build config',
-  ],
+    'No dependency-boundary blocker remains: the published NP-04 commit exports ./persistence ' +
+    '(types + import), ships dist/package/persistence, and is directly consumable, with no ' +
+    'authorization change outstanding on either side. A live store now turns only on deployment ' +
+    'configuration — the server-owned database path (see runtimeDatabasePathEnv) must be present; ' +
+    'with none configured the resolver still fails closed rather than substituting a store.',
+  requiresAuthorizedChange: [],
   runtimeDatabasePathEnv: 'IIPS_NP04_DATABASE_PATH',
   runtimeComposition:
     'Set IIPS_NP04_DATABASE_PATH (server-owned) to an absolute path. The resolver then imports the ' +
@@ -199,14 +223,12 @@ export const NP04_BOUNDARY: Np04BoundaryDescriptor = Object.freeze({
 });
 
 /**
- * Attempt to load the authoritative NP-04 persistence module.
+ * Runtime resolution of the authoritative NP-04 persistence module.
  *
- * Returns `null` when the module cannot be resolved — which is the current, verified state (see
- * `NP04_BOUNDARY`). It never substitutes a local implementation: failing closed is the correct
- * behaviour, and callers must supply a port explicitly.
- *
- * The specifier is computed at runtime so that TypeScript does not attempt to resolve a module that
- * this repository is not yet authorized to depend on.
+ * The specifier is computed at runtime rather than statically imported so that this repository
+ * BUILDS independently of the dependency's presence: an environment that cannot resolve the
+ * package fails closed at request time (503) rather than failing the build. A resolution failure is
+ * never a reason to substitute a local implementation.
  */
 /**
  * The server-owned environment variable naming the authoritative NP-04 database file.
@@ -239,9 +261,11 @@ function closeQuietly(database: unknown): void {
 /**
  * Attempt to load and CONSTRUCT the authoritative NP-04 persistence store.
  *
- * Returns `null` whenever a live authoritative store cannot be produced — the current, verified
- * state (see `NP04_BOUNDARY`). It never substitutes a local implementation, and it never returns a
- * store it did not obtain from the authoritative module.
+ * Returns `null` whenever a live authoritative store cannot be produced in THIS process — the
+ * package is not installed, the server-owned database path is unset, or any composition step fails.
+ * The dependency boundary itself is resolved (see `NP04_BOUNDARY`), so the residual condition is
+ * the deployment-supplied path rather than a missing export. It never substitutes a local
+ * implementation, and it never returns a store it did not obtain from the authoritative module.
  *
  * Composition (the seam Step 2 declared and Step 3 injected):
  *   1. read the SERVER-OWNED database path (`IIPS_NP04_DATABASE_PATH`) — absent ⇒ fail closed;
@@ -255,8 +279,8 @@ function closeQuietly(database: unknown): void {
  * earlier behaviour of treating the export itself as a port could never have succeeded — opening
  * the database first (step 3) is what makes the step-1/step-2 seam actually completable.
  *
- * The specifier is computed at runtime so TypeScript does not attempt to resolve a module this
- * repository is not yet authorized to depend on.
+ * The specifier is computed at runtime so that this repository builds — and fails closed — without
+ * the package having to be present, rather than depending on it at compile time.
  */
 export async function loadAuthoritativeNp04Persistence(): Promise<ReportsPersistencePort | null> {
   const databasePath = serverOwnedDatabasePath();
@@ -267,7 +291,7 @@ export async function loadAuthoritativeNp04Persistence(): Promise<ReportsPersist
   try {
     mod = (await import(/* @vite-ignore */ specifier)) as Record<string, unknown>;
   } catch {
-    return null; // subpath not exported/installed -> fail closed (see NP04_BOUNDARY)
+    return null; // package/subpath unavailable in this process -> fail closed (see NP04_BOUNDARY)
   }
 
   // A module that already exposes a constructed port is accepted as-is.
