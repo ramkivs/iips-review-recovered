@@ -14,12 +14,16 @@
  *    under the lockfile-pinned toolchain, and is pinned here as a golden vector. Any divergence in
  *    canonical bytes or derived key fails this suite.
  *
- * CONSOLIDATION OBLIGATION (recorded, not silently accepted): if the Reports tier later binds
- * directly to NP-04's canonicalization, this module must be reduced to a re-export rather than
- * retained as a parallel authority. Until then these vectors are what keep the two equivalent.
- * The IPD package cannot be imported today: the frontend dependency is pinned to
- * `#0dab1221` (predating NP-04) and NP-04 persistence exists only on the `np04-...-windows`
- * branch, not on IPD `main`.
+ * CONSOLIDATION STATUS (Requirement D — examined against the PUBLISHED dependency, and resolved):
+ * this module cannot be reduced to a re-export today. The published `./persistence` boundary exports
+ * the governed store, `openDatabase` and the error hierarchy only — no canonicalization — its
+ * `exports` map declares exactly three subpaths with no wildcard, deep-importing the shipped
+ * `reportKey.js` fails with `ERR_PACKAGE_PATH_NOT_EXPORTED`, and no source or declaration maps are
+ * published. Reduction would therefore require NP-04 itself to publish the symbol, which is outside
+ * this work's authority. The vectors below are consequently the proof that keeps the two
+ * implementations equivalent, and it is a proof against the shipped artifact: the published
+ * `dist/package/persistence/reportKey.js` of the pinned commit reproduces every one of them
+ * byte-for-byte, with identical derived keys. See the consolidation determination in canonical.ts.
  */
 import { describe, it, expect } from 'vitest';
 import { canonicalizeReportKey, deriveReportKey, canonicalizePayload, CanonicalizationError } from './canonical';

@@ -12,12 +12,40 @@
  * ("`reportKey` … recomputes correctly"). Reports cannot discharge that obligation without being
  * able to canonicalize.
  *
- * Because a second implementation of the same contract is a real divergence hazard, equivalence is
- * proven rather than asserted: `reports-canonical.test.ts` pins golden vectors produced by
- * executing the authoritative NP-04 implementation at
- * `iips-production-market-data@bd5229d0:src/persistence/reportKey.ts`, and requires byte-identical
- * canonical output and identical derived keys. Content identity therefore has exactly one meaning
- * across both repositories. See §"Consolidation obligation" in the test file.
+ * CONSOLIDATION DETERMINATION (Requirement D — resolved, NOT deferred)
+ * -------------------------------------------------------------------
+ * The dependency boundary is resolved and the published NP-04 package is directly consumable, so
+ * consolidation was re-examined against the PUBLISHED surface rather than assumed. Reduction of
+ * this module to a re-export is **technically impossible**, for four verified reasons:
+ *
+ *   1. The published `./persistence` boundary does not export canonicalization. Its runtime surface
+ *      is exactly `openDatabase`, `GovernedArtifactStore` and the eight `PersistenceError`
+ *      subclasses; its declaration file mentions canonicalization zero times.
+ *   2. The package `exports` map defines exactly three subpaths (`./pit`, `./d114-non-production`,
+ *      `./persistence`) with **no wildcard**, and `./package.json` is not exported either.
+ *      `reportKey.js` IS shipped inside the tarball, but importing it directly fails with
+ *      `ERR_PACKAGE_PATH_NOT_EXPORTED` — verified by execution, not inferred.
+ *   3. No `.map` files are published, so there is no declaration- or source-map route back to the
+ *      original `reportKey.ts` either.
+ *   4. The only canonicalization-adjacent value the published package exposes is
+ *      `GovernedArtifact.reportKey` — a derived field on an already-persisted artifact. Reaching it
+ *      requires opening a governed database and performing a write, so it is not a canonicalization
+ *      function and cannot serve as an adapter basis. There is therefore also no "smallest valid
+ *      adapter" over the exported contract: the authoritative exported contract does not contain
+ *      canonicalization at all.
+ *
+ * Closing the gap would require modifying NP-04 to publish the symbol. That is outside this task's
+ * authority — NP-04 is closed, and the published package must not be reopened for a consumer's
+ * convenience — so the current implementation is PRESERVED and the limitation is recorded here
+ * rather than worked around.
+ *
+ * Equivalence is therefore PROVEN rather than asserted, and is proved against the PUBLISHED
+ * artifact: `reports-canonical.test.ts` pins golden vectors, and the shipped
+ * `dist/package/persistence/reportKey.js` of the pinned commit reproduces every one of them
+ * byte-for-byte with identical derived keys (re-confirmed against the published artifact, not only
+ * against a historical extraction). Content identity therefore has exactly one meaning across both
+ * repositories: there is exactly one authoritative implementation — NP-04's — and this module is
+ * held to it by proof.
  *
  * `reportKey` is deterministic CONTENT identity. It is never instance identity — see artifact.ts.
  */
