@@ -161,6 +161,17 @@ export interface Np04BoundaryDescriptor {
   readonly directlyConsumable: false;
   readonly blocker: string;
   readonly requiresAuthorizedChange: readonly string[];
+  /**
+   * Server-owned environment variable naming the authoritative NP-04 database file.
+   *
+   * This is DEPLOYMENT configuration, not a change to the dependency boundary, which is why it is
+   * separate from `requiresAuthorizedChange`. It is read from the server process environment only:
+   * never from the request body, the query string, the URL, client identity, or any other
+   * client-supplied configuration.
+   */
+  readonly runtimeDatabasePathEnv: string;
+  /** What the process must provide for the composition seam to produce a live store. */
+  readonly runtimeComposition: string;
 }
 
 export const NP04_BOUNDARY: Np04BoundaryDescriptor = Object.freeze({
@@ -179,6 +190,12 @@ export const NP04_BOUNDARY: Np04BoundaryDescriptor = Object.freeze({
     'IRR: change frontend/package.json + package-lock.json pin to the NP-04 commit/branch',
     'NP-04: add a persistence export subpath and its build config',
   ],
+  runtimeDatabasePathEnv: 'IIPS_NP04_DATABASE_PATH',
+  runtimeComposition:
+    'Set IIPS_NP04_DATABASE_PATH (server-owned) to an absolute path. The resolver then imports the ' +
+    "authoritative './persistence' subpath, opens the governed database, constructs the authorized " +
+    'store over it, and returns the five-operation port. Any step failing yields null and the durable ' +
+    'surfaces answer 503: no substitute store is ever created.',
 });
 
 /**
@@ -191,13 +208,92 @@ export const NP04_BOUNDARY: Np04BoundaryDescriptor = Object.freeze({
  * The specifier is computed at runtime so that TypeScript does not attempt to resolve a module that
  * this repository is not yet authorized to depend on.
  */
+/**
+ * The server-owned environment variable naming the authoritative NP-04 database file.
+ *
+ * Mirrors the established server-side configuration seam (`IIPS_TENANT_MEMBERSHIP_PATH`): read from
+ * the process environment, never from a request. An absent value means "this process has no
+ * governed store", which fails closed rather than falling back to anything else.
+ */
+export const NP04_DATABASE_PATH_ENV = 'IIPS_NP04_DATABASE_PATH';
+
+/** Read the server-owned database path. Returns null unless it is a non-empty string. */
+function serverOwnedDatabasePath(): string | null {
+  const raw = process.env[NP04_DATABASE_PATH_ENV];
+  if (typeof raw !== 'string' || raw.length === 0) return null;
+  return raw;
+}
+
+/** Best-effort close of a half-constructed handle, so a failed composition leaks nothing. */
+function closeQuietly(database: unknown): void {
+  const close = (database as { close?: unknown } | null | undefined)?.close;
+  if (typeof close === 'function') {
+    try {
+      (close as () => void).call(database);
+    } catch {
+      // A failed cleanup must not mask the original composition failure.
+    }
+  }
+}
+
+/**
+ * Attempt to load and CONSTRUCT the authoritative NP-04 persistence store.
+ *
+ * Returns `null` whenever a live authoritative store cannot be produced — the current, verified
+ * state (see `NP04_BOUNDARY`). It never substitutes a local implementation, and it never returns a
+ * store it did not obtain from the authoritative module.
+ *
+ * Composition (the seam Step 2 declared and Step 3 injected):
+ *   1. read the SERVER-OWNED database path (`IIPS_NP04_DATABASE_PATH`) — absent ⇒ fail closed;
+ *   2. import the authoritative `iips-production-market-data/persistence` subpath;
+ *   3. open the governed database with NP-04's own `openDatabase` (schema/migrations stay NP-04's);
+ *   4. construct NP-04's `GovernedArtifactStore` over that handle, and
+ *   5. verify the result implements the five-operation port before handing it to the caller.
+ *
+ * NP-04 keeps ownership of the schema, migrations, instance identity, version numbering,
+ * supersession, and durability: this function only *addresses* them. A store is a class, so the
+ * earlier behaviour of treating the export itself as a port could never have succeeded — opening
+ * the database first (step 3) is what makes the step-1/step-2 seam actually completable.
+ *
+ * The specifier is computed at runtime so TypeScript does not attempt to resolve a module this
+ * repository is not yet authorized to depend on.
+ */
 export async function loadAuthoritativeNp04Persistence(): Promise<ReportsPersistencePort | null> {
+  const databasePath = serverOwnedDatabasePath();
+  if (databasePath === null) return null; // no server-owned path -> fail closed
+
   const specifier = ['iips-production-market-data', 'persistence'].join('/');
+  let mod: Record<string, unknown>;
   try {
-    const mod = (await import(/* @vite-ignore */ specifier)) as Record<string, unknown>;
-    const candidate = mod.GovernedArtifactStore ?? mod;
-    return assertNp04PersistencePort(candidate);
+    mod = (await import(/* @vite-ignore */ specifier)) as Record<string, unknown>;
   } catch {
+    return null; // subpath not exported/installed -> fail closed (see NP04_BOUNDARY)
+  }
+
+  // A module that already exposes a constructed port is accepted as-is.
+  try {
+    return assertNp04PersistencePort(mod.GovernedArtifactStore ?? mod);
+  } catch {
+    // Expected for the authoritative shape: `GovernedArtifactStore` is a CLASS, and its five
+    // operations live on the prototype, so the class itself is not a port. Construct it below.
+  }
+
+  const StoreClass = mod.GovernedArtifactStore;
+  const openDatabase = mod.openDatabase;
+  if (typeof StoreClass !== 'function' || typeof openDatabase !== 'function') return null;
+
+  let database: unknown;
+  try {
+    database = (openDatabase as (options: Record<string, unknown>) => unknown)({
+      path: databasePath,
+      createDirectory: true,
+      migrate: true,
+    });
+    const store = new (StoreClass as new (db: unknown) => unknown)(database);
+    return assertNp04PersistencePort(store);
+  } catch {
+    // Ownership of the handle transfers only with a validated port: close it if we failed.
+    closeQuietly(database);
     return null;
   }
 }

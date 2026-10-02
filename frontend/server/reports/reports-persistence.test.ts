@@ -10,6 +10,9 @@
  *   - an end-to-end run of THIS binding against the authoritative NP-04 module extracted at
  *     `bd5229d0`, including a real cross-process restart (reported).
  *
+ * The resolver is additionally gated on a SERVER-OWNED database path, because NP-04 owns the schema
+ * and migrations and must open its own handle: with no path configured it fails closed (see 15c/15e).
+ *
  * What lives here is the binding contract. It is exercised against a TEST-ONLY port double that
  * reproduces NP-04's observable semantics (owner scoping, minted instance ids, version increment,
  * head-only supersession, chain addressing, durable write-through to a shared backing store).
@@ -20,7 +23,7 @@ import { describe, it, expect, vi } from 'vitest';
 import { ReportingEngine } from '../../../iips-platform/src/sector-engines/cross-sector/reporting/ReportingEngine';
 import type { Principal } from '../../../iips-platform/src/distributed/EnterpriseRuntime';
 import { ReportsPersistence, ReportPersistenceError, toNp04Content, recomputeReportKey } from './persistence';
-import { assertNp04PersistencePort, loadAuthoritativeNp04Persistence, NP04_BOUNDARY, PersistenceBoundaryError } from './persistence-port';
+import { assertNp04PersistencePort, loadAuthoritativeNp04Persistence, NP04_BOUNDARY, NP04_DATABASE_PATH_ENV, PersistenceBoundaryError } from './persistence-port';
 import { adaptNp04Store, resolveAuthoritativeNp04Port } from './np04-adapter';
 import { deriveReportKey } from './canonical';
 import type {
@@ -609,14 +612,60 @@ describe('Reports -> NP-04 binding — no Reports-specific storage', () => {
   });
 
   it('15c. the authoritative module is not resolvable today, and the boundary is reported', async () => {
-    const port = await loadAuthoritativeNp04Persistence();
-    expect(port).toBeNull(); // no substitute is returned
-    const resolution = await resolveAuthoritativeNp04Port();
-    expect(resolution.available).toBe(false);
-    if (!resolution.available) {
-      expect(resolution.boundary.directlyConsumable).toBe(false);
-      expect(resolution.boundary.persistedSubpathExported).toBe(false);
-      expect(resolution.reason).toMatch(/does not export a persistence subpath/);
+    // Precondition made explicit: the resolver composes only when this process has a server-owned
+    // database path. With none configured it must fail closed whatever the module state.
+    const saved = process.env[NP04_DATABASE_PATH_ENV];
+    delete process.env[NP04_DATABASE_PATH_ENV];
+    try {
+      const port = await loadAuthoritativeNp04Persistence();
+      expect(port).toBeNull(); // no substitute is returned
+      const resolution = await resolveAuthoritativeNp04Port();
+      expect(resolution.available).toBe(false);
+      if (!resolution.available) {
+        expect(resolution.boundary.directlyConsumable).toBe(false);
+        expect(resolution.boundary.persistedSubpathExported).toBe(false);
+        expect(resolution.reason).toMatch(/does not export a persistence subpath/);
+      }
+    } finally {
+      if (saved === undefined) delete process.env[NP04_DATABASE_PATH_ENV];
+      else process.env[NP04_DATABASE_PATH_ENV] = saved;
+    }
+  });
+
+  it('15d-1. the resolver fails closed unless a server-owned database path is configured', async () => {
+    const saved = process.env[NP04_DATABASE_PATH_ENV];
+    try {
+      // Absent, empty and non-absolute are all refused. Each of these is deterministic regardless
+      // of whether the authoritative package happens to be installed: NP-04 itself rejects a
+      // non-absolute path, so a relative value can never yield a store either way.
+      for (const value of [undefined, '', 'relative/not-absolute.sqlite']) {
+        if (value === undefined) delete process.env[NP04_DATABASE_PATH_ENV];
+        else process.env[NP04_DATABASE_PATH_ENV] = value;
+        expect(await loadAuthoritativeNp04Persistence(), String(value)).toBeNull();
+      }
+    } finally {
+      if (saved === undefined) delete process.env[NP04_DATABASE_PATH_ENV];
+      else process.env[NP04_DATABASE_PATH_ENV] = saved;
+    }
+  });
+
+  it('15d-2. the resolver returns only null or a complete five-operation port — never a substitute', async () => {
+    const saved = process.env[NP04_DATABASE_PATH_ENV];
+    process.env[NP04_DATABASE_PATH_ENV] = `${process.env.TMPDIR ?? '/tmp'}/np06-resolver-invariant.sqlite`;
+    try {
+      // Whether the authoritative package is installed in this environment or not, the contract is
+      // the same: a store, or null. A partial or foreign object is never handed back.
+      const port = await loadAuthoritativeNp04Persistence();
+      if (port !== null) {
+        for (const op of ['createInstance', 'appendVersion', 'resolveById', 'queryByOwner', 'listSupersededBy']) {
+          expect(typeof port[op as keyof typeof port]).toBe('function');
+        }
+      } else {
+        expect(port).toBeNull();
+      }
+    } finally {
+      if (saved === undefined) delete process.env[NP04_DATABASE_PATH_ENV];
+      else process.env[NP04_DATABASE_PATH_ENV] = saved;
     }
   });
 
@@ -702,5 +751,9 @@ describe('Reports -> NP-04 binding — content mapping and canonicalization auth
     expect(NP04_BOUNDARY.authoritativeCommit).toBe('bd5229d01955feb0757bb1aa33252f9dc49dd68f');
     expect(NP04_BOUNDARY.pinnedCommit).toBe('0dab1221fb0f89e2e0601ea905d642bfe72d5f9c');
     expect(NP04_BOUNDARY.requiresAuthorizedChange).toHaveLength(2);
+    // The runtime half of the composition seam is stated separately from the dependency half:
+    // a server-owned path is deployment configuration, not a change to the published boundary.
+    expect(NP04_BOUNDARY.runtimeDatabasePathEnv).toBe('IIPS_NP04_DATABASE_PATH');
+    expect(NP04_BOUNDARY.runtimeComposition).toMatch(/absolute path/);
   });
 });

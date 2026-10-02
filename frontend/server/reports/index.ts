@@ -54,6 +54,7 @@ export {
   assertNp04PersistencePort,
   loadAuthoritativeNp04Persistence,
   NP04_BOUNDARY,
+  NP04_DATABASE_PATH_ENV,
   type Np04ArtifactContent,
   type Np04AuthenticatedOwner,
   type Np04BoundaryDescriptor,
