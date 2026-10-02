@@ -1,11 +1,14 @@
 /**
  * Program v3.0 — NP-06 Reports: canonical artifact composition boundary (public surface).
  *
- * Scope of the current implementation step: canonical artifact type, deterministic `reportKey`,
- * the §5.3 validation contract, and composition from the frozen CSIP `ReportingEngine` output.
+ * Scope implemented so far: the canonical artifact type, deterministic `reportKey`, the §5.3
+ * validation contract, composition from the frozen CSIP `ReportingEngine` output, and the binding
+ * onto the authorized NP-04 common governed persistence foundation.
  *
- * Deliberately NOT present: durable storage, NP-04 consumption, `/api/reports/*` transport, UI,
- * navigation, or projections. Persistence is reached in a later bounded step, through NP-04.
+ * Reports owns NO storage. The persistence port is injected; there is no Reports-specific database
+ * and no Reports-minted durable identity.
+ *
+ * Deliberately NOT present: `/api/reports/*` transport, Reports UI, navigation, or projections.
  */
 export {
   CANONICAL_SCHEMA_VERSION,
@@ -42,3 +45,37 @@ export {
   type ComposeReportContentInput,
   type FrozenReportingEngineOutput,
 } from './composition.js';
+
+// Reports -> NP-04 persistence binding. The port is DECLARED, not imported: the authoritative
+// NP-04 package does not yet export a persistence subpath (see `NP04_BOUNDARY`). Reports owns no
+// storage; the port is injected by whoever owns the process.
+export {
+  PersistenceBoundaryError,
+  assertNp04PersistencePort,
+  loadAuthoritativeNp04Persistence,
+  NP04_BOUNDARY,
+  type Np04ArtifactContent,
+  type Np04AuthenticatedOwner,
+  type Np04BoundaryDescriptor,
+  type Np04GovernedArtifact,
+  type Np04QueryOptions,
+  type Np04QueryPage,
+  type Np04ReportId,
+  type Np04SupersessionView,
+  type ReportsPersistencePort,
+} from './persistence-port.js';
+
+export {
+  ReportPersistenceError,
+  ReportsPersistence,
+  recomputeReportKey,
+  toNp04Content,
+  type ReportPage,
+  type ReportSupersession,
+} from './persistence.js';
+
+export {
+  adaptNp04Store,
+  resolveAuthoritativeNp04Port,
+  type Np04Resolution,
+} from './np04-adapter.js';
