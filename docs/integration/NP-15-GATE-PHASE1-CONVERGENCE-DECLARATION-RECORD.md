@@ -400,10 +400,20 @@ scope (1A + 1B + 1C) and remains open in its own workstream.
 
 ### E. Durability
 
-> ## ✅ **DURABLE / REMOTELY VERIFIED** — *pending completion of the §11 publication sequence*
+> ## 🟡 **PARTIALLY DURABLE** — **IRR: DURABLE / REMOTELY VERIFIED** · **IPD: NOT DURABLE / UNPUBLISHED**
 >
 > **Authorized by D-NP15-11 (2026-10-03): commit + push directly to `main` in both repositories,
 > then independently remote-verify and cross-reference by commit SHA.**
+>
+> **IRR half: COMPLETE.** IRR `refs/heads/main` @ **`6dd5906262c9a94a87c8bcd321bc69b96c73707a`** —
+> independently remote-verified via `git ls-remote`, `gh api commits/main`, and
+> `gh api contents/…` (both files present).
+>
+> **IPD half: BLOCKED.** The sandbox GitHub credential is an integration token scoped to IRR only.
+> `git push` → 403; contents API → 403 `Resource not accessible by integration`. **IPD remote
+> verified UNCHANGED at `4d3e1cdca3a33da0ec3be8b336b17128108a502c`.** Full root cause and
+> disposition at **§8.1**. This is a **credential-scope failure, not a governance failure** —
+> authority was granted; the token cannot execute it.
 >
 > **Publication sequence (§11), executed in this order to terminate the cross-reference:**
 > 1. **IRR commit 1** — declaration record (this file) + NP-15 v1.2 investigation record → `SHA_IRR_1`
@@ -510,15 +520,64 @@ This gate did **NOT**:
 
 | Step | Repository | Ref | Commit SHA | Files | Remote verification |
 |---|---|---|---|---|---|
-| 1 | **IRR** `ramkivs/iips-review-recovered` | `refs/heads/main` | *pending* | `docs/integration/NP-15-BROAD-IPD-PHASE-1-CONVERGENCE-INVESTIGATION-RECORD.md`, `docs/integration/NP-15-GATE-PHASE1-CONVERGENCE-DECLARATION-RECORD.md` | *pending* |
-| 2 | **IPD** `ramkivs/iips-production-market-data` | `refs/heads/main` | *pending* | `evidence/target-shell-integration/NP-15-PHASE1-CONVERGENCE-DECLARATION-EVIDENCE.md` | *pending* |
-| 3 | **IRR** `ramkivs/iips-review-recovered` | `refs/heads/main` | *pending* | cross-reference addendum | *pending* |
+| 1 | **IRR** `ramkivs/iips-review-recovered` | `refs/heads/main` | ✅ **`6dd5906262c9a94a87c8bcd321bc69b96c73707a`** | `docs/integration/NP-15-BROAD-IPD-PHASE-1-CONVERGENCE-INVESTIGATION-RECORD.md` (blob `373be3c6…`), `docs/integration/NP-15-GATE-PHASE1-CONVERGENCE-DECLARATION-RECORD.md` (blob `02f50b87…`) | ✅ **VERIFIED** — `git ls-remote` + `gh api commits/main` + `gh api contents/…` (both files present, sizes 102,349 and 33,618 bytes) |
+| 2 | **IPD** `ramkivs/iips-production-market-data` | `refs/heads/main` | ❌ **FAILED — NOT PUBLISHED** | `evidence/target-shell-integration/NP-15-PHASE1-CONVERGENCE-DECLARATION-EVIDENCE.md` | ❌ **BLOCKED — see §8.1** |
+| 3 | **IRR** `ramkivs/iips-review-recovered` | `refs/heads/main` | ✅ terminal commit recording §8.1 + holding copy | this record + `docs/integration/NP-15-IPD-SIDE-EVIDENCE-PENDING-IPD-PUBLICATION.md` | pending this commit |
 
 | Cross-reference | Value |
 |---|---|
-| IRR record → IPD evidence | cites IPD `refs/heads/main` @ *`SHA_IPD_1`* |
-| IPD evidence → IRR record | cites IRR `refs/heads/main` @ *`SHA_IRR_1`* |
-| Terminal IRR commit | *`SHA_IRR_2`* |
+| IRR record → IPD evidence | ❌ **NOT ESTABLISHED** — no IPD commit SHA exists. Interim holding copy at IRR `docs/integration/NP-15-IPD-SIDE-EVIDENCE-PENDING-IPD-PUBLICATION.md` |
+| IPD evidence → IRR record | ⚠️ one-directional — the unpublished IPD artifact cites IRR `6dd5906262c9a94a87c8bcd321bc69b96c73707a`, but that citation is itself **not durable** |
+| Terminal IRR commit | this commit |
+
+### 8.1 IPD PUBLICATION FAILURE — ROOT CAUSE AND DISPOSITION
+
+> **D-NP15-11 was granted. Publication to IPD nevertheless FAILED for a technical/credential
+> reason, not for want of authority.**
+
+**Attempts and results:**
+
+| # | Method | Result |
+|---|---|---|
+| 1 | `git clone` IPD → clean, at `4d3e1cdc…`, parity verified | ✅ succeeded |
+| 2 | `git add` + `git commit` (local, scratch clone) → `3d05a5127b853dd0c520df1e6ed27dbad26c4595` | ✅ succeeded locally |
+| 3 | `git push origin HEAD:refs/heads/main` | ❌ **403** — `Permission to ramkivs/iips-production-market-data.git denied to ramkivs` |
+| 4 | Contents API `PUT /repos/ramkivs/iips-production-market-data/contents/…` | ❌ **403** — `Resource not accessible by integration` |
+
+**Root cause.** The Arena sandbox GitHub credential is an **integration (GitHub App) token scoped to
+`ramkivs/iips-review-recovered` only**. It has **no write access to
+`ramkivs/iips-production-market-data`.** Note the diagnostic trap avoided: `gh api
+repos/ramkivs/iips-production-market-data --jq .permissions` reports `admin: true, push: true`,
+but that field reflects the **user's** permissions, **not the integration token's effective
+scope** — the token cannot write despite the API appearing to permit it.
+
+**Actions taken in response:**
+
+1. The local IPD commit `3d05a512…` was **reset** (`git reset --hard 4d3e1cdc…`) so no unpushed
+   commit masquerades as published state.
+2. **IPD remote verified UNCHANGED**: `ramkivs/iips-production-market-data` `refs/heads/main`
+   remains at `4d3e1cdca3a33da0ec3be8b336b17128108a502c`. **Nothing was written to IPD.**
+3. The artifact content was recovered from the dangling commit and preserved **in IRR** at
+   `docs/integration/NP-15-IPD-SIDE-EVIDENCE-PENDING-IPD-PUBLICATION.md`, carrying a prominent
+   banner stating it is **NOT published to IPD** and that **IRR is a holding location, not the
+   declared destination**.
+
+> ### Durability consequence
+>
+> | Component | Status |
+> |---|---|
+> | **IRR** governance record + declaration | ✅ **DURABLE / REMOTELY VERIFIED** at IRR `main` `6dd5906262c9a94a87c8bcd321bc69b96c73707a` |
+> | **IPD** convergence evidence | ❌ **NOT DURABLE / UNPUBLISHED** — blocked by integration-token scope |
+> | **IRR ↔ IPD cross-reference by commit SHA** | ❌ **NOT ESTABLISHED** |
+>
+> **The NP-15 declaration is unaffected.** Convergence was declared by Ramki (Program Authority)
+> and is recorded durably in IRR. D-NP15-7's "both repositories" destination was a **durability
+> requirement**, not a validity condition of the declaration. Its IRR half is satisfied; its IPD
+> half is **blocked**, not waived.
+
+**Required to complete D-NP15-7 / D-NP15-11:** GitHub access for
+`ramkivs/iips-production-market-data` must be (re)connected in Arena with write scope, after which
+step 2 is re-executed and the holding copy relocated or deleted.
 
 **Local branch hygiene (disclosed).** The Arena session branch
 `arena/01a1020f-iips-review-recovered` was created from `main@bb756c0` and was 2 commits behind
