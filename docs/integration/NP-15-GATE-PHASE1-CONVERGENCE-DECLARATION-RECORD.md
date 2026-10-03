@@ -579,6 +579,31 @@ scope** — the token cannot write despite the API appearing to permit it.
 `ramkivs/iips-production-market-data` must be (re)connected in Arena with write scope, after which
 step 2 is re-executed and the holding copy relocated or deleted.
 
+### 8.2 D-NP15-12 — Disposition of the IPD publication failure
+
+**Decided by:** Ramki (Program Authority), 2026-10-03.
+
+> ## ✅ **KEEP THE IRR HOLDING COPY. D-NP15-7's IPD HALF REMAINS BLOCKED. REVISIT LATER.**
+
+| Effect | Recording |
+|---|---|
+| IRR holding copy | ✅ **RETAINED** at `docs/integration/NP-15-IPD-SIDE-EVIDENCE-PENDING-IPD-PUBLICATION.md`, banner intact |
+| IPD publication | ⏸️ **DEFERRED, NOT WAIVED** — re-executed when IPD write access exists |
+| D-NP15-7 IPD half | ❌ **REMAINS UNSATISFIED** — recorded as blocked, not as complete |
+| D-NP15-7 IRR half | ✅ **SATISFIED** and remotely verified |
+| IRR ↔ IPD cross-reference by commit SHA | ❌ **NOT ESTABLISHED** |
+| NP-15 declaration validity | ✅ **UNAFFECTED** |
+
+**Conditions for revisiting:** (a) GitHub access for `ramkivs/iips-production-market-data` is
+(re)connected in Arena with write scope; then (b) step 2 of §8 is re-executed — the artifact is
+published to `evidence/target-shell-integration/NP-15-PHASE1-CONVERGENCE-DECLARATION-EVIDENCE.md`
+on IPD `main`; (c) the IRR holding copy is deleted or relocated in a separate additive commit;
+(d) the IRR↔IPD cross-reference by commit SHA is established and §8 table updated.
+
+**Standing warning carried forward.** While the holding copy sits in IRR, it remains
+**NOT PUBLISHED TO IPD**. It must not be cited as IPD-side evidence. Any future reader of the IRR
+record must treat D-NP15-7 as **half-satisfied** until §8 step 2 completes.
+
 **Local branch hygiene (disclosed).** The Arena session branch
 `arena/01a1020f-iips-review-recovered` was created from `main@bb756c0` and was 2 commits behind
 `origin/main` when PR #33 landed. To make the authorized push to `main` fast-forwardable, the
