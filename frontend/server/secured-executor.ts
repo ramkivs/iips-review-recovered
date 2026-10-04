@@ -12,6 +12,14 @@
  */
 import { EnterpriseRuntime, type Principal, type Role } from '../../iips-platform/src/distributed/EnterpriseRuntime';
 import { KeycloakSessionValidator, mapKeycloakRoles, AuthError, type OidcRealmMetadata, type OidcVerifier } from '../src/core/auth/keycloakAdapter';
+import {
+  D115CompanyAuthorizer,
+  D115ContextResolver,
+  D115ResolutionError,
+  type D115SelectionHint,
+  type CompanyScopedResource,
+  type RuntimeCompanyContext,
+} from './d115-runtime';
 
 export interface TenantDirectory {
   /** Map an external subject to the authoritative tenant (platform-validated). */
@@ -41,6 +49,37 @@ export class SecuredExecutor {
     if (!tenant) throw new AuthError(401, 'no-valid-tenant');
     const roles: Role[] = mapKeycloakRoles(id.claims) as Role[];
     return { userId: governedUserId, tenantId: tenant.tenantId, roles };
+  }
+
+  /**
+   * D115 insertion point: preserve G3 authentication and tenant validation, then resolve the
+   * server-side Owner/Account → Company Binding → canonical CompanyId context. A client hint is
+   * advisory only; the resolver owns the authority decision and fails closed.
+   */
+  async authenticateWithRuntimeCompanyContext(
+    credential: unknown,
+    resolver: D115ContextResolver,
+    selectionHint?: D115SelectionHint,
+  ): Promise<RuntimeCompanyContext> {
+    const principal = await this.authenticate(credential);
+    return resolver.resolve(principal, selectionHint);
+  }
+
+  /** Enforce D115 company membership, canonical CompanyId equality, RBAC, and resource policy. */
+  async authorizeCompany(
+    principal: Principal,
+    context: RuntimeCompanyContext,
+    authorizer: D115CompanyAuthorizer,
+    action: string,
+    resource: CompanyScopedResource,
+  ): Promise<Principal> {
+    try {
+      await authorizer.authorize(principal, context, action, resource);
+      return principal;
+    } catch (error) {
+      if (error instanceof D115ResolutionError) throw new AuthError(403, error.code);
+      throw error;
+    }
   }
 
   /**
