@@ -31,6 +31,21 @@ NP-07's qualified **implementation** and this qualification **record** live on d
 
 The six NP-07 source/test files are **byte-identical** on both refs (verified below), so the execution on `main` is representative of both. The record itself is **not on `main`** and no claim of mainline record durability is made.
 
+### Addendum — `main` advanced during this gate (2026-10-04T07:28Z)
+
+After qualification was executed and before this record was finalized, `main` advanced by one commit:
+
+| | Commit | Note |
+| --- | --- | --- |
+| Qualified against | `ac8a751c3d80bc24f7d9a0a3cf4d4931ab9501bd` | the coordinate used for all execution in §3 |
+| `main` tip at record finalization | `2e32348fbd0bf7ab5e38f9bed92e63aa25a10322` | `docs(np-13): publish D2-B operational ref binding and initial evidence decision` |
+
+The advancing commit added **one documentation file** — `docs/integration/NP-13-PA-D2-B-REF-BINDING-EVIDENCE-DECISION-01.md` — an NP-13 governance record with no relationship to NP-07.
+
+**All eight NP-07 artifacts were re-verified byte-identical at `2e32348f…`** (the six source/test files, plus `server/engine-transport.test.ts` and `app/App.tsx`). The qualification therefore remains valid at the new tip.
+
+The qualification coordinate is nonetheless recorded as **`ac8a751c…`**, because that is the commit against which execution actually occurred. It is not restated as `2e32348f…`, which would imply execution that did not happen at that commit.
+
 ---
 
 ## 1. NP-07 Identity and Qualification Scope
