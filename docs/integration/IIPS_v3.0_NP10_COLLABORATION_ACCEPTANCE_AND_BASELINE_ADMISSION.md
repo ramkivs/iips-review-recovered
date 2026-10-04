@@ -26,7 +26,8 @@ authorization by the sole Acceptance Authority.
 | Field | Value |
 | --- | --- |
 | **Accepting Authority** | **Program Authority — Ramki (Ramakrishnan)** |
-| **Authority basis** | `NP-12-N4-A15-AUTHORITY-DECISION-RECORD.md` (IRR `main`): *"Program Authority (Ramki / Ramakrishnan) is the sole Acceptance Authority."* Decision `D-N4-CERT-07`: *"Confirm Program Authority (Ramki) as sole Acceptance Authority."* Corroborated by `NP-12-N4-A12-AUTHORITY-DECISION-RECORD.md` and `NP-12-A8-S-03-FAILED-BRANCH-AUTHORITY-DECISION-RECORD.md` |
+| **Authority basis** | **`NP-13-D0-01.md`** (IRR `main`, `docs/integration/`) — **Signer: Ramki (Ramakrishnan), Program Authority; Status: D0 — ESTABLISHED / JURISDICTION DESIGNATED; Ratification: RATIFIED; 2026-10-02.** §1.3 vests **"Feature-baseline DEFINITION + COMPOSITION + MEMBERSHIP"** in the designated holder; §3.9 confirms *"Membership is within jurisdiction (§1.3, J-3) but no membership determination is made by this record"*; §8 establishes the holder (§2.1), the subject matters J-1 / J-2 / **J-3 membership**, and that **each exercise be its own explicit act** (§2.3). `NP-13-D0-01` §4.8 names **NP-10** among the membership determinations, and §4.10 recorded *"NP-10 and NP-11 membership gaps — neither has any acceptance or promotion record on any ref"* |
+| **Authority status** | **Corrected 2026-10-04 (AN-05).** The record originally cited the NP-12-scoped `NP-12-N4-A15-AUTHORITY-DECISION-RECORD.md` as its authority basis. That citation was **mis-scoped** and has been replaced by `NP-13-D0-01`. See §2.2 |
 | **Authorization act** | Explicit acceptance authorization granted by Program Authority during `GATE-NP10-ACCEPTANCE-R1`, 2026-10-04 |
 | **Decision date** | 2026-10-04 |
 
@@ -41,6 +42,27 @@ authorization by the sole Acceptance Authority.
 The investigation, evidence verification, drafting, commit, and push were executed by
 `arena-agent`. **The acceptance decision itself is the act of Program Authority.** The
 agent holds no acceptance authority of its own and claims none.
+
+### 2.2 Authority-citation rectification (`AN-05`) — 2026-10-04
+
+**This is a citation/governance-record correction. It is not a new acceptance act, and it does
+not alter the acceptance decision, scope, evidence, or authorization history of this record.**
+
+**Before → Evidence → Correction → Reason**
+
+| | |
+| --- | --- |
+| **Before** | This record's **Authority basis** (§2) and **References** (§15) cited `NP-12-N4-A15-AUTHORITY-DECISION-RECORD.md` (`D-N4-CERT-07`: *"Program Authority (Ramki / Ramakrishnan) is the sole Acceptance Authority"*) as the authority basis for NP-10 acceptance |
+| **Evidence** | `NP-12-N4-A15` is rendered within the **NP-12 N4 certification-envelope** context. Its `D-N4-CERT-06` explicitly limits the parallel certification authority to `N4-SD`, `N4-A10`, `N4-A13` and the combined `NP-12 N4` envelope. Read strictly, it is **not** a program-wide acceptance-authority instrument and does **not** govern NP-10. Conversely, `NP-13-D0-01` **does** govern: §1.3 vests feature-baseline **MEMBERSHIP** in the designated holder, §4.8 **names NP-10** among the membership determinations, and §4.10 recorded the NP-10 membership gap this record closes |
+| **Correction** | The operative authority basis is restated as **`NP-13-D0-01` §1.3 / §2.1 / §2.3 / §3.9 / §4.8 / §4.10**. `NP-12-N4-A15` is retained only as **corroboration of the Program Authority role**, explicitly marked **not operative** |
+| **Reason** | Prevent NP-12-specific authority from being reused as acceptance authority for another workstream. The underlying disposition is **unchanged**: Program Authority (Ramki) authorized this acceptance explicitly on 2026-10-04 |
+
+**Explicitly preserved by this rectification:** the acceptance decision (`NP-10-ACCEPT-01`),
+the accepted scope, the qualification reference (`689d5c8f…`), the implementation coordinate
+(`ba8ea1df…`), all evidence, and the authorization history. **Nothing substantive changed.**
+
+**Explicitly not affected:** NP-12 `N4-A15` and `N4-A16` are unmodified; NP-12 remains
+`COMPLETED / CLOSED / CERTIFIED AND ACCEPTED` within its approved N4 envelope.
 
 ---
 
@@ -272,7 +294,9 @@ existing commit `ba8ea1df74b10be5ed46bc12494ec1f651a20235`.
 | Qualification | `689d5c8f586d6cffccde42199bed1834361acfe8` — `IIPS_v3.0_NP10_COLLABORATION_NON_PRODUCTION_QUALIFICATION.md` |
 | Implementation | `ba8ea1df74b10be5ed46bc12494ec1f651a20235` |
 | Acceptance gate | `GATE-NP10-ACCEPTANCE-R1` |
-| Authority | `NP-12-N4-A15-AUTHORITY-DECISION-RECORD.md` (IRR `main`) |
+| Authority — **operative** | `NP-13-D0-01.md` (IRR `main`, `docs/integration/`) — §1.3 / §2.1 / §2.3 / §3.9 / §4.8 / §4.10. **Corrected 2026-10-04 (`AN-05`)** |
+| Authority — corroborating, **not operative** | `NP-12-N4-A15-AUTHORITY-DECISION-RECORD.md` (IRR `main`, root) — `D-N4-CERT-07`. NP-12-scoped; **not** the authority basis for NP-10 |
+| Rectification | `AN-05` — authority-citation correction, 2026-10-04; see §2.2 |
 
 ---
 
