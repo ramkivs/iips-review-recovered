@@ -116,17 +116,19 @@ This statement was **verified against the corpus** before adoption (§12) — it
 
 | Search term | Occurrences on `origin/main` | Result |
 |---|---:|---|
-| `NAS` (word-boundary) | **7** — all inside the boundary phrase, in 4 acts | No source linkage |
+| `NAS` (word-boundary) | **7** — all inside the boundary phrase, in 4 acts | No authoritative source linkage |
 | `National Accounts Statistics` | **0** | Absent |
 | `national accounts` | **0** | Absent |
 | `NSO` (word-boundary) | **0** | Absent |
 | `sourceAgency` | **1** — D8 line 64 only, qualified **"e.g."** | Example vocabulary only |
 | `source provider` | **0** | Absent |
-| `MoSPI` | 9 — candidate / exclusion / contract-example / entitlement-withheld | **Never linked to NAS** |
+| `MoSPI` | 9 — candidate / exclusion / contract-example / entitlement-withheld | **Not linked to `NAS` by any authoritative record on `origin/main`** |
 
-> # ⚠️ **`NAS` IS NOT LINKED TO ANY SOURCE ANYWHERE IN THE IRR CORPUS.**
+> # ⚠️ **NO AUTHORITATIVE RECORD ON `origin/main` LINKS `NAS` TO ANY SOURCE.**
 >
 > **MoSPI is NOT assigned to `NAS` by this act.** The gate expressly forbids assigning MoSPI merely because NAS is generally associated with national statistics. **No source is invented.**
+>
+> **Evidence-scope note.** Non-authoritative implementation evidence outside `origin/main` does link `NAS` to MoSPI in code — on `phase13-next` and `gai-impl-canonical`: `SOURCE_ID = 'MoSPI'`, `APPROVED_DATASETS = ['NAS', 'CPI', 'IIP']`, `NAS: '/api/nas/getNASData'`, and `NAS: { label: 'National Accounts Statistics' }`. That evidence is **absent from `origin/main`**, is implementation rather than governance, and confers no designation, entitlement, acquisition authority, or provenance. Its existence does **not** resolve the `NAS` source question.
 
 ---
 
@@ -459,8 +461,8 @@ Not authorized by this act:
 
 | # | Dependency | Status | Gate |
 |---:|---|---|---|
-| 1 | **NAS source identification** | ⚠️ **UNRESOLVED** — no corpus linkage to any source | Separate investigation |
-| 2 | **MoSPI dataset-coverage evidence** | ⚠️ **UNRESOLVED** — 0 coverage statements in corpus | Provider designation gate |
+| 1 | **NAS source identification** | ⚠️ **UNRESOLVED** — no authoritative linkage to any source on `origin/main`; non-authoritative implementation linkage exists on other refs | Separate investigation |
+| 2 | **MoSPI dataset-coverage evidence** | ⚠️ **UNRESOLVED** — no authoritative coverage statement establishing MoSPI coverage for NAS/CPI/IIP exists on `origin/main`; non-authoritative implementation evidence exists on other refs | Provider designation gate |
 | 3 | **Provider designation** | ❌ **NOT YET MADE** | **NEXT gate** |
 | 4 | Provider entitlement / licensing | ❌ **NOT GRANTED** | After designation |
 | 5 | Acquisition implementation | ❌ **NOT AUTHORIZED** | Separate authorization |
