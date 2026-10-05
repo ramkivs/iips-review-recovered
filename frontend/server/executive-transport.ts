@@ -603,8 +603,9 @@ const server = http.createServer((req, res) => {
   // NP-08 / D08 MACRO — governed Macro read (additive).
   // Authorized by NP-08-D08-MACRO-IMPLEMENTATION-AUTHORITY-DECISION-ACT-01
   // (D1 implementation · D2 creation on origin/main · D3 throttled no-auth).
-  // Boundary: NAS / CPI / IIP only. MoSPI is NOT designated; no entitlement,
-  // M-3, production or D08 expansion is implied by this route.
+  // Boundary: NAS / CPI / IIP only. MoSPI is designated for the governed
+  // NAS/CPI/IIP Macro scope; no entitlement, M-3, production or D08 expansion
+  // is implied by this route.
   // Dispatched on the `/api/macro/` namespace only. The handler enforces
   // EXACT dataset matching, so a path that merely starts with the macro route
   // (e.g. /api/macro/nasEVIL) is a 404 and never reaches the MoSPI boundary.
