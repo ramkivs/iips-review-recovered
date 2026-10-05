@@ -600,6 +600,26 @@ const server = http.createServer((req, res) => {
     })();
     return;
   }
+  // NP-08 / D08 MACRO — governed Macro read (additive).
+  // Authorized by NP-08-D08-MACRO-IMPLEMENTATION-AUTHORITY-DECISION-ACT-01
+  // (D1 implementation · D2 creation on origin/main · D3 throttled no-auth).
+  // Boundary: NAS / CPI / IIP only. MoSPI is NOT designated; no entitlement,
+  // M-3, production or D08 expansion is implied by this route.
+  // Dispatched on the `/api/macro/` namespace only. The handler enforces
+  // EXACT dataset matching, so a path that merely starts with the macro route
+  // (e.g. /api/macro/nasEVIL) is a 404 and never reaches the MoSPI boundary.
+  // This is purely additive: no existing route is touched.
+  if (req.url?.startsWith('/api/macro/')) {
+    void (async () => {
+      try {
+        const macro = await import('./macro/macro-transport');
+        await macro.handleMacroRequest(req, res);
+      } catch (e) {
+        res.writeHead(500); res.end(JSON.stringify({ error: 'macro transport error', detail: String(e) }));
+      }
+    })();
+    return;
+  }
   // E2E-025 Engine Integration — public certified-engine registry + direct dispatch (additive; uses governed runtime, not a scoring recomputation).
   if (req.url === '/api/engines' && req.method === 'GET') {
     res.writeHead(200); res.end(JSON.stringify(engineApi.listEngines())); return;
