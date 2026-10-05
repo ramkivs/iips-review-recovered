@@ -220,3 +220,32 @@ The Finding E mutation was committed as one atomic five-path commit. The act fil
 - Stale-designation search in the four implementation files: **PASS — no stale match**.
 
 Remote publication and independent remote-coordinate verification are recorded in the following durability appendix after the fixed session branch is pushed.
+
+---
+
+## 11. DURABILITY APPENDIX — INDEPENDENT REMOTE VERIFICATION
+
+The fixed Arena session branch was published, then independently checked through the remote ref and fetched remote-tracking object state.
+
+| Remote coordinate | Verified value |
+|---|---|
+| Remote ref | `refs/heads/arena/01a10b3c-iips-review-recovered` |
+| Remote publication commit | `094728637877f34d2f8746e3c3a70844b52530d9` |
+| Remote publication parent | `e0a6e6bc0ce2955dde2f03efb7a04baaa57fb0c8` |
+| Remote publication tree | `03f5080255ed714dd9e1414626c43fd8a1345901` |
+| Remote act blob | `dc76f6872a4e5d8d2aecf100e57a73827b4ff17f` |
+| Remote act SHA-256 | `6756cf63dafb35eba0aa1917b127468d81e0183100e6b593c9fb185e74eea59f` |
+| Remote corrected-file blobs | Byte-identical to §10 |
+
+Independent checks:
+
+- `git ls-remote` remote commit matched local `HEAD`: **PASS**.
+- Fetched remote-tracking commit matched the published commit: **PASS**.
+- Fetched remote-tracking tree matched the published tree: **PASS**.
+- Remote parent chain matched the expected mutation commit and pre-mutation session commit: **PASS**.
+- Remote act and all four corrected implementation blobs matched the recorded coordinates: **PASS**.
+- Provider-designation act remained byte-identical to the authoritative `origin/main` provider act: **PASS**.
+
+This establishes durability on the fixed Arena session branch only. The authoritative `origin/main` ref was not pushed or altered because direct pushes to `main` are prohibited by the Arena execution controls. No authoritative-main completion is claimed.
+
+*End of act.*
