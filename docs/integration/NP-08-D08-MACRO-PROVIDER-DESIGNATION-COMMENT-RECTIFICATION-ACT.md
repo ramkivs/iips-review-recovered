@@ -183,3 +183,40 @@ IPD                 = UNTOUCHED
 ```
 
 *End of Finding E Provider-Designation Comment Rectification Act.*
+
+---
+
+## 10. EXECUTION RECORD — LOCAL MUTATION COMMIT
+
+The Finding E mutation was committed as one atomic five-path commit. The act file was then amended with this execution record; the corrected implementation blobs below remain unchanged by that metadata amendment.
+
+| Item | Value |
+|---|---|
+| Mutation commit | `e0a6e6bc0ce2955dde2f03efb7a04baaa57fb0c8` |
+| Mutation parent | `b21df5cc474aa4cd9c5b9634bf0497bc51cba628` |
+| Mutation tree | `d6ffd5bc34289618da6d016cd6f1a2973a1017c2` |
+| Act blob in mutation commit | `38cff19a4331a37d6f2067907abc1d497094b48d` |
+| Act SHA-256 in mutation commit | `df83002ead31bedf363932734808c4305f7f29706ec11fb6c9ad4ea5f0e2280b` |
+| Mutation paths | This act plus exactly the four implementation files in §4 |
+
+### Corrected implementation coordinates
+
+| File | Corrected blob | Corrected SHA-256 |
+|---|---|---|
+| `frontend/server/executive-transport.ts` | `535211cfceb78c146bf0d5982348ad78637f15b6` | `cb42aa8c1320595ce0caa0daf156c3542232a1d4129f2f7f3a35f0bdfbbea94f` |
+| `frontend/server/macro/mospi-source.ts` | `03b4bb047251feccb8ba4654f2d19ee37fbe43ac` | `470ea48c7c6ff40516751c50572ee52733f096ea6ed3216c59a58a6c40ea1b50` |
+| `frontend/src/api/macro.ts` | `0050940185a16769239b067d7170059334ea46d5` | `34494f41a2b64dadfd514f5f42feee4396ea40f1ef0bb885e8542ff62516f4c1` |
+| `frontend/src/features/research/MacroContext.tsx` | `883088b604dd2e482bdf415f315525080093c175` | `807472f83d32112f062ee89e312e906b54dbd2ce725aefa8a5bbb91e8055c2e6` |
+
+### Verification evidence before publication
+
+- Comment-only diff assertion: **PASS**.
+- `git diff --check`: **PASS**.
+- Provider-designation act byte identity against `origin/main`: **PASS**.
+- Prior D89 act and `MacroSourceDisclosure` implementation/test byte identity against the pre-mutation session commit: **PASS**.
+- Targeted Macro tests: **PASS — 3 files, 56 tests**.
+- Typecheck: **PASS — `npm run typecheck`**.
+- Production build: **PASS — `npm run build`**.
+- Stale-designation search in the four implementation files: **PASS — no stale match**.
+
+Remote publication and independent remote-coordinate verification are recorded in the following durability appendix after the fixed session branch is pushed.
