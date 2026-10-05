@@ -241,7 +241,7 @@ The UI **MUST NOT** fabricate a data period, base year, freshness, “last evalu
 
 If a product owner elects to display the GSDD classification, the UI **MAY** use only a clearly labelled factual classification such as:
 
-> **GSDD 2019 classification: Category A — open access data, shared free of cost.**
+> **Open access data — MoSPI GSDD 2019, Category A.**
 
 This optional line must be identified as a **GSDD classification**, not as a licence, permission, attribution rule or commercial-use statement. Scope qualifiers are mandatory:
 
