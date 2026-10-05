@@ -863,7 +863,7 @@ Where a tracker exists, it is not relied on alone.
 | **NP-05** | unknown | **UNKNOWN** | no artifact | **UNKNOWN** |
 | **NP-06** | unknown | **UNKNOWN** | no artifact | **UNKNOWN** |
 | **NP-07** | unknown | **UNKNOWN** | no artifact | **UNKNOWN** |
-| **NP-08** | unknown | **UNKNOWN** | no artifact | **UNKNOWN** |
+| **NP-08** | unknown | **UNKNOWN in the NP-xx tracker namespace — the Intelligence subject matter is governed by `GATE-Y`; see §11.1** | no **NP-08-named** artifact exists; the Intelligence subject matter is governed by `GATE-Y` (2026-09-27) — **see §11.1** | **SEE §11.1 — `GATE-Y` GOVERNS** |
 | **NP-09** | cited as precedent | **UNKNOWN (cited, not present)** | `NP-13-D0-01` §1.2 cites `NP-09-AUTH-01`; **no file exists** | **UNKNOWN — EVIDENCE GAP** |
 | **NP-10** | cited as precedent | **UNKNOWN (cited, not present)** | `NP-13-D0-01` §1.2 cites `NP-10-AUTH-01`; no file | **UNKNOWN — EVIDENCE GAP** |
 | **NP-11** | cited as precedent | **UNKNOWN (cited, not present)** | `NP-13-D0-01` §1.2 cites `NP-11-AUTH-01`, `NP-11-D1`; no file | **UNKNOWN — EVIDENCE GAP** |
@@ -874,6 +874,78 @@ Where a tracker exists, it is not relied on alone.
 **Cross-namespace warning.** `NP-04` in IPD is **not** `NP-04` in IRR's NP series. IPD uses
 `P01…P17`, `BI-01…BI-08`, `IU-1…IU-8`, `NP04`, `F-3/F-8/F-9`, `D05/D36/D38/D41/D42/D88/D91/D114/D115`,
 `E2E-0xx`, `WS-*`; IRR uses `NP-12/NP-13`, `IU-5/6/7/8`, `G-2/G-3`, `IES-0xx`, `D42`, `E2E-0xx`.
+
+---
+
+### 11.1 NP-08 / Intelligence — Reconciliation with `GATE-Y` (added 2026-10-04 — `P-5`)
+
+> **Status of this subsection:** an **additive reconciliation note**. It is **not** a new
+> governance act, and it **creates no qualification, certification, acceptance, baseline
+> admission, closure, implementation authority, or production authority** for NP-08.
+
+#### 11.1.0 Historical fact preserved — this record did not consider `GATE-Y`
+
+This record was produced on **2026-10-03** and contains **zero** references to `GATE-Y`,
+`arena/01a0ddae`, or `evidence/intelligence-data-supply-governance`. That omission is **preserved
+as a historical fact** and is **not** retroactively edited away. The rows above and at §6.3 /
+§8 reflect what this investigation actually found at the time it was performed.
+
+#### 11.1.1 What `GATE-Y` had already established (durably verified 2026-10-04)
+
+| Item | Evidence | State |
+|---|---|---|
+| **`GATE-Y` designation + gate selection act** | `gate-y-intel-data-supply-designation-selection-2026-09-27-001`; IPD `arena/01a0ddae` @ `95f36cf4324b1c218dcd47538741ef1b5960e181` (2026-09-27T15:27:27Z, **Ramaki**); blob `aa7746096f24c367322d10a6dcd216ea30fb5815` (18,089 B). Mirrored into IRR `arena/01a0e30f` @ `17c759cd` — **identical blob** | **`INTELLIGENCE_DATA_SUPPLY_GATE` = SELECTED / OPENED FOR GOVERNANCE RESOLUTION** |
+| **M-1** | `D06-M1-…DATASET-COMMISSIONING-ACT` (`275922f2`) + deposition/acceptance (`0ac3f3c6`); `D07-M1-…` (`b0faa13f`) + deposition/acceptance (`62330df0`) | **Established and accepted** for D06 and D07 |
+| **M-2** | `gate-y-m2-intelligence-data-authorization-2026-09-27-001`; IPD `arena/01a0ddae` @ `7db93a6e`; blob `bd3be4024d8910f62860ec46cc267d646c0bc454` (20,776 B) | **Authorized** by a separate act |
+| **M-3** | `D06-M3-…PROVENANCE-ACCEPTANCE-ACT` (`dde0ee73`, blob `939ec6ff…`); `D07-M3-…` (`9f608d94`, blob `0ba5a9f4…`) | **Provenance established and accepted** for D06 and D07 |
+| **M-4** | `D8-INTELLIGENCE-DOMAIN-SCOPE-DETERMINATION-ACT` (`a2eee107`, blob `a2b4179f…`): *"M-4 \| NOT ESTABLISHED — dependency-blocked (D115 WITHHELD)"* | **UNRESOLVED — dependency-blocked** (D115 WITHHELD; `runtimeCompanyId` UNRESOLVED) |
+| **M-5** | Same act: *"M-5 \| CONDITIONAL — relief NOT REQUESTED / NOT GRANTED"*; `D06-D07-UI-INTEGRATION-AUTHORIZATION-ACT` (`a5fb6369`, blob `61373a1e…`): *"D91/D88 … NOT GRANTED"* | **UNRESOLVED — conditional** |
+| **NP-08 qualification / certification / acceptance / baseline admission / closure** | Exhaustive sweep of all 50 IRR + 32 IPD branches: **no such act exists**; `NP-08`/`NP08` content hits in IPD = **0** | **NOT ESTABLISHED** |
+
+#### 11.1.2 Why `GATE-Y` governs the NP-08 pending-state determination
+
+1. **It is the later governance act on the same subject matter.** `GATE-Y` (2026-09-27) postdates
+   the Phase-1C deferral (`phase1c-intel-deferred-completion-2026-09-22-001`, 2026-09-22) and
+   **opens** the very path that deferral left ungranted.
+2. **It is a RAMKI authority act.** This record is an `arena-agent` **investigation** record.
+   Where the two differ, the authority act governs.
+3. **This record does not supersede `GATE-Y`.** Nothing in §6.3, §8, or §11 purports to
+   adjudicate the Intelligence data-supply question; those rows address **functional completion**
+   and the **Phase-1C governance closure**, which is a different question.
+4. **The two are not in conflict on their own terms.** This record's `M-1..M-5 OPEN` statements
+   concern **functional completion** (`§6.3`: *"NO — functionality NOT complete"*), which remains
+   true. `GATE-Y` explicitly withholds implementation authority, so the partial/presentational
+   product state recorded here is **consistent** with `GATE-Y`, not contradicted by it.
+
+#### 11.1.3 Reconciled reading (do not collapse these states)
+
+| Dimension | State per this record (`main`, functional) | State per `GATE-Y` (governance) | Reconciled |
+|---|---|---|---|
+| `/intelligence` product surface | `partial` / presentational, Decision Matrix `unavailable` | Unchanged — implementation authority **not granted** | **Both agree: not functionally complete** |
+| M-1 / M-2 / M-3 | Recorded `OPEN` (not examined) | **Established / authorized / accepted** (D06, D07) | **`GATE-Y` governs: NOT pending** |
+| M-4 | Not examined | **UNRESOLVED — dependency-blocked (D115 WITHHELD)** | **PENDING — P-1** |
+| M-5 | Not examined | **UNRESOLVED — conditional (D91/D88 not granted)** | **PENDING — P-2** |
+| M-series commission | Not examined | Reserved as a **future, separate RAMKI authority act** | **PENDING — P-3** |
+| Qualification / certification / acceptance / closure | `no artifact` | **Not granted; no such act exists** | **NOT ESTABLISHED** |
+| `GATE-Y` corpus durability | Not examined | On **unmerged** IPD branch (ahead 50 / behind 0); `evidence/intelligence-data-supply-governance/` is **404 on IPD `main`** | **Separate issue — P-4. Not resolved here.** |
+
+#### 11.1.4 What this subsection explicitly does NOT do
+
+* Does **not** resolve **M-4** or establish `runtimeCompanyId`, or resolve **D115**.
+* Does **not** grant or request **D91/D88** relief, and does **not** resolve **M-5**.
+* Does **not** create an NP-08 qualification, certification, acceptance, or baseline admission.
+* Does **not** grant implementation or production authority; `productionEligible` remains `false`.
+* Does **not** modify `GATE-Y`, M-1, M-2, M-3, NP-12, NP-13, or NP-10.
+* Does **not** mutate IPD (`ramkivs/iips-production-market-data`) — read-only for this task; the
+  authoritative NP-15 record exists **only** in IRR.
+* Does **not** resolve **P-4** (durability/placement of the `GATE-Y` corpus), and does **not**
+  make any **C-1 / C-2** determination under `NP-13-D0-01` **GAP-6**, which remains **OPEN**.
+* Does **not** rewrite the historical finding above; the omission is preserved at §11.1.0.
+
+**Namespace note (retained).** No `NP-08`-named artifact exists in either repository. The
+Intelligence workstream's governance is filed under **D8 / `GATE-Y` / Phase-1C** identifiers in
+IPD, not under the `NP-xx` tracker namespace used in the table above. The `NP-08` row's original
+"no artifact" finding is **factually correct as to naming** and is retained as such.
 
 ---
 
