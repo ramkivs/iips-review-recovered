@@ -8,10 +8,10 @@
  *
  * GOVERNANCE — carried, not expanded:
  *   - D08 boundary: NAS / CPI / IIP only.
- *   - MoSPI is NOT designated by this module; `source` is a technical
- *     identifier echoed from the transport.
- *   - No entitlement, no commercial use, no redistribution, no caching,
- *     no retention right is granted or implied.
+ *   - MoSPI is designated for the governed NAS/CPI/IIP Macro scope; `source`
+ *     remains a technical identifier echoed from the transport.
+ *   - That designation does not establish entitlement, commercial use,
+ *     redistribution, caching, or retention permission.
  *   - M-3 is NOT established. `provenance` carries CANDIDATE implementation
  *     dimensions only.
  *

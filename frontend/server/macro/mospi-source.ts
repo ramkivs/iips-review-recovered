@@ -10,8 +10,10 @@
  *   D3  authentication ........................... OPTION A — throttled NO-AUTH
  *   D4  dependency/toolchain provisioning ........ AUTHORIZED
  *
+ * Established separately — D08 provider designation:
+ *   MoSPI provider designation ................... DESIGNATED — NAS/CPI/IIP only
+ *
  * NOT granted here — each remains a SEPARATE governance gate:
- *   MoSPI provider designation ................... NOT DESIGNATED
  *   entitlement / commercial use ................. NOT GRANTED
  *   redistribution / caching / retention ......... NOT GRANTED
  *   M-3 provenance authority ..................... NOT ESTABLISHED
@@ -19,8 +21,9 @@
  *   D08 boundary expansion ....................... NOT AUTHORIZED
  *
  * `MACRO_SOURCE_ID` below is a TECHNICAL SOURCE IDENTIFIER required to build
- * the governed request URL. It is NOT a provider designation, it is NOT an
- * entitlement, and it does NOT imply any commercial or redistribution right.
+ * the governed request URL. It corresponds to the established MoSPI provider
+ * designation for D08 NAS/CPI/IIP; it is NOT an entitlement, and it does NOT
+ * imply any commercial or redistribution right.
  *
  * D08 boundary: NAS / CPI / IIP only. Nothing else may be added here.
  *
@@ -35,7 +38,7 @@
 /** D08 Macro dataset boundary. Exhaustive — do not extend without governance. */
 export type MacroDataset = 'NAS' | 'CPI' | 'IIP';
 
-/** Technical source identifier (NOT a provider designation). */
+/** Technical source identifier for the designated D08 Macro provider. */
 export const MACRO_SOURCE_ID = 'MoSPI';
 
 /** The D08-approved dataset set. Extending this is a boundary expansion. */
