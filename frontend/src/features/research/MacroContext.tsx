@@ -13,8 +13,9 @@
  *
  * GOVERNANCE — carried, not expanded:
  *   - D08 boundary: NAS / CPI / IIP only.
- *   - MoSPI is NOT designated. No entitlement, commercial use, redistribution,
- *     caching or retention right is granted or implied.
+ *   - MoSPI is designated for the governed NAS/CPI/IIP Macro scope. No
+ *     entitlement, commercial use, redistribution, caching or retention right
+ *     is granted or implied by provider designation.
  *   - M-3 is NOT established; provenance returned upstream carries CANDIDATE
  *     implementation dimensions only.
  *
