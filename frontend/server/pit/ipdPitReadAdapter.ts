@@ -18,10 +18,12 @@
  * must not manufacture PIT records. Whatever store it is handed is the store
  * whose answers are returned, verbatim.
  *
- * The dependency is the authorized IU-5A package boundary, pinned to IPD
- * `0dab1221fb0f89e2e0601ea905d642bfe72d5f9c` and consumed through its public
- * `iips-production-market-data/pit` subpath. No deep import into IPD's source
- * tree and no second transport.
+ * The dependency is the authorized IU-5A package boundary, consumed through its public
+ * `iips-production-market-data/pit` subpath under the current pin
+ * `2e11fa3b689d1a3674a5e4ba1f1de9a559e20494`. The re-pin that advanced that commit changed
+ * only the package manifest and lockfile: the five `./pit` sources are byte-identical to the
+ * previously recorded `0dab1221fb0f89e2e0601ea905d642bfe72d5f9c`, so the IU-5A boundary
+ * described here is unchanged. No deep import into IPD's source tree and no second transport.
  */
 import { PitReadService } from 'iips-production-market-data/pit';
 import type { DataProvenanceDTO, PointInTimeStore } from 'iips-production-market-data/pit';

@@ -531,6 +531,15 @@ const engineApi = new EngineApiAdapter();
 // Lazily-created live executors (real Keycloak), cached across requests.
 let adminExecutor: import('./secured-executor').SecuredExecutor | null = null;
 let aiExecutor: import('./secured-executor').SecuredExecutor | null = null;
+let reportsExecutor: import('./secured-executor').SecuredExecutor | null = null;
+/**
+ * The injected authoritative NP-04 persistence binding for the Reports transport.
+ *
+ * Resolved once through the Step 2 port and memoized. `null` means "no authoritative store is
+ * available to this process" — which the transport answers with 503 on durable surfaces. It is
+ * NEVER replaced by a local store.
+ */
+let reportsPersistence: import('./reports/persistence').ReportsPersistence | null = null;
 
 // IU-5 — the non-production PIT read seam, wired into the REAL server composition.
 // One port, built once, over a real IPD PointInTimeStore read through the real
@@ -579,6 +588,32 @@ const server = http.createServer((req, res) => {
         await ai.handleAiAdvisoryRequest(req, res, executor);
       } catch (e) {
         res.writeHead(500); res.end(JSON.stringify({ error: 'ai-advisory transport error', detail: String(e) }));
+      }
+    })();
+    return;
+  }
+  // Reports product transport (G3 / NP-06) — G3-enforced principal boundary + the NP-04
+  // governed persistence seam. Dispatched on the `/api/reports/` namespace only, and bound to
+  // SecuredExecutor so that no Reports request can reach product code without server-derived
+  // principal enforcement. Fails closed with 401 when no executor is available (no IdP / no
+  // authoritative membership store).
+  //
+  // Persistence is resolved through the Step 2 declared port at THIS composition point and
+  // injected into the handler. When the authoritative NP-04 store is not available the resolver
+  // returns null (it never substitutes a store), the durable surfaces answer 503, and the
+  // non-durable `context` surface is unaffected.
+  if (req.url?.startsWith('/api/reports/')) {
+    void (async () => {
+      try {
+        const reports = await import('./reports-transport');
+        let executor = reportsExecutor;
+        if (!executor) { executor = await reports.createLiveReportsExecutor(); reportsExecutor = executor; }
+        if (!executor) { res.writeHead(401); res.end(JSON.stringify({ error: 'authentication unavailable (no IdP configured)' })); return; }
+        let persistence = reportsPersistence;
+        if (!persistence) { persistence = await reports.createLiveReportsPersistence(); reportsPersistence = persistence; }
+        await reports.handleReportsRequest(req, res, executor, persistence);
+      } catch (e) {
+        res.writeHead(500); res.end(JSON.stringify({ error: 'reports transport error', detail: String(e) }));
       }
     })();
     return;
