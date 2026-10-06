@@ -10,7 +10,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import http from 'node:http';
 import { AddressInfo } from 'node:net';
-import { buildAdminState, createAdminExecutor } from './admin-transport';
+import { buildAdminState, createAdminExecutor, TEST_TENANT_DIRECTORY } from './admin-transport';
 import { AuthError, OidcVerifier } from '../src/core/auth/keycloakAdapter';
 
 const METADATA = { issuer: 'http://localhost:8080/realms/iips', jwksUri: 'http://localhost:8080/realms/iips/certs', clientId: 'iips-spa' };
@@ -25,7 +25,8 @@ function adminClaims(username: string): Record<string, unknown> {
 }
 
 function execFor(claims: Record<string, unknown>) {
-  return createAdminExecutor({ metadata: METADATA, verifier: verifier(claims) });
+  // EXPLICIT test fixture: test scope is visible at the call site (no implicit default).
+  return createAdminExecutor({ metadata: METADATA, verifier: verifier(claims), directory: TEST_TENANT_DIRECTORY });
 }
 
 async function request(executor: ReturnType<typeof execFor>, path: string, token: string): Promise<{ status: number; body: unknown }> {
@@ -82,7 +83,7 @@ describe('Admin transport (G3 boundary + governed read)', () => {
   it('returns 401 when the OIDC verifier rejects an invalid/expired token', async () => {
     // Simulate a real IdP rejecting a bad-signature/expired token (401), which the mock accepts
     // only when the verifier rejects.
-    const ex = createAdminExecutor({ metadata: METADATA, verifier: { verify: vi.fn().mockRejectedValue(new AuthError(401, 'expired')) } });
+    const ex = createAdminExecutor({ metadata: METADATA, verifier: { verify: vi.fn().mockRejectedValue(new AuthError(401, 'expired')) }, directory: TEST_TENANT_DIRECTORY });
     const bad = await request(ex, '/api/admin/engines', 'expired-token');
     expect(bad.status).toBe(401);
   });
