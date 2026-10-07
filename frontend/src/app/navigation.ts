@@ -42,6 +42,8 @@ export const NAV: NavItem[] = [
       { label: 'Engines', path: '/research/engines', minRole: 'viewer' },
     ],
   },
+  // Governed Screener — declarative screening over the certified 13-engine set (read-only).
+  { label: 'Screener', path: '/screener', minRole: 'viewer' },
   {
     label: 'Intelligence',
     path: '/intelligence',

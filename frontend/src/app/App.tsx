@@ -17,6 +17,7 @@ import { EvidenceLanding } from '../features/evidence/EvidenceLanding';
 import { EvidenceExplorer } from '../features/evidence/EvidenceExplorer';
 import { ReplayExplorer } from '../features/replay/ReplayExplorer';
 import { EngineRegistry } from '../features/engines/EngineRegistry';
+import { Screener } from '../features/screener/Screener';
 import { Administration } from '../features/admin/Administration';
 import { Watchlists } from '../features/watchlists/Watchlists';
 import { Collaboration } from '../features/collaboration/Collaboration';
@@ -42,6 +43,7 @@ export function App() {
         <Route path="/research/sector/:id" element={<FeaturePlaceholder surface="Sector" />} />
         <Route path="/research/cross-sector" element={<CrossSectorIntelligence />} />
         <Route path="/research/engines" element={<EngineRegistry />} />
+        <Route path="/screener" element={<Screener />} />
         <Route path="/intelligence/decision-matrix" element={<DecisionMatrix />} />
         <Route path="/intelligence/*" element={<FeaturePlaceholder surface="Intelligence" />} />
         <Route path="/evidence" element={<EvidenceLanding />} />

@@ -70,9 +70,15 @@ const ENGINE_FACTORY: Record<string, () => unknown> = {
 };
 
 // Frozen certified reference inputs (the v1.1 Replay Baseline).
-const BASELINE = JSON.parse(
+const BASELINE_FILE = JSON.parse(
   fs.readFileSync(path.resolve(__dirname, '../../program-v1.1-certification/PROGRAM_v1.1_REPLAY_BASELINE.json'), 'utf8'),
-) as { sectors: Array<{ sector: string; engineId: string; input: Record<string, unknown> }> };
+) as { version: string; date: string; sectors: Array<{ sector: string; engineId: string; input: Record<string, unknown> }> };
+const BASELINE = { sectors: BASELINE_FILE.sectors };
+
+/** Screener vintage source: the frozen baseline version/date (additive export). */
+export function baselineVintage(): { dataVersion: string; asOf: string } {
+  return { dataVersion: BASELINE_FILE.version, asOf: BASELINE_FILE.date };
+}
 
 /**
  * AI Advisory reconciliation — resolve a sector key to its governed engine and frozen inputs.
@@ -807,6 +813,21 @@ const server = http.createServer((req, res) => {
         await st.handleSettingsRequest(req, res, executor);
       } catch (e) {
         res.writeHead(500); res.end(JSON.stringify({ error: 'settings transport error', detail: String(e) }));
+      }
+    })();
+    return;
+  }
+  // Governed Screener (NP-12 N4) — read-only declarative screening over the certified
+  // 13-engine set. Server-derived governed population; no client membership authority.
+  if (req.url === '/api/screener') {
+    void (async () => {
+      try {
+        const executor = await getReadExecutor();
+        if (!executor) { res.writeHead(401); res.end(JSON.stringify({ error: 'authentication unavailable (no IdP configured)' })); return; }
+        const sc = await import('./screener/screener-transport');
+        await sc.handleScreenerRequest(req, res, executor);
+      } catch (e) {
+        res.writeHead(500); res.end(JSON.stringify({ error: 'screener transport error', detail: String(e) }));
       }
     })();
     return;

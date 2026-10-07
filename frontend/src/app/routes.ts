@@ -18,6 +18,7 @@ export const ROUTES = {
   researchCompany: '/research/company/:id',
   researchSector: '/research/sector/:id',
   researchCrossSector: '/research/cross-sector',
+  screener: '/screener',
   intelligence: '/intelligence',
   intelligenceOpportunities: '/intelligence/opportunities',
   intelligenceRisks: '/intelligence/risks',
