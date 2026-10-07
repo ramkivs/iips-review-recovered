@@ -573,6 +573,13 @@ let reportsExecutor: import('./secured-executor').SecuredExecutor | null = null;
  */
 let reportsPersistence: import('./reports/persistence').ReportsPersistence | null = null;
 
+// G-2 — lazily-created live user-portfolio executor + G24 upstream config, cached
+// across requests. `null` config means "no live G24 upstream is reachable from this
+// process" — the transport answers 503 on durable surfaces. The adapter itself is
+// constructed PER REQUEST with the request's bearer and is never cached here.
+let userPortfolioExecutor: import('./secured-executor').SecuredExecutor | null = null;
+let userPortfolioConfig: import('./user-portfolio-transport').G2LiveConfig | null = null;
+
 let readExecutor: import('./secured-executor').SecuredExecutor | null = null;
 
 async function getReadExecutor(): Promise<import('./secured-executor').SecuredExecutor | null> {
@@ -767,6 +774,30 @@ const server = http.createServer((req, res) => {
         await reports.handleReportsRequest(req, res, executor, persistence);
       } catch (e) {
         res.writeHead(500); res.end(JSON.stringify({ error: 'reports transport error', detail: String(e) }));
+      }
+    })();
+    return;
+  }
+  // G-2 — durable user portfolios (non-production, IPD/G24-backed).
+  // Authorized by the Ramki G-2 implementation authorization (2026-10-07):
+  // IRR-side §5 consumption contract + adapter + transport + tests.
+  // Dispatched on the `/api/user-portfolios/` namespace only — a path that merely
+  // starts with a DIFFERENT prefix (in particular the certified `/api/portfolio`
+  // exact route below) never reaches this handler, and this handler's exact
+  // surface table never serves a foreign path. Purely additive: no existing
+  // route, and in particular no certified reference-portfolio behavior, is touched.
+  if (req.url?.startsWith('/api/user-portfolios/') || req.url?.startsWith('/api/user-portfolios?') || req.url === '/api/user-portfolios') {
+    void (async () => {
+      try {
+        const up = await import('./user-portfolio-transport');
+        let executor = userPortfolioExecutor;
+        if (!executor) { executor = await up.createLiveUserPortfolioExecutor(); userPortfolioExecutor = executor; }
+        if (!executor) { res.writeHead(401); res.end(JSON.stringify({ error: 'authentication unavailable (no IdP configured)' })); return; }
+        let config = userPortfolioConfig;
+        if (!config) { config = await up.createLiveUserPortfolioConfig(); userPortfolioConfig = config; }
+        await up.handleUserPortfolioRequest(req, res, executor, config);
+      } catch (e) {
+        res.writeHead(500); res.end(JSON.stringify({ error: 'user-portfolio transport error', detail: String(e) }));
       }
     })();
     return;
