@@ -1,0 +1,95 @@
+LINEAGE INVENTORY — VERIFIED 2026-10-07 (UTC)
+==============================================
+Purpose: durable record of every material repository lineage referenced by the
+P0–P6 evidence package, with the commit/tree identities verified during the
+engagement. Authority: git ls-remote (fresh full clone at 16:10:37Z), gh api,
+and (during the P6 platform 503 incident) the GitHub web interface — channels
+cross-checked; all agreed. All tips re-verified unchanged at gate start
+17:12:05Z (ls-remote + gh api + fetch/rev-parse).
+
+REPOSITORIES
+  IRR = ramkivs/iips-review-recovered
+  IPD = ramkivs/iips-production-market-data
+
+AUTHORITATIVE REFS (pre-publication)
+  IRR origin/main  17e234a1d6a5e1629cdf98b5c5f241a663cf9901  tree c6fb24d9093ee49e813561ba849c6c26d9da9805
+    tip commit: "Promote main-health remediation to main (MHEALTH-PROMO-2026-10-07)"
+    counts: 162 commits on main, 68 branches, 2 tags; release "Program v1.2.0" (2026-09-05)
+  IPD origin/main  4d3e1cdca3a33da0ec3be8b336b17128108a502c  tree db853dc21d01162e69b0e1211dbea1cb5c5f72b1
+    tip commit: "Merge pull request #4 … UI06 Multifactor Screener Restoration"
+    counts: 94 commits on main, 32 branches, 4 tags; no releases
+
+MATERIAL LINEAGES (branch → tip → tree) — ALL UNPROMOTED BY DESIGN UNLESS NOTED
+  IPD np04-governed-persistence-windows            → 2e11fa3b689d1a3674a5e4ba1f1de9a559e20494 → 7c1d516a43153f9c4e1b09bfa259d16da1704bb0
+    Governed artifact persistence (node:sqlite, WAL/FULL/FK, checksummed
+    migrations) + PitReadService + D114 non-production population + package
+    exports. HARD DEPENDENCY OF IRR MAIN: frontend/package.json pins this exact
+    SHA; 26 commits ahead of IPD main. IRR D-1: "neither lineage promoted to
+    current main" — deliberate.
+  IPD arena/01a0e6d9-iips-production-market-data   → 6828155ec6e882bbb4cabcd96b5a841d8c8a6bc4 → eb07ea36059c6e2d3f1b6ff9afb8e3fb0c562cc5
+    G-2/G24 durable user portfolio (better-sqlite3, migrations 001/002, OIDC
+    mapping registry, HTTP /api/ipd/*, app-identity). 26 commits ahead of IPD
+    main. Pinned as G2_LINEAGE by IRR main userPortfolioContract.ts; G-2
+    contract: "main admission prohibited". Implementation commit below tip:
+    e5d5998 (G24 implementation), 8c99627 (G24 phases A–J; "G24 suite 84/84").
+  IPD arena/01a0f839-iips-production-market-data   → 12c480b45c69b9971c0e438e2de32eb1d29ff54b → 79e0502302d4d05e0f1c589a6c57c956e958cf0c
+    G-2 acceptance acts (G31 acceptance, promotion authority, A3 designation,
+    post-promotion acceptance). SHA/tree-bound to 6828155/eb07ea36. Verbatim:
+    "main 4d3e1cd UNMOVED; main promotion NOT authorized; certification NOT
+    created; production NOT authorized". 5 commits ahead of IPD main.
+  IPD arena/01a0cf86-iips-production-market-data   → ea70a8c4fdb52a1378953b2d249a315c9e68ca77 → 1cd05157a7423e89d1686e149786ab90cf57a8fd
+    Stage-4 Executive certified computation transport + FULL COPY of IRR
+    iips-platform/ carried inside IPD + executive_recovery_integration test
+    (18/18) + forensic live-re-execution evidence (byte-identical parity vs
+    IRR certified output, SHA-256 95e15dda… per its recovery report). 1 commit
+    ahead of IPD main. PROMOTION STATUS UNEXPLAINED (no disposition act found).
+  IPD arena/01a0c440-iips-production-market-data   → tree 682f4e60…
+    Donor lineage for IPD main's restored frontend shell (routes.ts cites this
+    tree as structural donor). Provenance-only citation; not merged.
+  IRR arena/a2df3b85-iips-review-recovered         → 5eba01b6e818a261230725761b7797b68782e883 → 3573fcc0f8f415438e5bcb034c4bc45f57ae45ec
+    PF-1 separate-process journal restart proof (restart-proof-writer.ts,
+    restart-proof-recoverer.ts, persistence-restart-proof.test.ts) + 2 E2E-015
+    records. 7 commits ahead of IRR main; root content promoted to main as
+    0882242/17e234a. persistence-service.ts blob ca735d5d8e2a11bdcf2c1c3a9b9fc42fb30abbaf
+    byte-identical main ↔ branch. Proof artifacts NOT on main.
+  IRR gai-impl-canonical                            → f63a9b4… (tip verified unchanged 2026-10-07; implementation commit below tip: e5d5998-lineage analogue recorded in P6; line root 7325aed)
+    Disjoint program line (NO common ancestor with IRR main root c65d533):
+    P-1 notifications, P-2 notes, PF-2 roster/triggers, secret-management
+    authority, global search palette, hubs, Keycloak browser auth, AI-advisory
+    canonical surface (13 paths), dispatch coverage tests. Self-recorded
+    validation at tip: "656 passed / 21 skipped / 0 failed"; live
+    Keycloak/browser auth NOT PERFORMED in its env; fences byte-identical to
+    canonical 85bbd49; six recovered blobs on origin/arena. Partially
+    SUPERSEDED by main's parallel implementations; residual unique work
+    unreconciled.
+  IRR phase13-next                                  → 4357e14…
+  IRR phase13-hardening-delivery                    → 254e472…
+    (same disjoint line, historical era)
+
+TAGS
+  IRR program-v1.2.0                                 → 5decdca (REACHABLE from main)
+  IRR v3.0-phase12-certified                         → 7325aed (NOT reachable from main; disjoint line root)
+  IPD p14-r7-65b78f7                                 → 65b78f7 (NOT reachable from main)
+  IPD portfolio-option-a-cb969b6                     → cb969b6 (NOT reachable from main)
+  IPD post-cleanup-baseline-b46b4f4                  → b46b4f4 (NOT reachable from main)
+  IPD temporary-cleanup-caf73ba                      → caf73ba (NOT reachable from main)
+
+OTHER RECORDED IDENTITIES (from P0–P6 session record)
+  IRR main root commit: c65d533 (no common ancestor with 7325aed)
+  IRR disjoint-line merge-base check: EMPTY (disjoint histories)
+  NP-12 protected-surface baseline pinned by test: 5ca181c
+  NP-12 single main commit touching A8-S-03 record: 9f93c6c (Oct 3,
+    "publish A8-S-03 authority decision and N4-A13 Screen producer")
+  Pre-existing-failure baseline cited by removed in-repo comment: acd1556
+  G-2 implementation commit message facts: 470cc69 "Full suite 971 passed +
+    2 pre-existing failures (byte-identical to pristine baseline)";
+    5eba01b root = main-health remediation promoted to main
+  IRR frontend dist artifact (P4 build): dist/index-Jwhvudml.js 272.95 kB
+
+CLASSIFICATION NOTE
+  None of the lineages above were promoted, merged, retagged, or deleted by
+  this evidence publication. They are recorded AS EVIDENCE ONLY. A GitHub
+  dependency pin (e.g. package.json#2e11fa3b) is NOT treated as
+  authoritative-main convergence anywhere in the P0–P6 record.
+
+END OF INVENTORY

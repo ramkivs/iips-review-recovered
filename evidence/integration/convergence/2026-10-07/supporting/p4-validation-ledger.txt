@@ -1,0 +1,125 @@
+P4 VALIDATION LEDGER — COMMANDS, COMMIT IDENTITIES, COUNTS, FAILURE TAXONOMY
+============================================================================
+Evidence date (UTC): 2026-10-07 (P4 stage)
+Environment: Linux 6.1.158+; Node v22.22.3; npm 10.9.8; tsx 4.19.2 (loader for
+TS sources with .js-specifier imports); gcc 12.2.0; better-sqlite3 13.0.3
+built from source with npm_config_nodedir=/usr/local (prebuilt + header
+downloads blocked by sandbox proxy). All runs at exact pinned commits in
+disposable git worktrees; `git status --porcelain -uno` = 0 modifications in
+every worktree after all runs.
+
+---
+LEDGER — IRR MAIN · iips-platform @ 17e234a1d6a5e1629cdf98b5c5f241a663cf9901 (tree c6fb24d9…)
+  npm ci (iips-platform)
+  npm run typecheck       → PASS (tsc --noEmit, 0 errors)
+  npm test                → 642 tests: 599 pass, 43 FAIL
+  Re-run: npx tsx --test tests/program-v2.0-wp0-constitutional-guard.test.ts
+                          → 6 tests: 2 pass, 4 fail (determinism confirmed)
+  FAILURE TAXONOMY (43):
+    Unknown engine: sector.telecom                       ×29
+    makeEngine is not a function                         × 7
+    make is not a function                               × 1
+    ENGINE_FACTORY[sec.engineId] is not a function       × 5
+    Protected-surface violation (np12-n4-screen-producer)× 1
+  FAILING FILES (count):
+    program-v2.0-wp11-performance        9
+    program-v2.0-wp13-dr                 8
+    program-v2.0-wp14-migration          5
+    program-v2.0-wp1-distributed-runtime 5
+    program-v2.0-wp0-constitutional-guard 4
+    program-v2.0-final-certification     4
+    program-v2.0-wp2-cloud-ha            3
+    program-v2.0-wp3-live-data           1
+    program-v2.0-wp4-enterprise          1
+    program-v2.0-wp10-observability      1
+    program-v2.0-wp12-data-governance    1
+    np12-n4-screen-producer              1
+  CLASSIFICATION: genuine failures at the authoritative commit, deterministic,
+  pre-existing (root cause: legacy v2.0 test-local 10-engine ENGINE_FACTORY
+  maps vs 13-sector frozen v1.1 replay baseline; in-repo acknowledgment: the
+  pre-tip pitRuntimeIntegration.test.ts comment — removed by 17e234a —
+  documented the class as "a PRE-EXISTING platform defect, reproducible on the
+  pristine baseline" at pinned baseline acd1556; NP-12 single failure is
+  baseline-induced: exactly one main commit 9f93c6c modified the A8-S-03 record
+  after the test's pinned baseline 5ca181c).
+
+---
+LEDGER — IRR MAIN · frontend @ 17e234a1 (full-repo disposable run copy)
+  npm ci (dependency materialization workaround: pin package built from exact
+    commit 2e11fa3b in a worktree, package.json dependency entry removed for
+    install, restored pristine before the manifest test re-run)
+  npm run typecheck       → PASS (tsc --noEmit, 0 errors)
+  npx vitest run          → 998 tests: 973 pass, 25 skipped, 1 file failed
+    (reports-persistence.test.ts manifest assertion — investigator-induced,
+    caused by the temporary package.json edit)
+  Re-run with pristine package.json:
+    npx vitest run src/server/reports/reports-persistence.test.ts
+                          → 38 tests: 38 pass, 0 fail
+    → EFFECTIVE FRONTEND RESULT: 973 PASS / 25 SKIPPED (live IdP: live/live-
+      tenant-engine 8, live/admin-live-certification 13, live/ai-advisory-live-
+      certification 4 — self-skip by design) / 0 FAIL
+  npm run build           → PASS (tsc -b && vite build; 89 modules;
+    dist/index-Jwhvudml.js 272.95 kB)
+  Cross-repo integration tests included in suite and PASS at real pin:
+    pitRuntimeIntegration, pitD114RuntimeIntegration, reports-persistence
+    (incl. dynamic ./persistence import)
+
+---
+LEDGER — IPD MAIN @ 4d3e1cdca3a33da0ec3be8b336b17128108a502c (tree db853dc2…)
+  npm install && npm run build → PASS (tsc && vite build, 467 ms, chunk-size
+    warning only)
+  npm run typecheck        → PASS (0 errors)
+  npm test (node --test dist/tests/*.test.js) → 542/542 PASS
+  npm run test:direct (node --test --experimental-strip-types tests/*.test.ts)
+                           → BLOCKED — ENVIRONMENT: ERR_MODULE_NOT_FOUND × 48
+    files (Node v22.22 type-stripping does not resolve .js-specifier TS
+    imports); identical suite via tsx loader → 542/542 PASS.
+
+---
+LEDGER — IPD NP-04 PIN @ 2e11fa3b689d1a3674a5e4ba1f1de9a559e20494 (tree 7c1d516a…)
+  npm install (better-sqlite3 13.0.3 source build; node headers /usr/local)
+  npx tsx --test tests/np04*.test.ts tests/wsj*.test.ts tests/wsk*.test.ts
+    tests/wsi*.test.ts tests/wsh*.test.ts
+                           → 178/178 PASS (targeted persistence/PIT boundary)
+  npx tsx --test tests/*.test.ts → 720/720 PASS (full suite)
+  npx tsc --noEmit         → FAIL: 4 errors, all tests/wsj_iu3_pit_read_boundary
+    .test.ts (TS2345 ×2 MarketQuotePayload vs OHLCVCandle; TS2339 ×2) —
+    test-code type errors, runtime-green
+  npm run build:pit-package → PASS (dist/package/{pit,d114-non-production,
+    persistence,contracts,normalization}; all three consumed subpaths verified
+    to resolve from a consumer)
+
+---
+LEDGER — IPD G-2/G24 @ 6828155ec6e882bbb4cabcd96b5a841d8c8a6bc4 (tree eb07ea36…)
+  npm install (better-sqlite3 13.0.3 source build)
+  npx tsx --test tests/g24_*.test.ts → 84/84 PASS
+    (# tests 84 / # pass 84 / # fail 0)
+    HISTORICAL CLAIM VERIFIED: IRR userPortfolioContract.ts states "G24 suite
+    84/84 PASS at this tip" — independently re-executed, exact match.
+  npx tsc --noEmit         → FAIL: same 4 wsj_iu3 test-code errors (lineage
+    carries that test file)
+
+---
+LEDGER — IPD EXEC BRANCH @ ea70a8c4fdb52a1378953b2d249a315c9e68ca77 (tree 1cd0515…)
+  npx tsx --test tests/executive_recovery_integration.test.ts → 18/18 PASS
+  (run in place; branch carries full iips-platform/ copy inside IPD)
+
+---
+LEDGER — IRR RESTART BRANCH @ 5eba01b6e818a261230725761b7797b68782e883 (tree 3573fcc0…)
+  Native two-process restart proof (writer pid 2453 → recoverer pid 2483)
+                           → PROVEN (exact field-for-field recovery; see
+    supporting/p3-durability-process-outputs.txt)
+  persistence-service.ts blob identical to main:
+    main blob = branch blob = ca735d5d8e2a11bdcf2c1c3a9b9fc42fb30abbaf
+
+---
+SUMMARY
+  IRR main iips-platform : 599/642 (43 genuine FAIL) · tsc PASS
+  IRR main frontend      : 973 PASS / 25 skip (live IdP) / 0 FAIL · tsc PASS · build PASS
+  IPD main               : 542/542 PASS · tsc PASS · build PASS
+                           (test:direct script: ENV-BLOCKED; via tsx 542/542)
+  NP-04 pin 2e11fa3b     : 720/720 PASS (targeted 178/178) · tsc FAIL (4 test-code) · build PASS
+  G24 6828155            : 84/84 PASS (claim verified) · tsc FAIL (same 4)
+  Exec ea70a8c           : 18/18 PASS
+  Restart 5eba01b        : two-process proof PROVEN
+END OF LEDGER
