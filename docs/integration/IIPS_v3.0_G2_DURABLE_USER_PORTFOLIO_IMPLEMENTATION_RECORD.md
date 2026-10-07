@@ -173,10 +173,18 @@ repository (zero mutations — reuse-as-is).
   0 errors.
 - Build (`tsc -b && vite build`): PASS (exit 0).
 - G24 live suite at the pinned tip: 84/84 PASS (suitability proof).
-- Remote verification: session-branch commit + tree re-fetched and matched;
-  IRR main re-verified at `29a43e5…`; IPD main re-verified unmoved at
-  `4d3e1cdc…`; IPD G24 tip re-verified at `6828155…`; workspaces clean.
-  (Coordinates stamped in the commit footer at push time.)
+- Remote verification (independent fresh-clone re-fetch, 2026-10-07) of the
+  implementation commit:
+  - implementation commit `470cc698924ebecf8ce51cf7291b48f3fc1c7da7` / tree
+    `319cb5376a5855c3e8f0bdc482c40beec35d4c81` — MATCHED remotely;
+  - record blob `ffb239a7ac0130882f9e9bc299476813ebb6d89f`; contract blob
+    `511ff9a2d2a41fbbd0ed32afe4c943a86ec0ad55`; transport blob
+    `9bfdecd8ae4329057e08c9cc9d1c77d9f305ea6b`;
+  - IRR main `29a43e5bae76530db970c231e0bf05b471b024b3` — UNMOVED;
+  - IPD main `4d3e1cdca3a33da0ec3be8b336b17128108a502c` — UNMOVED;
+  - IPD G24 `6828155ec6e882bbb4cabcd96b5a841d8c8a6bc4` — UNMOVED;
+  - diff vs IRR main = 2 prior E2E-015 records + 13 G-2 files, exec `+31/−0`;
+  - workspaces clean; no production repository or environment modified.
 
 ## 8. Explicit deferrals (fail-closed, each needs future governance)
 
@@ -191,5 +199,15 @@ repository (zero mutations — reuse-as-is).
 
 ## 9. Disposition
 
-**G-2 IMPLEMENTATION COMPLETE — DURABLE / REMOTELY VERIFIED** (pending §7 remote
-verification at commit time; no production-readiness claim).
+**G-2 IMPLEMENTATION COMPLETE — DURABLE / REMOTELY VERIFIED.**
+
+No production-readiness claim is made. No production authority was exercised.
+
+## 10. Finalization
+
+This record's §7 coordinates were stamped in a follow-up commit on the same
+session branch after the implementation commit was independently re-fetched and
+verified. The implementation commit (`470cc69…`, tree `319cb537…`) is immutable
+in branch history; the branch tip carries only this record's coordinate stamp
+(no code change). Verify the tip remotely; the full coordinate chain is in §7
+and in the commit footers.
