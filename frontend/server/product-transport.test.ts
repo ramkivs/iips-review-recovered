@@ -271,8 +271,13 @@ describe('Product transport (E2E Product HTTP)', () => {
     for (const forbidden of ['sector.it', 'sector.chemicals', 'sector.realty']) {
       expect(engineIds).not.toContain(forbidden);
     }
-    for (const certified of ['sector.telecom', 'sector.auto', 'sector.materials']) {
+    for (const certified of ['sector.telecom', 'sector.auto', 'sector.materials', 'sector.capital-markets']) {
       expect(engineIds).toContain(certified);
+    }
+    // Regression protection (main-health remediation): engine IDs are the governed
+    // taxonomy (D42/baseline), never display-sector interpolations.
+    for (const fabricated of ['sector.telecommunications', 'sector.automobile', 'sector.materials & metals', 'sector.capital markets']) {
+      expect(engineIds).not.toContain(fabricated);
     }
   });
 
