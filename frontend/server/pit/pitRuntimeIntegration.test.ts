@@ -339,32 +339,36 @@ describe('IU5R-12 — the PIT handler is registered on the real server', () => {
 // ===========================================================================
 // 13. /api/company/:id is unaffected
 //
-// IMPORTANT — the certified platform compute functions (`computeCertifiedCompany`
-// and friends) throw in THIS environment at the pinned baseline
-// `acd1556d50d77111cb318249ac3acbfd1d8454b5`, with
-// `TypeError: ENGINE_FACTORY[s.engineId] is not a function`. That is a
-// PRE-EXISTING platform defect, reproducible on the pristine baseline with no
-// IU-5 code present, and is outside IU-5 scope.
+// HISTORY — at IU-5 time the certified platform compute functions threw in this
+// environment (`TypeError: ENGINE_FACTORY[s.engineId] is not a function`, a
+// pre-existing platform defect: 10-entry factory vs 13-entry baseline), so the
+// company route answered 404 `{error}` and these tests asserted that error shape
+// as a baseline condition. IU-8D (`f292a25`) fixed the factory (10 -> 13); the
+// route now serves the governed company contract (200 + company payload), and
+// the assertions below were reconciled to it (main-health remediation).
 //
-// So the invariant asserted here is the one IU-5 is actually responsible for:
-// the company route is still routed to the company handler, and the PIT seam
-// neither shadows it, alters it, nor leaks any PIT surface into it. That the
-// handler's own payload is currently an error is a baseline condition and is
-// NOT counted as an IU-5 result.
+// The invariant IU-5 is responsible for is unchanged: the company route is still
+// routed to the company handler, and the PIT seam neither shadows it, alters it,
+// nor leaks any PIT surface into it.
 // ===========================================================================
 describe('IU5R-13 — the existing /api/company/:id route is unaffected', () => {
   it('IU5R-13 the company route is still handled by the company handler', async () => {
     const res = await fetch(`${baseUrl}/api/company/banking`);
     const body = (await res.json()) as Record<string, unknown>;
 
-    // The company handler's own error shape, never the PIT contract's shape.
-    expect(body).toHaveProperty('error');
+    // The company handler serves the governed company contract (success): company
+    // identity + sector semantics, never an error shape, never the PIT contract.
+    expect(res.status).toBe(200);
+    expect(body).toMatchObject({ companyId: 'Banking-H1', sector: 'Banking' });
+    expect(body).toHaveProperty('decision');
+    expect(body).toHaveProperty('evidence');
+    expect(body).not.toHaveProperty('error');
     expect(body).not.toHaveProperty('found');
 
     // No PIT surface leaks into the company route under any circumstance.
+    // (provenance IS part of the governed company contract — not a PIT leak.)
     expect(body).not.toHaveProperty('securityId');
     expect(body).not.toHaveProperty('resolvedAsOf');
-    expect(body).not.toHaveProperty('provenance');
     expect(body).not.toHaveProperty('payload');
   });
 

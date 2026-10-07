@@ -78,6 +78,19 @@ const BASELINE_FILE = JSON.parse(
 ) as { version: string; date: string; sectors: Array<{ sector: string; engineId: string; input: Record<string, unknown> }> };
 const BASELINE = { sectors: BASELINE_FILE.sectors };
 
+/**
+ * Governed engine-ID taxonomy (main-health remediation, authorized): sector display
+ * name -> canonical engineId, derived from the frozen v1.1 Replay Baseline — the same
+ * authority that drives ENGINE_FACTORY dispatch (D42 EngineRegistry: sector.telecom /
+ * sector.auto / sector.materials / sector.capital-markets). Display names lowercased
+ * are NOT valid engine IDs (Telecommunications/Automobile/Materials & Metals/Capital
+ * Markets all differ) and must never be interpolated as engineId. Every engineOutputs /
+ * engineDetails sector originates from BASELINE.sectors, so every lookup hits.
+ */
+const ENGINE_ID_BY_SECTOR: Record<string, string> = Object.fromEntries(
+  BASELINE.sectors.map((s) => [s.sector, s.engineId]),
+);
+
 /** Screener vintage source: the frozen baseline version/date (additive export). */
 export function baselineVintage(): { dataVersion: string; asOf: string } {
   return { dataVersion: BASELINE_FILE.version, asOf: BASELINE_FILE.date };
@@ -326,7 +339,7 @@ function computeCertifiedPortfolio(): unknown {
     correlation: { flags: pr.correlation.flags, concentrationSectors: pr.correlation.concentrationSectors },
     evidenceRefs: engineOutputs.map((o) => ({
       evidenceId: `ev_${o.sector}`,
-      engineId: `sector.${o.sector.toLowerCase()}`,
+      engineId: ENGINE_ID_BY_SECTOR[o.sector],
       recommendation: o.verdict ?? '',
       compositeScore: o.composite,
     })),
@@ -389,7 +402,7 @@ function computeCertifiedReplay(sectorId: string): unknown {
   return {
     original: {
       snapshotId: `snap_${d.sector}`,
-      engineId: `sector.${d.sector.toLowerCase()}`,
+      engineId: ENGINE_ID_BY_SECTOR[d.sector],
       schemaVersion: 'snapshot-1.0',
       calibrationVersion: d.calibrationVersion ?? '1.0.0',
       generatedAt: '2026-08-09T00:00:00.000Z',
@@ -440,7 +453,7 @@ function computeCertifiedEvidence(sectorId: string): unknown {
     },
     evidence: {
       evidenceId: `ev_${d.sector}`,
-      engineId: `sector.${d.sector.toLowerCase()}`,
+      engineId: ENGINE_ID_BY_SECTOR[d.sector],
       recommendation: d.verdict,
       compositeScore: d.composite,
       confidence: golden?.confidence ?? 0.8,
@@ -459,7 +472,7 @@ function computeCertifiedEvidence(sectorId: string): unknown {
     },
     snapshot: {
       snapshotId: `snap_${d.sector}`,
-      engineId: `sector.${d.sector.toLowerCase()}`,
+      engineId: ENGINE_ID_BY_SECTOR[d.sector],
       schemaVersion: 'snapshot-1.0',
       generatedAt: '2026-08-09T00:00:00.000Z',
       verdict: d.verdict,
@@ -540,7 +553,7 @@ function computeCertifiedCompany(sectorId: string): unknown {
     inputs: Object.entries(d.inputs).map(([key2, value]) => ({ key: key2, value })),
     evidence: {
       evidenceId: `ev_${d.sector}`,
-      engineId: `sector.${d.sector.toLowerCase()}`,
+      engineId: ENGINE_ID_BY_SECTOR[d.sector],
       recommendation: d.verdict,
       compositeScore: d.composite,
     },
