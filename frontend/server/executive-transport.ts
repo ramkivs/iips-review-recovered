@@ -14,11 +14,12 @@
  * IMPORTANT — data source & auth boundary:
  *  - The portfolio displayed is the CERTIFIED REFERENCE portfolio (the frozen v1.1 Replay
  *    Baseline inputs), labeled SNAPSHOT. It is not live tenant production data.
- *  - Authentication/session is a MINIMAL development-mode mechanism (a session header is
- *    accepted and mapped to a role). A real authentication/session layer is a SEPARATE,
- *    still-pending requirement before production tenant data is served. This is the exact
- *    G2 auth gap (Phase 0 audit G3). This server does NOT weaken EnterpriseRuntime/PlatformApi
- *    authorization for the actual platform.
+ *  - Authentication/session: the Executive read (`/api/executive`) enforces the REAL OIDC
+ *    boundary (Bearer credential → live read executor → `guardRead` governed RBAC read gate;
+ *    401/403) before any certified data is served. The remaining dev-mode routes below still
+ *    use the MINIMAL development-mode mechanism and remain a SEPARATE, still-pending
+ *    requirement before production tenant data is served on those surfaces. This server does
+ *    NOT weaken EnterpriseRuntime/PlatformApi authorization for the actual platform.
  */
 import http from 'node:http';
 import { fileURLToPath } from 'node:url';
@@ -26,6 +27,8 @@ import path from 'node:path';
 import fs from 'node:fs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+import { AuthError } from '../src/core/auth/keycloakAdapter';
 
 // --- Import the certified platform ---
 import { Container } from '../../iips-platform/src/di/Container';
@@ -676,6 +679,38 @@ async function getPitReadPort(): Promise<import('./pit/pitReadPort').PitReadPort
   return pitPort;
 }
 
+/**
+ * Authenticated Executive read (E2E-015 handoff reconciliation): the browser's genuine OIDC
+ * Bearer credential is validated through the canonical family read boundary — `guardRead`
+ * (SecuredExecutor.authenticate via the live read executor: real Keycloak discovery + JWKS;
+ * 401 on absent/invalid) → governed RBAC read gate (403 on deny) — BEFORE any certified data
+ * is served. Client claims are never trusted; authorization stays server-side; the certified
+ * Executive DTO itself is unchanged (`computeCertifiedExecutive` is the same certified path).
+ * `guardRead` is resolved via dynamic import, matching this file's established admin-transport
+ * seam (`getReadExecutor`) and avoiding a static import cycle.
+ */
+export async function handleExecutiveReadRequest(
+  req: http.IncomingMessage,
+  res: http.ServerResponse,
+  executor: import('./secured-executor').SecuredExecutor,
+): Promise<void> {
+  const token = (req.headers.authorization ?? '').replace(/^Bearer /, '').trim();
+  try {
+    const { guardRead } = await import('./admin-transport');
+    await guardRead(executor, token, 'executive');
+    res.writeHead(200);
+    res.end(JSON.stringify(computeCertifiedExecutive()));
+  } catch (e) {
+    if (e instanceof AuthError) {
+      res.writeHead(e.status);
+      res.end(JSON.stringify({ error: e.message }));
+      return;
+    }
+    res.writeHead(500);
+    res.end(JSON.stringify({ error: 'executive transport error', detail: String(e) }));
+  }
+}
+
 const server = http.createServer((req, res) => {
   res.setHeader('Content-Type', 'application/json');
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -880,9 +915,19 @@ const server = http.createServer((req, res) => {
       res.writeHead(200); res.end(JSON.stringify({ status: 'ok', transport: 'program-v3.0 executive (dev)' })); return;
     }
     if (req.url === '/api/executive') {
-      // Minimal dev-mode session mapping (see header note). NOT production auth.
-      const data = computeCertifiedExecutive();
-      res.writeHead(200); res.end(JSON.stringify(data)); return;
+      // E2E-015 handoff reconciliation: REAL OIDC authentication + governed read
+      // authorization (401/403) via the canonical live read executor — NOT the former
+      // dev-mode mapping. Family dispatch pattern (cf. watchlists/screener blocks).
+      void (async () => {
+        try {
+          const executor = await getReadExecutor();
+          if (!executor) { res.writeHead(401); res.end(JSON.stringify({ error: 'authentication unavailable (no IdP configured)' })); return; }
+          await handleExecutiveReadRequest(req, res, executor);
+        } catch (e) {
+          res.writeHead(500); res.end(JSON.stringify({ error: 'executive transport error', detail: String(e) }));
+        }
+      })();
+      return;
     }
     if (req.url?.startsWith('/api/replay/')) {
       const id = decodeURIComponent(req.url.slice('/api/replay/'.length));
