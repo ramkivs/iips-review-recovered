@@ -541,6 +541,95 @@ let reportsExecutor: import('./secured-executor').SecuredExecutor | null = null;
  */
 let reportsPersistence: import('./reports/persistence').ReportsPersistence | null = null;
 
+let readExecutor: import('./secured-executor').SecuredExecutor | null = null;
+
+async function getReadExecutor(): Promise<import('./secured-executor').SecuredExecutor | null> {
+  if (!readExecutor) {
+    const admin = await import('./admin-transport');
+    readExecutor = await admin.createLiveAdminExecutor(admin.readResourceGate);
+  }
+  return readExecutor;
+}
+
+export function buildGovernedUniverseProvider(): import('./watchlists/watchlists-transport').GovernedUniverseProvider {
+  return {
+    async screenerUniverse() {
+      const data = computeCertifiedDecisionMatrix() as {
+        companies: Array<{
+          companyId: string;
+          sector: string;
+          verdict: string;
+          composite: number;
+          quality: number | null;
+          valuation: number | null;
+        }>;
+        provenance?: { calibratedAt?: string };
+      };
+      const asOf = data.provenance?.calibratedAt ?? '2026-08-09T00:00:00.000Z';
+      return data.companies.map((c) => ({
+        canonicalSecurityId: c.sector,
+        companyId: c.companyId,
+        sector: c.sector,
+        verdict: c.verdict,
+        composite: c.composite,
+        qualityAxis: c.quality,
+        valuation: c.valuation,
+        quality: c.quality !== null ? 'good' : 'unavailable',
+        completenessPct: 100,
+        asOf,
+      }));
+    },
+    async searchUniverse() {
+      return this.screenerUniverse('default');
+    },
+    async securities() {
+      return this.screenerUniverse('default');
+    },
+    async vintage() {
+      return {
+        asOf: '2026-08-09T00:00:00.000Z',
+        dataVersion: 'v1.1-replay-baseline',
+        mode: 'SNAPSHOT',
+        dataSource: 'governed:certified-v2.0-reference-universe',
+        classification: 'REAL',
+        contributingSnapshotIds: ['snap_Banking'],
+      };
+    },
+  };
+}
+
+/**
+ * UI10 Collaboration (NP-10) — the GOVERNED reference universe and vintage for a tenant.
+ *
+ * Both identity forms the certified platform emits for a governed company are accepted: the
+ * certified sector-keyed identity (the identifier `/api/company/:id` resolves and UI07 stores as
+ * `canonicalSecurityId`) and the certified `companyId`. Evidence uses the `ev_<sector>` identity
+ * the platform emits in `/api/portfolio` and `/api/replay/:id`. No other form is accepted, and
+ * no governed value is derived here.
+ */
+export function buildGovernedReferenceProvider(): import('./collaboration/collaboration-resolvers').GovernedReferenceProvider {
+  const matrix = () => computeCertifiedDecisionMatrix() as {
+    companies: Array<{ companyId: string; sector: string }>;
+    provenance?: { calibratedAt?: string };
+  };
+  return {
+    async companyIds() {
+      return matrix().companies.flatMap((c) => [c.companyId, c.sector]);
+    },
+    async evidenceIds() {
+      return matrix().companies.map((c) => `ev_${c.sector}`);
+    },
+    async vintage() {
+      const asOf = matrix().provenance?.calibratedAt ?? '2026-08-09T00:00:00.000Z';
+      return {
+        asOf,
+        dataVersion: 'v1.1-replay-baseline',
+        mode: 'SNAPSHOT',
+      };
+    },
+  };
+}
+
 // IU-5 — the non-production PIT read seam, wired into the REAL server composition.
 // One port, built once, over a real IPD PointInTimeStore read through the real
 // IPD PitReadService. Cached so every request shares one authoritative store.
@@ -652,6 +741,49 @@ const server = http.createServer((req, res) => {
         await macro.handleMacroRequest(req, res);
       } catch (e) {
         res.writeHead(500); res.end(JSON.stringify({ error: 'macro transport error', detail: String(e) }));
+      }
+    })();
+    return;
+  }
+  // UI07 Watchlists (NP-09) — owner-scoped persistent lists with triggers.
+  if (req.url?.startsWith('/api/watchlists')) {
+    void (async () => {
+      try {
+        const executor = await getReadExecutor();
+        if (!executor) { res.writeHead(401); res.end(JSON.stringify({ error: 'authentication unavailable (no IdP configured)' })); return; }
+        const wl = await import('./watchlists/watchlists-transport');
+        await wl.handleWatchlistsRequest(req, res, executor, buildGovernedUniverseProvider());
+      } catch (e) {
+        res.writeHead(500); res.end(JSON.stringify({ error: 'watchlists transport error', detail: String(e) }));
+      }
+    })();
+    return;
+  }
+  // UI10 Collaboration (NP-10) — private, owner-scoped threads over governed objects.
+  if (req.url === '/api/collaboration' || req.url?.startsWith('/api/collaboration/')) {
+    void (async () => {
+      try {
+        const executor = await getReadExecutor();
+        if (!executor) { res.writeHead(401); res.end(JSON.stringify({ error: 'authentication unavailable (no IdP configured)' })); return; }
+        const collab = await import('./collaboration/collaboration-transport');
+        await collab.handleCollaborationRequest(req, res, executor, buildGovernedReferenceProvider());
+      } catch (e) {
+        res.writeHead(500); res.end(JSON.stringify({ error: 'collaboration transport error', detail: String(e) }));
+      }
+    })();
+    return;
+  }
+  // UI12 Settings (NP-11) — private, owner-scoped personal configuration. Dispatched on the
+  // exact `/api/settings` namespace only; the handler fails closed on any other path or method.
+  if (req.url === '/api/settings' || req.url?.startsWith('/api/settings/')) {
+    void (async () => {
+      try {
+        const executor = await getReadExecutor();
+        if (!executor) { res.writeHead(401); res.end(JSON.stringify({ error: 'authentication unavailable (no IdP configured)' })); return; }
+        const st = await import('./settings/settings-transport');
+        await st.handleSettingsRequest(req, res, executor);
+      } catch (e) {
+        res.writeHead(500); res.end(JSON.stringify({ error: 'settings transport error', detail: String(e) }));
       }
     })();
     return;

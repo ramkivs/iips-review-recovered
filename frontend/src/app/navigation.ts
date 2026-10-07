@@ -25,6 +25,12 @@ export const NAV: NavItem[] = [
       { label: 'Holdings', path: '/portfolio/:id/holdings', minRole: 'viewer' },
     ],
   },
+  { label: 'Watchlists', path: '/watchlists', minRole: 'viewer' },
+  { label: 'Collaboration', path: '/collaboration', minRole: 'viewer' },
+  // NP-11 UI12 — private, user-owned personal settings (personal capability, not a platform
+  // configuration surface). Available to every authenticated role; mutations are authorized
+  // server-side by the governed execute action.
+  { label: 'Settings', path: '/settings', minRole: 'viewer' },
   {
     label: 'Research',
     path: '/research',

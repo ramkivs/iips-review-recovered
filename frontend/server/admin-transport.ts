@@ -260,6 +260,30 @@ export function createAdminExecutor(deps: AdminExecutorDeps): SecuredExecutor {
   );
 }
 
+/** Read-capable executor: same construction as the admin executor but with the action-aware read gate. */
+export function readResourceGate(principal: Principal, action: string): boolean {
+  if (principal.roles.includes('admin')) return true;
+  if (principal.roles.includes('analyst')) return action === 'read' || action === 'execute';
+  if (principal.roles.includes('viewer')) return action === 'read';
+  return false;
+}
+
+/**
+ * Read executor for the Watchlists/Collaboration/Settings transports (NP-09/NP-10/NP-11).
+ * Same construction as createAdminExecutor but with the action-aware read gate. The tenant
+ * directory is REQUIRED via AdminExecutorDeps (no ADMIN_DIRECTORY fallback); tests pass
+ * TEST_TENANT_DIRECTORY explicitly and the live composition passes the durable store.
+ */
+export function createReadExecutor(deps: AdminExecutorDeps): SecuredExecutor {
+  return new SecuredExecutor(
+    deps.runtime ?? new EnterpriseRuntime(clock),
+    deps.directory,
+    deps.resourceAccess ?? readResourceGate,
+    deps.metadata,
+    deps.verifier,
+  );
+}
+
 /**
  * Build the live admin executor against a real Keycloak realm AND the authoritative IIPS tenant
  * membership store.
@@ -293,6 +317,20 @@ export async function createLiveAdminExecutor(resourceAccess?: (p: Principal, ac
 async function guardAdmin(executor: SecuredExecutor, token: string, surface: string): Promise<Principal> {
   const p = await executor.authenticate(token);          // 401 on failure
   executor.authorize(p, 'admin', `admin.${surface}`, 0, 1000); // 403 on deny (governed RBAC + gate + audit)
+  return p;
+}
+
+/** Authenticate + authorize a governed READ (action 'read' — viewer/analyst/admin per governed RBAC + gate). */
+export async function guardRead(executor: SecuredExecutor, token: string, surface: string): Promise<Principal> {
+  const p = await executor.authenticate(token);            // 401 on failure
+  executor.authorize(p, 'read', `read.${surface}`, 0, 1000); // 403 on deny (governed RBAC + gate + audit)
+  return p;
+}
+
+/** Authenticate + authorize a governed EXECUTE action (analyst-and-above). */
+export async function guardExecute(executor: SecuredExecutor, token: string, surface: string): Promise<Principal> {
+  const p = await executor.authenticate(token);               // 401 on failure
+  executor.authorize(p, 'execute', `read.${surface}`, 0, 1000); // 403 on deny (viewer denied)
   return p;
 }
 
