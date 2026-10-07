@@ -14,11 +14,12 @@
  * IMPORTANT — data source & auth boundary:
  *  - The portfolio displayed is the CERTIFIED REFERENCE portfolio (the frozen v1.1 Replay
  *    Baseline inputs), labeled SNAPSHOT. It is not live tenant production data.
- *  - Authentication/session is a MINIMAL development-mode mechanism (a session header is
- *    accepted and mapped to a role). A real authentication/session layer is a SEPARATE,
- *    still-pending requirement before production tenant data is served. This is the exact
- *    G2 auth gap (Phase 0 audit G3). This server does NOT weaken EnterpriseRuntime/PlatformApi
- *    authorization for the actual platform.
+ *  - Authentication/session: the Executive read (`/api/executive`) enforces the REAL OIDC
+ *    boundary (Bearer credential → live read executor → `guardRead` governed RBAC read gate;
+ *    401/403) before any certified data is served. The remaining dev-mode routes below still
+ *    use the MINIMAL development-mode mechanism and remain a SEPARATE, still-pending
+ *    requirement before production tenant data is served on those surfaces. This server does
+ *    NOT weaken EnterpriseRuntime/PlatformApi authorization for the actual platform.
  */
 import http from 'node:http';
 import { fileURLToPath } from 'node:url';
@@ -26,6 +27,8 @@ import path from 'node:path';
 import fs from 'node:fs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+import { AuthError } from '../src/core/auth/keycloakAdapter';
 
 // --- Import the certified platform ---
 import { Container } from '../../iips-platform/src/di/Container';
@@ -70,9 +73,38 @@ const ENGINE_FACTORY: Record<string, () => unknown> = {
 };
 
 // Frozen certified reference inputs (the v1.1 Replay Baseline).
-const BASELINE = JSON.parse(
+const BASELINE_FILE = JSON.parse(
   fs.readFileSync(path.resolve(__dirname, '../../program-v1.1-certification/PROGRAM_v1.1_REPLAY_BASELINE.json'), 'utf8'),
-) as { sectors: Array<{ sector: string; engineId: string; input: Record<string, unknown> }> };
+) as { version: string; date: string; sectors: Array<{ sector: string; engineId: string; input: Record<string, unknown> }> };
+const BASELINE = { sectors: BASELINE_FILE.sectors };
+
+/** Screener vintage source: the frozen baseline version/date (additive export). */
+export function baselineVintage(): { dataVersion: string; asOf: string } {
+  return { dataVersion: BASELINE_FILE.version, asOf: BASELINE_FILE.date };
+}
+
+/**
+ * AI Advisory reconciliation — resolve a sector key to its governed engine and frozen inputs.
+ *
+ * Coverage is DERIVED from the governed ENGINE_FACTORY mapping and the frozen v1.1 Replay
+ * Baseline (current certified 13-engine generation) — no sector is enumerated here. Unknown
+ * sectors and engineIds without a factory entry resolve to null (the transport answers 404).
+ * Additive export; no existing behavior is altered.
+ */
+export function resolveSectorEngine(sectorKey: string): import('./ai-advisory-transport').ResolvedSectorEngine | null {
+  const key = sectorKey.trim().toLowerCase();
+  if (!key) return null;
+  const entry = BASELINE.sectors.find((s) => s.sector.toLowerCase() === key);
+  if (!entry) return null;
+  const factory = ENGINE_FACTORY[entry.engineId];
+  if (!factory) return null;
+  return {
+    sector: entry.sector,
+    engineId: entry.engineId,
+    makeEngine: factory as () => import('../../iips-platform/src/plugin-loader/PluginContract').SectorPlugin,
+    inputs: entry.input,
+  };
+}
 
 // Sector display-name -> engine dir (for locating frozen expected-outputs).
 const SECTOR_DIR: Record<string, string> = {
@@ -531,6 +563,104 @@ const engineApi = new EngineApiAdapter();
 // Lazily-created live executors (real Keycloak), cached across requests.
 let adminExecutor: import('./secured-executor').SecuredExecutor | null = null;
 let aiExecutor: import('./secured-executor').SecuredExecutor | null = null;
+let reportsExecutor: import('./secured-executor').SecuredExecutor | null = null;
+/**
+ * The injected authoritative NP-04 persistence binding for the Reports transport.
+ *
+ * Resolved once through the Step 2 port and memoized. `null` means "no authoritative store is
+ * available to this process" — which the transport answers with 503 on durable surfaces. It is
+ * NEVER replaced by a local store.
+ */
+let reportsPersistence: import('./reports/persistence').ReportsPersistence | null = null;
+
+let readExecutor: import('./secured-executor').SecuredExecutor | null = null;
+
+async function getReadExecutor(): Promise<import('./secured-executor').SecuredExecutor | null> {
+  if (!readExecutor) {
+    const admin = await import('./admin-transport');
+    readExecutor = await admin.createLiveAdminExecutor(admin.readResourceGate);
+  }
+  return readExecutor;
+}
+
+export function buildGovernedUniverseProvider(): import('./watchlists/watchlists-transport').GovernedUniverseProvider {
+  return {
+    async screenerUniverse() {
+      const data = computeCertifiedDecisionMatrix() as {
+        companies: Array<{
+          companyId: string;
+          sector: string;
+          verdict: string;
+          composite: number;
+          quality: number | null;
+          valuation: number | null;
+        }>;
+        provenance?: { calibratedAt?: string };
+      };
+      const asOf = data.provenance?.calibratedAt ?? '2026-08-09T00:00:00.000Z';
+      return data.companies.map((c) => ({
+        canonicalSecurityId: c.sector,
+        companyId: c.companyId,
+        sector: c.sector,
+        verdict: c.verdict,
+        composite: c.composite,
+        qualityAxis: c.quality,
+        valuation: c.valuation,
+        quality: c.quality !== null ? 'good' : 'unavailable',
+        completenessPct: 100,
+        asOf,
+      }));
+    },
+    async searchUniverse() {
+      return this.screenerUniverse('default');
+    },
+    async securities() {
+      return this.screenerUniverse('default');
+    },
+    async vintage() {
+      return {
+        asOf: '2026-08-09T00:00:00.000Z',
+        dataVersion: 'v1.1-replay-baseline',
+        mode: 'SNAPSHOT',
+        dataSource: 'governed:certified-v2.0-reference-universe',
+        classification: 'REAL',
+        contributingSnapshotIds: ['snap_Banking'],
+      };
+    },
+  };
+}
+
+/**
+ * UI10 Collaboration (NP-10) — the GOVERNED reference universe and vintage for a tenant.
+ *
+ * Both identity forms the certified platform emits for a governed company are accepted: the
+ * certified sector-keyed identity (the identifier `/api/company/:id` resolves and UI07 stores as
+ * `canonicalSecurityId`) and the certified `companyId`. Evidence uses the `ev_<sector>` identity
+ * the platform emits in `/api/portfolio` and `/api/replay/:id`. No other form is accepted, and
+ * no governed value is derived here.
+ */
+export function buildGovernedReferenceProvider(): import('./collaboration/collaboration-resolvers').GovernedReferenceProvider {
+  const matrix = () => computeCertifiedDecisionMatrix() as {
+    companies: Array<{ companyId: string; sector: string }>;
+    provenance?: { calibratedAt?: string };
+  };
+  return {
+    async companyIds() {
+      return matrix().companies.flatMap((c) => [c.companyId, c.sector]);
+    },
+    async evidenceIds() {
+      return matrix().companies.map((c) => `ev_${c.sector}`);
+    },
+    async vintage() {
+      const asOf = matrix().provenance?.calibratedAt ?? '2026-08-09T00:00:00.000Z';
+      return {
+        asOf,
+        dataVersion: 'v1.1-replay-baseline',
+        mode: 'SNAPSHOT',
+      };
+    },
+  };
+}
 
 // IU-5 — the non-production PIT read seam, wired into the REAL server composition.
 // One port, built once, over a real IPD PointInTimeStore read through the real
@@ -547,6 +677,38 @@ async function getPitReadPort(): Promise<import('./pit/pitReadPort').PitReadPort
   ]);
   pitPort = createIpdPitReadPort(createNonProductionRuntimePitStore());
   return pitPort;
+}
+
+/**
+ * Authenticated Executive read (E2E-015 handoff reconciliation): the browser's genuine OIDC
+ * Bearer credential is validated through the canonical family read boundary — `guardRead`
+ * (SecuredExecutor.authenticate via the live read executor: real Keycloak discovery + JWKS;
+ * 401 on absent/invalid) → governed RBAC read gate (403 on deny) — BEFORE any certified data
+ * is served. Client claims are never trusted; authorization stays server-side; the certified
+ * Executive DTO itself is unchanged (`computeCertifiedExecutive` is the same certified path).
+ * `guardRead` is resolved via dynamic import, matching this file's established admin-transport
+ * seam (`getReadExecutor`) and avoiding a static import cycle.
+ */
+export async function handleExecutiveReadRequest(
+  req: http.IncomingMessage,
+  res: http.ServerResponse,
+  executor: import('./secured-executor').SecuredExecutor,
+): Promise<void> {
+  const token = (req.headers.authorization ?? '').replace(/^Bearer /, '').trim();
+  try {
+    const { guardRead } = await import('./admin-transport');
+    await guardRead(executor, token, 'executive');
+    res.writeHead(200);
+    res.end(JSON.stringify(computeCertifiedExecutive()));
+  } catch (e) {
+    if (e instanceof AuthError) {
+      res.writeHead(e.status);
+      res.end(JSON.stringify({ error: e.message }));
+      return;
+    }
+    res.writeHead(500);
+    res.end(JSON.stringify({ error: 'executive transport error', detail: String(e) }));
+  }
 }
 
 const server = http.createServer((req, res) => {
@@ -576,9 +738,35 @@ const server = http.createServer((req, res) => {
         let executor = aiExecutor;
         if (!executor) { executor = await ai.createLiveAiExecutor(); aiExecutor = executor; }
         if (!executor) { res.writeHead(401); res.end(JSON.stringify({ error: 'authentication unavailable (no IdP configured)' })); return; }
-        await ai.handleAiAdvisoryRequest(req, res, executor);
+        await ai.handleAiAdvisoryRequest(req, res, executor, resolveSectorEngine);
       } catch (e) {
         res.writeHead(500); res.end(JSON.stringify({ error: 'ai-advisory transport error', detail: String(e) }));
+      }
+    })();
+    return;
+  }
+  // Reports product transport (G3 / NP-06) — G3-enforced principal boundary + the NP-04
+  // governed persistence seam. Dispatched on the `/api/reports/` namespace only, and bound to
+  // SecuredExecutor so that no Reports request can reach product code without server-derived
+  // principal enforcement. Fails closed with 401 when no executor is available (no IdP / no
+  // authoritative membership store).
+  //
+  // Persistence is resolved through the Step 2 declared port at THIS composition point and
+  // injected into the handler. When the authoritative NP-04 store is not available the resolver
+  // returns null (it never substitutes a store), the durable surfaces answer 503, and the
+  // non-durable `context` surface is unaffected.
+  if (req.url?.startsWith('/api/reports/')) {
+    void (async () => {
+      try {
+        const reports = await import('./reports-transport');
+        let executor = reportsExecutor;
+        if (!executor) { executor = await reports.createLiveReportsExecutor(); reportsExecutor = executor; }
+        if (!executor) { res.writeHead(401); res.end(JSON.stringify({ error: 'authentication unavailable (no IdP configured)' })); return; }
+        let persistence = reportsPersistence;
+        if (!persistence) { persistence = await reports.createLiveReportsPersistence(); reportsPersistence = persistence; }
+        await reports.handleReportsRequest(req, res, executor, persistence);
+      } catch (e) {
+        res.writeHead(500); res.end(JSON.stringify({ error: 'reports transport error', detail: String(e) }));
       }
     })();
     return;
@@ -617,6 +805,64 @@ const server = http.createServer((req, res) => {
         await macro.handleMacroRequest(req, res);
       } catch (e) {
         res.writeHead(500); res.end(JSON.stringify({ error: 'macro transport error', detail: String(e) }));
+      }
+    })();
+    return;
+  }
+  // UI07 Watchlists (NP-09) — owner-scoped persistent lists with triggers.
+  if (req.url?.startsWith('/api/watchlists')) {
+    void (async () => {
+      try {
+        const executor = await getReadExecutor();
+        if (!executor) { res.writeHead(401); res.end(JSON.stringify({ error: 'authentication unavailable (no IdP configured)' })); return; }
+        const wl = await import('./watchlists/watchlists-transport');
+        await wl.handleWatchlistsRequest(req, res, executor, buildGovernedUniverseProvider());
+      } catch (e) {
+        res.writeHead(500); res.end(JSON.stringify({ error: 'watchlists transport error', detail: String(e) }));
+      }
+    })();
+    return;
+  }
+  // UI10 Collaboration (NP-10) — private, owner-scoped threads over governed objects.
+  if (req.url === '/api/collaboration' || req.url?.startsWith('/api/collaboration/')) {
+    void (async () => {
+      try {
+        const executor = await getReadExecutor();
+        if (!executor) { res.writeHead(401); res.end(JSON.stringify({ error: 'authentication unavailable (no IdP configured)' })); return; }
+        const collab = await import('./collaboration/collaboration-transport');
+        await collab.handleCollaborationRequest(req, res, executor, buildGovernedReferenceProvider());
+      } catch (e) {
+        res.writeHead(500); res.end(JSON.stringify({ error: 'collaboration transport error', detail: String(e) }));
+      }
+    })();
+    return;
+  }
+  // UI12 Settings (NP-11) — private, owner-scoped personal configuration. Dispatched on the
+  // exact `/api/settings` namespace only; the handler fails closed on any other path or method.
+  if (req.url === '/api/settings' || req.url?.startsWith('/api/settings/')) {
+    void (async () => {
+      try {
+        const executor = await getReadExecutor();
+        if (!executor) { res.writeHead(401); res.end(JSON.stringify({ error: 'authentication unavailable (no IdP configured)' })); return; }
+        const st = await import('./settings/settings-transport');
+        await st.handleSettingsRequest(req, res, executor);
+      } catch (e) {
+        res.writeHead(500); res.end(JSON.stringify({ error: 'settings transport error', detail: String(e) }));
+      }
+    })();
+    return;
+  }
+  // Governed Screener (NP-12 N4) — read-only declarative screening over the certified
+  // 13-engine set. Server-derived governed population; no client membership authority.
+  if (req.url === '/api/screener') {
+    void (async () => {
+      try {
+        const executor = await getReadExecutor();
+        if (!executor) { res.writeHead(401); res.end(JSON.stringify({ error: 'authentication unavailable (no IdP configured)' })); return; }
+        const sc = await import('./screener/screener-transport');
+        await sc.handleScreenerRequest(req, res, executor);
+      } catch (e) {
+        res.writeHead(500); res.end(JSON.stringify({ error: 'screener transport error', detail: String(e) }));
       }
     })();
     return;
@@ -669,9 +915,19 @@ const server = http.createServer((req, res) => {
       res.writeHead(200); res.end(JSON.stringify({ status: 'ok', transport: 'program-v3.0 executive (dev)' })); return;
     }
     if (req.url === '/api/executive') {
-      // Minimal dev-mode session mapping (see header note). NOT production auth.
-      const data = computeCertifiedExecutive();
-      res.writeHead(200); res.end(JSON.stringify(data)); return;
+      // E2E-015 handoff reconciliation: REAL OIDC authentication + governed read
+      // authorization (401/403) via the canonical live read executor — NOT the former
+      // dev-mode mapping. Family dispatch pattern (cf. watchlists/screener blocks).
+      void (async () => {
+        try {
+          const executor = await getReadExecutor();
+          if (!executor) { res.writeHead(401); res.end(JSON.stringify({ error: 'authentication unavailable (no IdP configured)' })); return; }
+          await handleExecutiveReadRequest(req, res, executor);
+        } catch (e) {
+          res.writeHead(500); res.end(JSON.stringify({ error: 'executive transport error', detail: String(e) }));
+        }
+      })();
+      return;
     }
     if (req.url?.startsWith('/api/replay/')) {
       const id = decodeURIComponent(req.url.slice('/api/replay/'.length));

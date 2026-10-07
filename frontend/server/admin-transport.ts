@@ -210,14 +210,26 @@ export function buildAdminState(): AdminPlatformState {
   };
 }
 
-/** Tenant directory: maps validated subjects to their authoritative tenant (platform-validated). */
-const ADMIN_DIRECTORY: TenantDirectory = {
+/**
+ * EXPLICIT TEST FIXTURE — a hardcoded subject→tenant map.
+ *
+ * This is a TEST-ONLY fixture. It is NEVER used as a default or fallback: importing code must
+ * pass it explicitly, which keeps test scope visible at every call site. The live path
+ * (`createLiveAdminExecutor`) does not and must not reference it; the authoritative tenant
+ * directory there is the durable IIPS membership store (`FileTenantDirectory`).
+ *
+ * Deliberately NOT named "ADMIN_DIRECTORY" to keep its test scope unambiguous (G3-Q §5).
+ */
+export const TEST_TENANT_DIRECTORY: TenantDirectory = {
   tenantForUser(userId, candidate) {
     const map: Record<string, string> = { 'admin-a': 'tenant-A', 'analyst-a': 'tenant-A', 'viewer-a': 'tenant-A', 'admin-b': 'tenant-B', 'analyst-b': 'tenant-B' };
     const expected = map[userId];
     return expected && candidate === expected ? { tenantId: expected } : null;
   },
 };
+
+/** Server-side configuration key for the authoritative membership store location. */
+export const TENANT_MEMBERSHIP_PATH_ENV = 'IIPS_TENANT_MEMBERSHIP_PATH';
 
 /** ApiSecurity-style resource gate: admin surfaces require the governed 'admin' role. */
 function adminResourceGate(principal: Principal, action: string): boolean {
@@ -227,7 +239,12 @@ function adminResourceGate(principal: Principal, action: string): boolean {
 
 export interface AdminExecutorDeps {
   readonly runtime?: EnterpriseRuntime;
-  readonly directory?: TenantDirectory;
+  /**
+   * REQUIRED. The authoritative TenantDirectory. There is deliberately NO default: a silent
+   * fallback to a fixture is exactly the G3-Q composition defect. Tests pass
+   * `TEST_TENANT_DIRECTORY` explicitly; the live path passes the durable membership store.
+   */
+  readonly directory: TenantDirectory;
   readonly resourceAccess?: (principal: Principal, action: string, resource: string) => boolean;
   readonly metadata: OidcRealmMetadata;
   readonly verifier: OidcVerifier;
@@ -236,25 +253,64 @@ export interface AdminExecutorDeps {
 export function createAdminExecutor(deps: AdminExecutorDeps): SecuredExecutor {
   return new SecuredExecutor(
     deps.runtime ?? new EnterpriseRuntime(clock),
-    deps.directory ?? ADMIN_DIRECTORY,
+    deps.directory, // no fallback: absent directory is a type error, not a silent fixture
     deps.resourceAccess ?? adminResourceGate,
     deps.metadata,
     deps.verifier,
   );
 }
 
+/** Read-capable executor: same construction as the admin executor but with the action-aware read gate. */
+export function readResourceGate(principal: Principal, action: string): boolean {
+  if (principal.roles.includes('admin')) return true;
+  if (principal.roles.includes('analyst')) return action === 'read' || action === 'execute';
+  if (principal.roles.includes('viewer')) return action === 'read';
+  return false;
+}
+
 /**
- * Build the live admin executor against a real Keycloak realm when KEYCLOAK_URL is set.
- * Returns null (no auth available -> admin endpoints 401) otherwise. This is the wiring used
- * by the dev transport server; tests inject a mock verifier instead.
+ * Read executor for the Watchlists/Collaboration/Settings transports (NP-09/NP-10/NP-11).
+ * Same construction as createAdminExecutor but with the action-aware read gate. The tenant
+ * directory is REQUIRED via AdminExecutorDeps (no ADMIN_DIRECTORY fallback); tests pass
+ * TEST_TENANT_DIRECTORY explicitly and the live composition passes the durable store.
+ */
+export function createReadExecutor(deps: AdminExecutorDeps): SecuredExecutor {
+  return new SecuredExecutor(
+    deps.runtime ?? new EnterpriseRuntime(clock),
+    deps.directory,
+    deps.resourceAccess ?? readResourceGate,
+    deps.metadata,
+    deps.verifier,
+  );
+}
+
+/**
+ * Build the live admin executor against a real Keycloak realm AND the authoritative IIPS tenant
+ * membership store.
+ *
+ * FAIL CLOSED: returns null (→ admin endpoints 401) when either the IdP or the authoritative
+ * membership store is not configured. It NEVER substitutes a fixture, and it introduces no
+ * alternative production fallback. Membership itself is resolved per-request by
+ * `FileTenantDirectory`, which denies when the store is absent, unreadable, or corrupt.
+ *
+ * The store path is server-side configuration only — never client-supplied.
  */
 export async function createLiveAdminExecutor(resourceAccess?: (p: Principal, action: string, resource: string) => boolean): Promise<SecuredExecutor | null> {
   const kc = process.env.KEYCLOAK_URL;
-  if (!kc) return null;
+  if (!kc) return null; // no IdP -> authentication unavailable -> 401
+  const membershipPath = process.env[TENANT_MEMBERSHIP_PATH_ENV];
+  if (!membershipPath) return null; // no authoritative directory -> fail closed (never a fixture)
   const { RealKeycloakVerifier } = await import('./live/real-oidc-verifier');
   const disc = await (await fetch(`${kc}/realms/iips/.well-known/openid-configuration`)).json() as { issuer: string; jwks_uri: string };
   const metadata: OidcRealmMetadata = { issuer: disc.issuer, jwksUri: disc.jwks_uri, clientId: 'iips-spa' };
-  return createAdminExecutor({ metadata, verifier: new RealKeycloakVerifier(metadata.issuer, metadata.jwksUri, metadata.clientId), resourceAccess: resourceAccess ?? adminResourceGate });
+  // Authoritative tenant resolution: durable IIPS membership, injected through the designated seam.
+  const { FileTenantDirectory } = await import('./tenant-membership-store');
+  return createAdminExecutor({
+    metadata,
+    verifier: new RealKeycloakVerifier(metadata.issuer, metadata.jwksUri, metadata.clientId),
+    resourceAccess: resourceAccess ?? adminResourceGate,
+    directory: new FileTenantDirectory({ path: membershipPath }),
+  });
 }
 
 /** Authenticate + authorize an admin read (action 'admin' -> admin-only via governed RBAC + gate). */
@@ -264,13 +320,36 @@ async function guardAdmin(executor: SecuredExecutor, token: string, surface: str
   return p;
 }
 
+/** Authenticate + authorize a governed READ (action 'read' — viewer/analyst/admin per governed RBAC + gate). */
+export async function guardRead(executor: SecuredExecutor, token: string, surface: string): Promise<Principal> {
+  const p = await executor.authenticate(token);            // 401 on failure
+  executor.authorize(p, 'read', `read.${surface}`, 0, 1000); // 403 on deny (governed RBAC + gate + audit)
+  return p;
+}
+
+/** Authenticate + authorize a governed EXECUTE action (analyst-and-above). */
+export async function guardExecute(executor: SecuredExecutor, token: string, surface: string): Promise<Principal> {
+  const p = await executor.authenticate(token);               // 401 on failure
+  executor.authorize(p, 'execute', `read.${surface}`, 0, 1000); // 403 on deny (viewer denied)
+  return p;
+}
+
 function tenantFilter<T>(rows: readonly T[], p: Principal, tenantOf: (r: T) => string): T[] {
   return rows.filter((r) => p.tenantId === tenantOf(r));
 }
 
 /** Transport-level error for governed validation failures (400/404/422) — distinct from auth 401/403. */
 export class TransportError extends Error {
-  constructor(readonly status: 400 | 404 | 422, message: string) {
+  /**
+   * `message` is a stable machine code (never an echo of client input). `detail` is optional and
+   * used only for server-side capability failures (e.g. 503 when an authoritative dependency is
+   * unavailable), so a caller can be told precisely what is missing without leaking input.
+   */
+  constructor(
+    readonly status: 400 | 403 | 404 | 405 | 422 | 503,
+    message: string,
+    readonly detail?: Readonly<Record<string, unknown>>,
+  ) {
     super(message);
     this.name = 'TransportError';
   }
