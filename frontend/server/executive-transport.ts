@@ -74,6 +74,29 @@ const BASELINE = JSON.parse(
   fs.readFileSync(path.resolve(__dirname, '../../program-v1.1-certification/PROGRAM_v1.1_REPLAY_BASELINE.json'), 'utf8'),
 ) as { sectors: Array<{ sector: string; engineId: string; input: Record<string, unknown> }> };
 
+/**
+ * AI Advisory reconciliation — resolve a sector key to its governed engine and frozen inputs.
+ *
+ * Coverage is DERIVED from the governed ENGINE_FACTORY mapping and the frozen v1.1 Replay
+ * Baseline (current certified 13-engine generation) — no sector is enumerated here. Unknown
+ * sectors and engineIds without a factory entry resolve to null (the transport answers 404).
+ * Additive export; no existing behavior is altered.
+ */
+export function resolveSectorEngine(sectorKey: string): import('./ai-advisory-transport').ResolvedSectorEngine | null {
+  const key = sectorKey.trim().toLowerCase();
+  if (!key) return null;
+  const entry = BASELINE.sectors.find((s) => s.sector.toLowerCase() === key);
+  if (!entry) return null;
+  const factory = ENGINE_FACTORY[entry.engineId];
+  if (!factory) return null;
+  return {
+    sector: entry.sector,
+    engineId: entry.engineId,
+    makeEngine: factory as () => import('../../iips-platform/src/plugin-loader/PluginContract').SectorPlugin,
+    inputs: entry.input,
+  };
+}
+
 // Sector display-name -> engine dir (for locating frozen expected-outputs).
 const SECTOR_DIR: Record<string, string> = {
   Banking: 'banking', Insurance: 'insurance', 'Capital Markets': 'capital-markets',
@@ -674,7 +697,7 @@ const server = http.createServer((req, res) => {
         let executor = aiExecutor;
         if (!executor) { executor = await ai.createLiveAiExecutor(); aiExecutor = executor; }
         if (!executor) { res.writeHead(401); res.end(JSON.stringify({ error: 'authentication unavailable (no IdP configured)' })); return; }
-        await ai.handleAiAdvisoryRequest(req, res, executor);
+        await ai.handleAiAdvisoryRequest(req, res, executor, resolveSectorEngine);
       } catch (e) {
         res.writeHead(500); res.end(JSON.stringify({ error: 'ai-advisory transport error', detail: String(e) }));
       }
