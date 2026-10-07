@@ -13,6 +13,7 @@ import { PortfolioWorkspace } from '../features/portfolio/PortfolioWorkspace';
 import { CompanyIntelligence } from '../features/company/CompanyIntelligence';
 import { CrossSectorIntelligence } from '../features/cross-sector/CrossSectorIntelligence';
 import { DecisionMatrix } from '../features/decision-matrix/DecisionMatrix';
+import { EvidenceLanding } from '../features/evidence/EvidenceLanding';
 import { EvidenceExplorer } from '../features/evidence/EvidenceExplorer';
 import { ReplayExplorer } from '../features/replay/ReplayExplorer';
 import { EngineRegistry } from '../features/engines/EngineRegistry';
@@ -43,9 +44,11 @@ export function App() {
         <Route path="/research/engines" element={<EngineRegistry />} />
         <Route path="/intelligence/decision-matrix" element={<DecisionMatrix />} />
         <Route path="/intelligence/*" element={<FeaturePlaceholder surface="Intelligence" />} />
-        <Route path="/evidence" element={<FeaturePlaceholder surface="Evidence" />} />
-        <Route path="/evidence/:id" element={<EvidenceExplorer />} />
+        <Route path="/evidence" element={<EvidenceLanding />} />
+        <Route path="/evidence/snapshots" element={<NotYetAuthorized surface="Evidence Snapshots" />} />
+        <Route path="/evidence/replay" element={<NotYetAuthorized surface="Evidence Replay" />} />
         <Route path="/evidence/replay/:id" element={<ReplayExplorer />} />
+        <Route path="/evidence/:id" element={<EvidenceExplorer />} />
         <Route path="/admin/*" element={<Administration />} />
         <Route path="*" element={<FeaturePlaceholder surface="Unknown route" />} />
       </Route>
