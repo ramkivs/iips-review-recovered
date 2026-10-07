@@ -1,0 +1,134 @@
+P3.2 DURABILITY PROCESS OUTPUTS — CAPTURED EXECUTION RECORD
+=============================================================
+Evidence date (UTC): 2026-10-07 (P3 stage)
+Protocol: Process A writes a deterministic fixture and terminates completely;
+Process B starts as a genuinely independent OS process, reopens the same storage,
+and recovers. PIDs recorded prove process separation. Storage: disposable
+directories under /tmp/p3p5-verify/storage/ (not published; temporary by design).
+Loader: tsx 4.19.2; Node v22.22.3; Linux.
+NOTE: the driver scripts themselves are trivially reconstructable from the
+protocol documented in P3-persistence-durability.md §3 and the public APIs of
+the implementations under test; they are intentionally not published.
+
+---
+TEST 1 — IRR PF-1 JOURNAL (implementation: IRR main @ 17e234a1d6a5e1629cdf98b5c5f241a663cf9901,
+persistence-service.ts, blob ca735d5d8e2a11bdcf2c1c3a9b9fc42fb30abbaf)
+Command (Process A): tsx journal-A.ts <dataDir>
+Command (Process B): tsx journal-B.ts <dataDir>
+Fixture: dedupKey p3-fixture-001 payload {proof:'P3.2-cross-process',
+marker:'DISTINCTIVE-P3-JOURNAL', flags:[7,8,9], nested:{ok:true}}; second record
+p3-fixture-002; duplicate append (no-op contract); updateReadState(true).
+
+--- Process A (pid 2076) stdout ---
+{"role":"A","pid":2076,"recordId":"1dd54b61-ae3b-4bf2-9ad8-039767012624","secondId":"2e5acb14-07f4-43c3-ac31-2e12b4d25d94","readState":true}
+exit=0 (process terminated)
+
+--- Process B (pid 2169) stdout ---
+{
+ "role": "B", "pid": 2169, "count": 2,
+ "firstPayloadExact": true,
+ "firstReadStateRecovered": true,
+ "firstHasUpdatedAt": true,
+ "secondPresent": true,
+ "foreignOwnerUndefined": true,
+ "foreignTenantUndefined": true,
+ "missingUndefined": true,
+ "dedupExists": true,
+ "DURABILITY": "PROVEN — journal state recovered exactly by independent process"
+}
+exit=0
+Journal bytes on disk: journal.ndjson, 3+ lines, first line {"journalFormatVersion":1}
+
+---
+TEST 2 — NP-04 GOVERNED ARTIFACT STORE (implementation: IPD pin @
+2e11fa3b689d1a3674a5e4ba1f1de9a559e20494, src/persistence/*, node:sqlite)
+Command (A): tsx np04-A.ts <dbPath>; (B): tsx np04-B.ts <dbPath>
+Fixture: owner {tenantId:'p3-tenant',userId:'p3-user'}; reportType
+'P3_DURABILITY_PROOF'; canonicalPayload JSON
+{proof:'NP04-P3.2',marker:'DISTINCTIVE-NP04-ARTIFACT',values:[1,2,3]};
+provenance {source:'p3-driver',lineage:'P3.2'}.
+
+--- Process A (pid 2090) stdout ---
+{"role":"A","pid":2090,"reportId":"78900e2b-44c4-426b-83be-7349e8ef6dbc","reportKey":"9dabeb6228d6452ca502bf72…","chainId":"78900e2b-44c4-426b-83be-7349e8ef6dbc","artifactVersion":1,"migrationsApplied":1}
+exit=0 (WAL/SHM files present on disk: governed.sqlite, -wal, -shm)
+
+--- Process B (pid 2344) stdout ---
+{
+ "role": "B", "pid": 2344,
+ "migrationsAppliedOnReopen": 0,
+ "pragmas": {"journal_mode": "wal", "synchronous": 2, "foreign_keys": 1},
+ "itemCount": 1,
+ "artifactFound": true,
+ "canonicalPayloadExact": true,
+ "provenancePreserved": true,
+ "artifactVersionIs1": true,
+ "foreignTenantEmpty": true,
+ "foreignUserEmpty": true,
+ "DURABILITY": "PROVEN — SQLite artifact recovered exactly by independent process"
+}
+exit=0
+
+---
+TEST 3 — G-2/G24 DURABLE PORTFOLIO (implementation: IPD G24 @
+6828155ec6e882bbb4cabcd96b5a841d8c8a6bc4, src/{persistence,portfolio,app_identity}/*, better-sqlite3 13.0.3)
+Command (A): tsx g24-A.ts <dbPath>; (B): tsx g24-B.ts <dbPath>
+Governed provisioning chain executed in Process A:
+provisionExternalIdentityMapping(issuer 'https://p3-idp.test', subject
+'p3-subject-001') → approveMapping → activateMapping → provisionTenantMembership
+('p3-tenant'). Holdings: P3A (qty 10, 60%) + P3B (qty 20, 40%), both RESOLVED /
+CANONICAL_P04, broker GENERIC.
+NOTE: first attempt WITHOUT provisioning failed with
+PersistenceUnavailableError SQLITE_CONSTRAINT_FOREIGNKEY at insertPortfolio —
+the FK enforcement itself evidences that the governed identity chain is mandatory.
+
+--- Process A (pid 2379) stdout ---
+{"role":"A","pid":2379,"applicationUserId":"591b7af2-e901-4f90-868d-bbdb248b970e","identityResolvedInProcess":true,"membershipState":"ACTIVE","portfolioId":"1b18999e-8784-4994-a7a4-c330078cf023","revisionAfterSave":1,"disposition":"SAVED_NEW_BATCH","totalMarketValue":2400,"migrationsApplied":["001","002"],"schemaVersion":"002"}
+exit=0
+
+--- Process B (pid 2415) stdout ---
+{
+ "role": "B", "pid": 2415,
+ "migrationsAppliedOnReopen": [],
+ "schemaVersionOnReopen": "002",
+ "identityMappingRecovered": true,
+ "applicationUserIdMatchesA": true,
+ "listCount": 1,
+ "portfolioRecovered": true,
+ "holdingsCountRecovered": true,
+ "symbolsRecovered": true,
+ "quantitiesRecovered": true,
+ "weightsSum100": true,
+ "totalMarketValue": 2400,
+ "revisionRecovered": 1,
+ "historyOperations": "INITIAL,MERGE",
+ "foreignUserEmpty": true,
+ "foreignTenantEmpty": true,
+ "DURABILITY": "PROVEN — governed identity + durable portfolio recovered exactly by independent process"
+}
+exit=0
+
+---
+TEST 4 — IPD MAIN PIT (implementation: IPD main @ 4d3e1cdca3a33da0ec3be8b336b17128108a502c,
+src/pit/pit_store.ts — in-memory Map keyed companyId:domain)
+In-process execution (cross-process durability IMPOSSIBLE — no storage medium):
+{"recordCount":2,"vintageResolutionJan":100,"vintageResolutionFeb":110,
+ "preHistoryQuery":"undefined (fail-closed miss)",
+ "medium":"in-memory Map — process-local; cross-process durability IMPOSSIBLE (no storage medium)"}
+
+---
+RESTART PROOF — PF-1 SEPARATE-PROCESS (branch-native scripts: IRR arena/a2df3b85 @
+5eba01b6e818a261230725761b7797b68782e883; the persistence-service.ts blob is
+byte-identical to main: ca735d5d8e2a11bdcf2c1c3a9b9fc42fb30abbaf)
+Command (A): tsx restart-proof-writer.ts <dataDir> tenant-restart-proof owner-restart-proof key-restart-proof
+Command (B): tsx restart-proof-recoverer.ts <dataDir> tenant-restart-proof owner-restart-proof
+
+--- Process A (writer, pid 2453) stdout ---
+{"role":"writer","pid":2453,"record":{"recordId":"89ea7ac1-871a-4b14-87eb-09b5921fc988","tenantId":"tenant-restart-proof","ownerUserId":"owner-restart-proof","dedupKey":"key-restart-proof","payload":{"proof":"journal-separate-process-restart","kind":"restart-proof-fixture","dedupKey":"key-restart-proof","flags":[1,2,3],"nested":{"marker":"DISTINCTIVE-key-restart-proof","enabled":true}},"createdAt":"2026-10-07T16:23:18.749Z","seq":1,"read":true,"updatedAt":"2026-10-07T16:23:18.750Z"},"dupSameId":true,"journalLines":3}
+exit=0
+Journal bytes on disk: 3 lines; line 1 {"journalFormatVersion":1}
+
+--- Process B (recoverer, pid 2483) stdout ---
+{"role":"recoverer","pid":2483,"records":[{"recordId":"89ea7ac1-871a-4b14-87eb-09b5921fc988","tenantId":"tenant-restart-proof","ownerUserId":"owner-restart-proof","dedupKey":"key-restart-proof","payload":{"proof":"journal-separate-process-restart","kind":"restart-proof-fixture","dedupKey":"key-restart-proof","flags":[1,2,3],"nested":{"marker":"DISTINCTIVE-key-restart-proof","enabled":true}},"createdAt":"2026-10-07T16:23:18.749Z","seq":1,"read":true,"updatedAt":"2026-10-07T16:23:18.750Z"}],"missingIsUndefined":true,"foreignIsUndefined":true,"existsFirst":true}
+exit=0
+
+END OF RECORD
