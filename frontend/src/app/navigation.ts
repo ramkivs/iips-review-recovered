@@ -25,6 +25,12 @@ export const NAV: NavItem[] = [
       { label: 'Holdings', path: '/portfolio/:id/holdings', minRole: 'viewer' },
     ],
   },
+  // G-2 — durable user portfolios (read-only IPD/G24-backed consumer, 2026-10-08
+  // UI-Consumer Implementation Authorization). A personal durable-portfolio view
+  // distinct from the certified reference Portfolio workspace above; available to
+  // every authenticated role, authorization enforced server-side by the G-2
+  // boundary.
+  { label: 'User Portfolios', path: '/user-portfolios', minRole: 'viewer' },
   { label: 'Watchlists', path: '/watchlists', minRole: 'viewer' },
   { label: 'Collaboration', path: '/collaboration', minRole: 'viewer' },
   // NP-11 UI12 — private, user-owned personal settings (personal capability, not a platform
