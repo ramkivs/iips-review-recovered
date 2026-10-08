@@ -1,0 +1,682 @@
+{
+"Command Center": {
+"trees": 0,
+"files": 0,
+"sample": []
+},
+"Command Centre": {
+"trees": 0,
+"files": 0,
+"sample": []
+},
+"CommandCenter": {
+"trees": 0,
+"files": 0,
+"sample": []
+},
+"Command Palette": {
+"trees": 30,
+"files": 34,
+"sample": [
+"docs/D29_P12_IMPLEMENTATION_AUTHORIZATION.md",
+"docs/D32_P13_IMPLEMENTATION_AUTHORIZATION.md",
+"docs/D84Q_P14_UI_QUALIFICATION_INSTRUMENT.md",
+"docs/E13-10_EB14-3_CLOSURE.md"
+]
+},
+"CommandPalette": {
+"trees": 27,
+"files": 23,
+"sample": [
+"IIPS_DONOR_CROSS_VERIFICATION_AND_ACCESS_RESOLUTION_REPORT.md",
+"docs/D84Q_P14_UI_QUALIFICATION_INSTRUMENT.md",
+"docs/D90_GLOBAL_UI12_DATA_MODE_PROPAGATION_PHASE_2.md",
+"docs/D96_GLOBAL_UI12_DEGRADED_CONSUMER_REMEDIATION.md"
+]
+},
+"Decision Center": {
+"trees": 15,
+"files": 22,
+"sample": [
+"docs/D32_P13_IMPLEMENTATION_AUTHORIZATION.md",
+"docs/D57_AD17_L5_BROADER_SURFACE_AUTHORITY_ADJUDICATION.md",
+"docs/D84Q_P14_UI_QUALIFICATION_INSTRUMENT.md",
+"docs/E13-10_EB14-3_CLOSURE.md"
+]
+},
+"DecisionCenter": {
+"trees": 12,
+"files": 4,
+"sample": [
+"p13/src/dataSurfaces.js",
+"p13/tests/dataSurfaces.test.js",
+"p14/evidence/P14_BASELINE_MANIFEST.json",
+"p14/src/visualParityBaseline.js"
+]
+},
+"Company Workspace": {
+"trees": 15,
+"files": 24,
+"sample": [
+"docs/D32_P13_IMPLEMENTATION_AUTHORIZATION.md",
+"docs/D57_AD17_L5_BROADER_SURFACE_AUTHORITY_ADJUDICATION.md",
+"docs/D84Q_P14_UI_QUALIFICATION_INSTRUMENT.md",
+"docs/E13-10_EB14-3_CLOSURE.md"
+]
+},
+"CompanyWorkspace": {
+"trees": 12,
+"files": 4,
+"sample": [
+"p13/src/dataSurfaces.js",
+"p13/tests/dataSurfaces.test.js",
+"p14/evidence/P14_BASELINE_MANIFEST.json",
+"p14/src/visualParityBaseline.js"
+]
+},
+"Replay Studio": {
+"trees": 15,
+"files": 12,
+"sample": [
+"docs/IIPS_REMAINING_PRODUCT_SURFACE_INVENTORY.md",
+"evidence/dhan-d2-ui/dom-current.html",
+"evidence/dhan-d2-ui/dom-stale.html",
+"evidence/dhan-d2-ui/dom-unavailable.html"
+]
+},
+"ReplayStudio": {
+"trees": 17,
+"files": 8,
+"sample": [
+"evidence/d114/stage5-ui-read-only-qualification-report.json",
+"src/ui/types.ts",
+"src/ui/view_models/ui01_replay_studio.ts",
+"tests/wse_durability_cp_w4.test.ts"
+]
+},
+"Evidence Snapshot": {
+"trees": 0,
+"files": 0,
+"sample": []
+},
+"Evidence Snapshots": {
+"trees": 0,
+"files": 0,
+"sample": []
+},
+"Evidence Replay": {
+"trees": 26,
+"files": 4,
+"sample": [
+"frontend/src/app/App.tsx",
+"frontend/src/app/navigation.test.ts",
+"iips-platform/tests/regression/program-v2.0-wp14-migration.test.ts",
+"tests/shell_offline_full_shell_restoration.test.ts"
+]
+},
+"Research Hub": {
+"trees": 27,
+"files": 6,
+"sample": [
+"docs/D89_GLOBAL_UI12_DATA_MODE_PROPAGATION.md",
+"docs/PHASE1_AUTHORIZATION_PREPARATION.md",
+"evidence/target-shell-integration/IIPS-HISTORICAL-CURRENT-CONVERGENCE-INVENTORY.md",
+"evidence/target-shell-integration/NEXT-PRODUCT-SURFACE-AUTHORITY-DESIGNATION-PACKET.md"
+]
+},
+"ResearchHub": {
+"trees": 27,
+"files": 21,
+"sample": [
+"IIPS_DONOR_CROSS_VERIFICATION_AND_ACCESS_RESOLUTION_REPORT.md",
+"IIPS_RESEARCH_SECTOR_RECOVERY_MANIFEST.md",
+"IIPS_RESEARCH_SECTOR_UI_RECOVERY_REPORT.md",
+"docs/D84Q_P14_UI_QUALIFICATION_INSTRUMENT.md"
+]
+},
+"Sector Research": {
+"trees": 0,
+"files": 0,
+"sample": []
+},
+"Sector Intelligence": {
+"trees": 30,
+"files": 79,
+"sample": [
+"IIPS_AI_ADVISORY_FORENSIC_AUTHORITY_REPORT.md",
+"IIPS_EXECUTIVE_CONTROLLED_RECOVERY_REPORT.md",
+"IIPS_RESEARCH_SECTOR_READ_AUTHORITIES_REPORT.md",
+"IIPS_RESEARCH_SECTOR_RECOVERY_MANIFEST.md"
+]
+},
+"SectorIntelligence": {
+"trees": 30,
+"files": 60,
+"sample": [
+"IIPS_AI_ADVISORY_FORENSIC_AUTHORITY_REPORT.md",
+"IIPS_DONOR_CROSS_VERIFICATION_AND_ACCESS_RESOLUTION_REPORT.md",
+"IIPS_RESEARCH_SECTOR_RECOVERY_MANIFEST.md",
+"IIPS_RESEARCH_SECTOR_UI_RECOVERY_REPORT.md"
+]
+},
+"Opportunities": {
+"trees": 27,
+"files": 52,
+"sample": [
+"IIPS_AI_ADVISORY_FORENSIC_AUTHORITY_REPORT.md",
+"IIPS_DONOR_CROSS_VERIFICATION_AND_ACCESS_RESOLUTION_REPORT.md",
+"IIPS_EXECUTIVE_CONTROLLED_RECOVERY_REPORT.md",
+"IIPS_EXECUTIVE_LIVE_REEXECUTION_AND_E2E018_VERIFICATION_REPORT.md"
+]
+},
+"Opportunity Engine": {
+"trees": 16,
+"files": 9,
+"sample": [
+"iips-cross-sector/CROSS_SECTOR_INTELLIGENCE_STANDARD.md",
+"iips-cross-sector/CSIP_IMPLEMENTATION_PLAN.md",
+"iips-cross-sector/CSIP_IMPLEMENTATION_TRACEABILITY_MATRIX.md",
+"iips-cross-sector/PORTFOLIO_ARCHITECTURE.md"
+]
+},
+"OpportunityEngine": {
+"trees": 19,
+"files": 14,
+"sample": [
+"IIPS_DONOR_CROSS_VERIFICATION_AND_ACCESS_RESOLUTION_REPORT.md",
+"docs/d4/D4_05_SECURITY_MASTER_ADAPTER.md",
+"docs/d4/D4_08_ENGINE_INTEGRATION.md",
+"docs/d4/D4_11_CERTIFICATION_MATRIX.md"
+]
+},
+"Risk Engine": {
+"trees": 12,
+"files": 2,
+"sample": [
+"p11/src/engineRegistry.js",
+"p11/tests/engineRegistry.test.js"
+]
+},
+"RiskEngine": {
+"trees": 12,
+"files": 2,
+"sample": [
+"p11/src/engineRegistry.js",
+"p11/tests/engineRegistry.test.js"
+]
+},
+"Rankings": {
+"trees": 30,
+"files": 42,
+"sample": [
+"IIPS_AI_ADVISORY_FORENSIC_AUTHORITY_REPORT.md",
+"IIPS_DONOR_CROSS_VERIFICATION_AND_ACCESS_RESOLUTION_REPORT.md",
+"docs/D115_GROUP2_INSURANCE_CAPITAL_MARKETS_AUTHORITY_PREPARATION.md",
+"docs/IIPS_REMAINING_PRODUCT_SURFACE_INVENTORY.md"
+]
+},
+"RankingEngine": {
+"trees": 19,
+"files": 15,
+"sample": [
+"IIPS_DONOR_CROSS_VERIFICATION_AND_ACCESS_RESOLUTION_REPORT.md",
+"IIPS_EXECUTIVE_LIVE_REEXECUTION_AND_E2E018_VERIFICATION_REPORT.md",
+"docs/d4/D4_05_SECURITY_MASTER_ADAPTER.md",
+"docs/d4/D4_08_ENGINE_INTEGRATION.md"
+]
+},
+"Reports": {
+"trees": 33,
+"files": 252,
+"sample": [
+".gitignore",
+"IIPS_AI_ADVISORY_FORENSIC_AUTHORITY_REPORT.md",
+"IIPS_DONOR_CROSS_VERIFICATION_AND_ACCESS_RESOLUTION_REPORT.md",
+"IIPS_EXECUTIVE_CONTROLLED_RECOVERY_REPORT.md"
+]
+},
+"ReportsPage": {
+"trees": 0,
+"files": 0,
+"sample": []
+},
+"Widget": {
+"trees": 16,
+"files": 6,
+"sample": [
+"IIPS_DONOR_CROSS_VERIFICATION_AND_ACCESS_RESOLUTION_REPORT.md",
+"docs/IIPS_REMAINING_PRODUCT_SURFACE_INVENTORY.md",
+"docs/WUI_RS_05D_C_PLATFORM_COLOUR_AUTHORITY_RECONCILIATION.md",
+"evidence/target-shell-integration/IIPS-HISTORICAL-CURRENT-CONVERGENCE-INVENTORY.md"
+]
+},
+"widget": {
+"trees": 16,
+"files": 6,
+"sample": [
+"IIPS_DONOR_CROSS_VERIFICATION_AND_ACCESS_RESOLUTION_REPORT.md",
+"docs/IIPS_REMAINING_PRODUCT_SURFACE_INVENTORY.md",
+"docs/WUI_RS_05D_C_PLATFORM_COLOUR_AUTHORITY_RECONCILIATION.md",
+"evidence/target-shell-integration/IIPS-HISTORICAL-CURRENT-CONVERGENCE-INVENTORY.md"
+]
+},
+"D107": {
+"trees": 29,
+"files": 17,
+"sample": [
+"docs/D107_EOD_PRODUCTION_READINESS_GATE_ADJUDICATION.md",
+"docs/D109_PROGRAM_MILESTONE_SIGNOFF_LAYER1_LAYER2_HARMONIZATION.md",
+"docs/D113_STAGE1_BANKING_ACCEPTANCE_AND_DURABILITY_RECONCILIATION.md",
+"docs/D113_STAGE2_BANKING_CALIBRATION_ACCEPTANCE_AND_DURABILITY_RECONCILIATION.md"
+]
+},
+"D-107": {
+"trees": 0,
+"files": 0,
+"sample": []
+},
+"EOD": {
+"trees": 31,
+"files": 97,
+"sample": [
+".gitattributes",
+"IIPS_DONOR_CROSS_VERIFICATION_AND_ACCESS_RESOLUTION_REPORT.md",
+"d115/evidence/hdfclife/eod-discovery-20260919/intake-20260919/BhavCopy_NSE_CM_0_0_0_20260915_F_0000.extracted.csv",
+"d115/evidence/hdfclife/eod-discovery-20260919/intake-20260919/D115-ST3-HDFCLIFE-15SEP-EOD-intake-manifest.json"
+]
+},
+"End of Day": {
+"trees": 0,
+"files": 0,
+"sample": []
+},
+"End-of-Day": {
+"trees": 14,
+"files": 2,
+"sample": [
+"docs/PHASE_07_O3_ACT_B_SELECTION.md",
+"docs/p02/P02_ENTITLEMENT_MODEL.md"
+]
+},
+"AG-5": {
+"trees": 4,
+"files": 3,
+"sample": [
+"evidence/target-shell-integration/IU-1-PIT-SERIES-AWARE-KEYING-IMPLEMENTATION-AUTHORITY-ACT.md",
+"src/pit/pit_read_service.ts",
+"src/pit/pit_store.ts"
+]
+},
+"AG5": {
+"trees": 0,
+"files": 0,
+"sample": []
+},
+"Cross-Domain": {
+"trees": 31,
+"files": 16,
+"sample": [
+"docs/d4/D4_01_INTEGRATION_REUSE_BASELINE.md",
+"docs/d4/D4_02_DATA_DOMAINS.md",
+"docs/d4/D4_03_UI_BASELINE.md",
+"docs/p01/P01_EVIDENCE.md"
+]
+},
+"Cross Domain": {
+"trees": 5,
+"files": 2,
+"sample": [
+"evidence/persistence-payload-governance/GP-6-E1-PAYLOAD-INTERFACE-SPECIFICATION-RECORD.md",
+"tests/wsi_iu1_pit_series_aware_keying.test.ts"
+]
+},
+"Portfolio Intelligence": {
+"trees": 16,
+"files": 38,
+"sample": [
+"ROADMAP.md",
+"docs/v3.0/PROGRAM_v3.0_PHASE6_COMPLETION.md",
+"docs/v3.0/information-architecture.md",
+"docs/v3.0/repository-audit.md"
+]
+},
+"PortfolioIntelligence": {
+"trees": 16,
+"files": 20,
+"sample": [
+"IIPS_DONOR_CROSS_VERIFICATION_AND_ACCESS_RESOLUTION_REPORT.md",
+"IIPS_EXECUTIVE_LIVE_REEXECUTION_AND_E2E018_VERIFICATION_REPORT.md",
+"docs/v3.0/PROGRAM_v3.0_PHASE5_COMPLETION.md",
+"docs/v3.0/PROGRAM_v3.0_PHASE6_COMPLETION.md"
+]
+},
+"BI-07": {
+"trees": 15,
+"files": 76,
+"sample": [
+"BLOCK-3L-BROKER-CSV-FULL-RESOLUTION-AUDIT.md",
+"docs/FULL_IIPS_BI08_CONVERGENCE_FILE_MATRIX.md",
+"docs/FULL_IIPS_BI08_CONVERGENCE_PLAN.md",
+"docs/IIPS_REMAINING_PRODUCT_SURFACE_INVENTORY.md"
+]
+},
+"ConsumerEngine": {
+"trees": 16,
+"files": 50,
+"sample": [
+"docs/D45_EXTERNAL_REMEDIATION_CLOSURE_EVIDENCE.md",
+"docs/D50_AUTHORITY_RE_REVIEW.md",
+"docs/P15_CLOSURE_REPORT.md",
+"docs/P15_CORRECTIVE_IMPLEMENTATION_REPORT.md"
+]
+},
+"staples": {
+"trees": 16,
+"files": 41,
+"sample": [
+"ies-013-consumer/CONSUMER_CALIBRATION_BOUNDARY_REVIEW_MATRIX.md",
+"ies-013-consumer/CONSUMER_DISCOVERY_PACK.md",
+"ies-013-consumer/CONSUMER_METHODOLOGY_PRINCIPLES.md",
+"ies-013-consumer/CONSUMER_REFERENCE_ASSETS_INDEX.md"
+]
+},
+"discretionary": {
+"trees": 17,
+"files": 26,
+"sample": [
+"docs/PHASE_08_GATE_ACCEPTANCE_REVIEW.md",
+"ies-013-consumer/CONSUMER_CALIBRATION_BOUNDARY_REVIEW_MATRIX.md",
+"ies-013-consumer/CONSUMER_DISCOVERY_PACK.md",
+"ies-013-consumer/CONSUMER_METHODOLOGY_PRINCIPLES.md"
+]
+},
+"G24": {
+"trees": 2,
+"files": 42,
+"sample": [
+"evidence/np04/NP04-G29-FRESH-AUTHORITY-PHASE-A-ADOPTION-ACT.md",
+"evidence/np04/NP04-G31-PHASE-A-ACCEPTANCE-ACT.md",
+"evidence/np04/NP04-GOVERNANCE-AUTHORITY-RECORD.md",
+"src/app_identity/errors.ts"
+]
+},
+"mapping registry": {
+"trees": 1,
+"files": 1,
+"sample": [
+"src/providers/dhan/dhan_instrument_map.ts"
+]
+},
+"MappingRegistry": {
+"trees": 0,
+"files": 0,
+"sample": []
+},
+"company mapping": {
+"trees": 1,
+"files": 2,
+"sample": [
+"evidence/intelligence-data-supply-governance/GATE-Y-INTELLIGENCE-DATA-SUPPLY-DESIGNATION-AND-GATE-SELECTION-ACT.md",
+"evidence/intelligence-data-supply-governance/GATE-Y-M2-INTELLIGENCE-DATA-AUTHORIZATION-ACT.md"
+]
+},
+"identity mapping": {
+"trees": 31,
+"files": 25,
+"sample": [
+"d115/governance/identity-mapping/mapping-proposal.schema.json",
+"docs/D115_IDENTITY_RESOLUTION_AND_BINDING_RECONCILIATION.md",
+"docs/PROGRAM_STATE.md",
+"docs/d4/D4_05_SECURITY_MASTER_ADAPTER.md"
+]
+},
+"IdentityMapping": {
+"trees": 32,
+"files": 130,
+"sample": [
+"BLOCK-3L-BROKER-CSV-FULL-RESOLUTION-AUDIT.md",
+"d115/governance/canonical-identity/readiness/readiness-report.json",
+"d115/governance/identity-mapping/manifests/hdfc-life-d115-stage3-bounded-package.integrity-manifest.json",
+"d115/governance/identity-mapping/mapping-proposal.schema.json"
+]
+},
+"tenant mapping": {
+"trees": 2,
+"files": 3,
+"sample": [
+"docs/D115_IDENTITY_RESOLUTION_AND_BINDING_RECONCILIATION.md",
+"docs/v3.0/g3-build/principal-tenant-mapping.md",
+"docs/v3.0/phase12/mutation-rbac-map.md"
+]
+},
+"TenantDirectory": {
+"trees": 13,
+"files": 13,
+"sample": [
+"docs/D115_IDENTITY_DESIGNATION_PACKET.md",
+"docs/D115_IDENTITY_RESOLUTION_AND_BINDING_RECONCILIATION.md",
+"docs/v3.0/g3-build/PROGRAM_v3.0_G3_CERTIFICATION.md",
+"docs/v3.0/g3-build/PROGRAM_v3.0_G3_LIVE_CERTIFICATION.md"
+]
+},
+"ISIN": {
+"trees": 33,
+"files": 320,
+"sample": [
+"BLOCK-3L-BROKER-CSV-FULL-RESOLUTION-AUDIT.md",
+"IIPS_AI_ADVISORY_FORENSIC_AUTHORITY_REPORT.md",
+"LICENSE",
+"d114/package.json"
+]
+},
+"companyId": {
+"trees": 33,
+"files": 448,
+"sample": [
+"BLOCK-3L-BROKER-CSV-FULL-RESOLUTION-AUDIT.md",
+"IIPS_DONOR_CROSS_VERIFICATION_AND_ACCESS_RESOLUTION_REPORT.md",
+"IIPS_EXECUTIVE_LIVE_REEXECUTION_AND_E2E018_VERIFICATION_REPORT.md",
+"IIPS_RESEARCH_SECTOR_READ_AUTHORITIES_REPORT.md"
+]
+},
+"securityId": {
+"trees": 29,
+"files": 186,
+"sample": [
+"d114/src/contracts/d01_quotes.ts",
+"d114/src/contracts/d02_ohlcv.ts",
+"d114/src/contracts/types.ts",
+"d114/src/d114/cm_udiff_parser.ts"
+]
+},
+"UI01": {
+"trees": 31,
+"files": 77,
+"sample": [
+"d115/evidence/hdfclife/eod-discovery-20260919/intake-20260919/BhavCopy_NSE_CM_0_0_0_20260915_F_0000.extracted.csv",
+"d115/evidence/security-master/EQUITY_L.csv",
+"docs/D32_P13_IMPLEMENTATION_AUTHORIZATION.md",
+"docs/D82_UI08_REPORTS_RECOVERY_IMPLEMENTATION.md"
+]
+},
+"UI02": {
+"trees": 32,
+"files": 85,
+"sample": [
+"IIPS_DONOR_CROSS_VERIFICATION_AND_ACCESS_RESOLUTION_REPORT.md",
+"docs/D29_P12_IMPLEMENTATION_AUTHORIZATION.md",
+"docs/D32_P13_IMPLEMENTATION_AUTHORIZATION.md",
+"docs/D56_AD17_L1_UI16_COMPANY_TRUSTCHAIN_CLOSURE.md"
+]
+},
+"UI03": {
+"trees": 31,
+"files": 77,
+"sample": [
+"IIPS_AI_ADVISORY_FORENSIC_AUTHORITY_REPORT.md",
+"IIPS_DONOR_CROSS_VERIFICATION_AND_ACCESS_RESOLUTION_REPORT.md",
+"IIPS_RESEARCH_SECTOR_RECOVERY_MANIFEST.md",
+"IIPS_RESEARCH_SECTOR_UI_RECOVERY_REPORT.md"
+]
+},
+"UI04": {
+"trees": 31,
+"files": 61,
+"sample": [
+"IIPS_DONOR_CROSS_VERIFICATION_AND_ACCESS_RESOLUTION_REPORT.md",
+"docs/D32_P13_IMPLEMENTATION_AUTHORIZATION.md",
+"docs/D56_AD17_L1_UI16_COMPANY_TRUSTCHAIN_CLOSURE.md",
+"docs/D57_AD17_L5_BROADER_SURFACE_AUTHORITY_ADJUDICATION.md"
+]
+},
+"UI05": {
+"trees": 32,
+"files": 86,
+"sample": [
+"docs/D20_F1_PROGRAM_AUTHORITY_ADJUDICATION_BL3_C7.md",
+"docs/D29_P12_IMPLEMENTATION_AUTHORIZATION.md",
+"docs/D32_P13_IMPLEMENTATION_AUTHORIZATION.md",
+"docs/D53_P13B_A3_ACCEPTOR_DESIGNATION.md"
+]
+},
+"UI06": {
+"trees": 31,
+"files": 73,
+"sample": [
+"IIPS_DONOR_CROSS_VERIFICATION_AND_ACCESS_RESOLUTION_REPORT.md",
+"IIPS_RESEARCH_SECTOR_UI_RECOVERY_REPORT.md",
+"docs/D32_P13_IMPLEMENTATION_AUTHORIZATION.md",
+"docs/D56_AD17_L1_UI16_COMPANY_TRUSTCHAIN_CLOSURE.md"
+]
+},
+"UI07": {
+"trees": 32,
+"files": 69,
+"sample": [
+"IIPS_DONOR_CROSS_VERIFICATION_AND_ACCESS_RESOLUTION_REPORT.md",
+"docs/D29_P12_IMPLEMENTATION_AUTHORIZATION.md",
+"docs/D32_P13_IMPLEMENTATION_AUTHORIZATION.md",
+"docs/D55_P13B_A3_ACCEPTANCE.md"
+]
+},
+"UI08": {
+"trees": 32,
+"files": 76,
+"sample": [
+"IIPS_DONOR_CROSS_VERIFICATION_AND_ACCESS_RESOLUTION_REPORT.md",
+"docs/D29_P12_IMPLEMENTATION_AUTHORIZATION.md",
+"docs/D32_P13_IMPLEMENTATION_AUTHORIZATION.md",
+"docs/D80_UI12_SETTINGS_RECOVERY_IMPLEMENTATION.md"
+]
+},
+"UI09": {
+"trees": 32,
+"files": 44,
+"sample": [
+"docs/D29_P12_IMPLEMENTATION_AUTHORIZATION.md",
+"docs/D32_P13_IMPLEMENTATION_AUTHORIZATION.md",
+"docs/D81_UI07_WATCHLISTS_RECOVERY_IMPLEMENTATION.md",
+"docs/D84Q_P14_UI_QUALIFICATION_INSTRUMENT.md"
+]
+},
+"UI10": {
+"trees": 32,
+"files": 62,
+"sample": [
+"docs/D29_P12_IMPLEMENTATION_AUTHORIZATION.md",
+"docs/D32_P13_IMPLEMENTATION_AUTHORIZATION.md",
+"docs/D53_P13B_A3_ACCEPTOR_DESIGNATION.md",
+"docs/D54_P13B_IMPLEMENTATION_AUTHORIZATION.md"
+]
+},
+"UI11": {
+"trees": 31,
+"files": 62,
+"sample": [
+"IIPS_DONOR_CROSS_VERIFICATION_AND_ACCESS_RESOLUTION_REPORT.md",
+"docs/D32_P13_IMPLEMENTATION_AUTHORIZATION.md",
+"docs/D80_UI12_SETTINGS_RECOVERY_IMPLEMENTATION.md",
+"docs/D84Q_P14_UI_QUALIFICATION_INSTRUMENT.md"
+]
+},
+"UI12": {
+"trees": 31,
+"files": 106,
+"sample": [
+"IIPS_DONOR_CROSS_VERIFICATION_AND_ACCESS_RESOLUTION_REPORT.md",
+"IIPS_RESEARCH_SECTOR_RECOVERY_MANIFEST.md",
+"docs/D-PIT-WIRE-01_IMPLEMENTATION_EVIDENCE.md",
+"docs/D32_P13_IMPLEMENTATION_AUTHORIZATION.md"
+]
+},
+"UI13": {
+"trees": 32,
+"files": 75,
+"sample": [
+"docs/D18_PHASE_08_ENTRY_AUTHORIZATION.md",
+"docs/D19_BL3_C7_PROGRESSION_DEADLOCK_ADJUDICATION.md",
+"docs/D20_F1_PROGRAM_AUTHORITY_ADJUDICATION_BL3_C7.md",
+"docs/D29_P12_IMPLEMENTATION_AUTHORIZATION.md"
+]
+},
+"UI14": {
+"trees": 32,
+"files": 76,
+"sample": [
+"docs/D18_PHASE_08_ENTRY_AUTHORIZATION.md",
+"docs/D19_BL3_C7_PROGRESSION_DEADLOCK_ADJUDICATION.md",
+"docs/D20_F1_PROGRAM_AUTHORITY_ADJUDICATION_BL3_C7.md",
+"docs/D29_P12_IMPLEMENTATION_AUTHORIZATION.md"
+]
+},
+"NotYetAuthorized": {
+"trees": 30,
+"files": 9,
+"sample": [
+"docs/d4/D4_03_UI_BASELINE.md",
+"docs/v3.0/PROGRAM_v3.0_PHASE3_COMPLETION.md",
+"docs/v3.0/PROGRAM_v3.0_PHASE4_COMPLETION.md",
+"docs/v3.0/PROGRAM_v3.0_PHASE5_COMPLETION.md"
+]
+},
+"FeaturePlaceholder": {
+"trees": 30,
+"files": 22,
+"sample": [
+"docs/D84Q_P14_UI_QUALIFICATION_INSTRUMENT.md",
+"docs/FULL_IIPS_BI08_CONVERGENCE_FILE_MATRIX.md",
+"docs/FULL_IIPS_BI08_CONVERGENCE_PLAN.md",
+"docs/PHASE1_AUTHORIZATION_PREPARATION.md"
+]
+},
+"routes.ts": {
+"trees": 26,
+"files": 26,
+"sample": [
+"IIPS_RESEARCH_SECTOR_READ_AUTHORITIES_REPORT.md",
+"IIPS_RESEARCH_SECTOR_RECOVERY_MANIFEST.md",
+"IIPS_RESEARCH_SECTOR_UI_RECOVERY_REPORT.md",
+"docs/DHAN-D2-UI-FIXTURE-DEMONSTRATION.md"
+]
+},
+"Notes": {
+"trees": 33,
+"files": 168,
+"sample": [
+"IIPS_AI_ADVISORY_FORENSIC_AUTHORITY_REPORT.md",
+"IIPS_DONOR_CROSS_VERIFICATION_AND_ACCESS_RESOLUTION_REPORT.md",
+"IIPS_RESEARCH_SECTOR_RECOVERY_MANIFEST.md",
+"IIPS_RESEARCH_SECTOR_UI_RECOVERY_REPORT.md"
+]
+},
+"Notification": {
+"trees": 31,
+"files": 64,
+"sample": [
+"IIPS_AI_ADVISORY_FORENSIC_AUTHORITY_REPORT.md",
+"IIPS_DONOR_CROSS_VERIFICATION_AND_ACCESS_RESOLUTION_REPORT.md",
+"IIPS_RESEARCH_SECTOR_RECOVERY_MANIFEST.md",
+"docs/D84Q_P14_UI_QUALIFICATION_INSTRUMENT.md"
+]
+}
+}

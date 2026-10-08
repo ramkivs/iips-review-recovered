@@ -1,0 +1,602 @@
+blob	paths	refs	merged_flags
+f0f812ed3775d111839e83cbee27537bece84fde	README.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a06af2-iips-review-recovered h:arena/01a06c00-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered h:phase13-hardening-delivery t:v3.0-phase12-certified	-,NO,YES
+00fd3b18064c58df999965d858a0cb7308d2356b	RELEASES.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a06af2-iips-review-recovered h:arena/01a06c00-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered h:gai-impl-canonical h:phase13-hardening-delivery h:phase13-next t:v3.0-phase12-certified	-,NO,YES
+75d1881b3b562c12c5f3c7d79c6a0592530dc1f1	ROADMAP.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a06af2-iips-review-recovered h:arena/01a06c00-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered h:phase13-hardening-delivery t:v3.0-phase12-certified	-,NO,YES
+0bb178e4fb60868e6d01100ae0a68f2b52aaab86	frontend/package-lock.json	h:arena/01a03e3b-iips-review-recovered h:arena/01a06af2-iips-review-recovered h:arena/01a06c00-iips-review-recovered h:arena/01a077de-iips-review-recovered h:arena/01a07ccb-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered h:gai-impl-canonical h:phase13-hardening-delivery h:phase13-next t:program-v1.2.0 t:v3.0-phase12-certified	-,NO,YES
+f89f37b0f7da4c294d50eb948a8f461cf0eb4110	frontend/package.json	h:arena/01a03e3b-iips-review-recovered h:arena/01a06af2-iips-review-recovered h:arena/01a06c00-iips-review-recovered h:arena/01a077de-iips-review-recovered h:arena/01a07ccb-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered t:program-v1.2.0 t:v3.0-phase12-certified	-,NO,YES
+06f5d5bf0c77ec90254865046612f90a76983faa	frontend/server/admin-transport.test.ts	h:arena/01a03e3b-iips-review-recovered h:arena/01a06af2-iips-review-recovered h:arena/01a06c00-iips-review-recovered h:arena/01a077de-iips-review-recovered h:arena/01a07ccb-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered h:arena/01a0ec25-iips-review-recovered h:arena/01a0ec83-iips-review-recovered h:arena/01a0ecdb-iips-review-recovered h:arena/01a0ed79-iips-review-recovered h:arena/01a0eeae-iips-review-rec	-,NO,YES
+f423d64e412c1dca288d834382e755a1d6b6c3da	frontend/server/admin-transport.ts	h:arena/01a03e3b-iips-review-recovered h:arena/01a06af2-iips-review-recovered h:arena/01a06c00-iips-review-recovered h:arena/01a077de-iips-review-recovered h:arena/01a07ccb-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered h:arena/01a0ec25-iips-review-recovered h:arena/01a0ec83-iips-review-recovered h:arena/01a0ecdb-iips-review-recovered h:arena/01a0ed79-iips-review-recovered h:arena/01a0eeae-iips-review-rec	-,NO,YES
+775d9150bd45d3f4f5ad71e030942ca000eec976	frontend/server/ai-advisory-transport.test.ts	h:arena/01a03e3b-iips-review-recovered h:arena/01a06af2-iips-review-recovered h:arena/01a06c00-iips-review-recovered h:arena/01a077de-iips-review-recovered h:arena/01a07ccb-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered h:arena/01a0ec25-iips-review-recovered h:arena/01a0ec83-iips-review-recovered h:arena/01a0ecdb-iips-review-recovered h:arena/01a0ed79-iips-review-recovered h:arena/01a0eeae-iips-review-rec	-,NO,YES
+0792a6a4ef32d6127f38d01358b0fd5c837b44c6	frontend/server/ai-advisory-transport.ts	h:arena/01a03e3b-iips-review-recovered h:arena/01a06af2-iips-review-recovered h:arena/01a06c00-iips-review-recovered h:arena/01a077de-iips-review-recovered h:arena/01a07ccb-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered h:arena/01a0ec25-iips-review-recovered h:arena/01a0ec83-iips-review-recovered h:arena/01a0ecdb-iips-review-recovered h:arena/01a0ed79-iips-review-recovered h:arena/01a0eeae-iips-review-rec	-,NO,YES
+dd8fb224e99c41fa253e8e138f615ac581b7ce9f	frontend/server/executive-transport.ts	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+f85692ddd0bea3e1d5c58463fa198e50d1a8fc56	frontend/server/secured-executor.ts	h:arena/01a03e3b-iips-review-recovered h:arena/01a06af2-iips-review-recovered h:arena/01a06c00-iips-review-recovered h:arena/01a077de-iips-review-recovered h:arena/01a07ccb-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered h:arena/01a0ec25-iips-review-recovered h:arena/01a0ec83-iips-review-recovered h:arena/01a0ecdb-iips-review-recovered h:arena/01a0ed79-iips-review-recovered h:arena/01a0eeae-iips-review-rec	-,NO,YES
+ca51e0b446ceab7611069e3ba1dc3da1e19ed951	frontend/src/api/executive.ts	h:arena/01a03e3b-iips-review-recovered h:arena/01a06c00-iips-review-recovered h:arena/01a077de-iips-review-recovered h:arena/01a07ccb-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered h:arena/01a0ec25-iips-review-recovered h:arena/01a0ec83-iips-review-recovered h:arena/01a0ecdb-iips-review-recovered h:arena/01a0ed79-iips-review-recovered h:arena/01a0eeae-iips-review-recovered h:arena/01a0eecd-iips-review-rec	-,NO,YES
+7ea05999ba4724d1171d18a9f2f645512f7df449	frontend/src/app/App.test.tsx	h:arena/01a03e3b-iips-review-recovered h:arena/01a06af2-iips-review-recovered h:arena/01a06c00-iips-review-recovered h:arena/01a077de-iips-review-recovered h:arena/01a07ccb-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered h:arena/01a0ec25-iips-review-recovered h:arena/01a0ec83-iips-review-recovered h:arena/01a0ecdb-iips-review-recovered h:arena/01a0ed79-iips-review-recovered h:arena/01a0eeae-iips-review-rec	-,NO,YES
+bac18e5ed5ccb4834b4036bcc8189c3750381fb2	frontend/src/app/App.tsx	h:arena/01a03e3b-iips-review-recovered h:arena/01a06af2-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered t:v3.0-phase12-certified	-,NO
+ee54fd814cd4ccc4e8dadfc7a83f466413a693cb	frontend/src/app/AppShell.tsx	h:arena/01a03e3b-iips-review-recovered h:arena/01a06c00-iips-review-recovered h:arena/01a077de-iips-review-recovered h:arena/01a07ccb-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered h:arena/01a0ec25-iips-review-recovered h:arena/01a0ec83-iips-review-recovered h:arena/01a0ecdb-iips-review-recovered h:arena/01a0ed79-iips-review-recovered h:arena/01a0eeae-iips-review-recovered h:arena/01a0eecd-iips-review-rec	-,NO,YES
+096767fd20f50370ff6ee12bb9b6bb073fc04550	frontend/src/app/TopBar.tsx	h:arena/01a03e3b-iips-review-recovered h:arena/01a06c00-iips-review-recovered h:arena/01a077de-iips-review-recovered h:arena/01a07ccb-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered h:arena/01a0ec25-iips-review-recovered h:arena/01a0ec83-iips-review-recovered h:arena/01a0ecdb-iips-review-recovered h:arena/01a0ed79-iips-review-recovered h:arena/01a0eeae-iips-review-recovered h:arena/01a0eecd-iips-review-rec	-,NO,YES
+99175f1b795339181eb8155d3b3045c58ef95906	frontend/src/app/navigation.ts	h:arena/01a03e3b-iips-review-recovered h:arena/01a06af2-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered h:phase13-hardening-delivery t:v3.0-phase12-certified	-,NO
+7e5d7ff49dfa35fa57519917405a8cf1b7d16da3	frontend/src/app/routes.ts	h:arena/01a03e3b-iips-review-recovered h:arena/01a06af2-iips-review-recovered h:arena/01a06c00-iips-review-recovered h:arena/01a077de-iips-review-recovered h:arena/01a07ccb-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered h:arena/01a0ec25-iips-review-recovered h:arena/01a0ec83-iips-review-recovered h:arena/01a0ecdb-iips-review-recovered h:arena/01a0ed79-iips-review-recovered h:arena/01a0eeae-iips-review-rec	-,NO,YES
+d3ce08ea3dd744a419f17f3a2c29f52cfcbfca9d	frontend/src/core/session/SessionContext.tsx	h:arena/01a03e3b-iips-review-recovered h:arena/01a06c00-iips-review-recovered h:arena/01a077de-iips-review-recovered h:arena/01a07ccb-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered h:arena/01a0ec25-iips-review-recovered h:arena/01a0ec83-iips-review-recovered h:arena/01a0ecdb-iips-review-recovered h:arena/01a0ed79-iips-review-recovered h:arena/01a0eeae-iips-review-recovered h:arena/01a0eecd-iips-review-rec	-,NO,YES
+bfaa90940916f7ed21ae7c806d43984a37bcd1f9	frontend/src/main.tsx	h:arena/01a03e3b-iips-review-recovered h:arena/01a06c00-iips-review-recovered h:arena/01a077de-iips-review-recovered h:arena/01a07ccb-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered h:arena/01a0ec25-iips-review-recovered h:arena/01a0ec83-iips-review-recovered h:arena/01a0ecdb-iips-review-recovered h:arena/01a0ed79-iips-review-recovered h:arena/01a0eeae-iips-review-recovered h:arena/01a0eecd-iips-review-rec	-,NO,YES
+826460c760d99a925c13987e873c09200c132a66	governance/iips/AUTH-G-AI-IMPL.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+a53b89e4747dccffd2447c1e0e02bd82200e56d2	governance/iips/D7-TIER3-INDEPENDENCE-CLOSURE-AUTHORITY-2026-09-26.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+6ff3af95381aaceff0ef27ffda3742aaaf6b84a6	governance/iips/D7-TIER3-INDEPENDENCE-RAJI-ADJUDICATION-DETERMINATION-2026-09-26.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+2a6be41fbf284278081795b80c0143ce119364e6	governance/iips/D7-TIER3-INDEPENDENCE-SAI-VERIFICATION-EVIDENCE-RECORD-2026-09-26.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+6819a40a59b65090a95d436493d09f03939cb1ba	governance/iips/D7-TIER3-PARITY-ADJUDICATION-EVIDENCE-RECORD-2026-09-05.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+317c78536403185a39326848fa4fd87c3855250e	governance/iips/D7-TIER3-PARITY-D36-SUCCESSOR-57-DOCUMENT-AUTHORITY-2026-09-05.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+d40f25fd34fae50b91f314fe1e0fa6a2a8d9ab0e	governance/iips/D7-TIER3-PARITY-DISPOSITION-AUTHORITY-2026-09-04.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+0debf3d76915ffe4ab20b9ceae1afffa3308be93	governance/iips/D7-TIER3-PARITY-DOCUMENTATION-REMEDIATION-DISCOVERY-2026-09-05.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+5a7a69e29131a95a27f4e770f6504e706ff537c0	governance/iips/D7-TIER3-PARITY-DOCUMENTATION-REMEDIATION-EXECUTION-IES-016-2026-09-05.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+b9d1e1c59ac5b8fb468e1c601819ffdc7735083d	governance/iips/D7-TIER3-PARITY-DOCUMENTATION-REMEDIATION-EXECUTION-IES-017-2026-09-05.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+934bf101d5ef2591bb42e5aac4cbdde13c79637e	governance/iips/D7-TIER3-PARITY-DOCUMENTATION-REMEDIATION-EXECUTION-IES-020-2026-09-05.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+671d7e5fdce9297d835ea3e9406e48ece26cb2e7	governance/iips/D7-TIER3-PARITY-DOCUMENTATION-REMEDIATION-EXECUTION-PLAN-2026-09-05.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+de9938a4cc5048f4cae01857249303444b5fa9ec	governance/iips/D7-TIER3-PARITY-FRESH-REREVIEW-EVIDENCE-RECORD-2026-09-05.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+fe3e382a5f7f67c640212a0a9a5d8e9921d012f5	governance/iips/D7-TIER3-PARITY-P1-ARCHITECTURE-REVIEW-AUTHORITY-2026-09-05.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+63e33fbc91cf88b3267ac411f138f5282b50a53b	governance/iips/D7-TIER3-PARITY-P1-ARCHITECTURE-REVIEW-FINDINGS-2026-09-05.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+952b83d682e64343bb13043bc6bc1649e19ca977	governance/iips/D7-TIER3-PARITY-P1-PERFORMED-ARCHITECTURE-REVIEW-IES-016-2026-09-05.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+5e7c197547b75646e95683c45ae221ac9816fae4	governance/iips/D7-TIER3-PARITY-P1-PERFORMED-ARCHITECTURE-REVIEW-IES-017-2026-09-05.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+d106d3edecf411cf7c0083ad0cb8f91e34c2ee5d	governance/iips/D7-TIER3-PARITY-P1-PERFORMED-ARCHITECTURE-REVIEW-IES-020-2026-09-05.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+7780b509f58d88e5cde5b3934961c68c051d158b	governance/iips/D7-TIER3-PARITY-P1-PROGRAMME-CLOSURE-RECONCILIATION-2026-09-05.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+5984bd809da6f81d2604940a99002e2bb15c3574	governance/iips/D7-TIER3-PARITY-P2-SCOPE-EXECUTION-AUTHORITY-2026-09-05.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+9f64841ed07b277a4fc2a71e1b907dd0be900bda	governance/iips/D7-TIER3-PARITY-P2-SUBSTANTIVE-DOCUMENT-REVIEW-IES-016-2026-09-05.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+a55f04d4da1eb25eabdabe23f2e02b78e7046b03	governance/iips/D7-TIER3-PARITY-P2-SUBSTANTIVE-DOCUMENT-REVIEW-IES-017-2026-09-05.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+69fe3bcc2c9ae7409d4c5c0792d40234e0a35588	governance/iips/D7-TIER3-PARITY-P2-SUBSTANTIVE-DOCUMENT-REVIEW-IES-020-2026-09-05.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+d12b1a99753d9b5c272d204b104727b9ed87c991	governance/iips/D7-TIER3-PARITY-PARITY-ADJUDICATION-AUTHORITY-2026-09-05.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+2d6013edaab4bb319c6725e06d34a6ecbd1dd6be	governance/iips/D7-TIER3-PARITY-RR-F1-REPAIR-AUTHORITY-2026-09-05.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+6558591a00355309433e5cc787ed80a7483ccc5b	governance/iips/D7-TIER3-PARITY-RR-F1-REPAIR-EXECUTION-EVIDENCE-RECORD-2026-09-05.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+a57ca0abfe8786f8e70a125de11f4fb7c30db3f0	governance/iips/D7-TIER3-PARITY-SUBSTANTIVE-PROGRAMME-AUTHORITY-2026-09-05.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+f324273ff3795b02aef917b4ccaf8c90bc56a8fe	governance/iips/DEC-A2-A1-CLOSURE-STRATEGY.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+4439c4d19fc3643cd5fdd225f7f21bb4df69f619	governance/iips/DEC-A2-A1-EVIDENCE-ARTIFACT-CREATION-AUTHORITY.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+524dee111637f7d4e7b8be2f6b2bc9afb60d9e19	governance/iips/DEC-A2-A1-TEST-EXECUTION-AUTHORITY.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+89a3ccbceaaf43b05f00546f1ebfd1ee3f334dbf	governance/iips/DEC-A2-A1-TIER3-COMPOSITE-CLOSURE-AUTHORITY-2026-09-05.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+e3c1de5ad372c9a591d31acf5e31bd6e4dd855eb	governance/iips/DEC-A2-A1-TIER3-CREATION-AUTHORITY.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+3053f383d27e741d1e9469116276b3056f5e3578	governance/iips/DEC-A2-A1-TIER3-EXECUTION-EVIDENCE-AND-IV-REFRESH.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+4d7af4a5087bb6a2a5c2e40b3ac9fdd4eba14ab9	governance/iips/DEC-A2-A1-TIER3-FINAL-READINESS-ISSUANCE-AND-CONTENT-AUTHORITY.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+4cc99748337e53acd68f5cd76e5bb1142e249f51	governance/iips/DEC-A2-A1-TIER3-GATE1-CERTIFICATION-DETERMINATION-2026-09-05.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+30e88c604bfc5cf961e74f955d84213bf2c1b560	governance/iips/DEC-A2-A1-TIER3-GATE2-IVM-TRANSITION-2026-09-05.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+86f36108c4d9070f7446a35ebf102005602496e5	governance/iips/DEC-A2-A1-TIER3-TEST-EXECUTION-AUTHORITY.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+663ab8c64a5c4afcefb17d8cd3672e142d633dfa	governance/iips/DEC-D10-PATH-COUNT-CONSISTENCY.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+d555e02ffbd1044e3cf33c6c5d80c4f1ab7d4ac5	governance/iips/DEC-D11-STANDING-CONSISTENCY.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+9065a668819f735aa92074581441d2bd8a2f1020	governance/iips/DEC-D12-CLASSIFICATION-CONVENTION.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+ee15ae2fea908702f541885ee0f5636b8325cc68	governance/iips/DEC-D13-HIJ-EXECUTION-AUTHORITY.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+84e276ad4246f1618731b135884005d937e5820e	governance/iips/DEC-D14-TIER3-PREREQUISITE-RESOLUTION.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+8cc089df6ae680706921dd5ecb57b75776ad4580	governance/iips/DEC-D15-VERIFICATION-METHODOLOGY.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+c6cb19282d1b50686517a36bdd3e3b9cd4a5f715	governance/iips/DEC-D16-TIER3-DOCUMENTATION-PARITY-EXECUTION.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+d0e445079d3dd358b6cb04cb846af7d4812476de	governance/iips/DEC-D17-METHODOLOGY-ACCEPTANCE.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+476b116ea89a0155f23f4b22053c471afbe76b28	governance/iips/DEC-D18-PRODUCT-BRANCH-AUTHORITY.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+d0b6484d285eaab7895328f46cf5ee18fa834f7d	governance/iips/DEC-D19-PRODUCT-BRANCH-STATE.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+3ec64c45d63e799343284020e082630ffe64ee27	governance/iips/DEC-D2-DANGLING-VOCABULARY.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+a2506f7fa4afa4a2250d698f92012dc44d9dc8de	governance/iips/DEC-D21-FENCE8-DETERMINATION.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+d61c3a44527807c02aa5edc80f34c3c38c44ec2d	governance/iips/DEC-D22-TIER3-METHODOLOGY-ACCEPTANCE-STATUS.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+3c9cadfc8ec8568c147045b9954c81f1ff4ebaf6	governance/iips/DEC-D23-TIER3-METHODOLOGY-DECISION.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+cbab4da9ce922aacf45e513954d6e325bb037810	governance/iips/DEC-D25-TIER3-EVIDENTIARY-STANDARD.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+555bce1f619899257c65646a1f8be56f675516da	governance/iips/DEC-D27-FENCE-RELIEF-SCOPE.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+2824114b89c52fa318102429dfa6cf7dc1129354	governance/iips/DEC-D28-FENCE-RELIEF-AUTHORIZATION.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+25d0ccc799890abb781a0649cbdc8979e1c4e1d5	governance/iips/DEC-D3-MATRIX-REBASELINE.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+6ecb96cb858cafbbd2f172b991998673fdf15f1a	governance/iips/DEC-D30-EXECUTION-LINEAGE-AND-ISSUANCE-AUTHORITY.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+afc8cb52d5e17df2c0b33ce940dcf5bbe371fa65	governance/iips/DEC-D31-MAINTAINER-ISSUANCE-AND-RELEASETAG-RESOLUTION.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+eed5a8f7c3e0b0774935a51c7e6af4d9e0396a02	governance/iips/DEC-D32-MAINTAINER-ISSUANCE-EXECUTION-READINESS.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+55e74ae1b5e0e54c9447735bb1bbac0b4ac4e5fb	governance/iips/DEC-D33-PROVENANCE-METADATA-GAP.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+e3b80c866bb90863aa49c15e6f48ee66de3d0559	governance/iips/DEC-D34-MAINTAINER-ISSUANCE-RECONCILIATION.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+9bd21cc9290bd7b8bbb9db54589dc53713f95a56	governance/iips/DEC-D35-MAINTAINER-ISSUANCE-PERFORMED.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+747178d0adb86699d39486f261ac273bbf8f527e	governance/iips/DEC-D36-TIER3-DOCUMENTATION-PARITY-AUTHORITY.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+7f757f3e80a8c6d7e6f250381600885aa5a7b42c	governance/iips/DEC-D4-AI-ADVISORY-INTEGRATION.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+8e3791149f4b182b7bfe250e9bb191f570c9351f	governance/iips/DEC-D5-EVIDENCE-MATURITY.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+c21d0d8cd7b0ec199c8003103663536e9b15c95c	governance/iips/DEC-D5-S1-REGRESSION-EVIDENCE.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+17e56dc47240953261910e60b524ccbcf732438a	governance/iips/DEC-D5-S1-WORKLIST-DISCREPANCY.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+9febd52e8604554848e384f39996635b65eff438	governance/iips/DEC-D5-S3-EVIDENCE-DEBT.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+60d99d926944f55cd78ffafb844bd75d32015d61	governance/iips/DEC-D6-DURABLE-RECORDING-POLICY.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+578fa643beaee0584f779e8df74f05c2b58d1ecc	governance/iips/DEC-D7-EVIDENCE-DEBT-DISPOSITION.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+1232828209628e22545f3288a25c4bb28465eb91	governance/iips/DEC-D8-HIJ-CONFIG-DEFECT.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+083d225dc343404e617d9b0079a532057b292d28	governance/iips/DEC-D8-HIJ-VALIDATION-PLAN.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+072e0471934621fa1406eb1ed690827a89ecf421	governance/iips/DEC-D8-OPEN-ITEMS-DISPOSITION.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+7123e9a8aa2d113ed280bfc0660ca679ed5c6dc1	governance/iips/DEC-D9-RECORD-CORRECTION.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+ef2d3e1034a781c89ba2ad07211ad7f5baa91014	governance/iips/DEC-E2E-001-CERTIFICATION-EXECUTION-2026-09-05.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+c77c62b05d47e803decbfea58fec84b332b74db7	governance/iips/DEC-E2E-001-CHARTER-AUTHORITY-2026-09-05.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+ada44ab16b87cbacdce559213c8050d7e616b673	governance/iips/DEC-E2E-013-BASELINE.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+109d73f46ca723ef37bfee54c8a2d95b04e12bd9	governance/iips/DEC-E2E-014-AC-E14-7-CERTIFICATION-2026-09-06.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+3b6aa9742276e98f06da09a806df133bfa93d8c5	governance/iips/DEC-E2E-014-AC-E14-7-EVIDENCE-DEFINITION-AUTHORITY-2026-09-06.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+fb0deae13467b1ead7d234ca6a52862461b8160a	governance/iips/DEC-E2E-014-CERTIFICATION-EXECUTION-2026-09-05.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+17561f4514a3303bebc5e59d56351e094d6a75a6	governance/iips/DEC-E2E-014-CHARTER-AUTHORITY-2026-09-05.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+4d33ee047b88a5443fb5a1746292ff0986b10a6b	governance/iips/DEC-E2E-015-CERTIFICATION-2026-09-06.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+77a9ec3fd3a2ae07d98b0669003c50b32eda5cee	governance/iips/DEC-E2E-015-CHARTER-AUTHORITY-2026-09-05.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+6b8742d7622bf501aa2f50ba0f2c452522beaa53	governance/iips/DEC-E2E-015-SPA-OIDC-HANDOFF-CERTIFICATION-2026-09-06.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+5a86ad1066fd21e5e087660bbb9aba40d343fb57	governance/iips/DEC-E2E-017-018-MATRIX-COMMIT-PUSH-AUTHORITY.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+8c00c8e62655a6dffb9de1c26faa716a1786726b	governance/iips/DEC-E2E-017-018-MATRIX-CREATION-AUTHORITY.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+4441314c9418e0a8dd7f6ba9d575f2465907fa21	governance/iips/DEC-E2E-017-018-REFERENT-AND-CHARTER.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+f2c68c6abb4c46fc297cf85a074ec23d654cf09a	governance/iips/DEC-E2E-017-018-STATUS-RECONCILIATION.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+6589a064cf39ad10c775f09f884e4f2340238728	governance/iips/DEC-E2E-018-CAPTURE-ARTIFACT-COMMIT-PUSH-AUTHORITY.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+3bd0b06bb46f475664f72271f6289f836c3b666c	governance/iips/DEC-E2E-018-CAPTURE-VERIFICATION-AND-PARITY-DETERMINATION.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+b4f0135f6bbc29213c82ead4abcf1e2ff1e5dbc1	governance/iips/DEC-E2E-018-MATRIX-AMENDMENT-AUTHORITY.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+8553ad9ee75ffc989ee64e71bebbeb19d62924e2	governance/iips/DEC-E2E-018-SCREENSHOT-CAPTURE-EXECUTION-AUTHORITY.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+e1755091994e2e811519296b52c871364ac266a5	governance/iips/DEC-G-AI-IMPL-B1-AMEND.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+de2eeb8137c112068ba6e32eb9cba69bb7482766	governance/iips/DEC-G-AI-IMPL-B1-AUTH-AMEND.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+cdb6e8e031a5662dbb5d12c06676b2bd725dfd8c	governance/iips/DEC-G-AI-IMPL-B1.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+49cc4505a515e77a9bdccbfbf409d62aa81697d4	governance/iips/DEC-G-AI-IMPL-B2-B4.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+f5aaf1c1cbaed32a8fea0d853c853b71e0c826e7	governance/iips/DEC-G-AI-IMPL-BS.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+cb655db1a64c4847783fa5554bd90d15a52230ef	governance/iips/DEC-G-AI-IMPL-CERT-CRITERIA.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+06a9ba7c254200f08cc79d7dc32bd361baebbe95	governance/iips/DEC-G-AI-IMPL-CERTIFICATION.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+334b4e6c712141218c27a7432a185fd87aac31dd	governance/iips/DEC-G-AI-IMPL-COL-AMEND.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+63c61961fbbd084d00a92395d87aa46367490f48	governance/iips/DEC-G-AI-IMPL-COL-RESOLUTION.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+27f9baee36095d5579100517a9b8494b63380d09	governance/iips/DEC-G-AI-IMPL-COMMIT-TARGET.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+d01db16652042418ad16dd3d96a53ef949c286ac	governance/iips/DEC-G-AI-IMPL-IMPL-COMMIT-PUSH.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+a8986c44fefee0d135dc931472b447fbd72d9d05	governance/iips/DEC-G-AI-IMPL-PATH-COUNT.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+9e8f07346391928a3721d2a9efd265b38240c47b	governance/iips/DEC-G-AI-IMPL-S1-S4.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+aa81211fb0d66595a8886bd0d43c5ea68adbfff8	governance/iips/DEC-G-AI-IMPL-S2.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+d7b609ffd98e92214d1f66089efe34552968deb0	governance/iips/DEC-G-AI-IMPL-S4.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+9b7caf55c5df514e174e221124a014198f563df6	governance/iips/DEC-G-AI-IMPL-SR1.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+72e694179e0055b025a6d7f30e309d5c41879ff3	governance/iips/DEC-MATRIX-REBASELINE-BRANCH-DISPOSITION.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+b889e16bf24a33f3f011b5ff5f4bab92895c9681	governance/iips/GATE-G1-M.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+79f22cc9acec4d7c7b0384e4efde82567dab2cc5	governance/iips/README.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+c86186a9c06a7b9cecf11b248dd1a7c9f02d2bae	governance/iips/SPEC-G-AI-IMPL.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+415689a1f5f6c7c915126ff9cce9cc43ddc8dd34	iips-platform/src/sector-engines/cross-sector/CrossSectorEngine.ts	h:arena/01a03e3b-iips-review-recovered h:arena/01a06af2-iips-review-recovered h:arena/01a06c00-iips-review-recovered h:arena/01a077de-iips-review-recovered h:arena/01a07ccb-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered h:arena/01a0ec25-iips-review-recovered h:arena/01a0ec83-iips-review-recovered h:arena/01a0ecdb-iips-review-recovered h:arena/01a0ed79-iips-review-recovered h:arena/01a0eeae-iips-review-rec	-,NO,YES
+878bbddffb66281108edc0735d831983b380361b	iips-platform/src/sector-engines/cross-sector/index.ts	h:arena/01a03e3b-iips-review-recovered h:arena/01a06af2-iips-review-recovered h:arena/01a06c00-iips-review-recovered h:arena/01a077de-iips-review-recovered h:arena/01a07ccb-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered h:arena/01a0ec25-iips-review-recovered h:arena/01a0ec83-iips-review-recovered h:arena/01a0ecdb-iips-review-recovered h:arena/01a0ed79-iips-review-recovered h:arena/01a0eeae-iips-review-rec	-,NO,YES
+6af0b2d740bf6d2670a8bc6a3e9f4ac430b5d9a6	iips-platform/tests/regression/program-v1.1-track3-replay-certification.test.ts	h:arena/01a03e3b-iips-review-recovered h:arena/01a06af2-iips-review-recovered h:arena/01a06c00-iips-review-recovered h:arena/01a077de-iips-review-recovered h:arena/01a07ccb-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered h:arena/01a0ec25-iips-review-recovered h:arena/01a0ec83-iips-review-recovered h:arena/01a0ecdb-iips-review-recovered h:phase13-hardening-delivery pr:1/head pr:2/head pr:3/head t:program-v1	-,NO,YES
+6f37d045a9c286bc499190ac97d1a2694649fae5	program-v1.1-certification/PROGRAM_v1.1_FINAL_CERTIFICATION_GATE0_SCOPE.md	h:arena/01a03e3b-iips-review-recovered h:arena/01a06af2-iips-review-recovered h:arena/01a06c00-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered h:gai-impl-canonical h:phase13-hardening-delivery h:phase13-next t:v3.0-phase12-certified	-,NO,YES
+d3c44fa826a91b792481bdd9f67dc90cfc54371f	program-v1.1-certification/PROGRAM_v1.1_REPLAY_BASELINE.json	h:arena/01a03e3b-iips-review-recovered h:arena/01a06af2-iips-review-recovered h:arena/01a06c00-iips-review-recovered h:arena/01a0ddea-iips-review-recovered h:arena/01a0ddff-iips-review-recovered h:arena/01a0e30f-iips-review-recovered h:phase13-hardening-delivery t:v3.0-phase12-certified	-,NO,YES
+be1d5e382d4b3bb4590c08edd6f00bd992b760d4	frontend/server/executive-read-auth.test.ts	h:arena/01a06af2-iips-review-recovered	NO
+f99f0232d4d90e879bd0ff647324e2654e91472f	frontend/server/executive-transport.ts	h:arena/01a06af2-iips-review-recovered	NO
+dd43698f64f2c84466d9bf805bfd54e1227b8f0d	frontend/src/core/auth/oidcClient.test.ts	h:arena/01a06af2-iips-review-recovered	NO
+be0b1fb17d342d27467d978ac3d1573ae896815c	frontend/src/core/auth/oidcClient.ts	h:arena/01a06af2-iips-review-recovered	NO
+da7f285416de02a80e99172776f02313a2eef1cf	frontend/src/main.tsx	h:arena/01a06af2-iips-review-recovered	NO
+991ad2ffff605eaf07a83f1792349763ee2a231e	docs/integration/IIPS_v3.0_AUTHORIZED_SCOPE_DISPOSITION.md	h:arena/01a06c00-iips-review-recovered	YES
+f72d5114d2be666d83c5ad6ee948d7a4f44c1177	frontend/server/engine-transport.test.ts	h:arena/01a06c00-iips-review-recovered h:arena/01a077de-iips-review-recovered h:arena/01a07ccb-iips-review-recovered h:arena/01a0ec25-iips-review-recovered h:arena/01a0ec83-iips-review-recovered h:arena/01a0ecdb-iips-review-recovered h:arena/01a0ed79-iips-review-recovered h:arena/01a0eeae-iips-review-recovered pr:1/head pr:2/head pr:3/head pr:4/head pr:5/head t:program-v1.2.0	-,NO,YES
+30a0b1073cd0927c501e75f7389c55193f6d0d18	frontend/server/executive-transport.ts	h:arena/01a06c00-iips-review-recovered h:arena/01a077de-iips-review-recovered h:arena/01a07ccb-iips-review-recovered t:program-v1.2.0	-,NO,YES
+da5f86160df444ef92e1fc09e908549b2238315b	frontend/server/product-transport.test.ts	h:arena/01a06c00-iips-review-recovered h:arena/01a077de-iips-review-recovered h:arena/01a07ccb-iips-review-recovered h:arena/01a0ec25-iips-review-recovered h:arena/01a0ec83-iips-review-recovered h:arena/01a0ecdb-iips-review-recovered h:arena/01a0ed79-iips-review-recovered h:arena/01a0eeae-iips-review-recovered pr:1/head pr:2/head pr:3/head pr:4/head pr:5/head t:program-v1.2.0	-,NO,YES
+ee9222f91bed706ffdf867aee72ba0bee2780622	frontend/src/app/App.tsx	h:arena/01a06c00-iips-review-recovered h:arena/01a077de-iips-review-recovered h:arena/01a07ccb-iips-review-recovered h:arena/01a0ec25-iips-review-recovered h:arena/01a0ec83-iips-review-recovered h:arena/01a0ecdb-iips-review-recovered h:arena/01a0ed79-iips-review-recovered h:arena/01a0eeae-iips-review-recovered h:arena/01a0eecd-iips-review-recovered h:arena/01a0f184-iips-review-recovered h:arena/01a0f1b3-iips-review-recovered h:arena/01a0f1d6-iips-review-recovered h:arena/01a0f90b-iips-review-rec	-,NO,YES
+d37d3363e8e12a313bbec30f754e05d2fd662762	frontend/src/app/navigation.ts	h:arena/01a06c00-iips-review-recovered h:arena/01a077de-iips-review-recovered h:arena/01a07ccb-iips-review-recovered h:arena/01a0ec25-iips-review-recovered h:arena/01a0ec83-iips-review-recovered h:arena/01a0ecdb-iips-review-recovered h:arena/01a0ed79-iips-review-recovered h:arena/01a0eeae-iips-review-recovered h:arena/01a0eecd-iips-review-recovered h:arena/01a0f184-iips-review-recovered h:arena/01a0f1b3-iips-review-recovered h:arena/01a0f1d6-iips-review-recovered h:arena/01a0f64b-iips-review-rec	-,NO,YES
+16cf2aebeac80bc874c67dd892ba98c9baffdbbe	iips-platform/src/integration/EngineApiAdapter.ts	h:arena/01a06c00-iips-review-recovered	YES
+23f3622f381bef2d0b19a6eea69386bf6feccecd	iips-platform/src/integration/EngineRegistry.ts	h:arena/01a06c00-iips-review-recovered	YES
+ff442d4b71d159060cf17c4f5ccbc9cfa3b2184a	iips-platform/tests/integration/csip-product-e2e.test.ts	h:arena/01a06c00-iips-review-recovered	YES
+3a5ca008918d93ce4f898afac8811d60a67307eb	iips-platform/tests/integration/engine-api-integration.test.ts	h:arena/01a06c00-iips-review-recovered	YES
+cf3406195765edcfc574b677b0f151694306bbdf	iips-platform/tests/integration/evidence-provenance-integration.test.ts	h:arena/01a06c00-iips-review-recovered	YES
+079f4053d8eb63318bb460ec08c3a19bbb8e2fec	iips-platform/tests/integration/replay-e2e.test.ts	h:arena/01a06c00-iips-review-recovered	YES
+46493c7fc24d92e5f33587c4beb322ee1b07e301	governance/iips/DEC-E2E-016-CHARTER-AUTHORITY-2026-09-06.md	h:arena/01a077de-iips-review-recovered h:arena/01a07ccb-iips-review-recovered	NO
+786f08ae9f520a067e937eec19269df39bf636c6	iips-platform/src/integration/EngineRegistry.ts	h:arena/01a077de-iips-review-recovered h:arena/01a07ccb-iips-review-recovered h:arena/01a0ec25-iips-review-recovered h:arena/01a0ec83-iips-review-recovered h:arena/01a0ecdb-iips-review-recovered h:arena/01a0ed79-iips-review-recovered pr:1/head pr:2/head pr:3/head pr:4/head t:program-v1.2.0	-,NO,YES
+af87af6aca71cf39c31c0008c58488ecd7f11b4e	governance/iips/DEC-E2E-016-BASELINE-ROLE-DESIGNATION-AUTHORITY-2026-09-07.md	h:arena/01a07ccb-iips-review-recovered	NO
+5904f85c05870cb7421c30090f23f1b797c8a9f1	governance/iips/DEC-E2E-016-CERTIFICATION-AUTHORITY-DESIGNATION-2026-09-07.md	h:arena/01a07ccb-iips-review-recovered	NO
+2d5c8c6285aa69871965a49d05d4f007deb66bfe	governance/iips/DEC-E2E-016-CERTIFICATION-DETERMINATION-2026-09-07.md	h:arena/01a07ccb-iips-review-recovered	NO
+e23d096b80f8512eb1ef810cd76fff08cad2a7a7	governance/iips/DEC-E2E-016-CRITERION-CATALOGUE-THRESHOLD-AUTHORITY-2026-09-07.md	h:arena/01a07ccb-iips-review-recovered	NO
+1395e3e317281b7005aa89a4ac6c1961eb164773	governance/iips/DEC-E2E-016-D3-D9-CRITERIA-AUTHORITY-2026-09-07.md	h:arena/01a07ccb-iips-review-recovered	NO
+2213a49190c737cf82195e56bc0f15fd32e386e6	governance/iips/DEC-E2E-016-DOCUMENTARY-READINESS-EVALUATION-AUTHORITY-2026-09-07.md	h:arena/01a07ccb-iips-review-recovered	NO
+f55b285b5f257550dbc4160f987255a1955e05d2	governance/iips/DEC-E2E-016-STAGE-2-ACCEPTANCE-GO-AUTHORITY-2026-09-07.md	h:arena/01a07ccb-iips-review-recovered	NO
+47e3fe75a642d5bce42ad957c0e22af4ec02b3aa	governance/iips/DEC-E2E-016-STAGE-2-ACCEPTANCE-GO-DETERMINATION-2026-09-07.md	h:arena/01a07ccb-iips-review-recovered	NO
+bdef9d31390d7b0d7834b146a111bdaf11e1f2f5	artifacts/np18-windows/NP18-Phase13Next-Implement.ps1	h:arena/01a0ddea-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+bd6271302efb058a22d7e8a06cd84b58501fed0e	deliverables/np18-windows-execution/NP18-Phase13Next-Implement.ps1	h:arena/01a0ddea-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+ac7ffbcca856681e05a7cc98315dffcc48b708f0	deliverables/np18-windows-execution/NP18-W2-ANCHOR-FORENSICS.md	h:arena/01a0ddea-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+d25ddfb31946584aa678df49e453390b20ef55f8	deliverables/np18-windows-execution/README.md	h:arena/01a0ddea-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+9d7710233ebbea935bc9b5ce4c83ca561302a67f	deliverables/np18-windows-execution/SHA256SUMS.txt	h:arena/01a0ddea-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+8f8b077fe8f44833868a8b7df6ccc68df8ff9a62	governance/iips/AUTH-NP-18-INTELLIGENCE-EXPOSURE-IMPLEMENTATION-AUTHORITY-2026-09-26.md	h:arena/01a0ddea-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+bc6fb0ca975f9413c86141b6769e21a701d6f65f	governance/iips/AUTH-NP-18-R2-IMPLEMENTATION-RETARGETING-AUTHORITY-2026-09-26.md	h:arena/01a0ddea-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+a5a345a71d5bda24a73934c216d299fb715bbaab	governance/iips/DEC-NP-17-NP-18-PAYLOAD-DECISION-BOUNDARY-2026-09-26.md	h:arena/01a0ddea-iips-review-recovered h:arena/01a0e30f-iips-review-recovered	NO
+9c7fac3e7acbd9f58e1d176b49f87f1667e9d6cf	artifacts/gate-y-windows/0001-governance-GATE-Y-record-RAMKI-D8-Intelligence-desig.patch	h:arena/01a0e30f-iips-review-recovered	NO
+8cb1a3cfa6f6f30f00f2f6b91bc0414d7841ca8a	artifacts/gate-y-windows/HANDOFF-MANIFEST.txt	h:arena/01a0e30f-iips-review-recovered	NO
+faa7294d7d786437bf9330d2113e2cea5425f8eb	artifacts/gate-y-windows/README-HANDOFF-EXPOSURE.txt	h:arena/01a0e30f-iips-review-recovered	NO
+ee1769a95013ac4321ca482781cd97d053aec0fa	frontend/package-lock.json	h:arena/01a0ec25-iips-review-recovered h:arena/01a0ec83-iips-review-recovered pr:1/head pr:2/head	YES
+793c0b7edb304bab6d0fbda0fcd49dfa385ccf92	frontend/package.json	h:arena/01a0ec25-iips-review-recovered h:arena/01a0ec83-iips-review-recovered pr:1/head pr:2/head	YES
+52f97c7d5d7f1e628dcdb5db56536f6926a020dd	frontend/server/executive-transport.ts	h:arena/01a0ec25-iips-review-recovered h:arena/01a0ec83-iips-review-recovered h:arena/01a0ecdb-iips-review-recovered pr:1/head pr:2/head pr:3/head	YES
+637fc242e56d42780736af5e675962f40f1ca9ff	frontend/server/pit/ipdPitReadAdapter.ts	h:arena/01a0ec25-iips-review-recovered h:arena/01a0ec83-iips-review-recovered pr:1/head pr:2/head	YES
+e1cacf65cb173f623a79a5d7a2f7c38672a2661b	frontend/server/pit/nonProductionPitStore.ts	h:arena/01a0ec25-iips-review-recovered h:arena/01a0ec83-iips-review-recovered h:arena/01a0ecdb-iips-review-recovered pr:1/head pr:2/head pr:3/head	YES
+d7f76d55535a9bb3abffb850ea41c64b64600ad8	frontend/server/pit/pitRuntimeIntegration.test.ts	h:arena/01a0ec25-iips-review-recovered h:arena/01a0ec83-iips-review-recovered h:arena/01a0ecdb-iips-review-recovered h:arena/01a0ed79-iips-review-recovered h:arena/01a0eeae-iips-review-recovered h:arena/01a0eecd-iips-review-recovered h:arena/01a0f184-iips-review-recovered h:arena/01a0f1b3-iips-review-recovered h:arena/01a0f1d6-iips-review-recovered h:arena/01a0f351-iips-review-recovered h:arena/01a0f64b-iips-review-recovered h:arena/01a0f90b-iips-review-recovered h:arena/01a0f936-iips-review-rec	NO,YES
+c6bc6d7611a5de7290c5b2b5a5c062a327cd524f	frontend/src/api/pit.ts	h:arena/01a0ec25-iips-review-recovered pr:1/head	YES
+f7c5ec81719bbbaad282085a8c4fb0b3d7317bee	frontend/package-lock.json	h:arena/01a0ecdb-iips-review-recovered h:arena/01a0ed79-iips-review-recovered h:arena/01a0eeae-iips-review-recovered h:arena/01a0eecd-iips-review-recovered h:arena/01a0f184-iips-review-recovered h:arena/01a0f1d6-iips-review-recovered h:arena/01a0f351-iips-review-recovered h:arena/01a0f64b-iips-review-recovered h:arena/01a0f90b-iips-review-recovered h:arena/01a0f936-iips-review-recovered h:arena/01a0f93d-iips-review-recovered h:arena/01a0faf0-iips-review-recovered h:arena/01a0fb16-iips-review-rec	NO,YES
+6365ab5690c673ac667623c545137c557f7c63b7	frontend/package.json	h:arena/01a0ecdb-iips-review-recovered h:arena/01a0ed79-iips-review-recovered h:arena/01a0eeae-iips-review-recovered h:arena/01a0eecd-iips-review-recovered h:arena/01a0f184-iips-review-recovered h:arena/01a0f1d6-iips-review-recovered h:arena/01a0f351-iips-review-recovered h:arena/01a0f64b-iips-review-recovered h:arena/01a0f90b-iips-review-recovered h:arena/01a0f936-iips-review-recovered h:arena/01a0f93d-iips-review-recovered h:arena/01a0faf0-iips-review-recovered h:arena/01a0fb16-iips-review-rec	NO,YES
+6a186c8a327840aade5d30ebfe28919429393398	frontend/server/pit/ipdPitReadAdapter.ts	h:arena/01a0ecdb-iips-review-recovered h:arena/01a0ed79-iips-review-recovered h:arena/01a0eeae-iips-review-recovered h:arena/01a0eecd-iips-review-recovered h:arena/01a0f184-iips-review-recovered h:arena/01a0f1d6-iips-review-recovered h:arena/01a0f351-iips-review-recovered h:arena/01a0f64b-iips-review-recovered h:arena/01a0f90b-iips-review-recovered h:arena/01a0f936-iips-review-recovered h:arena/01a0f93d-iips-review-recovered h:arena/01a0faf0-iips-review-recovered h:arena/01a0fb16-iips-review-rec	NO,YES
+241a18abc4dd2ae53ea100e33d63afbb4792fde1	frontend/server/executive-transport.ts	h:arena/01a0ed79-iips-review-recovered h:arena/01a0eeae-iips-review-recovered h:arena/01a0eecd-iips-review-recovered h:arena/01a0f184-iips-review-recovered h:arena/01a0f1d6-iips-review-recovered h:arena/01a0f64b-iips-review-recovered h:arena/01a0f90b-iips-review-recovered h:arena/01a0f936-iips-review-recovered h:arena/01a0f93d-iips-review-recovered h:arena/01a0faf0-iips-review-recovered h:arena/01a0fb16-iips-review-recovered h:arena/01a0fb73-iips-review-recovered h:arena/01a0fc15-iips-review-rec	NO,YES
+e0846d483043debda2a6465b62304e6e437b70eb	frontend/server/product-transport.test.ts	h:arena/01a0eecd-iips-review-recovered h:arena/01a0f184-iips-review-recovered h:arena/01a0f1b3-iips-review-recovered h:arena/01a0f1d6-iips-review-recovered h:arena/01a0f351-iips-review-recovered h:arena/01a0f64b-iips-review-recovered h:arena/01a0f90b-iips-review-recovered h:arena/01a0f936-iips-review-recovered h:arena/01a0f93d-iips-review-recovered h:arena/01a0faf0-iips-review-recovered h:arena/01a0fb16-iips-review-recovered h:arena/01a0fb73-iips-review-recovered h:arena/01a0fc15-iips-review-rec	NO,YES
+29f1f23ce21faeab5ebcdf879aeee55e3f093cf0	docs/integration/IIPS_v3.0_NP04_COMMON_GOVERNED_PERSISTENCE_IMPLEMENTATION_AUTHORITY.md	h:arena/01a0f1b3-iips-review-recovered	NO
+dea46373d4ba978f68867dede3db277febf21a80	docs/integration/IIPS_v3.0_NP04_P2_ARENA_HANDOFF_RECORD.md	h:arena/01a0f1b3-iips-review-recovered	NO
+15a6fe888727fc5e26e354ecd8a6e9fd99f510e1	docs/integration/IIPS_v3.0_NP06_REPORTS_GOVERNANCE_DECISIONS.md	h:arena/01a0f1b3-iips-review-recovered	NO
+8c1fa9e41f76f9a69997e3c67ecc934fb0d17d4a	docs/v3.0/g3-build/PROGRAM_v3.0_G3B_TENANTDIRECTORY_IMPLEMENTATION_AUTHORITY.md	h:arena/01a0f1b3-iips-review-recovered	NO
+760791b0d4bfd224256ba82080946d9c91f8e0c2	docs/v3.0/g3-build/PROGRAM_v3.0_G3Q_R1_TENANTDIRECTORY_QUALIFICATION_REVERIFICATION.md	h:arena/01a0f1b3-iips-review-recovered	NO
+ecfb950bd3daa15a8f3e974301b5ee4c8513fe57	docs/v3.0/g3-build/PROGRAM_v3.0_G3Q_TENANTDIRECTORY_QUALIFICATION_VERIFICATION.md	h:arena/01a0f1b3-iips-review-recovered	NO
+c9df1c58631ff64cddafad18f82a4f82354762f9	docs/v3.0/g3-build/PROGRAM_v3.0_G3_DEP1_TENANT_REASSIGNMENT_POLICY_DECISION.md	h:arena/01a0f1b3-iips-review-recovered	NO
+dda4462584ac40210e34cc5e9ce6e91727ca3fdc	docs/v3.0/g3-build/PROGRAM_v3.0_G3_DEP2_IMPLEMENTING_SERVICE_DESIGNATION.md	h:arena/01a0f1b3-iips-review-recovered	NO
+0465f018119b0831680a3e1a890813fcaeca9291	docs/v3.0/g3-build/PROGRAM_v3.0_G3_DEP3_MUTATION_AUTHORITY_AMENDMENT_DECISION.md	h:arena/01a0f1b3-iips-review-recovered	NO
+844eca8a2435bd2352b2688a81690e22535c7e00	docs/v3.0/g3-build/PROGRAM_v3.0_G3_PRODUCT_TENANT_REGISTRY_AUTHORITY.md	h:arena/01a0f1b3-iips-review-recovered	NO
+37c852206126f9770876fa6a81c935760cb38c84	docs/v3.0/g3-build/PROGRAM_v3.0_G3_TENANT_MEMBERSHIP_GOVERNANCE_DECISION.md	h:arena/01a0f1b3-iips-review-recovered	NO
+a88dc74395406c2d15ec08c6cbe1d15f0cb5167f	docs/v3.0/g3-build/PROGRAM_v3.0_G3_TENANT_MEMBERSHIP_SUBSTRATE_TECHNICAL_AUTHORITY.md	h:arena/01a0f1b3-iips-review-recovered	NO
+efeb0f88e1e194225d5c5602b02fe376d94a06c0	docs/v3.0/g3-build/PROGRAM_v3.0_NP06_P1_1_REENTRY_DETERMINATION.md	h:arena/01a0f1b3-iips-review-recovered	NO
+e113d07352a06e3f11e780fb101cfd418f8af0d7	docs/v3.0/g3-build/PROGRAM_v3.0_NP06_REMAINING_P1_REENTRY_DETERMINATION.md	h:arena/01a0f1b3-iips-review-recovered	NO
+36fdf6d82a958c8e44eaf7695e8f08573498e33b	docs/v3.0/g3-build/PROGRAM_v3.0_NP06_REPORTS_FINAL_QUALIFICATION.md	h:arena/01a0f1b3-iips-review-recovered	NO
+b5302c5b9172f73a742b03e7c5c863e732a0e3bc	docs/v3.0/g3-build/PROGRAM_v3.0_NP06_REPORTS_IMPLEMENTATION_AUTHORITY_ACTIVATION.md	h:arena/01a0f1b3-iips-review-recovered	NO
+4ba6c3738797090cc04723a9045d05527fe5fdff	docs/v3.0/phase12/mutation-authority-map.md	h:arena/01a0f1b3-iips-review-recovered	NO
+284a46305053fdf2190e8631156958c1aa94def1	frontend/server/admin-transport.ts	h:arena/01a0f1b3-iips-review-recovered h:governance/d1-journal-persistence-extension h:promotion/governed-reports-candidate pr:42/head pr:43/head	NO,YES
+6a33ccd5c423851a2c0267392295ad81856f174f	frontend/server/executive-transport.ts	h:arena/01a0f1b3-iips-review-recovered	NO
+d0ebfa5e340d421ed03146e8b1d2ed93591cfd2e	frontend/server/secured-executor.ts	h:arena/01a0f1b3-iips-review-recovered	NO
+da08f1267c30aa163af9dcd4baba4d0ed97d4f2d	iips-platform/src/sector-engines/cross-sector/index.ts	h:arena/01a0f1d6-iips-review-recovered h:arena/01a0f90b-iips-review-recovered h:arena/01a0f936-iips-review-recovered h:arena/01a0f93d-iips-review-recovered h:arena/01a0faf0-iips-review-recovered pr:10/head pr:11/head pr:12/head pr:8/head pr:9/head	YES
+1b2df7a7c7b1e01b9d67c0515adecbb933069dbb	docs/integration/IIPS_v3.0_NP07_RESEARCH_ACCEPTANCE_AND_BASELINE_ADMISSION.md	h:arena/01a0f351-iips-review-recovered	NO
+6c2be92adc57b8a5b9e5e8183dc7d27ecbb251be	docs/integration/IIPS_v3.0_NP07_RESEARCH_NON_PRODUCTION_QUALIFICATION.md	h:arena/01a0f351-iips-review-recovered	NO
+42065b0da34e26d855abd1209f0d9b9547dd1cae	docs/integration/IIPS_v3.0_NP09_WATCHLISTS_ACCEPTANCE_AND_BASELINE_PROMOTION.md	h:arena/01a0f351-iips-review-recovered	NO
+08a018f5933c1be4a4272d5922ba58e5401045a0	docs/integration/IIPS_v3.0_NP09_WATCHLISTS_PERSISTENCE_OWNER_DESIGNATION.md	h:arena/01a0f351-iips-review-recovered	NO
+25f6766ebf1fdb7639c9408ce84864cbd7071208	docs/integration/IIPS_v3.0_NP10_COLLABORATION_ACCEPTANCE_AND_BASELINE_ADMISSION.md	h:arena/01a0f351-iips-review-recovered	NO
+1928992ac8c59abf77b753767c01549d0acbbaa6	docs/integration/IIPS_v3.0_NP10_COLLABORATION_GOVERNANCE_AND_PERSISTENCE_OWNER_DESIGNATION.md	h:arena/01a0f351-iips-review-recovered	NO
+74d7808285b4e105e954f2b3f46285e95a9f163b	docs/integration/IIPS_v3.0_NP10_COLLABORATION_NON_PRODUCTION_QUALIFICATION.md	h:arena/01a0f351-iips-review-recovered	NO
+44090cad1c802265a4327323ea736409fd7e8f8c	docs/integration/IIPS_v3.0_NP11_SETTINGS_ACCEPTANCE_AND_BASELINE_ADMISSION.md	h:arena/01a0f351-iips-review-recovered	NO
+ff864782461f1462747c304d077e354f5dc1ccf0	docs/integration/IIPS_v3.0_NP11_SETTINGS_NON_PRODUCTION_QUALIFICATION.md	h:arena/01a0f351-iips-review-recovered	NO
+d835030fe7034c9c6da799a1553d383887f7dd16	docs/integration/IIPS_v3.0_NP11_SETTINGS_PRODUCT_CONTRACT_AND_PERSISTENCE_OWNER_DESIGNATION.md	h:arena/01a0f351-iips-review-recovered	NO
+32cec7d830e008cda2a0fcea385b8e1f957461c1	docs/integration/NP-13-AUTH-02.md	h:arena/01a0f351-iips-review-recovered	NO
+cd0396bb3214e31702199ceee43aedec6ecb9636	frontend/server/admin-transport.ts	h:arena/01a0f351-iips-review-recovered	NO
+9c794e119be6640edb88e59b171d70ff58ef60ab	frontend/server/collaboration/collaboration-transport.test.ts	h:arena/01a0f351-iips-review-recovered	NO
+d886673e65d370e38b560e648164416c13bfef87	frontend/server/executive-transport.ts	h:arena/01a0f351-iips-review-recovered	NO
+6047f466236d7dbb1c3478fc0622b4887eab2d8a	frontend/server/settings/settings-transport.test.ts	h:arena/01a0f351-iips-review-recovered	NO
+f9b65144c1a9f3596522c293507c528f9973ce5a	frontend/server/watchlists/watchlists-transport.test.ts	h:arena/01a0f351-iips-review-recovered	NO
+6d9693884a5e530ed28da6740b60808390f6cbfb	frontend/src/app/App.tsx	h:arena/01a0f351-iips-review-recovered	NO
+3f07d43cb471b3e82fcfa3eaa45de978c8dbf946	frontend/src/app/navigation.ts	h:arena/01a0f351-iips-review-recovered h:promotion/evidence-landing-np13 h:promotion/family-watchlists-collaboration-settings h:reconciliation/ai-advisory-transport pr:44/head pr:45/head pr:46/head	NO,YES
+2206d88eb6ac962631b77a72031fdef706c802e6	frontend/src/app/routes.ts	h:arena/01a0f351-iips-review-recovered h:promotion/evidence-landing-np13 h:promotion/family-watchlists-collaboration-settings h:reconciliation/ai-advisory-transport pr:44/head pr:45/head pr:46/head	NO,YES
+74fb9e922ef0a4ce84e04a95abcdfbea68337a6a	frontend/src/features/evidence/EvidenceLanding.integration.test.tsx	h:arena/01a0f351-iips-review-recovered	NO
+5f9a75ad74aa3e26b550d1e0d6bdee9569c83a3a	frontend/src/features/evidence/EvidenceLanding.test.tsx	h:arena/01a0f351-iips-review-recovered	NO
+6b1d51feed0d07e2ddd7b6eaf95130e5879badff	frontend/src/features/evidence/EvidenceLanding.tsx	h:arena/01a0f351-iips-review-recovered	NO
+3a41f6cdfc3ff2cd370d54216c5dfa90c1db28e4	frontend/src/features/evidence/EvidenceRouting.test.tsx	h:arena/01a0f351-iips-review-recovered	NO
+93c3eb56f814a846fb20529decfc0ac37530f2da	frontend/src/features/evidence/ReservedEvidencePath.tsx	h:arena/01a0f351-iips-review-recovered	NO
+e449c1b4e508d04501c310657ce9f7b0cf0a1b8d	frontend/src/main.tsx	h:arena/01a0f351-iips-review-recovered h:composition/governed-screener-application h:promotion/evidence-landing-np13 h:promotion/family-watchlists-collaboration-settings h:reconciliation/ai-advisory-transport pr:44/head pr:45/head pr:46/head pr:47/head	NO,YES
+dcacd941d85626de21d4c8fa59246ac87e0ea14d	frontend/src/app/App.tsx	h:arena/01a0f64b-iips-review-recovered	NO
+1b98d0510cbcc0dc4ba133068c8605fbbd943092	frontend/server/executive-transport.ts	h:arena/01a1020f-iips-review-recovered pr:35/head	YES
+e2d7c957799b352ec429f95ea563f51dab231def	frontend/server/macro/mospi-source.ts	h:arena/01a1020f-iips-review-recovered pr:35/head	YES
+69b54e028c9811fdab88b9ade58fca3ba2e470c7	frontend/server/secured-executor.ts	h:arena/01a1020f-iips-review-recovered h:arena/01a1079e-iips-review-recovered h:arena/01a10b3c-iips-review-recovered h:arena/01a10c0e-iips-review-recovered h:arena/01a10cce-iips-review-recovered h:arena/6747c3a2-iips-review-recovered h:governance/d1-persistence-ownership-option-c h:governance/d2-identity-tenant-option-b h:governance/d3-reports-acceptance h:governance/reports-promotion-scope h:phase14.1-recovery-deposit pr:35/head pr:36/head pr:37/head pr:38/head pr:39/head pr:40/head pr:41/head	NO,YES
+24c0911c4aeab1b8a3dd207b935ba57455dd3b5c	frontend/src/api/macro.ts	h:arena/01a1020f-iips-review-recovered pr:35/head	YES
+3fd917d867846106ad354599e888d162fc5bb259	frontend/src/features/research/MacroContext.tsx	h:arena/01a1020f-iips-review-recovered pr:35/head	YES
+373be3c69438a5a022dc423762b5ba93ff2ae15a	docs/integration/NP-15-BROAD-IPD-PHASE-1-CONVERGENCE-INVESTIGATION-RECORD.md	h:arena/01a10283-iips-review-recovered pr:34/head	YES
+1cbc1a287b143d8d89bc37843cdc62ed31505de6	docs/integration/NP-08-D08-D89-MACRO-UI-DISCLOSURE-DECISION-ACT.md	h:arena/01a10b3c-iips-review-recovered	NO
+535211cfceb78c146bf0d5982348ad78637f15b6	frontend/server/executive-transport.ts	h:arena/01a10b3c-iips-review-recovered h:arena/01a10c0e-iips-review-recovered h:arena/01a10cce-iips-review-recovered h:arena/6747c3a2-iips-review-recovered h:governance/d1-persistence-ownership-option-c h:governance/d2-identity-tenant-option-b h:governance/d3-reports-acceptance h:governance/reports-promotion-scope h:phase14.1-recovery-deposit pr:36/head pr:37/head pr:38/head pr:39/head pr:40/head pr:41/head	NO,YES
+225234c41787032b97293af0ddaa3ec62bfaf7cc	frontend/src/features/research/MacroSourceDisclosure.test.tsx	h:arena/01a10b3c-iips-review-recovered	NO
+b071565e5d40ede2cb77fc8f959d9e1005f114e7	frontend/src/features/research/MacroSourceDisclosure.tsx	h:arena/01a10b3c-iips-review-recovered	NO
+af7338f4ac50afd3fad09651ec73fa0cb0ad71b7	docs/integration/CAPABILITY-EVIDENCE-RECONCILIATION-2026-10-06.md	h:arena/01a10cce-iips-review-recovered	NO
+b2b8cd98255dd30525fcb1a065455bee5cd897e2	docs/integration/NP-BASELINE-G0A-2026-10-05.md	h:arena/01a10cce-iips-review-recovered	NO
+5b59eedcddf1aa9e125e290eaf1ec80c3bc84e30	frontend/src/app/App.tsx	h:arena/627f4e40-iips-review-recovered h:arena/a2df3b85-iips-review-recovered h:composition/governed-screener-application h:reconciliation/spa-oidc-handoff pr:47/head pr:48/head pr:49/head	NO,YES
+4b74fa34217b9154a8cedc755259ebec95c88ef4	frontend/src/app/navigation.ts	h:arena/627f4e40-iips-review-recovered h:arena/a2df3b85-iips-review-recovered h:composition/governed-screener-application h:reconciliation/spa-oidc-handoff pr:47/head pr:48/head pr:49/head	NO,YES
+b0be6054dd451f9d38d7748ed772cdbf3d2fd574	E2E-015-SPA-OIDC-HANDOFF-PROMOTION-2026-10-07.md	h:arena/a2df3b85-iips-review-recovered	NO
+3be0f5f035aa92839c01ea6375bd6471d8f96f60	E2E-015-SPA-OIDC-HANDOFF-RECONCILIATION-CLOSURE-2026-10-07.md	h:arena/a2df3b85-iips-review-recovered	NO
+2322082c8b738dd0dab1b9af15966d5c4a024f2e	frontend/server/persistence/persistence-restart-proof.test.ts	h:arena/a2df3b85-iips-review-recovered	NO
+567f37353c3c2f0e6a98a906aff8dcb906134373	frontend/server/persistence/restart-proof-recoverer.ts	h:arena/a2df3b85-iips-review-recovered	NO
+75809cd0da89acd9807996db59e5b677fd02b67a	frontend/server/persistence/restart-proof-writer.ts	h:arena/a2df3b85-iips-review-recovered	NO
+c1a0bd107b5145e3aa00d51642ce54012496030a	frontend/server/executive-transport.ts	h:composition/governed-screener-application pr:47/head	YES
+aca0fe2b201a21907de1949624db26572925f57e	.gitignore	h:gai-impl-canonical h:phase13-next	NO
+0d759fbdd751a30a108deebe505a559912a9b6d8	README.md	h:gai-impl-canonical h:phase13-next	NO
+b5485618f8dbc390d5b542fdfd5256d335d10b03	ROADMAP.md	h:gai-impl-canonical h:phase13-next	NO
+4967b0232afc5e4044951f03d141f4225e435693	docs/v3.0/INTEGRATION_VERIFICATION_MATRIX.md	h:gai-impl-canonical	NO
+112b3dedcf21fdcdc5c6cae52149db3a575ef514	docs/v3.0/phase13-hardening/PHASE13_HARDENING_ACCEPTANCE.md	h:gai-impl-canonical h:phase13-hardening-delivery h:phase13-next	NO
+1be2a34058b60dea8895121ea421269d2e02f122	docs/v3.0/phase13-hardening/PHASE13_HARDENING_IMPLEMENTATION.md	h:gai-impl-canonical h:phase13-hardening-delivery h:phase13-next	NO
+d85fdb4e6d8d71999a69c5061b2f7499f348896e	docs/v3.0/phase13-hardening/PHASE13_HARDENING_RECONCILIATION.md	h:gai-impl-canonical h:phase13-hardening-delivery h:phase13-next	NO
+e7f3af975efe3c245c27b0c18f699b6408457149	docs/v3.0/phase13-hardening/PHASE13_N3_READ_AUTHORIZATION_CERTIFICATION.md	h:gai-impl-canonical h:phase13-next	NO
+427ccb1e5b65e1d31af7a167fc0b9ad746cd76e8	docs/v3.0/phase14/PHASE14_WORKFLOW_ADMINISTRATION.md	h:gai-impl-canonical h:phase13-next	NO
+0e380068c82c4949734744e0681322adf5f32cf3	frontend/package.json	h:gai-impl-canonical h:phase13-hardening-delivery h:phase13-next	NO
+a32d485ae4502ac84507ddcd2ea695bd61136bc3	frontend/server/admin-transport.ts	h:gai-impl-canonical h:phase13-next	NO
+775d412beb9109f791d2b6ed6744fd465ddcaf4a	frontend/server/ai-advisory-transport.test.ts	h:gai-impl-canonical h:phase13-next	NO
+e257814e3eb2dc591a55e955cd4855b7776af38a	frontend/server/ai-advisory-transport.ts	h:gai-impl-canonical h:phase13-next	NO
+08977d663022c3f8ed104f59c343975e382792ec	frontend/server/directory/directory-wiring.test.ts	h:gai-impl-canonical h:phase13-next	NO
+d2a4b9656c16ce61e46390946878f6855a3b22e6	frontend/server/directory/directory-wiring.ts	h:gai-impl-canonical h:phase13-next	NO
+dd81a14db9e497a727676579ee7a15b3bc3966e5	frontend/server/directory/idp-sync.ts	h:gai-impl-canonical h:phase13-next	NO
+9a849ae901431257a4cc7950f74482bf2826c8a3	frontend/server/directory/roster-directory.test.ts	h:gai-impl-canonical h:phase13-next	NO
+fea1799c4b619f10146dd7ace1bfa42ed75b8119	frontend/server/directory/roster-directory.ts	h:gai-impl-canonical h:phase13-next	NO
+fab26a42973619e87ea9bae2db4ef31210fe1ca2	frontend/server/executive-transport.ts	h:gai-impl-canonical h:phase13-next	NO
+0af644d20369f931ee7287b901eea421d357bf57	frontend/server/macro/macro-transport.test.ts	h:gai-impl-canonical h:phase13-next	NO
+20cf3ec82e2f715200d9bf9c487678199d52288c	frontend/server/macro/mospi-source.test.ts	h:gai-impl-canonical h:phase13-next	NO
+5ccef665e82e7bcaacf0d70a504a9f22dd3e18e9	frontend/server/macro/mospi-source.ts	h:gai-impl-canonical h:phase13-next	NO
+80932eeae5e02520ee7d953e9b9680b907ad2f63	frontend/server/notes/notes-service.test.ts	h:gai-impl-canonical h:phase13-next	NO
+449d3b891a4c91d301b99e441e2bca25f1a1b879	frontend/server/notes/notes-service.ts	h:gai-impl-canonical h:phase13-next	NO
+a4e84a90176d8d876055bfec1dbd44d60b129558	frontend/server/notifications/notification-service.test.ts	h:gai-impl-canonical h:phase13-next	NO
+7890b00ecc9b1315964dd3c7af589fda290ea661	frontend/server/notifications/notification-service.ts	h:gai-impl-canonical h:phase13-next	NO
+6c74c5f3fd8f108fa45b1f41261a738776702bd3	frontend/server/read-guard.test.ts	h:gai-impl-canonical h:phase13-next	NO
+ef42dcc2d998f3ab98d0e3f7fa133440aa428391	frontend/server/secrets/secret-authority.test.ts	h:gai-impl-canonical h:phase13-next	NO
+62eeb38abdb4dd1d72eb2f50d9ada64fb6ada257	frontend/server/secrets/secret-authority.ts	h:gai-impl-canonical h:phase13-next	NO
+3deb4de1cbbb27a992eb7b184f3eeb1c1ab7e58c	frontend/src/api/admin.ts	h:gai-impl-canonical h:phase13-next	NO
+2258e54c179e505f816611dfe300ed174d8739b9	frontend/src/api/aiAdvisory.ts	h:gai-impl-canonical h:phase13-next	NO
+311609e724fa0c9f3feeb0a9551f94b32283a998	frontend/src/api/authFetch.test.ts	h:gai-impl-canonical h:phase13-next	NO
+a64db79e03d8985bc799568dc144ec1b314daad3	frontend/src/api/authFetch.ts	h:gai-impl-canonical h:phase13-next	NO
+1235c20eca0da67f8c40d2ea2e9a1710cd85928f	frontend/src/api/company.ts	h:gai-impl-canonical h:phase13-next	NO
+d03631ad1d095b1474a9787613c15cb5303813f6	frontend/src/api/crossSector.ts	h:gai-impl-canonical h:phase13-next	NO
+311e86c084592cee0212ba788624f27e44186bf7	frontend/src/api/decisionMatrix.ts	h:gai-impl-canonical h:phase13-next	NO
+8ea7c864519e9974ca5f7ac57b80b709e767d704	frontend/src/api/evidence.ts	h:gai-impl-canonical h:phase13-next	NO
+ae934b89ba6fb0d7551b0d0dda4d347350cb4cf4	frontend/src/api/executive.ts	h:gai-impl-canonical h:phase13-next	NO
+bcda69b10acb1387671acf907b33f860639cd7b0	frontend/src/api/macro.ts	h:gai-impl-canonical h:phase13-next	NO
+82140b694c641a494deae78d32acae5ce01bb0e1	frontend/src/api/notes.ts	h:gai-impl-canonical h:phase13-next	NO
+3960212fd0f19ed5eea1b2f5a5ab6f778e43993d	frontend/src/api/notifications.ts	h:gai-impl-canonical h:phase13-next	NO
+9829c328091d8e5636afefa0c84ad346ff51458a	frontend/src/api/portfolio.ts	h:gai-impl-canonical h:phase13-next	NO
+2eb95837e6d57d7e1d110bb2564a3642c721942a	frontend/src/api/readClients.test.ts	h:gai-impl-canonical h:phase13-next	NO
+56e236dfbca653d804ae95a6ff32901bc3eeeb98	frontend/src/api/replay.ts	h:gai-impl-canonical h:phase13-next	NO
+0ae6ae14a9507c085271ae3e0e532688ea17bbec	frontend/src/app/App.test.tsx	h:gai-impl-canonical h:phase13-next	NO
+15e638ed5b6f9448fcbb4b787783acd252fe0094	frontend/src/app/App.tsx	h:gai-impl-canonical	NO
+e05b823faf9ed5de8dea81d39f808fa1861a753b	frontend/src/app/AppShell.tsx	h:gai-impl-canonical h:phase13-next	NO
+71c450b86f64718f51cd14be713595d63bd5c08c	frontend/src/app/Sidebar.test.tsx	h:gai-impl-canonical	NO
+f1d22d3d0536e183abab9c9c75f5e9433bfa35dc	frontend/src/app/Sidebar.tsx	h:gai-impl-canonical h:phase13-next	NO
+99100762e7c0df922e657631c8654cb5e8857e84	frontend/src/app/TopBar.tsx	h:gai-impl-canonical h:phase13-next	NO
+41e4b06cebf634f68136b649965a37c58689a10a	frontend/src/app/navigation.test.ts	h:gai-impl-canonical	NO
+03fcf14d7db9f3dc1c75c8a08efec54d4ee2d4c2	frontend/src/app/navigation.ts	h:gai-impl-canonical	NO
+ea1fd329460a96732f872b83e573a42cb22fbc0a	frontend/src/app/routes.ts	h:gai-impl-canonical h:phase13-next	NO
+d2b44c63d1146833e0d3545f2452714680e3567b	frontend/src/components/ai/AiExplanation.test.tsx	h:gai-impl-canonical h:phase13-next	NO
+df8bb2b9a5c7ed6c6db20b233e9369d285589421	frontend/src/components/ai/AiExplanation.tsx	h:gai-impl-canonical h:phase13-next	NO
+ca2a5e427503a16023f85b1508b85e7e10716270	frontend/src/components/data/DataComponents.test.tsx	h:gai-impl-canonical h:phase13-hardening-delivery h:phase13-next	NO
+5124c91713ac8236dae6cebd7d818190a218e507	frontend/src/components/data/DataComponents.tsx	h:gai-impl-canonical h:phase13-hardening-delivery h:phase13-next	NO
+096237baf2b42f268e184f6d2cc6cc112731a205	frontend/src/components/evidence/EvidenceComponents.test.tsx	h:gai-impl-canonical h:phase13-hardening-delivery h:phase13-next	NO
+30c16daa1d3e4ca9c9fb38424ae7a8ed54e22093	frontend/src/components/evidence/EvidenceComponents.tsx	h:gai-impl-canonical h:phase13-hardening-delivery h:phase13-next	NO
+56600fbbc9baeeef21cd07d70f411c6dfd16d128	frontend/src/components/evidence/EvidenceExplorerComponents.tsx	h:gai-impl-canonical h:phase13-next	NO
+4ca2d234443c5645dae5e6bd3c6455cffdb66630	frontend/src/components/interaction/InteractionComponents.test.tsx	h:gai-impl-canonical h:phase13-hardening-delivery h:phase13-next	NO
+3abae0377e3e90cd2bd69a69f13653f96063b739	frontend/src/components/interaction/InteractionComponents.tsx	h:gai-impl-canonical h:phase13-hardening-delivery h:phase13-next	NO
+d7082bdc62a5c2c7c33229cb666d26649934a748	frontend/src/components/interaction/useDialogFocus.ts	h:gai-impl-canonical h:phase13-hardening-delivery h:phase13-next	NO
+69f711ec6c2d8fc6596a93b7b562382bbabd091a	frontend/src/components/interaction/useTabList.ts	h:gai-impl-canonical h:phase13-hardening-delivery h:phase13-next	NO
+0301f0158068647dbbc04cf957778ebbdc74a3ed	frontend/src/components/viz/ChartFoundations.test.tsx	h:gai-impl-canonical h:phase13-hardening-delivery h:phase13-next	NO
+cf0b19f2a40f7bb8e421ead4153ca2852d1f2a04	frontend/src/components/viz/ChartFoundations.tsx	h:gai-impl-canonical h:phase13-hardening-delivery h:phase13-next	NO
+68c084724c630c9f3a50a14aee458e58e820c091	frontend/src/core/auth/AuthProvider.test.tsx	h:gai-impl-canonical h:phase13-next	NO
+cef3818f2b52b71c30326ef208539098db08ac82	frontend/src/core/auth/AuthProvider.tsx	h:gai-impl-canonical h:phase13-next	NO
+a05aee19a31f2c361f9aa811786cb0263c81e893	frontend/src/core/auth/oidcClient.test.ts	h:gai-impl-canonical h:phase13-next	NO
+638fa3b5ada9ce4e99dede7feaaf06f50b271671	frontend/src/core/auth/oidcClient.ts	h:gai-impl-canonical h:phase13-next	NO
+f119f7fc1568b74e6f2d421246004bea4c7992cb	frontend/src/core/session/session.ts	h:gai-impl-canonical h:phase13-next	NO
+4368c4b50404fa45ff28e4dc60e82008dd9ce360	frontend/src/core/theme/global.css	h:gai-impl-canonical h:phase13-hardening-delivery h:phase13-next	NO
+0afc9b66b4ec31318b145300454731e4af655b9c	frontend/src/core/theme/theme.test.ts	h:gai-impl-canonical h:phase13-hardening-delivery h:phase13-next	NO
+92061264c57d7b5e0489aa3280a223674bde2268	frontend/src/core/theme/theme.ts	h:gai-impl-canonical h:phase13-hardening-delivery h:phase13-next	NO
+ff80280332a13a17be5178bf46731c610ae18619	frontend/src/core/tokens/index.ts	h:gai-impl-canonical h:phase13-hardening-delivery h:phase13-next	NO
+451cd63d767abdd8a28c8d200bb1a85f50dba6ec	frontend/src/features/admin/AdminOperations.test.tsx	h:gai-impl-canonical h:phase13-next	NO
+c9b8a2a8bc52ac37d546fbdc41d95aa823a4182f	frontend/src/features/admin/AdminOperations.tsx	h:gai-impl-canonical h:phase13-next	NO
+2af5cd498825d2fb89ce344b7256f8cc248e8c3c	frontend/src/features/admin/Administration.test.tsx	h:gai-impl-canonical h:phase13-next	NO
+60c97217759fac61aaf53d105a76e505078f2bbc	frontend/src/features/admin/Administration.tsx	h:gai-impl-canonical h:phase13-next	NO
+c3f2df5f21e6ef78704e5a578d483e0d94f2393b	frontend/src/features/admin/WorkflowDefinitionPanel.test.tsx	h:gai-impl-canonical h:phase13-next	NO
+3e128b0e48a30436950b64a876bffc971b7f3674	frontend/src/features/admin/WorkflowDefinitionPanel.tsx	h:gai-impl-canonical h:phase13-next	NO
+d0a6e106766544b9d3b66f7816c3e588b7bb2b7a	frontend/src/features/company/CompanyIntelligence.test.tsx	h:gai-impl-canonical h:phase13-next	NO
+570471632871bfba230ebe0e69ec9d17a7a2d91c	frontend/src/features/company/CompanyIntelligence.tsx	h:gai-impl-canonical h:phase13-next	NO
+a9dd4a92730617bb239b217b2ee3bb9e1b1f362f	frontend/src/features/company/CompanyTrustChain.test.tsx	h:gai-impl-canonical h:phase13-next	NO
+0f16dcb01180b9fe2e962df050060a33672952a9	frontend/src/features/company/CompanyTrustChain.tsx	h:gai-impl-canonical h:phase13-next	NO
+b09774548091b76b216dc0cbdda7acd28aa670b9	frontend/src/features/cross-sector/CrossSectorIntelligence.test.tsx	h:gai-impl-canonical h:phase13-next	NO
+4c770dd7cfe6cbd15e78feefb768192749d73749	frontend/src/features/cross-sector/CrossSectorIntelligence.tsx	h:gai-impl-canonical h:phase13-next	NO
+033f42e5167bb451e5e874e575a966cc32a11031	frontend/src/features/decision-matrix/DecisionMatrix.test.tsx	h:gai-impl-canonical h:phase13-next	NO
+bb96a540f9a648aa9d594c09e33cd29b8556eadd	frontend/src/features/decision-matrix/DecisionMatrix.tsx	h:gai-impl-canonical h:phase13-next	NO
+f1210e669bb5b0527db9f7bb11dc9e627d01322a	frontend/src/features/evidence/EvidenceExplorer.test.tsx	h:gai-impl-canonical h:phase13-next	NO
+2e8219b6edab0d360fd11cf69b706a0d74d46da2	frontend/src/features/evidence/EvidenceHub.test.tsx	h:gai-impl-canonical h:phase13-next	NO
+fa85f2d941f1b627a7c33d0d91f317e089d224c7	frontend/src/features/evidence/EvidenceHub.tsx	h:gai-impl-canonical h:phase13-next	NO
+dea477efc48d60cf89fc45d6b82c7bd685eb6f24	frontend/src/features/executive/ExecutiveDashboard.test.tsx	h:gai-impl-canonical h:phase13-next	NO
+eceb778484b95f3205d341e947c8c74d0cc55f94	frontend/src/features/executive/ExecutiveDashboard.tsx	h:gai-impl-canonical h:phase13-next	NO
+75458a96e02949f7d3b75be0fce2069436acf5c4	frontend/src/features/intelligence/IntelligenceHub.test.tsx	h:gai-impl-canonical	NO
+25e215a40503108bb5821e92fd5f1582e9715cb1	frontend/src/features/intelligence/IntelligenceHub.tsx	h:gai-impl-canonical	NO
+d529ab7f6ceb8afac365412f332cbdf1cbe40b4f	frontend/src/features/notes/NotesDrawer.tsx	h:gai-impl-canonical h:phase13-next	NO
+32d6c3ca954e090dabb8b48534cf90ccf9b40c6a	frontend/src/features/notifications/NotificationDrawer.tsx	h:gai-impl-canonical h:phase13-next	NO
+db4e4007078b0d9f809a592994bc9da31014fb32	frontend/src/features/portfolio/PortfolioWorkspace.test.tsx	h:gai-impl-canonical h:phase13-next	NO
+6f83e124424e0b3a5c1a83e6ebbfbd2ed46aa06a	frontend/src/features/portfolio/PortfolioWorkspace.tsx	h:gai-impl-canonical h:phase13-next	NO
+adfd36dbe4ba22e4d1a183be9be2bf70852c511b	frontend/src/features/research/MacroContext.test.tsx	h:gai-impl-canonical h:phase13-next	NO
+f73867730aa0b57480e80b16cfb281a58198cb87	frontend/src/features/research/MacroContext.tsx	h:gai-impl-canonical h:phase13-next	NO
+aef89c6f2852dbb69df9f1a240d69883a67d264e	frontend/src/features/research/ResearchEvents.test.tsx	h:gai-impl-canonical h:phase13-next	NO
+d64f58a1adee96dd3cdf9e6d7688e01a17963859	frontend/src/features/research/ResearchEvents.tsx	h:gai-impl-canonical h:phase13-next	NO
+75dcd6f947facbdaa389b559b0e8dc9814d1f24d	frontend/src/features/research/ResearchHub.test.tsx	h:gai-impl-canonical h:phase13-next	NO
+0cd5491cac6872b2aef1382ac812bf8e2946d389	frontend/src/features/research/ResearchHub.tsx	h:gai-impl-canonical h:phase13-next	NO
+5e96a75f0c5e1cc967a8ab5012673f51ca85a802	frontend/src/features/research/SectorIntelligence.test.tsx	h:gai-impl-canonical h:phase13-next	NO
+858f1f89fe81e58ffb266bf84c878ee2ced9dc96	frontend/src/features/research/SectorIntelligence.tsx	h:gai-impl-canonical h:phase13-next	NO
+004fb2386439b1608c34eb751980f7cc1edf693b	frontend/src/features/screener/Screener.test.tsx	h:gai-impl-canonical h:phase13-next	NO
+915238acec41e15232f8b20ec064828e8c291a32	frontend/src/features/screener/Screener.tsx	h:gai-impl-canonical h:phase13-next	NO
+2ccd053322f7e51acb48a38b14f5e3035db96219	frontend/src/features/shell/CommandPalette.test.tsx	h:gai-impl-canonical h:phase13-next	NO
+92539c32eb110f218317b7aac9dc5726929961e1	frontend/src/features/shell/CommandPalette.tsx	h:gai-impl-canonical h:phase13-next	NO
+2367d065b17ff8ecbca54217715cfba52bca7477	frontend/src/main.tsx	h:gai-impl-canonical h:phase13-next	NO
+c4d3a3d4514a3e5337a3f3780532fc1817e01a48	frontend/tsconfig.server.json	h:gai-impl-canonical h:phase13-hardening-delivery h:phase13-next	NO
+e922750f88af3971c5770e55bc320b025e595366	ies-016-telecommunications/IES-016_IMPLEMENTATION_READINESS_CERTIFICATE.md	h:gai-impl-canonical	NO
+78a9b13fc566077ce562057ee03a0092d158471b	ies-016-telecommunications/RELEASE_NOTES_IES-016_v1.0.0.md	h:gai-impl-canonical h:phase13-next	NO
+68aae104dd3a0ccad8122d5770bd8d2c61637ba6	ies-016-telecommunications/TELECOMMUNICATIONS_DISCOVERY_PACK.md	h:gai-impl-canonical h:phase13-next	NO
+0a45484582300d106c104e093a176d9ba52f6aec	ies-016-telecommunications/TELECOMMUNICATIONS_ENGINE_ACCEPTANCE_MATRIX.md	h:gai-impl-canonical h:phase13-next	NO
+16b37ee9f3d0b20a0849c2314ee66cb58e08e383	ies-016-telecommunications/TELECOMMUNICATIONS_IMPLEMENTATION_RISK_REGISTER.md	h:gai-impl-canonical h:phase13-next	NO
+178160fcbe0a30975c6796ac22c73a9bd03ab91a	ies-016-telecommunications/calibration/telecommunications-calibration-1.0.0.json | iips-platform/src/sector-engines/telecommunications/telecommunications-calibration-1.0.0.json	h:gai-impl-canonical h:phase13-next	NO
+c69ce2eb5d989f63a0618406b103dc398ebc4948	ies-016-telecommunications/contract-tests/generate_expected_outputs.py	h:gai-impl-canonical h:phase13-next	NO
+0d45ffc44df6d61a6f95dac15a12cb6f88be3155	ies-016-telecommunications/expected-outputs/telecommunications-expected-outputs-1.0.0.json | iips-platform/src/sector-engines/telecommunications/telecommunications-expected-outputs-1.0.0.json	h:gai-impl-canonical h:phase13-next	NO
+f0dfc647b8e0220d04a241902a82899e3a667393	ies-016-telecommunications/fixtures/telecommunications-golden-reference-1.0.0.json | iips-platform/src/sector-engines/telecommunications/telecommunications-golden-reference-1.0.0.json	h:gai-impl-canonical h:phase13-next	NO
+25accdd952a6f774968e51b3a18eb6f4aa1dbf05	ies-016-telecommunications/fixtures/telecommunications-validation-fixtures-1.0.0.json | iips-platform/src/sector-engines/telecommunications/telecommunications-validation-fixtures-1.0.0.json	h:gai-impl-canonical h:phase13-next	NO
+ed6bbeb8b127f45ac8c8d99f9baee8c42bd60001	ies-016-telecommunications/replay-datasets/telecommunications-replay-dataset-1.0.0.json	h:gai-impl-canonical h:phase13-next	NO
+31383863e126a6688bd95249522e654c933ec6f1	ies-016-telecommunications/telecommunications-ontology-metadata-1.0.0.json	h:gai-impl-canonical h:phase13-next	NO
+e0ad759f4be4231b18959ae6f22aaa3ec6e2ab0b	ies-017-automobile/AUTOMOBILE_DISCOVERY_PACK.md	h:gai-impl-canonical h:phase13-next	NO
+8707125b545d36541e1199e3f35d425fdda3613d	ies-017-automobile/AUTOMOBILE_ENGINE_ACCEPTANCE_MATRIX.md	h:gai-impl-canonical h:phase13-next	NO
+7158304538f9e70e68b6cfe99a51386587dd0eb2	ies-017-automobile/AUTOMOBILE_IMPLEMENTATION_RISK_REGISTER.md	h:gai-impl-canonical h:phase13-next	NO
+c56fce70b7aaa4e6ecafadaf16975051690dd80c	ies-017-automobile/IES-017_IMPLEMENTATION_READINESS_CERTIFICATE.md	h:gai-impl-canonical	NO
+51ab933dd23d026ac7f7cda4b76b1e8d4d6d5c38	ies-017-automobile/RELEASE_NOTES_IES-017_v1.0.0.md	h:gai-impl-canonical h:phase13-next	NO
+c0cbe1659642ff6bcc2e767e06d24be081c4cd7f	ies-017-automobile/automobile-ontology-metadata-1.0.0.json	h:gai-impl-canonical h:phase13-next	NO
+e3f84ede6f5e89580aa451a689c0b5689cf8674e	ies-017-automobile/calibration/automobile-calibration-1.0.0.json | iips-platform/src/sector-engines/automobile/automobile-calibration-1.0.0.json	h:gai-impl-canonical h:phase13-next	NO
+ec599ce1aafb26fe645f238e1f953521e60795f8	ies-017-automobile/contract-tests/generate_expected_outputs.py	h:gai-impl-canonical h:phase13-next	NO
+b9982d744d92d592714dcc5b1e8599bed63752f2	ies-017-automobile/expected-outputs/automobile-expected-outputs-1.0.0.json | iips-platform/src/sector-engines/automobile/automobile-expected-outputs-1.0.0.json	h:gai-impl-canonical h:phase13-next	NO
+11dcd3953046c4e27f80a8ffc71c2c7ef59ede47	ies-017-automobile/fixtures/automobile-golden-reference-1.0.0.json | iips-platform/src/sector-engines/automobile/automobile-golden-reference-1.0.0.json	h:gai-impl-canonical h:phase13-next	NO
+fa9bb6df3560bd2449486d5ac9dbc889ff7ac56d	ies-017-automobile/fixtures/automobile-validation-fixtures-1.0.0.json | iips-platform/src/sector-engines/automobile/automobile-validation-fixtures-1.0.0.json	h:gai-impl-canonical h:phase13-next	NO
+f4d599631ee27b48aa808472f5cd9cbb0b108cff	ies-017-automobile/replay-datasets/automobile-replay-dataset-1.0.0.json	h:gai-impl-canonical h:phase13-next	NO
+dd5f18e4f2fcc3e568920a59b96362478ace310f	ies-020-materials-metals/IES-020_IMPLEMENTATION_READINESS_CERTIFICATE.md	h:gai-impl-canonical	NO
+7677ec47a335d0157411830a80aba29912dc97b5	ies-020-materials-metals/MATERIALS_METALS_DISCOVERY_PACK.md	h:gai-impl-canonical h:phase13-next	NO
+12a04073ff0334bb3fe7ca6c1c0b8325da79059c	ies-020-materials-metals/MATERIALS_METALS_ENGINE_ACCEPTANCE_MATRIX.md	h:gai-impl-canonical h:phase13-next	NO
+159754c370e066dec7195ddbc771bc5ef853480d	ies-020-materials-metals/MATERIALS_METALS_IMPLEMENTATION_RISK_REGISTER.md	h:gai-impl-canonical h:phase13-next	NO
+711bc4a5fc8728a00c3cfb8909906a0ff4f4f14e	ies-020-materials-metals/RELEASE_NOTES_IES-020_v1.0.0.md	h:gai-impl-canonical h:phase13-next	NO
+ceea1d5fe7c9e4c56f76f6d34efcbbfef311cccf	ies-020-materials-metals/calibration/materials-metals-calibration-1.0.0.json | iips-platform/src/sector-engines/materials-metals/materials-metals-calibration-1.0.0.json	h:gai-impl-canonical h:phase13-next	NO
+2552b6590b75a5bbbc3d5893e07fb27468991e48	ies-020-materials-metals/contract-tests/generate_expected_outputs.py	h:gai-impl-canonical h:phase13-next	NO
+3e67cb6f01fdc7a2459d6f4376e54cfa4b89cf2e	ies-020-materials-metals/expected-outputs/materials-metals-expected-outputs-1.0.0.json | iips-platform/src/sector-engines/materials-metals/materials-metals-expected-outputs-1.0.0.json	h:gai-impl-canonical h:phase13-next	NO
+1b601093cb09d607a7725bfed6b7cc4689c3f1e0	ies-020-materials-metals/fixtures/materials-metals-golden-reference-1.0.0.json | iips-platform/src/sector-engines/materials-metals/materials-metals-golden-reference-1.0.0.json	h:gai-impl-canonical h:phase13-next	NO
+000412669a40a7b36e6bdd85bcbb9196dd5ab2e4	ies-020-materials-metals/fixtures/materials-metals-validation-fixtures-1.0.0.json | iips-platform/src/sector-engines/materials-metals/materials-metals-validation-fixtures-1.0.0.json	h:gai-impl-canonical h:phase13-next	NO
+8ea6b53c08aad0c3cbb7fb04020d3f8b8903ab25	ies-020-materials-metals/materials-metals-ontology-metadata-1.0.0.json	h:gai-impl-canonical h:phase13-next	NO
+62ace6612c289a38ac6bb75ee5795c56be7650f5	ies-020-materials-metals/replay-datasets/materials-metals-replay-dataset-1.0.0.json	h:gai-impl-canonical h:phase13-next	NO
+aef6873000d9482047c69716d7e5eec5c03bd5b1	iips-platform/src/sector-engines/automobile/AutomobileEngine.ts	h:gai-impl-canonical h:phase13-next	NO
+94738d16a6cbdb0b8bc34479afae81d47dd5c058	iips-platform/src/sector-engines/automobile/calibration/AutomobileCalibration.ts	h:gai-impl-canonical h:phase13-next	NO
+4fc8159339657a1b8ed978c88a2d050c15534887	iips-platform/src/sector-engines/automobile/decision/AutomobileDecision.ts	h:gai-impl-canonical h:phase13-next	NO
+323e9e6ec18325db2da7c0f47a2cd69ce79e70f6	iips-platform/src/sector-engines/automobile/evidence/AutomobileEvidence.ts	h:gai-impl-canonical h:phase13-next	NO
+4ec72d5b2633a5f83d67ca0a6a3beafd87180340	iips-platform/src/sector-engines/automobile/index.ts	h:gai-impl-canonical h:phase13-next	NO
+72fe497732c8aed953f028e6e4606a0443f6ef00	iips-platform/src/sector-engines/automobile/metrics/AutomobileMetrics.ts	h:gai-impl-canonical h:phase13-next	NO
+dea75720a2c4fd4244981e792162ad94282173c1	iips-platform/src/sector-engines/automobile/scoring/AutomobileScoreEngine.ts	h:gai-impl-canonical h:phase13-next	NO
+8171b54a4ef097a084ff221777249c381832f0a8	iips-platform/src/sector-engines/materials-metals/MaterialsMetalsEngine.ts	h:gai-impl-canonical h:phase13-next	NO
+dfcdd2d055e1ebd1a9a0898e5bae4a081a743820	iips-platform/src/sector-engines/materials-metals/calibration/MaterialsMetalsCalibration.ts	h:gai-impl-canonical h:phase13-next	NO
+442977a71ad680ce7c1b9a40e6381a03738cf145	iips-platform/src/sector-engines/materials-metals/decision/MaterialsMetalsDecision.ts	h:gai-impl-canonical h:phase13-next	NO
+9f5a6cc209872b590afdd4da505cdc2606ceaa57	iips-platform/src/sector-engines/materials-metals/evidence/MaterialsMetalsEvidence.ts	h:gai-impl-canonical h:phase13-next	NO
+8be2a285d9e7d07fa952fe1b5dd395031d2dc85f	iips-platform/src/sector-engines/materials-metals/index.ts	h:gai-impl-canonical h:phase13-next	NO
+f33aa32bb4f52b991825594782c5e7c96d5cb29b	iips-platform/src/sector-engines/materials-metals/metrics/MaterialsMetalsMetrics.ts	h:gai-impl-canonical h:phase13-next	NO
+5107e05624d5ee033b595170bb06650b7c896541	iips-platform/src/sector-engines/materials-metals/scoring/MaterialsMetalsScoreEngine.ts	h:gai-impl-canonical h:phase13-next	NO
+24380b71ac607f4fa0940d7f2fa2b51bd2f45bdc	iips-platform/src/sector-engines/telecommunications/TelecommunicationsEngine.ts	h:gai-impl-canonical h:phase13-next	NO
+8f431ec0d66e617b2d778dfc2f8818b3269eb6aa	iips-platform/src/sector-engines/telecommunications/calibration/TelecommunicationsCalibration.ts	h:gai-impl-canonical h:phase13-next	NO
+b9b5a5f629ec39f3951db1b4c30f5a9e46728791	iips-platform/src/sector-engines/telecommunications/decision/TelecommunicationsDecision.ts	h:gai-impl-canonical h:phase13-next	NO
+0c61ac6ed6ece04002f97fbacb9725e3a3f49e96	iips-platform/src/sector-engines/telecommunications/evidence/TelecommunicationsEvidence.ts	h:gai-impl-canonical h:phase13-next	NO
+7b106a43e6b6502246a2bc14ce6e83608fa8f292	iips-platform/src/sector-engines/telecommunications/index.ts	h:gai-impl-canonical h:phase13-next	NO
+89a070592cf5e3d7c4d48b4929642de5c2a7c998	iips-platform/src/sector-engines/telecommunications/metrics/TelecommunicationsMetrics.ts	h:gai-impl-canonical h:phase13-next	NO
+b3b2d5b1531149d682497a5ea5a5203e6621cfba	iips-platform/src/sector-engines/telecommunications/scoring/TelecommunicationsScoreEngine.ts	h:gai-impl-canonical h:phase13-next	NO
+154dfad3f5e01eebec5b8424502dbfdfddefe955	iips-platform/tests/regression/automobile-acceptance.test.ts	h:gai-impl-canonical h:phase13-next	NO
+c525a7dc8ef4eb128342b37eca993ad9a1426d93	iips-platform/tests/regression/automobile-wp4-validation.test.ts	h:gai-impl-canonical h:phase13-next	NO
+74a6742c68a58fa28a577c27b96ef6fdc5fa8dcb	iips-platform/tests/regression/materials-metals-acceptance.test.ts	h:gai-impl-canonical h:phase13-next	NO
+215253df4b49198eb31c440c3d4c4f356953a40e	iips-platform/tests/regression/materials-metals-wp4-validation.test.ts	h:gai-impl-canonical h:phase13-next	NO
+ee926ce9ebcd0c3b684912862b621fcbca481529	iips-platform/tests/regression/program-v1.1-track3-replay-certification.test.ts	h:gai-impl-canonical h:phase13-next	NO
+289ccb7ca29a0993d46c63793dc88c08ab4d577d	iips-platform/tests/regression/program-v2.0-final-certification.test.ts	h:gai-impl-canonical h:phase13-next	NO
+1133c7fb63624fc5176a6fd6136d8da273943f24	iips-platform/tests/regression/program-v2.0-wp0-constitutional-guard.test.ts	h:gai-impl-canonical h:phase13-next	NO
+99fd5b619374a09c570e55aa93211a928b041719	iips-platform/tests/regression/program-v2.0-wp1-distributed-runtime.test.ts	h:gai-impl-canonical h:phase13-next	NO
+3957fa7787b2bec0946b7d49c94cae1fa0a333b0	iips-platform/tests/regression/program-v2.0-wp10-observability.test.ts	h:gai-impl-canonical h:phase13-next	NO
+69196bc99ed1c649d82bce84ed322e60adadef9d	iips-platform/tests/regression/program-v2.0-wp11-performance.test.ts	h:gai-impl-canonical h:phase13-next	NO
+b4fb3a2c2f926d8932f37974f3d82961a89b45e8	iips-platform/tests/regression/program-v2.0-wp12-data-governance.test.ts	h:gai-impl-canonical h:phase13-next	NO
+a36a982f61921411d8c4ee1d79b50bccbc581817	iips-platform/tests/regression/program-v2.0-wp13-dr.test.ts	h:gai-impl-canonical h:phase13-next	NO
+70a29e2010c03e64fb67c65b75db8227d10959bf	iips-platform/tests/regression/program-v2.0-wp14-migration.test.ts	h:gai-impl-canonical h:phase13-next	NO
+6b02391fa8d08e1df1f4b219647266b5fadc87db	iips-platform/tests/regression/program-v2.0-wp2-cloud-ha.test.ts	h:gai-impl-canonical h:phase13-next	NO
+c92efac58499429307907978f6ffc923653c6965	iips-platform/tests/regression/program-v2.0-wp3-live-data.test.ts	h:gai-impl-canonical h:phase13-next	NO
+2ac7d7f2afff02725ac69a087d9d5b740af5d010	iips-platform/tests/regression/program-v2.0-wp4-enterprise.test.ts	h:gai-impl-canonical h:phase13-next	NO
+86cf4b3ff9433d20fa9c8d46d2bc1273f40dd285	iips-platform/tests/regression/telecommunications-acceptance.test.ts	h:gai-impl-canonical h:phase13-next	NO
+ac5521cd5e9f16048402b120d516bc3ae63e657a	iips-platform/tests/regression/telecommunications-wp4-validation.test.ts	h:gai-impl-canonical h:phase13-next	NO
+63bcd350f2cda2b0337097c25236fd8dbe82d87b	program-v1.1-certification/PROGRAM_v1.1_REPLAY_BASELINE.json	h:gai-impl-canonical h:phase13-next	NO
+fd2d120ac1b1b63d41be43efdb5ed99101091cc1	frontend/server/executive-transport.ts	h:governance/d1-journal-persistence-extension h:promotion/governed-reports-candidate pr:42/head pr:43/head	YES
+d1ade7b51c83e67a65a4056cbe8b1d05f0b6685a	frontend/server/admin-transport.ts	h:phase13-hardening-delivery t:v3.0-phase12-certified	-,NO
+89a913f78cd000345c50d80981c59bd1f5d0592e	frontend/server/executive-transport.ts	h:phase13-hardening-delivery	NO
+be3ebd4ee12b222bf5391b0609b3905eb59a555e	frontend/src/app/App.test.tsx	h:phase13-hardening-delivery	NO
+d77a27df8cebba6496804a0813603dcd9ed9d63a	frontend/src/app/App.tsx	h:phase13-hardening-delivery	NO
+96228c4ee8e789a6b482c3744ef53241ba6c21c0	frontend/src/app/AppShell.tsx	h:phase13-hardening-delivery	NO
+7bf641aa3b82343786bd120cd6f42db6479a9085	frontend/src/app/Sidebar.tsx	h:phase13-hardening-delivery	NO
+db87ff7fc13c10debc9b812018f78eb643f98a02	frontend/src/features/admin/Administration.test.tsx	h:phase13-hardening-delivery	NO
+c0b4af1804803944c92656f6d59761cb2d5d5743	frontend/src/features/admin/Administration.tsx	h:phase13-hardening-delivery	NO
+4297115a8a95473c8a55537bee2c218b68f1fa34	frontend/src/features/decision-matrix/DecisionMatrix.test.tsx	h:phase13-hardening-delivery	NO
+354d0e9e0b83296b84e7bdba3eca5e88850575ff	frontend/src/features/decision-matrix/DecisionMatrix.tsx	h:phase13-hardening-delivery	NO
+83144ed6ea2b0be5de1ee1c051bd4aea66437013	frontend/src/features/executive/ExecutiveDashboard.tsx	h:phase13-hardening-delivery	NO
+6e70ee345af0f5672e9a560652bb54c690811817	E2E-032-C-LIVE-20260907-132012.txt	h:phase13-next	NO
+d84956071bebda4e65b5cd1193116a382b5c19a6	docs/v3.0/E2E-017_ENGINE_MASTER_MATRIX.md	h:phase13-next	NO
+15cc5775d97ae7af09f523b2b3de94683c86bb5f	docs/v3.0/E2E-018_SCREENSHOT_CERTIFIED_PRODUCT_PARITY_MATRIX.md	h:phase13-next	NO
+a5a3c49ca37393672a5682e524aec16100243b10	docs/v3.0/INTEGRATION_VERIFICATION_MATRIX.md	h:phase13-next	NO
+006690137d19c3fcb9f82892455a29127afc6ad4	docs/v3.0/e2e-018-screenshots/CAPTURE_MANIFEST.json	h:phase13-next	NO
+d58e94a360b7eab88c09e98e0c99af2a0f995c56	docs/v3.0/e2e-018-screenshots/admin-engines.png	h:phase13-next	NO
+dfc1988fb92ff3f068fdc1c154c70877d3d9d37c	docs/v3.0/e2e-018-screenshots/company-intelligence_automobile.png	h:phase13-next	NO
+a01dcd2dabb9d2d7a500b8ff61e77289463af018	docs/v3.0/e2e-018-screenshots/company-intelligence_banking.png	h:phase13-next	NO
+02b552f5de04b45da39c98f7e0fce8f9829b7752	docs/v3.0/e2e-018-screenshots/company-intelligence_capital-markets.png	h:phase13-next	NO
+db32b184e03c4d50f85043c3f17f1038d526300c	docs/v3.0/e2e-018-screenshots/company-intelligence_consumer.png	h:phase13-next	NO
+15e0715c193d4c90401455d6adccb23eb0233e19	docs/v3.0/e2e-018-screenshots/company-intelligence_energy.png	h:phase13-next	NO
+75eb9855f943930c48fbc58e50bcd1fd77d8930f	docs/v3.0/e2e-018-screenshots/company-intelligence_healthcare.png	h:phase13-next	NO
+db92b1159972225a2861d7d2b6ab9ce3565ff771	docs/v3.0/e2e-018-screenshots/company-intelligence_hospitality.png	h:phase13-next	NO
+87185c1b76e711062c72a3346680b42f87f3558f	docs/v3.0/e2e-018-screenshots/company-intelligence_industrials.png	h:phase13-next	NO
+d89eff744ca3f73f10c0d489f1535a24c02f966c	docs/v3.0/e2e-018-screenshots/company-intelligence_insurance.png	h:phase13-next	NO
+5d8be3a2745e77be869aa5430db42c991f94eae7	docs/v3.0/e2e-018-screenshots/company-intelligence_materials-metals.png	h:phase13-next	NO
+b767ce27591753e05599019098c39afa05908a0f	docs/v3.0/e2e-018-screenshots/company-intelligence_technology.png	h:phase13-next	NO
+10cde0a837d00e75335925d9b46b6a9e71a3f4fd	docs/v3.0/e2e-018-screenshots/company-intelligence_telecommunications.png	h:phase13-next	NO
+97b5175303d86e055c1bfdc772fb10f7b943c642	docs/v3.0/e2e-018-screenshots/company-intelligence_utilities.png	h:phase13-next	NO
+b8756d0c188061a4e4538d925ae3cf51531e63aa	docs/v3.0/e2e-018-screenshots/cross-sector-intelligence.png	h:phase13-next	NO
+d561c6c2e3a664198077aa4b5e61a8773549096d	docs/v3.0/e2e-018-screenshots/decision-matrix.png	h:phase13-next	NO
+7745cff35c134467debbfba0bc6c945519f30ea1	docs/v3.0/e2e-018-screenshots/executive.png	h:phase13-next	NO
+ca7c249b9a97dabd3c356eb11b597eb0bca20d7f	docs/v3.0/e2e-018-screenshots/screener.png	h:phase13-next	NO
+dfd4c446bd1483f7b9850314aed7f0d5a5e76b67	docs/v3.0/e2e-018-screenshots/sector-intelligence_banking.png	h:phase13-next	NO
+5377b6a3439f1871b537d92dac5edbc4fc26f7ec	frontend/server/live/ai-advisory-live-certification.test.ts	h:phase13-next	NO
+2a484fc6fa69a7dc543f5423bfd5bfa7d434a603	frontend/server/live/ai-advisory-live-e2e014.test.ts	h:phase13-next	NO
+e807841f45467aa5368477df3aba06c67da8ee04	frontend/server/live/product-live-certification.test.ts	h:phase13-next	NO
+60d71280d9bed6a36cbe6fa0ad9a1195ca8c62cb	frontend/src/app/App.tsx	h:phase13-next	NO
+4bd4b54baeef232a4eb24c6e7bf2c41ae303a854	frontend/src/app/Sidebar.test.tsx	h:phase13-next	NO
+b356b5c789d3cd3aab17cf31eef262a6370a4b9c	frontend/src/app/navigation.test.ts	h:phase13-next	NO
+96e104af690c02a65a0a595f615b4b1d3243b090	frontend/src/app/navigation.ts	h:phase13-next	NO
+81b4e17de2f08d561d8d7030426ef2785ad113a0	frontend/src/features/intelligence/IntelligenceHub.test.tsx	h:phase13-next	NO
+37df9f65c365b77a92d7bc26374ba56b43e7e8c5	frontend/src/features/intelligence/IntelligenceHub.tsx	h:phase13-next	NO
+bc9774abcccef4f931346579229bef5f05d3c5d0	frontend/src/features/intelligence/IntelligenceOpportunities.test.tsx	h:phase13-next	NO
+af46b336a3fe92bab827d03d33ba2ac7de3c05e2	frontend/src/features/intelligence/IntelligenceOpportunities.tsx	h:phase13-next	NO
+cb8e99205b65e3fb633faef854aeab8aa262a785	frontend/src/features/intelligence/IntelligenceRankings.test.tsx	h:phase13-next	NO
+551f3fa838b82cc911ffc59faddc096ef99897cb	frontend/src/features/intelligence/IntelligenceRankings.tsx	h:phase13-next	NO
+83edca0d3a8c80e3e6ee2c34bf7794a32c842413	frontend/src/features/intelligence/IntelligenceRisks.test.tsx	h:phase13-next	NO
+be50c4979522a61073a643438f20dc7613c79867	frontend/src/features/intelligence/IntelligenceRisks.tsx	h:phase13-next	NO
+cde2272d5e1e07af1b7e1a079addf08bdbf96c86	governance/iips/E2E-013-CAPABILITY-GAP-RECONCILIATION.md	h:phase13-next	NO
+f53452b6e1ab3a8d157f17b9dad4459f5844c128	governance/iips/E2E-017-ENGINE-MASTER-MATRIX-RECONCILIATION.md	h:phase13-next	NO
+00f687534b3d74e6e5b3b1d39895d43a4967d256	governance/iips/E2E-018-SCREENSHOT-CERTIFIED-PRODUCT-PARITY-RECONCILIATION.md	h:phase13-next	NO
+0e9a43ff03ade97a24a139d5e70cec333a696d9a	governance/iips/EVID-NP-18-LOGICAL-UI-VERIFICATION-2026-09-27.md	h:phase13-next	NO
+1b0c18fac1323d4c92ffaecb87c3809ff070bdb3	governance/iips/EVID-NP-18-QUALIFICATION-ADJUDICATION-2026-09-27.md	h:phase13-next	NO
+9db76355caea1b4b4040b705e9014ea796d32ef4	governance/iips/EVID-NP-18-QUALIFICATION-RECONCILIATION-2026-09-27.md	h:phase13-next	NO
+5341e4060d8b6ba62bdfa9359f06eae1361ae282	governance/iips/P06-ACCEPTANCE-DURABILITY-RECONCILIATION.md	h:phase13-next	NO
+7f796754cb04eeb75e87000c760bbef587eb060c	ies-016-telecommunications/D16_AUTHORITY_REVIEW.md	h:phase13-next	NO
+ec715ca1e2305d11bb51f2aac7a307a74b06042e	ies-016-telecommunications/IES-016_ARCHITECTURE_REVIEW.md	h:phase13-next	NO
+70018bdb38849d50af7258f62d0341ac2bf64f1a	ies-016-telecommunications/IES-016_FREEZE_MANIFEST.json	h:phase13-next	NO
+d764f276d980b6843e1b68939803299181bd3a47	ies-016-telecommunications/IES-016_IMPLEMENTATION_READINESS_CERTIFICATE.md	h:phase13-next	NO
+04bb92ba2af021769f1046ebc8cd0444ab329849	ies-016-telecommunications/docs/IES-016_01_README.md	h:phase13-next	NO
+044deb495c5c97318f4568f736195d6227c1262f	ies-016-telecommunications/docs/IES-016_02_EXECUTIVE_SUMMARY.md	h:phase13-next	NO
+83b4697e37ac419784d90681e66e25708a73d581	ies-016-telecommunications/docs/IES-016_03_INDUSTRY_MODEL.md	h:phase13-next	NO
+ad81f6ddb013a1d85963c9d06aa6a0277781c19f	ies-016-telecommunications/docs/IES-016_04_BUSINESS_MODEL.md	h:phase13-next	NO
+7216977ee87d488a7a16b178a62db9ae8fcd11ec	ies-016-telecommunications/docs/IES-016_05_METHODOLOGY_PRINCIPLES.md	h:phase13-next	NO
+596d2158f9fb49c3b637c21e6a15ae8779cb0ea4	ies-016-telecommunications/docs/IES-016_06_METRIC_LIBRARY.md	h:phase13-next	NO
+607610d7ee3b8e483104c107a1f7492b76fb6b5b	ies-016-telecommunications/docs/IES-016_07_SCORE_ENGINE.md	h:phase13-next	NO
+8d03d9e20aca7ba71c529b5f5f603744e34bf145	ies-016-telecommunications/docs/IES-016_08_FORMULA_LIBRARY.md	h:phase13-next	NO
+e45d71995a42f5a0d19ce59eefa794fdf560aa52	ies-016-telecommunications/docs/IES-016_09_CALIBRATION.md	h:phase13-next	NO
+0927629c9de3585cd3cc87a90b4540c994afad6f	ies-016-telecommunications/docs/IES-016_10_DECISION_ENGINE.md	h:phase13-next	NO
+30764c44976e454997fb794ee632b7f6ea92e72b	ies-016-telecommunications/docs/IES-016_11_EVIDENCE_FRAMEWORK.md	h:phase13-next	NO
+9dd39a402ef6b66acfa9b88f2d78b7f0ac3e89fb	ies-016-telecommunications/docs/IES-016_12_VALIDATION.md	h:phase13-next	NO
+279c138862eb82d2e842d9bb876c3e9274b2c1a0	ies-016-telecommunications/docs/IES-016_13_ARENA_IMPLEMENTATION_SPECIFICATION.md	h:phase13-next	NO
+68077fd69d62e4fea27601529a7814d9479cc3b9	ies-016-telecommunications/docs/IES-016_14_REFERENCE_ASSET_GOVERNANCE.md	h:phase13-next	NO
+a5f9286b49cdeef8e0e326048d579b96dd74d1d2	ies-016-telecommunications/docs/IES-016_15_NORMATIVE_CALCULATION_APPENDIX.md	h:phase13-next	NO
+ce896d1023c276e155595d0879907fc4aadf610a	ies-016-telecommunications/docs/IES-016_16_IMPLEMENTATION_READINESS_CERTIFICATE.md	h:phase13-next	NO
+ae0bee41b7eccab1aab4860a6d40b7df7677585e	ies-016-telecommunications/docs/IES-016_17_MASTER_INDEX.md	h:phase13-next	NO
+793d7f8a7b89ff9d509af164629e4dd025d8ed63	ies-016-telecommunications/docs/IES-016_18_DATA_DICTIONARY.md	h:phase13-next	NO
+4d86bbdf7ecf48df4264c87720e1c4cf3bb47fbb	ies-016-telecommunications/docs/IES-016_19_REFERENCE_DATA_SOURCES.md	h:phase13-next	NO
+70f46417f5a906965f001911463eedd5345c2201	ies-017-automobile/D17_AUTHORITY_REVIEW.md	h:phase13-next	NO
+f16b52ec1b5c152084fc131eba29888436adb8ec	ies-017-automobile/IES-017_ARCHITECTURE_REVIEW.md	h:phase13-next	NO
+a7d1190edbd8bf0bfc5b852da466c5e03b6f2cd3	ies-017-automobile/IES-017_FREEZE_MANIFEST.json	h:phase13-next	NO
+a1f8ee7f9a7e7bdb572041f9cbbe0357a87bc77f	ies-017-automobile/IES-017_IMPLEMENTATION_READINESS_CERTIFICATE.md	h:phase13-next	NO
+6467d6639364fd6deb260fd4a0c0a6e051d0d577	ies-017-automobile/docs/IES-017_01_README.md	h:phase13-next	NO
+7c625c79545d22c8786979f1f95dd26ab4351f68	ies-017-automobile/docs/IES-017_02_EXECUTIVE_SUMMARY.md	h:phase13-next	NO
+5cb365b3d0fcecd8e9845fa27e91a7979753710c	ies-017-automobile/docs/IES-017_03_INDUSTRY_MODEL.md	h:phase13-next	NO
+05366e8ec69ffc44a6b7f88ecdf222fb8c782cd8	ies-017-automobile/docs/IES-017_04_BUSINESS_MODEL.md	h:phase13-next	NO
+95f6b97b3a1c96218878600d5a3f8c599636dd1d	ies-017-automobile/docs/IES-017_05_METHODOLOGY_PRINCIPLES.md	h:phase13-next	NO
+f78f3b8793fe58ed6ef45ed1b147e66e7fcf08e4	ies-017-automobile/docs/IES-017_06_METRIC_LIBRARY.md	h:phase13-next	NO
+196c5a9ccb9c5145905d8398492e0bb2bc39027c	ies-017-automobile/docs/IES-017_07_SCORE_ENGINE.md	h:phase13-next	NO
+0a6224c41b3a4fe0bf6c932cf6f9f945fce2a007	ies-017-automobile/docs/IES-017_08_FORMULA_LIBRARY.md	h:phase13-next	NO
+5ae5730390fb6f1371bd284fd7f6c55945423b55	ies-017-automobile/docs/IES-017_09_CALIBRATION.md	h:phase13-next	NO
+21d202e1f005622826697483cbba848813a2e38e	ies-017-automobile/docs/IES-017_10_DECISION_ENGINE.md	h:phase13-next	NO
+c462287f107f53ba62ca570923801974bee5b7bd	ies-017-automobile/docs/IES-017_11_EVIDENCE_FRAMEWORK.md	h:phase13-next	NO
+7532ee5ab3f7aa68485e79735db6aefcf45b81eb	ies-017-automobile/docs/IES-017_12_VALIDATION.md	h:phase13-next	NO
+cd8f7be57074bd7eb67a76390b4ae600f4a9fc7b	ies-017-automobile/docs/IES-017_13_ARENA_IMPLEMENTATION_SPECIFICATION.md	h:phase13-next	NO
+033c398fa2d2481f1f1c3d4bde96358e5a41021d	ies-017-automobile/docs/IES-017_14_REFERENCE_ASSET_GOVERNANCE.md	h:phase13-next	NO
+7e245d82db9a9125527e45dc8d2498e2d4495a92	ies-017-automobile/docs/IES-017_15_NORMATIVE_CALCULATION_APPENDIX.md	h:phase13-next	NO
+4fc947417fc4500826646acf89cc43b043dbc0be	ies-017-automobile/docs/IES-017_16_IMPLEMENTATION_READINESS_CERTIFICATE.md	h:phase13-next	NO
+1f282a2710fca90599dbbe8c8aa39c3375426513	ies-017-automobile/docs/IES-017_17_MASTER_INDEX.md	h:phase13-next	NO
+28536473a7a1e716268b90bdd179b470888e9add	ies-017-automobile/docs/IES-017_18_DATA_DICTIONARY.md	h:phase13-next	NO
+49bc75805e3d8785be0e33dd570bf15569a2bfa1	ies-017-automobile/docs/IES-017_19_REFERENCE_DATA_SOURCES.md	h:phase13-next	NO
+de6bb32b6e6c7ca5d3de6525c2b7f5b9d11d5694	ies-020-materials-metals/D20_AUTHORITY_REVIEW.md	h:phase13-next	NO
+b3c92b1ed9ece1bea1aa63d175825b386acc7e45	ies-020-materials-metals/IES-020_ARCHITECTURE_REVIEW.md	h:phase13-next	NO
+0d43a538734c9c13645778b0eadfbd978730f637	ies-020-materials-metals/IES-020_FREEZE_MANIFEST.json	h:phase13-next	NO
+7533e1d69dfd32b1f2781680e885e536a714f180	ies-020-materials-metals/IES-020_IMPLEMENTATION_READINESS_CERTIFICATE.md	h:phase13-next	NO
+f8098ea0178911860f3d1836a8b1987e4469af4b	ies-020-materials-metals/docs/IES-020_01_README.md	h:phase13-next	NO
+6ba484b2cae33329fd5a08396488afc9eafee1d9	ies-020-materials-metals/docs/IES-020_02_EXECUTIVE_SUMMARY.md	h:phase13-next	NO
+fad4bdf6e4fc0763c4ddc620914075532dcb3859	ies-020-materials-metals/docs/IES-020_03_INDUSTRY_MODEL.md	h:phase13-next	NO
+270138b0114c3fb9e410bb0ce6cbbc917e75ddec	ies-020-materials-metals/docs/IES-020_04_BUSINESS_MODEL.md	h:phase13-next	NO
+31567146132b68006494ddc8e458ae01ffe2c82b	ies-020-materials-metals/docs/IES-020_05_METHODOLOGY_PRINCIPLES.md	h:phase13-next	NO
+d8ad93fd560fd9aaf28516b8e1dd11b7b49f75d3	ies-020-materials-metals/docs/IES-020_06_METRIC_LIBRARY.md	h:phase13-next	NO
+f0391550ab1748af00232b04c6b80f46cb56a8ca	ies-020-materials-metals/docs/IES-020_07_SCORE_ENGINE.md	h:phase13-next	NO
+0b9127a8140b1db320400ffaf7928f065c990d2f	ies-020-materials-metals/docs/IES-020_08_FORMULA_LIBRARY.md	h:phase13-next	NO
+82859c5b8cafe9783907726589ef0fd79f36b065	ies-020-materials-metals/docs/IES-020_09_CALIBRATION.md	h:phase13-next	NO
+9d45204c19a71b6388d2d2b077bf94ab98357450	ies-020-materials-metals/docs/IES-020_10_DECISION_ENGINE.md	h:phase13-next	NO
+b070176f7c5afe63fc6a1faa07796f5c1db1ea45	ies-020-materials-metals/docs/IES-020_11_EVIDENCE_FRAMEWORK.md	h:phase13-next	NO
+1b9791976776a7e127528717f4265c23db1a33f4	ies-020-materials-metals/docs/IES-020_12_VALIDATION.md	h:phase13-next	NO
+7892c1ed89e172cc9d9e787d80b6cb9bb618761f	ies-020-materials-metals/docs/IES-020_13_ARENA_IMPLEMENTATION_SPECIFICATION.md	h:phase13-next	NO
+4ae7582040ae55e99434501fe070045ccb9b144d	ies-020-materials-metals/docs/IES-020_14_REFERENCE_ASSET_GOVERNANCE.md	h:phase13-next	NO
+bd4a482bfb5ed83ef91c115d3044414b20b34bc1	ies-020-materials-metals/docs/IES-020_15_NORMATIVE_CALCULATION_APPENDIX.md	h:phase13-next	NO
+735b71ab8d26ed77197768cd7a9775e2276db26f	ies-020-materials-metals/docs/IES-020_16_IMPLEMENTATION_READINESS_CERTIFICATE.md	h:phase13-next	NO
+590746039eabd09595e0b8444bd0d3d169515a6c	ies-020-materials-metals/docs/IES-020_17_MASTER_INDEX.md	h:phase13-next	NO
+f8d25869614c46128c4ba8a9ac266df67054af74	ies-020-materials-metals/docs/IES-020_18_DATA_DICTIONARY.md	h:phase13-next	NO
+0aa8989d8ba2844cb98f1afdbe2d59861e304106	ies-020-materials-metals/docs/IES-020_19_REFERENCE_DATA_SOURCES.md	h:phase13-next	NO
+92bf93c21fa4e1ab6fb80b6e449b0a3ae94b643d	iips-platform/D18-ACCEPTANCE-EVIDENCE.md	h:phase13-next	NO
+93504592774e849da6f9132a9b9e2d76f344e1ba	iips-platform/D27-ACCEPTANCE-EVIDENCE.md	h:phase13-next	NO
+15fc5bc4a8497a6df8f669ae37d48ea9195ec302	iips-platform/D36-D37-ACCEPTANCE-EVIDENCE.md	h:phase13-next	NO
+8e20853cb7829751356b27e08f3ae9fa99809476	iips-platform/IES016_FINAL_READINESS_CERTIFICATE.md	h:phase13-next	NO
+1376bae939c8d37a690baf928ee6a98a14c957bc	iips-platform/IES016_INDEPENDENT_VERIFICATION_REPORT.md	h:phase13-next	NO
+2abd3c7ae691ebfa211576a5223e7ca62e7c53a6	iips-platform/IES017_FINAL_READINESS_CERTIFICATE.md	h:phase13-next	NO
+d7a2f5526dd6d15b654a7693cea05b290dd2876e	iips-platform/IES017_INDEPENDENT_VERIFICATION_REPORT.md	h:phase13-next	NO
+2a45157be6f8269a6fe88733f2ae412700cd1a3d	iips-platform/IES020_FINAL_READINESS_CERTIFICATE.md	h:phase13-next	NO
+4cd55372da75a45fea32003fb345f302a6527dfd	iips-platform/IES020_INDEPENDENT_VERIFICATION_REPORT.md	h:phase13-next	NO
+6ebc4dc2d119579c369e5cb0607af4ce5f5d40b4	iips-platform/src/plugin-loader/PluginLoader.ts	h:phase13-next	NO
+53d5d36814b7f0783eaabac3ff20aecea0f82e22	iips-platform/src/plugin-loader/PluginNamespace.ts	h:phase13-next	NO
+b9b4630b62be556e60d47c49816f1da1e8680a51	iips-platform/tests/regression/automobile-framework-integration.test.ts	h:phase13-next	NO
+ffaf06243cf6395bec7b954d8193421d4a8345d1	iips-platform/tests/regression/automobile-reuse-verification.test.ts	h:phase13-next	NO
+e835a01d707e06772d56e4818be1ad0a497bb90b	iips-platform/tests/regression/banking-framework-integration.test.ts	h:phase13-next	NO
+68037eef710fba8fc6ef17cff792984138dbe8d9	iips-platform/tests/regression/banking-reuse-verification.test.ts	h:phase13-next	NO
+4abacc88f21d2d75a1df0192db05f8aeddbcbd6e	iips-platform/tests/regression/banking-wp4-validation.test.ts	h:phase13-next	NO
+dd8703c7817b3351986e99470a0699247496544d	iips-platform/tests/regression/capital-markets-wp4-validation.test.ts	h:phase13-next	NO
+24bf838d4eb3cc1448a771af9808c3c7d2261344	iips-platform/tests/regression/healthcare-wp4-validation.test.ts	h:phase13-next	NO
+f33e40d946238532e6fa20368a8e179aefa92b81	iips-platform/tests/regression/insurance-wp4-validation.test.ts	h:phase13-next	NO
+a8542ae43dd3e55626dbfbeeb9798925bdd09601	iips-platform/tests/regression/materials-metals-framework-integration.test.ts	h:phase13-next	NO
+927e475e5c2293733cd7d7c0e95cb2d4733e50c7	iips-platform/tests/regression/materials-metals-reuse-verification.test.ts	h:phase13-next	NO
+eb3c72899dcf68a7cdf0303011b1ec50bb4628c0	iips-platform/tests/regression/plugin-registration.test.ts	h:phase13-next	NO
+e9950b5636c6284713ed61404276d4cdd98a016f	iips-platform/tests/regression/telecommunications-framework-integration.test.ts	h:phase13-next	NO
+ec70fc39c0206057e2d90d4c183055b484f5accd	iips-platform/tests/regression/telecommunications-reuse-verification.test.ts	h:phase13-next	NO
+dae0a839adbabed306196face3a2ece0f774be7f	artifacts/phase14.1-recovery-snapshot/v3.0-phase14.1-certified-snapshot.tar.gz	h:phase14.1-recovery-deposit	NO
+1a2452fc632e2cf20c6ca1b4fbe2b8edd356416a	frontend/server/executive-transport.ts	h:promotion/evidence-landing-np13 h:promotion/family-watchlists-collaboration-settings pr:44/head pr:45/head	YES
+a715d34d218565276a6754ee67e0fe9f1d116de9	frontend/src/app/App.tsx	h:promotion/evidence-landing-np13 h:reconciliation/ai-advisory-transport pr:45/head pr:46/head	YES
+9418dad62cb87dcc99edb19b408b9c6103997454	frontend/src/app/App.tsx	h:promotion/family-watchlists-collaboration-settings pr:44/head	YES
+b34cadd4c11c189c1bf2e074ac0ba7666eda652d	frontend/server/executive-transport.ts	h:reconciliation/ai-advisory-transport pr:46/head	YES
+2b2741445fb50dc5f472b5372e22d2615df559cc	frontend/server/executive-transport.ts	h:reconciliation/spa-oidc-handoff	YES
+3a372a21f90450df8acca2a59d5982699a1bf977	frontend/server/executive-transport.ts	t:v3.0-phase12-certified	-

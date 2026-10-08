@@ -1,0 +1,36 @@
+#!/bin/bash
+# Validation pass 3: term variants, path-universe counts, PR ancestry, wiring, sizes. Read-only against scratch mirrors.
+IRR=/tmp/inv/irr.git; IPD=/tmp/inv/ipd.git
+echo "== T1 pickaxe term variants (report 'Research Hub' 2/23; 'Replay Studio' 0/14) =="
+echo "IRR 'Research ?Hub' -i: $(git -C $IRR log --all -i -G'Research ?Hub' --oneline | wc -l)   IPD: $(git -C $IPD log --all -i -G'Research ?Hub' --oneline | wc -l)"
+echo "IRR 'Replay ?Studio' -i: $(git -C $IRR log --all -i -G'Replay ?Studio' --oneline | wc -l)   IPD: $(git -C $IPD log --all -i -G'Replay ?Studio' --oneline | wc -l)"
+echo "== T2 D107 case sensitivity (report IRR 0 / IPD 8) =="
+echo "IRR D107 case-sensitive: $(git -C $IRR log --all -G'D107' --oneline | wc -l)   IPD case-sensitive: $(git -C $IPD log --all -G'D107' --oneline | wc -l)"
+echo "IRR D107 -i (expect hex false positives): $(git -C $IRR log --all -i -G'D107' --format='%h %s' | wc -l)"
+git -C $IRR log --all -i -G'D107' --format='   commit %h' --name-only | grep -v '^$' | sed 's/^/   /'
+echo "IPD D107 -i: $(git -C $IPD log --all -i -G'D107' --oneline | wc -l)"
+echo "== T3 features/reports (report IRR 7 / IPD 4) =="
+echo "IRR pickaxe -i features/reports: $(git -C $IRR log --all -i -G'features/reports' --oneline | wc -l)   IPD: $(git -C $IPD log --all -i -G'features/reports' --oneline | wc -l)"
+echo "IRR path history 'frontend/src/features/reports': $(git -C $IRR log --all --oneline -- frontend/src/features/reports | wc -l)   IPD: $(git -C $IPD log --all --oneline -- frontend/src/features/reports | wc -l)"
+echo "== T4 path universe (report: IRR 1,620 ever / 1,192 main; IPD 2,537 ever / 319 main) =="
+echo "IRR paths ever (all refs, all commits, incl. merges): $(git -C $IRR log --all -m --name-only --pretty=format: | grep -v '^$' | sort -u | wc -l)"
+echo "IRR paths on main tree: $(git -C $IRR ls-tree -r --name-only refs/heads/main | wc -l)"
+echo "IPD paths ever: $(git -C $IPD log --all -m --name-only --pretty=format: | grep -v '^$' | sort -u | wc -l)"
+echo "IPD paths on main tree: $(git -C $IPD ls-tree -r --name-only refs/heads/main | wc -l)"
+echo "== T5 deletions across history (report: 0 in both) =="
+echo "IRR deletions: $(git -C $IRR log --all -m --diff-filter=D --name-only --pretty=format: | grep -v '^$' | sort -u | wc -l)   IPD: $(git -C $IPD log --all -m --diff-filter=D --name-only --pretty=format: | grep -v '^$' | sort -u | wc -l)"
+echo "== T6 PR merge ancestry (report: all merge commits are ancestors of IRR main) =="
+for sha in 47edf6f3db79c6c443caed148121406f33a158b7 90753d84eaacca302c16a7fca0ffd071f31c4c6e b22563673ac1fce936ddf8c925d28f95f5f64597 7b7a3c88e240554a1bdddd8c8ffc4ade53e7db45; do git -C $IRR merge-base --is-ancestor $sha refs/heads/main && echo "   $sha ancestor-of-main: YES" || echo "   $sha ancestor-of-main: NO"; done
+echo "== T7 wiring: reports-transport on IRR main =="
+git -C $IRR grep -n "api/reports/\|import('./reports-transport')" refs/heads/main -- frontend/server/executive-transport.ts | cut -c1-160
+echo "blob main=$(git -C $IRR rev-parse refs/heads/main:frontend/server/reports-transport.ts) arena/01a0f1b3=$(git -C $IRR rev-parse refs/heads/arena/01a0f1b3-iips-review-recovered:frontend/server/reports-transport.ts)"
+echo "== T8 Risk engine on IRR main (report A: 'engines exist on IRR main' for Risks; row 7: no dedicated Risk engine) =="
+echo "IRR main files matching RiskEngine|risk-engine (case-insensitive): $(git -C $IRR ls-tree -r --name-only refs/heads/main | grep -i -c 'riskengine\|risk-engine\|risk_engine')"
+echo "IRR main avgRisk refs in executive-transport.ts: $(git -C $IRR grep -c 'avgRisk' refs/heads/main -- frontend/server/executive-transport.ts)"
+echo "== T9 file sizes quoted by report =="
+echo "IRR phase13-next SectorIntelligence.tsx: $(git -C $IRR cat-file -s refs/heads/phase13-next:frontend/src/features/research/SectorIntelligence.tsx) (report 11,007)"
+echo "IRR phase13-next ResearchHub.tsx: $(git -C $IRR cat-file -s refs/heads/phase13-next:frontend/src/features/research/ResearchHub.tsx) (report 3,799)"
+echo "IPD arena/01a0814b CommandPalette.tsx: $(git -C $IPD cat-file -s refs/heads/arena/01a0814b-iips-production-market-data:frontend/src/features/shell/CommandPalette.tsx) (report 9,504)"
+echo "IPD arena/01a0d1d3 SectorIntelligence.tsx: $(git -C $IPD cat-file -s refs/heads/arena/01a0d1d3-iips-production-market-data:frontend/src/features/research/SectorIntelligence.tsx) (report 16,782)"
+echo "IPD arena/01a0d1d3 research-sector-transport.ts: $(git -C $IPD cat-file -s refs/heads/arena/01a0d1d3-iips-production-market-data:frontend/server/research-sector-transport.ts) (report 28,463)"
+echo "IPD arena/01a0d1d3 CompanyIntelligence.tsx: $(git -C $IPD cat-file -s refs/heads/arena/01a0d1d3-iips-production-market-data:frontend/src/features/company/CompanyIntelligence.tsx) (report 12,360)"

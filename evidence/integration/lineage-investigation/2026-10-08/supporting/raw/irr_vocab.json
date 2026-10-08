@@ -1,0 +1,623 @@
+{
+"Command Center": {
+"trees": 0,
+"files": 0,
+"sample": []
+},
+"Command Centre": {
+"trees": 0,
+"files": 0,
+"sample": []
+},
+"CommandCenter": {
+"trees": 0,
+"files": 0,
+"sample": []
+},
+"Command Palette": {
+"trees": 72,
+"files": 7,
+"sample": [
+"docs/v3.0/navigation-model.md",
+"evidence/integration/convergence/2026-10-07/P5-capability-sweep.md",
+"frontend/src/app/AppShell.tsx",
+"frontend/src/app/TopBar.tsx"
+]
+},
+"CommandPalette": {
+"trees": 6,
+"files": 4,
+"sample": [
+"frontend/src/app/AppShell.tsx",
+"frontend/src/features/shell/CommandPalette.test.tsx",
+"frontend/src/features/shell/CommandPalette.tsx",
+"governance/iips/DEC-D3-MATRIX-REBASELINE.md"
+]
+},
+"Decision Center": {
+"trees": 0,
+"files": 0,
+"sample": []
+},
+"DecisionCenter": {
+"trees": 0,
+"files": 0,
+"sample": []
+},
+"Company Workspace": {
+"trees": 0,
+"files": 0,
+"sample": []
+},
+"CompanyWorkspace": {
+"trees": 0,
+"files": 0,
+"sample": []
+},
+"Replay Studio": {
+"trees": 0,
+"files": 0,
+"sample": []
+},
+"ReplayStudio": {
+"trees": 0,
+"files": 0,
+"sample": []
+},
+"Evidence Snapshot": {
+"trees": 63,
+"files": 2,
+"sample": [
+"docs/integration/IIPS_v3.0_ENGINE_INTEGRATION_REPORT.md",
+"frontend/src/app/App.tsx"
+]
+},
+"Evidence Snapshots": {
+"trees": 9,
+"files": 1,
+"sample": [
+"frontend/src/app/App.tsx"
+]
+},
+"Evidence Replay": {
+"trees": 72,
+"files": 6,
+"sample": [
+"docs/integration/NP-13-GO3B-DECISION-01.md",
+"docs/integration/NP-13-PA-D2-B-REF-BINDING-EVIDENCE-DECISION-01.md",
+"frontend/src/app/App.tsx",
+"frontend/src/app/navigation.test.ts"
+]
+},
+"Research Hub": {
+"trees": 2,
+"files": 2,
+"sample": [
+"frontend/src/features/research/ResearchHub.test.tsx",
+"frontend/src/features/research/ResearchHub.tsx"
+]
+},
+"ResearchHub": {
+"trees": 3,
+"files": 4,
+"sample": [
+"docs/integration/IIPS_v3.0_NP07_RESEARCH_ACCEPTANCE_AND_BASELINE_ADMISSION.md",
+"frontend/src/app/App.tsx",
+"frontend/src/features/research/ResearchHub.test.tsx",
+"frontend/src/features/research/ResearchHub.tsx"
+]
+},
+"Sector Research": {
+"trees": 0,
+"files": 0,
+"sample": []
+},
+"Sector Intelligence": {
+"trees": 72,
+"files": 64,
+"sample": [
+"README.md",
+"ROADMAP.md",
+"docs/integration/IIPS_v3.0_ENGINE_INTEGRATION_DISCOVERY.md",
+"docs/integration/IIPS_v3.0_ENGINE_INTEGRATION_EVIDENCE.md"
+]
+},
+"SectorIntelligence": {
+"trees": 72,
+"files": 33,
+"sample": [
+"docs/integration/IIPS_v3.0_CONTINUATION_EVIDENCE.md",
+"docs/integration/IIPS_v3.0_ENGINE_INTEGRATION_DISCOVERY.md",
+"docs/integration/IIPS_v3.0_ENGINE_INTEGRATION_EVIDENCE.md",
+"docs/integration/IIPS_v3.0_ENGINE_INTEGRATION_GAP_MATRIX.md"
+]
+},
+"Opportunities": {
+"trees": 72,
+"files": 57,
+"sample": [
+"artifacts/np18-windows/NP18-Phase13Next-Implement.ps1",
+"deliverables/np18-windows-execution/NP18-Phase13Next-Implement.ps1",
+"deliverables/np18-windows-execution/NP18-W2-ANCHOR-FORENSICS.md",
+"deliverables/np18-windows-execution/README.md"
+]
+},
+"Opportunity Engine": {
+"trees": 72,
+"files": 9,
+"sample": [
+"iips-cross-sector/CROSS_SECTOR_INTELLIGENCE_STANDARD.md",
+"iips-cross-sector/CSIP_IMPLEMENTATION_PLAN.md",
+"iips-cross-sector/CSIP_IMPLEMENTATION_TRACEABILITY_MATRIX.md",
+"iips-cross-sector/PORTFOLIO_ARCHITECTURE.md"
+]
+},
+"OpportunityEngine": {
+"trees": 72,
+"files": 7,
+"sample": [
+"NP-12-IMPLEMENTATION-READINESS-GATE-REPORT.md",
+"governance/iips/AUTH-NP-18-INTELLIGENCE-EXPOSURE-IMPLEMENTATION-AUTHORITY-2026-09-26.md",
+"governance/iips/DEC-NP-17-NP-18-PAYLOAD-DECISION-BOUNDARY-2026-09-26.md",
+"iips-platform/CSIP_WP3_COMPLETION_REPORT.md"
+]
+},
+"Risk Engine": {
+"trees": 0,
+"files": 0,
+"sample": []
+},
+"RiskEngine": {
+"trees": 0,
+"files": 0,
+"sample": []
+},
+"Rankings": {
+"trees": 72,
+"files": 46,
+"sample": [
+"artifacts/np18-windows/NP18-Phase13Next-Implement.ps1",
+"deliverables/np18-windows-execution/NP18-Phase13Next-Implement.ps1",
+"deliverables/np18-windows-execution/NP18-W2-ANCHOR-FORENSICS.md",
+"deliverables/np18-windows-execution/README.md"
+]
+},
+"RankingEngine": {
+"trees": 72,
+"files": 12,
+"sample": [
+"NP-12-IMPLEMENTATION-AUTHORITY-DECISION.md",
+"NP-12-IMPLEMENTATION-READINESS-GATE-REPORT.md",
+"NP-12-N4-IMPLEMENTATION-AUTHORITY-DECISION-RECORD.md",
+"NP-12-SCREEN-DEFINITION-GOVERNANCE-DECISIONS.md"
+]
+},
+"Reports": {
+"trees": 72,
+"files": 193,
+"sample": [
+".gitignore",
+"E2E-015-SPA-OIDC-HANDOFF-PROMOTION-2026-10-07.md",
+"E2E-015-SPA-OIDC-HANDOFF-RECONCILIATION-CLOSURE-2026-10-07.md",
+"NP-12-N4-CANONICAL-BYTE-GRAMMAR-DECISION-RECORD.md"
+]
+},
+"ReportsPage": {
+"trees": 0,
+"files": 0,
+"sample": []
+},
+"Widget": {
+"trees": 23,
+"files": 3,
+"sample": [
+"docs/integration/NP-15-BROAD-IPD-PHASE-1-CONVERGENCE-INVESTIGATION-RECORD.md",
+"docs/integration/NP-15-GATE-PHASE1-CONVERGENCE-DECLARATION-RECORD.md",
+"docs/integration/NP-15-IPD-SIDE-EVIDENCE-PENDING-IPD-PUBLICATION.md"
+]
+},
+"widget": {
+"trees": 23,
+"files": 3,
+"sample": [
+"docs/integration/NP-15-BROAD-IPD-PHASE-1-CONVERGENCE-INVESTIGATION-RECORD.md",
+"docs/integration/NP-15-GATE-PHASE1-CONVERGENCE-DECLARATION-RECORD.md",
+"docs/integration/NP-15-IPD-SIDE-EVIDENCE-PENDING-IPD-PUBLICATION.md"
+]
+},
+"D107": {
+"trees": 72,
+"files": 1,
+"sample": [
+"ies-011-energy/IES-011_FREEZE_MANIFEST.json"
+]
+},
+"D-107": {
+"trees": 0,
+"files": 0,
+"sample": []
+},
+"EOD": {
+"trees": 0,
+"files": 0,
+"sample": []
+},
+"End of Day": {
+"trees": 0,
+"files": 0,
+"sample": []
+},
+"End-of-Day": {
+"trees": 0,
+"files": 0,
+"sample": []
+},
+"AG-5": {
+"trees": 59,
+"files": 6,
+"sample": [
+"evidence/integration/convergence/2026-10-07/DURABILITY-RECORD.md",
+"evidence/integration/convergence/2026-10-07/P2-contract-implementation-discovery.md",
+"evidence/integration/convergence/2026-10-07/P3-persistence-durability.md",
+"evidence/integration/convergence/2026-10-07/P5-capability-sweep.md"
+]
+},
+"AG5": {
+"trees": 0,
+"files": 0,
+"sample": []
+},
+"Cross-Domain": {
+"trees": 22,
+"files": 5,
+"sample": [
+"docs/integration/D1-JOURNAL-PERSISTENCE-DOMAIN-EXTENSION.md",
+"docs/integration/IDENTITY-TENANT-DOMAIN-SCOPE-DECISION.md",
+"docs/integration/NP-08-D115-ARCHITECTURE-DECISION-CLOSURE-ACT.md",
+"docs/integration/PERSISTENCE-DOMAIN-OWNERSHIP-DECISION.md"
+]
+},
+"Cross Domain": {
+"trees": 4,
+"files": 1,
+"sample": [
+"frontend/server/user-portfolio/translationBoundary.test.ts"
+]
+},
+"Portfolio Intelligence": {
+"trees": 72,
+"files": 41,
+"sample": [
+"NP-12-IMPLEMENTATION-READINESS-GATE-REPORT.md",
+"ROADMAP.md",
+"docs/v3.0/PROGRAM_v3.0_PHASE6_COMPLETION.md",
+"docs/v3.0/information-architecture.md"
+]
+},
+"PortfolioIntelligence": {
+"trees": 72,
+"files": 24,
+"sample": [
+"NP-12-IMPLEMENTATION-READINESS-GATE-REPORT.md",
+"docs/integration/IIPS_v3.0_E2E-025_029_DEFERRED_ENGINE_CERTIFICATION.md",
+"docs/integration/IIPS_v3.0_PRODUCT_E2E_DISCOVERY.md",
+"docs/v3.0/PROGRAM_v3.0_PHASE5_COMPLETION.md"
+]
+},
+"BI-07": {
+"trees": 23,
+"files": 9,
+"sample": [
+"docs/integration/G2-UI-CONSUMER-IMPLEMENTATION-READINESS-2026-10-08.md",
+"docs/integration/NP-15-BROAD-IPD-PHASE-1-CONVERGENCE-INVESTIGATION-RECORD.md",
+"docs/integration/NP-BASELINE-G0A-2026-10-05.md",
+"evidence/integration/convergence/2026-10-07/P1-repository-convergence.md"
+]
+},
+"ConsumerEngine": {
+"trees": 72,
+"files": 43,
+"sample": [
+"docs/v3.0/INTEGRATION_VERIFICATION_MATRIX.md",
+"frontend/server/admin-transport.ts",
+"frontend/server/executive-transport.ts",
+"ies-013-consumer/CONSUMER_IMPLEMENTATION_REUSE_REPORT_TEMPLATE.md"
+]
+},
+"staples": {
+"trees": 72,
+"files": 41,
+"sample": [
+"ies-013-consumer/CONSUMER_CALIBRATION_BOUNDARY_REVIEW_MATRIX.md",
+"ies-013-consumer/CONSUMER_DISCOVERY_PACK.md",
+"ies-013-consumer/CONSUMER_METHODOLOGY_PRINCIPLES.md",
+"ies-013-consumer/CONSUMER_REFERENCE_ASSETS_INDEX.md"
+]
+},
+"discretionary": {
+"trees": 72,
+"files": 25,
+"sample": [
+"ies-013-consumer/CONSUMER_CALIBRATION_BOUNDARY_REVIEW_MATRIX.md",
+"ies-013-consumer/CONSUMER_DISCOVERY_PACK.md",
+"ies-013-consumer/CONSUMER_METHODOLOGY_PRINCIPLES.md",
+"ies-013-consumer/CONSUMER_REFERENCE_ASSETS_INDEX.md"
+]
+},
+"G24": {
+"trees": 23,
+"files": 39,
+"sample": [
+"docs/integration/CAPABILITY-EVIDENCE-RECONCILIATION-2026-10-06.md",
+"docs/integration/D1-JOURNAL-PERSISTENCE-DOMAIN-EXTENSION.md",
+"docs/integration/G2-UI-CONSUMER-IMPLEMENTATION-2026-10-08.md",
+"docs/integration/G2-UI-CONSUMER-IMPLEMENTATION-READINESS-2026-10-08.md"
+]
+},
+"mapping registry": {
+"trees": 4,
+"files": 6,
+"sample": [
+"evidence/integration/convergence/2026-10-07/P2-contract-implementation-discovery.md",
+"evidence/integration/convergence/2026-10-07/P3-persistence-durability.md",
+"evidence/integration/convergence/2026-10-07/P5-capability-sweep.md",
+"evidence/integration/convergence/2026-10-07/supporting/lineage-inventory.txt"
+]
+},
+"MappingRegistry": {
+"trees": 0,
+"files": 0,
+"sample": []
+},
+"company mapping": {
+"trees": 50,
+"files": 8,
+"sample": [
+"NP-12-IMPLEMENTATION-AUTHORITY-DECISION.md",
+"artifacts/gate-y-windows/0001-governance-GATE-Y-record-RAMKI-D8-Intelligence-desig.patch",
+"artifacts/gate-y-windows/GATE-Y-INTELLIGENCE-DATA-SUPPLY-DESIGNATION-AND-GATE-SELECTION-ACT.md",
+"docs/integration/NP-08-D115-IDENTITY-RUNTIME-COMPANYID-BINDING-AUTHORITY-ACT.md"
+]
+},
+"identity mapping": {
+"trees": 56,
+"files": 18,
+"sample": [
+"docs/integration/D1-JOURNAL-PERSISTENCE-DOMAIN-EXTENSION.md",
+"docs/integration/GOVERNED-REPORTS-ACCEPTANCE-DECISION.md",
+"docs/integration/GOVERNED-REPORTS-PROMOTION-SCOPE-DECISION.md",
+"docs/integration/IDENTITY-TENANT-DOMAIN-SCOPE-DECISION.md"
+]
+},
+"IdentityMapping": {
+"trees": 4,
+"files": 3,
+"sample": [
+"evidence/integration/convergence/2026-10-07/P3-persistence-durability.md",
+"evidence/integration/convergence/2026-10-07/supporting/p3-durability-process-outputs.txt",
+"frontend/server/user-portfolio/translationBoundary.ts"
+]
+},
+"tenant mapping": {
+"trees": 72,
+"files": 8,
+"sample": [
+"docs/integration/GOVERNED-REPORTS-ACCEPTANCE-DECISION.md",
+"docs/integration/GOVERNED-REPORTS-PROMOTION-SCOPE-DECISION.md",
+"docs/integration/IDENTITY-TENANT-DOMAIN-SCOPE-DECISION.md",
+"docs/integration/NP-15-BROAD-IPD-PHASE-1-CONVERGENCE-INVESTIGATION-RECORD.md"
+]
+},
+"TenantDirectory": {
+"trees": 72,
+"files": 42,
+"sample": [
+"docs/integration/IDENTITY-TENANT-DOMAIN-SCOPE-DECISION.md",
+"docs/integration/IIPS_v3.0_NP06_REPORTS_GOVERNANCE_DECISIONS.md",
+"docs/integration/NP-08-D115-IMPLEMENTATION-AUTHORIZATION-DECISION-RECORD.md",
+"docs/v3.0/g3-build/PROGRAM_v3.0_G3B_TENANTDIRECTORY_IMPLEMENTATION_AUTHORITY.md"
+]
+},
+"ISIN": {
+"trees": 72,
+"files": 49,
+"sample": [
+"LICENSE",
+"NP-12-N4-CANONICAL-BYTE-GRAMMAR-DECISION-RECORD.md",
+"artifacts/np18-windows/NP18-Phase13Next-Implement.ps1",
+"deliverables/np18-windows-execution/NP18-Phase13Next-Implement.ps1"
+]
+},
+"companyId": {
+"trees": 72,
+"files": 166,
+"sample": [
+"NP-12-IMPLEMENTATION-READINESS-GATE-REPORT.md",
+"NP-12-N4-A12-AUTHORITY-DECISION-RECORD.md",
+"NP-12-N4-A13-IMPLEMENTATION-RECORD.md",
+"NP-12-N4-A15-AUTHORITY-DECISION-RECORD.md"
+]
+},
+"securityId": {
+"trees": 59,
+"files": 24,
+"sample": [
+"docs/integration/IIPS_v3.0_NP09_WATCHLISTS_PERSISTENCE_OWNER_DESIGNATION.md",
+"docs/integration/NP-15-BROAD-IPD-PHASE-1-CONVERGENCE-INVESTIGATION-RECORD.md",
+"evidence/integration/convergence/2026-10-07/P1-repository-convergence.md",
+"evidence/integration/convergence/2026-10-07/P2-contract-implementation-discovery.md"
+]
+},
+"UI01": {
+"trees": 23,
+"files": 3,
+"sample": [
+"docs/integration/NP-15-BROAD-IPD-PHASE-1-CONVERGENCE-INVESTIGATION-RECORD.md",
+"evidence/integration/convergence/2026-10-07/P1-repository-convergence.md",
+"evidence/integration/convergence/2026-10-07/P2-contract-implementation-discovery.md"
+]
+},
+"UI02": {
+"trees": 23,
+"files": 2,
+"sample": [
+"docs/integration/NP-15-BROAD-IPD-PHASE-1-CONVERGENCE-INVESTIGATION-RECORD.md",
+"evidence/integration/convergence/2026-10-07/P2-contract-implementation-discovery.md"
+]
+},
+"UI03": {
+"trees": 25,
+"files": 8,
+"sample": [
+"artifacts/gate-y-windows/0001-governance-GATE-Y-record-RAMKI-D8-Intelligence-desig.patch",
+"artifacts/gate-y-windows/GATE-Y-INTELLIGENCE-DATA-SUPPLY-DESIGNATION-AND-GATE-SELECTION-ACT.md",
+"docs/integration/NP-08-D8-MACRO-SCOPE-DETERMINATION-ACT.md",
+"docs/integration/NP-15-BROAD-IPD-PHASE-1-CONVERGENCE-INVESTIGATION-RECORD.md"
+]
+},
+"UI04": {
+"trees": 25,
+"files": 10,
+"sample": [
+"artifacts/gate-y-windows/0001-governance-GATE-Y-record-RAMKI-D8-Intelligence-desig.patch",
+"artifacts/gate-y-windows/GATE-Y-INTELLIGENCE-DATA-SUPPLY-DESIGNATION-AND-GATE-SELECTION-ACT.md",
+"docs/integration/NP-15-BROAD-IPD-PHASE-1-CONVERGENCE-INVESTIGATION-RECORD.md",
+"docs/integration/NP-15-GATE-PHASE1-CONVERGENCE-DECLARATION-RECORD.md"
+]
+},
+"UI05": {
+"trees": 0,
+"files": 0,
+"sample": []
+},
+"UI06": {
+"trees": 23,
+"files": 6,
+"sample": [
+"docs/integration/NP-15-BROAD-IPD-PHASE-1-CONVERGENCE-INVESTIGATION-RECORD.md",
+"evidence/integration/convergence/2026-10-07/P1-repository-convergence.md",
+"evidence/integration/convergence/2026-10-07/P2-contract-implementation-discovery.md",
+"evidence/integration/convergence/2026-10-07/P3-persistence-durability.md"
+]
+},
+"UI07": {
+"trees": 10,
+"files": 12,
+"sample": [
+"docs/integration/IIPS_v3.0_NP09_WATCHLISTS_ACCEPTANCE_AND_BASELINE_PROMOTION.md",
+"docs/integration/IIPS_v3.0_NP09_WATCHLISTS_PERSISTENCE_OWNER_DESIGNATION.md",
+"frontend/server/collaboration/collaboration-resolvers.ts",
+"frontend/server/collaboration/collaboration-transport.ts"
+]
+},
+"UI08": {
+"trees": 24,
+"files": 6,
+"sample": [
+"docs/integration/GOVERNED-REPORTS-ACCEPTANCE-DECISION.md",
+"docs/integration/GOVERNED-REPORTS-PROMOTION-SCOPE-DECISION.md",
+"docs/integration/IIPS_v3.0_NP10_COLLABORATION_GOVERNANCE_AND_PERSISTENCE_OWNER_DESIGNATION.md",
+"docs/integration/NP-15-BROAD-IPD-PHASE-1-CONVERGENCE-INVESTIGATION-RECORD.md"
+]
+},
+"UI09": {
+"trees": 0,
+"files": 0,
+"sample": []
+},
+"UI10": {
+"trees": 10,
+"files": 14,
+"sample": [
+"docs/integration/IIPS_v3.0_NP10_COLLABORATION_ACCEPTANCE_AND_BASELINE_ADMISSION.md",
+"docs/integration/IIPS_v3.0_NP10_COLLABORATION_GOVERNANCE_AND_PERSISTENCE_OWNER_DESIGNATION.md",
+"docs/integration/IIPS_v3.0_NP10_COLLABORATION_NON_PRODUCTION_QUALIFICATION.md",
+"frontend/server/collaboration/collaboration-resolvers.ts"
+]
+},
+"UI11": {
+"trees": 25,
+"files": 3,
+"sample": [
+"docs/integration/IIPS_v3.0_NP13_EVIDENCE_LANDING_NAVIGATION_IA_GOVERNANCE_DECISION.md",
+"docs/integration/NP-15-BROAD-IPD-PHASE-1-CONVERGENCE-INVESTIGATION-RECORD.md",
+"evidence/integration/convergence/2026-10-07/P2-contract-implementation-discovery.md"
+]
+},
+"UI12": {
+"trees": 23,
+"files": 24,
+"sample": [
+"docs/integration/IIPS_v3.0_NP11_SETTINGS_ACCEPTANCE_AND_BASELINE_ADMISSION.md",
+"docs/integration/IIPS_v3.0_NP11_SETTINGS_PRODUCT_CONTRACT_AND_PERSISTENCE_OWNER_DESIGNATION.md",
+"docs/integration/NP-08-D08-MACRO-BOUNDARY-ACT-RECTIFICATION-ACT.md",
+"docs/integration/NP-08-D08-MACRO-DATASET-BOUNDARY-ACT.md"
+]
+},
+"UI13": {
+"trees": 22,
+"files": 1,
+"sample": [
+"docs/integration/NP-08-D8-MACRO-SCOPE-DETERMINATION-ACT.md"
+]
+},
+"UI14": {
+"trees": 23,
+"files": 3,
+"sample": [
+"docs/integration/NP-15-BROAD-IPD-PHASE-1-CONVERGENCE-INVESTIGATION-RECORD.md",
+"evidence/integration/convergence/2026-10-07/P1-repository-convergence.md",
+"evidence/integration/convergence/2026-10-07/P2-contract-implementation-discovery.md"
+]
+},
+"NotYetAuthorized": {
+"trees": 72,
+"files": 14,
+"sample": [
+"artifacts/np18-windows/NP18-Phase13Next-Implement.ps1",
+"deliverables/np18-windows-execution/NP18-Phase13Next-Implement.ps1",
+"deliverables/np18-windows-execution/NP18-W2-ANCHOR-FORENSICS.md",
+"docs/integration/IIPS_v3.0_NP13_EVIDENCE_LANDING_NAVIGATION_IA_GOVERNANCE_DECISION.md"
+]
+},
+"FeaturePlaceholder": {
+"trees": 72,
+"files": 17,
+"sample": [
+"artifacts/np18-windows/NP18-Phase13Next-Implement.ps1",
+"deliverables/np18-windows-execution/NP18-Phase13Next-Implement.ps1",
+"deliverables/np18-windows-execution/NP18-W2-ANCHOR-FORENSICS.md",
+"docs/integration/IIPS_v3.0_NP07_RESEARCH_ACCEPTANCE_AND_BASELINE_ADMISSION.md"
+]
+},
+"routes.ts": {
+"trees": 72,
+"files": 36,
+"sample": [
+"artifacts/np18-windows/NP18-Phase13Next-Implement.ps1",
+"deliverables/np18-windows-execution/NP18-Phase13Next-Implement.ps1",
+"deliverables/np18-windows-execution/README.md",
+"docs/integration/CAPABILITY-EVIDENCE-RECONCILIATION-2026-10-06.md"
+]
+},
+"Notes": {
+"trees": 72,
+"files": 121,
+"sample": [
+"NP-12-N4-A9-IMPLEMENTATION-AUTHORITY-DECISION.md",
+"NP-12-N4-A9-IMPLEMENTATION-RECORD.md",
+"NP-12-N4-CANONICAL-BYTE-GRAMMAR-DECISION-RECORD.md",
+"README.md"
+]
+},
+"Notification": {
+"trees": 28,
+"files": 24,
+"sample": [
+"docs/integration/IIPS_v3.0_NP11_SETTINGS_NON_PRODUCTION_QUALIFICATION.md",
+"docs/integration/IIPS_v3.0_NP11_SETTINGS_PRODUCT_CONTRACT_AND_PERSISTENCE_OWNER_DESIGNATION.md",
+"docs/integration/NP-08-D08-D89-MACRO-UI-DISCLOSURE-DECISION-ACT.md",
+"docs/integration/NP-08-D08-MACRO-ENTITLEMENT-LICENSING-DECISION-ACT.md"
+]
+}
+}
