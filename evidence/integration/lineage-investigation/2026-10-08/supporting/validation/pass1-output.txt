@@ -1,0 +1,63 @@
+== V1-V2 authoritative baselines ==
+V1 IRR origin/main = c19a905d9b7ff6f7faa5c966b59504063f3d45c1 tree=83a8499f1c61f6bd5f97c44d490c678cc75c6cfa
+V2 IPD origin/main = 4d3e1cdca3a33da0ec3be8b336b17128108a502c tree=db853dc21d01162e69b0e1211dbea1cb5c5f72b1
+== V3-V4 'Command Center' exact phrase across all unique trees ==
+V3 IRR Command Center text hits (all trees): 0
+V4 IPD Command Center text hits (all trees): 0
+== V5-V6 D-2 and P3 statements on IRR origin/main ==
+V5 D-2 "NO GOVERNED CROSS-REPO IDENTITY MAPPING ESTABLISHED" lines: 1
+    D-2 universal-tenant / company-identity statements: 2
+V6 P3 AG-5 row lines: 2
+== V7 G24 presence (branch vs IPD main) ==
+V7 src/app_identity/service.ts present at refs/heads/arena/01a0e6d9-iips-production-market-data (6828155ec6e8)
+V7 src/app_identity/service.ts ABSENT at refs/heads/main
+== V8 csipCompanyId UUID presence ==
+V8a IRR trees containing csipCompanyId UUID: 0
+V8b IPD arena/01a0ae80 files containing UUID: 3
+== V9 D115 release-authority state on arena/01a0ae80 ==
+V9 "releaseAuthorization": "GRANTED",
+V9 "mappingReleased": "NOT_YET_IMPLEMENTED",
+V9 "mappingActivated": false,
+V9 "mappingRegistered": false,
+V9 "mappingLoaded": false
+V9 "productionEligible": false,
+== V10 NP-06 governance docs on IRR main (correction C1 check) ==
+V10 absent on main: docs/integration/IIPS_v3.0_NP06_REPORTS_GOVERNANCE_DECISIONS.md
+V10 absent on main: docs/v3.0/g3-build/PROGRAM_v3.0_NP06_REPORTS_FINAL_QUALIFICATION.md
+== V11-V13 IRR route and branch facts ==
+V11 main App.tsx: 52:        <Route path="/research/sector/:id" element={<FeaturePlaceholder surface="Sector" />} />
+V11 main App.tsx: 57:        <Route path="/intelligence/*" element={<FeaturePlaceholder surface="Intelligence" />} />
+V11 main App.tsx: 59:        <Route path="/evidence/snapshots" element={<NotYetAuthorized surface="Evidence Snapshots" />} />
+V11 main App.tsx: 60:        <Route path="/evidence/replay" element={<NotYetAuthorized surface="Evidence Replay" />} />
+V12 phase13-next IntelligenceOpportunities.tsx present
+V12 IntelligenceOpportunities.tsx absent on main
+V13 AUTH-NP-18 present on arena/01a0ddea-iips-review-recovered
+V13 AUTH-NP-18 present on arena/01a0e30f-iips-review-recovered
+V13 AUTH-NP-18 absent on main
+== V14 IPD main has no D107 record ==
+V14 D107 record absent on IPD main
+V14 D107 record present on arena/01a0a438
+== V15 Phase 14.1 archive contains WorkflowView ==
+V15 WorkflowView entries in archive: 1
+== V16 reports-transport on IRR branch vs main ==
+V16 reports-transport.ts present on arena/01a0f1b3
+V16 (unexpected) on main
+== V17 IPD tags carry PortfolioIntelligence ==
+V17 present at tag portfolio-option-a-cb969b6
+V17 present at tag post-cleanup-baseline-b46b4f4
+== V18 IPD main UI01 view model and registry ==
+V18 ui01_replay_studio.ts present on IPD main
+V18 UI01_REPLAY_STUDIO lines in registry: 1
+== V19 IPD pit_read_service AG-5 comment on arena/01a0e6d9 ==
+V19 22: * collapse series. AG-5 therefore stays unresolved and is not required here.
+== V20 P5 row 12 text and location ==
+V20 26:| 12 | User Portfolio (G-2) | IRR main (contract/adapter/transport) + IPD G24 (backend, off-main) | `UserPortfolioPort`→HTTP→`DurablePortfolioStore` | `u
+== V21 P5 'global search command palette' location ==
+V21 11:## 1. Capability Matrix
+V21 44:## 2. Special Investigations (P1 findings)
+V21 62:- **unique (not on main, no recorded disposition):** P-1 notification surface, P-2 notes surface, PF-2 roster/trigger wiring, secret-mana
+V21 76:## 3. Cross-Repository Consistency Observations
+V21 82:## 4. Identity / Security Observations
+V21 88:## 5. Capability Gaps
+V21 97:## 6. P5 Disposition
+V21 99:## **P5 — CAPABILITY STATE PARTIALLY ESTABLISHED**

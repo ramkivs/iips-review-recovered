@@ -1,0 +1,102 @@
+== S0 counts (report section 0 / G) ==
+PASS | IRR main commits = 168 (report 168)
+PASS | IPD main commits = 94 (report 94)
+PASS | IRR unique trees = 72 (report 72)
+PASS | IPD unique trees = 33 (report 33)
+PASS | IRR heads merged/unmerged = 51/19 (report 51/19)
+PASS | IPD heads merged/unmerged = 7/25 (report 7/25)
+PASS | IRR phase13-next ahead of main = 78 (report 78)
+PASS | IRR gai-impl-canonical ahead of main = 47 (report 47)
+PASS | IRR arena/01a0ddea-iips-review-recovered ahead of main = 102 (report 102)
+PASS | IRR arena/01a0e30f-iips-review-recovered ahead of main = 103 (report 103)
+PASS | IRR arena/01a0f1b3-iips-review-recovered ahead of main = 28 (report 28)
+PR states (raw json): IRR=50 ['MERGED'] [True] IPD=6 ['MERGED'] [True]
+== S1 pickaxe counts (report G) ==
+PASS | pickaxe 'Command Center' IRR=0 (report 0) IPD=0 (report 0)
+PASS | pickaxe 'Decision Center' IRR=0 (report 0) IPD=14 (report 14)
+PASS | pickaxe 'Company Workspace' IRR=0 (report 0) IPD=15 (report 15)
+FAIL | pickaxe 'Replay Studio' IRR=0 (report 0) IPD=11 (report 14)
+FAIL | pickaxe 'Research Hub' IRR=1 (report 2) IPD=8 (report 23)
+PASS | pickaxe 'Widget' IRR=2 (report 2) IPD=7 (report 7)
+FAIL | pickaxe 'D107' IRR=2 (report 0) IPD=14 (report 8)
+PASS | pickaxe 'AG-5' IRR=3 (report 3) IPD=2 (report 2)
+FAIL | pickaxe 'features/reports' IRR=0 (report 7) IPD=4 (report 4)
+== S2 absence on IRR main (report says absent / not on M) ==
+PASS | absent on IRR main: frontend/src/features/shell/CommandPalette.tsx
+PASS | absent on IRR main: frontend/src/features/intelligence/IntelligenceOpportunities.tsx
+PASS | absent on IRR main: frontend/src/features/intelligence/IntelligenceRisks.tsx
+PASS | absent on IRR main: frontend/src/features/intelligence/IntelligenceRankings.tsx
+PASS | absent on IRR main: frontend/src/features/research/ResearchHub.tsx
+PASS | absent on IRR main: frontend/src/features/research/SectorIntelligence.tsx
+PASS | absent on IRR main: frontend/src/features/notes/NotesDrawer.tsx
+PASS | absent on IRR main: frontend/src/features/notifications/NotificationDrawer.tsx
+PASS | absent on IRR main: frontend/server/notes/notes-service.ts
+PASS | absent on IRR main: frontend/server/notifications/notification-service.ts
+PASS | absent on IRR main: frontend/src/features/workflow/WorkflowView.tsx
+PASS | absent on IRR main: frontend/src/features/reports/Reports.tsx
+PASS | absent on IRR main: frontend/src/api/reports.ts
+PASS | absent on IRR main: frontend/server/directory/roster-directory.ts
+PASS | absent on IRR main: frontend/server/directory/idp-sync.ts
+PASS | absent on IRR main: frontend/server/reports/reports-service.ts
+== S3 presence on IRR main (report says on M) ==
+PASS | present on IRR main: frontend/server/d115-runtime.ts
+PASS | present on IRR main: frontend/server/tenant-membership-store.ts
+PASS | present on IRR main: frontend/server/user-portfolio/translationBoundary.ts
+PASS | present on IRR main: frontend/server/reports/persistence-port.ts
+PASS | present on IRR main: iips-platform/src/sector-engines/cross-sector/opportunity/OpportunityEngine.ts
+PASS | present on IRR main: iips-platform/src/sector-engines/cross-sector/ranking/RankingEngine.ts
+PASS | present on IRR main: iips-platform/src/sector-engines/cross-sector/portfolio/PortfolioIntelligence.ts
+PASS | present on IRR main: iips-platform/src/snapshot/SnapshotStore.ts
+PASS | present on IRR main: iips-platform/src/snapshot/SnapshotService.ts
+PASS | present on IRR main: iips-platform/src/replay/ReplayService.ts
+PASS | present on IRR main: iips-platform/src/distributed/WorkflowRuntime.ts
+PASS | present on IRR main: frontend/src/features/research/MacroContext.tsx
+FAIL | ABSENT on IRR main: frontend/src/features/research/CompanyIntelligence.tsx (report: present)
+PASS | present on IRR main: frontend/src/features/company/CompanyIntelligence.tsx
+PASS | present on IRR main: frontend/src/features/replay/ReplayExplorer.tsx
+FAIL | ABSENT on IRR main: frontend/src/features/intelligence/DecisionMatrix.tsx (report: present)
+PASS | present on IRR main: docs/v3.0/navigation-model.md
+PASS | present on IRR main: evidence/integration/convergence/2026-10-07/P5-capability-sweep.md
+PASS | present on IRR main: docs/integration/IDENTITY-TENANT-DOMAIN-SCOPE-DECISION.md
+== S4 IRR main App.tsx route lines (report L50, L52, L57, L59, L60, L61) ==
+40:        <Route path="/executive" element={<ExecutiveDashboard />} />
+50:        <Route path="/research" element={<FeaturePlaceholder surface="Research" />} />
+51:        <Route path="/research/company/:id" element={<CompanyIntelligence />} />
+52:        <Route path="/research/sector/:id" element={<FeaturePlaceholder surface="Sector" />} />
+53:        <Route path="/research/cross-sector" element={<CrossSectorIntelligence />} />
+54:        <Route path="/research/engines" element={<EngineRegistry />} />
+56:        <Route path="/intelligence/decision-matrix" element={<DecisionMatrix />} />
+57:        <Route path="/intelligence/*" element={<FeaturePlaceholder surface="Intelligence" />} />
+58:        <Route path="/evidence" element={<EvidenceLanding />} />
+59:        <Route path="/evidence/snapshots" element={<NotYetAuthorized surface="Evidence Snapshots" />} />
+60:        <Route path="/evidence/replay" element={<NotYetAuthorized surface="Evidence Replay" />} />
+61:        <Route path="/evidence/replay/:id" element={<ReplayExplorer />} />
+62:        <Route path="/evidence/:id" element={<EvidenceExplorer />} />
+63:        <Route path="/admin/*" element={<Administration />} />
+== S5 IRR main: 'Command palette' text only in docs (report: M navigation model requires it) ==
+refs/heads/main:docs/v3.0/navigation-model.md:61:- **Command palette** for power users.
+== S6 IPD main absence (report says absent on IPD M) ==
+PASS | absent on IPD main: frontend/src/features/reports/Reports.tsx
+PASS | absent on IPD main: frontend/src/features/research/SectorIntelligence.tsx
+PASS | absent on IPD main: frontend/src/features/company/CompanyIntelligence.tsx
+PASS | absent on IPD main: frontend/src/features/executive/ExecutiveDashboard.tsx
+PASS | absent on IPD main: frontend/server/market-data/eod-pipeline.ts
+PASS | absent on IPD main: frontend/server/research-sector-transport.ts
+PASS | absent on IPD main: docs/D107_EOD_PRODUCTION_READINESS_GATE_ADJUDICATION.md
+FAIL | PRESENT on IPD main: src/identity/mapping_store.ts
+PASS | absent on IPD main: src/app_identity/service.ts
+== S7 IPD main presence (report says present on IPD M) ==
+PASS | present on IPD main: src/identity/mapping_store.ts
+PASS | present on IPD main: src/ui/view_models/ui01_replay_studio.ts
+PASS | present on IPD main: src/operations/slo_evaluator.ts
+PASS | present on IPD main: src/quality/freshness_evaluator.ts
+PASS | present on IPD main: frontend/src/features/portfolio/BrokerImportModal.tsx
+PASS | present on IPD main: evidence/bi07/bi07-final-certification.json
+== S8 Phase 14.1 archive: size and entry count (report 719,726 B; 1,128 entries) ==
+PASS | archive bytes = 719726
+PASS | archive entries = 1128
+WorkflowView tracked (non-archive) on phase14.1-recovery-deposit: 0
+== S9 reports-transport blob equality main vs branch arena/01a0f1b3 ==
+main blob=cdee7ed16b461b058f6ed117c41380b497a6a9d6 branch blob=cdee7ed16b461b058f6ed117c41380b497a6a9d6
+SAME blob
+arena/01a0f1b3 tip NOT ancestor of main

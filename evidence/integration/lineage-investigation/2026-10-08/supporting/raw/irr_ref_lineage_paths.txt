@@ -1,0 +1,1012 @@
+phase13-next	.gitignore	aca0fe2b20
+phase13-next	E2E-032-C-LIVE-20260907-132012.txt	6e70ee345a
+phase13-next	README.md	0d759fbdd7
+phase13-next	RELEASES.md	00fd3b1806
+phase13-next	ROADMAP.md	b5485618f8
+phase13-next	docs/v3.0/E2E-017_ENGINE_MASTER_MATRIX.md	d84956071b
+phase13-next	docs/v3.0/E2E-018_SCREENSHOT_CERTIFIED_PRODUCT_PARITY_MATRIX.md	15cc5775d9
+phase13-next	docs/v3.0/INTEGRATION_VERIFICATION_MATRIX.md	a5a3c49ca3
+phase13-next	docs/v3.0/e2e-018-screenshots/CAPTURE_MANIFEST.json	006690137d
+phase13-next	docs/v3.0/e2e-018-screenshots/admin-engines.png	d58e94a360
+phase13-next	docs/v3.0/e2e-018-screenshots/company-intelligence_automobile.png	dfc1988fb9
+phase13-next	docs/v3.0/e2e-018-screenshots/company-intelligence_banking.png	a01dcd2dab
+phase13-next	docs/v3.0/e2e-018-screenshots/company-intelligence_capital-markets.png	02b552f5de
+phase13-next	docs/v3.0/e2e-018-screenshots/company-intelligence_consumer.png	db32b184e0
+phase13-next	docs/v3.0/e2e-018-screenshots/company-intelligence_energy.png	15e0715c19
+phase13-next	docs/v3.0/e2e-018-screenshots/company-intelligence_healthcare.png	75eb9855f9
+phase13-next	docs/v3.0/e2e-018-screenshots/company-intelligence_hospitality.png	db92b11599
+phase13-next	docs/v3.0/e2e-018-screenshots/company-intelligence_industrials.png	87185c1b76
+phase13-next	docs/v3.0/e2e-018-screenshots/company-intelligence_insurance.png	d89eff744c
+phase13-next	docs/v3.0/e2e-018-screenshots/company-intelligence_materials-metals.png	5d8be3a274
+phase13-next	docs/v3.0/e2e-018-screenshots/company-intelligence_technology.png	b767ce2759
+phase13-next	docs/v3.0/e2e-018-screenshots/company-intelligence_telecommunications.png	10cde0a837
+phase13-next	docs/v3.0/e2e-018-screenshots/company-intelligence_utilities.png	97b5175303
+phase13-next	docs/v3.0/e2e-018-screenshots/cross-sector-intelligence.png	b8756d0c18
+phase13-next	docs/v3.0/e2e-018-screenshots/decision-matrix.png	d561c6c2e3
+phase13-next	docs/v3.0/e2e-018-screenshots/executive.png	7745cff35c
+phase13-next	docs/v3.0/e2e-018-screenshots/screener.png	ca7c249b9a
+phase13-next	docs/v3.0/e2e-018-screenshots/sector-intelligence_banking.png	dfd4c446bd
+phase13-next	docs/v3.0/phase13-hardening/PHASE13_HARDENING_ACCEPTANCE.md	112b3dedcf
+phase13-next	docs/v3.0/phase13-hardening/PHASE13_HARDENING_IMPLEMENTATION.md	1be2a34058
+phase13-next	docs/v3.0/phase13-hardening/PHASE13_HARDENING_RECONCILIATION.md	d85fdb4e6d
+phase13-next	docs/v3.0/phase13-hardening/PHASE13_N3_READ_AUTHORIZATION_CERTIFICATION.md	e7f3af975e
+phase13-next	docs/v3.0/phase14/PHASE14_WORKFLOW_ADMINISTRATION.md	427ccb1e5b
+phase13-next	frontend/package-lock.json	0bb178e4fb
+phase13-next	frontend/package.json	0e380068c8
+phase13-next	frontend/server/admin-transport.test.ts	06f5d5bf0c
+phase13-next	frontend/server/admin-transport.ts	a32d485ae4
+phase13-next	frontend/server/ai-advisory-transport.test.ts	775d412beb
+phase13-next	frontend/server/ai-advisory-transport.ts	e257814e3e
+phase13-next	frontend/server/directory/directory-wiring.test.ts	08977d6630
+phase13-next	frontend/server/directory/directory-wiring.ts	d2a4b9656c
+phase13-next	frontend/server/directory/idp-sync.ts	dd81a14db9
+phase13-next	frontend/server/directory/roster-directory.test.ts	9a849ae901
+phase13-next	frontend/server/directory/roster-directory.ts	fea1799c4b
+phase13-next	frontend/server/executive-transport.ts	fab26a4297
+phase13-next	frontend/server/live/ai-advisory-live-certification.test.ts	5377b6a343
+phase13-next	frontend/server/live/ai-advisory-live-e2e014.test.ts	2a484fc6fa
+phase13-next	frontend/server/live/product-live-certification.test.ts	e807841f45
+phase13-next	frontend/server/macro/macro-transport.test.ts	0af644d203
+phase13-next	frontend/server/macro/mospi-source.test.ts	20cf3ec82e
+phase13-next	frontend/server/macro/mospi-source.ts	5ccef665e8
+phase13-next	frontend/server/notes/notes-service.test.ts	80932eeae5
+phase13-next	frontend/server/notes/notes-service.ts	449d3b891a
+phase13-next	frontend/server/notifications/notification-service.test.ts	a4e84a9017
+phase13-next	frontend/server/notifications/notification-service.ts	7890b00ecc
+phase13-next	frontend/server/read-guard.test.ts	6c74c5f3fd
+phase13-next	frontend/server/secrets/secret-authority.test.ts	ef42dcc2d9
+phase13-next	frontend/server/secrets/secret-authority.ts	62eeb38abd
+phase13-next	frontend/server/secured-executor.ts	f85692ddd0
+phase13-next	frontend/src/api/admin.ts	3deb4de1cb
+phase13-next	frontend/src/api/aiAdvisory.ts	2258e54c17
+phase13-next	frontend/src/api/authFetch.test.ts	311609e724
+phase13-next	frontend/src/api/authFetch.ts	a64db79e03
+phase13-next	frontend/src/api/company.ts	1235c20eca
+phase13-next	frontend/src/api/crossSector.ts	d03631ad1d
+phase13-next	frontend/src/api/decisionMatrix.ts	311e86c084
+phase13-next	frontend/src/api/evidence.ts	8ea7c86451
+phase13-next	frontend/src/api/executive.ts	ae934b89ba
+phase13-next	frontend/src/api/macro.ts	bcda69b10a
+phase13-next	frontend/src/api/notes.ts	82140b694c
+phase13-next	frontend/src/api/notifications.ts	3960212fd0
+phase13-next	frontend/src/api/portfolio.ts	9829c32809
+phase13-next	frontend/src/api/readClients.test.ts	2eb95837e6
+phase13-next	frontend/src/api/replay.ts	56e236dfbc
+phase13-next	frontend/src/app/App.test.tsx	0ae6ae14a9
+phase13-next	frontend/src/app/App.tsx	60d71280d9
+phase13-next	frontend/src/app/AppShell.tsx	e05b823faf
+phase13-next	frontend/src/app/Sidebar.test.tsx	4bd4b54bae
+phase13-next	frontend/src/app/Sidebar.tsx	f1d22d3d05
+phase13-next	frontend/src/app/TopBar.tsx	99100762e7
+phase13-next	frontend/src/app/navigation.test.ts	b356b5c789
+phase13-next	frontend/src/app/navigation.ts	96e104af69
+phase13-next	frontend/src/app/routes.ts	ea1fd32946
+phase13-next	frontend/src/components/ai/AiExplanation.test.tsx	d2b44c63d1
+phase13-next	frontend/src/components/ai/AiExplanation.tsx	df8bb2b9a5
+phase13-next	frontend/src/components/data/DataComponents.test.tsx	ca2a5e4275
+phase13-next	frontend/src/components/data/DataComponents.tsx	5124c91713
+phase13-next	frontend/src/components/evidence/EvidenceComponents.test.tsx	096237baf2
+phase13-next	frontend/src/components/evidence/EvidenceComponents.tsx	30c16daa1d
+phase13-next	frontend/src/components/evidence/EvidenceExplorerComponents.tsx	56600fbbc9
+phase13-next	frontend/src/components/interaction/InteractionComponents.test.tsx	4ca2d23444
+phase13-next	frontend/src/components/interaction/InteractionComponents.tsx	3abae0377e
+phase13-next	frontend/src/components/interaction/useDialogFocus.ts	d7082bdc62
+phase13-next	frontend/src/components/interaction/useTabList.ts	69f711ec6c
+phase13-next	frontend/src/components/viz/ChartFoundations.test.tsx	0301f01580
+phase13-next	frontend/src/components/viz/ChartFoundations.tsx	cf0b19f2a4
+phase13-next	frontend/src/core/auth/AuthProvider.test.tsx	68c084724c
+phase13-next	frontend/src/core/auth/AuthProvider.tsx	cef3818f2b
+phase13-next	frontend/src/core/auth/oidcClient.test.ts	a05aee19a3
+phase13-next	frontend/src/core/auth/oidcClient.ts	638fa3b5ad
+phase13-next	frontend/src/core/session/SessionContext.tsx	d3ce08ea3d
+phase13-next	frontend/src/core/session/session.ts	f119f7fc15
+phase13-next	frontend/src/core/theme/global.css	4368c4b504
+phase13-next	frontend/src/core/theme/theme.test.ts	0afc9b66b4
+phase13-next	frontend/src/core/theme/theme.ts	92061264c5
+phase13-next	frontend/src/core/tokens/index.ts	ff80280332
+phase13-next	frontend/src/features/admin/AdminOperations.test.tsx	451cd63d76
+phase13-next	frontend/src/features/admin/AdminOperations.tsx	c9b8a2a8bc
+phase13-next	frontend/src/features/admin/Administration.test.tsx	2af5cd4988
+phase13-next	frontend/src/features/admin/Administration.tsx	60c9721775
+phase13-next	frontend/src/features/admin/WorkflowDefinitionPanel.test.tsx	c3f2df5f21
+phase13-next	frontend/src/features/admin/WorkflowDefinitionPanel.tsx	3e128b0e48
+phase13-next	frontend/src/features/company/CompanyIntelligence.test.tsx	d0a6e10676
+phase13-next	frontend/src/features/company/CompanyIntelligence.tsx	5704716328
+phase13-next	frontend/src/features/company/CompanyTrustChain.test.tsx	a9dd4a9273
+phase13-next	frontend/src/features/company/CompanyTrustChain.tsx	0f16dcb011
+phase13-next	frontend/src/features/cross-sector/CrossSectorIntelligence.test.tsx	b097745480
+phase13-next	frontend/src/features/cross-sector/CrossSectorIntelligence.tsx	4c770dd7cf
+phase13-next	frontend/src/features/decision-matrix/DecisionMatrix.test.tsx	033f42e516
+phase13-next	frontend/src/features/decision-matrix/DecisionMatrix.tsx	bb96a540f9
+phase13-next	frontend/src/features/evidence/EvidenceExplorer.test.tsx	f1210e669b
+phase13-next	frontend/src/features/evidence/EvidenceHub.test.tsx	2e8219b6ed
+phase13-next	frontend/src/features/evidence/EvidenceHub.tsx	fa85f2d941
+phase13-next	frontend/src/features/executive/ExecutiveDashboard.test.tsx	dea477efc4
+phase13-next	frontend/src/features/executive/ExecutiveDashboard.tsx	eceb778484
+phase13-next	frontend/src/features/intelligence/IntelligenceHub.test.tsx	81b4e17de2
+phase13-next	frontend/src/features/intelligence/IntelligenceHub.tsx	37df9f65c3
+phase13-next	frontend/src/features/intelligence/IntelligenceOpportunities.test.tsx	bc9774abcc
+phase13-next	frontend/src/features/intelligence/IntelligenceOpportunities.tsx	af46b336a3
+phase13-next	frontend/src/features/intelligence/IntelligenceRankings.test.tsx	cb8e99205b
+phase13-next	frontend/src/features/intelligence/IntelligenceRankings.tsx	551f3fa838
+phase13-next	frontend/src/features/intelligence/IntelligenceRisks.test.tsx	83edca0d3a
+phase13-next	frontend/src/features/intelligence/IntelligenceRisks.tsx	be50c49795
+phase13-next	frontend/src/features/notes/NotesDrawer.tsx	d529ab7f6c
+phase13-next	frontend/src/features/notifications/NotificationDrawer.tsx	32d6c3ca95
+phase13-next	frontend/src/features/portfolio/PortfolioWorkspace.test.tsx	db4e400707
+phase13-next	frontend/src/features/portfolio/PortfolioWorkspace.tsx	6f83e12442
+phase13-next	frontend/src/features/research/MacroContext.test.tsx	adfd36dbe4
+phase13-next	frontend/src/features/research/MacroContext.tsx	f73867730a
+phase13-next	frontend/src/features/research/ResearchEvents.test.tsx	aef89c6f28
+phase13-next	frontend/src/features/research/ResearchEvents.tsx	d64f58a1ad
+phase13-next	frontend/src/features/research/ResearchHub.test.tsx	75dcd6f947
+phase13-next	frontend/src/features/research/ResearchHub.tsx	0cd5491cac
+phase13-next	frontend/src/features/research/SectorIntelligence.test.tsx	5e96a75f0c
+phase13-next	frontend/src/features/research/SectorIntelligence.tsx	858f1f89fe
+phase13-next	frontend/src/features/screener/Screener.test.tsx	004fb23864
+phase13-next	frontend/src/features/screener/Screener.tsx	915238acec
+phase13-next	frontend/src/features/shell/CommandPalette.test.tsx	2ccd053322
+phase13-next	frontend/src/features/shell/CommandPalette.tsx	92539c32eb
+phase13-next	frontend/src/main.tsx	2367d065b1
+phase13-next	frontend/tsconfig.server.json	c4d3a3d451
+phase13-next	governance/iips/E2E-013-CAPABILITY-GAP-RECONCILIATION.md	cde2272d5e
+phase13-next	governance/iips/E2E-017-ENGINE-MASTER-MATRIX-RECONCILIATION.md	f53452b6e1
+phase13-next	governance/iips/E2E-018-SCREENSHOT-CERTIFIED-PRODUCT-PARITY-RECONCILIATION.md	00f687534b
+phase13-next	governance/iips/EVID-NP-18-LOGICAL-UI-VERIFICATION-2026-09-27.md	0e9a43ff03
+phase13-next	governance/iips/EVID-NP-18-QUALIFICATION-ADJUDICATION-2026-09-27.md	1b0c18fac1
+phase13-next	governance/iips/EVID-NP-18-QUALIFICATION-RECONCILIATION-2026-09-27.md	9db76355ca
+phase13-next	governance/iips/P06-ACCEPTANCE-DURABILITY-RECONCILIATION.md	5341e4060d
+phase13-next	ies-016-telecommunications/D16_AUTHORITY_REVIEW.md	7f796754cb
+phase13-next	ies-016-telecommunications/IES-016_ARCHITECTURE_REVIEW.md	ec715ca1e2
+phase13-next	ies-016-telecommunications/IES-016_FREEZE_MANIFEST.json	70018bdb38
+phase13-next	ies-016-telecommunications/IES-016_IMPLEMENTATION_READINESS_CERTIFICATE.md	d764f276d9
+phase13-next	ies-016-telecommunications/RELEASE_NOTES_IES-016_v1.0.0.md	78a9b13fc5
+phase13-next	ies-016-telecommunications/TELECOMMUNICATIONS_DISCOVERY_PACK.md	68aae104dd
+phase13-next	ies-016-telecommunications/TELECOMMUNICATIONS_ENGINE_ACCEPTANCE_MATRIX.md	0a45484582
+phase13-next	ies-016-telecommunications/TELECOMMUNICATIONS_IMPLEMENTATION_RISK_REGISTER.md	16b37ee9f3
+phase13-next	ies-016-telecommunications/calibration/telecommunications-calibration-1.0.0.json	178160fcbe
+phase13-next	ies-016-telecommunications/contract-tests/generate_expected_outputs.py	c69ce2eb5d
+phase13-next	ies-016-telecommunications/docs/IES-016_01_README.md	04bb92ba2a
+phase13-next	ies-016-telecommunications/docs/IES-016_02_EXECUTIVE_SUMMARY.md	044deb495c
+phase13-next	ies-016-telecommunications/docs/IES-016_03_INDUSTRY_MODEL.md	83b4697e37
+phase13-next	ies-016-telecommunications/docs/IES-016_04_BUSINESS_MODEL.md	ad81f6ddb0
+phase13-next	ies-016-telecommunications/docs/IES-016_05_METHODOLOGY_PRINCIPLES.md	7216977ee8
+phase13-next	ies-016-telecommunications/docs/IES-016_06_METRIC_LIBRARY.md	596d2158f9
+phase13-next	ies-016-telecommunications/docs/IES-016_07_SCORE_ENGINE.md	607610d7ee
+phase13-next	ies-016-telecommunications/docs/IES-016_08_FORMULA_LIBRARY.md	8d03d9e20a
+phase13-next	ies-016-telecommunications/docs/IES-016_09_CALIBRATION.md	e45d71995a
+phase13-next	ies-016-telecommunications/docs/IES-016_10_DECISION_ENGINE.md	0927629c9d
+phase13-next	ies-016-telecommunications/docs/IES-016_11_EVIDENCE_FRAMEWORK.md	30764c4497
+phase13-next	ies-016-telecommunications/docs/IES-016_12_VALIDATION.md	9dd39a402e
+phase13-next	ies-016-telecommunications/docs/IES-016_13_ARENA_IMPLEMENTATION_SPECIFICATION.md	279c138862
+phase13-next	ies-016-telecommunications/docs/IES-016_14_REFERENCE_ASSET_GOVERNANCE.md	68077fd69d
+phase13-next	ies-016-telecommunications/docs/IES-016_15_NORMATIVE_CALCULATION_APPENDIX.md	a5f9286b49
+phase13-next	ies-016-telecommunications/docs/IES-016_16_IMPLEMENTATION_READINESS_CERTIFICATE.md	ce896d1023
+phase13-next	ies-016-telecommunications/docs/IES-016_17_MASTER_INDEX.md	ae0bee41b7
+phase13-next	ies-016-telecommunications/docs/IES-016_18_DATA_DICTIONARY.md	793d7f8a7b
+phase13-next	ies-016-telecommunications/docs/IES-016_19_REFERENCE_DATA_SOURCES.md	4d86bbdf7e
+phase13-next	ies-016-telecommunications/expected-outputs/telecommunications-expected-outputs-1.0.0.json	0d45ffc44d
+phase13-next	ies-016-telecommunications/fixtures/telecommunications-golden-reference-1.0.0.json	f0dfc647b8
+phase13-next	ies-016-telecommunications/fixtures/telecommunications-validation-fixtures-1.0.0.json	25accdd952
+phase13-next	ies-016-telecommunications/replay-datasets/telecommunications-replay-dataset-1.0.0.json	ed6bbeb8b1
+phase13-next	ies-016-telecommunications/telecommunications-ontology-metadata-1.0.0.json	31383863e1
+phase13-next	ies-017-automobile/AUTOMOBILE_DISCOVERY_PACK.md	e0ad759f4b
+phase13-next	ies-017-automobile/AUTOMOBILE_ENGINE_ACCEPTANCE_MATRIX.md	8707125b54
+phase13-next	ies-017-automobile/AUTOMOBILE_IMPLEMENTATION_RISK_REGISTER.md	7158304538
+phase13-next	ies-017-automobile/D17_AUTHORITY_REVIEW.md	70f46417f5
+phase13-next	ies-017-automobile/IES-017_ARCHITECTURE_REVIEW.md	f16b52ec1b
+phase13-next	ies-017-automobile/IES-017_FREEZE_MANIFEST.json	a7d1190edb
+phase13-next	ies-017-automobile/IES-017_IMPLEMENTATION_READINESS_CERTIFICATE.md	a1f8ee7f9a
+phase13-next	ies-017-automobile/RELEASE_NOTES_IES-017_v1.0.0.md	51ab933dd2
+phase13-next	ies-017-automobile/automobile-ontology-metadata-1.0.0.json	c0cbe16596
+phase13-next	ies-017-automobile/calibration/automobile-calibration-1.0.0.json	e3f84ede6f
+phase13-next	ies-017-automobile/contract-tests/generate_expected_outputs.py	ec599ce1aa
+phase13-next	ies-017-automobile/docs/IES-017_01_README.md	6467d66393
+phase13-next	ies-017-automobile/docs/IES-017_02_EXECUTIVE_SUMMARY.md	7c625c7954
+phase13-next	ies-017-automobile/docs/IES-017_03_INDUSTRY_MODEL.md	5cb365b3d0
+phase13-next	ies-017-automobile/docs/IES-017_04_BUSINESS_MODEL.md	05366e8ec6
+phase13-next	ies-017-automobile/docs/IES-017_05_METHODOLOGY_PRINCIPLES.md	95f6b97b3a
+phase13-next	ies-017-automobile/docs/IES-017_06_METRIC_LIBRARY.md	f78f3b8793
+phase13-next	ies-017-automobile/docs/IES-017_07_SCORE_ENGINE.md	196c5a9ccb
+phase13-next	ies-017-automobile/docs/IES-017_08_FORMULA_LIBRARY.md	0a6224c41b
+phase13-next	ies-017-automobile/docs/IES-017_09_CALIBRATION.md	5ae5730390
+phase13-next	ies-017-automobile/docs/IES-017_10_DECISION_ENGINE.md	21d202e1f0
+phase13-next	ies-017-automobile/docs/IES-017_11_EVIDENCE_FRAMEWORK.md	c462287f10
+phase13-next	ies-017-automobile/docs/IES-017_12_VALIDATION.md	7532ee5ab3
+phase13-next	ies-017-automobile/docs/IES-017_13_ARENA_IMPLEMENTATION_SPECIFICATION.md	cd8f7be570
+phase13-next	ies-017-automobile/docs/IES-017_14_REFERENCE_ASSET_GOVERNANCE.md	033c398fa2
+phase13-next	ies-017-automobile/docs/IES-017_15_NORMATIVE_CALCULATION_APPENDIX.md	7e245d82db
+phase13-next	ies-017-automobile/docs/IES-017_16_IMPLEMENTATION_READINESS_CERTIFICATE.md	4fc947417f
+phase13-next	ies-017-automobile/docs/IES-017_17_MASTER_INDEX.md	1f282a2710
+phase13-next	ies-017-automobile/docs/IES-017_18_DATA_DICTIONARY.md	28536473a7
+phase13-next	ies-017-automobile/docs/IES-017_19_REFERENCE_DATA_SOURCES.md	49bc75805e
+phase13-next	ies-017-automobile/expected-outputs/automobile-expected-outputs-1.0.0.json	b9982d744d
+phase13-next	ies-017-automobile/fixtures/automobile-golden-reference-1.0.0.json	11dcd39530
+phase13-next	ies-017-automobile/fixtures/automobile-validation-fixtures-1.0.0.json	fa9bb6df35
+phase13-next	ies-017-automobile/replay-datasets/automobile-replay-dataset-1.0.0.json	f4d599631e
+phase13-next	ies-020-materials-metals/D20_AUTHORITY_REVIEW.md	de6bb32b6e
+phase13-next	ies-020-materials-metals/IES-020_ARCHITECTURE_REVIEW.md	b3c92b1ed9
+phase13-next	ies-020-materials-metals/IES-020_FREEZE_MANIFEST.json	0d43a53873
+phase13-next	ies-020-materials-metals/IES-020_IMPLEMENTATION_READINESS_CERTIFICATE.md	7533e1d69d
+phase13-next	ies-020-materials-metals/MATERIALS_METALS_DISCOVERY_PACK.md	7677ec47a3
+phase13-next	ies-020-materials-metals/MATERIALS_METALS_ENGINE_ACCEPTANCE_MATRIX.md	12a04073ff
+phase13-next	ies-020-materials-metals/MATERIALS_METALS_IMPLEMENTATION_RISK_REGISTER.md	159754c370
+phase13-next	ies-020-materials-metals/RELEASE_NOTES_IES-020_v1.0.0.md	711bc4a5fc
+phase13-next	ies-020-materials-metals/calibration/materials-metals-calibration-1.0.0.json	ceea1d5fe7
+phase13-next	ies-020-materials-metals/contract-tests/generate_expected_outputs.py	2552b6590b
+phase13-next	ies-020-materials-metals/docs/IES-020_01_README.md	f8098ea017
+phase13-next	ies-020-materials-metals/docs/IES-020_02_EXECUTIVE_SUMMARY.md	6ba484b2ca
+phase13-next	ies-020-materials-metals/docs/IES-020_03_INDUSTRY_MODEL.md	fad4bdf6e4
+phase13-next	ies-020-materials-metals/docs/IES-020_04_BUSINESS_MODEL.md	270138b011
+phase13-next	ies-020-materials-metals/docs/IES-020_05_METHODOLOGY_PRINCIPLES.md	3156714613
+phase13-next	ies-020-materials-metals/docs/IES-020_06_METRIC_LIBRARY.md	d8ad93fd56
+phase13-next	ies-020-materials-metals/docs/IES-020_07_SCORE_ENGINE.md	f0391550ab
+phase13-next	ies-020-materials-metals/docs/IES-020_08_FORMULA_LIBRARY.md	0b9127a814
+phase13-next	ies-020-materials-metals/docs/IES-020_09_CALIBRATION.md	82859c5b8c
+phase13-next	ies-020-materials-metals/docs/IES-020_10_DECISION_ENGINE.md	9d45204c19
+phase13-next	ies-020-materials-metals/docs/IES-020_11_EVIDENCE_FRAMEWORK.md	b070176f7c
+phase13-next	ies-020-materials-metals/docs/IES-020_12_VALIDATION.md	1b97919767
+phase13-next	ies-020-materials-metals/docs/IES-020_13_ARENA_IMPLEMENTATION_SPECIFICATION.md	7892c1ed89
+phase13-next	ies-020-materials-metals/docs/IES-020_14_REFERENCE_ASSET_GOVERNANCE.md	4ae7582040
+phase13-next	ies-020-materials-metals/docs/IES-020_15_NORMATIVE_CALCULATION_APPENDIX.md	bd4a482bfb
+phase13-next	ies-020-materials-metals/docs/IES-020_16_IMPLEMENTATION_READINESS_CERTIFICATE.md	735b71ab8d
+phase13-next	ies-020-materials-metals/docs/IES-020_17_MASTER_INDEX.md	590746039e
+phase13-next	ies-020-materials-metals/docs/IES-020_18_DATA_DICTIONARY.md	f8d2586961
+phase13-next	ies-020-materials-metals/docs/IES-020_19_REFERENCE_DATA_SOURCES.md	0aa8989d8b
+phase13-next	ies-020-materials-metals/expected-outputs/materials-metals-expected-outputs-1.0.0.json	3e67cb6f01
+phase13-next	ies-020-materials-metals/fixtures/materials-metals-golden-reference-1.0.0.json	1b601093cb
+phase13-next	ies-020-materials-metals/fixtures/materials-metals-validation-fixtures-1.0.0.json	000412669a
+phase13-next	ies-020-materials-metals/materials-metals-ontology-metadata-1.0.0.json	8ea6b53c08
+phase13-next	ies-020-materials-metals/replay-datasets/materials-metals-replay-dataset-1.0.0.json	62ace6612c
+phase13-next	iips-platform/D18-ACCEPTANCE-EVIDENCE.md	92bf93c21f
+phase13-next	iips-platform/D27-ACCEPTANCE-EVIDENCE.md	9350459277
+phase13-next	iips-platform/D36-D37-ACCEPTANCE-EVIDENCE.md	15fc5bc4a8
+phase13-next	iips-platform/IES016_FINAL_READINESS_CERTIFICATE.md	8e20853cb7
+phase13-next	iips-platform/IES016_INDEPENDENT_VERIFICATION_REPORT.md	1376bae939
+phase13-next	iips-platform/IES017_FINAL_READINESS_CERTIFICATE.md	2abd3c7ae6
+phase13-next	iips-platform/IES017_INDEPENDENT_VERIFICATION_REPORT.md	d7a2f5526d
+phase13-next	iips-platform/IES020_FINAL_READINESS_CERTIFICATE.md	2a45157be6
+phase13-next	iips-platform/IES020_INDEPENDENT_VERIFICATION_REPORT.md	4cd55372da
+phase13-next	iips-platform/src/plugin-loader/PluginLoader.ts	6ebc4dc2d1
+phase13-next	iips-platform/src/plugin-loader/PluginNamespace.ts	53d5d36814
+phase13-next	iips-platform/src/sector-engines/automobile/AutomobileEngine.ts	aef6873000
+phase13-next	iips-platform/src/sector-engines/automobile/automobile-calibration-1.0.0.json	e3f84ede6f
+phase13-next	iips-platform/src/sector-engines/automobile/automobile-expected-outputs-1.0.0.json	b9982d744d
+phase13-next	iips-platform/src/sector-engines/automobile/automobile-golden-reference-1.0.0.json	11dcd39530
+phase13-next	iips-platform/src/sector-engines/automobile/automobile-validation-fixtures-1.0.0.json	fa9bb6df35
+phase13-next	iips-platform/src/sector-engines/automobile/calibration/AutomobileCalibration.ts	94738d16a6
+phase13-next	iips-platform/src/sector-engines/automobile/decision/AutomobileDecision.ts	4fc8159339
+phase13-next	iips-platform/src/sector-engines/automobile/evidence/AutomobileEvidence.ts	323e9e6ec1
+phase13-next	iips-platform/src/sector-engines/automobile/index.ts	4ec72d5b26
+phase13-next	iips-platform/src/sector-engines/automobile/metrics/AutomobileMetrics.ts	72fe497732
+phase13-next	iips-platform/src/sector-engines/automobile/scoring/AutomobileScoreEngine.ts	dea75720a2
+phase13-next	iips-platform/src/sector-engines/cross-sector/CrossSectorEngine.ts	415689a1f5
+phase13-next	iips-platform/src/sector-engines/cross-sector/index.ts	878bbddffb
+phase13-next	iips-platform/src/sector-engines/materials-metals/MaterialsMetalsEngine.ts	8171b54a4e
+phase13-next	iips-platform/src/sector-engines/materials-metals/calibration/MaterialsMetalsCalibration.ts	dfcdd2d055
+phase13-next	iips-platform/src/sector-engines/materials-metals/decision/MaterialsMetalsDecision.ts	442977a71a
+phase13-next	iips-platform/src/sector-engines/materials-metals/evidence/MaterialsMetalsEvidence.ts	9f5a6cc209
+phase13-next	iips-platform/src/sector-engines/materials-metals/index.ts	8be2a285d9
+phase13-next	iips-platform/src/sector-engines/materials-metals/materials-metals-calibration-1.0.0.json	ceea1d5fe7
+phase13-next	iips-platform/src/sector-engines/materials-metals/materials-metals-expected-outputs-1.0.0.json	3e67cb6f01
+phase13-next	iips-platform/src/sector-engines/materials-metals/materials-metals-golden-reference-1.0.0.json	1b601093cb
+phase13-next	iips-platform/src/sector-engines/materials-metals/materials-metals-validation-fixtures-1.0.0.json	000412669a
+phase13-next	iips-platform/src/sector-engines/materials-metals/metrics/MaterialsMetalsMetrics.ts	f33aa32bb4
+phase13-next	iips-platform/src/sector-engines/materials-metals/scoring/MaterialsMetalsScoreEngine.ts	5107e05624
+phase13-next	iips-platform/src/sector-engines/telecommunications/TelecommunicationsEngine.ts	24380b71ac
+phase13-next	iips-platform/src/sector-engines/telecommunications/calibration/TelecommunicationsCalibration.ts	8f431ec0d6
+phase13-next	iips-platform/src/sector-engines/telecommunications/decision/TelecommunicationsDecision.ts	b9b5a5f629
+phase13-next	iips-platform/src/sector-engines/telecommunications/evidence/TelecommunicationsEvidence.ts	0c61ac6ed6
+phase13-next	iips-platform/src/sector-engines/telecommunications/index.ts	7b106a43e6
+phase13-next	iips-platform/src/sector-engines/telecommunications/metrics/TelecommunicationsMetrics.ts	89a070592c
+phase13-next	iips-platform/src/sector-engines/telecommunications/scoring/TelecommunicationsScoreEngine.ts	b3b2d5b153
+phase13-next	iips-platform/src/sector-engines/telecommunications/telecommunications-calibration-1.0.0.json	178160fcbe
+phase13-next	iips-platform/src/sector-engines/telecommunications/telecommunications-expected-outputs-1.0.0.json	0d45ffc44d
+phase13-next	iips-platform/src/sector-engines/telecommunications/telecommunications-golden-reference-1.0.0.json	f0dfc647b8
+phase13-next	iips-platform/src/sector-engines/telecommunications/telecommunications-validation-fixtures-1.0.0.json	25accdd952
+phase13-next	iips-platform/tests/regression/automobile-acceptance.test.ts	154dfad3f5
+phase13-next	iips-platform/tests/regression/automobile-framework-integration.test.ts	b9b4630b62
+phase13-next	iips-platform/tests/regression/automobile-reuse-verification.test.ts	ffaf06243c
+phase13-next	iips-platform/tests/regression/automobile-wp4-validation.test.ts	c525a7dc8e
+phase13-next	iips-platform/tests/regression/banking-framework-integration.test.ts	e835a01d70
+phase13-next	iips-platform/tests/regression/banking-reuse-verification.test.ts	68037eef71
+phase13-next	iips-platform/tests/regression/banking-wp4-validation.test.ts	4abacc88f2
+phase13-next	iips-platform/tests/regression/capital-markets-wp4-validation.test.ts	dd8703c781
+phase13-next	iips-platform/tests/regression/healthcare-wp4-validation.test.ts	24bf838d4e
+phase13-next	iips-platform/tests/regression/insurance-wp4-validation.test.ts	f33e40d946
+phase13-next	iips-platform/tests/regression/materials-metals-acceptance.test.ts	74a6742c68
+phase13-next	iips-platform/tests/regression/materials-metals-framework-integration.test.ts	a8542ae43d
+phase13-next	iips-platform/tests/regression/materials-metals-reuse-verification.test.ts	927e475e5c
+phase13-next	iips-platform/tests/regression/materials-metals-wp4-validation.test.ts	215253df4b
+phase13-next	iips-platform/tests/regression/plugin-registration.test.ts	eb3c72899d
+phase13-next	iips-platform/tests/regression/program-v1.1-track3-replay-certification.test.ts	ee926ce9eb
+phase13-next	iips-platform/tests/regression/program-v2.0-final-certification.test.ts	289ccb7ca2
+phase13-next	iips-platform/tests/regression/program-v2.0-wp0-constitutional-guard.test.ts	1133c7fb63
+phase13-next	iips-platform/tests/regression/program-v2.0-wp1-distributed-runtime.test.ts	99fd5b6193
+phase13-next	iips-platform/tests/regression/program-v2.0-wp10-observability.test.ts	3957fa7787
+phase13-next	iips-platform/tests/regression/program-v2.0-wp11-performance.test.ts	69196bc99e
+phase13-next	iips-platform/tests/regression/program-v2.0-wp12-data-governance.test.ts	b4fb3a2c2f
+phase13-next	iips-platform/tests/regression/program-v2.0-wp13-dr.test.ts	a36a982f61
+phase13-next	iips-platform/tests/regression/program-v2.0-wp14-migration.test.ts	70a29e2010
+phase13-next	iips-platform/tests/regression/program-v2.0-wp2-cloud-ha.test.ts	6b02391fa8
+phase13-next	iips-platform/tests/regression/program-v2.0-wp3-live-data.test.ts	c92efac584
+phase13-next	iips-platform/tests/regression/program-v2.0-wp4-enterprise.test.ts	2ac7d7f2af
+phase13-next	iips-platform/tests/regression/telecommunications-acceptance.test.ts	86cf4b3ff9
+phase13-next	iips-platform/tests/regression/telecommunications-framework-integration.test.ts	e9950b5636
+phase13-next	iips-platform/tests/regression/telecommunications-reuse-verification.test.ts	ec70fc39c0
+phase13-next	iips-platform/tests/regression/telecommunications-wp4-validation.test.ts	ac5521cd5e
+phase13-next	program-v1.1-certification/PROGRAM_v1.1_FINAL_CERTIFICATION_GATE0_SCOPE.md	6f37d045a9
+phase13-next	program-v1.1-certification/PROGRAM_v1.1_REPLAY_BASELINE.json	63bcd350f2
+gai-impl-canonical	.gitignore	aca0fe2b20
+gai-impl-canonical	README.md	0d759fbdd7
+gai-impl-canonical	RELEASES.md	00fd3b1806
+gai-impl-canonical	ROADMAP.md	b5485618f8
+gai-impl-canonical	docs/v3.0/INTEGRATION_VERIFICATION_MATRIX.md	4967b0232a
+gai-impl-canonical	docs/v3.0/phase13-hardening/PHASE13_HARDENING_ACCEPTANCE.md	112b3dedcf
+gai-impl-canonical	docs/v3.0/phase13-hardening/PHASE13_HARDENING_IMPLEMENTATION.md	1be2a34058
+gai-impl-canonical	docs/v3.0/phase13-hardening/PHASE13_HARDENING_RECONCILIATION.md	d85fdb4e6d
+gai-impl-canonical	docs/v3.0/phase13-hardening/PHASE13_N3_READ_AUTHORIZATION_CERTIFICATION.md	e7f3af975e
+gai-impl-canonical	docs/v3.0/phase14/PHASE14_WORKFLOW_ADMINISTRATION.md	427ccb1e5b
+gai-impl-canonical	frontend/package-lock.json	0bb178e4fb
+gai-impl-canonical	frontend/package.json	0e380068c8
+gai-impl-canonical	frontend/server/admin-transport.test.ts	06f5d5bf0c
+gai-impl-canonical	frontend/server/admin-transport.ts	a32d485ae4
+gai-impl-canonical	frontend/server/ai-advisory-transport.test.ts	775d412beb
+gai-impl-canonical	frontend/server/ai-advisory-transport.ts	e257814e3e
+gai-impl-canonical	frontend/server/directory/directory-wiring.test.ts	08977d6630
+gai-impl-canonical	frontend/server/directory/directory-wiring.ts	d2a4b9656c
+gai-impl-canonical	frontend/server/directory/idp-sync.ts	dd81a14db9
+gai-impl-canonical	frontend/server/directory/roster-directory.test.ts	9a849ae901
+gai-impl-canonical	frontend/server/directory/roster-directory.ts	fea1799c4b
+gai-impl-canonical	frontend/server/executive-transport.ts	fab26a4297
+gai-impl-canonical	frontend/server/macro/macro-transport.test.ts	0af644d203
+gai-impl-canonical	frontend/server/macro/mospi-source.test.ts	20cf3ec82e
+gai-impl-canonical	frontend/server/macro/mospi-source.ts	5ccef665e8
+gai-impl-canonical	frontend/server/notes/notes-service.test.ts	80932eeae5
+gai-impl-canonical	frontend/server/notes/notes-service.ts	449d3b891a
+gai-impl-canonical	frontend/server/notifications/notification-service.test.ts	a4e84a9017
+gai-impl-canonical	frontend/server/notifications/notification-service.ts	7890b00ecc
+gai-impl-canonical	frontend/server/read-guard.test.ts	6c74c5f3fd
+gai-impl-canonical	frontend/server/secrets/secret-authority.test.ts	ef42dcc2d9
+gai-impl-canonical	frontend/server/secrets/secret-authority.ts	62eeb38abd
+gai-impl-canonical	frontend/server/secured-executor.ts	f85692ddd0
+gai-impl-canonical	frontend/src/api/admin.ts	3deb4de1cb
+gai-impl-canonical	frontend/src/api/aiAdvisory.ts	2258e54c17
+gai-impl-canonical	frontend/src/api/authFetch.test.ts	311609e724
+gai-impl-canonical	frontend/src/api/authFetch.ts	a64db79e03
+gai-impl-canonical	frontend/src/api/company.ts	1235c20eca
+gai-impl-canonical	frontend/src/api/crossSector.ts	d03631ad1d
+gai-impl-canonical	frontend/src/api/decisionMatrix.ts	311e86c084
+gai-impl-canonical	frontend/src/api/evidence.ts	8ea7c86451
+gai-impl-canonical	frontend/src/api/executive.ts	ae934b89ba
+gai-impl-canonical	frontend/src/api/macro.ts	bcda69b10a
+gai-impl-canonical	frontend/src/api/notes.ts	82140b694c
+gai-impl-canonical	frontend/src/api/notifications.ts	3960212fd0
+gai-impl-canonical	frontend/src/api/portfolio.ts	9829c32809
+gai-impl-canonical	frontend/src/api/readClients.test.ts	2eb95837e6
+gai-impl-canonical	frontend/src/api/replay.ts	56e236dfbc
+gai-impl-canonical	frontend/src/app/App.test.tsx	0ae6ae14a9
+gai-impl-canonical	frontend/src/app/App.tsx	15e638ed5b
+gai-impl-canonical	frontend/src/app/AppShell.tsx	e05b823faf
+gai-impl-canonical	frontend/src/app/Sidebar.test.tsx	71c450b86f
+gai-impl-canonical	frontend/src/app/Sidebar.tsx	f1d22d3d05
+gai-impl-canonical	frontend/src/app/TopBar.tsx	99100762e7
+gai-impl-canonical	frontend/src/app/navigation.test.ts	41e4b06ceb
+gai-impl-canonical	frontend/src/app/navigation.ts	03fcf14d7d
+gai-impl-canonical	frontend/src/app/routes.ts	ea1fd32946
+gai-impl-canonical	frontend/src/components/ai/AiExplanation.test.tsx	d2b44c63d1
+gai-impl-canonical	frontend/src/components/ai/AiExplanation.tsx	df8bb2b9a5
+gai-impl-canonical	frontend/src/components/data/DataComponents.test.tsx	ca2a5e4275
+gai-impl-canonical	frontend/src/components/data/DataComponents.tsx	5124c91713
+gai-impl-canonical	frontend/src/components/evidence/EvidenceComponents.test.tsx	096237baf2
+gai-impl-canonical	frontend/src/components/evidence/EvidenceComponents.tsx	30c16daa1d
+gai-impl-canonical	frontend/src/components/evidence/EvidenceExplorerComponents.tsx	56600fbbc9
+gai-impl-canonical	frontend/src/components/interaction/InteractionComponents.test.tsx	4ca2d23444
+gai-impl-canonical	frontend/src/components/interaction/InteractionComponents.tsx	3abae0377e
+gai-impl-canonical	frontend/src/components/interaction/useDialogFocus.ts	d7082bdc62
+gai-impl-canonical	frontend/src/components/interaction/useTabList.ts	69f711ec6c
+gai-impl-canonical	frontend/src/components/viz/ChartFoundations.test.tsx	0301f01580
+gai-impl-canonical	frontend/src/components/viz/ChartFoundations.tsx	cf0b19f2a4
+gai-impl-canonical	frontend/src/core/auth/AuthProvider.test.tsx	68c084724c
+gai-impl-canonical	frontend/src/core/auth/AuthProvider.tsx	cef3818f2b
+gai-impl-canonical	frontend/src/core/auth/oidcClient.test.ts	a05aee19a3
+gai-impl-canonical	frontend/src/core/auth/oidcClient.ts	638fa3b5ad
+gai-impl-canonical	frontend/src/core/session/SessionContext.tsx	d3ce08ea3d
+gai-impl-canonical	frontend/src/core/session/session.ts	f119f7fc15
+gai-impl-canonical	frontend/src/core/theme/global.css	4368c4b504
+gai-impl-canonical	frontend/src/core/theme/theme.test.ts	0afc9b66b4
+gai-impl-canonical	frontend/src/core/theme/theme.ts	92061264c5
+gai-impl-canonical	frontend/src/core/tokens/index.ts	ff80280332
+gai-impl-canonical	frontend/src/features/admin/AdminOperations.test.tsx	451cd63d76
+gai-impl-canonical	frontend/src/features/admin/AdminOperations.tsx	c9b8a2a8bc
+gai-impl-canonical	frontend/src/features/admin/Administration.test.tsx	2af5cd4988
+gai-impl-canonical	frontend/src/features/admin/Administration.tsx	60c9721775
+gai-impl-canonical	frontend/src/features/admin/WorkflowDefinitionPanel.test.tsx	c3f2df5f21
+gai-impl-canonical	frontend/src/features/admin/WorkflowDefinitionPanel.tsx	3e128b0e48
+gai-impl-canonical	frontend/src/features/company/CompanyIntelligence.test.tsx	d0a6e10676
+gai-impl-canonical	frontend/src/features/company/CompanyIntelligence.tsx	5704716328
+gai-impl-canonical	frontend/src/features/company/CompanyTrustChain.test.tsx	a9dd4a9273
+gai-impl-canonical	frontend/src/features/company/CompanyTrustChain.tsx	0f16dcb011
+gai-impl-canonical	frontend/src/features/cross-sector/CrossSectorIntelligence.test.tsx	b097745480
+gai-impl-canonical	frontend/src/features/cross-sector/CrossSectorIntelligence.tsx	4c770dd7cf
+gai-impl-canonical	frontend/src/features/decision-matrix/DecisionMatrix.test.tsx	033f42e516
+gai-impl-canonical	frontend/src/features/decision-matrix/DecisionMatrix.tsx	bb96a540f9
+gai-impl-canonical	frontend/src/features/evidence/EvidenceExplorer.test.tsx	f1210e669b
+gai-impl-canonical	frontend/src/features/evidence/EvidenceHub.test.tsx	2e8219b6ed
+gai-impl-canonical	frontend/src/features/evidence/EvidenceHub.tsx	fa85f2d941
+gai-impl-canonical	frontend/src/features/executive/ExecutiveDashboard.test.tsx	dea477efc4
+gai-impl-canonical	frontend/src/features/executive/ExecutiveDashboard.tsx	eceb778484
+gai-impl-canonical	frontend/src/features/intelligence/IntelligenceHub.test.tsx	75458a96e0
+gai-impl-canonical	frontend/src/features/intelligence/IntelligenceHub.tsx	25e215a405
+gai-impl-canonical	frontend/src/features/notes/NotesDrawer.tsx	d529ab7f6c
+gai-impl-canonical	frontend/src/features/notifications/NotificationDrawer.tsx	32d6c3ca95
+gai-impl-canonical	frontend/src/features/portfolio/PortfolioWorkspace.test.tsx	db4e400707
+gai-impl-canonical	frontend/src/features/portfolio/PortfolioWorkspace.tsx	6f83e12442
+gai-impl-canonical	frontend/src/features/research/MacroContext.test.tsx	adfd36dbe4
+gai-impl-canonical	frontend/src/features/research/MacroContext.tsx	f73867730a
+gai-impl-canonical	frontend/src/features/research/ResearchEvents.test.tsx	aef89c6f28
+gai-impl-canonical	frontend/src/features/research/ResearchEvents.tsx	d64f58a1ad
+gai-impl-canonical	frontend/src/features/research/ResearchHub.test.tsx	75dcd6f947
+gai-impl-canonical	frontend/src/features/research/ResearchHub.tsx	0cd5491cac
+gai-impl-canonical	frontend/src/features/research/SectorIntelligence.test.tsx	5e96a75f0c
+gai-impl-canonical	frontend/src/features/research/SectorIntelligence.tsx	858f1f89fe
+gai-impl-canonical	frontend/src/features/screener/Screener.test.tsx	004fb23864
+gai-impl-canonical	frontend/src/features/screener/Screener.tsx	915238acec
+gai-impl-canonical	frontend/src/features/shell/CommandPalette.test.tsx	2ccd053322
+gai-impl-canonical	frontend/src/features/shell/CommandPalette.tsx	92539c32eb
+gai-impl-canonical	frontend/src/main.tsx	2367d065b1
+gai-impl-canonical	frontend/tsconfig.server.json	c4d3a3d451
+gai-impl-canonical	ies-016-telecommunications/IES-016_IMPLEMENTATION_READINESS_CERTIFICATE.md	e922750f88
+gai-impl-canonical	ies-016-telecommunications/RELEASE_NOTES_IES-016_v1.0.0.md	78a9b13fc5
+gai-impl-canonical	ies-016-telecommunications/TELECOMMUNICATIONS_DISCOVERY_PACK.md	68aae104dd
+gai-impl-canonical	ies-016-telecommunications/TELECOMMUNICATIONS_ENGINE_ACCEPTANCE_MATRIX.md	0a45484582
+gai-impl-canonical	ies-016-telecommunications/TELECOMMUNICATIONS_IMPLEMENTATION_RISK_REGISTER.md	16b37ee9f3
+gai-impl-canonical	ies-016-telecommunications/calibration/telecommunications-calibration-1.0.0.json	178160fcbe
+gai-impl-canonical	ies-016-telecommunications/contract-tests/generate_expected_outputs.py	c69ce2eb5d
+gai-impl-canonical	ies-016-telecommunications/expected-outputs/telecommunications-expected-outputs-1.0.0.json	0d45ffc44d
+gai-impl-canonical	ies-016-telecommunications/fixtures/telecommunications-golden-reference-1.0.0.json	f0dfc647b8
+gai-impl-canonical	ies-016-telecommunications/fixtures/telecommunications-validation-fixtures-1.0.0.json	25accdd952
+gai-impl-canonical	ies-016-telecommunications/replay-datasets/telecommunications-replay-dataset-1.0.0.json	ed6bbeb8b1
+gai-impl-canonical	ies-016-telecommunications/telecommunications-ontology-metadata-1.0.0.json	31383863e1
+gai-impl-canonical	ies-017-automobile/AUTOMOBILE_DISCOVERY_PACK.md	e0ad759f4b
+gai-impl-canonical	ies-017-automobile/AUTOMOBILE_ENGINE_ACCEPTANCE_MATRIX.md	8707125b54
+gai-impl-canonical	ies-017-automobile/AUTOMOBILE_IMPLEMENTATION_RISK_REGISTER.md	7158304538
+gai-impl-canonical	ies-017-automobile/IES-017_IMPLEMENTATION_READINESS_CERTIFICATE.md	c56fce70b7
+gai-impl-canonical	ies-017-automobile/RELEASE_NOTES_IES-017_v1.0.0.md	51ab933dd2
+gai-impl-canonical	ies-017-automobile/automobile-ontology-metadata-1.0.0.json	c0cbe16596
+gai-impl-canonical	ies-017-automobile/calibration/automobile-calibration-1.0.0.json	e3f84ede6f
+gai-impl-canonical	ies-017-automobile/contract-tests/generate_expected_outputs.py	ec599ce1aa
+gai-impl-canonical	ies-017-automobile/expected-outputs/automobile-expected-outputs-1.0.0.json	b9982d744d
+gai-impl-canonical	ies-017-automobile/fixtures/automobile-golden-reference-1.0.0.json	11dcd39530
+gai-impl-canonical	ies-017-automobile/fixtures/automobile-validation-fixtures-1.0.0.json	fa9bb6df35
+gai-impl-canonical	ies-017-automobile/replay-datasets/automobile-replay-dataset-1.0.0.json	f4d599631e
+gai-impl-canonical	ies-020-materials-metals/IES-020_IMPLEMENTATION_READINESS_CERTIFICATE.md	dd5f18e4f2
+gai-impl-canonical	ies-020-materials-metals/MATERIALS_METALS_DISCOVERY_PACK.md	7677ec47a3
+gai-impl-canonical	ies-020-materials-metals/MATERIALS_METALS_ENGINE_ACCEPTANCE_MATRIX.md	12a04073ff
+gai-impl-canonical	ies-020-materials-metals/MATERIALS_METALS_IMPLEMENTATION_RISK_REGISTER.md	159754c370
+gai-impl-canonical	ies-020-materials-metals/RELEASE_NOTES_IES-020_v1.0.0.md	711bc4a5fc
+gai-impl-canonical	ies-020-materials-metals/calibration/materials-metals-calibration-1.0.0.json	ceea1d5fe7
+gai-impl-canonical	ies-020-materials-metals/contract-tests/generate_expected_outputs.py	2552b6590b
+gai-impl-canonical	ies-020-materials-metals/expected-outputs/materials-metals-expected-outputs-1.0.0.json	3e67cb6f01
+gai-impl-canonical	ies-020-materials-metals/fixtures/materials-metals-golden-reference-1.0.0.json	1b601093cb
+gai-impl-canonical	ies-020-materials-metals/fixtures/materials-metals-validation-fixtures-1.0.0.json	000412669a
+gai-impl-canonical	ies-020-materials-metals/materials-metals-ontology-metadata-1.0.0.json	8ea6b53c08
+gai-impl-canonical	ies-020-materials-metals/replay-datasets/materials-metals-replay-dataset-1.0.0.json	62ace6612c
+gai-impl-canonical	iips-platform/src/sector-engines/automobile/AutomobileEngine.ts	aef6873000
+gai-impl-canonical	iips-platform/src/sector-engines/automobile/automobile-calibration-1.0.0.json	e3f84ede6f
+gai-impl-canonical	iips-platform/src/sector-engines/automobile/automobile-expected-outputs-1.0.0.json	b9982d744d
+gai-impl-canonical	iips-platform/src/sector-engines/automobile/automobile-golden-reference-1.0.0.json	11dcd39530
+gai-impl-canonical	iips-platform/src/sector-engines/automobile/automobile-validation-fixtures-1.0.0.json	fa9bb6df35
+gai-impl-canonical	iips-platform/src/sector-engines/automobile/calibration/AutomobileCalibration.ts	94738d16a6
+gai-impl-canonical	iips-platform/src/sector-engines/automobile/decision/AutomobileDecision.ts	4fc8159339
+gai-impl-canonical	iips-platform/src/sector-engines/automobile/evidence/AutomobileEvidence.ts	323e9e6ec1
+gai-impl-canonical	iips-platform/src/sector-engines/automobile/index.ts	4ec72d5b26
+gai-impl-canonical	iips-platform/src/sector-engines/automobile/metrics/AutomobileMetrics.ts	72fe497732
+gai-impl-canonical	iips-platform/src/sector-engines/automobile/scoring/AutomobileScoreEngine.ts	dea75720a2
+gai-impl-canonical	iips-platform/src/sector-engines/cross-sector/CrossSectorEngine.ts	415689a1f5
+gai-impl-canonical	iips-platform/src/sector-engines/cross-sector/index.ts	878bbddffb
+gai-impl-canonical	iips-platform/src/sector-engines/materials-metals/MaterialsMetalsEngine.ts	8171b54a4e
+gai-impl-canonical	iips-platform/src/sector-engines/materials-metals/calibration/MaterialsMetalsCalibration.ts	dfcdd2d055
+gai-impl-canonical	iips-platform/src/sector-engines/materials-metals/decision/MaterialsMetalsDecision.ts	442977a71a
+gai-impl-canonical	iips-platform/src/sector-engines/materials-metals/evidence/MaterialsMetalsEvidence.ts	9f5a6cc209
+gai-impl-canonical	iips-platform/src/sector-engines/materials-metals/index.ts	8be2a285d9
+gai-impl-canonical	iips-platform/src/sector-engines/materials-metals/materials-metals-calibration-1.0.0.json	ceea1d5fe7
+gai-impl-canonical	iips-platform/src/sector-engines/materials-metals/materials-metals-expected-outputs-1.0.0.json	3e67cb6f01
+gai-impl-canonical	iips-platform/src/sector-engines/materials-metals/materials-metals-golden-reference-1.0.0.json	1b601093cb
+gai-impl-canonical	iips-platform/src/sector-engines/materials-metals/materials-metals-validation-fixtures-1.0.0.json	000412669a
+gai-impl-canonical	iips-platform/src/sector-engines/materials-metals/metrics/MaterialsMetalsMetrics.ts	f33aa32bb4
+gai-impl-canonical	iips-platform/src/sector-engines/materials-metals/scoring/MaterialsMetalsScoreEngine.ts	5107e05624
+gai-impl-canonical	iips-platform/src/sector-engines/telecommunications/TelecommunicationsEngine.ts	24380b71ac
+gai-impl-canonical	iips-platform/src/sector-engines/telecommunications/calibration/TelecommunicationsCalibration.ts	8f431ec0d6
+gai-impl-canonical	iips-platform/src/sector-engines/telecommunications/decision/TelecommunicationsDecision.ts	b9b5a5f629
+gai-impl-canonical	iips-platform/src/sector-engines/telecommunications/evidence/TelecommunicationsEvidence.ts	0c61ac6ed6
+gai-impl-canonical	iips-platform/src/sector-engines/telecommunications/index.ts	7b106a43e6
+gai-impl-canonical	iips-platform/src/sector-engines/telecommunications/metrics/TelecommunicationsMetrics.ts	89a070592c
+gai-impl-canonical	iips-platform/src/sector-engines/telecommunications/scoring/TelecommunicationsScoreEngine.ts	b3b2d5b153
+gai-impl-canonical	iips-platform/src/sector-engines/telecommunications/telecommunications-calibration-1.0.0.json	178160fcbe
+gai-impl-canonical	iips-platform/src/sector-engines/telecommunications/telecommunications-expected-outputs-1.0.0.json	0d45ffc44d
+gai-impl-canonical	iips-platform/src/sector-engines/telecommunications/telecommunications-golden-reference-1.0.0.json	f0dfc647b8
+gai-impl-canonical	iips-platform/src/sector-engines/telecommunications/telecommunications-validation-fixtures-1.0.0.json	25accdd952
+gai-impl-canonical	iips-platform/tests/regression/automobile-acceptance.test.ts	154dfad3f5
+gai-impl-canonical	iips-platform/tests/regression/automobile-wp4-validation.test.ts	c525a7dc8e
+gai-impl-canonical	iips-platform/tests/regression/materials-metals-acceptance.test.ts	74a6742c68
+gai-impl-canonical	iips-platform/tests/regression/materials-metals-wp4-validation.test.ts	215253df4b
+gai-impl-canonical	iips-platform/tests/regression/program-v1.1-track3-replay-certification.test.ts	ee926ce9eb
+gai-impl-canonical	iips-platform/tests/regression/program-v2.0-final-certification.test.ts	289ccb7ca2
+gai-impl-canonical	iips-platform/tests/regression/program-v2.0-wp0-constitutional-guard.test.ts	1133c7fb63
+gai-impl-canonical	iips-platform/tests/regression/program-v2.0-wp1-distributed-runtime.test.ts	99fd5b6193
+gai-impl-canonical	iips-platform/tests/regression/program-v2.0-wp10-observability.test.ts	3957fa7787
+gai-impl-canonical	iips-platform/tests/regression/program-v2.0-wp11-performance.test.ts	69196bc99e
+gai-impl-canonical	iips-platform/tests/regression/program-v2.0-wp12-data-governance.test.ts	b4fb3a2c2f
+gai-impl-canonical	iips-platform/tests/regression/program-v2.0-wp13-dr.test.ts	a36a982f61
+gai-impl-canonical	iips-platform/tests/regression/program-v2.0-wp14-migration.test.ts	70a29e2010
+gai-impl-canonical	iips-platform/tests/regression/program-v2.0-wp2-cloud-ha.test.ts	6b02391fa8
+gai-impl-canonical	iips-platform/tests/regression/program-v2.0-wp3-live-data.test.ts	c92efac584
+gai-impl-canonical	iips-platform/tests/regression/program-v2.0-wp4-enterprise.test.ts	2ac7d7f2af
+gai-impl-canonical	iips-platform/tests/regression/telecommunications-acceptance.test.ts	86cf4b3ff9
+gai-impl-canonical	iips-platform/tests/regression/telecommunications-wp4-validation.test.ts	ac5521cd5e
+gai-impl-canonical	program-v1.1-certification/PROGRAM_v1.1_FINAL_CERTIFICATION_GATE0_SCOPE.md	6f37d045a9
+gai-impl-canonical	program-v1.1-certification/PROGRAM_v1.1_REPLAY_BASELINE.json	63bcd350f2
+phase13-hardening-delivery	README.md	f0f812ed37
+phase13-hardening-delivery	RELEASES.md	00fd3b1806
+phase13-hardening-delivery	ROADMAP.md	75d1881b3b
+phase13-hardening-delivery	docs/v3.0/phase13-hardening/PHASE13_HARDENING_ACCEPTANCE.md	112b3dedcf
+phase13-hardening-delivery	docs/v3.0/phase13-hardening/PHASE13_HARDENING_IMPLEMENTATION.md	1be2a34058
+phase13-hardening-delivery	docs/v3.0/phase13-hardening/PHASE13_HARDENING_RECONCILIATION.md	d85fdb4e6d
+phase13-hardening-delivery	frontend/package-lock.json	0bb178e4fb
+phase13-hardening-delivery	frontend/package.json	0e380068c8
+phase13-hardening-delivery	frontend/server/admin-transport.test.ts	06f5d5bf0c
+phase13-hardening-delivery	frontend/server/admin-transport.ts	d1ade7b51c
+phase13-hardening-delivery	frontend/server/executive-transport.ts	89a913f78c
+phase13-hardening-delivery	frontend/server/secured-executor.ts	f85692ddd0
+phase13-hardening-delivery	frontend/src/api/executive.ts	ca51e0b446
+phase13-hardening-delivery	frontend/src/app/App.test.tsx	be3ebd4ee1
+phase13-hardening-delivery	frontend/src/app/App.tsx	d77a27df8c
+phase13-hardening-delivery	frontend/src/app/AppShell.tsx	96228c4ee8
+phase13-hardening-delivery	frontend/src/app/Sidebar.tsx	7bf641aa3b
+phase13-hardening-delivery	frontend/src/app/TopBar.tsx	096767fd20
+phase13-hardening-delivery	frontend/src/app/navigation.ts	99175f1b79
+phase13-hardening-delivery	frontend/src/app/routes.ts	7e5d7ff49d
+phase13-hardening-delivery	frontend/src/components/data/DataComponents.test.tsx	ca2a5e4275
+phase13-hardening-delivery	frontend/src/components/data/DataComponents.tsx	5124c91713
+phase13-hardening-delivery	frontend/src/components/evidence/EvidenceComponents.test.tsx	096237baf2
+phase13-hardening-delivery	frontend/src/components/evidence/EvidenceComponents.tsx	30c16daa1d
+phase13-hardening-delivery	frontend/src/components/interaction/InteractionComponents.test.tsx	4ca2d23444
+phase13-hardening-delivery	frontend/src/components/interaction/InteractionComponents.tsx	3abae0377e
+phase13-hardening-delivery	frontend/src/components/interaction/useDialogFocus.ts	d7082bdc62
+phase13-hardening-delivery	frontend/src/components/interaction/useTabList.ts	69f711ec6c
+phase13-hardening-delivery	frontend/src/components/viz/ChartFoundations.test.tsx	0301f01580
+phase13-hardening-delivery	frontend/src/components/viz/ChartFoundations.tsx	cf0b19f2a4
+phase13-hardening-delivery	frontend/src/core/session/SessionContext.tsx	d3ce08ea3d
+phase13-hardening-delivery	frontend/src/core/theme/global.css	4368c4b504
+phase13-hardening-delivery	frontend/src/core/theme/theme.test.ts	0afc9b66b4
+phase13-hardening-delivery	frontend/src/core/theme/theme.ts	92061264c5
+phase13-hardening-delivery	frontend/src/core/tokens/index.ts	ff80280332
+phase13-hardening-delivery	frontend/src/features/admin/Administration.test.tsx	db87ff7fc1
+phase13-hardening-delivery	frontend/src/features/admin/Administration.tsx	c0b4af1804
+phase13-hardening-delivery	frontend/src/features/decision-matrix/DecisionMatrix.test.tsx	4297115a8a
+phase13-hardening-delivery	frontend/src/features/decision-matrix/DecisionMatrix.tsx	354d0e9e0b
+phase13-hardening-delivery	frontend/src/features/executive/ExecutiveDashboard.tsx	83144ed6ea
+phase13-hardening-delivery	frontend/src/main.tsx	bfaa909409
+phase13-hardening-delivery	frontend/tsconfig.server.json	c4d3a3d451
+phase13-hardening-delivery	iips-platform/src/sector-engines/cross-sector/CrossSectorEngine.ts	415689a1f5
+phase13-hardening-delivery	iips-platform/src/sector-engines/cross-sector/index.ts	878bbddffb
+phase13-hardening-delivery	iips-platform/tests/regression/program-v1.1-track3-replay-certification.test.ts	6af0b2d740
+phase13-hardening-delivery	program-v1.1-certification/PROGRAM_v1.1_FINAL_CERTIFICATION_GATE0_SCOPE.md	6f37d045a9
+phase13-hardening-delivery	program-v1.1-certification/PROGRAM_v1.1_REPLAY_BASELINE.json	d3c44fa826
+phase14.1-recovery-deposit	artifacts/phase14.1-recovery-snapshot/v3.0-phase14.1-certified-snapshot.tar.gz	dae0a839ad
+phase14.1-recovery-deposit	frontend/package-lock.json	f7c5ec8171
+phase14.1-recovery-deposit	frontend/package.json	6365ab5690
+phase14.1-recovery-deposit	frontend/server/admin-transport.test.ts	06f5d5bf0c
+phase14.1-recovery-deposit	frontend/server/admin-transport.ts	f423d64e41
+phase14.1-recovery-deposit	frontend/server/ai-advisory-transport.test.ts	775d9150bd
+phase14.1-recovery-deposit	frontend/server/ai-advisory-transport.ts	0792a6a4ef
+phase14.1-recovery-deposit	frontend/server/executive-transport.ts	535211cfce
+phase14.1-recovery-deposit	frontend/server/pit/ipdPitReadAdapter.ts	6a186c8a32
+phase14.1-recovery-deposit	frontend/server/pit/pitRuntimeIntegration.test.ts	d7f76d5553
+phase14.1-recovery-deposit	frontend/server/product-transport.test.ts	e0846d4830
+phase14.1-recovery-deposit	frontend/server/secured-executor.ts	69b54e028c
+phase14.1-recovery-deposit	frontend/src/api/executive.ts	ca51e0b446
+phase14.1-recovery-deposit	frontend/src/app/App.test.tsx	7ea05999ba
+phase14.1-recovery-deposit	frontend/src/app/App.tsx	ee9222f91b
+phase14.1-recovery-deposit	frontend/src/app/AppShell.tsx	ee54fd814c
+phase14.1-recovery-deposit	frontend/src/app/TopBar.tsx	096767fd20
+phase14.1-recovery-deposit	frontend/src/app/navigation.ts	d37d3363e8
+phase14.1-recovery-deposit	frontend/src/app/routes.ts	7e5d7ff49d
+phase14.1-recovery-deposit	frontend/src/core/session/SessionContext.tsx	d3ce08ea3d
+phase14.1-recovery-deposit	frontend/src/main.tsx	bfaa909409
+arena/01a0f1b3 (NP-06)	docs/integration/IIPS_v3.0_NP04_COMMON_GOVERNED_PERSISTENCE_IMPLEMENTATION_AUTHORITY.md	29f1f23ce2
+arena/01a0f1b3 (NP-06)	docs/integration/IIPS_v3.0_NP04_P2_ARENA_HANDOFF_RECORD.md	dea46373d4
+arena/01a0f1b3 (NP-06)	docs/integration/IIPS_v3.0_NP06_REPORTS_GOVERNANCE_DECISIONS.md	15a6fe8887
+arena/01a0f1b3 (NP-06)	docs/v3.0/g3-build/PROGRAM_v3.0_G3B_TENANTDIRECTORY_IMPLEMENTATION_AUTHORITY.md	8c1fa9e41f
+arena/01a0f1b3 (NP-06)	docs/v3.0/g3-build/PROGRAM_v3.0_G3Q_R1_TENANTDIRECTORY_QUALIFICATION_REVERIFICATION.md	760791b0d4
+arena/01a0f1b3 (NP-06)	docs/v3.0/g3-build/PROGRAM_v3.0_G3Q_TENANTDIRECTORY_QUALIFICATION_VERIFICATION.md	ecfb950bd3
+arena/01a0f1b3 (NP-06)	docs/v3.0/g3-build/PROGRAM_v3.0_G3_DEP1_TENANT_REASSIGNMENT_POLICY_DECISION.md	c9df1c5863
+arena/01a0f1b3 (NP-06)	docs/v3.0/g3-build/PROGRAM_v3.0_G3_DEP2_IMPLEMENTING_SERVICE_DESIGNATION.md	dda4462584
+arena/01a0f1b3 (NP-06)	docs/v3.0/g3-build/PROGRAM_v3.0_G3_DEP3_MUTATION_AUTHORITY_AMENDMENT_DECISION.md	0465f01811
+arena/01a0f1b3 (NP-06)	docs/v3.0/g3-build/PROGRAM_v3.0_G3_PRODUCT_TENANT_REGISTRY_AUTHORITY.md	844eca8a24
+arena/01a0f1b3 (NP-06)	docs/v3.0/g3-build/PROGRAM_v3.0_G3_TENANT_MEMBERSHIP_GOVERNANCE_DECISION.md	37c8522061
+arena/01a0f1b3 (NP-06)	docs/v3.0/g3-build/PROGRAM_v3.0_G3_TENANT_MEMBERSHIP_SUBSTRATE_TECHNICAL_AUTHORITY.md	a88dc74395
+arena/01a0f1b3 (NP-06)	docs/v3.0/g3-build/PROGRAM_v3.0_NP06_P1_1_REENTRY_DETERMINATION.md	efeb0f88e1
+arena/01a0f1b3 (NP-06)	docs/v3.0/g3-build/PROGRAM_v3.0_NP06_REMAINING_P1_REENTRY_DETERMINATION.md	e113d07352
+arena/01a0f1b3 (NP-06)	docs/v3.0/g3-build/PROGRAM_v3.0_NP06_REPORTS_FINAL_QUALIFICATION.md	36fdf6d82a
+arena/01a0f1b3 (NP-06)	docs/v3.0/g3-build/PROGRAM_v3.0_NP06_REPORTS_IMPLEMENTATION_AUTHORITY_ACTIVATION.md	b5302c5b91
+arena/01a0f1b3 (NP-06)	docs/v3.0/phase12/mutation-authority-map.md	4ba6c37387
+arena/01a0f1b3 (NP-06)	frontend/server/admin-transport.ts	284a463050
+arena/01a0f1b3 (NP-06)	frontend/server/ai-advisory-transport.test.ts	775d9150bd
+arena/01a0f1b3 (NP-06)	frontend/server/ai-advisory-transport.ts	0792a6a4ef
+arena/01a0f1b3 (NP-06)	frontend/server/executive-transport.ts	6a33ccd5c4
+arena/01a0f1b3 (NP-06)	frontend/server/pit/pitRuntimeIntegration.test.ts	d7f76d5553
+arena/01a0f1b3 (NP-06)	frontend/server/product-transport.test.ts	e0846d4830
+arena/01a0f1b3 (NP-06)	frontend/server/secured-executor.ts	d0ebfa5e34
+arena/01a0f1b3 (NP-06)	frontend/src/api/executive.ts	ca51e0b446
+arena/01a0f1b3 (NP-06)	frontend/src/app/App.test.tsx	7ea05999ba
+arena/01a0f1b3 (NP-06)	frontend/src/app/App.tsx	ee9222f91b
+arena/01a0f1b3 (NP-06)	frontend/src/app/AppShell.tsx	ee54fd814c
+arena/01a0f1b3 (NP-06)	frontend/src/app/TopBar.tsx	096767fd20
+arena/01a0f1b3 (NP-06)	frontend/src/app/navigation.ts	d37d3363e8
+arena/01a0f1b3 (NP-06)	frontend/src/app/routes.ts	7e5d7ff49d
+arena/01a0f1b3 (NP-06)	frontend/src/core/session/SessionContext.tsx	d3ce08ea3d
+arena/01a0f1b3 (NP-06)	frontend/src/main.tsx	bfaa909409
+arena/01a0f1b3 (NP-06)	iips-platform/src/sector-engines/cross-sector/CrossSectorEngine.ts	415689a1f5
+arena/01a0f1b3 (NP-06)	iips-platform/src/sector-engines/cross-sector/index.ts	878bbddffb
+arena/01a10cce (cap-evidence)	docs/integration/CAPABILITY-EVIDENCE-RECONCILIATION-2026-10-06.md	af7338f4ac
+arena/01a10cce (cap-evidence)	docs/integration/NP-BASELINE-G0A-2026-10-05.md	b2b8cd9825
+arena/01a10cce (cap-evidence)	frontend/package-lock.json	f7c5ec8171
+arena/01a10cce (cap-evidence)	frontend/package.json	6365ab5690
+arena/01a10cce (cap-evidence)	frontend/server/admin-transport.test.ts	06f5d5bf0c
+arena/01a10cce (cap-evidence)	frontend/server/admin-transport.ts	f423d64e41
+arena/01a10cce (cap-evidence)	frontend/server/ai-advisory-transport.test.ts	775d9150bd
+arena/01a10cce (cap-evidence)	frontend/server/ai-advisory-transport.ts	0792a6a4ef
+arena/01a10cce (cap-evidence)	frontend/server/executive-transport.ts	535211cfce
+arena/01a10cce (cap-evidence)	frontend/server/pit/ipdPitReadAdapter.ts	6a186c8a32
+arena/01a10cce (cap-evidence)	frontend/server/pit/pitRuntimeIntegration.test.ts	d7f76d5553
+arena/01a10cce (cap-evidence)	frontend/server/product-transport.test.ts	e0846d4830
+arena/01a10cce (cap-evidence)	frontend/server/secured-executor.ts	69b54e028c
+arena/01a10cce (cap-evidence)	frontend/src/api/executive.ts	ca51e0b446
+arena/01a10cce (cap-evidence)	frontend/src/app/App.test.tsx	7ea05999ba
+arena/01a10cce (cap-evidence)	frontend/src/app/App.tsx	ee9222f91b
+arena/01a10cce (cap-evidence)	frontend/src/app/AppShell.tsx	ee54fd814c
+arena/01a10cce (cap-evidence)	frontend/src/app/TopBar.tsx	096767fd20
+arena/01a10cce (cap-evidence)	frontend/src/app/navigation.ts	d37d3363e8
+arena/01a10cce (cap-evidence)	frontend/src/app/routes.ts	7e5d7ff49d
+arena/01a10cce (cap-evidence)	frontend/src/core/session/SessionContext.tsx	d3ce08ea3d
+arena/01a10cce (cap-evidence)	frontend/src/main.tsx	bfaa909409
+arena/01a0e30f (Intel GATE-Y)	README.md	f0f812ed37
+arena/01a0e30f (Intel GATE-Y)	RELEASES.md	00fd3b1806
+arena/01a0e30f (Intel GATE-Y)	ROADMAP.md	75d1881b3b
+arena/01a0e30f (Intel GATE-Y)	artifacts/gate-y-windows/0001-governance-GATE-Y-record-RAMKI-D8-Intelligence-desig.patch	9c7fac3e7a
+arena/01a0e30f (Intel GATE-Y)	artifacts/gate-y-windows/HANDOFF-MANIFEST.txt	8cb1a3cfa6
+arena/01a0e30f (Intel GATE-Y)	artifacts/gate-y-windows/README-HANDOFF-EXPOSURE.txt	faa7294d7d
+arena/01a0e30f (Intel GATE-Y)	artifacts/np18-windows/NP18-Phase13Next-Implement.ps1	bdef9d3139
+arena/01a0e30f (Intel GATE-Y)	deliverables/np18-windows-execution/NP18-Phase13Next-Implement.ps1	bd6271302e
+arena/01a0e30f (Intel GATE-Y)	deliverables/np18-windows-execution/NP18-W2-ANCHOR-FORENSICS.md	ac7ffbcca8
+arena/01a0e30f (Intel GATE-Y)	deliverables/np18-windows-execution/README.md	d25ddfb319
+arena/01a0e30f (Intel GATE-Y)	deliverables/np18-windows-execution/SHA256SUMS.txt	9d7710233e
+arena/01a0e30f (Intel GATE-Y)	frontend/package-lock.json	0bb178e4fb
+arena/01a0e30f (Intel GATE-Y)	frontend/package.json	f89f37b0f7
+arena/01a0e30f (Intel GATE-Y)	frontend/server/admin-transport.test.ts	06f5d5bf0c
+arena/01a0e30f (Intel GATE-Y)	frontend/server/admin-transport.ts	f423d64e41
+arena/01a0e30f (Intel GATE-Y)	frontend/server/ai-advisory-transport.test.ts	775d9150bd
+arena/01a0e30f (Intel GATE-Y)	frontend/server/ai-advisory-transport.ts	0792a6a4ef
+arena/01a0e30f (Intel GATE-Y)	frontend/server/executive-transport.ts	dd8fb224e9
+arena/01a0e30f (Intel GATE-Y)	frontend/server/secured-executor.ts	f85692ddd0
+arena/01a0e30f (Intel GATE-Y)	frontend/src/api/executive.ts	ca51e0b446
+arena/01a0e30f (Intel GATE-Y)	frontend/src/app/App.test.tsx	7ea05999ba
+arena/01a0e30f (Intel GATE-Y)	frontend/src/app/App.tsx	bac18e5ed5
+arena/01a0e30f (Intel GATE-Y)	frontend/src/app/AppShell.tsx	ee54fd814c
+arena/01a0e30f (Intel GATE-Y)	frontend/src/app/TopBar.tsx	096767fd20
+arena/01a0e30f (Intel GATE-Y)	frontend/src/app/navigation.ts	99175f1b79
+arena/01a0e30f (Intel GATE-Y)	frontend/src/app/routes.ts	7e5d7ff49d
+arena/01a0e30f (Intel GATE-Y)	frontend/src/core/session/SessionContext.tsx	d3ce08ea3d
+arena/01a0e30f (Intel GATE-Y)	frontend/src/main.tsx	bfaa909409
+arena/01a0e30f (Intel GATE-Y)	governance/iips/AUTH-G-AI-IMPL.md	826460c760
+arena/01a0e30f (Intel GATE-Y)	governance/iips/AUTH-NP-18-INTELLIGENCE-EXPOSURE-IMPLEMENTATION-AUTHORITY-2026-09-26.md	8f8b077fe8
+arena/01a0e30f (Intel GATE-Y)	governance/iips/AUTH-NP-18-R2-IMPLEMENTATION-RETARGETING-AUTHORITY-2026-09-26.md	bc6fb0ca97
+arena/01a0e30f (Intel GATE-Y)	governance/iips/D7-TIER3-INDEPENDENCE-CLOSURE-AUTHORITY-2026-09-26.md	a53b89e474
+arena/01a0e30f (Intel GATE-Y)	governance/iips/D7-TIER3-INDEPENDENCE-RAJI-ADJUDICATION-DETERMINATION-2026-09-26.md	6ff3af9538
+arena/01a0e30f (Intel GATE-Y)	governance/iips/D7-TIER3-INDEPENDENCE-SAI-VERIFICATION-EVIDENCE-RECORD-2026-09-26.md	2a6be41fbf
+arena/01a0e30f (Intel GATE-Y)	governance/iips/D7-TIER3-PARITY-ADJUDICATION-EVIDENCE-RECORD-2026-09-05.md	6819a40a59
+arena/01a0e30f (Intel GATE-Y)	governance/iips/D7-TIER3-PARITY-D36-SUCCESSOR-57-DOCUMENT-AUTHORITY-2026-09-05.md	317c785364
+arena/01a0e30f (Intel GATE-Y)	governance/iips/D7-TIER3-PARITY-DISPOSITION-AUTHORITY-2026-09-04.md	d40f25fd34
+arena/01a0e30f (Intel GATE-Y)	governance/iips/D7-TIER3-PARITY-DOCUMENTATION-REMEDIATION-DISCOVERY-2026-09-05.md	0debf3d769
+arena/01a0e30f (Intel GATE-Y)	governance/iips/D7-TIER3-PARITY-DOCUMENTATION-REMEDIATION-EXECUTION-IES-016-2026-09-05.md	5a7a69e291
+arena/01a0e30f (Intel GATE-Y)	governance/iips/D7-TIER3-PARITY-DOCUMENTATION-REMEDIATION-EXECUTION-IES-017-2026-09-05.md	b9d1e1c59a
+arena/01a0e30f (Intel GATE-Y)	governance/iips/D7-TIER3-PARITY-DOCUMENTATION-REMEDIATION-EXECUTION-IES-020-2026-09-05.md	934bf101d5
+arena/01a0e30f (Intel GATE-Y)	governance/iips/D7-TIER3-PARITY-DOCUMENTATION-REMEDIATION-EXECUTION-PLAN-2026-09-05.md	671d7e5fdc
+arena/01a0e30f (Intel GATE-Y)	governance/iips/D7-TIER3-PARITY-FRESH-REREVIEW-EVIDENCE-RECORD-2026-09-05.md	de9938a4cc
+arena/01a0e30f (Intel GATE-Y)	governance/iips/D7-TIER3-PARITY-P1-ARCHITECTURE-REVIEW-AUTHORITY-2026-09-05.md	fe3e382a5f
+arena/01a0e30f (Intel GATE-Y)	governance/iips/D7-TIER3-PARITY-P1-ARCHITECTURE-REVIEW-FINDINGS-2026-09-05.md	63e33fbc91
+arena/01a0e30f (Intel GATE-Y)	governance/iips/D7-TIER3-PARITY-P1-PERFORMED-ARCHITECTURE-REVIEW-IES-016-2026-09-05.md	952b83d682
+arena/01a0e30f (Intel GATE-Y)	governance/iips/D7-TIER3-PARITY-P1-PERFORMED-ARCHITECTURE-REVIEW-IES-017-2026-09-05.md	5e7c197547
+arena/01a0e30f (Intel GATE-Y)	governance/iips/D7-TIER3-PARITY-P1-PERFORMED-ARCHITECTURE-REVIEW-IES-020-2026-09-05.md	d106d3edec
+arena/01a0e30f (Intel GATE-Y)	governance/iips/D7-TIER3-PARITY-P1-PROGRAMME-CLOSURE-RECONCILIATION-2026-09-05.md	7780b509f5
+arena/01a0e30f (Intel GATE-Y)	governance/iips/D7-TIER3-PARITY-P2-SCOPE-EXECUTION-AUTHORITY-2026-09-05.md	5984bd809d
+arena/01a0e30f (Intel GATE-Y)	governance/iips/D7-TIER3-PARITY-P2-SUBSTANTIVE-DOCUMENT-REVIEW-IES-016-2026-09-05.md	9f64841ed0
+arena/01a0e30f (Intel GATE-Y)	governance/iips/D7-TIER3-PARITY-P2-SUBSTANTIVE-DOCUMENT-REVIEW-IES-017-2026-09-05.md	a55f04d4da
+arena/01a0e30f (Intel GATE-Y)	governance/iips/D7-TIER3-PARITY-P2-SUBSTANTIVE-DOCUMENT-REVIEW-IES-020-2026-09-05.md	69fe3bcc2c
+arena/01a0e30f (Intel GATE-Y)	governance/iips/D7-TIER3-PARITY-PARITY-ADJUDICATION-AUTHORITY-2026-09-05.md	d12b1a9975
+arena/01a0e30f (Intel GATE-Y)	governance/iips/D7-TIER3-PARITY-RR-F1-REPAIR-AUTHORITY-2026-09-05.md	2d6013edaa
+arena/01a0e30f (Intel GATE-Y)	governance/iips/D7-TIER3-PARITY-RR-F1-REPAIR-EXECUTION-EVIDENCE-RECORD-2026-09-05.md	6558591a00
+arena/01a0e30f (Intel GATE-Y)	governance/iips/D7-TIER3-PARITY-SUBSTANTIVE-PROGRAMME-AUTHORITY-2026-09-05.md	a57ca0abfe
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-A2-A1-CLOSURE-STRATEGY.md	f324273ff3
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-A2-A1-EVIDENCE-ARTIFACT-CREATION-AUTHORITY.md	4439c4d19f
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-A2-A1-TEST-EXECUTION-AUTHORITY.md	524dee1116
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-A2-A1-TIER3-COMPOSITE-CLOSURE-AUTHORITY-2026-09-05.md	89a3ccbcea
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-A2-A1-TIER3-CREATION-AUTHORITY.md	e3c1de5ad3
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-A2-A1-TIER3-EXECUTION-EVIDENCE-AND-IV-REFRESH.md	3053f383d2
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-A2-A1-TIER3-FINAL-READINESS-ISSUANCE-AND-CONTENT-AUTHORITY.md	4d7af4a508
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-A2-A1-TIER3-GATE1-CERTIFICATION-DETERMINATION-2026-09-05.md	4cc9974833
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-A2-A1-TIER3-GATE2-IVM-TRANSITION-2026-09-05.md	30e88c604b
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-A2-A1-TIER3-TEST-EXECUTION-AUTHORITY.md	86f36108c4
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-D10-PATH-COUNT-CONSISTENCY.md	663ab8c64a
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-D11-STANDING-CONSISTENCY.md	d555e02ffb
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-D12-CLASSIFICATION-CONVENTION.md	9065a66881
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-D13-HIJ-EXECUTION-AUTHORITY.md	ee15ae2fea
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-D14-TIER3-PREREQUISITE-RESOLUTION.md	84e276ad42
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-D15-VERIFICATION-METHODOLOGY.md	8cc089df6a
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-D16-TIER3-DOCUMENTATION-PARITY-EXECUTION.md	c6cb19282d
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-D17-METHODOLOGY-ACCEPTANCE.md	d0e445079d
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-D18-PRODUCT-BRANCH-AUTHORITY.md	476b116ea8
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-D19-PRODUCT-BRANCH-STATE.md	d0b6484d28
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-D2-DANGLING-VOCABULARY.md	3ec64c45d6
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-D21-FENCE8-DETERMINATION.md	a2506f7fa4
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-D22-TIER3-METHODOLOGY-ACCEPTANCE-STATUS.md	d61c3a4452
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-D23-TIER3-METHODOLOGY-DECISION.md	3c9cadfc8e
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-D25-TIER3-EVIDENTIARY-STANDARD.md	cbab4da9ce
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-D27-FENCE-RELIEF-SCOPE.md	555bce1f61
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-D28-FENCE-RELIEF-AUTHORIZATION.md	2824114b89
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-D3-MATRIX-REBASELINE.md	25d0ccc799
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-D30-EXECUTION-LINEAGE-AND-ISSUANCE-AUTHORITY.md	6ecb96cb85
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-D31-MAINTAINER-ISSUANCE-AND-RELEASETAG-RESOLUTION.md	afc8cb52d5
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-D32-MAINTAINER-ISSUANCE-EXECUTION-READINESS.md	eed5a8f7c3
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-D33-PROVENANCE-METADATA-GAP.md	55e74ae1b5
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-D34-MAINTAINER-ISSUANCE-RECONCILIATION.md	e3b80c866b
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-D35-MAINTAINER-ISSUANCE-PERFORMED.md	9bd21cc929
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-D36-TIER3-DOCUMENTATION-PARITY-AUTHORITY.md	747178d0ad
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-D4-AI-ADVISORY-INTEGRATION.md	7f757f3e80
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-D5-EVIDENCE-MATURITY.md	8e3791149f
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-D5-S1-REGRESSION-EVIDENCE.md	c21d0d8cd7
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-D5-S1-WORKLIST-DISCREPANCY.md	17e56dc472
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-D5-S3-EVIDENCE-DEBT.md	9febd52e86
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-D6-DURABLE-RECORDING-POLICY.md	60d99d9269
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-D7-EVIDENCE-DEBT-DISPOSITION.md	578fa643be
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-D8-HIJ-CONFIG-DEFECT.md	1232828209
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-D8-HIJ-VALIDATION-PLAN.md	083d225dc3
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-D8-OPEN-ITEMS-DISPOSITION.md	072e047193
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-D9-RECORD-CORRECTION.md	7123e9a8aa
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-E2E-001-CERTIFICATION-EXECUTION-2026-09-05.md	ef2d3e1034
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-E2E-001-CHARTER-AUTHORITY-2026-09-05.md	c77c62b05d
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-E2E-013-BASELINE.md	ada44ab16b
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-E2E-014-AC-E14-7-CERTIFICATION-2026-09-06.md	109d73f46c
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-E2E-014-AC-E14-7-EVIDENCE-DEFINITION-AUTHORITY-2026-09-06.md	3b6aa97422
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-E2E-014-CERTIFICATION-EXECUTION-2026-09-05.md	fb0deae134
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-E2E-014-CHARTER-AUTHORITY-2026-09-05.md	17561f4514
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-E2E-015-CERTIFICATION-2026-09-06.md	4d33ee047b
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-E2E-015-CHARTER-AUTHORITY-2026-09-05.md	77a9ec3fd3
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-E2E-015-SPA-OIDC-HANDOFF-CERTIFICATION-2026-09-06.md	6b8742d762
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-E2E-017-018-MATRIX-COMMIT-PUSH-AUTHORITY.md	5a86ad1066
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-E2E-017-018-MATRIX-CREATION-AUTHORITY.md	8c00c8e626
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-E2E-017-018-REFERENT-AND-CHARTER.md	4441314c94
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-E2E-017-018-STATUS-RECONCILIATION.md	f2c68c6abb
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-E2E-018-CAPTURE-ARTIFACT-COMMIT-PUSH-AUTHORITY.md	6589a064cf
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-E2E-018-CAPTURE-VERIFICATION-AND-PARITY-DETERMINATION.md	3bd0b06bb4
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-E2E-018-MATRIX-AMENDMENT-AUTHORITY.md	b4f0135f6b
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-E2E-018-SCREENSHOT-CAPTURE-EXECUTION-AUTHORITY.md	8553ad9ee7
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-G-AI-IMPL-B1-AMEND.md	e175509199
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-G-AI-IMPL-B1-AUTH-AMEND.md	de2eeb8137
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-G-AI-IMPL-B1.md	cdb6e8e031
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-G-AI-IMPL-B2-B4.md	49cc4505a5
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-G-AI-IMPL-BS.md	f5aaf1c1cb
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-G-AI-IMPL-CERT-CRITERIA.md	cb655db1a6
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-G-AI-IMPL-CERTIFICATION.md	06a9ba7c25
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-G-AI-IMPL-COL-AMEND.md	334b4e6c71
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-G-AI-IMPL-COL-RESOLUTION.md	63c61961fb
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-G-AI-IMPL-COMMIT-TARGET.md	27f9baee36
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-G-AI-IMPL-IMPL-COMMIT-PUSH.md	d01db16652
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-G-AI-IMPL-PATH-COUNT.md	a8986c44fe
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-G-AI-IMPL-S1-S4.md	9e8f073463
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-G-AI-IMPL-S2.md	aa81211fb0
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-G-AI-IMPL-S4.md	d7b609ffd9
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-G-AI-IMPL-SR1.md	9b7caf55c5
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-MATRIX-REBASELINE-BRANCH-DISPOSITION.md	72e694179e
+arena/01a0e30f (Intel GATE-Y)	governance/iips/DEC-NP-17-NP-18-PAYLOAD-DECISION-BOUNDARY-2026-09-26.md	a5a345a71d
+arena/01a0e30f (Intel GATE-Y)	governance/iips/GATE-G1-M.md	b889e16bf2
+arena/01a0e30f (Intel GATE-Y)	governance/iips/README.md	79f22cc9ac
+arena/01a0e30f (Intel GATE-Y)	governance/iips/SPEC-G-AI-IMPL.md	c86186a9c0
+arena/01a0e30f (Intel GATE-Y)	iips-platform/src/sector-engines/cross-sector/CrossSectorEngine.ts	415689a1f5
+arena/01a0e30f (Intel GATE-Y)	iips-platform/src/sector-engines/cross-sector/index.ts	878bbddffb
+arena/01a0e30f (Intel GATE-Y)	iips-platform/tests/regression/program-v1.1-track3-replay-certification.test.ts	6af0b2d740
+arena/01a0e30f (Intel GATE-Y)	program-v1.1-certification/PROGRAM_v1.1_FINAL_CERTIFICATION_GATE0_SCOPE.md	6f37d045a9
+arena/01a0e30f (Intel GATE-Y)	program-v1.1-certification/PROGRAM_v1.1_REPLAY_BASELINE.json	d3c44fa826
+arena/01a0ddea (NP18 W2)	README.md	f0f812ed37
+arena/01a0ddea (NP18 W2)	RELEASES.md	00fd3b1806
+arena/01a0ddea (NP18 W2)	ROADMAP.md	75d1881b3b
+arena/01a0ddea (NP18 W2)	artifacts/np18-windows/NP18-Phase13Next-Implement.ps1	bdef9d3139
+arena/01a0ddea (NP18 W2)	deliverables/np18-windows-execution/NP18-Phase13Next-Implement.ps1	bd6271302e
+arena/01a0ddea (NP18 W2)	deliverables/np18-windows-execution/NP18-W2-ANCHOR-FORENSICS.md	ac7ffbcca8
+arena/01a0ddea (NP18 W2)	deliverables/np18-windows-execution/README.md	d25ddfb319
+arena/01a0ddea (NP18 W2)	deliverables/np18-windows-execution/SHA256SUMS.txt	9d7710233e
+arena/01a0ddea (NP18 W2)	frontend/package-lock.json	0bb178e4fb
+arena/01a0ddea (NP18 W2)	frontend/package.json	f89f37b0f7
+arena/01a0ddea (NP18 W2)	frontend/server/admin-transport.test.ts	06f5d5bf0c
+arena/01a0ddea (NP18 W2)	frontend/server/admin-transport.ts	f423d64e41
+arena/01a0ddea (NP18 W2)	frontend/server/ai-advisory-transport.test.ts	775d9150bd
+arena/01a0ddea (NP18 W2)	frontend/server/ai-advisory-transport.ts	0792a6a4ef
+arena/01a0ddea (NP18 W2)	frontend/server/executive-transport.ts	dd8fb224e9
+arena/01a0ddea (NP18 W2)	frontend/server/secured-executor.ts	f85692ddd0
+arena/01a0ddea (NP18 W2)	frontend/src/api/executive.ts	ca51e0b446
+arena/01a0ddea (NP18 W2)	frontend/src/app/App.test.tsx	7ea05999ba
+arena/01a0ddea (NP18 W2)	frontend/src/app/App.tsx	bac18e5ed5
+arena/01a0ddea (NP18 W2)	frontend/src/app/AppShell.tsx	ee54fd814c
+arena/01a0ddea (NP18 W2)	frontend/src/app/TopBar.tsx	096767fd20
+arena/01a0ddea (NP18 W2)	frontend/src/app/navigation.ts	99175f1b79
+arena/01a0ddea (NP18 W2)	frontend/src/app/routes.ts	7e5d7ff49d
+arena/01a0ddea (NP18 W2)	frontend/src/core/session/SessionContext.tsx	d3ce08ea3d
+arena/01a0ddea (NP18 W2)	frontend/src/main.tsx	bfaa909409
+arena/01a0ddea (NP18 W2)	governance/iips/AUTH-G-AI-IMPL.md	826460c760
+arena/01a0ddea (NP18 W2)	governance/iips/AUTH-NP-18-INTELLIGENCE-EXPOSURE-IMPLEMENTATION-AUTHORITY-2026-09-26.md	8f8b077fe8
+arena/01a0ddea (NP18 W2)	governance/iips/AUTH-NP-18-R2-IMPLEMENTATION-RETARGETING-AUTHORITY-2026-09-26.md	bc6fb0ca97
+arena/01a0ddea (NP18 W2)	governance/iips/D7-TIER3-INDEPENDENCE-CLOSURE-AUTHORITY-2026-09-26.md	a53b89e474
+arena/01a0ddea (NP18 W2)	governance/iips/D7-TIER3-INDEPENDENCE-RAJI-ADJUDICATION-DETERMINATION-2026-09-26.md	6ff3af9538
+arena/01a0ddea (NP18 W2)	governance/iips/D7-TIER3-INDEPENDENCE-SAI-VERIFICATION-EVIDENCE-RECORD-2026-09-26.md	2a6be41fbf
+arena/01a0ddea (NP18 W2)	governance/iips/D7-TIER3-PARITY-ADJUDICATION-EVIDENCE-RECORD-2026-09-05.md	6819a40a59
+arena/01a0ddea (NP18 W2)	governance/iips/D7-TIER3-PARITY-D36-SUCCESSOR-57-DOCUMENT-AUTHORITY-2026-09-05.md	317c785364
+arena/01a0ddea (NP18 W2)	governance/iips/D7-TIER3-PARITY-DISPOSITION-AUTHORITY-2026-09-04.md	d40f25fd34
+arena/01a0ddea (NP18 W2)	governance/iips/D7-TIER3-PARITY-DOCUMENTATION-REMEDIATION-DISCOVERY-2026-09-05.md	0debf3d769
+arena/01a0ddea (NP18 W2)	governance/iips/D7-TIER3-PARITY-DOCUMENTATION-REMEDIATION-EXECUTION-IES-016-2026-09-05.md	5a7a69e291
+arena/01a0ddea (NP18 W2)	governance/iips/D7-TIER3-PARITY-DOCUMENTATION-REMEDIATION-EXECUTION-IES-017-2026-09-05.md	b9d1e1c59a
+arena/01a0ddea (NP18 W2)	governance/iips/D7-TIER3-PARITY-DOCUMENTATION-REMEDIATION-EXECUTION-IES-020-2026-09-05.md	934bf101d5
+arena/01a0ddea (NP18 W2)	governance/iips/D7-TIER3-PARITY-DOCUMENTATION-REMEDIATION-EXECUTION-PLAN-2026-09-05.md	671d7e5fdc
+arena/01a0ddea (NP18 W2)	governance/iips/D7-TIER3-PARITY-FRESH-REREVIEW-EVIDENCE-RECORD-2026-09-05.md	de9938a4cc
+arena/01a0ddea (NP18 W2)	governance/iips/D7-TIER3-PARITY-P1-ARCHITECTURE-REVIEW-AUTHORITY-2026-09-05.md	fe3e382a5f
+arena/01a0ddea (NP18 W2)	governance/iips/D7-TIER3-PARITY-P1-ARCHITECTURE-REVIEW-FINDINGS-2026-09-05.md	63e33fbc91
+arena/01a0ddea (NP18 W2)	governance/iips/D7-TIER3-PARITY-P1-PERFORMED-ARCHITECTURE-REVIEW-IES-016-2026-09-05.md	952b83d682
+arena/01a0ddea (NP18 W2)	governance/iips/D7-TIER3-PARITY-P1-PERFORMED-ARCHITECTURE-REVIEW-IES-017-2026-09-05.md	5e7c197547
+arena/01a0ddea (NP18 W2)	governance/iips/D7-TIER3-PARITY-P1-PERFORMED-ARCHITECTURE-REVIEW-IES-020-2026-09-05.md	d106d3edec
+arena/01a0ddea (NP18 W2)	governance/iips/D7-TIER3-PARITY-P1-PROGRAMME-CLOSURE-RECONCILIATION-2026-09-05.md	7780b509f5
+arena/01a0ddea (NP18 W2)	governance/iips/D7-TIER3-PARITY-P2-SCOPE-EXECUTION-AUTHORITY-2026-09-05.md	5984bd809d
+arena/01a0ddea (NP18 W2)	governance/iips/D7-TIER3-PARITY-P2-SUBSTANTIVE-DOCUMENT-REVIEW-IES-016-2026-09-05.md	9f64841ed0
+arena/01a0ddea (NP18 W2)	governance/iips/D7-TIER3-PARITY-P2-SUBSTANTIVE-DOCUMENT-REVIEW-IES-017-2026-09-05.md	a55f04d4da
+arena/01a0ddea (NP18 W2)	governance/iips/D7-TIER3-PARITY-P2-SUBSTANTIVE-DOCUMENT-REVIEW-IES-020-2026-09-05.md	69fe3bcc2c
+arena/01a0ddea (NP18 W2)	governance/iips/D7-TIER3-PARITY-PARITY-ADJUDICATION-AUTHORITY-2026-09-05.md	d12b1a9975
+arena/01a0ddea (NP18 W2)	governance/iips/D7-TIER3-PARITY-RR-F1-REPAIR-AUTHORITY-2026-09-05.md	2d6013edaa
+arena/01a0ddea (NP18 W2)	governance/iips/D7-TIER3-PARITY-RR-F1-REPAIR-EXECUTION-EVIDENCE-RECORD-2026-09-05.md	6558591a00
+arena/01a0ddea (NP18 W2)	governance/iips/D7-TIER3-PARITY-SUBSTANTIVE-PROGRAMME-AUTHORITY-2026-09-05.md	a57ca0abfe
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-A2-A1-CLOSURE-STRATEGY.md	f324273ff3
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-A2-A1-EVIDENCE-ARTIFACT-CREATION-AUTHORITY.md	4439c4d19f
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-A2-A1-TEST-EXECUTION-AUTHORITY.md	524dee1116
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-A2-A1-TIER3-COMPOSITE-CLOSURE-AUTHORITY-2026-09-05.md	89a3ccbcea
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-A2-A1-TIER3-CREATION-AUTHORITY.md	e3c1de5ad3
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-A2-A1-TIER3-EXECUTION-EVIDENCE-AND-IV-REFRESH.md	3053f383d2
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-A2-A1-TIER3-FINAL-READINESS-ISSUANCE-AND-CONTENT-AUTHORITY.md	4d7af4a508
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-A2-A1-TIER3-GATE1-CERTIFICATION-DETERMINATION-2026-09-05.md	4cc9974833
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-A2-A1-TIER3-GATE2-IVM-TRANSITION-2026-09-05.md	30e88c604b
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-A2-A1-TIER3-TEST-EXECUTION-AUTHORITY.md	86f36108c4
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-D10-PATH-COUNT-CONSISTENCY.md	663ab8c64a
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-D11-STANDING-CONSISTENCY.md	d555e02ffb
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-D12-CLASSIFICATION-CONVENTION.md	9065a66881
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-D13-HIJ-EXECUTION-AUTHORITY.md	ee15ae2fea
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-D14-TIER3-PREREQUISITE-RESOLUTION.md	84e276ad42
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-D15-VERIFICATION-METHODOLOGY.md	8cc089df6a
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-D16-TIER3-DOCUMENTATION-PARITY-EXECUTION.md	c6cb19282d
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-D17-METHODOLOGY-ACCEPTANCE.md	d0e445079d
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-D18-PRODUCT-BRANCH-AUTHORITY.md	476b116ea8
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-D19-PRODUCT-BRANCH-STATE.md	d0b6484d28
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-D2-DANGLING-VOCABULARY.md	3ec64c45d6
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-D21-FENCE8-DETERMINATION.md	a2506f7fa4
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-D22-TIER3-METHODOLOGY-ACCEPTANCE-STATUS.md	d61c3a4452
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-D23-TIER3-METHODOLOGY-DECISION.md	3c9cadfc8e
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-D25-TIER3-EVIDENTIARY-STANDARD.md	cbab4da9ce
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-D27-FENCE-RELIEF-SCOPE.md	555bce1f61
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-D28-FENCE-RELIEF-AUTHORIZATION.md	2824114b89
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-D3-MATRIX-REBASELINE.md	25d0ccc799
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-D30-EXECUTION-LINEAGE-AND-ISSUANCE-AUTHORITY.md	6ecb96cb85
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-D31-MAINTAINER-ISSUANCE-AND-RELEASETAG-RESOLUTION.md	afc8cb52d5
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-D32-MAINTAINER-ISSUANCE-EXECUTION-READINESS.md	eed5a8f7c3
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-D33-PROVENANCE-METADATA-GAP.md	55e74ae1b5
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-D34-MAINTAINER-ISSUANCE-RECONCILIATION.md	e3b80c866b
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-D35-MAINTAINER-ISSUANCE-PERFORMED.md	9bd21cc929
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-D36-TIER3-DOCUMENTATION-PARITY-AUTHORITY.md	747178d0ad
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-D4-AI-ADVISORY-INTEGRATION.md	7f757f3e80
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-D5-EVIDENCE-MATURITY.md	8e3791149f
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-D5-S1-REGRESSION-EVIDENCE.md	c21d0d8cd7
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-D5-S1-WORKLIST-DISCREPANCY.md	17e56dc472
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-D5-S3-EVIDENCE-DEBT.md	9febd52e86
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-D6-DURABLE-RECORDING-POLICY.md	60d99d9269
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-D7-EVIDENCE-DEBT-DISPOSITION.md	578fa643be
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-D8-HIJ-CONFIG-DEFECT.md	1232828209
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-D8-HIJ-VALIDATION-PLAN.md	083d225dc3
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-D8-OPEN-ITEMS-DISPOSITION.md	072e047193
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-D9-RECORD-CORRECTION.md	7123e9a8aa
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-E2E-001-CERTIFICATION-EXECUTION-2026-09-05.md	ef2d3e1034
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-E2E-001-CHARTER-AUTHORITY-2026-09-05.md	c77c62b05d
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-E2E-013-BASELINE.md	ada44ab16b
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-E2E-014-AC-E14-7-CERTIFICATION-2026-09-06.md	109d73f46c
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-E2E-014-AC-E14-7-EVIDENCE-DEFINITION-AUTHORITY-2026-09-06.md	3b6aa97422
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-E2E-014-CERTIFICATION-EXECUTION-2026-09-05.md	fb0deae134
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-E2E-014-CHARTER-AUTHORITY-2026-09-05.md	17561f4514
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-E2E-015-CERTIFICATION-2026-09-06.md	4d33ee047b
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-E2E-015-CHARTER-AUTHORITY-2026-09-05.md	77a9ec3fd3
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-E2E-015-SPA-OIDC-HANDOFF-CERTIFICATION-2026-09-06.md	6b8742d762
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-E2E-017-018-MATRIX-COMMIT-PUSH-AUTHORITY.md	5a86ad1066
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-E2E-017-018-MATRIX-CREATION-AUTHORITY.md	8c00c8e626
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-E2E-017-018-REFERENT-AND-CHARTER.md	4441314c94
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-E2E-017-018-STATUS-RECONCILIATION.md	f2c68c6abb
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-E2E-018-CAPTURE-ARTIFACT-COMMIT-PUSH-AUTHORITY.md	6589a064cf
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-E2E-018-CAPTURE-VERIFICATION-AND-PARITY-DETERMINATION.md	3bd0b06bb4
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-E2E-018-MATRIX-AMENDMENT-AUTHORITY.md	b4f0135f6b
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-E2E-018-SCREENSHOT-CAPTURE-EXECUTION-AUTHORITY.md	8553ad9ee7
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-G-AI-IMPL-B1-AMEND.md	e175509199
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-G-AI-IMPL-B1-AUTH-AMEND.md	de2eeb8137
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-G-AI-IMPL-B1.md	cdb6e8e031
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-G-AI-IMPL-B2-B4.md	49cc4505a5
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-G-AI-IMPL-BS.md	f5aaf1c1cb
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-G-AI-IMPL-CERT-CRITERIA.md	cb655db1a6
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-G-AI-IMPL-CERTIFICATION.md	06a9ba7c25
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-G-AI-IMPL-COL-AMEND.md	334b4e6c71
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-G-AI-IMPL-COL-RESOLUTION.md	63c61961fb
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-G-AI-IMPL-COMMIT-TARGET.md	27f9baee36
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-G-AI-IMPL-IMPL-COMMIT-PUSH.md	d01db16652
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-G-AI-IMPL-PATH-COUNT.md	a8986c44fe
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-G-AI-IMPL-S1-S4.md	9e8f073463
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-G-AI-IMPL-S2.md	aa81211fb0
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-G-AI-IMPL-S4.md	d7b609ffd9
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-G-AI-IMPL-SR1.md	9b7caf55c5
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-MATRIX-REBASELINE-BRANCH-DISPOSITION.md	72e694179e
+arena/01a0ddea (NP18 W2)	governance/iips/DEC-NP-17-NP-18-PAYLOAD-DECISION-BOUNDARY-2026-09-26.md	a5a345a71d
+arena/01a0ddea (NP18 W2)	governance/iips/GATE-G1-M.md	b889e16bf2
+arena/01a0ddea (NP18 W2)	governance/iips/README.md	79f22cc9ac
+arena/01a0ddea (NP18 W2)	governance/iips/SPEC-G-AI-IMPL.md	c86186a9c0
+arena/01a0ddea (NP18 W2)	iips-platform/src/sector-engines/cross-sector/CrossSectorEngine.ts	415689a1f5
+arena/01a0ddea (NP18 W2)	iips-platform/src/sector-engines/cross-sector/index.ts	878bbddffb
+arena/01a0ddea (NP18 W2)	iips-platform/tests/regression/program-v1.1-track3-replay-certification.test.ts	6af0b2d740
+arena/01a0ddea (NP18 W2)	program-v1.1-certification/PROGRAM_v1.1_FINAL_CERTIFICATION_GATE0_SCOPE.md	6f37d045a9
+arena/01a0ddea (NP18 W2)	program-v1.1-certification/PROGRAM_v1.1_REPLAY_BASELINE.json	d3c44fa826
+arena/01a0f351 (NP-10)	docs/integration/IIPS_v3.0_NP07_RESEARCH_ACCEPTANCE_AND_BASELINE_ADMISSION.md	1b2df7a7c7
+arena/01a0f351 (NP-10)	docs/integration/IIPS_v3.0_NP07_RESEARCH_NON_PRODUCTION_QUALIFICATION.md	6c2be92adc
+arena/01a0f351 (NP-10)	docs/integration/IIPS_v3.0_NP09_WATCHLISTS_ACCEPTANCE_AND_BASELINE_PROMOTION.md	42065b0da3
+arena/01a0f351 (NP-10)	docs/integration/IIPS_v3.0_NP09_WATCHLISTS_PERSISTENCE_OWNER_DESIGNATION.md	08a018f593
+arena/01a0f351 (NP-10)	docs/integration/IIPS_v3.0_NP10_COLLABORATION_ACCEPTANCE_AND_BASELINE_ADMISSION.md	25f6766ebf
+arena/01a0f351 (NP-10)	docs/integration/IIPS_v3.0_NP10_COLLABORATION_GOVERNANCE_AND_PERSISTENCE_OWNER_DESIGNATION.md	1928992ac8
+arena/01a0f351 (NP-10)	docs/integration/IIPS_v3.0_NP10_COLLABORATION_NON_PRODUCTION_QUALIFICATION.md	74d7808285
+arena/01a0f351 (NP-10)	docs/integration/IIPS_v3.0_NP11_SETTINGS_ACCEPTANCE_AND_BASELINE_ADMISSION.md	44090cad1c
+arena/01a0f351 (NP-10)	docs/integration/IIPS_v3.0_NP11_SETTINGS_NON_PRODUCTION_QUALIFICATION.md	ff86478246
+arena/01a0f351 (NP-10)	docs/integration/IIPS_v3.0_NP11_SETTINGS_PRODUCT_CONTRACT_AND_PERSISTENCE_OWNER_DESIGNATION.md	d835030fe7
+arena/01a0f351 (NP-10)	docs/integration/NP-13-AUTH-02.md	32cec7d830
+arena/01a0f351 (NP-10)	frontend/package-lock.json	f7c5ec8171
+arena/01a0f351 (NP-10)	frontend/package.json	6365ab5690
+arena/01a0f351 (NP-10)	frontend/server/admin-transport.test.ts	06f5d5bf0c
+arena/01a0f351 (NP-10)	frontend/server/admin-transport.ts	cd0396bb32
+arena/01a0f351 (NP-10)	frontend/server/ai-advisory-transport.test.ts	775d9150bd
+arena/01a0f351 (NP-10)	frontend/server/ai-advisory-transport.ts	0792a6a4ef
+arena/01a0f351 (NP-10)	frontend/server/collaboration/collaboration-transport.test.ts	9c794e119b
+arena/01a0f351 (NP-10)	frontend/server/executive-transport.ts	d886673e65
+arena/01a0f351 (NP-10)	frontend/server/pit/ipdPitReadAdapter.ts	6a186c8a32
+arena/01a0f351 (NP-10)	frontend/server/pit/pitRuntimeIntegration.test.ts	d7f76d5553
+arena/01a0f351 (NP-10)	frontend/server/product-transport.test.ts	e0846d4830
+arena/01a0f351 (NP-10)	frontend/server/secured-executor.ts	f85692ddd0
+arena/01a0f351 (NP-10)	frontend/server/settings/settings-transport.test.ts	6047f46623
+arena/01a0f351 (NP-10)	frontend/server/watchlists/watchlists-transport.test.ts	f9b65144c1
+arena/01a0f351 (NP-10)	frontend/src/api/executive.ts	ca51e0b446
+arena/01a0f351 (NP-10)	frontend/src/app/App.tsx	6d9693884a
+arena/01a0f351 (NP-10)	frontend/src/app/AppShell.tsx	ee54fd814c
+arena/01a0f351 (NP-10)	frontend/src/app/TopBar.tsx	096767fd20
+arena/01a0f351 (NP-10)	frontend/src/app/navigation.ts	3f07d43cb4
+arena/01a0f351 (NP-10)	frontend/src/app/routes.ts	2206d88eb6
+arena/01a0f351 (NP-10)	frontend/src/core/session/SessionContext.tsx	d3ce08ea3d
+arena/01a0f351 (NP-10)	frontend/src/features/evidence/EvidenceLanding.integration.test.tsx	74fb9e922e
+arena/01a0f351 (NP-10)	frontend/src/features/evidence/EvidenceLanding.test.tsx	5f9a75ad74
+arena/01a0f351 (NP-10)	frontend/src/features/evidence/EvidenceLanding.tsx	6b1d51feed
+arena/01a0f351 (NP-10)	frontend/src/features/evidence/EvidenceRouting.test.tsx	3a41f6cdfc
+arena/01a0f351 (NP-10)	frontend/src/features/evidence/ReservedEvidencePath.tsx	93c3eb56f8
+arena/01a0f351 (NP-10)	frontend/src/main.tsx	e449c1b4e5
+arena/01a0f351 (NP-10)	iips-platform/src/sector-engines/cross-sector/CrossSectorEngine.ts	415689a1f5
+arena/01a0f351 (NP-10)	iips-platform/src/sector-engines/cross-sector/index.ts	878bbddffb
+arena/a2df3b85 (engine-ID)	E2E-015-SPA-OIDC-HANDOFF-PROMOTION-2026-10-07.md	b0be6054dd
+arena/a2df3b85 (engine-ID)	E2E-015-SPA-OIDC-HANDOFF-RECONCILIATION-CLOSURE-2026-10-07.md	3be0f5f035
+arena/a2df3b85 (engine-ID)	frontend/server/persistence/persistence-restart-proof.test.ts	2322082c8b
+arena/a2df3b85 (engine-ID)	frontend/server/persistence/restart-proof-recoverer.ts	567f37353c
+arena/a2df3b85 (engine-ID)	frontend/server/persistence/restart-proof-writer.ts	75809cd0da
+arena/a2df3b85 (engine-ID)	frontend/src/app/App.tsx	5b59eedcdd
+arena/a2df3b85 (engine-ID)	frontend/src/app/navigation.ts	4b74fa3421

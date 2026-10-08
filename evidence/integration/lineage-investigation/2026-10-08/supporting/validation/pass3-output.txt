@@ -1,0 +1,41 @@
+== T1 pickaxe term variants (report 'Research Hub' 2/23; 'Replay Studio' 0/14) ==
+IRR 'Research ?Hub' -i: 2   IPD: 23
+IRR 'Replay ?Studio' -i: 0   IPD: 14
+== T2 D107 case sensitivity (report IRR 0 / IPD 8) ==
+IRR D107 case-sensitive: 0   IPD case-sensitive: 8
+IRR D107 -i (expect hex false positives): 2
+      commit c65d533
+   ies-011-energy/IES-011_FREEZE_MANIFEST.json
+      commit 7325aed
+   ies-011-energy/IES-011_FREEZE_MANIFEST.json
+IPD D107 -i: 14
+== T3 features/reports (report IRR 7 / IPD 4) ==
+IRR pickaxe -i features/reports: 0   IPD: 4
+IRR path history 'frontend/src/features/reports': 0   IPD: 1
+== T4 path universe (report: IRR 1,620 ever / 1,192 main; IPD 2,537 ever / 319 main) ==
+IRR paths ever (all refs, all commits, incl. merges): 1620
+IRR paths on main tree: 1192
+IPD paths ever: 2537
+IPD paths on main tree: 319
+== T5 deletions across history (report: 0 in both) ==
+IRR deletions: 0   IPD: 0
+== T6 PR merge ancestry (report: all merge commits are ancestors of IRR main) ==
+   47edf6f3db79c6c443caed148121406f33a158b7 ancestor-of-main: YES
+   90753d84eaacca302c16a7fca0ffd071f31c4c6e ancestor-of-main: YES
+   b22563673ac1fce936ddf8c925d28f95f5f64597 ancestor-of-main: YES
+   7b7a3c88e240554a1bdddd8c8ffc4ade53e7db45 ancestor-of-main: YES
+== T7 wiring: reports-transport on IRR main ==
+refs/heads/main:frontend/server/executive-transport.ts:769:  // governed persistence seam. Dispatched on the `/api/reports/` namespace only, and bound to
+refs/heads/main:frontend/server/executive-transport.ts:778:  if (req.url?.startsWith('/api/reports/')) {
+refs/heads/main:frontend/server/executive-transport.ts:781:        const reports = await import('./reports-transport');
+blob main=cdee7ed16b461b058f6ed117c41380b497a6a9d6 arena/01a0f1b3=cdee7ed16b461b058f6ed117c41380b497a6a9d6
+== T8 Risk engine on IRR main (report A: 'engines exist on IRR main' for Risks; row 7: no dedicated Risk engine) ==
+IRR main files matching RiskEngine|risk-engine (case-insensitive): 0
+IRR main avgRisk refs in executive-transport.ts: refs/heads/main:frontend/server/executive-transport.ts:3
+== T9 file sizes quoted by report ==
+IRR phase13-next SectorIntelligence.tsx: 11007 (report 11,007)
+IRR phase13-next ResearchHub.tsx: 3799 (report 3,799)
+IPD arena/01a0814b CommandPalette.tsx: 9504 (report 9,504)
+IPD arena/01a0d1d3 SectorIntelligence.tsx: 16782 (report 16,782)
+IPD arena/01a0d1d3 research-sector-transport.ts: 28463 (report 28,463)
+IPD arena/01a0d1d3 CompanyIntelligence.tsx: 12360 (report 12,360)

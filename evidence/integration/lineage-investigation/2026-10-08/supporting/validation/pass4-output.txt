@@ -1,0 +1,68 @@
+== P4-0a ref counts (report 0: IRR 122 = 70 heads/50 pull/2 tags; IPD 42 = 32/6/4; commits 427/618) ==
+irr: heads=70 pull=50 tags=2 commits=427
+ipd: heads=32 pull=6 tags=4 commits=618
+== P4-0b heads compared with investigation snapshot (out/*_refs.tsv): differing lines (report: no ref moved) ==
+IRR: 0
+IPD: 0
+== P4-0c PR base refs (report: IPD 4 to main, 2 to arena/01a0e6d9) ==
+Counter({'main': 4, 'arena/01a0e6d9-iips-production-market-data': 2})
+== P4-0d branch pins: IPD arena/01a0f308 and arena/01a0e6d9 ==
+01a0e6d9=6828155ec6e882bbb4cabcd96b5a841d8c8a6bc4 01a0f308=6828155ec6e882bbb4cabcd96b5a841d8c8a6bc4
+== P4-16 P3 AG-5 lines (report: L44 and L106) ==
+44:| AG-5 company-level IRR↔IPD mapping | **UNRESOLVED — no implementation exists anywhere in either repository** (P
+106:1. **AG-5 company-level IRR↔IPD mapping: UNRESOLVED** (no implementation in either repository; explicitly avoided 
+== P4-1 C21 phase13-next App.tsx routes L75-77 (Opportunities/Risks/Rankings) ==
+26:const IntelligenceHub = lazy(() => import('../features/intelligence/IntelligenceHub').then((m) => ({ default: m.IntelligenceHub })));
+29:const IntelligenceOpportunities = lazy(() => import('../features/intelligence/IntelligenceOpportunities').then((m) => ({ default: m.IntelligenceOpportunities })));
+30:const IntelligenceRisks = lazy(() => import('../features/intelligence/IntelligenceRisks').then((m) => ({ default: m.IntelligenceRisks })));
+31:const IntelligenceRankings = lazy(() => import('../features/intelligence/IntelligenceRankings').then((m) => ({ default: m.IntelligenceRankings })));
+70:        <Route path="/intelligence" element={<Lazy><IntelligenceHub /></Lazy>} />
+71:        <Route path="/intelligence/decision-matrix" element={<Lazy><DecisionMatrix /></Lazy>} />
+73:            /intelligence/* catch-all so they resolve to their surfaces, using the existing
+75:        <Route path={ROUTES.intelligenceOpportunities} element={<Lazy><IntelligenceOpportunities /></Lazy>} />
+76:        <Route path={ROUTES.intelligenceRisks} element={<Lazy><IntelligenceRisks /></Lazy>} />
+77:        <Route path={ROUTES.intelligenceRankings} element={<Lazy><IntelligenceRankings /></Lazy>} />
+78:        <Route path="/intelligence/*" element={<FeaturePlaceholder surface="Intelligence" />} />
+== P4-2 C28 IPD main inventory row 7 (PRUNED) ==
+84:| 7 | Command palette (Ctrl-K) | — | shell/CommandPalette (api/decisionMatrix + core/auth) | — none | none | PRUN
+== P4-3 C30 IPD 01a0d1d3 inventory line 36 quote ==
+36:| Replay Studio, Intelligence Opportunities / Risks / Rankings | placeholder / future | **no implementation in any li
+== P4-4 C34 ConsumerEngine files on IRR main ==
+11
+== P4-5 C39/C40 G24 header on 01a0e6d9 (lines 3,14,16) ==
+ * Governed Application-User Registry, External Identity Mapping, Mapping Audit
+ *  - The mapping key is (issuer + subject) and resolves to exactly ONE
+ *  - Lifecycle is explicit: PENDING -> APPROVED -> ACTIVE -> RETIRED.
+== P4-6 C41 translationBoundary.ts IRR never supplies/selects applicationUserId (lines 20,45,46) ==
+ *      `(issuer, subject)` → exactly one `applicationUserId`, lifecycle-gated.
+ *   9. Ownership boundary ... Portfolios are keyed `(applicationUserId, tenantId)`
+ *      inside G24. IRR never supplies, selects, or observes `applicationUserId`
+== P4-7 C42 P5 row 12 quote ==
+1
+== P4-8 C47 notes/notifications on phase13-next; PF-2 on gai-impl-canonical; absent on main ==
+phase13-next has frontend/src/features/notes/NotesDrawer.tsx
+phase13-next has frontend/src/features/notifications/NotificationDrawer.tsx
+gai-impl-canonical has frontend/server/directory/roster-directory.ts
+gai-impl-canonical has frontend/server/directory/idp-sync.ts
+main lacks frontend/server/notes/notes-service.ts
+main lacks frontend/server/directory/roster-directory.ts
+== P4-9 C48 E2E-018 screenshot files on phase13-next ==
+19
+== P4-10 C49 NP-06 final qualification + governance decisions: branch vs main ==
+refs/heads/arena/01a0f1b3-iips-review-recovered has docs/v3.0/g3-build/PROGRAM_v3.0_NP06_REPORTS_FINAL_QUALIFICATION.md
+refs/heads/arena/01a0f1b3-iips-review-recovered has docs/integration/IIPS_v3.0_NP06_REPORTS_GOVERNANCE_DECISIONS.md
+refs/heads/main lacks docs/v3.0/g3-build/PROGRAM_v3.0_NP06_REPORTS_FINAL_QUALIFICATION.md
+refs/heads/main lacks docs/integration/IIPS_v3.0_NP06_REPORTS_GOVERNANCE_DECISIONS.md
+== P4-11 C50 G3 tenant-membership docs: count on 01a0f1b3 vs main ==
+01a0f1b3: 4  main: 0
+== P4-12 C51 D-3 Governed Reports ACCEPTED record on main ==
+3:> **Record ID:** `D-3-GOVERNED-REPORTS-ACCEPTANCE-DECISION-01`
+4:> **Decision:** D-3 — Governed Reports ACCEPTED at qualified branch scope
+== P4-13 C52 IPD main inventory rows 38-40 ==
+135:| 38 | Opportunities | /intelligence/opportunities (nav: future) | none — future marker only | — | none | N/G | n/a | n/a | n/a | n/a | n/a | none (never built) | — | — | N | was future ev
+136:| 39 | Risks | /intelligence/risks (future) | none | — | none | N/G | n/a | n/a | n/a | n/a | n/a | none | — | — | N | same | nav-future-Risks | any future act | NEVER IMPLEMENTED |
+137:| 40 | Rankings | /intelligence/rankings (future) | none | — | none | N/G | n/a | n/a | n/a | n/a | n/a | none | — | — | N | same | nav-future-Rankings | any future act | NEVER IMPLEMENTED |
+== P4-14 C46 tracked WorkflowView on any IRR head ==
+tracked WorkflowView entries across all IRR heads: 0
+== P4-15 C53 session branch and IRR main on remote (ls-remote, at run time) ==
+c19a905d9b7ff6f7faa5c966b59504063f3d45c1	refs/heads/main
