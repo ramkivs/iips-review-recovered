@@ -10,6 +10,11 @@ import { AppShell } from './AppShell';
 import { NotYetAuthorized } from '../components/shell/ShellStates';
 import { ExecutiveDashboard } from '../features/executive/ExecutiveDashboard';
 import { PortfolioWorkspace } from '../features/portfolio/PortfolioWorkspace';
+// G-2 — durable user portfolios (read-only IPD/G24-backed consumer; 2026-10-08
+// UI-Consumer Implementation Authorization). Distinct from the certified
+// reference `/portfolio` workspace above.
+import { UserPortfolioList } from '../features/user-portfolios/UserPortfolioList';
+import { UserPortfolioDetail } from '../features/user-portfolios/UserPortfolioDetail';
 import { CompanyIntelligence } from '../features/company/CompanyIntelligence';
 import { CrossSectorIntelligence } from '../features/cross-sector/CrossSectorIntelligence';
 import { DecisionMatrix } from '../features/decision-matrix/DecisionMatrix';
@@ -35,6 +40,10 @@ export function App() {
         <Route path="/executive" element={<ExecutiveDashboard />} />
         <Route path="/portfolio" element={<PortfolioWorkspace />} />
         <Route path="/portfolio/*" element={<PortfolioWorkspace />} />
+        {/* G-2 durable user portfolios (read-only IPD/G24-backed consumer).
+            Additive routes, distinct from the certified /portfolio workspace. */}
+        <Route path="/user-portfolios" element={<UserPortfolioList />} />
+        <Route path="/user-portfolios/:portfolioId" element={<UserPortfolioDetail />} />
         <Route path="/watchlists" element={<Watchlists />} />
         <Route path="/collaboration" element={<Collaboration />} />
         <Route path="/settings" element={<Settings />} />
