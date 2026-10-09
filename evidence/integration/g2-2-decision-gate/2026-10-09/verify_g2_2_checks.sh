@@ -192,7 +192,9 @@ a2=$(printf '%s\n' "$act" | grep -F -c 'Watchlists, Reports, Collaboration, Sett
 a3=$(printf '%s\n' "$act" | grep -F -c 'opening a `main`-targeted PR')
 a4=$(printf '%s\n' "$act" | grep -F -c 'interpreting NP04 acceptance as `main`-integration authorization')
 a5=$(printf '%s\n' "$act" | grep -icE "iips-review|IRR|pull request|PR ?#42|governed reports|G-2|G2 |user.portfolio|companion")
-if [ -n "$act" ] && [ "$a1" -ge 1 ] && [ "$a2" -ge 1 ] && [ "$a3" -ge 1 ] && [ "$a4" -ge 1 ] && [ "$a5" -eq 0 ]; then row C29 PASS "promotion-authority act wording: the 4 quoted exclusions are present and it names no IRR, PR #42, Reports or G-2 subject (coverage NOT concluded, K1)" "$PROMO_ACT"; else row C29 FAIL "promotion-authority act wording differs" "excl=$a1/$a2/$a3/$a4 ext_refs=$a5"; fi
+a6=$(printf '%s\n' "$act" | grep -c 'Reports')
+a7=$(printf '%s\n' "$act" | awk '/Explicitly NOT authorized by this act/{f=1;next} f&&/^(##|\*\*Authorized)/{f=0} f&&/Reports/{n++} END{print n+0}')
+if [ -n "$act" ] && [ "$a1" -ge 1 ] && [ "$a2" -ge 1 ] && [ "$a3" -ge 1 ] && [ "$a4" -ge 1 ] && [ "$a5" -eq 0 ] && [ "$a6" -eq 1 ] && [ "$a7" -eq 1 ]; then row C29 PASS 'promotion-authority act wording: the 4 quoted exclusions are present; no `IRR`, `iips-review`, `pull request`, `PR #42`, `governed reports`, `G-2`, `G2 `, `user portfolio` or `companion` reference; the single `Reports` occurrence is the §4 line listing items explicitly NOT authorized by the act (coverage NOT concluded, K1)' "$PROMO_ACT"; else row C29 FAIL 'promotion-authority act wording differs' "excl=$a1/$a2/$a3/$a4 ext_refs=$a5 reports=$a6 in_notauth_block=$a7"; fi
 upt=$(git -C "$IRRG" show "$IRR_BASE:$UPT_PATH" 2>/dev/null)
 upc=$(git -C "$IRRG" show "$IRR_BASE:$UPC_PATH" 2>/dev/null)
 k1=$(printf '%s\n' "$upt" | grep -F -c "G2_IPD_BASE_URL_ENV = 'G2_IPD_BASE_URL'")

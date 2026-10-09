@@ -62,9 +62,9 @@
 
 | Path | Bytes | Git blob | SHA-256 |
 |---|---|---|---|
-| `docs/integration/IIPS_v3.0_G2_2_EXISTING_CAPABILITY_CONVERGENCE_DECISION_RECORD.md` | 75631 | `992df26845801f1f93360e2b5c467c23a74bc317` | `07ba2e1823513e9f4ea8f767d3fdca5986d9b904ce924af4ee61964fdcbd51de` |
-| `evidence/integration/g2-2-decision-gate/2026-10-09/g2_2_checks_output.txt` | 5007 | `91f1a995399aef68713221b0cd1fa69af4b1681a` | `39d65ee0a88c185305c570545b0a028fbf4bb297e2e1013e9ff144b347c58a5d` |
-| `evidence/integration/g2-2-decision-gate/2026-10-09/verify_g2_2_checks.sh` | 22289 | `d9a2977f3adec9b737c23281d87a1c3567acf27e` | `507737ae54433f86be212c9f5d07d62d1cc13c8449b2a1e5f4392db46b95c722` |
+| `docs/integration/IIPS_v3.0_G2_2_EXISTING_CAPABILITY_CONVERGENCE_DECISION_RECORD.md` | 76095 | `f0d5e0a9af5c3fdc5668ce4bd43571fec0b8a617` | `752465afe2ddea821713914ccb7c13f37851d32a6329a547e301fb087797be4c` |
+| `evidence/integration/g2-2-decision-gate/2026-10-09/g2_2_checks_output.txt` | 5183 | `1b3b09a3d15baf486467f6ebfdb44a655aa1dc3e` | `5308eeb98be9ac4432a6a5e3253cab5893440b5a7433ef7b24a620919def92b1` |
+| `evidence/integration/g2-2-decision-gate/2026-10-09/verify_g2_2_checks.sh` | 22732 | `805d5f7ea4266794d080d690fc30b84de6667632` | `90a4fd981782bb3573e6657cad792df705f052d6cf36ff1900f97df1ebdde1e1` |
 
 The candidate inventory is five files: this annex, the record, the checks output, the checks script and `SHA256SUMS`. The record, checks output and checks script are listed above with their sizes, blob identities and SHA-256 values. This annex's identity is recorded in `SHA256SUMS`. The identity of `SHA256SUMS` is in the completion report. Neither can be recorded in this file.
 

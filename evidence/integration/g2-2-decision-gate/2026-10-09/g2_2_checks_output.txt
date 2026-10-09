@@ -1,5 +1,5 @@
 G2-2 REFERENCE CHECKS - CANDIDATE R2 (mode: default)
-run_utc=2026-10-09T18:43:26Z
+run_utc=2026-10-09T19:23:43Z
 IRR=https://github.com/ramkivs/iips-review-recovered.git
 IPD=https://github.com/ramkivs/iips-production-market-data.git
 ----
@@ -31,7 +31,7 @@ C25  PASS          live wiring present at base (presence only): Reports dispatch
 C26  PASS          excluded dependencies present at base (presence only): createLiveAdminExecutor, TransportError import, FileTenantDirectory, SecuredExecutor type | 800789957f2a3cf4e28d5dfff49d92f29d6a7671
 C27  PASS          published lineage raw snapshot records PR #42 MERGED with its title and merge commit | 47edf6f3db79c6c443caed148121406f33a158b7
 C28  PASS          all 13 AD-01 paths equal their blobs at the D-3 qualified commit | 39dd43ebbd54767c4258513a5dfc2d9c1b861d28
-C29  PASS          promotion-authority act wording: the 4 quoted exclusions are present and it names no IRR, PR #42, Reports or G-2 subject (coverage NOT concluded, K1) | 2606185923f6cbd3f4df5c3af200f54d40ed4bbc
+C29  PASS          promotion-authority act wording: the 4 quoted exclusions are present; no `IRR`, `iips-review`, `pull request`, `PR #42`, `governed reports`, `G-2`, `G2 `, `user portfolio` or `companion` reference; the single `Reports` occurrence is the §4 line listing items explicitly NOT authorized by the act (coverage NOT concluded, K1) | 2606185923f6cbd3f4df5c3af200f54d40ed4bbc
 C30  PASS          existing AD-03 HTTP consumption mechanism present at base (G2_IPD_BASE_URL env read; G2_LINEAGE.commit = AD-03 reference); answering build UNPROVEN (K7) | 800789957f2a3cf4e28d5dfff49d92f29d6a7671
 C31  PASS          G-2 user-portfolio dispatch and its 6 dependency edges present at base (presence only; NOT ADMITTED, P3) | 800789957f2a3cf4e28d5dfff49d92f29d6a7671
 C32  PASS          4 ratified test files have import edges to excluded or unclassified modules; the 5th (reports-canonical.test.ts) has none (K4) | 4 of 5
