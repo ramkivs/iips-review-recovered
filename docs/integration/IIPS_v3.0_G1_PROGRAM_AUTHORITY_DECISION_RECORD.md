@@ -114,8 +114,10 @@ G2 is authorized to begin for:
 9. **Reports acceptance is branch-only.** Its scope is not universal persistence. Its identity and tenant contract is domain-scoped. Main publication of the Reports implementation is not recorded.
 10. **Identity and tenant.** Reports identity does not equal G24 application-user identity. No cross-repo identity, tenant or CompanyId mapping is created here, and no runtimeCompanyId binding is created.
 11. **D-2 §13 Durability** is `PENDING` on IRR `main`: PR and merge commit are both pending.
+   *Errata E-1 (additive; see §10): superseded. D-2 is durably published by merge `f89f1904d619eb7bad01db0e2ead4bcb5c91414d`. Its PENDING fields are stale placeholders inside the D-2 file, not publication status.*
 12. **Tenant authority.** The candidate NP04 record states that D115 tenancy "remains unresolved and authoritative tenant administration remains outside IPD." Treat this as candidate-recorded and unresolved.
 13. **Runtime evidence is UNPROVEN.** This covers Reports fail-closed absence behaviour, separate-process restart and recovery, and live-IdP evidence. The Reports acceptance lists these as conditional or unproven.
+   *Errata E-2 (additive; see §10): the attribution in this item to D-3 is superseded. D-3 §9 lists only separate-process restart/recovery and live-IdP evidence as conditional or unproven.*
 14. **Candidate test suites** (pin and G24) were not executed in this decision workflow. The G24 test files are present but UNPROVEN as runtime evidence.
 
 ### Other preserved items (not B2)
@@ -147,3 +149,36 @@ G2 is authorized to begin for:
 ## 9. Historical records
 
 The boundary record is not edited. This record is additive. Once it is published to IRR `main`, it is the operative G1 decision record, and the boundary record's "G1 status: OPEN" line is superseded by it. The lineage package under `evidence/integration/lineage-investigation/2026-10-08/` is not modified.
+
+## 10. Errata and verification notes (additive; no new authority decision)
+
+This section is additive. The original text above is retained, including the superseded statements, which are marked inline. No decision in §3, no scope in §§4–5, and no G2 boundary is changed. Nothing here is a new Program Authority decision.
+
+### E-1 — D-2 durability status (corrects §6, item 11)
+
+- **Superseded statement:** "D-2 §13 Durability is PENDING on IRR `main`: PR and merge commit are both pending."
+- **Corrected status:** D-2 is durably published. The D-2 record (`docs/integration/IDENTITY-TENANT-DOMAIN-SCOPE-DECISION.md`) states "durably published" in its header. Its merge to IRR `main` is `f89f1904d619eb7bad01db0e2ead4bcb5c91414d` (PR #39, from `governance/d2-identity-tenant-option-b`), which adds the 197-line record and is an ancestor of `refs/heads/main`. The D-1 prerequisite merge `561cc85fdbc929e68e798b1e97dda76a64262b9e` is also an ancestor of `main`.
+- **Stale placeholders, distinct from publication status:** the §13 "Durability" fields of the D-2 record (PR, merge commit, tree, blob, SHA-256) read `PENDING` in the file on `main`. They were written before the merge, and a file cannot record the identifiers of the merge commit that contains it. They are self-referential placeholders and do not indicate unpublished status. Updating them is record hygiene for the D-2 record's owner. It is not an open publication item.
+- **Corroboration:** D-3 (`docs/integration/GOVERNED-REPORTS-ACCEPTANCE-DECISION.md`, introduced at `cade02dc4543a23a5a99be64c03ffa1dd3d67c7f`, an ancestor of `main`) cites `f89f1904…` as the D-2 `main` merge.
+- **Unchanged:** D-2's authority, scope, and limits are unchanged. D-2 does not establish a durable or universal Company Identity Authority.
+
+### E-2 — Reports runtime-evidence attribution (corrects §6, item 13)
+
+- **Superseded statement:** "This covers Reports fail-closed absence behaviour, separate-process restart and recovery, and live-IdP evidence. The Reports acceptance lists these as conditional or unproven."
+- **Corrected reading:** D-3 §9 lists only two items as CONDITIONAL / UNPROVEN: (1) separate-process restart/recovery evidence and (2) live-IdP evidence. D-3 does not list fail-closed absence behaviour as conditional or unproven. The lead sentence "Runtime evidence is UNPROVEN" is therefore narrower than written: it applies to those two items.
+- **Source note:** the Reports branch qualification record cited by D-3 §4 (`docs/v3.0/g3-build/PROGRAM_v3.0_NP06_REPORTS_FINAL_QUALIFICATION.md`, branch-scoped, not on `main`) reports a fail-closed no-store case (HTTP 503) among the cases it lists as exercised over real HTTP. This record did not re-execute that case.
+
+### V-1 — Reports basis check against the NP-04 transfer copy (verification note; no decision)
+
+- **Question:** does the PA-accepted Reports decision (D-3) depend materially on the non-authoritative NP-04 persistence boundary transfer copy (`docs/integration/NP-04-PERSISTENCE-DOMAIN-BOUNDARY-ACT.md`, status "ARENA TRANSFER COPY — NOT AUTHORITATIVE")?
+- **Finding:** no material dependency was found.
+  1. D-3 does not cite the transfer copy's identifier, path, title, or status. Its persistence basis is "Under D-1", and its identity basis is "Under D-2". Both are durably published on `main`.
+  2. D-1 (`docs/integration/PERSISTENCE-DOMAIN-OWNERSHIP-DECISION.md`) does not cite the transfer copy. Its Artifact/Report domain section (§3) relies on the pinned branch and the `./persistence` export. Its one NP04-related reference (§2) points to a candidate-only governance record for the portfolio lineage. That reference does not bear on the Reports basis.
+  3. D-2 does not cite the transfer copy.
+  4. The only "np04" text in D-1 and D-3 is the IPD branch name `np04-governed-persistence-windows` (pin `2e11fa3b…`).
+  5. The Reports branch qualification record uses "NP-04" to name the published persistence package and store that the Reports implementation consumes. Its authority is stated as NP-06-R1 and Ramki's qualification authorization. Its one dependency-like phrase is a residual: closing its recorded canonicalization-export limitation "requires NP-04 to publish the symbol under its own authority." That residual is recorded as non-blocking. The record does not say whether "its own authority" is the transfer copy, and this check did not resolve that.
+- **Disposition (verification, not a PA decision):** independent. The Reports admission under B2 is not blocked by the transfer copy. The residual is a future closure condition for a non-blocking limitation.
+
+### Publication set (as of this section)
+
+This record, the boundary record (`docs/integration/IIPS_v3.0_G1_PROGRAM_AUTHORITY_DECISION_BOUNDARY.md`), and the B2 PIT/D114 admission record (`docs/integration/IIPS_v3.0_G1_B2_PIT_D114_CAPABILITY_ADMISSION_DECISION.md`) are published together to `refs/heads/main`. Identifiers are in the completion report, not in this file.
