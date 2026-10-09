@@ -2,7 +2,7 @@
 # verify_g2_2_checks.sh -- G2-2 decision record R2: read-only reference checks.
 # Reads GitHub only: git ls-remote and bare partial clones written under WORK.
 # Writes to no repository, pushes nothing, applies nothing.
-#   bash verify_g2_2_checks.sh [WORK_DIR]           default checks C01-C28 (published state)
+#   bash verify_g2_2_checks.sh [WORK_DIR]           default checks C01-C35 (published state)
 #   bash verify_g2_2_checks.sh --route [WORK_DIR]   route checks R01-R04 (session head vs base; run after push)
 # Exit 0 = no FAIL rows.
 set -u
@@ -125,7 +125,7 @@ s=$(resolve "$IRRG" "$IRR_G2_CONSUMER"); if [ -n "$s" ] && is_anc "$IRRG" "$s" "
 s=$(resolve "$IRRG" "$IRR_D3_REF"); if [ -n "$s" ] && is_anc "$IRRG" "$s" "$IRR_BASE"; then row C11 PASS "4906a6b is an ancestor of IRR base" "$s"; else row C11 FAIL "4906a6b is not an ancestor of IRR base" "${s:-unresolved}"; fi
 s=$(resolve "$IRRG" "$IRR_PR42_MERGE"); if [ -n "$s" ] && is_anc "$IRRG" "$s" "$IRR_BASE"; then row C12 PASS "PR #42 merge is an ancestor of IRR base" "$s"; else row C12 FAIL "PR #42 merge is not an ancestor of IRR base" "${s:-unresolved}"; fi
 s=$(resolve "$IPDG" "$PROMO_ACT"); acc=$(remote_tip "$IPD_URL" "$IPD_ACC_BR")
-if [ -n "$s" ] && [ -n "$acc" ] && is_anc "$IPDG" "$s" "$acc"; then row C13 PASS "promotion-authority act is on $IPD_ACC_BR (coverage NOT evaluated)" "$s"; else row C13 FAIL "promotion-authority act not found on $IPD_ACC_BR" "${s:-unresolved}"; fi
+if [ -n "$s" ] && [ -n "$acc" ] && is_anc "$IPDG" "$s" "$acc"; then row C13 PASS "promotion-authority act is on $IPD_ACC_BR (C29 verifies its wording; coverage NOT concluded)" "$s"; else row C13 FAIL "promotion-authority act not found on $IPD_ACC_BR" "${s:-unresolved}"; fi
 row C14 NOT-VERIFIED "AD-06 pin provenance: OPEN, not checked by design" "pin $IPD_PIN"
 row C15 NOT-VERIFIED "AD-20 G-2 consumer promotion coverage: OPEN, not checked by design" "$IRR_G2_CONSUMER"
 b=$(blob_at "$IRRG" "$IRR_BASE" "$G1_BOUNDARY"); case "$b" in 5f341ac6*) row C16 PASS "G1 boundary record blob is 5f341ac6" "$b";; *) row C16 FAIL "G1 boundary record blob is not 5f341ac6" "got $b";; esac
@@ -176,6 +176,56 @@ prs=$(git -C "$IRRG" show "$IRR_BASE:$RAW_PRS" 2>/dev/null | sed 's/},{/}\n{/g' 
 if [ -n "$prs" ] && printf '%s\n' "$prs" | grep -F -q '"state":"MERGED"' && printf '%s\n' "$prs" | grep -F -q "\"title\":\"$PR42_TITLE\"" && printf '%s\n' "$prs" | grep -F -q "\"oid\":\"$IRR_PR42_MERGE\""; then row C27 PASS "published lineage raw snapshot records PR #42 MERGED with its title and merge commit" "$IRR_PR42_MERGE"; else row C27 FAIL "PR #42 record in the lineage raw snapshot differs" "-"; fi
 ok=1; for p in "${RATIFIED[@]}"; do a=$(blob_at "$IRRG" "$D3Q" "$p"); b=$(blob_at "$IRRG" "$IRR_BASE" "$p"); if [ "$a" = "$b" ] && [ "$a" != NONE ]; then :; else ok=0; fi; done
 if [ "$ok" = 1 ]; then row C28 PASS "all ${#RATIFIED[@]} AD-01 paths equal their blobs at the D-3 qualified commit" "$D3Q"; else row C28 FAIL "an AD-01 path differs from the D-3 qualified commit" "-"; fi
+# ---- Revision 2 checks (PA directions P1-P5, corrections K1-K9): wording, presence and identity only. Nothing here admits behaviour or authority. ----
+D1_COMMIT="80a4dc95a37a4945ffd07d6cc71a6b716c9e0847"
+D1_PATH="docs/integration/PERSISTENCE-DOMAIN-OWNERSHIP-DECISION.md"
+G2_IMPL="docs/integration/IIPS_v3.0_G2_DURABLE_USER_PORTFOLIO_IMPLEMENTATION_RECORD.md"
+ACT_PATH="evidence/np04/NP04-PROMOTION-AUTH-TARGET-DESIGNATION-AND-AUTHORITY-ACT.md"
+UPT_PATH="frontend/server/user-portfolio-transport.ts"
+UPC_PATH="frontend/server/user-portfolio/userPortfolioContract.ts"
+PP_PATH="frontend/server/reports/persistence-port.ts"
+RPT_PATH="frontend/server/reports/reports-persistence.test.ts"
+RCT_PATH="frontend/server/reports/reports-canonical.test.ts"
+act=$(git -C "$IPDG" show "$PROMO_ACT:$ACT_PATH" 2>/dev/null)
+a1=$(printf '%s\n' "$act" | grep -F -c 'P01 / IU / PIT / D114 promotion into `main`')
+a2=$(printf '%s\n' "$act" | grep -F -c 'Watchlists, Reports, Collaboration, Settings, Governed Screener persistence')
+a3=$(printf '%s\n' "$act" | grep -F -c 'opening a `main`-targeted PR')
+a4=$(printf '%s\n' "$act" | grep -F -c 'interpreting NP04 acceptance as `main`-integration authorization')
+a5=$(printf '%s\n' "$act" | grep -icE "iips-review|IRR|pull request|PR ?#42|governed reports|G-2|G2 |user.portfolio|companion")
+if [ -n "$act" ] && [ "$a1" -ge 1 ] && [ "$a2" -ge 1 ] && [ "$a3" -ge 1 ] && [ "$a4" -ge 1 ] && [ "$a5" -eq 0 ]; then row C29 PASS "promotion-authority act wording: the 4 quoted exclusions are present and it names no IRR, PR #42, Reports or G-2 subject (coverage NOT concluded, K1)" "$PROMO_ACT"; else row C29 FAIL "promotion-authority act wording differs" "excl=$a1/$a2/$a3/$a4 ext_refs=$a5"; fi
+upt=$(git -C "$IRRG" show "$IRR_BASE:$UPT_PATH" 2>/dev/null)
+upc=$(git -C "$IRRG" show "$IRR_BASE:$UPC_PATH" 2>/dev/null)
+k1=$(printf '%s\n' "$upt" | grep -F -c "G2_IPD_BASE_URL_ENV = 'G2_IPD_BASE_URL'")
+k2=$(printf '%s\n' "$upt" | grep -F -c "process.env[G2_IPD_BASE_URL_ENV]")
+k3=$(printf '%s\n' "$upc" | grep -F -c "commit: '$IPD_CAND'")
+if [ "$k1" -ge 1 ] && [ "$k2" -ge 1 ] && [ "$k3" -ge 1 ]; then row C30 PASS "existing AD-03 HTTP consumption mechanism present at base (G2_IPD_BASE_URL env read; G2_LINEAGE.commit = AD-03 reference); answering build UNPROVEN (K7)" "$IRR_BASE"; else row C30 FAIL "AD-03 consumption mechanism presence differs" "$k1 $k2 $k3"; fi
+g1=$(printf '%s\n' "$ets" | grep -F -c "startsWith('/api/user-portfolios/')")
+g2=$(printf '%s\n' "$ets" | grep -F -c "await import('./user-portfolio-transport')")
+g3=$(printf '%s\n' "$upt" | grep -F -c "import { AuthError } from '../src/core/auth/keycloakAdapter'")
+g4=$(printf '%s\n' "$upt" | grep -F -c "import type { Principal } from '../../iips-platform/src/distributed/EnterpriseRuntime'")
+g5=$(printf '%s\n' "$upt" | grep -F -c "import { TransportError } from './admin-transport'")
+g6=$(printf '%s\n' "$upt" | grep -F -c "import type { SecuredExecutor } from './secured-executor'")
+g7=$(printf '%s\n' "$upt" | grep -F -c "await import('./admin-transport')")
+if [ "${g1:-0}" -ge 1 ] && [ "${g2:-0}" -ge 1 ] && [ "${g3:-0}" -ge 1 ] && [ "${g4:-0}" -ge 1 ] && [ "${g5:-0}" -ge 1 ] && [ "${g6:-0}" -ge 1 ] && [ "${g7:-0}" -ge 1 ]; then row C31 PASS "G-2 user-portfolio dispatch and its 6 dependency edges present at base (presence only; NOT ADMITTED, P3)" "$IRR_BASE"; else row C31 FAIL "G-2 dispatch or dependency presence differs" "$g1 $g2 $g3 $g4 $g5 $g6 $g7"; fi
+EDGE_RE="^import .*(admin-transport|secured-executor|keycloakAdapter|iips-platform|tenant-membership-store)|await import\\('\\./executive-transport'\\)|iips-production-market-data', 'persistence'\\]\\.join"
+ok=1; detail=""
+for p in "frontend/server/reports-api.test.ts" "frontend/server/reports-transport.test.ts" "frontend/server/reports/reports-artifact.test.ts" "frontend/server/reports/reports-persistence.test.ts"; do
+  n=$(git -C "$IRRG" show "$IRR_BASE:$p" 2>/dev/null | grep -cE "$EDGE_RE")
+  if [ "${n:-0}" -ge 1 ]; then :; else ok=0; detail="$detail $p=${n:-0}"; fi
+done
+n0=$(git -C "$IRRG" show "$IRR_BASE:$RCT_PATH" 2>/dev/null | grep -cE "$EDGE_RE")
+if [ "$ok" = 1 ] && [ "${n0:-0}" -eq 0 ]; then row C32 PASS "4 ratified test files have import edges to excluded or unclassified modules; the 5th (reports-canonical.test.ts) has none (K4)" "4 of 5"; else row C32 FAIL "ratified test-file edge inventory differs" "$detail canonical=${n0:-0}"; fi
+d1b=$(blob_at "$IRRG" "$IRR_BASE" "$D1_PATH")
+d1c=$(resolve "$IRRG" "$D1_COMMIT")
+if [ "$d1b" != NONE ] && [ -n "$d1c" ] && is_anc "$IRRG" "$d1c" "$IRR_PR42_MERGE"; then row C33 PASS "D-1 is present on base and is an ancestor of the PR #42 merge; AD-01 does not supersede it (P1)" "$D1_COMMIT"; else row C33 FAIL "D-1 presence or ancestry differs" "blob=$d1b commit=${d1c:-unresolved}"; fi
+gb=$(blob_at "$IRRG" "$IRR_G2_CONSUMER" "$G2_IMPL")
+gn=$(blob_at "$IRRG" "$IRR_BASE" "$G2_IMPL")
+gz1=$(git -C "$IRRG" show "$IRR_G2_CONSUMER:$ET_PATH" 2>/dev/null | grep -F -c "startsWith('/api/user-portfolios/')")
+gz2=$(git -C "$IRRG" show "$IRR_G2_CONSUMER:$ET_PATH" 2>/dev/null | grep -F -c "await import('./user-portfolio-transport')")
+if [ "$gb" != NONE ] && [ "$gb" = "$gn" ] && [ "${gz1:-0}" -ge 1 ] && [ "${gz2:-0}" -ge 1 ]; then row C34 PASS "G-2 consumer commit adds the /api/user-portfolios/ dispatch and the G-2 implementation record, whose blob is unchanged on base (evidence only; no authority inferred, P2)" "$IRR_G2_CONSUMER"; else row C34 FAIL "G-2 consumer commit evidence differs" "blob=$gb base=$gn disp=$gz1/$gz2"; fi
+q1=$(git -C "$IRRG" show "$IRR_BASE:$PP_PATH" 2>/dev/null | grep -F -c "['iips-production-market-data', 'persistence'].join('/')")
+q2=$(git -C "$IRRG" show "$IRR_BASE:$RPT_PATH" 2>/dev/null | grep -F -c "['iips-production-market-data', 'persistence'].join('/')")
+if [ "${q1:-0}" -ge 1 ] && [ "${q2:-0}" -ge 1 ]; then row C35 PASS "computed pin specifier present in both ratified Reports files (persistence-port.ts, reports-persistence.test.ts) (K5)" "$IRR_BASE"; else row C35 FAIL "computed pin specifier presence differs" "$q1 $q2"; fi
 echo "----"
 echo "SUMMARY mode=default pass=$pass fail=$fail not_verified=$nv"
 [ "$fail" -eq 0 ]

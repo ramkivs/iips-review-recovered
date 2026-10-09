@@ -1,5 +1,5 @@
 G2-2 REFERENCE CHECKS - CANDIDATE R2 (mode: default)
-run_utc=2026-10-09T17:24:38Z
+run_utc=2026-10-09T18:43:26Z
 IRR=https://github.com/ramkivs/iips-review-recovered.git
 IPD=https://github.com/ramkivs/iips-production-market-data.git
 ----
@@ -15,7 +15,7 @@ C09  PASS          G-2 baseline resolves in IPD | 0dab1221fb0f89e2e0601ea905d642
 C10  PASS          AD-04 consumer commit is an ancestor of IRR base | a0ab5a344d1ca2cb7c07a8fa6ae2090b2535852c
 C11  PASS          4906a6b is an ancestor of IRR base | 4906a6b71f5133d714f0f4c29c89dba22ded37f5
 C12  PASS          PR #42 merge is an ancestor of IRR base | 47edf6f3db79c6c443caed148121406f33a158b7
-C13  PASS          promotion-authority act is on arena/01a0f839-iips-production-market-data (coverage NOT evaluated) | 2606185923f6cbd3f4df5c3af200f54d40ed4bbc
+C13  PASS          promotion-authority act is on arena/01a0f839-iips-production-market-data (C29 verifies its wording; coverage NOT concluded) | 2606185923f6cbd3f4df5c3af200f54d40ed4bbc
 C14  NOT-VERIFIED  AD-06 pin provenance: OPEN, not checked by design | pin 2e11fa3b689d1a3674a5e4ba1f1de9a559e20494
 C15  NOT-VERIFIED  AD-20 G-2 consumer promotion coverage: OPEN, not checked by design | a0ab5a344d1ca2cb7c07a8fa6ae2090b2535852c
 C16  PASS          G1 boundary record blob is 5f341ac6 | 5f341ac68f1307d77e9827bedb42ed5a136b2705
@@ -31,5 +31,12 @@ C25  PASS          live wiring present at base (presence only): Reports dispatch
 C26  PASS          excluded dependencies present at base (presence only): createLiveAdminExecutor, TransportError import, FileTenantDirectory, SecuredExecutor type | 800789957f2a3cf4e28d5dfff49d92f29d6a7671
 C27  PASS          published lineage raw snapshot records PR #42 MERGED with its title and merge commit | 47edf6f3db79c6c443caed148121406f33a158b7
 C28  PASS          all 13 AD-01 paths equal their blobs at the D-3 qualified commit | 39dd43ebbd54767c4258513a5dfc2d9c1b861d28
+C29  PASS          promotion-authority act wording: the 4 quoted exclusions are present and it names no IRR, PR #42, Reports or G-2 subject (coverage NOT concluded, K1) | 2606185923f6cbd3f4df5c3af200f54d40ed4bbc
+C30  PASS          existing AD-03 HTTP consumption mechanism present at base (G2_IPD_BASE_URL env read; G2_LINEAGE.commit = AD-03 reference); answering build UNPROVEN (K7) | 800789957f2a3cf4e28d5dfff49d92f29d6a7671
+C31  PASS          G-2 user-portfolio dispatch and its 6 dependency edges present at base (presence only; NOT ADMITTED, P3) | 800789957f2a3cf4e28d5dfff49d92f29d6a7671
+C32  PASS          4 ratified test files have import edges to excluded or unclassified modules; the 5th (reports-canonical.test.ts) has none (K4) | 4 of 5
+C33  PASS          D-1 is present on base and is an ancestor of the PR #42 merge; AD-01 does not supersede it (P1) | 80a4dc95a37a4945ffd07d6cc71a6b716c9e0847
+C34  PASS          G-2 consumer commit adds the /api/user-portfolios/ dispatch and the G-2 implementation record, whose blob is unchanged on base (evidence only; no authority inferred, P2) | a0ab5a344d1ca2cb7c07a8fa6ae2090b2535852c
+C35  PASS          computed pin specifier present in both ratified Reports files (persistence-port.ts, reports-persistence.test.ts) (K5) | 800789957f2a3cf4e28d5dfff49d92f29d6a7671
 ----
-SUMMARY mode=default pass=26 fail=0 not_verified=2
+SUMMARY mode=default pass=33 fail=0 not_verified=2
