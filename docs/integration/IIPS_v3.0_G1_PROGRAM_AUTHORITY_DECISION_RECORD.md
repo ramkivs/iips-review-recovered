@@ -144,6 +144,7 @@ G2 is authorized to begin for:
 - **IRR `main`: NOT PUBLISHED.** The operator session policy restricts pushes to `arena/1dcbe88d-iips-review-recovered`. The requester's closure criterion requires publication to `main`.
 - **G1 closure criterion (requester).** G1 is CLOSED only when this record is durably published and independently verified on IRR `main`. Until then G1 is PARTIALLY CLOSED.
 - **Next execution gate (G1-PUB).** Publish this record file together with its predecessor, the boundary record (`docs/integration/IIPS_v3.0_G1_PROGRAM_AUTHORITY_DECISION_BOUNDARY.md`, blob `5f341ac68f1307d77e9827bedb42ed5a136b2705`), and nothing else, to `refs/heads/main` by the requester or an authorized route. This keeps the predecessor reference resolvable on `main`. Then verify that `origin/main` contains it (commit, tree and blob), that local equals remote, and that the worktree is clean. G1 becomes CLOSED only after that verification.
+- *Errata E-3 (additive; see §10): the two-file publication set in the preceding bullet is superseded. The set is three files, listed in §10.*
 - **After G1-PUB.** G2 steps cite the verified `main` baseline. Each G2 step is separately scoped and evidenced.
 
 ## 9. Historical records
@@ -182,3 +183,11 @@ This section is additive. The original text above is retained, including the sup
 ### Publication set (as of this section)
 
 This record, the boundary record (`docs/integration/IIPS_v3.0_G1_PROGRAM_AUTHORITY_DECISION_BOUNDARY.md`), and the B2 PIT/D114 admission record (`docs/integration/IIPS_v3.0_G1_B2_PIT_D114_CAPABILITY_ADMISSION_DECISION.md`) are published together to `refs/heads/main`. Identifiers are in the completion report, not in this file.
+
+### E-3 — Publication set (corrects §8, next execution gate)
+
+- **Superseded statement:** §8 names two files (this record and the boundary record) as the G1-PUB set, with "and nothing else".
+- **Corrected set:** three files, published together to `refs/heads/main` by the requester or an authorized route: (1) the boundary record, `docs/integration/IIPS_v3.0_G1_PROGRAM_AUTHORITY_DECISION_BOUNDARY.md`; (2) this record, `docs/integration/IIPS_v3.0_G1_PROGRAM_AUTHORITY_DECISION_RECORD.md`; (3) the B2 PIT/D114 admission record, `docs/integration/IIPS_v3.0_G1_B2_PIT_D114_CAPABILITY_ADMISSION_DECISION.md`.
+- **Why three:** this record's §10 names the admission record, and the admission record's predecessor entry names this record's §10. These cross-references resolve on `main` only when the files are published together.
+- **Unchanged:** the boundary record is not modified by this correction (blob `5f341ac68f1307d77e9827bedb42ed5a136b2705`). No decision, scope, or G2 boundary changes.
+- **Identifiers:** this file does not record its own blob or commit identifier, or those of the admission record. Those are in the completion report.
