@@ -62,7 +62,7 @@
 
 | Path | Bytes | Git blob | SHA-256 |
 |---|---|---|---|
-| `docs/integration/IIPS_v3.0_G2_2_EXISTING_CAPABILITY_CONVERGENCE_DECISION_RECORD.md` | 76095 | `f0d5e0a9af5c3fdc5668ce4bd43571fec0b8a617` | `752465afe2ddea821713914ccb7c13f37851d32a6329a547e301fb087797be4c` |
+| `docs/integration/IIPS_v3.0_G2_2_EXISTING_CAPABILITY_CONVERGENCE_DECISION_RECORD.md` | 76802 | `c68959f9e96cb8e03b12c24640dcccd383a24ade` | `c1901ad0507ea5499bac6f82f34ba00f946c5f2609324a12a39b2f9f3d1bde6e` |
 | `evidence/integration/g2-2-decision-gate/2026-10-09/g2_2_checks_output.txt` | 5183 | `1b3b09a3d15baf486467f6ebfdb44a655aa1dc3e` | `5308eeb98be9ac4432a6a5e3253cab5893440b5a7433ef7b24a620919def92b1` |
 | `evidence/integration/g2-2-decision-gate/2026-10-09/verify_g2_2_checks.sh` | 22732 | `805d5f7ea4266794d080d690fc30b84de6667632` | `90a4fd981782bb3573e6657cad792df705f052d6cf36ff1900f97df1ebdde1e1` |
 

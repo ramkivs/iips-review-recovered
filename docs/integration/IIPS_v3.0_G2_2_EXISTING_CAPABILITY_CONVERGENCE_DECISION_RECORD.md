@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Record type | Program Authority decision record, additive candidate R2. Records decisions, scoped admissions and scoped consumer designations. Grants no implementation authority. |
-| Status | **CANDIDATE R2, REVISION 2 (PROGRAM AUTHORITY DIRECTIONS Q1 TO Q3 AND P1 TO P5; CORRECTIONS K1 TO K9) — NOT APPROVED FOR MERGE — NOT PUBLISHED — NOT AUTHORITATIVE — PENDING PROGRAM AUTHORITY APPROVAL** |
+| Status | **CANDIDATE R2, REVISION 3 (PROGRAM AUTHORITY DIRECTIONS Q1 TO Q3 AND P1 TO P5; CORRECTIONS K1 TO K9; REVIEW CORRECTIONS F1 TO F3) — NOT APPROVED FOR MERGE — NOT PUBLISHED — NOT AUTHORITATIVE — PENDING PROGRAM AUTHORITY APPROVAL** |
 | Effectiveness | Each decision in this record takes effect only when this record is merged to `refs/heads/main` of `ramkivs/iips-review-recovered` and that merged state is independently verified there (§10). A decision whose scope states a different condition says so in §1. PA direction P5 confirms this rule for AD-01, AD-02, AD-03 and AD-04 (§1B, §10 item 7). |
 | Base | `800789957f2a3cf4e28d5dfff49d92f29d6a7671` (IRR `main`) |
 | Head under review | Session branch `arena/1dcbe88d-iips-review-recovered`. Identifiers of the head commits are in the pull request and the completion report, not in this file, because a file cannot contain its own commit identifier. |
@@ -406,7 +406,7 @@ Nothing in this record authorizes an automatic pin change, merge, revert, promot
 14. **G-2 consumer commit `a0ab5a34…` (PA direction P2).** AD-04 preserves the designation only. The commit's presence on `main` and its subject line are recorded as evidence, not as authority. The conflict with the G-2 implementation record §8 item 5 is recorded (§8, H-15; C34). AD-20 is OPEN.
 15. **G-2 user-portfolio dispatch and PIT route (PA directions P3 and P4).** Neither the `/api/user-portfolios/` dispatch nor the `/api/pit/` dispatch is admitted. Both are retained; neither is removed, disabled, reverted or modified by this record. The runtime behaviour, route protection, security properties and end-to-end acceptance of both are UNPROVEN. No runtime test was run for this record.
 
-## 14A. Corrections applied in revision 2 (K1 to K9)
+## 14A. Corrections applied in revisions 2 and 3 (K1 to K9; F1 to F3)
 
 Revision 1 was reviewed read-only and returned as BLOCKED — RECORD CORRECTION REQUIRED. The nine corrections directed by that review are applied here. Each is a correction of this candidate's own wording or inventory. No published record is edited, no lost text is reconstructed, and no new authority decision is made.
 
@@ -421,6 +421,8 @@ Revision 1 was reviewed read-only and returned as BLOCKED — RECORD CORRECTION 
 | K7 | §3 last bullet; §14 item 1 | "No approved decision says how a reference that is not the pin is consumed by IRR" stated absence of a mechanism and did not record the mechanism that exists in the code. | §3 now records the existing HTTP mechanism as fact, not approval: `G2_IPD_BASE_URL` declared at `user-portfolio-transport.ts` line 80, read at line 157, `null` on unset/empty/invalid (156–167; null at 158, 163, 165), `TransportError(503, 'upstream-unavailable', …)` at 429–435, fail-closed comments at 150–154 and in `G2_IPD_BOUNDARY` (92–115); `G2_LINEAGE.commit = '6828155…'` at `userPortfolioContract.ts` lines 92–94. The identity of the answering build is recorded as UNPROVEN. This record creates, approves and modifies no mechanism. | C30; files read at base |
 | K8 | §8 follow-up table | The table lacked four identified follow-ups, and H-7 and H-8 named line numbers without the full source path. | Added H-14 (B2 line 106 stale after G1 publication), H-15 (G-2 implementation record lines 10–14, 183–186, 196–197 against commit `a0ab5a34…`), H-16 (D-1 §2–§3/§11/§15 standing against AD-01 and the PR #42 merge) and H-17 (the §6/§11 gap this revision closes). H-7 now names `docs/integration/IIPS_v3.0_G2_DURABLE_USER_PORTFOLIO_IMPLEMENTATION_RECORD.md`; H-8 now names `docs/integration/G2-UI-CONSUMER-IMPLEMENTATION-READINESS-2026-10-08.md`. | B2 line 106; G-2 implementation record; D-1; C33, C34 |
 | K9 | §15 final status block | `G2-2_DECISION_STATUS` and `NEXT_GATE` described revision 1 as final and ready. | The block now names REV2, records the P1–P5 directions and the applied corrections, adds the P3 and P4 and D-1 and `a0ab5a34…` entries to `G2_BLOCKED_SCOPES`, and states `NEXT_GATE` as review of the revision-2 head followed by separate explicit merge authorization. | This section |
+
+*Review corrections F1 to F3 (revision 3).* Revision 2 was reviewed read-only and returned as BLOCKED — RECORD CORRECTION REQUIRED on three accuracy defects in this candidate's own wording and in one check assertion. All three are applied in revision 3: **F1** the promotion-authority act's `Reports` characterization (§7 of this record, and the C29 description and assertion); **F2** the §1A Q2 parenthetical distinguishing the act's generic `PR` uses from its references to IPD pull requests #5 and #6; **F3** the pull-request verification comment's commit count. They change no decision, authority, scope or status, and no prior text was reconstructed.
 
 Not done, and not reconstructed: the text of E-4 to E-7; the original option wording of AD-01 to AD-05; the definition of the AD-04 label "category (iii)"; the AD-05 item list.
 
