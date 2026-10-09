@@ -1,5 +1,5 @@
 G2-2 REFERENCE CHECKS - CANDIDATE R2 (mode: default)
-run_utc=2026-10-09T16:26:22Z
+run_utc=2026-10-09T17:24:38Z
 IRR=https://github.com/ramkivs/iips-review-recovered.git
 IPD=https://github.com/ramkivs/iips-production-market-data.git
 ----
@@ -25,5 +25,11 @@ C19  PASS          AD-03 reference is not an ancestor of IPD main | 4d3e1cdca3a3
 C20  PASS          pin export map contains ./pit, ./d114-non-production and ./persistence | 2e11fa3b689d1a3674a5e4ba1f1de9a559e20494
 C21  PASS          all 8 AD-02 symbols are present in the pin source tree | 2e11fa3b689d1a3674a5e4ba1f1de9a559e20494
 C22  PASS          all 5 AD-02 consumer files exist on base | 800789957f2a3cf4e28d5dfff49d92f29d6a7671
+C23  PASS          Reports dispatch block (16 lines) identical at base, PR #42 head and D-3 qualified commit | 39dd43ebbd54767c4258513a5dfc2d9c1b861d28
+C24  PASS          PR #42 merge parents: 0b961fecbe29ed643c86c1a223fc22ac6d30a115 (first) and 4906a6b71f5133d714f0f4c29c89dba22ded37f5 (PR #42 head) | 47edf6f3db79c6c443caed148121406f33a158b7
+C25  PASS          live wiring present at base (presence only): Reports dispatch, PIT dispatch, server listen | 800789957f2a3cf4e28d5dfff49d92f29d6a7671
+C26  PASS          excluded dependencies present at base (presence only): createLiveAdminExecutor, TransportError import, FileTenantDirectory, SecuredExecutor type | 800789957f2a3cf4e28d5dfff49d92f29d6a7671
+C27  PASS          published lineage raw snapshot records PR #42 MERGED with its title and merge commit | 47edf6f3db79c6c443caed148121406f33a158b7
+C28  PASS          all 13 AD-01 paths equal their blobs at the D-3 qualified commit | 39dd43ebbd54767c4258513a5dfc2d9c1b861d28
 ----
-SUMMARY mode=default pass=20 fail=0 not_verified=2
+SUMMARY mode=default pass=26 fail=0 not_verified=2

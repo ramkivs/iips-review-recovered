@@ -2,7 +2,7 @@
 # verify_g2_2_checks.sh -- G2-2 decision record R2: read-only reference checks.
 # Reads GitHub only: git ls-remote and bare partial clones written under WORK.
 # Writes to no repository, pushes nothing, applies nothing.
-#   bash verify_g2_2_checks.sh [WORK_DIR]           default checks C01-C22 (published state)
+#   bash verify_g2_2_checks.sh [WORK_DIR]           default checks C01-C28 (published state)
 #   bash verify_g2_2_checks.sh --route [WORK_DIR]   route checks R01-R04 (session head vs base; run after push)
 # Exit 0 = no FAIL rows.
 set -u
@@ -148,6 +148,34 @@ if [ -z "$miss" ]; then row C21 PASS "all ${#AD02_SYMBOLS[@]} AD-02 symbols are 
 miss=""
 for p in "${AD02_CONSUMERS[@]}"; do [ "$(blob_at "$IRRG" "$IRR_BASE" "$p")" = NONE ] && miss="$miss $p"; done
 if [ -z "$miss" ]; then row C22 PASS "all ${#AD02_CONSUMERS[@]} AD-02 consumer files exist on base" "$IRR_BASE"; else row C22 FAIL "AD-02 consumer files missing on base:$miss" "$IRR_BASE"; fi
+# ---- Revision 1 checks (PA directions Q1-Q3): presence, identity and provenance only. Nothing here admits behaviour. ----
+D3Q="39dd43ebbd54767c4258513a5dfc2d9c1b861d28"
+PR42_P1="0b961fecbe29ed643c86c1a223fc22ac6d30a115"
+PR42_TITLE="Promotion candidate: Governed Reports onto current main (DO NOT MERGE without promotion act)"
+ET_PATH="frontend/server/executive-transport.ts"
+RAW_PRS="evidence/integration/lineage-investigation/2026-10-08/supporting/raw/irr_prs.json"
+RB_AWK='index($0,"startsWith") && index($0,"/api/reports/") {f=1} f {print} f && /^  }$/ {exit}'
+rb() { git -C "$IRRG" show "$1:$ET_PATH" 2>/dev/null | awk "$RB_AWK"; }
+rb_b=$(rb "$IRR_BASE"); rb_p=$(rb "$IRR_D3_REF"); rb_q=$(rb "$D3Q"); rb_n=$(printf '%s\n' "$rb_b" | grep -c .)
+if [ "$rb_n" -eq 16 ] && [ "$rb_b" = "$rb_p" ] && [ "$rb_b" = "$rb_q" ]; then row C23 PASS "Reports dispatch block (16 lines) identical at base, PR #42 head and D-3 qualified commit" "$D3Q"; else row C23 FAIL "Reports dispatch block differs across base, PR #42 head and D-3 qualified commit" "lines=$rb_n"; fi
+par=$(git -C "$IRRG" rev-list --parents -n1 "$IRR_PR42_MERGE" 2>/dev/null)
+p1=$(printf '%s\n' "$par" | awk '{print $2}'); p2=$(printf '%s\n' "$par" | awk '{print $3}')
+if [ "$p1" = "$PR42_P1" ] && [ "$p2" = "$IRR_D3_REF" ]; then row C24 PASS "PR #42 merge parents: $PR42_P1 (first) and $IRR_D3_REF (PR #42 head)" "$IRR_PR42_MERGE"; else row C24 FAIL "PR #42 merge parents differ from the expected pair" "got ${p1:-none} ${p2:-none}"; fi
+ets=$(git -C "$IRRG" show "$IRR_BASE:$ET_PATH" 2>/dev/null)
+n_rep=$(printf '%s\n' "$ets" | grep -F -c "startsWith('/api/reports/')"); n_pit=$(printf '%s\n' "$ets" | grep -F -c "startsWith('/api/pit/')")
+n_srv=$(printf '%s\n' "$ets" | grep -F -c "http.createServer("); n_grd=$(printf '%s\n' "$ets" | grep -F -c "NODE_ENV !== 'test'"); n_lsn=$(printf '%s\n' "$ets" | grep -F -c "server.listen(")
+if [ "$n_rep" -eq 1 ] && [ "$n_pit" -eq 1 ] && [ "$n_srv" -eq 1 ] && [ "$n_grd" -ge 1 ] && [ "$n_lsn" -ge 1 ]; then row C25 PASS "live wiring present at base (presence only): Reports dispatch, PIT dispatch, server listen" "$IRR_BASE"; else row C25 FAIL "live wiring presence differs from the recorded state" "rep=$n_rep pit=$n_pit srv=$n_srv guard=$n_grd listen=$n_lsn"; fi
+rts=$(git -C "$IRRG" show "$IRR_BASE:frontend/server/reports-transport.ts" 2>/dev/null)
+ats=$(git -C "$IRRG" show "$IRR_BASE:frontend/server/admin-transport.ts" 2>/dev/null)
+tms=$(git -C "$IRRG" show "$IRR_BASE:frontend/server/tenant-membership-store.ts" 2>/dev/null)
+c1=$(printf '%s\n' "$rts" | grep -F -c "await import('./admin-transport')"); c2=$(printf '%s\n' "$rts" | grep -F -c "import { TransportError } from './admin-transport'")
+c3=$(printf '%s\n' "$ats" | grep -F -c "export async function createLiveAdminExecutor("); c4=$(printf '%s\n' "$ats" | grep -F -c "await import('./tenant-membership-store')")
+c5=$(printf '%s\n' "$tms" | grep -F -c "export class FileTenantDirectory"); c6=$(printf '%s\n' "$rts" | grep -F -c "import type { SecuredExecutor } from './secured-executor'")
+if [ "$c1" -ge 1 ] && [ "$c2" -ge 1 ] && [ "$c3" -ge 1 ] && [ "$c4" -ge 1 ] && [ "$c5" -ge 1 ] && [ "$c6" -ge 1 ]; then row C26 PASS "excluded dependencies present at base (presence only): createLiveAdminExecutor, TransportError import, FileTenantDirectory, SecuredExecutor type" "$IRR_BASE"; else row C26 FAIL "excluded dependency presence differs" "$c1 $c2 $c3 $c4 $c5 $c6"; fi
+prs=$(git -C "$IRRG" show "$IRR_BASE:$RAW_PRS" 2>/dev/null | sed 's/},{/}\n{/g' | grep -F '"number":42,')
+if [ -n "$prs" ] && printf '%s\n' "$prs" | grep -F -q '"state":"MERGED"' && printf '%s\n' "$prs" | grep -F -q "\"title\":\"$PR42_TITLE\"" && printf '%s\n' "$prs" | grep -F -q "\"oid\":\"$IRR_PR42_MERGE\""; then row C27 PASS "published lineage raw snapshot records PR #42 MERGED with its title and merge commit" "$IRR_PR42_MERGE"; else row C27 FAIL "PR #42 record in the lineage raw snapshot differs" "-"; fi
+ok=1; for p in "${RATIFIED[@]}"; do a=$(blob_at "$IRRG" "$D3Q" "$p"); b=$(blob_at "$IRRG" "$IRR_BASE" "$p"); if [ "$a" = "$b" ] && [ "$a" != NONE ]; then :; else ok=0; fi; done
+if [ "$ok" = 1 ]; then row C28 PASS "all ${#RATIFIED[@]} AD-01 paths equal their blobs at the D-3 qualified commit" "$D3Q"; else row C28 FAIL "an AD-01 path differs from the D-3 qualified commit" "-"; fi
 echo "----"
 echo "SUMMARY mode=default pass=$pass fail=$fail not_verified=$nv"
 [ "$fail" -eq 0 ]
