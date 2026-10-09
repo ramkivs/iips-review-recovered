@@ -141,7 +141,7 @@ G2 is authorized to begin for:
 - **Session branch.** This file is committed on `arena/1dcbe88d-iips-review-recovered`. Its commit and blob identifiers appear in the completion report, not in this file, because a file cannot contain its own commit identifier.
 - **IRR `main`: NOT PUBLISHED.** The operator session policy restricts pushes to `arena/1dcbe88d-iips-review-recovered`. The requester's closure criterion requires publication to `main`.
 - **G1 closure criterion (requester).** G1 is CLOSED only when this record is durably published and independently verified on IRR `main`. Until then G1 is PARTIALLY CLOSED.
-- **Next execution gate (G1-PUB).** Publish this record file, and nothing else, to `refs/heads/main` by the requester or an authorized route. Then verify that `origin/main` contains it (commit, tree and blob), that local equals remote, and that the worktree is clean. G1 becomes CLOSED only after that verification.
+- **Next execution gate (G1-PUB).** Publish this record file together with its predecessor, the boundary record (`docs/integration/IIPS_v3.0_G1_PROGRAM_AUTHORITY_DECISION_BOUNDARY.md`, blob `5f341ac68f1307d77e9827bedb42ed5a136b2705`), and nothing else, to `refs/heads/main` by the requester or an authorized route. This keeps the predecessor reference resolvable on `main`. Then verify that `origin/main` contains it (commit, tree and blob), that local equals remote, and that the worktree is clean. G1 becomes CLOSED only after that verification.
 - **After G1-PUB.** G2 steps cite the verified `main` baseline. Each G2 step is separately scoped and evidenced.
 
 ## 9. Historical records
