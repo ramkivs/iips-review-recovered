@@ -1,0 +1,4 @@
+3f062135fee5a2afbcca91face6fc8f97379e3ae598ffab479f555a6c61d6ec9  docs/integration/IIPS_v3.0_G2_2_EXISTING_CAPABILITY_CONVERGENCE_DECISION_RECORD.md
+d2691a2e796100c0942a3f31da177b0556a455cfedbbee37295aa40badadf3bd  evidence/integration/g2-2-decision-gate/2026-10-09/EVIDENCE-ANNEX.md
+5308eeb98be9ac4432a6a5e3253cab5893440b5a7433ef7b24a620919def92b1  evidence/integration/g2-2-decision-gate/2026-10-09/g2_2_checks_output.txt
+90a4fd981782bb3573e6657cad792df705f052d6cf36ff1900f97df1ebdde1e1  evidence/integration/g2-2-decision-gate/2026-10-09/verify_g2_2_checks.sh
