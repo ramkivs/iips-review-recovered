@@ -45,7 +45,7 @@ The existing codebase state is preserved. No removal, disablement, revert, or mo
 
 ## 4. Relationship to existing governance records
 
-- **G2-2 record** (`docs/integration/IIPS_v3.0_G2_2_EXISTING_CAPABILITY_CONVERGENCE_DECISION_RECORD.md`, blob `d3934a7eb656cd4285cc0a5e0a36265982b0fe7c` at the time of this record's creation): this H-18 decision does not alter, supersede, or affect any decision in the G2-2 record (AD-01 through AD-05, AD-06, AD-20, or any scope boundary therein).
+- **G2-2 record** (`docs/integration/IIPS_v3.0_G2_2_EXISTING_CAPABILITY_CONVERGENCE_DECISION_RECORD.md`, blob `2f89bbc94c0040e33a354893e99f8761636d526e` at the time of this record's creation): this H-18 decision does not alter, supersede, or affect any decision in the G2-2 record (AD-01 through AD-05, AD-06, AD-20, or any scope boundary therein).
 - **AD-05** (tenant membership deferred; AUTHORITY REQUIRED retained): H-18 is consistent with AD-05's deferral. No tenant-membership implementation authority is introduced by H-18.
 - **D-2** (domain-scoped identity/tenant authorities): H-18 does not create a universal identity authority. D-2 boundaries are preserved.
 - **H-1 through H-17**: this record does not resolve, supersede, or affect any H-series item listed in G2-2 §8.
