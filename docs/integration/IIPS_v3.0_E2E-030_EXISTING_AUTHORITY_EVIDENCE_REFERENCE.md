@@ -106,7 +106,7 @@ The source report also states that the IPD chain is branch/tag anchored and not 
   - **Accessible IRR tree (`e2cda00`, Arena-verified):** no separate delta-authority record is present. The §12 gate is self-named and cites D42 only. There are zero IRR references to `541963b`, `dce8140`, or `987a048`. This is a finding about the accessible tree, not a determination that no such decision exists.
   - **IPD (reported, not inspected in Arena):** the Windows operator reports that a separate IPD evidence package contains the E2E-030 closure, D51, D52, and related records. The IPD decision (`541963b…`) is reported to explicitly accept the 13-engine delta. The reported statement that it is absent from IPD `origin/main` (G1) and has a stale recorded branch tip (G2) is also unverified here.
   - **Whether it satisfies D42:** unresolved. D42 requires the decision's scope, the accepting authority, the E2E-025→029 evidence input, and freeze/compatibility sign-off. None of these has been verified from the decision itself in this environment.
-  - **Whether IRR references it:** not adequately. IRR's canonical records do not cite it, and this artifact is an unpublished local reference, not a reconciliation.
+  - **Whether IRR references it:** not adequately. IRR's canonical records do not cite it. This PR is a reference-only traceability record, not a canonical reconciliation or adoption of IPD authority.
 - *Technical qualification:* weakened by reported gaps G3 (unrecoverable original baseline) and G4 (no independent re-execution). These are reported, not verified.
 - *Certification:* the 10-engine LTS certification is unchanged. The 13-engine §12 claim has no authority basis that is verifiable in this environment. Its authority basis is **unresolved**. The delta is not described here as authorized, invalid, or disproved.
 - *Release:* `program-v1.2.0` is a release candidate in IRR; the tag is planned and not created; no GitHub release is published.
@@ -131,7 +131,7 @@ The original 10-engine certification remains the operative certified boundary un
 2. Reported (not verified): the IPD authority decision is absent from IPD `origin/main` (G1) and its recorded branch tip is stale (G2).
 3. The original baseline is unrecoverable (G3); no independent re-execution (G4).
 4. IPD source records (AA-B2/B3/B4, D41 §B.5 wording, closure wording, accepting authority) are not verifiable from IRR.
-5. Missing identifiers: D51 document, golden-baseline, repaired-tree, and bundle identities; paths for E2E-030-R1, CHECKPOINT-01, D51, D52.
+5. Still not independently established from this IRR review: the complete golden-baseline, repaired-tree, and remediation-bundle object identities, plus source paths for E2E-030-R1, CHECKPOINT-01, and D52. The D51 path, commit, and blob; replay-baseline blob; and remediation-bundle blob prefix listed in §5 are Windows-reported and were not independently inspected.
 6. Internal contradictions in the current IRR documents (§3).
 7. Identifier collision risk for `AD-17` (§4).
 8. Live remote `origin/main` not re-verified from Arena.
