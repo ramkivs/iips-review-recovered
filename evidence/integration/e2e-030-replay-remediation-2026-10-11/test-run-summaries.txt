@@ -1,0 +1,109 @@
+=== 1. ReplayService Unit & Mutation Proofs (src/replay/ReplayService.test.ts) ===
+ok 1 - replay reproduces a stored snapshot (V-C1)
+ok 2 - replay detects divergent output — byteIdentical is false (V-C2)
+ok 3 - replay returns undefined for unknown snapshot (V-C3)
+ok 4 - replay without executor returns reproduced=false, byteIdentical=false (V-C4)
+ok 5 - replay without execution context returns reproduced=false, byteIdentical=false (V-C4b)
+ok 6 - replayAll across multiple engines produces computed results (V-C5)
+ok 7 - mutation proof: literal true return would fail divergent test (V-C6)
+1..7
+# tests 7
+# pass 7
+# fail 0
+# duration_ms 130.917555
+
+=== 2. Track 3 Replay Certification Suite incl. T3-CERT-05 & T3-CERT-09 (tests/regression/program-v1.1-track3-replay-certification.test.ts) ===
+ok 1 - T3-CERT-01: 13-sector baseline executions reproduce the Program v1.1 Replay Baseline (composite + verdict)
+ok 2 - T3-CERT-02: same input -> same output (deterministic computation across fresh processes)
+ok 3 - T3-CERT-03: same input -> same evidence (evidence determinism)
+ok 4 - T3-CERT-04: same input -> same metadata (execution-identity determinism)
+ok 5 - T3-CERT-05: snapshot -> replay reproduced for all 13 sectors (persistence/replay correctness)
+ok 6 - T3-CERT-06: calibration version binding — calibration version is part of replay identity (stable), observed where exposed
+ok 7 - T3-CERT-07: contract version binding — each engine manifest declares its methodology version
+ok 8 - T3-CERT-08: runtime configuration binding — fixed clock + deterministic id yield identical replay identity
+ok 9 - T3-CERT-09: cross-sector replay — all 13 sectors replay byte-identical through the shared runtime
+ok 10 - T3-CERT-10: repeated replay — byte-identical across repeat calls
+ok 11 - T3-CERT-11: fresh-process replay — new runtime reproduces the same output/evidence/metadata (no in-memory state effects)
+1..11
+# tests 11
+# pass 11
+# fail 0
+# duration_ms 232.157185
+
+=== 3. E2E-025..029 Integration & Replay Acceptance incl. IES-016/017/020 (tests/integration/*.test.ts) ===
+ok 1 - [E2E-029] CrossSectorEngine — sector results → CSIP aggregation (13 engines, no methodology change — 10 LTS + 3 deferred via D42)
+ok 2 - [E2E-029] No duplicate sector engines / taxonomy unchanged — adapter rejects taxonomy-resolved fabrication
+ok 3 - [E2E-029] Sector → CSIP → portfolio DTO → provenance (full product E2E shape)
+ok 4 - [E2E-025] GET /api/engines — certified registry (13, frozen, no fabrication — 10 LTS + 3 deferred via D42)
+ok 5 - [E2E-025] certified engines are the EXACT replay-baseline engines (no drift)
+ok 6 - [E2E-025] POST /api/engines/sector.banking/execute — governed dispatch → evidence/provenance (deterministic) — Banking
+ok 7 - [E2E-025] POST /api/engines/sector.insurance/execute — governed dispatch → evidence/provenance (deterministic) — Insurance
+ok 8 - [E2E-025] POST /api/engines/sector.capital-markets/execute — governed dispatch → evidence/provenance (deterministic) — Capital Markets
+ok 9 - [E2E-025] POST /api/engines/sector.healthcare/execute — governed dispatch → evidence/provenance (deterministic) — Healthcare
+ok 10 - [E2E-025] POST /api/engines/sector.hospitality/execute — governed dispatch → evidence/provenance (deterministic) — Hospitality
+ok 11 - [E2E-025] POST /api/engines/sector.energy/execute — governed dispatch → evidence/provenance (deterministic) — Energy
+ok 12 - [E2E-025] POST /api/engines/sector.utilities/execute — governed dispatch → evidence/provenance (deterministic) — Utilities
+ok 13 - [E2E-025] POST /api/engines/sector.consumer/execute — governed dispatch → evidence/provenance (deterministic) — Consumer
+ok 14 - [E2E-025] POST /api/engines/sector.industrials/execute — governed dispatch → evidence/provenance (deterministic) — Industrials
+ok 15 - [E2E-025] POST /api/engines/sector.technology/execute — governed dispatch → evidence/provenance (deterministic) — Technology
+ok 16 - [E2E-025] POST /api/engines/sector.telecom/execute — governed dispatch → evidence/provenance (deterministic) — Telecommunications
+ok 17 - [E2E-025] POST /api/engines/sector.auto/execute — governed dispatch → evidence/provenance (deterministic) — Automobile
+ok 18 - [E2E-025] POST /api/engines/sector.materials/execute — governed dispatch → evidence/provenance (deterministic) — Materials & Metals
+ok 19 - [E2E-025] API error paths — validation → deterministic error semantics (no silent fallback)
+ok 20 - [E2E-025] determinism — same requestId + inputs → same provenance identity (idempotency)
+ok 21 - [E2E-027] EvidencePipeline builds an attributable, frozen evidence package (governed)
+ok 22 - [E2E-027] Snapshot/evidence chain — snapshotId is the replayReference (attributable)
+ok 23 - [E2E-027] EngineApiAdapter → full provenance chain (13 engines — 10 LTS + 3 deferred via D42) — API response carries engine/IES/version/snapshot/evidence/timestamp
+ok 24 - [E2E-027] Known LTS deviations are preserved (R2 staleness + R3 calibration exposure), not silently patched — provenance note
+ok 25 - [E2E-028] RuntimeCoordinator → ReplayService — all 13 engines (10 LTS + 3 deferred via D42) are byte-identical replayable
+ok 26 - [E2E-028] Deferred canonical engines (IES-016 sector.telecom, IES-017 sector.auto, IES-020 sector.materials) — all golden reference cases replay byte-identically
+ok 27 - [E2E-028] ReplayService — reproduced + byteIdentical + evidenceRefs (governed surface, no invented diff)
+ok 28 - [E2E-028] DistributedRuntime preserves replay guarantees (same input→same result on any node)
+ok 29 - [E2E-028] Replay certification boundary — implemented/verified/evidenced vs certified
+1..29
+# tests 29
+# pass 29
+# fail 0
+# duration_ms 835.802846
+
+=== 4. 10-Engine LTS Acceptance, Framework-Integration, Reuse-Verification, and WP4 Validation ===
+  ...
+1..239
+# tests 239
+# suites 0
+# pass 239
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 5749.884685
+
+=== 5. Standard Platform Test Command (npm test: src/**/*.test.ts tests/regression/*.test.ts) ===
+  ...
+1..648
+# tests 648
+# suites 0
+# pass 648
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 12399.597384
+
+=== 6. Full Platform + Integration Suite (find src tests -name '*.test.ts') ===
+  ...
+1..690
+# tests 690
+# suites 0
+# pass 690
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 14134.19575
+
+=== 7. TypeScript Typecheck (npm run typecheck) ===
+
+> @iips/platform@0.1.0 typecheck
+> tsc --noEmit
+

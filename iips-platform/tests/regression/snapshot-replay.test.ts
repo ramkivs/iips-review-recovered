@@ -12,8 +12,22 @@ test('REGRESSION: snapshot created immutable and replay reproduces identically',
   const svc = new SnapshotService(clock, id);
   const store = new SnapshotStore();
   const replay = new ReplayService(store);
+  replay.setExecutor((_engineId, _requestId, inputs) => ({
+    metrics: { ROA: Number(inputs.ROA) },
+    scores: { Q: Number(inputs.Q) },
+    verdict: String(inputs.verdict),
+  }));
 
-  const snap = svc.create({ engineId: 'sector.banking', metrics: { ROA: 1.5 }, scores: { Q: 80 }, verdict: 'Buy' });
+  const snap = svc.create({
+    engineId: 'sector.banking',
+    metrics: { ROA: 1.5 },
+    scores: { Q: 80 },
+    verdict: 'Buy',
+    executionContext: {
+      requestId: 'reg-snap-1',
+      inputs: { ROA: 1.5, Q: 80, verdict: 'Buy' },
+    },
+  });
   assert.equal(Object.isFrozen(snap), true);
   store.append(snap);
   const r = replay.replay(snap.snapshotId);

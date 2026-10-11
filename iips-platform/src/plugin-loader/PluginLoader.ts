@@ -5,6 +5,7 @@ import type { ExecutionRequest, ExecutionResult, SectorPlugin } from './PluginCo
 export class PluginLoader {
   private readonly plugins = new Map<string, SectorPlugin>();
   private readonly phases = new Map<string, string>();
+  private readonly activeRequests = new Map<string, ExecutionRequest>();
 
   constructor(private readonly container: Container) {}
 
@@ -42,10 +43,20 @@ export class PluginLoader {
     const p = this.plugins.get(engineId);
     if (!p) return undefined;
     this.phases.set(engineId, 'Execution');
-    const result = p.execute(this.container, request);
-    p.onComplete(this.container, result);
-    this.phases.set(engineId, 'Completion');
-    return result;
+    this.activeRequests.set(engineId, request);
+    try {
+      const result = p.execute(this.container, request);
+      p.onComplete(this.container, result);
+      this.phases.set(engineId, 'Completion');
+      return result;
+    } finally {
+      this.activeRequests.delete(engineId);
+    }
+  }
+
+  /** Active request currently executing for a plugin, if any. */
+  activeRequest(engineId: string): ExecutionRequest | undefined {
+    return this.activeRequests.get(engineId);
   }
 
   /** True if a plugin is registered. */
