@@ -127,7 +127,8 @@ test('P-CERT-09: classification â€” no constitutional/correctness regression (ðŸ
 
 test('P-CERT-10: scaling characteristics recorded (not SLA)', () => {
   const sizes = [1, 2, 4, 8];
-  const table = sizes.map((n) => ({ nodes: n, ...PS.measureBatch(n, 200, ENGINE_IDS, INPUTS) }));
+  // measureBatch already reports `nodes` (equal to n); no need to re-specify it.
+  const table = sizes.map((n) => PS.measureBatch(n, 200, ENGINE_IDS, INPUTS));
   assert.equal(table.length, 4);
   for (const row of table) {
     assert.ok(row.meanMs > 0, `${row.nodes} nodes mean`);

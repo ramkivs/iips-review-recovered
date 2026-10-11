@@ -31,7 +31,7 @@ import type { SectorPlugin } from '../../src/plugin-loader/PluginContract';
 
 const BASELINE = JSON.parse(
   fs.readFileSync(path.resolve(__dirname, '../../../program-v1.1-certification/PROGRAM_v1.1_REPLAY_BASELINE.json'), 'utf8'),
-) as { sectors: Array<{ sector: string; engineId: string; input: Record<string, unknown>; expectedOutput: { composite: number; verdict: string } }> };
+) as { sectors: Array<{ sector: string; engineId: string; contractVersion?: string; input: Record<string, unknown>; expectedOutput: { composite: number; verdict: string } }> };
 
 const ENGINE_FACTORY: Record<string, () => SectorPlugin> = {
   [BANKING_ENGINE_ID]: () => new BankingEngine(),
