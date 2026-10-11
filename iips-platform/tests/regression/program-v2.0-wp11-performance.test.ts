@@ -25,6 +25,9 @@ import { UtilitiesEngine, UTILITIES_ENGINE_ID } from '../../src/sector-engines/u
 import { ConsumerEngine, CONSUMER_ENGINE_ID } from '../../src/sector-engines/consumer/ConsumerEngine';
 import { IndustrialsEngine, INDUSTRIALS_ENGINE_ID } from '../../src/sector-engines/industrials/IndustrialsEngine';
 import { TechnologyEngine, TECHNOLOGY_ENGINE_ID } from '../../src/sector-engines/technology/TechnologyEngine';
+import { TelecomEngine } from '../../src/sector-engines/telecom/TelecomEngine';
+import { AutoEngine } from '../../src/sector-engines/auto/AutoEngine';
+import { MaterialsEngine } from '../../src/sector-engines/materials/MaterialsEngine';
 import type { SectorPlugin } from '../../src/plugin-loader/PluginContract';
 
 const BASELINE = JSON.parse(
@@ -34,7 +37,7 @@ const BASELINE = JSON.parse(
 const ALL_ENGINES: Array<() => SectorPlugin> = [
   () => new BankingEngine(), () => new InsuranceEngine(), () => new CapitalMarketsEngine(),
   () => new HealthcareEngine(), () => new HospitalityEngine(), () => new EnergyEngine(),
-  () => new UtilitiesEngine(), () => new ConsumerEngine(), () => new IndustrialsEngine(), () => new TechnologyEngine(),
+  () => new UtilitiesEngine(), () => new ConsumerEngine(), () => new IndustrialsEngine(), () => new TechnologyEngine(), () => new TelecomEngine(), () => new AutoEngine(), () => new MaterialsEngine(),
 ];
 const ENGINE_IDS = BASELINE.sectors.map((s) => s.engineId);
 const INPUTS: Record<string, Record<string, unknown>> = Object.fromEntries(
@@ -124,7 +127,8 @@ test('P-CERT-09: classification â€” no constitutional/correctness regression (ðŸ
 
 test('P-CERT-10: scaling characteristics recorded (not SLA)', () => {
   const sizes = [1, 2, 4, 8];
-  const table = sizes.map((n) => ({ nodes: n, ...PS.measureBatch(n, 200, ENGINE_IDS, INPUTS) }));
+  // measureBatch already reports `nodes` (equal to n); no need to re-specify it.
+  const table = sizes.map((n) => PS.measureBatch(n, 200, ENGINE_IDS, INPUTS));
   assert.equal(table.length, 4);
   for (const row of table) {
     assert.ok(row.meanMs > 0, `${row.nodes} nodes mean`);

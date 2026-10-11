@@ -24,11 +24,14 @@ import { UtilitiesEngine, UTILITIES_ENGINE_ID } from '../../src/sector-engines/u
 import { ConsumerEngine, CONSUMER_ENGINE_ID } from '../../src/sector-engines/consumer/ConsumerEngine';
 import { IndustrialsEngine, INDUSTRIALS_ENGINE_ID } from '../../src/sector-engines/industrials/IndustrialsEngine';
 import { TechnologyEngine, TECHNOLOGY_ENGINE_ID } from '../../src/sector-engines/technology/TechnologyEngine';
+import { TelecomEngine, TELECOM_ENGINE_ID } from '../../src/sector-engines/telecom/TelecomEngine';
+import { AutoEngine, AUTO_ENGINE_ID } from '../../src/sector-engines/auto/AutoEngine';
+import { MaterialsEngine, MATERIALS_ENGINE_ID } from '../../src/sector-engines/materials/MaterialsEngine';
 import type { SectorPlugin } from '../../src/plugin-loader/PluginContract';
 
 const BASELINE = JSON.parse(
   fs.readFileSync(path.resolve(__dirname, '../../../program-v1.1-certification/PROGRAM_v1.1_REPLAY_BASELINE.json'), 'utf8'),
-) as { sectors: Array<{ sector: string; engineId: string; input: Record<string, unknown>; expectedOutput: { composite: number; verdict: string } }> };
+) as { sectors: Array<{ sector: string; engineId: string; contractVersion?: string; input: Record<string, unknown>; expectedOutput: { composite: number; verdict: string } }> };
 
 const ENGINE_FACTORY: Record<string, () => SectorPlugin> = {
   [BANKING_ENGINE_ID]: () => new BankingEngine(),
@@ -41,6 +44,9 @@ const ENGINE_FACTORY: Record<string, () => SectorPlugin> = {
   [CONSUMER_ENGINE_ID]: () => new ConsumerEngine(),
   [INDUSTRIALS_ENGINE_ID]: () => new IndustrialsEngine(),
   [TECHNOLOGY_ENGINE_ID]: () => new TechnologyEngine(),
+  [TELECOM_ENGINE_ID]: () => new TelecomEngine(),
+  [AUTO_ENGINE_ID]: () => new AutoEngine(),
+  [MATERIALS_ENGINE_ID]: () => new MaterialsEngine(),
 };
 
 const MR = new MigrationRuntime();

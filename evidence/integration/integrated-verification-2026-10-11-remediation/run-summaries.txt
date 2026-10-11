@@ -1,0 +1,148 @@
+# Run summaries — IIPS integrated verification remediation (2026-10-11)
+# Raw logs are gitignored (*.log) and remain outside the repository; this file keeps totals and failing identities.
+
+## pre-fix CRLF simulation, full history (main 3064a90, core.autocrlf=true, no .gitattributes)
+source: full-win-before.log
+# tests 655 # pass 606 # fail 49 # cancelled 0 # skipped 0 # todo 0 
+  not ok 77 - IES013-WP4-ACC4: calibration integrity — frozen profile hash verified
+  not ok 198 - IES014-WP4-ACC4: calibration integrity — frozen profile hash verified
+  not ok 216 - A10: frozen N4-SD, population boundary and cross-sector barrel are byte-identical to main
+  not ok 261 - N4: E01–E14 literal fixtures match the unchanged authoritative grammar blob
+  not ok 309 - A13 Protected Surface: zero modifications to all 13 sector engines, N4-SD, N4-A10 runtime, CSIP, EngineRegistry, EngineApiAdapter, and certification baselines
+  not ok 409 - FC-CORE: END-TO-END CONSTITUTIONAL EQUIVALENCE — v1.1 path (A) == v2.0 path (B) across all 10 sectors
+  not ok 410 - FC-CORE-2: full-chain determinism — RESULT -> Evidence -> Snapshot -> Replay -> DR restore -> RESULT'; RESULT === RESULT'
+  not ok 411 - FC-0: LTS Constitution — v1.1 immutable, WP-0 reproduces
+  not ok 421 - FC-10: cross-sector — all 10 engines retain v1.1 semantics
+  not ok 430 - WP0-A1: 10-sector Replay Baseline reproduces (composite + verdict)
+  not ok 431 - WP0-A2: replay-baseline reproduction is byte-identical (metadata + evidence + snapshot) across fresh runs
+  not ok 432 - WP0-A3: replay reproduces the frozen snapshot for every sector
+  not ok 433 - WP0-A4: 12 MUST-PRESERVE constitutional invariants hold
+  not ok 436 - D-CERT-01: multi-node determinism — all 10 sectors reproduce the frozen baseline on EVERY node
+  not ok 439 - D-CERT-04: snapshot ownership + persistence — each node owns a replayable, immutable snapshot
+  not ok 441 - D-CERT-06: node-failure + replay recovery — a fresh node with the same context recovers identical state via replay
+  not ok 442 - D-CERT-07: no cross-sector state leakage — each sector result independent on the same node
+  not ok 445 - D-CERT-10: WP-0 constitutional guard unchanged — single-node result equals frozen baseline (node == non-distributed)
+  not ok 453 - O2-CERT-08: sector identity remains isolated across the traced chain
+  not ok 459 - P-CERT-02: 1->2->4->8 node scaling — healthy scaling, throughput grows
+  not ok 460 - P-CERT-03: full-chain workload scales
+  not ok 461 - P-CERT-04: p50/p95 latency measured per node count (not premature SLA)
+  not ok 462 - P-CERT-05: failure-under-load interaction preserves determinism
+  not ok 463 - P-CERT-06: scaling efficiency — v2.0 scaling is healthy (not a constitutional regression)
+  not ok 464 - P-CERT-07: WP-0 constitutional guard is a hard gate — performance does not change engine semantics
+  not ok 465 - P-CERT-08: memory footprint measured (scaling characteristics, not SLA)
+  not ok 466 - P-CERT-09: classification — no constitutional/correctness regression (🟢 or 🟡 only)
+  not ok 467 - P-CERT-10: scaling characteristics recorded (not SLA)
+  not ok 477 - DG-CERT-10: separation of operational metadata from engine inputs (constitutional test)
+  not ok 478 - DR-CERT-01: backup export — the full snapshot + replay lineage is portable
+  not ok 479 - DR-CERT-02: replay lineage — backup carries replayable snapshot identities
+  not ok 480 - DR-CERT-03: restore — recovery node reconstructs identical state from backup (replay-based, no recompute)
+  not ok 481 - DR-CERT-04: site failure recovery — a fresh site with the backup reproduces the frozen baseline
+  not ok 482 - DR-CERT-05: RPO/RTO — measured recovery metrics (replay-based restoration)
+  not ok 483 - DR-CERT-06: corruption detection — tampered snapshot is flagged
+  not ok 484 - DR-CERT-07: quorum/recovery semantics — recovery requires a healthy site (deterministic)
+  not ok 485 - DR-CERT-08: WP-0 compatibility — DR recovery restores the frozen baseline, not altered meaning
+  not ok 486 - M-CERT-01: dual-run — same v1.1 workload executed through v1.1 and v2.0 paths
+  not ok 487 - M-CERT-02: semantic equivalence — composite, verdict, pillars, evidence equivalent across generations
+  not ok 488 - M-CERT-03: replay equivalence — v1.1 snapshots replay correctly in the v2.0 environment
+  not ok 491 - M-CERT-06: version coexistence — v1.1 and v2.0 engine/runtime versions coexist
+  not ok 495 - M-CERT-10: WP-0 guard — frozen Replay Baseline remains byte-identical across generations
+  not ok 503 - H-CERT-01: HA startup — all 10 engines available across the cluster
+  not ok 505 - H-CERT-03: determinism under failover — failover result == frozen baseline for all sectors
+  not ok 508 - H-CERT-06: isolation — tenant/node/sector state cannot leak
+  not ok 523 - L-CERT-11: WP-0 reproduction — same snapshot feeding the frozen baseline reproduces it exactly
+  not ok 531 - E-CERT-07: WP-0 determinism — all sectors reproduce the frozen baseline under enterprise controls
+  not ok 624 - IES015-WP4-ACC4: calibration integrity — frozen profile hash verified against freeze manifest
+  not ok 652 - IES012-WP4-ACC4: calibration integrity — frozen profile hash verified
+
+## post-fix CRLF simulation, full history (scratch /tmp/win-after; NOTE: its HEAD 68ec6a7 lacked 5 hunks present in worktree; superseded by AUTHORITATIVE run below)
+source: full-win-after.log
+# tests 655 # pass 655 # fail 0 # cancelled 0 # skipped 0 # todo 0 
+
+## post-fix Arena workspace, recursive glob (arena branch, shallow clone)
+source: full-suite-recursive.log
+# tests 655 # pass 654 # fail 1 # cancelled 0 # skipped 0 # todo 0 
+  not ok 309 - A13 Protected Surface: zero modifications to all 13 sector engines, N4-SD, N4-A10 runtime, CSIP, EngineRegistry, EngineApiAdapter, and certification baselines
+
+## post-fix Arena workspace, npm test as scripted (unquoted glob expands one level)
+source: full-suite-after.log
+# tests 642 # pass 641 # fail 1 # cancelled 0 # skipped 0 # todo 0 
+  not ok 296 - A13 Protected Surface: zero modifications to all 13 sector engines, N4-SD, N4-A10 runtime, CSIP, EngineRegistry, EngineApiAdapter, and certification baselines
+
+## byte-sensitive tests pre-fix, CRLF simulation
+source: bytes-win-before.log
+# tests 108 # pass 102 # fail 6 # cancelled 0 # skipped 0 # todo 0 
+  not ok 4 - IES013-WP4-ACC4: calibration integrity — frozen profile hash verified
+  not ok 11 - IES014-WP4-ACC4: calibration integrity — frozen profile hash verified
+  not ok 15 - A10: frozen N4-SD, population boundary and cross-sector barrel are byte-identical to main
+  not ok 60 - N4: E01–E14 literal fixtures match the unchanged authoritative grammar blob
+  not ok 98 - IES015-WP4-ACC4: calibration integrity — frozen profile hash verified against freeze manifest
+  not ok 105 - IES012-WP4-ACC4: calibration integrity — frozen profile hash verified
+
+## byte-sensitive tests post-fix, CRLF simulation
+source: bytes-win-after.log
+# tests 108 # pass 108 # fail 0 # cancelled 0 # skipped 0 # todo 0 
+
+## focused 18-file run, post-fix Arena workspace
+source: remed-focused-2.log
+# tests 243 # pass 242 # fail 1 # cancelled 0 # skipped 0 # todo 0 
+  not ok 108 - A13 Protected Surface: zero modifications to all 13 sector engines, N4-SD, N4-A10 runtime, CSIP, EngineRegistry, EngineApiAdapter, and certification baselines
+
+## Typecheck
+npm run typecheck (src only, tsconfig include=src): exit 0
+changed-test-file tsc (scratch tsconfig in /tmp): 2 pre-existing errors on untouched lines: wp11 :130 TS2783 'nodes' duplicate key; wp14 :132 TS2339 contractVersion
+
+## AUTHORITATIVE: committed remediation 6704c4d, full history, core.autocrlf=true, clean checkout (fresh clone of full-history repo)
+source: final-crlf-full.log (raw, gitignored)
+# tests 655 # pass 655 # fail 0 # cancelled 0 # skipped 0 # todo 0 
+not ok lines: 0
+A13 Protected Surface: ok 309 - A13 Protected Surface
+
+## A13 negative controls on 6704c4d (full history, CRLF clone; each probe reverted)
+C0 clean                                  -> ok 14 (PASS)
+C1 modified protected engine file          -> not ok 14 (FAIL, detected)
+C2 staged new file in protected engine dir -> not ok 14 (FAIL, detected)
+C3 modified out-of-scope A13 record        -> ok 14 (PASS, correct: not protected)
+C4 modified allowlisted ScreenProducerAdapter.ts -> ok 14 (PASS; residual: not detected)
+
+## FOLLOW-UP: committed b70d430 (A13 adapter pin + wp11/wp14 type fixes), full-history clones
+source: final-b70-crlf-full.log / final-b70-lf-full.log (raw, gitignored)
+CRLF (core.autocrlf=true): # tests 656 # pass 656 # fail 0 
+LF   (Linux default):      # tests 656 # pass 656 # fail 0 
+Test count 656 = 655 at 6704c4d + 1 new A13 control test (adapter pin control).
+A13 in CRLF run: ok 309 - A13 P ok 310 - A13 c 
+Adapter eol in CRLF checkout: w/crlf (pin check exercised CRLF->LF hash normalization).
+
+## FOLLOW-UP typecheck and targeted tests (workspace, b70d430)
+npm run typecheck (src/, repo gate): exit 0
+scoped tsc over program-v2.0-*.test.ts + np12 (scratch tsconfig outside repo): before 5 errors -> after 3 errors
+  wp11 TS2783 (duplicate nodes key)            : FIXED
+  wp14 TS2339 (contractVersion missing in type): FIXED
+  wp7 TS2571 x3 (Object is of type unknown, lines 95/129/135): NOT in remediation scope, pre-existing, NOT fixed
+wp11 targeted: 10/10 pass; wp14 targeted: 12/12 pass
+
+## FOLLOW-UP A13 negative controls on b70d430 (full-history CRLF clone, reset between controls)
+C0 clean                                     -> PASS (expected PASS)
+C1 modified protected engine                 -> FAIL (expected FAIL) detected
+C2 staged new file in protected dir          -> FAIL (expected FAIL) detected
+C3 out-of-scope A13 record edit              -> PASS (expected PASS)
+C4 modified allowlisted adapter (prior GAP)  -> FAIL (expected FAIL) detected: 'unapproved content of permitted addition'
+C5 authorized adapter change + pin update    -> PASS (expected PASS): legitimate change remains possible
+C6 adapter deleted from worktree             -> module-load failure (loud; guard message not reached)
+C7 protected file renamed out of protected tree -> FAIL (expected FAIL) detected (--no-renames)
+Pinned blob: 2bb7864f930699b16789bbd0ac971a5a342fad67 ; C5 new pin example: 5dc1c557746d99674659ff60ee4c2cfa293f0506 (scratch only).
+
+## FRONTEND GATE: BLOCKED (not run)
+frontend/node_modules absent; tsc/vite/vitest not on PATH. Not installed (new install not authorized; instructed not to install to manufacture results).
+Remediation changed 0 frontend files (git diff 3064a90..HEAD -- frontend: 0).
+
+## FINAL INTEGRATION READINESS — verified head cb1c75d (remote; fresh full-history clones)
+Full suite CRLF (core.autocrlf=true): tests 656 pass 656 fail 0 skipped 0 (final-cb1-crlf-full.log)
+Full suite LF: tests 656 pass 656 fail 0 skipped 0 (final-cb1-lf-full.log)
+49 original failures: 49/49 exact titles PASS in CRLF run; not ok lines: 0
+A13 controls on cb1c75d: C0 PASS, C1 FAIL, C2 FAIL, C3 PASS, C4 FAIL, C5 PASS, C7 FAIL (as expected)
+Focused on cb1c75d: wp11 10/10, wp14 12/12, wp7 12/12
+Repo typecheck (src) on cb1c75d: exit 0
+Scoped regression-test typecheck on cb1c75d: exit 0 (0 errors)
+Full tests/ tree typecheck: 57 errors in 22 files (main 3064a90: 62 in 25 files); none in PR-changed test files; PR introduces 0
+Frontend (cb1c75d clone): typecheck exit 0; vitest 66 files pass / 3 skipped, 993 tests pass / 25 skipped (live Keycloak, skipIf !kcUp, NOT run); build exit 0
+Frontend install: npm ci exit 0, added 184 packages; manifest/lockfile unchanged; git dep fetched with NODE_EXTRA_CA_CERTS=system bundle (no TLS bypass)

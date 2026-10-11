@@ -92,7 +92,7 @@ test('WF-CERT-06: snapshot/replay lineage across the entire workflow', () => {
   const inputs = { ...te.input, [`__engine_${TECHNOLOGY_ENGINE_ID}`]: new TechnologyEngine() };
   const r = W.execute(def, inputs);
   assert.ok(r.snapshotRefs['engine-tech'], 'engine node recorded a snapshot (replay lineage)');
-  assert.equal(r.nodeOutputs['engine-tech'].composite, te.expectedOutput.composite, 'workflow engine node == frozen baseline');
+  assert.equal((r.nodeOutputs['engine-tech'] as { composite: number }).composite, te.expectedOutput.composite, 'workflow engine node == frozen baseline');
 });
 
 test('WF-CERT-07: cross-tenant workflow isolation', () => {
@@ -126,13 +126,13 @@ test('WF-CERT-09: WP-0 frozen-oracle preservation for sector-engine nodes', () =
     { id: 'engine-tech', type: 'engine', capability: TECHNOLOGY_ENGINE_ID, inputs: ['start'] },
   ], ['engine-tech']);
   const rTech = W.execute(wfTech, { ...te.input, [`__engine_${TECHNOLOGY_ENGINE_ID}`]: new TechnologyEngine() });
-  assert.equal(rTech.nodeOutputs['engine-tech'].composite, te.expectedOutput.composite, 'tech node == frozen baseline');
+  assert.equal((rTech.nodeOutputs['engine-tech'] as { composite: number }).composite, te.expectedOutput.composite, 'tech node == frozen baseline');
 
   const wfInd = makeDef('wf-guard-ind', '1.0', [
     { id: 'engine-ind', type: 'engine', capability: INDUSTRIALS_ENGINE_ID, inputs: ['start'] },
   ], ['engine-ind']);
   const rInd = W.execute(wfInd, { ...ind.input, [`__engine_${INDUSTRIALS_ENGINE_ID}`]: new IndustrialsEngine() });
-  assert.equal(rInd.nodeOutputs['engine-ind'].composite, ind.expectedOutput.composite, 'industrials node == frozen baseline');
+  assert.equal((rInd.nodeOutputs['engine-ind'] as { composite: number }).composite, ind.expectedOutput.composite, 'industrials node == frozen baseline');
 });
 
 test('WF-CERT-10: rollback / version coexistence — multiple workflow versions coexist', () => {

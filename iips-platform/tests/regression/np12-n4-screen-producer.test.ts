@@ -15,7 +15,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
-import { execSync } from 'node:child_process';
+import { execFileSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import {
@@ -1134,27 +1134,110 @@ test('A13 A10 Differential Parity: ScreenProducerAdapter output matches direct A
  * 9. Protected-Surface Zero-Diff Guard (Phase J & Phase M)
  * ------------------------------------------------------------------ */
 
-test('A13 Protected Surface: zero modifications to all 13 sector engines, N4-SD, N4-A10 runtime, CSIP, EngineRegistry, EngineApiAdapter, and certification baselines', () => {
-  const repoRoot = resolve(__dirname, '../../../');
-  const allowedPaths = new Set([
-    'iips-platform/src/sector-engines/cross-sector/screen/ScreenProducerAdapter.ts',
-    'iips-platform/tests/regression/np12-n4-screen-producer.test.ts',
-    'NP-12-N4-A13-IMPLEMENTATION-RECORD.md',
-  ]);
+// ---------------------------------------------------------------------------
+// A13 protected-surface guard.
+// Rule: relative to the baseline, no protected path may be modified, deleted or
+// newly added, with one exception. The A13 deliverable ScreenProducerAdapter.ts
+// may be ADDED, but only with the approved content, pinned by git blob id.
+// (A status-only check cannot tell an approved addition from a later edit to it,
+// because the file does not exist at the baseline.) Updating the pin is the only
+// way to change the adapter; it must be done in the same reviewed change.
+// ---------------------------------------------------------------------------
+const A13_BASELINE = '5ca181c7564a063a01265efdfdc5996563888d49';
+// Protected surfaces only. Governance records, documentation, evidence and
+// frontend changes are outside this guard's scope and are not compared.
+const A13_PROTECTED_PATHSPECS = [
+  'iips-platform/src/sector-engines',
+  'iips-platform/src/integration',
+  'iips-cross-sector',
+  'program-v1.1-certification',
+  'ies-*',
+];
+const A13_ADAPTER_PATH = 'iips-platform/src/sector-engines/cross-sector/screen/ScreenProducerAdapter.ts';
+// Approved content of the only permitted addition (blob at commit 6704c4d).
+const A13_ADAPTER_APPROVED_BLOB = '2bb7864f930699b16789bbd0ac971a5a342fad67';
 
-  const diffFromBase = execSync(
-    'git diff 5ca181c7564a063a01265efdfdc5996563888d49 --name-only',
+interface A13Change {
+  status: string;
+  path: string;
+}
+
+function listProtectedChanges(repoRoot: string): A13Change[] {
+  return execFileSync(
+    'git',
+    ['diff', '--no-renames', '--name-status', A13_BASELINE, '--', ...A13_PROTECTED_PATHSPECS],
     { cwd: repoRoot },
   )
     .toString('utf8')
     .trim()
     .split('\n')
-    .filter(Boolean);
+    .filter(Boolean)
+    .map((line) => {
+      const [status, ...rest] = line.split('\t');
+      return { status, path: rest.join('\t') };
+    });
+}
 
-  for (const changed of diffFromBase) {
-    assert.ok(
-      allowedPaths.has(changed),
-      `Protected surface violation vs 5ca181c7564a063a01265efdfdc5996563888d49: unexpected modified file "${changed}"`,
-    );
+// `git hash-object` applies the configured clean/eol filters, so a Windows
+// core.autocrlf checkout hashes to the same blob as the committed content.
+function workingFileBlobId(repoRoot: string, path: string): string | null {
+  try {
+    return execFileSync('git', ['hash-object', '--', path], { cwd: repoRoot }).toString('utf8').trim();
+  } catch {
+    return null;
   }
+}
+
+function a13Violations(
+  changes: A13Change[],
+  blobIdOf: (path: string) => string | null,
+): string[] {
+  const violations: string[] = [];
+  for (const { status, path } of changes) {
+    if (status === 'A' && path === A13_ADAPTER_PATH) {
+      const blob = blobIdOf(path);
+      if (blob !== A13_ADAPTER_APPROVED_BLOB) {
+        violations.push(
+          `unapproved content of permitted addition "${path}" (blob ${blob ?? 'missing'}, approved ${A13_ADAPTER_APPROVED_BLOB})`,
+        );
+      }
+      continue;
+    }
+    violations.push(`unexpected ${status} of protected file "${path}"`);
+  }
+  return violations;
+}
+
+test('A13 Protected Surface: zero modifications to all 13 sector engines, N4-SD, N4-A10 runtime, CSIP, EngineRegistry, EngineApiAdapter, and certification baselines', () => {
+  const repoRoot = resolve(__dirname, '../../../');
+  const violations = a13Violations(listProtectedChanges(repoRoot), (p) => workingFileBlobId(repoRoot, p));
+  assert.deepEqual(
+    violations,
+    [],
+    `Protected surface violations vs ${A13_BASELINE}:\n  ${violations.join('\n  ')}`,
+  );
+});
+
+test('A13 control: adapter pin admits only the approved addition and rejects every other protected change', () => {
+  const approved = () => A13_ADAPTER_APPROVED_BLOB;
+  const edited = () => '0'.repeat(40);
+  const missing = () => null;
+  const adapterAdded: A13Change = { status: 'A', path: A13_ADAPTER_PATH };
+
+  // Legitimate: the approved addition with approved content.
+  assert.deepEqual(a13Violations([adapterAdded], approved), []);
+
+  // Unauthorized: any modification of the adapter after approval must fail.
+  const edit = a13Violations([adapterAdded], edited);
+  assert.equal(edit.length, 1);
+  assert.match(edit[0], /unapproved content of permitted addition/);
+
+  // Adapter removed from the working tree, or deleted in the diff.
+  assert.equal(a13Violations([adapterAdded], missing).length, 1);
+  assert.equal(a13Violations([{ status: 'D', path: A13_ADAPTER_PATH }], approved).length, 1);
+
+  // Protected engine modified, staged new file in an engine directory, unknown new file in a protected path.
+  assert.equal(a13Violations([{ status: 'M', path: 'iips-platform/src/sector-engines/banking/BankingEngine.ts' }], approved).length, 1);
+  assert.equal(a13Violations([{ status: 'A', path: 'iips-platform/src/sector-engines/telecom/Probe.ts' }], approved).length, 1);
+  assert.equal(a13Violations([{ status: 'A', path: 'iips-cross-sector/extra.ts' }], approved).length, 1);
 });
