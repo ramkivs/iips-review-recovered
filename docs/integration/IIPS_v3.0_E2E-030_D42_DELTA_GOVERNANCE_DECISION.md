@@ -16,6 +16,7 @@
 | **Recording agent** | Arena Agent Mode (recording and controlled repository publication only; no independent authority, delegation, or third-party signature is invented) |
 | **Governance decision status** | **`GOVERNANCE APPROVED & AUTHORIZED FOR MAIN PUBLICATION — AWAITING POST-PUBLICATION EXPLICIT CERTIFICATION ACT`** — All D42 control-gate, freeze/compatibility, Track 8 concurrency, and `E2E-025`–`E2E-029` governance requirements are **APPROVED** via the owner's explicit scope-limited role consolidation, and merge into `refs/heads/main` is **AUTHORIZED**. Per established separation of gates, the 13-engine delta is **not marked as certified in this record**; the separate 13-engine E2E-030 certification act is to be executed only after canonical publication to `main` is completed and independently verified on `origin/main`. |
 | **Operative certified boundary until separate certification act** | **10-Engine LTS (`IES-006`–`IES-015`)** at `286f3da6f20080e9bd13cf76cd8dd1608b89debd` (`docs/integration/IIPS_v3.0_E2E-030_CERTIFICATION.md` §§1–11) remains intact and is the sole operative certified E2E-030 boundary until the post-publication separate 13-engine certification act is executed. |
+| **Post-publication certification status (2026-10-11, §8)** | **`SEPARATE 13-ENGINE E2E-030 CERTIFICATION ACT EXECUTED — CERTIFIED`** — see **§8**. The `v1.1` status text in the row above is preserved as the state at publication of this record. |
 
 ---
 
@@ -176,3 +177,38 @@ CERTIFICATION_STATUS=NOT_YET_CERTIFIED_PENDING_SEPARATE_POST_PUBLICATION_CERTIFI
 OPERATIVE_CERTIFIED_BOUNDARY=10-ENGINE_LTS_ONLY (286f3da6f20080e9bd13cf76cd8dd1608b89debd, IES-006..015) UNTIL_SEPARATE_POST_PUBLICATION_CERTIFICATION_ACT
 RELEASE_TAG_PRODUCTION_DEPLOYMENT_P15_P16_AUTHORIZATION=NONE
 ```
+
+---
+
+## 8. Post-Publication Certification Act Completion (2026-10-11)
+
+**Status of `R-11` (Separate Post-Publication E2E-030 13-Engine Certification Act): `SATISFIED — CERTIFICATION ACT EXECUTED`**
+
+This section is the smallest necessary additive update to this record. §§1–§7 — including the §5.3 statement that the 13-engine certification was `NOT YET EXECUTED`, the §3 role-consolidation record, and the §6 sign-off block — are preserved unmodified as the decision history at publication.
+
+| Item | Value |
+|---|---|
+| Certification record and its new decision section | `docs/integration/IIPS_v3.0_E2E-030_CERTIFICATION.md` **§14 — "Separate Post-Publication 13-Engine Certification Act (2026-10-11)"** |
+| Certification decision | **`CERTIFIED — E2E-030 13-ENGINE DELTA SCOPE (IES-006…015 + IES-016 + IES-017 + IES-020)`** |
+| Canonical baseline used | `4a0a23faf89c133ae0f3d2b7b14cf5eec14e26bd` — verified as `origin/main` (remote ref + commit ancestry) after PR #56; no technical change since the validation commit |
+| This governance record as published to canonical `main` (v1.1, §§1–§7) | `4d4bb40f034d2f1233b35b4ad88acfcac230ed36` (this revision adds §8 only) |
+| Technical implementation & validation evidence | `7524f18b0f6be4992c91448d01fa90fdc88c8275`; `evidence/integration/e2e-030-replay-remediation-2026-10-11/E2E-030_REPLAY_REMEDIATION_VALIDATION_REPORT.md`; `…/test-run-summaries.txt` |
+| Focused re-execution at the baseline (in the act) | `ReplayService` `7/7`; `E2E-025…029` integration `29/29`; Track 3 `11/11`; `snapshot-replay` `1/1`; Track 8 audit `10/10`; Track 1 `12/12`; 10-engine LTS subset `239/239`; A13 protected-surface guard `15/15`; `tsc --noEmit` exit `0` |
+| Certification act commit | `6eddc55ed933ff3c624557c65e49c7c36c317016` |
+| Publication provenance | Technical implementation and governance basis published by **PR #56** (merged `2026-10-11T16:41:06Z`, merge commit `4a0a23faf89c133ae0f3d2b7b14cf5eec14e26bd`); the certification act itself is published to `refs/heads/main` through the session branch and pull request, with post-merge verification on `origin/main` |
+| Final certification disposition | **`CERTIFIED — 13-ENGINE E2E-030 DELTA`** — operative certified boundary is `IES-006…015` + `IES-016` `sector.telecom` + `IES-017` `sector.auto` + `IES-020` `sector.materials` |
+| Certification authority vs release/production authority | **Distinct.** This certification act confers **no** release, tag, GitHub Release, deployment, production-promotion, or P15/P16 authority. §5.4 (`Release, Tagging, Deployment, Production, and P15/P16 Authority — NOT AUTHORIZED`) remains in force and is not relaxed by certification. |
+| Preservation | §§1–§7 unmodified; role-consolidation record (§3, §6) preserved verbatim; no engine, freeze manifest, calibration, scoring, taxonomy, replay baseline, or test file changed by this act (documentation-only) |
+
+```
+E2E_030_D42_DELTA_GOVERNANCE_STATUS=APPROVED_AND_AUTHORIZED_FOR_MAIN_PUBLICATION (v1.1, historical state at publication)
+E2E_030_D42_DELTA_R11_STATUS=SATISFIED (separate certification act executed 2026-10-11)
+CERTIFICATION_STATUS=CERTIFIED_13_ENGINE_E2E_030_DELTA
+CERTIFICATION_RECORD=docs/integration/IIPS_v3.0_E2E-030_CERTIFICATION.md §14
+CERTIFICATION_BASELINE=4a0a23faf89c133ae0f3d2b7b14cf5eec14e26bd
+CERTIFICATION_ACT_COMMIT=6eddc55ed933ff3c624557c65e49c7c36c317016
+OPERATIVE_CERTIFIED_BOUNDARY=13_ENGINES (IES-006..015 + IES-016 + IES-017 + IES-020)
+RELEASE_TAG_PRODUCTION_DEPLOYMENT_P15_P16_AUTHORIZATION=NONE
+```
+
+**Note on prior records:** the 2026-09-04 §§12–§13 assertion in the certification record is preserved as history and is superseded by the §14 certification act (see certification record §14.6). This record relies neither on that assertion nor on the undated/unsigned appended `CURRENT SUPERSEDING CONTROL-PLANE STATE` text in `IIPS_v3.0_AUTHORIZED_SCOPE_DISPOSITION.md` (characterised in `IIPS_v3.0_E2E-030_EXISTING_AUTHORITY_EVIDENCE_REFERENCE.md` §3 row 7 / §5).

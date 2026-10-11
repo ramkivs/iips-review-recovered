@@ -322,3 +322,171 @@ After delta certification, verify:
 - `git diff --stat e156cf6..HEAD -- docs/integration/IIPS_v3.0_E2E-030_CERTIFICATION.md` → additive delta only
 - `git diff --stat e156cf6..HEAD -- ies-*/ program-v1.1-certification/ iips-platform/src/sector-engines/banking…technology governance/` → 0 (no frozen evidence rewritten)
 
+---
+
+## 14. Separate Post-Publication 13-Engine Certification Act (2026-10-11) — E2E-030 13-Engine Delta (`IES-006…015` + `IES-016`, `IES-017`, `IES-020`)
+
+**Act:** The separate post-publication E2E-030 13-engine certification act required by **D42 R-11** (`docs/integration/IIPS_v3.0_E2E-030_D42_DELTA_GOVERNANCE_DECISION.md` §4 R-11 / §5.3), executed **after** canonical publication to `refs/heads/main` and independent verification of `origin/main`.
+
+**Certification decision (this act):** **CERTIFIED — E2E-030 13-ENGINE DELTA SCOPE (`IES-006…015` + `IES-016` + `IES-017` + `IES-020`)**
+
+**Date:** 2026-10-11 (Asia/Calcutta)
+
+**Act commit:** the commit introducing this section (direct child of `4a0a23faf89c133ae0f3d2b7b14cf5eec14e26bd`) — pinned in §14.7 by the fill-after-commit precedent used for §12 (`0e362ed`)
+
+**Verified post-publication canonical baseline (pre-act):** `4a0a23faf89c133ae0f3d2b7b14cf5eec14e26bd`
+**Technical implementation & validation commit:** `7524f18b0f6be4992c91448d01fa90fdc88c8275`
+**D42 governance decision commit:** `4d4bb40f034d2f1233b35b4ad88acfcac230ed36`
+**Publication provenance:** PR #56 — merged `2026-10-11T16:41:06Z`; merge commit `4a0a23faf89c133ae0f3d2b7b14cf5eec14e26bd` (parents `1c873ed5cd57b769abeff4ee92160a71914fe513` + `4d4bb40f034d2f1233b35b4ad88acfcac230ed36`)
+
+**Preservation (this act):** The historical 10-engine LTS certification record above (§§1–§11, as created at `3ba7fb53f2921046b3c78917ded3e13d6df6a0c4`, 30,193 bytes, `sha256 43967d3f1b1995358c61e9a48afe3a4ce4668d8060077ac64273483192dcfe03`) is preserved **byte-for-byte**: the certification file on `origin/main` begins with exactly those 30,193 bytes; the only bytes added to that region since `3ba7fb5` are the `---` section separator introduced when §12 was appended (offset 30,193 = `\n---\n\n## 12.`). §§12–§13 are preserved as historical records and are **not rewritten** (§14.6). This act is documentation-only: no engine, freeze manifest, calibration, scoring, taxonomy, replay baseline, or certified engine implementation was created or modified to achieve it.
+
+### 14.1 Post-Publication Baseline Verification (Read-Only)
+
+| # | Check | Result |
+|---|-------|--------|
+| 1 | `git rev-parse origin/main` after `git fetch --unshallow origin` | `4a0a23faf89c133ae0f3d2b7b14cf5eec14e26bd` |
+| 2 | `HEAD`, local `main`, `origin/main`; `git status --porcelain` | equal; **clean (0 entries)** |
+| 3 | Remote-side ref — GitHub API `git/ref/heads/main` (read independently of local refs) | `4a0a23faf89c133ae0f3d2b7b14cf5eec14e26bd` (`type: commit`) |
+| 4 | Remote compare `1c873ed…4a0a23f` | `status: ahead`, `ahead_by: 4` — commits `7524f18…`, `ae1c390…`, `4d4bb40…`, `4a0a23f…` |
+| 5 | Ancestry of the technical and governance commits (`git merge-base --is-ancestor`) | `7524f18b0f6be4992c91448d01fa90fdc88c8275`, `ae1c3900d5a82bcc97a37e98b82fda9ec0534cee`, `4d4bb40f034d2f1233b35b4ad88acfcac230ed36` **are ancestors of `origin/main`** |
+| 6 | Technical surface unchanged after validation | `git diff --stat 7524f18..origin/main` → only `docs/integration/IIPS_v3.0_E2E-030_D42_DELTA_GOVERNANCE_DECISION.md` (`178` insertions); **no code/test change after the validation commit** |
+| 7 | Deferred-engine frozen artifacts unchanged since D38 | `git diff --stat 3165065..origin/main -- ies-016-telecom ies-017-auto ies-020-materials program-v1.1-certification/PROGRAM_v1.1_REPLAY_BASELINE.json` → **0 lines** |
+| 8 | Technical evidence artifacts on canonical `main` | `evidence/integration/e2e-030-replay-remediation-2026-10-11/E2E-030_REPLAY_REMEDIATION_VALIDATION_REPORT.md` and `…/test-run-summaries.txt` resolve at `origin/main` |
+| 9 | D42 governance record on canonical `main` | `docs/integration/IIPS_v3.0_E2E-030_D42_DELTA_GOVERNANCE_DECISION.md` (version `1.1`) resolves at `origin/main` |
+| 10 | §§1–§11 preservation | byte-prefix identity + `sha256` verified (act header above) |
+| 11 | Deferred-engine golden references present | `telecommunications-`, `automobile-`, `materials-metals-` `golden-reference-1.0.0.json` — `4 + 4 + 4` cases (12 total) |
+
+No prerequisite was contradicted and no required evidence was missing, so the act proceeded.
+
+### 14.2 Certified Scope — Exact 13-Engine Canonical Set
+
+| # | IES | engineId | Sector family | Version / calibration | Freeze basis | Replay-baseline expectation |
+|---|-----|----------|---------------|----------------------|--------------|-----------------------------|
+| 1 | IES-006 | `sector.banking` | Banking | `1.0.0` / `banking-calibration-1.0.0` | `iips-platform` — IES-006 v1.0 | `47.1 Watch` |
+| 2 | IES-007 | `sector.insurance` | Insurance | `1.0.0` / `insurance-calibration-1.0.0` | `iips-platform` — IES-007 v1.0 | `72.3 Buy` |
+| 3 | IES-008 | `sector.capital-markets` | Capital Markets | `1.0.0` / `capital-markets-calibration-1.0.0` | `iips-platform` — IES-008 v1.0 | `84.6 Strong Buy` |
+| 4 | IES-009 | `sector.healthcare` | Healthcare | `1.0.0` / `healthcare-calibration-1.0.0` | `iips-platform` — IES-009 v1.0 | `75.5 Buy` |
+| 5 | IES-010 | `sector.hospitality` | Hospitality | `1.0.0` / `hospitality-calibration-1.0.0` | `ies-010-hospitality/IES-010_FREEZE_MANIFEST.json` | `79.0 Buy` |
+| 6 | IES-011 | `sector.energy` | Energy | `1.0.0` / `energy-calibration-1.0.0` | `ies-011-energy/IES-011_FREEZE_MANIFEST.json` | `66.9 Accumulate` |
+| 7 | IES-012 | `sector.utilities` | Utilities | `1.0.0` / `utilities-calibration-1.0.0` | `ies-012-utilities/IES-012_FREEZE_MANIFEST.json` | `74.1 Buy` |
+| 8 | IES-013 | `sector.consumer` | Consumer | `1.0.0` / `consumer-calibration-1.0.0` | `ies-013-consumer/IES-013_FREEZE_MANIFEST.json` | `79.5 Buy` |
+| 9 | IES-014 | `sector.industrials` | Industrials | `1.0.0` / `industrials-calibration-1.0.0` | `ies-014-industrials/IES-014_FREEZE_MANIFEST.json` | `77.2 Buy` |
+| 10 | IES-015 | `sector.technology` | Technology | `1.0.0` / `technology-calibration-1.0.0` | `ies-015-technology/IES-015_FREEZE_MANIFEST.json` | `76.3 Buy` |
+| 11 | IES-016 | `sector.telecom` | Telecommunications | `1.0.0` / `telecommunications-calibration-1.0.0` | `ies-016-telecom/IES-016_FREEZE_MANIFEST.json` — `FROZEN 2026-09-04` (D38) | `68.4 Accumulate` (`SNAP_FF2C2128`) |
+| 12 | IES-017 | `sector.auto` | Automobile | `1.0.0` / `automobile-calibration-1.0.0` | `ies-017-auto/IES-017_FREEZE_MANIFEST.json` — `FROZEN 2026-09-04` (D38) | `71.6 Buy` (`SNAP_4E9D59AE`) |
+| 13 | IES-020 | `sector.materials` | Materials & Metals | `1.0.0` / `materials-metals-calibration-1.0.0` | `ies-020-materials/IES-020_FREEZE_MANIFEST.json` — `FROZEN 2026-09-04` (D38) | `74.9 Buy` (`SNAP_BC9B6426`) |
+
+Source of truth at the baseline: `iips-platform/src/integration/EngineRegistry.ts` (`CERTIFIED_ENGINES`, 13 entries), `iips-platform/src/integration/EngineApiAdapter.ts`, and `program-v1.1-certification/PROGRAM_v1.1_REPLAY_BASELINE.json` `v1.1.0` (`13` sector entries, verified). **Canonical engine identifiers only** — the IPD identifiers `sector.telecommunications`, `sector.automobile`, `sector.materials-metals` do not appear in platform source/tests. No other sector family, IES, or engineId is included, and taxonomy-resolved sectors (`IT`, `Chemicals`, `Realty`, `Real Estate`) remain resolutions, not engines.
+
+### 14.3 Acceptance Criteria & Evidence Matrix
+
+| # | E2E-030 / D42 requirement | Authority source | Evidence verified at the post-publication baseline | Status |
+|---|---------------------------|------------------|---------------------------------------------------|--------|
+| 1 | Control-gate review + `E2E-013`-equivalent disposition | `ENGINE_INTEGRATION_REPORT §H`; `D42 §1.2`, `§4 R-08`, `§5.2` | D42 governance decision record at `4d4bb40` (merged to canonical `main` by PR #56); owner sign-off recorded therein | **PASS — APPROVED** |
+| 2 | E2E-025 Engine API (13 engines) | `D42 §1.2`, `§4 R-06`; `E2E-030 §4.1` | `tests/integration/*.test.ts` — registry `13` frozen, 13× governed `POST` dispatch, error paths, determinism idempotency (`17` E2E-025 tests within `29/29 PASS`) | **PASS** |
+| 3 | E2E-026 / E2E-029 product & CSIP aggregation | Same | `csip-product-e2e.test.ts` — `13`-engine aggregation, no duplicate engines, product DTO shape (`3/3 PASS`) | **PASS** |
+| 4 | E2E-027 evidence / provenance | Same | `evidence-provenance-integration.test.ts` — attributable frozen evidence, `snapshotId` as replay reference, full 13-engine provenance chain, LTS deviations `R2/R3` preserved (`4/4 PASS`) | **PASS** |
+| 5 | E2E-028 replay / cross-sector determinism | Same | `replay-e2e.test.ts` — all 13 engines byte-identical replayable through `RuntimeCoordinator → ReplayService`, all 12 golden cases of `IES-016/017/020` replay byte-identically, `DistributedRuntime` node-equivalence, replay boundary statement (`5/5 PASS`) | **PASS** |
+| 6 | Track 3 replay certification (13-sector) | `D42 §4 R-06` | `program-v1.1-track3-replay-certification.test.ts` — including `T3-CERT-05` (13-sector snapshot replay) and `T3-CERT-09` (13-sector cross-sector replay) (`11/11 PASS`) | **PASS** |
+| 7 | Governed replay recomputation (`M-2` remediation) | `D42 §2.3`, `§5.1` | `ReplayService` computes `reproduced`/`byteIdentical` from real re-execution + sorted-entry SHA-256 comparison; `ReplayService.test.ts` `V-C1`–`V-C6` mutation proofs (`7/7 PASS`) | **PASS** |
+| 8 | D38 freeze & compatibility sign-off | `D42 §1.1` Cond. 1, `§4 R-01` | Freeze manifests present and **unmodified since `3165065`** (`0` diff) with recorded/calculated hashes matching (`3cfb9d93…`/`92be9952…`, `44ba1419…`/`ea228079…`/`c8ed26c5…`, `56a6ad19…`/`9d920fa9…`/`5813060b…`); `PROGRAM_v1.1_REPLAY_BASELINE.json v1.1.0` `13` sectors unmodified since D38; D38 records `45/45 MATCH`, `0 MISMATCH` | **PASS** |
+| 9 | IES-017 Option-A left-to-right summation | `D42 §1.1`, `§4 R-03`; Track 8 closure | `AutoScoreEngine.ts` composite path is the explicit left-to-right `for (…i++) compositeRaw += pillarValues[i] * weightValues[i]` loop with `r1h2e`, **no `sum()`/`reduce` substitution in the Option-A composite accumulation** (`reduce` appears only in the pillar renormalisation helper); frozen hash triple `MATCH`; golden `AU-001…004` replay byte-identically | **PASS** |
+| 10 | IES-020 `G1–G6` preservation | `D42 §1.1`, `§4 R-04`; Track 8 closure | `materials-metals-calibration-1.0.0.json` / `MaterialsMetrics.ts` / materials scoring: `G1` segments `steel, cement, aluminium, diversified`; `G2` `archetypeRisk` `integrated 1.0`, `producer 1.1`; `G3` 8 metrics `MM-001…MM-008`; `G4` `lower-inclusive/upper-exclusive` band + `r1h2e` at composite only; `G5` calibration `1.0.0`; `G6` `ontologyDimensions: 8`; golden `MM-001…004` replay byte-identically | **PASS** |
+| 11 | Track 8 architecture conformance | `D42 §1.1` Cond. 2, `§4 R-05` | `PROGRAM_v1.1_TRACK8_IMPLEMENTATION_CLOSURE.md` (`30/30` invariant cells `CONFORMANT`, closing the former `1–2 NOT VERIFIABLE`); `program-v1.1-track8-architecture-audit.test.ts` `10/10 PASS` and `program-v1.1-track1-platform-certification.test.ts` `12/12 PASS` at the baseline | **PASS** |
+| 12 | E2E-025→029 review evidence | `D42 §1.3`, `§4 R-06` | `docs/integration/IIPS_v3.0_E2E-025_029_DEFERRED_ENGINE_CERTIFICATION.md` (at `e156cf6`) plus the executed suites above | **PASS** |
+| 13 | Preservation of the 10-engine LTS certification | `D42 §4 R-07` | §§1–§11 byte-preserved (`sha256 43967d3f…`); 10-engine LTS acceptance subset `239/239 PASS`; A13 protected-surface guard `15/15 PASS` | **PASS** |
+| 14 | Scope boundaries & canonical identifiers | `D42 §2.1`; `E2E-030 §§2–3` | 13 canonical identifiers only (no IPD identifiers); taxonomy resolution unchanged; `0` diff on frozen `016/017/020` artifacts since D38 | **PASS** |
+
+### 14.4 Validation Executed at the Post-Publication Baseline
+
+Focused re-execution on 2026-10-11 at the verified canonical baseline `4a0a23f` (`iips-platform/`, `npx tsx --test …`, `tsc --noEmit`):
+
+| Suite | Result |
+|-------|--------|
+| `src/replay/ReplayService.test.ts` (`V-C1`–`V-C6` mutation proofs) | `7/7 PASS`, `0 fail` |
+| `tests/integration/*.test.ts` (E2E-025…029, 13 engines + golden replay) | `29/29 PASS`, `0 fail` |
+| `tests/regression/program-v1.1-track3-replay-certification.test.ts` | `11/11 PASS`, `0 fail` |
+| `tests/regression/snapshot-replay.test.ts` | `1/1 PASS`, `0 fail` |
+| `tests/regression/program-v1.1-track8-architecture-audit.test.ts` | `10/10 PASS`, `0 fail` |
+| `tests/regression/program-v1.1-track1-platform-certification.test.ts` | `12/12 PASS`, `0 fail` |
+| 10-engine LTS acceptance subset (`{banking…technology,cross-sector}-*.test.ts`) | `239/239 PASS`, `0 fail` |
+| A13 protected-surface guard (`np12-n4-screen-producer.test.ts`) | `15/15 PASS`, `0 fail` |
+| `npm run typecheck` (`tsc --noEmit`) | `PASS` (exit `0`) |
+
+**Reused (not re-executed) committed evidence at `7524f18`:** full platform + integration suite `690/690 PASS`; standard command (`npm test`) `648/648 PASS`; `E2E-025`–`029` `29/29 PASS`; Track 3 `11/11 PASS`; 10-engine LTS/CSIP/framework/reuse/WP4 `239/239 PASS`; `tsc --noEmit` `PASS` — as recorded in `evidence/integration/e2e-030-replay-remediation-2026-10-11/` (report §4 + verbatim summaries). The full-suite and standard totals were **not** re-run in this act because the technical tree is unchanged since the validation commit (§14.1 row 6) and the focused replay-critical re-execution reproduced the same results.
+
+### 14.5 Certification Disposition and Precise Scope
+
+**Decision: PASS — CERTIFIED.**
+
+The IIPS v3.0 E2E stack **Certified Engine → Engine API → Evidence/Provenance → Replay (computed re-execution + byte-identity) → CSIP → Product APIs/UI surfaces** is **CERTIFIED for the 13-engine E2E-030 delta scope** — exactly the engines listed in §14.2: `sector.banking`, `sector.insurance`, `sector.capital-markets`, `sector.healthcare`, `sector.hospitality`, `sector.energy`, `sector.utilities`, `sector.consumer`, `sector.industrials`, `sector.technology`, `sector.telecom`, `sector.auto`, `sector.materials` (all `1.0.0`, calibration `1.0.0`).
+
+- **Effective scope after this act:** E2E-030 certified scope is **13 engines** — the 10-engine `Program v1.1 LTS` baseline (§§1–§11, historical certification preserved) **expanded** by the D42 13-engine delta certified here.
+- **Not certified:** any engine, sector, or identifier beyond §14.2 — including the taxonomy-resolved sectors (`IT` → `IES-015`, `Chemicals` → `IES-014`, `Realty`/`Real Estate` → `IES-015`) which remain resolutions and are not engines, and the unused IPD identifiers.
+- **Basis:** computed replay recomputation (`7524f18`), D38 frozen baselines, E2E-025→029 evidence, Track 3/Track 8 conformance, and the D42 governance decision (`4d4bb40`) — all verified as published on `origin/main` before this act.
+- **This act certifies; it does not release** (§14.8).
+
+### 14.6 Status of the Prior Delta Records (§§12–§13) — Preservation, Not Rewriting
+
+- §§12–§13 asserted `CERTIFIED — 13-ENGINE E2E-030 DELTA` on 2026-09-04 at `67e89aa52dabb5819e5f7af9c83787546dafdfb7`, citing D42 alone.
+- Two deficiencies were subsequently identified from repository evidence, and this act does not rely on those sections as its certification basis:
+  1. **No separate delta-authority decision record** existed at that time, which D42 requires — as recorded in `D42 §1.3` citing `docs/integration/IIPS_v3.0_E2E-030_EXISTING_AUTHORITY_EVIDENCE_REFERENCE.md` §3 row 6 / §5 (the §12 gate was self-named and cited D42 only).
+  2. **The replay/byte-identity assertions of that period could not have been computed:** `ReplayService` at `67e89aa` — and at every commit until `7524f18` — unconditionally returned the literals `{ reproduced: true, byteIdentical: true }` without registering an executor, without storing/reading execution context, and without recomputing or hashing output (verified from `git show 67e89aa:iips-platform/src/replay/ReplayService.ts`). The `M-2` defect and its remediation are documented in `E2E-030_REPLAY_REMEDIATION_VALIDATION_REPORT.md` §2.
+- **Consequence:** the §12 certification disposition for the 13-engine scope is **superseded by this §14 act**. §§12–§13 remain in the record as history and are neither deleted nor rewritten; their engine-level content (frozen D16/D17/D20 artefacts, Option-A triple, `G1–G6`, Track 8 lineage) remains an accurate description of the D38 frozen baseline, but their replay/byte-identity certification basis is not relied upon here.
+- Also not relied upon as authority: the undated, unsigned appended `CURRENT SUPERSEDING CONTROL-PLANE STATE` text in `IIPS_v3.0_AUTHORIZED_SCOPE_DISPOSITION.md` asserting "E2E-030 current certified scope: exactly 13 engines" (characterised in `IIPS_v3.0_E2E-030_EXISTING_AUTHORITY_EVIDENCE_REFERENCE.md` §3 row 7 / §5). The authority basis for this act is the D42 decision record (§14.7).
+- The header block of this file (and §§1–§11) records the historical position at `3ba7fb5`/`286f3da`, including the then-current exclusion of `IES-016/017/020`; that text is preserved unmodified, and the operative certified scope after this act is the one stated in §14.5. This act does **not** imply that the original 10-engine certification always covered 13 engines.
+
+### 14.7 Provenance, Authority Basis, and Evidence Locations
+
+- **Authority basis:** D42 §1.1/§1.2 control-gate requirements; D42 §3.1 scope-limited role consolidation (Program Authority + IIPS Engineering Standards Maintainer + Track 8 Architecture Conformance exercised by the platform owner for this specific E2E-030 13-engine delta); D42 §4 `R-08`/`R-09` sign-offs; D42 `R-11` requiring this post-publication act; and the E2E-030 certification-act authorization under which this recording agent acted. No other authority, delegation, or third-party concurrence is asserted.
+- **Recording agent:** Arena Agent Mode — records and publishes the decision; holds no independent authority and invents no signature or delegation.
+- **Evidence locations (present at `origin/main` before the act):**
+  - Certification record (this file): `docs/integration/IIPS_v3.0_E2E-030_CERTIFICATION.md` — §14 (this act)
+  - D42 governance decision record: `docs/integration/IIPS_v3.0_E2E-030_D42_DELTA_GOVERNANCE_DECISION.md`
+  - Technical validation report: `evidence/integration/e2e-030-replay-remediation-2026-10-11/E2E-030_REPLAY_REMEDIATION_VALIDATION_REPORT.md`
+  - Verbatim test summaries: `evidence/integration/e2e-030-replay-remediation-2026-10-11/test-run-summaries.txt`
+  - E2E-025→029 evidence certification: `docs/integration/IIPS_v3.0_E2E-025_029_DEFERRED_ENGINE_CERTIFICATION.md`
+  - Track 8 closure: `program-v1.1-certification/PROGRAM_v1.1_TRACK8_IMPLEMENTATION_CLOSURE.md`
+  - Frozen baselines: `ies-016-telecom/IES-016_FREEZE_MANIFEST.json`, `ies-017-auto/IES-017_FREEZE_MANIFEST.json`, `ies-020-materials/IES-020_FREEZE_MANIFEST.json`, `program-v1.1-certification/PROGRAM_v1.1_REPLAY_BASELINE.json`
+
+**Audit pins (single-line, grep-able 40-hex):**
+
+```
+verified canonical baseline (post-publication, pre-act): 4a0a23faf89c133ae0f3d2b7b14cf5eec14e26bd
+PR #56 base (previous canonical main): 1c873ed5cd57b769abeff4ee92160a71914fe513
+technical implementation & validation: 7524f18b0f6be4992c91448d01fa90fdc88c8275
+D42 governance draft (candidate v1.0): ae1c3900d5a82bcc97a37e98b82fda9ec0534cee
+D42 governance decision record (v1.1): 4d4bb40f034d2f1233b35b4ad88acfcac230ed36
+PR #56 merge commit (publication of technical + governance basis): 4a0a23faf89c133ae0f3d2b7b14cf5eec14e26bd
+10-engine LTS certification record (created): 3ba7fb53f2921046b3c78917ded3e13d6df6a0c4
+10-engine LTS certification record (sha256): 43967d3f1b1995358c61e9a48afe3a4ce4668d8060077ac64273483192dcfe03
+prior §12 delta certification commit: 67e89aa52dabb5819e5f7af9c83787546dafdfb7
+prior §12 identity fill commit: 0e362ed0bd4a358e60d7bdee441e853d093cee2c
+D38 freeze authority commit: 3165065618fc9bdc65160e73e5c4a8cb52a74093
+D42 opening authority commit: 6d4dbc1f43e338dca9b2b846839f7788aa63d90e
+Track 8 implementation closure: eee39d3cdfc7c1e53b82a1bc4446761a5ff6af63
+E2E-025→029 evidence certification: e156cf6a7b33acd727d1d64c0e8021c0bd67343f
+certification act commit (this §14): 6eddc55ed933ff3c624557c65e49c7c36c317016
+certification record: docs/integration/IIPS_v3.0_E2E-030_CERTIFICATION.md (§§1–§11 historical, §14 this act)
+```
+
+### 14.8 Boundaries — Certification Is Not Release Authority
+
+This act is a **certification/authority gate only**. It does **not**:
+
+- create or move any Git tag, GitHub Release, or release package (the existing `program-v1.2.0` tag/release and `v3.0-phase12-certified` tag predate this act and are unchanged by it);
+- authorize production deployment, promotion, or production eligibility;
+- authorize unrelated implementation, P15/P16 progression, or scope beyond §14.2;
+- modify frozen engine specifications, freeze manifests, calibration/scoring, taxonomy, replay baseline, or unrelated governance records;
+- change, weaken, or re-open §§1–§11 or §§12–§13.
+
+**Release/production authority remains `NONE`.** A future release of this scope requires its own separate release authority decision. Do not infer release authorization from this certification.
+
+### 14.9 Post-Act Verification
+
+- `git rev-parse HEAD` == the canonical `main` commit after publication; `git status --porcelain` → `0` (clean).
+- This file: §§1–§11 prefix `sha256 43967d3f1b1995358c61e9a48afe3a4ce4668d8060077ac64273483192dcfe03` (first 30,193 bytes) unchanged; §14 present.
+- `git diff --stat <pre-act baseline>..HEAD -- ies-*/ program-v1.1-certification/ iips-platform/IES* iips-platform/src/sector-engines/ iips-platform/src/integration/ governance/` → `0` (documentation-only act).
+- Exactly two documentation files changed by this act (`docs/integration/IIPS_v3.0_E2E-030_CERTIFICATION.md`, `docs/integration/IIPS_v3.0_E2E-030_D42_DELTA_GOVERNANCE_DECISION.md`); no tag created; no release published.
+
