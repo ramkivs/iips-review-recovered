@@ -13,7 +13,7 @@
 - Repository: `/home/user/iips-review-recovered`. Branch `arena/2034893d-iips-review-recovered`, HEAD `3064a90`.
 - Local `origin/main` ref = `e2cda00`. The live remote was **not** re-checked in this session (remote GitHub access is closed for this session).
 - Working tree: 13 tracked remediation test files modified and two untracked remediation paths (`.gitattributes`, the remediation evidence directory). Their content is byte-identical to `e2cda00`. These were not created by this record and were not touched.
-- A previously created local commit for this record (`4243006`) is **no longer present** in this workspace. The workspace was re-provisioned; the reflog shows only the clone and checkout. This file was recreated from the prior draft and revised.
+- An earlier local commit for this record (`4243006`) is **no longer present** in this workspace; the workspace had been re-provisioned. This record was recreated and committed as `85e72ae27bdda4de7db9539cfccf126c4d5e91ce` (branch parent `3064a90`). The commit was re-verified during the subsequent review; the review corrections are in a later local commit.
 - PR #54 (the session's remediation PR) is recorded as merged. Current PR state for this branch was **not** checked, because remote GitHub access is closed for this session.
 
 ## 2. Windows verification — reported, not Arena-inspected
@@ -95,9 +95,13 @@ The source report also states that the IPD chain is branch/tag anchored and not 
 
 **Separation of authority, qualification, certification, and release:**
 - *Authority acceptance:* D42 is an opening authority for IES-016/017/020. It explicitly does not certify E2E-030 for 13 engines.
-- *Delta authority (D42 requirement):* D42 requires a separate delta-certification authority decision. **No separate delta-authority record is present in IRR.** The §12 gate is self-named and cites D42 only. The IPD decision (`541963b…`) is reported to explicitly accept the 13-engine delta, but it is not on an authoritative IRR or IPD `main` ref and is not recognized by IRR's canonical records. Zero IRR references to `541963b`, `dce8140`, or `987a048`.
-- *Technical qualification:* weakened by reported gaps G3 (unrecoverable original baseline) and G4 (no independent re-execution).
-- *Certification:* IRR's 10-engine LTS certification is unchanged. The 13-engine §12 claim is not supported by a recognized authority record.
+- *Delta authority (D42 requirement):* D42 requires a separate delta-certification authority decision before E2E-030 changes from the 10-engine boundary.
+  - **Accessible IRR tree (`e2cda00`, Arena-verified):** no separate delta-authority record is present. The §12 gate is self-named and cites D42 only. There are zero IRR references to `541963b`, `dce8140`, or `987a048`. This is a finding about the accessible tree, not a determination that no such decision exists.
+  - **IPD (reported, not inspected in Arena):** the Windows operator reports that a separate IPD evidence package contains the E2E-030 closure, D51, D52, and related records. The IPD decision (`541963b…`) is reported to explicitly accept the 13-engine delta. The reported statement that it is absent from IPD `origin/main` (G1) and has a stale recorded branch tip (G2) is also unverified here.
+  - **Whether it satisfies D42:** unresolved. D42 requires the decision's scope, the accepting authority, the E2E-025→029 evidence input, and freeze/compatibility sign-off. None of these has been verified from the decision itself in this environment.
+  - **Whether IRR references it:** not adequately. IRR's canonical records do not cite it, and this artifact is an unpublished local reference, not a reconciliation.
+- *Technical qualification:* weakened by reported gaps G3 (unrecoverable original baseline) and G4 (no independent re-execution). These are reported, not verified.
+- *Certification:* the 10-engine LTS certification is unchanged. The 13-engine §12 claim has no authority basis that is verifiable in this environment. Its authority basis is **unresolved**. The delta is not described here as authorized, invalid, or disproved.
 - *Release:* `program-v1.2.0` is a release candidate in IRR; the tag is planned and not created; no GitHub release is published.
 
 ## 6. Downstream authorization boundaries
@@ -112,12 +116,12 @@ Nothing in this record authorizes:
 
 The source report's statement that D52 lifted D40 and unblocked P15 entry is **not verified** in IRR. Even if verified, it would not authorize implementation, certification, P16, or production.
 
-The original 10-engine certification remains the authoritative LTS record. The Existing-IIPS 13-engine evidence must not be transferred to a B1 registry expansion.
+The original 10-engine certification remains the operative certified boundary under D42, unless and until a separate delta authority is verified. This is not a judgment that the later 13-engine delta is invalid; it is preserved as historical evidence and is not used to prejudge the delta. The Existing-IIPS 13-engine evidence must not be transferred to a B1 registry expansion.
 
 ## 7. Open gaps
 
-1. No separate delta-certification authority record in IRR that satisfies D42 (§5).
-2. The IPD authority decision is not on an authoritative IPD `main` ref, and its recorded branch tip is stale (G1, G2).
+1. Delta authority basis unresolved: no separate delta-certification authority record is in the accessible IRR tree, and the IPD decision has not been inspected in Arena, so whether it satisfies D42 cannot be determined here (§5).
+2. Reported (not verified): the IPD authority decision is absent from IPD `origin/main` (G1) and its recorded branch tip is stale (G2).
 3. The original baseline is unrecoverable (G3); no independent re-execution (G4).
 4. IPD source records (AA-B2/B3/B4, D41 §B.5 wording, closure wording, accepting authority) are not verifiable from IRR.
 5. Missing identifiers: D51 document, golden-baseline, repaired-tree, and bundle identities; paths for E2E-030-R1, CHECKPOINT-01, D51, D52.
