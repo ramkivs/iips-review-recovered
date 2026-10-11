@@ -134,3 +134,15 @@ Pinned blob: 2bb7864f930699b16789bbd0ac971a5a342fad67 ; C5 new pin example: 5dc1
 ## FRONTEND GATE: BLOCKED (not run)
 frontend/node_modules absent; tsc/vite/vitest not on PATH. Not installed (new install not authorized; instructed not to install to manufacture results).
 Remediation changed 0 frontend files (git diff 3064a90..HEAD -- frontend: 0).
+
+## FINAL INTEGRATION READINESS — verified head cb1c75d (remote; fresh full-history clones)
+Full suite CRLF (core.autocrlf=true): tests 656 pass 656 fail 0 skipped 0 (final-cb1-crlf-full.log)
+Full suite LF: tests 656 pass 656 fail 0 skipped 0 (final-cb1-lf-full.log)
+49 original failures: 49/49 exact titles PASS in CRLF run; not ok lines: 0
+A13 controls on cb1c75d: C0 PASS, C1 FAIL, C2 FAIL, C3 PASS, C4 FAIL, C5 PASS, C7 FAIL (as expected)
+Focused on cb1c75d: wp11 10/10, wp14 12/12, wp7 12/12
+Repo typecheck (src) on cb1c75d: exit 0
+Scoped regression-test typecheck on cb1c75d: exit 0 (0 errors)
+Full tests/ tree typecheck: 57 errors in 22 files (main 3064a90: 62 in 25 files); none in PR-changed test files; PR introduces 0
+Frontend (cb1c75d clone): typecheck exit 0; vitest 66 files pass / 3 skipped, 993 tests pass / 25 skipped (live Keycloak, skipIf !kcUp, NOT run); build exit 0
+Frontend install: npm ci exit 0, added 184 packages; manifest/lockfile unchanged; git dep fetched with NODE_EXTRA_CA_CERTS=system bundle (no TLS bypass)
