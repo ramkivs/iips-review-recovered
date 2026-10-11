@@ -1,0 +1,8 @@
+utilities-calibration    CR=  34 BLOB_OK SHA256_MISMATCH
+consumer-calibration     CR=  38 BLOB_OK SHA256_MISMATCH
+industrials-calibration  CR=  44 BLOB_OK SHA256_MISMATCH
+technology-calibration   CR=  63 BLOB_OK SHA256_MISMATCH
+ScreenDefinition         CR= 262 BLOB_MISMATCH SHA256_MISMATCH
+grammar-record           CR= 818 BLOB_MISMATCH sha=n/a
+cross-sector-index       CR=  14 BLOB_MISMATCH sha=n/a
+ScreeningPopulation      CR= 239 BLOB_MISMATCH sha=n/a
