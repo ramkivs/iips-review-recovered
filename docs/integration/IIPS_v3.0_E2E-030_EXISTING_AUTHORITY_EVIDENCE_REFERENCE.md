@@ -75,7 +75,14 @@ All of the following carry the date 2026-09-04. The dates therefore do not order
 | D52 re-adjudication | `964fc31b93ce255e1020845b2e4ab665ff95027e` |
 | Recorded source branch tip (reported stale, G2) | `b56a608b2a4b2e3524d1a82f12cf13eaeff35bb2` |
 
-Blob identities (reported): closure document `4707062bac4798e53269280709ecbf87195535bc` (taken from an IRR lineage inventory; contents not inspected). D51 document, golden baseline, repaired-tree identity, and bundle path: **not supplied**, not recorded.
+The prior Windows package verification reported the following package identities. These are Windows-reported findings; the package and source objects were not independently inspected in this Arena session:
+
+- Canonical checkpoint closure artifact `artifacts/02b-E2E-030-AUTH-01_CLOSURE_at-checkpoint.md`: blob `4707062bac4798e53269280709ecbf87195535bc`.
+- D51 evidence consolidation `artifacts/03-D51_EVIDENCE_CONSOLIDATION.md`: source commit `987a048520e3cd1f770affa3cb539f0865a41cfb`; blob `3b241f12f3d0bb8c9eb81645438f00eb8ffa3958`.
+- Replay baseline `artifacts/05-PROGRAM_v1.1_REPLAY_BASELINE.json`: blob `63bcd350f2cda2b0337097c25236fd8dbe82d87b`.
+- Remediation bundle `artifacts/06-external-remediation-m1-ad4-repair.bundle`: reported package Git blob prefix `bd07a1a4…`; the complete identity was recorded in the package manifest but was not independently inspected in this Arena session.
+
+The golden-baseline and repaired-tree identities have not been independently established by this IRR-side inspection.
 
 The source report also states that the IPD chain is branch/tag anchored and not on IPD `origin/main`, which the source recorded at `4d3e1cdca3a33da0ec3be8b336b17128108a502c`. That IPD `main` value is not verified here.
 
