@@ -38,6 +38,9 @@ import { UtilitiesEngine, UTILITIES_ENGINE_ID } from '../../src/sector-engines/u
 import { ConsumerEngine, CONSUMER_ENGINE_ID } from '../../src/sector-engines/consumer/ConsumerEngine';
 import { IndustrialsEngine, INDUSTRIALS_ENGINE_ID } from '../../src/sector-engines/industrials/IndustrialsEngine';
 import { TechnologyEngine, TECHNOLOGY_ENGINE_ID } from '../../src/sector-engines/technology/TechnologyEngine';
+import { TelecomEngine, TELECOM_ENGINE_ID } from '../../src/sector-engines/telecom/TelecomEngine';
+import { AutoEngine, AUTO_ENGINE_ID } from '../../src/sector-engines/auto/AutoEngine';
+import { MaterialsEngine, MATERIALS_ENGINE_ID } from '../../src/sector-engines/materials/MaterialsEngine';
 
 const BASELINE = JSON.parse(
   fs.readFileSync(path.resolve(__dirname, '../../../program-v1.1-certification/PROGRAM_v1.1_REPLAY_BASELINE.json'), 'utf8'),
@@ -54,6 +57,9 @@ const ENGINE_FACTORY: Record<string, () => SectorPlugin> = {
   [CONSUMER_ENGINE_ID]: () => new ConsumerEngine(),
   [INDUSTRIALS_ENGINE_ID]: () => new IndustrialsEngine(),
   [TECHNOLOGY_ENGINE_ID]: () => new TechnologyEngine(),
+  [TELECOM_ENGINE_ID]: () => new TelecomEngine(),
+  [AUTO_ENGINE_ID]: () => new AutoEngine(),
+  [MATERIALS_ENGINE_ID]: () => new MaterialsEngine(),
 };
 
 function makeRuntime() {
@@ -124,7 +130,7 @@ test('WP0-A4: 12 MUST-PRESERVE constitutional invariants hold', () => {
   // 3. Common runtime/plugin contract (all engines are SectorPlugin via PluginLoader).
   const rt = makeRuntime();
   for (const s of BASELINE.sectors) assert.equal(rt.plugins.load(ENGINE_FACTORY[s.engineId]()), true);
-  assert.equal(rt.plugins.size, 10, 'common plugin contract hosts all 10');
+  assert.equal(rt.plugins.size, BASELINE.sectors.length, 'common plugin contract hosts all baseline sectors');
   // 4. Frozen-oracle discipline: engine outputs match the frozen Replay Baseline (WP0-A1).
   // 5. Deterministic replay (WP0-A3). 6. Evidence traceability:
   for (const s of BASELINE.sectors) {

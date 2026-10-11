@@ -23,6 +23,9 @@ import { UtilitiesEngine, UTILITIES_ENGINE_ID } from '../../src/sector-engines/u
 import { ConsumerEngine, CONSUMER_ENGINE_ID } from '../../src/sector-engines/consumer/ConsumerEngine';
 import { IndustrialsEngine, INDUSTRIALS_ENGINE_ID } from '../../src/sector-engines/industrials/IndustrialsEngine';
 import { TechnologyEngine, TECHNOLOGY_ENGINE_ID } from '../../src/sector-engines/technology/TechnologyEngine';
+import { TelecomEngine } from '../../src/sector-engines/telecom/TelecomEngine';
+import { AutoEngine } from '../../src/sector-engines/auto/AutoEngine';
+import { MaterialsEngine } from '../../src/sector-engines/materials/MaterialsEngine';
 import type { SectorPlugin } from '../../src/plugin-loader/PluginContract';
 
 const BASELINE = JSON.parse(
@@ -32,7 +35,7 @@ const BASELINE = JSON.parse(
 const ALL_ENGINES: Array<() => SectorPlugin> = [
   () => new BankingEngine(), () => new InsuranceEngine(), () => new CapitalMarketsEngine(),
   () => new HealthcareEngine(), () => new HospitalityEngine(), () => new EnergyEngine(),
-  () => new UtilitiesEngine(), () => new ConsumerEngine(), () => new IndustrialsEngine(), () => new TechnologyEngine(),
+  () => new UtilitiesEngine(), () => new ConsumerEngine(), () => new IndustrialsEngine(), () => new TechnologyEngine(), () => new TelecomEngine(), () => new AutoEngine(), () => new MaterialsEngine(),
 ];
 
 const clock = { now: () => '2026-08-09T00:00:00.000Z' };

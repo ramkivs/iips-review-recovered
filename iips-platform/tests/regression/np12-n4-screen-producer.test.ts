@@ -15,7 +15,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
-import { execSync } from 'node:child_process';
+import { execFileSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import {
@@ -1136,25 +1136,41 @@ test('A13 A10 Differential Parity: ScreenProducerAdapter output matches direct A
 
 test('A13 Protected Surface: zero modifications to all 13 sector engines, N4-SD, N4-A10 runtime, CSIP, EngineRegistry, EngineApiAdapter, and certification baselines', () => {
   const repoRoot = resolve(__dirname, '../../../');
-  const allowedPaths = new Set([
+  const A13_BASELINE = '5ca181c7564a063a01265efdfdc5996563888d49';
+  // Protected surfaces only. Governance records, documentation, evidence and
+  // frontend changes are outside this guard's scope and are not compared.
+  const protectedPathspecs = [
+    'iips-platform/src/sector-engines',
+    'iips-platform/src/integration',
+    'iips-cross-sector',
+    'program-v1.1-certification',
+    'ies-*',
+  ];
+  // The only protected-path file permitted to be ADDED after the baseline is the
+  // A13 deliverable. Any modification or deletion of a protected path fails.
+  const allowedAddedPaths = new Set([
     'iips-platform/src/sector-engines/cross-sector/screen/ScreenProducerAdapter.ts',
-    'iips-platform/tests/regression/np12-n4-screen-producer.test.ts',
-    'NP-12-N4-A13-IMPLEMENTATION-RECORD.md',
   ]);
 
-  const diffFromBase = execSync(
-    'git diff 5ca181c7564a063a01265efdfdc5996563888d49 --name-only',
+  const changes = execFileSync(
+    'git',
+    ['diff', '--name-status', A13_BASELINE, '--', ...protectedPathspecs],
     { cwd: repoRoot },
   )
     .toString('utf8')
     .trim()
     .split('\n')
-    .filter(Boolean);
+    .filter(Boolean)
+    .map((line) => {
+      const [status, ...rest] = line.split('\t');
+      return { status, path: rest.join('\t') };
+    });
 
-  for (const changed of diffFromBase) {
+  for (const { status, path } of changes) {
+    const permitted = status === 'A' && allowedAddedPaths.has(path);
     assert.ok(
-      allowedPaths.has(changed),
-      `Protected surface violation vs 5ca181c7564a063a01265efdfdc5996563888d49: unexpected modified file "${changed}"`,
+      permitted,
+      `Protected surface violation vs ${A13_BASELINE}: unexpected ${status} of protected file "${path}"`,
     );
   }
 });

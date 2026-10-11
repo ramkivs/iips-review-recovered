@@ -27,6 +27,9 @@ import { UtilitiesEngine, UTILITIES_ENGINE_ID } from '../../src/sector-engines/u
 import { ConsumerEngine, CONSUMER_ENGINE_ID } from '../../src/sector-engines/consumer/ConsumerEngine';
 import { IndustrialsEngine, INDUSTRIALS_ENGINE_ID } from '../../src/sector-engines/industrials/IndustrialsEngine';
 import { TechnologyEngine, TECHNOLOGY_ENGINE_ID } from '../../src/sector-engines/technology/TechnologyEngine';
+import { TelecomEngine, TELECOM_ENGINE_ID } from '../../src/sector-engines/telecom/TelecomEngine';
+import { AutoEngine, AUTO_ENGINE_ID } from '../../src/sector-engines/auto/AutoEngine';
+import { MaterialsEngine, MATERIALS_ENGINE_ID } from '../../src/sector-engines/materials/MaterialsEngine';
 
 const BASELINE = JSON.parse(
   fs.readFileSync(path.resolve(__dirname, '../../../program-v1.1-certification/PROGRAM_v1.1_REPLAY_BASELINE.json'), 'utf8'),
@@ -43,6 +46,9 @@ const ENGINE_FACTORY: Record<string, () => import('../../src/plugin-loader/Plugi
   [CONSUMER_ENGINE_ID]: () => new ConsumerEngine(),
   [INDUSTRIALS_ENGINE_ID]: () => new IndustrialsEngine(),
   [TECHNOLOGY_ENGINE_ID]: () => new TechnologyEngine(),
+  [TELECOM_ENGINE_ID]: () => new TelecomEngine(),
+  [AUTO_ENGINE_ID]: () => new AutoEngine(),
+  [MATERIALS_ENGINE_ID]: () => new MaterialsEngine(),
 };
 const ALL_ENGINES = Object.values(ENGINE_FACTORY);
 const DR = new DistributedRuntime();
@@ -136,7 +142,7 @@ test('D-CERT-07: no cross-sector state leakage — each sector result independen
     const r = DR.execute(node, s.engineId, { requestId: `d-iso-${s.engineId}`, inputs: s.input });
     composites.add(JSON.stringify([r.metadata.composite, r.metadata.verdict]));
   }
-  assert.equal(composites.size, 10, '10 distinct sector outputs (no leakage)');
+  assert.equal(composites.size, BASELINE.sectors.length, 'distinct sector outputs for all baseline sectors (no leakage)');
 });
 
 test('D-CERT-08: no cross-node leakage — nodes with different lineages do not interfere', () => {

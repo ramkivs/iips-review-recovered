@@ -1,0 +1,12 @@
+# Byte-exact canonical files asserted by committed-blob or raw-byte hash tests.
+# Keep LF working-tree bytes for these exact paths regardless of core.autocrlf,
+# so raw SHA-256 and Git blob identities match the committed canonical content.
+# Exact paths only: no globs, no repository-wide line-ending policy.
+ies-012-utilities/calibration/utilities-calibration-1.0.0.json text eol=lf
+ies-013-consumer/calibration/consumer-calibration-1.0.0.json text eol=lf
+ies-014-industrials/calibration/industrials-calibration-1.0.0.json text eol=lf
+ies-015-technology/calibration/technology-calibration-1.0.0.json text eol=lf
+iips-platform/src/sector-engines/cross-sector/definition/ScreenDefinition.ts text eol=lf
+iips-platform/src/sector-engines/cross-sector/index.ts text eol=lf
+iips-platform/src/sector-engines/cross-sector/population/ScreeningPopulation.ts text eol=lf
+NP-12-N4-CANONICAL-BYTE-GRAMMAR-DECISION-RECORD.md text eol=lf
