@@ -194,7 +194,7 @@ This section is the smallest necessary additive update to this record. §§1–�
 | This governance record as published to canonical `main` (v1.1, §§1–§7) | `4d4bb40f034d2f1233b35b4ad88acfcac230ed36` (this revision adds §8 only) |
 | Technical implementation & validation evidence | `7524f18b0f6be4992c91448d01fa90fdc88c8275`; `evidence/integration/e2e-030-replay-remediation-2026-10-11/E2E-030_REPLAY_REMEDIATION_VALIDATION_REPORT.md`; `…/test-run-summaries.txt` |
 | Focused re-execution at the baseline (in the act) | `ReplayService` `7/7`; `E2E-025…029` integration `29/29`; Track 3 `11/11`; `snapshot-replay` `1/1`; Track 8 audit `10/10`; Track 1 `12/12`; 10-engine LTS subset `239/239`; A13 protected-surface guard `15/15`; `tsc --noEmit` exit `0` |
-| Certification act commit | `PENDING_E2E030_ACT_COMMIT_40HEX` |
+| Certification act commit | `6eddc55ed933ff3c624557c65e49c7c36c317016` |
 | Publication provenance | Technical implementation and governance basis published by **PR #56** (merged `2026-10-11T16:41:06Z`, merge commit `4a0a23faf89c133ae0f3d2b7b14cf5eec14e26bd`); the certification act itself is published to `refs/heads/main` through the session branch and pull request, with post-merge verification on `origin/main` |
 | Final certification disposition | **`CERTIFIED — 13-ENGINE E2E-030 DELTA`** — operative certified boundary is `IES-006…015` + `IES-016` `sector.telecom` + `IES-017` `sector.auto` + `IES-020` `sector.materials` |
 | Certification authority vs release/production authority | **Distinct.** This certification act confers **no** release, tag, GitHub Release, deployment, production-promotion, or P15/P16 authority. §5.4 (`Release, Tagging, Deployment, Production, and P15/P16 Authority — NOT AUTHORIZED`) remains in force and is not relaxed by certification. |
@@ -206,7 +206,7 @@ E2E_030_D42_DELTA_R11_STATUS=SATISFIED (separate certification act executed 2026
 CERTIFICATION_STATUS=CERTIFIED_13_ENGINE_E2E_030_DELTA
 CERTIFICATION_RECORD=docs/integration/IIPS_v3.0_E2E-030_CERTIFICATION.md §14
 CERTIFICATION_BASELINE=4a0a23faf89c133ae0f3d2b7b14cf5eec14e26bd
-CERTIFICATION_ACT_COMMIT=PENDING_E2E030_ACT_COMMIT_40HEX
+CERTIFICATION_ACT_COMMIT=6eddc55ed933ff3c624557c65e49c7c36c317016
 OPERATIVE_CERTIFIED_BOUNDARY=13_ENGINES (IES-006..015 + IES-016 + IES-017 + IES-020)
 RELEASE_TAG_PRODUCTION_DEPLOYMENT_P15_P16_AUTHORIZATION=NONE
 ```

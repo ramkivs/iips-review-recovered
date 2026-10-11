@@ -467,7 +467,7 @@ D38 freeze authority commit: 3165065618fc9bdc65160e73e5c4a8cb52a74093
 D42 opening authority commit: 6d4dbc1f43e338dca9b2b846839f7788aa63d90e
 Track 8 implementation closure: eee39d3cdfc7c1e53b82a1bc4446761a5ff6af63
 E2E-025→029 evidence certification: e156cf6a7b33acd727d1d64c0e8021c0bd67343f
-certification act commit (this §14): PENDING_E2E030_ACT_COMMIT_40HEX
+certification act commit (this §14): 6eddc55ed933ff3c624557c65e49c7c36c317016
 certification record: docs/integration/IIPS_v3.0_E2E-030_CERTIFICATION.md (§§1–§11 historical, §14 this act)
 ```
 
