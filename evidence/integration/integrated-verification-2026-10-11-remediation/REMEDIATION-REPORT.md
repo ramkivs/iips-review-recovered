@@ -5,8 +5,9 @@ Authority: user-authorized remediation, plus `npm ci --no-audit --no-fund` in `i
 Certification: **unchanged**. No certification record, governance record, or protected source was edited. Passing tests here are not certification approval, and no 13-engine certification is asserted.
 
 Commits on `arena/2034893d-iips-review-recovered`:
-- `6704c4d` — remediation (12 test files and `.gitattributes`). This is the commit verified in section 6.
-- second commit — this evidence folder.
+- `6704c4d` — remediation (12 test files and `.gitattributes`). Verified 655/655 in section 6.
+- `9c57227` — evidence for `6704c4d`.
+- `b70d430` — follow-up: A13 adapter pin and wp11/wp14 type fixes. Verified 656/656 in section 11. The 655/655 result is attributed only to `6704c4d`.
 
 ## 1. Starting identity
 
@@ -54,7 +55,7 @@ No `src/`, fixture, expected hash, baseline, certification record, `package.json
 
 - The defect was scope. The original check diffed the whole repository against `5ca181c`. That diff contains 225 changed paths; 223 are outside the two files the old allowlist permitted (`np12-n4-screen-producer.test.ts` and the A13 record).
 - New scope: `iips-platform/src/sector-engines`, `iips-platform/src/integration`, `iips-cross-sector`, `program-v1.1-certification`, and `ies-*`. Protected paths may only have status `A` (added), and only for `ScreenProducerAdapter.ts`. Any `M` or `D` on a protected path fails.
-- Negative controls, run on the committed `6704c4d` (full-history CRLF clone; each probe reverted):
+- Negative controls, run on the committed `6704c4d` (historical; the current controls are in section 11.2) (full-history CRLF clone; each probe reverted):
 
 | Control | Result | Expected | Verdict |
 |---|---|---|---|
@@ -62,7 +63,7 @@ No `src/`, fixture, expected hash, baseline, certification record, `package.json
 | C1 modified protected engine file | **FAIL** | FAIL | detected |
 | C2 staged new file in a protected engine directory | **FAIL** | FAIL | detected |
 | C3 modified out-of-scope A13 record | PASS | PASS | correct (not protected) |
-| C4 modified allowlisted `ScreenProducerAdapter.ts` | PASS | PASS (allowed) | **not detected**; see residual 2 |
+| C4 modified allowlisted `ScreenProducerAdapter.ts` | PASS | PASS (allowed) | **not detected** (as of `6704c4d`). **Closed in `b70d430`**: now FAIL. See section 11. |
 
 ## 6. Verification results
 
@@ -94,12 +95,13 @@ Notes:
 ## 8. Residual limitations and open items
 
 1. **A13 needs full history.** In a shallow clone it fails loudly, not silently. A full-history clone passes. The workspace was not deepened or fetched, to preserve the repository state.
-2. **Allowlisted adapter edits are not detected (control C4).** `ScreenProducerAdapter.ts` is absent at `5ca181c`, so it always reports as status `A`. Closing this needs a content pin (blob hash), which is a separate decision.
+2. **Closed in follow-up `b70d430`.** The adapter is now pinned by git blob id (`2bb7864f…`). See section 11. The residual is now only the pin itself: it lives in the test file, which is outside the protected paths, so a pin edit is a visible diff that must be reviewed, not a hidden change.
 3. **Untracked files are not compared.** `git diff <commit>` covers tracked files only. The original check had the same gap. A staged new file is detected (C2). An unstaged untracked file is not.
 4. **Test titles still say 10.** These are kept deliberately so failure identities are stable. At least these exist: `FC-CORE … across all 10 sectors`, `FC-10 … all 10 engines`, `WP0-A1: 10-sector Replay Baseline`, `D-CERT-01 … all 10 sectors`, `H-CERT-01 … all 10 engines`. The grep is best-effort, so the list may be incomplete. Renaming is a separate decision.
 5. **Windows working copies need a refresh after pulling.** `.gitattributes` affects checkout, not existing files. A `core.autocrlf=true` clone keeps CRLF in the eight files until they are re-checked-out. The owner should refresh those files (for example, delete them and run `git checkout -- <paths>`), then confirm with `git ls-files --eol` (`attr/text eol=lf`, `w/lf`). This was not executed here. Do not run a renormalize.
 6. **13-engine delta-certification governance decision is outstanding.** The question of whether a separate authority record is required for the 13-engine delta is unresolved. This remediation does not address or claim it.
-7. **Frontend not verified** in this remediation.
+7. **Frontend gate BLOCKED (not run).** `frontend/node_modules` is absent and `tsc`, `vite`, `vitest` are not on PATH. Installing them is a new dependency install that was not authorized, so frontend typecheck, tests and build are open. The remediation changed 0 frontend files.
+8. **Pre-existing type errors in `program-v2.0-wp7-workflow.test.ts`** (three TS2571 "Object is of type unknown", lines 95, 129, 135). Found in the follow-up scoped type-check. wp7 is outside the remediation and the 49-failure inventory, so it was not changed.
 
 ## 9. Certification and governance boundary
 
@@ -113,3 +115,48 @@ No certification record, governance record, E2E document or protected source was
 - `raw-byte-check.mjs`, `raw-byte-check-pre-fix.txt`, `raw-byte-check-post-fix.txt`: byte, CR-count and hash evidence.
 
 Raw logs are gitignored (`*.log`) and remain outside the repository.
+
+## 11. Follow-up — commit `b70d430`
+
+### 11.1 A13 adapter residual: cause and fix
+- **Cause.** The A13 check compared status only (`A` = allowed). `ScreenProducerAdapter.ts` does not exist at baseline `5ca181c`, so every later edit to it still reports as `A`. The check never inspected content, so an unauthorized edit to the adapter passed.
+- **Fix (narrowest).** The permitted addition is admitted only with its approved content, pinned by git blob id `2bb7864f930699b16789bbd0ac971a5a342fad67` (the content at `6704c4d`). Blob ids come from `git hash-object`, which applies configured eol filters, so a Windows `core.autocrlf` checkout hashes to the committed blob. Other protected changes are unchanged: any `M`, `D`, or unlisted `A` still fails. `--no-renames` was added so a rename cannot hide a protected deletion.
+- **Legitimate change remains possible.** Changing the adapter requires updating the pin in the same reviewed change (control C5).
+- **No weakening.** The pathspecs, baseline, and allowlist are unchanged. The allowlist still contains only the adapter. The check is stricter, not looser.
+- **Regression control.** A new test (`A13 control: …`) runs the same rule on synthetic inputs in every suite run: approved addition passes; edited, missing, or deleted adapter fails; protected `M`, staged `A` in an engine directory, and unknown `A` in a protected path each fail.
+
+### 11.2 A13 negative controls on `b70d430` (full-history CRLF clone; reset between controls)
+
+| Control | Expected | Result |
+|---|---|---|
+| C0 clean tree | PASS | PASS |
+| C1 modified protected engine (`BankingEngine.ts`) | FAIL | FAIL, detected |
+| C2 staged new file in protected engine directory | FAIL | FAIL, detected |
+| C3 out-of-scope A13 record edit | PASS | PASS |
+| C4 modified allowlisted adapter (the prior gap) | FAIL | FAIL, detected: `unapproved content of permitted addition … (blob 7f88…, approved 2bb7…)` |
+| C5 authorized adapter change with pin updated in the same change | PASS | PASS |
+| C6 adapter removed from worktree | FAIL | FAIL, but at module load (`Cannot find module`), so the guard message is not reached |
+| C7 protected file renamed out of protected tree | FAIL | FAIL, detected (`--no-renames`) |
+
+C6 is a loud failure, not a guard pass. The unit control also exercises a `D` status directly.
+
+### 11.3 Type-check gaps
+- **wp11** line 130: TS2783 duplicate `nodes` key. `measureBatch` already returns `nodes = n`. Fixed by removing the redundant key. Runtime values are unchanged. wp11: 10/10 pass.
+- **wp14** line 132: TS2339 `contractVersion` missing from the local type cast. The frozen baseline has `contractVersion` on 13/13 sectors, so the type was incomplete. Fixed by declaring the optional field. No runtime change. wp14: 12/12 pass.
+- **Repo gate.** `npm run typecheck` (src/): exit 0.
+- **Scoped check.** Over the regression test files, errors went from 5 to 3. The remaining three are in `wp7` (section 8, item 8), which is out of scope and was not changed.
+
+### 11.4 Platform suite on `b70d430`
+- CRLF (`core.autocrlf=true`), full history, clean checkout: **656 / 656**, 0 fail, 0 skip. A13 (`ok 309`) and A13 control (`ok 310`) pass.
+- LF (Linux default), full history, clean checkout: **656 / 656**.
+- The total moved from 655 to 656 only because of the new control test. The 655/655 result remains attributed to `6704c4d`.
+- The adapter is `w/crlf` in the CRLF checkout, so the pin check exercised the CRLF-to-LF hash path.
+
+### 11.5 Frontend gate
+- **BLOCKED.** `frontend/node_modules` is absent, and `tsc`, `vite`, `vitest` are not on PATH. Installing them would be a new dependency install, which was not authorized. Per instructions, no install was done to manufacture a result.
+- Frontend typecheck, tests, and build are not run and are not claimed. The remediation changed 0 frontend files.
+
+### 11.6 Integration readiness
+- All 49 original failures are still fixed by the earlier 655/655 result on `6704c4d`. The follow-up adds one control and two type fixes, and passes 656/656 on `b70d430`.
+- Open gates before merge: frontend gate (11.5); the Windows eight-file refresh (section 8, item 5); the 13-engine governance decision (section 8, item 6); the title/label debt (section 8, item 4); `wp7` type errors (section 8, item 8).
+- The 10-engine LTS remains the authoritative certification. No certification record was changed, and 13-engine certification is not claimed.
