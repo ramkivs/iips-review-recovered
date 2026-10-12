@@ -4,9 +4,9 @@
 |---|---|
 | Record ID | IIPS-V3-OWNER-CONTEXT-F1-F2-F3-PA-DECISION-01 |
 | Record type | Formal Program Authority decision record rendering the PA's approval of the reviewed decision proposal `IIPS-V3-OWNER-CONTEXT-F1-F2-F3-PROPOSAL-01`. Establishes approved policy definitions and an approved architectural **design direction** for the three previously UNDECIDED items of `IIPS-V3-OWNER-CONTEXT-PA-DECISION-FINAL-01`. |
-| Status | **APPROVED BY PROGRAM AUTHORITY — RECORDED — FINAL RECORD REVIEW PENDING — NOT PUBLISHED — NOT EFFECTIVE** |
+| Status | **AS AT PREPARATION: APPROVED BY PROGRAM AUTHORITY — RECORDED — FINAL RECORD REVIEW PENDING — NOT PUBLISHED — NOT EFFECTIVE.** Publication status is superseded post-publication; see the Post-Publication Effectiveness & Baseline-Re-Verification Closure note at the end of this record. |
 | Decision date | 2026-10-12 |
-| Recorded | 2026-10-12 (local preparation; local-only, uncommitted) |
+| Recorded | 2026-10-12 (local preparation; local-only, uncommitted) — as at preparation |
 | Prepared against baseline | `origin/main` = `834ef334f53434bfe3643a3b4881b6440af434eb` (merge of PR #62), as recorded in the local clone; HEAD `0093105` on `arena/79f30e80-iips-review-recovered` |
 | Implementation authority | **NOT GRANTED** |
 | Value-selection authority | **NOT GRANTED AND NOT EXERCISED** (no concrete owner or tenant value is selected by this record) |
@@ -124,7 +124,7 @@ Approval of the design direction does **not** establish any of the following; ea
 
 ### 5.4 Verification limitation
 
-The proposal (and therefore this record's baseline) was verified against the last-fetched `origin/main` ref in a session without remote access. If `main` has moved since PR #62, the proposal's evidence must be re-verified against the current baseline before publication or implementation (proposal §11.7).
+The proposal (and therefore this record's baseline) was verified against the last-fetched `origin/main` ref in a session without remote access. If `main` has moved since PR #62, the proposal's evidence must be re-verified against the current baseline before publication or implementation (proposal §11.7). **Post-publication status: that re-verification is recorded in the closure note at the end of this record, §3; the limitation itself is preserved.**
 
 ## 6. Evidence and rationale
 
@@ -142,7 +142,7 @@ The approval rests on the evidence assembled and cited in the proposal (all path
 
 1. **No capability is admitted or qualified by this record.** Admission requires a separate implementation-authorization gate; qualification requires the F-7 five-part bar per capability (approved policy F-4(4), F-7).
 2. **NP-09 Watchlists:** designation published to main; **qualification remains NOT ESTABLISHED** — publication of a designation is not qualification, and this record changes nothing in that status.
-3. **NP-10 Collaboration / NP-11 Settings:** designation and qualification evidence remain branch-only (`arena/01a0f351`) and unadmitted; separate gates required.
+3. **NP-10 Collaboration / NP-11 Settings:** the designations are published on `main` (PR #62, 2026-10-12, each with a republication-provenance note); their non-production qualification and acceptance/baseline-admission records remain branch-only (`arena/01a0f351`) and neither capability is admitted or qualified; separate gates required. (Corrected post-publication — closure note §4.)
 4. **Reports NP-06 and Portfolios G-2:** deferred; unconditional 503 retained.
 5. **IPD:** unmodified by this record and by the proposal. IRR `ownerUserId` is NOT equated with IPD `applicationUserId`; IRR `tenantId` is NOT equated with any IPD/G24/Reports/company tenant identifier. Any future mapping requires a D-2 §8 governed translation contract. The G-2 boundary and the IRR–IPD boundary are unchanged.
 
@@ -189,10 +189,10 @@ All of the following must be satisfied, in order, before any implementation of t
 | `F6_INVENTORY_AUTHORIZED` | **UNDECIDED** (§5.3) |
 | Implementation authority | **NOT GRANTED** |
 | Capability admission/qualification | **NONE** — NP-09 qualification NOT ESTABLISHED |
-| Final record review | **PENDING** |
-| Publication | **NOT PERFORMED** — local, uncommitted, per rendering-task restriction |
-| Merge | **NOT AUTHORIZED** |
-| Decision effectiveness | **NO** until publication, consistent with the repository's record-then-publish convention and with `IIPS-V3-OWNER-CONTEXT-PA-DECISION-FINAL-01` §9–§10 practice |
+| Final record review | **PENDING** — as at preparation; no prior affirmation of the exact merged artifact is established (closure note §2) |
+| Publication | **NOT PERFORMED at preparation** — local, uncommitted, per rendering-task restriction; **PUBLISHED post-preparation** by PR #63 (merge `1e7bbe5`) — closure note §1 |
+| Merge | **NOT AUTHORIZED at preparation**; **MERGED post-preparation** — PR #63 (merge `1e7bbe5`), 2026-10-12 — closure note §1 |
+| Decision effectiveness | **NO at preparation** — conditioned on publication, consistent with the repository's record-then-publish convention and with `IIPS-V3-OWNER-CONTEXT-PA-DECISION-FINAL-01` **§11** practice (cross-reference corrected post-publication — closure note §5). Publication has since occurred (closure note §1); the effectiveness determination is recorded in closure note §2. |
 
 Local preparation of this record is not publication and is not effectiveness.
 
@@ -200,4 +200,71 @@ Local preparation of this record is not publication and is not effectiveness.
 
 ## FINAL STATUS
 
-**`F-1/F-2/F-3 PA DECISION RECORD PREPARED — AWAITING FINAL RECORD REVIEW`**
+**`F-1/F-2/F-3 PA DECISION RECORD PREPARED — AWAITING FINAL RECORD REVIEW`** (status as at preparation; superseded in part post-publication — see the closure note below)
+
+---
+
+## Post-Publication Effectiveness & Baseline-Re-Verification Closure (added post-publication — 2026-10-12)
+
+**Nature and scope of this added section.** This is an additive, documentation-only closure note. It (a) records the publication and independent verification provenance of this record, (b) time-scopes the pre-publication statements above and states the effectiveness determination, (c) closes the baseline re-verification required by §5.4 and §9(3), (d) corrects one capability-boundary documentation inaccuracy (§7(3)) and one cross-reference inaccuracy (§10), and (e) records the limits of what this closure establishes. **It alters no decision substance**: no disposition, approval, non-authorization, unresolved item, scope, or boundary recorded above is changed, narrowed, widened, or reopened. Its style follows the *Republication Provenance & Durability* notes added at main publication to the NP-09/NP-10/NP-11 designation records (PR #62).
+
+**Authorization provenance.** This closure act was explicitly authorized by the Program Authority on 2026-10-12 in the closure gate, in these terms, transcribed without addition or narrowing: *"I authorize the documentation-only post-publication effectiveness and baseline-re-verification closure act described in the Arena investigation. Preserve all decision substance. No implementation, no owner/tenant value selection, no inventory, and no IPD changes."*
+
+**Evidence classes used below.** **R** = re-established during this closure task by direct observation. **A** = established from the authoritative remote repository's own read-only API. **I** = inherited (supplied by the Program Authority's post-merge verification report and the preceding read-only investigation) and not independently re-established here.
+
+### 1. Publication and verification provenance
+
+| Item | Value | Class |
+|---|---|---|
+| Repository / ref | `ramkivs/iips-review-recovered` / `refs/heads/main` | R, A |
+| Published record path | `docs/integration/IIPS_v3.0_OWNER_CONTEXT_F1_F2_F3_PA_DECISION.md` | R, A |
+| Publication PR | **#63** — "docs(governance): publish approved owner-context PA decision"; state MERGED, merge time 2026-10-12T14:28:09Z; head branch `recovery/owner-context-pa-decision-20261012`; base `main` | A |
+| Merge commit | `1e7bbe5cc0682ad36708b35c4024dd4c3216ea67` | R, A |
+| Merge parents | first `834ef334f53434bfe3643a3b4881b6440af434eb` (merge of PR #62 — this record's declared baseline); second `5556479ba98f0a05b58437f14968f724302a9428` (PR #63 head) | R, A |
+| Merge tree | `7079ee402e0453785d7815d914e45718afe1df37` | R |
+| Artifact identity | blob `d419058c1fea4bd6fae84ee6a72330e44f4bf130`; 22 015 bytes; 203 lines; SHA-256 `51e335d760b324ecb6847a89b73f6716e11675906357c943208f2f52b08b7dc7` | R, A |
+| Reachability | the merge commit is reachable from `refs/heads/main`; the artifact is present at the stated path with the stated blob; the working tree equals the published tree | R, A |
+| Changed-path scope of the publication | exactly **one** path relative to the declared baseline: **added** `docs/integration/IIPS_v3.0_OWNER_CONTEXT_F1_F2_F3_PA_DECISION.md` (+203 −0). No path modified; no path deleted; no unintended file; no committed `.iips-data` path or data artifact | A, R |
+| Owner's post-merge verification | reported PASS: `origin/main` at `1e7bbe5`; decision present in `main` history; artifact blob as expected; no repository change introduced | I |
+
+**Re-established vs inherited.** The commit identity, graph position, tree, blob, SHA-256, reachability and changed-path scope above were **independently re-established** during this closure. The **result of the owner's post-merge verification procedure is inherited (I)**; this closure did not re-run that procedure. The wording of the publication authorization exercised for PR #63 is **not** re-established by this closure; only the fact of publication is.
+
+**Preserved limitation (recorded, not remedied).** The reviewed proposal this record renders — `IIPS-V3-OWNER-CONTEXT-F1-F2-F3-PROPOSAL-01`, cited in §1, §2 and §6 — is **not present in the repository at any ref** (verified: no commit in the repository touches the cited path). It is therefore **non-durable**. This closure does not remedy that gap and changes none of the approved dispositions, whose operative content is stated in this record itself. Remediation (republication as lineage evidence, or an explicit limitation act) remains available and is recorded as a prerequisite in §6(5) below.
+
+### 2. Effectiveness and final-review status
+
+1. **Stale statements, time-scoped.** The header `Status` row, the §10 rows for *Publication*, *Merge*, *Final record review* and *Decision effectiveness*, and the FINAL STATUS line described this record **as at preparation**. They are now time-scoped accordingly in place; none of their substance is altered.
+2. **Publication condition — satisfied as a fact.** §10 conditioned effectiveness on publication ("**NO** until publication"). Publication has occurred (§1). The condition is met as a matter of fact: the record is no longer unpublished, and "NOT PERFORMED" is no longer a current description of its publication state.
+3. **Final-record-review affirmation — still pending; this closure does not supply it.** The publication/effectiveness convention this record invokes (`IIPS-V3-OWNER-CONTEXT-PA-DECISION-FINAL-01` §11) requires the Program Authority's review and confirmation of the **exact** record, in addition to merge and independent verification. **No evidence available to this closure establishes that the Program Authority previously affirmed the merged artifact as the exact final reviewed record.** The authorization of this closure act (above) authorizes a documentation correction; **it is not, and is not recorded here as, that affirmation.**
+4. **Missing input, stated exactly.** The single outstanding input for effectiveness, on the evidence available, is: *the Program Authority's explicit affirmation that the artifact published at `docs/integration/IIPS_v3.0_OWNER_CONTEXT_F1_F2_F3_PA_DECISION.md` at blob `d419058c1fea4bd6fae84ee6a72330e44f4bf130` is the exact final record reviewed and approved by the Program Authority.*
+5. **Determination.** Publication: **PERFORMED** (§1). Independent remote verification: **recorded** (§1). Final record review: **PENDING — not established**. Decision effectiveness: **not recorded here as unconditionally effective** — the publication condition is satisfied, the affirmation in (4) is outstanding, and nothing in this closure converts a pending condition into an approval.
+
+### 3. Baseline re-verification closure (§5.4, §9(3))
+
+1. **Declared baseline** (header): `834ef334f53434bfe3643a3b4881b6440af434eb` — merge of PR #62.
+2. **Verified current baseline**: `1e7bbe5cc0682ad36708b35c4024dd4c3216ea67` — merge of PR #63, at `refs/heads/main` (verified live during this closure; no movement since the preceding investigation).
+3. **Remote comparison** `834ef334…1e7bbe5cc`: status `ahead`; `ahead_by` 2; `behind_by` 0; `total_commits` 2; changed paths — exactly one: **added** `docs/integration/IIPS_v3.0_OWNER_CONTEXT_F1_F2_F3_PA_DECISION.md` (+203 −0), blob `d419058c…`.
+4. **Consequence, within the evidence.** Relative to the declared baseline, the only difference introduced by publication is the addition of this decision record. **No code path, test, configuration, or schema is added, modified, or removed.** Every path cited as evidence in §6 is therefore byte-identical between the declared baseline and the verified current baseline, and the publication changed no runtime behavior.
+5. **Anchors spot-checked at the verified baseline** (re-established): `frontend/server/persistence/persistence-service.ts` — "library authority, not an HTTP identity" (line 20) and the NUL separator in `dedupKey` (1 occurrence); `frontend/server/owner-context-unavailable.ts` — `res.writeHead(503, …)` (line 15); `frontend/server/reports/persistence-port.ts` — server-owned `IIPS_NP04_DATABASE_PATH` read (lines 240, 244). The fail-closed 503 baseline and the server-owned configuration seam are unchanged.
+6. **Method limitation.** The inspection clone is **shallow (depth 1)**; local history and graph queries are unavailable, and history-equivalence facts were therefore obtained from the authoritative remote repository's read-only API rather than from local object history.
+7. **No execution performed.** **No tests, type-checks, builds, servers, or runtime probes were run** in this closure, and none was needed: no code changed. **No user data was read, listed, or accessed.**
+
+### 4. NP-10 / NP-11 documentation correction (§7(3))
+
+The statement in §7(3) that the NP-10 and NP-11 designations "remain branch-only" was inaccurate as published. Corrected facts, verified at the current baseline:
+
+1. The **designation records** of NP-10 Collaboration and NP-11 Settings are **published on `main`** (PR #62, 2026-10-12), each carrying a *Republication Provenance & Durability* note recording that it was republished byte-for-byte unchanged and that the act "does not admit, enable, or qualify" the capability.
+2. The **non-production qualification and acceptance/baseline-admission records** for those capabilities remain at **branch-only** coordinates and were **not** republished (as those notes record).
+3. **Designation ≠ qualification, preserved**: neither capability is admitted or qualified; **no capability qualification is established on `main` for NP-09, NP-10 or NP-11**; the NP-09 position recorded in §7(2) — qualification **NOT ESTABLISHED** — is unchanged; and this correction grants no authority, admission, or qualification.
+
+### 5. Cross-reference correction (§10)
+
+The §10 *Decision effectiveness* row cited `IIPS-V3-OWNER-CONTEXT-PA-DECISION-FINAL-01` "§9–§10" for the record-then-publish/effectiveness practice. Verified in that record: **§9** = *Explicit non-authorizations*; **§10** = *Conditions required before implementation authorization can be considered*; **§11** = *Publication and effectiveness requirements* — the intended sequence. The cross-reference is corrected to **§11** in place. No other reference to that record is changed.
+
+### 6. What this closure does and does not change
+
+1. **Changed in this record:** (a) the time-scoping and publication/effectiveness provenance of §§1–2 of this note; (b) the baseline re-verification closure (§3); (c) the §7(3) documentation correction (§4); (d) the §10 cross-reference correction (§5).
+2. **Unchanged:** every approved disposition (§4), every unresolved matter (§5), every authorization statement (§8), the conditions required before implementation (§9), the capability and IPD boundaries (§7, other than the corrected sentence), and every non-authorization. The §5.1 values remain **UNDECIDED**; `F6_INVENTORY_AUTHORIZED` remains **UNDECIDED** (§5.3); implementation authority remains **NOT GRANTED**; capability admission/qualification remains **NONE**.
+3. **Files changed by this closure:** exactly **one** — this record. No other artifact is amended; the separate NP-13 record and all other governance records are untouched.
+4. **Not authorized, not performed, not affected by this closure:** implementation of F-1/F-2/F-3 in any form; any concrete `ownerUserId`/`tenantId` value or rule; any inventory, inspection, migration, reconciliation, reassignment, deletion, partition rewrite, or exposure of existing data; any change to the unconditional `503 owner-context-unavailable` safeguard; any IPD change or IRR↔IPD mapping/equivalence; any change to the G-2 boundary; any authentication/OIDC/session/token/RBAC/multi-user identity system; the `.gitignore`/TD-7a discrepancy and the historical service doc-comment reconciliation (§5.2(8)–(9)); TD-7b; PD-3; PD-4; any NP-13 matter.
+5. **Next steps remain those of §9**, unaltered and outside this closure: the **F-1/F-2 value act** (§9(1)) — one PA governed act, two fields — then the **implementation gate** (§9(2)), then the per-capability gates (§9(4)). Recorded additionally as prerequisites: the final-review affirmation (§2(4)) and the non-durable-proposal remedy (§1).
