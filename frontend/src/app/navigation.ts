@@ -22,8 +22,9 @@ export const NAV: NavItem[] = [
       { label: 'Holdings', path: '/portfolio/:id/holdings' },
     ],
   },
-  // Owner-scoped surfaces remain visible, but their data operations report unavailable until
-  // a non-authentication ownership source is separately authorized and established.
+  // Owner-scoped surfaces remain visible. Their data operations are served for the owner
+  // established by the server-owned owner context (F-3) and report unavailable — never a
+  // fabricated or inferred owner — whenever that context cannot be established.
   { label: 'User Portfolios', path: '/user-portfolios' },
   { label: 'Watchlists', path: '/watchlists' },
   { label: 'Collaboration', path: '/collaboration' },

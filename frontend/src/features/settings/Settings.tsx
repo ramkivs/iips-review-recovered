@@ -4,8 +4,9 @@
  * Authority: `docs/integration/IIPS_v3.0_NP11_SETTINGS_PRODUCT_CONTRACT_AND_PERSISTENCE_OWNER_DESIGNATION.md`
  * (NP-11-AUTH-01). Requirement: D4_01 INT-014b.
  *
- * Route: /settings. Its owner-dependent read/write operations remain unavailable without a
- * separately authorized non-authentication ownership source.
+ * Route: /settings. Its owner-dependent read/write operations are served for the owner
+ * established by the server-owned owner context (F-3); they remain unavailable, without
+ * inferring any identity, whenever that context cannot be established.
  *
  * BOUNDED MODEL: the surface exposes ONLY the governed personal preference — theme. It is
  * PRIVATE and NON-SHARED: there is deliberately no sharing, invitation, inheritance or
@@ -107,8 +108,9 @@ export function Settings() {
     <section data-testid="settings-surface">
       <h1 style={{ fontSize: 22, margin: 0 }}>Settings</h1>
       <p style={{ color: 'var(--color-ink-secondary)', fontSize: 13, margin: '6px 0 0' }}>
-        Personal settings are private and owner-scoped. No non-authentication owner source is
-        currently established, so no settings are read or changed.
+        Personal settings are private and owner-scoped. They are read from and written to the
+        server-owned owner context; the browser supplies no identity and is never an ownership
+        authority.
       </p>
 
       <dl
