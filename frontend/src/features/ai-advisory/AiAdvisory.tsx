@@ -7,8 +7,7 @@
  * provide (timestamp, tenant, provider, confidence, citations, decision) renders UNAVAILABLE.
  *
  * React is NOT an authorization authority and contains ZERO reasoning/decision logic — it only
- * formats the governed advisory DTO. The server (SecuredExecutor → EnterpriseRuntime → tenant →
- * audit → AiAssistedRuntime) is authoritative.
+ * formats the governed advisory DTO. The server-side runtime is the authoritative orchestration path.
  */
 import { useEffect, useState } from 'react';
 import { fetchAiAdvisory, type AiAdvisoryDto } from '../../api/aiAdvisory';

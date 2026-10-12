@@ -4,6 +4,7 @@
  * Pillars are null where the certified engine does not expose them (never fabricated).
  */
 import type { Verdict } from '../components/decision/DecisionComponents';
+import { noAuthFetch } from '../core/network/noAuthFetch';
 import type { ExecutiveProvenance } from './executive';
 
 export interface CompanyData {
@@ -21,7 +22,7 @@ export interface CompanyData {
 }
 
 export async function fetchCompanyData(sector: string, baseUrl = ''): Promise<CompanyData> {
-  const res = await fetch(`${baseUrl}/api/company/${encodeURIComponent(sector)}`);
+  const res = await noAuthFetch(`${baseUrl}/api/company/${encodeURIComponent(sector)}`);
   if (!res.ok) throw new Error(`company transport returned ${res.status}`);
   return (await res.json()) as CompanyData;
 }

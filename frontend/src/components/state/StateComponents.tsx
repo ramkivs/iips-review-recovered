@@ -28,7 +28,7 @@ export function ErrorState({ message }: { message: string }) {
 }
 
 export function PermissionDeniedState() {
-  return <StateBox testid="state-permission-denied" title="Permission denied">You do not have permission to view this. Contact your administrator.</StateBox>;
+  return <StateBox testid="state-permission-denied" title="Permission denied">This operation is not permitted.</StateBox>;
 }
 
 export function StaleDataState({ asOf }: { asOf?: string }) {

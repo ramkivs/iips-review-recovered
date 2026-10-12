@@ -3,7 +3,7 @@
  */
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { LoadingState, ErrorState, PermissionDeniedState, EmptyState, NotYetAuthorized } from './ShellStates';
+import { LoadingState, ErrorState, PermissionDeniedState, EmptyState, FeatureNotImplemented } from './ShellStates';
 
 describe('Shell states', () => {
   it('LoadingState renders a polite status', () => {
@@ -27,8 +27,8 @@ describe('Shell states', () => {
     expect(screen.getByTestId('shell-empty')).toHaveTextContent('No data available');
   });
 
-  it('NotYetAuthorized does not fabricate feature data', () => {
-    render(<NotYetAuthorized surface="Executive" />);
-    expect(screen.getByTestId('shell-not-authorized')).toHaveTextContent('not been implemented yet');
+  it('FeatureNotImplemented does not fabricate feature data or imply an auth gate', () => {
+    render(<FeatureNotImplemented surface="Executive" />);
+    expect(screen.getByTestId('shell-feature-unavailable')).toHaveTextContent('not been implemented yet');
   });
 });

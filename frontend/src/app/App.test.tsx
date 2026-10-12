@@ -1,45 +1,24 @@
-/**
- * Program v3.0 — Phase 3: AppShell / routing / navigation tests.
- * Verifies: shell renders, navigation is role-aware, routes resolve, shell states render.
- */
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+/** Application routing and single-user shell tests. */
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
-import { SessionProvider } from '../core/session/SessionContext';
 import { App } from './App';
 
-const FIXTURE = {
-  portfolio: { portfolioId: 'PF-T', scenario: 'Balanced', holdings: 1, sectorExposure: { A: 100 }, concentration: 100, diversificationScore: 50, avgConviction: 60, avgQuality: 70, avgRisk: 40 },
+const EXECUTIVE_FIXTURE = {
+  portfolio: {
+    portfolioId: 'PF-T', scenario: 'Balanced', holdings: 1, sectorExposure: { A: 100 },
+    concentration: 100, diversificationScore: 50, avgConviction: 60, avgQuality: 70, avgRisk: 40,
+  },
   diversification: { band: 'High', flags: [] },
   ranking: [], opportunity: [], correlation: { flags: [], concentrationSectors: [] },
   decisions: [{ sector: 'A', verdict: 'Buy', composite: 70, confidence: 0.8 }],
-  provenance: { dataSource: 'fixture (test-only)', freshness: 'SNAPSHOT', calibratedAt: '2026-08-01T00:00:00.000Z', transportSemantics: '1:1' },
-};
-
-// Phase 12.1 Administration overview DTO (test-only fixture). The shell test seeds every
-// surface it mounts with the payload that surface actually consumes, so no surface is fed a
-// foreign shape (a foreign payload makes AdminOverview throw instead of rendering state).
-const ADMIN_OVERVIEW_FIXTURE = {
-  platform: {
-    state: 'OPERATIONAL',
-    nodesHealthy: 1,
-    nodesTotal: 1,
-    enginesRegistered: 13,
-    enginesCertified: 13,
-    liveDataQuality: null,
-    recentAuditCount: 0,
-  },
   provenance: {
-    dataSource: 'fixture (test-only)',
-    freshness: 'SNAPSHOT',
-    authority: 'PLATFORM',
-    transportSemantics: 'test',
+    dataSource: 'fixture (test-only)', freshness: 'SNAPSHOT',
+    calibratedAt: '2026-08-01T00:00:00.000Z', transportSemantics: '1:1',
   },
 };
 
-// Phase 13.2 AI Explanation DTO (test-only fixture). Governed fields only — the surface must
-// render the mandatory non-authoritative label and never fabricate a decision.
 const AI_ADVISORY_FIXTURE = {
   adviceId: 'adv-snap_Technology',
   engineResultId: 'Technology',
@@ -55,137 +34,119 @@ const AI_ADVISORY_FIXTURE = {
   unavailable: ['timestamp', 'tenant', 'provider', 'confidence', 'citations', 'decision'],
 };
 
+type FetchCall = { input: RequestInfo | URL; init?: RequestInit };
+let requests: FetchCall[] = [];
+
 beforeEach(() => {
-  // URL-aware stub: each mounted surface receives its own governed envelope — the executive
-  // fixture for the executive surfaces, the authoritative (empty) UI10 envelope for
-  // /collaboration, and the Phase 12.1 overview DTO for Administration.
-  globalThis.fetch = vi.fn((url: string) => {
-    const u = String(url);
-    const body = u.startsWith('/api/collaboration')
-      ? { data: [], provenance: { dataSource: 'test', asOf: '2026-08-01T00:00:00.000Z', dataVersion: 'v1.1-replay-baseline', mode: 'SNAPSHOT', freshness: 'SNAPSHOT', authority: 'PLATFORM', transportSemantics: 'test' } }
-      : u.startsWith('/api/admin/overview')
-        ? ADMIN_OVERVIEW_FIXTURE
-        : u.startsWith('/api/ai-advisory/')
-          ? AI_ADVISORY_FIXTURE
-          : FIXTURE;
-    return Promise.resolve({ ok: true, status: 200, json: async () => body });
-  }) as never;
+  requests = [];
+  globalThis.fetch = vi.fn((input: RequestInfo | URL, init?: RequestInit) => {
+    requests.push({ input, init });
+    const url = String(input);
+    const body = url.startsWith('/api/collaboration')
+      ? {
+          data: [],
+          provenance: {
+            dataSource: 'test', asOf: '2026-08-01T00:00:00.000Z',
+            dataVersion: 'v1.1-replay-baseline', mode: 'SNAPSHOT', freshness: 'SNAPSHOT',
+            authority: 'PLATFORM', transportSemantics: 'test',
+          },
+        }
+      : url.startsWith('/api/ai-advisory/')
+        ? AI_ADVISORY_FIXTURE
+        : EXECUTIVE_FIXTURE;
+    return Promise.resolve({ ok: true, status: 200, json: async () => body } as Response);
+  }) as typeof fetch;
 });
 
-function renderAt(path: string, role: 'viewer' | 'analyst' | 'admin' = 'analyst') {
+afterEach(() => {
+  vi.unstubAllGlobals();
+});
+
+function renderAt(path: string) {
   return render(
     <MemoryRouter initialEntries={[path]}>
-      <SessionProvider session={{ userId: 'u1', tenantId: 'tenant-X', role, authenticated: true }}>
-        <App />
-      </SessionProvider>
+      <App />
     </MemoryRouter>,
   );
 }
 
 describe('Application Shell', () => {
-  it('renders the topbar with tenant and role', () => {
+  it('renders the brand without login, role, tenant, or identity controls', () => {
     renderAt('/executive');
-    expect(screen.getByTestId('topbar-tenant')).toHaveTextContent('tenant-X');
-    expect(screen.getByTestId('topbar-role')).toHaveTextContent('analyst');
+    expect(screen.getByText('IIPS — Enterprise Investment Intelligence')).toBeInTheDocument();
+    expect(screen.queryByText(/sign in|sign out|tenant:|role:/i)).not.toBeInTheDocument();
   });
 
-  it('redirects / to /executive (renders the Executive Dashboard)', async () => {
+  it('redirects / to /executive and fetches executive data without credentials', async () => {
     renderAt('/');
-    // / redirects to /executive which now renders the Executive Dashboard.
     expect(await screen.findByTestId('decision-list')).toBeInTheDocument();
+    const executiveCall = requests.find(call => String(call.input) === '/api/executive');
+    expect(executiveCall).toBeDefined();
+    expect(new Headers(executiveCall?.init?.headers).has('authorization')).toBe(false);
   });
 
-  it('renders a navigation link for a role-visible surface', () => {
-    renderAt('/executive', 'analyst');
-    expect(screen.getByRole('link', { name: 'Executive' })).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'Watchlists' })).toBeInTheDocument();
-    // NP-10 UI10 — Collaboration is a viewer-visible surface.
-    expect(screen.getByRole('link', { name: 'Collaboration' })).toBeInTheDocument();
+  it('shows roleless navigation for the available product surfaces', () => {
+    renderAt('/executive');
+    for (const name of ['Executive', 'Watchlists', 'Collaboration', 'User Portfolios', 'Settings']) {
+      expect(screen.getByRole('link', { name })).toBeInTheDocument();
+    }
+    expect(screen.queryByRole('link', { name: 'Administration' })).not.toBeInTheDocument();
   });
 
-  it('resolves the /collaboration route to the UI10 surface', async () => {
-    renderAt('/collaboration', 'analyst');
+  it('resolves the Collaboration route directly without a session provider', async () => {
+    renderAt('/collaboration');
     expect(await screen.findByTestId('collaboration-surface')).toBeInTheDocument();
-    // The generic placeholder must NOT be rendered for an authorized route.
-    expect(screen.queryByTestId('shell-not-authorized')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('shell-permission-denied')).not.toBeInTheDocument();
   });
 
-  it('renders the available Research child destinations and navigates to Cross-Sector', async () => {
+  it('renders available Research destinations and navigates to Cross-Sector', async () => {
     const user = userEvent.setup();
-    renderAt('/executive', 'analyst');
-    // Available children are discoverable from global navigation (previously unreachable by click).
-    expect(screen.getByRole('link', { name: 'Cross-Sector' })).toHaveAttribute(
-      'href',
-      '/research/cross-sector',
-    );
-    expect(screen.getByRole('link', { name: 'Engines' })).toHaveAttribute(
-      'href',
-      '/research/engines',
-    );
-    // Child navigation reaches the implemented Cross-Sector workspace.
+    renderAt('/executive');
+    expect(screen.getByRole('link', { name: 'Cross-Sector' })).toHaveAttribute('href', '/research/cross-sector');
+    expect(screen.getByRole('link', { name: 'Engines' })).toHaveAttribute('href', '/research/engines');
     await user.click(screen.getByRole('link', { name: 'Cross-Sector' }));
     expect(await screen.findByRole('heading', { name: 'Cross-Sector Intelligence' })).toBeInTheDocument();
   });
 
   it('renders the available Intelligence child destination', () => {
-    renderAt('/executive', 'analyst');
+    renderAt('/executive');
     expect(screen.getByRole('link', { name: 'Decision Matrix' })).toHaveAttribute(
-      'href',
-      '/intelligence/decision-matrix',
+      'href', '/intelligence/decision-matrix',
     );
   });
 
   it('does not render parameterised or placeholder children as global links', () => {
-    renderAt('/executive', 'analyst');
-    // Parameterised destinations require a selection and are reached contextually.
+    renderAt('/executive');
     for (const name of ['Company', 'Sector', 'Holdings', 'Replay', 'Snapshots']) {
       expect(screen.queryByRole('link', { name })).not.toBeInTheDocument();
     }
-    // No navigation href may carry an unsubstituted route parameter.
     for (const link of screen.getAllByRole('link')) {
       expect(link.getAttribute('href')).not.toContain(':');
     }
-    // Administration sections stay owned by the Administration surface (its own tablist).
-    for (const name of ['Users', 'Roles', 'Tenants', 'Audit']) {
-      expect(screen.queryByRole('link', { name })).not.toBeInTheDocument();
-    }
   });
 
-  it('renders the AI Explanation nav entry under Intelligence and resolves its route', async () => {
+  it('opens AI Explanation directly and sends no authorization header', async () => {
     const user = userEvent.setup();
-    renderAt('/executive', 'analyst');
-    // Phase 13.2 route + nav (certified change set) — recorded path is /ai-advisory.
+    renderAt('/executive');
     const link = screen.getByRole('link', { name: 'AI Explanation' });
     expect(link).toHaveAttribute('href', '/ai-advisory');
     await user.click(link);
-    // The certified non-authoritative surface resolves — not the generic placeholder.
     expect(await screen.findByText('AI EXPLANATION ≠ CERTIFIED RESULT')).toBeInTheDocument();
     expect(screen.getByTestId('ai-advice')).toBeInTheDocument();
-    expect(screen.queryByTestId('shell-not-authorized')).not.toBeInTheDocument();
+    const aiCall = requests.find(call => String(call.input) === '/api/ai-advisory/Technology');
+    expect(aiCall).toBeDefined();
+    expect(new Headers(aiCall?.init?.headers).has('authorization')).toBe(false);
   });
 
-  it('resolves /ai-advisory by direct URL for a viewer (read gate is server-side)', async () => {
-    renderAt('/ai-advisory', 'viewer');
-    expect(await screen.findByTestId('ai-advice')).toBeInTheDocument();
-    // AI is never a decision authority: no verdict is rendered from advisory text.
-    expect(screen.queryByTestId('shell-not-authorized')).not.toBeInTheDocument();
+  it('does not mount an administration route or expose an administration surface', () => {
+    renderAt('/admin');
+    expect(screen.queryByTestId('administration-retired')).not.toBeInTheDocument();
+    expect(screen.getByTestId('shell-feature-unavailable')).toBeInTheDocument();
+    expect(screen.queryByTestId('shell-permission-denied')).not.toBeInTheDocument();
   });
 
-  it('hides Administration for non-admin roles', () => {
-    renderAt('/executive', 'analyst');
-    expect(screen.queryByRole('link', { name: 'Administration' })).not.toBeInTheDocument();
-  });
-
-  it('shows the Administration surface for admin role (Phase 12.1)', () => {
-    renderAt('/admin', 'admin');
-    expect(screen.getByRole('link', { name: 'Administration' })).toBeInTheDocument();
-    // Phase 12.1 wires the real read-only Administration surface, not the placeholder.
-    expect(screen.queryByTestId('shell-not-authorized')).not.toBeInTheDocument();
-    expect(screen.getByRole('heading', { name: 'Administration' })).toBeInTheDocument();
-  });
-
-  it('renders the unknown-route placeholder for an unmatched route', () => {
-    renderAt('/nonsense', 'analyst');
-    expect(screen.getByTestId('shell-not-authorized')).toBeInTheDocument();
+  it('uses the feature-unavailable placeholder for an unmatched route', () => {
+    renderAt('/nonsense');
+    expect(screen.getByTestId('shell-feature-unavailable')).toBeInTheDocument();
   });
 });

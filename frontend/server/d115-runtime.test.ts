@@ -1,7 +1,5 @@
-import { describe, expect, it, vi } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { EnterpriseRuntime, type Principal } from '../../iips-platform/src/distributed/EnterpriseRuntime';
-import { AuthError, type OidcVerifier } from '../src/core/auth/keycloakAdapter';
-import { SecuredExecutor } from './secured-executor';
 import {
   CompanyIdentityAuthorityError,
   D115CompanyAuthorizer,
@@ -233,29 +231,6 @@ describe('D115 runtime CompanyId boundary', () => {
     expect(selected.runtimeCompanyId).toBe('CMP-002');
   });
 
-  it('keeps the existing G3 authentication chain before D115 resolution', async () => {
-    const { resolver, authorizer } = fixture();
-    const metadata = { issuer: 'https://issuer.example/realm/iips', jwksUri: 'https://issuer.example/certs', clientId: 'iips-spa' };
-    const verifier: OidcVerifier = {
-      verify: vi.fn().mockResolvedValue({
-        subject: 'subject-1',
-        claims: { iss: metadata.issuer, aud: metadata.clientId, preferred_username: 'user-1', tenant: 'tenant-A', realm_access: { roles: ['iips-admin'] } },
-        expiry: Date.now() / 1000 + 3600,
-      }),
-    };
-    const executor = new SecuredExecutor(
-      new EnterpriseRuntime(CLOCK),
-      { tenantForUser: (userId: string, candidate: unknown) => userId === 'user-1' && candidate === 'tenant-A' ? { tenantId: 'tenant-A' } : null },
-      () => true,
-      metadata,
-      verifier,
-    );
-    const context = await executor.authenticateWithRuntimeCompanyContext('token', resolver, { correlationId: 'g3-d115' });
-    await executor.authorizeCompany(PRINCIPAL, context, authorizer, 'read', RESOURCE);
-    expect(context.runtimeCompanyId).toBe('CMP-001');
-    expect(verifier.verify).toHaveBeenCalledWith('token');
-  });
-
   it('denies missing and ambiguous binding instead of selecting a fallback', async () => {
     const missing = fixture();
     missing.repository.bindings = [];
@@ -395,25 +370,4 @@ describe('D115 runtime CompanyId boundary', () => {
     await expectFailure(authorizer.authorize(PRINCIPAL, context, 'read', RESOURCE), 'REVOKED_BINDING');
   });
 
-  it('maps D115 authorization failures to the existing 403 boundary', async () => {
-    const { resolver, authorizer } = fixture();
-    const metadata = { issuer: 'https://issuer.example/realm/iips', jwksUri: 'https://issuer.example/certs', clientId: 'iips-spa' };
-    const verifier: OidcVerifier = {
-      verify: vi.fn().mockResolvedValue({
-        subject: 'subject-1',
-        claims: { iss: metadata.issuer, aud: metadata.clientId, preferred_username: 'user-1', tenant: 'tenant-A', realm_access: { roles: ['iips-admin'] } },
-        expiry: Date.now() / 1000 + 3600,
-      }),
-    };
-    const executor = new SecuredExecutor(
-      new EnterpriseRuntime(CLOCK),
-      { tenantForUser: () => ({ tenantId: 'tenant-A' }) },
-      () => true,
-      metadata,
-      verifier,
-    );
-    const context = await executor.authenticateWithRuntimeCompanyContext('token', resolver);
-    await expect(executor.authorizeCompany(PRINCIPAL, context, authorizer, 'read', { ...RESOURCE, canonicalCompanyId: 'CMP-999' }))
-      .rejects.toMatchObject({ name: 'AuthError', status: 403, message: 'RESOURCE_COMPANY_ID_MISMATCH' } satisfies Partial<AuthError>);
-  });
 });

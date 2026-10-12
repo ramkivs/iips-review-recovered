@@ -1,37 +1,26 @@
-/**
- * Program v3.0 — Phase 3: Application entry (routing).
- *
- * Routes render the AppShell + a placeholder for each feature surface (not yet authorized).
- * Presentation-only; no business logic. Feature placeholders are static (later phases replace
- * them with real workspaces).
- */
+/** First-party application routing; product surfaces are mounted directly without a session gate. */
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { AppShell } from './AppShell';
-import { NotYetAuthorized } from '../components/shell/ShellStates';
+import { FeatureNotImplemented } from '../components/shell/ShellStates';
 import { ExecutiveDashboard } from '../features/executive/ExecutiveDashboard';
 import { PortfolioWorkspace } from '../features/portfolio/PortfolioWorkspace';
-// G-2 — durable user portfolios (read-only IPD/G24-backed consumer; 2026-10-08
-// UI-Consumer Implementation Authorization). Distinct from the certified
-// reference `/portfolio` workspace above.
 import { UserPortfolioList } from '../features/user-portfolios/UserPortfolioList';
 import { UserPortfolioDetail } from '../features/user-portfolios/UserPortfolioDetail';
 import { CompanyIntelligence } from '../features/company/CompanyIntelligence';
 import { CrossSectorIntelligence } from '../features/cross-sector/CrossSectorIntelligence';
 import { DecisionMatrix } from '../features/decision-matrix/DecisionMatrix';
-// Phase 13.2 — AI Explanation (read-only, NON-authoritative advisory; G3-enforced server-side).
 import { AiAdvisory } from '../features/ai-advisory/AiAdvisory';
 import { EvidenceLanding } from '../features/evidence/EvidenceLanding';
 import { EvidenceExplorer } from '../features/evidence/EvidenceExplorer';
 import { ReplayExplorer } from '../features/replay/ReplayExplorer';
 import { EngineRegistry } from '../features/engines/EngineRegistry';
 import { Screener } from '../features/screener/Screener';
-import { Administration } from '../features/admin/Administration';
 import { Watchlists } from '../features/watchlists/Watchlists';
 import { Collaboration } from '../features/collaboration/Collaboration';
 import { Settings } from '../features/settings/Settings';
 
 function FeaturePlaceholder({ surface }: { surface: string }) {
-  return <NotYetAuthorized surface={surface} />;
+  return <FeatureNotImplemented surface={surface} />;
 }
 
 export function App() {
@@ -42,8 +31,6 @@ export function App() {
         <Route path="/executive" element={<ExecutiveDashboard />} />
         <Route path="/portfolio" element={<PortfolioWorkspace />} />
         <Route path="/portfolio/*" element={<PortfolioWorkspace />} />
-        {/* G-2 durable user portfolios (read-only IPD/G24-backed consumer).
-            Additive routes, distinct from the certified /portfolio workspace. */}
         <Route path="/user-portfolios" element={<UserPortfolioList />} />
         <Route path="/user-portfolios/:portfolioId" element={<UserPortfolioDetail />} />
         <Route path="/watchlists" element={<Watchlists />} />
@@ -59,11 +46,10 @@ export function App() {
         <Route path="/ai-advisory" element={<AiAdvisory />} />
         <Route path="/intelligence/*" element={<FeaturePlaceholder surface="Intelligence" />} />
         <Route path="/evidence" element={<EvidenceLanding />} />
-        <Route path="/evidence/snapshots" element={<NotYetAuthorized surface="Evidence Snapshots" />} />
-        <Route path="/evidence/replay" element={<NotYetAuthorized surface="Evidence Replay" />} />
+        <Route path="/evidence/snapshots" element={<FeaturePlaceholder surface="Evidence Snapshots" />} />
+        <Route path="/evidence/replay" element={<FeaturePlaceholder surface="Evidence Replay" />} />
         <Route path="/evidence/replay/:id" element={<ReplayExplorer />} />
         <Route path="/evidence/:id" element={<EvidenceExplorer />} />
-        <Route path="/admin/*" element={<Administration />} />
         <Route path="*" element={<FeaturePlaceholder surface="Unknown route" />} />
       </Route>
     </Routes>

@@ -4,6 +4,7 @@
  * No quadrant/band/threshold computation in React.
  */
 import type { Verdict } from '../components/decision/DecisionComponents';
+import { noAuthFetch } from '../core/network/noAuthFetch';
 import type { ExecutiveProvenance } from './executive';
 
 export interface MatrixCompany {
@@ -24,7 +25,7 @@ export interface DecisionMatrixData {
 }
 
 export async function fetchDecisionMatrixData(baseUrl = ''): Promise<DecisionMatrixData> {
-  const res = await fetch(`${baseUrl}/api/decision-matrix`);
+  const res = await noAuthFetch(`${baseUrl}/api/decision-matrix`);
   if (!res.ok) throw new Error(`decision-matrix transport returned ${res.status}`);
   return (await res.json()) as DecisionMatrixData;
 }

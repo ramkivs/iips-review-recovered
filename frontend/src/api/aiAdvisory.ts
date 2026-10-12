@@ -7,7 +7,8 @@
  * not provide (timestamp, tenant, provider, confidence, citations, decision) are NOT modeled —
  * the UI renders them UNAVAILABLE.
  */
-import type { Freshness } from './admin';
+import type { Freshness } from './transportTypes';
+import { noAuthFetch } from '../core/network/noAuthFetch';
 
 /** Governed AI advisory output (exact subset of AiAssistedRuntime.AiAdvice). */
 export interface AiAdvisoryDto {
@@ -30,9 +31,7 @@ const BASE = '/api';
 
 /** Fetch the governed AI advisory for a certified engine result. */
 export async function fetchAiAdvisory(engineResultId: string, baseUrl = ''): Promise<AiAdvisoryDto> {
-  const res = await fetch(`${baseUrl}${BASE}/ai-advisory/${encodeURIComponent(engineResultId)}`);
-  if (res.status === 401) throw new Error('Authentication required (401)');
-  if (res.status === 403) throw new Error('Authorization denied (403)');
+  const res = await noAuthFetch(`${baseUrl}${BASE}/ai-advisory/${encodeURIComponent(engineResultId)}`);
   if (res.status === 404) throw new Error('Engine result not found');
   if (!res.ok) throw new Error(`ai-advisory transport returned ${res.status}`);
   return (await res.json()) as AiAdvisoryDto;

@@ -1,10 +1,10 @@
 /**
  * G-2 Durable User Portfolios — detail consumer tests.
  *
- * Covers the G-2 UI-Consumer authorization scenarios for the detail surface:
+ * Covers the G-2 UI consumer scenarios for the detail surface:
  * render from the transport (metrics, holdings, contributions, opaque
- * digests), loading, 401, 404 (indistinguishable-absence hiding), 503 with the
- * boundary blocker, empty contributions, identifier encoding, and the
+ * digests), loading, generic HTTP failures, 404 (indistinguishable-absence hiding),
+ * 503 owner-context unavailability, empty contributions, identifier encoding, and the
  * read-only guarantee (no mutation controls).
  */
 import { describe, it, expect, vi, beforeEach } from 'vitest';
@@ -113,10 +113,12 @@ describe('User Portfolio detail (G-2 read-only consumer)', () => {
     expect(screen.getByTestId('state-loading')).toBeInTheDocument();
   });
 
-  it('renders the authentication-required state on 401', async () => {
-    mockStatus(401, { error: 'authentication unavailable (no IdP configured)' });
+  it('renders a generic error on 401 without an authentication prompt', async () => {
+    mockStatus(401, { error: 'request rejected' });
     renderDetail();
-    expect(await screen.findByTestId('state-authentication-required')).toBeInTheDocument();
+    expect(await screen.findByTestId('state-error')).toBeInTheDocument();
+    expect(screen.queryByTestId('state-authentication-required')).not.toBeInTheDocument();
+    expect(screen.queryByText(/sign in|authentication required/i)).not.toBeInTheDocument();
   });
 
   it('renders the not-found state on 404 (absence is never distinguished)', async () => {
@@ -125,19 +127,14 @@ describe('User Portfolio detail (G-2 read-only consumer)', () => {
     expect(await screen.findByTestId('state-not-found')).toBeInTheDocument();
   });
 
-  it('renders the unavailable state with the G-2 boundary blocker on 503', async () => {
+  it('renders owner-context unavailability on 503', async () => {
     mockStatus(503, {
-      error: 'upstream-unavailable',
-      detail: {
-        reason: 'UPSTREAM_UNAVAILABLE',
-        blocker: 'live multi-audience IdP credential mechanism is not provisioned in this environment',
-        requiresAuthorizedChange: true,
-        authoritativeCommit: '6828155ec6e882bbb4cabcd96b5a841d8c8a6bc4',
-      },
+      error: 'owner-context-unavailable',
+      detail: { reason: 'No non-authentication ownership source has been established.' },
     });
     renderDetail();
     expect(await screen.findByTestId('state-unavailable')).toBeInTheDocument();
-    expect(screen.getByTestId('g2-boundary-detail')).toHaveTextContent('multi-audience IdP credential');
+    expect(screen.getByTestId('g2-boundary-detail')).toHaveTextContent('No non-authentication ownership source');
   });
 
   it('renders the empty-contribution state when there are no import contributions', async () => {
@@ -160,7 +157,11 @@ describe('User Portfolio detail (G-2 read-only consumer)', () => {
   it('requests the detail route with the identifier encoded as a single path segment', async () => {
     renderDetail('pf alpha');
     await screen.findByRole('heading', { name: 'Primary Portfolio' });
-    expect(globalThis.fetch).toHaveBeenCalledWith('/api/user-portfolios/pf%20alpha');
+    const call = (globalThis.fetch as unknown as ReturnType<typeof vi.fn>).mock.calls
+      .find(([url]) => url === '/api/user-portfolios/pf%20alpha');
+    expect(call).toBeDefined();
+    expect((call?.[1] as RequestInit).credentials).toBe('omit');
+    expect(new Headers((call?.[1] as RequestInit).headers).has('authorization')).toBe(false);
   });
 
   it('is read-only: exposes no mutation control of any kind', async () => {

@@ -1,14 +1,6 @@
-/**
- * Program v3.0 — Phase 3: Sidebar (global navigation).
- *
- * Role-aware; reflects platform RBAC (admin-only surfaces hidden for lower roles).
- * Renders the model's child destinations that are available in global navigation
- * (`visibleChildren`), so implemented sections are discoverable instead of reachable
- * only by URL. Parents keep their own link and active-route behaviour.
- */
+/** Global navigation for the single-user personal-use application. */
 import { NavLink } from 'react-router-dom';
 import { visibleNav, visibleChildren } from './navigation';
-import { useSession } from '../core/session/SessionContext';
 
 const TOP_LEVEL_LINK_STYLE = ({ isActive }: { isActive: boolean }) => ({
   display: 'block',
@@ -32,8 +24,7 @@ const CHILD_LINK_STYLE = ({ isActive }: { isActive: boolean }) => ({
 });
 
 export function Sidebar() {
-  const { session } = useSession();
-  const items = visibleNav(session.role);
+  const items = visibleNav();
 
   return (
     <ul
@@ -49,8 +40,8 @@ export function Sidebar() {
         borderRight: '1px solid var(--color-border)',
       }}
     >
-      {items.map((item) => {
-        const children = visibleChildren(item, session.role);
+      {items.map(item => {
+        const children = visibleChildren(item);
         return (
           <li key={item.path}>
             <NavLink to={item.path} style={TOP_LEVEL_LINK_STYLE}>
@@ -69,7 +60,7 @@ export function Sidebar() {
                   borderLeft: '1px solid var(--color-border)',
                 }}
               >
-                {children.map((child) => (
+                {children.map(child => (
                   <li key={child.path}>
                     <NavLink to={child.path} style={CHILD_LINK_STYLE}>
                       {child.label}

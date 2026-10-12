@@ -3,7 +3,7 @@
  *
  * Proves the NP-11 dispatch branch in `executive-transport` is genuinely wired (not just the
  * handler unit), that it is exact-namespace (no prefix over-reach into neighbouring routes) and
- * that it fails closed when no IdP is configured.
+ * that owner-scoped operations remain unavailable without an established owner source.
  *
  * @vitest-environment node
  */
@@ -35,21 +35,20 @@ async function call(path: string, method = 'GET'): Promise<{ status: number; bod
 describe('UI12 route integration — real composed server', () => {
   it('dispatches /api/settings to the settings boundary (never the generic 404)', async () => {
     const { status, body } = await call('/api/settings');
-    // Without a configured IdP the governed boundary must fail closed with 401 — NOT 404, which
-    // would mean the namespace was never dispatched at all.
-    expect(status).toBe(401);
-    expect(body.error).toMatch(/authentication unavailable/);
+    // 503 proves the known API boundary is dispatched and unavailable for lack of owner context.
+    expect(status).toBe(503);
+    expect(body.error).toBe('owner-context-unavailable');
   });
 
   it('dispatches the settings mutation routes too', async () => {
-    expect((await call('/api/settings', 'PUT')).status).toBe(401);
-    expect((await call('/api/settings/reset', 'POST')).status).toBe(401);
+    expect((await call('/api/settings', 'PUT')).status).toBe(503);
+    expect((await call('/api/settings/reset', 'POST')).status).toBe(503);
   });
 
   it('is exact-namespace: /api/settingsEVIL is NOT dispatched to the settings boundary', async () => {
     const { status, body } = await call('/api/settingsEVIL');
     expect(status).toBe(404);
-    // The generic transport 404, not the settings boundary's 401.
+    // The generic transport 404, not an authentication response.
     expect(body.error).toBe('not found');
   });
 
@@ -60,9 +59,9 @@ describe('UI12 route integration — real composed server', () => {
   });
 
   it('does not disturb the adjacent governed routes', async () => {
-    // Watchlists and Collaboration still reach their own boundaries (401 without an IdP, not 404).
-    expect((await call('/api/watchlists')).status).toBe(401);
-    expect((await call('/api/collaboration')).status).toBe(401);
+    // Watchlists and Collaboration reach their own owner-context boundaries without auth.
+    expect((await call('/api/watchlists')).status).toBe(503);
+    expect((await call('/api/collaboration')).status).toBe(503);
     // /api/company/:id is untouched and still served by the certified company handler.
     const company = await call('/api/company/Banking');
     expect(company.status).toBe(200);

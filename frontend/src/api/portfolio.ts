@@ -3,6 +3,7 @@
  * Mirrors the certified v2.0 transport DTO. Semantically inert; presentation-only.
  */
 import type { Verdict } from '../components/decision/DecisionComponents';
+import { noAuthFetch } from '../core/network/noAuthFetch';
 import type { ExecutiveProvenance } from './executive';
 
 export interface PortfolioHolding {
@@ -38,7 +39,7 @@ export interface PortfolioData {
 }
 
 export async function fetchPortfolioData(baseUrl = ''): Promise<PortfolioData> {
-  const res = await fetch(`${baseUrl}/api/portfolio`);
+  const res = await noAuthFetch(`${baseUrl}/api/portfolio`);
   if (!res.ok) throw new Error(`portfolio transport returned ${res.status}`);
   return (await res.json()) as PortfolioData;
 }

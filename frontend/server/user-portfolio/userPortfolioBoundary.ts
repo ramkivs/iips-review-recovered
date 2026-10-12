@@ -1,25 +1,16 @@
 /**
  * G-2 Durable User Portfolio — BOUNDARY (IRR side).
  *
- * This is the single choke point through which every IRR user-portfolio call
- * passes. It performs four jobs and nothing else:
+ * Domain boundary retained for the G-2 contract. The first-party HTTP handler does not call it:
+ * recognized owner-scoped operations return `503 owner-context-unavailable` until a
+ * non-authentication ownership source is established.
  *
- *   1. validate the request shape, fail-closed, before anything is delegated;
- *   2. derive the scope SOLELY from the authenticated principal (the tenant
- *      hint comes from `deriveTenantHint` — never from caller input);
- *   3. delegate to the `UserPortfolioPort` (G24 remains the portfolio authority);
- *   4. guard the result's envelope echo (addressed portfolio, revision sanity)
- *      so that no misdirected upstream answer can flow through.
- *
- * It contains NO portfolio store, NO holdings arithmetic, NO revision numbering,
- * NO duplicate detection, NO identity mapping, NO tenant inference, and NO
- * fallback of any kind. A port that throws a `G2Error` has its reason preserved
- * verbatim; a port that throws anything else is treated as UPSTREAM_UNAVAILABLE
- * rather than being allowed to surface an untyped failure or a partial result.
- *
- * CALLER CONTRACT: every function takes the authenticated `Principal` FIRST and
- * the caller-owned parameters SECOND. There is deliberately no overload that
- * accepts a scope, a tenant, or an owner — scope is always derived HERE.
+ * When called by trusted server code with an already established caller context, it validates the
+ * request shape, derives the tenant hint through `translationBoundary`, delegates to the
+ * `UserPortfolioPort`, and guards the result envelope. It does not authenticate the caller or
+ * establish an owner. No portfolio store, holdings arithmetic, revision numbering, duplicate
+ * detection, identity mapping, tenant inference, or fallback is implemented here. Typed port
+ * failures are preserved; untyped failures close as `UPSTREAM_UNAVAILABLE`.
  */
 import type { Principal } from '../../../iips-platform/src/distributed/EnterpriseRuntime.js';
 import {

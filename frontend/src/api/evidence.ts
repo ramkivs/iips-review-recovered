@@ -4,6 +4,7 @@
  * No analytical/reasoning logic in the client.
  */
 import type { Verdict } from '../components/decision/DecisionComponents';
+import { noAuthFetch } from '../core/network/noAuthFetch';
 import type { ExecutiveProvenance } from './executive';
 
 export interface EvidenceData {
@@ -35,7 +36,7 @@ export interface EvidenceData {
 }
 
 export async function fetchEvidenceData(sector: string, baseUrl = ''): Promise<EvidenceData> {
-  const res = await fetch(`${baseUrl}/api/evidence/${encodeURIComponent(sector)}`);
+  const res = await noAuthFetch(`${baseUrl}/api/evidence/${encodeURIComponent(sector)}`);
   if (!res.ok) throw new Error(`evidence transport returned ${res.status}`);
   return (await res.json()) as EvidenceData;
 }

@@ -1,15 +1,11 @@
 /**
  * Program v3.0 — NP-08 / D08 MACRO: MacroContext (IRR consumer surface).
  *
- * Governed transport chain:
- *   MacroContext -> /api/macro -> guarded read -> MoSPI route
+ * Credential-free transport chain:
+ *   MacroContext -> /api/macro -> bounded MoSPI route
  *
- * NOTE ON `authFetch`: the authorized chain was documented as
- * `MacroContext -> authFetch -> /api/macro`. The repository has NO `authFetch`
- * primitive — every `src/api/*.ts` client uses plain `fetch`. Introducing an
- * authFetch wrapper here would (a) create authentication infrastructure and
- * (b) contradict the authorized NO-AUTH posture (D3 Option A). This is the
- * minimal correction the current repository requires, recorded explicitly.
+ * This first-party consumer sends no identity credential. The shared network
+ * helper omits browser credentials and strips Authorization headers.
  *
  * GOVERNANCE — carried, not expanded:
  *   - D08 boundary: NAS / CPI / IIP only.

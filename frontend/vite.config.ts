@@ -6,6 +6,8 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   server: {
+    host: '0.0.0.0',
+    allowedHosts: ['.e2b.app'],
     port: 5173,
     proxy: {
       // Proxy the v3.0 executive transport (runs the certified platform in-process).

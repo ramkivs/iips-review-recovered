@@ -15,11 +15,10 @@
  *   - M-3 is NOT established. `provenance` carries CANDIDATE implementation
  *     dimensions only.
  *
- * NO-AUTH (D3 Option A): this client sends no credential and represents
- * nothing as authenticated. No `authFetch` wrapper is introduced, because the
- * authorized posture is unauthenticated and adding an auth layer would be an
- * unauthenticated→authenticated change outside the authorized scope.
+ * Credential-free: requests omit browser credentials and Authorization headers; the response is
+ * not represented as identity-scoped.
  */
+import { noAuthFetch } from '../core/network/noAuthFetch';
 import type {
   CpiRecord,
   GovernedIipSelection,
@@ -97,7 +96,7 @@ export interface CpiRequest {
 }
 
 async function getJson<T>(url: string): Promise<T> {
-  const res = await fetch(url);
+  const res = await noAuthFetch(url);
   if (!res.ok) {
     throw new Error(`macro transport returned ${res.status}`);
   }

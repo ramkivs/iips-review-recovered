@@ -1,8 +1,8 @@
 /**
  * G-2 Durable User Portfolios — list consumer tests.
  *
- * Covers the G-2 UI-Consumer authorization scenarios for the list surface:
- * render from the transport, loading, 401, 403, 503 (with boundary blocker),
+ * Covers the G-2 UI consumer scenarios for the list surface:
+ * render from the transport, loading, generic HTTP failures, 403, 503 owner-context unavailable,
  * generic 500, network failure, empty list, read-only surface (no mutation
  * controls), and list → detail navigation.
  *
@@ -113,14 +113,16 @@ describe('User Portfolio list (G-2 read-only consumer)', () => {
     expect(screen.getByTestId('state-loading')).toBeInTheDocument();
   });
 
-  it('renders the authentication-required state on 401', async () => {
-    mockStatus(401, { error: 'authentication unavailable (no IdP configured)' });
+  it('renders a generic error on 401 without presenting an authentication prompt', async () => {
+    mockStatus(401, { error: 'request rejected' });
     render(
       <MemoryRouter>
         <UserPortfolioList />
       </MemoryRouter>,
     );
-    expect(await screen.findByTestId('state-authentication-required')).toBeInTheDocument();
+    expect(await screen.findByTestId('state-error')).toBeInTheDocument();
+    expect(screen.queryByTestId('state-authentication-required')).not.toBeInTheDocument();
+    expect(screen.queryByText(/sign in|authentication required/i)).not.toBeInTheDocument();
   });
 
   it('renders the permission-denied state on 403', async () => {
@@ -133,15 +135,10 @@ describe('User Portfolio list (G-2 read-only consumer)', () => {
     expect(await screen.findByTestId('state-permission-denied')).toBeInTheDocument();
   });
 
-  it('renders the unavailable state with the G-2 boundary blocker on 503', async () => {
+  it('renders the owner-context unavailable state on 503', async () => {
     mockStatus(503, {
-      error: 'upstream-unavailable',
-      detail: {
-        reason: 'UPSTREAM_UNAVAILABLE',
-        blocker: 'live multi-audience IdP credential mechanism is not provisioned in this environment',
-        requiresAuthorizedChange: true,
-        authoritativeCommit: '6828155ec6e882bbb4cabcd96b5a841d8c8a6bc4',
-      },
+      error: 'owner-context-unavailable',
+      detail: { reason: 'No non-authentication ownership source has been established.' },
     });
     render(
       <MemoryRouter>
@@ -150,7 +147,7 @@ describe('User Portfolio list (G-2 read-only consumer)', () => {
     );
     expect(await screen.findByTestId('state-unavailable')).toBeInTheDocument();
     expect(screen.getByTestId('g2-boundary-detail')).toHaveTextContent(
-      'live multi-audience IdP credential mechanism is not provisioned in this environment',
+      'No non-authentication ownership source has been established.',
     );
   });
 
@@ -232,6 +229,10 @@ describe('User Portfolio list (G-2 read-only consumer)', () => {
     await user.click(screen.getByTestId('user-portfolio-link-pf-alpha'));
     // The detail route now renders the detail view served for that identifier.
     expect(await screen.findByRole('heading', { name: 'Primary Portfolio' })).toBeInTheDocument();
-    expect(globalThis.fetch).toHaveBeenCalledWith('/api/user-portfolios/pf-alpha');
+    const detailCall = (globalThis.fetch as unknown as ReturnType<typeof vi.fn>).mock.calls
+      .find(([url]) => url === '/api/user-portfolios/pf-alpha');
+    expect(detailCall).toBeDefined();
+    expect((detailCall?.[1] as RequestInit).credentials).toBe('omit');
+    expect(new Headers((detailCall?.[1] as RequestInit).headers).has('authorization')).toBe(false);
   });
 });

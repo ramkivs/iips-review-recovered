@@ -3,8 +3,7 @@
  *
  * Verifies the D-2 §8 translation contract in executable form: the principal is
  * the ONLY tenant source (no default, no substitution); client-supplied identity,
- * tenant, and durable-identity fields are classified for refusal; and the offline
- * provisioning attestation has a validated shape. Nothing here resolves, stores,
+ * tenant, and durable-identity fields are classified for refusal. Nothing here resolves, stores,
  * or equates identifiers across domains — that is the assertion.
  *
  * Case IDs: G2T-01 … (translation).
@@ -19,7 +18,6 @@ import {
   G2_TENANT_CLAIM_KEYS,
   classifyG2Claims,
   deriveTenantHint,
-  validateProvisioningRecord,
 } from './translationBoundary.js';
 import { G2Error } from './userPortfolioContract.js';
 
@@ -71,42 +69,5 @@ describe('G2T — claim classification', () => {
     assert.deepEqual([...i.identityKeys].sort(), ['companyId', 'userId']);
     const d = classifyG2Claims({ revision: 3, portfolioId: 'P-1' });
     assert.deepEqual([...d.durableKeys].sort(), ['portfolioId', 'revision']);
-  });
-});
-
-describe('G2T — offline provisioning attestation', () => {
-  const record = {
-    issuer: 'https://idp.local/realms/iips',
-    subject: 'sub-1',
-    applicationUserId: 'app-user-1',
-    tenantId: 'tenant-A',
-    mappingId: 'map-1',
-    lifecycleState: 'ACTIVE',
-    attestedAt: '2026-10-07T00:00:00.000Z',
-    actor: 'operator-1',
-    context: 'ticket-1',
-  };
-
-  it('G2T-20 accepts a well-formed attestation', () => {
-    assert.deepEqual(validateProvisioningRecord(record), record);
-  });
-
-  it('G2T-21 rejects malformed attestations fail-closed', () => {
-    const bad: unknown[] = [
-      null, 'x', [],
-      { ...record, issuer: '' },
-      { ...record, subject: '  ' },
-      { ...record, applicationUserId: undefined },
-      { ...record, lifecycleState: 'APPROVED-PENDING' },
-      { ...record, attestedAt: 'not-a-date' },
-      { ...record, actor: '' },
-      { ...record, context: 42 },
-    ];
-    for (const candidate of bad) {
-      assert.throws(
-        () => validateProvisioningRecord(candidate),
-        (error: unknown) => error instanceof G2Error && error.reason === 'INVALID_REQUEST',
-      );
-    }
   });
 });

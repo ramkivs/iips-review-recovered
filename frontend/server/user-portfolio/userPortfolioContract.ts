@@ -102,13 +102,6 @@ export const G2_LINEAGE = Object.freeze({
 });
 
 /**
- * The distinct IPD audience G24 requires (`IPD_DEFAULT_AUDIENCE` in G24
- * `src/auth/config.ts`, blob `221f4b1b…`). Deliberately separate from the IRR
- * `iips-spa` audience: a single-audience SPA token fails closed at G24 with 401.
- */
-export const G2_IPD_AUDIENCE = 'ipd-user-portfolio-api';
-
-/**
  * Tenant-hint header (`x-ipd-tenant-id`, read in G24 `http-server.ts`).
  * Carries ONLY the server-derived tenant hint (see `translationBoundary.ts`).
  * G24 validates it against ACTIVE memberships; a mismatch fails closed (403).

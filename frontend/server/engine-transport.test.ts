@@ -12,7 +12,7 @@ import { describe, it, expect } from 'vitest';
 import http from 'node:http';
 import { AddressInfo } from 'node:net';
 
-// The executive transport's exported helpers are pure; we test via HTTP like admin-transport.test.ts.
+// The executive transport's exported helpers are pure; exercise the composed engine routes over HTTP.
 // We boot a minimal server that delegates to the same EngineApiAdapter used by the executive transport.
 
 import { EngineApiAdapter } from '../../iips-platform/src/integration/EngineApiAdapter';

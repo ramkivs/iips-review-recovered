@@ -3,7 +3,7 @@
  *
  * Verifies the authorized personal-preference surface: effective state rendering, defaults
  * disclosure, the authorized theme control, reset, the distinguished failure classes
- * (authorization / validation / transport), that only the bounded preference set is ever sent,
+ * (server refusal / validation / transport), that only the bounded preference set is ever sent,
  * that no excluded control (data mode / PIT / freshness) exists, and that the browser is never
  * used as a settings or credential store.
  */
@@ -130,7 +130,7 @@ describe('UI12 — Settings surface: authorized preference + reset', () => {
     const body = JSON.parse(String(init?.body)) as Record<string, unknown>;
     // The bounded preference set only — no identity, no schema, no excluded capability.
     expect(body).toEqual({ theme: 'dark' });
-    expect((init?.headers as Record<string, string>)['Content-Type']).toBe('application/json');
+    expect(new Headers(init?.headers).get('Content-Type')).toBe('application/json');
   });
 
   it('resets through the governed reset operation', async () => {
@@ -164,17 +164,13 @@ describe('UI12 — Settings surface: authorized preference + reset', () => {
   });
 });
 
-describe('UI12 — Settings surface: distinguished failure classes', () => {
-  it('shows an authorization failure when the governed boundary denies the read', async () => {
-    vi.stubGlobal('fetch', errFetch(403, 'forbidden'));
+describe('UI12 — Settings surface: failure classes without authentication presentation', () => {
+  it.each([401, 403])('shows a generic transport error for HTTP %i, never an authentication prompt', async (status) => {
+    vi.stubGlobal('fetch', errFetch(status, 'request rejected'));
     renderComponent();
-    await waitFor(() => expect(screen.getByTestId('state-permission-denied')).toBeInTheDocument());
-  });
-
-  it('shows an authorization failure for a 401', async () => {
-    vi.stubGlobal('fetch', errFetch(401, 'unauthorized'));
-    renderComponent();
-    await waitFor(() => expect(screen.getByTestId('state-permission-denied')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByTestId('settings-failure-kind')).toHaveTextContent('Transport failure'));
+    expect(screen.queryByTestId('state-permission-denied')).not.toBeInTheDocument();
+    expect(screen.queryByText(/sign in|authentication required/i)).not.toBeInTheDocument();
   });
 
   it('shows a validation failure and leaves the effective state unchanged', async () => {
@@ -226,9 +222,10 @@ describe('UI12 — Settings surface: browser is never a settings or credential s
     renderComponent();
     await waitFor(() => expect(screen.getByTestId('settings-surface')).toBeInTheDocument());
     expect(fetchMock.mock.calls[0][0]).toBe('/api/settings');
-    // No Authorization header, no credentials option, no identity in the URL.
+    // The shared client explicitly omits browser credentials and strips Authorization.
     expect(JSON.stringify(fetchMock.mock.calls[0][0])).not.toMatch(/tenant|user|token|authorization/i);
-    expect(fetchMock.mock.calls[0][1]).toBeUndefined();
+    expect(fetchMock.mock.calls[0][1]?.credentials).toBe('omit');
+    expect(new Headers(fetchMock.mock.calls[0][1]?.headers).has('authorization')).toBe(false);
   });
 });
 
@@ -246,7 +243,7 @@ describe('UI12 — boot-time effective theme sync', () => {
     const result = await syncEffectiveThemeFromServer();
     expect(result.source).toBe('GOVERNED_DEFAULT');
     expect(result.applied).toBe(GOVERNED_DEFAULT_THEME);
-    expect(result.failureKind).toBe('authorization');
+    expect(result.failureKind).toBe('transport');
     expect(result.detail).not.toBeNull();
   });
 

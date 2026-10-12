@@ -1,10 +1,10 @@
 /**
  * G-2 Durable User Portfolio — PORT (IRR side).
  *
- * The port is the ONLY thing the IRR application depends on. It is an interface,
- * not an implementation: it carries no store, no journal, no persistence, no
- * mapping table, and no portfolio domain logic. Whatever sits behind it (the G24
- * HTTP adapter today) is IPD's business.
+ * This is the G-2 domain interface, not an implementation: it carries no store, journal,
+ * persistence, mapping table, or portfolio domain logic. The former first-party G24 HTTP adapter
+ * has been removed; the current HTTP transport returns owner-context-unavailable without calling
+ * this port. Any future implementation requires an established non-authentication owner source.
  *
  * TRANSACTION RULE (binding): each operation is exactly ONE upstream request,
  * executed by G24 inside exactly ONE IMMEDIATE transaction (or a single
@@ -12,11 +12,10 @@
  * multi-step unit of work — there are no distributed transactions across this
  * boundary, and none may be introduced behind it.
  *
- * SCOPE RULE (binding): every operation takes an explicit `G2Scope` carrying the
- * server-derived tenant hint. There is no ambient scope, no default tenant, and
- * no parameter through which a caller can supply identity. See
- * `translationBoundary.ts` for how the scope is derived — and for what is
- * forbidden.
+ * SCOPE RULE (binding): every operation takes an explicit `G2Scope`; there is no ambient or
+ * default tenant. A live owner context is not currently established, and the HTTP transport never
+ * supplies a scope. The retained boundary validation describes the contract only; it does not
+ * authenticate or create a tenant binding.
  */
 import type {
   G2DeleteResult,
@@ -31,10 +30,9 @@ import type {
 /**
  * The authorized scope of ONE boundary call.
  *
- * `tenantHint` is derived SOLELY from the authenticated IRR principal by
- * `deriveTenantHint` (translationBoundary.ts). It is a HINT, not an authority:
- * G24 validates it against the provisioned ACTIVE membership of the
- * credential-resolved application user and fails closed (403) on any mismatch.
+ * `tenantHint` may be supplied only from a separately established trusted owner context. It is a
+ * HINT, not an authority. No non-authentication ownership source is currently established, so the
+ * first-party HTTP transport does not construct or pass a `G2Scope`.
  */
 export interface G2Scope {
   readonly tenantHint: string;

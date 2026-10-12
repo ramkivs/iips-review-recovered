@@ -23,12 +23,11 @@
  *   - Presentation-only: value semantics (consolidation arithmetic, weights,
  *     revisions) belong to IPD; this client performs no business logic.
  *
- * Authentication reuses the platform OIDC `authFetch` (bearer when a token is
- * available); authorization stays server-side. In an environment with no live
- * IdP the durable surfaces answer 503 (fail closed) — this client surfaces that
- * state, it never works around it.
+ * Requests are credential-free. The read surfaces remain unavailable where no
+ * non-authentication ownership source has been established; this client never
+ * fabricates an owner or retries through another identity mechanism.
  */
-import { authFetch } from '../core/auth/oidcClient';
+import { noAuthFetch } from '../core/network/noAuthFetch';
 
 /**
  * List projection (mirror of `G2PortfolioSummary`, 9 fields): the collection
@@ -114,21 +113,21 @@ export class UserPortfolioApiError extends Error {
   }
 }
 
-/** Response body of a 503 upstream-unavailable answer (partial read). */
+/** Safe explanatory fields of a 503 unavailable response. */
 interface UnavailableDetail {
   readonly reason?: unknown;
   readonly blocker?: unknown;
 }
 
 /**
- * Reads the safe 503 boundary detail (`detail.blocker`) from an
- * upstream-unavailable body when present. Never interprets other fields.
+ * Reads a safe reason/blocker from an unavailable response. Never interprets other fields.
  */
 async function readBlocker(res: Response): Promise<string | undefined> {
   try {
     const body = (await res.json()) as { detail?: UnavailableDetail } | null;
-    const blocker = body?.detail?.blocker;
-    return typeof blocker === 'string' && blocker.length > 0 ? blocker : undefined;
+    const detail = body?.detail;
+    const value = detail?.blocker ?? detail?.reason;
+    return typeof value === 'string' && value.length > 0 ? value : undefined;
   } catch {
     return undefined; // body unparseable — the status alone still fails closed
   }
@@ -136,13 +135,13 @@ async function readBlocker(res: Response): Promise<string | undefined> {
 
 /** Maps a non-OK response onto the typed client error (fail closed, never fabricated). */
 async function toApiError(res: Response): Promise<UserPortfolioApiError> {
-  if (res.status === 401) return new UserPortfolioApiError(401, 'Authentication required (401)');
-  if (res.status === 403) return new UserPortfolioApiError(403, 'Authorization denied (403)');
+  if (res.status === 401) return new UserPortfolioApiError(401, 'Request rejected with HTTP 401');
+  if (res.status === 403) return new UserPortfolioApiError(403, 'Request forbidden (403)');
   if (res.status === 404) return new UserPortfolioApiError(404, 'User portfolio not found (404)');
   if (res.status === 503) {
     return new UserPortfolioApiError(
       503,
-      'User portfolio service unavailable (503)',
+      'User portfolio data unavailable (503)',
       await readBlocker(res),
     );
   }
@@ -150,13 +149,13 @@ async function toApiError(res: Response): Promise<UserPortfolioApiError> {
 }
 
 /**
- * Lists the authenticated user's durable portfolios
- * (GET /api/user-portfolios → { portfolios: […] }).
+ * Lists the durable portfolios available to an established owner context
+ * (GET /api/user-portfolios → { portfolios: […] }). The current transport responds unavailable.
  */
 export async function fetchUserPortfolioSummaries(baseUrl = ''): Promise<readonly UserPortfolioSummary[]> {
   let res: Response;
   try {
-    res = await authFetch(`${baseUrl}/api/user-portfolios`);
+    res = await noAuthFetch(`${baseUrl}/api/user-portfolios`);
   } catch {
     throw new UserPortfolioApiError(0, 'Network error contacting the user-portfolio transport');
   }
@@ -174,7 +173,7 @@ export async function fetchUserPortfolioSummaries(baseUrl = ''): Promise<readonl
 export async function fetchUserPortfolio(portfolioId: string, baseUrl = ''): Promise<UserPortfolioView> {
   let res: Response;
   try {
-    res = await authFetch(
+    res = await noAuthFetch(
       `${baseUrl}/api/user-portfolios/${encodeURIComponent(portfolioId)}`,
     );
   } catch {

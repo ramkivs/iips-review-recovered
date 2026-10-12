@@ -3,6 +3,7 @@
  * Governed ReplayResult surface only. No replay/diff computation in the client.
  */
 import type { Verdict } from '../components/decision/DecisionComponents';
+import { noAuthFetch } from '../core/network/noAuthFetch';
 import type { ExecutiveProvenance } from './executive';
 
 export interface ReplayData {
@@ -25,7 +26,7 @@ export interface ReplayData {
 }
 
 export async function fetchReplayData(sector: string, baseUrl = ''): Promise<ReplayData> {
-  const res = await fetch(`${baseUrl}/api/replay/${encodeURIComponent(sector)}`);
+  const res = await noAuthFetch(`${baseUrl}/api/replay/${encodeURIComponent(sector)}`);
   if (!res.ok) throw new Error(`replay transport returned ${res.status}`);
   return (await res.json()) as ReplayData;
 }
