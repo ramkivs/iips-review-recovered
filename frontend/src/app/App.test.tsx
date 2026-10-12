@@ -38,6 +38,23 @@ const ADMIN_OVERVIEW_FIXTURE = {
   },
 };
 
+// Phase 13.2 AI Explanation DTO (test-only fixture). Governed fields only — the surface must
+// render the mandatory non-authoritative label and never fabricate a decision.
+const AI_ADVISORY_FIXTURE = {
+  adviceId: 'adv-snap_Technology',
+  engineResultId: 'Technology',
+  kind: 'explanation',
+  text: 'Certified engine produced composite 76.3 → Buy. Advisory only.',
+  grounded: true,
+  nonAuthoritative: true,
+  model: 'iips-advisor',
+  modelVersion: '1.0.0',
+  engineResultRef: 'snap_Technology',
+  label: 'AI EXPLANATION ≠ CERTIFIED RESULT',
+  freshness: 'SNAPSHOT',
+  unavailable: ['timestamp', 'tenant', 'provider', 'confidence', 'citations', 'decision'],
+};
+
 beforeEach(() => {
   // URL-aware stub: each mounted surface receives its own governed envelope — the executive
   // fixture for the executive surfaces, the authoritative (empty) UI10 envelope for
@@ -48,7 +65,9 @@ beforeEach(() => {
       ? { data: [], provenance: { dataSource: 'test', asOf: '2026-08-01T00:00:00.000Z', dataVersion: 'v1.1-replay-baseline', mode: 'SNAPSHOT', freshness: 'SNAPSHOT', authority: 'PLATFORM', transportSemantics: 'test' } }
       : u.startsWith('/api/admin/overview')
         ? ADMIN_OVERVIEW_FIXTURE
-        : FIXTURE;
+        : u.startsWith('/api/ai-advisory/')
+          ? AI_ADVISORY_FIXTURE
+          : FIXTURE;
     return Promise.resolve({ ok: true, status: 200, json: async () => body });
   }) as never;
 });
@@ -130,6 +149,26 @@ describe('Application Shell', () => {
     for (const name of ['Users', 'Roles', 'Tenants', 'Audit']) {
       expect(screen.queryByRole('link', { name })).not.toBeInTheDocument();
     }
+  });
+
+  it('renders the AI Explanation nav entry under Intelligence and resolves its route', async () => {
+    const user = userEvent.setup();
+    renderAt('/executive', 'analyst');
+    // Phase 13.2 route + nav (certified change set) — recorded path is /ai-advisory.
+    const link = screen.getByRole('link', { name: 'AI Explanation' });
+    expect(link).toHaveAttribute('href', '/ai-advisory');
+    await user.click(link);
+    // The certified non-authoritative surface resolves — not the generic placeholder.
+    expect(await screen.findByText('AI EXPLANATION ≠ CERTIFIED RESULT')).toBeInTheDocument();
+    expect(screen.getByTestId('ai-advice')).toBeInTheDocument();
+    expect(screen.queryByTestId('shell-not-authorized')).not.toBeInTheDocument();
+  });
+
+  it('resolves /ai-advisory by direct URL for a viewer (read gate is server-side)', async () => {
+    renderAt('/ai-advisory', 'viewer');
+    expect(await screen.findByTestId('ai-advice')).toBeInTheDocument();
+    // AI is never a decision authority: no verdict is rendered from advisory text.
+    expect(screen.queryByTestId('shell-not-authorized')).not.toBeInTheDocument();
   });
 
   it('hides Administration for non-admin roles', () => {

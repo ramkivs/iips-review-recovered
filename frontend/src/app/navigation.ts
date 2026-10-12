@@ -60,6 +60,10 @@ export const NAV: NavItem[] = [
       { label: 'Risks', path: '/intelligence/risks', minRole: 'viewer' },
       { label: 'Rankings', path: '/intelligence/rankings', minRole: 'viewer' },
       { label: 'Decision Matrix', path: '/intelligence/decision-matrix', minRole: 'viewer' },
+      // Phase 13.2 — AI Explanation. The IA groups it under Intelligence while its recorded
+      // path is top-level `/ai-advisory` (phase14-information-architecture.md). Read-only and
+      // NON-authoritative: the surface always carries "AI EXPLANATION ≠ CERTIFIED RESULT".
+      { label: 'AI Explanation', path: '/ai-advisory', minRole: 'viewer' },
     ],
   },
   {
@@ -112,6 +116,7 @@ export const AVAILABLE_CHILD_PATHS: ReadonlySet<string> = new Set<string>([
   ROUTES.researchCrossSector,        // Phase 8 — Cross-Sector Intelligence (implemented)
   '/research/engines',               // E2E-025 — Engine Registry (implemented; no ROUTES key)
   ROUTES.intelligenceDecisionMatrix, // Phase 9 — Decision Matrix (implemented)
+  ROUTES.aiExplanation,              // Phase 13.2 — AI Explanation (implemented; non-authoritative)
 ]);
 
 /** Filter nav items visible to a given role. */
