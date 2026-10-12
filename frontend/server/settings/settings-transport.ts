@@ -36,9 +36,9 @@ import {
 /** Existing Settings semantics retained as documentation/provenance for the service boundary. */
 export const TRANSPORT_SEMANTICS =
   'PRIVATE, owner-scoped personal settings. Tenant and owner are established server-side by the ' +
-  'server-owned owner context; the client supplies no identity, no tenant and no owner. The HTTP ' +
-  'capability remains unavailable until a valid server-owned owner context is established, and the ' +
-  'browser is never an ownership authority.';
+  'server-owned owner context; the client supplies no identity, no tenant and no owner. No owner is ' +
+  'inferred: while a valid server-owned owner context is not established the HTTP capability is ' +
+  'unavailable, and the browser is never an ownership authority.';
 
 /** Exact-namespace check: `/api/settings` or `/api/settings/…` only. */
 export function isSettingsPath(url: string | undefined): boolean {

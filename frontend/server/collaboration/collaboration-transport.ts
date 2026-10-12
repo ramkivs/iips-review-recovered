@@ -37,8 +37,8 @@ import {
 
 export const TRANSPORT_SEMANTICS =
   'PRIVATE, owner-scoped collaboration threads. Tenant and owner are established server-side by the ' +
-  'server-owned owner context; the client supplies no identity. The HTTP capability remains ' +
-  'unavailable until a valid server-owned owner context is established. Threads and comments PIN ' +
+  'server-owned owner context; the client supplies no identity. No owner is inferred: while a valid ' +
+  'server-owned owner context is not established the HTTP capability is unavailable. Threads and comments PIN ' +
   'the governed vintage observed at authoring time; a later vintage difference is disclosed and ' +
   'never silently re-pinned. Governed references are CLOSED to company, evidence and watchlist.';
 
