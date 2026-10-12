@@ -13,6 +13,7 @@
  * Criteria and operators follow NP-12-SCREENING-CRITERIA-OPERATOR-BOOLEAN-GOVERNANCE.md;
  * `verdict`, `sector`, `companyId` etc. are explicitly non-screenable and are not offered.
  */
+import { noAuthFetch } from '../core/network/noAuthFetch';
 
 export type ScreeningField = 'conviction' | 'quality' | 'growth';
 export type ScreeningOperator = 'lt' | 'lte' | 'gt' | 'gte' | 'eq';
@@ -113,7 +114,7 @@ export async function screen(
   baseUrl = '',
 ): Promise<ScreenerResponse> {
   const body: ScreenerRequest = { definition };
-  const res = await fetch(`${baseUrl}${BASE}`, {
+  const res = await noAuthFetch(`${baseUrl}${BASE}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body),

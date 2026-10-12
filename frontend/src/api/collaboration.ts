@@ -13,6 +13,7 @@
  *     may only select from that set; the server rejects anything else with 404.
  *   - There is NO sharing, ACL, invitation, workspace-membership, mention or assignment API.
  */
+import { noAuthFetch } from '../core/network/noAuthFetch';
 
 /** CLOSED governed reference set. Reports and raw provider objects are deliberately absent. */
 export type GovernedRefKind = 'company' | 'evidence' | 'watchlist';
@@ -76,25 +77,29 @@ export interface CollaborationEnvelope {
 }
 
 async function failure(res: Response, action: string): Promise<Error> {
-  // Surface the governed failure verbatim (401/403/404/400) rather than inventing a state.
-  let detail = '';
+  let code = '';
+  let reason = '';
   try {
-    const body = (await res.json()) as { error?: string };
-    detail = body.error ?? '';
+    const body = (await res.json()) as { error?: string; detail?: { reason?: string } };
+    code = body.error ?? '';
+    reason = body.detail?.reason ?? '';
   } catch {
-    detail = '';
+    // Status remains the failure signal if the response envelope is malformed.
   }
-  return new Error(`${action} failed: ${res.status}${detail ? ` (${detail})` : ''}`);
+  if (code === 'owner-context-unavailable') {
+    return new Error(`Owner-scoped collaboration unavailable: ${reason || 'no non-authentication owner source is established.'}`);
+  }
+  return new Error(`${action} failed: ${res.status}${code ? ` (${code})` : ''}`);
 }
 
 export async function fetchThreads(baseUrl = ''): Promise<CollaborationEnvelope> {
-  const res = await fetch(`${baseUrl}/api/collaboration`);
+  const res = await noAuthFetch(`${baseUrl}/api/collaboration`);
   if (!res.ok) throw await failure(res, 'collaboration request');
   return (await res.json()) as CollaborationEnvelope;
 }
 
 export async function createThread(title: string, anchor: GovernedRef, baseUrl = ''): Promise<void> {
-  const res = await fetch(`${baseUrl}/api/collaboration`, {
+  const res = await noAuthFetch(`${baseUrl}/api/collaboration`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     // Only the authorized inputs are sent — never identity, tenant, owner or a thread id.
@@ -104,7 +109,7 @@ export async function createThread(title: string, anchor: GovernedRef, baseUrl =
 }
 
 export async function deleteThread(threadId: string, baseUrl = ''): Promise<void> {
-  const res = await fetch(`${baseUrl}/api/collaboration/${encodeURIComponent(threadId)}`, { method: 'DELETE' });
+  const res = await noAuthFetch(`${baseUrl}/api/collaboration/${encodeURIComponent(threadId)}`, { method: 'DELETE' });
   if (!res.ok) throw await failure(res, 'delete thread');
 }
 
@@ -114,7 +119,7 @@ export async function addComment(
   refs: readonly GovernedRef[] = [],
   baseUrl = '',
 ): Promise<void> {
-  const res = await fetch(`${baseUrl}/api/collaboration/${encodeURIComponent(threadId)}/comments`, {
+  const res = await noAuthFetch(`${baseUrl}/api/collaboration/${encodeURIComponent(threadId)}/comments`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ body, refs }),
@@ -123,7 +128,7 @@ export async function addComment(
 }
 
 export async function deleteComment(threadId: string, commentId: string, baseUrl = ''): Promise<void> {
-  const res = await fetch(
+  const res = await noAuthFetch(
     `${baseUrl}/api/collaboration/${encodeURIComponent(threadId)}/comments/${encodeURIComponent(commentId)}`,
     { method: 'DELETE' },
   );

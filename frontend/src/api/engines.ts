@@ -5,6 +5,7 @@
  * exposed by the EngineApiAdapter (certified-engine dispatch, not a scoring recomputation).
  * Semantically inert — maps governed fields only; never computes scores or thresholds.
  */
+import { noAuthFetch } from '../core/network/noAuthFetch';
 
 export interface EngineRegistryEntry {
   readonly engineId: string;
@@ -72,7 +73,7 @@ export interface EngineExecuteResponse {
 const BASE = '/api/engines';
 
 export async function fetchEngines(baseUrl = ''): Promise<EngineListData> {
-  const res = await fetch(`${baseUrl}${BASE}`);
+  const res = await noAuthFetch(`${baseUrl}${BASE}`);
   if (!res.ok) throw new Error(`engines transport returned ${res.status}`);
   return (await res.json()) as EngineListData;
 }
@@ -89,7 +90,7 @@ export async function executeEngine(
     requestId: requestId ?? `req-${Date.now()}`,
     inputs,
   };
-  const res = await fetch(`${baseUrl}${BASE}/${encodeURIComponent(engineId)}/execute`, {
+  const res = await noAuthFetch(`${baseUrl}${BASE}/${encodeURIComponent(engineId)}/execute`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body),

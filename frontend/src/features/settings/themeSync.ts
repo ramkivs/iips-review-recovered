@@ -7,11 +7,10 @@
  * Reuses the EXISTING governed theme mechanism (`core/theme/theme.ts`, unchanged) — no theme
  * architecture is replaced and no token foundation is altered.
  *
- * The effective theme is the SERVER's answer for the server-derived `(tenantId, userId)` owner.
- * This module persists NOTHING in the browser: there is no `localStorage`/`sessionStorage`/
- * IndexedDB write, no cookie and no credential handling. When the server cannot be consulted
- * (the known browser→transport credential-path / G3 dependency), the governed system default is
- * applied and that fact is returned — a stale client-side value is never treated as authoritative.
+ * The effective theme is normally the server's answer for the established settings owner. This
+ * application currently has no non-authentication owner source, so the owner-scoped settings API
+ * remains unavailable and the governed default stands. This module persists NOTHING in the
+ * browser: no localStorage/sessionStorage/IndexedDB write, cookie, or credential handling.
  */
 import { applyTheme, type ThemeMode } from '../../core/theme/theme';
 import { fetchSettings, SettingsApiError, type SettingsFailureKind } from '../../api/settings';

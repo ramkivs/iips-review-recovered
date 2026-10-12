@@ -11,15 +11,12 @@
  *   This server maps certified results to DTOs 1:1. It does NOT compute scores, confidence,
  *   rankings, thresholds, weights, or reinterpret verdicts.
  *
- * IMPORTANT — data source & auth boundary:
+ * IMPORTANT — data source & access boundary:
  *  - The portfolio displayed is the CERTIFIED REFERENCE portfolio (the frozen v1.1 Replay
  *    Baseline inputs), labeled SNAPSHOT. It is not live tenant production data.
- *  - Authentication/session: the Executive read (`/api/executive`) enforces the REAL OIDC
- *    boundary (Bearer credential → live read executor → `guardRead` governed RBAC read gate;
- *    401/403) before any certified data is served. The remaining dev-mode routes below still
- *    use the MINIMAL development-mode mechanism and remain a SEPARATE, still-pending
- *    requirement before production tenant data is served on those surfaces. This server does
- *    NOT weaken EnterpriseRuntime/PlatformApi authorization for the actual platform.
+ *  - First-party certified/reference reads are directly accessible and credential-free. The
+ *    owner-scoped product surfaces below remain unavailable when no non-authentication owner
+ *    binding exists. Certified calculations, source data, and DTOs are unchanged.
  */
 import http from 'node:http';
 import { fileURLToPath } from 'node:url';
@@ -27,8 +24,6 @@ import path from 'node:path';
 import fs from 'node:fs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-
-import { AuthError } from '../src/core/auth/keycloakAdapter';
 
 // --- Import the certified platform ---
 import { Container } from '../../iips-platform/src/di/Container';
@@ -573,36 +568,6 @@ const port = Number(process.env.EXEC_TRANSPORT_PORT ?? 8787);
 import { EngineApiAdapter } from '../../iips-platform/src/integration/EngineApiAdapter';
 const engineApi = new EngineApiAdapter();
 
-// Lazily-created live executors (real Keycloak), cached across requests.
-let adminExecutor: import('./secured-executor').SecuredExecutor | null = null;
-let aiExecutor: import('./secured-executor').SecuredExecutor | null = null;
-let reportsExecutor: import('./secured-executor').SecuredExecutor | null = null;
-/**
- * The injected authoritative NP-04 persistence binding for the Reports transport.
- *
- * Resolved once through the Step 2 port and memoized. `null` means "no authoritative store is
- * available to this process" — which the transport answers with 503 on durable surfaces. It is
- * NEVER replaced by a local store.
- */
-let reportsPersistence: import('./reports/persistence').ReportsPersistence | null = null;
-
-// G-2 — lazily-created live user-portfolio executor + G24 upstream config, cached
-// across requests. `null` config means "no live G24 upstream is reachable from this
-// process" — the transport answers 503 on durable surfaces. The adapter itself is
-// constructed PER REQUEST with the request's bearer and is never cached here.
-let userPortfolioExecutor: import('./secured-executor').SecuredExecutor | null = null;
-let userPortfolioConfig: import('./user-portfolio-transport').G2LiveConfig | null = null;
-
-let readExecutor: import('./secured-executor').SecuredExecutor | null = null;
-
-async function getReadExecutor(): Promise<import('./secured-executor').SecuredExecutor | null> {
-  if (!readExecutor) {
-    const admin = await import('./admin-transport');
-    readExecutor = await admin.createLiveAdminExecutor(admin.readResourceGate);
-  }
-  return readExecutor;
-}
-
 export function buildGovernedUniverseProvider(): import('./watchlists/watchlists-transport').GovernedUniverseProvider {
   return {
     async screenerUniverse() {
@@ -699,116 +664,54 @@ async function getPitReadPort(): Promise<import('./pit/pitReadPort').PitReadPort
   return pitPort;
 }
 
-/**
- * Authenticated Executive read (E2E-015 handoff reconciliation): the browser's genuine OIDC
- * Bearer credential is validated through the canonical family read boundary — `guardRead`
- * (SecuredExecutor.authenticate via the live read executor: real Keycloak discovery + JWKS;
- * 401 on absent/invalid) → governed RBAC read gate (403 on deny) — BEFORE any certified data
- * is served. Client claims are never trusted; authorization stays server-side; the certified
- * Executive DTO itself is unchanged (`computeCertifiedExecutive` is the same certified path).
- * `guardRead` is resolved via dynamic import, matching this file's established admin-transport
- * seam (`getReadExecutor`) and avoiding a static import cycle.
- */
+/** Serve the certified reference Executive DTO directly, without credentials or identity. */
 export async function handleExecutiveReadRequest(
-  req: http.IncomingMessage,
+  _req: http.IncomingMessage,
   res: http.ServerResponse,
-  executor: import('./secured-executor').SecuredExecutor,
 ): Promise<void> {
-  const token = (req.headers.authorization ?? '').replace(/^Bearer /, '').trim();
   try {
-    const { guardRead } = await import('./admin-transport');
-    await guardRead(executor, token, 'executive');
     res.writeHead(200);
     res.end(JSON.stringify(computeCertifiedExecutive()));
   } catch (e) {
-    if (e instanceof AuthError) {
-      res.writeHead(e.status);
-      res.end(JSON.stringify({ error: e.message }));
-      return;
-    }
     res.writeHead(500);
     res.end(JSON.stringify({ error: 'executive transport error', detail: String(e) }));
   }
 }
 
-const server = http.createServer((req, res) => {
+const server = http.createServer(async (req, res) => {
   res.setHeader('Content-Type', 'application/json');
   res.setHeader('Access-Control-Allow-Origin', '*');
   if (req.method === 'OPTIONS') { res.writeHead(204); res.end(); return; }
-  // Administration read endpoints (Phase 12.1) — G3-boundary enforced server-side.
-  if (req.url?.startsWith('/api/admin/')) {
-    void (async () => {
-      try {
-        const admin = await import('./admin-transport');
-        let executor = adminExecutor;
-        if (!executor) { executor = await admin.createLiveAdminExecutor(); adminExecutor = executor; }
-        if (!executor) { res.writeHead(401); res.end(JSON.stringify({ error: 'authentication unavailable (no IdP configured)' })); return; }
-        await admin.handleAdminRequest(req, res, executor, admin.buildAdminState());
-      } catch (e) {
-        res.writeHead(500); res.end(JSON.stringify({ error: 'admin transport error', detail: String(e) }));
-      }
-    })();
-    return;
-  }
-  // AI Advisory read endpoint (Phase 13.2) — read-only, non-authoritative, G3-enforced.
+  // AI Explanation is a direct, credential-free, read-only advisory over certified results.
   if (req.url?.startsWith('/api/ai-advisory/')) {
     void (async () => {
       try {
         const ai = await import('./ai-advisory-transport');
-        let executor = aiExecutor;
-        if (!executor) { executor = await ai.createLiveAiExecutor(); aiExecutor = executor; }
-        if (!executor) { res.writeHead(401); res.end(JSON.stringify({ error: 'authentication unavailable (no IdP configured)' })); return; }
-        await ai.handleAiAdvisoryRequest(req, res, executor, resolveSectorEngine);
+        await ai.handleAiAdvisoryRequest(req, res, resolveSectorEngine);
       } catch (e) {
         res.writeHead(500); res.end(JSON.stringify({ error: 'ai-advisory transport error', detail: String(e) }));
       }
     })();
     return;
   }
-  // Reports product transport (G3 / NP-06) — G3-enforced principal boundary + the NP-04
-  // governed persistence seam. Dispatched on the `/api/reports/` namespace only, and bound to
-  // SecuredExecutor so that no Reports request can reach product code without server-derived
-  // principal enforcement. Fails closed with 401 when no executor is available (no IdP / no
-  // authoritative membership store).
-  //
-  // Persistence is resolved through the Step 2 declared port at THIS composition point and
-  // injected into the handler. When the authoritative NP-04 store is not available the resolver
-  // returns null (it never substitutes a store), the durable surfaces answer 503, and the
-  // non-durable `context` surface is unaffected.
-  if (req.url?.startsWith('/api/reports/')) {
+  // Reports keeps its established route/method validation; owner-scoped capabilities stay unavailable.
+  if (req.url === '/api/reports' || req.url?.startsWith('/api/reports/')) {
     void (async () => {
       try {
         const reports = await import('./reports-transport');
-        let executor = reportsExecutor;
-        if (!executor) { executor = await reports.createLiveReportsExecutor(); reportsExecutor = executor; }
-        if (!executor) { res.writeHead(401); res.end(JSON.stringify({ error: 'authentication unavailable (no IdP configured)' })); return; }
-        let persistence = reportsPersistence;
-        if (!persistence) { persistence = await reports.createLiveReportsPersistence(); reportsPersistence = persistence; }
-        await reports.handleReportsRequest(req, res, executor, persistence);
+        await reports.handleReportsRequest(req, res);
       } catch (e) {
         res.writeHead(500); res.end(JSON.stringify({ error: 'reports transport error', detail: String(e) }));
       }
     })();
     return;
   }
-  // G-2 — durable user portfolios (non-production, IPD/G24-backed).
-  // Authorized by the Ramki G-2 implementation authorization (2026-10-07):
-  // IRR-side §5 consumption contract + adapter + transport + tests.
-  // Dispatched on the `/api/user-portfolios/` namespace only — a path that merely
-  // starts with a DIFFERENT prefix (in particular the certified `/api/portfolio`
-  // exact route below) never reaches this handler, and this handler's exact
-  // surface table never serves a foreign path. Purely additive: no existing
-  // route, and in particular no certified reference-portfolio behavior, is touched.
-  if (req.url?.startsWith('/api/user-portfolios/') || req.url?.startsWith('/api/user-portfolios?') || req.url === '/api/user-portfolios') {
+  // G-2 durable user portfolios: route/method shape remains, owner-scoped operations are unavailable.
+  if (req.url === '/api/user-portfolios' || req.url?.startsWith('/api/user-portfolios/')) {
     void (async () => {
       try {
         const up = await import('./user-portfolio-transport');
-        let executor = userPortfolioExecutor;
-        if (!executor) { executor = await up.createLiveUserPortfolioExecutor(); userPortfolioExecutor = executor; }
-        if (!executor) { res.writeHead(401); res.end(JSON.stringify({ error: 'authentication unavailable (no IdP configured)' })); return; }
-        let config = userPortfolioConfig;
-        if (!config) { config = await up.createLiveUserPortfolioConfig(); userPortfolioConfig = config; }
-        await up.handleUserPortfolioRequest(req, res, executor, config);
+        await up.handleUserPortfolioRequest(req, res);
       } catch (e) {
         res.writeHead(500); res.end(JSON.stringify({ error: 'user-portfolio transport error', detail: String(e) }));
       }
@@ -853,58 +756,48 @@ const server = http.createServer((req, res) => {
     })();
     return;
   }
-  // UI07 Watchlists (NP-09) — owner-scoped persistent lists with triggers.
+  // UI07 Watchlists: preserve the route boundary without inventing an owner for private lists.
   if (req.url?.startsWith('/api/watchlists')) {
     void (async () => {
       try {
-        const executor = await getReadExecutor();
-        if (!executor) { res.writeHead(401); res.end(JSON.stringify({ error: 'authentication unavailable (no IdP configured)' })); return; }
         const wl = await import('./watchlists/watchlists-transport');
-        await wl.handleWatchlistsRequest(req, res, executor, buildGovernedUniverseProvider());
+        await wl.handleWatchlistsRequest(req, res);
       } catch (e) {
         res.writeHead(500); res.end(JSON.stringify({ error: 'watchlists transport error', detail: String(e) }));
       }
     })();
     return;
   }
-  // UI10 Collaboration (NP-10) — private, owner-scoped threads over governed objects.
+  // UI10 Collaboration: preserve the route boundary without inventing an owner for private threads.
   if (req.url === '/api/collaboration' || req.url?.startsWith('/api/collaboration/')) {
     void (async () => {
       try {
-        const executor = await getReadExecutor();
-        if (!executor) { res.writeHead(401); res.end(JSON.stringify({ error: 'authentication unavailable (no IdP configured)' })); return; }
         const collab = await import('./collaboration/collaboration-transport');
-        await collab.handleCollaborationRequest(req, res, executor, buildGovernedReferenceProvider());
+        await collab.handleCollaborationRequest(req, res);
       } catch (e) {
         res.writeHead(500); res.end(JSON.stringify({ error: 'collaboration transport error', detail: String(e) }));
       }
     })();
     return;
   }
-  // UI12 Settings (NP-11) — private, owner-scoped personal configuration. Dispatched on the
-  // exact `/api/settings` namespace only; the handler fails closed on any other path or method.
+  // UI12 Settings: preference journal semantics remain intact; its HTTP owner binding is unavailable.
   if (req.url === '/api/settings' || req.url?.startsWith('/api/settings/')) {
     void (async () => {
       try {
-        const executor = await getReadExecutor();
-        if (!executor) { res.writeHead(401); res.end(JSON.stringify({ error: 'authentication unavailable (no IdP configured)' })); return; }
         const st = await import('./settings/settings-transport');
-        await st.handleSettingsRequest(req, res, executor);
+        await st.handleSettingsRequest(req, res);
       } catch (e) {
         res.writeHead(500); res.end(JSON.stringify({ error: 'settings transport error', detail: String(e) }));
       }
     })();
     return;
   }
-  // Governed Screener (NP-12 N4) — read-only declarative screening over the certified
-  // 13-engine set. Server-derived governed population; no client membership authority.
+  // Governed Screener is a direct, credential-free read/compute over the certified 13-engine set.
   if (req.url === '/api/screener') {
     void (async () => {
       try {
-        const executor = await getReadExecutor();
-        if (!executor) { res.writeHead(401); res.end(JSON.stringify({ error: 'authentication unavailable (no IdP configured)' })); return; }
         const sc = await import('./screener/screener-transport');
-        await sc.handleScreenerRequest(req, res, executor);
+        await sc.handleScreenerRequest(req, res);
       } catch (e) {
         res.writeHead(500); res.end(JSON.stringify({ error: 'screener transport error', detail: String(e) }));
       }
@@ -959,18 +852,7 @@ const server = http.createServer((req, res) => {
       res.writeHead(200); res.end(JSON.stringify({ status: 'ok', transport: 'program-v3.0 executive (dev)' })); return;
     }
     if (req.url === '/api/executive') {
-      // E2E-015 handoff reconciliation: REAL OIDC authentication + governed read
-      // authorization (401/403) via the canonical live read executor — NOT the former
-      // dev-mode mapping. Family dispatch pattern (cf. watchlists/screener blocks).
-      void (async () => {
-        try {
-          const executor = await getReadExecutor();
-          if (!executor) { res.writeHead(401); res.end(JSON.stringify({ error: 'authentication unavailable (no IdP configured)' })); return; }
-          await handleExecutiveReadRequest(req, res, executor);
-        } catch (e) {
-          res.writeHead(500); res.end(JSON.stringify({ error: 'executive transport error', detail: String(e) }));
-        }
-      })();
+      await handleExecutiveReadRequest(req, res);
       return;
     }
     if (req.url?.startsWith('/api/replay/')) {
@@ -992,17 +874,17 @@ const server = http.createServer((req, res) => {
       }
     }
     if (req.url === '/api/decision-matrix') {
-      // Minimal dev-mode session mapping (see header note). NOT production auth.
+      // Direct, credential-free read of the certified reference DTO.
       const data = computeCertifiedDecisionMatrix();
       res.writeHead(200); res.end(JSON.stringify(data)); return;
     }
     if (req.url === '/api/cross-sector') {
-      // Minimal dev-mode session mapping (see header note). NOT production auth.
+      // Direct, credential-free read of the certified reference DTO.
       const data = computeCertifiedCrossSector();
       res.writeHead(200); res.end(JSON.stringify(data)); return;
     }
     if (req.url === '/api/portfolio') {
-      // Minimal dev-mode session mapping (see header note). NOT production auth.
+      // Direct, credential-free read of the certified reference DTO.
       const data = computeCertifiedPortfolio();
       res.writeHead(200); res.end(JSON.stringify(data)); return;
     }

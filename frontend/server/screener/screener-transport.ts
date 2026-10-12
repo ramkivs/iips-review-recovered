@@ -5,8 +5,10 @@
  * modifying it:
  *
  *   POST /api/screener { definition: ScreenDefinitionInput }
- *     → guardRead (401/403) → server-derived 13 governed members (certified producer)
+ *     → server-derived 13 governed members (certified producer)
  *     → ScreenDefinition.create (422 on invalid) → executeScreen → 200 {execution, result, vintage}
+ *
+ * The first-party read endpoint is directly accessible and does not consume identity credentials.
  *
  * GOVERNED MEMBERSHIP: the screened population is derived SERVER-SIDE from the v1.1.0
  * Replay Baseline + certified engine executions + governed golden identities. A request
@@ -19,10 +21,8 @@
  * are byte-stable). No persistence, no new identity/tenant authority, no IPD dependency.
  */
 import http from 'node:http';
-import { guardRead, TransportError } from '../admin-transport';
-import type { SecuredExecutor } from '../secured-executor';
+import { TransportError } from '../transport-error';
 import { resolveSectorEngine, baselineVintage } from '../executive-transport';
-import { AuthError } from '../../src/core/auth/keycloakAdapter';
 import { ScreenDefinition, ScreenDefinitionError } from '../../../iips-platform/src/sector-engines/cross-sector/definition/ScreenDefinition';
 import { executeScreen, ScreenExecutionError } from '../../../iips-platform/src/sector-engines/cross-sector/screen/ScreenExecution';
 import {
@@ -123,14 +123,12 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
 }
 
-/** Handle POST /api/screener (canonical guardRead boundary; fail-closed). */
-export async function handleScreenerRequest(req: http.IncomingMessage, res: http.ServerResponse, executor: SecuredExecutor): Promise<void> {
-  const token = (req.headers.authorization ?? '').replace(/^Bearer /, '').trim();
+/** Handle the credential-free POST /api/screener endpoint. */
+export async function handleScreenerRequest(req: http.IncomingMessage, res: http.ServerResponse): Promise<void> {
   res.setHeader('Content-Type', 'application/json');
   try {
     if (req.url !== '/api/screener') { res.writeHead(404); res.end(JSON.stringify({ error: 'not found' })); return; }
     if (req.method !== 'POST') { res.writeHead(405); res.end(JSON.stringify({ error: 'method not allowed' })); return; }
-    await guardRead(executor, token, 'screener');
     const body = await readJson(req);
     if (!isRecord(body)) throw new TransportError(400, 'request-body-must-be-object');
     // Governed membership: the client MUST NOT supply population authority.
@@ -191,7 +189,6 @@ export async function handleScreenerRequest(req: http.IncomingMessage, res: http
     res.writeHead(200);
     res.end(JSON.stringify({ execution: executionDto, result, vintage }));
   } catch (e) {
-    if (e instanceof AuthError) { res.writeHead(e.status); res.end(JSON.stringify({ error: e.message })); return; }
     if (e instanceof TransportError) { res.writeHead(e.status); res.end(JSON.stringify({ error: e.message })); return; }
     if (e instanceof ScreenDefinitionError || e instanceof ScreenExecutionError || e instanceof ScreenProducerError) {
       res.writeHead(422); res.end(JSON.stringify({ error: e.message, code: e.code })); return;

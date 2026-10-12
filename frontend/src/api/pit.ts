@@ -13,6 +13,7 @@
  * addresses a different route with a different identity and must not be
  * conflated with it.
  */
+import { noAuthFetch } from '../core/network/noAuthFetch';
 import type {
   PitReadDomain,
   PitReadFailureReason,
@@ -52,6 +53,6 @@ function buildQuery(request: PitReadRequest): string {
  * absent record as an error and fall back to live data.
  */
 export async function fetchPitAsOf(request: PitReadRequest, baseUrl = ''): Promise<PitReadResult> {
-  const res = await fetch(`${baseUrl}${buildQuery(request)}`);
+  const res = await noAuthFetch(`${baseUrl}${buildQuery(request)}`);
   return (await res.json()) as PitReadResult;
 }

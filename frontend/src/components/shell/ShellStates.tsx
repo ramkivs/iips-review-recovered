@@ -1,9 +1,4 @@
-/**
- * Program v3.0 — Phase 3: Global shell states.
- * Loading / error / permission-denied / not-yet-authorized (feature placeholder) states.
- * Never fabricate investment values. Accessibility: role="status"/aria-live for loading,
- * role="alert" for errors.
- */
+/** Global shell states. These presentation components never fabricate investment values. */
 import type { ReactNode } from 'react';
 
 function ShellState({ title, children, testid }: { title: string; children: ReactNode; testid: string }) {
@@ -34,7 +29,7 @@ export function ErrorState({ message }: { message: string }) {
 export function PermissionDeniedState() {
   return (
     <ShellState title="Permission denied" testid="shell-permission-denied">
-      <p>You do not have permission to view this surface. Contact your administrator if this is unexpected.</p>
+      <p>This operation is not permitted.</p>
     </ShellState>
   );
 }
@@ -47,13 +42,10 @@ export function EmptyState({ label = 'No data available' }: { label?: string }) 
   );
 }
 
-/**
- * Feature placeholder for surfaces not yet authorized (Phase 3 = shell only).
- * Rendered instead of fabricating feature data.
- */
-export function NotYetAuthorized({ surface }: { surface: string }) {
+/** Placeholder for a product capability that has not been implemented. */
+export function FeatureNotImplemented({ surface }: { surface: string }) {
   return (
-    <ShellState title={`${surface} — not yet built`} testid="shell-not-authorized">
+    <ShellState title={`${surface} — not yet built`} testid="shell-feature-unavailable">
       <p>
         The <strong>{surface}</strong> workspace is part of a later Program v3.0 phase and has
         not been implemented yet. No feature data is fabricated at this stage.

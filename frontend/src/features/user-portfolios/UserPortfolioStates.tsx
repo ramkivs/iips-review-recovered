@@ -1,15 +1,4 @@
-/**
- * G-2 Durable User Portfolios — UI state components (read-only consumer).
- *
- * Reuses the platform design system (`components/state/StateComponents`) —
- * no IPD visual copy, no second design language. Every failure mode the G-2
- * transport can answer with maps onto an existing platform state; nothing is
- * invented, fabricated, or retried around.
- *
- * Opaque digests (`provenanceDigest`, `lineageDigest`) are displayed verbatim,
- * truncated for layout only; the full value stays available via `title`.
- * They are never hashed, recomputed, compared, or adjudicated client-side.
- */
+/** User-portfolio display states; values and errors come from the governed transport. */
 import type { ReactNode } from 'react';
 import {
   ErrorState,
@@ -18,29 +7,7 @@ import {
 } from '../../components/state/StateComponents';
 import type { UserPortfolioApiError } from '../../api/userPortfolios';
 
-/**
- * 401 — the durable user-portfolio surfaces are authenticated reads. When the
- * platform has no live session the top bar carries the platform Sign-in
- * control (`topbar-login`); this state points at it and never builds a second
- * authentication mechanism.
- */
-export function AuthenticationRequiredState() {
-  return (
-    <div
-      data-testid="state-authentication-required"
-      role="alert"
-      style={{ border: '1px solid var(--color-border)', borderRadius: 6, padding: 16, background: 'var(--color-surface-1)' }}
-    >
-      <strong>Authentication required</strong>
-      <div style={{ marginTop: 4, fontSize: 13 }}>
-        Your durable user portfolios are an authenticated read. Use the Sign in control in the top bar to
-        authenticate, then return to this page.
-      </div>
-    </div>
-  );
-}
-
-/** 404 — missing, foreign, tenant-mismatched, or tombstoned are indistinguishable by design. */
+/** 404 remains indistinguishable across missing, foreign, tenant-mismatched, or tombstoned IDs. */
 export function UserPortfolioNotFoundState() {
   return (
     <div
@@ -57,18 +24,9 @@ export function UserPortfolioNotFoundState() {
   );
 }
 
-/**
- * Maps the typed client error onto the platform state vocabulary:
- *   0   → ErrorState (network fault — the transport could not be reached)
- *   401 → AuthenticationRequiredState
- *   403 → PermissionDeniedState
- *   404 → UserPortfolioNotFoundState
- *   503 → UnavailableState, with the G-2 boundary blocker surfaced as an
- *         explicit, clearly-labeled governance note (testid `g2-boundary-detail`)
- *   *   → ErrorState (fault; never data)
- */
+/** Maps transport status onto existing application states without an authentication prompt. */
 export function UserPortfolioErrorState({ error }: { error: UserPortfolioApiError }) {
-  if (error.status === 401) return <AuthenticationRequiredState />;
+  if (error.status === 401) return <ErrorState message={error.message} />;
   if (error.status === 403) return <PermissionDeniedState />;
   if (error.status === 404) return <UserPortfolioNotFoundState />;
   if (error.status === 503) {
@@ -77,7 +35,7 @@ export function UserPortfolioErrorState({ error }: { error: UserPortfolioApiErro
         <UnavailableState reason="User portfolio service unavailable" />
         {error.blocker !== undefined ? (
           <p data-testid="g2-boundary-detail" style={{ marginTop: 8, fontSize: 13, color: 'var(--color-ink-secondary)' }}>
-            <strong>G-2 boundary:</strong> {error.blocker}
+            <strong>Availability detail:</strong> {error.blocker}
           </p>
         ) : null}
       </div>

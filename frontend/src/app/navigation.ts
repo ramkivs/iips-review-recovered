@@ -1,135 +1,80 @@
 /**
- * Program v3.0 — Phase 3: Global navigation model.
+ * Global navigation for the single-user personal-use application.
  *
- * Role-aware navigation (admin-only surfaces hidden for non-admins). The frontend reflects
- * platform RBAC; it does NOT decide permissions. At this phase roles come from a minimal
- * session stub (to be connected to the transport/EnterpriseRuntime in a later phase).
+ * Navigation is not role-filtered. Administrative identity, role, and tenant-membership
+ * management is intentionally retired; the remaining product surfaces open directly.
  */
-import type { Role } from '../core/session/session';
 import { ROUTES } from './routes';
 
 export interface NavItem {
   label: string;
   path: string;
-  minRole: Role;
   children?: NavItem[];
 }
 
 export const NAV: NavItem[] = [
-  { label: 'Executive', path: '/executive', minRole: 'viewer' },
+  { label: 'Executive', path: '/executive' },
   {
     label: 'Portfolio',
     path: '/portfolio',
-    minRole: 'viewer',
     children: [
-      { label: 'Overview', path: '/portfolio', minRole: 'viewer' },
-      { label: 'Holdings', path: '/portfolio/:id/holdings', minRole: 'viewer' },
+      { label: 'Overview', path: '/portfolio' },
+      { label: 'Holdings', path: '/portfolio/:id/holdings' },
     ],
   },
-  // G-2 — durable user portfolios (read-only IPD/G24-backed consumer, 2026-10-08
-  // UI-Consumer Implementation Authorization). A personal durable-portfolio view
-  // distinct from the certified reference Portfolio workspace above; available to
-  // every authenticated role, authorization enforced server-side by the G-2
-  // boundary.
-  { label: 'User Portfolios', path: '/user-portfolios', minRole: 'viewer' },
-  { label: 'Watchlists', path: '/watchlists', minRole: 'viewer' },
-  { label: 'Collaboration', path: '/collaboration', minRole: 'viewer' },
-  // NP-11 UI12 — private, user-owned personal settings (personal capability, not a platform
-  // configuration surface). Available to every authenticated role; mutations are authorized
-  // server-side by the governed execute action.
-  { label: 'Settings', path: '/settings', minRole: 'viewer' },
+  // Owner-scoped surfaces remain visible, but their data operations report unavailable until
+  // a non-authentication ownership source is separately authorized and established.
+  { label: 'User Portfolios', path: '/user-portfolios' },
+  { label: 'Watchlists', path: '/watchlists' },
+  { label: 'Collaboration', path: '/collaboration' },
+  { label: 'Settings', path: '/settings' },
   {
     label: 'Research',
     path: '/research',
-    minRole: 'viewer',
     children: [
-      { label: 'Company', path: '/research/company/:id', minRole: 'viewer' },
-      { label: 'Sector', path: '/research/sector/:id', minRole: 'viewer' },
-      { label: 'Cross-Sector', path: '/research/cross-sector', minRole: 'viewer' },
-      { label: 'Engines', path: '/research/engines', minRole: 'viewer' },
+      { label: 'Company', path: '/research/company/:id' },
+      { label: 'Sector', path: '/research/sector/:id' },
+      { label: 'Cross-Sector', path: '/research/cross-sector' },
+      { label: 'Engines', path: '/research/engines' },
     ],
   },
-  // Governed Screener — declarative screening over the certified 13-engine set (read-only).
-  { label: 'Screener', path: '/screener', minRole: 'viewer' },
+  { label: 'Screener', path: '/screener' },
   {
     label: 'Intelligence',
     path: '/intelligence',
-    minRole: 'viewer',
     children: [
-      { label: 'Opportunities', path: '/intelligence/opportunities', minRole: 'viewer' },
-      { label: 'Risks', path: '/intelligence/risks', minRole: 'viewer' },
-      { label: 'Rankings', path: '/intelligence/rankings', minRole: 'viewer' },
-      { label: 'Decision Matrix', path: '/intelligence/decision-matrix', minRole: 'viewer' },
-      // Phase 13.2 — AI Explanation. The IA groups it under Intelligence while its recorded
-      // path is top-level `/ai-advisory` (phase14-information-architecture.md). Read-only and
-      // NON-authoritative: the surface always carries "AI EXPLANATION ≠ CERTIFIED RESULT".
-      { label: 'AI Explanation', path: '/ai-advisory', minRole: 'viewer' },
+      { label: 'Opportunities', path: '/intelligence/opportunities' },
+      { label: 'Risks', path: '/intelligence/risks' },
+      { label: 'Rankings', path: '/intelligence/rankings' },
+      { label: 'Decision Matrix', path: '/intelligence/decision-matrix' },
+      { label: 'AI Explanation', path: ROUTES.aiExplanation },
     ],
   },
   {
     label: 'Evidence',
     path: '/evidence',
-    minRole: 'viewer',
     children: [
-      { label: 'Decision Evidence', path: '/evidence', minRole: 'viewer' },
-      { label: 'Snapshots', path: '/evidence/snapshots', minRole: 'viewer' },
-      { label: 'Replay', path: '/evidence/replay/:id', minRole: 'viewer' },
-    ],
-  },
-  {
-    label: 'Administration',
-    path: '/admin',
-    minRole: 'admin',
-    children: [
-      { label: 'Users', path: '/admin/users', minRole: 'admin' },
-      { label: 'Roles', path: '/admin/roles', minRole: 'admin' },
-      { label: 'Tenants', path: '/admin/tenants', minRole: 'admin' },
-      { label: 'Audit', path: '/admin/audit', minRole: 'admin' },
+      { label: 'Decision Evidence', path: '/evidence' },
+      { label: 'Snapshots', path: '/evidence/snapshots' },
+      { label: 'Replay', path: '/evidence/replay/:id' },
     ],
   },
 ];
 
-/** Role ordering used by the navigation model (frontend reflection of platform RBAC only). */
-const ROLE_RANK: Record<Role, number> = { viewer: 0, analyst: 1, admin: 2 };
-
-/**
- * Child destinations that are concretely navigable from global navigation today.
- *
- * A destination is listed here only when BOTH hold:
- *   1. the path is concrete (no route parameter), and
- *   2. the route renders an implemented workspace — not a placeholder / `NotYetAuthorized`.
- *
- * Deliberately NOT listed (and therefore not rendered as global links):
- *   - parameterised children that require a selection — `/research/company/:id`,
- *     `/research/sector/:id`, `/portfolio/:id/holdings`, `/evidence/replay/:id`. These are
- *     reached contextually from a company/sector/evidence row (e.g. Cross-Sector Intelligence
- *     and Decision Matrix link to `/research/company/<sector>`), and a literal `:id` link
- *     would be broken navigation;
- *   - children whose target is a placeholder or duplicates the parent path;
- *   - Administration sections, which are owned by the Administration surface's own tablist
- *     (`src/features/admin/Administration.tsx`) — rendering them here would duplicate it.
- *
- * `NAV` itself (the frozen navigation model) is unchanged; this is additive availability
- * metadata used by the Sidebar.
- */
+/** Concrete, implemented destinations available as global child links. */
 export const AVAILABLE_CHILD_PATHS: ReadonlySet<string> = new Set<string>([
-  ROUTES.researchCrossSector,        // Phase 8 — Cross-Sector Intelligence (implemented)
-  '/research/engines',               // E2E-025 — Engine Registry (implemented; no ROUTES key)
-  ROUTES.intelligenceDecisionMatrix, // Phase 9 — Decision Matrix (implemented)
-  ROUTES.aiExplanation,              // Phase 13.2 — AI Explanation (implemented; non-authoritative)
+  ROUTES.researchCrossSector,
+  '/research/engines',
+  ROUTES.intelligenceDecisionMatrix,
+  ROUTES.aiExplanation,
 ]);
 
-/** Filter nav items visible to a given role. */
-export function visibleNav(role: Role): NavItem[] {
-  return NAV.filter((item) => ROLE_RANK[role] >= ROLE_RANK[item.minRole]);
+/** All non-retired product navigation, without a role/session dependency. */
+export function visibleNav(): NavItem[] {
+  return NAV;
 }
 
-/**
- * Filter the renderable children of a nav item: same role rule as `visibleNav`, restricted to
- * destinations available in global navigation (`AVAILABLE_CHILD_PATHS`). Order follows the model.
- */
-export function visibleChildren(item: NavItem, role: Role): NavItem[] {
-  return (item.children ?? []).filter(
-    (child) => ROLE_RANK[role] >= ROLE_RANK[child.minRole] && AVAILABLE_CHILD_PATHS.has(child.path),
-  );
+/** Render only concrete, implemented child destinations. */
+export function visibleChildren(item: NavItem): NavItem[] {
+  return (item.children ?? []).filter(child => AVAILABLE_CHILD_PATHS.has(child.path));
 }

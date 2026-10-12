@@ -1,18 +1,14 @@
 /**
  * Program v3.0 — AI Advisory G2 transport (read-only, non-authoritative).
  *
- * Selective reconciliation of the canonical advisory design onto current main:
+ * Direct, credential-free read path:
  *
- *   guardRead(executor, token, 'ai-advisory')
- *     → SecuredExecutor.authenticate (401)
- *     → SecuredExecutor.authorize('read', 'read.ai-advisory') (403)
- *     → governed audit
+ *   GET /api/ai-advisory/:sectorKey
  *     → AiAssistedRuntime.executeWithAi (SOLE orchestration path)
  *     → read-only AiAdvisory DTO → React.
  *
- * NO second RBAC or read-authorization model is introduced: `guardRead` is reused as-is
- * and `admin-transport.ts` is not modified. `AiAssistedRuntime.executeWithAi` is the SOLE
- * authoritative path — `AiAdvisor.advise()` is never called directly by this transport.
+ * No identity or authorization principal is created. `AiAssistedRuntime.executeWithAi` remains
+ * the sole authoritative orchestration path — `AiAdvisor.advise()` is never called directly.
  *
  * Calibration is current main's v1.1.0 certified 13-engine generation (ENGINE_FACTORY +
  * frozen Replay Baseline in `executive-transport.ts`); no superseded engine class, engine
@@ -23,21 +19,17 @@
  * contract does not provide (timestamp, tenant, provider, confidence, citations, decision)
  * are NOT fabricated — they are listed in `unavailable`.
  *
- * Failure semantics: 401/403 via guardRead; 404 unknown/unresolvable sector (pre-existing
- * semantics); 503 `engine-result-not-completed` when the engine result is not COMPLETED
- * (advisor body not consulted); 503 `advisory-unavailable` when the advisor cannot produce
- * advice; 500 engine/runtime/transport failure (pre-existing semantics).
+ * Failure semantics: 404 unknown/unresolvable sector; 503 `engine-result-not-completed`
+ * when the engine result is not COMPLETED (advisor body not consulted); 503
+ * `advisory-unavailable` when the advisor cannot produce advice; 500 engine/runtime/transport
+ * failure. No authentication or identity check is required.
  *
  * READ-ONLY. No AI configuration / prompt / provider / model-selection / mutation surface.
  */
 import http from 'node:http';
 import { AiAssistedRuntime, adviceId, type AiAdvice, type AiAdvisor } from '../../iips-platform/src/distributed/AiAssistedRuntime';
 import type { ExecutionResult, SectorPlugin } from '../../iips-platform/src/plugin-loader/PluginContract';
-import { SecuredExecutor } from './secured-executor';
-import { AuthError } from '../src/core/auth/keycloakAdapter';
-import { guardRead } from './admin-transport';
 import { resolveSectorEngine as defaultResolveSectorEngine } from './executive-transport';
-import type { Principal } from '../../iips-platform/src/distributed/EnterpriseRuntime';
 
 /** The exact authorized advisory sentence. Fixed; no interpolation; no result-dependent slots. */
 export const ADVISORY_TEXT =
@@ -55,15 +47,6 @@ export const ADVISORY_UNAVAILABLE = ['timestamp', 'tenant', 'provider', 'confide
 /** The deterministic advisor identity. Truthful: no external AI model is implied. */
 export const ADVISOR_MODEL = 'iips-deterministic-advisor' as const;
 export const ADVISOR_MODEL_VERSION = '1.0.0' as const;
-
-/** Read-aware resource gate: `read` allowed for viewer/analyst/admin (matches ROLE_POLICY). */
-export const READ_GATE = (p: Principal, action: string): boolean => action === 'read';
-
-/** Build a live executor whose resource gate permits the `read` action (AI advisory is read-only). */
-export async function createLiveAiExecutor(): Promise<SecuredExecutor | null> {
-  const { createLiveAdminExecutor } = await import('./admin-transport');
-  return createLiveAdminExecutor((p: Principal, action: string) => READ_GATE(p, action));
-}
 
 /** Thrown when the engine result is not COMPLETED, so the advisory body is never produced. */
 export class EngineResultNotCompletedError extends Error {
@@ -157,12 +140,10 @@ export interface AiAdvisoryHandlerOptions {
 export async function handleAiAdvisoryRequest(
   req: http.IncomingMessage,
   res: http.ServerResponse,
-  executor: SecuredExecutor,
   resolveSectorEngine: (sectorKey: string) => ResolvedSectorEngine | null = defaultResolveSectorEngine,
   opts: AiAdvisoryHandlerOptions = {},
 ): Promise<void> {
   res.setHeader('Content-Type', 'application/json');
-  const token = (req.headers.authorization ?? '').replace(/^Bearer /, '').trim();
 
   try {
     const match = (req.url ?? '').match(/^\/api\/ai-advisory\/([^/]+)$/);
@@ -172,9 +153,6 @@ export async function handleAiAdvisoryRequest(
       return;
     }
     const sectorKey = decodeURIComponent(match[1]);
-
-    // Canonical governed read authorization. 401 on missing/invalid token, 403 on denial.
-    await guardRead(executor, token, 'ai-advisory');
 
     // Resolve the sector key through the governed mapping. Unknown → pre-existing 404.
     const resolved = resolveSectorEngine(sectorKey);
@@ -223,11 +201,6 @@ export async function handleAiAdvisoryRequest(
     // adviceLog() lineage is retained on the runtime instance for the request that produced it.
     void runtime.adviceLog();
   } catch (e) {
-    if (e instanceof AuthError) {
-      res.writeHead(e.status);
-      res.end(JSON.stringify({ error: e.message }));
-      return;
-    }
     res.writeHead(500);
     res.end(JSON.stringify({ error: 'ai advisory transport error', detail: String(e) }));
   }

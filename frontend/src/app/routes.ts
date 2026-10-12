@@ -2,8 +2,8 @@
  * Program v3.0 — Phase 3: Route map (from the frozen navigation model).
  *
  * Presentation-only route definitions. Feature workspaces (Executive, Portfolio, Research,
- * Intelligence, Evidence, Admin) are shell placeholders at this phase — they render an
- * "Under construction / not yet authorized" shell state. No business logic.
+ * Intelligence, Evidence) are mounted directly; user/role/tenant administration is retired.
+ * No session or identity gate is part of route resolution.
  */
 export const ROUTES = {
   root: '/',
@@ -32,9 +32,4 @@ export const ROUTES = {
   evidenceDetail: '/evidence/:id',
   evidenceSnapshots: '/evidence/snapshots',
   evidenceReplay: '/evidence/replay/:id',
-  admin: '/admin',
-  adminUsers: '/admin/users',
-  adminRoles: '/admin/roles',
-  adminTenants: '/admin/tenants',
-  adminAudit: '/admin/audit',
 } as const;

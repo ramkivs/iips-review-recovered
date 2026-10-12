@@ -1,12 +1,13 @@
 /**
- * UI12 — SETTINGS (private, user-owned, tenant-scoped personal configuration).
+ * UI12 — SETTINGS (private, owner-scoped personal configuration).
  *
  * Authority: `docs/integration/IIPS_v3.0_NP11_SETTINGS_PRODUCT_CONTRACT_AND_PERSISTENCE_OWNER_DESIGNATION.md`
  * (NP-11-AUTH-01). Requirement: D4_01 INT-014b.
  *
- * Route: /settings (viewer+ may read; mutations require analyst-and-above, server-enforced).
+ * Route: /settings. Its owner-dependent read/write operations remain unavailable without a
+ * separately authorized non-authentication ownership source.
  *
- * AUTHORIZED MODEL: the surface exposes ONLY the governed personal preference — theme. It is
+ * BOUNDED MODEL: the surface exposes ONLY the governed personal preference — theme. It is
  * PRIVATE and NON-SHARED: there is deliberately no sharing, invitation, inheritance or
  * administrator control, and no control for any excluded capability (data mode, freshness, PIT
  * addressing, provenance, system/tenant/environment configuration, feature flags, secrets).
@@ -29,12 +30,11 @@ import {
   type ThemeMode,
 } from '../../api/settings';
 import { applyTheme } from '../../core/theme/theme';
-import { LoadingState, PermissionDeniedState } from '../../components/state/StateComponents';
+import { LoadingState } from '../../components/state/StateComponents';
 
 const THEME_OPTIONS: readonly ThemeMode[] = ['light', 'dark'];
 
 const FAILURE_LABEL: Record<SettingsFailureKind, string> = {
-  authorization: 'Authorization failure',
   validation: 'Validation failure',
   transport: 'Transport failure',
 };
@@ -86,11 +86,6 @@ export function Settings() {
 
   if (loading) return <LoadingState />;
 
-  // Authorization failure: the governed boundary denied the read. Nothing is fabricated.
-  if (failure !== null && failure.kind === 'authorization' && state === null) {
-    return <PermissionDeniedState />;
-  }
-
   // No effective state was obtained: report the failure class plainly. An unknown condition is
   // treated as a transport failure — never as an empty (fabricated) configuration.
   if (state === null) {
@@ -112,8 +107,8 @@ export function Settings() {
     <section data-testid="settings-surface">
       <h1 style={{ fontSize: 22, margin: 0 }}>Settings</h1>
       <p style={{ color: 'var(--color-ink-secondary)', fontSize: 13, margin: '6px 0 0' }}>
-        Your private personal preferences. They are owned by you, scoped to your tenant, and never
-        shared with other users. Only authorized personal preferences appear here.
+        Personal settings are private and owner-scoped. No non-authentication owner source is
+        currently established, so no settings are read or changed.
       </p>
 
       <dl

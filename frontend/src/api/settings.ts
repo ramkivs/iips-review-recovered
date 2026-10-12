@@ -7,13 +7,15 @@
  * Mirrors the server contract 1:1 — no derivation, no transformation, no client-side authority.
  *
  * Constraints reflected here:
- *   - Tenant and owner are SERVER-DERIVED. The client supplies no identity of any kind.
+ *   - Tenant and owner are server-bound, but the client supplies no identity of any kind; the
+ *     HTTP operation remains unavailable until a non-authentication owner source is established.
  *   - The server response is the AUTHORITATIVE effective state. Nothing is cached, mirrored or
  *     restored from `localStorage`, `sessionStorage` or IndexedDB — no browser storage is used
  *     for settings, and no credential or token handling exists in this client.
- *   - Only authorized preference keys are ever sent. Excluded capabilities (data mode, freshness,
+ *   - Only the bounded preference keys are represented. Excluded capabilities (data mode, freshness,
  *     PIT addressing, provenance) have no representation here at all.
  */
+import { noAuthFetch } from '../core/network/noAuthFetch';
 
 export type ThemeMode = 'light' | 'dark';
 
@@ -46,8 +48,8 @@ export interface SettingsEnvelope {
   readonly provenance: SettingsProvenance;
 }
 
-/** Why a Settings request failed — so the surface can distinguish the failure classes. */
-export type SettingsFailureKind = 'authorization' | 'validation' | 'transport';
+/** Why a Settings request failed — without an authentication-specific state. */
+export type SettingsFailureKind = 'validation' | 'transport';
 
 export class SettingsApiError extends Error {
   constructor(
@@ -61,7 +63,6 @@ export class SettingsApiError extends Error {
 }
 
 function kindForStatus(status: number): SettingsFailureKind {
-  if (status === 401 || status === 403) return 'authorization';
   if (status === 400 || status === 422) return 'validation';
   return 'transport';
 }
@@ -69,17 +70,16 @@ function kindForStatus(status: number): SettingsFailureKind {
 async function request(path: string, init: RequestInit | undefined, baseUrl: string): Promise<SettingsEnvelope> {
   let res: Response;
   try {
-    res = await fetch(`${baseUrl}${path}`, init);
+    res = await noAuthFetch(`${baseUrl}${path}`, init);
   } catch (e) {
     throw new SettingsApiError(`settings request failed: ${String(e)}`, 'transport', null);
   }
   if (!res.ok) {
-    const body = (await res.json().catch(() => ({}))) as { error?: string };
-    throw new SettingsApiError(
-      body.error ?? `settings request failed: ${res.status}`,
-      kindForStatus(res.status),
-      res.status,
-    );
+    const body = (await res.json().catch(() => ({}))) as { error?: string; detail?: { reason?: string } };
+    const message = body.error === 'owner-context-unavailable'
+      ? `Settings unavailable: ${body.detail?.reason ?? 'owner context is not available.'}`
+      : body.error ?? `settings request failed: ${res.status}`;
+    throw new SettingsApiError(message, kindForStatus(res.status), res.status);
   }
   const envelope = (await res.json()) as SettingsEnvelope;
   // Fail closed on a contract violation: never present a malformed envelope as effective state.
@@ -90,12 +90,12 @@ async function request(path: string, init: RequestInit | undefined, baseUrl: str
   return envelope;
 }
 
-/** Read the principal's OWN effective settings (server-authoritative). */
+/** Read the owner-scoped effective settings (the HTTP operation is currently unavailable). */
 export async function fetchSettings(baseUrl = ''): Promise<SettingsEnvelope> {
   return request('/api/settings', undefined, baseUrl);
 }
 
-/** Apply an authorized preference patch. Only the bounded preference set may be sent. */
+/** Apply a bounded preference patch. Only the established preference set may be sent. */
 export async function updateSettings(patch: { readonly theme: ThemeMode }, baseUrl = ''): Promise<SettingsEnvelope> {
   return request(
     '/api/settings',
@@ -108,7 +108,7 @@ export async function updateSettings(patch: { readonly theme: ThemeMode }, baseU
   );
 }
 
-/** Reset authorized settings to the governed defaults (a NEW durable revision). */
+/** Reset owner-scoped settings to governed defaults (a new durable revision when available). */
 export async function resetSettings(baseUrl = ''): Promise<SettingsEnvelope> {
   return request('/api/settings/reset', { method: 'POST' }, baseUrl);
 }

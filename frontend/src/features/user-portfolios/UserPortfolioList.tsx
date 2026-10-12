@@ -1,14 +1,15 @@
 /**
  * G-2 Durable User Portfolios — list surface (read-only consumer).
  *
- * Renders the authenticated user's durable portfolio summaries
- * (GET /api/user-portfolios) using the platform design system. Read-only by
- * construction: no create/save/edit/delete/reset/import/upload control exists
- * on this surface, and no portfolio state is persisted client-side.
+ * Renders owner-scoped durable portfolio summaries (GET /api/user-portfolios) using the platform
+ * design system. The first-party route currently reports owner context unavailable; it neither
+ * creates an identity nor reads or changes owner data. Read-only by construction: no
+ * create/save/edit/delete/reset/import/upload control exists on this surface, and no portfolio
+ * state is persisted client-side.
  *
- * This route is distinct from the certified reference `/portfolio` workspace
- * (the platform-owned analytical portfolio). It only ever lists what the G-2
- * boundary serves for the authenticated principal.
+ * This route is distinct from the certified reference `/portfolio` workspace (the platform-owned
+ * analytical portfolio). It displays only data returned by the G-2 boundary when an ownership
+ * source is established.
  */
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';

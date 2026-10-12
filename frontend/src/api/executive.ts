@@ -6,7 +6,7 @@
  * Presentation-only. No business logic.
  */
 import type { Verdict } from '../components/decision/DecisionComponents';
-import { authFetch } from '../core/auth/oidcClient';
+import { noAuthFetch } from '../core/network/noAuthFetch';
 
 export interface PortfolioSummary {
   readonly portfolioId: string;
@@ -55,11 +55,9 @@ export interface ExecutiveData {
   readonly provenance: ExecutiveProvenance;
 }
 
-/** Fetch the certified executive data from the v3.0 transport (authenticated OIDC read). */
+/** Fetch the certified executive data using the credential-free first-party read API. */
 export async function fetchExecutiveData(baseUrl = ''): Promise<ExecutiveData> {
-  const res = await authFetch(`${baseUrl}/api/executive`);
-  if (res.status === 401) throw new Error('Authentication required (401)');
-  if (res.status === 403) throw new Error('Authorization denied (403)');
+  const res = await noAuthFetch(`${baseUrl}/api/executive`);
   if (!res.ok) throw new Error(`executive transport returned ${res.status}`);
   return (await res.json()) as ExecutiveData;
 }

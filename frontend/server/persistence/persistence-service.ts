@@ -5,8 +5,7 @@
  * TD-2 (service contract) → TD-3 (journal versioning) → TD-7a (env-var gitignored local data dir).
  *
  * This is a CONSUMER-NEUTRAL AUTHORITY LAYER ONLY. It knows nothing about notifications,
- * P-1, admin recipients, Keycloak, Macro, CSIP, Research, Evidence, Intelligence, Screener,
- * or any future P-item schema.
+ * product schemas, identity providers, sessions, or any future P-item schema.
  *
  * Public contract (TD-2 — exactly these primitives):
  *   append(input)                              — create a durable record (dedup: no-op + existing)
@@ -17,9 +16,9 @@
  *
  * Server-authoritative invariants (TD-2 §5): recordId, tenant/owner scoping is enforced on every
  * read/update/lookup, createdAt/seq/updatedAt are server-derived, and the journal is the
- * authoritative source; the index is derived and always rebuildable. The CALLER (server
- * transport) is responsible for deriving tenant/owner from the authenticated principal —
- * this service is a library authority, not an HTTP/RBAC boundary (no second authorization model).
+ * authoritative source; the index is derived and always rebuildable. A trusted CALLER is
+ * responsible for supplying tenant/owner scope; this service is a library authority, not an
+ * HTTP identity or access-control boundary.
  *
  * Journal semantics (TD-2 §7, TD-3): append-only JSON-lines journal with a whole-journal version
  * header on the first line. Writer writes only the current version; an unknown version fails
