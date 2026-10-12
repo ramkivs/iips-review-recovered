@@ -8,6 +8,7 @@
  * Only presentational operations (sort/filter/group/paginate/format).
  */
 import { useEffect, useMemo, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { fetchPortfolioData, type PortfolioData, type PortfolioHolding } from '../../api/portfolio';
 import { ChartContainer, SimpleBarChart, LegendConventions } from '../../components/viz/ChartFoundations';
 import { MetricCard, MetricGroup, DataTable, TrendIndicator } from '../../components/data/DataComponents';
@@ -62,6 +63,13 @@ export function PortfolioWorkspace() {
           <FreshnessBadge state={provenance.freshness === 'SNAPSHOT' ? 'snapshot' : 'live'} />
         </div>
         <p style={{ color: 'var(--color-ink-secondary)', margin: '8px 0 0', fontSize: 13 }}>{provenance.dataSource}</p>
+        {/* Cross-Sector entry point (Phase 8 workspace; same certified CSIP source as this view). */}
+        <p data-testid="portfolio-cross-sector-entry" style={{ margin: '8px 0 0', fontSize: 13 }}>
+          <Link to="/research/cross-sector">Cross-Sector Intelligence →</Link>
+          <span style={{ color: 'var(--color-ink-secondary)' }}>
+            {' '}sector ranking, decision distribution and concentration across sectors
+          </span>
+        </p>
       </header>
 
       {/* Overview */}

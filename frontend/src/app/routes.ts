@@ -24,6 +24,10 @@ export const ROUTES = {
   intelligenceRisks: '/intelligence/risks',
   intelligenceRankings: '/intelligence/rankings',
   intelligenceDecisionMatrix: '/intelligence/decision-matrix',
+  // Phase 13.2 — AI Explanation (read-only, non-authoritative advisory). Grouped under
+  // Intelligence in the IA (phase14-information-architecture.md); path recorded there and in
+  // phase14/contract-inspection.md as `/ai-advisory`.
+  aiExplanation: '/ai-advisory',
   evidence: '/evidence',
   evidenceDetail: '/evidence/:id',
   evidenceSnapshots: '/evidence/snapshots',

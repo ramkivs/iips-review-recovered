@@ -6,6 +6,7 @@
  * session stub (to be connected to the transport/EnterpriseRuntime in a later phase).
  */
 import type { Role } from '../core/session/session';
+import { ROUTES } from './routes';
 
 export interface NavItem {
   label: string;
@@ -59,6 +60,10 @@ export const NAV: NavItem[] = [
       { label: 'Risks', path: '/intelligence/risks', minRole: 'viewer' },
       { label: 'Rankings', path: '/intelligence/rankings', minRole: 'viewer' },
       { label: 'Decision Matrix', path: '/intelligence/decision-matrix', minRole: 'viewer' },
+      // Phase 13.2 — AI Explanation. The IA groups it under Intelligence while its recorded
+      // path is top-level `/ai-advisory` (phase14-information-architecture.md). Read-only and
+      // NON-authoritative: the surface always carries "AI EXPLANATION ≠ CERTIFIED RESULT".
+      { label: 'AI Explanation', path: '/ai-advisory', minRole: 'viewer' },
     ],
   },
   {
@@ -84,8 +89,47 @@ export const NAV: NavItem[] = [
   },
 ];
 
+/** Role ordering used by the navigation model (frontend reflection of platform RBAC only). */
+const ROLE_RANK: Record<Role, number> = { viewer: 0, analyst: 1, admin: 2 };
+
+/**
+ * Child destinations that are concretely navigable from global navigation today.
+ *
+ * A destination is listed here only when BOTH hold:
+ *   1. the path is concrete (no route parameter), and
+ *   2. the route renders an implemented workspace — not a placeholder / `NotYetAuthorized`.
+ *
+ * Deliberately NOT listed (and therefore not rendered as global links):
+ *   - parameterised children that require a selection — `/research/company/:id`,
+ *     `/research/sector/:id`, `/portfolio/:id/holdings`, `/evidence/replay/:id`. These are
+ *     reached contextually from a company/sector/evidence row (e.g. Cross-Sector Intelligence
+ *     and Decision Matrix link to `/research/company/<sector>`), and a literal `:id` link
+ *     would be broken navigation;
+ *   - children whose target is a placeholder or duplicates the parent path;
+ *   - Administration sections, which are owned by the Administration surface's own tablist
+ *     (`src/features/admin/Administration.tsx`) — rendering them here would duplicate it.
+ *
+ * `NAV` itself (the frozen navigation model) is unchanged; this is additive availability
+ * metadata used by the Sidebar.
+ */
+export const AVAILABLE_CHILD_PATHS: ReadonlySet<string> = new Set<string>([
+  ROUTES.researchCrossSector,        // Phase 8 — Cross-Sector Intelligence (implemented)
+  '/research/engines',               // E2E-025 — Engine Registry (implemented; no ROUTES key)
+  ROUTES.intelligenceDecisionMatrix, // Phase 9 — Decision Matrix (implemented)
+  ROUTES.aiExplanation,              // Phase 13.2 — AI Explanation (implemented; non-authoritative)
+]);
+
 /** Filter nav items visible to a given role. */
 export function visibleNav(role: Role): NavItem[] {
-  const rank: Record<Role, number> = { viewer: 0, analyst: 1, admin: 2 };
-  return NAV.filter((item) => rank[role] >= rank[item.minRole]);
+  return NAV.filter((item) => ROLE_RANK[role] >= ROLE_RANK[item.minRole]);
+}
+
+/**
+ * Filter the renderable children of a nav item: same role rule as `visibleNav`, restricted to
+ * destinations available in global navigation (`AVAILABLE_CHILD_PATHS`). Order follows the model.
+ */
+export function visibleChildren(item: NavItem, role: Role): NavItem[] {
+  return (item.children ?? []).filter(
+    (child) => ROLE_RANK[role] >= ROLE_RANK[child.minRole] && AVAILABLE_CHILD_PATHS.has(child.path),
+  );
 }

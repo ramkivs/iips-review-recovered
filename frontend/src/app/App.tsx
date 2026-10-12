@@ -18,6 +18,8 @@ import { UserPortfolioDetail } from '../features/user-portfolios/UserPortfolioDe
 import { CompanyIntelligence } from '../features/company/CompanyIntelligence';
 import { CrossSectorIntelligence } from '../features/cross-sector/CrossSectorIntelligence';
 import { DecisionMatrix } from '../features/decision-matrix/DecisionMatrix';
+// Phase 13.2 — AI Explanation (read-only, NON-authoritative advisory; G3-enforced server-side).
+import { AiAdvisory } from '../features/ai-advisory/AiAdvisory';
 import { EvidenceLanding } from '../features/evidence/EvidenceLanding';
 import { EvidenceExplorer } from '../features/evidence/EvidenceExplorer';
 import { ReplayExplorer } from '../features/replay/ReplayExplorer';
@@ -54,6 +56,7 @@ export function App() {
         <Route path="/research/engines" element={<EngineRegistry />} />
         <Route path="/screener" element={<Screener />} />
         <Route path="/intelligence/decision-matrix" element={<DecisionMatrix />} />
+        <Route path="/ai-advisory" element={<AiAdvisory />} />
         <Route path="/intelligence/*" element={<FeaturePlaceholder surface="Intelligence" />} />
         <Route path="/evidence" element={<EvidenceLanding />} />
         <Route path="/evidence/snapshots" element={<NotYetAuthorized surface="Evidence Snapshots" />} />
