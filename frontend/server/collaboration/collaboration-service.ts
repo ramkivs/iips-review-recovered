@@ -32,8 +32,9 @@
  *
  * SECURITY
  *   `PersistenceService` is a library authority, NOT an HTTP/RBAC boundary (TD-2 §5). Tenant and
- *   owner are ALWAYS supplied by the caller from the authenticated principal and are never read
- *   from a request body or query. `persistence-service.ts` is NOT modified.
+ *   owner are ALWAYS supplied by the caller from the established server-owned owner context (the
+ *   governed owner-context resolver) and are never read from a request body, query, header, cookie
+ *   or client state. `persistence-service.ts` is NOT modified.
  */
 import path from 'node:path';
 import { randomUUID } from 'node:crypto';

@@ -28,8 +28,9 @@
  *
  * SECURITY
  *   `PersistenceService` is a library authority, NOT an HTTP/RBAC boundary. Tenant and
- *   owner are ALWAYS server-derived by the caller from the authenticated principal and are never
- *   read from a request body or query. Every read is tenant+owner scoped by the service.
+ *   owner are ALWAYS server-derived by the caller from the established server-owned owner context
+ *   (the governed owner-context resolver) and are never read from a request body, query, header,
+ *   cookie or client state. Every read is tenant+owner scoped by the service.
  */
 import path from 'node:path';
 import {

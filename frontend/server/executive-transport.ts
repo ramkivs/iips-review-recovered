@@ -756,31 +756,36 @@ const server = http.createServer(async (req, res) => {
     })();
     return;
   }
-  // UI07 Watchlists: preserve the route boundary without inventing an owner for private lists.
+  // UI07 Watchlists: owner-scoped boundary. The owner context is established server-side by the
+  // governed owner-context resolver; the governed universe (item values) is composed here.
   if (req.url?.startsWith('/api/watchlists')) {
     void (async () => {
       try {
         const wl = await import('./watchlists/watchlists-transport');
-        await wl.handleWatchlistsRequest(req, res);
+        await wl.handleWatchlistsRequest(req, res, { universe: buildGovernedUniverseProvider() });
       } catch (e) {
         res.writeHead(500); res.end(JSON.stringify({ error: 'watchlists transport error', detail: String(e) }));
       }
     })();
     return;
   }
-  // UI10 Collaboration: preserve the route boundary without inventing an owner for private threads.
+  // UI10 Collaboration: owner-scoped boundary. The owner context is established server-side by the
+  // governed owner-context resolver; the governed reference provider + vintage are composed here.
   if (req.url === '/api/collaboration' || req.url?.startsWith('/api/collaboration/')) {
     void (async () => {
       try {
         const collab = await import('./collaboration/collaboration-transport');
-        await collab.handleCollaborationRequest(req, res);
+        await collab.handleCollaborationRequest(req, res, {
+          referenceProvider: buildGovernedReferenceProvider(),
+        });
       } catch (e) {
         res.writeHead(500); res.end(JSON.stringify({ error: 'collaboration transport error', detail: String(e) }));
       }
     })();
     return;
   }
-  // UI12 Settings: preference journal semantics remain intact; its HTTP owner binding is unavailable.
+  // UI12 Settings: preference journal semantics remain intact. The owner context is established
+  // server-side by the governed owner-context resolver; no governed universe is required here.
   if (req.url === '/api/settings' || req.url?.startsWith('/api/settings/')) {
     void (async () => {
       try {
