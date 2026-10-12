@@ -7,8 +7,9 @@
  *
  * AUTHORIZED PRODUCT MODEL (D1 / D2)
  *   Settings are PRIVATE, USER-OWNED and TENANT-SCOPED. The authoritative ownership key is
- *   `(tenantId, userId)`, and BOTH values are supplied by the caller from the authenticated
- *   server-side principal — never from a request body, query, header or client state. There is no
+ *   `(tenantId, userId)`, and BOTH values are supplied by the caller from the established
+ *   server-owned owner context (the governed owner-context resolver) — never from a request body,
+ *   query, header, cookie or client state. There is no
  *   sharing, no invitation, no workspace/tenant inheritance and no administrator-managed personal
  *   Settings. The browser is never an ownership authority.
  *
@@ -34,7 +35,8 @@
  *
  * SECURITY
  *   `PersistenceService` is a library authority, NOT an HTTP/RBAC boundary (TD-2 §5). Tenant and
- *   owner are ALWAYS server-derived by the caller and are never read from a request.
+ *   owner are ALWAYS server-derived by the caller from the established server-owned owner context
+ *   and are never read from a request.
  *   `persistence-service.ts` is NOT modified. No identity model, credential store, token
  *   handling or browser persistence is introduced here.
  */

@@ -141,3 +141,9 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
+
+# IIPS local server-owned data domain (TD-7a).
+# Owner-scoped journals and the owner-context carrier location live OUTSIDE version control.
+# This entry makes the TD-7a contract statement ("gitignored") true and prevents owner-scoped
+# local data from ever being committed. Authorized by the F-3 mechanism PA decision record.
+.iips-data/
