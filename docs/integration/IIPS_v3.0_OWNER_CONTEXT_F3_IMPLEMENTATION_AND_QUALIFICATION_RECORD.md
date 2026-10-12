@@ -224,3 +224,34 @@ STATUS=IMPLEMENTED — VERIFIED — QUALIFIED — NOT PUBLISHED — NOT EFFECTIV
 ```
 
 *End of implementation and qualification record. It records what was built, the actual executed results, and an independent per-capability qualification determination for NP-09, NP-10 and NP-11 in the TD-7a non-production regime; it grants no production, certification or release authority.*
+
+---
+
+## 9. Publication closure (post-preparation addendum)
+
+The status banner and §8 state the position **as at preparation**, when this record was not yet published and therefore not yet effective as a durable act. This addendum records the publication.
+
+| Item | Value |
+|---|---|
+| Publication act | Pull request **#68**, merged into `main` of `ramkivs/iips-review-recovered` |
+| Merge commit | `a95949571ebec598d941edd13f26f6726dc1dc59` |
+| Published (merged) tree | `fe3d6bc37a49ec51e1d5eccec71f4440bc553cb4` |
+| Tree of the tested commit | `fe3d6bc37a49ec51e1d5eccec71f4440bc553cb4` — **identical** |
+| Merged at | 2026-10-12T18:18:17Z |
+| Effective from | 2026-10-12 |
+
+Because the published tree is byte-identical to the tree that was tested, every executed result recorded in §3 and §4 — the 66-file / 825-test full suite, the 59-file / 719-test pre-existing run, the typecheck and build, the integration run against the real composed server, and the separate-process restart evidence — describes **exactly the published artifact**.
+
+```text
+PUBLICATION=MERGED (PR #68; merge commit a95949571ebec598d941edd13f26f6726dc1dc59)
+PUBLISHED_TREE=fe3d6bc37a49ec51e1d5eccec71f4440bc553cb4; TESTED_TREE=IDENTICAL
+REMOTE_TREE_VERIFIED=YES (all 21 paths present; no carrier/journal artifacts present)
+EFFECTIVE=2026-10-12
+NP-09_QUALIFICATION=QUALIFIED (TD-7a non-production; §4.1)
+NP-10_QUALIFICATION=QUALIFIED (TD-7a non-production; §4.2)
+NP-11_QUALIFICATION=QUALIFIED (TD-7a non-production; §4.3)
+PRODUCTION_QUALIFICATION=NOT CLAIMED (TD-7b deferred); F6_INVENTORY_AUTHORIZED=UNDECIDED
+REMAINING_BLOCKER=NONE TECHNICAL
+```
+
+*End of implementation and qualification record. It records what was built, the actual executed results, and an independent per-capability qualification determination for NP-09, NP-10 and NP-11 in the TD-7a non-production regime; it grants no production, certification or release authority.*

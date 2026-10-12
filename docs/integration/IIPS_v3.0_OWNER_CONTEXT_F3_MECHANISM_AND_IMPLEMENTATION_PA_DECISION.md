@@ -274,3 +274,27 @@ STATUS=DECIDED — RECORDED — NOT PUBLISHED — NOT EFFECTIVE (as at preparati
 ```
 
 *End of decision record. It resolves the F-3 mechanism determinations, grants a bounded implementation authorization separately per capability, preserves every established value and safeguard, grants no qualification, and authorizes no inventory, IPD change, capability admission or authentication mechanism.*
+
+---
+
+## 11. Publication closure (post-preparation addendum)
+
+The status banner in this record's header and the line `STATUS=… NOT PUBLISHED — NOT EFFECTIVE` in §10 state the position **as at preparation**. This addendum records the subsequent publication act, so the record is no longer superseded by events.
+
+| Item | Value |
+|---|---|
+| Publication act | Pull request **#68**, merged into `main` of `ramkivs/iips-review-recovered` |
+| Merge commit | `a95949571ebec598d941edd13f26f6726dc1dc59` |
+| Merged tree | `fe3d6bc37a49ec51e1d5eccec71f4440bc553cb4` |
+| Parents | `709b27d63161d7f0df840218ad5156b86ea49b97` (baseline `main`), `6729a268cdb9ff846444cd01c3c8d1694863ad02` (this work) |
+| Merged at | 2026-10-12T18:18:17Z |
+| Effective from | 2026-10-12 |
+
+Verification of the publication (performed read-only against the authoritative remote):
+
+1. The merged tree `fe3d6bc3…` is **identical** to the tree of the exact commit whose contents were tested (`6729a268…`) ⇒ **the published bytes are the tested bytes**; no post-test edit was introduced by the merge.
+2. All 21 changed paths are present in the merged tree.
+3. No carrier file, no `.iips-data` path and no journal file exists anywhere in the merged tree; `.iips-data/` is ignored at `.gitignore:149` (`git check-ignore -v`).
+4. `main` advanced from `709b27d…` to `a959495…` by this merge alone; the baseline commit remains an ancestor.
+
+**Effect of this addendum:** the determinations of §3 (`M-1`…`M-7`), the bounded implementation authorizations of §4, the invariants of §5 and the non-authorizations of §6 are **effective** from the date above. This addendum **grants nothing new**: it does not qualify any capability (§8 stands — qualification is recorded separately in `IIPS-V3-OWNER-CONTEXT-F3-IMPLEMENTATION-AND-QUALIFICATION-RECORD-01`), it does not authorize F-6 inventory, TD-7b, Reports or Portfolios (§9 stands), and it changes no value, safeguard or scope limit.
