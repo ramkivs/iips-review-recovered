@@ -18,6 +18,29 @@ import { EvidenceCard, type EvidenceReference } from '../../components/evidence/
 import { LoadingState, ErrorState, StaleDataState, UnavailableState } from '../../components/state/StateComponents';
 import { CertifiedBadge, FreshnessBadge } from '../../components/ui/Badges';
 
+/**
+ * Governed 13-sector display-name -> canonical engineId mapping (REG-08; mirrors
+ * `ENGINE_ID_BY_SECTOR` in `frontend/server/executive-transport.ts`, the frozen
+ * `PROGRAM_v1.1_REPLAY_BASELINE.json`, and `CERTIFIED_ENGINES` in `EngineRegistry.ts`).
+ * Display names lowercased are not valid engine IDs for Capital Markets,
+ * Telecommunications, Automobile, or Materials & Metals.
+ */
+export const GOVERNED_ENGINE_ID_BY_SECTOR: Readonly<Record<string, string>> = {
+  Banking: 'sector.banking',
+  Insurance: 'sector.insurance',
+  'Capital Markets': 'sector.capital-markets',
+  Healthcare: 'sector.healthcare',
+  Hospitality: 'sector.hospitality',
+  Energy: 'sector.energy',
+  Utilities: 'sector.utilities',
+  Consumer: 'sector.consumer',
+  Industrials: 'sector.industrials',
+  Technology: 'sector.technology',
+  Telecommunications: 'sector.telecom',
+  Automobile: 'sector.auto',
+  'Materials & Metals': 'sector.materials',
+};
+
 export function ExecutiveDashboard() {
   const [data, setData] = useState<ExecutiveData | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -41,7 +64,7 @@ export function ExecutiveDashboard() {
 
   const evidenceRefs: EvidenceReference[] = decisions.map((d) => ({
     evidenceId: `ev_${d.sector}`,
-    engineId: `sector.${d.sector.toLowerCase()}`,
+    engineId: GOVERNED_ENGINE_ID_BY_SECTOR[d.sector] ?? `sector.${d.sector.toLowerCase()}`,
     recommendation: d.verdict,
     compositeScore: d.composite,
   }));

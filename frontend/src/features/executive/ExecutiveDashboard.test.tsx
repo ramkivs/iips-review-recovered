@@ -3,8 +3,8 @@
  * Uses mocked fetch with ISOLATED test fixtures (not bundled, not production data).
  */
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen } from '@testing-library/react';
-import { ExecutiveDashboard } from './ExecutiveDashboard';
+import { render, screen, within } from '@testing-library/react';
+import { ExecutiveDashboard, GOVERNED_ENGINE_ID_BY_SECTOR } from './ExecutiveDashboard';
 import type { ExecutiveData } from '../../api/executive';
 
 const FIXTURE: ExecutiveData = {
@@ -58,5 +58,77 @@ describe('Executive Dashboard', () => {
     // SNAPSHOT is a certified frozen snapshot; it is labeled SNAPSHOT, not presented as stale or live.
     expect(screen.getByTestId('freshness-snapshot')).toHaveTextContent('SNAPSHOT');
     expect(screen.queryByTestId('state-stale')).not.toBeInTheDocument();
+  });
+
+  it('REG-08: maps all 13 canonical sectors (including the 4 multi-word/abbreviated sectors) to canonical engine IDs without duplicates or noncanonical interpolations', async () => {
+    const canonicalPairs: ReadonlyArray<readonly [string, string]> = [
+      ['Banking', 'sector.banking'],
+      ['Insurance', 'sector.insurance'],
+      ['Capital Markets', 'sector.capital-markets'],
+      ['Healthcare', 'sector.healthcare'],
+      ['Hospitality', 'sector.hospitality'],
+      ['Energy', 'sector.energy'],
+      ['Utilities', 'sector.utilities'],
+      ['Consumer', 'sector.consumer'],
+      ['Industrials', 'sector.industrials'],
+      ['Technology', 'sector.technology'],
+      ['Telecommunications', 'sector.telecom'],
+      ['Automobile', 'sector.auto'],
+      ['Materials & Metals', 'sector.materials'],
+    ];
+
+    const fullFixture: ExecutiveData = {
+      ...FIXTURE,
+      portfolio: { ...FIXTURE.portfolio, holdings: 13 },
+      decisions: canonicalPairs.map(([sector], idx) => ({
+        sector,
+        verdict: idx % 2 === 0 ? 'Buy' : 'Hold',
+        composite: 60 + idx,
+        confidence: 0.8,
+      })),
+    };
+
+    (globalThis.fetch as unknown as ReturnType<typeof vi.fn>).mockResolvedValue({
+      ok: true,
+      json: async () => fullFixture,
+    });
+
+    render(<ExecutiveDashboard />);
+    await screen.findByTestId('decision-list');
+
+    expect(Object.entries(GOVERNED_ENGINE_ID_BY_SECTOR)).toEqual(canonicalPairs);
+
+    const refs = screen.getAllByTestId('evidence-reference');
+    expect(refs).toHaveLength(13);
+
+    const renderedPairs = refs.map((ref) => {
+      const codes = within(ref).getAllByRole('code');
+      return [codes[0].textContent ?? '', codes[1].textContent ?? ''] as const;
+    });
+
+    expect(renderedPairs).toEqual(
+      canonicalPairs.map(([sector, engineId]) => [`ev_${sector}`, engineId] as const),
+    );
+
+    const renderedEngineIds = renderedPairs.map(([, engineId]) => engineId);
+    expect(new Set(renderedEngineIds).size).toBe(13);
+
+    // Specifically verify the 4 previously defective sectors and reject fabricated/taxonomy-resolved IDs
+    expect(renderedEngineIds).toContain('sector.capital-markets');
+    expect(renderedEngineIds).toContain('sector.telecom');
+    expect(renderedEngineIds).toContain('sector.auto');
+    expect(renderedEngineIds).toContain('sector.materials');
+
+    for (const nonCanonical of [
+      'sector.capital markets',
+      'sector.telecommunications',
+      'sector.automobile',
+      'sector.materials & metals',
+      'sector.it',
+      'sector.chemicals',
+      'sector.realty',
+    ]) {
+      expect(renderedEngineIds).not.toContain(nonCanonical);
+    }
   });
 });
