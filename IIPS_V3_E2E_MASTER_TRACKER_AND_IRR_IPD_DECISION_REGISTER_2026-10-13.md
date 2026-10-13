@@ -575,9 +575,9 @@ Published via PR #81 (records: R4 reconciliation §12; R4-B packet §13; disposi
 
 ---
 
-## 15. REG-12 Gate C — Portfolio Identity & Security-Identifier Contract: Decision Packet Complete, PA Decision Pending (`2026-10-13`)
+## 15. REG-12 Gate C — GC-D1/GC-D2 Effective; 2F Implemented, Published and Independently Verified (`2026-10-13`)
 
-Full record: [`docs/integration/IIPS_v3.0_GATE_C_PORTFOLIO_IDENTITY_AND_SECURITY_IDENTIFIER_CONTRACT_PA_DECISION_REQUEST_2026-10-13.md`](docs/integration/IIPS_v3.0_GATE_C_PORTFOLIO_IDENTITY_AND_SECURITY_IDENTIFIER_CONTRACT_PA_DECISION_REQUEST_2026-10-13.md). Documentation only; **selects nothing, decides nothing, admits nothing, activates nothing, authorizes nothing.**
+Full record: [`docs/integration/IIPS_v3.0_GATE_C_PORTFOLIO_IDENTITY_AND_SECURITY_IDENTIFIER_CONTRACT_PA_DECISION_REQUEST_2026-10-13.md`](docs/integration/IIPS_v3.0_GATE_C_PORTFOLIO_IDENTITY_AND_SECURITY_IDENTIFIER_CONTRACT_PA_DECISION_REQUEST_2026-10-13.md). Original packet was documentation-only and authorized nothing. **Current controlling addenda:** effective standing-authority dispositions (§§9.4–9.5), bounded S2–S4 execution (§16.1), independently verified implementation publication (§16.2). No binding, successful-save or consumer admission authority.
 
 ### 15.1 Original preparation baselines (live, 2026-10-13; IPD evidence reused at rectification)
 
@@ -629,9 +629,9 @@ Packet §9.2 separates **GC-D1** (retain binding deferral; no issuer/configurati
 
 Packet §10 sequence: S0 same-PR publication; S1 actual PA disposition, main publication and independent effectiveness verification; **S2–S4 only** narrow contract declarations, pure pre-port refusal and offline IRR tests after effective GC-D2 authority. S5 compatible owner/credential/tenant binding, S6 successful-write identity policy/full F-7, and S7 P2/P3 admission remain separately authorized gates.
 
-Fifteen revised criteria/tests (§11) separate safe unresolved representation from save permission. **Revised T-1** preserves native evidence but refuses unresolved save with zero port calls; **revised T-2** refuses caller bypass declaration with zero calls/writes. The old accepted-bypass pair survives only as upstream source evidence in §5.E. Fence regressions require unchanged 503/404/405 behavior. No implementation tests run now; S4 is not full F-7 or runtime proof. Gate C remains partially open even after a future narrow 2F approval.
+Fifteen revised criteria/tests (§11) separate safe unresolved representation from save permission. **Revised T-1** preserves native evidence but refuses unresolved save with zero port calls; **revised T-2** refuses caller bypass declaration with zero calls/writes. The old accepted-bypass pair survives only as upstream source evidence in §5.E. Fence regressions require unchanged 503/404/405 behavior. **At rectification** no implementation tests ran. **Now** 103/103 focused offline tests and required typechecks pass, with evidence in packet §16.1 and publication closure §16.2. S4 is not full F-7 or runtime proof; Gate C remains partially open after effective 2F implementation.
 
-### 15.8 Changed files, checks and publication
+### 15.8 Original packet/rectification checks and publication history (current closure below)
 
 The detailed checks below include the **original preparation history**, not repeated rectification work. Rectification re-verified only IRR main, PR #82/head, packet/tracker; inspected the exact pinned G24 code/test bodies required for §5.E; reviewed existing no-auth authority; amended these two documents; checked documentation/scope and independently compared remote commit/artifact identities. No R4 testing or IPD ref census repeated; no application test, live request or implementation performed.
 
@@ -647,7 +647,7 @@ The detailed checks below include the **original preparation history**, not repe
 
 | Gate | Status |
 |---|---|
-| **Gate C** (Portfolio Identity & Security-Identifier Contract) | **GC-D1/GC-D2 EFFECTIVE; S2–S4 IMPLEMENTED / OFFLINE QUALIFIED; MAIN VERIFICATION IN PUBLICATION COMPLETION EVIDENCE.** DP-1 binding deferred; DP-2 2F approved narrowly and S2–S4 offline-qualified; no full Gate C closure.  `/api/user-portfolios*` remains fail-closed at source-level `503 owner-context-unavailable` |
+| **Gate C** (Portfolio Identity & Security-Identifier Contract) | **GC-D1/GC-D2 EFFECTIVE; S2–S4 IMPLEMENTED / OFFLINE QUALIFIED / PUBLISHED / INDEPENDENTLY VERIFIED (PR #83).** DP-1 binding deferred; DP-2 2F approved narrowly and S2–S4 offline-qualified; no full Gate C closure.  `/api/user-portfolios*` remains fail-closed at source-level `503 owner-context-unavailable` |
 | **Gate A** (Persistence Convergence) | **OPEN — SEPARATE, UNTOUCHED.** No convergence decided or implied; NP-04 `2e11fa3b…` and G24 `6828155e…` preserved on separate refs; IPD `main` still has no `src/persistence` |
 | **Gate B** (Reports Owner Binding) | **Option C deferral — UNCHANGED.** Not revisited; its §2(2) prohibition reused as a constraint |
 | **R3** (Reports pin/consumer admission) | **OPEN — UNTOUCHED** (no live subject) |
@@ -660,3 +660,5 @@ The detailed checks below include the **original preparation history**, not repe
 **Gate C execution update (controlling current state; earlier preparation/rectification entries are history):** GC-D1 binding deferral and GC-D2/2F contract work are effective per packet §9.5. S2–S4 complete locally: IRR contract v2, pure native evidence projection, refusal of all caller resolution/company/disposition claims, unconditional pre-serialization/pre-port save refusal, 15 new offline tests and updated prior expectations. Nine implementation/evidence paths only: seven files under `frontend/server/user-portfolio/` plus this existing tracker and packet. 103/103 offline regression tests PASS; frontend typecheck and explicit strict server typecheck PASS. Supplemental noUnused check exposes pre-existing TS6133 in unchanged EnterpriseRuntime.ts:92; no unrelated repair. Exact fence/helper/pin/owner bytes unchanged; no IPD write, lockfile change, owner binding, successful save, full F-7, P2/P3 admission or route/UI activation. Existing packet §16.1 contains the complete acceptance evidence; no duplicate report created. Implementation main publication/independent verification follows through a new implementation PR on the same branch because decision-only PR #82 is already merged.
 
 **Next genuine convergence blocker:** S5's separately authorized complete owner/credential/tenant binding and S6's successful-write identity policy/full F-7, followed by S7 P2/P3 admission. The current instruction and GC-D2 expressly exclude those operations; no authorized S2–S4 implementation remains after publication. Gate A OPEN, Gate B Option C, R3 OPEN, R4-B CLOSED, distinct NP-04/G24 lineages and User Portfolios HTTP 503 remain unchanged.
+
+**Independent implementation publication closure:** PR #83 merged at `d5c9ca063c8f9c6c869ce62e87e318690f1d2c35` (2026-10-13T14:46:47Z); tested head `8d5e02f34eee8899eab879c5e870690f666e3f2d`; exact tested/merged tree `8bb5bdae6e3dd47c4f3eaf2d333c87238db54e55`. Remote main/PR/parents, all nine implementation/evidence blobs and protected bytes independently verified; packet/tracker compared byte-for-byte. Complete manifest/read-back verification at https://github.com/ramkivs/iips-review-recovered/pull/83#issuecomment-6148242115. S2–S4 **COMPLETE AND PUBLISHED**, not merely local or pending. Packet §16.2 records the same closure without another decision document. This final documentation-only closure leaves tested application bytes unchanged. Next roadmap work is explicitly excluded S5/S6/S7, not an uncompleted authorized 2F task; all other gate statuses preserved.

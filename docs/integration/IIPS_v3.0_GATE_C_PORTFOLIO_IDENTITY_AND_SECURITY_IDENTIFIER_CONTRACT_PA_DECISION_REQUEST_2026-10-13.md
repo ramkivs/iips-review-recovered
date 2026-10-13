@@ -4,9 +4,9 @@
 |---|---|
 | Record ID | `IIPS-V3-REG12-GATE-C-IDENTITY-SECURITY-ID-CONTRACT-DECISION-PACKET-2026-10-13-01` |
 | Gate | **Gate C — Portfolio Identity & Security-Identifier Contract** (`REG-12` / `G-2` / `F-4` / `AG-5`) |
-| Record type | **DECISION PACKET + IMPLEMENTATION-READY PLAN. Non-operative.** It prepares and recommends; it selects nothing, decides nothing, admits nothing, activates nothing, and authorizes nothing. |
+| Record type | **Existing decision packet with effective standing-authority disposition and execution addenda.** Original recommendations granted no authority; §§9.4–9.5 record bounded GC-D1/GC-D2 authority and effectiveness; §§16.1–16.2 record tested implementation and verified publication. No consumer admission or activation. |
 | Deciding authority | **Ramki** — single owner, sole user, and Program Authority of the single-user, personal-use, non-production IIPS platform |
-| Recording agent | Arena Agent Mode — investigation, preparation, verification and publication support only. **No authority is rendered by the agent.** |
+| Recording agent | Arena Agent Mode — attributed standing-authority application, bounded execution, verification and publication support. **No authority is rendered by the agent.** |
 | Preparation date | **2026-10-13** (Asia/Calcutta). Recorded on its actual date; not backdated. |
 | Authoritative repository / ref | `ramkivs/iips-review-recovered` (IRR) / `refs/heads/main` |
 | Related repository | `ramkivs/iips-production-market-data` (IPD) — **not modified by this record** |
@@ -426,7 +426,7 @@ A PA may issue the two clauses below separately. Approving DP-2 alone neither re
 
 > “These acts are prospective and non-production only. They do not admit the User Portfolios consumer, ratify a0ab5a34, dispose P2/P3, bypass authentication/authorization or any G24 identity-resolution gate, activate a route or UI, promote G24 to main, change any IPD ref, merge NP-04 and G24 lineages, designate a CIA, assert unauthorized identity equivalence or make D115-A effective. Gate A OPEN, Gate B Option C, R3 OPEN and R4-B CLOSED remain unchanged. /api/user-portfolios* remains HTTP 503 owner-context-unavailable until contract/binding and separate admission authorities are independently satisfied and verified.”
 
-### 9.3 Authority boundary
+### 9.3 Original packet authority boundary (satisfied by §§9.4–9.5, not by fabricated signature)
 
 The recording agent **does not** render, record, transcribe, or infer this decision. If the instruction that initiated this run is later asserted as approval, it is **not** treated as the Program Authority's act for this purpose — consistent with the precedent recorded in tracker §13.1, where the fast-track task instruction was held not to be PA approval by its own terms. **Work stops at §9 until an explicit disposition is rendered.**
 
@@ -695,3 +695,16 @@ Dependency setup initially failed TLS certificate validation for codeload. It su
 **Next roadmap gates:** S5 compatible complete owner/credential/tenant binding, S6 separately governed successful-write identity policy/full F-7, S7 P2/P3 consumer and route/UI admission. These are explicitly excluded from GC-D2 and are not silently unlocked by standing authority application. No further implementation in this packet's scope remains after S4 publication/verification; next binding/successful-write act is a genuine scope/authority blocker, not another generic Gate C investigation.
 
 **Implementation publication completion rule:** the exact tested implementation/record bytes must match the merged main commit and remote API artifacts. The implementation PR and its final verification comment/session completion report carry the resulting merge SHA and blob manifest (self-referential SHA embedding is avoided). Scope is still S2–S4 only; publication grants no additional authority.
+
+### 16.2 Independent implementation-publication closure
+
+- **Implementation PR #83:** merged **2026-10-13T14:46:47Z**, main/merge **`d5c9ca063c8f9c6c869ce62e87e318690f1d2c35`**.
+- **Tested implementation head:** `8d5e02f34eee8899eab879c5e870690f666e3f2d`.
+- **Exact tested and merged tree:** `8bb5bdae6e3dd47c4f3eaf2d333c87238db54e55` — independently equal; parents verified as tested head + effective decision main `f01803e…`.
+- **Published execution-evidence blobs at that merge:** packet `1e3d93ef67cf36f3ac5b51d7c87873ed2040179e`; tracker `2555ee7905ef4ba8a3d7c5dec2a7fc77ab294755`; all seven code/test blobs independently matched local tested files. Packet/tracker also compared byte-for-byte via contents API.
+- **Protected bytes:** route/helper, F-3 carrier/resolver, Reports transport, package/lockfile/pin and unchanged EnterpriseRuntime independently matched decision-baseline blobs. No excluded operation, IPD write or untested code change was introduced by merge.
+- **Durable verification evidence:** [PR #83 independent verification comment](https://github.com/ramkivs/iips-review-recovered/pull/83#issuecomment-6148242115) records the complete nine-file manifest and results; the returned remote comment body was read back and verified.
+
+**S2–S4 are now implemented, offline-qualified, durably published and independently verified.** This closure amendment changes only the two existing documentation artifacts and does not alter tested implementation bytes. It is published through the same governed workflow; its own remote artifact identities are verified separately in completion evidence rather than embedded self-referentially.
+
+GC-D1 binding deferral remains effective. Gate C remains **OPEN for binding/successful-write/full F-7/admission**, not “PA pending” for GC-D2 and not closed by 2F. All §9.2 exclusions remain in force. The next genuine roadmap blocker is excluded S5 binding and S6 successful-write identity policy/full F-7, followed by separately governed S7 P2/P3 admission. No remaining routine implementation is authorized by this bounded 2F disposition.
