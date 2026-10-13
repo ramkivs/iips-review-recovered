@@ -24,7 +24,14 @@
 > - **(C) The security-identifier semantics are UNRESOLVED and CONFLICTING BY CONSTRUCTION** — and G24's own Save Guard 2 makes the conflict load-bearing, not academic.
 > - **(D) Admission of the consumer and any change to HTTP-boundary behavior require authority that does not exist** (`P3`, `P2`, `AD-20` §4.4, Gate B Option C §2(2), `D-2` §11).
 >
-> **B is not inferred from A. Consumer admission is not inferred from technical compatibility.** A minimal, implementable contract is identified (§8) that requires **no new persistence architecture, no merge of the NP-04 and G24 lineages, no Company Identity Authority, and no identifier-equivalence claim**. It does require one Program Authority act. Until that act is rendered, `/api/user-portfolios*` remains fail-closed at HTTP `503 owner-context-unavailable`.
+> **B is not inferred from A. Consumer admission is not inferred from technical compatibility.**
+>
+> **Revised recommendation (2026-10-13, second pass).** Two determinations were re-examined and the recommendation changed accordingly:
+>
+> - **DP-1 (owner/tenant binding) → Option 1D, RETAIN DEFERRAL.** The trust anchor previously floated as Option 1A′ is **not authorized by the cited instruments**: `H18` records *“Modification of OIDC/Keycloak configuration — NOT AUTHORIZED”*, the G2-UI consumer record records *“No Keycloak configuration, activation, or credential is needed or permitted”*, `G2_BLOCKED_SCOPES` includes *live OIDC/Keycloak*, and PR #61 (“Remove authentication flow for single-user IIPS”) is the operative baseline. Those instruments do not authorize a new local issuer or complete delegated-credential path; RS256/JWKS compatibility alone does not establish the complete G24 trust model. A separate express PA act would be needed to revisit the baseline. See §7.1.
+> - **DP-2 (security identifier) is INDEPENDENTLY DECIDABLE**, and is recommended for decision **now**, separately from DP-1 — because it neither admits the consumer, nor activates a route, nor provisions identity, nor requires a credential to be specified or qualified by pure offline IRR contract tests. See §5.E, §7.2 and §10.1.
+>
+> A minimal, implementable **identifier and unresolved-identity contract** is identified (§8) that requires **no new persistence architecture, no merge of the NP-04 and G24 lineages, no Company Identity Authority, and no identifier-equivalence claim**, and that **does not resolve, and does not depend on resolving, the owner-context binding**. It expressly rejects unresolved saves and excludes the bypass disposition from the recommended path; it is not a completed canonical-identifier solution. Until the Program Authority acts, `/api/user-portfolios*` remains fail-closed at HTTP `503 owner-context-unavailable`.
 
 ---
 
@@ -152,7 +159,7 @@ This is a **source-level** determination. **No live runtime, deployment, or prod
 | 9 | **Gate B Option C** §2(2), §2(4) | The F-3 pair **must not** be directly copied or aliased into `(tenantId, userId)` absent an explicitly authorized, evidence-backed identity/security contract; no such contract was created for Reports | Applies a standing prohibition this packet must respect |
 | 10 | **`G2-2`** PA directions `P2`, `P3` | `/api/user-portfolios/` dispatch **NOT ADMITTED**; IRR commit `a0ab5a34…` **NOT RATIFIED** | §5.D |
 | 11 | **F-3 mechanism + value act + qualification** | Owner pair `owner-7f3a91c2` / `irr-domain-4b82d6e1`; carrier SHA-256 `d5a79efb…`; qualified for **NP-09/NP-10/NP-11 only**; F-3 record §198 records “unconditional unavailability of Reports and Portfolios” | §5.A — and its scope limit |
-| 12 | **`IIPS_v3.0_G2_DURABLE_USER_PORTFOLIO_IMPLEMENTATION_RECORD.md`** §5 | Provisioning is **operator-only** via G24 `IdentityService` (provision → approve → activate → membership); **never at request time, never implicit**; the port offers no provisioning operation; `G2ProvisioningRecord` is an **offline attestation** shape, never a runtime input | Governs the provisioning shape in §8 |
+| 12 | **`IIPS_v3.0_G2_DURABLE_USER_PORTFOLIO_IMPLEMENTATION_RECORD.md`** §5 | Provisioning is **operator-only** via G24 `IdentityService` (provision → approve → activate → membership); **never at request time, never implicit**; the port offers no provisioning operation; `G2ProvisioningRecord` is an **offline attestation** shape, never a runtime input | Constrains future provisioning; none recommended or authorized in revised §8 |
 | 13 | **`NP-04-PERSISTENCE-DOMAIN-BOUNDARY-ACT.md`** (as cited by the Reconciliation Act `E7`) | Prohibits merging the G24 and NP-04 namespaces and changing `CompanyId` semantics | Constrains §7 and §8 |
 | 14 | **IPD act `26061859…`** | Designates `arena/01a0e6d9` as the **only** promotion target for the accepted G24 Phase-A unit; expressly prohibits `main` promotion, baseline promotion, and Reports/Watchlists | Confirms G24 is a branch-only reference; no `main` path |
 | 15 | **`AD-20`** §3.2(3) | IRR UI/fixtures place ticker-like values in `companyId` | Independently re-verified (§5.C) |
@@ -251,6 +258,33 @@ reject if  !symbol || (!isResolved && !isBypass) || quantity <= 0 || marketValue
 
 **Conclusion (D):** no existing instrument authorizes admission, activation, mapping, or identity provisioning. Technical compatibility is **not** authorization: the seam is complete, the contract is pinned, and the G24 server is fully implemented — and none of that admits the consumer.
 
+### 5.E Targeted rectification — actual bypass semantics, compatibility and independent DP-2 scope
+
+**Classification: not A (passive metadata only). It is B in the question's broader sense of bypassing another G24 requirement: an operative exception to Save Guard 2's “strict entity authority check”. It is NOT an authentication or tenant/portfolio-authorization bypass.** The name alone proves neither restriction nor authority. The recommended path **does not use it**.
+
+The following source and existing test bodies were inspected at the previously verified, immutable G24 commit `6828155ec6e882bbb4cabcd96b5a841d8c8a6bc4`. No test was executed and no IPD ref was altered or re-qualified.
+
+| Evidence | Exact consequence |
+|---|---|
+| `src/auth/config.ts` (`221f4b1b…`) | User-delegated OIDC is the accepted direction. Issuer/JWKS/audience come from trusted configuration, never the caller. Forwarded IRR Principal trust and operator bypass are out of scope **in the authentication module**; this is distinct from the portfolio save exception |
+| `src/server/http-server.ts` (`17f9cb8a…`) L130, L186, L207–209 | For a holdings save: verify credential → authorize identity/tenant/portfolio → read JSON → parse holdings → save. The declaration cannot skip any earlier check. Collection scope is authorized at L153 |
+| `src/server/authorization.ts` (`2a5e9bbd…`) | `authorize` resolves `(issuer, subject)` through `IdentityService`, resolves tenant membership, then reads the portfolio under the authorized owner+tenant. None of these predicates uses the holding disposition |
+| `src/portfolio/durable-store.ts` (`1c23f259…`) L254–302 | A direct store call rechecks owner+tenant+portfolio, then consolidation. It does **not** itself verify OIDC. A store fixture is therefore not HTTP credential certification |
+| `src/portfolio/consolidation.ts` (`e8e09e56…`) L108–119 | `isResolved = identityStatus !== 'UNRESOLVED' && !!companyId`; `isBypass = identityStatus === 'UNRESOLVED' && resolutionDisposition === 'NON_PRODUCTION_OPERATOR_BYPASS'`. The latter permits a holding with no resolved company identity. Non-blank symbol and positive quantity/market value still required; Guards 1/2b also remain |
+| `src/server/http-server.ts` L382–397 | Omitted `companyId` becomes `''`; omitted status defaults to `RESOLVED`; omitted disposition defaults to `CANONICAL_P04`. Explicit `UNRESOLVED` is necessary to avoid a false resolution default. Neither default constitutes canonical authority |
+| Existing `tests/g24_c_portfolio_durability.test.ts`, **G24-C6** | A provisioned store fixture accepts `UNRESOLVED` + empty companyId + bypass disposition; rejects `UNRESOLVED` + empty companyId + `CANONICAL_P04`, with no revision added. This is the original proposed T-1/T-2 pair, already present upstream, not a new test result from this run |
+| Existing `tests/g24_h_http_boundary.test.ts` H1/H7/H8; `tests/g24_e_authorization.test.ts` E2/E3/E6–E8 | Cover credential refusal, owner/tenant isolation, unmapped identity and missing/revoked membership. They do **not** combine those cases with the bypass declaration. Cross-product assurance is therefore a future requirement, not an existing proven result |
+
+**T-1/T-2 compatibility determination.** The old pair is source-compatible with G24's store-level identity-resolution exception and does not contradict its authentication call order. It does **not** prove the exception is a fully enforced restricted non-production workflow, authorize IRR's use of it, or certify the complete G24 trust model. It is removed from the recommended acceptance path (§11); this distinction is not resolved by renaming the disposition.
+
+**A relevant existing authority is narrower than the proposed reuse.** IPD `evidence/operator_drop/NON_PRODUCTION_SINGLE_OPERATOR_IDENTITY_BYPASS.md` at that commit contains `GOV-REC-2026-NON-PROD-OPERATOR-BYPASS-01`, effective 2026-09-22, recorded as PA-authorized for Block 3M-A single-operator qualification. Its component matrix names the **frontend broker-import/in-memory PortfolioStore** workflow on `arena/01a0b8e8…`, not the G24 durable HTTP/store modules. It requires `executionEnvironment === 'NON_PRODUCTION'` **and** `allowNonProductionBypass === true`; production or disabled bypass must fail closed. Existing `tests/non_production_operator_identity_bypass.test.ts`, Criteria D and H/I, assert those rejections in that broker-ingress workflow. Its reported historical 350/350 result is reused only as that record's claim, not re-run or asserted as current qualification.
+
+**Enforcement gap.** The inspected G24 consolidation, durable store, HTTP server, server config and persistence config have no `executionEnvironment` / `allowNonProductionBypass` check around this exception. In the actual Save Guard 2 predicate it is triggered by the field pair alone. File headers and the health response's `NON_PRODUCTION` label are not enforcement. An authenticated, tenant/portfolio-authorized caller can supply the pair in a holdings body. This does not confer authentication authority, but it does switch the identity-resolution gate. The original restricted-workflow authorization cannot silently be extended to this path. No deployment or production behavior has been inspected.
+
+**Consequence for the recommendation:** remove 2A from the recommended path. Any future reuse would need its own explicit authority and independently verified server-controlled non-production gating, caller-field refusal, preservation of all credential/membership/ownership checks, production/disabled negative tests and no-mutation evidence. Closing the G24 gap would be separate IPD-side work; neither an IPD change nor an exception is authorized here.
+
+**DP-2 is independently decidable, narrowly.** PA may establish *how unresolved identity is represented and refused*, without choosing a canonical identifier, resolving owner binding or admitting User Portfolios: preserve native symbol/ISIN/exchange bytes as descriptive evidence; omit companyId; mark `UNRESOLVED` server-side; do not emit or permit the bypass; reject unresolved/ambiguous writes **before** the port/HTTP call. Response identifiers remain domain-scoped, not evidence of equivalence or canonical resolution. This is Option **2F** below. It can be specified and qualified with pure contract tests and test-only stubs behind the unchanged fence. A successful durable save, governed canonical resolution, binding and full F-7 certification remain dependent on later authority — they are not claimed independently decidable here.
+
 ---
 
 ## 6. Unresolved contract fields — the `D-2` §8 element matrix for Portfolios
@@ -259,37 +293,37 @@ reject if  !symbol || (!isResolved && !isBypass) || quantity <= 0 || marketValue
 
 | # | `D-2` §8 element | Current state | Proposed value (§8 recommendation) |
 |---|---|---|---|
-| 1 | **Source authority** | F-3 owner pair, governed by the F-1/F-2 value act; qualified for NP-09/10/11 only | F-3 owner pair, **explicitly extended by a new PA act** to the portfolio seam; the F-1/F-2 value act is **not** amended |
-| 2 | **Target authority** | G24 `IdentityService` (`application_users`, `external_identity_mappings`, `tenant_memberships`) at `6828155e…` | Unchanged — G24 remains the sole portfolio-identity authority |
-| 3 | **Source identifier** | `ownerUserId = owner-7f3a91c2`; `tenantId = irr-domain-4b82d6e1` | Unchanged (no new values invented) |
-| 4 | **Target identifier** | `application_user_id` (opaque, PK); `tenant_id` (G24 `tenant_memberships`) | One provisioned `application_user_id`; one `tenant_id` — **values assigned by G24 provisioning, never by IRR** |
-| 5 | **Mapping lifecycle** | **ABSENT.** `PENDING→APPROVED→ACTIVE→RETIRED` supported but no row exists | Exactly one mapping, provisioned offline, advanced to `ACTIVE`; retirement only by PA act |
-| 6 | **Provisioning authority** | **UNDEFINED.** Operator-only by G24 design; no authorization to perform it | **Ramki (PA)**, executed as a one-time offline governed act, attested by a `G2ProvisioningRecord`; never at request time |
-| 7 | **Revocation authority** | **UNDEFINED** | **Ramki (PA)** only; revocation ⇒ immediate fail-closed 503 with no cached fallback |
-| 8 | **Tenant boundary** | **ABSENT.** `resolveTenant` fails closed on 0/ambiguous/revoked | Exactly one ACTIVE membership ⇒ unambiguous; `x-ipd-tenant-id` optional; any mismatch ⇒ 403, never a default |
-| 9 | **Ownership boundary** | Re-derived server-side from the governed mapping; browser ownership never trusted | Unchanged — G24-owned; IRR asserts nothing |
-| 10 | **Authorization boundary** | G24 `PortfolioAuthorizer`: identity → tenant → portfolio, all fail-closed; unauthorized ≡ nonexistent | Unchanged — G24-owned |
-| 11 | **Audit requirements** | `mapping_audit_events` (action, previous/new state, actor, context, occurred_at) written in the same transaction | Unchanged, plus the PA act ID recorded as `context` on the provisioning audit event |
-| 12 | **Failure behavior** | 503 `owner-context-unavailable` at the IRR boundary; 401/403/404 fail-closed in G24 | **Unchanged for every missing-mapping case.** No default, no inference, no silent tenant substitution |
-| 13 | **Security / trust model** | **CONFLICT.** G24 requires verified OIDC; IRR has none; forwarded-Principal-trust and operator-bypass excluded by G24 | Local, non-production, PA-authorized trust anchor + **real** credential verification by G24 (Option 1A′, §7) — **or** deferral (Option 1D) |
-| 14 | **Durable storage** | G24 SQLite (`better-sqlite3`, rollback journal, `synchronous=FULL`, FK enforced, migrations 001–002), path `IPD_PORTFOLIO_DB_PATH` | Unchanged. **IRR stores nothing** — no mapping table, no cache, no shadow copy |
-| 15 | **Package / API contract** | HTTP `/api/ipd/portfolios` at `6828155e…`; IRR holds no package pin (reference only, `AD-03`) | Unchanged. Any G24 promotion is a **separate** act; `main` promotion prohibited |
+| 1 | **Source authority** | F-3 owner pair, governed by the F-1/F-2 value act; qualified for NP-09/10/11 only | **Deferred (1D).** No extension of F-3 to portfolio authorization; its existing scope remains intact |
+| 2 | **Target authority** | G24 `IdentityService` (`application_users`, `external_identity_mappings`, `tenant_memberships`) at `6828155e…` | Unchanged — G24 remains portfolio-identity authority; no authority transfers to IRR |
+| 3 | **Source identifier** | `ownerUserId = owner-7f3a91c2`; `tenantId = irr-domain-4b82d6e1` | Existing F-3 values unchanged; no source/target equivalence |
+| 4 | **Target identifier** | `application_user_id` (opaque, PK); `tenant_id` (G24 `tenant_memberships`) | **Unresolved/deferred.** No values assigned or provisioned |
+| 5 | **Mapping lifecycle** | **ABSENT.** `PENDING→APPROVED→ACTIVE→RETIRED` supported but no row exists | **Deferred.** No mapping created, activated or retired |
+| 6 | **Provisioning authority** | **UNDEFINED.** Operator-only by G24 design; no authorization to perform it | **Deferred.** No provisioning act authorized |
+| 7 | **Revocation authority** | **UNDEFINED** | **Deferred.** Existing G24 lifecycle controls retained; no new revocation act |
+| 8 | **Tenant boundary** | **ABSENT.** `resolveTenant` fails closed on 0/ambiguous/revoked | **Deferred.** No membership assigned; ambiguity never guessed |
+| 9 | **Ownership boundary** | Re-derived server-side from the governed mapping; browser ownership never trusted | Unchanged — G24-owned; descriptive security fields convey no ownership |
+| 10 | **Authorization boundary** | G24 `PortfolioAuthorizer`: identity → tenant → portfolio, all fail-closed; unauthorized ≡ nonexistent | Unchanged — all G24 credential, mapping, membership and ownership checks mandatory |
+| 11 | **Audit requirements** | `mapping_audit_events` (action, previous/new state, actor, context, occurred_at) written in the same transaction | No provisioning audit event. Future offline-contract qualification records decision ID and rejected/no-call evidence, without persisting portfolio state |
+| 12 | **Failure behavior** | 503 `owner-context-unavailable` at the IRR boundary; 401/403/404 fail-closed in G24 | 503 fence unchanged. Future contract layer rejects unresolved/ambiguous saves before any port call; no defaults or silent repairs |
+| 13 | **Security / trust model** | **CONFLICT.** G24 requires verified OIDC; IRR has none; forwarded-Principal-trust and authentication-layer operator-bypass excluded by G24 | **Retain deferral (1D).** No issuer, credential, configuration or trust-model change; no save exception (2F) |
+| 14 | **Durable storage** | G24 SQLite (`better-sqlite3`, rollback journal, `synchronous=FULL`, FK enforced, migrations 001–002), path `IPD_PORTFOLIO_DB_PATH` | Unchanged. IRR stores no portfolio or mapping state; no migration or lineage merge |
+| 15 | **Package / API contract** | HTTP `/api/ipd/portfolios` at `6828155e…`; IRR holds no package pin (reference only, `AD-03`) | Pinned G24 reference unchanged. Narrow 2F contract only; future IRR contract revision explicitly records refusal semantics; no new IPD enum/API or promotion |
 
-### 6.1 Additional field requiring decision (not in the `D-2` §8 list, but forced by §5.C)
+### 6.1 Narrow identifier decision — recommended Option 2F
 
-**Security-identifier declaration for holdings.** Because Save Guard 2 rejects holdings without `companyId`, a declaration is unavoidable for every save:
+No canonical identifier is selected. The contract governs **unresolved evidence and refusal**, not successful saves or a new holding key.
 
-| Field | Proposed value (Option 2A) |
+| Field / operation | Proposed 2F rule |
 |---|---|
-| `symbol` | Required. Carries the IRR-native instrument identifier, verbatim, unmodified |
-| `companyId` | **Omitted** (not empty-string, not a ticker, not fabricated) |
-| `isin` | Carried verbatim **when IRR holds one**; otherwise omitted |
-| `identityStatus` | Explicitly `'UNRESOLVED'` |
-| `resolutionDisposition` | Explicitly `'NON_PRODUCTION_OPERATOR_BYPASS'` |
-| Resulting holding key | `UNRESOLVED:ISIN:<isin>` when ISIN present, else `UNRESOLVED:SYM:<symbol>` |
-| Equivalence asserted | **NONE.** No `companyId`↔ISIN↔ticker equivalence is created, implied, or relied upon |
+| `symbol`, `isin`, `exchange` | Preserve exact source bytes and absence; no fabricated value, normalization or cross-domain equivalence |
+| `companyId` | Omit from prospective outbound holding shape. Client-supplied or ticker-shaped companyId must not be repaired into canonical identity |
+| `identityStatus` | Server-governed `UNRESOLVED` for holdings lacking separately authorized canonical resolution; client assertions refused |
+| `resolutionDisposition` | Do not emit the bypass, invent a new IPD enum, or claim `CANONICAL_P04` provenance. Reject before serialization/port call |
+| Unresolved/ambiguous save | Fail closed before any port invocation; zero portfolio/mapping/revision writes. IRR routes stay at 503 independently |
+| Existing G24 fallback keys | `UNRESOLVED:ISIN:<isin>` / `UNRESOLVED:SYM:<symbol>` are upstream implementation facts, **not** keys authorized for use by 2F |
+| Exchange collision | G24 `holdingKey` ignores exchange. Preserve source symbol bytes; do **not** compose `TCS:NSE` or merge colliding evidence. Unresolved/ambiguous writes remain refused; future successful-write key/collision policy is a separate decision |
 
-**Sub-field requiring decision — exchange collision.** `holdingKey` **ignores `exchange`**. Two holdings with the same symbol on different exchanges (e.g. NSE `TCS` and BSE `TCS`) would collide on the primary key and merge incorrectly. Options: (a) accept and record as a known non-production limitation; (b) adopt an IRR-side presentation convention composing exchange into `symbol` (e.g. `TCS:NSE`) — explicitly a *presentation* convention, not an identifier-equivalence claim; (c) defer saves that would collide, fail-closed. **Recommendation: (b), with (c) as the fail-closed backstop.** This is a decision the PA must confirm because it changes the bytes written to `symbol`.
+This rectifies the original contradictory “verbatim symbol + exchange-composed symbol” proposal without altering the upstream key function.
 
 ---
 
@@ -299,11 +333,11 @@ reject if  !symbol || (!isResolved && !isBypass) || quantity <= 0 || marketValue
 
 | Option | Mechanism | Consequences / trade-offs | Requires |
 |---|---|---|---|
-| **1A′ — Local governed trust anchor + offline provisioning** *(recommended for DP-1)* | A non-production, localhost-scoped OIDC issuer (RS256 + JWKS) is stood up; G24 is pointed at it via the **three existing environment variables it already reads** (`IPD_OIDC_ISSUER`, `IPD_OIDC_JWKS_URI`, `IPD_OIDC_AUDIENCE`); one `application_user`, one `(issuer, subject)` mapping, and one ACTIVE membership are provisioned **offline, operator-only** | **+** No IPD source change: G24 verifies a real signed token, so its trust model is *honoured*, not bypassed. **+** No forwarded-principal trust, no auth-layer operator bypass. **+** Reuses the exact provisioning shape the G2 implementation record already specifies. **−** Introduces a local trust anchor into a baseline whose auth was deliberately removed by PR #61; must be scoped so it is **not** a restoration of application-wide authentication. **−** Still creates identity/membership state that `D-2` §11 does not authorize | New PA act (identity/security contract); one offline provisioning act; env configuration (not a repo change) |
+| **1A′ — Local governed trust anchor + offline provisioning** *(not recommended; requires separate authority)* | A non-production, localhost-scoped OIDC issuer (RS256 + JWKS) is stood up; G24 is pointed at it via the **three existing environment variables it already reads** (`IPD_OIDC_ISSUER`, `IPD_OIDC_JWKS_URI`, `IPD_OIDC_AUDIENCE`); one `application_user`, one `(issuer, subject)` mapping, and one ACTIVE membership are provisioned **offline, operator-only** | **+** The existing verifier can validate configured signed tokens without IPD source changes. **−** This is technical compatibility, not evidence of authorized user delegation or the complete trust path; a local server-issued token cannot silently be substituted for G24's accepted user-delegated credential. **+** Intended to avoid forwarded-principal trust and auth-layer bypass; that intention still needs governed design and qualification. **+** Reuses the exact provisioning shape the G2 implementation record already specifies. **−** Introduces a local trust anchor into a baseline whose auth was deliberately removed by PR #61; must be scoped so it is **not** a restoration of application-wide authentication. **−** Still creates identity/membership state that `D-2` §11 does not authorize | Separate express PA authority addressing the no-auth baseline and complete delegated-credential trust model; configuration and provisioning acts; independent credential/mapping/membership qualification |
 | **1A — Synthetic literal `(issuer, subject)` with no token** | Declare a literal pair and have G24 accept it | **Not viable.** G24 verifies a signed JWS before any mapping lookup. Accepting a bare assertion *is* forwarded-principal trust, which G24 and `D-2` §9 exclude | — (non-viable) |
 | **1B — Reinstate application authentication** | Reverse PR #61; restore the full OIDC/Keycloak path | **+** Restores the trust model G24 was designed for. **−** Far outside Gate C; reverses an authorized no-auth baseline decision; large blast radius across NP-09/10/11; would require its own authorization and re-qualification | Separate PA authorization; re-qualification of NP-09/10/11 |
 | **1C — G24 trust-model extension (IPD source change)** | Add to G24 an explicitly authorized non-OIDC principal source for the non-production single-user baseline | **+** Honest about the deviation; no local issuer. **−** **IPD source change** on `arena/01a0e6d9`, which this packet is instructed not to perform; re-qualification of the `g24_*` suite; `AD-03` reference-only status would need revisiting | IPD-side authority + IPD change; outside Gate C's IRR-side scope |
-| **1D — Retain deferral for the binding** | Decide nothing; leave `/api/user-portfolios*` at 503 | **+** Zero risk; consistent with Gate B Option C. **−** Portfolios remain unavailable indefinitely; Gate C stays open | No authority (default) |
+| **1D — Retain deferral for the binding** *(recommended for DP-1)* | Record continued deferral, not a resolved binding; leave `/api/user-portfolios*` at 503 | **+** Avoids unauthorized issuer/configuration/provisioning and preserves PR #61. Allows independent 2F contract work. **−** No integrated read/write or full F-7; Gate C remains partially open until a compatible binding is separately authorized and verified | Explicit PA disposition requested to record deferral; current fence requires no new authority |
 
 **Consequence of leaving DP-1 unresolved:** `/api/user-portfolios*` remains fenced at 503. **No portfolio data can be read or written, and no part of the seam may be activated.** This is the current state and is safe.
 
@@ -311,7 +345,8 @@ reject if  !symbol || (!isResolved && !isBypass) || quantity <= 0 || marketValue
 
 | Option | Mechanism | Consequences / trade-offs | Requires |
 |---|---|---|---|
-| **2A — Declared `UNRESOLVED` + `NON_PRODUCTION_OPERATOR_BYPASS`** *(recommended for DP-2)* | Every holding crosses the boundary with `identityStatus: 'UNRESOLVED'`, `resolutionDisposition: 'NON_PRODUCTION_OPERATOR_BYPASS'`, `companyId` omitted, `symbol`/`isin` verbatim | **+** The **only** path that satisfies Save Guard 2 without asserting canonical resolution. **+** No Company Identity Authority, no identifier equivalence, no IPD change, no `CompanyId` semantic change — so it respects `D-2` §11, Reconciliation Act `R5`/`R7`, and `NP-04`. **+** Uses a disposition G24 already implements and already validates. **+** The word `NON_PRODUCTION` is carried in the persisted data, so the data self-declares its regime. **−** Holdings merge on `UNRESOLVED:SYM:<symbol>`, so dedup is symbol-scoped, not entity-scoped: the same issuer held under two symbols will not merge. **−** Persists a permanently “unresolved” marker; any future canonical resolution is a **separate** migration and a separate act | New PA act; explicit declaration in the contract |
+| **2A — Declared `UNRESOLVED` + `NON_PRODUCTION_OPERATOR_BYPASS`** *(not recommended)* | Use the existing G24 exception to save holdings with no resolved companyId | Authentication and tenant/portfolio checks remain mandatory, but the declaration bypasses Save Guard 2's resolution requirement. The original restricted frontend authorization does not establish durable-path authority or enforcement; G24 lacks its environment gate. **Removed from recommended implementation** | Separate authority and verified server-controlled restrictions, potentially separate IPD-side changes; none granted here |
+| **2F — Unresolved evidence + fail-closed write contract** *(recommended for DP-2)* | Preserve native symbol/ISIN/exchange; omit companyId; server-governed UNRESOLVED; no bypass or canonical-provenance claim; refuse unresolved/ambiguous writes before port call | **+** Independently decidable without owner binding, admission, CIA or IPD change. Removes unauthorized equivalence and exception. **−** Does not allow successful saves, choose a canonical key or complete Gate C/F-7. Those remain genuine dependencies | Narrow PA contract and offline IRR qualification authority (§9.2); unchanged fence |
 | **2B — Designate / effectuate a Company Identity Authority** | Make `D115-A` effective and designate a CIA; assign canonical `companyId` per instrument; send `identityStatus: 'RESOLVED'` | **+** Semantically correct; entity-scoped dedup; the “real” end state. **−** **Excluded** by `D-2` §11 and Reconciliation Act `R7`; `D115-A` is ineffective with its §7(7)/(8) conditions unresolved; requires a new constitutive act plus implementation plus qualification. **−** Would be a large new workstream, not a minimal contract | New constitutive PA act; CIA designation; implementation; qualification |
 | **2C — Verbatim pass-through, declare `RESOLVED`** | Send `symbol` (+ optional `isin`) and let G24 default `identityStatus` to `'RESOLVED'` | **Not viable and unsafe.** `companyId` defaults to `''`, so Save Guard 2 **rejects every save**; and declaring `RESOLVED` would assert a canonical resolution that no authority made. Fails technically and misrepresents provenance | — (non-viable) |
 | **2D — Reuse the instrument `companyId` already present in IRR fixtures** | Send ticker-like values (`TCS`, `INFY`) as `companyId` | **Not viable.** Directly contradicts `D-2` §3.2 and Reconciliation Act `R5` (instrument `companyId` **MUST NOT** be reinterpreted as canonical company identity), and would silently make tickers the canonical holding key | — (non-viable) |
@@ -335,67 +370,61 @@ reject if  !symbol || (!isResolved && !isBypass) || quantity <= 0 || marketValue
 
 > **This section is the recording agent's recommendation, prepared for the Program Authority's selection. It is non-operative. Nothing here is decided, admitted, or authorized. The authority to select rests solely with the Program Authority.**
 
-### 8.1 Recommendation
+### 8.1 Revised recommendation
 
-**DP-1 → Option 1A′** (local governed trust anchor + one-time offline provisioning)
-**DP-2 → Option 2A** (declared `UNRESOLVED` + `NON_PRODUCTION_OPERATOR_BYPASS`; `companyId` omitted)
-**DP-3 → Option 3B** (contract first; admission is a separate subsequent gate)
+**DP-1 → Option 1D** — retain owner/tenant-binding deferral. No trust anchor or provisioning.
+**DP-2 → Option 2F** — independently decide the unresolved-evidence/refused-write contract in §6.1.
+**DP-3 → Option 3B** — admission is a separate gate; no admission or activation now.
 
-### 8.2 The minimal contract, stated
+The previous 1A′ + 2A recommendation is superseded by this targeted rectification. It was a proposal, never a PA decision or authority.
 
-1. **Owner identity.** The F-3 owner pair (`owner-7f3a91c2`, `irr-domain-4b82d6e1`) is the **source** identity for the portfolio seam. It is **not** copied, aliased, or re-used as a G24 identifier. A new, explicitly scoped PA act binds it to exactly one G24 `application_user_id` **through** a provisioned `(issuer, subject)` mapping — never by value equality. The F-1/F-2 value act is **not** amended and the F-2 tenant value's scope is **not** extended beyond this seam.
-2. **Trust.** A single non-production, localhost-scoped OIDC issuer supplies a real RS256 credential. G24 verifies it through the JWKS/issuer/audience configuration it already reads from its environment. **No forwarded-principal trust. No authentication-layer operator bypass. No browser credential path.**
-3. **Provisioning.** Exactly one `application_user`, one `(issuer, subject)` mapping (advanced to `ACTIVE`), and one ACTIVE `tenant_membership` — provisioned **offline, operator-only, once**, by the Program Authority, and attested by a `G2ProvisioningRecord`. Never at request time; the port exposes no provisioning operation.
-4. **Tenancy.** Exactly one ACTIVE membership, so tenancy is unambiguous. `x-ipd-tenant-id` remains optional; G24 validates any supplied value against ACTIVE memberships and fails closed (403) on mismatch. Ambiguous tenancy is never guessed.
-5. **Security identifier.** Every holding crosses the boundary with `identityStatus: 'UNRESOLVED'`, `resolutionDisposition: 'NON_PRODUCTION_OPERATOR_BYPASS'`, `companyId` **omitted**, `symbol` verbatim, `isin` verbatim when held. **No `companyId`↔ISIN↔ticker equivalence is created, implied, or relied upon.** `symbol` composes exchange (e.g. `TCS:NSE`) under an IRR-side presentation convention, with a fail-closed deferral on any residual collision.
-6. **Persistence.** G24 remains the sole durable store. **IRR stores nothing** — no mapping table, no cache, no shadow copy. No merge of the NP-04 and G24 lineages; no new persistence architecture; no IPD ref change.
-7. **Failure.** Every missing, revoked, ambiguous, or mismatched mapping and every absent owner context fails closed exactly as today: HTTP 503 `owner-context-unavailable` at the IRR boundary, no data read, no data changed, no inferred owner or tenant.
-8. **Boundary.** The contract **does not** admit the consumer, ratify `a0ab5a34…`, activate any route, or promote G24. Those remain `P3`, `P2`, and separate acts.
+### 8.2 Minimal contract, stated
 
-### 8.3 Why this is minimal
+1. **Ownership/trust remain unresolved.** F-3 partition values are not G24 credentials, users or tenants. No issuer, delegated credential, mapping, provisioning or membership is created. All upstream trust requirements remain mandatory for any future integrated use.
+2. **Identifier evidence is not canonical identity.** Preserve symbol/ISIN/exchange exactly and keep their provenance and absence. No CIA is designated, no D115-A effectiveness is asserted, no ticker→companyId or ISIN→companyId inference, no exchange-derived symbol or canonical key.
+3. **Resolution remains explicitly unresolved.** Prospective contract normalization sets `UNRESOLVED` server-side and omits companyId unless a later, separately approved resolution contract exists. Do not treat client claims or upstream defaults as resolution evidence. G24-returned identifiers/statuses remain domain-scoped data, not cross-domain authority.
+4. **No bypass.** Reject caller-supplied company/identity/disposition claims. Do not emit `NON_PRODUCTION_OPERATOR_BYPASS` or mislabel evidence `CANONICAL_P04`; do not invent a new IPD disposition. Unresolved/ambiguous writes fail before serialization or port invocation. No save succeeds under this narrow contract.
+5. **No storage change.** G24 remains portfolio-domain store; IRR creates no cache, mapping table, shadow copy, migration or new persistence architecture. NP-04 and G24 remain distinct.
+6. **Fence/admission unchanged.** All six valid User Portfolios routes retain HTTP 503 `owner-context-unavailable` (existing 404/405 behavior retained). No consumer, route or UI admission, P2/P3 disposition, IPD ref change or G24 promotion.
 
-| Property | Satisfied |
-|---|---|
-| Requires no new persistence architecture | ✓ |
-| Requires no merge of the NP-04 and G24 lineages | ✓ |
-| Requires no IPD source change (configuration and data only) | ✓ |
-| Requires no Company Identity Authority and no `CompanyId` semantic change | ✓ (respects `D-2` §11, Reconciliation Act `R5`/`R7`, `NP-04`) |
-| Asserts no identifier equivalence | ✓ |
-| Honours G24's own trust model rather than bypassing it | ✓ |
-| Preserves the 503 fence until a separate admission act | ✓ |
-| Keeps Gates A, B, R3 and R4 separate | ✓ |
-| Non-production only, and self-declaring in the persisted data | ✓ |
+### 8.3 Why this is independently useful and minimal
 
-### 8.4 What the recommendation deliberately does not do
+PA can settle how unresolved evidence **must not become authority**, and authorize offline IRR contract qualification, without authorizing integrated operation. Pure validation/refusal has no dependency on an owner mapping or signed credential. It prevents fixture tickers, default `RESOLVED` status and the save exception from being silently used in future convergence work. **It is a partial contract disposition, not completion of the full fifteen-element translation contract, canonical identifier selection, or operational integration.**
 
-It does not make Portfolios available. It does not resolve Gate A. It does not admit the consumer. It does not claim that persistence convergence, production readiness, or product admission has been achieved. **Decision-packet completion ≠ contract ≠ admission.**
+### 8.4 What the recommendation does not do
+
+It does not make Portfolios available, resolve owner binding, choose a canonical identifier, permit unresolved saves, change G24's source or certify its environment guard. Gate C stays partially open even if 2F is approved. **Packet completion ≠ contract effectiveness ≠ binding ≠ admission.**
 
 ---
 
-## 9. Required Program Authority decision (exact scope and authority language)
+## 9. Required Program Authority decisions (exact scope and authority language)
 
-### 9.1 The decision requested
+### 9.1 Decisions requested — independently selectable
 
-The Program Authority is asked to render **one** of the following for Gate C. **No option is pre-selected.**
+No disposition is selected or recorded. The recommendation is **C-1 = 1D + 2F + 3B**.
 
-| Option | Composition | Effect if selected |
-|---|---|---|
-| **C-1** | Approve the recommended minimal contract: DP-1 = **1A′**, DP-2 = **2A**, DP-3 = **3B** | Authorizes the *contract* (a governed `D-2` §8 instrument) and the implementation plan in §10. **Does not admit the consumer or activate any route.** `P2`/`P3` remain open |
-| **C-2** | Approve a different combination from §7 (state the option letters) | As stated |
-| **C-3** | **RETAIN DEFERRAL** (Gate B Option C parity) | Gate C remains open; `/api/user-portfolios*` remains at 503; no contract, mapping, provisioning, or activation |
-| **C-4** | Direct further investigation, naming the specific question | Gate C remains open pending that answer |
+| Choice | Exact scope / effect |
+|---|---|
+| **C-1 (recommended)** | Record DP-1 binding deferral and DP-3 separate admission; approve **only** DP-2 Option 2F plus the offline IRR contract plan/criteria (§§10–11). No complete Gate C closure |
+| **C-2** | State a different independently selected DP-1/DP-2/DP-3 combination and exact implementation authority. 1A′ or 2A cannot be implicitly enabled by selecting an identifier contract; each needs the additional authorities/restrictions in §7 |
+| **C-3** | Retain deferral of DP-2 as well; no implementation authority. All Portfolios behavior remains fenced |
+| **C-4** | Request clarification of a named question; no implementation authority. The evidence needed for C-1 is complete in this packet; no generic investigation cycle is required |
 
-### 9.2 Verbatim authorization required (to be issued by the Program Authority — **not** to be self-recorded)
+A PA may issue the two clauses below separately. Approving DP-2 alone neither resolves nor overrides DP-1. Publishing this packet does not select either clause.
 
-If **C-1** is selected, the approval must explicitly state, at minimum:
+### 9.2 Exact PA language for recommended disposition
 
-> **“I, Ramki, as Program Authority of the single-user, non-production IIPS platform, approve the Gate C — Portfolio Identity & Security-Identifier Contract set out in `docs/integration/IIPS_v3.0_GATE_C_PORTFOLIO_IDENTITY_AND_SECURITY_IDENTIFIER_CONTRACT_PA_DECISION_REQUEST_2026-10-13.md` §8, comprising:
-> (1) the binding of the F-3 owner pair (`owner-7f3a91c2`, `irr-domain-4b82d6e1`) to exactly one G24 `application_user_id` exclusively through a provisioned `(issuer, subject)` mapping — not by value equality, and without amending the F-1/F-2 value act or extending the F-2 tenant value beyond this seam;
-> (2) the establishment of one non-production, localhost-scoped OIDC trust anchor and the resulting offline, operator-only provisioning of exactly one application user, one mapping (advanced to ACTIVE), and one ACTIVE tenant membership;
-> (3) the security-identifier declaration that every holding crossing the IRR→G24 boundary carries `identityStatus: 'UNRESOLVED'` and `resolutionDisposition: 'NON_PRODUCTION_OPERATOR_BYPASS'` with `companyId` omitted and `symbol`/`isin` carried verbatim, creating no `companyId`↔ISIN↔ticker equivalence, together with the exchange-composition convention for `symbol` and its fail-closed collision backstop;
-> (4) implementation of the plan in §10 of that record, subject to the acceptance criteria in §11;
-> and (5) durable publication plus independent remote verification.
-> This approval is **non-production only** and **prospective only**. It does **not** admit the `/api/user-portfolios/` consumer, does **not** ratify IRR commit `a0ab5a34…`, does **not** activate any route or UI, does **not** promote G24 (`6828155e…`) to IPD `main` or alter any IPD ref, does **not** merge or converge the NP-04 and G24 persistence lineages, does **not** designate a Company Identity Authority or make `D115-A` effective, and does **not** change Gate A, Gate B, R3 or R4 status. `/api/user-portfolios*` remains fail-closed at HTTP 503 `owner-context-unavailable` until a separate admission act.”**
+**Clause GC-D1 — binding deferral and admission boundary:**
+
+> “I, Ramki, as Program Authority, select DP-1 Option 1D: retain deferral of the F-3 owner-context to G24 application-user/tenant binding. I authorize no issuer, OIDC/Keycloak configuration, delegated credential, identity mapping, provisioning or tenant membership. Owner binding remains unresolved. DP-3 remains a separate admission gate. Gate C is not closed by this disposition.”
+
+**Clause GC-D2 — independent identifier contract and bounded implementation:**
+
+> “I, Ramki, as Program Authority, approve DP-2 Option 2F in this Gate C record §§6.1 and 8: preserve native symbol/ISIN/exchange evidence without equivalence or byte rewriting; omit companyId; maintain server-governed UNRESOLVED status; refuse caller-supplied identity/disposition authority; emit neither NON_PRODUCTION_OPERATOR_BYPASS nor a false canonical-provenance declaration; reject unresolved or ambiguous writes before the port/HTTP call. I select no canonical identifier and authorize no successful unresolved save. I authorize only the prospective IRR contract-layer work and offline tests in §§10–11, behind the unchanged User Portfolios fence, plus durable publication and independent remote verification. No live credential, provisioning, database or IPD write is authorized. The complete identity-binding/translation contract and full F-7 qualification remain pending separate authority.”
+
+**Mandatory boundary for either clause:**
+
+> “These acts are prospective and non-production only. They do not admit the User Portfolios consumer, ratify a0ab5a34, dispose P2/P3, bypass authentication/authorization or any G24 identity-resolution gate, activate a route or UI, promote G24 to main, change any IPD ref, merge NP-04 and G24 lineages, designate a CIA, assert unauthorized identity equivalence or make D115-A effective. Gate A OPEN, Gate B Option C, R3 OPEN and R4-B CLOSED remain unchanged. /api/user-portfolios* remains HTTP 503 owner-context-unavailable until contract/binding and separate admission authorities are independently satisfied and verified.”
 
 ### 9.3 Authority boundary
 
@@ -403,79 +432,86 @@ The recording agent **does not** render, record, transcribe, or infer this decis
 
 ---
 
-## 10. Implementation-ready plan (contingent on PA selection of C-1 or equivalent)
+## 10. Implementation-ready plan — only after explicit, effective PA approval
 
-> **Nothing in this section is authorized. It is prepared so that implementation can begin immediately upon disposition, without a further investigation phase.**
+> No code or implementation test is authorized by packet rectification. Only approval of §9.2 GC-D2 plus the boundary makes S2–S4 actionable. A deferral-only disposition does not.
 
-### 10.1 Sequencing
+### 10.1 Sequencing and authority dependencies
 
-| Step | Gate | Content | Depends on |
-|---|---|---|---|
-| **S0** | — | Publish this packet + tracker update (documentation only). **Executed in this run.** | — |
-| **S1** | PA | Render the §9 disposition and publish it as a PA decision record | — |
-| **S2** | S1 | Author and publish the **governed `D-2` §8 translation contract instrument** covering all fifteen elements of §6, as a standalone record | S1 |
-| **S3** | S2 | Establish the non-production trust anchor (issuer + JWKS); configure G24's three existing env vars | S2 |
-| **S4** | S2 | Execute the **one-time offline provisioning act**: 1 application user, 1 `(issuer, subject)` mapping → ACTIVE, 1 ACTIVE membership; attest via `G2ProvisioningRecord`; record the PA act ID in the audit `context` | S2 |
-| **S5** | S2 | Implement the **contract layer only** — the identity/security-identifier declaration at the boundary (§8.2.5). No route activation | S2 |
-| **S6** | S5 | F-7 five-part qualification of the contract layer (positive/negative ownership, failure modes, durability/restart, no cross-domain equivalence) | S5 |
-| **S7** | **Separate gate** | **Admission**: dispose `P3` and `P2`; grant implementation authority; activate `/api/user-portfolios/`; qualify and admit the UI | S6 + its own PA act |
-
-**S7 is a separate gate and is NOT authorized by a Gate C contract decision.**
-
-### 10.2 Affected components
-
-| Component | Repository / path | Nature of change (if authorized) |
+| Step | Content | Required authority / dependency |
 |---|---|---|
-| Contract declaration layer | IRR `frontend/server/user-portfolio/translationBoundary.ts`, `userPortfolioPort.ts`, `userPortfolioContract.ts` | Add the identity/security-identifier declaration constants and the boundary assertion; extend `validateHoldingShape` for the declaration |
-| Boundary tests | IRR `frontend/server/user-portfolio/*.test.ts`, `user-portfolio-transport.test.ts` | Add contract-layer tests (§11.2) |
-| Fence | IRR `frontend/server/user-portfolio-transport.ts`, `owner-context-unavailable.ts` | **UNCHANGED** until S7. Blob `51704c12…` / `cb8db45d…` must remain byte-identical through S6 |
-| Owner context | IRR `frontend/server/owner-context-carrier.ts`, `owner-context-resolver.ts` | **UNCHANGED.** No new value, no scope change, no amendment to the F-1/F-2 value act |
-| G24 configuration | IPD G24 runtime env (`IPD_OIDC_ISSUER`, `IPD_OIDC_JWKS_URI`, `IPD_OIDC_AUDIENCE`) | Configuration only — **no IPD source change, no IPD ref change** |
-| G24 provisioning data | G24 SQLite at `IPD_PORTFOLIO_DB_PATH` (non-production local DB) | 1 user + 1 mapping + 1 membership, offline, operator-only |
-| G24 source | IPD `src/**` @ `6828155e…` | **UNCHANGED.** Any change here is Option 1C — a separate IPD-side authority and outside Gate C |
-| NP-04 pin lineage | IPD `2e11fa3b…` | **UNCHANGED.** Not merged, not converged |
-| Reports seam | IRR `frontend/server/reports-transport.ts` | **UNCHANGED.** Gate B is separate |
-| Tracker / records | IRR `docs/**` | Additive documentation only |
+| **S0** | Amend this same packet and tracker on PR #82; scope checks, push, independently verify remote artifacts; **do not merge** | Documentation rectification only (this run) |
+| **S1** | PA renders independent DP-1/DP-2 dispositions in this existing record/tracker through normal review/publication; verify effective main artifact | Actual PA act; durable main publication + independent verification before implementation |
+| **S2** | Formalize the approved narrow 2F contract in existing IRR contract/boundary declarations, clearly versioned; retain §6's deferred identity fields, no second decision packet | Effective GC-D2 approval; no full D-2 §8 contract closure claim |
+| **S3** | Implement only pure shape/provenance validation and pre-port unresolved/ambiguous-write refusal. Reject caller companyId/runtimeCompanyId/identityStatus/resolutionDisposition authority; no token, owner binding or store changes | S2 + explicit IRR contract-layer implementation authority in GC-D2 |
+| **S4** | Offline IRR contract tests with stubs/spies prove refusal/no calls, preservation and fence integrity; independently verify scope and publish results | S3; §11 criteria. No live G24 or DB writes, no IPD implementation tests |
+| **S5 — deferred** | Choose and authorize compatible complete owner/credential/tenant-binding design; separately authorize any provisioning; independently qualify trust path | Separate DP-1 act addressing no-auth baseline and complete G24 trust model; **not** enabled by S1–S4 |
+| **S6 — deferred** | Establish separately governed canonical resolution/successful-write identity policy, or an explicitly restricted alternative; full F-7 qualification (ownership, failure, durability/restart, no equivalence) | Separate identity authority; any IPD-side change requires its own act; binding and test authority required. No bypass recommended here |
+| **S7 — separate admission** | Dispose P2/P3; authorize consumer, route/UI work and independently qualify/admit it | Completed applicable contracts + S5/S6 qualification + explicit admission act |
 
-### 10.3 Explicitly excluded from the plan
+**Only S2–S4 are enabled by the recommended narrow approval. S5–S7 are genuine later gates, not hidden implementation steps.** DP-2 acceptance does not prove successful storage or runtime convergence.
 
-No new persistence architecture. No merge of the NP-04 and G24 lineages. No IPD ref, branch, tag, or source change. No Company Identity Authority. No `D115-A` effectuation. No identifier-equivalence table. No package pin change. No change to `a0ab5a34…`'s status. No route or UI activation. No runtime or deployment change to any live environment. No production use.
+### 10.2 Affected components after narrow approval
+
+| Component | Permitted future scope |
+|---|---|
+| IRR `frontend/server/user-portfolio/translationBoundary.ts`, `userPortfolioContract.ts`, `userPortfolioPort.ts` | Governed refusal/shape contract, closed claim rejection and testable pre-port guard; explicit contract version; no identity-binding or port activation |
+| IRR `frontend/server/user-portfolio/*.test.ts` | Pure contract tests and isolated test-only stubs/spies per §11 |
+| IRR `user-portfolio-transport.ts`, `owner-context-unavailable.ts` | **Unchanged**; 503 fence and 404/405 behavior retained; future regression verification only |
+| F-3 carrier/resolver, Settings/Watchlists/Collaboration | **Unchanged**; no owner value or scope extension |
+| IPD G24/NP-04 source, refs, runtime configuration, provisioning DB | **No change or write**, including no environment gate implementation in this act |
+
+### 10.3 Exclusions
+
+No trust anchor, authentication restoration or bypass, identity provisioning/mapping, live endpoint or DB access, persistence/schema/pin changes, IPD write, successful unresolved save, canonical-resolution engine, ticker→companyId mapping, exchange-composed symbol, consumer admission, route/UI activation, or changes to Gate A/B/R3/R4. Test-only stubs do not confer runtime admission.
 
 ---
 
-## 11. Acceptance criteria, tests and independent verification
+## 11. Narrow DP-2 acceptance criteria and future tests
 
-### 11.1 Contract-layer acceptance criteria (S2–S6) — all required
+### 11.1 Acceptance criteria — all required for S4, none claimed satisfied by this documentation run
 
 | # | Criterion |
 |---|---|
-| AC-1 | A standalone `D-2` §8 translation-contract record exists, addressing **all fifteen** elements of §6 with an explicit value or an explicit “not applicable, with reason” for each |
-| AC-2 | The contract names the source authority, target authority, provisioning authority, and revocation authority explicitly |
-| AC-3 | The contract states the failure behavior for **every** missing-mapping case: absent owner context, absent mapping, non-ACTIVE mapping, zero memberships, revoked membership, ambiguous tenancy, tenant mismatch |
-| AC-4 | The contract states, affirmatively, that **no** `companyId`↔ISIN↔ticker equivalence is created, implied, or relied upon |
-| AC-5 | The contract records that IRR stores **no** mapping, cache, or shadow copy of portfolio data |
-| AC-6 | Provisioning is evidenced as offline, one-time, and operator-only; a `G2ProvisioningRecord` attestation exists and carries the PA act ID |
-| AC-7 | The F-1/F-2 value act is **unchanged** (blob-verified) and no new owner/tenant literal is introduced |
+| AC-1 | DP-2 authority independently recorded, durably effective and scope-limited. |
+| AC-2 | DP-1 explicitly deferred; no issuer/credential/provisioning/membership introduced. |
+| AC-3 | No canonical identifier or equivalence inferred, no CIA or D115-A claim. |
+| AC-4 | Symbol/ISIN/exchange bytes and absence preserved; no synthetic value or exchange-composed symbol. |
+| AC-5 | Prospective unresolved shape omits companyId and explicitly retains UNRESOLVED; no upstream default treated as resolution. |
+| AC-6 | Bypass and false CANONICAL_P04 provenance are never emitted. |
+| AC-7 | Caller-supplied company/identity/disposition claims refused before port invocation. |
+| AC-8 | Unresolved/ambiguous save rejected with the existing typed `G2Error('INVALID_REQUEST', 'Unresolved or ambiguous security identity; save refused.')` (not success; no new public HTTP response while fenced) and zero calls/writes. |
+| AC-9 | Residual/colliding evidence is not merged or normalized. |
+| AC-10 | Upstream read fields are domain-scoped, not canonical equivalence or credential authority. |
+| AC-11 | All G24 credential/tenant/portfolio checks remain required, not replaced by the new contract guard. |
+| AC-12 | No identity/portfolio storage or IPD change; fence/owner-context components unchanged. |
+| AC-13 | Valid User Portfolios routes stay 503, with existing 404/405+Allow behavior. |
+| AC-14 | Offline contract/regression checks and type-checking pass with independently verified scope. |
+| AC-15 | Publication/results explicitly distinguish narrow qualification from full F-7, successful saves, admission and runtime/production proof. |
 
-### 11.2 Required tests
+### 11.2 Future offline tests — requirements, not tests executed or new current results
 
-| # | Test | Expected |
+The old “T-1 bypass save accepted / T-2 undeclared save rejected” is retained only as historical source evidence in §5.E. It is **not** the recommended qualification pair.
+
+| Test | Input / focus | Required narrow-approval result |
 |---|---|---|
-| T-1 | Save with `symbol` only, `companyId` omitted, `identityStatus: 'UNRESOLVED'`, `resolutionDisposition: 'NON_PRODUCTION_OPERATOR_BYPASS'` | Accepted by G24; holding key = `UNRESOLVED:SYM:<symbol>` |
-| T-2 | Save with `symbol` only and **no** bypass declaration (i.e. G24 defaults to `RESOLVED`/`CANONICAL_P04`) | **REJECTED** by Save Guard 2 — proves the declaration is load-bearing, not cosmetic |
-| T-3 | Save with a ticker-like value in `companyId` (e.g. `'TCS'`) | **Refused at the IRR boundary** — prohibited by `D-2` §3.2 / Reconciliation Act `R5` |
-| T-4 | Save with `isin` present, `companyId` omitted, bypass declared | Accepted; holding key = `UNRESOLVED:ISIN:<isin>` |
-| T-5 | Two holdings, same symbol, different exchange | No silent merge; resolved per the §6.1 convention, or deferred fail-closed |
-| T-6 | Absent owner context (`IIPS_OWNER_CONTEXT_PATH` unset / carrier integrity mismatch) | HTTP 503 `owner-context-unavailable`; **no** G24 call; no data read or written |
-| T-7 | Mapping absent, or not `ACTIVE`, or retired | Fail closed; unauthorized indistinguishable from nonexistent; no default tenant |
-| T-8 | Membership revoked | Fail closed immediately; no cached tenant survives revocation |
-| T-9 | Ambiguous tenancy (two ACTIVE memberships, no requested tenant) | Fail closed; tenancy is **not** guessed |
-| T-10 | `x-ipd-tenant-id` mismatching the ACTIVE membership | 403 from G24; surfaced as fail-closed; never a substitution |
-| T-11 | Client-supplied identity keys (`userId`, `subject`, `applicationUserId`, `companyId`, `runtimeCompanyId`, `tenantId`, …) | Refused (400/403 per `translationBoundary.ts`); **never** become the principal or tenant |
-| T-12 | Restart durability | Owner context, mapping and membership survive process restart; per-request resolution behaves identically before and after |
-| T-13 | Fence integrity | `user-portfolio-transport.ts` blob `51704c12…` and `owner-context-unavailable.ts` blob `cb8db45d…` **unchanged** through S6; valid routes still return 503 |
-| T-14 | Full frontend suite | No regressions; pre-existing owner-context tests retain their counts and pass |
-| T-15 | `tsc --noEmit` | Exit 0 |
+| **T-1 (revised)** | Native symbol/ISIN/exchange evidence, no governed company identity | Exact evidence preserved, companyId omitted, explicit UNRESOLVED; save refused before serialization/port call; spy count zero |
+| **T-2 (revised)** | Same evidence with caller bypass declaration | Claim refused; no authority conferred, no port call, no write. Neither test expects a successful save |
+| T-3 | Missing status or attempted RESOLVED/CANONICAL_P04 default | Missing identity is not “resolved”; no fake canonical provenance or permitted save |
+| T-4 | Ticker-shaped companyId (`TCS`, `INFY`) / runtimeCompanyId | Caller claim refused; no conversion or identity equivalence |
+| T-5 | Missing/blank/ambiguous identifiers and equal symbol across exchanges | Fail closed; no synthetic symbol/key, normalization or merge |
+| T-6 | Byte-sensitive symbol/ISIN/exchange and absent ISIN | Preserve evidence bytes and absence; no canonical assignment |
+| T-7 | Server-side disposition emission under normal/hostile input | No bypass, no invented IPD enum, no false canonical-provenance field emitted |
+| T-8 | Supplied userId/subject/applicationUserId/owner/tenant claims | Existing refusal semantics preserved; no source/target identity inferred |
+| T-9 | Pure contract tests with port spy/stub | Zero live endpoint/credential/DB use; rejected inputs never invoke port |
+| T-10 | Returned domain-scoped G24 identifiers/status fields in test-only stub | No cross-domain equivalence, identity resolution or authorization inferred |
+| T-11 | Failure propagation and attempted retry/repair | `G2Error.reason === 'INVALID_REQUEST'` with the fixed AC-8 refusal message; no default owner, fabricated companyId or bypass fallback |
+| T-12 | Scope/storage manifest | No mapping table, cache, shadow store, migration, IPD ref/config/DB write or owner-context changes |
+| T-13 | Fence regression | Same fence blobs; six valid routes 503; unknown path 404; wrong method 405+Allow |
+| T-14 | Relevant offline IRR regression tests | No changed owner semantics or admission; no full F-7 claim; broader checks only within explicitly approved offline scope |
+| T-15 | Type-checking and publication scope | Type-check succeeds; exact authorized paths, diff clean; remote artifacts independently verified |
+
+**Deferred verification (S5–S7), not required to decide 2F:** verified/invalid/expired/wrong-audience credentials, unmapped/revoked/ambiguous tenancy, wrong owner, durability/restart, live F-7 and any future restricted-resolution exception. If an exception is ever separately considered, its declaration must be crossed with all credential/membership/owner negative cases and server-controlled production/disabled rejection; G24-C6 alone is insufficient. No such exception is recommended or authorized here.
 
 ### 11.3 Independent verification requirements (mandatory)
 
@@ -483,7 +519,7 @@ No new persistence architecture. No merge of the NP-04 and G24 lineages. No IPD 
 2. **Blob identity verification** — fence blobs (`98147054…`, `51704c12…`, `cb8db45d…`) re-verified at the merged tip and confirmed unchanged unless the authorized step changes them.
 3. **Upstream re-verification** — the G24 blobs (`17f9cb8a…`, `1c23f259…`, `e8e09e56…`, `80563c79…`) re-verified against live IPD at `6828155e…` to confirm the contract pin has not drifted.
 4. **Scope check** — `git status` / `--name-status` manifest and `git diff --check` clean; documentation-only steps touch documentation only.
-5. **Census** — at S6, a repository-wide grep confirms no `/api/user-portfolios/` activation outside the authorized change and no new `./persistence` edge.
+5. **Census** — at S4, an authorized scope check confirms no `/api/user-portfolios/` activation outside the authorized change and no new `./persistence` edge.
 6. **Effectiveness rule** — consistent with program convention, the disposition becomes effective **only** upon durable publication to `refs/heads/main` **and** independent remote verification there. Before that it is recorded but not operative, and is not represented as operative.
 7. **Merge is a separate act** — publication through the normal pull-request workflow does not itself constitute the Program Authority's merge authorization; no review or merge protection is bypassed.
 
@@ -514,17 +550,17 @@ No new persistence architecture. No merge of the NP-04 and G24 lineages. No IPD 
 
 | # | Risk | Mitigation |
 |---|---|---|
-| R-1 | A local trust anchor partially reverses the deliberate no-auth baseline (PR #61) | Scope the act explicitly to the portfolio seam; state that it is **not** a restoration of application-wide authentication |
-| R-2 | Symbol-scoped dedup (Option 2A) means the same issuer under two symbols will not merge | Record as a known non-production limitation; any future entity resolution is a separate act and a separate migration |
-| R-3 | Persisting a permanent `UNRESOLVED` marker could be misread later as a defect | The persisted `NON_PRODUCTION_OPERATOR_BYPASS` disposition self-declares its regime; cite this record from the contract |
-| R-4 | Exchange collision on `holdingKey` (which ignores `exchange`) | §6.1 convention + fail-closed backstop (T-5) |
+| R-1 | Binding deferral keeps integration unavailable | Record DP-1 OPEN and the separate S5 authority dependency; do not activate an issuer by inference |
+| R-2 | Narrow DP-2 may be mistaken for canonical identity resolution or save permission | 2F expressly selects no canonical identifier and refuses unresolved saves; full resolution remains S6 |
+| R-3 | Bypass name or metadata may be mistaken for enforced non-production authority | §5.E proves operative resolution exception and missing gate; no bypass emitted or recommended |
+| R-4 | Exchange collision on upstream holdingKey | Preserve evidence bytes and refuse unresolved/ambiguous writes (T-5); no symbol-composition convention |
 | R-5 | Contract completion may be mistaken for admission | This record states that distinction repeatedly (§8.4, §10.1 S7, tracker §15) |
 | R-6 | Source-level verification may be mistaken for runtime proof | §11.4; every baseline statement is labelled source-level |
-| R-7 | Provisioning creates durable identity state on a branch-only lineage | Attest via `G2ProvisioningRecord`; keep the DB non-production and outside version control |
+| R-7 | Offline stubs may be mistaken for integrated trust/durability qualification | Label S4 narrow and offline; provisioning and full F-7 remain deferred, no DB changes |
 
 ### 13.2 Exclusions (binding)
 
-No consumer admission. No identity mapping. No persistence change. No route activation. No runtime change. No IPD write. No Company Identity Authority. No `D115-A` effectuation. No lineage merge. No pin change. No production use. No history rewrite.
+No consumer admission. No identity mapping. No persistence change. No route activation. No runtime change. No IPD write. No authentication/authorization or identity-resolution bypass. No Company Identity Authority. No `D115-A` effectuation. No lineage merge. No pin change. No production use. No history rewrite.
 
 ### 13.3 Downstream dependencies
 
@@ -536,7 +572,7 @@ No consumer admission. No identity mapping. No persistence change. No route acti
 | **R4** (`P1`) | **CLOSED** (`R4-B` remediated, verified at `main@4b3d5866…`). **Not reopened** |
 | **`P2`** (`a0ab5a34…` ratification) | **NOT resolved here** — separate act, required before S7 |
 | **`P3`** (`/api/user-portfolios/` dispatch) | **NOT resolved here** — separate act, required before S7 |
-| **F-7 qualification for Portfolios** | Required at S6 (contract layer) and again at S7 (admission) |
+| **F-7 qualification for Portfolios** | Full qualification deferred to S5/S6 and admission S7; S4 is narrow offline DP-2 qualification, not F-7 |
 | **UI no-auth port** | Separate admission, outside Gate C |
 | **Gate C → implementation** | Requires S1 (PA disposition) before any code is written |
 
@@ -560,6 +596,8 @@ No consumer admission. No identity mapping. No persistence change. No route acti
 
 ### 15.1 Performed (read-only unless stated otherwise)
 
+The following list records the **original packet preparation**, not checks repeated during targeted rectification. No R4 investigation/test was reopened or repeated in rectification.
+
 1. **IRR remote state** — `git fetch --prune`; `main` and `origin/main` both `4b3d5866…`; `gh pr list` (open = none; #81 MERGED at `2026-10-13T13:39:38Z`); clean worktree.
 2. **IPD remote state** — `gh api` branch enumeration and commit resolution for `ramkivs/iips-production-market-data`; all four reference points confirmed **unchanged**; IPD `main` tree confirmed to contain no `src/persistence`; IPD open PRs = none; `ramkivs/ipo-screening-engine` checked and excluded as the IPD repository.
 3. **G24 blob verification** — `git hash-object` on files fetched from live IPD at `6828155e…`; `http-server.ts` `17f9cb8a…` and `durable-store.ts` `1c23f259…` match the IRR `G2_LINEAGE` pin; commit tree `eb07ea36…` matches; `app_identity/service.ts` `80563c79…` matches the `D-2` §3.3 citation.
@@ -578,11 +616,13 @@ No IPD or IRR application test suite was run (**no application code was changed*
 
 ---
 
-## 16. Publication
+## 16. Publication and targeted-rectification provenance
 
-Published via a single additive, documentation-only pull request from `arena/aacffd2c-iips-review-recovered` to IRR `refs/heads/main`, containing **only** this record and the tracker update (§15 + `CHG-2026-10-13-12` + `REG-12` row pointer). The PR number, head SHA, merge commit and post-merge independent verification are reported in the session’s completion response and recorded in the tracker **after** verification.
+Original publication: **PR #82**, open to IRR `main`, session branch `arena/aacffd2c-iips-review-recovered`, commit `c5a7c0f41674473081d90cb40f627bb57fda556a`. This targeted rectification amends **only this same packet and tracker §15 / its existing change row** on that branch. No second decision record or report is created.
 
-**Merge — and therefore durable effect — is the Program Authority's act.** No IPD ref is touched by this publication.
+Rectification baseline: IRR remote main `4b3d5866b9e8a8dcbfda18d8dcdef7e700e6ceeb`; PR #82 OPEN/MERGEABLE at `c5a7c0f…`; local packet/tracker match that starting commit. Existing IPD ref evidence is reused; the additional code/tests were read at the immutable `6828155e…` contract pin solely to resolve the disposition ambiguity. No repeated IPD branch census, R4 investigation, live/runtime check or implementation test was needed or run. The final head commit and independently obtained remote artifact blob identities are reported in the completion response; no self-referential commit ID is embedded in its own content.
+
+Checks for this amendment: documentation-only exact diff and permitted-path manifest, whitespace/link/section consistency, source/claim consistency and remote API commit/blob comparison. **PA decision remains pending. PR #82 is not merged.** Branch publication is durable review evidence, not main publication or operative PA authority. Merge/effectiveness verification remain unperformed pending authority. No IPD ref is touched.
 
 ---
 
