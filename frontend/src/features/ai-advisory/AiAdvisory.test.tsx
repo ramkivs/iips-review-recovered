@@ -4,9 +4,9 @@
  * UNAVAILABLE fields listed; no decision authority.
  */
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import { AiAdvisory } from './AiAdvisory';
+import { AiAdvisory, CERTIFIED_AI_ADVISORY_SECTORS } from './AiAdvisory';
 import type { AiAdvisoryDto } from '../../api/aiAdvisory';
 
 const DTO: AiAdvisoryDto = {
@@ -55,5 +55,74 @@ describe('AI Explanation (read-only, non-authoritative)', () => {
     (globalThis.fetch as unknown as ReturnType<typeof vi.fn>).mockRejectedValue(new Error('down'));
     render(<MemoryRouter><AiAdvisory /></MemoryRouter>);
     expect(await screen.findByTestId('state-error')).toBeInTheDocument();
+  });
+
+  it('REG-08: exposes all 13 canonical sectors in the Engine result selector with exact option values, no omissions, no duplicates, and no invented identifiers', async () => {
+    const expectedSectors = [
+      'Banking',
+      'Insurance',
+      'Capital Markets',
+      'Healthcare',
+      'Hospitality',
+      'Energy',
+      'Utilities',
+      'Consumer',
+      'Industrials',
+      'Technology',
+      'Telecommunications',
+      'Automobile',
+      'Materials & Metals',
+    ];
+
+    expect([...CERTIFIED_AI_ADVISORY_SECTORS]).toEqual(expectedSectors);
+
+    render(<MemoryRouter><AiAdvisory /></MemoryRouter>);
+    const select = (await screen.findByLabelText('Engine result')) as HTMLSelectElement;
+    const options = Array.from(select.querySelectorAll('option'));
+
+    expect(options).toHaveLength(13);
+    const values = options.map((o) => o.value);
+    const labels = options.map((o) => o.textContent);
+
+    expect(values).toEqual(expectedSectors);
+    expect(labels).toEqual(expectedSectors);
+    expect(new Set(values).size).toBe(13);
+
+    for (const forbidden of ['IT', 'Chemicals', 'Realty', 'Real Estate']) {
+      expect(values).not.toContain(forbidden);
+    }
+  });
+
+  it('REG-08: fetches governed advisory using canonical sector identifiers for newly exposed sectors', async () => {
+    const fetchMock = globalThis.fetch as unknown as ReturnType<typeof vi.fn>;
+    render(<MemoryRouter><AiAdvisory /></MemoryRouter>);
+    await screen.findByLabelText('Engine result');
+
+    for (const sector of [
+      'Insurance',
+      'Capital Markets',
+      'Healthcare',
+      'Hospitality',
+      'Telecommunications',
+      'Automobile',
+      'Materials & Metals',
+    ]) {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        status: 200,
+        json: async () => ({ ...DTO, engineResultId: sector, engineResultRef: `snap_${sector}` }),
+      });
+
+      const select = (await screen.findByLabelText('Engine result')) as HTMLSelectElement;
+      fireEvent.change(select, { target: { value: sector } });
+
+      await waitFor(() => {
+        expect(fetchMock).toHaveBeenLastCalledWith(
+          `/api/ai-advisory/${encodeURIComponent(sector)}`,
+          expect.objectContaining({ credentials: 'omit' }),
+        );
+      });
+      expect(await screen.findByText(`snap_${sector}`)).toBeInTheDocument();
+    }
   });
 });

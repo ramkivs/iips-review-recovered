@@ -14,6 +14,28 @@ import { fetchAiAdvisory, type AiAdvisoryDto } from '../../api/aiAdvisory';
 import { LoadingState, ErrorState, UnavailableState } from '../../components/state/StateComponents';
 import { AiBadge, FreshnessBadge, StatusBadge } from '../../components/ui/Badges';
 
+/**
+ * The 13 governed certified sectors supported by GET /api/ai-advisory/:sectorKey
+ * (REG-08; matches `PROGRAM_v1.1_REPLAY_BASELINE.json`, `CERTIFIED_ENGINES` in
+ * `EngineRegistry.ts`, `resolveSectorEngine` in `frontend/server/executive-transport.ts`,
+ * and `GOVERNED_EVIDENCE_SUBJECTS` in `EvidenceLanding.tsx`).
+ */
+export const CERTIFIED_AI_ADVISORY_SECTORS = [
+  'Banking',
+  'Insurance',
+  'Capital Markets',
+  'Healthcare',
+  'Hospitality',
+  'Energy',
+  'Utilities',
+  'Consumer',
+  'Industrials',
+  'Technology',
+  'Telecommunications',
+  'Automobile',
+  'Materials & Metals',
+] as const;
+
 const DEFAULT_ENGINE_RESULT = 'Technology'; // certified sector key (frozen baseline)
 
 export function AiAdvisory() {
@@ -58,7 +80,7 @@ export function AiAdvisory() {
           onChange={(e) => setEngineResultId(e.target.value)}
           style={{ padding: '6px 10px', borderRadius: 4, border: '1px solid var(--color-border)', background: 'var(--color-surface-1)' }}
         >
-          {['Technology', 'Banking', 'Energy', 'Utilities', 'Consumer', 'Industrials'].map((s) => <option key={s} value={s}>{s}</option>)}
+          {CERTIFIED_AI_ADVISORY_SECTORS.map((s) => <option key={s} value={s}>{s}</option>)}
         </select>
       </div>
 
