@@ -11,7 +11,10 @@
  * non-authentication ownership source. No such source is implemented here.
  */
 import type { Principal } from '../../../iips-platform/src/distributed/EnterpriseRuntime.js';
-import { G2Error, isNonBlankString } from './userPortfolioContract.js';
+import {
+  G2Error, G2_UNRESOLVED_WRITE_MESSAGE, isNonBlankString, validateHoldingsShape,
+  type G2UnresolvedHoldingEvidence,
+} from './userPortfolioContract.js';
 
 /**
  * Derives the tenant hint for ONE seam call from the authenticated principal.
@@ -45,7 +48,7 @@ export const G2_TENANT_CLAIM_KEYS: readonly string[] = ['tenantId', 'tenant'];
 export const G2_IDENTITY_CLAIM_KEYS: readonly string[] = [
   'userId', 'user', 'subject', 'principal', 'roles', 'role', 'owner', 'ownership',
   'applicationUserId', 'mappingId',
-  'companyId', 'runtimeCompanyId',
+  'companyId', 'runtimeCompanyId', 'identityStatus', 'resolutionDisposition',
 ];
 
 /**
@@ -86,4 +89,68 @@ export function classifyG2Claims(source: Record<string, unknown>): G2ClaimClassi
     }
   }
   return { tenantClaim, identityKeys, durableKeys };
+}
+
+/**
+ * GC-D2 / 2F accepts data evidence, never caller identity/disposition authority.
+ * Presence is refused even for undefined/empty claims. Restrict inspection to
+ * plain data records: no prototype claims, accessors or client callbacks.
+ */
+export function assertNoG2CallerAuthority(source: unknown): asserts source is Record<string, unknown> {
+  if (!source || typeof source !== 'object' || Array.isArray(source)) {
+    throw new G2Error('INVALID_REQUEST', 'Portfolio evidence must be a data object.');
+  }
+  const prototype = Object.getPrototypeOf(source);
+  if (prototype !== Object.prototype && prototype !== null) {
+    throw new G2Error('INVALID_REQUEST', 'Portfolio evidence must be a plain data object.');
+  }
+  const descriptors = Object.getOwnPropertyDescriptors(source);
+  for (const [key, descriptor] of Object.entries(descriptors)) {
+    if (!('value' in descriptor)) {
+      throw new G2Error('INVALID_REQUEST', 'Portfolio evidence cannot contain accessors.');
+    }
+    if ([...G2_TENANT_CLAIM_KEYS, ...G2_IDENTITY_CLAIM_KEYS, ...G2_DURABLE_IDENTITY_KEYS].includes(key)) {
+      throw new G2Error('INVALID_REQUEST', 'Caller-supplied portfolio identity/disposition is not authoritative.');
+    }
+  }
+}
+
+const NATIVE_EVIDENCE_FIELDS = [
+  'symbol', 'isin', 'exchange', 'quantity', 'averageBuyPrice', 'currentPrice',
+  'marketValue', 'weightPercentage', 'active', 'sourceBroker', 'lineageDigest', 'rawIdentifier',
+] as const;
+
+/**
+ * Pure, non-serializing evidence projection under effective GC-D2 (§9.4).
+ * Retains native bytes/absence; no ticker/ISIN/company equivalence, defaults,
+ * key composition, caller callbacks, merging or persistence. Returned records
+ * are explicitly UNRESOLVED and omit companyId and resolutionDisposition.
+ * This helper supplies no ownership, credential or successful-write authority.
+ */
+export function prepareUnresolvedHoldingEvidence(holdings: unknown): readonly G2UnresolvedHoldingEvidence[] {
+  if (!Array.isArray(holdings)) {
+    throw new G2Error('INVALID_REQUEST', 'A holdings array is required.');
+  }
+  for (const holding of holdings) assertNoG2CallerAuthority(holding);
+  const validated = validateHoldingsShape(holdings);
+  return Object.freeze(validated.map(holding => {
+    const evidence: Record<string, unknown> = {};
+    for (const field of NATIVE_EVIDENCE_FIELDS) {
+      if (Object.prototype.hasOwnProperty.call(holding, field) && holding[field] !== undefined) {
+        evidence[field] = holding[field];
+      }
+    }
+    evidence.identityStatus = 'UNRESOLVED';
+    return Object.freeze(evidence) as unknown as G2UnresolvedHoldingEvidence;
+  }));
+}
+
+/**
+ * No successful-write identity policy exists. Refuse EVERY batch (including
+ * empty/ambiguous evidence) before any serializer, scope derivation or port
+ * invocation. A later governed contract must explicitly replace this policy;
+ * neither a literal companyId nor a bypass declaration can unlock it.
+ */
+export function refuseUnresolvedPortfolioWrite(): never {
+  throw new G2Error('INVALID_REQUEST', G2_UNRESOLVED_WRITE_MESSAGE);
 }

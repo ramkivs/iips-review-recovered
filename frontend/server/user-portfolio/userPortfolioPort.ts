@@ -56,8 +56,10 @@ export interface G2ListParams {
 }
 
 /**
- * Save parameters. `holdings`/`options` pass through verbatim after shape
- * validation; `expectedRevision` is the optimistic-concurrency guard and must
+ * Upstream save parameters (wire shape only, not authority to call the port).
+ * GC-D2/2F in userPortfolioBoundary.ts refuses unresolved writes before invocation;
+ * no successful-write identity policy is admitted. For a separately authorized
+ * future path, `expectedRevision` is the optimistic-concurrency guard and must
  * equal the current upstream revision or the save fails with REVISION_CONFLICT.
  */
 export interface G2SaveParams {

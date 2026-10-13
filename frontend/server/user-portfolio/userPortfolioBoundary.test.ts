@@ -78,35 +78,29 @@ async function reasonOf(promise: Promise<unknown>): Promise<string> {
 }
 
 describe('G2B — delegation and scope derivation', () => {
-  it('G2B-01 derives scope from the principal on every operation', async () => {
+  it('G2B-01 derives scope for retained operations; 2F refuses saves without delegation', async () => {
     const { port, calls } = fakePort();
     await listPortfolios(port, PRINCIPAL_T);
     await getPortfolio(port, PRINCIPAL_T, 'P-1');
     await createPortfolio(port, PRINCIPAL_T, {});
-    await saveHoldings(port, PRINCIPAL_T, 'P-1', { holdings: [{ symbol: 'A' }] });
+    assert.equal(await reasonOf(saveHoldings(port, PRINCIPAL_T, 'P-1', { holdings: [{ symbol: 'A' }] })), 'INVALID_REQUEST');
     await resetPortfolio(port, PRINCIPAL_T, 'P-1', {});
     await deletePortfolio(port, PRINCIPAL_T, 'P-1', {});
     await revisionHistory(port, PRINCIPAL_T, 'P-1');
-    assert.equal(calls.length, 7);
+    assert.equal(calls.length, 6);
     for (const call of calls) {
       assert.deepEqual((call.params as { scope: unknown }).scope, { tenantHint: 'tenant-A' });
     }
   });
 
-  it('G2B-02 passes caller parameters through verbatim after validation', async () => {
+  it('G2B-02 refuses otherwise valid save parameters before touching the port', async () => {
     const { port, calls } = fakePort();
-    await saveHoldings(port, PRINCIPAL_T, 'P-1', {
+    assert.equal(await reasonOf(saveHoldings(port, PRINCIPAL_T, 'P-1', {
       holdings: [{ symbol: 'A', quantity: 5 }],
       options: { mode: 'REPLACE', contentDigest: 'd1' },
       expectedRevision: 2,
-    });
-    assert.deepEqual(calls[0].params, {
-      scope: { tenantHint: 'tenant-A' },
-      portfolioId: 'P-1',
-      holdings: [{ symbol: 'A', quantity: 5 }],
-      options: { mode: 'REPLACE', contentDigest: 'd1' },
-      expectedRevision: 2,
-    });
+    })), 'INVALID_REQUEST');
+    assert.equal(calls.length, 0);
   });
 
   it('G2B-03 denies a principal without a tenant before touching the port', async () => {

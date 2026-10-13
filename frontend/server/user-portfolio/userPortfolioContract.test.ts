@@ -59,7 +59,7 @@ describe('G2C — lineage pin and contract constants', () => {
   });
 
   it('G2C-02 fixes the contract version, tenant header, and routes', () => {
-    assert.equal(G2_CONTRACT_VERSION, '1');
+    assert.equal(G2_CONTRACT_VERSION, '2');
     assert.equal(G2_TENANT_HEADER, 'x-ipd-tenant-id');
     assert.equal(G2_ROUTES.health, '/api/ipd/health');
     assert.equal(G2_ROUTES.portfolios, '/api/ipd/portfolios');
