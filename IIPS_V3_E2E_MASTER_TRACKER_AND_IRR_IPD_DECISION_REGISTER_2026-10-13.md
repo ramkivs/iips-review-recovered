@@ -294,7 +294,7 @@ The first substantive next step is a PA decision choosing either a Reports-speci
 
 ### 8.8 Publication and remote-verification coordinates
 
-- **Publication PR:** to be identified in the linked GitHub PR metadata; it contains this record and the tracker update in one additive documentation-only change.
+- **Publication PR:** [PR #79](https://github.com/ramkivs/iips-review-recovered/pull/79), the single additive documentation-only publication containing this record and the tracker update. The PR was OPEN when this paragraph was prepared; its remote state and merge metadata are the authority for publication coordinates.
 - **Source branch:** `arena/b7b3c81e-iips-review-recovered` → IRR `refs/heads/main`; baseline `39d03d6c293076dbac2fb4173c9482849e0c234b`.
 - **Self-reference:** this tracker and investigation record are part of the publication tree, so their own PR head, merge commit, and resulting tree cannot be embedded without another publication. The linked PR is the durable coordinate; its remote merge metadata is authoritative for those self-referential values.
-- **Post-merge proof required and reported:** merged PR state; exact two-path diff; both documents present on remote `main`; current Reports 503 transport, User Portfolios 503 transport, owner-context resolver, executive dispatch, and package pin unchanged from the investigation baseline; IPD `main`, NP-04 pin, G24 refs, and act ref unchanged; worktree clean. No test or live-runtime result is implied.
+- **Post-merge proof checklist:** verify the merged PR state, exact two-path diff, both documents on remote `main`, unchanged Reports/User Portfolios 503 sources, owner-context resolver, executive dispatch, and package pin, unchanged IPD `main`/NP-04/G24/act refs, and clean worktree. Report actual results in the completion verification; no test or live-runtime result is implied.
