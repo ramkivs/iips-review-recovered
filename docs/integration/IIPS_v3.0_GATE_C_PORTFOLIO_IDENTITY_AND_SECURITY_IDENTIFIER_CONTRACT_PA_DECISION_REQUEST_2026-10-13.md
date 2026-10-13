@@ -841,3 +841,13 @@ GC-D1 binding deferral remains effective. Gate C remains **OPEN for binding/succ
 **Invariants preserved (re-verified this session).** `/api/user-portfolios*` remains fail-closed at source-level HTTP `503 owner-context-unavailable` (fence blobs `98147054…`/`51704c12…`/`cb8db45d…` unchanged); the Option 2F pre-port refusal and `assertNoG2CallerAuthority` semantics unchanged (tested 2F blobs byte-identical at `main` to the tested tree `8bb5bdae…`); F-3 is not a principal, credential or tenant membership (carrier `a576e5af…`, resolver `9738e9b3…` unchanged; scope not extended); no caller-controlled canonical identity or resolution disposition; no live IPD write and no protected-ref change (all four IPD refs re-verified UNCHANGED; `pushed_at` unchanged; G24 tree/blobs undrifted); NP-04 and G24 lineages distinct and unmerged; no route/UI activation and no consumer admission. Gate A OPEN, Gate B Option C, R3 OPEN, R4-B CLOSED, `P2`/`P3` OPEN — all unchanged.
 
 **Publication coordinates** for this §16.5 publication are recorded after merge in the pull request's post-merge independent remote-verification comment and in tracker §15.12 and the completion evidence — not self-embedded here.
+
+## GC-D6 corrective publication record for P2-A-D1 (2026-10-13)
+
+The Program Authority's adoption of Designation Set P2-A-D1 is recorded in the standalone act:
+
+docs/integration/IIPS_v3.0_GATE_C_P2_EXECUTION_DESIGNATION_ACT_P2-A-D1_2026-10-13.md
+
+GC-D5 was merged by PR #89, but its changed-path set contained only the standalone act. The published act omitted the adopted RS256 signing algorithm and ipd-user-portfolio-api audience, and referred to worksheet §4.3 rather than reproducing its proposed trust statement. GC-D6 corrects those omissions without rewriting Git history.
+
+This is a documentation-only corrective publication. It does not generate keys, start an issuer/runtime, create a database, provision P-4, grant P-6 authority, or perform P-8 qualification. P-4 remains subject to a separate sequential act; existing HTTP 503 and Option 2F write-refusal boundaries remain unchanged.

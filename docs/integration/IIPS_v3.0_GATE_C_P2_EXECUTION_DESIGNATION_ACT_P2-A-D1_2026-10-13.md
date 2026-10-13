@@ -1,6 +1,6 @@
 # GC-D5 — Program Authority Act: Adoption of Designation Set P2-A-D1
 
-**Status:** ADOPTED — effective for the P-2 operator establishment sequence after durable publication and independent verification on authoritative IRR `main`.
+**Status:** ADOPTED; corrected by GC-D6. P-2 execution remains subject to independent verification of this corrected act on authoritative IRR `main`.
 
 **Decision date:** 2026-10-13.
 
@@ -26,6 +26,17 @@ The Program Authority adopts Designation Set `P2-A-D1` exactly as published in t
 | 10 | `IPD_PORTFOLIO_DB_PATH` | `$HOME/.iips-gate-c-p2/runtime/portfolio.sqlite`, resolved to an absolute path during establishment |
 
 The worksheet's exact §4.3 trust-statement wording remains authoritative. This act does not replace it with a paraphrase.
+
+## 2.1 Adopted protocol and audience parameters
+
+The separately adopted P2-A parameters are recorded here to make the complete non-production token contract explicit:
+
+- Signing algorithm: RS256.
+- Audience: ipd-user-portfolio-api.
+
+## 2.2 JWKS trust statement — exact proposed wording from worksheet §4.3(d)
+
+`http://127.0.0.1:8421/non-production/p2-anchor/jwks.json` is trusted because it is served by the operator's own minimal OIDC-compatible signing service, bound exclusively to IPv4 loopback on the non-production host and operated under this act's custody and lifecycle rules; it is the only source from which the scoped runtime resolves signing keys. Keys are never accepted from token content; every token must carry a `kid` present in the document served by this endpoint. The verifier keeps only a bounded in-memory key cache — 300-second TTL, with a single forced refresh when a `kid` is unknown — and will not substitute cached keys when a refresh fails; if the endpoint is unreachable or does not serve a JWKS, verification fails closed (`OidcJwksUnavailableError`) with no fallback trust of any kind. No third-party identity provider, OIDC discovery document, network trust service or cached-trust fallback participates in this trust relationship.
 
 ## 3. Effect and execution boundary
 

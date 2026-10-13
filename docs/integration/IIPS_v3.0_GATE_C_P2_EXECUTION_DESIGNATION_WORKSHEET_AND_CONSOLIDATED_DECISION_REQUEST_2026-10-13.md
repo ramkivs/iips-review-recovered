@@ -335,3 +335,13 @@ No runtime started; no key generated; no configuration set; no credential acquir
 Additive documentation-only change on session branch `arena/1df79e2e-iips-review-recovered` (from `main@b7e384a…`): this record (new) plus a pointer/status amendment in the Gate C packet (§9.10), the P-2 decision request (§12.5) and the canonical tracker (header status, §2 `REG-12` row, §4 item 17, §5 `CHG-2026-10-13-16`, §15.13) — **no code, test, pin, lockfile, schema, fence, transport, route, UI or runtime change; no IPD write**. Publication follows the established pull-request workflow; `GC-D4`'s effectiveness rule is unchanged, and the designations themselves take effect only when the Program Authority renders them and they are recorded and durably published. Consistent with the program rule, publication coordinates are recorded **after** merge by independent remote verification, never self-embedded.
 
 *Status: **`DESIGNATION WORKSHEET COMPLETE — TEN VALUES RESEARCHED, COMPATIBILITY-CHECKED, ONE CONSOLIDATED DECISION REQUEST PUBLISHED (Designation Set P2-A-D1) — PA DESIGNATION ACT REQUIRED — NO OPERATION AUTHORIZED`.** Gate C remains OPEN; `GC-D4` rendered as to package and fixed terms only; P-4/P-6/P-8 remain blocked; S6/S7 separately gated; `/api/user-portfolios*` remains fail-closed at HTTP `503 owner-context-unavailable`.*
+
+## GC-D6 corrective publication record for P2-A-D1 (2026-10-13)
+
+The Program Authority's adoption of Designation Set P2-A-D1 is recorded in the standalone act:
+
+docs/integration/IIPS_v3.0_GATE_C_P2_EXECUTION_DESIGNATION_ACT_P2-A-D1_2026-10-13.md
+
+GC-D5 was merged by PR #89, but its changed-path set contained only the standalone act. The published act omitted the adopted RS256 signing algorithm and ipd-user-portfolio-api audience, and referred to worksheet §4.3 rather than reproducing its proposed trust statement. GC-D6 corrects those omissions without rewriting Git history.
+
+This is a documentation-only corrective publication. It does not generate keys, start an issuer/runtime, create a database, provision P-4, grant P-6 authority, or perform P-8 qualification. P-4 remains subject to a separate sequential act; existing HTTP 503 and Option 2F write-refusal boundaries remain unchanged.

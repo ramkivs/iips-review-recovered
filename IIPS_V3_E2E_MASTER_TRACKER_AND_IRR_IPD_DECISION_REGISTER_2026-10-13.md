@@ -735,3 +735,13 @@ Full decision input: [`docs/integration/IIPS_v3.0_GATE_C_P2_EXECUTION_DESIGNATIO
 **Invariants preserved.** `/api/user-portfolios*` remains fail-closed at source-level HTTP `503 owner-context-unavailable`; `/api/reports*` 503 unchanged; the Option 2F refusal of unresolved/ambiguous writes before serialization and before persistence-port invocation unchanged; F-3 is not an authenticated principal, credential or tenant membership; no caller-controlled canonical identity or resolution disposition; no authentication/tenant-resolution/portfolio-authorization bypass; no live IPD write and no protected-ref change; NP-04 and G24 lineages unmerged; no route/UI activation and no consumer admission; Gate A OPEN; Gate B Option C; R3 OPEN (no live subject); R4-B CLOSED; no CIA; `D115-A` ineffective; `P2`/`P3` OPEN — all unchanged. **No runtime, deployment or production readiness is claimed anywhere.**
 
 **Publication/effectiveness.** Additive documentation-only change on session branch `arena/1df79e2e-iips-review-recovered` (from `main@b7e384a…`): four paths — the worksheet/decision request (new), the Gate C packet (§9.10), the P-2 request (§12.5) and this tracker (header, §2 `REG-12` row, §4 item 17, §5 `CHG-2026-10-13-16`, this §15.13) — with no code, test, pin, lockfile, schema, fence, transport, route, UI or runtime change and no IPD write. Effectiveness follows the program rule (durable `main` publication + independent remote verification); publication coordinates are recorded post-merge in the PR verification comment, never self-embedded. **This publication creates no execution authority: only the recorded designations, each supplied by the Program Authority, can make the P-2 act effective for execution.**
+
+## GC-D6 corrective publication record for P2-A-D1 (2026-10-13)
+
+The Program Authority's adoption of Designation Set P2-A-D1 is recorded in the standalone act:
+
+docs/integration/IIPS_v3.0_GATE_C_P2_EXECUTION_DESIGNATION_ACT_P2-A-D1_2026-10-13.md
+
+GC-D5 was merged by PR #89, but its changed-path set contained only the standalone act. The published act omitted the adopted RS256 signing algorithm and ipd-user-portfolio-api audience, and referred to worksheet §4.3 rather than reproducing its proposed trust statement. GC-D6 corrects those omissions without rewriting Git history.
+
+This is a documentation-only corrective publication. It does not generate keys, start an issuer/runtime, create a database, provision P-4, grant P-6 authority, or perform P-8 qualification. P-4 remains subject to a separate sequential act; existing HTTP 503 and Option 2F write-refusal boundaries remain unchanged.
