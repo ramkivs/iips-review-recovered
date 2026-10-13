@@ -15,7 +15,7 @@
 | Governing records | `AD-20`; `D-2` (`IDENTITY-TENANT-DOMAIN-SCOPE-DECISION.md`); `D-1`; `D-3`; `G2-2`; `NP-08-D115-D2-G2-RECONCILIATION-ACT-01`; `NP-08-D115-IDENTITY-RUNTIME-COMPANYID-BINDING-AUTHORITY-ACT-01` (`D115-A`); the F-1…F-7 policy records and the F-3 mechanism/value/qualification records; `NP-04-PERSISTENCE-DOMAIN-BOUNDARY-ACT.md`; `IIPS_v3.0_G2_DURABLE_USER_PORTFOLIO_IMPLEMENTATION_RECORD.md` |
 | Canonical tracker | [`IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md`](../../IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md) §15 |
 | Environment | Non-production. Production is out of scope. |
-| Status | **GC-D1 / GC-D2 RECORDED UNDER STANDING AUTHORIZATION — pending main publication and independent effectiveness verification.** §9.4 is the controlling disposition; §§7–9.2 preserve the prepared options/clauses. |
+| Status | **GC-D1 / GC-D2 EFFECTIVE under standing-authority application; S2–S4 implemented/offline-qualified; implementation main verification recorded in the publication completion evidence.** §9.4 is the controlling disposition; §§7–9.2 preserve the prepared options/clauses. |
 
 > **Historical packet finding (before §9.4 disposition).** Gate C is **UNRESOLVED and NOT ALREADY DECIDED** by any existing instrument. The investigation establishes, on verified evidence:
 >
@@ -368,9 +368,9 @@ This rectifies the original contradictory “verbatim symbol + exchange-composed
 
 ## 8. Recommended minimal contract (PREPARER'S RECOMMENDATION — NOT A DECISION)
 
-> **This section is the recording agent's recommendation, prepared for the Program Authority's selection. It is non-operative. Nothing here is decided, admitted, or authorized. The authority to select rests solely with the Program Authority.**
+> **Prepared recommendation.** Its preparation granted no authority. §9.4 now records the bounded standing-authority disposition, §9.5 effectiveness. Neither adoption nor offline qualification admits a consumer or resolves binding.
 
-### 8.1 Revised recommendation
+### 8.1 Prepared recommendation (subsequently adopted only as bounded in §9.4)
 
 **DP-1 → Option 1D** — retain owner/tenant-binding deferral. No trust anchor or provisioning.
 **DP-2 → Option 2F** — independently decide the unresolved-evidence/refused-write contract in §6.1.
@@ -399,9 +399,9 @@ It does not make Portfolios available, resolve owner binding, choose a canonical
 
 ## 9. Required Program Authority decisions (exact scope and authority language)
 
-### 9.1 Decisions requested — independently selectable
+### 9.1 Prepared decision choices — historical; §9.4 controls actual disposition
 
-No disposition is selected or recorded. The recommendation is **C-1 = 1D + 2F + 3B**.
+At packet preparation no disposition was selected. §9.4 subsequently applies standing authority to **C-1 = 1D + 2F + 3B**; §9.5 records verified effectiveness.
 
 | Choice | Exact scope / effect |
 |---|---|
@@ -451,6 +451,16 @@ The independently available durable authority is `docs/integration/IIPS_v3.0_OWN
 
 No new decision ID, duplicate packet, fabricated evidence or separately signed PA act is created. Only the application of standing authority to these two existing clauses is recorded.
 
+### 9.5 Independent decision-effectiveness verification
+
+PR **#82** merged at **2026-10-13T14:37:58Z**, merge/main commit **`f01803e987afa80c64ab98232346698e689abd60`**. Independent GitHub API queries confirmed PR merged status, remote main equal to the merge commit, and exact bytes of both decision artifacts against the locally reviewed head:
+
+- This packet: blob `0cc5c376426ea91c29afd8c446c39408db1342ed`.
+- Canonical tracker: blob `07582b84ef1545f41789024e5d19d3f02fd12b0a`.
+- Durable standing-source record: unchanged blob `c4c9f7d79ef181af96f6c4e5cc108288ef22fd02`.
+
+**GC-D1 and GC-D2 became effective following that independent verification, before the first implementation edit.** This statement concerns the exact disposition bytes at that commit, not the subsequent execution-evidence amendment. It asserts no separate signed act or retrieval of the Library file. Publication used `gh pr merge 82 --merge`, without force, admin bypass or automatic merging.
+
 ## 10. Implementation-ready plan — only after explicit, effective PA approval
 
 > Rectification itself authorized no code. §9.4 now records GC-D2 under standing authority; only its effective main publication and independent verification enable S2–S4. S5–S7 remain deferred.
@@ -474,7 +484,7 @@ No new decision ID, duplicate packet, fabricated evidence or separately signed P
 
 | Component | Permitted future scope |
 |---|---|
-| IRR `frontend/server/user-portfolio/translationBoundary.ts`, `userPortfolioContract.ts`, `userPortfolioPort.ts` | Governed refusal/shape contract, closed claim rejection and testable pre-port guard; explicit contract version; no identity-binding or port activation |
+| IRR `frontend/server/user-portfolio/translationBoundary.ts`, `userPortfolioContract.ts`, `userPortfolioPort.ts`, `userPortfolioBoundary.ts` | Governed refusal/shape contract, closed claim rejection and testable pre-port guard; explicit contract version; no identity-binding or port activation |
 | IRR `frontend/server/user-portfolio/*.test.ts` | Pure contract tests and isolated test-only stubs/spies per §11 |
 | IRR `user-portfolio-transport.ts`, `owner-context-unavailable.ts` | **Unchanged**; 503 fence and 404/405 behavior retained; future regression verification only |
 | F-3 carrier/resolver, Settings/Watchlists/Collaboration | **Unchanged**; no owner value or scope extension |
@@ -488,7 +498,7 @@ No trust anchor, authentication restoration or bypass, identity provisioning/map
 
 ## 11. Narrow DP-2 acceptance criteria and future tests
 
-### 11.1 Acceptance criteria — all required for S4, none claimed satisfied by this documentation run
+### 11.1 Acceptance criteria — all required for S4; actual execution evidence in §16.1
 
 | # | Criterion |
 |---|---|
@@ -508,7 +518,7 @@ No trust anchor, authentication restoration or bypass, identity provisioning/map
 | AC-14 | Offline contract/regression checks and type-checking pass with independently verified scope. |
 | AC-15 | Publication/results explicitly distinguish narrow qualification from full F-7, successful saves, admission and runtime/production proof. |
 
-### 11.2 Future offline tests — requirements, not tests executed or new current results
+### 11.2 Approved offline test requirements — actual executed checks in §16.1
 
 The old “T-1 bypass save accepted / T-2 undeclared save rejected” is retained only as historical source evidence in §5.E. It is **not** the recommended qualification pair.
 
@@ -627,7 +637,7 @@ The following list records the **original packet preparation**, not checks repea
 8. **Decisive searches** — no Gate C record exists under any of the searched file-name patterns; `AG-5` traced to the tracker and the 2026-10-07 convergence evidence (recorded as UNRESOLVED, explicitly avoided in the PIT contract).
 9. **Scope check** — the changes made in this run are documentation-only (this record + tracker).
 
-### 15.2 NOT performed (by design)
+### 15.2 Original preparation checks NOT performed (historical; §16.1 records subsequent authorized tests)
 
 No IPD or IRR application test suite was run (**no application code was changed**). No live HTTP request was made to any User Portfolios or G24 endpoint. No database was created, provisioned, or written. No G24 process was started. No OIDC issuer was stood up. No runtime, deployment, environment, or production state was inspected or changed. No Windows/PowerShell, Arena-archive, or Library state was accessed. No dangling-object search.
 
@@ -635,7 +645,7 @@ No IPD or IRR application test suite was run (**no application code was changed*
 
 ---
 
-## 16. Publication and targeted-rectification provenance
+## 16. Publication timeline and targeted-rectification provenance (historical; execution in §16.1)
 
 Original publication: **PR #82**, open to IRR `main`, session branch `arena/aacffd2c-iips-review-recovered`, commit `c5a7c0f41674473081d90cb40f627bb57fda556a`. This targeted rectification amends **only this same packet and tracker §15 / its existing change row** on that branch. No second decision record or report is created.
 
@@ -647,6 +657,41 @@ Checks for this amendment: documentation-only exact diff and permitted-path mani
 
 *Recording agent: Arena Agent Mode — standing-authority application, execution and verification support. Authority is attributed in §9.4, not self-granted or represented as a separately signed act. Prepared/application recorded 2026-10-13 (Asia/Calcutta). Program Authority: Ramki.*
 
-*Status: **`GATE C — GC-D1/GC-D2 RECORDED; EFFECTIVENESS PENDING MAIN VERIFICATION; BINDING/ADMISSION OPEN`.** `/api/user-portfolios*` remains fail-closed at HTTP 503 `owner-context-unavailable`.*
+*Status: **`GATE C — GC-D1/GC-D2 EFFECTIVE; S2–S4 OFFLINE QUALIFIED; BINDING/ADMISSION OPEN`.** `/api/user-portfolios*` remains fail-closed at HTTP 503 `owner-context-unavailable`.*
 
 **Publication update (standing-authority application):** §16 describes original rectification history. §9.4 now controls the decision/publication authority. PR #82 will publish only these decision/ tracker bytes; S2–S4 begin only after main verification. Historical “PA pending / no merge on rectification” statements do not describe this newly recorded application. No claim that publication has already occurred is made here.
+
+### 16.1 Authorized Option 2F execution and bounded verification (2026-10-13)
+
+**Sequence completed locally:** S1 effective decision (§9.5) → S2 contract revision → S3 pure refusal layer → S4 offline qualification. Implementation and this addendum are published separately from decision-only PR #82 using the **same session branch and existing packet/tracker**, not a new decision document. Until implementation main publication is independently verified, its tested local/branch state is not claimed as published main state.
+
+| Changed path | Exact scope |
+|---|---|
+| `frontend/server/user-portfolio/userPortfolioContract.ts` | IRR contract version `1` → `2`; explicit unresolved evidence type excluding companyId/disposition; fixed typed refusal message. Upstream G24 enums/wire shapes/pin unchanged; legacy wire-shape validation alone is explicitly not authority |
+| `frontend/server/user-portfolio/translationBoundary.ts` | identityStatus/resolutionDisposition added to refused claims; plain-data/presence validation; pure frozen native evidence projection preserving symbol/ISIN/exchange bytes and absence, setting server-owned UNRESOLVED, omitting companyId/disposition; unconditional typed unresolved-write refusal |
+| `frontend/server/user-portfolio/userPortfolioBoundary.ts` | Actual save entry point checks request/holdings/options claims and shape, then refuses before scope construction, serialization or port invocation. **No successful save path** remains under 2F. Read/create/reset/delete helpers are not newly admitted or modified; HTTP fence independently remains in force |
+| `frontend/server/user-portfolio/userPortfolioPort.ts` | Documentation only: wire interface is not successful-write authority; boundary guard required |
+| `frontend/server/user-portfolio/option2F.test.ts` | Fifteen new offline tests with recording fake port/serialization/write counters, immutable evidence, hostile claims, no callback/repair, domain-scoped read fixtures, and mocked six-route fence |
+| Existing `userPortfolioBoundary.test.ts`, `userPortfolioContract.test.ts` | Replace old successful-save delegation expectations with refusal/no-call expectations; assert IRR contract v2 while unchanged upstream pin remains tested |
+| This packet + canonical tracker | Authority provenance, decision-effectiveness coordinates, exact implementation/test evidence and remaining gates. No new decision record |
+
+**Executed verification (all offline IRR; no G24 endpoint, provisioning or portfolio DB):**
+
+| Check / command (from frontend) | Result |
+|---|---|
+| `npm test -- --run server/user-portfolio/ server/user-portfolio-transport.test.ts --maxWorkers=2 --minWorkers=1` | **49/49 PASS**, 5 files (15 new 2F tests + 34 existing contract/boundary/transport tests) |
+| Same command plus `server/owner-context-carrier.test.ts server/owner-context-resolver.test.ts src/features/user-portfolios/` | **103/103 PASS**, 9 files. Carrier/resolver 34 tests; User Portfolios presentation fixtures 20 tests. No Reports/R4 suite rerun |
+| `npm run typecheck` | **PASS**, exit 0. Existing tsconfig includes `src`, not server; therefore server was additionally checked below |
+| `npx tsc --noEmit --target ES2020 --module ESNext --moduleResolution bundler --strict --skipLibCheck --types node,vitest/globals server/user-portfolio/*.ts server/user-portfolio-transport.ts server/owner-context-unavailable.ts` | **PASS**, exit 0; explicitly includes changed server files and new tests |
+| Supplemental stricter server check adding `--noUnusedLocals --noUnusedParameters` | **FAIL (pre-existing)**: `iips-platform/src/distributed/EnterpriseRuntime.ts:92` unused `resource` parameter (TS6133), unchanged from the decision baseline. No excluded platform repair performed; required frontend and strict server checks above pass |
+| Exact diff/manifest, whitespace, doc links/sections, immutable pin/fence comparison | Verified before publication; no lockfile, package pin, transport/helper, owner carrier/resolver, IPD or unrelated path change |
+
+Dependency setup initially failed TLS certificate validation for codeload. It succeeded using the environment's trusted `/usr/local/share/ca-certificates/e2b-ca.crt` via `NODE_EXTRA_CA_CERTS`, with certificate verification retained: `npm ci --ignore-scripts --no-audit --no-fund`. No package/lockfile change, TLS disabling, lifecycle execution or native IPD build was introduced.
+
+**Acceptance evidence:** T1/T6 preserve native bytes and absent fields; T2/T3/T4/T8 reject resolution/bypass/ticker/owner/tenant claims at holding, request and options levels; T5 refuses empty/malformed/colliding evidence without merging; T7 excludes callbacks and invented provenance; T9 observes zero JSON serialization and no principal/scope access; T10 confirms returned domain fields confer no write authority; T11 proves stable `G2Error(INVALID_REQUEST)` and no retry repair; all refused-save cases assert **zero calls across the fake port's seven methods, zero serialization events and zero recorded writes**. This is instrumentation proof of no IRR port invocation, not a test of a real database. T12 binds transport/helper bytes to the known baseline; T13 mocks all six routes/all allowed methods at 503 with unreadable headers/body and checks 404/405+Allow. Existing transport tests exercise only an in-process test listener, not an activated/deployed User Portfolios service. T14/T15 add hostile-object protection and contract/pin checks; the external regression/typecheck/manifest commands complete the corresponding §11 requirements.
+
+**Scope and limits:** AC1–AC15 satisfied for the **narrow offline 2F qualification only**, subject to final publication verification. No source-native field is promoted to canonical company identity; no canonical identifier chosen; no successful unresolved save, trust anchor, owner binding, mapping, membership, provisioning, persistence architecture, migration, IPD write or lineage convergence. No full F-7, admission, deployment or production readiness claim. Route/helper blobs remain unchanged; 503 fence remains intact.
+
+**Next roadmap gates:** S5 compatible complete owner/credential/tenant binding, S6 separately governed successful-write identity policy/full F-7, S7 P2/P3 consumer and route/UI admission. These are explicitly excluded from GC-D2 and are not silently unlocked by standing authority application. No further implementation in this packet's scope remains after S4 publication/verification; next binding/successful-write act is a genuine scope/authority blocker, not another generic Gate C investigation.
+
+**Implementation publication completion rule:** the exact tested implementation/record bytes must match the merged main commit and remote API artifacts. The implementation PR and its final verification comment/session completion report carry the resulting merge SHA and blob manifest (self-referential SHA embedding is avoided). Scope is still S2–S4 only; publication grants no additional authority.

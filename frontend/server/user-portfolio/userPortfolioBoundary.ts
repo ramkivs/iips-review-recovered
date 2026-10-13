@@ -18,17 +18,17 @@ import {
   isValidExpectedRevision,
   isValidPortfolioId,
   isValidPortfolioName,
-  validateHoldingsShape,
   validateSaveOptionsShape,
   type G2DeleteResult,
-  type G2HoldingInput,
   type G2PortfolioSummary,
   type G2PortfolioView,
   type G2RevisionEntry,
-  type G2SaveOptions,
   type G2SaveResult,
 } from './userPortfolioContract.js';
-import { deriveTenantHint } from './translationBoundary.js';
+import {
+  assertNoG2CallerAuthority, deriveTenantHint, prepareUnresolvedHoldingEvidence,
+  refuseUnresolvedPortfolioWrite,
+} from './translationBoundary.js';
 import type { G2Scope, UserPortfolioPort } from './userPortfolioPort.js';
 
 /** Caller-owned create parameters (no identity, no scope — derived here). */
@@ -134,29 +134,23 @@ export async function createPortfolio(
 }
 
 /**
- * Saves a holdings batch (MERGE default / REPLACE). Shape-validated here;
- * every value passes through verbatim — consolidation, defaults, duplicate
- * detection, and revision numbering are G24's.
+ * Gate C 2F: inspect native evidence and refuse all unresolved/ambiguous saves.
+ * Caller claims cannot confer resolution. No serialization, scope construction
+ * or port call occurs; HTTP transport remains independently fenced at 503.
  */
 export async function saveHoldings(
-  port: UserPortfolioPort,
-  principal: Principal,
+  _port: UserPortfolioPort,
+  _principal: Principal,
   portfolioId: unknown,
   request: BoundarySaveRequest,
 ): Promise<G2SaveResult> {
-  const id = requirePortfolioId(portfolioId);
-  if (request === null || typeof request !== 'object') {
-    throw new G2Error('INVALID_REQUEST', 'Save request must be an object.');
-  }
-  const holdings: readonly G2HoldingInput[] = validateHoldingsShape(request.holdings);
-  const options: G2SaveOptions = validateSaveOptionsShape(request.options);
-  const expectedRevision = requireExpectedRevision(request.expectedRevision);
-  const scope = scopeFor(principal);
-  const result = await delegate(() =>
-    port.saveHoldings({ scope, portfolioId: id, holdings, options, expectedRevision }),
-  );
-  guardViewEcho(result.portfolio, id);
-  return result;
+  requirePortfolioId(portfolioId);
+  assertNoG2CallerAuthority(request);
+  prepareUnresolvedHoldingEvidence(request.holdings);
+  if (request.options !== undefined) assertNoG2CallerAuthority(request.options);
+  validateSaveOptionsShape(request.options);
+  requireExpectedRevision(request.expectedRevision);
+  return refuseUnresolvedPortfolioWrite();
 }
 
 /** Resets a portfolio to the governed empty revision (identity preserved). */

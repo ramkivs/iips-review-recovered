@@ -84,8 +84,18 @@
  *   against the pinned lineage — never a silent accommodation.
  */
 
-/** This contract's version. Bumped only with re-verification against the pinned lineage. */
-export const G2_CONTRACT_VERSION = '1';
+/** IRR contract revision: v2 adds effective GC-D2/2F refusal; G24 wire/pin unchanged. */
+export const G2_CONTRACT_VERSION = '2';
+
+/** Gate C GC-D2 / Option 2F: IRR refusal policy, NOT an upstream API or lineage change. */
+export const G2_UNRESOLVED_WRITE_MESSAGE =
+  'Unresolved or ambiguous security identity; save refused.';
+
+/** Prepared native evidence only; never authorizes a save or canonical identity. */
+export type G2UnresolvedHoldingEvidence =
+  Omit<G2HoldingInput, 'companyId' | 'identityStatus' | 'resolutionDisposition'> & {
+    readonly identityStatus: 'UNRESOLVED';
+  };
 
 /** Frozen lineage pin. The adapter speaks ONLY to this G24 state. */
 export const G2_LINEAGE = Object.freeze({
@@ -155,7 +165,9 @@ export type G2Broker = (typeof G2_BROKERS)[number];
  * identityStatus RESOLVED, resolutionDisposition CANONICAL_P04).
  *
  * IRR MUST NOT default, coerce, or "repair" any value here: value semantics are
- * IPD's. IRR validates transport shape only (see `validateHoldingShape`).
+ * IPD's. This upstream wire-shape mirror is not successful-write authority.
+ * GC-D2/2F preparation emits separate UNRESOLVED evidence; saveHoldings refuses
+ * it before invocation. `validateHoldingShape` alone does not authorize a save.
  */
 export interface G2HoldingInput {
   readonly symbol: string;
@@ -390,8 +402,9 @@ function isOptionalNumber(value: unknown): boolean {
  * duplicating its VALUE DEFAULTS: provided values are type-checked so that a
  * malformed element (non-object, blank symbol, non-numeric quantity, unknown
  * exchange literal, …) is rejected here with INVALID_REQUEST instead of being
- * silently coerced downstream. Absent values pass through untouched — G24 owns
- * every default.
+ * silently coerced downstream. Absent values pass through untouched in this
+ * upstream wire-shape validator — G24 owns every default. This is NOT write authority: Option 2F preparation/refusal in
+ * translationBoundary.ts rejects caller identity claims and prevents unresolved saves.
  */
 export function validateHoldingShape(entry: unknown, index: number): G2HoldingInput {
   if (typeof entry !== 'object' || entry === null || Array.isArray(entry)) {
