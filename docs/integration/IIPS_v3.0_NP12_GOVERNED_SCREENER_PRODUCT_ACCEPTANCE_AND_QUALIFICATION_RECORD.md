@@ -398,3 +398,70 @@ The publication coordinates (merge commit, tree, blob, pull request) cannot be r
 ---
 
 *End of `IIPS-V3-NP12-GOVERNED-SCREENER-PRODUCT-ACCEPTANCE-AND-QUALIFICATION-RECORD-01`. It records what is implemented, what was actually executed at the stated baseline, the certification corroboration observed, and an independent product-layer qualification determination for the NP-12 Governed Screener. It grants no production, certification, release, or acceptance authority, and it is not effective until §15 is satisfied.*
+
+---
+
+## 16. Post-publication closure note (post-preparation addendum — 2026-10-13)
+
+**Nature, convention, and additivity.** This section is the post-publication closure note referenced in §15, prepared in accordance with the repository's established post-publication closure convention (`docs/integration/IIPS_v3.0_OWNER_CONTEXT_F3_IMPLEMENTATION_AND_QUALIFICATION_RECORD.md` §9, PR #69 — the structural reference cited in §2; `docs/integration/IIPS_v3.0_OWNER_CONTEXT_F1_F2_F3_PA_DECISION.md`, PR #64; `docs/integration/IIPS_v3.0_OWNER_CONTEXT_F1_F2_VALUE_ACT.md`, PR #67). It is a **purely additive, documentation-only closure act**: nothing in §§1–15 (lines 1–400) is edited or deleted, and the published qualification record (`8209586fc9c515ab360bda91b202d5f378e9a0da`, `400` lines, `38,811` bytes, raw SHA-256 `c6518e510937af970630fe40d188dd50333587671f8c5c98a6a8a2de8ebb6ffd`) is preserved **byte-for-byte intact as the first 400 lines (`38,811` bytes) of this file**. Time-scoping of the preparation-time publication and merge statements in the header, §14, and §15 is effected by declaration in this section rather than by in-place edit.
+
+### 16.1 Publication and remote verification provenance
+
+| Item | Verified value |
+|---|---|
+| Qualification record ID | `IIPS-V3-NP12-GOVERNED-SCREENER-PRODUCT-ACCEPTANCE-AND-QUALIFICATION-RECORD-01` |
+| Canonical path | `docs/integration/IIPS_v3.0_NP12_GOVERNED_SCREENER_PRODUCT_ACCEPTANCE_AND_QUALIFICATION_RECORD.md` |
+| Authoritative repository / ref | `ramkivs/iips-review-recovered` / `refs/heads/main` |
+| Publication pull request | **PR #71** — *"docs(integration): NP-12 Governed Screener product acceptance & qualification record (CANDIDATE — do not merge without separate authorization)"*; head `arena/cfcde1ce-iips-review-recovered`; base `main`; state `MERGED`; merged at `2026-10-13T04:44:30Z` |
+| Merge commit (`origin/main`) | `ccef2215d6afecf18d61629fd0af363403f9f935` |
+| Merge parents | First parent: `0ff644ed1a758b92bdec04eb0d9f6df46036bcbe` (the declared preparation baseline in header, §5, §8, and §14; root tree `30d23a54c980f7d6cce5255deb3f669ce9e4b150`) · Second parent: `7f891a6a7c2d63034b8f966a206f0a135d29c013` (PR #71 head commit) |
+| Verified authoritative `main` tree | `a42165bcbd7f7d45947dc2830018ae5140a808b2` — **byte-identical** to the tree of the prepared commit `7f891a6a7c2d63034b8f966a206f0a135d29c013` (`a42165bcbd7f7d45947dc2830018ae5140a808b2`) |
+| Published qualification record blob | `8209586fc9c515ab360bda91b202d5f378e9a0da` (`400` lines, `38,811` bytes, raw SHA-256 `c6518e510937af970630fe40d188dd50333587671f8c5c98a6a8a2de8ebb6ffd`) |
+| Changed-path scope of PR #71 | `git diff --name-status 0ff644ed1a758b92bdec04eb0d9f6df46036bcbe..ccef2215d6afecf18d61629fd0af363403f9f935` → `A docs/integration/IIPS_v3.0_NP12_GOVERNED_SCREENER_PRODUCT_ACCEPTANCE_AND_QUALIFICATION_RECORD.md` (`+400 −0`). Zero source, test, configuration, schema, frozen-artifact, or governance-decision files modified |
+| Remote verification performed | Independently verified via `git ls-remote origin refs/heads/main`, `git fetch origin`, `git rev-parse`, `git ls-tree -l origin/main`, `sha256sum`, and the GitHub REST API (`repos/ramkivs/iips-review-recovered/commits/ccef2215d6afecf18d61629fd0af363403f9f935`, `pulls/71`). `origin/main` remained unchanged at `ccef2215d6afecf18d61629fd0af363403f9f935` prior to this closure act |
+
+### 16.2 Closure disposition and explicit separation of publication, qualification, and acceptance
+
+1. **Time-scoping of preparation-time statements.** The header `Status` row (`NOT PUBLISHED`), §14 (`MERGE=NOT PERFORMED`), and the pre-merge framing in §15 record the state **as at preparation** and are retired as current descriptions of the publication and merge state. They are preserved verbatim in lines 1–400 so that the published qualification record blob (`8209586fc9c515ab360bda91b202d5f378e9a0da`) remains the exact first `38,811` bytes of this file.
+2. **Declared-baseline re-verification closed.** The declared baseline `0ff644ed1a758b92bdec04eb0d9f6df46036bcbe` (tree `30d23a54c980f7d6cce5255deb3f669ce9e4b150`) is the exact first parent of merge commit `ccef2215d6afecf18d61629fd0af363403f9f935`. `main` did not move between preparation and merge, and the merged tree `a42165bcbd7f7d45947dc2830018ae5140a808b2` differs from the tested baseline tree solely by the addition of this record. Every executed result in §§5–6 therefore describes the exact published repository state without baseline drift.
+3. **Publication (`§15(2)–(4)`): COMPLETE AND REMOTELY VERIFIED.** Separate merge authorization was exercised for PR #71 (§15(2)), the record was merged to `refs/heads/main` at `ccef2215d6afecf18d61629fd0af363403f9f935` (§15(3)), and the merged commit, tree (`a42165bcbd7f7d45947dc2830018ae5140a808b2`), and blob (`8209586fc9c515ab360bda91b202d5f378e9a0da`) have been independently verified against the authoritative remote (§15(4)).
+4. **Product-layer qualification (`§7` row 5, `§9`): DETERMINED — QUALIFIED (non-production, exercised paths only).** The independent qualification determination for the `POST /api/screener` transport and `/screener` workspace on executed evidence (§§5–6, §9) is durably published on `refs/heads/main`.
+5. **Program Authority product acceptance (`§7` row 6, `§15(1)`): UNRESOLVED / PENDING — NOT EFFECTIVE.**
+   - Under `D-N4-CERT-07` (`NP-12-N4-A15-AUTHORITY-DECISION-RECORD.md` §5.2) and §15(1) of this record, the **Program Authority (Ramki / Ramakrishnan)** is the sole Acceptance Authority.
+   - The platform certification acceptance (`D-N4-A16-ACCEPT-01 = ACCEPT` in `docs/integration/IIPS_NP-12_N4_SCREEN_CERTIFICATION.md`) covers `N4-SD` + `N4-A10` + `N4-A13` only; `D-N4-CERT-03` expressly excludes UI and transport.
+   - Neither PR #71 merge authorization (§15(2)) nor the authorization of this post-publication closure note constitutes or implies Program Authority product-layer acceptance under §15(1), and the recording agent holds no authority to render or attest acceptance on the Program Authority's behalf.
+   - Consequently, **§15(1) remains unsatisfied, and NP-12 product-layer acceptance remains NOT EFFECTIVE on `main`**.
+6. **Exact remaining governance decision required for product-layer acceptance.** To satisfy §15(1) and make NP-12 product-layer acceptance effective on `main`, a separate explicit governance act by the **Program Authority (Ramki / Ramakrishnan)** is required: *an explicit Program Authority acceptance decision / attestation confirming review and acceptance of `IIPS-V3-NP12-GOVERNED-SCREENER-PRODUCT-ACCEPTANCE-AND-QUALIFICATION-RECORD-01` (`docs/integration/IIPS_v3.0_NP12_GOVERNED_SCREENER_PRODUCT_ACCEPTANCE_AND_QUALIFICATION_RECORD.md`, published qualification record blob `8209586fc9c515ab360bda91b202d5f378e9a0da`, preserved byte-for-byte as the first `38,811` bytes of this file) for the non-production NP-12 Governed Screener product layer (`POST /api/screener` and `/screener`).*
+
+### 16.3 Boundaries preserved unchanged
+
+This closure note changes no source, test, configuration, schema, frozen artifact, or governance decision, and expands no NP-12 scope:
+
+- **`A6-IMPL-10` (Option B):** OPEN/CRITICAL; producer convergence remains unauthorized; no engine is claimed conformant; no engine changed (§10.A).
+- **`A8-S-03` (Option A):** `COMPLETED` branch only; no `FAILED`-branch result emitted, hashed, or claimed (§10.B).
+- **`E2E-030` separation:** preserved (`N4-A13` §6.1, `D-N4-CERT-08`); `E2E-030` does not certify the NP-12 Screen path (§10.C).
+- **Identity, tenant, persistence, and IPD neutrality:** credential-free endpoint; no identity, tenant, session, RBAC, persistence, or IPD authority created or consumed; owner-context regime and `503 owner-context-unavailable` on NP-06 Reports and G-2 Portfolios untouched; `F6_INVENTORY_AUTHORIZED` remains UNDECIDED; IPD pin `2e11fa3b689d1a3674a5e4ba1f1de9a559e20494` untouched (§10.D, §11).
+- **`SNAPSHOT` vintage and non-production boundary:** `SNAPSHOT` / `governed:program-v1.1-replay-baseline` (`dataVersion 1.1.0`) preserved; no live data, production readiness, deployment, or TD-7b claim (§10.E, §11).
+- **NP-13 corpus boundary:** `NP-12 STATUS = NOT DETERMINED` in the NP-13 corpus remains untouched (§11.8–11.9).
+
+### 16.4 Post-publication closure summary
+
+```text
+POST_PUBLICATION_CLOSURE=COMPLETE (2026-10-13)
+RECORD=IIPS-V3-NP12-GOVERNED-SCREENER-PRODUCT-ACCEPTANCE-AND-QUALIFICATION-RECORD-01
+CANONICAL_PATH=docs/integration/IIPS_v3.0_NP12_GOVERNED_SCREENER_PRODUCT_ACCEPTANCE_AND_QUALIFICATION_RECORD.md
+PUBLICATION_PR=#71 (MERGED 2026-10-13T04:44:30Z)
+PUBLICATION_MERGE_COMMIT=ccef2215d6afecf18d61629fd0af363403f9f935
+PUBLICATION_PARENTS=0ff644ed1a758b92bdec04eb0d9f6df46036bcbe (declared baseline) + 7f891a6a7c2d63034b8f966a206f0a135d29c013 (PR #71 head)
+PUBLICATION_MERGED_TREE=a42165bcbd7f7d45947dc2830018ae5140a808b2 (IDENTICAL to tested commit tree)
+PUBLISHED_QUALIFICATION_BLOB=8209586fc9c515ab360bda91b202d5f378e9a0da (400 lines, 38811 bytes, SHA-256 c6518e510937af970630fe40d188dd50333587671f8c5c98a6a8a2de8ebb6ffd; preserved byte-for-byte as bytes 1..38811)
+REMOTE_VERIFICATION=VERIFIED (git ls-remote, git fetch, git ls-tree, GitHub REST API; +400 -0 single-file diff vs 0ff644ed)
+DECLARED_BASELINE_RE_VERIFICATION=CLOSED (0ff644ed verified as exact first parent of ccef2215; zero baseline drift)
+PUBLICATION_STATUS=PUBLISHED AND REMOTELY VERIFIED (§15(2)-(4) SATISFIED)
+PRODUCT_QUALIFICATION=DETERMINED — QUALIFIED (NON-PRODUCTION; exercised transport and workspace paths only; §9)
+PRODUCT_ACCEPTANCE=NOT EFFECTIVE — PENDING EXPLICIT PROGRAM AUTHORITY ACCEPTANCE OF THIS EXACT RECORD (§15(1) UNRESOLVED)
+REMAINING_GOVERNANCE_ACT=EXPLICIT PROGRAM AUTHORITY ACCEPTANCE DECISION / ATTESTATION FOR RECORD BLOB 8209586fc9c515ab360bda91b202d5f378e9a0da UNDER §15(1)
+BOUNDARIES_PRESERVED=A6-IMPL-10 OPTION B; A8-S-03 OPTION A; E2E-030 SEPARATE; CREDENTIAL-FREE / NO PERSISTENCE / NO IPD; SNAPSHOT / NON-PRODUCTION
+```
+
+*End of post-publication closure note. It records the publication and independent remote verification of `IIPS-V3-NP12-GOVERNED-SCREENER-PRODUCT-ACCEPTANCE-AND-QUALIFICATION-RECORD-01` via PR #71, preserves the 400-line qualification record byte-for-byte above this addendum, keeps publication, product-layer qualification, and Program Authority product acceptance strictly separate, and leaves §15(1) Program Authority product acceptance open as the sole remaining governance decision.*
