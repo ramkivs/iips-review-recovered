@@ -544,6 +544,12 @@ PR **#82** merged at **2026-10-13T14:37:58Z**, merge/main commit **`f01803e987af
 
 `GC-D4`, the P-2 decision request (§12.4 disposition) and the canonical-tracker §15.12 record are published on session branch `arena/ded25f6d-iips-review-recovered` (from `main@56c2aa0…`) through the established pull-request workflow, with post-merge independent remote verification recorded in the pull request's verification comment and in tracker §15.12. No force-push, history rewrite or review-control bypass is used; no IPD write occurs. Consistent with the program effectiveness rule, the disposition's exact bytes become effective on durable `main` publication and independent verification, and its publication coordinates are recorded after merge rather than self-embedded.
 
+### 9.10 P-2 execution designation worksheet and consolidated decision request published (2026-10-13)
+
+The ten execution designations §9.8 leaves OUTSTANDING are now researched and consolidated into **one** decision request: [`IIPS_v3.0_GATE_C_P2_EXECUTION_DESIGNATION_WORKSHEET_AND_CONSOLIDATED_DECISION_REQUEST_2026-10-13.md`](IIPS_v3.0_GATE_C_P2_EXECUTION_DESIGNATION_WORKSHEET_AND_CONSOLIDATED_DECISION_REQUEST_2026-10-13.md) (tracker §15.13). The worksheet examines each designation against the authoritative specifications and the verified, read-only G24 configuration at pin `6828155e…`, separates **evidence-backed facts** (constraints, excluded classes — e.g. the removed historical issuer `http://localhost:8080/realms/iips`, the F-3 operator-context pair, the JWA ≥2048-bit RSA floor) from **proposed values**, performs the compatibility checks the proposed values must pass (exact-`iss` equality, audience membership, `kid` resolution, JWKS shape, fail-closed loader and startup order, port isolation, `IPD_PORTFOLIO_DB_PATH` absoluteness), and presents recommended Designation Set `P2-A-D1` for adoption or amendment.
+
+**No designation is rendered, adopted or made effective by that record or by this §9.10.** The ten values remain **OUTSTANDING and unfixed**, the P-2 act remains **not effective for execution**, and no issuer, key, credential, configuration, runtime, user, mapping, tenant, membership or database exists or may be created. `GC-D3` stands; `GC-D1`'s operational prohibitions, `GC-D2` and `H-18` remain operative; P-4, P-6 and P-8 remain blocked; S6 and S7 remain separately gated.
+
 ---
 
 ## 10. Implementation-ready plan — only after explicit, effective PA approval
