@@ -15,9 +15,9 @@
 | Governing records | `AD-20`; `D-2` (`IDENTITY-TENANT-DOMAIN-SCOPE-DECISION.md`); `D-1`; `D-3`; `G2-2`; `NP-08-D115-D2-G2-RECONCILIATION-ACT-01`; `NP-08-D115-IDENTITY-RUNTIME-COMPANYID-BINDING-AUTHORITY-ACT-01` (`D115-A`); the F-1…F-7 policy records and the F-3 mechanism/value/qualification records; `NP-04-PERSISTENCE-DOMAIN-BOUNDARY-ACT.md`; `IIPS_v3.0_G2_DURABLE_USER_PORTFOLIO_IMPLEMENTATION_RECORD.md` |
 | Canonical tracker | [`IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md`](../../IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md) §15 |
 | Environment | Non-production. Production is out of scope. |
-| Status | **`PA DECISION PENDING`** — the complete packet and plan are ready for immediate disposition. No part of §8 (the recommendation) is operative. |
+| Status | **GC-D1 / GC-D2 RECORDED UNDER STANDING AUTHORIZATION — pending main publication and independent effectiveness verification.** §9.4 is the controlling disposition; §§7–9.2 preserve the prepared options/clauses. |
 
-> **Bottom line.** Gate C is **UNRESOLVED and NOT ALREADY DECIDED** by any existing instrument. The investigation establishes, on verified evidence:
+> **Historical packet finding (before §9.4 disposition).** Gate C is **UNRESOLVED and NOT ALREADY DECIDED** by any existing instrument. The investigation establishes, on verified evidence:
 >
 > - **(A) Owner context is ESTABLISHED and OPERATIONAL** — but only for NP-09/NP-10/NP-11, and only as *partition* semantics, never as an authorization credential.
 > - **(B) The binding from that owner context to the G24 portfolio/tenancy identity is NOT ESTABLISHED.** Three independent blockers, each verified in source.
@@ -432,9 +432,28 @@ The recording agent **does not** render, record, transcribe, or infer this decis
 
 ---
 
+### 9.4 Actual disposition under standing authorization (application recorded 2026-10-13)
+
+**Authority source, accurately bounded.** The current PA instruction explicitly directs applying standing global authorization to GC-D1 (1D) and GC-D2 (2F), recording them in this existing packet, publishing them effectively, then executing S2–S4 without another round-trip. This is an application of standing authority, **not** an invented separately signed §9.2 act. No separate approval comment is asserted.
+
+The requested Library reference is `/IIPS Project Tracker/IIPS_V3_STANDING_AUTHORIZATION_ONE_PASS_EXECUTION_2026-10-13.md`. Its path and scope are **user-supplied**; its actual bytes/date/signature have **not been retrieved or verified**, because this environment's Library connector lookup is unsupported and the file is absent locally. It is not cited as a verified artifact or represented as present in Git.
+
+The independently available durable authority is `docs/integration/IIPS_v3.0_OWNER_CONTEXT_F3_MECHANISM_AND_IMPLEMENTATION_PA_DECISION.md` **§1.2**, at IRR main `4b3d5866b9e8a8dcbfda18d8dcdef7e700e6ceeb`, blob **`c4c9f7d79ef181af96f6c4e5cc108288ef22fd02`**. It transcribes standing project decision/execution authority covering necessary decisions, governance records, implementation, testing, corrections and publication within established scope, and prohibiting fabricated evidence, weakened safeguards, unrelated scope expansion or unverified success claims. That record attributes the original grant to **2026-10-12** and records effective publication through PR #68. This is the supported source attribution; no original grant date is invented for the unretrieved Library file. The present 2026-10-13 date is this **application's recording date**, not a claimed new signed grant.
+
+**Scope application, not blanket admission.** The earlier F-3 record's per-capability grants do not themselves authorize Portfolios implementation/admission. The current explicit direction to apply standing authority to these exact Gate C clauses establishes only the narrow prospective S2–S4 refusal/contract exception here. It does not lift owner-binding, successful-save, full F-7, P2/P3 or capability-admission deferrals. §9.3 describes the original packet's approval boundary; it is satisfied here by attributed standing-authority application rather than an invented signature or inference from PR status.
+
+| Disposition | Recorded effect |
+|---|---|
+| **GC-D1 = DP-1 Option 1D** | **RETAIN BINDING DEFERRAL.** No issuer, OIDC/Keycloak configuration, delegated credential, mapping, provisioning or membership. Owner binding unresolved; DP-3 separate admission. Gate C not closed |
+| **GC-D2 = DP-2 Option 2F** | **APPROVED, bounded.** §§6.1/8 native symbol/ISIN/exchange evidence and absence; omit unsupported companyId; server-governed UNRESOLVED; refuse caller identity/disposition authority; no bypass or false canonical provenance; reject unresolved/ambiguous writes before serialization or port call. Authorizes only prospective offline IRR contract S2–S4 and tests §§10–11, publication and independent verification |
+| **Boundary** | The mandatory §9.2 boundary applies in full: no consumer admission, P2/P3 disposition, auth/authorization or identity-resolution bypass, successful unresolved saves, owner-binding completion, full F-7, route/UI activation, G24 promotion, IPD write/ref change, lineage merge, CIA/equivalence/D115-A effect or changes to Gate A/B/R3/R4 |
+| **Effectiveness** | Recorded, **not effective until this disposition's exact bytes are published to IRR main and independently verified** under §11.3. No implementation before that verification. Governed merge of decision-only PR #82 is within the current publication direction; ordinary review controls retained |
+
+No new decision ID, duplicate packet, fabricated evidence or separately signed PA act is created. Only the application of standing authority to these two existing clauses is recorded.
+
 ## 10. Implementation-ready plan — only after explicit, effective PA approval
 
-> No code or implementation test is authorized by packet rectification. Only approval of §9.2 GC-D2 plus the boundary makes S2–S4 actionable. A deferral-only disposition does not.
+> Rectification itself authorized no code. §9.4 now records GC-D2 under standing authority; only its effective main publication and independent verification enable S2–S4. S5–S7 remain deferred.
 
 ### 10.1 Sequencing and authority dependencies
 
@@ -626,6 +645,8 @@ Checks for this amendment: documentation-only exact diff and permitted-path mani
 
 ---
 
-*Recording agent: Arena Agent Mode — investigation, preparation, verification and publication support only. **No authority is rendered by the agent.** The Program Authority's disposition is not recorded here because none has been rendered. Prepared 2026-10-13 (Asia/Calcutta). Program Authority: Ramki.*
+*Recording agent: Arena Agent Mode — standing-authority application, execution and verification support. Authority is attributed in §9.4, not self-granted or represented as a separately signed act. Prepared/application recorded 2026-10-13 (Asia/Calcutta). Program Authority: Ramki.*
 
-*Status: **`GATE C — DECISION PACKET COMPLETE; PA DECISION PENDING`.** `/api/user-portfolios*` remains fail-closed at HTTP 503 `owner-context-unavailable`.*
+*Status: **`GATE C — GC-D1/GC-D2 RECORDED; EFFECTIVENESS PENDING MAIN VERIFICATION; BINDING/ADMISSION OPEN`.** `/api/user-portfolios*` remains fail-closed at HTTP 503 `owner-context-unavailable`.*
+
+**Publication update (standing-authority application):** §16 describes original rectification history. §9.4 now controls the decision/publication authority. PR #82 will publish only these decision/ tracker bytes; S2–S4 begin only after main verification. Historical “PA pending / no merge on rectification” statements do not describe this newly recorded application. No claim that publication has already occurred is made here.

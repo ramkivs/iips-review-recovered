@@ -621,9 +621,9 @@ Original closure evidence at `main@4b3d5866…`: all 10 `frontend/server/reports
 
 **2F is independently decidable** as a narrow, fail-closed contract, not canonical identifier selection: preserve source symbol/ISIN/exchange bytes and absence; omit companyId; retain server-governed UNRESOLVED; refuse client identity/disposition claims; no bypass, fake canonical provenance or invented IPD enum; reject unresolved/ambiguous saves before any port/HTTP call. No successful save, mapping or admission is enabled. No ticker-to-companyId mapping, CIA designation, D115-A effectiveness or exchange-composed symbol. Alternatives retained in packet §7.
 
-### 15.6 Exact approvals required — independent clauses, PA PENDING
+### 15.6 Independent clauses and recorded standing-authority application
 
-Packet §9.2 separates **GC-D1** (retain binding deferral; no issuer/configuration/provisioning/membership) from **GC-D2** (approve only 2F plus bounded offline IRR contract implementation/qualification). Either clause carries the explicit boundary: no User Portfolios admission, P2/P3 disposition, authentication/authorization or identity-resolution bypass, route/UI activation, G24 promotion, IPD ref change, lineage merge, CIA/equivalence/D115-A effect, or Gate A/B/R3/R4 change. **No clause is selected or recorded as a decision here.** A deferral-only approval grants no code authority.
+Packet §9.2 separates **GC-D1** (retain binding deferral; no issuer/configuration/provisioning/membership) from **GC-D2** (approve only 2F plus bounded offline IRR contract implementation/qualification). Either clause carries the explicit boundary: no User Portfolios admission, P2/P3 disposition, authentication/authorization or identity-resolution bypass, route/UI activation, G24 promotion, IPD ref change, lineage merge, CIA/equivalence/D115-A effect, or Gate A/B/R3/R4 change. **Original rectification:** neither clause was selected. **Current standing-authority application:** packet §9.4 records GC-D1 = 1D deferral and GC-D2 = 2F approval for S2–S4 only, attributed to the durable F-3 §1.2 standing text (main blob `c4c9f7d…`) plus the current PA direction applying it to these exact clauses. The requested Library path is user-supplied and not retrieved; no signed act or unsupported grant date is fabricated. Recorded pending decision-only main publication and independent verification. A deferral-only approval grants no code authority.
 
 ### 15.7 Implementation-ready scope and acceptance criteria
 
@@ -647,10 +647,12 @@ The detailed checks below include the **original preparation history**, not repe
 
 | Gate | Status |
 |---|---|
-| **Gate C** (Portfolio Identity & Security-Identifier Contract) | **RECTIFIED DECISION PACKET COMPLETE — PA DECISION PENDING.** DP-1 unresolved; DP-2 2F independently proposed, not selected; no full Gate C closure.  `/api/user-portfolios*` remains fail-closed at source-level `503 owner-context-unavailable` |
+| **Gate C** (Portfolio Identity & Security-Identifier Contract) | **GC-D1/GC-D2 RECORDED UNDER STANDING AUTHORITY — MAIN EFFECTIVENESS VERIFICATION PENDING.** DP-1 binding deferred; DP-2 2F approved narrowly for S2–S4; no full Gate C closure.  `/api/user-portfolios*` remains fail-closed at source-level `503 owner-context-unavailable` |
 | **Gate A** (Persistence Convergence) | **OPEN — SEPARATE, UNTOUCHED.** No convergence decided or implied; NP-04 `2e11fa3b…` and G24 `6828155e…` preserved on separate refs; IPD `main` still has no `src/persistence` |
 | **Gate B** (Reports Owner Binding) | **Option C deferral — UNCHANGED.** Not revisited; its §2(2) prohibition reused as a constraint |
 | **R3** (Reports pin/consumer admission) | **OPEN — UNTOUCHED** (no live subject) |
 | **R4** (`P1`) | **REMEDIATED (`R4-B`) — CLOSED.** Verified at `main@4b3d5866…`; not reopened |
 | **`P2` / `P3`** | **OPEN — NOT disposed here**; separate acts required before any admission |
 | IPD lineages | `2e11fa3b…` and `6828155e…` preserved, untouched; **no IPD ref, file, or record written** |
+
+**Gate C standing-authority publication update:** §15.8 retains original rectification history. The current instruction applies standing authority to GC-D1/GC-D2 and governed publication. PR #82 remains decision-only; implementation waits for independent main verification. The F-3 source record’s existing Reports/Portfolios admission deferrals are not lifted; only the explicitly directed offline 2F contract/refusal work is authorized.
