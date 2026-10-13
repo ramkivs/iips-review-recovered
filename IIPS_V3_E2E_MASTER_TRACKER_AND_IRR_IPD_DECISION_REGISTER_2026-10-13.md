@@ -7,7 +7,7 @@
 | Primary Repository (IRR) | `ramkivs/iips-review-recovered` (`refs/heads/main`) |
 | Related Repository (IPD) | `ramkivs/iips-production-market-data` (`refs/heads/main` at `4d3e1cdca3a33da0ec3be8b336b17128108a502c`, tree `db853dc21d01162e69b0e1211dbea1cb5c5f72b1`) |
 | Pre-REG-08 IRR Baseline | Commit `f970028cf633f561c225d66ae4b3864f48afe656`; root tree `bab9782ed104567e571abccc350c75760ff35dca` (merge of PR #75) |
-| Last Updated | `2026-10-13` (UTC) — `REG-11` Gate B Reports owner-binding **decision-input** record: `NOT DECISION-READY` (see §9); prior: `REG-11` Gate B bounded Reports owner-binding investigation (§8), `AD-20` bounded disposition (§7) and additive governance reconciliation (§6) |
+| Last Updated | `2026-10-13` (UTC) — `REG-11` Gate B **PA decision request** for R1/R2 (owner-source determination & contract shape; PA choice **PENDING**, see §10); prior: Gate B decision-input record `NOT DECISION-READY` (§9), Gate B investigation (§8), `AD-20` bounded disposition (§7) and additive governance reconciliation (§6) |
 
 ---
 
@@ -113,6 +113,7 @@ The following completed baselines on `ramkivs/iips-review-recovered @ refs/heads
 9. **AD-20 Bounded Disposition (`2026-10-13`, §7):** the two IPD persistence lineages are recorded as distinct, coexisting domain stores; convergence, repin rationale, PR #42 coverage, and all identity/security-identifier contracts remain open under Gates A/B/C. Deferred capabilities remain fail-closed; this item protects no new capability.
 10. **REG-11 Gate B one-pass investigation (`2026-10-13`, §8):** published a bounded evidence/status record; persistence-domain fit proven, F-3-to-Reports binding not proven, P1 unresolved, F-4 deferred, F-7 Reports scope unqualified, and 503/UI boundaries preserved. Documentation only; zero application-code changes.
 11. **REG-11 Gate B decision-input record (`2026-10-13`, §9):** determined that a Reports-specific owner-binding / consumer-authority contract is **`NOT DECISION-READY`**; identified the unrecorded artifact/report ownership-source authority and the 15-element D-2 §8 coverage gap, preserved `P1` as unresolved, and named the four required inputs (R1–R4). Documentation only; grants no authority and protects no new capability.
+12. **REG-11 Gate B PA decision request (`2026-10-13`, §10):** prepared the explicit decision request for **R1** (ownership-source authority; four sub-questions R1.1–R1.4) and **R2** (contract shape A/B/C with prerequisites, consequences, required authority and preserved constraints), plus technical-feasibility-vs-authorization separation and the R3/R4 gate statements. **PA choice PENDING.** Documentation only; no option recommended as supported, no contract created, no capability changed.
 
 ---
 
@@ -126,6 +127,7 @@ The following completed baselines on `ramkivs/iips-review-recovered @ refs/heads
 | `2026-10-13` | `CHG-2026-10-13-03` | Governance reconciliation of `REG-02` (admission preserved; stale banners additively clarified; P4 route decided NOT ADMITTED/retained), `REG-03` (`AD-06` reconciled at lineage & domain-role level; both persistence refs preserved; `AD-20` open), `REG-05` (Workflow = `HISTORICAL-ONLY`), `REG-06` (Operator Drop = internal primitive; product admission `DEFERRED`) via `docs/integration/IIPS_v3.0_GOVERNANCE_RECONCILIATION_PA_DECISION_2026-10-13.md`; `REG-09` NP-07 records refreshed against the no-auth baseline `main@6c2c955` (`22/22` tests, `tsc` `0`, `build` `0`) and published to `main` (`NP-07-QUAL-01` / `NP-07-ACCEPT-01` v2.0). See §6. |
 | `2026-10-13` | `CHG-2026-10-13-05` | One-pass `REG-11` Gate B investigation published at `docs/integration/IIPS_v3.0_GATE_B_REPORTS_OWNER_BINDING_INVESTIGATION_2026-10-13.md`; corrected the AD-01 status claim and unverified `Reports.tsx` pointer, separated D-1 persistence fit from identity/consumer authority, preserved P1 and all fail-closed boundaries. Documentation only; no PA decision or application-code change. See §8. |
 | `2026-10-13` | `CHG-2026-10-13-06` | `REG-11` Gate B **decision-input** record published at `docs/integration/IIPS_v3.0_GATE_B_REPORTS_OWNER_BINDING_AND_AUTHORITY_DECISION_INPUT_2026-10-13.md`: determined the Reports-specific owner-binding / consumer-authority contract is `NOT DECISION-READY`; recorded the unrecorded artifact/report (`2e11fa3b…`) ownership-source authority (0 `evidence/np04` paths; cited `R2`/`C4` decisions unlocated; IRR NP-04 boundary act non-authoritative), the 15-element D-2 §8 Reports matrix (3 established, 2 partial, 2 structural/negative-only, 8 unresolved/unestablished), the P1/PR #42 re-verification (act `26061859…` re-read — not covered), and the four required inputs R1–R4. No decision, binding, mapping, admission or scope change; no application-code, pin or IPD change. See §9. |
+| `2026-10-13` | `CHG-2026-10-13-07` | `REG-11` Gate B **PA decision request** published at `docs/integration/IIPS_v3.0_GATE_B_REPORTS_OWNERSHIP_SOURCE_AND_CONTRACT_SHAPE_PA_DECISION_REQUEST_2026-10-13.md`: states the exact decision requested (**R1** ownership-source determination with sub-questions R1.1–R1.4; **R2** contract shape **A/B/C**), the evidence-backed findings for each R1 proposition, per-option prerequisites/consequences/authority/retained constraints, the technical-feasibility-vs-authorization separation, a non-operative Option-A completeness checklist, the R3 (pin/consumer admission) and R4 (`P1`) gate statements, and the non-authorization boundaries. **PA choice PENDING**; no option selected or recommended as supported; no contract, mapping, value, admission or activation created; no code, pin, IPD or runtime change. See §10. |
 
 ---
 
@@ -345,3 +347,52 @@ The first substantive next step is a PA decision choosing either a Reports-speci
 | Checks actually performed | Baseline/ref verification; PR #42/#78/#79 metadata; direct reads of the IRR Reports/owner-context sources, the IPD pin-lineage `src/persistence/{identity,store,schema}.ts` and `tests/np04_governed_persistence.test.ts`, the IPD act at `26061859…`, and the recursive trees of the pin/G24/act/`main` refs; `git diff --check`; documentation-only scope check. |
 | Checks NOT performed | No application tests run; no live HTTP/runtime/database/environment access; no Windows/PowerShell; Reports UI/no-auth-port tree inspection **not** re-run (reused from PR #79). **No live deployment or runtime behaviour is proven.** |
 | Publication | Additive documentation-only PR from the session branch (`arena/a2729fa4-iips-review-recovered`) to `refs/heads/main`; merge — and therefore durable effect — is the Program Authority's act. Self-referential PR/merge coordinates are verified against the remote after publication. |
+
+---
+
+## 10. REG-11 Gate B — Reports Ownership Source (R1) and Contract Shape (R2) PA Decision Request (`2026-10-13`)
+
+*Additive decision-request section for `REG-11` / `Gate B`. Operating record: [`docs/integration/IIPS_v3.0_GATE_B_REPORTS_OWNERSHIP_SOURCE_AND_CONTRACT_SHAPE_PA_DECISION_REQUEST_2026-10-13.md`](docs/integration/IIPS_v3.0_GATE_B_REPORTS_OWNERSHIP_SOURCE_AND_CONTRACT_SHAPE_PA_DECISION_REQUEST_2026-10-13.md) (record ID `IIPS-V3-REG11-GATE-B-R1-R2-PA-DECISION-REQUEST-2026-10-13-01`). **PA CHOICE = PENDING.** This section is **not** a decision and selects no option; the operating record is authoritative for its own findings and citations.*
+
+### 10.1 Decision requested from the Program Authority
+
+| Input | Question | Status |
+|---|---|---|
+| **R1 — ownership-source authority** | R1.1 Does any existing authority (IRR- or IPD-side) establish the Reports target's ownership contract and source class — or is it **not established**? R1.2 May a PA-governed **non-auth** declaration lawfully supply `AuthenticatedOwner` at that boundary? R1.3 Does the F-2 tenant value's scope extend to the artifact/report boundary (or is a separate Reports tenant value/act required)? R1.4 If R1.1–R1.3 cannot be resolved, does Reports remain deferred? | **PENDING** |
+| **R2 — contract shape** | Choose exactly one: **A** bind the accepted F-1/F-2 pair under a Reports-specific D-2 §8 contract; **B** establish a new Reports-specific declaration + value act; **C** retain deferral. | **PENDING** |
+
+### 10.2 Options — prerequisites and consequences (summary)
+
+| Option | Prerequisites | Consequences | Authority required | Evidence-supported now? |
+|---|---|---|---|---|
+| **A** Bind an existing governed identity pair | Target authority located/created (R1.1); authorized non-auth ownership-source class (R1.2); F-2 scope extension authorized (R1.3); full 15-element D-2 §8 act; affirmative no-authorization/no-client-identity/fail-closed statements; R3 decided before enablement | No new values; consistent with `F-4`(1) single-declaration framing; **extends the artifact/report store's ownership semantics** to a declaration-derived source (boundary security change); adapter change remains an implementation act; F-7 still required | PA binding act; target-authority determination (possibly IPD-side) | **No — P-A1/P-A2/P-A3 unestablished** |
+| **B** New Reports-specific declaration + value act | Target authority located/created (same R1.1 burden); PA authority for new ownership/security semantics **and** a new value act (or an `F-4`(1) amendment); full element set + pair-relationship statement; R3 decided before enablement | Creates a **second ownership declaration** regime needing express reconciliation with `F-4`(1); same boundary security change as A plus a value-selection act; doubles F-3/F-7 evidentiary surface | PA binding act + new value act; target-authority determination | **No — P-B1/P-B2 unestablished** |
+| **C** Retain deferral | **None** | State fully preserved; no new semantics; Gate B stays open; `503` guarantee unchanged; R1/R2 unresolved | None (confirmation only) | **Yes — prerequisites satisfied** |
+
+**Neither A nor B is recommended as supported by current source evidence**; on the evidence as it stands only **C** has satisfied prerequisites. A or B become available only if the PA's R1 determination supplies their prerequisites. No option is selected here.
+
+### 10.3 Technical feasibility vs governance authorization (preserved separation)
+
+Structurally compatible field shapes and a store that validates only non-empty members are **technical facts**, not authority. Reaching the store with a non-principal pair requires (i) the R1.2 determination, (ii) a source change under a separate implementation gate, and (iii) R3 for the `./persistence` edge. Equivalences denied by the effective value act §5(7) and D-2 §8 remain **unauthorized** regardless of feasibility.
+
+### 10.4 Remaining gates (unchanged, not advanced by §10)
+
+| Gate | Status | Note |
+|---|---|---|
+| **R3 — Reports pin / consumer admission** | **Open** | No Reports consumer admission exists: `AD-02` §3.3(8) leaves the Reports `./persistence` and G-2 admissions unchanged; `AD-01` is presence-only with operative effect **NOT ESTABLISHED**; D-1 §9 performs no package/API reconciliation; D-3 §11 records implementation/promotion authority **NOT GRANTED**; the physical pin at `frontend/package.json:15` is presence, not authority. |
+| **R4 — `P1` (D-1 vs PR #42)** | **Open — CONFLICTING / UNRESOLVED** | PR #42 merged at `47edf6f3…` under a "DO NOT MERGE without promotion act" title/body with 0 reviews; act `26061859…` excludes `main` and "…Reports…"; coverage by any other act **NOT ESTABLISHED**; no retrospective authorization. |
+| Implementation-authorization gate | **Not authorized** | Follows R1/R2 (and R3 at the boundary). |
+| F-7 qualification | **NOT SATISFIED** for Reports | Five-part bar incl. separate-process durability. |
+| Gate A / Gate C | **Separate; untouched** | Gate A is not a Gate B prerequisite. |
+
+### 10.5 Preserved boundaries and change scope
+
+`/api/reports*` and `/api/user-portfolios*` remain fail-closed at `503 owner-context-unavailable`; no owner/tenant value, mapping, contract, admission or activation is created; no code, test, package, pin, lockfile, persistence, schema, route, UI, deployment or runtime-configuration change; no IPD write; PR #80's lifecycle is preserved (`OPEN`, untouched); Gate A and Gate C remain separate and untouched; `P1` remains open.
+
+| Item | Result |
+|---|---|
+| Changed paths | `docs/integration/IIPS_v3.0_GATE_B_REPORTS_OWNERSHIP_SOURCE_AND_CONTRACT_SHAPE_PA_DECISION_REQUEST_2026-10-13.md` (new) and this tracker (header, §4 item 12, §5 `CHG-2026-10-13-07`, this §10). Documentation only. |
+| Baseline | IRR `main@a280712fc00ab64f8751524144f61cdf2f82e47f`; IPD refs re-verified unchanged; PR #80 `OPEN` and unmodified. |
+| Checks actually performed | Branch/worktree/baseline verification; PR #80 lifecycle; IPD `git ls-remote`; direct reads of the cited IRR records and IPD pin-lineage sources; relative-link existence check; documentation-only scope check. |
+| Checks NOT performed | No application tests; no live HTTP/runtime/database/environment/deployment access; no Windows checks; Reports UI tree inspection reused from PR #79. **No live deployment or runtime behaviour is proven.** |
+| Publication | Additive documentation-only commit on the session branch, published through the repository's normal PR workflow without merging or bypassing PR #80; merge is the Program Authority's act. |
