@@ -55,7 +55,7 @@ Every value below was verified **live against the authoritative remote** at prep
 | Merged tree | `d39ba36a6362aafc5226828018978ad27bc9f7bf` — **byte-identical** to the tree of the prepared commit `87a17290c13bcf4e6f2562e8710dd3833a6a86d0` (`d39ba36a6362aafc5226828018978ad27bc9f7bf`); no baseline drift between preparation and merge |
 | Published record blob | `b655777d52b160ff56f933ad4371cc886cad33f1` — `241` lines, `30,068` bytes, raw SHA-256 `3a103748d4e8efa7dbd2bb8e2c0eb974b9edea76c3c69aec6459c9ee8d4159a0` |
 | Changed-path scope of PR #73 | `A docs/integration/IIPS_v3.0_NP12_GOVERNED_SCREENER_PROGRAM_AUTHORITY_ACCEPTANCE_DECISION.md` (`+241 −0`) — verified over the range `61e0bc6ae13ee2c6579106c92d95abeb27bba956...a36b3302e998bcf1fde56e8a1a2c31a55a343bcf` (two commits ahead; **one changed file**). Zero source, test, configuration, schema, frozen-artifact, tag, release, or unrelated governance-decision files modified |
-| Resulting authoritative `main` baseline | `a36b3302e998bcf1fde56e8a1a2c31a55a343bcf`; root tree `d39ba36a6362aafc5226828018978ad27bc9f7bf` |
+| Resulting authoritative `main` baseline | `a36b3302e998bcf1fde56e8a1a2c31a55a343bcf`; root tree `d39ba36a6362aafc5226828018978ad27bc9f7bf` — the `main` tip at the closed record's publication. Later merged acts advance the tip; this coordinate remains the closed record's publication baseline and is not invalidated by such movement |
 | Determination recorded by the closed record | `ACCEPT` — non-production NP-12 Governed Screener **product layer** (`POST /api/screener` transport and `/screener` workspace), exercised paths only, subject to all stated limitations and exclusions; issued by the Program Authority, 2026-10-13 |
 | Effectiveness of the closed record | §11 steps 3 (merge to `refs/heads/main`) and 4 (independent remote verification) are **SATISFIED** and verified at §2.1 above |
 
@@ -84,7 +84,7 @@ Every value below was verified **live against the authoritative remote** at prep
 
 The closure direction received by the recording agent referred to the acceptance decision record ID as `IIPS-V3-NP12-GOVERNED-SCREENER-PROGRAM-AUTHORITY-ACCEPTANCE-DECISION-01`. The identifier actually carried by the published artifact on `main` — in its header `Record ID` row (§1 line 5), §12 summary, and closing footer of `b655777d52b160ff56f933ad4371cc886cad33f1` — is **`IIPS-V3-NP12-GOVERNED-SCREENER-PRODUCT-ACCEPTANCE-DECISION-01`**. That published identifier governs here and is the identifier recorded at §2.1.
 
-The variant string appears nowhere in the published artifact or elsewhere on `main`. Recording the published identifier, rather than the variant, is the coordinate-faithful choice; the discrepancy is **disclosed rather than silently harmonised**. This note does not rename, renumber, or amend the closed record, and it attributes no consequence to the variant beyond this disclosure.
+The variant string appears **nowhere in the published artifact** — and, as verified by repository-wide search, nowhere in the repository tree at the pre-closure baseline `a36b3302e998bcf1fde56e8a1a2c31a55a343bcf`. On `main` it appears **only as quoted inside this note**, for the purpose of this disclosure. Recording the published identifier, rather than the variant, is the coordinate-faithful choice; the discrepancy is **disclosed rather than silently harmonised**. This note does not rename, renumber, or amend the closed record, and it attributes no consequence to the variant beyond this disclosure.
 
 ---
 
@@ -155,7 +155,7 @@ PUBLICATION_PREPARED_COMMIT=87a17290c13bcf4e6f2562e8710dd3833a6a86d0 (tree d39ba
 PUBLICATION_MERGE_COMMIT=a36b3302e998bcf1fde56e8a1a2c31a55a343bcf (commit date 2026-10-13T06:01:28Z)
 PUBLICATION_PARENTS=61e0bc6ae13ee2c6579106c92d95abeb27bba956 (previous main / PR #72 merge / declared decision baseline) + 87a17290c13bcf4e6f2562e8710dd3833a6a86d0 (PR #73 head)
 PUBLICATION_MERGED_TREE=d39ba36a6362aafc5226828018978ad27bc9f7bf (IDENTICAL to prepared commit tree — ZERO BASELINE DRIFT)
-AUTHORITATIVE_MAIN_BASELINE=a36b3302e998bcf1fde56e8a1a2c31a55a343bcf (tree d39ba36a6362aafc5226828018978ad27bc9f7bf) — RE-VERIFIED LIVE, UNCHANGED FROM PREVIOUSLY REPORTED VALUE
+AUTHORITATIVE_MAIN_BASELINE=a36b3302e998bcf1fde56e8a1a2c31a55a343bcf (tree d39ba36a6362aafc5226828018978ad27bc9f7bf) — RE-VERIFIED LIVE, UNCHANGED FROM PREVIOUSLY REPORTED VALUE; THIS IS THE CLOSED RECORD'S PUBLICATION BASELINE (LATER MERGED ACTS ADVANCE THE TIP WITHOUT INVALIDATING IT)
 PRIOR_MAIN_REFERENCE_RECONCILIATION=NO MOVEMENT; NO RECONCILIATION REQUIRED
 CLOSED_RECORD_EFFECTIVENESS=§11(3)-§11(4) SATISFIED — MERGED TO refs/heads/main AND INDEPENDENTLY REMOTELY VERIFIED; PRODUCT-LAYER ACCEPTANCE EFFECTIVE FOR THE NON-PRODUCTION SCOPE AS ACCEPTED
 ACCEPTED_QUALIFICATION_RECORD=IIPS-V3-NP12-GOVERNED-SCREENER-PRODUCT-ACCEPTANCE-AND-QUALIFICATION-RECORD-01
