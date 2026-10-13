@@ -297,7 +297,15 @@ $errs | ForEach-Object { $_.Line }
 
 ### 6.4 Block D — fail-closed startup controls, executed **before** the first successful start
 
-These prove the runtime *cannot* start half-configured, and that a failed start creates no database.
+> **Correction `GC-P2-HANDOFF-D1-CORR-01`** (recorded 2026-10-14 Asia/Calcutta — `2026-10-13T19:12Z` / `2026-10-14 00:42 IST`; investigation §10.1, tracker §15.15). The original D1 criterion — `D1_EXIT=1` with `OidcConfigurationError … OIDC_CONFIGURATION_INVALID` — was **unreachable by construction** and is replaced. The hash-verified launcher (`0a231e63…`) validates all six required variables **before** `await import(entry)` and exits **65** on a missing or blank variable; with `IPD_OIDC_ISSUER` absent the pinned runtime module is therefore **never imported**, so no loader can report anything. The observed Windows result (exit `65`, `FAIL: required environment variable IPD_OIDC_ISSUER is absent or blank`, database not created) is the launcher's **intended** behaviour and is accepted as evidence of **Layer 1**. The launcher, the five-tooling hash set and the existing state root are **unchanged**; D1's command is unchanged. Because Layer 1 does not carry the requirement it was paired with, bounded probe **D1b** was added to exercise the pinned runtime's own startup path directly — it adds no tooling file and changes no hash.
+
+The block proves a **two-layer** guarantee, and each layer is now evidenced separately:
+
+| Layer | Guarantee | Where the failure must occur | Check |
+|---|---|---|---|
+| **1 — establishment harness** | The operator cannot *start* half-configured: the launcher refuses before the runtime is imported | launcher preflight → `process.exit(65)` | **D1** |
+| **2 — pinned runtime startup path** | The pinned runtime itself fails closed on absent/blank trust configuration, **before** any connection or listener | `startIpdServer` → `loadOidcTrustConfig` throwing `OidcConfigurationError` | **D1b** (plus Block F's loader matrix, independently) |
+| **2/3 — pinned persistence loader** | An absolute `IPD_PORTFOLIO_DB_PATH` is mandatory and validated before any connection | `loadPersistenceConfig` throwing `PersistenceConfigurationError` | **D2** |
 
 ```powershell
 $g24 = "$ipdPath\dist\src\server\http-server.js"
@@ -306,19 +314,56 @@ $env:IPD_OIDC_AUDIENCE='ipd-user-portfolio-api'
 $env:IPD_PORTFOLIO_DB_PATH = "$stateRoot\runtime\portfolio.sqlite"
 $env:IPD_OIDC_JWKS_URI = 'http://127.0.0.1:8421/non-production/p2-anchor/jwks.json'
 
-# D1 — issuer absent: must fail before persistence is touched
+# ---- D1 (command unchanged) — LAYER 1: the establishment harness must refuse to start half-configured.
 Remove-Item Env:IPD_OIDC_ISSUER -ErrorAction SilentlyContinue
-node "$stateRoot\runtime\run-scoped-runtime.mjs" $g24; "D1_EXIT=$LASTEXITCODE"
+$d1 = node "$stateRoot\runtime\run-scoped-runtime.mjs" $g24 2>&1
+$d1; "D1_EXIT=$LASTEXITCODE"
+"D1_PREFLIGHT_REFUSAL=" + ($LASTEXITCODE -eq 65 -and (($d1 -join "`n") -match 'FAIL: required environment variable IPD_OIDC_ISSUER is absent or blank'))
 "D1_DB_CREATED=" + (Test-Path $env:IPD_PORTFOLIO_DB_PATH)
+"D1_LISTENER_8099=" + [bool](Get-NetTCPConnection -State Listen -LocalPort 8099 -ErrorAction SilentlyContinue)
 
-# D2 — issuer present, database path relative: must fail at configuration validation
+# ---- D1b (added by the correction) — LAYER 2: the pinned runtime's own startup path, observed directly.
+# Bypasses ONLY the launcher preflight (it calls the pinned entry point itself); no key, no listener, no database.
+$env:G24_ENTRY = $g24
+$probe = @'
+import { pathToFileURL } from 'node:url';
+const m = await import(pathToFileURL(process.env.G24_ENTRY).href);
+try { await m.startIpdServer(process.env); console.log('D1B UNEXPECTED=RUNTIME_STARTED'); process.exitCode = 9; }
+catch (e) { console.log(`D1B ${e?.name ?? 'Error'} ${e?.code ?? ''}`); }
+'@
+function Probe([string]$label){ $o = node --input-type=module -e $probe 2>&1; "$label exit=$LASTEXITCODE out=$($o -join ' ')" }
+
+Remove-Item Env:IPD_OIDC_ISSUER -ErrorAction SilentlyContinue
+Probe 'D1B_a_absent_issuer'
+$env:IPD_OIDC_ISSUER = ' '
+Probe 'D1B_b_blank_issuer'
+$env:IPD_OIDC_ISSUER = 'http://127.0.0.1:8421/non-production/p2-anchor'
+Remove-Item Env:IPD_OIDC_JWKS_URI -ErrorAction SilentlyContinue
+Probe 'D1B_c_absent_jwks'
+
+"D1B_DB_CREATED=" + (Test-Path $env:IPD_PORTFOLIO_DB_PATH)
+"D1B_LISTENER_8099=" + [bool](Get-NetTCPConnection -State Listen -LocalPort 8099 -ErrorAction SilentlyContinue)
+Remove-Item Env:G24_ENTRY
+$env:IPD_OIDC_JWKS_URI = 'http://127.0.0.1:8421/non-production/p2-anchor/jwks.json'
+
+# ---- D2 (command unchanged) — LAYER 2/3: all six present, so the preflight passes and this observation
+#      DOES reach the pinned persistence loader.
 $env:IPD_OIDC_ISSUER = 'http://127.0.0.1:8421/non-production/p2-anchor'
 $env:IPD_PORTFOLIO_DB_PATH = 'runtime/portfolio.sqlite'
 node "$stateRoot\runtime\run-scoped-runtime.mjs" $g24; "D2_EXIT=$LASTEXITCODE"
 "D2_LISTENER_8099=" + [bool](Get-NetTCPConnection -State Listen -LocalPort 8099 -ErrorAction SilentlyContinue)
 $env:IPD_PORTFOLIO_DB_PATH = "$stateRoot\runtime\portfolio.sqlite"
 ```
-Expected: `D1_EXIT=1` with `OidcConfigurationError … OIDC_CONFIGURATION_INVALID` and `D1_DB_CREATED=False`; `D2_EXIT=1` with `PersistenceConfigurationError … PERSISTENCE_CONFIGURATION_INVALID` and `D2_LISTENER_8099=False`. **Any listener, any zero exit, or any database file ⇒ STOP and report.**
+
+**Revised acceptance criteria.**
+
+- **D1 — PASS when:** `D1_EXIT=65`; the output contains exactly `FAIL: required environment variable IPD_OIDC_ISSUER is absent or blank`; `D1_PREFLIGHT_REFUSAL=True`; `D1_DB_CREATED=False`; `D1_LISTENER_8099=False`. *(The Windows observation already satisfies this — no re-run required. At Layer 1, `D1_DB_CREATED=False` is trivially true precisely because the runtime is never imported; that is why Layer 2 is evidenced separately.)*
+- **D1b — PASS when, for all three cases (absent issuer, blank issuer, absent JWKS):** the output reads `D1B OidcConfigurationError OIDC_CONFIGURATION_INVALID`, and the probe reports `exit=0`. **`exit=9` or any `D1B UNEXPECTED=RUNTIME_STARTED` line ⇒ STOP and report.** Additionally `D1B_DB_CREATED=False` and `D1B_LISTENER_8099=False`. Any other error class, any listener, or any database file ⇒ **STOP and report**.
+- **D2 — PASS when:** `D2_EXIT=1`; the output contains `PersistenceConfigurationError` with `PERSISTENCE_CONFIGURATION_INVALID`; `D2_LISTENER_8099=False`; and no database file exists at the relative path. *(The Windows observation already satisfies this — no re-run required. D2 reaches this layer because the preflight passed: all six variables were present.)*
+
+**If the inline `-e` probe is mangled by PowerShell argument handling** (you would see a JavaScript syntax error instead of a `D1B …` line), write the same here-string text to `$ev\d1b-probe.mjs` and call `node "$ev\d1b-probe.mjs"` inside `Probe` instead. That file is **evidence-area scratch, not tooling** — it is not part of the five-file inventory, its hash is returned with the evidence, and the launcher and tooling hashes remain untouched.
+
+**Known fragility in Block F (caution; not a criterion change):** F2's `documentSha256` is computed by PowerShell from `$j.Content`, while the anchor's logged `documentSha256` is computed by Node over the exact UTF-8 bytes. Cross-check them, but if they differ while the served body is visibly the correct JWKS document, **report the raw body and both hashes** rather than concluding a trust failure — PowerShell string decoding, not the anchor, is the likely cause.
 
 ### 6.5 Block E — key generation, JWKS publication, scoped runtime start
 
@@ -439,7 +484,7 @@ The operator returns the raw captured outputs (the transcript plus `e-keygen.jso
 3. the state-root path with the outside-both-working-trees result, and the `icacls` listings for each custody directory and for the key file;
 4. the five tooling SHA-256 values (§6.0) with any deviation stated;
 5. `TSC_EXIT`, `TSC_ERRORS`, the four expected error lines, and both artifact-existence checks;
-6. `D1`/`D2` exit codes, error codes, listener and database-file results;
+6. `D1`/`D1b`/`D2` results in the revised Block D form: D1 exit code `65` + the exact preflight message + `D1_PREFLIGHT_REFUSAL=True` (Layer 1); D1b's three cases, each `D1B OidcConfigurationError OIDC_CONFIGURATION_INVALID` with `exit=0` (Layer 2); D2 exit code `1` + `PERSISTENCE_CONFIGURATION_INVALID` (Layer 2/3); plus `*_DB_CREATED` and `*_LISTENER_8099` results for each;
 7. the key-generation JSON (`kid`, `modulusBits`, `publicJwkSha256`, public JWK) — and **nothing** derived from the private key;
 8. the anchor startup JSON and the runtime startup JSON, including the effective bind, issuer, audience, JWKS URI and database path;
 9. `F1`–`F5` status codes and error codes exactly as observed, plus the loader-matrix summary;
@@ -469,9 +514,25 @@ The adopted procedure is **restated, not modified**: one key per generation even
 
 ## 10. Validation performed and not performed
 
-**Performed (read-only, this session):** live ref and blob verification (§3); resolution of the host requirements from the governing texts (§4); the environment-dependency investigation, including the public npm package inspection and the npm default-rebuild behaviour (§5.1–§5.3, §5.5); reproduction of the pinned tree in an Arena scratch clone — `npm ci --ignore-scripts` (exit 0), `better-sqlite3` prebuild load (SQLite 3.53.4), `npx tsc` (exit 2 with exactly the 4 known baseline errors, `dist/` emitted), module-surface inspection, and the **loader fail-closed matrix executed successfully (8/8)** against the pinned tree's compiled loaders (§5.4); static syntax verification of the four delivered tooling files; the canonical SHA-256 hash manifest (§6.0).
+### 10.1 Correction `GC-P2-HANDOFF-D1-CORR-01` — Block D1 acceptance criteria (recorded 2026-10-14 Asia/Calcutta — `2026-10-13T19:12Z` / `2026-10-14 00:42 IST`)
 
-**Not performed (and none authorized):** no key generated, stored, copied, printed or hashed anywhere; no issuer, JWKS endpoint or anchor started; no runtime started; no database created, opened, migrated or written; no credential minted or presented; no P-4 provisioning; no P-6 implementation; no P-8 qualification; no application test re-run in IRR; no IPD write of any kind (the scratch clone is outside the workspace and was never pushed).
+**Discrepancy reported from Windows execution:** Block D1 (issuer absent, all other variables as prescribed) produced `FAIL: required environment variable IPD_OIDC_ISSUER is absent or blank`, exit **65**, `D1_DB_CREATED=False` — while the handoff's §6.4 (as first published) required `D1_EXIT=1` with `OidcConfigurationError … OIDC_CONFIGURATION_INVALID` and `exit 1` on D2 (`PERSISTENCE_CONFIGURATION_INVALID`, listener false). This section confirms or refutes that discrepancy from source and records the correction.
+
+**Source evidence — the contradiction is real and is in the handoff, not in the launcher.** Both sides were re-read at their authoritative bytes:
+
+| Side | Verified byte / line | Content |
+|---|---|---|
+| Launcher (operator-side, hash-verified) | `run-scoped-runtime.mjs`, SHA-256 **`0a231e63a3c5712a7002d0043f8fb71c818e9cc15aed78e238b885ddce5b37a6`** — reproduced from the delivered text this session and **equal to the operator's verified hash** | `const REQUIRED = ['IPD_OIDC_ISSUER','IPD_OIDC_JWKS_URI','IPD_OIDC_AUDIENCE','IPD_PORTFOLIO_DB_PATH','IPD_HTTP_HOST','IPD_HTTP_PORT'];` … `if (!process.env[name] \|\| String(process.env[name]).trim() === '') { … process.exit(65); }` … **then** `const { startIpdServer } = await import(pathToFileURL(entry).href);` |
+| Pinned runtime startup path | `src/server/http-server.ts` at pin `6828155e…` (and its compiled `dist/src/server/http-server.js`) | `startIpdServer(env)` = `loadIpdHttpConfig(env)` → `loadOidcTrustConfig(env)` → `initializePersistence(env)` → construct → `server.listen(httpConfig)` |
+| Pinned OIDC loader | `src/auth/config.ts` at the pin | absent/blank issuer or JWKS ⇒ `throw new OidcConfigurationError(...)` (`OIDC_CONFIGURATION_INVALID`) |
+
+**Determination.** The launcher's preflight runs **before** the dynamic import, so with `IPD_OIDC_ISSUER` absent the runtime module is never imported, `loadOidcTrustConfig` is never reached, and exit 1 with `OidcConfigurationError` is **unreachable by construction**. The prescribed D1 expectation was therefore **defective**, and the observed Windows result is **correct**: the preflight is a deliberate, stricter-than-the-runtime guard, and it is the *intended* behaviour of the delivered tooling. The correction is applied in two parts, both preserving the launcher, its hash, all five hashes and the existing state root: **(i)** D1's acceptance criteria are restated as the Layer-1 preflight guarantee (exit 65 + exact message + no listener + no database); **(ii)** a bounded **D1b** probe was added that calls the pinned entry point directly so the Layer-2 guarantee is still observed — bypassing *only* the launcher preflight, adding no tooling file and changing no hash. D2 needs no correction: its preflight passes (all six variables present), so the observation does reach the pinned persistence loader, exactly as `D2_EXIT=1` with `PERSISTENCE_CONFIGURATION_INVALID` confirmed. Block F's loader matrix remains as published and independently re-covers the loader-level cases.
+
+**Verification of the correction performed in Arena (read-only; no key, no listener, no database):** the launcher's authoritative hash was independently reproduced (`0a231e63…`); the pin was re-checked (`6828155ec…`, tree `eb07ea36059c6e2d3f1b6ff9afb8e3fb0c562cc5`); `npm ci --ignore-scripts` (exit 0) and `npx tsc` (exit 2, exactly the four known baseline errors, `dist/` emitted) were reproduced; and the D1b probe was executed against the pinned build for all three cases — **absent issuer, blank issuer and absent JWKS — each returning `OidcConfigurationError OIDC_CONFIGURATION_INVALID` with the probe reporting `exit=0`, `DB_CREATED=False` and `LISTENER_8099=0`.** The corrected criteria are therefore themselves pre-verified before the operator runs them.
+
+**Performed (read-only, this session):** the §10.1 correction investigation and pre-verification (above); live ref and blob verification (§3); resolution of the host requirements from the governing texts (§4); the environment-dependency investigation, including the public npm package inspection and the npm default-rebuild behaviour (§5.1–§5.3, §5.5); reproduction of the pinned tree in an Arena scratch clone — `npm ci --ignore-scripts` (exit 0), `better-sqlite3` prebuild load (SQLite 3.53.4), `npx tsc` (exit 2 with exactly the 4 known baseline errors, `dist/` emitted), module-surface inspection, and the **loader fail-closed matrix executed successfully (8/8)** against the pinned tree's compiled loaders (§5.4); static syntax verification of the four delivered tooling files; the canonical SHA-256 hash manifest (§6.0).
+
+**Not performed (and none authorized):** no key generated, stored, copied, printed or hashed anywhere; no issuer, JWKS endpoint or anchor started; no runtime started; no database created, opened, migrated or written; no credential minted or presented; no P-4 provisioning; no P-6 implementation; no P-8 qualification; no application test re-run in IRR; no IPD write of any kind (the scratch clone is outside the workspace and was never pushed). **Post-correction:** no launcher change, no tooling-hash change, no state-root change, and no Block E execution — the correction is acceptance-criteria only, and the D1b probe fails closed before any connection, so it creates no runtime state.
 
 **Invariants preserved (verified at this record):** `/api/user-portfolios*` fail-closed at HTTP `503 owner-context-unavailable`; `/api/reports*` unchanged; Option 2F refusal unchanged (2F blobs byte-identical to the tested tree `8bb5bdae…`); F-3 remains partition semantics and is not a principal, credential or membership; no caller-controlled canonical identity; no live IPD write and no protected-ref change; NP-04 and G24 lineages unmerged and un-re-pinned; no route/UI activation; no consumer admission; Gate A OPEN; Gate B Option C; R3 OPEN; R4-B CLOSED; no Company Identity Authority; `D115-A` ineffective; `P2`/`P3` OPEN. **No runtime, deployment or production readiness is claimed anywhere in this record.**
 
@@ -481,4 +542,4 @@ The adopted procedure is **restated, not modified**: one key per generation even
 
 Additive documentation-only change on session branch `arena/dd87c5d6-iips-review-recovered` (from `main@33bbb0f…`): this record plus a pointer in the canonical tracker (§15.14). **No code, test, pin, lockfile, schema, fence, transport, route, UI, tooling-implementation or runtime path is added to either repository; no IPD write.** Publication follows the established pull-request workflow; consistent with the program rule, publication coordinates are completed after merge by independent remote verification, never self-embedded.
 
-*Status: **`P-2 EXECUTION HANDOFF COMPLETE — HOST AND ENVIRONMENT DEPENDENCIES RESOLVED, SIX-BLOCK OPERATOR PACKAGE READY — NO P-2 OPERATION PERFORMED — P-4/P-6/P-8 UNAFFECTED — /api/user-portfolios* REMAINS FAIL-CLOSED AT HTTP 503 owner-context-unavailable`.***
+*Status: **`P-2 EXECUTION HANDOFF COMPLETE — HOST AND ENVIRONMENT DEPENDENCIES RESOLVED; BLOCK C PASSED ON THE DESIGNATED HOST; D1 ACCEPTANCE CRITERIA CORRECTED BY GC-P2-HANDOFF-D1-CORR-01 AND PRE-VERIFIED (§10.1) — D1 PASS (LAYER 1), D2 PASS (LAYER 2/3), D1b OUTSTANDING (LAYER 2); NO P-2 OPERATION PERFORMED; BLOCK E AWAITS EXPLICIT AUTHORIZATION; P-4/P-6/P-8 UNAFFECTED; /api/user-portfolios* REMAINS FAIL-CLOSED AT HTTP 503 owner-context-unavailable`.***
