@@ -462,3 +462,13 @@ Effectiveness of **this record as a request** makes the consolidated alternative
 *Recording agent: Arena Agent Mode — consolidation of the existing Q-2.1…Q-2.7 inputs into one decision-ready P-2 presentation, under the Program Authority's direction and the attributed standing authorization for preparation, branch publication and verification. No authority is rendered, inferred or fabricated by the agent. Program Authority: Ramki.*
 
 *Status: **`P2-A SELECTED (GC-D4) — P-2 PACKAGE + FIXED TERMS RENDERED — EXECUTION DESIGNATIONS OUTSTANDING — NO OPERATION AUTHORIZED`.** Gate C remains OPEN; `GC-D3` direction + design durable on `main`; S2–S4 complete and verified; S5/S5A evidence preserved; S6/S7 separately gated; `/api/user-portfolios*` remains fail-closed at source-level HTTP `503 owner-context-unavailable`.*
+
+## GC-D6 corrective publication record for P2-A-D1 (2026-10-13)
+
+The Program Authority's adoption of Designation Set P2-A-D1 is recorded in the standalone act:
+
+docs/integration/IIPS_v3.0_GATE_C_P2_EXECUTION_DESIGNATION_ACT_P2-A-D1_2026-10-13.md
+
+GC-D5 was merged by PR #89, but its changed-path set contained only the standalone act. The published act omitted the adopted RS256 signing algorithm and ipd-user-portfolio-api audience, and referred to worksheet §4.3 rather than reproducing its proposed trust statement. GC-D6 corrects those omissions without rewriting Git history.
+
+This is a documentation-only corrective publication. It does not generate keys, start an issuer/runtime, create a database, provision P-4, grant P-6 authority, or perform P-8 qualification. P-4 remains subject to a separate sequential act; existing HTTP 503 and Option 2F write-refusal boundaries remain unchanged.
