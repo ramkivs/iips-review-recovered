@@ -4,7 +4,7 @@
 > **Date:** `2026-10-14` (UTC)
 > **Workstream / gate:** NP-08 — Intelligence · D08 MACRO · **D89** UI-disclosure gate (and the D88/D91 relief mechanism)
 > **Document type:** `DECISION PACKET` — a consolidated, evidence-backed **request for a decision**, together with the findings that make it decidable.
-> **Status:** **PENDING DECISION**
+> **Status:** **PENDING DECISION** — *superseded for disposition purposes on `2026-10-15`* by `NP-08-D08-MACRO-OPTION-E-DISPOSITION-AND-XV16-AUTHORITY-DETERMINATION-01` (`docs/integration/NP-08-D08-MACRO-OPTION-E-DISPOSITION-AND-XV16-AUTHORITY-DETERMINATION-2026-10-15.md`), which records Option E and the `XV-16` narrow determination. **This packet is unchanged in substance and remains the evidence base**; its status line is accurate as at its own publication and is not rewritten here.
 > **Deciding authority:** **Ramki (Ramakrishnan), IIPS application owner and Program Authority** — supported by `NP-08-D08-D89-MACRO-UI-DISCLOSURE-DECISION-ACT-01` §"Decision authority: **Ramki — IIPS application owner and Program Authority**", and by `NP-08-D91-RELIEF-MECHANISM-ACT-01` §"Issuing authority: **Ramki / Program Authority** (deciding authority)".
 > **Recording agent:** `arena-agent` — investigation, verification and record-execution **only**. **No decision is rendered here.**
 > **This packet grants nothing.** It is not an act, not an authority, not a qualification, not an admission, not an approval, and not a signature. It creates no implementation authority, does not open the D89 gate, does not grant `D91/D88_MACRO_RELIEF`, and does not resolve `XV-16`.
