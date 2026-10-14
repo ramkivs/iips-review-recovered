@@ -48,7 +48,7 @@ All coordinates below were re-established in this act directly against the autho
 | Item | Value | Class |
 |---|---|---|
 | `refs/heads/main` | `33bbb0fac947476bd70993810f730e09018f5f8f` | R, A |
-| Session branch (transport) | `arena/dd87c5d6-iips-review-recovered` @ `6008eed` — carries PR #91; changes versus `main` are the P-2 transport files only | R, A |
+| Session branch (transport) | `arena/dd87c5d6-iips-review-recovered` @ `6008eed` **as at preparation** — carries PR #91; at that point the branch differed from `main` only in the P-2 transport files. This act then adds one commit on that branch (this record + tracker §15.17); the published branch tip and this record's blob are recorded in the PR verification comment, not here | R, A |
 | F-1/F-2/F-3 policy + design-direction record | `docs/integration/IIPS_v3.0_OWNER_CONTEXT_F1_F2_F3_PA_DECISION.md` — blob `47b158f694390e3911bb01f841453f128a9215c5`; 322 lines; 46 022 bytes; SHA-256 `65b34fbd931237ec7bc459023a20da5b89319df7c3e20f19ecebab5f8be0813c` | R, A |
 | F-1/F-2 value act | `docs/integration/IIPS_v3.0_OWNER_CONTEXT_F1_F2_VALUE_ACT.md` — blob `f90c9325f49d33f378f3fc0936c28f4979164b2e` | R, A |
 | F-3 mechanism decision | `docs/integration/IIPS_v3.0_OWNER_CONTEXT_F3_MECHANISM_AND_IMPLEMENTATION_PA_DECISION.md` — blob `c4c9f7d79ef181af96f6c4e5cc108288ef22fd02` | R, A |
