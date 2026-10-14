@@ -111,7 +111,7 @@ The following are recorded **as transferred factual context**. Arena did **not**
 
 > **Correction `GC-P2-DEPOSIT-SOURCE-AUDIT-01` (`2026-10-14`).** The "Still confined to Windows" existence statements above are **refuted-in-part** by read-only source audit: `p2-establishment-result.txt`, `p2-pin-provenance.txt` and `p2-anchor-key-public.json` were **never produced as files** (no executed handoff instruction creates them; absent from `$ev` and from the destination); the governed transcript exists but **fails the manifest §1 content checklist** (host, pin verification, ACLs, tooling hashes, D1, D1b, F2–F4 absent) and the destination copy is wrong-source (off-coordinate `…-014000` file). The raw outputs remain source evidence only. See [`…_DEPOSIT_SOURCE_AUDIT_AND_ARTIFACT_DISPOSITION_REQUEST_2026-10-14.md`](IIPS_v3.0_GATE_C_P2_DEPOSIT_SOURCE_AUDIT_AND_ARTIFACT_DISPOSITION_REQUEST_2026-10-14.md) (tracker §15.20). **Deposit remains INCOMPLETE — nothing staged, committed or pushed.**
 
-**5.6 Minimum transfer (one commit).** Deposit exactly the four manifest artifacts into the folder of §5.2 and push — nothing else: no archives, no duplicate packages, no checksum files (ordinary Git blob verification suffices), no source changes.
+**5.6 Minimum transfer (one commit) — amended by `GC-P2-DEPOSIT-DISPOSITION-01` (manifest §1/§7; `2026-10-14`).** Deposit exactly **the one amended-set artifact** — `p2-establishment-transcript.txt`, byte-for-byte from the governed `p2-establishment-transcript-2026-10-14.txt`, with its actual coverage and limitations per amended manifest §1 — into the folder of §5.2 and push; **nothing else**: no archives, no duplicate packages, no checksum files (ordinary Git blob verification suffices), no source changes. The original set's artifacts 2–4 are dispositioned **NEVER PRODUCED / NEVER PRODUCED AS A FILE / NEVER PRODUCED UNDER THE REQUIRED NAME** and are **removed from the required deposit set** (manifest §1/§7); no reconstruction, rename, copy or substitute stands in for them, and the alternate `…-014000` transcript is never substituted. The destination's untracked wrong-source copy is removed and replaced from the governed source **on the designated host, only after this amendment is durably published**, with source==destination SHA-256 verified before staging.
 
 ```bat
 cd /d <IRR working tree on Windows>
@@ -121,12 +121,12 @@ git pull --ff-only origin arena/dd87c5d6-iips-review-recovered
 REM copy the four artifacts into: evidence\integration\gate-c-p2-establishment-2026-10-14\
 git add evidence/integration/gate-c-p2-establishment-2026-10-14
 git status --porcelain
-git commit -m "chore(evidence): deposit P-2 establishment evidence (P2-A-D1) with F5.2 unresolved"
+git commit -m "chore(evidence): deposit P-2 establishment transcript (amended set, GC-P2-DEPOSIT-DISPOSITION-01)"
 git push origin arena/dd87c5d6-iips-review-recovered
 git ls-remote origin refs/heads/arena/dd87c5d6-iips-review-recovered
 ```
 
-`git status --porcelain` must list **only** the four artifact paths (plus the operator's own additions if any are intended) — no source, configuration, build or IPD path.
+`git status --porcelain` must list **only** the amended-set artifact path (`p2-establishment-transcript.txt`) (plus the operator's own additions if any are intended) — no source, configuration, build or IPD path.
 
 ---
 
