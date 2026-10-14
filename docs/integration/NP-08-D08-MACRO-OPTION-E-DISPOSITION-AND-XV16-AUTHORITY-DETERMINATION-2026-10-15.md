@@ -11,6 +11,7 @@
 > **9. Repository / ref (durable):** `ramkivs/iips-review-recovered` @ **`main`** (pending) — presently published on PR #98 head; durable destination per `NP-08-P4-GATE-Y-CORPUS-PLACEMENT-DESIGNATION` **C-1** ("*authoritative closure requires publication to IRR `main`*")
 > **10. Mutation:** one new governance artifact; one additive forward-pointer in the linked packet; additive tracker rows only. **Zero** modification to any historical record; **zero** product-code, IPD, fence or governed-act modification.
 > **11. Supersession:** **none.** This act supersedes no prior act, amends no operative act, and rewrites no history. D88, D89, D91, the D91 relief mechanism acts, the M-5 disposition act, the D8 scope determination act and `NP-07` remain exactly as written.
+> **13. Ratification and gate state (additive, `2026-10-15`):** H-18 §8.3(a) **SATISFIED** — see **§11**; H-18 §8.3(b) merge authorization **NOT SATISFIED**, so this act remains **non-authoritative**. Field 6 is **preserved as published and not rewritten**; §11.3 states its relationship to this update.
 > **12. Production:** **OUT OF SCOPE.** No implementation, promotion, main-admission, runtime, end-to-end or production authority is granted or implied.
 
 ---
@@ -207,3 +208,45 @@ Standing review note (no new authority): **the deferral self-terminates on R-1**
 ## Appendix B — publication coordinates
 
 Deliberately **not recorded here**, per the self-reference rule quoted in §1.2. They are recorded in the root tracker: `## 16.22` and the `§5` row `CHG-2026-10-15-01`, which carry the branch head, PR state, CI conclusion, remote `sha256` compare and both `main` refs.
+
+---
+
+## 11. Ratification and gate state — additive section, `2026-10-15`
+
+> **Purpose.** Fields 5 and 6 recorded this act as *decided but pending ratification of its wording*. Section 11 applies the governing convention to that self-imposed bar and records the outcome of both questions it raises — **ratification** and **merge authority** — from the operative clauses, not from general intent. **Nothing above this line is edited, reworded or reinterpreted.**
+
+### 11.1 The clauses that decide it
+
+| Instrument (path) | Operative text | What it fixes |
+|---|---|---|
+| `docs/integration/IIPS_v3.0_H18_PRODUCT_SCOPE_SINGLE_USER_PERSONAL_USE.md` §8 | "*3. **Pre-merge gates.** (a) **Program Authority review and approval**. (b) **Merge authorization (separate explicit authorization required)**. 4. **Post-merge gates.** (a) `origin/main` contains this record. (b) Independent remote verification of the merged state. 5. **Effectiveness.** This decision takes effect only after post-merge verification. Before that, this candidate is **non-authoritative**.*" | The gate model is **four gates, and two of them are separate**: approval of the *decision*, and authorization of the *merge*. Approval is not conditioned on any signature |
+| `docs/integration/IIPS_v3.0_G2_2_EXISTING_CAPABILITY_CONVERGENCE_DECISION_RECORD.md` §P5 | "*This effectiveness rule **does not grant merge authorization**. Merge requires a **separate, explicit authorization after review** (§10).*" | Forecloses the one inference that would be convenient here: a recorded/decided status never carries merge with it |
+| `docs/integration/IIPS_v3.0_E2E-030_D42_DELTA_GOVERNANCE_DECISION.md` header + §3.1/§3.2, row **R-10** | "**Decision & Sign-Off Authority** … **Ramki** — … acting via **explicit scope-limited role consolidation for this specific** … **delta**"; "**Recording agent** … (recording and controlled repository publication only; **no independent authority, delegation, or third-party signature is invented**)"; §3.2 title "**Explicit Authorization to Merge and Publish to `main`**"; R-10 "**Separate Merge Authorization to `refs/heads/main`** … Explicitly authorized by platform owner (`Ramki`) **for `arena/17a2c787-iips-review-recovered` → `refs/heads/main`**" | **Sign-off = the owner's explicit direction on a named matter.** No signature artifact exists in the form; and a merge grant, when given, is **named to a specific branch/head and expressly scope-limited** ("*not a general governance-policy change*") |
+| `docs/integration/IIPS_v3.0_G1_PROGRAM_AUTHORITY_DECISION_RECORD.md` §8 | "***IRR `main`: NOT PUBLISHED.** … publication to `main` … G1 is **CLOSED only when this record is durably published and independently verified** on IRR `main`. Until then G1 is **PARTIALLY CLOSED**.*"; and its self-reference rule for commit/blob identifiers | The **candidate posture** this act is in is itself a named state in this corpus, with its own vocabulary — "PARTIALLY CLOSED", non-authoritative, publication coordinates kept outside the artifact |
+| `docs/integration/IIPS_v3.0_G1_PROGRAM_AUTHORITY_DECISION_BOUNDARY.md` §8 | heading "**Program Authority decision block (UNSIGNED — NOT RECORDED)**", decision cells "`[ ]`", signature column "**PENDING**" | What a **missing** PA decision looks like in this corpus: an explicit `PENDING`, not an inferred yes. Field 6 used that vocabulary correctly at the time; §11.2 updates it because the decision has since been given |
+
+### 11.2 Gate state as at this commit
+
+| Gate (H-18 §8) | State | Evidence |
+|---|---|---|
+| **3(a) Program Authority review and approval** | **SATISFIED — for D-1 and D-2 exactly as directed, and for nothing else** | The PA's direction of `2026-10-15` enumerated the determinations ("*Macro disclosure: **Option E** — explicitly defer implementation while preserving the obligation*"; "*`XV-16`: **formally determine** whether the IPD-side record can discharge or modify the IRR-owned obligation*"; "*Preferred future implementation candidate: **L-C**, subject to a separate implementation-authority gate and compatibility verification*"), authorized execution of "*the decision-recording actions supported by the existing governance process and the user's explicit direction*", barred fabrication ("*Do not fabricate a signature, acceptance, or authorization*"), and then stated that "*the user's Option E direction … [is] **already established**" and "*the task is to investigate and apply the existing governance convention, **not to reopen settled choices***" |
+| **3(b) Merge authorization** | **NOT SATISFIED — this act is therefore not admitted to `main`** | No record in either repository authorizes merging **PR #98**; the standing program instruction is negative on the point; and per §11.1 the authority must be **separate, explicit and named to the branch/head** |
+| **4(a) `origin/main` contains this record** | **NOT SATISFIED** — verified: `git ls-tree origin/main docs/integration` shows no `OPTION-E-DISPOSITION` path | Read this turn, not inferred from a prior report |
+| **4(b) Independent remote verification of the merged state** | **NOT APPLICABLE until 4(a)**; branch-level verification performed instead (contents-API `sha256` equality, CI success) and reported in tracker `§16.23`–`§16.24` | — |
+| **5 Effectiveness** | **NON-AUTHORITATIVE** until 4(a)+4(b); status line at §11.6 | H-18 §8.5 verbatim |
+
+### 11.3 Disposition of field 6 — corrected by applying the convention, not by overriding it
+Field 6 required "**PA ratification of this record's wording**". Read against H-18 §8.3(a) and the D42 sign-off model, that bar was **stricter than the corpus requires**: gate (a) asks for **review and approval of the decision**, and no governing clause conditions effectiveness on the PA's confirmation of an agent-drafted formulation. The corpus's own practice is the opposite — the implementation-authority act records "*every decision … supplied **explicitly by Ramki***" while the agent wrote the text, and AD-01 is titled by its **direction** ("*PA direction Q3*"). Accordingly: **field 6's `PENDING PA RATIFICATION` is preserved as published** (this is an additive act, not an edit of a published state), and §11.2 gate 3(a) records the bar as **satisfied on the substance directed**. Where the PA has not decided, this corpus writes `PENDING` — which is why **3(b) still reads NOT SATISFIED** and why **`CV-53`, `XV-15`, `XV-16` and `Live E2E` stay exactly as registered**.
+
+### 11.4 Provenance and authenticity statement
+The direction relied on in §11.2 was delivered **through this session's task channel**, which is the channel by which every `NP-08` act in this corpus was decided; **no signature, authenticated identity, timestamp, seal or third-party attestation is claimed, invented or implied**, and the agent claims no independent authority, delegation or decision of its own. This section is the **narrowest valid additive update**: it records gate (a) and leaves gate (b) open. It does **not** convert the candidate into an authoritative record, and it does not restate, extend or soften D-1 or D-2.
+
+### 11.5 What this section expressly does not do
+No **merge**; no **implementation** of any Macro UI, component, route or test; no **`CV-38` port**; no **`D91/D88` relief**, exemption or implied waiver; no **synthetic fallback**; no **edit of any governed act** (D89/D91/D88/D8/M-5 unchanged, including their non-retroactive character); no **qualification, admission, activation, certification or compliance**; no resolution of the **general** cross-corpus authority question (still `UNRESOLVED`); no inference that CI success or branch publication evidences any of the above.
+
+### 11.6 Resulting status for this act
+> ## **RATIFIED AS DIRECTED — gate 3(a) SATISFIED (bounded to D-1 and D-2); DURABLE PUBLICATION PENDING — blocked on the separate explicit merge authorization required by H-18 §8.3(b).**
+> Until gates 4(a) and 4(b) complete, this act remains **non-authoritative** and **PARTIALLY CLOSED** in the corpus's own vocabulary.
+
+### 11.7 The precise missing instrument
+One explicit statement from the Program Authority, in the D42 §3.2 form, naming **`arena/ee3fd321-iips-review-recovered` @ the head carrying this act → `refs/heads/main`**, i.e. **PR #98 in its entirety (21 commits, 18 files)** — the scope being what GitHub merges atomically. If the PA prefers, the grant may be **strictly scope-limited** to the three governance records (this act, the packet, the tracker), in which case the PR's earlier `CV-CORR-04`/`CV-CORR-06` product and CI changes remain unadmitted and a decision on them is separately owed. **No competing docs-only PR will be opened without such a governance reason.** Verification after any merge follows H-18 §8.4 and the NP-12 four-step form: merged commit, parent, root tree, this record's blob and raw `sha256`, then the tracker's `§5` row.
