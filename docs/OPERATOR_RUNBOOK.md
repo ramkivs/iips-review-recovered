@@ -102,7 +102,7 @@ Read of the **certified reference** data — every screen answers from the froze
 | `POST /api/screener` `{"definition":{"definitionId":"RUNBOOK-CONVICTION","version":"1","predicates":[{"field":"conviction","operator":"gte","operand":"50"}]}}` | `200` | `result.matchedCount 12`, `result.totalPopulationCount 13`, `executionStatus COMPLETED`, `evaluatorId NP12-SCREEN-EVALUATOR`; membership is **server-derived**; `executionId 4d0e128b…` is content-addressed |
 | same body with `"predicates":[]` | `200` | `matchedCount 13`, `executionId b76227aa…`, `definitionDigest 1ef5dd80…`; **re-POSTing the identical definition returned the identical `executionId`** (deterministic, no clock, no randomness) |
 | `POST /api/screener` with a `members` key | `422` | `client-supplied-members-rejected` — population authority is never client-supplied |
-| `GET /api/macro/NAS?indicatorCode=1` | `200` with egress, `502` without | `502 RETRY_BUDGET_EXHAUSTED` was observed in the sandbox; `GET /api/macro/BOGUS` → `404` naming `approvedDatasets: NAS, CPI, IIP` |
+| `GET /api/macro/NAS?indicatorCode=1` | `200` with egress, `502` without | governed MoSPI read surface — see **§5.1** for the full contract, the exact fail-closed shapes and why there is no UI |
 | `GET "/api/pit/market-data?securityId=ISIN:INE467B01029:EQ&domain=D01_QUOTES&asOf=2026-12-31T23:59:59.000Z"` | `200` | `found: true`, D114 TCS record, `resolvedAsOf 2026-02-10T15:30:00.000Z`, `dataVersion v1.0.0-d114-historical`, `lineageHash 3f30ac98…`, and the honest identity label `securityIdentity.isinAuthority: NON_AUTHORITATIVE`; `domain=D02_OHLCV` answers with the governed candle instead |
 | `GET "/api/pit/market-data?securityId=ISIN:INE467B01029:XX&…"` (or a missing/bogus `domain`) | `404` / `400` | `INVALID_IDENTITY` / `INVALID_DOMAIN` / `INVALID_ASOF` — fail-closed at the boundary, no synthesis, no fallback |
 
@@ -117,6 +117,23 @@ Owner-scoped surfaces (require §2's carrier):
 | `…/items` `{"canonicalSecurityId":"NotARealSecurity"}` | `404 governed-row-not-found` | `503` |
 
 The `canonicalSecurityId` of the governed universe is the **sector name** (`executive-transport.ts:587`), so `Banking` resolves and an invented ISIN does not. That `404` is a governed-membership statement, not a lookup bug.
+
+### 5.1 Macro (`/api/macro`) — API only, by design
+
+The governed MoSPI / e-Sankhyiki read surface serves **exactly** `NAS`, `CPI`, `IIP` (`NP-08`/`D08` boundary; `WPI`, `PPI`, RBI-sourced data and item-level IIP are not addressable). Read-only, no credentials, no account, and **live-only**: a failed or partial retrieval is never turned into observations.
+
+| Request | Status | Meaning |
+|---|---|---|
+| `GET "/api/macro/nas?indicator=GVA"` (or `indicatorCode=1`; GDP = `5`) | `200` with egress · `502 RETRY_BUDGET_EXHAUSTED` without | the indicator **must** be explicit; `GET /api/macro/nas` → `400` naming the governed values; `indicator=GROSS` → `400`; `indicatorCode=3` → `502` with `code: INDICATOR_NOT_GOVERNED` and **no** observations |
+| `GET "/api/macro/iip"` | `200` metadata-only | returns the **runtime-resolved** governed selection (`type: Sectoral`, category resolved *by name*, `records: []`) — codes are never hard-coded, so they cannot drift across base years |
+| `GET "/api/macro/iip?subcategoryCode=2100-01"` | `200` observations | only a NIC-2 code inside the runtime-resolved set is served; anything else → `502`/refusal, and `General`, `Use-based`, Mining `12`, Electricity & Gas `13`, Water/Sewerage `14` are refused |
+| `GET "/api/macro/cpi"` | `200` | the governed published-index path with CPI's own base-year enumeration (`2012` default), not shop-price microdata |
+| `GET /api/macro/wpi` · `/api/macro/nasEVIL` · `/api/macro/` | `404` `{"error":"unknown macro dataset","approvedDatasets":["NAS","CPI","IIP"]}` | exact-path allow-list, so a near-miss path never reaches the provider |
+| `POST /api/macro/nas` | `405` `method not allowed; /api/macro is read-only` | guarded read |
+
+`502 RETRY_BUDGET_EXHAUSTED` with `"message": "request failed after 4 attempt(s): TypeError: fetch failed"` (captured 2026-10-14) means this machine could not reach `api.mospi.gov.in` — four bounded attempts, then a truthful failure. Check egress/proxy before treating it as an application defect; unauthenticated access is also throttled upstream (small pages), which the transport handles by paging with `limit`/`page` until complete.
+
+**There is deliberately no Macro screen.** `frontend/src/features/research/MacroContext.tsx` fetches and provides state for a view, and no view or route is authorized to exist yet: the disclosure contract `DT-1…DT-15` is binding *for a future gated implementation*, and `DT-15` forbids treating it as implementation authority. So the sidebar offers no Macro entry, and `/intelligence/*` stays an honest placeholder — that is the boundary, not a regression.
 
 ## 6. Prove durability (Class-C journal), 2 minutes
 
@@ -144,6 +161,7 @@ Observed on 2026-10-14: `201 / 201 / 404`, journal `1140 bytes / 3 lines` with `
 | `GET`/`POST /api/reports`, `/api/reports/`, `/api/reports/artifacts/` | `404` `{"error":"not found"}` | `reports-transport.ts` is the ratified fence: it keeps exact route/method validation and never enables the deferred Reports capability — an unknown shape is not “temporarily unavailable”. |
 | `POST /api/pit/market-data?…` | `405` (`found:false`, `reason: INVALID_IDENTITY`) | the PIT seam is read-only; a write attempt is refused at the boundary, not silently accepted. |
 | `POST /api/engines/:id/execute` for anything not certified | `404` `DENIED` | registry-governed dispatch only; no arbitrary code execution. |
+| A Macro product surface (any view of `NAS`/`CPI`/`IIP` in the UI) | not built, and not permitted to be built yet | `NP-08-D08-D89-MACRO-UI-DISCLOSURE-DECISION-ACT-01` fixes the disclosure contract (`DT-1…DT-15`) but records **“UI/application implementation: NOT AUTHORIZED”**; `DT-15` bars using that act as implementation authority. The API route above is the authorized surface. |
 | The retired auth stack (login, roles, tenants, admin) | absent, not disabled | retired by decision for this single-user product; reintroducing it would need a new requirement, not a workaround. |
 | `/api/*` client calls | no `authorization` header, ever | `core/network/noAuthFetch.ts`; `App.test.tsx` and the API tests assert it. |
 
@@ -165,5 +183,6 @@ Expected at the current head: typecheck exit `0`; vitest **64 files / 705 tests*
 | Every screen shows an error state | is the transport on `8787`? `curl localhost:8787/api/health` | Vite proxy target mismatch |
 | Owner-scoped screens `503` with a carrier present | `sha256sum` vs `OWNER_CONTEXT_CARRIER_SHA256`; is `IIPS_OWNER_CONTEXT_PATH` the **file**, not the directory | byte-exact carrier contract |
 | Watchlists empty after a restart | `IIPS_DATA_DIR` identical on both starts | different data home ⇒ different journal |
-| `/api/macro/*` `502` | outbound internet | upstream MoSPI, not the app |
+| `/api/macro/*` `502 RETRY_BUDGET_EXHAUSTED` | outbound TLS to `api.mospi.gov.in:443` (e.g. `curl -sv --max-time 10 https://api.mospi.gov.in/api/cpi/getCPIIndex?limit=1`) | upstream reachability, not the app; a `502` with `code: INDICATOR_NOT_GOVERNED` instead is a governance refusal, which is also correct |
+| A Macro value shown in the UI | none can be | no Macro view exists or is authorized (`DT-15`); use the route responses above |
 | A `404` on a screen you expected | `App.tsx` route table: `/research`, `/research/sector/:id`, `/intelligence/*` (except `decision-matrix`), `/evidence/snapshots`, `/evidence/replay` are honest `FeatureNotImplemented` mounts | later-phase surfaces; no data is fabricated for them |
