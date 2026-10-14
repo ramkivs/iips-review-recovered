@@ -210,9 +210,9 @@ Post-freeze rule: any methodology change requires a new calibration/profile vers
 
 ---
 
-## program-v1.2.0 — 13-Engine Successor LTS (RELEASE CANDIDATE — PREPUBLICATION)
+## program-v1.2.0 — 13-Engine Successor LTS (PUBLISHED — RELEASE CANDIDATE LINEAGE PRESERVED)
 
-**Version identifier:** `program-v1.2.0` / `v1.2.0` (planned tag `program-v1.2.0` — TAG PLANNED, NOT YET CREATED)
+**Version identifier:** `program-v1.2.0` / `v1.2.0` (tag `program-v1.2.0` — CREATED)
 **Release date:** **2026-09-05**
 **Release status:** **RELEASE CANDIDATE — PREPUBLICATION** (not yet released, not yet tagged, not yet published) — **PUBLICATION APPROVED — AWAITING PUBLICATION EXECUTION** (sign-off `2026-09-05`, Engineering Reviewer `Ramki`, Repository Maintainer `Sai`, `Approved for Release`)
 **Release type:** **MINOR successor** to `program-v1.1.0` (10-engine LTS) — `MINOR = New published standards / major additions` per `governance/VERSIONING_POLICY.md` and `RELEASES.md` Semantic Versioning
@@ -226,7 +226,7 @@ Post-freeze rule: any methodology change requires a new calibration/profile vers
 
 **Historical preservation:** `program-v1.1.0` remains **historical 10-engine LTS** (`PROGRAM_v1.1_LTS_BASELINE.md` 10-engine FROZEN, `PROGRAM_v1.1_FINAL_READINESS_CERTIFICATE.md` ISSUED, `RELEASE_NOTES_PROGRAM_v1.1.0.md` Tag `program-v1.1.0`) — **preserved verbatim, not rewritten**. This `v1.2.0` is additive successor.
 
-**Release boundary:** This ledger entry is **PREPUBLICATION preparation** — tag `program-v1.2.0` **PLANNED, NOT YET CREATED**, GitHub Release **NOT YET PUBLISHED**, production **NOT PROMOTED**. Publication requires separate release-execution gate after `RELEASE_CHECKLIST.md` Phases 1–6 sign-off.
+**Release boundary:** the tag `program-v1.2.0` was **created** and the GitHub Release was **published 2026-09-05** after the release-execution gate following `RELEASE_CHECKLIST.md` Phases 1–6 sign-off. Verified against remote state on 2026-10-14: annotated tag `program-v1.2.0` exists (tag object `4ec8812e…` → commit `5decdca9…`) and the GitHub Release `program-v1.2.0` is published at <https://github.com/ramkivs/iips-review-recovered/releases/tag/program-v1.2.0> (`publishedAt` 2026-09-05T06:11:08Z), covering the 13 certified sector engines (IES-006…015, 016, 017, 020). Production promotion remains **outside** this ledger entry's claims: nothing here asserts deployment or production status beyond the published tag/release. *Additive status correction (`CV-CORR-04`, 2026-10-14): this line read "PREPUBLICATION / TAG PLANNED, NOT YET CREATED" while publication was pending; the surrounding historical text is preserved verbatim and no claim is re-dated.*
 
 **Evidence:** `PROGRAM_v1.2_LTS_BASELINE.md` `v1.2.0` RC, `RELEASE_NOTES_PROGRAM_v1.2.0.md`, `PROGRAM_v1.2.0_COMPATIBILITY_AND_MIGRATION.md`, `PROGRAM_v1.2_FINAL_READINESS_CERTIFICATE.md` RC, all additive at `da01a82`.
 

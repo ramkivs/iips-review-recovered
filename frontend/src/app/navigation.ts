@@ -10,6 +10,13 @@ export interface NavItem {
   label: string;
   path: string;
   children?: NavItem[];
+  /**
+   * `groupOnly` marks a parent whose own path has no built destination (it resolves to the
+   * honest `FeatureNotImplemented` shell). Such an item is rendered as a non-clickable heading
+   * over its implemented children, so no navigation click can land on "not yet built".
+   * Presentation-only honesty marker: it is never a permission or an authorization decision.
+   */
+  groupOnly?: boolean;
 }
 
 export const NAV: NavItem[] = [
@@ -32,6 +39,9 @@ export const NAV: NavItem[] = [
   {
     label: 'Research',
     path: '/research',
+    // `/research` has no workspace of its own (it renders the honest placeholder), so it is a
+    // group heading here rather than a link that dead-ends. Its implemented children stay links.
+    groupOnly: true,
     children: [
       { label: 'Company', path: '/research/company/:id' },
       { label: 'Sector', path: '/research/sector/:id' },
@@ -43,6 +53,9 @@ export const NAV: NavItem[] = [
   {
     label: 'Intelligence',
     path: '/intelligence',
+    // Same disposition as `Research`: `/intelligence` and the Opportunities / Risks / Rankings
+    // children are unbuilt surfaces, so only the implemented children are clickable.
+    groupOnly: true,
     children: [
       { label: 'Opportunities', path: '/intelligence/opportunities' },
       { label: 'Risks', path: '/intelligence/risks' },
@@ -69,6 +82,11 @@ export const AVAILABLE_CHILD_PATHS: ReadonlySet<string> = new Set<string>([
   ROUTES.intelligenceDecisionMatrix,
   ROUTES.aiExplanation,
 ]);
+
+/** A top-level nav item whose own path must not be rendered as a link. */
+export function isGroupOnly(item: NavItem): boolean {
+  return item.groupOnly === true;
+}
 
 /** All non-retired product navigation, without a role/session dependency. */
 export function visibleNav(): NavItem[] {

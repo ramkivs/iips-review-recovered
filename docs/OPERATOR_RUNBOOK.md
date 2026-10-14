@@ -1,0 +1,169 @@
+# IIPS v3.0 — Operator Runbook (single-user, personal use)
+
+**Audience:** the owner (Ramki) or a new machine. **Purpose:** start the application from a fresh clone with no oral knowledge, and tell apart a working fail-closed surface from a broken one.
+
+Every command and every expected output below was **executed and captured on 2026-10-14** on Linux (Node `v22.22.3`, npm CI install of `frontend/`) at commit `1b2b1948…` + the `CV-CORR-04` changes. Results on another machine differ only where the sandbox has no internet egress (noted inline). This runbook renders no authority, lifts no fence and changes no governed record; it documents the state those records already require.
+
+---
+
+## 0. Prerequisites
+
+| Need | Why | Check |
+|---|---|---|
+| Node ≥ 22.6 | the transports are TypeScript run directly (`tsx` is now a dev dependency, so 22.x is enough) | `node --version` |
+| Network reachability to **GitHub** | `frontend/package.json` pins the runtime data package as `iips-production-market-data: github:ramkivs/iips-production-market-data#2e11fa3b689d1a3674a5e4ba1f1de9a559e20494`; `npm ci` fetches that tarball from `codeload.github.com` | `npm ci` completes |
+| A TLS-intercepting proxy needs the CA exported to Node | otherwise `npm ci` fails with `UNABLE_TO_VERIFY_LEAF_SIGNATURE` on `codeload.github.com` | `export NODE_EXTRA_CA_CERTS=/etc/ssl/certs/ca-certificates.crt` before `npm ci` |
+| Outbound internet for the macro surface only | `/api/macro/NAS` calls the MoSPI source | expect `502 RETRY_BUDGET_EXHAUSTED` when egress is blocked (observed in the Arena sandbox) |
+| Windows is a **separate evidence domain** | ACL/permission and path semantics are Windows-specific | Windows results are recorded in their own evidence files and are never merged into Linux transcripts by implication |
+
+There is **no** authentication, no login, no role, no tenant selection and no environment file to configure beyond the two variables in §2–§3. That is the product scope, not a missing feature.
+
+## 1. Install
+
+```bash
+git clone https://github.com/ramkivs/iips-review-recovered.git && cd iips-review-recovered/frontend
+npm ci          # see §0 for the GitHub/CA requirements
+```
+
+## 2. Materialise the owner-context carrier (one-time per machine, per data home)
+
+Owner-scoped surfaces (Watchlists, Collaboration, Settings) read the owner pair from a **server-owned local file** — never from a request, header or cookie. The approved pair is fixed by the governed F-1/F-2 value act; the carrier is *materialisation, never an authority*.
+
+```bash
+RUN=~/.iips-run; mkdir -p "$RUN"
+cd frontend && node --experimental-strip-types -e "
+import('./server/owner-context-carrier.ts').then(m => console.log('carrier written:', m.materialiseOwnerContextCarrier(process.env.RUN || '$RUN')));
+"
+```
+
+Verify the bytes — the digest is pinned in `server/owner-context-carrier.ts:78` (`OWNER_CONTEXT_CARRIER_SHA256`), so the file must match exactly:
+
+```bash
+wc -c  < "$RUN/owner-context.json"     # → 363            (CANONICAL_CARRIER_BYTE_LENGTH)
+sha256sum "$RUN/owner-context.json"     # → d5a79efb8f13790834f3e4047c5f19030a46d8d0365fa48b28209b1a988ebbe4
+```
+
+Both values were reproduced on 2026-10-14. Content (byte-exact, two-space indent, one trailing LF):
+
+```json
+{
+  "carrierSchemaVersion": 1,
+  "ownerUserId": "owner-7f3a91c2",
+  "tenantId": "irr-domain-4b82d6e1",
+  "governedBy": { …record id/path/blob/date… }
+}
+```
+
+Rules that fail closed on purpose:
+
+- The path **must be outside any Git working tree** — `materialiseOwnerContextCarrier` throws `OwnerContextCarrierLocationError` inside one, so owner data can never be committed.
+- Any byte change (BOM, CRLF, re-indentation, edited values) changes the digest → the resolver rejects it → `503 owner-context-unavailable`. There is no leniency, and that is the design: editing the local file cannot move change authority away from the merged PA act.
+- Do **not** hand-write this file to invent a different owner. A foreign pair is not a configuration option; it is a governance violation.
+
+## 3. Start the API transport
+
+```bash
+cd frontend
+IIPS_OWNER_CONTEXT_PATH=$RUN/owner-context.json \
+IIPS_DATA_DIR=~/.iips-data \
+npm run server:dev
+# → Executive transport listening on :8787
+```
+
+| Variable | Effect | Omitted ⇒ |
+|---|---|---|
+| `IIPS_OWNER_CONTEXT_PATH` | path to the carrier **file** | owner-scoped surfaces answer `503 owner-context-unavailable` |
+| `IIPS_DATA_DIR` | home of the Class-C NDJSON journal (`watchlists/journal.ndjson`); default `<cwd>/.iips-data`, which is gitignored | writes land inside the working tree default (still untracked) |
+| `EXEC_TRANSPORT_PORT` | listen port (default `8787`) | the Vite proxy assumes `8787` (see §4) |
+| `NODE_ENV=test` | suppresses `listen()` (used by the suites) | normal boot |
+
+The UI proxies `/api` → `http://localhost:8787` (`vite.config.ts:14`). If you change the port, the proxy target must change too, or every screen will show its error state.
+
+## 4. Start the UI
+
+```bash
+cd frontend && npm run dev      # → http://localhost:5173 (host 0.0.0.0)
+```
+
+The sidebar then offers Executive, Portfolio, User Portfolios, Watchlists, Collaboration, Settings, the Research and Intelligence children that are built, Screener and Evidence. `Research` and `Intelligence` are group headings, not links: their parent paths have no built workspace, so no click can land on “not yet built” (`App.test.tsx` pins this invariant).
+
+## 5. Expected per-route outcomes
+
+Read of the **certified reference** data — every screen answers from the frozen v1.1 Replay Baseline with `vintage: {asOf 2026-09-04, dataVersion 1.1.0, mode SNAPSHOT, dataSource "governed:program-v1.1-replay-baseline", memberCount 13}`. This is a snapshot surface, not a live feed; that is the certified contract, not a degraded mode. Sector keys in `/api/company`, `/api/evidence`, `/api/replay` are case-insensitive.
+
+| Request | Status | Note |
+|---|---|---|
+| `GET /api/health` | `200` | `{"status":"ok","transport":"program-v3.0 executive (dev)"}` |
+| `GET /api/executive` · `/api/cross-sector` · `/api/portfolio` · `/api/decision-matrix` | `200` | 13 governed members; `ranking` + `opportunity` + `avgRisk`/flags are the certified CSIP outputs mapped 1:1 |
+| `GET /api/company/Banking` (or `/api/company/banking` — the sector key is case-insensitive) | `200` | `:id` is a **sector** key, not an instrument id; the payload is the certified engine output (`companyId: Banking-H1`, `verdict: Watch`, `composite: 47.1`) |
+| `GET /api/evidence/Banking` · `/api/replay/Banking` | `200` | `ev_Banking` / `snap_Banking` (same decision + evidence trail). A non-sector id (`…/EV-T`) → `404 company not found` |
+| `GET /api/engines` | `200` | the 13 certified sector engines (no CSIP entry: it is a platform capability, not a sector engine) |
+| `POST /api/engines/sector.technology/execute` | `200` | engine id must be the **certified** id; `technology` → `400 ApiValidationError` |
+| `POST /api/screener` `{"definition":{"definitionId":"RUNBOOK-CONVICTION","version":"1","predicates":[{"field":"conviction","operator":"gte","operand":"50"}]}}` | `200` | `result.matchedCount 12`, `result.totalPopulationCount 13`, `executionStatus COMPLETED`, `evaluatorId NP12-SCREEN-EVALUATOR`; membership is **server-derived**; `executionId 4d0e128b…` is content-addressed |
+| same body with `"predicates":[]` | `200` | `matchedCount 13`, `executionId b76227aa…`, `definitionDigest 1ef5dd80…`; **re-POSTing the identical definition returned the identical `executionId`** (deterministic, no clock, no randomness) |
+| `POST /api/screener` with a `members` key | `422` | `client-supplied-members-rejected` — population authority is never client-supplied |
+| `GET /api/macro/NAS?indicatorCode=1` | `200` with egress, `502` without | `502 RETRY_BUDGET_EXHAUSTED` was observed in the sandbox; `GET /api/macro/BOGUS` → `404` naming `approvedDatasets: NAS, CPI, IIP` |
+| `GET "/api/pit/market-data?securityId=ISIN:INE467B01029:EQ&domain=D01_QUOTES&asOf=2026-12-31T23:59:59.000Z"` | `200` | `found: true`, D114 TCS record, `resolvedAsOf 2026-02-10T15:30:00.000Z`, `dataVersion v1.0.0-d114-historical`, `lineageHash 3f30ac98…`, and the honest identity label `securityIdentity.isinAuthority: NON_AUTHORITATIVE`; `domain=D02_OHLCV` answers with the governed candle instead |
+| `GET "/api/pit/market-data?securityId=ISIN:INE467B01029:XX&…"` (or a missing/bogus `domain`) | `404` / `400` | `INVALID_IDENTITY` / `INVALID_DOMAIN` / `INVALID_ASOF` — fail-closed at the boundary, no synthesis, no fallback |
+
+Owner-scoped surfaces (require §2's carrier):
+
+| Request | With carrier | Without carrier |
+|---|---|---|
+| `GET /api/watchlists` | `200` (`data: []` on a clean journal) | `503 owner-context-unavailable` |
+| `GET /api/collaboration`, `GET /api/settings` | `200` | `503` |
+| `POST /api/watchlists` `{"watchlistId":"wl-runbook","name":"Runbook check"}` | `201` | `503` |
+| `POST /api/watchlists/wl-runbook/items` `{"canonicalSecurityId":"Banking"}` | `201` (row carried with its certified baseline) | `503` |
+| `…/items` `{"canonicalSecurityId":"NotARealSecurity"}` | `404 governed-row-not-found` | `503` |
+
+The `canonicalSecurityId` of the governed universe is the **sector name** (`executive-transport.ts:587`), so `Banking` resolves and an invented ISIN does not. That `404` is a governed-membership statement, not a lookup bug.
+
+## 6. Prove durability (Class-C journal), 2 minutes
+
+```bash
+curl -s -o /dev/null -w '%{http_code}\n' -X POST localhost:8787/api/watchlists -H 'content-type: application/json' \
+     --data '{"watchlistId":"wl-runbook","name":"Runbook check"}'      # → 201
+curl -s -o /dev/null -w '%{http_code}\n' -X POST localhost:8787/api/watchlists/wl-runbook/items -H 'content-type: application/json' \
+     --data '{"canonicalSecurityId":"Banking"}'                          # → 201
+curl -s -o /dev/null -w '%{http_code}\n' -X POST localhost:8787/api/watchlists/wl-runbook/items -H 'content-type: application/json' \
+     --data '{"canonicalSecurityId":"RELIANCE"}'                         # → 404 governed-row-not-found
+wc -l ~/.iips-data/watchlists/journal.ndjson      # → 3  (header + 2 events)
+# stop the transport (Ctrl-C), then start it again exactly as in §3
+curl -s localhost:8787/api/watchlists/wl-runbook | head -c 80; echo    # → 200, same createdAt
+wc -l ~/.iips-data/watchlists/journal.ndjson      # → 3  (reads append nothing)
+```
+
+Observed on 2026-10-14: `201 / 201 / 404`, journal `1140 bytes / 3 lines` with `tenantId irr-domain-4b82d6e1` + `ownerUserId owner-7f3a91c2` on each event, the record readable after a **full transport restart** with `createdAt` preserved, and the line count unchanged by reads. That is the restart-survival and idempotence bar for this store.
+
+## 7. What is fenced, and what it means
+
+| Surface | Answer at `main` + `CV-CORR-04` (all four probes executed 2026-10-14) | Why this is correct behaviour |
+|---|---|---|
+| `GET`+`POST /api/user-portfolios`, `/api/user-portfolios/summary` | `503` `owner-context-unavailable`, detail “No non-authentication ownership source has been established. No owner is inferred; no data is read or changed.” | Durable user-portfolio work is authorized, implemented and **unadmitted**; `D-1` and the implementation record §8.5 withhold admission, and the seam awaits a designated non-authentication ownership source. The `503` is *by authorization*, not by absence. |
+| `GET`+`POST /api/reports/artifacts` | `503` — the **same** `owner-context-unavailable` payload | The Reports surface is route-valid but owner-scoped, so it fails closed on the identical carrier contract. |
+| `GET`/`POST /api/reports`, `/api/reports/`, `/api/reports/artifacts/` | `404` `{"error":"not found"}` | `reports-transport.ts` is the ratified fence: it keeps exact route/method validation and never enables the deferred Reports capability — an unknown shape is not “temporarily unavailable”. |
+| `POST /api/pit/market-data?…` | `405` (`found:false`, `reason: INVALID_IDENTITY`) | the PIT seam is read-only; a write attempt is refused at the boundary, not silently accepted. |
+| `POST /api/engines/:id/execute` for anything not certified | `404` `DENIED` | registry-governed dispatch only; no arbitrary code execution. |
+| The retired auth stack (login, roles, tenants, admin) | absent, not disabled | retired by decision for this single-user product; reintroducing it would need a new requirement, not a workaround. |
+| `/api/*` client calls | no `authorization` header, ever | `core/network/noAuthFetch.ts`; `App.test.tsx` and the API tests assert it. |
+
+Do not "fix" a `503`/`404` above by editing the fence: the hashes of `reports-transport.ts`, `user-portfolio-transport.ts` and `owner-context-unavailable.ts` are the integrity anchor recorded in the tracker (§16.8 item 8).
+
+## 8. Verify the build (proportionate, no ceremony)
+
+```bash
+cd frontend && npm run typecheck && npm run test && npm run build
+```
+
+Expected at the current head: typecheck exit `0`; vitest **64 files / 705 tests** green; build succeeds (`vite build`, ~257 kB). Green here means *this repository at this commit passes its own checks*; it is not qualification, admission or release for any fenced capability.
+
+## 9. Troubleshooting by symptom
+
+| Symptom | First check | Meaning |
+|---|---|---|
+| `npm ci` → `UNABLE_TO_VERIFY_LEAF_SIGNATURE` on `codeload.github.com` | `NODE_EXTRA_CA_CERTS` (§0) | proxy CA not trusted by Node; not a repository defect |
+| Every screen shows an error state | is the transport on `8787`? `curl localhost:8787/api/health` | Vite proxy target mismatch |
+| Owner-scoped screens `503` with a carrier present | `sha256sum` vs `OWNER_CONTEXT_CARRIER_SHA256`; is `IIPS_OWNER_CONTEXT_PATH` the **file**, not the directory | byte-exact carrier contract |
+| Watchlists empty after a restart | `IIPS_DATA_DIR` identical on both starts | different data home ⇒ different journal |
+| `/api/macro/*` `502` | outbound internet | upstream MoSPI, not the app |
+| A `404` on a screen you expected | `App.tsx` route table: `/research`, `/research/sector/:id`, `/intelligence/*` (except `decision-matrix`), `/evidence/snapshots`, `/evidence/replay` are honest `FeatureNotImplemented` mounts | later-phase surfaces; no data is fabricated for them |

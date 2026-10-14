@@ -138,6 +138,31 @@ describe('Application Shell', () => {
     expect(new Headers(aiCall?.init?.headers).has('authorization')).toBe(false);
   });
 
+  it('renders group-only parents as headings, never as links to an unbuilt surface', () => {
+    renderAt('/executive');
+    for (const label of ['Research', 'Intelligence']) {
+      expect(screen.getByTestId(`nav-group-${label}`)).toBeInTheDocument();
+      expect(screen.queryByRole('link', { name: label })).not.toBeInTheDocument();
+    }
+  });
+
+  it('resolves every clickable nav destination to a built surface (no nav click lands on "not yet built")', () => {
+    const first = renderAt('/executive');
+    const hrefs = [...new Set(
+      screen.getAllByRole('link')
+        .map(link => link.getAttribute('href') ?? '')
+        .filter(href => href.startsWith('/') && !href.includes(':')),
+    )];
+    first.unmount();
+    // The nav must still offer the implemented destinations; the set is asserted, not assumed.
+    expect(hrefs.length).toBeGreaterThanOrEqual(10);
+    for (const href of hrefs) {
+      const view = renderAt(href);
+      expect(screen.queryByTestId('shell-feature-unavailable'), `${href} landed on a placeholder`).not.toBeInTheDocument();
+      view.unmount();
+    }
+  });
+
   it('does not mount an administration route or expose an administration surface', () => {
     renderAt('/admin');
     expect(screen.queryByTestId('administration-retired')).not.toBeInTheDocument();

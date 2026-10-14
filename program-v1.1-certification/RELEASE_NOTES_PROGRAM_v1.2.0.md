@@ -1,12 +1,14 @@
-# Release Notes — Program v1.2.0 (Release Candidate — Prepublication)
+# Release Notes — Program v1.2.0 (Release Candidate — Prepublication → **PUBLISHED 2026-09-05**)
 
-**Version:** `v1.2.0` — **RELEASE CANDIDATE — PREPUBLICATION** (additive successor, not yet tagged/published)
-**Tag (planned):** `program-v1.2.0` — **TAG PLANNED, NOT YET CREATED**
+**Version:** `v1.2.0` — **PUBLISHED** (additive successor; tagged and released 2026-09-05 — see the correction note below)
+**Tag:** `program-v1.2.0` — **CREATED** (annotated tag object `4ec8812e…` → commit `5decdca9…`); GitHub Release `program-v1.2.0` published `2026-09-05T06:11:08Z`
 **Release type:** **MINOR successor** to `program-v1.1.0` (10-engine LTS) — *New published standards / major additions* per `governance/VERSIONING_POLICY.md` and `RELEASES.md` (MINOR = New engineering standards)
 **Canonical preparation commit:** `da01a82c67df9e1043d32c2855c1898be57a5509` (HEAD == origin/main, clean)
 **Predecessor:** `program-v1.1.0` (Tag `program-v1.1.0`, 2026-08-09, 10-engine LTS, `PROGRAM_v1.1_FINAL_READINESS_CERTIFICATE.md` ISSUED)
 **Date:** **2026-09-05**
 **Status:** **RELEASE CANDIDATE — PREPUBLICATION** — **PUBLICATION APPROVED — AWAITING PUBLICATION EXECUTION** (sign-off `2026-09-05`, Engineering Reviewer `Ramki`, Repository Maintainer `Sai`, `Approved for Release`). Notes prepared for `v1.2.0`; `program-v1.1.0` remains historical 10-engine LTS and is not rewritten.
+
+> **Publication status (`CV-CORR-04`, additive correction, 2026-10-14).** Verified against remote state: the annotated tag `program-v1.2.0` **exists** (tag object `4ec8812e…` → commit `5decdca9…`) and the GitHub Release **`program-v1.2.0` is published** at <https://github.com/ramkivs/iips-review-recovered/releases/tag/program-v1.2.0> (`publishedAt` 2026-09-05T06:11:08Z), covering the **13 certified sector engines** (`IES-006…IES-015` + `IES-016` Telecommunications, `IES-017` Automobile, `IES-020` Materials & Metals). The `RELEASE CANDIDATE — PREPUBLICATION` wording above and below is the record of its own date — the 2026-09-05 sign-off that authorized publication execution — and is preserved verbatim; the gate it describes was subsequently executed. Production promotion remains **not asserted** by this note.
 
 ---
 
@@ -104,6 +106,6 @@
 
 ## Release-boundary statement
 
-**This is RELEASE CANDIDATE preparation, not publication.** Tag `program-v1.2.0` is **PLANNED, NOT YET CREATED**; GitHub Release **NOT YET PUBLISHED**; production **NOT PROMOTED**. Publication requires separate **release-execution authority gate** after `RELEASE_CHECKLIST.md` sign-off (see `PROGRAM_v1.2_RELEASE_CHECKLIST.md` / `PROGRAM_v1.2.0_COMPATIBILITY_AND_MIGRATION.md` / `PROGRAM_v1.2_FINAL_READINESS_CERTIFICATE.md` — all `RELEASE CANDIDATE — PREPUBLICATION`).
+**Historical status at authoring:** this note was written as release-candidate preparation — tag **PLANNED**, GitHub Release **NOT YET PUBLISHED**, production **NOT PROMOTED**, publication gated on a separate release-execution act after `RELEASE_CHECKLIST.md` sign-off (see `PROGRAM_v1.2_RELEASE_CHECKLIST.md` / `PROGRAM_v1.2.0_COMPATIBILITY_AND_MIGRATION.md` / `PROGRAM_v1.2_FINAL_READINESS_CERTIFICATE.md`, all then `RELEASE CANDIDATE — PREPUBLICATION`). **That gate was subsequently executed:** Verified against remote state on 2026-10-14: annotated tag `program-v1.2.0` exists (tag object `4ec8812e…` → commit `5decdca9…`) and the GitHub Release `program-v1.2.0` is published at <https://github.com/ramkivs/iips-review-recovered/releases/tag/program-v1.2.0> (`publishedAt` 2026-09-05T06:11:08Z), covering the 13 certified sector engines (IES-006…015, 016, 017, 020). The prepublication wording above and in the surrounding sections is retained as the record of its own date; this paragraph is the additive correction (`CV-CORR-04`, 2026-10-14). Production promotion is not asserted.
 
 *Additive release notes — does not rewrite `program-v1.1.0`, does not invent methodology, preserves D16/D17+Option-A/D20+G1–G6 verbatim.*

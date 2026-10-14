@@ -34,6 +34,9 @@ Build a complete family of institutional engineering standards covering platform
 
 # Planned Engineering Standards
 
+> **Status note (`CV-CORR-04`, 2026-10-14).** These standards are no longer merely planned: IES-010…IES-017 and IES-020 are implemented, frozen and certified as part of `program-v1.2.0` (tag + GitHub Release published 2026-09-05). The authoritative id → title mapping is `iips-platform/src/integration/EngineRegistry.ts` (IES-011 Energy, IES-012 Utilities, IES-013 Consumer, IES-014 Industrials, IES-015 Technology); the titles in this historical table predate the freeze renumbering and are preserved verbatim.
+
+
 | ID | Standard |
 |----|----------|
 | IES-008 | Capital Markets Sector Engine | ✅ Frozen v1.0 |

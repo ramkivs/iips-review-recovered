@@ -1,6 +1,7 @@
 /** Global navigation for the single-user personal-use application. */
+import type { CSSProperties } from 'react';
 import { NavLink } from 'react-router-dom';
-import { visibleNav, visibleChildren } from './navigation';
+import { visibleNav, visibleChildren, isGroupOnly } from './navigation';
 
 const TOP_LEVEL_LINK_STYLE = ({ isActive }: { isActive: boolean }) => ({
   display: 'block',
@@ -11,6 +12,16 @@ const TOP_LEVEL_LINK_STYLE = ({ isActive }: { isActive: boolean }) => ({
   borderRadius: '4px',
   fontWeight: isActive ? 600 : 400,
 });
+
+const GROUP_HEADING_STYLE: CSSProperties = {
+  display: 'block',
+  padding: '8px 12px 4px',
+  color: 'var(--color-ink-secondary)',
+  fontWeight: 600,
+  fontSize: '13px',
+  textTransform: 'uppercase',
+  letterSpacing: '0.04em',
+};
 
 const CHILD_LINK_STYLE = ({ isActive }: { isActive: boolean }) => ({
   display: 'block',
@@ -42,11 +53,20 @@ export function Sidebar() {
     >
       {items.map(item => {
         const children = visibleChildren(item);
+        const groupOnly = isGroupOnly(item);
         return (
           <li key={item.path}>
-            <NavLink to={item.path} style={TOP_LEVEL_LINK_STYLE}>
-              {item.label}
-            </NavLink>
+            {groupOnly ? (
+              // Group-only heading: the parent path has no built surface, so it is labelled, not
+              // linked. Its implemented children below remain normal links.
+              <span style={GROUP_HEADING_STYLE} data-testid={`nav-group-${item.label}`}>
+                {item.label}
+              </span>
+            ) : (
+              <NavLink to={item.path} style={TOP_LEVEL_LINK_STYLE}>
+                {item.label}
+              </NavLink>
+            )}
             {children.length > 0 && (
               <ul
                 aria-label={`${item.label} sections`}

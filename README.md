@@ -30,11 +30,14 @@ Build a complete family of engineering standards that enable deterministic, expl
 
 > **Current LTS vs Release Candidate (as of `da01a82` 13-engine certified `main`):**
 > - **Historical LTS `program-v1.1.0` = 10-engine LTS** (`IES-006…015`, `PROGRAM_v1.1_LTS_BASELINE.md` FROZEN, `PROGRAM_v1.1_FINAL_READINESS_CERTIFICATE.md` ISSUED 2026-08-09, Tag `program-v1.1.0`) — **preserved verbatim**.
-> - **Successor `v1.2.0` = 13-engine Release Candidate — PREPUBLICATION** (`IES-006…015 + IES-016/017/020`, `PROGRAM_v1.2_LTS_BASELINE.md` `v1.2.0` RC, `E2E-030` 13-engine delta at `67e89aa`, D40 `da01a82` reconciled) — **TAG PLANNED `program-v1.2.0`, NOT YET CREATED**, GitHub Release **NOT YET PUBLISHED**. See `program-v1.1-certification/RELEASE_NOTES_PROGRAM_v1.2.0.md` and `PROGRAM_v1.2.0_COMPATIBILITY_AND_MIGRATION.md`.
+> - **Successor `v1.2.0` = 13-engine certified release — PUBLISHED 2026-09-05** (`IES-006…015 + IES-016/017/020`, `PROGRAM_v1.2_LTS_BASELINE.md` `v1.2.0` RC, `E2E-030` 13-engine delta at `67e89aa`, D40 `da01a82` reconciled) — **TAG `program-v1.2.0` CREATED, GitHub Release PUBLISHED 2026-09-05** (`v1.2.0` remains an *additive successor*; `program-v1.1.0` stays the historical 10-engine LTS, unrewritten). Verified against remote state on 2026-10-14: annotated tag `program-v1.2.0` exists (tag object `4ec8812e…` → commit `5decdca9…`) and the GitHub Release `program-v1.2.0` is published at <https://github.com/ramkivs/iips-review-recovered/releases/tag/program-v1.2.0> (`publishedAt` 2026-09-05T06:11:08Z), covering the 13 certified sector engines (IES-006…015, 016, 017, 020). *Additive status correction (`CV-CORR-04`, 2026-10-14): this line read "PREPUBLICATION / TAG PLANNED, NOT YET CREATED" while publication was pending; the surrounding historical text is preserved verbatim and no claim is re-dated.* See `program-v1.1-certification/RELEASE_NOTES_PROGRAM_v1.2.0.md` and `PROGRAM_v1.2.0_COMPATIBILITY_AND_MIGRATION.md`.
 
 ---
 
 # Planned Standards
+
+> **Status note (`CV-CORR-04`, 2026-10-14).** The standards listed below were planned at the time of writing. IES-010 Hospitality, IES-011 Energy, IES-012 Utilities, IES-013 Consumer, IES-014 Industrials, IES-015 Technology, IES-016 Telecommunications, IES-017 Automobile and IES-020 Materials & Metals are now **established and certified** — the authoritative id → title → freeze-manifest mapping is `iips-platform/src/integration/EngineRegistry.ts`, and each has a frozen directory `ies-0xx-*/IES-0xx_FREEZE_MANIFEST.json`. Numbers/titles in this historical table predate the freeze renumbering and are preserved as written.
+
 
 - IES-007 — Insurance Sector Engine
 - IES-008 — Capital Markets Sector Engine

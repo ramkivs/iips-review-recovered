@@ -25,10 +25,12 @@
  * recovery (restoring the authorised carrier) likewise takes effect immediately, with no restart.
  * This is the NP-04 per-request pattern that F1/F2/F3 §4.5(2) records as acceptable.
  *
- * PATTERN PRECEDENT The path seam mirrors `serverOwnedDatabasePath()` /
- * `IIPS_NP04_DATABASE_PATH` (`frontend/server/reports/persistence-port.ts`): read from the
- * server-owned process environment, never from a request; an absent value means "this process has
- * no governed owner context", which fails closed.
+ * PATTERN PRECEDENT The path seam mirrors the server-owned environment-read pattern used by the
+ * persistence journal (`resolveDataDir()` / `IIPS_DATA_DIR`, `server/persistence/persistence-service.ts`):
+ * read from the server-owned process environment, never from a request; an absent value means "this
+ * process has no governed owner context", which fails closed. (Historical: the Reports seam
+ * `frontend/server/reports/persistence-port.ts` used the same pattern with `IIPS_NP04_DATABASE_PATH`
+ * before that file was removed from `main`; it is cited here only as precedent and does not exist.)
  */
 import * as fs from 'node:fs';
 import { createHash } from 'node:crypto';
