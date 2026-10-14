@@ -320,3 +320,72 @@ It does not grant implementation authority for F-1, F-2, or F-3 — **NOT GRANTE
 2. Implementation authority remains **NOT GRANTED**; nothing in this disposition advances it.
 3. The §9 sequence is otherwise unaltered: **F-1/F-2 value act** (§9(1)), then **implementation gate** (§9(2)), then **per-capability gates** (§9(4)).
 4. The smallest next step for *this* artifact is the §11 sequence applied to the amended record: final review of the exact amended artifact → separate explicit merge authorization → merge to `refs/heads/main` (no direct push, no force-push) → independent remote verification of the merged commit, tree and blob.
+
+### 8. Final-record affirmation of the amended artifact and §11(1) closure (added 2026-10-14 by a separate affirmation-recording act)
+
+**Nature, scope and authority of this section.** This is an additive, documentation-only closure note on this record. It does exactly three things: (a) it transcribes, verbatim, the Program Authority's final-record affirmation supplied on 2026-10-14; (b) it records the independent remote verification of the merged artifact; and (c) it closes the §11(1) final-review step for the amended artifact — the prerequisite preserved at closure note §2(3)–(4), §7.4(4), §7.5 and §7.6(4). **It alters no decision substance.** No approved disposition (§4), no unresolved matter (§5), no authorization or non-authorization (§8), no condition required before implementation (§9), and no capability or IPD boundary (§7 of the decision body) is changed, narrowed, widened, reopened, or satisfied by this act.
+
+**No text above this note is edited.** The affirmed artifact is preserved **byte-for-byte as the first 46 022 bytes** of this file (verified at preparation against the authoritative remote repository's own content — §8.3). Time-scoping of the pre-affirmation statements is therefore effected by declaration in this note rather than by in-place edit, so that the adopted text remains intact — the practice used for the F-1/F-2 value act at its closure (PR #67).
+
+#### 8.1 The Program Authority's affirmation (transcribed verbatim)
+
+The Program Authority supplied the affirmation solicited at `IIPS-V3-OWNER-CONTEXT-F1-F2-F3-GOVERNANCE-RECONCILIATION-01` §4.4 on 2026-10-14 (Asia/Calcutta), naming the same artifact path and the same blob as the solicitation. Transcribed without addition, narrowing, or reinterpretation:
+
+> "I affirm that the amended F-1/F-2/F-3 Program Authority decision record at `docs/integration/IIPS_v3.0_OWNER_CONTEXT_F1_F2_F3_PA_DECISION.md`, blob `47b158f694390e3911bb01f841453f128a9215c5`, is the exact final record I have reviewed and adopt.
+>
+> This affirmation applies specifically to this amended artifact. It does not grant any additional implementation, inventory, persistence, IPD, merge, release, or production authority."
+
+**Boundary of this affirmation (binding).** It concerns the **exact amended artifact** at blob `47b158f694390e3911bb01f841453f128a9215c5`. It is **not substituted by, and does not extend to**, the closure-amended blob produced by this additive note. It is an attestation by the Program Authority about review and adoption; it is **not** independent byte-level evidence of any earlier state, and no claim about such a state is made here. Consistent with its own stated terms, it grants no implementation, inventory, persistence, IPD, merge, release or production authority.
+
+#### 8.2 Relationship to the previously recorded affirmation and the outstanding input
+
+1. **Previously recorded.** Closure note §7.4(4) records the Program Authority's affirmation of the **pre-amendment** artifact (blob `5364a67a…`), relied upon as inherited **(I)**, closing the §11(1) step for that artifact only.
+2. **Preserved, not replaced.** That affirmation is neither superseded nor restated by this one; the two concern different blobs (`5364a67a…` then, `47b158f6…` now). Both are preserved.
+3. **Missing input, now supplied.** Closure note §2(4) identified the single outstanding input for effectiveness as the Program Authority's explicit affirmation of this exact artifact at this exact blob. That input is supplied at §8.1 and is recorded here verbatim.
+4. **Nothing inferred.** The affirmation was not inferred from the merge of PR #65, from the publication of this record, from the closure authorizations recorded above, or from the standing authorization recorded at `IIPS-V3-OWNER-CONTEXT-F3-MECHANISM-AND-IMPLEMENTATION-PA-DECISION-01` §1.2. It is a distinct, express act by the Program Authority, recorded in its own words.
+
+#### 8.3 Independent remote verification of the merged artifact
+
+Re-established in this act directly against the authoritative remote repository (class **R** = re-established by direct observation; **A** = established from the remote repository's read-only API):
+
+| Item | Value | Class |
+|---|---|---|
+| Repository / ref | `ramkivs/iips-review-recovered` / `refs/heads/main` | R, A |
+| Artifact path | `docs/integration/IIPS_v3.0_OWNER_CONTEXT_F1_F2_F3_PA_DECISION.md` | R, A |
+| Blob at `main` | `47b158f694390e3911bb01f841453f128a9215c5` — **equal to the affirmed blob** | R, A |
+| Artifact size | 46 022 bytes | R, A |
+| Artifact SHA-256 | `65b34fbd931237ec7bc459023a20da5b89319df7c3e20f19ecebab5f8be0813c` — computed from the remote content itself and from the working copy; the two are byte-identical | R, A |
+| Merged by | `f3b7a8b3f2e80f5eb075962820a304448457112a` — merge of PR #65; parents `c45f9ae27d09d44b892e5a685fed2b221a7c2e74` (first) and `b11178249c2242c328aea2121cf67a68ea562c9f` (the limitation-disposition commit); merged 2026-10-12T15:13:43Z by the Program Authority (`ramkivs`) | A |
+| Merge tree | `61becc24b4abe3481aba396c9ef0fc47f9670add`; the artifact is present in that tree at the stated path with blob `47b158f6…` and size 46 022 bytes | A |
+| Reachability | the merge commit is an **ancestor of `refs/heads/main`**: `f3b7a8b3…` is the merge base of the comparison with current `main` (`33bbb0f…`), which is 58 commits ahead and 0 behind | A |
+| Changed-path scope of the limitation-disposition act | exactly **one** path relative to the merge's first parent: **modified** `docs/integration/IIPS_v3.0_OWNER_CONTEXT_F1_F2_F3_PA_DECISION.md` (+53 −1); no other path added, modified, or deleted | A |
+| Repository movement of the artifact since that act | **none** — the artifact is at the same blob at current `main` (`33bbb0fac947476bd70993810f730e09018f5f8f`), re-verified at preparation | R, A |
+
+**Method limitation.** The inspection clone is shallow (depth 1); local history and graph queries are unavailable, so history, merge-actor, reachability and changed-path facts were obtained from the authoritative remote repository's read-only API rather than from local object history. **No tests, type-checks, builds, servers, or runtime probes were run**, and none was needed: no code changed. **No user data was read, listed, or accessed.**
+
+#### 8.4 Closure of the §11(1) final-review step
+
+The `IIPS-V3-OWNER-CONTEXT-PA-DECISION-FINAL-01` §11 sequence applied to the amended artifact, as at this note:
+
+| Step | Status | Basis |
+|---|---|---|
+| 1. Final review and confirmation of this exact record | **SUPPLIED** — 2026-10-14 | §8.1 **(P)** |
+| 2. Separate explicit merge authorization, and merge to `refs/heads/main` | **PERFORMED** — merged by the Program Authority, 2026-10-12 | §8.3 (A) |
+| 3. Publication on `main` | **PERFORMED** | §8.3 (R, A) |
+| 4. Independent remote verification of the merged commit, tree and blob | **PERFORMED** — this act | §8.3 (R, A) |
+
+**Determination.** The §11(1) final-review step preserved at closure note §2(3)–(4), §7.4(4), §7.5 and §7.6(4) is **CLOSED for the amended artifact**, and the single outstanding input identified at closure note §2(4) is **SUPPLIED**. On the evidence recorded above, the conditions stated in §10 are satisfied as facts (publication, merge, independent remote verification, and final review and adoption), and the effectiveness status recorded as pending / not unconditional at closure note §2(5) is time-scoped, by declaration in this note, to the pre-affirmation state. **This determination changes no value, mechanism, authorization, non-authorization, safeguard, admission, qualification, or boundary.**
+
+The ordering is stated plainly so that nothing is implied: the artifact was published and merged on 2026-10-12, and the final review and adoption were supplied on 2026-10-14. This note records both and does not restate the merge as a substitute for the affirmation.
+
+#### 8.5 Status of this note itself
+
+This closure note is additive documentation prepared against `main@33bbb0f…` and transported on session branch `arena/dd87c5d6-iips-review-recovered` (PR #91). **Transport is not publication.** This note becomes durably effective only through the same program rule — its own review, separate explicit merge authorization, merge to `refs/heads/main`, and independent remote verification — and **no merge authorization for this note is granted or implied**; the affirmation transcribed at §8.1 expressly grants none. Until that sequence completes, the closure determination at §8.4 is recorded on the session branch only, and no reader should treat this note as being on `main`.
+
+#### 8.6 What this note does and does not change
+
+1. **Changed in this record:** nothing above this note. Exactly **one** file changes in the repository by this act — this record, by the addition of this note only.
+2. **Unchanged:** every approved disposition (§4); every unresolved matter (§5); every authorization and non-authorization (§8); every condition required before implementation (§9); and every capability and IPD boundary (§7 of the decision body). The decision-body statement that the §5.1 values are **UNDECIDED** is not edited by this act (no text above this note is edited); it is read together with the separately effective value act `IIPS-V3-OWNER-CONTEXT-F1-F2-VALUE-ACT-01` (PR #66), which is the §9(1) act that establishes them, as the reconciliation record §3.1 records. `F6_INVENTORY_AUTHORIZED` remains **UNDECIDED**; implementation authority remains **NOT GRANTED**.
+3. **Not authorized, not performed, not affected by this act:** implementation of F-1/F-2/F-3 in any form; any concrete `ownerUserId`/`tenantId` value or rule; any inventory, inspection, migration, reconciliation, reassignment, deletion, partition rewrite, or exposure of existing data; any change to the unconditional `503 owner-context-unavailable` safeguard; any IPD change or IRR↔IPD mapping or equivalence; any change to the G-2 boundary; any authentication/OIDC/session/token/RBAC/multi-user identity mechanism; the `.gitignore`/TD-7a discrepancy and the historical service doc-comment reconciliation; TD-7b; PD-3; PD-4; any NP-13 matter. **No persistence implementation is authorized by this act.**
+4. **Scope preserved.** This record and this act concern a single-user, personal-use application; nothing in this act creates, implies, or requires multi-user identity infrastructure, tenant infrastructure, RBAC, PostgreSQL, or enterprise architecture.
+5. **Limits.** This note records an affirmation, a verification, and the closure of one governance step, and nothing further. It makes no claim about runtime behaviour, restart stability, integrity binding, recovery, failure-mode evidence, or any historical document state, and grants no authority of any kind.
