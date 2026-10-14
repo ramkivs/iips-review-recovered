@@ -1,0 +1,82 @@
+# IRR continuous verification — work item `CV-42` (tracker:
+# `IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md`, §16.4 / §16.18).
+#
+# SCOPE — the IRR `frontend/` package only. It runs the three checks this program's validation
+# evidence already rests on (`V2` typecheck, `V3` full Vitest suite, `V4` production build) plus a
+# zero-test guard, exactly as `CV-42` authorizes ("a workflow file is a repository change, so its
+# creation needs the ordinary main-admission route": this file therefore travels as a PR and its
+# checks must be visible on GitHub). Deliberately NOT included:
+#   • `iips-platform/**` — it has its own `typecheck` / `test` scripts and its own evidence trail;
+#     widening this job silently would change what CI claims.
+#   • the IPD repository — its CI sits behind the §20 Stage 3 `P2`/`P3` admission act (that is `CV-42`'s
+#     second half and stays outside this change).
+#   • any deployment, publish, environment, credential, status-check or enterprise control. A green
+#     run here means "the established checks passed"; it is not qualification, admission or release.
+#
+# WHAT A GREEN JOB DOES *NOT* MEAN: `frontend/tsconfig.json` includes `src` + `vite.config.ts`, so the
+# typecheck step covers the client; `server/**` is exercised by the test step (transformed, not
+# type-checked). That asymmetry is pre-existing repository configuration, preserved rather than
+# quietly redefined here.
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+# Read-only: this workflow verifies, it never writes to the repository, an environment or a release.
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: Typecheck · Test · Build
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - name: Check out the exact commit under test
+        uses: actions/checkout@v4
+
+      # The repository declares no `engines` and no `packageManager`, and its lockfile is
+      # lockfileVersion 3. Node 22 + npm 10 is the toolchain the recorded local evidence (V2–V4) was
+      # produced with, so CI pins that major pair instead of inventing a new one.
+      - name: Set up Node 22 / npm 10 with the lockfile-keyed cache
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      # `npm ci` is the reproducible install against the committed lockfile. No dependency pin is
+      # altered for CI: `package.json` pins `iips-production-market-data` to a public GitHub commit,
+      # which hosted runners resolve anonymously — hence no token, no credential, no mirror, and no
+      # `NODE_EXTRA_CA_CERTS` (that step is a sandbox TLS-interception workaround, not a CI need).
+      - name: Install dependencies from the committed lockfile
+        run: npm ci --no-audit --no-fund
+
+      # `frontend/package.json` → "typecheck": "tsc --noEmit" (the established script; no substitution).
+      - name: Typecheck
+        run: npm run typecheck
+
+      # `test:ci` runs the identical `vitest run` suite and additionally emits the JSON summary the
+      # guard reads. `npm test` itself is left untouched, so local behaviour does not change.
+      # No `continue-on-error`, no `|| true`, no `--passWithNoTests`: any non-zero exit fails the job.
+      - name: Run the full Vitest suite
+        run: npm run test:ci
+
+      # Fails when 0 tests were discovered, when the report is missing or malformed, when
+      # `success` is not true, or when any test failed — i.e. the CV-35 false-green class cannot pass.
+      - name: Assert a non-zero, fully passing test run
+        run: node .ci/assert-tests.js .vitest-report.json
+
+      # `frontend/package.json` → "build": "tsc -b && vite build" (the established production build).
+      - name: Production build
+        run: npm run build
