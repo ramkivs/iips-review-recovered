@@ -1,0 +1,359 @@
+**********************
+PowerShell transcript start
+Start time: 20261014012634
+Username: DESKTOP-NO0NHTP\USER
+RunAs User: DESKTOP-NO0NHTP\USER
+Configuration Name: 
+Machine: DESKTOP-NO0NHTP (Microsoft Windows NT 10.0.26200.0)
+Host Application: C:\Program Files\WindowsApps\Microsoft.PowerShell_7.6.6.0_x64__8wekyb3d8bbwe\pwsh.dll -noexit -command try { . "c:\Users\USER\AppData\Local\Programs\Microsoft VS Code\07f806f999\resources\app\out\vs\workbench\contrib\terminal\common\scripts\shellIntegration.ps1" } catch {}
+Process ID: 12100
+PSVersion: 7.6.6
+PSEdition: Core
+GitCommitId: 7.6.6
+OS: Microsoft Windows 10.0.26200
+Platform: Win32NT
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1, 6.0, 7.0
+PSRemotingProtocolVersion: 2.4
+SerializationVersion: 1.1.0.1
+WSManStackVersion: 3.0
+**********************
+Transcript started, output file is C:\Users\USER\.iips-gate-c-p2\evidence\p2-establishment-transcript-2026-10-14.txt
+]633;D;0]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+PS># re-emit: Block A outputs, ACL listings, tooling hashes, TSC_EXIT/TSC_ERRORS + 4 error lines,
+]633;D;0]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+PS># D1/D2 outputs, keygen JSON, anchor/runtime startup JSON, F1–F5 lines, loader matrix,
+]633;D;0]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+PS># Get-ChildItem $stateRoot\runtime
+]633;D;0]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+PS>Stop-Transcript
+**********************
+PowerShell transcript end
+End time: 20261014012635
+**********************
+**********************
+PowerShell transcript start
+Start time: 20261014013159
+Username: DESKTOP-NO0NHTP\USER
+RunAs User: DESKTOP-NO0NHTP\USER
+Configuration Name: 
+Machine: DESKTOP-NO0NHTP (Microsoft Windows NT 10.0.26200.0)
+Host Application: C:\Program Files\WindowsApps\Microsoft.PowerShell_7.6.6.0_x64__8wekyb3d8bbwe\pwsh.dll -noexit -command try { . "c:\Users\USER\AppData\Local\Programs\Microsoft VS Code\07f806f999\resources\app\out\vs\workbench\contrib\terminal\common\scripts\shellIntegration.ps1" } catch {}
+Process ID: 12100
+PSVersion: 7.6.6
+PSEdition: Core
+GitCommitId: 7.6.6
+OS: Microsoft Windows 10.0.26200
+Platform: Win32NT
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1, 6.0, 7.0
+PSRemotingProtocolVersion: 2.4
+SerializationVersion: 1.1.0.1
+WSManStackVersion: 3.0
+**********************
+Transcript started, output file is C:\Users\USER\.iips-gate-c-p2\evidence\p2-establishment-transcript-2026-10-14.txt
+]633;D;0]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+]633;D]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+PS># Re-emit existing evidence:
+]633;D;0]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+PS># Block A outputs
+]633;D;0]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+PS># ACL listings
+]633;D;0]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+PS># Tooling hashes
+]633;D;0]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+PS># TSC_EXIT / TSC_ERRORS + 4 error lines
+]633;D;0]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+PS># D1 / D2 outputs
+]633;D;0]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+PS># Key-generation JSON
+]633;D;0]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+PS># Anchor / runtime startup JSON
+]633;D;0]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+PS># F1–F5 status and code lines
+]633;D;0]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+PS># Configuration loader matrix
+]633;D;0]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+PS>Get-ChildItem "$stateRoot\runtime"
+
+    Directory: C:\Users\USER\.iips-gate-c-p2\runtime
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a---          14-10-2026    00:34           3036 check-config-failc
+                                                  losed.mjs
+-a---          14-10-2026    00:55         126976 portfolio.sqlite
+-a---          14-10-2026    00:34           1378 run-scoped-runtime
+                                                  .mjs
+
+]633;D;0]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+]633;D]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+PS>Stop-Transcript
+**********************
+PowerShell transcript end
+End time: 20261014013201
+**********************
+**********************
+PowerShell transcript start
+Start time: 20261014013639
+Username: DESKTOP-NO0NHTP\USER
+RunAs User: DESKTOP-NO0NHTP\USER
+Configuration Name: 
+Machine: DESKTOP-NO0NHTP (Microsoft Windows NT 10.0.26200.0)
+Host Application: C:\Program Files\WindowsApps\Microsoft.PowerShell_7.6.6.0_x64__8wekyb3d8bbwe\pwsh.dll -noexit -command try { . "c:\Users\USER\AppData\Local\Programs\Microsoft VS Code\07f806f999\resources\app\out\vs\workbench\contrib\terminal\common\scripts\shellIntegration.ps1" } catch {}
+Process ID: 12100
+PSVersion: 7.6.6
+PSEdition: Core
+GitCommitId: 7.6.6
+OS: Microsoft Windows 10.0.26200
+Platform: Win32NT
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1, 6.0, 7.0
+PSRemotingProtocolVersion: 2.4
+SerializationVersion: 1.1.0.1
+WSManStackVersion: 3.0
+**********************
+Transcript started, output file is C:\Users\USER\.iips-gate-c-p2\evidence\p2-establishment-transcript-2026-10-14.txt
+]633;D;0]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+]633;D]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+PS>Write-Host "P2 state root: $stateRoot"
+P2 state root: C:\Users\USER\.iips-gate-c-p2
+]633;D;0]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+PS>Write-Host "Pinned IPD path: $ipdPath"
+Pinned IPD path: G:\IIPS-Production-Market-Data-P2-PIN
+]633;D;0]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+PS>Write-Host "Expected pin: 6828155ec6e882bbb4cabcd96b5a841d8c8a6bc4"
+Expected pin: 6828155ec6e882bbb4cabcd96b5a841d8c8a6bc4
+]633;D;0]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+PS>Write-Host "Key ID: $kid"
+Key ID: p2-rsa-2026-10-14-01
+]633;D;0]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+]633;D]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+PS>$anchorWindow = Start-Process -FilePath $pwsh `
+    -ArgumentList @('-NoExit', '-EncodedCommand', $anchorEncoded) `
+    -PassThru
+]633;D;0]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+]633;D]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+PS>Start-Sleep -Seconds 2
+]633;D;0]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+]633;D]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+PS>$runtimeWindow = Start-Process -FilePath $pwsh `
+    -ArgumentList @('-NoExit', '-EncodedCommand', $runtimeEncoded) `
+    -PassThru
+]633;D;0]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+]633;D]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+PS>Start-Sleep -Seconds 3
+]633;D;0]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+]633;D]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+PS>Write-Host "ANCHOR_CONSOLE_PID=$($anchorWindow.Id)"
+ANCHOR_CONSOLE_PID=8636
+]633;D;0]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+PS>Write-Host "RUNTIME_CONSOLE_PID=$($runtimeWindow.Id)"
+RUNTIME_CONSOLE_PID=25672
+]633;D;0]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+]633;D]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+PS># ------------------------------------------------------------
+]633;D;0]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+PS># 4. Verify service availability and capture existing evidence
+]633;D;0]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+PS># ------------------------------------------------------------
+]633;D;0]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+PS>try {
+    $health = Invoke-WebRequest 'http://127.0.0.1:8099/api/ipd/health' -UseBasicParsing
+    Write-Host "F1_STATUS=$($health.StatusCode) BODY=$($health.Content)"
+} catch {
+    Write-Host "F1_STATUS=FAIL DETAIL=$($_.Exception.Message)"
+}
+>> TerminatingError(Invoke-WebRequest): "No connection could be made because the target machine actively refused it."
+F1_STATUS=FAIL DETAIL=No connection could be made because the target machine actively refused it. (127.0.0.1:8099)
+]633;D;0]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+]633;D]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+PS>try {
+    $jwks = Invoke-WebRequest `
+        'http://127.0.0.1:8421/non-production/p2-anchor/jwks.json' `
+        -UseBasicParsing
+
+    Write-Host "F2_STATUS=$($jwks.StatusCode)"
+    Write-Host "F2_DOCUMENT_SHA256=$(
+        [Convert]::ToHexString(
+            [Security.Cryptography.SHA256]::HashData(
+                [Text.Encoding]::UTF8.GetBytes($jwks.Content)
+            )
+        ).ToLower()
+    )"
+} catch {
+    Write-Host "F2_STATUS=FAIL DETAIL=$($_.Exception.Message)"
+}
+>> TerminatingError(): "The pipeline has been stopped."
+>> TerminatingError(): "The pipeline has been stopped."
+]633;D;1]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+]633;D]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+PS>Write-Host "`n--- Existing key-generation evidence ---"
+
+--- Existing key-generation evidence ---
+]633;D;0]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+PS>Get-Content (Join-Path $ev 'e-keygen.json')
+{
+  "event": "P2_ANCHOR_KEY_CREATED",
+  "kid": "p2-rsa-2026-10-14-01",
+  "keyPath": "C:\\Users\\USER\\.iips-gate-c-p2\\anchor\\keys\\p2-rsa-2026-10-14-01.pem",
+  "modulusBits": 2048,
+  "privateKeyFormat": "PKCS#8 PEM",
+  "publicJwkSha256": "5f976fcd6d0565d42fc836ce88010a32598a863e271795928e0a53fb3334fc8c",
+  "publicJwk": {
+    "kty": "RSA",
+    "n": "15eLqEaa7eCPri2J8okAKfc_0qWhVIOpGzJsQSe87m_huFGUT6bOcpixbC6rU0J0MGUDdTiif76ocjdTIXZYeH_s8IN1Xozwc-L02ymyjXNmVYSlQQuRMvepc7Lt2NxO9_lILXJRjQ6CxqJPITvIy4LouY08wpS4hGuG78ow8f8Jt_QdB4JmZGs1LHULM3NbIcu5N8FBcBju5JdDQFKjkwYyN-JaSF0xTMdRsix9DtowJ-Gjq7dEcUzWHMMgU3gvkP1UHSZtWkEmC1p7kTUxb3iOJuPHb-iJnbKF_Y4Yqk_leuJ2b1kzyMuLP9D3BqOMUPcy0QdTiPNMS3OdcxnQ3w",
+    "e": "AQAB",
+    "kid": "p2-rsa-2026-10-14-01",
+    "alg": "RS256",
+    "use": "sig"
+  }
+}
+]633;D;0]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+]633;D]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+PS>Write-Host "`n--- Anchor startup log ---"
+
+--- Anchor startup log ---
+]633;D;0]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+PS>Get-Content (Join-Path $ev 'e-anchor.log')
+{"event":"P2_ANCHOR_LISTENING","host":"127.0.0.1","port":8421,"path":"/non-production/p2-anchor/jwks.json","kid":"p2-rsa-2026-10-14-01","keyCount":1,"documentSha256":"18e70494b4f74378c5ea802217b6fce716ab1cc565a24cbf63a1508b44bff1a6"}
+]633;D;0]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+]633;D]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+PS>Write-Host "`n--- Runtime startup log ---"
+
+--- Runtime startup log ---
+]633;D;0]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+PS>Get-Content (Join-Path $ev 'e-runtime.log')
+{"event":"P2_SCOPED_RUNTIME_LISTENING","httpHost":"127.0.0.1","httpPort":8099,"oidcIssuer":"http://127.0.0.1:8421/non-production/p2-anchor","jwksUri":"http://127.0.0.1:8421/non-production/p2-anchor/jwks.json","audience":"ipd-user-portfolio-api","databasePath":"C:\\Users\\USER\\.iips-gate-c-p2\\runtime\\portfolio.sqlite"}
+]633;D;0]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+]633;D]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+PS>Write-Host "`n--- Existing TypeScript baseline errors ---"
+
+--- Existing TypeScript baseline errors ---
+]633;D;0]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+PS>Get-Content (Join-Path $ev 'c-tsc.log')
+tests/wsi_iu1_pit_series_aware_keying.test.ts(104,3): error TS2322: Type 'CanonicalEnvelope<{ companyId: string; symbol: string; candleStart: string; candleEnd: string; open: number; high: number; low: number; close: number; volume: number; isAdjusted: boolean; }>' is not assignable to type 'CanonicalEnvelope<OHLCVCandle>'.
+  Property 'interval' is missing in type '{ companyId: string; symbol: string; candleStart: string; candleEnd: string; open: number; high: number; low: number; close: number; volume: number; isAdjusted: boolean; }' but required in type 'OHLCVCandle'.
+tests/wsj_iu3_pit_read_boundary.test.ts(302,18): error TS2345: Argument of type 'CanonicalEnvelope<MarketQuotePayload>' is not assignable to parameter of type 'CanonicalEnvelope<OHLCVCandle>'.
+  Type 'MarketQuotePayload' is missing the following properties from type 'OHLCVCandle': interval, candleStart, candleEnd, isAdjusted
+tests/wsj_iu3_pit_read_boundary.test.ts(311,18): error TS2345: Argument of type 'CanonicalEnvelope<MarketQuotePayload>' is not assignable to parameter of type 'CanonicalEnvelope<OHLCVCandle>'.
+  Type 'MarketQuotePayload' is missing the following properties from type 'OHLCVCandle': interval, candleStart, candleEnd, isAdjusted
+tests/wsj_iu3_pit_read_boundary.test.ts(315,54): error TS2339: Property 'ltp' does not exist on type 'OHLCVCandle'.
+]633;D;0]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+]633;D]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+PS>Write-Host "`n--- Configuration fail-closed matrix ---"
+
+--- Configuration fail-closed matrix ---
+]633;D;0]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+PS>Get-Content (Join-Path $ev 'f-loader.json')
+{"check":"oidc absent issuer+jwks","expected":"OIDC_CONFIGURATION_INVALID","observed":"OIDC_CONFIGURATION_INVALID","status":"PASS"}
+{"check":"oidc blank issuer","expected":"OIDC_CONFIGURATION_INVALID","observed":"OIDC_CONFIGURATION_INVALID","status":"PASS"}
+{"check":"oidc relative jwks","expected":"OIDC_CONFIGURATION_INVALID","observed":"OIDC_CONFIGURATION_INVALID","status":"PASS"}
+{"check":"oidc non-http scheme","expected":"OIDC_CONFIGURATION_INVALID","observed":"OIDC_CONFIGURATION_INVALID","status":"PASS"}
+{"check":"db path absent","expected":"PERSISTENCE_CONFIGURATION_INVALID","observed":"PERSISTENCE_CONFIGURATION_INVALID","status":"PASS"}
+{"check":"db path relative","expected":"PERSISTENCE_CONFIGURATION_INVALID","observed":"PERSISTENCE_CONFIGURATION_INVALID","status":"PASS"}
+{"check":"oidc designated values accepted","expected":"audience=ipd-user-portfolio-api","observed":"issuer=http://127.0.0.1:8421/non-production/p2-anchor","status":"PASS"}
+{"check":"runtime http default bind","expected":"127.0.0.1:8099","observed":"127.0.0.1:8099","status":"PASS"}
+{"event":"P2_CONFIG_FAILCLOSED_SUMMARY","checks":8,"failed":0}
+]633;D;0]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+]633;D]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+PS>Write-Host "`n--- Runtime directory listing ---"
+
+--- Runtime directory listing ---
+]633;D;0]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+PS>Get-ChildItem (Join-Path $stateRoot 'runtime') |
+    Select-Object Name, Length, LastWriteTime
+
+Name                        Length LastWriteTime
+----                        ------ -------------
+check-config-failclosed.mjs   3036 14-10-2026 00:34:02
+portfolio.sqlite            126976 14-10-2026 00:55:23
+run-scoped-runtime.mjs        1378 14-10-2026 00:34:46
+
+]633;D;0]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+]633;D]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+PS>Write-Host "`n--- Required status qualifications ---"
+
+--- Required status qualifications ---
+]633;D;0]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+PS>Write-Host 'F6=PASS; checks=8; failed=0'
+F6=PASS; checks=8; failed=0
+]633;D;0]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+PS>Write-Host 'F5.2=UNRESOLVED; observed=401 OIDC_KEY_UNAVAILABLE; expected=401 OIDC_JWKS_UNAVAILABLE'
+F5.2=UNRESOLVED; observed=401 OIDC_KEY_UNAVAILABLE; expected=401 OIDC_JWKS_UNAVAILABLE
+]633;D;0]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+PS>Write-Host 'NOT DONE: P-4 provisioning, mapping/tenant/membership/audit-row creation, P-6, P-8, fence/route/UI/consumer changes, IPD writes.'
+NOT DONE: P-4 provisioning, mapping/tenant/membership/audit-row creation, P-6, P-8, fence/route/UI/consumer changes, IPD writes.
+]633;D;0]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+PS>Write-Host 'Private key bytes, private-key hashes, bearer tokens and credentials must not be recorded.'
+Private key bytes, private-key hashes, bearer tokens and credentials must not be recorded.
+]633;D;0]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+]633;D]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+PS># ------------------------------------------------------------
+]633;D;0]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+PS># 5. Gracefully shut down both services
+]633;D;0]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+PS># ------------------------------------------------------------
+]633;D;0]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+PS>Write-Host ''
+
+]633;D;0]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+PS>Write-Host 'Both services should now be running in their separate consoles.'
+Both services should now be running in their separate consoles.
+]633;D;0]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+PS>Write-Host 'Switch to the RUNTIME console and press Ctrl+C.'
+Switch to the RUNTIME console and press Ctrl+C.
+]633;D;0]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+PS>Write-Host 'Then switch to the ANCHOR console and press Ctrl+C.'
+Then switch to the ANCHOR console and press Ctrl+C.
+]633;D;0]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+PS>Read-Host 'After pressing Ctrl+C in both consoles, return here and press Enter'
+
+]633;D;0]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+]633;D]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+PS># ------------------------------------------------------------
+]633;D;0]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+PS># 6. Prove both listener ports have been released
+]633;D;0]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+PS># ------------------------------------------------------------
+]633;D;0]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+PS>Start-Sleep -Seconds 2
+]633;D;0]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+]633;D]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+PS>$remaining = @()
+]633;D;0]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+PS>foreach ($port in @(8421, 8099)) {
+    $listener = Get-NetTCPConnection -State Listen -LocalPort $port -ErrorAction SilentlyContinue
+    if ($listener) {
+        $remaining += $port
+        Write-Host "SHUTDOWN=FAIL port=$port still listening"
+    } else {
+        Write-Host "SHUTDOWN=PASS port=$port not listening"
+    }
+}
+SHUTDOWN=PASS port=8421 not listening
+SHUTDOWN=PASS port=8099 not listening
+]633;D;0]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+]633;D]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+PS>if ($remaining.Count -gt 0) {
+    Write-Host "STOP: Do not claim shutdown complete. Remaining ports: $($remaining -join ', ')"
+    Stop-Transcript
+    throw 'Shutdown verification failed.'
+}
+]633;D;0]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+]633;D]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+PS>Write-Host 'P2_SERVICE_SHUTDOWN=PASS'
+P2_SERVICE_SHUTDOWN=PASS
+]633;D;0]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+PS>Write-Host 'P2_F6=PASS; checks=8; failed=0'
+P2_F6=PASS; checks=8; failed=0
+]633;D;0]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+PS>Write-Host 'P2_F5.2=UNRESOLVED'
+P2_F5.2=UNRESOLVED
+]633;D;0]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+PS>Write-Host "TRANSCRIPT=$transcript"
+TRANSCRIPT=C:\Users\USER\.iips-gate-c-p2\evidence\p2-establishment-transcript-2026-10-14.txt
+]633;D;0]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+]633;D]633;A]633;P;Cwd=G:\x5cIIPS-Production-Market-Data-P2-PINPS G:\IIPS-Production-Market-Data-P2-PIN> ]633;B
+PS>Stop-Transcript
+**********************
+PowerShell transcript end
+End time: 20261014013653
+**********************
