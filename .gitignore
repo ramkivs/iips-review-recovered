@@ -147,3 +147,5 @@ vite.config.ts.timestamp-*
 # This entry makes the TD-7a contract statement ("gitignored") true and prevents owner-scoped
 # local data from ever being committed. Authorized by the F-3 mechanism PA decision record.
 .iips-data/
+# CI: Vitest JSON summary consumed by .github/workflows/ci.yml (CV-42); generated, never committed
+frontend/.vitest-report.json

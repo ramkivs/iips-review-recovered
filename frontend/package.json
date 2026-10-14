@@ -10,6 +10,7 @@
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
+    "test:ci": "vitest run --reporter=default --reporter=json --outputFile.json=.vitest-report.json",
     "server:dev": "tsx server/executive-transport.ts"
   },
   "dependencies": {
