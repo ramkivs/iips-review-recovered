@@ -109,6 +109,8 @@ The following are recorded **as transferred factual context**. Arena did **not**
 | The §3 result table (operator-transferred *facts*, not artifacts) | `p2-anchor-key-public.json` (**public** fields only) |
 | | `e-keygen.json`, `e-anchor.log`, `e-runtime.log`, `c-tsc.log`, `f-loader.json` (operator-side copies) |
 
+> **Correction `GC-P2-DEPOSIT-SOURCE-AUDIT-01` (`2026-10-14`).** The "Still confined to Windows" existence statements above are **refuted-in-part** by read-only source audit: `p2-establishment-result.txt`, `p2-pin-provenance.txt` and `p2-anchor-key-public.json` were **never produced as files** (no executed handoff instruction creates them; absent from `$ev` and from the destination); the governed transcript exists but **fails the manifest §1 content checklist** (host, pin verification, ACLs, tooling hashes, D1, D1b, F2–F4 absent) and the destination copy is wrong-source (off-coordinate `…-014000` file). The raw outputs remain source evidence only. See [`…_DEPOSIT_SOURCE_AUDIT_AND_ARTIFACT_DISPOSITION_REQUEST_2026-10-14.md`](IIPS_v3.0_GATE_C_P2_DEPOSIT_SOURCE_AUDIT_AND_ARTIFACT_DISPOSITION_REQUEST_2026-10-14.md) (tracker §15.20). **Deposit remains INCOMPLETE — nothing staged, committed or pushed.**
+
 **5.6 Minimum transfer (one commit).** Deposit exactly the four manifest artifacts into the folder of §5.2 and push — nothing else: no archives, no duplicate packages, no checksum files (ordinary Git blob verification suffices), no source changes.
 
 ```bat
