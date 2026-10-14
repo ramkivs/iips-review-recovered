@@ -1438,7 +1438,7 @@ exercised by the test step.
 
 | Field | Value |
 | --- | --- |
-| Repository / branch / commit | `ramkivs/iips-review-recovered` / `arena/ee3fd321-iips-review-recovered` / `cefb2dd` (`1b2b194` + `9630d48` + `ce00bbc` + `0396344` + `65e332b` + `cefb2dd`; **4 files**, +4556; `.github/` and `frontend/.ci/` are new) |
+| Repository / branch / commit | `ramkivs/iips-review-recovered` / `arena/ee3fd321-iips-review-recovered`. `git log --oneline 1b2b194..HEAD` gives **8 commits**: `3479110`, `0f40f1c`, `34557c6`, `ce00bbc`, `0396344`, `65e332b`, `cefb2dd` (this workflow), `395e39c` (this record). `cefb2dd` is **4 files / +150** per `git show --stat` (`​.github/workflows/ci.yml` 82, `frontend/.ci/assert-tests.js` 65, `.gitignore` 2, `frontend/package.json` 1); PR #98 as a whole is **15 files / +1673 −18**. `.github/` and `frontend/.ci/` are new paths |
 | PR | **#98** — `OPEN`, head `cefb2dd`, `MERGEABLE` / `CLEAN`; base `main` @ `1b2b194` (unchanged; `git ls-remote` confirms `refs/heads/main` still `1b2b194`) |
 | Workflow run | `38607209949`, event `pull_request`, workflow `CI`, head branch `arena/ee3fd321-iips-review-recovered` |
 | Final result | **`status=completed`, `conclusion=success`** — job `Typecheck · Test · Build` `success`, `2026-10-14T17:30:25Z → 17:31:20Z` (**55 s**) on runner `GitHub Actions 1000000006` |
@@ -1458,6 +1458,8 @@ demonstrating it would require pushing a deliberately broken commit to a PR whos
 relied on, and the guard's failure behaviour is proven directly by the four negative cases below.
 `G-2` (external persistence), `D-1`, `AD-20` and all three fences are unaffected: `git diff
 --name-only 1b2b194..HEAD` touches no file under `frontend/server/macro/**` and no fence file.
+
+*Erratum, recorded not hidden:* the first draft of this row carried two figures from recall instead of from command output — a stray commit SHA (`9630d48`, which does not exist in this repository) and an insertion count of `+4556`. Both are corrected above from `git log 1b2b194..HEAD` and `git show --stat cefb2dd`. Nothing else in this section cites either figure, and the workflow itself was unaffected.
 
 **16.18.4 Local validation of the identical commands** (Linux/Arena, Node v22.22.3, npm 10.9.8):
 `npm run typecheck` → exit `0`; `npm run test:ci` → **64 files / 705 tests passed**, 45.00 s, report
@@ -1483,7 +1485,7 @@ V3/V4, so the test count is corroborated rather than newly created: **705 tests 
 | `V19` | "CI workflow absent in **both** repositories" | unchanged as the as-of-`2026-10-13` record; superseded for IRR by `V24`, still true of IPD |
 | §19 "CI / Test Reliability" | `OPEN (CV-42 new in CV-CORR-02)` | refreshed: IRR workflow green in hosted Actions; residual = IPD script + IPD workflow, both behind IPD main admission, plus `CV-35` |
 | `§18` row 46 | IPD test-runner false green | unchanged — that row describes IPD's script, which this work did not touch |
-| counts | total 35 · complete 23 · `DECISION REQUIRED` 6 · open 6 · deferred 2 · blocked-active 3 · terminal 1 | **no movement** — no item was closed by this work; `CV-42` stays in the `open 6` bucket with its residual scope named precisely |
+| counts (§16.12 groups) | total 35 · protected-complete 11 + `CV-CORR-04` closures 6 · `DECISION REQUIRED` 6 · open 6 · deferred 2 · blocked-active 3 · terminal 1 · active outstanding 17 | **no movement** — no item was closed by this work; `CV-42` stays in the `open 6` bucket with its residual scope named precisely |
 
 **16.18.7 What this result does *not* mean, and what is still outstanding.**
 A green CI run proves that the established commands pass on the runner — it is not qualification, not
