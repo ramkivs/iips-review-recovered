@@ -11,8 +11,9 @@
 > **9. Repository / ref (durable):** `ramkivs/iips-review-recovered` @ **`main`** (pending) — presently published on PR #98 head; durable destination per `NP-08-P4-GATE-Y-CORPUS-PLACEMENT-DESIGNATION` **C-1** ("*authoritative closure requires publication to IRR `main`*")
 > **10. Mutation:** one new governance artifact; one additive forward-pointer in the linked packet; additive tracker rows only. **Zero** modification to any historical record; **zero** product-code, IPD, fence or governed-act modification.
 > **11. Supersession:** **none.** This act supersedes no prior act, amends no operative act, and rewrites no history. D88, D89, D91, the D91 relief mechanism acts, the M-5 disposition act, the D8 scope determination act and `NP-07` remain exactly as written.
-> **13. Ratification and gate state (additive, `2026-10-15`):** H-18 §8.3(a) **SATISFIED** — see **§11**; H-18 §8.3(b) merge authorization **NOT SATISFIED**, so this act remains **non-authoritative**. Field 6 is **preserved as published and not rewritten**; §11.3 states its relationship to this update.
+> **13. Ratification and gate state (additive, `2026-10-15`):** H-18 §8.3(a) **SATISFIED** — see **§11**; H-18 §8.3(b) merge authorization **NOT SATISFIED**, so this act remains **non-authoritative**. Field 6 is **preserved as published and not rewritten**; §11.3 states its relationship to this update. **→ superseded in effect by field 14 and §12:** the PA issued the named §8.3(b) authorization and PR #98 was admitted at `2d5b376`, so this act is authoritative on the `main` baseline. The wording above is retained exactly as published rather than rewritten; `NP-08/D08 §11.8` and tracker `§16.25`–`§16.26` carry the sequence.
 > **12. Production:** **OUT OF SCOPE.** No implementation, promotion, main-admission, runtime, end-to-end or production authority is granted or implied.
+> **14. Durable publication (additive, `2026-10-15`; appended after field 12, which `main` carries after field 13 — position preserved from the published header, numbering unchanged):** **COMPLETED** — admitted to `ramkivs/iips-review-recovered` `refs/heads/main` at merge commit `2d5b37635bcdcda6f8d05d3cab92e043d70032fe` via **PR #98**; see **§12**. This act is now **authoritative** on the `main` baseline.
 
 ---
 
@@ -265,3 +266,28 @@ The §11.2 row for gate **3(b)** cited, among its grounds, "the standing program
 | 6 | Repository practice, read from the remote | PRs **#90** (`33bbb0f`, `2026-10-13T18:11:40Z`), **#96** (`f813354`), **#97** (`1b2b194` — the current `main` tip) and **#54** (`e2cda00`) each carry a `Merge pull request #NN from …` commit by `ramkivs` at `+0530` | Admission has consistently been the **owner's own act** on this repository, including for the immediately preceding documentation PRs of this session family — which is corroborating practice, not the ground of the requirement |
 
 **Determination unchanged: gate 3(b) is NOT SATISFIED, and no merge may be performed or inferred on this record set.** Independently re-verified this pass, and reported rather than assumed: **no** review, **no** comment and **no** label on PR #98 carries a grant; the F-3 standing authorization's own text limits it ("*The authorization does not permit fabricated evidence; weakened safeguards; unrelated scope expansion; claims of success without verification*"); and the branch-protection endpoint is **not readable** by this session's credentials (`403 Resource not accessible by integration`), so no mechanical permission can be substituted for the governance one — recorded as a verification limit, not as evidence of authorization. **What would satisfy gate 3(b):** the express, named grant described at §11.7.
+
+---
+
+## 12. Durable publication confirmed — H-18 §8.4 gates closed (`2026-10-15`)
+
+**12.1 What happened.** The Program Authority issued an **explicit, named merge authorization** for PR #98, `arena/ee3fd321-iips-review-recovered` → `refs/heads/main`, at verified head `ba010a426feb9723fa972c04853120602a7f579c` "or its verified successor", expressly conditioned on `H-18 §8.3(a)` remaining satisfied — which §11.2 records as SATISFIED. That authorization supplies precisely the element `§11.1`/`§11.8` found missing, and no other authority was inferred: **merge authorization ≠ implementation authority**, and none is claimed here.
+
+**12.2 Verification performed against the authoritative remote (H-18 §8.4).**
+| Check | Result |
+|---|---|
+| §8.4(a) `origin/main` contains this record | **YES** — `docs/integration/NP-08-D08-MACRO-OPTION-E-DISPOSITION-AND-XV16-AUTHORITY-DETERMINATION-2026-10-15.md`, blob **`a34ce3846b5830e4092fa7fb7d9f8497bafe6947`** |
+| Merge commit | **`2d5b37635bcdcda6f8d05d3cab92e043d70032fe`**, subject `Merge pull request #98 from ramkivs/arena/ee3fd321-iips-review-recovered`, by `ramkivs` at `2026-10-15T01:30:44+0530`, `mergedAt=2026-10-14T20:00:44Z` — **via the PR mechanism; no direct push, no force-push** |
+| Parents | first `1b2b194…` (pre-merge `main`) · second `ba010a4…` (**the authorized head**, i.e. the merge admitted exactly what was authorized) |
+| Root tree | **`9ba9fd9efca71315fb78590ab7db3d7357423855`** |
+| Raw SHA-256, read independently from the remote contents API | this act **`62ab0a42d9551b09…`**, the packet **`0eec32a4238d47c9…`**, the tracker **`d84e2c7e5f5d7e21…`** — all **MATCH** the locally verified bytes |
+| Admitted delta | `1b2b194..2d5b376` = **18 files, +2,535 −18** — the reviewed set, nothing else |
+| Fence integrity at the merge | `reports-transport.ts` `98147054…`, `user-portfolio-transport.ts` `51704c12…`, `owner-context-unavailable.ts` `cb8db45d…` — **UNCHANGED** |
+| Governed-act integrity at the merge | D89 `9652f890…`, D91 relief mechanism `f61325ee…`, D88 `d396e688…`, D8 scope `7cd63efb…`, M-5 `2006786c…` — **all UNCHANGED** |
+| Option E boundary at `main` | **0 diff lines** across `frontend/src/features/research`, `frontend/server/macro`, `frontend/src/api/macro.ts`; the only merge-diff paths containing "macro" are this program's two records (filename) |
+| IPD | `refs/heads/main` = `4d3e1cd…`, **unchanged**; the clone remained read-only |
+| Self-reference, stated rather than left to be discovered | **This §12 and header field 14 were not part of what `2d5b376` admitted** — the act on `main` at that commit is blob `a34ce384…` without them, exactly as the `NP-12` rule predicts. They arrive in the immediately following admission (the sequential follow-up PR from this same branch, `#99`), whose own coordinates are recorded in this tracker's `CHG-2026-10-15-05` row rather than inside this act |
+
+**12.3 Status consequence, stated precisely.** Field 5's "`DURABLE PUBLICATION PENDING`" and §11.2's gate 4(a)/4(b) "NOT SATISFIED" are **superseded for status purposes by this section**; both remain readable as published, per the corpus's additive-correction discipline. Under `H-18 §8.5` ("*takes effect only after post-merge verification*") and `D88` field 5 ("*effective on durable remote publication*"), **D-1 and D-2 are now effective as recorded — bounded to what they actually decide.**
+
+**12.4 What effectiveness does NOT mean.** D-1 defers implementation and preserves the obligation, so **`CV-53` remains `BLOCKED (authority — D89 implementation gate not granted)`**; the two determinations grant no UI, component, route, test or port authority; **`CV-38` remains behind `CV-24`; `XV-15` remains `OPEN`; `XV-16`'s general cross-corpus rule remains `UNRESOLVED`; `Live E2E` remains `C — BLOCKED`**; no qualification, admission, activation, certification or compliance follows from publication or from CI. Publication makes the **record** authoritative; it does not make the **capability** exist.
