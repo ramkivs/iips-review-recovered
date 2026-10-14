@@ -10,14 +10,19 @@
 
 ## 1. What belongs in this folder
 
-Exactly these four operator-transported artifacts (raw, unedited):
+**Amended by PA disposition `GC-P2-DEPOSIT-DISPOSITION-01` (§7, `2026-10-14`): the required deposit set is exactly ONE artifact (raw, unedited, byte-for-byte from its governed source).**
 
-| # | File | Content | Secret-bearing? |
+| # | File | Content (as amended) | Secret-bearing? |
 |---|---|---|---|
-| 1 | `p2-establishment-transcript.txt` | the raw `Start-Transcript` capture of Blocks A–F (host, pin, ACLs, tooling hashes, `TSC_EXIT/TSC_ERRORS`, D1/D1b/D2, anchor + runtime startup JSON, F1–F4 results, F5.2 **as observed**) | **no** |
-| 2 | `p2-establishment-result.txt` | operator-authored factual result summary, including the **F5.2 `401 OIDC_KEY_UNAVAILABLE` outcome recorded as UNRESOLVED**, the corrective shutdown verification (ports 8421/8099 free), and the not-done list (P-4 provisioning, P-6 authority, P-8 qualification, IPD changes) | **no** |
-| 3 | `p2-pin-provenance.txt` | output of `git rev-parse HEAD`, `git rev-parse HEAD^{tree}`, `git status --porcelain` from `G:\IIPS-Production-Market-Data-P2-PIN` | **no** |
-| 4 | `p2-anchor-key-public.json` | the Block E key-generation JSON **public fields only** — `kid`, `modulusBits`, `publicJwkSha256`, public JWK | **no** |
+| 1 | `p2-establishment-transcript.txt` | the raw `Start-Transcript` capture **exactly as captured on the designated host**, deposited byte-for-byte from the governed source `p2-establishment-transcript-<yyyy-MM-dd>.txt` (`p2-establishment-transcript-2026-10-14.txt`, handoff §6.7). **Verified actual coverage (source audit `2026-10-14`) — present:** `TSC_EXIT`/`TSC_ERRORS`, D2 (`PERSISTENCE_CONFIGURATION_INVALID`), anchor + runtime startup JSON, F1 health, F5.2 **as observed**, loader-matrix summary, runtime listing, pin-commit string. **Absent:** host identity, Block A pin verification (`rev-parse`/tree), ACL listings, tooling hashes, D1/D1b, F2–F4. **This deposit makes NO claim of complete Blocks A–F coverage**; it is accepted as the raw transcript as captured, with these limitations stated here. The off-coordinate `…-014000` transcript is **not** part of the set and may not be substituted. | **no** |
+
+**Removed from the required deposit set by `GC-P2-DEPOSIT-DISPOSITION-01` (§7) — preserved here as disposition history; no reconstruction, rename, copy or substitute may stand in for them:**
+
+| Former # | File | Disposition |
+|---|---|---|
+| 2 | `p2-establishment-result.txt` | **NEVER PRODUCED** — no executed instruction creates it; **removed from the required deposit set** |
+| 3 | `p2-pin-provenance.txt` | **NEVER PRODUCED AS A FILE** — no executed instruction creates it; no in-transcript carrier located; **removed from the required deposit set** |
+| 4 | `p2-anchor-key-public.json` | **NEVER PRODUCED UNDER THE REQUIRED NAME** — `e-keygen.json` is **NOT** renamed or copied to stand in; it remains host-side source evidence and never deposit content; **removed from the required deposit set** |
 
 ## 2. What must never be placed here (or in any record, log, branch or artifact)
 
@@ -25,7 +30,7 @@ Private key bytes or any value derived from them; `.pem` files; bearer tokens (t
 
 ## 3. Integrity rule
 
-Integrity is carried by **ordinary Git verification** — the recorded blob SHA of each file on the pushed branch, compared by Arena against the remote contents. No separate hash manifest, archive or checksum file is required for these four artifacts.
+Integrity is carried by **ordinary Git verification** — the recorded blob SHA of each file on the pushed branch, compared by Arena against the remote contents. No separate hash manifest, archive or checksum file is required for the amended deposit set (§1/§7).
 
 ## 4. Status at publication of this manifest
 
@@ -52,3 +57,18 @@ Read-only source audit on the designated host, reconciled against the executed h
 - The governed transcript `p2-establishment-transcript-2026-10-14.txt` exists but its content **does not satisfy the §1 checklist** (host, Block A pin verification, ACLs, tooling hashes, D1, D1b, F2–F4 absent); the untracked destination copy matches the off-coordinate `…-014000` file by SHA-256 and must not be committed.
 - The five raw outputs exist and are **source evidence only**; the preliminary private-material scan of `e-keygen.json` **does not authorize** staging it as artifact 4.
 - **Deposit status: INCOMPLETE — 0 of 4 commit-ready; nothing staged, committed or pushed.** The four dispositions are requested from the Program Authority at the record §6; no artifact is deposited, reconstructed or substituted.
+
+> **Superseded for current status by §7 (`GC-P2-DEPOSIT-DISPOSITION-01`, dispositions rendered `2026-10-14`).**
+
+---
+
+## 7. PA artifact dispositions rendered — `GC-P2-DEPOSIT-DISPOSITION-01` (`2026-10-14`)
+
+The Program Authority's execution directive of `2026-10-14` (standing authorization; no further approval requested) renders the four dispositions requested at the audit record §6:
+
+1. **Artifact 1 — ACCEPTED with the contract amendment of §1.** The governed date-only transcript `p2-establishment-transcript-2026-10-14.txt` is the **sole required deposit artifact**, deposited byte-for-byte under the destination name `p2-establishment-transcript.txt`, with its **actual coverage and limitations stated in §1** (no claim of complete Blocks A–F coverage; no substitution of the `…-014000` alternate).
+2. **Artifact 2 — NEVER PRODUCED; removed from the required deposit set.**
+3. **Artifact 3 — NEVER PRODUCED AS A FILE; removed from the required deposit set.**
+4. **Artifact 4 — NEVER PRODUCED UNDER THE REQUIRED NAME; removed from the required deposit set.** `e-keygen.json` is **not** renamed or copied into the public-only artifact; it remains host-side source evidence and never deposit content.
+
+**Corrected deposit source coordinates (superseding the refuted PR #93 wording; §4/§5/§6 four-artifact statements are superseded by this section for current status).** Source: `%USERPROFILE%\.iips-gate-c-p2\evidence\p2-establishment-transcript-2026-10-14.txt` (governed coordinate only). Destination name: `p2-establishment-transcript.txt`. The destination's untracked wrong-source copy (SHA-256 equal to the `…-014000` file) must be **removed and replaced byte-for-byte on the designated host only**, only after this amendment is durably published, with source==destination SHA-256 verified before staging. Transport: **one commit carrying only `p2-establishment-transcript.txt`**, staged on the destination working tree, pushed to the session branch current at deposit time through the PR workflow (never directly to `main`); integrity by ordinary Git verification (§3). **Deposit status: contract amended — publication of this amendment is the durable-contract precondition; the file transfer itself is an operator-host step and is not executable from Arena (separate evidence domains; Arena holds no transcript bytes).**
