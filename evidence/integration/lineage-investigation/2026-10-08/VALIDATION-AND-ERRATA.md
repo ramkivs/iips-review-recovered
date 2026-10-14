@@ -180,3 +180,74 @@ Mirrors: `git clone --mirror` of both repositories into scratch (`/tmp/inv/irr.g
 - The scripts expect scratch mirrors at `/tmp/inv/irr.git` and `/tmp/inv/ipd.git`, created with `git clone --mirror` of `ramkivs/iips-review-recovered` and `ramkivs/iips-production-market-data`, and refreshed with `git remote update --prune`.
 - Method scripts used to produce `supporting/raw/`: `supporting/method/`.
 - Pass 4 includes an `ls-remote` call (P4-15). Its output depends on the time it is run.
+---
+
+## 9. Addendum — `2026-10-14` re-sweep under complete history (`CV-CORR-07`)
+
+*Added by the Macro discovery-completion task on the same branch as `§16.19` of the master tracker,
+which is the register of record for the findings. This addendum validates and extends **this**
+investigation's method and results; it does not replace §§1–8, and no statement above is deleted.*
+
+**9.1 Why a re-sweep was owed.** This investigation's raw inventories (`supporting/raw/*_all_history.txt`,
+`*_lineage_only_blobs.tsv`) were produced from `git clone --mirror` copies at `/tmp/inv/`, i.e. from
+**complete** histories. The `2026-10-14` Macro reconciliation in `§16.17` was produced from working
+clones that were **`--depth 1` shallow**, so its negative statements were bounded to `main` plus three
+named refs — even though this record already listed ten of the same macro blobs with the flag `NO`
+(not on `main`). Reconciling `§16.17` against `supporting/raw/` was therefore the first action of this
+pass; the correction is to the *later* record's scope, not to this one's data.
+
+**9.2 Census reproduction.**
+
+| Measure | 2026-10-08 (this record) | 2026-10-14 (re-sweep) | Assessment |
+| --- | --- | --- | --- |
+| IPD commits, all refs / `main` | 618 / 94 | **618 / 94** | reproduces exactly |
+| IRR commits, all refs / `main` | 427 / 168 | **581 / 307** | moved because `main` advanced (307 now), not because the earlier pass was wrong |
+| IRR refs scanned | (not stated as a count) | **213** — 26 named branches, 86 `arena/*`, 98 `refs/pull/*/head`, 2 tags | now stated |
+| IPD refs scanned | (not stated as a count) | **43** — 9 named branches, 23 `arena/*`, 6 PR heads, 4 tags | now stated |
+| Macro blobs, IRR | listed per path with ref flags | **20 distinct blobs / 8 paths**; 130 of 211 tips carry a macro file | consistent with, and finer than, §G of the report |
+| Macro blobs, IPD | listed per path with ref flags | **15 distinct blobs / 13 paths** on 40 of 42 tips; `main` = 4 paths (`src/contracts/d08_macro.ts`, `src/intelligence/macro_engine.ts`, `src/ui/view_models/ui13_macro_vintage_tracker.ts`, `tests/fixtures/d08_fixtures.json`) | consistent; the census is taken on the **path** field, because grepping raw `ls-tree` output for `d08` also matches hex digits inside blob shas |
+
+**9.3 The Windows lead is a checkout of the orphan stack — reconciled by arithmetic.** Reported by the
+user: `G:\IIPS\phase13-next-authority\frontend\server\macro` containing `macro-transport.test.ts`
+12,235 B, `mospi-source.test.ts` 15,503 B, `mospi-source.ts` 24,453 B. For an LF-stored blob checked
+out with CRLF translation, working bytes = blob bytes + one byte per line. Each report matches a
+specific blob reachable in both repositories and absent from both `main` lines:
+
+| Reported | blob | blob bytes | LF lines | predicted CRLF size | Δ |
+| --- | --- | --- | --- | --- | --- |
+| 12,235 `macro-transport.test.ts` | `0af644d20369f931ee7287b901eea421d357bf57` | 12,010 | 225 | 12,235 | 0 |
+| 15,503 `mospi-source.test.ts` | `20cf3ec82e2f715200d9bf9c487678199d52288c` | 15,232 | 271 | 15,503 | 0 |
+| 24,453 `mospi-source.ts` | `5ccef665e82e7bcaacf0d70a504a9f22dd3e18e9` | 23,942 | 511 | 24,453 | 0 |
+
+The inventory matches too: that tree holds exactly those three files and — like the reported folder —
+**no `macro-transport.ts`** (its handler is `handleMacroReadRequest` inside `executive-transport.ts`).
+`main`'s current versions are excluded: 34,514 / 22,675 / 8,611 predicted. LF SHA-256 for the three
+blobs, so the user can confirm without transferring content:
+`467e1ada2c3fabff53acb7df248b6f2351cb562f99e5aa3a244b0e6ac2d3ff4d` (transport test),
+`59c4a2b9b1d5ee8ec542b637a4ea9a645d710ac5e114d96bf06ecb872983abd5` (source test),
+`7464bb7480e33015f659cd0066e472e1599803f81cda4a16b20baaf8692efd36` (source).
+**Boundary kept:** the files were not read — no `G:` mount exists in the Arena/Linux environment, and a
+name-plus-size report is not inspection. The finding is therefore "explained by, and quantitatively
+consistent with" the blobs above; byte equality remains an operator step, and `git status --porcelain`
+showing no delta in that folder would pin it to the commit directly.
+
+**9.4 Reproduction.**
+
+```bash
+# IRR and IPD, each: fetch complete history including PR heads, then census macro blobs per ref
+git fetch --unshallow origin '+refs/heads/*:refs/remotes/origin/*' '+refs/tags/*:refs/tags/*' \
+              '+refs/pull/*/head:refs/remotes/origin/pr/*'
+for r in $(git for-each-ref --format='%(refname)' refs/remotes/origin refs/tags | grep -v HEAD); do
+  git ls-tree -r --long "$r" | grep -iE "macro|mospi" | awk -v R="$r" '{print R"\t"$4"\t"$5"\t"$3}'
+done | sort -u            # → 20 IRR blobs / 8 paths; 12 IPD variants / 10 paths
+git log --all --format="%h %ad %s" --date=short --find-object=<sha>   # which commit introduced a blob
+```
+
+**9.5 What this addendum does not claim.** It does not qualify, admit or activate any lineage; the
+orphan stack's tests cannot even build against `main` (its imports of `src/core/auth/keycloakAdapter.ts`
+and `server/admin-transport.ts` point at files the NO-AUTH decision removed). It does not decide whether
+an IPD-side act can discharge an IRR-side obligation (`XV-16`, PA's to decide). It does not restore any
+live-source claim: `api.mospi.gov.in` remains unreachable from this environment and no synthetic fixture
+is offered as live evidence, consistent with `D91`'s fallback prohibition. `§18`/`§19`/`§20` of the
+master tracker, `CV-53`, `XV-15` and all three transport fences are unchanged in status; the only
+new register rows are `V26`–`V30`, `XV-16`, `XV-17` and this addendum.
