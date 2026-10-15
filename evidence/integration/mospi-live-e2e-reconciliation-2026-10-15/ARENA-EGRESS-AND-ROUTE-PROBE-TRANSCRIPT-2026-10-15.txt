@@ -1,0 +1,114 @@
+############ 0. ENVIRONMENT ############
+date(UTC)            : 2026-10-15T09:14:57Z
+E2B_SANDBOX          : true
+E2B_SANDBOX_ID       : ivxm4mj6e8weaqgtb0on0
+E2B_TEMPLATE_ID      : mn0k6lgvyo6q8utbj8jh
+node                 : v22.22.3
+curl                 : curl 7.88.1 (x86_64-pc-linux-gnu) libcurl/7.88.1 OpenSSL/3.0.20 zlib/1.2.13 brotli/1.0.9 zstd/1.5.4 libidn2/2.3.3 libpsl/0.21.2 (+libidn2/2.3.3) libssh2/1.10.0 nghttp2/1.52.0 librtmp/2.3 OpenLDAP/2.5.13
+http_proxy/https_proxy env : <unset> / <unset>
+NODE_EXTRA_CA_CERTS  : <unset>
+resolv.conf          : nameserver 8.8.8.8
+default route        : default via 169.254.0.22 dev eth0 
+
+############ 1. DNS (resolution is NOT the failure layer) ############
+103.210.93.23   api.mospi.gov.in
+103.210.81.67   www.mospi.gov.in
+
+############ 2. CONTROL HOST (allowlisted egress works) ############
+curl  https://github.com/            -> exit=0 http=200 remote=20.29.134.23 total=1.303837
+curl  https://registry.npmjs.org/     -> exit=0 http=200 remote=104.16.11.34 total=0.065355
+--- interception evidence: who issued the certificate for an ALLOWED host ---
+*  subject: O=E2B; CN=github.com
+*  issuer: O=E2B; CN=E2B Proxy CA
+*  SSL certificate verify ok.
+
+############ 3. DOCUMENTED CPI ENDPOINT (exact Windows-tested request) ############
+URL: https://api.mospi.gov.in/api/cpi/getCPIIndex?base_year=2012&series=Current&state_code=99&Format=JSON&page=1
+*   Trying 103.210.93.23:443...
+* Connected to api.mospi.gov.in (103.210.93.23) port 443 (#0)
+* OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to api.mospi.gov.in:443 
+curl -> exit=35 http=000 ct= remote=103.210.93.23 connect=0.000000 total=0.033212 size=0
+bytes received: 0
+
+############ 4. DOCUMENTED IIP MONTHLY ENDPOINT (exact Windows-tested request) ############
+URL: https://api.mospi.gov.in/api/iip/getIIPMonthly?base_year=2011-12&type=General&Format=JSON&page=1
+*   Trying 103.210.93.23:443...
+* Connected to api.mospi.gov.in (103.210.93.23) port 443 (#0)
+* OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to api.mospi.gov.in:443 
+curl -> exit=35 http=000 ct= remote=103.210.93.23 total=0.033286 size=0
+bytes received: 0
+
+############ 5. IIP ROUTE THE APPLICATION ACTUALLY CALLS ############
+URL: https://api.mospi.gov.in/api/iip/getIipData?base_year=2022-23&frequency=Annually&type=Sectoral&category_code=2&subcategory_code=022011-1210&Format=JSON&limit=1&page=1
+curl -> exit=35 http=000 size=0 total=0.032533
+
+############ 6. NAS — PUBLIC HOST ROUTE THE APPLICATION ACTUALLY CALLS ############
+URL: https://api.mospi.gov.in/api/nas/getNASData?base_year=2022-23&series=Current&frequency_code=Annually&indicator_code=1&Format=JSON&limit=1&page=1
+curl -> exit=35 http=000 size=0 total=0.034404
+
+############ 7. NAS — PRIVATE SERVER ADVERTISED BY THE NAS OPENAPI SPEC ############
+URL: http://10.24.89.9:5000/api/nas/getNASData?series=Current&frequency_code=Annually&indicator_code=1&Format=JSON&page=1
+route lookup: 10.24.89.9 via 169.254.0.22 dev eth0 src 169.254.0.21 uid 1001 
+TCP /dev/tcp 10.24.89.9:5000 (8s cap) -> NO CONNECTION (timeout/refused)
+curl -> exit=28 http=000 remote= connect=0.000000 total=5.001357
+
+############ 8. AUTHORITATIVE SPEC FETCH FROM ARENA (negative control) ############
+URL: https://api.mospi.gov.in/layout/swagger_user_nas.yaml
+curl -> exit=35 http=000 size=0 total=0.040944
+
+############ 9. NODE (undici) CAUSE CHAIN — the exact failure layer ############
+
+[CPI (app route, documented)]
+  URL: https://api.mospi.gov.in/api/cpi/getCPIIndex?base_year=2012&series=Current&Format=JSON&limit=1
+  outcome: FETCH FAILED after 277ms (no HTTP response received)
+  cause chain: TypeError: fetch failed  <=  Error: Client network socket disconnected before secure TLS connection was established [code=ECONNRESET]
+
+[CPI (Windows-documented exact)]
+  URL: https://api.mospi.gov.in/api/cpi/getCPIIndex?base_year=2012&series=Current&state_code=99&Format=JSON&page=1
+  outcome: FETCH FAILED after 6ms (no HTTP response received)
+  cause chain: TypeError: fetch failed  <=  Error: Client network socket disconnected before secure TLS connection was established [code=ECONNRESET]
+
+[IIP (app route /api/iip/getIipData)]
+  URL: https://api.mospi.gov.in/api/iip/getIipData?base_year=2022-23&frequency=Annually&type=Sectoral&category_code=2&subcategory_code=022011-1210&Format=JSON&limit=1&page=1
+  outcome: FETCH FAILED after 6ms (no HTTP response received)
+  cause chain: TypeError: fetch failed  <=  Error: Client network socket disconnected before secure TLS connection was established [code=ECONNRESET]
+
+[IIP (Windows-documented exact /api/iip/getIIPMonthly)]
+  URL: https://api.mospi.gov.in/api/iip/getIIPMonthly?base_year=2011-12&type=General&Format=JSON&page=1
+  outcome: FETCH FAILED after 5ms (no HTTP response received)
+  cause chain: TypeError: fetch failed  <=  Error: Client network socket disconnected before secure TLS connection was established [code=ECONNRESET]
+
+[NAS (app route, PUBLIC host)]
+  URL: https://api.mospi.gov.in/api/nas/getNASData?base_year=2022-23&series=Current&frequency_code=Annually&indicator_code=1&Format=JSON&limit=1&page=1
+  outcome: FETCH FAILED after 5ms (no HTTP response received)
+  cause chain: TypeError: fetch failed  <=  Error: Client network socket disconnected before secure TLS connection was established [code=ECONNRESET]
+
+[NAS (Windows-tested, PRIVATE server)]
+  URL: http://10.24.89.9:5000/api/nas/getNASData?series=Current&frequency_code=Annually&indicator_code=1&Format=JSON&page=1
+  outcome: FETCH FAILED after 8001ms (no HTTP response received)
+  cause chain: AbortError: This operation was aborted [code=20]
+
+[OpenAPI spec on public host]
+  URL: https://api.mospi.gov.in/layout/swagger_user_nas.yaml
+  outcome: FETCH FAILED after 5ms (no HTTP response received)
+  cause chain: TypeError: fetch failed  <=  Error: Client network socket disconnected before secure TLS connection was established [code=ECONNRESET]
+
+[CONTROL github.com (allowlisted)]
+  URL: https://github.com/robots.txt
+  outcome: FETCH FAILED after 15ms (no HTTP response received)
+  cause chain: TypeError: fetch failed  <=  Error: unable to verify the first certificate [code=UNABLE_TO_VERIFY_LEAF_SIGNATURE]
+
+############ 10. IRR /api/macro/* LIVE ROUTE PROBES (application wrapper) ############
+--- GET http://localhost:8799/api/macro/cpi
+{"error":"macro upstream failure","code":"RETRY_BUDGET_EXHAUSTED","message":"request failed after 4 attempt(s): TypeError: fetch failed","dataset":"CPI"}
+HTTP=502 CT=application/json total=1.947033
+
+--- GET http://localhost:8799/api/macro/iip
+{"error":"macro upstream failure","code":"RETRY_BUDGET_EXHAUSTED","message":"request failed after 4 attempt(s): TypeError: fetch failed","dataset":"IIP"}
+HTTP=502 CT=application/json total=2.275074
+
+--- GET http://localhost:8799/api/macro/nas?indicator=GVA
+{"error":"macro upstream failure","code":"RETRY_BUDGET_EXHAUSTED","message":"request failed after 4 attempt(s): TypeError: fetch failed","dataset":"NAS"}
+HTTP=502 CT=application/json total=2.351602
+
+############ END ############

@@ -1,0 +1,23 @@
+PowerShell syntax validation transcript
+date (UTC) : 2026-10-15T09:28:34Z
+validator  : tree-sitter-powershell 0.26.4 (prebuilt tree-sitter-powershell.wasm) via web-tree-sitter 0.27.1
+node       : v22.22.3
+
+### negative control (deliberately broken file) ###
+file        : negative-control.ps1
+lines       : 3
+root node   : program
+syntax errors (ERROR/MISSING nodes): 2
+  ERROR [2:1-3:1] "broken line here (\n"
+  ERROR [2:19-3:1] "\n"
+validator exit (non-zero expected): 1
+
+### the prepared script ###
+file        : /home/user/iips-review-recovered/evidence/integration/mospi-live-e2e-windows-verification-2026-10-15/mospi-windows-route-verification.ps1
+lines       : 488
+root node   : program
+syntax errors (ERROR/MISSING nodes): 0
+validator exit (0 expected): 0
+
+LIMIT: this is a grammar parse, not a PowerShell interpreter.
+The script was NOT executed: no PowerShell runtime exists in this environment.

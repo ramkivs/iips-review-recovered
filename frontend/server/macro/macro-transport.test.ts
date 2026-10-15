@@ -8,6 +8,7 @@ import type { IncomingMessage, ServerResponse } from 'node:http';
 import { describe, expect, it } from 'vitest';
 
 import { handleMacroRequest } from './macro-transport';
+import { CPI_DEFAULT_YEAR } from './mospi-source';
 
 interface FakeResponse extends ServerResponse {
   status: number;
@@ -173,6 +174,136 @@ describe('/api/macro — CPI', () => {
     });
     expect(res.status).toBe(200);
     expect(JSON.parse(res.body).records).toHaveLength(1);
+  });
+
+  it('scopes the default request to one governed year instead of the whole history', async () => {
+    const urls: string[] = [];
+    const fetchImpl = (async (url: string) => {
+      urls.push(url);
+      return jsonResponse(envelope([{ index: '180.0' }]));
+    }) as unknown as typeof fetch;
+    const res = makeRes();
+    await handleMacroRequest(makeReq('/api/macro/cpi'), res, {
+      config: { fetchImpl, sleepImpl: sleepOff },
+    });
+
+    expect(res.status).toBe(200);
+    expect(urls).toHaveLength(1);
+    const params = new URL(urls[0]!).searchParams;
+    expect(params.get('year')).toBe(CPI_DEFAULT_YEAR);
+    expect(params.get('limit')).toBe('100');
+    const body = JSON.parse(res.body);
+    expect(body.provenance.cpiYear).toBe(CPI_DEFAULT_YEAR);
+    expect(body.pagination.expectedRecords).toBe(body.pagination.actualRecords);
+  });
+
+  it('honours an explicit ?year= override', async () => {
+    const urls: string[] = [];
+    const fetchImpl = (async (url: string) => {
+      urls.push(url);
+      return jsonResponse(envelope([{ index: '180.0' }]));
+    }) as unknown as typeof fetch;
+    const res = makeRes();
+    await handleMacroRequest(makeReq('/api/macro/cpi?year=2024'), res, {
+      config: { fetchImpl, sleepImpl: sleepOff },
+    });
+
+    expect(res.status).toBe(200);
+    expect(new URL(urls[0]!).searchParams.get('year')).toBe('2024');
+    expect(JSON.parse(res.body).provenance.cpiYear).toBe('2024');
+  });
+
+  it('400s a malformed year without calling the provider', async () => {
+    let called = 0;
+    const fetchImpl = (async () => {
+      called += 1;
+      return jsonResponse(envelope([{ index: '180.0' }]));
+    }) as unknown as typeof fetch;
+    const res = makeRes();
+    await handleMacroRequest(makeReq('/api/macro/cpi?year=2025-26'), res, {
+      config: { fetchImpl, sleepImpl: sleepOff },
+    });
+
+    expect(res.status).toBe(400);
+    expect(called).toBe(0);
+  });
+
+  it('retains identical CPI rows through the route instead of collapsing them', async () => {
+    // The live defect: identical provider rows were collapsed, the retained count
+    // fell short of the provider-declared count, and the route returned 502.
+    const duplicated = {
+      baseyear: '2012',
+      year: '2025',
+      month: 'February',
+      group: 'Food and beverages',
+      subgroup: 'Vegetables',
+      sector: 'Rural',
+      state: 'Tamil Nadu',
+      index: '178.4',
+      inflation: '5.21',
+    };
+    const fetchImpl = (async (url: string) => {
+      const page = Number(new URL(url).searchParams.get('page') ?? '1');
+      const rows = page === 1 ? [{ ...duplicated, month: 'January' }, duplicated] : [duplicated, { ...duplicated, month: 'March' }];
+      return jsonResponse({
+        data: rows,
+        meta_data: { page, totalRecords: 4, totalPages: 2, recordPerPage: rows.length },
+        statusCode: true,
+      });
+    }) as unknown as typeof fetch;
+
+    const res = makeRes();
+    await handleMacroRequest(makeReq('/api/macro/cpi'), res, {
+      config: { fetchImpl, sleepImpl: sleepOff },
+    });
+
+    expect(res.status).toBe(200);
+    const body = JSON.parse(res.body);
+    expect(body.records).toHaveLength(4);
+    expect(body.pagination.recordsRetained).toBe(4);
+    expect(body.pagination.rawRowsReceived).toBe(4);
+    expect(body.pagination.duplicatesSuppressed).toBe(0);
+    expect(body.pagination.expectedRecords).toBe(body.pagination.recordsRetained);
+    expect(body.provenance.retrievalCompleteness).toBe('COMPLETE');
+    expect(body.records.filter((r: { month: string }) => r.month === 'February')).toHaveLength(2);
+  });
+
+  it('leaves IIP retrieval sequential and free of the CPI year scope', async () => {
+    const urls: string[] = [];
+    let inFlight = 0;
+    let maxInFlight = 0;
+    const fetchImpl = (async (url: string) => {
+      urls.push(url);
+      if (url.includes('getIipFilter')) return jsonResponse(syntheticFilter());
+      const page = Number(new URL(url).searchParams.get('page') ?? '1');
+      inFlight += 1;
+      maxInFlight = Math.max(maxInFlight, inFlight);
+      await new Promise((resolve) => setTimeout(resolve, 5));
+      inFlight -= 1;
+      return jsonResponse({
+        data: [{ sub_category: `S${page}`, index: '100.0' }],
+        meta_data: { page, totalRecords: 3, totalPages: 3, recordPerPage: 1 },
+        statusCode: true,
+      });
+    }) as unknown as typeof fetch;
+
+    const res = makeRes();
+    await handleMacroRequest(makeReq('/api/macro/iip?baseYear=2099-00&subcategoryCode=990110-9000'), res, {
+      config: { fetchImpl, sleepImpl: sleepOff },
+    });
+
+    expect(res.status).toBe(200);
+    const body = JSON.parse(res.body);
+    expect(body.pagination.pagesFetched).toBe(3);
+    expect(body.pagination.expectedRecords).toBe(body.pagination.actualRecords);
+    expect(maxInFlight).toBe(1);
+    // no CPI year scope on IIP: checked as a real query parameter, not a substring
+    // (`base_year=…` would spuriously match a naive 'year=' search)
+    const iipDataUrls = urls.filter((u) => u.includes('getIipData'));
+    expect(iipDataUrls.length).toBeGreaterThan(0);
+    for (const u of iipDataUrls) {
+      expect(new URL(u).searchParams.has('year')).toBe(false);
+    }
   });
 });
 

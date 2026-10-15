@@ -93,6 +93,11 @@ export interface IipRequest {
 export interface CpiRequest {
   readonly baseYear?: string;
   readonly series?: string;
+  /**
+   * Retrieval year. Omit for the transport's governed default; the transport
+   * always scopes CPI to a single year rather than moving the whole history.
+   */
+  readonly year?: string;
 }
 
 async function getJson<T>(url: string): Promise<T> {
@@ -143,6 +148,7 @@ export function fetchMacroCpi(request: CpiRequest, baseUrl = ''): Promise<MacroR
     `${baseUrl}${withQuery(MACRO_ROUTE.CPI, {
       baseYear: request.baseYear,
       series: request.series,
+      year: request.year,
     })}`,
   );
 }
