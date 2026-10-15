@@ -1,0 +1,125 @@
+############ 0. HEAD / REFS ############
+branch   : arena/6e32d517-iips-review-recovered
+head     : bcbf344d2f6878cbd708be994e147969c3397d23
+main     : bcbf344d2f6878cbd708be994e147969c3397d23
+commits reachable from any ref : 610
+refs                           : 122
+shallow                        : false
+
+############ 1. THE URLS THE APPLICATION ACTUALLY CALLS ############
+54:export const MOSPI_REST_BASE_URL = 'https://api.mospi.gov.in';
+56:const DATA_ENDPOINT: Readonly<Record<MacroDataset, string>> = {
+57:  NAS: '/api/nas/getNASData',
+58:  CPI: '/api/cpi/getCPIIndex',
+59:  IIP: '/api/iip/getIipData',
+63:export const IIP_FILTER_ENDPOINT = '/api/iip/getIipFilter';
+186:  baseUrl: MOSPI_REST_BASE_URL,
+517:  return buildUrl(DATA_ENDPOINT.NAS, {
+604:  const url = `${resolved.baseUrl}${buildUrl(IIP_FILTER_ENDPOINT, {
+810:  return buildUrl(DATA_ENDPOINT.IIP, {
+870:  return buildUrl(DATA_ENDPOINT.CPI, {
+
+--- query builders (what the governed request emits) ---
+484:  readonly base_year?: string;
+510:      `indicator_code ${code} is not a governed NAS indicator (1 = GVA, 5 = GDP)`,
+518:    base_year: query.baseYear,
+520:    frequency_code: query.frequencyCode,
+521:    indicator_code: query.indicatorCode,
+522:    Format: 'JSON',
+523:    limit: pageSize,
+524:    page,
+538:    (page) => buildNasQuery(query, page, resolved.pageSize),
+548:  readonly base_year?: string;
+605:    base_year: baseYear,
+607:    Format: 'JSON',
+811:    base_year: query.baseYear,
+816:    Format: 'JSON',
+817:    limit: pageSize,
+818:    page,
+833:    (page) => buildIipQuery(query, page, resolved.pageSize),
+847:  readonly base_year?: string;
+871:    base_year: query.baseYear,
+873:    Format: 'JSON',
+874:    limit: pageSize,
+875:    page,
+888:    (page) => buildCpiQuery(query, page, resolved.pageSize),
+
+############ 2. HAS THE PRIVATE NAS ADDRESS EVER EXISTED IN THIS REPOSITORY? ############
+git log --all -S '10.24.89.9'  -> 0
+git log --all -S '10.24'       -> 0
+git log --all -S ':5000'       -> 0
+git grep across ALL refs       -> (empty above = never committed on any ref)
+
+############ 3. HISTORICAL ROUTE NAMES (documented route vs implemented route) ############
+getIIPMonthly    commits containing it: 0
+getIIPAnnual     commits containing it: 0
+getIipData       commits containing it: 5
+getIipFilter     commits containing it: 2
+getItemIndex     commits containing it: 0
+getCPIIndex      commits containing it: 4
+getNASData       commits containing it: 4
+
+############ 4. WHERE THE HTTP 502 IS EMITTED (application wrapper, not a gateway) ############
+154:        dataset,
+174:          dataset,
+194:        dataset,
+213:      dataset,
+223:      sendJson(res, 502, {
+224:        error: 'macro upstream failure',
+225:        code: err.code,
+227:        dataset,
+234:      dataset,
+
+--- upstream transport error taxonomy (which codes can produce a 502) ---
+123:  | 'REQUEST_FAILED'
+124:  | 'TIMEOUT'
+125:  | 'RATE_LIMITED'
+126:  | 'RETRY_BUDGET_EXHAUSTED'
+127:  | 'INVALID_RESPONSE'
+128:  | 'INCOMPLETE_PAGINATION'
+292:        lastError = new MacroSourceError('RATE_LIMITED', 'MoSPI returned HTTP 429 (throttled)', 429);
+302:        lastError = new MacroSourceError('REQUEST_FAILED', `MoSPI returned HTTP ${res.status}`, res.status);
+309:        throw new MacroSourceError('REQUEST_FAILED', `MoSPI returned HTTP ${res.status}`, res.status);
+314:        throw new MacroSourceError('INVALID_RESPONSE', 'MoSPI response was not a JSON object');
+318:      if (err instanceof MacroSourceError && err.code === 'REQUEST_FAILED' && (err.status ?? 0) < 500) throw err;
+320:        lastError = new MacroSourceError('TIMEOUT', `request exceeded ${cfg.timeoutMs}ms`);
+
+############ 5. RUNTIME CONFIGURABILITY OF THE UPSTREAM BASE URL ############
+--- the seam exists in the adapter ... ---
+150:export interface MospiSourceConfig {
+151-  readonly baseUrl?: string;
+152-  /** Hard request timeout (D08 §2 item 20). */
+153-  readonly timeoutMs?: number;
+154-  /** Bounded retry budget (D08 §2 item 17). */
+155-  readonly maxRetries?: number;
+156-  readonly retryBaseDelayMs?: number;
+--- ... but the route call site passes no deps ---
+752:        await macro.handleMacroRequest(req, res);
+--- and nothing in the macro chain reads an environment variable ---
+(no process.env reference in the macro chain)
+
+############ 6. BROWSER-SIDE CALL PATH (client) ############
+21:import { noAuthFetch } from '../core/network/noAuthFetch';
+36:  NAS: '/api/macro/nas',
+37:  CPI: '/api/macro/cpi',
+38:  IIP: '/api/macro/iip',
+99:  const res = await noAuthFetch(url);
+101:    throw new Error(`macro transport returned ${res.status}`);
+14:      '/api': { target: 'http://localhost:8787', changeOrigin: true },
+15-    },
+16-  },
+
+############ 7. MACRO UNIT SUITES AT THIS HEAD (V21 reproduction) ############
+
+ RUN  v2.1.9 /home/user/iips-review-recovered/frontend
+
+ ✓ server/macro/mospi-source.test.ts (36 tests) 41ms
+ ✓ server/macro/macro-transport.test.ts (14 tests) 17ms
+ ✓ src/features/research/MacroContext.test.tsx (6 tests) 79ms
+
+ Test Files  3 passed (3)
+      Tests  56 passed (56)
+   Start at  09:16:03
+   Duration  2.35s (transform 182ms, setup 384ms, collect 200ms, tests 136ms, environment 1.06s, prepare 172ms)
+
+############ END ############
