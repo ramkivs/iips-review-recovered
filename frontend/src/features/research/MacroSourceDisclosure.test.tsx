@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { cleanup, render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 
 import { MacroSourceDisclosure } from './MacroSourceDisclosure';
@@ -21,8 +21,21 @@ describe('MacroSourceDisclosure (D89 product-transparency contract)', () => {
   it('renders the DT-2 dataset label for CPI', () => {
     render(<MacroSourceDisclosure dataset="CPI" />);
     expect(screen.getByTestId('macro-dataset').textContent).toBe(
-      'Dataset: Consumer Price Index (CPI)',
+      'Dataset: Consumer Price Index (CPI), governed published Group/Subgroup index view',
     );
+  });
+
+  it('names the dataset and its granularity (DT-2), never a broader scope', () => {
+    render(<MacroSourceDisclosure dataset="CPI" />);
+    const cpi = screen.getByTestId('macro-dataset').textContent ?? '';
+    expect(cpi).toContain('Group/Subgroup index view');
+    expect(cpi).not.toMatch(/shop|microdata|item-level/i);
+
+    cleanup();
+    render(<MacroSourceDisclosure dataset="IIP" />);
+    const iip = screen.getByTestId('macro-dataset').textContent ?? '';
+    expect(iip).toContain('NIC 2-digit level only');
+    expect(iip).not.toMatch(/item-level|general|use-based|all IIP/i);
   });
 
   it('renders the DT-2 dataset label for IIP', () => {

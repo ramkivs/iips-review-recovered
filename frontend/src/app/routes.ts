@@ -18,6 +18,9 @@ export const ROUTES = {
   researchCompany: '/research/company/:id',
   researchSector: '/research/sector/:id',
   researchCrossSector: '/research/cross-sector',
+  // CV-53 / D89 — the one Macro surface authorized by the D89 UI-disclosure implementation gate.
+  // Read-only, and the only place the D89 disclosure contract (DT-1…DT-8) is rendered.
+  researchMacro: '/research/macro',
   screener: '/screener',
   intelligence: '/intelligence',
   intelligenceOpportunities: '/intelligence/opportunities',

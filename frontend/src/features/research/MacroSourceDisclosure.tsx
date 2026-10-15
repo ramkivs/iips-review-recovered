@@ -14,7 +14,9 @@ export type MacroDisclosureDataset = 'NAS' | 'CPI' | 'IIP';
 
 const DATASET_LABELS: Record<MacroDisclosureDataset, string> = {
   NAS: 'National Accounts Statistics (NAS)',
-  CPI: 'Consumer Price Index (CPI)',
+  // DT-2: the D08 CPI path is the governed published Group/Subgroup index view — never
+  // shop-collected price microdata (GSDD §4.B(ii)), which is outside the D08 boundary.
+  CPI: 'Consumer Price Index (CPI), governed published Group/Subgroup index view',
   IIP: 'Index of Industrial Production (IIP), NIC 2-digit level only',
 };
 

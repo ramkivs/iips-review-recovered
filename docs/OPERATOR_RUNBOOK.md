@@ -102,7 +102,7 @@ Read of the **certified reference** data — every screen answers from the froze
 | `POST /api/screener` `{"definition":{"definitionId":"RUNBOOK-CONVICTION","version":"1","predicates":[{"field":"conviction","operator":"gte","operand":"50"}]}}` | `200` | `result.matchedCount 12`, `result.totalPopulationCount 13`, `executionStatus COMPLETED`, `evaluatorId NP12-SCREEN-EVALUATOR`; membership is **server-derived**; `executionId 4d0e128b…` is content-addressed |
 | same body with `"predicates":[]` | `200` | `matchedCount 13`, `executionId b76227aa…`, `definitionDigest 1ef5dd80…`; **re-POSTing the identical definition returned the identical `executionId`** (deterministic, no clock, no randomness) |
 | `POST /api/screener` with a `members` key | `422` | `client-supplied-members-rejected` — population authority is never client-supplied |
-| `GET /api/macro/NAS?indicatorCode=1` | `200` with egress, `502` without | governed MoSPI read surface — see **§5.1** for the full contract, the exact fail-closed shapes and why there is no UI |
+| `GET /api/macro/NAS?indicatorCode=1` | `200` with egress, `502` without | governed MoSPI read surface — see **§5.1** for the full contract, the exact fail-closed shapes and the mounted read-only view |
 | `GET "/api/pit/market-data?securityId=ISIN:INE467B01029:EQ&domain=D01_QUOTES&asOf=2026-12-31T23:59:59.000Z"` | `200` | `found: true`, D114 TCS record, `resolvedAsOf 2026-02-10T15:30:00.000Z`, `dataVersion v1.0.0-d114-historical`, `lineageHash 3f30ac98…`, and the honest identity label `securityIdentity.isinAuthority: NON_AUTHORITATIVE`; `domain=D02_OHLCV` answers with the governed candle instead |
 | `GET "/api/pit/market-data?securityId=ISIN:INE467B01029:XX&…"` (or a missing/bogus `domain`) | `404` / `400` | `INVALID_IDENTITY` / `INVALID_DOMAIN` / `INVALID_ASOF` — fail-closed at the boundary, no synthesis, no fallback |
 
@@ -118,7 +118,7 @@ Owner-scoped surfaces (require §2's carrier):
 
 The `canonicalSecurityId` of the governed universe is the **sector name** (`executive-transport.ts:587`), so `Banking` resolves and an invented ISIN does not. That `404` is a governed-membership statement, not a lookup bug.
 
-### 5.1 Macro (`/api/macro`) — API only, by design
+### 5.1 Macro (`/api/macro`) — governed read path, plus the D89-disclosed Research view
 
 The governed MoSPI / e-Sankhyiki read surface serves **exactly** `NAS`, `CPI`, `IIP` (`NP-08`/`D08` boundary; `WPI`, `PPI`, RBI-sourced data and item-level IIP are not addressable). Read-only, no credentials, no account, and **live-only**: a failed or partial retrieval is never turned into observations.
 
@@ -133,7 +133,7 @@ The governed MoSPI / e-Sankhyiki read surface serves **exactly** `NAS`, `CPI`, `
 
 `502 RETRY_BUDGET_EXHAUSTED` with `"message": "request failed after 4 attempt(s): TypeError: fetch failed"` (captured 2026-10-14) means this machine could not reach `api.mospi.gov.in` — four bounded attempts, then a truthful failure. Check egress/proxy before treating it as an application defect; unauthenticated access is also throttled upstream (small pages), which the transport handles by paging with `limit`/`page` until complete.
 
-**There is deliberately no Macro screen.** `frontend/src/features/research/MacroContext.tsx` fetches and provides state for a view, and no view or route is authorized to exist yet: the disclosure contract `DT-1…DT-15` is binding *for a future gated implementation*, and `DT-15` forbids treating it as implementation authority. So the sidebar offers no Macro entry, and `/intelligence/*` stays an honest placeholder — that is the boundary, not a regression.
+**The Macro screen is a read-only disclosure surface, and nothing more.** The D89 UI-disclosure implementation gate (`CV-53-D89-MACRO-UI-DISCLOSURE-IMPLEMENTATION-AUTHORITY-DECISION-ACT-01`) authorizes the display contract only, so `frontend/src/features/research/MacroResearch.tsx` is mounted at **`/research/macro`** (sidebar → Research → Macro) and renders `MacroSourceDisclosure` (the `DT-1…DT-8`, `DT-13` product-transparency disclosure) adjacent to the observations returned by the governed read. It shows only what the read returned: a failed or partial retrieval is rendered as a refusal, nothing is cached or synthesized, no period/base year/freshness/citation is invented, and no licence, rights or endorsement language appears. What it does **not** change: entitlement stays `B — PARTIALLY ESTABLISHED`, formal Category-A attribution stays `NOT DETERMINED`, `M-3` stays `NOT ESTABLISHED`, and production stays `NOT AUTHORIZED`. No dataset outside `NAS`/`CPI`/`IIP` is addressable, and `/intelligence/*` stays an honest placeholder — that is the boundary, not a regression.
 
 ## 6. Prove durability (Class-C journal), 2 minutes
 

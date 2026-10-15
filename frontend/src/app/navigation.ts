@@ -47,6 +47,7 @@ export const NAV: NavItem[] = [
       { label: 'Sector', path: '/research/sector/:id' },
       { label: 'Cross-Sector', path: '/research/cross-sector' },
       { label: 'Engines', path: '/research/engines' },
+      { label: 'Macro', path: ROUTES.researchMacro },
     ],
   },
   { label: 'Screener', path: '/screener' },
@@ -79,6 +80,7 @@ export const NAV: NavItem[] = [
 export const AVAILABLE_CHILD_PATHS: ReadonlySet<string> = new Set<string>([
   ROUTES.researchCrossSector,
   '/research/engines',
+  ROUTES.researchMacro,
   ROUTES.intelligenceDecisionMatrix,
   ROUTES.aiExplanation,
 ]);

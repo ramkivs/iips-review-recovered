@@ -8,6 +8,7 @@ import { UserPortfolioList } from '../features/user-portfolios/UserPortfolioList
 import { UserPortfolioDetail } from '../features/user-portfolios/UserPortfolioDetail';
 import { CompanyIntelligence } from '../features/company/CompanyIntelligence';
 import { CrossSectorIntelligence } from '../features/cross-sector/CrossSectorIntelligence';
+import { MacroResearch } from '../features/research/MacroResearch';
 import { DecisionMatrix } from '../features/decision-matrix/DecisionMatrix';
 import { AiAdvisory } from '../features/ai-advisory/AiAdvisory';
 import { EvidenceLanding } from '../features/evidence/EvidenceLanding';
@@ -40,6 +41,7 @@ export function App() {
         <Route path="/research/company/:id" element={<CompanyIntelligence />} />
         <Route path="/research/sector/:id" element={<FeaturePlaceholder surface="Sector" />} />
         <Route path="/research/cross-sector" element={<CrossSectorIntelligence />} />
+        <Route path="/research/macro" element={<MacroResearch />} />
         <Route path="/research/engines" element={<EngineRegistry />} />
         <Route path="/screener" element={<Screener />} />
         <Route path="/intelligence/decision-matrix" element={<DecisionMatrix />} />
