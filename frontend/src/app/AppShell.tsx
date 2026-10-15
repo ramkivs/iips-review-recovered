@@ -1,10 +1,14 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import { Sidebar } from './Sidebar';
 import { TopBar } from './TopBar';
+import './AppShell.css';
 
 export function AppShell() {
+  const isMacroRoute = useLocation().pathname.replace(/\/+$/, '') === '/research/macro';
+
   return (
     <div
+      className={isMacroRoute ? 'app-shell app-shell--macro' : 'app-shell'}
       style={{
         display: 'grid',
         gridTemplateColumns: '240px 1fr',

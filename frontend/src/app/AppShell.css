@@ -1,0 +1,26 @@
+/*
+ * CV-53 / D89 — keep the disclosure and governed dataset labels readable on narrow screens.
+ * This scoped layout change applies only while the Macro view is active; the desktop shell and
+ * other product surfaces retain their existing layout.
+ */
+@media (max-width: 640px) {
+  .app-shell--macro {
+    grid-template-columns: minmax(100px, 28vw) minmax(0, 1fr) !important;
+  }
+
+  .app-shell--macro #main-content {
+    min-width: 0;
+    padding: 16px !important;
+  }
+
+  .app-shell--macro > nav {
+    min-width: 0;
+    overflow-x: hidden;
+  }
+}
+
+@media (max-width: 320px) {
+  .app-shell--macro #main-content {
+    padding: 12px !important;
+  }
+}
