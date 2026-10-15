@@ -9,8 +9,8 @@
 | Program Authority | **Ramki**, the IIPS application owner and Program Authority named in D89 §3 and the canonical tracker. The current session instruction explicitly directs this one-pass, bounded Product Acceptance and requires recording the result if its criteria pass. |
 | Recording agent | Arena Agent Mode — evidence execution and record preparation only. No independent Program Authority or legal decision, human signature, authenticated identity, direct human review, or third-party sign-off is claimed. |
 | Governing implementation authority | `CV-53-D89-MACRO-UI-DISCLOSURE-IMPLEMENTATION-AUTHORITY-DECISION-ACT-01`, merged via PR #100 (`b06eaf4a965b888dded15453de36f19068045cef`); its §6 criteria govern this acceptance. |
-| Reviewed implementation baseline | PR #103 merged to IRR `main` at `fd4ce6099f642cc3b581b1dd2a67e31cf2071984`; current `origin/main` was re-fetched and matched that SHA. The responsive correction, acceptance record and tracker update are published on `arena/a1d2be8c-iips-review-recovered` for review in PR #104 (https://github.com/ramkivs/iips-review-recovered/pull/104); they are not yet on `main`. |
-| Publication state | Published for review on the session branch in PR #104. This record does not itself authorize a merge; the acceptance record and responsive correction are not published on `main`. |
+| Reviewed implementation baseline | PR #103 merged to IRR `main` at `fd4ce6099f642cc3b581b1dd2a67e31cf2071984`; current `origin/main` was re-fetched and matched that SHA. At the time this acceptance was recorded, the responsive correction, acceptance record and tracker update were submitted on `arena/a1d2be8c-iips-review-recovered` for review in PR #104 (https://github.com/ramkivs/iips-review-recovered/pull/104) against the pre-change `main` baseline. Subsequent main-publication status must be verified from that PR. |
+| Publication state | At record creation, this acceptance was submitted for review on the session branch in PR #104. This record does not itself authorize a merge; any later main publication is a separate event to be verified from the PR. |
 
 ## 1. Decision and authority boundary
 
