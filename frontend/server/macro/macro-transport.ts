@@ -43,6 +43,7 @@ import {
   fetchNasObservations,
   resolveGovernedIipSelection,
 } from './mospi-source';
+import { createMospiFetch } from './mospi-tls';
 
 export const MACRO_ROUTE_PREFIX = '/api/macro/';
 
@@ -110,7 +111,12 @@ export async function handleMacroRequest(
     return true;
   }
 
-  const config = deps.config ?? {};
+  // Origin-scoped TLS compatibility for the MoSPI host (see `mospi-tls.ts`).
+  // An injected `fetchImpl` — tests, or any future governed client — always wins.
+  const config: MospiSourceConfig = {
+    ...deps.config,
+    fetchImpl: deps.config?.fetchImpl ?? createMospiFetch(),
+  };
   const url = new URL(req.url ?? '/', 'http://localhost');
 
   try {
