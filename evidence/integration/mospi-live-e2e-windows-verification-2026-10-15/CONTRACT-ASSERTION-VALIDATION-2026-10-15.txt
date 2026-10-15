@@ -1,0 +1,53 @@
+Contract-assertion validation against REAL /api/macro handler output
+(injected stub fetch; no live network call, no repository mutation)
+
+===== P1 /api/macro/cpi -> HTTP 200  Content-Type=application/json
+{"dataset":"CPI","source":"MoSPI","records":[{"baseyear":"2012","year":2025,"month":"December","state":"All India","sector":"Rural","group":"Consumer Food Price","subgroup":"Consumer Food Price-Overall","index":"198.5","inflation":"-3.03","status":"F"}],"pagination":{"pagesFetched":1,"expectedPages":1,"expectedRecords":1,"actualRecords":1,"duplicatesSuppressed":0},"provenance":{"baseYear":"2012","apiContractVersion":"mospi-esankhyiki-rest-d08-2026-10","retrievalCompleteness":"COMPLETE"}}
+  [PASS] dataset present
+  [PASS] source === MoSPI
+  [PASS] records is an array
+  [PASS] pagination.expectedRecords === actualRecords === records.length
+  [PASS] provenance.retrievalCompleteness === 'COMPLETE'
+  records length = 1
+
+===== P4 /api/macro/nas?indicator=GVA -> HTTP 200  Content-Type=application/json
+{"dataset":"NAS","source":"MoSPI","records":[{"base_year":"2022-23","series":"Current","year":"2024-25","indicator":"Gross Value Added","frequency":"Annually","current_price":"100.0"}],"pagination":{"pagesFetched":1,"expectedPages":1,"expectedRecords":1,"actualRecords":1,"duplicatesSuppressed":0},"provenance":{"baseYear":"2022-23","indicatorCode":1,"apiContractVersion":"mospi-esankhyiki-rest-d08-2026-10","retrievalCompleteness":"COMPLETE"}}
+  [PASS] dataset present
+  [PASS] source === MoSPI
+  [PASS] records is an array
+  [PASS] pagination.expectedRecords === actualRecords === records.length
+  [PASS] provenance.retrievalCompleteness === 'COMPLETE'
+  records length = 1
+
+===== P2 /api/macro/iip (metadata) -> HTTP 200  Content-Type=application/json
+{"dataset":"IIP","source":"MoSPI","selection":{"baseYear":"2022-23","frequency":"Annually","type":"Sectoral","categoryCode":2,"categoryName":"Manufacturing","subcategoryCodes":["022011-1210"]},"records":[]}
+  [PASS] dataset present
+  [PASS] source === MoSPI
+  [PASS] records is an array
+  [PASS] selection.type === 'Sectoral'
+  [PASS] selection.categoryName === 'Manufacturing'
+  [PASS] selection.subcategoryCodes non-empty and all match ^\d{4,}-\d{3,}$
+  records length = 0
+
+===== P3 /api/macro/iip?subcategoryCode=022011-1210 -> HTTP 200  Content-Type=application/json
+{"dataset":"IIP","source":"MoSPI","selection":{"baseYear":"2022-23","frequency":"Annually","type":"Sectoral","categoryCode":2,"categoryName":"Manufacturing","subcategoryCodes":["022011-1210"]},"records":[{"base_year":"2022-23","year":2026,"month":"March","type":"Sectoral","category":"Manufacturing","sub_category":"Synthetic A","index":"173.2","growth_rate":"4.1"}],"pagination":{"pagesFetched":1,"expectedPages":1,"expectedRecords":1,"actualRecords":1,"duplicatesSuppressed":0},"provenance":{"baseYear":"2022-23","categoryCode":2,"subcategoryCode":"022011-1210","apiContractVersion":"mospi-esankhyiki-rest-d08-2026-10","retrievalCompleteness":"COMPLETE"}}
+  [PASS] dataset present
+  [PASS] source === MoSPI
+  [PASS] records is an array
+  [PASS] pagination.expectedRecords === actualRecords === records.length
+  [PASS] provenance.retrievalCompleteness === 'COMPLETE'
+  [PASS] selection.type === 'Sectoral'
+  [PASS] selection.categoryName === 'Manufacturing'
+  [PASS] selection.subcategoryCodes non-empty and all match ^\d{4,}-\d{3,}$
+  records length = 1
+
+===== negative control: upstream unreachable -> HTTP 502  Content-Type=application/json
+{"error":"macro upstream failure","code":"RETRY_BUDGET_EXHAUSTED","message":"request failed after 4 attempt(s): TypeError: fetch failed","dataset":"CPI"}
+  classification: HTTP_FAILURE with code=RETRY_BUDGET_EXHAUSTED (no records field: true)
+
+Governed IIP code shape (IIP_SUBCATEGORY_CODE_PATTERN = /^\d{4,}-\d{3,}$/), evaluated by the
+application's own query builder:
+  2100-01      REJECTED -> subcategory_code '2100-01' is not a governed NIC-2 code
+  1210         REJECTED -> subcategory_code '1210' is not a governed NIC-2 code
+  022011-1210  ACCEPTED
+  022011-1232  ACCEPTED
