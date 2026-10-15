@@ -60,7 +60,7 @@ All four decisions were supplied explicitly by **Ramki (Program Authority)** at 
 | **`V-C6` — API client & configuration residuals** | (1) `src/api/macro.ts` parses and surfaces `code`, `message`, `dataset` on non-2xx responses while preserving `macro transport returned <status>`; (2) `executive-transport.ts` passes env/dependency-backed `MospiSourceConfig` `deps` into `handleMacroRequest`; (3) Route/view/nav portion already accepted in PR #103/#104. | `D-B` authority; V62–V64 (`macro.test.ts` 4/4, `macro-transport.test.ts` 23/23, `MacroResearch.test.tsx` 16/16, full suite 69/770). | **ACCEPTED / CLOSED** *(effective on durable `main` publication)* |
 | **`L-3` — UI12 settings-invariance test** | Server-side test proving `/api/macro` responses are invariant to UI12 settings using the established `['theme']` settings key (`NP-11-D4`). | `D-B` authority (and Packet `§6.4(iii)`); `macro-transport.test.ts` `L-3` suite green across `light` → `dark` → `reset` and 200/502 paths. | **ACCEPTED / CLOSED** *(effective on durable `main` publication)* |
 | **CPI missing-`index` observation (`§16.29.7`)** | Explicit PA choice among `§16.29.7` Options (a), (b), (c). | `D-C` Option (a) selected by PA: upstream MoSPI characteristic; existing `'—'` rendering in `MacroResearch.tsx` sufficient under `DT-8`. | **CLOSED (Accepted as upstream provider characteristic)** |
-| **`XV-15` — IPD PR #7 (`ui13_macro_vintage_tracker.ts`)** | Explicit PA merge authorization (`D-A`), merge of IPD PR #7 (`'REAL'` → `'DERIVED'`) to IPD `main`, remote verification of IPD `main` commit/blob, and tracker reconciliation in IRR. | `D-A` granted; IPD PR #7 (`6e3cfcf21c8f4a6925df5a3a7b21838723367799`) validated and `MERGEABLE`/`CLEAN`. | **CLOSED on IPD PR #7 merge + remote verification (Phase 6)** |
+| **`XV-15` — IPD PR #7 (`ui13_macro_vintage_tracker.ts`)** | Explicit PA merge authorization (`D-A`), merge of IPD PR #7 (`'REAL'` → `'DERIVED'`) to IPD `main`, remote verification of IPD `main` commit/blob, and tracker reconciliation in IRR. | `D-A` granted; IPD PR #7 (`6e3cfcf21c8f4a6925df5a3a7b21838723367799`) validated and `MERGEABLE`/`CLEAN`. In Phase 6 Step 1, `gh pr merge 7 --repo ramkivs/iips-production-market-data --merge` returned `Message: Resource not accessible by integration, Locations: [{Line:1 Column:58}]` (exit `1`) because the Arena GitHub App integration token is scoped to the primary session repository (`ramkivs/iips-review-recovered`) and cannot execute `mergePullRequest` on the external IPD repository. | **AUTHORIZED (`D-A`) & VALIDATED — PENDING PA/OPERATOR MERGE ON IPD (`PR #7` `OPEN`/`MERGEABLE` @ `6e3cfcf21c8f4a6925df5a3a7b21838723367799`; IPD `main` verified unchanged @ `4d3e1cdca3a33da0ec3be8b336b17128108a502c`)** |
 | **`D-D` — Governance boundaries & `/research/macro` browser E2E** | Retain unresolved/non-production states without inferring rights or external contact permission; browser live-source E2E remains optional/non-blocking per `§16.31.6`. | `D-D` confirmed by PA. | **BOUNDARIES RETAINED AS RECORDED (Unresolved items remain unresolved by design)** |
 
 ---
@@ -91,11 +91,11 @@ If the active session terminates upon executing a merge in Phase 6, a resuming s
 
 ---
 
-## 5. Phase 6–7 Execution Coordinates (Populated Upon IPD PR #7 Merge)
+## 5. Phase 6–7 Execution Coordinates (Verified)
 
 | Coordinate | Value |
 |---|---|
-| **IPD PR #7 Merge State** | *Pending Phase 6 Step 1 execution (not pre-filled before merge)* |
-| **IPD `main` Merge Commit SHA** | *To be recorded in Phase 6 Step 2 immediately after `gh pr merge 7 --repo ramkivs/iips-production-market-data --merge` completes* |
-| **IRR PR URL & Number** | *To be recorded in Phase 5/6 upon PR creation* |
-| **IRR `main` Merge Commit** | *Verified post-merge in Phase 7 (not self-embedded in the committed blob)* |
+| **IPD PR #7 Merge Attempt (Phase 6 Step 1)** | Executed `gh pr merge 7 --repo ramkivs/iips-production-market-data --merge` under `D-A` authorization → **BLOCKED by Arena GitHub App integration boundary:** `Message: Resource not accessible by integration, Locations: [{Line:1 Column:58}]` (exit `1`). No workaround was improvised. |
+| **Verified IPD `main` & PR #7 Coordinates (Phase 6 Step 2)** | IPD `refs/heads/main` verified unchanged at **`4d3e1cdca3a33da0ec3be8b336b17128108a502c`**; IPD **PR #7** (`https://github.com/ramkivs/iips-production-market-data/pull/7`) verified **`OPEN` / `MERGEABLE` / `CLEAN`** at head **`6e3cfcf21c8f4a6925df5a3a7b21838723367799`** (`src/ui/view_models/ui13_macro_vintage_tracker.ts` `+1/-1`, blob `5d16773f074e83a14ada10ea2089589a7f202b01`). Ready for direct PA merge in GitHub UI or operator CLI. |
+| **IRR PR URL & Number** | **PR #112** — `https://github.com/ramkivs/iips-review-recovered/pull/112` (`arena/597ad189-iips-review-recovered` → `refs/heads/main`; initial head `1c208f3a6e1ccf2bc7f2050e2f021d0af2ceb5e3`, CI run `38791448451` / job `116616766333` `SUCCESS`). |
+| **IRR `main` Merge Commit** | *Verified post-merge in Phase 7 (not self-embedded in the committed blob).* |
