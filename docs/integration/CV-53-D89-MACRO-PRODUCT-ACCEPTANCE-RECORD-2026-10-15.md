@@ -108,6 +108,14 @@ No API-client correction, `baseUrl`/`deps` injection, extra dataset, synthetic f
 - **Separate and still open/fenced:** API response-body `code`/dataset passthrough and `deps`/operator-config injection from tracker §§16.17.4 and 16.19.6. Current implementation authority §5 excludes these API-client/transport changes; this record does not grant their authority.
 - **Separate and not evaluated/accepted:** V-C5’s D91 §1 notice and any broader Macro view/governance acceptance. D91/D88 relief remains NOT GRANTED.
 - **Unchanged non-determinations:** entitlement `B — PARTIALLY ESTABLISHED`; formal Category-A attribution `NOT DETERMINED`; GODL applicability `NOT ESTABLISHED`; M-3 provenance `NOT ESTABLISHED`; production `NOT AUTHORIZED`; no qualification/admission claim.
-- **Publication:** the record and proposed tracker update are remote on the session branch/PR after publication; no claim of merge to `main`. Merge/activation/release require their own authority.
+- **Publication at record creation:** this record and its proposed tracker update were submitted for review in PR #104; the record itself did not purport to be proof of main publication. PR #104 was subsequently merged as verified in §7; that publication is not qualification, admission, activation, legal approval or production authorization.
+
+## 7. Post-merge publication verification (PR #104; 2026-10-15)
+
+PR #104 was merged to IRR `main` at `8112d361655c3ba5467b23bd60bb072a6304a66a` (`2026-10-15T13:45:54+0530` / `2026-10-15T08:15:54Z`). Its first parent is pre-merge `main` `fd4ce6099f642cc3b581b1dd2a67e31cf2071984` and its second parent is the reviewed PR head `44a02b906295b2780aafda0e63ac715df028edfb`; the merge tree `92f6d5debc4e02b37ce28f1ea72e26611e1e18a1` equals the PR-head tree. The remote GitHub PR state is `MERGED`, and its hosted Typecheck · Test · Build check passed in Actions run `38704298740` on the PR head.
+
+A fresh `git fetch origin main` followed by byte comparison confirmed that all six files in the PR #104 delta are present on remote `main` with bytes matching the reviewed PR head. The canonical tracker was reconciled additively in §16.28: the CV-53 register row now records durable main publication; the acceptance disposition remains **D89 display-contract scope only**; no register count or product status moved because of the merge. Live-source E2E remains blocked, and D91 V-C5, API-client residuals, attribution/licensing, qualification, admission and production remain separate.
+
+This is verification of durable publication only. It does not infer broader Macro acceptance, live-source success, legal/rights resolution, qualification, admission, activation, compliance or production authorization.
 
 No further work is authorized by this acceptance record. The precise external ChatGPT Library tracker text remains to be applied by its owner; no ChatGPT Library update is claimed here.
