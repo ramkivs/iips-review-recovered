@@ -2279,6 +2279,16 @@ Register total `35`; complete/accepted `12`; blocked-active `2`; active outstand
 
 Published from `arena/2148b8cf-iips-review-recovered` as **one** record set: the act, the proposal as its annotated basis, the decision record's additive §10 addendum, and this tracker entry. The act's durable publication is the Program Authority's merge act. Per the self-reference rule, merge coordinates are verified remotely afterwards rather than written into this section.
 
+**Remote verification of the branch publication (performed after the push, not assumed):**
+
+| Axis | Verified value |
+|---|---|
+| PR | **#109** (existing open PR for this branch; title and body updated to cover the full record set) — state `OPEN`, not draft, `MERGEABLE` / `CLEAN`, base `main`; four files: the act (new), the proposal (new), the decision record (additive), this tracker (additive) |
+| Act | blob **`b1739405c6b10d0ce106c597f56081479805a585`** (26,303 B) on the branch ref; raw SHA-256 **`c5b3410179f374d7bc2204723c5337bf9d7e0f51f01d66e107fb640e9c6d4c0d`**, both read through the contents API and equal to the local `git rev-parse` / `sha256sum` values — **remote = local** |
+| All four files | contents-API blob SHA equals `git rev-parse HEAD:<path>` for **each** of the tracker, the act, the proposal and the decision record — **MATCH** |
+| Hosted CI | **`success`** at every push during publication (e.g. run `38782250624`), check `Typecheck · Test · Build`; the PR's **live head and its check conclusion are authoritative** rather than any hash printed here. CI covers the repository suites; it **is not** evidence of the authority's effectiveness, which depends on the merge (§16.33.5 VC-1) |
+| Merge / effectiveness coordinates | **NOT AVAILABLE** — the merge had not occurred at publication time; the act remains `DECIDED AND RECORDED; DURABLE PUBLICATION PENDING`, **no implementation is authorized**, and no merge is claimed |
+
 ### 16.33.8 Remaining work and next step
 
 1. **`V-C5` / D91 §1 notice (Macro item 2)** — **`DECISION MADE — IMPLEMENTATION PENDING`**; the three conditions at §16.33.5.
