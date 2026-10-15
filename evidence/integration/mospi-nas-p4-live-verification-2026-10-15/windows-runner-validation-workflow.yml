@@ -1,3 +1,5 @@
+# INERT COPY (not under .github/workflows) - the workflow used on 2026-10-15 to validate the procedure on
+# GitHub-hosted Windows runners (runs 38770524406, 38771075510, 38771647181). Kept for reproducibility only.
 # TEMPORARY - validates the Macro item 1 / P4 Windows procedure on real Windows runners.
 # Runs only on pushes to this session branch that touch the procedure or this file.
 # It will be removed from the branch once the validation results are recorded.
