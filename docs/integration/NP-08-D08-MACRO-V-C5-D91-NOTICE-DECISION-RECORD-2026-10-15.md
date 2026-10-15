@@ -155,4 +155,21 @@ This record is published from the session branch **`arena/2148b8cf-iips-review-r
 
 ---
 
-*End of decision record. `V-C5` is recorded as `DECISION REQUIRED — NOT DECIDED`. The separation limb passes; the satisfaction limb is unmet; no instrument exists that determines whether the notice is owed on IRR — and that determination is the Program Authority's alone.*
+## 10. Addendum — the decision has been issued (`2026-10-15`; additive; nothing above is rewritten)
+
+Field 5 above records `DECISION REQUIRED — NOT DECIDED`. That was accurate when written. It is now **superseded as to the decision** — and, importantly, **not as to the outcome**:
+
+| # | Item |
+|---|---|
+| 1 | **The decision was issued** by the Program Authority on `2026-10-15`: Option 1 was chosen — a bounded D91 §1 implementation-authority act — with the Program Authority's **own** fixed notice wording, placement **P-1**, and the file-placement ruling that the notice renders through the consuming view with `MacroContext.tsx` runtime behaviour unchanged. The decision is recorded verbatim in **`NP-08-D08-MACRO-V-C5-D91-NOTICE-IMPLEMENTATION-AUTHORITY-DECISION-ACT-01`** (`docs/integration/NP-08-D08-MACRO-V-C5-D91-NOTICE-IMPLEMENTATION-AUTHORITY-DECISION-ACT-2026-10-15.md`), published with the proposal `…-PROPOSAL-01` as its reviewed basis. |
+| 2 | **`T-1` is settled by the Program Authority, not by this record** — the act §6 I-2 records the issued interpretation of `D89 §19`, with no governed act altered. |
+| 3 | **The pre-implementation wording verification required by the decision was executed read-only and found no discrepancy** — act §3 W-1/W-2/W-3. The approved string was **not** altered. |
+| 4 | **`V-C5` remains OPEN.** The satisfaction limb is still **NOT SATISFIED** at `main`. Closure now requires all three of: the authority act durably published; the notice implemented and validated; and the required acceptance and tracker reconciliation completed (act §10 VC-1…VC-3). Tracker §16.33 carries the condition as **`DECISION MADE — IMPLEMENTATION PENDING`**. |
+| 5 | **Options 2, 3 and 4 are no longer live** for this item unless the Program Authority revives them: Option 1 was selected. They are recorded here as unselected, not as withdrawn by the agent. |
+| 6 | **No code was changed by this addendum or by the act's recording.** No merge is claimed; the act's own durable publication is pending the Program Authority's merge act (act §9 steps 3–4). |
+
+*End of addendum.*
+
+---
+
+*End of decision record. `V-C5` was recorded here as `DECISION REQUIRED — NOT DECIDED`; the decision was subsequently made (see §10), and `V-C5` remains open until its three conditions are met.*
