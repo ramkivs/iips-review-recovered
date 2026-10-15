@@ -29,6 +29,7 @@
  */
 import { MacroProvider, useMacro, type MacroSlice } from './MacroContext';
 import { MacroSourceDisclosure, type MacroDisclosureDataset } from './MacroSourceDisclosure';
+import { MacroDataModeNotice } from './MacroDataModeNotice';
 import type { CpiRecord, IipRecord, NasRecord } from '../../../server/macro/mospi-source.js';
 
 /** One displayed field of a returned observation. Absent values are rendered as absent. */
@@ -191,6 +192,7 @@ function MacroResearchSurface() {
           IIPS-generated interpretation, trend, score or recommendation.
         </p>
       </header>
+      <MacroDataModeNotice />
       <MacroDatasetPanel
         dataset="NAS"
         panelTitle="National Accounts Statistics"
