@@ -167,6 +167,8 @@ function ConvertFrom-JsonSafe {
 }
 
 function Get-JsonValue {
+    # Returns arrays intact (unary comma). Assign the result to a variable before
+    # enumerating it; never wrap a call in @(...), which would nest the array.
     param($Object, [string]$Path)
     $node = $Object
     foreach ($part in $Path.Split('.')) {
@@ -474,7 +476,8 @@ Write-Line ('  GET /api/health     -> ' + $health.Status + ' ' + $health.Text)
 Write-Section '5. Local route pre-checks (these never contact the provider)'
 $preA = Invoke-Http -Url ('http://127.0.0.1:' + $Port + '/api/macro/') -TimeoutSec 15
 $preAJson = ConvertFrom-JsonSafe $preA.Text
-$preADatasets = @(Get-JsonValue $preAJson 'approvedDatasets') -join ','
+$preADatasetList = Get-JsonValue $preAJson 'approvedDatasets'
+$preADatasets = ($preADatasetList | ForEach-Object { [string]$_ }) -join ','
 Write-Line ('  GET /api/macro/     -> ' + $preA.Status + ' ' + $preA.Text)
 if (-not ($preA.Status -eq 404 -and (Get-JsonValue $preAJson 'error') -eq 'unknown macro dataset' -and $preADatasets -eq 'NAS,CPI,IIP')) {
     Stop-NotRun 'pre-check A failed: /api/macro/ did not return the governed 404 allow-list' @('Expected: 404 {"error":"unknown macro dataset","approvedDatasets":["NAS","CPI","IIP"]}')
@@ -642,7 +645,8 @@ try {
         Write-Line ('      meta_data: ' + ((Get-JsonValue $d1 'metaData') | ConvertTo-Json -Compress) + ' | msg: ' + (Get-JsonValue $d1 'msg') + ' | provider error: ' + (Get-JsonValue $d1 'providerError'))
         Write-Line ('      head: ' + (Get-JsonValue $d1 'head'))
     } else {
-        foreach ($link in @(Get-JsonValue $d1 'error')) {
+        $d1Chain = Get-JsonValue $d1 'error'
+        foreach ($link in $d1Chain) {
             Write-Line ('      error: ' + (Get-JsonValue $link 'name') + ' code=' + (Get-JsonValue $link 'code') + ' : ' + (Get-JsonValue $link 'message'))
         }
     }
