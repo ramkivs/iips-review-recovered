@@ -2207,6 +2207,7 @@ This record is published from the session branch **`arena/2148b8cf-iips-review-r
 | New record, remote vs local | blob `3e07ebbf6c033b55bc05983528492c63bfe774d5` (23,736 B) on **both**; raw SHA-256 `403da4916ecac7d3b23d5af274d368132181233e5c3a3d6b34c3d61692a22592` **MATCH** |
 | Tracker, remote vs local | blob `8f37b19d204e94399549f45d6172e47e954ec021` (665,061 B) on **both** |
 | Whitespace / staged-integrity check | `git diff --check` clean |
+| Hosted CI on the PR head | **`success`** — `CI` run **`38779244222`** / check **`Typecheck · Test · Build` pass (50 s)** on head `422332b8ac3c6fc5972095808e52e0c844aa331f`; PR state `OPEN`, not draft, `MERGEABLE` / `CLEAN`. CI covers the repository suites; it **is not** evidence of the `V-C5` determination, which is a governance act (Option E §7 P-8 discipline preserved) |
 | Merge coordinates (`main` admission) | **NOT AVAILABLE** — the merge is the PA's act and had not occurred at publication time; post-merge verification is a separate, later step and no merge is claimed here |
 
 ### 16.32.10 Remaining work and next step
