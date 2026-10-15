@@ -610,6 +610,14 @@ if ($failed.Count -eq 0) {
 # ================================================================================================
 Write-Section ('8. Diagnostics (P4 failed: ' + $failed.Count + ' criterion/criteria) - D1..D4')
 
+Write-Line '  D0  DNS resolution of api.mospi.gov.in on this machine'
+try {
+    $resolved = @([System.Net.Dns]::GetHostAddresses('api.mospi.gov.in') | ForEach-Object { $_.IPAddressToString })
+    Write-Line ('      resolves to: ' + ($resolved -join ', '))
+} catch {
+    Write-Line ('      NOT RESOLVED: ' + (Get-ExceptionText $_.Exception))
+}
+
 Write-Line '  D1  the app''s own TLS fetch (mospi-tls.ts, Node/OpenSSL) -> upstream page 1'
 $d1 = $null
 try {
@@ -700,6 +708,17 @@ foreach ($l in @(Get-FileTail $ServerOut 5)) { Write-Line $l }
 $d1Ok = ($null -ne $d1) -and ((Get-JsonValue $d1 'ok') -eq $true)
 $d1Json = $d1Ok -and ((Get-JsonValue $d1 'status') -eq 200) -and ((Get-JsonValue $d1 'json') -eq $true)
 $d2Http = $d2.Ok
+$d1Codes = @()
+$d1Text = ''
+if ($null -ne $d1) {
+    $d1Text = $d1 | ConvertTo-Json -Compress -Depth 5
+    $d1ChainForCodes = Get-JsonValue $d1 'error'
+    foreach ($link in $d1ChainForCodes) {
+        $linkCode = [string](Get-JsonValue $link 'code')
+        if ($linkCode -ne '') { $d1Codes += $linkCode }
+    }
+}
+$d1CertCodes = @($d1Codes | Where-Object { $_ -match 'CERT|SELF_SIGNED|UNABLE_TO_VERIFY|UNABLE_TO_GET_ISSUER' })
 $label = ''
 $next = ''
 if (-not $p4.Ok) {
@@ -709,6 +728,15 @@ if (-not $p4.Ok) {
     if ($d1Json) {
         $label = 'TRANSIENT NETWORK - the app''s own fetch reaches the provider now'
         $next = 'Re-run the procedure. Within existing authority: yes.'
+    } elseif (($d1Codes -contains 'ENOTFOUND') -or ($d1Codes -contains 'EAI_AGAIN')) {
+        $label = 'DNS - api.mospi.gov.in could not be resolved on this machine (see D0/D1)'
+        $next = 'Usually transient: wait a few minutes and re-run. If it persists, run  nslookup api.mospi.gov.in  (it must return an address; it resolved to 103.210.93.23 elsewhere on 2026-10-15) and fix the DNS or network setting. Operator fix, within existing authority.'
+    } elseif ($d1CertCodes.Count -gt 0) {
+        $label = 'TLS INSPECTION - Node rejected the certificate chain (' + ($d1CertCodes -join ', ') + ')'
+        $next = 'A proxy or security product is re-signing TLS on this network. Export its root CA to a .pem file, set NODE_EXTRA_CA_CERTS to that file for this PowerShell session, and re-run. Operator fix, within existing authority.'
+    } elseif (($d1Codes -contains 'ECONNREFUSED') -and ($d1Text -match '127\.0\.0\.1|::1')) {
+        $label = 'LOCAL OVERRIDE - api.mospi.gov.in resolves to this machine (hosts file or local DNS), so nothing answers on 443'
+        $next = 'Remove the api.mospi.gov.in entry from C:\Windows\System32\drivers\etc\hosts (or the local DNS override) and re-run. Operator fix, within existing authority.'
     } elseif ($d2Http) {
         $label = 'NODE-SPECIFIC NETWORK PATH - Windows/.NET reaches api.mospi.gov.in but Node does not'
         $next = 'Read the D1 error. Certificate errors (UNABLE_TO_VERIFY_LEAF_SIGNATURE, SELF_SIGNED_CERT_IN_CHAIN) mean TLS inspection: set NODE_EXTRA_CA_CERTS to the inspection CA and re-run (operator fix, within authority). If D3 shows a Windows proxy is required: the app has no proxy support - that is a code change needing its own authority.'
