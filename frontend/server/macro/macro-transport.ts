@@ -58,8 +58,40 @@ const DEFAULT_IIP_FREQUENCY = 'Annually';
 const DEFAULT_CPI_BASE_YEAR = '2012';
 const DEFAULT_CPI_SERIES = 'Current';
 
-interface MacroRouteDeps {
+export interface MacroRouteDeps {
   readonly config?: MospiSourceConfig;
+}
+
+function parsePositiveInt(raw: string | undefined): number | undefined {
+  if (raw === undefined || raw.trim() === '') return undefined;
+  const parsed = Number(raw.trim());
+  return Number.isInteger(parsed) && parsed > 0 ? parsed : undefined;
+}
+
+function parseNonNegativeInt(raw: string | undefined): number | undefined {
+  if (raw === undefined || raw.trim() === '') return undefined;
+  const parsed = Number(raw.trim());
+  return Number.isInteger(parsed) && parsed >= 0 ? parsed : undefined;
+}
+
+/**
+ * Build an optional `MospiSourceConfig` from environment variables (V-C6).
+ * When no `MOSPI_*` variable is set, returns `{}` so all governed defaults in
+ * `mospi-source.ts` remain untouched.
+ */
+export function resolveMacroSourceConfigFromEnv(
+  env: NodeJS.ProcessEnv = process.env,
+): MospiSourceConfig {
+  const baseUrl = env.MOSPI_BASE_URL?.trim() ? env.MOSPI_BASE_URL.trim() : undefined;
+  const timeoutMs = parsePositiveInt(env.MOSPI_TIMEOUT_MS);
+  const maxRetries = parseNonNegativeInt(env.MOSPI_MAX_RETRIES);
+  const pageSize = parsePositiveInt(env.MOSPI_PAGE_SIZE);
+  return {
+    ...(baseUrl !== undefined ? { baseUrl } : {}),
+    ...(timeoutMs !== undefined ? { timeoutMs } : {}),
+    ...(maxRetries !== undefined ? { maxRetries } : {}),
+    ...(pageSize !== undefined ? { pageSize } : {}),
+  };
 }
 
 function sendJson(res: ServerResponse, status: number, body: unknown): void {

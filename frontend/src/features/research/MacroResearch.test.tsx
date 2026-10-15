@@ -175,6 +175,24 @@ describe('MacroResearch (CV-53 mounted D89 disclosure)', () => {
     expect(screen.queryByTestId('macro-observations-NAS')).not.toBeInTheDocument();
   });
 
+  it('surfaces transport error code and dataset on 502 while preserving the status prefix (V-C6)', async () => {
+    stubFetch(() => ({
+      ok: false,
+      status: 502,
+      json: async () => ({
+        error: 'macro upstream failure',
+        code: 'RETRY_BUDGET_EXHAUSTED',
+        message: 'upstream unreachable',
+        dataset: 'NAS',
+      }),
+    }));
+    render(<MacroResearch />);
+    const refusal = await screen.findByTestId('macro-refusal-NAS');
+    expect(refusal.textContent).toContain('macro transport returned 502');
+    expect(refusal.textContent).toContain('RETRY_BUDGET_EXHAUSTED');
+    expect(refusal.textContent).toContain('upstream unreachable');
+  });
+
   it('shows an honest empty state when the governed selection returns zero observations', async () => {
     stubFetch(() => ({ ok: true, status: 200, json: async () => ({ ...NAS_BODY, records: [] }) }));
     render(<MacroResearch />);
