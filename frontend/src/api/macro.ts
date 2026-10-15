@@ -100,10 +100,65 @@ export interface CpiRequest {
   readonly year?: string;
 }
 
+export interface MacroErrorPayload {
+  readonly error?: string;
+  readonly code?: string;
+  readonly message?: string;
+  readonly dataset?: MacroDataset | string;
+}
+
+/**
+ * Typed transport error thrown on non-2xx responses from `/api/macro/*`.
+ * Preserves the `macro transport returned <status>` message prefix while
+ * surfacing the JSON error fields (`code`, `message`, `dataset`).
+ */
+export class MacroTransportError extends Error {
+  readonly status: number;
+  readonly code?: string;
+  readonly errorMessage?: string;
+  readonly dataset?: MacroDataset | string;
+
+  constructor(status: number, payload?: MacroErrorPayload) {
+    const code =
+      typeof payload?.code === 'string' && payload.code.trim() !== ''
+        ? payload.code.trim()
+        : undefined;
+    const dataset =
+      typeof payload?.dataset === 'string' && payload.dataset.trim() !== ''
+        ? payload.dataset.trim()
+        : undefined;
+    const errorMessage =
+      typeof payload?.message === 'string' && payload.message.trim() !== ''
+        ? payload.message.trim()
+        : typeof payload?.error === 'string' && payload.error.trim() !== ''
+          ? payload.error.trim()
+          : undefined;
+    const suffixParts = [code, dataset, errorMessage].filter((part): part is string =>
+      Boolean(part),
+    );
+    const suffix = suffixParts.length > 0 ? `: ${suffixParts.join(' — ')}` : '';
+    super(`macro transport returned ${status}${suffix}`);
+    this.name = 'MacroTransportError';
+    this.status = status;
+    this.code = code;
+    this.errorMessage = errorMessage;
+    this.dataset = dataset;
+  }
+}
+
 async function getJson<T>(url: string): Promise<T> {
   const res = await noAuthFetch(url);
   if (!res.ok) {
-    throw new Error(`macro transport returned ${res.status}`);
+    let payload: MacroErrorPayload | undefined;
+    try {
+      const body: unknown = await res.json();
+      if (body !== null && typeof body === 'object' && !Array.isArray(body)) {
+        payload = body as MacroErrorPayload;
+      }
+    } catch {
+      payload = undefined;
+    }
+    throw new MacroTransportError(res.status, payload);
   }
   return (await res.json()) as T;
 }

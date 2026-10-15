@@ -5,10 +5,23 @@
  * Fixtures are synthetic; no live enumeration or observation is embedded.
  */
 import type { IncomingMessage, ServerResponse } from 'node:http';
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
 import { describe, expect, it } from 'vitest';
 
-import { handleMacroRequest } from './macro-transport';
+import { handleMacroRequest, resolveMacroSourceConfigFromEnv } from './macro-transport';
 import { CPI_DEFAULT_YEAR } from './mospi-source';
+import { PersistenceService } from '../persistence/persistence-service';
+import {
+  AUTHORIZED_PREFERENCE_KEYS,
+  GOVERNED_DEFAULT_PREFERENCES,
+  SettingsValidationError,
+  readEffectiveSettings,
+  resetSettings,
+  updateSettings,
+  validatePreferencesPatch,
+} from '../settings/settings-service';
 
 interface FakeResponse extends ServerResponse {
   status: number;
@@ -23,6 +36,9 @@ function makeRes(): FakeResponse {
   const res = {
     status: 0,
     body: '',
+    setHeader() {
+      return res;
+    },
     writeHead(status: number) {
       res.status = status;
       return res;
@@ -345,5 +361,196 @@ describe('/api/macro — guarded read', () => {
     const body = JSON.parse(res.body);
     expect(body.records).toBeUndefined();
     expect(body.error).toBe('macro upstream failure');
+  });
+});
+
+describe('/api/macro — V-C6 configuration & mount deps wiring', () => {
+  it('resolves MospiSourceConfig from environment variables and preserves defaults when unset', () => {
+    expect(resolveMacroSourceConfigFromEnv({})).toEqual({});
+    expect(
+      resolveMacroSourceConfigFromEnv({
+        MOSPI_BASE_URL: '  https://mospi-proxy.internal/custom  ',
+        MOSPI_TIMEOUT_MS: '8000',
+        MOSPI_MAX_RETRIES: '0',
+        MOSPI_PAGE_SIZE: '50',
+      }),
+    ).toEqual({
+      baseUrl: 'https://mospi-proxy.internal/custom',
+      timeoutMs: 8000,
+      maxRetries: 0,
+      pageSize: 50,
+    });
+    // Invalid / non-integer values are ignored rather than corrupting config
+    expect(
+      resolveMacroSourceConfigFromEnv({
+        MOSPI_BASE_URL: '   ',
+        MOSPI_TIMEOUT_MS: '-5',
+        MOSPI_MAX_RETRIES: 'abc',
+        MOSPI_PAGE_SIZE: '0',
+      }),
+    ).toEqual({});
+  });
+
+  it('forwards env-backed MospiSourceConfig through handleMacroRequest to the upstream request', async () => {
+    const requestedUrls: string[] = [];
+    const fetchImpl = (async (url: string) => {
+      requestedUrls.push(url);
+      return jsonResponse(envelope([{ indicator: 'Gross Value Added' }]));
+    }) as unknown as typeof fetch;
+
+    const envConfig = resolveMacroSourceConfigFromEnv({
+      MOSPI_BASE_URL: 'https://mospi-mirror.example.org',
+      MOSPI_PAGE_SIZE: '25',
+      MOSPI_MAX_RETRIES: '0',
+    });
+    const res = makeRes();
+    await handleMacroRequest(makeReq('/api/macro/nas?indicator=GVA'), res, {
+      config: { ...envConfig, fetchImpl, sleepImpl: sleepOff },
+    });
+
+    expect(res.status).toBe(200);
+    expect(requestedUrls).toHaveLength(1);
+    expect(requestedUrls[0]).toMatch(/^https:\/\/mospi-mirror\.example\.org\/api\/nas\/getNASData\?/);
+    expect(new URL(requestedUrls[0]!).searchParams.get('limit')).toBe('25');
+  });
+
+  it('wires deps into handleMacroRequest from the executive-transport mount', async () => {
+    const { server, setMacroRouteDeps } = await import('../executive-transport');
+    const seenUrls: string[] = [];
+    const fetchImpl = (async (url: string) => {
+      seenUrls.push(url);
+      return jsonResponse(envelope([{ indicator: 'Gross Value Added' }]));
+    }) as unknown as typeof fetch;
+
+    setMacroRouteDeps({
+      config: {
+        baseUrl: 'https://mounted-deps.example.org',
+        pageSize: 40,
+        maxRetries: 0,
+        fetchImpl,
+        sleepImpl: sleepOff,
+      },
+    });
+
+    try {
+      const res = makeRes();
+      server.emit('request', makeReq('/api/macro/nas?indicator=GVA'), res);
+      // Allow the async dynamic import + handler in executive-transport to settle.
+      await new Promise((resolve) => setTimeout(resolve, 30));
+
+      expect(res.status).toBe(200);
+      expect(seenUrls).toHaveLength(1);
+      expect(seenUrls[0]).toContain('https://mounted-deps.example.org/api/nas/getNASData');
+      expect(new URL(seenUrls[0]!).searchParams.get('limit')).toBe('40');
+      expect(JSON.parse(res.body).records[0].indicator).toBe('Gross Value Added');
+    } finally {
+      setMacroRouteDeps(null);
+    }
+  });
+});
+
+describe('/api/macro — L-3 UI12 settings invariance', () => {
+  it('keeps /api/macro responses byte-identical across UI12 theme settings updates and resets', async () => {
+    // 1. Verify the governed UI12 preference key set is closed to ['theme'] and rejects data-mode keys.
+    expect(AUTHORIZED_PREFERENCE_KEYS).toEqual(['theme']);
+    expect(GOVERNED_DEFAULT_PREFERENCES).toEqual({ theme: 'light' });
+    expect(() => validatePreferencesPatch({ defaultDataMode: 'SNAPSHOT' })).toThrow(
+      SettingsValidationError,
+    );
+    expect(() => validatePreferencesPatch({ pitMode: 'PIT' })).toThrow(SettingsValidationError);
+
+    // 2. Create an isolated UI12 settings store and transition through default ('light'), 'dark', and reset ('light').
+    const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'iips-l3-macro-settings-'));
+    try {
+      const store = new PersistenceService({ dataDir: tmpDir });
+      const tenantId = 'irr-domain-4b82d6e1';
+      const ownerUserId = 'owner-7f3a91c2';
+
+      const fetchImpl = (async (url: string) => {
+        if (url.includes('getNASData')) {
+          return jsonResponse(envelope([{ indicator: 'Gross Value Added', current_price: '100' }]));
+        }
+        if (url.includes('getCPIIndex')) {
+          return jsonResponse(envelope([{ group: 'General', index: '185.2' }]));
+        }
+        if (url.includes('getIipFilter')) {
+          return jsonResponse(syntheticFilter());
+        }
+        return jsonResponse(envelope([{ sub_category: 'Synthetic A', index: '110.5' }]));
+      }) as unknown as typeof fetch;
+
+      const failFetchImpl = (async () =>
+        jsonResponse({ error: 'upstream down' }, 503)) as unknown as typeof fetch;
+
+      const runMacroSnapshot = async () => {
+        const nasRes = makeRes();
+        await handleMacroRequest(makeReq('/api/macro/nas?indicator=GVA'), nasRes, {
+          config: { fetchImpl, sleepImpl: sleepOff },
+        });
+        const cpiRes = makeRes();
+        await handleMacroRequest(makeReq('/api/macro/cpi?year=2025'), cpiRes, {
+          config: { fetchImpl, sleepImpl: sleepOff },
+        });
+        const iipRes = makeRes();
+        await handleMacroRequest(
+          makeReq('/api/macro/iip?baseYear=2099-00&subcategoryCode=990110-9000'),
+          iipRes,
+          { config: { fetchImpl, sleepImpl: sleepOff } },
+        );
+        const failRes = makeRes();
+        await handleMacroRequest(makeReq('/api/macro/nas?indicator=GVA'), failRes, {
+          config: { fetchImpl: failFetchImpl, sleepImpl: sleepOff, maxRetries: 0 },
+        });
+        return {
+          nasStatus: nasRes.status,
+          nasBody: nasRes.body,
+          cpiStatus: cpiRes.status,
+          cpiBody: cpiRes.body,
+          iipStatus: iipRes.status,
+          iipBody: iipRes.body,
+          failStatus: failRes.status,
+          failBody: failRes.body,
+        };
+      };
+
+      // State A: governed default settings (theme = 'light', revisionCount = 0)
+      const initialSettings = readEffectiveSettings(tenantId, ownerUserId, store);
+      expect(initialSettings.theme).toBe('light');
+      expect(initialSettings.revisionCount).toBe(0);
+      const baselineRun = await runMacroSnapshot();
+
+      // State B: updated settings (theme = 'dark', revisionCount = 1)
+      const darkSettings = updateSettings(
+        tenantId,
+        ownerUserId,
+        { theme: 'dark' },
+        store,
+        '2026-10-16T00:00:00.000Z',
+      );
+      expect(darkSettings.theme).toBe('dark');
+      expect(darkSettings.revisionCount).toBe(1);
+      const darkRun = await runMacroSnapshot();
+
+      // State C: reset settings (theme = 'light', revisionCount = 2)
+      const resetState = resetSettings(
+        tenantId,
+        ownerUserId,
+        store,
+        '2026-10-16T00:01:00.000Z',
+      );
+      expect(resetState.theme).toBe('light');
+      expect(resetState.revisionCount).toBe(2);
+      const resetRun = await runMacroSnapshot();
+
+      // Invariance assertions: all three runs are byte-identical in status and payload.
+      expect(baselineRun.nasStatus).toBe(200);
+      expect(baselineRun.cpiStatus).toBe(200);
+      expect(baselineRun.iipStatus).toBe(200);
+      expect(baselineRun.failStatus).toBe(502);
+      expect(darkRun).toEqual(baselineRun);
+      expect(resetRun).toEqual(baselineRun);
+    } finally {
+      fs.rmSync(tmpDir, { recursive: true, force: true });
+    }
   });
 });

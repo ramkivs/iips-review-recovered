@@ -664,6 +664,16 @@ async function getPitReadPort(): Promise<import('./pit/pitReadPort').PitReadPort
   return pitPort;
 }
 
+// V-C6 — optional dependency/config override for the `/api/macro/` mount.
+// When unset, the mount resolves environment-backed `MospiSourceConfig` (with
+// governed defaults preserved when no `MOSPI_*` env vars are present).
+let macroRouteDepsOverride: import('./macro/macro-transport').MacroRouteDeps | null = null;
+export function setMacroRouteDeps(
+  deps: import('./macro/macro-transport').MacroRouteDeps | null,
+): void {
+  macroRouteDepsOverride = deps;
+}
+
 /** Serve the certified reference Executive DTO directly, without credentials or identity. */
 export async function handleExecutiveReadRequest(
   _req: http.IncomingMessage,
@@ -749,7 +759,11 @@ const server = http.createServer(async (req, res) => {
     void (async () => {
       try {
         const macro = await import('./macro/macro-transport');
-        await macro.handleMacroRequest(req, res);
+        const envConfig = macro.resolveMacroSourceConfigFromEnv();
+        const deps: import('./macro/macro-transport').MacroRouteDeps = macroRouteDepsOverride
+          ? { config: { ...envConfig, ...macroRouteDepsOverride.config } }
+          : { config: envConfig };
+        await macro.handleMacroRequest(req, res, deps);
       } catch (e) {
         res.writeHead(500); res.end(JSON.stringify({ error: 'macro transport error', detail: String(e) }));
       }
