@@ -33,6 +33,7 @@ import type { IncomingMessage, ServerResponse } from 'node:http';
 
 import {
   APPROVED_DATASETS,
+  CPI_DEFAULT_YEAR,
   MACRO_SOURCE_ID,
   MacroSourceError,
   NAS_INDICATOR_CODE,
@@ -208,10 +209,22 @@ export async function handleMacroRequest(
     }
 
     // dataset === 'CPI'
+    // BOUNDED SCOPE: the provider returns its ENTIRE history when `year` is
+    // omitted (326,442 records / 3,265 pages live-measured), which cannot be
+    // retrieved inside the page ceiling. The route is therefore always
+    // year-scoped; `?year=YYYY` overrides the governed default explicitly, and
+    // the applied scope is echoed back in `provenance.cpiYear`.
+    const rawYear = url.searchParams.get('year');
+    const year = rawYear === null || rawYear.trim() === '' ? CPI_DEFAULT_YEAR : rawYear.trim();
+    if (!/^\d{4}$/.test(year)) {
+      sendJson(res, 400, { error: `year must be a four-digit year (received '${rawYear ?? ''}')` });
+      return true;
+    }
     const result = await fetchCpiObservations(
       {
         baseYear: query(url, 'baseYear', DEFAULT_CPI_BASE_YEAR),
         series: query(url, 'series', DEFAULT_CPI_SERIES),
+        year,
       },
       config,
     );

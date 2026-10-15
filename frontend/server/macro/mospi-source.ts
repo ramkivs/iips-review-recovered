@@ -237,6 +237,16 @@ export interface MacroCandidateProvenance {
   readonly categoryCode?: number;
   readonly subcategoryCode?: string;
   readonly indicatorCode?: number;
+  /**
+   * CPI retrieval scope actually requested upstream.
+   *
+   * The CPI endpoint returns its ENTIRE history when no `year` is supplied, so
+   * every CPI call is year-scoped and the requested scope is surfaced here.
+   * A single year's observations are never presented as the full history.
+   */
+  readonly cpiYear?: string;
+  /** CPI series requested upstream (echoed scope; the provider omits it per record). */
+  readonly cpiSeries?: string;
   readonly apiContractVersion: string;
   readonly retrievalCompleteness: 'COMPLETE' | 'INCOMPLETE' | 'UNAVAILABLE';
 }
@@ -248,6 +258,14 @@ export interface PaginatedResult<T> {
     readonly expectedPages: number;
     readonly expectedRecords: number;
     readonly actualRecords: number;
+    /**
+     * Rows returned to the caller. Identical to `records.length`; stated
+     * explicitly so a row-preserving dataset (CPI) can be checked without
+     * inferring anything from the deduplication counters.
+     */
+    readonly recordsRetained: number;
+    /** Every row received from the provider across all pages, before suppression. */
+    readonly rawRowsReceived: number;
     readonly duplicatesSuppressed: number;
   };
   readonly retrievalCompleteness: 'COMPLETE' | 'INCOMPLETE' | 'UNAVAILABLE';
@@ -385,76 +403,197 @@ interface PageFetcher {
   (page: number): string;
 }
 
+/** One validated page: envelope contract already checked, metadata extracted. */
+interface PageRead<T> {
+  readonly page: number;
+  readonly records: readonly T[];
+  readonly totalPages: number;
+  readonly totalRecords: number;
+}
+
+/**
+ * Fetch and validate a single page.
+ *
+ * FAIL CLOSED at every step: a provider-reported error, a missing data array,
+ * or missing/malformed pagination metadata is an error — never a partial result
+ * that could be mistaken for a complete one.
+ */
+async function readPage<T>(
+  cfg: ResolvedConfig,
+  baseUrl: string,
+  buildPageUrl: PageFetcher,
+  page: number,
+): Promise<PageRead<T>> {
+  const envelope = await requestEnvelope<T>(`${baseUrl}${buildPageUrl(page)}`, cfg);
+
+  if (typeof envelope.error === 'string' && envelope.error.length > 0) {
+    throw new MacroSourceError('INVALID_RESPONSE', `MoSPI error: ${envelope.error}`, undefined, envelope);
+  }
+  if (!Array.isArray(envelope.data)) {
+    throw new MacroSourceError('INVALID_RESPONSE', 'MoSPI response contained no data array', undefined, envelope);
+  }
+
+  const meta = envelope.meta_data;
+  if (!meta || typeof meta.totalPages !== 'number' || typeof meta.totalRecords !== 'number') {
+    // FAIL CLOSED: without trustworthy pagination metadata we cannot know the
+    // result is complete, so we never return it as complete.
+    throw new MacroSourceError(
+      'INCOMPLETE_PAGINATION',
+      'pagination metadata missing or malformed; refusing to treat response as complete',
+      undefined,
+      meta,
+    );
+  }
+
+  return { page, records: envelope.data, totalPages: meta.totalPages, totalRecords: meta.totalRecords };
+}
+
+interface FetchAllPagesOptions {
+  /**
+   * Maximum in-flight page requests. `1` (the default) is the strictly
+   * sequential path used by NAS/IIP; CPI opts into bounded concurrency.
+   */
+  readonly concurrency?: number;
+  /**
+   * Whether byte-identical rows may be collapsed. Default `true`.
+   *
+   * DEDUPLICATION IS DATASET-SPECIFIC, NOT A GLOBAL RULE:
+   *   - NAS / IIP keep the default. Their observed responses repeat identical
+   *     rows across page boundaries, and collapsing them is intended.
+   *   - CPI preserves EVERY provider row (`false`). CPI rows are only unique
+   *     in combination — month x group x subgroup x sector x state — so
+   *     byte-identical JSON rows are genuine distinct observations (the same
+   *     combination recorded for more than one item). Collapsing them made the
+   *     retrieved total disagree with the provider-declared total and produced
+   *     a false `INCOMPLETE_PAGINATION` (live: 25,726 retained of 25,884).
+   *     Only 158 of 25,884 rows were affected, which is why the gap was small
+   *     but fatal.
+   */
+  readonly deduplicate?: boolean;
+}
+
 async function fetchAllPages<T>(
   cfg: ResolvedConfig,
   baseUrl: string,
   buildPageUrl: PageFetcher,
   extraProvenance: Omit<MacroCandidateProvenance, 'apiContractVersion' | 'retrievalCompleteness'>,
+  options: FetchAllPagesOptions = {},
 ): Promise<PaginatedResult<T>> {
+  const concurrency = Math.max(1, Math.floor(options.concurrency ?? 1));
+  const deduplicate = options.deduplicate ?? true;
   const seenPages = new Set<number>();
   const seenRecords = new Set<string>();
   const records: T[] = [];
   let duplicatesSuppressed = 0;
+  let rawRowsReceived = 0;
 
   let expectedPages = 0;
   let expectedRecords = 0;
-  let page = 1;
 
-  for (;;) {
-    if (page > cfg.maxPages) {
+  const absorb = (items: readonly T[]): void => {
+    for (const record of items) {
+      rawRowsReceived += 1;
+      if (deduplicate) {
+        const key = JSON.stringify(record);
+        if (seenRecords.has(key)) {
+          duplicatesSuppressed += 1;
+          continue;
+        }
+        seenRecords.add(key);
+      }
+      records.push(record);
+    }
+  };
+
+  if (concurrency === 1) {
+    // --- sequential path (NAS/IIP, and any caller that does not opt in) ------
+    let page = 1;
+    for (;;) {
+      if (page > cfg.maxPages) {
+        throw new MacroSourceError(
+          'INCOMPLETE_PAGINATION',
+          `pagination exceeded the ${cfg.maxPages}-page ceiling before completion`,
+        );
+      }
+      if (seenPages.has(page)) {
+        throw new MacroSourceError('INCOMPLETE_PAGINATION', `page ${page} was requested twice`);
+      }
+      seenPages.add(page);
+
+      const read = await readPage<T>(cfg, baseUrl, buildPageUrl, page);
+      expectedPages = read.totalPages;
+      expectedRecords = read.totalRecords;
+      absorb(read.records);
+
+      if (page >= read.totalPages) break;
+      page += 1;
+    }
+  } else {
+    // --- bounded-concurrency path (CPI) -------------------------------------
+    // Page 1 is read first: it is the only page that tells us how many pages
+    // exist, and it fixes the metadata every later page must agree with.
+    if (seenPages.has(1)) {
+      throw new MacroSourceError('INCOMPLETE_PAGINATION', 'page 1 was requested twice');
+    }
+    seenPages.add(1);
+
+    const first = await readPage<T>(cfg, baseUrl, buildPageUrl, 1);
+    expectedPages = first.totalPages;
+    expectedRecords = first.totalRecords;
+
+    if (expectedPages > cfg.maxPages) {
       throw new MacroSourceError(
         'INCOMPLETE_PAGINATION',
         `pagination exceeded the ${cfg.maxPages}-page ceiling before completion`,
       );
     }
-    if (seenPages.has(page)) {
-      throw new MacroSourceError('INCOMPLETE_PAGINATION', `page ${page} was requested twice`);
-    }
-    seenPages.add(page);
 
-    const envelope = await requestEnvelope<T>(`${baseUrl}${buildPageUrl(page)}`, cfg);
+    const pages: PageRead<T>[] = [first];
+    const pending: number[] = [];
+    for (let page = 2; page <= expectedPages; page += 1) pending.push(page);
 
-    if (typeof envelope.error === 'string' && envelope.error.length > 0) {
-      throw new MacroSourceError('INVALID_RESPONSE', `MoSPI error: ${envelope.error}`, undefined, envelope);
-    }
-    if (!Array.isArray(envelope.data)) {
-      throw new MacroSourceError('INVALID_RESPONSE', 'MoSPI response contained no data array', undefined, envelope);
-    }
+    let cursor = 0;
+    const worker = async (): Promise<void> => {
+      for (;;) {
+        const index = cursor;
+        cursor += 1;
+        if (index >= pending.length) return;
+        const page = pending[index]!;
 
-    const meta = envelope.meta_data;
-    if (!meta || typeof meta.totalPages !== 'number' || typeof meta.totalRecords !== 'number') {
-      // FAIL CLOSED: without trustworthy pagination metadata we cannot know the
-      // result is complete, so we never return it as complete.
-      throw new MacroSourceError(
-        'INCOMPLETE_PAGINATION',
-        'pagination metadata missing or malformed; refusing to treat response as complete',
-        undefined,
-        meta,
-      );
-    }
-
-    expectedPages = meta.totalPages;
-    expectedRecords = meta.totalRecords;
-
-    for (const record of envelope.data) {
-      const key = JSON.stringify(record);
-      if (seenRecords.has(key)) {
-        duplicatesSuppressed += 1;
-        continue;
+        const read = await readPage<T>(cfg, baseUrl, buildPageUrl, page);
+        if (read.totalPages !== expectedPages || read.totalRecords !== expectedRecords) {
+          // FAIL CLOSED: the result set moved underneath us, so the retrieval
+          // cannot be shown to be complete.
+          throw new MacroSourceError(
+            'INCOMPLETE_PAGINATION',
+            `page ${page} reported ${read.totalRecords} records over ${read.totalPages} pages, ` +
+              `but page 1 reported ${expectedRecords} over ${expectedPages}; refusing to treat the response as complete`,
+          );
+        }
+        pages.push(read);
       }
-      seenRecords.add(key);
-      records.push(record);
-    }
+    };
 
-    if (page >= meta.totalPages) break;
-    page += 1;
+    await Promise.all(Array.from({ length: Math.min(concurrency, pending.length) }, () => worker()));
+
+    // Deterministic output: page order, then provider row order within a page.
+    pages.sort((a, b) => a.page - b.page);
+    for (const read of pages) {
+      seenPages.add(read.page);
+      absorb(read.records);
+    }
   }
 
   if (records.length !== expectedRecords) {
-    // FAIL CLOSED: a short read is an error, not a complete result.
+    // FAIL CLOSED: a short read is an error, not a complete result. The
+    // message names every figure needed to tell a genuine short read apart
+    // from a deduplication artefact, and is dataset-neutral because the same
+    // check serves NAS, IIP and CPI.
     throw new MacroSourceError(
       'INCOMPLETE_PAGINATION',
-      `retrieved ${records.length} of ${expectedRecords} declared records`,
+      `pagination incomplete: recordsRetained=${records.length}, rawRowsReceived=${rawRowsReceived}, ` +
+        `duplicatesSuppressed=${duplicatesSuppressed}, pagesFetched=${seenPages.size}/${expectedPages}, ` +
+        `providerDeclaredRecords=${expectedRecords}`,
     );
   }
 
@@ -465,6 +604,8 @@ async function fetchAllPages<T>(
       expectedPages,
       expectedRecords,
       actualRecords: records.length,
+      recordsRetained: records.length,
+      rawRowsReceived,
       duplicatesSuppressed,
     },
     retrievalCompleteness: 'COMPLETE',
@@ -856,6 +997,53 @@ export interface CpiRecord {
   readonly inflation_rate?: string;
 }
 
+/**
+ * CPI is bounded to a single year — live-measured 2026-10-15.
+ *
+ * The provider returns its ENTIRE history when `year` is omitted (326,442
+ * records / 3,265 pages at `limit=100`), which cannot be retrieved inside the
+ * page ceiling or the request budget. With `year` supplied the same endpoint
+ * returns one year (2025: 25,884 records / 259 pages). The `year` filter is
+ * the ONLY parameter observed to reduce the result set — `month`, `state`,
+ * `sector`, `from_year`, `to_year`, `start_year` and `end_year` did not.
+ *
+ * Therefore the CPI path always sends `year`. The default is a fixed,
+ * verified-populated year rather than "whatever year it is now", so a run is
+ * reproducible and never silently switches to a year the provider has not
+ * published. Callers override it explicitly (`/api/macro/cpi?year=2024`), and
+ * the applied scope is reported back in `provenance.cpiYear` — a single year's
+ * observations are never presented as the complete all-history dataset.
+ */
+export const CPI_DEFAULT_YEAR = '2025';
+
+/**
+ * Page ceiling for CPI only.
+ *
+ * NAS/IIP keep the transport default (500). A single-year CPI slice is
+ * ~259 pages live-measured, so the transport default would already fit, but the
+ * year override needs headroom: 1,000 pages x 100 records is a hard bound of
+ * 100,000 records — still far below the 3,265 pages the unfiltered dataset would
+ * need, which stays deliberately out of scope.
+ */
+export const CPI_MAX_PAGES = 1_000;
+
+/**
+ * Provider-accepted maximum page size.
+ *
+ * Live-measured: `limit=100` is honoured, `limit=500` is rejected with HTTP 400.
+ */
+export const CPI_MAX_PAGE_SIZE = 100;
+
+/**
+ * Bounded page concurrency for CPI only.
+ *
+ * Sequential retrieval of ~259 pages is what makes the request feel like a
+ * timeout. Four in-flight pages keeps the wall clock reasonable while staying
+ * conservative on a throttled, credential-free endpoint (429s still honour
+ * Retry-After). NAS/IIP remain strictly sequential.
+ */
+export const CPI_FETCH_CONCURRENCY = 4;
+
 export interface CpiQuery {
   /**
    * CPI base years differ from IIP/NAS base years (`2012` / `2010` / `2024`),
@@ -864,12 +1052,101 @@ export interface CpiQuery {
    */
   readonly baseYear: string;
   readonly series: string;
+  /**
+   * Retrieval year. Omitted means the governed default (`CPI_DEFAULT_YEAR`);
+   * there is deliberately no "all years" option.
+   */
+  readonly year?: string;
+}
+
+/** Four-digit year, nothing else — the provider's own accepted form. */
+const CPI_YEAR_PATTERN = /^\d{4}$/;
+
+/** Resolve and validate the CPI year. Fails closed on anything unusable. */
+export function resolveCpiYear(year?: string): string {
+  const candidate = (year ?? CPI_DEFAULT_YEAR).trim();
+  if (!CPI_YEAR_PATTERN.test(candidate)) {
+    throw new MacroSourceError(
+      'FILTER_CONTRACT_VIOLATION',
+      `CPI year '${year ?? ''}' is not a four-digit year`,
+    );
+  }
+  return candidate;
+}
+
+/** Reject a page size the provider will not honour (it 400s above 100). */
+function assertCpiPageSize(pageSize: number): void {
+  if (!Number.isInteger(pageSize) || pageSize < 1 || pageSize > CPI_MAX_PAGE_SIZE) {
+    throw new MacroSourceError(
+      'FILTER_CONTRACT_VIOLATION',
+      `CPI page size ${pageSize} is outside 1..${CPI_MAX_PAGE_SIZE} (the provider rejects limit=500)`,
+    );
+  }
+}
+
+/**
+ * Map a provider CPI row onto the application record contract.
+ *
+ * The live response uses `baseyear`, `subgroup` and `inflation`; the
+ * application contract (and the research UI) uses `base_year`, `sub_group` and
+ * `inflation_rate`. Both spellings are accepted so a fixture or a provider
+ * revision using either form maps correctly. Every field the provider returns
+ * is carried through — none is dropped, and no value is invented. `series` is
+ * the one field the provider does not return per row, so the requested series
+ * is echoed as retrieval scope (also reported in `provenance.cpiSeries`).
+ */
+export function mapCpiRecord(raw: unknown, requestedSeries: string): CpiRecord {
+  if (raw === null || typeof raw !== 'object' || Array.isArray(raw)) {
+    throw new MacroSourceError(
+      'INVALID_RESPONSE',
+      'CPI response contained a record that is not a JSON object',
+      undefined,
+      raw,
+    );
+  }
+  const source = raw as Record<string, unknown>;
+
+  const firstText = (...keys: readonly string[]): string | undefined => {
+    for (const key of keys) {
+      const value = source[key];
+      if (typeof value === 'string' && value !== '') return value;
+      if (typeof value === 'number' && Number.isFinite(value)) return String(value);
+    }
+    return undefined;
+  };
+  const firstTextOrNull = (...keys: readonly string[]): string | null | undefined => {
+    for (const key of keys) {
+      if (!(key in source)) continue;
+      const value = source[key];
+      if (value === null || value === '') return null;
+      if (typeof value === 'string') return value;
+      if (typeof value === 'number' && Number.isFinite(value)) return String(value);
+    }
+    return undefined;
+  };
+
+  return {
+    base_year: firstText('base_year', 'baseyear'),
+    series: firstText('series') ?? requestedSeries,
+    year: firstText('year'),
+    month: firstText('month'),
+    group: firstTextOrNull('group'),
+    sub_group: firstTextOrNull('sub_group', 'subgroup'),
+    sector: firstTextOrNull('sector'),
+    state: firstTextOrNull('state'),
+    index: firstText('index'),
+    inflation_rate: firstText('inflation_rate', 'inflation'),
+  };
 }
 
 export function buildCpiQuery(query: CpiQuery, page: number, pageSize: number): string {
+  assertCpiPageSize(pageSize);
   return buildUrl(DATA_ENDPOINT.CPI, {
     base_year: query.baseYear,
     series: query.series,
+    // Always present: an absent `year` means "the provider's whole history",
+    // which is never what this application wants.
+    year: resolveCpiYear(query.year),
     Format: 'JSON',
     limit: pageSize,
     page,
@@ -881,11 +1158,18 @@ export async function fetchCpiObservations(
   cfg: MospiSourceConfig = {},
 ): Promise<PaginatedResult<CpiRecord>> {
   assertDatasetApproved('CPI');
-  const resolved = resolveConfig(cfg);
-  return fetchAllPages<CpiRecord>(
+  const year = resolveCpiYear(query.year);
+  // CPI-only page ceiling; a caller-supplied bound still wins.
+  const resolved = resolveConfig({ ...cfg, maxPages: cfg.maxPages ?? CPI_MAX_PAGES });
+  const retrieved = await fetchAllPages<unknown>(
     resolved,
     resolved.baseUrl,
-    (page) => buildCpiQuery(query, page, resolved.pageSize),
-    { baseYear: query.baseYear },
+    (page) => buildCpiQuery({ ...query, year }, page, resolved.pageSize),
+    { baseYear: query.baseYear, cpiYear: year, cpiSeries: query.series },
+    { concurrency: CPI_FETCH_CONCURRENCY, deduplicate: false },
   );
+  return {
+    ...retrieved,
+    records: retrieved.records.map((record) => mapCpiRecord(record, query.series)),
+  };
 }
