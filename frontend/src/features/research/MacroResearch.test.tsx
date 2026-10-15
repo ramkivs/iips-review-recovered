@@ -219,3 +219,61 @@ describe('MacroResearch (CV-53 mounted D89 disclosure)', () => {
     }
   });
 });
+
+describe('MacroResearch D91 §1 data-mode notice (V-C5)', () => {
+  it('renders the exact approved notice wording once', async () => {
+    stubFetch(macroResponse);
+    render(<MacroResearch />);
+    await screen.findByTestId('macro-observations-NAS');
+    const notice = screen.getByTestId('macro-data-mode-notice');
+    expect(notice.textContent).toBe(
+      'This page retrieves data live from MoSPI. No user setting switches this view to snapshot or point-in-time data. If live retrieval fails, the page reports the failure rather than substituting snapshot or synthetic data.',
+    );
+    expect(screen.getAllByTestId('macro-data-mode-notice')).toHaveLength(1);
+  });
+
+  it('is visible on /research/macro in the loaded state', async () => {
+    stubFetch(macroResponse);
+    render(<MacroResearch />);
+    expect(await screen.findByTestId('macro-data-mode-notice')).toBeInTheDocument();
+  });
+
+  it('remains visible in the refusal state and is not duplicated per panel', async () => {
+    stubFetch(() => ({ ok: false, status: 502, json: async () => ({}) }));
+    render(<MacroResearch />);
+    await screen.findByTestId('macro-refusal-NAS');
+    expect(screen.getByTestId('macro-data-mode-notice')).toBeInTheDocument();
+    expect(screen.getAllByTestId('macro-data-mode-notice')).toHaveLength(1);
+    for (const dataset of ['NAS', 'CPI', 'IIP'] as const) {
+      const panel = screen.getByTestId(`macro-panel-${dataset}`);
+      expect(within(panel).queryByTestId('macro-data-mode-notice')).not.toBeInTheDocument();
+    }
+  });
+
+  it('is adjacent to the dataset panels (rendered before them, not inside any panel)', async () => {
+    stubFetch(macroResponse);
+    render(<MacroResearch />);
+    await screen.findByTestId('macro-observations-NAS');
+    const notice = screen.getByTestId('macro-data-mode-notice');
+    // relative order: notice before first dataset panel
+    const nodes = Array.from(
+      screen.getByTestId('macro-research').querySelectorAll(
+        '[data-testid="macro-data-mode-notice"], [data-testid^="macro-panel-"]',
+      ),
+    );
+    expect(nodes[0]).toBe(notice);
+  });
+
+  it('introduces no user-selectable LIVE/SNAPSHOT/PIT control or mode setting', async () => {
+    stubFetch(macroResponse);
+    render(<MacroResearch />);
+    await screen.findByTestId('macro-observations-NAS');
+    const text = screen.getByTestId('macro-research').textContent ?? '';
+    expect(text).not.toMatch(/LIVE|SNAPSHOT|PIT/);
+    // no form controls at all on the surface
+    expect(screen.queryByRole('combobox')).not.toBeInTheDocument();
+    expect(screen.queryByRole('radio')).not.toBeInTheDocument();
+    expect(screen.queryByRole('checkbox')).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /mode|snapshot|live|pit/i })).not.toBeInTheDocument();
+  });
+});
