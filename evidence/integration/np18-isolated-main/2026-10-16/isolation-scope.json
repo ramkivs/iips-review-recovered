@@ -53,20 +53,16 @@
     "evidence/integration/np18-r3/2026-10-16/verify-views.mts",
     "evidence/integration/np18-qualification/2026-10-16/adjudication.json",
     "evidence/integration/np18-admission/2026-10-16/assessment.json",
-    "evidence/integration/np18-isolated-main/2026-10-16/isolation-scope.json",
-    "evidence/integration/group6-reconciliation/2026-10-16/product-host-observations.json",
-    "evidence/integration/group6-reconciliation/2026-10-16/verification.json",
-    "evidence/integration/group6-reconciliation/2026-10-16/verify-product-host.mts"
+    "evidence/integration/np18-isolated-main/2026-10-16/isolation-scope.json"
   ],
-  "tracker_disposition": "Append the previously published NP-18/Group 6 \u00a716.38 history and an additive authorization status. Do not import the separate broker-preview \u00a716.37 entry or broker-specific decision/evidence. Record actual main membership only after remote post-merge verification.",
+  "tracker_disposition": "The current tracker section is an NP-18-only authority/qualification/admission/integration receipt. Unrelated Group 6 evidence and broker-preview material are excluded; the prior mixed tracker snapshot is superseded by the scoped receipt in \u00a716.38 and merge-verification.json.",
   "patch_application": {
     "method": "Applied the exact 904f5d99..3c64d69 patch over the nine approved product paths plus its two R3 validation assets to a clean worktree at the verified main commit.",
     "result": "PASS; patch applied without conflicts",
     "combined_pr_ci_substituted": false,
-    "isolated_candidate_hosted_ci": "Must pass on the exact isolated PR head before merge",
+    "isolated_candidate_hosted_ci": "PASS on the exact isolated PR head; see merge-verification.json for run 38874753041 and full required-step results.",
     "qualification_reopened": false
   },
-  "current_main_membership": "NOT YET VERIFIED; this evidence records isolation, not a merge",
   "isolated_candidate_blob_reconciliation": {
     "frontend/src/features/intelligence/IntelligenceOpportunities.tsx": {
       "isolated_candidate_blob": "414867a67d54eee636023c7c95cb2ee5073e94eb",
@@ -116,12 +112,14 @@
       "blob_equal": true
     }
   },
-  "isolated_candidate_test_and_ci_policy": "The isolated tree is a distinct integration candidate; prior qualification is not reopened, and combined-PR CI is not used as its check. Its own PR-head hosted CI must pass before merge.",
+  "isolated_candidate_test_and_ci_policy": "The isolated tree is a distinct integration candidate; prior qualification was not reopened and combined-PR CI was not substituted. The exact-head hosted CI gate was satisfied by run 38874753041, recorded in merge-verification.json.",
   "local_prepublication_validation": {
     "command": "npm ci --no-audit --no-fund",
     "result": "BLOCKED BY SANDBOX TLS VALIDATION",
     "detail": "npm could not verify the leaf certificate while downloading the unchanged locked iips-production-market-data dependency from codeload.github.com (UNABLE_TO_VERIFY_LEAF_SIGNATURE).",
     "safeguard": "TLS verification was not disabled and no dependency, lockfile, proxy, or certificate configuration was changed.",
-    "disposition": "This is an environment/install limitation, not a test failure. The isolated candidate must still pass the repository hosted CI on its exact PR head before merge."
-  }
+    "disposition": "The exact-head hosted CI gate was later satisfied by run 38874753041; see merge-verification.json. The local install failure remains an environment limitation, not a candidate test failure."
+  },
+  "membership_at_scope_recording_time": "NOT YET VERIFIED; this evidence records isolation, not a merge; see merge-verification.json for the later independently verified merge and post-merge CI.",
+  "merge_verification_record": "evidence/integration/np18-isolated-main/2026-10-16/merge-verification.json"
 }
