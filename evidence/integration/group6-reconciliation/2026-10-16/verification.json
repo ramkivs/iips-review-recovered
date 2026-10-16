@@ -1,0 +1,169 @@
+{
+  "date": "2026-10-16",
+  "irr_main": "98c21768f77061a68470e4b4f6750d38abeec594",
+  "irr_session_baseline": "1ff62e490bfa67559340f2107a536719b3d2e0f5",
+  "ipd_main": "70b24f029842a7e9b7f615e4d9df7376fd4ff817",
+  "active_pr": 114,
+  "active_pr_state": "OPEN",
+  "orphan_tip": "4357e14a35966cd8508e0c59e40627791c103172",
+  "orphan_unchanged_from_prior_evidence": true,
+  "common_ancestor_main_orphan": false,
+  "reverified_product_blobs": [
+    {
+      "path": "frontend/src/app/App.tsx",
+      "main_blob": "2e7e945c8e07dc694b852ab1f937d9c42cb8f35e",
+      "session_blob": "b084f1dcb2f2299b02647173aecf3f4c2c6e91b6",
+      "status": "PASS",
+      "main_difference": "Only prior Dhan route/import/navigation addition"
+    },
+    {
+      "path": "frontend/src/app/navigation.ts",
+      "main_blob": "3f4cf2857ec0e60a7bf10d359a53dad468e75eca",
+      "session_blob": "8fee5c3433a38f4068ab1efd0feb18fe00805f6c",
+      "status": "PASS",
+      "main_difference": "Only prior Dhan route/import/navigation addition"
+    },
+    {
+      "path": "frontend/src/app/Sidebar.tsx",
+      "main_blob": "0d1e9badcf63f7fd4361a4d5d1ddb0490adea4d4",
+      "session_blob": "0d1e9badcf63f7fd4361a4d5d1ddb0490adea4d4",
+      "status": "PASS",
+      "main_difference": null
+    },
+    {
+      "path": "frontend/src/api/crossSector.ts",
+      "main_blob": "4e083cc33fedd2a4b11b8150b40c2a46a453054b",
+      "session_blob": "4e083cc33fedd2a4b11b8150b40c2a46a453054b",
+      "status": "PASS",
+      "main_difference": null
+    },
+    {
+      "path": "frontend/src/features/cross-sector/CrossSectorIntelligence.tsx",
+      "main_blob": "d2ebcde14d08e3efcad2458826ace7ccd1a3fa1c",
+      "session_blob": "d2ebcde14d08e3efcad2458826ace7ccd1a3fa1c",
+      "status": "PASS",
+      "main_difference": null
+    },
+    {
+      "path": "frontend/src/features/executive/ExecutiveDashboard.tsx",
+      "main_blob": "cf7e79ba9907ae6d18807168d90860927ebbf25e",
+      "session_blob": "cf7e79ba9907ae6d18807168d90860927ebbf25e",
+      "status": "PASS",
+      "main_difference": null
+    },
+    {
+      "path": "frontend/src/features/portfolio/PortfolioWorkspace.tsx",
+      "main_blob": "fe18e40614f3c4253a0590153df0a0babba21053",
+      "session_blob": "fe18e40614f3c4253a0590153df0a0babba21053",
+      "status": "PASS",
+      "main_difference": null
+    },
+    {
+      "path": "frontend/server/executive-transport.ts",
+      "main_blob": "d1c52fe678b34295820fea0f2eac5cf408365310",
+      "session_blob": "d1c52fe678b34295820fea0f2eac5cf408365310",
+      "status": "PASS",
+      "main_difference": null
+    },
+    {
+      "path": "iips-platform/src/sector-engines/cross-sector/CrossSectorEngine.ts",
+      "main_blob": "a42f0606ca77daaa3d814b22b3c4ba29d6e2be2c",
+      "session_blob": "a42f0606ca77daaa3d814b22b3c4ba29d6e2be2c",
+      "status": "PASS",
+      "main_difference": null
+    },
+    {
+      "path": "iips-platform/src/sector-engines/cross-sector/ranking/RankingEngine.ts",
+      "main_blob": "ed2c869858b5606e4d3b11077aa64dc787838583",
+      "session_blob": "ed2c869858b5606e4d3b11077aa64dc787838583",
+      "status": "PASS",
+      "main_difference": null
+    },
+    {
+      "path": "iips-platform/src/sector-engines/cross-sector/opportunity/OpportunityEngine.ts",
+      "main_blob": "31f9458b5018912dc2d81fbd03c3df38de17357b",
+      "session_blob": "31f9458b5018912dc2d81fbd03c3df38de17357b",
+      "status": "PASS",
+      "main_difference": null
+    },
+    {
+      "path": "iips-platform/src/sector-engines/cross-sector/correlation/CorrelationEngine.ts",
+      "main_blob": "6508a8225b519d270e144aa57252bd8cfc0c26a3",
+      "session_blob": "6508a8225b519d270e144aa57252bd8cfc0c26a3",
+      "status": "PASS",
+      "main_difference": null
+    },
+    {
+      "path": "iips-platform/src/sector-engines/cross-sector/diversification/DiversificationAnalyzer.ts",
+      "main_blob": "2001d76dc68da20cc3236870be4548376367f5d2",
+      "session_blob": "2001d76dc68da20cc3236870be4548376367f5d2",
+      "status": "PASS",
+      "main_difference": null
+    },
+    {
+      "path": "iips-platform/src/sector-engines/cross-sector/portfolio/PortfolioIntelligence.ts",
+      "main_blob": "361e2dcecafd5c2f6884229ca58c76e9dd8f5e28",
+      "session_blob": "361e2dcecafd5c2f6884229ca58c76e9dd8f5e28",
+      "status": "PASS",
+      "main_difference": null
+    }
+  ],
+  "historical_records_reverified_remotely": [
+    {
+      "ref": "fedc19ee41c07a7a00a0b887e78f352b466cf41a",
+      "path": "governance/iips/AUTH-NP-18-INTELLIGENCE-EXPOSURE-IMPLEMENTATION-AUTHORITY-2026-09-26.md",
+      "blob": "8f8b077fe8f44833868a8b7df6ccc68df8ff9a62",
+      "github_api_blob_matches": true
+    },
+    {
+      "ref": "17c759cdccc6f7e1e3753c5215fcfa5d11ed4328",
+      "path": "governance/iips/AUTH-NP-18-R2-IMPLEMENTATION-RETARGETING-AUTHORITY-2026-09-26.md",
+      "blob": "bc6fb0ca975f9413c86141b6769e21a701d6f65f",
+      "github_api_blob_matches": true
+    },
+    {
+      "ref": "4357e14a35966cd8508e0c59e40627791c103172",
+      "path": "governance/iips/EVID-NP-18-QUALIFICATION-ADJUDICATION-2026-09-27.md",
+      "blob": "1b0c18fac1323d4c92ffaecb87c3809ff070bdb3",
+      "github_api_blob_matches": true
+    },
+    {
+      "ref": "4357e14a35966cd8508e0c59e40627791c103172",
+      "path": "governance/iips/EVID-NP-18-QUALIFICATION-RECONCILIATION-2026-09-27.md",
+      "blob": "9db76355caea1b4b4040b705e9014ea796d32ef4",
+      "github_api_blob_matches": true
+    }
+  ],
+  "chronology": {
+    "earlier_record_commit": "8d9babc3aadca40baa6ef0a9ae83659b1665aeab",
+    "earlier_qualification": "NOT YET ADJUDICATED; 683 pass / 11 fail / 15 skipped (source-reported)",
+    "later_record_commit": "4357e14a35966cd8508e0c59e40627791c103172",
+    "later_parent": "8d9babc3aadca40baa6ef0a9ae83659b1665aeab",
+    "later_qualification": "QUALIFIED — NON-PRODUCTION / BOUNDED SCOPE; 687 pass / 7 fail / 15 skipped (source-reported)",
+    "disposition": "Historical chronology resolved; no rerun, re-adjudication or qualification/admission on current main inferred."
+  },
+  "tests": [
+    {
+      "command": "NODE_ENV=test frontend/node_modules/.bin/tsx evidence/integration/group6-reconciliation/2026-10-16/verify-product-host.mts",
+      "result": "PASS — actual composed transport, 3 existing APIs 200; full ranking 13 / top opportunities 10 / numeric portfolio risk 13; deterministic; dedicated APIs and topN query 404"
+    },
+    {
+      "command": "npm --prefix frontend test -- server/product-transport.test.ts src/features/cross-sector/CrossSectorIntelligence.test.tsx src/features/portfolio/PortfolioWorkspace.test.tsx src/features/executive/ExecutiveDashboard.test.tsx src/app/App.test.tsx",
+      "result": "PASS — 5 files / 40 tests / zero failures"
+    }
+  ],
+  "status": {
+    "source_and_local_product_exposure": "PASS",
+    "external_deployment_manual_browser": "NOT VERIFIED",
+    "dedicated_screen_implementation_this_pass": "NOT STARTED — investigation-only boundary",
+    "new_graded_risk_derivation": "NOT STARTED — not authorized",
+    "current_main_NP18_reanchor": "BLOCKED — requires explicit PA target/file-scope act, not a new approval of already-selected intent",
+    "orphan_qualification_rerun": "NOT STARTED — unchanged historical target, prior evidence reused",
+    "library_sync": "BLOCKED — Library connector unsupported"
+  },
+  "limitations": [
+    "Main Group 6 engines/screens unchanged since prior evidence; transport-only delta is Macro wiring. Session App/navigation additions are prior Dhan work, not Group 6.",
+    "No live data, user-holdings analytics, new DTO/endpoints, risk reclassification, topN widening or enterprise authentication.",
+    "Record status statements about old suites are source-reported, not tests executed today."
+  ]
+}
