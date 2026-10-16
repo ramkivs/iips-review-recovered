@@ -1,0 +1,228 @@
+{
+  "date": "2026-10-16",
+  "observed_at_utc": "2026-10-16T06:21:22.483480+00:00",
+  "status": "PASS \u2014 implementation publication and independent remote verification",
+  "authority_before_implementation": {
+    "r3_commit": "904f5d99f9e6468fb4805c96a78c16c70a08395e",
+    "r3_path": "docs/integration/NP-18-R3-CURRENT-MAIN-IMPLEMENTATION-AUTHORITY-2026-10-16.md",
+    "sha256": "961f55f949e704640dc2ce40be63c954a96dfc0c5fc919275e5c00ba43804efc",
+    "raw_remote_equals_local": true,
+    "status": "PASS \u2014 R3 published and independently verified before implementation"
+  },
+  "implementation": {
+    "observed_at_utc": "2026-10-16T06:20:07.231355+00:00",
+    "status": "PASS",
+    "head": "3c64d69c148d01081b2ba9b8f76fa58c21ed2b99",
+    "main": "98c21768f77061a68470e4b4f6750d38abeec594",
+    "pr": {
+      "baseRefName": "main",
+      "headRefName": "arena/d57c506a-iips-review-recovered",
+      "headRefOid": "3c64d69c148d01081b2ba9b8f76fa58c21ed2b99",
+      "number": 114,
+      "state": "OPEN",
+      "url": "https://github.com/ramkivs/iips-review-recovered/pull/114"
+    },
+    "remote_commit_parents": [
+      "904f5d99f9e6468fb4805c96a78c16c70a08395e"
+    ],
+    "file_count": 12,
+    "files": [
+      {
+        "path": "docs/integration/NP-18-R3-CURRENT-MAIN-IMPLEMENTATION-AUTHORITY-2026-10-16.md",
+        "bytes": 13253,
+        "sha256": "961f55f949e704640dc2ce40be63c954a96dfc0c5fc919275e5c00ba43804efc",
+        "blob": "c2a167ac116927b4f6a44b4ae0822de59d1905d6",
+        "raw_remote_equals_local_commit": true
+      },
+      {
+        "path": "evidence/integration/np18-r3/2026-10-16/validation.json",
+        "bytes": 26025,
+        "sha256": "e7e0617fbb1a38ce6a8c56dd5d7b410a4be26fec6e1adb4b12b0fe1b0f0c3a24",
+        "blob": "c1c7b6d7287203e1378fd136b16f0d8958c8a979",
+        "raw_remote_equals_local_commit": true
+      },
+      {
+        "path": "evidence/integration/np18-r3/2026-10-16/verify-views.mts",
+        "bytes": 7894,
+        "sha256": "5105786bba8c7a4965882dcd70b8cc44fc3558ea76745a7eb20dff5a59af5881",
+        "blob": "b250e0dcd0cf5cfd7dd08ebf06f234e249748a8f",
+        "raw_remote_equals_local_commit": true
+      },
+      {
+        "path": "frontend/src/app/App.test.tsx",
+        "bytes": 9116,
+        "sha256": "44d8b7fb4eb483ac1212934c3b2df36cd4a4d988694f57e6f47f502ba48d811e",
+        "blob": "32733323948cf7cc25f6e10f9d83a71f34b5bb4d",
+        "raw_remote_equals_local_commit": true
+      },
+      {
+        "path": "frontend/src/app/App.tsx",
+        "bytes": 4372,
+        "sha256": "ae4c93a9d21d0504ee6ad7dfa20f48244f0a09c32cdc0ede9d3510532722241e",
+        "blob": "85230583c737b58f36c11b06eb7f53ea35472e93",
+        "raw_remote_equals_local_commit": true
+      },
+      {
+        "path": "frontend/src/app/navigation.ts",
+        "bytes": 3961,
+        "sha256": "40defb4b4d9dfa053d5c9f7234aee3851f2ded1ed3a03d9a36a86d512c5c8964",
+        "blob": "d59087f94207a0c7d17cf34a14f6ac68ba207572",
+        "raw_remote_equals_local_commit": true
+      },
+      {
+        "path": "frontend/src/features/intelligence/IntelligenceOpportunities.test.tsx",
+        "bytes": 8018,
+        "sha256": "5ccfa092f16fde0e816509db918637764e37b186f546c22aac23170367e920cb",
+        "blob": "336ed9aa5948f8a14849fff0e01169b30326c12b",
+        "raw_remote_equals_local_commit": true
+      },
+      {
+        "path": "frontend/src/features/intelligence/IntelligenceOpportunities.tsx",
+        "bytes": 5404,
+        "sha256": "e886f53245589873864ccf10401d6c31e7e2dbbc3c16883fcf0c68a2383b1705",
+        "blob": "414867a67d54eee636023c7c95cb2ee5073e94eb",
+        "raw_remote_equals_local_commit": true
+      },
+      {
+        "path": "frontend/src/features/intelligence/IntelligenceRankings.test.tsx",
+        "bytes": 7621,
+        "sha256": "0fdb8af2bbfc60dbf133742ede60b9f566384a19ac9236b9b0a6f5dd4b63ac3e",
+        "blob": "91223627779883fc8d494f44debec293370f04e9",
+        "raw_remote_equals_local_commit": true
+      },
+      {
+        "path": "frontend/src/features/intelligence/IntelligenceRankings.tsx",
+        "bytes": 5318,
+        "sha256": "9abd6e8627f59a282ddeca55cfe0da50e0143af7775a8c17b22ed190ec683182",
+        "blob": "5c5b6c424bea7c8418a98d2e48f99fb4b9499009",
+        "raw_remote_equals_local_commit": true
+      },
+      {
+        "path": "frontend/src/features/intelligence/IntelligenceRisks.test.tsx",
+        "bytes": 7638,
+        "sha256": "e7de69a4d93da4f7fa22b934b8e77fb312a3afc4abd05cac4d89c7e5259ad7ef",
+        "blob": "b35477864b18eb0afea3b034f97908bd9cd071fa",
+        "raw_remote_equals_local_commit": true
+      },
+      {
+        "path": "frontend/src/features/intelligence/IntelligenceRisks.tsx",
+        "bytes": 5589,
+        "sha256": "b7b2efb33b12f75070c57c02713da19fb212d02998dd2b620f90ed9107895aa1",
+        "blob": "df57e2e9099435373fcc132f66ac33888ef365ba",
+        "raw_remote_equals_local_commit": true
+      }
+    ]
+  },
+  "hosted_ci": {
+    "status": "PASS",
+    "source": "GitHub Actions run and job/step APIs; gh run watch --exit-status returned 0",
+    "run": {
+      "conclusion": "success",
+      "databaseId": 38860598503,
+      "headSha": "3c64d69c148d01081b2ba9b8f76fa58c21ed2b99",
+      "jobs": [
+        {
+          "completedAt": "2026-10-16T06:20:43Z",
+          "conclusion": "success",
+          "databaseId": 116841763581,
+          "name": "Typecheck \u00b7 Test \u00b7 Build",
+          "startedAt": "2026-10-16T06:19:58Z",
+          "status": "completed",
+          "steps": [
+            {
+              "conclusion": "success",
+              "name": "Set up job",
+              "number": 1,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Check out the exact commit under test",
+              "number": 2,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Set up Node 22 / npm 10 with the lockfile-keyed cache",
+              "number": 3,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Install dependencies from the committed lockfile",
+              "number": 4,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Typecheck",
+              "number": 5,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run the full Vitest suite",
+              "number": 6,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Assert a non-zero, fully passing test run",
+              "number": 7,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Production build",
+              "number": 8,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Post Set up Node 22 / npm 10 with the lockfile-keyed cache",
+              "number": 15,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Post Check out the exact commit under test",
+              "number": 16,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Complete job",
+              "number": 17,
+              "status": "completed"
+            }
+          ],
+          "url": "https://github.com/ramkivs/iips-review-recovered/actions/runs/38860598503/job/116841763581"
+        }
+      ],
+      "status": "completed",
+      "url": "https://github.com/ramkivs/iips-review-recovered/actions/runs/38860598503"
+    },
+    "current_PR_merge_ref": {
+      "sha": "f9bd05643ae5341f7ffd849bcdc2ab0dcbbdb94b",
+      "tree": "c6a43eb7b5682915ef94a34376bdf82ef1a832e6",
+      "implementation_tree": "c6a43eb7b5682915ef94a34376bdf82ef1a832e6",
+      "tree_equals_implementation": true,
+      "parent_SHAs": [
+        "98c21768f77061a68470e4b4f6750d38abeec594",
+        "3c64d69c148d01081b2ba9b8f76fa58c21ed2b99"
+      ]
+    },
+    "log_capture": "NOT VERIFIED \u2014 gh run view --log redirected to results-receiver.actions.githubusercontent.com and failed EOF under sandbox host restrictions; no hosted test count invented",
+    "local_affected_regression_count": 84,
+    "hosted_test_count": "NOT EXTRACTED; full-suite step and non-zero/full-pass guard independently verified SUCCESS",
+    "runner_annotations": "Pre-existing checkout/setup-node action runtime deprecation and forthcoming ubuntu-latest image migration, not a failed check"
+  },
+  "convergence_publication": "This receipt and the additive existing-tracker outcome are published after the implementation verification. Final recording commit/raw tracker bytes and that commit CI are verified externally in PR #114, avoiding a self-reference or endless evidence commits.",
+  "separate_authorities": {
+    "current_target_qualification": "NOT STARTED / not granted by R3",
+    "main_admission": "NOT STARTED / not granted by R3",
+    "release_production": "NOT STARTED / not granted by R3",
+    "deployed_host_manual_browser": "NOT VERIFIED",
+    "library_sync": "NOT ATTEMPTED \u2014 out of task scope"
+  }
+}

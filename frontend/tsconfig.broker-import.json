@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "lib": [
+      "ES2022",
+      "DOM"
+    ],
+    "types": [
+      "node"
+    ],
+    "strict": true,
+    "skipLibCheck": true,
+    "declaration": true,
+    "noEmitOnError": true,
+    "rootDir": "node_modules/iips-broker-import",
+    "outDir": ".cache/broker-import"
+  },
+  "include": [
+    "node_modules/iips-broker-import/frontend/src/features/portfolio/import/broker-*.ts",
+    "node_modules/iips-broker-import/frontend/src/features/portfolio/import/types.ts",
+    "node_modules/iips-broker-import/frontend/src/features/portfolio/import/adapters/*.ts",
+    "node_modules/iips-broker-import/src/identity/security_master.ts",
+    "node_modules/iips-broker-import/src/identity/mapping_store.ts",
+    "node_modules/iips-broker-import/src/identity/quarantine.ts",
+    "node_modules/iips-broker-import/src/contracts/provenance.ts",
+    "node_modules/iips-broker-import/src/contracts/types.ts"
+  ]
+}

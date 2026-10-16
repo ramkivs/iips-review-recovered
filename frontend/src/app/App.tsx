@@ -4,11 +4,15 @@ import { AppShell } from './AppShell';
 import { FeatureNotImplemented } from '../components/shell/ShellStates';
 import { ExecutiveDashboard } from '../features/executive/ExecutiveDashboard';
 import { PortfolioWorkspace } from '../features/portfolio/PortfolioWorkspace';
+import { BrokerHoldingsPreview } from '../features/broker-holdings/BrokerHoldingsPreview';
 import { UserPortfolioList } from '../features/user-portfolios/UserPortfolioList';
 import { UserPortfolioDetail } from '../features/user-portfolios/UserPortfolioDetail';
 import { CompanyIntelligence } from '../features/company/CompanyIntelligence';
 import { CrossSectorIntelligence } from '../features/cross-sector/CrossSectorIntelligence';
 import { MacroResearch } from '../features/research/MacroResearch';
+import { IntelligenceOpportunities } from '../features/intelligence/IntelligenceOpportunities';
+import { IntelligenceRisks } from '../features/intelligence/IntelligenceRisks';
+import { IntelligenceRankings } from '../features/intelligence/IntelligenceRankings';
 import { DecisionMatrix } from '../features/decision-matrix/DecisionMatrix';
 import { AiAdvisory } from '../features/ai-advisory/AiAdvisory';
 import { EvidenceLanding } from '../features/evidence/EvidenceLanding';
@@ -32,6 +36,7 @@ export function App() {
         <Route path="/executive" element={<ExecutiveDashboard />} />
         <Route path="/portfolio" element={<PortfolioWorkspace />} />
         <Route path="/portfolio/*" element={<PortfolioWorkspace />} />
+        <Route path="/broker-holdings" element={<BrokerHoldingsPreview />} />
         <Route path="/user-portfolios" element={<UserPortfolioList />} />
         <Route path="/user-portfolios/:portfolioId" element={<UserPortfolioDetail />} />
         <Route path="/watchlists" element={<Watchlists />} />
@@ -46,6 +51,9 @@ export function App() {
         <Route path="/screener" element={<Screener />} />
         <Route path="/intelligence/decision-matrix" element={<DecisionMatrix />} />
         <Route path="/ai-advisory" element={<AiAdvisory />} />
+        <Route path="/intelligence/opportunities" element={<IntelligenceOpportunities />} />
+        <Route path="/intelligence/risks" element={<IntelligenceRisks />} />
+        <Route path="/intelligence/rankings" element={<IntelligenceRankings />} />
         <Route path="/intelligence/*" element={<FeaturePlaceholder surface="Intelligence" />} />
         <Route path="/evidence" element={<EvidenceLanding />} />
         <Route path="/evidence/snapshots" element={<FeaturePlaceholder surface="Evidence Snapshots" />} />

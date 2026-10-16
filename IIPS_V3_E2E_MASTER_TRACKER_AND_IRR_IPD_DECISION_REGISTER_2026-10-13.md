@@ -8,6 +8,7 @@
 | Related Repository (IPD) | `ramkivs/iips-production-market-data` (`refs/heads/main` at `70b24f029842a7e9b7f615e4d9df7376fd4ff817`, tree `cc0f0117822850f9046e9a51bd05c1d45f80cd57`; IPD PR #7 merged `2026-10-15T19:18:23Z` — independently verified at §16.36) |
 | Pre-REG-08 IRR Baseline | Commit `f970028cf633f561c225d66ae4b3864f48afe656`; root tree `bab9782ed104567e571abccc350c75760ff35dca` (merge of PR #75) |
 | Last Updated | `2026-10-16` (Asia/Calcutta) — **CV-CORR-24 (§16.36): `XV-15` CLOSED — IPD PR #7 independently verified as MERGED on IPD `main` (`70b24f029842a7e9b7f615e4d9df7376fd4ff817`, parents `4d3e1cdc…` + `6e3cfcf2…`, tree `cc0f0117…`; file blob `5d16773f…` stamps `sourceClassification: 'DERIVED'` on IPD `main`, raw SHA-256 `07be27a0…`; IRR PR #112 verified merged at `e244132e440c4801703461e1633df6d50f0b7169` with hosted CI `success`); `V-C6`/`L-3`/CPI closures at §16.35 reused, not repeated; `D-D` boundaries retained; production `NOT AUTHORIZED`.** Prior: **CV-CORR-23 (§16.35): Consolidated Macro workstream closure — PA decisions `D-A` (IPD PR #7 merge authorized for `XV-15`), `D-B` (`V-C6` + `L-3` bounded implementation and Phase 6 merge authorized), `D-C` (Option (a): `996/25,884` CPI missing-`index` records accepted as upstream MoSPI characteristic and closed), and `D-D` (existing unresolved/non-production governance boundaries retained) recorded (`NP-08-D08-MACRO-VC6-L3-CPI-XV15-CONSOLIDATED-RECORD-01`); `V-C6` API client error-body `code`/`message`/`dataset` surfacing (`frontend/src/api/macro.ts`) + `MospiSourceConfig` `deps` wiring (`frontend/server/executive-transport.ts`, `frontend/server/macro/macro-transport.ts`) and `L-3` server-side UI12 `['theme']` settings-invariance test (`frontend/server/macro/macro-transport.test.ts`) implemented and validated (`V62–V64`: `69` files / `770` tests pass, `tsc --noEmit` `0`, `build` `0`, `assert-tests` OK); `V-C6`, `L-3`, and the CPI missing-`index` observation are CLOSED; `XV-15` IPD PR #7 (`6e3cfcf2…`) is AUTHORIZED under `D-A` and `OPEN`/`MERGEABLE` on IPD (Arena GitHub App merge attempt blocked by external-repo integration scope: `Resource not accessible by integration`, IPD `main` unchanged at `4d3e1cdc…`).** Prior: **CV-CORR-22 (§16.34): V-C5 CLOSED — D91 §1 notice implemented (PR #110, merge `9d5d095…`), accepted (acceptance record `NP-08-D08-MACRO-V-C5-D91-NOTICE-ACCEPTANCE-RECORD-01`), tracker reconciled; VC-1/VC-2/VC-3 all durably evidenced and remotely verified.** Prior: **CV-CORR-21 (§16.33): the Program Authority issued the bounded D91 §1 notice implementation-authority decision (`NP-08-D08-MACRO-V-C5-D91-NOTICE-IMPLEMENTATION-AUTHORITY-DECISION-ACT-01`), and the required pre-implementation verification of the approved wording found NO discrepancy — recorded as `DECIDED AND RECORDED; DURABLE PUBLICATION PENDING`. Fixed by the PA: the notice string (the PA's own wording, rendered verbatim), placement **P-1** (one notice adjacent to the dataset panels, not duplicated per panel), the file-placement ruling (through the consuming view; `MacroContext.tsx` runtime behaviour unchanged), the exclusions (no D91/D88 relief, no Relief Determination, no Settings/data-mode controls, no transport/API/client/source-adapter change, no governed-act amendment, no IPD change, no production qualification, no other Macro item or workstream; `NP-11-D4` unchanged), and the `D89 §19` interpretation (its "only" limits the D89 gate's implementation authority; this separate constitutive act supplies only the bounded authority stated). Verified read-only against `main` `805a10af…`: W-1 "retrieves data live from MoSPI" — three live reads on mount through `/api/macro/{nas,cpi,iip}` → `MOSPI_REST_BASE_URL='https://api.mospi.gov.in'`, no observation/cache layer (the only "cached" object is a connection-level `undici` TLS dispatcher), no service worker; W-2 "no user setting switches this view" — `AUTHORIZED_PREFERENCE_KEYS = ['theme']`, one theme `<select>`, `defaultDataMode`/`pitMode`/`freshness` rejected with tests, the Macro surface renders no control at all, and the mount passes no `deps`; W-3 "reports the failure rather than substituting" — fail-closed transport + `MacroContext` null-on-error + a `role="status"` refusal block in `MacroResearch` ("no cached, partial or synthetic value is substituted"), corroborated by the D89 browser acceptance. **`V-C5` REMAINS OPEN** as **`DECISION MADE — IMPLEMENTATION PENDING`**: closure now requires the act's durable publication, the notice implemented and validated, and the acceptance/tracker reconciliation (act §10 VC-1…VC-3). **ZERO register/count movement** — register `35`, complete/accepted `12`, blocked-active `2`, active outstanding `16`, §19 categories `13`; `CV-53`, `XV-15`, the general `XV-16` rule, live-E2E `A`, entitlement `B`, attribution `NOT DETERMINED`, GODL/`M-3` `NOT ESTABLISHED`, production `NOT AUTHORIZED` all unchanged. **No code change; no merge claimed** — implementation waits on the PA's merge act (act §9).** Prior: **CV-CORR-20 (§16.32): V-C5 — the D91 §1 UI12 data-mode exemption notice — re-verified read-only against the authoritative `main` `805a10af4180691abcb76a0dac96a3c6541a39aa` and recorded as `DECISION REQUIRED — NOT DECIDED` (decision record `NP-08-D08-MACRO-V-C5-D91-NOTICE-DECISION-RECORD-01`). Verified: the notice markup (`macro-data-mode-exemption-disclosure`) occurs **nowhere** under `frontend/` on `main` (exit 1); the rendered `/research/macro` surface (`MacroResearch.tsx` blob `3ea30334…`) carries the D89 disclosure (`MacroSourceDisclosure.tsx` blob `84d2e78c…`) and **no** data-mode notice; there is no client-side data-mode control (zero `datamode`/`data-mode` in `frontend/src/**`) and the macro mount calls `handleMacroRequest(req, res)` with **no** `deps`. V-C5's **separation** limb **PASSES** (no act or record treats the D89 component as satisfying D91 §1); the **satisfaction** limb is **NOT SATISFIED**, and **no instrument decides whether the notice is owed on IRR** — `D89 §19` bounds its gate to `DT-1–DT-8`/`DT-13`/`DT-15` *only*, the CV-53 act grants only those, the D91 mechanism is relief-only (`§19`), self-initiation-barred (`§8.3`) and evidence-gated (`§10`), and Option E `§8.3` names the D89 gate as "the only authorized implementation path". Material counter-fact recorded, **not adjudicated**: IRR's own governed UI12 contract **excludes** the data-mode/PIT preference (`NP-11-AUTH-01` §6 `NP-11-D4`; `settings-service.ts` blob `3fcc4c26…`, `AUTHORIZED_PREFERENCE_KEYS = ['theme']`, rejecting tests), so the notice's subject matter has no referent in IRR and rendering it verbatim would describe an affordance IRR prohibits — while IRR's D91 acts still state the obligation "stands unchanged" and Option E `R-1` (rendered view created — PR #100 + PR #103) records the notice as having "become mandatory". **One movement, scoped to the V-C5 condition record and to no register item.** Not moved: register `35`, complete/accepted `12`, blocked-active `2`, active outstanding `16`, §19 categories `13`, `CV-53` (D89 display contract only), the API-client/configuration residuals, the `996`-record `index` observation, `XV-15`, the general `XV-16` rule, live-E2E `A — ESTABLISHED`, entitlement `B`, attribution `NOT DETERMINED`, GODL/`M-3` `NOT ESTABLISHED`, production `NOT AUTHORIZED`. **Decision required:** one explicit Program Authority act — a bounded D91 §1 implementation-authority act (wording fixed by the PA), or a D91 Relief Determination on a §9/§10-conforming request. No code change, no governed-act edit, no relief, and no merge is claimed.** Prior: **CV-CORR-19 (§16.31): NAS LIVE P4 PASS on the operator's own Windows machine — live-source E2E moves `B — PARTIALLY ESTABLISHED` → `A — ESTABLISHED` (NAS + CPI + IIP retrieved live through the application route), and the NAS live-confirmation item (Macro item 1) is CLOSED. Operator run (class: operator-transferred), `DESKTOP-NO0NHTP`, Windows PowerShell `5.1.26100.9444`, against IRR `main` `371fdca1a75617a5d87e41c6b2e3faa76b787714`: `GET /api/macro/nas?indicator=GVA` → `200` `application/json`, `129` records, `2/2` pages, raw `129` = retained `129` + suppressed `0`, `COMPLETE`, all 16 P4 criteria passed, response SHA-256 `97b313d4c71ae299520ec77877de83473a096c056a455b57407d313789e490f6`, procedure SHA-256 `972F3B0121B204F35E7AF5081663E3D9EA402632EDC19E1893C8B1320EED5331`, exit `0`, cleanup clean; the local `P4-NAS-RESULT.txt` and `p4-response.json` are not published. Corroborated by published GitHub-hosted Windows runs (Windows PowerShell 5.1 and PowerShell 7.6 PASS with the identical response SHA-256; run `38771647181` at `c384a2f`). Correction: NAS never required `10.24.89.9:5000` — the tested application reads NAS from the public host `https://api.mospi.gov.in/api/nas/getNASData`. No register, count, entitlement, legal, qualification, admission or production movement: register `35`, complete/accepted `12`, blocked-active `2`, active outstanding `16`, §19 categories `13`.** Prior: **CV-CORR-18 (§16.30): PR #106 MERGED to IRR `main`. The CPI row-preservation remediation and the origin-scoped TLS remediation are now durably published on `main` with the exact bytes that were verified live — merge commit `927362243add0220a11a2d610a64d09d50ba321f` (parents `bcbf344…` + `86a8d00…`), regular merge commit, 23 files / +2,769 −55, nothing deleted or renamed; hosted `CI` on the merge commit (`38748155651`) is `success`. The five CPI-path digests on `main` equal the operator-verified manifest. The merge creates **no** additional status/count movement: register total `35`, complete/accepted `12`, blocked-active `2`, active outstanding `16`, §19 categories `13`; live-E2E stays `B — PARTIALLY ESTABLISHED` (CPI + IIP externally verified; **NAS not coverable**); no qualification, admission, entitlement, licensing or production state moved, and the `996`-records-without-`index` observation remains recorded and unactioned.** Prior: **CV-CORR-17 (§16.29): the CPI row-preservation remediation is reconciled, validated in Arena and — on operator-transferred Windows evidence — LIVE VERIFIED against the provider: CPI HTTP `200`, `259/259` pages, `25,884/25,884` records retained, `duplicatesSuppressed=0`, `COMPLETE`; IIP regression `200`, `3/3`, `COMPLETE`; MoSPI reachable from that network. **NAS remains unverified** — the documented NAS server is a private address and was not tested from either domain — so the live-E2E posture moves from `C — BLOCKED` to **`B — PARTIALLY ESTABLISHED`**, not to `A`. A separate provider-payload observation (**996 of `25,884`** live CPI records carry no `index`) is recorded as its own finding, not actioned. Publication: the previously unpushed origin-scoped TLS remediation and the CPI remediation are now pushed to the existing PR #106 branch (`28517d7`, `cea06dc`) — **pushed, not merged**; `main` is unchanged at `bcbf344` and no merge or admission is claimed. No qualification, entitlement or production state moved.** Prior: **CV-CORR-16 (§16.28): PR #104 merged to IRR `main` at `8112d361655c3ba5467b23bd60bb072a6304a66a` (2026-10-15T08:15:54Z); CV-53's D89-only acceptance, responsive correction, record, screenshots and tracker are durably published. The merge caused no additional status/count movement: 35 register items, 12 complete/accepted, 16 active outstanding and 13 pending categories. Hosted Typecheck · Test · Build passed on PR head in run `38704298740`. Live E2E remains `C — BLOCKED`; D91 V-C5, API-client residuals and legal non-determinations remain separate; no qualification, admission or production authorization is claimed.** Prior: **CV-CORR-15 (§16.27): CV-53 Product Acceptance is ACCEPTED for the D89 display contract only. The responsive browser correction and full local verification are recorded; live-source E2E remains C — BLOCKED, D91 V-C5 and API-client residuals remain separate, and no qualification, admission or production authorization is claimed. At this update, PR #104 carries the acceptance/tracker changes for review against the pre-change `main` baseline `fd4ce609…`; main incorporation is governed by the PR and is not inferred from branch publication.** Prior: **CONSISTENCY CORRECTED (`CV-CORR-03`, §16.15; on PR #98):** `CV-50` is now counted as a **terminal, scope-closed record rather than actionable work** (register statuses untouched; §16.12 separates blocked-active `2` from terminal `1` and reports **active outstanding `22`** of `23` recorded outstanding, `34` register items total), and the **User-Portfolio admission sequence is unambiguous**: §16.7.1 Q1 no longer offers "admit as-is" — options are authorize-qualification, qualification-plus-a-bounded-residual-implementation-act, or dated deferral — because `D-1` and the implementation record §8.5 prohibit main admission and `AD-20`/Gate A + `P2`/`P3` hold a qualification bar that no admission act may substitute; §20 Stage 4 states that it grants neither implementation nor admission authority, and Stage 5 carries separate **5a qualification** and **5b admission** exit criteria with 5a-without-5b named a legitimate end state. Prior: **PART II EXTENDED (`CV-CORR-02`, §16.14; on PR #98):** §17 executive convergence view, **§18 capability matrix in the required exact 17-column structure (Existence · Authority · Integration · Wiring · Data · Persistence · Recovery · Validation · E2E · Evidence · Governance · Acceptance · Qualification · Release-readiness · Evidence Anchor)**, §19 categorized pending-work summary and §20 ordered convergence progression, all derived from the existing register and freshly re-verified read-only evidence (new checks V16–V20; items `CV-42`/`CV-43`; register `32 → 34`). Two §16 statements were sharpened in place on that evidence: `G-2` §9’s withhold **was** superseded by an explicit non-production implementation authorization on 2026-10-07 — the durable line exists but is unadmitted and `149` commits behind `main` — and the read surfaces are `503` **pending a designated non-authentication ownership source**, not unbuilt. Prior: **§16 CORRECTED (`CV-CORR-01`, §16.13; on PR #98):** the `G-2` Durable User Portfolio Architectural Decision was re-read at `main` and **`CV-20` re-scoped to sequence the accepted decision rather than re-open it** — IPD owns the user-portfolio domain and its durable persistence boundary and the IPD `PortfolioStore`/broker capability is the baseline to **extend, not replace or duplicate** (`G-2` §1/§2), storage technology deliberately unprescribed (§3), IRR consumption only through a separately governed additive boundary (§5), and **no implementation authorized** until the separately authorized **read-only IRR + IPD implementation-readiness investigation** (§9), now added as `WP-4b`; the “re-found on the IRR journal” option is **withdrawn** as contrary to `G-2` §1/§5/§8; `CV-50` restated as a **closed execution path** (`P-4`→`P-6`→`P-8` exists only to satisfy an OIDC-verified G24 binding the corrected scope excludes) with **no dependants**; the single-root-blocker narrative is replaced by four per-capability chains (§16.3, §16.5, §16.7.2, §16.11), with Reports (`CV-21`, `G-2` §8) and security-universe coverage (`CV-22`) **independent** of the portfolio question; `CV-39`’s `REG-06` mis-attribution fixed (`REG-06` = **Operator Drop**, not broker ingestion; the gap is the **in-memory** main-repo store, new check `V15`); `XV-12`/`XV-13` added; **statuses and register total unchanged at 32**; no `G-2` reversal, no invented reconsideration process, no implementation authority, no fence lifted, no code/pin/IPD change, no suite re-run. Prior: **INDEPENDENT CURRENT-STATE RE-ESTABLISHMENT + CONSOLIDATED CONVERGENCE REGISTER AND FORWARD PLAN PUBLISHED (§16): 32-row master work-item register (`CV-01`…`CV-52`; 11 complete/accepted · 6 decision required · 10 open · 2 deferred · 3 blocked), 11 cross-repository discrepancies (`XV-1`…`XV-11`), six work packages (`WP-1`…`WP-6`) and the single root blocker (the outstanding owner-data lineage decision `CV-20`, not the closed `P-2` chain); all executed evidence recorded at §16.3 (V1–V14). Renders no authority, lifts no fence, changes no code, pin or IPD ref. Prior: **P-2 ARTIFACT DISPOSITIONS RENDERED (`GC-P2-DEPOSIT-DISPOSITION-01`, §15.21):** the Program Authority rendered the four dispositions — **deposit set amended to exactly ONE artifact** (the governed date-only transcript, coverage and limitations stated at amended manifest §1; no alternate substitution; no complete-Blocks-A–F claim); `p2-establishment-result.txt` **NEVER PRODUCED**, `p2-pin-provenance.txt` **NEVER PRODUCED AS A FILE**, `p2-anchor-key-public.json` **NEVER PRODUCED UNDER THE REQUIRED NAME** — all three **removed from the required deposit set** (`e-keygen.json` never renamed/copied); **PR #94 merged** (`5f9f5e5…`); **PR #93 closed and reissued** (refuted wording never merged); **the amended one-artifact deposit is now remotely verified and merged via PR #96** (transfer commit `84a26d797d6a3a5729903a2813ecd178e8277590`, Git blob `d79d03a1e519cb1d97601b0ed89c280ac83e13f8`, raw SHA-256 `E5CD7E490FF69BACBB6496E5B6ED0CC29C3FD8786D8DEE04798A2B68D787D4BE`, merge `f813354092b9e926ad93fb06080a7d64465aa4ae`; details §15.22). The raw transcript’s `git diff --cached --check` failure is explicitly retained as a validation exception, not marked passing. Prior: **P-2 DEPOSIT SOURCE AUDIT (`GC-P2-DEPOSIT-SOURCE-AUDIT-01`, §15.20):** read-only source audit established that **three of the four deposit artifacts were never produced** (`p2-establishment-result.txt`, `p2-pin-provenance.txt`, `p2-anchor-key-public.json` — no executed handoff instruction ever creates them; absent from `$ev` and the destination), the **governed transcript fails the manifest §1 content checklist** (host, Block A pin verification, ACLs, tooling hashes, D1, D1b, F2–F4 absent), the **destination transcript copy is wrong-source** (SHA-256 matches the off-coordinate `…-014000` file), the five raw outputs exist but are not deposit artifacts, existing existence/coordinate claims in the governing records are corrected, **four dispositions are requested from the PA (§15.20)**, and the **deposit remains INCOMPLETE — 0 of 4; nothing staged, committed or pushed**. Prior: **PA SCOPE CORRECTION — OIDC/AUTHENTICATION QUALIFICATION WORK OUT OF SCOPE; F5R CLOSED OUT OF SCOPE (§15.19):** the Program Authority corrected the operating scope of the single-user, personal-use application — global authentication, OIDC, Keycloak, RBAC, multi-user/tenant infrastructure and enterprise authentication architecture are **OUT OF SCOPE**, and **OIDC/JWKS/key/issuer debugging is removed from the active P-2 next-step sequence**; the sole outstanding P-2 item **F5R is CLOSED — OUT OF SCOPE** (not executed, not an active blocker; P-2 request §7.3(2)'s unreachable-JWKS clause is **not an acceptance condition for this application**), **no in-scope P-2 acceptance condition remains open** and **P-2 establishment is closed as COMPLETE FOR IN-SCOPE CRITERIA** on the operator-transferred evidence recorded at §15.16; the historical F5.2 observation is preserved as history (not reclassified) and the reconciliation §4(2) wording-vs-behaviour deviation requires no further action; the **four-artifact evidence deposit remains applicable and unexecuted** (operator-side; destination holds `MANIFEST.md` alone at `main@a0caad3…`); **P-4 NOT DONE / P-6 NOT GRANTED / P-8 NOT DONE**; fences and all boundaries unchanged. Prior: **F-1/F-2/F-3 FINAL-RECORD AFFIRMATION SUPPLIED (§15.18):** the Program Authority affirmed that the amended F-1/F-2/F-3 decision record at blob `47b158f6…` is the exact final record reviewed and adopted; the affirmation is transcribed verbatim in the record's closure note §8.1 with the independent remote verification of the artifact (blob/size/SHA-256 `65b34fbd…`; merge `f3b7a8b3…` = PR #65, ancestor of `main`; byte-for-byte additivity proven), and the `IIPS-V3-OWNER-CONTEXT-PA-DECISION-FINAL-01` **§11(1) review step is CLOSED for the amended artifact**; the affirmation grants **no** implementation, inventory, persistence, IPD, **merge**, release or production authority, so the single item still outstanding is **merge authorization for the closure note itself**. Prior: **F-1/F-2/F-3 GOVERNANCE RECONCILED (§15.17):** the line is consolidated as **three effective determinations** — F-1 `owner-7f3a91c2` / F-2 `irr-domain-4b82d6e1` (value act, PR #66, §11 sequence complete, EFFECTIVE), F-3 mechanism **M-1…M-7** (PR #68; closure PR #69; effective `2026-10-12`), and F-3 implementation/qualification **NP-09/10/11 QUALIFIED** with browser acceptance COMPLETE (PRs #69/#70) — plus **exactly one outstanding input**: the Program Authority's affirmation of the **amended** F-1/F-2/F-3 decision record (blob `47b158f6…`), the confirmation already held attaching only to the pre-amendment blob `5364a67a…`; nothing else in that line is outstanding, and the adjacent items (`F6_INVENTORY_AUTHORIZED` UNDECIDED, `TD-7b` DEFERRED, off-main `persistence-restart-proof.test.ts`, parked P-2 / F5.2) are recorded and **not reopened**. Prior: **P-2 ESTABLISHMENT EVIDENCE RECONCILED (§15.16):** Windows results intaken as operator-transferred (Blocks A/C/D/E/F1–F4/F6 satisfied; **F5.2 UNRESOLVED and preserved** as observed — `401 OIDC_KEY_UNAVAILABLE`; **P-4 NOT DONE, P-6 NOT GRANTED, P-8 NOT DONE, no IPD change**); F5.2 classified from the pinned build (unreachable endpoint → `500 INTERNAL_ERROR`; the observed class requires a **responding** endpoint); handoff F5 expectation corrected as **F5R** (`GC-P2-HANDOFF-F5-CORR-02`, with mandatory unreachability precondition); **evidence destination fixed — IRR `evidence/integration/gate-c-p2-establishment-2026-10-14/` via one commit on the session branch/PR #91**; §7.3(2)'s unreachable-JWKS clause remains unestablished, so **the single remaining action is F5R**. Prior: **P-2 DESIGNATION ACT ADOPTED AND CORRECTED (`GC-D5`/`GC-D6`; all ten `P2-A-D1` values fixed; act closed, durable and remotely verified at `main@33bbb0f…`) AND P-2 EXECUTION HANDOFF FOR THE DESIGNATED NON-PRODUCTION HOST PUBLISHED (§15.14)** — six-block operator package: host resolution from the P-2 requirements (loopback co-location ⇒ the host that holds the pinned G24 working tree), read-only resolution of every genuine environment dependency (Node primitive key generation; `better-sqlite3@13.0.3` `engines.node >=22` with a shipped `win32-x64` prebuild ⇒ `npm ci --ignore-scripts`, no compiler/OpenSSL/WSL; `tsc` exit 2 with the 4 known baseline errors while `dist/` is emitted; Windows ACL mapping of the adopted `0700`/`0600`; `shred`-less destruction limitation stated), and exact commands, expected results, fail-closed checks and evidence rules. **No key, issuer, runtime or database created; no P-4 provisioning; P-4/P-6/P-8 boundaries unchanged; `/api/user-portfolios*` remains fail-closed at HTTP `503 owner-context-unavailable`.** Prior: **P-2 EXECUTION DESIGNATIONS CONSOLIDATED INTO ONE DECISION REQUEST (§15.13): ten values researched, evidence-vs-proposal separated, recommended set `P2-A-D1` with compatibility checks; PA designation act REQUIRED, no value fixed, no operation authorized**: IRR `main@b7e384a…` (PR #87 merge; `GC-D4` now durably effective, post-merge verification comment recorded) re-verified live; worktree clean; no open PRs; all four IPD refs UNCHANGED; G24 tree/blobs undrifted (pin integrity only, no S5 re-derivation); published S5/S5A/packet/tracker/P-2-request blobs match remote; fence/2F/F-3 blobs unchanged. P-2 package COMPLETE; P-4/P-6/P-8 still blocked (P-4 needs its own sequential act); P-7 PRESERVED. **Next blocker: the PA's ten P-2 execution designation values** (one consolidated request, §15.13). Prior: P2-A selection (`GC-D4`) + P-2 request (§15.12), DP-1 Option 1A′ (`GC-D3`) + 1A′ contract/spec (§15.11), S5 investigation (§15.10), GC-D1/GC-D2 + 2F S2–S4 (PRs #82–#84) |
+| Current session addenda | `2026-10-16` — §16.37 Dhan/Broker Holdings preview unchanged; **§16.38.10 NP-18 QUALIFIED FOR BOUNDED NON-PRODUCTION USE; §16.38.11 NP-18-only main admission APPROVED, not yet effective on main**. Actual combined PR #114 merge remains separately unapproved; release/production NOT GRANTED. Library synchronization outside this task. |
 
 ---
 
@@ -1345,6 +1346,8 @@ Then a one-line documentation follow-up (runbook §0 and the CV-25 row) cites th
 
 ### 16.16.5 Group 6 disposition — Opportunities, Risks, Rankings availability (investigation closed, recorded once)
 
+> **Current reconciliation: §16.38 (2026-10-16).** This historical table is retained. Its ranking/top-N, “only aggregates” risk description and unresolved NP-18 qualification chronology are corrected there; it is not the current target-authority grant.
+
 | Capability | State on IRR `main@1b2b194` | What is actually missing | Minimum work, and its boundary |
 |---|---|---|---|
 | **Rankings** | **live and certified** — `RankingEngine.ts` (conviction desc, sector-asc tie-break, normalized dimensions) composed in `CrossSectorEngine.ts`, served on `/api/cross-sector`, `/api/executive`, `/api/portfolio`; asserted by `cross-sector-acceptance.test.ts` `WP3-ACC3/ACC6` + the golden snapshot | only breadth: the certified read contract is fixed at `topN: 10` over the frozen v1.1 Replay Baseline | widening `topN` changes a **governed read contract** → separate act, not a UI tweak |
@@ -2530,3 +2533,727 @@ Published from `arena/2148b8cf-iips-review-recovered` as **one** record set: the
 ### 16.36.4 Publication of this reconciliation
 
 This reconciliation is published as **one additive IRR PR** from `arena/c64ca0a8-iips-review-recovered` into `refs/heads/main`, changing only this tracker and `docs/integration/NP-08-D08-MACRO-VC6-L3-CPI-XV15-CONSOLIDATED-AUTHORITY-AND-ACCEPTANCE-RECORD-2026-10-16.md` (its §6). Existing decision and acceptance evidence (`D-A`…`D-D`, V62–V64) is reused; the `V-C6`/`L-3` implementation and tests were not repeated because the reconciliation changes no code and contradicts no existing evidence. Per the self-reference rule, this reconciliation PR's own merge commit is not embedded in the committed blob; it is verified against `origin/main` after the merge.
+
+## 16.37 Dhan + Broker Holdings coordinated execution — preview implemented and remotely verified (`2026-10-16`)
+
+**Current evidence, not a repeat investigation.** This section adds a bounded executable outcome to
+§16/CV-39 and supersedes earlier findings only where explicitly corrected below. Historical records,
+register totals and complete/accepted counts are preserved: **no durable portfolio, canonical identity,
+production or Group 6 capability is declared complete**. Authority is the current Ramki one-pass
+convergence instruction; bounded disposition **DB-C1** and implementation/test detail are in
+[`DHAN-BROKER-CONVERGENCE-IMPLEMENTATION-2026-10-16.md`](docs/integration/DHAN-BROKER-CONVERGENCE-IMPLEMENTATION-2026-10-16.md).
+
+### 16.37.1 Verified baseline and separate workstream outcomes
+
+| Workstream | Current verified status, baseline, completed work and residual |
+|---|---|
+| **Dhan** | **IMPLEMENTED / LOCAL TEST PASS — CSV preview only.** IPD `main@70b24f029842a7e9b7f615e4d9df7376fd4ff817` (PR #7, merged) already contains `frontend/src/features/portfolio/import/adapters/dhan-holdings-adapter.ts`, Detailed and Web UI summary variants, detector and ingress. Reused unchanged in IRR's new `/broker-holdings` browser page, published in implementation commit **`d82ff99fc9e5a2e1569339f066919f7e718aa545`**, [PR #114](https://github.com/ramkivs/iips-review-recovered/pull/114), branch **`arena/d57c506a-iips-review-recovered`**. Both variants execute through real existing code in regression tests; parsed rows, content digest, refusals and warnings are visible. **NOT VERIFIED:** live broker/API connectivity and actual account import. No Dhan HTTP client/token/session/refresh or live acquisition path was located in the inspected runtime trees. **BLOCKED for live execution:** no established account/API entitlement, secure credential/session configuration or broker-host egress (sandbox allowlist excludes Dhan); no token requested in chat or stored in evidence. XLSX remains unsupported/deferred. |
+| **Broker Holdings** | **IMPLEMENTED / LOCAL TEST PASS — private native-evidence preview, NOT durable save.** Baselines: IRR `main@98c21768f77061a68470e4b4f6750d38abeec594` (PR #113) and IPD main above. Existing IPD path is local CSV → detector → adapter → mapper/identity → ingress → controller → **in-memory** `PortfolioStore` → IPD workspace/modal. The new additive IRR boundary/page closes the missing **preview consumption** connection for Dhan, Zerodha and Groww. It has no upload/network/storage/save path, every displayed row remains **UNRESOLVED**, and companyId, raw objects, computed weights and store metadata are omitted. An empty SecurityMaster + strict unmapped handling prevent symbol-as-companyId fallback; no D05 synthetic mapping or operator bypass is used. `PARSED_UNRESOLVED` means parsed evidence, not normalized/validated/saveable holdings. **BLOCKED / NOT STARTED in this pass:** durable broker-save activation, pending the existing G-2 ownership/security-identity/persistence qualification and admission path; the G24 line and `/api/user-portfolios` fence remain unchanged. No restart-durability claim. |
+
+**Correction necessary for this consumer:** earlier V15/CV-39 wording “4 adapters” is not supported
+by current source: there are **three adapter classes** (Dhan, Zerodha, Groww); `GENERIC` is a
+contract/mapper fallback, not a fourth broker adapter. No generic-format admission was added.
+
+### 16.37.2 Shared boundary, decision and preservation
+
+- **IPD owns** parsing, normalization, SecurityMaster, holdings arithmetic, contribution/lineage,
+  idempotency and portfolio persistence. **IRR owns only** the narrow preview projection and UI.
+  No parser/store/domain copy, shadow portfolio or certified-analytics connection was introduced.
+- IRR's existing governed IPD package pin **`2e11fa3b689d1a3674a5e4ba1f1de9a559e20494` is unchanged**.
+  That installed package exposes PIT/D114/persistence but contains no broker sources. The new,
+  separate immutable alias **`iips-broker-import#70b24f029842a7e9b7f615e4d9df7376fd4ff817`** consumes
+  existing published main source. Only the 14 declared broker/identity/contracts source files are
+  compiled into ignored `.cache` JS/declarations for IRR. Their installed blobs match IPD main.
+  This avoids a governed-pin upgrade or IPD mutation merely to expose existing CSV functionality.
+- **DB-C1:** current express execution authorization supersedes procedural investigation-only
+  sequencing **only for this bounded read-only preview and exact source consumption**. No new
+  PA signature, acceptance or enterprise trust act is invented. No change to G-2 domain ownership,
+  GC-D2/2F refusal, G24 admission, Reports, certified reference `/api/portfolio`, PIT or **Group 6
+  Opportunities/Risks/Rankings investigation-only** boundary. No auth framework/RBAC/multi-user/
+  PostgreSQL/deployment architecture. Original authority records remain historical evidence.
+- Self-review fixed the source-packaging/typecheck mismatch through isolated dependency compilation
+  (not relaxed IRR checking), bounded file/text size, preserved refused identities, and guarded
+  clear/new-selection races. Parsed fields may include existing adapter price/quantity defaults;
+  this is disclosed, not represented as original-byte fidelity or valid normalization.
+
+### 16.37.3 Tests, evidence and material limits
+
+| Check / command | Actual result |
+|---|---|
+| IRR `frontend`: CA-configured `npm ci --no-audit --no-fund` | **PASS**; clean install, both exact Git pins retained. Initial sandbox certificate failure was fixed with `NODE_EXTRA_CA_CERTS`, never by disabling TLS. |
+| `npm run typecheck`; `npm run build` | **PASS**; dependency built independently, IRR strict checking unchanged; production browser bundle 103 modules. |
+| `npm test -- src/api/brokerHoldingsPreview.test.ts src/features/broker-holdings/BrokerHoldingsPreview.test.tsx` | **PASS — final 16/16.** Real IPD parsers for both Dhan variants, Zerodha/Groww, unknown identities, no Node Buffer requirement, no caller companyId promotion, bounded/unsupported input, no fetch/storage/save, clear/failure/stale-read cases. |
+| `npm run test:ci`; `node .ci/assert-tests.js .vitest-report.json` | **PASS — 71 files / 783 tests / 0 failures**, before three additional regression cases. Hosted CI on the final PR head is separately reported in PR #114; this prior run is not falsely called a final-head 786-test run. Full suite justified by route/navigation, package and lifecycle-script changes; unrelated platform/engine suites not repeated. |
+| IPD `npm run build:tsc`; `node --test dist/tests/bi04_broker_adapters.test.js dist/tests/bi05_broker_ingress.test.js dist/tests/bi08_idempotent_ingress.test.js` | **PASS — existing 49/49**, actual compiled baseline source, nonzero count verified. No tests weakened. |
+| Installed-source, protected-fence blob comparisons; `git diff --check` | **PASS**. `reports-transport.ts` `98147054…`, `user-portfolio-transport.ts` `51704c12…`, `owner-context-unavailable.ts` `cb8db45d…` unchanged. |
+| Real broker connectivity / actual Ramki account data / manual browser observation | **NOT VERIFIED.** Deterministic fixture tests + React DOM tests/build only; no synthetic “live success.” |
+| Durable portfolio create → save → restart → read | **BLOCKED / NOT STARTED**, not claimed by preview success. Existing G-2 and identity/admission requirements retained. |
+
+Evidence:
+[`validation.json`](evidence/integration/dhan-broker-convergence/2026-10-16/validation.json)
+(source and fence blobs, test outcomes/limits) and
+[`remote-verification.json`](evidence/integration/dhan-broker-convergence/2026-10-16/remote-verification.json)
+(independent GitHub API verification of all 12 implementation artifacts).
+
+### 16.37.4 Publication, remote verification and exact outstanding dependencies
+
+- **Implementation publication: PASS, remotely verified.** IRR active branch at **`d82ff99fc9e5a2e1569339f066919f7e718aa545`**,
+  PR **#114 OPEN**. `git fetch`, independent GitHub REST ref/tree reads and comparisons verified
+  **all 12 changed file blobs** at that commit, including source, tests, manifest/lock, decision
+  record and validation evidence. Example preview source blob **`bf079a1b587cebf582c03a7aa2c99b87cf890f73`**.
+  IPD main independently re-read through REST and `ls-remote` as **`70b24f029842a7e9b7f615e4d9df7376fd4ff817`**.
+- **No IPD change is needed by the final solution.** An exploratory package-export push was denied
+  **HTTP 403**; that uncommitted alternative was discarded and the IPD checkout restored clean.
+  No external ref was created or modified; no alternative was presented as remotely published.
+  The GitHub connection needs attention before future required IPD writes; independent IRR work
+  proceeded using already-published code. This is not a blocker to the delivered preview.
+- **Existing tracker:** this is an append to the existing tracked master file, not a competing
+  master/report. Its durable Git publication uses the same IRR branch/PR; the tracker commit's own
+  SHA/blob and final remote head are verified **after push** and recorded in PR #114 (self-reference
+  is not embedded in the committed blob). No merge/closure before evidence publication; this
+  active PR stays open. Main admission/merge is not falsely claimed.
+- **Library `/IIPS Project Tracker/...` synchronization: BLOCKED / NOT VERIFIED.** `library`
+  connector returned **unsupported**. The repository's existing tracker was updated, but no
+  Library read/write or synchronization is inferred. An available Library access mechanism is
+  needed to mirror/reconcile this exact existing tracker file; no duplicate master was created.
+
+**Next appropriate action:** use **Broker Holdings** (`/broker-holdings`) with an actual CSV locally
+and check the native-field/refusal display (do not upload personal holdings to chat). Continue the
+existing G-2 owner/security-identity/durable-persistence implementation/qualification path before
+save activation; do not treat procedural record reuse as permission to fabricate canonical identity.
+For a live Dhan API increment, establish broker account/API entitlement, secure server-side credential
+custody/session requirements and a permitted execution locus first. Restore Library access to finish
+synchronization of this existing tracker. Group 6 remains investigation-only; no reapproval is needed
+for ordinary independent testing/publication already within DB-C1.
+
+## 16.38 Group 6 — Opportunities, Risks and Rankings exposure / scope / authority reconciliation (`2026-10-16`)
+
+**Purpose and authority.** The current instruction authorizes this bounded reconciliation, necessary
+factual dispositions, evidence publication and existing-tracker update, **not dedicated-screen
+implementation**. Standing one-pass authority permits the factual/status decisions **G6-R1…R3** below;
+it does not silently retarget a branch-specific PA implementation act. This is the decision record
+in the existing tracker, not another investigation register. It corrects §16.16.5 only as stated;
+original records and old evidence remain intact. No register item/count or acceptance total changes.
+
+### 16.38.1 Current verified refs, changes and provenance
+
+- **IRR main:** `98c21768f77061a68470e4b4f6750d38abeec594` (PR #113 merged). Active branch
+  `arena/d57c506a-iips-review-recovered` started this reconciliation at
+  **`1ff62e490bfa67559340f2107a536719b3d2e0f5`**, PR **#114 OPEN** (prior Dhan work preserved).
+- **IPD main:** `70b24f029842a7e9b7f615e4d9df7376fd4ff817` (PR #7 merged), no open PR at check.
+  Relative to previously investigated `4d3e1cdc…`, exactly one unrelated Macro view-model file
+  changed. Its offline shell still marks these three Intelligence children `future` and routes
+  unmatched `/intelligence/*` to a placeholder; it is not a hidden current product implementation.
+- **Material-change check:** IRR main's three existing screens and CSIP engine sources have **no
+  changes** since the prior §16.16.5 baseline `1b2b194`; executive-transport changes are Macro wiring,
+  not Group 6. Current session App/navigation differences from main are the prior Dhan route only.
+  Fourteen relevant source blobs are recorded, preserving this distinction. No repeat all-history census.
+- **Unchanged donor/authority refs, freshly checked:** `phase13-next@4357e14a35966cd8508e0c59e40627791c103172`;
+  `arena/01a0ddea-iips-review-recovered@fedc19ee41c07a7a00a0b887e78f352b466cf41a`;
+  `arena/01a0e30f-iips-review-recovered@17c759cdccc6f7e1e3753c5215fcfa5d11ed4328`.
+  NP-18 original/R2 acts and qualification records re-read by immutable object and GitHub API blob.
+  `git merge-base` still finds **no common ancestor** between main and the donor.
+- **Reused evidence:** `evidence/integration/lineage-investigation/2026-10-08/` report **and errata**,
+  plus §16.16.5. Old all-history absence findings remain bounded, historical findings; no new universal
+  claim that a capability “does not exist anywhere.” The orphan suites were not rerun without cause.
+
+### 16.38.2 G6-R1 — exposure and product-scope disposition (recorded now)
+
+**Disposition:** existing certified content is **EXPOSED**, not missing. Dedicated alternative-framing
+screens remain **NOT EXPOSED on current IRR main/session**, not “never implemented.” Existing
+surfaces are usable for current reference-data viewing without completing the dedicated screens.
+This factual disposition neither cancels nor reapproves Ramki's original NP-18 selection of three
+full views; it distinguishes that selected intent from an executable grant on today's target.
+
+| Capability | Verified existing product exposure | Actual residual / class |
+|---|---|---|
+| **Rankings** | `/research/cross-sector` shows Sector Ranking; `/executive` shows Priority Opportunities from the ranking. `/api/cross-sector` and `/api/executive` expose **13** ordered rows. `RankingEngine` sorts conviction descending, sector ascending on ties. This is the full current **13-engine frozen reference population**, not a broad live security universe. `/api/portfolio` exposes holdings, **not a ranking array**. | **No further work** for existing ranking availability. Dedicated `/intelligence/rankings` is alternate presentation, authority-bound below. Universe/scoring/tie-break changes are separate governed contract work, not a prerequisite to viewing existing content. |
+| **Opportunities** | Cross-Sector and Portfolio show opportunity lists; Executive also highlights the first opportunity and shows the ranking-based Priority Opportunities table. The existing API opportunity array is **10 = ranking.slice(0,10)**, not a separate acquisition or intelligence dataset. | **No further work** to make current opportunity content available. A dedicated discovery/action view remains composition work. Do not confuse the 13-row Executive priority table with the 10-row opportunity subset. `topN:10` limits **opportunities only**, not ranking breadth. No configurable top-N API; `/api/cross-sector?topN=13` currently returns 404. Changing subset size/universe needs its own act. |
+| **Risks** | All three screens expose `portfolio.avgRisk` and existing diversification/correlation flags and concentration sectors. **Portfolio also displays an existing numeric per-holding `risk` column** from upstream published scores. This corrects §16.16.5's over-broad “only aggregates” statement; that column is not a new graded risk list. | **No further work** for current score/flag exposure. NP-18's **dedicated Risk view remains aggregate avgRisk + existing flags/concentration sectors ONLY**. Existing Portfolio columns do not authorize carrying per-company/per-sector risk into that view or deriving grades, thresholds, probabilities, alerts or a risk ranking. A new risk methodology requires express contract/engine authority, not a frontend calculation. |
+| **Named dedicated trio** | Current IRR App resolves `/intelligence/*` to `FeaturePlaceholder`; navigation retains the names in its model but `visibleChildren` excludes all three from rendered links. Only Decision Matrix / AI Explanation are active Intelligence children. IPD's shell has future markers, not functional trio screens. Donor `Intelligence{Opportunities,Risks,Rankings}` components/tests exist on the orphan. | **Implementation NOT STARTED this pass.** Donor is reusable by bounded content transplant after a target act, **never an orphan merge**. Hidden nav entries and route constants are not functioning screens or authorization. |
+
+**Risk semantics preserved, not redefined.** `riskScore` is mapped to holding `risk`; `avgRisk` is the
+rounded arithmetic mean of the reference holdings' upstream values, not a loss probability, VaR,
+price volatility or capital-weighted risk of Ramki's broker portfolio. Current observed mean is
+**76.5**, not “76.5% probability of loss.” Correlation is **metadata sensitivity**, explicitly not
+price-series correlation. Existing engines use `avgRisk > 55` to emit their frozen elevated-risk
+flags; heterogeneous sector pillar mappings (e.g. capital-strength/solvency) must not be inverted,
+recalibrated, reinterpreted or “corrected” in a view. Any methodology/directional-semantics revision
+is separate governed work; this reconciliation does not requalify that methodology or gate existing
+exposure on a new review. Preserve upstream words, values, provenance and SNAPSHOT freshness.
+
+**Rationale contract limit:** `OpportunityEngine` produces rationale internally, but current
+`CrossSectorData.opportunity` carries only companyId/sector/conviction. Do not claim rationale is
+already transported or add a DTO/endpoint under composition-only authority. Established subset
+framing may be stated; new per-row rationale or risk explanations must not be fabricated.
+
+### 16.38.3 G6-R2 — NP-18 qualification conflict resolved by chronology, not a new adjudication
+
+| Immutable source | Source-recorded disposition (NOT tests executed today) |
+|---|---|
+| `8d9babc3aadca40baa6ef0a9ae83659b1665aeab`, `EVID-NP-18-QUALIFICATION-RECONCILIATION-2026-09-27.md` | Earlier: **NOT YET ADJUDICATED**, 683 pass / 11 fail / 15 skipped; targeted 33/33 and logical UI/runtime reported PASS. |
+| **Direct child** `4357e14a35966cd8508e0c59e40627791c103172`, `EVID-NP-18-QUALIFICATION-ADJUDICATION-2026-09-27.md` | Later: **QUALIFIED — NON-PRODUCTION / BOUNDED SCOPE**, 687 pass / 7 fail / 15 skipped (709 total); environment exceptions recorded; full repository suite explicitly **not green**. Certification/Release NOT GRANTED; production NOT AUTHORIZED; NP-18 OPEN / COMMISSIONING. |
+
+**Disposition:** §16.16.5's unresolved split is **historically reconciled**: the later adjudication is
+the donor lineage's latest recorded bounded-qualification status, not an equally current competing
+“not yet adjudicated” result. This is a provenance correction under current investigation/recording
+authority, **not** an agent's new human approval, fresh test pass, re-adjudication of old failures,
+qualification of current main, or admission of the donor implementation. Both records remain intact.
+Do not require Ramki to re-decide the already-recorded historical outcome simply to reconcile it.
+
+### 16.38.4 G6-R3 — exact authority dependency and Group 6 pipeline placement
+
+**Target authority remains BLOCKED, not inferred.** The original NP-18 act selected composition-only
+three distinct full views; R2 expressly retargeted **only implementation** to
+`phase13-next@1a602d849cc47331d4f61cc366ed0a343f80e287`. It did not grant a portable main-target
+implementation permission. Its exhaustive file/test anchors assume the old NavStatus/isFuture,
+IntelligenceHub and authFetch/read-authorization model, which today's personal-use product no
+longer uses. Old tests/statuses cannot be transplanted as current acceptance. Moving those targets
+is an **express PA target/file-scope act**, not a routine status correction within standing authority.
+No such current-target act is established by the reverified evidence or this investigation-only prompt.
+
+**Smallest next act (not enacted here):** explicitly re-anchor the **already selected NP-18
+composition-only three-view scope** to current IRR main and implementation on this fixed Arena
+branch (PR #114), retaining full ranking order, the existing top-10 opportunity subset, aggregate-only
+Risk-view boundary, existing DTO/API, noAuthFetch and SNAPSHOT provenance. Substitute only current
+App/navigation/available-child and relevant presentation-test anchors for the obsolete exact-file
+list; authorize content reuse by transplant, not lineage merge. No new provider, source, DTO,
+endpoint, derivation, persistence, risk semantics, universe/top-N change or enterprise authentication.
+A later implementation candidate must be qualified on its actual target tree; historical bounded
+qualification supplies reuse evidence, not an automatic pass. Publication/admission follows the
+applicable ordinary route; no production activation or unrelated product gate is bundled into this act.
+
+**Group 6 only, dependency order (not a consolidated fast-track plan):**
+
+1. **DONE — reconciliation:** existing exposure recognized, historical qualification chronology
+   reconciled, precise scope retained and target-authority residual isolated in this tracker.
+2. **BLOCKED — target act above**, only if executing the already-selected dedicated-view increment.
+   Existing content can be used now; it is not blocked by this act or by Dhan/G-2/Library access.
+3. **NOT STARTED — bounded composition/transplant**, only after that act; then targeted presentation,
+   order/subset/no-derivation, provenance, negative-route and relevant regression qualification on
+   the actual candidate tree. No new certified engine capability is created by alternate framing.
+4. **NOT STARTED — target qualification/publication/ordinary admission** of that implementation.
+   No need to rerun unrelated historic IdP/admin suites or restore an excluded enterprise model.
+
+There is **no dependency on live Dhan, Broker Holdings persistence, G24, an external provider or
+multi-user identity infrastructure** for the reference-data views. Connecting personal holdings to
+certified analytics remains separately excluded. Broader ranking universes, graded risk lists and
+transported per-row rationale are independent scope/contract decisions, **not prerequisites** to the
+bounded trio and not automatically commissioned by it. Do not restart the full fast-track task here.
+
+### 16.38.5 Execution evidence, publication and limitations
+
+New evidence (additive, no application changes):
+[`verification.json`](evidence/integration/group6-reconciliation/2026-10-16/verification.json),
+[`verify-product-host.mts`](evidence/integration/group6-reconciliation/2026-10-16/verify-product-host.mts),
+[`product-host-observations.json`](evidence/integration/group6-reconciliation/2026-10-16/product-host-observations.json).
+
+| Check | Executed result |
+|---|---|
+| Current remote ref/PR reads, targeted source/object comparison, NP-18 source-blob verification and commit parent order | **PASS** — 14 source blobs and four immutable historical record blobs checked; prior investigation reused rather than repeated. |
+| `NODE_ENV=test frontend/node_modules/.bin/tsx evidence/integration/group6-reconciliation/2026-10-16/verify-product-host.mts` | **PASS** — actual composed product server on an ephemeral local port, not a replica handler. Three APIs 200, ranking 13, opportunities 10, strict subset/order/determinism checks, portfolio numeric-risk rows 13; three nonexistent dedicated APIs and topN query 404. No credentials or writes. |
+| `npm --prefix frontend test -- server/product-transport.test.ts src/features/cross-sector/CrossSectorIntelligence.test.tsx src/features/portfolio/PortfolioWorkspace.test.tsx src/features/executive/ExecutiveDashboard.test.tsx src/app/App.test.tsx` | **PASS — 5 files / 40 tests / zero failures**. Selected because current exposure, nav behavior, 13-vs-10 and risk claims required verification; unrelated suites not repeated locally. |
+| External deployed product host / manual browser observation | **NOT VERIFIED** — no external deployment address was supplied; source, React DOM tests and local composed transport are explicitly the evidence locus, not proof of a deployment. |
+| Dedicated-screen implementation / new risk derivation / current-target NP-18 qualification | **NOT STARTED / authority-bound**, not falsely converted into PASS by existing content or historic donor qualification. |
+| `git diff --check`; preserved product/protected source | **PASS** — only this existing tracker and additive reconciliation evidence changed in this pass; prior Dhan work preserved. No IRR application, IPD, protected engine, route/nav, authority-original, pin, certificate or fence edits. |
+
+**Publication:** additive commits on **`refs/heads/arena/d57c506a-iips-review-recovered`**, existing
+**[PR #114](https://github.com/ramkivs/iips-review-recovered/pull/114)** kept OPEN. Reconciliation
+commit, remote tracker raw-byte/blob comparison and evidence verification are recorded after push
+in that PR (no self-embedded commit hash; no main-merge or new implementation authority implied).
+**Library `/IIPS Project Tracker/...` synchronization remains BLOCKED / NOT VERIFIED:** the Library
+connector again returned unsupported. This updates the repository's **existing master tracker**;
+Git publication does not prove Library synchronization. No competing master was created.
+
+**Completion disposition:** reconciliation is completed on publication + independent branch
+verification; dedicated-screen implementation is **not commissioned by this pass**. The only
+consequential next authority action for that increment is the precise target/file-scope re-anchoring
+above—not a new investigation, reapproval of settled intent, data-acquisition project, old-suite
+adjudication loop or enterprise deployment exercise. Existing reference-content use needs no further act.
+
+### 16.38.6 One-pass continuation — objective sufficiency and exact disposition (`2026-10-16`)
+
+**Citation/provenance check.** The continuation requests starting at **§13.9**. Independent raw
+GitHub reads of this existing tracker on IRR `main@98c21768f77061a68470e4b4f6750d38abeec594`
+and session `347c4cbf38581ced6be73b066145e8d21a597505` establish that **neither has §13.9**:
+§13 is Reports `R4-B`, with §§13.1–13.5. The located Group 6 baseline is **§16.16.5**, corrected
+and reconciled at **§16.38**. This is a verified pointer correction, not a renumbering or assertion
+about unseen Library content. The Library version might differ; its identity/content remains
+**NOT VERIFIED** because `library` again returned unsupported. No competing tracker is created.
+
+**Delta verification, not a repeated investigation.** IRR main remains `98c21768…`, IPD main
+`70b24f029842a7e9b7f615e4d9df7376fd4ff817`, active PR #114 OPEN at starting head `347c4cb…`.
+Fresh GitHub tree/Contents comparisons match **all 14 source anchors and four historical NP-18
+record blobs** in the existing `verification.json`. `phase13-next` (`4357e14…`) and both authority
+branches (`fedc19ee…` / `17c759cd…`) remain unchanged. Relevant tags were read remotely: IRR
+`v3.0-phase12-certified@7325aeda…` / `program-v1.2.0@5decdca9…`; IPD's four historical tags
+remain `p14-r7-65b78f7`, `portfolio-option-a-cb969b6`, `post-cleanup-baseline-b46b4f4`,
+`temporary-cleanup-caf73ba`. None is a new current-target NP-18 act. IPD has no open PR; IRR's
+only open PR is #114. No changed product/authority evidence warrants repeating the old census,
+orphan suites, composed-server probe or 40 focused tests. Their **prior PASS** evidence is reused,
+not represented as a new test run. The starting remote tracker raw SHA-256 was
+`2271dd25711be619238b7e04771c8f3ceaa93f0234ed0ec8cd9d93f94a2f5c7d`.
+
+**G6-R4 — bounded objective-fit disposition (recorded under this instruction's reconciliation
+and status-recording authority, not a new PA acceptance or scope-waiver act).** Existing content
+satisfies **viewing the current certified reference population** on the already-working screens.
+There is no correctness or product-availability reason to rebuild it merely to obtain another
+screen. That is distinct from fulfilling the original, explicitly selected NP-18 **three distinct
+full views**: that dedicated-exposure objective is **not fulfilled on current main**. We neither
+cancel that selection nor infer current-target implementation authority from it.
+
+| Capability | Current authoritative-main exposure / bounded objective | Exact disposition and remaining increment |
+|---|---|---|
+| **Opportunities** | Executive highlight, ranking-based Priority Opportunities table, Portfolio and Cross-Sector opportunity lists; existing `OpportunityEngine` → API subset of the same ranking. Bounded reference-content viewing is satisfied. | **PRESERVE EXISTING / NO FURTHER WORK** for current content exposure. **IMPLEMENTATION REQUIRED, BLOCKED** only for the separately selected dedicated discovery/action view: current-target re-anchoring first; then target **QUALIFICATION REQUIRED**. No rebuild or new acquisition project. |
+| **Risks** | Executive/Portfolio/Cross-Sector aggregate `avgRisk`, diversification/correlation flags and concentration sectors are already exposed. Existing Portfolio numeric row-risk scores remain preserved; no new grading semantics. Bounded score/flag viewing is satisfied. | **PRESERVE EXISTING / NO FURTHER WORK** for bounded exposure. Dedicated aggregate-only Risk view: **IMPLEMENTATION REQUIRED, BLOCKED** on the same target act, then **QUALIFICATION REQUIRED**. New per-company/per-sector risk derivation, risk rankings/grades/bands/thresholds remain **DECISION REQUIRED** under a separate methodology/contract/engine scope—not part of this increment. |
+| **Rankings** | Executive ranking-based table and Cross-Sector Sector Ranking expose the deterministic full **13-engine** population; opportunities are the first **10**, not a 10-row cap on rankings. Bounded ordered-comparison viewing is satisfied. | **PRESERVE EXISTING / NO FURTHER WORK** for existing ranking exposure. Dedicated ordered-comparison view: **IMPLEMENTATION REQUIRED, BLOCKED** on target act, then **QUALIFICATION REQUIRED**. Top-25/50 selector/broader universe are **DECISION REQUIRED** plus a separately scoped population/transport dependency; no reachable current selector/API override and no automatic extension. |
+
+**Authority separation retained.** Global one-pass authorization supports verification, recording,
+ordinary evidence publication and independent in-scope work; it does not replace NP-18's
+capability-specific scope or R2's named target. §16.38.3 already reconciles the earlier/later
+qualification records; their source-reported historical bounded qualification is **not** a new
+qualification authorization or fresh evidence for current main. A dated PA **target/file-scope
+re-anchoring act**, exactly bounded as §16.38.4 specifies, remains the smallest missing act **if
+consolidated execution includes the dedicated trio**. New implementation needs qualification on
+that target; admission/release authority and production activation remain separate, never inferred
+from tests or historical qualification. The current instruction does not supply the missing act.
+A decision to drop the already-selected dedicated-view objective would likewise require its scope
+owner; G6-R4 does not make that decision. No further investigation or settled-intent approval is needed.
+
+**Execution/publication:** **NOT STARTED** dedicated-screen implementation/route or nav activation,
+transplant, current-target qualification or admission; no application changes, IPD writes or merge.
+Only this existing tracker is clarified in this continuation. **PASS** fresh remote-delta checks and
+`git diff --check`; prior 40 focused tests / composed-server probe and successful CI on `347c4cb…`
+reused for unchanged application bytes. External deployed host/manual browser remains **NOT VERIFIED**.
+The clarification is published on the same active IRR branch/PR #114; its final commit and tracker
+raw-byte/blob verification are recorded remotely in the PR after push (no self-reference in this file).
+Library synchronization remains **BLOCKED / NOT VERIFIED**, not silently equated with Git publication.
+No consolidated fast-track task was prepared or executed. Reconciliation is complete on verified
+publication; the exact remaining optional-dedicated-increment dependency is the target act above.
+
+### 16.38.7 NP-18 conditional re-anchoring gate — authority recovered, current-target grant NOT ISSUED (`2026-10-16`)
+
+**Current instruction executed conditionally, not converted into a fabricated grant.** Complete
+original authority and R2 inspected, exact current-main file mapping established, provenance and
+publication independently checked. Outcome: historical implementation authority is genuine **at its
+recorded scope/target**, but the evidence does not establish delegated authority to replace R2's
+binding current-target-incompatible conditions. **No re-anchoring act was issued or published.**
+
+- **Original authority-record commit:** `d44c5c7aab43d1c89da06a6f99c4a9e75e47423d`, path
+  `governance/iips/AUTH-NP-18-INTELLIGENCE-EXPOSURE-IMPLEMENTATION-AUTHORITY-2026-09-26.md`,
+  blob `8f8b077fe8f44833868a8b7df6ccc68df8ff9a62`, SHA-256
+  `f1d14170ba81c7b30dda729747be778f2e8fbc2a33d1b0bf3c7ae1a9d16b5cff` (25,872 bytes).
+  Parent `b8afaeae…` points directly to governance baseline `3c7568e0…`. Text attributes the
+  decisions to Ramki. This is **verified published on the expressly designated recording line**
+  `arena/01a0ddea…@fedc19ee…`, also present on `arena/01a0e30f…@17c759cd…`; not assumed
+  authoritative solely from existence. Original/R2 are absent from current main, while the old
+  canonical governance ref deliberately remains `3c7568e0…`. No new human signature is claimed
+  or required, and original settled scope is not reopened.
+- **Subsequent R2 creation commit:** `abac36b2f0d1d3ac7f8aa9c16d471b634e166d1a`, direct child
+  of original act commit; blob `bc6fb0ca975f9413c86141b6769e21a701d6f65f`. This **separate
+  express PA act** changes only implementation target to `phase13-next@1a602d84…`; recording
+  remains on the named branch. §§5.3/13 require stopping on baseline drift; **§7 explicitly binds
+  old guarded authFetch/Bearer composition**, and §8 binds old NavStatus/Hub/tests. These are not
+  merely stale line numbers. Current personal-use main uses already-approved noAuthFetch and
+  available-child/group-only navigation. Do not restore excluded enterprise authentication or
+  silently treat a line-anchor refresh as permission to replace those clauses.
+- **Current target:** IRR **main `98c21768f77061a68470e4b4f6750d38abeec594`**; active session
+  starting head **`d9799e77f5502cbae9d1549560d47047abed4223`**, PR #114 OPEN. Current main,
+  active branch, named authority/governance tips and donor records yielded no later current-target
+  supersession/delegation. Relevant tags inspected. This is the stated relevant-ref boundary, not
+  a universal absence claim about inaccessible records. Current global standing authority does not
+  establish the missing replacement of the capability-specific R2 conditions by inference.
+
+**Independent authorized result, not an act:**
+[`NP-18-CURRENT-TARGET-AUTHORITY-DETERMINATION-2026-10-16.md`](docs/integration/NP-18-CURRENT-TARGET-AUTHORITY-DETERMINATION-2026-10-16.md),
+with [raw remote source/ref evidence](evidence/integration/np18-authority-determination/2026-10-16/verification.json).
+Its §3 enumerates **exactly nine prospective product files** (six named three-view component/test
+files, App.tsx, navigation.ts, App.test.tsx), inspected against exact main and donor `4357e14…`.
+**That list is NOT AUTHORIZED.** Its §4 identifies the single missing PA target/clause selection;
+§5 records validation evidence required for a later **separate** qualification/admission decision.
+All original risk/population/contract/no-orphan-merge and non-production exclusions are preserved.
+No re-anchoring-act path/commit exists; do not substitute this evidence record as one.
+
+**Historical qualification:** §16.38.3 / G6-R4 reused unchanged. The later source-recorded bounded
+adjudication `4357e14…` follows `8d9babc…`; it neither requalifies current main nor grants admission,
+release or production activation. Existing reference-content viewing remains available; three-view
+intent remains selected, not cancelled or reapproved by this determination.
+
+**Status:** **PASS** complete-text/source integrity, publication/provenance/ancestry and exact
+file-state checks; **BLOCKED / NOT STARTED** current-target act and dependent implementation;
+**NOT STARTED** new application tests, current-target qualification/admission or release. No source
+or unrelated artifact changed; prior tests reused, not rerun or represented as executed today.
+**PASS** `git diff --check`. Evidence/this existing tracker published additively on the same fixed
+branch/PR; final commit, remote raw-byte/blob verification are recorded after push in PR #114.
+No merge to manufacture authority, IPD mutation or consolidated fast-track task. **Library copy
+BLOCKED / NOT VERIFIED** (connector unsupported); repository tracker publication is not Library sync.
+
+**Smallest next action:** Ramki selects an additive **NP-18 R3 target-only act** for exact current
+main/execution branch, the nine-file set and the explicit R2 security/navigation clause reconciliation
+in the determination §4, with recording/effectiveness designated and implementation authority only.
+A direct explicit PA target/clause selection or an existing durable act/delegation with that scope
+resolves this gap. No repeat approval of the already-selected three dedicated views, signature
+ceremony, new investigation, enterprise-auth restoration or bundled qualification/admission is sought.
+
+
+### 16.38.8 NP-18 R3 — target resolved, bounded three-view implementation completed and verified (`2026-10-16`)
+
+**Current outcome: PASS — implementation, tests and additive PR publication.** This section is the
+current outcome of the **R3 TARGET RESOLUTION, BOUNDED IMPLEMENTATION AND CONVERGENCE** instruction.
+It prospectively resolves the target-act/implementation blocker in §16.38.7; that section and its
+evidence-only determination remain unchanged historical records. No original authority, signature,
+qualification record or prior workstream evidence has been rewritten. Implementation is **not**
+current-target qualification, main admission, release or production activation.
+
+#### Decision / provenance / exact target
+
+- **R3 act:** [`NP-18-R3-CURRENT-MAIN-IMPLEMENTATION-AUTHORITY-2026-10-16.md`](docs/integration/NP-18-R3-CURRENT-MAIN-IMPLEMENTATION-AUTHORITY-2026-10-16.md),
+  published as **`904f5d99f9e6468fb4805c96a78c16c70a08395e`**, SHA-256
+  `961f55f949e704640dc2ce40be63c954a96dfc0c5fc919275e5c00ba43804efc`.
+  Branch publication and independent raw-byte/ref verification **passed before implementation**.
+- **Authority holder:** Ramki, existing PA / single user. **Decision exercise / recorder:** Arena
+  exercising the existing project-wide standing decision/execution authorization, under the current
+  explicit R3 instruction. Main-published F3 decision §1.2 evidences that standing authorization;
+  F3's own §4 grant remains capability-specific and is **not** extended to NP-18. No new human
+  signature, personally spoken option selection or new delegation is fabricated. This is a new
+  narrow R3 target/clause decision, not an inference that original/R2 already authorized this target.
+- **Exact selected base:** IRR `refs/heads/main@98c21768f77061a68470e4b4f6750d38abeec594`;
+  execution/recording on the fixed `arena/d57c506a-iips-review-recovered`, existing **PR #114 OPEN**.
+  Starting session `11f90db891c095af39a1009f84c2ed1b6721a127`; independent Dhan work preserved.
+  Main remained unchanged on independent post-publication verification. IPD main observation
+  `70b24f029842a7e9b7f615e4d9df7376fd4ff817` reused; **no IPD mutation**.
+- **Full historical authority/provenance retained:** original `d44c5c7…`, separate R2 `abac36b…`,
+  expressly named recording refs, canonical governance ref, tags and donor `4357e14…` were reconciled;
+  unchanged source/ref findings are reused rather than re-investigated. Original/R2 alone are not
+  portable. R3 expressly replaces R2 §§5.3/13's old target-stop with the exact current target,
+  §7's obsolete Bearer/authFetch binding with the already-approved current credential-free path
+  **unchanged**, and §8's obsolete Hub/NavStatus binding with current group-only/available-child
+  navigation. No guard, client transport, DTO or security implementation was weakened or edited.
+
+#### Exhaustive product increment / selective lineage reuse
+
+Implementation commit **`3c64d69c148d01081b2ba9b8f76fa58c21ed2b99`**, direct child of R3, contains
+exactly these **nine product files** (six new, three modified):
+
+```text
+frontend/src/features/intelligence/IntelligenceOpportunities.tsx
+frontend/src/features/intelligence/IntelligenceOpportunities.test.tsx
+frontend/src/features/intelligence/IntelligenceRisks.tsx
+frontend/src/features/intelligence/IntelligenceRisks.test.tsx
+frontend/src/features/intelligence/IntelligenceRankings.tsx
+frontend/src/features/intelligence/IntelligenceRankings.test.tsx
+frontend/src/app/App.tsx
+frontend/src/app/navigation.ts
+frontend/src/app/App.test.tsx
+```
+
+The six view/test contents were selectively adapted from **`4357e14a35966cd8508e0c59e40627791c103172`**,
+not merged/cherry-picked as an orphan branch. Per-file donor/current blobs and SHA-256 values are in
+[validation evidence](evidence/integration/np18-r3/2026-10-16/validation.json). Adaptations explicitly
+use the existing `fetchCrossSectorData` → `noAuthFetch` → `/api/cross-sector` path, current navigation,
+full four-field provenance, and current affected tests. Existing donor fixtures remain clearly
+**test-only**, never product/certified data or evidence of a live success.
+
+- **Opportunities:** distinct full discovery/action framing, upstream top-10 subset of the same
+  ranking, exact order/scores/identities, explicit shared-data and Rankings relationship; no new
+  rationale, dataset, population or score.
+- **Rankings:** distinct full ordered-comparison framing; **all 13** current published members in
+  payload order, no derived ordinal/re-ranking/sort or Top-25/50 expansion.
+- **Risks:** distinct full aggregate-only framing: only `portfolio.avgRisk`, diversification flags,
+  correlation flags and concentration sectors, values/words preserved. No company/sector risk
+  values, drill-down, grade/band, loss probability, new measure or interpretation.
+- All three explicitly disclose their Cross-Sector source/framing. Null/undefined scores render
+  **unavailable**, genuine zero stays zero; shared loading/error/unavailable components are used.
+  Provenance, including **SNAPSHOT** and calibration timestamp, is verbatim. Badges refer to the
+  existing source data, not qualification of a new capability.
+- App adds **only three imports and three routes**; all prior routes, including `/broker-holdings`,
+  are preserved byte-for-byte. Navigation admits only the three existing child identifiers and
+  retains the group-only Intelligence heading, Sidebar and parent behavior. Existing App assertions
+  remain intact; six new direct-link/navigation cases were added.
+- **PASS exact scope audit:** nine product paths; only the five supporting paths expressly named
+  by R3; **19 protected file blobs unchanged from the starting session**. APIs/DTOs, noAuthFetch,
+  route identifiers, source views/engines, server, package/lock/config, CI and existing fences remain
+  untouched. No new hub/helper module/fixture corpus/transport/auth/RBAC/persistence/enterprise
+  mechanism. Dhan and Holdings remain separately traceable, with their existing limitations intact.
+
+#### Executed candidate validation — not a qualification adjudication
+
+| Check | Actual result / locus |
+|---|---|
+| Three view suites + App suite | **PASS 50 tests**: Opportunities 11, Rankings 11, Risks 10, App 18; includes six new direct-link/navigation checks, omitted credentials/no Authorization, null/undefined/zero, missing payload, loading/error, order/shared-source/provenance and aggregate-only negatives |
+| Affected plus relevant regressions | **PASS 9 files / 84 tests / 0 failed / 0 skipped**: the above plus Executive 5, Portfolio 7, Cross-Sector 6, DecisionMatrix 6 and actual product transport 10 |
+| Strict frontend typecheck | **PASS**, existing script/config and broker-import prehook; no weakening |
+| Production build | **PASS**, existing `tsc -b && vite build`, 106 modules; local ignored build output, not deployed/released |
+| Actual composed-server → unchanged client → App routes → DOM | **PASS**, local ephemeral server and Vite/jsdom; actual certified SNAPSHOT response, **not mocked route tables or test fixtures** |
+| Hosted CI for implementation head | **PASS**, [run 38860598503](https://github.com/ramkivs/iips-review-recovered/actions/runs/38860598503), job **116841763581**, exact run head `3c64d69…`; install, typecheck, full Vitest, non-zero/full-pass guard and build all **SUCCESS** via independent run/job/step APIs |
+| Scope / whitespace / publication bytes | **PASS**, nine-file scope, protected blobs, `git diff --check`, remote commit/ref/tree and all **12** authority/implementation/supporting file bytes at implementation head |
+
+The [reproducible composed diagnostic](evidence/integration/np18-r3/2026-10-16/verify-views.mts)
+rendered each actual App deep link. It asserted the full ranking's exact 13 rows/three columns,
+the exact top-10 opportunity rows, and the risk view's sole aggregate (`avgRisk` **76.5**, as supplied,
+not reinterpreted), verbatim flag lists, no row identities/table, and unchanged provenance. It also
+verified three credential-free same-origin cross-sector calls, unchanged Executive/Portfolio slices,
+and **404** for invented `/api/opportunities`, `/api/risks`, `/api/rankings` and `?topN=13` endpoints.
+
+Scoped test defects were corrected before publication: unsupported `ByRole` test option removed;
+the donor risk no-link assertion now permits **exactly** the shared Cross-Sector disclosure link,
+while retaining all no-company/no-sector-risk negatives. Pre-existing Router/async-act warnings and
+a diagnostic Vite CJS deprecation are not hidden failures. Unchanged local full-suite/qualification
+runs were not repeated: hosted CI executes its existing full suite automatically. Hosted log download
+redirect failed EOF under sandbox host restrictions; **hosted test count/log capture NOT VERIFIED**,
+not invented. Run/job/all-step SUCCESS and the non-zero/full-pass guard are independently verified.
+The current PR merge-ref tree also equals the implementation tree; no conflicting main delta.
+
+#### Publication / convergence / separate next authority
+
+[Publication receipt](evidence/integration/np18-r3/2026-10-16/publication.json) records independent
+remote ref, exact implementation parent, PR state, per-file raw bytes/blobs/SHA-256, unchanged main
+and hosted CI coordinates. Implementation was published and remotely verified **before this tracker
+outcome was appended**. This existing tracker and that receipt are the final additive convergence
+update on the same branch/PR. Their recording commit, remote tracker raw bytes/blob and final-head CI
+are verified after push in the durable PR #114 receipt (external self-reference, no endless commits).
+No main merge or competing PR was performed.
+
+**Current status / remaining boundary:**
+
+- **PASS:** R3 target decision, effective publication, bounded implementation, affected/relevant
+  tests, typecheck/build, actual composed-server/App-DOM observation, implementation remote bytes/CI.
+  No remaining technical blocker to the bounded implementation; prior target-stop is resolved by R3.
+- **NOT STARTED / NOT GRANTED by R3:** actual-current-target qualification, main admission, release
+  or production activation. Historical `8d9babc…` → `4357e14…` bounded adjudication (source-reported
+  **687 pass / 7 fail / 15 skip**) is retained, not inherited or relabelled a green current-target run.
+- **NOT VERIFIED:** externally deployed host, manual browser and hosted raw-log/test-count capture.
+  No live market/broker-data success is claimed; SNAPSHOT reference data is not personal holdings.
+- **NOT ATTEMPTED / outside this task:** ChatGPT Library synchronization. Historical Library-blocked
+  entries remain historical; Library access/sync is **not a current dependency or blocker**.
+- **Next bounded step:** separate qualification/admission assessment of this exact candidate and
+  its published evidence, with historical exceptions preserved. Do not reapprove the settled
+  three-view intent, restore obsolete authentication, merge the orphan, widen population/risk
+  scope, or bundle release/production into the implementation result. No consolidated fast-track
+  task or unrelated workstream expansion was executed.
+
+
+### 16.38.9 NP-18 final-head CI/receipt reconciliation and next qualification boundary (`2026-10-16`)
+
+**Material follow-up only; no product change, new authority act or repeated application tests.**
+The current-session summary row is corrected from stale “implementation NOT STARTED” to the
+published §16.38.8 result. §16.38.8, its receipts and all historical records remain intact.
+
+#### Exact final-head CI and receipt — resolved, not inferred from an earlier head
+
+- Current remote PR #114 head at this reconciliation: **`0c641f3b5546788b2621eefc66296d30d209fab8`**;
+  PR **OPEN**, fixed branch unchanged. IRR main independently remains
+  **`98c21768f77061a68470e4b4f6750d38abeec594`**. Clean local tree initially matched that remote head.
+- **PASS** [run **38860864856**](https://github.com/ramkivs/iips-review-recovered/actions/runs/38860864856),
+  exact `head_sha` **`0c641f3b5546788b2621eefc66296d30d209fab8`**, job **116842592107**:
+  `completed / success`. Job started **06:22:48 UTC**, completed **06:23:44 UTC**, 2026-10-16.
+  Fresh GitHub PR/run/job APIs verify every job step completed successfully, including full Vitest,
+  the non-zero/full-pass guard, typecheck and build. **Not** borrowed from `3c64d69…`'s checks.
+- **Chronology resolves the discrepancy:** pending/in-progress was an earlier observation, before
+  06:23:44. The [final receipt **6209484040**](https://github.com/ramkivs/iips-review-recovered/pull/114#issuecomment-6209484040)
+  was created at **06:24:36 UTC**, after completion, explicitly naming that exact head/run/job.
+  It was re-fetched via the comment API, verified byte-identical to the published receipt body,
+  and has not been edited. It is **already published and remotely verified**; no duplicate
+  `0c641f3…` receipt or CI rerun is needed to satisfy the previously pending item.
+- Existing tracker at `0c641f3…` was freshly read remotely: **767,055 bytes**, SHA-256
+  **`aa5139d82d9845666ad93d92b8135ead28e34e266f48160a4ff6477110042bf2`**, equal to local bytes.
+  Prior all-14-path byte verification, source/scope checks, 84-test result, build and actual
+  composed-server/App-DOM observation are reused unchanged, not repeated or relabelled new tests.
+
+#### Bounded evidence-readiness assessment — completed, not a qualification verdict
+
+Inspected the applicable original implementation act §12, R2 §12, R3 §§4–5, tracker §§16.38.3–4/8,
+and both immutable historical qualification records at donor `4357e14…`. The later historical
+bounded verdict supersedes its earlier pending record **on that old lineage only**; its 687 pass /
+7 fail / 15 skip result and environment exceptions are not inherited by the current target.
+
+| Prerequisite for the next bounded adjudication | Evidence / current disposition |
+|---|---|
+| Exact target and scope authority | Effective R3 `904f5d9…`; selected main `98c21768…`; actual implementation `3c64d69c148d01081b2ba9b8f76fa58c21ed2b99`, recorded/verified at `0c641f3…`; nine product files, no orphan merge or widened contract/risk/population |
+| Relevant presentation/data checks | Existing **84/84** local tests, strict typecheck/build, exact 13 ranking / top-10 subset, aggregate-only risk, null/undefined/zero, provenance and negative/credential checks; source bytes unchanged |
+| Actual target runtime / logical UI evidence | Existing actual composed server → unchanged client → App routes → Vite/jsdom DOM **PASS**; explicitly automated/local, not manual browser or deployed host |
+| Full-suite disposition | Exact-current-candidate hosted CI full-suite step **SUCCESS** and non-zero/full-pass guard **SUCCESS**, independently API verified; old IdP/admin exceptions not imported and no old authentication model restored |
+| Durable source and recording integrity | Published implementation/validation/receipt plus previously verified 14-path bytes; `0c641f3…` final CI and receipt now independently re-confirmed |
+| Separate current-target qualification verdict | **NOT RENDERED**; evidence is ready for the separate explicit bounded non-production adjudication, not automatically qualified by this table |
+
+**Observation evidence classification for that next action:** the inspected records require actual
+runtime/logical-UI and test-result evidence, which is already present. They do **not** prescribe a
+manual-browser/deployed-host session or downloaded hosted raw logs/numeric hosted test count as a
+prerequisite to this bounded non-production evidence adjudication. These are **optional corroboration
+for this next step**, not failed acceptance tests or active blockers. This does not waive any later
+explicitly adopted acceptance criterion or manufacture a runtime observation.
+
+- Manual browser / externally deployed host: **NOT PERFORMED / NOT VERIFIED** on the current target.
+  Vite/jsdom remains labelled exactly as performed. No deployment, browser acceptance, screenshot,
+  live market/broker success, external host access or historical Windows observation is invented.
+- Hosted raw-log/test-count capture: **NOT CAPTURED / NOT VERIFIED**; prior redirect EOF/network
+  limitation retained. Run/job/step/guard success is direct sufficient evidence of the hosted check
+  outcome, not a fabricated numeric count. No new log-download attempt, credentials, workflow
+  change or full-suite rerun is necessary to begin the separate adjudication.
+- Required currently authorized checks: exact remote head/CI, existing receipt integrity, target and
+  evidence/criteria mapping **completed** in this pass; no required executable evidence gap was
+  identified for the next bounded review in the inspected records. Optional observations remain open
+  as limitations rather than silently closed.
+
+**Authority and the single smallest remaining action:** standing authorization and this follow-up
+permit the evidence review/verification and material repository-tracker update just completed.
+R3 expressly grants **implementation only**, not agent self-qualification or main admission; no
+separate actual-current-target qualification/admission act is established by the inspected records.
+The next action is **one explicit, attributable, bounded non-production qualification adjudication**
+by the PA or an actor with applicable qualification authority for the pinned `3c64d69…` product
+candidate evidenced at `0c641f3…`, using the existing evidence and retaining its limitations. Its
+qualification authority must be explicit in that separate record, not inferred from green CI,
+historical donor qualification or this readiness assessment. This is the outstanding verdict itself,
+**not** a request to reapprove the settled three-view intent/implementation or invent a signature
+ceremony. This follow-up does not render that verdict or create a new authority grant.
+
+**Admission / release / production:** **NOT STARTED / NOT GRANTED here**; ordinary admission remains
+separate after qualification and must preserve PR #114's other workstream boundaries. No PR merge,
+closure, competing PR, IPD mutation, source/config/test change or Library operation. Only this existing
+tracker changes. Its documentation-only recording head and hosted CI are independently verified
+post-push in a short PR #114 receipt supplement; that supplement does not replace or duplicate the
+already-verified `0c641f3…` receipt or require another tracker commit for self-reference.
+
+
+### 16.38.10 NP-18 — PA-authorized current-target non-production qualification rendered (`2026-10-16`)
+
+**Verdict: QUALIFIED FOR BOUNDED NON-PRODUCTION USE.** The qualification-verdict dependency recorded
+in §16.38.9 is now resolved prospectively by a **separate** explicit PA-authorized adjudication;
+R3 remains implementation-only. Earlier records/receipts are preserved as accurate history.
+
+**Authorization supplied and executed, not requested again.** The current Ramki/PA instruction,
+“NP-18 — PA-AUTHORIZED NON-PRODUCTION QUALIFICATION”, expressly states:
+
+> Execute in one pass. The user, Ramki, explicitly authorizes the bounded non-production qualification adjudication in their capacity as Program Authority (PA). Do not request this authorization again.
+
+Arena is the adjudicator/recorder acting under that current instruction. No signature, independent
+human review, new implementation approval or authority inferred from historical qualification/CI
+is fabricated. The instruction authorizes the separate qualification decision, direct evidence,
+existing-tracker update, publication and remote verification in this pass.
+
+- **Decision:** [`NP-18-CURRENT-TARGET-NON-PRODUCTION-QUALIFICATION-2026-10-16.md`](docs/integration/NP-18-CURRENT-TARGET-NON-PRODUCTION-QUALIFICATION-2026-10-16.md).
+- **Direct evidence and twelve-criterion adjudication:**
+  [`adjudication.json`](evidence/integration/np18-qualification/2026-10-16/adjudication.json).
+- **Exact qualified implementation:** **`3c64d69c148d01081b2ba9b8f76fa58c21ed2b99`**.
+  R3 **`904f5d99f9e6468fb4805c96a78c16c70a08395e`**; exact main base
+  **`98c21768f77061a68470e4b4f6750d38abeec594`**; evaluated evidence head
+  **`07e6791989c7b8b1e6c8b21f483bdf5cdc7538da`** (no frontend/platform change since implementation).
+- **Scope:** exactly the nine product files named in R3/§16.38.8 and enumerated in the qualification
+  decision; only Opportunities, Risks, Rankings and their App/navigation/test integration. Nine
+  validated product hashes and **19 protected blobs** freshly re-bound to the immutable candidate
+  and evaluated recording head. Existing Dhan/Holdings work and fences preserved, not qualified here.
+
+| Qualification criterion group | Adjudicated result and reused/direct evidence |
+|---|---|
+| Explicit authority, exact target and nine-file scope | **PASS Q-01/02.** Current PA instruction, effective R3, selected main unchanged, remote PR/head checks, exact implementation delta and validated/protected source hashes |
+| Distinct views, existing-data framing, 13 ranking / matching top-10 subset | **PASS Q-03/04.** View/App tests and actual composed App-DOM exact rows/order/values; no independent dataset, ordinal/reranking or population expansion |
+| Aggregate-only risk, null/undefined/zero, resilience and SNAPSHOT provenance | **PASS Q-05/06/07.** Sole aggregate metric and existing verbatim flags/concentration sectors, no company/sector risk; missing scores unavailable, zero preserved; four provenance fields unchanged |
+| Credential-free API, group-only parent, existing routes and exclusions | **PASS Q-08/09.** Unchanged fetchCrossSectorData/noAuthFetch path; omit credentials/no Authorization; invented endpoints remain 404; group-only heading/no new hub; prior routes preserved |
+| Tests, typecheck/build and actual runtime/logical UI | **PASS Q-10/11.** Existing **84 pass / 0 fail / 0 skip**, nine suites (50 affected + 34 relevant), strict typecheck/build, actual composed server → unchanged client → App routes → Vite/jsdom DOM over certified SNAPSHOT data, not fixture-only evidence |
+| Remote publication, exact-head CI, durable evidence/receipts | **PASS Q-12.** Five source artifact raw-byte comparisons; refreshed run/job/all-step SUCCESS for implementation `3c64d69…` (**38860598503**), `0c641f3…` (**38860864856**) and evidence head `07e6791…` (**38861559122**); two receipts remain published and unchanged |
+
+**Reasoned adjudication, not a CI-only pass:** all twelve required bounded criteria have supporting
+evidence, including actual target runtime, precise data/risk semantics, missing-value behavior,
+source integrity and separate current PA authority. **No required criterion is failed or unproven.**
+No specific evidence gap justifies repeating local tests, typecheck/build or the composed diagnostic;
+all completed results are reused with their provenance, not represented as new executions.
+
+**Limitations expressly retained:** manual browser/deployed host **NOT PERFORMED / NOT VERIFIED**;
+hosted raw logs/numeric hosted count **NOT CAPTURED / NOT VERIFIED** (prior redirect EOF retained).
+No inspected governing criterion makes these prerequisites to this bounded non-production verdict;
+actual local composed/runtime logical UI and exact-head full-suite/non-zero/full-pass guard API
+success demonstrate the required checks. **84 is the local count**, not an invented hosted count.
+Historical donor adjudication/687 pass–7 fail–15 skip, Windows/Keycloak observations and exceptions
+remain historical, not inherited. Current CI covers its established frontend package, not every
+platform/IPD/historical certification suite. No live market/personal holdings, new risk measure,
+new engine/capability certification, broader data population or enterprise-scope claim.
+
+**Next state / remaining boundary:** qualification stage **COMPLETE for the pinned bounded
+non-production scope**, effective on additive publication and independent remote verification of the
+new decision/evidence/tracker. The qualified candidate may proceed to **separate ordinary main-
+admission assessment/decision** under applicable authority. **Main admission, PR merge/closure,
+release and production activation NOT GRANTED by this authorization/verdict.** NP-18's wider
+governance remains OPEN / COMMISSIONING; unrelated PR #114 workstreams retain separate boundaries.
+
+**Publication:** only the named qualification decision, direct evidence JSON and this existing
+tracker change; one additive commit on the same fixed branch/PR #114. No source/test/config/fence,
+IPD or Library change and no competing PR. Final recording commit, all three remote file bytes/blobs,
+main/PR/ref integrity and that commit's hosted CI are verified after push in the durable PR #114
+qualification receipt. No extra tracker commit is needed merely to assert its own publication.
+
+
+### 16.38.11 NP-18 — bounded main admission approved; actual combined-PR merge remains separate (`2026-10-16`)
+
+**Admission decision: APPROVED FOR MAIN ADMISSION — bounded NP-18 increment only. Actual main
+membership: NOT YET EFFECTIVE / NOT YET ADMITTED ON MAIN.** This is a separate prospective admission
+act, not another qualification, a merge, release or production decision. §16.38.10's qualification
+remains **QUALIFIED FOR BOUNDED NON-PRODUCTION USE** for exact implementation
+**`3c64d69c148d01081b2ba9b8f76fa58c21ed2b99`**; it is not reopened or re-attributed.
+
+**Authority and decision:**
+[`NP-18-CURRENT-TARGET-MAIN-ADMISSION-DECISION-2026-10-16.md`](docs/integration/NP-18-CURRENT-TARGET-MAIN-ADMISSION-DECISION-2026-10-16.md).
+D0 (`NP-13-D0-01` §§1.3/2.1–2.5/10.3) identifies Ramki as J-3 non-production membership holder and
+requires an explicit act per exercise. Main-published F3 §1.2 evidences existing project-wide standing
+PA decision/execution authorization (not an extension of F3's §4 grant); the current admission
+instruction permits its narrow exercise within established NP-18 scope. Arena records that separate
+explicit admission decision now under the standing authorization for the PA holder, claiming no
+independently held agent jurisdiction, new Ramki signature or personally spoken selection. D0 is
+applied as general membership jurisdiction, not misrepresented as an NP-18-specific acceptance act;
+NP-07 §§1–4 supplies ordinary-admission precedent, not a transferable NP-07 verdict. R3 and the
+qualification record remain historical implementation/qualification grants, not retroactive admissions.
+
+**Direct admission evidence:**
+[`assessment.json`](evidence/integration/np18-admission/2026-10-16/assessment.json) binds six fresh
+remote source artifacts, current ref/main/PR, qualification receipt, exact-head CI, scope/patch
+identity, broader PR delta and repository-policy observations. No new source/config/test change or
+local test/build/runtime execution. Local snapshot ref/index was re-aligned to the published head
+only after all 32 restored working-file bytes matched the immutable remote commit and no extra
+untracked files existed; no unpublished edit was discarded.
+
+**Current state verified:** PR #114 OPEN, evaluated head
+**`a25b3967bbd140a8ea4e2fb14143a421bee2eaba`**; qualification decision/evidence/tracker raw bytes equal
+Git objects, receipt [6209919176](https://github.com/ramkivs/iips-review-recovered/pull/114#issuecomment-6209919176)
+published/unchanged. Exact-head CI [38863865672](https://github.com/ramkivs/iips-review-recovered/actions/runs/38863865672),
+job **116852096469**, completed/success, all steps including full suite/non-zero guard/typecheck/build
+SUCCESS. Main remains **`98c21768f77061a68470e4b4f6750d38abeec594`**; nine qualified product and 19
+protected blobs unchanged. Existing 84 local tests, build/typecheck, actual composed-server/App-DOM
+and prior publication evidence reused. No qualification rerun or optional-browser/raw-log gate added.
+
+| Admission-specific invariant | Result |
+|---|---|
+| Exact qualified scope, stable source/base and regression evidence | **PASS A-1/2/3.** Qualified nine-product-file NP-18 increment, unchanged source and composed/runtime/tests; exact current-head CI success |
+| Durable qualification and separate explicit membership decision | **PASS A-4 / APPROVED A-5.** Current decision/evidence/receipt reverified; this separate explicit scoped act supplies admission approval under identified authority |
+| Integration compatibility and repository policy | **PASS A-6 for current PR tree.** MERGEABLE/CLEAN, merge-ref tree equals head tree, main/head parents exact. Main reports unprotected, rulesets empty and no recorded review decision/reviews. No technical protection bypass or invented review gate; technical mergeability is not authority |
+| Prevent unrelated scope admission | **ENFORCED A-7.** Scope is the exact R3→implementation NP-18 patch, not every product blob/hunk in PR #114 |
+| Actual main presence/publication and post-integration verification | **A-8 NOT YET SATISFIED.** Implementation/records remain on branch; no effective-main-membership claim |
+| Authority to merge the actual complete PR #114 | **A-9 NOT AUTHORIZED BY THIS ACT.** The PR includes an independently traceable additional workstream outside this NP-18 qualification/admission scope |
+
+**Material admission boundary:** entry main→PR delta is **32 paths / 17 product paths**, not just
+NP-18's nine. The eight additional product paths are broker-preview API/component/tests,
+`package.json`, `package-lock.json`, `routes.ts` and `tsconfig.broker-import.json` (exhaustively named
+in the decision/evidence). Shared **App.tsx and navigation.ts contain pre-existing broker hunks**.
+NP-18 admission is therefore hunk-scoped for those shared files, bound to the exact qualified
+`904f5d99…`→`3c64d69…` nine-path diff, SHA-256
+**`67719c4b44218b42d3fc9d3290e1d657d01e9945b25e59fb54588e7f2b91522f`**.
+No other-workstream admission/qualification is inferred from a shared PR, a green combined CI or
+the standing authorization's exercise for settled NP-18 scope. Original PR broker-only metadata and
+“Group 6 unchanged” wording are corrected as current publication metadata, preserving the original
+submission as historical text. DB-C1 work is not reopened or silently accepted by this act.
+
+**Single smallest remaining action:** an explicit PA disposition authorizing the complete existing
+PR #114's merge/publication scope, including the separately recorded broker-preview delta and
+shared hunks, at the final remotely verified head. The decision §4 supplies precise proposed wording,
+clearly **not** an issued/attributed Ramki decision: normal merge into main@98c21768…, explicit
+complete-delta disposition, existing UNRESOLVED/no-network/no-save/G-2/Reports/reference-data fences
+retained, no inference of another workstream's qualification/Product Acceptance and no release or
+production. That genuine combined-scope boundary is not a request to reapprove NP-18 intent or repeat
+qualification. No merge, split/competing PR, unrelated code change, release, production or Library
+operation is performed here. Actual main membership awaits authorized integration and remote/main CI
+verification; release/production remain separately **NOT AUTHORIZED / NOT STARTED**.
+
+**Publication:** one additive commit changes only the admission decision, direct assessment evidence
+and this existing tracker; PR title/body receive a scope/status correction, not a lifecycle change.
+Admission approval is operative on branch publication/remote verification; effective-main admission
+is explicitly deferred. Final commit/parent, all three remote artifact bytes/blobs, current PR/main
+and exact recording-head hosted CI are verified in the durable PR #114 receipt after push, without
+another self-referential tracker commit.

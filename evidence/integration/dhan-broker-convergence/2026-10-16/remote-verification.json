@@ -1,0 +1,85 @@
+{
+  "verified_utc": "2026-10-16",
+  "authoritative_repository": "ramkivs/iips-review-recovered",
+  "implementation_ref": "refs/heads/arena/d57c506a-iips-review-recovered",
+  "implementation_commit": "d82ff99fc9e5a2e1569339f066919f7e718aa545",
+  "pr": 114,
+  "remote_verification_method": "Independent GitHub REST ref + recursive commit tree, compared with local immutable commit blobs; also git fetch and ls-remote.",
+  "files": [
+    {
+      "path": "docs/integration/DHAN-BROKER-CONVERGENCE-IMPLEMENTATION-2026-10-16.md",
+      "github_api_blob": "0dc2fd6bb6e96dbf2a39c2783fe48202a7cbe225",
+      "local_commit_blob": "0dc2fd6bb6e96dbf2a39c2783fe48202a7cbe225",
+      "status": "PASS"
+    },
+    {
+      "path": "evidence/integration/dhan-broker-convergence/2026-10-16/validation.json",
+      "github_api_blob": "ff41bc1c4d6edc081113acecc9506d2721a10ec6",
+      "local_commit_blob": "ff41bc1c4d6edc081113acecc9506d2721a10ec6",
+      "status": "PASS"
+    },
+    {
+      "path": "frontend/package-lock.json",
+      "github_api_blob": "095d3afee39f35f4e09af59550ff5f8de3119d4c",
+      "local_commit_blob": "095d3afee39f35f4e09af59550ff5f8de3119d4c",
+      "status": "PASS"
+    },
+    {
+      "path": "frontend/package.json",
+      "github_api_blob": "f01433780e53ca16c6fa4085c229fe92ddb9b6bd",
+      "local_commit_blob": "f01433780e53ca16c6fa4085c229fe92ddb9b6bd",
+      "status": "PASS"
+    },
+    {
+      "path": "frontend/src/api/brokerHoldingsPreview.test.ts",
+      "github_api_blob": "635410cb186236e783d40d311d9a6f688b2f2d4d",
+      "local_commit_blob": "635410cb186236e783d40d311d9a6f688b2f2d4d",
+      "status": "PASS"
+    },
+    {
+      "path": "frontend/src/api/brokerHoldingsPreview.ts",
+      "github_api_blob": "bf079a1b587cebf582c03a7aa2c99b87cf890f73",
+      "local_commit_blob": "bf079a1b587cebf582c03a7aa2c99b87cf890f73",
+      "status": "PASS"
+    },
+    {
+      "path": "frontend/src/app/App.tsx",
+      "github_api_blob": "b084f1dcb2f2299b02647173aecf3f4c2c6e91b6",
+      "local_commit_blob": "b084f1dcb2f2299b02647173aecf3f4c2c6e91b6",
+      "status": "PASS"
+    },
+    {
+      "path": "frontend/src/app/navigation.ts",
+      "github_api_blob": "8fee5c3433a38f4068ab1efd0feb18fe00805f6c",
+      "local_commit_blob": "8fee5c3433a38f4068ab1efd0feb18fe00805f6c",
+      "status": "PASS"
+    },
+    {
+      "path": "frontend/src/app/routes.ts",
+      "github_api_blob": "a083db101340fb5165495eb0afebd98c01e757c5",
+      "local_commit_blob": "a083db101340fb5165495eb0afebd98c01e757c5",
+      "status": "PASS"
+    },
+    {
+      "path": "frontend/src/features/broker-holdings/BrokerHoldingsPreview.test.tsx",
+      "github_api_blob": "ba2fc1d3d979fac65e8bbe60834e9f290db0d8dc",
+      "local_commit_blob": "ba2fc1d3d979fac65e8bbe60834e9f290db0d8dc",
+      "status": "PASS"
+    },
+    {
+      "path": "frontend/src/features/broker-holdings/BrokerHoldingsPreview.tsx",
+      "github_api_blob": "3492967db629f78ddc738d1b8784be647b793ebb",
+      "local_commit_blob": "3492967db629f78ddc738d1b8784be647b793ebb",
+      "status": "PASS"
+    },
+    {
+      "path": "frontend/tsconfig.broker-import.json",
+      "github_api_blob": "a339c9c4def365f0b80295bb32ad74cf2f95a9bd",
+      "local_commit_blob": "a339c9c4def365f0b80295bb32ad74cf2f95a9bd",
+      "status": "PASS"
+    }
+  ],
+  "ipd_main": "70b24f029842a7e9b7f615e4d9df7376fd4ff817",
+  "tracker_commit": "Published in a subsequent commit on this same ref; its own SHA/blob are independently verified in PR #114 comment (not self-embedded).",
+  "library_tracker": "BLOCKED \u2014 connector unsupported; no Library sync inferred from Git publication."
+}
