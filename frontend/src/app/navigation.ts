@@ -54,8 +54,8 @@ export const NAV: NavItem[] = [
   {
     label: 'Intelligence',
     path: '/intelligence',
-    // Same disposition as `Research`: `/intelligence` and the Opportunities / Risks / Rankings
-    // children are unbuilt surfaces, so only the implemented children are clickable.
+    // R3: retain the group-only parent; the three dedicated framing views now join
+    // the existing implemented children without adding a separate Intelligence hub.
     groupOnly: true,
     children: [
       { label: 'Opportunities', path: '/intelligence/opportunities' },
@@ -81,6 +81,9 @@ export const AVAILABLE_CHILD_PATHS: ReadonlySet<string> = new Set<string>([
   ROUTES.researchCrossSector,
   '/research/engines',
   ROUTES.researchMacro,
+  ROUTES.intelligenceOpportunities,
+  ROUTES.intelligenceRisks,
+  ROUTES.intelligenceRankings,
   ROUTES.intelligenceDecisionMatrix,
   ROUTES.aiExplanation,
 ]);

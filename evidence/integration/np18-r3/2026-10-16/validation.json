@@ -1,0 +1,552 @@
+{
+  "date": "2026-10-16",
+  "observed_at_utc": "2026-10-16T06:19:34.138620+00:00",
+  "status": "PASS \u2014 bounded implementation-candidate validation; not qualification",
+  "target": {
+    "repository": "ramkivs/iips-review-recovered",
+    "exact_main": "98c21768f77061a68470e4b4f6750d38abeec594",
+    "starting_session_head": "11f90db891c095af39a1009f84c2ed1b6721a127",
+    "r3_authority_commit": "904f5d99f9e6468fb4805c96a78c16c70a08395e",
+    "branch": "arena/d57c506a-iips-review-recovered",
+    "pr": 114,
+    "ipd_main_observed": "70b24f029842a7e9b7f615e4d9df7376fd4ff817",
+    "ipd_changed": false
+  },
+  "authority_publication_before_implementation": {
+    "r3_commit": "904f5d99f9e6468fb4805c96a78c16c70a08395e",
+    "r3_path": "docs/integration/NP-18-R3-CURRENT-MAIN-IMPLEMENTATION-AUTHORITY-2026-10-16.md",
+    "sha256": "961f55f949e704640dc2ce40be63c954a96dfc0c5fc919275e5c00ba43804efc",
+    "raw_remote_equals_local": true,
+    "status": "PASS \u2014 R3 published and independently verified before implementation"
+  },
+  "authority_resolution": {
+    "decision_exercise": "Arena under recorded project-wide standing decision/execution authorization and current R3 instruction; authority holder Ramki",
+    "original_and_R2_alone_portable": false,
+    "new_human_signature_or_delegation_claimed": false,
+    "standing_authorization_source": {
+      "commit": "98c21768f77061a68470e4b4f6750d38abeec594",
+      "path": "docs/integration/IIPS_v3.0_OWNER_CONTEXT_F3_MECHANISM_AND_IMPLEMENTATION_PA_DECISION.md",
+      "section": "1.2 \u2014 evidence of standing authorization, not extension of F3-specific section 4 grant"
+    },
+    "R2_replacements": [
+      "sections 5.3/13 exact historical target-stop replaced with pinned current-main target for this increment",
+      "section 7 obsolete Bearer/authFetch binding replaced with existing approved noAuthFetch path unchanged",
+      "section 8 obsolete Hub/NavStatus binding replaced with existing group-only heading and three available children"
+    ],
+    "previous_evidence_only_determination_preserved": true
+  },
+  "unchanged_historical_findings_reused": {
+    "source": "evidence/integration/np18-authority-determination/2026-10-16/verification.json",
+    "commit": "11f90db891c095af39a1009f84c2ed1b6721a127",
+    "source_records": [
+      {
+        "commit": "d44c5c7aab43d1c89da06a6f99c4a9e75e47423d",
+        "path": "governance/iips/AUTH-NP-18-INTELLIGENCE-EXPOSURE-IMPLEMENTATION-AUTHORITY-2026-09-26.md",
+        "blob": "8f8b077fe8f44833868a8b7df6ccc68df8ff9a62",
+        "sha256": "f1d14170ba81c7b30dda729747be778f2e8fbc2a33d1b0bf3c7ae1a9d16b5cff",
+        "bytes": 25872,
+        "raw_remote_equals_git_object": true
+      },
+      {
+        "commit": "abac36b2f0d1d3ac7f8aa9c16d471b634e166d1a",
+        "path": "governance/iips/AUTH-NP-18-R2-IMPLEMENTATION-RETARGETING-AUTHORITY-2026-09-26.md",
+        "blob": "bc6fb0ca975f9413c86141b6769e21a701d6f65f",
+        "sha256": "a2f9dba52706885d435b446819c659d1b07efd442a100e1b92d864e143b28e28",
+        "bytes": 22878,
+        "raw_remote_equals_git_object": true
+      },
+      {
+        "commit": "b8afaeae2daa7a33bc1c8061d04de6b580c77029",
+        "path": "governance/iips/DEC-NP-17-NP-18-PAYLOAD-DECISION-BOUNDARY-2026-09-26.md",
+        "blob": "a5a345a71d5bda24a73934c216d299fb715bbaab",
+        "sha256": "bd2f1d4b01adcae245ad17a621219795b962dc207e0146729e612f2a78765e7d",
+        "bytes": 14464,
+        "raw_remote_equals_git_object": true
+      },
+      {
+        "commit": "4357e14a35966cd8508e0c59e40627791c103172",
+        "path": "governance/iips/EVID-NP-18-QUALIFICATION-RECONCILIATION-2026-09-27.md",
+        "blob": "9db76355caea1b4b4040b705e9014ea796d32ef4",
+        "sha256": "0d0c999e5c6a915257a178f222bcb2aca0112eb6fe3942bc75b2e79be0bd4522",
+        "bytes": 1955,
+        "raw_remote_equals_git_object": true
+      },
+      {
+        "commit": "4357e14a35966cd8508e0c59e40627791c103172",
+        "path": "governance/iips/EVID-NP-18-QUALIFICATION-ADJUDICATION-2026-09-27.md",
+        "blob": "1b0c18fac1323d4c92ffaecb87c3809ff070bdb3",
+        "sha256": "67f0b0b2c7ed42b0ce0b025f0abfb7fdd8706dcceb5dff0a11a0bbc895176036",
+        "bytes": 2369,
+        "raw_remote_equals_git_object": true
+      }
+    ],
+    "recording_refs_unchanged": {
+      "arena/01a03e3b-iips-review-recovered": "3c7568e0437f2a5e7b385833ed0752990286ad87",
+      "arena/01a0ddea-iips-review-recovered": "fedc19ee41c07a7a00a0b887e78f352b466cf41a",
+      "arena/01a0e30f-iips-review-recovered": "17c759cdccc6f7e1e3753c5215fcfa5d11ed4328",
+      "phase13-next": "4357e14a35966cd8508e0c59e40627791c103172"
+    },
+    "prior_bounded_adjudication": "4357e14 follows 8d9babc; source-reported 687 passed / 7 failed / 15 skipped; no inherited current-target qualification",
+    "orphan_merged": false
+  },
+  "scope": {
+    "status": "PASS",
+    "exhaustive_nine_product_files": [
+      "frontend/src/features/intelligence/IntelligenceOpportunities.tsx",
+      "frontend/src/features/intelligence/IntelligenceOpportunities.test.tsx",
+      "frontend/src/features/intelligence/IntelligenceRisks.tsx",
+      "frontend/src/features/intelligence/IntelligenceRisks.test.tsx",
+      "frontend/src/features/intelligence/IntelligenceRankings.tsx",
+      "frontend/src/features/intelligence/IntelligenceRankings.test.tsx",
+      "frontend/src/app/App.tsx",
+      "frontend/src/app/navigation.ts",
+      "frontend/src/app/App.test.tsx"
+    ],
+    "exhaustive_five_supporting_paths": [
+      "docs/integration/NP-18-R3-CURRENT-MAIN-IMPLEMENTATION-AUTHORITY-2026-10-16.md",
+      "evidence/integration/np18-r3/2026-10-16/validation.json",
+      "evidence/integration/np18-r3/2026-10-16/publication.json",
+      "evidence/integration/np18-r3/2026-10-16/verify-views.mts",
+      "IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md"
+    ],
+    "candidate_product_records": [
+      {
+        "path": "frontend/src/features/intelligence/IntelligenceOpportunities.tsx",
+        "sha256": "e886f53245589873864ccf10401d6c31e7e2dbbc3c16883fcf0c68a2383b1705",
+        "blob": "414867a67d54eee636023c7c95cb2ee5073e94eb",
+        "bytes": 5404,
+        "selective_lineage": {
+          "donor_commit": "4357e14a35966cd8508e0c59e40627791c103172",
+          "donor_blob": "af46b336a3fe92bab827d03d33ba2ac7de3c05e2",
+          "donor_sha256": "11c7a96301135c8d662b96058b29b559cbfbea8996ae4a246bda85985b8475e8",
+          "adapted_not_identical": true
+        }
+      },
+      {
+        "path": "frontend/src/features/intelligence/IntelligenceOpportunities.test.tsx",
+        "sha256": "5ccfa092f16fde0e816509db918637764e37b186f546c22aac23170367e920cb",
+        "blob": "336ed9aa5948f8a14849fff0e01169b30326c12b",
+        "bytes": 8018,
+        "selective_lineage": {
+          "donor_commit": "4357e14a35966cd8508e0c59e40627791c103172",
+          "donor_blob": "bc9774abcccef4f931346579229bef5f05d3c5d0",
+          "donor_sha256": "4161e853d7f6cf9d1a780a2ce4a9f7dc138ecc78281bb2b1d2543415961918f3",
+          "adapted_not_identical": true
+        }
+      },
+      {
+        "path": "frontend/src/features/intelligence/IntelligenceRisks.tsx",
+        "sha256": "b7b2efb33b12f75070c57c02713da19fb212d02998dd2b620f90ed9107895aa1",
+        "blob": "df57e2e9099435373fcc132f66ac33888ef365ba",
+        "bytes": 5589,
+        "selective_lineage": {
+          "donor_commit": "4357e14a35966cd8508e0c59e40627791c103172",
+          "donor_blob": "be50c4979522a61073a643438f20dc7613c79867",
+          "donor_sha256": "5c9ef91c5410a2ccc1c5ded507b9e727988d8d840f4ba06681f063beee1d9981",
+          "adapted_not_identical": true
+        }
+      },
+      {
+        "path": "frontend/src/features/intelligence/IntelligenceRisks.test.tsx",
+        "sha256": "e7de69a4d93da4f7fa22b934b8e77fb312a3afc4abd05cac4d89c7e5259ad7ef",
+        "blob": "b35477864b18eb0afea3b034f97908bd9cd071fa",
+        "bytes": 7638,
+        "selective_lineage": {
+          "donor_commit": "4357e14a35966cd8508e0c59e40627791c103172",
+          "donor_blob": "83edca0d3a8c80e3e6ee2c34bf7794a32c842413",
+          "donor_sha256": "06f69f8ca58d5c96f492f245abdd7f3e34aa555275c404d8a9c3445e7e252943",
+          "adapted_not_identical": true
+        }
+      },
+      {
+        "path": "frontend/src/features/intelligence/IntelligenceRankings.tsx",
+        "sha256": "9abd6e8627f59a282ddeca55cfe0da50e0143af7775a8c17b22ed190ec683182",
+        "blob": "5c5b6c424bea7c8418a98d2e48f99fb4b9499009",
+        "bytes": 5318,
+        "selective_lineage": {
+          "donor_commit": "4357e14a35966cd8508e0c59e40627791c103172",
+          "donor_blob": "551f3fa838b82cc911ffc59faddc096ef99897cb",
+          "donor_sha256": "081f93910b5c84bd3998cc3d730664d4ecb10310533cab30a79ea46d357eb87b",
+          "adapted_not_identical": true
+        }
+      },
+      {
+        "path": "frontend/src/features/intelligence/IntelligenceRankings.test.tsx",
+        "sha256": "0fdb8af2bbfc60dbf133742ede60b9f566384a19ac9236b9b0a6f5dd4b63ac3e",
+        "blob": "91223627779883fc8d494f44debec293370f04e9",
+        "bytes": 7621,
+        "selective_lineage": {
+          "donor_commit": "4357e14a35966cd8508e0c59e40627791c103172",
+          "donor_blob": "cb8e99205b65e3fb633faef854aeab8aa262a785",
+          "donor_sha256": "18bb50e737c0adbe5f15a66f9a37ba63a29919c13f6fc08700cda875914292ab",
+          "adapted_not_identical": true
+        }
+      },
+      {
+        "path": "frontend/src/app/App.tsx",
+        "sha256": "ae4c93a9d21d0504ee6ad7dfa20f48244f0a09c32cdc0ede9d3510532722241e",
+        "blob": "85230583c737b58f36c11b06eb7f53ea35472e93",
+        "bytes": 4372,
+        "preserved_starting_blob": "b084f1dcb2f2299b02647173aecf3f4c2c6e91b6"
+      },
+      {
+        "path": "frontend/src/app/navigation.ts",
+        "sha256": "40defb4b4d9dfa053d5c9f7234aee3851f2ded1ed3a03d9a36a86d512c5c8964",
+        "blob": "d59087f94207a0c7d17cf34a14f6ac68ba207572",
+        "bytes": 3961,
+        "preserved_starting_blob": "8fee5c3433a38f4068ab1efd0feb18fe00805f6c"
+      },
+      {
+        "path": "frontend/src/app/App.test.tsx",
+        "sha256": "44d8b7fb4eb483ac1212934c3b2df36cd4a4d988694f57e6f47f502ba48d811e",
+        "blob": "32733323948cf7cc25f6e10f9d83a71f34b5bb4d",
+        "bytes": 9116,
+        "preserved_starting_blob": "42e649cf623bf3c82f8a180c023f0bbf610319d0"
+      }
+    ],
+    "protected_records": [
+      {
+        "path": ".github/workflows/ci.yml",
+        "current_blob": "2d25176d40a15d79064574660f7cb067706d6bf9",
+        "starting_blob": "2d25176d40a15d79064574660f7cb067706d6bf9",
+        "main_blob": "2d25176d40a15d79064574660f7cb067706d6bf9",
+        "unchanged_from_start": true,
+        "equals_main": true
+      },
+      {
+        "path": "frontend/package-lock.json",
+        "current_blob": "095d3afee39f35f4e09af59550ff5f8de3119d4c",
+        "starting_blob": "095d3afee39f35f4e09af59550ff5f8de3119d4c",
+        "main_blob": "4f068d98cfeb538e55fb937170c0c246f41c6b63",
+        "unchanged_from_start": true,
+        "equals_main": false
+      },
+      {
+        "path": "frontend/package.json",
+        "current_blob": "f01433780e53ca16c6fa4085c229fe92ddb9b6bd",
+        "starting_blob": "f01433780e53ca16c6fa4085c229fe92ddb9b6bd",
+        "main_blob": "db536bd09f01f37f55f5ce9f8d901a8c3fec0552",
+        "unchanged_from_start": true,
+        "equals_main": false
+      },
+      {
+        "path": "frontend/server/executive-transport.ts",
+        "current_blob": "d1c52fe678b34295820fea0f2eac5cf408365310",
+        "starting_blob": "d1c52fe678b34295820fea0f2eac5cf408365310",
+        "main_blob": "d1c52fe678b34295820fea0f2eac5cf408365310",
+        "unchanged_from_start": true,
+        "equals_main": true
+      },
+      {
+        "path": "frontend/src/api/crossSector.ts",
+        "current_blob": "4e083cc33fedd2a4b11b8150b40c2a46a453054b",
+        "starting_blob": "4e083cc33fedd2a4b11b8150b40c2a46a453054b",
+        "main_blob": "4e083cc33fedd2a4b11b8150b40c2a46a453054b",
+        "unchanged_from_start": true,
+        "equals_main": true
+      },
+      {
+        "path": "frontend/src/app/Sidebar.tsx",
+        "current_blob": "0d1e9badcf63f7fd4361a4d5d1ddb0490adea4d4",
+        "starting_blob": "0d1e9badcf63f7fd4361a4d5d1ddb0490adea4d4",
+        "main_blob": "0d1e9badcf63f7fd4361a4d5d1ddb0490adea4d4",
+        "unchanged_from_start": true,
+        "equals_main": true
+      },
+      {
+        "path": "frontend/src/app/routes.ts",
+        "current_blob": "a083db101340fb5165495eb0afebd98c01e757c5",
+        "starting_blob": "a083db101340fb5165495eb0afebd98c01e757c5",
+        "main_blob": "3b2b126a43c30243dba817551b5e5533d046658c",
+        "unchanged_from_start": true,
+        "equals_main": false
+      },
+      {
+        "path": "frontend/src/core/network/noAuthFetch.ts",
+        "current_blob": "6dda97e556ef10df9dc67fba6ef3779b3bb5cf45",
+        "starting_blob": "6dda97e556ef10df9dc67fba6ef3779b3bb5cf45",
+        "main_blob": "6dda97e556ef10df9dc67fba6ef3779b3bb5cf45",
+        "unchanged_from_start": true,
+        "equals_main": true
+      },
+      {
+        "path": "frontend/src/features/cross-sector/CrossSectorIntelligence.tsx",
+        "current_blob": "d2ebcde14d08e3efcad2458826ace7ccd1a3fa1c",
+        "starting_blob": "d2ebcde14d08e3efcad2458826ace7ccd1a3fa1c",
+        "main_blob": "d2ebcde14d08e3efcad2458826ace7ccd1a3fa1c",
+        "unchanged_from_start": true,
+        "equals_main": true
+      },
+      {
+        "path": "frontend/src/features/executive/ExecutiveDashboard.tsx",
+        "current_blob": "cf7e79ba9907ae6d18807168d90860927ebbf25e",
+        "starting_blob": "cf7e79ba9907ae6d18807168d90860927ebbf25e",
+        "main_blob": "cf7e79ba9907ae6d18807168d90860927ebbf25e",
+        "unchanged_from_start": true,
+        "equals_main": true
+      },
+      {
+        "path": "frontend/src/features/portfolio/PortfolioWorkspace.tsx",
+        "current_blob": "fe18e40614f3c4253a0590153df0a0babba21053",
+        "starting_blob": "fe18e40614f3c4253a0590153df0a0babba21053",
+        "main_blob": "fe18e40614f3c4253a0590153df0a0babba21053",
+        "unchanged_from_start": true,
+        "equals_main": true
+      },
+      {
+        "path": "frontend/tsconfig.json",
+        "current_blob": "900b1774c679ad887f3fa50aa172228da33f2a4e",
+        "starting_blob": "900b1774c679ad887f3fa50aa172228da33f2a4e",
+        "main_blob": "900b1774c679ad887f3fa50aa172228da33f2a4e",
+        "unchanged_from_start": true,
+        "equals_main": true
+      },
+      {
+        "path": "frontend/vite.config.ts",
+        "current_blob": "56fd482685203dc39ec03ccaa0315528a0352893",
+        "starting_blob": "56fd482685203dc39ec03ccaa0315528a0352893",
+        "main_blob": "56fd482685203dc39ec03ccaa0315528a0352893",
+        "unchanged_from_start": true,
+        "equals_main": true
+      },
+      {
+        "path": "iips-platform/src/sector-engines/cross-sector/CrossSectorEngine.ts",
+        "current_blob": "a42f0606ca77daaa3d814b22b3c4ba29d6e2be2c",
+        "starting_blob": "a42f0606ca77daaa3d814b22b3c4ba29d6e2be2c",
+        "main_blob": "a42f0606ca77daaa3d814b22b3c4ba29d6e2be2c",
+        "unchanged_from_start": true,
+        "equals_main": true
+      },
+      {
+        "path": "iips-platform/src/sector-engines/cross-sector/correlation/CorrelationEngine.ts",
+        "current_blob": "6508a8225b519d270e144aa57252bd8cfc0c26a3",
+        "starting_blob": "6508a8225b519d270e144aa57252bd8cfc0c26a3",
+        "main_blob": "6508a8225b519d270e144aa57252bd8cfc0c26a3",
+        "unchanged_from_start": true,
+        "equals_main": true
+      },
+      {
+        "path": "iips-platform/src/sector-engines/cross-sector/diversification/DiversificationAnalyzer.ts",
+        "current_blob": "2001d76dc68da20cc3236870be4548376367f5d2",
+        "starting_blob": "2001d76dc68da20cc3236870be4548376367f5d2",
+        "main_blob": "2001d76dc68da20cc3236870be4548376367f5d2",
+        "unchanged_from_start": true,
+        "equals_main": true
+      },
+      {
+        "path": "iips-platform/src/sector-engines/cross-sector/opportunity/OpportunityEngine.ts",
+        "current_blob": "31f9458b5018912dc2d81fbd03c3df38de17357b",
+        "starting_blob": "31f9458b5018912dc2d81fbd03c3df38de17357b",
+        "main_blob": "31f9458b5018912dc2d81fbd03c3df38de17357b",
+        "unchanged_from_start": true,
+        "equals_main": true
+      },
+      {
+        "path": "iips-platform/src/sector-engines/cross-sector/portfolio/PortfolioIntelligence.ts",
+        "current_blob": "361e2dcecafd5c2f6884229ca58c76e9dd8f5e28",
+        "starting_blob": "361e2dcecafd5c2f6884229ca58c76e9dd8f5e28",
+        "main_blob": "361e2dcecafd5c2f6884229ca58c76e9dd8f5e28",
+        "unchanged_from_start": true,
+        "equals_main": true
+      },
+      {
+        "path": "iips-platform/src/sector-engines/cross-sector/ranking/RankingEngine.ts",
+        "current_blob": "ed2c869858b5606e4d3b11077aa64dc787838583",
+        "starting_blob": "ed2c869858b5606e4d3b11077aa64dc787838583",
+        "main_blob": "ed2c869858b5606e4d3b11077aa64dc787838583",
+        "unchanged_from_start": true,
+        "equals_main": true
+      }
+    ],
+    "App_only_three_imports_and_three_routes_added": true,
+    "prior_Dhan_route_preserved": true,
+    "unrelated_tracked_files_unchanged_from_start": true,
+    "current_increment_paths_at_audit": [
+      "docs/integration/NP-18-R3-CURRENT-MAIN-IMPLEMENTATION-AUTHORITY-2026-10-16.md",
+      "evidence/integration/np18-r3/2026-10-16/verify-views.mts",
+      "frontend/src/app/App.test.tsx",
+      "frontend/src/app/App.tsx",
+      "frontend/src/app/navigation.ts",
+      "frontend/src/features/intelligence/IntelligenceOpportunities.test.tsx",
+      "frontend/src/features/intelligence/IntelligenceOpportunities.tsx",
+      "frontend/src/features/intelligence/IntelligenceRankings.test.tsx",
+      "frontend/src/features/intelligence/IntelligenceRankings.tsx",
+      "frontend/src/features/intelligence/IntelligenceRisks.test.tsx",
+      "frontend/src/features/intelligence/IntelligenceRisks.tsx"
+    ],
+    "preexisting_session_delta_from_main_preserved": [
+      "IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md",
+      "docs/integration/DHAN-BROKER-CONVERGENCE-IMPLEMENTATION-2026-10-16.md",
+      "docs/integration/NP-18-CURRENT-TARGET-AUTHORITY-DETERMINATION-2026-10-16.md",
+      "evidence/integration/dhan-broker-convergence/2026-10-16/remote-verification.json",
+      "evidence/integration/dhan-broker-convergence/2026-10-16/validation.json",
+      "evidence/integration/group6-reconciliation/2026-10-16/product-host-observations.json",
+      "evidence/integration/group6-reconciliation/2026-10-16/verification.json",
+      "evidence/integration/group6-reconciliation/2026-10-16/verify-product-host.mts",
+      "evidence/integration/np18-authority-determination/2026-10-16/verification.json",
+      "frontend/package-lock.json",
+      "frontend/package.json",
+      "frontend/src/api/brokerHoldingsPreview.test.ts",
+      "frontend/src/api/brokerHoldingsPreview.ts",
+      "frontend/src/app/App.tsx",
+      "frontend/src/app/navigation.ts",
+      "frontend/src/app/routes.ts",
+      "frontend/src/features/broker-holdings/BrokerHoldingsPreview.test.tsx",
+      "frontend/src/features/broker-holdings/BrokerHoldingsPreview.tsx",
+      "frontend/tsconfig.broker-import.json"
+    ],
+    "diff_check": "PASS"
+  },
+  "executed_validation": {
+    "focused_and_relevant_regressions": {
+      "status": "PASS",
+      "exit_code": 0,
+      "command": "npm --prefix frontend test -- src/features/intelligence src/app/App.test.tsx src/features/cross-sector/CrossSectorIntelligence.test.tsx src/features/executive/ExecutiveDashboard.test.tsx src/features/portfolio/PortfolioWorkspace.test.tsx src/features/decision-matrix/DecisionMatrix.test.tsx server/product-transport.test.ts",
+      "files": 9,
+      "tests": 84,
+      "failed": 0,
+      "skipped": 0,
+      "affected_only_tests": 50,
+      "suites": [
+        {
+          "path": "server/product-transport.test.ts",
+          "tests": 10
+        },
+        {
+          "path": "src/app/App.test.tsx",
+          "tests": 18
+        },
+        {
+          "path": "src/features/intelligence/IntelligenceOpportunities.test.tsx",
+          "tests": 11
+        },
+        {
+          "path": "src/features/intelligence/IntelligenceRisks.test.tsx",
+          "tests": 10
+        },
+        {
+          "path": "src/features/intelligence/IntelligenceRankings.test.tsx",
+          "tests": 11
+        },
+        {
+          "path": "src/features/executive/ExecutiveDashboard.test.tsx",
+          "tests": 5
+        },
+        {
+          "path": "src/features/portfolio/PortfolioWorkspace.test.tsx",
+          "tests": 7
+        },
+        {
+          "path": "src/features/cross-sector/CrossSectorIntelligence.test.tsx",
+          "tests": 6
+        },
+        {
+          "path": "src/features/decision-matrix/DecisionMatrix.test.tsx",
+          "tests": 6
+        }
+      ],
+      "stdout_stderr_sha256": "7d8a4f494385edae40fd083d1ad69a8299fb28b5032b8c0b57fb8595f04703a1",
+      "warnings": "Pre-existing React Router future flags and App async act warnings; no failures or suppressed tests"
+    },
+    "typecheck": {
+      "status": "PASS",
+      "exit_code": 0,
+      "command": "npm --prefix frontend run typecheck",
+      "log_sha256": "bc13c4ff7d50b61cc5833d2aec9d4accfbb8315cab0bb958db4ad66d35ddfea9",
+      "strict_config_changed": false
+    },
+    "build": {
+      "status": "PASS",
+      "exit_code": 0,
+      "command": "npm --prefix frontend run build",
+      "log_sha256": "87bf573df7fa1da96bba2e9690d2ea14602d0f2ef25726534be5bab86b774c6e",
+      "modules": 106,
+      "artifact": "Production Vite bundle built locally, ignored and not released/deployed"
+    },
+    "composed_server_and_actual_App_DOM": {
+      "command": "NODE_ENV=test frontend/node_modules/.bin/tsx evidence/integration/np18-r3/2026-10-16/verify-views.mts",
+      "exit_code": 0,
+      "script_sha256": "5105786bba8c7a4965882dcd70b8cc44fc3558ea76745a7eb20dff5a59af5881",
+      "observed": {
+        "status": "PASS",
+        "locus": "local actual composed transport and App routes rendered through Vite/jsdom",
+        "dataKind": "existing certified SNAPSHOT reference set; no test fixture substitutions",
+        "sameSliceTop10Of13": true,
+        "existingExecutivePortfolioSlicesUnchanged": true,
+        "observations": {
+          "rankings": {
+            "rows": 13,
+            "exactOrderAndValues": true,
+            "provenance": "certified v2.0 platform (CSIP cross-sector engine) over frozen v1.1 Replay Baseline inputs \u00b7 freshness SNAPSHOT \u00b7 mapping 1:1 mapping; transport transformation != decision transformation \u00b7 calibrated 2026-08-09T00:00:00.000Z"
+          },
+          "opportunities": {
+            "rows": 10,
+            "exactOrderAndValues": true,
+            "provenance": "certified v2.0 platform (CSIP cross-sector engine) over frozen v1.1 Replay Baseline inputs \u00b7 freshness SNAPSHOT \u00b7 mapping 1:1 mapping; transport transformation != decision transformation \u00b7 calibrated 2026-08-09T00:00:00.000Z"
+          },
+          "risks": {
+            "aggregateOnly": true,
+            "avgRisk": 76.5,
+            "diversificationFlags": [
+              "elevated risk / correlated downside",
+              "single-factor exposure (growth)"
+            ],
+            "correlationFlags": [
+              "elevated systematic risk",
+              "interest-rate sensitivity (financials exposure)",
+              "regulatory / catastrophe sensitivity (insurance)",
+              "regulatory / healthcare-policy sensitivity",
+              "financial-sector cyclicality"
+            ],
+            "concentrationSectors": [],
+            "provenance": "certified v2.0 platform (CSIP cross-sector engine) over frozen v1.1 Replay Baseline inputs \u00b7 freshness SNAPSHOT \u00b7 mapping 1:1 mapping; transport transformation != decision transformation \u00b7 calibrated 2026-08-09T00:00:00.000Z"
+          }
+        },
+        "requests": [
+          {
+            "path": "/api/cross-sector",
+            "credentials": "omit",
+            "authorization": false
+          },
+          {
+            "path": "/api/cross-sector",
+            "credentials": "omit",
+            "authorization": false
+          },
+          {
+            "path": "/api/cross-sector",
+            "credentials": "omit",
+            "authorization": false
+          }
+        ],
+        "negativeEndpoints": {
+          "/api/opportunities": 404,
+          "/api/risks": 404,
+          "/api/rankings": 404,
+          "/api/cross-sector?topN=13": 404
+        },
+        "limitations": [
+          "Not a deployed-host or manual-browser observation.",
+          "No live market or broker-data claim.",
+          "Not qualification, admission, release or production authority."
+        ]
+      },
+      "warning": "Vite CJS Node API deprecation warning, diagnostic only"
+    },
+    "scoped_defects_corrected_before_publication": [
+      "Removed unsupported testing-library ByRole option exact after strict typecheck detected it; string names are already exact by default.",
+      "Adapted donor risk no-link assertion to permit exactly the new shared Cross-Sector disclosure link, still forbidding all company/sector drill-down links and identities."
+    ],
+    "unchanged_tests": "No repeated local full suite or unaffected qualification; existing hosted CI runs its unchanged full suite after publication."
+  },
+  "separate_status": {
+    "implementation_candidate": "PASS",
+    "implementation_remote_publication": "Recorded after independent remote verification in publication.json and PR #114",
+    "current_target_qualification": "NOT STARTED \u2014 separate later adjudication",
+    "main_admission": "NOT STARTED / NOT GRANTED by R3",
+    "release_production": "NOT STARTED / NOT GRANTED by R3",
+    "deployed_host_manual_browser": "NOT VERIFIED",
+    "live_market_broker_success": "NOT CLAIMED",
+    "library_sync": "NOT ATTEMPTED \u2014 expressly outside current task"
+  }
+}
