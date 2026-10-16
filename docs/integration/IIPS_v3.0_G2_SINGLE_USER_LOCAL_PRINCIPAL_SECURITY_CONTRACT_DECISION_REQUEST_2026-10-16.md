@@ -3,14 +3,14 @@
 | Field | Value |
 |---|---|
 | Record ID | `IIPS-V3-G2-LOCAL-SINGLE-USER-PRINCIPAL-SECURITY-CONTRACT-DECISION-REQUEST-2026-10-16-01` |
-| Record type | **Decision request only** — no decision rendered; no implementation, qualification, admission, or release authority |
+| Record type | **Decision request with attributed Program Authority response** — design direction only; no implementation, qualification, admission, or release authority |
 | Date | 2026-10-16 (Asia/Calcutta) |
-| Requested decision authority | **Ramki / Program Authority**, acting expressly on the G-2 security-contract question; IPD-side authority must also be stated for any change to the IPD-owned security contract |
+| Decision authority | **Ramki / Program Authority**; IPD contract adoption remains a separate durable authority step |
 | Scope | Assess one trusted, server-established local principal for the existing single-user personal application; non-production only |
-| Status | **PREPARED FOR DECISION — NOT APPROVED** |
+| Status | **OPTION A SELECTED IN PRINCIPLE — SAME-HOST OS-PROTECTED LOCAL IPC DESIGN ONLY; FINAL IPD CONTRACT ADOPTION AND EXACT RUNTIME LIMITS OPEN** |
 | Baseline reviewed | IRR `main@eb4bf820c62eb3e2f5c628a95d59c8f967e3f629`; IPD `main@70b24f029842a7e9b7f615e4d9df7376fd4ff817`; off-main G24 source inspected at `6828155ec6e882bbb4cabcd96b5a841d8c8a6bc4` for contract facts only |
 
-> **No authority is rendered by this request.** It does not authorize changing DP-1, changing G24, provisioning an identity, implementing a local-principal path, qualifying it, or reconsidering the HTTP 503 fence. No source, test, IPD ref, dependency pin, or tracker was changed for this request.
+> **Attributed Program Authority response received:** Option A was selected in principle for **design only**, with **same-host OS-protected local IPC** as the candidate trusted boundary. This does not amend the IPD security contract, authorize implementation or qualification, provision an identity, permit successful writes, or reconsider the HTTP 503 fence. No IPD source/ref, application code, test, dependency pin, or tracker was changed for this request.
 
 ## 1. Decision requested
 
@@ -49,7 +49,7 @@ Accordingly, the proposal is **not compatible with the current G24 security cont
 - **Conditional feasibility:** the existing owner-scoped authorization and durable-store concepts could be reused *if* IPD defines and accepts a trustworthy local trust boundary and binds exactly one server-established local principal to an explicit IPD owner identity. That is a proposal, not a proven compatibility result.
 - **Direct failure condition:** if the only available input is an unauthenticated browser request or a caller-controlled owner/principal field, or if the service is reachable by untrusted callers without another in-scope access boundary, the local-principal model cannot establish that the caller is the owner. In that case it cannot satisfy the stated security requirements and must be rejected.
 
-**Disposition recommendation on the evidence currently available:** do not approve the local-principal contract as an immediately implementable design. The existing G24 HTTP contract rejects it, and no trusted local process/channel boundary has been demonstrated. Select **B** unless the Program Authority can name and accept a concrete, in-scope boundary that prevents arbitrary callers from invoking the single-owner principal. A statement that the app is personal-use, a loopback listener, or a server-side constant is not by itself that proof. This recommendation is not a decision and grants no authority.
+**Preparation-time recommendation (superseded in part by §8):** do not treat the local-principal contract as immediately implementable. The existing G24 HTTP contract rejects it, and no trusted local process/channel boundary had been demonstrated. The Program Authority subsequently selected Option A in principle and named same-host OS-protected local IPC as the design direction. That resolves the direction only; it does not yet establish the exact process identity, OS permissions, runtime exposure, or implementation/qualification authority.
 
 The current F-3 owner-context pair remains partition context for its governed existing capabilities; it is not an authenticated principal, G24 `applicationUserId`, or membership. D115’s principal/company-binding contract is not an identity shortcut for G-2. D115-A effectiveness and Company Identity Authority designation are separate matters; this request creates neither and does not reopen D115.
 
@@ -128,4 +128,20 @@ This request is limited to the contract gap and decision authority; it does not 
 
 ---
 
-**End of decision request.** The only action authorized by the user for this task is preparation of this artifact. Decision, implementation, testing, credential handling, IPD mutation, tracker synchronization, and fence changes remain unperformed and unauthorized.
+## 8. Attributed Program Authority response and remaining dependency
+
+**Response received in the Arena session on 2026-10-16:** the Program Authority selected **Option A — approve in principle for design only**. In the follow-up, the authority selected **same-host OS-protected local IPC** as the trusted-boundary design direction and expressly characterized that choice as not implementation authority, with exact threat/runtime limits still required.
+
+Record the resulting status precisely:
+
+- **Resolved:** the authority prefers a bounded local-principal design based on same-host OS-protected IPC over rejecting the concept at this stage.
+- **Not resolved:** this is not a final, operative IPD security-contract amendment. The exact OS peer/process identity, endpoint permissions, service exposure, browser-to-IRR access boundary, lifecycle/revocation, `applicationUserId` binding, and tenant treatment have not been defined or verified.
+- **Authority granted:** design refinement and preparation of an IPD-side contract proposal only, as captured by the response. **No source/configuration change, provisioning, implementation, qualification, successful-write, release, or route-admission authority was granted.** P-4, P-6, P-8, successful-write policy, and admission remain distinct gates.
+- **Next dependency:** Ramki, as the identified Program Authority and IPD repository owner/admin, must approve and durably publish an explicit IPD-side security-contract amendment that defines the exact OS-protected IPC trust boundary and all owner/authorization semantics. The current IRR PR is a publication vehicle for this request and its attributed response; it is not itself the IPD contract amendment. IPD had no open PR or issue at the time of routing, and publication or a green check is not approval.
+- **Hard stop:** if the detailed IPC boundary cannot exclude unauthorized local or remote callers without introducing a prohibited authentication/service-credential mechanism, reject the approach and retain HTTP 503.
+
+This response advances the request to a design-only direction; it does not claim that the local-principal model has already been proven compatible with G24. The next authorized work is limited to defining the approved IPC contract and presenting it for the explicit IPD-side decision, not implementing it.
+
+---
+
+**End of request and attributed response.** No IPD security contract or source was changed. No application tests, credentials, provisioning, implementation, qualification, successful writes, or fence changes were performed.
