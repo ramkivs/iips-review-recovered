@@ -2770,3 +2770,63 @@ verification; dedicated-screen implementation is **not commissioned by this pass
 consequential next authority action for that increment is the precise target/file-scope re-anchoring
 above—not a new investigation, reapproval of settled intent, data-acquisition project, old-suite
 adjudication loop or enterprise deployment exercise. Existing reference-content use needs no further act.
+
+### 16.38.6 One-pass continuation — objective sufficiency and exact disposition (`2026-10-16`)
+
+**Citation/provenance check.** The continuation requests starting at **§13.9**. Independent raw
+GitHub reads of this existing tracker on IRR `main@98c21768f77061a68470e4b4f6750d38abeec594`
+and session `347c4cbf38581ced6be73b066145e8d21a597505` establish that **neither has §13.9**:
+§13 is Reports `R4-B`, with §§13.1–13.5. The located Group 6 baseline is **§16.16.5**, corrected
+and reconciled at **§16.38**. This is a verified pointer correction, not a renumbering or assertion
+about unseen Library content. The Library version might differ; its identity/content remains
+**NOT VERIFIED** because `library` again returned unsupported. No competing tracker is created.
+
+**Delta verification, not a repeated investigation.** IRR main remains `98c21768…`, IPD main
+`70b24f029842a7e9b7f615e4d9df7376fd4ff817`, active PR #114 OPEN at starting head `347c4cb…`.
+Fresh GitHub tree/Contents comparisons match **all 14 source anchors and four historical NP-18
+record blobs** in the existing `verification.json`. `phase13-next` (`4357e14…`) and both authority
+branches (`fedc19ee…` / `17c759cd…`) remain unchanged. Relevant tags were read remotely: IRR
+`v3.0-phase12-certified@7325aeda…` / `program-v1.2.0@5decdca9…`; IPD's four historical tags
+remain `p14-r7-65b78f7`, `portfolio-option-a-cb969b6`, `post-cleanup-baseline-b46b4f4`,
+`temporary-cleanup-caf73ba`. None is a new current-target NP-18 act. IPD has no open PR; IRR's
+only open PR is #114. No changed product/authority evidence warrants repeating the old census,
+orphan suites, composed-server probe or 40 focused tests. Their **prior PASS** evidence is reused,
+not represented as a new test run. The starting remote tracker raw SHA-256 was
+`2271dd25711be619238b7e04771c8f3ceaa93f0234ed0ec8cd9d93f94a2f5c7d`.
+
+**G6-R4 — bounded objective-fit disposition (recorded under this instruction's reconciliation
+and status-recording authority, not a new PA acceptance or scope-waiver act).** Existing content
+satisfies **viewing the current certified reference population** on the already-working screens.
+There is no correctness or product-availability reason to rebuild it merely to obtain another
+screen. That is distinct from fulfilling the original, explicitly selected NP-18 **three distinct
+full views**: that dedicated-exposure objective is **not fulfilled on current main**. We neither
+cancel that selection nor infer current-target implementation authority from it.
+
+| Capability | Current authoritative-main exposure / bounded objective | Exact disposition and remaining increment |
+|---|---|---|
+| **Opportunities** | Executive highlight, ranking-based Priority Opportunities table, Portfolio and Cross-Sector opportunity lists; existing `OpportunityEngine` → API subset of the same ranking. Bounded reference-content viewing is satisfied. | **PRESERVE EXISTING / NO FURTHER WORK** for current content exposure. **IMPLEMENTATION REQUIRED, BLOCKED** only for the separately selected dedicated discovery/action view: current-target re-anchoring first; then target **QUALIFICATION REQUIRED**. No rebuild or new acquisition project. |
+| **Risks** | Executive/Portfolio/Cross-Sector aggregate `avgRisk`, diversification/correlation flags and concentration sectors are already exposed. Existing Portfolio numeric row-risk scores remain preserved; no new grading semantics. Bounded score/flag viewing is satisfied. | **PRESERVE EXISTING / NO FURTHER WORK** for bounded exposure. Dedicated aggregate-only Risk view: **IMPLEMENTATION REQUIRED, BLOCKED** on the same target act, then **QUALIFICATION REQUIRED**. New per-company/per-sector risk derivation, risk rankings/grades/bands/thresholds remain **DECISION REQUIRED** under a separate methodology/contract/engine scope—not part of this increment. |
+| **Rankings** | Executive ranking-based table and Cross-Sector Sector Ranking expose the deterministic full **13-engine** population; opportunities are the first **10**, not a 10-row cap on rankings. Bounded ordered-comparison viewing is satisfied. | **PRESERVE EXISTING / NO FURTHER WORK** for existing ranking exposure. Dedicated ordered-comparison view: **IMPLEMENTATION REQUIRED, BLOCKED** on target act, then **QUALIFICATION REQUIRED**. Top-25/50 selector/broader universe are **DECISION REQUIRED** plus a separately scoped population/transport dependency; no reachable current selector/API override and no automatic extension. |
+
+**Authority separation retained.** Global one-pass authorization supports verification, recording,
+ordinary evidence publication and independent in-scope work; it does not replace NP-18's
+capability-specific scope or R2's named target. §16.38.3 already reconciles the earlier/later
+qualification records; their source-reported historical bounded qualification is **not** a new
+qualification authorization or fresh evidence for current main. A dated PA **target/file-scope
+re-anchoring act**, exactly bounded as §16.38.4 specifies, remains the smallest missing act **if
+consolidated execution includes the dedicated trio**. New implementation needs qualification on
+that target; admission/release authority and production activation remain separate, never inferred
+from tests or historical qualification. The current instruction does not supply the missing act.
+A decision to drop the already-selected dedicated-view objective would likewise require its scope
+owner; G6-R4 does not make that decision. No further investigation or settled-intent approval is needed.
+
+**Execution/publication:** **NOT STARTED** dedicated-screen implementation/route or nav activation,
+transplant, current-target qualification or admission; no application changes, IPD writes or merge.
+Only this existing tracker is clarified in this continuation. **PASS** fresh remote-delta checks and
+`git diff --check`; prior 40 focused tests / composed-server probe and successful CI on `347c4cb…`
+reused for unchanged application bytes. External deployed host/manual browser remains **NOT VERIFIED**.
+The clarification is published on the same active IRR branch/PR #114; its final commit and tracker
+raw-byte/blob verification are recorded remotely in the PR after push (no self-reference in this file).
+Library synchronization remains **BLOCKED / NOT VERIFIED**, not silently equated with Git publication.
+No consolidated fast-track task was prepared or executed. Reconciliation is complete on verified
+publication; the exact remaining optional-dedicated-increment dependency is the target act above.
