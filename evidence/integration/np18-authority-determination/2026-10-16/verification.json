@@ -1,0 +1,87 @@
+{
+  "date": "2026-10-16",
+  "status": "EVIDENCE ONLY — NO AUTHORITY GRANTED",
+  "refs": {
+    "main": "98c21768f77061a68470e4b4f6750d38abeec594",
+    "arena/d57c506a-iips-review-recovered": "d9799e77f5502cbae9d1549560d47047abed4223",
+    "arena/01a03e3b-iips-review-recovered": "3c7568e0437f2a5e7b385833ed0752990286ad87",
+    "arena/01a0ddea-iips-review-recovered": "fedc19ee41c07a7a00a0b887e78f352b466cf41a",
+    "arena/01a0e30f-iips-review-recovered": "17c759cdccc6f7e1e3753c5215fcfa5d11ed4328",
+    "phase13-next": "4357e14a35966cd8508e0c59e40627791c103172"
+  },
+  "source_records_verified": [
+    {
+      "commit": "d44c5c7aab43d1c89da06a6f99c4a9e75e47423d",
+      "path": "governance/iips/AUTH-NP-18-INTELLIGENCE-EXPOSURE-IMPLEMENTATION-AUTHORITY-2026-09-26.md",
+      "blob": "8f8b077fe8f44833868a8b7df6ccc68df8ff9a62",
+      "sha256": "f1d14170ba81c7b30dda729747be778f2e8fbc2a33d1b0bf3c7ae1a9d16b5cff",
+      "bytes": 25872,
+      "raw_remote_equals_git_object": true
+    },
+    {
+      "commit": "abac36b2f0d1d3ac7f8aa9c16d471b634e166d1a",
+      "path": "governance/iips/AUTH-NP-18-R2-IMPLEMENTATION-RETARGETING-AUTHORITY-2026-09-26.md",
+      "blob": "bc6fb0ca975f9413c86141b6769e21a701d6f65f",
+      "sha256": "a2f9dba52706885d435b446819c659d1b07efd442a100e1b92d864e143b28e28",
+      "bytes": 22878,
+      "raw_remote_equals_git_object": true
+    },
+    {
+      "commit": "b8afaeae2daa7a33bc1c8061d04de6b580c77029",
+      "path": "governance/iips/DEC-NP-17-NP-18-PAYLOAD-DECISION-BOUNDARY-2026-09-26.md",
+      "blob": "a5a345a71d5bda24a73934c216d299fb715bbaab",
+      "sha256": "bd2f1d4b01adcae245ad17a621219795b962dc207e0146729e612f2a78765e7d",
+      "bytes": 14464,
+      "raw_remote_equals_git_object": true
+    },
+    {
+      "commit": "4357e14a35966cd8508e0c59e40627791c103172",
+      "path": "governance/iips/EVID-NP-18-QUALIFICATION-RECONCILIATION-2026-09-27.md",
+      "blob": "9db76355caea1b4b4040b705e9014ea796d32ef4",
+      "sha256": "0d0c999e5c6a915257a178f222bcb2aca0112eb6fe3942bc75b2e79be0bd4522",
+      "bytes": 1955,
+      "raw_remote_equals_git_object": true
+    },
+    {
+      "commit": "4357e14a35966cd8508e0c59e40627791c103172",
+      "path": "governance/iips/EVID-NP-18-QUALIFICATION-ADJUDICATION-2026-09-27.md",
+      "blob": "1b0c18fac1323d4c92ffaecb87c3809ff070bdb3",
+      "sha256": "67f0b0b2c7ed42b0ce0b025f0abfb7fdd8706dcceb5dff0a11a0bbc895176036",
+      "bytes": 2369,
+      "raw_remote_equals_git_object": true
+    }
+  ],
+  "historical_publication": "Original and R2 are ancestors of both explicitly identified authority-recording refs. Canonical governance ref remains at parent baseline; original/R2 absent from current main.",
+  "proposed_product_allowlist_NOT_AUTHORIZED": {
+    "new": [
+      "frontend/src/features/intelligence/IntelligenceOpportunities.tsx",
+      "frontend/src/features/intelligence/IntelligenceOpportunities.test.tsx",
+      "frontend/src/features/intelligence/IntelligenceRisks.tsx",
+      "frontend/src/features/intelligence/IntelligenceRisks.test.tsx",
+      "frontend/src/features/intelligence/IntelligenceRankings.tsx",
+      "frontend/src/features/intelligence/IntelligenceRankings.test.tsx"
+    ],
+    "modified": [
+      "frontend/src/app/App.tsx",
+      "frontend/src/app/navigation.ts",
+      "frontend/src/app/App.test.tsx"
+    ]
+  },
+  "blockers": [
+    "Original implementation scope is genuine but branch-specific; R2 is an express separate PA target act, not a delegated agent retargeting power.",
+    "R2 §5.3/§13 require exact historical target and stop on baseline drift.",
+    "R2 §7 binds old guarded/authFetch/Bearer path; §8 binds old NavStatus machinery. Current main uses separately governed noAuthFetch and group-only/available-child navigation.",
+    "No current-target superseding/delegating act located on inspected main, session, original recording/governance and donor refs; no claim of exhaustive search outside those relevant refs."
+  ],
+  "validation": {
+    "remote_raw_source_integrity": "PASS",
+    "exact_candidate_file_existence": "PASS — six absent, three existing on exact main",
+    "original_commit_hash_matches_recorded_sha256": "PASS",
+    "reanchoring_act_publication": "NOT STARTED — insufficient established authority",
+    "implementation": "BLOCKED / NOT STARTED",
+    "current_target_qualification": "NOT STARTED — separate subsequent path",
+    "admission_release_production": "NOT AUTHORIZED by historical implementation acts",
+    "application_tests": "NOT RUN — no application changes; prior valid evidence reused",
+    "library_sync": "BLOCKED — connector unsupported"
+  }
+}

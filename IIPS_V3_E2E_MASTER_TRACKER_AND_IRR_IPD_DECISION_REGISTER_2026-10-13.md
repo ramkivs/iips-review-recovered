@@ -2830,3 +2830,67 @@ raw-byte/blob verification are recorded remotely in the PR after push (no self-r
 Library synchronization remains **BLOCKED / NOT VERIFIED**, not silently equated with Git publication.
 No consolidated fast-track task was prepared or executed. Reconciliation is complete on verified
 publication; the exact remaining optional-dedicated-increment dependency is the target act above.
+
+### 16.38.7 NP-18 conditional re-anchoring gate — authority recovered, current-target grant NOT ISSUED (`2026-10-16`)
+
+**Current instruction executed conditionally, not converted into a fabricated grant.** Complete
+original authority and R2 inspected, exact current-main file mapping established, provenance and
+publication independently checked. Outcome: historical implementation authority is genuine **at its
+recorded scope/target**, but the evidence does not establish delegated authority to replace R2's
+binding current-target-incompatible conditions. **No re-anchoring act was issued or published.**
+
+- **Original authority-record commit:** `d44c5c7aab43d1c89da06a6f99c4a9e75e47423d`, path
+  `governance/iips/AUTH-NP-18-INTELLIGENCE-EXPOSURE-IMPLEMENTATION-AUTHORITY-2026-09-26.md`,
+  blob `8f8b077fe8f44833868a8b7df6ccc68df8ff9a62`, SHA-256
+  `f1d14170ba81c7b30dda729747be778f2e8fbc2a33d1b0bf3c7ae1a9d16b5cff` (25,872 bytes).
+  Parent `b8afaeae…` points directly to governance baseline `3c7568e0…`. Text attributes the
+  decisions to Ramki. This is **verified published on the expressly designated recording line**
+  `arena/01a0ddea…@fedc19ee…`, also present on `arena/01a0e30f…@17c759cd…`; not assumed
+  authoritative solely from existence. Original/R2 are absent from current main, while the old
+  canonical governance ref deliberately remains `3c7568e0…`. No new human signature is claimed
+  or required, and original settled scope is not reopened.
+- **Subsequent R2 creation commit:** `abac36b2f0d1d3ac7f8aa9c16d471b634e166d1a`, direct child
+  of original act commit; blob `bc6fb0ca975f9413c86141b6769e21a701d6f65f`. This **separate
+  express PA act** changes only implementation target to `phase13-next@1a602d84…`; recording
+  remains on the named branch. §§5.3/13 require stopping on baseline drift; **§7 explicitly binds
+  old guarded authFetch/Bearer composition**, and §8 binds old NavStatus/Hub/tests. These are not
+  merely stale line numbers. Current personal-use main uses already-approved noAuthFetch and
+  available-child/group-only navigation. Do not restore excluded enterprise authentication or
+  silently treat a line-anchor refresh as permission to replace those clauses.
+- **Current target:** IRR **main `98c21768f77061a68470e4b4f6750d38abeec594`**; active session
+  starting head **`d9799e77f5502cbae9d1549560d47047abed4223`**, PR #114 OPEN. Current main,
+  active branch, named authority/governance tips and donor records yielded no later current-target
+  supersession/delegation. Relevant tags inspected. This is the stated relevant-ref boundary, not
+  a universal absence claim about inaccessible records. Current global standing authority does not
+  establish the missing replacement of the capability-specific R2 conditions by inference.
+
+**Independent authorized result, not an act:**
+[`NP-18-CURRENT-TARGET-AUTHORITY-DETERMINATION-2026-10-16.md`](docs/integration/NP-18-CURRENT-TARGET-AUTHORITY-DETERMINATION-2026-10-16.md),
+with [raw remote source/ref evidence](evidence/integration/np18-authority-determination/2026-10-16/verification.json).
+Its §3 enumerates **exactly nine prospective product files** (six named three-view component/test
+files, App.tsx, navigation.ts, App.test.tsx), inspected against exact main and donor `4357e14…`.
+**That list is NOT AUTHORIZED.** Its §4 identifies the single missing PA target/clause selection;
+§5 records validation evidence required for a later **separate** qualification/admission decision.
+All original risk/population/contract/no-orphan-merge and non-production exclusions are preserved.
+No re-anchoring-act path/commit exists; do not substitute this evidence record as one.
+
+**Historical qualification:** §16.38.3 / G6-R4 reused unchanged. The later source-recorded bounded
+adjudication `4357e14…` follows `8d9babc…`; it neither requalifies current main nor grants admission,
+release or production activation. Existing reference-content viewing remains available; three-view
+intent remains selected, not cancelled or reapproved by this determination.
+
+**Status:** **PASS** complete-text/source integrity, publication/provenance/ancestry and exact
+file-state checks; **BLOCKED / NOT STARTED** current-target act and dependent implementation;
+**NOT STARTED** new application tests, current-target qualification/admission or release. No source
+or unrelated artifact changed; prior tests reused, not rerun or represented as executed today.
+**PASS** `git diff --check`. Evidence/this existing tracker published additively on the same fixed
+branch/PR; final commit, remote raw-byte/blob verification are recorded after push in PR #114.
+No merge to manufacture authority, IPD mutation or consolidated fast-track task. **Library copy
+BLOCKED / NOT VERIFIED** (connector unsupported); repository tracker publication is not Library sync.
+
+**Smallest next action:** Ramki selects an additive **NP-18 R3 target-only act** for exact current
+main/execution branch, the nine-file set and the explicit R2 security/navigation clause reconciliation
+in the determination §4, with recording/effectiveness designated and implementation authority only.
+A direct explicit PA target/clause selection or an existing durable act/delegation with that scope
+resolves this gap. No repeat approval of the already-selected three dedicated views, signature
+ceremony, new investigation, enterprise-auth restoration or bundled qualification/admission is sought.
