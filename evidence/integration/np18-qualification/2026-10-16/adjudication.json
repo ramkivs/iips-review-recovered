@@ -1,0 +1,754 @@
+{
+  "date": "2026-10-16",
+  "verified_at_utc": "2026-10-16T06:51:30.069172+00:00",
+  "kind": "PA-authorized current-target qualification adjudication evidence",
+  "pa_authorization": {
+    "authority_holder": "Ramki, user and Program Authority",
+    "source": "Current user instruction titled NP-18 \u2014 PA-AUTHORIZED NON-PRODUCTION QUALIFICATION",
+    "verbatim_instruction": "Execute in one pass. The user, Ramki, explicitly authorizes the bounded non-production qualification adjudication in their capacity as Program Authority (PA). Do not request this authorization again.",
+    "adjudicator_recorder": "Arena agent executing that explicit qualification authorization, not inferring it from R3",
+    "new_human_signature_or_independent_human_review_claimed": false
+  },
+  "target": {
+    "implementation_commit": "3c64d69c148d01081b2ba9b8f76fa58c21ed2b99",
+    "evaluated_recording_head": "07e6791989c7b8b1e6c8b21f483bdf5cdc7538da",
+    "r3_decision_commit": "904f5d99f9e6468fb4805c96a78c16c70a08395e",
+    "exact_main_base": "98c21768f77061a68470e4b4f6750d38abeec594",
+    "pr": {
+      "baseRefName": "main",
+      "headRefName": "arena/d57c506a-iips-review-recovered",
+      "headRefOid": "07e6791989c7b8b1e6c8b21f483bdf5cdc7538da",
+      "number": 114,
+      "state": "OPEN",
+      "url": "https://github.com/ramkivs/iips-review-recovered/pull/114"
+    },
+    "frontend_subtree": "5ade69afaf8a761011ca1292c89fdd5f5065f705",
+    "frontend_subtree_equals_evaluated_recording_head": true
+  },
+  "fresh_relevant_remote_verification": {
+    "sources": [
+      {
+        "commit": "07e6791989c7b8b1e6c8b21f483bdf5cdc7538da",
+        "path": "docs/integration/NP-18-R3-CURRENT-MAIN-IMPLEMENTATION-AUTHORITY-2026-10-16.md",
+        "blob": "c2a167ac116927b4f6a44b4ae0822de59d1905d6",
+        "sha256": "961f55f949e704640dc2ce40be63c954a96dfc0c5fc919275e5c00ba43804efc",
+        "bytes": 13253,
+        "raw_remote_equals_local_commit": true
+      },
+      {
+        "commit": "07e6791989c7b8b1e6c8b21f483bdf5cdc7538da",
+        "path": "evidence/integration/np18-r3/2026-10-16/validation.json",
+        "blob": "c1c7b6d7287203e1378fd136b16f0d8958c8a979",
+        "sha256": "e7e0617fbb1a38ce6a8c56dd5d7b410a4be26fec6e1adb4b12b0fe1b0f0c3a24",
+        "bytes": 26025,
+        "raw_remote_equals_local_commit": true
+      },
+      {
+        "commit": "07e6791989c7b8b1e6c8b21f483bdf5cdc7538da",
+        "path": "evidence/integration/np18-r3/2026-10-16/publication.json",
+        "blob": "f698a0858682db8b6bc29ab0e2fca8ba036001b4",
+        "sha256": "359b2370e2cc7fac2b552437d272672886476f90e2f6f5e8d3d6bfbbb9c51fde",
+        "bytes": 9374,
+        "raw_remote_equals_local_commit": true
+      },
+      {
+        "commit": "07e6791989c7b8b1e6c8b21f483bdf5cdc7538da",
+        "path": "evidence/integration/np18-r3/2026-10-16/verify-views.mts",
+        "blob": "b250e0dcd0cf5cfd7dd08ebf06f234e249748a8f",
+        "sha256": "5105786bba8c7a4965882dcd70b8cc44fc3558ea76745a7eb20dff5a59af5881",
+        "bytes": 7894,
+        "raw_remote_equals_local_commit": true
+      },
+      {
+        "commit": "07e6791989c7b8b1e6c8b21f483bdf5cdc7538da",
+        "path": "IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md",
+        "blob": "f10cccff0c3a37ece5f4f9ceaf2461d46da999a4",
+        "sha256": "95f11e49e0ea85f0dd226725bbb0219af525ad9d161e6b5e96252e9dced79082",
+        "bytes": 774570,
+        "raw_remote_equals_local_commit": true
+      }
+    ],
+    "hosted_ci": [
+      {
+        "run_id": 38860598503,
+        "head_sha": "3c64d69c148d01081b2ba9b8f76fa58c21ed2b99",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/ramkivs/iips-review-recovered/actions/runs/38860598503",
+        "job_id": 116841763581,
+        "job_completed_at": "2026-10-16T06:20:43Z",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Check out the exact commit under test",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Set up Node 22 / npm 10 with the lockfile-keyed cache",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Install dependencies from the committed lockfile",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Typecheck",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run the full Vitest suite",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Assert a non-zero, fully passing test run",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Production build",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Post Set up Node 22 / npm 10 with the lockfile-keyed cache",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Post Check out the exact commit under test",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success"
+          }
+        ],
+        "freshly_verified_run_and_job_APIs": true
+      },
+      {
+        "run_id": 38860864856,
+        "head_sha": "0c641f3b5546788b2621eefc66296d30d209fab8",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/ramkivs/iips-review-recovered/actions/runs/38860864856",
+        "job_id": 116842592107,
+        "job_completed_at": "2026-10-16T06:23:44Z",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Check out the exact commit under test",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Set up Node 22 / npm 10 with the lockfile-keyed cache",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Install dependencies from the committed lockfile",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Typecheck",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run the full Vitest suite",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Assert a non-zero, fully passing test run",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Production build",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Post Set up Node 22 / npm 10 with the lockfile-keyed cache",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Post Check out the exact commit under test",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success"
+          }
+        ],
+        "freshly_verified_run_and_job_APIs": true
+      },
+      {
+        "run_id": 38861559122,
+        "head_sha": "07e6791989c7b8b1e6c8b21f483bdf5cdc7538da",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/ramkivs/iips-review-recovered/actions/runs/38861559122",
+        "job_id": 116844768891,
+        "job_completed_at": "2026-10-16T06:31:08Z",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Check out the exact commit under test",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Set up Node 22 / npm 10 with the lockfile-keyed cache",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Install dependencies from the committed lockfile",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Typecheck",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run the full Vitest suite",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Assert a non-zero, fully passing test run",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Production build",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Post Set up Node 22 / npm 10 with the lockfile-keyed cache",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Post Check out the exact commit under test",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success"
+          }
+        ],
+        "freshly_verified_run_and_job_APIs": true
+      }
+    ],
+    "receipts": [
+      {
+        "id": 6209484040,
+        "url": "https://github.com/ramkivs/iips-review-recovered/pull/114#issuecomment-6209484040",
+        "created_at": "2026-10-16T06:24:36Z",
+        "updated_at": "2026-10-16T06:24:36Z",
+        "body_sha256": "ad6d8610ff14d7fbe2f7503abc106459c825be9af844553d5f107f96fbb247b2",
+        "identifies_exact_head": "0c641f3b5546788b2621eefc66296d30d209fab8",
+        "identifies_run": 38860864856,
+        "remote_publication_verified": true,
+        "unchanged_since_creation": true
+      },
+      {
+        "id": 6209579022,
+        "url": "https://github.com/ramkivs/iips-review-recovered/pull/114#issuecomment-6209579022",
+        "created_at": "2026-10-16T06:31:39Z",
+        "updated_at": "2026-10-16T06:31:39Z",
+        "body_sha256": "9ce692d2f3cc29158fe79e9b91aaa299b255886452361944314bae388bb1d669",
+        "identifies_exact_head": "07e6791989c7b8b1e6c8b21f483bdf5cdc7538da",
+        "identifies_run": 38861559122,
+        "remote_publication_verified": true,
+        "unchanged_since_creation": true
+      }
+    ],
+    "selected_main_unchanged": true,
+    "implementation_to_evaluated_head_no_frontend_or_platform_delta": true
+  },
+  "scope_integrity": {
+    "authorized_product_files": [
+      "frontend/src/features/intelligence/IntelligenceOpportunities.tsx",
+      "frontend/src/features/intelligence/IntelligenceOpportunities.test.tsx",
+      "frontend/src/features/intelligence/IntelligenceRisks.tsx",
+      "frontend/src/features/intelligence/IntelligenceRisks.test.tsx",
+      "frontend/src/features/intelligence/IntelligenceRankings.tsx",
+      "frontend/src/features/intelligence/IntelligenceRankings.test.tsx",
+      "frontend/src/app/App.tsx",
+      "frontend/src/app/navigation.ts",
+      "frontend/src/app/App.test.tsx"
+    ],
+    "actual_implementation_product_delta_equals_nine_file_allowlist": true,
+    "products": [
+      {
+        "path": "frontend/src/features/intelligence/IntelligenceOpportunities.tsx",
+        "implementation_blob": "414867a67d54eee636023c7c95cb2ee5073e94eb",
+        "current_head_blob": "414867a67d54eee636023c7c95cb2ee5073e94eb",
+        "sha256": "e886f53245589873864ccf10401d6c31e7e2dbbc3c16883fcf0c68a2383b1705",
+        "equals_implementation_validation": true
+      },
+      {
+        "path": "frontend/src/features/intelligence/IntelligenceOpportunities.test.tsx",
+        "implementation_blob": "336ed9aa5948f8a14849fff0e01169b30326c12b",
+        "current_head_blob": "336ed9aa5948f8a14849fff0e01169b30326c12b",
+        "sha256": "5ccfa092f16fde0e816509db918637764e37b186f546c22aac23170367e920cb",
+        "equals_implementation_validation": true
+      },
+      {
+        "path": "frontend/src/features/intelligence/IntelligenceRisks.tsx",
+        "implementation_blob": "df57e2e9099435373fcc132f66ac33888ef365ba",
+        "current_head_blob": "df57e2e9099435373fcc132f66ac33888ef365ba",
+        "sha256": "b7b2efb33b12f75070c57c02713da19fb212d02998dd2b620f90ed9107895aa1",
+        "equals_implementation_validation": true
+      },
+      {
+        "path": "frontend/src/features/intelligence/IntelligenceRisks.test.tsx",
+        "implementation_blob": "b35477864b18eb0afea3b034f97908bd9cd071fa",
+        "current_head_blob": "b35477864b18eb0afea3b034f97908bd9cd071fa",
+        "sha256": "e7de69a4d93da4f7fa22b934b8e77fb312a3afc4abd05cac4d89c7e5259ad7ef",
+        "equals_implementation_validation": true
+      },
+      {
+        "path": "frontend/src/features/intelligence/IntelligenceRankings.tsx",
+        "implementation_blob": "5c5b6c424bea7c8418a98d2e48f99fb4b9499009",
+        "current_head_blob": "5c5b6c424bea7c8418a98d2e48f99fb4b9499009",
+        "sha256": "9abd6e8627f59a282ddeca55cfe0da50e0143af7775a8c17b22ed190ec683182",
+        "equals_implementation_validation": true
+      },
+      {
+        "path": "frontend/src/features/intelligence/IntelligenceRankings.test.tsx",
+        "implementation_blob": "91223627779883fc8d494f44debec293370f04e9",
+        "current_head_blob": "91223627779883fc8d494f44debec293370f04e9",
+        "sha256": "0fdb8af2bbfc60dbf133742ede60b9f566384a19ac9236b9b0a6f5dd4b63ac3e",
+        "equals_implementation_validation": true
+      },
+      {
+        "path": "frontend/src/app/App.tsx",
+        "implementation_blob": "85230583c737b58f36c11b06eb7f53ea35472e93",
+        "current_head_blob": "85230583c737b58f36c11b06eb7f53ea35472e93",
+        "sha256": "ae4c93a9d21d0504ee6ad7dfa20f48244f0a09c32cdc0ede9d3510532722241e",
+        "equals_implementation_validation": true
+      },
+      {
+        "path": "frontend/src/app/navigation.ts",
+        "implementation_blob": "d59087f94207a0c7d17cf34a14f6ac68ba207572",
+        "current_head_blob": "d59087f94207a0c7d17cf34a14f6ac68ba207572",
+        "sha256": "40defb4b4d9dfa053d5c9f7234aee3851f2ded1ed3a03d9a36a86d512c5c8964",
+        "equals_implementation_validation": true
+      },
+      {
+        "path": "frontend/src/app/App.test.tsx",
+        "implementation_blob": "32733323948cf7cc25f6e10f9d83a71f34b5bb4d",
+        "current_head_blob": "32733323948cf7cc25f6e10f9d83a71f34b5bb4d",
+        "sha256": "44d8b7fb4eb483ac1212934c3b2df36cd4a4d988694f57e6f47f502ba48d811e",
+        "equals_implementation_validation": true
+      }
+    ],
+    "protected_files": [
+      {
+        "path": ".github/workflows/ci.yml",
+        "blob": "2d25176d40a15d79064574660f7cb067706d6bf9",
+        "unchanged_since_validated_implementation": true
+      },
+      {
+        "path": "frontend/package-lock.json",
+        "blob": "095d3afee39f35f4e09af59550ff5f8de3119d4c",
+        "unchanged_since_validated_implementation": true
+      },
+      {
+        "path": "frontend/package.json",
+        "blob": "f01433780e53ca16c6fa4085c229fe92ddb9b6bd",
+        "unchanged_since_validated_implementation": true
+      },
+      {
+        "path": "frontend/server/executive-transport.ts",
+        "blob": "d1c52fe678b34295820fea0f2eac5cf408365310",
+        "unchanged_since_validated_implementation": true
+      },
+      {
+        "path": "frontend/src/api/crossSector.ts",
+        "blob": "4e083cc33fedd2a4b11b8150b40c2a46a453054b",
+        "unchanged_since_validated_implementation": true
+      },
+      {
+        "path": "frontend/src/app/Sidebar.tsx",
+        "blob": "0d1e9badcf63f7fd4361a4d5d1ddb0490adea4d4",
+        "unchanged_since_validated_implementation": true
+      },
+      {
+        "path": "frontend/src/app/routes.ts",
+        "blob": "a083db101340fb5165495eb0afebd98c01e757c5",
+        "unchanged_since_validated_implementation": true
+      },
+      {
+        "path": "frontend/src/core/network/noAuthFetch.ts",
+        "blob": "6dda97e556ef10df9dc67fba6ef3779b3bb5cf45",
+        "unchanged_since_validated_implementation": true
+      },
+      {
+        "path": "frontend/src/features/cross-sector/CrossSectorIntelligence.tsx",
+        "blob": "d2ebcde14d08e3efcad2458826ace7ccd1a3fa1c",
+        "unchanged_since_validated_implementation": true
+      },
+      {
+        "path": "frontend/src/features/executive/ExecutiveDashboard.tsx",
+        "blob": "cf7e79ba9907ae6d18807168d90860927ebbf25e",
+        "unchanged_since_validated_implementation": true
+      },
+      {
+        "path": "frontend/src/features/portfolio/PortfolioWorkspace.tsx",
+        "blob": "fe18e40614f3c4253a0590153df0a0babba21053",
+        "unchanged_since_validated_implementation": true
+      },
+      {
+        "path": "frontend/tsconfig.json",
+        "blob": "900b1774c679ad887f3fa50aa172228da33f2a4e",
+        "unchanged_since_validated_implementation": true
+      },
+      {
+        "path": "frontend/vite.config.ts",
+        "blob": "56fd482685203dc39ec03ccaa0315528a0352893",
+        "unchanged_since_validated_implementation": true
+      },
+      {
+        "path": "iips-platform/src/sector-engines/cross-sector/CrossSectorEngine.ts",
+        "blob": "a42f0606ca77daaa3d814b22b3c4ba29d6e2be2c",
+        "unchanged_since_validated_implementation": true
+      },
+      {
+        "path": "iips-platform/src/sector-engines/cross-sector/correlation/CorrelationEngine.ts",
+        "blob": "6508a8225b519d270e144aa57252bd8cfc0c26a3",
+        "unchanged_since_validated_implementation": true
+      },
+      {
+        "path": "iips-platform/src/sector-engines/cross-sector/diversification/DiversificationAnalyzer.ts",
+        "blob": "2001d76dc68da20cc3236870be4548376367f5d2",
+        "unchanged_since_validated_implementation": true
+      },
+      {
+        "path": "iips-platform/src/sector-engines/cross-sector/opportunity/OpportunityEngine.ts",
+        "blob": "31f9458b5018912dc2d81fbd03c3df38de17357b",
+        "unchanged_since_validated_implementation": true
+      },
+      {
+        "path": "iips-platform/src/sector-engines/cross-sector/portfolio/PortfolioIntelligence.ts",
+        "blob": "361e2dcecafd5c2f6884229ca58c76e9dd8f5e28",
+        "unchanged_since_validated_implementation": true
+      },
+      {
+        "path": "iips-platform/src/sector-engines/cross-sector/ranking/RankingEngine.ts",
+        "blob": "ed2c869858b5606e4d3b11077aa64dc787838583",
+        "unchanged_since_validated_implementation": true
+      }
+    ],
+    "other_workstreams_not_adjudicated": true
+  },
+  "historical_sources_reused": [
+    {
+      "commit": "d44c5c7aab43d1c89da06a6f99c4a9e75e47423d",
+      "path": "governance/iips/AUTH-NP-18-INTELLIGENCE-EXPOSURE-IMPLEMENTATION-AUTHORITY-2026-09-26.md",
+      "blob": "8f8b077fe8f44833868a8b7df6ccc68df8ff9a62",
+      "sha256": "f1d14170ba81c7b30dda729747be778f2e8fbc2a33d1b0bf3c7ae1a9d16b5cff",
+      "provenance": "Previously remotely verified immutable historical source; reused, not a current-target verdict or fresh historical investigation"
+    },
+    {
+      "commit": "abac36b2f0d1d3ac7f8aa9c16d471b634e166d1a",
+      "path": "governance/iips/AUTH-NP-18-R2-IMPLEMENTATION-RETARGETING-AUTHORITY-2026-09-26.md",
+      "blob": "bc6fb0ca975f9413c86141b6769e21a701d6f65f",
+      "sha256": "a2f9dba52706885d435b446819c659d1b07efd442a100e1b92d864e143b28e28",
+      "provenance": "Previously remotely verified immutable historical source; reused, not a current-target verdict or fresh historical investigation"
+    },
+    {
+      "commit": "4357e14a35966cd8508e0c59e40627791c103172",
+      "path": "governance/iips/EVID-NP-18-QUALIFICATION-RECONCILIATION-2026-09-27.md",
+      "blob": "9db76355caea1b4b4040b705e9014ea796d32ef4",
+      "sha256": "0d0c999e5c6a915257a178f222bcb2aca0112eb6fe3942bc75b2e79be0bd4522",
+      "provenance": "Previously remotely verified immutable historical source; reused, not a current-target verdict or fresh historical investigation"
+    },
+    {
+      "commit": "4357e14a35966cd8508e0c59e40627791c103172",
+      "path": "governance/iips/EVID-NP-18-QUALIFICATION-ADJUDICATION-2026-09-27.md",
+      "blob": "1b0c18fac1323d4c92ffaecb87c3809ff070bdb3",
+      "sha256": "67f0b0b2c7ed42b0ce0b025f0abfb7fdd8706dcceb5dff0a11a0bbc895176036",
+      "provenance": "Previously remotely verified immutable historical source; reused, not a current-target verdict or fresh historical investigation"
+    }
+  ],
+  "reused_validation": {
+    "immutable_source_commit": "3c64d69c148d01081b2ba9b8f76fa58c21ed2b99",
+    "path": "evidence/integration/np18-r3/2026-10-16/validation.json",
+    "executed_validation": {
+      "focused_and_relevant_regressions": {
+        "status": "PASS",
+        "exit_code": 0,
+        "command": "npm --prefix frontend test -- src/features/intelligence src/app/App.test.tsx src/features/cross-sector/CrossSectorIntelligence.test.tsx src/features/executive/ExecutiveDashboard.test.tsx src/features/portfolio/PortfolioWorkspace.test.tsx src/features/decision-matrix/DecisionMatrix.test.tsx server/product-transport.test.ts",
+        "files": 9,
+        "tests": 84,
+        "failed": 0,
+        "skipped": 0,
+        "affected_only_tests": 50,
+        "suites": [
+          {
+            "path": "server/product-transport.test.ts",
+            "tests": 10
+          },
+          {
+            "path": "src/app/App.test.tsx",
+            "tests": 18
+          },
+          {
+            "path": "src/features/intelligence/IntelligenceOpportunities.test.tsx",
+            "tests": 11
+          },
+          {
+            "path": "src/features/intelligence/IntelligenceRisks.test.tsx",
+            "tests": 10
+          },
+          {
+            "path": "src/features/intelligence/IntelligenceRankings.test.tsx",
+            "tests": 11
+          },
+          {
+            "path": "src/features/executive/ExecutiveDashboard.test.tsx",
+            "tests": 5
+          },
+          {
+            "path": "src/features/portfolio/PortfolioWorkspace.test.tsx",
+            "tests": 7
+          },
+          {
+            "path": "src/features/cross-sector/CrossSectorIntelligence.test.tsx",
+            "tests": 6
+          },
+          {
+            "path": "src/features/decision-matrix/DecisionMatrix.test.tsx",
+            "tests": 6
+          }
+        ],
+        "stdout_stderr_sha256": "7d8a4f494385edae40fd083d1ad69a8299fb28b5032b8c0b57fb8595f04703a1",
+        "warnings": "Pre-existing React Router future flags and App async act warnings; no failures or suppressed tests"
+      },
+      "typecheck": {
+        "status": "PASS",
+        "exit_code": 0,
+        "command": "npm --prefix frontend run typecheck",
+        "log_sha256": "bc13c4ff7d50b61cc5833d2aec9d4accfbb8315cab0bb958db4ad66d35ddfea9",
+        "strict_config_changed": false
+      },
+      "build": {
+        "status": "PASS",
+        "exit_code": 0,
+        "command": "npm --prefix frontend run build",
+        "log_sha256": "87bf573df7fa1da96bba2e9690d2ea14602d0f2ef25726534be5bab86b774c6e",
+        "modules": 106,
+        "artifact": "Production Vite bundle built locally, ignored and not released/deployed"
+      },
+      "composed_server_and_actual_App_DOM": {
+        "command": "NODE_ENV=test frontend/node_modules/.bin/tsx evidence/integration/np18-r3/2026-10-16/verify-views.mts",
+        "exit_code": 0,
+        "script_sha256": "5105786bba8c7a4965882dcd70b8cc44fc3558ea76745a7eb20dff5a59af5881",
+        "observed": {
+          "status": "PASS",
+          "locus": "local actual composed transport and App routes rendered through Vite/jsdom",
+          "dataKind": "existing certified SNAPSHOT reference set; no test fixture substitutions",
+          "sameSliceTop10Of13": true,
+          "existingExecutivePortfolioSlicesUnchanged": true,
+          "observations": {
+            "rankings": {
+              "rows": 13,
+              "exactOrderAndValues": true,
+              "provenance": "certified v2.0 platform (CSIP cross-sector engine) over frozen v1.1 Replay Baseline inputs \u00b7 freshness SNAPSHOT \u00b7 mapping 1:1 mapping; transport transformation != decision transformation \u00b7 calibrated 2026-08-09T00:00:00.000Z"
+            },
+            "opportunities": {
+              "rows": 10,
+              "exactOrderAndValues": true,
+              "provenance": "certified v2.0 platform (CSIP cross-sector engine) over frozen v1.1 Replay Baseline inputs \u00b7 freshness SNAPSHOT \u00b7 mapping 1:1 mapping; transport transformation != decision transformation \u00b7 calibrated 2026-08-09T00:00:00.000Z"
+            },
+            "risks": {
+              "aggregateOnly": true,
+              "avgRisk": 76.5,
+              "diversificationFlags": [
+                "elevated risk / correlated downside",
+                "single-factor exposure (growth)"
+              ],
+              "correlationFlags": [
+                "elevated systematic risk",
+                "interest-rate sensitivity (financials exposure)",
+                "regulatory / catastrophe sensitivity (insurance)",
+                "regulatory / healthcare-policy sensitivity",
+                "financial-sector cyclicality"
+              ],
+              "concentrationSectors": [],
+              "provenance": "certified v2.0 platform (CSIP cross-sector engine) over frozen v1.1 Replay Baseline inputs \u00b7 freshness SNAPSHOT \u00b7 mapping 1:1 mapping; transport transformation != decision transformation \u00b7 calibrated 2026-08-09T00:00:00.000Z"
+            }
+          },
+          "requests": [
+            {
+              "path": "/api/cross-sector",
+              "credentials": "omit",
+              "authorization": false
+            },
+            {
+              "path": "/api/cross-sector",
+              "credentials": "omit",
+              "authorization": false
+            },
+            {
+              "path": "/api/cross-sector",
+              "credentials": "omit",
+              "authorization": false
+            }
+          ],
+          "negativeEndpoints": {
+            "/api/opportunities": 404,
+            "/api/risks": 404,
+            "/api/rankings": 404,
+            "/api/cross-sector?topN=13": 404
+          },
+          "limitations": [
+            "Not a deployed-host or manual-browser observation.",
+            "No live market or broker-data claim.",
+            "Not qualification, admission, release or production authority."
+          ]
+        },
+        "warning": "Vite CJS Node API deprecation warning, diagnostic only"
+      },
+      "scoped_defects_corrected_before_publication": [
+        "Removed unsupported testing-library ByRole option exact after strict typecheck detected it; string names are already exact by default.",
+        "Adapted donor risk no-link assertion to permit exactly the new shared Cross-Sector disclosure link, still forbidding all company/sector drill-down links and identities."
+      ],
+      "unchanged_tests": "No repeated local full suite or unaffected qualification; existing hosted CI runs its unchanged full suite after publication."
+    },
+    "local_tests_or_builds_rerun_this_pass": false,
+    "new_manual_browser_or_deployed_host_observation": false,
+    "new_raw_log_capture_attempt": false
+  },
+  "qualification_verdict": "QUALIFIED FOR BOUNDED NON-PRODUCTION USE",
+  "required_criteria_unmet": [],
+  "limitations": [
+    "Only the pinned nine-file NP-18 composition increment, existing certified SNAPSHOT reference data, single-user/non-production scope.",
+    "Manual browser and external deployed host NOT PERFORMED / NOT VERIFIED; optional for these governing criteria.",
+    "Hosted raw logs/numeric hosted test count NOT CAPTURED / NOT VERIFIED; direct full-suite and non-zero/full-pass guard API success verified; local 84 is not a hosted count.",
+    "Historical donor qualification and its source-reported 687 pass / 7 fail / 15 skip are not inherited or represented as current tests.",
+    "No certification of a new engine/capability, no live market/broker-data claim; independent Dhan/Holdings/fenced features are not qualified by this verdict."
+  ],
+  "not_granted": [
+    "main admission",
+    "PR merge or closure",
+    "release",
+    "production activation",
+    "scope expansion"
+  ],
+  "publication_binding": "Decision and tracker are published in one additive documentation/evidence commit on existing PR #114. Final commit/raw bytes/CI verified in the external PR receipt, avoiding self-reference or another documentation commit.",
+  "criterion_assessment": [
+    {
+      "id": "Q-01",
+      "criterion": "Separate qualification authority; exact authorized target",
+      "status": "PASS",
+      "assessment": "Current explicit PA instruction authorizes this separate adjudication; R3 remains the implementation basis for exact main `98c21768\u2026`. Implementation/recording heads and PR #114 independently confirmed."
+    },
+    {
+      "id": "Q-02",
+      "criterion": "Exactly nine authorized product files, preservation of unrelated work",
+      "status": "PASS",
+      "assessment": "Actual implementation delta equals the named allowlist; nine validated hashes and 19 protected blobs match; no product delta through the recording head. No independent workstream is included in this verdict."
+    },
+    {
+      "id": "Q-03",
+      "criterion": "Three distinct full views, alternate framings of existing data, not new capabilities/datasets",
+      "status": "PASS",
+      "assessment": "Three view suites, six App deep-link/navigation cases and actual composed App-DOM rendering establish Opportunities, Risks and Rankings with shared Cross-Sector disclosures and explicit Opportunities/Rankings relationship."
+    },
+    {
+      "id": "Q-04",
+      "criterion": "All 13 ranking members in payload order; matching top-10 opportunity subset; no reranking/ordinal/universe expansion",
+      "status": "PASS",
+      "assessment": "Unit order/mapping checks and composed DOM exact row/value/column comparisons: Rankings 13, Opportunities 10; upstream `opportunity` equals `ranking.slice(0, 10)`. No client rank computation or Top-25/50 expansion."
+    },
+    {
+      "id": "Q-05",
+      "criterion": "Risks limited to aggregate avgRisk, diversification/correlation flags and concentration sectors",
+      "status": "PASS",
+      "assessment": "Risk tests and actual DOM confirm one aggregate metric, exact flag wording/order and concentration sectors, no risk table/company identities/row-risk drill-down. Observed avgRisk 76.5 is the upstream value, not a new grade, probability or recalculation."
+    },
+    {
+      "id": "Q-06",
+      "criterion": "Null/undefined scores unavailable, genuine zero preserved; loading/error/unavailable behavior",
+      "status": "PASS",
+      "assessment": "View tests cover null scores, missing scores, genuine zero, pending requests, error and missing payload; existing state/data components are reused. No fabricated zero or fallback investment data."
+    },
+    {
+      "id": "Q-07",
+      "criterion": "Provenance verbatim; SNAPSHOT, no LIVE claim",
+      "status": "PASS",
+      "assessment": "Three provenance assertions and actual composed DOM preserve dataSource, freshness, transportSemantics and calibratedAt, including SNAPSHOT and `2026-08-09T00:00:00.000Z`."
+    },
+    {
+      "id": "Q-08",
+      "criterion": "Existing credential-free API unchanged; no new endpoint, DTO, transport, provider or persistence",
+      "status": "PASS",
+      "assessment": "Existing fetchCrossSectorData/noAuthFetch/API blobs unchanged. Three actual view requests use `/api/cross-sector`, credentials omit, no Authorization; invented endpoints/topN query remain 404. Scope/protected-blob checks establish no added source/transport machinery."
+    },
+    {
+      "id": "Q-09",
+      "criterion": "Group-only Intelligence parent; admitted existing children, direct URLs and navigation; existing routes retained",
+      "status": "PASS",
+      "assessment": "App/nav evidence preserves group-only heading/no new hub; six new direct-link/navigation cases and actual App-DOM route checks pass. Exact App delta is three imports/three routes; prior Dhan route preserved."
+    },
+    {
+      "id": "Q-10",
+      "criterion": "Affected tests and relevant regressions, strict typecheck and production build",
+      "status": "PASS",
+      "assessment": "Reused 84 passing tests (50 affected trio/App + 34 relevant regressions), existing strict config and build exit 0, 106-module production bundle. No failing/skipped local tests in this bounded run; no tests suppressed."
+    },
+    {
+      "id": "Q-11",
+      "criterion": "Actual current-target runtime/logical UI, not fixtures alone",
+      "status": "PASS",
+      "assessment": "Existing ephemeral actual composed server and real App routes render exact certified SNAPSHOT slices through the unchanged client. Executive/Portfolio slices remain consistent; source bytes still match the executed diagnostic/validation. This is automated local logical UI, not manual-browser evidence."
+    },
+    {
+      "id": "Q-12",
+      "criterion": "Durable remote publication, exact-head hosted CI and evidence/receipts",
+      "status": "PASS",
+      "assessment": "Raw remote R3/validation/publication/diagnostic/tracker bytes equal Git objects; exact-head full-suite, non-zero/full-pass guard, typecheck/build job steps SUCCESS in the three runs below; final receipts identify those heads and remain published."
+    }
+  ],
+  "decision_record": "docs/integration/NP-18-CURRENT-TARGET-NON-PRODUCTION-QUALIFICATION-2026-10-16.md",
+  "authorized_qualification_record_paths": [
+    "docs/integration/NP-18-CURRENT-TARGET-NON-PRODUCTION-QUALIFICATION-2026-10-16.md",
+    "evidence/integration/np18-qualification/2026-10-16/adjudication.json",
+    "IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md"
+  ]
+}
