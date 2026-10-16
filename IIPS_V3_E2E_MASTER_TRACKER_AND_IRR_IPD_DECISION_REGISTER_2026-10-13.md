@@ -2530,3 +2530,95 @@ Published from `arena/2148b8cf-iips-review-recovered` as **one** record set: the
 ### 16.36.4 Publication of this reconciliation
 
 This reconciliation is published as **one additive IRR PR** from `arena/c64ca0a8-iips-review-recovered` into `refs/heads/main`, changing only this tracker and `docs/integration/NP-08-D08-MACRO-VC6-L3-CPI-XV15-CONSOLIDATED-AUTHORITY-AND-ACCEPTANCE-RECORD-2026-10-16.md` (its §6). Existing decision and acceptance evidence (`D-A`…`D-D`, V62–V64) is reused; the `V-C6`/`L-3` implementation and tests were not repeated because the reconciliation changes no code and contradicts no existing evidence. Per the self-reference rule, this reconciliation PR's own merge commit is not embedded in the committed blob; it is verified against `origin/main` after the merge.
+
+## 16.37 Dhan + Broker Holdings coordinated execution — preview implemented and remotely verified (`2026-10-16`)
+
+**Current evidence, not a repeat investigation.** This section adds a bounded executable outcome to
+§16/CV-39 and supersedes earlier findings only where explicitly corrected below. Historical records,
+register totals and complete/accepted counts are preserved: **no durable portfolio, canonical identity,
+production or Group 6 capability is declared complete**. Authority is the current Ramki one-pass
+convergence instruction; bounded disposition **DB-C1** and implementation/test detail are in
+[`DHAN-BROKER-CONVERGENCE-IMPLEMENTATION-2026-10-16.md`](docs/integration/DHAN-BROKER-CONVERGENCE-IMPLEMENTATION-2026-10-16.md).
+
+### 16.37.1 Verified baseline and separate workstream outcomes
+
+| Workstream | Current verified status, baseline, completed work and residual |
+|---|---|
+| **Dhan** | **IMPLEMENTED / LOCAL TEST PASS — CSV preview only.** IPD `main@70b24f029842a7e9b7f615e4d9df7376fd4ff817` (PR #7, merged) already contains `frontend/src/features/portfolio/import/adapters/dhan-holdings-adapter.ts`, Detailed and Web UI summary variants, detector and ingress. Reused unchanged in IRR's new `/broker-holdings` browser page, published in implementation commit **`d82ff99fc9e5a2e1569339f066919f7e718aa545`**, [PR #114](https://github.com/ramkivs/iips-review-recovered/pull/114), branch **`arena/d57c506a-iips-review-recovered`**. Both variants execute through real existing code in regression tests; parsed rows, content digest, refusals and warnings are visible. **NOT VERIFIED:** live broker/API connectivity and actual account import. No Dhan HTTP client/token/session/refresh or live acquisition path was located in the inspected runtime trees. **BLOCKED for live execution:** no established account/API entitlement, secure credential/session configuration or broker-host egress (sandbox allowlist excludes Dhan); no token requested in chat or stored in evidence. XLSX remains unsupported/deferred. |
+| **Broker Holdings** | **IMPLEMENTED / LOCAL TEST PASS — private native-evidence preview, NOT durable save.** Baselines: IRR `main@98c21768f77061a68470e4b4f6750d38abeec594` (PR #113) and IPD main above. Existing IPD path is local CSV → detector → adapter → mapper/identity → ingress → controller → **in-memory** `PortfolioStore` → IPD workspace/modal. The new additive IRR boundary/page closes the missing **preview consumption** connection for Dhan, Zerodha and Groww. It has no upload/network/storage/save path, every displayed row remains **UNRESOLVED**, and companyId, raw objects, computed weights and store metadata are omitted. An empty SecurityMaster + strict unmapped handling prevent symbol-as-companyId fallback; no D05 synthetic mapping or operator bypass is used. `PARSED_UNRESOLVED` means parsed evidence, not normalized/validated/saveable holdings. **BLOCKED / NOT STARTED in this pass:** durable broker-save activation, pending the existing G-2 ownership/security-identity/persistence qualification and admission path; the G24 line and `/api/user-portfolios` fence remain unchanged. No restart-durability claim. |
+
+**Correction necessary for this consumer:** earlier V15/CV-39 wording “4 adapters” is not supported
+by current source: there are **three adapter classes** (Dhan, Zerodha, Groww); `GENERIC` is a
+contract/mapper fallback, not a fourth broker adapter. No generic-format admission was added.
+
+### 16.37.2 Shared boundary, decision and preservation
+
+- **IPD owns** parsing, normalization, SecurityMaster, holdings arithmetic, contribution/lineage,
+  idempotency and portfolio persistence. **IRR owns only** the narrow preview projection and UI.
+  No parser/store/domain copy, shadow portfolio or certified-analytics connection was introduced.
+- IRR's existing governed IPD package pin **`2e11fa3b689d1a3674a5e4ba1f1de9a559e20494` is unchanged**.
+  That installed package exposes PIT/D114/persistence but contains no broker sources. The new,
+  separate immutable alias **`iips-broker-import#70b24f029842a7e9b7f615e4d9df7376fd4ff817`** consumes
+  existing published main source. Only the 14 declared broker/identity/contracts source files are
+  compiled into ignored `.cache` JS/declarations for IRR. Their installed blobs match IPD main.
+  This avoids a governed-pin upgrade or IPD mutation merely to expose existing CSV functionality.
+- **DB-C1:** current express execution authorization supersedes procedural investigation-only
+  sequencing **only for this bounded read-only preview and exact source consumption**. No new
+  PA signature, acceptance or enterprise trust act is invented. No change to G-2 domain ownership,
+  GC-D2/2F refusal, G24 admission, Reports, certified reference `/api/portfolio`, PIT or **Group 6
+  Opportunities/Risks/Rankings investigation-only** boundary. No auth framework/RBAC/multi-user/
+  PostgreSQL/deployment architecture. Original authority records remain historical evidence.
+- Self-review fixed the source-packaging/typecheck mismatch through isolated dependency compilation
+  (not relaxed IRR checking), bounded file/text size, preserved refused identities, and guarded
+  clear/new-selection races. Parsed fields may include existing adapter price/quantity defaults;
+  this is disclosed, not represented as original-byte fidelity or valid normalization.
+
+### 16.37.3 Tests, evidence and material limits
+
+| Check / command | Actual result |
+|---|---|
+| IRR `frontend`: CA-configured `npm ci --no-audit --no-fund` | **PASS**; clean install, both exact Git pins retained. Initial sandbox certificate failure was fixed with `NODE_EXTRA_CA_CERTS`, never by disabling TLS. |
+| `npm run typecheck`; `npm run build` | **PASS**; dependency built independently, IRR strict checking unchanged; production browser bundle 103 modules. |
+| `npm test -- src/api/brokerHoldingsPreview.test.ts src/features/broker-holdings/BrokerHoldingsPreview.test.tsx` | **PASS — final 16/16.** Real IPD parsers for both Dhan variants, Zerodha/Groww, unknown identities, no Node Buffer requirement, no caller companyId promotion, bounded/unsupported input, no fetch/storage/save, clear/failure/stale-read cases. |
+| `npm run test:ci`; `node .ci/assert-tests.js .vitest-report.json` | **PASS — 71 files / 783 tests / 0 failures**, before three additional regression cases. Hosted CI on the final PR head is separately reported in PR #114; this prior run is not falsely called a final-head 786-test run. Full suite justified by route/navigation, package and lifecycle-script changes; unrelated platform/engine suites not repeated. |
+| IPD `npm run build:tsc`; `node --test dist/tests/bi04_broker_adapters.test.js dist/tests/bi05_broker_ingress.test.js dist/tests/bi08_idempotent_ingress.test.js` | **PASS — existing 49/49**, actual compiled baseline source, nonzero count verified. No tests weakened. |
+| Installed-source, protected-fence blob comparisons; `git diff --check` | **PASS**. `reports-transport.ts` `98147054…`, `user-portfolio-transport.ts` `51704c12…`, `owner-context-unavailable.ts` `cb8db45d…` unchanged. |
+| Real broker connectivity / actual Ramki account data / manual browser observation | **NOT VERIFIED.** Deterministic fixture tests + React DOM tests/build only; no synthetic “live success.” |
+| Durable portfolio create → save → restart → read | **BLOCKED / NOT STARTED**, not claimed by preview success. Existing G-2 and identity/admission requirements retained. |
+
+Evidence:
+[`validation.json`](evidence/integration/dhan-broker-convergence/2026-10-16/validation.json)
+(source and fence blobs, test outcomes/limits) and
+[`remote-verification.json`](evidence/integration/dhan-broker-convergence/2026-10-16/remote-verification.json)
+(independent GitHub API verification of all 12 implementation artifacts).
+
+### 16.37.4 Publication, remote verification and exact outstanding dependencies
+
+- **Implementation publication: PASS, remotely verified.** IRR active branch at **`d82ff99fc9e5a2e1569339f066919f7e718aa545`**,
+  PR **#114 OPEN**. `git fetch`, independent GitHub REST ref/tree reads and comparisons verified
+  **all 12 changed file blobs** at that commit, including source, tests, manifest/lock, decision
+  record and validation evidence. Example preview source blob **`bf079a1b587cebf582c03a7aa2c99b87cf890f73`**.
+  IPD main independently re-read through REST and `ls-remote` as **`70b24f029842a7e9b7f615e4d9df7376fd4ff817`**.
+- **No IPD change is needed by the final solution.** An exploratory package-export push was denied
+  **HTTP 403**; that uncommitted alternative was discarded and the IPD checkout restored clean.
+  No external ref was created or modified; no alternative was presented as remotely published.
+  The GitHub connection needs attention before future required IPD writes; independent IRR work
+  proceeded using already-published code. This is not a blocker to the delivered preview.
+- **Existing tracker:** this is an append to the existing tracked master file, not a competing
+  master/report. Its durable Git publication uses the same IRR branch/PR; the tracker commit's own
+  SHA/blob and final remote head are verified **after push** and recorded in PR #114 (self-reference
+  is not embedded in the committed blob). No merge/closure before evidence publication; this
+  active PR stays open. Main admission/merge is not falsely claimed.
+- **Library `/IIPS Project Tracker/...` synchronization: BLOCKED / NOT VERIFIED.** `library`
+  connector returned **unsupported**. The repository's existing tracker was updated, but no
+  Library read/write or synchronization is inferred. An available Library access mechanism is
+  needed to mirror/reconcile this exact existing tracker file; no duplicate master was created.
+
+**Next appropriate action:** use **Broker Holdings** (`/broker-holdings`) with an actual CSV locally
+and check the native-field/refusal display (do not upload personal holdings to chat). Continue the
+existing G-2 owner/security-identity/durable-persistence implementation/qualification path before
+save activation; do not treat procedural record reuse as permission to fabricate canonical identity.
+For a live Dhan API increment, establish broker account/API entitlement, secure server-side credential
+custody/session requirements and a permitted execution locus first. Restore Library access to finish
+synchronization of this existing tracker. Group 6 remains investigation-only; no reapproval is needed
+for ordinary independent testing/publication already within DB-C1.
