@@ -174,4 +174,36 @@ describe('Application Shell', () => {
     renderAt('/nonsense');
     expect(screen.getByTestId('shell-feature-unavailable')).toBeInTheDocument();
   });
+
+  for (const [path, title, marker] of [
+    ['/intelligence/opportunities', 'Opportunities', 'opportunities-framing'],
+    ['/intelligence/risks', 'Risks', 'risks-framing'],
+    ['/intelligence/rankings', 'Rankings', 'rankings-framing'],
+  ]) {
+    it(`opens the R3 ${title} deep link without credentials or a session`, async () => {
+      renderAt(path);
+      expect(await screen.findByRole('heading', { name: title })).toBeInTheDocument();
+      expect(screen.getByTestId(marker)).toBeInTheDocument();
+      expect(screen.queryByTestId('shell-feature-unavailable')).not.toBeInTheDocument();
+      const call = requests.find(c => String(c.input) === '/api/cross-sector');
+      expect(call).toBeDefined();
+      expect(call?.init?.credentials).toBe('omit');
+      expect(new Headers(call?.init?.headers).has('authorization')).toBe(false);
+      expect(requests.every(c => String(c.input) === '/api/cross-sector')).toBe(true);
+    });
+
+    it(`navigates to the R3 ${title} child without replacing the group-only parent`, async () => {
+      const user = userEvent.setup();
+      renderAt('/executive');
+      await screen.findByTestId('decision-list');
+      expect(screen.getByTestId('nav-group-Intelligence')).toBeInTheDocument();
+      expect(screen.queryByRole('link', { name: 'Intelligence' })).not.toBeInTheDocument();
+      // Opportunities/Rankings also cross-link within views; on Executive this is the nav link.
+      const link = screen.getByRole('link', { name: title });
+      expect(link).toHaveAttribute('href', path);
+      await user.click(link);
+      expect(await screen.findByTestId(marker)).toBeInTheDocument();
+    });
+  }
+
 });

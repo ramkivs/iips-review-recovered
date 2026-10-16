@@ -1,0 +1,348 @@
+{
+  "date": "2026-10-16",
+  "observed_at_utc": "2026-10-16T07:58:22.155154+00:00",
+  "kind": "NP-18 bounded main-admission decision evidence, not requalification",
+  "evaluated": {
+    "implementation": "3c64d69c148d01081b2ba9b8f76fa58c21ed2b99",
+    "qualification_recording_head": "a25b3967bbd140a8ea4e2fb14143a421bee2eaba",
+    "target_main": "98c21768f77061a68470e4b4f6750d38abeec594",
+    "r3_decision": "904f5d99f9e6468fb4805c96a78c16c70a08395e",
+    "pr": {
+      "baseRefName": "main",
+      "changedFiles": 32,
+      "headRefName": "arena/d57c506a-iips-review-recovered",
+      "headRefOid": "a25b3967bbd140a8ea4e2fb14143a421bee2eaba",
+      "mergeStateStatus": "CLEAN",
+      "mergeable": "MERGEABLE",
+      "number": 114,
+      "reviewDecision": "",
+      "reviews": [],
+      "state": "OPEN",
+      "title": "Connect Dhan and broker CSVs to private browser-only holdings preview",
+      "url": "https://github.com/ramkivs/iips-review-recovered/pull/114"
+    },
+    "original_PR_body_sha256": "b7e6eec8ebcf4bfe2e43e156ab830fe8f07b25098d7e77b053b3f646ed8b002b"
+  },
+  "fresh_remote_sources": [
+    {
+      "commit": "a25b3967bbd140a8ea4e2fb14143a421bee2eaba",
+      "path": "docs/integration/NP-18-CURRENT-TARGET-NON-PRODUCTION-QUALIFICATION-2026-10-16.md",
+      "blob": "fcc4acbffa406b5947a18f2a75a47cace0694052",
+      "sha256": "2ad9020cdc51a5ba42a5a396b5b1069e3d7683bd94b761d079dbbafcffe8de25",
+      "bytes": 15843,
+      "raw_remote_equals_immutable_local_object": true
+    },
+    {
+      "commit": "a25b3967bbd140a8ea4e2fb14143a421bee2eaba",
+      "path": "evidence/integration/np18-qualification/2026-10-16/adjudication.json",
+      "blob": "fe96e45dd43873337981e09834e3a75b9d5a5015",
+      "sha256": "7c2023495aabcabb630120ce99751abc1414b533dc7434760731ca0020181cc3",
+      "bytes": 34209,
+      "raw_remote_equals_immutable_local_object": true
+    },
+    {
+      "commit": "a25b3967bbd140a8ea4e2fb14143a421bee2eaba",
+      "path": "IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md",
+      "blob": "15108bba6c00cf0bdab66ba89c6cdb2300027d0d",
+      "sha256": "3b3b885fa90c7a597669bd65d2527708fd4b7ab3099dfc006a5da00e592abec5",
+      "bytes": 780937,
+      "raw_remote_equals_immutable_local_object": true
+    },
+    {
+      "commit": "98c21768f77061a68470e4b4f6750d38abeec594",
+      "path": "docs/integration/NP-13-D0-01.md",
+      "blob": "8caa2d3e8f9564231a51ba053d08ccb19fdbd0bb",
+      "sha256": "d69c46784b447b1cd8f164c92cc8059bd96100bdc067b67d8c7adbc50f9f56bb",
+      "bytes": 22573,
+      "raw_remote_equals_immutable_local_object": true
+    },
+    {
+      "commit": "98c21768f77061a68470e4b4f6750d38abeec594",
+      "path": "docs/integration/IIPS_v3.0_OWNER_CONTEXT_F3_MECHANISM_AND_IMPLEMENTATION_PA_DECISION.md",
+      "blob": "c4c9f7d79ef181af96f6c4e5cc108288ef22fd02",
+      "sha256": "3153d2fc554df08ed4fe3c0d9690ddccb9eaf21ab556c2c2c4f91dc57903e93b",
+      "bytes": 27619,
+      "raw_remote_equals_immutable_local_object": true
+    },
+    {
+      "commit": "98c21768f77061a68470e4b4f6750d38abeec594",
+      "path": "docs/integration/IIPS_v3.0_NP07_RESEARCH_ACCEPTANCE_AND_BASELINE_ADMISSION.md",
+      "blob": "80b5aea31f0001847dd43d789791c23d1e75a5b5",
+      "sha256": "852fe4fc99c941e9728990bda465ae092d67fd42e3df1c23ac0828105d5d9aff",
+      "bytes": 17243,
+      "raw_remote_equals_immutable_local_object": true
+    }
+  ],
+  "qualification": {
+    "verdict": "QUALIFIED FOR BOUNDED NON-PRODUCTION USE",
+    "required_criteria_unmet": [],
+    "qualification_reopened": false,
+    "source_path": "evidence/integration/np18-qualification/2026-10-16/adjudication.json",
+    "reused_evidence": "84 local passing tests, strict typecheck, build, actual composed-server/App-DOM, prior published implementation/evidence receipts; no new local test/build/runtime execution"
+  },
+  "candidate_integrity": {
+    "nine_product_paths": [
+      "frontend/src/features/intelligence/IntelligenceOpportunities.tsx",
+      "frontend/src/features/intelligence/IntelligenceOpportunities.test.tsx",
+      "frontend/src/features/intelligence/IntelligenceRisks.tsx",
+      "frontend/src/features/intelligence/IntelligenceRisks.test.tsx",
+      "frontend/src/features/intelligence/IntelligenceRankings.tsx",
+      "frontend/src/features/intelligence/IntelligenceRankings.test.tsx",
+      "frontend/src/app/App.tsx",
+      "frontend/src/app/navigation.ts",
+      "frontend/src/app/App.test.tsx"
+    ],
+    "nine_validated_blobs_unchanged": true,
+    "nineteen_protected_blobs_unchanged": true,
+    "no_frontend_or_platform_delta_since_qualified_implementation": true,
+    "NP18_increment_patch_from": "904f5d99f9e6468fb4805c96a78c16c70a08395e",
+    "NP18_increment_patch_to": "3c64d69c148d01081b2ba9b8f76fa58c21ed2b99",
+    "NP18_increment_patch_sha256": "67719c4b44218b42d3fc9d3290e1d657d01e9945b25e59fb54588e7f2b91522f",
+    "whole_blob_approval_of_shared_files": false,
+    "shared_files_with_preexisting_broker_hunks": [
+      "frontend/src/app/App.tsx",
+      "frontend/src/app/navigation.ts"
+    ]
+  },
+  "hosted_ci": {
+    "run_id": 38863865672,
+    "head_sha": "a25b3967bbd140a8ea4e2fb14143a421bee2eaba",
+    "url": "https://github.com/ramkivs/iips-review-recovered/actions/runs/38863865672",
+    "status": "completed",
+    "conclusion": "success",
+    "job_id": 116852096469,
+    "completed_at": "2026-10-16T06:55:17Z",
+    "steps": [
+      {
+        "name": "Set up job",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Check out the exact commit under test",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Set up Node 22 / npm 10 with the lockfile-keyed cache",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install dependencies from the committed lockfile",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Typecheck",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run the full Vitest suite",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Assert a non-zero, fully passing test run",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Production build",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Set up Node 22 / npm 10 with the lockfile-keyed cache",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Check out the exact commit under test",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Complete job",
+        "status": "completed",
+        "conclusion": "success"
+      }
+    ],
+    "not_borrowed_from_other_commit": true
+  },
+  "qualification_receipt": {
+    "id": 6209919176,
+    "url": "https://github.com/ramkivs/iips-review-recovered/pull/114#issuecomment-6209919176",
+    "created_at": "2026-10-16T06:55:57Z",
+    "updated_at": "2026-10-16T06:55:57Z",
+    "body_sha256": "5087da620702e10a090557aed0f682188770e2f12706482eeb9acf2affc09b59",
+    "remote_publication_verified": true
+  },
+  "admission_specific_PR_boundary": {
+    "all_changed_paths": [
+      "IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md",
+      "docs/integration/DHAN-BROKER-CONVERGENCE-IMPLEMENTATION-2026-10-16.md",
+      "docs/integration/NP-18-CURRENT-TARGET-AUTHORITY-DETERMINATION-2026-10-16.md",
+      "docs/integration/NP-18-CURRENT-TARGET-NON-PRODUCTION-QUALIFICATION-2026-10-16.md",
+      "docs/integration/NP-18-R3-CURRENT-MAIN-IMPLEMENTATION-AUTHORITY-2026-10-16.md",
+      "evidence/integration/dhan-broker-convergence/2026-10-16/remote-verification.json",
+      "evidence/integration/dhan-broker-convergence/2026-10-16/validation.json",
+      "evidence/integration/group6-reconciliation/2026-10-16/product-host-observations.json",
+      "evidence/integration/group6-reconciliation/2026-10-16/verification.json",
+      "evidence/integration/group6-reconciliation/2026-10-16/verify-product-host.mts",
+      "evidence/integration/np18-authority-determination/2026-10-16/verification.json",
+      "evidence/integration/np18-qualification/2026-10-16/adjudication.json",
+      "evidence/integration/np18-r3/2026-10-16/publication.json",
+      "evidence/integration/np18-r3/2026-10-16/validation.json",
+      "evidence/integration/np18-r3/2026-10-16/verify-views.mts",
+      "frontend/package-lock.json",
+      "frontend/package.json",
+      "frontend/src/api/brokerHoldingsPreview.test.ts",
+      "frontend/src/api/brokerHoldingsPreview.ts",
+      "frontend/src/app/App.test.tsx",
+      "frontend/src/app/App.tsx",
+      "frontend/src/app/navigation.ts",
+      "frontend/src/app/routes.ts",
+      "frontend/src/features/broker-holdings/BrokerHoldingsPreview.test.tsx",
+      "frontend/src/features/broker-holdings/BrokerHoldingsPreview.tsx",
+      "frontend/src/features/intelligence/IntelligenceOpportunities.test.tsx",
+      "frontend/src/features/intelligence/IntelligenceOpportunities.tsx",
+      "frontend/src/features/intelligence/IntelligenceRankings.test.tsx",
+      "frontend/src/features/intelligence/IntelligenceRankings.tsx",
+      "frontend/src/features/intelligence/IntelligenceRisks.test.tsx",
+      "frontend/src/features/intelligence/IntelligenceRisks.tsx",
+      "frontend/tsconfig.broker-import.json"
+    ],
+    "total_paths": 32,
+    "product_paths": [
+      "frontend/package-lock.json",
+      "frontend/package.json",
+      "frontend/src/api/brokerHoldingsPreview.test.ts",
+      "frontend/src/api/brokerHoldingsPreview.ts",
+      "frontend/src/app/App.test.tsx",
+      "frontend/src/app/App.tsx",
+      "frontend/src/app/navigation.ts",
+      "frontend/src/app/routes.ts",
+      "frontend/src/features/broker-holdings/BrokerHoldingsPreview.test.tsx",
+      "frontend/src/features/broker-holdings/BrokerHoldingsPreview.tsx",
+      "frontend/src/features/intelligence/IntelligenceOpportunities.test.tsx",
+      "frontend/src/features/intelligence/IntelligenceOpportunities.tsx",
+      "frontend/src/features/intelligence/IntelligenceRankings.test.tsx",
+      "frontend/src/features/intelligence/IntelligenceRankings.tsx",
+      "frontend/src/features/intelligence/IntelligenceRisks.test.tsx",
+      "frontend/src/features/intelligence/IntelligenceRisks.tsx",
+      "frontend/tsconfig.broker-import.json"
+    ],
+    "product_count": 17,
+    "NP18_product_count": 9,
+    "additional_broker_product_paths": [
+      "frontend/package-lock.json",
+      "frontend/package.json",
+      "frontend/src/api/brokerHoldingsPreview.test.ts",
+      "frontend/src/api/brokerHoldingsPreview.ts",
+      "frontend/src/app/routes.ts",
+      "frontend/src/features/broker-holdings/BrokerHoldingsPreview.test.tsx",
+      "frontend/src/features/broker-holdings/BrokerHoldingsPreview.tsx",
+      "frontend/tsconfig.broker-import.json"
+    ],
+    "additional_broker_product_count": 8,
+    "shared_hunk_boundary": [
+      "frontend/src/app/App.tsx",
+      "frontend/src/app/navigation.ts"
+    ],
+    "whole_PR_scope_not_admitted_by_NP18_decision": true,
+    "original_PR_metadata_stale_for_added_NP18_scope": true,
+    "planned_metadata_correction": "Preserve original description as historical; disclose both increments and states in current PR title/body."
+  },
+  "repository_policy": {
+    "main_classic_protected": false,
+    "rulesets": [],
+    "PR_reviews": [],
+    "PR_review_decision": "",
+    "observed_mergeable": "MERGEABLE",
+    "observed_merge_state": "CLEAN",
+    "no_repository_rule_bypass": true,
+    "technical_mergeability_is_not_authority": true,
+    "current_PR_merge_ref": {
+      "sha": "04ea40acb975e51f5b6dd24291c742fb5cb16915",
+      "tree": "28774ec6e2b6942d88ba9fa98f03bff582f852f9",
+      "equals_candidate_tree": true
+    }
+  },
+  "authority": {
+    "holder": "Ramki, Program Authority; NP-13-D0-01 sections 1.3, 2.1-2.5, 10.3 (J-3 membership)",
+    "decision_exercise": "Arena executes recorded standing project-wide decision/execution authorization under current NP-18 MAIN-ADMISSION ASSESSMENT instruction; this is the separate explicit NP-18 admission act, not an independently held agent jurisdiction or invented new human selection",
+    "standing_authorization_evidence": "Main-published F3 record section 1.2; evidence of pre-existing global authorization, not extension of F3 section 4 capability grant",
+    "nonproduction_jurisdiction_application": "General J-3 membership jurisdiction applied to this bounded NP-18 scope; NP-13 D0 is not an NP-18-specific acceptance act; NP-07 section 2.1 is supporting scope-reading precedent, not a transferable NP-07 approval",
+    "qualification_alone_is_not_admission": true,
+    "qualification_and_R3_grant_merge_authority": false
+  },
+  "admission_verdict": "APPROVED FOR MAIN ADMISSION \u2014 bounded NP-18 increment only",
+  "current_main_membership": "NOT YET EFFECTIVE / implementation not yet on main",
+  "merge": "NOT AUTHORIZED by this NP-18-only decision; actual PR includes another workstream outside evaluated qualification/admission scope",
+  "release": "NOT AUTHORIZED",
+  "production_activation": "NOT AUTHORIZED",
+  "optional_observations": {
+    "manual_browser_deployed_host": "NOT VERIFIED; no added admission prerequisite in inspected applicable records",
+    "hosted_raw_logs_numeric_count": "NOT CAPTURED / NOT VERIFIED; full-suite and guard success verified by direct API; not a new admission prerequisite"
+  },
+  "snapshot_reconciliation": "Local ref/index restored to published head only after all 32 working-file bytes matched immutable remote commit and no extra untracked files existed; no unpublished edits discarded.",
+  "admission_criteria_assessment": [
+    {
+      "id": "A-1",
+      "criterion": "Completed qualification of the exact scope, not code existence or CI alone",
+      "assessment": "**PASS.** Separate explicit PA-authorized qualification at `a25b396\u2026`, implementation `3c64d69\u2026`, twelve required criteria demonstrated; verdict remains QUALIFIED FOR BOUNDED NON-PRODUCTION USE."
+    },
+    {
+      "id": "A-2",
+      "criterion": "Exact identity and no unreviewed source/base drift",
+      "assessment": "**PASS.** Selected main unchanged; nine product + 19 protected blobs match qualification; no frontend/platform delta since the qualified implementation."
+    },
+    {
+      "id": "A-3",
+      "criterion": "Regression/build/runtime evidence applicable to the current candidate",
+      "assessment": "**PASS, reused.** 84 local passing tests, strict typecheck/build and actual composed runtime; current-head hosted full-suite, non-zero/full-pass guard, typecheck/build all SUCCESS. No artificial requalification prerequisite."
+    },
+    {
+      "id": "A-4",
+      "criterion": "Published qualification and evidence integrity",
+      "assessment": "**PASS.** Fresh raw remote decision/evidence/tracker comparison and unchanged published receipt; remote parent/ref/PR head confirmed."
+    },
+    {
+      "id": "A-5",
+      "criterion": "Separate explicit membership/admission decision under applicable authority",
+      "assessment": "**APPROVED BY THIS ACT.** D0 J-3 holder plus evidenced standing PA decision/execution authorization and current instruction; not an inference from R3, qualification or a GitHub merge button."
+    },
+    {
+      "id": "A-6",
+      "criterion": "Target integration compatibility and repository workflow",
+      "assessment": "**PASS for evaluated PR candidate.** PR #114 MERGEABLE/CLEAN; current PR merge-ref tree equals candidate tree with exact main/head parents; no conflicting main delta. Main reports unprotected, rulesets empty, no recorded reviews/required review decision. These observations do not grant authority or bypass a rule."
+    },
+    {
+      "id": "A-7",
+      "criterion": "No admission of unqualified/unassessed scope by implication",
+      "assessment": "**ENFORCED.** This decision covers the nine-path NP-18 increment, not the actual PR's additional eight broker-product paths or the broker hunks in shared files."
+    },
+    {
+      "id": "A-8",
+      "criterion": "Actual main presence, main-published records and post-integration verification before claiming effective membership",
+      "assessment": "**NOT YET SATISFIED / future integration gate.** Qualified NP-18 implementation is still branch-only. Admission is approved prospectively, not recorded as already effective on main."
+    },
+    {
+      "id": "A-9",
+      "criterion": "Applicable authority to merge the actual complete PR",
+      "assessment": "**NOT AUTHORIZED BY THIS ACT.** PR #114 is a combined candidate, not an NP-18-only nine-path merge. A broader PR disposition must explicitly cover its other workstream; a technical green/clean state is not that decision."
+    }
+  ],
+  "remaining_activation_invariants": [
+    "A-8: appropriately authorized actual main integration, records publication and post-integration verification",
+    "A-9: explicit disposition/merge authority for the full existing PR #114 delta, including separately recorded broker preview; no whole-PR authority inferred from NP-18 admission"
+  ],
+  "decision_record": "docs/integration/NP-18-CURRENT-TARGET-MAIN-ADMISSION-DECISION-2026-10-16.md",
+  "authorized_record_paths": [
+    "docs/integration/NP-18-CURRENT-TARGET-MAIN-ADMISSION-DECISION-2026-10-16.md",
+    "evidence/integration/np18-admission/2026-10-16/assessment.json",
+    "IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md"
+  ]
+}
