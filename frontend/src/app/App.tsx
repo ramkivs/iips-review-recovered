@@ -4,6 +4,7 @@ import { AppShell } from './AppShell';
 import { FeatureNotImplemented } from '../components/shell/ShellStates';
 import { ExecutiveDashboard } from '../features/executive/ExecutiveDashboard';
 import { PortfolioWorkspace } from '../features/portfolio/PortfolioWorkspace';
+import { BrokerHoldingsPreview } from '../features/broker-holdings/BrokerHoldingsPreview';
 import { UserPortfolioList } from '../features/user-portfolios/UserPortfolioList';
 import { UserPortfolioDetail } from '../features/user-portfolios/UserPortfolioDetail';
 import { CompanyIntelligence } from '../features/company/CompanyIntelligence';
@@ -32,6 +33,7 @@ export function App() {
         <Route path="/executive" element={<ExecutiveDashboard />} />
         <Route path="/portfolio" element={<PortfolioWorkspace />} />
         <Route path="/portfolio/*" element={<PortfolioWorkspace />} />
+        <Route path="/broker-holdings" element={<BrokerHoldingsPreview />} />
         <Route path="/user-portfolios" element={<UserPortfolioList />} />
         <Route path="/user-portfolios/:portfolioId" element={<UserPortfolioDetail />} />
         <Route path="/watchlists" element={<Watchlists />} />
