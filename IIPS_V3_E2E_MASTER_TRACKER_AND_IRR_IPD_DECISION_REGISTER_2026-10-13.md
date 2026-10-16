@@ -2894,3 +2894,140 @@ in the determination §4, with recording/effectiveness designated and implementa
 A direct explicit PA target/clause selection or an existing durable act/delegation with that scope
 resolves this gap. No repeat approval of the already-selected three dedicated views, signature
 ceremony, new investigation, enterprise-auth restoration or bundled qualification/admission is sought.
+
+
+### 16.38.8 NP-18 R3 — target resolved, bounded three-view implementation completed and verified (`2026-10-16`)
+
+**Current outcome: PASS — implementation, tests and additive PR publication.** This section is the
+current outcome of the **R3 TARGET RESOLUTION, BOUNDED IMPLEMENTATION AND CONVERGENCE** instruction.
+It prospectively resolves the target-act/implementation blocker in §16.38.7; that section and its
+evidence-only determination remain unchanged historical records. No original authority, signature,
+qualification record or prior workstream evidence has been rewritten. Implementation is **not**
+current-target qualification, main admission, release or production activation.
+
+#### Decision / provenance / exact target
+
+- **R3 act:** [`NP-18-R3-CURRENT-MAIN-IMPLEMENTATION-AUTHORITY-2026-10-16.md`](docs/integration/NP-18-R3-CURRENT-MAIN-IMPLEMENTATION-AUTHORITY-2026-10-16.md),
+  published as **`904f5d99f9e6468fb4805c96a78c16c70a08395e`**, SHA-256
+  `961f55f949e704640dc2ce40be63c954a96dfc0c5fc919275e5c00ba43804efc`.
+  Branch publication and independent raw-byte/ref verification **passed before implementation**.
+- **Authority holder:** Ramki, existing PA / single user. **Decision exercise / recorder:** Arena
+  exercising the existing project-wide standing decision/execution authorization, under the current
+  explicit R3 instruction. Main-published F3 decision §1.2 evidences that standing authorization;
+  F3's own §4 grant remains capability-specific and is **not** extended to NP-18. No new human
+  signature, personally spoken option selection or new delegation is fabricated. This is a new
+  narrow R3 target/clause decision, not an inference that original/R2 already authorized this target.
+- **Exact selected base:** IRR `refs/heads/main@98c21768f77061a68470e4b4f6750d38abeec594`;
+  execution/recording on the fixed `arena/d57c506a-iips-review-recovered`, existing **PR #114 OPEN**.
+  Starting session `11f90db891c095af39a1009f84c2ed1b6721a127`; independent Dhan work preserved.
+  Main remained unchanged on independent post-publication verification. IPD main observation
+  `70b24f029842a7e9b7f615e4d9df7376fd4ff817` reused; **no IPD mutation**.
+- **Full historical authority/provenance retained:** original `d44c5c7…`, separate R2 `abac36b…`,
+  expressly named recording refs, canonical governance ref, tags and donor `4357e14…` were reconciled;
+  unchanged source/ref findings are reused rather than re-investigated. Original/R2 alone are not
+  portable. R3 expressly replaces R2 §§5.3/13's old target-stop with the exact current target,
+  §7's obsolete Bearer/authFetch binding with the already-approved current credential-free path
+  **unchanged**, and §8's obsolete Hub/NavStatus binding with current group-only/available-child
+  navigation. No guard, client transport, DTO or security implementation was weakened or edited.
+
+#### Exhaustive product increment / selective lineage reuse
+
+Implementation commit **`3c64d69c148d01081b2ba9b8f76fa58c21ed2b99`**, direct child of R3, contains
+exactly these **nine product files** (six new, three modified):
+
+```text
+frontend/src/features/intelligence/IntelligenceOpportunities.tsx
+frontend/src/features/intelligence/IntelligenceOpportunities.test.tsx
+frontend/src/features/intelligence/IntelligenceRisks.tsx
+frontend/src/features/intelligence/IntelligenceRisks.test.tsx
+frontend/src/features/intelligence/IntelligenceRankings.tsx
+frontend/src/features/intelligence/IntelligenceRankings.test.tsx
+frontend/src/app/App.tsx
+frontend/src/app/navigation.ts
+frontend/src/app/App.test.tsx
+```
+
+The six view/test contents were selectively adapted from **`4357e14a35966cd8508e0c59e40627791c103172`**,
+not merged/cherry-picked as an orphan branch. Per-file donor/current blobs and SHA-256 values are in
+[validation evidence](evidence/integration/np18-r3/2026-10-16/validation.json). Adaptations explicitly
+use the existing `fetchCrossSectorData` → `noAuthFetch` → `/api/cross-sector` path, current navigation,
+full four-field provenance, and current affected tests. Existing donor fixtures remain clearly
+**test-only**, never product/certified data or evidence of a live success.
+
+- **Opportunities:** distinct full discovery/action framing, upstream top-10 subset of the same
+  ranking, exact order/scores/identities, explicit shared-data and Rankings relationship; no new
+  rationale, dataset, population or score.
+- **Rankings:** distinct full ordered-comparison framing; **all 13** current published members in
+  payload order, no derived ordinal/re-ranking/sort or Top-25/50 expansion.
+- **Risks:** distinct full aggregate-only framing: only `portfolio.avgRisk`, diversification flags,
+  correlation flags and concentration sectors, values/words preserved. No company/sector risk
+  values, drill-down, grade/band, loss probability, new measure or interpretation.
+- All three explicitly disclose their Cross-Sector source/framing. Null/undefined scores render
+  **unavailable**, genuine zero stays zero; shared loading/error/unavailable components are used.
+  Provenance, including **SNAPSHOT** and calibration timestamp, is verbatim. Badges refer to the
+  existing source data, not qualification of a new capability.
+- App adds **only three imports and three routes**; all prior routes, including `/broker-holdings`,
+  are preserved byte-for-byte. Navigation admits only the three existing child identifiers and
+  retains the group-only Intelligence heading, Sidebar and parent behavior. Existing App assertions
+  remain intact; six new direct-link/navigation cases were added.
+- **PASS exact scope audit:** nine product paths; only the five supporting paths expressly named
+  by R3; **19 protected file blobs unchanged from the starting session**. APIs/DTOs, noAuthFetch,
+  route identifiers, source views/engines, server, package/lock/config, CI and existing fences remain
+  untouched. No new hub/helper module/fixture corpus/transport/auth/RBAC/persistence/enterprise
+  mechanism. Dhan and Holdings remain separately traceable, with their existing limitations intact.
+
+#### Executed candidate validation — not a qualification adjudication
+
+| Check | Actual result / locus |
+|---|---|
+| Three view suites + App suite | **PASS 50 tests**: Opportunities 11, Rankings 11, Risks 10, App 18; includes six new direct-link/navigation checks, omitted credentials/no Authorization, null/undefined/zero, missing payload, loading/error, order/shared-source/provenance and aggregate-only negatives |
+| Affected plus relevant regressions | **PASS 9 files / 84 tests / 0 failed / 0 skipped**: the above plus Executive 5, Portfolio 7, Cross-Sector 6, DecisionMatrix 6 and actual product transport 10 |
+| Strict frontend typecheck | **PASS**, existing script/config and broker-import prehook; no weakening |
+| Production build | **PASS**, existing `tsc -b && vite build`, 106 modules; local ignored build output, not deployed/released |
+| Actual composed-server → unchanged client → App routes → DOM | **PASS**, local ephemeral server and Vite/jsdom; actual certified SNAPSHOT response, **not mocked route tables or test fixtures** |
+| Hosted CI for implementation head | **PASS**, [run 38860598503](https://github.com/ramkivs/iips-review-recovered/actions/runs/38860598503), job **116841763581**, exact run head `3c64d69…`; install, typecheck, full Vitest, non-zero/full-pass guard and build all **SUCCESS** via independent run/job/step APIs |
+| Scope / whitespace / publication bytes | **PASS**, nine-file scope, protected blobs, `git diff --check`, remote commit/ref/tree and all **12** authority/implementation/supporting file bytes at implementation head |
+
+The [reproducible composed diagnostic](evidence/integration/np18-r3/2026-10-16/verify-views.mts)
+rendered each actual App deep link. It asserted the full ranking's exact 13 rows/three columns,
+the exact top-10 opportunity rows, and the risk view's sole aggregate (`avgRisk` **76.5**, as supplied,
+not reinterpreted), verbatim flag lists, no row identities/table, and unchanged provenance. It also
+verified three credential-free same-origin cross-sector calls, unchanged Executive/Portfolio slices,
+and **404** for invented `/api/opportunities`, `/api/risks`, `/api/rankings` and `?topN=13` endpoints.
+
+Scoped test defects were corrected before publication: unsupported `ByRole` test option removed;
+the donor risk no-link assertion now permits **exactly** the shared Cross-Sector disclosure link,
+while retaining all no-company/no-sector-risk negatives. Pre-existing Router/async-act warnings and
+a diagnostic Vite CJS deprecation are not hidden failures. Unchanged local full-suite/qualification
+runs were not repeated: hosted CI executes its existing full suite automatically. Hosted log download
+redirect failed EOF under sandbox host restrictions; **hosted test count/log capture NOT VERIFIED**,
+not invented. Run/job/all-step SUCCESS and the non-zero/full-pass guard are independently verified.
+The current PR merge-ref tree also equals the implementation tree; no conflicting main delta.
+
+#### Publication / convergence / separate next authority
+
+[Publication receipt](evidence/integration/np18-r3/2026-10-16/publication.json) records independent
+remote ref, exact implementation parent, PR state, per-file raw bytes/blobs/SHA-256, unchanged main
+and hosted CI coordinates. Implementation was published and remotely verified **before this tracker
+outcome was appended**. This existing tracker and that receipt are the final additive convergence
+update on the same branch/PR. Their recording commit, remote tracker raw bytes/blob and final-head CI
+are verified after push in the durable PR #114 receipt (external self-reference, no endless commits).
+No main merge or competing PR was performed.
+
+**Current status / remaining boundary:**
+
+- **PASS:** R3 target decision, effective publication, bounded implementation, affected/relevant
+  tests, typecheck/build, actual composed-server/App-DOM observation, implementation remote bytes/CI.
+  No remaining technical blocker to the bounded implementation; prior target-stop is resolved by R3.
+- **NOT STARTED / NOT GRANTED by R3:** actual-current-target qualification, main admission, release
+  or production activation. Historical `8d9babc…` → `4357e14…` bounded adjudication (source-reported
+  **687 pass / 7 fail / 15 skip**) is retained, not inherited or relabelled a green current-target run.
+- **NOT VERIFIED:** externally deployed host, manual browser and hosted raw-log/test-count capture.
+  No live market/broker-data success is claimed; SNAPSHOT reference data is not personal holdings.
+- **NOT ATTEMPTED / outside this task:** ChatGPT Library synchronization. Historical Library-blocked
+  entries remain historical; Library access/sync is **not a current dependency or blocker**.
+- **Next bounded step:** separate qualification/admission assessment of this exact candidate and
+  its published evidence, with historical exceptions preserved. Do not reapprove the settled
+  three-view intent, restore obsolete authentication, merge the orphan, widen population/risk
+  scope, or bundle release/production into the implementation result. No consolidated fast-track
+  task or unrelated workstream expansion was executed.
