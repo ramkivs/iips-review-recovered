@@ -2882,6 +2882,8 @@ Post-merge verification confirmed PR #122 `MERGED`, exactly three changed paths 
 
 **Not established and not inferred.** No `D12` act exists; no durable ref points at `ed54ced7…`; the adapter remains unpublished; Windows/cross-boundary qualification remains missing and is a Gate C/Gate D matter. The three consequential decisions (new ref vs move vs none; whether publication is authorised; whether the 60-test execution evidence is accepted as the adapter's validation bar) are stated in the assessment §7 and **must be decided by the Program Authority**, not inferred here.
 
-**Boundaries.** No IPD write; all four IPD refs unmoved; PR #124 remains **OPEN** with **no merge act**; `CV-25` remains `DECISION REQUIRED`; `503` fence in force; production `NOT AUTHORIZED`.
+**Boundaries.** No IPD write by this session; PR #124 remains **OPEN** with **no merge act**; `CV-25` remains `DECISION REQUIRED`; `503` fence in force; production `NOT AUTHORIZED`.
+
+**Correction (`2026-10-17`, same day).** The assessment's first IPD observation (`main` `70b24f0`) was **stale at publication**: IPD `main` advanced to **`e040002a85097050720748af4e2cace06842700c`** at `13:30:33Z` (PR #9 — CI workflow + fail-closed runner, `CV-35`/`CV-42`), and IPD PR #8 was updated to head `dec1659d…` (37 files, `MERGEABLE`/`CLEAN`, CI `39037463297` **success**). The three Gate refs (`2ded0e98…`, `cec7080…`, `2e11fa3b…`) remain unmoved. The **D12 conclusions are unaffected**. What changes: roadmap **`D2a`** appears executed by the IPD-bound session, **`D2b`** (IPD PR #8 merge act) is now the nearest outstanding IPD decision, and `CV-35`/`CV-42` closure is the **IPD-bound session's** record to make, not this one's. Method rule recorded: re-read every external ref in the same pass that publishes a claim about it. Full correction: assessment §9.
 
 *End of §16.44.*

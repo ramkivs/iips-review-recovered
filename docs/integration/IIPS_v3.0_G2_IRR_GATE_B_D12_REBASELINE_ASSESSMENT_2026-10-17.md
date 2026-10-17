@@ -59,7 +59,7 @@ between the old baseline and `main` is **documentation and evidence only** — s
 | 8 | The eight adapter paths on `main` | **all ABSENT** | `git cat-file -e` on each |
 | 9 | Five `D-4 §3.2` byte-unchanged blobs | `cb8db45d`, `51704c12`, `93f602fd`, `d1c52fe6`, `56fd4826` — all identical on `main` | `git rev-parse` |
 | 10 | Runtime pin | `2e11fa3b689d1a3674a5e4ba1f1de9a559e20494` at `frontend/package.json:17`; **no IPD tag contains it**; reachable only from `np04-governed-persistence-windows` | `ls-remote`; `git tag --contains` |
-| 11 | IPD refs | `main` `70b24f0`, `gate-a` `2ded0e98`, `gate-b` `cec7080`, pin `2e11fa3b` — **all unmoved**; **no IPD write of any kind in this assessment** | `git ls-remote` |
+| 11 | IPD refs *(first observation)* | At first observation: `main` `70b24f0`, `gate-a` `2ded0e98`, `gate-b` `cec7080`, pin `2e11fa3b`. **Superseded for `main` by §9** — IPD `main` advanced to `e040002a…` at `13:30:33Z`; the observation was taken before that and was **not re-verified at publication**. The three Gate refs and the pin remain unmoved. **No IPD write of any kind was made by this assessment** | `git ls-remote` |
 | 12 | Authorising act for D12 / for merging PR #124 | **none exists** — `grep` for `D12` across `main`'s tracker and the Gate B records returns no act; no open PR other than #124 | `git grep`; `gh pr list` |
 
 **Operational note (affects method, not conclusions).** The session workspace clone
@@ -244,3 +244,26 @@ git apply --check /tmp/gateb8.patch          # onto a worktree at 4368a8d
 
 *End of the D12 re-baseline assessment — ASSESSMENT ONLY · NO REF CREATED OR MOVED · NO ADAPTER FILE
 WRITTEN · NO PR FROM A GATE B REF · `D12` NOT GRANTED · `503` FENCE IN FORCE · NON_PRODUCTION.*
+
+---
+
+## 9. Correction — IPD `main` advanced after the first observation (`2026-10-17`)
+
+**What changed.** When this assessment was prepared, IPD `main` was recorded as `70b24f029842a7e9b7f615e4d9df7376fd4ff817` (an observation taken in this session's preceding turn). Re-verification at publication time shows IPD `main` = **`e040002a85097050720748af4e2cace06842700c`** — *"CI: add IPD workflow and fail-closed test-runner guard (CV-35, CV-42) (#9)"*, committed `2026-10-17T19:00:33+05:30` = **`13:30:33Z`**.
+
+| Fact | Corrected state |
+|---|---|
+| IPD `main` | **`e040002a85097050720748af4e2cace06842700c`** (was `70b24f0` at first observation) |
+| IPD `70b24f0 → e040002a` delta | **3 paths** — `+ .github/workflows/ci.yml`, `+ scripts/run-tests.mjs`, `M package.json` |
+| IPD CI on `main` | run `39036851167` at `e040002a` — **success** |
+| IPD `gate-a` / `gate-b` / pin | `2ded0e98…` / `cec7080…` / `2e11fa3b…` — **still unmoved** |
+| IPD PR #8 | head now **`dec1659d0ff420c302e0953f97fc4f0b07b85f83`**, **37 files**, +12,317/−62, `MERGEABLE`/`CLEAN`, CI run `39037463297` **success**; still **OPEN** |
+| `CV-35` / `CV-42` (IPD half) | The workflow and the fail-closed runner **exist on IPD `main`**; **closure is not asserted here** — it is the IPD-bound session's record to make |
+
+**Effect on this assessment's conclusions.** **None.** §3–§6 concern the eight IRR files, their content identities, the candidate tree `ed54ced7…`, and the POSIX execution evidence — all independent of IPD `main`. What changes is the surrounding state: the roadmap's **`D2a`** appears **executed** by the IPD-bound session, and **`D2b`** (the IPD PR #8 merge act) is now the nearest outstanding IPD decision, with checks available for the first time.
+
+**Cause of the error, recorded plainly.** The IPD-ref line was carried forward from an earlier observation instead of being re-taken at publication. A stale citation of an *external repository's* ref is exactly the failure mode this program treats as a defect. The method rule for later acts: **re-read every external ref in the same pass that publishes a claim about it.**
+
+**Boundaries.** This correction is IRR documentation only. No IPD commit, ref, tag, PR, merge or file was created or changed by this session; the IPD change was authored by the IPD-bound session.
+
+*End of §9.*
