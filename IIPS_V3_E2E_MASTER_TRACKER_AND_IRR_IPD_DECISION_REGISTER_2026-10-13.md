@@ -2683,3 +2683,25 @@ Trace shape (identical for every workflow): entry point → client contract → 
 | **PR #117 will need a rebase** | It appends a §16.39 and rewrites the same front-matter cell; this act appended after it and did not modify it |
 
 *End of §16.40.*
+
+---
+
+## 16.41 Publication receipt — `INV-CORR-01` (§16.40) is durably published on `main` — `2026-10-17`
+
+| Field | Verified value |
+|---|---|
+| Pull request | [#119](https://github.com/ramkivs/iips-review-recovered/pull/119) |
+| Pre-merge head | `c33f2e47b4d69f26adc85358566f58e976aecb18` |
+| Base at merge | `10584439f33dfa9192955c3f74879f20ccaf111e` |
+| Merge commit | `a5d6af8676b08b1d0b3006683cc88edcf85f8402` — regular merge; parents `10584439…` + `c33f2e4…` |
+| Hosted CI | run `39012309307` (`CI` → *Typecheck · Test · Build*) at head `c33f2e4…`: **success** |
+| Tracker blob at `origin/main` | `34fc6b68dd9724c6ea20c6872eb8c38969aff816` — **identical** to the blob at the PR head |
+| File size / SHA-256 at `main` | `738,100` bytes / `82fced5f5d7516db924c3c81a3f79433347376973f5f12a7f90d5c3b6ee9d1a7` |
+| Files changed by the merge | **exactly one** — this tracker; no product, test, configuration or evidence file |
+| §16.40 present at `origin/main` | **V** |
+
+**What this closes.** `INV-07` (IRR tracker staleness) is **durably closed**: the addendum is not merely prepared, but published on the authoritative `main`, and the bytes at `origin/main` are the bytes that were validated and merged. **No other register item moves** — the state recorded at §16.40.6 stands, and §16.40.7's boundary stands unchanged: the `503 owner-context-unavailable` fence is intact; Gate C remains `PARTIAL — Q5–Q8 DEFERRED` and unexecuted; PRs #117 and #114 and IPD PR #8 remain open and unmerged; production remains `NOT AUTHORIZED`.
+
+**Why a receipt section exists.** A publication act cannot contain its own merge identity without becoming self-referential. Consistent with §16.26 and §16.28, the receipt is recorded as a separate additive section **after** the merge and verifies the first publication (§16.40). The commit that adds this receipt is itself merge-and-verify handled identically; that check is recorded as a comment on its own pull request and needs no further tracker edit.
+
+*End of §16.41.*
