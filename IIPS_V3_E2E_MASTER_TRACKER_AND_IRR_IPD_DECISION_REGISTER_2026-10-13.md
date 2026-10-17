@@ -176,6 +176,7 @@ The following completed baselines on `ramkivs/iips-review-recovered @ refs/heads
 | `2026-10-16` | `CHG-2026-10-16-02` | **Consolidated Macro workstream closure (`CV-CORR-23`, §16.35) — `V-C6`, `L-3`, CPI missing-`index` disposition, `XV-15` (IPD PR #7), and `D-D` governance boundary retention.** Recorded explicit PA decisions `D-A`, `D-B`, `D-C`, and `D-D` in `docs/integration/NP-08-D08-MACRO-VC6-L3-CPI-XV15-CONSOLIDATED-AUTHORITY-AND-ACCEPTANCE-RECORD-2026-10-16.md` (`NP-08-D08-MACRO-VC6-L3-CPI-XV15-CONSOLIDATED-RECORD-01`). Implemented and validated `V-C6` (`MacroTransportError` surfacing `code`/`message`/`dataset` while preserving `macro transport returned <status>` in `frontend/src/api/macro.ts`; env/dependency-backed `MospiSourceConfig` `deps` wiring at `frontend/server/executive-transport.ts` and `frontend/server/macro/macro-transport.ts`) and `L-3` (server-side UI12 `['theme']` settings-invariance test in `frontend/server/macro/macro-transport.test.ts`): `V62–V64` green (`69` files / `770` tests pass, `tsc --noEmit` `0`, `npm run build` `0`, `assert-tests` OK, fences and governed acts unchanged). Closed the CPI `996/25,884` missing-`index` observation under `D-C` Option (a) (accepted as upstream MoSPI payload characteristic; `'—'` rendering sufficient). Retained all unresolved/non-production governance states under `D-D` (entitlement `B`, attribution `NOT DETERMINED`, GODL/`DT-13`/`M-3` `NOT ESTABLISHED`, MoSPI contact `NOT AUTHORIZED`, general `XV-16` rule `UNRESOLVED` by design, browser live-source E2E optional/non-blocking per §16.31.6). Authorized IPD PR #7 merge under `D-A` for Phase 6 execution. |
 | `2026-10-16` | `CHG-2026-10-16-03` | **`XV-15` CLOSED — IPD PR #7 merge independently verified and reconciled (`CV-CORR-24`, §16.36) — tracker-reconciliation only; no code change, `V-C6`/`L-3` evidence reused, not repeated.** Verified (V65–V67): IPD PR #7 `MERGED` `2026-10-15T19:18:23Z` by `ramkivs`, merge commit `70b24f029842a7e9b7f615e4d9df7376fd4ff817` (parents `4d3e1cdc…` + `6e3cfcf2…`, tree `cc0f0117…`); on authoritative IPD `main` the file `src/ui/view_models/ui13_macro_vintage_tracker.ts` is blob `5d16773f…` (2,465 B, raw SHA-256 `07be27a0…`) stamping `sourceClassification: 'DERIVED'` (pre-merge blob `dd50afb5…`, `'REAL'`); IRR PR #112 verified merged at `e244132e440c4801703461e1633df6d50f0b7169` (CI run `38791855889` `SUCCESS`, fences unchanged). Actual order recorded honestly (IRR `19:12:42Z` before IPD `19:18:23Z`, contrary to the §4.1 plan; no status inferred from the plan). Reconciled: header, §16.6 `XV-15`, §16.12, §16.35.3, §18 row 19, §19, this row, §16.36, and consolidated record §6. **One movement:** `XV-15` discrepancy `AUTHORIZED-pending` → `CLOSED`; zero `CV-*` register/count movement (register `35`, complete/accepted `12`, blocked-active `2`, active outstanding `16`, §19 `13`); `D-D` boundaries retained; production `NOT AUTHORIZED`; no other workstream started. |
 | `2026-10-17` | `CHG-2026-10-17-01` | **`INV-CORR-01` / §16.40 — complete IPD + IRR capability inventory reconciled and published.** Both baselines independently re-verified (`IRR main@10584439`, `808/808`; `IPD main@70b24f0`, `tsc 0`, `542/542`); the 409-line IPD-side artifact validated at `51` rows × `17` columns with `51/51` evidence anchors and carried as the single inventory source (no competing matrix); `9` cross-repository boundaries reconciled with `I-3`/`I-4`/`I-6`/`I-7` explicitly flagged as existing-but-not-connected; `CV-*` register unchanged and no item closed except `INV-07`; Gate C stays `PARTIAL — Q5–Q8 DEFERRED` and unexecuted; `503` fence, DP-2 2F, `C11`, `H-18`, `DP-1` and `L-IPC-1` retained; no merge of PR #117/#114/IPD #8; production `NOT AUTHORIZED`. |
+| `2026-10-17` | `CHG-2026-10-17-02` | **WP-1 / Stage 1 documentation erratum prepared (§16.42).** Corrected the runbook intelligence-route descriptions; preserved the historical V8 watchlist-create `200` and recorded current `201` as the acceptance baseline. No product, fence, authority, scope, CV status or historical evidence change. Clean-clone execution and reader acceptance are pending at this documentation candidate. |
 
 ---
 
@@ -2707,3 +2708,50 @@ Trace shape (identical for every workflow): entry point → client contract → 
 **Correction (`2026-10-17`, same day).** The first publication of §16.40.3 asserted that the artifact and §18.1 "describe the same 51-row population with unchanged row IDs". That sentence was **wrong** and has been replaced: both documents have `51` rows, but the artifact uses its own **IPD-first** ordering, so row numbers do **not** correspond (artifact row `1` = IPD application shell; §18.1 row `1` = IRR executive dashboard). §16.40.3 now states the distinction, names §18.1's row IDs as authoritative for IRR work items, and requires comparison **by capability name**. The correction changed **no** matrix content, status, register item or row ID; it is part of the `INV-CORR-01` act and creates no new work item.
 
 *End of §16.41.*
+
+---
+
+## 16.42 WP-1 / Stage 1 current-main documentation erratum — `2026-10-17`
+
+**Scope and authority.** Additive documentation correction under the existing WP-1 / Stage 1 authority in §20. It does not implement or change product behaviour, alter an authority or scope decision, create a new `CV-*` identifier, or move any existing CV status. The current IRR baseline used for these source checks is `main@bddadaa37ac9f826601ebc029434e4d1794f49fb`.
+
+### 16.42.1 Historical V8 HTTP-status erratum
+
+- Historical §16.3 V8 records `POST /api/watchlists` creation as HTTP `200`. That result is preserved as the observation recorded for its historical run; it is not silently rewritten.
+- At the current baseline, `frontend/server/watchlists/watchlists-transport.ts` sends HTTP `201` for list creation, `watchlists-transport-owner-context.test.ts` asserts `201`, and the operator runbook's durability procedure records `201`.
+- Therefore **`201` is the current WP-1 acceptance baseline**. A later result differing from `201` is a discrepancy to report, not an invitation to change the API or invent a new expected status.
+- CV-30 and CV-31 remain `COMPLETE` under their recorded statuses. The unassisted-reader acceptance is separate pending evidence and does not reopen those items. CV-41 remains `COMPLETE` for its existing group-only navigation disposition.
+
+### 16.42.2 Intelligence-route documentation erratum
+
+At this baseline, `frontend/src/app/App.tsx` mounts `/intelligence/opportunities`, `/intelligence/risks`, `/intelligence/rankings`, and `/intelligence/decision-matrix` as separate routes. `frontend/src/app/navigation.ts` keeps `/intelligence` as a group-only, non-clickable parent. Unmatched `/intelligence/*` paths continue to use the `FeatureNotImplemented` fallback. `docs/OPERATOR_RUNBOOK.md` now describes those boundaries without claiming the parent is an implemented destination or changing any product scope.
+
+### 16.42.3 Acceptance status at this documentation candidate
+
+The documentation candidate contains the errata above. No runbook execution or reader-acceptance result is asserted by this preparation entry. The exact candidate SHA and actual execution outcome must be added only after the clean-clone validation; §16.8 remains unchanged unless its existing acceptance criteria are actually satisfied.
+
+### 16.42.4 Clean-clone execution result — `2026-10-17`
+
+The exact candidate `99f1c1080f5073c91349173fae3469b044a6715f` was tested from a fresh `--no-hardlinks` clone of `ramkivs/iips-review-recovered`, based on `main@bddadaa37ac9f826601ebc029434e4d1794f49fb`. At that candidate, the runbook blob was `41152ecda1526dddb7254821c9ca93a907a4ab6e` and this tracker blob was `8d8632bfde8587cd33ef63fceb2450ebb5f47bb5`. Node `v22.22.3` / npm `10.9.8`; the locked `iips-production-market-data@1.0.0` dependency remained pinned to Git commit `2e11fa3b689d1a3674a5e4ba1f1de9a559e20494`.
+
+`npm run typecheck`, `npm run test`, and `npm run build` exited `0`; the actual test run was `72` files / `808` tests. The runbook still states `64` / `705` “at current head”. The exact empty-predicate screener request repeated deterministically with `13/13` matches, but its execution-ID / definition-digest prefixes (`c865a116` / `ac7b81f8`) differed from the runbook examples (`b76227aa` / `1ef5dd80`). Both are additional discrepancies outside the two authorized documentation corrections and were left unchanged.
+
+The bounded runtime checks otherwise confirmed the documented Intelligence child-route inventory, reference-data and PIT responses, valid/absent/invalid owner-context behavior, the `503` user-portfolio and Reports-artifact fences, and the watchlist `201` / `201` / `404` creation-membership sequence. A full transport restart preserved the watchlist `createdAt`; the temporary journal remained three lines / 1,140 bytes and reads appended nothing. Redacted methods and results are recorded in `evidence/integration/wp1-stage1-current-main-operability-2026-10-17/acceptance-evidence.md`. No carrier value, identity, or digest is recorded there.
+
+No independent, unassisted reader participated. Whether oral guidance would have been needed is not established; independent-reader acceptance remains **PENDING**, and **WP-1 is not claimed as passed**. CV-30 and CV-31 remain `COMPLETE`; CV-41 retains its existing completed group-only navigation disposition. No CV status moved, and §16.8 remains unchanged because its full acceptance criteria were not met. The historical V8 `200` remains intact; `201` remains the current-baseline expectation. No product code, protected fence, owner authority, IPD, or excluded workstream was changed or executed.
+
+### 16.42.5 User-directed acceptance disposition and redacted operational disclosure — `2026-10-17`
+
+By explicit user direction, the WP-1 independent-reader criterion is treated as **accepted for disposition**. This is not a claim that an independent reader participated: no reader session, observations, or oral-guidance outcome were produced or inferred. The clean-clone results in §16.42.4 remain the factual record; the WP-1 disposition is **ACCEPTED BY USER DIRECTION, WITH FOLLOW-UP ITEMS**, not a reader-run pass.
+
+The following documented-result discrepancies remain explicit follow-up items; no expected value or test result is silently rewritten:
+
+- Runbook test-count note: `64` files / `705` tests; clean-clone result: `72` files / `808` tests.
+- Empty-predicate screener sample: runbook execution-ID / definition-digest prefixes `b76227aa` / `1ef5dd80`; clean-clone prefixes `c865a116` / `ac7b81f8`, deterministic across the repeated exact request.
+- Runbook approximate bundle note `~257 kB`; clean-clone main JS chunk `272.97 kB` (gzip `78.25 kB`).
+
+The external Macro live-read was not attempted because its provider host is outside the sandbox egress allowlist; the acceptance evidence records that boundary. No product behavior, package pin, route implementation, owner authority, or safety fence was changed to address any follow-up.
+
+**Redacted operational disclosure.** During the earlier runbook inspection, two tool outputs included excerpts of pre-existing text containing carrier identity fields. No carrier values or digest were copied into the acceptance-evidence record or PR body, and none are reproduced here. The tool-output activity log cannot be retracted; this record preserves the disclosure fact without repeating the fields.
+
+*End of §16.42.*
