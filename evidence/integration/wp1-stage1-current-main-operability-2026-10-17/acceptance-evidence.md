@@ -10,7 +10,8 @@
 - Test was performed from a fresh `git clone --no-hardlinks` at the exact candidate SHA, not from the authoring worktree.
 - Candidate file revisions: `docs/OPERATOR_RUNBOOK.md` blob `41152ecda1526dddb7254821c9ca93a907a4ab6e`; tracker blob at the tested candidate `8d8632bfde8587cd33ef63fceb2450ebb5f47bb5`.
 - Additive post-validation tracker revision recording the clean-clone results: blob `52d07bedbb2081633d7f058a582bb912bc4aea71`.
-- Tracker revision after the explicit user acceptance disposition and redacted disclosure: blob `130ba67a1a3ae8239ccbfb2983066ce1cde240f8`; the runbook remained unchanged from the tested candidate.
+- Tracker revision after the explicit user acceptance disposition and redacted disclosure: blob `130ba67a1a3ae8239ccbfb2983066ce1cde240f8`.
+- The runbook remained unchanged from the tested candidate through PR #122 publication.
 - Toolchain: Node `v22.22.3`; npm `10.9.8`.
 - Package-lock pin used by the clean clone: `iips-production-market-data@1.0.0`, Git commit `2e11fa3b689d1a3674a5e4ba1f1de9a559e20494` (`frontend/package-lock.json`).
 - The existing governed owner-context carrier was materialized by the repository helper from existing authority act `IIPS-V3-OWNER-CONTEXT-F1-F2-VALUE-ACT-01` (source blob `f90c9325f49d33f378f3fc0936c28f4979164b2e`), outside the clone; helper digest validation succeeded. No alternate identity was created. Carrier contents, identity values, and digest are deliberately omitted.
@@ -66,4 +67,4 @@ The historical V8 creation `200` remains preserved as historical evidence. Curre
 
 By explicit user direction, the independent-reader criterion is treated as accepted for WP-1 disposition. This is not evidence of an actual reader session: no independent reader participated, and no observations or oral-guidance outcome are asserted. The original execution results and the test-count, screener-example, and bundle-size follow-ups above remain unchanged. Disposition: **ACCEPTED BY USER DIRECTION, WITH FOLLOW-UP ITEMS**.
 
-**Redacted operational disclosure:** earlier runbook inspection produced two tool outputs containing excerpts of pre-existing text with carrier identity fields. No carrier values or digest were copied into this evidence record or PR body; none are reproduced here. The activity-log output cannot be retracted.
+**Redacted operational disclosure:** earlier runbook inspection and subsequent scope review produced multiple tool outputs containing excerpts of pre-existing text with carrier identity fields. No carrier values or digest were copied into this evidence record or PR body; none are reproduced here. The activity-log output cannot be retracted.

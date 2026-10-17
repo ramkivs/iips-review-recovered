@@ -2752,6 +2752,12 @@ The following documented-result discrepancies remain explicit follow-up items; n
 
 The external Macro live-read was not attempted because its provider host is outside the sandbox egress allowlist; the acceptance evidence records that boundary. No product behavior, package pin, route implementation, owner authority, or safety fence was changed to address any follow-up.
 
-**Redacted operational disclosure.** During the earlier runbook inspection, two tool outputs included excerpts of pre-existing text containing carrier identity fields. No carrier values or digest were copied into the acceptance-evidence record or PR body, and none are reproduced here. The tool-output activity log cannot be retracted; this record preserves the disclosure fact without repeating the fields.
+**Redacted operational disclosure.** During the earlier runbook inspection and subsequent scope review, multiple tool outputs included excerpts of pre-existing text containing carrier identity fields. No carrier values or digest were copied into the acceptance-evidence record or PR body, and none are reproduced here. The tool-output activity log cannot be retracted; this record preserves the disclosure fact without repeating the fields.
+
+### 16.42.6 Publication and post-merge verification — `2026-10-17`
+
+PR #122 was marked ready after its required hosted `Typecheck · Test · Build` check passed and was squash-merged. Exact coordinates: base `main@bddadaa37ac9f826601ebc029434e4d1794f49fb`; PR head `69c7fcda479a5eb96b5d2577c8c7e96ef0e0b4b3`; merge commit and post-merge `main` head `4d0772d91e3dfe8d1fb2723f558d90ec0aacafee` (merged `2026-10-17T12:24:09Z`).
+
+Post-merge verification confirmed PR #122 `MERGED`, exactly three changed paths (this tracker, `docs/OPERATOR_RUNBOOK.md`, and the redacted acceptance-evidence record), and matching GitHub content blobs at the merged `main` tree: runbook `41152ecda1526dddb7254821c9ca93a907a4ab6e`, tracker `130ba67a1a3ae8239ccbfb2983066ce1cde240f8`, and evidence `70cecd1e0cddce3d8b5c993646bdf20d3c96c5a6`. The acceptance disposition and follow-up items in §§16.42.4–16.42.5 were present in the remotely verified tracker. PRs #114 and #117 were not changed or merged.
 
 *End of §16.42.*
