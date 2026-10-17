@@ -9,7 +9,8 @@
 - Tested documentation candidate: `99f1c1080f5073c91349173fae3469b044a6715f`, based on current `main` `bddadaa37ac9f826601ebc029434e4d1794f49fb`.
 - Test was performed from a fresh `git clone --no-hardlinks` at the exact candidate SHA, not from the authoring worktree.
 - Candidate file revisions: `docs/OPERATOR_RUNBOOK.md` blob `41152ecda1526dddb7254821c9ca93a907a4ab6e`; tracker blob at the tested candidate `8d8632bfde8587cd33ef63fceb2450ebb5f47bb5`.
-- Additive post-validation tracker revision recording these results: blob `52d07bedbb2081633d7f058a582bb912bc4aea71`; the runbook remained unchanged from the tested candidate.
+- Additive post-validation tracker revision recording the clean-clone results: blob `52d07bedbb2081633d7f058a582bb912bc4aea71`.
+- Tracker revision after the explicit user acceptance disposition and redacted disclosure: blob `130ba67a1a3ae8239ccbfb2983066ce1cde240f8`; the runbook remained unchanged from the tested candidate.
 - Toolchain: Node `v22.22.3`; npm `10.9.8`.
 - Package-lock pin used by the clean clone: `iips-production-market-data@1.0.0`, Git commit `2e11fa3b689d1a3674a5e4ba1f1de9a559e20494` (`frontend/package-lock.json`).
 - The existing governed owner-context carrier was materialized by the repository helper from existing authority act `IIPS-V3-OWNER-CONTEXT-F1-F2-VALUE-ACT-01` (source blob `f90c9325f49d33f378f3fc0936c28f4979164b2e`), outside the clone; helper digest validation succeeded. No alternate identity was created. Carrier contents, identity values, and digest are deliberately omitted.
@@ -60,3 +61,9 @@ The historical V8 creation `200` remains preserved as historical evidence. Curre
 - No oral-guidance conclusion is asserted. Safe machine-run checks do not substitute for an independent reader.
 - CV-30 and CV-31 remain `COMPLETE`; CV-41 retains its existing completed group-only navigation disposition. No CV status was reopened. The protected user-portfolio and Reports `503` fences remain intact.
 - No product code, runtime behavior, or HTTP route implementation, package pin, safety fence, owner authority, IPD, or unrelated record was changed. No Gate C, IPD `npm test`, BP-01/broker-preview or broker-CSV flow, owner-portfolio persistence, P-4/P-6/P-8, Gate B integration, G24 promotion, NP-12 convergence, Operator Drop, or PR #114/#117 merge was performed.
+
+## Subsequent user-directed disposition and redacted disclosure — 2026-10-17
+
+By explicit user direction, the independent-reader criterion is treated as accepted for WP-1 disposition. This is not evidence of an actual reader session: no independent reader participated, and no observations or oral-guidance outcome are asserted. The original execution results and the test-count, screener-example, and bundle-size follow-ups above remain unchanged. Disposition: **ACCEPTED BY USER DIRECTION, WITH FOLLOW-UP ITEMS**.
+
+**Redacted operational disclosure:** earlier runbook inspection produced two tool outputs containing excerpts of pre-existing text with carrier identity fields. No carrier values or digest were copied into this evidence record or PR body; none are reproduced here. The activity-log output cannot be retracted.
