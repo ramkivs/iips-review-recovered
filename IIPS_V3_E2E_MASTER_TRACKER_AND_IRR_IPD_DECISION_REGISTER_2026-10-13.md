@@ -2598,7 +2598,7 @@ The full 17-column matrix is [`evidence/np04/IIPS_v3.0_IPD_IRR_CAPABILITY_INVENT
 | Outstanding-work register | **V** — `32` rows: `20` `CV-*` + `12` `INV-*`, no duplicate IDs |
 | IRR §18.1 independently re-validated | **V** — `51` rows × `17` columns, contiguous `1–51`, no empty anchor |
 
-**No second matrix is created here.** The artifact and §18.1 describe the same 51-row population with unchanged row IDs; this section records reconciliation, deltas and carry-over so the two sources cannot diverge.
+**No second matrix is created here — but the two 51-row expressions must not be conflated.** Both have `51` rows, yet they use **different row numbering**: the artifact orders **IPD-first** (its row `1` is the IPD application shell; its row `35` is the IRR screener), while §18.1 keeps its historical **IRR-first** order (row `1` is the executive dashboard; row `35` is the Reports domain). Row *n* in one is **not** row *n* in the other, and the status vocabularies also differ — §18.1 uses the workbook legend at §18 (line 2334), the artifact uses `V`/`P`/`U`/`D`/`F`/`NA` (artifact §2). **§18.1's row IDs remain authoritative for IRR work items**; the artifact is authoritative for its own cross-repository row content and evidence anchors. Whenever the two are compared, they must be cited **by capability name, not by number**. No row ID was changed in either source by this act.
 
 ### 16.40.4 Durable persistence — 13-step traces and exact stopping points
 
@@ -2703,5 +2703,7 @@ Trace shape (identical for every workflow): entry point → client contract → 
 **What this closes.** `INV-07` (IRR tracker staleness) is **durably closed**: the addendum is not merely prepared, but published on the authoritative `main`, and the bytes at `origin/main` are the bytes that were validated and merged. **No other register item moves** — the state recorded at §16.40.6 stands, and §16.40.7's boundary stands unchanged: the `503 owner-context-unavailable` fence is intact; Gate C remains `PARTIAL — Q5–Q8 DEFERRED` and unexecuted; PRs #117 and #114 and IPD PR #8 remain open and unmerged; production remains `NOT AUTHORIZED`.
 
 **Why a receipt section exists.** A publication act cannot contain its own merge identity without becoming self-referential. Consistent with §16.26 and §16.28, the receipt is recorded as a separate additive section **after** the merge and verifies the first publication (§16.40). The commit that adds this receipt is itself merge-and-verify handled identically; that check is recorded as a comment on its own pull request and needs no further tracker edit.
+
+**Correction (`2026-10-17`, same day).** The first publication of §16.40.3 asserted that the artifact and §18.1 "describe the same 51-row population with unchanged row IDs". That sentence was **wrong** and has been replaced: both documents have `51` rows, but the artifact uses its own **IPD-first** ordering, so row numbers do **not** correspond (artifact row `1` = IPD application shell; §18.1 row `1` = IRR executive dashboard). §16.40.3 now states the distinction, names §18.1's row IDs as authoritative for IRR work items, and requires comparison **by capability name**. The correction changed **no** matrix content, status, register item or row ID; it is part of the `INV-CORR-01` act and creates no new work item.
 
 *End of §16.41.*
