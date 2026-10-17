@@ -2900,7 +2900,7 @@ Post-merge verification confirmed PR #122 `MERGED`, exactly three changed paths 
 |---|---|
 | IRR `main` | `4368a8d407f71dd84633a501ae1a003612fd28fe`, tree `128eec64ed52d571377b27e2d15de68a44a614c0` |
 | PR #117 | **MERGED** `13:23:53Z`; before/after CI `39036277962` / `39036388471` both **success** |
-| **PR #124** | **OPEN**, `mergedAt` **null**; head **`238e73b92c5d387f74b37d73e7b34dad2870b762`**; **2 files**, +347/−1; `MERGEABLE`/**CLEAN**; CI **`39037920409` success**; **no review, no comment, no authorising act** |
+| **PR #124** | **OPEN**, `mergedAt` **null**; head **`238e73b…`** at first verification (2 files, CI `39037920409` success), then **`1004b9a173398d0d2683f0d34efd7d27552b4b46`** after the two prepared acts were published (4 files, +788/−1, `MERGEABLE`/**CLEAN**, CI `39038415527` success); **no review, no comment, no authorising act** |
 | Gate B ref | `6c654be728ef0c90c69f7184f3a5e1625e71057d` — unmoved; sole parent `10584439…`; tree `3af6d1be…` |
 | Eight adapter paths on `main` | **all ABSENT** |
 | Six fences on `main` | `cb8db45d…`, `51704c12…`, `93f602fd…`, `d1c52fe6…`, `56fd4826…`, `98147054…` — all unchanged |
@@ -2910,7 +2910,7 @@ Post-merge verification confirmed PR #122 `MERGED`, exactly three changed paths 
 
 ### 16.45.2 `D-IRR-124` — proposed merge act (NOT rendered)
 
-Covers **PR #124 only**, at exactly `238e73b…`; records §16.43 (`CV-CORR-26`) **and** §16.44 with the D12 assessment (`CV-CORR-27`); **regular merge commit**, not squash/rebase; pre-merge conditions = unchanged head + `MERGEABLE`/`CLEAN` + exact-head check `SUCCESS` + exactly 2 files with **zero** product paths + six fences byte-identical; post-merge verification = merge SHA/parents, CI on the merge commit, path equality, §16.43/§16.44 present, fences unchanged, receipt recorded additively. **Explicitly not granted:** adapter implementation, adapter publication, any Gate B ref change, `D12` itself, Gate C/D/E, promotion, admission, pin change, production.
+Covers **PR #124 only**; publication moved the head, so the act fixes a **4-file content set** (§1.1 of the act: §16.43, §16.44 + assessment, §16.45, and the two prepared acts) and requires the **rendering** to record the head — otherwise the act's exact-head condition could not be satisfied by its own publication. Records: **regular merge commit**, not squash/rebase; pre-merge conditions = unchanged head + `MERGEABLE`/`CLEAN` + exact-head check `SUCCESS` + exactly 2 files with **zero** product paths + six fences byte-identical; post-merge verification = merge SHA/parents, CI on the merge commit, path equality, §16.43/§16.44 present, fences unchanged, receipt recorded additively. **Explicitly not granted:** adapter implementation, adapter publication, any Gate B ref change, `D12` itself, Gate C/D/E, promotion, admission, pin change, production.
 
 Full text: `docs/integration/IIPS_v3.0_G2_IRR_PR124_MERGE_AUTHORITY_ACT_PROPOSED_2026-10-17.md`.
 
