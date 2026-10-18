@@ -156,4 +156,12 @@ This pass changes, on IRR only: (i) this record; (ii) a `PKG-02A` row in `docs/i
 5. **§10's "Gate 2 … expressly not begun" is satisfied on the IPD side** — the contract and Gate E policy were drafted, published and accepted by the IPD workstream; IRR-side consumer implementation remains unauthorized (Gate 3, NOT GRANTED).
 6. The G2-D4-directed tenant-hint clarification is recorded in the DP-1 amendment's dated addendum §11 (2026-10-18), with the DP-1 §4 IPC-position restatement; this packet's discrepancy register is otherwise unaffected.
 
-*End of PKG-02A. No Program Authority decision is recorded or implied by this reconciliation. `CV-20`: **DECISION REQUIRED** (historical as of publication; superseded by §12 above — Option A designated, Gate 2 accepted, Gate 3 DECISION REQUIRED).*
+## 13. Dated addendum (2026-10-18, same day) — G3-D0 RESOLVED; §12(2) superseded
+
+> Additive pointer; §§1–12 preserved verbatim as historical text. Full registration: **PKG-02C** and tracker **§16.53 (`CV-CORR-36`)**; this note creates no competing record and answers no outstanding question.
+
+1. **§12(2)'s “open contradiction G3-D0” is superseded.** The Program Authority resolved **G3-D0**: supersede the off-`main` implementation basis and re-author on IPD `main` (`IIPS-V3-G3-D0-DISPOSITION-2026-10-18-01`; IPD PR #20 merge `8b65971f…`, receipt PR #21 merge `e76bb2ed…`). The historical Gate B D-4 grant is preserved at its exact scope; the off-`main` implementation is reference-only for the G3 path. **No implementation authority is granted.**
+2. **G3-D1…D7 classified** (Gate 3 request §13, IPD PR #22 merge `9310b1a…`): D1 principle resolved by G3-D0 (exact-basis pinning awaits the Gate 3 act); D2/D3/D4/D6 remain distinct Program Authority decisions; D5 is answerable as REFERENCE ONLY with the PA confirmation line **still outstanding (CV-20 reservation (a) not closed)**; D7 awaits the PA in the IRR capacity (C8 verified NOT MET). Reservations (c)/(d) in §1's scoping clarification map to D2/D6 respectively and remain open.
+3. Fences re-verified at IRR `82431e5…` / IPD `9310b1a…`; this packet's discrepancy register (D-1…D-5) is otherwise unaffected.
+
+*End of PKG-02A. No Program Authority decision is recorded or implied by this reconciliation. `CV-20`: **DECISION REQUIRED** (historical as of publication; superseded by §§12–13 above — Option A designated, Gate 2 accepted, G3-D0/G3-D1 principle resolved, Gate 3 NOT GRANTED).*
