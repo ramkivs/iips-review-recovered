@@ -1,0 +1,134 @@
+# PKG-02B — CV-20 Option A designation: IRR-side registration, independent verification, and authority handoff
+
+**Status:** registration/reconciliation/handoff record only. This is **not** a competing decision request or designation, **not** a Program Authority decision, and **not** implementation, qualification, admission, release, or production authority. The PA disposition (Option A) and the designation itself were rendered and published on **IPD `main`** by the IPD-bound workstream (PRs #14/#15); this record registers them IRR-side, reports this pass's independent verification, closes the PKG-02A open discrepancies, and hands off the remaining actions to their owners.
+**Date:** 2026-10-18 (UTC).
+**IRR main at registration:** `b1f1ea0fe9fba31aacae54180e1231f2b06014ba` (PR #134 merge, 2026-10-18T14:06:28Z; post-merge CI run `39134500102` `success`; no later IRR `main` commit at this check).
+**IPD main at registration:** `b16d79fa116007f793620119c4c943996a286da2` (PR #15 merge, 2026-10-18T14:29:15Z; post-merge CI run `39136204851` `success`). IPD advanced during this pass: PR #14 merged at `e465132902647071679448e89f9ebe25350e4e4e` (2026-10-18T14:23:10Z; CI run `39135750066` `success`) publishing the designation record and the Gate 2 artifacts; PR #15 published the post-publication corrections.
+**Authoritative designation artifact (single; not duplicated here):** IPD `evidence/cross-repository/IIPS_V3_CV20_OPTION_A_OWNERSHIP_SOURCE_DESIGNATION_RECORD_2026-10-18.md`, record ID `IIPS-V3-CV20-OPTION-A-OWNERSHIP-SOURCE-DESIGNATION-2026-10-18-01`, blob `623da776589d69841e7346525fc937f50a991e69` at IPD `main@b16d79f` (published by PR #14; corrected by PR #15).
+
+> **Explicit non-authorization statement.** Nothing in this record grants implementation, provisioning, qualification, result-acceptance, admission, release, or production authority; lifts the IRR HTTP `503 owner-context-unavailable` fence; enables any durable portfolio write; promotes any off-`main` lineage; or changes the accepted G-2 architecture. The designation itself resolves **Gate 1 only**; Gates 2–5 remain outstanding exactly as recorded in the designation §6 and the CV-20 decision request §4.1.
+
+---
+
+## 1. Determination and scope of this record
+
+The Program Authority's **Option A — Designate** disposition on `IIPS-V3-CV20-PA-DECISION-REQUEST-2026-10-18-01` was relayed in the operating session on 2026-10-18 and durably recorded by the IPD-bound workstream in the designation record cited above, together with the Gate 2 artifacts (consumer contract v1.0.0, Gate E write policy rev 1 — both **PROPOSED**) and the Gate 2 acceptance authority request (**DECISION REQUIRED**). That workstream's designation §10 expressly deferred the IRR-side record updates to an IRR session. This record performs exactly that deferred IRR-side half, plus the independent verification below:
+
+1. Verification of the IRR PR #134 merge and the currency of the §16.50/`CV-CORR-33` registration (§2).
+2. Independent re-verification of the designation's load-bearing evidence — including the resolution of the previously unresolved `L-IPC-1` rev 2 pin `cab04b6f` (§4), closing PKG-02A D-2(b), and of the IPD-side enumerative correction, closing PKG-02A D-2(a) (§5).
+3. Registration of the Gate 2 artifacts and their cross-repository consumer relationship (§6).
+4. Registration of the Gate 3 (`CV-39`) implementation-authority request status, including the write-boundary block encountered by this session and its issue-based handoff (§7).
+5. Additive tracker updates: §16.51 (`CV-CORR-34`), the `CV-20` row status movement it evidences, §16.12/§19 count reconciliation, and the packet-index row (§8).
+
+Repository boundaries were respected: no IPD file, ref, or PR was created or modified from this session (the attempt is recorded honestly in §7 — it was **blocked**, not performed); IPD was inspected read-only; the IPD-owned artifacts were **verified**, not amended, from here.
+
+## 2. IRR PR #134 verification (verified)
+
+| Item | Result |
+|---|---|
+| PR #134 state | `MERGED` at 2026-10-18T14:06:28Z; merge commit `b1f1ea0fe9fba31aacae54180e1231f2b06014ba`; base `main`; head `arena/d36ae995-iips-review-recovered`; 3 files, +184/−1 |
+| Merged files | `IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md`; `docs/integration/2026-10-18/BASELINE-AND-DECISION-PACKET-INDEX.md`; `docs/integration/2026-10-18/PKG-02A-CV20-DECISION-REQUEST-RECONCILIATION.md` — matching the reported CV-CORR-33/§16.50 registration exactly |
+| PR-head CI | `Typecheck · Test · Build` — `pass` (run `39134208985`) |
+| Post-merge `main` CI | run `39134500102` on `b1f1ea0…` — `completed/success` |
+| Current remote `main` | `git ls-remote origin main` → `b1f1ea0fe9fba31aacae54180e1231f2b06014ba` — the PR #134 merge **is** the current tip; **no subsequent commit supersedes it** |
+| §16.50/`CV-CORR-33` content | Present on `main` (banner, §16.50.1–§16.50.5, V73–V76); its published statements remain accurate, with two dispositions now advanced by later evidence: D-2(a) and D-2(b) are closed (§5 below), and its "Gate 2 … depends on the unresolved `CV-20` disposition" statement is satisfied by the designation (designation record D-7 reached the same conclusion from the IPD side) |
+
+## 3. The CV-20 Option A disposition and designation (registered)
+
+**Disposition:** Option A — Designate. **Decision authority:** Program Authority (Ramki). **Channel:** relayed in the operating session on 2026-10-18; recorded durably by the recording agent in the IPD designation record (the same recording pattern as the 2026-10-16 security-contract acceptance decision).
+
+**Designated source (as recorded in the designation record §1, quoted):** *"the single `ACTIVE` provisioned local-principal binding (A-2 `local_principal_bindings` row) held in the IPD-owned portfolio store, as consumed exclusively by the IPD-owned, single-principal, same-host IPC endpoint under `L-IPC-1` revision 2 (accepted text blob `cab04b6f94618c9afad1440882ebf63437fdf6f8`) and the IRR DP-1 amendment (blob `c71661a1ee445b2348cedfedae4aef6449029ebb`)."* Ownership scope is `(applicationUserId, tenantId)` from that binding, per request, and from nothing else; authorization is the existing `(applicationUserId, tenantId, portfolioId)` triple; the authoritative binding record is **IPD-owned**; IRR owns no identity, binding, membership, or tenant state.
+
+**Distinction preserved (as required):** the **decision preference was recorded** (Option A relayed and dated) **and the qualifying source designation was completed** — the previously unresolved source property (the `cab04b6f` pin) is resolved by direct object-database evidence (§4.1), and all five §3.3 elements of the decision request (source/record, trust boundary and D-2 §8 mapping, lifecycle, reset/revocation, failure handling) are stated in the designation record from accepted authorities. What the designation does **not** do: it is not provisioning (no binding exists on any host — Gate A′ `P-1` NOT EXECUTED), not demonstration (Windows runtime behaviour technically unverified; Gate V waivers are not proof), not implementation authority (Gate 3), not qualification (Gate 4), not admission (Gate 5), and not a storage-technology selection (CV-20 reservation (c) remains PA-reserved, as do (a) and (d) beyond the parts the designation records).
+
+## 4. Independent verification performed this pass (labels: Verified / Source-reported / Not executed)
+
+### 4.1 Resolution of the `L-IPC-1` rev 2 pin `cab04b6f` — **Verified** (closes PKG-02A D-2(b))
+
+Executed directly against the IPD object database this pass:
+
+| Check | Command evidence | Result |
+|---|---|---|
+| Object type | `git cat-file -t cab04b6f94618c9afad1440882ebf63437fdf6f8` | **`blob`** (not a commit — which is why commit/prefix searches failed in the PKG-02A pass) |
+| Size | `git cat-file -s …` | **56,336 bytes** — matching the Gate B record's "accepted contract `cab04b6f…` (56,336 B)" |
+| Path binding | `git rev-parse ccba11e313e84f85c01125ae56ebf7a16eb6952a:evidence/np04/IIPS_v3.0_G2_IPD_LOCAL_PRINCIPAL_OS_IPC_SECURITY_CONTRACT_PROPOSAL_2026-10-16.md` | → `cab04b6f94618c9afad1440882ebf63437fdf6f8` exactly: the pin is the proposal file's blob **at commit `ccba11e`** (2026-10-16, "final four-waiver reconciliation") |
+| Reachability | `git merge-base --is-ancestor ccba11e… main` | **ancestor of IPD `main`** — the accepted text is durably in `main` history |
+| Merge path | `git log --ancestry-path ccba11e…main --merges` | reached `main` via PR #8 merge `467eb529…` under the rendered `D2b` amended-merge act (2026-10-18) |
+| Current file relation | `diff` of blob `cab04b6f…` vs. `main` blob `d4aaf4caef4a42a0fbfa74567b486df2a9a38359` | differences are **only** the mandated dated acceptance notes (header acceptance row, §9 failure-disposition scope note, §13 decision-rendered note, §14 gates note, §15 U-1 supersession note); the accepted contract text C1–C12 is byte-identical inside both |
+| Acceptance-decision pin | `git rev-parse main:evidence/np04/IIPS_v3.0_G2_IPD_SECURITY_CONTRACT_ACCEPTANCE_DECISION_2026-10-16.md` | → `f708630436358097c11c167d3d8ab1a6c8a54095`, whose "Subject of the decision" row names `cab04b6f…` as the **blob accepted**; acceptance commit `66be695…` is an ancestor of `main` |
+
+**Disposition:** the pin is a valid, resolvable, authoritative reference. PKG-02A D-2(b) ("Unresolved … source-reported") is **closed as Verified**; the designation record's D-9 reaches the same conclusion and its citations were independently re-verified here (below).
+
+### 4.2 Verification of the IPD-side correction of the enumerative detail — **Verified** (closes PKG-02A D-2(a))
+
+Direct re-count at IPD `main` blob `d61f18dfdce12a7f0c4377a3c6d410026d454089` (`frontend/src/features/portfolio/portfolioStorePort.ts`, byte-identical at `2d12413…`, `b16d79f…`): `CALLER_SUPPLIED_IDENTITY_KEYS` contains **29** keys (`owner, ownerId, tenant, tenantId, applicationUserId, applicationUser, userId, user, principal, principalId, membership, membershipId, credential, credentials, password, secret, token, accessToken, refreshToken, authorization, authHeader, claims, scope, scopes, role, roles, identity, sessionId, applicationPrincipal`); **none** of the six keys named in the request's original §2.2 (`ownerUserId`, `tenantHint`, `idToken`, `bearerToken`, `cookie`, `sessionToken`) is present; the signatures are `getPortfolio(portfolioId?)`, `getAnalytics(portfolioId?)`, `getRevision(portfolioId?)`, `saveHoldings(request)`. The IPD-owned correction was published **in the IPD-owned artifact** by PR #15 as an additive dated correction note on the decision request (historical text preserved), matching the program's dated-note convention; the correction enumerates exactly the 29 keys re-counted here. **One residual** was found this pass: consumer contract v1.0.0 §5.1 still said "the 26 IPD caller-identity keys"; its correction is prepared and handed off (§7) — the contract is PROPOSED, so the fix is a pre-acceptance editorial item for the IPD workstream, not an amendment of an accepted record.
+
+### 4.3 Verification of the designation record and Gate 2 artifacts — **Verified** (citations and state)
+
+- All 20 spot-checked citations in the designation record resolve exactly: IPD `main` blobs (`e260fd90…` security_master, `eec60c09…` mapping_store, `70c6f658…` quarantine, `d61f18df…`, `3bf852b9…`, `f7086304…`, `d4aaf4ca…`, `08df3b9e…` Gate A, `c04f8a30…` Gate A′, `ee6122e8…` Gate B, `9befe6d8…` Gate C); off-`main` Gate B file blobs at `cec70802…` (`02a692d6…`, `828fa8ed…`, `d0f4d92d…`, `ded86fcf…`); IRR `main` blobs (`7e83946b…` G-2, `c71661a1…` DP-1 amendment, `8486a570…` G-2 implementation record, `a13f7a34…` H-18 product scope, `595633e0…` global no-auth, `ec80ef89…` D-2, `c3a5596a…` DP-1 1A′, `516c3159…` CV-50 scope correction, `d1c52fe6…` executive-transport); IRR D12 off-`main` blobs at `110e221f…` (`172f1c71…`, `e4050517…`).
+- The three D-10 full-SHA corrections carried by PR #15 were independently re-verified: `470cc698924ebecf8ce51cf7291b48f3fc1c7da7` **exists** (2026-10-07, "G-2: non-production durable user portfolio implementation") and is an **ancestor of `5eba01b6…`**, while the erroneous `470cc6983952329591d42a3cc39689a3501c31bb` does not exist; `9be364b11631291a8602e07fcbdd0c7a9cc6ed06` is the PR #131 merge (first parent of `e9bb64c…`); tag `iips-pin-np04-2e11fa3b` peels via `git ls-remote` to tag object `8e91cc7029ce14cf353a9f138c826906239b05c6`, and the erroneous `8e91cc707a606c08f605d5a7e8ebfd883c17cc1c` does not exist.
+- Designation/contract/Gate-E/acceptance-request blobs at IPD `main@b16d79f` (full hashes read back from the remote-tracking tree this pass): designation `623da776589d69841e7346525fc937f50a991e69`; contract v1.0.0 `af4e7db13288c74cc7a51a1d2cf45edb0a011ef5`; Gate E policy rev 1 `d98b6b085886133fac4e2ad2c3413b61242fb490`; Gate 2 acceptance request `505468f64e0cac6e74c80d305ec08956afbc67f1`; decision request as corrected by PR #15 `6610126672322cc120c4fa1cd3e03837ae8d2372` (dated notes present; historical text preserved).
+- **Statuses are PROPOSED/DECISION REQUIRED exactly as their headers state**: consumer contract v1.0.0 (`IIPS-V3-G2-IPD-IRR-PORTFOLIO-CONSUMER-CONTRACT-V1-2026-10-18-01`) — **PROPOSED, not accepted**; Gate E write policy rev 1 (`IIPS-V3-G2-GATE-E-PORTFOLIO-WRITE-POLICY-2026-10-18-01`) — **PROPOSED, grants no implementation authority** (W-1); Gate 2 acceptance request (`IIPS-V3-G2-GATE2-ACCEPTANCE-AUTHORITY-REQUEST-2026-10-18-01`) — **DECISION REQUIRED** (G2-D1…G2-D5). No acceptance is inferred from publication, from the Option A selection, or from CI green.
+- The designation's own test-run claims (§9.1: IPD 556/556, IRR 814/814, focused suites) remain **source-reported**; they were not re-executed here (no discrepancy warranted re-execution; PR #14/#15 changed only `evidence/**/*.md`, verified via merge file lists).
+
+### 4.4 Fence and baseline verification at current refs — **Verified**
+
+At IRR `main@b1f1ea0…`: `user-portfolio-transport.ts` `51704c12a467cd2f718a030b5036bc55c9afa73f`, `owner-context-unavailable.ts` `cb8db45d668d28cee7e0a52721001d579a872733`, `userPortfolioBoundary.ts` `b8024c6b…`, `translationBoundary.ts` `93f602fd…`, `userPortfolioPort.ts` `ba0001e8…`, `userPortfolioContract.ts` `0dec72eb…`, G-2 `7e83946b…`, DP-1 amendment `c71661a1…` — all byte-identical to the values verified in PKG-02A §5. At IPD `main@b16d79f…`: `portfolioStorePort.ts` `d61f18df…`, `portfolio-store.ts` `3bf852b9…` unchanged; **0** files under `src/persistence`, `src/app_identity`, `src/ipc`, `src/server` (tree check re-executed). IPD `main` remains `SESSION_ONLY` / `durable: false`; IRR `/api/user-portfolios*` remains fail-closed at HTTP `503 owner-context-unavailable` on all six route/method pairs.
+
+## 5. Disposition of the PKG-02A discrepancy register (additive; PKG-02A text not rewritten)
+
+| PKG-02A item | Disposition now |
+|---|---|
+| D-1 (stale artifact baselines) | Closed at PKG-02A; the designation record §2.1–§2.2 re-verified baselines on the IPD side. IPD `main` has since advanced to `b16d79f…` (PRs #14/#15, evidence-only); all CV-20-material product blobs remain byte-identical (§4.4). |
+| **D-2(a)** (enumerative detail, IPD-owned correction) | **Closed — corrected in the IPD-owned artifact** (PR #15 dated correction note) and **independently re-verified** here (§4.2). Residual contract §5.1 occurrence handed off (§7). |
+| **D-2(b)** (`cab04b6f` unresolved) | **Closed — Resolved and Verified** (§4.1): a blob pin, resolvable in the IPD object database, ancestor-backed, acceptance-decision-named. No longer source-reported. |
+| D-3 (CV-25 residue) | Unchanged (already superseded by `CV-CORR-32`). |
+| D-4 (historical `6f521f9` citations) | Unchanged; `5eba01b6…` head re-verified, now also carrying the corrected `470cc698924e…` ancestry fact (§4.3). |
+| D-5 (H-18 banner) | Unchanged (stale-banner pattern; designation D-5 likewise did not adjudicate it). |
+
+## 6. Gate 2 registration and the cross-repository consumer relationship
+
+- **Consumer contract v1.0.0** (IPD-owned; `evidence/cross-repository/IIPS_V3_G2_IPD_IRR_PORTFOLIO_CONSUMER_CONTRACT_V1_2026-10-18.md`): specifies the wire boundary — owner-context provenance (OC-1…OC-7: nothing identity-shaped crosses the wire; per-call binding resolution; tenant hint IRR-local and never transmitted), transport/framing (T-1…T-8: same-host endpoint only, `{v:1, op, payload?, requestId?}`, 64 KiB/256 KiB caps, zero bytes before a valid request), the closed operation set (`portfolio.list/get/revisions` reads; `create/save/reset/delete` writes **defined but not authorized**; `analytics` **RESERVED** per G-2 §7), the two-class error semantics (Class P pre-authorization zero-byte refusals; Class A post-authorization typed non-disclosing outcomes), lifecycle/reset/revocation effects, versioning (semver; wire `v`; V-5 relationship to IRR's `G2_CONTRACT_VERSION='2'`), the IRR conformance set (IRR-1…IRR-7, fence-first), and explicit non-authorizations (§10). **Verified conformance gap it correctly records:** the two off-`main` Gate B refs are **not wire-compatible with each other or with v1** (IPD `cec70802` uses `{v,op}` + silent-close-for-all-refusals + no `revisions` op; IRR D12 `110e221f` uses `{protocol,operation}` + `{status,body}` inner envelope + `listPortfolios/getPortfolio/revisionHistory` + 256 KiB/1 MiB caps). Both refs are design evidence only; a Gate 3 implementation must conform to the accepted version (contract §5.2 note).
+- **Gate E write policy rev 1** (IPD-owned): W-1 four authority preconditions (policy accepted; Gate 3 grant; Gate 4 qualification executed **and accepted**; Gate 5 admission) — until all hold, every write refuses `WRITE_NOT_AUTHORIZED`; W-2/W-3 binding authorization and in-transaction re-validation; W-4 atomicity; W-5 mandatory `expectedRevision`; W-6 canonical-identity source (Security Master D05 + `resolveCompanyId`, C12 gap closed, no bypass); W-7…W-16 guards, idempotency (BI-08 `ALREADY_IMPORTED_NO_OP`), retry/outcome-unknown, mutation semantics, durability claims, recovery, lineage, audit, exhaustive refusal conditions, retention (indefinite; tombstone; no purge). Normative policy is explicitly distinguished from implemented behaviour (nothing on `main`; off-`main` Gate B refuses all writes; off-`main` G24 write path is C12-nonconforming per L-IPC-1 §7.3). QE-1…QE-11 define the later Gate 4 evidence; QE-4/Q8 preconditioned on the G2-D3 decision.
+- **Gate 2 acceptance request**: G2-D1 (contract), G2-D2 (Gate E policy), G2-D3 (Q8 meaning), G2-D4 (tenant-hint reading + IRR DP-1 clarifying note), G2-D5 (revoked-binding data disposition) — all **DECISION REQUIRED**, PA-reserved. This pass answers none of them.
+- **Ownership of the consumer side:** IRR owns its consumer adapter, routes, and UI (contract §9). No IRR product file was changed by this pass; the dormant `frontend/server/user-portfolio/*` modules remain dormant and unfenced-route-connected; the transport fence remains unconditional.
+
+## 7. Gate 3 (`CV-39`) implementation-authority request — prepared, publication blocked at the repository boundary, handed off
+
+**Inspection of existing authorities (verified):** no current act authorizes the next-stage implementation. Gate B D-4 acts authorized **read-only off-`main`** refs only; the 2026-10-07 G-2 authorization excluded `main` admission (§8.5; D-1); Gate A/A′ authorize provisioning only; Gate C authorizes a read-only qualification subset (not executed); the PROPOSED contract and policy grant no implementation authority (§10 / W-1); the designation record §6 states Gate 3 **not granted**; the Gate 2 acceptance request §3 declares the CV-39 request "deliberately later and separate" and enumerates what it must answer. The tracker `CV-39` row remains `DEFERRED` and this pass does not move it.
+
+**Prepared (not granted):** a narrow, conditional, three-phase implementation-authority request — `IIPS-V3-CV39-GATE3-IMPLEMENTATION-AUTHORITY-REQUEST-2026-10-18-01` — answering the §3 questions: **R-1** (IPD: read seam on an IPD-`main` basis — persistence bootstrap + migrations 001–003, local-principal resolution + offline provisioning entry, contract-v1-conforming endpoint, reads only, writes refused, `frontend/**` untouched so the UI stays `SESSION_ONLY` byte-identically); **R-2** (IPD: write path per accepted Gate E policy, C12/§7.3 gap closed, success still impossible until W-1's four conditions hold); **R-3** (IRR: adapter conformance — v1 envelope/ops/caps/outcome mapping, `userPortfolioContract.ts` revision per V-5, W-5 port alignment, C8/C9 posture remediation as a named decision slot — with `user-portfolio-transport.ts` and `owner-context-unavailable.ts` **outside every permitted set**). Decision slots left to the PA: storage technology (CV-20 residual (c); no agent pre-selection) and the C8 remediation surface. Each phase: owning repository, accepted base re-verified at grant, bounded component sets, expected tests, prohibited changes (nine classes), required evidence, and a response template. **Nothing is granted by its existence.**
+
+**Publication status — Blocked at the boundary, handed off (verified, not executed):** this IRR-bound session's GitHub credential is denied write access to the IPD repository (`git push` → `403 Permission … denied`; Git Data API ref-create → `403 Resource not accessible by integration`) — the same Arena GitHub App external-repo integration boundary recorded in `CV-CORR-23` (XV-15 Phase 6). Consistent with the ownership rule (an IPD-owned artifact is published from IPD, not edited into IRR), the full request text and the exact contract §5.1 correction were handed off durably as **IPD issue #17** (`https://github.com/ramkivs/iips-production-market-data/issues/17`, body 27,472 bytes, read back and verified complete) for an IPD-bound session/operator to publish at `evidence/cross-repository/IIPS_V3_CV39_GATE3_IMPLEMENTATION_AUTHORITY_REQUEST_2026-10-18.md`. The drafted local sandbox commit (`fbaa38542bb66643e8554b871c09fcf1c86d8e92`, branch `arena/cca03e7d-iips-production-market-data`, unpushable) is cited for provenance only; it is **not** a published IPD artifact and creates no IPD ref. A transient permission probe (IPD issue #16, `PERMISSION-TEST-DELETE-ME`) could not be edited or closed by this session's token (issues PATCH `403`); issue #17 asks an IPD-side actor to close it. **Label: IPD-main publication of the CV-39 request and the contract §5.1 correction = NOT EXECUTED (blocked); handoff = Verified.**
+
+## 8. Registration effected this pass (IRR only)
+
+(i) this record; (ii) a `PKG-02B` row in `docs/integration/2026-10-18/BASELINE-AND-DECISION-PACKET-INDEX.md`; (iii) additive tracker entry §16.51 (`CV-CORR-34`) with the `Last Updated` banner refresh; (iv) the evidence-backed `CV-20` register-row status movement `DECISION REQUIRED` → `OPTION A DESIGNATED — Gate 1 resolved; Gates 2–5 and reservations (a)/(c)/(d) outstanding` (the transition the decision request's outcome matrix §4.2 specifies for a rendered Option A act, applied exactly as proposed by the designation record §10); (v) §16.12/§19 count reconciliation (decision-required 5→4; new "decision rendered — downstream gates outstanding" group 1; register total 35 and active outstanding 13 unchanged). **Zero product change:** no code, test, manifest, pin, route, fence, or IPD artifact was modified; `CV-39`, `CV-24`, `CV-38`, `CV-52`, `CV-21`, `CV-22`, `CV-32` and all other rows are untouched.
+
+## 9. Preserved safety fences (verified in force at current refs)
+
+1. IRR `/api/user-portfolios*` fail-closed at HTTP `503 owner-context-unavailable` (blobs `51704c12…`, `cb8db45d…` unchanged at `b1f1ea0…`).
+2. IPD `main` `SESSION_ONLY` / `durable: false` (`d61f18df…`, `3bf852b9…` unchanged at `b16d79f…`); zero durable-write path files on IPD `main`.
+3. DP-2 Option 2F refusal in force on both boundaries; no bypass extended.
+4. No off-`main` lineage (G24 `6828155e`, Gate A `2ded0e98`, Gate B `cec70802`/`6c654be7`/`110e221f`, `5eba01b6`/`470cc698`) promoted, merged, cherry-picked, re-pinned, or described as admitted.
+5. Accepted G-2 architecture unchanged; no OIDC/authentication/RBAC/multi-user/tenant-directory element introduced; the `CV-50`-closed path not re-entered.
+6. Windows Gate A′ (`P-1`) and read-only Gate C (`Q1–Q4, Q9–Q11`) remain **NOT EXECUTED**; Q5–Q8 remain **DEFERRED** behind Gate E; G2-D3 (Q8 meaning) unresolved.
+7. No qualification, result acceptance, admission, route, release-readiness, or production claim is made or inferred — including from the PR #14/#15 merges or their green CI.
+8. Arena cannot and does not validate the user's Windows checkout, local browser, localhost application, or Windows runtime; no such validation is claimed anywhere in this record.
+
+## 10. Next actions (owner → action → dependency)
+
+| # | Owner | Action | Dependency |
+|---|---|---|---|
+| 1 | **Program Authority** | Answer the Gate 2 acceptance request (G2-D1 contract; G2-D2 Gate E policy; G2-D3 Q8 meaning; G2-D4 tenant-hint reading + directed IRR note; G2-D5 revoked-binding data disposition) | Artifacts published (PR #14/#15); none |
+| 2 | **IPD-bound session/operator** | Publish from IPD issue #17: the CV-39 Gate 3 request (as its own PR) and the contract §5.1 pre-acceptance correction (26→29); close probe issue #16 | Issue #17 handoff (verified) |
+| 3 | **Program Authority** | Decide the CV-39 Gate 3 request per phase (R-1/R-2/R-3; slots A/B) — only after G2-D1/G2-D2 | Items 1–2 |
+| 4 | **Operator (Windows host)** | Execute Gate A′ (`P-1`) provisioning, then read-only Gate C (`Q1–Q4, Q9–Q11`), recording `PARTIAL — Q5–Q8 DEFERRED` | Already-authorized acts; scheduling is the operator's; R-1 (if granted) supplies the `main`-basis tooling |
+| 5 | **IRR session** | On G2-D4 direction: record the DP-1 amendment §6.4 clarifying note and the DP-1 §4 IPC-position restatement in IRR | G2-D4 answer |
+| 6 | Later, separate | Gate 4 qualification (QE-1…QE-11) + result acceptance; Gate 5 admission (`CV-52`/Gate D) + fence lift | All of the above, in order |
+
+Until those acts: IRR `/api/user-portfolios*` stays at HTTP `503`, IPD `main` stays `SESSION_ONLY` / `durable: false`, and every write on every surface stays refused.
+
+---
+
+*End of PKG-02B. The Option A disposition and the designation are the Program Authority's acts, recorded on IPD `main`; this IRR record registers, verifies, and hands off. `CV-20`: **OPTION A DESIGNATED — GATE 1 RESOLVED; GATES 2–5 OUTSTANDING**.*
