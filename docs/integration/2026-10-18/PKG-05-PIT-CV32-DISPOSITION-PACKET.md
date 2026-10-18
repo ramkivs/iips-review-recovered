@@ -101,4 +101,6 @@ Product owner records the one-line disposition (A6.1). Then one documentation-on
 
 **Closure.** CV-32 is **CLOSED by documentation**. Smallest remaining step: none for CV-32. (CV-43, D115, remains a separate open item with its own disposition pending.)
 
+**Publication (2026-10-18, later the same day):** this record was merged to IRR `main` via PR #139 (commits `edb911eb…` and `56a51db1…`, reused unmodified; merge commit `6f115779ca227fe3ebd531521e3a4174d6d0e9c0`, 2026-10-18T20:10:17Z; CI runs `39161975370` (PR) and `39162085376` (`main`) success), after the G3-D0 handoff PRs #138/#137 had been merged (`f78f08e3…`/`f7f5806e…`). Publication adds nothing to the disposition above — tracker §16.56 (`CV-CORR-39`).
+
 *End of PKG-05 decision record. Documentation-only: no code, test, route, fence, persistence, configuration or IPD file changed.*
