@@ -6,7 +6,7 @@
 
 ## Verified starting state
 
-- Current IRR main is `9be364b11631291a8602e07fcbdd0c7a9cc6ed06`.
+- IRR main at packet preparation was `9be364b11631291a8602e07fcbdd0c7a9cc6ed06`; the later PR #132 merge is `e9bb64c2e5aa5c888b689f6e40fc5ae3875ccab6`. PR #132 added test/evidence only and did not alter Reports routes, fences, or the absence of a Reports domain implementation.
 - Reports domain implementation is absent from `main` following the R4-B disposition; the existing reports transport maintains the route/method fence. A valid owner-scoped route such as `GET /api/reports/artifacts` answers `503 owner-context-unavailable`; bare `/api/reports` is not a valid route and correctly answers `404`.
 - Candidate Reports lineages `4906a6b…` and `6a8afbb…` are unratified; tests on those refs do not authorize merge.
 - Current `REG-11` disposition is `OPTION C — RETAIN DEFERRAL`. `G-2` §8 excludes Reports from the portfolio decision; neither workstream unblocks the other.
