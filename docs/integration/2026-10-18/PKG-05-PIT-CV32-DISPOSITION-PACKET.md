@@ -1,6 +1,7 @@
 # PKG-05 — CV-32 PIT UI/API-only disposition packet
 
 **Status:** prepared for product disposition; not a decision and not implementation authority.
+**Status update (2026-10-18, UTC):** disposition rendered — **CV-32 CLOSED — API-only for the current scope** (see "Decision recorded" at the end of this packet; tracker §16.55 `CV-CORR-38`; `CHG-2026-10-18-01`). The historical text below is preserved verbatim.
 **Date:** 2026-10-18.
 **Owner:** IRR product owner for the consuming surface; IPD interface remains unchanged.
 
@@ -61,6 +62,8 @@ IRR `main` `82431e5b28ecc01a778e4f38427cbf294fa8eef5` (code unchanged for this i
 | Operator browser acceptance (Windows host) | **Open** — not an Arena task | not needed |
 | Documentation closure (PKG-05 line, CV-32 row, §16.12, row 21, index) | after the above | **only step** |
 
+> *Dated note (2026-10-18, later): §§A5–A7 below are the pre-decision recommendation and are preserved as rationale. The product owner has since rendered the disposition — see "Decision recorded".*
+
 ### A5. Recommended disposition (recommendation only — not a decision)
 
 **Record Option B — explicit API-only — for the current product scope, dated and reversible.** Rationale from the evidence: (i) Option A cannot be closed by CV-32 itself — it is blocked by two acts outside this item (CV-22 identity coverage; P4 route gate) and by an unanswered product-shape question (per-security data on a per-sector page vs. a manual lookup widget); (ii) nothing in the approved requirements names a PIT screen — matrix row 21 is `AP — none commissioned`, and the product's own UI posture excludes PIT addressing as a user capability; (iii) the seam is complete, tested, fail-closed, and documented for operator use, which is exactly what "API-only" records; (iv) Option B costs no code, changes no authority state, and leaves a clean path to a future panel as a new, separately gated item once CV-22 provides an exact identity contract. **If the product owner wants market data visible in the product, Option A should be chosen explicitly and sequenced after CV-22 and the P4 gate — not approximated now.**
@@ -76,3 +79,26 @@ IRR `main` `82431e5b28ecc01a778e4f38427cbf294fa8eef5` (code unchanged for this i
 Product owner records the one-line disposition (A6.1). Then one documentation-only change: PKG-05 decision line; tracker CV-32 row → closed/API-only with the P4 caveat; §16.12 open-item count `4→3`; §18 row 21 Authority/Acceptance → dated decision; packet-index note — published through the standard IRR docs PR once PRs #137/#138 have been disposed (to avoid a competing or mixed PR). No code, test, route, or IPD change.
 
 *Boundaries: no option is approved by this addendum; API availability is not UI acceptance; no browser/Windows evidence is claimed; portfolio persistence, CV-20/CV-22, Reports, Macro, PR #137/#138, the 13-item inventory and the 51-row baseline are untouched.*
+
+---
+
+## Decision recorded (2026-10-18, UTC) — CV-32 CLOSED: API-only for the current scope
+
+**Disposition (product owner, IRR consuming surface):** **CV-32 — API-only for the current scope.** Rendered 2026-10-18 and conveyed to the operating session as the authorizing instruction for this recording act. This packet (together with tracker §16.55 `CV-CORR-38` and change-log row `CHG-2026-10-18-01`) is the IRR record of the decision. The Option A / Option B investigation above is closed by it and is not reopened.
+
+**What the disposition means — and its mandatory restrictions (all preserved):**
+
+1. The PIT API (`GET /api/pit/market-data`; `frontend/server/pit-transport.ts`, `frontend/server/pit/**`, client `frontend/src/api/pit.ts`) remains a **non-production read surface** within the `AD-02` admission: five admitted server/test files, server-side locus, non-production data (D114 historical population + fixtures), `securityIdentity.isinAuthority = NON_AUTHORITATIVE`.
+2. **P4 route admission remains unchanged.** The live `/api/pit/` dispatch and `pit-transport.ts` stay *retained, NOT ADMITTED*; activation or admission still requires a separate, explicit Program Authority gate. **Route presence, successful HTTP responses and passing tests do not establish admission.**
+3. The API is **not** a user-facing PIT product feature and must not be described as one. Its operator-probe documentation (`docs/OPERATOR_RUNBOOK.md:106–107, :162`) is unchanged.
+4. **No PIT UI is implemented, mounted or authorized** by this disposition. `src/api/pit.ts` is retained as a tested, unconsumed client (packet rule: preserve the API and its tests).
+5. **Any future mounted panel requires:** a separate, explicitly authorized work item; an established identity contract at the point of use (CV-22); the applicable P4 gate; bounded panel scope (single screen, exact read-only fields, non-authoritative/non-production/vintage presentation, honest typed misses, no live-data substitution, one mounted-path test); and the required operator acceptance. None of these is started, implied or pre-approved here.
+6. Not touched: portfolio persistence, CV-20, CV-22, Reports (CV-21), Macro qualification, the 13-item inventory, the 51-row baseline (row 21's cells are updated by this dated decision; the row set is unchanged), PRs #137/#138, IPD. **No production qualification, admission or production eligibility is claimed or implied.**
+
+**Evidence basis:** `evidence/integration/cv32-pit-disposition-2026-10-18/evidence-record.md` (IRR `main@82431e5b28ecc01a778e4f38427cbf294fa8eef5`; IPD `main@be32d8c95a86b3f03bd382ccde5b6398efb351c6`; 119/119 focused tests; GET-only probe; history-wide UI absence per tracker §16.20/V31) and §§A1–A7 above (rationale).
+
+**Register effect (tracker):** CV-32 `OPEN` → **`CLOSED — API-ONLY for the current scope`** (§16.4.3, closed in place); §16.12 closed-by-disposition group `1`, open `4→3`, active outstanding `13→12`, total `35`; §18 row 21 Authority/Evidence/Acceptance → `OOS by dated decision`; §19 category row and §20 row 7 annotated; `CHG-2026-10-18-01`.
+
+**Closure.** CV-32 is **CLOSED by documentation**. Smallest remaining step: none for CV-32. (CV-43, D115, remains a separate open item with its own disposition pending.)
+
+*End of PKG-05 decision record. Documentation-only: no code, test, route, fence, persistence, configuration or IPD file changed.*

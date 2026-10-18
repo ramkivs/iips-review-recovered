@@ -73,3 +73,7 @@ Matches runbook rows (`:106–107`, `:162`) and the 2026-10-17 WP-1 operability 
 ## 7. Boundaries preserved
 
 Documentation-only evidence; no product, test, route, config, fence, persistence, or IPD file changed; no UI implemented or removed; no CV-22 / CV-20 / Reports / Macro / PR #137 / PR #138 / 13-item / 51-row change; no browser or Windows acceptance claimed; Gate 3 NOT GRANTED; `/api/user-portfolios*` stays `503 owner-context-unavailable`; IPD `SESSION_ONLY` / `durable:false` untouched.
+
+---
+
+*Dated note (2026-10-18, later the same day): the product owner subsequently rendered the disposition — **CV-32 CLOSED, API-only for the current scope** — recorded in `docs/integration/2026-10-18/PKG-05-PIT-CV32-DISPOSITION-PACKET.md` ("Decision recorded"), tracker §16.55 (`CV-CORR-38`) and `CHG-2026-10-18-01`. This evidence record is unchanged by that act; the non-production and P4 restrictions it documents remain in force; no PIT UI was implemented, mounted or authorized.*
