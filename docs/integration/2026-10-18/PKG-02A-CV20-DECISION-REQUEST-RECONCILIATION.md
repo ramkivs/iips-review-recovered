@@ -145,4 +145,15 @@ This pass changes, on IRR only: (i) this record; (ii) a `PKG-02A` row in `docs/i
 
 ---
 
-*End of PKG-02A. No Program Authority decision is recorded or implied by this reconciliation. `CV-20`: **DECISION REQUIRED**.*
+## 12. Dated addendum (2026-10-18, post-publication) — disposition superseded; D-2(a)/D-2(b) closed
+
+> Additive note; §§1–11 preserved verbatim as historical text. The end-marker's "`CV-20`: **DECISION REQUIRED**" and §11's "Next step: a Program Authority disposition" are historical as of publication.
+
+1. **CV-20 disposition rendered — Option A.** On 2026-10-18 the Program Authority selected **Option A — Designate**; the authoritative designation record `IIPS-V3-CV20-OPTION-A-OWNERSHIP-SOURCE-DESIGNATION-2026-10-18-01` is published on IPD `main` (PR #14 merge `e4651329…`; corrections PR #15 merge `b16d79fa…`). Registered IRR-side in PKG-02B and tracker §16.51 (`CV-CORR-34`).
+2. **Gate 2 decided the same day.** G2-D1…G2-D5 **approved in full** (IPD PR #18 merge `324ae46a…`, PR #19 merge `f678363d…`): consumer contract v1.0.0 **ACCEPTED** (with acceptance-time corrections C-1…C-4) and Gate E write policy rev 1 **ACCEPTED** (fail-closed; W-1 unchanged). The Gate 3 request `IIPS-V3-G3-IMPLEMENTATION-AUTHORITY-REQUEST-2026-10-18-01` is published, **DECISION REQUIRED, NOT GRANTED** (open contradiction G3-D0 recorded in its §11). Registered in tracker §16.52 (`CV-CORR-35`).
+3. **D-2(a) CLOSED** — the correction was made in the IPD-owned artifact (PR #15 dated correction note on the decision request: 29 keys, none of the six named keys present, `getAnalytics(portfolioId?: string)`), independently re-counted IRR-side (PKG-02B §4.2); the residual contract §5.1 "26" was corrected at acceptance as C-1 (PR #18).
+4. **D-2(b) CLOSED — Resolved and Verified**: `cab04b6f94618c9afad1440882ebf63437fdf6f8` is the accepted **blob** of `L-IPC-1` rev 2 — the path-blob of commit `ccba11e313e84f85c01125ae56ebf7a16eb6952a` (ancestor of IPD `main`; 56,336 B; named "blob accepted" in the acceptance decision; current `main` blob `d4aaf4ca…` = accepted text + the mandated dated notes). Evidence: PKG-02B §4.1; tracker §16.51.3.
+5. **§10's "Gate 2 … expressly not begun" is satisfied on the IPD side** — the contract and Gate E policy were drafted, published and accepted by the IPD workstream; IRR-side consumer implementation remains unauthorized (Gate 3, NOT GRANTED).
+6. The G2-D4-directed tenant-hint clarification is recorded in the DP-1 amendment's dated addendum §11 (2026-10-18), with the DP-1 §4 IPC-position restatement; this packet's discrepancy register is otherwise unaffected.
+
+*End of PKG-02A. No Program Authority decision is recorded or implied by this reconciliation. `CV-20`: **DECISION REQUIRED** (historical as of publication; superseded by §12 above — Option A designated, Gate 2 accepted, Gate 3 DECISION REQUIRED).*
