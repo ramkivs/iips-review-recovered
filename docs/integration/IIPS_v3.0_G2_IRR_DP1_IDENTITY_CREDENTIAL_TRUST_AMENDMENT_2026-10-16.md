@@ -224,6 +224,15 @@ This amendment preserved the original DP-1 record's §4 fifteen-element contract
 - §10's gate list is unchanged in substance; since publication, Gate 2 (contract + write policy) has been **accepted** (G2-D1/G2-D2, 2026-10-18) and the Gate 3 request is **published and NOT GRANTED** (`IIPS-V3-G3-IMPLEMENTATION-AUTHORITY-REQUEST-2026-10-18-01`, with the G3-D0 contradiction open). Gate A′ remains APPROVED/NOT EXECUTED; Gate C remains NOT EXECUTED; Gate D/E admissions remain NOT GRANTED (Gate E's *policy* is accepted; its W-1 preconditions are not met, so every write remains refused).
 - This addendum amends no accepted text, grants no authority, and implements nothing. The HTTP `503 owner-context-unavailable` fence remains in force; production remains NOT AUTHORIZED.
 
+
+## 12. Dated addendum (2026-10-18, same day) — G3-D0 resolution registered; §11.3 superseded in part; no clause amended
+
+> **Dated pointer note (2026-10-18; additive; historical text preserved; amends no clause; grants no authority).** Full registration: **PKG-02C** (`docs/integration/2026-10-18/PKG-02C-G3-D0-REGISTRATION.md`) and tracker **§16.53 (`CV-CORR-36`)**.
+
+1. **§11.3's “Gate 3 request published and NOT GRANTED (G3-D0 contradiction open)” is superseded in its G3-D0 limb only.** G3-D0 is **RESOLVED** (`IIPS-V3-G3-D0-DISPOSITION-2026-10-18-01`; IPD PRs #20/#21 at `8b65971f…`/`e76bb2ed…`; classification §13 by PR #22 at `9310b1a…`): the intended basis is re-authored on IPD `main`; the historical Gate B D-4 grants (IPD 15-file and IRR 8-file records) stand at their exact scopes, with the off-`main` implementations reference-only for the G3 path. **Gate 3 implementation authority remains NOT GRANTED,** and §10's sequence is unchanged in substance: provisioning execution (Gate A/A′), implementation authority, qualification, and admission each remain separate acts — the basis *principle* for the implementation act is now settled (G3-D1), while its exact SHA/file-set/tests pinning is not.
+2. **§11.2 element 14 (durable storage) remains unchosen.** G3-D0/D1 settled *where* a future basis is authored, not *which* storage technology it uses: **G3-D2** (`better-sqlite3` / `node:sqlite` / other / defer) remains a distinct Program Authority decision with open host-evidence gaps. Element 15's accepted-contract citation is unchanged. No other element of the §11.2 restatement is affected; in particular the §11.1 tenant-hint governing reading stands.
+3. This addendum amends no accepted text, grants no authority, and implements nothing. The HTTP `503 owner-context-unavailable` fence remains in force; Windows Gate A′/Gate C remain **NOT EXECUTED**; production remains **NOT AUTHORIZED**.
+
 ---
 
 *Recording agent: Arena Agent Mode — recording the Program Authority's IRR-side DP-1 identity/credential trust amendment and publishing it; no authority is rendered or inferred by the agent. The amendment is additive; the prior DP-1 record and all historical records are preserved. Contract acceptance is not implementation authority; nothing here provisions, implements, qualifies, admits, writes, or merges anything.*
