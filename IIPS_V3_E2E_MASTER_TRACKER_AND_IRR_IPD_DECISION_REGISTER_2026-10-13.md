@@ -3624,3 +3624,38 @@ Gate A′ remains **APPROVED with P-1 adopted, NOT EXECUTED**. No Windows store,
 **Publication status at preparation:** the records, packet, proposed act, packet index and this tracker addendum require the normal IRR publication workflow. No merge or post-merge read-back is asserted by this pre-publication text.
 
 *End of §16.59. The five PA dispositions are durable; the separate Gate 3 act remains explicitly proposed and ineffective.*
+
+## §16.60 — `CV-CORR-43`: PKG-02F publication, merge, CI and remote read-back
+
+**Additive publication read-back, 2026-10-19 (UTC).** This section records the publication result for §16.59 and PKG-02F. It changes no decision and grants no authority.
+
+| Publication item | Verified result |
+|---|---|
+| Pull request | IRR PR **#145**, `Record PA G3-D3 through G3-D7 decisions`, base `main`, head branch `arena/0e34fb6e-iips-review-recovered` |
+| PR commits | Decision/documentation commit `ad4a37895d4131c896c172489b8d5e6ee6d60456`; Markdown-whitespace normalization `e965a9c41648d3148824111b862363030ec1b322` |
+| PR-head CI | Run **`39205815005`** at `ad4a378…`: **SUCCESS**; run **`39205925433`** at `e965a9c…`: **SUCCESS**; `Typecheck · Test · Build` |
+| Merge | PR #145 **MERGED** at `2026-10-19T05:43:42Z`; merge commit **`062b77fc569b0cccb6569510e633ee9ffcb636b3`** |
+| Post-merge main CI | Run **`39206040498`** at `062b77f…`: **SUCCESS**; `Typecheck · Test · Build` |
+| Remote ref | `git ls-remote origin refs/heads/main` resolved to `062b77fc569b0cccb6569510e633ee9ffcb636b3`; `origin/main` fetch agreed |
+| Changed paths | Exactly nine Markdown paths: the tracker, packet index, PKG-02F, five PA decision records, and the proposed Gate 3 act; no application/runtime/dependency/listener/CORS/persistence path |
+| Diff validation | `git diff --check` clean for the published merge diff; all nine paths are documentation-only |
+
+### 16.60.1 Remote read-back manifest at PR #145 merge
+
+The nine changed paths were read from `origin/main@062b77fc…` and compared to the corresponding worktree bytes before this publication-readback addendum. Every SHA-256 matched:
+
+| Path | SHA-256 |
+|---|---|
+| `IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md` | `a81fdff3b0492f6d50b6c77219a7fda332bf9502ca8cb1ce1a3e446c617e3091` |
+| `docs/integration/2026-10-18/BASELINE-AND-DECISION-PACKET-INDEX.md` | `13c077d556d0e37a10059215affc8512e6011436548aa7936dbb3bf2256a69b4` |
+| `docs/integration/2026-10-18/PKG-02F-G3-D3-D7-DECISIONS-AND-GATE3-AUTHORIZATION-PACKAGE.md` | `dd39af55cee14c4e7734aebf70175f80c4ce4577e0083ed14a59f1f309da7c8f` |
+| `docs/integration/IIPS_v3.0_G3_D3_WRITE_SLICE_PA_DECISION_2026-10-19.md` | `7a20a2c5fe4415123a79f67507115d678e843111e10dd5bb4a367198d9192907` |
+| `docs/integration/IIPS_v3.0_G3_D4_PROVISIONING_CODE_SCOPE_PA_DECISION_2026-10-19.md` | `2b40b214f084af417a6e9177955613b1770f6a8467ee545295c4fed49957da6c` |
+| `docs/integration/IIPS_v3.0_G3_D5_REFERENCE_ONLY_PA_DECISION_2026-10-19.md` | `39565cd160d105a9b9b750349b06a242fdb515e1f829be8956d93c628324cb02` |
+| `docs/integration/IIPS_v3.0_G3_D6_G2_SECTION_3_CONFIRMATION_PA_DECISION_2026-10-19.md` | `d0f8a3bec2d0e7ff5027799405032f38e784cb1ca7c6bf2f9c48a62dfe0021b6` |
+| `docs/integration/IIPS_v3.0_G3_D7_IRR_SCOPE_PA_DECISION_2026-10-19.md` | `c67bb5440c953ca435cff4391ea6b33d6598e678e2d5ce758b20b1608426473e` |
+| `docs/integration/IIPS_v3.0_G3_GATE3_IMPLEMENTATION_AUTHORITY_ACT_PROPOSED_2026-10-19.md` | `dd2ae65834e61f16ae8614c55cf8ea77b74c1ac329881cc3fc16f30c3644fba1` |
+
+The published content is documentation-only. It does not establish the proposed Gate 3 act, Windows execution, qualification, result acceptance, admission, a 503 lift, or production authority. The 51-row/13-item baseline and IRR PR #114 remain untouched.
+
+*End of §16.60. This read-back records publication of the decision package, not implementation authority.*
