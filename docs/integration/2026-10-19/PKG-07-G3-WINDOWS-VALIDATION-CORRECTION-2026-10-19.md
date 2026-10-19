@@ -242,3 +242,49 @@ This packet and the IPD correction do not merge or advance Gate 3 acceptance, do
 not execute Gate A′, do not authorize Gate 4/Gate C or Gate 5, do not lift the IRR
 503 fence, do not enable production writes, and do not promote any off-main
 reference. Production remains `NON_PRODUCTION` and not authorized.
+
+## 9. Publication record and credential blocker
+
+### 9.1 IPD correction — complete locally, publication blocked
+
+The correction is committed locally in the IPD worktree as
+`987f891` ("g3: cross-platform same-host IPC and node:sqlite durable boundary
+(Gate 3 manifest)"), parent `be32d8c9` (the authorized base), containing exactly
+the 22 additive manifest files and no modification to any pre-existing file.
+
+Publishing it to `ramkivs/iips-production-market-data` is blocked by the sandbox
+GitHub credential, not by repository policy:
+
+| Attempt | Result |
+|---|---|
+| `git push origin arena/ddcb69ba-g3-ipc-cross-platform-corrections` (HTTPS, configured credential) | `403` — `remote: Permission to ramkivs/iips-production-market-data.git denied to ramkivs.` |
+| Authenticated push with `x-access-token:<GH_TOKEN>` | identical `403`, exit 128 |
+| `POST /repos/.../git/refs` (Git Database API write probe) | `403 Resource not accessible by integration` |
+| `GET /repos/...` (read) | succeeds; reports role-level `permissions.push: true, admin: true` — i.e. the account role permits it, but the issued token's grant does not include content writes |
+
+The token is therefore **read-only on IPD**. Per the execution boundary, no
+alternative destination (fork, mirror, patch upload to another repository) was
+created without instruction. To publish, an operator with write credentials can,
+from the local IPD worktree:
+
+```
+git push origin 987f891:refs/heads/arena/ddcb69ba-g3-ipc-cross-platform-corrections
+```
+
+No merge, PR or gate action was taken.
+
+### 9.2 IRR packet — published
+
+This packet is committed on `arena/ddcb69ba-iips-review-recovered` in
+`ramkivs/iips-review-recovered`, where the token does have write access, and the
+remote branch and file were verified through the GitHub API after push.
+
+### 9.3 `windows-acceptance-evidence/` clarification
+
+The IPD repository contains a tracked `windows-acceptance-evidence/` directory
+(commits `ccab1cd`, `b217f7a`, 2026-09-23), but its sole content is the earlier
+**full-shell visual acceptance** (`WINDOWS-FULL-SHELL-VISUAL-ACCEPTANCE-20260923.md`,
+shell/navigation/offline presentation only; backend functionality explicitly not
+claimed). It contains no Gate 3 IPD validation output. The evidence from the
+`493c8ac` Windows run remains unavailable remotely and was not reconstructed; only
+the recorded ten-failure evidence listed in §1 was used.
