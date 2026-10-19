@@ -3659,3 +3659,115 @@ The nine changed paths were read from `origin/main@062b77fc…` and compared to 
 The published content is documentation-only. It does not establish the proposed Gate 3 act, Windows execution, qualification, result acceptance, admission, a 503 lift, or production authority. The 51-row/13-item baseline and IRR PR #114 remain untouched.
 
 *End of §16.60. This read-back records publication of the decision package, not implementation authority.*
+
+## §16.61 — `CV-CORR-44`: Gate 3 readiness investigation — exact implementation boundary verified; act remains PROPOSED / NOT EFFECTIVE / NOT GRANTED — three-field IPD blocker (`CV-CORR-44`)
+
+**Additive entry, 2026-10-19 (UTC).** This section records the Gate 3 effective-implementation-authority readiness investigation `PKG-02G` conducted on `arena/43e1fb03-iips-review-recovered` at the current `main` heads. It **preserves** all five PA dispositions G3-D3–G3-D7 ( §16.59 ) and G3-D2 `node:sqlite` ( §16.58 ); it **renders no new PA decision**, grants no Gate 3 authority, and changes no product/route/CORS/persistence/dependency/fence. The act remains **PROPOSED — NOT EFFECTIVE / NOT GRANTED** because the exact IPD file/test set is not pinned, as the act's own §2/§9 requires.
+
+### 16.61.1 Verified heads and authoritative state re-confirmed
+
+| Item | Verified value (live, this pass) | Prior value | Drift |
+|---|---|---|---|
+| IRR `refs/heads/main` | `c3c5ca211b3d10f003ef028c90537db17fdce3af` (PR #146 merge; `origin/main` + local HEAD + `git ls-remote` agree) | `062b77fc...` (PR #145 merge, §16.60) | **+1 merge** — PR #146 `Record G3 decision publication read-back` (head `d23ac11...`, merge `c3c5ca2...`, documentation-only read-back; `Typecheck·Test·Build` CI SUCCESS; no product path changed). This delta adds no decision and does not advance any register row. |
+| IPD `refs/heads/main` | `be32d8c95a86b3f03bd382ccde5b6398efb351c6` (fresh clone + `ls-remote` agree; tree `81f4999b...`, PR #24 docs-only) | same | **None** |
+| G3 request | `evidence/cross-repository/IIPS_V3_G3_IMPLEMENTATION_AUTHORITY_REQUEST_2026-10-18.md` blob `ac4b402573b165faa771e451bbce6faeeaa4d2e0` ( §§4/9/13.3 unchanged ) | same | **Identical** — still the single authoritative request |
+| Gate E policy | `IIPS_V3_G2_GATE_E_PORTFOLIO_WRITE_POLICY_2026-10-18.md` blob `4a9501bf...` **ACCEPTED rev 1** (G2-D2) | same | Unchanged; W-1(1) accepted |
+| Gate A′ | `evidence/np04/IIPS_v3.0_G2_IPD_GATE_A_PRIME_PA_DECISION_RENDERED_2026-10-17.md` **APPROVED, P-1 adopted, NOT EXECUTED** | same | Unchanged |
+| G3-D2…D7 source records | At `c3c5ca2`, readback SHA-256 of all six D-records + proposed act + PKG-02F matches §16.60 manifest (`a81fdff3...`, `dd39af55...`, `7a20a2c5...`, `2b40b214...`, `39565cd1...`, `d0f8a3be...`, `c67bb544...`, `dd2ae658...`) | `062b77fc` | **Byte-identical** — no edit, no re-render, no contradiction |
+
+**G3-D2–D7 reconciliation this pass:** Each disposition re-read and found unchanged ( see PKG-02G §2 table: D2 B `node:sqlite` SELECTED AND APPROVED `IIPS-V3-G3-D2-...-01`; D3 `3b` APPROVED `...D3...-01`; D4 `INCLUDE CODE` `...D4...-01`; D5 `REFERENCE ONLY` `...D5...-01` with exact P7 line; D6 `CONFIRM` `...D6...-01`; D7 `ACCEPT WITH CHANGES` `...D7...-01` in IRR capacity). No re-approval sought.
+
+### 16.61.2 IPD implementation findings (read-only, IPD `be32d8c9`)
+
+- **Portfolio domain:** `frontend/src/features/portfolio/portfolio-store.ts` — `PortfolioStore` class with `durability='SESSION_ONLY'` / `durable=false`, in-memory `Map<string,PortfolioRecord>`, `saveHoldings()` MERGE/REPLACE + `contentDigest` idempotency (`ALREADY_IMPORTED_NO_OP`) + weight 100.0000% + SHA-256 lineage; `DEFAULT_PORTFOLIO` seeded with empty `provenanceDigest` `e3b0c442...`.
+- **Port boundary:** `frontend/src/features/portfolio/portfolioStorePort.ts` — `PortfolioStorePort` interface + `SessionPortfolioStorePort` adapter with 29 `CALLER_SUPPLIED_IDENTITY_KEYS`, `findCallerSuppliedIdentityKeys()` scanning top-level + `options`, `evaluatePortSaveGuard()` DP-2 Option 2F, session-scoped `expectedRevision` `Map` ( +1 only on non-duplicate ), `describePersistenceStatus()` honest `SESSION_ONLY` labeling.
+- **Canonical identity:** `src/identity/mapping_store.ts` — `IdentityMappingStore.resolveCompanyId()` quarantine on `UNMAPPED`/`AMBIGUOUS`; `security_master.ts` + `quarantine.ts` + `d05_broad_universe_data.ts` (2,250 entities, `EQ_RELIANCE_IN`).
+- **Persistence/IPC:** `src/persistence/` + `src/ipc/` + `src/user_portfolio/` + `src/auth/` on `main` = **0 files** (`git ls-tree -r HEAD --name-only` grep → empty) — verified this pass and via PKG-02G §3.1. This confirms the request's `src/persistence/*` + `src/ipc/*` are **proposed globs, not existing paths**.
+- **Tests:** `tests/bi07_portfolio_store_port.test.ts` + `bi07_portfolio_ui_integration.test.ts` must keep passing (request §6.1); no `T-A…T-J` Gate 3 test exists on `main`.
+- **G-2 §2:** Extending (not replacing/duplicating) this baseline is viable — the durable adapter would implement `PortfolioStorePort` against SQLite, reusing `mapping_store` unchanged.
+
+### 16.61.3 G-2 §3 thirteen-requirement coverage
+
+G3-D6 `CONFIRM` holds: all §3 requirements apply in full for single-user H-18. PKG-02G §4 maps each to existing impl + test evidence + proposed bounded file/test + remaining Gate 3 (T-A…T-J, 29-key + C7, binding/503, startup/no-TCP, 3b-disabled, `SESSION_ONLY` vocabulary) + Gate 4 (QE-1…QE-11, QE-4 = stop both IRR+IPD per G2-D3 option(b), QE-5/QE-6/QE-7/QE-8/QE-9/QE-10, C5.1/Q9) evidence. No schema/property/migration invented; exact migration IDs remain for the effective act.
+
+### 16.61.4 Runtime/dependency — Node `node:sqlite` boundary (POSIX-verified vs. host-unverified)
+
+- **Established:** Both repos CI `setup-node: '22'` on `ubuntu-latest` (floating 22.x, **not an exact patch pin**); IPD `package.json` no `engines`/`.nvmrc`; `@types/node 22.20.4` includes `sqlite.d.ts`; `node:sqlite` added `v22.5.0`, flag-free from `v22.13.0`, Stability **1.1 Active development** (Node `doc/api/sqlite.md` at `v22.22.3`); sandbox Linux `v22.22.3` smoke (`DatabaseSync`, `BEGIN IMMEDIATE` + `ROLLBACK` 0 rows + `COMMIT` + reopen) passed with `ExperimentalWarning: SQLite is an experimental feature…` (G3-D2 §4.1, §5.1).
+- **No native dependency for `node:sqlite`** — PA selection imposes no `better-sqlite3` item; any `package.json`/`engines`/type-toolchain edit must be explicitly listed in the effective act.
+- **UNVERIFIED host behavior:** Windows `node:sqlite` API + `ExperimentalWarning` + `node-gyp` fallback vs. POSIX — Arena cannot test `desktop-no0nhtp`; Gate 4 QE must evidence on host. Both CIs are POSIX-only, so green CI ≠ Windows qualification.
+- **No host/runtime invented:** Declaring Node 22 is not proof of `node:sqlite` on host; act must name exact dependency delta or "none".
+
+### 16.61.5 IRR consumer boundary — exact bounded scope (G3-D7)
+
+**Current:** All `/api/user-portfolios*` (6 route paths / 12 route·method pairs incl. HEAD) → `503 owner-context-unavailable` (`user-portfolio-transport.ts` blob `51704c12...` + `owner-context-unavailable.ts` `cb8db45d...`); `userPortfolioContract.ts` `G2_CONTRACT_VERSION='2'` (blob `0dec72eb...`, `G2_PERSISTENCE.driver: 'better-sqlite3'` is historical G24 pin, not future `node:sqlite` path — reconciled by future act); `executive-transport.ts:693` `Access-Control-Allow-Origin: *` + `:926` unbound listen + `vite.config.ts host:'0.0.0.0'` = **C8 NOT MET** ( §16.53.2 ).
+
+**Smallest additive G3-D7 set (8 new + 3 existing + 2 byte-stable — verified in PKG-02G §6.2/§7.1):**
+`frontend/server/user-portfolio/ipcClient.ts` (framing 64 KiB/256 KiB, 5 s, 8 conn, no authority/scope) + `ownerContextFromBinding.ts` (binding-derived tenant hint, fail-closed) + `ipcPortAdapter.ts` (7-op adapter, Class P/A mapping, no mutation on refusal) + `firstPartySignal.ts` (C9 hardening) + 4 tests (`ipcClient.test.ts`, `ownerContextFromBinding.test.ts`, `ipcPortAdapter.test.ts`, `fenceUnchanged.test.ts` — byte-stable fence readback) + existing `userPortfolioContract.ts` (versioned seam, no silent bump) + `executive-transport.ts` + `vite.config.ts` (C8-only: loopback/no-wildcard). **Byte-stable:** `owner-context-unavailable.ts` + `user-portfolio-transport.ts` (0 bytes changed). Preserves: separation from certified `/api/portfolio` (no scoring/analytics input without separate authority), per-request binding resolution, no retry, no second store/cache/fallback — all HTTP `503` until Gate 5 names qualified commits and lifts **named operations only**.
+
+### 16.61.6 Exact manifest and Gate 3 act completeness — 3-field blocker
+
+**IRR manifest §7.1 is EXACT** (the 8+3+2 list above + `npm run test:ci` guard). **IPD manifest §7.2 cannot be made exact** from repository evidence + already granted authority without invention:
+
+| Request proposal ( §6.1 ) | Area (0 files on `main@be32d8c9`) | Why exact paths would be invented |
+|---|---|---|
+| `src/persistence/*` | `DatabaseSync` connection, migration ledger (001–003 incl. A-2/A-3), schema (portfolios/revisions/holdings/contributions + `local_principal_bindings`), transactions | Historical Gate B `cec70802` had `src/persistence/{bootstrap,config,connection,migrations/001,002,003,registry,runner}` for `better-sqlite3`/rollback journal — reference-only per G3-D0/D5 and a different driver; no `node:sqlite` code exists on `main`, so choosing `connection.ts` vs `store.ts` vs migration filenames is invention |
+| `src/ipc/*` | Endpoint (UNIX 0700/0600 on POSIX; named-pipe on Windows verified only at Gate 4), framing `v:1` T-1…T-8, dispatch, C7 refusal | Historical `src/ipc/{endpoint,entrypoint,errors,framing,server}` — same reference-only bar; file split (e.g. `framing.ts` vs `protocol.ts`) not fixed by any accepted record |
+| `frontend/src/features/portfolio/*` additive adapter | Durable `PortfolioStorePort` alongside `SessionPortfolioStorePort` | `src/identity/*` must stay byte-identical (W-6); adapter filename (`durablePort.ts` vs `sqlitePort.ts`) not decided |
+| `tests/*` T-A…T-J | Framing, 29-key + C7, binding, 503-indistinguishability, startup, no-TCP, 3b-disabled/zero-delta, `SESSION_ONLY` vocabulary, `bi07_*` green, IRR 12-pair 503 | Obligations established (request §6.2 + D3–D6), but test paths/commands (`tests/gate_g_*.test.ts` vs `src/persistence/*.test.ts`, `npm test` vs `test:ci`) not fixed |
+
+**Act completeness matrix (21 fields; three UNRESOLVED — see PKG-02G §8 for source paths):**
+
+| # | Field | Status | Blocker? |
+|---|---|---|---|
+| 1 | Act ID `IIPS-V3-G3-...-2026-10-19-01` | ESTABLISHED — GOVERNANCE RECORD | — |
+| 2 | Status semantics `PROPOSED — NOT EFFECTIVE` | ESTABLISHED | — |
+| 3 | IPD `main@be32d8c95a...` | ESTABLISHED — REPO EVIDENCE | — |
+| 4 | IRR `main@c3c5ca211b...` (supersedes `f9a9c006...` in proposed act table) | ESTABLISHED | — |
+| 5 | Repos/refs (both `main`; off-main `cec70802` reference-only) | ESTABLISHED | — |
+| 6 | Permitted modifications (existing files) | **UNRESOLVED — IPD half**: IRR 3 (userPortfolioContract + executive-transport + vite.config) ESTABLISHED; IPD `frontend/src/features/portfolio/*` exact list not fixed | **YES** |
+| 7 | Permitted additions (new files) | **UNRESOLVED — IPD half**: IRR 8 ESTABLISHED; IPD `src/persistence/*` + `src/ipc/*` + adapter globs not fixed | **YES** |
+| 8 | Tests + test commands (exact paths) | **UNRESOLVED — IPD half**: IRR 4 + `bi07_*` ESTABLISHED; IPD T-A…T-J obligations exist, paths/commands not fixed | **YES** |
+| 9 | Dependency/runtime (`node:sqlite`, Node 22 floating, Stability 1.1) | DERIVED (explicitly traceable); patch-pin unverified (§5.1) | Trace — act must state "no dependency change" or list `engines` |
+| 10 | Provisioning code (D4 `INCLUDE CODE`, A-2/A-3) vs execution (Gate A′ APPROVED/P-1/NOT EXECUTED, `V-A1…V-A8` outstanding) | ESTABLISHED | — |
+| 11 | G-2 §3 mapping (13 requirements → file/test, G3-D6 CONFIRM) | ESTABLISHED (§4 table) | — |
+| 12 | W-1 conjunctive guard (all-four) + zero-store-effect | ESTABLISHED (Gate E W-1; D3 `3b` status table) | — |
+| 13 | API/integration (contract v1 + L-IPC-1 row B, C7 29+keys, C5.1/Q9, no TCP/HTTP/URL listener) | ESTABLISHED | — |
+| 14 | Acceptance (Gate 3 CI `Typecheck·Test·Build` with counts/non-zero/zero-failure/`SESSION_ONLY`/`503`/fence — NOT Gate 4) | ESTABLISHED | — |
+| 15 | Gate E accepted rev 1 | ESTABLISHED | — |
+| 16 | Gate A′ (separate execution, P-1, NOT EXECUTED) | ESTABLISHED | — |
+| 17 | Gate 4 QE-1…QE-11 + Gate C Q1–Q4/Q9–Q11 (incl. QE-4 stop-both-processes per G2-D3 option(b), C5.1/Q9 zero-bytes) | ESTABLISHED as requirements, NOT EXECUTED (Windows host) | — |
+| 18 | Separate Gate 4 result-acceptance (own act) | ESTABLISHED | — |
+| 19 | Gate 5 admission (names qualified commits, lifts named `503` only) | ESTABLISHED | — |
+| 20 | Exclusions/rollback (H-18 non-prod, IPD-owned, no PIT reuse, no scoring/analytics, no caller identity, `SESSION_ONLY` until admitted, no off-main promotion, no prod/RBAC/PG) | ESTABLISHED | — |
+| 21 | Remote publication + read-back (separate act, `git ls-remote` + SHA-256 + CI) | DERIVED (§1.1/PR #145 precedent) | — |
+
+**Authority disposition:** `PROPOSED / NOT EFFECTIVE / NOT GRANTED` — 3 of 21 mandatory fields UNRESOLVED (rows 6–8 IPD half). Until they are fixed, W-1(2) is not satisfied and every `portfolio.create/save/reset/delete` remains refusal with zero store effect (D3 `3b`).
+
+**What would make it effective:** Render the **separate effective act** `IIPS-V3-G3-...-2026-10-19-02` (or successor) that re-resolves the then-current `main` SHAs, **enumerates the exact bounded IPD file/test/dependency set** within the approved `src/persistence/*`/`src/ipc/*`/adapter globs (preserving `src/identity/*` + `SessionPortfolioStorePort` label), with the exact test command + Gate 3 acceptance recording, and publish it on `ramkivs/iips-review-recovered` `refs/heads/main` with CI SUCCESS + SHA-256 read-back — **without re-asking for D2–D7**. No Windows/browser/localhost/prod claim is thereby established. This investigation **does not render that act** (read-only authority; inventing filenames/schemas would violate the hard safeguard).
+
+### 16.61.7 Register effect, baselines and safeguards
+
+- **CV-20 / CV-39 / Gate 3 status:** **No register-group movement.** CV-20 remains the decision-rendered group with downstream gates outstanding (G3-D2…D7 recorded in §16.59; act not effective). `CV-39` stays **DEFERRED** — a decision is not a grant. Gate 3 remains **NOT GRANTED**.
+- **P7/CV-20(a):** **REFERENCE ONLY** (D5) — preserved; no historical line promoted/merged/re-pinned as admitted base.
+- **Baselines:** 51-row capability + 13-item inventory **unchanged** (0 baseline path edited; `git diff --stat` Markdown-only).
+- **Safeguards ( §11 audited):** IPD `SESSION_ONLY`/`durable:false` ( `portfolio-store.ts:75` + `portfolioStorePort.ts:307` ); IRR `/api/user-portfolios*` **503** (`51704c12...`/`cb8db45d...`); Gate A′ **APPROVED/NOT EXECUTED** ( `V-A1…V-A8` outstanding ); C8 **NOT MET** at `c3c5ca2` (wildcard CORS `:693` + unbound `:926` + `vite.config.ts host:'0.0.0.0'` — D7 authorizes remediation, not completion); Gate 4/QE-1…QE-11 + Gate C Q1–Q4/Q9–Q11 **NOT EXECUTED** (POSIX CI only; Windows host outside Arena); all later gates separate; no production auth; PR #114 untouched.
+- **Historical note:** IRR HEAD `f9a9c006...` cited in proposed act §3 is now superseded by `c3c5ca211b3d10f003ef028c90537db17fdce3af` (PR #145 → #146 merges); IPD `be32d8c9...` is current; request blob `ac4b4025...` is current.
+
+### 16.61.8 Verification index
+
+| ID | Check | Result / boundary |
+|---|---|---|
+| V103 | Remote SHAs + G3 request blob + Gate E + Gate A′ re-resolved live (`git ls-remote`, clone `ls-tree`, `cat-file`) | **Verified — §16.61.1** — `c3c5ca2`/`be32d8c9`/`ac4b4025…` stable; PR #145/146 CI SUCCESS |
+| V104 | G3-D2…D7 six records re-read at `c3c5ca2` (dispositions + explicit non-grants) vs PKG-02F/proposed act | **Verified §2** — no contradiction, no re-approval |
+| V105 | IPD `PortfolioStore`/`PortfolioStorePort`/`IdentityMappingStore` + 0-file `src/persistence`/`src/ipc` + `bi07_*` read at `be32d8c9` | **Verified §16.61.2** — extends, not replace |
+| V106 | Historical `cec70802` (15 files, `better-sqlite3`) re-fetched and classified reference-only (G3-D0/D5) | **Verified §3.3/§7.2** — off-main not admitted |
+| V107 | Node `v22.22.3`/`npm 10.9.8` + IPD/IRR `ci.yml` (`ubuntu-latest`, `node-version:'22'`) + `package.json` no `engines` + `node:sqlite` docs `v22.5.0`/`v22.13.0`/Stability 1.1 | **Verified §5.1** — POSIX evidence vs Windows-unverified split |
+| V108 | IRR fence/contract + `executive-transport.ts:693/:926` + `vite.config.ts` + `frontend/server/user-portfolio/` dir | **Verified §6.1** — IRR set exact; C8 NOT MET preserved |
+| V109 | G-2 §3 thirteen-requirement map ( §3 of `7e83946b...` → D6 CONFIRM → T-A…T-J/QE obligations, W-1…W-16 `4a9501bf...`) | **Verified §4** — single-user does not waive |
+| V110 | Proposed act blocker "IPD exact file set UNPINNED" re-read + PKG-02G §7 manifest + §8 matrix (§6 globs vs exact authority) | **Verified §7.2/§8** — **3-field IPD blocker is genuine**; IRR manifest is exact |
+| V111 | Documentation scope review (git diff --check, Markdown-only, baseline/PR #114) | **To be verified on PR** — no runtime/route/listener/CORS/dependency/persistence/fence path changed |
+
+**Publication status at preparation:** The records, packet, investigation, packet index and this tracker addendum require the normal IRR publication workflow. No merge or post-merge read-back is asserted by this pre-publication text.
+
+*End of §16.61. The five PA decisions are durable; the separate Gate 3 act remains explicitly proposed and ineffective until the exact IPD file/test set is fixed by the separately rendered act.*
+
