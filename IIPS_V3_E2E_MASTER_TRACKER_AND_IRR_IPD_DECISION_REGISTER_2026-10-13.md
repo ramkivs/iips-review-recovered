@@ -3839,7 +3839,7 @@ The act therefore separates three classes and applies them without conflation: *
 
 ### 16.62.6 Act effectiveness, W-1 and register effect
 
-- **Act status:** `EFFECTIVE` on publication to IRR `main` with PR-head + post-merge CI success and SHA-256 remote read-back (§16.62.9). Before that it grants nothing.
+- **Act status:** **`EFFECTIVE`** — published to IRR `main` at `c6fd8d93…` (PR #148), PR-head and post-merge CI `success`, remote SHA-256 read-back matched (§16.62.9). It granted nothing before that publication.
 - **W-1 predicate change — exactly one:**
   - W-1(1) Gate E accepted — **true** (unchanged);
   - **W-1(2) separate Gate 3 act naming exact repository, IPD-`main` basis, file set and tests — becomes TRUE on publication** (this act);
@@ -3880,9 +3880,34 @@ The act therefore separates three classes and applies them without conflation: *
 | V120 | No wire field/operation/outcome/property invented; all from contract v1 §5–§6 | **Verified §16.62.2** |
 | V121 | Safeguards table re-verified at the basis | **Verified §16.62.7** |
 
-### 16.62.9 Publication and remote read-back
+### 16.62.9 Publication, remote read-back and independent verification
 
-*To be appended by the read-back commit after the PR merges:* PR number, PR head, PR-head CI run, merge commit, post-merge `main` CI run, `git ls-remote` agreement, remote SHA-256 of the act, diff-stat proving documentation-only, and the published act's `§15.2` table. No merge result is asserted in advance by this text.
+| Field | Verified value |
+|---|---|
+| PR | **#148** — `G3: effective Gate 3 implementation-authority act — exact IPD/IRR manifest (W-1(2))` |
+| PR head | `1f8dd425180f5cb0551ecc1799b83ef3e5a93e1a` |
+| PR-head CI | run `39210171716` (`Typecheck · Test · Build`) — **`success`** |
+| Merge commit (`refs/heads/main`) | `c6fd8d9307e1094dfb4baf8c7eea9b59f9ee3394` |
+| Merge parents | `ef5ba83c…` (previous `main`) + `1f8dd425…` (PR head) |
+| Post-merge `main` CI | run `39210292904` at `c6fd8d93…` — **`success`** |
+| `git ls-remote origin refs/heads/main` | `c6fd8d93…` — agrees |
+| Diff scope | 3 Markdown paths, `+623 / −1`; **no** `frontend/`, `iips-platform/`, `package.json`, lockfile, `.github/`, route, CORS, listener, persistence, IPC, fence or migration path |
+| Act blob on remote `main` | `4744e6f44e0caea55e980756aeef90a5046ec87e` |
+| **Act SHA-256 on remote `main`** | **`f4992f9ced681ffddd0d8eaf1f3de297f2262f1eb0b3131ce18b95805725abf5`** |
+| Local artifact SHA-256 | `f4992f9ced681ffddd0d8eaf1f3de297f2262f1eb0b3131ce18b95805725abf5` — **identical** |
+| Read-back record | `docs/integration/IIPS_v3.0_G3_GATE3_ACT_PUBLICATION_READBACK_2026-10-19.md` (`IIPS-V3-G3-ACT-PUBLICATION-READBACK-2026-10-19-01`) — completes act §15.2; the act itself is deliberately left byte-identical so its merged hash stays verifiable |
+
+**Effect:** the act's §15 effectiveness rule is satisfied — it is **EFFECTIVE**. W-1(2) is **TRUE**; W-1(1) true; W-1(3) and W-1(4) **FALSE** ⇒ every write remains refused with zero store effect. **No implementation has begun**; none of the enumerated files exists on either `main`.
+
+**Safeguards re-verified at `c6fd8d93`:** `cb8db45d…` (503 responder) and `51704c12…` (503 routing) unchanged; `ba0001e8…` / `0dec72eb…` unchanged; `d1c52fe6…` (C8 lines) and `56fd4826…` (`host: '0.0.0.0'`) unchanged ⇒ **C8 NOT MET**; `db536bd0…` pin unchanged; all `/api/user-portfolios*` still `503`; PR #114 OPEN and untouched; 51-row/13-item baselines unchanged; Gate A′/Gate C/Gate 4/result acceptance/Gate 5/production unchanged.
+
+| ID | Check | Result |
+|---|---|---|
+| V122 | PR #148 merged; merge SHA `c6fd8d93…`; `ls-remote` agreement | **Verified §16.62.9** |
+| V123 | PR-head `39210171716` + post-merge `39210292904` both `success` | **Verified §16.62.9** |
+| V124 | Remote read-back of the act matches the local artifact by SHA-256 `f4992f9c…` | **Verified §16.62.9** |
+| V125 | Diff documentation-only; fences/CORS/pin blobs unchanged; PR #114 untouched | **Verified §16.62.9** |
+| V126 | W-1 after publication: (1) true, (2) true, (3) false, (4) false ⇒ writes refused, zero store effect | **Verified §16.62.9** |
 
 *End of §16.62. Gate 3 implementation authority is effective for the enumerated manifest only; W-1(3)/(4) keep every write refused with zero store effect; no qualification, acceptance, admission, `503` lift, durability claim or production eligibility exists.*
 
