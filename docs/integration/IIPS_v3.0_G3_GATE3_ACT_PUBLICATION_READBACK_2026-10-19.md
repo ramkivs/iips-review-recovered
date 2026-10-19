@@ -23,7 +23,7 @@
 | PR head SHA | `1f8dd425180f5cb0551ecc1799b83ef3e5a93e1a` |
 | PR-head CI | run `39210171716`, workflow `CI` (`Typecheck · Test · Build`), **`success`** |
 | Merge commit | `c6fd8d9307e1094dfb4baf8c7eea9b59f9ee3394` |
-| Merge time (UTC) | 2026-10-19T06:30:04Z (`main` push event) |
+| Merge time (UTC) | `2026-10-19T06:30:14Z` (GitHub `mergedAt`; commit committer date `06:30:13Z`) |
 | Post-merge `main` CI | run `39210292904` at `c6fd8d93…`, **`success`** |
 | `git ls-remote origin refs/heads/main` | `c6fd8d9307e1094dfb4baf8c7eea9b59f9ee3394` — agrees with the merge commit |
 | Merge parents | `ef5ba83ca1bb79947d888ad3070593715f056461` (previous `main`) + `1f8dd425180f5cb0551ecc1799b83ef3e5a93e1a` (PR head) |
@@ -91,5 +91,20 @@ Companion paths published in the same commit:
 | V124 | Remote read-back of the act: blob `4744e6f4…`, SHA-256 `f4992f9c…`, size 51,662 — identical to local artifact | **Verified §3** |
 | V125 | Diff confined to 3 Markdown paths; every fence/CORS/pin blob unchanged at `c6fd8d93`; PR #114 untouched | **Verified §2, §4** |
 | V126 | W-1 predicate status after publication: (1) true, (2) **true**, (3) false, (4) false ⇒ writes refused, zero store effect | **Verified §5** |
+
+
+## 7. Publication of this record
+
+| Field | Value |
+|---|---|
+| PR | **#149** — `G3: publication read-back for the effective Gate 3 act (W-1(2) verified)` |
+| PR head | `41140dc571ab44f5a32a4df2db36c760174857a5` |
+| PR-head CI | run `39210441137` (`Typecheck · Test · Build`) — **`success`** |
+| Merge commit | recorded in tracker §16.62.9 (a file cannot contain the SHA of the commit that contains it) |
+| Post-merge `main` CI | recorded in tracker §16.62.9 |
+
+The act verified above was **not** modified by this record's publication: its blob (`4744e6f4…`) and SHA-256 (`f4992f9c…`) remain the identities of the published artifact.
+
+*Correction note (2026-10-19):* the draft of this record carried a provisional merge-time value; it was replaced with the GitHub `mergedAt` value `06:30:14Z` and the commit committer date `06:30:13Z` before this record's publication. No other field changed.
 
 *End of read-back. The act is effective for the enumerated manifest only. Gate A′ execution, Gate C, Gate 4, result acceptance, Gate 5, any `503` lift, any `durable:true` claim and production remain outside it.*
