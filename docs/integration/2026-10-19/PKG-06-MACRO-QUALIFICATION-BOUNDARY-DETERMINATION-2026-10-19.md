@@ -198,11 +198,11 @@ _To be completed as the pass executes. No publication step below is a qualificat
 | Branch | `arena/736fe076-iips-review-recovered` |
 | Files changed | `docs/integration/2026-10-19/PKG-06-MACRO-QUALIFICATION-BOUNDARY-DETERMINATION-2026-10-19.md` (this record) + `evidence/integration/pkg-06-macro-qualification-2026-10-19/ARENA-EGRESS-PROBE-TRANSCRIPT-2026-10-19.txt` (fresh probe evidence). **Documentation/evidence only — zero product files.** |
 | Diff review | Every changed file belongs to PKG-06; tracker, acts, fences, code, and tests untouched (verified by `git status`/`git diff --stat` before commit). |
-| Commit / push | _pending_ |
-| PR | _pending_ (single PR; no competing PR) |
-| Hosted CI | _pending_ (`Typecheck · Test · Build`) |
-| Merge | _pending_ (merge-when-safe under standing authorization; documentation-only) |
-| Post-merge verify | _pending_ (remote `main` SHA, tree/blob read-back, CI on merged `main`) |
+| Commit / push | `651564030b60efbb49100a0b100ef669dae1b863` (2 files, +294/−0), pushed to `arena/736fe076-iips-review-recovered` |
+| PR | **#155** (`arena/736fe076-iips-review-recovered` → `main`); single PR, no competing PR |
+| Head CI | Run `39224038098` / job `117965866355` — **`Typecheck · Test · Build`: pass** (1m4s) on head `6515640` |
+| Merge | **MERGED** `2026-10-19T08:38:16Z` as `4abe6650b614892a737c5167cf5d7ea583dc1a7e` (regular merge; parents `c6240fa…` + `6515640…`); delta exactly the 2 files (+294/−0) |
+| Post-merge verify | Remote `main` = `4abe6650…` (fetch + commits API agree); both blobs read back from remote `main` byte-identical (`ae853877…`/30642 B, `5678cc2d…`/3305 B); post-merge `main` CI run `39224191726` = **success** on `4abe6650…` |
 
 ## 7. Closure and next-action handoff
 
