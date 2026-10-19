@@ -3897,6 +3897,10 @@ The act therefore separates three classes and applies them without conflation: *
 | Local artifact SHA-256 | `f4992f9ced681ffddd0d8eaf1f3de297f2262f1eb0b3131ce18b95805725abf5` — **identical** |
 | Read-back record | `docs/integration/IIPS_v3.0_G3_GATE3_ACT_PUBLICATION_READBACK_2026-10-19.md` (`IIPS-V3-G3-ACT-PUBLICATION-READBACK-2026-10-19-01`) — completes act §15.2; the act itself is deliberately left byte-identical so its merged hash stays verifiable |
 
+| Read-back record publication | PR **#149**, head `41140dc571ab44f5a32a4df2db36c760174857a5`, PR-head CI `39210441137` **`success`**, merge `98161e9ecc0c0d2a3b9fa12c0846633b0c722491` (parents `c6fd8d93…` + `41140dc…`), post-merge `main` CI `39210562693` **`success`**; `git ls-remote` agrees |
+| Act identity after the read-back publication | blob `4744e6f4…` / SHA-256 `f4992f9c…` — **unchanged**; the read-back record did not edit the act |
+| Read-back record identity on `main` | blob `60f4b480…` / SHA-256 `de2c5d68…` (`IIPS_v3.0_G3_GATE3_ACT_PUBLICATION_READBACK_2026-10-19.md`) |
+
 **Effect:** the act's §15 effectiveness rule is satisfied — it is **EFFECTIVE**. W-1(2) is **TRUE**; W-1(1) true; W-1(3) and W-1(4) **FALSE** ⇒ every write remains refused with zero store effect. **No implementation has begun**; none of the enumerated files exists on either `main`.
 
 **Safeguards re-verified at `c6fd8d93`:** `cb8db45d…` (503 responder) and `51704c12…` (503 routing) unchanged; `ba0001e8…` / `0dec72eb…` unchanged; `d1c52fe6…` (C8 lines) and `56fd4826…` (`host: '0.0.0.0'`) unchanged ⇒ **C8 NOT MET**; `db536bd0…` pin unchanged; all `/api/user-portfolios*` still `503`; PR #114 OPEN and untouched; 51-row/13-item baselines unchanged; Gate A′/Gate C/Gate 4/result acceptance/Gate 5/production unchanged.
