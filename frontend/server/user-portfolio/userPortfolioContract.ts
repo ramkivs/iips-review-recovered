@@ -97,7 +97,17 @@ export type G2UnresolvedHoldingEvidence =
     readonly identityStatus: 'UNRESOLVED';
   };
 
-/** Frozen lineage pin. The adapter speaks ONLY to this G24 state. */
+/**
+ * Frozen lineage pin. The adapter speaks ONLY to this G24 state.
+ *
+ * 2026-10-19 (Gate 3, contract v1 V-5): HISTORICAL FOR THE IPC PATH. This pin
+ * describes the former first-party G24 **HTTP** lineage. For the same-host IPC path
+ * added by `IIPS-V3-G3-IMPLEMENTATION-AUTHORITY-ACT-2026-10-19-02` §5, the accepted
+ * IPD-owned wire contract v1 supersedes the HTTP-era wire description; this object
+ * is retained unchanged as the record of that earlier lineage and is not rewritten,
+ * re-pinned or conflated with the contract version. `G2_CONTRACT_VERSION` stays
+ * `'2'` — there is no invented numeric bump.
+ */
 export const G2_LINEAGE = Object.freeze({
   repository: 'ramkivs/iips-production-market-data',
   branch: 'refs/heads/arena/01a0e6d9-iips-production-market-data',
@@ -124,7 +134,16 @@ export const G2_ROUTES = Object.freeze({
   portfolios: '/api/ipd/portfolios',
 });
 
-/** G24 persistence technology (authorized for this non-production reuse). */
+/**
+ * G24 persistence technology (authorized for this non-production reuse).
+ *
+ * 2026-10-19 (Gate 3, contract v1 V-5): HISTORICAL FOR THE IPC PATH. These values
+ * describe the former first-party G24 HTTP service's store posture. They are **not**
+ * rewritten by this act and are **not** a statement about the new IPD durable store,
+ * whose own posture and migration set are IPD-side facts verified in the IPD
+ * repository. Retained verbatim so the earlier lineage stays readable; deliberately
+ * not conflated with `G2_CONTRACT_VERSION`.
+ */
 export const G2_PERSISTENCE = Object.freeze({
   technology: 'SQLite',
   driver: 'better-sqlite3',
@@ -133,6 +152,30 @@ export const G2_PERSISTENCE = Object.freeze({
   foreignKeys: 'enforced',
   schemaMigrations: ['001_initial_schema', '002_audit_event_sequence'] as const,
 });
+
+// ---------------------------------------------------------------------------
+// Gate 3 additive seam (2026-10-19) — the ONLY new export added by
+// `IIPS-V3-G3-IMPLEMENTATION-AUTHORITY-ACT-2026-10-19-02` §5.2.
+//
+// Strictly additive: no existing export, value, type, interface or behaviour above
+// or below is changed. `G2_CONTRACT_VERSION` remains `'2'`; `G2_LINEAGE` remains
+// pinned to `6828155e…`; `G2_PERSISTENCE` is not rewritten; no new wire or schema
+// field is invented; and there is deliberately NO tenant-hint transmission constant
+// here, because the tenant hint is IRR-local and never crosses the wire (contract v1
+// OC-3/G2-D4).
+// ---------------------------------------------------------------------------
+
+/**
+ * Name of the operator-local setting that identifies the same-host IPC endpoint.
+ *
+ * The value is the already-established name from accepted wire contract v1 (OC-3);
+ * it is not newly invented here. It names a local endpoint and is **not** a
+ * credential, a token, an owner claim or a scope (OC-4): knowing it authorizes
+ * nothing, and IPD resolves the owner from its own single `ACTIVE` A-2 binding on
+ * every request (OC-2). IRR reads it per call (OC-5) and never caches it as a
+ * record of ownership.
+ */
+export const G2_IPC_ENDPOINT_SETTING = 'IIPS_G2_IPC_ENDPOINT';
 
 /** Save modes admitted by G24 (`parseSaveHoldingsBody`; anything else is 400). */
 export const G2_SAVE_MODES = Object.freeze(['MERGE', 'REPLACE'] as const);

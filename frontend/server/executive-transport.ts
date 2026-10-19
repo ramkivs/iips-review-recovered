@@ -688,9 +688,52 @@ export async function handleExecutiveReadRequest(
   }
 }
 
+// --- C8 remediation (2026-10-19, G3-D7 / act §5.2) -------------------------
+// C8 was NOT MET: this server set `Access-Control-Allow-Origin: *` on every
+// response, including the owner-scoped surfaces, and bound with no host argument,
+// which listens on all interfaces (`0.0.0.0`).
+//
+// The remediation is scoped exactly as authorized and no further:
+//   - the wildcard origin header is NOT set on owner-scoped routes;
+//   - the server binds to loopback only.
+// No route is admitted, no `503` is lifted, no scoring/analytics is wired, and the
+// certified credential-free reads (`/api/portfolio`, `/api/executive`, …) keep their
+// existing behaviour, including the wildcard origin they already had.
+
+/** The five namespaces that fail closed with `owner-context-unavailable`. */
+const OWNER_SCOPED_API_PREFIXES = Object.freeze([
+  '/api/reports',
+  '/api/user-portfolios',
+  '/api/watchlists',
+  '/api/collaboration',
+  '/api/settings',
+] as const);
+
+/**
+ * Loopback-only bind address. Exported so the C8 posture is source-verifiable at
+ * the resulting commit rather than asserted from prose.
+ */
+export const EXEC_TRANSPORT_BIND_HOST = '127.0.0.1';
+
+/**
+ * True for any path inside an owner-scoped API namespace.
+ *
+ * Deliberately over-inclusive: matching on the bare prefix means an adjacent
+ * non-route such as `/api/settingsEVIL` also loses the wildcard origin. That can
+ * only remove a header from a path that 404s, so it fails closed; no certified
+ * route begins with any of these prefixes.
+ */
+export function isOwnerScopedApiPath(url: string | undefined): boolean {
+  const path = (url ?? '').split('?')[0];
+  return OWNER_SCOPED_API_PREFIXES.some((prefix) => path.startsWith(prefix));
+}
+
 const server = http.createServer(async (req, res) => {
   res.setHeader('Content-Type', 'application/json');
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  // C8: no wildcard cross-origin grant on an owner-scoped route.
+  if (!isOwnerScopedApiPath(req.url)) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+  }
   if (req.method === 'OPTIONS') { res.writeHead(204); res.end(); return; }
   // AI Explanation is a direct, credential-free, read-only advisory over certified results.
   if (req.url?.startsWith('/api/ai-advisory/')) {
@@ -923,7 +966,11 @@ const server = http.createServer(async (req, res) => {
 });
 
 if (process.env.NODE_ENV !== 'test') {
-  server.listen(port, () => console.log(`Executive transport listening on :${port}`));
+  // C8: loopback-only bind. The previous unbound `listen(port)` accepted
+  // connections on every interface.
+  server.listen(port, EXEC_TRANSPORT_BIND_HOST, () =>
+    console.log(`Executive transport listening on ${EXEC_TRANSPORT_BIND_HOST}:${port}`),
+  );
 }
 
 // IU-5 — the real composed server, exported so the runtime integration suite
