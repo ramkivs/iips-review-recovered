@@ -48,3 +48,7 @@
 The user-specified canonical file `/IIPS/IRR_Arena_Section_18_1_Full_Capability_Matrix_51_Rows.xlsx` is absent from the accessible IRR `main` tree. The repository's 51×17 Markdown matrix and supplied `24/9/13/5/0` figures are not a verified substitute for that workbook; those aggregate counts remain unverified and are not presented as canonical. The follow-up makes only row-specific evidence/status edits supported by the current remote evidence and does not calculate or publish an Excel baseline.
 
 Packet fields that state IRR `main@9be364b…` or IPD `main@467eb529…` describe the pre-merge/pre-PR #10/#11 snapshot when those packet notes were prepared. The post-merge refs and relationships are recorded above; the underlying decision packets remain inputs, not operative decisions.
+
+## Publication read-back — PKG-02F
+
+PKG-02F and its nine-path decision/act set were published to IRR `main` by **PR #145**, head `e965a9c41648d3148824111b862363030ec1b322`, merge `062b77fc569b0cccb6569510e633ee9ffcb636b3` at `2026-10-19T05:43:42Z`. PR-head CI runs `39205815005` and `39205925433` and post-merge `main` CI run `39206040498` all completed **SUCCESS** for `Typecheck · Test · Build`. Remote read-back from `main@062b77fc…` matched all nine published Markdown paths by SHA-256; the merge changed no product/runtime/dependency/listener/CORS/persistence path. The proposed Gate 3 act remains **NOT EFFECTIVE** and all safeguards in the PKG-02F row remain current.
