@@ -2,13 +2,13 @@
 
 **Date:** 2026-10-19 (UTC)
 **Scope:** CV-21 disposition → CV-51 follow-on → mapping of the third Reports work item
-**Record type:** Documentation-only evidence and tracker reconciliation. This record renders no new Program Authority decision, implementation authority, admission, qualification, route activation, or production authorization.
-**Effective status:** Proposed for publication on `refs/heads/main`; this branch/PR copy is not yet authoritative.
+**Record type:** Documentation-only evidence; tracker reconciliation intentionally pending. This record renders no new Program Authority decision, implementation authority, admission, qualification, route activation, or production authorization.
+**Effective status:** Published on `refs/heads/main` through PR #150. The post-merge read-back evidence is recorded in §6.
 **Repository:** `ramkivs/iips-review-recovered` (IRR)
 
 ## 1. Baseline lock and evidence sources
 
-The workstream began with remote `refs/heads/main` = **`ef5ba83ca1bb79947d888ad3070593715f056461`** (PR #147). While PR #150 was open, main advanced through documentation-only PRs #148, #149, and #152. I re-fetched and re-locked the current authoritative baseline at **`6b1f8f9e0e4fde17a8b7371ebfea2d43d2e67cb8`** (merge of PR #152); `git ls-remote` agreed. Those intervening changes are tracker/decision documentation and do not alter the Reports product paths; the PR branch is being synchronized to this current main. No canonical Excel workbook or CSV matrix is present in the repository checkout. The 51-row inventory in tracker §18, including Reports rows 35–37, was read without reclassification. No supplied aggregate capability counts are asserted or recalculated.
+The workstream began with remote `refs/heads/main` = **`ef5ba83ca1bb79947d888ad3070593715f056461`** (PR #147). While PR #150 was open, main advanced through documentation-only PRs #148, #149, and #152. I re-fetched and re-locked the current authoritative baseline at **`6b1f8f9e0e4fde17a8b7371ebfea2d43d2e67cb8`** (merge of PR #152); `git ls-remote` agreed. Those intervening changes are tracker/decision documentation and do not alter the Reports product paths. The PR branch was synchronized to this baseline and later merged by PR #150; see §6 for post-merge read-back evidence. No canonical Excel workbook or CSV matrix is present in the repository checkout. The 51-row inventory in tracker §18, including Reports rows 35–37, was read without reclassification. No supplied aggregate capability counts are asserted or recalculated.
 
 ### Governing records read
 
@@ -22,7 +22,7 @@ The workstream began with remote `refs/heads/main` = **`ef5ba83ca1bb79947d888ad3
 
 - `frontend/server/reports/` is absent. The reports transport and its tests remain. Recognized owner-scoped operations fail closed via `respondOwnerContextUnavailable`; invalid routes/methods retain their `404`/`405` behavior. Bare `/api/reports` is not a valid artifact route and remains `404`.
 - `frontend/server/executive-transport.ts` dispatches the Reports namespace to `reports-transport.ts`. The current source-level owner-context fence is not a live-deployment claim.
-- The transport file's header comment still says domain modules remain in `reports/*`, although that directory is absent on current `main`. This source-comment inconsistency is recorded as a documentation follow-up; it is not corrected here because CV-21 Option C authorizes no Reports implementation/scope change and the current pass is limited to tracker/evidence reconciliation.
+- The transport file's header comment still says domain modules remain in `reports/*`, although that directory is absent on current `main`. This source-comment inconsistency is recorded as a documentation follow-up; it is not corrected here because CV-21 Option C authorizes no Reports implementation/scope change and this record-only publication excludes tracker reconciliation.
 - No Reports feature directory or `/reports` UI route was found in the current frontend tree. No Reports UI/no-auth port is admitted.
 - `reports-api.test.ts` and `reports-transport.test.ts` remain the scoped route/fence tests. Since this change is documentation-only, no application test is claimed as newly run here; the PR CI is the applicable publication check.
 
@@ -64,10 +64,17 @@ H-4 identifies the stale D-3 §10 statement about Reports implementation presenc
 
 ## 5. Tracker reconciliation and publication boundary
 
-The tracker update was interrupted and is **not included** in the final PKG-03 change set. No master-tracker reconciliation is claimed. At current `main@6b1f8f9…`, the existing CV-21/CV-51 rows remain as previously recorded (`DECISION REQUIRED` / `BLOCKED`); their current authoritative evidence supports the disposition and follow-on conclusions in this execution record, but a separate, minimal tracker reconciliation remains an administrative follow-up. The §18 51-row classification has not been changed; no row is recategorized and no new CV ID is created. Earlier event-time records remain unchanged.
+The tracker update was interrupted and is **not included** in the PKG-03 change set. No master-tracker reconciliation is claimed. At PR #150's verified merge base `main@6b1f8f9…`, the existing CV-21/CV-51 rows remained as previously recorded (`DECISION REQUIRED` / `BLOCKED`). Post-merge tree comparison confirmed that the merge preserved that tracker blob unchanged; a separate, minimal tracker reconciliation remains an administrative follow-up. The §18 51-row classification has not been changed; no row is recategorized and no new CV ID is created. Earlier event-time records remain unchanged.
 
 Only the PKG-03 evidence record is intended for publication; no tracker path, product code, test, IPD repository/ref, route, persistence, fence, portfolio scoring/analytics, or production boundary is changed. User-portfolio routes remain `503 owner-context-unavailable`; Reports owner-scoped routes remain `503 owner-context-unavailable`; PR #114 is untouched. No Windows checkout, browser, localhost, live deployment, qualification, admission, or production readiness is claimed.
 
 **Administrative follow-up:** reconcile the current CV-21/CV-51 statuses and related counts in the authoritative tracker only after this evidence record's findings are reviewed against the latest remote main. This was intentionally left pending rather than repeating the interrupted bulk-edit attempt.
 
-**Publication state:** this PKG-03 evidence record is the sole file in PR #150. The branch was synchronized with current `main@6b1f8f9…`; the PR is clean/mergeable and its hosted CI has passed typecheck, full Vitest, the non-zero/full-pass guard, and production build. The exact current PR head and CI run are recorded by GitHub on PR #150 (the record intentionally avoids self-embedding a mutable head SHA). PR #150 remains open and unmerged; no main publication or post-merge verification is claimed. The tracker reconciliation remains pending.
+**Publication state:** PR #150 merged this record to `main`; independent post-merge verification is recorded below. The tracker reconciliation remains pending.
+
+## 6. PR #150 publication and independent post-merge read-back
+
+- GitHub reports PR #150 merged at **2026-10-19 07:47:28 UTC**, with base `6b1f8f9e0e4fde17a8b7371ebfea2d43d2e67cb8`, PR head `82bf596923059979023c20f50cd6a95efa33d2e6`, and merge commit **`573a3dd7cfb00bc7e618cba30d69a50a7004c856`**. Its parents are the recorded base and PR head.
+- Immediately after merge, `git ls-remote origin refs/heads/main` reported **`573a3dd7cfb00bc7e618cba30d69a50a7004c856`**. The published record exists at `docs/integration/2026-10-19/PKG-03-REPORTS-SEQUENTIAL-EXECUTION-RECORD.md`; its Git blob `ff032517c612b1b838d3424a089692604e2e7c33` and SHA-256 `b3af364238aeedf26cbdf831bc57b2927e63d5a8534b38c621cf45b54a1c237e` match the PR head and merge tree.
+- The merge tree matches the PR head tree. Comparing the merge to its first parent shows exactly one addition: this execution record (73 lines). The master tracker and `frontend/` have no merge delta. The CV-21/CV-51 tracker entries remain `DECISION REQUIRED` / `BLOCKED`; no reconciliation was done.
+- PR CI run **39217553168** passed at the exact PR head: typecheck, full Vitest suite, non-zero/full-pass guard, and production build. Main push CI run **39218271360** passed on merge commit `573a3dd7cfb00bc7e618cba30d69a50a7004c856` with the same checks. No application feature, qualification, admission, production-readiness, or live-deployment claim follows from documentation publication.
