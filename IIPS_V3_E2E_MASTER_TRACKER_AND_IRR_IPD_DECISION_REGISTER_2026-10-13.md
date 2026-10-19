@@ -3899,7 +3899,8 @@ The act therefore separates three classes and applies them without conflation: *
 
 | Read-back record publication | PR **#149**, head `41140dc571ab44f5a32a4df2db36c760174857a5`, PR-head CI `39210441137` **`success`**, merge `98161e9ecc0c0d2a3b9fa12c0846633b0c722491` (parents `c6fd8d93…` + `41140dc…`), post-merge `main` CI `39210562693` **`success`**; `git ls-remote` agrees |
 | Act identity after the read-back publication | blob `4744e6f4…` / SHA-256 `f4992f9c…` — **unchanged**; the read-back record did not edit the act |
-| Read-back record identity on `main` | blob `60f4b480…` / SHA-256 `de2c5d68…` (`IIPS_v3.0_G3_GATE3_ACT_PUBLICATION_READBACK_2026-10-19.md`) |
+| Read-back record identity (version-anchored) | at the PR #149 merge (`98161e9e…`): blob `60f4b480…` / SHA-256 `de2c5d68…`. The record was subsequently amended by the PR #151 correction (committer `26b83296…`), so **its** hash is not a stable identity; the **act's** blob/SHA-256 is the stable published identity and is unchanged by every read-back and correction commit. |
+| Read-back record correction publication | PR **#151**, head `26b83296451684ba734a756b710ff277ea411dd3`, PR-head CI `39210670286` **`success`**, merge `de2d68cc95a5bfe7c3da6dd63cc9c4f36ec17f40` (parents `98161e9e…` + `26b8329…`), post-merge `main` CI `39210804369` **`success`**; corrected the provisional merge-time value to `2026-10-19T06:30:14Z` and recorded the PR #149 publication |
 
 **Effect:** the act's §15 effectiveness rule is satisfied — it is **EFFECTIVE**. W-1(2) is **TRUE**; W-1(1) true; W-1(3) and W-1(4) **FALSE** ⇒ every write remains refused with zero store effect. **No implementation has begun**; none of the enumerated files exists on either `main`.
 
