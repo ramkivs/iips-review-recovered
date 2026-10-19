@@ -3567,3 +3567,60 @@ The selected technology does not settle the schema, exact migration policy, Wind
 **Publication verified:** the PR-head and post-merge main CI passed, and the merged decision record, PKG-02E, index, and tracker were independently read back from IRR `main@290775922ac67dbae0926677590a43afe111c292` and matched the working copies by SHA-256. This confirms additive documentation publication only; it does not establish Windows behavior, implementation, Gate 3 grant, qualification, admission, or production use.
 
 *End of §16.58.*
+
+## §16.59 — `CV-CORR-42`: G3-D3–G3-D7 PA decisions rendered; Gate 3 act prepared but not effective
+
+**Additive entry, 2026-10-19 (UTC).** This section records the PA-approved G3-D3–G3-D7 dispositions in one pass and reconciles the separate Gate 3 authorization package/act. It does not reopen or overwrite G3-D2: **B — `node:sqlite` — SELECTED AND APPROVED** remains the storage-technology decision. The five dispositions are PA decisions, not Arena recommendations. The companion Gate 3 act is **PROPOSED — NOT EFFECTIVE** because the authoritative request still requires the exact IPD-main implementation file/test set to be fixed by that separate act. No implementation was started.
+
+### 16.59.1 Decision records and current dispositions
+
+| Item | PA disposition | Durable record and effect |
+|---|---|---|
+| **G3-D2** | **B — `node:sqlite` — SELECTED AND APPROVED** | Existing record `docs/integration/IIPS_v3.0_G3_D2_STORAGE_TECHNOLOGY_PA_DECISION_2026-10-19.md` and §16.58 are preserved. This addendum does not reconfirm or alter D2. |
+| **G3-D3** | **`3b` — APPROVED** | `docs/integration/IIPS_v3.0_G3_D3_WRITE_SLICE_PA_DECISION_2026-10-19.md`. Bounded write code may exist only disabled by default behind all four exact W-1 conditions; otherwise zero store effect. |
+| **G3-D4** | **`INCLUDE CODE` — APPROVED** | `docs/integration/IIPS_v3.0_G3_D4_PROVISIONING_CODE_SCOPE_PA_DECISION_2026-10-19.md`. Bounded provisioning code may be included; Gate A′ execution remains a separate operator act. |
+| **G3-D5** | **`REFERENCE ONLY` — APPROVED** | `docs/integration/IIPS_v3.0_G3_D5_REFERENCE_ONLY_PA_DECISION_2026-10-19.md`. The formal CV-20(a)/P7 line is rendered exactly: `G3-D5 Off-main 2026-10-07 durable line (CV-20 (a)/R-8(a)) ................... REFERENCE ONLY`. P7 is closed as reference-only; no historical line is promoted or used as a current baseline. |
+| **G3-D6** | **`CONFIRM` — APPROVED** | `docs/integration/IIPS_v3.0_G3_D6_G2_SECTION_3_CONFIRMATION_PA_DECISION_2026-10-19.md`. All G-2 §3 requirements apply in full, including single-user deployment. |
+| **G3-D7** | **`ACCEPT WITH CHANGES` — APPROVED** in IRR capacity | `docs/integration/IIPS_v3.0_G3_D7_IRR_SCOPE_PA_DECISION_2026-10-19.md`. Minimal additive, explicitly versioned IRR consumer only: C8 remediation scope, bounded IPC client/adapter and tests, `userPortfolioContract.ts` versioned seam, and continued 503 fence until Gate 5. |
+
+The consolidated package is `docs/integration/2026-10-18/PKG-02F-G3-D3-D7-DECISIONS-AND-GATE3-AUTHORIZATION-PACKAGE.md`. The companion act form is `docs/integration/IIPS_v3.0_G3_GATE3_IMPLEMENTATION_AUTHORITY_ACT_PROPOSED_2026-10-19.md`.
+
+### 16.59.2 Exact W-1 guard and act separation
+
+The accepted Gate E W-1 policy remains exact and conjunctive. A write (`portfolio.create`, `portfolio.save`, `portfolio.reset`, or `portfolio.delete`) may succeed only when **all four** conditions hold:
+
+1. the Gate E policy is accepted by the PA;
+2. a **separate Gate 3 act** names the exact repository, IPD-`main` basis, file set and tests for the write path;
+3. a Gate 4 qualification run covering Gate E §4 is executed on the deployment host and accepted by a **separate result-acceptance act**; and
+4. a Gate 5 admission act names the qualified IPD and IRR commits and lifts the IRR `503` fence for the named operations.
+
+Otherwise IPD refuses/returns `WRITE_NOT_AUTHORIZED` (or an earlier refusal) with **zero store mutations**. Current condition status: W-1(1) is accepted; W-1(2) is not effective because the companion act is proposed and its exact IPD file/test set remains unpinned; W-1(3) is not executed/accepted; W-1(4) is not granted. `3b` is not a write enablement.
+
+The PA dispositions are therefore not conflated with the act. This addendum does not authorize implementation, Gate A′ execution, Gate 4, result acceptance, Gate 5, a 503 lift, or production.
+
+### 16.59.3 Gate 3 package and exact scope boundary
+
+The package records the inspected bases: IPD `main@be32d8c95a86b3f03bd382ccde5b6398efb351c6` and IRR `main@f9a9c006230d4bfb6ab68f358eb330e2af53c838`. The current request's IPD §6.1 areas (`src/persistence/*`, `src/ipc/*`, additive adapter alongside the existing portfolio capability, and tests T-A–T-J) remain **proposed**; the later act must fix exact files and tests. No filename, schema, property, API, migration or runtime detail is invented to fill that gap.
+
+The D7 IRR boundary is exact and bounded: C8 remediation is limited to the named IRR transport/configuration paths while the two 503 fence files remain protected; the IPC set is `ipcClient.ts`, `ownerContextFromBinding.ts`, `ipcPortAdapter.ts`, `firstPartySignal.ts` and their four tests; `frontend/server/user-portfolio/userPortfolioContract.ts` retains the existing `G2_CONTRACT_VERSION = '2'` seam without an invented numeric bump; and all `/api/user-portfolios*` routes remain HTTP `503 owner-context-unavailable` until Gate 5. IRR does not own persistence, send authority fields, retry writes, or touch the certified reference portfolio.
+
+Gate A′ remains **APPROVED with P-1 adopted, NOT EXECUTED**. No Windows store, fixture, browser, localhost, operator-host, Gate C or Gate 4 result is claimed. The historical 2026-10-07 durable line remains reference evidence only.
+
+### 16.59.4 Register effect, baselines and safeguards
+
+- **CV-20 remains the decision-rendered group with downstream gates outstanding.** The D3–D7 decisions are now recorded; the exact effective Gate 3 act, implementation, Gate 4/acceptance and Gate 5 admission remain outstanding. P7 is no longer formally open; its exact status is `REFERENCE ONLY`.
+- `CV-39` remains **DEFERRED**. The current section does not convert a decision into an implementation or admission grant.
+- The 51-row capability baseline and 13-item inventory are unchanged and are not recounted. Historical §16.58 count statements remain historical snapshots; this section is the current item-level D3–D7 status.
+- IPD remains `SESSION_ONLY` / `durable:false`; IRR `/api/user-portfolios*` remains HTTP `503 owner-context-unavailable`; C8 remains **NOT MET**; Gate 3 remains **NOT GRANTED**; Gate 4/result acceptance and Gate 5 remain separate and unexecuted/not granted; production remains unauthorized.
+- No product/runtime/API/frontend/persistence/dependency/lockfile/listener/CORS behavior changed. The IPD clone was read-only. IRR PR #114 is untouched.
+
+### 16.59.5 Verification index
+
+| ID | Check | Result and evidence boundary |
+|---|---|---|
+| **V103** | Re-read the current IRR/IPD heads, G3 request, Gate E W-1–W-16, G-2 architecture/implementation records, consumer contract, Gate A′ decision, G3-D2 record and G3-D0/D4 historical boundaries; checked all five new records, PKG-02F and the proposed act for exact dispositions and preserved fences | **Verified as documentation preparation:** establishes the five PA records and the Gate 3 act blocker only; no implementation, Windows behavior, qualification, result acceptance, admission or production use |
+| **V104** | Documentation scope review after the additive update | **Expected/required before publication:** Markdown-only paths; `git diff --check`; no runtime, route, listener, CORS, dependency, persistence or fence path changed; 51-row/13-item baseline preserved |
+
+**Publication status at preparation:** the records, packet, proposed act, packet index and this tracker addendum require the normal IRR publication workflow. No merge or post-merge read-back is asserted by this pre-publication text.
+
+*End of §16.59. The five PA dispositions are durable; the separate Gate 3 act remains explicitly proposed and ineffective.*
