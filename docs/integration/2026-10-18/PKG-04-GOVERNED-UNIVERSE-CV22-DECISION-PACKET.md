@@ -24,3 +24,11 @@
 If B is selected, name one real entity from D05 (for example `RELIANCE`) and define the exact mapping from that D05 canonical entity to the IRR user-surface identifier. Then test a watchlist add through the composed IRR route and verify the returned/persisted identity is exactly the governed D05 identity, with no fuzzy match or fabricated symbol. This is a proposal only: today’s IRR 13-row identifiers and D05 company identifiers are not assumed interchangeable. Keep the 13-row fallback until a separate decision and implementation/qualification are accepted.
 
 No portfolio persistence or CV-20/CV-52 act is implied. Stage 7 is independent of portfolio Stages 4–6; this packet changes no code, data, tracker, or matrix.
+
+## Additive PA disposition notice — 2026-10-19
+
+The Program Authority has since selected the existing work item's disposition as **CV-22 — OPTION C — DEFER EXPANSION PENDING DEFINED PREREQUISITES**. The authoritative record is [`IIPS_v3.0_CV22_OPTION_C_PA_DECISION_2026-10-19.md`](../IIPS_v3.0_CV22_OPTION_C_PA_DECISION_2026-10-19.md). This notice is additive; the packet's 2026-10-18 alternatives and preparation-time statements remain preserved as history.
+
+For clarity, this PA wording is not the earlier table's **Option C — commission real-market coverage**; that historical alternative is not selected. The current disposition preserves IRR's 13-row sector-reference behavior, does not reject D05 permanently, authorizes neither the full D05 universe nor a presumed real-only subset, and does not make `CV-22-D05-REAL-EQUITY-IDENTITY-PROBE` mandatory unless a later PA decision expressly does so. The separate identity/eligibility contract proposal is [`IIPS_v3.0_PLATFORM_IDENTITY_ELIGIBILITY_CONTRACT_PROPOSAL_2026-10-19.md`](../IIPS_v3.0_PLATFORM_IDENTITY_ELIGIBILITY_CONTRACT_PROPOSAL_2026-10-19.md) and is non-operative.
+
+Per the latest instruction, the master tracker is not changed in this execution. Its CV-22 row/counts remain unreconciled; this notice and the separate PA decision record do not claim otherwise. No code, data, consumer integration, or acceptance is changed or implied.
