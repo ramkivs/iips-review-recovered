@@ -288,3 +288,46 @@ shell/navigation/offline presentation only; backend functionality explicitly not
 claimed). It contains no Gate 3 IPD validation output. The evidence from the
 `493c8ac` Windows run remains unavailable remotely and was not reconstructed; only
 the recorded ten-failure evidence listed in §1 was used.
+
+## 10. Reconstruction addendum (2026-10-19, later same day)
+
+### 10.1 Why a reconstruction was needed
+
+The IPD side clone holding the original correction commit `987f891` was a separate
+working copy outside the persisted session repository. An environment reset
+discarded that working copy; the commit had never been pushed because the IPD
+credential is read-only (§9.1). No remote, packfile or other copy of `987f891`
+survived. The manifest was therefore re-authored from the same frozen authority
+act (§4.2/§4.3), this packet's per-file rationale (§4.1) and the IRR reference
+client, onto a fresh clone of the unchanged base `be32d8c9`.
+
+### 10.2 The reconstructed commit and its evidence
+
+| Item | Value |
+|---|---|
+| New local IPD commit | `d30003d` on `arena/ddcb69ba-g3-ipc-cross-platform-corrections` (parent `be32d8c9`) |
+| Diff shape | identical manifest: 22 additive files, **zero** existing files modified (3,794 insertions in this authoring pass; line count differs from the lost commit's 5,357 because the reconstruction is more compact, not because any obligation was dropped) |
+| Typecheck | `npx tsc --noEmit` exit 0 |
+| Build | clean `rm -rf dist && npm run build` exit 0 |
+| Full guarded suite | `[test-guard] files=57 (source suite files: 57)`; **729 tests, 729 pass, 0 fail** (556 unchanged baseline + 173 new g3 tests across the exact 8 act §4.3 files) |
+| g3 per-file | framing 11, caller_authority 103, binding_resolution 10, portfolio_read_isolation 6, durability_vocabulary 6, startup_validation 18, no_network_listener 10, write_gate 9 |
+| Resolver parity | re-executed cross-repository comparison: 4/4 endpoint strings byte-identical to the IRR client, 6/6 refusals agree on linux and win32 |
+| Patch applicability | `git am` of the exported patch on a fresh `be32d8c9` worktree succeeds and reproduces the 22-file diff |
+| Publication | still blocked: push and Git Database API both return 403 with the sandbox token. The patch and a manifest tarball were distributed out-of-band via the session artifact server; an operator applies them with write credentials. No merge or gate action was taken. |
+
+### 10.3 Continuity of the security design
+
+Every correction recorded in §2 is present in the reconstruction and execution-
+verified by the same regressions: platform-derived endpoint family with the honest
+`enforcedByApplication: false` Windows DACL descriptor; unsafe pre-existing POSIX
+directories refused rather than chmod-repaired; real per-endpoint collision tests
+(F7 `EADDRINUSE` seam for pipes, occupied socket path for POSIX); no
+`readableAll`/`writableAll`, no numeric `listen`, `server.address()` always a
+string; HTTP request line, second concurrent connection and idle connect all
+yield zero bytes; `ProvisioningNotAuthorizedError` before any SQL with zero store
+effect and no import edge from entrypoint/dispatch; all writes
+`WRITE_NOT_AUTHORIZED` with equal row counts across all eight tables and no
+environment-flag override; runtime guard below Node 22.13.0; checksummed
+fail-closed migration ledger; revision lifecycle 1→2→3→4,
+`ALREADY_IMPORTED_NO_OP`, `RevisionConflictError`, `InvalidPortfolioRequestError`,
+tombstone retention and truthful `DURABLE`/`SESSION_ONLY` vocabulary.
