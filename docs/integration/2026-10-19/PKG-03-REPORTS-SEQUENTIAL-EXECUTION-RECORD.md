@@ -8,7 +8,7 @@
 
 ## 1. Baseline lock and evidence sources
 
-The authoritative baseline was fetched from the remote before review: `refs/heads/main` = **`ef5ba83ca1bb79947d888ad3070593715f056461`** (merge of PR #147). `git ls-remote origin refs/heads/main` independently returned the same SHA. The Arena work branch was clean at that baseline. This record uses the repository's current textual capability inventory and authority records; no canonical Excel workbook or CSV matrix was present in the repository checkout. The 51-row inventory in tracker §18, including Reports rows 35–37, was read without reclassification. No supplied aggregate capability counts are asserted or recalculated.
+The workstream began with remote `refs/heads/main` = **`ef5ba83ca1bb79947d888ad3070593715f056461`** (PR #147). While PR #150 was open, main advanced through documentation-only PRs #148, #149, and #152. I re-fetched and re-locked the current authoritative baseline at **`6b1f8f9e0e4fde17a8b7371ebfea2d43d2e67cb8`** (merge of PR #152); `git ls-remote` agreed. Those intervening changes are tracker/decision documentation and do not alter the Reports product paths; the PR branch is being synchronized to this current main. No canonical Excel workbook or CSV matrix is present in the repository checkout. The 51-row inventory in tracker §18, including Reports rows 35–37, was read without reclassification. No supplied aggregate capability counts are asserted or recalculated.
 
 ### Governing records read
 
@@ -52,8 +52,8 @@ CV-51 depended on CV-21. With Option C confirmed, its implementation/design scop
 
 ### Lineage evidence
 
-- `4906a6b71f5133d714f0f4c29c89dba22ded37f5` is the exact PR #42 head and the merge commit `47edf6f3db79c6c443caed148121406f33a158b7` is the historical merge. GitHub PR #42 is `MERGED`; its title/body explicitly said not to merge / not authorized without a separate promotion act, and the R4 record establishes the authority conflict as a historical fact. A current GitHub compare against `main@ef5ba83…` shows the `4906a6b` lineage is an ancestor of main, not an independent, currently unmerged candidate. The Reports domain tree itself is absent from current main after the later remediation/removal records.
-- `arena/01a0f1b3-iips-review-recovered@6a8afbb2bb73ca02d2b22e6f45e9f7d27a4a4b9b` is a distinct, off-main branch. Its tree contains the Reports domain (including `frontend/server/reports/persistence.ts`) and the historical `NP-06 Reports: final qualification record` path. GitHub compare with current `main@ef5ba83…` reports 28 branch-only commits and 428 main-only commits. The branch has no PR from that head and is not admitted. Historical branch test/qualification claims are not current-main acceptance evidence.
+- `4906a6b71f5133d714f0f4c29c89dba22ded37f5` is the exact PR #42 head and the merge commit `47edf6f3db79c6c443caed148121406f33a158b7` is the historical merge. GitHub PR #42 is `MERGED`; its title/body explicitly said not to merge / not authorized without a separate promotion act, and the R4 record establishes the authority conflict as a historical fact. A current GitHub compare against `main@6b1f8f9…` shows the `4906a6b` lineage is an ancestor of main, not an independent, currently unmerged candidate (`326` commits main-only, `0` candidate-only). The Reports domain tree itself is absent from current main after the later remediation/removal records.
+- `arena/01a0f1b3-iips-review-recovered@6a8afbb2bb73ca02d2b22e6f45e9f7d27a4a4b9b` is a distinct, off-main branch. Its tree contains the Reports domain (including `frontend/server/reports/persistence.ts`) and the historical `NP-06 Reports: final qualification record` path. GitHub compare with current `main@6b1f8f9…` reports 28 branch-only commits and 436 main-only commits. The branch has no PR from that head and is not admitted. Historical branch test/qualification claims are not current-main acceptance evidence.
 - PR #81's published R4-B remediation is separate from CV-21: it addressed the authorized 10-path remediation and closed R4 under its own record. It did not retroactively authorize PR #42 or make the branch-only Reports implementation admitted.
 
 ### H-4 / H-16 reconciliation and identity conclusion
@@ -64,13 +64,10 @@ H-4 identifies the stale D-3 §10 statement about Reports implementation presenc
 
 ## 5. Tracker reconciliation and publication boundary
 
-The canonical tracker is updated additively in this change:
+The tracker update was interrupted and is **not included** in the final PKG-03 change set. No master-tracker reconciliation is claimed. At current `main@6b1f8f9…`, the existing CV-21/CV-51 rows remain as previously recorded (`DECISION REQUIRED` / `BLOCKED`); their current authoritative evidence supports the disposition and follow-on conclusions in this execution record, but a separate, minimal tracker reconciliation remains an administrative follow-up. The §18 51-row classification has not been changed; no row is recategorized and no new CV ID is created. Earlier event-time records remain unchanged.
 
-- CV-21 is moved from “decision required” to a dated-disposition closure, explicitly limited to the disposition task.
-- CV-51 changes from “blocked pending CV-21” to **DEFERRED** under Option C; no implementation is started.
-- The current count snapshot and §19 Reports summary are adjusted consistently. The §18 51-row classification is not changed, no row is recategorized, and no new CV ID is invented.
-- Historical, event-time records (including earlier “zero movement” statements) remain unchanged as history.
+Only the PKG-03 evidence record is intended for publication; no tracker path, product code, test, IPD repository/ref, route, persistence, fence, portfolio scoring/analytics, or production boundary is changed. User-portfolio routes remain `503 owner-context-unavailable`; Reports owner-scoped routes remain `503 owner-context-unavailable`; PR #114 is untouched. No Windows checkout, browser, localhost, live deployment, qualification, admission, or production readiness is claimed.
 
-Only Markdown documentation and tracker text are changed. No IPD repository or ref is modified. All safeguards remain: user-portfolio routes remain `503 owner-context-unavailable`; Reports owner-scoped routes remain `503 owner-context-unavailable`; no persistence, Gate 3, certified portfolio scoring/analytics, route, or production boundary is changed; PR #114 is untouched. No Windows checkout, browser, localhost, live deployment, qualification, admission, or production readiness is claimed.
+**Administrative follow-up:** reconcile the current CV-21/CV-51 statuses and related counts in the authoritative tracker only after this evidence record's findings are reviewed against the latest remote main. This was intentionally left pending rather than repeating the interrupted bulk-edit attempt.
 
-**Publication state:** this record and tracker reconciliation require the normal PR lifecycle. Until the documentation is merged to current `main` and independently read back, the remote authoritative tracker retains its pre-publication status. No merge or post-merge verification is claimed by this branch copy.
+**Publication state:** this PKG-03 evidence record is in PR #150. Its branch must first be synchronized with the current main and its CI verified. No merge or post-merge verification is claimed.
