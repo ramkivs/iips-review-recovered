@@ -70,4 +70,4 @@ Only the PKG-03 evidence record is intended for publication; no tracker path, pr
 
 **Administrative follow-up:** reconcile the current CV-21/CV-51 statuses and related counts in the authoritative tracker only after this evidence record's findings are reviewed against the latest remote main. This was intentionally left pending rather than repeating the interrupted bulk-edit attempt.
 
-**Publication state:** this PKG-03 evidence record is in PR #150. Its branch must first be synchronized with the current main and its CI verified. No merge or post-merge verification is claimed.
+**Publication state:** this PKG-03 evidence record is the sole file in PR #150. The branch was synchronized with current `main@6b1f8f9…`; PR head `6c46aa8194af4e9f870a4acc22885eb80fb3d8f0` is mergeable/clean and hosted CI run `39217091909` passed typecheck, full Vitest, the non-zero/full-pass guard, and production build. PR #150 remains open and unmerged; no main publication or post-merge verification is claimed. The tracker reconciliation remains pending.
