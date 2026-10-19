@@ -1,8 +1,8 @@
 # PKG-02F — G3-D3–G3-D7 decisions and Gate 3 authorization package
 
-**Prepared:** 2026-10-19 UTC  
-**Repository:** `ramkivs/iips-review-recovered`  
-**Purpose:** one-pass registration of the PA-approved G3-D3–G3-D7 dispositions and preparation of the separate, decision-complete Gate 3 implementation-authority act.  
+**Prepared:** 2026-10-19 UTC
+**Repository:** `ramkivs/iips-review-recovered`
+**Purpose:** one-pass registration of the PA-approved G3-D3–G3-D7 dispositions and preparation of the separate, decision-complete Gate 3 implementation-authority act.
 **Authority status:** the five dispositions below are rendered PA decisions. This packet and the companion act are **not themselves an effective Gate 3 implementation grant**.
 
 ## 1. Controlling status and exact bases
