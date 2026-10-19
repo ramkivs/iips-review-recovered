@@ -162,3 +162,11 @@ Per request §13.4 and §15: the PA's single response (beginning with G3-D2, the
 ---
 
 *End of PKG-02D. This packet prepares the G3-D2 decision and renders none. `G3-D2` remains **DECISION REQUIRED**; Gate 3 remains **NOT GRANTED**; every fence above stands until the separate acts named in §8 issue.*
+
+---
+
+## 10. Dated addendum — publication record (2026-10-19 UTC, additive; §§1–9 unchanged)
+
+1. **Published to IRR `main`:** PR #141 (`arena/7a57456f-iips-review-recovered` → `main`), merge commit `4ea7707b243506de195608cf17971804dd71d824` (2026-10-19T00:01:33Z), documentation-only — exactly three Markdown files (this packet, the packet-index row, tracker §16.57/`CV-CORR-40`); `frontend/` and every product path untouched (compare `a576b9ba…`→`4ea7707b…` = 3 documentation files). PR-head CI run `39178193044` (`Typecheck · Test · Build`) and post-merge `main` CI run `39178916001` both `success`. This packet's blob on `main`: `d6367a9eca6616a52faa014c7ec8d1adc0b54bd9`.
+2. **No decision content changed by publication:** G3-D2 remains **DECISION REQUIRED**; no storage option is selected, recommended, or recorded as approved; Gate 3 implementation authority remains **NOT GRANTED**; all §1 fences stand at the merged head.
+3. Registered additively in tracker §16.57 (publication line) and the packet index; zero register movement.
