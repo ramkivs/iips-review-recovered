@@ -23,6 +23,7 @@ import { fetchEngines, type EngineListData, type EngineRegistryEntry } from '../
 import { CompanyHeader } from '../../components/company/CompanyHeader';
 import { MetricGroup, MetricCard, DataTable } from '../../components/data/DataComponents';
 import { EvidenceCard } from '../../components/evidence/EvidenceComponents';
+import { ReplaySummary } from '../../components/evidence/EvidenceExplorerComponents';
 import { LoadingState, ErrorState, UnavailableState } from '../../components/state/StateComponents';
 import { CertifiedBadge, FreshnessBadge, StatusBadge } from '../../components/ui/Badges';
 
@@ -250,13 +251,13 @@ export function SectorIntelligence() {
         </div>
       )}
 
-      {/* Replay verification summary */}
-      <h2 style={{ fontSize: 18, marginTop: 24 }}>Replay Verification</h2>
+      {/* Reference availability is not replay verification. Keep the existing five-read composition. */}
+      <h2 style={{ fontSize: 18, marginTop: 24 }}>Replay availability</h2>
       <div data-testid="sector-replay" style={{ fontSize: 13 }}>
-        <p>Reproduced: <strong>{replay.replay.reproduced ? '✓ Yes' : '✕ No'}</strong></p>
-        <p>Byte-identical: <strong>{replay.replay.byteIdentical ? '✓ Yes' : '✕ No'}</strong></p>
+        <ReplaySummary replay={replay.replay} />
         <p>Field-level difference available: {replay.differenceAvailable ? 'Yes' : 'No'}</p>
-        <p style={{ fontSize: 11, color: 'var(--color-ink-secondary)' }}>{replay.note}</p>
+        <p>{replay.note}</p>
+        <p>Evidence/snapshot labels here are reference aliases, not retained captures or evidence packages.</p>
       </div>
 
       {/* Mandatory link to Company surface for full trust chain */}
@@ -267,7 +268,7 @@ export function SectorIntelligence() {
       </p>
       <p style={{ marginTop: 4 }}>
         <Link to={`/evidence/replay/${encodeURIComponent(sector)}`}>
-          Open replay explorer →
+          Inspect replay availability →
         </Link>
       </p>
 

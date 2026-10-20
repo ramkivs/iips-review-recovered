@@ -11,6 +11,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { Screener } from './Screener';
 import type { ScreenerResponse } from '../../api/screener';
+import type { CaptureAcknowledgement, ScreenCapture } from '../../api/replay';
 
 function member(sector: string, status: 'MATCH' | 'NO_MATCH' | 'INVALID_MEMBER', errorCode = '') {
   return { sector, referenceId: `COMPANY-${sector.toUpperCase()}`, memberResultStatus: status, memberErrorCode: errorCode };
@@ -39,7 +40,7 @@ const RESPONSE: ScreenerResponse = {
 
 const EMPTY_MATCH: ScreenerResponse = {
   ...RESPONSE,
-  result: { ...RESPONSE.result, matchedCount: 0, members: [member('Banking', 'NO_MATCH'), member('Energy', 'INVALID_MEMBER', 'GROWTH_UNAVAILABLE')] },
+  result: { ...RESPONSE.result, matchedCount: 0, members: [member('Banking', 'NO_MATCH'), member('Energy', 'NO_MATCH')] },
 };
 
 beforeEach(() => { globalThis.fetch = vi.fn() as never; });
@@ -149,5 +150,63 @@ describe('Screener workspace', () => {
     expect(screen.getByTestId('predicate-row-1')).toBeInTheDocument();
     fireEvent.click(screen.getByRole('button', { name: 'Remove predicate 2' }));
     expect(screen.queryByTestId('predicate-row-1')).not.toBeInTheDocument();
+  });
+});
+
+// Presentation-only DTO. Genuine capture/evaluator and real App HTTP proof is in server/replay.
+function capturedZeroMatch(): CaptureAcknowledgement {
+  const sectors = ['Automobile', 'Banking', 'Capital Markets', 'Consumer', 'Energy', 'Healthcare', 'Hospitality', 'Industrials', 'Insurance', 'Materials & Metals', 'Technology', 'Telecommunications', 'Utilities'];
+  const execution = { ...RESPONSE.execution, executionId: 'e'.repeat(64), definitionDigest: 'a'.repeat(64), populationIdentity: 'b'.repeat(64),
+    evaluatorId: 'NP12-SCREEN-EVALUATOR', evaluatorVersion: '01', executionSemanticsVersion: '01', memberCount: 13,
+    members: sectors.map(sector => ({ ...frame(sector), convictionText: '0' })) };
+  const inputs = execution.members.map(m => ({ sector: m.sector, referenceId: m.referenceId, conviction: '0', quality: '65', growthAvailability: 'AVAILABLE' as const,
+    growth: '60', engineId: m.engineId, engineVersion: m.engineVersion, calibrationVersion: m.calibrationVersion, snapshotId: m.snapshotId, evidenceId: m.evidenceId }));
+  const original: ScreenCapture = { schemaVersion: 'governed-screen-capture-1', snapshotId: '11111111-1111-4111-8111-111111111111',
+    definition: { definitionId: 'D1', version: '1', populationIdentity: execution.populationIdentity, predicates: [{ field: 'conviction', operator: 'gte', operand: '70' }] },
+    execution, memberInputs: inputs, memberProvenance: inputs.map(m => ({ sector: m.sector, referenceId: m.referenceId, companyId: m.referenceId,
+      compositeIdentity: { sector: m.sector, referenceId: m.referenceId }, engineId: m.engineId, engineVersion: m.engineVersion, calibrationVersion: m.calibrationVersion,
+      snapshotId: m.snapshotId, evidenceId: m.evidenceId, timestamp: '2026-08-09' })),
+    result: { ...RESPONSE.result, executionId: execution.executionId, resultId: 'd'.repeat(64), totalPopulationCount: 13, memberResultCount: 13, matchedCount: 0,
+      members: sectors.map(sector => member(sector, 'NO_MATCH')) },
+    vintage: { ...RESPONSE.vintage, memberCount: 13 } };
+  return { captureState: 'RETAINED', evaluationState: 'COMPLETED', original };
+}
+describe('Screener separate opt-in capture action', () => {
+  it('uses the separate definition-only endpoint, disables duplicate submissions and keeps the handle for zero matches', async () => {
+    let finish!: (value: Response) => void;
+    const pending = new Promise<Response>(resolve => { finish = resolve; }); const fetch = vi.fn().mockReturnValue(pending); globalThis.fetch = fetch;
+    renderAt(); fillDefinition();
+    fireEvent.click(screen.getByTestId('screener-capture-submit')); fireEvent.click(screen.getByTestId('screener-capture-submit'));
+    expect(fetch).toHaveBeenCalledTimes(1); expect(screen.getByTestId('screener-capture-submit')).toBeDisabled(); expect(screen.getByTestId('screener-submit')).toBeDisabled();
+    expect(fetch.mock.calls[0][0]).toBe('/api/replay/evaluations');
+    expect(JSON.parse(String(fetch.mock.calls[0][1].body))).toEqual({ definition: { definitionId: 'D1', version: '1', predicates: [{ field: 'conviction', operator: 'gte', operand: '70' }] } });
+    finish({ ok: true, status: 201, json: async () => capturedZeroMatch() } as Response);
+    expect(await screen.findByTestId('screener-capture-link')).toHaveAttribute('href', '/evidence/replay/11111111-1111-4111-8111-111111111111');
+    expect(screen.getByTestId('state-empty')).toHaveTextContent('population 13, invalid 0');
+    expect(screen.getByTestId('screener-capture-status')).toHaveTextContent('not durable history');
+  });
+  it('labels a capacity refusal as not started, not as a failed evaluation or retained original', async () => {
+    globalThis.fetch = vi.fn().mockResolvedValue({ ok: false, status: 503, json: async () => ({ captureState: 'NOT_RETAINED', evaluationState: 'NOT_STARTED', phase: 'CAPTURE', code: 'CAPTURE_CAPACITY_EXHAUSTED', diagnostic: 'Capacity full; no Screen evaluation.' }) });
+    renderAt(); fillDefinition(); fireEvent.click(screen.getByTestId('screener-capture-submit'));
+    expect(await screen.findByTestId('screener-capture-status')).toHaveTextContent('Evaluation: NOT_STARTED; original NOT_RETAINED');
+    expect(screen.queryByTestId('screener-capture-link')).not.toBeInTheDocument(); expect(screen.getByTestId('state-error')).not.toHaveTextContent('Screen failed');
+    expect(screen.getByRole('button', { name: 'Retry as a new capture run' })).toBeInTheDocument();
+  });
+  it('shows a completed transient zero-match result without falsely claiming retention after a post-evaluation fault', async () => {
+    const { original } = capturedZeroMatch();
+    globalThis.fetch = vi.fn().mockResolvedValue({ ok: false, status: 500, json: async () => ({ captureState: 'NOT_RETAINED', evaluationState: 'COMPLETED', phase: 'CAPTURE', code: 'CAPTURE_RETENTION_FAILED', diagnostic: 'Screen completed, retention failed.',
+      evaluation: { execution: original.execution, result: original.result, vintage: original.vintage } }) });
+    renderAt(); fillDefinition(); fireEvent.click(screen.getByTestId('screener-capture-submit'));
+    expect(await screen.findByTestId('screener-capture-status')).toHaveTextContent('Evaluation: COMPLETED; original NOT_RETAINED');
+    expect(screen.getByTestId('state-empty')).toHaveTextContent('population 13, invalid 0');
+    expect(screen.queryByTestId('screener-capture-link')).not.toBeInTheDocument(); expect(screen.queryByTestId('state-error')).not.toBeInTheDocument();
+  });
+  it('labels a lost acknowledgement as unconfirmed and a retry as a new run, not recovery', async () => {
+    const fetch = vi.fn().mockRejectedValueOnce(new Error('lost acknowledgement')).mockResolvedValueOnce({ ok: true, status: 201, json: async () => capturedZeroMatch() }); globalThis.fetch = fetch;
+    renderAt(); fillDefinition(); fireEvent.click(screen.getByTestId('screener-capture-submit'));
+    expect(await screen.findByTestId('screener-capture-status')).toHaveTextContent('may have retained an original');
+    expect(screen.queryByTestId('screener-capture-link')).not.toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: 'Retry as a new capture run' })); await screen.findByTestId('screener-capture-link');
+    expect(fetch).toHaveBeenCalledTimes(2); expect(fetch.mock.calls[1][0]).toBe('/api/replay/evaluations');
   });
 });

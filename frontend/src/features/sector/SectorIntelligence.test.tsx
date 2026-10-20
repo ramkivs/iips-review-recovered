@@ -29,6 +29,7 @@ const BANKING_COMPANY = {
 };
 
 const BANKING_EVIDENCE = {
+  referenceOnly: true,
   decision: { verdict: 'Watch', composite: 47.1, confidence: null },
   evidence: {
     evidenceId: 'ev_Banking', engineId: 'sector.banking', recommendation: 'Watch',
@@ -36,21 +37,21 @@ const BANKING_EVIDENCE = {
     keyMetrics: [{ id: 'km1', name: 'NIM', value: 3.2 }],
     supportingScores: [{ id: 'ss1', name: 'Asset Quality', value: 55 }],
     decisionRulesApplied: ['rule-composite-below-50'],
-    calibrationVersion: '1.0.0', replayReference: 'snap_Banking',
+    calibrationVersion: '1.0.0', replayReference: null,
     provenance: { frameworkVersion: '2.0', engineVersion: '1.0.0', methodologyVersion: 'IES-Banking', snapshotId: 'snap_Banking' },
     generatedAt: '2026-08-09T00:00:00.000Z',
   },
   snapshot: { snapshotId: 'snap_Banking', engineId: 'sector.banking', schemaVersion: '2.0', generatedAt: '2026-08-09T00:00:00.000Z', verdict: 'Watch', scores: { quality: 15 } },
-  replay: { snapshotId: 'snap_Banking', reproduced: true, byteIdentical: true, evidenceRefs: ['ev_Banking'] },
+  replay: { state: 'NOT_PERFORMED', diagnostic: 'Reference only; no replay was performed.' },
   provenance: { dataSource: 'fixture (test-only)', freshness: 'SNAPSHOT', calibratedAt: '2026-08-09T00:00:00.000Z', transportSemantics: '1:1' },
 };
 
 const BANKING_REPLAY = {
-  original: { snapshotId: 'snap_Banking', engineId: 'sector.banking', schemaVersion: '2.0', calibrationVersion: '1.0.0', generatedAt: '2026-08-09T00:00:00.000Z', verdict: 'Watch', composite: 47.1, confidence: null, provenance: { frameworkVersion: '2.0', engineVersion: '1.0.0', methodologyVersion: 'IES-Banking', snapshotId: 'snap_Banking' } },
-  replay: { snapshotId: 'snap_Banking', reproduced: true, byteIdentical: true, evidenceRefs: ['ev_Banking'] },
+  original: null,
+  replay: { state: 'NOT_PERFORMED', diagnostic: 'Reference only; no replay was performed.' },
   differenceAvailable: false,
   note: 'No field-level difference is computed or displayed.',
-  evidenceRefs: ['ev_Banking'],
+  evidenceRefs: [],
   provenance: { dataSource: 'fixture (test-only)', freshness: 'SNAPSHOT', calibratedAt: '2026-08-09T00:00:00.000Z', transportSemantics: '1:1' },
 };
 
@@ -189,8 +190,9 @@ describe('Sector Intelligence', () => {
     expect(screen.getByTestId('sector-decision-rules')).toBeInTheDocument();
     // Replay
     expect(screen.getByTestId('sector-replay')).toBeInTheDocument();
-    expect(screen.getByText(/Reproduced/)).toBeInTheDocument();
-    expect(screen.getByText(/Byte-identical/)).toBeInTheDocument();
+    expect(screen.getByTestId('replay-summary')).toHaveTextContent('NOT_PERFORMED');
+    expect(screen.queryByText(/Byte-identical/)).not.toBeInTheDocument();
+    expect(screen.getByTestId('replay-summary')).not.toHaveTextContent('DIFFERENCE');
     expect(screen.getByText(/Field-level difference available: No/)).toBeInTheDocument();
   });
 

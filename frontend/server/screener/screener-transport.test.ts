@@ -1,6 +1,7 @@
 /** Offline, deterministic tests for credential-free N4 Screener transport composition. */
 import { describe, it, expect } from 'vitest';
 import http from 'node:http';
+import { createHash } from 'node:crypto';
 import { AddressInfo } from 'node:net';
 import { handleScreenerRequest, buildGovernedProducerRequests } from './screener-transport';
 
@@ -134,5 +135,19 @@ describe('Screener transport (governed composition)', () => {
 
   it('rejects non-POST methods (405)', async () => {
     expect((await request({}, 'GET')).status).toBe(405);
+  });
+});
+
+// Old handler loaded from the unmodified 37e82b7 Git blob and executed in memory against
+// the same frozen native inputs; each body also matched the new handler byte-for-byte.
+describe('ordinary Screener exact starting-baseline HTTP response bytes', () => {
+  it.each([
+    [{ definitionId: 'TEST-MATCH-ALL', version: '1', predicates: [{ field: 'conviction', operator: 'gte', operand: '0' }] }, '5cc48af758aca2f1072c8c00c00bf7ff3cabc77fdd7f74ec974c7653843b8084'],
+    [{ definitionId: 'TEST-MATCH-NONE', version: '1', predicates: [{ field: 'quality', operator: 'gt', operand: '100' }] }, '75c735611891f2c1a1c9d4e4f7c57355d2245cf5ecf5c52682915a41f4140dac'],
+    [{ definitionId: 'NP12-CERT-BASELINE-ALL', version: '01', predicates: [] }, '51463f0bdf5cde473ff35da66d9382e9f42d74cf5107027ee4563c4e90362763'],
+  ] as const)('preserves original compact body for $definitionId', async (definition, expected) => {
+    const response = await request({ definition });
+    expect(response.status).toBe(200); expect(createHash('sha256').update(response.text).digest('hex')).toBe(expected);
+    expect(response.body).not.toHaveProperty('snapshotId'); expect(response.body).not.toHaveProperty('captureState');
   });
 });

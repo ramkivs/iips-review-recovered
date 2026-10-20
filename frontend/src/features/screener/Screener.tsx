@@ -15,8 +15,9 @@
  * (status counts + member table + audit footer). Deep-linkable; no auto-fetch.
  */
 
-import { useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
+import { captureScreen, ReplayApiError } from '../../api/replay';
 import {
   decodeScreenLink,
   encodeScreenLink,
@@ -74,6 +75,12 @@ export function Screener() {
   const [error, setError] = useState<{ status: number; message: string } | null>(null);
   const [response, setResponse] = useState<ScreenerResponse | null>(null);
   const [copied, setCopied] = useState(false);
+  const [captureId, setCaptureId] = useState<string | null>(null);
+  const [captureNotice, setCaptureNotice] = useState<string | null>(null);
+  const [captureRun, setCaptureRun] = useState(false);
+  const pending = useRef(false);
+  const generation = useRef(0);
+  useEffect(() => () => { generation.current++; pending.current = false; }, []);
 
   function buildDefinition(): ScreenerDefinitionInput {
     return {
@@ -85,21 +92,44 @@ export function Screener() {
     };
   }
 
-  async function runScreen(definition: ScreenerDefinitionInput) {
-    setPhase('loading');
-    setError(null);
-    setCopied(false);
+  async function runScreen(definition: ScreenerDefinitionInput, retain = false) {
+    if (pending.current) return;
+    pending.current = true;
+    const token = ++generation.current;
+    setPhase('loading'); setError(null); setCopied(false);
+    setCaptureRun(retain); setCaptureId(null); setCaptureNotice(null);
     try {
-      const res = await screen(definition);
-      setResponse(res);
-      setPhase('done');
-      // Deep-link the executed definition (replace: no history spam on re-runs).
+      let res: ScreenerResponse;
+      if (retain) {
+        const acknowledgement = await captureScreen(definition);
+        if (token !== generation.current) return;
+        const original = acknowledgement.original;
+        res = { execution: original.execution, result: original.result, vintage: original.vintage };
+        setCaptureId(original.snapshotId);
+        setCaptureNotice('Original retained in this server process only. This is not durable history, evidence-package retention or a new certification.');
+      } else res = await screen(definition);
+      if (token !== generation.current) return;
+      setResponse(res); setPhase('done');
       setSearchParams(new URLSearchParams(encodeScreenLink(definition).split('?')[1] ?? ''), { replace: true });
     } catch (e) {
-      if (e instanceof ScreenerApiError) setError({ status: e.status, message: e.message });
-      else setError({ status: 0, message: String(e) });
-      setPhase('error');
-    }
+      if (token !== generation.current) return;
+      if (retain) {
+        if (e instanceof ReplayApiError && e.failure) {
+          const failure = e.failure;
+          setCaptureNotice(`${failure.diagnostic} Evaluation: ${failure.evaluationState}; original NOT_RETAINED. No replay handle is available.`);
+          if (failure.evaluationState === 'COMPLETED' && failure.evaluation) {
+            setResponse(failure.evaluation); setPhase('done');
+          } else { setError({ status: e.status, message: failure.diagnostic }); setPhase('error'); }
+        } else {
+          const message = 'Capture outcome could not be confirmed. The server may have retained an original, but no handle is available. Retrying performs a new evaluation.';
+          setCaptureNotice(message); setError({ status: 0, message }); setPhase('error');
+        }
+      } else {
+        if (e instanceof ScreenerApiError) setError({ status: e.status, message: e.message });
+        else setError({ status: 0, message: String(e) });
+        setPhase('error');
+      }
+    } finally { if (token === generation.current) pending.current = false; }
   }
 
   function onSubmit(ev: React.FormEvent) {
@@ -232,9 +262,18 @@ export function Screener() {
           </div>
         </fieldset>
 
+        <p data-testid="screener-capture-policy" style={{ fontSize: 12 }}>
+          Capture performs a new evaluation, not retention of the last ordinary response. Originals are
+          process-local only: up to 100 records, a 32 MiB estimated ledger and 64 KiB per record. A full
+          store refuses new captures without removing existing ones. No restart recovery, discovery,
+          durable evidence archive or new certification is provided; a retry is a new run.
+        </p>
         <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
           <button data-testid="screener-submit" type="submit" disabled={phase === 'loading'}>
             {phase === 'loading' ? 'Screening…' : 'Run screen'}
+          </button>
+          <button data-testid="screener-capture-submit" type="button" disabled={phase === 'loading'} onClick={() => void runScreen(buildDefinition(), true)}>
+            Run a new screen &amp; retain capture
           </button>
           <button data-testid="screener-copy-link" type="button" onClick={onCopyLink}>
             {copied ? 'Link copied' : 'Copy deep-link'}
@@ -243,17 +282,25 @@ export function Screener() {
       </form>
 
       <div style={{ marginTop: 20 }} aria-live="polite">
+        {captureNotice && <div data-testid="screener-capture-status" role="status">
+          <p>{captureNotice}</p>
+          {captureId && response && <p data-testid="screener-capture-receipt">
+            Original executionId <code>{response.execution.executionId}</code> · resultId <code>{response.result.resultId}</code> ·
+            vintage {response.vintage.dataVersion} as of {response.vintage.asOf}
+          </p>}
+          {captureId && <Link data-testid="screener-capture-link" to={`/evidence/replay/${captureId}`}>Inspect retained original {captureId} →</Link>}
+        </div>}
         {phase === 'loading' && <LoadingState />}
         {phase === 'error' && error && (
           <div style={{ display: 'grid', gap: 8 }}>
             {error.status === 401 || error.status === 403 ? (
               <PermissionDeniedState />
             ) : (
-              <ErrorState message={`Screen failed (${error.status || 'network'}): ${error.message}`} />
+              <ErrorState message={`${captureRun ? 'Capture run did not produce a replay handle' : 'Screen failed'} (${error.status || 'network'}): ${error.message}`} />
             )}
             <div>
-              <button type="button" onClick={() => void runScreen(buildDefinition())}>
-                Retry
+              <button type="button" onClick={() => void runScreen(buildDefinition(), captureRun)}>
+                {captureRun ? 'Retry as a new capture run' : 'Retry'}
               </button>
             </div>
           </div>

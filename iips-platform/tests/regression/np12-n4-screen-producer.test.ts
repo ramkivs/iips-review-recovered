@@ -16,8 +16,9 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { execFileSync } from 'node:child_process';
-import { readFileSync } from 'node:fs';
-import { resolve } from 'node:path';
+import { lstatSync, mkdirSync, mkdtempSync, readFileSync, renameSync, rmSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { dirname, join, resolve } from 'node:path';
 import {
   ScreenDefinition,
   type ScreeningPredicate,
@@ -1134,88 +1135,142 @@ test('A13 A10 Differential Parity: ScreenProducerAdapter output matches direct A
  * 9. Protected-Surface Zero-Diff Guard (Phase J & Phase M)
  * ------------------------------------------------------------------ */
 
-// ---------------------------------------------------------------------------
-// A13 protected-surface guard.
-// Rule: relative to the baseline, no protected path may be modified, deleted or
-// newly added, with one exception. The A13 deliverable ScreenProducerAdapter.ts
-// may be ADDED, but only with the approved content, pinned by git blob id.
-// (A status-only check cannot tell an approved addition from a later edit to it,
-// because the file does not exist at the baseline.) Updating the pin is the only
-// way to change the adapter; it must be done in the same reviewed change.
-// ---------------------------------------------------------------------------
+// The original reference, inventory and approved adapter remain pinned. Program
+// Authority's Option A disposition admits only the already-published CV-33
+// release-note transition below; it changes no runtime or certification baseline.
+// Both admitted files are independently pinned, including when a deletion or a
+// reversion removes their delta against the historical reference. No directory
+// or class of documentation is exempted. Future pin changes require review.
 const A13_BASELINE = '5ca181c7564a063a01265efdfdc5996563888d49';
-// Protected surfaces only. Governance records, documentation, evidence and
-// frontend changes are outside this guard's scope and are not compared.
-const A13_PROTECTED_PATHSPECS = [
+const A13_PROTECTED_PATHSPECS = Object.freeze([
   'iips-platform/src/sector-engines',
   'iips-platform/src/integration',
   'iips-cross-sector',
   'program-v1.1-certification',
   'ies-*',
-];
+]);
 const A13_ADAPTER_PATH = 'iips-platform/src/sector-engines/cross-sector/screen/ScreenProducerAdapter.ts';
-// Approved content of the only permitted addition (blob at commit 6704c4d).
 const A13_ADAPTER_APPROVED_BLOB = '2bb7864f930699b16789bbd0ac971a5a342fad67';
+const A13_RELEASE_NOTES_PATH = 'program-v1.1-certification/RELEASE_NOTES_PROGRAM_v1.2.0.md';
+const A13_RELEASE_NOTES_REFERENCE_BLOB = '5446ff70ca44f323c41208afae0c2fbcf12e20df';
+const A13_RELEASE_NOTES_APPROVED_BLOB = '23594e0545b9eea3b2daa51a0920382dcf42fda8';
+const A13_DIFF_FLAGS = Object.freeze(['--no-renames', '--name-status']);
+interface A13Policy {
+  readonly baseline: string;
+  readonly paths: readonly string[];
+  readonly diffFlags: readonly string[];
+}
+const A13_POLICY: A13Policy = Object.freeze({
+  baseline: A13_BASELINE, paths: A13_PROTECTED_PATHSPECS, diffFlags: A13_DIFF_FLAGS,
+});
+interface A13Change { status: string; path: string }
 
-interface A13Change {
-  status: string;
-  path: string;
+function a13Git(repoRoot: string, args: readonly string[]): string {
+  // Never allow a surrounding Git process's index/worktree/object overrides to
+  // redirect a control fixture into the real checkout. Clean/eol attributes and
+  // ordinary repository configuration still apply, as in the original guard.
+  const env: NodeJS.ProcessEnv = { ...process.env, GIT_OPTIONAL_LOCKS: '0' };
+  for (const key of ['GIT_DIR', 'GIT_COMMON_DIR', 'GIT_WORK_TREE', 'GIT_INDEX_FILE', 'GIT_OBJECT_DIRECTORY', 'GIT_ALTERNATE_OBJECT_DIRECTORIES']) delete env[key];
+  return execFileSync('git', ['--no-replace-objects', ...args], {
+    cwd: repoRoot, env, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'],
+  });
 }
 
-function listProtectedChanges(repoRoot: string): A13Change[] {
-  return execFileSync(
-    'git',
-    ['diff', '--no-renames', '--name-status', A13_BASELINE, '--', ...A13_PROTECTED_PATHSPECS],
-    { cwd: repoRoot },
-  )
-    .toString('utf8')
-    .trim()
-    .split('\n')
-    .filter(Boolean)
-    .map((line) => {
-      const [status, ...rest] = line.split('\t');
-      return { status, path: rest.join('\t') };
-    });
+function assertA13Policy(policy: A13Policy): void {
+  // These literal contract assertions also run in the repository-facing guard.
+  // A baseline advance, removed pathspec or dropped --no-renames is not a fix.
+  assert.equal(policy.baseline, '5ca181c7564a063a01265efdfdc5996563888d49', 'A13 reference must remain pinned');
+  assert.deepEqual(policy.paths, [
+    'iips-platform/src/sector-engines', 'iips-platform/src/integration',
+    'iips-cross-sector', 'program-v1.1-certification', 'ies-*',
+  ], 'A13 protected inventory must remain unchanged');
+  assert.deepEqual(policy.diffFlags, ['--no-renames', '--name-status'], 'A13 comparison flags must remain unchanged');
+  assert.equal(A13_ADAPTER_PATH, 'iips-platform/src/sector-engines/cross-sector/screen/ScreenProducerAdapter.ts');
+  assert.equal(A13_ADAPTER_APPROVED_BLOB, '2bb7864f930699b16789bbd0ac971a5a342fad67');
+  assert.equal(A13_RELEASE_NOTES_PATH, 'program-v1.1-certification/RELEASE_NOTES_PROGRAM_v1.2.0.md');
+  assert.equal(A13_RELEASE_NOTES_REFERENCE_BLOB, '5446ff70ca44f323c41208afae0c2fbcf12e20df');
+  assert.equal(A13_RELEASE_NOTES_APPROVED_BLOB, '23594e0545b9eea3b2daa51a0920382dcf42fda8');
 }
 
-// `git hash-object` applies the configured clean/eol filters, so a Windows
-// core.autocrlf checkout hashes to the same blob as the committed content.
+function listProtectedChanges(repoRoot: string, policy: A13Policy = A13_POLICY, cached = false): A13Change[] {
+  // Preserve the original commit-to-working-tree comparison. The additional
+  // index comparison prevents a staged change being hidden by restored working
+  // bytes. Untracked nonignored protected additions are checked separately.
+  const output = a13Git(repoRoot, [
+    'diff', ...(cached ? ['--cached'] : []), ...policy.diffFlags, policy.baseline, '--', ...policy.paths,
+  ]).trim();
+  return output ? output.split('\n').map(line => {
+    const [status, ...rest] = line.split('\t');
+    return { status, path: rest.join('\t') };
+  }) : [];
+}
+
+// `git hash-object` applies configured clean/eol filters. The pin is a Git blob,
+// not a JSON digest or an assumption about checkout-specific line endings.
 function workingFileBlobId(repoRoot: string, path: string): string | null {
-  try {
-    return execFileSync('git', ['hash-object', '--', path], { cwd: repoRoot }).toString('utf8').trim();
-  } catch {
-    return null;
-  }
+  try { return a13Git(repoRoot, ['hash-object', '--', path]).trim(); }
+  catch { return null; }
 }
 
-function a13Violations(
-  changes: A13Change[],
-  blobIdOf: (path: string) => string | null,
-): string[] {
+function pinnedFileViolations(repoRoot: string, path: string, approvedBlob: string): string[] {
+  const violations: string[] = [];
+  try {
+    const stat = lstatSync(resolve(repoRoot, path));
+    if (!stat.isFile()) violations.push(`unapproved working-tree type of "${path}"`);
+    if (stat.isFile() && (stat.mode & 0o111) !== 0) violations.push(`unapproved working-tree mode of "${path}"`);
+    if (!stat.isFile() || workingFileBlobId(repoRoot, path) !== approvedBlob) violations.push(`unapproved working-tree content of "${path}"`);
+  } catch { violations.push(`missing or unreadable working-tree file "${path}"`); }
+  // Fail closed on missing, unmerged, symlink, gitlink, executable or edited
+  // index entries as well. A pre-commit pass cannot bless different staged bytes.
+  const expected = `100644 ${approvedBlob} 0\t${path}\0`;
+  if (a13Git(repoRoot, ['ls-files', '--stage', '-z', '--', path]) !== expected) {
+    violations.push(`unapproved index content/type/mode of "${path}"`);
+  }
+  return violations;
+}
+
+function a13Violations(changes: A13Change[], blobIdOf: (path: string) => string | null): string[] {
   const violations: string[] = [];
   for (const { status, path } of changes) {
     if (status === 'A' && path === A13_ADAPTER_PATH) {
       const blob = blobIdOf(path);
       if (blob !== A13_ADAPTER_APPROVED_BLOB) {
-        violations.push(
-          `unapproved content of permitted addition "${path}" (blob ${blob ?? 'missing'}, approved ${A13_ADAPTER_APPROVED_BLOB})`,
-        );
+        violations.push(`unapproved content of permitted addition "${path}" (blob ${blob ?? 'missing'}, approved ${A13_ADAPTER_APPROVED_BLOB})`);
       }
       continue;
     }
+    if (status === 'M' && path === A13_RELEASE_NOTES_PATH && blobIdOf(path) === A13_RELEASE_NOTES_APPROVED_BLOB) continue;
     violations.push(`unexpected ${status} of protected file "${path}"`);
   }
   return violations;
 }
 
+function assertA13ProtectedSurface(repoRoot: string, policy: A13Policy = A13_POLICY): void {
+  assertA13Policy(policy);
+  // Authenticate the original tree and transition, not a branch-selected or
+  // replaced reference. This is the original tree, not a new baseline.
+  assert.equal(a13Git(repoRoot, ['rev-parse', `${policy.baseline}^{tree}`]).trim(), 'd428cdd6afa7f91ccf8f8301a312b35540ec2ca3', 'A13 original reference tree changed');
+  assert.equal(a13Git(repoRoot, ['ls-tree', policy.baseline, '--', A13_RELEASE_NOTES_PATH]).trim(),
+    `100644 blob ${A13_RELEASE_NOTES_REFERENCE_BLOB}\t${A13_RELEASE_NOTES_PATH}`, 'A13 release-note reference changed');
+  assert.equal(a13Git(repoRoot, ['ls-tree', policy.baseline, '--', A13_ADAPTER_PATH]).trim(), '', 'A13 adapter must remain an addition to the original reference');
+  const changes = [...listProtectedChanges(repoRoot, policy), ...listProtectedChanges(repoRoot, policy, true)];
+  for (const path of a13Git(repoRoot, ['ls-files', '--others', '--exclude-standard', '-z', '--', ...policy.paths]).split('\0').filter(Boolean)) changes.push({ status: 'A', path });
+  const unique = [...new Map(changes.map(c => [`${c.status}\0${c.path}`, c])).values()];
+  // Reject index flags that could make Git hide a working-tree modification.
+  const hidden = a13Git(repoRoot, ['ls-files', '-v', '-z', '--', ...policy.paths])
+    .split('\0').filter(entry => entry && entry[0] !== 'H')
+    .map(entry => `hidden or unmerged protected index entry "${entry.slice(2)}" (${entry[0]})`);
+  const violations = [
+    ...hidden,
+    ...pinnedFileViolations(repoRoot, A13_RELEASE_NOTES_PATH, A13_RELEASE_NOTES_APPROVED_BLOB),
+    ...pinnedFileViolations(repoRoot, A13_ADAPTER_PATH, A13_ADAPTER_APPROVED_BLOB),
+    ...a13Violations(unique, p => workingFileBlobId(repoRoot, p)),
+  ];
+  assert.deepEqual(violations, [], `Protected surface violations vs ${A13_BASELINE}:\n  ${violations.join('\n  ')}`);
+}
+
 test('A13 Protected Surface: zero modifications to all 13 sector engines, N4-SD, N4-A10 runtime, CSIP, EngineRegistry, EngineApiAdapter, and certification baselines', () => {
-  const repoRoot = resolve(__dirname, '../../../');
-  const violations = a13Violations(listProtectedChanges(repoRoot), (p) => workingFileBlobId(repoRoot, p));
-  assert.deepEqual(
-    violations,
-    [],
-    `Protected surface violations vs ${A13_BASELINE}:\n  ${violations.join('\n  ')}`,
-  );
+  assertA13ProtectedSurface(resolve(__dirname, '../../../'));
 });
 
 test('A13 control: adapter pin admits only the approved addition and rejects every other protected change', () => {
@@ -1241,3 +1296,250 @@ test('A13 control: adapter pin admits only the approved addition and rejects eve
   assert.equal(a13Violations([{ status: 'A', path: 'iips-platform/src/sector-engines/telecom/Probe.ts' }], approved).length, 1);
   assert.equal(a13Violations([{ status: 'A', path: 'iips-cross-sector/extra.ts' }], approved).length, 1);
 });
+
+/* Real Git controls invoke the EXACT assertion used above. Each disposable
+ * repository reads the authentic reference objects through a read-only object
+ * alternate; its index and working tree start at that reference plus the two
+ * approved states. No control edits/stages/resets the real repository or uses a
+ * replacement baseline. Cleanup is unconditional, including assertion failure.
+ */
+function withA13Repository(run: (repoRoot: string) => void): void {
+  const source = resolve(__dirname, '../../../');
+  const repo = mkdtempSync(join(tmpdir(), 'iips-a13-control-'));
+  try {
+    a13Git(repo, ['init', '--quiet', '--initial-branch=arena/978b8913-iips-review-recovered']);
+    a13Git(repo, ['config', 'core.autocrlf', 'false']);
+    a13Git(repo, ['config', 'core.filemode', 'true']);
+    const objects = resolve(source, a13Git(source, ['rev-parse', '--git-path', 'objects']).trim()).split('\\').join('/');
+    writeFileSync(join(repo, '.git/objects/info/alternates'), `${objects}\n`);
+    a13Git(repo, ['read-tree', A13_BASELINE]);
+    a13Git(repo, ['checkout-index', '--all']);
+    for (const [path, blob] of [[A13_RELEASE_NOTES_PATH, A13_RELEASE_NOTES_APPROVED_BLOB], [A13_ADAPTER_PATH, A13_ADAPTER_APPROVED_BLOB]]) {
+      mkdirSync(dirname(resolve(repo, path)), { recursive: true });
+      writeFileSync(resolve(repo, path), a13Git(source, ['cat-file', 'blob', blob]));
+    }
+    a13Git(repo, ['add', '--', A13_RELEASE_NOTES_PATH, A13_ADAPTER_PATH]);
+    run(repo);
+  } finally { rmSync(repo, { recursive: true, force: true }); }
+}
+
+function a13Write(repo: string, path: string, content: string): void {
+  mkdirSync(dirname(resolve(repo, path)), { recursive: true });
+  writeFileSync(resolve(repo, path), content);
+}
+function assertA13Rejected(repo: string, reason: RegExp): void {
+  assert.throws(() => assertA13ProtectedSurface(repo), reason);
+}
+
+test('A13 Git control: exact approved release-note transition and exact adapter addition pass the repository assertion', () => {
+  withA13Repository(repo => {
+    assert.deepEqual(listProtectedChanges(repo), [
+      { status: 'A', path: A13_ADAPTER_PATH }, { status: 'M', path: A13_RELEASE_NOTES_PATH },
+    ]);
+    assertA13ProtectedSurface(repo);
+  });
+});
+
+test('A13 Git control: unapproved working release-note content fails', () => {
+  withA13Repository(repo => {
+    writeFileSync(resolve(repo, A13_RELEASE_NOTES_PATH), 'unapproved publication metadata\n');
+    assertA13Rejected(repo, /unapproved working-tree content/);
+  });
+});
+
+test('A13 Git control: old-content reversion is rejected even with NO release-note delta in index or working tree', () => {
+  withA13Repository(repo => {
+    writeFileSync(resolve(repo, A13_RELEASE_NOTES_PATH), a13Git(repo, ['show', `${A13_BASELINE}:${A13_RELEASE_NOTES_PATH}`]));
+    a13Git(repo, ['add', '--', A13_RELEASE_NOTES_PATH]);
+    assert.equal(workingFileBlobId(repo, A13_RELEASE_NOTES_PATH), A13_RELEASE_NOTES_REFERENCE_BLOB);
+    assert.equal(listProtectedChanges(repo).some(c => c.path === A13_RELEASE_NOTES_PATH), false);
+    assert.equal(listProtectedChanges(repo, A13_POLICY, true).some(c => c.path === A13_RELEASE_NOTES_PATH), false);
+    assertA13Rejected(repo, /unapproved working-tree content/);
+  });
+});
+
+test('A13 Git control: a staged release-note edit cannot hide behind restored approved working bytes', () => {
+  withA13Repository(repo => {
+    const approved = readFileSync(resolve(repo, A13_RELEASE_NOTES_PATH));
+    writeFileSync(resolve(repo, A13_RELEASE_NOTES_PATH), 'staged unapproved content\n');
+    a13Git(repo, ['add', '--', A13_RELEASE_NOTES_PATH]);
+    writeFileSync(resolve(repo, A13_RELEASE_NOTES_PATH), approved);
+    assert.equal(workingFileBlobId(repo, A13_RELEASE_NOTES_PATH), A13_RELEASE_NOTES_APPROVED_BLOB);
+    assertA13Rejected(repo, /unapproved index content\/type\/mode/);
+  });
+});
+
+test('A13 Git control: missing release notes fail without needing a delta-only exception', () => {
+  withA13Repository(repo => {
+    rmSync(resolve(repo, A13_RELEASE_NOTES_PATH));
+    assertA13Rejected(repo, /missing or unreadable working-tree file/);
+  });
+});
+
+test('A13 Git control: staged deletion of release notes fails', () => {
+  withA13Repository(repo => {
+    rmSync(resolve(repo, A13_RELEASE_NOTES_PATH));
+    a13Git(repo, ['add', '-u', '--', A13_RELEASE_NOTES_PATH]);
+    assertA13Rejected(repo, /unexpected D of protected file/);
+  });
+});
+
+test('A13 Git control: release-note rename is a rejected deletion/addition, never rename permission', () => {
+  withA13Repository(repo => {
+    const renamed = `${A13_RELEASE_NOTES_PATH}.renamed`;
+    renameSync(resolve(repo, A13_RELEASE_NOTES_PATH), resolve(repo, renamed));
+    a13Git(repo, ['add', '-A', '--', 'program-v1.1-certification']);
+    const changes = listProtectedChanges(repo);
+    assert.ok(changes.some(c => c.status === 'D' && c.path === A13_RELEASE_NOTES_PATH));
+    assert.ok(changes.some(c => c.status === 'A' && c.path === renamed));
+    assert.ok(changes.every(c => !c.status.startsWith('R')));
+    assertA13Rejected(repo, /unexpected D of protected file/);
+  });
+});
+
+test('A13 Git control: symlink-type index substitution fails even with the approved blob and regular working bytes', () => {
+  withA13Repository(repo => {
+    a13Git(repo, ['update-index', '--cacheinfo', `120000,${A13_RELEASE_NOTES_APPROVED_BLOB},${A13_RELEASE_NOTES_PATH}`]);
+    assert.ok(listProtectedChanges(repo, A13_POLICY, true).some(c => c.status === 'T' && c.path === A13_RELEASE_NOTES_PATH));
+    assertA13Rejected(repo, /unapproved index content\/type\/mode/);
+  });
+});
+
+test('A13 Git control: executable release-note index mode fails with unchanged approved content', () => {
+  withA13Repository(repo => {
+    a13Git(repo, ['update-index', '--chmod=+x', '--', A13_RELEASE_NOTES_PATH]);
+    assert.equal(workingFileBlobId(repo, A13_RELEASE_NOTES_PATH), A13_RELEASE_NOTES_APPROVED_BLOB);
+    assertA13Rejected(repo, /unapproved index content\/type\/mode/);
+  });
+});
+
+test('A13 Git control: approved release-note bytes at a different protected path are not an exception', () => {
+  withA13Repository(repo => {
+    const other = 'program-v1.1-certification/UNAPPROVED_RELEASE_NOTES.md';
+    a13Write(repo, other, readFileSync(resolve(repo, A13_RELEASE_NOTES_PATH), 'utf8'));
+    a13Git(repo, ['add', '--', other]);
+    assertA13Rejected(repo, /unexpected A of protected file/);
+  });
+});
+
+test('A13 control: release-note exception rejects wrong statuses and wrong paths, regardless of the supplied blob', () => {
+  for (const status of ['A', 'D', 'T', 'R100', 'C100', 'U', '?']) {
+    assert.equal(a13Violations([{ status, path: A13_RELEASE_NOTES_PATH }], () => A13_RELEASE_NOTES_APPROVED_BLOB).length, 1);
+  }
+  assert.equal(a13Violations([{ status: 'M', path: 'program-v1.1-certification/RELEASE_NOTES_PROGRAM_v1.1.0.md' }], () => A13_RELEASE_NOTES_APPROVED_BLOB).length, 1);
+});
+
+for (const path of [
+  'iips-platform/src/sector-engines/UNAPPROVED.ts',
+  'iips-platform/src/integration/UNAPPROVED.ts',
+  'iips-cross-sector/UNAPPROVED.ts',
+  'program-v1.1-certification/UNAPPROVED.md',
+  'ies-a13-unapproved/UNAPPROVED.json',
+]) {
+  test(`A13 Git control: original inventory rejects staged addition in ${path}`, () => {
+    withA13Repository(repo => {
+      a13Write(repo, path, 'unapproved\n'); a13Git(repo, ['add', '--', path]);
+      assertA13Rejected(repo, /unexpected A of protected file/);
+    });
+  });
+}
+
+test('A13 Git control: untracked protected source addition also fails', () => {
+  withA13Repository(repo => {
+    a13Write(repo, 'iips-platform/src/integration/UNTRACKED.ts', 'unapproved\n');
+    assertA13Rejected(repo, /unexpected A of protected file/);
+  });
+});
+
+test('A13 Git control: another protected modification remains rejected', () => {
+  withA13Repository(repo => {
+    const path = 'program-v1.1-certification/PROGRAM_v1.1_REPLAY_BASELINE.json';
+    writeFileSync(resolve(repo, path), 'unapproved\n');
+    assertA13Rejected(repo, /unexpected M of protected file/);
+  });
+});
+
+test('A13 Git control: staged protected modification cannot be hidden by original working bytes', () => {
+  withA13Repository(repo => {
+    const path = 'iips-platform/src/integration/EngineRegistry.ts';
+    const original = readFileSync(resolve(repo, path));
+    writeFileSync(resolve(repo, path), 'staged unapproved\n'); a13Git(repo, ['add', '--', path]);
+    writeFileSync(resolve(repo, path), original);
+    assert.equal(listProtectedChanges(repo).some(c => c.path === path), false);
+    assertA13Rejected(repo, /unexpected M of protected file/);
+  });
+});
+
+test('A13 Git control: another protected deletion remains rejected', () => {
+  withA13Repository(repo => {
+    rmSync(resolve(repo, 'iips-platform/src/integration/EngineRegistry.ts'));
+    assertA13Rejected(repo, /unexpected D of protected file/);
+  });
+});
+
+test('A13 Git control: protected rename cannot hide a deletion outside the inventory', () => {
+  withA13Repository(repo => {
+    const path = 'iips-platform/src/integration/EngineRegistry.ts';
+    renameSync(resolve(repo, path), resolve(repo, 'MOVED_ENGINE_REGISTRY.ts'));
+    a13Git(repo, ['add', '-A']);
+    assertA13Rejected(repo, /unexpected D of protected file/);
+  });
+});
+
+test('A13 Git control: altered permitted adapter content fails', () => {
+  withA13Repository(repo => {
+    writeFileSync(resolve(repo, A13_ADAPTER_PATH), 'altered adapter\n');
+    assertA13Rejected(repo, /unapproved working-tree content/);
+  });
+});
+
+test('A13 Git control: deletion of the adapter cannot evade its pin by eliminating its historical addition', () => {
+  withA13Repository(repo => {
+    rmSync(resolve(repo, A13_ADAPTER_PATH));
+    a13Git(repo, ['add', '-u', '--', A13_ADAPTER_PATH]);
+    assert.equal(listProtectedChanges(repo).some(c => c.path === A13_ADAPTER_PATH), false);
+    assertA13Rejected(repo, /missing or unreadable working-tree file/);
+  });
+});
+
+for (const [name, policy, message] of [
+  ['baseline advance', { ...A13_POLICY, baseline: '37e82b7514c39b66ac6fca0c14a6a667977047fc' }, /A13 reference must remain pinned/],
+  ['removed certification pathspec', { ...A13_POLICY, paths: A13_PROTECTED_PATHSPECS.filter(p => p !== 'program-v1.1-certification') }, /A13 protected inventory must remain unchanged/],
+  ['removed --no-renames', { ...A13_POLICY, diffFlags: ['--name-status'] }, /A13 comparison flags must remain unchanged/],
+] as const) {
+  test(`A13 Git control: actual guard refuses ${name}`, () => {
+    withA13Repository(repo => assert.throws(() => assertA13ProtectedSurface(repo, policy), message));
+  });
+}
+
+
+test('A13 Git control: directory substitution at the release-note path fails the working-tree type pin', () => {
+  withA13Repository(repo => {
+    rmSync(resolve(repo, A13_RELEASE_NOTES_PATH));
+    mkdirSync(resolve(repo, A13_RELEASE_NOTES_PATH));
+    assertA13Rejected(repo, /unapproved working-tree type/);
+  });
+});
+
+test('A13 Git control: staged adapter alteration fails even when working content has its approved blob', () => {
+  withA13Repository(repo => {
+    const approved = readFileSync(resolve(repo, A13_ADAPTER_PATH));
+    writeFileSync(resolve(repo, A13_ADAPTER_PATH), 'staged altered adapter\n');
+    a13Git(repo, ['add', '--', A13_ADAPTER_PATH]);
+    writeFileSync(resolve(repo, A13_ADAPTER_PATH), approved);
+    assert.equal(workingFileBlobId(repo, A13_ADAPTER_PATH), A13_ADAPTER_APPROVED_BLOB);
+    assertA13Rejected(repo, /unapproved index content\/type\/mode/);
+  });
+});
+
+for (const flag of ['--assume-unchanged', '--skip-worktree']) {
+  test(`A13 Git control: ${flag} cannot hide an unapproved protected edit`, () => {
+    withA13Repository(repo => {
+      const path = 'iips-platform/src/integration/EngineRegistry.ts';
+      a13Git(repo, ['update-index', flag, '--', path]);
+      writeFileSync(resolve(repo, path), 'hidden unapproved content\n');
+      assert.equal(listProtectedChanges(repo).some(c => c.path === path), false);
+      assertA13Rejected(repo, /hidden or unmerged protected index entry/);
+    });
+  });
+}

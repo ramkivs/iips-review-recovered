@@ -1,22 +1,23 @@
 # IRR continuous verification — work item `CV-42` (tracker:
 # `IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md`, §16.4 / §16.18).
 #
-# SCOPE — the IRR `frontend/` package only. It runs the three checks this program's validation
+# SCOPE — the IRR `frontend/` package, plus the explicitly authorized Stage A scoped replay-server
+# import-closure typecheck. It retains the three checks this program's validation
 # evidence already rests on (`V2` typecheck, `V3` full Vitest suite, `V4` production build) plus a
 # zero-test guard, exactly as `CV-42` authorizes ("a workflow file is a repository change, so its
 # creation needs the ordinary main-admission route": this file therefore travels as a PR and its
 # checks must be visible on GitHub). Deliberately NOT included:
-#   • `iips-platform/**` — it has its own `typecheck` / `test` scripts and its own evidence trail;
-#     widening this job silently would change what CI claims.
+#   • standalone `iips-platform` checks — its transitive imports in the replay-server closure are
+#     typechecked, but its own typecheck, test and integration suites are not run by this workflow.
 #   • the IPD repository — its CI sits behind the §20 Stage 3 `P2`/`P3` admission act (that is `CV-42`'s
 #     second half and stays outside this change).
 #   • any deployment, publish, environment, credential, status-check or enterprise control. A green
 #     run here means "the established checks passed"; it is not qualification, admission or release.
 #
 # WHAT A GREEN JOB DOES *NOT* MEAN: `frontend/tsconfig.json` includes `src` + `vite.config.ts`, so the
-# typecheck step covers the client; `server/**` is exercised by the test step (transformed, not
-# type-checked). That asymmetry is pre-existing repository configuration, preserved rather than
-# quietly redefined here.
+# default typecheck covers the client. The separate Stage A strict check covers the actual replay
+# server composition/import closure and the authorized changed/new server tests. Other server files
+# outside that closure are tested/transformed, not asserted to be typechecked or qualified.
 name: CI
 
 on:
@@ -65,6 +66,9 @@ jobs:
       # `frontend/package.json` → "typecheck": "tsc --noEmit" (the established script; no substitution).
       - name: Typecheck
         run: npm run typecheck
+
+      - name: Strict governed Screen replay server import closure
+        run: npm run typecheck:replay-server
 
       # `test:ci` runs the identical `vitest run` suite and additionally emits the JSON summary the
       # guard reads. `npm test` itself is left untouched, so local behaviour does not change.
