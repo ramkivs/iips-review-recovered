@@ -233,3 +233,23 @@ checksum-verified mailbox patch in artifact set
 advanced, merged or activated; its decision stays open pending a real
 windows-latest/native run whose authoritative result must be recorded as
 PASS or FAIL — emulation and Linux results can never supply that status.
+
+## 8. Preview distribution (not authoritative publication)
+
+The reset destroyed the PKG-11 preview process and its served directory
+(`/g3-ipd-wincorr-20261020/`, port 8731). The preview was repaired and
+resumed: a dependency-free read-only Node static server
+(`artifacts/preview-server.mjs`, GET/HEAD only, root containment guard,
+`x-content-type-options: nosniff`) serves `/home/user/artifacts` on
+`0.0.0.0:8731` and is reachable through the Arena preview proxy. The
+served set is the current `g3-ipd-postflush-20261020/` (the superseded
+`wincorr` directory no longer exists and must not be linked).
+
+A download-and-`sha256sum -c` round trip through the preview server
+returned eight `OK` lines for every file listed in `SHA256SUMS.txt`, plus
+`SHA256SUMS.txt: OK` against `SHA256SUMS.self.txt`; traversal sequences
+return 404 with no path escaping the artifacts root, non-GET methods
+return 405, and unknown paths return 404. This convenience distribution
+does not alter publication status: IPD remains 403-blocked and the
+mailbox patch plus this packet remain the authoritative transfer
+mechanisms.
