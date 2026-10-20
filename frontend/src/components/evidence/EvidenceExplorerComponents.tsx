@@ -3,6 +3,7 @@
  * Display governed evidence/snapshot/replay/provenance. No computation or reasoning.
  */
 import type { ReactNode } from 'react';
+import type { ReplayOutcome, ReplayState } from '../../api/replay';
 
 /** Evidence chain timeline (Decision → Drivers → Metrics → Evidence → Snapshot → Provenance → Replay). */
 export function EvidenceTimeline({ steps }: { steps: readonly { label: string; content: ReactNode }[] }) {
@@ -18,13 +19,14 @@ export function EvidenceTimeline({ steps }: { steps: readonly { label: string; c
   );
 }
 
-export function EvidenceRecordCard({ evidence }: {
+export function EvidenceRecordCard({ evidence, referenceOnly = false }: {
+  referenceOnly?: boolean;
   evidence: { evidenceId: string; engineId: string; recommendation: string; compositeScore: number; confidence: number; calibrationVersion: string; decisionRulesApplied: readonly string[]; generatedAt: string };
 }) {
   return (
     <article data-testid="evidence-record-card" style={{ border: '1px solid var(--color-border)', borderRadius: 6, padding: 16, background: 'var(--color-surface-1)' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
-        <strong>Evidence <code>{evidence.evidenceId}</code></strong>
+        <strong>{referenceOnly ? 'Reference evidence alias' : 'Evidence'} <code>{evidence.evidenceId}</code></strong>
         <span style={{ fontSize: 12, color: 'var(--color-ink-secondary)' }}>{evidence.generatedAt}</span>
       </div>
       <p style={{ margin: '4px 0' }}>Engine <code>{evidence.engineId}</code> · Recommendation: {evidence.recommendation}</p>
@@ -47,26 +49,35 @@ export function ProvenanceChain({ items }: { items: readonly { key: string; valu
   );
 }
 
-export function SnapshotMetadataPanel({ snapshot }: { snapshot: { snapshotId: string; engineId: string; schemaVersion: string; generatedAt: string; verdict: string } }) {
+export function SnapshotMetadataPanel({ snapshot, referenceOnly = false }: { referenceOnly?: boolean; snapshot: { snapshotId: string; engineId: string; schemaVersion: string; generatedAt: string; verdict: string } }) {
   return (
     <div data-testid="snapshot-metadata-panel" style={{ fontSize: 13 }}>
-      <p style={{ margin: '4px 0' }}>Snapshot <code>{snapshot.snapshotId}</code></p>
+      <p style={{ margin: '4px 0' }}>{referenceOnly ? 'Reference snapshot alias' : 'Snapshot'} <code>{snapshot.snapshotId}</code></p>
       <p style={{ margin: '4px 0' }}>Engine <code>{snapshot.engineId}</code> · schema <code>{snapshot.schemaVersion}</code></p>
       <p style={{ margin: '4px 0' }}>Generated {snapshot.generatedAt} · verdict {snapshot.verdict}</p>
     </div>
   );
 }
 
-export function ReplaySummary({ replay }: { replay: { snapshotId: string; reproduced: boolean; byteIdentical: boolean } }) {
+const replayLabels: Record<ReplayState, string> = {
+  NOT_PERFORMED: 'Replay not performed',
+  ORIGINAL_UNAVAILABLE: 'Original unavailable in this process',
+  MISSING_CONTEXT: 'Original replay context is missing',
+  UNSUPPORTED_VERSION: 'Original evaluator or record version is unsupported',
+  EXECUTION_FAILED: 'Independent replay execution failed',
+  COMPARISON_FAILED: 'Canonical comparison failed — no difference established',
+  COMPLETED_DIFFERENT: 'Different canonical Screen result',
+  COMPLETED_EQUIVALENT: 'Equivalent canonical Screen result',
+  ORIGINAL_INVALID: 'Original integrity validation failed',
+};
+export function ReplaySummary({ replay }: { replay: ReplayOutcome }) {
   return (
-    <div data-testid="replay-summary" role="status" style={{ border: '1px solid var(--color-border)', borderRadius: 6, padding: 12, background: 'var(--color-surface-1)', fontSize: 13 }}>
-      <strong>Replay</strong>
-      <p style={{ margin: '4px 0' }}>
-        <span style={{ color: replay.byteIdentical ? 'var(--color-status-positive)' : 'var(--color-status-negative)', fontWeight: 600 }}>
-          {replay.byteIdentical ? 'MATCH' : 'DIFFERENCE'}
-        </span>
-        {' · '}reproduced: {String(replay.reproduced)} · snapshot <code>{replay.snapshotId}</code>
-      </p>
+    <div data-testid="replay-summary" role="status" style={{ border: '1px solid var(--color-border)', borderRadius: 6, padding: 12, fontSize: 13 }}>
+      <strong>{replayLabels[replay.state]}</strong>
+      <p data-testid="replay-state">{replay.state}</p>
+      {replay.diagnostic && <p>{replay.diagnostic}</p>}
+      {replay.attemptId && <p>Attempt <code>{replay.attemptId}</code> (not retained as history)</p>}
+      {replay.comparisonScope && <p>Comparison scope: {replay.comparisonScope}. Not snapshot, HTTP, evidence-package or upstream-pipeline byte identity.</p>}
     </div>
   );
 }
