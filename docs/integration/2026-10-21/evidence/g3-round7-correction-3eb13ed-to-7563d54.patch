@@ -1,0 +1,321 @@
+diff --git a/src/ipc/dispatch.ts b/src/ipc/dispatch.ts
+index 827f7d7..c31f815 100644
+--- a/src/ipc/dispatch.ts
++++ b/src/ipc/dispatch.ts
+@@ -58,20 +58,46 @@ function refuseClassP(socket: Socket, reason: ClassPReason, detail: string): voi
+  * Post-flush one-frame watchdog (Windows named-pipe transport).
+  *
+  * The frame reader's flush guard only spans frame-1 parse → response flush.
+- * On a Windows byte-mode pipe the single response can be irreversibly flushed
+- * before a delayed second frame is delivered, and reader.release() has removed
+- * the reader-owned listeners. Without this observer such a frame would be
+- * silently uncounted. The response cannot be un-sent (platform impossibility —
+- * see IRR PKG-11 §E), but the one-frame invariant stays enforceable after the
+- * flush: the second frame is never dispatched (the handler state machine is
+- * finished), it is recorded as MALFORMED_FRAME in the bounded sink, and the
+- * connection is torn down. Exactly one response is ever emitted.
++ * On a Windows byte-mode pipe the single response is settled with
++ * `socket.end(frame)` (ordered write-then-shutdown: the same libuv sequence
++ * that delivers the response before the pipe force-breaks), and libuv keeps
++ * the readable side live for its fixed ~50 ms shutdown window before the
++ * forced UV_EOF. A delayed second frame can land in that window, and relying
++ * on the `end()` callback to attach an observer is too late on a real pipe:
++ * the callback fires when `_final`/uv_shutdown completes, by which point
++ * `reader.release()` has removed the reader-owned listeners and the forced
++ * break may already have flipped `readableEnded`, so the bytes meet no
++ * listener and the diagnostic sink stays empty (the native `undefined`
++ * symptom).
++ *
++ * The watchdog is therefore attached when the connection handler starts and
++ * `arm()` is called synchronously immediately before the response shutdown
++ * is initiated, so its named `data` listener is live for the entire
++ * post-response window with no gap and no `readableEnded` gate. An armed
++ * trailing frame is never dispatched (the handler state machine is
++ * finished), is recorded as MALFORMED_FRAME in the bounded sink, and tears
++ * the connection down. Exactly one response is ever emitted. Before
++ * arming, the watchdog deliberately ignores bytes: the reader-owned guard
++ * owns the pre-flush interval and its trip produces the zero-byte refusal.
+  *
+  * Only the three watchdog-owned listeners are removed on terminal events;
+- * caller-owned listeners (the dispatcher's error handler above) are preserved.
++ * caller-owned listeners (the dispatcher's error handler above) are
++ * preserved, and a terminal `end`/`close`/`error` with no trailing frame is
++ * cleanup-only and records nothing.
+  */
+-function attachPostFlushWatch(socket: Socket): void {
++interface PostFlushWatch {
++  /** Begin observing post-response frames. Idempotent. */
++  arm(): void;
++  /** Whether the watchdog has been armed and has not yet cleaned up. */
++  isArmed(): boolean;
++  /** Remove exactly the watchdog-owned listeners. Safe to call repeatedly. */
++  cleanup(): void;
++}
++
++function attachPostFlushWatch(socket: Socket): PostFlushWatch {
++  let armed = false;
+   const onTrailingData = (): void => {
++    if (!armed) return;
+     cleanup();
+     diagnosticSink.record(
+       'MALFORMED_FRAME',
+@@ -80,6 +106,7 @@ function attachPostFlushWatch(socket: Socket): void {
+     socket.destroy();
+   };
+   const cleanup = (): void => {
++    armed = false;
+     socket.off('data', onTrailingData);
+     socket.off('end', cleanup);
+     socket.off('close', cleanup);
+@@ -89,6 +116,13 @@ function attachPostFlushWatch(socket: Socket): void {
+   socket.on('end', cleanup);
+   socket.on('close', cleanup);
+   socket.on('error', cleanup);
++  return {
++    arm: () => {
++      armed = true;
++    },
++    isArmed: () => armed,
++    cleanup,
++  };
+ }
+ 
+ /**
+@@ -137,13 +171,19 @@ export function createConnectionHandler(
+         return;
+       }
+ 
++      // Flush-guard transports (Windows named pipes) get a post-flush watchdog
++      // attached up front but left unarmed until the response shutdown is
++      // initiated below. The reader-owned guard owns every event before that
++      // point; once armed the watchdog owns the libuv shutdown window, with no
++      // listener gap and no dependence on the late `end()` callback. AF_UNIX
++      // keeps the airtight half-close gate and needs no watchdog.
++      const postFlushWatch =
++        reader.settlement === 'flush-guard' ? attachPostFlushWatch(socket) : undefined;
++
+       // Declared outside the try so Class A error frames in the catch block
+       // use the same guarded single-response write path. Before assignment
+       // (a fault during the pre-write validation) it stays a zero-byte no-op.
+       let writeGuarded: (frame: Buffer) => Promise<boolean> = () => Promise.resolve(false);
+-      // Set only once a response frame has flushed successfully. On flush-guard
+-      // transports that arms the post-flush one-frame watchdog in finally.
+-      let responded = false;
+ 
+       try {
+         // C7: caller-supplied authority/identity at any depth is refused before any
+@@ -209,6 +249,12 @@ export function createConnectionHandler(
+           }
+           try {
+             if (reader.settlement === 'flush-guard') {
++              // Arm before the ordered write-then-shutdown (`end`) so a frame
++              // delivered during libuv's post-shutdown read window is observed
++              // even though reader.release() runs once this settles. The race
++              // still converts any pre-flush guard trip into a zero-byte
++              // refusal before the response can land.
++              postFlushWatch?.arm();
+               await Promise.race([
+                 endFrame(socket, frame),
+                 reader.whenGuardTripped.then((fault) => {
+@@ -218,7 +264,6 @@ export function createConnectionHandler(
+             } else {
+               await endFrame(socket, frame);
+             }
+-            responded = true;
+             return true;
+           } catch (error) {
+             if (error instanceof ClassPError) {
+@@ -276,13 +321,13 @@ export function createConnectionHandler(
+         // Detach exactly the reader-owned listeners; the caller's socket error
+         // handler registered above remains available for transmission faults.
+         reader.release();
+-        // Flush-guard transports (Windows named pipes): keep the one-frame
+-        // invariant enforceable for a second frame delivered after the
+-        // response irreversibly flushed. Zero-byte refusal remains impossible
+-        // at this point (documented in IRR PKG-11 §E); the frame is refused by
+-        // sink record plus teardown and is never dispatched.
+-        if (reader.settlement === 'flush-guard' && responded && !socket.readableEnded) {
+-          attachPostFlushWatch(socket);
++        // An armed flush-guard watchdog stays attached across the libuv
++        // shutdown window and removes its own named listeners on the first
++        // terminal event. If no response was ever initiated (pre-write
++        // refusal path that did not already destroy the socket), the watchdog
++        // never armed and has no purpose, so reclaim its listeners here.
++        if (postFlushWatch && !postFlushWatch.isArmed()) {
++          postFlushWatch.cleanup();
+         }
+       }
+     })();
+diff --git a/tests/g3_ipc_framing.test.ts b/tests/g3_ipc_framing.test.ts
+index 6541127..6458305 100644
+--- a/tests/g3_ipc_framing.test.ts
++++ b/tests/g3_ipc_framing.test.ts
+@@ -72,11 +72,46 @@ class FakeSocket extends EventEmitter {
+   // Mirrors stream.Readable.readableEnded: true once the pipe-break 'end' has
+   // been emitted, after which no further data event can arrive.
+   public readableEnded = false;
+-
+-  constructor(private readonly ackTicks = 1) {
++  // Transport-selection counters (Round-7): pin that flush-guard delivery uses
++  // the ordered write-then-shutdown `end()` path, never a bare `write()`.
++  public endCalled = 0;
++  public writeCalled = 0;
++  private shutdownTimer?: NodeJS.Timeout;
++
++  constructor(
++    private readonly ackTicks = 1,
++    private readonly options: { shutdownEofMs?: number } = {},
++  ) {
+     super();
+   }
+ 
++  /**
++   * Models a peer write inside the libuv post-shutdown read window. Before the
++   * forced break the bytes are delivered as a 'data' event; afterwards the
++   * client WriteFile fails (ERROR_NO_DATA/EPIPE) and the server never sees the
++   * frame, so this returns false and emits nothing.
++   */
++  peerSend(chunk: Buffer): boolean {
++    if (this.broken || this.destroyed) return false;
++    this.emit('data', chunk);
++    return true;
++  }
++
++  private armShutdownEof(): void {
++    if (this.options.shutdownEofMs === undefined || this.shutdownTimer) return;
++    // libuv byte-mode pipe: uv_shutdown → FlushFileBuffers, then a fixed eof
++    // timer force-breaks the pipe (UV_EOF) after which reads stop. Shortened
++    // deterministically for the test timeline.
++    this.shutdownTimer = setTimeout(() => {
++      if (this.broken) return;
++      this.broken = true;
++      this.readableEnded = true;
++      this.emit('end');
++      this.emit('close');
++    }, this.options.shutdownEofMs);
++    this.shutdownTimer.unref();
++  }
++
+   private queue(chunk: Buffer, cb?: (error?: Error | null) => void): void {
+     if (this.broken) {
+       const error = Object.assign(new Error('write EPIPE'), { code: 'EPIPE' });
+@@ -107,18 +142,24 @@ class FakeSocket extends EventEmitter {
+   }
+ 
+   end(chunk?: Buffer, cb?: (error?: Error | null) => void): this {
++    this.endCalled += 1;
+     if (chunk) this.queue(chunk, cb);
+     else setImmediate(() => cb?.());
++    // A real `end()` is write-then-shutdown in one ordered operation: model
++    // libuv's deferred forced pipe break so post-response timing is observable.
++    this.armShutdownEof();
+     return this;
+   }
+ 
+   write(chunk: Buffer, cb?: (error?: Error | null) => void): boolean {
++    this.writeCalled += 1;
+     this.queue(chunk, cb);
+     return !this.broken;
+   }
+ 
+   destroy(): this {
+     this.destroyed = true;
++    if (this.shutdownTimer) clearTimeout(this.shutdownTimer);
+     for (const entry of this.pending) {
+       entry.cb(Object.assign(new Error('socket destroyed before flush'), { code: 'ECANCELED' }));
+     }
+@@ -128,6 +169,7 @@ class FakeSocket extends EventEmitter {
+ 
+   /** libuv Windows: FlushFileBuffers delivers no EOF; the 50ms eof timer breaks the pipe. */
+   forceBrokenPipeEof(): void {
++    if (this.shutdownTimer) clearTimeout(this.shutdownTimer);
+     this.broken = true;
+     this.readableEnded = true;
+     this.emit('end');
+@@ -719,4 +761,86 @@ describe('g3 / T-A flush-guard settlement (Windows named-pipe transport emulatio
+     assert.equal(socket.destroyed, false, 'a well-behaved single-frame peer is not torn down');
+     assert.equal(diagnosticSink.peek().length, 0);
+   });
++
++  // Round-7 regression (Windows-transport emulation, not native evidence): the
++  // native multi-failure diagnostic showed that a write()-only response path
++  // loses libuv's ordered write-before-shutdown guarantee: the reference
++  // client's own half-close full-tears the pipe and the server response lands
++  // as EPIPE, which close-driven test clients observe as an empty response.
++  // Flush-guard delivery therefore stays on the ordered `end()` path for both
++  // settlement policies; only observer placement changes (next tests).
++  it('Round-7: flush-guard delivery uses ordered end(), never a bare write()', async () => {
++    const socket = new FakeSocket();
++    createConnectionHandler(db, { settlement: 'flush-guard', idleTimeoutMs: 2000 })(
++      socket as unknown as Socket,
++    );
++    socket.emit('data', listFrame);
++    await drainTicks(4);
++
++    assert.equal(socket.endCalled, 1, 'the response is settled with write-then-shutdown end()');
++    assert.equal(socket.writeCalled, 0, 'no write()-only response path exists on the pipe transport');
++    assert.equal(socket.written.length, 1, 'the single response frame is still delivered in full');
++    const body = JSON.parse(socket.written[0].subarray(4).toString('utf8')) as Record<string, unknown>;
++    assert.equal(body.ok, true);
++
++    const halfCloseSocket = new FakeSocket();
++    createConnectionHandler(db, { settlement: 'half-close-required', idleTimeoutMs: 2000 })(
++      halfCloseSocket as unknown as Socket,
++    );
++    halfCloseSocket.emit('data', listFrame);
++    halfCloseSocket.emit('end');
++    await drainTicks(4);
++    assert.equal(halfCloseSocket.endCalled, 1, 'AF_UNIX half-close delivery is unchanged and also end()-based');
++    assert.equal(halfCloseSocket.writeCalled, 0);
++  });
++
++  // Round-7 regression for the native `undefined` symptom (Windows-transport
++  // emulation, not native evidence): libuv keeps the readable side live for a
++  // fixed window after server-side shutdown. The watchdog must be armed BEFORE
++  // that shutdown begins, so a frame delivered inside the window meets a
++  // listener even though reader.release() runs when the end() settles.
++  it('Round-7: a frame inside the post-end shutdown window is observed by the early-armed watchdog', async () => {
++    // 30 ms forced break models libuv's 50 ms eof timer; the peer frame at
++    // 12 ms models the native +25 ms separate-write second frame.
++    const socket = new FakeSocket(1, { shutdownEofMs: 30 });
++    createConnectionHandler(db, { settlement: 'flush-guard', idleTimeoutMs: 2000 })(
++      socket as unknown as Socket,
++    );
++    socket.emit('data', listFrame);
++    await drainTicks(2);
++    assert.equal(socket.written.length, 1, 'frame 1 received its single response before the break');
++
++    const delivered = socket.peerSend(secondFrame);
++    assert.equal(delivered, true, 'the second frame is transport-deliverable inside the read window');
++    await drainTicks(8);
++
++    assert.equal(socket.written.length, 1, 'the second frame is never dispatched or answered');
++    assert.equal(socket.destroyed, true, 'the post-flush violation tears the connection down');
++    assert.equal(
++      diagnosticSink.peek().at(-1)?.reason,
++      'MALFORMED_FRAME',
++      'an armed observer exists for the whole shutdown window — no empty/undefined sink',
++    );
++  });
++
++  // Round-7 lifecycle regression: a well-behaved peer whose pipe force-breaks
++  // on the shutdown timer must leave the sink empty and reap every watchdog
++  // listener deterministically, so the process can terminate (the native
++  // non-termination class). No extra application timer is involved.
++  it('Round-7: the forced shutdown break with no trailing frame reaps the watchdog and leaves the sink empty', async () => {
++    const socket = new FakeSocket(1, { shutdownEofMs: 30 });
++    createConnectionHandler(db, { settlement: 'flush-guard', idleTimeoutMs: 2000 })(
++      socket as unknown as Socket,
++    );
++    socket.emit('data', listFrame);
++    await new Promise((resolve) => setTimeout(resolve, 60));
++
++    assert.equal(socket.written.length, 1);
++    assert.equal(socket.destroyed, false, 'a conforming single-frame peer is not destroyed');
++    assert.equal(diagnosticSink.peek().length, 0);
++    assert.equal(socket.listenerCount('data'), 0, 'watchdog data listener reaped on the terminal event');
++    assert.equal(socket.listenerCount('end'), 0);
++    assert.equal(socket.listenerCount('close'), 0);
++    assert.equal(socket.listenerCount('error'), 1, 'only the caller-owned error handler remains');
++  });
+ });
