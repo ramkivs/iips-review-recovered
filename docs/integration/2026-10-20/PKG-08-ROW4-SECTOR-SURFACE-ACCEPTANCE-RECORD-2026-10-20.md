@@ -11,27 +11,38 @@
 **Session branch:** `arena/759192ef-iips-review-recovered`
 **Decision-maker:** Program Authority (PA) — Ramki (Ramakrishnan)
 **Recording agent:** Arena Agent Mode — evidence execution and record preparation only
-**Status:** **ACCEPTED — NON-PRODUCTION / IRR (operator-transferred checks outstanding)**
+**Status:** **PARTIALLY ACCEPTED — NON-PRODUCTION / IRR**
+**Acceptance basis:** Arena-executable criteria (AC-1 through AC-13) satisfied; operator-transferred criteria (AC-14 through AC-17) pending verification by product owner.
+**Date corrected:** 2026-10-20 (UTC) — Status corrected from ACCEPTED to PARTIALLY ACCEPTED to reflect outstanding operator-transferred checks.
 
-> ### **PKG-08 ROW 4 — ACCEPTED FOR ACTIVE NON-PRODUCTION IRR FEATURE BASELINE**
+> ### **PKG-08 ROW 4 — PARTIALLY ACCEPTED FOR ACTIVE NON-PRODUCTION IRR FEATURE BASELINE**
 >
 > **Scope:** The Sector Research Surface at `/research/sector/:id` only.
 >
+> **Arena-executable acceptance criteria (AC-1 through AC-13): SATISFIED**
+> **Operator-transferred acceptance criteria (AC-14 through AC-17): PENDING**
+>
 > **This acceptance does not constitute certification, production readiness, or production release.**
+> **Full acceptance requires completion of operator-transferred checks by the product owner.**
 
 ---
 
 ## 1. Acceptance decision
 
-The Sector Research Surface, as qualified by `PKG-08-ROW4-QUAL-01`, is **ACCEPTED INTO THE ACTIVE NON-PRODUCTION IRR FEATURE BASELINE** by Program Authority decision on **2026-10-20**.
+The Sector Research Surface, as qualified by `PKG-08-ROW4-QUAL-01`, is **PARTIALLY ACCEPTED INTO THE ACTIVE NON-PRODUCTION IRR FEATURE BASELINE** by Program Authority decision on **2026-10-20**.
 
-The acceptance is based on:
+The partial acceptance is based on:
 - Completed qualification (`PKG-08-ROW4-QUAL-01`)
 - Implementation on the session branch (`arena/759192ef-iips-review-recovered`)
 - 947/947 tests passing (12 new sector + 935 pre-existing regression)
 - Typecheck pass, build pass
 - Server-level E2E verification of all 5 composed endpoints
 - NP-07 historical exclusion reconciled (not bypassed) by `PKG-08-ROW4-COMMISSION-01`
+- All 13 Arena-executable acceptance criteria (AC-1 through AC-13) passing
+
+**Outstanding:** 4 operator-transferred acceptance criteria (AC-14 through AC-17) remain pending. These require the product owner's local environment (real browser, Windows host, independent reader, responsive display) and cannot be executed by Arena. Full acceptance is contingent on these checks being completed and evidenced by the product owner.
+
+**Correction note:** This record was initially published with status "ACCEPTED" which incorrectly implied all 17 criteria were satisfied. The status has been corrected to "PARTIALLY ACCEPTED" to accurately reflect that 4 operator-transferred criteria (AC-14 through AC-17) are explicitly NOT VERIFIED. Qualification remains QUALIFIED — NON-PRODUCTION / IRR (qualification is not downgraded by outstanding operator-transferred acceptance checks).
 
 ## 2. Accepted scope
 
