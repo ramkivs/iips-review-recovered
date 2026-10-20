@@ -1,0 +1,55 @@
+TAP version 13
+# (node:2389) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: g3 / T-C portfolio read isolation
+    # Subtest: a valid list returns only the resolved owner portfolios
+    ok 1 - a valid list returns only the resolved owner portfolios
+      ---
+      duration_ms: 6.530027
+      type: 'test'
+      ...
+    # Subtest: a missing portfolio returns RESOURCE_UNAVAILABLE
+    ok 2 - a missing portfolio returns RESOURCE_UNAVAILABLE
+      ---
+      duration_ms: 2.839924
+      type: 'test'
+      ...
+    # Subtest: a foreign-owned portfolio is byte-identical to the missing-portfolio response
+    ok 3 - a foreign-owned portfolio is byte-identical to the missing-portfolio response
+      ---
+      duration_ms: 6.178114
+      type: 'test'
+      ...
+    # Subtest: a tombstoned portfolio is byte-identical to the missing-portfolio response
+    ok 4 - a tombstoned portfolio is byte-identical to the missing-portfolio response
+      ---
+      duration_ms: 4.334445
+      type: 'test'
+      ...
+    # Subtest: the reserved portfolio.analytics operation is refused with zero bytes
+    ok 5 - the reserved portfolio.analytics operation is refused with zero bytes
+      ---
+      duration_ms: 0.90476
+      type: 'test'
+      ...
+    # Subtest: sequential requests over separate connections each complete under the capacity cap
+    ok 6 - sequential requests over separate connections each complete under the capacity cap
+      ---
+      duration_ms: 2.200975
+      type: 'test'
+      ...
+    1..6
+ok 1 - g3 / T-C portfolio read isolation
+  ---
+  duration_ms: 53.419204
+  type: 'suite'
+  ...
+1..1
+# tests 6
+# suites 1
+# pass 6
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 111.850265

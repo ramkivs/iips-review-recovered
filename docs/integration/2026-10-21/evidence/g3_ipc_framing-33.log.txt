@@ -1,0 +1,231 @@
+TAP version 13
+# (node:2995) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: g3 / T-A ipc framing
+    # Subtest: binds the platform-correct endpoint family
+    ok 1 - binds the platform-correct endpoint family
+      ---
+      duration_ms: 0.661489
+      type: 'test'
+      ...
+    # Subtest: a valid frame receives exactly one response frame
+    ok 2 - a valid frame receives exactly one response frame
+      ---
+      duration_ms: 6.001409
+      type: 'test'
+      ...
+    # Subtest: oversize declared length -> zero bytes, OVERSIZE_FRAME in the local sink
+    ok 3 - oversize declared length -> zero bytes, OVERSIZE_FRAME in the local sink
+      ---
+      duration_ms: 1.779251
+      type: 'test'
+      ...
+    # Subtest: an oversize buffered body -> zero bytes, OVERSIZE_FRAME
+    ok 4 - an oversize buffered body -> zero bytes, OVERSIZE_FRAME
+      ---
+      duration_ms: 1.769998
+      type: 'test'
+      ...
+    # Subtest: malformed JSON body -> zero bytes, MALFORMED_FRAME
+    ok 5 - malformed JSON body -> zero bytes, MALFORMED_FRAME
+      ---
+      duration_ms: 1.900221
+      type: 'test'
+      ...
+    # Subtest: protocol version other than 1 -> zero bytes, PROTOCOL_VERSION_UNSUPPORTED
+    ok 6 - protocol version other than 1 -> zero bytes, PROTOCOL_VERSION_UNSUPPORTED
+      ---
+      duration_ms: 1.099152
+      type: 'test'
+      ...
+    # Subtest: unknown operation -> zero bytes, UNKNOWN_OPERATION
+    ok 7 - unknown operation -> zero bytes, UNKNOWN_OPERATION
+      ---
+      duration_ms: 1.053099
+      type: 'test'
+      ...
+    # Subtest: truncated frame closed early -> zero bytes, MALFORMED_FRAME
+    ok 8 - truncated frame closed early -> zero bytes, MALFORMED_FRAME
+      ---
+      duration_ms: 1.191696
+      type: 'test'
+      ...
+    # Subtest: pipelined second frame -> zero bytes, MALFORMED_FRAME
+    ok 9 - pipelined second frame -> zero bytes, MALFORMED_FRAME
+      ---
+      duration_ms: 1.153927
+      type: 'test'
+      ...
+    # Subtest: an unexpected envelope key -> zero bytes, MALFORMED_FRAME
+    ok 10 - an unexpected envelope key -> zero bytes, MALFORMED_FRAME
+      ---
+      duration_ms: 1.979352
+      type: 'test'
+      ...
+    # Subtest: an idle connection receives no banner, greeting or any byte
+    ok 11 - an idle connection receives no banner, greeting or any byte
+      ---
+      duration_ms: 151.948487
+      type: 'test'
+      ...
+    # Subtest: the diagnostic reason never appears on the wire across all refusals
+    ok 12 - the diagnostic reason never appears on the wire across all refusals
+      ---
+      duration_ms: 3.801974
+      type: 'test'
+      ...
+    # Subtest: a second frame delivered in a separate write/event is refused over a real socket
+    ok 13 - a second frame delivered in a separate write/event is refused over a real socket
+      ---
+      duration_ms: 27.594604
+      type: 'test'
+      ...
+    1..13
+ok 1 - g3 / T-A ipc framing
+  ---
+  duration_ms: 207.454428
+  type: 'suite'
+  ...
+# Subtest: g3 / T-A frame reader internals (deterministic event ordering)
+    # Subtest: rejects whenSettled when a second frame arrives in a separate data event
+    ok 1 - rejects whenSettled when a second frame arrives in a separate data event
+      ---
+      duration_ms: 0.583846
+      type: 'test'
+      ...
+    # Subtest: rejects partial trailing bytes delivered after the complete frame
+    ok 2 - rejects partial trailing bytes delivered after the complete frame
+      ---
+      duration_ms: 0.18119
+      type: 'test'
+      ...
+    # Subtest: accepts a single frame split across arbitrary chunk boundaries, then half-close
+    ok 3 - accepts a single frame split across arbitrary chunk boundaries, then half-close
+      ---
+      duration_ms: 0.459574
+      type: 'test'
+      ...
+    # Subtest: IDLE_TIMEOUT fires in the guard phase when the peer never half-closes
+    ok 4 - IDLE_TIMEOUT fires in the guard phase when the peer never half-closes
+      ---
+      duration_ms: 41.563083
+      type: 'test'
+      ...
+    # Subtest: release preserves the caller-owned error listener and removes only reader listeners
+    ok 5 - release preserves the caller-owned error listener and removes only reader listeners
+      ---
+      duration_ms: 0.379252
+      type: 'test'
+      ...
+    # Subtest: a transport error after frame parse rejects whenSettled without removing the caller handler
+    ok 6 - a transport error after frame parse rejects whenSettled without removing the caller handler
+      ---
+      duration_ms: 0.303671
+      type: 'test'
+      ...
+    # Subtest: release is idempotent and leaves no listeners behind
+    ok 7 - release is idempotent and leaves no listeners behind
+      ---
+      duration_ms: 0.184774
+      type: 'test'
+      ...
+    1..7
+ok 2 - g3 / T-A frame reader internals (deterministic event ordering)
+  ---
+  duration_ms: 43.984391
+  type: 'suite'
+  ...
+# Subtest: g3 / T-A flush-guard settlement (Windows named-pipe transport emulation)
+    # Subtest: exposes the requested settlement policy and defaults to half-close-required
+    ok 1 - exposes the requested settlement policy and defaults to half-close-required
+      ---
+      duration_ms: 0.612789
+      type: 'test'
+      ...
+    # Subtest: delivers exactly one response even though pipe EOF only arrives via the forced 50 ms break
+    ok 2 - delivers exactly one response even though pipe EOF only arrives via the forced 50 ms break
+      ---
+      duration_ms: 32.501891
+      type: 'test'
+      ...
+    # Subtest: refuses a second frame delivered in a later event before the write flushes, zero bytes
+    ok 3 - refuses a second frame delivered in a later event before the write flushes, zero bytes
+      ---
+      duration_ms: 40.795318
+      type: 'test'
+      ...
+    # Subtest: refuses a second frame emitted immediately after frame 1, zero bytes
+    ok 4 - refuses a second frame emitted immediately after frame 1, zero bytes
+      ---
+      duration_ms: 20.767669
+      type: 'test'
+      ...
+    # Subtest: a transport error before the response flush yields zero bytes and no throw
+    ok 5 - a transport error before the response flush yields zero bytes and no throw
+      ---
+      duration_ms: 40.935791
+      type: 'test'
+      ...
+    # Subtest: the broken-pipe EOF after a successful flush is harmless and leaves no reader listeners
+    ok 6 - the broken-pipe EOF after a successful flush is harmless and leaves no reader listeners
+      ---
+      duration_ms: 20.545983
+      type: 'test'
+      ...
+    # Subtest: a default-policy handler withholds every response byte on the Windows pipe timeline
+    ok 7 - a default-policy handler withholds every response byte on the Windows pipe timeline
+      ---
+      duration_ms: 31.549561
+      type: 'test'
+      ...
+    # Subtest: an endpoint-derived flush-guard handler delivers the full response on the same timeline
+    ok 8 - an endpoint-derived flush-guard handler delivers the full response on the same timeline
+      ---
+      duration_ms: 31.715258
+      type: 'test'
+      ...
+    # Subtest: a post-flush second frame is recorded and torn down without a second response
+    ok 9 - a post-flush second frame is recorded and torn down without a second response
+      ---
+      duration_ms: 40.683501
+      type: 'test'
+      ...
+    # Subtest: a clean post-flush EOF with no trailing frame leaves the sink empty
+    ok 10 - a clean post-flush EOF with no trailing frame leaves the sink empty
+      ---
+      duration_ms: 20.49908
+      type: 'test'
+      ...
+    # Subtest: Round-7: flush-guard delivery uses ordered end(), never a bare write()
+    ok 11 - Round-7: flush-guard delivery uses ordered end(), never a bare write()
+      ---
+      duration_ms: 40.59732
+      type: 'test'
+      ...
+    # Subtest: Round-7: a frame inside the post-end shutdown window is observed by the early-armed watchdog
+    ok 12 - Round-7: a frame inside the post-end shutdown window is observed by the early-armed watchdog
+      ---
+      duration_ms: 50.673213
+      type: 'test'
+      ...
+    # Subtest: Round-7: the forced shutdown break with no trailing frame reaps the watchdog and leaves the sink empty
+    ok 13 - Round-7: the forced shutdown break with no trailing frame reaps the watchdog and leaves the sink empty
+      ---
+      duration_ms: 60.552241
+      type: 'test'
+      ...
+    1..13
+ok 3 - g3 / T-A flush-guard settlement (Windows named-pipe transport emulation)
+  ---
+  duration_ms: 444.743323
+  type: 'suite'
+  ...
+1..3
+# tests 33
+# suites 3
+# pass 33
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 753.73989

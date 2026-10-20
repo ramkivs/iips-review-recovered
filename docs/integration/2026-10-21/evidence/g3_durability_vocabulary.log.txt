@@ -1,0 +1,55 @@
+TAP version 13
+# (node:2931) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: g3 / T-D durability vocabulary and lineage
+    # Subtest: labels the durable port DURABLE and never SESSION_ONLY
+    ok 1 - labels the durable port DURABLE and never SESSION_ONLY
+      ---
+      duration_ms: 0.538362
+      type: 'test'
+      ...
+    # Subtest: computeLineageHash is deterministic and order-independent
+    ok 2 - computeLineageHash is deterministic and order-independent
+      ---
+      duration_ms: 0.259996
+      type: 'test'
+      ...
+    # Subtest: refuses every port write with WRITE_NOT_AUTHORIZED while W-1 is unmet
+    ok 3 - refuses every port write with WRITE_NOT_AUTHORIZED while W-1 is unmet
+      ---
+      duration_ms: 0.793874
+      type: 'test'
+      ...
+    # Subtest: retains lineage digests through a direct store revision round-trip
+    ok 4 - retains lineage digests through a direct store revision round-trip
+      ---
+      duration_ms: 5.102065
+      type: 'test'
+      ...
+    # Subtest: exposes revisions with an honest DURABLE vocabulary on every read path
+    ok 5 - exposes revisions with an honest DURABLE vocabulary on every read path
+      ---
+      duration_ms: 0.304913
+      type: 'test'
+      ...
+    # Subtest: a foreign owner cannot read the local portfolio (owner scoping at the store)
+    ok 6 - a foreign owner cannot read the local portfolio (owner scoping at the store)
+      ---
+      duration_ms: 0.22083
+      type: 'test'
+      ...
+    1..6
+ok 1 - g3 / T-D durability vocabulary and lineage
+  ---
+  duration_ms: 15.786371
+  type: 'suite'
+  ...
+1..1
+# tests 6
+# suites 1
+# pass 6
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 69.989342

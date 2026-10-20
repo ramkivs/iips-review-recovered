@@ -1,0 +1,79 @@
+TAP version 13
+# (node:2354) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: g3 / T-B binding resolution
+    # Subtest: resolves the single ACTIVE binding and membership
+    ok 1 - resolves the single ACTIVE binding and membership
+      ---
+      duration_ms: 3.973561
+      type: 'test'
+      ...
+    # Subtest: the partial-unique index blocks a second ACTIVE binding
+    ok 2 - the partial-unique index blocks a second ACTIVE binding
+      ---
+      duration_ms: 0.334746
+      type: 'test'
+      ...
+    # Subtest: the partial-unique index blocks a second ACTIVE membership
+    ok 3 - the partial-unique index blocks a second ACTIVE membership
+      ---
+      duration_ms: 0.18423
+      type: 'test'
+      ...
+    # Subtest: an ACTIVE membership attached to a different binding is BindingInvalidError
+    ok 4 - an ACTIVE membership attached to a different binding is BindingInvalidError
+      ---
+      duration_ms: 7.755219
+      type: 'test'
+      ...
+    # Subtest: revoking the only ACTIVE pair makes direct resolution throw BindingAbsentError
+    ok 5 - revoking the only ACTIVE pair makes direct resolution throw BindingAbsentError
+      ---
+      duration_ms: 2.944167
+      type: 'test'
+      ...
+    # Subtest: re-resolves per request with no cache: a revocation takes effect on the next request
+    ok 6 - re-resolves per request with no cache: a revocation takes effect on the next request
+      ---
+      duration_ms: 11.873249
+      type: 'test'
+      ...
+    # Subtest: an absent binding over IPC is zero-byte with no wire reason
+    ok 7 - an absent binding over IPC is zero-byte with no wire reason
+      ---
+      duration_ms: 1.853266
+      type: 'test'
+      ...
+    # Subtest: restoring an ACTIVE binding makes the next IPC request succeed again
+    ok 8 - restoring an ACTIVE binding makes the next IPC request succeed again
+      ---
+      duration_ms: 4.226626
+      type: 'test'
+      ...
+    # Subtest: multiple ACTIVE bindings after a restore still fail closed at the storage layer
+    ok 9 - multiple ACTIVE bindings after a restore still fail closed at the storage layer
+      ---
+      duration_ms: 0.600924
+      type: 'test'
+      ...
+    # Subtest: leaves a verifiable audit hash chain and no half-open transaction
+    ok 10 - leaves a verifiable audit hash chain and no half-open transaction
+      ---
+      duration_ms: 0.354234
+      type: 'test'
+      ...
+    1..10
+ok 1 - g3 / T-B binding resolution
+  ---
+  duration_ms: 54.723321
+  type: 'suite'
+  ...
+1..1
+# tests 10
+# suites 1
+# pass 10
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 118.977083

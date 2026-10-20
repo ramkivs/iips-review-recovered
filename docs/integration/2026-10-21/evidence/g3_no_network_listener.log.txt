@@ -1,0 +1,83 @@
+TAP version 13
+# Subtest: g3 / T-F no network listener and platform endpoint honesty
+    # Subtest: the live server address is a string path, never a {address, port} object
+    ok 1 - the live server address is a string path, never a {address, port} object
+      ---
+      duration_ms: 0.576653
+      type: 'test'
+      ...
+    # Subtest: an HTTP request line receives zero bytes (the endpoint is not an HTTP server)
+    ok 2 - an HTTP request line receives zero bytes (the endpoint is not an HTTP server)
+      ---
+      duration_ms: 5.199381
+      type: 'test'
+      ...
+    # Subtest: a second simultaneous connection is capacity-capped and receives zero bytes (C5.4)
+    ok 3 - a second simultaneous connection is capacity-capped and receives zero bytes (C5.4)
+      ---
+      duration_ms: 1.307132
+      type: 'test'
+      ...
+    # Subtest: the POSIX state directory is owner-only 0700
+    ok 4 - the POSIX state directory is owner-only 0700
+      ---
+      duration_ms: 0.192486
+      type: 'test'
+      ...
+    # Subtest: the POSIX socket itself is mode 0600 and owner-owned
+    ok 5 - the POSIX socket itself is mode 0600 and owner-owned
+      ---
+      duration_ms: 0.137514
+      type: 'test'
+      ...
+    # Subtest: the Windows endpoint is a named pipe with no filesystem artifact
+    ok 6 - the Windows endpoint is a named pipe with no filesystem artifact # SKIP
+      ---
+      duration_ms: 0.058492
+      type: 'test'
+      ...
+    # Subtest: endpoint.ts never passes readableAll/writableAll and never calls listen with a numeric port
+    ok 7 - endpoint.ts never passes readableAll/writableAll and never calls listen with a numeric port
+      ---
+      duration_ms: 0.539643
+      type: 'test'
+      ...
+    # Subtest: resolves a bare name with platform-matched absolute-path semantics (pure, no filesystem)
+    ok 8 - resolves a bare name with platform-matched absolute-path semantics (pure, no filesystem)
+      ---
+      duration_ms: 0.331169
+      type: 'test'
+      ...
+    # Subtest: an explicit Windows pipe path is accepted; other absolute Windows paths are refused
+    ok 9 - an explicit Windows pipe path is accepted; other absolute Windows paths are refused
+      ---
+      duration_ms: 0.438356
+      type: 'test'
+      ...
+    # Subtest: URLs, host:port pairs and relative paths are refused on both simulated platforms
+    ok 10 - URLs, host:port pairs and relative paths are refused on both simulated platforms
+      ---
+      duration_ms: 0.225416
+      type: 'test'
+      ...
+    # Subtest: the Windows descriptor claims no application-enforced DACL and names the Gate 4 items
+    ok 11 - the Windows descriptor claims no application-enforced DACL and names the Gate 4 items
+      ---
+      duration_ms: 0.163965
+      type: 'test'
+      ...
+    1..11
+ok 1 - g3 / T-F no network listener and platform endpoint honesty
+  ---
+  duration_ms: 13.031192
+  type: 'suite'
+  ...
+1..1
+# tests 11
+# suites 1
+# pass 10
+# fail 0
+# cancelled 0
+# skipped 1
+# todo 0
+# duration_ms 61.062281

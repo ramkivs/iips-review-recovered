@@ -1,0 +1,637 @@
+TAP version 13
+# (node:2372) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: g3 / T-H caller authority (C7) refusal matrix
+    # Subtest: refuses top-level caller authority key: accessToken
+    ok 1 - refuses top-level caller authority key: accessToken
+      ---
+      duration_ms: 15.598111
+      type: 'test'
+      ...
+    # Subtest: refuses top-level caller authority key: applicationPrincipal
+    ok 2 - refuses top-level caller authority key: applicationPrincipal
+      ---
+      duration_ms: 0.951783
+      type: 'test'
+      ...
+    # Subtest: refuses top-level caller authority key: applicationUser
+    ok 3 - refuses top-level caller authority key: applicationUser
+      ---
+      duration_ms: 1.016435
+      type: 'test'
+      ...
+    # Subtest: refuses top-level caller authority key: applicationUserId
+    ok 4 - refuses top-level caller authority key: applicationUserId
+      ---
+      duration_ms: 0.835425
+      type: 'test'
+      ...
+    # Subtest: refuses top-level caller authority key: authHeader
+    ok 5 - refuses top-level caller authority key: authHeader
+      ---
+      duration_ms: 0.972198
+      type: 'test'
+      ...
+    # Subtest: refuses top-level caller authority key: authorization
+    ok 6 - refuses top-level caller authority key: authorization
+      ---
+      duration_ms: 2.775234
+      type: 'test'
+      ...
+    # Subtest: refuses top-level caller authority key: claims
+    ok 7 - refuses top-level caller authority key: claims
+      ---
+      duration_ms: 0.719164
+      type: 'test'
+      ...
+    # Subtest: refuses top-level caller authority key: companyId
+    ok 8 - refuses top-level caller authority key: companyId
+      ---
+      duration_ms: 0.645351
+      type: 'test'
+      ...
+    # Subtest: refuses top-level caller authority key: credential
+    ok 9 - refuses top-level caller authority key: credential
+      ---
+      duration_ms: 1.044934
+      type: 'test'
+      ...
+    # Subtest: refuses top-level caller authority key: credentials
+    ok 10 - refuses top-level caller authority key: credentials
+      ---
+      duration_ms: 0.853122
+      type: 'test'
+      ...
+    # Subtest: refuses top-level caller authority key: identity
+    ok 11 - refuses top-level caller authority key: identity
+      ---
+      duration_ms: 0.611418
+      type: 'test'
+      ...
+    # Subtest: refuses top-level caller authority key: identityStatus
+    ok 12 - refuses top-level caller authority key: identityStatus
+      ---
+      duration_ms: 0.644357
+      type: 'test'
+      ...
+    # Subtest: refuses top-level caller authority key: membership
+    ok 13 - refuses top-level caller authority key: membership
+      ---
+      duration_ms: 0.587879
+      type: 'test'
+      ...
+    # Subtest: refuses top-level caller authority key: membershipId
+    ok 14 - refuses top-level caller authority key: membershipId
+      ---
+      duration_ms: 3.249233
+      type: 'test'
+      ...
+    # Subtest: refuses top-level caller authority key: owner
+    ok 15 - refuses top-level caller authority key: owner
+      ---
+      duration_ms: 0.588318
+      type: 'test'
+      ...
+    # Subtest: refuses top-level caller authority key: ownerId
+    ok 16 - refuses top-level caller authority key: ownerId
+      ---
+      duration_ms: 1.973897
+      type: 'test'
+      ...
+    # Subtest: refuses top-level caller authority key: password
+    ok 17 - refuses top-level caller authority key: password
+      ---
+      duration_ms: 0.519085
+      type: 'test'
+      ...
+    # Subtest: refuses top-level caller authority key: principal
+    ok 18 - refuses top-level caller authority key: principal
+      ---
+      duration_ms: 0.510578
+      type: 'test'
+      ...
+    # Subtest: refuses top-level caller authority key: principalId
+    ok 19 - refuses top-level caller authority key: principalId
+      ---
+      duration_ms: 0.796291
+      type: 'test'
+      ...
+    # Subtest: refuses top-level caller authority key: refreshToken
+    ok 20 - refuses top-level caller authority key: refreshToken
+      ---
+      duration_ms: 0.455992
+      type: 'test'
+      ...
+    # Subtest: refuses top-level caller authority key: resolutionDisposition
+    ok 21 - refuses top-level caller authority key: resolutionDisposition
+      ---
+      duration_ms: 0.42302
+      type: 'test'
+      ...
+    # Subtest: refuses top-level caller authority key: role
+    ok 22 - refuses top-level caller authority key: role
+      ---
+      duration_ms: 0.917829
+      type: 'test'
+      ...
+    # Subtest: refuses top-level caller authority key: roles
+    ok 23 - refuses top-level caller authority key: roles
+      ---
+      duration_ms: 0.532111
+      type: 'test'
+      ...
+    # Subtest: refuses top-level caller authority key: runtimeCompanyId
+    ok 24 - refuses top-level caller authority key: runtimeCompanyId
+      ---
+      duration_ms: 0.546496
+      type: 'test'
+      ...
+    # Subtest: refuses top-level caller authority key: scope
+    ok 25 - refuses top-level caller authority key: scope
+      ---
+      duration_ms: 0.892463
+      type: 'test'
+      ...
+    # Subtest: refuses top-level caller authority key: scopes
+    ok 26 - refuses top-level caller authority key: scopes
+      ---
+      duration_ms: 0.468484
+      type: 'test'
+      ...
+    # Subtest: refuses top-level caller authority key: secret
+    ok 27 - refuses top-level caller authority key: secret
+      ---
+      duration_ms: 1.249777
+      type: 'test'
+      ...
+    # Subtest: refuses top-level caller authority key: sessionId
+    ok 28 - refuses top-level caller authority key: sessionId
+      ---
+      duration_ms: 0.532475
+      type: 'test'
+      ...
+    # Subtest: refuses top-level caller authority key: tenant
+    ok 29 - refuses top-level caller authority key: tenant
+      ---
+      duration_ms: 0.421338
+      type: 'test'
+      ...
+    # Subtest: refuses top-level caller authority key: tenantHint
+    ok 30 - refuses top-level caller authority key: tenantHint
+      ---
+      duration_ms: 0.493396
+      type: 'test'
+      ...
+    # Subtest: refuses top-level caller authority key: tenantId
+    ok 31 - refuses top-level caller authority key: tenantId
+      ---
+      duration_ms: 0.411634
+      type: 'test'
+      ...
+    # Subtest: refuses top-level caller authority key: token
+    ok 32 - refuses top-level caller authority key: token
+      ---
+      duration_ms: 0.472718
+      type: 'test'
+      ...
+    # Subtest: refuses top-level caller authority key: user
+    ok 33 - refuses top-level caller authority key: user
+      ---
+      duration_ms: 1.156387
+      type: 'test'
+      ...
+    # Subtest: refuses top-level caller authority key: userId
+    ok 34 - refuses top-level caller authority key: userId
+      ---
+      duration_ms: 0.837067
+      type: 'test'
+      ...
+    # Subtest: refuses caller authority key nested in payload: accessToken
+    ok 35 - refuses caller authority key nested in payload: accessToken
+      ---
+      duration_ms: 0.771802
+      type: 'test'
+      ...
+    # Subtest: refuses caller authority key nested in payload: applicationPrincipal
+    ok 36 - refuses caller authority key nested in payload: applicationPrincipal
+      ---
+      duration_ms: 0.469581
+      type: 'test'
+      ...
+    # Subtest: refuses caller authority key nested in payload: applicationUser
+    ok 37 - refuses caller authority key nested in payload: applicationUser
+      ---
+      duration_ms: 0.599263
+      type: 'test'
+      ...
+    # Subtest: refuses caller authority key nested in payload: applicationUserId
+    ok 38 - refuses caller authority key nested in payload: applicationUserId
+      ---
+      duration_ms: 0.486762
+      type: 'test'
+      ...
+    # Subtest: refuses caller authority key nested in payload: authHeader
+    ok 39 - refuses caller authority key nested in payload: authHeader
+      ---
+      duration_ms: 0.718621
+      type: 'test'
+      ...
+    # Subtest: refuses caller authority key nested in payload: authorization
+    ok 40 - refuses caller authority key nested in payload: authorization
+      ---
+      duration_ms: 0.596851
+      type: 'test'
+      ...
+    # Subtest: refuses caller authority key nested in payload: claims
+    ok 41 - refuses caller authority key nested in payload: claims
+      ---
+      duration_ms: 0.414361
+      type: 'test'
+      ...
+    # Subtest: refuses caller authority key nested in payload: companyId
+    ok 42 - refuses caller authority key nested in payload: companyId
+      ---
+      duration_ms: 0.449339
+      type: 'test'
+      ...
+    # Subtest: refuses caller authority key nested in payload: credential
+    ok 43 - refuses caller authority key nested in payload: credential
+      ---
+      duration_ms: 0.452318
+      type: 'test'
+      ...
+    # Subtest: refuses caller authority key nested in payload: credentials
+    ok 44 - refuses caller authority key nested in payload: credentials
+      ---
+      duration_ms: 0.52917
+      type: 'test'
+      ...
+    # Subtest: refuses caller authority key nested in payload: identity
+    ok 45 - refuses caller authority key nested in payload: identity
+      ---
+      duration_ms: 0.451456
+      type: 'test'
+      ...
+    # Subtest: refuses caller authority key nested in payload: identityStatus
+    ok 46 - refuses caller authority key nested in payload: identityStatus
+      ---
+      duration_ms: 0.46685
+      type: 'test'
+      ...
+    # Subtest: refuses caller authority key nested in payload: membership
+    ok 47 - refuses caller authority key nested in payload: membership
+      ---
+      duration_ms: 0.434931
+      type: 'test'
+      ...
+    # Subtest: refuses caller authority key nested in payload: membershipId
+    ok 48 - refuses caller authority key nested in payload: membershipId
+      ---
+      duration_ms: 0.838916
+      type: 'test'
+      ...
+    # Subtest: refuses caller authority key nested in payload: owner
+    ok 49 - refuses caller authority key nested in payload: owner
+      ---
+      duration_ms: 0.506284
+      type: 'test'
+      ...
+    # Subtest: refuses caller authority key nested in payload: ownerId
+    ok 50 - refuses caller authority key nested in payload: ownerId
+      ---
+      duration_ms: 0.44308
+      type: 'test'
+      ...
+    # Subtest: refuses caller authority key nested in payload: password
+    ok 51 - refuses caller authority key nested in payload: password
+      ---
+      duration_ms: 0.519919
+      type: 'test'
+      ...
+    # Subtest: refuses caller authority key nested in payload: principal
+    ok 52 - refuses caller authority key nested in payload: principal
+      ---
+      duration_ms: 0.453256
+      type: 'test'
+      ...
+    # Subtest: refuses caller authority key nested in payload: principalId
+    ok 53 - refuses caller authority key nested in payload: principalId
+      ---
+      duration_ms: 0.51764
+      type: 'test'
+      ...
+    # Subtest: refuses caller authority key nested in payload: refreshToken
+    ok 54 - refuses caller authority key nested in payload: refreshToken
+      ---
+      duration_ms: 1.341527
+      type: 'test'
+      ...
+    # Subtest: refuses caller authority key nested in payload: resolutionDisposition
+    ok 55 - refuses caller authority key nested in payload: resolutionDisposition
+      ---
+      duration_ms: 0.497744
+      type: 'test'
+      ...
+    # Subtest: refuses caller authority key nested in payload: role
+    ok 56 - refuses caller authority key nested in payload: role
+      ---
+      duration_ms: 0.442758
+      type: 'test'
+      ...
+    # Subtest: refuses caller authority key nested in payload: roles
+    ok 57 - refuses caller authority key nested in payload: roles
+      ---
+      duration_ms: 0.602481
+      type: 'test'
+      ...
+    # Subtest: refuses caller authority key nested in payload: runtimeCompanyId
+    ok 58 - refuses caller authority key nested in payload: runtimeCompanyId
+      ---
+      duration_ms: 0.763829
+      type: 'test'
+      ...
+    # Subtest: refuses caller authority key nested in payload: scope
+    ok 59 - refuses caller authority key nested in payload: scope
+      ---
+      duration_ms: 0.591755
+      type: 'test'
+      ...
+    # Subtest: refuses caller authority key nested in payload: scopes
+    ok 60 - refuses caller authority key nested in payload: scopes
+      ---
+      duration_ms: 0.568769
+      type: 'test'
+      ...
+    # Subtest: refuses caller authority key nested in payload: secret
+    ok 61 - refuses caller authority key nested in payload: secret
+      ---
+      duration_ms: 4.141946
+      type: 'test'
+      ...
+    # Subtest: refuses caller authority key nested in payload: sessionId
+    ok 62 - refuses caller authority key nested in payload: sessionId
+      ---
+      duration_ms: 0.415645
+      type: 'test'
+      ...
+    # Subtest: refuses caller authority key nested in payload: tenant
+    ok 63 - refuses caller authority key nested in payload: tenant
+      ---
+      duration_ms: 3.563323
+      type: 'test'
+      ...
+    # Subtest: refuses caller authority key nested in payload: tenantHint
+    ok 64 - refuses caller authority key nested in payload: tenantHint
+      ---
+      duration_ms: 0.453062
+      type: 'test'
+      ...
+    # Subtest: refuses caller authority key nested in payload: tenantId
+    ok 65 - refuses caller authority key nested in payload: tenantId
+      ---
+      duration_ms: 0.649823
+      type: 'test'
+      ...
+    # Subtest: refuses caller authority key nested in payload: token
+    ok 66 - refuses caller authority key nested in payload: token
+      ---
+      duration_ms: 0.456521
+      type: 'test'
+      ...
+    # Subtest: refuses caller authority key nested in payload: user
+    ok 67 - refuses caller authority key nested in payload: user
+      ---
+      duration_ms: 0.396232
+      type: 'test'
+      ...
+    # Subtest: refuses caller authority key nested in payload: userId
+    ok 68 - refuses caller authority key nested in payload: userId
+      ---
+      duration_ms: 0.346989
+      type: 'test'
+      ...
+    # Subtest: refuses caller authority key nested in payload.options: accessToken
+    ok 69 - refuses caller authority key nested in payload.options: accessToken
+      ---
+      duration_ms: 0.523477
+      type: 'test'
+      ...
+    # Subtest: refuses caller authority key nested in payload.options: applicationPrincipal
+    ok 70 - refuses caller authority key nested in payload.options: applicationPrincipal
+      ---
+      duration_ms: 0.460842
+      type: 'test'
+      ...
+    # Subtest: refuses caller authority key nested in payload.options: applicationUser
+    ok 71 - refuses caller authority key nested in payload.options: applicationUser
+      ---
+      duration_ms: 1.917621
+      type: 'test'
+      ...
+    # Subtest: refuses caller authority key nested in payload.options: applicationUserId
+    ok 72 - refuses caller authority key nested in payload.options: applicationUserId
+      ---
+      duration_ms: 0.469755
+      type: 'test'
+      ...
+    # Subtest: refuses caller authority key nested in payload.options: authHeader
+    ok 73 - refuses caller authority key nested in payload.options: authHeader
+      ---
+      duration_ms: 0.838387
+      type: 'test'
+      ...
+    # Subtest: refuses caller authority key nested in payload.options: authorization
+    ok 74 - refuses caller authority key nested in payload.options: authorization
+      ---
+      duration_ms: 0.498019
+      type: 'test'
+      ...
+    # Subtest: refuses caller authority key nested in payload.options: claims
+    ok 75 - refuses caller authority key nested in payload.options: claims
+      ---
+      duration_ms: 1.444946
+      type: 'test'
+      ...
+    # Subtest: refuses caller authority key nested in payload.options: companyId
+    ok 76 - refuses caller authority key nested in payload.options: companyId
+      ---
+      duration_ms: 0.513124
+      type: 'test'
+      ...
+    # Subtest: refuses caller authority key nested in payload.options: credential
+    ok 77 - refuses caller authority key nested in payload.options: credential
+      ---
+      duration_ms: 0.474614
+      type: 'test'
+      ...
+    # Subtest: refuses caller authority key nested in payload.options: credentials
+    ok 78 - refuses caller authority key nested in payload.options: credentials
+      ---
+      duration_ms: 0.442996
+      type: 'test'
+      ...
+    # Subtest: refuses caller authority key nested in payload.options: identity
+    ok 79 - refuses caller authority key nested in payload.options: identity
+      ---
+      duration_ms: 0.429357
+      type: 'test'
+      ...
+    # Subtest: refuses caller authority key nested in payload.options: identityStatus
+    ok 80 - refuses caller authority key nested in payload.options: identityStatus
+      ---
+      duration_ms: 0.347872
+      type: 'test'
+      ...
+    # Subtest: refuses caller authority key nested in payload.options: membership
+    ok 81 - refuses caller authority key nested in payload.options: membership
+      ---
+      duration_ms: 1.894105
+      type: 'test'
+      ...
+    # Subtest: refuses caller authority key nested in payload.options: membershipId
+    ok 82 - refuses caller authority key nested in payload.options: membershipId
+      ---
+      duration_ms: 0.384242
+      type: 'test'
+      ...
+    # Subtest: refuses caller authority key nested in payload.options: owner
+    ok 83 - refuses caller authority key nested in payload.options: owner
+      ---
+      duration_ms: 0.432086
+      type: 'test'
+      ...
+    # Subtest: refuses caller authority key nested in payload.options: ownerId
+    ok 84 - refuses caller authority key nested in payload.options: ownerId
+      ---
+      duration_ms: 0.34403
+      type: 'test'
+      ...
+    # Subtest: refuses caller authority key nested in payload.options: password
+    ok 85 - refuses caller authority key nested in payload.options: password
+      ---
+      duration_ms: 0.402251
+      type: 'test'
+      ...
+    # Subtest: refuses caller authority key nested in payload.options: principal
+    ok 86 - refuses caller authority key nested in payload.options: principal
+      ---
+      duration_ms: 0.460606
+      type: 'test'
+      ...
+    # Subtest: refuses caller authority key nested in payload.options: principalId
+    ok 87 - refuses caller authority key nested in payload.options: principalId
+      ---
+      duration_ms: 0.469442
+      type: 'test'
+      ...
+    # Subtest: refuses caller authority key nested in payload.options: refreshToken
+    ok 88 - refuses caller authority key nested in payload.options: refreshToken
+      ---
+      duration_ms: 0.318245
+      type: 'test'
+      ...
+    # Subtest: refuses caller authority key nested in payload.options: resolutionDisposition
+    ok 89 - refuses caller authority key nested in payload.options: resolutionDisposition
+      ---
+      duration_ms: 0.291808
+      type: 'test'
+      ...
+    # Subtest: refuses caller authority key nested in payload.options: role
+    ok 90 - refuses caller authority key nested in payload.options: role
+      ---
+      duration_ms: 0.608502
+      type: 'test'
+      ...
+    # Subtest: refuses caller authority key nested in payload.options: roles
+    ok 91 - refuses caller authority key nested in payload.options: roles
+      ---
+      duration_ms: 0.408406
+      type: 'test'
+      ...
+    # Subtest: refuses caller authority key nested in payload.options: runtimeCompanyId
+    ok 92 - refuses caller authority key nested in payload.options: runtimeCompanyId
+      ---
+      duration_ms: 0.409054
+      type: 'test'
+      ...
+    # Subtest: refuses caller authority key nested in payload.options: scope
+    ok 93 - refuses caller authority key nested in payload.options: scope
+      ---
+      duration_ms: 0.328656
+      type: 'test'
+      ...
+    # Subtest: refuses caller authority key nested in payload.options: scopes
+    ok 94 - refuses caller authority key nested in payload.options: scopes
+      ---
+      duration_ms: 0.362956
+      type: 'test'
+      ...
+    # Subtest: refuses caller authority key nested in payload.options: secret
+    ok 95 - refuses caller authority key nested in payload.options: secret
+      ---
+      duration_ms: 0.351555
+      type: 'test'
+      ...
+    # Subtest: refuses caller authority key nested in payload.options: sessionId
+    ok 96 - refuses caller authority key nested in payload.options: sessionId
+      ---
+      duration_ms: 1.319006
+      type: 'test'
+      ...
+    # Subtest: refuses caller authority key nested in payload.options: tenant
+    ok 97 - refuses caller authority key nested in payload.options: tenant
+      ---
+      duration_ms: 1.43272
+      type: 'test'
+      ...
+    # Subtest: refuses caller authority key nested in payload.options: tenantHint
+    ok 98 - refuses caller authority key nested in payload.options: tenantHint
+      ---
+      duration_ms: 0.362638
+      type: 'test'
+      ...
+    # Subtest: refuses caller authority key nested in payload.options: tenantId
+    ok 99 - refuses caller authority key nested in payload.options: tenantId
+      ---
+      duration_ms: 1.143098
+      type: 'test'
+      ...
+    # Subtest: refuses caller authority key nested in payload.options: token
+    ok 100 - refuses caller authority key nested in payload.options: token
+      ---
+      duration_ms: 0.459655
+      type: 'test'
+      ...
+    # Subtest: refuses caller authority key nested in payload.options: user
+    ok 101 - refuses caller authority key nested in payload.options: user
+      ---
+      duration_ms: 0.34831
+      type: 'test'
+      ...
+    # Subtest: refuses caller authority key nested in payload.options: userId
+    ok 102 - refuses caller authority key nested in payload.options: userId
+      ---
+      duration_ms: 0.373774
+      type: 'test'
+      ...
+    # Subtest: the full refusal matrix creates no rows and a clean control frame still succeeds
+    ok 103 - the full refusal matrix creates no rows and a clean control frame still succeeds
+      ---
+      duration_ms: 2.209401
+      type: 'test'
+      ...
+    1..103
+ok 1 - g3 / T-H caller authority (C7) refusal matrix
+  ---
+  duration_ms: 110.654506
+  type: 'suite'
+  ...
+1..1
+# tests 103
+# suites 1
+# pass 103
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 161.747648

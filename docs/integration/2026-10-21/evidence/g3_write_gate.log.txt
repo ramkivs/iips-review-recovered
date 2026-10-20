@@ -1,0 +1,73 @@
+TAP version 13
+# (node:2406) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: g3 / T-G write gate
+    # Subtest: refuses portfolio.create over IPC with WRITE_NOT_AUTHORIZED and zero row delta
+    ok 1 - refuses portfolio.create over IPC with WRITE_NOT_AUTHORIZED and zero row delta
+      ---
+      duration_ms: 5.619416
+      type: 'test'
+      ...
+    # Subtest: refuses portfolio.save over IPC with WRITE_NOT_AUTHORIZED and zero row delta
+    ok 2 - refuses portfolio.save over IPC with WRITE_NOT_AUTHORIZED and zero row delta
+      ---
+      duration_ms: 2.492379
+      type: 'test'
+      ...
+    # Subtest: refuses portfolio.reset over IPC with WRITE_NOT_AUTHORIZED and zero row delta
+    ok 3 - refuses portfolio.reset over IPC with WRITE_NOT_AUTHORIZED and zero row delta
+      ---
+      duration_ms: 1.722203
+      type: 'test'
+      ...
+    # Subtest: refuses portfolio.delete over IPC with WRITE_NOT_AUTHORIZED and zero row delta
+    ok 4 - refuses portfolio.delete over IPC with WRITE_NOT_AUTHORIZED and zero row delta
+      ---
+      duration_ms: 1.212046
+      type: 'test'
+      ...
+    # Subtest: no environment flag combination can enable a write
+    ok 5 - no environment flag combination can enable a write
+      ---
+      duration_ms: 1.544025
+      type: 'test'
+      ...
+    # Subtest: the durable store enforces the immutable 1 -> 2 -> 3 -> 4 revision lifecycle
+    ok 6 - the durable store enforces the immutable 1 -> 2 -> 3 -> 4 revision lifecycle
+      ---
+      duration_ms: 18.766774
+      type: 'test'
+      ...
+    # Subtest: a stale expected revision raises RevisionConflictError
+    ok 7 - a stale expected revision raises RevisionConflictError
+      ---
+      duration_ms: 7.592272
+      type: 'test'
+      ...
+    # Subtest: identical content is an idempotent no-op that creates no new revision
+    ok 8 - identical content is an idempotent no-op that creates no new revision
+      ---
+      duration_ms: 5.552103
+      type: 'test'
+      ...
+    # Subtest: invalid requests are rejected and tombstoned reads collapse to RESOURCE_UNAVAILABLE
+    ok 9 - invalid requests are rejected and tombstoned reads collapse to RESOURCE_UNAVAILABLE
+      ---
+      duration_ms: 6.433829
+      type: 'test'
+      ...
+    1..9
+ok 1 - g3 / T-G write gate
+  ---
+  duration_ms: 65.702365
+  type: 'suite'
+  ...
+1..1
+# tests 9
+# suites 1
+# pass 9
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 117.757949
