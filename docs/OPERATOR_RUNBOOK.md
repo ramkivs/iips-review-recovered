@@ -77,12 +77,12 @@ npm run server:dev
 | `EXEC_TRANSPORT_PORT` | listen port (default `8787`) | the Vite proxy assumes `8787` (see §4) |
 | `NODE_ENV=test` | suppresses `listen()` (used by the suites) | normal boot |
 
-The UI proxies `/api` → `http://localhost:8787` (`vite.config.ts:14`). If you change the port, the proxy target must change too, or every screen will show its error state.
+The UI proxies `/api` → `http://localhost:8787` (`vite.config.ts:18`). If you change the port, the proxy target must change too, or every screen will show its error state.
 
 ## 4. Start the UI
 
 ```bash
-cd frontend && npm run dev      # → http://localhost:5173 (host 0.0.0.0)
+cd frontend && npm run dev      # → http://localhost:5173 (host 127.0.0.1 — loopback-only bind and loopback-only allowedHosts since the C8 remediation, PR #157; `vite.config.ts:13`)
 ```
 
 The sidebar then offers Executive, Portfolio, User Portfolios, Watchlists, Collaboration, Settings, the Research and Intelligence children that are built, Screener and Evidence. `Research` and `Intelligence` are group headings, not links: their parent paths have no built workspace, so no click can land on “not yet built” (`App.test.tsx` pins this invariant).
@@ -100,7 +100,7 @@ Read of the **certified reference** data — every screen answers from the froze
 | `GET /api/engines` | `200` | the 13 certified sector engines (no CSIP entry: it is a platform capability, not a sector engine) |
 | `POST /api/engines/sector.technology/execute` | `200` | engine id must be the **certified** id; `technology` → `400 ApiValidationError` |
 | `POST /api/screener` `{"definition":{"definitionId":"RUNBOOK-CONVICTION","version":"1","predicates":[{"field":"conviction","operator":"gte","operand":"50"}]}}` | `200` | `result.matchedCount 12`, `result.totalPopulationCount 13`, `executionStatus COMPLETED`, `evaluatorId NP12-SCREEN-EVALUATOR`; membership is **server-derived**; `executionId 4d0e128b…` is content-addressed |
-| same body with `"predicates":[]` | `200` | `matchedCount 13`, `executionId b76227aa…`, `definitionDigest 1ef5dd80…`; **re-POSTing the identical definition returned the identical `executionId`** (deterministic, no clock, no randomness) |
+| same body with `"predicates":[]` | `200` | `matchedCount 13`, `executionId c865a116…`, `definitionDigest ac7b81f8…`; **re-POSTing the identical definition returned the identical `executionId`** (deterministic, no clock, no randomness). *(Re-verified against the live transport on 2026-10-21 at the Group B head: full values `c865a116318b7260c15e56760e50370f3890d9c6219b5d1e08d943b5a207d0e6` / `ac7b81f8c87b436d0b5521ab1f7d4ce5b7077032ca74a81026de12179cc2e883`, identical across repeated requests. The previously printed prefixes `b76227aa…`/`1ef5dd80…` were measured at an earlier head and are superseded; tracker §16.42.5 recorded the discrepancy, §16.68 records this reconciliation. The `4d0e128b…` conviction sample above was re-verified unchanged at the same head.)* |
 | `POST /api/screener` with a `members` key | `422` | `client-supplied-members-rejected` — population authority is never client-supplied |
 | `GET /api/macro/NAS?indicatorCode=1` | `200` with egress, `502` without | governed MoSPI read surface — see **§5.1** for the full contract, the exact fail-closed shapes and the mounted read-only view |
 | `GET "/api/pit/market-data?securityId=ISIN:INE467B01029:EQ&domain=D01_QUOTES&asOf=2026-12-31T23:59:59.000Z"` | `200` | `found: true`, D114 TCS record, `resolvedAsOf 2026-02-10T15:30:00.000Z`, `dataVersion v1.0.0-d114-historical`, `lineageHash 3f30ac98…`, and the honest identity label `securityIdentity.isinAuthority: NON_AUTHORITATIVE`; `domain=D02_OHLCV` answers with the governed candle instead |
@@ -173,7 +173,7 @@ Do not "fix" a `503`/`404` above by editing the fence: the hashes of `reports-tr
 cd frontend && npm run typecheck && npm run test && npm run build
 ```
 
-Expected at the current head: typecheck exit `0`; vitest **64 files / 705 tests** green; build succeeds (`vite build`, ~257 kB). Green here means *this repository at this commit passes its own checks*; it is not qualification, admission or release for any fenced capability.
+Expected at the current head: typecheck exit `0`; vitest **87 files / 1,077 tests** green; build succeeds (`vite build`, main JS chunk **292.88 kB**, gzip **84.18 kB**). Green here means *this repository at this commit passes its own checks*; it is not qualification, admission or release for any fenced capability. *(Counts and bundle re-stamped 2026-10-21 at the Group B head — the three follow-up discrepancies recorded in tracker §16.42.5: the stale `64 files / 705 tests` note, the stale `~257 kB` bundle note, and the screener digests in §5. Measured with `npm run typecheck`, `npm run test:ci` + `node .ci/assert-tests.js .vitest-report.json`, and `npm run build`. These values move as the repository moves: on mismatch, re-measure at your head against the tracker's current verification baseline rather than treating the runbook number as a fence.)*
 
 ## 9. Troubleshooting by symptom
 
