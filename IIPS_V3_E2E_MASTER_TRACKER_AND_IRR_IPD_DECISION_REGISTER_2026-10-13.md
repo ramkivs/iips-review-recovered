@@ -4424,7 +4424,7 @@ Publication coordinates for this reconciliation are recorded in the receipt appe
 | Repository | `ramkivs/iips-review-recovered` |
 | Branch published | `arena/388234b4-iips-review-recovered` (created on the remote by this act; base `main@687efe2355d3654b4a7c4d9da8d19b61384b800b`) |
 | Reconciliation commit | **`91531a83867a293eb22e3d3aab9855487c755289`** — `docs(tracker): CV-CORR-50 — reconcile all 51 capability rows against current evidence` |
-| Consistency-sweep commit | **`c8d5e0a` (see §16.67.10a)** — four residual cross-references that still contradicted the corrected matrix (C-12…C-15); text-only, no status cell changed |
+| Consistency-sweep commit | **`b0c6e73e8ca97b06359e5c392c7e0d6b2e362a1c`** — four residual cross-references that still contradicted the corrected matrix (C-12…C-15); text-only, no status cell changed. *(A placeholder SHA was first written into this cell and corrected in the following commit; the published history is not rewritten and no force-push is used.)* |
 | Diff | **1 file changed, +154 / −28** — this tracker only; no other path |
 | Pull request | **#168** — OPEN, `MERGEABLE` / `CLEAN`, base `main`, head `91531a83867a293eb22e3d3aab9855487c755289`, 1 changed file (`https://github.com/ramkivs/iips-review-recovered/pull/168`) |
 | PR-head CI | run `39550478475` — check **`Typecheck · Test · Build` passed** (1 m 14 s) |
