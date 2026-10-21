@@ -10,6 +10,7 @@
 | Pre-REG-08 IRR Baseline | Commit `f970028cf633f561c225d66ae4b3864f48afe656`; root tree `bab9782ed104567e571abccc350c75760ff35dca` (merge of PR #75) |
 | **Last Updated** | `2026-10-21` (UTC) — **DEC-06 post-admission reconciliation, §16.70.13**: IPD admission and A6 complete; prior next-action/off-main statements are historical, not pending work. IRR documentation only; no register/count, Row 26, gate or eligibility changes. IPD issues #16/#17 remain a separate issue-permission task. |
 | Previous DEC-06 authority update (historical; superseded as current state) | `2026-10-21` (UTC) — **DEC-06 authority reconciliation (`CV-CORR-53`, §16.70): standing PA authorization reconciled with the DEC-06/P11 main-admission boundary, and the resulting authority recorded.** **Determination:** the standing grant is **project-wide within its established scope** and expressly forbids re-asking approval for individual decisions or routine implementation steps (R-1); the three sentences previously read as a standing-authorization ceiling — Gate C P-2 handoff §2, §16.65.4, and `CHG-2026-10-15-04`'s reading of the first — are **record-scoped** and/or state the enduring anti-inference rules (a general authorization neither **performs** nor **proves** a specific admission), and are **not** a cap on the grant (R-4); explicit later practice (NP-18 2026-10-16; IRR PR #124/#125/#126 2026-10-17; `CHG-2026-10-18-02` used through PR #167/#169) fixes the operative interpretation. **Bounded acceptance ≠ admission is preserved unchanged**; §16.65.4's original text is preserved verbatim with a dated interpretation pointer, and `CHG-2026-10-15-04`'s broader reading is preserved as a dated historical reading and not carried forward. **Exact lineage:** `b6e622432cb0ca3e5452c4194bc683c496a688fc` → `3eaec0edd4f89a806b301d647499ca860c2a1172` (5 paths, +145/−3, five blobs recorded §16.70.6), **not an ancestor of IPD `main@15465e45…`**; IPD PR #36 remains **OPEN / NOT MERGED**. **Refresh:** IPD `main` advanced past the package baseline (`a6ad4a9…`→`15465e45…`), so the package's merge coordinates are **stale as coordinates only** — a dry-run merge onto `15465e45…` is clean, tree **`56ac4796…`**, main's A4/A5 addenda and the candidate's row-13 annotation both preserved (722 lines); re-derivation and re-validation at admission time are conditions C-3/C-4. **Authority established for the next IPD-only execution:** render the `D-06` disposition **in IPD** as its own explicit act and, on C-1…C-9, admit exactly this lineage by merge commit — **no further PA approval required**; default disposition **ADMIT**, with the package's Option B conditions adopted as mandatory post-admission obligations (C-7). **No admission is performed, claimed or proven here**; Gate 3 remains BLOCKED / NOT ACCEPTED, and all fences, deferrals, Stage A/A13 bounds, pins and IPD (read-only) are untouched. Documentation-only; **0 register movements** (35 items, 51 rows, 17 `XV`, 8 stages, 11 §19 rows unchanged); verification rows **V154–V160** added. Publication coordinates recorded post-merge, never self-embedded — receipt verified at **§16.70.12**: IRR PR #173 MERGED `2026-10-21T16:32:30Z`, merge **`bf14a7c4…`**, post-merge CI `39635695373` `success`, tracker blob `f29941ac…` / companion record `4be3ea57…` on `main`. |
+| Previous update summary (Gate 3 native-Windows milestone, `2026-10-22`; §16.69–§16.72) | **Native Windows direct TAP full suite — PASS: 754 total, 750 passed, 0 failed, 0 cancelled, 4 skipped, exit 0** at base `3eb13ed` with patch `5745647e…`, the exact three-file candidate (operator-supplied, not Arena-observed; canonical Windows `npm test` wrapper FAILED on its summary parser). Corroborated in Arena: 57 source = 57 compiled test files; the 3-test pass/skip delta is exactly four `posixOnly` skips on Windows versus one `windowsOnly` skip on Linux, pass+skip conserved. **Act-conformance defect found and corrected:** `673ec75` changed the §4.1-frozen `.github/workflows/ci.yml` to a two-leg matrix, so the as-tested candidate failed §10.1 condition 1 at a frozen non-manifest path; conformant candidate `de09b2d` restores the anchor — 22 manifest additions, 0 modified existing files, all 10 anchors byte-stable.** Act-basis drift recorded:** `main` is now 31 commits / 94 files past the "immutable" `be32d8c9`, so condition 1 cannot hold for a merge onto current `main` without a PA amendment (draft `G3-AMEND-01`). **Gate 3 remains BLOCKED / NOT ACCEPTED** — condition 1 is authority-blocked and condition 7 is publication-blocked (no `contents:write` on IPD; PR #34 still OPEN at `3eb13ed`). |
 | Previous update summary (historical; preserved) | `2026-10-21` (UTC) — **Group B execution pass (`CV-CORR-51`, §16.68):** **ROUT-01** — PR #167 **MERGED** (merge `4cc936ad772169f9f23a4e57492ccf67552dc0d3`, `2026-10-21T14:12:25Z`; post-merge CI run `39614816916` `success`) — the Gate 3 Stage-2 root-cause correction report is on `main`. **CAP-01** — consumer-level separate-process post-restart read proofs added for **§18 rows 9/10/11** (Watchlists, Collaboration, Settings incl. reset): focused **3/3 passed**; full suite **87 files / 1,077 tests / 0 failed** (guard OK); typecheck exit `0`; build exit `0` (main JS chunk **292.88 kB** / gzip **84.18 kB**); the recorded "consumer-specific recovery not separately proven" gap is closed by this publication (cells re-recorded post-merge); zero product-code change. **ROUT-03** — the three Row 47 runbook follow-ups reconciled against live sources and re-stamped (test count; empty-predicate screener prefixes `c865a116…`/`ac7b81f8…` verified against the running transport with repeated-request determinism; bundle size), plus two source-verified adjacent cites (`vite.config.ts:18` proxy line; loopback-only dev-host note). No `server:dev` script was invented (it exists); no independent-reader run was claimed. **DEC-04** — `CV-40` closed by PA-directed finality: dated line in `REG-13`; `A6-IMPL-10` Option B deferral recorded **FINAL FOR THIS PRODUCT**; counts disposition-closed `1→2`, deferred `3→2`, active outstanding `11→10`, total `35` unchanged; NP-12 NOT implemented; the record is not implementation authority; Rows 7–8 scope preserved. **ROUT-02** — CV-CORR-50 receipt post-merge addendum (PR #168 MERGED `d3d72991…`); §16.62 IRR-side supersession (PR #157 merge `75680333…`; IPD side still absent from IPD `main@3d44e0a1…`, PR #34 OPEN); §16.65 PR #164 MERGED note (`99b90d03…`); CV-20 row refresh (G3-D3…D7 rendered §16.59; act EFFECTIVE §16.62; Gate 3 remains BLOCKED / NOT ACCEPTED); §16.53.2 request-blob cite refreshed (`ac4b4025…`); §17/§19 dated refreshes. **ROUT-07** — §16.38.5 bounded NP-18 admission clarification (no new acceptance gate; no browser observation performed or claimed). **DEC-01/02/03/05** — evidence and authority boundaries recorded only (§16.68.8); no PA decision rendered, inferred or fabricated. Gate 3 remains **BLOCKED / NOT ACCEPTED** (operator-owned native-Windows acceptance outstanding); all `503` fences, recorded deferrals and IPD (read-only) untouched. This pass's publication coordinates are recorded post-merge (§16.68.10), never self-embedded. |
 
 ---
@@ -4837,3 +4838,140 @@ This receipt does not reopen or alter the determination at §§16.70.4–16.70.8
 | V162 | Historical records preserved; current tracker banner, §16.70, §17 and §19 overlays reconciled; no CV/XV or matrix movement; IRR-only documentation diff and whitespace checks. |
 
 Publication follows the normal IRR PR/check/merge workflow. Exact IRR PR, merge and remote artifact blob coordinates are established after publication and reported in the completion report, not self-embedded as a future fact.
+
+## 16.69 Gate 3 IPC connection-release correction (`CV-CORR-52`, `2026-10-21`)
+
+Executed repository-side remediation of the native-Windows IPC defect. This section records executed work and verified facts only. It renders no Gate 3 acceptance, admits nothing, and lifts no fence.
+
+### 16.69.1 Root cause (proven, not inferred)
+
+| Fact | Evidence |
+|---|---|
+| Capacity is one | `src/ipc/endpoint.ts` `listenIpc`: `server.maxConnections = options.maxConnections ?? 1` (C5.4) |
+| Node releases a slot only on destruction | `lib/net.js` `Socket.prototype._destroy`: `this._server._connections--` — the sole decrement; `end()`, FIN and peer disconnect do not release it |
+| The check precedes the handler | `lib/net.js onconnection`: `if (self.maxConnections != null && self._connections >= self.maxConnections) { … clientHandle.close(); return; }` — returns **before** `self.emit('connection', socket)` |
+| The flush-guard path never closed the handle | `3eb13ed` wrote the response with `socket.end(frame)`; `libuv/src/win/pipe.c` `uv__pipe_shutdown` is a `FlushFileBuffers` with no half-close primitive |
+
+Consequence: the first request of a server lifetime succeeded and every subsequent connection was dropped by the runtime before the handler existed → **zero bytes**. This explains the reported 9 pass / 1 fail whole-file run versus a 1/1 name-filtered run (filtering removes the earlier IPC calls that consumed the slot), with normal exit and no timeout.
+
+### 16.69.2 Contract decision (act-sourced)
+
+Governing text: act §4.2 item 11 (protocol — "one request and at most one response per connection; pipelined frames refused"); §4.2 item 13 (dispatch — "Class P refusals with zero bytes and connection close"); §4.3 row `tests/g3_ipc_framing.test.ts` (T-A — zero bytes and connection close for oversize/malformed/`v ≠ 1`/unknown `op`/truncated/pipelined frames, plus sink-only audit assertions); request §6.2 row T-A ("Zero bytes; connection closed (Class P)"). `IRR PKG-11 §E` and `PKG-12` are **not present as documents in either repository** and were not relied upon; no rule was invented in their absence.
+
+- **Pre-flush second frame** — zero bytes, connection closed, `MALFORMED_FRAME` in the bounded sink. **Unchanged**; this is the case T-A governs.
+- **Post-flush second frame** — the response is legitimate and delivered; the handle is closed, so the frame cannot reach the server. The one-frame invariant is enforced **structurally**: exactly one response, the second frame never dispatched, no second response. Zero-byte refusal cannot apply, and a post-flush sink record is unobservable.
+- **Unreachable frame (connection closed)** — satisfied by non-existence of the connection, a stronger guarantee than observing the frame.
+
+Rationale for yielding the post-flush diagnostic: observing it requires an open handle, which consumes the only capacity slot; a bounded window would hold the slot and drop a promptly-following request, reinstating the defect. Capacity release is required behaviour. Recorded as a design decision under the act citations above — **not** a protocol change and **not** a weakening of the pre-flush guarantees.
+
+### 16.69.3 Implementation (within the act manifest)
+
+| Path | Basis | Change |
+|---|---|---|
+| `src/ipc/dispatch.ts` | §4.2 item 13 | Flush-guard response written via `writeFrame` (`socket.write`) instead of `endFrame`; handle **closed as soon as the frame flushes**; `attachPostFlushWatch` and the unused `responded` flag removed; `finally` closes any remaining flush-guard exit |
+| `tests/g3_ipc_framing.test.ts` | §4.3 T-A | Three emulation assertions re-pointed from "socket stays open" to "handle released"; real-socket Windows branch asserts exactly one response frame and no second response bytes |
+| `tests/g3_binding_resolution.test.ts` | §4.3 T-C | New describe: five sequential requests across one server lifetime, capacity released to zero, recovery after a zero-byte Class P refusal |
+
+**No new file** (act §4.3 fixes the set at 8). `scripts/run-tests.mjs`, `ci.yml` and all endpoints, startup and persistence sources are untouched.
+
+### 16.69.4 Validation (POSIX — not native Windows)
+
+`npx tsc` exit `0`; `npx vite build` success; `npm test` → `# tests 754`, `# pass 753`, `# fail 0`, `# skipped 1`, 95 suites, `[test-guard] OK`; `node --test dist/tests/g3_*.test.js` → `198 / 197 / 0 / 1`; `g3_binding_resolution` `13/13`; `g3_ipc_framing` `30/30`; flush-guard sequential probe with the Windows policy forced on AF_UNIX → 5/5 served, `accepted = closed = 5`, `getConnections() = 0`. The emulation suite fails **3** tests against unmodified `3eb13ed` and passes with the correction.
+
+**Limitation recorded:** the new T-C sequential tests also pass on the base *on Linux*, because AF_UNIX `end()` closes the socket; they are not a POSIX discriminator for the leak. The POSIX discriminator is the emulation suite; the T-C tests are the native-Windows regression and a guard against a return to write-without-close.
+
+### 16.69.5 Publication
+
+Candidate commit `5fb7efe7b50b73d90651b09bfe2bdd4ff7210787` on `g3/gate3-node-sqlite-ipc-correction-d30003d` (parent `3eb13ed`). **Not published to the IPD remote:** the active App installation token lacks `contents:write` on `ramkivs/iips-production-market-data` — `git push` returns `403 Permission … denied to ramkivs` and API ref creation returns `403 Resource not accessible by integration`, while the same token writes `ramkivs/iips-review-recovered` (probe ref created and deleted). **IPD PR #34 is unchanged.** Artifact `docs/integration/artifacts/g3-connection-release.patch`, `18,900` B, SHA-256 `5745647e32b1da67fb984a7748406921aefb495000dfcbfdd9255133cad5fe0a`, `git apply --check` clean against `3eb13ed`, reproduces the commit byte-for-byte, and rebuilds to `198 / 197 / 0 / 1` independently.
+
+`g3-flush-guard-release.patch` (`a9e0ebd6…`) is **SUPERSEDED**: it added a ninth test file outside the act's fixed set and asserted connection counts without synchronising on the release signal (the operator's *Failure A*). The operator's *Failure B* is independent of both candidates — the framing suite builds its own handler and has never recorded a post-flush diagnostic; IPD PR #34's body already records that test failing at `3eb13ed` with `MALFORMED_FRAME` expected / `undefined` received.
+
+### 16.69.6 Outstanding acceptance evidence
+
+(1) Native-Windows run of the corrected candidate — **required**; POSIX and fake-socket emulation are not named-pipe evidence. (2) Confirmation that the peer drains the buffered frame before `ERROR_BROKEN_PIPE` after the handle is closed (expected by Windows pipe semantics; unobserved here). (3) Full transcript including the four Windows-skipped test names. (4) The Windows `src/ipc/dispatch.ts` remains a 16,153-byte local file of unverified content; the artifact applies to `3eb13ed`, not to that working tree.
+
+**Gate 3 remains BLOCKED / NOT ACCEPTED** — native-Windows acceptance is outstanding and operator-owned. No merge is authorized.
+
+*End of §16.69.*
+
+## 16.71 Disposition of `g3-connection-release.patch` and Gate 3 blocker reconciliation (`2026-10-21`)
+
+Authoritative status and governance reconciliation for the exact candidate
+`5fb7efe7b50b73d90651b09bfe2bdd4ff7210787` / artifact `5745647e…`, `18,900` B, base `3eb13ed`. Disposition record:
+`docs/integration/IIPS_v3.0_G3_CONNECTION_RELEASE_DISPOSITION_2026-10-21.md`. This section renders no acceptance, admits nothing and lifts no fence.
+
+**Outcome: BLOCKED — acceptance-blocked only. The candidate is within the act's scope and contract-compliant; no correction is required.**
+
+### 16.71.1 Governance determinations
+
+| Question | Determination | Basis |
+|---|---|---|
+| Close the flush-guard connection immediately after the response write | **Authorized** | Act §4.2 item 13 (Class P zero bytes + connection close preserved), §4.2 item 11 (one request / at most one response preserved), and the act-named `src/ipc/protocol.ts:267–273`, which states the post-flush residual verbatim: delivery "cannot … be prevented; its connection is **still closed after exactly one response** and its second frame is never dispatched … a platform limit, not a protocol change" |
+| Asserted **PKG-12** requirement to keep the pipe open and report post-flush trailing data | **Not binding — and not superseded, because it is not an operative record.** `PKG-11`/`PKG-12` occur **nowhere** in either repository, in any ref, any file type, or in IRR commit history; the sole in-repo occurrence is the source comment `src/ipc/dispatch.ts:65`/`:282` ("see IRR PKG-11 §E"), citing a document that does not exist. The IRR `PKG-*` series is `PKG-01…09`, `PKG-02A…02G`, then dated `PKG-03/06/08`. No operative requirement is superseded or preserved — the citation has no referent. If such a record exists outside the two repositories only the PA can produce it | exhaustive `git grep` all refs, `git log --all -S`, filename history |
+| Manifest permits the three changed files | **Yes** — `src/ipc/dispatch.ts` (§4.2 item 13); `tests/g3_ipc_framing.test.ts` (§4.3 T-A); `tests/g3_binding_resolution.test.ts` (§4.3 T-C). §10.1 condition 1 pins the **path set**, not content hashes; condition 5 requires the tests present in the executed sets. **No path added** — contrast the superseded artifact, which added a ninth test file against §4.3's fixed set of eight | act §4.2/§4.3, §10.1 |
+| One-request/at-most-one-response permits removing the post-flush diagnostic | **Yes** — T-A's stated observable ("**zero bytes**; connection closed") is unsatisfiable post-flush, so the row cannot govern that case; the refusal duty attaches to frames the server can still observe. The pre-flush pipelined refusal (zero bytes, close, `MALFORMED_FRAME` in the sink) is **unchanged**. Retaining a post-flush record needs an open handle, which consumes the only C5.4 slot and reinstates the defect | act §4.3 T-A, §4.2 item 11 |
+| Write-callback + destroy satisfy delivery and capacity | **Capacity: established** (`Socket._destroy` is the sole `_connections--`; measured `accepted = closed = 5`, `getConnections() = 0`). **Delivery: expected sound, unverified** — callback means the frame is in the OS pipe buffer and `CloseHandle` preserves buffered data, but this is **not** native evidence | source + measurement |
+
+### 16.71.2 Verification (re-executed this pass from the published artifact on a pristine `3eb13ed`)
+
+Artifact → tree `1200a701…` = candidate commit tree; `git apply --check` CLEAN; `npx tsc` exit `0`; `npm test` **754 executed / 753 passed / 0 failed / 1 skipped**, 95 suites, guard OK; Gate 3 suites **198 / 197 / 0 / 1**; `g3_ipc_framing` + `g3_binding_resolution` **43 / 43**. §10.1 condition 3's threshold (non-zero count, ≥ 556, zero failures) met on POSIX.
+
+### 16.71.3 Reconciliation with the reported native-Windows run
+
+The reported **33 tests / 31 passed / 2 failed** belongs to the **superseded** artifact `g3-flush-guard-release.patch`, confirmed arithmetically: its suites are `g3_ipc_framing` (30) + `g3_flush_guard_connection_release.test.ts` (3) = 33. **Failure A** (`expected 0, actual 1`) is in that ninth test file, which does not exist in the current candidate; the T-C regression instead waits on the server's own `close` events, bounded at 5 s. **Failure B** (diagnostic `undefined`) is in a suite that builds its **own** handler and never `createConnectionHandler`, so it has never recorded a post-flush diagnostic; IPD PR #34's body already records this test failing at `3eb13ed` — the assertion predates both candidates, and it is now aligned to the contract rather than deleted. **No native-Windows result of any kind exists for `5fb7efe7…`.**
+
+### 16.71.4 Blocker reconciliation (corrects the §16.68.6 / §16.69 framing)
+
+Those entries describe Gate 3 as blocked "pending operator-owned native-Windows acceptance". That is inaccurate against the act: **§10.2** places Windows named-pipe/ACL and host zero-byte behaviour in **Gate 4 / Gate C** ("executed by the operator … and accepted by a separate act"), while **§10.1** defines Gate 3 acceptance as CI at named commits on `ubuntu-latest`. Gate 3 is in fact blocked because **§10.1 conditions 1, 3 and 5 cannot be evaluated**: the candidate is **not on the IPD remote** (token lacks `contents:write` — `git push` `403`; API ref creation `403 Resource not accessible by integration`; the same token writes this repository), and IPD PR #34 remains **OPEN unmerged at `3eb13ed`**. Native-Windows evidence is separately absent and remains a Gate 4 precondition for any runtime claim. **Gate 3 remains BLOCKED / NOT ACCEPTED**; no status is changed and nothing is accepted.
+
+### 16.71.5 Smallest authorized next step
+
+Grant `contents:write` on `ramkivs/iips-production-market-data` (or have the operator push artifact tree `1200a701…` to the candidate branch), then execute the single Windows validation procedure. **No code change is required to unblock.**
+
+*End of §16.71.*
+
+## 16.72 Gate 3 native-Windows evidence, act conformance and acceptance eligibility (`2026-10-22`)
+
+Records the operator-supplied native Windows result, a material act-conformance defect found and corrected, the act-basis drift, and the acceptance-eligibility determination. Full record: `docs/integration/IIPS_v3.0_G3_NATIVE_WINDOWS_EVIDENCE_AND_ACCEPTANCE_ELIGIBILITY_2026-10-22.md`. Renders no acceptance.
+
+### 16.72.1 Native Windows evidence (operator-supplied; not Arena-observed)
+
+**Native Windows direct TAP full suite — PASS: 754 total, 750 passed, 0 failed, 0 cancelled, 4 skipped, exit 0**, at base `3eb13ed`, patch SHA-256 `5745647e…` (18,900 B), the exact three-file candidate, worktree `C:\Users\USER\Downloads\G3\connection-release-validation-20261022-011815`, log `…g3-connection-release-direct-tap-20261022-013113.log`. Canonical Windows `npm test` wrapper: **FAILED** on its summary parser (suite itself passed) — not a passing command on Windows, and not to be represented as one. Corroborated by Arena independently: 57 source = 57 compiled test files; totals 754 = 754; the 3-test pass/skip delta is exactly the 4 `posixOnly` skips on Windows versus 1 `windowsOnly` skip on Linux, with pass+skip conserved.
+
+### 16.72.2 Act-conformance defect found in the candidate lineage
+
+The act (§4.1) freezes `.github/workflows/ci.yml` at `aeee464f…` and authorizes **zero** modifications to existing IPD files; §7 states "No change" for that path. Commit `673ec75` changed it to a two-leg `ubuntu`+`windows` matrix (`f5af260e…`, +10/−2), and `3eb13ed` (PR #34 head) inherited it unchanged. **The as-tested candidate therefore differed from the pinned basis at a frozen, non-manifest path and failed §10.1 condition 1.** No amendment authorizes it; the only amendment records in IRR are the G2 DP-1 amendments.
+
+**Corrected:** conformant candidate `de09b2d64531594aaaaec0d70bd90939ad5d1e01` (tree `5edb9fe7…`) restores the frozen anchor on top of the tested patch — 22 manifest additions, **0** modified existing files, **0** paths outside the manifest, all **10** §4.1 anchors byte-stable, `frontend/**` and `iips-platform/**` untouched, and the three tested files byte-identical to the tested hashes. Because `ci.yml` is never executed by `node --test`, the native result remains applicable to the conformant candidate without re-running the suite.
+
+### 16.72.3 Act-basis drift (authority-level, unresolved)
+
+`main` is now `c0e1b56` — **31 commits and 94 files** past the act's "immutable" basis `be32d8c9`; the act's recorded statement "No material drift" is no longer true. §10.1 condition 1 as literally written ("no path outside the §4 manifest differs from `be32d8c9`") cannot hold for a merge onto current `main`. Resolving it requires a PA amendment re-pinning the basis or a ruling that condition 1 be evaluated on the PR diff against its merge base. Draft `G3-AMEND-01` recorded at §8 of the record.
+
+### 16.72.4 Test-runner disposition
+
+**No change made and none authorized.** No PA ruling authorizes a `scripts/run-tests.mjs` correction, and correcting it would expand the manifest outside §4 — the same defect class as §16.72.2. §10.1 condition 3 requires `npm test` as CI runs it; §10.2 records CI as `ubuntu-latest` only, where the wrapper **passes** (`754 executed, 753 passed, exit 0`). The Windows wrapper failure is a host-level Gate 4 item, not a Gate 3 blocker. The direct TAP route is permissible host evidence and is not a substitute for the wrapper; neither is misrepresented.
+
+### 16.72.5 Acceptance eligibility — NOT eligible
+
+| §10.1 | Status |
+|---|---|
+| 1 manifest / no outside path | **MET** at `de09b2d`; **FAILED** at as-tested `3eb13ed`; unmet for a merge onto current `main` absent amendment |
+| 2 IRR §5.3 blobs `cb8db45d…`/`51704c12…` | **MET** — verified byte-identical at IRR `HEAD` |
+| 3 IPD `tsc`/`build`/`npm test` ≥556, zero failures | **MET on ubuntu-latest**; **FAILED on Windows** (host-level per §10.2) |
+| 4 IRR ≥814 tests | **NOT VERIFIED** this pass (recorded 814 at PR #157) |
+| 5 §4.3 tests present and named | **MET** — 8/8 |
+| 6 guards and both fence blobs unchanged | **MET** — all 10 anchors byte-stable |
+| 7 record with CI run identifiers at exact commits | **NOT MET** — requires IPD publication, which is blocked |
+
+Validation this pass on `de09b2d` (POSIX): `npx tsc` exit `0`; focused IPC **43/43**; full wrapper **754 executed / 753 passed / 0 failed / 1 skipped**, `[test-guard] OK`, exit `0`; manifest and frozen-anchor audits PASS; artifacts apply cleanly to both `be32d8c9` and `3eb13ed`.
+
+### 16.72.6 Publication
+
+Artifacts published in this repository: `g3-connection-release-conformant.patch` (`be32d8c9` base, `195,830` B, `5f38f941…`) and `g3-ciyml-conformance-delta.patch` (`3eb13ed` base, `19,992` B, `fec82129…`), alongside the unchanged Windows-tested `g3-connection-release.patch` (`5745647e…`). **IPD publication is BLOCKED**: the App token lacks `contents:write` on `ramkivs/iips-production-market-data` (`403`), and **PR #34 remains OPEN unmerged at `3eb13ed`**; no IPD CI run can exist for the candidate.
+
+### 16.72.7 Status
+
+**Gate 3 remains BLOCKED / NOT ACCEPTED.** Basis-exact, fully validated candidate exists and the native Windows full suite passed on byte-identical code; acceptance is withheld because §10.1 condition 1 (for a merge onto current `main`) is authority-blocked and condition 7 is publication-blocked. No Gate 4/QE, Gate 5, production eligibility, `503` lift or `durable:true` is granted or implied.
+
+*End of §16.72.*
