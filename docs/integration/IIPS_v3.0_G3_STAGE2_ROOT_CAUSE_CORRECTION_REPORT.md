@@ -108,7 +108,9 @@ The report is committed to `arena/b9288e60-iips-review-recovered` and pushed to 
 
 ## 8. IRR commit/push outcome
 
-<to be filled in after the push attempt>
+- Commit `46e20f4` on `arena/b9288e60-iips-review-recovered`, pushed to `origin` (https://github.com/ramkivs/iips-review-recovered.git) — push exit 0, no 403; branch is publicly readable at the remote.
+- Pull request #167 opened from `arena/b9288e60-iips-review-recovered` to `main`: https://github.com/ramkivs/iips-review-recovered/pull/167 (opened only; not merged — Gate 3 remains BLOCKED / NOT ACCEPTED).
+- IPD-side remote publication: not performed (session binding requires all pushes to `arena/b9288e60-iips-review-recovered` only); corrected IPD commits `6f37a93` and `e4554ed` exist on branch `g3-r6-root-cause-correction` in the local IPD clone at `/home/user/iips-production-market-data` (worktree artifact). No fork or mirror created; IRR publication is not claimed as an IPD publication.
 
 ## 9. Native-Windows checks still required (Gate 4)
 
