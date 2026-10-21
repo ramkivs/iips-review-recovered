@@ -4413,8 +4413,21 @@ Assigned per §16.67.3 rule 4. The 17 cells remain the authoritative per-dimensi
 
 Publication coordinates for this reconciliation are recorded in the receipt appended as §16.67.10 after remote verification; nothing in this section asserts publication before it is verified.
 
-### 16.67.10 Publication receipt
+### 16.67.10 Publication receipt (verified)
 
-*Pending remote verification at the time of writing; appended on completion of the publication step in the same session.*
+| Coordinate | Value |
+|---|---|
+| Repository | `ramkivs/iips-review-recovered` |
+| Branch published | `arena/388234b4-iips-review-recovered` (created on the remote by this act; base `main@687efe2355d3654b4a7c4d9da8d19b61384b800b`) |
+| Reconciliation commit | **`91531a83867a293eb22e3d3aab9855487c755289`** — `docs(tracker): CV-CORR-50 — reconcile all 51 capability rows against current evidence` |
+| Diff | **1 file changed, +154 / −28** — this tracker only; no other path |
+| Pull request | **#168** — OPEN, `MERGEABLE` / `CLEAN`, base `main`, head `91531a83867a293eb22e3d3aab9855487c755289`, 1 changed file (`https://github.com/ramkivs/iips-review-recovered/pull/168`) |
+| PR-head CI | run `39550478475` — check **`Typecheck · Test · Build` passed** (1 m 14 s) |
+| Remote read-back at the commit | contents API `?ref=arena/388234b4-iips-review-recovered` → blob **`830a5fdfa6eb0450c427045260bb0a1b832f1158`**, **1,038,698 bytes**, raw `sha256` **`fca5f98b38d4b3421bc2ba3f4895416d994fa06a75bb3b158b3aea211a7c2d96`**; the downloaded bytes are **byte-identical** to the local worktree file (`cmp` clean) |
+| Remote content re-check on the downloaded copy | **51** matrix rows × **17** columns recovered; row 4 existence/acceptance/qualification, row 24 existence, rows 9/38 recovery, row 47 acceptance, row 32 `350 behind`, `CV-38` **CLOSED**, the `16`/`11` counts and §16.67 (including `V144`) all present |
+| Merge status | **NOT MERGED — and not requested here.** Merging is a separate Program Authority act (`H-18 §8.3(b)`); this record asserts publication of the branch and PR only, never `main` membership |
+| Publication limit stated | `main` was **not** modified by this act; the tracker on `main` remains at its pre-reconciliation content until a PA-authorized merge. No claim of `main` membership is made above |
+
+*This receipt adds text only; it changes no status cell, count or boundary.*
 
 *End of §16.67. This section reconciles status only. It renders no decision, admits nothing, lifts no fence, and creates no capability; where a row still carries an open dimension, the cell — not this summary — is the record.*
