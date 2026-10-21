@@ -66,7 +66,7 @@ No other files were touched: `.github/workflows/ci.yml`, `package.json`, `packag
 
 ## 5. Arena validation results (Linux; supplementary only — not native Windows)
 
-All runs at commit `e4554ed` (IPD `be32d8c9` + recovered 22-path candidate + corrections), Node `v22.22.3`, npm `10.9.8`.
+All runs at commit `1353cfe` (IPD `be32d8c9` + recovered 22-path candidate + corrections), Node `v22.22.3`, npm `10.9.8`.
 
 | Check | Command | Result |
 |---|---|---|
@@ -77,7 +77,7 @@ All runs at commit `e4554ed` (IPD `be32d8c9` + recovered 22-path candidate + cor
 | Suite termination / cleanup | Process exit code of the runner | exit 0; `handle.stop()` closes listeners in `after()`; `closeDatabase()` resets the process sqlite singleton in `after()`/`afterEach()`; FakeSocket emulation asserts listener counts (`data`/`end` cleared, caller `error` preserved) |
 | Guard parser validation | standalone replication of the parsing logic | 10/10 cases pass: canonical format; `ℹ` marker prefixed; mojibake prefix/suffix; CRLF; genuinely missing summary (fail closed); nonzero failure count (fail closed); zero-test execution (fail closed); incomplete summary (fail closed); inconsistent outcome sum (fail closed) |
 
-Comparison with the pre-correction baseline (`6f37a93`, the recovered candidate unmodified): identical counts on Linux (751/750/0/1/0), because Linux exercises the half-close-required path; the correction targets the flush-guard (Windows named-pipe) path which cannot be executed on Linux. The emulation suite is the available Windows-path validation and passes.
+Comparison with the pre-correction baseline (`24b70f8`, the recovered candidate unmodified): identical counts on Linux (751/750/0/1/0), because Linux exercises the half-close-required path; the correction targets the flush-guard (Windows named-pipe) path which cannot be executed on Linux. The emulation suite is the available Windows-path validation and passes.
 
 **Limitation stated explicitly:** Arena cannot execute native Windows named-pipe semantics. Everything above except the labeled emulation is POSIX/Linux. Gate 3 remains BLOCKED / NOT ACCEPTED until the corrected candidate passes native-Windows acceptance on the deployment host.
 
@@ -87,7 +87,7 @@ Comparison with the pre-correction baseline (`6f37a93`, the recovered candidate 
 - `git diff --cached -- src/ipc src/persistence tests/g3_*.test.ts` SHA-256: `b7724357e572ab60e53fe808c084b78a6f2d921b04733f36b43a97da550ea7d1` (computed by me over the `git diff` serialization; the recorded value `9713e74b08560f4bb79726389a28b5f8884450ebcac498d86c695edafef6688b` could not be reproduced because the exact patch serialization used to record it is unspecified — reported as an honest discrepancy, not a match).
 - File-level byte match to the authorized patch cannot be independently proven: the recovered Windows-branch commit object `93a5834b…` is not available; contents were taken from the published PR #34 head `3eb13ed`, which is the only available source containing exactly the 22 new paths on `be32d8c9`.
 
-**Correction diff** (`6f37a93` → `e4554ed`): SHA-256 `8904818c94b33c23f6070bbb9705b4835671043d428561a1b0bde9f2f09d0d3d` over `git diff 6f37a93 e4554ed`.
+**Correction diff** (`24b70f8` → `1353cfe`): SHA-256 `d9efc983ea2d7c0d0a32f88c1ac6664f4f3fa6ad12cd32bdf1d87eda6b0033b8` over `git diff 24b70f8 1353cfe`.
 
 **Authorization boundary:**
 - `src/ipc/dispatch.ts` and `tests/g3_ipc_framing.test.ts` are inside the authorized 22-path manifest (§4.2 item 13, §4.3 T-A) → corrected under existing authority.
@@ -97,8 +97,8 @@ Comparison with the pre-correction baseline (`6f37a93`, the recovered candidate 
 
 | Item | Status |
 |---|---|
-| IPD baseline commit | `6f37a93` gate3: recovered Round-6 candidate baseline (22 new files at IPD `be32d8c9`) |
-| IPD correction commit | `e4554ed` gate3: root-cause correction of flush-guard response path (Stage 2) |
+| IPD baseline commit | `24b70f8` gate3: recovered Round-6 candidate baseline (22 new files at IPD `be32d8c9`) |
+| IPD correction commit | `1353cfe` gate3: root-cause correction of flush-guard response path (Stage 2) |
 | IPD branch | `g3-r6-root-cause-correction` (local clone of `ramkivs/iips-production-market-data`; workspace artifact) |
 | IRR session branch | `arena/b9288e60-iips-review-recovered` (this report committed here) |
 | IRR remote push | Attempted as part of this session; outcome recorded below |
@@ -110,13 +110,13 @@ The report is committed to `arena/b9288e60-iips-review-recovered` and pushed to 
 
 - Commit `46e20f4` on `arena/b9288e60-iips-review-recovered`, pushed to `origin` (https://github.com/ramkivs/iips-review-recovered.git) — push exit 0, no 403; branch is publicly readable at the remote.
 - Pull request #167 opened from `arena/b9288e60-iips-review-recovered` to `main`: https://github.com/ramkivs/iips-review-recovered/pull/167 (opened only; not merged — Gate 3 remains BLOCKED / NOT ACCEPTED).
-- IPD-side remote publication: not performed (session binding requires all pushes to `arena/b9288e60-iips-review-recovered` only); corrected IPD commits `6f37a93` and `e4554ed` exist on branch `g3-r6-root-cause-correction` in the local IPD clone at `/home/user/iips-production-market-data` (worktree artifact). No fork or mirror created; IRR publication is not claimed as an IPD publication.
+- IPD-side remote publication: not performed (session binding requires all pushes to `arena/b9288e60-iips-review-recovered` only); corrected IPD commits `24b70f8` (baseline) and `1353cfe` (correction) exist on branch `g3-r6-root-cause-correction` in the local IPD clone at `/home/user/iipd` (workspace artifact). The IPD correction patch and 22-path stat are served as downloadable artifacts at `/ipd-artifacts/` on the preview port. No fork or mirror created; IRR publication is not claimed as an IPD publication.
 
 ## 9. Native-Windows checks still required (Gate 4)
 
 None of the following were executed (Arena is Linux-only):
 
-1. Full `g3_*` suite end-to-end on the Windows deployment host (`desktop-no0nhtp`), Node ≥ `22.13.0` with `node:sqlite` flag-free, against the exact corrected commit `e4554ed`.
+1. Full `g3_*` suite end-to-end on the Windows deployment host (`desktop-no0nhtp`), Node ≥ `22.13.0` with `node:sqlite` flag-free, against the exact corrected commit `1353cfe`.
 2. Named-pipe response delivery: exactly one complete framed response per valid request; zero-byte responses only for Class P refusals; `ERR_BUFFER_OUT_OF_BOUNDS` eliminated on healthy clients.
 3. Delayed second frame on a real named pipe: no second response; `MALFORMED_FRAME` recorded when observable (pre-flush); connection terminated after flush.
 4. Process exit / socket and listener / timer cleanup and database teardown on both success and failure paths.
