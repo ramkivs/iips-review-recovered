@@ -5034,10 +5034,20 @@ Artifacts published in this repository: `g3-connection-release-conformant.patch`
 | V169 | IRR protected files check: Gate 3 Act (`4744e6f4…`), `DEC-06` (`4be3ea57…`), `Q1` (`Q1_PORTFOLIO_DECISION_ACT`), `owner-context-unavailable.ts` (`cb8db45d…`), `user-portfolio-transport.ts` (`51704c12…`), C8 lines verified untouched | **PASS** — documentation-only diff |
 | V170 | Section & `CV-CORR-*` uniqueness check across all IRR files after renumbering colliding section to `§16.73` (`CV-CORR-54`) and adding `§16.74` (`CV-CORR-55`) | **PASS** — `0` duplicate `16.5`–`16.74` headings; `CV-CORR-52`…`CV-CORR-55` unique |
 | V171 | `§18` capability matrix structure & `git diff --check` validation across workspace | **PASS** — `51` rows × `17` columns unchanged; `git diff --check` clean |
-| V172 | Remote publication via IRR PR on `arena/049b3738-iips-review-recovered`, green hosted CI (`Typecheck · Test · Build`), merge to `main`, and post-merge remote verification | **PASS** — recorded in `§16.74.7` receipt post-merge |
+| V172 | Remote publication via IRR PR #178 (`75afd9aba066f5ec20629d6f3e6db55686aa0902`) on `arena/049b3738-iips-review-recovered`, green hosted CI (`39761362756` / `119766066076`), merge to `main` (`26940a711c90574337056422579903f98a81b2bf`), green post-merge `main` CI (`39761564206` / `119766738349`), and remote SHA-256 verification | **PASS** — exact coordinates recorded in `§16.74.7` below |
 
 ### 16.74.7 Publication status and post-merge receipt obligation
 
-Published on session branch `arena/049b3738-iips-review-recovered` and merged to `ramkivs/iips-review-recovered` `main` via IRR pull request with passing `Typecheck · Test · Build` checks; post-merge commit SHA, CI run ID and remote artifact SHA-256 read-back are appended directly below immediately after merge, never self-embedded before the event.
+Published on session branch `arena/049b3738-iips-review-recovered` and merged to `ramkivs/iips-review-recovered` `main` via IRR pull request **#178** with passing `Typecheck · Test · Build` checks; post-merge commit SHA, CI run ID and remote artifact SHA-256 read-back are recorded below:
+
+- **PR #178 head commit:** `75afd9aba066f5ec20629d6f3e6db55686aa0902` — hosted `pull_request` `Typecheck · Test · Build` run **`39761362756`** / check **`119766066076`** **`SUCCESS`**.
+- **Merged `main` commit (`PR #178`):** `26940a711c90574337056422579903f98a81b2bf` — hosted `push` `Typecheck · Test · Build` run **`39761564206`** / check **`119766738349`** **`SUCCESS`**.
+- **Remote `origin/main` blob & SHA-256 read-backs (`26940a711c90574337056422579903f98a81b2bf`):**
+  1. `docs/integration/IIPS_v3.0_G3_AMEND_01_BASIS_DRIFT_AND_EVIDENCE_BOUNDARY_2026-10-22.md` — blob `94171eaa2a519e3f3026b6e1e224028c2725061c`, SHA-256 `45f132c7112a803ffe36b91da35d07cf1cacd3aa90680ad38ada8350233c5361` (`30,242` bytes).
+  2. `docs/integration/IIPS_v3.0_G3_NATIVE_WINDOWS_EVIDENCE_AND_ACCEPTANCE_ELIGIBILITY_2026-10-22.md` — blob `4ffbfd97cafa64e5ad0f5a5d9ea090bfc74373f1`, SHA-256 `fcd8266f2669efd695cabe992a3fa8a17816eef6d37e3dde9e6937e19af347b4` (`20,226` bytes).
+  3. `docs/integration/IIPS_v3.0_G3_CONNECTION_RELEASE_DISPOSITION_2026-10-21.md` — blob `3d820b3c2cf527d227a6bee32232df3a5bf2190e`, SHA-256 `8d57c2fc58411b5a9a6522bad133dd8d5a82078c6c49bba4c6c006869338dbee` (`13,425` bytes).
+  4. `docs/integration/2026-10-18/BASELINE-AND-DECISION-PACKET-INDEX.md` — blob `19e5d5dfb559a967ce967fd56948079a0ac0e83c`, SHA-256 `29372c74797a3d46db1ab765e0d7f0ad8bfad041c898b1c944236f3bdcdda54f` (`25,882` bytes).
+  5. `docs/integration/IIPS_v3.0_G3_GATE3_IMPLEMENTATION_AUTHORITY_ACT_EFFECTIVE_2026-10-19-02.md` — blob `4744e6f44e0caea55e980756aeef90a5046ec87e`, SHA-256 `f4992f9ced681ffddd0d8eaf1f3de297f2262f1eb0b3131ce18b95805725abf5` (`51,662` bytes — unchanged).
+- **Gate 3 disposition unchanged:** **Gate 3 remains `BLOCKED / NOT ACCEPTED`**; IPD PR #41 (`d15582d68167461e814ec8f7873dc18e3df5ab71`) remains **`OPEN / UNMERGED`** pending Program Authority determination on `G3-AMEND-01`.
 
 *End of §16.74.*
