@@ -6142,7 +6142,7 @@ IPD branch `q1/broker-import-durability`; candidate tip **`15bf191e4032ad94d364f
 | Item | Verified value |
 |---|---|
 | IPD `refs/heads/main` (start → end) | `1cceacfff40f22dbc9cd64906bf26a5feac1075e` → **`73fd8c1644e9725c9a5499e14d42efdfcb4fe2f2`** (tree `66020736919befa5e5320550a396187cd351b40e`) |
-| IRR `refs/heads/main` (start → end) | `518988965429bd3c5a785a547846600c61a493f5` → **`685a804d2da3f1074af1481ddd86d6a26f04fd75`** (PR #196, an unrelated Gate 4 packet pass merged during this one; no file overlap with this pass's changes) |
+| IRR `refs/heads/main` (start → end) | `518988965429bd3c5a785a547846600c61a493f5` → **`462c5f03c143c5804b3fdff4c3fc066860056674`** (PR #196 `MERGED` at `685a804d2da3f1074af1481ddd86d6a26f04fd75` then PR #202 `MERGED` `2026-10-22T18:41:23Z` at `462c5f03c143c5804b3fdff4c3fc066860056674` — parents `685a804d2da3f1074af1481ddd86d6a26f04fd75` + `adc44fdd6157fa52e5eed8aa62a42fe9d3115aa5`, tree `07cfb21cd812b972ef8eeea2984abbbd47e9797f`, 5 files `+110/5` tracker, `+262/0` GOV-03 record, `+13/0` GOV-04/05, `+13/3` + `+21/6` adapter — verified `ls-remote` + GH API `verified:true`; post-merge push CI `39833567781` `success` (PR CI `39832506674` `success`); PR #196 is now the immediate base with no file overlap) |
 | Runtime for every executed check | Linux, Node **v22.22.3** — **not** the Gate 4 host, **not** Windows |
 
 ### 16.82.2 GOV-03 — review, independent execution, merge
