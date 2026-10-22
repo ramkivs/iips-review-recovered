@@ -501,7 +501,7 @@ describe('ipcPortAdapter — the revisions operation', () => {
     expect([...V1_TO_G2_ENVELOPE_GAP.revisionEntry.missingFromV1].sort()).toEqual(
       ['holdingsCount', 'provenanceDigest', 'totalMarketValue'].sort(),
     );
-    expect(V1_TO_G2_ENVELOPE_GAP.revisionEntry.renamedInV1).toEqual({ committedAt: 'createdAt' });
+    expect(V1_TO_G2_ENVELOPE_GAP.revisionEntry.renamedInV1).toEqual({});
 
     const { port } = adapter(
       success([
@@ -534,7 +534,8 @@ describe('ipcPortAdapter — the revisions operation', () => {
       ['isSaved', 'provenanceDigest', 'weightSumPercentage'].sort(),
     );
     expect([...V1_TO_G2_ENVELOPE_GAP.portfolioView.missingFromV1]).toEqual(['isSaved']);
-    expect(V1_TO_G2_ENVELOPE_GAP.portfolioSummary.renamedInV1).toEqual({ holdingsCount: 'totalHoldingsCount' });
+    expect(V1_TO_G2_ENVELOPE_GAP.portfolioSummary.renamedInV1).toEqual({});
+    expect(V1_TO_G2_ENVELOPE_GAP.portfolioView.renamedInV1).toEqual({});
     expect(Object.isFrozen(V1_TO_G2_ENVELOPE_GAP)).toBe(true);
   });
 
