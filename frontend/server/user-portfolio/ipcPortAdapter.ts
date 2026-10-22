@@ -149,9 +149,23 @@ export function outcomeUnknownMessage(write: boolean, reason: 'TIMEOUT' | 'TRANS
  * type or interface, and fabricating a value IRR never received would violate the
  * platform's no-fabricated-values principle, so the adapter **refuses** instead.
  *
- * Accepted v1 §6 already uses `holdingsCount` and `committedAt`, exactly as
- * G2 does. There are no contract-level renames; older implementation spelling
- * defects are not contract definitions. The empty rename maps record that fact.
+ * Two of the required fields are **renamed**, not merely absent, and the rename
+ * maps below record that: accepted v1 §6 spells the collection count
+ * `holdingsCount` on both `PortfolioSummary` and `PortfolioDetail`, while the
+ * frozen IRR types spell it `totalHoldingsCount`
+ * (`userPortfolioContract.ts` lines 301 and 255); and v1 §6 spells the revision
+ * commit timestamp `committedAt`, while frozen `G2RevisionEntry` spells it
+ * `createdAt` (`userPortfolioContract.ts` line 315). A rename is a mapping
+ * question, not a missing-data question, so it is recorded separately from
+ * `missingFromV1`.
+ *
+ * (Correction, 2026-10-22: an earlier revision of this comment emptied the
+ * rename maps on the premise that "v1 already uses `holdingsCount` and
+ * `committedAt`, exactly as G2 does". That premise is false for the IRR side —
+ * G2 uses `totalHoldingsCount` and `createdAt` — so the maps are restored to
+ * the names the frozen types actually require. The maps are diagnostic
+ * metadata only: no wire shape, refusal path or HTTP behaviour depends on
+ * them.)
  *
  * The refusal uses `UPSTREAM_UNAVAILABLE`, whose own frozen definition already
  * covers a "contract-envelope violation".
@@ -166,15 +180,16 @@ export function outcomeUnknownMessage(write: boolean, reason: 'TIMEOUT' | 'TRANS
 export const V1_TO_G2_ENVELOPE_GAP = Object.freeze({
   portfolioSummary: Object.freeze({
     missingFromV1: Object.freeze(['weightSumPercentage', 'provenanceDigest', 'isSaved'] as const),
-    renamedInV1: Object.freeze({} as const),
+    // v1 property -> frozen G2 property (a mapping requirement, not missing data).
+    renamedInV1: Object.freeze({ holdingsCount: 'totalHoldingsCount' } as const),
   }),
   revisionEntry: Object.freeze({
     missingFromV1: Object.freeze(['totalMarketValue', 'provenanceDigest', 'holdingsCount'] as const),
-    renamedInV1: Object.freeze({} as const),
+    renamedInV1: Object.freeze({ committedAt: 'createdAt' } as const),
   }),
   portfolioView: Object.freeze({
     missingFromV1: Object.freeze(['isSaved'] as const),
-    renamedInV1: Object.freeze({} as const),
+    renamedInV1: Object.freeze({ holdingsCount: 'totalHoldingsCount' } as const),
   }),
 } as const);
 

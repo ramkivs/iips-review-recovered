@@ -104,3 +104,16 @@ Uncreated future commits must be supplied by the responsible act, never guessed 
 **Current verdict:** GOV-04 remains operationally unproved and blocked on applicable provisioning, unpublished producer implementation, contract decision/remediation and qualified read evidence. GOV-05 remains BLOCKED / REFERENCE ONLY; Gate 5 NOT GRANTED / NOT STARTED. GOV-03 remains not complete. Gate A′ APPROVED — NOT EXECUTED; Gate C NOT EXECUTED; Gate 4 NOT AUTHORIZED / NOT STARTED. No capability/status count changes are supported.
 
 Publication of this packet advances the compatibility determination, corrects false contract-rename metadata, supplies reproducible real cross-repository refusal/isolation evidence and gives exact decision requests; it is not a repetition-only status update. Publication coordinates for this pass are the containing PR, actual merge SHA and associated CI, verified separately rather than self-embedded.
+
+---
+
+**Correction appended `2026-10-22` (later pass; `CV-CORR-64`, tracker §16.82; `IIPS-V3-GOV03-MERGE-AND-GOV04-GOV05-RECONCILIATION-2026-10-22-01`).**
+
+§3's closing paragraph and §4's statement that this pass "corrects false contract-rename metadata" are **withdrawn**. The premise they rest on — *"Accepted v1 §6 actually uses `holdingsCount` and `committedAt`, the same as G2"* — is true of contract v1 but **false of the frozen IRR types**, which are the binding consumer shape:
+
+- `G2PortfolioSummary.totalHoldingsCount` (`frontend/server/user-portfolio/userPortfolioContract.ts` line 301) and `G2PortfolioView.totalHoldingsCount` (line 255) versus v1's `holdingsCount` — a **rename**, not a match;
+- `G2RevisionEntry.createdAt` (line 315) versus v1's `committedAt` — a **rename**, not a match.
+
+The `V1_TO_G2_ENVELOPE_GAP.renamedInV1` maps were therefore **restored** to `{holdingsCount → totalHoldingsCount}` (summary), `{holdingsCount → totalHoldingsCount}` (view) and `{committedAt → createdAt}` (revision entry), and the three test assertions that had locked in the empty maps were corrected. `V1_TO_G2_ENVELOPE_GAP` is exported diagnostic metadata only: no refusal path, message template, wire serializer or HTTP route reads it, so no behaviour changed (verified: `tsc --noEmit` 0; `ipcPortAdapter.test.ts` 46/46; full `npm test` 87 files / 1,077 passed / 0 failed; `npm run build` 0).
+
+**Effect on the decision request in §3:** the gap is **seven missing fields plus three property renames (two distinct v1 properties)**, so it is **not** additive-only. An additive contract revision cannot close it by itself; an explicit IRR-side mapping authorisation is also required. The decision request stands with that addition. Nothing else in this record is superseded.
