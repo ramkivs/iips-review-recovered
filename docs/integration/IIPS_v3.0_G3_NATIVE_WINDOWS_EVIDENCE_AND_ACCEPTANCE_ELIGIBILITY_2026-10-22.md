@@ -3,6 +3,8 @@
 **Date:** 2026-10-22 (UTC). **Author:** Arena Agent. **Session branch:** `arena/17d363e9-iips-review-recovered`.
 **Gate 3 status: BLOCKED / NOT ACCEPTED.** Formal acceptance is **not** rendered; §10.1 conditions remain unmet — see §6.
 
+> **Currency pointer (`2026-10-22`, post-PR-#41 additive reconciliation — tracker `§16.74` / `CV-CORR-55`):** The historical body of §§1–9 below is preserved intact as the pre-publication record of `arena/17d363e9`. Following its merge (`PR #176`), the operator published conformant commit **`d15582d68167461e814ec8f7873dc18e3df5ab71`** (`g3/windows-validated-20261022-145739`, exact root tree **`5edb9fe79e7e907be661ea10c7021a96be762821`**) on **IPD PR #41**, where hosted GitHub Actions CI run **`39755870871`** (`119747608450` / `119747795175`) passed (**784 executed, 783 passed, 0 failed**), and IRR's full suite was freshly re-executed (**87 files / 1,077 tests passed / 0 failed**). See **§10 below** and the full prepared packet [`IIPS_v3.0_G3_AMEND_01_BASIS_DRIFT_AND_EVIDENCE_BOUNDARY_2026-10-22.md`](./IIPS_v3.0_G3_AMEND_01_BASIS_DRIFT_AND_EVIDENCE_BOUNDARY_2026-10-22.md). **Gate 3 remains `BLOCKED / NOT ACCEPTED` and IPD PR #41 remains `OPEN / UNMERGED` pending explicit Program Authority determination on `G3-AMEND-01`.**
+
 **Environment boundary.** Arena has not accessed the operator's Windows filesystem, worktree or log. The
 native result in §1 is operator-supplied evidence quoted as supplied. All other findings are from
 repository data reachable from Arena.
@@ -259,3 +261,20 @@ native Windows full suite has passed on byte-identical code. Formal acceptance i
 §10.1 conditions 1 (for a merge onto current `main`) and 7 are unmet, the first for an authority reason
 and the second for an environmental one. No Gate 4/QE, Gate 5, production eligibility, `503` lift or
 `durable:true` is granted or implied.
+
+---
+
+## 10. Post-PR-#41 Additive Reconciliation (`2026-10-22`; `CV-CORR-55` / Tracker `§16.74`)
+
+The pre-PR-#41 statements in §§1.2, 4, 5.2, 6, 7, 8, and 9 are preserved as event-time history and reconciled against live repository state verified on `2026-10-22`:
+
+1. **Candidate publication & provenance reconciled (preserving prior limitation):**
+   - Ephemeral sandbox commit `de09b2d64531594aaaaec0d70bd90939ad5d1e01` (§2.3) remains absent from all remote refs (provenance limitation preserved).
+   - Operator-published **IPD PR #41** (`ramkivs/iips-production-market-data#41`, branch `g3/windows-validated-20261022-145739`, commit **`d15582d68167461e814ec8f7873dc18e3df5ab71`**, parent `3eb13ed637ac61bd971da1a06883da4b4564447b`, merge base `be32d8c95a86b3f03bd382ccde5b6398efb351c6`) **remotely materializes the exact same root tree `5edb9fe79e7e907be661ea10c7021a96be762821`**, including `.github/workflows/ci.yml` restored to `aeee464feb76e2d1e9d104e1cae4e5dde37700ad` and exact LF SHA-256s `8466c704…` (`src/ipc/dispatch.ts`), `ffbce918…` (`tests/g3_binding_resolution.test.ts`), and `6ae6a2ac…` (`tests/g3_ipc_framing.test.ts`).
+2. **Hosted CI on PR #41 (`ubuntu-latest`) verified:**
+   - GitHub Actions workflow run **`39755870871`** (`https://github.com/ramkivs/iips-production-market-data/actions/runs/39755870871`) on merge preview commit **`ce25a184d3dc22cd2d6e5c0ff9f277f3d541de5d`** (tree `b2dd2debb295fa28bda7efdd70a66b4cfe9337a9` = `main@c0e1b566…` + `d15582d6…`): check **`119747608450`** (`typecheck · build · test`) = **`SUCCESS`**; check **`119747795175`** (`executed test count`) = **`SUCCESS`** (**`784 tests executed — 783 passed, 0 failed`**, `1` `windowsOnly` skipped). Windows `npm test` (`scripts/run-tests.mjs`) remains **FAILED** on its summary parser and is **never** represented as passing; direct TAP (`750` passed, `0` failed, `4` skipped) remains separate operator-supplied evidence.
+3. **IRR §10.1 Condition 4 freshly re-verified:**
+   - Executed live in `frontend/` at `1d414609ce5fdfd4c61afb65b53ec196f3ddc25b`: `npm run typecheck` exit `0`, `npm run test:ci` **87 files / 1,077 tests passed / 0 failed**, `assert-tests: OK — 87 test file(s), 1077 test(s), 0 failed`, `npm run build` exit `0` (matching hosted IRR CI run `39669391014` `success`).
+4. **Refinement to §8 (`G3-AMEND-01` Question 1) & remaining boundary:**
+   - Between `be32d8c9…` and `c0e1b566…`, **3 of the 10 §4.1 anchors** legitimately updated on `IPD main` in PA-authorized PRs (`portfolio-store.ts` `3bf852b9… → b900a248…` in PR #30; `security_master.ts` `e260fd90… → 60030e0c…` in PRs #28/#30; `package-lock.json` `d3d7b12b… → 98ae3c63…` in PR #32), while **10/10** match `be32d8c9…` at `d15582d6…` and **10/10** match `c0e1b566…` at `ce25a184…` (`0` modifications by PR #41). Full evaluation and prepared PA decision text are recorded in [`IIPS_v3.0_G3_AMEND_01_BASIS_DRIFT_AND_EVIDENCE_BOUNDARY_2026-10-22.md`](./IIPS_v3.0_G3_AMEND_01_BASIS_DRIFT_AND_EVIDENCE_BOUNDARY_2026-10-22.md).
+   - **Gate 3 remains `BLOCKED / NOT ACCEPTED`** and **IPD PR #41 remains `OPEN / UNMERGED`** pending explicit PA determination on `G3-AMEND-01` and operator/token write access on IPD (`git push --dry-run` verified `HTTP 403`).
