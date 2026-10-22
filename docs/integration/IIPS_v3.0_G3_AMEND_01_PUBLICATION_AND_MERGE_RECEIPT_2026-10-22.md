@@ -38,7 +38,24 @@
 
 **Governing act unchanged by this publication** — identical blob, SHA-256 and size to its original published state.
 
-### 1.2 Diff shape of the publication
+### 1.2 Publication of this receipt (second, bounded lag — recorded so no coordinate is inferred)
+
+| Field | Verified value |
+|---|---|
+| Receipt commit (PR head) | **`7ee9e7b1c2d568cc0bfab303ef691937dfa2fe19`** |
+| IRR pull request | **#181** — `state: MERGED`, `mergedAt: 2026-10-22T10:36:54Z` |
+| PR-head CI | workflow `CI` run **`39764240435`** (`pull_request`, `2026-10-22T10:35:28Z` → `10:36:46Z`) — **`success`**; check `119775613416` |
+| Merge commit on `main` | **`588685d2827615475540dee514f6bca5087a4633`** |
+| Post-merge `main` CI | workflow `CI` run **`39764425552`** (`push`, `2026-10-22T10:36:57Z` → `10:37:52Z`) — **`success`** |
+| `git ls-remote origin refs/heads/main` | **`588685d2827615475540dee514f6bca5087a4633`** — agreed |
+| This receipt at `main@588685d2…` | blob `d00704964056ca5264af004b434a8971eb070926`, SHA-256 `4242820daacda9aa2d16d072f2350dd6ea5305489f7e29a92257aed9f77c1f5e`, 13,615 B |
+| Tracker at `main@588685d2…` | blob `16aea9682669d317e1ad38d6e8f4b2857ff565d2`, SHA-256 `558dccef95ad989a9002a7192a5e5e91be739b9786dbbb0731b6a8472bc065d9`, 1,191,594 B |
+| Instrument at `main@588685d2…` | **unchanged** — blob `85ba78e6…`, SHA-256 `cf6d72b5…`, 47,104 B |
+| Governing act at `main@588685d2…` | **unchanged** — blob `4744e6f4…`, SHA-256 `f4992f9c…`, 51,662 B |
+
+**Bounded lag, stated rather than hidden.** Following the repository's established receipt convention, each receipt records the publication that preceded it. The publication of this coordinate update is the only unrecorded lag; it changes Markdown only and can add nothing to the instrument's effectiveness, which was already established at §2.
+
+### 1.3 Diff shape of the publication
 
 Five Markdown paths only — one new instrument, the tracker, the packet index, and two dated pointers whose bodies were preserved. **No** application, test, route, dependency, lockfile, workflow, listener, CORS, persistence, fence or configuration path changed. 0 register movements.
 
