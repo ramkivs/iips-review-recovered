@@ -60,7 +60,7 @@ Verified exhaustively this pass:
 | Search | Result |
 |---|---|
 | `PKG-11` / `PKG-12` across **all refs** of `ramkivs/iips-production-market-data`, **all file types** | one hit: `src/ipc/dispatch.ts` lines **65** and **282** — a code comment |
-| `PKG-11` / `PKG-12` across **all refs** of `ramkivs/iips-review-recovered` | only this session's own reports/artifacts and tracker §16.69 |
+| `PKG-11` / `PKG-12` across **all refs** of `ramkivs/iips-review-recovered` | only this session's own reports/artifacts and tracker §16.73 (`CV-CORR-54`; originally merged under colliding label §16.69) |
 | IRR `git log --all -S"PKG-11"` / `-S"PKG-12"` | only `44dd7cf` — the commit that quotes the comment |
 | Any file ever named `PKG-11*` / `PKG-12*` in IRR history | **none** |
 
@@ -206,7 +206,7 @@ validation in the handoff. No code change is required to unblock.
 
 ## 6. Tracker reconciliation
 
-The tracker (§16.68.6 and §16.69) states Gate 3 remains blocked "pending operator-owned native-Windows
+The tracker (§16.68.6 and §16.73 [`CV-CORR-54`; renumbered from colliding §16.69 in §16.74]) states Gate 3 remains blocked "pending operator-owned native-Windows
 acceptance". That framing is **inaccurate against the act**: §10.2 places Windows named-pipe/ACL and
 host zero-byte behaviour in **Gate 4 / Gate C**, and §10.1 defines Gate 3 acceptance in terms of CI at
 named commits on `ubuntu-latest`.
