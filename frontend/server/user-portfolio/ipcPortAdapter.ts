@@ -149,6 +149,10 @@ export function outcomeUnknownMessage(write: boolean, reason: 'TIMEOUT' | 'TRANS
  * type or interface, and fabricating a value IRR never received would violate the
  * platform's no-fabricated-values principle, so the adapter **refuses** instead.
  *
+ * Accepted v1 §6 already uses `holdingsCount` and `committedAt`, exactly as
+ * G2 does. There are no contract-level renames; older implementation spelling
+ * defects are not contract definitions. The empty rename maps record that fact.
+ *
  * The refusal uses `UPSTREAM_UNAVAILABLE`, whose own frozen definition already
  * covers a "contract-envelope violation".
  *
@@ -162,15 +166,15 @@ export function outcomeUnknownMessage(write: boolean, reason: 'TIMEOUT' | 'TRANS
 export const V1_TO_G2_ENVELOPE_GAP = Object.freeze({
   portfolioSummary: Object.freeze({
     missingFromV1: Object.freeze(['weightSumPercentage', 'provenanceDigest', 'isSaved'] as const),
-    renamedInV1: Object.freeze({ holdingsCount: 'totalHoldingsCount' } as const),
+    renamedInV1: Object.freeze({} as const),
   }),
   revisionEntry: Object.freeze({
     missingFromV1: Object.freeze(['totalMarketValue', 'provenanceDigest', 'holdingsCount'] as const),
-    renamedInV1: Object.freeze({ committedAt: 'createdAt' } as const),
+    renamedInV1: Object.freeze({} as const),
   }),
   portfolioView: Object.freeze({
     missingFromV1: Object.freeze(['isSaved'] as const),
-    renamedInV1: Object.freeze({ holdingsCount: 'totalHoldingsCount' } as const),
+    renamedInV1: Object.freeze({} as const),
   }),
 } as const);
 

@@ -1,0 +1,50 @@
+{
+  "kind": "diagnostic-not-qualification",
+  "runtime": "Node v22.22.3 / Linux",
+  "baseline": "1cceacfff40f22dbc9cd64906bf26a5feac1075e",
+  "irrBasis": "a3ca1f36f3ad74b96431cffefd7703676d19d46d",
+  "baselineProbe": {
+    "mode": "baseline",
+    "result": "PASS",
+    "operationalBinding": false,
+    "qualified": false,
+    "realSocketFixtureRead": true,
+    "contextSwitchIsolation": true,
+    "refusals": [
+      {
+        "method": "listPortfolios",
+        "message": "The wire contract v1 portfolio.list result does not supply an array result; refusing rather than fabricating a value (contract-envelope violation)."
+      },
+      {
+        "method": "getPortfolio",
+        "message": "The portfolio view result has no string portfolioId (contract-envelope violation)."
+      },
+      {
+        "method": "revisionHistory",
+        "message": "The wire contract v1 portfolio.revisions result does not supply an array result; refusing rather than fabricating a value (contract-envelope violation)."
+      }
+    ]
+  },
+  "candidateProbe": {
+    "mode": "candidate",
+    "result": "PASS",
+    "operationalBinding": false,
+    "qualified": false,
+    "realSocketFixtureRead": true,
+    "contextSwitchIsolation": true,
+    "refusals": [
+      {
+        "method": "listPortfolios",
+        "message": "The wire contract v1 portfolio.list result does not supply weightSumPercentage, provenanceDigest, isSaved; refusing rather than fabricating a value (contract-envelope violation)."
+      },
+      {
+        "method": "getPortfolio",
+        "message": "The wire contract v1 portfolio view result does not supply isSaved; refusing rather than fabricating a value (contract-envelope violation)."
+      },
+      {
+        "method": "revisionHistory",
+        "message": "The wire contract v1 portfolio.revisions result does not supply totalMarketValue, provenanceDigest, holdingsCount; refusing rather than fabricating a value (contract-envelope violation)."
+      }
+    ]
+  }
+}
