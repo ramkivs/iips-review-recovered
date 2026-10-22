@@ -2,8 +2,8 @@
 
 **Prepared record ID:** `IIPS-V3-G4-H12-CANDIDATE-VALIDATION-2026-10-22-01` (documentation-only validation report; not adoption or qualification evidence)
 
-**Status: PARTIAL BASELINE CONTENT-INTEGRITY VALIDATION; FULL VALIDATION BLOCKED.**  
-**Adoption: NOT ADOPTED.**  
+**Status: PARTIAL BASELINE CONTENT-INTEGRITY VALIDATION; FULL VALIDATION BLOCKED.**
+**Adoption: NOT ADOPTED.**
 **Gate 4: PROPOSED — NOT EFFECTIVE / NOT AUTHORIZED / NOT STARTED.**
 
 ## Subject and exact artifact identity
