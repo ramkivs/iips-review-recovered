@@ -228,6 +228,8 @@ Source: `frontend/server/user-portfolio/fenceUnchanged.test.ts` (26), `frontend/
    - `portfolio.revisions` → contract v1's `RevisionEntry` likewise lacks `totalMarketValue`, `provenanceDigest` and `holdingsCount`.
 
    With the candidate's contract-conformant projections applied, **the wire shape stops being the obstacle** and the residual gap is exactly the frozen-G2-type difference above. Closing it requires either **extending the contract v1 result shapes IPD-side** or **an additive Gate 5-era revision of the IRR types** — a governance act, not a code change. The adapter's refusal is the correct behaviour and was left untouched.
+
+   **Cross-repository corroboration.** The IRR adapter's own test already pins the corrected wire shape: it feeds a contract-v1 `RevisionEntry` `{revision, operation, committedAt}` and asserts that the refusal is the **envelope gap** naming exactly `totalMarketValue`, `provenanceDigest`, `holdingsCount` — i.e. the shape check *accepts* contract v1's `committedAt` and refuses only on the frozen-G2 difference; and it asserts `V1_TO_G2_ENVELOPE_GAP.portfolioView.missingFromV1` equals `['isSaved']`. The IRR side therefore already expects exactly the shape the candidate now emits, and no IRR-side change was needed or made.
 4. **Gate 4 qualification** of the read path on the deployment host (`QE-1`, `QE-8`, `QE-11`) and the **separate result-acceptance act**.
 5. **Gate 5 admission (CV-52)** naming the qualified commits and lifting the named `/api/user-portfolios*` operations. Until then every route stays `503`.
 
@@ -297,4 +299,20 @@ No gate, stage, acceptance, qualification or release-readiness status was moved.
 
 ---
 
-**End of record.** Companion tracker section: `IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md` §16.81 (`CV-CORR-62`).
+## 8. Publication receipt
+
+| Item | Value |
+|---|---|
+| IRR PR | **#197** — `MERGED` `2026-10-22T14:59:49Z` |
+| Head / merge | `43d66fb7cc54b4b90cdfd6f662ee73b5bf7c55b6` / **`88481fcba606884b161c35f462b3a5dcaf89c3cb`** (`origin/main` read back at the merge commit) |
+| PR-head CI | run `39798817226` / job `119893332360` — `completed / success` |
+| Post-merge `main` CI | run `39800650641` / job `119900057578` — `completed / success` |
+| Diff scope | 4 paths (2 M / 2 A) — tracker, packet index, this record, the patch artifact; **zero** IRR product, route, CORS, listener, dependency, lockfile, workflow, configuration, persistence, fence or W-1 path |
+| Remote read-back | **4/4 MATCH** (git blob id, byte length and raw SHA-256, fetched from `origin/main@88481fc…`) — tracker `d37edcf29167997b605e0fa9c41870e0a80c4e16` / 1,374,409 B; packet index `11372f758444314f6bbd65d90ad03b5509ac517f` / 42,632 B; this record `3491c21022f7bb7e62ed7a25587c28d3d40f62f1` / 36,936 B; patch artifact `ec963db5fd96ac5c7044144dbefc612ee415cb93` / 72,505 B |
+| Register movement | **0** — `35` / `9` / `51×17` / `17` / `8` / `11` unchanged |
+
+**IPD-side position, unchanged by this receipt.** The candidate is **still unpublished**: this session's IPD installation has `contents:write` denied (`git push` and `POST /git/refs` → `403`). The candidate travels as the verified patch artifact, and the operator handoff is recorded as **IPD issue #44**. A capability probe created earlier in the pass, **IPD issue #43**, remains open because issue update and close are denied to the same installation; it carries no work.
+
+---
+
+**End of record.** Companion tracker section: `IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md` §16.81 (`CV-CORR-62`), receipt at §16.81.11.
