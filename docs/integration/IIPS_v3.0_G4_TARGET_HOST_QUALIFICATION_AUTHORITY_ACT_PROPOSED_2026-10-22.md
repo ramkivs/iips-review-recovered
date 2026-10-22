@@ -4,6 +4,8 @@
 
 > ## STATUS: **PROPOSED — NOT EFFECTIVE — GRANTS NO AUTHORITY — FOR PROGRAM AUTHORITY DETERMINATION**
 >
+> **Current document revision: 4 (corrective consistency review).** Prepared record `IIPS-V3-G4-QUALIFICATION-AUTHORITY-PROPOSAL-2026-10-22-04`; this suffix was collision-checked. The prior revision-3 rendering basis is historical where superseded by §14.
+>
 > - **This document is a proposal.** It is not approved, not rendered, not effective, and it authorizes
 >   nothing. It does **not** implement anything, does **not** execute QE-1…QE-11, does **not** make any
 >   test pass, and does **not** make Gate 4 authorized or started. **Gate 4 remains `NOT AUTHORIZED /
@@ -19,9 +21,9 @@
 >   exclusively by §9 and requires a separate Program Authority determination.
 > - **Reconciliation revision 2:** prepared record `IIPS-V3-G4-QUALIFICATION-AUTHORITY-PROPOSAL-2026-10-22-02`
 >   revises the not-yet-determined PR #190 proposal to fix the exact helper path, complete the parser
->   regression matrix, and record the W-1, Node-22, Gate A′ and QE-11 stop boundaries. It changes no
+>   regression matrix, and record the W-1, Node 22.x/minimum-patch, Gate A′ and QE-11 stop boundaries. It changes no
 >   governing Gate 3 record and renders no PA decision.
-> - **Final proposal revision 3 (this pass):** prepared record `IIPS-V3-G4-QUALIFICATION-AUTHORITY-PROPOSAL-2026-10-22-03`
+> - **Final proposal revision 3 (historical):** prepared record `IIPS-V3-G4-QUALIFICATION-AUTHORITY-PROPOSAL-2026-10-22-03`
 >   completes the act after the determination-resolution pass over **D-1…D-12**
 >   (`docs/integration/IIPS_v3.0_G4_DETERMINATION_RESOLUTION_PACKET_D1_TO_D12_2026-10-22.md`, record
 >   `IIPS-V3-G4-DETERMINATION-RESOLUTION-PACKET-2026-10-22-01`). It adopts the recommended
@@ -31,9 +33,9 @@
 
 | Field | Value |
 |---|---|
-| **Act ID** | **`PENDING ASSIGNMENT`** — PA to assign at determination. **Proposed for adoption:** `IIPS-V3-G4-TARGET-HOST-QUALIFICATION-AUTHORITY-ACT-2026-10-22-01` (determination packet §4.1/§6 Q1; no such identifier exists in either repository — census-verified). The separate **prepared proposal record ID** is `IIPS-V3-G4-QUALIFICATION-AUTHORITY-PROPOSAL-2026-10-22-03`; it is not an effective-act identifier |
-| **Proposal revision** | **Final proposal revision 3** — completes revision 2 with the resolved D-1…D-12 recommendations and the final supporting packet set; supersedes revisions 1–2 as the text put to PA. Revision 1 remains at commit `e7f667f5fdffbcc95513c1de59164de9792da47b` (PR #190), revision 2 at `38d9490d1f39e802a095c1de43b38451884284b7` (PR #191, tracker §16.79) |
-| **Companion determination packet** | `docs/integration/IIPS_v3.0_G4_DETERMINATION_RESOLUTION_PACKET_D1_TO_D12_2026-10-22.md` (`IIPS-V3-G4-DETERMINATION-RESOLUTION-PACKET-2026-10-22-01`) — D-1…D-12 resolutions, D-4 evidence, PA decision sheet (§6). This act carries the operative wording those resolutions recommend |
+| **Act ID** | **`PENDING ASSIGNMENT`** — PA to assign at determination. **Proposed for adoption:** `IIPS-V3-G4-TARGET-HOST-QUALIFICATION-AUTHORITY-ACT-2026-10-22-01` (determination packet §4.1/§6 Q1; no such identifier exists in either repository — census-verified). The current corrective **prepared proposal record ID** is `IIPS-V3-G4-QUALIFICATION-AUTHORITY-PROPOSAL-2026-10-22-04`; earlier `…-03` is historical and neither is an effective-act identifier |
+| **Proposal revision** | **Corrective revision 4** — completes revision 2 with the resolved D-1…D-12 recommendations and the final supporting packet set; supersedes revisions 1–2 as the text put to PA. Revision 1 remains at commit `e7f667f5fdffbcc95513c1de59164de9792da47b` (PR #190), revision 2 at `38d9490d1f39e802a095c1de43b38451884284b7` (PR #191, tracker §16.79) |
+| **Companion determination packet** | `docs/integration/IIPS_v3.0_G4_DETERMINATION_RESOLUTION_PACKET_D1_TO_D12_2026-10-22.md` (`IIPS-V3-G4-DETERMINATION-RESOLUTION-PACKET-2026-10-22-02`) — D-1…D-12 resolutions, D-4 evidence, PA decision sheet (§6). This act carries the operative wording those resolutions recommend |
 | **Act type** | Proposed Gate 4 target-host qualification authority — cross-repository, bounded, fail-closed: (A) Windows canonical test-wrapper summary-parser remediation; (B) operator execution-and-recording authority for QE-1…QE-11 |
 | **Status** | **PROPOSED — NOT EFFECTIVE** — no authority granted |
 | **Prepared date** | `2026-10-22` (UTC) |
@@ -42,9 +44,11 @@
 | **Preparation/publication authority; not execution authority** | Routine investigation, evidence, documentation and publication proceed under the recorded standing grant (F-3 §1.2) and Q1's authorization to work the qualification evidence. Q1 §2 expressly excludes Gate 4 execution, and the later `G3-AMEND-01` §6.4 again requires a separate Gate 4 PA act for runner repair/QE work. **Neither Q1 nor the standing grant makes this act effective.** |
 | **Governing predecessors (all preserved, none modified)** | Gate 3 act `IIPS-V3-G3-IMPLEMENTATION-AUTHORITY-ACT-2026-10-19-02` (blob `4744e6f44e0caea55e980756aeef90a5046ec87e`, SHA-256 `f4992f9ced681ffddd0d8eaf1f3de297f2262f1eb0b3131ce18b95805725abf5`, 51,662 B, **EFFECTIVE**); `G3-AMEND-01` `IIPS-V3-G3-AMEND-01-2026-10-22-01` (blob `85ba78e6cbfe20ed146a53abbfa23a3350140fcf`, SHA-256 `cf6d72b50908c6859d7079b7c7197c88e9d4ed0b6a90813a0b304fcbbd65926a`, 47,104 B, **EFFECTIVE**); Gate 3 acceptance `IIPS-V3-G3-ACCEPTANCE-2026-10-22-01` (blob `f3a6c9a3d15985a78a0945ecfc96019b3a5c425a`, SHA-256 `e1433fac9c1d9d2467409c8c3320c8a49eff6f86f6321a144200a96c679a2e40`, 41,277 B — **`ACCEPTED — BOUNDED GATE 3 IMPLEMENTATION SCOPE ONLY`**) |
 | **Qualification-definition source** | Gate E write policy rev 1 §4 (`IIPS-V3-G2-GATE-E-PORTFOLIO-WRITE-POLICY-2026-10-18-01`, blob `4a9501bffb49abbbc0ba5b5c4f81d2841812913e`), read with L-IPC-1 §10 (`cab04b6f…`), D-GC (`IIPS-V3-G2-IPD-GATE-C-QUALIFICATION-AUTHORITY-2026-10-17-01`, blob `9befe6d8…`) and G2-D3 option (b). Reproduced in the pinned QE matrix below |
-| **Pinned qualification matrix** | `docs/integration/IIPS_v3.0_G4_QE_1_TO_QE_11_QUALIFICATION_MATRIX_2026-10-22.md` — **revision 3**, prepared record `IIPS-V3-G4-QE-MATRIX-PREPARED-2026-10-22-03`; its publication commit, Git blob and SHA-256 are recorded in the tracker §16.80 receipt and govern this act (§5.8). The verbatim QE-1…QE-11 requirements in that matrix are authoritative; this act adds no criterion |
+| **Pinned qualification matrix** | `docs/integration/IIPS_v3.0_G4_QE_1_TO_QE_11_QUALIFICATION_MATRIX_2026-10-22.md` — **corrective revision 4**, prepared record `IIPS-V3-G4-QE-MATRIX-PREPARED-2026-10-22-04`; its publication commit, Git blob and SHA-256 are recorded in the tracker §16.80 receipt and govern this act (§5.8). The verbatim QE-1…QE-11 requirements in that matrix are authoritative; this act adds no criterion |
 | **IPD implementation basis (pinned)** | `ramkivs/iips-production-market-data` `refs/heads/main` @ **`1cceacfff40f22dbc9cd64906bf26a5feac1075e`** (root tree `b2dd2debb295fa28bda7efdd70a66b4cfe9337a9`) — the Gate 3 accepted commit; verified live at preparation (§2) |
-| **IRR rendering basis (pinned for revision 3)** | `ramkivs/iips-review-recovered` `refs/heads/main` @ **`c6ddfccd1e49cb7db9def5b511da385880d60e8a`** (drafting-time live tip; PR #192 merge — the actual publication tip of this revision is recorded in the tracker §16.80 receipt, continuing the tip-plus-receipt practice). Prior bases `4f472283…` (revision 2 drafting) and `04394f3f…` (revision 1) and all drift remain recorded at §§2.2–2.4 |
+| **IRR rendering basis (revision 4)** | `ramkivs/iips-review-recovered` `refs/heads/main` @ **`f741298fc73372a27c822b7f9018702216b59cfd`** (exact current live proposal/documentation basis before this revision; tree `b9e88cde55c0c8694f42f90c60ae3cbce1a081d2`; the publication commit is recorded only after merge in the tracker receipt). Prior bases `4f472283…` (revision 2 drafting) and `04394f3f…` (revision 1) and all drift remain recorded at §§2.2–2.4 |
+| **IRR QE consumer code basis (proposed)** | `ramkivs/iips-review-recovered` commit **`d355d904aa52988e70a98324714886f6a1c0ea2a`**, tree **`e631cf3287fc19a2d1c8f73a0eb5f8d640370e27`** (accepted Gate 3 consumer implementation; candidate H-12 blobs must match before use). This is distinct from the revision-4 documentation pin above. PA confirmation required; any consumer-blob drift stops for explicit reconciliation. |
+| **Future IPD QE execution pin** | Not yet existent: exact final Limb A commit after authorized implementation, merge, green CI, remote read-back and native-Windows canonical `npm test`; it is designated only after it exists and before host/runtime preflight. No future SHA is asserted or silently selected. |
 | **Target host** | `desktop-no0nhtp` (the designated Windows deployment host; Gate 3 act §8.3/§11) |
 | **Label** | `non-production, single-principal, same-host IPC` — unchanged |
 | **Production status** | `NON_PRODUCTION` — production **NOT AUTHORIZED** |
@@ -230,12 +234,7 @@ QE-4), following the field matrix prepared at
    path and SHA-256, `process.version`/`process.versions`, and both repository worktree statuses. WSL,
    Linux, macOS, a hosted `windows-latest` runner and a merely similar Windows machine are not the
    designated deployment host and cannot supply Gate 4 evidence.
-3. **Runtime is a hard preflight, not a PA latitude.** Gate 3 act §8.3 requires **Node major 22**, with
-   minimum **`22.13.0`** (therefore `>=22.13.0 <23`), and flag-free `node:sqlite`. Re-measure the actual
-   executable and run an in-memory `DatabaseSync` open/close probe before qualification. Historical
-   Gate A′ records report Node **`v24.14.0`** on this host; that is historical, not current proof, and
-   **Node 24 does not satisfy the Node-22 policy**. If a compliant Node-22 runtime is not already
-   available, stop. This act does not install, switch, upgrade or amend the runtime.
+3. **Runtime is a hard preflight, not a PA latitude.** Gate 3 act §§8.1 and 8.3 require Node.js **22.x, at least `22.13.0`** (equivalent stable range `>=22.13.0 <23`) and flag-free `node:sqlite`. Re-measure the actual executable and run an in-memory `DatabaseSync` open/close probe before qualification. Historical Gate A′ records report Node **`v24.14.0`**; it exceeds the patch floor but violates the required Node 22 major, and is not current proof. If the actual runtime is not Node 22.x at or above 22.13.0 or fails module/host checks, stop. This act does not install, switch, upgrade or amend the runtime.
 4. **Gate A′ is mandatory and external.** Gate E §4 requires execution after Gate A′ provisioning.
    Require a successful Gate A′ execution record on the same host, with P-1 path preconditions and a
    store/schema compatible with the exact qualified migration blobs. Gate A′ remains
@@ -244,31 +243,44 @@ QE-4), following the field matrix prepared at
    provisioning evidence stops Limb B.
 5. **Order and final commit.** Complete and merge Limb A first; obtain green PR-head and post-merge
    Linux CI and a passing native-Windows canonical `npm test` at the **exact post-merge IPD commit**.
-   Only then start QE. Every QE item must use that same final IPD commit and the rendered-act-designated
-   IRR consumer commit. Evidence from an earlier PR head, PR #41, PR #42 or a direct-TAP candidate does
-   not transfer to the final commit.
+   Only then designate and freeze the QE execution commits before host/runtime preflight: IPD = the
+   exact final merged Limb A commit (future SHA, unknown until authorized implementation completes);
+   IRR = accepted Gate 3 consumer code commit `d355d904aa52988e70a98324714886f6a1c0ea2a` / tree
+   `e631cf3287fc19a2d1c8f73a0eb5f8d640370e27`, provided its H-12 blobs remain unchanged. Record exact
+   commit/tree/remote ancestry and clean status at run start/end. If any IRR consumer code changes, stop
+   for PA reconciliation; do not auto-select the new tip. Evidence from earlier PR heads, PR #41, PR #42
+   or direct-TAP candidates does not transfer.
 6. **Recorded digests and drift.** The IPD lineage must descend from
-   `1cceacfff40f22dbc9cd64906bf26a5feac1075e`; the IRR consumer lineage must descend from the designated
-   Gate 3 consumer lineage (revision-3 documentation basis `c6ddfccd…`, not itself a qualification
-   claim). Record commit, root tree, qualified-surface blob/SHA-256 manifest, clean status and remote
-   ancestry at start and end. The qualified-surface manifest is **`G4-H12-MANIFEST-v2`** as fixed by
-   the determination packet §4.7: **32 mandatory IPD paths** (the revision-2 27 plus
+   `1cceacfff40f22dbc9cd64906bf26a5feac1075e`; the IRR QE consumer code pin is the accepted Gate 3 code commit
+   `d355d904aa52988e70a98324714886f6a1c0ea2a` / tree `e631cf3287fc19a2d1c8f73a0eb5f8d640370e27`;
+   proposal/docs pin `f741298fc73372a27c822b7f9018702216b59cfd` / tree
+   `b9e88cde55c0c8694f42f90c60ae3cbce1a081d2` is separate and does not replace the code pin. Record commit, root tree, qualified-surface blob/SHA-256 manifest, clean status and remote
+   ancestry at start and end. The proposed qualified-surface set **`G4-H12-MANIFEST-v2`** (PA
+   adoption Q7 still required; candidate JSON is not an effective baseline) is defined in the
+   determination packet §4.7: **32 mandatory IPD paths** (revision-2's 27 plus
    `src/identity/security_master.ts`, `src/identity/mapping_store.ts`, `src/identity/quarantine.ts`,
    `frontend/src/features/portfolio/portfolioStorePort.ts`, `frontend/src/features/portfolio/portfolio-store.ts`),
-   **+1 conditional** `scripts/test-summary-parser.mjs` (present-with-digest or recorded `ABSENT`;
-   later appearance = drift), plus the frozen `ci.yml` anchor `aeee464f…`, the IRR consumer/fence set
-   per packet §13.2, and a separate runtime-artifact (`dist`) manifest. **Two hash domains:**
-   repository surfaces by Git-blob SHA-1 + SHA-256 of the blob bytes via `git cat-file blob` (Git
-   stores LF — line-ending-independent, matching the Gate 3 acceptance manifest's LF column);
+   of which 31 are present at the accepted baseline and mandatory future path
+   `tests/g4_run_tests_summary_parsing.test.ts` is absent. Candidate content-integrity validation
+   verified every present entry, criteria reference, historical item and ten frozen anchors, but is
+   **not full manifest validation** while that mandatory file is absent. Do not adopt H-12 now. After
+   the exact final Limb A merge, bind and validate the path and complete manifest, then obtain an
+   express PA adoption/replacement decision **before host/runtime preflight or QE**; absent file,
+   incomplete validation, or no PA adoption is a stop. Also proposed: **+1 conditional**
+   `scripts/test-summary-parser.mjs` (present-with-digest or recorded `ABSENT`; later appearance = drift),
+   all ten Gate 3 §4.1 frozen-anchor identities (eight overlap the 32 paths), the IRR consumer/fence
+   set per packet §13.2, and a separate runtime-artifact (`dist`) manifest. **Two hash domains:**
+   repository surfaces by Git blob object ID (SHA-1) plus SHA-256 over exact `git cat-file blob <commit>:<path>` bytes, without conversion or normalization. LF/CRLF/mixed line endings are byte-significant and counted in the candidate manifest; a CRLF worktree must not replace the pinned Git blob;
    deposit artifacts by SHA-256 of actual deposited bytes with **no normalization** (§5.2(7)). Use the
    same list before Q11-before and after Q11-after; any drift, unexpected repository mutation or
    source/compiled mismatch invalidates the run under QE-11/H-12; later evidence-publication commits
    must be separately identified and must not be represented as the qualified consumer commit.
-   **Commit rule (four parts, D-2):** (i) a commit's qualification results count only after it is the
-   final merged, CI-green, read-back-verified, host-canonical-pass commit (§6.1); (ii) the IRR
-   consumer commit is designated at effectiveness and recorded at run start; (iii) digests recorded at
-   run start and end; (iv) non-documentary drift before execution is a **stop** for PA
-   re-designation — never a silent re-pin.
+   **Commit rule (four parts, D-2):** (i) IPD results count only at the final merged, CI-green,
+   read-back-verified, host-canonical-pass Limb A commit (§6.1); (ii) IRR consumer pin is `d355d904…`
+   at the accepted Gate 3 code baseline, confirmed at effectiveness and used only if H-12 blobs match;
+   the future exact IPD QE commit is designated after Limb A merge and before preflight/run; (iii)
+   commits, trees, ancestry, clean status and digests are recorded at run start and end; (iv) any
+   non-documentary drift is a stop for explicit PA reconciliation, never a silent re-pin.
 7. **Raw evidence and safety.** Publish unedited raw output under exactly one new IRR run directory
    `evidence/integration/gate-4-target-host-qualification-<run-id>/` (`run-id = GQ-<yyyymmdd>-<nn>`
    per H-7; a repeated attempt gets a new run ID), with UTC command transcripts, per-item records,
@@ -324,7 +336,7 @@ QE-4), following the field matrix prepared at
 | Milestone | Required conditions | What it does **not** mean |
 |---|---|---|
 | **Limb A remediation complete** | Exact §4.2 path scope; §4.3 matrix and full suites pass; native-Windows canonical `npm test` passes at the final post-merge IPD commit; PR-head/post-merge CI green; remote commit/tree/blob/SHA-256 read-back matches; no baseline test loss or unexplained skip | Not QE execution, not host qualification, not Gate 4 acceptance |
-| **Gate 4 evidence collection successfully executed** | All QE-1…QE-11 pass on the same final recorded IPD/IRR digests; Gate A′ and runtime preflights pass; raw evidence and all attempts are published/read back; no invalidating drift or unresolved INCONCLUSIVE item; QE-11's subset has also received its separate required acceptance | Still not W-1(3), Gate 5, route admission or production eligibility |
+| **Gate 4 evidence collection successfully executed** | All authorized QE-1…QE-11 attempts are completed on the same final recorded IPD/IRR digests and reported PASS/FAIL/INCONCLUSIVE/INVALID without mislabeling; Gate A′ and runtime preflights pass; raw evidence and all attempts are published/read back; no invalidating drift; QE-11's subset has also received its separate required Gate C acceptance | Still not W-1(3), Gate 5, route admission or production eligibility |
 | **Gate 4 qualification accepted / W-1(3) satisfied** | A **separate Gate 4 result-acceptance act** accepts the complete executed evidence, including the accepted QE-11 subset, and is itself effective | W-1(4) remains false; operational writes and `503` fences remain unchanged until a separate Gate 5 act |
 
 A failed or incomplete run may be closed only as **FAILED** or **INCONCLUSIVE**, with all outputs
@@ -333,8 +345,8 @@ retained. It is not a successful Gate 4 execution and cannot be partially accept
 ### 5.4 Stop conditions (mandatory)
 
 Stop the affected limb immediately on: non-adoption of, or execution outside, the §5.5 write
-mechanism; absent/incompatible Gate A′ evidence; wrong host/account/platform; Node outside
-`>=22.13.0 <23` or failed `node:sqlite` probe; unfixed QE-11 digest set; any digest/worktree drift;
+mechanism; absent/incompatible Gate A′ evidence; wrong host/account/platform; runtime outside
+Node 22.x `>=22.13.0 <23` or failed `node:sqlite` probe; unfixed QE-11 digest set; any digest/worktree drift;
 missing raw output; any required parser case or full-suite regression failing; any need for an
 unlisted file, dependency, runtime installation, configuration change, real-user fixture or product
 repair; or any request to lift W-1, a `503` fence, `SESSION_ONLY`/`durable:false`, PR #42 separation,
@@ -351,25 +363,25 @@ while every production safeguard stays enforced.
 
 | Tier | Boundary | Code path exercised | W-1/fences state |
 |---|---|---|---|
-| **T1 — operational endpoint** | Production configuration, byte-identical: IPC dispatch with W-1 refusal active; read operations live; no env/config change of any kind | `src/ipc/dispatch.ts` write-refusal, Class P, read paths; per-request binding resolution | **Fully enforced** (simultaneously re-demonstrated: row-count zero-delta + no-env-flag probes on the host) |
-| **T2 — disposable-store harness** | D-GC-I extended: absolute fixture paths **outside both repositories**; one copy per scenario; source/copy SHA-256 + timestamp recorded before any write; pre-run backup; authoritative/operator store **never opened, written, or used**; synthetic data only; harness stays operator-side — never wired into `package.json`, `ci.yml`, or the discovered test suite; harness source + SHA-256 deposited in the run manifest | Real compiled components at recorded digests: `DurablePortfolioStore`, `migration_ledger`, `connection` (`synchronous=FULL`), `binding`, and the real `ipc/entrypoint.ts` process bound to the fixture path | **Unchanged in the product**; writes occur on fixture copies as qualification-fixture measurements — never through the endpoint, never as admitted writes |
-| **T3 — identity/port boundary** | In-process against fixture `SecurityMaster` data and the session/in-memory store; part of the frozen qualified surface | `frontend/src/features/portfolio/portfolioStorePort.ts` (`SessionPortfolioStorePort`: caller-key refusal, DP-2 2F `REFUSED_UNRESOLVED_IDENTITY`/`REFUSED_STORE_GUARD` with `refusedHoldings`, session `REVISION_CONFLICT`, no-mutation assertions) + `src/identity/*` | **Unchanged**; `SESSION_ONLY`/`durable:false` vocabulary asserted, not claimed durable |
+| **T1 — operational endpoint** | Production configuration, byte-identical: IPC dispatch with W-1 refusal active; read operations live; no env/config change of any kind | `src/ipc/dispatch.ts` write-refusal, Class P, read paths; per-request binding resolution | **Fully enforced**; any endpoint write is refused before the store; reachable read/refusal observations only |
+| **T2 — disposable-store harness** | D-GC-I extended: absolute fixture paths **outside both repositories**; one copy per scenario; source/copy SHA-256 + timestamp recorded before any write; pre-run backup; authoritative/operator store **never opened, written, or used**; synthetic data only; harness stays operator-side — never wired into `package.json`, `ci.yml`, or the discovered test suite; harness source + SHA-256 deposited in the run manifest | Real compiled components at recorded digests: direct `DurablePortfolioStore`/migration/connection/binding fixture calls for component observations; a separately launched real `ipc/entrypoint.ts` remains subject to the unchanged W-1 dispatch refusal. A direct store call is not an application-path write | **Unchanged in the product**; writes occur on fixture copies as qualification-fixture measurements — never through the endpoint, never as admitted writes |
+| **T3 — identity/port boundary** | In-process against fixture `SecurityMaster` data and the session/in-memory store; part of the frozen qualified surface | `frontend/src/features/portfolio/portfolioStorePort.ts` (`SessionPortfolioStorePort`: caller-key refusal, DP-2 2F `REFUSED_UNRESOLVED_IDENTITY`/`REFUSED_STORE_GUARD` with `refusedHoldings`, session `REVISION_CONFLICT`, no-mutation assertions) + fixture inputs from `src/identity/*`; the port itself reads supplied `identityStatus`/`companyId` and does not call `SecurityMaster`/`resolveCompanyId` | **Unchanged**; `SESSION_ONLY`/`durable:false` vocabulary asserted, not claimed durable |
 
 **Per-item map** (verbatim requirements unchanged; full table = determination packet §4.4.3):
 
-| Item | Primary tiers | Key labeling / limitation rule |
+| Item | Primary tiers / actual path | Evidence class and limitation / acceptance boundary |
 |---|---|---|
-| QE-1 | T1 (caller-field Class P, preflight) + T3 (one-match persists; zero/conflicting refused with quarantine codes) + T2 (persistence of resolved holding) | Durable-path identity gate absent → **limitation finding**, recorded not masked |
-| QE-2 | T1 (no-bypass + zero partial revision) + T3 (DP-2 2F primary) + T2 (row-count integrity) | Same durable-path limitation finding |
-| QE-3 | T1 (tombstone/foreign/missing indistinguishable) + T2 (stale/missing revision, reset/delete semantics) | — |
-| QE-4 | T2 (create + durable commit pre-stop) + **T1 real IRR and IPD processes stopped and restarted** (G2-D3(b)) + read-back via T1 reads + store dumps | Creation limb labeled T2; real-process obligation satisfied by the real processes; observed store behavior recorded as found |
-| QE-5 | T2 both limbs (before/after restart) + T1 read-back | — |
-| QE-6 | T2 transitions + dumps across restart | — |
-| QE-7 | T2 forced termination mid-write + T1 real-entrypoint startup refusal on tampered fixture | Store behavior as found; partial state (if observed) = FAIL finding; **no in-run repair** |
-| QE-8 | T1 post-revocation read/write refusal incl. after restart + endpoint race window; T2 race attempt **supporting evidence only** | W-3 in-transaction race property **NOT EXERCISABLE** under current code → limitation finding; endpoint “no commit ever” observation recorded with its vacuousness stated, never as W-3 proof |
-| QE-9 | T1 (Class P, `WRITE_NOT_AUTHORIZED`, read-side classes) + T2 (store error classes + row counts) + T3 (session-port classes + no mutation) | Every row carries a **code-path label**; class + no-store-effect remain the acceptance test |
-| QE-10 | **Real IRR process (ipcClient) → real IPD endpoint**; post-send server termination yields outcome-unknown; no auto-retry over a fixed window; reconcile-by-read via working reads | Independent of W-1 (transport loss) — no mechanism fiction required |
-| QE-11 | T1 (+ T2/T3 fixtures for Q2/Q4) | Subject to §5.2(8) re-issue and §5.2(6) digest set |
+| QE-1 | T1 caller-field refusal/preflight; T3 may demonstrate a pre-marked `RESOLVED` row saved into `SESSION_ONLY` and unresolved refusal with fixture inputs; the port performs no resolution call; T2 store component only | Durable IPC/persistence identity integration is absent → **limitation finding**; T3/T2 are **component-level**, never durable-path PASS |
+| QE-2 | T1 write fence/no-bypass refusal and zero store effect; T3 session-port DP-2 2F refusal; T2 component row counts | Durable-path DP-2 2F integration absent → **limitation finding**; T3/T2 are component-level |
+| QE-3 | T1 can establish the prescribed reachable read/refusal limbs; T2 exercises positive write lifecycle/revision behavior directly in disposable store | T2 positive-write limbs are **component-level**; overall criterion is not full-path PASS unless every required application path is reachable and shown |
+| QE-4 | T1 processes may be stopped/restarted and reads observed, but dispatch refuses creation; T2 can probe real store commit/restart on a disposable copy | **Component-level only**; full application-path commit/read-back not established because W-1 blocks writes |
+| QE-5 | T2 before/after restart store-method re-import; T1 cannot create the required initial committed contribution | **Component-level** only; no full-path PASS |
+| QE-6 | T2 lineage/attribution transitions and dumps on disposable store copy | **Component-level** only; no full-path PASS |
+| QE-7 | T1 can establish real-entrypoint migration/startup refusal; T2 can destructively inspect actual store component on disposable copies | **Limitation finding** for end-to-end crash atomicity; no explicit multi-statement transaction is present, so full-or-none behavior is not presumed. Any observed partial state is FAIL |
+| QE-8 | T1 can show read refusal after revocation and that writes remain refused; T2 can inspect/test components on disposable copies | **Limitation finding** for write/revocation-race criterion: no binding re-read inside a write transaction; a refusal that always blocks writes is not proof of W-3 |
+| QE-9 | T1 covers only reachable endpoint classes; T2/T3 may produce isolated store/session-port classes | **Component-level** for isolated outcomes; **limitation finding** for inaccessible outcomes masked by write refusal. No overall PASS until every required class is shown through its required path |
+| QE-10 | T1 may show client no-retry behavior and reconcile-by-read for reachable refusals; T2 can probe isolated transport/client behavior | **Limitation finding** for outcome-unknown after an accepted write: W-1 prevents that application state; client-only results are component-level |
+| QE-11 | T1 for host/endpoint Q2/Q3/Q4/Q9/Q10/Q11; Q1 records-only; T2/T3 supplemental only | Per-Q classification applies; Q9 mandatory; test PASS is not Gate C acceptance; separate Gate C then Gate 4 acceptance |
 
 **Prohibited side effects (all tiers):** no edit to `evaluatePortSaveGuard`, dispatch, or any W-1
 path; no environment variable, flag, or configuration value that changes write behavior; no HTTP
@@ -420,24 +432,24 @@ it, the rev-2 stop-rule governs and QE-2…QE-9 cannot execute.**
 ### 5.8 Acceptance criteria per QE item (pinned reference)
 
 The authoritative, verbatim acceptance criteria for every item are the QE matrix fields at
-`docs/integration/IIPS_v3.0_G4_QE_1_TO_QE_11_QUALIFICATION_MATRIX_2026-10-22.md` (**revision 3**,
-record `IIPS-V3-G4-QE-MATRIX-PREPARED-2026-10-22-03`; the publication commit/blob/SHA-256 of that
+`docs/integration/IIPS_v3.0_G4_QE_1_TO_QE_11_QUALIFICATION_MATRIX_2026-10-22.md` (**corrective revision 4**,
+record `IIPS-V3-G4-QE-MATRIX-PREPARED-2026-10-22-04`; the publication commit/blob/SHA-256 of that
 matrix are recorded in the tracker §16.80 receipt and govern this act). No criterion may be
 redefined to become easier to pass. Core condition per item (orientation; the matrix controls):
 
-| Item | Core acceptance condition (from the authoritative matrix) | Mechanism |
+| Item | Core acceptance condition (unchanged) | Actual tier evidence and classification boundary |
 |---|---|---|
-| QE-1 | exactly-one resolution ⇒ persists; zero/conflicting ⇒ whole-request `REFUSED_UNRESOLVED_IDENTITY` + quarantine before serialization/port/store; caller identity fields refused; zero partial state; host Node/`node:sqlite` recorded | T1+T2+T3 |
-| QE-2 | unresolved/ambiguous write refused (DP-2 2F); no bypass emitted/accepted; no partial revision (row counts equal) | T1+T2+T3 |
-| QE-3 | missing `expectedRevision` ⇒ `INVALID_REQUEST`; stale ⇒ `REVISION_CONFLICT`; tombstoned ⇒ `RESOURCE_UNAVAILABLE` indistinguishable; `reset`/`delete` semantics per W-10 with history preserved; zero store effect on refusals | T1+T2 |
-| QE-4 | create → durable commit → **stop both IRR and IPD** → restart both → byte-for-byte equal holdings, contributions, revisions; no partial state | T2+T1 real processes |
-| QE-5 | identical `contentDigest` ⇒ `ALREADY_IMPORTED_NO_OP`, no new revision — before **and** after restart | T2 |
-| QE-6 | contribution SHA-256 lineage + broker attribution identical after restart and after `REPLACE`/`RESET`; history preserved | T2 |
-| QE-7 | forced termination mid-write ⇒ full committed revision or none, never partial; tampered/unverified migration ⇒ startup refusal (no endpoint, no fallback, non-zero exit) | T2+T1 |
-| QE-8 | post-revocation reads and writes refused incl. after restart; revocation racing a write never yields a post-revocation commit; G2-D5 five-point posture observed — **with the §5.5 W-3 limitation finding recorded** | T1 (+T2 supporting) |
-| QE-9 | every W-15 condition produces **its** class (per-row code-path label) and row counts before = after | T1+T2+T3 |
-| QE-10 | no IRR auto-retry after outcome-unknown; outcome surfaced as unavailable (never success/failure); reconcile-by-read demonstrated | real processes |
-| QE-11 | Q1–Q4/Q9–Q11 each **passes** at recorded digests incl. mandatory C5.1/Q9 zero bytes (N≥10 cold + 10 warm), before/after digests equal (`G4-H12-MANIFEST-v2`), **and is accepted** only by the separate Gate C result-acceptance act; Q1 records-only; `PARTIAL — Q5–Q8 DEFERRED` | T1 (+fixtures) |
+| QE-1 | exactly-one resolution ⇒ persists; zero/conflicting ⇒ whole-request `REFUSED_UNRESOLVED_IDENTITY` + quarantine before serialization/port/store; caller identity fields refused; zero partial state; host Node/`node:sqlite` recorded | T1 caller refusal + T3 session-only/T2 store component only; durable identity path is a **limitation finding**, not PASS |
+| QE-2 | unresolved/ambiguous write refused (DP-2 2F); no bypass emitted/accepted; no partial revision (row counts equal) | T1 refusal + T3/T2 components; durable-path identity integration is a **limitation finding** |
+| QE-3 | missing `expectedRevision` ⇒ `INVALID_REQUEST`; stale ⇒ `REVISION_CONFLICT`; tombstoned ⇒ `RESOURCE_UNAVAILABLE` indistinguishable; `reset`/`delete` semantics per W-10 with history preserved; zero store effect on refusals | T1 read subcriteria + T2 direct store; positive write/lifecycle results are **component-level**, not full-path |
+| QE-4 | create → durable commit → **stop both IRR and IPD** → restart both → byte-for-byte equal holdings, contributions, revisions; no partial state | T2 direct store + T1 process/read only = **component-level**; W-1 blocks full-path commit |
+| QE-5 | identical `contentDigest` ⇒ `ALREADY_IMPORTED_NO_OP`, no new revision — before **and** after restart | T2 direct store = **component-level**; no full-path PASS |
+| QE-6 | contribution SHA-256 lineage + broker attribution identical after restart and after `REPLACE`/`RESET`; history preserved | T2 direct store = **component-level**; no full-path PASS |
+| QE-7 | forced termination mid-write ⇒ full committed revision or none, never partial; tampered/unverified migration ⇒ startup refusal (no endpoint, no fallback, non-zero exit) | T1 startup test + T2 component; crash atomicity remains **limitation finding** until full criterion demonstrated |
+| QE-8 | post-revocation reads and writes refused incl. after restart; revocation racing a write never yields a post-revocation commit; G2-D5 five-point posture observed — **with the §5.5 W-3 limitation finding recorded** | T1 read refusal only; W-3 write/race remains a **limitation finding**; no full-path PASS |
+| QE-9 | every W-15 condition produces **its** class (per-row code-path label) and row counts before = after | T1 reachable rows; T2/T3 components; inaccessible rows are **limitation findings**, no overall PASS |
+| QE-10 | no IRR auto-retry after outcome-unknown; outcome surfaced as unavailable (never success/failure); reconcile-by-read demonstrated | client-only T1/T2 component evidence; accepted-write outcome-unknown is a **limitation finding** while W-1 refuses writes |
+| QE-11 | Q1–Q4/Q9–Q11 each evaluated at recorded digests incl. mandatory C5.1/Q9 zero bytes (N≥10 cold + 10 warm), before/after digests equal; separate Gate C acceptance remains required; Q1 records-only; `PARTIAL — Q5–Q8 DEFERRED` | T1 required for endpoint/host items; only full-path qualifying results count; component/limitation/invalid statuses are explicit; Gate C acceptance is not inferred |
 
 ## 6. Commit and publication workflow (proposed; explicitly identified)
 
@@ -499,7 +511,7 @@ This proposal is **consistent with and subordinate to** the effective Gate 3 rec
 - Gate A′ remains `APPROVED — NOT EXECUTED` (P-1 separate); Limb B does not execute Gate A′, add a
   provisioning entrypoint or presume that a store provisioned by the historical off-`main` procedure is
   compatible with current migrations.
-- Gate 3's **Node major 22 / minimum 22.13.0** requirement is unchanged. Historical Node `v24.14.0` is
+- Gate 3's **Node 22.x minimum patch `22.13.0`** requirement is unchanged. Historical Node `v24.14.0` is
   not silently accepted, and no runtime installation or policy amendment is proposed here.
 - `ci.yml` stays byte-identical (`aeee464feb76e2d1e9d104e1cae4e5dde37700ad` — `Q2-A`); no dependency,
   lockfile, `engines`, or configuration change in either repository.
@@ -518,7 +530,7 @@ This proposal is **consistent with and subordinate to** the effective Gate 3 rec
 | Execution of the Gate C subset measurements Q1–Q4/Q9–Q11 **as QE-11 evidence** | **PROPOSED AUTHORITY** (Limb B §5.2(8)) — re-issued grant against the current qualified commits; Q1 records-only; Gate C **acceptance** remains a separate act |
 | Direct `DurablePortfolioStore` / disposable-harness / session-port executions (Tier-2/Tier-3) | **PROPOSED AUTHORITY as qualification-fixture measurement ONLY under §5.5** — with per-scenario code-path labels and limitation findings; never admitted IPC/HTTP writes, route qualification or a W-1 lift; insufficient alone for QE-4/QE-10 real-process obligations (those use the real processes) |
 | Any qualification-mode write enablement, environment flag or W-1 override | **PROHIBITED — NOT AUTHORIZED** (§5.5 prohibited side effects); no such mechanism exists or may be created; execution outside §5.5 stops the affected item |
-| Runtime installation/switch or acceptance of Node 24 as Gate 3's required runtime | **NOT AUTHORIZED** — Node `>=22.13.0 <23` preflight; non-compliance stops execution |
+| Runtime installation/switch or acceptance of Node 24 as Gate 3's required runtime | **NOT AUTHORIZED** — Node 22.x `>=22.13.0 <23` preflight; non-compliance stops execution |
 | Records-only tracker/index registration of this proposal and its non-effective status | **PERMITTED DOCUMENTATION, NOT GATE AUTHORITY** — no PA decision or execution status is inferred (D-12; determination packet §4.12) |
 | Evidence deposit production, publication and remote read-back (§5.2(7); determination packet §4.8) | **PROPOSED AUTHORITY** (Limb B) — documentation/evidence only |
 | **Gate C acceptance / Gate C result acceptance** | **NOT AUTHORIZED** — separate act |
@@ -566,14 +578,50 @@ This proposal is **consistent with and subordinate to** the effective Gate 3 rec
 | G4-V6 | Non-grant scan: no language in this document authorizes Gate C acceptance, Gate 4 result acceptance, Gate 5/`CV-52`, production eligibility, `durable:true`, or any `503` lift; the Windows canonical `npm test` is not relabelled; the direct-TAP run is not promoted | **Verified** §3, §8 |
 | G4-V7 | No implementation performed; no QE executed; working-tree changes are documentation-only | **Verified** |
 | G4-V8 | Current `evaluatePortSaveGuard()` is hard-coded false for W-1(3)/(4); dispatch refuses all four writes before mutation; T-G durable-write tests call `DurablePortfolioStore` directly. Proposal therefore bars admitted-write claims and stops affected QE items absent D-4 | **Verified from current source** §5.2(9) |
-| G4-V9 | Gate 3 §8.3 requires Node major 22/minimum 22.13.0; historical Gate A′ host record says Node `v24.14.0`. Revision 2 makes native re-measurement and `>=22.13.0 <23` a preflight/stop, with no runtime amendment | **Verified from records; host not re-measured by Arena** §5.2(3) |
+| G4-V9 | Gate 3 §§8.1/8.3 require Node 22.x at or above 22.13.0 (`>=22.13.0 <23`); historical Gate A′ record says `v24.14.0`, which violates the required major and is not current preflight evidence. Re-measure version and flag-free `node:sqlite`; no runtime amendment | **Verified from records; host not re-measured by Arena** §5.2(3) |
 | G4-V10 | D-GC §7 marks Q1 `AUTHORIZED — records only`; §11 orders Q11-before/after and requires separate acceptance; Q5–Q8 remain deferred | **Verified** §5.2(8) |
-| G4-V11 | Fresh census found no `CV-CORR-60`, `§16.79`, `V241`, `CHG-2026-10-22-11` or revision-2 record-ID collisions; exact optional helper/test paths are absent at IPD `main` | **Verified; allocation is records-only, not an Act-ID assignment** |
+| G4-V11 | Fresh census found no `CV-CORR-60`, `§16.79`, `V241`, `CHG-2026-10-22-11` or revision-2 record-ID collisions; conditional helper and mandatory future test are absent at IPD `main` | **Verified; missing mandatory test blocks full H-12 validation/adoption** |
 | G4-V12 | Revision-3 drift audited: PR #191 (five Markdown paths) and PR #192 (two Markdown paths) documentation-only, CI green (`39785564954`/`39785813491`; `39786382951`/`39786578832`); IPD still `1cceacff…` | **Verified** §2.4 |
 | G4-V13 | D-4 facts re-derived from source at `1cceacff…`: dispatch write refusal + “no environment flag” comment (blob `6c8fcbc8…`); hard-coded `evaluatePortSaveGuard()` (blob `2ee96301…`); direct-store semantics precedent (`g3_write_gate` blob `9035cbf1…`); **zero** identity-resolution matches in `src/persistence`/`src/ipc`; session-port DP-2 2F refusal (anchor blob `d61f18df…`, identity blobs `60030e0c…`/`eec60c09…`/`70c6f658…`); **zero** `BEGIN`/`COMMIT`/`ROLLBACK` in `portfolio_store.ts`; working read path; IRR `ipcClient.ts`/`ipcPortAdapter.ts` present; T-G env-flag tests | **Verified** §5.5, determination packet §4.4.1 |
 | G4-V14 | Determination packet covers D-1…D-12 exactly once each (decision table §3 + resolutions §4), separates `[E]` from `[P]`, and carries a PA-only decision sheet (§6 Q1–Q12); no PA decision asserted anywhere | **Verified** |
 | G4-V15 | Non-grant scan after revision 3: no language authorizes Gate C acceptance, Gate 4 result acceptance, Gate 5/`CV-52`, production, `durable:true`, any `503` lift, Gate A′ execution, a qualification-mode, or any admitted write; Windows canonical `npm test` remains FAILED; direct TAP not promoted | **Verified** §§3, 5.5, 8 |
-| G4-V16 | Identifier census for this revision: `IIPS-V3-G4-QUALIFICATION-AUTHORITY-PROPOSAL-2026-10-22-03`, `…QE-MATRIX-PREPARED-2026-10-22-03`, `…EVIDENCE-PACKET-PREPARED-2026-10-22-03`, `…DETERMINATION-RESOLUTION-PACKET-2026-10-22-01`, `CV-CORR-61`, `§16.80`, `CHG-2026-10-22-13`, `V256`+ all previously unused | **Verified** (grep count 0 before allocation) |
+| G4-V16 | Initial pre-edit census for revision 4 covered prepared proposal/evidence/matrix `…-2026-10-22-04`, determination packet `…-2026-10-22-02`, H-12 validation report `IIPS-V3-G4-H12-CANDIDATE-VALIDATION-2026-10-22-01`, and the then-unused `CV-CORR-62`, `§16.80.11`, `CHG-2026-10-22-15`, `V271`–`V276`. When concurrent main history assigned those IDs to Group E (§16.81), the unmerged Gate 4 preparation was re-identified as `CV-CORR-63`, `§16.80.11–.12`, `CHG-2026-10-22-17`, `V296`–`V301`; reconciliation is recorded at tracker §16.80.12 / V311 | **Verified** — initial census preserved; current allocation disambiguated after merge-base refresh |
 | G4-V17 | Stop boundary: documentation-only working tree; no implementation, no QE execution, no destructive/restart operation, no IPD write, no Windows execution, no gate movement, no PA decision fabricated | **Verified** |
+| G4-V18 | Candidate H-12 exact-byte baseline verification: 55/55 present entries, 9/9 criteria refs, 10/10 frozen anchors, 17/17 historical items verified; mandatory `tests/g4_run_tests_summary_parsing.test.ts` absent at pinned IPD baseline; candidate SHA-256 `3eedd70c994271dfc9ac23bd603f7a9e2f273cb1a68d3172cd3a7737344096ae` | **Partial only; full validation/adoption blocked**; report `IIPS-V3-G4-H12-CANDIDATE-VALIDATION-2026-10-22-01` |
+| G4-V19 | Commit roles and sequence reconciled: IRR QE consumer `d355d904…`, IRR proposal/docs `f741298…`; exact IPD QE commit fixed only after final Limb A merge/checks, then H-12 completed and PA-adopted before host preflight | **Verified against proposed act §§2.4, 5.2(5)–(6), 14.5; future IPD SHA intentionally unknown** |
+| G4-V20 | Publication boundary: this proposal remains ineffective regardless of publication; only actual PR/CI/merge/read-back events may be recorded as receipts, and none implies PA effectiveness or QE execution | **Verified by §9; event status is recorded separately in the tracker** |
 
 *End of the proposed Gate 4 Target-Host Qualification Authority Act. **PROPOSED — NOT EFFECTIVE. Gate 4 remains `NOT AUTHORIZED / NOT STARTED`** until a Program Authority determination under §9.*
+
+
+## 14. Revision 4 consistency corrections — proposed only
+
+This section is part of the proposal, not an amendment effective on publication. It reconciles the two binding runtime clauses (major 22 in §8.1 and minimum 22.13.0 in §8.3), distinguishes component evidence from full-path qualification, and states the independent QE-11/Gate C acceptance boundary. Where this section conflicts with earlier proposal prose, this section is the corrected recommendation; PA adoption remains required.
+
+### 14.1 Runtime wording and preflight
+
+The effective Gate 3 act gives a conjunctive runtime rule: §8.1 states **“Required Node major | 22”**; §8.3 states **“Minimum functional runtime for the implementation | Node ≥ `22.13.0`”** and explains the flag-free `node:sqlite` threshold. The exact constraint is Node 22.x at or above 22.13.0 (stable versions `>=22.13.0 <23`). The prior QE-1 summary omitted §8.1; the earlier conclusion that `v24.14.0` violates the supported major is correct. This historical value is not current target-host preflight evidence.
+
+Preflight, before any QE (not run in this pass): record `node -p "JSON.stringify({version:process.version,platform:process.platform,arch:process.arch,execPath:process.execPath,versions:process.versions})"`; require `platform === "win32"`, Node major `22`, and version `>=22.13.0 <23`. Then with **no SQLite experimental flag**, run `node -e "const {DatabaseSync}=require('node:sqlite');const db=new DatabaseSync(':memory:');db.exec('CREATE TABLE q(n INTEGER); INSERT INTO q VALUES (1)');console.log(db.prepare('SELECT n FROM q').get());db.close()"`; retain exact command, stdout, stderr/ExperimentalWarning, exit code and `process.versions`. Confirm the startup guard passes and all documented compatibility checks. A major version other than 22 fails the required runtime major and stops preflight. No runtime installation/switch is authorized here.
+
+### 14.2 Evidence-class labels are mandatory
+
+The operative result vocabulary is: **(1) Full-path qualification** — required app path exercised and criterion shown; **(2) Component-level evidence** — isolated component/harness only; **(3) Limitation finding** — required path unreachable under the pinned implementation/safeguards; **(4) Invalid/inconclusive run** — execution or evidence predicates unmet. Only category 1 can satisfy a criterion requiring the complete application path. Categories 2–4 are never PASS. Apply the QE-by-QE and tier map in the revised matrix and D-1…D-12 packet. In particular, T2's real store/entrypoint is still a component harness if W-1 refuses the real application write; T3's session-port identity behavior is not durable IPC/persistence identity integration.
+
+### 14.3 QE-11 is execution evidence, not Gate C acceptance
+
+The only subset named by Gate E §4 QE-11 and the rendered D-GC authority is **Q1–Q4 and Q9–Q11**; Q1 is records-only, Q5–Q8 remain deferred, and **C5.1/Q9 zero-byte evidence is mandatory** under its ratified procedure and H-1…H-13. The proposed Gate 4 act may authorize the execution and recording of those measurements only if PA renders that grant against fixed code/criteria digests. A valid result still requires a separate determination by the Gate C acceptance authority. **Passing the prescribed tests does not, by itself, constitute Gate C acceptance.** Neither this proposal nor a test report closes Gate C, changes `PARTIAL — Q5–Q8 DEFERRED`, satisfies QE-11's accepted limb, satisfies Gate 4 result acceptance, or authorizes Gate 5.
+
+### 14.4 H-12 status
+
+`docs/integration/G4-H12-MANIFEST-v2-CANDIDATE-2026-10-22.json` is a versioned, machine-checkable candidate only. It is not adopted and is not the effective Q11 baseline. Exact-byte checks pass for 55/55 present entries, 9/9 criteria refs, 10/10 frozen anchors and 17/17 historical entries, but mandatory `tests/g4_run_tests_summary_parsing.test.ts` is absent at the accepted IPD baseline; therefore this is partial baseline integrity validation, not full manifest validation. Do not adopt H-12 now. After the authorized Limb A merge, bind and validate the required test and all candidate entries at the exact final IPD commit, then obtain distinct express PA adoption/replacement before host/runtime preflight and QE. PA must approve/revise membership, digest domains, LF/CRLF treatment, criteria basis, conditional helper behavior, and commit-designation protocol. No future digest is inferred here.
+
+### 14.5 Baseline and execution stop rule
+
+IPD `1cceacfff40f22dbc9cd64906bf26a5feac1075e` (tree `b2dd2debb295fa28bda7efdd70a66b4cfe9337a9`) is the accepted Gate 3 implementation baseline. IRR `d355d904aa52988e70a98324714886f6a1c0ea2a` (tree `e631cf3287fc19a2d1c8f73a0eb5f8d640370e27`) is the Gate 3 acceptance/implementation record basis; IRR `f741298fc73372a27c822b7f9018702216b59cfd` (tree `b9e88cde55c0c8694f42f90c60ae3cbce1a081d2`) is the current proposal/documentation basis. The intervening IRR change is tracker-only and non-implementation. The future IPD Limb A/QE execution commit does not yet exist and cannot be hash-pinned now; it must be designated by exact SHA/tree only after merge/CI/read-back and native-Windows canonical `npm test`, followed by complete H-12 validation and express PA adoption, all before host/runtime preflight. The IRR QE consumer code pin is `d355d904aa52988e70a98324714886f6a1c0ea2a`/tree `e631cf3287fc19a2d1c8f73a0eb5f8d640370e27`; proposal/documentation pin `f741298fc73372a27c822b7f9018702216b59cfd`/tree `b9e88cde55c0c8694f42f90c60ae3cbce1a081d2` is separately recorded. Any non-documentation drift from the accepted implementation baseline or any H-12 digest drift is a stop and requires explicit reconciliation, never a silent re-pin.
+
+### 14.6 Gate A′ prerequisite
+
+Gate E §4 requires qualification **after Gate A′ provisioning**. The existing Gate A′ record is `APPROVED — NOT EXECUTED`; Gate 4 does not grant or perform it. Its required precondition is an actual Gate A′ execution record demonstrating the adopted P-1 provisioning on the designated host with a store/schema compatible with the exact approved migration basis, with identity, host/runtime, commands, outputs, and resulting store/binding evidence captured. If that exact prerequisite cannot be shown, stop before QE execution and obtain the separate Gate A′ authority/decision needed for any additional implementation or changed provisioning scope.
+
+**Status remains `PROPOSED — NOT EFFECTIVE`; Gate 4 remains `NOT AUTHORIZED / NOT STARTED`. No QE was run.**

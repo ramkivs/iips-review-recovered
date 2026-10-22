@@ -10,21 +10,22 @@
 >   remains a **failure**. No QE item is executed or passed. No signature, approval, or PA decision is
 >   asserted.
 > - **Revision 2** reconciles the parallel PR #190 baseline, exact helper/test scope, all required parser
->   cases, the hard W-1 write fence, Node major 22 versus historical Node 24, Gate A′ provisioning, and
+>   cases, the hard W-1 write fence, Node 22.x `>=22.13.0 <23` and historical Node `v24.14.0`, Gate A′ provisioning, and
 >   QE-11's records-only Q1 plus separate acceptance. It supplies no execution evidence.
-> - **Revision 3 (this pass)** completes the packet after the D-1…D-12 determination-resolution pass:
+> - **Revision 3 (historical)** completes the packet after the D-1…D-12 determination-resolution pass:
 >   every checklist item now carries its recommended resolution and pointer to the companion
 >   determination packet (`IIPS_v3.0_G4_DETERMINATION_RESOLUTION_PACKET_D1_TO_D12_2026-10-22.md`,
->   record `IIPS-V3-G4-DETERMINATION-RESOLUTION-PACKET-2026-10-22-01`), the D-4 fence-preserving
+>   record `IIPS-V3-G4-DETERMINATION-RESOLUTION-PACKET-2026-10-22-02`), the D-4 fence-preserving
 >   mechanism is defined (act §5.5), and the D-7/D-8/D-9/D-10 resolutions are folded into the act.
 >   It supplies no PA decision and no execution evidence.
+> - **Revision 4** (`IIPS-V3-G4-EVIDENCE-PACKET-PREPARED-2026-10-22-04`, collision-checked) corrects the Node policy, D-4 full-path/component distinction, QE-11/Gate C boundary, baseline split and H-12 candidate. It remains decision input only.
 
 | Field | Value |
 |---|---|
-| **Document ID** | `IIPS-V3-G4-EVIDENCE-PACKET-PREPARED-2026-10-22-03` — prepared-record identifier allocated after a fresh collision census (revision-2 ID `…-02` preserved in history); **not an effective-act ID** |
-| **Document type** | Prepared evidence packet / decision input for a proposed Gate 4 authority act — **final proposal revision 3** (D-1…D-12 resolved in the companion determination packet) |
+| **Document ID** | `IIPS-V3-G4-EVIDENCE-PACKET-PREPARED-2026-10-22-04` — corrective prepared-record identifier; **not an effective-act ID** |
+| **Document type** | Prepared evidence packet / decision input for a proposed Gate 4 authority act — **corrective proposal revision 4** (D-1…D-12 resolved in the companion determination packet) |
 | **Prepared** | `2026-10-22` (UTC), by Arena Agent Mode (preparation/verification/publication only) |
-| **Companion documents** | Proposed act (above), prepared proposal record `IIPS-V3-G4-QUALIFICATION-AUTHORITY-PROPOSAL-2026-10-22-03` (Act ID remains `PENDING ASSIGNMENT` — proposed: `IIPS-V3-G4-TARGET-HOST-QUALIFICATION-AUTHORITY-ACT-2026-10-22-01`); QE matrix `IIPS_v3.0_G4_QE_1_TO_QE_11_QUALIFICATION_MATRIX_2026-10-22.md`, prepared record `IIPS-V3-G4-QE-MATRIX-PREPARED-2026-10-22-03`; **determination packet `IIPS_v3.0_G4_DETERMINATION_RESOLUTION_PACKET_D1_TO_D12_2026-10-22.md`**, record `IIPS-V3-G4-DETERMINATION-RESOLUTION-PACKET-2026-10-22-01` (D-1…D-12 resolutions + PA decision sheet §6) |
+| **Companion documents** | Proposed act (above), prepared proposal record `IIPS-V3-G4-QUALIFICATION-AUTHORITY-PROPOSAL-2026-10-22-04` (Act ID remains `PENDING ASSIGNMENT` — proposed: `IIPS-V3-G4-TARGET-HOST-QUALIFICATION-AUTHORITY-ACT-2026-10-22-01`); QE matrix `IIPS_v3.0_G4_QE_1_TO_QE_11_QUALIFICATION_MATRIX_2026-10-22.md`, prepared record `IIPS-V3-G4-QE-MATRIX-PREPARED-2026-10-22-04`; **determination packet `IIPS_v3.0_G4_DETERMINATION_RESOLUTION_PACKET_D1_TO_D12_2026-10-22.md`**, record `IIPS-V3-G4-DETERMINATION-RESOLUTION-PACKET-2026-10-22-02` (D-1…D-12 resolutions + PA decision sheet §6) |
 | **Publication location** | `ramkivs/iips-review-recovered` `docs/integration/` — the established review/proposal location, under the standing preparation/publication grant (F-3 §1.2) and Q1's evidence-work authorization. Q1 §2 excludes Gate 4 execution; `G3-AMEND-01` §6.4 independently requires the later, separate Gate 4 PA act. `DEC-06`'s specific P11 admission determination is not reused as Gate 4 authority |
 
 ---
@@ -67,7 +68,9 @@ execute and record QE-1…QE-11 on the designated target host. This packet:
 | IRR `main` — revision-2 rendering basis | **`4f472283cd6bbedb228d06bfb9a766688c039976`** (tree `137a1b92b537c772d59a6af339d9e48dc42c7cf5`) | Live-verified PR #190 merge of the initial Gate 4 proposal. Compare from `04394f3…`: exactly four Markdown paths, no product/test/config paths; PR-head CI `39781892060` and post-merge CI `39782159580` `success`. **Recorded, not silently substituted** (act §2.3) |
 | IRR `main` — revision-3 drafting basis | **`c6ddfccd1e49cb7db9def5b511da385880d60e8a`** (PR #192) | Live-verified this pass after PRs #191/#192 (both documentation-only, CI green, receipts at §16.79.11). Publication tip of revision 3 recorded post-merge in tracker §16.80.7. Recorded, not silently substituted |
 | Gate 3 accepted IPD commit (unchanged) | `1cceacfff40f22dbc9cd64906bf26a5feac1075e` | Same as implementation basis |
-| IRR commits for QE runs | **Designated at act effectiveness; recorded at run start** (descendants of the designated consumer lineage) | `[P]` — PA determination item; neither documentation rendering pin is itself a qualified consumer commit |
+| IRR QE consumer code pin | **`d355d904aa52988e70a98324714886f6a1c0ea2a`** (tree `e631cf3287fc19a2d1c8f73a0eb5f8d640370e27`), provided the H-12 consumer blobs remain unchanged | `[P]` — PA confirms pin/protocol; not a qualification result |
+| IRR current proposal/documentation basis | **`f741298fc73372a27c822b7f9018702216b59cfd`** (tree `b9e88cde55c0c8694f42f90c60ae3cbce1a081d2`) | Current revision-4 documentation rendering pin only; never substituted for consumer code pin |
+| Future IPD Limb A / QE execution commit | **Not yet existent**; must be the exact final merged Limb A commit after green PR-head/post-merge CI, remote read-back and native-Windows canonical `npm test` | Designate after merge and before preflight/run; no hash is inferred now |
 | Wrapper blob at basis | `fe1ab1a30d8cd0060b5fc50d181d6fcc735a3794` | Verified |
 
 ## 4. Gate 3 acceptance reference and preserved determinations
@@ -116,8 +119,8 @@ execute and record QE-1…QE-11 on the designated target host. This packet:
    post-merge IPD commit, with PR-head/post-merge Linux CI green. Earlier candidate evidence does not
    transfer to a later final commit.
 4. **Target host `desktop-no0nhtp`** re-measured as native `win32`, under the provisioned non-elevated
-   account. Runtime must be **Node major 22, `>=22.13.0 <23`**, with flag-free `node:sqlite`. The
-   historical Node `v24.14.0` report is not current evidence and does not qualify; no runtime install or
+   account. Runtime must be **Node 22.x `>=22.13.0 <23`**, with flag-free `node:sqlite`; require `win32`, major 22, patch >=22.13.0, and preserve a no-flag SQLite probe plus raw output/warnings/exit. The
+   historical Node `v24.14.0` report is not current evidence and violates required major 22 despite exceeding the patch floor; no runtime install or
    Gate 3 runtime amendment is included.
 5. **Recorded digests** of the final qualified IPD and IRR builds, clean worktrees and remote ancestry
    at start/end (act §5.2). Qualified-surface drift invalidates the run.
@@ -126,9 +129,11 @@ execute and record QE-1…QE-11 on the designated target host. This packet:
    evidence is qualification-fixture measurement only and cannot be represented as admitted IPC
    writes or as QE-4/QE-10 real-process proof; without adoption, or outside its boundaries, affected
    items stop.
-7. **Evidence deposit rules and Q11 digest set fixed** (act §5.2(6)–(7): `G4-H12-MANIFEST-v2`,
-   32+1-conditional; determination packet §4.7–§4.8); raw bytes hashed without normalization, all
-   attempts retained, synthetic/disposable fixtures only.
+7. **Evidence deposit rules are proposed; H-12 adoption is deferred** (act §5.2(6)–(7), determination
+   packet §§4.7–4.8). Current candidate is partial-validated only; the mandatory future test path is
+   absent at baseline. Complete and validate H-12 at final Limb A commit, then obtain express PA
+   adoption/replacement before host preflight/QE. Deposit raw bytes without normalization; retain all
+   attempts; use synthetic/disposable fixtures only.
 
 ## 8. Risks
 
@@ -142,7 +147,7 @@ execute and record QE-1…QE-11 on the designated target host. This packet:
 | R-6 | Operator-supplied evidence class (Arena cannot observe the host) | Recorded limitation; digest-anchored run records + PA acceptance act |
 | R-7 | Parallel recordkeeping drift (remote `main` moved during both proposal passes) | Both drift records retained (act §§2.2–2.3); revision-2 pins exact `4f472283…`; later non-documentation drift stops rather than auto-re-pinning |
 | R-8 | Destructive scenarios (QE-7) damaging operator data | Proposed disposable-fixture rule (matrix §1; D-GC-I extension) — PA to confirm (D-9) |
-| R-9 | Historical host Node `v24.14.0` conflicts with Gate 3's Node-major-22 policy | Native re-measurement; require `>=22.13.0 <23` and `node:sqlite`; stop rather than treat Node 24 as compliant or install/switch runtimes under this act |
+| R-9 | Historical host Node `v24.14.0` violates the explicit major-22 runtime requirement despite exceeding the patch floor; host availability/compatibility remains unverified | Native re-measurement; require Node 22.x `>=22.13.0 <23` and `node:sqlite`; stop rather than treat Node 24 as compliant or install/switch runtimes under this act |
 | R-10 | Historical Gate A′ provisioning basis/tooling may not match accepted `main` migrations; current library has no executable entrypoint | Require compatible executed Gate A′ evidence on the same host; otherwise stop for separate Gate A′ authority. No implicit re-baseline or provisioning implementation |
 | R-11 | Direct-store tests could be misread as successful admitted writes | Classify them as supporting domain evidence only; D-4 must expressly resolve each write-path item or the item stops. Operational dispatch remains `WRITE_NOT_AUTHORIZED` |
 
@@ -158,9 +163,9 @@ decision sheet at its §6. Summary of where each stands **after revision 3**:
 | D-2 | Pins + commit rule | **Resolved `[E]` + `[P]`:** IPD `1cceacff…` (zero drift); revision-3 IRR drafting basis `c6ddfccd…` (publication tip recorded at §16.80); four-part commit rule in act §5.2(5)–(6). PA confirms/designates (Q2) |
 | D-3 | Limb A boundary | **Resolved `[E]`:** three-path boundary sufficient as written (act §4.2–§4.4); reporter-forcing rejected as a scope violation; review-enforcement checklist fixed. PA confirms (Q3) |
 | **D-4** | Write-path mechanism | **Resolved `[E]` mechanism:** three-tier fence-preserving mechanism defined item-by-item at act §5.5 (T1 endpoint refusals / T2 disposable harness on real store+entrypoint / T3 session-port identity boundary), with code-path labels and limitation findings; hard facts at determination packet §4.4.1; Approach B (qualification-mode) rejected. **PA adoption remains material** (Q4); without it, affected items stop |
-| D-5 | Sequencing | **Resolved `[E]` plan:** S0–S6 in determination packet §4.5; Gate A′ external and not granted; Node-22 preflight hard. PA confirms (Q5) |
+| D-5 | Sequencing | **Resolved `[E]` plan:** S0–S6 in determination packet §4.5; Gate A′ external and not granted; Node 22.x `>=22.13.0 <23` preflight hard. PA confirms (Q5) |
 | D-6 | QE-11 re-basing | **Resolved `[E]` + `[P]`:** re-issue of the seven-item execution grant in act §5.2(8); acceptance separate; Q1 records-only; gap G-12 (Gate-V currency) flagged with a recommended reading. PA confirms (Q6) |
-| D-7 | H-12 digest set | **Resolved `[P]` proposal:** `G4-H12-MANIFEST-v2` = §13's 27+1 **plus five** identity/session-port files = **32 mandatory + 1 conditional**, two hash domains (act §5.2(6); determination packet §4.7). PA adopts/replaces (Q7) |
+| D-7 | H-12 digest set | **Proposed only, not adoptable yet:** 32 mandatory + 1 conditional, ten anchors + IRR/criteria/runtime/deposit sets. Current candidate is partial-validated; mandatory `tests/g4_run_tests_summary_parsing.test.ts` is absent at the pinned baseline. Create/hash it at final Limb A commit, fully validate, then obtain separate PA adoption/replacement before host preflight/QE (act §5.2(6); packet §4.7/Q7) |
 | D-8 | Evidence format | **Resolved `[P]` proposal:** run id `GQ-<yyyymmdd>-<nn>`, layout §13.3, MANIFEST minimum, raw-byte hashing, sensitivity and publication/read-back rules (act §5.2(7); determination packet §4.8). PA adopts (Q8) |
 | D-9 | Failure handling | **Resolved `[P]` proposal:** PASS/FAIL/INCONCLUSIVE/INVALID + H-6 discipline + D-GC-I fixture extension for QE-4/QE-7 (act §5.7; determination packet §4.9). PA adopts (Q9) |
 | D-10 | Durability wording | **Resolved `[P]` reading:** measurement/claim split + fixed non-claim sentence (act §5.6; determination packet §4.10). PA adopts (Q10) |
@@ -203,7 +208,7 @@ below remain **unchecked until PA actually determines** (except D-12's records-o
 - [ ] **D-4** — **Adopt the item-by-item fence-preserving write mechanism (act §5.5 / determination packet §4.4) with code-path labels and limitation findings.** Direct-store/session-port results are qualification-fixture measurement only, never admitted-write evidence; if not adopted, affected items stop — *recommended: adopt as proposed; Approach B (qualification-mode) rejected*.
 - [ ] **D-5** — Confirm compatible same-host Gate A′ evidence and sequencing S0–S6 (Gate A′ → merged Limb A/final-commit Windows pass → preflight → QE); any new Gate A′ action is separate — *recommended: confirm as proposed*.
 - [ ] **D-6** — Confirm the QE-11 Gate C subset execution grant re-issue against current commits, Q1 records-only treatment, gap G-12 reading, and separate Gate C **acceptance** — *recommended: re-issue in this act; G-12 → historical records + waivers carry forward; acceptance separate*.
-- [ ] **D-7** — Adopt or explicitly replace the Q11/H-12 digest set before execution — *recommended: `G4-H12-MANIFEST-v2` = 32 mandatory + 1 conditional (+ frozen anchors, IRR set, runtime manifest; two hash domains) per act §5.2(6) and determination packet §4.7, amending the §13 base set*.
+- [ ] **D-7** — Defer H-12 adoption now. After Limb A creates the mandatory absent test path, regenerate and fully validate the exact final-commit manifest, then obtain PA's explicit adoption/replacement before preflight/QE — *current candidate is not fully validated and is not the effective baseline*. See act §5.2(6), determination packet §4.7/Q7, and the validation report.
 - [ ] **D-8** — Fix the evidence run-ID (`GQ-<yyyymmdd>-<nn>`), destination, MANIFEST minimum, raw-byte SHA-256 convention (no line-ending normalization) and publication/read-back rules — *recommended: adopt act §5.2(7) + determination packet §4.8*.
 - [ ] **D-9** — Adopt or replace the failure-handling rule (PASS/FAIL/INCONCLUSIVE/INVALID + H-6) and the D-GC-I destructive-fixture extension for QE-4/QE-7 — *recommended: adopt act §5.7*.
 - [ ] **D-10** — Adopt or replace the QE-4 durability-vocabulary reading (measurement vs claim + fixed non-claim sentence); unresolved publication conflict stops QE-4 — *recommended: adopt act §5.6*.
@@ -227,7 +232,7 @@ after the run, and any drift invalidates the run.
 > (`70c6f658…`), `frontend/src/features/portfolio/portfolioStorePort.ts` (`d61f18df…`),
 > `frontend/src/features/portfolio/portfolio-store.ts` (`b900a248…`) — **= 32 mandatory + 1
 > conditional**, because QE-1/QE-2's identity limbs exercise exactly that code (determination packet
-> §4.4.1 facts 4–5). Two hash domains are fixed there as well: Git-blob hashes (`git cat-file blob`)
+> §4.4.1 facts 4–5). Two hash domains are fixed there as well: Git blob object-ID SHA-1 plus SHA-256 over exact `git cat-file blob` bytes, without newline normalization,
 > for repository surfaces; raw-byte SHA-256 without normalization for deposit artifacts. The
 > revision-2 tables remain as the base; the amendment is part of the same proposed set.
 
@@ -293,7 +298,7 @@ though observed.
 | UTC and host | `(Get-Date).ToUniversalTime().ToString('o')`; `$env:COMPUTERNAME`; require actual `desktop-no0nhtp` |
 | Principal and elevation | `whoami`; `whoami /groups`; record the exact provisioned account and group/elevation evidence; require the designated non-elevated single principal |
 | OS | `Get-CimInstance Win32_OperatingSystem \| Select-Object Caption,Version,BuildNumber,OSArchitecture`; record raw values, with no minimum build invented |
-| Native Node identity | `node -p "JSON.stringify({version:process.version,platform:process.platform,arch:process.arch,execPath:process.execPath,versions:process.versions})"`; require `platform:"win32"` and Node `>=22.13.0 <23` |
+| Native Node identity | `node -p "JSON.stringify({version:process.version,platform:process.platform,arch:process.arch,execPath:process.execPath,versions:process.versions})"`; require `platform:"win32"` and Node 22.x `>=22.13.0 <23` |
 | Node executable integrity | `(Get-FileHash -Algorithm SHA256 (Get-Command node).Source).Hash`; bind the probe and every later test/QE command to the same `execPath` |
 | `node:sqlite` | A flag-free in-memory `DatabaseSync` probe that creates a table, commits one synthetic row, reads it back and closes the database; publish version/warning/output/exit code. No host file is created |
 | Repository identity | In each qualified worktree: `git rev-parse HEAD 'HEAD^{tree}'`; `git status --porcelain=v1 --untracked-files=all`; `git diff --exit-code`; `git diff --cached --exit-code`; `git ls-remote origin refs/heads/main`; record exact values and remote ancestry |
@@ -307,3 +312,32 @@ authorized by this package; a compliant runtime must be supplied under separate 
 before the preflight is repeated.
 
 *End of the Gate 4 evidence packet, final proposal revision 3 (D-1…D-12 resolutions carried in the companion determination packet). Prepared for PA determination — **Gate 4 remains `NOT AUTHORIZED / NOT STARTED`**; the Windows canonical `npm test` wrapper failure remains a failure; no QE item is executed or accepted; §14 contains no observed host output; no PA decision is asserted anywhere in this packet.*
+
+
+## 15. Revision 4 — authoritative correction record (no execution evidence)
+
+### 15.1 Verified live refs and history
+
+Remote `main` was read with `git ls-remote` before editing: IPD `1cceacfff40f22dbc9cd64906bf26a5feac1075e`; IRR `f741298fc73372a27c822b7f9018702216b59cfd`. IPD equals the previously reported accepted Gate 3 baseline; the source comparison has zero commits/zero diff beyond it. IRR's previously reported baseline is `d355d904aa52988e70a98324714886f6a1c0ea2a`; its tree is `e631cf3287fc19a2d1c8f73a0eb5f8d640370e27`. The only post-baseline content commit is `11320d92ef755a56226f4cf112f4d9ef8d46fac5` (tracker-only), merged by `f741298`; no Gate 3 code/safeguard/acceptance evidence changed. Neither alters Gate 3 implementation, safeguards, or acceptance evidence. Current proposal/documentation basis is exactly IRR `f741298` / tree `b9e88cde55c0c8694f42f90c60ae3cbce1a081d2`.
+
+### 15.2 Runtime source correction
+
+Gate 3 effective act §8.1 says **“Required Node major | 22”**, and §8.3 says **“Minimum functional runtime for the implementation | Node ≥ `22.13.0`”**; both apply. Require Node 22.x at or above 22.13.0 (`>=22.13.0 <23`). The earlier QE-1 summary omitted §8.1. Historical `v24.14.0` exceeds the patch floor but violates the required major; it is not current host preflight evidence. The `<23` ceiling and non-compliance conclusion are supported by the authoritative act, not inferred from “Node-22” shorthand. Preflight command and evidence: `node -p "JSON.stringify({version:process.version,platform:process.platform,arch:process.arch,execPath:process.execPath,versions:process.versions})"`, plus a flag-free in-memory `node:sqlite` open/create/insert/select/close probe with raw output, warnings, exit code and executable path recorded. Not run here.
+
+### 15.3 D-4 and the three tiers
+
+Source-confirmed facts at IPD `1cceacff`: write operations in IPC dispatch are hard-refused before store mutation; the store-port guard is hard-coded false for W-1(3)/(4); no `SecurityMaster`/identity-resolution call exists in IPC/persistence; the session-port does identity refusal as a distinct boundary; the durable store contains no explicit transaction block; and binding resolution precedes the write refusal rather than re-reading inside a transaction enclosing writes. T1 (endpoint with safeguards on) can establish only reachable endpoint behavior, including read refusals and the write fence. T2 (disposable copy, real compiled store/entrypoint) can produce component-level store/recovery evidence but cannot demonstrate that a successful application-path write traverses W-1. T3 (session-port + SecurityMaster fixtures) can produce component-level identity evidence but does not prove durable IPC/persistence integration. The exact QE classifications and the separate authority decisions for unreachable criteria are in the revised matrix and determination packet. No test, harness, endpoint or store was run/opened in this pass.
+
+### 15.4 Gate C / QE-11 boundary
+
+Subset: Q1–Q4 and Q9–Q11; Q1 records-only, Q5–Q8 deferred. H-1…H-13 remain intact. C5.1/Q9 is mandatory zero bytes, cold and warm with N≥10 each, plus the approved 5-second idle, accepted-connection/no-refusal, liveness and valid InOut direction controls. The historical Gate C evidence refers to the old `cec70802…` basis and is not silently transferable; use a new immutable code/criteria basis and supersede stale evidence. **Passing the prescribed tests does not, by itself, constitute Gate C acceptance.** QE-11 run evidence may be generated only under applicable execution authority; Gate C acceptance is separate, and Gate 4 result acceptance is separate again.
+
+### 15.5 H-12 candidate
+
+See [`G4-H12-MANIFEST-v2-CANDIDATE-2026-10-22.json`](./G4-H12-MANIFEST-v2-CANDIDATE-2026-10-22.json). It is a candidate, not adopted. Baseline content-integrity validation verified 55/55 present source entries, 9/9 criteria references, 10/10 frozen Gate 3 anchors and 17/17 historical entries against exact commits/trees/blob bytes; the manifest SHA-256 is `3eedd70c994271dfc9ac23bd603f7a9e2f273cb1a68d3172cd3a7737344096ae`. This is **not full manifest validation**: mandatory future IPD path `tests/g4_run_tests_summary_parsing.test.ts` is absent at the current accepted baseline. It must exist and be re-hashed at the exact final merged Limb A commit, followed by complete revalidation before preflight/QE; do not treat absence as satisfying the requirement, adopt the candidate or claim it fully validates. The conditional helper and runtime/evidence artifacts also receive exact hashes only if/when present at their required future pins. PA must decide the complete path set and required/conditional/future entries, two-digest rule, newline treatment, criteria refs, exact IRR code pin, and protocol for binding the future IPD commit. Historical 15-file H-12 membership is not treated as adopted on the current basis.
+
+### 15.6 Gate A′ and sequence
+
+The Gate A′ record remains `APPROVED — NOT EXECUTED`; Gate E §4 makes completed Gate A′ provisioning a prerequisite before the QE run. The minimum evidence is a separate execution record proving P-1 provisioning on the designated target host with exact host/runtime identity, migration/store compatibility at the designated baseline, commands/results, and resulting store/binding evidence. No new Gate A′ authority or provisioning implementation is included here. Order: (1) PA determination and act effectiveness; (2) separate Gate A′ execution and record; (3) any separately authorized Limb A implementation/merge/CI/read-back and final native-Windows canonical test; (4) runtime/host/source preflight and fixed code/criteria manifests; (5) only then QE execution under effective authority; (6) evidence integrity/publication; (7) separate Gate C result acceptance for QE-11; (8) separate Gate 4 result acceptance; no Gate 5/503 lift implied. Any failure or drift stops.
+
+**No target-host qualification or QE execution occurred. Gate 4 remains `PROPOSED — NOT EFFECTIVE`, `NOT AUTHORIZED`, and `NOT STARTED`.**
