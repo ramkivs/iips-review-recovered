@@ -9,14 +9,17 @@
 > - **Gate 4 remains `NOT AUTHORIZED / NOT STARTED`.** The Windows canonical `npm test` wrapper failure
 >   remains a **failure**. No QE item is executed or passed. No signature, approval, or PA decision is
 >   asserted.
+> - **Revision 2** reconciles the parallel PR #190 baseline, exact helper/test scope, all required parser
+>   cases, the hard W-1 write fence, Node major 22 versus historical Node 24, Gate A′ provisioning, and
+>   QE-11's records-only Q1 plus separate acceptance. It supplies no execution evidence.
 
 | Field | Value |
 |---|---|
-| **Document ID** | **`PENDING ASSIGNMENT`** (working file designation only, non-authoritative: `IIPS-V3-G4-EVIDENCE-PACKET-PREPARED-2026-10-22-01`) |
-| **Document type** | Prepared evidence packet / decision input for a proposed Gate 4 authority act |
+| **Document ID** | `IIPS-V3-G4-EVIDENCE-PACKET-PREPARED-2026-10-22-02` — prepared-record identifier allocated after a fresh collision census; **not an effective-act ID** |
+| **Document type** | Prepared evidence packet / decision input for a proposed Gate 4 authority act — **reconciliation revision 2** |
 | **Prepared** | `2026-10-22` (UTC), by Arena Agent Mode (preparation/verification/publication only) |
-| **Companion documents** | Proposed act (above); QE matrix `IIPS_v3.0_G4_QE_1_TO_QE_11_QUALIFICATION_MATRIX_2026-10-22.md` |
-| **Publication location** | `ramkivs/iips-review-recovered` `docs/integration/` — the established review/proposal location (precedent: `IIPS_v3.0_G3_GATE3_IMPLEMENTATION_AUTHORITY_ACT_PROPOSED_2026-10-19.md`, `IIPS_v3.0_G3_AMEND_01_BASIS_DRIFT_AND_EVIDENCE_BOUNDARY_2026-10-22.md`), under the standing PA authorization (F-3 §1.2; `DEC-06` R-1/R-3/R-9) |
+| **Companion documents** | Proposed act (above), prepared proposal record `IIPS-V3-G4-QUALIFICATION-AUTHORITY-PROPOSAL-2026-10-22-02` (Act ID remains `PENDING ASSIGNMENT`); QE matrix `IIPS_v3.0_G4_QE_1_TO_QE_11_QUALIFICATION_MATRIX_2026-10-22.md`, prepared record `IIPS-V3-G4-QE-MATRIX-PREPARED-2026-10-22-02` |
+| **Publication location** | `ramkivs/iips-review-recovered` `docs/integration/` — the established review/proposal location, under the standing preparation/publication grant (F-3 §1.2) and Q1's evidence-work authorization. Q1 §2 excludes Gate 4 execution; `G3-AMEND-01` §6.4 independently requires the later, separate Gate 4 PA act. `DEC-06`'s specific P11 admission determination is not reused as Gate 4 authority |
 
 ---
 
@@ -43,8 +46,8 @@ execute and record QE-1…QE-11 on the designated target host. This packet:
 | Gate 3 Implementation-Authority Act `…-2026-10-19-02` (**EFFECTIVE**) | IRR `docs/integration/IIPS_v3.0_G3_GATE3_IMPLEMENTATION_AUTHORITY_ACT_EFFECTIVE_2026-10-19-02.md` | `4744e6f44e0caea55e980756aeef90a5046ec87e` | `f4992f9ced681ffddd0d8eaf1f3de297f2262f1eb0b3131ce18b95805725abf5`, 51,662 B | Accepted implementation scope; §6 QE mapping; §8.3 host Node floor; §8.4 durability vocabulary; §11 downstream statuses |
 | `G3-AMEND-01` `…-2026-10-22-01` (**EFFECTIVE**) | IRR `docs/integration/IIPS_v3.0_G3_AMEND_01_AMENDMENT_AND_PA_DETERMINATION_2026-10-22.md` | `85ba78e6cbfe20ed146a53abbfa23a3350140fcf` | `cf6d72b50908c6859d7079b7c7197c88e9d4ed0b6a90813a0b304fcbbd65926a`, 47,104 B | `Q1-B`/`Q2-A`/`Q3-A`; §6.4(1) wrapper repair deferred to a Gate 4 act |
 | Gate 3 Acceptance Record `IIPS-V3-G3-ACCEPTANCE-2026-10-22-01` | IRR `docs/integration/IIPS_v3.0_G3_GATE3_ACCEPTANCE_RECORD_2026-10-22.md` | `f3a6c9a3d15985a78a0945ecfc96019b3a5c425a` | `e1433fac9c1d9d2467409c8c3320c8a49eff6f86f6321a144200a96c679a2e40`, 41,277 B | **Authoritative Gate 3 acceptance reference** |
-| Native-Windows evidence record (`CV-CORR-55` §10 + `Q3-A` pointer) | IRR `docs/integration/IIPS_v3.0_G3_NATIVE_WINDOWS_EVIDENCE_AND_ACCEPTANCE_ELIGIBILITY_2026-10-22.md` | `4ffbfd97cafa64e5ad0f5a5d9ea090bfc74373f1` (as recorded in `G3-AMEND-01` §2) | 20,226 B (as recorded) | Windows wrapper failure + direct-TAP evidence |
-| Master tracker / decision register (authoritative) | IRR `IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md` | current at `04394f3…` (`a1b983f2…` at PR #188 era; re-read this pass) | — | §16.77/§16.78 Gate 3 acceptance + re-verification; Gate 4 outstanding-action rows |
+| Native-Windows evidence record (`CV-CORR-55` §10 + additive `Q3-A`/acceptance pointers) | IRR `docs/integration/IIPS_v3.0_G3_NATIVE_WINDOWS_EVIDENCE_AND_ACCEPTANCE_ELIGIBILITY_2026-10-22.md` | **current `2f5375d7151482bca791d7aa6c0c45878ba8bed9`**; historical `4ffbfd97cafa64e5ad0f5a5d9ea090bfc74373f1` is only the version cited in `G3-AMEND-01` §2 | current SHA-256 `11e7500c952e7e0e28b2bb497ef5fd11c10f9cfe147f4b733c8f4a55a394ac5f`, **21,272 B** | Windows wrapper failure + direct-TAP evidence; historical body preserved with later status pointers |
+| Master tracker / decision register (authoritative) | IRR `IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md` | revision-2 basis at `4f472283…`; §16.79 / `CV-CORR-60` added by this records-only revision | — | §16.77/§16.78 Gate 3 acceptance + re-verification; §16.79 separates Gate 4 proposal/effectiveness/execution/acceptance |
 | Wrapper under remediation | IPD `scripts/run-tests.mjs` | `fe1ab1a30d8cd0060b5fc50d181d6fcc735a3794` | `a677c7da5365b62af06d077eef6e6a6248267fbd1a53b28412135e3e20e0ecf2`, 4,974 B | Limb A target |
 | Standing authorization (F-3 §1.2) | IRR `docs/integration/IIPS_v3.0_OWNER_CONTEXT_F3_MECHANISM_AND_IMPLEMENTATION_PA_DECISION.md` | `c4c9f7d79ef181af96f6c4e5cc108288ef22fd02` (as recorded) | — | Publication/recording authority basis |
 
@@ -54,9 +57,10 @@ execute and record QE-1…QE-11 on the designated target host. This packet:
 |---|---|---|
 | IPD `main` (implementation basis) | **`1cceacfff40f22dbc9cd64906bf26a5feac1075e`** (tree `b2dd2debb295fa28bda7efdd70a66b4cfe9337a9`) | Reported baseline **verified live, zero drift** (`git ls-remote` + clone + CI `39765365164` `success`) |
 | IRR `main` — reported baseline | `5a3410eab1a627e56642e82d93fcb875026a3334` | Verified live **at pass start** — exact match |
-| IRR `main` — rendering basis | **`04394f3ffa88da8a72cb6b9d01f668d9d2650e6f`** | Remote advanced during the pass; drift = 4 documentation-only commits (PRs #188/#189: tracker §16.78/`CV-CORR-59` + receipt; `git diff --name-status` = 2 modified docs paths). **Recorded, not substituted**; proposed act §2.2 carries the full list |
+| IRR `main` — initial proposal rendering basis | `04394f3ffa88da8a72cb6b9d01f668d9d2650e6f` | Historical initial-proposal pin; earlier drift from `5a3410e…` was four documentation-only commits (PRs #188/#189), retained in act §2.2 |
+| IRR `main` — revision-2 rendering basis | **`4f472283cd6bbedb228d06bfb9a766688c039976`** (tree `137a1b92b537c772d59a6af339d9e48dc42c7cf5`) | Live-verified PR #190 merge of the initial Gate 4 proposal. Compare from `04394f3…`: exactly four Markdown paths, no product/test/config paths; PR-head CI `39781892060` and post-merge CI `39782159580` `success`. **Recorded, not silently substituted** (act §2.3) |
 | Gate 3 accepted IPD commit (unchanged) | `1cceacfff40f22dbc9cd64906bf26a5feac1075e` | Same as implementation basis |
-| IRR commits for QE runs | **Designated at act effectiveness; recorded at run start** (descendants of the pins) | `[P]` — PA determination item |
+| IRR commits for QE runs | **Designated at act effectiveness; recorded at run start** (descendants of the designated consumer lineage) | `[P]` — PA determination item; neither documentation rendering pin is itself a qualified consumer commit |
 | Wrapper blob at basis | `fe1ab1a30d8cd0060b5fc50d181d6fcc735a3794` | Verified |
 
 ## 4. Gate 3 acceptance reference and preserved determinations
@@ -87,7 +91,7 @@ execute and record QE-1…QE-11 on the designated target host. This packet:
 
 | Channel | Evidence | Standing |
 |---|---|---|
-| Hosted Linux CI | IPD `main@1cceacff…` push run `39765365164` `success` — `784` executed / `783` passed / `0` failed / `1` `windowsOnly` skip (jobs `119779358586`, `119779508517`); IRR `main` push runs `39779378820` (at `04394f3…`), `39771867868` (at `5a3410e…`) `success` | Gate 3 acceptance evidence (`Q3-A`); no Windows/host behaviour established |
+| Hosted Linux CI | IPD `main@1cceacff…` push run `39765365164` `success` — `784` executed / `783` passed / `0` failed / `1` `windowsOnly` skip (jobs `119779358586`, `119779508517`); IRR `main@4f472283…` push run `39782159580` and PR #190 head run `39781892060` `success`; earlier IRR runs `39779378820`/`39771867868` also `success` | Gate 3/records-publication evidence only; no Windows/host behaviour established |
 | Native-Windows canonical `npm test` | **FAILED** (§5) | Failure preserved; Limb A is the remediation path; post-remediation host re-run is the acceptance evidence for the repair |
 | Native-Windows direct TAP | `754 / 750 / 0 / 4`, exit 0 (operator-supplied; log `g3-connection-release-direct-tap-20261022-013113.log`) | Supplemental defect-remediation corroboration only |
 | Target-host QE (channel 4) | **None exists** | Created only by authorized Limb B execution; closed only by separate result acceptance |
@@ -97,15 +101,24 @@ execute and record QE-1…QE-11 on the designated target host. This packet:
 
 1. **This proposed act made effective** by PA determination (§9 of the act).
 2. **Gate A′ provisioning executed** on the target host — Gate E §4 places the QE run *"after Gate A′
-   provisioning"*; Gate A′ remains `APPROVED — NOT EXECUTED`, P-1 separate (act §11). **PA must confirm
-   this ordering (checklist D-5).**
-3. **Limb A merged** (wrapper remediation) and the canonical `npm test` observed passing on the target
-   host (proposed sequencing so the canonical runner works for evidence capture — PA to confirm).
-4. **Target host `desktop-no0nhtp`** available to the operator; host Node ≥ `22.13.0` and `node:sqlite`
-   availability recorded (act §8.3 — QE-1 prerequisite).
-5. **Recorded digests** of the qualified IPD and IRR builds (§5.2 of the act).
-6. **Qualification write mechanism** resolved (§9 D-4) for write-path items.
-7. **Evidence deposit destination fixed** (§9 D-8).
+   provisioning"*; this ordering is established, not optional. Gate A′ remains
+   `APPROVED — NOT EXECUTED`, P-1 separate. Its evidence must be same-host and compatible with the exact
+   current migration/store blobs. This package neither executes Gate A′ nor authorizes a new
+   `provisioning.ts` entrypoint; absent/incompatible evidence is a stop.
+3. **Limb A merged** and canonical `npm test` observed passing on the target host at the exact
+   post-merge IPD commit, with PR-head/post-merge Linux CI green. Earlier candidate evidence does not
+   transfer to a later final commit.
+4. **Target host `desktop-no0nhtp`** re-measured as native `win32`, under the provisioned non-elevated
+   account. Runtime must be **Node major 22, `>=22.13.0 <23`**, with flag-free `node:sqlite`. The
+   historical Node `v24.14.0` report is not current evidence and does not qualify; no runtime install or
+   Gate 3 runtime amendment is included.
+5. **Recorded digests** of the final qualified IPD and IRR builds, clean worktrees and remote ancestry
+   at start/end (act §5.2). Qualified-surface drift invalidates the run.
+6. **Qualification write mechanism** resolved (§9 D-4) for each write-path item. Direct-store evidence
+   is supporting only and cannot be represented as admitted IPC writes or as QE-4/QE-10 real-process
+   proof; absent an express fence-preserving PA determination, affected items stop.
+7. **Evidence deposit destination and Q11 digest set fixed** (§9 D-7/D-8); raw bytes hashed without
+   normalization, all attempts retained, synthetic/disposable fixtures only.
 
 ## 8. Risks
 
@@ -113,63 +126,152 @@ execute and record QE-1…QE-11 on the designated target host. This packet:
 |---|---|---|
 | R-1 | `node:sqlite` is Stability 1.1 (experimental warning) — behaviour on the Windows host unverified | QE-1 prerequisite records host availability; risk carried from G3-D2, not reopened |
 | R-2 | W-1 circularity: write-path QE items need successful writes while W-1(3)/(4) are false | Unresolved decision D-4; no item may weaken W-1 in operational configuration |
-| R-3 | QE-11 "and accepted" limb cannot close in-execution → multi-act sequence risk (run → Gate C acceptance → Gate 4 result acceptance) | Sequencing made explicit (matrix gap G-3; act §5.2(5)) |
+| R-3 | QE-11 "and accepted" limb cannot close in-execution → multi-act sequence risk (run → Gate C acceptance → Gate 4 result acceptance) | Sequencing made explicit (matrix gap G-3; act §5.2(8)) |
 | R-4 | Wrapper fix could mask broader output-format drift or alter Linux behaviour | §4.2 narrows to the summary-parsing region; §4.3 keeps full-suite + hosted-CI regression obligations; §4.4 fail-closed stop |
-| R-5 | Evidence line-ending ambiguity (LF blobs vs CRLF Windows working tree — acceptance record tracked both SHA-256s) | Evidence deposit must state LF/CRLF convention per artifact (checklist D-8) |
+| R-5 | Evidence line-ending ambiguity (LF blobs vs CRLF Windows working tree — acceptance record tracked both SHA-256s) | Hash the actual artifact bytes without normalization; record observed line-ending form separately as metadata, never as a substitute hash |
 | R-6 | Operator-supplied evidence class (Arena cannot observe the host) | Recorded limitation; digest-anchored run records + PA acceptance act |
-| R-7 | Parallel recordkeeping drift (remote `main` moved during this pass) | Drift recorded (act §2.2); pins are exact SHAs |
+| R-7 | Parallel recordkeeping drift (remote `main` moved during both proposal passes) | Both drift records retained (act §§2.2–2.3); revision-2 pins exact `4f472283…`; later non-documentation drift stops rather than auto-re-pinning |
 | R-8 | Destructive scenarios (QE-7) damaging operator data | Proposed disposable-fixture rule (matrix §1; D-GC-I extension) — PA to confirm (D-9) |
+| R-9 | Historical host Node `v24.14.0` conflicts with Gate 3's Node-major-22 policy | Native re-measurement; require `>=22.13.0 <23` and `node:sqlite`; stop rather than treat Node 24 as compliant or install/switch runtimes under this act |
+| R-10 | Historical Gate A′ provisioning basis/tooling may not match accepted `main` migrations; current library has no executable entrypoint | Require compatible executed Gate A′ evidence on the same host; otherwise stop for separate Gate A′ authority. No implicit re-baseline or provisioning implementation |
+| R-11 | Direct-store tests could be misread as successful admitted writes | Classify them as supporting domain evidence only; D-4 must expressly resolve each write-path item or the item stops. Operational dispatch remains `WRITE_NOT_AUTHORIZED` |
 
 ## 9. Unresolved decisions (PA determination required — no default assumed)
 
 | # | Question | Options on the record |
 |---|---|---|
 | D-1 | Adopt this proposed act (whole / with changes / reject)? Assign its Act ID (currently PENDING) | — |
-| D-2 | Confirm or revise the pinned baselines (IPD `1cceacff…`; IRR rendering `04394f3…`; designate the QE-run IRR commit) | — |
-| D-3 | Confirm Limb A's exact boundary (`scripts/run-tests.mjs` + one `tests/g4_run_tests_summary_parsing.test.ts` + at most one `scripts/` helper) and the stop-and-escalate rule | Adopt as written / narrow / widen (widening needs justification) |
-| **D-4** | **How do write-path QE items (QE-2…QE-9) execute while W-1(3)/(4) remain false?** | (a) bounded qualification-mode configuration on the host (W-1 evaluated as-if satisfied strictly inside the qualification run, non-production); (b) store-layer execution with the IPC write gate verified separately; (c) other — PA fixes the mechanism |
-| D-5 | Sequencing: Gate A′ execution before QE run? Limb A before QE run? | Adopt Gate E §4 order ("after Gate A′ provisioning") + proposed Limb-A-first order / alternative |
-| D-6 | QE-11 Gate C subset: re-issue the Q1–Q4/Q9–Q11 **execution** grant against the current qualified commits (the D-GC grant names `cec70802…`, now reference-only)? And confirm Gate C **acceptance** stays a separate act | Re-issue in this act / separate Gate C execution act |
-| D-7 | H-12 digest set re-base for Q11: designate the exact qualified-surface file set (historical: 15 files + `package.json` + `tsconfig.json` for `cec70802…`; current manifest is 22 files + wrapper + …) | PA fixes the set |
-| D-8 | Evidence artifact format + destination (proposed: IRR `evidence/integration/gate-4-target-host-qualification-<date>/` + SHA-256 manifest + LF/CRLF statement per artifact) | Adopt / replace |
+| D-2 | Confirm or revise the pinned baselines (IPD `1cceacff…`; revision-2 IRR rendering `4f472283…`; designate the final QE-run IRR consumer commit) | — |
+| D-3 | Confirm Limb A's exact boundary: `scripts/run-tests.mjs` + new `tests/g4_run_tests_summary_parsing.test.ts` +, only if extraction is necessary, the exact new pure helper `scripts/test-summary-parser.mjs`; no fourth path. Confirm the §4.3 regression matrix and stop rule | Adopt as written / narrow / widen by recorded amendment (widening needs justification) |
+| **D-4** | **How do write-path QE items execute while W-1(3)/(4) are false?** Current source hard-refuses all IPC writes; direct T-G store calls are separate | PA must fix an item-by-item fence-preserving mechanism. Direct-store execution may be supporting evidence only, never admitted-write evidence; it is insufficient alone for QE-4/QE-10 real-process requirements. If no mechanism is rendered, affected items **stop**. No override is assumed |
+| D-5 | Confirm execution sequencing and any separate Gate A′ action needed to supply compatible same-host provisioning evidence | Gate E's “after Gate A′ provisioning” order is fixed. Proposed order: compatible Gate A′ evidence → merged Limb A + final-commit canonical Windows pass → QE. This act does not execute Gate A′ |
+| D-6 | QE-11 Gate C subset: re-issue the Q1–Q4/Q9–Q11 **execution** grant against the current qualified commits (the D-GC grant names `cec70802…`, now reference-only)? Confirm Q1 records-only and Gate C **acceptance** stays separate | Re-issue in this act / separate Gate C execution act; no Gate C completion while Q5–Q8 are deferred |
+| D-7 | H-12 digest set re-base for Q11: designate the exact current qualified-surface set. Revision 2 supplies a concrete 27-path + one-conditional-path proposal in §13 | Adopt the §13 set / replace it explicitly before execution; any drift invalidates the run |
+| D-8 | Evidence artifact format + destination (proposed: one IRR `evidence/integration/gate-4-target-host-qualification-<run-id>/` directory + raw-byte SHA-256 manifest; no line-ending normalization) | Adopt / replace |
 | D-9 | Failure-handling rule (proposed: PASS/FAIL/INCONCLUSIVE per item at recorded digests; no relabeling; all attempts recorded; escalation to PA) + destructive-fixture rule | Adopt / replace |
-| D-10 | Durability-vocabulary reading for QE-4 raw output (`durable:true` fields as measurement vs claim; act §8.4) | Adopt the proposed reading / replace |
+| D-10 | Durability-vocabulary reading for QE-4 raw output (`durable:true` fields as measurement vs claim; act §8.4) | Adopt the proposed reading / replace; if raw output cannot be published without violating the claim prohibition, stop |
 | D-11 | Confirm executor identity/capacity (operator = Program Authority on `desktop-no0nhtp`; recording authority for the execution record) | — |
-| D-12 | Whether a master-tracker note/section is authorized at act effectiveness (this preparation registered in the packet index only; the tracker was deliberately not modified — see §11) | Authorize tracker registration at effectiveness / index-only |
+| D-12 | Records-only tracker registration | **Resolved for preparation:** standing documentation authority permits recording the proposal as `PROPOSED — NOT EFFECTIVE` and execution as `NOT AUTHORIZED / NOT STARTED`. This is not PA adoption, gate movement or an execution grant. Later effectiveness/execution status still requires the appropriate act and evidence |
 
 ## 10. Verified vs. assumed vs. open
 
 | Fact class | Items |
 |---|---|
-| **Independently verified this pass** | IPD and IRR live `main` refs + the drift audit; wrapper file/blob/SHA-256 and the exact defective lines; absence of wrapper tests; Gate E §4 / L-IPC-1 §10 / D-GC / G2-D3 source blobs and the byte-identity of the §10 table across blobs; Gate 3 acceptance + G3 act + `G3-AMEND-01` blobs/SHA-256/sizes; CI run states (IPD `39765365164`, IRR `39779378820`/`39771867868`); fence-blob standing per tracker §16.78; no pre-assigned Gate 4 act identifier exists in either repository (grep across both) |
-| **Assumed / operator-supplied (not Arena-observed)** | The native-Windows wrapper failure cause (`ℹ`/CRLF) and the direct-TAP counts; host configuration; anything about `desktop-no0nhtp` beyond the recorded facts |
-| **Open (see §9)** | D-1…D-12 — including the material W-1 qualification-mechanism question (D-4) and the QE-11 grant re-basis (D-6) |
+| **Independently verified this pass** | IPD and IRR live `main` refs + both drift audits, including PR #190's four-Markdown-path compare; wrapper file/blob/SHA-256 and exact defective lines; absence of wrapper tests; Gate E §4 / L-IPC-1 §10 / D-GC / G2-D3 source blobs; Gate 3 acceptance + act + amendment identities; CI states (IPD `39765365164`; IRR `39782159580`, `39781892060`, `39779378820`, `39771867868`); hard W-1 guard/dispatch source and direct-store-only T-G writes; Q1 records-only text; no revision-2 prepared-record or tracker-ID collisions |
+| **Assumed / operator-supplied (not Arena-observed)** | The native-Windows wrapper failure cause (`ℹ`/CRLF) and direct-TAP counts; current host configuration/runtime; anything about `desktop-no0nhtp` beyond recorded facts. Historical Node `v24.14.0` is not represented as a current measurement |
+| **Open (see §9)** | PA-only **D-1…D-11** — especially W-1 mechanism D-4, compatible Gate A′ evidence/sequencing D-5, QE-11 grant re-basis D-6 and exact Q11 set D-7. **D-12 is resolved only as records-only proposal registration**, not as act effectiveness |
 
 ## 11. Validation record of this packet (pre-publication)
 
 | Check | Result |
 |---|---|
 | Both baseline SHAs re-confirmed at drafting; drift recorded (not substituted) | **PASS** — act §2 |
-| Every cited governance artifact and QE definition exists at its authoritative location (blob reads in a full IPD clone at `1cceacff…` and in IRR at `04394f3…`) | **PASS** — §2 |
+| Every cited governance artifact and QE definition exists at its authoritative location (blob reads in a read-only IPD clone at `1cceacff…` and in IRR through revision-2 basis `4f472283…`) | **PASS** — §2 |
 | Proposed scope conflicts with the effective Gate 3 act / `G3-AMEND-01`? | **NONE** — Limb A is the repair those instruments expressly deferred to a Gate 4 act; manifests, `Q2-A`, fences, W-1 all preserved (act §7) |
 | Language scan: no accidental authorization of Gate C acceptance, Gate 4 result acceptance, Gate 5/`CV-52`, production eligibility, `durable:true`, or route-fence removal | **PASS** — act §8 non-grants matrix; status banners on all three documents |
 | Windows canonical `npm test` kept recorded FAILED; direct-TAP not relabelled | **PASS** — act §3 |
-| No implementation performed; no QE executed; no tracker modification | **PASS** — stop boundaries held |
+| No implementation performed; no QE executed; tracker/index edits are records-only and retain `PROPOSED — NOT EFFECTIVE` / `NOT AUTHORIZED / NOT STARTED` | **PASS** — stop boundaries held; D-12 does not move a gate |
+| Required valid/malformed/incomplete/zero-failure/nonzero-failure/skipped/source-required parser cases present; exact helper path named; Node-major-22 and Q1 records-only stops present | **PASS** — revision-2 reconciliation |
+| Local IRR documentation-regression validation | **PASS on Linux Node `v22.22.3`** — initial npm codeload CA failure recorded; CA-preserving `NODE_EXTRA_CA_CERTS=/etc/ssl/certs/ca-certificates.crt` rerun succeeded without disabling TLS; typecheck `0`; **87 files / 1,077 tests / 0 failed**; `assert-tests` `OK`; build `0`, 94 modules. **Not Windows/QE evidence** |
 | Document-structure checks + `git diff --check` on the publication diff | **PASS** (recorded at publication) |
 
 ## 12. PA determination checklist (the exact determinations required before effectiveness)
 
 - [ ] **D-1** — Render the determination on the proposed act (adopt / adopt-with-changes / reject); assign the **Act ID**; record it in the established PA decision form. *(Nothing is effective until this is done.)*
-- [ ] **D-2** — Confirm/revise pins: IPD `1cceacfff40f22dbc9cd64906bf26a5feac1075e`; IRR rendering `04394f3ffa88da8a72cb6b9d01f668d9d2650e6f`; designate the QE-run IRR commit rule.
-- [ ] **D-3** — Confirm Limb A file boundary and the §4.4 stop-and-escalate rule.
-- [ ] **D-4** — **Fix the write-path qualification mechanism** (W-1(3)/(4)=false vs QE-2…QE-9) — material; execution cannot proceed without it.
-- [ ] **D-5** — Confirm sequencing (Gate A′ → Limb A → QE run) and the P-1 relationship.
-- [ ] **D-6** — Confirm the QE-11 Gate C subset execution grant re-issue (and that Gate C **acceptance** remains separate).
-- [ ] **D-7** — Designate the Q11/H-12 qualified-surface digest set for the current implementation.
-- [ ] **D-8** — Fix the evidence artifact format, deposit destination, and LF/CRLF hash convention.
+- [ ] **D-2** — Confirm/revise pins: IPD `1cceacfff40f22dbc9cd64906bf26a5feac1075e`; revision-2 IRR rendering `4f472283cd6bbedb228d06bfb9a766688c039976`; designate the final QE-run IRR consumer commit rule.
+- [ ] **D-3** — Confirm the three exact Limb A paths (third path conditional), complete §4.3 parser matrix and §4.4 stop rule.
+- [ ] **D-4** — **Fix the fence-preserving write-path qualification mechanism item by item.** Direct-store results are supporting evidence only; unresolved affected items stop.
+- [ ] **D-5** — Confirm compatible same-host Gate A′ evidence and sequencing (Gate A′ → merged Limb A/final-commit Windows pass → QE); any new Gate A′ action is separate.
+- [ ] **D-6** — Confirm the QE-11 Gate C subset execution grant re-issue, Q1 records-only treatment, and separate Gate C **acceptance**.
+- [ ] **D-7** — Adopt or explicitly replace the §13 Q11/H-12 qualified-surface digest set before execution.
+- [ ] **D-8** — Fix the evidence run-ID, destination and raw-byte SHA-256 convention (no line-ending normalization).
 - [ ] **D-9** — Adopt or replace the failure-handling rule and the destructive-fixture rule.
-- [ ] **D-10** — Adopt or replace the QE-4 durability-vocabulary reading (measurement vs claim).
+- [ ] **D-10** — Adopt or replace the QE-4 durability-vocabulary reading (measurement vs claim); unresolved publication conflict stops QE-4.
 - [ ] **D-11** — Confirm executor identity/capacity and recording authority for the execution record.
-- [ ] **D-12** — Decide whether tracker registration is authorized at effectiveness (this preparation is registered in the packet index only).
+- [x] **D-12** — **Records-only registration resolved:** the tracker/index may record this proposal and its non-effective/not-started status under standing documentation authority. This checkbox is not a PA adoption and confers no execution authority.
 
-*End of the Gate 4 evidence packet. Prepared for PA determination — **Gate 4 remains `NOT AUTHORIZED / NOT STARTED`**; the Windows canonical `npm test` wrapper failure remains a failure; no QE item is executed or accepted.*
+---
+
+## 13. Revision-2 proposal for D-7 — exact Q11/H-12 qualified-surface set
+
+This is a **[P] decision input**, not a claim that H-12 already names these files. It re-bases the
+historical 15-file `cec70802…` set onto the accepted Gate 3 implementation and the proposed Limb A
+surface. PA must adopt or replace this list before execution; the same list must be used before and
+after the run, and any drift invalidates the run.
+
+### 13.1 IPD source/test/configuration manifest — 27 mandatory paths
+
+| Group | Exact paths |
+|---|---|
+| Gate 3 IPC implementation (4) | `src/ipc/dispatch.ts`; `src/ipc/endpoint.ts`; `src/ipc/entrypoint.ts`; `src/ipc/protocol.ts` |
+| Gate 3 persistence implementation (10) | `src/persistence/audit.ts`; `src/persistence/binding.ts`; `src/persistence/connection.ts`; `src/persistence/durablePortfolioStorePort.ts`; `src/persistence/migration_ledger.ts`; `src/persistence/migrations/001_initial_schema.ts`; `src/persistence/migrations/002_audit_event_sequence.ts`; `src/persistence/migrations/003_local_principal_bindings.ts`; `src/persistence/portfolio_store.ts`; `src/persistence/provisioning.ts` |
+| Gate 3 tests (8) | `tests/g3_binding_resolution.test.ts`; `tests/g3_caller_authority.test.ts`; `tests/g3_durability_vocabulary.test.ts`; `tests/g3_ipc_framing.test.ts`; `tests/g3_no_network_listener.test.ts`; `tests/g3_portfolio_read_isolation.test.ts`; `tests/g3_startup_validation.test.ts`; `tests/g3_write_gate.test.ts` |
+| Limb A (2 mandatory) | `scripts/run-tests.mjs`; `tests/g4_run_tests_summary_parsing.test.ts` |
+| Runtime/test configuration (3) | `package.json`; `package-lock.json`; `tsconfig.json` |
+
+**Conditional twenty-eighth path:** `scripts/test-summary-parser.mjs`. If Limb A uses the helper, it is
+present in both manifests with its digest. If Limb A does not use it, both manifests record it
+`ABSENT`; its later appearance is drift. No other helper is permitted.
+
+For each path record Git blob SHA-1, SHA-256 and byte size. Also record the IPD commit/root tree,
+`.github/workflows/ci.yml` frozen blob `aeee464feb76e2d1e9d104e1cae4e5dde37700ad`, and the executed
+`dist` artifact hashes in a separate runtime-artifact manifest. Source digests alone do not prove which
+compiled bytes were loaded; the runtime manifest closes that evidence gap without authorizing checked-
+in `dist` changes.
+
+### 13.2 IRR consumer and fence identity
+
+Record the designated IRR consumer commit/root tree and before/after blob + SHA-256 manifest for the
+Gate 3 consumer set (`ipcClient.ts`, `ownerContextFromBinding.ts`, `ipcPortAdapter.ts`, their tests and
+associated contract/port/fence files identified by the Gate 3 act), plus
+`frontend/server/owner-context-unavailable.ts`, `frontend/server/user-portfolio-transport.ts`,
+`frontend/server/reports-transport.ts`, `frontend/server/executive-transport.ts`,
+`frontend/package.json`, `frontend/package-lock.json` and `frontend/vite.config.ts`. The full Gate 3
+act §5 list controls the consumer-set membership; this paragraph does not add or remove a product file
+from that act. Any consumer/fence drift invalidates the run. Evidence-publication commits are recorded
+separately and are not substituted for the qualified IRR consumer commit.
+
+### 13.3 Evidence-deposit file classes
+
+If D-8 is adopted, each run directory contains only new evidence files under:
+
+- `evidence/integration/gate-4-target-host-qualification-<run-id>/raw/**` — unedited stdout/stderr,
+  PowerShell transcripts, JSON/JSONL measurements and process logs;
+- `…/MANIFEST.json` — run ID, UTC times, exact commits/trees, host/runtime fields, artifact names,
+  sizes and SHA-256 values;
+- `…/Q11-BEFORE.json` and `…/Q11-AFTER.json` — the §13.1/§13.2 source and runtime-artifact manifests;
+- `…/QE-01.md` through `…/QE-11.md` — per-item procedure, exact commands, result and artifact links;
+- `…/WINDOWS-CANONICAL-TEST.md` — channel-2 final-commit result, counts and all skips;
+- `…/EXECUTION-RECORD.md` — all attempts, failures/stops, separate evidence-publication commit IDs and
+  non-grants.
+
+Raw evidence is collected outside the qualified worktrees and copied into a separate documentation
+worktree only after Q11-after. No existing raw file may be overwritten; a repeated attempt receives a
+new run ID.
+
+## 14. Revision-2 host/runtime preflight — evidence template, not executed output
+
+The following fields and read-only probes are the minimum proposed way to prove the environment. They
+are **commands for a later authorized operator run**, not commands executed by Arena and not results.
+The operator must publish the actual raw output; no expected value below may be copied into evidence as
+though observed.
+
+| Evidence field | Proposed native-Windows probe / required record |
+|---|---|
+| UTC and host | `(Get-Date).ToUniversalTime().ToString('o')`; `$env:COMPUTERNAME`; require actual `desktop-no0nhtp` |
+| Principal and elevation | `whoami`; `whoami /groups`; record the exact provisioned account and group/elevation evidence; require the designated non-elevated single principal |
+| OS | `Get-CimInstance Win32_OperatingSystem \| Select-Object Caption,Version,BuildNumber,OSArchitecture`; record raw values, with no minimum build invented |
+| Native Node identity | `node -p "JSON.stringify({version:process.version,platform:process.platform,arch:process.arch,execPath:process.execPath,versions:process.versions})"`; require `platform:"win32"` and Node `>=22.13.0 <23` |
+| Node executable integrity | `(Get-FileHash -Algorithm SHA256 (Get-Command node).Source).Hash`; bind the probe and every later test/QE command to the same `execPath` |
+| `node:sqlite` | A flag-free in-memory `DatabaseSync` probe that creates a table, commits one synthetic row, reads it back and closes the database; publish version/warning/output/exit code. No host file is created |
+| Repository identity | In each qualified worktree: `git rev-parse HEAD 'HEAD^{tree}'`; `git status --porcelain=v1 --untracked-files=all`; `git diff --exit-code`; `git diff --cached --exit-code`; `git ls-remote origin refs/heads/main`; record exact values and remote ancestry |
+| Build/test binding | `npm ci --no-audit --no-fund`, typecheck/build/canonical-test commands as applicable, each with UTC start/end, exit code and raw log; hash executed `dist` artifacts per §13.1 |
+| Native process/pipe evidence | During the relevant QE items, record real IRR/IPD process IDs, start/stop/restart transitions, endpoint name and named-pipe transport results. Linux/WSL/CI output is non-qualifying |
+
+**Preflight failure is a stop, not an inconclusive pass.** In particular, Node `v24.x`, `win32` not
+reported, a different host/account, a failed SQLite probe, an unclean qualified worktree or an
+unrecorded executable/runtime change prevents Gate 4 execution. Installing or switching Node is not
+authorized by this package; a compliant runtime must be supplied under separate environment control
+before the preflight is repeated.
+
+*End of the Gate 4 evidence packet, reconciliation revision 2. Prepared for PA determination — **Gate 4 remains `NOT AUTHORIZED / NOT STARTED`**; the Windows canonical `npm test` wrapper failure remains a failure; no QE item is executed or accepted, and §14 contains no observed host output.*
