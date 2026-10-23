@@ -10,6 +10,7 @@
 import { describe, it, expect } from 'vitest';
 import {
   projectIngressToBrokerImportSaveRequest,
+  readBrokerImportRevision,
   saveBrokerImportHoldings,
   type BrokerImportSaveRequestDto,
   type UiIngressHoldingInput,
@@ -195,5 +196,55 @@ describe('brokerImport client — one request, zero retries, honest outcomes (U7
     const outcome = await saveBrokerImportHoldings('P-1', smuggled, fetchStub(200, {}, log));
     expect(log).toHaveLength(0);
     expect(outcome.ok).toBe(false);
+  });
+
+  it('reads current revision via GET /api/broker-import/:portfolioId/revision with zero retries', async () => {
+    const log: Array<{ url: string; init: RequestInit }> = [];
+    const okOut = await readBrokerImportRevision(
+      'DEFAULT_PORTFOLIO',
+      fetchStub(200, { portfolioId: 'DEFAULT_PORTFOLIO', revision: 7 }, log),
+    );
+    expect(log).toHaveLength(1);
+    expect(log[0].url).toBe('/api/broker-import/DEFAULT_PORTFOLIO/revision');
+    expect(log[0].init.method).toBe('GET');
+    expect(okOut).toEqual({
+      ok: true,
+      status: 200,
+      portfolioId: 'DEFAULT_PORTFOLIO',
+      revision: 7,
+    });
+
+    const unavailOut = await readBrokerImportRevision(
+      'DEFAULT_PORTFOLIO',
+      fetchStub(503, { error: 'owner-context-unavailable' }, []),
+    );
+    expect(unavailOut).toEqual({
+      ok: false,
+      status: 503,
+      outcome: 'OWNER_CONTEXT_UNAVAILABLE',
+    });
+
+    const missingOut = await readBrokerImportRevision(
+      'DEFAULT_PORTFOLIO',
+      fetchStub(404, { outcome: 'RESOURCE_UNAVAILABLE' }, []),
+    );
+    expect(missingOut).toEqual({
+      ok: false,
+      status: 404,
+      outcome: 'RESOURCE_UNAVAILABLE',
+    });
+
+    let netCalls = 0;
+    const netOut = await readBrokerImportRevision('DEFAULT_PORTFOLIO', (async () => {
+      netCalls += 1;
+      throw new TypeError('network down');
+    }) as unknown as typeof fetch);
+    expect(netCalls).toBe(1);
+    expect(netOut).toEqual({
+      ok: false,
+      status: 0,
+      outcome: 'OUTCOME_UNKNOWN',
+      retried: false,
+    });
   });
 });

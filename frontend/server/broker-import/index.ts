@@ -23,12 +23,16 @@ export {
 export {
   buildV1SavePayload,
   defaultBrokerImportSaveDeps,
+  parseV1RevisionFromPortfolioList,
   parseV1SaveReceipt,
+  readBrokerImportRevisionViaV1,
   saveBrokerImportHoldingsViaV1,
   V1_SAVE_DISPOSITIONS,
   V1_SAVE_DURABILITY_VALUES,
+  type BrokerImportRevisionTransportOutcome,
   type BrokerImportSaveAdapterDeps,
   type BrokerImportSaveTransportOutcome,
+  type V1PortfolioRevisionReadResult,
   type V1SaveReceipt,
 } from './brokerImportV1SaveAdapter.js';
 export {

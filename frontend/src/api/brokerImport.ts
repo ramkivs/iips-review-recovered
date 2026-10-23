@@ -157,6 +157,11 @@ export type BrokerImportSaveClientOutcome =
   /** Network failure: the request may or may not have committed. Never retried here. */
   | { readonly ok: false; readonly status: 0; readonly outcome: 'OUTCOME_UNKNOWN'; readonly retried: false };
 
+export type BrokerImportRevisionClientOutcome =
+  | { readonly ok: true; readonly status: 200; readonly portfolioId: string; readonly revision: number }
+  | { readonly ok: false; readonly status: number; readonly outcome: string }
+  | { readonly ok: false; readonly status: 0; readonly outcome: 'OUTCOME_UNKNOWN'; readonly retried: false };
+
 /* ------------------------------------------------------------------ *
  * Projection: IPD UI ingress shapes → CAP-02 DTO
  * ------------------------------------------------------------------ */
@@ -307,5 +312,75 @@ export async function saveBrokerImportHoldings(
     : response.status === 503 && body !== null && typeof body === 'object' && (body as Record<string, unknown>).error === 'owner-context-unavailable'
       ? 'OWNER_CONTEXT_UNAVAILABLE'
       : 'UNAVAILABLE';
+  return { ok: false, status: response.status, outcome };
+}
+
+/**
+ * Performs ONE `GET /api/broker-import/:portfolioId/revision` request (admitted under U7 §1.4 /
+ * U1 §7 / composition act `-04` §3.2) to read the current optimistic-concurrency revision or
+ * reconcile an `OUTCOME_UNKNOWN` save. Never retries and never issues a write.
+ */
+export async function readBrokerImportRevision(
+  portfolioId: string = 'DEFAULT_PORTFOLIO',
+  fetchImpl: typeof fetch = fetch,
+): Promise<BrokerImportRevisionClientOutcome> {
+  if (typeof portfolioId !== 'string' || portfolioId.trim().length === 0) {
+    return { ok: false, status: 0, outcome: 'INVALID_REQUEST' };
+  }
+
+  let response: Response;
+  try {
+    response = await fetchImpl(
+      `/api/broker-import/${encodeURIComponent(portfolioId)}/revision`,
+      { method: 'GET' },
+    );
+  } catch {
+    return { ok: false, status: 0, outcome: 'OUTCOME_UNKNOWN', retried: false };
+  }
+
+  let body: unknown = null;
+  try {
+    body = await response.json();
+  } catch {
+    body = null;
+  }
+
+  if (response.status === 200) {
+    if (typeof body !== 'object' || body === null || Array.isArray(body)) {
+      return { ok: false, status: 200, outcome: 'OUTCOME_UNKNOWN' };
+    }
+    const record = body as Record<string, unknown>;
+    if (
+      typeof record.portfolioId !== 'string' ||
+      record.portfolioId !== portfolioId ||
+      typeof record.revision !== 'number' ||
+      !Number.isSafeInteger(record.revision) ||
+      record.revision < 0
+    ) {
+      return { ok: false, status: 200, outcome: 'OUTCOME_UNKNOWN' };
+    }
+    return {
+      ok: true,
+      status: 200,
+      portfolioId: record.portfolioId,
+      revision: record.revision,
+    };
+  }
+
+  const outcome =
+    typeof body === 'object' &&
+    body !== null &&
+    typeof (body as Record<string, unknown>).outcome === 'string'
+      ? ((body as Record<string, unknown>).outcome as string)
+      : response.status === 503 &&
+          body !== null &&
+          typeof body === 'object' &&
+          (body as Record<string, unknown>).error === 'owner-context-unavailable'
+        ? 'OWNER_CONTEXT_UNAVAILABLE'
+        : response.status === 400
+          ? 'INVALID_REQUEST'
+          : response.status === 404
+            ? 'RESOURCE_UNAVAILABLE'
+            : 'UNAVAILABLE';
   return { ok: false, status: response.status, outcome };
 }

@@ -11,7 +11,9 @@ import { describe, it, expect } from 'vitest';
 import type { IpcCallResult, IpcOperation } from '../user-portfolio/ipcClient.js';
 import {
   buildV1SavePayload,
+  parseV1RevisionFromPortfolioList,
   parseV1SaveReceipt,
+  readBrokerImportRevisionViaV1,
   saveBrokerImportHoldingsViaV1,
   type BrokerImportSaveAdapterDeps,
 } from './brokerImportV1SaveAdapter.js';
@@ -199,5 +201,83 @@ describe('brokerImportV1SaveAdapter — Class A mapping (every admitted outcome)
     const deps = makeDeps([{ kind: 'OUTCOME_UNKNOWN', reason: 'TRANSPORT_FAULT', op: 'portfolio.save', write: true, retried: false }], []);
     const outcome = await saveBrokerImportHoldingsViaV1(deps, 'P-1', dto());
     expect(outcome.kind).toBe('OUTCOME_UNKNOWN');
+  });
+});
+
+describe('brokerImportV1SaveAdapter — narrow revision read via portfolio.list (U7 §1.4)', () => {
+  function listSuccessFrame(result: unknown): IpcCallResult {
+    return { kind: 'SUCCESS', frame: { v: 1, ok: true, op: 'portfolio.list', result }, bytesReceived: 96 };
+  }
+
+  it('calls portfolio.list once with empty payload and extracts { portfolioId, revision } for DEFAULT_PORTFOLIO', async () => {
+    const calls: RecordedCall[] = [];
+    const listResult = [
+      {
+        portfolioId: 'DEFAULT_PORTFOLIO',
+        portfolioName: 'Institutional Flagship Portfolio',
+        revision: 4,
+        holdingsCount: 3,
+        totalMarketValue: 150000,
+        lastUpdated: '2026-10-23T12:00:00.000Z',
+      },
+    ];
+    const deps = makeDeps([listSuccessFrame(listResult)], calls);
+    const outcome = await readBrokerImportRevisionViaV1(deps, 'DEFAULT_PORTFOLIO');
+    expect(calls).toHaveLength(1);
+    expect(calls[0].op).toBe('portfolio.list');
+    expect(calls[0].payload).toEqual({});
+    expect(outcome).toEqual({
+      kind: 'REVISION',
+      result: {
+        portfolioId: 'DEFAULT_PORTFOLIO',
+        revision: 4,
+      },
+    });
+  });
+
+  it('returns CLASS_A_REFUSAL / RESOURCE_UNAVAILABLE when the target portfolio is absent from portfolio.list', async () => {
+    const deps = makeDeps([listSuccessFrame([])], []);
+    const outcome = await readBrokerImportRevisionViaV1(deps, 'DEFAULT_PORTFOLIO');
+    expect(outcome).toEqual({
+      kind: 'CLASS_A_REFUSAL',
+      outcome: 'RESOURCE_UNAVAILABLE',
+    });
+  });
+
+  it('returns UNREPRESENTABLE_RESULT when portfolio.list result is not a valid summary array or revision is malformed', () => {
+    expect(parseV1RevisionFromPortfolioList({ items: [] }, 'DEFAULT_PORTFOLIO')).toEqual({
+      kind: 'UNREPRESENTABLE_RESULT',
+      retried: false,
+    });
+    expect(
+      parseV1RevisionFromPortfolioList(
+        [{ portfolioId: 'DEFAULT_PORTFOLIO', revision: -1 }],
+        'DEFAULT_PORTFOLIO',
+      ),
+    ).toEqual({
+      kind: 'UNREPRESENTABLE_RESULT',
+      retried: false,
+    });
+  });
+
+  it('maps Class P and timeout on portfolio.list without retrying', async () => {
+    const calls: RecordedCall[] = [];
+    const depsP = makeDeps([{ kind: 'CLASS_P', bytesReceived: 0, reason: null }], calls);
+    expect(await readBrokerImportRevisionViaV1(depsP, 'DEFAULT_PORTFOLIO')).toEqual({
+      kind: 'CLASS_P_REFUSAL',
+    });
+    expect(calls).toHaveLength(1);
+
+    const callsTimeout: RecordedCall[] = [];
+    const depsTimeout = makeDeps(
+      [{ kind: 'OUTCOME_UNKNOWN', reason: 'TIMEOUT', op: 'portfolio.list', write: false, retried: false }],
+      callsTimeout,
+    );
+    expect(await readBrokerImportRevisionViaV1(depsTimeout, 'DEFAULT_PORTFOLIO')).toEqual({
+      kind: 'OUTCOME_UNKNOWN',
+      reason: 'TIMEOUT',
+      retried: false,
+    });
+    expect(callsTimeout).toHaveLength(1);
   });
 });
