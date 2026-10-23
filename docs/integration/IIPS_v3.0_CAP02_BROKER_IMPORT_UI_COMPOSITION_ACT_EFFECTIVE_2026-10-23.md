@@ -237,3 +237,78 @@ IPD repository:                   UNCHANGED (read-only)
 *Rendered under the standing grant and the current CAP-02 directive; recorded in the NP-18/DEC-06
 form; no signature or approval identifier is fabricated. This act authorizes a bounded transport
 increment — it does not mount the modal, enable a write, or move any gate.*
+
+## 12. Dated correction (2026-10-23, post-publication): B-1R verification FAILED — split export surface; repin not executed
+
+This section is an additive dated correction under DEC-06 R-2/R-5: the original record above is
+preserved verbatim; this section corrects the B-1R status and the rollback text that depends on
+it. No other element of the act is affected.
+
+### 12.1 What was verified (receipts)
+
+During the §3 implementation pass, the B-1R repin was performed exactly as §3.1 directs
+(`package.json` + `package-lock.json` to `554ed6ceaa7422c95806fd1b6e095a24a8554be2`), installed,
+and then subjected to the §8 verification program. Findings:
+
+1. `iips-production-market-data/portfolio-ui` **does** resolve at the new pin: 22 named exports
+   (including `BrokerImportModal`, `SessionPortfolioStorePort`, `evaluatePortSaveGuard`,
+   `getGovernedBroadSecurityMaster`, `PortfolioStore`; `PortfolioWorkspace` deliberately absent);
+   `new SessionPortfolioStorePort()` reports `durability: 'SESSION_ONLY'`, `durable: false`.
+2. A browser-platform esbuild bundle of the export (external `react`/`react-dom`) completed with
+   **zero** occurrences of `node:net`, `node:sqlite`, `node:fs`, `node:http`, `node:path`,
+   `node:crypto`, `createConnection`, `DatabaseSync`, `listenIpc`, `persistBrokerImport`,
+   `WRITE_NOT_AUTHORIZED`, `src/ipc/`, `src/persistence/` — the §3.1(c) closure property holds.
+3. `npx tsc --noEmit` **FAILED**: `server/pit/nonProductionPitStore.ts` —
+   `Cannot find module 'iips-production-market-data/pit'`.
+
+### 12.2 Root cause (the split export surface)
+
+The two candidate pins serve **disjoint consumer sets**:
+
+| Pin | Lineage | `exports` keys |
+|---|---|---|
+| `2e11fa3b…` (current IRR pin) | `np04-governed-persistence-windows` (off `main`) | `./pit`, `./d114-non-production`, `./persistence` |
+| `554ed6ce…` (IPD `main`) | `main` | `./portfolio-ui` |
+
+IRR consumes the former through six AD-02-admitted files (`server/pit/ipdPitReadAdapter.ts`,
+`server/pit/nonProductionPitStore.ts`, `server/pit/nonProductionRuntimePitStore.ts`,
+`server/pit/pitD114RuntimeIntegration.test.ts`, `server/pit/pitRuntimeIntegration.test.ts`,
+`src/api/pit.test.ts` — `./pit` and `./d114-non-production`; nothing imports `./persistence`).
+IPD `main@554ed6ce` still carries the `src/pit/` source but its packaging layer
+(`tsconfig.portfolio-ui-package.json`, `dist/package/src/ui/portfolio_ui_package.js`) declares
+**only** the `./portfolio-ui` export. A plain repin therefore breaks typecheck and build for the
+admitted PIT consumers — the §8 verification program fails, and under §3.1's own terms B-1R
+cannot be completed.
+
+### 12.3 Decisions under this correction
+
+1. **The repin is NOT executed.** `package.json` and `package-lock.json` are reverted to the
+   recorded `2e11fa3b…` pin (verified by reinstall and by the committed guarded pin-status test).
+   The §12.1 receipts stand as verification evidence for the export surface itself; they are not
+   claims about the IRR install state.
+2. **The authorized resolution is IPD-side**: an IPD packaging act adding `./pit` (and
+   `./d114-non-production`) exports to IPD `main`'s packaging layer, after which the plain repin
+   this act authorizes becomes executable. This is recorded as a B-1R prerequisite alongside the
+   §6 modal-mount prerequisite. An IRR-side restructuring (e.g. a dual/aliased dependency plus
+   edits to the six AD-02-admitted files) is **not** authorized by this act and was not performed.
+3. **The browser client no longer imports the package.** Its projection input is typed by a local
+   structural mirror of `UserHoldingInput` (documented in
+   `frontend/src/api/brokerImport.ts`), so it typechecks at the current pin; the mirror may be
+   replaced by the package type import under the act that lands the repin.
+4. **The package-consumer suite is conditional**: `frontend/server/broker-import/brokerImportPackageConsumer.test.ts`
+   always asserts pin identity and lockfile agreement, and activates the full `./portfolio-ui`
+   consumer, export-surface, DP-2 Option 2F and browser-closure assertions automatically once the
+   installed pin carries the export — i.e. exactly when B-1R becomes executable. In the current
+   state those three assertions report as skipped (not passed) and are not counted as verification
+   of the installed tree.
+
+### 12.4 Status correction (supersedes §11's B-1R line only)
+
+```text
+B-1R:  AUTHORIZED but NOT EXECUTED — blocked by the IPD split export surface (§12);
+       pin retained at 2e11fa3b…; activation prerequisite: IPD packaging act adding
+       ./pit and ./d114-non-production exports to main, then the plain repin + §8 program
+```
+
+Everything else in §11 stands. The transport increment (§3.2–§3.5, §4, §5, §7, §8) is unaffected
+and proceeds: it has no dependency on the package pin.

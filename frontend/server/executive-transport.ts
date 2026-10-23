@@ -693,10 +693,18 @@ export async function handleExecutiveReadRequest(
 // certified credential-free reads (`/api/portfolio`, `/api/executive`, …) keep their
 // existing behaviour, including the wildcard origin they already had.
 
-/** The five namespaces that fail closed with `owner-context-unavailable`. */
+/**
+ * The owner-scoped API namespaces that fail closed with `owner-context-unavailable` (C8: no
+ * wildcard cross-origin grant on any of them).
+ *
+ * CAP-02 (2026-10-23, `IIPS-V3-CAP02-U1-BROKER-IMPORT-TRANSPORT-AUTHORITY-ACT-EFFECTIVE-2026-10-23-01`):
+ * `/api/broker-import` is added as the sixth owner-scoped namespace. The five pre-existing
+ * entries are unchanged and every `/api/user-portfolios*` fence is untouched.
+ */
 const OWNER_SCOPED_API_PREFIXES = Object.freeze([
   '/api/reports',
   '/api/user-portfolios',
+  '/api/broker-import',
   '/api/watchlists',
   '/api/collaboration',
   '/api/settings',
@@ -763,6 +771,25 @@ const server = http.createServer(async (req, res) => {
         await up.handleUserPortfolioRequest(req, res);
       } catch (e) {
         res.writeHead(500); res.end(JSON.stringify({ error: 'user-portfolio transport error', detail: String(e) }));
+      }
+    })();
+    return;
+  }
+  // CAP-02 broker import: the single admitted route POST /api/broker-import/:portfolioId/holdings
+  // on this existing host (IIPS-V3-CAP02-U1-BROKER-IMPORT-TRANSPORT-AUTHORITY-ACT-EFFECTIVE-2026-10-23-01).
+  // Owner-scoped (C8: added to the owner-scoped prefix list above), first-party-signaled, and
+  // fail-closed on the binding precondition exactly like the fenced namespace. While the Gate E
+  // W-1 conjunction is unmet, every write through it ends in IPD WRITE_NOT_AUTHORIZED with zero
+  // store effect. The mount-level catch is non-disclosing by design (no detail is echoed).
+  if (req.url === '/api/broker-import' || req.url?.startsWith('/api/broker-import/')) {
+    void (async () => {
+      try {
+        const bi = await import('./broker-import/brokerImportHttp');
+        await bi.handleBrokerImportRequest(req, res);
+      } catch {
+        if (!res.headersSent && !res.destroyed) {
+          res.writeHead(500); res.end(JSON.stringify({ error: 'broker-import transport error' }));
+        }
       }
     })();
     return;
