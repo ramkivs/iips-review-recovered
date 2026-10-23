@@ -230,6 +230,7 @@ The following completed baselines on `ramkivs/iips-review-recovered @ refs/heads
 | `2026-10-23` | `CHG-2026-10-23-04` | **CAP-02 topology/ownership decision RENDERED — EFFECTIVE (topology and ownership only); host boundary identified; exact-scope implementation act prepared, NOT EFFECTIVE (`CV-CORR-67`, §16.85).** PR #207 published the proposal and the CAP-02-HOST-01 §14 addendum (`MERGED` `2026-10-23T07:04:13Z`, merge `9a3f499…`, CI `success`) — **publication, not rendering**. The decision `IIPS-V3-CAP02-PA-TOPOLOGY-OWNERSHIP-EFFECTIVE-2026-10-23-01` was then rendered under the standing grant (F-3 §1.2, blob `c4c9f7d7…`, as construed by `IIPS-V3-DEC06-…-2026-10-21-01`) plus the 2026-10-23 PA direction: IRR retained as integrated product host (G1-B1), IPD retained as durable-persistence and IPC owner, no IPD-local native host created or assumed, host composition root/bridge/exact files required before implementation, transport/write correctness/Gate 4 qualification and result acceptance/Gate 5/write authorization kept distinct, and all write denial plus the twelve `503` route-method pairs preserved. Host boundary identified: IRR `frontend/server/executive-transport.ts` composition root, Vite `/api` proxy, existing unwired `ipcClient`/`ipcPortAdapter`, fenced `/api/user-portfolios*` bridge, and **no broker-import UI in IRR** (the only broker-import UI is an IPD component). Implementation act prepared with exact Increment A files/tests and dependency register **U0–U7**; implementation **NOT AUTHORIZED**. No source, test, schema, mapping, migration, store, route, fence, workflow, ref or issue change; IPD untouched; no gate, acceptance, admission or write status change; **zero register movements**; verification rows `V353`–`V363`. |
 | `2026-10-23` | `CHG-2026-10-23-05` | **CAP-02 decision publication and remote-read-back receipt only (`CV-CORR-67`, §16.85.10) — post-merge, documentation-only.** PR #208 `MERGED` `2026-10-23T07:08:57Z` (head `ec59d6a`, merge **`9c2991fcb55b59cab20df7b8752b8d858bcac028`**; PR-head CI run `39915756265` `success`; post-merge `main` push CI run `39915927633` `completed / success` at that commit, job-level check reported `in_progress` while run and steps were `success` — the known GitHub reporting fault, recorded not worked around). Remote read-back **4/4 MATCH** by git blob id, byte length and SHA-256: effective decision `48bc8375…`, implementation act `5791663b…`, proposal `14532fb6…`, tracker `f7d2faa9…`. Targeted fence/boundary suites re-run locally: **9 files / 170 tests passed**. Topology decision effectiveness now proven by authorization + act + remote proof (R-3); **implementation act remains `PREPARED — NOT EFFECTIVE`**; no write, gate, admission, route, fence or IPD change; **zero register movements**. |
 | `2026-10-23` | `CHG-2026-10-23-06` | **CAP-02 U0 RENDERED — EFFECTIVE (product placement and boundary only); U1 boundary determined, route not admitted; composition act prepared, NOT EFFECTIVE (`CV-CORR-68`, §16.86).** Publishes `docs/integration/IIPS_v3.0_CAP02_U0_BROKER_IMPORT_UI_PLACEMENT_DECISION_EFFECTIVE_2026-10-23.md` (`IIPS-V3-CAP02-U0-BROKER-IMPORT-UI-PLACEMENT-EFFECTIVE-2026-10-23-01`) and `docs/integration/IIPS_v3.0_CAP02_BROKER_IMPORT_UI_COMPOSITION_ACT_2026-10-23-02.md` (`IIPS-V3-CAP02-BROKER-IMPORT-UI-COMPOSITION-ACT-2026-10-23-02`), plus an additive §13 addendum to the CAP-02 host-boundary act (§§1–12 preserved; status unchanged). Selected placement: broker-import UI stays in IPD (16 files, 4,894 lines), IRR hosts and composes it; ownership and domain stay with IPD per G-2; reuse only by governed IPD package export. Rejections evidenced: A relocates/duplicates IPD identity and provenance domain; B contradicts effective topology item 3 and solves no transport; D1 wrong domain; D2 a second host; D3 needs a new IPC operation. Verified blocker **B-1**: IPD `main` has no `exports`, no `package.ts` and no packaging script, and IRR's pin is branch/tag-only — so the component set is unimportable and executing the composition act would fail typecheck/build. Re-verified U2 gaps at IPD `main@73fd8c16…` (caller-canonical identity vs C7 refusal; unwired `persistBrokerImport`; no `expectedRevision`; no request-wide transaction; no provenance columns in `portfolio_contributions`). Documentation-only: no source, test, schema, mapping, migration, store, route, fence, workflow, ref or issue change; IPD untouched; no gate, acceptance, admission or write movement; **zero register movements**; verification rows `V364`–`V374`. |
+| `2026-10-23` | `CHG-2026-10-23-07` | **CAP-02 U0 publication and remote-verification receipt only (`CV-CORR-68`, §16.86.13) — post-merge, documentation-only.** IRR **PR #212 `MERGED`** `2026-10-23T08:37:18Z` (head `37d7769bda6d8402e96648e59abba07aadec1e3c`; merge **`0eb3521409938ff42eaa94bbe866cb1801067d70`**; PR-head CI run `39924808022` `success`; post-merge `main` push CI run **`39925943900`** `completed / success` at that commit, job-level check `completed / success` — no reporting fault this time). Remote read-back **4/4 MATCH** by git blob id: U0 decision `43793d66…`, composition act `6c7f6cfe…`, host-boundary act with §13 addendum `7ec74179…`, tracker `5aa9c278…`. Changed paths: **4 documentation files**, `+904/−1`; no source, test, schema, mapping, migration, store, route, fence, workflow, ref or issue change; IPD untouched. U0 decision effectiveness now proven by authorization + act + remote proof (R-3); composition act remains **`PREPARED — NOT EFFECTIVE`**; no write, gate, admission, route or IPD change; **zero register movements**. |
 
 ---
 
@@ -6793,5 +6794,39 @@ success path is barred by U2 and the W-1 conjunction. Standing authorization doe
 into a met one — the grant itself forbids "claims of success without verification" and "weakened
 safeguards". The correct completion of this pass is therefore the rendered U0 decision, the determined U1
 boundary, the exact prepared act, and this reconciliation.
+
+*End of §16.86.*
+
+### 16.86.13 Publication and remote-verification receipt (`2026-10-23`, `CHG-2026-10-23-07`)
+
+**Documentation-only receipt.** No source, test, schema, mapping, migration, store, route, fence,
+workflow, ref or issue change; IPD untouched; no gate, acceptance, admission or write status change.
+
+| Element | Verified value |
+|---|---|
+| PR | **#212** — 4 documentation paths, `MERGEABLE`, check `Typecheck · Test · Build` `SUCCESS` before merge |
+| Merge | `MERGED` `2026-10-23T08:37:18Z`; merge commit **`0eb3521409938ff42eaa94bbe866cb1801067d70`**; parent `e5b9102…` (`main` at the decision baseline) |
+| Ancestry | Decision commit `37d7769bda6d8402e96648e59abba07aadec1e3c` verified an ancestor of `origin/main` after merge |
+| Changed paths | **4**, `+904 / −1`, all documentation: the U0 decision (new), the composition act (new), the host-boundary act (§13 addendum only), this tracker (§16.86 + change log + banner) |
+| PR-head CI | Run **`39924808022`** `completed / success` at head `37d7769b…` |
+| Post-merge `main` push CI | Run **`39925943900`** `completed / success` at `0eb35214…`; job-level check `Typecheck · Test · Build` `completed / success` — no job-level reporting fault this time |
+| Remote read-back | **4/4 MATCH** by git blob id between `origin/main@0eb35214…` and the reviewed working tree |
+
+| Path | Remote blob | Local blob | Bytes | SHA-256 |
+|---|---|---|---|---|
+| U0 decision | `43793d669719b5a54b1a7312489f9cc7702e5851` | identical | 39,124 | `22e59d0e983480fc7b0fef777a33a15116d16f79ab1f98d6f90171816fbe43b3` |
+| Composition act | `6c7f6cfe4a0069fb601d6fdbac97b470319d58d3` | identical | 23,314 | `f0f2fbffa5e575442ccb7ae7ce0e72151d2013fed624f5874883f70acb12d83f` |
+| Host-boundary act (+§13) | `7ec74179f33605c17d18559a9c1a593ba591d479` | identical | — | — |
+| Tracker (§16.86) | `5aa9c278efd79185ee82658d47af91cc1ee23b42` | identical | — | — |
+
+**Effectiveness, stated in the R-3 form.** The U0 determination is now proven by three distinct things:
+the **authorization** (standing grant, F-3 §1.2 blob `c4c9f7d7…`, as construed by DEC-06 `R-1`/`R-3`/`R-6`/`R-7`),
+the **act** (the record itself, rendered `2026-10-23`), and the **proof** (merge commit + blob identity at
+remote `main`, above). Its availability as authority from `main` is established by this receipt, not by the
+act's self-declaration.
+
+**Not claimed:** the composition act remains **`PREPARED — NOT EFFECTIVE`**; no route was admitted; no file
+was authorized; no IPD change was made or implied; no gate, acceptance, admission, fence or write status
+moved. **Zero register movements.**
 
 *End of §16.86.*
