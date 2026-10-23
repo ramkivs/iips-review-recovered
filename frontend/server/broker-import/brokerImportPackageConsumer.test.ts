@@ -1,214 +1,374 @@
 /**
- * CAP-02 B-1R dependency-status and (conditional) package-consumer/browser-closure tests.
+ * CAP-02 B-1R package consumer & pin compatibility guard.
  *
- * Authority: `IIPS-V3-CAP02-BROKER-IMPORT-UI-COMPOSITION-ACT-EFFECTIVE-2026-10-23-03` §3.1 with
- * its §12 dated correction and §13 dated re-verification addendum — the B-1R plain repin FAILED
- * consumer verification on 2026-10-23 and was re-attempted and re-reverted the same day against
- * the then-current IPD `main@24e62c80…`: IPD `main` exports only `./portfolio-ui`, while the
- * off-`main` pin lineage (`2e11fa3b…`, `np04-governed-persistence-windows`, verified NOT an
- * ancestor of `main`) exports only `./pit`, `./d114-non-production` and `./persistence`. The PIT
- * read-service and D114 non-production population modules do not exist in the IPD `main` source
- * tree at all, so a repin breaks the six AD-02-admitted PIT consumers (`tsc --noEmit` fails with
- * `TS2307` on `server/pit/**`; the PIT suites fail to collect). The pin is therefore deliberately
- * retained until the IPD packaging prerequisite — main-admission of those modules plus
- * `./pit`/`./d114-non-production` exports with build output and declarations — lands on `main`.
+ * Authority:
+ *   - `IIPS-V3-CAP02-BROKER-IMPORT-UI-COMPOSITION-ACT-EFFECTIVE-2026-10-23-04` §3.1
+ *   - `IIPS-V3-CAP02-B1R-IPD-COMPATIBILITY-IMPLEMENTATION-ACT-EFFECTIVE-2026-10-23-01`
  *
- * This suite therefore:
- *   1. always asserts the pin is one immutable commit and that the lockfile agrees;
- *   2. documents the blocked state while the retained pin is installed, and treats ANY other
- *      immutable pin as a B-1R attempt that must carry all three consumer exports
- *      (`./portfolio-ui`, `./pit`, `./d114-non-production`) — an accidental repin to a
- *      portfolio-ui-only (or otherwise incompatible) package fails CI here with an explicit
- *      message, without hardcoding a future `main` SHA that would itself go stale;
- *   3. proves the six consumers' required `./pit`/`./d114-non-production` runtime symbols resolve
- *      against the installed pin whenever those exports are present (active today, at the
- *      retained pin; must stay active and green after any authorized repin);
- *   4. activates the full `./portfolio-ui` consumer and browser-closure assertions automatically
- *      once the installed pin carries the export — i.e. exactly when B-1R becomes executable.
- *
- * @vitest-environment node
+ * Guards that IRR's `iips-production-market-data` dependency pin:
+ *   1. Uses an exact 40-hex immutable commit SHA on `ramkivs/iips-production-market-data`
+ *      (`2d9130e76bb0dc89daeefabaf297e27bdaa84250`) in both `package.json` and `package-lock.json`.
+ *   2. Simultaneously exposes `./portfolio-ui`, `./pit`, and `./d114-non-production` with built
+ *      runtime `.js` and declaration `.d.ts` artifacts.
+ *   3. Provides all runtime symbols and TypeScript declaration symbols required by IRR's five
+ *      direct PIT/D114 importers and CAP-02 `./portfolio-ui` consumer surface (including U7
+ *      minimal receipt/outcome types and `WRITE_NOT_AUTHORIZED` / `RESOURCE_UNAVAILABLE`).
+ *   4. Rejects any incompatible or floating package pin profile.
  */
-import { describe, it, expect } from 'vitest';
 import { existsSync, readFileSync } from 'node:fs';
+import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { describe, expect, it } from 'vitest';
 
-const CURRENT_OFF_MAIN_PIN = '2e11fa3b689d1a3674a5e4ba1f1de9a559e20494';
+const here = dirname(fileURLToPath(import.meta.url));
+const frontendRoot = resolve(here, '..', '..');
 
-/** Every package export an IRR consumer requires. A B-1R candidate must carry ALL of them. */
-const REQUIRED_CONSUMER_EXPORTS = ['./portfolio-ui', './pit', './d114-non-production'] as const;
+export const EXPECTED_IPD_PIN_SHA = '2d9130e76bb0dc89daeefabaf297e27bdaa84250';
 
-function installedPackageJsonPath(): string {
-  return fileURLToPath(new URL('../../node_modules/iips-production-market-data/package.json', import.meta.url));
+export const REQUIRED_SUBPATHS = [
+  './portfolio-ui',
+  './pit',
+  './d114-non-production',
+] as const;
+
+export const REQUIRED_PIT_RUNTIME_EXPORTS = [
+  'PitReadService',
+  'PointInTimeStore',
+] as const;
+
+export const REQUIRED_PIT_DECLARATION_SYMBOLS = [
+  'PitReadRequest',
+  'PitReadResult',
+  'PitReadHit',
+  'PitReadMiss',
+  'PitReadFailureReason',
+  'PITQuery',
+  'CanonicalEnvelope',
+  'DataDomain',
+  'DataProvenanceDTO',
+] as const;
+
+export const REQUIRED_D114_RUNTIME_EXPORTS = [
+  'populateNonProductionD114Pit',
+  'createNonProductionD114PitStore',
+  'ingestNonProductionD114Archives',
+  'NON_PRODUCTION_D114_EQ',
+  'NON_PRODUCTION_D114_BL',
+  'NON_PRODUCTION_D114_VINTAGE_1',
+  'NON_PRODUCTION_D114_VINTAGE_2',
+  'NON_PRODUCTION_D114_VINTAGE_3',
+] as const;
+
+export const REQUIRED_D114_DECLARATION_SYMBOLS = [
+  'NonProductionD114Population',
+  'ArchiveIngestionResult',
+] as const;
+
+export const REQUIRED_PORTFOLIO_UI_RUNTIME_EXPORTS = [
+  'BrokerImportModal',
+  'DEFAULT_ALLOW_NON_PRODUCTION_BYPASS',
+  'SessionPortfolioStorePort',
+  'evaluatePortSaveGuard',
+  'findCallerSuppliedIdentityKeys',
+  'CALLER_SUPPLIED_IDENTITY_KEYS',
+  'describePersistenceStatus',
+  'PortfolioStore',
+  'getDefaultPortfolioStore',
+  'resetDefaultPortfolioStore',
+  'getDefaultPortfolioStorePort',
+  'resetDefaultPortfolioStorePort',
+  'PortfolioBrokerImportController',
+  'BrokerImportIngressOrchestrator',
+  'mapBrokerOutputToUserHoldings',
+  'BrokerFormatDetector',
+  'DhanHoldingsAdapter',
+  'GrowwHoldingsAdapter',
+  'ZerodhaHoldingsAdapter',
+  'SecurityMaster',
+  'getGovernedBroadSecurityMaster',
+  'IdentityAmbiguityError',
+] as const;
+
+export const REQUIRED_PORTFOLIO_UI_DECLARATION_SYMBOLS = [
+  'PortfolioStorePort',
+  'PortfolioCommitReceipt',
+  'PortfolioCommitDisposition',
+  'PortfolioPortSaveOutcome',
+  'PortfolioPortSaveSuccess',
+  'PortfolioPortSaveRefusal',
+  'PortfolioPortSaveOutcomeUnknown',
+  'PortfolioPortRefusalCode',
+  'WRITE_NOT_AUTHORIZED',
+  'RESOURCE_UNAVAILABLE',
+  'UserHoldingInput',
+  'BrokerImportModalProps',
+] as const;
+
+export const DIRECT_PIT_D114_IMPORTER_FILES = [
+  'server/pit/ipdPitReadAdapter.ts',
+  'server/pit/nonProductionPitStore.ts',
+  'server/pit/nonProductionRuntimePitStore.ts',
+  'server/pit/pitD114RuntimeIntegration.test.ts',
+  'server/pit/pitRuntimeIntegration.test.ts',
+] as const;
+
+export interface PackagePinDescriptor {
+  readonly dependencySpec: string;
+  readonly lockResolvedUrl: string;
+  readonly exportsMap: Record<
+    string,
+    { readonly types?: string; readonly import?: string; readonly default?: string } | undefined
+  >;
+  readonly pitRuntimeKeys: readonly string[];
+  readonly d114RuntimeKeys: readonly string[];
+  readonly portfolioUiRuntimeKeys: readonly string[];
+  readonly portfolioUiDeclarationText: string;
 }
 
-function installedExports(): string[] {
-  if (!existsSync(installedPackageJsonPath())) return [];
-  const pkg = JSON.parse(readFileSync(installedPackageJsonPath(), 'utf8')) as { exports?: Record<string, unknown> };
-  return Object.keys(pkg.exports ?? {});
+export interface PackagePinValidationResult {
+  readonly ok: boolean;
+  readonly errors: readonly string[];
 }
 
-const HAS_PORTFOLIO_UI = installedExports().includes('./portfolio-ui');
-const HAS_PIT = installedExports().includes('./pit');
-const HAS_D114 = installedExports().includes('./d114-non-production');
+export function validateIpdPackagePinDescriptor(descriptor: PackagePinDescriptor): PackagePinValidationResult {
+  const errors: string[] = [];
 
-describe('B-1R — dependency pin status (guarded)', () => {
-  it('pins exactly one immutable commit (never a floating branch or tag)', () => {
-    const packageJson = readFileSync(fileURLToPath(new URL('../../package.json', import.meta.url)), 'utf8');
-    const match = packageJson.match(/"iips-production-market-data":\s*"([^"]+)"/);
-    expect(match).not.toBeNull();
-    expect(match?.[1]).toMatch(/^github:ramkivs\/iips-production-market-data#[0-9a-f]{40}$/);
+  const specMatch = /^github:ramkivs\/iips-production-market-data#([0-9a-f]{40})$/.exec(descriptor.dependencySpec);
+  if (!specMatch) {
+    errors.push(`dependencySpec must pin an exact 40-hex commit SHA on ramkivs/iips-production-market-data (received "${descriptor.dependencySpec}")`);
+  }
+
+  const lockMatch = /#([0-9a-f]{40})$/.exec(descriptor.lockResolvedUrl);
+  if (!lockMatch) {
+    errors.push(`lockResolvedUrl must end with an exact 40-hex commit SHA (received "${descriptor.lockResolvedUrl}")`);
+  }
+
+  if (specMatch && lockMatch && specMatch[1] !== lockMatch[1]) {
+    errors.push(`package.json SHA (${specMatch[1]}) does not match package-lock.json SHA (${lockMatch[1]})`);
+  }
+
+  for (const subpath of REQUIRED_SUBPATHS) {
+    const entry = descriptor.exportsMap[subpath];
+    const runtimeTarget = entry?.import ?? entry?.default;
+    if (!entry || typeof runtimeTarget !== 'string' || typeof entry.types !== 'string') {
+      errors.push(`missing required export subpath or runtime/types target: ${subpath}`);
+    }
+  }
+
+  for (const symbol of REQUIRED_PIT_RUNTIME_EXPORTS) {
+    if (!descriptor.pitRuntimeKeys.includes(symbol)) {
+      errors.push(`missing ./pit runtime export: ${symbol}`);
+    }
+  }
+
+  for (const symbol of REQUIRED_D114_RUNTIME_EXPORTS) {
+    if (!descriptor.d114RuntimeKeys.includes(symbol)) {
+      errors.push(`missing ./d114-non-production runtime export: ${symbol}`);
+    }
+  }
+
+  for (const symbol of REQUIRED_PORTFOLIO_UI_RUNTIME_EXPORTS) {
+    if (!descriptor.portfolioUiRuntimeKeys.includes(symbol)) {
+      errors.push(`missing ./portfolio-ui runtime export: ${symbol}`);
+    }
+  }
+
+  if (descriptor.portfolioUiRuntimeKeys.includes('PortfolioWorkspace')) {
+    errors.push('./portfolio-ui must not re-export PortfolioWorkspace');
+  }
+
+  for (const symbol of REQUIRED_PORTFOLIO_UI_DECLARATION_SYMBOLS) {
+    if (!descriptor.portfolioUiDeclarationText.includes(symbol)) {
+      errors.push(`missing ./portfolio-ui declaration symbol or refusal code: ${symbol}`);
+    }
+  }
+
+  return { ok: errors.length === 0, errors };
+}
+
+describe('CAP-02 B-1R package consumer & pin compatibility guard', () => {
+  const irrPkg = JSON.parse(readFileSync(resolve(frontendRoot, 'package.json'), 'utf8')) as {
+    dependencies?: Record<string, string>;
+  };
+  const irrLock = JSON.parse(readFileSync(resolve(frontendRoot, 'package-lock.json'), 'utf8')) as {
+    packages?: Record<string, { resolved?: string }>;
+  };
+  const ipdPkgRoot = resolve(frontendRoot, 'node_modules', 'iips-production-market-data');
+  const ipdPkg = JSON.parse(readFileSync(resolve(ipdPkgRoot, 'package.json'), 'utf8')) as {
+    exports?: Record<string, { types?: string; import?: string; default?: string }>;
+  };
+
+  it('pins iips-production-market-data to the exact unified main commit SHA in package.json and package-lock.json', () => {
+    const depSpec = irrPkg.dependencies?.['iips-production-market-data'] ?? '';
+    const lockResolved = irrLock.packages?.['node_modules/iips-production-market-data']?.resolved ?? '';
+
+    expect(depSpec).toBe(`github:ramkivs/iips-production-market-data#${EXPECTED_IPD_PIN_SHA}`);
+    expect(lockResolved).toContain(`#${EXPECTED_IPD_PIN_SHA}`);
   });
 
-  it('documents the B-1R split-export blocker, or proves a repin carries every consumer export', () => {
-    const packageJson = readFileSync(fileURLToPath(new URL('../../package.json', import.meta.url)), 'utf8');
-    const pin = packageJson.match(/"iips-production-market-data":\s*"([^"]+)"/)?.[1] ?? '';
-    if (pin.endsWith(CURRENT_OFF_MAIN_PIN)) {
-      // Blocked state (composition act §12/§13), verified 2026-10-23 against IPD
-      // `main@24e62c80…`: the retained off-main pin carries the PIT exports only; IPD `main`
-      // carries `./portfolio-ui` only, so the pin stays as-is until the IPD packaging
-      // prerequisite lands. The AD-02 PIT consumers must keep resolving.
-      expect(HAS_PIT).toBe(true);
-      expect(HAS_D114).toBe(true);
-      expect(HAS_PORTFOLIO_UI).toBe(false);
-    } else {
-      // Any other immutable pin is a B-1R attempt. It is compatible ONLY if the installed
-      // package carries every consumer export; a portfolio-ui-only repin (e.g. to current IPD
-      // `main`) breaks the six AD-02 PIT consumers and must fail here, loudly and by name.
-      const installed = installedExports();
-      const missing = REQUIRED_CONSUMER_EXPORTS.filter((name) => !installed.includes(name));
-      if (missing.length > 0) {
-        throw new Error(
-          `incompatible B-1R repin: pin ${pin} does not export ${missing.join(', ')} ` +
-            `(installed exports: ${installed.join(', ') || 'none'}). ` +
-            'Do not remove PIT consumers or weaken this guard to make it pass — the IPD packaging ' +
-            'prerequisite (composition act §12/§13) must land on IPD main first.',
-        );
-      }
-      expect(HAS_PORTFOLIO_UI).toBe(true);
-      expect(HAS_PIT).toBe(true);
-      expect(HAS_D114).toBe(true);
+  it('exposes ./portfolio-ui, ./pit, and ./d114-non-production simultaneously with existing runtime and declaration artifacts', () => {
+    const exportsMap = ipdPkg.exports ?? {};
+    for (const subpath of REQUIRED_SUBPATHS) {
+      const target = exportsMap[subpath];
+      expect(target, `missing ${subpath} in package exports`).toBeDefined();
+      const runtimeRel = target?.import ?? target?.default;
+      expect(typeof runtimeRel).toBe('string');
+      expect(typeof target?.types).toBe('string');
+
+      const runtimeFile = resolve(ipdPkgRoot, runtimeRel!);
+      const typesFile = resolve(ipdPkgRoot, target!.types!);
+      expect(existsSync(runtimeFile), `missing runtime file for ${subpath}: ${runtimeFile}`).toBe(true);
+      expect(existsSync(typesFile), `missing types file for ${subpath}: ${typesFile}`).toBe(true);
     }
   });
 
-  it('the lockfile resolves the same immutable commit as package.json', () => {
-    const packageJson = readFileSync(fileURLToPath(new URL('../../package.json', import.meta.url)), 'utf8');
-    const pin = packageJson.match(/"iips-production-market-data":\s*"github:ramkivs\/iips-production-market-data#([0-9a-f]{40})"/)?.[1];
-    expect(pin).toBeDefined();
-    const lock = readFileSync(fileURLToPath(new URL('../../package-lock.json', import.meta.url)), 'utf8');
-    expect(lock).toContain(`git+ssh://git@github.com/ramkivs/iips-production-market-data.git#${pin}`);
-  });
-});
+  it('loads ./pit, ./d114-non-production, and ./portfolio-ui at runtime and verifies all required runtime and declaration symbols', async () => {
+    const pitMod = await import('iips-production-market-data/pit');
+    const d114Mod = await import('iips-production-market-data/d114-non-production');
+    const portfolioUiMod = await import('iips-production-market-data/portfolio-ui');
 
-/* ------------------------------------------------------------------ *
- * The six AD-02 PIT consumers' runtime symbols. Active whenever the
- * installed pin carries the PIT exports (true at the retained pin;
- * must remain true after any authorized B-1R repin).
- * ------------------------------------------------------------------ */
+    for (const key of REQUIRED_PIT_RUNTIME_EXPORTS) {
+      expect(typeof (pitMod as Record<string, unknown>)[key], `./pit.${key}`).toBe('function');
+    }
+    for (const key of REQUIRED_D114_RUNTIME_EXPORTS) {
+      expect((d114Mod as Record<string, unknown>)[key], `./d114-non-production.${key}`).toBeDefined();
+    }
+    for (const key of REQUIRED_PORTFOLIO_UI_RUNTIME_EXPORTS) {
+      expect((portfolioUiMod as Record<string, unknown>)[key], `./portfolio-ui.${key}`).toBeDefined();
+    }
+    expect('PortfolioWorkspace' in portfolioUiMod).toBe(false);
 
-const pitSuite = HAS_PIT && HAS_D114 ? describe : describe.skip;
+    const pitDecls = [
+      readFileSync(resolve(ipdPkgRoot, 'dist/package/src/pit/package.d.ts'), 'utf8'),
+      readFileSync(resolve(ipdPkgRoot, 'dist/package/src/pit/pit_read_service.d.ts'), 'utf8'),
+      readFileSync(resolve(ipdPkgRoot, 'dist/package/src/pit/pit_store.d.ts'), 'utf8'),
+    ].join('\n');
+    for (const sym of REQUIRED_PIT_DECLARATION_SYMBOLS) {
+      expect(pitDecls).toContain(sym);
+    }
 
-pitSuite('B-1R — ./pit and ./d114-non-production consumer symbols (the pinned install)', () => {
-  // Specifiers are built dynamically so Vite does not try to resolve the subpaths statically;
-  // resolution happens at runtime, only in the active (non-skipped) state.
-  const loadPit = (): Promise<Record<string, unknown>> => {
-    const specifier = ['iips-production-market-data', 'pit'].join('/');
-    return import(/* @vite-ignore */ specifier) as Promise<Record<string, unknown>>;
-  };
+    const d114Decls = [
+      readFileSync(resolve(ipdPkgRoot, 'dist/package/src/d114/non_production_package.d.ts'), 'utf8'),
+      readFileSync(resolve(ipdPkgRoot, 'dist/package/src/d114/non_production_pit_population.d.ts'), 'utf8'),
+    ].join('\n');
+    for (const sym of REQUIRED_D114_DECLARATION_SYMBOLS) {
+      expect(d114Decls).toContain(sym);
+    }
 
-  const loadD114 = (): Promise<Record<string, unknown>> => {
-    const specifier = ['iips-production-market-data', 'd114-non-production'].join('/');
-    return import(/* @vite-ignore */ specifier) as Promise<Record<string, unknown>>;
-  };
+    const portfolioUiDecls = [
+      readFileSync(resolve(ipdPkgRoot, 'dist/package/src/ui/portfolio_ui_package.d.ts'), 'utf8'),
+      readFileSync(resolve(ipdPkgRoot, 'dist/package/frontend/src/features/portfolio/portfolioStorePort.d.ts'), 'utf8'),
+      readFileSync(resolve(ipdPkgRoot, 'dist/package/frontend/src/features/portfolio/BrokerImportModal.d.ts'), 'utf8'),
+    ].join('\n');
 
-  it('resolves every runtime symbol the ./pit consumers import', async () => {
-    // frontend/server/pit/{ipdPitReadAdapter,nonProductionPitStore,
-    // nonProductionRuntimePitStore,pitRuntimeIntegration.test,pitD114RuntimeIntegration.test}.ts
-    const pit = await loadPit();
-    expect(typeof pit.PitReadService).toBe('function');
-    expect(typeof pit.PointInTimeStore).toBe('function');
-  });
-
-  it('resolves every runtime symbol the ./d114-non-production consumers import', async () => {
-    // frontend/server/pit/{nonProductionRuntimePitStore,pitD114RuntimeIntegration.test}.ts
-    const d114 = await loadD114();
-    expect(typeof d114.populateNonProductionD114Pit).toBe('function');
-    expect(typeof d114.createNonProductionD114PitStore).toBe('function');
-    expect(typeof d114.ingestNonProductionD114Archives).toBe('function');
-    expect(typeof d114.NON_PRODUCTION_D114_EQ).toBe('string');
-    expect(typeof d114.NON_PRODUCTION_D114_BL).toBe('string');
-    expect(typeof d114.NON_PRODUCTION_D114_VINTAGE_1).toBe('string');
-    expect(typeof d114.NON_PRODUCTION_D114_VINTAGE_2).toBe('string');
-    expect(typeof d114.NON_PRODUCTION_D114_VINTAGE_3).toBe('string');
-  });
-});
-
-/* ------------------------------------------------------------------ *
- * Conditional section: active exactly when the installed pin carries
- * ./portfolio-ui (i.e. when the B-1R prerequisite is satisfied).
- * ------------------------------------------------------------------ */
-
-const portfolioUiSuite = HAS_PORTFOLIO_UI ? describe : describe.skip;
-
-portfolioUiSuite('B-1R — ./portfolio-ui runtime export surface (the pinned install)', () => {
-  // The specifier is built dynamically so Vite does not try to resolve the subpath when the
-  // installed pin does not carry it (the B-1R blocked state); resolution happens at runtime,
-  // only in the active (non-skipped) state.
-  const loadPortfolioUi = (): Promise<Record<string, unknown>> => {
-    const specifier = ['iips-production-market-data', 'portfolio-ui'].join('/');
-    return import(/* @vite-ignore */ specifier) as Promise<Record<string, unknown>>;
-  };
-
-  it('resolves with the expected runtime exports and the honest session default', async () => {
-    const pkg = await loadPortfolioUi();
-    const keys = Object.keys(pkg);
-    expect(keys.length).toBe(22);
-    expect(typeof pkg.BrokerImportModal).toBe('function');
-    expect(typeof pkg.getGovernedBroadSecurityMaster).toBe('function');
-    expect(typeof pkg.SessionPortfolioStorePort).toBe('function');
-    expect(typeof pkg.evaluatePortSaveGuard).toBe('function');
-    expect(typeof pkg.PortfolioStore).toBe('function');
-    // PortfolioWorkspace is deliberately NOT exported (application composition, not the component set).
-    expect('PortfolioWorkspace' in pkg).toBe(false);
-    // The only shipped port implementation stays honestly session-only.
-    const PortCtor = pkg.SessionPortfolioStorePort as new () => { durability: string; durable: boolean };
-    const port = new PortCtor();
-    expect(port.durability).toBe('SESSION_ONLY');
-    expect(port.durable).toBe(false);
-  });
-
-  it('DP-2 Option 2F holds: unresolved holdings are refused by the exported save guard', async () => {
-    const pkg = (await loadPortfolioUi()) as unknown as {
-      evaluatePortSaveGuard: (holdings: Array<Record<string, unknown>>) => { saveable: boolean; refusedHoldings: unknown[] };
-    };
-    const guard = pkg.evaluatePortSaveGuard([{ symbol: 'X', identityStatus: 'UNRESOLVED', companyId: '' }]);
-    expect(guard.saveable).toBe(false);
-    expect(guard.refusedHoldings.length).toBe(1);
-  });
-
-  it('bundles for the browser with no Node-only or privileged closure hits', async () => {
-    const esbuild = await import('esbuild');
-    const entry = fileURLToPath(
-      new URL('../../node_modules/iips-production-market-data/dist/package/src/ui/portfolio_ui_package.js', import.meta.url),
-    );
-    const result = await esbuild.build({
-      entryPoints: [entry],
-      bundle: true,
-      platform: 'browser',
-      format: 'esm',
-      outfile: '/tmp/iips-cap02-b1r-bundle-check.js',
-      external: ['react', 'react-dom'],
-      logLevel: 'silent',
-      write: true,
+    const validation = validateIpdPackagePinDescriptor({
+      dependencySpec: irrPkg.dependencies?.['iips-production-market-data'] ?? '',
+      lockResolvedUrl: irrLock.packages?.['node_modules/iips-production-market-data']?.resolved ?? '',
+      exportsMap: ipdPkg.exports ?? {},
+      pitRuntimeKeys: Object.keys(pitMod),
+      d114RuntimeKeys: Object.keys(d114Mod),
+      portfolioUiRuntimeKeys: Object.keys(portfolioUiMod),
+      portfolioUiDeclarationText: portfolioUiDecls,
     });
-    expect(result.errors).toEqual([]);
-    const bundled = readFileSync('/tmp/iips-cap02-b1r-bundle-check.js', 'utf8');
-    expect(bundled.length).toBeGreaterThan(100_000);
-    const forbidden = [
-      'node:net', 'node:sqlite', 'node:fs', 'node:http', 'node:path', 'node:crypto',
-      'createConnection', 'DatabaseSync', 'listenIpc', 'persistBrokerImport',
-      'WRITE_NOT_AUTHORIZED', 'src/ipc/', 'src/persistence/',
-    ];
-    const hits = forbidden.filter((needle) => bundled.includes(needle));
-    expect(hits, `forbidden closure hits: ${hits.join(', ')}`).toEqual([]);
+    expect(validation).toEqual({ ok: true, errors: [] });
+  });
+
+  it('verifies the 5 direct PIT/D114 importers, classifies src/api/pit.test.ts as comment-only/transitive, and confirms direct ./portfolio-ui type import in src/api/brokerImport.ts', () => {
+    for (const relPath of DIRECT_PIT_D114_IMPORTER_FILES) {
+      const source = readFileSync(resolve(frontendRoot, relPath), 'utf8');
+      const importLines = source
+        .split('\n')
+        .filter((line) => !line.trimStart().startsWith('*') && !line.trimStart().startsWith('//'))
+        .filter((line) => line.includes("from 'iips-production-market-data/"));
+      expect(importLines.length, `${relPath} must have a direct import from iips-production-market-data/*`).toBeGreaterThan(0);
+    }
+
+    const pitClientTestSource = readFileSync(resolve(frontendRoot, 'src/api/pit.test.ts'), 'utf8');
+    const nonCommentLinesWithIpd = pitClientTestSource
+      .split('\n')
+      .filter((line) => {
+        const trimmed = line.trimStart();
+        return !trimmed.startsWith('//') && !trimmed.startsWith('*') && !trimmed.startsWith('/*');
+      })
+      .filter((line) => line.includes('iips-production-market-data'));
+    expect(nonCommentLinesWithIpd).toEqual([]);
+    expect(pitClientTestSource).toContain("from '../../server/pit/nonProductionPitStore.js'");
+
+    const brokerImportClientSource = readFileSync(resolve(frontendRoot, 'src/api/brokerImport.ts'), 'utf8');
+    expect(brokerImportClientSource).toContain("from 'iips-production-market-data/portfolio-ui'");
+    expect(brokerImportClientSource).not.toContain('Local structural mirror of IPD `UserHoldingInput`');
+  });
+
+  it('rejects incompatible package pin descriptors (floating refs, SHA mismatch, missing subpaths, missing symbols, or missing U7 refusal codes)', () => {
+    const validDescriptor: PackagePinDescriptor = {
+      dependencySpec: `github:ramkivs/iips-production-market-data#${EXPECTED_IPD_PIN_SHA}`,
+      lockResolvedUrl: `git+ssh://git@github.com/ramkivs/iips-production-market-data.git#${EXPECTED_IPD_PIN_SHA}`,
+      exportsMap: {
+        './portfolio-ui': {
+          types: './dist/package/ui/portfolio_ui_package.d.ts',
+          default: './dist/package/ui/portfolio_ui_package.js',
+        },
+        './pit': {
+          types: './dist/package/pit/package.d.ts',
+          default: './dist/package/pit/package.js',
+        },
+        './d114-non-production': {
+          types: './dist/package/d114/non_production_package.d.ts',
+          default: './dist/package/d114/non_production_package.js',
+        },
+      },
+      pitRuntimeKeys: [...REQUIRED_PIT_RUNTIME_EXPORTS],
+      d114RuntimeKeys: [...REQUIRED_D114_RUNTIME_EXPORTS],
+      portfolioUiRuntimeKeys: [...REQUIRED_PORTFOLIO_UI_RUNTIME_EXPORTS],
+      portfolioUiDeclarationText: REQUIRED_PORTFOLIO_UI_DECLARATION_SYMBOLS.join(' '),
+    };
+
+    expect(validateIpdPackagePinDescriptor(validDescriptor).ok).toBe(true);
+
+    // 1. Floating ref rejected
+    const floating = validateIpdPackagePinDescriptor({
+      ...validDescriptor,
+      dependencySpec: 'github:ramkivs/iips-production-market-data#main',
+    });
+    expect(floating.ok).toBe(false);
+
+    // 2. Lockfile SHA mismatch rejected
+    const mismatch = validateIpdPackagePinDescriptor({
+      ...validDescriptor,
+      lockResolvedUrl: 'git+ssh://git@github.com/ramkivs/iips-production-market-data.git#2e11fa3b689d1a3674a5e4ba1f1de9a559e20494',
+    });
+    expect(mismatch.ok).toBe(false);
+
+    // 3. Legacy 2e11fa3b profile (missing ./portfolio-ui) rejected
+    const missingPortfolioUi = validateIpdPackagePinDescriptor({
+      ...validDescriptor,
+      exportsMap: {
+        './pit': validDescriptor.exportsMap['./pit'],
+        './d114-non-production': validDescriptor.exportsMap['./d114-non-production'],
+      },
+    });
+    expect(missingPortfolioUi.ok).toBe(false);
+    expect(missingPortfolioUi.errors).toContain('missing required export subpath or runtime/types target: ./portfolio-ui');
+
+    // 4. Legacy 24e62c80 profile (missing ./pit and ./d114-non-production) rejected
+    const missingPitAndD114 = validateIpdPackagePinDescriptor({
+      ...validDescriptor,
+      exportsMap: {
+        './portfolio-ui': validDescriptor.exportsMap['./portfolio-ui'],
+      },
+    });
+    expect(missingPitAndD114.ok).toBe(false);
+    expect(missingPitAndD114.errors).toContain('missing required export subpath or runtime/types target: ./pit');
+    expect(missingPitAndD114.errors).toContain('missing required export subpath or runtime/types target: ./d114-non-production');
+
+    // 5. Missing U7 refusal code rejected
+    const missingU7Code = validateIpdPackagePinDescriptor({
+      ...validDescriptor,
+      portfolioUiDeclarationText: REQUIRED_PORTFOLIO_UI_DECLARATION_SYMBOLS
+        .filter((s) => s !== 'WRITE_NOT_AUTHORIZED')
+        .join(' '),
+    });
+    expect(missingU7Code.ok).toBe(false);
+    expect(missingU7Code.errors).toContain('missing ./portfolio-ui declaration symbol or refusal code: WRITE_NOT_AUTHORIZED');
   });
 });

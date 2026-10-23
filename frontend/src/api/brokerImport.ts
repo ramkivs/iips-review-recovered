@@ -38,47 +38,50 @@
  *   success receipt is the minimal v1 `{disposition, revision, durability, durable}`; nothing is
  *   added, inferred or filled from preview data.
  *
- * DEPENDENCY NOTE (B-1R blocker; re-verified 2026-10-23, composition act §13)
- *   The projection input is typed by a LOCAL structural mirror of IPD's exported
- *   `UserHoldingInput` (`frontend/src/features/portfolio/import/types.ts` at the pinned lineage),
- *   not by a package import: IRR's current dependency pin (`2e11fa3b…`, the off-`main`
- *   `np04-governed-persistence-windows` lineage, verified NOT an ancestor of `main`) carries
- *   `./pit`/`./d114-non-production` but NOT the `./portfolio-ui` export, and IPD
- *   `main@24e62c80…` (re-verified 2026-10-23) carries `./portfolio-ui` but NOT the pit exports —
- *   the PIT read-service and D114 population modules do not exist in the `main` source tree at
- *   all, so a plain repin breaks the AD-02-admitted PIT consumers (verified: `tsc` fails with
- *   `TS2307`; the PIT suites fail to collect). IPD's U7 provider-outcome act has since landed on
- *   `main` (IPD PR #54), satisfying the modal/port prerequisite in source, but it stays
- *   unreachable for IRR until the repin is executable. When the B-1R prerequisite (an IPD
- *   packaging act main-admitting those modules and unifying the exports on `main`) lands and IRR
- *   repins, this mirror may be replaced by `import type { UserHoldingInput } from
- *   'iips-production-market-data/portfolio-ui'` under that act. The mirror is field-for-field the
- *   UI shape this projection legitimately receives; nothing outside it is read. The mirror is
- *   NOT evidence of package compatibility and does not resolve B-1R.
+ * DEPENDENCY NOTE (B-1R CLOSED 2026-10-23 under composition act `-04` §3.1)
+ *   The projection input and commit receipt types are imported directly from the IPD public
+ *   package entrypoint `iips-production-market-data/portfolio-ui` at the unified `main` pin
+ *   `2d9130e76bb0dc89daeefabaf297e27bdaa84250`, replacing the former local structural mirrors.
  */
 
+import type {
+  PortfolioCommitDisposition,
+  PortfolioCommitReceipt,
+  PortfolioDurability,
+  UserHoldingInput,
+} from 'iips-production-market-data/portfolio-ui';
+
 /* ------------------------------------------------------------------ *
- * Structural mirror of the IPD-exported UI holding input (see note above)
+ * IPD-exported UI holding input (`iips-production-market-data/portfolio-ui`)
  * ------------------------------------------------------------------ */
 
-/** Local structural mirror of IPD `UserHoldingInput` — the UI-shaped holding this projection reads. */
-export interface UiIngressHoldingInput {
-  readonly symbol: string;
-  readonly companyId?: string;
-  readonly isin?: string;
-  readonly exchange?: 'NSE' | 'BSE';
-  readonly quantity: number;
-  readonly averageBuyPrice: number;
-  readonly currentPrice: number;
-  readonly marketValue: number;
-  readonly weightPercentage?: number;
-  readonly active?: boolean;
-  readonly sourceBroker?: string;
-  readonly lineageDigest?: string;
-  readonly identityStatus?: 'RESOLVED' | 'UNRESOLVED';
-  readonly resolutionDisposition?: 'CANONICAL_P04' | 'NON_PRODUCTION_OPERATOR_BYPASS';
-  readonly rawIdentifier?: string;
-}
+export type {
+  PortfolioCommitDisposition,
+  PortfolioCommitReceipt,
+  PortfolioDurability,
+  UserHoldingInput,
+};
+
+/**
+ * Projection input holding derived directly from IPD `UserHoldingInput`
+ * (`iips-production-market-data/portfolio-ui`). Full `UserHoldingInput` records passed to
+ * `PortfolioStorePort.saveHoldings` are assignable directly; UI-internal canonical/lineage/derived
+ * fields stripped by the projection are optional at the projection boundary.
+ */
+export type UiIngressHoldingInput = Readonly<
+  Pick<
+    UserHoldingInput,
+    'symbol' | 'quantity' | 'averageBuyPrice' | 'currentPrice' | 'marketValue'
+  > &
+    Partial<
+      Omit<
+        UserHoldingInput,
+        'symbol' | 'quantity' | 'averageBuyPrice' | 'currentPrice' | 'marketValue' | 'sourceBroker'
+      >
+    > & {
+      readonly sourceBroker?: UserHoldingInput['sourceBroker'] | string;
+    }
+>;
 
 /* ------------------------------------------------------------------ *
  * DTO (browser-side mirror of the server boundary's admitted shape)
@@ -142,17 +145,11 @@ function findRefusedDtoKeys(value: unknown, depth = 0): string[] {
 }
 
 /* ------------------------------------------------------------------ *
- * Receipt and client outcome vocabulary (mirrors the server mapping)
+ * Receipt and client outcome vocabulary (imported from IPD `./portfolio-ui`)
  * ------------------------------------------------------------------ */
 
-export type BrokerImportDisposition = 'SAVED_NEW_BATCH' | 'MERGED_INTO_EXISTING' | 'ALREADY_IMPORTED_NO_OP';
-
-export interface BrokerImportCommitReceipt {
-  readonly disposition: BrokerImportDisposition;
-  readonly revision: number;
-  readonly durability: 'DURABLE' | 'SESSION_ONLY';
-  readonly durable: boolean;
-}
+export type BrokerImportDisposition = PortfolioCommitDisposition;
+export type BrokerImportCommitReceipt = PortfolioCommitReceipt;
 
 export type BrokerImportSaveClientOutcome =
   | { readonly ok: true; readonly status: 200; readonly receipt: BrokerImportCommitReceipt }
