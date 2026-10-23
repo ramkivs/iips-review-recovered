@@ -224,6 +224,7 @@ The following completed baselines on `ramkivs/iips-review-recovered @ refs/heads
 | `2026-10-22` | `CHG-2026-10-22-17` | **PR #196 tracker conflict reconciliation and Gate 4 revision-4 preparation (`CV-CORR-63`, §§16.80.11–.12).** Preserves current-main Group E history (§16.81; `CV-CORR-62`, `CHG-15`/`CHG-16`, `V271`–`V295`) and PR #196’s Gate 4 revision-4 preparation, while assigning the latter unique IDs `CV-CORR-63`, `CHG-17`, and `V296`–`V308`. Exact conflict locations, comparison refs, content ordering, ID census, and governance boundary are recorded in §16.80.12 (`V309`–`V313`). Gate 4 remains `PROPOSED — NOT EFFECTIVE`, `NOT AUTHORIZED / NOT STARTED`; H-12 remains partial and not adopted. Documentation-only; no Gate 3 record, implementation, safeguard, or gate status changed. |
 | `2026-10-23` | `CHG-2026-10-23-01` | **CAP-02 authority and transport investigation (`CV-CORR-65`, §16.83).** Publishes `docs/integration/IIPS_v3.0_CAP02_AUTHORITY_TRACEABILITY_AND_TRANSPORT_DECISION_PROPOSAL_2026-10-23.md`: independently classifies all nine IPD PR #45 paths under the current effective records; records the existing UI/session-port versus backend-persistence/IPC split; assesses `portfolio.save` v1, identity-resolution, host-bridge, transaction, provenance, idempotency and restart constraints; and prepares a transport-direction PA decision as **PROPOSED / NOT EFFECTIVE**. PR #45 merge/CI are evidence only. No IPD, host, source, test, schema, mapping, migration, issue, route, gate or fence change; no successful write or `durable:true`; CAP-03 untouched. **Zero register movements**; §2/§18/§19 counts and all gate/admission verdicts unchanged. |
 | `2026-10-23` | `CHG-2026-10-23-02` | **CAP-02-HOST-01 runtime/composition and bridge investigation (additive `CV-CORR-65`, §§16.83.6–.8).** Publishes `docs/integration/IIPS_v3.0_CAP02_HOST01_RUNTIME_COMPOSITION_AND_BRIDGE_DISPOSITION_2026-10-23.md` and an additive addendum to the prior CAP-02 record. Re-verifies IPD `main@73fd8c16…`/tree `66020736…` and maps the real browser UI → session-store path, separate direct-entry Node IPC/write-refusal path, direct-fixture helper path, and fenced IRR client. Finds no current IPD-native host or renderer bridge; distinguishes **IRR product-host ownership (published G1-B1)** from **IPD persistence/IPC ownership**, leaving a new IPD-local host/bridge owner/runtime **UNRESOLVED** pending PA topology reconciliation. Refines the transport stop with frontend/backend port incompatibility, reserved v1 analytics, incomplete v1 save results, and IRR payload/result gaps. Supplementary Linux checks: IPD typecheck/build plus guarded **802/801/0/1**; IRR typechecks/build plus **87 files / 1,077 passed / 0 failed**. These are not UI-to-IPC, transaction-atomicity, operational-provisioning or Gate 4 evidence. Documentation-only; IPD tracked/source state and all write/503 fences unchanged; no CAP-03/G24/schema/mapping/migration/write/gate/admission change; **zero register movements**; verification rows `V332`–`V343`. |
+| `2026-10-23` | `CHG-2026-10-23-03` | **CAP-02 topology/ownership determination prepared (`CV-CORR-66`, §16.84) — documentation only; decision `PROPOSED / NOT EFFECTIVE`; no PA decision rendered.** Publishes `docs/integration/IIPS_v3.0_CAP02_PA_TOPOLOGY_AND_OWNERSHIP_DECISION_PROPOSAL_2026-10-23.md` (`IIPS-V3-CAP02-PA-TOPOLOGY-OWNERSHIP-DECISION-2026-10-23-01`) and an additive §14 addendum to the CAP-02-HOST-01 record. The prepared six-item disposition retains **IRR as the integrated IIPS product/application host under published G1-B1**, retains **IPD as owner of durable portfolio persistence and its same-host IPC interface**, declines to create an **independent IPD-local native application host** as an assumed CAP-02 prerequisite, and requires any future renderer-to-IPD integration to identify its actual host composition root, lifecycle owner, bridge boundary and exact files before implementation authorization. Transport, durable-write correctness, Gate 4 qualification and separate result acceptance, Gate 5 admission and operational write authorization remain distinct non-substitutable decisions; every write denial and all twelve IRR `503` route-method pairs are preserved. Re-verified at IPD `main@73fd8c16…`/tree `66020736…` and IRR `main@a6cec4c5…`; supplementary IRR checks `typecheck`/`typecheck:replay-server`/build 0 and **87 files / 1,077 passed / 0 failed** with the non-zero guard passing. No source, schema, mapping, migration, store, route, fence, gate or admission change; **zero register movements**; verification rows `V344`–`V352`. |
 
 ---
 
@@ -6327,3 +6328,86 @@ Transaction gaps remain source-proven: binding resolution's separate immediate t
 | `V343` | Staged `git diff --check`; UTF-8/final-newline/trailing-whitespace/code-fence/local-link/table/identifier checks; exactly three documentation paths; G1, IPC client/adapter and HTTP fence blobs byte-identical to baseline | **PASS — documentation package structurally validated; publication/read-back remains external** |
 
 CAP-02 status remains **UI-to-durable transport NOT PRESENT; product writes NOT AUTHORIZED; durable-success claim NOT AVAILABLE**. The current host disposition is **IRR product host / IPD persistence and IPC / IPD-local native bridge UNRESOLVED**. The next executable governance action is a PA topology/ownership determination, followed only then by exact UI/contract decisions and a separately effective implementation manifest. **Zero register movements**; §2 counts, §18 rows/verdicts, §19 totals, Gate 4/5, admission and unrelated workstreams remain unchanged. *End of §16.83.*
+
+## §16.84 — `CV-CORR-66`: CAP-02 PA topology and ownership determination prepared — decision `PROPOSED / NOT EFFECTIVE`; no authority granted — `2026-10-23`
+
+### 16.84.1 Scope and status of this continuation
+
+This continuation registers **one prepared Program Authority decision**: the CAP-02 application-host and persistence-owner boundary. It records a decision **request**, not a decision. The record is `docs/integration/IIPS_v3.0_CAP02_PA_TOPOLOGY_AND_OWNERSHIP_DECISION_PROPOSAL_2026-10-23.md`, record ID `IIPS-V3-CAP02-PA-TOPOLOGY-OWNERSHIP-DECISION-2026-10-23-01`, status **`PROPOSED / NOT EFFECTIVE`**.
+
+Also registered: an additive **§14** addendum to `docs/integration/IIPS_v3.0_CAP02_HOST01_RUNTIME_COMPOSITION_AND_BRIDGE_DISPOSITION_2026-10-23.md` recording that the topology question the investigation left open at its §5.2/§11.2 is now prepared for determination. **Sections 1–13 of that record are preserved verbatim.** The earlier CAP-02 record's §3 path dispositions and its §6 proposed status remain unamended.
+
+**Nothing is implemented, authorized, enabled, admitted or qualified by this continuation.** No source, test, schema, mapping, migration, store, route, fence, workflow, ref, PR or issue is changed; IPD is read-only and untouched.
+
+### 16.84.2 Live state and evidence baselines at this pass
+
+| Item | Verified value |
+|---|---|
+| IRR `refs/heads/main` | `a6cec4c5e7dff13a656aba7b8c2c30b010b991c2` (merge of PR #206); working branch clean at the same commit before this change |
+| IPD `refs/heads/main` | `73fd8c1644e9725c9a5499e14d42efdfcb4fe2f2`; tree `66020736919befa5e5320550a396187cd351b40e` (fresh read-only clone; `git ls-remote` agrees) |
+| IPD UI persistence | `SessionPortfolioStorePort` defaults at `portfolioStorePort.ts:315/469`, `PortfolioWorkspace.tsx:60`, `BrokerImportModal.tsx:63`; **no `durable: true`** in IPD `frontend/src` or `src` |
+| IPD host composition | No Electron/Tauri/preload/`contextBridge`/`ipcRenderer` product source and no host launch script; `scripts` remain `build`, `build:tsc`, `build:vite`, `dev`, `test`, `test:direct` |
+| IPD write path | `portfolio.save` is in the closed write set (`protocol.ts:25/36`); `dispatch.ts:231` returns `WRITE_NOT_AUTHORIZED` before mutation; `endpoint.ts` is `node:net`-only with no TCP/HTTP/URL listener; `entrypoint.ts` remains a direct entry with no product composer |
+| IPD transaction/identity | No `BEGIN`/`COMMIT`/`ROLLBACK` in `portfolio_store.ts` or `brokerImportPersistence.ts`; the helper validates caller-supplied canonical identity instead of resolving IPD-side |
+| IRR fences | `user-portfolio-transport.ts` blob `51704c12a467cd2f718a030b5036bc55c9afa73f`; `owner-context-unavailable.ts` blob `cb8db45d668d28cee7e0a52721001d579a872733` — byte-identical to their recorded identities; six paths / twelve route-method pairs answer an identical `503` |
+| Ownership anchors | Published **G1-B1** blob `857d1451…` §3 (Decision B1 = A; IRR host, expressly not authoritative for IPD data/persistence); **G-2** blob `7e83946b…` §1.1 (IPD owns the user-portfolio domain and durable persistence boundary); consumer contract **v1** blob `163eb1f1…` and Gate E **W-1** blob `4a9501bf…` unchanged |
+
+### 16.84.3 Prepared topology/ownership disposition (proposed only)
+
+The record's §3 sets out six items for PA determination. In condensed form, **if accepted** they would:
+
+1. retain **IRR** as the integrated IIPS product/application host under G1-B1;
+2. retain **IPD** as the owner of durable portfolio persistence and its same-host IPC interface;
+3. decline to create an **independent IPD-local native application host** as an assumed CAP-02 prerequisite;
+4. require any future renderer-to-IPD integration to identify its **actual host composition root, lifecycle owner, bridge boundary and exact implementation files** before implementation authorization;
+5. keep **transport implementation, durable-write correctness, Gate 4 qualification and result acceptance, Gate 5 admission and operational write authorization** as distinct decisions or prerequisites; and
+6. preserve **all existing write-denial behaviour and IRR HTTP `503` fences** until the relevant authorities and gates permit a change.
+
+This resolves the ownership question the CAP-02-HOST-01 investigation left **UNRESOLVED** — not by inventing a second host, but by declining to assume one. It does **not** select a host composition root, a bridge technology, a caller, a wire change or an implementation manifest, and it does **not** convert CAP-02 into an IRR/CAP-03 route dependency. Any future IRR-host path is separately scoped and separately admitted.
+
+### 16.84.4 Explicit limitations, preserved state and non-grants
+
+Even if accepted, the disposition would not: authorize new source changes; authorize a renderer bridge or new transport; change the existing v1 IPC contract; approve schema, identity-resolution, provenance, transaction or durability changes; authorize broker-import operational writes; accept Gate 4 results or grant Gate 5 admission; authorize activation of the existing IRR user-portfolio routes; or retrospectively authorize paths classified as unauthorized under PR #45's effective authority.
+
+```text
+Broker-import UI persistence:        SESSION_ONLY / durable:false
+IPD write dispatch:                  WRITE_NOT_AUTHORIZED before mutation (all writes)
+IRR /api/user-portfolios* routes:    HTTP 503 owner-context-unavailable (6 paths / 12 pairs)
+IPC contract v1:                     UNCHANGED
+IPD durable store / schema:          UNCHANGED
+Gate 4 qualification:                PROPOSED / NOT EFFECTIVE; NOT AUTHORIZED / NOT STARTED
+Gate 4 result acceptance:            NOT RENDERED
+Gate 5 admission:                    NOT GRANTED / NOT INITIATED
+Operational broker-import writes:    NOT AUTHORIZED
+PA decision in this pass:            PROPOSED / NOT EFFECTIVE
+```
+
+**Register effect of this pass: zero movements.** §2 counts, §18 rows/verdicts, §19 totals, Gate 4/5 status, admission and every unrelated workstream are unchanged.
+
+### 16.84.5 Validation executed for this pass
+
+| ID | Verification | Result |
+|---|---|---|
+| `V344` | Live `git ls-remote` and a clean read-only clone established IRR `main@a6cec4c5…` and IPD `main@73fd8c16…` / tree `66020736…`; the IRR working branch was clean at the same commit before preparation | **PASS** |
+| `V345` | IPD UI re-inspected at the exact baseline: session-port defaults at the four recorded locations; no `durable: true` in `frontend/src` or `src`; no Electron/Tauri/preload/`contextBridge`/`ipcRenderer` composition and no UI-plus-backend launch script | **PASS — session-only, no host** |
+| `V346` | IPD IPC re-inspected: `portfolio.save` in the closed write set, pre-mutation `WRITE_NOT_AUTHORIZED` at `dispatch.ts:231`, `node:net`-only endpoint with no TCP/HTTP/URL listener, direct-entry `entrypoint.ts` with no product composer | **PASS — write refusal and non-composition confirmed** |
+| `V347` | IPD persistence helper re-inspected: no `BEGIN`/`COMMIT`/`ROLLBACK` in `portfolio_store.ts` or `brokerImportPersistence.ts`; helper validates caller-supplied canonical identity rather than resolving IPD-side | **PASS — prerequisites stay open** |
+| `V348` | Ownership records re-read at pinned blobs: G1-B1 `857d1451…` §3 (B1 = A, IRR host, express limit over IPD data/persistence); G-2 `7e83946b…` §1.1 (IPD owns domain and durable persistence); v1 `163eb1f1…` and W-1 `4a9501bf…` unchanged | **PASS** |
+| `V349` | IRR fence preservation: transport blob `51704c12…` and responder blob `cb8db45d…` byte-identical to their recorded identities; fence/boundary suites pass within `V350`, including all twelve route-method pairs at an identical `503` | **PASS — fences unchanged** |
+| `V350` | IRR Linux/Node 22 (`frontend/`): `npm ci` (188 packages; initial sandbox `UNABLE_TO_VERIFY_LEAF_SIGNATURE` resolved by the runbook `NODE_EXTRA_CA_CERTS`, TLS verification not disabled), `npm run typecheck` **0**, `npm run typecheck:replay-server` **0**, `npm run test:ci` **87 files / 1,077 passed / 0 failed**, `node .ci/assert-tests.js` **guard OK**, `npm run build` **0** | **PASS — supplementary repository evidence only** |
+| `V351` | Documentation scope and structure: exactly three documentation paths (this continuation, the new record, the §14 addendum); `git diff --check`; UTF-8, final newline, trailing-whitespace, code-fence balance, local-link resolution, table row-width and identifier-uniqueness checks; no generated file tracked | **PASS — documentation-only** |
+| `V352` | Non-grant review: no source, test, schema, mapping, migration, store, route, fence, workflow, ref, PR or issue change; no gate movement; no PA decision rendered; IPD worktree clean and no IPD push | **PASS** |
+
+These are hosted-Linux repository checks plus read-only source inspection. They are **not** UI-to-IPC composition evidence, transaction atomicity, operational provisioning, target-host Gate 4 qualification, result acceptance or Gate 5 admission.
+
+### 16.84.6 Required follow-through and distinct decisions
+
+After the topology decision becomes **effective**, a separate **exact-scope implementation act** must name authorized files, interfaces, tests and exclusions, based on the real host and transport entry points. Before any claim of successful durable import it must also resolve, in IPD, canonical identity over raw broker observations, complete file/import-time/contribution provenance, one request / one atomic transaction with rollback, content-digest idempotency, outcome-unknown reconciliation, and truthful durability acknowledgement.
+
+The following remain distinct, non-substitutable and unchanged by this pass: UI read/analytics and save-result contract decisions (`portfolio.analytics` reserved; v1 save result narrower than the UI contract); durable-write correctness; Gate 4 target-host qualification (authority proposal `PROPOSED / NOT EFFECTIVE`, no native-host run); Gate 4 result acceptance (`NOT RENDERED`); Gate 5 admission (`NOT GRANTED / NOT INITIATED`); operational write authorization under W-1; and the successor provisioning/operational-binding act (Gate A′ approved but not executed, its pinned basis incompatible with current provisioning/schema).
+
+**Continuing obligation, verbatim:** *until the required decisions and gates are effective, the broker-import UI must continue to report session-only saves as `durable:false`.*
+
+### 16.84.7 Status statement
+
+CAP-02 remains **UI-to-durable transport NOT PRESENT; product writes NOT AUTHORIZED; durable-success claim NOT AVAILABLE**. The host/owner boundary is now **prepared for determination** — IRR product host / IPD persistence and IPC / no IPD-local native host assumed — and is **PROPOSED / NOT EFFECTIVE** until the Program Authority renders it. The single next governance action is that determination; only after it may an exact-scope implementation act be prepared. *End of §16.84.*
