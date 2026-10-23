@@ -1,0 +1,239 @@
+# IIPS v3.0 — CAP-02 — Broker-Import UI Composition and Transport Implementation Act — **RENDERED — EFFECTIVE (EXACT-SCOPE HOST TRANSPORT INCREMENT)**
+
+> ## STATUS: **EFFECTIVE — FOR THE EXACT HOST-COMPOSITION/TRANSPORT SCOPE IN §3 ONLY — NO MODAL MOUNT, NO WRITE AUTHORIZATION, NO FENCE LIFT, NO GATE MOVEMENT**
+> This record renders effective the corrected Increment B′ scope that
+> `IIPS-V3-CAP02-BROKER-IMPORT-UI-COMPOSITION-ACT-2026-10-23-02` (blob `42d0c166…`, preserved unamended,
+> including its §11 current-source correction) and its three successor prepared records (readiness
+> `IIPS-V3-CAP02-HOST-COMPOSITION-TRANSPORT-READINESS-2026-10-23-01`, blob `bed81a82…`; prepared U1 act,
+> blob `966891d4…`; prepared U7 record, blob `68ed97ec…`) jointly prepared.
+>
+> **It authorizes exactly:** the B-1R dependency repin to verified IPD `main` commit `554ed6ce…`, the
+> trusted-host CAP-02 v1 save adapter and boundary, the registration of the single U1 route
+> `POST /api/broker-import/:portfolioId/holdings` on the existing IRR Node host, the browser HTTP
+> client for that route, and their tests. **It authorizes no** modal mount, no `PortfolioStorePort`
+> implementation, no renderer surface/route/navigation entry, no revision-read route, no IPD change,
+> no durable write, no fence change and no gate movement. The exported `BrokerImportModal` remains
+> **unmounted** because the U7 provider prerequisite (§6) is not met at the pinned IPD commit.
+
+| Field | Value |
+|---|---|
+| **Record ID** | `IIPS-V3-CAP02-BROKER-IMPORT-UI-COMPOSITION-ACT-EFFECTIVE-2026-10-23-03` |
+| **Record type** | Rendered exact-scope implementation act — dependency pin, file manifest, boundary separation, test manifest, preserved fences, non-goals |
+| **Status** | **EFFECTIVE** for the exact scope of §3 (host transport increment + B-1R). Everything in §7 remains unauthorized |
+| **Rendered / effective date** | `2026-10-23` (UTC) |
+| **Decision authority** | Ramki — Program Authority, single owner/user of the single-user personal-use IIPS platform |
+| **Authority exercised** | The PA's standing grant of global decision and execution authority (2026-10-12), transcribed at `docs/integration/IIPS_v3.0_OWNER_CONTEXT_F3_MECHANISM_AND_IMPLEMENTATION_PA_DECISION.md` §1.2, blob `c4c9f7d79ef181af96f6c4e5cc108288ef22fd02` (re-verified at the current `main` this pass), **as construed** by `IIPS-V3-DEC06-AUTHORITY-RECONCILIATION-IRR-2026-10-21-01` (R-1/R-3/R-6/R-7), **plus** the current CAP-02 execution directive of `2026-10-23` which instructs this pass to establish effective composition authority, render the U1/U7 decisions, repin the dependency and implement the authorized composition in one pass |
+| **Governing effective decisions** | Topology/ownership `IIPS-V3-CAP02-PA-TOPOLOGY-OWNERSHIP-EFFECTIVE-2026-10-23-01` (blob `48bc8375…`); U0 placement `IIPS-V3-CAP02-U0-BROKER-IMPORT-UI-PLACEMENT-EFFECTIVE-2026-10-23-01` (blob `43793d66…`) |
+| **Evidence baselines** | IRR `main@39a0a675eb7323b39b9465c741843a1a05316a31`, tree `4a9648c16d31e8f3d686416d2126f46a39e825bc` (verified equal to `origin/main` this pass); IPD `main@554ed6ceaa7422c95806fd1b6e095a24a8554be2`, tree `2d9dc14d8f9ab52a4507648e5323ce803dc6d512` (read-only, re-verified unchanged this pass) |
+| **Companion effective decisions** | `IIPS-V3-CAP02-U1-BROKER-IMPORT-TRANSPORT-AUTHORITY-ACT-EFFECTIVE-2026-10-23-01` (route admission — rendered in the same package); `IIPS-V3-CAP02-U7-READ-RESULT-CONTRACT-DECISION-EFFECTIVE-2026-10-23-01` (consumer result contract — rendered in the same package) |
+| **Publication authority** | Standing PR-lifecycle execution and merge authorization `CHG-2026-10-18-02`, applied per §10 |
+| **Rendered in repository** | `ramkivs/iips-review-recovered`; branch `arena/f540fa90-iips-review-recovered` |
+| **Mutation boundary of this record** | IRR documentation only at rendering; the implementation authorized by §3 follows only after this record's publication and remote verification (§10) |
+
+---
+
+## 1. Why this act is now renderable, and why its scope is narrow
+
+The prepared chain fixed three facts that were previously open:
+
+1. **B-1 is closed.** IPD `main@554ed6ce…` (unchanged since the readiness pass) publishes the
+   effective export-only Increment A act: `./portfolio-ui` with 22 runtime exports including
+   `BrokerImportModal` and the governed SecurityMaster, `PortfolioWorkspace` deliberately absent.
+   This pass re-verified the exact-commit consumer install inside the IRR workspace: 188 packages
+   installed, the subpath imported with exit 0, `BrokerImportModal` a function, default port
+   `SESSION_ONLY`/`durable:false`, and an `esbuild --platform=browser` bundle of the export (React
+   external) completed with **zero** Node-persistence/IPC/privileged-write closure hits.
+2. **The prepared scope was corrected by evidence.** The §11 addendum to the `-02` act withdrew the
+   G2-adapter reuse and the pre-U7 GET route, fixed the browser-HTTP adapter requirement, and fixed
+   default-portfolio-only for the first surface. The U1/U7 prepared records narrowed the first
+   transport increment to one POST route with a new wire-conformant adapter.
+3. **The PA direction for this pass explicitly instructs rendering.** The current CAP-02 directive
+   requires effective composition authority to be resolved first, then B-1R, then U1/U7 decisions,
+   then the authorized implementation — and forbids both stopping at documentation when
+   implementation is authorized and implementing anything whose authority is not effective.
+
+**Why the scope stops at host transport.** The actual exported modal's port contract (verified at
+the pinned IPD commit, §6) requires a full legacy `PortfolioSaveResult` on success and a full
+`PortfolioRecord` plus durability values on every refusal, and the view model fills refusal
+placeholders (`savedAt = now`, zero counts, empty provenance) and derives displayed durability from
+the static port declaration. An IRR browser `PortfolioStorePort` implementation cannot satisfy that
+contract from the accepted v1 minimal receipt without fabricating values, which every governing
+record forbids. The mounted modal therefore remains blocked by an **IPD-side** UI/port amendment
+(U7 provider prerequisite, §6) and is a recorded non-goal of this act, not an omission.
+
+## 2. Authority determination (why no additional approval is required)
+
+| Test (U0 §2.3 form) | Finding |
+|---|---|
+| Established PA work item? | Yes. B-1R, U1 and U7 are named register items in the effective dependency register (readiness §7); the `-02` act §10 named "land Increment A → this act can be rendered effective without renegotiating its scope"; Increment A landed and is verified |
+| Necessary decision or scope expansion? | Necessary. It executes the already-effective U0 Option C placement and topology decision inside already-fixed boundaries; it creates no capability, market or product line beyond the selected composition's first transport increment |
+| Explicit gate bypassed? | No. W-1/Gate 4/Gate 5/operational-write authorization remain untouched: every write through the admitted route terminates in IPD `WRITE_NOT_AUTHORIZED` with zero store effect, and that refusal is the asserted success criterion of this increment |
+| Safeguard weakened? | No. All twelve `/api/user-portfolios*` route-method pairs stay HTTP 503 with byte-stable fence blobs; the IPC contract v1 operation set is unchanged; no new listener, operation or wire field |
+| Success claimed without verification? | No. Every factual input is cited to a path and blob at the stated baselines; implementation evidence is produced and published before any operational claim |
+| Capacity exceeded (R-7)? | No. All authorized files are IRR-owned; the IPD-side consequence (modal/port amendment, U2) is recorded as an IPD act, not performed here |
+
+**Conclusion:** the standing grant plus the current PA direction covers rendering this act. The
+grant alone would not have made the prepared act effective — an explicit rendered record citing
+current baselines, exact scope and preserved fences is required, and this is that record.
+
+## 3. Exact authorized scope (the host transport increment + B-1R)
+
+### 3.1 Dependency pin (B-1R)
+
+`frontend/package.json` (baseline blob `a6a0521c…`) and `frontend/package-lock.json` (baseline
+`4f068d98…`) repin `iips-production-market-data` from the off-`main` branch-tag commit
+`2e11fa3b689d1a3674a5e4ba1f1de9a559e20494` to the **immutable IPD `main` commit**
+`554ed6ceaa7422c95806fd1b6e095a24a8554be2` (tree `2d9dc14d…`). Verification required: the pinned
+package resolves, `./portfolio-ui` imports with the expected 22 runtime exports and honest
+`SESSION_ONLY`/`durable:false` default, the browser-platform bundle of the export completes with no
+Node-only persistence/IPC or privileged-write symbol in its closure, and the IRR package, typecheck,
+test and build suites pass. The pin identity is asserted by a committed test so drift fails CI.
+
+### 3.2 New trusted-host modules (server-only)
+
+| File | Sole responsibility |
+|---|---|
+| `frontend/server/broker-import/brokerImportBoundary.ts` | Import-safe DTO validation: exact top-level key set, mandatory `expectedRevision`, `MERGE`/`REPLACE` mode, bounded raw-observation holding allowlist, digest shape, refusal of canonical/identity/owner/tenant/credential keys before any I/O. No listener, no IPC |
+| `frontend/server/broker-import/brokerImportV1SaveAdapter.ts` | Map the validated DTO to the **exact top-level v1 `portfolio.save` payload**; call the existing `callIpc` once; relay the minimal v1 receipt verbatim; map Class A / Class P / outcome-unknown / unrepresentable results without fabricating any field |
+| `frontend/server/broker-import/brokerImportHttp.ts` | Route/method matching for the CAP-02 namespace, C9 first-party signal, binding-precondition fail-close, bounded body reading, response mapping. No domain parsing, no persistence |
+| `frontend/server/broker-import/index.ts` | Narrow server-only composition exports |
+
+The adapter **must not** instantiate `IpcUserPortfolioPort`, call `save` on the old G2 port, emit
+the old `options:{mode,contentDigest,fileName,sourceBroker}` payload, or construct a `G2SaveResult`.
+
+### 3.3 One existing host edit
+
+`frontend/server/executive-transport.ts` (baseline blob `53bc5e37…`): dispatch
+`/api/broker-import` to the new handler and add the `/api/broker-import` prefix to the C8
+owner-scoped namespace list (no wildcard cross-origin header on the new owner-scoped namespace).
+The five existing owner-scoped prefixes, every existing route dispatch and the loopback bind remain
+exact; no listener, port or origin setting changes.
+
+### 3.4 Browser HTTP client (transport half of the browser adapter)
+
+`frontend/src/api/brokerImport.ts`: typed client for the single admitted route. It projects the
+IPD-exported UI ingress shapes to the CAP-02 DTO by **selecting only broker-observed fields**
+(canonical identity, lineage and derived-weight fields are never serialized), makes one `fetch` with
+no automatic retry, and maps HTTP responses to receipt / typed refusal / outcome-unknown. It does
+**not** implement IPD's `PortfolioStorePort` (§6) and is imported by no renderer surface yet.
+
+### 3.5 Tests
+
+`brokerImportBoundary.test.ts`, `brokerImportV1SaveAdapter.test.ts`, `brokerImportHttp.test.ts`
+(including real-host route admission against the exported composed server and re-assertion of all
+twelve fence pairs), `brokerImportImportSafety.test.ts`, `brokerImportPackageConsumer.test.ts`
+(pin resolution, export surface, browser closure), and `src/api/brokerImport.test.ts`.
+
+## 4. Boundary separation (recorded explicitly)
+
+| Boundary | Authority | Status |
+|---|---|---|
+| **UI placement** — who authors the broker-import component set, who hosts it | U0 effective decision (blob `43793d66…`) | Effective: IPD-authored, IRR-hosted, reuse by governed package export only |
+| **Host composition** — mounting/rendering the exported component in the IRR renderer | This act | **Transport-level only.** The renderer mount of `BrokerImportModal` is NOT authorized by this act (blocked by the U7 provider prerequisite, §6) |
+| **Transport admission** — which HTTP route exists on the IRR host | U1 effective act (companion record) | Effective for exactly `POST /api/broker-import/:portfolioId/holdings` |
+| **Durable persistence** — who owns the store, migrations, identity resolution | IPD (topology decision item 2) | Unchanged; nothing in this act touches IPD files |
+| **Operational write authorization** — whether a write may commit | Gate E W-1 (U3+U4+U5+U6) | **Unchanged and unmet.** Every write through the admitted route must end in IPD `WRITE_NOT_AUTHORIZED` with zero store effect; no `durable:true` claim may be made by any IRR code |
+
+## 5. Preserved fences and unchanged files
+
+- `frontend/server/user-portfolio-transport.ts` (blob `51704c12…`) and
+  `frontend/server/owner-context-unavailable.ts` (blob `cb8db45d…`) remain **byte-identical**; all
+  six route paths / twelve route-method pairs keep HTTP 503.
+- `frontend/server/user-portfolio/**` (`ipcClient.ts` `c1b885e3…`, `ipcPortAdapter.ts` `7881185e…`,
+  `userPortfolioContract.ts` `e6b57bb8…`, `userPortfolioBoundary.ts` `b8024c6b…`,
+  `translationBoundary.ts` `93f602fd…`, `firstPartySignal.ts` `d2f0ae72…`,
+  `ownerContextFromBinding.ts` `296dd5e3…`, `userPortfolioPort.ts` `ba0001e8…` and every other file
+  in that tree) — **unchanged**; reused read-only.
+- `frontend/vite.config.ts` (blob `a4614f49…`) — unchanged; the existing `/api` proxy already
+  covers the new namespace.
+- `frontend/src/app/App.tsx` (`a75d69be…`), `frontend/src/app/navigation.ts` (`62cc125b…`) —
+  **unchanged**; no renderer route or navigation entry is added by this act.
+- `.github/workflows/ci.yml` (blob `b95a502a…`) — unchanged.
+- Every IPD file, branch, PR, issue and ref — untouched (R-7).
+
+## 6. The U7 provider prerequisite (exact cross-repository blocker)
+
+At the pinned IPD commit, mounting the exported modal with an IRR-supplied custom port is
+**not honestly implementable**, verified in source this pass:
+
+1. `PortfolioPortSaveSuccess.result` requires the full legacy `PortfolioSaveResult`
+   (`portfolio-store.ts`; `frontend/src/features/portfolio/portfolioStorePort.ts` blob `d61f18df…`).
+   Accepted v1 supplies only `{disposition, revision, durability, durable}`.
+2. `PortfolioPortSaveRefusal` requires `portfolio: PortfolioRecord` plus `durability`/`durable`;
+   accepted Class A refusals carry none of those, and `isSaved` has no authoritative v1 equivalent.
+3. The view model (`ui-broker-import-view-model.ts` blob `9066a9d4…`) fabricates refusal
+   placeholders (`savedAt = new Date()`, zero counts/totals, empty provenance, one empty fallback
+   record) and derives displayed durability from the static `storePort.durability`, not from the
+   operation outcome.
+4. The port interface has no outcome-unknown member, and requires `getAnalytics` while
+   `portfolio.analytics` is reserved and must not be dispatched by IRR.
+
+**Required IPD act (IPD capacity):** amend the exported modal/port to (a) consume a minimal v1
+commit receipt without preview fallbacks, (b) render refusals without a mandatory full record,
+timestamp or durability fabrication, (c) add a distinct outcome-unknown/reconciliation state with
+zero automatic retry, and (d) separate store-capability declarations from per-operation commit
+evidence. Until that act lands on IPD `main` and IRR repins to it, no `BrokerImportSurface`, no
+`PortfolioStorePort` implementation and no revision-read route may be created in IRR. The IPD-side
+independent reconciliation note (IPD PR #48, open, read-only inspection this pass) reaches the same
+classification (`IRR-CONTRACT-DEPENDENT — PREPARE IPD SIDE; DO NOT GUESS`).
+
+## 7. Explicit non-goals and exclusions
+
+1. No mount, deep-import or copy of `BrokerImportModal`, `PortfolioWorkspace` or any IPD component
+   into IRR source beyond the package-consumer verification test.
+2. No `PortfolioStorePort` implementation, no second parser/controller/SecurityMaster/persistence.
+3. No renderer route, navigation entry or availability gate.
+4. No revision-read/preview GET route (not admitted; requires its own act after the U7 provider
+   prerequisite).
+5. No IPD source, contract, schema, migration, test, branch, PR or issue change.
+6. No new IPC operation, wire field, listener, port or origin change; no `broker.import`.
+7. No lift or alteration of any `/api/user-portfolios*` fence; no Gate 4/5/W-1 movement; no
+   durable-write or `durable:true` claim; no G24 revival; no CAP-03 or IPO Screening Engine scope.
+8. `fileName`/`importedAt` remain unrepresentable in the v1 save payload; the boundary refuses them
+   as unknown keys and no provenance claim is made (C-1/U2 gap preserved).
+
+## 8. Required verification for the implementation
+
+1. Focused broker-import suites: boundary, adapter (byte-exact payload, one call/no retry, receipt
+   relay, Class A/P/unknown mapping), HTTP (real-host admission + all twelve fences), import
+   safety, package consumer (pin, exports, browser closure), browser client.
+2. Full `npm run test:ci` with the nonzero/pass guard; `npm run typecheck`;
+   `npm run typecheck:replay-server`; `npm run build`; `git diff --check`.
+3. Real-host negative probes: the route refuses fail-closed without the binding precondition; the
+   twelve fence pairs unchanged; no wildcard cross-origin header on the CAP-02 namespace.
+4. No mock may be labelled end-to-end IPD persistence evidence; the real IPD dispatch refusal
+   harness remains blocked by Gate A′ binding prerequisites and is not claimed here.
+
+## 9. Rollback boundary
+
+Revertible by reverting the repin commit, deleting the four server files and the browser client and
+their tests, and reverting the `executive-transport.ts` dispatch/prefix addition: no migration, no
+data rewrite, no fence change, no contract change, no IPD change.
+
+## 10. Publication and effectiveness
+
+| Element | Value |
+|---|---|
+| Rendered | `2026-10-23` (UTC), in this record |
+| Effective | `2026-10-23` — effective on rendering; availability as authority from `main` is proven only by the merge commit and remote blob read-back |
+| Publication route | Session branch → IRR PR → required CI → merge under `CHG-2026-10-18-02` |
+| Order | This record, the effective U1 act and the effective U7 decision are published and remotely verified **before** the §3 implementation is committed; the implementation then travels as its own PR citing this act |
+| If publication fails | The act stands as branch-rendered only; it is not effective from `main`, and no implementation may cite it |
+
+## 11. Status statement
+
+```text
+U0 placement:                     EFFECTIVE (unchanged)
+Composition (this act):           EFFECTIVE — host transport increment + B-1R only
+U1 route admission:               EFFECTIVE (companion record) — one POST route
+U7 consumer contract:             EFFECTIVE (companion record) — minimal v1 receipt
+Modal mount / PortfolioStorePort: NOT AUTHORIZED — blocked by IPD UI/port act (§6)
+B-1R:                             AUTHORIZED and executed under this act (§3.1)
+Writes / W-1 / Gates 4–5:         UNCHANGED — WRITE_NOT_AUTHORIZED, zero store effect
+Twelve /api/user-portfolios* pairs: UNCHANGED — HTTP 503, byte-stable blobs
+IPD repository:                   UNCHANGED (read-only)
+```
+
+*Rendered under the standing grant and the current CAP-02 directive; recorded in the NP-18/DEC-06
+form; no signature or approval identifier is fabricated. This act authorizes a bounded transport
+increment — it does not mount the modal, enable a write, or move any gate.*
