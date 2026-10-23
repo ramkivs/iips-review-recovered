@@ -144,3 +144,49 @@ Transport conformance increment: refusal-faithful end to end
 Durable success scope: NOT AUTHORIZED (C-1/U2 + U3–U6 prerequisites unchanged)
 Fences: UNCHANGED (twelve pairs 503, byte-stable)
 ```
+
+---
+
+## 7. Additive revision-read route admission (2026-10-23, companion to composition act `-04`)
+
+This section is an additive amendment under DEC-06 R-2/R-5: §§1–6 above are preserved verbatim.
+Now that the U7 provider prerequisite and B-1R package compatibility are verified on IPD
+`main@2d9130e76bb0dc89daeefabaf297e27bdaa84250` (PRs #54, #58, #59), and the successor composition
+act `IIPS-V3-CAP02-BROKER-IMPORT-UI-COMPOSITION-ACT-EFFECTIVE-2026-10-23-04` authorizes the IRR
+`PortfolioStorePort` adapter and `BrokerImportModal` mount, the narrow revision-only read
+anticipated by §1 above and specified by U7 §1.4 / §3 is **admitted on the existing IRR Node host**:
+
+```text
+GET /api/broker-import/:portfolioId/revision
+```
+
+### 7.1 Call chain and exact semantics
+
+1. **Route/method discipline.** Only `GET` is permitted on
+   `/api/broker-import/:portfolioId/revision` (other methods → `405 Allow: GET`). Only `POST` is
+   permitted on `/api/broker-import/:portfolioId/holdings` (other methods → `405 Allow: POST`).
+   Any query string on the revision route is refused (`400 invalid-request` before any socket).
+   `/api/broker-import/:portfolioId/preview` and all other paths under `/api/broker-import/`
+   remain `404 not found`.
+2. **C9 and binding precondition.** Identical to §2.2: C9 first-party signal is checked first
+   (cross-site → `403 cross-site-request-refused`); `IIPS_G3_IPC_BINDING_PROVISIONED` is checked
+   next (absent → `503 owner-context-unavailable` **before** any adapter or socket is constructed).
+3. **Opaque `portfolioId` validation.** Validated via `validatePortfolioIdParam` before any I/O.
+4. **Single v1 read call.** Calls `callIpc('portfolio.list', {}, {})` once with zero automatic
+   retries, validates the v1 `PortfolioSummary[]` result, and selects the exact entry matching
+   `portfolioId` (`DEFAULT_PORTFOLIO` on the first CAP-02 surface).
+5. **Response mapping:**
+   - Exact match with valid non-negative integer `revision` → `200 { portfolioId, revision }`
+     (no other portfolio fields, no `isSaved`, no analytics, no full record).
+   - Absent `portfolioId` in the list (or Class A `RESOURCE_UNAVAILABLE`) → `404 { outcome: 'RESOURCE_UNAVAILABLE' }`
+     (indistinguishable from missing/foreign/tombstoned; **never** invents `revision: 0`).
+   - Class A `INVALID_REQUEST` → `400 { outcome: 'INVALID_REQUEST' }`.
+   - Class A `UNAVAILABLE` → `503 { outcome: 'UNAVAILABLE' }`.
+   - Class P (zero bytes) or local `IpcClientError` → `503 owner-context-unavailable` (IRR-2).
+   - Timeout / transport fault → `503 { outcome: 'OUTCOME_UNKNOWN', retried: false }`.
+   - Malformed / unrepresentable list result → `503 { outcome: 'OUTCOME_UNKNOWN', reason: 'UNREPRESENTABLE_RESULT', retried: false }`.
+6. **Reconciliation rule.** When used to reconcile a prior save whose outcome was `OUTCOME_UNKNOWN`,
+   this GET route is the **only** network call performed: it never re-sends `portfolio.save`,
+   never claims a rollback, never claims `durable: true` or produces a commit receipt, and never
+   fabricates a `PortfolioRecord`. All non-grants in §3 and all twelve `/api/user-portfolios*` 503
+   fences in §5 remain unchanged.

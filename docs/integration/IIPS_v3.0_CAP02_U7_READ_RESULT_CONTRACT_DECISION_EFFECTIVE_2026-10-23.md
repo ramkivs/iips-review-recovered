@@ -115,3 +115,41 @@ Durable success display:        NOT AUTHORIZED (receipt-driven only; W-1 unmet)
 *Rendered under the standing grant and the current CAP-02 directive; recorded in the NP-18/DEC-06
 form. This decision fixes IRR's consumer contract — it does not amend IPD, mount the modal, or
 claim the provider gaps closed.*
+
+---
+
+## 7. Additive verification and activation addendum (2026-10-23, companion to composition act `-04`)
+
+This section is an additive addendum under DEC-06 R-2/R-5: §§1–6 above are preserved verbatim.
+
+1. **§5 provider and package prerequisites satisfied on IPD `main`.** At IPD
+   `main@2d9130e76bb0dc89daeefabaf297e27bdaa84250` (tree `4658699180ef161aae3c1b33d3946e918d6fb9b2`,
+   merged via PR #58 `16459f465024ca1eb4da4953d8e178eba4269f8e` and PR #59
+   `2d9130e76bb0dc89daeefabaf297e27bdaa84250` following PR #54 `88e434474c388fb397ad09878ec6139064fbfffd`),
+   the exported `./portfolio-ui` package surface satisfies every requirement of §5:
+   - `PortfolioPortSaveSuccess` requires only the minimal `PortfolioCommitReceipt` (`disposition`,
+     `revision`, `durability`, `durable`) with `result?: PortfolioSaveResult` optional;
+   - `PortfolioPortSaveRefusal` makes `portfolio?: PortfolioRecord`, `durability?`, and `durable?`
+     optional and includes `WRITE_NOT_AUTHORIZED` and `RESOURCE_UNAVAILABLE` in
+     `PortfolioPortRefusalCode`;
+   - `PortfolioPortSaveOutcomeUnknown` (`ok: 'unknown'`, `code: 'OUTCOME_UNKNOWN'`,
+     `reconciliationRequired: true`) is a distinct third outcome with zero automatic retry and no
+     rollback claim;
+   - `PortfolioCommitReceipt`, `PortfolioCommitDisposition`, and `PortfolioPortSaveOutcomeUnknown`
+     are directly re-exported by name from `iips-production-market-data/portfolio-ui`;
+   - `./pit` and `./d114-non-production` are exported on `main` and resolve all five direct IRR
+     PIT/D114 importers.
+2. **§1.4 revision-read route admitted and consumer integration authorized.** Companion U1 §7
+   admits `GET /api/broker-import/:portfolioId/revision` for the exact §1.4 / §3 revision-only read
+   and unknown-outcome reconciliation (`portfolio.list` summary selection of `DEFAULT_PORTFOLIO`,
+   returning `{ portfolioId, revision }` only, never inventing revision `0`, never retrying an
+   unknown commit, never claiming rollback or receiptless durability, and never fabricating a
+   `PortfolioRecord`). Successor composition act
+   `IIPS-V3-CAP02-BROKER-IMPORT-UI-COMPOSITION-ACT-EFFECTIVE-2026-10-23-04` authorizes the B-1R
+   repin to `2d9130e76bb0dc89daeefabaf297e27bdaa84250`, the IRR `PortfolioStorePort` adapter, and
+   the `BrokerImportModal` mount at `/user-portfolios/import`.
+3. **Unchanged boundaries.** §2 (the seven-field/three-rename G2 matrix remains prepared-only and
+   out of scope for CAP-02), §1.7 (`fileName`/`importedAt` remain unresolved C-1/U2 gaps and are
+   never added as unsupported v1 save fields), `WRITE_NOT_AUTHORIZED`, the unactivated binding
+   precondition, `SESSION_ONLY`/`durable:false`, and all twelve `/api/user-portfolios*` 503 fences
+   remain unchanged.

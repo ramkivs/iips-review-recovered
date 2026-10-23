@@ -412,3 +412,32 @@ Writes / W-1 / Gates A′/4/5/E:   UNCHANGED — WRITE_NOT_AUTHORIZED, zero stor
 Twelve /api/user-portfolios* pairs: UNCHANGED — HTTP 503, byte-stable blobs
 IPD repository:                   UNCHANGED by IRR (read-only inspection only)
 ```
+
+## 14. Dated addendum (2026-10-23, third pass): IPD packaging prerequisite satisfied at `2d9130e76bb0dc89daeefabaf297e27bdaa84250`; B-1R pin coordinate updated and successor modal/port/revision-read act rendered
+
+This section is an additive dated addendum under DEC-06 R-2/R-5: §§1–13 above are preserved
+verbatim.
+
+1. **IPD prerequisite satisfied on `main`.** IPD PR #58 (merged as
+   `16459f465024ca1eb4da4953d8e178eba4269f8e`) and PR #59 (merged as
+   `2d9130e76bb0dc89daeefabaf297e27bdaa84250`, tree `4658699180ef161aae3c1b33d3946e918d6fb9b2`,
+   CI `39951277310` and `39951735664` `success`) published `./pit` and `./d114-non-production`
+   alongside `./portfolio-ui` on IPD `main` with real `dist/package/**` build output and
+   declarations, verified against all five direct IRR PIT/D114 importers (with the sixth path
+   `frontend/src/api/pit.test.ts` confirmed comment-only for direct package specifiers and
+   transitive via `server/pit/nonProductionPitStore.ts`), and closed both residual U7 provider
+   gaps noted in §13.1.4 (`PortfolioCommitReceipt`, `PortfolioCommitDisposition`, and
+   `PortfolioPortSaveOutcomeUnknown` are now re-exported by name from `./portfolio-ui`, and
+   `WRITE_NOT_AUTHORIZED` / `RESOURCE_UNAVAILABLE` are included in `PortfolioPortRefusalCode`).
+2. **B-1R pin coordinate updated.** The exact target commit for the §3.1 / §13.2.1 B-1R repin is
+   updated from the superseded `554ed6ce…` coordinate to the verified compatible IPD `main` commit
+   `2d9130e76bb0dc89daeefabaf297e27bdaa84250`.
+3. **Successor exact-scope composition act rendered.** The modal mount, IRR `PortfolioStorePort`
+   adapter, replacement of local structural mirror types in `frontend/src/api/brokerImport.ts`
+   with `./portfolio-ui` package imports, and the separately admitted U7 §1.4 revision-read route
+   (`GET /api/broker-import/:portfolioId/revision`) are rendered effective in the successor record
+   `IIPS-V3-CAP02-BROKER-IMPORT-UI-COMPOSITION-ACT-EFFECTIVE-2026-10-23-04`
+   (`docs/integration/IIPS_v3.0_CAP02_BROKER_IMPORT_MODAL_PORT_COMPOSITION_ACT_EFFECTIVE_2026-10-23.md`)
+   together with companion U1 §7 and U7 §7 addenda. All write safeguards, the unactivated binding
+   precondition, `SESSION_ONLY`/`durable:false`, and all twelve `/api/user-portfolios*` 503 fences
+   remain unchanged.
