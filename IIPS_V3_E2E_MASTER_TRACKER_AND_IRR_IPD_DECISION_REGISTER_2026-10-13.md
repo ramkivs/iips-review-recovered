@@ -244,6 +244,7 @@ The following completed baselines on `ramkivs/iips-review-recovered @ refs/heads
 | `2026-10-23` | `CHG-2026-10-23-13` | **Post-completion observation only: IPD `main` moved documentation-only (`554ed6ce…` → `24e62c80…` at `2026-10-23T10:22:56Z`, IPD PR #55, one evidence file; §16.89.1).** IPD `exports` at the new commit still `["./portfolio-ui"]` — the B-1R prerequisite remains unmet and correctly recorded; no IRR state, decision, pin, fence or preservation proof affected. Next IRR pass needing IPD state must re-verify against `24e62c80…` or later. No IRR change beyond this additive record. |
 | `2026-10-23` | `CHG-2026-10-23-14` | **CAP-02 continuation one-pass (`CV-CORR-73`, §16.90): package re-pin re-verified and honestly re-blocked; U7 provider prerequisite found landed on IPD `main` (PR #54); guard hardened; records reconciled.** IRR `main@3f628cbc…`/tree `eb807be6…`, PRs #216–#219 re-verified; IPD `main@24e62c80…`/tree `d5eb798b…` exports only `./portfolio-ui` and lacks the PIT/D114 modules in source — repin re-attempt failed (`TS2307`; PIT suites fail to collect) and was reverted byte-clean; B-1R **not** closed. Changed paths: `frontend/server/broker-import/brokerImportPackageConsumer.test.ts` (stale hardcoded candidate removed; any B-1R-attempt pin must carry `./portfolio-ui`+`./pit`+`./d114-non-production`; PIT/D114 symbol suite active at retained pin), `frontend/src/api/brokerImport.ts` (comment-only factual refresh; mirror retained), composition act §13 addendum, this tracker. Full verification green (93/1,155+3/0; typechecks/build 0); twelve fences + package files 0-line diff; Gate A′/E/4/5/W-1, `WRITE_NOT_AUTHORIZED`, `durable:false` unchanged; no modal mount, no port adapter, no revision-read route, no binding, no IPD mutation; no real-store end-to-end claim. Publication receipts follow in §16.90.1. |
 | `2026-10-23` | `CHG-2026-10-23-15` | **CAP-02 continuation publication receipt (§16.90.8): IRR PR #220 `MERGED`** `2026-10-23T11:29:06Z` — head `64d2379…`; merge `c69104e49ad3345cd3265701e08f7dfb5319ae50`/tree `b34ac9cb8b2a48116458f3db4e367714c1a9fe3a`; ancestry PASS; PR-head CI run `39946207532` `pass` (1m14s) and post-merge `main` run `39946392962` `success`. Remote read-back **4/4 MATCH** (tracker `9f466061…`, composition act `c75db859…`, guard test `9787eaa2…`, browser client `e5eb492f…`); remote preservation proofs vs `3f628cbc…`: changed paths exactly the 4 recorded; `frontend/server/user-portfolio/**` + `frontend/package.json` + `package-lock.json` **0 changed lines** (pin on `main` remains `2e11fa3b…`). IPD `main` re-checked unchanged at `24e62c80…` after the merge. B-1R remains open under the IPD prerequisite (§16.90.7); no gate/write/fence movement. |
+| `2026-10-23` | `CHG-2026-10-23-16` | **Post-completion observation only: IPD `main` moved documentation-only again (`24e62c80…` → `70323867619d4270bc94cad6ae8d622c0579eb4e`, tree `32890138c6c11ab91ec75c6f4d72f4c26e093b49`, `2026-10-23T11:32:18Z`, IPD PR #56; §16.90.9).** The moved files are evidence-only (new B-1R/Gate 4 preparation record + IPD tracker); `package.json` at the new commit still exports only `./portfolio-ui`, so B-1R remains blocked exactly as recorded. IPD's new record independently concurs with §16.90 and sharpens one prerequisite element: current-`main` `PointInTimeStore`/`CanonicalEnvelope` are `companyId`-keyed (no `securityId`, no `listAdmittedSeriesKeys`), so the IPD act must cover API/identity reconciliation, not only module admission + exports. No IRR state, decision, pin, fence or proof affected. Next IRR pass must re-verify IPD at `70323867…` or later. |
 
 ---
 
@@ -7545,3 +7546,34 @@ the hardened guard now fails CI on any incompatible repin attempt while auto-act
 full `./portfolio-ui` consumer/closure proof the moment a compatible package is pinned.
 
 *End of §16.90.8 (publication receipt; §16.90 complete).*
+
+### 16.90.9 Post-completion observation — IPD `main` advanced documentation-only to `70323867…` (`2026-10-23`, `CHG-2026-10-23-16`)
+
+Observed at this pass's final remote verification, seconds after the §16.90.8 receipts were
+checked (the §16.90.8 statement "IPD `main` still `24e62c80…`" was true at its check time;
+IPD PR #56 merged at `2026-10-23T11:32:18Z`, immediately before the IRR receipts merge at
+`11:32:39Z`): IPD `main@70323867619d4270bc94cad6ae8d622c0579eb4e`, tree
+`32890138c6c11ab91ec75c6f4d72f4c26e093b49`, single squash commit touching only
+`evidence/cross-repository/IIPS_V3_CAP02_B1R_PACKAGE_AND_GATE4_PREPARATION_2026-10-23.md`
+(added) and the IPD execution tracker (modified). Read-only verification: `package.json` at
+`70323867…` still declares exactly `exports: { "./portfolio-ui": … }`. **Materiality to IRR:
+none** — B-1R remains blocked on the identical terms; no IRR decision, pin, fence, route, test
+or preservation proof references the moved files.
+
+Two concordances worth preserving for the next pass. First, IPD's new preparation record
+independently reaches §16.90's conclusions (split export surface; absent modules; off-`main`
+pin not promotable; no effective IPD act yet covers the PIT/D114 subpaths) and **sharpens the
+prerequisite**: current-`main` `PointInTimeStore` and `CanonicalEnvelope` are keyed by
+`companyId` with no `securityId`, and `listAdmittedSeriesKeys` is absent, so the required IPD
+act must also cover the store/query API and identity-field reconciliation — module admission
+plus export keys alone would not satisfy the consumers. The §16.90.7 handoff is to be read
+with this sharpening. Second, on consumer counting: IPD counts five direct package importers
+and classifies `frontend/src/api/pit.test.ts` as comment-only/transitive; IRR's register
+counts six including that transitive file (the link that pulls `server/pit/**` into
+`tsc --noEmit`, which is why the repin breaks typecheck — §16.90.2). Both statements are
+accurate under their stated counting rules; no reconciliation is required.
+
+The next IRR pass that needs IPD state must re-verify against `70323867…` (or later) rather
+than the `24e62c80…` values §16.90.1–§16.90.8 correctly recorded at their verification times.
+
+*End of §16.90.9 (post-completion observation; no IRR action required beyond future re-verification).*
