@@ -169,3 +169,18 @@ The existing accepted v1 contract can support the **technical wire shape** of a 
 **Next executable action:** the IPD host owner must identify and point to the actual desktop/renderer host runtime and its bridge entry point (or confirm none exists). This is a technical prerequisite to naming any exact host files in a future PA implementation act. Until that evidence exists and the PA decision is rendered, **no bridge, browser API, HTTP listener, write handler, or durable UI adapter is authorized or executable**. Continue to report session-only saves truthfully as `durable:false`.
 
 **Non-grants preserved:** no CAP-03 status or files changed; no G24 revival; no activation of IRR user-portfolio routes; no removal or change to HTTP `503` fences; no schema/mapping/migration change; no W-1, Gate 4, result-acceptance, Gate 5, route-admission, production, or successful-write status change; no Group F workbook search or claim.
+
+---
+
+## 8. Additive CAP-02-HOST-01 addendum (2026-10-23)
+
+The follow-up record [`IIPS_v3.0_CAP02_HOST01_RUNTIME_COMPOSITION_AND_BRIDGE_DISPOSITION_2026-10-23.md`](IIPS_v3.0_CAP02_HOST01_RUNTIME_COMPOSITION_AND_BRIDGE_DISPOSITION_2026-10-23.md) independently re-verified remote IPD `main@73fd8c1644e9725c9a5499e14d42efdfcb4fe2f2` and inspected the actual runtime, composition, call sites, reachable history and effective host-governance records. **Sections 1–7 above, including the §3 path-level authority findings and the §6 proposed/not-effective status, are preserved. No authorization record is retrospectively amended.** The §2 statement that the earlier pass did not rerun IPD tests is a historical statement about that pass; the follow-up's separate supplementary Linux run is recorded in the new record.
+
+The follow-up refines, but does not reverse, the conditional transport preference in §5:
+
+1. No current IPD-native application host or renderer-to-host bridge was found. The browser UI and direct-entry Node IPC service are not composed, so the future work cannot yet be bounded as a small edit to an existing desktop shell.
+2. Published G1-B1 (`docs/integration/IIPS_v3.0_G1_PROGRAM_AUTHORITY_DECISION_RECORD.md`, blob `857d14513c3fc2c45f9015145fc7f36cd7ad6141`) designates **IRR `main` as the authoritative IIPS product/application host**, while accepted G-2/v1 records assign portfolio persistence and IPC to IPD. The owner/runtime for a separate IPD-local native host is therefore **UNRESOLVED**, and creating one requires explicit PA reconciliation with G1-B1. Commit authorship does not supply that ownership.
+3. The frontend and backend interfaces named `PortfolioStorePort` are not type-compatible. In addition, v1 reserves `portfolio.analytics` and its `portfolio.save` result does not supply the full UI `PortfolioSaveResult`. The existing v1 wire operation is therefore not, by itself, a complete implementation of the current UI store port.
+4. IRR's real `callIpc`/`IpcUserPortfolioPort` code remains separate from the IPD UI and behind unchanged HTTP 503 route fences. Its save-result gap, raw-field mapping and payload differences are additional reasons not to treat it as a working reusable CAP-02 bridge.
+
+Accordingly, §5.3's host row and §6's future architecture wording must be read with the follow-up's stronger stop: **defer source implementation; first obtain a PA topology/ownership determination and exact UI read/result decisions, then a separate effective act naming real files and tests.** A trusted host-mediated same-host IPC adapter remains only a conditional transport preference, **PROPOSED / NOT EFFECTIVE**, not a currently executable IPD-local bridge manifest. Current session-only behavior and `durable:false` remain unchanged.
