@@ -1,6 +1,6 @@
 # IIPS v3.0 — CAP-02 — Host Boundary and Exact-Scope Implementation Act
 
-> ## STATUS: **PREPARED — NOT EFFECTIVE — NO IMPLEMENTATION AUTHORIZED — BLOCKED ON U0–U6**
+> ## STATUS: **PREPARED — NOT EFFECTIVE — NO IMPLEMENTATION AUTHORIZED — BLOCKED ON U0–U7**
 > This act prepares the exact scope required by item 4 of the effective CAP-02 topology decision. It is
 > **not** effective, it authorizes **no** file, and no source change was made under it.
 >
@@ -40,7 +40,7 @@ record**, because it consumes effort on a component that has no consumer until U
 
 **Increment B — product exposure (deferred, and not authorized).** Registering the seam on a product
 route, adding a renderer broker-import surface, and allowing any write to reach IPD. This requires
-U0–U6 to be cleared first and cannot be included in the same act.
+U0–U7 to be cleared first and cannot be included in the same act.
 
 **This act cannot and does not:** change v1, add an IPC operation, add a field to a wire message,
 enable writes, modify the W-1 guard, lift a route fence, create a native host, modify IPD source, or
