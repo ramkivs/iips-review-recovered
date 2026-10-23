@@ -312,3 +312,103 @@ B-1R:  AUTHORIZED but NOT EXECUTED — blocked by the IPD split export surface (
 
 Everything else in §11 stands. The transport increment (§3.2–§3.5, §4, §5, §7, §8) is unaffected
 and proceeds: it has no dependency on the package pin.
+
+## 13. Dated re-verification addendum (2026-10-23, second one-pass): B-1R still blocked — prerequisite deepened; U7 provider prerequisite satisfied on IPD `main` sources but unreachable until repin
+
+This section is an additive dated addendum under DEC-06 R-2/R-5: §§1–12 above are preserved
+verbatim. It records a fresh authoritative re-verification executed under the PA's CAP-02
+continuation directive of 2026-10-23 (tracker §16.90, `CV-CORR-73`). It changes no
+authorization: §3's scope, §7's non-goals and §12's B-1R correction all stand.
+
+### 13.1 What was re-verified (receipts)
+
+1. **IRR baseline.** `main@3f628cbc15d0a4712980dc9c9e378edf062be67e`, tree
+   `eb807be6c9b02062c060a7a0793b3733e80612b6` (= `origin/main`, clean worktree). PRs #216–#219
+   re-verified `MERGED` with merge commits `30091d33…`, `d0fb8a49…`, `76a599cc…`, `3f628cbc…`.
+   Pin retained at `2e11fa3b689d1a3674a5e4ba1f1de9a559e20494`; admitted route, boundary, v1
+   adapter, HTTP mapping, browser client and all twelve `/api/user-portfolios*` 503 fences
+   re-verified in source and by the focused suites.
+2. **IPD authoritative publication.** `main@24e62c80f37e8a55c34747581a68209c67b775a3`, tree
+   `d5eb798b7455711f7e46bfaec89fdca551fa0f3d` (unchanged since §16.89.1's observation), package
+   `iips-production-market-data@1.0.0`, export map exactly
+   `{ "./portfolio-ui": { "types": "./dist/package/src/ui/portfolio_ui_package.d.ts",
+   "import": "./dist/package/src/ui/portfolio_ui_package.js" } }`.
+   Empty-consumer install at that exact commit: `./portfolio-ui` resolves with 22 runtime
+   exports and the honest `SESSION_ONLY`/`durable:false` default; an esbuild browser bundle
+   (React external, 1,985,357 bytes) has **zero** forbidden-closure hits. `./pit` and
+   `./d114-non-production` fail with `ERR_PACKAGE_PATH_NOT_EXPORTED` (runtime) and `TS2307`
+   (typecheck). A direct in-IRR repin to `24e62c80…` was performed and reverted: `tsc --noEmit`
+   fails at `server/pit/nonProductionPitStore.ts` (`TS2307`) and the PIT suites fail to
+   collect (`Missing "./pit" specifier`). Worktree verified clean after revert; pin and
+   lockfile byte-restored.
+3. **The prerequisite is deeper than export keys.** `PitReadService`
+   (`src/pit/pit_read_service.ts`), the PIT package entry (`src/pit/package.ts`) and the D114
+   non-production population modules (`src/d114/non_production_package.ts`,
+   `src/d114/non_production_pit_population.ts`) **do not exist in the IPD `main` tree at all**;
+   they exist only on the off-`main` lineage (`2e11fa3b…`, verified NOT an ancestor of `main`).
+   `main` carries only `PointInTimeStore` and the contract types, unexported. An exports-map-only
+   change on `main` therefore cannot satisfy the six consumers; IPD must main-admit those
+   modules under its own authority in addition to adding the packaging exports.
+4. **The §6 U7 provider prerequisite is now satisfied in IPD `main` sources.** IPD PR #54
+   (merge `88e434474c388fb397ad09878ec6139064fbfffd`, 2026-10-23T10:20:04Z; feature commit
+   `0742a20…`, act `IIPS-V3-CAP02-U7-IPD-PROVIDER-OUTCOME-ACT-2026-10-23-01`) amended the
+   exported port/modal exactly as §6 and U7 §5 required, verified in source and in the built
+   declarations at `24e62c80…`: minimal `PortfolioCommitReceipt` required on success with the
+   legacy result optional; refusal record/durability optional (nothing fabricated on the port
+   path); distinct `OUTCOME_UNKNOWN` third outcome with no retry and no rollback claim;
+   receipt-driven durability separate from the static capability declaration; `getAnalytics`
+   optional; receipt-only modal success panel with no preview fallbacks. A consumer compile
+   check against the candidate package confirms the port, outcome union and modal props are
+   implementable without fabrication. **Two residual provider gaps remain** (recorded for the
+   IPD handoff; neither is worked around IRR-side): (a) the package entry does not re-export
+   the `PortfolioCommitReceipt`/`PortfolioCommitDisposition`/`PortfolioPortSaveOutcomeUnknown`
+   type names (reachable structurally via the exported outcome members only); (b)
+   `PortfolioPortRefusalCode` has no `WRITE_NOT_AUTHORIZED` or `RESOURCE_UNAVAILABLE` member,
+   so the W-1 refusal cannot yet be carried as a typed port code (the IPD act's §3.6 statement
+   that `WRITE_NOT_AUTHORIZED` appears in the refusal vocabulary is not borne out by the port
+   declarations).
+
+### 13.2 Consequences under this act
+
+1. **B-1R remains AUTHORIZED but NOT EXECUTED.** §12.4 stands, with the prerequisite restated
+   precisely: an IPD act (IPD capacity) that (i) main-admits `pit_read_service`/D114
+   non-production population modules (or their accepted equivalents), and (ii) adds `./pit` +
+   `./d114-non-production` exports resolving to real build output and declarations carrying at
+   least `PitReadService`, `PointInTimeStore`, `DataProvenanceDTO`, `CanonicalEnvelope`,
+   `DataDomain`, `populateNonProductionD114Pit`, `createNonProductionD114PitStore`,
+   `ingestNonProductionD114Archives` and the `NON_PRODUCTION_D114_*` constants the six IRR
+   consumers import. Item (iii), fixing the two residual gaps in §13.1.4, is requested in the
+   same handoff. After that act lands on IPD `main`, the plain repin to the then-current exact
+   `main` commit plus the §8 program remains already authorized by §3.1; the hardened guarded
+   test (`brokerImportPackageConsumer.test.ts`) enforces all three exports and the PIT symbols
+   and auto-activates the `./portfolio-ui` closure suite.
+2. **Modal mount, `PortfolioStorePort` implementation and revision-read route remain
+   UNAUTHORIZED under this act.** U7 §5's condition is conjunctive — IPD provider act on `main`
+   **and** IRR repin to it — and §7 of this act excludes the mount outright. The provider half
+   is met (§13.1.4); the repin is not executable (§13.1.2–3), and at the retained pin the
+   `./portfolio-ui` export does not exist, so no conforming adapter or mount can even compile.
+   No guessed or mirrored provider contract was mounted. The next IRR step after the repin is a
+   **new** exact-scope composition act (successor to this one) authorizing the
+   `BrokerImportSurface`, the IRR `PortfolioStorePort` adapter over the admitted route
+   (mapping `WRITE_NOT_AUTHORIZED`/`RESOURCE_UNAVAILABLE` truthfully pending §13.1.4(b)), and —
+   under its own admission — the revision-only read (U7 §1.4, `portfolio.list` summary of the
+   exact default portfolio).
+3. **Write safeguards unchanged.** The binding precondition remains fail-closed and unactivated;
+   `durable:false` remains the honest declaration; IPD `WRITE_NOT_AUTHORIZED` stands until
+   IPD's own Gate E/W-1 and U3–U6 chain completes; all twelve 503 fences remain byte-stable;
+   no wildcard CORS, no identity/binding provisioning, no IPD mutation. A completed route or
+   passing CI closes none of Gate A′/E, write authorization or durability qualification.
+
+### 13.3 Status addendum (supplements §11/§12.4; nothing else changes)
+
+```text
+B-1R:                             AUTHORIZED but NOT EXECUTED — re-verified blocked at
+                                  IPD main@24e62c80… (§13.1.2–3); pin retained at 2e11fa3b…
+U7 provider (IPD modal/port):     SATISFIED on IPD main sources (PR #54) — unreachable
+                                  until the repin; two residual gaps open (§13.1.4)
+Modal mount / PortfolioStorePort: NOT AUTHORIZED — awaits repin + new composition act (§13.2.2)
+Revision-read route:              NOT ADMITTED — awaits its own act after the repin
+Writes / W-1 / Gates A′/4/5/E:   UNCHANGED — WRITE_NOT_AUTHORIZED, zero store effect
+Twelve /api/user-portfolios* pairs: UNCHANGED — HTTP 503, byte-stable blobs
+IPD repository:                   UNCHANGED by IRR (read-only inspection only)
+```

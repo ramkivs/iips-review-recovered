@@ -38,17 +38,23 @@
  *   success receipt is the minimal v1 `{disposition, revision, durability, durable}`; nothing is
  *   added, inferred or filled from preview data.
  *
- * DEPENDENCY NOTE (B-1R blocker, 2026-10-23)
+ * DEPENDENCY NOTE (B-1R blocker; re-verified 2026-10-23, composition act §13)
  *   The projection input is typed by a LOCAL structural mirror of IPD's exported
  *   `UserHoldingInput` (`frontend/src/features/portfolio/import/types.ts` at the pinned lineage),
  *   not by a package import: IRR's current dependency pin (`2e11fa3b…`, the off-`main`
- *   `np04-governed-persistence-windows` lineage) carries `./pit`/`./d114-non-production` but NOT
- *   the `./portfolio-ui` export, and IPD `main@554ed6ce…` carries `./portfolio-ui` but NOT the
- *   pit exports — a plain repin breaks the AD-02-admitted PIT consumers (verified: `tsc` fails).
- *   When the B-1R prerequisite (an IPD packaging act unifying the exports on `main`) lands and
- *   IRR repins, this mirror may be replaced by `import type { UserHoldingInput } from
+ *   `np04-governed-persistence-windows` lineage, verified NOT an ancestor of `main`) carries
+ *   `./pit`/`./d114-non-production` but NOT the `./portfolio-ui` export, and IPD
+ *   `main@24e62c80…` (re-verified 2026-10-23) carries `./portfolio-ui` but NOT the pit exports —
+ *   the PIT read-service and D114 population modules do not exist in the `main` source tree at
+ *   all, so a plain repin breaks the AD-02-admitted PIT consumers (verified: `tsc` fails with
+ *   `TS2307`; the PIT suites fail to collect). IPD's U7 provider-outcome act has since landed on
+ *   `main` (IPD PR #54), satisfying the modal/port prerequisite in source, but it stays
+ *   unreachable for IRR until the repin is executable. When the B-1R prerequisite (an IPD
+ *   packaging act main-admitting those modules and unifying the exports on `main`) lands and IRR
+ *   repins, this mirror may be replaced by `import type { UserHoldingInput } from
  *   'iips-production-market-data/portfolio-ui'` under that act. The mirror is field-for-field the
- *   UI shape this projection legitimately receives; nothing outside it is read.
+ *   UI shape this projection legitimately receives; nothing outside it is read. The mirror is
+ *   NOT evidence of package compatibility and does not resolve B-1R.
  */
 
 /* ------------------------------------------------------------------ *
