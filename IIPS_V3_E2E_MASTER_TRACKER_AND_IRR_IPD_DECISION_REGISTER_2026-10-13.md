@@ -243,6 +243,7 @@ The following completed baselines on `ramkivs/iips-review-recovered @ refs/heads
 | `2026-10-23` | `CHG-2026-10-23-12` | **CAP-02 one-pass execution COMPLETE — implementation published and remote-verified; final report rendered (`CV-CORR-72`, §16.88.12 + §16.89).** IRR **PR #217 `MERGED`** `2026-10-23T10:25:52Z`: head `2c06330…`; merge `d0fb8a49…`/tree `6e3b6bb7…`; ancestry PASS; PR-head CI run `39938764664` and post-merge `main` run `39939051210` both `SUCCESS`. Remote read-back **14/14 MATCH** (executive-transport `a438eec0…`, nine `frontend/server/broker-import/**` files, browser client + test, composition act with §12 `d3100c82…`, tracker). Remote preservation proofs: `git diff 39a0a67…origin/main` → **0 lines** for both `frontend/server/user-portfolio/**` (twelve fences byte-stable) and `frontend/package.json`+`package-lock.json` (B-1R repin never shipped; pin remains `2e11fa3b…`). §16.89 final report §A–F: authority trail (PR #212/#214/#216/#217 coordinates), implemented surface, verification receipts, **honest non-completions with governing clauses** (B-1R → IPD packaging act prerequisite; modal mount → IPD modal/port amendment prerequisite; write activation → Gate E W-1 conjunction unmet; G2 matrix + `fileName`/`importedAt` → C-1/U2 gaps), preserved invariants, dependency-ordered next actions. No IPD mutation; no gate/admission/write movement; **zero register movements** beyond the additive records. |
 | `2026-10-23` | `CHG-2026-10-23-13` | **Post-completion observation only: IPD `main` moved documentation-only (`554ed6ce…` → `24e62c80…` at `2026-10-23T10:22:56Z`, IPD PR #55, one evidence file; §16.89.1).** IPD `exports` at the new commit still `["./portfolio-ui"]` — the B-1R prerequisite remains unmet and correctly recorded; no IRR state, decision, pin, fence or preservation proof affected. Next IRR pass needing IPD state must re-verify against `24e62c80…` or later. No IRR change beyond this additive record. |
 | `2026-10-23` | `CHG-2026-10-23-14` | **CAP-02 continuation one-pass (`CV-CORR-73`, §16.90): package re-pin re-verified and honestly re-blocked; U7 provider prerequisite found landed on IPD `main` (PR #54); guard hardened; records reconciled.** IRR `main@3f628cbc…`/tree `eb807be6…`, PRs #216–#219 re-verified; IPD `main@24e62c80…`/tree `d5eb798b…` exports only `./portfolio-ui` and lacks the PIT/D114 modules in source — repin re-attempt failed (`TS2307`; PIT suites fail to collect) and was reverted byte-clean; B-1R **not** closed. Changed paths: `frontend/server/broker-import/brokerImportPackageConsumer.test.ts` (stale hardcoded candidate removed; any B-1R-attempt pin must carry `./portfolio-ui`+`./pit`+`./d114-non-production`; PIT/D114 symbol suite active at retained pin), `frontend/src/api/brokerImport.ts` (comment-only factual refresh; mirror retained), composition act §13 addendum, this tracker. Full verification green (93/1,155+3/0; typechecks/build 0); twelve fences + package files 0-line diff; Gate A′/E/4/5/W-1, `WRITE_NOT_AUTHORIZED`, `durable:false` unchanged; no modal mount, no port adapter, no revision-read route, no binding, no IPD mutation; no real-store end-to-end claim. Publication receipts follow in §16.90.1. |
+| `2026-10-23` | `CHG-2026-10-23-15` | **CAP-02 continuation publication receipt (§16.90.8): IRR PR #220 `MERGED`** `2026-10-23T11:29:06Z` — head `64d2379…`; merge `c69104e49ad3345cd3265701e08f7dfb5319ae50`/tree `b34ac9cb8b2a48116458f3db4e367714c1a9fe3a`; ancestry PASS; PR-head CI run `39946207532` `pass` (1m14s) and post-merge `main` run `39946392962` `success`. Remote read-back **4/4 MATCH** (tracker `9f466061…`, composition act `c75db859…`, guard test `9787eaa2…`, browser client `e5eb492f…`); remote preservation proofs vs `3f628cbc…`: changed paths exactly the 4 recorded; `frontend/server/user-portfolio/**` + `frontend/package.json` + `package-lock.json` **0 changed lines** (pin on `main` remains `2e11fa3b…`). IPD `main` re-checked unchanged at `24e62c80…` after the merge. B-1R remains open under the IPD prerequisite (§16.90.7); no gate/write/fence movement. |
 
 ---
 
@@ -7517,3 +7518,30 @@ independent CAP-02 implementation work — the transport increment is complete a
 now fails CI on any incompatible repin attempt.
 
 *End of §16.90 (execution record; publication receipts continue additively in §16.90.8).*
+
+### 16.90.8 Publication and independent remote-verification receipt — the §16.90 increment (`2026-10-23`, `CHG-2026-10-23-15`)
+
+| Element | Value |
+|---|---|
+| PR | IRR **PR #220** "CAP-02: B-1R re-verified blocked at IPD main@24e62c80 (prerequisite deepened) — pin guard hardened, U7 provider landing recorded" — `OPEN` → `MERGED` |
+| Merged at | `2026-10-23T11:29:06Z` |
+| Merge commit / tree | `c69104e49ad3345cd3265701e08f7dfb5319ae50` / `b34ac9cb8b2a48116458f3db4e367714c1a9fe3a` |
+| PR head | `64d2379ebe3ec5ac6fa28f3c7f6ea3bd636d7af8` — exactly the 4 paths of §16.90.4 (+352/−29) |
+| Ancestry | PASS — head is an ancestor of `origin/main` (verified after fetch) |
+| PR-head CI | Run `39946207532` "Typecheck · Test · Build" — `pass` (1m14s); PR `mergeStateStatus: CLEAN` at merge |
+| Post-merge `main` CI | Run `39946392962` — `completed / success` |
+| Remote blob read-back | **4/4 MATCH** (head ↔ `origin/main`): tracker `9f4660615e9d8eca6df8505b80b8f33892d1844b`, composition act `c75db85973a587b31293ff6d79553f1525be87c9`, guard test `9787eaa2bec5a4b55c2e3e39a38823945bc280a0`, browser client `e5eb492fe7522ff37f18538eda94f2bd18a32e2e` |
+| Changed paths (remote) | `git diff --name-only 3f628cbc…origin/main` → exactly the 4 recorded paths, nothing else |
+| Fence/package preservation (remote) | `git diff 3f628cbc…origin/main -- frontend/server/user-portfolio/ frontend/package.json frontend/package-lock.json` → **0 lines**; pin read back from `origin/main` remains `2e11fa3b…` (the repin was never shipped) |
+| IPD final re-check | `git ls-remote` after the merge: IPD `main` still `24e62c80f37e8a55c34747581a68209c67b775a3` — no drift during this pass; no IPD mutation by IRR |
+
+**Final authoritative state.** IRR `main@c69104e4…`/tree `b34ac9cb…`; worktree of the session
+branch clean and fast-forwarded to the merge. B-1R package compatibility **remains open** under
+the exact IPD prerequisite and closure condition of §16.90.7; modal/port/revision-read await the
+repin plus a new IRR composition act; Gate A′/E, write authorization and durability
+qualification are unchanged and unclaimed; all twelve 503 fences, `WRITE_NOT_AUTHORIZED` and
+`durable:false` stand. The published IRR pin continues to resolve the six PIT consumers, and
+the hardened guard now fails CI on any incompatible repin attempt while auto-activating the
+full `./portfolio-ui` consumer/closure proof the moment a compatible package is pinned.
+
+*End of §16.90.8 (publication receipt; §16.90 complete).*
