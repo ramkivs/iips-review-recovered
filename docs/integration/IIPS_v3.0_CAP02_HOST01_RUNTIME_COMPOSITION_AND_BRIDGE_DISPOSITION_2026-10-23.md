@@ -468,3 +468,15 @@ Recommended current action:         DEFER implementation; resolve topology first
 ```
 
 No exact host files are invented. The required follow-up is a PA topology/ownership determination and then an exact, separately authorized implementation manifest. Until then, the existing session-only behavior and all write/route fences remain the truthful and governing state.
+
+---
+
+## 14. Additive addendum — topology/ownership determination prepared (2026-10-23)
+
+The §5.2 ownership stop and the §11.2 topology question are now the subject of a prepared Program Authority decision: [`IIPS_v3.0_CAP02_PA_TOPOLOGY_AND_OWNERSHIP_DECISION_PROPOSAL_2026-10-23.md`](IIPS_v3.0_CAP02_PA_TOPOLOGY_AND_OWNERSHIP_DECISION_PROPOSAL_2026-10-23.md) (`IIPS-V3-CAP02-PA-TOPOLOGY-OWNERSHIP-DECISION-2026-10-23-01`), **PROPOSED / NOT EFFECTIVE**.
+
+**Sections 1–13 above are preserved verbatim and are not amended.** In particular, the findings that no IPD-native host or renderer bridge exists, that the two `PortfolioStorePort` interfaces are not interchangeable, that v1 does not cover the complete UI port, and that the transaction/identity/provenance prerequisites remain open all stand unchanged.
+
+The prepared disposition, **if and only if the PA renders it effective**, would resolve §11.2 by retaining IRR as the integrated IIPS product/application host under published G1-B1, retaining IPD as the owner of durable portfolio persistence and its same-host IPC interface, and declining to create an independent IPD-local native application host as an assumed CAP-02 prerequisite. It would also require any future renderer-to-IPD integration to first identify its actual host composition root, lifecycle owner, bridge boundary and exact implementation files, and would keep transport, durable-write correctness, Gate 4 qualification and result acceptance, Gate 5 admission and operational write authorization as distinct non-substitutable decisions.
+
+That disposition, even when effective, would **not** authorize a host, a bridge, a transport, a source change, a write, a contract change, a schema/mapping/migration change, a route activation or any gate movement. Current state remains: session-only UI, `durable:false`, unconditional IPD write refusal, and every IRR `503` fence unchanged. The next executable step after effectiveness is a separate exact-scope implementation act, not implementation.
