@@ -31,49 +31,16 @@ import {
   ScreenProducerError,
   type ScreenProducerRequest,
 } from '../../../iips-platform/src/sector-engines/cross-sector/screen/ScreenProducerAdapter';
-import { CANONICAL_SCREEN_SECTORS, type AdmittedMember } from '../../../iips-platform/src/sector-engines/cross-sector/screen/ScreenMemberInput';
+import { CANONICAL_SCREEN_SECTORS } from '../../../iips-platform/src/sector-engines/cross-sector/screen/ScreenMemberInput';
 import { compareMembers, populationIdentity } from '../../../iips-platform/src/sector-engines/cross-sector/population/ScreeningPopulation';
 import type { CanonicalSector, PopulationMember } from '../../../iips-platform/src/sector-engines/cross-sector/population/ScreeningPopulation';
 
 
 const MAX_BODY_BYTES = 1_000_000;
 
-/** JSON-safe execution member frame (the runtime `AdmittedMember` carries bigints, which JSON cannot render). */
-export interface ScreenerExecutionMember {
-  readonly sector: string;
-  readonly referenceId: string;
-  readonly inputHash: string;
-  readonly convictionText: string;
-  readonly qualityText: string;
-  readonly growthAvailability: string;
-  readonly growthText?: string;
-  readonly engineId: string;
-  readonly engineVersion: string;
-  readonly calibrationVersion: string;
-  readonly snapshotId: string;
-  readonly evidenceId: string;
-  readonly status: string;
-  readonly errorCode: string;
-}
-
-function toExecutionMember(m: AdmittedMember & { inputHash: string }): ScreenerExecutionMember {
-  return {
-    sector: m.sector,
-    referenceId: m.referenceId,
-    inputHash: m.inputHash,
-    convictionText: m.convictionText,
-    qualityText: m.qualityText,
-    growthAvailability: m.growthAvailability,
-    ...(m.growthText !== undefined ? { growthText: m.growthText } : {}),
-    engineId: m.engineId,
-    engineVersion: m.engineVersion,
-    calibrationVersion: m.calibrationVersion,
-    snapshotId: m.snapshotId,
-    evidenceId: m.evidenceId,
-    status: m.status,
-    errorCode: m.errorCode,
-  };
-}
+// Application projection is pure; the ordinary endpoint does not construct/store a capture.
+import { projectExecution, type OriginalScreenReceipt, type PreparedScreen } from '../replay/ScreenEvaluationSnapshot';
+export type { ExecutionMember as ScreenerExecutionMember } from '../replay/ScreenEvaluationSnapshot';
 
 export interface ScreenerVintage {
   readonly asOf: string;
@@ -123,6 +90,53 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
 }
 
+/** Single original run receipt; the optional capture preflight runs BEFORE executeScreen. */
+export function runGovernedScreen(definitionInput: unknown, beforeEvaluation?: (prepared: PreparedScreen) => void): OriginalScreenReceipt {
+  if (!isRecord(definitionInput)) throw new TransportError(400, 'missing-definition');
+  // Server-derived governed population (single production; engines execute exactly once).
+  const produced = produceScreenMembers(buildGovernedProducerRequests());
+  if (produced.length !== CANONICAL_SCREEN_SECTORS.length) {
+    throw new Error('governed screener population incomplete');
+  }
+  // Verified population binding via the governed pipeline, consumed verbatim: G5
+  // canonical ordering (`compareMembers`) then the G4 membership-only identity
+  // (`populationIdentity`) over the validated canonical member set. This is exactly
+  // the derivation `executeScreen` re-performs over admitted members for its exact
+  // coverage check, so binding here cannot disagree with execution. Every member
+  // passed VALID admission + GDS-07 identity validation inside the certified
+  // producer; the transport hashes (sector, referenceId) pairs only and invents no
+  // engine-output scores (the producer's `fromOutputs` path would require them).
+  const canonical: PopulationMember[] = produced.map((m) => ({
+    sector: m.provenance.sector as PopulationMember['sector'],
+    referenceId: m.provenance.referenceId,
+  }));
+  const ordered = [...canonical].sort((a, b) => compareMembers(a, b));
+  const verifiedIdentity = populationIdentity(ordered);
+  const suppliedIdentity = definitionInput.populationIdentity;
+  if (suppliedIdentity !== undefined && suppliedIdentity !== verifiedIdentity) {
+    throw new TransportError(422, 'population-identity-mismatch');
+  }
+  const definition = ScreenDefinition.create(
+    { ...definitionInput, populationIdentity: verifiedIdentity },
+    { identity: verifiedIdentity },
+  );
+  const meta = baselineVintage();
+  const vintage: ScreenerVintage = {
+    asOf: meta.asOf,
+    dataVersion: meta.dataVersion,
+    mode: 'SNAPSHOT',
+    dataSource: 'governed:program-v1.1-replay-baseline',
+    memberCount: produced.length,
+  };
+  const prepared: PreparedScreen = {
+    definition, memberInputs: produced.map(m => m.memberInput),
+    memberProvenance: produced.map(m => m.provenance), vintage,
+  };
+  beforeEvaluation?.(prepared);
+  const { execution, result } = executeScreen({ definition, members: prepared.memberInputs });
+  return { ...prepared, execution, result };
+}
+
 /** Handle the credential-free POST /api/screener endpoint. */
 export async function handleScreenerRequest(req: http.IncomingMessage, res: http.ServerResponse): Promise<void> {
   res.setHeader('Content-Type', 'application/json');
@@ -135,57 +149,9 @@ export async function handleScreenerRequest(req: http.IncomingMessage, res: http
     if ('members' in body) throw new TransportError(422, 'client-supplied-members-rejected');
     if (!isRecord(body.definition)) throw new TransportError(400, 'missing-definition');
 
-    // Server-derived governed population (single production; engines execute exactly once).
-    const produced = produceScreenMembers(buildGovernedProducerRequests());
-    if (produced.length !== CANONICAL_SCREEN_SECTORS.length) {
-      throw new Error('governed screener population incomplete');
-    }
-    // Verified population binding via the governed pipeline, consumed verbatim: G5
-    // canonical ordering (`compareMembers`) then the G4 membership-only identity
-    // (`populationIdentity`) over the validated canonical member set. This is exactly
-    // the derivation `executeScreen` re-performs over admitted members for its exact
-    // coverage check, so binding here cannot disagree with execution. Every member
-    // passed VALID admission + GDS-07 identity validation inside the certified
-    // producer; the transport hashes (sector, referenceId) pairs only and invents no
-    // engine-output scores (the producer's `fromOutputs` path would require them).
-    const canonical: PopulationMember[] = produced.map((m) => ({
-      sector: m.provenance.sector as PopulationMember['sector'],
-      referenceId: m.provenance.referenceId,
-    }));
-    const ordered = [...canonical].sort((a, b) => compareMembers(a, b));
-    const verifiedIdentity = populationIdentity(ordered);
-    const suppliedIdentity = (body.definition as Record<string, unknown>).populationIdentity;
-    if (suppliedIdentity !== undefined && suppliedIdentity !== verifiedIdentity) {
-      throw new TransportError(422, 'population-identity-mismatch');
-    }
-    const definition = ScreenDefinition.create(
-      { ...(body.definition as Record<string, unknown>), populationIdentity: verifiedIdentity },
-      { identity: verifiedIdentity },
-    );
-    const { execution, result } = executeScreen({
-      definition,
-      members: produced.map((m) => m.memberInput),
-    });
-    const meta = baselineVintage();
-    const vintage: ScreenerVintage = {
-      asOf: meta.asOf,
-      dataVersion: meta.dataVersion,
-      mode: 'SNAPSHOT',
-      dataSource: 'governed:program-v1.1-replay-baseline',
-      memberCount: produced.length,
-    };
-    const executionDto = {
-      executionId: execution.executionId,
-      definitionId: execution.definitionId,
-      version: execution.version,
-      definitionDigest: execution.definitionDigest,
-      populationIdentity: execution.populationIdentity,
-      evaluatorId: execution.evaluatorId,
-      evaluatorVersion: execution.evaluatorVersion,
-      executionSemanticsVersion: execution.executionSemanticsVersion,
-      members: execution.members.map(toExecutionMember),
-      memberCount: execution.memberCount,
-    };
+    const receipt = runGovernedScreen(body.definition);
+    const executionDto = projectExecution(receipt.execution);
+    const { result, vintage } = receipt;
     res.writeHead(200);
     res.end(JSON.stringify({ execution: executionDto, result, vintage }));
   } catch (e) {

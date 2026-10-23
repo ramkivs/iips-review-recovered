@@ -117,7 +117,9 @@ describe('Application Shell', () => {
 
   it('does not render parameterised or placeholder children as global links', () => {
     renderAt('/executive');
-    for (const name of ['Company', 'Sector', 'Holdings', 'Replay', 'Snapshots']) {
+    // 'Sector' is no longer in this list: PKG-08 Row 4 now mounts a real Sector surface and
+    // the sidebar entry points at the concrete default `/research/sector/Banking`.
+    for (const name of ['Company', 'Holdings', 'Replay', 'Snapshots']) {
       expect(screen.queryByRole('link', { name })).not.toBeInTheDocument();
     }
     for (const link of screen.getAllByRole('link')) {

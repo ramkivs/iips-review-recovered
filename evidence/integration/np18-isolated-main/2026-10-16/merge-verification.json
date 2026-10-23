@@ -1,0 +1,207 @@
+{
+  "record": "NP-18 isolated main merge verification",
+  "date": "2026-10-16",
+  "repository": "ramkivs/iips-review-recovered",
+  "scope": "Product merge and direct NP-18 evidence only; no release, deployment or production action.",
+  "source_and_patch": {
+    "premerge_main": "98c21768f77061a68470e4b4f6750d38abeec594",
+    "r3_source": "904f5d99f9e6468fb4805c96a78c16c70a08395e",
+    "qualified_implementation": "3c64d69c148d01081b2ba9b8f76fa58c21ed2b99",
+    "approved_product_patch_sha256": "67719c4b44218b42d3fc9d3290e1d657d01e9945b25e59fb54588e7f2b91522f",
+    "approved_product_patch_sha256_expected": "67719c4b44218b42d3fc9d3290e1d657d01e9945b25e59fb54588e7f2b91522f",
+    "product_patch_hash_matches_admission": true
+  },
+  "isolated_pull_request": {
+    "number": 115,
+    "url": "https://github.com/ramkivs/iips-review-recovered/pull/115",
+    "state": "closed",
+    "merged": true,
+    "merged_at_utc": "2026-10-16T08:37:20Z",
+    "base_ref": "main",
+    "base_sha": "98c21768f77061a68470e4b4f6750d38abeec594",
+    "head_ref": "arena/f83d4f83-iips-review-recovered",
+    "head_sha": "de3908e53fa5c730e9834e926e8a007de17e3a90",
+    "merge_commit": "b6a11ec0ed21f69d7f155bb908c333e951c761b1",
+    "merge_parents": [
+      "98c21768f77061a68470e4b4f6750d38abeec594",
+      "de3908e53fa5c730e9834e926e8a007de17e3a90"
+    ],
+    "merge_parent_check_passed": true,
+    "merge_method": "GitHub regular merge commit"
+  },
+  "exact_head_hosted_ci": {
+    "run_id": 38874753041,
+    "url": "https://github.com/ramkivs/iips-review-recovered/actions/runs/38874753041",
+    "event": "pull_request",
+    "head_sha": "de3908e53fa5c730e9834e926e8a007de17e3a90",
+    "conclusion": "success",
+    "workflow": "Typecheck \u00b7 Test \u00b7 Build",
+    "steps": {
+      "install_dependencies_from_committed_lockfile": "success",
+      "typecheck": "success",
+      "full_vitest_suite": "success",
+      "nonzero_fully_passing_test_guard": "success",
+      "production_build": "success"
+    }
+  },
+  "post_merge_main_ci": {
+    "run_id": 38874916868,
+    "url": "https://github.com/ramkivs/iips-review-recovered/actions/runs/38874916868",
+    "event": "push",
+    "head_sha": "b6a11ec0ed21f69d7f155bb908c333e951c761b1",
+    "conclusion": "success",
+    "workflow": "Typecheck \u00b7 Test \u00b7 Build",
+    "steps": {
+      "install_dependencies_from_committed_lockfile": "success",
+      "typecheck": "success",
+      "full_vitest_suite": "success",
+      "nonzero_fully_passing_test_guard": "success",
+      "production_build": "success"
+    }
+  },
+  "remote_product_tree_verification": {
+    "remote_main_sha_at_product_merge_verification": "b6a11ec0ed21f69d7f155bb908c333e951c761b1",
+    "main_sha_equals_product_merge_commit_at_verification": true,
+    "paths_changed_from_premerge_main_count": 25,
+    "approved_product_paths": [
+      "frontend/src/features/intelligence/IntelligenceOpportunities.tsx",
+      "frontend/src/features/intelligence/IntelligenceOpportunities.test.tsx",
+      "frontend/src/features/intelligence/IntelligenceRisks.tsx",
+      "frontend/src/features/intelligence/IntelligenceRisks.test.tsx",
+      "frontend/src/features/intelligence/IntelligenceRankings.tsx",
+      "frontend/src/features/intelligence/IntelligenceRankings.test.tsx",
+      "frontend/src/app/App.tsx",
+      "frontend/src/app/navigation.ts",
+      "frontend/src/app/App.test.tsx"
+    ],
+    "approved_product_blobs": {
+      "frontend/src/features/intelligence/IntelligenceOpportunities.tsx": {
+        "pr_head_blob": "414867a67d54eee636023c7c95cb2ee5073e94eb",
+        "merge_commit_blob": "414867a67d54eee636023c7c95cb2ee5073e94eb",
+        "same": true
+      },
+      "frontend/src/features/intelligence/IntelligenceOpportunities.test.tsx": {
+        "pr_head_blob": "336ed9aa5948f8a14849fff0e01169b30326c12b",
+        "merge_commit_blob": "336ed9aa5948f8a14849fff0e01169b30326c12b",
+        "same": true
+      },
+      "frontend/src/features/intelligence/IntelligenceRisks.tsx": {
+        "pr_head_blob": "df57e2e9099435373fcc132f66ac33888ef365ba",
+        "merge_commit_blob": "df57e2e9099435373fcc132f66ac33888ef365ba",
+        "same": true
+      },
+      "frontend/src/features/intelligence/IntelligenceRisks.test.tsx": {
+        "pr_head_blob": "b35477864b18eb0afea3b034f97908bd9cd071fa",
+        "merge_commit_blob": "b35477864b18eb0afea3b034f97908bd9cd071fa",
+        "same": true
+      },
+      "frontend/src/features/intelligence/IntelligenceRankings.tsx": {
+        "pr_head_blob": "5c5b6c424bea7c8418a98d2e48f99fb4b9499009",
+        "merge_commit_blob": "5c5b6c424bea7c8418a98d2e48f99fb4b9499009",
+        "same": true
+      },
+      "frontend/src/features/intelligence/IntelligenceRankings.test.tsx": {
+        "pr_head_blob": "91223627779883fc8d494f44debec293370f04e9",
+        "merge_commit_blob": "91223627779883fc8d494f44debec293370f04e9",
+        "same": true
+      },
+      "frontend/src/app/App.tsx": {
+        "pr_head_blob": "51c0b8a55f3629577be15b75323130aeee50a071",
+        "merge_commit_blob": "51c0b8a55f3629577be15b75323130aeee50a071",
+        "same": true
+      },
+      "frontend/src/app/navigation.ts": {
+        "pr_head_blob": "c82e6abf75aaf39595a350631ee5ac2219ba4d94",
+        "merge_commit_blob": "c82e6abf75aaf39595a350631ee5ac2219ba4d94",
+        "same": true
+      },
+      "frontend/src/app/App.test.tsx": {
+        "pr_head_blob": "32733323948cf7cc25f6e10f9d83a71f34b5bb4d",
+        "merge_commit_blob": "32733323948cf7cc25f6e10f9d83a71f34b5bb4d",
+        "same": true
+      }
+    },
+    "all_nine_product_blobs_equal_exact_pr_head": true,
+    "excluded_broker_preview_paths": {
+      "frontend/package-lock.json": {
+        "changed_from_premerge_main": false
+      },
+      "frontend/package.json": {
+        "changed_from_premerge_main": false
+      },
+      "frontend/src/api/brokerHoldingsPreview.test.ts": {
+        "changed_from_premerge_main": false
+      },
+      "frontend/src/api/brokerHoldingsPreview.ts": {
+        "changed_from_premerge_main": false
+      },
+      "frontend/src/app/routes.ts": {
+        "changed_from_premerge_main": false
+      },
+      "frontend/src/features/broker-holdings/BrokerHoldingsPreview.test.tsx": {
+        "changed_from_premerge_main": false
+      },
+      "frontend/src/features/broker-holdings/BrokerHoldingsPreview.tsx": {
+        "changed_from_premerge_main": false
+      },
+      "frontend/tsconfig.broker-import.json": {
+        "changed_from_premerge_main": false
+      }
+    },
+    "all_eight_broker_paths_unchanged": true,
+    "shared_files_hunks": {
+      "App.tsx_and_navigation.ts_diff_from_premerge_main": "NP-18 imports/routes and approved group-only navigation changes only",
+      "broker_import_route_or_nav_item_present": false,
+      "broker_symbols_found_in_merged_shared_files": false
+    },
+    "changed_path_names_at_product_merge": [
+      "IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md",
+      "docs/integration/NP-18-CURRENT-TARGET-AUTHORITY-DETERMINATION-2026-10-16.md",
+      "docs/integration/NP-18-CURRENT-TARGET-MAIN-ADMISSION-DECISION-2026-10-16.md",
+      "docs/integration/NP-18-CURRENT-TARGET-NON-PRODUCTION-QUALIFICATION-2026-10-16.md",
+      "docs/integration/NP-18-ISOLATED-MAIN-MERGE-AUTHORIZATION-2026-10-16.md",
+      "docs/integration/NP-18-R3-CURRENT-MAIN-IMPLEMENTATION-AUTHORITY-2026-10-16.md",
+      "evidence/integration/group6-reconciliation/2026-10-16/product-host-observations.json",
+      "evidence/integration/group6-reconciliation/2026-10-16/verification.json",
+      "evidence/integration/group6-reconciliation/2026-10-16/verify-product-host.mts",
+      "evidence/integration/np18-admission/2026-10-16/assessment.json",
+      "evidence/integration/np18-authority-determination/2026-10-16/verification.json",
+      "evidence/integration/np18-isolated-main/2026-10-16/isolation-scope.json",
+      "evidence/integration/np18-qualification/2026-10-16/adjudication.json",
+      "evidence/integration/np18-r3/2026-10-16/publication.json",
+      "evidence/integration/np18-r3/2026-10-16/validation.json",
+      "evidence/integration/np18-r3/2026-10-16/verify-views.mts",
+      "frontend/src/app/App.test.tsx",
+      "frontend/src/app/App.tsx",
+      "frontend/src/app/navigation.ts",
+      "frontend/src/features/intelligence/IntelligenceOpportunities.test.tsx",
+      "frontend/src/features/intelligence/IntelligenceOpportunities.tsx",
+      "frontend/src/features/intelligence/IntelligenceRankings.test.tsx",
+      "frontend/src/features/intelligence/IntelligenceRankings.tsx",
+      "frontend/src/features/intelligence/IntelligenceRisks.test.tsx",
+      "frontend/src/features/intelligence/IntelligenceRisks.tsx"
+    ]
+  },
+  "separate_broker_pr_preserved": {
+    "number": 114,
+    "url": "https://github.com/ramkivs/iips-review-recovered/pull/114",
+    "state": "open",
+    "head_sha": "e331995a94b704e078b27a70a36cbc161311fd09",
+    "merged": false,
+    "modified_or_closed_by_this_sequence": false
+  },
+  "tracker_scope_correction_in_this_followup": {
+    "tracker_section": "Replaced the mixed \u00a716.38 snapshot with a concise NP-18-only authority, qualification, admission, isolation and merge receipt.",
+    "unrelated_group6_snapshot_files_removed": [
+      "evidence/integration/group6-reconciliation/2026-10-16/product-host-observations.json",
+      "evidence/integration/group6-reconciliation/2026-10-16/verification.json",
+      "evidence/integration/group6-reconciliation/2026-10-16/verify-product-host.mts"
+    ],
+    "reason": "These three Group 6 files were unrelated to NP-18 and had been copied into the first candidate; they are removed by the tracker-scope follow-up. No other existing Group 6 records are changed.",
+    "broker_preview_product_paths_remain_excluded": true
+  },
+  "release_and_production": {
+    "release": "NOT AUTHORIZED / NOT STARTED",
+    "production_activation": "NOT AUTHORIZED / NOT STARTED"
+  }
+}

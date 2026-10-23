@@ -63,9 +63,13 @@ export function EvidenceExplorer() {
         {evidence.supportingScores.map((s) => <MetricCard key={s.id} label={s.name} value={s.value} />)}
       </MetricGroup>
 
-      {/* Evidence record */}
+      <p data-testid="evidence-reference-only" role="note">
+        Reference-only metadata: ev_/snap_ labels are synthetic reference aliases, not retained capture
+        or retrievable evidence-package IDs. No independent replay has been performed.
+      </p>
+      {/* Reference metadata; the decision values above are unchanged. */}
       <h2 style={{ fontSize: 18, marginTop: 24 }}>Evidence</h2>
-      <EvidenceRecordCard evidence={evidence} />
+      <EvidenceRecordCard evidence={evidence} referenceOnly />
 
       {/* Evidence chain timeline (inspection) */}
       <h2 style={{ fontSize: 18, marginTop: 24 }}>Evidence Chain</h2>
@@ -73,7 +77,7 @@ export function EvidenceExplorer() {
         steps={[
           { label: 'Decision', content: <span><DecisionBadge verdict={decision.verdict} /> composite {decision.composite}</span> },
           { label: 'Evidence ID', content: <code>{evidence.evidenceId}</code> },
-          { label: 'Snapshot', content: <SnapshotMetadataPanel snapshot={snapshot} /> },
+          { label: 'Snapshot', content: <SnapshotMetadataPanel snapshot={snapshot} referenceOnly /> },
           { label: 'Engine / Version', content: <span><code>{evidence.engineId}</code> · calib <code>{evidence.calibrationVersion}</code></span> },
           { label: 'Provenance', content: <ProvenanceChain items={[
             { key: 'framework', value: evidence.provenance.frameworkVersion },
@@ -85,7 +89,7 @@ export function EvidenceExplorer() {
       />
 
       <p style={{ marginTop: 16 }}>
-        <Link to={`/evidence/replay/${id}`}>Open full replay explorer →</Link>
+        <Link to={`/evidence/replay/${id}`}>Inspect replay availability →</Link>
       </p>
 
       <p data-testid="evidence-provenance" style={{ color: 'var(--color-ink-secondary)', fontSize: 12, marginTop: 16 }}>

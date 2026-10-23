@@ -6,8 +6,12 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   server: {
-    host: '0.0.0.0',
-    allowedHosts: ['.e2b.app'],
+    // C8 remediation (2026-10-19, G3-D7 / act §5.2): the dev server previously bound
+    // every interface and admitted a wildcard external host suffix. It now binds
+    // loopback only and admits loopback hostnames only. No other dev-server feature
+    // is added and the proxy target is unchanged.
+    host: '127.0.0.1',
+    allowedHosts: ['localhost', '127.0.0.1'],
     port: 5173,
     proxy: {
       // Proxy the v3.0 executive transport (runs the certified platform in-process).

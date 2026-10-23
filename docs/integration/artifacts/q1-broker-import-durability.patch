@@ -1,0 +1,1734 @@
+diff --git a/src/ipc/dispatch.ts b/src/ipc/dispatch.ts
+index 6c8fcbc..27becc7 100644
+--- a/src/ipc/dispatch.ts
++++ b/src/ipc/dispatch.ts
+@@ -235,16 +235,22 @@ export function createConnectionHandler(
+         let result: unknown;
+         switch (envelope.op) {
+           case 'portfolio.list':
+-            result = { portfolios: store.list(owner) };
++            // Contract v1 §6: the `portfolio.list` result IS `PortfolioSummary[]`.
++            // The result is the array itself, not an envelope wrapped around it.
++            // The effective Gate 3 act fixes the wire property names by reference
++            // to contract v1 and requires them to be implemented exactly.
++            result = store.list(owner);
+             break;
+           case 'portfolio.get': {
+             const portfolioId = String(payload.portfolioId ?? 'DEFAULT_PORTFOLIO');
+-            result = { portfolio: store.get(owner, portfolioId) };
++            // Contract v1 §6: the `portfolio.get` result IS `PortfolioDetail`.
++            result = store.get(owner, portfolioId);
+             break;
+           }
+           case 'portfolio.revisions': {
+             const portfolioId = String(payload.portfolioId ?? 'DEFAULT_PORTFOLIO');
+-            result = { revisions: store.revisions(owner, portfolioId) };
++            // Contract v1 §6: the `portfolio.revisions` result IS `RevisionEntry[]`.
++            result = store.revisions(owner, portfolioId);
+             break;
+           }
+           default:
+diff --git a/src/persistence/brokerImportPersistence.ts b/src/persistence/brokerImportPersistence.ts
+new file mode 100644
+index 0000000..59bb09e
+--- /dev/null
++++ b/src/persistence/brokerImportPersistence.ts
+@@ -0,0 +1,540 @@
++/**
++ * Q1 bounded residual implementation — the durable broker-ingestion persistence
++ * boundary (CV-39; `G-2` §2/§3; Gate E rev 1 W-6/W-7/W-8/W-10; DP-2 Option 2F).
++ *
++ * Authority: `IIPS-V3-Q1-PORTFOLIO-DECISION-ACT-2026-10-22` §1.2 — "Authorize a
++ * bounded residual implementation act limited to what the existing records leave
++ * unbuilt: durable persistence behind IPD `main`'s in-memory `PortfolioStore`
++ * (CV-39) and the wiring of an admitted store". The records leave exactly one
++ * thing unbuilt on the import path: the boundary between a broker import result
++ * and the owner-scoped durable store. This module is that boundary.
++ *
++ * WHAT THIS MODULE IS
++ *   1. The **identity gate** at the durable boundary (Gate E W-6 / DP-2 Option
++ *      2F). The durable store had no identity gate at all: it persisted any
++ *      holding vector it was handed. This module refuses the WHOLE request
++ *      before serialization, port call or persistence when any holding lacks
++ *      exactly one canonical resolution, and it never fabricates a `companyId`.
++ *   2. The **deterministic mapping** from a broker import result to the
++ *      durable holding vector, preserving lineage, broker attribution and the
++ *      identity disposition verbatim.
++ *   3. The **provenance computation** that binds an import to the broker file
++ *      it came from, so that a re-import of the same file is a deterministic
++ *      no-op and a different file is a new import.
++ *   4. The **disposition vocabulary** of accepted wire contract v1
++ *      (`SAVED_NEW_BATCH` / `MERGED_INTO_EXISTING` / `ALREADY_IMPORTED_NO_OP`)
++ *      and a **typed refusal** that states the store effect of every refusal.
++ *
++ * WHAT THIS MODULE IS NOT
++ *   - It is **not** an authority to write. Every write still passes through the
++ *     Gate E W-1 write gate, which refuses with zero store effect while W-1(3)
++ *     (Gate 4 qualification) and W-1(4) (Gate 5 admission) are unmet. This
++ *     module never edits, relaxes or bypasses `evaluatePortSaveGuard`.
++ *   - It is **not** an authentication, tenant or authorization surface. It
++ *     accepts no owner, tenant, principal, credential or scope; the owner is
++ *     resolved by IPD per request from its own single `ACTIVE` binding.
++ *   - It does **not** claim that durable portfolio capability exists, is
++ *     qualified or is available. No `durable: true` claim is made or implied
++ *     here (Gate 3 act §8.4; Gate E W-11).
++ *
++ * THE GOVERNING IDENTITY CONTRACT (Gate E W-6), VERBATIM IN EFFECT
++ *   - A holding persists only with exactly one IPD-side resolution. Zero
++ *     (`UNMAPPED_IDENTIFIER`) or conflicting (`AMBIGUOUS_COLLISION`) matches
++ *     refuse the WHOLE request with `REFUSED_UNRESOLVED_IDENTITY` before
++ *     serialization, port call or persistence, with per-holding quarantine
++ *     evidence.
++ *   - No bypass: `NON_PRODUCTION_OPERATOR_BYPASS` is neither emitted nor
++ *     accepted.
++ *   - Ticker-shaped values are never canonical.
++ */
++import { createHash } from 'node:crypto';
++import {
++  InvalidPortfolioRequestError,
++  ResourceUnavailableError,
++  RevisionConflictError,
++  WriteNotAuthorizedError,
++  type HoldingInput,
++  type OwnerRef,
++  type PortfolioSaveRequest,
++  type PortfolioSummary,
++} from './portfolio_store.js';
++
++/* ------------------------------------------------------------------ *
++ * Import domain input
++ * ------------------------------------------------------------------ */
++
++/** The identity statuses the governed import path understands. */
++export type BrokerImportIdentityStatus = 'RESOLVED' | 'UNRESOLVED';
++
++/** The resolution dispositions the governed import path understands. */
++export type BrokerImportResolutionDisposition =
++  | 'CANONICAL_P04'
++  | 'NON_PRODUCTION_OPERATOR_BYPASS';
++
++/**
++ * One holding as produced by the broker ingress chain
++ * (`frontend/src/features/portfolio/import/*`), expressed without a UI type so
++ * the persistence boundary does not depend on the browser bundle.
++ *
++ * `companyId` is the CANONICAL company identity. It is the empty string when
++ * the holding is `UNRESOLVED`, and it is never invented here.
++ */
++export interface BrokerImportHolding {
++  readonly symbol: string;
++  readonly companyId: string;
++  readonly quantity: number;
++  readonly averageBuyPrice: number;
++  readonly currentPrice: number;
++  readonly marketValue: number;
++  readonly weightPercentage: number;
++  readonly active: boolean;
++  readonly sourceBroker: string;
++  readonly lineageDigest: string;
++  readonly identityStatus: BrokerImportIdentityStatus;
++  readonly resolutionDisposition: BrokerImportResolutionDisposition;
++}
++
++/** One broker import, ready to be persisted into an owner-scoped portfolio. */
++export interface BrokerImportRequest {
++  readonly portfolioId: string;
++  readonly holdings: readonly BrokerImportHolding[];
++  /** The broker file's content digest — the BI-08 / Gate E W-8 idempotency key. */
++  readonly contentDigest: string;
++  /** The broker file name, recorded for operator attribution. */
++  readonly fileName: string;
++  /** The broker the file came from. */
++  readonly sourceBroker: string;
++  /** When the import happened (ISO-8601). */
++  readonly importedAt: string;
++  readonly mode?: 'MERGE' | 'REPLACE';
++}
++
++/* ------------------------------------------------------------------ *
++ * Refusal vocabulary
++ * ------------------------------------------------------------------ */
++
++/** The closed refusal vocabulary of this boundary. */
++export type BrokerImportRefusalCode =
++  /** Gate E W-6 / DP-2 Option 2F: at least one holding has no single canonical resolution. */
++  | 'REFUSED_UNRESOLVED_IDENTITY'
++  /** Gate E W-7: an existing store guard refused the request (empty vector, bad fields). */
++  | 'REFUSED_STORE_GUARD'
++  /** Gate E W-1: the write gate refused the write; zero store effect. */
++  | 'WRITE_NOT_AUTHORIZED'
++  /** The supplied request is not a well-formed import. */
++  | 'INVALID_REQUEST'
++  /** `expectedRevision` did not match the portfolio's current revision. */
++  | 'REVISION_CONFLICT'
++  /** The portfolio is missing, foreign-owned or tombstoned — deliberately indistinguishable. */
++  | 'RESOURCE_UNAVAILABLE';
++
++/** Per-holding refusal evidence. Names the symbol; never invents an identity. */
++export interface BrokerImportRefusedHolding {
++  readonly symbol: string;
++  readonly reason: string;
++}
++
++/** The disposition vocabulary of accepted wire contract v1. */
++export type BrokerImportDisposition =
++  | 'SAVED_NEW_BATCH'
++  | 'MERGED_INTO_EXISTING'
++  | 'ALREADY_IMPORTED_NO_OP';
++
++/** The store effect of an outcome. `NONE` is asserted for every refusal. */
++export type BrokerImportStoreEffect = 'NONE' | 'REVISION_COMMITTED';
++
++export interface BrokerImportSuccess {
++  readonly ok: true;
++  readonly disposition: BrokerImportDisposition;
++  readonly revision: number;
++  /** True when the import was already committed and nothing was written. */
++  readonly noOp: boolean;
++  readonly storeEffect: BrokerImportStoreEffect;
++  readonly holdingsPersisted: number;
++  readonly totalMarketValue: number;
++  readonly contributions: number;
++  readonly message: string;
++}
++
++export interface BrokerImportRefusal {
++  readonly ok: false;
++  readonly code: BrokerImportRefusalCode;
++  readonly message: string;
++  /** Every refusal has zero store effect. */
++  readonly storeEffect: 'NONE';
++  readonly refusedHoldings: readonly BrokerImportRefusedHolding[];
++  /** The revision that was in force when the refusal happened, when known. */
++  readonly revision?: number;
++}
++
++export type BrokerImportOutcome = BrokerImportSuccess | BrokerImportRefusal;
++
++/* ------------------------------------------------------------------ *
++ * The identity gate (Gate E W-6 / DP-2 Option 2F)
++ * ------------------------------------------------------------------ */
++
++/** The quarantine-style codes of the governed identity resolution. */
++export type BrokerImportIdentityCode =
++  | 'UNMAPPED_IDENTIFIER'
++  | 'AMBIGUOUS_COLLISION'
++  | 'CANONICAL_IDENTITY_MISSING'
++  | 'IDENTITY_FABRICATED'
++  | 'NON_PRODUCTION_BYPASS_REFUSED';
++
++export interface BrokerImportHoldingAssessment {
++  readonly symbol: string;
++  readonly saveable: boolean;
++  readonly code?: BrokerImportIdentityCode;
++  readonly reason?: string;
++}
++
++export interface BrokerImportIdentityGate {
++  readonly saveable: boolean;
++  readonly assessments: readonly BrokerImportHoldingAssessment[];
++  readonly refusedHoldings: readonly BrokerImportRefusedHolding[];
++  readonly disabledReason?: string;
++}
++
++/**
++ * Evaluates the governed identity rule over an import vector.
++ *
++ * A holding is saveable only when it carries EXACTLY ONE canonical resolution:
++ * `identityStatus === 'RESOLVED'` with a non-empty, non-placeholder
++ * `companyId`. Everything else is refused, and the refusal names the holding
++ * so the operator can act on it.
++ *
++ * The gate never fabricates, repairs, defaults or infers an identity, and it
++ * refuses the `NON_PRODUCTION_OPERATOR_BYPASS` disposition outright (Gate E
++ * W-6 "No bypass").
++ */
++export function evaluateBrokerImportIdentityGate(
++  holdings: readonly BrokerImportHolding[] | undefined | null,
++): BrokerImportIdentityGate {
++  const vector = holdings ?? [];
++  const assessments: BrokerImportHoldingAssessment[] = [];
++  const refusedHoldings: BrokerImportRefusedHolding[] = [];
++
++  for (const holding of vector) {
++    const symbol = typeof holding?.symbol === 'string' ? holding.symbol : '';
++    const companyId = typeof holding?.companyId === 'string' ? holding.companyId.trim() : '';
++    const status = holding?.identityStatus;
++    const disposition = holding?.resolutionDisposition;
++
++    if (disposition === 'NON_PRODUCTION_OPERATOR_BYPASS') {
++      assessments.push({
++        symbol,
++        saveable: false,
++        code: 'NON_PRODUCTION_BYPASS_REFUSED',
++        reason: 'The non-production operator bypass is neither emitted nor accepted on the durable path.',
++      });
++      refusedHoldings.push({
++        symbol,
++        reason: 'NON_PRODUCTION_BYPASS_REFUSED: the non-production operator bypass is not accepted.',
++      });
++      continue;
++    }
++
++    if (status === 'UNRESOLVED') {
++      if (companyId.length > 0) {
++        assessments.push({
++          symbol,
++          saveable: false,
++          code: 'IDENTITY_FABRICATED',
++          reason: 'An UNRESOLVED holding carries a non-empty canonical identity; that identity was not resolved by IPD.',
++        });
++        refusedHoldings.push({
++          symbol,
++          reason: 'IDENTITY_FABRICATED: an UNRESOLVED holding must carry an empty canonical identity.',
++        });
++        continue;
++      }
++      assessments.push({
++        symbol,
++        saveable: false,
++        code: 'UNMAPPED_IDENTIFIER',
++        reason: 'The holding has no single canonical resolution at the governed identity authority.',
++      });
++      refusedHoldings.push({
++        symbol,
++        reason: 'UNMAPPED_IDENTIFIER: the holding has no single canonical resolution.',
++      });
++      continue;
++    }
++
++    if (status !== 'RESOLVED') {
++      assessments.push({
++        symbol,
++        saveable: false,
++        code: 'UNMAPPED_IDENTIFIER',
++        reason: 'The holding carries no governed identity resolution.',
++      });
++      refusedHoldings.push({
++        symbol,
++        reason: 'UNMAPPED_IDENTIFIER: the holding carries no governed identity resolution.',
++      });
++      continue;
++    }
++
++    if (companyId.length === 0 || companyId === 'UNKNOWN') {
++      assessments.push({
++        symbol,
++        saveable: false,
++        code: 'CANONICAL_IDENTITY_MISSING',
++        reason: 'The holding claims a resolved identity but carries no canonical company identity.',
++      });
++      refusedHoldings.push({
++        symbol,
++        reason: 'CANONICAL_IDENTITY_MISSING: a resolved holding carries no canonical company identity.',
++      });
++      continue;
++    }
++
++    assessments.push({ symbol, saveable: true });
++  }
++
++  const refused = refusedHoldings.length;
++  if (refused > 0) {
++    return {
++      saveable: false,
++      assessments,
++      refusedHoldings,
++      disabledReason:
++        `Gate E W-6 / DP-2 Option 2F: ${refused} holding(s) have no single canonical identity. ` +
++        'They may be previewed and explained, but the whole request is refused before any ' +
++        'serialization, port call or persistence, and no canonical identity is ever fabricated.',
++    };
++  }
++
++  return { saveable: true, assessments, refusedHoldings: [] };
++}
++
++/* ------------------------------------------------------------------ *
++ * Deterministic mapping and provenance
++ * ------------------------------------------------------------------ */
++
++/**
++ * Maps an import vector to the durable holding vector.
++ *
++ * The mapping is deterministic (sorted by symbol) and value-preserving: no
++ * field is recomputed, rounded, defaulted or invented. `companyId` is carried
++ * verbatim — the empty string stays the empty string.
++ */
++export function mapBrokerImportHoldings(
++  holdings: readonly BrokerImportHolding[],
++): HoldingInput[] {
++  return [...holdings]
++    .sort((a, b) => (a.symbol < b.symbol ? -1 : a.symbol > b.symbol ? 1 : 0))
++    .map((holding) => ({
++      symbol: holding.symbol,
++      companyId: holding.companyId,
++      quantity: holding.quantity,
++      averageBuyPrice: holding.averageBuyPrice,
++      currentPrice: holding.currentPrice,
++      marketValue: holding.marketValue,
++      weightPercentage: holding.weightPercentage,
++      active: holding.active,
++      sourceBroker: holding.sourceBroker,
++      lineageDigest: holding.lineageDigest,
++      identityStatus: holding.identityStatus,
++      resolutionDisposition: holding.resolutionDisposition,
++    }));
++}
++
++/**
++ * The deterministic provenance digest of one import.
++ *
++ * It binds the import to the broker file it came from, so that:
++ *   - re-importing the SAME file produces the same digest, and the durable
++ *     store's BI-08 duplicate rule turns it into a no-op;
++ *   - a DIFFERENT file produces a different digest, and is a new import even
++ *     when the holdings it carries happen to be identical.
++ */
++export function computeBrokerImportProvenance(request: BrokerImportRequest): string {
++  const canonical = [
++    `portfolio:${request.portfolioId}`,
++    `file:${request.fileName}`,
++    `broker:${request.sourceBroker}`,
++    `content:${request.contentDigest}`,
++    ...[...request.holdings]
++      .sort((a, b) => (a.symbol < b.symbol ? -1 : a.symbol > b.symbol ? 1 : 0))
++      .map(
++        (h) =>
++          `${h.symbol}|${h.companyId}|${h.quantity}|${h.averageBuyPrice}|${h.currentPrice}|` +
++          `${h.marketValue}|${h.weightPercentage}|${h.active}|${h.sourceBroker}|${h.lineageDigest}|` +
++          `${h.identityStatus}|${h.resolutionDisposition}`,
++      ),
++  ].join('\n');
++  return createHash('sha256').update(canonical, 'utf8').digest('hex');
++}
++
++/* ------------------------------------------------------------------ *
++ * The durable import writer
++ * ------------------------------------------------------------------ */
++
++/**
++ * The write surface this boundary needs. Both the durable store and the
++ * W-1-gated durable port satisfy it; the port is what refuses the write while
++ * the Gate E W-1 conjunction is unmet.
++ */
++export interface BrokerImportWriter {
++  list(owner: OwnerRef): PortfolioSummary[];
++  create(owner: OwnerRef, portfolioId: string, request: PortfolioSaveRequest): number;
++  save(owner: OwnerRef, portfolioId: string, request: PortfolioSaveRequest, expectedRevision: number): number;
++}
++
++/* ------------------------------------------------------------------ *
++ * The import itself
++ * ------------------------------------------------------------------ */
++
++/**
++ * Persists one broker import into an owner-scoped durable portfolio.
++ *
++ * Order of evaluation (each step is fail-closed and has zero store effect):
++ *   1. the governed identity gate (W-6 / DP-2 2F) — before any serialization;
++ *   2. the write gate (W-1) — inside the writer, before any mutation;
++ *   3. the store's own guards, revision check and BI-08 duplicate rule.
++ *
++ * The owner is supplied by the caller because IPD resolves it per request from
++ * its own `ACTIVE` binding; this boundary never resolves, infers or accepts an
++ * owner from the import itself.
++ */
++export function persistBrokerImport(
++  writer: BrokerImportWriter,
++  owner: OwnerRef,
++  request: BrokerImportRequest,
++): BrokerImportOutcome {
++  const gate = evaluateBrokerImportIdentityGate(request.holdings);
++  if (!gate.saveable) {
++    return {
++      ok: false,
++      code: 'REFUSED_UNRESOLVED_IDENTITY',
++      message: gate.disabledReason ?? 'The import has no single canonical identity.',
++      storeEffect: 'NONE',
++      refusedHoldings: gate.refusedHoldings,
++    };
++  }
++
++  if (request.holdings.length === 0) {
++    return {
++      ok: false,
++      code: 'REFUSED_STORE_GUARD',
++      message: 'The import carries no holdings.',
++      storeEffect: 'NONE',
++      refusedHoldings: [],
++    };
++  }
++
++  if (typeof request.contentDigest !== 'string' || request.contentDigest.length === 0) {
++    return {
++      ok: false,
++      code: 'INVALID_REQUEST',
++      message: 'The import carries no content digest, so it cannot be made idempotent.',
++      storeEffect: 'NONE',
++      refusedHoldings: [],
++    };
++  }
++
++  const holdings = mapBrokerImportHoldings(request.holdings);
++  const provenanceDigest = computeBrokerImportProvenance(request);
++  const storeRequest: PortfolioSaveRequest = {
++    holdings,
++    provenanceDigest,
++    contentDigest: request.contentDigest,
++    operation: request.mode === 'REPLACE' ? 'REPLACE' : 'MERGE',
++  };
++
++  const existing = writer.list(owner).find((p) => p.portfolioId === request.portfolioId);
++
++  try {
++    if (!existing) {
++      const revision = writer.create(owner, request.portfolioId, storeRequest);
++      return {
++        ok: true,
++        disposition: 'SAVED_NEW_BATCH',
++        revision,
++        noOp: false,
++        storeEffect: 'REVISION_COMMITTED',
++        holdingsPersisted: holdings.length,
++        totalMarketValue: holdings.reduce((sum, h) => sum + h.marketValue, 0),
++        contributions: 1,
++        message: 'The import was committed as a new batch.',
++      };
++    }
++
++    const revision = writer.save(owner, request.portfolioId, storeRequest, existing.revision);
++    if (revision === existing.revision) {
++      // The durable store returns the unchanged revision for its idempotent
++      // no-op path: the content digest already has a committed contribution.
++      return {
++        ok: true,
++        disposition: 'ALREADY_IMPORTED_NO_OP',
++        revision,
++        noOp: true,
++        storeEffect: 'NONE',
++        holdingsPersisted: existing.holdingsCount,
++        totalMarketValue: existing.totalMarketValue,
++        contributions: 0,
++        message: 'This broker file was already imported; state was preserved without duplication.',
++      };
++    }
++    return {
++      ok: true,
++      disposition: 'MERGED_INTO_EXISTING',
++      revision,
++      noOp: false,
++      storeEffect: 'REVISION_COMMITTED',
++      holdingsPersisted: holdings.length,
++      totalMarketValue: holdings.reduce((sum, h) => sum + h.marketValue, 0),
++      contributions: 1,
++      message: 'The import was merged into the existing portfolio.',
++    };
++  } catch (error: unknown) {
++    if (error instanceof WriteNotAuthorizedError) {
++      return {
++        ok: false,
++        code: 'WRITE_NOT_AUTHORIZED',
++        message:
++          'The Gate E W-1 write gate refused the write; no revision, holding row, contribution row ' +
++          'or success response was produced.',
++        storeEffect: 'NONE',
++        refusedHoldings: [],
++        revision: existing?.revision,
++      };
++    }
++    if (error instanceof RevisionConflictError) {
++      return {
++        ok: false,
++        code: 'REVISION_CONFLICT',
++        message: error.message,
++        storeEffect: 'NONE',
++        refusedHoldings: [],
++        revision: existing?.revision,
++      };
++    }
++    if (error instanceof ResourceUnavailableError) {
++      return {
++        ok: false,
++        code: 'RESOURCE_UNAVAILABLE',
++        message: 'The requested resource is not available.',
++        storeEffect: 'NONE',
++        refusedHoldings: [],
++      };
++    }
++    if (error instanceof InvalidPortfolioRequestError) {
++      return {
++        ok: false,
++        code: 'INVALID_REQUEST',
++        message: error.message,
++        storeEffect: 'NONE',
++        refusedHoldings: [],
++      };
++    }
++    return {
++      ok: false,
++      code: 'INVALID_REQUEST',
++      message: error instanceof Error ? error.message : String(error),
++      storeEffect: 'NONE',
++      refusedHoldings: [],
++    };
++  }
++}
+diff --git a/src/persistence/durablePortfolioStorePort.ts b/src/persistence/durablePortfolioStorePort.ts
+index 97c5bc6..2bba27f 100644
+--- a/src/persistence/durablePortfolioStorePort.ts
++++ b/src/persistence/durablePortfolioStorePort.ts
+@@ -25,6 +25,7 @@ export interface PortfolioStorePort {
+   list(owner: OwnerRef): ReturnType<DurablePortfolioStore['list']>;
+   get(owner: OwnerRef, portfolioId: string): ReturnType<DurablePortfolioStore['get']>;
+   revisions(owner: OwnerRef, portfolioId: string): ReturnType<DurablePortfolioStore['revisions']>;
++  contributions(owner: OwnerRef, portfolioId: string): ReturnType<DurablePortfolioStore['contributions']>;
+ }
+ 
+ export class DurablePortfolioStorePort implements PortfolioStorePort {
+@@ -54,6 +55,10 @@ export class DurablePortfolioStorePort implements PortfolioStorePort {
+     return this.store.revisions(owner, portfolioId);
+   }
+ 
++  contributions(owner: OwnerRef, portfolioId: string): ReturnType<DurablePortfolioStore['contributions']> {
++    return this.store.contributions(owner, portfolioId);
++  }
++
+   create(owner: OwnerRef, portfolioId: string, request: PortfolioSaveRequest): number {
+     this.assertWritable();
+     return this.store.create(owner, portfolioId, request);
+diff --git a/src/persistence/portfolio_store.ts b/src/persistence/portfolio_store.ts
+index 2ee9630..c48479d 100644
+--- a/src/persistence/portfolio_store.ts
++++ b/src/persistence/portfolio_store.ts
+@@ -61,6 +61,17 @@ export interface PortfolioSaveRequest {
+   readonly holdings: HoldingInput[];
+   readonly provenanceDigest: string;
+   readonly operation?: 'MERGE' | 'REPLACE';
++  /**
++   * The broker file's content digest (contract v1 `portfolio.save` payload
++   * field `contentDigest?`; Gate E W-8 / BI-08 idempotency key).
++   *
++   * When present it is the contribution identity: it is recorded in the
++   * contribution ledger and it is the key the W-8 duplicate check uses. When
++   * absent, the request's own computed content digest is the contribution
++   * identity, so a request that carries no broker digest still gets a stable
++   * contribution row and the same duplicate protection.
++   */
++  readonly contentDigest?: string;
+ }
+ 
+ export interface OwnerRef {
+@@ -68,6 +79,71 @@ export interface OwnerRef {
+   readonly tenantId: string;
+ }
+ 
++/* ------------------------------------------------------------------ *
++ * Read projections — accepted wire contract v1 shapes
++ * ------------------------------------------------------------------ */
++
++/**
++ * `PortfolioSummary` (contract v1 §6, `portfolio.list`).
++ *
++ * The list projection WITHOUT holdings or contributions. A list item is never
++ * a substitute for a full view.
++ */
++export interface PortfolioSummary {
++  readonly portfolioId: string;
++  readonly portfolioName: string;
++  readonly revision: number;
++  readonly holdingsCount: number;
++  readonly totalMarketValue: number;
++  readonly lastUpdated: string;
++}
++
++/**
++ * One committed import, as recorded in the durable contribution ledger.
++ *
++ * The ledger schema is fixed by migration `001_initial_schema` and is not
++ * extended here: `contribution_id` carries the import's content digest (the
++ * Gate E W-8 / BI-08 idempotency key) and `amount` carries the import's total
++ * market value. The contract's per-contribution broker attribution, file name
++ * and contribution SHA-256 lineage have no column in the fixed schema and are
++ * therefore NOT invented here; see the outstanding schema act.
++ */
++export interface PortfolioContribution {
++  readonly contributionId: string;
++  readonly amount: number;
++  readonly contributedAt: string;
++  readonly createdAt: string;
++}
++
++/**
++ * `PortfolioDetail` (contract v1 §6, `portfolio.get`).
++ *
++ * Summary fields plus the holdings snapshot, the contribution ledger, the
++ * weight sum and the revision provenance digest.
++ */
++export interface PortfolioDetail extends PortfolioSummary {
++  readonly weightSumPercentage: number;
++  readonly provenanceDigest: string;
++  readonly holdings: HoldingInput[];
++  readonly contributions: PortfolioContribution[];
++}
++
++/**
++ * `RevisionEntry` (contract v1 §6, `portfolio.revisions`).
++ */
++export interface RevisionEntry {
++  readonly revision: number;
++  readonly operation: string;
++  /**
++   * The commit timestamp of the revision (contract v1 §6 `RevisionEntry`
++   * field `committedAt`). The stored column is `portfolio_revisions.created_at`;
++   * the wire property name is fixed by contract v1 and by the effective Gate 3
++   * act, and is `committedAt`.
++   */
++  readonly committedAt: string;
++  readonly contentDigest?: string;
++}
++
+ /**
+  * Gate E W-1 conjunction. W-1(3) (Gate 4 qualification) and W-1(4) (Gate 5
+  * admission) are both false in this build, so the guard can never authorize.
+@@ -115,48 +191,80 @@ const MAX_REVISIONS = 4;
+ export class DurablePortfolioStore {
+   constructor(private readonly db: DatabaseSync) {}
+ 
+-  list(owner: OwnerRef): Array<{ portfolioId: string; name: string; currentRevision: number }> {
++  list(owner: OwnerRef): PortfolioSummary[] {
+     const rows = this.db
+       .prepare(
+-        `SELECT portfolio_id, portfolio_name, current_revision
+-           FROM portfolios
+-          WHERE canonical_owner_id = ? AND tenant_id = ? AND status = 'ACTIVE'
+-          ORDER BY portfolio_id`,
++        `SELECT p.portfolio_id       AS portfolio_id,
++                p.portfolio_name     AS portfolio_name,
++                p.current_revision   AS current_revision,
++                p.updated_at         AS updated_at,
++                COALESCE(r.holdings_count, 0)     AS holdings_count,
++                COALESCE(r.total_market_value, 0) AS total_market_value
++           FROM portfolios p
++           LEFT JOIN portfolio_revisions r
++             ON r.canonical_owner_id = p.canonical_owner_id
++            AND r.portfolio_id       = p.portfolio_id
++            AND r.revision           = p.current_revision
++          WHERE p.canonical_owner_id = ? AND p.tenant_id = ? AND p.status = 'ACTIVE'
++          ORDER BY p.portfolio_id`,
+       )
+       .all(owner.canonicalOwnerId, owner.tenantId) as unknown as Array<{
+       portfolio_id: string;
+       portfolio_name: string;
+       current_revision: number;
++      updated_at: string;
++      holdings_count: number;
++      total_market_value: number;
+     }>;
+     return rows.map((row) => ({
+       portfolioId: row.portfolio_id,
+-      name: row.portfolio_name,
+-      currentRevision: Number(row.current_revision),
++      portfolioName: row.portfolio_name,
++      revision: Number(row.current_revision),
++      holdingsCount: Number(row.holdings_count),
++      totalMarketValue: Number(row.total_market_value),
++      lastUpdated: row.updated_at,
+     }));
+   }
+ 
+-  private resolvePortfolio(owner: OwnerRef, portfolioId: string): { currentRevision: number } {
++  private resolvePortfolio(
++    owner: OwnerRef,
++    portfolioId: string,
++  ): { currentRevision: number; portfolioName: string; updatedAt: string } {
+     const row = this.db
+       .prepare(
+-        `SELECT current_revision, status FROM portfolios
++        `SELECT current_revision, status, portfolio_name, updated_at FROM portfolios
+           WHERE canonical_owner_id = ? AND tenant_id = ? AND portfolio_id = ?`,
+       )
+       .get(owner.canonicalOwnerId, owner.tenantId, portfolioId) as
+-      | { current_revision: number; status: string }
++      | { current_revision: number; status: string; portfolio_name: string; updated_at: string }
+       | undefined;
+     if (!row || row.status === 'TOMBSTONED') {
+       // Missing, foreign and tombstoned are deliberately indistinguishable.
+       throw new ResourceUnavailableError();
+     }
+-    return { currentRevision: Number(row.current_revision) };
++    return {
++      currentRevision: Number(row.current_revision),
++      portfolioName: row.portfolio_name,
++      updatedAt: row.updated_at,
++    };
+   }
+ 
+-  get(owner: OwnerRef, portfolioId: string): {
+-    portfolioId: string;
+-    revision: number;
+-    holdings: HoldingInput[];
+-  } {
++  get(owner: OwnerRef, portfolioId: string): PortfolioDetail {
+     const resolved = this.resolvePortfolio(owner, portfolioId);
++    const revisionRow = this.db
++      .prepare(
++        `SELECT holdings_count, total_market_value, weight_sum_percentage, provenance_digest
++           FROM portfolio_revisions
++          WHERE canonical_owner_id = ? AND portfolio_id = ? AND revision = ?`,
++      )
++      .get(owner.canonicalOwnerId, portfolioId, resolved.currentRevision) as
++      | {
++          holdings_count: number;
++          total_market_value: number;
++          weight_sum_percentage: number;
++          provenance_digest: string;
++        }
++      | undefined;
+     const rows = this.db
+       .prepare(
+         `SELECT holding_key, symbol, company_id, quantity, average_buy_price, current_price,
+@@ -169,27 +277,66 @@ export class DurablePortfolioStore {
+       .all(owner.canonicalOwnerId, portfolioId, resolved.currentRevision) as unknown as Array<Record<string, unknown>>;
+     return {
+       portfolioId,
++      portfolioName: resolved.portfolioName,
+       revision: resolved.currentRevision,
++      holdingsCount: Number(revisionRow?.holdings_count ?? 0),
++      totalMarketValue: Number(revisionRow?.total_market_value ?? 0),
++      lastUpdated: resolved.updatedAt,
++      weightSumPercentage: Number(revisionRow?.weight_sum_percentage ?? 0),
++      provenanceDigest: revisionRow?.provenance_digest ?? '',
+       holdings: rows.map((r) => this.holdingFromRow(r)),
++      contributions: this.contributions(owner, portfolioId),
+     };
+   }
+ 
+-  revisions(owner: OwnerRef, portfolioId: string): Array<{ revision: number; operation: string; createdAt: string }> {
++  /**
++   * The contribution ledger for one portfolio (contract v1 `PortfolioDetail`).
++   *
++   * Every committed import appends exactly one contribution row whose
++   * `contribution_id` is the import's content digest. The row is the durable
++   * evidence that a particular broker file was already imported, which is what
++   * makes the Gate E W-8 / BI-08 duplicate rule evaluable for a re-import of
++   * an *earlier* file and not only for the most recent revision.
++   */
++  contributions(owner: OwnerRef, portfolioId: string): PortfolioContribution[] {
++    const rows = this.db
++      .prepare(
++        `SELECT contribution_id, amount, contributed_at, created_at FROM portfolio_contributions
++          WHERE canonical_owner_id = ? AND portfolio_id = ?
++          ORDER BY contributed_at, contribution_id`,
++      )
++      .all(owner.canonicalOwnerId, portfolioId) as unknown as Array<{
++      contribution_id: string;
++      amount: number;
++      contributed_at: string;
++      created_at: string;
++    }>;
++    return rows.map((row) => ({
++      contributionId: row.contribution_id,
++      amount: Number(row.amount),
++      contributedAt: row.contributed_at,
++      createdAt: row.created_at,
++    }));
++  }
++
++  revisions(owner: OwnerRef, portfolioId: string): RevisionEntry[] {
+     this.resolvePortfolio(owner, portfolioId);
+     const rows = this.db
+       .prepare(
+-        `SELECT revision, operation, created_at FROM portfolio_revisions
++        `SELECT revision, operation, created_at, content_digest FROM portfolio_revisions
+           WHERE canonical_owner_id = ? AND portfolio_id = ? ORDER BY revision`,
+       )
+       .all(owner.canonicalOwnerId, portfolioId) as unknown as Array<{
+       revision: number | bigint;
+       operation: string;
+       created_at: string;
++      content_digest: string | null;
+     }>;
+     return rows.map((row) => ({
+       revision: Number(row.revision),
+       operation: row.operation,
+-      createdAt: row.created_at,
++      committedAt: row.created_at,
++      contentDigest: row.content_digest ?? undefined,
+     }));
+   }
+ 
+@@ -247,6 +394,24 @@ export class DurablePortfolioStore {
+     }
+     const nextRevision = expectedRevision + 1;
+     const contentDigest = contentDigestOf(request);
++    // Gate E W-8 / BI-08: a save whose content digest matches an ALREADY
++    // COMMITTED CONTRIBUTION, with operation != REPLACE, is an idempotent
++    // no-op: no new revision, no new rows, no duplicated contribution.
++    //
++    // The check reads the contribution ledger, not only the newest revision,
++    // so re-importing an EARLIER broker file is also detected as a duplicate
++    // and is not applied a second time.
++    const contributionId = request.contentDigest ?? contentDigest;
++    if (operation === 'MERGE') {
++      const committed = this.db
++        .prepare(
++          'SELECT 1 AS present FROM portfolio_contributions WHERE canonical_owner_id = ? AND portfolio_id = ? AND contribution_id = ?',
++        )
++        .get(owner.canonicalOwnerId, portfolioId, contributionId) as { present: number } | undefined;
++      if (committed) {
++        return expectedRevision;
++      }
++    }
+     const lastRevision = this.db
+       .prepare('SELECT content_digest FROM portfolio_revisions WHERE canonical_owner_id = ? AND portfolio_id = ? ORDER BY revision DESC LIMIT 1')
+       .get(owner.canonicalOwnerId, portfolioId) as { content_digest: string | null } | undefined;
+@@ -257,6 +422,14 @@ export class DurablePortfolioStore {
+     const now = new Date().toISOString();
+     const totalMarketValue = request.holdings.reduce((sum, h) => sum + h.marketValue, 0);
+     const weightSum = request.holdings.reduce((sum, h) => sum + h.weightPercentage, 0);
++    if (operation === 'REPLACE' || operation === 'RESET') {
++      // Gate E W-10: REPLACE and RESET start a new contribution set. Prior
++      // revisions are preserved; the contribution ledger for this portfolio is
++      // the set that is replaced.
++      this.db
++        .prepare('DELETE FROM portfolio_contributions WHERE canonical_owner_id = ? AND portfolio_id = ?')
++        .run(owner.canonicalOwnerId, portfolioId);
++    }
+     this.db
+       .prepare(
+         `INSERT INTO portfolio_revisions
+@@ -307,6 +480,17 @@ export class DurablePortfolioStore {
+     this.db
+       .prepare('UPDATE portfolios SET current_revision = ?, updated_at = ? WHERE canonical_owner_id = ? AND portfolio_id = ?')
+       .run(nextRevision, now, owner.canonicalOwnerId, portfolioId);
++    // The contribution ledger: exactly one row per committed import, keyed by
++    // the import's content digest (Gate E W-8 / BI-08). It is the durable
++    // evidence that a broker file was already imported, which is what the
++    // duplicate check above reads.
++    this.db
++      .prepare(
++        `INSERT INTO portfolio_contributions
++           (canonical_owner_id, portfolio_id, contribution_id, amount, contributed_at, created_at)
++         VALUES (?, ?, ?, ?, ?, ?)`,
++      )
++      .run(owner.canonicalOwnerId, portfolioId, contributionId, totalMarketValue, now, now);
+     return nextRevision;
+   }
+ 
+diff --git a/tests/g3_portfolio_read_isolation.test.ts b/tests/g3_portfolio_read_isolation.test.ts
+index 7b97862..69e36f6 100644
+--- a/tests/g3_portfolio_read_isolation.test.ts
++++ b/tests/g3_portfolio_read_isolation.test.ts
+@@ -117,7 +117,7 @@ describe('g3 / T-C portfolio read isolation', () => {
+   it('a valid list returns only the resolved owner portfolios', async () => {
+     const response = parseResponse(await call(endpointPath, { v: 1, op: 'portfolio.list' }));
+     assert.equal(response.ok, true);
+-    const portfolios = (response.result as { portfolios: Array<{ portfolioId: string }> }).portfolios;
++    const portfolios = (response.result as Array<{ portfolioId: string }>);
+     const ids = portfolios.map((p) => p.portfolioId).sort();
+     assert.deepEqual(ids, ['P-LOCAL']);
+   });
+@@ -179,6 +179,6 @@ describe('g3 / T-C portfolio read isolation', () => {
+     assert.ok(second.byteLength > 0);
+     const revisions = parseResponse(second);
+     assert.equal(revisions.ok, true);
+-    assert.equal((revisions.result as { revisions: unknown[] }).revisions.length, 1);
++    assert.equal((revisions.result as unknown[]).length, 1);
+   });
+ });
+diff --git a/tests/q1_broker_import_durability.test.ts b/tests/q1_broker_import_durability.test.ts
+new file mode 100644
+index 0000000..22981de
+--- /dev/null
++++ b/tests/q1_broker_import_durability.test.ts
+@@ -0,0 +1,333 @@
++/**
++ * Q1 bounded residual implementation — durable broker-ingestion persistence
++ * (CV-39; `G-2` §2/§3; Gate E rev 1 W-6/W-7/W-8/W-10; DP-2 Option 2F).
++ *
++ * WHAT THIS SUITE IS, AND WHAT IT IS NOT
++ *   It is a **qualification-fixture measurement** of the durable import
++ *   boundary on the host that ran it. It exercises the REAL compiled
++ *   components — `DurablePortfolioStore`, `DurablePortfolioStorePort`,
++ *   `migration_ledger`, `connection` — against a fixture database under the OS
++ *   temporary directory. No repository worktree file is written, no endpoint
++ *   is used for a write, and the authoritative operator store is never opened.
++ *
++ *   It is NOT an admitted write, NOT a Gate 4 qualification result and NOT a
++ *   durable-capability claim. Gate E W-1(3) (Gate 4 qualification) and W-1(4)
++ *   (Gate 5 admission) are unmet, so the product write path refuses every
++ *   write with zero store effect; the suite proves that refusal too.
++ *
++ * THE FOUR BEHAVIORS THIS SUITE MEASURES
++ *   1. unresolved identity is refused, never fabricated (DP-2 2F / W-6);
++ *   2. a committed import survives a store restart and a SEPARATE PROCESS
++ *      restart (restart durability);
++ *   3. a re-import of the same broker file is an idempotent no-op, and a
++ *      re-import of an EARLIER broker file is also a no-op (no unintended
++ *      duplication), while a different file is a new import (no loss);
++ *   4. the Gate E W-1 write gate still refuses every write with zero store
++ *      effect, and no environment flag changes that.
++ */
++import { describe, it, before, after } from 'node:test';
++import assert from 'node:assert/strict';
++import { spawnSync } from 'node:child_process';
++import { mkdtempSync, rmSync } from 'node:fs';
++import { tmpdir } from 'node:os';
++import { join } from 'node:path';
++import type { DatabaseSync } from 'node:sqlite';
++import { openDatabase, closeDatabase } from '../src/persistence/connection.js';
++import { ensureMigrations } from '../src/persistence/migration_ledger.js';
++import { GATE3_MIGRATIONS } from '../src/ipc/entrypoint.js';
++import {
++  DurablePortfolioStore,
++  type HoldingInput,
++  type OwnerRef,
++} from '../src/persistence/portfolio_store.js';
++import { DurablePortfolioStorePort } from '../src/persistence/durablePortfolioStorePort.js';
++import {
++  computeBrokerImportProvenance,
++  evaluateBrokerImportIdentityGate,
++  mapBrokerImportHoldings,
++  persistBrokerImport,
++  type BrokerImportHolding,
++  type BrokerImportRequest,
++} from '../src/persistence/brokerImportPersistence.js';
++
++const OWNER: OwnerRef = { canonicalOwnerId: 'owner-local', tenantId: 'tenant-local' };
++const PORTFOLIO = 'P-BROKER';
++
++function holding(overrides: Partial<BrokerImportHolding> = {}): BrokerImportHolding {
++  return {
++    symbol: 'RELIANCE',
++    companyId: 'C-RELIANCE',
++    quantity: 10,
++    averageBuyPrice: 100,
++    currentPrice: 110,
++    marketValue: 1100,
++    weightPercentage: 60,
++    active: true,
++    sourceBroker: 'ZERODHA',
++    lineageDigest: 'lineage-reliance',
++    identityStatus: 'RESOLVED',
++    resolutionDisposition: 'CANONICAL_P04',
++    ...overrides,
++  };
++}
++
++function importRequest(overrides: Partial<BrokerImportRequest> = {}): BrokerImportRequest {
++  return {
++    portfolioId: PORTFOLIO,
++    holdings: [holding(), holding({ symbol: 'TCS', companyId: 'C-TCS', weightPercentage: 40 })],
++    contentDigest: 'sha256:file-a',
++    fileName: 'zerodha-holdings-a.csv',
++    sourceBroker: 'ZERODHA',
++    importedAt: '2026-10-22T10:00:00.000Z',
++    ...overrides,
++  };
++}
++
++function countRows(db: DatabaseSync): number {
++  const row = db
++    .prepare(
++      `SELECT (SELECT COUNT(*) FROM portfolios)
++            + (SELECT COUNT(*) FROM portfolio_revisions)
++            + (SELECT COUNT(*) FROM portfolio_holdings)
++            + (SELECT COUNT(*) FROM portfolio_contributions) AS n`,
++    )
++    .get() as { n: number | bigint };
++  return Number(row.n);
++}
++
++describe('q1 / durable broker-ingestion persistence boundary', () => {
++  let root: string;
++  let dbPath: string;
++
++  before(() => {
++    root = mkdtempSync(join(tmpdir(), 'q1-broker-import-'));
++    dbPath = join(root, 'store', 'ipd.db');
++  });
++
++  after(() => {
++    closeDatabase();
++    rmSync(root, { recursive: true, force: true });
++  });
++
++  function openFixture(): DatabaseSync {
++    const db = openDatabase(dbPath);
++    ensureMigrations(db, GATE3_MIGRATIONS);
++    return db;
++  }
++
++  /* ---------------------------------------------------------------- *
++   * 1. The identity gate (Gate E W-6 / DP-2 Option 2F)
++   * ---------------------------------------------------------------- */
++
++  describe('the governed identity gate', () => {
++    it('refuses a holding with no canonical resolution and names it', () => {
++      const gate = evaluateBrokerImportIdentityGate([
++        holding(),
++        holding({ symbol: 'UNKNOWNCO', companyId: '', identityStatus: 'UNRESOLVED' }),
++      ]);
++      assert.equal(gate.saveable, false);
++      assert.equal(gate.refusedHoldings.length, 1);
++      assert.equal(gate.refusedHoldings[0].symbol, 'UNKNOWNCO');
++      assert.match(gate.refusedHoldings[0].reason, /UNMAPPED_IDENTIFIER/);
++    });
++
++    it('refuses a resolved holding that carries no canonical identity', () => {
++      const gate = evaluateBrokerImportIdentityGate([holding({ companyId: '' })]);
++      assert.equal(gate.saveable, false);
++      assert.match(gate.refusedHoldings[0].reason, /CANONICAL_IDENTITY_MISSING/);
++    });
++
++    it('refuses an UNRESOLVED holding that carries a canonical identity (fabrication)', () => {
++      const gate = evaluateBrokerImportIdentityGate([
++        holding({ identityStatus: 'UNRESOLVED', companyId: 'C-SHOULD-NOT-BE-HERE' }),
++      ]);
++      assert.equal(gate.saveable, false);
++      assert.match(gate.refusedHoldings[0].reason, /IDENTITY_FABRICATED/);
++    });
++
++    it('refuses the non-production operator bypass outright', () => {
++      const gate = evaluateBrokerImportIdentityGate([
++        holding({ resolutionDisposition: 'NON_PRODUCTION_OPERATOR_BYPASS' }),
++      ]);
++      assert.equal(gate.saveable, false);
++      assert.match(gate.refusedHoldings[0].reason, /NON_PRODUCTION_BYPASS_REFUSED/);
++    });
++
++    it('accepts a fully resolved vector', () => {
++      const gate = evaluateBrokerImportIdentityGate([holding()]);
++      assert.equal(gate.saveable, true);
++      assert.deepEqual(gate.refusedHoldings, []);
++    });
++  });
++
++  /* ---------------------------------------------------------------- *
++   * 2. Deterministic mapping and provenance
++   * ---------------------------------------------------------------- */
++
++  describe('the deterministic mapping', () => {
++    it('preserves every value verbatim and never invents an identity', () => {
++      const mapped = mapBrokerImportHoldings([
++        holding({ symbol: 'TCS', companyId: '' , identityStatus: 'UNRESOLVED' }),
++        holding({ symbol: 'RELIANCE' }),
++      ]);
++      assert.deepEqual(
++        mapped.map((h) => h.symbol),
++        ['RELIANCE', 'TCS'],
++      );
++      const unresolved = mapped.find((h) => h.symbol === 'TCS') as HoldingInput;
++      assert.equal(unresolved.companyId, '');
++      assert.equal(unresolved.identityStatus, 'UNRESOLVED');
++      assert.equal(unresolved.resolutionDisposition, 'CANONICAL_P04');
++    });
++
++    it('binds the provenance digest to the broker file it came from', () => {
++      const a = computeBrokerImportProvenance(importRequest());
++      const b = computeBrokerImportProvenance(importRequest());
++      const otherFile = computeBrokerImportProvenance(
++        importRequest({ contentDigest: 'sha256:file-b', fileName: 'zerodha-holdings-b.csv' }),
++      );
++      assert.equal(a, b, 'the same import is deterministic');
++      assert.notEqual(a, otherFile, 'a different broker file is a different import');
++    });
++  });
++
++  /* ---------------------------------------------------------------- *
++   * 3. The write gate (Gate E W-1) is still closed
++   * ---------------------------------------------------------------- */
++
++  it('the W-1 write gate refuses the import with zero store effect', () => {
++    const db = openFixture();
++    const before = countRows(db);
++    const port = new DurablePortfolioStorePort(db);
++    const outcome = persistBrokerImport(port, OWNER, importRequest());
++    assert.equal(outcome.ok, false);
++    assert.equal(outcome.ok === false && outcome.code, 'WRITE_NOT_AUTHORIZED');
++    assert.equal(outcome.storeEffect, 'NONE');
++    assert.equal(countRows(db), before, 'no row was created, changed or deleted');
++  });
++
++  /* ---------------------------------------------------------------- *
++   * 4. The import itself, on a fixture store
++   * ---------------------------------------------------------------- */
++
++  describe('the durable import on a qualification fixture', () => {
++    it('commits an import, survives a store restart and a separate process restart, and is idempotent', () => {
++      const db = openFixture();
++      const store = new DurablePortfolioStore(db);
++
++      const first = persistBrokerImport(store, OWNER, importRequest());
++      assert.equal(first.ok, true);
++      assert.equal(first.ok === true && first.disposition, 'SAVED_NEW_BATCH');
++      assert.equal(first.ok === true && first.revision, 1);
++
++      const committed = store.get(OWNER, PORTFOLIO);
++      assert.equal(committed.revision, 1);
++      assert.equal(committed.holdings.length, 2);
++      assert.equal(committed.contributions.length, 1);
++      assert.equal(committed.contributions[0].contributionId, 'sha256:file-a');
++      assert.equal(committed.provenanceDigest.length, 64);
++
++      // --- restart 1: close and reopen the store in this process -------------
++      closeDatabase();
++      const reopened = openFixture();
++      const storeAfterRestart = new DurablePortfolioStore(reopened);
++      const readBack = storeAfterRestart.get(OWNER, PORTFOLIO);
++      assert.deepEqual(readBack.holdings, committed.holdings, 'holdings are byte-equal after restart');
++      assert.deepEqual(readBack.contributions, committed.contributions, 'contributions are byte-equal after restart');
++      assert.deepEqual(
++        storeAfterRestart.revisions(OWNER, PORTFOLIO).map((r) => [r.revision, r.operation]),
++        [[1, 'INITIAL']],
++        'revisions are byte-equal after restart',
++      );
++
++      // --- restart 2: a SEPARATE OS process reads the same store file -------
++      const child = spawnSync(
++        process.execPath,
++        [
++          '-e',
++          [
++            "const { DatabaseSync } = require('node:sqlite');",
++            `const db = new DatabaseSync(${JSON.stringify(dbPath)});`,
++            "const rows = db.prepare('SELECT contribution_id, amount FROM portfolio_contributions ORDER BY contribution_id').all();",
++            "const holdings = db.prepare('SELECT symbol, company_id, quantity, market_value FROM portfolio_holdings ORDER BY holding_key').all();",
++            'process.stdout.write(JSON.stringify({ rows, holdings }));',
++          ].join('\n'),
++        ],
++        { encoding: 'utf8' },
++      );
++      assert.equal(child.status, 0, child.stderr);
++      const observed = JSON.parse(child.stdout) as {
++        rows: Array<{ contribution_id: string; amount: number }>;
++        holdings: Array<{ symbol: string; company_id: string; quantity: number; market_value: number }>;
++      };
++      assert.deepEqual(observed.rows, [{ contribution_id: 'sha256:file-a', amount: 2200 }]);
++      assert.deepEqual(
++        observed.holdings.map((h) => h.symbol),
++        ['RELIANCE', 'TCS'],
++      );
++
++      // --- idempotent re-import of the SAME file ---------------------------
++      const again = persistBrokerImport(storeAfterRestart, OWNER, importRequest());
++      assert.equal(again.ok, true);
++      assert.equal(again.ok === true && again.disposition, 'ALREADY_IMPORTED_NO_OP');
++      assert.equal(again.ok === true && again.noOp, true);
++      assert.equal(again.storeEffect, 'NONE');
++      const afterNoOp = storeAfterRestart.get(OWNER, PORTFOLIO);
++      assert.equal(afterNoOp.revision, 1, 'no new revision was created');
++      assert.equal(afterNoOp.contributions.length, 1, 'no duplicated contribution was appended');
++      assert.deepEqual(afterNoOp.holdings, committed.holdings, 'no duplication and no loss');
++    });
++
++    it('treats a re-import of an EARLIER broker file as a duplicate, not a second application', () => {
++      const db = openFixture();
++      const store = new DurablePortfolioStore(db);
++      const fileA = importRequest();
++      const fileB = importRequest({
++        contentDigest: 'sha256:file-b',
++        fileName: 'dhan-holdings-b.csv',
++        sourceBroker: 'DHAN',
++      });
++
++      persistBrokerImport(store, OWNER, fileA);
++      const second = persistBrokerImport(store, OWNER, fileB);
++      assert.equal(second.ok === true && second.disposition, 'MERGED_INTO_EXISTING');
++      assert.equal(second.ok === true && second.revision, 2);
++
++      const replay = persistBrokerImport(store, OWNER, fileA);
++      assert.equal(replay.ok === true && replay.disposition, 'ALREADY_IMPORTED_NO_OP');
++      assert.equal(replay.ok === true && replay.revision, 2, 'the replay created no third revision');
++
++      const final = store.get(OWNER, PORTFOLIO);
++      assert.equal(final.revision, 2);
++      assert.equal(final.contributions.length, 2, 'the replay did not append a third contribution');
++      assert.deepEqual(
++        final.contributions.map((c) => c.contributionId).sort(),
++        ['sha256:file-a', 'sha256:file-b'],
++      );
++    });
++
++    it('never persists a holding whose identity was refused', () => {
++      const db = openFixture();
++      const store = new DurablePortfolioStore(db);
++      const before = countRows(db);
++      const refused = persistBrokerImport(
++        store,
++        OWNER,
++        importRequest({
++          holdings: [
++            holding(),
++            holding({ symbol: 'UNKNOWNCO', companyId: '', identityStatus: 'UNRESOLVED' }),
++          ],
++        }),
++      );
++      assert.equal(refused.ok, false);
++      assert.equal(refused.ok === false && refused.code, 'REFUSED_UNRESOLVED_IDENTITY');
++      assert.equal(refused.storeEffect, 'NONE');
++      assert.equal(countRows(db), before, 'the refused import wrote nothing at all');
++      const rows = db
++        .prepare("SELECT COUNT(*) AS n FROM portfolio_holdings WHERE symbol = 'UNKNOWNCO'")
++        .get() as { n: number | bigint };
++      assert.equal(Number(rows.n), 0, 'the unresolved holding was never persisted');
++    });
++  });
++});
+diff --git a/tests/q1_ipc_read_contract_conformance.test.ts b/tests/q1_ipc_read_contract_conformance.test.ts
+new file mode 100644
+index 0000000..a0b65ff
+--- /dev/null
++++ b/tests/q1_ipc_read_contract_conformance.test.ts
+@@ -0,0 +1,259 @@
++/**
++ * Q1 — IPC read-path conformance to accepted contract v1 §6.
++ *
++ * The effective Gate 3 implementation-authority act fixes the wire property
++ * names by reference to accepted contract v1 and requires them to be
++ * implemented exactly:
++ *
++ *   "`PortfolioSummary` = `portfolioId`, `portfolioName`, `revision`,
++ *    `holdingsCount`, `totalMarketValue`, `lastUpdated`; `PortfolioDetail` adds
++ *    `holdings`, `contributions`, `weightSumPercentage`, `provenanceDigest`,
++ *    `durability`, `durable`; `RevisionEntry` = `revision`, `operation`
++ *    (`INITIAL|MERGE|REPLACE|RESET|DELETE`), `committedAt`, `contentDigest?`"
++ *
++ * The Gate 3 implementation shipped a wrapper around every read result
++ * (`{ portfolios: [...] }`, `{ portfolio: {...} }`, `{ revisions: [...] }`) and
++ * named the revision timestamp `createdAt`. Both are wire-shape departures
++ * from the accepted contract, and the frozen IRR consumer adapter — which is
++ * written against contract v1 — refuses a result of either shape.
++ *
++ * This suite pins the corrected wire shape end to end over the REAL IPC
++ * endpoint. It is a conformance fixture:
++ *
++ *   - it opens only a fixture store under the OS temporary directory;
++ *   - it writes the binding rows and the portfolio directly, as an executed
++ *     Gate A-prime act and an admitted store would leave them (Gate A-prime is
++ *     APPROVED and NOT EXECUTED; the write path is refused by Gate E W-1);
++ *   - it asserts shape only. It claims no capability, no qualification and no
++ *     admission, and it asserts no durability claim of any kind.
++ */
++import { describe, it, before, after } from 'node:test';
++import assert from 'node:assert/strict';
++import { mkdtempSync, rmSync } from 'node:fs';
++import { tmpdir } from 'node:os';
++import { join } from 'node:path';
++import { createConnection } from 'node:net';
++import type { DatabaseSync } from 'node:sqlite';
++import { openDatabase, closeDatabase } from '../src/persistence/connection.js';
++import { ensureMigrations } from '../src/persistence/migration_ledger.js';
++import { GATE3_MIGRATIONS, startIpcServer } from '../src/ipc/entrypoint.js';
++import {
++  DurablePortfolioStore,
++  type HoldingInput,
++  type OwnerRef,
++} from '../src/persistence/portfolio_store.js';
++
++const HOST_PLATFORM: NodeJS.Platform = process.platform === 'win32' ? 'win32' : 'linux';
++const OWNER: OwnerRef = { canonicalOwnerId: 'owner-contract', tenantId: 'tenant-contract' };
++
++const SUMMARY_KEYS = [
++  'holdingsCount',
++  'lastUpdated',
++  'portfolioId',
++  'portfolioName',
++  'revision',
++  'totalMarketValue',
++];
++
++const DETAIL_KEYS = [
++  'contributions',
++  'holdings',
++  'holdingsCount',
++  'lastUpdated',
++  'portfolioId',
++  'portfolioName',
++  'provenanceDigest',
++  'revision',
++  'totalMarketValue',
++  'weightSumPercentage',
++];
++
++function holding(symbol: string, weight: number): HoldingInput {
++  return {
++    symbol,
++    companyId: `C-${symbol}`,
++    quantity: 10,
++    averageBuyPrice: 100,
++    currentPrice: 110,
++    marketValue: 1100,
++    weightPercentage: weight,
++    active: true,
++    sourceBroker: 'GENERIC',
++    lineageDigest: `lineage-${symbol}`,
++    identityStatus: 'RESOLVED',
++    resolutionDisposition: 'CANONICAL_P04',
++  };
++}
++
++function frameFor(value: unknown): Buffer {
++  const body = Buffer.from(JSON.stringify(value), 'utf8');
++  const prefix = Buffer.allocUnsafe(4);
++  prefix.writeUInt32BE(body.byteLength, 0);
++  return Buffer.concat([prefix, body]);
++}
++
++function call(endpointPath: string, envelope: unknown): Promise<Buffer> {
++  return new Promise((resolvePromise) => {
++    const socket = createConnection({ path: endpointPath });
++    const chunks: Buffer[] = [];
++    socket.on('data', (chunk) => chunks.push(chunk));
++    socket.on('error', () => resolvePromise(Buffer.concat(chunks)));
++    socket.on('close', () => resolvePromise(Buffer.concat(chunks)));
++    socket.on('connect', () => socket.write(frameFor(envelope), () => socket.end()));
++  });
++}
++
++function parseResult(buffer: Buffer): unknown {
++  const declared = buffer.readUInt32BE(0);
++  const frame = JSON.parse(buffer.subarray(4, 4 + declared).toString('utf8')) as {
++    ok: boolean;
++    result?: unknown;
++    outcome?: string;
++  };
++  assert.equal(frame.ok, true, `expected a success frame, got ${String(frame.outcome)}`);
++  return frame.result;
++}
++
++function keysOf(value: unknown): string[] {
++  assert.ok(value !== null && typeof value === 'object' && !Array.isArray(value));
++  return Object.keys(value as Record<string, unknown>).sort();
++}
++
++describe('q1 / IPC read path conforms to accepted contract v1 §6', () => {
++  let root: string;
++  let db: DatabaseSync;
++  let databasePath: string;
++
++  before(() => {
++    root = mkdtempSync(join(tmpdir(), 'q1-contract-'));
++    databasePath = join(root, 'store', 'ipd.db');
++    db = openDatabase(databasePath);
++    ensureMigrations(db, GATE3_MIGRATIONS);
++
++    const now = new Date().toISOString();
++    db.prepare(
++      "INSERT INTO local_principal_bindings (binding_id, principal_label, status, created_at, updated_at, revoked_at) VALUES ('b-contract', 'operator', 'ACTIVE', ?, ?, NULL)",
++    ).run(now, now);
++    db.prepare(
++      "INSERT INTO local_principal_memberships (membership_id, binding_id, tenant_id, canonical_owner_id, status, created_at, updated_at, revoked_at) VALUES ('m-contract', 'b-contract', ?, ?, 'ACTIVE', ?, ?, NULL)",
++    ).run(OWNER.tenantId, OWNER.canonicalOwnerId, now, now);
++
++    // A portfolio to read back. The store's own write path is used directly
++    // because the Gate E W-1 gate refuses every write over the endpoint while
++    // the gates are unmet; this fixture is not an admitted write.
++    new DurablePortfolioStore(db).create(OWNER, 'P-CONTRACT', {
++      name: 'Contract fixture',
++      holdings: [holding('AAPL', 60), holding('MSFT', 40)],
++      provenanceDigest: 'prov-contract',
++      contentDigest: 'digest-contract',
++    });
++  });
++
++  after(() => {
++    closeDatabase();
++    rmSync(root, { recursive: true, force: true });
++  });
++
++  it('portfolio.list returns the PortfolioSummary array itself', async () => {
++    const outcome = await startIpcServer({
++      env: {
++        IIPS_G2_IPC_ENDPOINT: `iips-q1-contract-list-${process.pid}`,
++        IIPS_G3_LOCAL_STATE_DIR: join(root, 'state-list'),
++        IIPS_G3_DATABASE_PATH: databasePath,
++      } as NodeJS.ProcessEnv,
++      platform: HOST_PLATFORM,
++    });
++    assert.equal(outcome.ok, true, outcome.error);
++
++    try {
++      const result = parseResult(
++        await call(outcome.target!.path, { v: 1, op: 'portfolio.list', requestId: 'q1c-1' }),
++      );
++      assert.ok(Array.isArray(result), 'the list result is the array itself, not a wrapper');
++      assert.equal((result as unknown[]).length, 1);
++      const [row] = result as Array<Record<string, unknown>>;
++      assert.deepEqual(keysOf(row), SUMMARY_KEYS);
++      assert.equal(row.portfolioId, 'P-CONTRACT');
++      assert.equal(row.portfolioName, 'Contract fixture');
++      assert.equal(row.revision, 1);
++      assert.equal(row.holdingsCount, 2);
++      assert.equal(typeof row.lastUpdated, 'string');
++      assert.equal(typeof row.totalMarketValue, 'number');
++    } finally {
++      await outcome.handle!.stop();
++    }
++  });
++
++  it('portfolio.get returns the PortfolioDetail object itself, with no durability claim', async () => {
++    const outcome = await startIpcServer({
++      env: {
++        IIPS_G2_IPC_ENDPOINT: `iips-q1-contract-get-${process.pid}`,
++        IIPS_G3_LOCAL_STATE_DIR: join(root, 'state-get'),
++        IIPS_G3_DATABASE_PATH: databasePath,
++      } as NodeJS.ProcessEnv,
++      platform: HOST_PLATFORM,
++    });
++    assert.equal(outcome.ok, true, outcome.error);
++
++    try {
++      const result = parseResult(
++        await call(outcome.target!.path, {
++          v: 1,
++          op: 'portfolio.get',
++          payload: { portfolioId: 'P-CONTRACT' },
++          requestId: 'q1c-2',
++        }),
++      );
++      assert.ok(!Array.isArray(result), 'the get result is the object itself, not a wrapper');
++      const detail = result as Record<string, unknown>;
++      assert.deepEqual(keysOf(detail), DETAIL_KEYS);
++      assert.equal(detail.portfolioId, 'P-CONTRACT');
++      assert.ok(Array.isArray(detail.holdings));
++      assert.equal((detail.holdings as unknown[]).length, 2);
++      assert.ok(Array.isArray(detail.contributions));
++      assert.equal((detail.contributions as unknown[]).length, 1);
++      assert.equal(typeof detail.weightSumPercentage, 'number');
++      assert.equal(typeof detail.provenanceDigest, 'string');
++      // The standing boundary forbids a `durable:true` claim before the Gate 4
++      // result-acceptance act, so contract v1's `durability`/`durable` fields
++      // are deliberately absent rather than fabricated. Asserted so the
++      // omission stays visible and cannot be mistaken for an oversight.
++      assert.ok(!('durable' in detail), 'no `durable` field is emitted');
++      assert.ok(!('durability' in detail), 'no `durability` field is emitted');
++    } finally {
++      await outcome.handle!.stop();
++    }
++  });
++
++  it('portfolio.revisions returns the RevisionEntry array itself, keyed `committedAt`', async () => {
++    const outcome = await startIpcServer({
++      env: {
++        IIPS_G2_IPC_ENDPOINT: `iips-q1-contract-rev-${process.pid}`,
++        IIPS_G3_LOCAL_STATE_DIR: join(root, 'state-rev'),
++        IIPS_G3_DATABASE_PATH: databasePath,
++      } as NodeJS.ProcessEnv,
++      platform: HOST_PLATFORM,
++    });
++    assert.equal(outcome.ok, true, outcome.error);
++
++    try {
++      const result = parseResult(
++        await call(outcome.target!.path, {
++          v: 1,
++          op: 'portfolio.revisions',
++          payload: { portfolioId: 'P-CONTRACT' },
++          requestId: 'q1c-3',
++        }),
++      );
++      assert.ok(Array.isArray(result), 'the revisions result is the array itself, not a wrapper');
++      assert.equal((result as unknown[]).length, 1);
++      const [entry] = result as Array<Record<string, unknown>>;
++      assert.equal(entry.revision, 1);
++      assert.equal(entry.operation, 'INITIAL');
++      assert.equal(typeof entry.committedAt, 'string');
++      assert.ok(!('createdAt' in entry), 'the wire property is `committedAt`, not `createdAt`');
++    } finally {
++      await outcome.handle!.stop();
++    }
++  });
++});
+diff --git a/tests/q1_ownership_source_readiness.test.ts b/tests/q1_ownership_source_readiness.test.ts
+new file mode 100644
+index 0000000..755ee1a
+--- /dev/null
++++ b/tests/q1_ownership_source_readiness.test.ts
+@@ -0,0 +1,185 @@
++/**
++ * Q1-b readiness probe — the designated ownership source (CV-20 Option A /
++ * `IIPS-V3-Q1B-OWNERSHIP-SOURCE-DISPOSITION-2026-10-22`).
++ *
++ * The Q1-b record designates the sole non-authentication ownership source for
++ * user portfolios: the single `ACTIVE` `local_principal_bindings` row held in
++ * the IPD-owned store, consumed exclusively by the IPD-owned, single-principal,
++ * same-host IPC endpoint. That record explicitly does NOT assert operational
++ * status.
++ *
++ * This suite establishes, on the host that ran it, whether the designated
++ * source is OPERATIONAL. It is a read-only readiness probe:
++ *
++ *   - it opens only a fixture store under the OS temporary directory;
++ *   - it never provisions, revokes or mutates an authoritative binding;
++ *   - it never claims a capability, a qualification or an admission.
++ *
++ * The question it answers is narrow and factual: does the designated source
++ * exist, is it reachable, and does the endpoint it feeds serve a live read?
++ */
++import { describe, it, before, after } from 'node:test';
++import assert from 'node:assert/strict';
++import { mkdtempSync, rmSync, readFileSync, readdirSync, statSync } from 'node:fs';
++import { tmpdir } from 'node:os';
++import { join, dirname, resolve } from 'node:path';
++import { fileURLToPath } from 'node:url';
++import { createConnection } from 'node:net';
++import type { DatabaseSync } from 'node:sqlite';
++import { openDatabase, closeDatabase } from '../src/persistence/connection.js';
++import { ensureMigrations } from '../src/persistence/migration_ledger.js';
++import { GATE3_MIGRATIONS, startIpcServer } from '../src/ipc/entrypoint.js';
++import { inspectBindings } from '../src/persistence/binding.js';
++import {
++  ProvisioningNotAuthorizedError,
++  provisionActiveBinding,
++} from '../src/persistence/provisioning.js';
++
++const HOST_PLATFORM: NodeJS.Platform = process.platform === 'win32' ? 'win32' : 'linux';
++const REPO_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..');
++
++function frameFor(value: unknown): Buffer {
++  const body = Buffer.from(JSON.stringify(value), 'utf8');
++  const prefix = Buffer.allocUnsafe(4);
++  prefix.writeUInt32BE(body.byteLength, 0);
++  return Buffer.concat([prefix, body]);
++}
++
++function call(endpointPath: string, envelope: unknown): Promise<Buffer> {
++  return new Promise((resolvePromise) => {
++    const socket = createConnection({ path: endpointPath });
++    const chunks: Buffer[] = [];
++    socket.on('data', (chunk) => chunks.push(chunk));
++    socket.on('error', () => resolvePromise(Buffer.concat(chunks)));
++    socket.on('close', () => resolvePromise(Buffer.concat(chunks)));
++    socket.on('connect', () => socket.write(frameFor(envelope), () => socket.end()));
++  });
++}
++
++function sourceFilesUnder(directory: string): string[] {
++  const found: string[] = [];
++  for (const entry of readdirSync(directory)) {
++    const full = join(directory, entry);
++    if (statSync(full).isDirectory()) {
++      found.push(...sourceFilesUnder(full));
++    } else if (entry.endsWith('.ts')) {
++      found.push(full);
++    }
++  }
++  return found;
++}
++
++describe('q1-b / designated ownership source readiness', () => {
++  let root: string;
++  let db: DatabaseSync;
++  let databasePath: string;
++
++  before(() => {
++    root = mkdtempSync(join(tmpdir(), 'q1-ownership-'));
++    databasePath = join(root, 'store', 'ipd.db');
++    db = openDatabase(databasePath);
++    ensureMigrations(db, GATE3_MIGRATIONS);
++  });
++
++  after(() => {
++    closeDatabase();
++    rmSync(root, { recursive: true, force: true });
++  });
++
++  it('a fresh store carries no ACTIVE binding and no ACTIVE membership', () => {
++    const observed = inspectBindings(db);
++    assert.deepEqual(observed.bindings, []);
++    assert.deepEqual(observed.memberships, []);
++  });
++
++  it('the real entrypoint starts, and the designated source refuses every request with zero bytes', async () => {
++    const outcome = await startIpcServer({
++      env: {
++        IIPS_G2_IPC_ENDPOINT: `iips-q1b-${process.pid}`,
++        IIPS_G3_LOCAL_STATE_DIR: join(root, 'state'),
++        IIPS_G3_DATABASE_PATH: databasePath,
++      } as NodeJS.ProcessEnv,
++      platform: HOST_PLATFORM,
++    });
++    assert.equal(outcome.ok, true, outcome.error);
++    assert.ok(outcome.target);
++
++    try {
++      const response = await call(outcome.target!.path, { v: 1, op: 'portfolio.list', requestId: 'q1b-1' });
++      assert.equal(
++        response.byteLength,
++        0,
++        'the endpoint refused the request with zero bytes: the binding is absent, so the designated ownership source is not operational',
++      );
++    } finally {
++      await outcome.handle!.stop();
++    }
++  });
++
++  it('Gate A-prime provisioning is unreachable from every other module and cannot be forged', () => {
++    const importers: string[] = [];
++    for (const file of sourceFilesUnder(join(REPO_ROOT, 'src'))) {
++      const source = readFileSync(file, 'utf8');
++      if (/from\s+['"][^'"]*provisioning['"]/.test(source) || /import\(\s*['"][^'"]*provisioning['"]\s*\)/.test(source)) {
++        importers.push(file.replace(`${REPO_ROOT}/`, ''));
++      }
++    }
++    assert.deepEqual(
++      importers,
++      [],
++      'no module under src/ imports provisioning: the Gate A-prime path is unreachable from every IPC operation and from startup',
++    );
++
++    const before = db.prepare('SELECT COUNT(*) AS n FROM local_principal_bindings').get() as { n: number | bigint };
++    assert.throws(
++      () =>
++        provisionActiveBinding(
++          db,
++          { issuedAt: new Date().toISOString(), act: 'gate-a-prime' },
++          { principalLabel: 'operator', tenantId: 'tenant-local', canonicalOwnerId: 'owner-local' },
++        ),
++      ProvisioningNotAuthorizedError,
++    );
++    const after = db.prepare('SELECT COUNT(*) AS n FROM local_principal_bindings').get() as { n: number | bigint };
++    assert.equal(Number(after.n), Number(before.n), 'the forged authorization wrote nothing');
++  });
++
++  it('with the binding present, the same real endpoint serves a live read', async () => {
++    const now = new Date().toISOString();
++    // The operator-side Gate A-prime act is APPROVED and NOT EXECUTED, so this
++    // fixture writes the binding rows directly, exactly as a future executed
++    // Gate A-prime act would leave them. It is a fixture, not an activation.
++    db.prepare(
++      "INSERT INTO local_principal_bindings (binding_id, principal_label, status, created_at, updated_at, revoked_at) VALUES ('b-q1b', 'operator', 'ACTIVE', ?, ?, NULL)",
++    ).run(now, now);
++    db.prepare(
++      "INSERT INTO local_principal_memberships (membership_id, binding_id, tenant_id, canonical_owner_id, status, created_at, updated_at, revoked_at) VALUES ('m-q1b', 'b-q1b', 'tenant-local', 'owner-local', 'ACTIVE', ?, ?, NULL)",
++    ).run(now, now);
++
++    const outcome = await startIpcServer({
++      env: {
++        IIPS_G2_IPC_ENDPOINT: `iips-q1b-live-${process.pid}`,
++        IIPS_G3_LOCAL_STATE_DIR: join(root, 'state-live'),
++        IIPS_G3_DATABASE_PATH: databasePath,
++      } as NodeJS.ProcessEnv,
++      platform: HOST_PLATFORM,
++    });
++    assert.equal(outcome.ok, true, outcome.error);
++
++    try {
++      const response = await call(outcome.target!.path, { v: 1, op: 'portfolio.list', requestId: 'q1b-2' });
++      assert.ok(response.byteLength > 0, 'the endpoint answered');
++      const declared = response.readUInt32BE(0);
++      const parsed = JSON.parse(response.subarray(4, 4 + declared).toString('utf8')) as {
++        ok: boolean;
++        result: unknown[];
++      };
++      assert.equal(parsed.ok, true);
++      // Contract v1 §6: the `portfolio.list` result IS `PortfolioSummary[]`.
++      assert.ok(Array.isArray(parsed.result), 'the list result is the array itself');
++      assert.deepEqual(parsed.result, []);
++    } finally {
++      await outcome.handle!.stop();
++    }
++  });
++});

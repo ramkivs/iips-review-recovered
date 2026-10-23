@@ -8,18 +8,19 @@ import { EvidenceExplorer } from './EvidenceExplorer';
 import type { EvidenceData } from '../../api/evidence';
 
 const FIXTURE: EvidenceData = {
+  referenceOnly: true,
   decision: { verdict: 'Buy', composite: 76.3, confidence: 0.8 },
   evidence: {
     evidenceId: 'ev_Tech', engineId: 'sector.technology', recommendation: 'Buy', compositeScore: 76.3, confidence: 0.8,
     keyMetrics: [{ id: 'growth', name: 'growth', value: 22 }],
     supportingScores: [{ id: 'quality', name: 'quality', value: 85.5 }, { id: 'growth', name: 'growth', value: 75 }],
     calibrationVersion: '1.0.0', decisionRulesApplied: [],
-    replayReference: 'snap_Tech',
+    replayReference: null,
     provenance: { frameworkVersion: '1.0', engineVersion: '1.0.0', methodologyVersion: 'IES-Technology', snapshotId: 'snap_Tech' },
     generatedAt: '2026-08-09T00:00:00.000Z',
   },
   snapshot: { snapshotId: 'snap_Tech', engineId: 'sector.technology', schemaVersion: 'snapshot-1.0', generatedAt: '2026-08-09T00:00:00.000Z', verdict: 'Buy', scores: { quality: 85.5 } },
-  replay: { snapshotId: 'snap_Tech', reproduced: true, byteIdentical: true, evidenceRefs: ['ev_Tech'] },
+  replay: { state: 'NOT_PERFORMED', diagnostic: 'Reference only; no replay was performed.' },
   provenance: { dataSource: 'fixture (test-only)', freshness: 'SNAPSHOT', calibratedAt: '2026-08-01T00:00:00.000Z', transportSemantics: '1:1' },
 };
 
@@ -54,14 +55,16 @@ describe('Evidence Explorer', () => {
     expect(screen.getByTestId('snapshot-metadata-panel')).toBeInTheDocument();
   });
 
-  it('shows replay summary MATCH (certified replay equivalence)', async () => {
+  it('shows truthful replay availability, not fabricated equivalence', async () => {
     renderEvidence();
-    expect(await screen.findByTestId('replay-summary')).toHaveTextContent('MATCH');
+    expect(await screen.findByTestId('replay-summary')).toHaveTextContent('NOT_PERFORMED');
+    expect(screen.getByTestId('evidence-reference-only')).toHaveTextContent('reference aliases');
+    expect(screen.getByTestId('replay-summary')).not.toHaveTextContent('DIFFERENCE');
   });
 
-  it('links to the full replay explorer', async () => {
+  it('links to reference replay availability', async () => {
     renderEvidence();
-    expect(await screen.findByRole('link', { name: /Open full replay explorer/ })).toBeInTheDocument();
+    expect(await screen.findByRole('link', { name: /Inspect replay availability/ })).toBeInTheDocument();
   });
 
   it('renders error state on failure', async () => {

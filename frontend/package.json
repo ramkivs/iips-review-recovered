@@ -12,6 +12,7 @@
     "test": "vitest run",
     "test:ci": "vitest run --reporter=default --reporter=json --outputFile.json=.vitest-report.json",
     "server:dev": "tsx server/executive-transport.ts",
+    "typecheck:replay-server": "tsc -p tsconfig.replay-server.json --noEmit",
     "build:broker-import": "tsc -p tsconfig.broker-import.json",
     "predev": "npm run build:broker-import",
     "prebuild": "npm run build:broker-import",

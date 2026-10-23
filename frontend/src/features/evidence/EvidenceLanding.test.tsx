@@ -48,29 +48,26 @@ const FULL_EXECUTIVE_DATA: ExecutiveData = {
 };
 
 const DETAIL_FIXTURE: EvidenceData = {
+  referenceOnly: true,
   decision: { verdict: 'Buy', composite: 76.3, confidence: 0.8 },
   evidence: {
     evidenceId: 'ev_Technology', engineId: 'sector.technology', recommendation: 'Buy', compositeScore: 76.3, confidence: 0.8,
     keyMetrics: [], supportingScores: [], calibrationVersion: '1.0.0', decisionRulesApplied: [],
-    replayReference: 'snap_Technology',
+    replayReference: null,
     provenance: { frameworkVersion: '1.0', engineVersion: '1.0.0', methodologyVersion: 'IES-Technology', snapshotId: 'snap_Technology' },
     generatedAt: '2026-08-09T00:00:00.000Z',
   },
   snapshot: { snapshotId: 'snap_Technology', engineId: 'sector.technology', schemaVersion: 'snapshot-1.0', generatedAt: '2026-08-09T00:00:00.000Z', verdict: 'Buy', scores: {} },
-  replay: { snapshotId: 'snap_Technology', reproduced: true, byteIdentical: true, evidenceRefs: ['ev_Technology'] },
+  replay: { state: 'NOT_PERFORMED', diagnostic: 'Reference only; no replay was performed.' },
   provenance: { dataSource: 'fixture (test-only)', freshness: 'SNAPSHOT', calibratedAt: '2026-08-01T00:00:00.000Z', transportSemantics: '1:1' },
 };
 
 const REPLAY_FIXTURE: ReplayData = {
-  original: {
-    snapshotId: 'snap_Technology', engineId: 'sector.technology', schemaVersion: 'snapshot-1.0',
-    calibrationVersion: '1.0.0', generatedAt: '2026-08-09T00:00:00.000Z', verdict: 'Buy', composite: 76.3, confidence: 0.8,
-    provenance: { frameworkVersion: '1.0', engineVersion: '1.0.0', methodologyVersion: 'IES-Technology', snapshotId: 'snap_Technology' },
-  },
-  replay: { snapshotId: 'snap_Technology', reproduced: true, byteIdentical: true, evidenceRefs: ['ev_Technology'] },
+  original: null,
+  replay: { state: 'NOT_PERFORMED', diagnostic: 'Reference only; no replay was performed.' },
   differenceAvailable: false,
   note: 'No field-level difference is computed or displayed.',
-  evidenceRefs: ['ev_Technology'],
+  evidenceRefs: [],
   provenance: { dataSource: 'fixture (test-only)', freshness: 'SNAPSHOT', calibratedAt: '2026-08-01T00:00:00.000Z', transportSemantics: '1:1' },
 };
 
@@ -204,7 +201,8 @@ describe('Existing Evidence and Replay route bindings', () => {
     setFetchResponse(REPLAY_FIXTURE);
     renderAppAt('/evidence/replay/Technology');
 
-    expect(await screen.findByTestId('replay-original')).toBeInTheDocument();
+    expect(await screen.findByTestId('replay-summary')).toHaveTextContent('NOT_PERFORMED');
+    expect(screen.queryByTestId('replay-original')).not.toBeInTheDocument();
     expect(screen.getByRole('heading', { name: 'Replay — Technology' })).toBeInTheDocument();
   });
 });
