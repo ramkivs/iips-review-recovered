@@ -7,6 +7,7 @@ import { PortfolioWorkspace } from '../features/portfolio/PortfolioWorkspace';
 import { BrokerHoldingsPreview } from '../features/broker-holdings/BrokerHoldingsPreview';
 import { UserPortfolioList } from '../features/user-portfolios/UserPortfolioList';
 import { UserPortfolioDetail } from '../features/user-portfolios/UserPortfolioDetail';
+import { BrokerImportSurface } from '../features/portfolio-import/BrokerImportSurface';
 import { CompanyIntelligence } from '../features/company/CompanyIntelligence';
 import { CrossSectorIntelligence } from '../features/cross-sector/CrossSectorIntelligence';
 import { MacroResearch } from '../features/research/MacroResearch';
@@ -39,6 +40,7 @@ export function App() {
         <Route path="/portfolio/*" element={<PortfolioWorkspace />} />
         <Route path="/broker-holdings" element={<BrokerHoldingsPreview />} />
         <Route path="/user-portfolios" element={<UserPortfolioList />} />
+        <Route path="/user-portfolios/import" element={<BrokerImportSurface />} />
         <Route path="/user-portfolios/:portfolioId" element={<UserPortfolioDetail />} />
         <Route path="/watchlists" element={<Watchlists />} />
         <Route path="/collaboration" element={<Collaboration />} />

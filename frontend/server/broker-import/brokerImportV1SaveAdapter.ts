@@ -170,3 +170,101 @@ export async function saveBrokerImportHoldingsViaV1(
 
 /** Production dependency set (the single real IPC client). */
 export const defaultBrokerImportSaveDeps: BrokerImportSaveAdapterDeps = { callIpc: realCallIpc };
+
+/* ------------------------------------------------------------------ *
+ * Narrow revision-read & reconciliation adapter (U7 §1.4 / U1 §7 / -04 §3.2)
+ * ------------------------------------------------------------------ */
+
+export interface V1PortfolioRevisionReadResult {
+  readonly portfolioId: string;
+  readonly revision: number;
+}
+
+export type BrokerImportRevisionTransportOutcome =
+  /** Exact portfolio entry matched in `portfolio.list`; returns `{ portfolioId, revision }` only. */
+  | { readonly kind: 'REVISION'; readonly result: V1PortfolioRevisionReadResult }
+  /** Portfolio absent from `portfolio.list` or Class A refusal from IPD. */
+  | { readonly kind: 'CLASS_A_REFUSAL'; readonly outcome: IpcClassAOutcome; readonly detail?: string }
+  /** Class P: zero bytes and close (indistinguishable from configuration-absent). */
+  | { readonly kind: 'CLASS_P_REFUSAL' }
+  /** Timeout/transport fault: read outcome unknown; zero retries. */
+  | { readonly kind: 'OUTCOME_UNKNOWN'; readonly reason: 'TIMEOUT' | 'TRANSPORT_FAULT'; readonly retried: false }
+  /** Malformed `portfolio.list` result frame. */
+  | { readonly kind: 'UNREPRESENTABLE_RESULT'; readonly retried: false };
+
+/**
+ * Extracts `{ portfolioId, revision }` for the exact requested `portfolioId` from the accepted
+ * Contract v1 `portfolio.list` result (`PortfolioSummary[]`).
+ *
+ * Returns:
+ *   - `{ kind: 'REVISION', result: { portfolioId, revision } }` when the entry is present and its
+ *     `revision` is a non-negative safe integer;
+ *   - `{ kind: 'CLASS_A_REFUSAL', outcome: 'RESOURCE_UNAVAILABLE' }` when the list is well-formed
+ *     but contains no entry for `portfolioId`;
+ *   - `{ kind: 'UNREPRESENTABLE_RESULT', retried: false }` when `result` is not an array of valid
+ *     summary records or the matched entry has a malformed `revision`.
+ */
+export function parseV1RevisionFromPortfolioList(
+  result: unknown,
+  portfolioId: string,
+): BrokerImportRevisionTransportOutcome {
+  if (!Array.isArray(result)) {
+    return { kind: 'UNREPRESENTABLE_RESULT', retried: false };
+  }
+  for (const item of result) {
+    if (typeof item !== 'object' || item === null || Array.isArray(item)) {
+      return { kind: 'UNREPRESENTABLE_RESULT', retried: false };
+    }
+    const record = item as Record<string, unknown>;
+    if (typeof record.portfolioId !== 'string') {
+      return { kind: 'UNREPRESENTABLE_RESULT', retried: false };
+    }
+    if (record.portfolioId === portfolioId) {
+      if (
+        typeof record.revision !== 'number' ||
+        !Number.isSafeInteger(record.revision) ||
+        record.revision < 0
+      ) {
+        return { kind: 'UNREPRESENTABLE_RESULT', retried: false };
+      }
+      return {
+        kind: 'REVISION',
+        result: {
+          portfolioId,
+          revision: record.revision,
+        },
+      };
+    }
+  }
+  return { kind: 'CLASS_A_REFUSAL', outcome: 'RESOURCE_UNAVAILABLE' };
+}
+
+/**
+ * Performs ONE `portfolio.list` IPC read to obtain the current revision token for `portfolioId`
+ * (U7 §1.4 pre-save `expectedRevision` acquisition and post-`OUTCOME_UNKNOWN` reconciliation).
+ *
+ * Never retries, never caches, never guesses a revision, and never sends a write.
+ */
+export async function readBrokerImportRevisionViaV1(
+  deps: BrokerImportSaveAdapterDeps,
+  portfolioId: string,
+): Promise<BrokerImportRevisionTransportOutcome> {
+  const result: IpcCallResult = await deps.callIpc('portfolio.list', {}, {});
+
+  switch (result.kind) {
+    case 'SUCCESS':
+      return parseV1RevisionFromPortfolioList(result.frame.result, portfolioId);
+    case 'CLASS_A':
+      return {
+        kind: 'CLASS_A_REFUSAL',
+        outcome: result.frame.outcome,
+        ...(typeof result.frame.detail === 'string' ? { detail: result.frame.detail } : {}),
+      };
+    case 'CLASS_P':
+      return { kind: 'CLASS_P_REFUSAL' };
+    case 'OUTCOME_UNKNOWN':
+      return { kind: 'OUTCOME_UNKNOWN', reason: result.reason, retried: false };
+    default:
+      return { kind: 'OUTCOME_UNKNOWN', reason: 'TRANSPORT_FAULT', retried: false };
+  }
+}

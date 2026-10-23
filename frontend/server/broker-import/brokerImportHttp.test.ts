@@ -220,16 +220,82 @@ describe('brokerImportHttp — direct handler contract (injected IPC)', () => {
     expect(big.status).toBe(413);
   });
 
-  it('answers 405 with Allow: POST for other methods on the admitted path, and 404 for other paths in the namespace', async () => {
+  it('answers 405 with Allow: POST for other methods on the admitted holdings path, 405 with Allow: GET on the admitted revision path, and 404 for other paths in the namespace', async () => {
     for (const method of ['GET', 'PUT', 'DELETE', 'HEAD']) {
       const result = await callHandler('/api/broker-import/P-1/holdings', method, {}, NO_BINDING_ENV);
       expect(result.status, method).toBe(405);
+    }
+    for (const method of ['POST', 'PUT', 'DELETE']) {
+      const result = await callHandler('/api/broker-import/DEFAULT_PORTFOLIO/revision', method, {}, NO_BINDING_ENV);
+      expect(result.status, method).toBe(405);
+      expect(result.headers.allow).toBe('GET');
     }
     for (const path of ['/api/broker-import', '/api/broker-import/P-1', '/api/broker-import/P-1/preview', '/api/broker-import/P-1/holdings/extra']) {
       const result = await callHandler(path, 'POST', {}, NO_BINDING_ENV);
       expect(result.status, path).toBe(404);
       expect(JSON.parse(result.body).error).toBe('not found');
     }
+  });
+
+  it('serves GET /api/broker-import/:portfolioId/revision with { portfolioId, revision } on 200 and maps absent/unavailable/unknown outcomes', async () => {
+    const listSuccess: IpcCallResult = {
+      kind: 'SUCCESS',
+      frame: {
+        v: 1,
+        ok: true,
+        op: 'portfolio.list',
+        result: [
+          {
+            portfolioId: 'DEFAULT_PORTFOLIO',
+            portfolioName: 'Default Portfolio',
+            revision: 6,
+            holdingsCount: 2,
+            totalMarketValue: 50000,
+            lastUpdated: '2026-10-23T12:00:00.000Z',
+          },
+        ],
+      },
+      bytesReceived: 96,
+    };
+
+    const okRes = await callHandler(
+      '/api/broker-import/DEFAULT_PORTFOLIO/revision',
+      'GET',
+      {},
+      BINDING_ENV,
+      listSuccess,
+    );
+    expect(okRes.status).toBe(200);
+    expect(JSON.parse(okRes.body)).toEqual({
+      portfolioId: 'DEFAULT_PORTFOLIO',
+      revision: 6,
+    });
+    expect(okRes.calls).toBe(1);
+
+    const notFoundRes = await callHandler(
+      '/api/broker-import/DEFAULT_PORTFOLIO/revision',
+      'GET',
+      {},
+      BINDING_ENV,
+      {
+        kind: 'SUCCESS',
+        frame: { v: 1, ok: true, op: 'portfolio.list', result: [] },
+        bytesReceived: 32,
+      },
+    );
+    expect(notFoundRes.status).toBe(404);
+    expect(JSON.parse(notFoundRes.body)).toEqual({ outcome: 'RESOURCE_UNAVAILABLE' });
+
+    const noBindingRes = await callHandler(
+      '/api/broker-import/DEFAULT_PORTFOLIO/revision',
+      'GET',
+      {},
+      NO_BINDING_ENV,
+      listSuccess,
+    );
+    expect(noBindingRes.status).toBe(503);
+    expect(JSON.parse(noBindingRes.body).error).toBe('owner-context-unavailable');
+    expect(noBindingRes.calls).toBe(0);
   });
 
   it('refuses a cross-site-shaped request before reading the body (C9 hardening)', async () => {
@@ -296,7 +362,7 @@ describe('brokerImportHttp — real composed host (route admission + fence prese
     }
   });
 
-  it('admits exactly the one route: POST /api/broker-import/:portfolioId/holdings', async () => {
+  it('admits the two CAP-02 routes (POST .../holdings and GET .../revision) and fails closed with 503 when binding precondition is absent', async () => {
     const response = await fetch(`${baseUrl}/api/broker-import/DEFAULT_PORTFOLIO/holdings`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -305,6 +371,12 @@ describe('brokerImportHttp — real composed host (route admission + fence prese
     // Binding precondition absent ⇒ fail-closed 503 owner-context-unavailable BEFORE any IPC.
     expect(response.status).toBe(503);
     expect(JSON.parse(await response.text()).error).toBe('owner-context-unavailable');
+
+    const revResponse = await fetch(`${baseUrl}/api/broker-import/DEFAULT_PORTFOLIO/revision`, {
+      method: 'GET',
+    });
+    expect(revResponse.status).toBe(503);
+    expect(JSON.parse(await revResponse.text()).error).toBe('owner-context-unavailable');
   });
 
   it('sends no wildcard cross-origin header on the CAP-02 namespace (C8 posture)', async () => {

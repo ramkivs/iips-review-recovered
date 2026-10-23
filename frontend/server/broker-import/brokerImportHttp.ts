@@ -53,7 +53,9 @@ import {
 } from './brokerImportBoundary.js';
 import {
   defaultBrokerImportSaveDeps,
+  readBrokerImportRevisionViaV1,
   saveBrokerImportHoldingsViaV1,
+  type BrokerImportRevisionTransportOutcome,
   type BrokerImportSaveAdapterDeps,
   type BrokerImportSaveTransportOutcome,
 } from './brokerImportV1SaveAdapter.js';
@@ -71,13 +73,23 @@ export interface BrokerImportRouteDeps {
 }
 
 interface MatchedRoute {
+  readonly kind: 'HOLDINGS' | 'REVISION';
   readonly portfolioId: string;
 }
 
-/** Matches exactly `POST`-able `/api/broker-import/:portfolioId/holdings`; null otherwise. */
+/**
+ * Matches the two admitted routes under `/api/broker-import`:
+ *   - `/api/broker-import/:portfolioId/holdings` (`POST`)
+ *   - `/api/broker-import/:portfolioId/revision` (`GET`, admitted under U7 §1.4 / U1 §7 / -04 §3.2)
+ * Returns null for all other paths in the namespace.
+ */
 function matchRoute(path: string): MatchedRoute | null {
   const parts = path.split('/').filter(Boolean);
-  if (parts.length !== 4 || parts[0] !== 'api' || parts[1] !== 'broker-import' || parts[3] !== 'holdings') {
+  if (parts.length !== 4 || parts[0] !== 'api' || parts[1] !== 'broker-import') {
+    return null;
+  }
+  const leaf = parts[3];
+  if (leaf !== 'holdings' && leaf !== 'revision') {
     return null;
   }
   let portfolioId: string;
@@ -86,7 +98,10 @@ function matchRoute(path: string): MatchedRoute | null {
   } catch {
     return null;
   }
-  return { portfolioId };
+  return {
+    kind: leaf === 'holdings' ? 'HOLDINGS' : 'REVISION',
+    portfolioId,
+  };
 }
 
 /** Maps a transport outcome to the fixed HTTP response. */
@@ -142,6 +157,46 @@ function respondToOutcome(res: http.ServerResponse, outcome: BrokerImportSaveTra
   }
 }
 
+/** Maps a revision-read transport outcome to the fixed HTTP response. */
+function respondToRevisionOutcome(
+  res: http.ServerResponse,
+  outcome: BrokerImportRevisionTransportOutcome,
+): void {
+  switch (outcome.kind) {
+    case 'REVISION':
+      sendJson(res, 200, {
+        portfolioId: outcome.result.portfolioId,
+        revision: outcome.result.revision,
+      });
+      return;
+    case 'CLASS_A_REFUSAL':
+      switch (outcome.outcome) {
+        case 'RESOURCE_UNAVAILABLE':
+          sendJson(res, 404, { outcome: 'RESOURCE_UNAVAILABLE' });
+          return;
+        case 'INVALID_REQUEST':
+          sendJson(res, 400, { outcome: 'INVALID_REQUEST' });
+          return;
+        case 'UNAVAILABLE':
+        default:
+          sendJson(res, 503, { outcome: 'UNAVAILABLE' });
+          return;
+      }
+    case 'CLASS_P_REFUSAL':
+      respondOwnerContextUnavailable(res);
+      return;
+    case 'OUTCOME_UNKNOWN':
+      sendJson(res, 503, { outcome: 'OUTCOME_UNKNOWN', retried: false });
+      return;
+    case 'UNREPRESENTABLE_RESULT':
+      sendJson(res, 503, { outcome: 'OUTCOME_UNKNOWN', reason: 'UNREPRESENTABLE_RESULT', retried: false });
+      return;
+    default:
+      sendJson(res, 503, { outcome: 'OUTCOME_UNKNOWN', retried: false });
+      return;
+  }
+}
+
 /**
  * Handles the CAP-02 namespace. Mounted by `executive-transport.ts` for `/api/broker-import`
  * only; this module registers no route anywhere else and never listens.
@@ -160,6 +215,55 @@ export async function handleBrokerImportRequest(
     sendJson(res, 404, { error: 'not found' });
     return;
   }
+
+  if (route.kind === 'REVISION') {
+    if (method !== 'GET') {
+      res.setHeader('Allow', 'GET');
+      sendJson(res, 405, { error: 'method-not-allowed' });
+      return;
+    }
+
+    // C9 first-party signal: refuse explicit cross-site Origin / Sec-Fetch-Site on GET.
+    const host = typeof req.headers.host === 'string' ? req.headers.host : null;
+    const firstParty = evaluateRequestFirstPartySignal(req.headers, method, host);
+    if (firstParty.decision === 'NOT_FIRST_PARTY') {
+      sendJson(res, 403, { error: 'cross-site-request-refused' });
+      return;
+    }
+
+    // Binding precondition (IRR-local, fail closed): absent ⇒ no port, no adapter, no connection.
+    const env = deps.env ?? process.env;
+    const ownerContext = ownerContextFromBinding(readBindingPrecondition(env), env);
+    if (ownerContext.state !== 'IPD_BINDING_RESOLVED' || !ownerContext.established) {
+      respondOwnerContextUnavailable(res);
+      return;
+    }
+
+    // Opaque route parameter validation (shape only; IRR never resolves identity).
+    const portfolioIdRefusal = validatePortfolioIdParam(route.portfolioId);
+    if (portfolioIdRefusal !== null) {
+      sendJson(res, 400, {
+        error: 'invalid-request',
+        field: portfolioIdRefusal.fieldPath,
+        reason: portfolioIdRefusal.reason,
+      });
+      return;
+    }
+
+    let revisionOutcome: BrokerImportRevisionTransportOutcome;
+    try {
+      revisionOutcome = await readBrokerImportRevisionViaV1(
+        deps.saveAdapterDeps ?? defaultBrokerImportSaveDeps,
+        route.portfolioId,
+      );
+    } catch {
+      respondOwnerContextUnavailable(res);
+      return;
+    }
+    respondToRevisionOutcome(res, revisionOutcome);
+    return;
+  }
+
   if (method !== 'POST') {
     res.setHeader('Allow', 'POST');
     sendJson(res, 405, { error: 'method-not-allowed' });
