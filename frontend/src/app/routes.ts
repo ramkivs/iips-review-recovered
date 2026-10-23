@@ -9,6 +9,7 @@ export const ROUTES = {
   root: '/',
   executive: '/executive',
   portfolio: '/portfolio',
+  brokerHoldings: '/broker-holdings',
   portfolioDetail: '/portfolio/:id',
   portfolioHoldings: '/portfolio/:id/holdings',
   watchlists: '/watchlists',

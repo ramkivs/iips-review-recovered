@@ -1,0 +1,116 @@
+{
+  "date_utc": "2026-10-16",
+  "irr_baseline": "98c21768f77061a68470e4b4f6750d38abeec594",
+  "ipd_baseline": "70b24f029842a7e9b7f615e4d9df7376fd4ff817",
+  "unchanged_primary_ipd_pin": "2e11fa3b689d1a3674a5e4ba1f1de9a559e20494",
+  "installed_source_verification": [
+    {
+      "path": "frontend/src/features/portfolio/import/adapters/csv-parser-helper.ts",
+      "ipd_main_blob": "eb36ce4c0bd82bd6901c2a547511e616ac80c766",
+      "installed_blob": "eb36ce4c0bd82bd6901c2a547511e616ac80c766",
+      "status": "PASS"
+    },
+    {
+      "path": "frontend/src/features/portfolio/import/adapters/dhan-holdings-adapter.ts",
+      "ipd_main_blob": "067ce99328b35acf05a46e37feb4b5abd9908d04",
+      "installed_blob": "067ce99328b35acf05a46e37feb4b5abd9908d04",
+      "status": "PASS"
+    },
+    {
+      "path": "frontend/src/features/portfolio/import/adapters/groww-holdings-adapter.ts",
+      "ipd_main_blob": "6f7c97fc4321e9dd25f395cbf967065946411d23",
+      "installed_blob": "6f7c97fc4321e9dd25f395cbf967065946411d23",
+      "status": "PASS"
+    },
+    {
+      "path": "frontend/src/features/portfolio/import/adapters/index.ts",
+      "ipd_main_blob": "ae5422d3ddb6bfc72247b49cda17e1de15575eee",
+      "installed_blob": "ae5422d3ddb6bfc72247b49cda17e1de15575eee",
+      "status": "PASS"
+    },
+    {
+      "path": "frontend/src/features/portfolio/import/adapters/zerodha-holdings-adapter.ts",
+      "ipd_main_blob": "d16bebcd14972faca22c9571a99f77af7767f4ae",
+      "installed_blob": "d16bebcd14972faca22c9571a99f77af7767f4ae",
+      "status": "PASS"
+    },
+    {
+      "path": "frontend/src/features/portfolio/import/broker-format-detector.ts",
+      "ipd_main_blob": "8887457bcd01679381a4f4d9cd2c57f4b6da435d",
+      "installed_blob": "8887457bcd01679381a4f4d9cd2c57f4b6da435d",
+      "status": "PASS"
+    },
+    {
+      "path": "frontend/src/features/portfolio/import/broker-holdings-mapper.ts",
+      "ipd_main_blob": "6c8ab71dc9230d22d0d3fe9a13e1809371f396e4",
+      "installed_blob": "6c8ab71dc9230d22d0d3fe9a13e1809371f396e4",
+      "status": "PASS"
+    },
+    {
+      "path": "frontend/src/features/portfolio/import/broker-import-ingress.ts",
+      "ipd_main_blob": "12824fbb5bd7323e106616d0a03de76d408321fc",
+      "installed_blob": "12824fbb5bd7323e106616d0a03de76d408321fc",
+      "status": "PASS"
+    },
+    {
+      "path": "frontend/src/features/portfolio/import/types.ts",
+      "ipd_main_blob": "cac1a58fc1ff2e088c89b6c95e657af3f5881f7e",
+      "installed_blob": "cac1a58fc1ff2e088c89b6c95e657af3f5881f7e",
+      "status": "PASS"
+    },
+    {
+      "path": "src/contracts/provenance.ts",
+      "ipd_main_blob": "459c77a430f00e5b20fa1f80cc1a3b780165444a",
+      "installed_blob": "459c77a430f00e5b20fa1f80cc1a3b780165444a",
+      "status": "PASS"
+    },
+    {
+      "path": "src/contracts/types.ts",
+      "ipd_main_blob": "11f86dca633bed33da738f525bb8e5c2bb435498",
+      "installed_blob": "11f86dca633bed33da738f525bb8e5c2bb435498",
+      "status": "PASS"
+    },
+    {
+      "path": "src/identity/mapping_store.ts",
+      "ipd_main_blob": "eec60c09e08ec45a29979abf25b21efddef448ae",
+      "installed_blob": "eec60c09e08ec45a29979abf25b21efddef448ae",
+      "status": "PASS"
+    },
+    {
+      "path": "src/identity/quarantine.ts",
+      "ipd_main_blob": "70c6f6580f6ade66eb31e7dee3adc4b52b10b010",
+      "installed_blob": "70c6f6580f6ade66eb31e7dee3adc4b52b10b010",
+      "status": "PASS"
+    },
+    {
+      "path": "src/identity/security_master.ts",
+      "ipd_main_blob": "e260fd90d05e5bfcd4bdc037524722c6fccee16d",
+      "installed_blob": "e260fd90d05e5bfcd4bdc037524722c6fccee16d",
+      "status": "PASS"
+    }
+  ],
+  "unchanged_fence_blobs": {
+    "frontend/server/reports-transport.ts": "981470541812a64c733309f1debec75455d85bee",
+    "frontend/server/user-portfolio-transport.ts": "51704c12a467cd2f718a030b5036bc55c9afa73f",
+    "frontend/server/owner-context-unavailable.ts": "cb8db45d668d28cee7e0a52721001d579a872733"
+  },
+  "tests": {
+    "clean_install": "PASS (NODE_EXTRA_CA_CERTS sandbox CA; no TLS verification disabled)",
+    "typecheck": "PASS",
+    "focused_preview_tests": "PASS 16/16 final local run",
+    "full_suite_before_three_additional_regressions": "PASS 71 files / 783 tests / zero failures",
+    "ipd_existing_broker_tests": "PASS 49/49 (BI-04, BI-05, BI-08)",
+    "production_build": "PASS 103 modules, browser bundle generated",
+    "diff_check": "PASS",
+    "live_dhan_connectivity": "NOT VERIFIED \u2014 no credentials/entitlement established; host not allowed",
+    "durable_broker_save": "BLOCKED \u2014 existing G-2 ownership/identity/persistence admission not lifted",
+    "actual_browser_manual_observation": "NOT VERIFIED \u2014 React DOM tests and production build only",
+    "library_sync": "BLOCKED \u2014 Library connector unsupported"
+  },
+  "limitations": [
+    "All preview holdings UNRESOLVED, no companyId and no write/Store call.",
+    "Parsed broker fields can contain adapter defaults; not a value-validation or normalization success.",
+    "No real account data used; deterministic CSV fixtures do not prove broker connectivity.",
+    "Generated third-party JS and declarations are ignored/rebuilt from immutable installed IPD sources; no source fork."
+  ]
+}
