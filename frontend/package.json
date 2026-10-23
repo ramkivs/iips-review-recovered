@@ -12,9 +12,16 @@
     "test": "vitest run",
     "test:ci": "vitest run --reporter=default --reporter=json --outputFile.json=.vitest-report.json",
     "server:dev": "tsx server/executive-transport.ts",
-    "typecheck:replay-server": "tsc -p tsconfig.replay-server.json --noEmit"
+    "typecheck:replay-server": "tsc -p tsconfig.replay-server.json --noEmit",
+    "build:broker-import": "tsc -p tsconfig.broker-import.json",
+    "predev": "npm run build:broker-import",
+    "prebuild": "npm run build:broker-import",
+    "pretest": "npm run build:broker-import",
+    "pretest:ci": "npm run build:broker-import",
+    "pretypecheck": "npm run build:broker-import"
   },
   "dependencies": {
+    "iips-broker-import": "github:ramkivs/iips-production-market-data#70b24f029842a7e9b7f615e4d9df7376fd4ff817",
     "iips-production-market-data": "github:ramkivs/iips-production-market-data#2d9130e76bb0dc89daeefabaf297e27bdaa84250",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
