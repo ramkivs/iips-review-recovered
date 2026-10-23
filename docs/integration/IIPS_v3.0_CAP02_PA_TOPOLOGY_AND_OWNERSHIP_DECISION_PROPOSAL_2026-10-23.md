@@ -312,3 +312,20 @@ continues to refuse every write with zero mutation; every IRR `/api/user-portfol
 to answer `503 owner-context-unavailable`.
 
 *End of record. Prepared for determination; no PA decision is rendered by this document.*
+
+---
+
+## 11. Addendum — decision rendered (2026-10-23)
+
+**Status of this record:** `PROPOSED / NOT EFFECTIVE` remains the correct description of **this document**. It is preserved unamended as the prepared request and its history. Its request status is now discharged: the Program Authority decision was **rendered** in `docs/integration/IIPS_v3.0_CAP02_PA_TOPOLOGY_AND_OWNERSHIP_DECISION_EFFECTIVE_2026-10-23.md` (`IIPS-V3-CAP02-PA-TOPOLOGY-OWNERSHIP-EFFECTIVE-2026-10-23-01`), **EFFECTIVE `2026-10-23`**, under the standing grant transcribed at `docs/integration/IIPS_v3.0_OWNER_CONTEXT_F3_MECHANISM_AND_IMPLEMENTATION_PA_DECISION.md` §1.2 (blob `c4c9f7d7…`) as construed by `IIPS-V3-DEC06-AUTHORITY-RECONCILIATION-IRR-2026-10-21-01`.
+
+**The effective decision adopts the six §3 items without amendment.** It is a topology and ownership
+decision only: it authorizes no source change, bridge, transport, contract change, write, route
+activation, gate movement or admission, and it preserves `WRITE_NOT_AUTHORIZED`, all twelve IRR `503`
+route-method pairs and the session-only `durable:false` reporting.
+
+**Publication is not rendering.** IRR PR #207 (`9a3f499…`, `2026-10-23T07:04:13Z`) published this
+proposal and the CAP-02-HOST-01 §14 addendum. The rendering act is the separate record named above.
+The proposal's §8 description of how a disposition becomes effective is superseded only as to *this*
+disposition, which has now followed that path; the description remains the correct rule for any future
+disposition.
