@@ -254,3 +254,42 @@ the effective topology — and, on that answer, **U1**. Until then this act stay
 authorized, and the session-only `durable:false` behaviour and every fence remain the truthful state.
 
 *Prepared under the effective topology decision; grants nothing; performs nothing.*
+
+---
+
+## 13. Addendum — U0 decided; this act's direction superseded, its status unchanged (`2026-10-23`)
+
+**Additive. §§1–12 are preserved verbatim and continue to record what was prepared and what was not.**
+
+U0 was decided after this act was prepared, in
+`IIPS_v3.0_CAP02_U0_BROKER_IMPORT_UI_PLACEMENT_DECISION_EFFECTIVE_2026-10-23.md`
+(`IIPS-V3-CAP02-U0-BROKER-IMPORT-UI-PLACEMENT-EFFECTIVE-2026-10-23-01`), effective `2026-10-23`:
+the broker-import UI stays IPD-owned and is **hosted through IRR** by governed package export — IPD owns
+the components and the import/identity/provenance domain; IRR owns routing, navigation, host process,
+transport and the `PortfolioStorePort` implementation. No file moves between repositories.
+
+**Consequences for this act, stated exactly:**
+
+| Item | Effect |
+|---|---|
+| §9 register item **U0** | **Discharged** by the decision above. No other register item is closed |
+| §1 **Increment A** (host seam, `hostBrokerImportBoundary.ts` + test, unreachable by construction) | **Superseded in direction.** Its "must not be imported by any product file" property existed only because no consumer was authorized. A consumer is now *named* (the CAP-02 surface) but still not authorized; the seam is therefore folded into the successor act as part of a whole composition rather than as a standalone unreachable module |
+| §1 **Increment B** (product exposure) | **Superseded in direction** by the successor act's Increments B and C, which split refusal-faithful composition from the durable success path; the original's U0–U7 gating is preserved item-for-item |
+| §4.2 / §4.3 file lists | **Not authorized then and not authorized now.** They are inherited, renamed and constrained by the successor act |
+| §6 tests `T-HB-1`…`T-HB-8` | Inherited; `T-CB-*` in the successor act is a superset |
+| §7 normative requirements `ID/PROV/TXN/IDEM/FAIL/DUR/READ` | Inherited unchanged; re-verified at the current IPD tree as §4 of the successor act |
+| §8 exclusions, §10 rollback | Inherited unchanged |
+| **This act's status** | **PREPARED — NOT EFFECTIVE**, unchanged. It authorizes nothing, then and now |
+
+**Successor act:** `IIPS_v3.0_CAP02_BROKER_IMPORT_UI_COMPOSITION_ACT_2026-10-23-02.md`
+(`IIPS-V3-CAP02-BROKER-IMPORT-UI-COMPOSITION-ACT-2026-10-23-02`), also **PREPARED — NOT EFFECTIVE**, blocked
+on **B-1** — an IPD package export that does not exist, and an IPD `main` packaging layer that does not
+exist — plus U2 and the W-1 conjunction. Its Increment B is deliberately limited to a path on which every
+write is refused by IPD with zero store effect, because that path is fully testable and changes no gate.
+
+**What did not change:** `WRITE_NOT_AUTHORIZED` before mutation; all twelve IRR `/api/user-portfolios*`
+route-method pairs at `503`; contract v1; the durable store and schema; `SESSION_ONLY` / `durable:false`;
+Gate 3's bounded scope; Gate 4 `PROPOSED / NOT EFFECTIVE`; result acceptance `NOT RENDERED`; Gate 5 not
+granted; operational writes not authorized; no IPD mutation; no G24 revival; no CAP-03 dependency.
+
+*Addendum rendered under the standing grant; it decides nothing, moves no gate, and authorizes no file.*
