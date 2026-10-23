@@ -196,3 +196,20 @@ BrokerImportModal mount:          AUTHORIZED under §3.3 (/user-portfolios/impor
 Writes / W-1 / Gates A′/4/5/E:    UNCHANGED — WRITE_NOT_AUTHORIZED, binding absent, durable:false
 Twelve /api/user-portfolios* 503: UNCHANGED — byte-stable
 ```
+
+---
+
+## 9. Publication and execution receipts (`2026-10-23`)
+
+1. **Governance publication (PR #224 — Increment 1):**
+   - Branch commit: `808aea6203aa4fd4514815e616b1ef175fa10dd0` (PR CI run `39954426079` `pass`).
+   - Merged to `main` (`2026-10-23T12:36:15Z`): merge commit `8ea41b11b0843552359e13418735792dc668d886`, root tree `4710f93ec986dc3de5b1f7e0171c6fa409b784e5`, post-merge `main` push CI run `39954574665` (job `120417084184`) `completed / success`.
+   - Remote `origin/main` blob read-back (4/4 MATCH): this act `c6463fecb8c14bba5aa3923068b9464e34c709fa`, UI composition act `-03` (§14 addendum) `8684a5fd99de2b72d9b4d075acb40313279f8f57`, U1 transport act (§7 addendum) `a3ae368d2a585aae3eea63d5f5e36225b1fcc9d9`, U7 contract decision (§9 addendum) `ae9800c48930f271c241546f9e8b98f96e687ce2`.
+2. **B-1R package pin update & consumer verification (PR #225 — Increment 2):**
+   - Branch commits: `242223c2bff5f52f7d77f5db18988812dc295628` (PR CI run `39955480908` `pass`), reconciled with `DB-C1` PR #114 (`271ca5273e76e0eb28594dc5675f11094622c902`) as `bf15bcf3c9a473c693ca08f4d6a819bbf61c0056` (PR CI run `39955831553` `pass`).
+   - Merged to `main` (`2026-10-23T12:48:05Z`): merge commit `beff6965011791695dbe0533f98c70f7d1bd5b7e`, root tree `30a3fc7bb242d62f026ef723270343ac7ab497e0`, post-merge `main` push CI run `39956077500` (job `120422130082`) `completed / success`.
+   - Remote `origin/main` blob read-back (4/4 MATCH): `frontend/package.json` `6274537a81e1496189e629c7e8f371f80144dfec`, `frontend/package-lock.json` `05ade78c40ac40626c678f3531266049a0e83555`, `frontend/server/broker-import/brokerImportPackageConsumer.test.ts` `1af0294fe483d652329791bcbb7814ed88cf3c2d`, `frontend/src/api/brokerImport.ts` `14e67fc5a44dba356fd890dd20e8618e22d21b3a`.
+3. **Modal/port composition & U1/U7 revision-read implementation (PR #227 — Increment 3):**
+   - Branch commit: `04af98abe7a3efa5ded21c7986dcbfbd12cd89c5` (tree `9d41560b01bd6435bbab71b909f0c28dc5df9689`, PR CI run `39957862016` / job `120428099074` `pass`).
+   - Merged to `main` (`2026-10-23T13:03:15Z`): merge commit `b321882e1dd7ff23e91f6cdeb40f7237037b4bad`, root tree `79a3372302f170a44e205d7740172e9beb128373`, post-merge `main` push CI run `39958059844` (job `120428767641`) `completed / success`.
+   - Remote `origin/main` blob read-back (13/13 MATCH): `brokerImportV1SaveAdapter.ts` `d1ca85cb43c7b3512b432bad501a061d95315189`, `brokerImportV1SaveAdapter.test.ts` `c24201536ac1d5368fcd89fad4f1b5bc612b598f`, `brokerImportHttp.ts` `cd0b42d1c7803f9451586194e42c0357135271d2`, `brokerImportHttp.test.ts` `850305d99ab0eff083a9bd3a049bb51a0cdbd02f`, `brokerImportModalHostIntegration.test.tsx` `c6cd41fbc619ad1c7785fef18d1ebcebbce26f53`, `server/broker-import/index.ts` `7e1b35e796c81e85179dd4cc93014b2360537ebc`, `src/api/brokerImport.ts` `d79fd29e436a66af71fcc2f9668b89ec4b774f1a`, `src/api/brokerImport.test.ts` `4f4af4add50364e30aa19c2d0f213ae320a0939f`, `irrPortfolioStorePortAdapter.ts` `9b2b76d6b8cadf33e75a2d5efeb91e7f9161d618`, `irrPortfolioStorePortAdapter.test.ts` `f0928a24de7c1ba0ddd182cbcf27d0309edd7655`, `BrokerImportSurface.tsx` `1f77a4a7ed8269e9200619a638a753d49145041f`, `BrokerImportModalIntegration.test.tsx` `69b51659922b60ab112fcddf53bc6407dada7e09`, `src/app/App.tsx` `97251627838ad65b3f18e7ef3a864357c17c8a0a`.
