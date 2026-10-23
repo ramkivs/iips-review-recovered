@@ -239,3 +239,64 @@ rendered effective without renegotiating its scope, and Increment B becomes buil
 correctly refused and that refusal asserted end-to-end.
 
 *Prepared under the effective topology and U0 decisions; grants nothing; performs nothing.*
+
+---
+
+## 11. Additive current-source correction — 2026-10-23 (still PREPARED / NOT EFFECTIVE)
+
+A renewed verification at IRR `f53056214d45c850928fbabd51dc6a2adcb64f2b` and initial IPD
+`73fd8c1644e9725c9a5499e14d42efdfcb4fe2f2` found that the original preparation above was not execution-ready.
+During that review IPD independently advanced to `554ed6ceaa7422c95806fd1b6e095a24a8554be2` through PRs #46/#47,
+landing the exact Increment A export. B-1 is closed, but the export act expressly does not render this IRR act.
+This section is additive; the original sections and all effectiveness guards remain unchanged.
+
+1. **The existing G2 IPC adapter is not byte-stable-compatible with CAP-02 save.** The current IRR adapter sends
+   `expectedRevision?` plus `options:{mode,contentDigest,fileName,sourceBroker}`. Accepted v1 requires mandatory
+   `expectedRevision` and top-level `mode`, `contentDigest`, `broker`. It also returns a minimal v1 save receipt,
+   not the older G2 result that adapter constructs. The proposed reuse in §§2.2 and 3 is therefore withdrawn as
+   prepared direction. A future effective act must use a narrow CAP-02 adapter over the existing `callIpc`, or
+   record an equivalent wire-conformant boundary; it must not add an IPC operation.
+2. **U7 blocks the exported modal's save and refusal paths, not merely durable-success display.** Increment A
+   exports `BrokerImportModal`, deliberately not `PortfolioWorkspace`. The modal requires a full legacy success
+   result; `PortfolioPortSaveRefusal` requires a complete `PortfolioRecord` and durability values; the port has
+   no outcome-unknown member; CAP-02 also needs an authoritative revision token. Accepted v1/Class A results do
+   not supply the full legacy shapes. Preview fallbacks, empty refusal records/timestamps, `SESSION_ONLY`
+   coercion, inferred `isSaved` or current-detail substitution for historical G2 fields is forbidden. The
+   unexported workspace's read/analytics requirements stay out of the minimal surface rather than being mounted
+   through a deep path.
+3. **The proposed preview/read endpoint cannot precede U7.** §3's GET route remains unregistered and is removed
+   from the narrow prepared U1 increment. A read endpoint may be prepared only after its authoritative result
+   semantics are effective.
+4. **The renderer cannot directly consume the Node-only `UserPortfolioPort`.** The browser adapter must use a
+   relative HTTP client. The trusted IRR host separately owns the IPC adapter. No `frontend/server/**`,
+   `node:net`, `node:sqlite` or persistence import may enter the browser closure.
+5. **The first component mount is default-portfolio-only unless IPD changes.** The current
+   `BrokerImportModal` saves to literal `DEFAULT_PORTFOLIO`, independently of the workspace's `portfolioId`.
+   IRR must not imply arbitrary portfolio selection or build a parallel controller. Threading another ID is an
+   IPD component act.
+6. **Full durable provenance remains separately blocked.** v1 save has no `fileName` or `importedAt` payload
+   field. Those fields may not be added unilaterally, silently asserted as persisted, or avoided through a new
+   `broker.import` operation. This is C-1/U2 work before any durable-success increment. The concurrently added
+   U2 proposal is `PROPOSED / NOT EFFECTIVE` and does not establish those values' end-to-end source.
+7. **Increment A is now independently verified, not merely awaited.** Current IPD `main` package blob
+   `f7146b67…` exports `./portfolio-ui`; entry blob `03ffdd46…` re-exports the authoritative modal/port/pipeline
+   and governed master. An external consumer at `554ed6ce…` resolved 22 runtime exports and confirmed the default
+   `SESSION_ONLY`/`durable:false`. IRR still pins off-`main` `2e11fa3b…`; a repin requires an effective IRR
+   manifest and was not performed.
+
+The dependency line in §8 and the next-action wording in §10 must therefore be read with **U7 before any real
+custom-port injection/mount**, not only after U6 as the original shorthand suggested. Increment A's landing alone
+was not sufficient to render or execute this act: B-1R repin, U1 effectiveness, U7, C-1/U2 for the attempted flow,
+current baselines and the exact manifest must all be rechecked.
+
+The current-source assessment and successor prepared records are:
+
+- `docs/integration/IIPS_v3.0_CAP02_HOST_COMPOSITION_AND_TRANSPORT_READINESS_2026-10-23.md`
+  (`IIPS-V3-CAP02-HOST-COMPOSITION-TRANSPORT-READINESS-2026-10-23-01`);
+- `docs/integration/IIPS_v3.0_CAP02_U1_BROKER_IMPORT_TRANSPORT_AUTHORITY_ACT_PREPARED_2026-10-23.md`
+  (`IIPS-V3-CAP02-U1-BROKER-IMPORT-TRANSPORT-AUTHORITY-ACT-2026-10-23-01`);
+- `docs/integration/IIPS_v3.0_CAP02_U7_READ_RESULT_CONTRACT_DECISION_PREPARED_2026-10-23.md`
+  (`IIPS-V3-CAP02-U7-READ-RESULT-CONTRACT-DECISION-2026-10-23-01`).
+
+This addendum does not make the act effective, authorize source, admit a route, change a contract, weaken a
+fence or satisfy any gate. The UI remains unmounted and `/api/broker-import/**` disabled.
