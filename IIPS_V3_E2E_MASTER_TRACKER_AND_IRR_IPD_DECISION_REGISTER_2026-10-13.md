@@ -6572,3 +6572,17 @@ Product durable write:               NOT AUTHORIZED / NOT AVAILABLE
 **What this receipt does not establish:** any implementation authority; any write; W-1 satisfaction; Gate 4 execution or acceptance; Gate 5 admission; any route/fence change; any IPD state change; any `durable:true` claim. The broker-import UI continues to report session-only saves as `durable:false`.
 
 *This receipt's own publication coordinates are reported in the containing pass and are not self-embedded, per the established §§16.42.6/16.67.11/16.68.11/16.69.5/16.85.10 convention.*
+
+**Dated correction to the read-back table (`2026-10-23`, post-§16.85.10).** The table above is accurate
+**as of `origin/main@9c2991fcb55b59cab20df7b8752b8d858bcac028`**, the commit it names. Two paths have
+since advanced by later documentation acts, and the table is **not** rewritten:
+
+| Path | Blob at `9c2991fc…` (table) | Current `main` blob | Cause |
+|---|---|---|---|
+| `docs/integration/IIPS_v3.0_CAP02_HOST_BOUNDARY_AND_IMPLEMENTATION_ACT_2026-10-23.md` | `5791663b35d6dae1c5d3960de8eb8cc50b828541` | `b3f821c632d7cc5d84fa527f3de58f3021b29765` | Blocker-range wording correction `U0–U6` → `U0–U7` to match the §9 dependency register (PR #210, merge `4bd75158851d00df0640903e507e5fb0b182cccb`, `2026-10-23T07:25:55Z`) — no status, scope or authority change |
+| `IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md` | `f7d2faa919943cc6884103e6c0b6e5f84016b30d` | see this commit | This correction itself (plus the §16.85.10 receipt) |
+
+The effective decision (`48bc8375cca18ea0991ab546e7fd991e97c1fdda`) and the proposal
+(`14532fb62137eefd51551baa5b8e0b4941dc8aca`) are **unchanged** by that correction and remain byte-identical
+on `main`. The correction changes no determination: the implementation act was and remains **`PREPARED — NOT
+EFFECTIVE`**.
