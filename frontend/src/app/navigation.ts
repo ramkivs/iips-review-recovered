@@ -45,7 +45,10 @@ export const NAV: NavItem[] = [
     groupOnly: true,
     children: [
       { label: 'Company', path: '/research/company/:id' },
-      { label: 'Sector', path: '/research/sector/:id' },
+      // PKG-08 Row 4: the Sector surface is now built. The sidebar entry points at a concrete
+      // default sector (Banking) so the rendered href is parameter-free; the in-page selector
+      // navigates between all 13 canonical sectors.
+      { label: 'Sector', path: '/research/sector/Banking' },
       { label: 'Cross-Sector', path: '/research/cross-sector' },
       { label: 'Engines', path: '/research/engines' },
       { label: 'Macro', path: ROUTES.researchMacro },
@@ -82,6 +85,9 @@ export const AVAILABLE_CHILD_PATHS: ReadonlySet<string> = new Set<string>([
   ROUTES.researchCrossSector,
   '/research/engines',
   ROUTES.researchMacro,
+  // PKG-08 Row 4: the Sector surface is now built. The sidebar entry points at a concrete
+  // default sector; the route pattern `/research/sector/:id` matches it.
+  '/research/sector/Banking',
   ROUTES.intelligenceOpportunities,
   ROUTES.intelligenceRisks,
   ROUTES.intelligenceRankings,

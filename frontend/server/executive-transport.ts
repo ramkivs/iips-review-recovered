@@ -22,6 +22,9 @@ import http from 'node:http';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import fs from 'node:fs';
+import { ScreenCaptureStore } from './replay/ScreenEvaluationSnapshot';
+import { GovernedScreenReplayService } from './replay/GovernedScreenReplayService';
+import { isEvaluationPath } from './replay/replay-transport';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -50,6 +53,22 @@ import { TelecomEngine, TELECOM_ENGINE_ID } from '../../iips-platform/src/sector
 import { AutoEngine, AUTO_ENGINE_ID } from '../../iips-platform/src/sector-engines/auto/AutoEngine';
 import { MaterialsEngine, MATERIALS_ENGINE_ID } from '../../iips-platform/src/sector-engines/materials/MaterialsEngine';
 import type { EngineOutput } from '../../iips-platform/src/sector-engines/cross-sector/ontology/OntologyMapper';
+
+// Keep the established reference projection (including nulls) separate from the frozen
+// CSIP input contract. Strict validation checks the real native call; no score is filled in.
+type ReferenceEngineOutput = Omit<EngineOutput, 'qualityScore' | 'riskScore' | 'growthScore' | 'franchiseScore'> & {
+  readonly qualityScore: number | null; readonly riskScore: number | null;
+  readonly growthScore: number | null; readonly franchiseScore: number | null;
+};
+function csipOutput(output: ReferenceEngineOutput): EngineOutput {
+  const { qualityScore, riskScore, growthScore, franchiseScore } = output;
+  if (typeof qualityScore !== 'number' || !Number.isFinite(qualityScore)
+    || typeof riskScore !== 'number' || !Number.isFinite(riskScore)) {
+    throw new Error('governed CSIP required pillar unavailable');
+  }
+  return { ...output, qualityScore, riskScore,
+    growthScore: growthScore ?? undefined, franchiseScore: franchiseScore ?? undefined };
+}
 
 const ENGINE_FACTORY: Record<string, () => unknown> = {
   [BANKING_ENGINE_ID]: () => new BankingEngine(),
@@ -175,7 +194,7 @@ const GOLDEN_PILLARS = loadGoldenPillars();
 
 /** Build the certified runtime and execute all frozen engines on their frozen inputs. */
 function computeCertifiedPlatform(): {
-  engineOutputs: EngineOutput[];
+  engineOutputs: ReferenceEngineOutput[];
   engineDetails: Record<string, {
     sector: string;
     verdict: string;
@@ -205,7 +224,7 @@ function computeCertifiedPlatform(): {
   }
 
   // Run each frozen engine ONCE on its frozen golden input -> genuinely computed results.
-  const engineOutputs: EngineOutput[] = [];
+  const engineOutputs: ReferenceEngineOutput[] = [];
   const engineDetails: Record<string, {
     sector: string; verdict: string; composite: number;
     overrides: readonly string[]; pillars: Record<string, number> | null;
@@ -250,7 +269,7 @@ function computeCertifiedPlatform(): {
 
   // Run the certified CSIP engine over the real engine outputs -> real portfolio intelligence.
   const csip = new CrossSectorEngine();
-  const pr = csip.run({ portfolioId: 'PF-REAL', scenario: 'Balanced', strategy: 'Balanced', outputs: engineOutputs, topN: 10 });
+  const pr = csip.run({ portfolioId: 'PF-REAL', scenario: 'Balanced', strategy: 'Balanced', outputs: engineOutputs.map(csipOutput), topN: 10 });
 
   return { engineOutputs, engineDetails, csip: pr };
 }
@@ -385,47 +404,25 @@ function computeCertifiedDecisionMatrix(): unknown {
   };
 }
 
-/** Replay DTO (Phase 11) — governed ReplayResult surface only. */
+/** Sector keys are reference subjects, NEVER retained capture identities. */
+const referenceReplayAvailability = Object.freeze({
+  state: 'NOT_PERFORMED' as const,
+  code: 'SECTOR_REFERENCE_NOT_CAPTURE',
+  diagnostic: 'A sector reference is not a retained governed Screen evaluation. No independent replay was performed.',
+});
 function computeCertifiedReplay(sectorId: string): unknown {
-  const { engineDetails } = computeCertifiedPlatform();
-  const key = Object.keys(engineDetails).find((k) => k.toLowerCase() === sectorId.toLowerCase());
-  if (!key) throw new Error(`company not found: ${sectorId}`);
-  const d = engineDetails[key];
-  const golden = GOLDEN_PILLARS[key];
-  // Replay uses ONLY the governed ReplayResult fields (reproduced, byteIdentical, evidenceRefs).
-  // NO field-level/metric-level diff is computed — the governed ReplayService does not provide one.
+  const entry = BASELINE.sectors.find(s => s.sector.toLowerCase() === sectorId.toLowerCase());
+  if (!entry || !ENGINE_FACTORY[entry.engineId]) throw new Error(`company not found: ${sectorId}`);
   return {
-    original: {
-      snapshotId: `snap_${d.sector}`,
-      engineId: ENGINE_ID_BY_SECTOR[d.sector],
-      schemaVersion: 'snapshot-1.0',
-      calibrationVersion: d.calibrationVersion ?? '1.0.0',
-      generatedAt: '2026-08-09T00:00:00.000Z',
-      verdict: d.verdict,
-      composite: d.composite,
-      confidence: golden?.confidence ?? null,
-      provenance: {
-        frameworkVersion: '1.0',
-        engineVersion: '1.0.0',
-        methodologyVersion: `IES-${d.sector}`,
-        snapshotId: `snap_${d.sector}`,
-      },
-    },
-    replay: {
-      snapshotId: `snap_${d.sector}`,
-      reproduced: true,
-      byteIdentical: true,
-      evidenceRefs: [`ev_${d.sector}`],
-    },
-    // Explicit: no field-level diff available from the governed contract.
+    original: null,
+    replay: referenceReplayAvailability,
     differenceAvailable: false,
-    note: 'The governed ReplayService exposes reproduced + byteIdentical + evidenceRefs only. No field-level or metric-level difference is computed or displayed.',
-    evidenceRefs: [`ev_${d.sector}`],
+    note: 'Reference availability only. Run a new governed Screen with capture to obtain a process-local replay handle. No field-level difference is provided.',
+    evidenceRefs: [],
     provenance: {
-      dataSource: 'certified v2.0 platform (ReplayService ReplayResult) over frozen v1.1 Replay Baseline inputs',
-      freshness: 'SNAPSHOT',
-      calibratedAt: '2026-08-09T00:00:00.000Z',
-      transportSemantics: '1:1 mapping; transport transformation != decision transformation',
+      dataSource: 'Sector reference availability over frozen v1.1 Replay Baseline inputs; no retained original or replay execution',
+      freshness: 'SNAPSHOT', calibratedAt: '2026-08-09T00:00:00.000Z',
+      transportSemantics: 'Reference availability, not an engine ReplayResult',
     },
   };
 }
@@ -441,6 +438,7 @@ function computeCertifiedEvidence(sectorId: string): unknown {
   const supportingScores = d.pillars ? Object.entries(d.pillars).map(([id, value]) => ({ id, name: id, value })) : [];
   const keyMetrics = Object.entries(d.inputs).map(([id, value]) => ({ id, name: id, value: typeof value === 'number' ? value : 0 }));
   return {
+    referenceOnly: true,
     decision: {
       verdict: d.verdict,
       composite: d.composite,
@@ -456,7 +454,7 @@ function computeCertifiedEvidence(sectorId: string): unknown {
       supportingScores,              // governed pillar scores
       calibrationVersion: d.calibrationVersion ?? '1.0.0',
       decisionRulesApplied: d.overrides,
-      replayReference: `snap_${d.sector}`,
+      replayReference: null,
       provenance: {
         frameworkVersion: '1.0',
         engineVersion: '1.0.0',
@@ -473,14 +471,9 @@ function computeCertifiedEvidence(sectorId: string): unknown {
       verdict: d.verdict,
       scores: d.pillars ?? {},
     },
-    replay: {
-      snapshotId: `snap_${d.sector}`,
-      reproduced: true,
-      byteIdentical: true,
-      evidenceRefs: [`ev_${d.sector}`],
-    },
+    replay: referenceReplayAvailability,
     provenance: {
-      dataSource: 'certified v2.0 platform (EvidencePipeline + Snapshot + Replay) over frozen v1.1 Replay Baseline inputs',
+      dataSource: 'Reference decision/metadata projection over frozen v1.1 Replay Baseline inputs; ev_/snap_ labels are aliases, not retained captures or retrievable evidence packages; no replay was performed',
       freshness: 'SNAPSHOT',
       calibratedAt: '2026-08-09T00:00:00.000Z',
       transportSemantics: '1:1 mapping; transport transformation != decision transformation',
@@ -688,9 +681,63 @@ export async function handleExecutiveReadRequest(
   }
 }
 
+// --- C8 remediation (2026-10-19, G3-D7 / act §5.2) -------------------------
+// C8 was NOT MET: this server set `Access-Control-Allow-Origin: *` on every
+// response, including the owner-scoped surfaces, and bound with no host argument,
+// which listens on all interfaces (`0.0.0.0`).
+//
+// The remediation is scoped exactly as authorized and no further:
+//   - the wildcard origin header is NOT set on owner-scoped routes;
+//   - the server binds to loopback only.
+// No route is admitted, no `503` is lifted, no scoring/analytics is wired, and the
+// certified credential-free reads (`/api/portfolio`, `/api/executive`, …) keep their
+// existing behaviour, including the wildcard origin they already had.
+
+/**
+ * The owner-scoped API namespaces that fail closed with `owner-context-unavailable` (C8: no
+ * wildcard cross-origin grant on any of them).
+ *
+ * CAP-02 (2026-10-23, `IIPS-V3-CAP02-U1-BROKER-IMPORT-TRANSPORT-AUTHORITY-ACT-EFFECTIVE-2026-10-23-01`):
+ * `/api/broker-import` is added as the sixth owner-scoped namespace. The five pre-existing
+ * entries are unchanged and every `/api/user-portfolios*` fence is untouched.
+ */
+const OWNER_SCOPED_API_PREFIXES = Object.freeze([
+  '/api/reports',
+  '/api/user-portfolios',
+  '/api/broker-import',
+  '/api/watchlists',
+  '/api/collaboration',
+  '/api/settings',
+] as const);
+
+/**
+ * Loopback-only bind address. Exported so the C8 posture is source-verifiable at
+ * the resulting commit rather than asserted from prose.
+ */
+export const EXEC_TRANSPORT_BIND_HOST = '127.0.0.1';
+
+/**
+ * True for any path inside an owner-scoped API namespace.
+ *
+ * Deliberately over-inclusive: matching on the bare prefix means an adjacent
+ * non-route such as `/api/settingsEVIL` also loses the wildcard origin. That can
+ * only remove a header from a path that 404s, so it fails closed; no certified
+ * route begins with any of these prefixes.
+ */
+export function isOwnerScopedApiPath(url: string | undefined): boolean {
+  const path = (url ?? '').split('?')[0];
+  return OWNER_SCOPED_API_PREFIXES.some((prefix) => path.startsWith(prefix));
+}
+
+// Shared across requests in THIS process only. No durable/multi-worker history or owner state.
+const governedScreenReplay = new GovernedScreenReplayService(new ScreenCaptureStore());
+
 const server = http.createServer(async (req, res) => {
   res.setHeader('Content-Type', 'application/json');
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  // C8: no wildcard cross-origin grant on an owner-scoped route.
+  if (!isOwnerScopedApiPath(req.url)) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+  }
   if (req.method === 'OPTIONS') { res.writeHead(204); res.end(); return; }
   // AI Explanation is a direct, credential-free, read-only advisory over certified results.
   if (req.url?.startsWith('/api/ai-advisory/')) {
@@ -724,6 +771,25 @@ const server = http.createServer(async (req, res) => {
         await up.handleUserPortfolioRequest(req, res);
       } catch (e) {
         res.writeHead(500); res.end(JSON.stringify({ error: 'user-portfolio transport error', detail: String(e) }));
+      }
+    })();
+    return;
+  }
+  // CAP-02 broker import: the single admitted route POST /api/broker-import/:portfolioId/holdings
+  // on this existing host (IIPS-V3-CAP02-U1-BROKER-IMPORT-TRANSPORT-AUTHORITY-ACT-EFFECTIVE-2026-10-23-01).
+  // Owner-scoped (C8: added to the owner-scoped prefix list above), first-party-signaled, and
+  // fail-closed on the binding precondition exactly like the fenced namespace. While the Gate E
+  // W-1 conjunction is unmet, every write through it ends in IPD WRITE_NOT_AUTHORIZED with zero
+  // store effect. The mount-level catch is non-disclosing by design (no detail is echoed).
+  if (req.url === '/api/broker-import' || req.url?.startsWith('/api/broker-import/')) {
+    void (async () => {
+      try {
+        const bi = await import('./broker-import/brokerImportHttp');
+        await bi.handleBrokerImportRequest(req, res);
+      } catch {
+        if (!res.headersSent && !res.destroyed) {
+          res.writeHead(500); res.end(JSON.stringify({ error: 'broker-import transport error' }));
+        }
       }
     })();
     return;
@@ -823,6 +889,22 @@ const server = http.createServer(async (req, res) => {
     })();
     return;
   }
+  // Exact application namespace precedes the broad legacy /api/replay/:sector matcher.
+  if (isEvaluationPath(req.url)) {
+    void (async () => {
+      try {
+        const [replay, screener] = await Promise.all([
+          import('./replay/replay-transport'), import('./screener/screener-transport'),
+        ]);
+        await replay.handleReplayRequest(req, res, { service: governedScreenReplay, runOriginal: screener.runGovernedScreen });
+      } catch {
+        if (!res.headersSent && !res.destroyed) {
+          res.writeHead(500); res.end(JSON.stringify({ replay: { state: 'NOT_PERFORMED', code: 'REPLAY_COMPOSITION_FAILED', diagnostic: 'Replay dependencies could not be composed.' } }));
+        }
+      }
+    })();
+    return;
+  }
   // E2E-025 Engine Integration — public certified-engine registry + direct dispatch (additive; uses governed runtime, not a scoring recomputation).
   if (req.url === '/api/engines' && req.method === 'GET') {
     res.writeHead(200); res.end(JSON.stringify(engineApi.listEngines())); return;
@@ -875,6 +957,7 @@ const server = http.createServer(async (req, res) => {
       return;
     }
     if (req.url?.startsWith('/api/replay/')) {
+      if (req.method !== 'GET') { res.setHeader('Allow', 'GET'); res.writeHead(405); res.end(JSON.stringify({ error: 'method not allowed' })); return; }
       const id = decodeURIComponent(req.url.slice('/api/replay/'.length));
       try {
         const data = computeCertifiedReplay(id);
@@ -923,7 +1006,11 @@ const server = http.createServer(async (req, res) => {
 });
 
 if (process.env.NODE_ENV !== 'test') {
-  server.listen(port, () => console.log(`Executive transport listening on :${port}`));
+  // C8: loopback-only bind. The previous unbound `listen(port)` accepted
+  // connections on every interface.
+  server.listen(port, EXEC_TRANSPORT_BIND_HOST, () =>
+    console.log(`Executive transport listening on ${EXEC_TRANSPORT_BIND_HOST}:${port}`),
+  );
 }
 
 // IU-5 — the real composed server, exported so the runtime integration suite

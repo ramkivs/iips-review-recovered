@@ -148,6 +148,10 @@ No promotion authority granted. Neither persistence lineage is promoted by this 
 
 No mainline admission created by this decision. The main refs of both repositories are unaffected in
 capability content; existing branch/main status remains unchanged.
+*Clarification E-1 (additive; see §18): this standing was not superseded by the later PR #42 merge
+(`47edf6f3…`, 2026-10-06T21:09:33Z); that merge conflicted with §11, §12 and §15 (REG-11 R4, Outcome B)
+and was remediated prospectively by R4-B on 2026-10-13. It was never a promotion act and has never been
+ratified.*
 
 ## 13. Convergence status
 
@@ -184,3 +188,59 @@ Publication branch: `governance/d1-persistence-ownership-option-c` (from publica
 This record is additive: it amends, rewrites, and supersedes no existing record. Merge commit, tree,
 blob, and SHA-256 coordinates are established by the publication merge and recorded in the publication
 verification report.
+
+## 18. Errata and clarifications (additive; no new authority decision)
+
+This section is additive. The original text above is retained unchanged; the clarified passage is
+marked inline. No decision in §1 and no exclusion in §15 is changed. Nothing here is a new Program
+Authority decision, a promotion act, a main-admission act, or a retrospective authorization of any
+event. It is the PA-directed H-16 erratum recorded in the G2-2 follow-on table
+(`IIPS_v3.0_G2_2_EXISTING_CAPABILITY_CONVERGENCE_DECISION_RECORD.md` §8, H-16) and is issued on
+2026-10-19 (actual date). The disposition record is
+`docs/integration/IIPS_v3.0_H4_H16_HISTORICAL_AUTHORITY_ERRATA_RECORD_2026-10-19.md`.
+
+### E-1 — D-1 standing versus the PR #42 merge (clarifies §3, §11, §12 and §15; H-16)
+
+- **Standing as written:** no promotion (§11), no mainline admission (§12), and no "promotion; main
+  capability admission; merge of implementation branches" (§15) are authorized by this decision, for
+  either persistence lineage. §3 records the Reports consumer of the artifact/report lineage as
+  branch-scoped with "no main admission".
+- **The later event:** this decision was published to IRR `main` at `2026-10-06T19:57:09Z` (PR #38,
+  merge `561cc85fdbc929e68e798b1e97dda76a64262b9e`; record blob `0c4f27b365c47839ec66f4ec6b34ec1c0f72ad2a`,
+  unchanged since). At `2026-10-06T21:09:33Z`, 72 minutes later, PR #42 — titled "Promotion candidate:
+  Governed Reports onto current main (**DO NOT MERGE without promotion act**)", body "NOT authorized for
+  merge — separate promotion act required", 0 reviews, 0 comments — was merged to `main` as
+  `47edf6f3db79c6c443caed148121406f33a158b7` (head `promotion/governed-reports-candidate@4906a6b7…`). The
+  merge placed the 13 Reports paths on `main`, consumed the `./persistence` subpath of the
+  artifact/report lineage at pin `2e11fa3b…` from `main`, and re-pinned `frontend/package.json` from
+  `0dab1221…` to `2e11fa3b…` — each an operation that §11/§12/§15 withheld. D-1 preceded the merge and is
+  an ancestor of it; the merge did not amend, supersede, or cite D-1.
+- **Reconciliation (recorded, not newly decided):**
+  1. The REG-11 R4 evidence record (`IIPS_v3.0_REG11_R4_PR42_HISTORICAL_AUTHORITY_RECONCILIATION_2026-10-13.md`,
+     published through PR #81) established **Outcome B — existing authority conflict**: no promotion
+     execution act has ever existed on any searched ref of either repository; no operative act covers or
+     later ratifies the merge; D-1 §11/§12/§15, D-3 §11 and the Promotion-Scope Decision expressly
+     withheld it. The merge is **not** a valid promotion act and is **not** inferred to be one.
+  2. The Program Authority rendered **R4-B — Remediation, prospective only**
+     (`IIPS_v3.0_REG11_R4_B_PA_DISPOSITION_AND_REMEDIATION_RECORD_2026-10-13.md`), executed and
+     published through PR #81 (merge `4b3d5866b9e8a8dcbfda18d8dcdef7e700e6ceeb`, 2026-10-13T13:39:38Z):
+     the 10 `frontend/server/reports/` paths were removed from `main`; the fail-closed fence, the package
+     pin `2e11fa3b…` (admitted separately for `./pit` / `./d114-non-production` only, under AD-02), and
+     paths superseded by later authorized work were retained as approved. R4-B states on its face that
+     it "does NOT retroactively authorize the 2026-10-06 merge of PR #42".
+  3. **Resulting relationship, stated explicitly:** D-1 **coexists with and is not superseded by** the
+     PR #42 event or by R4-B. Its §11/§12/§15 standing is in force unchanged and, since R4-B, is again
+     reflected at the authoritative tip for the artifact/report lineage (no `./persistence` consumer edge
+     exists on `main`; `frontend/server/reports/` is absent — verified at `main@00e67133…`, 2026-10-19).
+     The 2026-10-06 merge remains a recorded historical conflict whose authority defect was **never
+     cured**: it was remediated prospectively, not ratified, reverted or rewritten. R4-B's prospective
+     remediation is not evidence that the original operation was authorized.
+- **§3 reference to branch `arena/01a0f1b3-iips-review-recovered @ 6a8afbb`:** that branch remains
+  off-`main` (`6a8afbb2bb73ca02d2b22e6f45e9f7d27a4a4b9b` is not an ancestor of `main`; 28 branch-only
+  commits as of 2026-10-19). Its contents are not current-`main` authority and are not treated as such.
+  The §3 "Prior standing" line (branch-scoped; no promotion act; no main admission) remains accurate.
+- **What this erratum does not do:** it does not authorize, ratify, revert or remediate anything; does
+  not change either persistence lineage, the NP-04 pin, or the portfolio domain; does not reopen REG-11
+  R1/R2 (Option C), R3, R4 (closed as a gate under R4-B), Gate A or Gate C; and makes no finding about
+  any individual's intent or conduct. Reports and User Portfolios remain fail-closed at source level
+  (`503 owner-context-unavailable`).

@@ -23,6 +23,7 @@ import { Screener } from '../features/screener/Screener';
 import { Watchlists } from '../features/watchlists/Watchlists';
 import { Collaboration } from '../features/collaboration/Collaboration';
 import { Settings } from '../features/settings/Settings';
+import { SectorIntelligence } from '../features/sector/SectorIntelligence';
 
 function FeaturePlaceholder({ surface }: { surface: string }) {
   return <FeatureNotImplemented surface={surface} />;
@@ -44,7 +45,7 @@ export function App() {
         <Route path="/settings" element={<Settings />} />
         <Route path="/research" element={<FeaturePlaceholder surface="Research" />} />
         <Route path="/research/company/:id" element={<CompanyIntelligence />} />
-        <Route path="/research/sector/:id" element={<FeaturePlaceholder surface="Sector" />} />
+        <Route path="/research/sector/:id" element={<SectorIntelligence />} />
         <Route path="/research/cross-sector" element={<CrossSectorIntelligence />} />
         <Route path="/research/macro" element={<MacroResearch />} />
         <Route path="/research/engines" element={<EngineRegistry />} />

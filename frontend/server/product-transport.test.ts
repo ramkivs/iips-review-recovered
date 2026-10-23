@@ -5,7 +5,7 @@
  *   GET /api/executive, /api/portfolio, /api/cross-sector,
  *   GET /api/company/:id, /api/evidence/:id, /api/replay/:id,
  *   provenance (SNAPSHOT, calibratedAt 2026-08-09, dataSource certified),
- *   determinism (rerun identical), replay (byteIdentical, differenceAvailable:false),
+ *   determinism (rerun identical), honest reference replay availability,
  *   negative/boundary (404 for taxonomy-resolved + unknown sectors).
  *
  * Uses the real executive-transport handlers via HTTP (offline-safe, no mock of business logic).
@@ -15,6 +15,7 @@
 
 import { describe, it, expect } from 'vitest';
 import http from 'node:http';
+import { createHash } from 'node:crypto';
 import { AddressInfo } from 'node:net';
 
 // Import the certified product handlers directly (semantically inert, 1:1 DTO mapping).
@@ -25,6 +26,8 @@ import {
   computeCertifiedCompany,
   computeCertifiedEvidence,
   computeCertifiedReplay,
+  computeCertifiedDecisionMatrix,
+  computeCertifiedPlatform,
 } from './executive-transport';
 
 function startProductTestServer(): http.Server {
@@ -208,20 +211,24 @@ describe('Product transport (E2E Product HTTP)', () => {
     }
   });
 
-  it('GET /api/evidence/:id and /api/replay/:id return attributable, replayable evidence for all 13', async () => {
+  it('GET /api/evidence/:id and /api/replay/:id return reference metadata and truthful replay availability for all 13', async () => {
     for (const sector of CERTIFIED_SECTORS) {
       const ev = await request(`/api/evidence/${encodeURIComponent(sector)}`);
       expect(ev.status).toBe(200);
-      const evb = ev.json as { evidence: { evidenceId: string; replayReference: string }; provenance: { freshness: string } };
+      const evb = ev.json as { referenceOnly: boolean; evidence: { evidenceId: string; replayReference: string | null }; provenance: { freshness: string } };
       expect(evb.evidence.evidenceId).toBe(`ev_${sector}`);
-      expect(evb.evidence.replayReference).toBe(`snap_${sector}`);
+      expect(evb.evidence.replayReference).toBeNull();
+      expect(evb.referenceOnly).toBe(true);
       expect(evb.provenance.freshness).toBe('SNAPSHOT');
 
       const rep = await request(`/api/replay/${encodeURIComponent(sector)}`);
       expect(rep.status).toBe(200);
-      const repb = rep.json as { replay: { reproduced: boolean; byteIdentical: boolean }; differenceAvailable: boolean };
-      expect(repb.replay.reproduced).toBe(true);
-      expect(repb.replay.byteIdentical).toBe(true);
+      const repb = rep.json as { original: null; replay: { state: string }; evidenceRefs: string[]; differenceAvailable: boolean };
+      expect(repb.original).toBeNull();
+      expect(repb.replay.state).toBe('NOT_PERFORMED');
+      expect(repb.replay).not.toHaveProperty('reproduced');
+      expect(repb.replay).not.toHaveProperty('byteIdentical');
+      expect(repb.evidenceRefs).toEqual([]);
       expect(repb.differenceAvailable).toBe(false);
     }
   });
@@ -296,5 +303,21 @@ describe('Product transport (E2E Product HTTP)', () => {
     // Holdings sectors equal ranking sectors (same CSIP source)
     expect(new Set(pfb.holdings.map((h) => h.sector))).toEqual(new Set(exb.ranking.map((r) => r.sector)));
     expect(new Set(csb.ranking.map((r) => r.sector))).toEqual(new Set(exb.ranking.map((r) => r.sector)));
+  });
+});
+
+// Captured from unmodified 37e82b7 before the strict transport-only CSIP projection change.
+// Protects every unrelated response and the raw nullable reference projection, not just scores.
+describe('Stage A strict import closure — unchanged certified reference values', () => {
+  const hash = (value: unknown) => createHash('sha256').update(JSON.stringify(value)).digest('hex');
+  it('preserves complete reference and CSIP bytes against the starting baseline', () => {
+    expect(hash(computeCertifiedExecutive())).toBe('4823dd63fe58db10045387b5c69d55bdd67c28fb63139d756cbb797f77a3eb21');
+    expect(hash(computeCertifiedPortfolio())).toBe('e06d6d84d02ce5ff928fb037acc32bcfc4453222dff1395a2de3c5cbf93edcd6');
+    expect(hash(computeCertifiedCrossSector())).toBe('ede27a1d594ade216bd90cb10b64f7ba72619a7d6a110ac20068f898dae27c98');
+    expect(hash(computeCertifiedDecisionMatrix())).toBe('8ed24d7c3220c6459bfce04e6fc79e176f73ec774d173333d8eecb7f3a145dc0');
+    expect(hash(computeCertifiedCompany('Banking'))).toBe('f58fc01d8123c65488ee44ed0e7b95843c266faff1aab06b143e544046dec02e');
+    const platform = computeCertifiedPlatform();
+    expect(hash(platform.engineOutputs)).toBe('c95ba5f4c4416d17a99e6b7d4e3bf299aaaad111abbec1bddf1b00e958d5d2b8');
+    expect(hash(platform.csip)).toBe('3f4b7b848f2f0b52f63a1e7d2834885104bffc8774e3dcc40ac98dfc55aa59c7');
   });
 });

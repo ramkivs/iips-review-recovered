@@ -1,0 +1,383 @@
+diff --git a/src/ipc/dispatch.ts b/src/ipc/dispatch.ts
+index 827f7d7..b95fe85 100644
+--- a/src/ipc/dispatch.ts
++++ b/src/ipc/dispatch.ts
+@@ -55,40 +55,20 @@ function refuseClassP(socket: Socket, reason: ClassPReason, detail: string): voi
+ }
+ 
+ /**
+- * Post-flush one-frame watchdog (Windows named-pipe transport).
++ * Writes exactly one frame WITHOUT half-closing the writable side.
+  *
+- * The frame reader's flush guard only spans frame-1 parse → response flush.
+- * On a Windows byte-mode pipe the single response can be irreversibly flushed
+- * before a delayed second frame is delivered, and reader.release() has removed
+- * the reader-owned listeners. Without this observer such a frame would be
+- * silently uncounted. The response cannot be un-sent (platform impossibility —
+- * see IRR PKG-11 §E), but the one-frame invariant stays enforceable after the
+- * flush: the second frame is never dispatched (the handler state machine is
+- * finished), it is recorded as MALFORMED_FRAME in the bounded sink, and the
+- * connection is torn down. Exactly one response is ever emitted.
+- *
+- * Only the three watchdog-owned listeners are removed on terminal events;
+- * caller-owned listeners (the dispatcher's error handler above) are preserved.
++ * Windows named-pipe transport only. `socket.end()` on a libuv pipe is a
++ * `FlushFileBuffers`, not a half-close: it delivers no EOF to the peer and
++ * leaves the server handle open. The dispatcher therefore writes the frame and
++ * closes the handle itself once the write has flushed (see `writeGuarded`).
+  */
+-function attachPostFlushWatch(socket: Socket): void {
+-  const onTrailingData = (): void => {
+-    cleanup();
+-    diagnosticSink.record(
+-      'MALFORMED_FRAME',
+-      'a second frame delivered after the response flush is refused; the frame is never dispatched',
+-    );
+-    socket.destroy();
+-  };
+-  const cleanup = (): void => {
+-    socket.off('data', onTrailingData);
+-    socket.off('end', cleanup);
+-    socket.off('close', cleanup);
+-    socket.off('error', cleanup);
+-  };
+-  socket.on('data', onTrailingData);
+-  socket.on('end', cleanup);
+-  socket.on('close', cleanup);
+-  socket.on('error', cleanup);
++function writeFrame(socket: Socket, frame: Buffer): Promise<void> {
++  return new Promise((resolve, reject) => {
++    socket.write(frame, (error?: Error | null) => {
++      if (error) reject(error);
++      else resolve();
++    });
++  });
+ }
+ 
+ /**
+@@ -141,10 +121,6 @@ export function createConnectionHandler(
+       // use the same guarded single-response write path. Before assignment
+       // (a fault during the pre-write validation) it stays a zero-byte no-op.
+       let writeGuarded: (frame: Buffer) => Promise<boolean> = () => Promise.resolve(false);
+-      // Set only once a response frame has flushed successfully. On flush-guard
+-      // transports that arms the post-flush one-frame watchdog in finally.
+-      let responded = false;
+-
+       try {
+         // C7: caller-supplied authority/identity at any depth is refused before any
+         // store access, at top level and inside payload/options alike.
+@@ -210,15 +186,23 @@ export function createConnectionHandler(
+           try {
+             if (reader.settlement === 'flush-guard') {
+               await Promise.race([
+-                endFrame(socket, frame),
++                writeFrame(socket, frame),
+                 reader.whenGuardTripped.then((fault) => {
+                   throw fault;
+                 }),
+               ]);
+-            } else {
+-              await endFrame(socket, frame);
++              // Deterministic connection release (see the C5.4 capacity note
++              // below). The frame is already flushed to the pipe, so the peer
++              // reads it and then observes ERROR_BROKEN_PIPE as EOF. Closing
++              // the handle is also what releases the server's connection
++              // slot: Node decrements `server._connections` only in
++              // Socket._destroy, so an open handle permanently consumes the
++              // single capacity slot and every later connection is dropped
++              // before the 'connection' event is emitted.
++              socket.destroy();
++              return true;
+             }
+-            responded = true;
++            await endFrame(socket, frame);
+             return true;
+           } catch (error) {
+             if (error instanceof ClassPError) {
+@@ -276,13 +260,15 @@ export function createConnectionHandler(
+         // Detach exactly the reader-owned listeners; the caller's socket error
+         // handler registered above remains available for transmission faults.
+         reader.release();
+-        // Flush-guard transports (Windows named pipes): keep the one-frame
+-        // invariant enforceable for a second frame delivered after the
+-        // response irreversibly flushed. Zero-byte refusal remains impossible
+-        // at this point (documented in IRR PKG-11 §E); the frame is refused by
+-        // sink record plus teardown and is never dispatched.
+-        if (reader.settlement === 'flush-guard' && responded && !socket.readableEnded) {
+-          attachPostFlushWatch(socket);
++        // Flush-guard transports (Windows named pipes): the handle is closed
++        // by writeGuarded as soon as the single response has flushed, which
++        // releases the server's connection slot. A frame delivered after that
++        // flush can no longer reach a closed handle, so the one-frame
++        // invariant is structural rather than observational (IRR PKG-11 §E).
++        // If the response never flushed (Class P refusal, transport fault) the
++        // socket was already destroyed by refuseClassP.
++        if (reader.settlement === 'flush-guard' && !socket.destroyed) {
++          socket.destroy();
+         }
+       }
+     })();
+diff --git a/tests/g3_flush_guard_connection_release.test.ts b/tests/g3_flush_guard_connection_release.test.ts
+new file mode 100644
+index 0000000..0584fef
+--- /dev/null
++++ b/tests/g3_flush_guard_connection_release.test.ts
+@@ -0,0 +1,172 @@
++/**
++ * Gate 3 — flush-guard connection release (Windows named-pipe transport).
++ *
++ * Regression for the native-Windows defect where every IPC request after the
++ * first successful one received zero bytes:
++ *
++ *   restoring an ACTIVE binding makes the next IPC request succeed again
++ *   → assert.ok(response.byteLength > 0)  FAILED on Windows (0 bytes)
++ *
++ * Mechanism (transport-independent, verified on AF_UNIX by forcing the
++ * flush-guard settlement policy):
++ *
++ *   `listenIpc` sets `server.maxConnections = 1` (C5.4 capacity 1). Node
++ *   decrements `server._connections` ONLY in `Socket._destroy`. On a Windows
++ *   byte-mode named pipe `socket.end()` is a `FlushFileBuffers`, not a
++ *   half-close, so a response written with `write()` + no close leaves the
++ *   server handle open forever. The single capacity slot is then never
++ *   released, and `net.js onconnection` drops every later connection before
++ *   the `connection` event is emitted — the peer sees a closed socket and
++ *   zero bytes.
++ *
++ *   A conforming peer therefore receives exactly one response and then loses
++ *   all service until the server is restarted. This suite pins the fix: the
++ *   handle is closed as soon as the single response has flushed, so each
++ *   request gets its own connection slot.
++ *
++ * The flush-guard policy is selected on Windows from the endpoint family; it
++ * is forced here so the same regression runs on POSIX CI.
++ */
++import { describe, it, before, after } from 'node:test';
++import assert from 'node:assert/strict';
++import { createConnection } from 'node:net';
++import { mkdtempSync, rmSync } from 'node:fs';
++import { tmpdir } from 'node:os';
++import { join } from 'node:path';
++import { DatabaseSync } from 'node:sqlite';
++import { openDatabase, closeDatabase } from '../src/persistence/connection.js';
++import { ensureMigrations } from '../src/persistence/migration_ledger.js';
++import { GATE3_MIGRATIONS } from '../src/ipc/entrypoint.js';
++import { listenIpc, resolveEndpointTarget, type IpcHandle } from '../src/ipc/endpoint.js';
++import { createConnectionHandler } from '../src/ipc/dispatch.js';
++
++const HOST_PLATFORM: NodeJS.Platform = process.platform === 'win32' ? 'win32' : 'linux';
++const ENDPOINT_NAME = `iips-g3-release-${process.pid}`;
++
++function frameFor(value: unknown): Buffer {
++  const body = Buffer.from(JSON.stringify(value), 'utf8');
++  const prefix = Buffer.allocUnsafe(4);
++  prefix.writeUInt32BE(body.byteLength, 0);
++  return Buffer.concat([prefix, body]);
++}
++
++/**
++ * Frame-length-aware request helper: resolves on the first complete frame, on
++ * error, or on close — so a response that is delivered and then followed by a
++ * deterministic close is still observed in full.
++ */
++function call(endpointPath: string, envelope: unknown, timeoutMs = 5000): Promise<Buffer> {
++  return new Promise((resolve) => {
++    const socket = createConnection({ path: endpointPath });
++    const chunks: Buffer[] = [];
++    let settled = false;
++    const finish = (): void => {
++      if (settled) return;
++      settled = true;
++      clearTimeout(timer);
++      socket.off('data', onData);
++      socket.off('error', onError);
++      socket.off('close', onClose);
++      resolve(Buffer.concat(chunks));
++      socket.destroy();
++    };
++    const onData = (chunk: Buffer): void => {
++      chunks.push(chunk);
++      const response = Buffer.concat(chunks);
++      if (response.byteLength < 4) return;
++      if (response.byteLength >= 4 + response.readUInt32BE(0)) finish();
++    };
++    const onError = (): void => finish();
++    const onClose = (): void => finish();
++    const timer = setTimeout(finish, timeoutMs);
++    socket.on('data', onData);
++    socket.on('error', onError);
++    socket.on('close', onClose);
++    socket.on('connect', () => socket.write(frameFor(envelope), () => socket.end()));
++  });
++}
++
++describe('g3 / T-A flush-guard connection release', () => {
++  let root: string;
++  let db: DatabaseSync;
++  let handle: IpcHandle;
++  let endpointPath: string;
++
++  before(async () => {
++    root = mkdtempSync(join(tmpdir(), 'g3-release-'));
++    db = openDatabase(join(root, 'store', 'ipd.db'));
++    ensureMigrations(db, GATE3_MIGRATIONS);
++    const now = new Date().toISOString();
++    db.prepare(
++      "INSERT INTO local_principal_bindings (binding_id, principal_label, status, created_at, updated_at, revoked_at) VALUES ('b-1', 'operator', 'ACTIVE', ?, ?, NULL)",
++    ).run(now, now);
++    db.prepare(
++      "INSERT INTO local_principal_memberships (membership_id, binding_id, tenant_id, canonical_owner_id, status, created_at, updated_at, revoked_at) VALUES ('m-1', 'b-1', 'tenant-local', 'owner-local', 'ACTIVE', ?, ?, NULL)",
++    ).run(now, now);
++
++    const target = resolveEndpointTarget(
++      { IIPS_G2_IPC_ENDPOINT: ENDPOINT_NAME, IIPS_G3_LOCAL_STATE_DIR: join(root, 'state') },
++      HOST_PLATFORM,
++    );
++    endpointPath = target.path;
++    handle = await listenIpc(
++      target,
++      // Forced flush-guard: the Windows named-pipe settlement policy.
++      createConnectionHandler(db, { settlement: 'flush-guard' }),
++      { platform: HOST_PLATFORM },
++    );
++  });
++
++  after(async () => {
++    await handle.stop();
++    closeDatabase();
++    rmSync(root, { recursive: true, force: true });
++  });
++
++  it('serves every sequential request in one server lifetime, not just the first', async () => {
++    const envelope = { v: 1, op: 'portfolio.list' };
++    for (let attempt = 1; attempt <= 4; attempt += 1) {
++      const response = await call(endpointPath, envelope);
++      assert.ok(
++        response.byteLength > 0,
++        `request ${attempt} received a response (a leaked connection slot yields zero bytes here)`,
++      );
++      const body = JSON.parse(response.subarray(4).toString('utf8')) as Record<string, unknown>;
++      assert.equal(body.ok, true, `request ${attempt} returned a well-formed success frame`);
++      assert.equal(body.op, 'portfolio.list');
++    }
++  });
++
++  it('releases the single capacity slot between requests', async () => {
++    const before = await new Promise<number>((resolve) =>
++      handle.server.getConnections((error, count) => resolve(error ? -1 : count)),
++    );
++    assert.equal(before, 0, 'no connection is still counted against the capacity of one');
++
++    const response = await call(endpointPath, { v: 1, op: 'portfolio.list' });
++    assert.ok(response.byteLength > 0);
++
++    await new Promise((resolve) => setTimeout(resolve, 25));
++    const after = await new Promise<number>((resolve) =>
++      handle.server.getConnections((error, count) => resolve(error ? -1 : count)),
++    );
++    assert.equal(after, 0, 'the slot is free again once the response has flushed');
++  });
++
++  it('still refuses a zero-byte Class P request and recovers on the next request', async () => {
++    // Revoke the binding: the refusal must be zero bytes, and it must not
++    // consume the connection slot for the request that follows.
++    const now = new Date().toISOString();
++    db.prepare("UPDATE local_principal_bindings SET status = 'REVOKED', revoked_at = ? WHERE binding_id = 'b-1'").run(now);
++    db.prepare("UPDATE local_principal_memberships SET status = 'REVOKED', revoked_at = ? WHERE membership_id = 'm-1'").run(now);
++
++    const refused = await call(endpointPath, { v: 1, op: 'portfolio.list' });
++    assert.equal(refused.byteLength, 0, 'the refusal is a zero-byte Class P response');
++
++    db.prepare("UPDATE local_principal_bindings SET status = 'ACTIVE', revoked_at = NULL WHERE binding_id = 'b-1'").run();
++    db.prepare("UPDATE local_principal_memberships SET status = 'ACTIVE', revoked_at = NULL WHERE membership_id = 'm-1'").run();
++
++    const recovered = await call(endpointPath, { v: 1, op: 'portfolio.list' });
++    assert.ok(recovered.byteLength > 0, 'the next request after a refusal succeeds');
++  });
++});
+diff --git a/tests/g3_ipc_framing.test.ts b/tests/g3_ipc_framing.test.ts
+index 6541127..0204fec 100644
+--- a/tests/g3_ipc_framing.test.ts
++++ b/tests/g3_ipc_framing.test.ts
+@@ -548,7 +548,11 @@ describe('g3 / T-A flush-guard settlement (Windows named-pipe transport emulatio
+     await drainTicks(6);
+ 
+     assert.equal(socket.written.length, 1, 'exactly one response frame is delivered');
+-    assert.equal(socket.destroyed, false, 'a successful response never destroys the socket');
++    assert.equal(
++      socket.destroyed,
++      true,
++      'the handle is closed after the single response so the peer sees EOF and the capacity slot is released',
++    );
+     const response = socket.written[0];
+     const declared = response.readUInt32BE(0);
+     assert.ok(declared > 0 && declared === response.byteLength - IPC_LENGTH_PREFIX_BYTES);
+@@ -672,13 +676,12 @@ describe('g3 / T-A flush-guard settlement (Windows named-pipe transport emulatio
+     assert.equal(body.op, 'portfolio.list');
+   });
+ 
+-  // §E boundary (Windows-transport emulation, not native evidence): frame 2 is
+-  // delivered in a separate data event only AFTER the response has flushed.
+-  // Zero-byte refusal is impossible once the response is irreversibly flushed,
+-  // but the one-frame invariant stays enforceable: frame 2 is never dispatched
+-  // (no second response), it trips MALFORMED_FRAME in the bounded sink, and the
+-  // connection is destroyed. The watchdog then detaches on terminal EOF.
+-  it('a post-flush second frame is recorded and torn down without a second response', async () => {
++  // §E boundary (Windows-transport emulation, not native evidence): the single
++  // response flushes and the handle is closed immediately afterwards, so frame
++  // 2 emitted in a later event cannot reach the server at all. The one-frame
++  // invariant is therefore structural — the connection no longer exists —
++  // rather than observational, and no post-flush MALFORMED_FRAME is produced.
++  it('closes the connection after the single response so a later frame is unreachable', async () => {
+     const socket = new FakeSocket();
+     createConnectionHandler(db, { settlement: 'flush-guard', idleTimeoutMs: 2000 })(
+       socket as unknown as Socket,
+@@ -686,13 +689,17 @@ describe('g3 / T-A flush-guard settlement (Windows named-pipe transport emulatio
+     socket.emit('data', listFrame);
+     await drainTicks(2);
+     assert.equal(socket.written.length, 1, 'the frame-1 response has already flushed');
++    assert.equal(socket.destroyed, true, 'the handle is closed as soon as the response has flushed');
+ 
+     socket.emit('data', secondFrame);
+     await drainTicks(4);
+ 
+     assert.equal(socket.written.length, 1, 'the second frame is never dispatched or answered');
+-    assert.equal(socket.destroyed, true, 'the post-flush violation tears the connection down');
+-    assert.equal(diagnosticSink.peek().at(-1)?.reason, 'MALFORMED_FRAME');
++    assert.equal(
++      diagnosticSink.peek().length,
++      0,
++      'no post-flush record: a frame delivered after the close never reaches the server',
++    );
+     const firstBody = JSON.parse(socket.written[0].subarray(4).toString('utf8')) as Record<string, unknown>;
+     assert.equal(firstBody.op, 'portfolio.list');
+ 
+@@ -703,7 +710,7 @@ describe('g3 / T-A flush-guard settlement (Windows named-pipe transport emulatio
+     assert.equal(socket.listenerCount('error'), 1, 'only the caller-owned error handler remains');
+   });
+ 
+-  it('a clean post-flush EOF with no trailing frame leaves the sink empty', async () => {
++  it('releases the connection after a clean single-frame response and leaves the sink empty', async () => {
+     const socket = new FakeSocket();
+     createConnectionHandler(db, { settlement: 'flush-guard', idleTimeoutMs: 2000 })(
+       socket as unknown as Socket,
+@@ -711,12 +718,15 @@ describe('g3 / T-A flush-guard settlement (Windows named-pipe transport emulatio
+     socket.emit('data', listFrame);
+     await drainTicks(2);
+     assert.equal(socket.written.length, 1);
+-    assert.equal(socket.destroyed, false);
++    assert.equal(
++      socket.destroyed,
++      true,
++      'a well-behaved single-frame peer is released, which frees the server connection slot',
++    );
+ 
+     socket.forceBrokenPipeEof();
+     await drainTicks(2);
+-    assert.equal(socket.written.length, 1);
+-    assert.equal(socket.destroyed, false, 'a well-behaved single-frame peer is not torn down');
+-    assert.equal(diagnosticSink.peek().length, 0);
++    assert.equal(socket.written.length, 1, 'the single response is never duplicated');
++    assert.equal(diagnosticSink.peek().length, 0, 'a clean single-frame exchange records nothing');
+   });
+ });

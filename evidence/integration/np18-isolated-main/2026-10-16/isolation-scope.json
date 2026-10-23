@@ -1,0 +1,125 @@
+{
+  "record": "NP-18 isolated-main candidate scope verification",
+  "date": "2026-10-16",
+  "kind": "scope and patch-application evidence; not a qualification rerun or merge receipt",
+  "verified_base": {
+    "repository": "ramkivs/iips-review-recovered",
+    "ref": "refs/heads/main",
+    "commit": "98c21768f77061a68470e4b4f6750d38abeec594"
+  },
+  "approved_source": {
+    "r3_commit": "904f5d99f9e6468fb4805c96a78c16c70a08395e",
+    "qualified_implementation_commit": "3c64d69c148d01081b2ba9b8f76fa58c21ed2b99",
+    "product_patch_sha256": "67719c4b44218b42d3fc9d3290e1d657d01e9945b25e59fb54588e7f2b91522f"
+  },
+  "approved_product_paths": [
+    "frontend/src/features/intelligence/IntelligenceOpportunities.tsx",
+    "frontend/src/features/intelligence/IntelligenceOpportunities.test.tsx",
+    "frontend/src/features/intelligence/IntelligenceRisks.tsx",
+    "frontend/src/features/intelligence/IntelligenceRisks.test.tsx",
+    "frontend/src/features/intelligence/IntelligenceRankings.tsx",
+    "frontend/src/features/intelligence/IntelligenceRankings.test.tsx",
+    "frontend/src/app/App.tsx",
+    "frontend/src/app/navigation.ts",
+    "frontend/src/app/App.test.tsx"
+  ],
+  "shared_file_boundary": {
+    "frontend/src/app/App.tsx": "NP-18 three view imports and routes only; exclude BrokerHoldingsPreview import and /broker-holdings route",
+    "frontend/src/app/navigation.ts": "NP-18 three Intelligence children and group-only explanatory comment only; exclude Broker Holdings item; retain groupOnly parent"
+  },
+  "excluded_broker_product_paths": [
+    "frontend/package-lock.json",
+    "frontend/package.json",
+    "frontend/src/api/brokerHoldingsPreview.test.ts",
+    "frontend/src/api/brokerHoldingsPreview.ts",
+    "frontend/src/app/routes.ts",
+    "frontend/src/features/broker-holdings/BrokerHoldingsPreview.test.tsx",
+    "frontend/src/features/broker-holdings/BrokerHoldingsPreview.tsx",
+    "frontend/tsconfig.broker-import.json"
+  ],
+  "excluded_shared_hunks": [
+    "frontend/src/app/App.tsx: BrokerHoldingsPreview import and /broker-holdings route",
+    "frontend/src/app/navigation.ts: Broker Holdings navigation item"
+  ],
+  "direct_np18_records_and_evidence": [
+    "docs/integration/NP-18-CURRENT-TARGET-AUTHORITY-DETERMINATION-2026-10-16.md",
+    "docs/integration/NP-18-R3-CURRENT-MAIN-IMPLEMENTATION-AUTHORITY-2026-10-16.md",
+    "docs/integration/NP-18-CURRENT-TARGET-NON-PRODUCTION-QUALIFICATION-2026-10-16.md",
+    "docs/integration/NP-18-CURRENT-TARGET-MAIN-ADMISSION-DECISION-2026-10-16.md",
+    "docs/integration/NP-18-ISOLATED-MAIN-MERGE-AUTHORIZATION-2026-10-16.md",
+    "evidence/integration/np18-authority-determination/2026-10-16/verification.json",
+    "evidence/integration/np18-r3/2026-10-16/publication.json",
+    "evidence/integration/np18-r3/2026-10-16/validation.json",
+    "evidence/integration/np18-r3/2026-10-16/verify-views.mts",
+    "evidence/integration/np18-qualification/2026-10-16/adjudication.json",
+    "evidence/integration/np18-admission/2026-10-16/assessment.json",
+    "evidence/integration/np18-isolated-main/2026-10-16/isolation-scope.json"
+  ],
+  "tracker_disposition": "The current tracker section is an NP-18-only authority/qualification/admission/integration receipt. Unrelated Group 6 evidence and broker-preview material are excluded; the prior mixed tracker snapshot is superseded by the scoped receipt in \u00a716.38 and merge-verification.json.",
+  "patch_application": {
+    "method": "Applied the exact 904f5d99..3c64d69 patch over the nine approved product paths plus its two R3 validation assets to a clean worktree at the verified main commit.",
+    "result": "PASS; patch applied without conflicts",
+    "combined_pr_ci_substituted": false,
+    "isolated_candidate_hosted_ci": "PASS on the exact isolated PR head; see merge-verification.json for run 38874753041 and full required-step results.",
+    "qualification_reopened": false
+  },
+  "isolated_candidate_blob_reconciliation": {
+    "frontend/src/features/intelligence/IntelligenceOpportunities.tsx": {
+      "isolated_candidate_blob": "414867a67d54eee636023c7c95cb2ee5073e94eb",
+      "qualified_implementation_blob": "414867a67d54eee636023c7c95cb2ee5073e94eb",
+      "blob_equal": true
+    },
+    "frontend/src/features/intelligence/IntelligenceOpportunities.test.tsx": {
+      "isolated_candidate_blob": "336ed9aa5948f8a14849fff0e01169b30326c12b",
+      "qualified_implementation_blob": "336ed9aa5948f8a14849fff0e01169b30326c12b",
+      "blob_equal": true
+    },
+    "frontend/src/features/intelligence/IntelligenceRisks.tsx": {
+      "isolated_candidate_blob": "df57e2e9099435373fcc132f66ac33888ef365ba",
+      "qualified_implementation_blob": "df57e2e9099435373fcc132f66ac33888ef365ba",
+      "blob_equal": true
+    },
+    "frontend/src/features/intelligence/IntelligenceRisks.test.tsx": {
+      "isolated_candidate_blob": "b35477864b18eb0afea3b034f97908bd9cd071fa",
+      "qualified_implementation_blob": "b35477864b18eb0afea3b034f97908bd9cd071fa",
+      "blob_equal": true
+    },
+    "frontend/src/features/intelligence/IntelligenceRankings.tsx": {
+      "isolated_candidate_blob": "5c5b6c424bea7c8418a98d2e48f99fb4b9499009",
+      "qualified_implementation_blob": "5c5b6c424bea7c8418a98d2e48f99fb4b9499009",
+      "blob_equal": true
+    },
+    "frontend/src/features/intelligence/IntelligenceRankings.test.tsx": {
+      "isolated_candidate_blob": "91223627779883fc8d494f44debec293370f04e9",
+      "qualified_implementation_blob": "91223627779883fc8d494f44debec293370f04e9",
+      "blob_equal": true
+    },
+    "frontend/src/app/App.tsx": {
+      "isolated_candidate_blob": "51c0b8a55f3629577be15b75323130aeee50a071",
+      "qualified_implementation_blob": "85230583c737b58f36c11b06eb7f53ea35472e93",
+      "blob_equal": false,
+      "difference_reason": "The isolated blob deliberately omits only the pre-existing BrokerHoldingsPreview import and /broker-holdings route; the NP-18 import/route hunks are applied."
+    },
+    "frontend/src/app/navigation.ts": {
+      "isolated_candidate_blob": "c82e6abf75aaf39595a350631ee5ac2219ba4d94",
+      "qualified_implementation_blob": "d59087f94207a0c7d17cf34a14f6ac68ba207572",
+      "blob_equal": false,
+      "difference_reason": "The isolated blob deliberately omits only the pre-existing Broker Holdings nav item; the NP-18 child allowlist/comment hunks are applied and the Intelligence parent remains group-only."
+    },
+    "frontend/src/app/App.test.tsx": {
+      "isolated_candidate_blob": "32733323948cf7cc25f6e10f9d83a71f34b5bb4d",
+      "qualified_implementation_blob": "32733323948cf7cc25f6e10f9d83a71f34b5bb4d",
+      "blob_equal": true
+    }
+  },
+  "isolated_candidate_test_and_ci_policy": "The isolated tree is a distinct integration candidate; prior qualification was not reopened and combined-PR CI was not substituted. The exact-head hosted CI gate was satisfied by run 38874753041, recorded in merge-verification.json.",
+  "local_prepublication_validation": {
+    "command": "npm ci --no-audit --no-fund",
+    "result": "BLOCKED BY SANDBOX TLS VALIDATION",
+    "detail": "npm could not verify the leaf certificate while downloading the unchanged locked iips-production-market-data dependency from codeload.github.com (UNABLE_TO_VERIFY_LEAF_SIGNATURE).",
+    "safeguard": "TLS verification was not disabled and no dependency, lockfile, proxy, or certificate configuration was changed.",
+    "disposition": "The exact-head hosted CI gate was later satisfied by run 38874753041; see merge-verification.json. The local install failure remains an environment limitation, not a candidate test failure."
+  },
+  "membership_at_scope_recording_time": "NOT YET VERIFIED; this evidence records isolation, not a merge; see merge-verification.json for the later independently verified merge and post-merge CI.",
+  "merge_verification_record": "evidence/integration/np18-isolated-main/2026-10-16/merge-verification.json"
+}
