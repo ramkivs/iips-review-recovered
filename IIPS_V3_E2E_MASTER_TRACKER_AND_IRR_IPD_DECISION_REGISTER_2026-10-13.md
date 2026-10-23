@@ -233,6 +233,7 @@ The following completed baselines on `ramkivs/iips-review-recovered @ refs/heads
 | `2026-10-23` | `CHG-2026-10-23-06` | **CAP-02 U0 RENDERED — EFFECTIVE (product placement and boundary only); U1 boundary determined, route not admitted; composition act prepared, NOT EFFECTIVE (`CV-CORR-68`, §16.86).** Publishes `docs/integration/IIPS_v3.0_CAP02_U0_BROKER_IMPORT_UI_PLACEMENT_DECISION_EFFECTIVE_2026-10-23.md` (`IIPS-V3-CAP02-U0-BROKER-IMPORT-UI-PLACEMENT-EFFECTIVE-2026-10-23-01`) and `docs/integration/IIPS_v3.0_CAP02_BROKER_IMPORT_UI_COMPOSITION_ACT_2026-10-23-02.md` (`IIPS-V3-CAP02-BROKER-IMPORT-UI-COMPOSITION-ACT-2026-10-23-02`), plus an additive §13 addendum to the CAP-02 host-boundary act (§§1–12 preserved; status unchanged). Selected placement: broker-import UI stays in IPD (16 files, 4,894 lines), IRR hosts and composes it; ownership and domain stay with IPD per G-2; reuse only by governed IPD package export. Rejections evidenced: A relocates/duplicates IPD identity and provenance domain; B contradicts effective topology item 3 and solves no transport; D1 wrong domain; D2 a second host; D3 needs a new IPC operation. Verified blocker **B-1**: IPD `main` has no `exports`, no `package.ts` and no packaging script, and IRR's pin is branch/tag-only — so the component set is unimportable and executing the composition act would fail typecheck/build. Re-verified U2 gaps at IPD `main@73fd8c16…` (caller-canonical identity vs C7 refusal; unwired `persistBrokerImport`; no `expectedRevision`; no request-wide transaction; no provenance columns in `portfolio_contributions`). Documentation-only: no source, test, schema, mapping, migration, store, route, fence, workflow, ref or issue change; IPD untouched; no gate, acceptance, admission or write movement; **zero register movements**; verification rows `V364`–`V374`. |
 | `2026-10-23` | `CHG-2026-10-23-07` | **CAP-02 U0 publication and remote-verification receipt only (`CV-CORR-68`, §16.86.13) — post-merge, documentation-only.** IRR **PR #212 `MERGED`** `2026-10-23T08:37:18Z` (head `37d7769bda6d8402e96648e59abba07aadec1e3c`; merge **`0eb3521409938ff42eaa94bbe866cb1801067d70`**; PR-head CI run `39924808022` `success`; post-merge `main` push CI run **`39925943900`** `completed / success` at that commit, job-level check `completed / success` — no reporting fault this time). Remote read-back **4/4 MATCH** by git blob id: U0 decision `43793d66…`, composition act `6c7f6cfe…`, host-boundary act with §13 addendum `7ec74179…`, tracker `5aa9c278…`. Changed paths: **4 documentation files**, `+904/−1`; no source, test, schema, mapping, migration, store, route, fence, workflow, ref or issue change; IPD untouched. U0 decision effectiveness now proven by authorization + act + remote proof (R-3); composition act remains **`PREPARED — NOT EFFECTIVE`**; no write, gate, admission, route or IPD change; **zero register movements**. |
 | `2026-10-23` | `CHG-2026-10-23-08` | **CAP-02 Increment A independently verified; actual modal boundary and U1/U7 readiness (`CV-CORR-69`, §16.87) — IRR documentation preparation only.** IPD PRs #46/#47 advanced `main` to `554ed6ce…`/tree `2d9dc14d…`; export-only act effective, U2 proposal not effective. Independent exact-commit consumer: `./portfolio-ui`, 22 runtime exports, modal/master present, workspace absent, `SESSION_ONLY`/false; **B-1 closed**, B-1R repin pending effective IRR act. Adds readiness, narrow U1 and field/result U7 records plus additive composition-act §11. Direct modal/browser-HTTP/trusted-IPC boundary, revision-only read, C-1 payload-provenance gap, and minimal receipt/refusal/unknown disposition recorded; no v1 read expansion recommended for the minimal modal. U0 unchanged; U1/U7 **PREPARED / NOT EFFECTIVE**; UI unmounted; real-host broker-import probes 404. Verification **2/29 focused**, **87 files / 1,077 passed / 0 failed** plus guard, both typechecks/build 0; `V375`–`V390`. No IRR source/test/package/lock/schema/mapping/migration/store/route/fence/workflow change; no IPD mutation by this session; no gate/admission/write movement; **zero register movements**. |
+| `2026-10-23` | `CHG-2026-10-23-09` | **CAP-02 readiness publication and independent remote-verification receipt only (`CV-CORR-69`, §16.87.8).** IRR **PR #214 `MERGED`** `2026-10-23T09:19:33Z`: head `db744ba9702f2706f1dc45c4423e49f45ed46c4a`; merge `1ccbed5f7d693b51eb6417e39b52562f5d67d603`; tree `770c0c4456cfcb0983b2980a97aeecee9f5c0e4a`; ancestry PASS. PR-head CI run `39930849704` and post-merge `main` run `39931037084` both `SUCCESS` with all steps green. Exact **5 Markdown paths**, `+1,071/−1`; reviewed/local-remote/GitHub-API blobs **5/5 MATCH**. Post-merge focused fence/transport **2 files / 29 passed**. U1/U7 and IRR composition remain **PREPARED / NOT EFFECTIVE**; B-1R not performed; no route/UI/source/test/package/lock/schema/mapping/migration/store/fence/listener/workflow/IPD change by this session; no gate/admission/write movement; **zero register movements**. Receipt's own carrying-PR coordinates not self-embedded; `V391`–`V395`. |
 
 ---
 
@@ -7005,5 +7006,38 @@ Exact next actions:
 no IPD mutation by this session; no G24 revival, CAP-03 dependency, unrelated IIPS modification or IPO Screening
 Engine scope. Gate 4 remains proposed/not effective/not started, result acceptance is not rendered, Gate 5 is
 not granted and W-1 remains unmet. **Zero register movements.**
+
+### 16.87.8 Publication and independent remote-verification receipt (`2026-10-23`, `CHG-2026-10-23-09`)
+
+**Documentation-only receipt.** No source, test, package, lock, schema, mapping, migration, store, route, fence,
+listener, workflow or IPD change; no gate, acceptance, admission or write status change. The receipt's own
+carrying-PR coordinates are not self-embedded.
+
+| Element | Verified value |
+|---|---|
+| PR | **#214** — 5 documentation paths, `MERGEABLE`/`CLEAN`; PR-head `db744ba9702f2706f1dc45c4423e49f45ed46c4a` |
+| PR-head CI | Run **39930849704**, job **120338458837**, `Typecheck · Test · Build` `COMPLETED / SUCCESS` at that head |
+| Merge | `MERGED` `2026-10-23T09:19:33Z`; merge commit **`1ccbed5f7d693b51eb6417e39b52562f5d67d603`**; tree **`770c0c4456cfcb0983b2980a97aeecee9f5c0e4a`**; first parent `f53056214d45c850928fbabd51dc6a2adcb64f2b` |
+| Ancestry | `git merge-base --is-ancestor db744ba… origin/main` → **PASS** after merge |
+| Changed paths | **5**, `+1,071 / −1`, all Markdown: readiness record (new), U1 act (new), U7 record (new), composition act §11 addendum, tracker §16.87/banner/change log |
+| Post-merge CI | Run **39931037084**, job **120339088412**, `COMPLETED / SUCCESS` at `1ccbed5f…`; install, both typechecks, full suite, nonzero guard and production build steps all successful |
+| Post-merge focused fences | At local session branch fast-forwarded to the same `1ccbed5f…` tree: **2 files / 29 tests passed**, including all twelve route-method pairs |
+| Remote read-back | **5/5 MATCH** between reviewed blobs, `origin/main@1ccbed5f…` and independent GitHub contents-API blob IDs |
+
+| Path | Remote/reviewed blob | Bytes | SHA-256 |
+|---|---|---:|---|
+| Readiness record | `bed81a82b37c7bdde4ed029534fa96e2b7eae767` | 26,359 | `62c48559206431a14b1be3321ae4e1123507f56785509dc511fe68011bb0f433` |
+| U1 prepared act | `966891d4c7016a5e993e609a03488c8719499e3e` | 15,329 | `3f9f1634f9fa4418f962d949d389500eb33b077e5dde439bcf7479438eded317` |
+| U7 prepared record | `68ed97ec9fbaa25a7d3c99c2841d821bb672ffb2` | 19,937 | `b2c4a446b8d6ac2545a5995dd33e09310a52b99becd7fa34730657a6955c35e3` |
+| Composition act (+§11) | `42d0c1665ca0d8d2245325d0a2e3718ca38a2bc7` | 28,341 | `fc79b4592261e858ede0429033f967062ce92c6303ad993c52c12e63b93cbe79` |
+| Tracker (pre-receipt) | `c2dc465ddcdb45f2bb9c969938fcba0391a81e09` | 1,527,758 | `bc366b869164e908331903d091a91fbafa11840cc682512967d44ac0aa73d843` |
+
+Additional verification rows: `V391` PR-head CI success; `V392` merge/tree/ancestry success; `V393` exact paths
+and 5/5 remote blob match; `V394` post-merge CI success; `V395` post-merge focused 29/29 fence/transport pass.
+Remote IPD `main` remained `554ed6ce…` at the merge/read-back checks; this session made no IPD mutation.
+
+**Not claimed:** U1 and U7 remain **`PREPARED — NOT EFFECTIVE`**; the IRR composition act remains non-effective;
+B-1R repin is not performed; no UI or route is admitted; no gate, acceptance, admission, fence or write status
+moved. **Zero register movements.**
 
 *End of §16.87.*
