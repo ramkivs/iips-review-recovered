@@ -10,7 +10,7 @@
 | **Status** | **DECIDED — D115 RETAINED UNWIRED; NO COMPLETION PATH** |
 | **Governing locus** | IRR `ramkivs/iips-review-recovered` only; IPD is not modified |
 | **IRR baseline verified before preparation** | `main@4cd343704bca039610c9217eaeece35ff0b621f4` (tree `0af9ddcd13984f4a4b1ff367dd63d7c78e60426a`) |
-| **Tracker registration** | Master tracker §16.103 (`CV-CORR-85`, `CHG-2026-10-24-14`); verification rows `V549`–`V556` |
+| **Tracker registration** | Master tracker §16.103 (`CV-CORR-85`, `CHG-2026-10-24-14`); verification rows `V549`–`V559` |
 
 > **Rendered PA decision — CV-43: RETAIN `D115` UNWIRED AND REFERENCE-ONLY.**
 >

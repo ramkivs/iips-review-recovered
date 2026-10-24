@@ -11,7 +11,7 @@
 | **Governing loci** | IRR `ramkivs/iips-review-recovered` (this record + tracker); IPD `ramkivs/iips-production-market-data` is **read-only** and is not modified by this record |
 | **IRR baseline verified before preparation** | `main@4cd343704bca039610c9217eaeece35ff0b621f4` (tree `0af9ddcd13984f4a4b1ff367dd63d7c78e60426a`) |
 | **IPD baseline verified before preparation (read-only)** | `main@5a34fa880c441cc21c1dee653784308beb2265d3` (tree `5e239c7338c2016ce12fc7d3ae9254cbdbfadd60`) |
-| **Tracker registration** | Master tracker §16.103 (`CV-CORR-85`, `CHG-2026-10-24-14`); verification rows `V549`–`V556` |
+| **Tracker registration** | Master tracker §16.103 (`CV-CORR-85`, `CHG-2026-10-24-14`); verification rows `V549`–`V559` |
 
 > **Rendered PA decision — CV-23: GATE A IS NOT REQUIRED FOR THE CURRENT PRODUCT.**
 >
