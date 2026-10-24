@@ -8674,3 +8674,44 @@ Changed paths this pass:       this tracker only
 ```
 
 *End of §16.100 (administrative closure receipt; `CV-CORR-83` complete).*
+
+## §16.101 — `CV-CORR-84`: Corrective current-status addendum — H-4/H-16 errata were already closed; Reports deferral and all admission boundaries preserved — `2026-10-24` (`CHG-2026-10-24-12`)
+
+**Record type:** append-only factual reconciliation of a stale prerequisite statement in §16.100; no product-scope change, PA decision, implementation, acceptance, qualification, admission, or fence change.
+
+### 16.101.1 Discrepancy and authoritative evidence
+
+The §16.100.3 Reports row states that the H-4/H-16 `D-1`↔PR #42 conflict is unresolved and "settleable only by PA errata." That status statement is stale. The errata were completed and remotely published five days before §16.100:
+
+| Evidence | Verified value at current IRR `main@b36fb640f294dc71ae25721ade82caab18c63c37` |
+|---|---|
+| H-4/H-16 errata record | `docs/integration/IIPS_v3.0_H4_H16_HISTORICAL_AUTHORITY_ERRATA_RECORD_2026-10-19.md`, blob `9303ae5c3f11f3a0ea69fd7c6628e9e3a523ad63`; expressly classifies H-4 and H-16 as **CLOSED (documentary correction applied)**, and says no new substantive PA decision was required or created |
+| Publication | IRR PR #154 **MERGED** `2026-10-19T08:23:16Z` as `c6240fa43fc65353c355af65792e9be24731d62d`; exact-head CI run `39222216957` **SUCCESS** |
+| Corrected D-3 | `docs/integration/GOVERNED-REPORTS-ACCEPTANCE-DECISION.md`, current blob `c80b55717840b0f58c5436cbc1967e9c901c600d`; additive §13 records chronology and explicitly does not ratify the historical PR #42 merge |
+| Corrected D-1 | `docs/integration/PERSISTENCE-DOMAIN-OWNERSHIP-DECISION.md`, current blob `12eeaee954e2b374bb12e1db03c613ef6da6fbc0`; additive §18 records the historical conflict and non-supersession |
+| REG-11 Reports disposition | The separate PA decision remains **OPTION C — RETAIN DEFERRAL**, recorded in tracker §11 and `docs/integration/IIPS_v3.0_GATE_B_REPORTS_OPTION_C_DEFERRAL_PA_DECISION_2026-10-13.md`; IRR PR #80 merged as `721520cc059cd80ad16bd7fb68da5cd6ecbadd9b` on `2026-10-13T12:42:24Z` |
+
+### 16.101.2 Reconciled classification and boundaries
+
+1. **H-4/H-16 documentary errata: COMPLETE — VERIFIED.** Do not list the historical-authority errata as an outstanding PA prerequisite. The historical 2026-10-06 PR #42 merge remains an unauthorized event; the errata document it, do not retroactively authorize it. R4-B was prospective only.
+2. **Reports capability: still deferred, not complete or admitted.** REG-11 Option C remains the effective R1/R2 disposition. No Reports-domain implementation, UI/no-auth port, R3 admission, F-7 qualification, acceptance, or product admission is established by the errata.
+3. **DQ-7a: PROPOSED — NOT EFFECTIVE.** The CAP-03 packet does not amend REG-11 Option C and is not an act. No Reports implementation or re-entry is authorized. Preserve the existing deferral unless and until a distinct effective act changes it.
+4. **CV-21 register status and counts are not moved by this narrow correction.** This addendum corrects only the false statement that H-4/H-16 remained unresolved. It does not decide whether R1/R2 should be reopened, create an owner-source or contract, close R3/F-7, or revise §18.1. The R1/R2/Reports re-entry boundary remains the effective Option C record plus any later effective PA act.
+5. **No file on the IPD repository is changed by this IRR reconciliation.** IPD issue #44 and issue #43 remain separate IPD-locus observations; this addendum neither edits nor closes them.
+
+### 16.101.3 Verification and effect
+
+| ID | Check | Result |
+|---|---|---|
+| `V541` | Identifier census before allocation | **PASS** — `§16.101`, `CV-CORR-84`, `CHG-2026-10-24-12`, `V541`–`V548` were absent; the preceding maxima were §16.100 / CV-CORR-83 / CHG-2026-10-24-11 / V540 |
+| `V542` | H-4/H-16 record and PR #154 | **PASS** — errata record says CLOSED; PR #154 is merged and CI succeeded at its exact head |
+| `V543` | D-1/D-3 current documents | **PASS** — the current D-1 §18 and D-3 §13 corrections are present at the blob identities above |
+| `V544` | REG-11 Option C publication | **PASS** — the actual PA Option C record is on current `main`; PR #80 is merged |
+| `V545` | Scope and non-inference | **PASS** — no retroactive authorization, Reports implementation, UI, R3, F-7, acceptance, admission, or fence lift inferred |
+| `V546` | Register integrity | **PASS** — this addendum makes no CV/§18/§19 status movement and does not change aggregate counts |
+| `V547` | Repository separation | **PASS** — IPD is not modified; issue #43/#44 states remain observations, not IRR actions |
+| `V548` | Change validation | **PENDING PUBLICATION** — documentation-only `git diff --check` and exact-head PR CI / post-merge CI / remote read-back are required before this addendum is described as durable on `main` |
+
+**Current effect:** this append-only correction is authoritative only after it is merged to IRR `main`, passes CI, and its merged blob is read back. Until then it is a branch/PR record; the existing merged H-4/H-16 errata and REG-11 Option C remain authoritative independently.
+
+*End of §16.101.*
