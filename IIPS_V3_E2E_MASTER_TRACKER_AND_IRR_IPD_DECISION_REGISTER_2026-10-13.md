@@ -9022,6 +9022,23 @@ Option C **unchanged**; fences **4/4** byte-identical (`51704c12…`, `cb8db45d�
 
 ### 16.105.9 Publication
 
-Changed paths: the operating record (new) and this tracker (header summary row; §2 `REG-11` and `REG-02`/`AD-02` dated annotations; §5 `CHG-2026-10-24-16`; §16.12 dated update `CV-CORR-87`; §19 Reports-row dated annotation; this §16.105). Published by a **separate PR** from `arena/d81534d7-iips-review-recovered`, merged after green checks under `CHG-2026-10-18-02`. Per the §16.70.13 anti-self-embedding rule, exact PR number, merge commit, post-merge CI run and remote blob digests are established **from the remote** and recorded in a later receipt; they are not self-embedded here.
+Changed paths: the operating record (new) and this tracker (header summary row; §2 `REG-11` and `REG-02`/`AD-02` dated annotations; §5 `CHG-2026-10-24-16`; §16.12 dated update `CV-CORR-87`; §19 Reports-row dated annotation; this §16.105). Published by a **separate PR** from `arena/d81534d7-iips-review-recovered`, merged after green checks under `CHG-2026-10-18-02`. Per the §16.70.13 anti-self-embedding rule, exact PR number, merge commit, post-merge CI run and remote blob digests are established **from the remote** and recorded in a later receipt; they are not self-embedded at authoring time.
+
+### 16.105.10 Publication receipt (`2026-10-24`)
+
+*Recorded post-merge from the remote; per §16.70.13 the coordinates are not self-embedded in the commit that created them.*
+
+| Item | Verified value |
+|---|---|
+| PR | **IRR #249** — `MERGED`, `2026-10-24T19:19:26Z`, base `main@f03a0e80…`, head `f37d5bb6cf175c8cc855ce545748cb6f6ae0f0f4` |
+| Merge commit | **`3b0100050db2e73b7f7fc5baf4784aa77ce6346d`** — regular 2-parent merge (parents `f03a0e80…`, `f37d5bb6…`); tree **`715fea7dee1e49101c98bbb09859002db298250d`** = **PR-head tree** (identical) |
+| PR-head CI | run **`40124663064`** — `Typecheck · Test · Build` **`success`** at the exact head `f37d5bb6…` |
+| Post-merge `main` CI | run **`40124767695`** — **`success`** on `3b010005…` (typecheck, `test:ci`, `0`-failed guard, production build) |
+| Diff scope | `f03a0e80… → 3b010005…` is **exactly 2 documentation paths**, `+302/−4`; **zero** non-documentation paths; **zero** IPD writes |
+| Remote blob read-back | tracker **`f20cad962a2c077010e50526669d5012e34b5c13`** (`1,931,002` B, SHA-256 `7f0cc48c…ae30a1`); record **`c77345ac808ad053d30683fe64cda0e441b1bfe7`** (`26,174` B, SHA-256 `17979afc…cde27823`) — **both byte-identical** to the local worktree and to `git rev-parse 3b010005:<path>` |
+| Protected blobs at the merged commit | fences **4/4** unchanged — `98147054…`, `51704c12…`, `cb8db45d…`; manifests `6274537a…` / `05ade78c…`; `d115-runtime` `d9b546c9…` / `51bd4f68…` — **all equal to the `V565` baseline** |
+| Ancestry | `git merge-base --is-ancestor f37d5bb6… origin/main` → **true**; `origin/main` = `3b010005…`; **`0`** open PRs after merge |
+
+**Suite executed at the change head (`V576`):** `typecheck` `0`; `typecheck:replay-server` `0`; `test:ci` **`98` files / `1,197` passed / `0` failed**; guard `OK`; `build` `0` at **`1,590.96` kB** / gzip **`222.05` kB**, asset `index-Bh4vcGJI.js` **identical** to `V566` — i.e. **no runtime or bundle change**.
 
 *End of §16.105.*
