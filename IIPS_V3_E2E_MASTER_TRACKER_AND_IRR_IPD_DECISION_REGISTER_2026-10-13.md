@@ -8715,3 +8715,27 @@ The §16.100.3 Reports row states that the H-4/H-16 `D-1`↔PR #42 conflict is u
 **Current effect:** this append-only correction is authoritative only after it is merged to IRR `main`, passes CI, and its merged blob is read back. Until then it is a branch/PR record; the existing merged H-4/H-16 errata and REG-11 Option C remain authoritative independently.
 
 *End of §16.101.*
+
+## §16.102 — `CV-CORR-84` publication receipt — §16.101 merged and remotely verified (`CHG-2026-10-24-13`)
+
+**Scope:** publication-only receipt for §16.101. It records the remote outcome after that section's pre-publication validation row; it changes no decision, work-item status, fence, package pin, or register count.
+
+### 16.102.1 Pull request, exact-head checks, merge and read-back
+
+| Evidence | Verified value |
+|---|---|
+| IRR PR | **#244**, `docs(irr): correct stale H-4/H-16 reconciliation status`; merged `2026-10-24T09:43:20Z` |
+| PR head | `890ebfa2f1ca7542fe1dd132106619f371bc299b`; tree `b3bfd343baacf8ff0a1a6d80aae40ee04c4d350e`; exactly one changed path: the master tracker, `+41/−0` |
+| PR-head CI | run **`40082960353`**, job `120840096141`, Typecheck · Test · Build — **SUCCESS** |
+| Merge commit | **`529d7f89b46c6c484bba9ef4ee136ef96c528894`**; parents `b36fb640f294dc71ae25721ade82caab18c63c37` and `890ebfa2f1ca7542fe1dd132106619f371bc299b`; tree **`89aa5b6965648808edc470d0239d5ae129440769`** |
+| Post-merge main CI | run **`40083075030`**, job `120840425787`, Typecheck · Test · Build — **SUCCESS** |
+| Remote `main` read-back | `refs/heads/main` resolves to `529d7f89b46c6c484bba9ef4ee136ef96c528894`; tracker blob **`b3bfd343baacf8ff0a1a6d80aae40ee04c4d350e`**, **1,853,511 bytes** |
+| Diff integrity | `git diff --check` passed; merge tree contains the PR addition; no source/test/package/CI/fence/pin/IPD path changed |
+
+`V548` in §16.101 records the pre-publication stop, which was accurate when §16.101 was authored. **This receipt fulfills that condition**: §16.101 is now durable on IRR `main`, exact-head and post-merge CI are green, and the merged tracker blob was read back. It supersedes the pre-merge statement that publication was pending; it does not change §16.101's substantive classifications.
+
+### 16.102.2 Non-grants preserved
+
+No PA determination was rendered. H-4/H-16 errata remain documentary correction only; REG-11 Option C remains the Reports R1/R2 deferral; DQ-7a remains proposed/not effective; no Reports implementation, R3 admission, F-7 qualification, acceptance, production admission, identity selection, provisioning, fence lift, or IPD mutation occurred.
+
+*End of §16.102.*
