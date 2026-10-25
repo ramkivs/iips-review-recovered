@@ -290,6 +290,9 @@ The following completed baselines on `ramkivs/iips-review-recovered @ refs/heads
 
 | `2026-10-25` | `CHG-2026-10-25-07` | **NP-06 Reports one-pass PA decisions on the prepared R1/R2/R3 request (`CV-CORR-91`, §16.109).** On the PA's one-pass instruction of 2026-10-25 (R1/D-1 Option B; R3/D-3 Option B): **R1 Option B SELECTED — NOT EFFECTIVE** (`IIPS-V3-REPORTS-NP06-R1-PA-DECISION-2026-10-25-01`): the Reports tenant value (U-1), owner value (U-2), any express F-3-value-reuse direction (U-3), the fifteen `D-2` §8 elements (U-4) and the value-act property set (U-5) are **UNSPECIFIED** in the instruction and in every authoritative record, and inventing them is expressly prohibited; `R1` remains **NOT ESTABLISHED** and `REG-11` Option C remains the operative deferral. **R3 Option B RENDERED** (`IIPS-V3-REPORTS-NP06-R3-PA-DECISION-2026-10-25-01`), effective upon publication + remote read-back: exactly one new specifier `iips-np04-governed-persistence#2e11fa3b…`; primary pin `#2d9130e7…`, broker `#70b24f02…`, Gate 3 and all existing exports preserved; `CV-23` §5 lineage obligations (a)–(d) recorded; **zero** IPD mutations. **R2 NOT RENDERED** (`IIPS-V3-REPORTS-NP06-R2-CONTRACT-DECISION-PREPARED-2026-10-25-01`): blocked by R1 effectiveness (sequencing) and by the absence of any PA selection for C-3 (authorization predicate) and C-7 (audit disposition); C-2/C-4 prepared only. **Zero register-count movements**; fence `98147054…` unchanged; no transport/route/UI. Verification rows `V605`–`V610`. |
 
+| `2026-10-25` | `CHG-2026-10-25-08` | **Publication receipt for §16.109 (`CV-CORR-91`): IRR PR #258 `MERGED`** — merge `61db73a1800fbc6ffb9e12c59645cfb5dd055396`; PR-head and post-merge CI **SUCCESS** (post-merge run `40182258170`); remote blobs read back for the R1 (`c4f9c9c8…`) and R3 (`9642ce1b…`) decision records. **Effect:** the R3 Option B decision is **EFFECTIVE**; the R1 record is durable as **SELECTED — NOT EFFECTIVE**; the R2 record is durable as **PREPARED — NOT RENDERED**. Implementation under the R3 decision follows at §16.110. |
+| `2026-10-25` | `CHG-2026-10-25-09` | **NP-06 R3 persistence integration executed under the effective R3 decision (`CV-CORR-92`, §16.110).** Second specifier installed (lockfile resolved at `2e11fa3b…`); binding restored/adapted (`persistence-port`, `persistence`, `np04-adapter`, `index`) to the admitted specifier with an explicit owner-pair input (no owner source established; historical authenticated contract not equated with any future unauthenticated source); new real-store integration suite validates the five-operation contract, cross-owner non-disclosure and close/reopen durability at persistence level. Executed: integration **5**, restart **5**, full `test:ci` **102 files / 1,309 passed / 0 failed** + guard OK, typechecks **0/0**, strict `tsc` on new files **0**, build **0** at unchanged chunk. `F-7` **NOT SATISFIED** (durable HTTP legs blocked on effective R1 + R2); `CV-51` **BLOCKED**; fence unchanged; **zero** register-count movements; **zero** IPD writes. Verification rows `V611`–`V616`. |
+
 ---
 
 ## 6. REG-02 / REG-03 / REG-05 / REG-06 / REG-09 Governance Reconciliation Record (`2026-10-13`)
@@ -9462,3 +9465,37 @@ Record: `docs/integration/IIPS_v3.0_REPORTS_NP06_R2_CONTRACT_DECISION_PREPARED_2
 | `V610` | Non-exposure | **PASS at authoring** — fence blob `98147054…`, routes, UI, navigation unchanged; no `./persistence` import yet (implementation is a separate increment under the rendered R3 decision) |
 
 *End of §16.109.*
+
+
+## §16.110 — `CV-CORR-92`: NP-06 R3 Persistence Integration Executed; F-7 Attempted and Not Satisfied — `2026-10-25` (`CHG-2026-10-25-08`/`-09`)
+
+*Additive. Publication receipt for §16.109 is `CHG-2026-10-25-08` (§16.109 decision PR #258, merge `61db73a1800fbc6ffb9e12c59645cfb5dd055396`, post-merge CI `40182258170` SUCCESS, remote read-back complete — the R3 Option B decision is therefore EFFECTIVE). This section records execution under that decision. It renders no further decision.*
+
+### 16.110.1 What was implemented
+
+Exactly the IRR-side binding authorized by `IIPS-V3-REPORTS-NP06-R3-PA-DECISION-2026-10-25-01` §3: one dependency line (`iips-np04-governed-persistence#2e11fa3b…`; primary/broker pins unchanged), `frontend/server/reports/{persistence-port,persistence,np04-adapter,index}.ts` restored from the qualified blobs and adapted to the admitted specifier, and `reports-persistence-integration.test.ts` (new). The binding takes an explicit `(tenantId, userId)` owner pair as input, derives and authenticates nothing, and is exercised only with test-only owner pairs. No transport, resolver, carrier, route, UI, navigation, client, or fence change; full record: `IIPS-V3-REPORTS-NP06-ONE-PASS-EXECUTION-2026-10-25-03`.
+
+### 16.110.2 Executed evidence
+
+| Check | Result |
+|---|---|
+| Integration (real `GovernedArtifactStore`, five operations, cross-owner non-disclosure, head-only supersession, close/reopen durability, fail-closed resolver) | **5 passed / 0 failed** |
+| Focused Reports run (integration + canonical 46 + artifact 56 + fence 2 + composed 2) | **111 passed / 0 failed** |
+| `reports-restart.test.ts` (separate processes, fail-closed form) | **5 passed / 0 failed**; `f7Satisfied:false` still asserted |
+| Full `npm run test:ci` + guard | **102 files / 1,309 passed / 0 failed**, guard `OK` (delta = the one new file) |
+| `typecheck` / `typecheck:replay-server` / strict `tsc` on new files / `build` | **0 / 0 / 0 / 0** (chunk unchanged `1,590.96 kB`) |
+
+### 16.110.3 Statuses and verification
+
+`F-7` **NOT SATISFIED** — its durable HTTP legs require an effective R1 (U-1..U-5 outstanding) and a rendered R2 (C-3/C-7 unselected); persistence-level durability is not F-7. `CV-51` **BLOCKED**; acceptance **NOT ACCEPTED**; production **NOT ADMITTED**. **Zero register-count movements** (`35` / `6` / `51×17` / `11` / `17` / `8` / `7` unchanged); fence `98147054…` unchanged; zero IPD writes.
+
+| ID | Check | Result |
+|---|---|---|
+| `V611` | Identifier census | **PASS** — `§16.110`, `CV-CORR-92`, `CHG-2026-10-25-08`/`-09`, `V611`–`V616`, execution record ID: **0** prior hits |
+| `V612` | R3 decision effectiveness | **PASS** — PR #258 merged `61db73a1…`, post-merge CI `40182258170` SUCCESS, decision-record blobs read back from `origin/main` |
+| `V613` | Dependency surface | **PASS** — exactly one specifier added; lockfile resolved at `2e11fa3b…`; primary `#2d9130e7…` and broker `#70b24f02…` unchanged; Gate 3 untouched; IPD writes **0** |
+| `V614` | Five-operation contract | **PASS** — executed against the real governed store (integration 5/5), incl. cross-owner non-disclosure and close/reopen re-read |
+| `V615` | Full validation | **PASS** — 102 files / 1,309 passed / 0 failed + guard OK; typechecks 0/0; strict `tsc` 0; build 0 at unchanged chunk; restart suite 5/5 |
+| `V616` | Non-exposure / honesty | **PASS** — fence, routes, UI unchanged; no owner source created; F-7/CV-51/acceptance/admission not claimed |
+
+*End of §16.110.*
