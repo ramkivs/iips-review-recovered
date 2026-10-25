@@ -10730,3 +10730,28 @@ Publication coordinates were **not self-embedded** in the adoption act; they are
 Evidence: `evidence/integration/cap03-h12-r5-adoption-2026-10-25/40-postmerge-readback.txt` and `41-postmerge-main-ci.txt`.
 
 *End of §16.123 (`CHG-2026-10-25-28` / `CHG-2026-10-25-29`; `V706`–`V718`). **DQ-6b is `6/6` EFFECTIVE across both loci; Gate 4 H-12 R5 (`G4-H12-MANIFEST-v2-CANDIDATE-2026-10-25-R5`, `f4649e36…` / `d0be8bef…`) is ADOPTED and EFFECTIVE in the governing IRR locus.** DQ-4 remains **PREPARED AND VALIDATED — NOT ESTABLISHED** (`8/10`); Gate 4 remains **AUTHORIZED — NOT STARTED**; QE **`0/11`**; Gate 5 **NOT INITIATED / NOT ADMITTED**.*
+
+---
+
+## §16.124 — `CV-CORR-104`: CAP-02 status corrected and CAP-02 → CAP-03 S2 dependency re-established from effective records — `2026-10-25` (`CHG-2026-10-25-30`, `V719`–`V725`)
+
+**Current-state correction only; all earlier history is preserved.** This reconciliation supersedes as current labels only any blanket CAP-02 completion inference from DB-C1/PR #114, and historical CAP-02 U2/U7/B-1R blocker labels in §§16.83–16.88 that were later closed by effective acts and merged implementation. It does not rewrite those historical snapshots, render authority, change a gate, or change code/pins/fences.
+
+- **CAP-02 overall: PARTIAL / NOT COMPLETE.** The completed bounded DB-C1 preview is one distinct non-production increment. Separately, authorized durable-ingestion implementation/evidence U2-1…U2-12 and the bounded U0/B-1/B-1R/U1/U7 contract/composition work are complete. CAP-02 Gate 4 qualification U3 is `AUTHORIZED — NOT STARTED` (`QE 0/11`); U4 acceptance is not rendered; U5 Gate 5 admission is not granted/initiated; U6 operational writes remain unauthorized. The system is therefore not accepted/admitted for operational durable broker writes. No production use, live broker access, durable-save claim, or fence lift follows from PR #114 or implementation CI.
+- **PR #114 verified:** GitHub API reports `MERGED` at `2026-10-23T12:44:34Z`, merge commit `271ca5273e76e0eb28594dc5675f11094622c902`; post-merge `main` CI run `39955624531` / job `120420630624` succeeded. §16.91 `V416` records independent read-back of all 14 DB-C1 blobs; the PR's post-merge comment repeats the merge, 14/14 read-back and CI coordinates. DB-C1's six-point real-browser/real-CSV Product-Owner acceptance remains bounded to preview behavior only.
+- **CAP-02 → CAP-03:** no outstanding CAP-02 item is a hard prerequisite for CAP-03 S2. Effective CAP-02 topology §5 and CAP-03 prerequisite register §§1/10 expressly exclude that dependency. CAP-03 S2 is blocked by its own designated native-Windows host preconditions at the exact CAP-03 pin; it was not run (0/5 commands). Shared W-1, host, Gate 4/5 and downstream acceptance boundaries remain binding, but do not require restarting CAP-02 before S2.
+- **Single next action:** make designated host `desktop-no0nhtp` available to the designated non-elevated operator and execute the already-authorized S2 sequence on that host at the exact designated IPD commit/tree with raw evidence outside the worktree; stop if any precondition fails. No unsuitable-environment substitution, premature provisioning, write enablement or gate bypass.
+
+Authoritative criterion-by-criterion dispositions, evidence and remaining gaps: [`docs/integration/IIPS_v3.0_CAP02_AUTHORITATIVE_STATUS_AND_CAP03_DEPENDENCY_RECONCILIATION_2026-10-25.md`](docs/integration/IIPS_v3.0_CAP02_AUTHORITATIVE_STATUS_AND_CAP03_DEPENDENCY_RECONCILIATION_2026-10-25.md). IPD was inspected read-only at `main@f5eddbc20b944a098a9060a8e3349c6d10b7843e`; current CAP-02 tracker blob `8a2a4e45615b84e517b65fe2700d4a09cde8c3f7` (162,478 B; SHA-256 `8f85ca5e1e4acc10e19fa77d8ab87c388567a88442c136f5388e76479841351c`). The tracker and record are additive; IPD remains untouched.
+
+| ID | Check | Result |
+|---|---|---|
+| `V719` | PR #114 live state, effective bounded disposition, post-merge receipt and CI | **PASS** — `MERGED`; DB-C1 preview only; post-merge CI success; 14/14 remote blobs in §16.91. |
+| `V720` | Latest IRR master tracker and later authoritative CAP-03 status | **PASS** — `main@c230690…` / PR #280; §§16.123 and latest S2 action examined. |
+| `V721` | Current IPD CAP-02 tracker read-only read-back | **PASS** — `main@f5eddbc…`, tracker blob/size/SHA-256 above; latest appended source record is IPD PR #94 receipt. |
+| `V722` | U2 exact criteria against effective acts and evidence | **PASS** — U2-1…U2-12 implementation/evidence complete; U2-13/U2-14 are separate authority/operation boundaries, not code completion. |
+| `V723` | CAP-02 → CAP-03 dependency register cross-check | **PASS** — effective topology and CAP-03 prerequisite register explicitly exclude CAP-02 as S2 prerequisite. |
+| `V724` | Current S2 host blocker | **PASS** — designated-host preconditions failed; S2 0/5 commands; P-1 not executed; S3 not reached. |
+| `V725` | Non-grants and scope preservation | **PASS** — documentation-only; no IPD writes, source/pin/fence change, host action, provisioning, gate movement, write authorization or production claim. |
+
+*End of §16.124 (`CV-CORR-104`; `CHG-2026-10-25-30`). CAP-02 is not declared complete. CAP-03 S2 may proceed independently of CAP-02 closure, subject only to its actual host prerequisites and the applicable shared downstream gates.*
