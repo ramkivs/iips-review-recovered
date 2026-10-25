@@ -1,0 +1,12 @@
+
+ RUN  v2.1.9 /home/user/iips-review-recovered/frontend
+
+ ✓ server/user-portfolio/ipcPortAdapter.test.ts (49 tests) 39ms
+
+ Test Files  1 passed (1)
+      Tests  49 passed (49)
+   Start at  13:30:16
+   Duration  621ms (transform 187ms, setup 154ms, collect 202ms, tests 39ms, environment 0ms, prepare 70ms)
+
+
+[exit code: 0]

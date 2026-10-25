@@ -1,0 +1,569 @@
+Command: npm run test:ci
+
+
+> @iips/v3-frontend@0.1.0 pretest:ci
+> npm run build:broker-import
+
+
+> @iips/v3-frontend@0.1.0 build:broker-import
+> tsc -p tsconfig.broker-import.json
+
+
+> @iips/v3-frontend@0.1.0 test:ci
+> vitest run --reporter=default --reporter=json --outputFile.json=.vitest-report.json
+
+
+ RUN  v2.1.9 /home/user/iips-review-recovered/frontend
+
+ ✓ server/user-portfolio/ipcPortAdapter.test.ts (49 tests) 30ms
+ ✓ server/user-portfolio/ipcClient.test.ts (34 tests) 353ms
+ ✓ server/pit/pitReadBoundary.test.ts (48 tests) 47ms
+ ✓ server/user-portfolio/fenceUnchanged.test.ts (26 tests) 276ms
+ ✓ server/replay/GovernedScreenReplayService.test.ts (22 tests) 171ms
+ ✓ server/pit/pitRuntimeIntegration.test.ts (28 tests) 136ms
+ ✓ server/broker-import/brokerImportHttp.test.ts (24 tests) 252ms
+ ✓ server/pit/pitD114RuntimeIntegration.test.ts (27 tests) 98ms
+ ✓ server/collaboration/collaboration-transport-owner-context.test.ts (19 tests) 139ms
+ ✓ server/watchlists/watchlists-transport-owner-context.test.ts (18 tests) 120ms
+ ✓ server/owner-context-integration.test.ts (14 tests) 253ms
+ ✓ server/user-portfolio/userPortfolioContract.test.ts (19 tests) 6ms
+ ✓ server/broker-import/brokerImportV1SaveAdapter.test.ts (22 tests) 11ms
+ ✓ server/replay/replay-application.integration.test.ts (7 tests) 689ms
+   ✓ Stage A real exported application — separate HTTP requests > exhausts the real default 100-record store honestly and still retrieves/replays the earliest original without eviction 500ms
+ ✓ server/owner-context-resolver.test.ts (26 tests) 16ms
+ ✓ server/user-portfolio/ownerContextFromBinding.test.ts (15 tests) 11ms
+ ✓ server/settings/settings-transport-owner-context.test.ts (13 tests) 94ms
+ ✓ server/replay/replay-transport.test.ts (13 tests) 187ms
+ ✓ server/broker-import/brokerImportBoundary.test.ts (16 tests) 20ms
+ ✓ server/user-portfolio/option2F.test.ts (15 tests) 34ms
+(node:21952) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ✓ server/reports-transport.test.ts (4 tests) 100ms
+ ✓ server/replay/ScreenEvaluationSnapshot.test.ts (16 tests) 96ms
+(node:21992) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ✓ server/reports/reports-persistence-integration.test.ts (5 tests) 32ms
+(node:22110) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:22142) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:22174) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:22208) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ✓ server/reports-restart.test.ts (2 tests) 9830ms
+   ✓ NP-06 Reports — F-7 Separate-Process Durable HTTP Acceptance > Process 1 & 2 fail closed with 503 across processes when carrier is not provisioned 3331ms
+   ✓ NP-06 Reports — F-7 Separate-Process Durable HTTP Acceptance > proves F-7 durable HTTP lifecycle across 3 distinct OS processes 6498ms
+ ✓ server/user-portfolio/userPortfolioBoundary.test.ts (8 tests) 5ms
+ ✓ src/api/pit.test.ts (10 tests) 180ms
+ ✓ server/owner-context-restart.test.ts (8 tests) 7274ms
+   ✓ F-3 mechanism — durability across a separate process > process 1 serves the owner context and writes through the real composed server 1110ms
+   ✓ F-3 mechanism — durability across a separate process > process 2 — a FRESH process — serves the same owner context from the same carrier 1960ms
+   ✓ F-3 mechanism — fail-closed and recovery across a separate process > a restarted process serves NO owner context when the carrier was tampered with 1199ms
+   ✓ F-3 mechanism — fail-closed and recovery across a separate process > a restarted process serves NO owner context when the carrier is absent 1908ms
+   ✓ F-3 mechanism — fail-closed and recovery across a separate process > recovers across a separate process once the authorised carrier is restored 1094ms
+ ✓ server/owner-context-carrier.test.ts (8 tests) 8ms
+ ✓ server/live/engine-execution-live-certification.test.ts (6 tests) 44ms
+(node:22515) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ✓ server/reports-api.test.ts (3 tests) 92ms
+ ✓ server/reports-owner-resolver.test.ts (5 tests) 6ms
+ ✓ server/broker-import/brokerImportImportSafety.test.ts (5 tests) 22ms
+ ✓ server/user-portfolio/translationBoundary.test.ts (4 tests) 3ms
+ ✓ server/settings/settings-route-integration.test.ts (5 tests) 80ms
+ ✓ server/collaboration/collaboration-route-integration.test.ts (4 tests) 56ms
+ ✓ server/reports-owner-carrier.test.ts (4 tests) 4ms
+ ✓ server/live/ai-advisory-live-certification.test.ts (3 tests) 45ms
+ ✓ server/macro/mospi-source.test.ts (53 tests) 118ms
+ ✓ server/collaboration/collaboration-service.test.ts (41 tests) 31ms
+ ✓ server/macro/macro-transport.test.ts (23 tests) 627ms
+   ✓ /api/macro — V-C6 configuration & mount deps wiring > wires deps into handleMacroRequest from the executive-transport mount 579ms
+ ✓ server/reports/reports-artifact.test.ts (56 tests) 28ms
+ ✓ server/broker-import/brokerImportPackageConsumer.test.ts (5 tests) 52ms
+ ✓ server/d115-runtime.test.ts (12 tests) 11ms
+ ✓ server/product-transport.test.ts (11 tests) 221ms
+stderr | src/features/screener/Screener.test.tsx > Screener workspace > renders the predicate builder idle with no auto-fetch
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ src/features/screener/Screener.test.tsx (11 tests) 444ms
+ ✓ server/settings/settings-service.test.ts (28 tests) 17ms
+stderr | src/features/sector/SectorIntelligence.test.tsx > Sector Intelligence > renders loading state while fetching
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ src/features/sector/SectorIntelligence.test.tsx (12 tests) 271ms
+stderr | src/features/settings/Settings.test.tsx > UI12 — Settings surface: effective state > shows a loading state before the server responds
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ src/features/settings/Settings.test.tsx (17 tests) 219ms
+ ✓ server/reports/reports-canonical.test.ts (46 tests) 11ms
+ ✓ src/features/research/MacroResearch.test.tsx (16 tests) 361ms
+stderr | src/features/portfolio-import/BrokerImportModalIntegration.test.tsx > CAP-02 Level 2 — Public-package BrokerImportModal + IrrBrokerImportStorePortAdapter integration > mounts BrokerImportModal from iips-production-market-data/portfolio-ui at /user-portfolios/import without modifying /portfolio or /user-portfolios
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ src/features/portfolio-import/BrokerImportModalIntegration.test.tsx (6 tests) 474ms
+ ✓ server/watchlists/watchlists-service.test.ts (25 tests) 23ms
+ ✓ src/features/portfolio-import/irrPortfolioStorePortAdapter.test.ts (12 tests) 15ms
+stderr | src/features/collaboration/Collaboration.test.tsx > UI10 — Collaboration surface > renders the surface with a private, owner-scoped thread
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ src/features/collaboration/Collaboration.test.tsx (12 tests) 251ms
+ ✓ src/api/brokerImport.test.ts (12 tests) 16ms
+ ✓ server/persistence/consumer-restart-read.test.ts (3 tests) 5030ms
+   ✓ CAP-01 — consumer-level post-restart reads (rows 9/10/11, separate processes) > row 9 Watchlists: Process B reads the persisted watchlist through the real service after Process A terminated 1982ms
+   ✓ CAP-01 — consumer-level post-restart reads (rows 9/10/11, separate processes) > row 10 Collaboration: Process B reads the persisted thread and comment through the real service after Process A terminated 2022ms
+   ✓ CAP-01 — consumer-level post-restart reads (rows 9/10/11, separate processes) > row 11 Settings incl. reset: Process B reads the surviving update AND the reset-to-defaults through the real service after Process A terminated 1025ms
+ ✓ server/persistence/persistence-service.test.ts (21 tests) 16ms
+stderr | src/features/replay/ReplayExplorer.test.tsx > Replay Explorer — application outcomes > keeps legacy sector links truthful and never displays a fabricated original
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ src/features/replay/ReplayExplorer.test.tsx (12 tests) 326ms
+stderr | src/features/evidence/EvidenceLanding.test.tsx > Decision Evidence landing > replaces the placeholder, renders all 13 subjects, and preserves governed semantics
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ src/features/evidence/EvidenceLanding.test.tsx (11 tests) 309ms
+stderr | server/replay/replay-ui.integration.test.tsx > Stage A actual UI/client HTTP composition > captures a new zero-match original, follows its genuine UUID GET, and evaluates only on a manual replay POST
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ server/replay/replay-ui.integration.test.tsx (5 tests) 531ms
+stderr | src/app/App.test.tsx > Application Shell > renders the brand without login, role, tenant, or identity controls
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+Warning: An update to ExecutiveDashboard inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at ExecutiveDashboard (/home/user/iips-review-recovered/frontend/src/features/executive/ExecutiveDashboard.tsx:36:49)
+    at RenderedRoute (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:535:7)
+    at Outlet (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:1182:28)
+    at main
+    at div
+    at AppShell (/home/user/iips-review-recovered/frontend/src/app/AppShell.tsx:12:46)
+    at RenderedRoute (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:535:7)
+    at Routes (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:1269:7)
+    at App
+    at Router (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:1203:17)
+    at MemoryRouter (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:1097:7)
+Warning: An update to ExecutiveDashboard inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at ExecutiveDashboard (/home/user/iips-review-recovered/frontend/src/features/executive/ExecutiveDashboard.tsx:36:49)
+    at RenderedRoute (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:535:7)
+    at Outlet (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:1182:28)
+    at main
+    at div
+    at AppShell (/home/user/iips-review-recovered/frontend/src/app/AppShell.tsx:12:46)
+    at RenderedRoute (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:535:7)
+    at Routes (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:1269:7)
+    at App
+    at Router (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:1203:17)
+    at MemoryRouter (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:1097:7)
+Warning: An update to ExecutiveDashboard inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at ExecutiveDashboard (/home/user/iips-review-recovered/frontend/src/features/executive/ExecutiveDashboard.tsx:36:49)
+    at RenderedRoute (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:535:7)
+    at Outlet (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:1182:28)
+    at main
+    at div
+    at AppShell (/home/user/iips-review-recovered/frontend/src/app/AppShell.tsx:12:46)
+    at RenderedRoute (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:535:7)
+    at Routes (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:1269:7)
+    at App
+    at Router (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:1203:17)
+    at MemoryRouter (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:1097:7)
+
+stderr | src/app/App.test.tsx > Application Shell > shows roleless navigation for the available product surfaces
+Warning: An update to ExecutiveDashboard inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at ExecutiveDashboard (/home/user/iips-review-recovered/frontend/src/features/executive/ExecutiveDashboard.tsx:36:49)
+    at RenderedRoute (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:535:7)
+    at Outlet (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:1182:28)
+    at main
+    at div
+    at AppShell (/home/user/iips-review-recovered/frontend/src/app/AppShell.tsx:12:46)
+    at RenderedRoute (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:535:7)
+    at Routes (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:1269:7)
+    at App
+    at Router (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:1203:17)
+    at MemoryRouter (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:1097:7)
+Warning: An update to ExecutiveDashboard inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at ExecutiveDashboard (/home/user/iips-review-recovered/frontend/src/features/executive/ExecutiveDashboard.tsx:36:49)
+    at RenderedRoute (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:535:7)
+    at Outlet (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:1182:28)
+    at main
+    at div
+    at AppShell (/home/user/iips-review-recovered/frontend/src/app/AppShell.tsx:12:46)
+    at RenderedRoute (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:535:7)
+    at Routes (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:1269:7)
+    at App
+    at Router (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:1203:17)
+    at MemoryRouter (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:1097:7)
+Warning: An update to ExecutiveDashboard inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at ExecutiveDashboard (/home/user/iips-review-recovered/frontend/src/features/executive/ExecutiveDashboard.tsx:36:49)
+    at RenderedRoute (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:535:7)
+    at Outlet (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:1182:28)
+    at main
+    at div
+    at AppShell (/home/user/iips-review-recovered/frontend/src/app/AppShell.tsx:12:46)
+    at RenderedRoute (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:535:7)
+    at Routes (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:1269:7)
+    at App
+    at Router (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:1203:17)
+    at MemoryRouter (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:1097:7)
+
+stderr | src/app/App.test.tsx > Application Shell > renders the available Intelligence child destination
+Warning: An update to ExecutiveDashboard inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at ExecutiveDashboard (/home/user/iips-review-recovered/frontend/src/features/executive/ExecutiveDashboard.tsx:36:49)
+    at RenderedRoute (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:535:7)
+    at Outlet (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:1182:28)
+    at main
+    at div
+    at AppShell (/home/user/iips-review-recovered/frontend/src/app/AppShell.tsx:12:46)
+    at RenderedRoute (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:535:7)
+    at Routes (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:1269:7)
+    at App
+    at Router (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:1203:17)
+    at MemoryRouter (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:1097:7)
+Warning: An update to ExecutiveDashboard inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at ExecutiveDashboard (/home/user/iips-review-recovered/frontend/src/features/executive/ExecutiveDashboard.tsx:36:49)
+    at RenderedRoute (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:535:7)
+    at Outlet (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:1182:28)
+    at main
+    at div
+    at AppShell (/home/user/iips-review-recovered/frontend/src/app/AppShell.tsx:12:46)
+    at RenderedRoute (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:535:7)
+    at Routes (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:1269:7)
+    at App
+    at Router (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:1203:17)
+    at MemoryRouter (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:1097:7)
+Warning: An update to ExecutiveDashboard inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at ExecutiveDashboard (/home/user/iips-review-recovered/frontend/src/features/executive/ExecutiveDashboard.tsx:36:49)
+    at RenderedRoute (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:535:7)
+    at Outlet (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:1182:28)
+    at main
+    at div
+    at AppShell (/home/user/iips-review-recovered/frontend/src/app/AppShell.tsx:12:46)
+    at RenderedRoute (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:535:7)
+    at Routes (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:1269:7)
+    at App
+    at Router (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:1203:17)
+    at MemoryRouter (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:1097:7)
+
+stderr | src/app/App.test.tsx > Application Shell > does not render parameterised or placeholder children as global links
+Warning: An update to ExecutiveDashboard inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at ExecutiveDashboard (/home/user/iips-review-recovered/frontend/src/features/executive/ExecutiveDashboard.tsx:36:49)
+    at RenderedRoute (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:535:7)
+    at Outlet (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:1182:28)
+    at main
+    at div
+    at AppShell (/home/user/iips-review-recovered/frontend/src/app/AppShell.tsx:12:46)
+    at RenderedRoute (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:535:7)
+    at Routes (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:1269:7)
+    at App
+    at Router (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:1203:17)
+    at MemoryRouter (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:1097:7)
+Warning: An update to ExecutiveDashboard inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at ExecutiveDashboard (/home/user/iips-review-recovered/frontend/src/features/executive/ExecutiveDashboard.tsx:36:49)
+    at RenderedRoute (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:535:7)
+    at Outlet (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:1182:28)
+    at main
+    at div
+    at AppShell (/home/user/iips-review-recovered/frontend/src/app/AppShell.tsx:12:46)
+    at RenderedRoute (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:535:7)
+    at Routes (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:1269:7)
+    at App
+    at Router (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:1203:17)
+    at MemoryRouter (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:1097:7)
+Warning: An update to ExecutiveDashboard inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at ExecutiveDashboard (/home/user/iips-review-recovered/frontend/src/features/executive/ExecutiveDashboard.tsx:36:49)
+    at RenderedRoute (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:535:7)
+    at Outlet (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:1182:28)
+    at main
+    at div
+    at AppShell (/home/user/iips-review-recovered/frontend/src/app/AppShell.tsx:12:46)
+    at RenderedRoute (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:535:7)
+    at Routes (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:1269:7)
+    at App
+    at Router (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:1203:17)
+    at MemoryRouter (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:1097:7)
+
+stderr | src/app/App.test.tsx > Application Shell > renders group-only parents as headings, never as links to an unbuilt surface
+Warning: An update to ExecutiveDashboard inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at ExecutiveDashboard (/home/user/iips-review-recovered/frontend/src/features/executive/ExecutiveDashboard.tsx:36:49)
+    at RenderedRoute (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:535:7)
+    at Outlet (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:1182:28)
+    at main
+    at div
+    at AppShell (/home/user/iips-review-recovered/frontend/src/app/AppShell.tsx:12:46)
+    at RenderedRoute (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:535:7)
+    at Routes (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:1269:7)
+    at App
+    at Router (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:1203:17)
+    at MemoryRouter (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:1097:7)
+Warning: An update to ExecutiveDashboard inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at ExecutiveDashboard (/home/user/iips-review-recovered/frontend/src/features/executive/ExecutiveDashboard.tsx:36:49)
+    at RenderedRoute (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:535:7)
+    at Outlet (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:1182:28)
+    at main
+    at div
+    at AppShell (/home/user/iips-review-recovered/frontend/src/app/AppShell.tsx:12:46)
+    at RenderedRoute (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:535:7)
+    at Routes (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:1269:7)
+    at App
+    at Router (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:1203:17)
+    at MemoryRouter (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:1097:7)
+Warning: An update to ExecutiveDashboard inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at ExecutiveDashboard (/home/user/iips-review-recovered/frontend/src/features/executive/ExecutiveDashboard.tsx:36:49)
+    at RenderedRoute (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:535:7)
+    at Outlet (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:1182:28)
+    at main
+    at div
+    at AppShell (/home/user/iips-review-recovered/frontend/src/app/AppShell.tsx:12:46)
+    at RenderedRoute (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:535:7)
+    at Routes (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:1269:7)
+    at App
+    at Router (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:1203:17)
+    at MemoryRouter (/home/user/iips-review-recovered/frontend/node_modules/react-router/dist/umd/react-router.development.js:1097:7)
+
+ ✓ src/app/App.test.tsx (18 tests) 906ms
+ ✓ server/broker-import/brokerImportModalHostIntegration.test.tsx (2 tests) 373ms
+stderr | src/features/user-portfolios/UserPortfolioList.test.tsx > User Portfolio list (G-2 read-only consumer) > renders the user portfolio summaries served by the transport
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ src/features/user-portfolios/UserPortfolioList.test.tsx (10 tests) 204ms
+ ✓ server/ai-advisory-transport.test.ts (12 tests) 95ms
+ ✓ server/screener/screener-transport.test.ts (10 tests) 157ms
+stderr | src/features/intelligence/IntelligenceOpportunities.test.tsx > Intelligence Opportunities — Discovery / Action framing view > reads the existing credential-free cross-sector path and maps one row per certified entry
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ src/features/intelligence/IntelligenceOpportunities.test.tsx (11 tests) 175ms
+stderr | src/features/intelligence/IntelligenceRisks.test.tsx > Intelligence Risks — Portfolio Risk framing view > renders the certified aggregate avgRisk and nothing else from the portfolio block
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ src/features/intelligence/IntelligenceRisks.test.tsx (10 tests) 183ms
+stderr | src/features/intelligence/IntelligenceRankings.test.tsx > Intelligence Rankings — Ordered Comparison framing view > reads the existing credential-free cross-sector path and maps one row per certified entry
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ src/features/intelligence/IntelligenceRankings.test.tsx (11 tests) 170ms
+ ✓ src/api/replay.test.ts (29 tests) 19ms
+ ✓ server/engine-transport.test.ts (6 tests) 49ms
+stderr | src/features/user-portfolios/UserPortfolioDetail.test.tsx > User Portfolio detail (G-2 read-only consumer) > renders the portfolio view served by the transport
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ src/features/user-portfolios/UserPortfolioDetail.test.tsx (10 tests) 226ms
+stderr | src/features/watchlists/Watchlists.test.tsx > UI07 — Watchlists surface > renders a persistent list with its members
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ src/features/watchlists/Watchlists.test.tsx (10 tests) 146ms
+ ✓ server/persistence/persistence-restart-proof.test.ts (2 tests) 2002ms
+   ✓ PF-1 — separate-process restart proof (D-1 journal extension §3.8) > cycle 1: Process B recovers Process A committed state after full termination 1037ms
+   ✓ PF-1 — separate-process restart proof (D-1 journal extension §3.8) > cycle 2: distinct fixture, identical recovery semantics (deterministic repeat) 964ms
+ ✓ src/features/executive/ExecutiveDashboard.test.tsx (5 tests) 228ms
+stderr | src/features/ai-advisory/AiAdvisory.test.tsx > AI Explanation (read-only, non-authoritative) > renders the mandatory non-authoritative label and AI badge
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ src/features/ai-advisory/AiAdvisory.test.tsx (6 tests) 234ms
+ ✓ src/features/research/MacroContext.test.tsx (6 tests) 69ms
+ ✓ server/macro/mospi-tls.test.ts (8 tests) 10ms
+stderr | src/features/company/CompanyIntelligence.test.tsx > Company Intelligence > shows the certified decision for a company with pillars
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ src/features/company/CompanyIntelligence.test.tsx (6 tests) 155ms
+ ✓ src/features/broker-holdings/BrokerHoldingsPreview.test.tsx (6 tests) 167ms
+stderr | src/features/portfolio/PortfolioWorkspace.test.tsx > Portfolio Workspace > renders portfolio overview from certified data
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ src/features/portfolio/PortfolioWorkspace.test.tsx (7 tests) 253ms
+ ✓ src/api/brokerHoldingsPreview.test.ts (10 tests) 14ms
+ ✓ src/api/macro.test.ts (4 tests) 8ms
+stderr | src/features/evidence/EvidenceExplorer.test.tsx > Evidence Explorer > shows the certified decision summary
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ src/features/evidence/EvidenceExplorer.test.tsx (6 tests) 168ms
+stderr | src/features/cross-sector/CrossSectorIntelligence.test.tsx > Cross-Sector Intelligence > renders universe overview from certified CSIP data
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ src/features/cross-sector/CrossSectorIntelligence.test.tsx (6 tests) 266ms
+ ✓ src/features/research/MacroSourceDisclosure.test.tsx (9 tests) 47ms
+stderr | src/features/engines/EngineRegistry.test.tsx > Engine Registry (E2E-026) > renders governed engine registry (no fabrication)
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ src/features/engines/EngineRegistry.test.tsx (4 tests) 140ms
+stderr | src/features/decision-matrix/DecisionMatrix.test.tsx > Decision Matrix > renders universe overview and certified badge
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ src/features/decision-matrix/DecisionMatrix.test.tsx (6 tests) 172ms
+ ✓ server/user-portfolio-transport.test.ts (3 tests) 61ms
+ ✓ src/api/evidence.test.ts (10 tests) 8ms
+ ✓ src/components/evidence/EvidenceExplorerComponents.test.tsx (11 tests) 59ms
+ ✓ server/collaboration/collaboration-transport.test.ts (3 tests) 45ms
+ ✓ server/watchlists/watchlists-transport.test.ts (3 tests) 36ms
+ ✓ src/components/decision/DecisionComponents.test.tsx (6 tests) 134ms
+ ✓ src/components/data/DataComponents.test.tsx (8 tests) 47ms
+ ✓ src/components/interaction/InteractionComponents.test.tsx (6 tests) 133ms
+ ✓ server/settings/settings-transport.test.ts (5 tests) 39ms
+ ✓ src/components/evidence/EvidenceComponents.test.tsx (5 tests) 42ms
+ ✓ src/components/ui/Badges.test.tsx (5 tests) 36ms
+ ✓ server/executive-read.test.ts (2 tests) 46ms
+ ✓ src/core/network/noAuthFetch.test.ts (2 tests) 6ms
+ ✓ src/components/state/StateComponents.test.tsx (6 tests) 74ms
+ ✓ src/components/shell/ShellStates.test.tsx (5 tests) 73ms
+ ✓ src/components/viz/ChartFoundations.test.tsx (4 tests) 36ms
+ ✓ src/components/company/CompanyHeader.test.tsx (2 tests) 36ms
+
+ Test Files  104 passed (104)
+      Tests  1321 passed (1321)
+   Start at  12:16:36
+   Duration  91.52s (transform 2.57s, setup 10.94s, collect 6.16s, tests 37.77s, environment 20.39s, prepare 5.02s)
+
+JSON report written to /home/user/iips-review-recovered/frontend/.vitest-report.json
+
+[full-test-ci-after-main-53176b exit: 0; duration: 93.45s]

@@ -1,0 +1,6 @@
+
+> iips-production-market-data@1.0.0 build:tsc
+> tsc
+
+
+EXIT_CODE=0

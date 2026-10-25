@@ -1,0 +1,29 @@
+CAP-03 DR-2 adapter test iteration 1 — preserved initial failure
+Command: npm test -- server/user-portfolio/ipcPortAdapter.test.ts
+Working directory: frontend/
+Exit code: 1
+
+> @iips/v3-frontend@0.1.0 pretest
+> npm run build:broker-import
+
+
+> @iips/v3-frontend@0.1.0 build:broker-import
+> tsc -p tsconfig.broker-import.json
+
+
+> @iips/v3-frontend@0.1.0 test
+> vitest run server/user-portfolio/ipcPortAdapter.test.ts
+
+
+ RUN  v2.1.9 /home/user/iips-review-recovered/frontend
+
+ ❯ server/user-portfolio/ipcPortAdapter.test.ts (50 tests | 1 failed) 38ms
+   × ipcPortAdapter — the revisions operation > refuses missing, null, non-finite and otherwise malformed required values 10ms
+     → promise resolved "[ { revision: 1, …(5) } ]" instead of rejecting
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 49 passed (50)
+   Start at  11:02:41
+   Duration  526ms (transform 143ms, setup 130ms, collect 168ms, tests 38ms, environment 0ms, prepare 52ms)
+
+The failing case was a valid revision row accidentally included in the invalid-value table. It was replaced with a row missing the required historical fields; no production code was changed to conceal the failure. The corrected targeted suite passed 50/50 before the final deduplication/comment cleanup; the final complete validation is recorded separately in this evidence directory.

@@ -1,0 +1,33 @@
+CAP-03 pass starting-state verification — 2026-10-25 UTC
+
+IRR
+- Repository: `/home/user/iips-review-recovered`; fixed branch `arena/a97a2beb-iips-review-recovered`.
+- Starting `HEAD` and remote `refs/heads/main`: `e8b41ba747132773b2c31a85eb028bd8d33d2ffd`.
+- Root tree: `23dfa3d87446a418a6c1923e20adf2e17640b842`.
+- Commit: merge of PR #262, parents `3e1c59268c62d5f81afed32966819bf3dd33acd1` and `272f9ad45d1e7f7e9e63763861f50ed130b515e4`.
+- `git ls-remote origin refs/heads/main` matched `e8b41ba...`; `git merge-base HEAD origin/main` matched; ahead/behind count `0 / 0`.
+- Open IRR PRs at start: 0.
+- Starting `main` check-run: `Typecheck · Test · Build`, run `40184609388`, conclusion `success` (started `2026-10-25T10:24:00Z`, completed `10:25:05Z`).
+
+IPD (separate repository; read-only for source changes)
+- `/tmp/iips-production-market-data-readonly`, branch `main`; `HEAD` and remote `refs/heads/main` both `4b5c65a731a66a6fa1260146a55df9ed772953a5`.
+- Root tree `cf5e85856009360de3ffb9614970c383a26d73ba`; last commit is documentation receipt for PR #88, parent `e5a130fe5b682b4faff192969b8582754f0da545`.
+- Open IPD PRs at start: 0.
+- Current IPD main checks: `typecheck · build · test` run `40118192617`, conclusion `success`; executed-test-count run `120944105749`, conclusion `success`.
+- Primary IRR package pin `2d9130e76bb0dc89daeefabaf297e27bdaa84250`: ancestor of IPD main, 59 commits behind.
+- Alias pin `70b24f029842a7e9b7f615e4d9df7376fd4ff817`: ancestor of IPD main, 208 commits behind.
+- No re-pin authorized or performed; no final QE pin designated by this pass.
+
+IRR immutable/boundary objects measured before implementation
+- `frontend/server/user-portfolio/userPortfolioContract.ts`: blob `e6b57bb8a021d8eb4b9b7572d12affc7de66be0b` (frozen G2 definitions).
+- `frontend/server/user-portfolio/ipcClient.ts`: blob `c1b885e3173132685090bcd2cbfa4aa8c87fa4ca`.
+- `frontend/server/user-portfolio/userPortfolioPort.ts`: blob `ba0001e88c83b070e4f16a3cdb35d34c82ec0200`.
+- `frontend/server/user-portfolio-transport.ts`: fence blob `51704c12a467cd2f718a030b5036bc55c9afa73f`.
+- `frontend/server/owner-context-unavailable.ts`: fence blob `cb8db45d668d28cee7e0a52721001d579a872733`.
+- `frontend/package.json`: blob `a0061bce69e622052bc9c46a55b4f7db3e9e503d`.
+- `frontend/package-lock.json`: blob `a006a6a056c8474af53ea02fd6fc1743b3cefdb5`.
+
+Execution environment / host boundary
+- Agent sandbox: Linux x86_64, kernel `6.1.158+`, Node `v22.22.3`, npm `10.9.8`; neither `pwsh` nor `powershell.exe` exists in PATH.
+- No host contact, host preflight, P-1 path creation, provisioning, QE, endpoint activation, writes, or Gate 5 operation was attempted.
+- The IPD source worktree remained at the same tracked commit/tree. For the current-source Q1 baseline only, `npm ci --ignore-scripts` and `npm run build:tsc` generated ignored `node_modules/` and `dist/`; `git status` remained clean on `main`. No IPD source or host-operations package was edited, rebuilt as a package, republished, or regenerated.

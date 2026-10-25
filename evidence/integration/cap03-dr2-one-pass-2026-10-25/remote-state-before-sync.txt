@@ -1,0 +1,23 @@
+Live PR/base/protection snapshot before synchronizing PR #265 — 2026-10-25 UTC
+
+IRR current `main`:
+- SHA `69e3e7c65082340908e976e9ec0a638b8608dabd`; tree `6379243f40f0e84baa895920228d6558ad2b9fbd`.
+- Parents: `52dddd8c31ecc866fc6a667bb81195f5bff33b94` (PR #271 merge) and `364fdb9ef773f751c082fce9d7779426ff73fc04` (PR #272 head/second parent).
+- PR #271: merged at `52dddd8c31ecc866fc6a667bb81195f5bff33b94`; PR check `40196119937` and post-merge `main` CI `40196280978` succeeded.
+- PR #272: merged at `69e3e7c65082340908e976e9ec0a638b8608dabd`; PR check `40196666982` and current-main push CI `40196816536` succeeded.
+
+IRR PR #265 live API state at this snapshot (before current-main sync was pushed):
+- `state=open`, `merged_at=null`, `head=c059c326c355b80c3224ad861dfecfb93963f112`, head ref `arena/a97a2beb-iips-review-recovered`.
+- GitHub still reported base ref `main` at `53176b73e505cbc75ad23694bbd12482323ae7a3`, although remote `main` had advanced to `69e3e7c…`.
+- `mergeable=false`, `mergeable_state=dirty`; this was the stale-base conflict state, not a post-sync mergeability result.
+- API diff: 52 changed files, 3,716 additions, 95 deletions. There were no submitted reviews, no requested reviewers, and no review decision.
+- The only reported check was `Typecheck · Test · Build`, run `40192897843`, job `121167509792`, conclusion `success` on the old `c059…` head. It did not validate the newly advanced main base.
+- Open-PR listing contained only PR #265.
+
+Repository merge/protection evidence:
+- Repository settings report merge-commit, squash, and rebase merge all enabled; `delete_branch_on_merge=false`.
+- `GET /branches/main` returned `protected:false` at SHA `69e3e7c…`; repository rulesets endpoint returned `[]`.
+- `GET /branches/main/protection` returned HTTP 403 `Resource not accessible by integration`; that endpoint is unavailable to this token and is not represented as a successful protection query.
+- No protection bypass was attempted. The PR will only be merged through `gh pr merge 265 --merge` if the refreshed exact-head state permits.
+
+PR #265's previously published description was stale: it used the collided CAP-03 identifiers, said IPD had not implemented Option A, and requested that the PR not be merged. It must be updated to the live IPD state and current PR/base evidence under the user's newer standing authorization.

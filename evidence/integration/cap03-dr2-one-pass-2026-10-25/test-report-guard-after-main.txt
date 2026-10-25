@@ -1,0 +1,3 @@
+assert-tests: OK — 104 test file(s), 1321 test(s), 0 failed
+
+[test-report guard exit: 0]

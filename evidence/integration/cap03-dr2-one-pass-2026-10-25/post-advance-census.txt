@@ -1,0 +1,40 @@
+Post-advance identifier census and protected-input read-back — 2026-10-25 UTC
+
+Scope: current IRR `origin/main@0cc999ffba424476bace9688ca2f93ab114f0ee5`, root tree `8af4b196205b4e3dcbc4801614a60c709c7e0d7f`, after PR #263 and #264 merged and before CAP-03 PR #265 is published. Census command: `git grep -F -n <candidate> origin/main -- .`; each candidate below returned exit 1 / zero matches. This is a current-upstream census (unlike `identifier-census.txt`, which records the original pre-advance baseline).
+
+| Candidate | Prior hits on current `origin/main` |
+|---|---:|
+| §16.113 | 0 |
+| CV-CORR-95 | 0 |
+| CHG-2026-10-25-15 | 0 |
+| CHG-2026-10-25-16 | 0 |
+| V636 | 0 |
+| V637 | 0 |
+| V638 | 0 |
+| V639 | 0 |
+| V640 | 0 |
+| V641 | 0 |
+| V642 | 0 |
+| V643 | 0 |
+| V644 | 0 |
+| V645 | 0 |
+| V646 | 0 |
+| V647 | 0 |
+| V648 | 0 |
+
+Protected current-main IRR blobs re-read at `origin/main@0cc999f`:
+
+| Path | Blob |
+|---|---|
+| `frontend/server/user-portfolio/userPortfolioContract.ts` (frozen G2 types) | `e6b57bb8a021d8eb4b9b7572d12affc7de66be0b` |
+| `frontend/server/user-portfolio/ipcClient.ts` | `c1b885e3173132685090bcd2cbfa4aa8c87fa4ca` |
+| `frontend/server/user-portfolio/userPortfolioPort.ts` | `ba0001e88c83b070e4f16a3cdb35d34c82ec0200` |
+| `frontend/server/user-portfolio-transport.ts` (CAP-03 user-portfolio route/fence) | `51704c12a467cd2f718a030b5036bc55c9afa73f` |
+| `frontend/server/owner-context-unavailable.ts` | `cb8db45d668d28cee7e0a52721001d579a872733` |
+
+The exact CAP-03 source/test diff against this base is the two authorized files `frontend/server/user-portfolio/ipcPortAdapter.ts` and `frontend/server/user-portfolio/ipcPortAdapter.test.ts`; the five protected blobs above match the original start-state objects. The independently merged Reports transport from PR #263 is present in current-main ancestry, is outside the two-file CAP-03 diff, and is not user-portfolio endpoint activation.
+
+At the time this census was made, PR #265 was open with head `51ce168306b67f208d026cf6178a72d170d5052c`, GitHub `mergeable: CONFLICTING`, and no reported check runs. No merge of PR #265 had occurred. This was a time-bounded main-only census, not a census of future/open PRs: separate PR #266 was opened after this snapshot and independently allocated `CV-CORR-95`, §16.113, `CHG-2026-10-25-15/-16`, and `V636`–`V644`, then merged as `4e54a923…`. Thus the first CAP-03 reallocation to CV-CORR-95 was superseded before merge. The final census and allocation to `CV-CORR-96` / §16.114 / CHG-17/-18 / V645–V657 are recorded in `post-pr266-census.txt`. The final CAP-03 publication receipt is recorded separately after its remote checks/read-back.
+
+
+Later advance: PR #267 merged the separately allocated PR #266 receipt at `53176b73…`; this original census remains a snapshot at `main@0cc999f`. The current final census/allocation was rechecked after PR #267 in `post-pr267-census.txt`.

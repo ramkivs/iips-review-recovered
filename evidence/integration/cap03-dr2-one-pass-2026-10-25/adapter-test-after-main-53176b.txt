@@ -1,0 +1,14 @@
+Command: npx vitest run server/user-portfolio/ipcPortAdapter.test.ts
+
+
+ RUN  v2.1.9 /home/user/iips-review-recovered/frontend
+
+ ✓ server/user-portfolio/ipcPortAdapter.test.ts (49 tests) 29ms
+
+ Test Files  1 passed (1)
+      Tests  49 passed (49)
+   Start at  12:16:34
+   Duration  453ms (transform 146ms, setup 113ms, collect 148ms, tests 29ms, environment 0ms, prepare 47ms)
+
+
+[adapter-test-after-main-53176b exit: 0; duration: 0.90s]

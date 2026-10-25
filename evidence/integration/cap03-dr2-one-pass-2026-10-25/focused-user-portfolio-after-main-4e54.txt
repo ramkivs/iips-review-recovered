@@ -1,0 +1,34 @@
+Command: npm test -- server/user-portfolio server/user-portfolio-transport.test.ts
+
+
+> @iips/v3-frontend@0.1.0 pretest
+> npm run build:broker-import
+
+
+> @iips/v3-frontend@0.1.0 build:broker-import
+> tsc -p tsconfig.broker-import.json
+
+
+> @iips/v3-frontend@0.1.0 test
+> vitest run server/user-portfolio server/user-portfolio-transport.test.ts
+
+
+ RUN  v2.1.9 /home/user/iips-review-recovered/frontend
+
+ ✓ server/user-portfolio/ipcPortAdapter.test.ts (49 tests) 37ms
+ ✓ server/user-portfolio/ipcClient.test.ts (34 tests) 342ms
+ ✓ server/user-portfolio/fenceUnchanged.test.ts (26 tests) 250ms
+ ✓ server/user-portfolio/userPortfolioContract.test.ts (19 tests) 6ms
+ ✓ server/user-portfolio/ownerContextFromBinding.test.ts (15 tests) 11ms
+ ✓ server/user-portfolio/option2F.test.ts (15 tests) 37ms
+ ✓ server/user-portfolio/userPortfolioBoundary.test.ts (8 tests) 5ms
+ ✓ server/user-portfolio/translationBoundary.test.ts (4 tests) 3ms
+ ✓ server/user-portfolio-transport.test.ts (3 tests) 76ms
+
+ Test Files  9 passed (9)
+      Tests  173 passed (173)
+   Start at  11:45:30
+   Duration  4.31s (transform 725ms, setup 938ms, collect 901ms, tests 767ms, environment 341ms, prepare 432ms)
+
+
+[focused-user-portfolio-after-main-4e54 exit: 0; duration: 6.10s]

@@ -1,0 +1,5 @@
+Command: node .ci/assert-tests.js .vitest-report.json
+
+assert-tests: OK — 104 test file(s), 1321 test(s), 0 failed
+
+[test-report-guard-after-main-53176b exit: 0; duration: 0.03s]

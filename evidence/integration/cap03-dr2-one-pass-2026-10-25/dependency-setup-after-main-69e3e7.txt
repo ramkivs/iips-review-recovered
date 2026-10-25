@@ -1,0 +1,15 @@
+npm warn skipping integrity check for git dependency ssh://git@github.com/ramkivs/iips-production-market-data.git
+npm warn skipping integrity check for git dependency ssh://git@github.com/ramkivs/iips-production-market-data.git
+npm warn skipping integrity check for git dependency ssh://git@github.com/ramkivs/iips-production-market-data.git
+npm warn deprecated whatwg-encoding@3.1.1: Use @exodus/bytes instead for a more spec-conformant and faster implementation
+npm error code UNABLE_TO_VERIFY_LEAF_SIGNATURE
+npm error errno UNABLE_TO_VERIFY_LEAF_SIGNATURE
+npm error request to https://codeload.github.com/ramkivs/iips-production-market-data/tar.gz/2d9130e76bb0dc89daeefabaf297e27bdaa84250 failed, reason: unable to verify the first certificate
+npm notice
+npm notice New major version of npm available! 10.9.8 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice
+npm error A complete log of this run can be found in: /home/user/.npm/_logs/2026-10-25T13_27_57_477Z-debug-0.log
+
+[npm ci exit: 1]

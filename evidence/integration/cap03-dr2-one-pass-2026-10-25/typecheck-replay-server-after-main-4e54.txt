@@ -1,0 +1,8 @@
+Command: npm run typecheck:replay-server
+
+
+> @iips/v3-frontend@0.1.0 typecheck:replay-server
+> tsc -p tsconfig.replay-server.json --noEmit
+
+
+[typecheck-replay-server-after-main-4e54 exit: 0; duration: 5.65s]
