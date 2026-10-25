@@ -293,6 +293,8 @@ The following completed baselines on `ramkivs/iips-review-recovered @ refs/heads
 | `2026-10-25` | `CHG-2026-10-25-08` | **Publication receipt for §16.109 (`CV-CORR-91`): IRR PR #258 `MERGED`** — merge `61db73a1800fbc6ffb9e12c59645cfb5dd055396`; PR-head and post-merge CI **SUCCESS** (post-merge run `40182258170`); remote blobs read back for the R1 (`c4f9c9c8…`) and R3 (`9642ce1b…`) decision records. **Effect:** the R3 Option B decision is **EFFECTIVE**; the R1 record is durable as **SELECTED — NOT EFFECTIVE**; the R2 record is durable as **PREPARED — NOT RENDERED**. Implementation under the R3 decision follows at §16.110. |
 | `2026-10-25` | `CHG-2026-10-25-09` | **NP-06 R3 persistence integration executed under the effective R3 decision (`CV-CORR-92`, §16.110).** Second specifier installed (lockfile resolved at `2e11fa3b…`); binding restored/adapted (`persistence-port`, `persistence`, `np04-adapter`, `index`) to the admitted specifier with an explicit owner-pair input (no owner source established; historical authenticated contract not equated with any future unauthenticated source); new real-store integration suite validates the five-operation contract, cross-owner non-disclosure and close/reopen durability at persistence level. Executed: integration **5**, restart **5**, full `test:ci` **102 files / 1,309 passed / 0 failed** + guard OK, typechecks **0/0**, strict `tsc` on new files **0**, build **0** at unchanged chunk. `F-7` **NOT SATISFIED** (durable HTTP legs blocked on effective R1 + R2); `CV-51` **BLOCKED**; fence unchanged; **zero** register-count movements; **zero** IPD writes. Verification rows `V611`–`V616`. |
 
+| `2026-10-25` | `CHG-2026-10-25-10` | **Publication receipt for §16.110 (`CV-CORR-92`): IRR PR #259 `MERGED`** — merge `f00e163940a38b47566d99f2959dcbf97e99bc22`; PR-head CI `40182632811` and post-merge `main` CI `40182803541` **SUCCESS**; remote read-back at `f00e1639…`: manifest `a0061bce…`, persistence port `71148afa…`, integration test `daa488aa…`, R3 decision `9642ce1b…`, fence **`98147054…` unchanged**; **0** open PRs after merge. Recorded at §16.110.4 (`V617`). |
+
 ---
 
 ## 6. REG-02 / REG-03 / REG-05 / REG-06 / REG-09 Governance Reconciliation Record (`2026-10-13`)
@@ -9499,3 +9501,15 @@ Exactly the IRR-side binding authorized by `IIPS-V3-REPORTS-NP06-R3-PA-DECISION-
 | `V616` | Non-exposure / honesty | **PASS** — fence, routes, UI unchanged; no owner source created; F-7/CV-51/acceptance/admission not claimed |
 
 *End of §16.110.*
+
+### 16.110.4 Publication receipt (`2026-10-25`; `CHG-2026-10-25-10`, `V617`)
+
+| Item | Verified value |
+|---|---|
+| PR | **IRR #259** — `MERGED` `2026-10-25T09:57:50Z` |
+| Merge commit | **`f00e163940a38b47566d99f2959dcbf97e99bc22`** (= current `origin/main` at recording) |
+| CI | PR-head `40182632811` **SUCCESS**; post-merge `main` `40182803541` **SUCCESS** |
+| Remote read-back | manifest `a0061bce…`; `persistence-port.ts` `71148afa…`; integration test `daa488aa…`; R3 decision record `9642ce1b…`; fence `981470541812a64c733309f1debec75455d85bee` **unchanged**; `0` open PRs |
+| Effect | R3 persistence integration is durable on `main`. **No further authority is conferred:** R1 remains SELECTED — NOT EFFECTIVE (U-1..U-5), R2 NOT RENDERED (C-3/C-7), `F-7` NOT SATISFIED, `CV-51` BLOCKED, Reports not accepted, not admitted, not production-ready. |
+
+*End of receipt.*
