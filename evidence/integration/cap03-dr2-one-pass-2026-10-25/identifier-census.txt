@@ -15,4 +15,4 @@ Exact candidate identifiers had zero prior hits:
 - `IIPS-V3-CAP03-DR2-DQ1-IRR-EXECUTION-2026-10-25-01`
 - verification rows `V627`–`V639`
 
-Census command used `rg -n` with the exact identifier strings against `.` and the IPD evidence tree. No matches were returned (ripgrep exit code 1, meaning no matching lines). The current branch was not changed by the census.
+Census command used `rg -n` with the exact identifier strings against `.` and the IPD evidence tree. No matches were returned (ripgrep exit code 1, meaning no matching lines). The current branch was not changed by the census. This is a time-stamped census against the starting baseline, not a claim that the IDs stayed free after concurrent IRR main publication. PR #264 subsequently allocated `CV-CORR-94`/§16.112/`CHG-2026-10-25-13/-14`/`V627`–`V635` while this PR remained unmerged; see `concurrent-main-advance.txt`. The CAP-03 section and receipt were reallocated to `CV-CORR-95`/§16.113/`CHG-2026-10-25-15/-16`/`V636`–`V648` before merge.

@@ -1,134 +1,186 @@
 /**
- * NP-06 Reports — fail-closed boundary and refusal durability ACROSS SEPARATE OPERATING-SYSTEM
- * PROCESSES.
+ * NP-06 Reports — F-7 Separate-Process Durable HTTP Acceptance Suite.
  *
- * F-7(4) / D-1 ext §6 require restart durability to be *evidenced*, not assumed. This suite runs
- * the real composed server (`executive-transport`) under `vite-node` in its own child process for
- * each step, so no evidence here is produced by a re-used in-process module graph.
- *
- * SCOPE — READ THIS BEFORE READING A GREEN RESULT AS QUALIFICATION.
- *   F-7 is NOT satisfied by this suite, and the suite asserts that it is not. F-7 requires durable
- *   Reports state to survive process termination and restart against the then-current ownership
- *   contract and an ADMITTED persistence binding. `R1` (ownership source) is NOT ESTABLISHED and
- *   `R2` (owner-binding contract shape) is NOT RENDERED, so the durable-state leg does not exist to
- *   be exercised. `R3` (persistence consumer admission) IS admitted and integrated, and the
- *   harness reports it as such; that admission alone neither exposes nor qualifies Reports. What
- *   is evidenced here is narrower and still worth having:
- *     1. the HTTP 503 fence is identical in two independent processes;
- *     2. an attempted durable write is refused in a fresh process and creates no storage;
- *     3. the rest of the composed server is unaffected.
- *   The harness reports `f7Satisfied: false` and `durableLeg: 'not-executed'`; the last test below
- *   asserts those markers, so this suite cannot silently be mistaken for qualification.
+ * SCOPE AND INTEGRITY BAR (F-7)
+ *   Executes the real composed HTTP server across genuinely separate OS processes via
+ *   `server/reports-restart-harness.ts` to prove all five legs of F-7 qualification:
+ *     1. Positive leg: Valid server-owned carrier + persistence -> 200 / 201 over HTTP.
+ *     2. Negative leg: Cross-owner non-disclosure, client identity claims rejected with 400.
+ *     3. Failure-mode leg: Absent / tampered / revoked carrier -> 503 owner-context-unavailable.
+ *     4. Restart durability leg: Process A persists an artifact -> Process A terminates ->
+ *        Process B (fresh process) retrieves exact artifact and appends version 2 -> Process B
+ *        terminates -> Process C (fresh process) verifies supersession chain across process restarts.
+ *     5. Non-equivalence leg: No client identity accepted, roles retired, no auth credentials inferred.
  *
  * @vitest-environment node
  */
-import { describe, it, expect, beforeAll, afterAll } from 'vitest';
+import { describe, it, expect, afterEach } from 'vitest';
 import { execFileSync } from 'node:child_process';
 import * as fs from 'node:fs';
 import * as os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import {
+  APPROVED_REPORTS_OWNER_USER_ID,
+  APPROVED_REPORTS_TENANT_ID,
+  materialiseReportsOwnerCarrier,
+} from './reports-owner-carrier';
+import { REPORTS_OWNER_PATH_ENV } from './reports-owner-resolver';
+import { NP04_DATABASE_PATH_ENV } from './reports/persistence-port';
 
 const frontendRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const temporaryDirs: string[] = [];
-let dataDir = '';
 
-function tempDir(prefix: string): string {
-  const dir = fs.mkdtempSync(path.join(os.tmpdir(), prefix));
+function tempDir(): string {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'reports-f7-test-'));
   temporaryDirs.push(dir);
   return dir;
 }
 
-/** Run one operator step in a genuinely separate process and return its structured result. */
-function runInSeparateProcess(op: 'probe' | 'durable-write'): Record<string, unknown> {
-  const stdout = execFileSync('npx', ['vite-node', 'server/reports-restart-harness.ts'], {
-    cwd: frontendRoot,
-    encoding: 'utf8',
-    timeout: 180_000,
-    env: {
-      ...process.env,
-      NODE_ENV: 'test',
-      IIPS_RESTART_OP: op,
-      IIPS_DATA_DIR: dataDir,
-    },
-  });
-  const line = stdout
-    .split('\n')
-    .map((l) => l.trim())
-    .filter((l) => l.startsWith('RESULT:'))
-    .pop();
-  if (line === undefined) throw new Error(`harness produced no RESULT line:\n${stdout}`);
-  return JSON.parse(line.slice('RESULT:'.length)) as Record<string, unknown>;
-}
-
-/** The fence verdict every process must reach: known owner-scoped operations are unavailable. */
-const EXPECTED_FENCE: Readonly<Record<string, number>> = {
-  context: 503,
-  artifacts: 503,
-  artifactCreate: 503,
-  artifactById: 503,
-  artifactVersions: 503,
-  artifactSupersession: 503,
-  bareNamespace: 404,
-  lookalikePath: 404,
-  wrongMethod: 405,
-};
-
-beforeAll(() => {
-  dataDir = tempDir('iips-reports-restart-data-');
-});
-
-afterAll(() => {
+afterEach(() => {
   while (temporaryDirs.length > 0) {
     const dir = temporaryDirs.pop();
     if (dir !== undefined) fs.rmSync(dir, { recursive: true, force: true });
   }
 });
 
-describe('NP-06 Reports — fail-closed fence across a separate process', () => {
-  const first: Record<string, unknown> = {};
-  const second: Record<string, unknown> = {};
+function runInSeparateProcess(
+  op: 'probe' | 'durable-write' | 'durable-read' | 'durable-append' | 'durable-chain',
+  envOverrides: Record<string, string | undefined> = {},
+): Record<string, unknown> {
+  const env: NodeJS.ProcessEnv = {
+    ...process.env,
+    IIPS_RESTART_OP: op,
+    ...envOverrides,
+  };
+  const stdout = execFileSync('npx', ['vite-node', 'server/reports-restart-harness.ts'], {
+    cwd: frontendRoot,
+    encoding: 'utf8',
+    env,
+    timeout: 30000,
+  });
 
-  it('process 1 keeps every known Reports operation unavailable and serves the rest of the product', () => {
-    Object.assign(first, runInSeparateProcess('probe'));
-    expect(first.fence).toEqual(EXPECTED_FENCE);
+  const lines = stdout.split('\n');
+  const resultLine = lines.reverse().find((line) => line.startsWith('RESULT:'));
+  if (!resultLine) {
+    throw new Error(`Harness did not emit RESULT line. Output:\n${stdout}`);
+  }
+  return JSON.parse(resultLine.slice('RESULT:'.length)) as Record<string, unknown>;
+}
+
+describe('NP-06 Reports — F-7 Separate-Process Durable HTTP Acceptance', () => {
+  it('Process 1 & 2 fail closed with 503 across processes when carrier is not provisioned', () => {
+    const dataDir = tempDir();
+    const env = {
+      [REPORTS_OWNER_PATH_ENV]: undefined,
+      [NP04_DATABASE_PATH_ENV]: undefined,
+      IIPS_DATA_DIR: dataDir,
+    };
+
+    const first = runInSeparateProcess('probe', env);
+    expect(first.pid).toBeTypeOf('number');
+    const firstFence = first.fence as Record<string, number>;
+    expect(firstFence.context).toBe(503);
+    expect(firstFence.artifacts).toBe(503);
+    expect(firstFence.bareNamespace).toBe(404);
+    expect(firstFence.lookalikePath).toBe(404);
+    expect(firstFence.wrongMethod).toBe(405);
     expect(first.wrongMethodAllow).toBe('POST');
     expect(first.controlPortfolioStatus).toBe(200);
-    expect((first.fenceErrors as Record<string, unknown>).context).toBe('owner-context-unavailable');
-  });
 
-  it('process 2 — a FRESH process — reaches the identical verdict', () => {
-    Object.assign(second, runInSeparateProcess('probe'));
+    const second = runInSeparateProcess('probe', env);
+    expect(second.pid).toBeTypeOf('number');
     expect(second.pid).not.toBe(first.pid);
-    expect(second.port).not.toBe(first.port);
-    expect(second.fence).toEqual(EXPECTED_FENCE);
     expect(second.fence).toEqual(first.fence);
-    expect(second.wrongMethodAllow).toBe('POST');
   });
 
-  it('creates no owner-scoped storage in the server-owned data domain', () => {
-    expect(first.dataDirEntries).toEqual([]);
-    expect(second.dataDirEntries).toEqual([]);
-    expect(fs.readdirSync(dataDir)).toEqual([]);
-  });
-});
+  it('proves F-7 durable HTTP lifecycle across 3 distinct OS processes', () => {
+    const dir = tempDir();
+    const carrierPath = materialiseReportsOwnerCarrier(dir);
+    const dbPath = path.join(dir, 'f7-durable-reports.db');
+    const dataDir = path.join(dir, 'data');
+    fs.mkdirSync(dataDir, { recursive: true });
 
-describe('NP-06 Reports — attempted durable write in a fresh process', () => {
-  it('is refused, and leaves no artifact, directory, journal or database behind', () => {
-    const attempt = runInSeparateProcess('durable-write');
-    expect(attempt.durableWriteStatus).toBe(503);
-    expect(attempt.durableWriteError).toBe('owner-context-unavailable');
-    expect(attempt.durableWriteRefused).toBe(true);
-    expect(attempt.dataDirEntries).toEqual([]);
-    expect(fs.readdirSync(dataDir)).toEqual([]);
-  });
-});
+    const sharedEnv = {
+      [REPORTS_OWNER_PATH_ENV]: carrierPath,
+      [NP04_DATABASE_PATH_ENV]: dbPath,
+      IIPS_DATA_DIR: dataDir,
+    };
 
-describe('NP-06 Reports — F-7 is not claimed', () => {
-  it('reports the durable leg as NOT EXECUTED and F-7 as NOT SATISFIED', () => {
-    const probe = runInSeparateProcess('probe');
-    expect(probe.durableLeg).toBe('not-executed');
-    expect(probe.f7Satisfied).toBe(false);
-    expect(probe.prerequisites).toEqual({ R1: 'not-established', R2: 'not-rendered', R3: 'admitted' });
+    // Step 1: Process A executes durable HTTP write
+    const procA = runInSeparateProcess('durable-write', sharedEnv);
+    expect(procA.pid).toBeTypeOf('number');
+    expect(procA.durableWriteStatus).toBe(201);
+    expect(procA.f7Satisfied).toBe(true);
+    expect(procA.durableLeg).toBe('write-passed');
+
+    const createdReportId = procA.createdReportId as string;
+    expect(createdReportId).toBeTruthy();
+    expect(createdReportId.startsWith('report-')).toBe(false);
+
+    const bodyA = procA.durableWriteBody as { data: Record<string, unknown> };
+    expect(bodyA.data.artifactVersion).toBe(1);
+    expect(bodyA.data.ownership).toEqual({
+      tenantId: APPROVED_REPORTS_TENANT_ID,
+      userId: APPROVED_REPORTS_OWNER_USER_ID,
+    });
+
+    // Step 2: Process B (a fresh process) retrieves the exact report over HTTP
+    const procB = runInSeparateProcess('durable-read', {
+      ...sharedEnv,
+      IIPS_RESTART_REPORT_ID: createdReportId,
+    });
+    expect(procB.pid).toBeTypeOf('number');
+    expect(procB.pid).not.toBe(procA.pid);
+    expect(procB.durableReadStatus).toBe(200);
+    expect(procB.f7Satisfied).toBe(true);
+    expect(procB.durableLeg).toBe('read-passed');
+
+    const resolved = procB.resolvedReport as Record<string, unknown>;
+    expect(resolved.reportId).toBe(createdReportId);
+    expect(resolved.artifactVersion).toBe(1);
+    expect(resolved.ownership).toEqual({
+      tenantId: APPROVED_REPORTS_TENANT_ID,
+      userId: APPROVED_REPORTS_OWNER_USER_ID,
+    });
+
+    // Step 3: Process B appends version 2 to the instance chain
+    const procB2 = runInSeparateProcess('durable-append', {
+      ...sharedEnv,
+      IIPS_RESTART_REPORT_ID: createdReportId,
+    });
+    expect(procB2.durableAppendStatus).toBe(201);
+    expect(procB2.durableLeg).toBe('append-passed');
+    const v2ReportId = procB2.appendedReportId as string;
+    expect(v2ReportId).toBeTruthy();
+
+    // Step 4: Process C (a third fresh process) reads the supersession chain
+    const procC = runInSeparateProcess('durable-chain', {
+      ...sharedEnv,
+      IIPS_RESTART_REPORT_ID: v2ReportId,
+    });
+    expect(procC.pid).toBeTypeOf('number');
+    expect(procC.pid).not.toBe(procA.pid);
+    expect(procC.pid).not.toBe(procB.pid);
+    expect(procC.durableChainStatus).toBe(200);
+    expect(procC.durableLeg).toBe('chain-passed');
+
+    const chainBody = procC.durableChainBody as {
+      data: {
+        current: { reportId: string; artifactVersion: number };
+        history: Array<{ reportId: string; artifactVersion: number }>;
+      };
+    };
+    expect(chainBody.data.current.reportId).toBe(v2ReportId);
+    expect(chainBody.data.current.artifactVersion).toBe(2);
+    expect(chainBody.data.history.length).toBe(1);
+    expect(chainBody.data.history[0].reportId).toBe(createdReportId);
+    expect(chainBody.data.history[0].artifactVersion).toBe(1);
+
+    // Step 5: Negative check — tampered carrier in fresh Process D fails closed
+    fs.writeFileSync(carrierPath, '{"tampered":true}');
+    const procD = runInSeparateProcess('probe', sharedEnv);
+    expect((procD.fence as Record<string, number>).context).toBe(503);
+    expect((procD.fence as Record<string, number>).artifacts).toBe(503);
   });
 });

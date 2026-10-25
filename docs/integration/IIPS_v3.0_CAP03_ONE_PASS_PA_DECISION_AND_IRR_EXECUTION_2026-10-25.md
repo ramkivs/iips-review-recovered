@@ -5,13 +5,15 @@
 | PA decision record ID | `IIPS-V3-CAP03-DR2-DQ1-PA-DECISION-2026-10-25-01` |
 | Additional disposition IDs | `IIPS-V3-CAP03-DR3-DQ2-PA-DISPOSITION-2026-10-25-01`; `IIPS-V3-CAP03-DR4R-DQ3-PA-DISPOSITION-2026-10-25-01`; `IIPS-V3-CAP03-DQ4-FREEZE-H12-PA-DISPOSITION-2026-10-25-01`; `IIPS-V3-CAP03-DQ5-HOST-LOGISTICS-PA-CONFIRMATION-2026-10-25-01` |
 | IRR execution record ID | `IIPS-V3-CAP03-DR2-DQ1-IRR-EXECUTION-2026-10-25-01` |
-| Register reconciliation | `CV-CORR-94`, master tracker §16.112; `CHG-2026-10-25-13` |
+| Register reconciliation | `CV-CORR-95`, master tracker §16.113; `CHG-2026-10-25-15` |
 | Date / authority | `2026-10-25` UTC; the PA's direct one-pass execution instruction under the standing global authorization. No additional approval was requested or inferred. |
 | Status | **IRR consumer determinations are effective upon publication to IRR `main`, green exact-head CI, and independent remote read-back. IPD provider implementation, DQ-4 freeze/H-12 execution, and host operations are not completed or made effective by this IRR record.** |
 
 ## 1. Authority, scope, and effectiveness boundary
 
 This record executes the PA's direction to render Option A for DR-2/DQ-1, and to continue through DR-3/DQ-2, DR-4r/DQ-3, DQ-4 sequencing, and DQ-5 host logistics. The proposed packet [`IIPS_v3.0_CAP03_PA_DECISION_PACKET_DQ1-DQ7_PROPOSED_2026-10-24.md`](IIPS_v3.0_CAP03_PA_DECISION_PACKET_DQ1-DQ7_PROPOSED_2026-10-24.md) and the prerequisite register §§5.2–5.5 remain preserved as historical decision inputs; this dated record supplies the PA answers within the stated authority boundary.
+
+During the pass, IRR `main` advanced while PR #265 was open: PR #263 merged a distinct Reports backend/transport change and PR #264 its tracker receipt, moving `main` to `0cc999ffba424476bace9688ca2f93ab114f0ee5` (tree `8af4b196205b4e3dcbc4801614a60c709c7e0d7f`). The fixed branch integrates that current main before final CAP-03 validation. All CAP-03 route/fence and endpoint statements in this record are specifically about **user-portfolio** routes; the Reports transport from PR #263 is not attributed to or changed by this pass. The concurrent identifier collision and resolution are recorded in the evidence annex.
 
 Effectiveness is locus-specific. The adapter mapping and consumer-scope decisions below are IRR-locus determinations and become effective when this record and implementation are merged to IRR `main`, their exact-head checks pass, and the merged blobs are independently read back. They do not make the IPD producer conformant. The packet assigns producer-side DR work and DQ-4 freeze/H-12 publication to IPD; those acts are not made effective by publishing this IRR record. Cross-repository DR-2 closure therefore remains open until the exact authorized IPD producer/test change is published in the IPD locus and independently verified.
 
@@ -20,7 +22,7 @@ The implementation boundary is exactly:
 - IPD: `src/persistence/portfolio_store.ts` and `tests/q1_ipc_read_contract_conformance.test.ts` — **not changed in this IRR-bound session**.
 - IRR: `frontend/server/user-portfolio/ipcPortAdapter.ts` and `frontend/server/user-portfolio/ipcPortAdapter.test.ts` — changed as described below.
 
-No migration, G2 type replacement, route change, pin change, endpoint activation, read-pair admission, write authorization, `durable:true`, production eligibility, or fence removal is authorized here. The completed CAP-03 host-operations package is not republished, repackaged, or regenerated. DQ-6 and DQ-7 are not answered or altered by this pass.
+No migration, G2 type replacement, CAP-03 user-portfolio route change or activation, pin change, read-pair admission, write authorization, `durable:true`, production eligibility, or user-portfolio fence removal is authorized here. PR #263 separately merged Reports transport work onto current IRR `main`; it is outside this CAP-03 pass, is not claimed as CAP-03 work, and is not changed by this pass. The completed CAP-03 host-operations package is not republished, repackaged, or regenerated. DQ-6 and DQ-7 are not answered or altered by this pass.
 
 ## 2. DQ-1 / DR-2 — Option A selected
 
@@ -59,7 +61,7 @@ The PA's sequencing direction is:
 3. The sequencing order is H-12 candidate regeneration at the exact final freeze → S2 → one P-1 provisioning execution → a distinct H-12 adoption act → S3 preflight → QE. This order is recorded as a dependency constraint only; the PA's explicit no-regeneration direction means no H-12 candidate is authorized or generated in this pass, and the chain cannot begin. H-12 adoption remains a separate act and is not implied by a candidate or technical success.
 4. Any non-documentary drift after a future freeze is **STOP** and requires PA re-designation; no silent pin movement.
 
-These are recorded as the PA's DQ-4 direction, not as an IPD-locus freeze. The exact final pins cannot be named while the IPD producer half is incomplete; the two existing package pins remain unchanged and are not treated as final QE pins. H-12 remains **NOT ADOPTED**.
+These are recorded as the PA's DQ-4 direction, not as an IPD-locus freeze. The exact final pins cannot be named while the IPD producer half is incomplete; CAP-03's primary package pin (`2d9130e…`) and broker-import alias (`70b24f0…`) remain unchanged and are not treated as final QE pins. The separately merged Reports-only persistence specifier (`iips-np04-governed-persistence#2e11fa3…`) is preserved as current-main ancestry and is outside CAP-03; it is neither a CAP-03 re-pin nor changed here. H-12 remains **NOT ADOPTED**.
 
 ## 6. DQ-5 — designated-host logistics confirmed; no host operation
 
@@ -74,7 +76,7 @@ Only these two source paths changed:
 1. `frontend/server/user-portfolio/ipcPortAdapter.ts` — implemented the authorized seven values and three renames; validates required values; keeps historical values row-specific; copies current `isSaved` without inference; rejects `durability`/`durable` properties and non-empty `contributions`; preserves existing Class A refusal and route/fence behavior.
 2. `frontend/server/user-portfolio/ipcPortAdapter.test.ts` — covers the exact approved matrix, output key sets, stored empty INITIAL digest, current `isSaved` pass-through, per-row INITIAL/MERGE/REPLACE/RESET history, no historical `isSaved`, malformed/missing/null/non-finite values, and refusals for durability/contribution claims.
 
-`frontend/server/user-portfolio/userPortfolioContract.ts` remains frozen and unchanged (starting blob `e6b57bb8a021d8eb4b9b7572d12affc7de66be0b`). The IPC client, port interface, endpoint/fence, package manifest, lockfile, route, and unrelated modules are unchanged. The primary IPD pin remains `2d9130e76bb0dc89daeefabaf297e27bdaa84250` (59 commits behind current IPD main, still an ancestor); the broker alias remains `70b24f029842a7e9b7f615e4d9df7376fd4ff817` (208 behind, still an ancestor). No re-pin was performed.
+`frontend/server/user-portfolio/userPortfolioContract.ts` remains frozen and unchanged (starting blob `e6b57bb8a021d8eb4b9b7572d12affc7de66be0b`). Relative to integrated `origin/main@0cc999ffba424476bace9688ca2f93ab114f0ee5`, the IPC client, port interface, CAP-03 user-portfolio endpoint/fence, package manifest, lockfile, user-portfolio route, and unrelated modules are unchanged by this pass. PR #263 Reports transport files are present through independently merged mainline ancestry and are outside this two-file CAP-03 diff. CAP-03's primary IPD package pin remains `2d9130e76bb0dc89daeefabaf297e27bdaa84250` (59 commits behind current IPD main, still an ancestor); the broker-import alias remains `70b24f029842a7e9b7f615e4d9df7376fd4ff817` (208 behind, still an ancestor). The separately merged Reports-only persistence alias `iips-np04-governed-persistence#2e11fa3b689d1a3674a5e4ba1f1de9a559e20494` is unchanged and outside this pass. No CAP-03 re-pin or dependency change was performed.
 
 ### IPD producer blocker, measured at current `main`
 
@@ -91,22 +93,22 @@ The precise next source action is limited to the two already-authorized IPD file
 
 ## 8. Validation evidence and retained attempts
 
-All output logs are under [`evidence/integration/cap03-dr2-one-pass-2026-10-25/`](../../evidence/integration/cap03-dr2-one-pass-2026-10-25/). Successful checks were run after the final source/test edit.
+All output logs are under [`evidence/integration/cap03-dr2-one-pass-2026-10-25/`](../../evidence/integration/cap03-dr2-one-pass-2026-10-25/). The initial pre-advance results remain preserved as historical evidence; after integrating `origin/main@0cc999ffba424476bace9688ca2f93ab114f0ee5`, dependencies were reinstalled from the unchanged current-main lockfile and the final validations were rerun. Final logs carry the `-after-main` suffix.
 
 | Command / check | Result |
 |---|---|
-| `npm ci` (IRR, committed lockfile; CA workaround environment-only) | exit 0; 190 packages added, 191 audited; npm reported 11 vulnerabilities (6 moderate, 3 high, 2 critical); no audit fix or pin change |
-| Focused `npm test -- server/user-portfolio server/user-portfolio-transport.test.ts` | exit 0; 9 files / 173 tests passed, including adapter 49/49 and fence unchanged 26/26 |
-| Full `npm run test:ci` | exit 0; 102 files / 1,312 passed / 0 failed; raw log preserved |
-| `node .ci/assert-tests.js .vitest-report.json` | exit 0; `OK — 102 test file(s), 1312 test(s), 0 failed` |
-| `npm run typecheck` | exit 0 |
-| `npm run typecheck:replay-server` | exit 0 |
-| Direct strict TypeScript check of adapter and tests | exit 0 |
-| `npm run build` | exit 0; 138 modules; JS chunk `1,590.96 kB` / gzip `222.05 kB`; existing >500 kB chunk warning, no build failure |
+| `npm ci` after main integration (committed lockfile; CA workaround environment-only) | exit 0; 190 packages added, 191 audited; npm reported 11 vulnerabilities (6 moderate, 3 high, 2 critical); no audit fix or dependency/pin change (`dependency-setup-after-main.txt`) |
+| Focused `npm test -- server/user-portfolio server/user-portfolio-transport.test.ts` after current-main integration | exit 0; 9 files / 173 tests passed, including adapter 49/49 and fence unchanged 26/26 (`focused-user-portfolio-after-main.txt`); standalone adapter suite 49/49 (`adapter-test-after-main.txt`) |
+| Full `npm run test:ci` after current-main integration | exit 0; 104 files / 1,321 passed / 0 failed (`full-test-ci-after-main.txt`) |
+| `node .ci/assert-tests.js .vitest-report.json` | exit 0; `OK — 104 test file(s), 1321 test(s), 0 failed` (`test-report-guard-after-main.txt`) |
+| `npm run typecheck` | exit 0 (`typecheck-after-main.txt`) |
+| `npm run typecheck:replay-server` | exit 0 (`typecheck-replay-server-after-main.txt`) |
+| Direct strict TypeScript check of adapter and tests | exit 0 (`direct-strict-tsc-after-main.txt`) |
+| `npm run build` after current-main integration | exit 0; 138 modules; JS chunk `1,590.96 kB` / gzip `222.05 kB`; existing >500 kB chunk warning, no build failure (`build-after-main.txt`) |
 | IPD current-source `npm run build:tsc` (read-only baseline only) | exit 0 |
 | IPD current old-contract Q1 conformance test | exit 0; 3/3 passed; not evidence of the new Option-A contract |
 
-The first IRR focused attempt failed because a valid historical fixture had accidentally been placed in the invalid-value table. The fixture was corrected to omit required historical fields; the initial failure and final passing run are both retained. npm's audit findings and build/runtime warnings are reported, not silently “fixed” by changing frozen dependency pins.
+The first IRR focused attempt failed because a valid historical fixture had accidentally been placed in the invalid-value table. The fixture was corrected to omit required historical fields; the initial failure and both pre-advance/current-main passing runs are retained. npm's audit findings and build/runtime warnings are reported, not silently “fixed” by changing frozen dependency pins.
 
 ## 9. Gates, host, and non-grants remain separate
 
@@ -117,12 +119,12 @@ The first IRR focused attempt failed because a valid historical fixture had acci
 | H-12 | **NOT ADOPTED**; no regeneration, repackaging, or adoption |
 | P-1 / host preflight / S3 | **NOT EXECUTED** |
 | Gate 5 / read-pair admission | **NOT INITIATED / NOT ADMITTED** |
-| Endpoint activation / HTTP routes | **None**; existing 503 fences unchanged |
-| Writes / `durable:true` / production eligibility | **Not authorized, not claimed, not performed** |
+| CAP-03 user-portfolio endpoint activation / routes | **None**; user-portfolio 503 fences unchanged. Reports transport is separate merged-main work from PR #263, outside this pass. |
+| Writes / `durable:true` / production eligibility | **Not authorized, not claimed, not performed**; no CAP-03 user-portfolio endpoint activation or user-portfolio fence removal |
 | Fence removal | **Not authorized or performed** |
-| CV/XV count movement | **None**; CAP-03 sub-prerequisite dispositions are recorded in §16.112 without changing global register arithmetic |
+| CV/XV count movement | **None**; CAP-03 sub-prerequisite dispositions are recorded in §16.113 without changing global register arithmetic |
 
-Green code tests, typechecks, a build, or the old-contract IPD baseline are not Gate 4 acceptance, QE, H-12 adoption, result acceptance, Gate 5 admission, write authorization, production eligibility, or fence removal.
+Green code tests, typechecks, a build, or the old-contract IPD baseline are not Gate 4 acceptance, QE, H-12 adoption, result acceptance, Gate 5 admission, write authorization, production eligibility, or CAP-03 user-portfolio fence removal. The Reports transport merged by PR #263 is a separate capability and is not evidence of CAP-03 user-portfolio admission.
 
 ## 10. Genuine blockers and next executable actions
 
@@ -130,4 +132,4 @@ Green code tests, typechecks, a build, or the old-contract IPD baseline are not 
 2. **Freeze/H-12:** no final commit/tree pins exist for the post-decision provider implementation. The completed host-operations package is under an explicit no-regeneration constraint; H-12 remains not adopted and no replacement candidate was produced.
 3. **Native host:** this Linux sandbox cannot perform or evidence the designated-host preflight/P-1/S3/QE. The only valid execution requires the designated native host and the effective sequencing prerequisites; no Linux result is substituted.
 
-The implementation and tests that were lawfully executable in the IRR locus are complete. The tracker receipt §16.112.9 records exact publication, CI, remote commits/trees, and remote blob read-back when complete.
+The implementation and tests that were lawfully executable in the IRR locus are complete. The tracker receipt §16.113.9 records exact publication, CI, remote commits/trees, and remote blob read-back when complete.
