@@ -9674,11 +9674,24 @@ Baseline locked at `refs/heads/main` = **`e8b41ba747132773b2c31a85eb028bd8d33d2f
 | `V631` | F-7 Separate-Process Qualification | **PASS** — Real server tested across 3 distinct OS processes; restart survival, append, and chain resolution verified |
 | `V632` | Capability Acceptance & CV-51 Isolation | **PASS** — Bounded non-production acceptance recorded; CV-51 withheld; client UI/routes unexposed |
 | `V633` | Production Admission Non-Presumption | **PASS** — Stated NOT ADMITTED / NOT PRODUCTION-READY |
-| `V634` | Full Test Suite & Build Verification | **PASS** — 102 test files, 1,309 tests passing; 5/5 Reports test suites passing; typecheck 0; Vite production build 0 |
+| `V634` | Full Test Suite & Build Verification | **PASS** — 104 test files, 1,318 tests passing, 0 failed; 5/5 Reports test suites passing; strict typechecks (main + replay + direct) exit `0`; Vite production build exit `0` |
 
 ### 16.112.6 Publication
 
-Changed paths: operative R1 PA Decision Act, operative R2 PA Decision Act, F-7 qualification and capability acceptance record, carrier module and tests, uncached resolver and tests, authorized non-auth reports transport and tests, composed server integration tests, separate-process restart harness and test suite, and this tracker section. Exact PR number, merge commit, CI runs and remote read-back are recorded in §16.112.7 after merge.
+Changed paths: operative R1 PA Decision Act (`docs/integration/IIPS_v3.0_REPORTS_NP06_R1_OWNERSHIP_DECLARATION_PA_DECISION_ACT_2026-10-25.md`), operative R2 PA Decision Act (`docs/integration/IIPS_v3.0_REPORTS_NP06_R2_CONTRACT_SHAPE_PA_DECISION_ACT_2026-10-25.md`), F-7 qualification and capability acceptance record (`docs/integration/IIPS_v3.0_REPORTS_NP06_F7_QUALIFICATION_AND_CAPABILITY_ACCEPTANCE_2026-10-25.md`), carrier module and tests (`frontend/server/reports-owner-carrier.ts`, `frontend/server/reports-owner-carrier.test.ts`), uncached resolver and tests (`frontend/server/reports-owner-resolver.ts`, `frontend/server/reports-owner-resolver.test.ts`), authorized non-auth reports transport and tests (`frontend/server/reports-transport.ts`, `frontend/server/reports-transport.test.ts`), composed server integration tests (`frontend/server/reports-api.test.ts`), separate-process restart harness and test suite (`frontend/server/reports-restart-harness.ts`, `frontend/server/reports-restart.test.ts`), and this tracker section. Exact PR number, merge commit, CI runs and remote read-back are recorded in §16.112.7 below.
 
 *End of §16.112.*
+
+### 16.112.7 Publication receipt (`2026-10-25`; `CHG-2026-10-25-14`, `V635`)
+
+| Item | Verified value |
+|---|---|
+| PR | **IRR #263** — `MERGED` `2026-10-25T11:15:16Z` (`feat(reports): publish R1 & R2 PA decision acts, implement non-auth transport, and prove F-7 durable HTTP restart`) |
+| Merge commit | **`3482d694ad35d0e06c088419fe3f9d5649bdbb49`** (= `origin/main` at recording) |
+| CI | PR-head **`40187947852` `success`**; post-merge `main` push **`40188087588` `success`** |
+| Remote read-back (7/7 **MATCH**) | R1 act **`c4fdc26b…`**; R2 act **`e3ad095e…`**; F-7 qualification and capability acceptance record **`77fc793c…`**; carrier module **`5239d0bf…`**; resolver module **`66410e12…`**; reports transport **`775d282b…`**; restart harness **`2d8108bb…`** — each verified on `origin/main` |
+| Test suite & build | **104 test files / 1,318 passed / 0 failed**; strict typechecks (main + replay + direct) exit `0`; Vite production build exit `0` |
+| Effect | R1 ownership declaration act and R2 contract shape act are operative on `main`. Authorized non-authentication Reports HTTP boundary is implemented against governed NP-04 persistence (`iips-np04-governed-persistence#2e11fa3b...`). F-7 durable HTTP restart lifecycle is proven across 3 distinct OS processes. Backend capability is **ACCEPTED (Bounded Non-Production Scope)**. **CV-51 remains WITHHELD / BLOCKED** (no client routes, navigation or UI exposed); **Production Admission remains NOT ADMITTED / NOT PRODUCTION-READY**; D115/CV-43 remains unwired; IPD untouched (**zero** writes). |
+
+*End of receipt.*
 
