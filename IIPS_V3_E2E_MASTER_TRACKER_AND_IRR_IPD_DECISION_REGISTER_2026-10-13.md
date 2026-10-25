@@ -288,6 +288,8 @@ The following completed baselines on `ramkivs/iips-review-recovered @ refs/heads
 | `2026-10-25` | `CHG-2026-10-25-05` | **NP-06 Reports `R1`/`R2`/`R3` investigation, prepared decision input (NOT approved), and `F-7` restart-harness scaffold (`CV-CORR-90`, §16.108).** Prepares `IIPS-V3-REPORTS-NP06-R1-R2-R3-PA-DECISION-REQUEST-2026-10-25-01` as **PROPOSED — NOT APPROVED / NOT EFFECTIVE**: `D-1` (`R1` ownership source, options A/B/C, recommends B), `D-2` (`R2` contract shape after `R1`), `D-3` (`R3` consumer admission, options A/B/C/D, recommends B). `R1` **NOT ESTABLISHED** (eight-point sweep; the authenticated contract's entire enforcement stack is absent from `main`); `R2` **unbound** (historical transport blob `cdee7ed1…` imports three absent modules; `401`, the role gate and audit are `D-2` decisions, not implementation details); `R3` **OPEN / NOT ADMITTED**, object re-derived with the gap corrected from *export key* to *absent implementation*, and a third, IRR-only option identified (second dependency specifier to `2e11fa3b…`; precedent `iips-broker-import` beside the primary pin). `F-7` **NOT SATISFIED**; harness + suite committed and executed across four separate OS processes, emitting and asserting `f7Satisfied:false` and `durableLeg:'not-executed'`. `CV-51` **BLOCKED**; acceptance plan prepared, no UI/route/navigation/client. Executed: 46 / 56 / 2 / 2 / 5; full suite **101 files / 1,304 passed / 0 failed** + guard OK; typechecks 0/0; build 0 at the unchanged chunk. **Zero** register-count movements; **zero** IPD writes; no pin, fence, Gate 3, route or UI change; no `./persistence` import. Verification rows `V595`–`V604`. |
 | `2026-10-25` | `CHG-2026-10-25-06` | **Publication receipt for §16.108 (`CV-CORR-90`): IRR PR #256 `MERGED`** `2026-10-25T08:57:58Z` — head `51f5c139…`, merge `65e1814b…`, tree `fdbd0a5c…` (= PR-head tree); PR-head CI `40178611829` and post-merge `main` CI `40178710354` **SUCCESS**; remote Contents-API read-back of all six changed paths byte-identical (decision request `4ab35bdf…` / `37,634` B; execution record `852d5897…` / `19,922` B; harness `0df66de2…` / `6,785` B; restart test `65a236b8…` / `5,421` B) plus tracker `b05007ca…` / `2,007,448` B; diff exactly **5 paths** (`+964/−3`); fence `98147054…`, manifest `6274537a…` and `owner-context-unavailable` `cb8db45d…` equal to baseline; `0` open PRs. The decision request is durable on `refs/heads/main` and remains **PROPOSED — NOT APPROVED / NOT EFFECTIVE**. It does not discharge `R1`/`R2`/`R3`/`F-7`/`CV-51`. Receipt recorded at §16.108.12; this row and that subsection are the only changes in their publication. |
 
+| `2026-10-25` | `CHG-2026-10-25-07` | **NP-06 Reports one-pass PA decisions on the prepared R1/R2/R3 request (`CV-CORR-91`, §16.109).** On the PA's one-pass instruction of 2026-10-25 (R1/D-1 Option B; R3/D-3 Option B): **R1 Option B SELECTED — NOT EFFECTIVE** (`IIPS-V3-REPORTS-NP06-R1-PA-DECISION-2026-10-25-01`): the Reports tenant value (U-1), owner value (U-2), any express F-3-value-reuse direction (U-3), the fifteen `D-2` §8 elements (U-4) and the value-act property set (U-5) are **UNSPECIFIED** in the instruction and in every authoritative record, and inventing them is expressly prohibited; `R1` remains **NOT ESTABLISHED** and `REG-11` Option C remains the operative deferral. **R3 Option B RENDERED** (`IIPS-V3-REPORTS-NP06-R3-PA-DECISION-2026-10-25-01`), effective upon publication + remote read-back: exactly one new specifier `iips-np04-governed-persistence#2e11fa3b…`; primary pin `#2d9130e7…`, broker `#70b24f02…`, Gate 3 and all existing exports preserved; `CV-23` §5 lineage obligations (a)–(d) recorded; **zero** IPD mutations. **R2 NOT RENDERED** (`IIPS-V3-REPORTS-NP06-R2-CONTRACT-DECISION-PREPARED-2026-10-25-01`): blocked by R1 effectiveness (sequencing) and by the absence of any PA selection for C-3 (authorization predicate) and C-7 (audit disposition); C-2/C-4 prepared only. **Zero register-count movements**; fence `98147054…` unchanged; no transport/route/UI. Verification rows `V605`–`V610`. |
+
 ---
 
 ## 6. REG-02 / REG-03 / REG-05 / REG-06 / REG-09 Governance Reconciliation Record (`2026-10-13`)
@@ -9412,3 +9414,51 @@ Changed paths: the prepared decision request; the execution record; `frontend/se
 **Effectiveness.** With merge to `refs/heads/main`, green exact-head and post-merge CI, and independent remote read-back complete, the investigation record, the **unapproved** decision input, and the `F-7` restart-harness scaffold are **durable**. Durability confers **no** authority: `R1` remains **NOT ESTABLISHED**, `R2` unbound, `R3` **OPEN / NOT ADMITTED**, `F-7` **NOT SATISFIED**, `CV-51` **BLOCKED**. The decision request remains a request. Reports is not accepted, not admitted, and not production-ready.
 
 *End of §16.108.*
+
+
+## §16.109 — `CV-CORR-91`: NP-06 Reports One-Pass PA Decisions — R1 Option B Selected (Not Effective), R3 Option B Rendered, R2 Prepared/Blocked — `2026-10-25` (`CHG-2026-10-25-07`)
+
+*Additive. Does not amend A2, `REG-11` Option C, D-1/D-2/D-3, `CV-23`, or `CV-43`. Publication coordinates are recorded after merge, not self-embedded here (§16.70.13).*
+
+### 16.109.1 Authority and baseline
+
+Executed under the commissioning (`IIPS-V3-REPORTS-NP06-RESUMPTION-COMMISSIONING-PA-DECISION-2026-10-25-01`) and the PA's one-pass instruction of 2026-10-25 selecting `R1-Option B` and `R3-Option B` from the prepared request `IIPS-V3-REPORTS-NP06-R1-R2-R3-PA-DECISION-REQUEST-2026-10-25-01`, subject to their expressly required fields, and expressly prohibiting invention of an owner identity, tenant value, ownership source, security predicate, audit semantics, or contract field. Baseline independently re-verified this pass: IRR `origin/main` `3636140c98f0949aee2a0beadfa5f1c026286302` (merge of PR #257; PRs #254 `f0c14dcb…`, #255 `0e1b075d…`, #256 `65e1814b…` all `MERGED`); IPD `main` `4b5c65a731a66a6fa1260146a55df9ed772953a5` (tree `cf5e8585…`) read-only; `2e11fa3b…` diverged `26/210`, merge-base `4d3e1cdc…`, exporting `./persistence`; pin `2d9130e7…` exporting exactly `./portfolio-ui`, `./pit`, `./d114-non-production`.
+
+### 16.109.2 R1 — Option B **SELECTED — NOT EFFECTIVE**; `R1` remains **NOT ESTABLISHED**
+
+Record: `docs/integration/IIPS_v3.0_REPORTS_NP06_R1_PA_DECISION_2026-10-25.md` (`IIPS-V3-REPORTS-NP06-R1-PA-DECISION-2026-10-25-01`). The PA instruction selects the Option B path and its recommended distinct-carrier mechanism direction, but supplies none of the fields Option B's own definition requires: **U-1** Reports tenant value, **U-2** Reports owner value, **U-3** any express direction to reuse the F-3 values (barred from inference by Option C §2(2)), **U-4** the fifteen `D-2` §8 elements, **U-5** the value-act property set (recording location, change authority, restart stability, recovery, unreadable-source behaviour, audit trail). No value, carrier, digest, or contract was invented; the F-3 pair was not aliased. No supersession of `REG-11` Option C or of NP-06 `R2`/`C4`/§5.4 is effected. The bounded ask that remains is exactly U-1..U-5.
+
+### 16.109.3 R3 — Option B **RENDERED** (effective on publication + read-back)
+
+Record: `docs/integration/IIPS_v3.0_REPORTS_NP06_R3_PA_DECISION_2026-10-25.md` (`IIPS-V3-REPORTS-NP06-R3-PA-DECISION-2026-10-25-01`). Authorizes exactly one new IRR specifier `iips-np04-governed-persistence#2e11fa3b689d1a3674a5e4ba1f1de9a559e20494` consuming `…/persistence`, the adapted IRR-side binding, and persistence-level integration tests with test-only owner pairs. Primary pin, broker specifier, Gate 3, existing exports and all IPD state are preserved; `CV-23` §5 (a)–(d) are recorded in the decision. Implementation and its evidence follow in a separate increment under this decision; this section records the decision, not its execution results.
+
+### 16.109.4 R2 — **NOT RENDERED** (prepared only)
+
+Record: `docs/integration/IIPS_v3.0_REPORTS_NP06_R2_CONTRACT_DECISION_PREPARED_2026-10-25.md` (`IIPS-V3-REPORTS-NP06-R2-CONTRACT-DECISION-PREPARED-2026-10-25-01`). `D-2` follows an *effective* `D-1`; additionally **C-3** (authorization predicate) and **C-7** (audit disposition) have no PA selection anywhere and may not be invented. C-2 (`401` retired; owner failure → `503`) and C-4 (all client tenant/identity claims → `400`) are prepared only. No security-sensitive behaviour is implemented; the fence remains the only HTTP behaviour.
+
+### 16.109.5 Separate statuses
+
+| Status | Result |
+|---|---|
+| Commissioning | **COMMISSIONED — bounded non-production only** (unchanged) |
+| R1 ownership source | **Option B SELECTED — NOT EFFECTIVE; NOT ESTABLISHED** (U-1..U-5) |
+| R2 contract shape | **UNBOUND / NOT RENDERED** (R1 sequencing; C-3, C-7 unselected) |
+| R3 persistence admission | **Option B RENDERED** — effective on publication + read-back; implementation follows separately |
+| Qualification (`F-7`) | **NOT SATISFIED** — durable HTTP legs require effective R1 + R2; harness remains fail-closed |
+| Capability acceptance / `CV-51` | **NOT ACCEPTED / BLOCKED** — no route, UI, navigation, client, or fence change |
+| Production admission | **NOT ADMITTED / NOT PRODUCTION-READY** |
+
+**Zero register-count movements** (`35` / `6` active outstanding / `51×17` / `11` / `17` / `8` / `7` WPs unchanged). Zero IPD writes.
+
+### 16.109.6 Verification index (`V605`–`V610`)
+
+| ID | Check | Result |
+|---|---|---|
+| `V605` | Identifier census before allocation | **PASS** — `§16.109`, `CV-CORR-91`, `CHG-2026-10-25-07`, and the three new record IDs had **0** prior hits |
+| `V606` | Starting state | **PASS** — IRR `origin/main` `3636140…`; PRs #254–#257 `MERGED`; IPD `main` `4b5c65a7…` read-only; `2e11fa3b…` diverged `26/210` with `./persistence`; pin exports exactly three, no `./persistence` |
+| `V607` | R1 field audit | **PASS** — U-1..U-5 each traced to the decision request's express requirements and confirmed absent from the PA instruction and the authoritative corpus; no value invented or aliased |
+| `V608` | R3 decision completeness | **PASS** — specifier name, target commit, primary-pin/Gate-3/export preservation, distinct DB path, and `CV-23` §5 (a)–(d) all stated; IPD mutation **0** |
+| `V609` | R2 sequencing | **PASS** — no R2 effectiveness claimed; C-3/C-7 recorded as unselected; no transport or security-sensitive code changed |
+| `V610` | Non-exposure | **PASS at authoring** — fence blob `98147054…`, routes, UI, navigation unchanged; no `./persistence` import yet (implementation is a separate increment under the rendered R3 decision) |
+
+*End of §16.109.*
