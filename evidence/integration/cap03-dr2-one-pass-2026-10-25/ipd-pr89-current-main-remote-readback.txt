@@ -1,0 +1,40 @@
+IPD PR #89 producer implementation — live merge/current-main verification — 2026-10-25 UTC
+
+Remote repository: `ramkivs/iips-production-market-data`.
+
+## Merge and current-main identity
+
+| Item | Live GitHub value |
+|---|---|
+| PR #89 | `CLOSED / MERGED`; head `bc144b95649aec88c3bfd0fc2a9c68e828d4839a`; merge `79d06e3c5da60da2a234b7ac18c35df848bf9d11` at `2026-10-25T13:03:28Z`; merge tree `e8d361c97ba4fc24f18ecc0245f81332cc31ec92` |
+| Current IPD `main` | `8eec74ae27cda09f3c368b9c299895eae41554db`; tree `4eba29029f8d95cfe483e615a7047426b298ce50`; parents `743a284069d2d1eefd3cc36abdc889478f927961` and `4c0a0da92378211fa626251cb7086b0b97c5826b` |
+| PR #90 | `MERGED` at `743a284069d2d1eefd3cc36abdc889478f927961`; head `7d098811ac78e3ce45ff6e8cffab63f0ba92eea4`; PR CI `40196019173` and executed-test-count check `121177118166` passed |
+| PR #91 | `MERGED` at `8eec74ae27cda09f3c368b9c299895eae41554db`; head `4c0a0da92378211fa626251cb7086b0b97c5826b`; PR CI `40196269503` and executed-test-count check `121177925970` passed |
+| Current IPD `main` push CI | run `40196407747`, event `push`, head `8eec74ae…`, conclusion `success` |
+
+PR #89 exact-head checks: CI run `40195714981`, job `121175979714` (`typecheck · build · test`) succeeded; executed-test-count check `121176250757` succeeded. PR #89 reports 17 changed files total: two authorized source/test paths plus its execution record, evidence annex, and append-only IPD tracker update. No other production source/test path was changed. Its changed-file API list contains no migration, `src/ipc/protocol.ts`, dispatch, entrypoint, route, `package.json`, `package-lock.json`, workflow, or script change.
+
+## Independent GitHub blob read-back
+
+The raw blobs fetched through `gh api` for current IPD `main` were byte-compared with `/tmp/ipd-latest` and with the PR #89 merge tree. The two authorized code/test blobs are identical at current main and PR #89 merge:
+
+| Path | Git blob | Bytes | Raw SHA-256 | Result |
+|---|---|---:|---|---|
+| `src/persistence/portfolio_store.ts` | `540d49f2deb2c8d600b5b866675d145cf76a1e46` | 34,084 | `f6e44c8eb2518b57fcd79679dfa2c93593d9cafb1d839685b45f0cdfe72877a5` | 3-way byte match |
+| `tests/q1_ipc_read_contract_conformance.test.ts` | `eddedd56449d6d0ac27dd394bd2a7262d0cb0c24` | 61,324 | `d90a07029c97d64618c7a0acdc35eee53bec038171b7619b0540a45202b742d6` | 3-way byte match |
+
+GitHub compare `PR #89 merge ... current main` reports 4 commits ahead, 0 behind, and only 3 documentation/evidence files; no post-PR-#89 source/test drift is present.
+
+## Provider contract verified from the current merged source/test and PR evidence
+
+- The exact seven additions are: `portfolio.list` = `weightSumPercentage`, `provenanceDigest`, `isSaved`; `portfolio.get` = `isSaved`; `portfolio.revisions` = `totalMarketValue`, `provenanceDigest`, `holdingsCount`.
+- IPD preserves v1 wire names. IRR alone performs `holdingsCount` → `totalHoldingsCount` on summary/detail and `committedAt` → `createdAt` on history.
+- `isSaved` uses the stored **current revision's operation**: `MERGE`/`REPLACE` true; `INITIAL`/`RESET` false; other/unlawful operation refuses. It is not inferred from count/revision/holdings and never appears on history rows.
+- Missing/foreign/tombstoned records are rejected as `RESOURCE_UNAVAILABLE` before projection, with no result or `isSaved`. Missing/null/non-finite/wrong-typed malformed stored required values refuse without fabricated defaults; the malformed-result path is Class A `UNAVAILABLE`, mapped by IRR to `UPSTREAM_UNAVAILABLE`.
+- Historical totals, digest and count are read from each historical row itself. No schema migration was required or changed.
+- IPD PR #89 evidence reports focused Q1 30/30; persistence/user-portfolio 316/316; full `npm test` 924 executed / 923 passed / 0 failed / 1 pre-existing skip; typecheck/build/package-consumer success; cross-repository harness **15/15 PASS**.
+- The harness compiled the actual five IRR modules from PR #265's then-current head `c059c326…` and called the real IRR adapter over the real IPD local IPC endpoint. It verified exact frozen G2 keys and renames, four lifecycle outcomes, row-specific history, unavailable-resource `NOT_FOUND`, malformed-value `UPSTREAM_UNAVAILABLE`, and no tenant-hint transmission. Its original output is `evidence/cross-repository/cap03_dr2_2026-10-25_ipd_provider/08_cross_repo_harness.txt` at the merged IPD PR #89 tree.
+
+## Cross-repository status at this snapshot
+
+The IPD provider implementation and conformance test are **already merged and remotely verified**; this IRR task did not modify or rerun IPD work. IRR PR #265 was still open at this snapshot and its consumer changes were not yet effective on IRR `main`. The IRR package/lock files still pin IPD `2d9130e76bb0dc89daeefabaf297e27bdaa84250` (65 commits behind current IPD main) and broker-import alias `70b24f029842a7e9b7f615e4d9df7376fd4ff817` (214 behind). No pin update or final DQ-4 freeze was performed. Provider/consumer code publication and the cross-repository contract harness do not by themselves initiate Gate 5, accept durability, admit production, or close CAP-03's host/QE/freeze dependencies.

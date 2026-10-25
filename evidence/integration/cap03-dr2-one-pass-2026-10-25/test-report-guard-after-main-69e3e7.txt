@@ -1,0 +1,3 @@
+assert-tests: OK — 106 test file(s), 1349 test(s), 0 failed
+
+[exit code: 0]

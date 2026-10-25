@@ -25,6 +25,8 @@ import { Watchlists } from '../features/watchlists/Watchlists';
 import { Collaboration } from '../features/collaboration/Collaboration';
 import { Settings } from '../features/settings/Settings';
 import { SectorIntelligence } from '../features/sector/SectorIntelligence';
+import { ReportsWorkspace } from '../features/reports/ReportsWorkspace';
+import { ReportDetail } from '../features/reports/ReportDetail';
 
 function FeaturePlaceholder({ surface }: { surface: string }) {
   return <FeatureNotImplemented surface={surface} />;
@@ -63,6 +65,8 @@ export function App() {
         <Route path="/evidence/replay" element={<FeaturePlaceholder surface="Evidence Replay" />} />
         <Route path="/evidence/replay/:id" element={<ReplayExplorer />} />
         <Route path="/evidence/:id" element={<EvidenceExplorer />} />
+        <Route path="/reports" element={<ReportsWorkspace />} />
+        <Route path="/reports/:reportId" element={<ReportDetail />} />
         <Route path="*" element={<FeaturePlaceholder surface="Unknown route" />} />
       </Route>
     </Routes>

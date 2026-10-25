@@ -36,4 +36,8 @@ export const ROUTES = {
   evidenceDetail: '/evidence/:id',
   evidenceSnapshots: '/evidence/snapshots',
   evidenceReplay: '/evidence/replay/:id',
+  // CV-51 / NP-06 D8 — the seventh L1 product section. Read-only Reports exposure over the
+  // accepted NP-06 backend; only the concrete landing path appears in global navigation.
+  reports: '/reports',
+  reportDetail: '/reports/:reportId',
 } as const;

@@ -1,0 +1,36 @@
+CAP-03 identifier re-census after current-main advance — 2026-10-25 UTC
+
+Snapshot bases:
+- IRR `origin/main`: `69e3e7c65082340908e976e9ec0a638b8608dabd`, tree `6379243f40f0e84baa895920228d6558ad2b9fbd`.
+- IPD `main`: `8eec74ae27cda09f3c368b9c299895eae41554db`, tree `4eba29029f8d95cfe483e615a7047426b298ce50`.
+
+Method: exact fixed-string searches against all tracked paths in the IRR `origin/main` tree (`git grep -F`) and all files in a read-only clone of IPD `main` (`rg -F`). At this pre-publication snapshot each candidate below returned zero hits in both repositories.
+
+| Candidate | IRR current-main prior hits | IPD current-main prior hits |
+|---|---:|---:|
+| `CV-CORR-98` | 0 | 0 |
+| `§16.117` | 0 | 0 |
+| `§16.118` | 0 | 0 |
+| `CHG-2026-10-25-22` | 0 | 0 |
+| `CHG-2026-10-25-23` | 0 | 0 |
+| `V658` | 0 | 0 |
+| `V659` | 0 | 0 |
+| `V660` | 0 | 0 |
+| `V661` | 0 | 0 |
+| `V662` | 0 | 0 |
+| `V663` | 0 | 0 |
+| `V664` | 0 | 0 |
+| `V665` | 0 | 0 |
+| `V666` | 0 | 0 |
+| `V667` | 0 | 0 |
+| `V668` | 0 | 0 |
+| `V669` | 0 | 0 |
+| `V670` | 0 | 0 |
+
+The former CAP-03 draft allocation `CV-CORR-96` / §16.114 / `CHG-2026-10-25-17/-18` / `V645`–`V657` cannot be reused: current IRR main already uses `CV-CORR-96`, §16.114, both CHG identifiers, and V645–V654 in the Reports record/receipt sequence (§§16.114–16.116 and the current tracker summary). V655–V657 happen not to appear, but the allocation as a unit overlaps and is reissued rather than partially reused. The collision-preserving current-main tracker content is untouched.
+
+Current open-PR census at the snapshot:
+- IRR: PR #265 only; its remote head was still the pre-sync `c059c326c355b80c3224ad861dfecfb93963f112` and it is excluded from this `main`-only census.
+- IPD: no open pull requests. IPD PR #89/#90/#91 are already merged and separately verified in `ipd-pr89-current-main-remote-readback.txt`.
+
+This is a time-bounded pre-publication census. Re-run if either remote advances before publication; the eventual §16.118 receipt records the actual post-merge head/tree and mainline identifiers.
