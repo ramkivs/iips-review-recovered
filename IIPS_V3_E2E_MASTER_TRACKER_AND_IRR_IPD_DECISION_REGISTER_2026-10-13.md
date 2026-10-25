@@ -10,7 +10,8 @@
 | Current CAP-03 DR-2 publication status (`2026-10-25`; §§16.117–16.118) | IPD Option A provider/test is merged at PR #89; IRR Option A consumer is merged by PR #265 as `e590ca40d950052e32b2813027f0d1027b9e65ec` (tree `97530e48…`). PR-head CI `40199009657` and post-merge `main` CI `40199212799` passed; current-base local full suite 106 files / 1,349 passed / 0 failed. Bilateral source/test implementation and conformance evidence is published across both repos; this is **not** CAP-03 operational completion, final pin/freeze, Gate 5 admission, durability acceptance, or production eligibility. See §16.118. |
 | Previous IPD baseline (historical; superseded as current state) | Superseded value **`c0e1b5662264651246db1ccde2945eb5e13f3524`** verified 2026-10-22 (§16.75; superseded by the PR #41 merge recorded in §16.76) — 2 open PRs (**#34** superseded Gate 3 lineage; **#41** conformant candidate), agent write capability `HTTP 403`. Earlier: `ramkivs/iips-production-market-data` (`refs/heads/main` verified at **`15465e45adfc1dd58fba17e80365b729599aef6b`** on 2026-10-21 (`CV-CORR-53`, §16.70) — PR #37 merge `2026-10-21T15:57:34Z` (DEC-06 P11 main-admission decision package + A5 refresh; documentation only, no admission); **2 open PRs (#34 Gate 3 candidate; #36 DEC-06 P11 candidate — neither for merge)**, **0 releases**, both annotated pin tags re-peeled; superseded banner value `3d44e0a123f2495f3b88ce0ab8b47fbc5bf072db` verified 2026-10-21 — PR #33 merge 2026-10-19T19:46:48Z; earlier superseded value `be32d8c95a86b3f03bd382ccde5b6398efb351c6` verified 2026-10-18 — PR #24 merge (2026-10-18T19:12:01Z; documentation-only cross-repository reconciliation; 0 open IPD PRs; §16.55/§16.56), preceded by PR #23 `0158b7a1…` (documentation-only handoff/§14 record; IPD CI run `39147879645` passed); G3-D0 disposition published by PRs #20/#21 (`8b65971f…`/`e76bb2ed…`), G3-D1…D7 classification by PR #22 (`9310b1a…`); PR #8 merge `467eb529…` remains an ancestor; previous banner value `9130c259…` (PR #11) retained historically in §§16.49–16.53; refreshed by `CV-CORR-37`, §16.54) |
 | Pre-REG-08 IRR Baseline | Commit `f970028cf633f561c225d66ae4b3864f48afe656`; root tree `bab9782ed104567e571abccc350c75760ff35dca` (merge of PR #75) |
-| **Last Updated** | `2026-10-25` (UTC) — **CAP-03 bilateral DR-2 / Option A implementation and contract-conformance evidence reconciled after IRR PR #265 merged and its consumer/frozen blobs were remotely read back** (`CV-CORR-98`, §16.118; `CHG-2026-10-25-23`; `V670` PASS). IRR `main@e590ca40d950052e32b2813027f0d1027b9e65ec`, tree `97530e48…`; PR-head CI `40199009657` and post-merge main CI `40199212799` passed; Gate 4 remains AUTHORIZED — NOT STARTED; QE remains 0/11; no final pin/freeze or durable-read acceptance is rendered; Gate 5 is NOT INITIATED / NOT ADMITTED; host operations were not performed; production eligibility is NOT ADMITTED. This reconciles only bilateral source/test publication, not full CAP-03 closure. No CV register-count movement or IPD writes. **Prior update preserved:** NP-06 Reports `CV-51` ACCEPTED/CLOSED — bounded non-production read-only Reports UI (`CV-CORR-97`, §16.116; `CHG-2026-10-25-21`). PA acceptance `ACCEPT CV-51` (2026-10-25) published via PR #271 (merge `52dddd8c…`, CI `40196119937`/`40196280978` `success`) and remotely verified (§16.116.4, `V654`) — acceptance **EFFECTIVE**; `CV-51` reconciled `COMPLETE / ACCEPTED` (`ACCEPTED/CLOSED`): complete/accepted `17→18`, blocked-active `2→1`, active outstanding `6→5`, total `35`; §18.1 row 37 reconciled to verified bounded scope; §19 Reports closed. NP-06 backend **ACCEPTED** (bounded non-production); production **NOT ADMITTED**; `D115`/`CV-43` **UNWIRED**; IPD writes by that pass **NONE**. No new implementation authority granted. |
+| **Last Updated** | `2026-10-25` (UTC) — **CAP-03 DQ-6b freeze-disposition investigation completed and published as `PREPARED — NOT EFFECTIVE`; DQ-6b is UNRESOLVED PENDING PA DECISION (`CV-CORR-101`, §16.121, `CHG-2026-10-25-26`).** Eight independent authority searches (IRR full-history pickaxe over **1,038 commits**, IPD all-branch pickaxe, added-file censuses in both loci, `gh search issues` for `DQ-6b` in both repositories, and an open-PR census showing **0 open PRs** in both) returned **no effective DQ-6b decision**: the DQ-1…DQ-7 packet (blob `9ccc0b06…`) remains **PROPOSED — NOT EFFECTIVE** with a blank DQ-6b answer row; the effective CAP-03 one-pass PA record (blob `624632bb…`) states verbatim “DQ-6 and DQ-7 are not answered or altered by this pass”; and the only effective DQ-6-family act (`IIPS-V3-IPD-PR42-CLOSE-WITH-RECORD-PA-DISPOSITION-2026-10-24-01`, IPD locus) answers **DQ-6a** only and states “DQ-6b remains open and untouched”. Published IRR-side: decision brief `IIPS-V3-CAP03-DQ6B-FREEZE-DISPOSITION-DECISION-BRIEF-2026-10-25-01` and blocker record `IIPS-V3-CAP03-DQ6B-FREEZE-BLOCKER-2026-10-25-01`. Independently re-verified this pass: primary pin `8eec74ae…` (0 behind IPD `main`), distinct alias `70b24f02…` (214 behind, ancestor), IPD `files: ['dist/package']` at `8eec74ae…` vs **no `files`/`exports`** at `70b24f02…`, all **14/14** required raw sources PRESENT at the alias and **0/14** publishable under `dist/package`, `TS18003` (evidence `21`), `sourceClassification` `REAL` → `UNCLASSIFIED` at **three** sites in `broker-holdings-mapper.ts` (blobs `6c8ab71d…` → `297e4a59…`), the guard test (blob `0a1e58de…`), and the bilateral harness **15/15** (evidence `18`). **New finding:** the alias is load-bearing for the live, PO-accepted **DB-C1** `/broker-holdings` preview — `brokerHoldingsPreview.ts` (blob `bf079a1b…`) imports `../../.cache/broker-import/…`, and `build:broker-import` gates `predev`/`prebuild`/`pretest`/`pretest:ci`/`pretypecheck`. **Recommendation (NOT a decision): Path A** — freeze the qualified split primary/alias baseline, documented and guarded. **No pin changed, no freeze established, no gate moved, H-12 NOT ADOPTED, QE 0/11, Gate 5 NOT INITIATED / NOT ADMITTED, zero IPD writes.** |
+| Previous update summary (`2026-10-25`; `CV-CORR-98`, §16.117–§16.118 — preserved) | `2026-10-25` (UTC) — **CAP-03 bilateral DR-2 / Option A implementation and contract-conformance evidence reconciled after IRR PR #265 merged and its consumer/frozen blobs were remotely read back** (`CV-CORR-98`, §16.118; `CHG-2026-10-25-23`; `V670` PASS). IRR `main@e590ca40d950052e32b2813027f0d1027b9e65ec`, tree `97530e48…`; PR-head CI `40199009657` and post-merge main CI `40199212799` passed; Gate 4 remains AUTHORIZED — NOT STARTED; QE remains 0/11; no final pin/freeze or durable-read acceptance is rendered; Gate 5 is NOT INITIATED / NOT ADMITTED; host operations were not performed; production eligibility is NOT ADMITTED. This reconciles only bilateral source/test publication, not full CAP-03 closure. No CV register-count movement or IPD writes. **Prior update preserved:** NP-06 Reports `CV-51` ACCEPTED/CLOSED — bounded non-production read-only Reports UI (`CV-CORR-97`, §16.116; `CHG-2026-10-25-21`). PA acceptance `ACCEPT CV-51` (2026-10-25) published via PR #271 (merge `52dddd8c…`, CI `40196119937`/`40196280978` `success`) and remotely verified (§16.116.4, `V654`) — acceptance **EFFECTIVE**; `CV-51` reconciled `COMPLETE / ACCEPTED` (`ACCEPTED/CLOSED`): complete/accepted `17→18`, blocked-active `2→1`, active outstanding `6→5`, total `35`; §18.1 row 37 reconciled to verified bounded scope; §19 Reports closed. NP-06 backend **ACCEPTED** (bounded non-production); production **NOT ADMITTED**; `D115`/`CV-43` **UNWIRED**; IPD writes by that pass **NONE**. No new implementation authority granted. |
 | Previous update summary (`2026-10-25`; `CV-CORR-97`, §16.116 — preserved) | `2026-10-25` (UTC) — **NP-06 Reports `CV-51` post-qualification PA acceptance APPROVED (`ACCEPT CV-51`, bounded non-production read-only Reports UI) and recorded as operative upon publication (`CV-CORR-97`, §16.116; `CHG-2026-10-25-20`).** Operative acceptance act `IIPS-V3-REPORTS-NP06-CV51-POST-QUALIFICATION-PA-ACCEPTANCE-2026-10-25-01` records the PA approval of 2026-10-25 on independently re-verified evidence (PRs #268–#270 ancestry on authoritative `main`, exact 12-file scope with empty prohibited-path diff, hosted CI `success`, Chromium `B-1`–`B-6` structured results 92/0; the indexed-but-absent `browser-transcript.log` discrepancy is recorded exactly and not relied upon). **Acceptance is NOT EFFECTIVE until this act is published on `main` and remotely verified (receipt at §16.116); `CV-51` remains NOT ACCEPTED / NOT CLOSED and register counts unmoved until then.** NP-06 backend **ACCEPTED** (bounded non-production); production **NOT ADMITTED**; `D115`/`CV-43` **UNWIRED**; IPD writes **NONE**; `R1`/`R2`/`R3`/`F-7` unchanged. |
 | Previous update summary (`2026-10-25`; `CV-CORR-96`, §16.115 — preserved) | `2026-10-25` (UTC) — **NP-06 Reports `CV-51` bounded read-only UI implemented and qualified; product acceptance PENDING (`CV-CORR-96`, §16.115; `CHG-2026-10-25-18`).** Operative authority act `IIPS-V3-REPORTS-NP06-CV51-UI-EXPOSURE-PA-DECISION-ACT-2026-10-25-01` (`Option CV51-A` APPROVED) published via PR #268 (merge `50a67cd4…`, CI `40193107116`/`40193362662` `success`, §16.114.4 receipt); exact 12-file frontend implementation (6 created + 6 modified) with focused suites 46/46, full `test:ci` 106 files / 1,346 tests / 0 failed + guard `OK`, typechecks `0/0`, build `0`, and real-Chromium loopback `B-1`–`B-6` 92 checks / 0 failures ([qualification record](docs/integration/IIPS_v3.0_REPORTS_NP06_CV51_QUALIFICATION_RECORD_2026-10-25.md); [evidence](evidence/integration/cv51-reports-ui-qualification-2026-10-25/MANIFEST.md)). Zero `frontend/server/**`, `iips-platform/**`, manifest, workflow, or IPD changes; `R1`/`R2`/`R3`/`F-7` unreopened; `D115`/`CV-43` **UNWIRED**. **CV-51 product acceptance remains PENDING** its separate post-qualification PA act ([prepared record](docs/integration/IIPS_v3.0_REPORTS_NP06_CV51_POST_QUALIFICATION_PA_ACCEPTANCE_RECORD_2026-10-25.md)); production **NOT ADMITTED**; **zero** register-count movements. |
 | Previous update summary (`2026-10-25`; `CV-CORR-96`, §16.114 — preserved) | `2026-10-25` (UTC) — **NP-06 Reports `CV-51` implementation authority APPROVED (`Option CV51-A`) and recorded as operative upon publication (`CV-CORR-96`, §16.114; `CHG-2026-10-25-17`).** PA decision act `IIPS-V3-REPORTS-NP06-CV51-UI-EXPOSURE-PA-DECISION-ACT-2026-10-25-01` is published in operative form at [`docs/integration/IIPS_v3.0_REPORTS_NP06_CV51_IMPLEMENTATION_AUTHORITY_PA_DECISION_ACT_2026-10-25.md`](docs/integration/IIPS_v3.0_REPORTS_NP06_CV51_IMPLEMENTATION_AUTHORITY_PA_DECISION_ACT_2026-10-25.md); the candidate proposal record published under `CV-CORR-95` (§16.113) is preserved byte-identical as proposal history. Starting verified main: `53176b73e505cbc75ad23694bbd12482323ae7a3` (merge of PR #267; CI `40190146374` `success`). **Separate statuses:** `CV-51` implementation authority **APPROVED**; `CV-51` product acceptance **PENDING** separate post-qualification PA acceptance (zero `CV-*` register-count movements at this gate); NP-06 backend capability **ACCEPTED** (bounded non-production); production **NOT ADMITTED**; `D115`/`CV-43` **UNWIRED**; IPD writes **NONE**. |
@@ -10226,3 +10227,155 @@ DR-4r/DQ-3 Option B remains in force; H-12 **NOT ADOPTED**; Gate 4 **AUTHORIZED 
 | `V679` | PR #274 post-merge remote verification | **PASS** — merged state/time, exact head, merge commit/tree/parents/verification, remote `main`, 59/59 changed-path blob/size matches, 9/9 frozen-path matches, exact-head CI `40203597092`, post-merge CI `40203762973`, current pins, protection read-back, and unchanged IPD remote state independently recorded in evidence `51`. |
 
 *End of §16.120 post-merge receipt (`CHG-2026-10-25-25`; `V679`).*
+
+---
+
+## §16.121 — `CV-CORR-101`: CAP-03 DQ-6b Freeze-Disposition Investigation Executed; Disposition **PREPARED — NOT EFFECTIVE** and **UNRESOLVED PENDING PA DECISION** — `2026-10-25` (`CHG-2026-10-25-26`, `V680`–`V688`)
+
+*Additive IRR-locus investigation and publication record. It preserves the effective CAP-03 one-pass PA decision/execution record (§§16.117–16.118, blob `624632bb022c147e7df477a7d77d96793d484035`), the DQ-4 pin-reconciliation record (§16.119, blob `66784097e6ef8335a88eb8810b633d6b3a4ed781`) and its post-merge receipt (§16.120), DR-2/DQ-1 Option A, DR-4r/DQ-3 Option B, all frozen G2/schema/protocol/route/fence boundaries, and every IPD object. **This section renders no PA decision, answers no DQ tick, designates no pin, and establishes no freeze.***
+
+### 16.121.1 Freshly verified remote bases
+
+| Repository | Verified remote `main` | Tree | Open PRs | Latest `main` CI |
+|---|---|---|---:|---|
+| IRR `ramkivs/iips-review-recovered` | `7d2bc71559c223cc788600d8de6a5e3631e8699c` | `6d07f7a278bd53f8955ce3707d4056aa6ae01e49` | **0** | run `40204240649`, **success** |
+| IPD `ramkivs/iips-production-market-data` | `8eec74ae27cda09f3c368b9c299895eae41554db` | `4eba29029f8d95cfe483e615a7047426b298ce50` | **0** | run `40196407747`, **success** |
+
+Both values re-verified during this pass by fresh `clone`/`fetch` and `ls-remote`; they match the §16.119.1 / §16.120.1 coordinates. IRR `main@7d2bc71…` is the PR #275 “Record CAP-03 DQ-4 post-merge verification” merge; the DQ-4 source candidate remains PR #274’s merge `907e1fdac76612c9e171774aab079b4862d35ef2` / tree `0ad2ad717cdf63a9b675045e0049e8d5d1e4bac0`.
+
+### 16.121.2 Exact coordinates and object identities
+
+| Coordinate / object | Value | Note |
+|---|---|---|
+| Primary npm pin `iips-production-market-data` | `8eec74ae27cda09f3c368b9c299895eae41554db` / IPD tree `4eba29029f8d95cfe483e615a7047426b298ce50` | **0 behind** IPD `main`; unchanged by this pass |
+| Broker alias `iips-broker-import` | `70b24f029842a7e9b7f615e4d9df7376fd4ff817` / IPD tree `cc0f0117822850f9046e9a51bd05c1d45f80cd57` | **214 behind**, full-history **ancestor**; unchanged by this pass |
+| Reports `iips-np04-governed-persistence` | `2e11fa3b689d1a3674a5e4ba1f1de9a559e20494` / tree `7c1d516a43153f9c4e1b09bfa259d16da1704bb0` | Separate NP-04 boundary; unchanged |
+| IRR `frontend/package.json` | blob `83058ea202ece8ec60b2674b05b7532ce9a8684b` (1,888 B) | At `main@7d2bc71…`; carries both specifiers |
+| IRR `frontend/package-lock.json` | blob `744355e903135fc3ebc0f75b0e122bdf1bbc8358` (128,442 B) | Unchanged |
+| IRR `frontend/tsconfig.broker-import.json` | blob `a339c9c4def365f0b80295bb32ad74cf2f95a9bd` (1,005 B) | `rootDir: node_modules/iips-broker-import` |
+| IRR guard test `brokerImportPackageConsumer.test.ts` | blob `0a1e58de96fae755a4d054e2aa319ab51e2caba3` (18,716 B) | 14-source + distinct-alias guard |
+| IRR `frontend/src/api/brokerHoldingsPreview.ts` | blob `bf079a1b587cebf582c03a7aa2c99b87cf890f73` (2,395 B) | Imports `../../.cache/broker-import/…` |
+| IRR `frontend/server/reports/reports-persistence-integration.test.ts` | blob `4f6024f0ca13f4552507b69e8e1d8224188de6d3` (8,500 B) | Asserts alias specifier at line 84 |
+| IPD `package.json` @ `8eec74ae…` | blob `51796e63280c1abb368c27bf8811cc6bad46e132` | `files: ["dist/package"]`; 3 exports |
+| IPD `package.json` @ `70b24f02…` | blob `cc5616d30c0179d08abacbc5a2c253cc27d27bfd` | **No `exports`, no `files`** |
+| IPD `broker-holdings-mapper.ts` @ `70b24f02…` | blob `6c8ab71dc9230d22d0d3fe9a13e1809371f396e4` | `sourceClassification: 'REAL'` ×3 |
+| IPD `broker-holdings-mapper.ts` @ `8eec74ae…` | blob `297e4a593bb575a5f3f8616788f3aa9e599707a4` | `sourceClassification: 'UNCLASSIFIED'` ×3 |
+| Effective CAP-03 one-pass PA decision record | blob `624632bb022c147e7df477a7d77d96793d484035` (30,623 B) | States DQ-6/DQ-7 not answered |
+| DQ-1…DQ-7 packet | blob `9ccc0b0687f6a3bacad1b12189f4f022d23407c1` (21,294 B) | **PROPOSED — NOT EFFECTIVE**; DQ-6b row blank |
+| DQ-4 pin-reconciliation record | blob `66784097e6ef8335a88eb8810b633d6b3a4ed781` (21,082 B) | Preserved in full |
+
+### 16.121.3 Authority search — exhaustive, negative result
+
+| ID | Search | Scope | Result |
+|---|---|---|---|
+| `S-1` | Working-tree text search `DQ-6b`/`DQ6B`/`DQ-6` | IRR `main@7d2bc71…`, all `*.md` | Mentions only (registrations, receipts, non-grants). **No decision record.** |
+| `S-2` | `git log --all -S "DQ-6b"` | IRR full non-shallow clone, **1,038 commits** | 9 commits, all registrations/receipts. **None renders a determination.** |
+| `S-3` | `git log --all --diff-filter=A --name-only` filtered `dq` | IRR, all branches | DQ-4 record, DQ-1…DQ-7 packet, DQ-7a record only. **No DQ-6b record exists.** |
+| `S-4` | `git log --all -S "DQ-6b"` | IPD full clone, all branches | 2 commits (IPD PR #87 `89fdc35…`, PR #88 `4b5c65a…`); both state DQ-6b **open and untouched**. |
+| `S-5` | Added-file census + `docs/` + `evidence/` scan | IPD `main@8eec74ae…` | Only PA act present is the DQ-6a PR #42 disposition. **No DQ-6b decision.** |
+| `S-6` | `gh search issues` for `DQ-6b` | Both repositories, issues **and** PRs | **Zero** results in either repository. |
+| `S-7` | Open PR census | IRR **0**; IPD **0** | No pending vehicle carries a DQ-6b decision. |
+| `S-8` | Governing effective CAP-03 record | blob `624632bb…` | Verbatim: **“DQ-6 and DQ-7 are not answered or altered by this pass.”** |
+
+**Determination:** the DQ-1…DQ-7 packet is **PROPOSED — NOT EFFECTIVE** and its DQ-6b answer row is **blank**; the effective CAP-03 one-pass PA record expressly excludes DQ-6; the only effective DQ-6-family act (`IIPS-V3-IPD-PR42-CLOSE-WITH-RECORD-PA-DISPOSITION-2026-10-24-01`, IPD locus) answers **DQ-6a** only. **No effective DQ-6b decision exists in either locus. DQ-6b is UNRESOLVED — PENDING PA DECISION.**
+
+### 16.121.4 Independently re-verified technical evidence
+
+| ID | Claim | Result |
+|---|---|---|
+| `V680` | Primary pin uses the modern published package surface | **PASS** — IPD `package.json` @ `8eec74ae…` (blob `51796e63…`) exports `./portfolio-ui`, `./pit`, `./d114-non-production`, `files: ["dist/package"]`; pin is IPD `main`, 0 behind |
+| `V681` | Alias is a genuinely distinct baseline | **PASS** — `frontend/package.json` (blob `83058ea2…`) and lockfile (blob `744355e9…`) carry two distinct specifiers into the same repository; alias 214 behind, full-history **ancestor** |
+| `V682` | 14 raw source files required; present at alias, absent under modern publish | **PASS** — all **14/14** confirmed PRESENT at `70b24f02…`. All 14 are `frontend/src/**` or `src/**`; `files: ["dist/package"]` publishes none of them. Confirmed `dist/package/**` has **0** committed blobs in IPD (generated by `prepare` at install) |
+| `V683` | Both-pins-at-modern fails `build:broker-import` with `TS18003` | **PASS** — evidence `21` records `error TS18003: No inputs were found in config file '…/tsconfig.broker-import.json'` with the exact include globs; `npm install` exited `0` (evidence `20`). Failure is the necessary consequence of `V682` |
+| `V684` | Alias preserves lineage classification that changed | **PASS** — `sourceClassification` `REAL` → `UNCLASSIFIED` at **three** sites (lines 262, 337, 360); blobs `6c8ab71d…` → `297e4a59…` |
+| `V685` | Guard protects exact pins, distinction, raw-source requirement, 14 files | **PASS** — blob `0a1e58de…` declares `EXPECTED_IPD_PIN_SHA='8eec74ae…'`, `EXPECTED_BROKER_IMPORT_ALIAS_SHA='70b24f02…'`, 14-entry `REQUIRED_BROKER_IMPORT_SOURCE_FILES`; asserts distinctness and rejects `dist/package`-only alias |
+| `V686` | Bilateral harness 15/15 | **PASS** — evidence `18`: `SUMMARY | checks=15 pass=15 fail=0`, `EXIT_CODE=0`, IPD input `8eec74ae…`/tree `4eba2902…`; re-confirms DR-4r/DQ-3 Option B (populated contribution ledger refused) |
+| `V687` | **New finding** — alias is load-bearing for the live DB-C1 preview | **PASS** — `frontend/src/api/brokerHoldingsPreview.ts` (blob `bf079a1b…`) imports `BrokerImportIngressOrchestrator` and `SecurityMaster` from `../../.cache/broker-import/…`, the sole output of the alias build; backs `/broker-holdings`, admitted to `main` under `IIPS-V3-DBC1-PR114-MAIN-ADMISSION-AND-MERGE-DISPOSITION-EFFECTIVE-2026-10-23-01` with PO/PR `PRODUCT-OWNER ACCEPTANCE — PASS` (PR #114, merge `271ca527…`) |
+| `V688` | **New finding** — `build:broker-import` gates the whole toolchain | **PASS** — wired as `pre`-script for `predev`, `prebuild`, `pretest`, `pretest:ci`, `pretypecheck` in `frontend/package.json`; a `TS18003` failure breaks the entire IRR frontend dev/build/test/typecheck path |
+
+### 16.121.5 Why the packet’s own framing does not resolve DQ-6b
+
+The DQ-6b tick was framed in the (non-effective) packet as two options. **Neither is presently executable**, and the only executable-and-guarded configuration is not among them:
+
+| Framed option | Present status |
+|---|---|
+| **(i)** Re-pin the alias to the DQ-4 freeze commit + guard both dependencies | **Impossible** — `TS18003` (`V683`); and it would break the whole toolchain (`V688`) |
+| **(ii)** Retire the alias | **Unavailable** — conditioned on the preview surface being retired; DB-C1 is live and PO-accepted (`V687`) |
+| *(unframed)* Preserve the alias as a documented, guarded compatibility baseline | **Executable and fully guarded** — this is what DQ-4 in fact did, and it requires a rendered act to become a final freeze posture |
+
+DQ-6b has therefore escalated from a routine off-critical-path tick to a **freeze-blocking determination**: a final QE freeze manifest cannot be written without stating the alias disposition, and no rendered act supplies it.
+
+### 16.121.6 Path A vs Path B — comparison against CAP-03 requirements
+
+| Criterion | Path A — freeze the split baseline | Path B — modernize first |
+|---|---|---|
+| Freeze manifest expressible today | **Yes** | **No** |
+| Requires IPD mutation | **No** | **Yes** (B-1) / in effect yes (B-2) |
+| Requires new design/implementation act | No | **Yes** |
+| Preserves DB-C1 lineage (`REAL`) | **Yes** | No — requalification required |
+| Single unified IPD coordinate at freeze | **No** (split by design) | **Yes** |
+| H-12 (32 IPD + 24 IRR = 56) simplicity | Harder — spans two IPD commits | Cleaner post-change |
+| Removes structural fragility (compiling third-party raw source) | No | **Yes** |
+| Already fully validated in IRR | **Yes** — 106 files / 1,350 tests; harness 15/15 | No evidence exists |
+| **Authorized by an effective decision today** | **No** | **No** |
+
+**Path B scope (if selected):** either **B-1** (IPD package-surface change — a new governed export and/or `files` entry admitting the broker sources; IPD locus, IPD PA authority) or **B-2** (IRR broker-build redesign — retire `tsconfig.broker-import.json` blob `a339c9c4…`, the `build:broker-import` script and its five `pre`-script wirings, and the `../../.cache/broker-import/…` import in blob `bf079a1b…`); **plus** the common tail — lineage requalification, DB-C1 preview requalification, guard-test rewrite (blobs `0a1e58de…`, `4f6024f0…` line 84), toolchain re-validation, bilateral harness re-execution, and H-12 re-derivation.
+
+### 16.121.7 Records published by this pass
+
+| Record | Path | Blob | Bytes | SHA-256 |
+|---|---|---|---:|---|
+| `IIPS-V3-CAP03-DQ6B-FREEZE-DISPOSITION-DECISION-BRIEF-2026-10-25-01` | `docs/integration/IIPS_v3.0_CAP03_DQ6B_FREEZE_DISPOSITION_DECISION_BRIEF_2026-10-25.md` | `179ee1f8a77ed9697f192aab0b0c9bcdb90be34f` | 31,028 | `da1ec727a853e2eb7268cb1bed0e820b1eb04719aceb9a76a8fe4c6a91b5d5a9` |
+| `IIPS-V3-CAP03-DQ6B-FREEZE-BLOCKER-2026-10-25-01` | `docs/integration/IIPS_v3.0_CAP03_DQ6B_FREEZE_BLOCKER_RECORD_2026-10-25.md` | `00dae7f3f43a0badaf7a35756daa694c4d1d0030` | 8,322 | `18e58c6dfe05b719f765178f1aed680f5d05dd7012c35ff8b564218aaf918e97` |
+
+Both are **PREPARED — NOT EFFECTIVE**. The brief states the exact question, compares both paths, records the technical evidence, compatibility consequences, operational risks and remaining gaps, identifies the precise authority required, gives a recommendation **clearly distinguished from an approved decision**, and specifies the consequences for DQ-4, final pins, H-12, Gate 4 and Gate 5.
+
+### 16.121.8 Recommendation (NOT a decision) and required authority
+
+**Recommendation — no governing force, must not be cited as authorization: Path A** — freeze the qualified split primary/alias baseline, with the compatibility alias expressly documented and guarded. Rationale: Path A is the only path executable and fully evidenced today (`V680`–`V686`); the split is ancestor-clean, SHA-pinned and guarded rather than an unmanaged divergence; Path B requires a cross-repository governed change plus lineage/DB-C1 requalification with no design, cost or authorization today and would delay all QE (currently `0/11`); and Path A preserves a PO-accepted product surface and its current lineage semantics. Suggested conditions `C-1`…`C-5` appear in brief §10 for the PA to adopt, reject or amend.
+
+**Authority required (all six elements, brief §9):** (1) a census-checked act ID rendered by the **Program Authority (Ramki)**; (2) verbatim determination text naming the chosen option and every fixed semantic — alias disposition, whether the split is permanent or interim, and the lineage classification authoritative for QE; (3) named commits/trees/manifest blobs at the freeze; (4) merge to the governing locus `main` with green exact-head CI — and, if Path B, **also to the IPD locus**, because a package-surface change is an IPD-locus act; (5) independent remote read-back; and (6) a dated receipt mirrored into the other repository’s tracker. A recommendation, brief, draft or PR description is **never** effectiveness.
+
+### 16.121.9 Consequences and boundary status
+
+| Item | Status | Consequence of the unresolved DQ-6b |
+|---|---|---|
+| DQ-4 final QE freeze | **NOT ESTABLISHED** | Cannot be established; a freeze manifest cannot state the alias disposition without a rendered DQ-6b act |
+| Exact final repository pins | **NOT DESIGNATED** | IRR `907e1fda…`/tree `0ad2ad71…` and IPD `8eec74ae…`/tree `4eba2902…` remain **candidates only** |
+| Exact final npm pins | **NOT DESIGNATED** | Primary `8eec74ae…` final-ready; alias `70b24f02…` disposition pending. **No npm pin changed by this pass** |
+| H-12 | **NOT ADOPTED** | Regeneration/validation (32 IPD + 24 IRR = 56) awaits designated commits; harder under a split baseline |
+| Gate 4 | **AUTHORIZED — NOT STARTED** | Unchanged; QE cannot start until pins are designated and H-12 adopted |
+| QE | **0 / 11** | Unchanged; no QE credit claimed |
+| Gate 5 | **NOT INITIATED / NOT ADMITTED** | Unchanged |
+| Durable-read acceptance / production eligibility | **NOT ESTABLISHED** | Unchanged |
+| Host operations | Not begun; package not regenerated, repackaged or republished | Unchanged |
+
+### 16.121.10 Scope, non-grants, and IPD non-mutation
+
+**Changed by this pass (IRR only, documentation/evidence):** the two records in §16.121.7, plus this tracker section and its “Last Updated” current-state row (the superseded row is preserved verbatim as “Previous update summary (`2026-10-25`; `CV-CORR-98`, §16.117–§16.118 — preserved)”). **No IRR source, test, build file, tsconfig, manifest, lockfile, schema, migration, protocol, route or fence was modified.** No dependency was re-pinned.
+
+**Not granted or performed:** any PA decision; any answer to DQ-6b or any other DQ tick; any final pin designation; the DQ-4 final QE freeze; alias modernization; any re-pin; H-12 adoption; Gate 4 start; QE credit; Gate 5 initiation or admission; any `503` fence lift; durable-read acceptance; production eligibility; host operations; or regeneration/repackaging of the host-operations package.
+
+**IPD: zero writes.** IPD was accessed read-only via a fresh clone at `8eec74ae27cda09f3c368b9c299895eae41554db`; no IPD file, branch, PR, package, manifest, schema, migration, protocol, route or source was changed.
+
+**Preserved in force:** DR-4r/DQ-3 **Option B** (empty contributions pass; non-empty contributions refuse); the effective CAP-03 one-pass PA decision record (blob `624632bb…`); the DQ-4 pin-reconciliation record (blob `66784097…`) including all failed-candidate evidence; the DQ-1…DQ-7 packet as **PROPOSED — NOT EFFECTIVE** (blob `9ccc0b06…`); all frozen G2/schema/protocol/route/fence blobs; all `503` fences; `SESSION_ONLY`/`durable:false`; `WRITE_NOT_AUTHORIZED`; Gate 3 acceptance for bounded scope.
+
+### 16.121.11 Verification
+
+| ID | Check | Result |
+|---|---|---|
+| `V680` | Primary pin / modern published package surface | **PASS** — §16.121.4 |
+| `V681` | Distinct alias baseline, ancestry, distance | **PASS** — 214 behind, ancestor; unchanged |
+| `V682` | 14 required raw sources: present at alias, unpublishable at modern | **PASS** — 14/14 PRESENT at `70b24f02…`; 0/14 under `dist/package`; `dist/package` has 0 committed IPD blobs |
+| `V683` | `TS18003` both-pins failure | **PASS** — evidence `21`; install exited `0` (evidence `20`) |
+| `V684` | Lineage classification change | **PASS** — `REAL` → `UNCLASSIFIED` at 3 sites; blobs `6c8ab71d…` → `297e4a59…` |
+| `V685` | Guard invariants | **PASS** — blob `0a1e58de…` |
+| `V686` | Bilateral harness | **PASS — 15/15**, exit `0` (evidence `18`) |
+| `V687` | DB-C1 preview dependency chain | **PASS** — blob `bf079a1b…` imports `.cache/broker-import/…` |
+| `V688` | `build:broker-import` toolchain gating | **PASS** — five `pre`-script wirings |
+| *Authority searches* | `S-1`…`S-8` | **NEGATIVE** — no effective DQ-6b decision in either locus (§16.121.3) |
+| *Scope / non-grants / IPD non-mutation* | Changed-path census and IPD diff | **PASS** — documentation/tracker only; **0 IPD writes**; no pin, gate, fence or H-12 movement |
+
+**Single next dependency-respecting action:** the **Program Authority renders the DQ-6b determination** — Path A (admit the split primary/alias freeze baseline, documented and guarded) or Path B (require alias modernization first, designating B-1 or B-2 and its locus) — as a separately rendered act meeting all six effectiveness elements in §16.121.8. Until that act exists, DQ-4 remains unfrozen and no downstream step may proceed.
+
+*End of §16.121 (`CHG-2026-10-25-26`; `V680`–`V688`). DQ-6b remains **UNRESOLVED — PENDING PA DECISION**; this section is **PREPARED — NOT EFFECTIVE**.*
