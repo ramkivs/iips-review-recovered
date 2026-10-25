@@ -1,0 +1,5 @@
+COMMAND: python3 validate_h12.py (independent re-derivation from the Git object database)
+SUBJECT: docs/integration/G4-H12-MANIFEST-v2-CANDIDATE-2026-10-25-R5.json
+
+CHECKS 981 FAILS 0
+EXIT=0

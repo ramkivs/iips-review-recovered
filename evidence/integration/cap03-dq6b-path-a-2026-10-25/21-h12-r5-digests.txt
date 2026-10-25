@@ -1,0 +1,11 @@
+SHA-256 over exact file bytes (manifest R5):
+d0be8bef3281ae6a296b8700265fe134b5088dd84b102b77ca8a157c8275cb76  docs/integration/G4-H12-MANIFEST-v2-CANDIDATE-2026-10-25-R5.json
+
+SHA-256 over exact file bytes (R4, preserved):
+3eedd70c994271dfc9ac23bd603f7a9e2f273cb1a68d3172cd3a7737344096ae  docs/integration/G4-H12-MANIFEST-v2-CANDIDATE-2026-10-22.json
+
+byte lengths:
+143813 docs/integration/G4-H12-MANIFEST-v2-CANDIDATE-2026-10-25-R5.json
+115308 docs/integration/G4-H12-MANIFEST-v2-CANDIDATE-2026-10-22.json
+
+newline form:

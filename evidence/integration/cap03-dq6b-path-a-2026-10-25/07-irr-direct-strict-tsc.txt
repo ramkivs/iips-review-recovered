@@ -1,0 +1,3 @@
+COMMAND: npx tsc --noEmit --strict --target ES2020 --module ESNext --moduleResolution bundler --allowImportingTsExtensions --esModuleInterop --skipLibCheck --types node server/user-portfolio/ipcPortAdapter.ts server/user-portfolio/ipcPortAdapter.test.ts
+IRR_COMMIT: ba64b2d5927c2f872560710cf1474c25a5cde0d5 / tree 5e4262f1cd75bf13b76ced5b45058f31434b5dad
+EXIT=0
