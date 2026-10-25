@@ -4,16 +4,22 @@
  * Authority:
  *   - `IIPS-V3-CAP02-BROKER-IMPORT-UI-COMPOSITION-ACT-EFFECTIVE-2026-10-23-04` §3.1
  *   - `IIPS-V3-CAP02-B1R-IPD-COMPATIBILITY-IMPLEMENTATION-ACT-EFFECTIVE-2026-10-23-01`
+ *   - CAP-03 DQ-4 pin reconciliation, tracker §16.119 (2026-10-25)
  *
- * Guards that IRR's `iips-production-market-data` dependency pin:
- *   1. Uses an exact 40-hex immutable commit SHA on `ramkivs/iips-production-market-data`
- *      (`2d9130e76bb0dc89daeefabaf297e27bdaa84250`) in both `package.json` and `package-lock.json`.
- *   2. Simultaneously exposes `./portfolio-ui`, `./pit`, and `./d114-non-production` with built
- *      runtime `.js` and declaration `.d.ts` artifacts.
- *   3. Provides all runtime symbols and TypeScript declaration symbols required by IRR's five
+ * Guards that IRR's IPD dependency pins:
+ *   1. Use exact 40-hex immutable commit SHAs on `ramkivs/iips-production-market-data` in both
+ *      `package.json` and `package-lock.json`: primary
+ *      `8eec74ae27cda09f3c368b9c299895eae41554db`, and the deliberately distinct DB-C1
+ *      broker-import alias `70b24f029842a7e9b7f615e4d9df7376fd4ff817`.
+ *   2. Simultaneously expose `./portfolio-ui`, `./pit`, and `./d114-non-production` from the
+ *      primary package with built runtime `.js` and declaration `.d.ts` artifacts.
+ *   3. Provide all runtime symbols and TypeScript declaration symbols required by IRR's five
  *      direct PIT/D114 importers and CAP-02 `./portfolio-ui` consumer surface (including U7
  *      minimal receipt/outcome types and `WRITE_NOT_AUTHORIZED` / `RESOURCE_UNAVAILABLE`).
- *   4. Rejects any incompatible or floating package pin profile.
+ *   4. Preserve the raw TypeScript source files required by `tsconfig.broker-import.json` in the
+ *      installed broker-import alias. Modern IPD packages publish only `dist/package`, so the
+ *      alias must not be silently advanced without an authorized package/build redesign.
+ *   5. Reject any incompatible or floating package pin profile.
  */
 import { existsSync, readFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
@@ -23,7 +29,27 @@ import { describe, expect, it } from 'vitest';
 const here = dirname(fileURLToPath(import.meta.url));
 const frontendRoot = resolve(here, '..', '..');
 
-export const EXPECTED_IPD_PIN_SHA = '2d9130e76bb0dc89daeefabaf297e27bdaa84250';
+export const EXPECTED_IPD_PIN_SHA = '8eec74ae27cda09f3c368b9c299895eae41554db';
+
+export const EXPECTED_BROKER_IMPORT_ALIAS_SHA =
+  '70b24f029842a7e9b7f615e4d9df7376fd4ff817';
+
+export const REQUIRED_BROKER_IMPORT_SOURCE_FILES = [
+  'frontend/src/features/portfolio/import/broker-format-detector.ts',
+  'frontend/src/features/portfolio/import/broker-holdings-mapper.ts',
+  'frontend/src/features/portfolio/import/broker-import-ingress.ts',
+  'frontend/src/features/portfolio/import/types.ts',
+  'frontend/src/features/portfolio/import/adapters/csv-parser-helper.ts',
+  'frontend/src/features/portfolio/import/adapters/dhan-holdings-adapter.ts',
+  'frontend/src/features/portfolio/import/adapters/groww-holdings-adapter.ts',
+  'frontend/src/features/portfolio/import/adapters/index.ts',
+  'frontend/src/features/portfolio/import/adapters/zerodha-holdings-adapter.ts',
+  'src/identity/security_master.ts',
+  'src/identity/mapping_store.ts',
+  'src/identity/quarantine.ts',
+  'src/contracts/provenance.ts',
+  'src/contracts/types.ts',
+] as const;
 
 export const REQUIRED_SUBPATHS = [
   './portfolio-ui',
@@ -204,6 +230,30 @@ describe('CAP-02 B-1R package consumer & pin compatibility guard', () => {
 
     expect(depSpec).toBe(`github:ramkivs/iips-production-market-data#${EXPECTED_IPD_PIN_SHA}`);
     expect(lockResolved).toContain(`#${EXPECTED_IPD_PIN_SHA}`);
+  });
+
+  it('guards the distinct broker-import alias and its required raw-source build inputs', () => {
+    const aliasSpec = irrPkg.dependencies?.['iips-broker-import'] ?? '';
+    const aliasLockResolved =
+      irrLock.packages?.['node_modules/iips-broker-import']?.resolved ?? '';
+    const aliasRoot = resolve(frontendRoot, 'node_modules', 'iips-broker-import');
+    const aliasPkg = JSON.parse(readFileSync(resolve(aliasRoot, 'package.json'), 'utf8')) as {
+      files?: readonly string[];
+    };
+
+    expect(EXPECTED_BROKER_IMPORT_ALIAS_SHA).not.toBe(EXPECTED_IPD_PIN_SHA);
+    expect(aliasSpec).toBe(
+      `github:ramkivs/iips-production-market-data#${EXPECTED_BROKER_IMPORT_ALIAS_SHA}`,
+    );
+    expect(aliasLockResolved).toContain(`#${EXPECTED_BROKER_IMPORT_ALIAS_SHA}`);
+    // The presently admitted alias is a raw-source compatibility baseline. A modern IPD
+    // package restricted to `dist/package` cannot satisfy tsconfig.broker-import.json.
+    expect(aliasPkg.files).toBeUndefined();
+    for (const relPath of REQUIRED_BROKER_IMPORT_SOURCE_FILES) {
+      expect(existsSync(resolve(aliasRoot, relPath)), `missing broker-import source: ${relPath}`).toBe(
+        true,
+      );
+    }
   });
 
   it('exposes ./portfolio-ui, ./pit, and ./d114-non-production simultaneously with existing runtime and declaration artifacts', () => {

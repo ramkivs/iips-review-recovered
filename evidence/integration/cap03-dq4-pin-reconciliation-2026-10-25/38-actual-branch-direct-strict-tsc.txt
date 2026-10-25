@@ -1,0 +1,3 @@
+ACTUAL IRR BRANCH: primary=8eec74ae27cda09f3c368b9c299895eae41554db; alias=70b24f029842a7e9b7f615e4d9df7376fd4ff817; alias guard added
+COMMAND: npx tsc --noEmit --strict --target ES2020 --module ESNext --moduleResolution bundler --allowImportingTsExtensions --esModuleInterop --skipLibCheck --types node server/user-portfolio/ipcPortAdapter.ts server/user-portfolio/ipcPortAdapter.test.ts
+EXIT_CODE=0

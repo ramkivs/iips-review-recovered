@@ -1,0 +1,85 @@
+CANDIDATE: primary only -> 8eec; broker alias retained at 70b; guard expectations intentionally NOT yet updated
+COMMAND: npm test -- server/broker-import/brokerImportPackageConsumer.test.ts server/broker-import server/pit src/api/brokerHoldingsPreview.test.ts src/api/brokerImport.test.ts server/reports/reports-persistence-integration.test.ts server/user-portfolio server/user-portfolio-transport.test.ts
+
+> @iips/v3-frontend@0.1.0 pretest
+> npm run build:broker-import
+
+
+> @iips/v3-frontend@0.1.0 build:broker-import
+> tsc -p tsconfig.broker-import.json
+
+
+> @iips/v3-frontend@0.1.0 test
+> vitest run server/broker-import/brokerImportPackageConsumer.test.ts server/broker-import server/pit src/api/brokerHoldingsPreview.test.ts src/api/brokerImport.test.ts server/reports/reports-persistence-integration.test.ts server/user-portfolio server/user-portfolio-transport.test.ts
+
+
+ RUN  v2.1.9 /tmp/irr-dq4-candidate-both-8eec/frontend
+
+ ✓ server/user-portfolio/ipcPortAdapter.test.ts (49 tests) 29ms
+ ✓ server/user-portfolio/ipcClient.test.ts (34 tests) 350ms
+ ✓ server/pit/pitReadBoundary.test.ts (48 tests) 49ms
+ ✓ server/user-portfolio/fenceUnchanged.test.ts (26 tests) 272ms
+ ✓ server/pit/pitRuntimeIntegration.test.ts (28 tests) 123ms
+ ✓ server/broker-import/brokerImportHttp.test.ts (24 tests) 271ms
+ ✓ server/pit/pitD114RuntimeIntegration.test.ts (27 tests) 85ms
+ ✓ server/user-portfolio/userPortfolioContract.test.ts (19 tests) 7ms
+ ✓ server/broker-import/brokerImportV1SaveAdapter.test.ts (22 tests) 10ms
+ ✓ server/user-portfolio/ownerContextFromBinding.test.ts (15 tests) 12ms
+ ✓ server/broker-import/brokerImportBoundary.test.ts (16 tests) 25ms
+ ✓ server/user-portfolio/option2F.test.ts (15 tests) 44ms
+(node:7499) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ server/reports/reports-persistence-integration.test.ts (5 tests | 1 failed) 43ms
+   × R3-Option B dependency surface > admits exactly the decided second specifier and preserves the primary pin 7ms
+     → expected 'github:ramkivs/iips-production-market…' to be 'github:ramkivs/iips-production-market…' // Object.is equality
+ ✓ server/user-portfolio/userPortfolioBoundary.test.ts (8 tests) 6ms
+ ✓ server/broker-import/brokerImportImportSafety.test.ts (5 tests) 24ms
+ ✓ server/user-portfolio/translationBoundary.test.ts (4 tests) 4ms
+ ❯ server/broker-import/brokerImportPackageConsumer.test.ts (5 tests | 1 failed) 60ms
+   × CAP-02 B-1R package consumer & pin compatibility guard > pins iips-production-market-data to the exact unified main commit SHA in package.json and package-lock.json 7ms
+     → expected 'github:ramkivs/iips-production-market…' to be 'github:ramkivs/iips-production-market…' // Object.is equality
+ ✓ src/api/brokerImport.test.ts (12 tests) 13ms
+ ✓ server/broker-import/brokerImportModalHostIntegration.test.tsx (2 tests) 936ms
+ ✓ src/api/brokerHoldingsPreview.test.ts (10 tests) 13ms
+ ✓ server/user-portfolio-transport.test.ts (3 tests) 59ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  server/broker-import/brokerImportPackageConsumer.test.ts > CAP-02 B-1R package consumer & pin compatibility guard > pins iips-production-market-data to the exact unified main commit SHA in package.json and package-lock.json
+AssertionError: expected 'github:ramkivs/iips-production-market…' to be 'github:ramkivs/iips-production-market…' // Object.is equality
+
+Expected: "github:ramkivs/iips-production-market-data#2d9130e76bb0dc89daeefabaf297e27bdaa84250"
+Received: "github:ramkivs/iips-production-market-data#8eec74ae27cda09f3c368b9c299895eae41554db"
+
+ ❯ server/broker-import/brokerImportPackageConsumer.test.ts:205:21
+    203|     const lockResolved = irrLock.packages?.['node_modules/iips-product…
+    204| 
+    205|     expect(depSpec).toBe(`github:ramkivs/iips-production-market-data#$…
+       |                     ^
+    206|     expect(lockResolved).toContain(`#${EXPECTED_IPD_PIN_SHA}`);
+    207|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  server/reports/reports-persistence-integration.test.ts > R3-Option B dependency surface > admits exactly the decided second specifier and preserves the primary pin
+AssertionError: expected 'github:ramkivs/iips-production-market…' to be 'github:ramkivs/iips-production-market…' // Object.is equality
+
+Expected: "github:ramkivs/iips-production-market-data#2d9130e76bb0dc89daeefabaf297e27bdaa84250"
+Received: "github:ramkivs/iips-production-market-data#8eec74ae27cda09f3c368b9c299895eae41554db"
+
+ ❯ server/reports/reports-persistence-integration.test.ts:79:66
+     77|       'github:ramkivs/iips-production-market-data#2e11fa3b689d1a3674a5…
+     78|     );
+     79|     expect(manifest.dependencies['iips-production-market-data']).toBe(
+       |                                                                  ^
+     80|       'github:ramkivs/iips-production-market-data#2d9130e76bb0dc89daee…
+     81|     );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+ Test Files  2 failed | 19 passed (21)
+      Tests  2 failed | 375 passed (377)
+   Start at  14:24:39
+   Duration  11.78s (transform 1.52s, setup 2.43s, collect 1.80s, tests 2.43s, environment 1.54s, prepare 1.14s)
+
+EXIT_CODE=1

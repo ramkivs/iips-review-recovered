@@ -1,0 +1,5 @@
+COMMAND: npx tsc --noEmit
+CWD: /tmp/iips-ipd-dq4 (read-only full clone of IPD origin/main)
+8eec74ae27cda09f3c368b9c299895eae41554db
+4eba29029f8d95cfe483e615a7047426b298ce50
+EXIT_CODE=0

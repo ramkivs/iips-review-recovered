@@ -1,0 +1,16 @@
+ACTUAL-BRANCH FIRST-ATTEMPT CORRECTION NOTE
+
+Logs 32, 36 and 37 are preserved as the first actual-branch attempt and are not overwritten.
+
+The two failures were test-authoring/reconciliation omissions in the new IRR branch state, not IPD
+package or runtime failures:
+1. `frontend/server/reports/reports-persistence-integration.test.ts` still expected the superseded
+   primary pin `2d9130e76bb0dc89daeefabaf297e27bdaa84250`; it was corrected to
+   `8eec74ae27cda09f3c368b9c299895eae41554db`.
+2. The newly added broker-alias source list initially used modern IPD source paths rather than the
+   paths present at the pinned alias commit and named by `frontend/tsconfig.broker-import.json`.
+   The 14 paths were corrected to the pinned commit's `frontend/src/features/portfolio/import/**`,
+   `src/identity/{security_master,mapping_store,quarantine}.ts`, and
+   `src/contracts/{provenance,types}.ts` layout.
+
+No assertion was weakened. The corrected branch was rerun in logs 40 onward.

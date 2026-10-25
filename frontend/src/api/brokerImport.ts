@@ -40,8 +40,11 @@
  *
  * DEPENDENCY NOTE (B-1R CLOSED 2026-10-23 under composition act `-04` §3.1)
  *   The projection input and commit receipt types are imported directly from the IPD public
- *   package entrypoint `iips-production-market-data/portfolio-ui` at the unified `main` pin
- *   `2d9130e76bb0dc89daeefabaf297e27bdaa84250`, replacing the former local structural mirrors.
+ *   package entrypoint `iips-production-market-data/portfolio-ui`, replacing the former local
+ *   structural mirrors. That direct import was originally admitted at IPD
+ *   `2d9130e76bb0dc89daeefabaf297e27bdaa84250`; the primary pin was advanced to
+ *   `8eec74ae27cda09f3c368b9c299895eae41554db` by the CAP-03 DQ-4 reconciliation
+ *   (tracker §16.119), with the exported package surface re-qualified unchanged.
  */
 
 import type {

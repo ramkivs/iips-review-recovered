@@ -1,0 +1,89 @@
+CAP-03 DQ-4 pin semantics and diff census
+Repository: ramkivs/iips-production-market-data (read-only clone)
+
+=== COMMIT 70b24f029842a7e9b7f615e4d9df7376fd4ff817 ===
+tree=cc0f0117822850f9046e9a51bd05c1d45f80cd57
+package.json blob=cc5616d30c0179d08abacbc5a2c253cc27d27bfd
+name=iips-production-market-data
+version=1.0.0
+exports=null
+files=null
+dependencies={"react-router-dom": "^6.30.6"}
+scripts={"build": "tsc && vite build", "build:tsc": "tsc", "build:vite": "vite build", "dev": "vite", "test": "node --test dist/tests/*.test.js", "test:direct": "node --test --experimental-strip-types tests/*.test.ts"}
+engines=null
+
+=== COMMIT 2d9130e76bb0dc89daeefabaf297e27bdaa84250 ===
+tree=4658699180ef161aae3c1b33d3946e918d6fb9b2
+package.json blob=51796e63280c1abb368c27bf8811cc6bad46e132
+name=iips-production-market-data
+version=1.0.0
+exports={"./d114-non-production": {"import": "./dist/package/src/d114/non_production_package.js", "types": "./dist/package/src/d114/non_production_package.d.ts"}, "./pit": {"import": "./dist/package/src/pit/package.js", "types": "./dist/package/src/pit/package.d.ts"}, "./portfolio-ui": {"import": "./dist/package/src/ui/portfolio_ui_package.js", "types": "./dist/package/src/ui/portfolio_ui_package.d.ts"}}
+files=["dist/package"]
+dependencies={"react-router-dom": "^6.30.6"}
+scripts={"build": "tsc && vite build && npm run build:portfolio-ui-package && npm run build:pit-package", "build:pit-package": "tsc -p tsconfig.pit-package.json", "build:portfolio-ui-package": "tsc -p tsconfig.portfolio-ui-package.json", "build:tsc": "tsc", "build:vite": "vite build", "dev": "vite", "prepack": "npm run build:portfolio-ui-package && npm run build:pit-package", "prepare": "npm run build:portfolio-ui-package && npm run build:pit-package", "test": "node scripts/run-tests.mjs", "test:direct": "node --test --experimental-strip-types tests/*.test.ts", "test:package-consumer": "npm run build:portfolio-ui-package && npm run build:pit-package && node scripts/verify-public-package.mjs"}
+engines=null
+
+=== COMMIT 79d06e3c5da60da2a234b7ac18c35df848bf9d11 ===
+tree=e8d361c97ba4fc24f18ecc0245f81332cc31ec92
+package.json blob=51796e63280c1abb368c27bf8811cc6bad46e132
+name=iips-production-market-data
+version=1.0.0
+exports={"./d114-non-production": {"import": "./dist/package/src/d114/non_production_package.js", "types": "./dist/package/src/d114/non_production_package.d.ts"}, "./pit": {"import": "./dist/package/src/pit/package.js", "types": "./dist/package/src/pit/package.d.ts"}, "./portfolio-ui": {"import": "./dist/package/src/ui/portfolio_ui_package.js", "types": "./dist/package/src/ui/portfolio_ui_package.d.ts"}}
+files=["dist/package"]
+dependencies={"react-router-dom": "^6.30.6"}
+scripts={"build": "tsc && vite build && npm run build:portfolio-ui-package && npm run build:pit-package", "build:pit-package": "tsc -p tsconfig.pit-package.json", "build:portfolio-ui-package": "tsc -p tsconfig.portfolio-ui-package.json", "build:tsc": "tsc", "build:vite": "vite build", "dev": "vite", "prepack": "npm run build:portfolio-ui-package && npm run build:pit-package", "prepare": "npm run build:portfolio-ui-package && npm run build:pit-package", "test": "node scripts/run-tests.mjs", "test:direct": "node --test --experimental-strip-types tests/*.test.ts", "test:package-consumer": "npm run build:portfolio-ui-package && npm run build:pit-package && node scripts/verify-public-package.mjs"}
+engines=null
+
+=== COMMIT 8eec74ae27cda09f3c368b9c299895eae41554db ===
+tree=4eba29029f8d95cfe483e615a7047426b298ce50
+package.json blob=51796e63280c1abb368c27bf8811cc6bad46e132
+name=iips-production-market-data
+version=1.0.0
+exports={"./d114-non-production": {"import": "./dist/package/src/d114/non_production_package.js", "types": "./dist/package/src/d114/non_production_package.d.ts"}, "./pit": {"import": "./dist/package/src/pit/package.js", "types": "./dist/package/src/pit/package.d.ts"}, "./portfolio-ui": {"import": "./dist/package/src/ui/portfolio_ui_package.js", "types": "./dist/package/src/ui/portfolio_ui_package.d.ts"}}
+files=["dist/package"]
+dependencies={"react-router-dom": "^6.30.6"}
+scripts={"build": "tsc && vite build && npm run build:portfolio-ui-package && npm run build:pit-package", "build:pit-package": "tsc -p tsconfig.pit-package.json", "build:portfolio-ui-package": "tsc -p tsconfig.portfolio-ui-package.json", "build:tsc": "tsc", "build:vite": "vite build", "dev": "vite", "prepack": "npm run build:portfolio-ui-package && npm run build:pit-package", "prepare": "npm run build:portfolio-ui-package && npm run build:pit-package", "test": "node scripts/run-tests.mjs", "test:direct": "node --test --experimental-strip-types tests/*.test.ts", "test:package-consumer": "npm run build:portfolio-ui-package && npm run build:pit-package && node scripts/verify-public-package.mjs"}
+engines=null
+
+=== Ancestry / lag to 8eec74ae27cda09f3c368b9c299895eae41554db ===
+70b24f029842a7e9b7f615e4d9df7376fd4ff817 behind=214 ahead=0 ancestor=yes
+2d9130e76bb0dc89daeefabaf297e27bdaa84250 behind=65 ahead=0 ancestor=yes
+79d06e3c5da60da2a234b7ac18c35df848bf9d11 behind=4 ahead=0 ancestor=yes
+
+=== 79d06e3c..8eec74ae changed paths ===
+M	evidence/cross-repository/IIPS_V3_CAP02_IPD_EXECUTION_TRACKER_2026-10-23.md
+A	evidence/cross-repository/cap03_dr2_2026-10-25_ipd_provider/11_remote_verification.txt
+M	evidence/cross-repository/cap03_dr2_2026-10-25_ipd_provider/SHA256SUMS.txt
+
+=== Provider/test/package blob identity: 79d06e3c vs 8eec74ae ===
+package.json 79d=51796e63280c1abb368c27bf8811cc6bad46e132 8eec=51796e63280c1abb368c27bf8811cc6bad46e132
+src/persistence/portfolio_store.ts 79d=540d49f2deb2c8d600b5b866675d145cf76a1e46 8eec=540d49f2deb2c8d600b5b866675d145cf76a1e46
+tests/q1_ipc_read_contract_conformance.test.ts 79d=eddedd56449d6d0ac27dd394bd2a7262d0cb0c24 8eec=eddedd56449d6d0ac27dd394bd2a7262d0cb0c24
+src/ipc/entrypoint.ts 79d=ae3edd12e1199845f6b5fe059fa79fed6245ae32 8eec=ae3edd12e1199845f6b5fe059fa79fed6245ae32
+src/ipc/dispatch.ts 79d=27becc76749f5b11a37ca4e6254d58132620f57f 8eec=27becc76749f5b11a37ca4e6254d58132620f57f
+src/ipc/protocol.ts 79d=f4dc72b12ed9d618d1cfde836160f992ff1be9a5 8eec=f4dc72b12ed9d618d1cfde836160f992ff1be9a5
+src/ipc/endpoint.ts 79d=e565aa5b343266f62ffd411d17d74c89b9f29324 8eec=e565aa5b343266f62ffd411d17d74c89b9f29324
+src/contracts/types.ts 79d=a644c83351b030b0e76d76642475420ea7ef07c0 8eec=a644c83351b030b0e76d76642475420ea7ef07c0
+
+=== Diff stat primary before -> target ===
+ .../g3_gate_a_prime_successor_provisioning.test.ts |   380 +
+ tests/g3_startup_validation.test.ts                |    20 +-
+ tests/g4_run_tests_summary_parsing.test.ts         |   125 +
+ tests/q1_ipc_read_contract_conformance.test.ts     |  1385 +-
+ 62 files changed, 37501 insertions(+), 198 deletions(-)
+=== Diff stat alias before -> current (for rejected simple re-pin assessment) ===
+ tests/wsf_p15_e2e_lineage.test.ts                  |     8 +-
+ tests/wsf_p17_operations_telemetry.test.ts         |     2 +-
+ tsconfig.pit-package.json                          |    15 +
+ tsconfig.portfolio-ui-package.json                 |    12 +
+ 272 files changed, 72786 insertions(+), 338 deletions(-)
+
+=== Package export target source paths at primary before/target ===
+-- 2d9130e76bb0dc89daeefabaf297e27bdaa84250
+./portfolio-ui {'types': './dist/package/src/ui/portfolio_ui_package.d.ts', 'import': './dist/package/src/ui/portfolio_ui_package.js'}
+./pit {'types': './dist/package/src/pit/package.d.ts', 'import': './dist/package/src/pit/package.js'}
+./d114-non-production {'types': './dist/package/src/d114/non_production_package.d.ts', 'import': './dist/package/src/d114/non_production_package.js'}
+-- 8eec74ae27cda09f3c368b9c299895eae41554db
+./portfolio-ui {'types': './dist/package/src/ui/portfolio_ui_package.d.ts', 'import': './dist/package/src/ui/portfolio_ui_package.js'}
+./pit {'types': './dist/package/src/pit/package.d.ts', 'import': './dist/package/src/pit/package.js'}
+./d114-non-production {'types': './dist/package/src/d114/non_production_package.d.ts', 'import': './dist/package/src/d114/non_production_package.js'}

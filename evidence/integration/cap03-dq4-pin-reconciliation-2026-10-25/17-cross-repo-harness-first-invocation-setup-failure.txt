@@ -1,0 +1,10 @@
+FIRST HARNESS INVOCATION SETUP FAILURE (preserved)
+
+The first attempted harness invocation changed directory to /tmp/cap03-dq4-harness
+while the output variable still contained the frontend-relative path
+../evidence/integration/cap03-dq4-pin-reconciliation-2026-10-25.
+Bash therefore could not create 17-cross-repo-harness-current.txt or copy the
+harness script. The harness process did not start in that attempt; this was a
+harness-shell path error, not a product/test failure. The corrected rerun with
+an absolute evidence path is recorded in 18-cross-repo-harness-current.txt, and
+the exact executed script is preserved as 19-cross-repo-harness-current.mjs.
