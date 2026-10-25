@@ -101,11 +101,35 @@ function classA(outcome: IpcClassAOutcome): IpcCallResult {
   };
 }
 
-function success(result: unknown): IpcCallResult {
+function success(result: unknown, op: IpcOperation = 'portfolio.list'): IpcCallResult {
   return {
     kind: 'SUCCESS',
     bytesReceived: 80,
-    frame: { v: 1, ok: true, op: 'portfolio.list', result },
+    frame: { v: 1, ok: true, op, result },
+  };
+}
+
+function wireSummary(overrides: Record<string, unknown> = {}): Record<string, unknown> {
+  return {
+    portfolioId: 'p-1',
+    portfolioName: 'Primary',
+    revision: 4,
+    holdingsCount: 2,
+    totalMarketValue: 1250.75,
+    lastUpdated: '2026-10-25T00:00:00.000Z',
+    weightSumPercentage: 100.25,
+    provenanceDigest: 'stored-current-digest',
+    isSaved: true,
+    ...overrides,
+  };
+}
+
+function wireView(overrides: Record<string, unknown> = {}): Record<string, unknown> {
+  return {
+    ...wireSummary(),
+    holdings: [],
+    contributions: [],
+    ...overrides,
   };
 }
 
@@ -494,63 +518,187 @@ describe('ipcPortAdapter — the revisions operation', () => {
     });
   });
 
-  it('records the v1 → G2 envelope gap and refuses rather than fabricating a value', async () => {
-    // Contract v1 `RevisionEntry` supplies revision, operation, committedAt and an
-    // optional contentDigest. `G2RevisionEntry` additionally requires
-    // totalMarketValue, provenanceDigest and holdingsCount, which v1 does not carry.
-    expect([...V1_TO_G2_ENVELOPE_GAP.revisionEntry.missingFromV1].sort()).toEqual(
-      ['holdingsCount', 'provenanceDigest', 'totalMarketValue'].sort(),
-    );
-    // A rename is a mapping requirement, not missing data: v1 spells the
-    // revision timestamp `committedAt`, frozen G2RevisionEntry spells it
-    // `createdAt` (userPortfolioContract.ts line 315).
-    expect(V1_TO_G2_ENVELOPE_GAP.revisionEntry.renamedInV1).toEqual({ committedAt: 'createdAt' });
-
-    const { port } = adapter(
-      success([
-        { revision: 1, operation: 'INITIAL', committedAt: '2026-10-19T00:00:00.000Z' },
-      ]),
-    );
-    try {
-      await port.revisionHistory({ scope: SCOPE, portfolioId: 'p-9' });
-      throw new Error('expected a refusal');
-    } catch (error) {
-      const refusal = error as G2Error;
-      expect(refusal.reason).toBe('UPSTREAM_UNAVAILABLE');
-      expect(refusal.message).toContain('contract-envelope violation');
-      expect(refusal.message).toContain('refusing rather than fabricating');
-      for (const missing of ['totalMarketValue', 'provenanceDigest', 'holdingsCount']) {
-        expect(refusal.message).toContain(missing);
-      }
-    }
-  });
-
-  it('refuses a malformed revisions envelope as a contract violation too', async () => {
-    const { port } = adapter(success([{ revision: 'not-a-number' }]));
-    await expect(port.revisionHistory({ scope: SCOPE, portfolioId: 'p' })).rejects.toMatchObject({
-      reason: 'UPSTREAM_UNAVAILABLE',
-    });
-  });
-
-  it('records the same gap for the list and view shapes, and maps the delete result cleanly', () => {
+  it('keeps the approved seven-field and three-rename matrix exact', () => {
     expect([...V1_TO_G2_ENVELOPE_GAP.portfolioSummary.missingFromV1].sort()).toEqual(
       ['isSaved', 'provenanceDigest', 'weightSumPercentage'].sort(),
     );
     expect([...V1_TO_G2_ENVELOPE_GAP.portfolioView.missingFromV1]).toEqual(['isSaved']);
-    // v1 spells the collection count `holdingsCount`; the frozen G2 summary and
-    // view types spell it `totalHoldingsCount` (userPortfolioContract.ts lines
-    // 301 and 255). Recorded so no later reader mistakes the gap for additive-only.
+    expect([...V1_TO_G2_ENVELOPE_GAP.revisionEntry.missingFromV1].sort()).toEqual(
+      ['holdingsCount', 'provenanceDigest', 'totalMarketValue'].sort(),
+    );
     expect(V1_TO_G2_ENVELOPE_GAP.portfolioSummary.renamedInV1).toEqual({
       holdingsCount: 'totalHoldingsCount',
     });
     expect(V1_TO_G2_ENVELOPE_GAP.portfolioView.renamedInV1).toEqual({
       holdingsCount: 'totalHoldingsCount',
     });
+    expect(V1_TO_G2_ENVELOPE_GAP.revisionEntry.renamedInV1).toEqual({ committedAt: 'createdAt' });
     expect(Object.isFrozen(V1_TO_G2_ENVELOPE_GAP)).toBe(true);
   });
 
+  it('maps list values and only the approved holdingsCount rename, without defaults', async () => {
+    const source = wireSummary({
+      holdingsCount: 0,
+      totalMarketValue: 0,
+      weightSumPercentage: 0,
+      provenanceDigest: '', // stored empty INITIAL value, not a synthesized default
+      isSaved: false,
+    });
+    const { port } = adapter(success([source]));
+    const [summary] = await port.listPortfolios({ scope: SCOPE });
+
+    expect(summary).toEqual({
+      portfolioId: 'p-1',
+      portfolioName: 'Primary',
+      revision: 4,
+      totalMarketValue: 0,
+      totalHoldingsCount: 0,
+      weightSumPercentage: 0,
+      lastUpdated: '2026-10-25T00:00:00.000Z',
+      provenanceDigest: '',
+      isSaved: false,
+    });
+    expect(Object.keys(summary).sort()).toEqual([
+      'isSaved', 'lastUpdated', 'portfolioId', 'portfolioName', 'provenanceDigest',
+      'revision', 'totalHoldingsCount', 'totalMarketValue', 'weightSumPercentage',
+    ].sort());
+    expect(summary).not.toHaveProperty('holdingsCount');
+  });
+
+  it('passes the provider current-revision isSaved boolean without deriving it from revision or count', async () => {
+    const saved = wireSummary({ revision: 3, holdingsCount: 2, isSaved: true });
+    const reset = wireSummary({ revision: 5, holdingsCount: 0, totalMarketValue: 0, isSaved: false });
+    const { port: savedPort } = adapter(success([saved]));
+    const { port: resetPort } = adapter(success([reset]));
+
+    await expect(savedPort.listPortfolios({ scope: SCOPE })).resolves.toMatchObject([{ isSaved: true }]);
+    // A positive revision does not imply saved. The adapter copies this provider
+    // value without inference; provider-side operation derivation is tested in IPD.
+    await expect(resetPort.listPortfolios({ scope: SCOPE })).resolves.toMatchObject([{ isSaved: false }]);
+  });
+
+  it('maps detail isSaved verbatim and refuses durability or contribution claims outside DQ-2/DQ-3', async () => {
+    const source = wireView({
+      revision: 5,
+      holdingsCount: 0,
+      totalMarketValue: 0,
+      weightSumPercentage: 0,
+      provenanceDigest: 'stored-reset-digest',
+      isSaved: false, // provider-supplied current state; IRR does not infer from revision
+      holdings: [],
+      contributions: [],
+    });
+    const { port } = adapter(success(source, 'portfolio.get'));
+    const view = await port.getPortfolio({ scope: SCOPE, portfolioId: 'p-1' });
+
+    expect(view).toEqual({
+      portfolioId: 'p-1',
+      portfolioName: 'Primary',
+      revision: 5,
+      holdings: [],
+      totalMarketValue: 0,
+      totalHoldingsCount: 0,
+      weightSumPercentage: 0,
+      lastUpdated: '2026-10-25T00:00:00.000Z',
+      provenanceDigest: 'stored-reset-digest',
+      isSaved: false,
+      contributions: [],
+    });
+    expect(view).not.toHaveProperty('holdingsCount');
+    expect(view).not.toHaveProperty('durable');
+    expect(view).not.toHaveProperty('durability');
+
+    for (const forbidden of [
+      { ...wireView(), durable: true },
+      { ...wireView(), durability: 'DURABLE' },
+      { ...wireView(), contributions: [{ fileName: null, sourceBroker: null }] },
+    ]) {
+      const { port: refusingPort } = adapter(success(forbidden, 'portfolio.get'));
+      await expect(
+        refusingPort.getPortfolio({ scope: SCOPE, portfolioId: 'p-1' }),
+      ).rejects.toMatchObject({ reason: 'UPSTREAM_UNAVAILABLE' });
+    }
+  });
+
+  it('maps each historical revision from that row and never adds current isSaved', async () => {
+    const rows = [
+      { revision: 0, operation: 'INITIAL', committedAt: '2026-10-20T00:00:00.000Z', totalMarketValue: 0, provenanceDigest: '', holdingsCount: 0 },
+      { revision: 1, operation: 'MERGE', committedAt: '2026-10-21T00:00:00.000Z', totalMarketValue: 1250.25, provenanceDigest: 'digest-r1', holdingsCount: 2 },
+      { revision: 2, operation: 'REPLACE', committedAt: '2026-10-22T00:00:00.000Z', totalMarketValue: 900.5, provenanceDigest: 'digest-r2', holdingsCount: 1 },
+      { revision: 3, operation: 'RESET', committedAt: '2026-10-23T00:00:00.000Z', totalMarketValue: 0, provenanceDigest: 'digest-r3', holdingsCount: 0 },
+    ];
+    const { port } = adapter(success(rows, 'portfolio.revisions'));
+    const history = await port.revisionHistory({ scope: SCOPE, portfolioId: 'p-1' });
+
+    expect(history).toEqual([
+      { revision: 0, operation: 'INITIAL', totalMarketValue: 0, provenanceDigest: '', holdingsCount: 0, createdAt: '2026-10-20T00:00:00.000Z' },
+      { revision: 1, operation: 'MERGE', totalMarketValue: 1250.25, provenanceDigest: 'digest-r1', holdingsCount: 2, createdAt: '2026-10-21T00:00:00.000Z' },
+      { revision: 2, operation: 'REPLACE', totalMarketValue: 900.5, provenanceDigest: 'digest-r2', holdingsCount: 1, createdAt: '2026-10-22T00:00:00.000Z' },
+      { revision: 3, operation: 'RESET', totalMarketValue: 0, provenanceDigest: 'digest-r3', holdingsCount: 0, createdAt: '2026-10-23T00:00:00.000Z' },
+    ]);
+    for (const entry of history) {
+      expect(Object.keys(entry).sort()).toEqual([
+        'createdAt', 'holdingsCount', 'operation', 'provenanceDigest', 'revision', 'totalMarketValue',
+      ]);
+      expect(entry).not.toHaveProperty('isSaved');
+      expect(entry).not.toHaveProperty('committedAt');
+    }
+  });
+
+  it('refuses missing, null, non-finite and otherwise malformed required values', async () => {
+    const badSummaryRows: Array<[string, (row: Record<string, unknown>) => void]> = [
+      ['missing weightSumPercentage', (row) => { delete row.weightSumPercentage; }],
+      ['null weightSumPercentage', (row) => { row.weightSumPercentage = null; }],
+      ['non-finite weightSumPercentage', (row) => { row.weightSumPercentage = Number.NaN; }],
+      ['missing provenanceDigest', (row) => { delete row.provenanceDigest; }],
+      ['null provenanceDigest', (row) => { row.provenanceDigest = null; }],
+      ['missing isSaved', (row) => { delete row.isSaved; }],
+      ['null isSaved', (row) => { row.isSaved = null; }],
+      ['non-boolean isSaved', (row) => { row.isSaved = 'true'; }],
+      ['non-finite totalMarketValue', (row) => { row.totalMarketValue = Number.POSITIVE_INFINITY; }],
+      ['fractional holdingsCount', (row) => { row.holdingsCount = 1.5; }],
+      ['negative revision', (row) => { row.revision = -1; }],
+      ['blank portfolioName', (row) => { row.portfolioName = '  '; }],
+    ];
+    for (const [name, mutate] of badSummaryRows) {
+      const row = wireSummary();
+      mutate(row);
+      const { port } = adapter(success([row]));
+      await expect(port.listPortfolios({ scope: SCOPE }), name).rejects.toMatchObject({
+        reason: 'UPSTREAM_UNAVAILABLE',
+      });
+    }
+
+    const invalidHistoryRows: Array<Record<string, unknown>> = [
+      { revision: 1, operation: 'MERGE', committedAt: '2026-10-21T00:00:00.000Z' },
+      { revision: 1, operation: 'MERGE', committedAt: '2026-10-21T00:00:00.000Z', totalMarketValue: 1, provenanceDigest: null, holdingsCount: 1 },
+      { revision: 1, operation: 'MERGE', committedAt: '2026-10-21T00:00:00.000Z', totalMarketValue: Number.NaN, provenanceDigest: 'd', holdingsCount: 1 },
+      { revision: 1, operation: 'MERGE', committedAt: '2026-10-21T00:00:00.000Z', totalMarketValue: 1, provenanceDigest: 'd', holdingsCount: -1 },
+      { revision: 1, operation: 'UNKNOWN', committedAt: '2026-10-21T00:00:00.000Z', totalMarketValue: 1, provenanceDigest: 'd', holdingsCount: 1 },
+      { revision: 1, operation: 'MERGE', committedAt: '', totalMarketValue: 1, provenanceDigest: 'd', holdingsCount: 1 },
+      { revision: 1, operation: 'MERGE', committedAt: '2026-10-21T00:00:00.000Z', totalMarketValue: 1, provenanceDigest: 'd', holdingsCount: 1, contentDigest: null },
+    ];
+    for (const row of invalidHistoryRows) {
+      const { port } = adapter(success([row], 'portfolio.revisions'));
+      await expect(
+        port.revisionHistory({ scope: SCOPE, portfolioId: 'p-1' }),
+      ).rejects.toMatchObject({ reason: 'UPSTREAM_UNAVAILABLE' });
+    }
+
+    for (const isSaved of [undefined, null, 1, 'false']) {
+      const row = wireView({ isSaved });
+      if (isSaved === undefined) delete row.isSaved;
+      const { port } = adapter(success(row, 'portfolio.get'));
+      await expect(
+        port.getPortfolio({ scope: SCOPE, portfolioId: 'p-1' }),
+      ).rejects.toMatchObject({ reason: 'UPSTREAM_UNAVAILABLE' });
+    }
+  });
+
   it('maps a successful delete result, which v1 supplies in full', async () => {
-    const { port } = adapter(success({ portfolioId: 'p-1', deletedAt: '2026-10-19T00:00:00.000Z' }));
+    const { port } = adapter(
+      success({ portfolioId: 'p-1', deletedAt: '2026-10-19T00:00:00.000Z' }, 'portfolio.delete'),
+    );
     await expect(
       port.deletePortfolio({ scope: SCOPE, portfolioId: 'p-1', expectedRevision: 1 }),
     ).resolves.toEqual({ portfolioId: 'p-1', deletedAt: '2026-10-19T00:00:00.000Z' });

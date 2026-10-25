@@ -46,7 +46,12 @@
  */
 import {
   G2Error,
+  G2_OPERATIONS,
   G2_UNRESOLVED_WRITE_MESSAGE,
+  isNonBlankString,
+  isValidExpectedRevision,
+  isValidPortfolioId,
+  isValidPortfolioName,
   type G2DeleteResult,
   type G2FailureReason,
   type G2HoldingInput,
@@ -135,47 +140,26 @@ export function outcomeUnknownMessage(write: boolean, reason: 'TIMEOUT' | 'TRANS
 }
 
 /* ------------------------------------------------------------------ *
- * The v1 → G2 envelope gap (fail closed; nothing is fabricated)
+ * The historical v1 → frozen G2 envelope-gap matrix and authorized IRR mapping
  * ------------------------------------------------------------------ */
 
 /**
- * Fields the frozen G2 result types require that accepted wire contract v1 does not
- * supply.
+ * Records the exact fields and renames covered by the 2026-10-25 CAP-03 DR-2 / DQ-1
+ * Option A decision. The G2 types stay frozen: the adapter maps only these approved
+ * values, validates every required source value, and refuses rather than defaults
+ * if the IPD provider is still at the pre-closure shape or returns malformed data.
  *
- * This is a **genuine cross-repository reconciliation item**, recorded here rather
- * than papered over. IRR's `G2PortfolioSummary`, `G2RevisionEntry` and
- * `G2PortfolioView` describe the former G24 **HTTP** envelope; contract v1 §6 fixes
- * narrower result shapes for the IPC path. §5.2 forbids changing any existing IRR
- * type or interface, and fabricating a value IRR never received would violate the
- * platform's no-fabricated-values principle, so the adapter **refuses** instead.
+ * The list is a historical gap matrix, not authority to add or rename any other
+ * field. `holdingsCount` maps to `totalHoldingsCount` only on summary/detail; the
+ * `committedAt` → `createdAt` mapping applies only to revision entries. Historical
+ * revision values are copied from that same entry and are never derived from the
+ * current portfolio. No `isSaved` field exists on `G2RevisionEntry`.
  *
- * Two of the required fields are **renamed**, not merely absent, and the rename
- * maps below record that: accepted v1 §6 spells the collection count
- * `holdingsCount` on both `PortfolioSummary` and `PortfolioDetail`, while the
- * frozen IRR types spell it `totalHoldingsCount`
- * (`userPortfolioContract.ts` lines 301 and 255); and v1 §6 spells the revision
- * commit timestamp `committedAt`, while frozen `G2RevisionEntry` spells it
- * `createdAt` (`userPortfolioContract.ts` line 315). A rename is a mapping
- * question, not a missing-data question, so it is recorded separately from
- * `missingFromV1`.
- *
- * (Correction, 2026-10-22: an earlier revision of this comment emptied the
- * rename maps on the premise that "v1 already uses `holdingsCount` and
- * `committedAt`, exactly as G2 does". That premise is false for the IRR side —
- * G2 uses `totalHoldingsCount` and `createdAt` — so the maps are restored to
- * the names the frozen types actually require. The maps are diagnostic
- * metadata only: no wire shape, refusal path or HTTP behaviour depends on
- * them.)
- *
- * The refusal uses `UPSTREAM_UNAVAILABLE`, whose own frozen definition already
- * covers a "contract-envelope violation".
- *
- * Consequence today: none observable. No binding is provisioned (Gate A′ is NOT
- * EXECUTED), so every call is refused Class P before mapping is reached; and every
- * `/api/user-portfolios*` route is `503`-fenced and never constructs a port. The gap
- * must nonetheless be closed by a future act — either by extending the v1 result
- * shapes IPD-side, or by an additive Gate 5-era revision of the IRR types — before
- * any route is admitted.
+ * The IPD provider half remains a separate IPD-locus implementation and publication
+ * prerequisite. Until that provider change is merged, the existing IPD shape lacks
+ * the authorized fields and these checks continue to fail closed. All
+ * `/api/user-portfolios*` routes remain 503-fenced, and this adapter change admits no
+ * read pair or activates an endpoint.
  */
 export const V1_TO_G2_ENVELOPE_GAP = Object.freeze({
   portfolioSummary: Object.freeze({
@@ -422,32 +406,98 @@ export class IpcUserPortfolioPort implements UserPortfolioPort {
     }
   }
 
-  /* ---- v1 result → frozen G2 shape (fail closed on any gap) ---- */
+  /* ---- validated v1 result → frozen G2 shape; no defaults or extra mappings ---- */
 
   private toG2Summary(row: unknown): G2PortfolioSummary {
-    // First distinguish a MALFORMED v1 result from a KNOWN GAP: the shape check
-    // proves what v1 did send, so the refusal below names only what it did not.
     const record = asRecord(row);
-    requireStrings(record, ['portfolioId', 'portfolioName', 'lastUpdated'], 'portfolio.list');
-    requireNumbers(record, ['revision', 'holdingsCount', 'totalMarketValue'], 'portfolio.list');
-    // v1's summary carries no weightSumPercentage, provenanceDigest or isSaved, and
-    // §5.2 forbids changing the frozen G2 type. Refusing beats fabricating.
-    throw envelopeGapError('portfolio.list', V1_TO_G2_ENVELOPE_GAP.portfolioSummary.missingFromV1);
+    requireSummaryBase(record, 'portfolio.list');
+    requireNumbers(record, ['weightSumPercentage'], 'portfolio.list');
+    requireStrings(record, ['provenanceDigest'], 'portfolio.list');
+    requireBoolean(record, 'isSaved', 'portfolio.list');
+
+    return {
+      portfolioId: record.portfolioId as string,
+      portfolioName: record.portfolioName as string,
+      revision: record.revision as number,
+      totalMarketValue: record.totalMarketValue as number,
+      totalHoldingsCount: record.holdingsCount as number,
+      weightSumPercentage: record.weightSumPercentage as number,
+      lastUpdated: record.lastUpdated as string,
+      provenanceDigest: record.provenanceDigest as string,
+      isSaved: record.isSaved as boolean,
+    };
   }
 
   private toG2RevisionEntry(row: unknown): G2RevisionEntry {
     const record = asRecord(row);
-    requireNumbers(record, ['revision'], 'portfolio.revisions');
+    requireNonNegativeInteger(record, 'revision', 'portfolio.revisions');
     requireStrings(record, ['operation', 'committedAt'], 'portfolio.revisions');
-    throw envelopeGapError('portfolio.revisions', V1_TO_G2_ENVELOPE_GAP.revisionEntry.missingFromV1);
+    if (!isNonBlankString(record.committedAt)) {
+      throw invalidEnvelopeValue('portfolio.revisions', 'committedAt');
+    }
+    requireNonNegativeInteger(record, 'holdingsCount', 'portfolio.revisions');
+    requireNumbers(record, ['totalMarketValue'], 'portfolio.revisions');
+    requireStrings(record, ['provenanceDigest'], 'portfolio.revisions');
+    if (!(G2_OPERATIONS as readonly unknown[]).includes(record.operation)) {
+      throw invalidEnvelopeValue('portfolio.revisions', 'operation');
+    }
+    if (record.contentDigest !== undefined && typeof record.contentDigest !== 'string') {
+      throw invalidEnvelopeValue('portfolio.revisions', 'contentDigest');
+    }
+
+    // Exact approved rename: committedAt → createdAt. The fields are the stored
+    // values for this historical revision; no current-state value is consulted.
+    return {
+      revision: record.revision as number,
+      operation: record.operation as G2RevisionEntry['operation'],
+      totalMarketValue: record.totalMarketValue as number,
+      provenanceDigest: record.provenanceDigest as string,
+      holdingsCount: record.holdingsCount as number,
+      createdAt: record.committedAt as string,
+    };
   }
 
   private toG2View(value: unknown): G2PortfolioView {
     const record = asRecord(value);
-    requireStrings(record, ['portfolioId', 'portfolioName', 'lastUpdated', 'provenanceDigest'], 'portfolio view');
-    requireNumbers(record, ['revision', 'totalMarketValue', 'holdingsCount', 'weightSumPercentage'], 'portfolio view');
+    requireSummaryBase(record, 'portfolio view');
+    requireNumbers(record, ['weightSumPercentage'], 'portfolio view');
+    requireStrings(record, ['provenanceDigest'], 'portfolio view');
+    requireBoolean(record, 'isSaved', 'portfolio view');
     requireArrays(record, ['holdings', 'contributions'], 'portfolio view');
-    throw envelopeGapError('portfolio view', V1_TO_G2_ENVELOPE_GAP.portfolioView.missingFromV1);
+
+    // DR-3 / DQ-2 keeps durability fields absent until the separate result-
+    // acceptance boundary. Do not expose or silently accept a provider claim.
+    if (Object.prototype.hasOwnProperty.call(record, 'durability') ||
+        Object.prototype.hasOwnProperty.call(record, 'durable')) {
+      throw new G2Error(
+        'UPSTREAM_UNAVAILABLE',
+        'The portfolio view contains unadmitted durability/durable properties (contract-envelope violation).',
+      );
+    }
+
+    // DR-4r / DQ-3 scopes contribution projection out of the first read admission.
+    // Do not coerce nullable IPD rows, omit them, or manufacture an empty list. An
+    // actually empty provider list is passed through as-is; non-empty data refuses.
+    if ((record.contributions as unknown[]).length !== 0) {
+      throw new G2Error(
+        'UPSTREAM_UNAVAILABLE',
+        'The portfolio view contains non-empty contributions outside the authorized DR-4r mapping scope (contract-envelope violation).',
+      );
+    }
+
+    return {
+      portfolioId: record.portfolioId as string,
+      portfolioName: record.portfolioName as string,
+      revision: record.revision as number,
+      holdings: record.holdings as G2PortfolioView['holdings'],
+      totalMarketValue: record.totalMarketValue as number,
+      totalHoldingsCount: record.holdingsCount as number,
+      weightSumPercentage: record.weightSumPercentage as number,
+      lastUpdated: record.lastUpdated as string,
+      provenanceDigest: record.provenanceDigest as string,
+      isSaved: record.isSaved as boolean,
+      contributions: record.contributions as G2PortfolioView['contributions'],
+    };
   }
 
   private toG2DeleteResult(value: unknown): G2DeleteResult {
@@ -470,6 +520,30 @@ function asRecord(value: unknown): Record<string, unknown> {
     throw new G2Error('UPSTREAM_UNAVAILABLE', 'The upstream result is not an object (contract-envelope violation).');
   }
   return value as Record<string, unknown>;
+}
+
+function requireSummaryBase(record: Record<string, unknown>, shape: string): void {
+  if (!isValidPortfolioId(record.portfolioId)) throw invalidEnvelopeValue(shape, 'portfolioId');
+  if (!isValidPortfolioName(record.portfolioName)) throw invalidEnvelopeValue(shape, 'portfolioName');
+  if (!isNonBlankString(record.lastUpdated)) throw invalidEnvelopeValue(shape, 'lastUpdated');
+  requireNonNegativeInteger(record, 'revision', shape);
+  requireNonNegativeInteger(record, 'holdingsCount', shape);
+  requireNumbers(record, ['totalMarketValue'], shape);
+}
+
+function requireNonNegativeInteger(record: Record<string, unknown>, key: string, shape: string): void {
+  if (!isValidExpectedRevision(record[key])) throw invalidEnvelopeValue(shape, key);
+}
+
+function requireBoolean(record: Record<string, unknown>, key: string, shape: string): void {
+  if (typeof record[key] !== 'boolean') throw invalidEnvelopeValue(shape, key);
+}
+
+function invalidEnvelopeValue(shape: string, key: string): G2Error {
+  return new G2Error(
+    'UPSTREAM_UNAVAILABLE',
+    `The ${shape} result has a missing or non-conforming ${key} (contract-envelope violation).`,
+  );
 }
 
 function requireStrings(record: Record<string, unknown>, keys: readonly string[], shape: string): void {

@@ -1,0 +1,42 @@
+Command: node --test --test-reporter=tap dist/tests/q1_ipc_read_contract_conformance.test.js
+Working directory: /tmp/iips-production-market-data-readonly
+
+TAP version 13
+# (node:8791) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: q1 / IPC read path conforms to accepted contract v1 §6
+    # Subtest: portfolio.list returns the PortfolioSummary array itself
+    ok 1 - portfolio.list returns the PortfolioSummary array itself
+      ---
+      duration_ms: 9.326458
+      type: 'test'
+      ...
+    # Subtest: portfolio.get returns the PortfolioDetail object itself, with no durability claim
+    ok 2 - portfolio.get returns the PortfolioDetail object itself, with no durability claim
+      ---
+      duration_ms: 3.969563
+      type: 'test'
+      ...
+    # Subtest: portfolio.revisions returns the RevisionEntry array itself, keyed `committedAt`
+    ok 3 - portfolio.revisions returns the RevisionEntry array itself, keyed `committedAt`
+      ---
+      duration_ms: 2.863193
+      type: 'test'
+      ...
+    1..3
+ok 1 - q1 / IPC read path conforms to accepted contract v1 §6
+  ---
+  duration_ms: 38.312374
+  type: 'suite'
+  ...
+1..1
+# tests 3
+# suites 1
+# pass 3
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 108.309962
+
+EXIT_CODE=0

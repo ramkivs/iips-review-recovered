@@ -1,0 +1,14 @@
+IRR dependency installation
+Command: NODE_EXTRA_CA_CERTS=/usr/local/share/ca-certificates/e2b-ca.crt npm ci
+Directory: frontend/
+Exit code: 0
+Result: added 190 packages; audited 191 packages.
+Audit summary: 11 vulnerabilities (6 moderate, 3 high, 2 critical). No `npm audit fix` was run; dependency pins and lockfile were preserved.
+Warnings: npm skipped integrity checks for Git dependencies; deprecated `whatwg-encoding@3.1.1`; npm 10.9.8 reported an available newer npm. `NODE_EXTRA_CA_CERTS` was an environment-only CA workaround, not a repository change.
+
+IPD read-only baseline setup (to enable only the existing compiled Q1 conformance test)
+Command: NODE_EXTRA_CA_CERTS=/usr/local/share/ca-certificates/e2b-ca.crt npm ci --ignore-scripts
+Directory: /tmp/iips-production-market-data-readonly
+Exit code: 0
+Result: added 33 packages; audited 34 packages.
+Audit summary: 3 vulnerabilities (2 moderate, 1 high). No audit fix or package change was made. `--ignore-scripts` avoided package prepare/build hooks during install. `npm run build:tsc` was then explicitly run for current-source test compilation; emitted `dist/` and `node_modules/` are ignored build/dependency artifacts, not tracked-source changes.

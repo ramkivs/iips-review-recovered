@@ -1,0 +1,18 @@
+Identifier census performed before allocation
+Date: 2026-10-25 UTC
+Working repository: /home/user/iips-review-recovered
+Search scope: IRR repository (including tracked documentation) and `/tmp/iips-production-market-data-readonly/evidence/**/*.md`.
+
+Exact candidate identifiers had zero prior hits:
+- `CV-CORR-94`
+- `CHG-2026-10-25-13`
+- `CHG-2026-10-25-14`
+- `IIPS-V3-CAP03-DR2-DQ1-PA-DECISION-2026-10-25-01`
+- `IIPS-V3-CAP03-DR3-DQ2-PA-DISPOSITION-2026-10-25-01`
+- `IIPS-V3-CAP03-DR4R-DQ3-PA-DISPOSITION-2026-10-25-01`
+- `IIPS-V3-CAP03-DQ4-FREEZE-H12-PA-DISPOSITION-2026-10-25-01`
+- `IIPS-V3-CAP03-DQ5-HOST-LOGISTICS-PA-CONFIRMATION-2026-10-25-01`
+- `IIPS-V3-CAP03-DR2-DQ1-IRR-EXECUTION-2026-10-25-01`
+- verification rows `V627`–`V639`
+
+Census command used `rg -n` with the exact identifier strings against `.` and the IPD evidence tree. No matches were returned (ripgrep exit code 1, meaning no matching lines). The current branch was not changed by the census.
