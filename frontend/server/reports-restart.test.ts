@@ -10,8 +10,10 @@
  *   F-7 is NOT satisfied by this suite, and the suite asserts that it is not. F-7 requires durable
  *   Reports state to survive process termination and restart against the then-current ownership
  *   contract and an ADMITTED persistence binding. `R1` (ownership source) is NOT ESTABLISHED and
- *   `R3` (persistence consumer admission) is OPEN / NOT ADMITTED, so the durable-state leg does not
- *   exist to be exercised. What is evidenced here is narrower and still worth having:
+ *   `R2` (owner-binding contract shape) is NOT RENDERED, so the durable-state leg does not exist to
+ *   be exercised. `R3` (persistence consumer admission) IS admitted and integrated, and the
+ *   harness reports it as such; that admission alone neither exposes nor qualifies Reports. What
+ *   is evidenced here is narrower and still worth having:
  *     1. the HTTP 503 fence is identical in two independent processes;
  *     2. an attempted durable write is refused in a fresh process and creates no storage;
  *     3. the rest of the composed server is unaffected.
@@ -127,6 +129,6 @@ describe('NP-06 Reports — F-7 is not claimed', () => {
     const probe = runInSeparateProcess('probe');
     expect(probe.durableLeg).toBe('not-executed');
     expect(probe.f7Satisfied).toBe(false);
-    expect(probe.prerequisites).toEqual({ R1: 'not-established', R3: 'not-admitted' });
+    expect(probe.prerequisites).toEqual({ R1: 'not-established', R2: 'not-rendered', R3: 'admitted' });
   });
 });
