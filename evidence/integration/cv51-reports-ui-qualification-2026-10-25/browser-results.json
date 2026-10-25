@@ -1,0 +1,581 @@
+{
+  "runtimeDir": "/tmp/iips-cv51-qual-R2R3NL",
+  "carrierSha256": "b1b78809d1c8d05800b338f73082b4269e6c9fa65b8f35192f4736d6f1a98640",
+  "carrierBytes": 384,
+  "phases": {
+    "B-1": {
+      "missing carrier shows sanitized 503 state": {
+        "ok": true,
+        "detail": ""
+      },
+      "retry control present": {
+        "ok": true,
+        "detail": ""
+      },
+      "no partition literals in DOM": {
+        "ok": true,
+        "detail": ""
+      },
+      "no runtime paths in DOM": {
+        "ok": true,
+        "detail": ""
+      },
+      "no SQL/SQLite leak in DOM": {
+        "ok": true,
+        "detail": ""
+      },
+      "no unexpected console errors": {
+        "ok": true,
+        "detail": ""
+      },
+      "no page errors": {
+        "ok": true,
+        "detail": ""
+      },
+      "context endpoint answered 503": {
+        "ok": true,
+        "detail": "status=503"
+      },
+      "recovers after Retry once carrier established": {
+        "ok": true,
+        "detail": ""
+      }
+    },
+    "B-1-recovery": {
+      "no partition literals in DOM": {
+        "ok": true,
+        "detail": ""
+      },
+      "no runtime paths in DOM": {
+        "ok": true,
+        "detail": ""
+      },
+      "no SQL/SQLite leak in DOM": {
+        "ok": true,
+        "detail": ""
+      },
+      "no unexpected console errors": {
+        "ok": true,
+        "detail": ""
+      },
+      "no page errors": {
+        "ok": true,
+        "detail": ""
+      }
+    },
+    "B-2": {
+      "DB-absent shows sanitized persistence 503": {
+        "ok": true,
+        "detail": ""
+      },
+      "retry control present": {
+        "ok": true,
+        "detail": ""
+      },
+      "context 200 does not mask artifacts 503": {
+        "ok": true,
+        "detail": "{\"context\":200,\"artifacts\":503}"
+      },
+      "no partition literals in DOM": {
+        "ok": true,
+        "detail": ""
+      },
+      "no runtime paths in DOM": {
+        "ok": true,
+        "detail": ""
+      },
+      "no SQL/SQLite leak in DOM": {
+        "ok": true,
+        "detail": ""
+      },
+      "no unexpected console errors": {
+        "ok": true,
+        "detail": ""
+      },
+      "no page errors": {
+        "ok": true,
+        "detail": ""
+      }
+    },
+    "B-3": {
+      "empty store shows governed empty state": {
+        "ok": true,
+        "detail": ""
+      },
+      "artifacts endpoint answered 200": {
+        "ok": true,
+        "detail": "[{\"status\":200,\"url\":\"http://127.0.0.1:5173/api/reports/artifacts?limit=25\"},{\"status\":200,\"url\":\"http://127.0.0.1:5173/api/reports/artifacts?limit=25\"}]"
+      },
+      "no partition literals in DOM": {
+        "ok": true,
+        "detail": ""
+      },
+      "no runtime paths in DOM": {
+        "ok": true,
+        "detail": ""
+      },
+      "no SQL/SQLite leak in DOM": {
+        "ok": true,
+        "detail": ""
+      },
+      "no unexpected console errors": {
+        "ok": true,
+        "detail": ""
+      },
+      "no page errors": {
+        "ok": true,
+        "detail": ""
+      }
+    },
+    "SEED": {
+      "v1 created via governed backend write path": {
+        "ok": true,
+        "detail": "status=201"
+      },
+      "v2 appended via governed backend write path": {
+        "ok": true,
+        "detail": "status=201"
+      }
+    },
+    "B-4": {
+      "head list shows current head v2": {
+        "ok": true,
+        "detail": ""
+      },
+      "head row links to v2 detail": {
+        "ok": true,
+        "detail": "/reports/957fe9f7-e808-49b1-baad-e8d6155089c9"
+      },
+      "superseded v1 is not listed as a head": {
+        "ok": true,
+        "detail": ""
+      },
+      "four disclosure levels in exact DOM order": {
+        "ok": true,
+        "detail": "[true,true,true,true]"
+      },
+      "summary has report type": {
+        "ok": true,
+        "detail": "Report — Portfolio Summary"
+      },
+      "summary CURRENT HEAD": {
+        "ok": true,
+        "detail": "CURRENT HEAD"
+      },
+      "detail renders recorded 43.5": {
+        "ok": true,
+        "detail": "43.5"
+      },
+      "detail null renders unavailable": {
+        "ok": true,
+        "detail": "unavailable"
+      },
+      "provenance engine output id": {
+        "ok": true,
+        "detail": "report-portfolio-summary-P-100"
+      },
+      "provenance records lineage v1": {
+        "ok": true,
+        "detail": "89f528b1-7f02-4127-bf64-9c0707d361dd"
+      },
+      "reference shows durable route": {
+        "ok": true,
+        "detail": "/reports/957fe9f7-e808-49b1-baad-e8d6155089c9"
+      },
+      "reference honest non-claim copy": {
+        "ok": true,
+        "detail": "does not re-execute"
+      },
+      "v1 shows SUPERSEDED posture": {
+        "ok": true,
+        "detail": ""
+      },
+      "v1 detail renders its recorded payload": {
+        "ok": true,
+        "detail": ""
+      },
+      "navigation returns to current head v2": {
+        "ok": true,
+        "detail": ""
+      },
+      "zero POST calls from the browser": {
+        "ok": true,
+        "detail": "0 POST"
+      },
+      "zero Authorization headers from the browser": {
+        "ok": true,
+        "detail": ""
+      },
+      "zero cookies sent by the browser": {
+        "ok": true,
+        "detail": ""
+      },
+      "zero prohibited query fields from the browser": {
+        "ok": true,
+        "detail": ""
+      },
+      "browser issued only GET for reports api": {
+        "ok": true,
+        "detail": "18 api requests"
+      }
+    },
+    "B-4-list": {
+      "no partition literals in DOM": {
+        "ok": true,
+        "detail": ""
+      },
+      "no runtime paths in DOM": {
+        "ok": true,
+        "detail": ""
+      },
+      "no SQL/SQLite leak in DOM": {
+        "ok": true,
+        "detail": ""
+      },
+      "no unexpected console errors": {
+        "ok": true,
+        "detail": ""
+      },
+      "no page errors": {
+        "ok": true,
+        "detail": ""
+      }
+    },
+    "B-4-detail-v2": {
+      "no partition literals in DOM": {
+        "ok": true,
+        "detail": ""
+      },
+      "no runtime paths in DOM": {
+        "ok": true,
+        "detail": ""
+      },
+      "no SQL/SQLite leak in DOM": {
+        "ok": true,
+        "detail": ""
+      },
+      "no unexpected console errors": {
+        "ok": true,
+        "detail": ""
+      },
+      "no page errors": {
+        "ok": true,
+        "detail": ""
+      }
+    },
+    "B-4-back-to-head": {
+      "no partition literals in DOM": {
+        "ok": true,
+        "detail": ""
+      },
+      "no runtime paths in DOM": {
+        "ok": true,
+        "detail": ""
+      },
+      "no SQL/SQLite leak in DOM": {
+        "ok": true,
+        "detail": ""
+      },
+      "no unexpected console errors": {
+        "ok": true,
+        "detail": ""
+      },
+      "no page errors": {
+        "ok": true,
+        "detail": ""
+      }
+    },
+    "B-5": {
+      "unknown id shows indistinguishable 404 state": {
+        "ok": true,
+        "detail": ""
+      },
+      "404 state links back to /reports": {
+        "ok": true,
+        "detail": ""
+      },
+      "no partition literals in DOM": {
+        "ok": true,
+        "detail": ""
+      },
+      "no runtime paths in DOM": {
+        "ok": true,
+        "detail": ""
+      },
+      "no SQL/SQLite leak in DOM": {
+        "ok": true,
+        "detail": ""
+      },
+      "no unexpected console errors": {
+        "ok": true,
+        "detail": ""
+      },
+      "no page errors": {
+        "ok": true,
+        "detail": ""
+      }
+    },
+    "B-6": {
+      "keyboard Tab reaches a version link": {
+        "ok": true,
+        "detail": "[{\"tag\":\"A\",\"href\":\"/settings\",\"testid\":null,\"text\":\"Settings\"},{\"tag\":\"A\",\"href\":\"/reports\",\"testid\":null,\"text\":\"← Back to Reports\"},{\"tag\":\"SUMMARY\",\"href\":null,\"testid\":null,\"text\":\"Raw canonical payload\"},{\"tag\":\"A\",\"href\":\"/reports/89f528b1-7f02-4127-bf64-9c0707d361dd\",\"testid\":null,\"text\":\"89f528b1-7f02-4127-bf64-9c0707d361dd\"}]"
+      },
+      "keyboard Enter navigates to superseded v1": {
+        "ok": true,
+        "detail": ""
+      },
+      "no page horizontal overflow list @1280px": {
+        "ok": true,
+        "detail": "{\"scrollWidth\":1280,\"innerWidth\":1280,\"overflowOutsideWrappers\":[]}"
+      },
+      "no overflow outside table wrappers list @1280px": {
+        "ok": true,
+        "detail": ""
+      },
+      "no page horizontal overflow detail @1280px": {
+        "ok": true,
+        "detail": "{\"scrollWidth\":1280,\"innerWidth\":1280,\"overflowOutsideWrappers\":[]}"
+      },
+      "no overflow outside table wrappers detail @1280px": {
+        "ok": true,
+        "detail": ""
+      },
+      "no page horizontal overflow list @640px": {
+        "ok": true,
+        "detail": "{\"scrollWidth\":640,\"innerWidth\":640,\"overflowOutsideWrappers\":[]}"
+      },
+      "no overflow outside table wrappers list @640px": {
+        "ok": true,
+        "detail": ""
+      },
+      "no page horizontal overflow detail @640px": {
+        "ok": true,
+        "detail": "{\"scrollWidth\":640,\"innerWidth\":640,\"overflowOutsideWrappers\":[]}"
+      },
+      "no overflow outside table wrappers detail @640px": {
+        "ok": true,
+        "detail": ""
+      },
+      "no page horizontal overflow list @320px": {
+        "ok": true,
+        "detail": "{\"scrollWidth\":320,\"innerWidth\":320,\"overflowOutsideWrappers\":[]}"
+      },
+      "no overflow outside table wrappers list @320px": {
+        "ok": true,
+        "detail": ""
+      },
+      "no page horizontal overflow detail @320px": {
+        "ok": true,
+        "detail": "{\"scrollWidth\":320,\"innerWidth\":320,\"overflowOutsideWrappers\":[]}"
+      },
+      "no overflow outside table wrappers detail @320px": {
+        "ok": true,
+        "detail": ""
+      },
+      "no partition literals in DOM": {
+        "ok": true,
+        "detail": ""
+      },
+      "no runtime paths in DOM": {
+        "ok": true,
+        "detail": ""
+      },
+      "no SQL/SQLite leak in DOM": {
+        "ok": true,
+        "detail": ""
+      },
+      "no unexpected console errors": {
+        "ok": true,
+        "detail": ""
+      },
+      "no page errors": {
+        "ok": true,
+        "detail": ""
+      }
+    }
+  },
+  "failures": [],
+  "logs_b1": {
+    "server": "Executive transport listening on 127.0.0.1:8787\n(node:7279) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n",
+    "vite": "\n  VITE v5.4.21  ready in 206 ms\n\n  ➜  Local:   http://127.0.0.1:5173/\n"
+  },
+  "logs_b2": {
+    "server": "Executive transport listening on 127.0.0.1:8787\n",
+    "vite": "\n  VITE v5.4.21  ready in 158 ms\n\n  ➜  Local:   http://127.0.0.1:5173/\n"
+  },
+  "logs_b3": {
+    "server": "Executive transport listening on 127.0.0.1:8787\n(node:7445) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n",
+    "vite": "\n  VITE v5.4.21  ready in 213 ms\n\n  ➜  Local:   http://127.0.0.1:5173/\n"
+  },
+  "logs_seed": {
+    "server": "Executive transport listening on 127.0.0.1:8787\n(node:7522) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n",
+    "vite": "\n  VITE v5.4.21  ready in 178 ms\n\n  ➜  Local:   http://127.0.0.1:5173/\n12:37:06 PM [vite] Pre-transform error: The service is no longer running\n"
+  },
+  "seed": {
+    "v1Id": "89f528b1-7f02-4127-bf64-9c0707d361dd",
+    "v2Id": "957fe9f7-e808-49b1-baad-e8d6155089c9",
+    "v1Version": 1,
+    "v2Version": 2,
+    "v2Supersedes": "89f528b1-7f02-4127-bf64-9c0707d361dd"
+  },
+  "logs_b4": {
+    "server": "Executive transport listening on 127.0.0.1:8787\n(node:7558) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n",
+    "vite": "\n  VITE v5.4.21  ready in 205 ms\n\n  ➜  Local:   http://127.0.0.1:5173/\n"
+  },
+  "b4RequestSample": [
+    "GET http://127.0.0.1:5173/src/api/reports.ts",
+    "GET http://127.0.0.1:5173/api/reports/context",
+    "GET http://127.0.0.1:5173/api/reports/artifacts?limit=25",
+    "GET http://127.0.0.1:5173/api/reports/context",
+    "GET http://127.0.0.1:5173/api/reports/artifacts?limit=25",
+    "GET http://127.0.0.1:5173/api/reports/artifacts/957fe9f7-e808-49b1-baad-e8d6155089c9",
+    "GET http://127.0.0.1:5173/api/reports/artifacts/957fe9f7-e808-49b1-baad-e8d6155089c9/supersession",
+    "GET http://127.0.0.1:5173/api/reports/artifacts/957fe9f7-e808-49b1-baad-e8d6155089c9",
+    "GET http://127.0.0.1:5173/api/reports/artifacts/957fe9f7-e808-49b1-baad-e8d6155089c9/supersession",
+    "GET http://127.0.0.1:5173/api/reports/artifacts?limit=25",
+    "GET http://127.0.0.1:5173/api/reports/artifacts?limit=25",
+    "GET http://127.0.0.1:5173/api/reports/artifacts/89f528b1-7f02-4127-bf64-9c0707d361dd",
+    "GET http://127.0.0.1:5173/api/reports/artifacts/89f528b1-7f02-4127-bf64-9c0707d361dd/supersession",
+    "GET http://127.0.0.1:5173/api/reports/artifacts?limit=25",
+    "GET http://127.0.0.1:5173/api/reports/artifacts/957fe9f7-e808-49b1-baad-e8d6155089c9/supersession",
+    "GET http://127.0.0.1:5173/api/reports/artifacts/957fe9f7-e808-49b1-baad-e8d6155089c9",
+    "GET http://127.0.0.1:5173/api/reports/artifacts/957fe9f7-e808-49b1-baad-e8d6155089c9/supersession",
+    "GET http://127.0.0.1:5173/api/reports/artifacts?limit=25"
+  ],
+  "b6Traversal": [
+    {
+      "tag": "A",
+      "href": "/executive",
+      "testid": null,
+      "text": "Executive"
+    },
+    {
+      "tag": "A",
+      "href": "/portfolio",
+      "testid": null,
+      "text": "Portfolio"
+    },
+    {
+      "tag": "A",
+      "href": "/broker-holdings",
+      "testid": null,
+      "text": "Broker Holdings"
+    },
+    {
+      "tag": "A",
+      "href": "/user-portfolios",
+      "testid": null,
+      "text": "User Portfolios"
+    },
+    {
+      "tag": "A",
+      "href": "/watchlists",
+      "testid": null,
+      "text": "Watchlists"
+    },
+    {
+      "tag": "A",
+      "href": "/collaboration",
+      "testid": null,
+      "text": "Collaboration"
+    },
+    {
+      "tag": "A",
+      "href": "/research/sector/Banking",
+      "testid": null,
+      "text": "Sector"
+    },
+    {
+      "tag": "A",
+      "href": "/research/cross-sector",
+      "testid": null,
+      "text": "Cross-Sector"
+    },
+    {
+      "tag": "A",
+      "href": "/research/engines",
+      "testid": null,
+      "text": "Engines"
+    },
+    {
+      "tag": "A",
+      "href": "/research/macro",
+      "testid": null,
+      "text": "Macro"
+    },
+    {
+      "tag": "A",
+      "href": "/screener",
+      "testid": null,
+      "text": "Screener"
+    },
+    {
+      "tag": "A",
+      "href": "/intelligence/opportunities",
+      "testid": null,
+      "text": "Opportunities"
+    },
+    {
+      "tag": "A",
+      "href": "/intelligence/risks",
+      "testid": null,
+      "text": "Risks"
+    },
+    {
+      "tag": "A",
+      "href": "/intelligence/rankings",
+      "testid": null,
+      "text": "Rankings"
+    },
+    {
+      "tag": "A",
+      "href": "/intelligence/decision-matrix",
+      "testid": null,
+      "text": "Decision Matrix"
+    },
+    {
+      "tag": "A",
+      "href": "/ai-advisory",
+      "testid": null,
+      "text": "AI Explanation"
+    },
+    {
+      "tag": "A",
+      "href": "/evidence",
+      "testid": null,
+      "text": "Evidence"
+    },
+    {
+      "tag": "A",
+      "href": "/reports",
+      "testid": null,
+      "text": "Reports"
+    },
+    {
+      "tag": "A",
+      "href": "/settings",
+      "testid": null,
+      "text": "Settings"
+    },
+    {
+      "tag": "A",
+      "href": "/reports",
+      "testid": null,
+      "text": "← Back to Reports"
+    },
+    {
+      "tag": "SUMMARY",
+      "href": null,
+      "testid": null,
+      "text": "Raw canonical payload"
+    },
+    {
+      "tag": "A",
+      "href": "/reports/89f528b1-7f02-4127-bf64-9c0707d361dd",
+      "testid": null,
+      "text": "89f528b1-7f02-4127-bf64-9c0707d361dd"
+    }
+  ],
+  "runtimeCleaned": true,
+  "finishedAt": "2026-10-25T12:37:18.072Z"
+}
