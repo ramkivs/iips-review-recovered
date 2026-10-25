@@ -36,7 +36,6 @@ export const NAV: NavItem[] = [
   { label: 'User Portfolios', path: '/user-portfolios' },
   { label: 'Watchlists', path: '/watchlists' },
   { label: 'Collaboration', path: '/collaboration' },
-  { label: 'Settings', path: '/settings' },
   {
     label: 'Research',
     path: '/research',
@@ -78,6 +77,11 @@ export const NAV: NavItem[] = [
       { label: 'Replay', path: '/evidence/replay/:id' },
     ],
   },
+  // CV-51 / NP-06 D8: Reports is the seventh L1 product section — a top-level sibling
+  // between Evidence and Settings. Only the concrete `/reports` path is a global link;
+  // `/reports/:reportId` is reached from the list, version links, and deep links.
+  { label: 'Reports', path: ROUTES.reports },
+  { label: 'Settings', path: '/settings' },
 ];
 
 /** Concrete, implemented destinations available as global child links. */

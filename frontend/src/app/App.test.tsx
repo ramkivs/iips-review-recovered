@@ -34,6 +34,24 @@ const AI_ADVISORY_FIXTURE = {
   unavailable: ['timestamp', 'tenant', 'provider', 'confidence', 'citations', 'decision'],
 };
 
+const REPORT_ID = '11111111-1111-4111-8111-111111111111';
+
+const REPORT_ARTIFACT_FIXTURE = {
+  reportKey: 'a'.repeat(64),
+  reportId: REPORT_ID,
+  reportType: 'Portfolio Summary',
+  portfolioId: 'P-100',
+  scenario: 'Balanced',
+  parameters: { horizon: '12m' },
+  schemaVersion: 1,
+  artifactVersion: 1,
+  supersedesReportId: null,
+  generatedAt: '2026-10-25T00:00:00.000Z',
+  canonicalPayload: JSON.stringify({ scenario: 'Balanced', value: 100 }),
+  ownership: { tenantId: 'irr-reports-personal', userId: 'owner-irr-reports-personal' },
+  provenance: { engineOutputId: 'report-portfolio-summary-P-100' },
+};
+
 type FetchCall = { input: RequestInfo | URL; init?: RequestInit };
 let requests: FetchCall[] = [];
 
@@ -42,7 +60,22 @@ beforeEach(() => {
   globalThis.fetch = vi.fn((input: RequestInfo | URL, init?: RequestInit) => {
     requests.push({ input, init });
     const url = String(input);
-    const body = url.startsWith('/api/collaboration')
+    const body = url.startsWith('/api/reports/context')
+      ? {
+          data: {
+            surfaceName: 'NP-06',
+            disposition: 'ESTABLISHED',
+            tenantId: 'irr-reports-personal',
+            ownerUserId: 'owner-irr-reports-personal',
+          },
+        }
+      : url.includes('/supersession')
+        ? { data: { current: REPORT_ARTIFACT_FIXTURE, history: [] } }
+        : url.startsWith('/api/reports/artifacts/')
+          ? { data: REPORT_ARTIFACT_FIXTURE }
+          : url.startsWith('/api/reports/artifacts')
+            ? { data: [REPORT_ARTIFACT_FIXTURE], nextCursor: null }
+            : url.startsWith('/api/collaboration')
       ? {
           data: [],
           provenance: {
@@ -207,5 +240,45 @@ describe('Application Shell', () => {
       expect(await screen.findByTestId(marker)).toBeInTheDocument();
     });
   }
+
+  it('shows the Reports L1 entry between Evidence and Settings without credentials', () => {
+    renderAt('/executive');
+    const reports = screen.getByRole('link', { name: 'Reports' });
+    expect(reports).toHaveAttribute('href', '/reports');
+    const hrefs = screen.getAllByRole('link').map((link) => link.getAttribute('href'));
+    expect(hrefs.indexOf('/reports')).toBeGreaterThan(hrefs.indexOf('/evidence'));
+    expect(hrefs.indexOf('/reports')).toBeLessThan(hrefs.indexOf('/settings'));
+  });
+
+  it('resolves the /reports deep link credential-free and renders the governed list', async () => {
+    renderAt('/reports');
+    expect(await screen.findByRole('heading', { name: 'Reports' })).toBeInTheDocument();
+    expect(await screen.findByTestId('reports-head-table')).toBeInTheDocument();
+    expect(screen.queryByTestId('shell-feature-unavailable')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('shell-permission-denied')).not.toBeInTheDocument();
+    expect(document.body.textContent).not.toContain('irr-reports-personal');
+    expect(document.body.textContent).not.toContain('owner-irr-reports-personal');
+    const reportCalls = requests.filter((call) => String(call.input).startsWith('/api/reports/'));
+    expect(reportCalls.length).toBeGreaterThan(0);
+    for (const call of reportCalls) {
+      expect(call.init?.credentials).toBe('omit');
+      expect(new Headers(call.init?.headers).has('authorization')).toBe(false);
+      expect(String(call.input)).not.toMatch(/tenantId|ownerUserId|companyId|runtimeCompanyId/);
+    }
+  });
+
+  it('resolves the /reports/:reportId deep link credential-free with ordered disclosure', async () => {
+    renderAt(`/reports/${REPORT_ID}`);
+    expect(await screen.findByTestId('report-section-summary')).toBeInTheDocument();
+    expect(screen.getByTestId('report-section-detail')).toBeInTheDocument();
+    expect(screen.getByTestId('report-section-provenance')).toBeInTheDocument();
+    expect(screen.getByTestId('report-section-reference')).toBeInTheDocument();
+    expect(screen.queryByTestId('shell-feature-unavailable')).not.toBeInTheDocument();
+    expect(document.body.textContent).not.toContain('irr-reports-personal');
+    const detailCall = requests.find((call) => String(call.input) === `/api/reports/artifacts/${REPORT_ID}`);
+    expect(detailCall).toBeDefined();
+    expect(detailCall?.init?.credentials).toBe('omit');
+    expect(new Headers(detailCall?.init?.headers).has('authorization')).toBe(false);
+  });
 
 });
