@@ -1,0 +1,11 @@
+=== POST-RECEIPT READ-BACK (final)
+date: 2026-10-25T16:37:24Z
+PR #278 merged: ac6d45b695bf9b79c0ec7af7d4656dc914ffccb2 (2026-10-25T16:35:50Z), tree 0aadf7b3056ce50c66484505d88dc15760408ab6
+post-merge main CI: 40212439673 success
+open PRs: 0
+
+tracker blob at main: f3b31446a71c8ede1ad1afb8deec7a0d8a521b8a
+decision-act blob at main: b41c76f7ddbacc0caa0a86877561a83d2ba1c2a6 (unchanged from the receipt's recorded b41c76f7ddbacc0caa0a86877561a83d2ba1c2a6)
+
+--- final drift check: 24 IRR H-12 entries at origin/main vs designated pin
+identical: 24/24; drift: NONE
