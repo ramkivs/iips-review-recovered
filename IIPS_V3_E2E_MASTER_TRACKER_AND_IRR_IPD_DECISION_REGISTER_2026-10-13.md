@@ -10184,3 +10184,45 @@ Boundary status is unchanged except the primary npm coordinate: DR-4r/DQ-3 Optio
 | `V678` | DQ-4 final freeze status | **NOT ESTABLISHED** — candidate inputs qualified; exact blockers in §16.119.5 remain |
 
 *End of §16.119 pre-merge DQ-4 reconciliation record (`CHG-2026-10-25-24`; `V671`–`V678`).*
+
+---
+
+## §16.120 — `CV-CORR-100`: Post-Merge Publication and Remote Verification Receipt for IRR PR #274 (CAP-03 DQ-4) — `2026-10-25` (`CHG-2026-10-25-25`, `V679`)
+
+*Additive receipt to §16.119. The pre-merge statements in §16.119 remain a truthful snapshot at branch authoring; this section supersedes them as current publication state. It does not establish a DQ-4 final QE freeze and does not widen any decision.*
+
+### 16.120.1 PR, merge commit, and resulting candidate source commit
+
+IRR PR #274, “Reconcile CAP-03 DQ-4 primary pin,” is **MERGED** at `2026-10-25T14:45:50Z`. Its exact head was `c06422581782176268f19eed6c776a8634b7cfea`, tree `0ad2ad717cdf63a9b675045e0049e8d5d1e4bac0`. The merge commit is **`907e1fdac76612c9e171774aab079b4862d35ef2`**, with parents `445f0f5813040ef5641af0f7e0556713629ce67a` (former `main`) and `c06422581782176268f19eed6c776a8634b7cfea` (PR head), and the same tree `0ad2ad717cdf63a9b675045e0049e8d5d1e4bac0`. GitHub's commit API reports verification `verified=true`, reason `valid`. Independently queried remote `refs/heads/main` resolves to `907e1fda…` at receipt authoring.
+
+For candidate-input identity only, the resulting IRR DQ-4 source candidate is therefore `907e1fdac76612c9e171774aab079b4862d35ef2` / tree `0ad2ad717cdf63a9b675045e0049e8d5d1e4bac0`. This is **not** a final QE repository-pin designation. IPD remains `8eec74ae27cda09f3c368b9c299895eae41554db` / tree `4eba29029f8d95cfe483e615a7047426b298ce50`, with 0 open PRs and latest main CI `40196407747` success.
+
+### 16.120.2 Scope and independent blob read-back
+
+GitHub confirms PR #274 changed **59 files**, with **58,266 additions** and **27 deletions**. The GitHub recursive Git Trees API for merge tree `0ad2ad71…` returned 1,986 entries with `truncated=false`; all **59/59** changed paths match the fetched merge objects by git blob and byte size, with SHA-256 values recorded in `evidence/integration/cap03-dq4-pin-reconciliation-2026-10-25/51-pr274-postmerge-readback.txt`. Key merged blobs are `frontend/package.json` `83058ea202ece8ec60b2674b05b7532ce9a8684b` (1,888 B), `frontend/package-lock.json` `744355e903135fc3ebc0f75b0e122bdf1bbc8358` (128,442 B), `frontend/server/broker-import/brokerImportPackageConsumer.test.ts` `0a1e58de96fae755a4d054e2aa319ab51e2caba3` (18,716 B), the DQ-4 record `66784097e6ef8335a88eb8810b633d6b3a4ed781` (21,082 B), and the tracker as merged by PR #274 `c069fc95744dee24d2a8664348c0e4699b1d6130` (2,161,771 B).
+
+The nine frozen/unchanged key paths checked in evidence `51` also match across base `445f0f58…`, merge `907e1fda…`, and GitHub's tree API, including the DR-2 adapter `1e20e98023f20f80ed61d8d32d070fdde677d3c7`, its tests `46243a7a79ba3b19cd4d2b8a56df8905aba220f8`, G2 contract `e6b57bb8a021d8eb4b9b7572d12affc7de66be0b`, IPC client `c1b885e3173132685090bcd2cbfa4aa8c87fa4ca`, port interface `ba0001e88c83b070e4f16a3cdb35d34c82ec0200`, transport fence `51704c12a467cd2f718a030b5036bc55c9afa73f`, owner-context refusal fence `cb8db45d668d28cee7e0a52721001d579a872733`, broker tsconfig `a339c9c4def365f0b80295bb32ad74cf2f95a9bd`, and the effective CAP-03 decision record `624632bb022c147e7df477a7d77d96793d484035`.
+
+At merge `907e1fda…`, `frontend/package.json` reads back primary `github:ramkivs/iips-production-market-data#8eec74ae27cda09f3c368b9c299895eae41554db`, broker alias `github:ramkivs/iips-production-market-data#70b24f029842a7e9b7f615e4d9df7376fd4ff817`, and Reports NP-04 `github:ramkivs/iips-production-market-data#2e11fa3b689d1a3674a5e4ba1f1de9a559e20494`.
+
+### 16.120.3 Exact-head and post-merge hosted CI
+
+- PR #274 exact-head CI: run **`40203597092`**, job **`121199738025`**, head `c0642258…`, **success**, completed `2026-10-25T14:45:37Z`.
+- Post-merge `main` push CI: run **`40203762973`**, job **`121200229539`**, head `907e1fda…`, **success**, completed `2026-10-25T14:47:45Z`.
+- Both runs carry only hosted-runner annotations concerning Node 20 action deprecation (forced to Node 24) and the future `ubuntu-latest` migration. Repository read-back at merge: merge-commit, squash, and rebase methods allowed; `main` `protected:false`; rulesets `[]`; the branch-protection detail endpoint returned 403 to this integration and is recorded without inference or bypass.
+
+The merged tree is identical to the locally qualified PR-head tree. Local actual-branch totals therefore remain focused **21 files / 378 tests**, full **106 files / 1,350 tests**, report guard **106/1,350/0 failed**, and typechecks/build/direct strict adapter `tsc` exit `0`. The current-source cross-repository harness in §16.119 was executed before PR #274 against the then-merged IRR implementation source at `445f0f58…` and IPD `8eec74ae…`; no additional post-PR274 harness execution is claimed. The adapter blob after PR #274 is unchanged.
+
+### 16.120.4 Freeze status after publication
+
+Publication cures only the previously unknown resulting IRR candidate identity. **The DQ-4 final QE freeze remains NOT ESTABLISHED**, and no final QE freeze manifest has been published. The remaining blockers are exactly §16.119.5 items 1–6 plus absence of bilateral IPD-locus freeze mirroring: no effective exact final repository-pin/freeze designation; DQ-6b unresolved; alias modernization (if required) unavailable without an authorized IPD package-surface or IRR broker-build change and requalification; H-12 not regenerated/validated/adopted at IPD `8eec74ae…` and IRR candidate `907e1fda…`; no native-Windows canonical evidence; and Gate 4/host sequencing remains unexecuted.
+
+DR-4r/DQ-3 Option B remains in force; H-12 **NOT ADOPTED**; Gate 4 **AUTHORIZED — NOT STARTED**; QE **0/11**; Gate 5 **NOT INITIATED / NOT ADMITTED**; durable-read acceptance and production eligibility **NOT ESTABLISHED**. The single next dependency-respecting action remains the authoritative DQ-6b/freeze disposition identified at §16.119.5.
+
+### 16.120.5 Verification
+
+| ID | Check | Result |
+|---|---|---|
+| `V679` | PR #274 post-merge remote verification | **PASS** — merged state/time, exact head, merge commit/tree/parents/verification, remote `main`, 59/59 changed-path blob/size matches, 9/9 frozen-path matches, exact-head CI `40203597092`, post-merge CI `40203762973`, current pins, protection read-back, and unchanged IPD remote state independently recorded in evidence `51`. |
+
+*End of §16.120 post-merge receipt (`CHG-2026-10-25-25`; `V679`).*
