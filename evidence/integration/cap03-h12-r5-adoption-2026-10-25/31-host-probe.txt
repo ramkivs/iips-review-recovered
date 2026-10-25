@@ -1,0 +1,6 @@
+=== 31: Host & Environment Boundary Probe (2026-10-25 UTC) ===
+Linux e2b.local 6.1.158+ #1 SMP PREEMPT_DYNAMIC Mon May 11 18:48:24 UTC 2026 x86_64 GNU/Linux
+{"platform":"linux","arch":"x64","node":"v22.22.3"}
+pwsh: NOT_FOUND
+powershell.exe: NOT_FOUND
+getent hosts desktop-no0nhtp: UNRESOLVED_IN_SANDBOX

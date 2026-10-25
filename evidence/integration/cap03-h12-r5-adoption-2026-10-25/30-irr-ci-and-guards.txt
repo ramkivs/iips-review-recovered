@@ -1,0 +1,211 @@
+=== 30: IRR Full Local CI, Typechecks, Build & Fence/Option-B Guards (2026-10-25 UTC) ===
+--- npm run typecheck ---
+
+> @iips/v3-frontend@0.1.0 pretypecheck
+> npm run build:broker-import
+
+
+> @iips/v3-frontend@0.1.0 build:broker-import
+> tsc -p tsconfig.broker-import.json
+
+
+> @iips/v3-frontend@0.1.0 typecheck
+> tsc --noEmit
+
+--- npm run typecheck:replay-server ---
+
+> @iips/v3-frontend@0.1.0 typecheck:replay-server
+> tsc -p tsconfig.replay-server.json --noEmit
+
+--- Focused broker-import & user-portfolio fence guards ---
+
+ RUN  v2.1.9 /home/user/iips-review-recovered/frontend
+
+ ✓ server/user-portfolio/ipcPortAdapter.test.ts (49 tests) 31ms
+ ✓ server/user-portfolio/ipcClient.test.ts (34 tests) 340ms
+ ✓ server/user-portfolio/fenceUnchanged.test.ts (26 tests) 277ms
+ ✓ server/broker-import/brokerImportHttp.test.ts (24 tests) 265ms
+ ✓ server/user-portfolio/userPortfolioContract.test.ts (19 tests) 6ms
+ ✓ server/broker-import/brokerImportV1SaveAdapter.test.ts (22 tests) 8ms
+ ✓ server/user-portfolio/ownerContextFromBinding.test.ts (15 tests) 12ms
+ ✓ server/broker-import/brokerImportBoundary.test.ts (16 tests) 15ms
+ ✓ server/user-portfolio/option2F.test.ts (15 tests) 32ms
+ ✓ server/user-portfolio/userPortfolioBoundary.test.ts (8 tests) 5ms
+ ✓ server/broker-import/brokerImportImportSafety.test.ts (5 tests) 28ms
+ ✓ server/user-portfolio/translationBoundary.test.ts (4 tests) 3ms
+ ✓ server/broker-import/brokerImportPackageConsumer.test.ts (6 tests) 56ms
+ ✓ server/broker-import/brokerImportModalHostIntegration.test.tsx (2 tests) 852ms
+ ✓ server/user-portfolio-transport.test.ts (3 tests) 69ms
+
+ Test Files  15 passed (15)
+      Tests  248 passed (248)
+   Start at  19:49:46
+   Duration  8.10s (transform 1.35s, setup 1.59s, collect 1.27s, tests 2.00s, environment 928ms, prepare 719ms)
+
+--- Full npm run test:ci ---
+
+> @iips/v3-frontend@0.1.0 pretest:ci
+> npm run build:broker-import
+
+
+> @iips/v3-frontend@0.1.0 build:broker-import
+> tsc -p tsconfig.broker-import.json
+
+
+> @iips/v3-frontend@0.1.0 test:ci
+> vitest run --reporter=default --reporter=json --outputFile.json=.vitest-report.json
+
+
+ RUN  v2.1.9 /home/user/iips-review-recovered/frontend
+
+ ✓ server/user-portfolio/ipcPortAdapter.test.ts (49 tests) 32ms
+ ✓ server/user-portfolio/ipcClient.test.ts (34 tests) 346ms
+ ✓ server/pit/pitReadBoundary.test.ts (48 tests) 45ms
+ ✓ server/user-portfolio/fenceUnchanged.test.ts (26 tests) 271ms
+ ✓ server/replay/GovernedScreenReplayService.test.ts (22 tests) 179ms
+ ✓ server/pit/pitRuntimeIntegration.test.ts (28 tests) 105ms
+ ✓ server/broker-import/brokerImportHttp.test.ts (24 tests) 313ms
+ ✓ server/pit/pitD114RuntimeIntegration.test.ts (27 tests) 86ms
+ ✓ server/collaboration/collaboration-transport-owner-context.test.ts (19 tests) 137ms
+ ✓ server/watchlists/watchlists-transport-owner-context.test.ts (18 tests) 123ms
+ ✓ server/owner-context-integration.test.ts (14 tests) 332ms
+ ✓ server/user-portfolio/userPortfolioContract.test.ts (19 tests) 6ms
+ ✓ server/broker-import/brokerImportV1SaveAdapter.test.ts (22 tests) 10ms
+ ✓ server/replay/replay-application.integration.test.ts (7 tests) 675ms
+   ✓ Stage A real exported application — separate HTTP requests > exhausts the real default 100-record store honestly and still retrieves/replays the earliest original without eviction 478ms
+ ✓ server/owner-context-resolver.test.ts (26 tests) 15ms
+ ✓ server/user-portfolio/ownerContextFromBinding.test.ts (15 tests) 12ms
+ ✓ server/settings/settings-transport-owner-context.test.ts (13 tests) 92ms
+ ✓ server/replay/replay-transport.test.ts (13 tests) 186ms
+ ✓ server/broker-import/brokerImportBoundary.test.ts (16 tests) 21ms
+ ✓ server/user-portfolio/option2F.test.ts (15 tests) 27ms
+ ✓ server/reports-transport.test.ts (4 tests) 117ms
+ ✓ server/replay/ScreenEvaluationSnapshot.test.ts (16 tests) 99ms
+ ✓ server/reports/reports-persistence-integration.test.ts (5 tests) 41ms
+ ✓ server/reports-restart.test.ts (2 tests) 8672ms
+   ✓ NP-06 Reports — F-7 Separate-Process Durable HTTP Acceptance > Process 1 & 2 fail closed with 503 across processes when carrier is not provisioned 2307ms
+   ✓ NP-06 Reports — F-7 Separate-Process Durable HTTP Acceptance > proves F-7 durable HTTP lifecycle across 3 distinct OS processes 6364ms
+ ✓ server/user-portfolio/userPortfolioBoundary.test.ts (8 tests) 5ms
+ ✓ src/api/pit.test.ts (10 tests) 194ms
+ ✓ server/owner-context-restart.test.ts (8 tests) 7447ms
+   ✓ F-3 mechanism — durability across a separate process > process 1 serves the owner context and writes through the real composed server 1189ms
+   ✓ F-3 mechanism — durability across a separate process > process 2 — a FRESH process — serves the same owner context from the same carrier 2019ms
+   ✓ F-3 mechanism — fail-closed and recovery across a separate process > a restarted process serves NO owner context when the carrier was tampered with 1200ms
+   ✓ F-3 mechanism — fail-closed and recovery across a separate process > a restarted process serves NO owner context when the carrier is absent 1080ms
+   ✓ F-3 mechanism — fail-closed and recovery across a separate process > recovers across a separate process once the authorised carrier is restored 1954ms
+ ✓ server/owner-context-carrier.test.ts (8 tests) 8ms
+ ✓ server/live/engine-execution-live-certification.test.ts (6 tests) 39ms
+ ✓ server/reports-api.test.ts (3 tests) 83ms
+ ✓ server/reports-owner-resolver.test.ts (5 tests) 8ms
+ ✓ server/broker-import/brokerImportImportSafety.test.ts (5 tests) 31ms
+ ✓ server/user-portfolio/translationBoundary.test.ts (4 tests) 3ms
+ ✓ server/settings/settings-route-integration.test.ts (5 tests) 104ms
+ ✓ server/collaboration/collaboration-route-integration.test.ts (4 tests) 55ms
+ ✓ server/reports-owner-carrier.test.ts (4 tests) 5ms
+ ✓ server/live/ai-advisory-live-certification.test.ts (3 tests) 49ms
+ ✓ server/macro/mospi-source.test.ts (53 tests) 90ms
+ ✓ server/collaboration/collaboration-service.test.ts (41 tests) 36ms
+ ✓ server/macro/macro-transport.test.ts (23 tests) 681ms
+   ✓ /api/macro — V-C6 configuration & mount deps wiring > wires deps into handleMacroRequest from the executive-transport mount 635ms
+ ✓ server/reports/reports-artifact.test.ts (56 tests) 28ms
+ ✓ server/broker-import/brokerImportPackageConsumer.test.ts (6 tests) 45ms
+ ✓ src/features/reports/Reports.test.tsx (12 tests) 546ms
+ ✓ server/d115-runtime.test.ts (12 tests) 11ms
+ ✓ server/product-transport.test.ts (11 tests) 222ms
+ ✓ src/features/screener/Screener.test.tsx (11 tests) 378ms
+ ✓ server/settings/settings-service.test.ts (28 tests) 16ms
+ ✓ src/app/App.test.tsx (21 tests) 1014ms
+ ✓ src/features/sector/SectorIntelligence.test.tsx (12 tests) 276ms
+ ✓ src/features/settings/Settings.test.tsx (17 tests) 205ms
+ ✓ server/reports/reports-canonical.test.ts (46 tests) 11ms
+ ✓ src/features/research/MacroResearch.test.tsx (16 tests) 308ms
+ ✓ src/features/portfolio-import/BrokerImportModalIntegration.test.tsx (6 tests) 403ms
+ ✓ server/watchlists/watchlists-service.test.ts (25 tests) 23ms
+ ✓ src/features/portfolio-import/irrPortfolioStorePortAdapter.test.ts (12 tests) 20ms
+ ✓ src/features/collaboration/Collaboration.test.tsx (12 tests) 212ms
+ ✓ src/api/brokerImport.test.ts (12 tests) 12ms
+ ✓ server/persistence/consumer-restart-read.test.ts (3 tests) 3953ms
+   ✓ CAP-01 — consumer-level post-restart reads (rows 9/10/11, separate processes) > row 9 Watchlists: Process B reads the persisted watchlist through the real service after Process A terminated 1933ms
+   ✓ CAP-01 — consumer-level post-restart reads (rows 9/10/11, separate processes) > row 10 Collaboration: Process B reads the persisted thread and comment through the real service after Process A terminated 1001ms
+   ✓ CAP-01 — consumer-level post-restart reads (rows 9/10/11, separate processes) > row 11 Settings incl. reset: Process B reads the surviving update AND the reset-to-defaults through the real service after Process A terminated 1018ms
+ ✓ server/persistence/persistence-service.test.ts (21 tests) 16ms
+ ✓ src/features/replay/ReplayExplorer.test.tsx (12 tests) 347ms
+ ✓ src/api/reports.test.ts (13 tests) 11ms
+ ✓ src/features/evidence/EvidenceLanding.test.tsx (11 tests) 349ms
+ ✓ server/replay/replay-ui.integration.test.tsx (5 tests) 531ms
+ ✓ server/broker-import/brokerImportModalHostIntegration.test.tsx (2 tests) 377ms
+ ✓ src/features/user-portfolios/UserPortfolioList.test.tsx (10 tests) 199ms
+ ✓ server/ai-advisory-transport.test.ts (12 tests) 112ms
+ ✓ server/screener/screener-transport.test.ts (10 tests) 151ms
+ ✓ src/features/intelligence/IntelligenceOpportunities.test.tsx (11 tests) 184ms
+ ✓ src/features/intelligence/IntelligenceRisks.test.tsx (10 tests) 158ms
+ ✓ src/features/intelligence/IntelligenceRankings.test.tsx (11 tests) 164ms
+ ✓ src/api/replay.test.ts (29 tests) 20ms
+ ✓ server/engine-transport.test.ts (6 tests) 48ms
+ ✓ src/features/user-portfolios/UserPortfolioDetail.test.tsx (10 tests) 239ms
+ ✓ src/features/watchlists/Watchlists.test.tsx (10 tests) 146ms
+ ✓ server/persistence/persistence-restart-proof.test.ts (2 tests) 1784ms
+   ✓ PF-1 — separate-process restart proof (D-1 journal extension §3.8) > cycle 1: Process B recovers Process A committed state after full termination 885ms
+   ✓ PF-1 — separate-process restart proof (D-1 journal extension §3.8) > cycle 2: distinct fixture, identical recovery semantics (deterministic repeat) 899ms
+ ✓ src/features/executive/ExecutiveDashboard.test.tsx (5 tests) 215ms
+ ✓ src/features/ai-advisory/AiAdvisory.test.tsx (6 tests) 216ms
+ ✓ src/features/research/MacroContext.test.tsx (6 tests) 55ms
+ ✓ server/macro/mospi-tls.test.ts (8 tests) 11ms
+ ✓ src/features/company/CompanyIntelligence.test.tsx (6 tests) 156ms
+ ✓ src/features/broker-holdings/BrokerHoldingsPreview.test.tsx (6 tests) 171ms
+ ✓ src/features/portfolio/PortfolioWorkspace.test.tsx (7 tests) 273ms
+ ✓ src/api/brokerHoldingsPreview.test.ts (10 tests) 12ms
+ ✓ src/api/macro.test.ts (4 tests) 8ms
+ ✓ src/features/evidence/EvidenceExplorer.test.tsx (6 tests) 189ms
+ ✓ src/features/cross-sector/CrossSectorIntelligence.test.tsx (6 tests) 238ms
+ ✓ src/features/research/MacroSourceDisclosure.test.tsx (9 tests) 63ms
+ ✓ src/features/engines/EngineRegistry.test.tsx (4 tests) 113ms
+ ✓ src/features/decision-matrix/DecisionMatrix.test.tsx (6 tests) 147ms
+ ✓ server/user-portfolio-transport.test.ts (3 tests) 72ms
+ ✓ src/api/evidence.test.ts (10 tests) 7ms
+ ✓ src/components/evidence/EvidenceExplorerComponents.test.tsx (11 tests) 56ms
+ ✓ server/collaboration/collaboration-transport.test.ts (3 tests) 45ms
+ ✓ server/watchlists/watchlists-transport.test.ts (3 tests) 63ms
+ ✓ src/components/decision/DecisionComponents.test.tsx (6 tests) 101ms
+ ✓ src/components/data/DataComponents.test.tsx (8 tests) 48ms
+ ✓ src/components/interaction/InteractionComponents.test.tsx (6 tests) 136ms
+ ✓ server/settings/settings-transport.test.ts (5 tests) 49ms
+ ✓ src/components/evidence/EvidenceComponents.test.tsx (5 tests) 37ms
+ ✓ src/components/ui/Badges.test.tsx (5 tests) 31ms
+ ✓ server/executive-read.test.ts (2 tests) 45ms
+ ✓ src/core/network/noAuthFetch.test.ts (2 tests) 7ms
+ ✓ src/components/state/StateComponents.test.tsx (6 tests) 59ms
+ ✓ src/components/shell/ShellStates.test.tsx (5 tests) 85ms
+ ✓ src/components/viz/ChartFoundations.test.tsx (4 tests) 31ms
+ ✓ src/components/company/CompanyHeader.test.tsx (2 tests) 36ms
+
+ Test Files  106 passed (106)
+      Tests  1350 passed (1350)
+   Start at  19:49:56
+   Duration  89.36s (transform 2.74s, setup 10.60s, collect 7.03s, tests 36.08s, environment 19.53s, prepare 4.88s)
+
+JSON report written to /home/user/iips-review-recovered/frontend/.vitest-report.json
+--- node .ci/assert-tests.js .vitest-report.json ---
+assert-tests: OK — 106 test file(s), 1350 test(s), 0 failed
+--- npm run build ---
+
+> @iips/v3-frontend@0.1.0 prebuild
+> npm run build:broker-import
+
+
+> @iips/v3-frontend@0.1.0 build:broker-import
+> tsc -p tsconfig.broker-import.json
+
+
+> @iips/v3-frontend@0.1.0 build
+> tsc -b && vite build
+
+vite v5.4.21 building for production...
+transforming...
+✓ 142 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                     0.53 kB │ gzip:   0.33 kB
+dist/assets/index-CIWpEpGV.css      1.19 kB │ gzip:   0.61 kB
+dist/assets/index-D7KYElFH.js   1,609.84 kB │ gzip: 226.69 kB │ map: 4,928.74 kB
+✓ built in 3.23s

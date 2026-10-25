@@ -1,0 +1,61 @@
+=== 32: IPD Pin 8eec74ae27cda09f3c368b9c299895eae41554db Two-Build Determinism, Canonical Test & Package-Consumer Summary (2026-10-25 UTC) ===
+Build1 HEAD: 8eec74ae27cda09f3c368b9c299895eae41554db tree=4eba29029f8d95cfe483e615a7047426b298ce50
+Build2 HEAD: 8eec74ae27cda09f3c368b9c299895eae41554db tree=4eba29029f8d95cfe483e615a7047426b298ce50
+Deterministic dist/** comparison across 2 clean scratch checkouts: files=1140 byte_identical=True
+--- npm test in /tmp/ipd-build1 ---
+      type: 'test'
+      ...
+    # Subtest: D114-30: generates complete Stage-5 Ingestion Validation Report and verifies all governance invariants
+    ok 30 - D114-30: generates complete Stage-5 Ingestion Validation Report and verifies all governance invariants
+      ---
+      duration_ms: 1.422339
+      type: 'test'
+      ...
+    1..30
+ok 106 - WS-H / D114: Hardened 10-Year Historical Acquisition Feasibility & Evidence Suite
+  ---
+  duration_ms: 192.511463
+  type: 'suite'
+  ...
+1..106
+# tests 924
+# suites 124
+# pass 923
+# fail 0
+# cancelled 0
+# skipped 1
+# todo 0
+# duration_ms 13996.884405
+
+[test-guard] OK — 924 test(s) executed, 923 passed, exit 0
+--- npm run test:package-consumer in /tmp/ipd-build1 ---
+    "importerFiles": [
+      "frontend/server/pit/ipdPitReadAdapter.ts",
+      "frontend/server/pit/nonProductionPitStore.ts",
+      "frontend/server/pit/nonProductionRuntimePitStore.ts",
+      "frontend/server/pit/pitD114RuntimeIntegration.test.ts",
+      "frontend/server/pit/pitRuntimeIntegration.test.ts"
+    ],
+    "verbatimCopies": true,
+    "packageImportsRewritten": false,
+    "typecheck": "PASS",
+    "productionModuleRuntime": {
+      "result": "PASS",
+      "fixtureRecords": 8,
+      "combinedRecords": 20,
+      "d114ResolvedAsOf": "2026-02-10T15:30:00.000Z",
+      "invalidReason": "INVALID_IDENTITY"
+    },
+    "routeIntegrationTests": "TYPECHECK_ONLY_NOT_IRR_E2E"
+  },
+  "browser": {
+    "platform": "browser",
+    "bytes": 1729700,
+    "forbiddenHits": []
+  },
+  "typecheck": {
+    "strict": true,
+    "skipLibCheck": false,
+    "result": "PASS"
+  }
+}
