@@ -1,0 +1,189 @@
+CAP-03 DQ-4 PR #274 post-merge remote read-back
+Repository: ramkivs/iips-review-recovered
+
+=== GitHub PR read-back ===
+{
+  "additions": 58266,
+  "baseRefName": "main",
+  "changedFiles": 59,
+  "deletions": 27,
+  "headRefName": "arena/79e4e224-iips-review-recovered",
+  "headRefOid": "c06422581782176268f19eed6c776a8634b7cfea",
+  "mergeCommit": {
+    "oid": "907e1fdac76612c9e171774aab079b4862d35ef2"
+  },
+  "mergedAt": "2026-10-25T14:45:50Z",
+  "number": 274,
+  "state": "MERGED",
+  "statusCheckRollup": [
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-25T14:45:37Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/ramkivs/iips-review-recovered/actions/runs/40203597092/job/121199738025",
+      "name": "Typecheck \u00b7 Test \u00b7 Build",
+      "startedAt": "2026-10-25T14:43:48Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    }
+  ],
+  "title": "Reconcile CAP-03 DQ-4 primary pin",
+  "url": "https://github.com/ramkivs/iips-review-recovered/pull/274"
+}
+
+=== Remote refs (git ls-remote) ===
+c06422581782176268f19eed6c776a8634b7cfea	refs/heads/arena/79e4e224-iips-review-recovered
+907e1fdac76612c9e171774aab079b4862d35ef2	refs/heads/main
+
+=== GitHub merge-commit API ===
+{"message":"Merge pull request #274 from ramkivs/arena/79e4e224-iips-review-recovered\n\nReconcile CAP-03 DQ-4 primary pin","parents":["445f0f5813040ef5641af0f7e0556713629ce67a","c06422581782176268f19eed6c776a8634b7cfea"],"sha":"907e1fdac76612c9e171774aab079b4862d35ef2","tree":"0ad2ad717cdf63a9b675045e0049e8d5d1e4bac0","verification_reason":"valid","verified":true}
+
+=== Fetched merge object ===
+commit=907e1fdac76612c9e171774aab079b4862d35ef2
+tree=0ad2ad717cdf63a9b675045e0049e8d5d1e4bac0
+parents=445f0f5813040ef5641af0f7e0556713629ce67a c06422581782176268f19eed6c776a8634b7cfea
+subject=Merge pull request #274 from ramkivs/arena/79e4e224-iips-review-recovered
+committerdate=2026-10-25T20:15:50+05:30
+
+=== Hosted CI ===
+PR #274 exact-head run:
+{
+  "conclusion": "success",
+  "createdAt": "2026-10-25T14:43:46Z",
+  "databaseId": 40203597092,
+  "event": "pull_request",
+  "headSha": "c06422581782176268f19eed6c776a8634b7cfea",
+  "jobs": [
+    {
+      "completedAt": "2026-10-25T14:45:37Z",
+      "conclusion": "success",
+      "databaseId": 121199738025,
+      "name": "Typecheck \u00b7 Test \u00b7 Build",
+      "startedAt": "2026-10-25T14:43:48Z",
+      "status": "completed",
+      "url": "https://github.com/ramkivs/iips-review-recovered/actions/runs/40203597092/job/121199738025"
+    }
+  ],
+  "status": "completed",
+  "updatedAt": "2026-10-25T14:45:37Z",
+  "url": "https://github.com/ramkivs/iips-review-recovered/actions/runs/40203597092",
+  "workflowName": "CI"
+}
+post-merge main run:
+{
+  "conclusion": "success",
+  "createdAt": "2026-10-25T14:45:53Z",
+  "databaseId": 40203762973,
+  "event": "push",
+  "headSha": "907e1fdac76612c9e171774aab079b4862d35ef2",
+  "jobs": [
+    {
+      "completedAt": "2026-10-25T14:47:45Z",
+      "conclusion": "success",
+      "databaseId": 121200229539,
+      "name": "Typecheck \u00b7 Test \u00b7 Build",
+      "startedAt": "2026-10-25T14:45:56Z",
+      "status": "completed",
+      "url": "https://github.com/ramkivs/iips-review-recovered/actions/runs/40203762973/job/121200229539"
+    }
+  ],
+  "status": "completed",
+  "updatedAt": "2026-10-25T14:47:45Z",
+  "url": "https://github.com/ramkivs/iips-review-recovered/actions/runs/40203762973",
+  "workflowName": "CI"
+}
+
+=== GitHub recursive Git Trees API vs fetched merge tree: all 59 changed paths ===
+tree=0ad2ad717cdf63a9b675045e0049e8d5d1e4bac0 truncated=False entries=1986
+changed_paths=59
+MATCH	IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md	blob=c069fc95744dee24d2a8664348c0e4699b1d6130	size=2161771	sha256=c1f95fdbb59b67dc2921c77eb39f824cc6acc7c1541c0911494438bcab510b55	github_blob=c069fc95744dee24d2a8664348c0e4699b1d6130	github_size=2161771
+MATCH	docs/OPERATOR_RUNBOOK.md	blob=e94d2b801967fc50093f27177cd19276b51faf97	size=20465	sha256=e4761f9b5a00b321c5f3f7e89333b8e8e6998db1e991226b313ad509396e9466	github_blob=e94d2b801967fc50093f27177cd19276b51faf97	github_size=20465
+MATCH	docs/integration/IIPS_v3.0_CAP03_DQ4_PIN_RECONCILIATION_AND_FREEZE_READINESS_2026-10-25.md	blob=66784097e6ef8335a88eb8810b633d6b3a4ed781	size=21082	sha256=185bfbc71b4753ea2e1dc48282fde4010b1d789c35abe001365eb101d67e5c64	github_blob=66784097e6ef8335a88eb8810b633d6b3a4ed781	github_size=21082
+MATCH	evidence/integration/cap03-dq4-pin-reconciliation-2026-10-25/00-irr-npm-ci-baseline.txt	blob=402a2110215ccf8c793fd5fb1e9af9fcadf03dfa	size=1123	sha256=1f89f2b8c2a439f480e24df9724ffa7fad5ea8504e6667985ed8a25f542092c7	github_blob=402a2110215ccf8c793fd5fb1e9af9fcadf03dfa	github_size=1123
+MATCH	evidence/integration/cap03-dq4-pin-reconciliation-2026-10-25/01-irr-focused-user-portfolio-baseline.txt	blob=51381e3e31252ca58641be105fff55f5e8bed503	size=1219	sha256=0ab8834b33677b34871350892b339ca03d9a445b2cfa70bb13d9b1bad4c34e6d	github_blob=51381e3e31252ca58641be105fff55f5e8bed503	github_size=1219
+MATCH	evidence/integration/cap03-dq4-pin-reconciliation-2026-10-25/02-irr-package-broker-pit-reports-baseline.txt	blob=1d3482034c99cc3a49f9469e158ea0536df2e961	size=1904	sha256=f7924d306efb98514195452a54efe4f78a414a21458860bbac159477741a01f8	github_blob=1d3482034c99cc3a49f9469e158ea0536df2e961	github_size=1904
+MATCH	evidence/integration/cap03-dq4-pin-reconciliation-2026-10-25/03-irr-typecheck-baseline.txt	blob=6a0ded903c7e74e539affd8e82777e7591839488	size=262	sha256=97a8ed374f5770c865d2a3486697f64ec90ca6aab8c07870fab76dc0763576d8	github_blob=6a0ded903c7e74e539affd8e82777e7591839488	github_size=262
+MATCH	evidence/integration/cap03-dq4-pin-reconciliation-2026-10-25/04-irr-typecheck-replay-baseline.txt	blob=743378277f38f59edd5bc9fed64fc31eeddc07b2	size=165	sha256=9943911826f07690177e4b9afa87ecfd4abc15cb3a47e9589803e5b3671e2fee	github_blob=743378277f38f59edd5bc9fed64fc31eeddc07b2	github_size=165
+MATCH	evidence/integration/cap03-dq4-pin-reconciliation-2026-10-25/05-irr-build-baseline.txt	blob=39bd5487cc265f05cca804a823b3845c8ea945f9	size=950	sha256=db134ff4e5eecbc5bbf1a84ae8bbb701d41bbdaa518718f8ae8cbee4a06cbf5a	github_blob=39bd5487cc265f05cca804a823b3845c8ea945f9	github_size=950
+MATCH	evidence/integration/cap03-dq4-pin-reconciliation-2026-10-25/06-irr-full-test-ci-baseline.txt	blob=fa47be2c730bceaa875d78a9a659e9b32298fcae	size=53911	sha256=d27689bf9749258b3b1dcf95145d48a71f28dfe283a1444cf9b6a55b7f6dc2f3	github_blob=fa47be2c730bceaa875d78a9a659e9b32298fcae	github_size=53911
+MATCH	evidence/integration/cap03-dq4-pin-reconciliation-2026-10-25/07-irr-test-report-guard-baseline.txt	blob=72deeb79d503b3f297c3f98bc233de1fcb10c3d4	size=142	sha256=51dfdd298c905c3e4c28a85c10d899fd6e2af8f6200b816a4d05cd97c60c2dbb	github_blob=72deeb79d503b3f297c3f98bc233de1fcb10c3d4	github_size=142
+MATCH	evidence/integration/cap03-dq4-pin-reconciliation-2026-10-25/08-irr-direct-strict-tsc-baseline.txt	blob=452ae83014dd6e7d95f9c1414dd8262847bdd575	size=280	sha256=4c89de386428c85cb6d8f926feea171de0e0086eb80be8ccd790b836dfeca0a0	github_blob=452ae83014dd6e7d95f9c1414dd8262847bdd575	github_size=280
+MATCH	evidence/integration/cap03-dq4-pin-reconciliation-2026-10-25/10-ipd-npm-ci-current-main.txt	blob=f8f521301d4988347ff0b066febf786b1b132ba6	size=884	sha256=95241ed43dad74eef8ef5166afdf123cc0af944c114be0c59a00f06de92bc97a	github_blob=f8f521301d4988347ff0b066febf786b1b132ba6	github_size=884
+MATCH	evidence/integration/cap03-dq4-pin-reconciliation-2026-10-25/11-ipd-typecheck-current-main.txt	blob=c86f3d86fd5ee550075e8d290c055530d73ca3ce	size=185	sha256=865f18e7e1b4c0610902601cfdc5ae71ab5e37de464e44d2c5c4451dad42f446	github_blob=c86f3d86fd5ee550075e8d290c055530d73ca3ce	github_size=185
+MATCH	evidence/integration/cap03-dq4-pin-reconciliation-2026-10-25/12-ipd-build-current-main.txt	blob=52c831c7712636105287a88aadd683782ae4ee9d	size=1278	sha256=92aeddd69b547a5ab73ac698fe615957c5dc21a4a9e3b061afee9b65d24bd702	github_blob=52c831c7712636105287a88aadd683782ae4ee9d	github_size=1278
+MATCH	evidence/integration/cap03-dq4-pin-reconciliation-2026-10-25/13-ipd-q1-current-main.txt	blob=d82fd4a33a95b83b8ef73c59e6289da8a1883acb	size=8263	sha256=7d8501f3521e2f183770894735d9599745fcbfdf467864d9f9fffae5db9f6490	github_blob=d82fd4a33a95b83b8ef73c59e6289da8a1883acb	github_size=8263
+MATCH	evidence/integration/cap03-dq4-pin-reconciliation-2026-10-25/14-ipd-package-consumer-current-main.txt	blob=67616808e6703d5886a046b99cc080c7b55ce06e	size=2991	sha256=44aa1b8b62b90812f6df660ab4dd6ca7440c37e823abb3670406a257f146c1a6	github_blob=67616808e6703d5886a046b99cc080c7b55ce06e	github_size=2991
+MATCH	evidence/integration/cap03-dq4-pin-reconciliation-2026-10-25/15-ipd-full-test-current-main.txt	blob=7e1d362c2fe9143ec6f08e8b6fa82e99158e28d9	size=4111967	sha256=42cb6c1819da9a3234eba6dc64e2762664ff6c212e813d90a3f6f2c7d2552d82	github_blob=7e1d362c2fe9143ec6f08e8b6fa82e99158e28d9	github_size=4111967
+MATCH	evidence/integration/cap03-dq4-pin-reconciliation-2026-10-25/16-cross-repo-harness-compile-current.txt	blob=f0db2c3ffe1a5548736af2e788a494c3b9eba90d	size=288	sha256=9a633d8885e2c0b2637459bd066fd304cb220d1e0bd278ea42875a2d22e864d9	github_blob=f0db2c3ffe1a5548736af2e788a494c3b9eba90d	github_size=288
+MATCH	evidence/integration/cap03-dq4-pin-reconciliation-2026-10-25/17-cross-repo-harness-first-invocation-setup-failure.txt	blob=03d02422792c0b975b264e78b33893eff293da8d	size=661	sha256=eb422e73e1ecc2d471b69fac3473437e46393638540d98b91bccb87f2bad8dc2	github_blob=03d02422792c0b975b264e78b33893eff293da8d	github_size=661
+MATCH	evidence/integration/cap03-dq4-pin-reconciliation-2026-10-25/18-cross-repo-harness-current.txt	blob=7dff45b1774f09b5995bf1b25596e66198ad85d4	size=2253	sha256=f0731b00378ad0b2744ca9c90c8d35495270a25692e77c0fe625c2db5af37985	github_blob=7dff45b1774f09b5995bf1b25596e66198ad85d4	github_size=2253
+MATCH	evidence/integration/cap03-dq4-pin-reconciliation-2026-10-25/19-cross-repo-harness-current.mjs	blob=5a898d369a039e093ebccbf251bfe11cd214b70b	size=15512	sha256=f077e6b470d44e83495f8233cd88616182502952b4cedd0298726de065727002	github_blob=5a898d369a039e093ebccbf251bfe11cd214b70b	github_size=15512
+MATCH	evidence/integration/cap03-dq4-pin-reconciliation-2026-10-25/20-candidate-both-8eec-npm-install.txt	blob=1ef664e427b2594d0bd86997bde689e430a63bb7	size=1151	sha256=2e76af509d3c30a1f90b3ecd13bd77c911f620e6c9ec0f97841153356b84f457	github_blob=1ef664e427b2594d0bd86997bde689e430a63bb7	github_size=1151
+MATCH	evidence/integration/cap03-dq4-pin-reconciliation-2026-10-25/21-candidate-both-8eec-focused-before-guard-update.txt	blob=2ac312b5ccebe687f5494ded23118615a02721ef	size=1412	sha256=97763301d662361ba4b2b7fefe52d31577f6a60937ed547d411951517ab25458	github_blob=2ac312b5ccebe687f5494ded23118615a02721ef	github_size=1412
+MATCH	evidence/integration/cap03-dq4-pin-reconciliation-2026-10-25/22-candidate-primary-8eec-npm-install.txt	blob=ff5f5d569ca7aab447727f0de88eb9ebc86e2ec2	size=774	sha256=bf381454a899edd18a6d8cf6f967632a63b6bec5068a20e7e94f9b42366badb2	github_blob=ff5f5d569ca7aab447727f0de88eb9ebc86e2ec2	github_size=774
+MATCH	evidence/integration/cap03-dq4-pin-reconciliation-2026-10-25/23-candidate-primary-8eec-focused-before-guard-update.txt	blob=db13428adce8013650e0ea4b69e16c9acabb5c9a	size=5407	sha256=5232174f5d5a9ad51c13bf5407cab676564428b383a9819d370650f428c628bb	github_blob=db13428adce8013650e0ea4b69e16c9acabb5c9a	github_size=5407
+MATCH	evidence/integration/cap03-dq4-pin-reconciliation-2026-10-25/24-candidate-primary-8eec-focused-after-guard-update.txt	blob=d5bb52de4a41d5917cfa8b2ef85be7bab4ee500e	size=2811	sha256=30be178ab0f4ac838f2d8460c9c3b28d61447fb568d783785a27ee97fcb1dcfe	github_blob=d5bb52de4a41d5917cfa8b2ef85be7bab4ee500e	github_size=2811
+MATCH	evidence/integration/cap03-dq4-pin-reconciliation-2026-10-25/25-candidate-primary-8eec-typecheck.txt	blob=85f185c5e4b84a48cf7b1415450b45c4a549b2be	size=442	sha256=e289df286dd2e82e274f4d5388155fceed3bcf328b2955c80d9c757ccfd905da	github_blob=85f185c5e4b84a48cf7b1415450b45c4a549b2be	github_size=442
+MATCH	evidence/integration/cap03-dq4-pin-reconciliation-2026-10-25/26-candidate-primary-8eec-typecheck-replay.txt	blob=03ace579bc8dc3907471851bcdaaaccc3364e432	size=345	sha256=164dad74ce10494cbf3e10ea4b910b7d50fc5713efb3ba096bcf3e4c95222bda	github_blob=03ace579bc8dc3907471851bcdaaaccc3364e432	github_size=345
+MATCH	evidence/integration/cap03-dq4-pin-reconciliation-2026-10-25/27-candidate-primary-8eec-build.txt	blob=219d36b580b2a56cedfa75efe9f92ef892f3bc7a	size=1130	sha256=da34225694aa108cb04b8c1808050d8298c94e89fe46f00ed829cc257b2af8aa	github_blob=219d36b580b2a56cedfa75efe9f92ef892f3bc7a	github_size=1130
+MATCH	evidence/integration/cap03-dq4-pin-reconciliation-2026-10-25/28-candidate-primary-8eec-full-test-ci.txt	blob=aa80988dfeef3d267d719e5cba1716b83d840792	size=53958	sha256=82922cc1d091d8bbfd55b45c2b196cc81792b413752df1ed4cf42745751ccccf	github_blob=aa80988dfeef3d267d719e5cba1716b83d840792	github_size=53958
+MATCH	evidence/integration/cap03-dq4-pin-reconciliation-2026-10-25/29-candidate-primary-8eec-test-report-guard.txt	blob=ecd1a94f218a803ced663415f77f1adb5080af44	size=128	sha256=b35a03e8387e6aa1e883d0a7637722c5c92c349852d4245531803bfae644eae9	github_blob=ecd1a94f218a803ced663415f77f1adb5080af44	github_size=128
+MATCH	evidence/integration/cap03-dq4-pin-reconciliation-2026-10-25/30-candidate-primary-8eec-direct-strict-tsc.txt	blob=bfa758f6b091dd3d4d279b63f34d332d3481c2bf	size=266	sha256=ba5641ffcc50c65abcbee4412d355cd7edfef6ac977dfe878e75cf42d6dcbdbf	github_blob=bfa758f6b091dd3d4d279b63f34d332d3481c2bf	github_size=266
+MATCH	evidence/integration/cap03-dq4-pin-reconciliation-2026-10-25/31-actual-branch-primary-8eec-npm-install.txt	blob=15ba25d53d16f17641416c7d349328d22727d622	size=778	sha256=9e0e7d89310e1c1cbc25e0b6c3cd3902a3decd289d1af8da1b88595b7c459872	github_blob=15ba25d53d16f17641416c7d349328d22727d622	github_size=778
+MATCH	evidence/integration/cap03-dq4-pin-reconciliation-2026-10-25/32-actual-branch-focused.txt	blob=4a7ae95a4fe0fad8486ba4b296df570aa7ec7561	size=5377	sha256=d002307c61e2b9af0b035a9dbdfc86b0899cda6535c077c2b3c2cc188c798246	github_blob=4a7ae95a4fe0fad8486ba4b296df570aa7ec7561	github_size=5377
+MATCH	evidence/integration/cap03-dq4-pin-reconciliation-2026-10-25/33-actual-branch-typecheck.txt	blob=ebbdb8755aacc85648df28719da1487654ab2dd7	size=383	sha256=9fbfd9e47e164b940f87f854b0cf38fc571b5450906fc636611caef5d713c2ab	github_blob=ebbdb8755aacc85648df28719da1487654ab2dd7	github_size=383
+MATCH	evidence/integration/cap03-dq4-pin-reconciliation-2026-10-25/34-actual-branch-typecheck-replay.txt	blob=6c5718da790776e1670feacc896923c367fa6726	size=286	sha256=5daccd0e55f4f8b40242e913b23240e411ec4f4d5d71cf680fa629a849c2c101	github_blob=6c5718da790776e1670feacc896923c367fa6726	github_size=286
+MATCH	evidence/integration/cap03-dq4-pin-reconciliation-2026-10-25/35-actual-branch-build.txt	blob=b03687c188c0e55c737b9aa198ea6c97f33024e7	size=1071	sha256=ec7bd37fd5e3b8ceda0f84195f5fda8e683a0881a10caa7f7ba713f90e5e9220	github_blob=b03687c188c0e55c737b9aa198ea6c97f33024e7	github_size=1071
+MATCH	evidence/integration/cap03-dq4-pin-reconciliation-2026-10-25/36-actual-branch-full-test-ci.txt	blob=9e3189e9c81b0e74aa187a4b7de918a0ad577fab	size=56537	sha256=37b289cb049b962bdfab34925baa105651b9bdddaafa6b0f3e997156b5368fec	github_blob=9e3189e9c81b0e74aa187a4b7de918a0ad577fab	github_size=56537
+MATCH	evidence/integration/cap03-dq4-pin-reconciliation-2026-10-25/37-actual-branch-test-report-guard.txt	blob=f08bab2698251a3b6314b6525b313fd1ca8fcb05	size=264	sha256=e42196c7e51a16f6302076bd10cc03e353bc187a6e3af3ee5e80ed32bbc0198c	github_blob=f08bab2698251a3b6314b6525b313fd1ca8fcb05	github_size=264
+MATCH	evidence/integration/cap03-dq4-pin-reconciliation-2026-10-25/38-actual-branch-direct-strict-tsc.txt	blob=aca526e3f8e72e099f1bae776e070372f755395f	size=401	sha256=a005366384d12a35752cea44cbaab0c143e704f52db35d6d33cf1cac629b0fd2	github_blob=aca526e3f8e72e099f1bae776e070372f755395f	github_size=401
+MATCH	evidence/integration/cap03-dq4-pin-reconciliation-2026-10-25/39-actual-branch-first-attempt-correction-note.txt	blob=7580cfaabf01537b65132b040aae6484d55dc9c8	size=983	sha256=3e0a50773de19e97b2c6132e6f0d8a6be91b11626877f09ff11764fdb08c6851	github_blob=7580cfaabf01537b65132b040aae6484d55dc9c8	github_size=983
+MATCH	evidence/integration/cap03-dq4-pin-reconciliation-2026-10-25/40-actual-branch-focused-corrected.txt	blob=5792f6ff647d8e81bcac7a94030241d061ea56b9	size=2772	sha256=8f46367d731147126e059b639e801ec8e20a7ba926ad18beea5030d1d1195604	github_blob=5792f6ff647d8e81bcac7a94030241d061ea56b9	github_size=2772
+MATCH	evidence/integration/cap03-dq4-pin-reconciliation-2026-10-25/41-actual-branch-typecheck-corrected.txt	blob=becfad6f8d6bdc730d56a684fd41d3a3f6571efa	size=401	sha256=eaed10ea2c533be08374e9353070a4175c73b8fc75b940b42cba16526170936c	github_blob=becfad6f8d6bdc730d56a684fd41d3a3f6571efa	github_size=401
+MATCH	evidence/integration/cap03-dq4-pin-reconciliation-2026-10-25/42-actual-branch-typecheck-replay-corrected.txt	blob=45563b720ab8774b8942372ef674d82d3ffdac7c	size=304	sha256=980e3321dd053efc42eac10bf03051d913c630ca2a7304239fa51a2c7483226f	github_blob=45563b720ab8774b8942372ef674d82d3ffdac7c	github_size=304
+MATCH	evidence/integration/cap03-dq4-pin-reconciliation-2026-10-25/43-actual-branch-build-corrected.txt	blob=dfb5bd14bf3f5fad60132109eb79e1ec06d806b6	size=1089	sha256=7d8aff90e07b605c1326e66056f8d5e712ecd7187baed1ffc48f9e8d913e5c74	github_blob=dfb5bd14bf3f5fad60132109eb79e1ec06d806b6	github_size=1089
+MATCH	evidence/integration/cap03-dq4-pin-reconciliation-2026-10-25/44-actual-branch-full-test-ci-corrected.txt	blob=a65a97e6dff3642c16c4d71e518346d10a9e083a	size=53926	sha256=78612a165960c8b4638163bf724e844a4db9f7fb42e2da76fb017e362a33a383	github_blob=a65a97e6dff3642c16c4d71e518346d10a9e083a	github_size=53926
+MATCH	evidence/integration/cap03-dq4-pin-reconciliation-2026-10-25/45-actual-branch-test-report-guard-corrected.txt	blob=4ebdcb5a1297c2b47a56bc913bb292e7943dcf5d	size=281	sha256=1a788d2d0c474eb237571a48610099dfa049421480921508da3206f37be188f7	github_blob=4ebdcb5a1297c2b47a56bc913bb292e7943dcf5d	github_size=281
+MATCH	evidence/integration/cap03-dq4-pin-reconciliation-2026-10-25/46-actual-branch-direct-strict-tsc-corrected.txt	blob=07a636b4db666f851bb7f2b8dad6259b206b7645	size=419	sha256=09075cfc0ee95c1f2d358a00786b7a19ca36a01577e09b08a8d6c4b29d31bc53	github_blob=07a636b4db666f851bb7f2b8dad6259b206b7645	github_size=419
+MATCH	evidence/integration/cap03-dq4-pin-reconciliation-2026-10-25/47-pin-semantics-and-diff-census.txt	blob=5e40ba973cadf5453d2bc3f2a15dff24bbe43621	size=8055	sha256=874b751dd7eb8d9a89539b6f004c8e2b5976543dfc4a81b12c35e6eae8f2294a	github_blob=5e40ba973cadf5453d2bc3f2a15dff24bbe43621	github_size=8055
+MATCH	evidence/integration/cap03-dq4-pin-reconciliation-2026-10-25/48-remote-revalidation-before-record.txt	blob=ece57b6e0d6573d2d3a768569469d245b80b984e	size=1031	sha256=2de82e0347e1b9bb7b4ab81c0275ec6db5af28f19caa876540e20d6ed958e2a2	github_blob=ece57b6e0d6573d2d3a768569469d245b80b984e	github_size=1031
+MATCH	evidence/integration/cap03-dq4-pin-reconciliation-2026-10-25/49-actual-branch-post-comment-focused.txt	blob=91b56753fe540ee3ec336002437a80f6b59d79ea	size=1070	sha256=998b5c72c56fa8f21867cbd91cffe7d594eb63584c6f665c462a61c71ea591ed	github_blob=91b56753fe540ee3ec336002437a80f6b59d79ea	github_size=1070
+MATCH	evidence/integration/cap03-dq4-pin-reconciliation-2026-10-25/50-actual-branch-post-comment-typecheck.txt	blob=ed092a3393382c84cc5a8f190cafc02f265db5b7	size=297	sha256=ae50d19e3ac692af234df6f4e39874e9b6eb8745d4fb0aad605be1091bd0c722	github_blob=ed092a3393382c84cc5a8f190cafc02f265db5b7	github_size=297
+MATCH	frontend/package-lock.json	blob=744355e903135fc3ebc0f75b0e122bdf1bbc8358	size=128442	sha256=a058ab8f9681d66f46f8fab82b5c89496a74e2ad0432492f5e2cf9ec1aa530ae	github_blob=744355e903135fc3ebc0f75b0e122bdf1bbc8358	github_size=128442
+MATCH	frontend/package.json	blob=83058ea202ece8ec60b2674b05b7532ce9a8684b	size=1888	sha256=11a0db72ea9ad5762ce8cc2bcbde7993a4fdac7a92135f94893200209957cfc9	github_blob=83058ea202ece8ec60b2674b05b7532ce9a8684b	github_size=1888
+MATCH	frontend/server/broker-import/brokerImportPackageConsumer.test.ts	blob=0a1e58de96fae755a4d054e2aa319ab51e2caba3	size=18716	sha256=d55e6a1d4f7872dd9c8bba0f51ea2b6939da21d40cac4261dacaac50013746ce	github_blob=0a1e58de96fae755a4d054e2aa319ab51e2caba3	github_size=18716
+MATCH	frontend/server/reports/persistence-port.ts	blob=20299f301382fa8a55b3a5eb4a894ce6be865544	size=16760	sha256=4f20a03ce5bd908938fbf53ae9e156cc434ed0b17ee4a6b82548d19ca41ad1f9	github_blob=20299f301382fa8a55b3a5eb4a894ce6be865544	github_size=16760
+MATCH	frontend/server/reports/reports-persistence-integration.test.ts	blob=4f6024f0ca13f4552507b69e8e1d8224188de6d3	size=8500	sha256=ab27128e96fcb04efff9a61db943c62cf0835388f29913dee7e6a03db24d96e7	github_blob=4f6024f0ca13f4552507b69e8e1d8224188de6d3	github_size=8500
+MATCH	frontend/src/api/brokerImport.ts	blob=ae4e17045933b00237da2f06cedd85bf9edf05d5	size=17518	sha256=bac23564467f7185193a08c994b431edc4a30b4b9b0d93f9faf28d167dac5709	github_blob=ae4e17045933b00237da2f06cedd85bf9edf05d5	github_size=17518
+changed_path_mismatches=0
+
+=== Frozen/unchanged key paths: base vs merge and GitHub tree ===
+MATCH	frontend/server/user-portfolio/ipcPortAdapter.ts	base_blob=1e20e98023f20f80ed61d8d32d070fdde677d3c7	merge_blob=1e20e98023f20f80ed61d8d32d070fdde677d3c7	github_blob=1e20e98023f20f80ed61d8d32d070fdde677d3c7	size=27511	sha256=8c394c33af889f4045bb54d412f82aa2bfcb32d55140804157511fc0148540f3
+MATCH	frontend/server/user-portfolio/ipcPortAdapter.test.ts	base_blob=46243a7a79ba3b19cd4d2b8a56df8905aba220f8	merge_blob=46243a7a79ba3b19cd4d2b8a56df8905aba220f8	github_blob=46243a7a79ba3b19cd4d2b8a56df8905aba220f8	size=45566	sha256=eeb12462dd2c78a945796420b87dc950fa9eb66a91bdd91305ca98350c0146af
+MATCH	frontend/server/user-portfolio/userPortfolioContract.ts	base_blob=e6b57bb8a021d8eb4b9b7572d12affc7de66be0b	merge_blob=e6b57bb8a021d8eb4b9b7572d12affc7de66be0b	github_blob=e6b57bb8a021d8eb4b9b7572d12affc7de66be0b	size=31585	sha256=15568224c49f09bb5728831e0e9c7faeee58687b9299470e0c9bd8f8f0a12d4e
+MATCH	frontend/server/user-portfolio/ipcClient.ts	base_blob=c1b885e3173132685090bcd2cbfa4aa8c87fa4ca	merge_blob=c1b885e3173132685090bcd2cbfa4aa8c87fa4ca	github_blob=c1b885e3173132685090bcd2cbfa4aa8c87fa4ca	size=26182	sha256=144b31d8c24e1d4085b5deb592ddb23b26e04ee333d8449063ae0655a4a25644
+MATCH	frontend/server/user-portfolio/userPortfolioPort.ts	base_blob=ba0001e88c83b070e4f16a3cdb35d34c82ec0200	merge_blob=ba0001e88c83b070e4f16a3cdb35d34c82ec0200	github_blob=ba0001e88c83b070e4f16a3cdb35d34c82ec0200	size=4501	sha256=1cafe6c2cfbcf6938bcbd0f9b3b764a983c51d06f19c7db088200d1cb9928e9a
+MATCH	frontend/server/user-portfolio-transport.ts	base_blob=51704c12a467cd2f718a030b5036bc55c9afa73f	merge_blob=51704c12a467cd2f718a030b5036bc55c9afa73f	github_blob=51704c12a467cd2f718a030b5036bc55c9afa73f	size=2716	sha256=515acaae95cdf1d41c72ca040fbbc855ccb28da16a6b2122c1c1ad2225573bb0
+MATCH	frontend/server/owner-context-unavailable.ts	base_blob=cb8db45d668d28cee7e0a52721001d579a872733	merge_blob=cb8db45d668d28cee7e0a52721001d579a872733	github_blob=cb8db45d668d28cee7e0a52721001d579a872733	size=684	sha256=57e397d44e2a1e2e2c0d5a456a1ad419d5a5728e4a76aaa73bf71d10a164a913
+MATCH	frontend/tsconfig.broker-import.json	base_blob=a339c9c4def365f0b80295bb32ad74cf2f95a9bd	merge_blob=a339c9c4def365f0b80295bb32ad74cf2f95a9bd	github_blob=a339c9c4def365f0b80295bb32ad74cf2f95a9bd	size=1005	sha256=024f343b995bf14dac77703a5932c5d169b641958341240d6d891092d3fd4fda
+MATCH	docs/integration/IIPS_v3.0_CAP03_ONE_PASS_PA_DECISION_AND_IRR_EXECUTION_2026-10-25.md	base_blob=624632bb022c147e7df477a7d77d96793d484035	merge_blob=624632bb022c147e7df477a7d77d96793d484035	github_blob=624632bb022c147e7df477a7d77d96793d484035	size=30623	sha256=109e7987111d2d3602e29074d2f6d5f17835d86ef0d70be8f998893d2fbd2d19
+frozen_path_mismatches=0
+
+=== Current pin strings at merge commit ===
+iips-production-market-data=github:ramkivs/iips-production-market-data#8eec74ae27cda09f3c368b9c299895eae41554db
+iips-broker-import=github:ramkivs/iips-production-market-data#70b24f029842a7e9b7f615e4d9df7376fd4ff817
+iips-np04-governed-persistence=github:ramkivs/iips-production-market-data#2e11fa3b689d1a3674a5e4ba1f1de9a559e20494
+
+=== Repository/PR/protection state at read-back ===
+IRR open PRs before receipt PR: []
+IRR repo merge settings: {"defaultBranchRef":{"name":"main"},"deleteBranchOnMerge":false,"mergeCommitAllowed":true,"rebaseMergeAllowed":true,"squashMergeAllowed":true}
+IRR branch API: {"commit":"907e1fdac76612c9e171774aab079b4862d35ef2","name":"main","protected":false}
+IRR rulesets: []
+IRR branch-protection endpoint exit=1 stdout={"message":"Resource not accessible by integration","documentation_url":"https://docs.github.com/rest/branches/branch-protection#get-branch-protection","status":"403"} stderr=gh: Resource not accessible by integration (HTTP 403)
+
+=== IPD remote state at read-back (read-only) ===
+IPD remote main: 8eec74ae27cda09f3c368b9c299895eae41554db	refs/heads/main
+IPD open PRs: []
+IPD latest main run: [{"conclusion":"success","createdAt":"2026-10-25T13:10:32Z","databaseId":40196407747,"headSha":"8eec74ae27cda09f3c368b9c299895eae41554db","status":"completed","url":"https://github.com/ramkivs/iips-production-market-data/actions/runs/40196407747","workflowName":"CI"}]
+
+RESULT: PASS — PR #274 merge/tree/read-back independently verified.
