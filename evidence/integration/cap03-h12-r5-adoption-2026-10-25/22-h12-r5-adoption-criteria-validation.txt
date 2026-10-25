@@ -1,0 +1,8 @@
+=== H-12 R5 Adoption-Criteria Validation Report (2026-10-25 UTC) ===
+[A] Baseline R5 validator output: CHECKS 981 FAILS 0
+[C] Verified 32/32 IPD + 24/24 IRR = 56/56 PRESENT entries at designated pins AND live origin/main (IPD c6b540af, IRR ac6d45b6).
+[D] Verified conditional helper (1), criteria_basis (9), G3 anchors (10+10; changed=['frontend/src/features/portfolio/portfolioStorePort.ts', 'package.json', '.github/workflows/ci.yml']), historical Gate C (17), split_baseline (14; 4 divergent).
+[E] Verified DQ-6b element 6 IPD mirror receipt (3430df5ec1c10cf5cab8b764577aae2a3503d09b, 14,292 B): 6/6 COMPLETE.
+[F] Verified G4-AMEND-01 supplemental sets: 7/7 post-G3 CAP-02 entries, 11/11 companion guards, 1,140/1,140 deterministic dist/** files, evidence_deposit_set ABSENT_PENDING_EXECUTION.
+[G] Verified Gate 4 Act §3.2 four-part commit rule across all designated coordinates.
+ADOPTION_CRITERIA_CHECKS 1606 FAILS 0

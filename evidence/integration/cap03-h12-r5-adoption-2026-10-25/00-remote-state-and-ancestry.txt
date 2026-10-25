@@ -1,0 +1,50 @@
+=== 00: Remote State, Coordinates, Ancestry & Drift Verification (2026-10-25 UTC) ===
+IRR is-shallow=false ls-remote=ac6d45b695bf9b79c0ec7af7d4656dc914ffccb2 origin/main=ac6d45b695bf9b79c0ec7af7d4656dc914ffccb2 tree=0aadf7b3056ce50c66484505d88dc15760408ab6 open_PRs=0
+IPD is-shallow=false ls-remote=c6b540afd1fd3da5f18d029a54d1d89331916ead origin/main=c6b540afd1fd3da5f18d029a54d1d89331916ead tree=b18b5d8d2fbd5bf11a174f0e5578314ead5cbf76 open_PRs=0
+IPD_primary: commit=8eec74ae27cda09f3c368b9c299895eae41554db tree=4eba29029f8d95cfe483e615a7047426b298ce50 tree_match=True ancestor_of_main=True behind_main=4 parent_count=2
+IPD_alias: commit=70b24f029842a7e9b7f615e4d9df7376fd4ff817 tree=cc0f0117822850f9046e9a51bd05c1d45f80cd57 tree_match=True ancestor_of_main=True behind_main=218 parent_count=2
+IRR_consumer: commit=ba64b2d5927c2f872560710cf1474c25a5cde0d5 tree=5e4262f1cd75bf13b76ced5b45058f31434b5dad tree_match=True ancestor_of_main=True behind_main=4 parent_count=2
+IPD_G3_anchor: commit=1cceacfff40f22dbc9cd64906bf26a5feac1075e tree=b2dd2debb295fa28bda7efdd70a66b4cfe9337a9 tree_match=True ancestor_of_main=True behind_main=98 parent_count=2
+IPD_GateC_historical: commit=cec7080252183a6a5332efe351e61c254d342a2d tree=22a7438bc41e5b9853700c5a3737702898da8c53 tree_match=True
+IPD_NP04_separate: commit=2e11fa3b689d1a3674a5e4ba1f1de9a559e20494 tree=7c1d516a43153f9c4e1b09bfa259d16da1704bb0 tree_match=True
+IRR diff ba64b2d5..ac6d45b6 (24 files):
+  M	IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md
+  A	docs/integration/G4-H12-MANIFEST-v2-CANDIDATE-2026-10-25-R5.json
+  A	docs/integration/G4-H12-MANIFEST-v2-CANDIDATE-VALIDATION-2026-10-25-R5.md
+  A	docs/integration/IIPS_v3.0_CAP03_DQ4_QE_FREEZE_MANIFEST_2026-10-25.md
+  A	docs/integration/IIPS_v3.0_CAP03_DQ6B_IPD_MIRROR_RECEIPT_PREPARED_2026-10-25.md
+  A	docs/integration/IIPS_v3.0_CAP03_DQ6B_PA_DECISION_PATH_A_EFFECTIVE_2026-10-25.md
+  A	evidence/integration/cap03-dq6b-path-a-2026-10-25/01-irr-broker-import-guard.txt
+  A	evidence/integration/cap03-dq6b-path-a-2026-10-25/02-irr-full-test-ci.txt
+  A	evidence/integration/cap03-dq6b-path-a-2026-10-25/03-irr-test-report-guard.txt
+  A	evidence/integration/cap03-dq6b-path-a-2026-10-25/04-irr-typecheck.txt
+  A	evidence/integration/cap03-dq6b-path-a-2026-10-25/05-irr-typecheck-replay-server.txt
+  A	evidence/integration/cap03-dq6b-path-a-2026-10-25/06-irr-build.txt
+  A	evidence/integration/cap03-dq6b-path-a-2026-10-25/07-irr-direct-strict-tsc.txt
+  A	evidence/integration/cap03-dq6b-path-a-2026-10-25/10-ipd-build-tsc.txt
+  A	evidence/integration/cap03-dq6b-path-a-2026-10-25/11-ipd-full-test.txt
+  A	evidence/integration/cap03-dq6b-path-a-2026-10-25/12-cross-repo-harness.txt
+  A	evidence/integration/cap03-dq6b-path-a-2026-10-25/13-cross-repo-harness-executed.mjs
+  A	evidence/integration/cap03-dq6b-path-a-2026-10-25/20-h12-r5-validation.txt
+  A	evidence/integration/cap03-dq6b-path-a-2026-10-25/21-h12-r5-digests.txt
+  A	evidence/integration/cap03-dq6b-path-a-2026-10-25/22-h12-r5-validator.py
+  A	evidence/integration/cap03-dq6b-path-a-2026-10-25/23-h12-r5-generator.py
+  A	evidence/integration/cap03-dq6b-path-a-2026-10-25/30-freeze-coordinate-blobs.txt
+  A	evidence/integration/cap03-dq6b-path-a-2026-10-25/40-postmerge-readback.txt
+  A	evidence/integration/cap03-dq6b-path-a-2026-10-25/41-postmerge-main-ci.txt
+IPD diff 8eec74ae..c6b540af (15 files):
+  M	evidence/cross-repository/IIPS_V3_CAP02_IPD_EXECUTION_TRACKER_2026-10-23.md
+  A	evidence/cross-repository/IIPS_V3_CAP03_DQ6B_DECISION_MIRROR_RECEIPT_2026-10-25.md
+  A	evidence/cross-repository/cap03_dq6b_2026-10-25_ipd_mirror/00_baseline.txt
+  A	evidence/cross-repository/cap03_dq6b_2026-10-25_ipd_mirror/01_alias_source_census.txt
+  A	evidence/cross-repository/cap03_dq6b_2026-10-25_ipd_mirror/02_irr_locus_readback.txt
+  A	evidence/cross-repository/cap03_dq6b_2026-10-25_ipd_mirror/10_npm_ci.txt
+  A	evidence/cross-repository/cap03_dq6b_2026-10-25_ipd_mirror/11_typecheck.txt
+  A	evidence/cross-repository/cap03_dq6b_2026-10-25_ipd_mirror/12_build.txt
+  A	evidence/cross-repository/cap03_dq6b_2026-10-25_ipd_mirror/13_test_summary.txt
+  A	evidence/cross-repository/cap03_dq6b_2026-10-25_ipd_mirror/14_package_consumer.txt
+  A	evidence/cross-repository/cap03_dq6b_2026-10-25_ipd_mirror/15_working_tree.txt
+  A	evidence/cross-repository/cap03_dq6b_2026-10-25_ipd_mirror/20_remote_readback.txt
+  A	evidence/cross-repository/cap03_dq6b_2026-10-25_ipd_mirror/21_h12_drift_check.txt
+  A	evidence/cross-repository/cap03_dq6b_2026-10-25_ipd_mirror/22_ci_runs.txt
+  A	evidence/cross-repository/cap03_dq6b_2026-10-25_ipd_mirror/SHA256SUMS.txt
