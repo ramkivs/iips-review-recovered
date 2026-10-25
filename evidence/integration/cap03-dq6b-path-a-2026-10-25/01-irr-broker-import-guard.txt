@@ -1,0 +1,31 @@
+COMMAND: npm test -- server/broker-import
+IRR_COMMIT: ba64b2d5927c2f872560710cf1474c25a5cde0d5 / tree 5e4262f1cd75bf13b76ced5b45058f31434b5dad
+
+
+> @iips/v3-frontend@0.1.0 pretest
+> npm run build:broker-import
+
+
+> @iips/v3-frontend@0.1.0 build:broker-import
+> tsc -p tsconfig.broker-import.json
+
+
+> @iips/v3-frontend@0.1.0 test
+> vitest run server/broker-import
+
+
+ RUN  v2.1.9 /home/user/iips-review-recovered/frontend
+
+ ✓ server/broker-import/brokerImportPackageConsumer.test.ts (6 tests) 69ms
+ ✓ server/broker-import/brokerImportModalHostIntegration.test.tsx (2 tests) 1144ms
+ ✓ server/broker-import/brokerImportHttp.test.ts (24 tests) 889ms
+ ✓ server/broker-import/brokerImportV1SaveAdapter.test.ts (22 tests) 12ms
+ ✓ server/broker-import/brokerImportBoundary.test.ts (16 tests) 26ms
+ ✓ server/broker-import/brokerImportImportSafety.test.ts (5 tests) 26ms
+
+ Test Files  6 passed (6)
+      Tests  75 passed (75)
+   Start at  16:20:50
+   Duration  5.52s (transform 1.44s, setup 828ms, collect 555ms, tests 2.17s, environment 793ms, prepare 364ms)
+
+EXIT=0

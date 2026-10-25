@@ -1,0 +1,8 @@
+COMMAND: npm run typecheck:replay-server
+IRR_COMMIT: ba64b2d5927c2f872560710cf1474c25a5cde0d5 / tree 5e4262f1cd75bf13b76ced5b45058f31434b5dad
+
+
+> @iips/v3-frontend@0.1.0 typecheck:replay-server
+> tsc -p tsconfig.replay-server.json --noEmit
+
+EXIT=0

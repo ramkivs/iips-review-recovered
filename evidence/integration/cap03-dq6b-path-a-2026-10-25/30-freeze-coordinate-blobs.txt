@@ -1,0 +1,36 @@
+=== IRR coordinate ba64b2d5927c2f872560710cf1474c25a5cde0d5 (tree 5e4262f1cd75bf13b76ced5b45058f31434b5dad)
+frontend/package.json                                                    83058ea202ece8ec60b2674b05b7532ce9a8684b 1888
+frontend/package-lock.json                                               744355e903135fc3ebc0f75b0e122bdf1bbc8358 128442
+frontend/tsconfig.broker-import.json                                     a339c9c4def365f0b80295bb32ad74cf2f95a9bd 1005
+frontend/server/broker-import/brokerImportPackageConsumer.test.ts        0a1e58de96fae755a4d054e2aa319ab51e2caba3 18716
+frontend/src/api/brokerHoldingsPreview.ts                                bf079a1b587cebf582c03a7aa2c99b87cf890f73 2395
+frontend/server/reports/reports-persistence-integration.test.ts          4f6024f0ca13f4552507b69e8e1d8224188de6d3 8500
+frontend/server/user-portfolio/ipcPortAdapter.ts                         1e20e98023f20f80ed61d8d32d070fdde677d3c7 27511
+frontend/server/user-portfolio/userPortfolioContract.ts                  e6b57bb8a021d8eb4b9b7572d12affc7de66be0b 31585
+frontend/server/user-portfolio-transport.ts                              51704c12a467cd2f718a030b5036bc55c9afa73f 2716
+frontend/server/owner-context-unavailable.ts                             cb8db45d668d28cee7e0a52721001d579a872733 684
+.github/workflows/ci.yml                                                 b95a502a5056dea49d18a34b67b298181b5b98b6 4338
+IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md   8c65d5bbc2544f74ad123a78a82a300b08ddd430 2189183
+
+=== IPD primary 8eec74ae27cda09f3c368b9c299895eae41554db (tree 4eba29029f8d95cfe483e615a7047426b298ce50)
+package.json                                                             51796e63280c1abb368c27bf8811cc6bad46e132 2025
+package-lock.json                                                        98ae3c63f403d88b5b13afbc9d9c32676b4716fe 32128
+src/persistence/portfolio_store.ts                                       540d49f2deb2c8d600b5b866675d145cf76a1e46 34084
+tests/q1_ipc_read_contract_conformance.test.ts                           eddedd56449d6d0ac27dd394bd2a7262d0cb0c24 61324
+frontend/src/features/portfolio/import/broker-holdings-mapper.ts         297e4a593bb575a5f3f8616788f3aa9e599707a4 12960
+src/identity/security_master.ts                                          60030e0c17f8b2a31977ce598c80b18dc52d6727 4595
+tests/g4_run_tests_summary_parsing.test.ts                               49e901b6ca957a5cc705b42e96cdeaf0365cfbc9 5627
+scripts/test-summary-parser.mjs                                          15c849fa739765af501182919748e4610acc4157 682
+
+=== IPD alias 70b24f029842a7e9b7f615e4d9df7376fd4ff817 (tree cc0f0117822850f9046e9a51bd05c1d45f80cd57)
+package.json                                                             cc5616d30c0179d08abacbc5a2c253cc27d27bfd 1001
+frontend/src/features/portfolio/import/broker-holdings-mapper.ts         6c8ab71dc9230d22d0d3fe9a13e1809371f396e4 12936
+src/identity/security_master.ts                                          e260fd90d05e5bfcd4bdc037524722c6fccee16d 3735
+src/contracts/types.ts                                                   11f86dca633bed33da738f525bb8e5c2bb435498 1239
+
+=== ancestry
+alias ANCESTOR of primary: yes
+commits behind: 214
+
+=== IRR main -> freeze base ancestry
+ba64b2d Merge pull request #276 from ramkivs/arena/d1487caa-iips-review-recovered

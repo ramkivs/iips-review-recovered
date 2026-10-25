@@ -1,0 +1,9 @@
+COMMAND: npm run build:tsc (IPD, read-only clone)
+IPD_COMMIT: 8eec74ae27cda09f3c368b9c299895eae41554db / tree 4eba29029f8d95cfe483e615a7047426b298ce50
+NOTE: clone is read-only scratch under /tmp; --strict-ssl=false is a sandbox CA/toolchain artefact only
+
+
+> iips-production-market-data@1.0.0 build:tsc
+> tsc
+
+EXIT=0

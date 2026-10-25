@@ -10,7 +10,8 @@
 | Current CAP-03 DR-2 publication status (`2026-10-25`; §§16.117–16.118) | IPD Option A provider/test is merged at PR #89; IRR Option A consumer is merged by PR #265 as `e590ca40d950052e32b2813027f0d1027b9e65ec` (tree `97530e48…`). PR-head CI `40199009657` and post-merge `main` CI `40199212799` passed; current-base local full suite 106 files / 1,349 passed / 0 failed. Bilateral source/test implementation and conformance evidence is published across both repos; this is **not** CAP-03 operational completion, final pin/freeze, Gate 5 admission, durability acceptance, or production eligibility. See §16.118. |
 | Previous IPD baseline (historical; superseded as current state) | Superseded value **`c0e1b5662264651246db1ccde2945eb5e13f3524`** verified 2026-10-22 (§16.75; superseded by the PR #41 merge recorded in §16.76) — 2 open PRs (**#34** superseded Gate 3 lineage; **#41** conformant candidate), agent write capability `HTTP 403`. Earlier: `ramkivs/iips-production-market-data` (`refs/heads/main` verified at **`15465e45adfc1dd58fba17e80365b729599aef6b`** on 2026-10-21 (`CV-CORR-53`, §16.70) — PR #37 merge `2026-10-21T15:57:34Z` (DEC-06 P11 main-admission decision package + A5 refresh; documentation only, no admission); **2 open PRs (#34 Gate 3 candidate; #36 DEC-06 P11 candidate — neither for merge)**, **0 releases**, both annotated pin tags re-peeled; superseded banner value `3d44e0a123f2495f3b88ce0ab8b47fbc5bf072db` verified 2026-10-21 — PR #33 merge 2026-10-19T19:46:48Z; earlier superseded value `be32d8c95a86b3f03bd382ccde5b6398efb351c6` verified 2026-10-18 — PR #24 merge (2026-10-18T19:12:01Z; documentation-only cross-repository reconciliation; 0 open IPD PRs; §16.55/§16.56), preceded by PR #23 `0158b7a1…` (documentation-only handoff/§14 record; IPD CI run `39147879645` passed); G3-D0 disposition published by PRs #20/#21 (`8b65971f…`/`e76bb2ed…`), G3-D1…D7 classification by PR #22 (`9310b1a…`); PR #8 merge `467eb529…` remains an ancestor; previous banner value `9130c259…` (PR #11) retained historically in §§16.49–16.53; refreshed by `CV-CORR-37`, §16.54) |
 | Pre-REG-08 IRR Baseline | Commit `f970028cf633f561c225d66ae4b3864f48afe656`; root tree `bab9782ed104567e571abccc350c75760ff35dca` (merge of PR #75) |
-| **Last Updated** | `2026-10-25` (UTC) — **CAP-03 DQ-6b freeze-disposition investigation completed and published as `PREPARED — NOT EFFECTIVE`; DQ-6b is UNRESOLVED PENDING PA DECISION (`CV-CORR-101`, §16.121, `CHG-2026-10-25-26`).** Eight independent authority searches (IRR full-history pickaxe over **1,038 commits**, IPD all-branch pickaxe, added-file censuses in both loci, `gh search issues` for `DQ-6b` in both repositories, and an open-PR census showing **0 open PRs** in both) returned **no effective DQ-6b decision**: the DQ-1…DQ-7 packet (blob `9ccc0b06…`) remains **PROPOSED — NOT EFFECTIVE** with a blank DQ-6b answer row; the effective CAP-03 one-pass PA record (blob `624632bb…`) states verbatim “DQ-6 and DQ-7 are not answered or altered by this pass”; and the only effective DQ-6-family act (`IIPS-V3-IPD-PR42-CLOSE-WITH-RECORD-PA-DISPOSITION-2026-10-24-01`, IPD locus) answers **DQ-6a** only and states “DQ-6b remains open and untouched”. Published IRR-side: decision brief `IIPS-V3-CAP03-DQ6B-FREEZE-DISPOSITION-DECISION-BRIEF-2026-10-25-01` and blocker record `IIPS-V3-CAP03-DQ6B-FREEZE-BLOCKER-2026-10-25-01`. Independently re-verified this pass: primary pin `8eec74ae…` (0 behind IPD `main`), distinct alias `70b24f02…` (214 behind, ancestor), IPD `files: ['dist/package']` at `8eec74ae…` vs **no `files`/`exports`** at `70b24f02…`, all **14/14** required raw sources PRESENT at the alias and **0/14** publishable under `dist/package`, `TS18003` (evidence `21`), `sourceClassification` `REAL` → `UNCLASSIFIED` at **three** sites in `broker-holdings-mapper.ts` (blobs `6c8ab71d…` → `297e4a59…`), the guard test (blob `0a1e58de…`), and the bilateral harness **15/15** (evidence `18`). **New finding:** the alias is load-bearing for the live, PO-accepted **DB-C1** `/broker-holdings` preview — `brokerHoldingsPreview.ts` (blob `bf079a1b…`) imports `../../.cache/broker-import/…`, and `build:broker-import` gates `predev`/`prebuild`/`pretest`/`pretest:ci`/`pretypecheck`. **Recommendation (NOT a decision): Path A** — freeze the qualified split primary/alias baseline, documented and guarded. **No pin changed, no freeze established, no gate moved, H-12 NOT ADOPTED, QE 0/11, Gate 5 NOT INITIATED / NOT ADMITTED, zero IPD writes.** |
+| **Last Updated** | `2026-10-25` (UTC) — **CAP-03 DQ-6b RESOLVED: PA Path A rendered and recorded as an effective decision act — the split primary/alias baseline is admitted as an INTERIM, GUARDED freeze configuration; exact final QE pins designated; DQ-4 freeze manifest PREPARED AND VALIDATED (NOT ESTABLISHED); H-12 REGENERATED AND VALIDATED as candidate R5 (32 IPD + 24 IRR = 56, 56/56 present, 981 checks / 0 failures) and NOT ADOPTED (`CV-CORR-102`, §16.122, `CHG-2026-10-25-27`, `V689`–`V705`).** Authority: the standing grant (F-3 §1.2) read with §16.70 `R-1`/`R-3` **plus** the current named PA instruction — the two-element basis — and the PA rendered the determination with verbatim text and every fixed semantic. Fixed: primary `8eec74ae27cda09f3c368b9c299895eae41554db` (IPD `main`, 0 behind), alias `70b24f029842a7e9b7f615e4d9df7376fd4ff817` (214 behind, ancestor) preserved because it supplies the 14 raw sources for `build:broker-import` and backs the live PO-accepted DB-C1 preview; **INTERIM, not a permanent architecture decision**; lineage classification preserved (`REAL` at the alias, `UNCLASSIFIED` at the primary — no reclassification, no requalification); guards preserved and binding; alias **not** modernized, re-pinned or retired; committed DR-4r/DQ-3 Option B preserved. **Conflict resolved explicitly:** the packet's "DQ-6/DQ-7 are off the critical path and must never gate it" (PROPOSED, blob `9ccc0b06…`) is a sequencing assertion premised on both its framed options being executable; both are unavailable (option (i) `TS18003`; option (ii) DB-C1 live), so DQ-6b re-entered the critical path **as a decision**, not as work. DQ-6a and DQ-7a–c remain off the critical path. **Effectiveness:** elements 1–5 SATISFIED (elements 4–5 on publication); element **6** (dated receipt mirrored into the IPD tracker) **OUTSTANDING** — this session is IRR-bound and may not write IPD; exact text prepared (`IIPS-V3-CAP03-DQ6B-IPD-MIRROR-RECEIPT-2026-10-25-01`, PREPARED — NOT PUBLISHED). **New findings:** the split is wider than one file — 10 of the 14 alias raw sources are byte-identical and **4 diverge**, and `src/identity/security_master.ts` is simultaneously a qualified-tree H-12 entry (primary `60030e0c…`) and a required alias raw source (alias `e260fd90…`), so the qualified build carries two `SecurityMaster` byte-sets; and H-12's single blocking absence (`tests/g4_run_tests_summary_parsing.test.ts`) is now **PRESENT** at the candidate (`49e901b6…`), resolving R4's full-validation block while remaining content-integrity only — not Limb A acceptance, not qualification, not Gate 4 credit. **Designated (not frozen):** IRR QE consumer `ba64b2d5927c2f872560710cf1474c25a5cde0d5` / tree `5e4262f1…`; IPD `8eec74ae…`/tree `4eba2902…`; alias `70b24f02…`/tree `cc0f0117…`. Validated this pass: IRR `106 files / 1,350 tests` + guard `OK` + both typechecks + `build` + strict adapter `tsc` all exit 0; IPD `build:tsc` 0 and `924 tests / 923 pass / 1 skipped / 0 fail`; bilateral harness **15/15** at the designated coordinates. **NOT established / NOT performed:** DQ-4 final QE freeze **NOT ESTABLISHED** (6 of 10 establishment criteria met); H-12 **NOT ADOPTED**; Gate 4 **AUTHORIZED — NOT STARTED**, QE **0/11**; Gate 5 **NOT INITIATED / NOT ADMITTED**; no `503` fence lifted; no durable-read acceptance or production eligibility; no host operation; **zero IPD writes**. |
+| Previous update summary (`2026-10-25`; `CV-CORR-101`, §16.121 — preserved) | `2026-10-25` (UTC) — **CAP-03 DQ-6b freeze-disposition investigation completed and published as `PREPARED — NOT EFFECTIVE`; DQ-6b is UNRESOLVED PENDING PA DECISION (`CV-CORR-101`, §16.121, `CHG-2026-10-25-26`).** Eight independent authority searches (IRR full-history pickaxe over **1,038 commits**, IPD all-branch pickaxe, added-file censuses in both loci, `gh search issues` for `DQ-6b` in both repositories, and an open-PR census showing **0 open PRs** in both) returned **no effective DQ-6b decision**: the DQ-1…DQ-7 packet (blob `9ccc0b06…`) remains **PROPOSED — NOT EFFECTIVE** with a blank DQ-6b answer row; the effective CAP-03 one-pass PA record (blob `624632bb…`) states verbatim “DQ-6 and DQ-7 are not answered or altered by this pass”; and the only effective DQ-6-family act (`IIPS-V3-IPD-PR42-CLOSE-WITH-RECORD-PA-DISPOSITION-2026-10-24-01`, IPD locus) answers **DQ-6a** only and states “DQ-6b remains open and untouched”. Published IRR-side: decision brief `IIPS-V3-CAP03-DQ6B-FREEZE-DISPOSITION-DECISION-BRIEF-2026-10-25-01` and blocker record `IIPS-V3-CAP03-DQ6B-FREEZE-BLOCKER-2026-10-25-01`. Independently re-verified this pass: primary pin `8eec74ae…` (0 behind IPD `main`), distinct alias `70b24f02…` (214 behind, ancestor), IPD `files: ['dist/package']` at `8eec74ae…` vs **no `files`/`exports`** at `70b24f02…`, all **14/14** required raw sources PRESENT at the alias and **0/14** publishable under `dist/package`, `TS18003` (evidence `21`), `sourceClassification` `REAL` → `UNCLASSIFIED` at **three** sites in `broker-holdings-mapper.ts` (blobs `6c8ab71d…` → `297e4a59…`), the guard test (blob `0a1e58de…`), and the bilateral harness **15/15** (evidence `18`). **New finding:** the alias is load-bearing for the live, PO-accepted **DB-C1** `/broker-holdings` preview — `brokerHoldingsPreview.ts` (blob `bf079a1b…`) imports `../../.cache/broker-import/…`, and `build:broker-import` gates `predev`/`prebuild`/`pretest`/`pretest:ci`/`pretypecheck`. **Recommendation (NOT a decision): Path A** — freeze the qualified split primary/alias baseline, documented and guarded. **No pin changed, no freeze established, no gate moved, H-12 NOT ADOPTED, QE 0/11, Gate 5 NOT INITIATED / NOT ADMITTED, zero IPD writes.** |
 | Previous update summary (`2026-10-25`; `CV-CORR-98`, §16.117–§16.118 — preserved) | `2026-10-25` (UTC) — **CAP-03 bilateral DR-2 / Option A implementation and contract-conformance evidence reconciled after IRR PR #265 merged and its consumer/frozen blobs were remotely read back** (`CV-CORR-98`, §16.118; `CHG-2026-10-25-23`; `V670` PASS). IRR `main@e590ca40d950052e32b2813027f0d1027b9e65ec`, tree `97530e48…`; PR-head CI `40199009657` and post-merge main CI `40199212799` passed; Gate 4 remains AUTHORIZED — NOT STARTED; QE remains 0/11; no final pin/freeze or durable-read acceptance is rendered; Gate 5 is NOT INITIATED / NOT ADMITTED; host operations were not performed; production eligibility is NOT ADMITTED. This reconciles only bilateral source/test publication, not full CAP-03 closure. No CV register-count movement or IPD writes. **Prior update preserved:** NP-06 Reports `CV-51` ACCEPTED/CLOSED — bounded non-production read-only Reports UI (`CV-CORR-97`, §16.116; `CHG-2026-10-25-21`). PA acceptance `ACCEPT CV-51` (2026-10-25) published via PR #271 (merge `52dddd8c…`, CI `40196119937`/`40196280978` `success`) and remotely verified (§16.116.4, `V654`) — acceptance **EFFECTIVE**; `CV-51` reconciled `COMPLETE / ACCEPTED` (`ACCEPTED/CLOSED`): complete/accepted `17→18`, blocked-active `2→1`, active outstanding `6→5`, total `35`; §18.1 row 37 reconciled to verified bounded scope; §19 Reports closed. NP-06 backend **ACCEPTED** (bounded non-production); production **NOT ADMITTED**; `D115`/`CV-43` **UNWIRED**; IPD writes by that pass **NONE**. No new implementation authority granted. |
 | Previous update summary (`2026-10-25`; `CV-CORR-97`, §16.116 — preserved) | `2026-10-25` (UTC) — **NP-06 Reports `CV-51` post-qualification PA acceptance APPROVED (`ACCEPT CV-51`, bounded non-production read-only Reports UI) and recorded as operative upon publication (`CV-CORR-97`, §16.116; `CHG-2026-10-25-20`).** Operative acceptance act `IIPS-V3-REPORTS-NP06-CV51-POST-QUALIFICATION-PA-ACCEPTANCE-2026-10-25-01` records the PA approval of 2026-10-25 on independently re-verified evidence (PRs #268–#270 ancestry on authoritative `main`, exact 12-file scope with empty prohibited-path diff, hosted CI `success`, Chromium `B-1`–`B-6` structured results 92/0; the indexed-but-absent `browser-transcript.log` discrepancy is recorded exactly and not relied upon). **Acceptance is NOT EFFECTIVE until this act is published on `main` and remotely verified (receipt at §16.116); `CV-51` remains NOT ACCEPTED / NOT CLOSED and register counts unmoved until then.** NP-06 backend **ACCEPTED** (bounded non-production); production **NOT ADMITTED**; `D115`/`CV-43` **UNWIRED**; IPD writes **NONE**; `R1`/`R2`/`R3`/`F-7` unchanged. |
 | Previous update summary (`2026-10-25`; `CV-CORR-96`, §16.115 — preserved) | `2026-10-25` (UTC) — **NP-06 Reports `CV-51` bounded read-only UI implemented and qualified; product acceptance PENDING (`CV-CORR-96`, §16.115; `CHG-2026-10-25-18`).** Operative authority act `IIPS-V3-REPORTS-NP06-CV51-UI-EXPOSURE-PA-DECISION-ACT-2026-10-25-01` (`Option CV51-A` APPROVED) published via PR #268 (merge `50a67cd4…`, CI `40193107116`/`40193362662` `success`, §16.114.4 receipt); exact 12-file frontend implementation (6 created + 6 modified) with focused suites 46/46, full `test:ci` 106 files / 1,346 tests / 0 failed + guard `OK`, typechecks `0/0`, build `0`, and real-Chromium loopback `B-1`–`B-6` 92 checks / 0 failures ([qualification record](docs/integration/IIPS_v3.0_REPORTS_NP06_CV51_QUALIFICATION_RECORD_2026-10-25.md); [evidence](evidence/integration/cv51-reports-ui-qualification-2026-10-25/MANIFEST.md)). Zero `frontend/server/**`, `iips-platform/**`, manifest, workflow, or IPD changes; `R1`/`R2`/`R3`/`F-7` unreopened; `D115`/`CV-43` **UNWIRED**. **CV-51 product acceptance remains PENDING** its separate post-qualification PA act ([prepared record](docs/integration/IIPS_v3.0_REPORTS_NP06_CV51_POST_QUALIFICATION_PA_ACCEPTANCE_RECORD_2026-10-25.md)); production **NOT ADMITTED**; **zero** register-count movements. |
@@ -10378,4 +10379,179 @@ Both are **PREPARED — NOT EFFECTIVE**. The brief states the exact question, co
 
 **Single next dependency-respecting action:** the **Program Authority renders the DQ-6b determination** — Path A (admit the split primary/alias freeze baseline, documented and guarded) or Path B (require alias modernization first, designating B-1 or B-2 and its locus) — as a separately rendered act meeting all six effectiveness elements in §16.121.8. Until that act exists, DQ-4 remains unfrozen and no downstream step may proceed.
 
+> **Dated supersession pointer (`2026-10-25`, `CV-CORR-102`, §16.122 — additive; the text above is preserved
+> verbatim):** DQ-6b has since been **answered by the Program Authority (Path A, interim, guarded)** in
+> `IIPS-V3-CAP03-DQ6B-PA-DECISION-2026-10-25-01`. §16.121.1's IRR coordinate (`7d2bc71…`) is historical — current IRR
+> `main` is `ba64b2d…`. §16.121.8's "authority required" is satisfied for elements 1–5 in the IRR locus; element 6
+> (IPD-locus mirror receipt) remains outstanding. The statement below that DQ-6b *remains unresolved* is superseded **as
+> current state only**; the investigation, searches (`S-1`–`S-8`) and technical findings (`V680`–`V688`) stand unchanged.
+
 *End of §16.121 (`CHG-2026-10-25-26`; `V680`–`V688`). DQ-6b remains **UNRESOLVED — PENDING PA DECISION**; this section is **PREPARED — NOT EFFECTIVE**.*
+
+## §16.122 — `CV-CORR-102`: CAP-03 **DQ-6b RESOLVED — Path A rendered and recorded**; split baseline admitted as an **interim, guarded** configuration; final QE pins designated; freeze manifest **prepared and validated, not established**; H-12 R5 **validated, not adopted** — `2026-10-25` (`CHG-2026-10-25-27`, `V689`–`V705`)
+
+*Additive IRR-locus decision, execution and publication record. It answers **DQ-6b** and supersedes §§16.121.1, 16.121.8, 16.121.9 and 16.121.11 **as current state only**; §§16.121.2–16.121.7 and all of §16.121's text are preserved verbatim as the investigation and blocker record that produced this outcome. It preserves the effective CAP-03 one-pass PA decision/execution record (§§16.117–16.118, blob `624632bb022c147e7df477a7d77d96793d484035`), the DQ-4 pin-reconciliation record (§16.119, blob `66784097e6ef8335a88eb8810b633d6b3a4ed781`) and its post-merge receipt (§16.120), DR-2/DQ-1 Option A, DR-4r/DQ-3 Option B, and every frozen G2/schema/protocol/route/fence boundary. **It does not establish the DQ-4 final QE freeze, adopt H-12, start Gate 4, admit Gate 5, lift any fence, or claim durable-read acceptance or production eligibility.***
+
+### 16.122.1 Authority — the test, and why no authority boundary was crossed
+
+| # | Question | Answer | Basis |
+|---|---|---|---|
+| `T-1` | Does the standing grant cover **decisions**? | **Yes** — "necessary decisions, governance records, implementation, testing, corrections, and publication" | F-3 §1.2, blob `c4c9f7d7…` |
+| `T-2` | Is DQ-6b within the **established scope**? | **Yes** — CAP-03's own register; the effective one-pass record left DQ-6 **open**, not excluded; the packet poses DQ-6b by name. Not unrelated scope expansion | §16.117; packet §8 |
+| `T-3` | Does a general grant alone **perform** the specific act? | **No** — `R-3` (§16.70.4): authorization ≠ act ≠ proof | §16.70.4 |
+| `T-4` | Has the PA **rendered the specific act**? | **Yes** — verbatim text with the chosen option, both exact pins, interim status, preservation of lineage classification and guards, and the reason the alias is preserved | PA instruction, `2026-10-25`, quoted §16.122.2 |
+| `T-5` | Does recording it weaken a safeguard or claim unverified success? | **No** — no guard relaxed, no pin moved, no gate moved, no effectiveness element asserted without verification | §16.122.6 |
+
+**Determination:** the standing authorization **expressly permits** this substantive DQ-6b determination, and the PA rendered it. **No authority boundary was crossed and none was reached.** The boundary actually reached is a **locus** boundary: effectiveness element 6 requires an **IPD**-locus receipt, and this session is IRR-bound (governing CAP-03 record §10: it "may not create/push an IPD branch").
+
+### 16.122.2 The rendered determination — verbatim
+
+> **Path A: permit the split primary/alias baseline as an interim, guarded configuration.**
+> - Primary IPD pin: `8eec74ae27cda09f3c368b9c299895eae41554db`
+> - Broker-import alias: `70b24f029842a7e9b7f615e4d9df7376fd4ff817`
+> - Preserve the alias because it supports the live DB-C1 preview and required raw-source build.
+> - Record that this is interim, not a permanent architecture decision.
+> - Preserve lineage classification and existing compatibility guards.
+
+| Fixed semantic | Value |
+|---|---|
+| Chosen option | **Path A**. Path B (B-1 IPD package-surface / B-2 IRR build redesign) **not selected** |
+| Primary coordinate | `8eec74ae…` / tree `4eba2902…` — is IPD `main`, **0 behind** |
+| Alias coordinate | `70b24f02…` / tree `cc0f0117…` — **214 behind**, full-history **ancestor** |
+| Alias disposition | **Preserved**, expressly documented and guarded — never an oversight |
+| Split status | **INTERIM** — not a permanent architecture decision |
+| Lineage classification | **Preserved as-is**: `REAL` at the alias (mapper blob `6c8ab71d…`, three sites), `UNCLASSIFIED` at the primary (`297e4a59…`). No reclassification or requalification |
+| Guards | Preserved in force and binding at the freeze; not relaxed |
+| Alias movement | **None** — not modernized, not re-pinned, not retired |
+
+### 16.122.3 The conflict: "DQ-6 off the critical path" versus "DQ-6b blocks the freeze"
+
+| Statement | Source | Actual scope | Disposition |
+|---|---|---|---|
+| "**DQ-6/DQ-7 are off the critical path and must never gate it**"; §8 "Off-critical-path dispositions" | DQ packet §1/§8 — **PROPOSED — NOT EFFECTIVE**, blob `9ccc0b06…` | A **sequencing assertion premised on both framed options being executable** | **Premise failed**, so the claim cannot carry forward as stated. Preserved as dated text; not rewritten |
+| "DQ-6b has therefore escalated … to a **freeze-blocking determination**" | Blocker record `IIPS-V3-CAP03-DQ6B-FREEZE-BLOCKER-2026-10-25-01`; §16.121.5 | A technical/structural finding verified against the remotes | **Holds** at the time it was made, and explains why an act was required |
+
+**Resolution.** The packet assumed option **(i)** (re-pin the alias and guard both) and option **(ii)** (retire the alias) were available. Neither is: (i) fails `build:broker-import` with `TS18003` because the modern package publishes only `dist/package` (`V682`/`V683`); (ii) was conditioned on the DB-C1 preview being retired and it is live and PO-accepted (`V687`). DQ-6b therefore re-entered the critical path **as a decision requirement, not as work** — a freeze manifest cannot state the alias disposition without an answer, and no act supplied one. DQ-6a (disposed 2026-10-24, IPD locus) and DQ-7a/b/c remain genuinely off the critical path. **Prospectively**, Path A removes DQ-6b from the freeze's critical path — for the interim period and only while the guards hold; under Path B it would have stayed on the critical path ahead of all QE (`0/11`).
+
+### 16.122.4 Fresh remote verification (`V689`)
+
+| Repository | Verified remote `main` | Tree | Open PRs | Latest `main` CI |
+|---|---|---|---|---:|
+| IRR `ramkivs/iips-review-recovered` | `ba64b2d5927c2f872560710cf1474c25a5cde0d5` | `5e4262f1cd75bf13b76ced5b45058f31434b5dad` | **0** | run `40210071402`, **success** |
+| IPD `ramkivs/iips-production-market-data` | `8eec74ae27cda09f3c368b9c299895eae41554db` | `4eba29029f8d95cfe483e615a7047426b298ce50` | **0** | run `40196407747`, **success** |
+
+IRR `main` advanced **`7d2bc71…` → `ba64b2d…`** (PR #276) after §16.121.1's snapshot; §16.121.1's IRR coordinate is therefore **historical** as of this section (IPD is unchanged). The DQ-4 source candidate remains PR #274's merge `907e1fda…`/tree `0ad2ad71…`.
+
+### 16.122.5 Technical re-verification (`V690`–`V699`)
+
+| ID | Claim | Result |
+|---|---|---|
+| `V690` | Primary is IPD `main` (0 behind); alias is distinct, an ancestor, 214 behind | **PASS** |
+| `V691` | Both specifiers carried simultaneously in `frontend/package.json` (`83058ea2…`) and lockfile (`744355e9…`) | **PASS** |
+| `V692` | Alias is load-bearing: 14/14 raw sources present at `70b24f02…`; `tsconfig.broker-import.json` (`a339c9c4…`) feeds `.cache/broker-import`, consumed by `brokerHoldingsPreview.ts` (`bf079a1b…`) for the live DB-C1 preview | **PASS** |
+| `V693` | **New:** the split is not one file — of 14 alias raw sources, **10 identical**, **4 divergent** (`broker-holdings-mapper.ts`, `broker-import-ingress.ts`, `src/identity/security_master.ts`, `src/contracts/types.ts`) | **PASS** |
+| `V694` | **New:** `src/identity/security_master.ts` is both a qualified-tree H-12 entry (primary `60030e0c…`) and a required alias raw source (alias `e260fd90…`) → the qualified build carries **two distinct `SecurityMaster` byte-sets** | **PASS** — recorded in H-12 R5 `split_baseline.overlap_finding` |
+| `V695` | Lineage classification preserved: `REAL` at the alias, `UNCLASSIFIED` at the primary, three sites each | **PASS** |
+| `V696` | Guard protects both pins, their distinction, the raw-source requirement and all 14 files (`0a1e58de…`); guard suite `6 files / 75 tests` | **PASS** |
+| `V697` | IRR at the designated coordinate is green: `106 files / 1,350 tests`; `assert-tests` `OK — 106 file(s), 1350 test(s), 0 failed`; `typecheck` 0; `typecheck:replay-server` 0; `build` 0; strict adapter `tsc` 0 | **PASS** |
+| `V698` | IPD at the designated coordinate is green: `build:tsc` 0; suite `924 tests / 923 pass / 1 skipped / 0 fail`, exit 0 | **PASS** |
+| `V699` | Bilateral conformance at the **designated** coordinates (real IRR adapter `ba64b2d…` ↔ real IPD provider `8eec74ae…`, real AF_UNIX IPC): **15/15, exit 0**; DR-4r/DQ-3 Option B still refuses a populated contribution ledger | **PASS** |
+
+### 16.122.6 Effectiveness — six elements, each verified or explicitly outstanding
+
+| # | Element | Status |
+|---|---|---|
+| 1 | Census-checked PA act ID | **SATISFIED** — `IIPS-V3-CAP03-DQ6B-PA-DECISION-2026-10-25-01`; census `0` |
+| 2 | Verbatim text naming the option and every fixed semantic | **SATISFIED** — §16.122.2 |
+| 3 | Named commits / trees / manifest blobs | **SATISFIED** — §§16.122.2, 16.122.7, 16.122.8 |
+| 4 | Merge to the governing locus `main` (`--merge`), green exact-head CI | **SATISFIED ON PUBLICATION** — IRR locus only; Path A requires no IPD merge |
+| 5 | Independent remote read-back | **SATISFIED ON PUBLICATION** — recorded in §16.122.14 |
+| 6 | Dated receipt mirrored into the **other** (IPD) repository's tracker | **OUTSTANDING** — locus boundary, not an authority gap; exact text prepared as `IIPS-V3-CAP03-DQ6B-IPD-MIRROR-RECEIPT-2026-10-25-01` (**PREPARED — NOT PUBLISHED**) |
+
+**Effectiveness status, without rounding:** the determination is **effective in the IRR locus** at publication on elements 1–5. It is **not claimed to satisfy the complete six-element set**, because element 6 requires an IPD-locus publication this session cannot perform. No consequence dependent on complete effectiveness is claimed.
+
+### 16.122.7 Exact final QE pins — DESIGNATED (not frozen)
+
+| Role | Commit | Tree |
+|---|---|---|
+| IPD primary (qualified tree) | `8eec74ae27cda09f3c368b9c299895eae41554db` | `4eba29029f8d95cfe483e615a7047426b298ce50` |
+| IPD broker-import alias (raw-source build) | `70b24f029842a7e9b7f615e4d9df7376fd4ff817` | `cc0f0117822850f9046e9a51bd05c1d45f80cd57` |
+| IRR QE consumer | `ba64b2d5927c2f872560710cf1474c25a5cde0d5` | `5e4262f1cd75bf13b76ced5b45058f31434b5dad` |
+| Reports NP-04 (separate boundary, unchanged) | `2e11fa3b689d1a3674a5e4ba1f1de9a559e20494` | `7c1d516a43153f9c4e1b09bfa259d16da1704bb0` |
+
+Designation authority: the Path A determination names both npm pins, and the effective CAP-03 record §5 directs that "at that later freeze, record the exact commits and trees; no silent re-pin" once the DR-2…DR-4r implementation commits have landed — which they have. **Designation is not establishment** (§16.122.9).
+
+### 16.122.8 Freeze manifest and H-12 R5
+
+| Artifact | Record ID | Status |
+|---|---|---|
+| DQ-4 final QE freeze manifest | `IIPS-V3-CAP03-DQ4-QE-FREEZE-MANIFEST-2026-10-25-01` | **PREPARED AND VALIDATED — NOT ESTABLISHED** (6 of 10 establishment criteria met: criteria 5–8 unmet — element 6 of the decision, H-12 adoption act, host sequence S2 → P-1 → S3, and native-Windows canonical evidence) |
+| H-12 candidate | `G4-H12-MANIFEST-v2-CANDIDATE-2026-10-25-R5` (`d0be8bef3281ae6a296b8700265fe134b5088dd84b102b77ca8a157c8275cb76`, 143,813 B) | **REGENERATED AND VALIDATED — NOT ADOPTED** |
+| H-12 validation | `IIPS-V3-G4-H12-CANDIDATE-VALIDATION-2026-10-25-R5` | **981 checks / 0 failures** |
+
+**H-12 R5 structure and content:** **32 IPD + 24 IRR = 56** primary entries, **56/56 PRESENT**, 0 required-absent; 9 criteria references (unchanged blobs, re-measured at the new coordinate), 10 accepted Gate 3 anchors **preserved at `1cceacff…`**, 10 anchors **re-measured** at the QE candidate (3 differ — recorded separately, a measurement and not a silent re-pinning), 17 historical entries, 1 conditional entry (**now present**: `scripts/test-summary-parser.mjs` `15c849fa…`), and 14 alias raw sources bound at the alias coordinate with identity/divergence classification. **Path membership unchanged**; 16 entries carry re-derived bytes at the new coordinates. **Two IPD coordinates are enumerated explicitly** (`pinned_bases.IPD_primary_qe_coordinate`, `pinned_bases.IPD_broker_alias_compatibility_coordinate`, plus a `split_baseline` block), satisfying Path A condition `C-4`. R4 (`3eedd70c…`) is preserved unmodified.
+
+**Material H-12 finding (`V702`):** R4's single blocker — the mandatory qualified-tree path `tests/g4_run_tests_summary_parsing.test.ts`, absent at `1cceacff…` — is **PRESENT** at `8eec74ae…` (blob `49e901b6…`, 5,627 B) because `c62dee81748aaed6416956b2e323ce77d1ff1f3c` ("CAP-02: implement bounded Gate A prime and Limb A work") is an ancestor of IPD `main`. R4's "full validation blocked" condition is **resolved at this candidate**. **Boundary:** presence and digest binding are content-integrity facts — **not** Limb A acceptance, not qualification, not Gate 4 credit and not QE evidence.
+
+### 16.122.9 Consequences and boundary status
+
+| Item | Status after this section |
+|---|---|
+| **DQ-6b** | **ANSWERED — Path A** (interim, guarded) |
+| DQ-6a / DQ-7a / DQ-7b / DQ-7c | **Unchanged** — disposed / open as previously recorded; not reopened |
+| Exact final npm pins | **DESIGNATED** — primary `8eec74ae…`, alias `70b24f02…` |
+| Exact final QE repository pins | **DESIGNATED** — §16.122.7 |
+| **DQ-4 final QE freeze** | **NOT ESTABLISHED** — two independent reasons, each sufficient: (a) decision element 6 outstanding; (b) the freeze's own required sequence (H-12 adoption → S2 → one P-1 provisioning execution → S3 preflight) is unexecuted |
+| **H-12** | **NOT ADOPTED** — R5 candidate validated only |
+| Gate 4 | **AUTHORIZED — NOT STARTED**; QE **0/11**; subject to its host sequence |
+| Gate 5 | **NOT INITIATED / NOT ADMITTED** |
+| Durable-read acceptance / production eligibility | **NOT ESTABLISHED** |
+| Host operations / host-operations package | **Not begun**; not regenerated, repackaged or republished |
+| Alias modernization follow-on | `CAP03-DQ6B-FOLLOW-ON-ALIAS-MODERNIZATION` — **OPEN, NOT AUTHORIZED, OFF CRITICAL PATH**; the split is interim but not time-limited |
+
+### 16.122.10 Records published by this pass (IRR only)
+
+| Record | Path | ID |
+|---|---|---|
+| DQ-6b PA decision act | `docs/integration/IIPS_v3.0_CAP03_DQ6B_PA_DECISION_PATH_A_EFFECTIVE_2026-10-25.md` | `IIPS-V3-CAP03-DQ6B-PA-DECISION-2026-10-25-01` |
+| DQ-4 freeze manifest | `docs/integration/IIPS_v3.0_CAP03_DQ4_QE_FREEZE_MANIFEST_2026-10-25.md` | `IIPS-V3-CAP03-DQ4-QE-FREEZE-MANIFEST-2026-10-25-01` |
+| H-12 R5 candidate | `docs/integration/G4-H12-MANIFEST-v2-CANDIDATE-2026-10-25-R5.json` | `G4-H12-MANIFEST-v2-CANDIDATE-2026-10-25-R5` |
+| H-12 R5 validation | `docs/integration/G4-H12-MANIFEST-v2-CANDIDATE-VALIDATION-2026-10-25-R5.md` | `IIPS-V3-G4-H12-CANDIDATE-VALIDATION-2026-10-25-R5` |
+| IPD mirror receipt (**prepared, not published**) | `docs/integration/IIPS_v3.0_CAP03_DQ6B_IPD_MIRROR_RECEIPT_PREPARED_2026-10-25.md` | `IIPS-V3-CAP03-DQ6B-IPD-MIRROR-RECEIPT-2026-10-25-01` |
+| Evidence logs (13 files) | `evidence/integration/cap03-dq6b-path-a-2026-10-25/` | — |
+
+### 16.122.11 Scope, non-grants, and IPD non-mutation
+
+**Changed by this pass (IRR only, documentation/evidence):** the six records above, this tracker section, and the "Last Updated" banner row. **No IRR source, test, build file, tsconfig, package manifest, lockfile, schema, migration, protocol, route or fence was modified. No dependency was re-pinned. No guard was relaxed.**
+
+**Not granted or performed:** alias modernization, re-pin or retirement; any lineage reclassification; any relaxation or deletion of a compatibility guard; the DQ-4 final QE freeze; H-12 adoption; Gate 4 start; QE credit; Gate 5 initiation or admission; any `503` fence lift; durable-read acceptance; production eligibility; host operations; regeneration/repackaging of the host-operations package; or any IPD file, branch, PR, package, manifest, schema, migration, protocol, route or source change.
+
+**IPD: zero writes.** IPD was read read-only through a fresh scratch clone at `8eec74ae27cda09f3c368b9c299895eae41554db`; the alias was read at `70b24f029842a7e9b7f615e4d9df7376fd4ff817` from the same clone. `--strict-ssl=false` was used only for `npm ci` inside `/tmp` because the sandbox CA bundle cannot verify `codeload.github.com`; no repository file, lockfile, script or pin was altered by it.
+
+**Preserved in force:** DR-4r/DQ-3 **Option B** (empty contributions pass; non-empty contributions refuse — `V699`); the effective CAP-03 one-pass record (blob `624632bb…`); the DQ-4 pin-reconciliation record (blob `66784097…`) including every failed candidate; the DQ-1…DQ-7 packet as **PROPOSED — NOT EFFECTIVE** (blob `9ccc0b06…`) with its DQ-6b answer row **still blank** — this section answers DQ-6b, it does not retro-tick a proposed packet; all frozen G2/schema/protocol/route/fence blobs; all `503` fences; `SESSION_ONLY`/`durable:false`; `WRITE_NOT_AUTHORIZED`; Gate 3 acceptance for bounded scope; production non-eligibility.
+
+### 16.122.12 Verification
+
+| ID | Check | Result |
+|---|---|---|
+| `V689` | Remote bases, open PRs, `main` CI | **PASS** — §16.122.4 |
+| `V690`–`V696` | Pins, ancestry, 14 sources, divergence census, overlap finding, lineage, guard | **PASS** — §16.122.5 |
+| `V697` | IRR validation at the designated coordinate | **PASS** — 106 files / 1,350 tests; guard OK; typechecks, build, strict `tsc` 0 |
+| `V698` | IPD validation at the designated coordinate | **PASS** — `build:tsc` 0; 924 / 923 pass / 1 skipped / 0 fail |
+| `V699` | Bilateral harness at the designated coordinates | **PASS — 15/15**, exit 0 |
+| `V700` | Act-ID census before rendering | **PASS** — `0` prior occurrences of the act ID, the freeze-manifest ID, the R5 IDs, `CV-CORR-102`, `CHG-2026-10-25-27` |
+| `V701` | H-12 R5 structure | **PASS** — 32 IPD + 24 IRR = 56; 56/56 present; 0 absent |
+| `V702` | Limb A path present at the candidate | **PASS** — `49e901b6…`; boundary recorded |
+| `V703` | H-12 R5 independent validation | **PASS — 981 checks / 0 failures** |
+| `V704` | R4 preserved unmodified | **PASS** — SHA-256 `3eedd70c…` re-hashed, matches the 2026-10-22 value |
+| `V705` | Scope / non-grants / IPD non-mutation | **PASS** — documentation, manifest and evidence only; **0 IPD writes**; no pin, gate, fence, guard or H-12-adoption movement |
+
+### 16.122.13 Single next dependency-respecting action
+
+**Publish the IPD-locus mirror receipt** (`IIPS-V3-CAP03-DQ6B-IPD-MIRROR-RECEIPT-2026-10-25-01`, text prepared verbatim in the IRR locus) from an IPD-capable session, which completes effectiveness element 6. Then: the distinct **H-12 R5 adoption** act, then **S2 → one P-1 provisioning execution → S3 preflight** on the designated native-Windows host, then the freeze-establishment act. Until all of that exists, the freeze remains **prepared and validated only**, H-12 remains **not adopted**, and QE remains **0/11**.
+
+### 16.122.14 Publication receipt
+
+Publication coordinates are **not self-embedded**; they are established from the PR and remote `main` after merge and recorded here as a dated receipt addendum, per the §§16.42.6/16.67.11/16.68.11/16.69.5 pattern.
+
+*End of §16.122 (`CHG-2026-10-25-27`; `V689`–`V705`). **DQ-6b is ANSWERED (Path A, interim, guarded).** The DQ-4 final QE freeze is **NOT ESTABLISHED**; H-12 R5 is **validated but NOT ADOPTED**; Gate 4 is **AUTHORIZED — NOT STARTED**; QE **0/11**; Gate 5 **NOT INITIATED**.*
