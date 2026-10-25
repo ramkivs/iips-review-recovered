@@ -1,11 +1,12 @@
-Current-base synchronized CAP-03 publication digests (2026-10-25 UTC)
-Base: IRR origin/main@69e3e7c65082340908e976e9ec0a638b8608dabd; candidate tree recorded after staging.
-Columns: path, Git blob SHA-1, bytes, raw SHA-256. The digest index excludes itself.
-Covered changed paths: 64
+Cumulative CAP-03 artifact digest index (refreshed 2026-10-25 UTC)
+PR #265 publication: IRR base `main@69e3e7c65082340908e976e9ec0a638b8608dabd` -> merge `e590ca40d950052e32b2813027f0d1027b9e65ec`, tree `97530e48eb6e421d72a1aa3534a7a40c770814ed`.
+Follow-up base: current IRR `main@e590ca40d950052e32b2813027f0d1027b9e65ec`; listed bytes are the post-merge documentation/evidence follow-up candidate.
+Columns: path, Git blob SHA-1, byte count, raw SHA-256. This manifest excludes itself.
+Covered artifact paths: 65 (64 non-manifest paths from the original 65-path PR #265 diff, including current follow-up revisions, plus the new post-merge read-back receipt).
 
-IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md	a178476de993997f9d91913382289bd892f0d20b	2143261	483d04b2b15bcabef473437dd1eff8ea47c0775cb4de3c76d29e9e0a77964dee
-docs/integration/IIPS_v3.0_CAP03_ONE_PASS_PA_DECISION_AND_IRR_EXECUTION_2026-10-25.md	b1da81b4f14c1075a5d3c2db46523cc20f775aaa	25393	9e977c0f0707c1891612c582cd206a8474af179c60fd371326096be629a9d391
-evidence/integration/cap03-dr2-one-pass-2026-10-25/README.md	28961cbe756e4da39eb1bcf442eba5676a315f79	4743	2973d7665f8bfac753e8e3f4ae8038b40b763a117c5c1a23eaa50208f0dadf90
+IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md	5b35aac85b735fc4557ed8051555545605279bcc	2151588	aa868607c8e600b053ec03ba122f07f7bf80a58337cbe59810b836b39527080c
+docs/integration/IIPS_v3.0_CAP03_ONE_PASS_PA_DECISION_AND_IRR_EXECUTION_2026-10-25.md	624632bb022c147e7df477a7d77d96793d484035	30623	109e7987111d2d3602e29074d2f6d5f17835d86ef0d70be8f998893d2fbd2d19
+evidence/integration/cap03-dr2-one-pass-2026-10-25/README.md	57759663e47546e1c483c6a23a5296c6a3cc4048	5288	f8921a19d20f9c2e1719b66e249b7433580d14f7d67bf9b2fdc09d8212f8cd3e
 evidence/integration/cap03-dr2-one-pass-2026-10-25/adapter-test-after-main-4e54.txt	d4c6a67dd6622429ace77dc7223d23a0a75d12c9	436	ef1b15019a324d636f11b42e806b9f25a716bd63b6ca8d8093d39162bf4f6f47
 evidence/integration/cap03-dr2-one-pass-2026-10-25/adapter-test-after-main-53176b.txt	da351db20ea3543ce21fcf99d419970684d92cc9	438	06df6084a33d158b65e1181c0fafca5b05746dc27fbf71a72cd90856c55eea63
 evidence/integration/cap03-dr2-one-pass-2026-10-25/adapter-test-after-main-69e3e7.txt	9f89c294580c10048b282452ade9961da215da7e	325	a4737260a70b1b4c4fbe0532fac6b38a603fa6ec3099c7c2ca6438f301545f42
@@ -46,6 +47,7 @@ evidence/integration/cap03-dr2-one-pass-2026-10-25/post-advance-census.txt	9ec2e
 evidence/integration/cap03-dr2-one-pass-2026-10-25/post-main-69e3-census.txt	92bcbee5860a4bb4b0ced228d3119a56ce681730	2073	78af3c84f060ebe33c3e58ab96c35cc1360d6321f356e76c1c3b78d49ebc2b69
 evidence/integration/cap03-dr2-one-pass-2026-10-25/post-pr266-census.txt	5a02a79b48f7de8d0f2a59bef85adac567a3c844	3675	304fe85a5bc614aae3ac6180844ffd272caea7d49a6721cb0f54e2a0eacf2ce4
 evidence/integration/cap03-dr2-one-pass-2026-10-25/post-pr267-census.txt	0584b56cac74ff908d5da8d8e57c54bb32c89025	2289	af59f087de536b47993dd64672046c322834aca2af31a6d6b3e3b821597cee8d
+evidence/integration/cap03-dr2-one-pass-2026-10-25/pr265-postmerge-readback.txt	5659685827c0bc2b7938880c307a9ef9beffcae6	8048	ab76e6f39573f1804ab3ca7721555a17d954682b6675b8a828e155fadaf26fa7
 evidence/integration/cap03-dr2-one-pass-2026-10-25/pr266-remote-receipt-readback.txt	2806c3ef1ba6432ab44532478747ce9a04a63060	2700	876f6059a02444f20f53a3e1aab578d9d1ffc0b11eb6be85287bdf86575ca87f
 evidence/integration/cap03-dr2-one-pass-2026-10-25/pr267-remote-receipt-readback.txt	757306e2179d5acba1344ba1d5501a90266e71c5	1676	00bc878c5dc02fa1e3d387765eaf94ac8b71964c662610ba0b737b2e77a4c40f
 evidence/integration/cap03-dr2-one-pass-2026-10-25/remote-state-before-sync.txt	4d096c0818017ab266ae0e241f6bc1db46a1450d	2380	18ac88e53f1ca9b28a9579642277ddc375d054a80fe769395c19ebda4ea6a299

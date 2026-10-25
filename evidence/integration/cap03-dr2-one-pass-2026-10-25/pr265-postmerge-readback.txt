@@ -1,0 +1,55 @@
+IRR PR #265 — post-merge independent GitHub read-back — 2026-10-25 UTC
+
+## PR/merge/main receipt
+
+| Item | Independently verified value |
+|---|---|
+| PR #265 state | `CLOSED`, `merged=true`, merged at `2026-10-25T13:47:14Z` |
+| PR head | `00601079e2f29de124d54573b031047b97e9e85d`, tree `97530e48eb6e421d72a1aa3534a7a40c770814ed` |
+| PR base at merge | `main@69e3e7c65082340908e976e9ec0a638b8608dabd` |
+| Merge commit | `e590ca40d950052e32b2813027f0d1027b9e65ec`; GitHub verified signature object `verified=true` |
+| Merge parents | `69e3e7c65082340908e976e9ec0a638b8608dabd`, `00601079e2f29de124d54573b031047b97e9e85d` |
+| Merge commit tree | `97530e48eb6e421d72a1aa3534a7a40c770814ed` |
+| Remote `main` after merge | `e590ca40d950052e32b2813027f0d1027b9e65ec`, tree `97530e48eb6e421d72a1aa3534a7a40c770814ed` (same tree as PR head) |
+
+The PR head, GitHub merge commit, and current remote `main` were queried independently; the merge commit's parents and tree match the expected base/head and synchronized tree. Local `origin/main` was fetched and the fixed Arena branch fast-forwarded to the same merge commit/tree before this receipt was recorded.
+
+## Exact-head and main CI; local test totals
+
+- PR-head workflow: `Typecheck · Test · Build`, run `40199009657`, job `121185964690`, completed **success** at `2026-10-25T13:46:04Z` (1m23s). The workflow passed lockfile install, typecheck, strict replay-server import closure, full Vitest suite, non-zero/pass-count guard, and production build.
+- Post-merge `main` push workflow: run `40199212799`, job `121186578312`, completed **success** at `2026-10-25T13:49:06Z` (1m47s), on merge commit `e590ca40…`. It passed the same typecheck, strict replay-server closure, full Vitest, executed-test guard, and build steps.
+- Current-base local results on the merged tree: adapter **49/49**; focused user-portfolio/transport suites **9 files / 173 passed / 0 failed**; full `npm run test:ci` **106 files / 1,349 passed / 0 failed**; JSON guard **106 files / 1,349 / 0 failed**; main typecheck, replay-server typecheck and direct strict adapter/test TSC all exit 0; production build exits 0 (142 modules; existing non-fatal >500 kB chunk warning, JS 1,609.84 kB / gzip 226.69 kB). Raw logs are named `*-after-main-69e3e7.txt` in this annex; they ran on the same tree later published as `e590ca4…`.
+- GitHub emitted only non-blocking Node 20 action deprecation and Ubuntu runner-image migration notices. No exact-head or post-merge check is pending or failing.
+
+## Full changed-file scope and contract-preservation read-back
+
+GitHub's PR files API and `compare` endpoint report **65 changed paths**, **4,604 additions**, **95 deletions**. Exactly two changed paths are `frontend/` implementation source/test files:
+
+- `frontend/server/user-portfolio/ipcPortAdapter.ts`
+- `frontend/server/user-portfolio/ipcPortAdapter.test.ts`
+
+The other 63 paths are the CAP-03 decision/tracker/evidence records and historical current-main Reports documentation/evidence. The GitHub file list has no schema/migration, route, IPC client/interface, package manifest/lockfile, or production-fence path change. The exact remote changed-file list is retained in the PR's changed-files view; the two-source-path classification was also independently checked through the PR files API.
+
+GitHub Git Blobs API values at the merged `main` tree were fetched and byte-compared to local `git show e590ca4:<path>` for each path:
+
+| Path | Git blob | Bytes | SHA-256 | Verification |
+|---|---|---:|---|---|
+| `frontend/server/user-portfolio/ipcPortAdapter.ts` | `1e20e98023f20f80ed61d8d32d070fdde677d3c7` | 27,511 | `8c394c33af889f4045bb54d412f82aa2bfcb32d55140804157511fc0148540f3` | **MATCH** |
+| `frontend/server/user-portfolio/ipcPortAdapter.test.ts` | `46243a7a79ba3b19cd4d2b8a56df8905aba220f8` | 45,566 | `eeb12462dd2c78a945796420b87dc950fa9eb66a91bdd91305ca98350c0146af` | **MATCH** |
+| `frontend/server/user-portfolio/userPortfolioContract.ts` (frozen G2 types) | `e6b57bb8a021d8eb4b9b7572d12affc7de66be0b` | 31,585 | `15568224c49f09bb5728831e0e9c7faeee58687b9299470e0c9bd8f8f0a12d4e` | **MATCH; unchanged from base** |
+| `frontend/server/user-portfolio/ipcClient.ts` | `c1b885e3173132685090bcd2cbfa4aa8c87fa4ca` | 26,182 | `144b31d8c24e1d4085b5deb592ddb23b26e04ee333d8449063ae0655a4a25644` | **MATCH; unchanged from base** |
+| `frontend/server/user-portfolio/userPortfolioPort.ts` | `ba0001e88c83b070e4f16a3cdb35d34c82ec0200` | 4,501 | `1cafe6c2cfbcf6938bcbd0f9b3b764a983c51d06f19c7db088200d1cb9928e9a` | **MATCH; unchanged from base** |
+| `frontend/server/user-portfolio-transport.ts` (503 fence) | `51704c12a467cd2f718a030b5036bc55c9afa73f` | 2,716 | `515acaae95cdf1d41c72ca040fbbc855ccb28da16a6b2122c1c1ad2225573bb0` | **MATCH; unchanged from base** |
+| `frontend/server/owner-context-unavailable.ts` (owner-context refusal fence) | `cb8db45d668d28cee7e0a52721001d579a872733` | 684 | `57e397d44e2a1e2e2c0d5a456a1ad419d5a5728e4a76aaa73bf71d10a164a913` | **MATCH; unchanged from base** |
+| `frontend/package.json` | `a0061bce69e622052bc9c46a55b4f7db3e9e503d` | 1,888 | `b9c4db7174a52a00ac5a889301bb53e18aa81e6348871ac55fe1fefb0a1aa70d` | **MATCH; unchanged from base** |
+| `frontend/package-lock.json` | `a006a6a056c8474af53ea02fd6fc1743b3cefdb5` | 128,497 | `af295c3068ea7caa6a6867e00f6f8f22bf196381a78ad9c809bd17d30cd6ba4c` | **MATCH; unchanged from base** |
+
+The no-migration/no-route conclusion is corroborated by the actual PR file list and GitHub comparison, not inferred solely from unchanged blobs. The IPD PR #89 change independently left its migrations/schema, IPC protocol/dispatch/entrypoint, package manifests, and route layer untouched.
+
+## Cross-repository reconciliation and boundaries
+
+- IPD PR #89 provider implementation was already merged as `79d06e3c5da60da2a234b7ac18c35df848bf9d11`; IPD `main` remains `8eec74ae27cda09f3c368b9c299895eae41554db` / tree `4eba29029f8d95cfe483e615a7047426b298ce50`. The current IPD provider/test blobs `540d49f2deb2c8d600b5b866675d145cf76a1e46` / `eddedd56449d6d0ac27dd394bd2a7262d0cb0c24` were read back and match PR #89; PRs #90/#91 and IPD main CI passed. IPD PR #89's real-adapter/real-endpoint harness passed **15/15**. That harness ran against the then-current IRR PR head `c059c326c355b80c3224ad861dfecfb93963f112`, not after IRR merge; a Git-object comparison now confirms its adapter source blob `1e20e98023f20f80ed61d8d32d070fdde677d3c7` is exactly the merged `e590ca40…` adapter blob (and the adapter test blob is likewise unchanged at `46243a7a79ba3b19cd4d2b8a56df8905aba220f8`). Thus the tested adapter implementation bytes equal the published bytes; this does not turn the earlier harness into post-merge execution or operational/Gate admission.
+- With the IPD provider publication and this independently verified IRR consumer merge together, the PA-approved **bilateral DR-2 / Option A implementation and contract-conformance evidence is published in both loci**. This conclusion is based on both repository receipts plus the real cross-repository harness, not on the IRR merge alone.
+- This is **not CAP-03 end-to-end closure, operational/read-pair admission, or production qualification**. Existing IRR primary IPD pin `2d9130e76bb0dc89daeefabaf297e27bdaa84250` remains 65 commits behind IPD main; broker-import alias `70b24f029842a7e9b7f615e4d9df7376fd4ff817` remains 214 behind. No pin was changed and no final DQ-4 QE freeze was rendered.
+- DR-4r/DQ-3 Option B remains effective: an empty contributions array passes; non-empty contributions refuse; no contribution projection or QE-6 admission. DR-3/DQ-2 remains `(c)+(a)`: no `durability`/`durable` field or durable-read claim.
+- Gate 4 remains **AUTHORIZED — NOT STARTED**, QE **0/11**, result acceptance **NOT RENDERED**, Gate 5 **NOT INITIATED / NOT ADMITTED**. No H-12 adoption, host preflight/P-1/S2/S3/provisioning, write, production claim, user-portfolio route activation, or fence lift occurred. The completed host-operations package was not republished, repackaged, or regenerated.
