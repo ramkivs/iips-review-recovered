@@ -10755,3 +10755,23 @@ Authoritative criterion-by-criterion dispositions, evidence and remaining gaps: 
 | `V725` | Non-grants and scope preservation | **PASS** — documentation-only; no IPD writes, source/pin/fence change, host action, provisioning, gate movement, write authorization or production claim. |
 
 *End of §16.124 (`CV-CORR-104`; `CHG-2026-10-25-30`). CAP-02 is not declared complete. CAP-03 S2 may proceed independently of CAP-02 closure, subject only to its actual host prerequisites and the applicable shared downstream gates.*
+
+### 16.124.1 Publication receipt for §16.124 (`CHG-2026-10-25-31`; `V726`)
+
+Post-merge receipt for the authorized documentation-only reconciliation. The pull request, exact-head check, merge and remote blob identities were independently re-read after merge; no CAP-02/CAP-03 status beyond §16.124 was changed by publication.
+
+| Item | Independently verified value |
+|---|---|
+| IRR PR | **#281** — `docs(cap02): reconcile completion and CAP-03 dependency status` |
+| Exact tested head | `28b32ebb11c00e73f8ae139f0a1695f0deac1909` |
+| PR CI | run **`40232191689`** / job `121286093329` — `Typecheck · Test · Build` **SUCCESS** |
+| Merge | **MERGED** `2026-10-25T20:46:33Z` as `0bb7ae94eac3a7ca30a8b4751384e53b4b218b88`; merge tree `d0bc3f542181be8e0d13e279fe6562db37eb5263` |
+| Post-merge `main` CI | run **`40232352740`** / job `121286572005` — `Typecheck · Test · Build` **SUCCESS** |
+| Remote `main` | `0bb7ae94eac3a7ca30a8b4751384e53b4b218b88` at read-back; PR #281 is `MERGED` |
+| Tracker at remote `main` | blob `c7c7ec98a864aeb5bf2610e2078df263bb4c9c0d`, `2,253,553` B, SHA-256 `fcef1a5e7c412caedc4eb20a5066c39fb0b71a1c6fdbc74a356c5b3dac9bef38` — GitHub Git Blobs API download byte-compared with the published worktree (`MATCH`) |
+| Reconciliation record at remote `main` | blob `2285d6cf7462e4b7946f7779efc001251bff581f`, `16,723` B, SHA-256 `1dc6cf69677297c94a32f59ed018bcdd1814f80ffa863dcb12da391b5b7f42b4` — Contents/Git Blobs API read-back byte-compared with the published worktree (`MATCH`) |
+| Changed paths | Exactly the master tracker and the new reconciliation record; documentation/evidence only |
+
+`V726` **PASS** — PR merge, exact-head CI, post-merge `main` CI and independent remote blob/byte read-back all verified. The tracker is larger than the Contents API's inline-content limit; its full bytes were independently retrieved from the Git Blobs API and compared, rather than treating an empty Contents response as content evidence.
+
+*End of §16.124.1. Publication does not render a decision or move any gate.*
