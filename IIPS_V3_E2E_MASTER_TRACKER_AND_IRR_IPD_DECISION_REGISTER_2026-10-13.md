@@ -320,6 +320,7 @@ The following completed baselines on `ramkivs/iips-review-recovered @ refs/heads
 | `2026-10-25` | `CHG-2026-10-25-20` | **NP-06 Reports `CV-51` post-qualification PA acceptance APPROVED (`ACCEPT CV-51`) and operative acceptance act published (`CV-CORR-97`, §16.116):** Operative act [`docs/integration/IIPS_v3.0_REPORTS_NP06_CV51_POST_QUALIFICATION_PA_ACCEPTANCE_RECORD_2026-10-25.md`](docs/integration/IIPS_v3.0_REPORTS_NP06_CV51_POST_QUALIFICATION_PA_ACCEPTANCE_RECORD_2026-10-25.md) (`IIPS-V3-REPORTS-NP06-CV51-POST-QUALIFICATION-PA-ACCEPTANCE-2026-10-25-01`) records the PA approval of 2026-10-25 (`ACCEPT CV-51`, bounded non-production read-only Reports UI, no conditions), the exact accepted scope, acceptance basis as independently re-verified (`V649`–`V653`), and explicit non-grants; the prepared `PENDING` text (`eb4eece8…`) is preserved in Git history. **Acceptance NOT EFFECTIVE until publication on `main` + remote verification (receipt at §16.116); zero register-count movements in this publication;** production **NOT ADMITTED**; `D115`/`CV-43` **UNWIRED**; **zero** IPD writes. |
 | `2026-10-25` | `CHG-2026-10-25-21` | **Publication receipt and closure reconciliation for §16.116 (`CV-CORR-97`): IRR PR #271 `MERGED`** — merge **`52dddd8c31ecc866fc6a667bb81195f5bff33b94`** (tree `12eb6db99be142f0f0d75cadf272ab14b4a931fd`); PR-head CI **`40196119937`** and post-merge `main` CI **`40196280978`** **`SUCCESS`**; remote read-back: operative acceptance act `2318962b…` (`17,529` B) and tracker-at-merge `7f97a095…` MATCH PR head; prepared `PENDING` predecessor `eb4eece8…` preserved in history; 12 implementation + prohibited blobs unchanged; **acceptance EFFECTIVE** (`V654`). `CV-51` reconciled **`COMPLETE / ACCEPTED` (`ACCEPTED/CLOSED`)**: §16.12 complete/accepted `17→18`, blocked-active `2→1`, active outstanding `6→5`, total `35`; §18.1 row 37 and §19 Reports reconciled. Production **NOT ADMITTED**; `D115`/`CV-43` **UNWIRED**; IPD writes by this pass **NONE** (external IPD advancement to `8eec74ae…` registered read-only). Recorded at §16.116.4–§16.116.5. |
 | `2026-10-25` | `CHG-2026-10-25-28` *(note: `CHG-2026-10-25-22`–`-27` recorded in `§§16.117–16.122`)* | **CAP-03 Gate 4 H-12 R5 PA Adoption Act published (`IIPS-V3-CAP03-G4-H12-R5-PA-ADOPTION-ACT-2026-10-25-01`), DQ-6b element 6 reconciled `COMPLETE` (`6/6` via IPD PRs #92/#93), Amended-§8 Supplemental Inventory (`IIPS-V3-CAP03-G4-H12-R5-AMENDED-S8-SUPPLEMENT-2026-10-25-01`) bound, and `S2` prerequisites reassessed (`CV-CORR-103`, §16.123):** Independently verifies IPD mirror receipt `3430df5ec1c10cf5cab8b764577aae2a3503d09b` (`14,292` B) on IPD `main@c6b540af…`; validates `G4-H12-MANIFEST-v2-CANDIDATE-2026-10-25-R5` (`f4649e36…`, `143,813` B, SHA-256 `d0be8bef…`, byte-unmodified) across `981/981` R5 checks + `1,606/1,606` adoption-criteria checks (`0` failures; `32` IPD + `24` IRR = `56/56 PRESENT`, `7/7` post-G3 CAP-02 entries, `1,140/1,140` deterministic `dist/**` baseline, `evidence_deposit_set: ABSENT_PENDING_EXECUTION`); adopts H-12 R5 effective on IRR `main` upon merge + CI + remote read-back (receipt at §16.123.12) and prepares IPD mirror receipt `IIPS-V3-CAP03-G4-H12-R5-ADOPTION-IPD-MIRROR-RECEIPT-2026-10-25-01`. DQ-4 remains `PREPARED AND VALIDATED — NOT ESTABLISHED` (`8/10`); Gate 4 `AUTHORIZED — NOT STARTED`; QE `0/11`; Gate 5 `NOT INITIATED / NOT ADMITTED`; Option B & all `503` fences preserved; **0** `CV-*` count shifts; **0** IPD writes (`V706`–`V717`). |
+| `2026-10-25` | `CHG-2026-10-25-29` | **Publication receipt for §16.123 (`CV-CORR-103`): IRR PR #279 `MERGED`** — 2-parent `--merge` **`ae82be857a554d96e6c2cffc0d519e99135effdd`** (`2026-10-25T20:03:37Z`, tree `8339a3b70d23113ea317ec1d2dd78269d832f7ab` = tested head `19e5e28a540a00b2af458e4475529ab9b4f1c99b` tree); exact-head CI **`40228792767`** and post-merge `main` CI **`40228968888`** **`SUCCESS`**; independent GitHub Contents/Blobs API read-back **5/5 MATCH** (PA adoption act `9f3aa377ab6468e8a27ec2d30bb2fc6d9395e1ff` [`30,278` B], prepared IPD mirror receipt `d84549515d299397db879c2e96ad33de9b430fd2` [`4,686` B], bound Amended-§8 supplement `6c777de6f36bfd06ff89373540d755cc367744f2` [`287,101` B], adopted `R5` manifest `f4649e36a81c7013287810cd3202b99586dbd951` [`143,813` B, SHA-256 `d0be8bef…`], tracker-at-merge `d2bc665feb2e7489c3c84d7ccdbc6b704b7c0988`); post-merge validator `1,606/1,606` + `981/981` (`0` failures, `0` qualified drift); **H-12 R5 adoption EFFECTIVE in governing IRR locus** (`V718`). Recorded at §16.123.12. |
 
 ---
 
@@ -10685,6 +10686,7 @@ Independently verified from both a fresh full-history IPD clone and direct GitHu
 | `V715` | Host boundary probe & `S2` prerequisite reassessment (`linux x64`, `desktop-no0nhtp` unreachable; `S2` needs native-Windows host only) | **PASS** — `31-host-probe.txt` |
 | `V716` | Byte-immutability of `G4-H12-MANIFEST-v2-CANDIDATE-2026-10-25-R5.json` (`f4649e36…`), `R4` (`3b64c4ac…`), `24/24` IRR H-12 entries, and all `503` fence blobs | **PASS** |
 | `V717` | Zero IPD writes & zero `CV-*` register-count movements | **PASS** |
+| `V718` | Post-merge publication receipt & independent remote Contents/Blobs API read-back of PR #279 (`ae82be85…`) | **PASS** — §16.123.12 (`40-postmerge-readback.txt`, `41-postmerge-main-ci.txt`) |
 
 ### 16.123.10 Single next dependency-respecting action
 
@@ -10697,6 +10699,34 @@ Execute **`S2`** on the designated native-Windows 11 host **`desktop-no0nhtp`** 
 | PA H-12 R5 Adoption Act | `docs/integration/IIPS_v3.0_CAP03_G4_H12_R5_PA_ADOPTION_ACT_EFFECTIVE_2026-10-25.md` | `IIPS-V3-CAP03-G4-H12-R5-PA-ADOPTION-ACT-2026-10-25-01` |
 | Prepared IPD-Locus Mirror Receipt | `docs/integration/IIPS_v3.0_CAP03_G4_H12_R5_ADOPTION_IPD_MIRROR_RECEIPT_PREPARED_2026-10-25.md` | `IIPS-V3-CAP03-G4-H12-R5-ADOPTION-IPD-MIRROR-RECEIPT-2026-10-25-01` |
 | Bound Amended-§8 Supplemental Inventory | `evidence/integration/cap03-h12-r5-adoption-2026-10-25/20-amended-s8-supplemental-inventory.json` | `IIPS-V3-CAP03-G4-H12-R5-AMENDED-S8-SUPPLEMENT-2026-10-25-01` |
-| Revalidation, adoption-criteria & suite evidence (`10` files) | `evidence/integration/cap03-h12-r5-adoption-2026-10-25/` | — |
+| Revalidation, adoption-criteria, post-merge read-back & suite evidence (`13` files) | `evidence/integration/cap03-h12-r5-adoption-2026-10-25/` | — |
 
-*End of §16.123 pre-merge body (`CHG-2026-10-25-28`; `V706`–`V717`; post-merge publication receipt to be appended at `§16.123.12` upon `--merge`, green CI, and independent remote read-back).*
+### 16.123.12 Publication receipt (`2026-10-25`) (`CHG-2026-10-25-29`; `V718`)
+
+Publication coordinates were **not self-embedded** in the adoption act; they are established from remote `main` after `--merge` and independent GitHub REST API read-back:
+
+| Item | Verified value |
+|---|---|
+| IRR PR | **#279** `docs(cap03): adopt Gate 4 H-12 R5 manifest by PA act and reconcile DQ-6b element 6` |
+| Tested / exact head | `19e5e28a540a00b2af458e4475529ab9b4f1c99b` (tree `8339a3b70d23113ea317ec1d2dd78269d832f7ab`) |
+| Exact-head CI | run **`40228792767`** (job `121275864363`) — **`success`** (`Typecheck · Test · Build`, `1m51s`) |
+| Merge | **MERGED** at `2026-10-25T20:03:37Z` as **`ae82be857a554d96e6c2cffc0d519e99135effdd`** (regular 2-parent `--merge`; parents `ac6d45b695bf9b79c0ec7af7d4656dc914ffccb2` + `19e5e28a540a00b2af458e4475529ab9b4f1c99b`) |
+| Merge tree | `8339a3b70d23113ea317ec1d2dd78269d832f7ab` — **identical** to tested head tree |
+| Post-merge `main` CI | run **`40228968888`** (job `121276390259`) at `ae82be857a554d96e6c2cffc0d519e99135effdd` — **`success`** (`1m50s`) |
+| Open PRs after merge | **0** (prior to this receipt PR; IPD open PRs **0**, IPD `main` unchanged at `c6b540afd1fd3da5f18d029a54d1d89331916ead`) |
+
+**Independently read back from remote `main@ae82be857a554d96e6c2cffc0d519e99135effdd`** (`gh api .../contents` + `gh api .../git/blobs` + SHA-1 / SHA-256 recomputation):
+
+| Published / verified artifact | Blob OID SHA-1 at remote `main` | Bytes | SHA-256 |
+|---|---|---:|---|
+| `docs/integration/IIPS_v3.0_CAP03_G4_H12_R5_PA_ADOPTION_ACT_EFFECTIVE_2026-10-25.md` | `9f3aa377ab6468e8a27ec2d30bb2fc6d9395e1ff` | 30,278 | `d29781bc5be47498a12caf00b797d9adbb3f0d55209039aa2755ebbaf8f5c1fd` |
+| `docs/integration/IIPS_v3.0_CAP03_G4_H12_R5_ADOPTION_IPD_MIRROR_RECEIPT_PREPARED_2026-10-25.md` | `d84549515d299397db879c2e96ad33de9b430fd2` | 4,686 | `604f39c23292be416ec27f5de9cdb6e28580e5113591900c8b1b5cdc837a0784` |
+| `evidence/integration/cap03-h12-r5-adoption-2026-10-25/20-amended-s8-supplemental-inventory.json` | `6c777de6f36bfd06ff89373540d755cc367744f2` | 287,101 | `87442b0adbd061a700aa468bdd97e8b049819cc599f5ae50d7a94cfc2f33fdbf` |
+| `docs/integration/G4-H12-MANIFEST-v2-CANDIDATE-2026-10-25-R5.json` (**adopted, byte-unmodified**) | `f4649e36a81c7013287810cd3202b99586dbd951` | 143,813 | `d0be8bef3281ae6a296b8700265fe134b5088dd84b102b77ca8a157c8275cb76` |
+| This tracker (at `ae82be85…`) | `d2bc665feb2e7489c3c84d7ccdbc6b704b7c0988` | 2,244,038 | `bb3131b201e1794e332b9e3c33bd6771e7904025def49593010ad1d87b49a331` |
+
+**Effectiveness and post-merge zero-drift confirmation:** **`IIPS-V3-CAP03-G4-H12-R5-PA-ADOPTION-ACT-2026-10-25-01` is hereby EFFECTIVE in the governing IRR locus.** Post-merge execution of `21-h12-r5-adoption-criteria-validator.py` against `origin/main@ae82be857a554d96e6c2cffc0d519e99135effdd` and `IPD@c6b540afd1fd3da5f18d029a54d1d89331916ead` passed **`1,606/1,606` adoption-criteria checks (`0` failures)** and **`981/981` R5 checks (`0` failures)** with **zero** qualified-surface drift (`32/32` IPD & `24/24` IRR H-12 entries unchanged).
+
+Evidence: `evidence/integration/cap03-h12-r5-adoption-2026-10-25/40-postmerge-readback.txt` and `41-postmerge-main-ci.txt`.
+
+*End of §16.123 (`CHG-2026-10-25-28` / `CHG-2026-10-25-29`; `V706`–`V718`). **DQ-6b is `6/6` EFFECTIVE across both loci; Gate 4 H-12 R5 (`G4-H12-MANIFEST-v2-CANDIDATE-2026-10-25-R5`, `f4649e36…` / `d0be8bef…`) is ADOPTED and EFFECTIVE in the governing IRR locus.** DQ-4 remains **PREPARED AND VALIDATED — NOT ESTABLISHED** (`8/10`); Gate 4 remains **AUTHORIZED — NOT STARTED**; QE **`0/11`**; Gate 5 **NOT INITIATED / NOT ADMITTED**.*

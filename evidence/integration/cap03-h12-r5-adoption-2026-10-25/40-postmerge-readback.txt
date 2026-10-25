@@ -1,0 +1,20 @@
+=== 40: Independent Remote Read-Back of Merged IRR PR #279 (ae82be857a554d96e6c2cffc0d519e99135effdd) ===
+PR #279: merged=True merged_at=2026-10-25T20:03:37Z head=19e5e28a540a00b2af458e4475529ab9b4f1c99b head_tree=8339a3b70d23113ea317ec1d2dd78269d832f7ab
+Merge commit: sha=ae82be857a554d96e6c2cffc0d519e99135effdd tree=8339a3b70d23113ea317ec1d2dd78269d832f7ab parents=['ac6d45b695bf9b79c0ec7af7d4656dc914ffccb2', '19e5e28a540a00b2af458e4475529ab9b4f1c99b']
+  head_CI: name=Typecheck · Test · Build status=completed conclusion=success html_url=https://github.com/ramkivs/iips-review-recovered/actions/runs/40228792767/job/121275864363
+  merge_CI: name=Typecheck · Test · Build status=completed conclusion=success html_url=https://github.com/ramkivs/iips-review-recovered/actions/runs/40228968888/job/121276390259
+Remote blob docs/integration/IIPS_v3.0_CAP03_G4_H12_R5_PA_ADOPTION_ACT_EFFECTIVE_2026-10-25.md: api_sha=9f3aa377ab6468e8a27ec2d30bb2fc6d9395e1ff computed_sha1=9f3aa377ab6468e8a27ec2d30bb2fc6d9395e1ff bytes=30278 sha256=d29781bc5be47498a12caf00b797d9adbb3f0d55209039aa2755ebbaf8f5c1fd
+Remote blob docs/integration/IIPS_v3.0_CAP03_G4_H12_R5_ADOPTION_IPD_MIRROR_RECEIPT_PREPARED_2026-10-25.md: api_sha=d84549515d299397db879c2e96ad33de9b430fd2 computed_sha1=d84549515d299397db879c2e96ad33de9b430fd2 bytes=4686 sha256=604f39c23292be416ec27f5de9cdb6e28580e5113591900c8b1b5cdc837a0784
+Remote blob evidence/integration/cap03-h12-r5-adoption-2026-10-25/20-amended-s8-supplemental-inventory.json: api_sha=6c777de6f36bfd06ff89373540d755cc367744f2 computed_sha1=6c777de6f36bfd06ff89373540d755cc367744f2 bytes=287101 sha256=87442b0adbd061a700aa468bdd97e8b049819cc599f5ae50d7a94cfc2f33fdbf
+Remote blob docs/integration/G4-H12-MANIFEST-v2-CANDIDATE-2026-10-25-R5.json: api_sha=f4649e36a81c7013287810cd3202b99586dbd951 computed_sha1=f4649e36a81c7013287810cd3202b99586dbd951 bytes=143813 sha256=d0be8bef3281ae6a296b8700265fe134b5088dd84b102b77ca8a157c8275cb76
+Remote blob IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md: api_sha=d2bc665feb2e7489c3c84d7ccdbc6b704b7c0988 computed_sha1=d2bc665feb2e7489c3c84d7ccdbc6b704b7c0988 bytes=2244038 sha256=bb3131b201e1794e332b9e3c33bd6771e7904025def49593010ad1d87b49a331
+Post-merge adoption-criteria validator against origin/main@ae82be85:
+  === H-12 R5 Adoption-Criteria Validation Report (2026-10-25 UTC) ===
+  [A] Baseline R5 validator output: CHECKS 981 FAILS 0
+  [C] Verified 32/32 IPD + 24/24 IRR = 56/56 PRESENT entries at designated pins AND live origin/main (IPD c6b540af, IRR ae82be85).
+  [D] Verified conditional helper (1), criteria_basis (9), G3 anchors (10+10; changed=['frontend/src/features/portfolio/portfolioStorePort.ts', 'package.json', '.github/workflows/ci.yml']), historical Gate C (17), split_baseline (14; 4 divergent).
+  [E] Verified DQ-6b element 6 IPD mirror receipt (3430df5ec1c10cf5cab8b764577aae2a3503d09b, 14,292 B): 6/6 COMPLETE.
+  [F] Verified G4-AMEND-01 supplemental sets: 7/7 post-G3 CAP-02 entries, 11/11 companion guards, 1,140/1,140 deterministic dist/** files, evidence_deposit_set ABSENT_PENDING_EXECUTION.
+  [G] Verified Gate 4 Act §3.2 four-part commit rule across all designated coordinates.
+  ADOPTION_CRITERIA_CHECKS 1606 FAILS 0
+IPD remote refs/heads/main unchanged: c6b540afd1fd3da5f18d029a54d1d89331916ead (match=True)
