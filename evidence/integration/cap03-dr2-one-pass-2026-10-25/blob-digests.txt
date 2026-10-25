@@ -1,37 +1,59 @@
-CAP-03 DR-2 decision/implementation file digests — refreshed after current-main integration and final validation
+CAP-03 DR-2/DQ-1 decision and implementation digest index — final local files after integration of `main@53176b73`
 
-Git blob IDs are computed with `git hash-object` over exact working-tree bytes; SHA-256 is independent. The index covers the CAP-03 decision, implementation, tracker, and evidence files; it does not hash itself. Historical pre-advance test outputs are retained alongside the final `-after-main` outputs.
+Git blob IDs are computed with `git hash-object --stdin` over exact working-tree bytes; SHA-256 is independently computed over raw bytes. The index covers the CAP-03 decision, implementation, tracker, the preserved current-main PR #266 proposal artifacts cited by the receipt, and every file in this evidence annex except this index itself. The self-exclusion avoids recursive hashing.
 
 | Path | Git blob | SHA-256 | Bytes |
 |---|---|---|---:|
-| `IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md` | `d342ea06a2ab132bcf3d7d90402e804c947f0d38` | `0a3de9fceddf0e5c20ba6dd752e56ca5e9ccbff036ed1097452b2f9b6434dfad` | 2073327 |
-| `docs/integration/IIPS_v3.0_CAP03_ONE_PASS_PA_DECISION_AND_IRR_EXECUTION_2026-10-25.md` | `993b103601b77e739e8122f94c6b55c676b511e8` | `f9c22bf0eb94469f27e9e9d8cc3a4cb884743dc695ee8e6a009825945c8769ed` | 18724 |
-| `evidence/integration/cap03-dr2-one-pass-2026-10-25/README.md` | `c35f234c3419436d6ac41c2a45a7d3d61392c145` | `609883ea9af32a3f1e94288f084d73fae2a1d7b945bb82c67353e66c5d4b0163` | 3873 |
+| `IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md` | `caa4f2ebb4331ba44b2b4f149794fd3a5153793e` | `ade45ec5b349537af06192a1f3cf2a0de7e84b1dd7aace98908d0433210e899f` | 2104131 |
+| `docs/integration/IIPS_v3.0_CAP03_ONE_PASS_PA_DECISION_AND_IRR_EXECUTION_2026-10-25.md` | `05102c1192de65dbeeeff775cda5b4114a656d60` | `d8fe5efab56ad027a242af0751c3a5b68278114ae11dad37a0bf297051eb558e` | 20035 |
+| `docs/integration/IIPS_v3.0_REPORTS_NP06_CV51_IMPLEMENTATION_AUTHORITY_PA_DECISION_ACT_PROPOSED_2026-10-25.md` | `a3d265393f3522fa8a1be88380e383b2305a1452` | `c57b3f1ca5059865f8da6ce5fc7acccc0dc1fefae47d97f0948597d3732c3b56` | 16354 |
+| `docs/integration/IIPS_v3.0_REPORTS_NP06_CV51_READINESS_INVESTIGATION_AND_IMPLEMENTATION_PLAN_2026-10-25.md` | `be226727c6050dd9cee727ea6556523261f76681` | `2dab6cfa234e1e7d18a9b35b95841db891330b514a049014fa62a3aa71d2f36c` | 70472 |
+| `frontend/server/user-portfolio/ipcPortAdapter.ts` | `1e20e98023f20f80ed61d8d32d070fdde677d3c7` | `8c394c33af889f4045bb54d412f82aa2bfcb32d55140804157511fc0148540f3` | 27511 |
+| `frontend/server/user-portfolio/ipcPortAdapter.test.ts` | `46243a7a79ba3b19cd4d2b8a56df8905aba220f8` | `eeb12462dd2c78a945796420b87dc950fa9eb66a91bdd91305ca98350c0146af` | 45566 |
+| `evidence/integration/cap03-dr2-one-pass-2026-10-25/README.md` | `c0f79119703060c809b00a3fd41b11de143c6656` | `f447b5944457776ad3b968512e9fd08208142aff86897785330b5c6ed5b5fd3d` | 4698 |
+| `evidence/integration/cap03-dr2-one-pass-2026-10-25/adapter-test-after-main-4e54.txt` | `d4c6a67dd6622429ace77dc7223d23a0a75d12c9` | `ef1b15019a324d636f11b42e806b9f25a716bd63b6ca8d8093d39162bf4f6f47` | 436 |
+| `evidence/integration/cap03-dr2-one-pass-2026-10-25/adapter-test-after-main-53176b.txt` | `da351db20ea3543ce21fcf99d419970684d92cc9` | `06df6084a33d158b65e1181c0fafca5b05746dc27fbf71a72cd90856c55eea63` | 438 |
 | `evidence/integration/cap03-dr2-one-pass-2026-10-25/adapter-test-after-main.txt` | `7923eb39c545f49be4221cfa780a3e643bece9e2` | `1f80e1f3825c378bb8ed58d38926f82bf070e1b2a9a15c412b3e8725bd831de4` | 333 |
+| `evidence/integration/cap03-dr2-one-pass-2026-10-25/build-after-main-4e54.txt` | `eb2afc959f6a5029e03f2ddaff595b40a1c6628e` | `a578359106ad88fc07e5147070110244172d332d8858903d819145848d8f5c93` | 976 |
+| `evidence/integration/cap03-dr2-one-pass-2026-10-25/build-after-main-53176b.txt` | `c0b9361b2655b69eecdb44ff5aa1acb1ccff9a46` | `5facbc43dc3f76ca75189e564c4044bcd19d21f9861103f01a4c428f9fc0e4d8` | 978 |
 | `evidence/integration/cap03-dr2-one-pass-2026-10-25/build-after-main.txt` | `40efe9698f6994abba2f7404d2edbd1d0ca0674e` | `30c353c57dd23f6a743ffe0f5894996906f9d3966ebe4a361553e538a5518523` | 929 |
 | `evidence/integration/cap03-dr2-one-pass-2026-10-25/build.txt` | `7f6de552e6ad94559eb2796586643998c81e9eb0` | `e0e2680ebea002957681ba17bfd2cccfe3ffd5464456f80389674f17ca3beb3f` | 914 |
-| `evidence/integration/cap03-dr2-one-pass-2026-10-25/concurrent-main-advance.txt` | `0c969b7b3d3cbdb4a254b90607aea01b62216992` | `5b9618e6d9e797046f0ed098aad3b34ceb97909cc9a9887c046cf671db6c6297` | 2068 |
+| `evidence/integration/cap03-dr2-one-pass-2026-10-25/concurrent-main-advance.txt` | `1bb316394b7deaa71e24c4c515236bfb41c8dcba` | `a964d53b76961f4a25aaf2714e3f1651cdbbc4692f52469c0d55dedf378ebf4d` | 4012 |
 | `evidence/integration/cap03-dr2-one-pass-2026-10-25/dependency-setup-after-main.txt` | `fe8c54a21735780bbffdd6770fdf182e0eee667f` | `e907236bf39934399e2a8fb27f22bd072c12a5403150ffc8b3797ae54d54fa77` | 921 |
 | `evidence/integration/cap03-dr2-one-pass-2026-10-25/dependency-setup.txt` | `eeee1e7622e62d5716a7297056b1eb3902d69ba1` | `ccb815b0395efb9ae2c4309a62dad7f37d00c304ab85c3bf7cdd48c2f15467a5` | 1212 |
+| `evidence/integration/cap03-dr2-one-pass-2026-10-25/direct-strict-tsc-after-main-4e54.txt` | `73f2c3d51f808522ab3a3f9fd21c08d4a09359df` | `9dd9738533ccdeca0ede75045950ce56438dbfb8cf6c5c18dbb30c762210315a` | 317 |
+| `evidence/integration/cap03-dr2-one-pass-2026-10-25/direct-strict-tsc-after-main-53176b.txt` | `6b70445779e8edfb17126cfd0a8496b716101697` | `0d4a43a939bd66a14d4933590b4381f502b13ae61ecc5ccc4aaa0f561c000852` | 319 |
 | `evidence/integration/cap03-dr2-one-pass-2026-10-25/direct-strict-tsc-after-main.txt` | `9b59cd2b3f8dcdd0c6497aef5429a30f1c7dee7a` | `a2a27dff57ad888b003c0b89ca1120fac69840021644e5a5c86c9093416e476c` | 29 |
 | `evidence/integration/cap03-dr2-one-pass-2026-10-25/direct-strict-tsc.txt` | `8c47e3a29de21851fe47369e6c8edade6d16762b` | `e930059a728b432b3297d173c200cc08605a7f258663c6d360a37fb810e043f1` | 297 |
+| `evidence/integration/cap03-dr2-one-pass-2026-10-25/focused-user-portfolio-after-main-4e54.txt` | `91aa65b24cb4901e21e1ea9780ce494ed2f9b1ba` | `8efb5139eddb938815f6383dec9524bb9cd702fa9aa09cad955a53a82b7febdf` | 1261 |
+| `evidence/integration/cap03-dr2-one-pass-2026-10-25/focused-user-portfolio-after-main-53176b.txt` | `72b9797c30c21f422506d108b520047d63417391` | `0b52a5d24b6f66e724f845fe77d42360859598722390201560cb2c09752daf9b` | 1263 |
 | `evidence/integration/cap03-dr2-one-pass-2026-10-25/focused-user-portfolio-after-main.txt` | `7b709a5d4efc2be76acf937f536071d55fed58cc` | `525b71a9891b218d0482d2c1979425ffc0d213f3ee72269d5644e4c4133782ec` | 1134 |
 | `evidence/integration/cap03-dr2-one-pass-2026-10-25/focused-user-portfolio.txt` | `097d14bee347d3e286c7b05b35aa1ce0077c0b39` | `113c365761ff4f14fb230438473adbe442f215c64e068b2cd6d3518dc6cc114f` | 1123 |
+| `evidence/integration/cap03-dr2-one-pass-2026-10-25/full-test-ci-after-main-4e54.txt` | `0196f1cddb378b6516edcee424508d21847b62c5` | `36373dfc246f60915a203d2594056d8ab814b8992856b2f47313e3ec4bf5146c` | 48622 |
+| `evidence/integration/cap03-dr2-one-pass-2026-10-25/full-test-ci-after-main-53176b.txt` | `6b7d4977253c4969a39e120711ef3509489916b0` | `97f348c909eec4d28561883fa0e1c25dda38ddda446cb66720c36e71ac0f1363` | 48627 |
 | `evidence/integration/cap03-dr2-one-pass-2026-10-25/full-test-ci-after-main.txt` | `4047d0e387c225c1bf2be74fab69e208ba7e0d4c` | `be7dd57d9599cf4f91056e43561ccf4a57d7c5a85a1fd805e65ccc8d9d70dd25` | 48564 |
 | `evidence/integration/cap03-dr2-one-pass-2026-10-25/full-test-ci.txt` | `f387a9910a6b6506a487dfdfa19afe32483d2d10` | `09ad66ce0ec8ee0a7400b41bcdac6ed3d47a56a8be4d4f9a258b9569bf7ba052` | 47697 |
-| `evidence/integration/cap03-dr2-one-pass-2026-10-25/identifier-census.txt` | `d9b361b4e2d49d0b203c01601114686472fe2921` | `d0440dbef3e7be93d0f6f4a283f31787d179610eb01c21c3cd80082d823bdbab` | 1392 |
+| `evidence/integration/cap03-dr2-one-pass-2026-10-25/identifier-census.txt` | `bbb14c6278cc56ca6311af0400fa1cf7472c3ed5` | `0e83b1c93a6b471241a4e2bdbebfcb68b32f5ef091981c930afaf3a6fd7fa6ca` | 2051 |
 | `evidence/integration/cap03-dr2-one-pass-2026-10-25/ipd-baseline-build-tsc.txt` | `eb9a0b3eff0a1626239c84810b86276a2d54342b` | `c163a4d385d3fb83e157efb4cc9880619321f9ad7e09bae667ec8d133135f67b` | 67 |
 | `evidence/integration/cap03-dr2-one-pass-2026-10-25/ipd-baseline-npm-ci.txt` | `0ba687928918ce54647b9325ed32280fdeb3bbd1` | `4c2a2856e6d2fece083d5ac41291cdf8214a7f48cedae5cd58e5c3bd32a86170` | 351 |
 | `evidence/integration/cap03-dr2-one-pass-2026-10-25/ipd-current-q1-baseline.txt` | `915925c22d55fb8eda6dc0113fa62dd4d8183518` | `965d66ca05f83a2f4382e17ed50bd5bf63980c06f5863b9f9a935ce218da955e` | 1368 |
 | `evidence/integration/cap03-dr2-one-pass-2026-10-25/ipd-current-q1-uncompiled-attempt.txt` | `cb39a7f439493d2077cbae9f8a19cf37bf922959` | `dcb7f8c301ae5fb4baf4519d4095993703ad8b5cfcfb3754c556992baca2c57c` | 2271 |
 | `evidence/integration/cap03-dr2-one-pass-2026-10-25/iteration-01-focused-failure.txt` | `8262354e80eac6ad57d696b09b7e53fb353a2fe8` | `2783e98a4753fcdb5a3d65863a6ebec160ffcae89f4128d945c1bdd2574441f9` | 1340 |
-| `evidence/integration/cap03-dr2-one-pass-2026-10-25/post-advance-census.txt` | `b3d4ed60d38d77ed942259956af4897ed65a6645` | `419acaf460dafa09040f368b6eb60019b55773eff1dabbcbae5f1a6aeb7481a4` | 2216 |
+| `evidence/integration/cap03-dr2-one-pass-2026-10-25/post-advance-census.txt` | `9ec2e661e61b94e4c1cfd2ea41f3172780754745` | `10dcccc534b840ffb174a1019081259debe6bde90a7d0fbff7e16ba3ed42e9aa` | 2914 |
+| `evidence/integration/cap03-dr2-one-pass-2026-10-25/post-pr266-census.txt` | `5a02a79b48f7de8d0f2a59bef85adac567a3c844` | `304fe85a5bc614aae3ac6180844ffd272caea7d49a6721cb0f54e2a0eacf2ce4` | 3675 |
+| `evidence/integration/cap03-dr2-one-pass-2026-10-25/post-pr267-census.txt` | `0584b56cac74ff908d5da8d8e57c54bb32c89025` | `af59f087de536b47993dd64672046c322834aca2af31a6d6b3e3b821597cee8d` | 2289 |
+| `evidence/integration/cap03-dr2-one-pass-2026-10-25/pr266-remote-receipt-readback.txt` | `2806c3ef1ba6432ab44532478747ce9a04a63060` | `876f6059a02444f20f53a3e1aab578d9d1ffc0b11eb6be85287bdf86575ca87f` | 2700 |
+| `evidence/integration/cap03-dr2-one-pass-2026-10-25/pr267-remote-receipt-readback.txt` | `757306e2179d5acba1344ba1d5501a90266e71c5` | `00bc878c5dc02fa1e3d387765eaf94ac8b71964c662610ba0b737b2e77a4c40f` | 1676 |
 | `evidence/integration/cap03-dr2-one-pass-2026-10-25/starting-state.txt` | `0b10664566326de69ff4c723dcc71038e9e50ce8` | `f044a3acfaeeee21a46940950307e60c53f8e394968ca48083d2566b97fb4b79` | 3019 |
+| `evidence/integration/cap03-dr2-one-pass-2026-10-25/test-report-guard-after-main-4e54.txt` | `f1c6534c6209810887d451d2c0e83dfc4b90472f` | `0ef92a410267c5a89521f7409bf102e096769dcc8731b58cac194f33be1e6ac1` | 179 |
+| `evidence/integration/cap03-dr2-one-pass-2026-10-25/test-report-guard-after-main-53176b.txt` | `63811fa7ca81e342cd2c14ab98c577a6c815924f` | `b6d6f0f59705e799c892f1252f96fef05553a4b0a1386fd48aab6212cfb5efc1` | 181 |
 | `evidence/integration/cap03-dr2-one-pass-2026-10-25/test-report-guard-after-main.txt` | `6707095e03f6059682b165a541cf3e29a36e3d0d` | `5c97bab51d838e64a066a33cb82e051c32c521d7d12d8b68ac600757c183873b` | 91 |
 | `evidence/integration/cap03-dr2-one-pass-2026-10-25/test-report-guard.txt` | `3a4c32df1374dbc04ba450a0af4a078c49e47a0e` | `3348e515e78aa93d3d286dae6d3d60c622b6319ee378f9c502f3acc377ba275d` | 159 |
+| `evidence/integration/cap03-dr2-one-pass-2026-10-25/typecheck-after-main-4e54.txt` | `c0c5dbd9c98a467dd0c31a52cae989672ebfc79b` | `4e0c3d00c6a8994039c8ab8f7168859d4b9fce3ce9d803cfa977c0cd65e026b0` | 291 |
+| `evidence/integration/cap03-dr2-one-pass-2026-10-25/typecheck-after-main-53176b.txt` | `308de1bacb48c438350965c4ec1ebdbeff3022e9` | `00e02e0c0d17b62bc5a8af3c8b071fbc478071dec9c58d2758464462f5b76df6` | 293 |
 | `evidence/integration/cap03-dr2-one-pass-2026-10-25/typecheck-after-main.txt` | `814f83670c3658ab5541b114ce9c34fb6f3b9582` | `57e665b52ea13191e08aecf860d705b57994f8d47f369df9e37c2fc4a7165bae` | 230 |
+| `evidence/integration/cap03-dr2-one-pass-2026-10-25/typecheck-replay-server-after-main-4e54.txt` | `b90bd2b0acff6911239cbe2b71952f4f56043e3a` | `31f5ab8bac1eba367536560375c3571a680c5208a027cf856c8e5230ecf5cc10` | 208 |
+| `evidence/integration/cap03-dr2-one-pass-2026-10-25/typecheck-replay-server-after-main-53176b.txt` | `49cc8e525d82524c96bbce565e39c0422d354d6d` | `f4e54f2939386f9e95b6d78ee21212f679103c58991df651835534574a659608` | 210 |
 | `evidence/integration/cap03-dr2-one-pass-2026-10-25/typecheck-replay-server-after-main.txt` | `cc60b4bc51a4de366b2c02e14013d028d5560dd0` | `0b079dbfe9d50f4fbad3c6c944bd1b5315df3490b1186e5af66a07a04e4183f5` | 133 |
 | `evidence/integration/cap03-dr2-one-pass-2026-10-25/typecheck-replay-server.txt` | `40eb8c316ab645145216e90ccecb90b7176cbb9a` | `f6ea33cb3a0b3252f2bf98aec0cf7f0fc545803c8a3f2b4628f2174221f328f5` | 111 |
 | `evidence/integration/cap03-dr2-one-pass-2026-10-25/typecheck.txt` | `d0380033950e0c0fa21a6ae9663ed8993cf54d6c` | `93651a0a163932e87369258de556430a061e3e63c3a44886e4a8047f72a6d38e` | 222 |
-| `frontend/server/user-portfolio/ipcPortAdapter.test.ts` | `46243a7a79ba3b19cd4d2b8a56df8905aba220f8` | `eeb12462dd2c78a945796420b87dc950fa9eb66a91bdd91305ca98350c0146af` | 45566 |
-| `frontend/server/user-portfolio/ipcPortAdapter.ts` | `1e20e98023f20f80ed61d8d32d070fdde677d3c7` | `8c394c33af889f4045bb54d412f82aa2bfcb32d55140804157511fc0148540f3` | 27511 |

@@ -1,0 +1,17 @@
+PR #266 post-merge independent remote publication read-back — 2026-10-25 UTC
+
+GitHub sources: `gh pr view 266 --json number,title,state,mergedAt,mergeCommit,headRefOid,baseRefName,files`; `gh run view 40189717731`; `gh run view 40189817732`; `gh api repos/ramkivs/iips-review-recovered/git/commits/4e54a9231d2c823aef1930671a6e8f64cde912d7`; `gh api repos/ramkivs/iips-review-recovered/git/trees/4e54a9231d2c823aef1930671a6e8f64cde912d7?recursive=1`; and `gh api repos/ramkivs/iips-review-recovered/git/blobs/<tree-blob-sha>` for each changed path.
+
+PR #266 state `MERGED`, mergedAt `2026-10-25T11:40:01Z`; head `026c498821c5457d45431c8104e60bc5e46c71e6`; merge commit `4e54a9231d2c823aef1930671a6e8f64cde912d7`; the Git Commits API reports root tree `cd16b5f82676a75ef1db1afc350a75e9dfaab31d`, equal to the fetched local commit tree. Exact-head CI `40189717731` and post-merge main CI `40189817732` both completed `success`.
+
+GitHub reports exactly three changed paths (tracker +85/−7, decision proposal +122/−0, investigation +488/−0; total +695/−7), all documentation/tracker. No `frontend/`, `iips-platform/`, or IPD source path changed.
+
+GitHub Git Trees/Blobs API payloads were decoded from base64. For each path, API tree blob SHA/size, API blob metadata, decoded byte length, raw SHA-256, local fetched `origin/main` Git blob ID, local byte length, and local raw SHA-256 match exactly (3/3):
+
+| Path | Remote Git blob | Bytes | Remote raw SHA-256 | Local equality |
+|---|---|---:|---|---|
+| `IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md` | `d2fddb367e3ee6b5397dbdbad9fdc49f7051db15` | 2,078,927 | `ecd2f583a160f2d997781b3bfd499e0e4f88a8fd253e0a3955a7b77950b423b7` | **MATCH** (API bytes == fetched `origin/main` bytes) |
+| `docs/integration/IIPS_v3.0_REPORTS_NP06_CV51_IMPLEMENTATION_AUTHORITY_PA_DECISION_ACT_PROPOSED_2026-10-25.md` | `a3d265393f3522fa8a1be88380e383b2305a1452` | 16,354 | `c57b3f1ca5059865f8da6ce5fc7acccc0dc1fefae47d97f0948597d3732c3b56` | **MATCH** (API bytes == fetched `origin/main` bytes) |
+| `docs/integration/IIPS_v3.0_REPORTS_NP06_CV51_READINESS_INVESTIGATION_AND_IMPLEMENTATION_PLAN_2026-10-25.md` | `be226727c6050dd9cee727ea6556523261f76681` | 70,472 | `2dab6cfa234e1e7d18a9b35b95841db891330b514a049014fa62a3aa71d2f36c` | **MATCH** (API bytes == fetched `origin/main` bytes) |
+
+This evidence establishes the PR #266 merge receipt only; it does not make the proposed CV-51 act effective. The same receipt is additively recorded in master tracker §16.113.7 with the preallocated `CHG-2026-10-25-16` / `V644`. At this read-back, `origin/main` remained the PR #266 merge commit; CAP-03 PR #265 remained a separate, unmerged branch.

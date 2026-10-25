@@ -1,0 +1,29 @@
+Final CAP-03 candidate census after PR #267 — 2026-10-25 UTC
+
+Baseline: IRR `origin/main@53176b73e505cbc75ad23694bbd12482323ae7a3`, root tree `f2dfd90b6b2eb95dc760b7af7c955af8ecf9fab4`; IPD `main@4b5c65a731a66a6fa1260146a55df9ed772953a5`; merged PR #267 diff `4e54a9231d2c823aef1930671a6e8f64cde912d7..53176b73e505cbc75ad23694bbd12482323ae7a3` (tracker-only, with receipt for PR #266). The PR #267 execution used only `CHG-2026-10-25-16` / `V644`; its exact remote receipt is `pr267-remote-receipt-readback.txt`.
+
+Each exact string below was searched in the complete current IRR `origin/main` tree with `git grep`, in the merged PR #267 diff, and recursively in the read-only IPD evidence working tree at the stated commit. Each returned zero matches (ripgrep/git-grep exit 1 for no match). Current open IRR PR list, from GitHub API, follows the table.
+
+| Candidate | Current IRR main | PR #267 diff | IPD evidence |
+|---|---:|---:|---:|
+| `§16.114` | 0 | 0 | 0 |
+| `CV-CORR-96` | 0 | 0 | 0 |
+| `CHG-2026-10-25-17` | 0 | 0 | 0 |
+| `CHG-2026-10-25-18` | 0 | 0 | 0 |
+| `V645` | 0 | 0 | 0 |
+| `V646` | 0 | 0 | 0 |
+| `V647` | 0 | 0 | 0 |
+| `V648` | 0 | 0 | 0 |
+| `V649` | 0 | 0 | 0 |
+| `V650` | 0 | 0 | 0 |
+| `V651` | 0 | 0 | 0 |
+| `V652` | 0 | 0 | 0 |
+| `V653` | 0 | 0 | 0 |
+| `V654` | 0 | 0 | 0 |
+| `V655` | 0 | 0 | 0 |
+| `V656` | 0 | 0 | 0 |
+| `V657` | 0 | 0 | 0 |
+
+Final CAP-03 allocation remains `CV-CORR-96`, §16.114, `CHG-2026-10-25-17` (execution) / `CHG-2026-10-25-18` (PR-head publication receipt), and `V645`–`V657`. PR #267's merged `CV-CORR-95` / §16.113 / CHG-15/-16 / V636–V644 is preserved, including its §16.113.7 receipt. No CAP-03 section or code was merged to `main` under the earlier colliding `CV-CORR-95` allocation.
+
+Only open IRR PRs at final census time: `[{"baseRefName":"main","headRefName":"arena/a97a2beb-iips-review-recovered","headRefOid":"0e7cde607f3d1524bfd8cc25c604235831a174ff","number":265,"title":"CAP-03: render DQ-1 Option A and implement IRR mapping"}]`. PR #265 was still at the old head `0e7cde607f3d1524bfd8cc25c604235831a174ff`; its prior check `40189643565` does not validate the updated allocation/current-main merge. This census is time-bounded; re-fetch `origin/main` and re-census before publication if the remote tip changes again.

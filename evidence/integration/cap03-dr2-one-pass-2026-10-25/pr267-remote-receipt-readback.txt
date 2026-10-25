@@ -1,0 +1,9 @@
+PR #267 post-merge independent remote publication read-back — 2026-10-25 UTC
+
+Sources: `gh pr view 267 --json number,title,state,mergedAt,mergeCommit,headRefOid,files`; `gh run view 40190052160`; `gh run view 40190146374`; GitHub Git Commits, Trees, and Blobs APIs at the exact merge SHA; fetched `origin/main` object read-back.
+
+PR #267 `MERGED` at `2026-10-25T11:44:42Z`; head `44f1dd3b3ca65ad1f3d6db16ad258f39a722b703`; merge commit `53176b73e505cbc75ad23694bbd12482323ae7a3`; root tree `f2dfd90b6b2eb95dc760b7af7c955af8ecf9fab4`. PR-head CI `40190052160` (`Typecheck · Test · Build`) and post-merge `main` CI `40190146374` both completed `success` on their exact SHAs. Its changed-path set is exactly one file, the tracker (`+23 / −4`), and the current-main diff from PR #266 merge `4e54a9231d2c823aef1930671a6e8f64cde912d7` changes no frontend, package, or IPD source.
+
+Remote tracker read-back at `main@53176b73e505cbc75ad23694bbd12482323ae7a3`: Git blob `31e16620c15480fc16b114be257ca9f81608c802`, 2,083,135 bytes, raw SHA-256 `08a573813b7268e593b9d828d4141baff820cb55857373b22c14880c333c3472`. GitHub tree entry/blob metadata and decoded bytes match fetched `origin/main` exactly (1/1 MATCH); the Git Commits API tree equals the fetched root tree `f2dfd90b6b2eb95dc760b7af7c955af8ecf9fab4`.
+
+PR #267 completes the previously allocated PR #266 receipt at §16.113.7 (`CHG-2026-10-25-16`, `V644`). It does not change the proposed CV-51 act's status (`PROPOSED — NOT APPROVED / NOT EFFECTIVE`), and it does not authorize UI/routes or production admission. CAP-03's final candidate allocation is separately re-screened after this merge in `post-pr267-census.txt`.

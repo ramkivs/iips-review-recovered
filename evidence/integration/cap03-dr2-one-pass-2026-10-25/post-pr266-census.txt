@@ -1,0 +1,44 @@
+Second concurrent tracker collision and final pre-publication census — 2026-10-25 UTC
+
+## PR #266 consumed the first reallocation
+
+After the main-only `post-advance-census.txt` recorded zero hits for CV-CORR-95 / §16.113 / CHG-15/-16 / V636–V648 against `main@0cc999f`, separate PR #266 was opened against the same base. It was not present in that earlier census. PR #266 was a distinct NP-06 Reports CV-51 readiness/implementation-plan pass, not CAP-03:
+
+- PR #266 title: `docs(np06): CV-51 readiness investigation, read-only UI implementation plan, proposed PA act & §16.113 reconciliation (CV-CORR-95)`.
+- Head `026c498821c5457d45431c8104e60bc5e46c71e6`, base `0cc999ffba424476bace9688ca2f93ab114f0ee5`.
+- It allocated `CV-CORR-95`, §16.113, `CHG-2026-10-25-15/-16`, and verification rows `V636`–`V644` for three documentation-only paths (investigation, proposed act, tracker). The proposed act remained **PROPOSED — NOT APPROVED / NOT EFFECTIVE**; it did not authorize or implement Reports UI, routes, or CAP-03 user-portfolio work.
+- PR-head CI `40189717731` passed. PR #266 merged at `2026-10-25T11:40:01Z` as `4e54a9231d2c823aef1930671a6e8f64cde912d7`, tree `cd16b5f82676a75ef1db1afc350a75e9dfaab31d`; its post-merge `main` check `40189817732` completed with `success`.
+- The current `origin/main` is therefore `4e54a9231d2c823aef1930671a6e8f64cde912d7`, not the earlier `0cc999f`. The PR #266 tracker section and its CV-51 proposal are preserved on current `main`; PR #266 was not modified by this CAP-03 work. Its preallocated publication receipt was subsequently completed additively in the CAP-03 branch tracker as §16.113.7 / `CHG-2026-10-25-16` / `V644`; the 3/3 remote artifact read-back evidence is `pr266-remote-receipt-readback.txt`. This receipt is part of the still-unmerged CAP-03 branch, not the current `main` tree.
+
+## Final candidate allocation for CAP-03
+
+After fetching current `origin/main@4e54a923` and checking the only remaining open IRR PR (#265), candidates below had zero prior hits in current `origin/main` and the IPD evidence corpus. The whole PR #266 diff was searched; `V644` was found there, confirming the collision boundary; all final `V645`–`V657` candidates below returned zero hits in the current main tree, PR #266 diff, and IPD evidence.
+
+| Candidate | Prior hits in `origin/main@4e54a923`, PR #266 diff, IPD evidence |
+|---|---:|
+| §16.114 | 0 |
+| CV-CORR-96 | 0 |
+| CHG-2026-10-25-17 | 0 |
+| CHG-2026-10-25-18 | 0 |
+| V645 | 0 |
+| V646 | 0 |
+| V647 | 0 |
+| V648 | 0 |
+| V649 | 0 |
+| V650 | 0 |
+| V651 | 0 |
+| V652 | 0 |
+| V653 | 0 |
+| V654 | 0 |
+| V655 | 0 |
+| V656 | 0 |
+| V657 | 0 |
+
+Final CAP-03 tracker allocation: `CV-CORR-96`, §16.114, `CHG-2026-10-25-17` (execution) / `CHG-2026-10-25-18` (publication receipt), and `V645`–`V657`. The PA decision-act IDs do not change. The first `CV-CORR-95` reallocation was withdrawn before its merge; no CAP-03 decision or code was merged to `main` under the colliding identifiers.
+
+At final census time, `origin/main` was `4e54a9231d2c823aef1930671a6e8f64cde912d7`; the only open IRR PR was #265. That PR still pointed at pre-final-reallocation head `0e7cde607f3d1524bfd8cc25c604235831a174ff` and had not merged. Its prior CI run `40189643565` was green on that old head; final-reallocation publication requires a fresh exact-head CI run.
+
+
+### Later main advance (time-bounded follow-up)
+
+PR #267 subsequently merged PR #266's allocated §16.113.7 / CHG-16 / V644 receipt as `main@53176b73…`; the original PR #266 census above remains a snapshot at `main@4e54a923`. The final CAP-03 IDs were re-censused after PR #267 with zero hits in `post-pr267-census.txt`.

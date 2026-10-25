@@ -1,11 +1,25 @@
-Concurrent IRR main advance discovered while PR #265 was open — collision handled before merge
+Concurrent IRR main advances and tracker collisions discovered while PR #265 was open — all material preserved
 
-Initial pass baseline: IRR `main` / this branch base `e8b41ba747132773b2c31a85eb028bd8d33d2ffd`, tree `23dfa3d87446a418a6c1923e20adf2e17640b842`. This was independently checked at pass start and is recorded in `starting-state.txt`.
+Initial CAP-03 pass baseline: IRR branch/base and remote `main` were `e8b41ba747132773b2c31a85eb028bd8d33d2ffd`, tree `23dfa3d87446a418a6c1923e20adf2e17640b842`. See `starting-state.txt`.
 
-While PR #265 was unmerged, two unrelated IRR PRs advanced `main`:
-- PR #263, `feat(reports): publish R1 & R2 PA decision acts, implement non-auth transport, and prove F-7 durable HTTP restart`, head `89b44786add0932887f2fb4ada5c13a369734198`, merge `3482d694ad35d0e06c088419fe3f9d5649bdbb49`, merged `2026-10-25T11:15:16Z`; PR-head CI `40187947852` and post-merge main CI `40188087588` success.
-- PR #264, `docs(tracker): record NP-06 Reports execution pass publication receipt (§16.112.7)`, head `bbbf9988e3302e6f9469d360c345f4f79c06bb6c`, merge `0cc999ffba424476bace9688ca2f93ab114f0ee5`, tree `8af4b196205b4e3dcbc4801614a60c709c7e0d7f`, merged `2026-10-25T11:18:38Z`; PR-head CI `40188230196` and post-merge main CI `40188325777` success.
+## First main advance: PRs #263 and #264
 
-PR #264 legitimately allocated `CV-CORR-94`, §16.112, `CHG-2026-10-25-13/-14`, and `V627`–`V635` for the Reports pass. Our still-open PR #265 (head `51ce168306b67f208d026cf6178a72d170d5052c`) had independently allocated those identifiers against its then-current base. GitHub reported it `CONFLICTING`; its head had no CI check-runs at that moment. It had not merged, so no duplicate PA act or effective CAP-03 disposition was published.
+While PR #265 was unmerged, PR #263 (`feat(reports): publish R1 & R2 PA decision acts, implement non-auth transport, and prove F-7 durable HTTP restart`) merged as `3482d694ad35d0e06c088419fe3f9d5649bdbb49` at `2026-10-25T11:15:16Z`; PR-head CI `40187947852` and post-merge main CI `40188087588` passed. PR #264 (`docs(tracker): record NP-06 Reports execution pass publication receipt (§16.112.7)`) merged as `0cc999ffba424476bace9688ca2f93ab114f0ee5` (tree `8af4b196205b4e3dcbc4801614a60c709c7e0d7f`) at `2026-10-25T11:18:38Z`; checks `40188230196` / `40188325777` passed.
 
-Resolution: retain the original first-pass census as a time-stamped record; rebase the CAP-03 tracker contribution additively after current `main` by merging `origin/main` into the same fixed Arena branch; reallocate this CAP-03 tracker section to `CV-CORR-95`, §16.113, `CHG-2026-10-25-15/-16`, and `V636`–`V648`. The unique decision-act IDs are unchanged. This is a tracker-number collision from concurrent publication, not a change to the PA's field decisions. PR #263's Reports work is separate and is not claimed as part of this CAP-03 pass.
+PR #264 allocated `CV-CORR-94`, §16.112, `CHG-2026-10-25-13/-14`, and `V627`–`V635` for Reports. CAP-03's initial independent allocation collided and was not merged. After integrating `origin/main@0cc999f`, CAP-03 was first reallocated to `CV-CORR-95` / §16.113 / CHG-15/-16 / V636–V648.
+
+## Second main advance: PR #266
+
+Separate PR #266 opened at `2026-10-25T11:38:33Z` against `0cc999f` for NP-06 Reports `CV-51` readiness, a read-only UI plan, and a proposed (not effective) PA act. Head `026c498821c5457d45431c8104e60bc5e46c71e6`; it used `CV-CORR-95`, §16.113, `CHG-2026-10-25-15/-16`, and `V636`–`V644`. Its three changed paths were documentation/tracker only. PR CI `40189717731` passed; it merged at `2026-10-25T11:40:01Z` as `4e54a9231d2c823aef1930671a6e8f64cde912d7` (tree `cd16b5f82676a75ef1db1afc350a75e9dfaab31d`); post-merge check `40189817732` passed. Its CV-51 act remains `PROPOSED — NOT APPROVED / NOT EFFECTIVE`; no UI/route or acceptance is inferred. Its original artifacts were independently read back 3/3 via GitHub API; see `pr266-remote-receipt-readback.txt`.
+
+The main-only census made against `0cc999f` did not include PR #266, which opened afterward; preserve that census as a time-specific history. CAP-03's first CV-CORR-95 reallocation was superseded before merge. PR #266's `CHG-16`/`V644` receipt was then published separately by PR #267, not by CAP-03.
+
+## Third main advance: PR #267
+
+PR #267 (`docs(tracker): §16.113.7 post-merge remote verification receipt for PR #266 (CHG-2026-10-25-16)`) merged at `2026-10-25T11:44:42Z` as `53176b73e505cbc75ad23694bbd12482323ae7a3` (tree `f2dfd90b6b2eb95dc760b7af7c955af8ecf9fab4`); head `44f1dd3b3ca65ad1f3d6db16ad258f39a722b703`. PR-head CI `40190052160` and post-merge main CI `40190146374` passed. Exactly one path changed: the tracker (`+23/-4`), with no code/package/IPD change. The authoritative PR #267 receipt and 1/1 remote GitHub API read-back are in `pr267-remote-receipt-readback.txt`; current main preserves §16.113.7, CHG-16 and V644.
+
+## Final CAP-03 census and integration
+
+After fetching `origin/main@53176b73e505cbc75ad23694bbd12482323ae7a3`, PR #265 was the only open IRR PR. All final CAP-03 candidates—`CV-CORR-96`, §16.114, `CHG-2026-10-25-17/-18`, and `V645`–`V657`—were re-screened against current main, the PR #267 diff, and the IPD evidence corpus with zero hits; see `post-pr267-census.txt`. These candidates remain distinct from PR #267's CV-95/§16.113/CHG-15/-16/V636–V644 allocation. The fixed branch's current-main merge commit is `9fa47e845357e82f1766dbafc35dcf4c3bd9babf` (parents `6f83cdd897b3179232eef6653a49d2e275b7fbf4` and `53176b73e505cbc75ad23694bbd12482323ae7a3`, tree `d87d2949154aa6b6cd2e1a523245ea1b7e5d71d9`). PR #265 remains open and must not be merged under the PA's explicit direction.
+
+Scope boundary: PR #263's Reports transport and PRs #266/#267's CV-51 proposal/receipt are independent mainline work, preserved but not attributed to this CAP-03 user-portfolio pass. No CAP-03 user-portfolio endpoint activation follows from any Reports PR.

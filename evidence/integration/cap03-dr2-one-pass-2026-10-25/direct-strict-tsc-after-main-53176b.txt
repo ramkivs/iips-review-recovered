@@ -1,0 +1,4 @@
+Command: npx tsc --noEmit --strict --target ES2020 --module ESNext --moduleResolution bundler --allowImportingTsExtensions --esModuleInterop --skipLibCheck --types node server/user-portfolio/ipcPortAdapter.ts server/user-portfolio/ipcPortAdapter.test.ts
+
+
+[direct-strict-tsc-after-main-53176b exit: 0; duration: 1.92s]
