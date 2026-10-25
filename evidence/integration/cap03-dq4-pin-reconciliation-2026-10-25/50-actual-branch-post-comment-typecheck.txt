@@ -1,0 +1,15 @@
+ACTUAL IRR BRANCH post-comment-restoration check
+COMMAND: npm run typecheck
+
+> @iips/v3-frontend@0.1.0 pretypecheck
+> npm run build:broker-import
+
+
+> @iips/v3-frontend@0.1.0 build:broker-import
+> tsc -p tsconfig.broker-import.json
+
+
+> @iips/v3-frontend@0.1.0 typecheck
+> tsc --noEmit
+
+EXIT_CODE=0

@@ -1,0 +1,47 @@
+CANDIDATE: primary only -> 8eec74ae27cda09f3c368b9c299895eae41554db; alias retained at 70b24f029842a7e9b7f615e4d9df7376fd4ff817; candidate guard expectations updated in disposable worktree only
+COMMAND: npm test -- server/broker-import/brokerImportPackageConsumer.test.ts server/broker-import server/pit src/api/brokerHoldingsPreview.test.ts src/api/brokerImport.test.ts server/reports/reports-persistence-integration.test.ts server/user-portfolio server/user-portfolio-transport.test.ts
+
+> @iips/v3-frontend@0.1.0 pretest
+> npm run build:broker-import
+
+
+> @iips/v3-frontend@0.1.0 build:broker-import
+> tsc -p tsconfig.broker-import.json
+
+
+> @iips/v3-frontend@0.1.0 test
+> vitest run server/broker-import/brokerImportPackageConsumer.test.ts server/broker-import server/pit src/api/brokerHoldingsPreview.test.ts src/api/brokerImport.test.ts server/reports/reports-persistence-integration.test.ts server/user-portfolio server/user-portfolio-transport.test.ts
+
+
+ RUN  v2.1.9 /tmp/irr-dq4-candidate-both-8eec/frontend
+
+ ✓ server/user-portfolio/ipcPortAdapter.test.ts (49 tests) 30ms
+ ✓ server/user-portfolio/ipcClient.test.ts (34 tests) 352ms
+ ✓ server/pit/pitReadBoundary.test.ts (48 tests) 48ms
+ ✓ server/user-portfolio/fenceUnchanged.test.ts (26 tests) 306ms
+ ✓ server/pit/pitRuntimeIntegration.test.ts (28 tests) 117ms
+ ✓ server/broker-import/brokerImportHttp.test.ts (24 tests) 279ms
+ ✓ server/pit/pitD114RuntimeIntegration.test.ts (27 tests) 146ms
+ ✓ server/user-portfolio/userPortfolioContract.test.ts (19 tests) 6ms
+ ✓ server/broker-import/brokerImportV1SaveAdapter.test.ts (22 tests) 9ms
+ ✓ server/user-portfolio/ownerContextFromBinding.test.ts (15 tests) 12ms
+ ✓ server/broker-import/brokerImportBoundary.test.ts (16 tests) 18ms
+ ✓ server/user-portfolio/option2F.test.ts (15 tests) 60ms
+(node:7998) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ✓ server/reports/reports-persistence-integration.test.ts (5 tests) 60ms
+ ✓ server/user-portfolio/userPortfolioBoundary.test.ts (8 tests) 6ms
+ ✓ server/broker-import/brokerImportImportSafety.test.ts (5 tests) 25ms
+ ✓ server/user-portfolio/translationBoundary.test.ts (4 tests) 4ms
+ ✓ server/broker-import/brokerImportPackageConsumer.test.ts (5 tests) 68ms
+ ✓ src/api/brokerImport.test.ts (12 tests) 12ms
+ ✓ server/broker-import/brokerImportModalHostIntegration.test.tsx (2 tests) 900ms
+ ✓ src/api/brokerHoldingsPreview.test.ts (10 tests) 11ms
+ ✓ server/user-portfolio-transport.test.ts (3 tests) 56ms
+
+ Test Files  21 passed (21)
+      Tests  377 passed (377)
+   Start at  14:25:08
+   Duration  11.80s (transform 1.57s, setup 2.32s, collect 1.89s, tests 2.53s, environment 1.61s, prepare 1.07s)
+
+EXIT_CODE=0

@@ -1,0 +1,3 @@
+COMMAND: npx tsc server/user-portfolio/ipcPortAdapter.ts --outDir /tmp/cap03-dq4-harness/out --rootDir server/user-portfolio --module NodeNext --target ES2022 --moduleResolution NodeNext --strict --skipLibCheck --types node --declaration false --sourceMap false
+CWD: frontend
+EXIT_CODE=0

@@ -1,0 +1,38 @@
+COMMAND: npm test -- server/broker-import/brokerImportPackageConsumer.test.ts server/broker-import server/pit src/api/brokerHoldingsPreview.test.ts src/api/brokerImport.test.ts server/reports/reports-persistence-integration.test.ts
+CWD: frontend
+
+> @iips/v3-frontend@0.1.0 pretest
+> npm run build:broker-import
+
+
+> @iips/v3-frontend@0.1.0 build:broker-import
+> tsc -p tsconfig.broker-import.json
+
+
+> @iips/v3-frontend@0.1.0 test
+> vitest run server/broker-import/brokerImportPackageConsumer.test.ts server/broker-import server/pit src/api/brokerHoldingsPreview.test.ts src/api/brokerImport.test.ts server/reports/reports-persistence-integration.test.ts
+
+
+ RUN  v2.1.9 /home/user/iips-review-recovered/frontend
+
+ ✓ server/pit/pitReadBoundary.test.ts (48 tests) 53ms
+ ✓ server/pit/pitRuntimeIntegration.test.ts (28 tests) 122ms
+ ✓ server/broker-import/brokerImportHttp.test.ts (24 tests) 283ms
+ ✓ server/pit/pitD114RuntimeIntegration.test.ts (27 tests) 105ms
+ ✓ server/broker-import/brokerImportV1SaveAdapter.test.ts (22 tests) 7ms
+ ✓ server/broker-import/brokerImportBoundary.test.ts (16 tests) 18ms
+(node:2496) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ✓ server/reports/reports-persistence-integration.test.ts (5 tests) 88ms
+ ✓ server/broker-import/brokerImportImportSafety.test.ts (5 tests) 24ms
+ ✓ server/broker-import/brokerImportPackageConsumer.test.ts (5 tests) 54ms
+ ✓ src/api/brokerImport.test.ts (12 tests) 10ms
+ ✓ server/broker-import/brokerImportModalHostIntegration.test.tsx (2 tests) 937ms
+ ✓ src/api/brokerHoldingsPreview.test.ts (10 tests) 16ms
+
+ Test Files  12 passed (12)
+      Tests  204 passed (204)
+   Start at  14:18:25
+   Duration  7.52s (transform 1.35s, setup 1.28s, collect 1.48s, tests 1.72s, environment 1.20s, prepare 565ms)
+
+EXIT_CODE=0

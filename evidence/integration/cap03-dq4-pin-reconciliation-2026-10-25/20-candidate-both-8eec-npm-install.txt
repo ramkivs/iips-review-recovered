@@ -1,0 +1,26 @@
+CANDIDATE: both IRR IPD package specifiers -> 8eec74ae27cda09f3c368b9c299895eae41554db
+WORKTREE: /tmp/irr-dq4-candidate-both-8eec (detached at IRR 445f0f58...)
+COMMAND: NODE_EXTRA_CA_CERTS=/etc/ssl/certs/ca-certificates.crt npm install
+npm warn skipping integrity check for git dependency ssh://git@github.com/ramkivs/iips-production-market-data.git
+npm warn skipping integrity check for git dependency ssh://git@github.com/ramkivs/iips-production-market-data.git
+npm warn skipping integrity check for git dependency ssh://git@github.com/ramkivs/iips-production-market-data.git
+npm warn deprecated whatwg-encoding@3.1.1: Use @exodus/bytes instead for a more spec-conformant and faster implementation
+
+added 190 packages, and audited 191 packages in 52s
+
+29 packages are looking for funding
+  run `npm fund` for details
+
+11 vulnerabilities (6 moderate, 3 high, 2 critical)
+
+To address issues that do not require attention, run:
+  npm audit fix
+
+To address all issues possible (including breaking changes), run:
+  npm audit fix --force
+
+Some issues need review, and may require choosing
+a different dependency.
+
+Run `npm audit` for details.
+EXIT_CODE=0

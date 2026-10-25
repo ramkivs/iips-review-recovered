@@ -13,9 +13,11 @@
  *   on publication to IRR `main`. It authorizes exactly one SECOND dependency specifier —
  *   `iips-np04-governed-persistence` →
  *   `github:ramkivs/iips-production-market-data#2e11fa3b689d1a3674a5e4ba1f1de9a559e20494` —
- *   while the primary pin `iips-production-market-data#2d9130e7…` (exports `./portfolio-ui`,
- *   `./pit`, `./d114-non-production`), the broker specifier, Gate 3, and every IPD object remain
- *   unchanged. No IPD export-map change and no re-pin of the primary pin were made.
+ *   while R3 itself left the then-current primary pin, broker specifier, Gate 3, and every IPD
+ *   object unchanged. The primary pin was subsequently advanced independently by the CAP-03
+ *   DQ-4 reconciliation (tracker §16.119) to `iips-production-market-data#8eec74ae…`, which
+ *   retains the same `./portfolio-ui`, `./pit`, and `./d114-non-production` exports; the NP-04
+ *   second specifier remains unchanged.
  *   1. That commit exports the `./persistence` subpath (`types` + `import`) and ships
  *      `dist/package/persistence/`, so `import 'iips-np04-governed-persistence/persistence'`
  *      resolves and exposes `openDatabase` and `GovernedArtifactStore`. That is the AUTHORITATIVE
@@ -176,7 +178,7 @@ export interface Np04BoundaryDescriptor {
   /** The published NP-04 commit consumed through the second specifier admitted by R3 Option B. */
   readonly authoritativeCommit: string;
   readonly pinnedDependency: string;
-  /** The commit the admitted second specifier in `frontend/package.json` / `package-lock.json` points at. The primary pin is separately preserved at `2d9130e7…` and is not this commit. */
+  /** The commit the admitted second specifier in `frontend/package.json` / `package-lock.json` points at. The primary pin is separately guarded at `8eec74ae…` after the DQ-4 reconciliation and is not this commit. */
   readonly pinnedCommit: string;
   /** The published package declares and ships the `./persistence` export subpath. */
   readonly persistedSubpathExported: true;
@@ -217,7 +219,7 @@ export const NP04_BOUNDARY: Np04BoundaryDescriptor = Object.freeze({
     'No dependency-boundary blocker remains under IIPS-V3-REPORTS-NP06-R3-PA-DECISION-2026-10-25-01 ' +
     '(R3-Option B): the second specifier iips-np04-governed-persistence#2e11fa3b exports ./persistence ' +
     '(types + import), ships dist/package/persistence, and is directly consumable. The primary pin ' +
-    'iips-production-market-data#2d9130e7 is unchanged. A live store now turns only on deployment ' +
+    'iips-production-market-data#8eec74ae was reconciled independently under CAP-03 DQ-4. A live store now turns only on deployment ' +
     'configuration — the server-owned database path (see runtimeDatabasePathEnv) must be present; ' +
     'with none configured the resolver still fails closed rather than substituting a store.',
   requiresAuthorizedChange: [],

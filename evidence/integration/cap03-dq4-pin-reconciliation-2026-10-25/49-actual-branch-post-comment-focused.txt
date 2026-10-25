@@ -1,0 +1,28 @@
+ACTUAL IRR BRANCH post-comment-restoration check
+COMMAND: npm test -- server/broker-import/brokerImportPackageConsumer.test.ts server/reports/reports-persistence-integration.test.ts
+
+> @iips/v3-frontend@0.1.0 pretest
+> npm run build:broker-import
+
+
+> @iips/v3-frontend@0.1.0 build:broker-import
+> tsc -p tsconfig.broker-import.json
+
+
+> @iips/v3-frontend@0.1.0 test
+> vitest run server/broker-import/brokerImportPackageConsumer.test.ts server/reports/reports-persistence-integration.test.ts
+
+
+ RUN  v2.1.9 /home/user/iips-review-recovered/frontend
+
+ ✓ server/broker-import/brokerImportPackageConsumer.test.ts (6 tests) 58ms
+(node:18959) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ✓ server/reports/reports-persistence-integration.test.ts (5 tests) 42ms
+
+ Test Files  2 passed (2)
+      Tests  11 passed (11)
+   Start at  14:40:39
+   Duration  1.07s (transform 120ms, setup 223ms, collect 125ms, tests 100ms, environment 291ms, prepare 94ms)
+
+EXIT_CODE=0

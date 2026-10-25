@@ -1,0 +1,4 @@
+ACTUAL IRR BRANCH (corrected rerun): primary=8eec74ae27cda09f3c368b9c299895eae41554db; alias=70b24f029842a7e9b7f615e4d9df7376fd4ff817; alias guard added
+COMMAND: node .ci/assert-tests.js .vitest-report.json
+assert-tests: OK — 106 test file(s), 1350 test(s), 0 failed
+EXIT_CODE=0

@@ -1,0 +1,7 @@
+ACTUAL IRR BRANCH: primary=8eec74ae27cda09f3c368b9c299895eae41554db; alias=70b24f029842a7e9b7f615e4d9df7376fd4ff817; alias guard added
+COMMAND: npm run typecheck:replay-server
+
+> @iips/v3-frontend@0.1.0 typecheck:replay-server
+> tsc -p tsconfig.replay-server.json --noEmit
+
+EXIT_CODE=0

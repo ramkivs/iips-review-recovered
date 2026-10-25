@@ -10118,3 +10118,69 @@ Gate 4 remains **AUTHORIZED — NOT STARTED**; QE **0/11**; result acceptance **
 | `V670` | PR #265 post-merge remote read-back | **PASS** — PR state, merge commit/tree/parents, current remote `main`, merged consumer/frozen blobs, exact-head CI, post-merge CI, cross-repository adapter identity comparison, and local test totals independently recorded; see this section and `evidence/integration/cap03-dr2-one-pass-2026-10-25/pr265-postmerge-readback.txt`. |
 
 *End of §16.118 post-merge receipt (`CHG-2026-10-25-23`; `V670`).*
+
+---
+
+## §16.119 — `CV-CORR-99`: CAP-03 DQ-4 Pin Reconciliation Executed on IRR Branch; Final QE Freeze **NOT ESTABLISHED** — `2026-10-25` (`CHG-2026-10-25-24`, `V671`–`V678`)
+
+*Additive IRR-side execution record. It preserves the effective CAP-03 one-pass PA decision/execution record (§§16.117–16.118), DR-2/DQ-1 Option A, DR-4r/DQ-3 Option B, all frozen G2/schema/protocol/route/fence boundaries, and every IPD object. This section accompanies the DQ-4 IRR branch change; remote PR/merge/read-back identifiers are recorded only in the post-merge receipt at §16.120. It is not a PA freeze act.*
+
+Detailed record: [`IIPS_v3.0_CAP03_DQ4_PIN_RECONCILIATION_AND_FREEZE_READINESS_2026-10-25.md`](docs/integration/IIPS_v3.0_CAP03_DQ4_PIN_RECONCILIATION_AND_FREEZE_READINESS_2026-10-25.md), record ID `IIPS-V3-CAP03-DQ4-PIN-RECONCILIATION-AND-FREEZE-READINESS-2026-10-25-01`. Evidence annex: `evidence/integration/cap03-dq4-pin-reconciliation-2026-10-25/` (logs `00`–`50`, no `09`, including preserved failures/corrections).
+
+### 16.119.1 Remote bases and target provenance
+
+| Repository | Base `main` | Tree | Open PRs | CI |
+|---|---|---|---:|---|
+| IRR | `445f0f5813040ef5641af0f7e0556713629ce67a` | `c5be92d1ceef72a94b3b13b4de615fa44ff33654` | 0 | `40200132115` success |
+| IPD | `8eec74ae27cda09f3c368b9c299895eae41554db` | `4eba29029f8d95cfe483e615a7047426b298ce50` | 0 | `40196407747` success |
+
+IPD PR #89 merge `79d06e3c5da60da2a234b7ac18c35df848bf9d11` (tree `e8d361c97ba4fc24f18ecc0245f81332cc31ec92`) is an ancestor of IPD `8eec74ae…`; the four later commits change only tracker/evidence paths. Package/provider/Q1/IPC/contract blobs are identical at the PR #89 merge and current IPD main (evidence `47`).
+
+### 16.119.2 Pin reconciliation
+
+| Pin | Before (commit / IPD tree) | After (commit / IPD tree) | Determination |
+|---|---|---|---|
+| Primary `iips-production-market-data` | `2d9130e76bb0dc89daeefabaf297e27bdaa84250` / `4658699180ef161aae3c1b33d3946e918d6fb9b2` | `8eec74ae27cda09f3c368b9c299895eae41554db` / `4eba29029f8d95cfe483e615a7047426b298ce50` | **Advanced.** Same IPD `package.json` blob `51796e63280c1abb368c27bf8811cc6bad46e132`, exports (`./portfolio-ui`, `./pit`, `./d114-non-production`), `files: ['dist/package']`, runtime dependency, and package scripts; exported roots have no diff. The primary is the public package boundary, not the IPD provider/IPC execution mechanism. |
+| Broker alias `iips-broker-import` | `70b24f029842a7e9b7f615e4d9df7376fd4ff817` / `cc0f0117822850f9046e9a51bd05c1d45f80cd57` | **Unchanged** | **Preserved distinct.** At the alias pin, IPD has no `exports`/`files`, so the fourteen raw sources required by `frontend/tsconfig.broker-import.json` install. At modern IPD commits, `files: ['dist/package']` omits those sources; a both-pins candidate failed `build:broker-import` with `TS18003` before tests. Alias modernization requires an authorized IPD package-surface change or IRR broker-build redesign and lineage requalification. |
+| Reports `iips-np04-governed-persistence` | `2e11fa3b689d1a3674a5e4ba1f1de9a559e20494` | **Unchanged** | Separate NP-04 dependency; not a CAP-03 QE pin. Only stale primary-coordinate descriptions/expectation were corrected. |
+
+`frontend/server/broker-import/brokerImportPackageConsumer.test.ts` now guards the exact primary and alias separately, requires the alias to remain distinct, rejects a `dist/package`-only installed alias for the current raw-source build, and verifies all fourteen required source files. The lockfile's primary integrity is `sha512-RlYaRz+MlKA+k5VKGhbLLnvjzOBEPTlfV9KuBLw1b8gj/JEXzQMR/SqqDMsbat2inPvaDbekOW6TjIEFVy46vQ==`; `npm install` also removed stale lock-only `engines.node >=22.5.0` metadata not declared by IPD's package manifest.
+
+### 16.119.3 Changed-file manifest and scope proof
+
+Modified existing paths (8): `frontend/package.json`, `frontend/package-lock.json`, `frontend/server/broker-import/brokerImportPackageConsumer.test.ts`, `frontend/server/reports/reports-persistence-integration.test.ts`, `frontend/server/reports/persistence-port.ts` (current-state text only), `frontend/src/api/brokerImport.ts` (comment only), `docs/OPERATOR_RUNBOOK.md`, and this tracker. Added paths (51): the DQ-4 record and 50 evidence files. Total branch change set: **59 paths**.
+
+No IRR adapter, G2 contract, IPC client, port interface, route, transport, owner-context fence, schema, migration, broker tsconfig, or runtime behavior changed. Unchanged IRR blobs include adapter `1e20e98023f20f80ed61d8d32d070fdde677d3c7`, adapter tests `46243a7a79ba3b19cd4d2b8a56df8905aba220f8`, G2 contract `e6b57bb8a021d8eb4b9b7572d12affc7de66be0b`, IPC client `c1b885e3173132685090bcd2cbfa4aa8c87fa4ca`, port interface `ba0001e88c83b070e4f16a3cdb35d34c82ec0200`, user-portfolio transport fence `51704c12a467cd2f718a030b5036bc55c9afa73f`, owner-context refusal fence `cb8db45d668d28cee7e0a52721001d579a872733`, and broker tsconfig `a339c9c4def365f0b80295bb32ad74cf2f95a9bd`. IPD received **0 writes**.
+
+### 16.119.4 Validation and bilateral conformance
+
+- **IRR baseline** at `445f0f58…`: focused user-portfolio **173/173**; package/broker/PIT/Reports **204/204**; full **106 files / 1,349 tests**; both typechecks/build/direct strict adapter `tsc` exit `0` (evidence `00`–`08`).
+- **IPD baseline** at `8eec74ae…`: typecheck/build/package-consumer exit `0`; Q1 **30/30**; full **924 executed / 923 passed / 0 failed / 1 skipped** (evidence `10`–`15`).
+- **Candidates:** both-pins-to-`8eec74ae…` fails as above; primary-only initially passes **375/377** with only obsolete primary-guard assertions failing, then passes focused **377/377**, full **106/1,349**, typechecks/build/report guard/direct strict `tsc` (evidence `20`–`30`).
+- **Actual branch:** first attempt preserved two test-authoring omissions (evidence `32`, `36`–`39`); corrected rerun passes focused **21 files / 378 tests**, full **106 files / 1,350 tests**, report guard **106/1,350/0 failed**, both typechecks/build/direct strict adapter `tsc` exit `0`, and post-comment package/Reports **2 files / 11 tests** (evidence `40`–`46`, `49`–`50`). Existing non-fatal warnings are bundle size, Node SQLite experimental, and React Router future flags.
+- **Current cross-repository harness:** real merged-main IRR adapter source (`445f0f58…`) against IPD provider (`8eec74ae…`) passes **15/15**, exit `0` (evidence `16`–`19`). The earlier PR #89 15/15 harness remains pre-merge evidence and is no longer the sole basis. This Linux source-level result is not host QE, native-Windows evidence, operational admission, or production eligibility.
+
+Key IPD blobs at `8eec74ae…`: package `51796e63280c1abb368c27bf8811cc6bad46e132`; provider store `540d49f2deb2c8d600b5b866675d145cf76a1e46`; Q1 conformance `eddedd56449d6d0ac27dd394bd2a7262d0cb0c24`; IPC `ae3edd12…`, `27becc76…`, `f4dc72b1…`, `e565aa5b…`; contract types `a644c833…`; migrations `f594a182…`, `932af8e6…`, `32b125bf…`, `6bad5a50…` (full values in the DQ-4 record §7).
+
+### 16.119.5 Freeze-readiness determination
+
+Qualified candidate inputs are IPD `8eec74ae…` / tree `4eba2902…`, IRR base `445f0f58…` / tree `c5be92d1…` plus the resulting DQ-4 merge commit/tree to be exact-recorded at §16.120, primary npm pin `8eec74ae…`, distinct alias `70b24f02…`, and the Linux evidence above. **No final QE freeze manifest is published and the DQ-4 final QE freeze is NOT ESTABLISHED.** Exact remaining blockers are: (1) no effective exact final repository-pin/freeze designation; (2) DQ-6b's general alias disposition is unanswered; (3) if alias modernization is required, an authorized IPD package-surface or IRR build change plus lineage requalification is absent; (4) H-12 is not adopted and must be regenerated/validated (32 IPD + 24 IRR = 56) at the exact resulting commits; (5) native-Windows canonical evidence is absent; (6) Gate 4/CAP-03 freeze sequencing and host S2 remain unexecuted/unreconciled; and (7) no bilateral IPD-locus freeze mirroring exists.
+
+Boundary status is unchanged except the primary npm coordinate: DR-4r/DQ-3 Option B remains empty-pass/non-empty-refuse; H-12 **NOT ADOPTED**; Gate 4 **AUTHORIZED — NOT STARTED**; QE **0/11**; Gate 5 **NOT INITIATED / NOT ADMITTED**; durable-read acceptance and production eligibility **NOT ESTABLISHED**. The host-operations package was not regenerated, repackaged, or republished.
+
+**Single next dependency-respecting action:** render/record the authoritative DQ-6b/freeze disposition—whether final QE may freeze the qualified split primary/alias baseline or alias modernization must first occur through an authorized IPD package-surface/IRR build change—before exact repository-pin designation and H-12 regeneration/validation/adoption sequencing.
+
+### 16.119.6 Verification
+
+| ID | Verification | Result |
+|---|---|---|
+| `V671` | Fresh IRR/IPD remote bases, trees, open PRs, latest main CI | **PASS** — §16.119.1; evidence `48` |
+| `V672` | Pin semantics, ancestry/lag, package surface, and diff census | **PASS** — evidence `47`; primary target basis and alias technical blocker established |
+| `V673` | IRR and IPD pre-change baselines | **PASS** — IRR `106/1,349`; IPD `923 passed/0 failed/1 skipped` plus Q1/package checks |
+| `V674` | Disposable candidate qualification | **PASS WITH REJECTED BOTH-PINS CANDIDATE** — both-pins fails `TS18003`; primary-only fully passes |
+| `V675` | Actual IRR branch corrected validation | **PASS** — focused `378/378`; full `106 files/1,350 tests`; typechecks/build/report guard/strict `tsc` exit `0` |
+| `V676` | Current merged-source cross-repository harness and frozen blobs | **PASS — 15/15**; IRR/IPD key blobs recorded in DQ-4 record §7 |
+| `V677` | Scope and non-grants | **PASS** — 59-path manifest; no IPD write, schema/protocol/route/fence/runtime-behavior change, H-12 adoption, Gate 5 action, host operation, or production claim |
+| `V678` | DQ-4 final freeze status | **NOT ESTABLISHED** — candidate inputs qualified; exact blockers in §16.119.5 remain |
+
+*End of §16.119 pre-merge DQ-4 reconciliation record (`CHG-2026-10-25-24`; `V671`–`V678`).*

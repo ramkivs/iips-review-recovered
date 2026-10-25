@@ -2,7 +2,9 @@
  * NP-06 Reports — R3 persistence integration against the REAL governed NP-04 store.
  *
  * Authority: `IIPS-V3-REPORTS-NP06-R3-PA-DECISION-2026-10-25-01` (R3-Option B: second
- * dependency specifier `iips-np04-governed-persistence#2e11fa3b…`, primary pin unchanged).
+ * dependency specifier `iips-np04-governed-persistence#2e11fa3b…`; the primary pin was left
+ * unchanged by R3 and was later advanced independently by the CAP-03 DQ-4 reconciliation in
+ * tracker §16.119).
  *
  * SCOPE — READ BEFORE READING A GREEN RESULT AS QUALIFICATION.
  *   This suite validates the five-operation persistence contract at the BINDING level, using
@@ -68,7 +70,7 @@ afterEach(() => {
 });
 
 describe('R3-Option B dependency surface', () => {
-  it('admits exactly the decided second specifier and preserves the primary pin', () => {
+  it('admits exactly the decided second specifier and guards the reconciled primary and broker pins', () => {
     const frontendRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
     const manifest = JSON.parse(fs.readFileSync(path.join(frontendRoot, 'package.json'), 'utf8')) as {
       dependencies: Record<string, string>;
@@ -77,7 +79,7 @@ describe('R3-Option B dependency surface', () => {
       'github:ramkivs/iips-production-market-data#2e11fa3b689d1a3674a5e4ba1f1de9a559e20494',
     );
     expect(manifest.dependencies['iips-production-market-data']).toBe(
-      'github:ramkivs/iips-production-market-data#2d9130e76bb0dc89daeefabaf297e27bdaa84250',
+      'github:ramkivs/iips-production-market-data#8eec74ae27cda09f3c368b9c299895eae41554db',
     );
     expect(manifest.dependencies['iips-broker-import']).toBe(
       'github:ramkivs/iips-production-market-data#70b24f029842a7e9b7f615e4d9df7376fd4ff817',

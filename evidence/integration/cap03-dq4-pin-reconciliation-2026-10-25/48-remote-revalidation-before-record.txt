@@ -1,0 +1,15 @@
+CAP-03 DQ-4 remote revalidation before record/PR
+Local date: 2026-10-25T14:39:52Z
+IRR remote main: 445f0f5813040ef5641af0f7e0556713629ce67a	refs/heads/main
+IRR local branch: arena/79e4e224-iips-review-recovered
+IRR local HEAD before DQ-4 commit: 445f0f5813040ef5641af0f7e0556713629ce67a
+IRR local HEAD tree: c5be92d1ceef72a94b3b13b4de615fa44ff33654
+IRR open PRs:
+[]
+IPD remote main: 8eec74ae27cda09f3c368b9c299895eae41554db	refs/heads/main
+IPD open PRs:
+[]
+IPD latest main run:
+[{"conclusion":"success","createdAt":"2026-10-25T13:10:32Z","databaseId":40196407747,"headSha":"8eec74ae27cda09f3c368b9c299895eae41554db","status":"completed","url":"https://github.com/ramkivs/iips-production-market-data/actions/runs/40196407747","workflowName":"CI"}]
+IRR latest main run:
+[{"conclusion":"success","createdAt":"2026-10-25T13:59:33Z","databaseId":40200132115,"headSha":"445f0f5813040ef5641af0f7e0556713629ce67a","status":"completed","url":"https://github.com/ramkivs/iips-review-recovered/actions/runs/40200132115","workflowName":"CI"}]

@@ -1,0 +1,4 @@
+COMMAND: node .ci/assert-tests.js .vitest-report.json
+CWD: frontend
+assert-tests: OK — 106 test file(s), 1349 test(s), 0 failed
+EXIT_CODE=0

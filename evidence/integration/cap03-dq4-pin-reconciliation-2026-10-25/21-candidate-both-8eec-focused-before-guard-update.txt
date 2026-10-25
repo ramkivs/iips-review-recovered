@@ -1,0 +1,12 @@
+CANDIDATE: both IRR IPD package specifiers -> 8eec74ae27cda09f3c368b9c299895eae41554db; guard expectations intentionally NOT yet updated
+COMMAND: npm test -- server/broker-import/brokerImportPackageConsumer.test.ts server/broker-import server/pit src/api/brokerHoldingsPreview.test.ts src/api/brokerImport.test.ts server/reports/reports-persistence-integration.test.ts server/user-portfolio server/user-portfolio-transport.test.ts
+
+> @iips/v3-frontend@0.1.0 pretest
+> npm run build:broker-import
+
+
+> @iips/v3-frontend@0.1.0 build:broker-import
+> tsc -p tsconfig.broker-import.json
+
+error TS18003: No inputs were found in config file '/tmp/irr-dq4-candidate-both-8eec/frontend/tsconfig.broker-import.json'. Specified 'include' paths were '["node_modules/iips-broker-import/frontend/src/features/portfolio/import/broker-*.ts","node_modules/iips-broker-import/frontend/src/features/portfolio/import/types.ts","node_modules/iips-broker-import/frontend/src/features/portfolio/import/adapters/*.ts","node_modules/iips-broker-import/src/identity/security_master.ts","node_modules/iips-broker-import/src/identity/mapping_store.ts","node_modules/iips-broker-import/src/identity/quarantine.ts","node_modules/iips-broker-import/src/contracts/provenance.ts","node_modules/iips-broker-import/src/contracts/types.ts"]' and 'exclude' paths were '["/tmp/irr-dq4-candidate-both-8eec/frontend/.cache/broker-import"]'.
+EXIT_CODE=2
