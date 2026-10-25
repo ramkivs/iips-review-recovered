@@ -1,0 +1,17 @@
+# separate-process restart suite — executed 2026-10-25T10:13:43Z
+$ npx vitest run server/reports-restart.test.ts
+
+ RUN  v2.1.9 /home/user/iips-review-recovered/frontend
+
+ ✓ server/reports-restart.test.ts (5 tests) 4941ms
+   ✓ NP-06 Reports — fail-closed fence across a separate process > process 1 keeps every known Reports operation unavailable and serves the rest of the product 1260ms
+   ✓ NP-06 Reports — fail-closed fence across a separate process > process 2 — a FRESH process — reaches the identical verdict 1223ms
+   ✓ NP-06 Reports — attempted durable write in a fresh process > is refused, and leaves no artifact, directory, journal or database behind 1240ms
+   ✓ NP-06 Reports — F-7 is not claimed > reports the durable leg as NOT EXECUTED and F-7 as NOT SATISFIED 1217ms
+
+ Test Files  1 passed (1)
+      Tests  5 passed (5)
+   Start at  10:13:43
+   Duration  5.29s (transform 38ms, setup 129ms, collect 25ms, tests 4.94s, environment 0ms, prepare 58ms)
+
+exit=0

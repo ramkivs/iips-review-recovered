@@ -1,0 +1,45 @@
+# full CI suite + zero-test guard — executed 2026-10-25T10:13:51Z
+$ npm run test:ci
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ src/features/cross-sector/CrossSectorIntelligence.test.tsx (6 tests) 258ms
+ ✓ src/features/research/MacroSourceDisclosure.test.tsx (9 tests) 81ms
+stderr | src/features/engines/EngineRegistry.test.tsx > Engine Registry (E2E-026) > renders governed engine registry (no fabrication)
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ src/features/engines/EngineRegistry.test.tsx (4 tests) 138ms
+stderr | src/features/decision-matrix/DecisionMatrix.test.tsx > Decision Matrix > renders universe overview and certified badge
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ src/features/decision-matrix/DecisionMatrix.test.tsx (6 tests) 193ms
+ ✓ server/user-portfolio-transport.test.ts (3 tests) 64ms
+ ✓ src/api/evidence.test.ts (10 tests) 10ms
+ ✓ src/components/evidence/EvidenceExplorerComponents.test.tsx (11 tests) 80ms
+ ✓ server/collaboration/collaboration-transport.test.ts (3 tests) 49ms
+ ✓ server/watchlists/watchlists-transport.test.ts (3 tests) 42ms
+ ✓ src/components/decision/DecisionComponents.test.tsx (6 tests) 112ms
+ ✓ src/components/data/DataComponents.test.tsx (8 tests) 53ms
+ ✓ src/components/interaction/InteractionComponents.test.tsx (6 tests) 166ms
+ ✓ server/settings/settings-transport.test.ts (5 tests) 66ms
+ ✓ server/reports-transport.test.ts (2 tests) 47ms
+ ✓ src/components/evidence/EvidenceComponents.test.tsx (5 tests) 49ms
+ ✓ src/components/ui/Badges.test.tsx (5 tests) 44ms
+ ✓ server/executive-read.test.ts (2 tests) 55ms
+ ✓ src/core/network/noAuthFetch.test.ts (2 tests) 8ms
+ ✓ src/components/state/StateComponents.test.tsx (6 tests) 81ms
+ ✓ server/reports-api.test.ts (2 tests) 50ms
+ ✓ src/components/shell/ShellStates.test.tsx (5 tests) 80ms
+ ✓ src/components/viz/ChartFoundations.test.tsx (4 tests) 41ms
+ ✓ src/components/company/CompanyHeader.test.tsx (2 tests) 44ms
+
+ Test Files  102 passed (102)
+      Tests  1309 passed (1309)
+   Start at  10:13:53
+   Duration  97.14s (transform 2.84s, setup 12.55s, collect 7.00s, tests 35.09s, environment 24.12s, prepare 5.72s)
+
+JSON report written to /home/user/iips-review-recovered/frontend/.vitest-report.json
+$ node .ci/assert-tests.js .vitest-report.json
+assert-tests: OK — 102 test file(s), 1309 test(s), 0 failed
+assert_exit=0

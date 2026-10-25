@@ -13,14 +13,28 @@
  *   Running this harness does NOT satisfy F-7, and the harness says so in its own output
  *   (`f7Satisfied: false`, `durableLeg: 'not-executed'`). F-7 requires durable Reports state to
  *   survive process termination and restart against the THEN-CURRENT ownership contract and an
- *   ADMITTED persistence binding. Neither exists today:
- *     • `R1` — no Reports ownership source is established (`NOT ESTABLISHED`). No owner is
- *       inferred here; the harness never supplies, derives, or defaults an identity.
- *     • `R3` — the NP-04 `./persistence` binding is not admitted on the current pin
- *       (`OPEN / NOT ADMITTED`). No store is opened and no database path is configured.
+ *   ADMITTED persistence binding. The prerequisites do not all exist:
+ *     • `R1` — no Reports ownership source is established (`NOT ESTABLISHED`; the PA selection is
+ *       `SELECTED — NOT EFFECTIVE` pending its value-act fields). No owner is inferred here; the
+ *       harness never supplies, derives, or defaults an identity.
+ *     • `R2` — no owner-binding contract shape is rendered (`NOT RENDERED`). Without it there is
+ *       no decided authorization predicate, tenant-claim disposition, or audit disposition to
+ *       test a durable HTTP leg against.
+ *     • `R3` — the NP-04 `./persistence` binding IS admitted and integrated
+ *       (`IIPS-V3-REPORTS-NP06-R3-PA-DECISION-2026-10-25-01`, R3-Option B, effective on
+ *       publication + read-back; binding integrated under PR #259). This prerequisite is
+ *       therefore reported as `admitted`, NOT as outstanding. Admission of the binding does not
+ *       admit a Reports capability: no store is opened here and no database path is configured,
+ *       because the fence dispatches nothing until `R1` and `R2` exist.
  *   The durable-state leg is therefore deliberately unimplemented rather than simulated. A
  *   simulated durable leg (an in-memory or test-only store) would prove nothing about restart
- *   durability and is exactly what NP-06 §5.1 and the commissioning record forbid.
+ *   durability and is exactly what NP-06 §5.1 and the commissioning record forbid. Persistence-
+ *   level close/reopen durability is evidenced separately, at the binding level, by
+ *   `server/reports/reports-persistence-integration.test.ts` — and that is also not F-7.
+ *   Accuracy correction (2026-10-25, NP-06 resumption pass 2): an earlier revision of this header
+ *   and of the emitted `prerequisites` object reported `R3` as `not-admitted`. That became stale
+ *   when the R3 act took effect; the labels are corrected here while every fail-closed behaviour
+ *   and the `f7Satisfied: false` marker are preserved unchanged.
  *
  * WHAT IT DOES EVIDENCE TODAY
  *   1. The fail-closed HTTP 503 fence (blob `981470541812a64c733309f1debec75455d85bee`) holds
@@ -33,7 +47,8 @@
  *
  * CONFIGURATION (child environment)
  *   IIPS_RESTART_OP — `probe` (fence verdict), `durable-write` (attempted write + refusal), or
- *                     `durable-read` (reserved: durable retrieval, requires R1 + R3)
+ *                     `durable-read` (reserved: durable retrieval, requires an effective R1 and a
+ *                     rendered R2; the R3 binding itself is admitted)
  *   IIPS_DATA_DIR   — the server-owned data domain; inspected, never written by this harness
  */
 import type { AddressInfo } from 'node:net';
@@ -130,8 +145,9 @@ async function main(): Promise<void> {
   }
 
   out.dataDirEntries = dataDirEntries();
-  out.durableLeg = OP === 'durable-read' ? 'blocked-R1-R3' : 'not-executed';
-  out.prerequisites = { R1: 'not-established', R3: 'not-admitted' };
+  out.durableLeg = OP === 'durable-read' ? 'blocked-R1-R2' : 'not-executed';
+  // Reported, not assumed: R3 is admitted by an effective PA act; R1 and R2 are not.
+  out.prerequisites = { R1: 'not-established', R2: 'not-rendered', R3: 'admitted' };
   out.f7Satisfied = false;
 
   console.log(`RESULT:${JSON.stringify(out)}`);

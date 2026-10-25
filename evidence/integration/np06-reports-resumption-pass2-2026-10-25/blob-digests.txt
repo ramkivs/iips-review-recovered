@@ -1,0 +1,21 @@
+# blob digests — git hash-object, 2026-10-25T10:16:06Z
+# baseline HEAD 67739e23108eeac0b0e9ce04427d622779f01a06
+frontend/package.json                                                  a0061bce69e622052bc9c46a55b4f7db3e9e503d
+frontend/package-lock.json                                             a006a6a056c8474af53ea02fd6fc1743b3cefdb5
+frontend/server/reports-transport.ts                                   981470541812a64c733309f1debec75455d85bee
+frontend/server/reports/canonical.ts                                   f57fa6a6a57fc1ab74a178babb8aa378cb82778a
+frontend/server/reports/artifact.ts                                    1da89bd46d39ff4e0a2ae124ea5f770a4032e48e
+frontend/server/reports/composition.ts                                 fc9a8fbbdd66bfaf0fa3e9b72c38faa3eca6a647
+frontend/server/reports/persistence-port.ts                            71148afa18eee244fc9fed0f1425aed23e711fdf
+frontend/server/reports/persistence.ts                                 aeff600c152f837d77dad66f0af17a5caf359411
+frontend/server/reports/np04-adapter.ts                                7f7b80a53416224638dbb8b82d95497bda6d8a88
+frontend/server/reports/index.ts                                       10b75ad650b18c93b824a40d4869c7c85231fb11
+frontend/server/reports/reports-persistence-integration.test.ts        daa488aa2375335cf0404e4f4eb4b997da372e16
+frontend/server/reports-restart-harness.ts                             eb70dc278f5910f509bb0a512db59524a367780f
+frontend/server/reports-restart.test.ts                                8aa5d84ec990fc07f00f6da915536ee14a25da84
+
+# committed HEAD versions (unchanged files should match)
+frontend/package.json                                                  a0061bce69e622052bc9c46a55b4f7db3e9e503d
+frontend/server/reports-transport.ts                                   981470541812a64c733309f1debec75455d85bee
+frontend/server/reports/persistence-port.ts                            71148afa18eee244fc9fed0f1425aed23e711fdf
+frontend/server/reports/reports-persistence-integration.test.ts        daa488aa2375335cf0404e4f4eb4b997da372e16

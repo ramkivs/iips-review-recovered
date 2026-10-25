@@ -1,0 +1,19 @@
+# focused Reports suites — executed 2026-10-25T10:13:36Z
+$ npx vitest run server/reports/reports-persistence-integration.test.ts server/reports/reports-canonical.test.ts server/reports/reports-artifact.test.ts server/reports-transport.test.ts server/reports-api.test.ts
+
+ RUN  v2.1.9 /home/user/iips-review-recovered/frontend
+
+ ✓ server/reports/reports-artifact.test.ts (56 tests) 33ms
+ ✓ server/reports/reports-canonical.test.ts (46 tests) 14ms
+ ✓ server/reports-transport.test.ts (2 tests) 48ms
+ ✓ server/reports-api.test.ts (2 tests) 49ms
+(node:5509) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ✓ server/reports/reports-persistence-integration.test.ts (5 tests) 42ms
+
+ Test Files  5 passed (5)
+      Tests  111 passed (111)
+   Start at  10:13:37
+   Duration  4.13s (transform 744ms, setup 599ms, collect 1.01s, tests 185ms, environment 1.42s, prepare 271ms)
+
+exit=0
