@@ -10550,8 +10550,37 @@ Designation authority: the Path A determination names both npm pins, and the eff
 
 **Publish the IPD-locus mirror receipt** (`IIPS-V3-CAP03-DQ6B-IPD-MIRROR-RECEIPT-2026-10-25-01`, text prepared verbatim in the IRR locus) from an IPD-capable session, which completes effectiveness element 6. Then: the distinct **H-12 R5 adoption** act, then **S2 → one P-1 provisioning execution → S3 preflight** on the designated native-Windows host, then the freeze-establishment act. Until all of that exists, the freeze remains **prepared and validated only**, H-12 remains **not adopted**, and QE remains **0/11**.
 
-### 16.122.14 Publication receipt
+### 16.122.14 Publication receipt (`2026-10-25`)
 
-Publication coordinates are **not self-embedded**; they are established from the PR and remote `main` after merge and recorded here as a dated receipt addendum, per the §§16.42.6/16.67.11/16.68.11/16.69.5 pattern.
+Publication coordinates were **not self-embedded**; they are established from the PR and remote `main` after merge and recorded here, per the §§16.42.6/16.67.11/16.68.11/16.69.5 pattern.
+
+| Item | Verified value |
+|---|---|
+| IRR PR | **#277** `docs(cap03): record DQ-6b PA decision Path A, designate final QE pins, publish validated freeze manifest and H-12 R5` |
+| Tested / exact head | `d88d923df24257208945727390afcc92cae7de17` (tree `7141112017351b2f64b966acd6b9d725f2883468`) |
+| Exact-head CI | run **`40211930571`** — **success** (`Typecheck · Test · Build`, 1m52s) |
+| Merge | **MERGED** at `2026-10-25T16:31:39Z` as **`c5037613295f826638e4b73a996c157e9749e66c`** (merge commit; `--merge`, not squash/rebase) |
+| Merge tree | `7141112017351b2f64b966acd6b9d725f2883468` — **identical** to the tested head tree, so nothing was lost or added by the merge |
+| Post-merge `main` CI | run **`40212105501`** at `c5037613…` — **success** |
+| Open PRs after merge | **0** (before the receipt PR) |
+
+**Independently re-read back from the remote at `main@c5037613…`** (`git fetch` + object reads + GitHub API):
+
+| Published record | Blob at remote `main` | Bytes | SHA-256 |
+|---|---|---:|---|
+| `IIPS_v3.0_CAP03_DQ6B_PA_DECISION_PATH_A_EFFECTIVE_2026-10-25.md` | `b41c76f7ddbacc0caa0a86877561a83d2ba1c2a6` | 23,808 | `c82c569ad8830ed8c69e44d765a7afc765bab39846e6f916ea21a16933a44b1a` |
+| `IIPS_v3.0_CAP03_DQ4_QE_FREEZE_MANIFEST_2026-10-25.md` | `f74628950c0dd328ea007dcb96eda60c1c9313ae` | 14,918 | `467b24f9fe84eb3018732196fd5195d15b9d64f79deb760f82d2fd10e4f7f001` |
+| `G4-H12-MANIFEST-v2-CANDIDATE-2026-10-25-R5.json` | `f4649e36a81c7013287810cd3202b99586dbd951` | 143,813 | `d0be8bef3281ae6a296b8700265fe134b5088dd84b102b77ca8a157c8275cb76` |
+| `G4-H12-MANIFEST-v2-CANDIDATE-VALIDATION-2026-10-25-R5.md` | `3d54861052ab85e4e79cf302fec2242e832a2909` | 11,053 | `f2a80ddd198af72271c99f042d1ac986948d1cba07d052dfbae3468c2efaab25` |
+| `IIPS_v3.0_CAP03_DQ6B_IPD_MIRROR_RECEIPT_PREPARED_2026-10-25.md` | `e1558f2c1233919e5d5c62d77ed1305f6d3b177f` | 5,470 | `a8cf94ea66c60cc280e7c1e0eaa2a5dab7d78ad34c6ee693c4d2d2752a47f120` |
+| This tracker | `534c136bd3f409cc7d44e47e62a69f57888aad0b` | 2,213,163 | `41456921144d2893a23d3d3cf7629d665e1008bf997d1041bce2cbca39389d51` |
+
+The H-12 R5 manifest SHA-256 read back from the remote equals the value recorded **before** publication (`d0be8bef…`), so the validated artifact is byte-identical to the published one.
+
+**Effectiveness elements 4 and 5 are hereby SATISFIED** (merge to the governing IRR locus `main` by merge commit with green exact-head CI; independent remote read-back). **Element 6 remains OUTSTANDING** and is unaffected by this publication.
+
+**Drift check (DQ-4.4), executed at the post-merge tip:** all **24/24** IRR H-12 entries are byte-identical at the designated consumer pin `ba64b2d…`, at the R5 manifest's recorded identities, and at `origin/main@c5037613…`; **no drift**. The alias and primary IPD trees are unchanged (`cc0f0117…`, `4eba2902…`). The publication touched documentation, manifest and evidence paths only — none of them inside the 56 H-12 entries — so it is publication movement, not qualified drift.
+
+Evidence: `evidence/integration/cap03-dq6b-path-a-2026-10-25/40-postmerge-readback.txt` and `41-postmerge-main-ci.txt`.
 
 *End of §16.122 (`CHG-2026-10-25-27`; `V689`–`V705`). **DQ-6b is ANSWERED (Path A, interim, guarded).** The DQ-4 final QE freeze is **NOT ESTABLISHED**; H-12 R5 is **validated but NOT ADOPTED**; Gate 4 is **AUTHORIZED — NOT STARTED**; QE **0/11**; Gate 5 **NOT INITIATED**.*
