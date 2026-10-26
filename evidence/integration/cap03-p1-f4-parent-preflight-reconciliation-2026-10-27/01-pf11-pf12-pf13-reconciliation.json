@@ -1,0 +1,117 @@
+{
+  "record": "IIPS-V3-CAP03-P1-F4-PARENT-PREFLIGHT-RECONCILIATION-2026-10-27-01",
+  "subject": "F4 parent-directory preflight inconsistency at P-1-session scope",
+  "f4_value_unchanged": "C:\\iips-data\\iips\\user-portfolio.sqlite",
+  "f4_effective_act": "IIPS-V3-CAP03-PF15-ENDPOINT-LOCAL-STATE-DESIGNATION-PA-ACT-2026-10-26-02",
+  "f4_effective_blob": "3fe9a2ddd5f3b8730eccee7748b6266b5e2d8b1d",
+  "f4_length_bytes": 39,
+  "f4_separator_count": 3,
+
+  "path_decomposition": {
+    "store_path": "C:\\iips-data\\iips\\user-portfolio.sqlite",
+    "terminal_parent": "C:\\iips-data\\iips",
+    "ancestor_chain": ["C:\\iips-data\\iips", "C:\\iips-data", "C:\\"],
+    "terminal_parent_exists_on_host": false,
+    "terminal_parent_existence_source": "user/PA statement of 2026-10-27; NOT host-captured by this record",
+    "nearest_existing_ancestor_under_that_statement": "C:\\"
+  },
+
+  "the_inconsistency": {
+    "requirement_document": "IPD evidence/cross-repository/IIPS_V3_CAP03_HOST_READINESS_PACKET_2026-10-24.md",
+    "requirement_document_blob": "9d9c5970f66b1c901a2b5d28c02e8c9562078cf2",
+    "requirement_document_character": "readiness checklist / procedure template prepared by the preparing capacity; explicitly 'not an execution receipt, qualification result or acceptance' (line 16)",
+    "PF-13_text": "parent exists and is local fixed NTFS; not a cloud-synced or network path",
+    "PF-12_text": "False; the path is recorded verbatim; no directory/file is created by preflight",
+    "implementation": {
+      "file": "IPD src/persistence/connection.ts",
+      "line": 84,
+      "code": "mkdirSync(dirname(filePath), { recursive: true });",
+      "effect": "the terminal parent is created automatically when the authorized P-1 execution opens the store"
+    },
+    "contradiction": [
+      "PF-13 requires the terminal parent to exist at P-1 preflight time.",
+      "PF-12 forbids the preflight from creating any directory or file on the store path.",
+      "The only authorized actor that creates the terminal parent is the single P-1 execution itself, which runs only after that preflight passes.",
+      "Therefore PF-13 as literally worded is unsatisfiable without violating PF-12; the deadlock is self-referential and was introduced by the preparing capacity, not by the PA."
+    ],
+    "pa_act_does_not_require_parent_existence": {
+      "document": "IPD evidence/cross-repository/IIPS_V3_CAP02_GATE_A_PRIME_SUCCESSOR_PROVISIONING_ACT_EFFECTIVE_2026-10-23.md",
+      "blob": "528de6aeddbc8e5f3191be8792f3937d77de4037",
+      "step_1_lines": "260-262",
+      "step_1_conditions": [
+        "absolute",
+        "outside every Git working tree",
+        "local fixed NTFS",
+        "not a synchronized folder",
+        "operator-writable without elevation",
+        "file must not pre-exist (Test-Path = False, recorded verbatim)"
+      ],
+      "parent_existence_is_not_among_the_conditions": true
+    },
+    "pf15_pa_act_defers_characteristics_not_existence": {
+      "document": "IRR docs/integration/IIPS_v3.0_CAP03_PF15_ENDPOINT_LOCAL_STATE_DESIGNATION_PA_ACT_CORRECTED_2026-10-26.md",
+      "line": 63,
+      "reading": "the PA act declines to claim the parent's filesystem characteristics and requires those characteristics to be checked on the host under the governing P-1 procedure; it does not require the parent to pre-exist."
+    }
+  },
+
+  "dispositions": [
+    {
+      "id": "DISP-01",
+      "title": "PF-13 at P-1-session scope is evaluated at the nearest existing ancestor",
+      "scope": "P-1-C / P-1-D preflight only",
+      "rule": "PF-13 is satisfied at P-1-session scope when the nearest existing ancestor of $StorePath is local fixed NTFS and is not a cloud-synchronized or network location. The terminal parent C:\\iips-data\\iips need not pre-exist; its absence is not a STOP.",
+      "creation_authority": "The terminal parent is created by the authorized single P-1 execution (connection.ts line 84, recursive mkdir) and by nothing else. Pre-creating it is NOT authorized and remains a STOP.",
+      "s3_scope_unchanged": "At S3 scope PF-13 keeps its original text: after P-1 the terminal parent MUST exist, and it is then inspected directly. This disposition does not relax S3.",
+      "safety_content_preserved_by": ["PF-11 (local fixed NTFS, unsynchronized, outside every worktree, writable without elevation)", "PF-12 (store and sidecars absent; nothing created by preflight)"],
+      "authority_basis": "preparing-capacity correction of its own readiness checklist to conform to the PA-level successor act step 1 and to the shipped implementation; no PA-rendered value, pin, fence or gate is changed"
+    },
+    {
+      "id": "DISP-02",
+      "title": "PF-12's 'no directory/file is created' binds the store path, not the evidence root",
+      "scope": "P-1-C / P-1-D preflight only",
+      "rule": "PF-12 prohibits creating any directory or file on $StorePath or its ancestor chain. It does not prohibit creating the PF-14 evidence root or writing capture transcripts there.",
+      "rationale": "PF-12 and PF-14 would otherwise be jointly unsatisfiable: capturing a transcript requires somewhere to write it, and PF-14 is the sanctioned location.",
+      "not_relaxed": "No store file, sidecar or store-path ancestor may be created by preflight."
+    },
+    {
+      "id": "DISP-03",
+      "title": "P-1 step-2 pre-state on a correctly absent store is the STORE_NOT_FOUND refusal",
+      "scope": "P-1 step 2 only",
+      "rule": "Because PF-12 requires $StorePath to be absent, --mode=validate at step 2 refuses with STORE_NOT_FOUND (exit 1). That refusal, recorded verbatim, is the pre-state evidence and satisfies successor-act step 2's intent: an absent store cannot contain a pre-existing ACTIVE row.",
+      "anomaly_rule": "A SUCCESSFUL validate report at step 2 is the anomaly: it proves the store pre-existed, contradicts PF-12, and is a STOP before any execute invocation.",
+      "implementation_reference": {"file": "IPD src/persistence/gateAPrimeValidation.ts", "lines": "371-372"},
+      "authority_basis": "interpretation that makes the PA act's own step 2 executable without relaxing any safety condition; the reading is stricter, not weaker"
+    }
+  ],
+
+  "observations": [
+    {
+      "id": "OBS-01",
+      "title": "P-1 CLI accepts only --flag=value",
+      "detail": "parseGateAPrimeArguments/requiredOption reject space-separated forms with ARGUMENT_INVALID. The runbook block at lines 84-89 uses --act-id <ACT_ID>, --store <ABS_PATH>, --principal-label <v> etc. and would fail on substitution. The capture instrument uses the '=' form.",
+      "implementation_reference": {"file": "IPD src/persistence/gateAPrimeProvisioning.ts", "lines": "376-382"},
+      "amends_runbook": false,
+      "effect_on_f4_or_gates": "none"
+    }
+  ],
+
+  "what_does_not_change": [
+    "F4 value and designation",
+    "F2 endpoint literal",
+    "F5 evidence root designation",
+    "P-1 authorization, consumption or single-use state",
+    "P-1-A / P-1-B determinations",
+    "PF-11, PF-12, PF-14, PF-15, PF-16, PF-17",
+    "any baseline pin, fence, WRITE_NOT_AUTHORIZED, 503 routes, durable:false",
+    "S3, QE, DQ-4, Gate 4 or Gate 5 status",
+    "IPD repository contents (0 IPD writes)"
+  ],
+
+  "verification": {
+    "host_contact": "none",
+    "ipd_writes": 0,
+    "files_created_on_store_path": 0,
+    "directories_created_on_store_path": 0
+  }
+}
