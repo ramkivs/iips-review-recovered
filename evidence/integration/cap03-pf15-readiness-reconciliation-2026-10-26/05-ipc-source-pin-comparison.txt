@@ -1,0 +1,19 @@
+CAP-03 endpoint resolver source identity check — GitHub Contents API, 2026-10-26 UTC
+Read-only; IPD main not modified.
+
+IPD src/ipc/endpoint.ts
+  S2 pin 8eec74ae27cda09f3c368b9c299895eae41554db: e565aa5b343266f62ffd411d17d74c89b9f29324
+  IPD main f5eddbc20b944a098a9060a8e3349c6d10b7843e: e565aa5b343266f62ffd411d17d74c89b9f29324
+  RESULT: byte identity by Git blob SHA-1
+
+IPD src/ipc/entrypoint.ts
+  S2 pin 8eec74ae27cda09f3c368b9c299895eae41554db: ae3edd12e1199845f6b5fe059fa79fed6245ae32
+  IPD main f5eddbc20b944a098a9060a8e3349c6d10b7843e: ae3edd12e1199845f6b5fe059fa79fed6245ae32
+  RESULT: byte identity by Git blob SHA-1
+
+IRR frontend/server/user-portfolio/ipcClient.ts
+  H-12 R5 QE-consumer pin ba64b2d5927c2f872560710cf1474c25a5cde0d5: c1b885e3173132685090bcd2cbfa4aa8c87fa4ca
+  IRR main 3cd61bcec11beaa96fafa351f8ca557bbfd41b22: c1b885e3173132685090bcd2cbfa4aa8c87fa4ca
+  RESULT: byte identity by Git blob SHA-1
+
+Source-level behavior remains the code contract, not a PF-15 value: Windows absolute form must be under \\.\pipe\; bare name requires an absolute local-state setting; no URL/host:port/network fallback; server is same-host named pipe, one connection, first-instance collision refusal, and default DACL behavior requiring Windows evidence. Exact endpoint and directory values remain unrendered.

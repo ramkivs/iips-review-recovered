@@ -12,7 +12,7 @@
 | Field | Value |
 |---|---|
 | Record ID | `IIPS-V3-CAP02-QE8-MATRIX-INTEGRITY-RECONCILIATION-2026-10-26-01` (census: 0 prior occurrences in IRR and IPD) |
-| Tracker registration | Master tracker §16.129; `CV-CORR-109`; `CHG-2026-10-26-05`; verification rows `V779`–`V793` |
+| Tracker registration | Master tracker §16.130; `CV-CORR-110`; `CHG-2026-10-26-06`; verification rows `V788`–`V802` |
 | Date | 2026-10-26 (UTC) |
 | Locus | IRR authoritative tracker/repository; IPD inspected **read-only** (zero IPD writes) |
 | Scope | QE-8 authority determination (request only), published-record integrity repair, justified matrix corrections, QE-1…QE-11 re-audit, provisioning/V-A2 reconciliation, runbook and evidence structure, authorized host-independent checks. No decision, implementation, provisioning, host operation, gate movement, or IPD write. |
@@ -30,6 +30,17 @@
 | Adopted H-12 R5 | manifest blob `f4649e36a81c7013287810cd3202b99586dbd951`, 143,813 B, SHA-256 `d0be8bef3281ae6a296b8700265fe134b5088dd84b102b77ca8a157c8275cb76` | Re-verified locally; unchanged. |
 
 Evidence: `00-remote-state-and-ancestry.txt`.
+
+### 1.1 Identifier collision during the pass — reallocated, disclosed
+
+While this pass was in flight, IRR PR #291 (CAP-03 PF-15 authority reconciliation, merge `5dfcea41…`)
+consumed the identifiers this pass had provisionally taken: **§16.129, `CV-CORR-109`, `CHG-2026-10-26-05`
+and `V779`–`V787`**. The collision was discovered at the pre-merge rebase, not after publication. Every
+identifier in this record, its companion records, the repair appendix and this tracker section was therefore
+reallocated to **§16.130, `CV-CORR-110`, `CHG-2026-10-26-06` and `V788`–`V802`**, and re-censused
+(`07-identifier-census.txt`) before publication. No identifier was published twice and no CAP-03 record was
+edited. This is the second pass in this workstream to hit a live-repository identifier collision; the census
+is a pre-publication gate, not a formality.
 
 ## 2. QE-8 — determination, and why it stops at a request
 
@@ -166,21 +177,21 @@ not reopened. `WRITE_NOT_AUTHORIZED`, `evaluatePortSaveGuard()` hard-false and a
 
 | ID | Check | Result |
 |---|---|---|
-| `V779` | IRR/IPD remote refs, open PRs, `main` CI; designated pins; governing blob identities; H-12 R5 digest | **PASS** — `00-…txt` |
-| `V780` | QE-8 authority analysis: criterion, W-3, G2-D5, 0-match sweep of Gate 4/S1/successor acts, successor §9 non-grant | **PASS** — `01-…txt`; remote absence of any rendered approval re-read in `08-…txt` |
-| `V781` | Decision request published as PROPOSED with four alternatives, minimum procedure, stop/recovery constraints, exact `RV-1` text | **PASS** — companion record §3–§5 |
-| `V782` | Published-record integrity defect independently confirmed (local = `origin/main` = API blob, 23,893 B, marker line 172) | **PASS as defect evidence** — `02-…txt` |
-| `V783` | Repair appendix appended; published bytes preserved; no lost text invented; reconstruction labelled and cited | **PASS** — matrix record repair appendix |
-| `V784` | Corrections C1–C5 justified by blob-level evidence; ambiguity notes A-1…A-3 recorded; no status change | **PASS** |
-| `V785` | QE-1…QE-11 re-audit against governing criteria; 11/11 HOST-ONLY; 0/11 executed; no substitution | **PASS** — matrix §3 + this record §5 |
-| `V786` | Provisioning/V-A2 checklist re-derived from successor act §5/§8; U2-14 unchanged | **PASS** — this record §6 |
-| `V787` | CAP-02 runbook/evidence structure published; preparation only | **PASS** — companion runbook |
-| `V788` | Schema self-test 22/22; matrix audit 23/2 → 25/0 | **PASS** — `04a/04b-…txt` post-repair run |
-| `V789` | Local IRR publication checks (`frontend/`) | **PASS** — `10-publication-checks.txt` |
-| `V790` | New-identifier census: §16.129, `CV-CORR-109`, `CHG-2026-10-26-05`, `V779`–`V793`, three record IDs — 0 prior occurrences in both loci | **PASS** — `07-identifier-census.txt` |
-| `V791` | Scope/non-grant audit: documentation/evidence only; 0 source/test/pin/route/fence/manifest changes; 0 IPD writes; no gate moved; QE 0/11 | **PASS** |
-| `V792` | PR merge, exact-head and post-merge CI, commit/tree, remote blob read-back | **PASS** — coordinates in tracker §16.129.6–.7 |
-| `V793` | Remote read-back completeness (not only identity): repair appendix and §§1–8 present at `main`; audit script re-run against the remote-fetched file | **PASS** — `04b-…txt`, tracker §16.129.6–.7 |
+| `V788` | IRR/IPD remote refs, open PRs, `main` CI; designated pins; governing blob identities; H-12 R5 digest | **PASS** — `00-…txt` |
+| `V789` | QE-8 authority analysis: criterion, W-3, G2-D5, 0-match sweep of Gate 4/S1/successor acts, successor §9 non-grant | **PASS** — `01-…txt`; remote absence of any rendered approval re-read in `08-…txt` |
+| `V790` | Decision request published as PROPOSED with four alternatives, minimum procedure, stop/recovery constraints, exact `RV-1` text | **PASS** — companion record §3–§5 |
+| `V791` | Published-record integrity defect independently confirmed (local = `origin/main` = API blob, 23,893 B, marker line 172) | **PASS as defect evidence** — `02-…txt` |
+| `V792` | Repair appendix appended; published bytes preserved; no lost text invented; reconstruction labelled and cited | **PASS** — matrix record repair appendix |
+| `V793` | Corrections C1–C5 justified by blob-level evidence; ambiguity notes A-1…A-3 recorded; no status change | **PASS** |
+| `V794` | QE-1…QE-11 re-audit against governing criteria; 11/11 HOST-ONLY; 0/11 executed; no substitution | **PASS** — matrix §3 + this record §5 |
+| `V795` | Provisioning/V-A2 checklist re-derived from successor act §5/§8; U2-14 unchanged | **PASS** — this record §6 |
+| `V796` | CAP-02 runbook/evidence structure published; preparation only | **PASS** — companion runbook |
+| `V797` | Schema self-test 22/22; matrix audit 23/2 → 25/0 | **PASS** — `04a/04b-…txt` post-repair run |
+| `V798` | Local IRR publication checks (`frontend/`) | **PASS** — `10-publication-checks.txt` |
+| `V799` | New-identifier census: §16.130, `CV-CORR-110`, `CHG-2026-10-26-06`, `V788`–`V802`, three record IDs — 0 prior occurrences in both loci | **PASS** — `07-identifier-census.txt` |
+| `V800` | Scope/non-grant audit: documentation/evidence only; 0 source/test/pin/route/fence/manifest changes; 0 IPD writes; no gate moved; QE 0/11 | **PASS** |
+| `V801` | PR merge, exact-head and post-merge CI, commit/tree, remote blob read-back | **PASS** — coordinates in tracker §16.130.6–.7 |
+| `V802` | Remote read-back completeness (not only identity): repair appendix and §§1–8 present at `main`; audit script re-run against the remote-fetched file | **PASS** — `04b-…txt`, tracker §16.130.6–.7 |
 
 ## 12. Attestation
 

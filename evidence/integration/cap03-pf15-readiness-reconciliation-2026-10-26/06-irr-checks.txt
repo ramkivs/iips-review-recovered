@@ -1,0 +1,18 @@
+CAP-03 host-independent IRR verification — 2026-10-26 UTC
+
+Attempt 1:
+  npm ci --no-audit --no-fund
+  RESULT: failed with UNABLE_TO_VERIFY_LEAF_SIGNATURE while retrieving the pinned public GitHub dependency from codeload.github.com. No strict-ssl override was used; no package/lock/source changes were made.
+
+Successful retry and checks (using NODE_EXTRA_CA_CERTS=/usr/local/share/ca-certificates/e2b-ca.crt for npm commands; TLS verification remained enabled):
+  npm ci --no-audit --no-fund             PASS; 190 packages installed
+  npm run typecheck                       PASS (includes pretypecheck broker-import build)
+  npm run typecheck:replay-server          PASS
+  npm run test:ci                          PASS; 106 test files, 1,350 tests passed, zero failed
+  node .ci/assert-tests.js .vitest-report.json
+                                           PASS; 106 files, 1,350 tests, 0 failed
+  npm run build                            PASS; 142 modules transformed
+
+Non-fatal diagnostics: existing Node ExperimentalWarning for SQLite in tests; React Router future-flag/test act() warnings; Vite large-chunk warning (>500 kB). No test failed. The build generated only ignored output. `package.json`, `package-lock.json`, application source, tests, frozen pins, routes and fences were not changed.
+
+Classification: IRR host-independent repository checks only. These results are not S2, designated-Windows evidence, PF-15 designation, S3, QE credit, acceptance, or admission.

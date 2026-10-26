@@ -1,0 +1,25 @@
+CAP-03 environment/platform probe — 2026-10-26 UTC
+2026-10-26T06:47:43Z
+hostname=e2b.local
+Linux e2b.local 6.1.158+ #1 SMP PREEMPT_DYNAMIC Mon May 11 18:48:24 UTC 2026 x86_64 GNU/Linux
+PRETTY_NAME="Debian GNU/Linux 12 (bookworm)"
+NAME="Debian GNU/Linux"
+VERSION_ID="12"
+VERSION="12 (bookworm)"
+VERSION_CODENAME=bookworm
+{"platform":"linux","arch":"x64","node":"v22.22.3"}
+powershell=ABSENT
+pwsh=ABSENT
+cmd.exe=ABSENT
+host_resolution=UNRESOLVED exit=2
+IIPS_G3_IPC_BINDING_PROVISIONED=ABSENT
+IIPS_ENABLE_WRITES=ABSENT
+IIPS_G3_ENABLE_WRITES=ABSENT
+GATE_E_OVERRIDE=ABSENT
+IIPS_G2_IPC_ENDPOINT=ABSENT
+IIPS_G3_LOCAL_STATE_DIR=ABSENT
+IIPS_G3_DATABASE_PATH=ABSENT
+GATE_A_PRIME_STORE_PATH=ABSENT
+S2 commands dispatched=0/5
+P-1 invocation=NONE
+S3/QE execution=NONE
