@@ -1,0 +1,26 @@
+{
+  "ipd_compare_range": "8eec74ae27cda09f3c368b9c299895eae41554db...f97b17e7d04a0c5c4573c0dbe51da2c4c595d829",
+  "ahead_by_commits": 14,
+  "behind_by_commits": 0,
+  "total_changed_paths": 51,
+  "evidence_cross_repository_paths": 49,
+  "non_evidence_correction_paths": [
+    "scripts/verify-public-package.mjs",
+    "tests/portfolio_ui_package.test.ts"
+  ],
+  "verify_public_package_win32_mechanism": "process.execPath + bundled node_modules/npm/bin/npm-cli.js (no npm.cmd, no shell)",
+  "portfolio_ui_package_test_win32_mechanism": "import(pathToFileURL(builtEntry).href)",
+  "h12_r5_manifest_preserved": {
+    "git_blob_oid_sha1": "f4649e36a81c7013287810cd3202b99586dbd951",
+    "bytes": 143813,
+    "sha256": "d0be8bef3281ae6a296b8700265fe134b5088dd84b102b77ca8a157c8275cb76"
+  },
+  "irr_fence_blobs_preserved": {
+    "frontend/server/owner-context-unavailable.ts": "cb8db45d668d28cee7e0a52721001d579a872733",
+    "frontend/server/user-portfolio-transport.ts": "51704c12a467cd2f718a030b5036bc55c9afa73f",
+    "frontend/server/user-portfolio/userPortfolioContract.ts": "e6b57bb8a021d8eb4b9b7572d12affc7de66be0b",
+    "frontend/server/user-portfolio/ownerContextFromBinding.ts": "296dd5e361bf3a8bac4f45981f667edb344a6e79",
+    "frontend/server/user-portfolio/ipcClient.ts": "c1b885e3173132685090bcd2cbfa4aa8c87fa4ca"
+  },
+  "windows_external_s2_raw_byte_rehash_from_cloud_sandbox": "NOT COMPLETE (external host files C:\\iips-evidence\\cap03-s2\\s2-npm-launch-fix-*095613Z.txt remain outside Git by governance design; no rerun needed)"
+}

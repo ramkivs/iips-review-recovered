@@ -1,0 +1,474 @@
+{
+  "classification": "CROSS-REPOSITORY & IRR POST-MERGE REMOTE BLOB/CI VERIFICATION",
+  "irr_prs": {
+    "298": {
+      "pr": 298,
+      "merged_at": "2026-10-26T10:28:01Z",
+      "tested_head": "9075aaefaa438f1ad7872973b75da9918076fc52",
+      "merge_commit": "c493c5d3e9fa611475373f1f6428e285841a9456",
+      "merge_tree": "93300460d1c6fdb5604103fafa0405ca70ee80d3",
+      "parents": [
+        "610a4bd0c9174db9e7b3fc2e89087a3e0d298574",
+        "9075aaefaa438f1ad7872973b75da9918076fc52"
+      ],
+      "exact_head_ci_run": 40307414462,
+      "post_merge_main_ci_run": 40307635273,
+      "verified_file_count": 1,
+      "files": [
+        {
+          "path": "IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md",
+          "status": "modified",
+          "blob_sha1": "5b51c4a1ad96f73897d2544ecb1e31f97d322fa6",
+          "bytes": 2367388,
+          "sha256": "78f7cc3f7772e15d4dee1a2eb990cbf37b7d0bfcecb71b09a7fde7c69c01abfb"
+        }
+      ]
+    },
+    "299": {
+      "pr": 299,
+      "merged_at": "2026-10-26T11:34:04Z",
+      "tested_head": "429eca37396a5a534987cb6bfc33166449691bfe",
+      "merge_commit": "e47b58967621377ca92c2123c432a5eb5c5959ad",
+      "merge_tree": "4036a263832124dd9aa13473fbebb80a7d576d86",
+      "parents": [
+        "c493c5d3e9fa611475373f1f6428e285841a9456",
+        "429eca37396a5a534987cb6bfc33166449691bfe"
+      ],
+      "exact_head_ci_run": 40315801301,
+      "post_merge_main_ci_run": 40316031598,
+      "verified_file_count": 13,
+      "files": [
+        {
+          "path": "IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md",
+          "status": "modified",
+          "blob_sha1": "2a2ddc3067e76f16b21b45602b35e48a34c8f133",
+          "bytes": 2400377,
+          "sha256": "f7ef8309b4bdba5fd85cfe411d7ecbd8bc7031b079d2510640527f829b6c1266"
+        },
+        {
+          "path": "docs/integration/IIPS_v3.0_CAP03_DQ4_PF15_P1_INDEPENDENT_ADVANCEMENT_2026-10-26.md",
+          "status": "added",
+          "blob_sha1": "832f2247d29b184c5d6f6814ccc6d320d36705db",
+          "bytes": 28226,
+          "sha256": "a4043ca8bac358f7481b23f167764b8ae5da74c2a483c05de082d2fcbbd7372c"
+        },
+        {
+          "path": "docs/integration/IIPS_v3.0_CAP03_S2_EVIDENCE_COUNT_RECONCILIATION_2026-10-26.md",
+          "status": "added",
+          "blob_sha1": "776db4f501268fd5748a020973d3a91961eead64",
+          "bytes": 12009,
+          "sha256": "d0f8d958260ce5b86362fccde3a40fb876caed71b7aec140041e40aa342253cc"
+        },
+        {
+          "path": "evidence/integration/cap03-dq4-pf15-p1-independent-2026-10-26/00-remote-baseline.txt",
+          "status": "added",
+          "blob_sha1": "95f239734da2d911e299f5a645083b6a693fb8ce",
+          "bytes": 1452,
+          "sha256": "92d39b4cd89df7b9457b7b408454f19f2bbd5aa34670083a45e87462ada4c234"
+        },
+        {
+          "path": "evidence/integration/cap03-dq4-pf15-p1-independent-2026-10-26/01-tracker-and-manifest-baseline.txt",
+          "status": "added",
+          "blob_sha1": "082cb814af7aa0715011e085be25a8158e4afd71",
+          "bytes": 11533,
+          "sha256": "d9cd3995f2ba9b46fa2227ad62ab3fb808e799f4b1dded692b37018941286b45"
+        },
+        {
+          "path": "evidence/integration/cap03-dq4-pf15-p1-independent-2026-10-26/02-pf15-authority-search-current.txt",
+          "status": "added",
+          "blob_sha1": "c774b51fb0e8dfb1eac8d74c7375104cdcd6e481",
+          "bytes": 8175,
+          "sha256": "7701d2c7fa1f4a5b325a1162f75415ac3a614ad3fc19c3bd852e2f77f952ed06"
+        },
+        {
+          "path": "evidence/integration/cap03-dq4-pf15-p1-independent-2026-10-26/03-sandbox-validations.txt",
+          "status": "added",
+          "blob_sha1": "a396ce56ad774f8075fd37e94aa94750e10060a0",
+          "bytes": 1826,
+          "sha256": "80a31bade9731ee11adc0a6fdefb19d156c49e83114746213192f3259b5a9954"
+        },
+        {
+          "path": "evidence/integration/cap03-dq4-pf15-p1-independent-2026-10-26/04-irr-checks-current.txt",
+          "status": "added",
+          "blob_sha1": "fa98f51306f1c2ce42845a8069509f857750c370",
+          "bytes": 1880,
+          "sha256": "dcb257b3699a1b549d7bf37ce41fd343423ea25c16bf9e112817079657b51c09"
+        },
+        {
+          "path": "evidence/integration/cap03-dq4-pf15-p1-independent-2026-10-26/INDEX.md",
+          "status": "added",
+          "blob_sha1": "b10fde413adfa47c7768bffe299c2c6c1ed2a5a9",
+          "bytes": 706,
+          "sha256": "4026f49b00c401f40416f6a6c3ac212de0e1b3ceb3cd3df7a82bdb4922f50ad7"
+        },
+        {
+          "path": "evidence/integration/cap03-s2-evidence-count-reconciliation-2026-10-26/00-commit-identities-and-ancestry.txt",
+          "status": "added",
+          "blob_sha1": "6ac10c53b5003575c3927f0dbb9bc6018cac210d",
+          "bytes": 3978,
+          "sha256": "3b591f79d30b3447fb1a2ea2e2d8628e44b0dc31a64e595d323dfab7a9c69b5d"
+        },
+        {
+          "path": "evidence/integration/cap03-s2-evidence-count-reconciliation-2026-10-26/01-transcript-provenance.txt",
+          "status": "added",
+          "blob_sha1": "8a7f81b6e0820198d621e5cef24caf786f56ca2b",
+          "bytes": 16138,
+          "sha256": "40fc0f685e6e0811a819f256cdbb12993db9273f785f8e250957c90911df89fd"
+        },
+        {
+          "path": "evidence/integration/cap03-s2-evidence-count-reconciliation-2026-10-26/02-skip-policy-and-baseline-preservation.txt",
+          "status": "added",
+          "blob_sha1": "26ec8c99659d2c2f086ad36220713f06307c6bd6",
+          "bytes": 21538,
+          "sha256": "d935ad95af26cce08f0a136443a1f72e526da9256f51bf5a9d9ceab1c0747012"
+        },
+        {
+          "path": "evidence/integration/cap03-s2-evidence-count-reconciliation-2026-10-26/INDEX.md",
+          "status": "added",
+          "blob_sha1": "aa837da2c98ce0113563cacb6533d45fa6def9d5",
+          "bytes": 556,
+          "sha256": "9d87a208a82cd61d2bce85d4ce9751dd1f502ff1780774ca727a0327cf2f91fd"
+        }
+      ]
+    }
+  },
+  "ipd_prs": {
+    "94": {
+      "pr": 94,
+      "merged_at": "2026-10-25T20:23:30Z",
+      "tested_head": "cddee5910309576ecfbe99099359e5fa54602fb1",
+      "merge_commit": "9efbf83a74297d54dc392fa60efcd966ca52d486",
+      "merge_tree": "7a1ef7b89e69e08a8287ef31d28e91b959c4e5f9",
+      "parents": [
+        "c6b540afd1fd3da5f18d029a54d1d89331916ead",
+        "cddee5910309576ecfbe99099359e5fa54602fb1"
+      ],
+      "exact_head_ci_run": 40230413693,
+      "post_merge_main_ci_run": 40230541846,
+      "verified_file_count": 17,
+      "files": [
+        {
+          "path": "evidence/cross-repository/IIPS_V3_CAP02_IPD_EXECUTION_TRACKER_2026-10-23.md",
+          "status": "modified",
+          "blob_sha1": "983807c49248020f1e310f266bf33d0fd93df6b2",
+          "bytes": 155433,
+          "sha256": "5d7574bb94031e8a90f4ee5489e28e63c7358786271f58daea7af9b1ff450ca2"
+        },
+        {
+          "path": "evidence/cross-repository/IIPS_V3_CAP03_G4_H12_R5_ADOPTION_IPD_MIRROR_RECEIPT_2026-10-25.md",
+          "status": "added",
+          "blob_sha1": "1e71504f776152ea9200f3a6ce9250872edbee93",
+          "bytes": 15310,
+          "sha256": "c20f6e04c90d3ed0139a1cc5b5c88cb6a2d37b42556c88dc4fac989721807c1e"
+        },
+        {
+          "path": "evidence/cross-repository/IIPS_V3_CAP03_S2_HOST_PRECONDITION_BLOCKER_2026-10-25.md",
+          "status": "added",
+          "blob_sha1": "3bf58cee7dd299f39d4b6de5aa470f0400433071",
+          "bytes": 7705,
+          "sha256": "d5c5787f6d99681d8297db170098118e8b5d09608f3b0212074da88388778e09"
+        },
+        {
+          "path": "evidence/cross-repository/cap03_h12r5_2026-10-25_adoption_mirror/00_baseline.txt",
+          "status": "added",
+          "blob_sha1": "421a63b894b9ee9088e1344a6e507753430ba2c8",
+          "bytes": 1726,
+          "sha256": "1dda8ff0c48a973c22f4e7d5a91583ea1dd8eebe8f8f775d3fe24bb75c3f36c3"
+        },
+        {
+          "path": "evidence/cross-repository/cap03_h12r5_2026-10-25_adoption_mirror/01_identifier_census.txt",
+          "status": "added",
+          "blob_sha1": "d93a2d1e6cad4908f75c6156e16e788838d81e4d",
+          "bytes": 463,
+          "sha256": "85e63554a337f0871e992167508f9f09c99a8423844ae44641299a45ec5cbe16"
+        },
+        {
+          "path": "evidence/cross-repository/cap03_h12r5_2026-10-25_adoption_mirror/02_irr_locus_readback.txt",
+          "status": "added",
+          "blob_sha1": "98bf2934c7576961ee9df36d1025218bdf51b235",
+          "bytes": 2313,
+          "sha256": "9223b0eb6fd1cc9d847092653f0bd7d2c7061cba2c56a6495adce2fb1e5f77d5"
+        },
+        {
+          "path": "evidence/cross-repository/cap03_h12r5_2026-10-25_adoption_mirror/10_h12_r5_drift_and_supplement_verification.txt",
+          "status": "added",
+          "blob_sha1": "63d72fdf0fa8e414c67c3a3be81252648d32ad0f",
+          "bytes": 19587,
+          "sha256": "0138f76fe811340a4e9202dc742cb6a3448ce9a5b557607883d4bf00742ef6ec"
+        },
+        {
+          "path": "evidence/cross-repository/cap03_h12r5_2026-10-25_adoption_mirror/11_h12_r5_manifest_verification.txt",
+          "status": "added",
+          "blob_sha1": "c5d0525e393217c93b8ec14f8ac5e0113a87de03",
+          "bytes": 36507,
+          "sha256": "5efd3c99ff80b9378a477ce3e5d592f122bbb936897611d46f1342a68fe49830"
+        },
+        {
+          "path": "evidence/cross-repository/cap03_h12r5_2026-10-25_adoption_mirror/12_h12_r5_manifest_verify.py",
+          "status": "added",
+          "blob_sha1": "08c42a3a29a0c7df475500416578c88bdd755ed5",
+          "bytes": 7854,
+          "sha256": "71719a905d65fb3e73490d30e1e89efc19c980755dedf05447d39850638f796a"
+        },
+        {
+          "path": "evidence/cross-repository/cap03_h12r5_2026-10-25_adoption_mirror/13_h12_r5_drift_and_supplement_verify.py",
+          "status": "added",
+          "blob_sha1": "d68803b510ed3668a03e8d28b5bea63230cee1a8",
+          "bytes": 5623,
+          "sha256": "da4b53d656215b4fbbbcf038f6dbf3f32fdf92f9b78d6446ba58d3d688c22d34"
+        },
+        {
+          "path": "evidence/cross-repository/cap03_h12r5_2026-10-25_adoption_mirror/20_irr_effectiveness_checks.txt",
+          "status": "added",
+          "blob_sha1": "d84c093b8407251532075775cc19950c270c92c9",
+          "bytes": 1695,
+          "sha256": "09e51c51c94fae74dcdb5314b2dcda8cefdb452be66e86a9ff6325be106f183e"
+        },
+        {
+          "path": "evidence/cross-repository/cap03_h12r5_2026-10-25_adoption_mirror/30_s2_host_precondition_probe.txt",
+          "status": "added",
+          "blob_sha1": "e800c3c90c45d8e737ac34e8303eb6bd590accc6",
+          "bytes": 2924,
+          "sha256": "ceb3ced24727d1afe9c3a72cd57c90a0d16906d9a364fdb33757287968bf1be7"
+        },
+        {
+          "path": "evidence/cross-repository/cap03_h12r5_2026-10-25_adoption_mirror/40_publication_checks.txt",
+          "status": "added",
+          "blob_sha1": "766b0163f1684b833ef7087f48deb9aa49383562",
+          "bytes": 1910,
+          "sha256": "5d325ed42e06c795aa226b8931625e4783b005a8b5f293f13c3ddc7f5bc8d063"
+        },
+        {
+          "path": "evidence/cross-repository/cap03_h12r5_2026-10-25_adoption_mirror/41_publication_test_summary.txt",
+          "status": "added",
+          "blob_sha1": "4a239dfda416ad6d5999bc86d0debc9995c7b7ba",
+          "bytes": 1046,
+          "sha256": "b7f72e58a9e497521c6e31bd89012d8063e323576ba827d8522864e5dcd2d100"
+        },
+        {
+          "path": "evidence/cross-repository/cap03_h12r5_2026-10-25_adoption_mirror/42_publication_package_consumer.txt",
+          "status": "added",
+          "blob_sha1": "dfd4f73f6e944a02e1030260a8cd0bba2a18eb44",
+          "bytes": 2917,
+          "sha256": "dd780dd8da018d5f515be55c67ce7cd6a9607bf57a0e8430d2c8c8284ae7cf7e"
+        },
+        {
+          "path": "evidence/cross-repository/cap03_h12r5_2026-10-25_adoption_mirror/43_publication_tree.txt",
+          "status": "added",
+          "blob_sha1": "aba0e10c4e26911a35745e8fd4f42a6a9d8fbb1d",
+          "bytes": 765,
+          "sha256": "0b35aa84e1d2e92b60ae5dd07eeb8d7851ecea73a5bfb21c4d7e3ecce686db58"
+        },
+        {
+          "path": "evidence/cross-repository/cap03_h12r5_2026-10-25_adoption_mirror/SHA256SUMS.txt",
+          "status": "added",
+          "blob_sha1": "e38f45925875d57091aa41d44c32b4d1e5a70f90",
+          "bytes": 1263,
+          "sha256": "0267dbdde47d526969e82cdd7b60bd65e5cfd6191ae8ad05bb681514847dcbf9"
+        }
+      ]
+    },
+    "95": {
+      "pr": 95,
+      "merged_at": "2026-10-25T20:26:25Z",
+      "tested_head": "6581d6e917d55cfd97af71055b87cf8e726d71aa",
+      "merge_commit": "f5eddbc20b944a098a9060a8e3349c6d10b7843e",
+      "merge_tree": "5c93f1d1e6c4919fa632ff107569ac955f5e052e",
+      "parents": [
+        "9efbf83a74297d54dc392fa60efcd966ca52d486",
+        "6581d6e917d55cfd97af71055b87cf8e726d71aa"
+      ],
+      "exact_head_ci_run": 40230696126,
+      "post_merge_main_ci_run": 40230772869,
+      "verified_file_count": 4,
+      "files": [
+        {
+          "path": "evidence/cross-repository/IIPS_V3_CAP02_IPD_EXECUTION_TRACKER_2026-10-23.md",
+          "status": "modified",
+          "blob_sha1": "8a2a4e45615b84e517b65fe2700d4a09cde8c3f7",
+          "bytes": 162478,
+          "sha256": "8f85ca5e1e4acc10e19fa77d8ab87c388567a88442c136f5388e76479841351c"
+        },
+        {
+          "path": "evidence/cross-repository/cap03_h12r5_2026-10-25_adoption_mirror/50_remote_readback.txt",
+          "status": "added",
+          "blob_sha1": "9043c065af3882fd9efaff205610f6dc0c2db49d",
+          "bytes": 8203,
+          "sha256": "3d1418f49aa8a9e474f7834d523be818242a25c13ea9507e26ffbd4e6f43e608"
+        },
+        {
+          "path": "evidence/cross-repository/cap03_h12r5_2026-10-25_adoption_mirror/51_ci_runs.txt",
+          "status": "added",
+          "blob_sha1": "69ed7d77cd7599650d359ed631e6b7dc83914320",
+          "bytes": 1067,
+          "sha256": "4205f9c49016ce218d04839f53063594537459f4f70db863ce41ad40f00a482f"
+        },
+        {
+          "path": "evidence/cross-repository/cap03_h12r5_2026-10-25_adoption_mirror/SHA256SUMS.txt",
+          "status": "modified",
+          "blob_sha1": "80d7a9ab64a03a2c66e048f99c85e970410bdc70",
+          "bytes": 1433,
+          "sha256": "4c445c8e7ac2fbaae3bb8241fd0367a0c9f9ec2091fd29ec4928f5222595e4c8"
+        }
+      ]
+    },
+    "96": {
+      "pr": 96,
+      "merged_at": "2026-10-26T10:12:18Z",
+      "tested_head": "001c3c80618f2ee1d40e9a90912237e1a06e7b58",
+      "merge_commit": "1e76f4cf9e9ca7d385a8345c9b6f438ae1ad6745",
+      "merge_tree": "7003a2828bde51985393348fa6e657a6cb8d4eed",
+      "parents": [
+        "f5eddbc20b944a098a9060a8e3349c6d10b7843e",
+        "001c3c80618f2ee1d40e9a90912237e1a06e7b58"
+      ],
+      "exact_head_ci_run": 40305148754,
+      "post_merge_main_ci_run": 40305563564,
+      "verified_file_count": 2,
+      "files": [
+        {
+          "path": "scripts/verify-public-package.mjs",
+          "status": "modified",
+          "blob_sha1": "e556afde3cca4a858c77a8ff7638cf6b7e4d888c",
+          "bytes": 14412,
+          "sha256": "aa18d80b88182dd1cce515559d51aa049090380bec0910c7fe75d3403e26d408"
+        },
+        {
+          "path": "tests/portfolio_ui_package.test.ts",
+          "status": "modified",
+          "blob_sha1": "ecbc365dbc6a35102ae1b8b43f2686a8f71437d1",
+          "bytes": 26456,
+          "sha256": "6eb360513ae071a6d86039db8a76a71fe098920deabd04ec42e8c2bdb459a73a"
+        }
+      ]
+    },
+    "97": {
+      "pr": 97,
+      "merged_at": "2026-10-26T11:29:12Z",
+      "tested_head": "880f067185b50cad3989a65f8651699b2c7a1f5a",
+      "merge_commit": "f97b17e7d04a0c5c4573c0dbe51da2c4c595d829",
+      "merge_tree": "6da6f82970fd3fb836500776708bbb6ea206baa1",
+      "parents": [
+        "1e76f4cf9e9ca7d385a8345c9b6f438ae1ad6745",
+        "880f067185b50cad3989a65f8651699b2c7a1f5a"
+      ],
+      "exact_head_ci_run": 40315257221,
+      "post_merge_main_ci_run": 40315422170,
+      "verified_file_count": 16,
+      "files": [
+        {
+          "path": "evidence/cross-repository/cap03_independent_2026-10-26/00-remote-baseline.txt",
+          "status": "added",
+          "blob_sha1": "1048809a6297f03471bbdc3145e0e04fd2f2a164",
+          "bytes": 304,
+          "sha256": "5e84c91cee8fe57d51dfd76072fe6cef0c187069f0643924819f5b500e1ef9c4"
+        },
+        {
+          "path": "evidence/cross-repository/cap03_independent_2026-10-26/01-ipd-object-audit.json",
+          "status": "added",
+          "blob_sha1": "5be7de2b54d6ef0b09190b5ab7b5f6992554e177",
+          "bytes": 23529,
+          "sha256": "fb94ccc3d0a226441f7933aa40c8ad3306c988eeef9c6c98bb422dc9ed0a684f"
+        },
+        {
+          "path": "evidence/cross-repository/cap03_independent_2026-10-26/02-baseline-ci.json",
+          "status": "added",
+          "blob_sha1": "4fef981c33582b07f2996d6da301f823fe966319",
+          "bytes": 117,
+          "sha256": "bdd6a5b0cbc2363db841ba541ddf08b52b4e71c3b7e16ccb19337e1aef989c66"
+        },
+        {
+          "path": "evidence/cross-repository/cap03_independent_2026-10-26/03-negative-test.txt",
+          "status": "added",
+          "blob_sha1": "914f944d39b189371ad952e2e25cc8422debd32d",
+          "bytes": 509,
+          "sha256": "2737a93c58666273067e9a21794ec40a3dec8ad44035e4fa1a0d3876787f0a32"
+        },
+        {
+          "path": "evidence/cross-repository/cap03_independent_2026-10-26/04-governance-sources.json",
+          "status": "added",
+          "blob_sha1": "d0882b8eb7b95ce4b344a22d5d54187794178c15",
+          "bytes": 2018,
+          "sha256": "8c33e2563513d8e376d21fc8b5bc6679bf64a170a20a5f2d78c04652d4fa6420"
+        },
+        {
+          "path": "evidence/cross-repository/cap03_independent_2026-10-26/10-install.txt",
+          "status": "added",
+          "blob_sha1": "50097542179434956ba2a78f051733bccfaa5854",
+          "bytes": 545,
+          "sha256": "11d122db967b341150c7d914c1f11ebd0f76902916b5b3b24c38b5fa25752f12"
+        },
+        {
+          "path": "evidence/cross-repository/cap03_independent_2026-10-26/11-build.txt",
+          "status": "added",
+          "blob_sha1": "8fdae8e88d2354447e4c9cfac661459bfd085e77",
+          "bytes": 1096,
+          "sha256": "e96c0f154694ec64733a096d892abb62aded0edd021645180e93c076bbc7919b"
+        },
+        {
+          "path": "evidence/cross-repository/cap03_independent_2026-10-26/12-tests.txt",
+          "status": "added",
+          "blob_sha1": "c2e4f05bfbae975377cce1f22810cd96b29db5c7",
+          "bytes": 4657540,
+          "sha256": "39ff9da38e852523f4c69ee56c5b4f3a21c96b3f27e0e8ee40972f985cd9d09d"
+        },
+        {
+          "path": "evidence/cross-repository/cap03_independent_2026-10-26/13-package-consumer.txt",
+          "status": "added",
+          "blob_sha1": "9fb672a0d0ba11072c8279a236c7f65878624f85",
+          "bytes": 2793,
+          "sha256": "3bea67f94bc20376f7fe7228e7284945c1967bb7c8466f1b6a250eb6c405c00b"
+        },
+        {
+          "path": "evidence/cross-repository/cap03_independent_2026-10-26/PUBLICATION-RECEIPT.json",
+          "status": "added",
+          "blob_sha1": "f984009331e18b6dcaba9cdce91555f82658e8a2",
+          "bytes": 4016,
+          "sha256": "a8bc39c7deca3a704e0139aa7a5366164915e014a1ee8bac6e47c99bdb6060ce"
+        },
+        {
+          "path": "evidence/cross-repository/cap03_independent_2026-10-26/README.md",
+          "status": "added",
+          "blob_sha1": "367bbcf9d6cae59e224e91fb4c825558d74d56b9",
+          "bytes": 9304,
+          "sha256": "94e434f103448cfe3b904c0271ce9898e3f13f46750d82c86bb7fb5b44d4540c"
+        },
+        {
+          "path": "evidence/cross-repository/cap03_independent_2026-10-26/S2-RECONCILIATION-SHA256SUMS",
+          "status": "added",
+          "blob_sha1": "d9873054cb6511f6b09d67206ec53f005a5c9958",
+          "bytes": 184,
+          "sha256": "45c193d8b40e266bac0a076dd8dc39fb8613972ab78025f27d266299f2c67ee0"
+        },
+        {
+          "path": "evidence/cross-repository/cap03_independent_2026-10-26/S2-RECONCILIATION-SOURCES.json",
+          "status": "added",
+          "blob_sha1": "113af0c4c585b41eede44415b4f49fe2057f12ee",
+          "bytes": 5470,
+          "sha256": "8e472bc98647172bbd57e4af05be46ebaff420c19ca3ce76e65bdfcb4f39a4d1"
+        },
+        {
+          "path": "evidence/cross-repository/cap03_independent_2026-10-26/S2-RECONCILIATION.md",
+          "status": "added",
+          "blob_sha1": "c11f885d4222fb1f3ad2c14c94e1c86d93abfb2e",
+          "bytes": 7716,
+          "sha256": "07e8777eb856c6b6d5b854b72571c7baae1e5a8cca2d52a7052741882cefa7d9"
+        },
+        {
+          "path": "evidence/cross-repository/cap03_independent_2026-10-26/SHA256SUMS",
+          "status": "added",
+          "blob_sha1": "ae9a099328038263a372fb596b82051ca2297fbe",
+          "bytes": 931,
+          "sha256": "b44b63b18975e62bd942e66d6b333867a4e84472405e36d3fb6dd595e9dbe927"
+        },
+        {
+          "path": "evidence/cross-repository/cap03_independent_2026-10-26/verify_ipd.py",
+          "status": "added",
+          "blob_sha1": "7eb4d3da446bab0d99601a61cd0933a1ebe585e9",
+          "bytes": 3438,
+          "sha256": "2d334db25ee92ac5c12f30bab1a54793de25d2551b4f38eef6ac5bf09ce6e039"
+        }
+      ]
+    }
+  }
+}
