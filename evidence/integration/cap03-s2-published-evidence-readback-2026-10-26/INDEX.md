@@ -12,7 +12,14 @@ Reproducible audit artifacts supporting:
   digests reproduced, **9/9** required verified, **1** mismatch; the `47`-entry `PASS` output is
   **absent**; acceptance assessed against ten transcribed criteria and found **NOT RENDERABLE** on
   `A8` (baseline step-4 failure); the S2 acceptance record was therefore **not created**)
-- `IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md` (`§16.141`, `§16.142`)
+- `docs/integration/IIPS_v3.0_CAP03_S2_CANDIDATE_SCOPED_BASELINE_DISPOSITION_2026-10-26.md`
+  (`IIPS-V3-CAP03-S2-CANDIDATE-SCOPED-BASELINE-DISPOSITION-2026-10-26-01`, §16.143 — Program-Authority
+  direction designating the corrected candidate as the candidate-scoped operative basis; H-12/digest
+  consequences quantified; non-grants recorded)
+- `docs/integration/IIPS_v3.0_CAP03_S2_EVIDENCE_ACCEPTANCE_2026-10-26.md`
+  (`IIPS-V3-CAP03-S2-EVIDENCE-ACCEPTANCE-2026-10-26-01`, §16.144 — **S2 evidence ACCEPTED,
+  candidate-scoped**; residuals `R-1`–`R-4` carried unwaived; failed baseline preserved)
+- `IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md` (`§16.141`–`§16.144`)
 
 Read-back target: branch `cap03-s2-evidence-publication` @
 `54d5a56fc8ffda72fa98020aaeb7b8a71bd6c5e0`, directory
@@ -58,6 +65,18 @@ was made. `0` IPD writes.
 - `verify_continuation_record.py` — integrity validator for §16.142: re-derives the digest counts from
   the published commit, asserts `A4`/`A10` statuses, asserts that **no** S2 acceptance record was
   created, and asserts the PF-15 corrected act is still byte-identical to the effective blob.
+- `06-candidate-basis.json` — produced by `verify_candidate_basis.py`: live candidate/baseline/merge
+  identities, the retained passing capture and its prerequisite capture, the five gate conditions mapped
+  to their transcripts, the H-12 exposure (`0/56` bound paths affected) and the exact `dist` delta
+  (`2` differing compiled test files, no adds/removes).
+- `07-acceptance-outcome.json` — produced by `assess_candidate_scoped_acceptance.py`: the
+  candidate-scoped acceptance outcome, ten criteria statuses, and residuals `R-1`–`R-4` with their
+  clearing conditions and `waived: false`.
+- `verify_candidate_basis.py` — read-only basis verifier (GitHub identity reads + published transcripts).
+- `assess_candidate_scoped_acceptance.py` — acceptance evaluator; deposit coordinates are explicit inputs.
+- `verify_acceptance_record.py` — integrity validator for §16.143/§16.144: identities, qualifications,
+  H-12 exposure, dist delta, residual non-waiver, failed-run classification, PF-15 blob identity, and
+  that no application code changed.
 - `SHA256SUMS.txt` — SHA-256 digests of the files in this directory (excluding itself).
 
 ## Reproduction
@@ -70,6 +89,11 @@ python3 verify_readback_record.py --repo /path/to/iips-review-recovered
 python3 audit_published_evidence.py --repo /path/to/iips-review-recovered
 python3 assess_s2_acceptance.py
 python3 verify_continuation_record.py --repo /path/to/iips-review-recovered
+python3 verify_candidate_basis.py --repo /path/to/iips-review-recovered
+python3 assess_candidate_scoped_acceptance.py --deposit-pr 310 \
+    --deposit-merge 47133fe489e80de2af5f1b537d67865a6a7235b9 --head-ci 40359958909 \
+    --post-merge-ci 40360279234
+python3 verify_acceptance_record.py --repo /path/to/iips-review-recovered
 ```
 
 The scripts require the published commit to be present locally
