@@ -170,3 +170,89 @@ path. No provisioning was performed or prematurely prepared in this pass.
 | Ordering | P-1 strictly **after S2 passes** and **before S3** (H-12 R5 act §7.2; DQ-4 criterion 7). S2 is NOT EXECUTED, so P-1 is not yet eligible. |
 | P-1 procedure (successor act §8, steps 0–6) | 0) preflight capture (hostname, edition, non-elevation, `node -v`, SQLite probe, `git rev-parse HEAD HEAD^{tree}` = designated pin, clean status, module SHA-256); 1) `$StorePath` absolute, outside every worktree, local fixed NTFS, not synchronized, opera
 ...[truncated 8223 chars]
+> **REPAIR APPENDIX — the published bytes above end mid-sentence at line 172 with a truncation marker.
+> Do not treat `§4` as complete and do not cite a `§5`–`§8` from the body: they were never published.
+> Read this appendix instead.** Disclosed, reconstructed and corrected by
+> `IIPS-V3-CAP02-QE8-MATRIX-INTEGRITY-RECONCILIATION-2026-10-26-01` (§3, corrections `C1`–`C5`);
+> completeness is machine-checked by
+> `evidence/integration/cap02-qe8-revocation-and-matrix-integrity-2026-10-26/03-matrix-row-audit.py`.
+
+## R1. Defect disclosure
+
+| Field | Value |
+|---|---|
+| Published artifact | this file, as merged by IRR PR #287 and present at `main` |
+| Identity | git blob `ab9451712df8e801f041f1139e3cb3f91ec84913`, 23,893 B, SHA-256 `6d32f261f23bc0e80c9ab3b1a78b610cc8c5055f4a58d9cf27d7beac740bd602`, 172 lines |
+| Defect | body truncated in the §4 table (line 172 marker, ~8.2 kB lost): rest of §4 and all of §§5–8 never reached the repository |
+| Cause | the record body was authored from a truncated read of its own draft; the truncation marker was committed as content |
+| Why it passed verification | tracker §16.127.5 `V766` verified blob/size/SHA-256/byte identity. A truncated file is byte-identical to itself; **identity verification is not completeness verification** |
+| Repair method | published bytes preserved unchanged; this appendix supplies the missing content, labelled **RECONSTRUCTED AFTER DEFECT** and cited to the source used for each section. No lost sentence is invented |
+
+## R2. §4 continuation — RECONSTRUCTED AFTER DEFECT (source: Gate A′ successor act §8 steps 0–6 and §5 V-A2-1…V-A2-8, blob `528de6ae…`)
+
+| Layer | State |
+|---|---|
+| P-1 steps 3–6 | 3) the **single** `--mode=execute` invocation with `--act-id`, `--store`, the three identity values on the command line and `--actor`; verbatim stdout/stderr, exit code, UTC start/end, store SHA-256 and size after commit. 4) `--mode=validate` read-only, full V-A2-1…V-A2-8 report. 5) post-state checks: table counts, `WRITE_NOT_AUTHORIZED` still returned, `evaluatePortSaveGuard()` still hard-false, second invocation refused with zero change. 6) evidence publication **before** any receipt. |
+| V-A2-1 schema/ledger | `_migration_ledger` holds `001`–`004` at the basis-computed checksums; schema version 004; migration `001` blob `f594a182…` unchanged. |
+| V-A2-2 binding | exactly one row, `ACTIVE`, `revoked_at IS NULL`, `binding_id c5808abaffd072d6401ce63ad86c6ac0`. |
+| V-A2-3 membership | exactly one row, `ACTIVE`, attached to V-A2-2, values `ipd-personal-local` / `ipd-owner-ramki-personal`, `membership_id d25dcc5370100b00766efc5166f65cf3`. |
+| V-A2-4 content tables | `portfolios`, `portfolio_revisions`, `portfolio_holdings`, `portfolio_contributions` all **0**. |
+| V-A2-5 audit | exactly one hash-chained row, `event_type='local_principal_binding.provisioned'`, `subject_type='local_principal_binding'`, `subject_id = principal_label`, detail = the owner pair; chain verifies. |
+| V-A2-6 resolution | `resolveActiveBinding()` returns exactly the provisioned context; before provisioning it throws `BindingAbsentError`; a second `ACTIVE` row is impossible at storage and refused by the resolver. |
+| V-A2-7 refusal preservation | IPC still `WRITE_NOT_AUTHORIZED` before mutation; `evaluatePortSaveGuard()` still hard-false; no write became possible as a side effect. |
+| V-A2-8 idempotence/consumption | a second invocation is refused and changes nothing; the act is recorded consumed. |
+| Consumption rule | one execution, one host, one path; consumed on completion **whether it succeeds or fails**; any re-attempt requires a fresh rendering; a failure is recorded `FAILED / ROLLED BACK` or `NOT EXECUTED — <reason>`. |
+
+## R3. §5 — shared prerequisites and PF-15 — RECONSTRUCTED AFTER DEFECT (source: tracker §16.127.2; H-12 R5 adoption act §7.2; host readiness packet PF-15)
+
+`PF-15` (**IPC endpoint / local-state designation**) is `NOT DESIGNATED` by any PA act. It is required before
+S3 and before any QE item, and is **not** required for S2 or P-1. The transport mechanism is complete and
+fail-closed in both loci (`resolveEndpointTarget` / `resolveIpcEndpoint`: absolute `\\.\pipe\` form or bare
+name + absolute `IIPS_G3_LOCAL_STATE_DIR`; URLs, host:port and relative paths refused; no default or network
+fallback; same-host one-connection cap). The gap is a **designation**, owned by the PA; no value may be
+invented by an operator. **DQ-4 freeze establishment is CAP-03-scoped and is not a CAP-02 prerequisite**; it
+is not imported. No other shared prerequisite beyond PF-15 and the QE-8 determination was found.
+
+## R4. §6 — host blocker and next executable action — RECONSTRUCTED AFTER DEFECT (source: tracker §16.127.3; this pass's re-verification)
+
+The executing environment remains Linux (`process.platform === 'linux'`, Node `v22.22.3`, no PowerShell,
+`node:sqlite` emitting `ExperimentalWarning`); `desktop-no0nhtp` does not resolve or accept a session from
+it. Mandatory preconditions 1–3 **FAIL fatally**; 4–7 are unverifiable on the host. Nothing was dispatched
+and no substitution was made. The blocker is **environmental/operational**, not a missing decision.
+
+**Next executable CAP-02 action:** the operator opens a non-elevated native-Windows session on the designated
+host with the operator-supplied Node `>=22.13.0 <23`, checks out IPD `8eec74ae…` clean and full-history, and
+runs the five S2 commands with raw capture outside every worktree (runbook
+`IIPS-V3-CAP02-HOST-EXECUTION-RUNBOOK-AND-EVIDENCE-STRUCTURE-2026-10-26-01` §3). Then, in strict order:
+single P-1 → PA PF-15 designation → S3 preflight → QE-1…QE-11, with **QE-8 held until `RV-1`**.
+
+## R5. §7 — derived evidence template and its verification — RECONSTRUCTED AFTER DEFECT (source: tracker §16.127.2, `V762`)
+
+`cap02-qe-run-evidence-manifest.schema.json` (`IIPS-V3-CAP02-QE-RUN-EVIDENCE-MANIFEST-SCHEMA-2026-10-26-01`,
+**PREPARED TEMPLATE — NOT AUTHORITY**, 100/100 nodes carrying governing-clause `source` citations) with a
+NOT-EXECUTED current-state sample and stdlib self-test `30-schema-self-test.py` at **22/22 PASS**; re-run
+unchanged in this pass. The template executes and accepts nothing.
+
+## R6. §8 — publication, scope and non-grants — RECONSTRUCTED AFTER DEFECT (source: tracker §16.127.4–.5)
+
+This record and its evidence directory are documentation/evidence/template only. Zero IPD writes; no
+source/test/pin/route/fence/manifest change; no host action; no provisioning; no QE execution; no acceptance,
+admission or write authorization. Publication coordinates belong to tracker §16.127.5 and are not
+self-asserted here.
+
+## R7. Corrections overlay — supersedes the named cells above (evidence: reconciliation record §4)
+
+| # | Superseded text (as published in §3) | Corrected reading |
+|---|---|---|
+| `C1` | QE-8: "*Limitation finding* for write/revocation-race (no binding re-read inside a write transaction)" | W-3's in-transaction revalidation **is implemented** at the designated pin (`portfolio_store.ts 540d49f2…` L384–404 calls `resolveActiveBindingInCurrentTransaction` inside `BEGIN IMMEDIATE`; `binding.ts 96d0079d…` L70–95). The race limb is **Tier 2 component-executable**, and remains component-level evidence only — never a full-path PASS while W-1 refuses writes. The Gate 4 §5 note predates the U2 revalidation amendment and is history, not current state. |
+| `C2` | QE-8 prerequisite "*…(readiness §5)*" | Re-grounded in **Gate E §4 QE-8 + G2-D5 points (4) and (5)** (effective PA policy). The CAP-03 readiness packet is corroborative; its CAP-03-scoped statements are not imported. |
+| `C3` | QE-8 prerequisites list | Adds: **no governed revocation operation exists** in the product (0 paths matching `/revok/i` in the 566-blob tree; only test-fixture SQL), so the determination must cover the mechanism as well as the procedure — see `IIPS-V3-CAP02-QE8-REVOCATION-PROCEDURE-DECISION-REQUEST-2026-10-26-01`. |
+| `C4` | QE-8 "*must never be revoked without express authority*" | Adds: revocation of the sole binding is **one-way** (`STORE_ALREADY_EXISTS` and `ALREADY_PROVISIONED` on any row in any state; G2-D5(4) recovery act absent). Authoritative-store vs disposable-copy target is a **PA decision**, not an operator choice. |
+| `C5` | — | This appendix, plus the completeness audit. `V766` is restated as **identity verification only**. |
+
+**Reconstructed §4–§8 above and this overlay are the operative reading of this record.** Status statements in
+the body (CAP-02 PARTIAL; U2-14 BLOCKED; U3 AUTHORIZED — NOT STARTED; QE 0/11; U4/U5/U6 unchanged) remain
+correct and are not affected by the repair.
+
+*End of repair appendix. Published body bytes above are preserved unaltered; additions begin at the
+`REPAIR APPENDIX` notice.*

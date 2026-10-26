@@ -1,0 +1,40 @@
+# Published CAP-02 QE matrix record — integrity check (UTC 2026-10-26T06:43:37Z)
+
+## Local published artifact
+path:    docs/integration/IIPS_v3.0_CAP02_QE_EXECUTION_MATRIX_AND_HOST_PREREQUISITES_2026-10-26.md
+bytes:   23893
+sha256:  6d32f261f23bc0e80c9ab3b1a78b610cc8c5055f4a58d9cf27d7beac740bd602
+git blob:ab9451712df8e801f041f1139e3cb3f91ec84913
+lines:   171
+
+## Remote artifact at IRR origin/main (3cd61bc...)
+remote blob: ab9451712df8e801f041f1139e3cb3f91ec84913
+remote bytes: 23893
+=> local and remote are byte-identical (same git blob, same size): the defect is in the PUBLISHED artifact.
+
+## Defect: the record terminates mid-sentence and carries a tool truncation marker
+last two lines of the file:
+  | P-1 procedure (successor act §8, steps 0–6) | 0) preflight capture (hostname, edition, non-elevation, `node -v`, SQLite probe, `git rev-parse HEAD HEAD^{tr
+  ...[truncated 8223 chars]
+
+marker line number: 172
+bytes before marker: 23868
+
+## Sections present / absent in the published artifact
+  present: 21:## 1. Re-verified baseline — the task-cited state stands, with one CAP-03-only supersession
+  present: 37:## 2. Qualification criteria audit — exact terms from the governing records
+  present: 131:## 3. QE-1…QE-11 execution matrix
+  present: 159:## 4. Provisioning prerequisites and V-A2 reconciliation (U2-14)
+
+  ABSENT (referenced by the record's own text and by tracker §16.127):
+    - the remainder of §4 (P-1 steps 2-6, V-A2-1..V-A2-8 receipt, consumption rule)
+    - §5 (shared prerequisites / PF-15 disposition — the record itself says 'see §5')
+    - §6 (host blocker and next executable action)
+    - §7 (verification/evidence-template/test record)
+    - §8 (publication and scope statement; non-grants)
+
+## Consequence
+  Tracker §16.127.5's V766 verified the blob/byte/SHA-256 identity (23,893 B, 6d32f261...) correctly —
+  it did not detect that the artifact it verified is incomplete. Identity verification is not completeness
+  verification. The repair is published as a clearly marked appended section that preserves the
+  published bytes; no lost text is invented.

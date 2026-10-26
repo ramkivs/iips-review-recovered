@@ -1,0 +1,81 @@
+# W-3 in-transaction binding revalidation — implementation and test evidence at the designated IPD pin
+# Read-only GitHub API reads of ramkivs/iips-production-market-data. No IPD write, no clone, no execution.
+
+## Blob identities (identical at designated pin 8eec74ae and at main f5eddbc2 — no qualified drift)
+  src/persistence/binding.ts                 96d0079dd04b75c6f257a2001c8f7eff1ffc560a
+  src/persistence/portfolio_store.ts         540d49f2deb2c8d600b5b866675d145cf76a1e46
+  tests/q1_broker_import_durability.test.ts  00efdddd1f4d7aba92831652b3ea520f32a2c7e1
+  tests/g3_binding_resolution.test.ts        c3e130a404b2cf43c368e672aeb7916dfb66f7d9
+
+## binding.ts (blob 96d0079d) — the shared predicate and its in-transaction form
+  export function resolveActiveBinding(db: DatabaseSync): ActiveOwner {
+    db.exec('BEGIN IMMEDIATE;');
+    try {
+      const owner = resolveActiveBindingInCurrentTransaction(db);
+      db.exec('COMMIT;');
+      return owner;
+    } catch (error) {
+      db.exec('ROLLBACK;');
+      throw error;
+    }
+  }
+  
+  /**
+   * Resolves the active owner without taking transaction ownership. The caller
+   * must already hold BEGIN IMMEDIATE on this same connection, which serializes
+   * this check with revocation and the caller's protected writes.
+   */
+  export function resolveActiveBindingInCurrentTransaction(db: DatabaseSync): ActiveOwner {
+    if (!db.isTransaction) {
+      throw new Error('resolveActiveBindingInCurrentTransaction requires an active transaction');
+    }
+    const bindings = db
+      .prepare("SELECT binding_id, principal_label, status FROM local_principal_bindings WHERE status = 'ACTIVE'")
+      .all() as unknown as BindingRow[];
+    if (bindings.length === 0) {
+      throw new BindingAbsentError('no ACTIVE local principal binding is registered');
+
+## portfolio_store.ts (blob 540d49f2) — the write path re-reads the binding INSIDE its own BEGIN IMMEDIATE
+      }
+    }
+  
+    /**
+     * Runs one broker-import request under one SQLite write transaction and
+     * revalidates the sole active owner while revocation is serialized.
+     */
+    withBrokerImportTransaction<T>(owner: OwnerRef, work: (store: this) => T): T {
+      return this.withTransaction(() => {
+        let active;
+        try {
+          active = resolveActiveBindingInCurrentTransaction(this.db);
+        } catch (error) {
+          if (error instanceof BindingAbsentError || error instanceof BindingInvalidError) {
+            throw new ResourceUnavailableError();
+          }
+          throw error;
+        }
+        if (active.canonicalOwnerId !== owner.canonicalOwnerId || active.tenantId !== owner.tenantId) {
+          throw new ResourceUnavailableError();
+        }
+
+## Consequence for the QE-8 evidence ceiling
+  The CAP-02 matrix row QE-8 recorded 'Limitation finding for write/revocation-race (no binding re-read
+  inside a write transaction)'. That statement reproduces the Gate 4 act §5 note written before the
+  U2 transaction/binding revalidation amendment (IPD evidence/cross-repository/
+  IIPS_V3_CAP02_U2_TRANSACTION_BINDING_REVALIDATION_AMENDMENT_2026-10-23.md, EFFECTIVE), which authorized
+  resolveActiveBindingInCurrentTransaction and required the request transaction to call it. At the
+  designated pin the requirement is implemented. The race limb is therefore T2 component-executable
+  (Tier 2 disposable-copy store), not structurally unreachable. It remains component evidence only:
+  no full-path PASS is claimable while W-1 refuses every operational write.
+
+## Local (non-qualifying) revocation tests visible at the pin
+  tests/g3_binding_resolution.test.ts L92-95   fixture revoke(): UPDATE ... SET status='REVOKED', revoked_at=?
+  tests/g3_binding_resolution.test.ts L142-143 revoking the only ACTIVE pair -> BindingAbsentError
+  tests/q1_broker_import_durability.test.ts L415-429  competing revoker blocked; revoked owner write has no store effect
+  tests/q1_broker_import_durability.test.ts L442-496  lock serialization, post-revocation refusal, row-count equality
+  These are repository tests on Linux — implementation evidence only, never QE evidence (Gate 4 act §3/§5).
+
+## No governed revocation operation exists in the product
+  Recursive tree at IPD main f5eddbc2 (566 blobs): paths matching /revok/i = 0.
+  The only revocation acts anywhere are test-fixture SQL statements above. There is no CLI, IPC operation,
+  route or exported function that revokes a binding, and no audit event type is emitted for one.

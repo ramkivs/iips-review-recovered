@@ -1,0 +1,63 @@
+# IRR frontend publication checks (CAP-02 QE-8 pass) — 2026-10-26T06:48:22Z
+# environment: Linux 6.1.158+ x86_64, node v22.22.3, npm 10.9.8 — NOT the designated host; repository checks only, never S2/QE evidence
+
+## 0. dependency install (sandbox CA workaround, recorded not hidden)
+attempt 1: npm ci -> exit 1, UNABLE_TO_VERIFY_LEAF_SIGNATURE fetching the pinned GitHub archive
+attempt 2: npm ci --no-audit --no-fund --strict-ssl=false -> exit 0, 190 packages added; no manifest/lockfile change
+
+## 1. npm run typecheck
+> tsc -p tsconfig.broker-import.json
+
+
+> @iips/v3-frontend@0.1.0 typecheck
+> tsc --noEmit
+
+exit=0
+
+## 2. npm run typecheck:replay-server
+
+> @iips/v3-frontend@0.1.0 typecheck:replay-server
+> tsc -p tsconfig.replay-server.json --noEmit
+
+exit=0
+
+## 3. npm run test:ci
+ ✓ src/components/ui/Badges.test.tsx (5 tests) 32ms
+ ✓ server/executive-read.test.ts (2 tests) 35ms
+ ✓ src/core/network/noAuthFetch.test.ts (2 tests) 5ms
+ ✓ src/components/state/StateComponents.test.tsx (6 tests) 58ms
+ ✓ src/components/shell/ShellStates.test.tsx (5 tests) 56ms
+ ✓ src/components/viz/ChartFoundations.test.tsx (4 tests) 43ms
+ ✓ src/components/company/CompanyHeader.test.tsx (2 tests) 32ms
+
+ Test Files  106 passed (106)
+      Tests  1350 passed (1350)
+   Start at  06:48:36
+   Duration  77.82s (transform 2.39s, setup 9.45s, collect 5.64s, tests 30.55s, environment 17.63s, prepare 4.35s)
+
+JSON report written to /home/user/iips-review-recovered/frontend/.vitest-report.json
+exit=0
+
+## 4. node .ci/assert-tests.js .vitest-report.json
+assert-tests: OK — 106 test file(s), 1350 test(s), 0 failed
+exit=0
+
+## 5. npm run build
+dist/assets/index-CIWpEpGV.css      1.19 kB │ gzip:   0.61 kB
+dist/assets/index-D7KYElFH.js   1,609.84 kB │ gzip: 226.69 kB │ map: 4,928.74 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 3.01s
+exit=0
+
+## Verdict
+exit codes: typecheck=0 replay-server=0 test:ci=0 assert-tests=0 build=0
+Ordinary repository verification. NOT S2, NOT QE, NOT host qualification; confers no acceptance or admission.
+
+## Capture note (honesty)
+A first capture attempt of steps 1-4 was discarded: the wrapper's `$log` redirect was mis-quoted, so the
+commands never ran and the transcript showed spurious exit=1 lines. That was a fault of the capture script,
+not of the repository. The transcript above is the corrected re-run; every exit code is the command's own.
