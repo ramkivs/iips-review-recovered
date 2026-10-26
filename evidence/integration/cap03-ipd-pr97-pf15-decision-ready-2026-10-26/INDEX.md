@@ -12,4 +12,6 @@ Reproducible verification and cross-repository audit artifacts supporting:
 - `02-remote-readback-pr298-pr299-ipd94-ipd97.json` — Remote GitHub REST/Git Blobs API verification receipts for IRR PRs `#298` (`1/1`) & `#299` (`13/13`) and IPD PRs `#94`, `#95`, `#96`, & `#97` (`16/16`).
 - `03-ipd-51path-census-and-h12-preservation.json` — IPD `8eec74ae…..f97b17e7…` `51`-path diff census, `win32` package-verifier/ESM source verification, `H-12 R5` (`f4649e36…` / `d0be8bef…`) and IRR `503` fence preservation audit, and cloud-sandbox `NOT COMPLETE` external Windows raw-byte boundary note.
 - `04-irr-validation-suite-summary.txt` — Executed IRR `frontend/` CI validation suite (`106` files / `1,350` passed / `0` failed, `assert-tests OK`, `typecheck` `0`, `typecheck:replay-server` `0`, `build` `0`) and structural/manifest validator outputs (`130`, `62`, `981`, `466` assertions, `0` failures).
+- `05-pr300-postmerge-publication-readback.json` — Independent GitHub REST/Git Blobs API post-merge read-back receipt for IRR PR `#300` (`dbe9874f28f03b31cca4c8b996d3e822a4cf2b29`, `10/10` blobs matched, exact-head CI `40324552331` & post-merge `main` CI `40324807938` `success`).
+- `verify_pr300_publication.py` — Reproducible GitHub API post-merge verification script for PR `#300`.
 - `SHA256SUMS.txt` — SHA-256 digests of the evidence files in this directory.
