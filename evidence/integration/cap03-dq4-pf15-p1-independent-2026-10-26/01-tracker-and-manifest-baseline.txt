@@ -1,0 +1,62 @@
+=== tracker grep §16.132 ===
+11499:## §16.132 — `CV-CORR-112`: CAP-03 S2 Windows ESM / npm-launch correction — corrected candidate merged to IPD, validations passed, authoritative IRR tracker reconciliation (`2026-10-26`; `CHG-2026-10-26-09`, `V812`–`V822`)
+11510:The tracker on IRR `main@610a4bd…` ends at `§16.131.7` (`CV-CORR-111`, `V811`); no `§16.132` exists — `grep -c "§16.132"` = `0`. The last three remote merges are `f73865c07` (CAP-02 QE-8 RV-1), `5f03fe4a` (PF-15 non-decision) and `610a4bd` (receipt PR #297). No later tracker section supersedes the CAP-03 S2 procedure; the authoritative S2 runbook `IIPS-V3-CAP03-S2-OPERATOR-RUNBOOK-2026-10-26-01` at `docs/integration/IIPS_v3.0_CAP03_S2_OPERATOR_RUNBOOK_2026-10-26.md` (blob `4cce435c…`, `12,043 B`) remains current.
+11546:| Latest tracker-recovery log | `C:\iips-evidence\cap03-s2\s2-tracker-recovery-20261026T154814Z.txt` | Records §16.132 local modification attempt and heading-count `1` pass; candidate/evidence SHA assertions failed and are repaired here — **SHA-256 `334460227E63026A1FF18B16768D58F01C6A54814EC6566CA74BB0223004A696` is the earlier authoritative-merge log hash cited in the task summary; do not reuse a hash for a different file — the tracker-recovery log hash must be recomputed from the actual file bytes if needed as evidence** |
+11547:| Fresh local clone creation (IRR) | `C:\iips-work\iips-review-recovered-cap03-s2-authoritative-20261026T101205Z` | Created from `610a4bd…` for §16.132 drafting; verified `§16.132` heading count `1` |
+11575:| **IRR tracker reconciliation** | **COMPLETE on merge + remote verification of this section** — `§16.132` records corrected candidate `001c3c80618f2ee1d40e9a90912237e1a06e7b58` / `399fa44a5f1953c0f61b452420fefb5985426ef1` with `1e76f4cf…` ancestry and both validation hashes; publication via PR with green exact-head CI → regular merge → green post-merge CI → independent blob read-back | This publication (`§16.132.7`) |
+11592:| Candidate SHA `001c3c80618f2ee1d40e9a90912237e1a06e7b58` present in this section | **PASS** — recorded verbatim in `§16.132.2` + `§16.132.3` |
+11593:| Candidate tree `399fa44a5f1953c0f61b452420fefb5985426ef1` present | **PASS** — recorded verbatim in `§16.132.2` + `§16.132.3` |
+11594:| Baseline parent `8eec74ae27cda09f3c368b9c299895eae41554db` present | **PASS** — recorded verbatim in `§16.132.2` |
+11595:| Package-consumer evidence SHA `9F7C64073A849E57D472C9CA30BB7616D04D1951626E90587241D61A470A85B1` + path `C:\iips-evidence\cap03-s2\s2-npm-launch-fix-consumer-20261026T095613Z.txt` present | **PASS** — table in `§16.132.3` |
+11596:| Guarded-suite evidence SHA `C5DDFFA24393AED2E391EF8A72E8BFF1F8ECD9576C4349E182B288785F1B2941` + path `C:\iips-evidence\cap03-s2\s2-npm-launch-fix-suite-20261026T095613Z.txt` + counts `924/920/0/4` present | **PASS** — table in `§16.132.3` |
+
+=== grep ^## §16 ===
+11034:## §16.128 — `CV-CORR-108`: CAP-03 one-pass continuation without host access — S2/P-1/S3/QE readiness matrix, PF-15 decision request, operator runbook, and fresh Linux reproducibility baseline (`2026-10-26`; `CHG-2026-10-26-04`, `V767`–`V778`)
+11124:## §16.129 — `CV-CORR-109`: CAP-03 PF-15 authority reconciliation and independent S3/QE readiness (`2026-10-26`; `CHG-2026-10-26-05`, `V779`–`V787`)
+11173:## §16.130 — `CV-CORR-110`: CAP-02 QE-8 revocation determination (AWAITING PROGRAM AUTHORITY), published-record integrity repair, justified matrix corrections, and host-independent readiness (`2026-10-26`; `CHG-2026-10-26-06`, `V788`–`V802`)
+11358:## §16.131 — `CV-CORR-111`: CAP-02 QE-8 `RV-1` Program Authority decision rendered EFFECTIVE — Option A (disposable-copy revocation); procedure approved, nothing executed (`2026-10-26`; `CHG-2026-10-26-08`, `V806`–`V811`)
+11499:## §16.132 — `CV-CORR-112`: CAP-03 S2 Windows ESM / npm-launch correction — corrected candidate merged to IPD, validations passed, authoritative IRR tracker reconciliation (`2026-10-26`; `CHG-2026-10-26-09`, `V812`–`V822`)
+
+=== tracker DQ-4 line ===
+10597:*Additive IRR-locus Program Authority adoption, cross-repository verification, and tracker-reconciliation record. It supersedes §§16.122.4, 16.122.6 (element 6), 16.122.8 (criteria 5–6 and H-12 R5 adoption status), 16.122.9 (DQ-4 reason `(a)` and H-12 adoption row), 16.122.13, and 16.122.14 (element-6 status) **as current state only**, while preserving every historical finding and byte of §16.122 and leaving `docs/integration/G4-H12-MANIFEST-v2-CANDIDATE-2026-10-25-R5.json` (`f4649e36a81c7013287810cd3202b99586dbd951`) byte-for-byte unmodified. **It does not establish the DQ-4 final QE freeze (`8/10` criteria met), start Gate 4, execute any host operation (`S2`, single-use `P-1`, or `S3`), credit any QE run (`0/11`), alter DR-4r/DQ-3 Option B (`durable: false`) or any `503` production fence, or initiate/admit Gate 5.***
+10661:| **DQ-4 final QE freeze** | **`PREPARED AND VALIDATED — NOT ESTABLISHED`** (**`8/10`** criteria met: criteria `5` [DQ-6b element 6] and `6` [distinct H-12 adoption act] now **MET**; criteria `7` [native-Windows host sequence `S2 → one bounded P-1 → S3`] and `8` [native-Windows canonical host evidence] remain **NOT MET**) |
+10910:DQ-4 final QE freeze:     PREPARED AND VALIDATED — NOT ESTABLISHED (8/10; criteria 7 & 8 NOT MET)
+11084:DQ-4 final QE freeze:     PREPARED AND VALIDATED — NOT ESTABLISHED (8/10; criteria 7 & 8 NOT MET)
+11577:| **DQ-4 final QE freeze** | **PREPARED AND VALIDATED — NOT ESTABLISHED (`8/10`)** — criteria 7 (host sequence `S2 → one bounded P-1 → S3`) and 8 (native-Windows canonical evidence) remain `NOT MET` | `IIPS-V3-CAP03-DQ4-QE-FREEZE-MANIFEST-2026-10-25-01` §7; tracker `§16.123.7` |
+
+=== manifest §7 ===
+## 7. Establishment criteria — the freeze checklist, item by item
+
+| # | Criterion | State |
+|---|---|---|
+| 1 | A rendered act answers DQ-6b and states the alias disposition | **MET** — `IIPS-V3-CAP03-DQ6B-PA-DECISION-2026-10-25-01` (Path A) |
+| 2 | The manifest is expressible and states the alias as deliberate and guarded | **MET** — §2 |
+| 3 | Exact final pins designated (IPD primary, alias, IRR consumer) | **MET** — §1 |
+| 4 | H-12 regenerated and validated against the exact candidate commits, 32 IPD / 24 IRR | **MET** — §5 |
+| 5 | Full six-element effectiveness of the DQ-6b decision | **NOT MET** — element 6 (IPD-locus mirror receipt) outstanding |
+| 6 | A distinct H-12 **adoption** act | **NOT MET** — candidate only |
+| 7 | Host sequence: **S2 → one P-1 provisioning execution → S3 preflight** on the designated native-Windows host | **NOT MET** — not executed; not executable from this sandbox |
+| 8 | Native-Windows canonical worktree evidence | **NOT MET** — absent for this chain |
+| 9 | Bilateral harness re-execution at the designated pins | **MET** — 15/15 |
+| 10 | Remote read-back of everything cited | **MET** for the pre-publication state; post-merge receipt recorded in §16.122 |
+
+**Result: 6 of 10 met. The freeze is NOT ESTABLISHED.** Criteria 5–8 are genuine and none is waived.
+
+---
+
+=== H-12 manifest hash ===
+d0be8bef3281ae6a296b8700265fe134b5088dd84b102b77ca8a157c8275cb76  -
+f4649e36a81c7013287810cd3202b99586dbd951
+d0be8bef3281ae6a296b8700265fe134b5088dd84b102b77ca8a157c8275cb76  docs/integration/G4-H12-MANIFEST-v2-CANDIDATE-2026-10-25-R5.json
+
+=== current local tracker §16.132.5 DQ-4 line ===
+10723:| `docs/integration/IIPS_v3.0_CAP03_G4_H12_R5_ADOPTION_IPD_MIRROR_RECEIPT_PREPARED_2026-10-25.md` | `d84549515d299397db879c2e96ad33de9b430fd2` | 4,686 | `604f39c23292be416ec27f5de9cdb6e28580e5113591900c8b1b5cdc837a0784` |
+10732:*End of §16.123 (`CHG-2026-10-25-28` / `CHG-2026-10-25-29`; `V706`–`V718`). **DQ-6b is `6/6` EFFECTIVE across both loci; Gate 4 H-12 R5 (`G4-H12-MANIFEST-v2-CANDIDATE-2026-10-25-R5`, `f4649e36…` / `d0be8bef…`) is ADOPTED and EFFECTIVE in the governing IRR locus.** DQ-4 remains **PREPARED AND VALIDATED — NOT ESTABLISHED** (`8/10`); Gate 4 remains **AUTHORIZED — NOT STARTED**; QE **`0/11`**; Gate 5 **NOT INITIATED / NOT ADMITTED**.*
+10910:DQ-4 final QE freeze:     PREPARED AND VALIDATED — NOT ESTABLISHED (8/10; criteria 7 & 8 NOT MET)
+10930:| `V747` | Downstream gate preservation | **PASS** — P-1 NOT RUN, S3 NOT REACHED, DQ-4 8/10 NOT ESTABLISHED, Gate 4 AUTHORIZED — NOT STARTED, QE 0/11, Gate 5 NOT INITIATED, durable reads NOT GRANTED, all 503 fences intact. |
+10983:- **PF-15:** the IPC endpoint / local-state designation is `NOT DESIGNATED` by any PA act. It is required before S3 and QE (H-12 R5 §7.2; readiness PF-15) and is **not** required for S2. CAP-02 application is authoritatively supported (§16.125.3; shared adopted H-12 R5 act); the gap is designation, owned by the PA. **DQ-4 freeze establishment is CAP-03-scoped and is NOT a CAP-02 prerequisite** — no effective CAP-02 record cites it; it is not imported.
+10985:- **Derived evidence template:** `cap02-qe-run-evidence-manifest.schema.json` (`IIPS-V3-CAP02-QE-RUN-EVIDENCE-MANIFEST-SCHEMA-2026-10-26-01`, PREPARED TEMPLATE — NOT AUTHORITY; 100/100 nodes carry governing-clause `source` citations) with a NOT-EXECUTED current-state sample and stdlib self-test `30-schema-self-test.py` at **22/22 PASS**. The template executes and accepts nothing.
+11007:| `V759` | PF-15 + shared-prerequisite disposition; DQ-4 non-import | **PASS** — PF-15 NOT DESIGNATED, required pre-S3/QE, exempt for S2 (supported); DQ-4 correctly excluded from CAP-02. |
+11075:The readiness matrix consolidates, against the effective Gate 4 act/Q1–Q12, host readiness packet and H-12 R5 adoption: the full PF-01…PF-17 S3 preflight; the QE-1…QE-11 tier matrix (Tier 1 endpoint+fences, Tier 2 disposable-copy store, Tier 3 session-port refusal) with per-item evidence ceilings while W-1 refuses (QE-4/QE-8/QE-10 structurally limitation-classed); Q11-before-first/Q11-after-last digest discipline; QE-9 cold+warm N ≥ 10 with zero store effect; the five failure classes (`PASS/FAIL/INCONCLUSIVE/NOT EXECUTED — reason/INVALID`); disposable-copy fixture controls; and the `GQ-<yyyymmdd>-<nn>` evidence-deposit layout (`raw/**`, `MANIFEST.json`, `QE-01.md`…`QE-11.md`, `Q11-BEFORE/AFTER.json`, `EXECUTION-RECORD.md`, raw-byte SHA-256 with no normalization). The operator runbook renders the host session as an ordered PowerShell procedure: non-elevated preconditions PF-01…PF-10, clean full-history checkout of the exact pin, the five commands with per-command UTC timing/raw capture/`$LASTEXITCODE` outside every worktree, the 1,140-count gate and before/after `dist` SHA-256 inventories, publication path, and the explicit stop/no-substitution table. Scope separation: the CAP-02 matrix record (§16.127) owns CAP-02 U3 criterion wording, its H-6 IRR consumer pin `ba64b2d5…`, and its derived evidence-manifest schema; this CAP-03 set owns the H-12 R5 S2 procedure, P-1 entrypoint verification, PF-15 decision request and the CAP-03 DQ-4/QE chain — no content is duplicated, and neither workstream's receipts are interchangeable per §16.127.3.
+11084:DQ-4 final QE freeze:     PREPARED AND VALIDATED — NOT ESTABLISHED (8/10; criteria 7 & 8 NOT MET)
+11577:| **DQ-4 final QE freeze** | **PREPARED AND VALIDATED — NOT ESTABLISHED (`8/10`)** — criteria 7 (host sequence `S2 → one bounded P-1 → S3`) and 8 (native-Windows canonical evidence) remain `NOT MET` | `IIPS-V3-CAP03-DQ4-QE-FREEZE-MANIFEST-2026-10-25-01` §7; tracker `§16.123.7` |

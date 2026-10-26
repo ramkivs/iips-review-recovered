@@ -1,0 +1,27 @@
+=== IRR origin/main HEAD ===
+From https://github.com/ramkivs/iips-review-recovered
+ * branch            main       -> FETCH_HEAD
+c493c5d3e9fa611475373f1f6428e285841a9456	HEAD
+c493c5d3e9fa611475373f1f6428e285841a9456	refs/heads/main
+
+=== IRR main commit c493c5d ===
+{"commit":"Merge pull request #298 from ramkivs/cap03-s2-tracker-132\n\ndocs(tracker): reconcile CAP-03 S2 corrected candidate §16.132 (CV-CORR-112)","html_url":"https://github.com/ramkivs/iips-review-recovered/commit/c493c5d3e9fa611475373f1f6428e285841a9456","sha":"c493c5d3e9fa611475373f1f6428e285841a9456"}
+
+=== IPD origin/main HEAD ===
+1e76f4cf9e9ca7d385a8345c9b6f438ae1ad6745	HEAD
+1e76f4cf9e9ca7d385a8345c9b6f438ae1ad6745	refs/heads/main
+
+=== IPD main commit 1e76f4cf ===
+{"commit":"Merge pull request #96 from ramkivs/work/cap03-s2-windows-esm-url\n\nFix native Windows CAP-03 S2 package validation","sha":"1e76f4cf9e9ca7d385a8345c9b6f438ae1ad6745"}
+
+=== compare 001c3c80...1e76f4cf ===
+{"ahead_by":9,"behind_by":0,"status":"ahead"}
+
+=== compare 8eec74ae...001c3c80 ===
+{"ahead_by":1,"behind_by":0,"files":["scripts/verify-public-package.mjs","tests/portfolio_ui_package.test.ts"],"status":"ahead"}
+
+=== PR 96 ===
+{"head_sha":"001c3c80618f2ee1d40e9a90912237e1a06e7b58","merge_commit_sha":"1e76f4cf9e9ca7d385a8345c9b6f438ae1ad6745","merged":true,"state":"closed"}
+
+=== PR 298 (IRR) ===
+{"merge_commit_sha":"c493c5d3e9fa611475373f1f6428e285841a9456","merged":true,"state":"closed"}

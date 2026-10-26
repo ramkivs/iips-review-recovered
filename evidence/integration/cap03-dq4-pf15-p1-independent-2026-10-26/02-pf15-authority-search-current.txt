@@ -1,0 +1,47 @@
+=== PF-15 occurrences IRR main@c493c5d ===
+11153:*End of §16.129. Publication, including the later receipt, grants no provisioning, PF-15 value, QE credit, acceptance, admission, write, or production authority.*
+11157:**Additive current-state note; §§16.129.1–16.129.3 and all governing records are preserved.** The existing PF-15 decision request was updated only with `IIPS-V3-CAP03-PF15-PA-RESPONSE-NONDECISION-ADDENDUM-2026-10-26-01`; no new standalone reconciliation or evidence package was created. A direct request for the reserved determination was put to the authorized PA through the established governance channel. The response supplied no A/B selection, exact `IIPS_G2_IPC_ENDPOINT`, or exact `IIPS_G3_LOCAL_STATE_DIR` and expressly selected no decision. Therefore **no authorized, value-bearing PA act was obtained and no effective decision reference exists**; PF-15 remains **NOT DESIGNATED / AWAITING PROGRAM AUTHORITY**.
+11163:**Consequences of non-decision:** `S3` and `QE-1…QE-11` remain blocked and QE remains `0/11`; no endpoint, state directory, store, enabling flag, fence, pin or acceptance/admission state changes. PF-15 is not a prerequisite for `S2` or the single bounded `P-1`: operator Ramki may independently execute the five prescribed S2 commands on `desktop-no0nhtp` and capture raw evidence, then one P-1 only on success. No host-dependent qualification is claimed here. The sequence remains `S2 → single P-1 → PF-15 effective → S3 → QE-1…QE-11 → separate acceptance acts`.
+11167:| `V803` | Authoritative IRR `main@cd8c45237ec8516d02711d0009e3453fc6983976`, tree `69bdfb91eb1d81939e8e9197750be4ee7ca12b70`, re-read: request and latest reconciliation still state PF-15 `NOT DESIGNATED`; no later value-bearing act on `main` | **PASS** — remote GitHub API contents/tree read |
+11169:| `V805` | Scope audit: documentation/tracker only; no host operation, provisioning, endpoint/state/store creation, source/test/pin/fence change, IPD write, gate movement, effective PF-15 claim or QE credit | **PASS** |
+11265:  S2 pass → single P-1 → PF-15 → S3 → QE. U2-14 remains **BLOCKED / NOT STARTED**; P-1 remains **unspent**.
+11276:  QE-1…QE-11, evidence deposit/integrity, and — additionally gated — QE-8 pending `RV-1`. PF-15 remains
+11293:PF-15:                     NOT DESIGNATED — blocks S3/QE only
+11319:on any failed precondition/command. Then, in order: single P-1 (V-A2-1…V-A2-8) → PA renders PF-15 → S3
+11376:While this pass was in flight, IRR PR #295 (CAP-03 PF-15 PA non-decision boundary, merge
+11384:published twice and the CAP-03 addendum is preserved unedited. PR #295 renders no `RV-1` and leaves PF-15
+11391:PF-15 receipt) are documentation receipts that render no revocation approval; IPD `main` unchanged at
+11428:                           prerequisite for S2, P-1 or PF-15, and none is a prerequisite for RV-1)
+11429:PF-15:                     NOT DESIGNATED — separate PA decision still required before S3 (unchanged)
+11438:(V-A2-1…V-A2-8) → PA renders PF-15 → S3 preflight → QE-1…QE-11, with QE-8 now executable under the
+11449:| `V809` | Independence audit: RV-1 not made a prerequisite for S2/P-1/PF-15; S2 Windows-only; P-1 blocked until S2; PF-15 separate PA act before S3; no gate moved; fences/W-1/H-12 unchanged | **PASS** — act §5, this section |
+11501:**Current-state reconciliation; prior history preserved.** This section repairs the authoritative IIPS tracker after the IPD implementation correction was merged. It records the corrected IPD candidate, its exact parent/tree, the merged PR, the two-file fix, the Windows validations that passed, and the remaining CAP-03 gates. It executes no host command, provisions no store, consumes no P-1 attempt, renders no PF-15, runs no QE, accepts no result and admits no gate. The original failed S2 run remains historical diagnostic evidence; the corrected candidate's validations are component validation, not full CAP-03 qualification.
+11510:The tracker on IRR `main@610a4bd…` ends at `§16.131.7` (`CV-CORR-111`, `V811`); no `§16.132` exists — `grep -c "§16.132"` = `0`. The last three remote merges are `f73865c07` (CAP-02 QE-8 RV-1), `5f03fe4a` (PF-15 non-decision) and `610a4bd` (receipt PR #297). No later tracker section supersedes the CAP-03 S2 procedure; the authoritative S2 runbook `IIPS-V3-CAP03-S2-OPERATOR-RUNBOOK-2026-10-26-01` at `docs/integration/IIPS_v3.0_CAP03_S2_OPERATOR_RUNBOOK_2026-10-26.md` (blob `4cce435c…`, `12,043 B`) remains current.
+11582:| **PF-15 endpoint/local-state** | **NOT DESIGNATED — separate PA act required before `S3`**; blocks `S3`/`QE` only, not `S2`/`P-1` | Decision request `IIPS-V3-CAP03-PF15-ENDPOINT-LOCAL-STATE-DESIGNATION-DECISION-REQUEST-2026-10-26-01` (`PROPOSED — NOT EFFECTIVE`) + PA non-decision addendum `§16.129.4` |
+11583:| **S3 preflight** | **NOT REACHED** — requires `S2` pass + single `P-1` + effective `PF-15` | Host readiness packet PF-01…PF-17; readiness matrix §5 |
+
+=== PF-15 decision request §6 status ===
+1:# CAP-03 — PF-15 IPC Endpoint / Local-State Directory Designation: **Decision Request (PROPOSED — NOT EFFECTIVE; NO VALUE RENDERED)** (`2026-10-26`)
+6:> in this record. PF-15 remains **`NOT DESIGNATED`**, exactly as the IPD host readiness packet
+18:| Corroborating record | CAP-02 matrix record `IIPS-V3-CAP02-QE-EXECUTION-MATRIX-2026-10-26-01` (§16.127.2) independently records PF-15 as `NOT DESIGNATED`, required pre-S3/QE and exempt for S2 — same disposition, no designation rendered by either workstream |
+51:| Every `PF-15` occurrence, IRR at `main@c7fc7e40` and re-censused at post-advance `main@0329964` (PRs #287/#288; documentation/evidence-only) | only blocker/readiness statements; all say `NOT DESIGNATED` / required before `S3` (tracker §16.123.6, §16.125.3, §16.126.4, §16.127.2; CAP-02 reconciliation 2026-10-26; S2 blocker 2026-10-26); no rendered designation appears at either head |
+52:| Every `PF-15` occurrence, IPD at pin `8eec74ae…` **and** `main@f5eddbc…` | exactly one occurrence: host readiness packet row PF-15 “**NOT DESIGNATED today; execution stops here until named**”; plus tracker/blocker restatements |
+130:`NOT DESIGNATED` until the PA renders an act satisfying §3.3, published and remotely read back.
+134:*End of `IIPS-V3-CAP03-PF15-ENDPOINT-LOCAL-STATE-DESIGNATION-DECISION-REQUEST-2026-10-26-01` — PROPOSED, NOT EFFECTIVE; PF-15 NOT DESIGNATED.*
+138:## 6. Dated PA-response boundary addendum — no decision rendered (`2026-10-26`)
+142:| Addendum ID | `IIPS-V3-CAP03-PF15-PA-RESPONSE-NONDECISION-ADDENDUM-2026-10-26-01` |
+144:| Status | **NO AUTHORIZED, VALUE-BEARING PA DECISION OBTAINED.** This request remains **PROPOSED — NOT EFFECTIVE** and PF-15 remains **`NOT DESIGNATED`** |
+148:| Scope of this addendum | It fixes the precise response instrument, missing fields, attribution requirement and consequences only. It does not repeat the §2 authority search or recreate the §3/§16.129 evidence package |
+168:Without the above act, there is **no effective decision reference** and PF-15 remains `NOT DESIGNATED`. `S3` and `QE-1…QE-11` stay blocked; QE remains `NOT RUN, 0/11`. No endpoint is opened, no state directory or store is created, no enabling flag is changed and no host-dependent qualification is claimed. All governing records, options, pins, fences, write refusals, acceptance/admission gates and the single-use P-1 boundary remain unchanged.
+172:*End of `IIPS-V3-CAP03-PF15-PA-RESPONSE-NONDECISION-ADDENDUM-2026-10-26-01` — no value rendered; PF-15 remains NOT DESIGNATED.*
+
+=== PF-15 resolver contracts IRR current main ===
+35: *   `IIPS_G2_IPC_ENDPOINT` plus the IRR-local binding precondition in
+45: *     - a **bare endpoint name** — resolved against `IIPS_G3_LOCAL_STATE_DIR` to
+86:export const IPC_STATE_DIR_SETTING = 'IIPS_G3_LOCAL_STATE_DIR';
+337:export function resolveIpcEndpoint(
+606:  const target = options.target ?? resolveIpcEndpoint();
+
+=== ownerContextFromBinding binding provisioned ===
+176:export function ownerContextFromBinding(
+225:export const BINDING_PRECONDITION_SETTING = 'IIPS_G3_IPC_BINDING_PROVISIONED';

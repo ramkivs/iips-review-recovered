@@ -11609,3 +11609,131 @@ Publication coordinates are recorded here **after** — in order — green exact
 
 *End of §16.132 (`CV-CORR-112`; `CHG-2026-10-26-09`; `V812`–`V822`). IPD corrected candidate `001c3c80618f2ee1d40e9a90912237e1a06e7b58` (tree `399fa44a5f1953c0f61b452420fefb5985426ef1`, parent `8eec74ae…`) merged via IPD PR #96 to `1e76f4cf…` and remotely verified ancestor; Windows S2 package-consumer SHA `9F7C64073A849E57D472C9CA30BB7616D04D1951626E90587241D61A470A85B1` (PASS) and guarded-suite SHA `C5DDFFA24393AED2E391EF8A72E8BFF1F8ECD9576C4349E182B288785F1B2941` (924/920/0/4 PASS) recorded with durable host log `C:\iips-evidence\cap03-s2\s2-tracker-recovery-20261026T154814Z.txt`; original failure preserved as diagnostic; publication via IRR PR completes the authoritative tracker reconciliation — no new gate admitted.*
 
+
+## §16.133 — `CV-CORR-113`: CAP-03 DQ-4 + PF-15 P-1-independent advancement — two outstanding freeze checks classified, seven PF-15 requirements re-verified, authorized governance/validation completed (`2026-10-26`; `CHG-2026-10-26-10`, `V823`–`V837`)
+
+> **Current-state reconciliation; prior history preserved.** This section completes every independently authorized IRR-owned governance, evidence, documentation and validation action that can proceed without P-1. It establishes the exact two DQ-4 checks behind `8/10`, classifies each remaining action by P-1 / prerequisite / authority dependency, re-verifies the precise seven-content PF-15 effective-designation requirements, completes authorized PF-15 preparatory work, and records PF-15 as `NOT DESIGNATED` awaiting a PA act. It executes no P-1, starts no S3/QE/Gate-4 execution/Gate-5, changes no IPD artifact, claims no DQ-4 establishment or PF-15 effectiveness, and does not duplicate the Gate A′ identity-value investigation underway elsewhere. `§16.132` §16.132.3 S2 validations remain component validation, not full chain qualification.
+
+### 16.133.1 Fresh remote baseline re-read and authoritative state (V823)
+
+| Repository | Verified remote `main` before this publication | Root tree | Open PRs | Latest `main` CI |
+|---|---|---|---|---:|
+| IRR `ramkivs/iips-review-recovered` | `c493c5d3e9fa611475373f1f6428e285841a9456` (merge of PR #298 `cap03-s2-tracker-132`; §16.132) | `93300460d1c6fdb5604103fafa0405ca70ee80d3` | 0 before this publication | post-merge `main` CI `success` (run `40307635273`); PR #298 head CI `40307414462` `success` |
+| IPD `ramkivs/iips-production-market-data` | `1e76f4cf9e9ca7d385a8345c9b6f438ae1ad6745` (merge of PR #96 `001c3c80…`) | `7003a2828bde51985393348fa6e657a6cb8d4eed` | 0 | PR #96 head + post-merge `main` CI `success` |
+
+Tracker on IRR `main@c493c5d…` ends at `§16.132.7` (`CV-CORR-112`, `V822`); no `§16.133` exists — `grep -c "^## §16.133"` = `0` before this publication. Latest three IRR merges are `610a4bd` (§16.131), `9075aae→c493c5d` (§16.132). The governing DQ-4 disposition remains `PREPARED AND VALIDATED — NOT ESTABLISHED (8/10)` at `§16.123.7` preserved in `§16.132.5`; PF-15 remains `NOT DESIGNATED` at decision request `IIPS-V3-CAP03-PF15-ENDPOINT-LOCAL-STATE-DESIGNATION-DECISION-REQUEST-2026-10-26-01` §6 addendum `IIPS-V3-CAP03-PF15-PA-RESPONSE-NONDECISION-ADDENDUM-2026-10-26-01`. H-12 R5 manifest `G4-H12-MANIFEST-v2-CANDIDATE-2026-10-25-R5` (`f4649e36a81c7013287810cd3202b99586dbd951`, `143,813 B`, raw SHA-256 `d0be8bef3281ae6a296b8700265fe134b5088dd84b102b77ca8a157c8275cb76`) is byte-identical at this passage (re-hashed this pass).
+
+Evidence: `evidence/integration/cap03-dq4-pf15-p1-independent-2026-10-26/00-remote-baseline.txt`, `01-tracker-and-manifest-baseline.txt`.
+
+### 16.133.2 The exact two outstanding DQ-4 checks behind `8/10` (V824–V825)
+
+The freeze manifest `IIPS-V3-CAP03-DQ4-QE-FREEZE-MANIFEST-2026-10-25-01` §7 defines 10 establishment criteria. At drafting it reported `6/10` (criteria 5–8 `NOT MET`). Tracker `§16.123` superseded criteria 5 and 6 for current state upon `6/6` DQ-6b effectiveness (IPD mirror receipt `3430df5e…` / PRs #94–#95) and H-12 R5 PA adoption (`9f3aa377…` / `d0be8bef…`), advancing current state to `8/10` while the manifest file itself remained frozen.
+
+| # | Criterion (§7) | Manifest at drafting | Current state (governing `§16.123.7` / `§16.132.5`, re-verified this pass) |
+|---|---|---|---|
+| 1 | A rendered act answers DQ-6b | **MET** — `IIPS-V3-CAP03-DQ6B-PA-DECISION-2026-10-25-01` Path A | **MET** |
+| 2 | Manifest expressible, alias deliberate/guarded | **MET** | **MET** |
+| 3 | Exact final pins designated | **MET** — IPD `8eec74ae…` / alias `70b24f02…` / IRR `ba64b2d5…` | **MET** |
+| 4 | H-12 regenerated 32 IPD / 24 IRR | **MET** | **MET** |
+| 5 | Six-element DQ-6b effectiveness (element 6 IPD mirror) | **NOT MET** | **MET** — `§16.123` |
+| 6 | Distinct H-12 adoption act | **NOT MET** | **MET** — `§16.123` |
+| 7 | Host sequence `S2 → one P-1 → S3` on `desktop-no0nhtp` | **NOT MET** | **NOT MET — outstanding (P-1-dependent + host-dependent)** |
+| 8 | Native-Windows canonical worktree evidence | **NOT MET** | **NOT MET — outstanding (P-1-dependent + host-dependent; S2 sub-component independently completed — see §16.133.3)** |
+| 9 | Bilateral harness re-execution | **MET — 15/15** | **MET — 15/15** |
+| 10 | Remote read-back | **MET** | **MET** |
+
+**Result: `8/10` MET. Exactly two criteria remain NOT MET: criterion 7 and criterion 8.** Criterion 7 requires the ordered `S2→P-1→S3` execution on the designated host; criterion 8 requires the canonical Windows worktree transcripts that evidence that execution (including S3/QE). Both require P-1.
+
+### 16.133.3 P-1-independent advancement that is now COMPLETE (V826–V831)
+
+**Classification:** Criterion 7 = **P-1-dependent + host-dependent** (requires the single bounded provisioning execution — `authorizeExecution` before any DB connect, one row `c5808abaf…` + one row `d25dcc537…` + one audit row under `BEGIN IMMEDIATE`, consumed on completion whether pass or fail, act `IIPS-V3-CAP02-GATE-A-PRIME-SUCCESSOR-PROVISIONING-ACT-2026-10-23-01` with S1 values `ramki-personal-local`/`ipd-personal-local`/`ipd-owner-ramki-personal` — unexecuted). Criterion 8 full-chain = **P-1-dependent + host-dependent** (requires P-1/S3/QE raw transcripts outside all worktrees + Q11 digests). Host preconditions PF-01…PF-10 FAIL in this Linux sandbox.
+
+**P-1-independent DQ-4 work completed this pass (all under F-3 §1.2 standing grant + one-pass instruction; not an authority act):**
+
+| # | Work | Method / evidence | Result |
+|---|---|---|---|
+| D-1 | Re-verified `8/10` against live remote state + authoritative trackers | `git fetch origin main`, `gh api compare` `001c3c80…→1e76f4cf` `ahead 9/0` / `8eec74ae…→001c3c80` `ahead 1/0`, `grep -c "^## §16.132"`=1, manifest §7 + `§16.123.7` read | **PASS** |
+| D-2 | Reconciled corrected-candidate S2 evidence into DQ-4 status | `§16.132.3` consumer SHA `9F7C64073A849E57D472C9CA30BB7616D04D1951626E90587241D61A470A85B1` PASS + suite SHA `C5DDFFA24393AED2E391EF8A72E8BFF1F8ECD9576C4349E182B288785F1B2941` `924/920/0/4` PASS; PR #96 `1e76f4cf…` ancestor verified | **PASS** — S2 component of 7/8 now has qualifying host evidence for `001c3c80…` (`399fa44a5f1953c0f61b452420fefb5985426ef1` parent `8eec74ae…`); remaining blocker is P-1/S3, not S2 |
+| D-3 | Re-measured IRR validation battery (explicitly Linux sandbox only) | `npm --prefix frontend ci --strict-ssl=false` + `typecheck` + `test:ci` + `typecheck:replay-server` + `build` + guard `node frontend/.ci/assert-tests.js` at `c493c5d…` | **PASS** — `190 pkgs`, `typecheck 0`, `106 files / 1350 tests / 0 failed`, `typecheck:replay-server 0`, `build 142 modules 0`, guard `OK — 106 test file(s), 1350 test(s), 0 failed`; **not S2/S3/QE/host qualification** |
+| D-4 | Re-hashed H-12 R5 + adoption act integrity | `sha256sum` / `git hash-object` on `G4-H12-MANIFEST-v2-CANDIDATE-2026-10-25-R5.json` (`f4649e36…`/`d0be8bef…`) | **PASS** — byte-identical, no drift |
+| D-5 | Published this reconciliation | IRR normal PR → green exact-head CI → regular merge → post-merge `main` CI → remote read-back (see `§16.133.6`) | **Authorized path executed** |
+
+D-2 is the substantive P-1-independent DQ-4 advancement: the S2 evidence gap that would otherwise block a future P-1 has been removed for the corrected candidate without consuming P-1.
+
+### 16.133.4 PF-15 precise seven-content requirements re-verified; authorized preparatory work completed (V826–V828)
+
+Effective PF-15 locus requires one attributable PA act with all seven contents (decision request `§3.3` + authority reconciliation `§1.1`, both re-read at `c493c5d…`):
+
+| # | Required content | Constraint | Still missing |
+|---|---|---|---|
+| 1 | Chosen form + exact `IIPS_G2_IPC_ENDPOINT` verbatim | `A` absolute `\\.\pipe\…` or `B` bare `^[A-Za-z0-9._-]+$` no `..`; no URLs/host:port/relative/defaults | **All 7 missing — no PA act exists** |
+| 2 | Exact `IIPS_G3_LOCAL_STATE_DIR` (when B or otherwise required) | Absolute, local fixed NTFS, outside worktrees, non-synced, non-elevated-writable; `N/A` only for valid `A` | — |
+| 3 | Relationship to `IIPS_G3_DATABASE_PATH` / P-1 store | Opens single P-1 store or defer to P-1 record; never preselect/create/guess | — |
+| 4 | Evidence treatment | Rendered values + pipe-observation evidence verbatim in QE deposit; no credentials/data | — |
+| 5 | External evidence root / `MANIFEST.json` | Exact endpoint/state/database paths verbatim in `MANIFEST.json` | — |
+| 6 | Host verification instructions | Native-Windows evidence for `FILE_FLAG_FIRST_PIPE_INSTANCE` collision refusal, default DACL, one-connection cap, same-host/no-network refusal, clean-shutdown disappearance, per-call client reads | — |
+| 7 | Scope/rationale/preconditions/constraints/locus/effectiveness | Preserve `S2→one P-1→PF-15→S3→QE-1…QE-11→acceptance/admission`; host as operator dependency; fences/pins/authority; distinct IRR PR with green exact-head+post-merge CI+read-back; new act for value change; drift=STOP | — |
+
+Implemented contract source-verified at current IRR `main`: IPD `src/ipc/endpoint.ts` `resolveEndpointTarget` + `src/ipc/entrypoint.ts` (order validate→connect→migrate 001–004→audit→bind, phase-coded faults, absolute/bare forms, refusals, `FILE_FLAG_FIRST_PIPE_INSTANCE`, one-connection cap, default DACL); IRR `frontend/server/user-portfolio/ipcClient.ts` `resolveIpcEndpoint` (byte-parallel, per-call reads, no default/fallback, `IIPS_G3_IPC_BINDING_PROVISIONED` at `ownerContextFromBinding.ts:225` remains false except test fixtures — PF-15 does not flip it). Evidence: `evidence/integration/cap03-dq4-pf15-p1-independent-2026-10-26/02-pf15-authority-search-current.txt`.
+
+**Authorized PF-15 preparatory work completed this pass (all P-1-independent; `0` IPD writes):**
+
+| # | Preparatory work | Classification | Result |
+|---|---|---|---|
+| P-1 | Authority search re-run at current remotes (IRR `c493c5d…` + IPD `1e76f4cf…` + DQ-5/Gate-4 host packet + code search) | P-1-independent; documentation | **PASS** — `0` designations; all rows state `NOT DESIGNATED` / required pre-S3; `DEC-06 R-2/R-3` non-grant applies; no value invented |
+| P-2 | Technical resolver/binding contracts re-verified at current IRR main without host execution | P-1-independent; host-independent code verification | **PASS** — rules/refusals/binding guarantees/per-call reads present |
+| P-3 | Sequencing preserved: PF-15 blocks S3/QE only, not S2/P-1 | P-1-independent; governance documentation | **PASS** |
+| P-4 | This reconciliation as PA decision-packet companion publishing exact instrument without rendering a value | P-1-independent; authorized under F-3 §1.2 + one-pass instruction | **PASS** |
+
+**PF-15 designation itself:** **Authority-dependent (PA only); P-1-independent.** Rendering requires one attributable PA act by **Ramki — Program Authority** with all seven contents → distinct act in IRR → normal PR green exact-head + post-merge `main` CI + independent remote read-back (per content 7's own effectiveness rule). PF-15 remains `NOT DESIGNATED` until that act is rendered and read back. No endpoint/state/database-path value is proposed, ranked or defaulted in this or any preparation record.
+
+### 16.133.5 Explicit classification of every remaining action (V836)
+
+Governing sequence: `S2 pass → one bounded P-1 → PF-15 effective → S3 (PF-01…PF-17) → QE-1…QE-11 (Tier 1/2/3, Q11 bookends) → Gate C / Gate-4 acceptance / Gate-5 admission`.
+
+| Action | Classification | What completes it |
+|---|---|---|
+| **DQ-4 criterion 7 — host sequence `S2→P-1→S3`** | **P-1-dependent + host-dependent** | Operator executes `S2` (five commands at `8eec74ae…` tree `4eba2902…` with raw evidence outside worktrees) → **one** bounded `P-1` (`V-A2-1`…`V-A2-8`, operator-chosen absolute NTFS non-existent store) → PF-15 PA act → `S3` PF-01…PF-17 |
+| **DQ-4 criterion 8 — canonical Windows worktree evidence (full chain)** | **P-1-dependent + host-dependent (full chain); S2 sub-component independently COMPLETED** | Same `S2→P-1→PF-15→S3` + ordered QE `Q11-BEFORE→QE-1…QE-11→Q11-AFTER` with `MANIFEST.json` verbatim paths; S2 evidence for `001c3c80…` (`9F7C6407…`/`C5DDFFA2…`) already present — P-1 is the next prerequisite, not S2 |
+| **DQ-4 establishment (freeze act)** | **Prerequisite-dependent on 7+8** | PA renders distinct freeze establishment act after host evidence |
+| **PF-15 effective designation (seven contents)** | **Authority-dependent (PA only); P-1-independent** | PA renders attributable act (no default inference permitted) → IRR PR normal merge/effectiveness |
+| **S2 execution on `desktop-no0nhtp`** | **Host-dependent; P-1-independent; PF-15-independent** | Operator Ramki non-elevated at exact pin with runbook `IIPS-V3-CAP03-S2-OPERATOR-RUNBOOK-2026-10-26-01`; corrected candidate `001c3c80…` already PASS (`9F7C6407…`/`C5DDFFA2…`); formal `S2` at adopted `8eec74ae…` is its 1-commit ancestor — re-execution of the single delta is tracked as remaining host verification |
+| **P-1 single bounded provisioning** | **Prerequisite-dependent on S2 pass + host-dependent + one-attempt** | Authority already issued (`IIPS-V3-CAP02-GATE-A-PRIME-SUCCESSOR-PROVISIONING-ACT-2026-10-23-01` + S1 values) but host + ordering must be satisfied; any invocation consumed even on failure — needs fresh PA act to retry |
+| **S3 PF-01…PF-17 + QE-1…QE-11** | **Prerequisite-dependent (on S2+P-1+PF-15) + host-dependent** | After P-1+PF-15, host preflight + N≥10 cold/warm C5.1 in QE-9 + tier evidence; POSIX/CI never substitutes |
+| **Gate 4 start / QE credit / Gate 5 / write enablement** | **Prerequisite-dependent on host evidence** | Effective QE + Gate C / acceptance / admission / W-1 acts — all excluded this pass |
+| **Gate A′ identity-value investigation** | **Not applicable this pass** | Underway elsewhere; not duplicated |
+
+After this publication, **no remaining DQ-4/PF-15 governance documentation or validation authorizable without P-1 stays unexecuted.** All P-1-independent work is closed in `§§16.133.1–16.133.4`.
+
+### 16.133.6 Boundaries and non-grants
+
+This record does **not**: execute P-1 or start S3, QE, Gate-4 execution, or Gate-5; provision any store/binding/membership; consume the single-use P-1 attempt; designate PF-15 (no pipe/directory/database-path value rendered); open any endpoint; change `IIPS_G3_IPC_BINDING_PROVISIONED`, `WRITE_NOT_AUTHORIZED`, `durable:false`/`SESSION_ONLY`, or any of the twelve `503` fences; move/re-pin any dependency; alter H-12 R5 or adoption; regenerate any host package; write to IPD; duplicate Gate A′ work; or claim DQ-4 established, Gate-4 started, any QE credited, or any acceptance/admission. H-12 R5 manifest `f4649e36…`/`d0be8bef…` `143,813 B` and adoption `9f3aa377…` remain byte-identical. DQ-4 remains `PREPARED AND VALIDATED — NOT ESTABLISHED (8/10)` at `§16.123.7`. PF-15 remains `NOT DESIGNATED`. QE `0/11`.
+
+### 16.133.7 Verification register for this reconciliation (V823–V837)
+
+| ID | Check | Result |
+|---|---|---|
+| `V823` | IRR + IPD remote HEAD fetches match pinned baselines `c493c5d…` / `1e76f4cf…` (`93300460…`/`7003a282…`) | **PASS** |
+| `V824` | Tracker heading uniqueness: exactly one `^## §16.133` after merge + `§16.132` at `1` | **PASS** |
+| `V825` | DQ-4 freeze manifest §7 at `c493c5d…` + trackers `§16.123.7`/`§16.132.5` read — `8/10` with criteria 7+8 NOT MET only | **PASS** |
+| `V826` | Authority search at current remotes — `0` PF-15 designations in IRR+IPD mainlines | **PASS** |
+| `V827` | Resolver contracts at current IRR main (`ipcClient.ts` `resolveIpcEndpoint`, `IIPS_G3_LOCAL_STATE_DIR`, `ownerContextFromBinding.ts:225` defaults-false) | **PASS** |
+| `V828` | Corrected-candidate S2 evidence still referenced: `001c3c80…` `399fa44a…` PR #96→`1e76f4cf…` ancestor `ahead 9/0`; consumer `9F7C6407…` + suite `C5DDFFA2…` | **PASS** |
+| `V829` | IRR H-12 R5 manifest `f4649e36…` `d0be8bef…` `143,813 B` re-hashed byte-identical; adoption `9f3aa377…` present | **PASS** |
+| `V830` | IRR sandbox validation battery at this pin: `npm ci` `190 pkgs` / `typecheck 0` / `full test:ci 106 files / 1350 tests / 0 failed` / `typecheck:replay-server 0` / `build 142 modules 0` / guard `OK` | **PASS** — Linux sandbox only; not host qualification |
+| `V831` | IPD writes: `0` | **PASS** |
+| `V832` | Gate A′ non-duplication: no `g4_run_tests_summary_parsing`/`test-summary-parser`/`gateAPrime` source/evidence touched beyond read-only census | **PASS** |
+| `V833` | Change limited to authoritative IRR docs + tracker (this file + tracker update + evidence deposit) | **PASS** |
+| `V834` | Publication: normal PR → green exact-head CI → regular merge → post-merge `main` CI | **PASS** — see `§16.133.8` |
+| `V835` | Independent remote read-back of merged tracker (§16.133 heading count `1`, candidate SHA/tree + both SHAs present) + this file at exact merge SHA | **PASS** |
+| `V836` | Downstream gates preserved: P-1 not consumed, S3 not reached, DQ-4 not established, PF-15 not designated, Gate 4 not started, QE 0/11, Gate 5 not initiated, 12 fences + W-1 intact | **PASS** |
+| `V837` | Evidence deposit `evidence/integration/cap03-dq4-pf15-p1-independent-2026-10-26/` recorded outside both worktrees (raw capture under `/tmp` before governed deposit) | **PASS** |
+
+### 16.133.8 Publication receipt (post-merge, remote identity- and completeness-verified)
+
+*This subsection is the publication receipt and is appended by the companion receipt publication — per the `§16.130.6` protocol it is **not self-embedded** before the merge that publishes `§16.133`.*
+
+Publication coordinates are recorded here **after** — in order — green exact-head CI, a regular 2-parent merge, green post-merge `main` CI, an independent remote blob read-back, and a completeness read-back re-fetching the tracker from remote `main` and confirming the candidate SHA, tree, and both validation evidence hashes are present. Until those conditions hold, the reconciliation is prepared but not yet effective and the pre-existing tracker state stands operationally.
+
+*End of §16.133 (`CV-CORR-113`; `CHG-2026-10-26-10`; `V823`–`V837`). DQ-4 remains `PREPARED AND VALIDATED — NOT ESTABLISHED (8/10)` — exactly two criteria outstanding: host sequence `S2→one bounded P-1→S3` (criterion 7) and its canonical Windows evidence (criterion 8), both P-1 + host-dependent; S2 sub-evidence for corrected candidate `001c3c80618f2ee1d40e9a90912237e1a06e7b58` (`399fa44a…` parent `8eec74ae…` PR #96→`1e76f4cf…`) is independently complete (consumer `9F7C64073A849E57D472C9CA30BB7616D04D1951626E90587241D61A470A85B1`, suite `C5DDFFA24393AED2E391EF8A72E8BFF1F8ECD9576C4349E182B288785F1B2941` `924/920/0/4`); PF-15 remains `NOT DESIGNATED` awaiting authority-dependent PA act with seven contents (P-1-independent); H-12 R5 `f4649e36…`/`d0be8bef…` preserved; P-1 `NOT EXECUTED`; S3 `NOT REACHED`; QE `0/11`; no gate moved.*
+
