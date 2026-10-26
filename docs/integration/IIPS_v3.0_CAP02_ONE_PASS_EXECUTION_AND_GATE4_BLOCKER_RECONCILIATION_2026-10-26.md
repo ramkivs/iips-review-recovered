@@ -90,6 +90,6 @@ The effective CAP-02 topology and CAP-03 prerequisite register still establish t
 
 ## 6. Publication and verification record
 
-This record and master-tracker §16.125 are documentation/evidence only. They add no authority and do not alter any source, test, pin, route, fence, manifest, qualification result, or status beyond reconciling the current evidence. IPD remains read-only. PR/merge/CI/blob/tree coordinates for this publication are to be appended as §16.125.1 after merge and independent remote read-back; they are deliberately not self-asserted here.
+This record and master-tracker §16.125 are documentation/evidence only. They add no authority and do not alter any source, test, pin, route, fence, manifest, qualification result, or status beyond reconciling the current evidence. IPD remains read-only. PR/merge/CI/blob/tree coordinates for this publication are appended in tracker §16.125.5 after merge and independent remote read-back; they are deliberately not self-asserted in this record.
 
 *End of `IIPS-V3-CAP02-ONE-PASS-G4-BLOCKER-RECONCILIATION-2026-10-26-01`. CAP-02 remains PARTIAL; U3 is blocked by the unavailable designated host; QE remains 0/11; U4 is not rendered; U5 is not granted or initiated; U6 is not authorized.*

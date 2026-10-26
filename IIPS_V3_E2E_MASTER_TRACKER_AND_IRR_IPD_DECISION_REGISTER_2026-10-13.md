@@ -10835,7 +10835,28 @@ The IRR PR #281 exact-head CI run `40232191689` and post-merge CI `40232352740` 
 | `V735` | CAP-02 → CAP-03 dependency | **PASS** — CAP-02 closure not a hard prerequisite to CAP-03 S2. |
 | `V736` | Scope/non-grant audit | **PASS** — no source, pin, route, fence, IPD, host, provisioning, gate, acceptance, admission, write, or production change. |
 | `V737` | New identifier census | **PASS** — `CV-CORR-105`, this record ID, `CHG-2026-10-26-01`, and `V727`–`V739` absent before registration. |
-| `V738` | Publication/CI/remote read-back for this new section | **PENDING PUBLICATION RECEIPT** — record separately in §16.125.5 after merge. |
+| `V738` | Publication/CI/remote read-back for this new section | **PASS** — PR #283 merge, exact-head and post-merge CI, commit/tree, and remote blob/byte/SHA-256 read-back independently verified; coordinates in §16.125.5. |
 | `V739` | Prescribed native-Windows Gate 4 / QE qualification | **NOT RUN** — environmental precondition failed; no qualification claim. |
 
 *End of §16.125 (`CV-CORR-105`; `CHG-2026-10-26-01`). CAP-02 remains PARTIAL. No decision remains to be re-rendered from the questions examined here; the concrete blocker is the unavailable designated host and the ordered, bounded operational sequence.*
+
+### 16.125.5 Publication receipt for §16.125 (`V738`)
+
+PR #283 published the CAP-02 one-pass current-state reconciliation. Publication coordinates are from the live GitHub PR/API and an independent post-merge read-back, not self-asserted in the execution record.
+
+| Item | Independently verified value |
+|---|---|
+| IRR PR | **#283** — `docs(cap02): reconcile decisions and Gate 4 host blocker` |
+| PR head / tree | `e5222167d0ceeb1ced83a9068df7569b32bcfaf1` / `04e96fda247ff2afba74d41f422c7bd3cc9c91a8` |
+| Exact-head CI | run **`40270452500`** / job `121401940426` — `Typecheck · Test · Build` **SUCCESS** (typecheck, replay-server typecheck, full suite, guard, production build all passed) |
+| Merge | **MERGED** `2026-10-26T04:44:20Z` as `376a1639dc5566c66ebfb44eb87ce6561ef8d884` |
+| Merge tree | `04e96fda247ff2afba74d41f422c7bd3cc9c91a8` — identical to the tested head tree |
+| Post-merge `main` CI | run **`40270599473`** / job `121402381060` — **SUCCESS** at `376a1639…` |
+| Remote `main` read-back | `376a1639dc5566c66ebfb44eb87ce6561ef8d884`, tree `04e96fda247ff2afba74d41f422c7bd3cc9c91a8`; PR head verified ancestor of remote `main` |
+| New reconciliation record at PR #283 merge | blob `966d03193be04ada2fb4134ba0e381fd1afd85af`, 16,393 bytes, SHA-256 `3904b5d8b24f59038ff11c2656a487cbd9f0a3a252787f2dac3a9950d483aa6a` — GitHub Git Blobs API bytes compare **MATCH** to PR head |
+| Tracker at PR #283 merge | blob `3f077fc7a05f0fc3d5241a7745f71ee5c244ed4c`, 2,265,795 bytes, SHA-256 `8de99e289107f1a5fd494ba333acf2ad7add581304394d2fbbb64377e8875ce4` — retrieved from Git Blobs API and byte-compared with the PR-head snapshot (**MATCH**) |
+| Changed paths | Exactly the tracker and the new CAP-02 reconciliation record; documentation-only |
+
+The linked record's §16.125.5 pointer was corrected after this snapshot as a documentation-only link-target correction; the correction is published and verified separately in the follow-up receipt PR. No CAP-02 status or decision changed. `V738` **PASS** — merge, exact-head CI, post-merge CI, commit/tree ancestry, and both remote blobs independently verified.
+
+*End of §16.125.5. Publication does not move any gate or grant provisioning, acceptance, admission, writes, or production eligibility.*
