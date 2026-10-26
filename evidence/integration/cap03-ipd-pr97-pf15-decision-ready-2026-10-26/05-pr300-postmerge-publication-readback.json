@@ -1,0 +1,101 @@
+{
+  "classification": "POST-MERGE PUBLICATION RECEIPT \u2014 INDEPENDENT GITHUB API READ-BACK (PR #300)",
+  "pr": 300,
+  "merged_at": "2026-10-26T12:44:05Z",
+  "merge_commit": "dbe9874f28f03b31cca4c8b996d3e822a4cf2b29",
+  "merge_tree": "cbd0de06532015bb11f796a3352cc457b8d9a30c",
+  "parents": [
+    "e47b58967621377ca92c2123c432a5eb5c5959ad",
+    "87390f6dffaad37111fa8c2c88d9128d338122c7"
+  ],
+  "tested_head": "87390f6dffaad37111fa8c2c88d9128d338122c7",
+  "exact_head_ci": {
+    "conclusion": "success",
+    "databaseId": 40324552331,
+    "event": "pull_request",
+    "headSha": "87390f6dffaad37111fa8c2c88d9128d338122c7",
+    "status": "completed"
+  },
+  "post_merge_main_ci": {
+    "conclusion": "success",
+    "databaseId": 40324807938,
+    "event": "push",
+    "headSha": "dbe9874f28f03b31cca4c8b996d3e822a4cf2b29",
+    "status": "completed"
+  },
+  "remote_paths_verified": 10,
+  "remote_paths_expected": 10,
+  "remote_readback_all_bytes_match": true,
+  "records_and_evidence": [
+    {
+      "path": "IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md",
+      "blob_sha1": "befaa6d8a798a2e358f26a36e8d508040eb8d13e",
+      "bytes": 2431576,
+      "sha256": "b0f7dc982ee33312a78825d5ef9a7c065683e93cdd6be85182e81d174cdbd677",
+      "matches_merge_git_object": true
+    },
+    {
+      "path": "docs/integration/IIPS_v3.0_CAP03_PF15_PA_DECISION_ACT_PREPARED_2026-10-26.md",
+      "blob_sha1": "c7b6f500f96319c1f5440a60e7d18c5574d3e2c6",
+      "bytes": 26176,
+      "sha256": "4227f5d49ff41a4e4f73440c7604ddbddf783294ce9c8e6a19bf92a821b708bd",
+      "matches_merge_git_object": true
+    },
+    {
+      "path": "docs/integration/IIPS_v3.0_CAP03_IPD_PR97_AND_IRR_RECEIPT_RECONCILIATION_2026-10-26.md",
+      "blob_sha1": "0e84c6c6fd59ab67b3cabea5a1ab57a81fa37666",
+      "bytes": 18838,
+      "sha256": "c99ba112ac44e8d0d27a9e723b7718edf5d089a4a8d5a275635299cef474e6f9",
+      "matches_merge_git_object": true
+    },
+    {
+      "path": "evidence/integration/cap03-ipd-pr97-pf15-decision-ready-2026-10-26/01-pf15-two-locus-authority-audit.json",
+      "blob_sha1": "f949e81ccd1560c3d6326e98d2673d17f46c6aee",
+      "bytes": 2036,
+      "sha256": "741c8009bda8d2f1e863bd2ae4aeb9145446339d82b7ee7f76f9d4e79fa90cda",
+      "matches_merge_git_object": true
+    },
+    {
+      "path": "evidence/integration/cap03-ipd-pr97-pf15-decision-ready-2026-10-26/02-remote-readback-pr298-pr299-ipd94-ipd97.json",
+      "blob_sha1": "52ef4008383ca9abf1f984ad21bd6a1d5d73ce75",
+      "bytes": 21105,
+      "sha256": "d19958ceaaf4e32fcb2069e6049df5b49ce79a8d60f85c125d6d9487de92ea34",
+      "matches_merge_git_object": true
+    },
+    {
+      "path": "evidence/integration/cap03-ipd-pr97-pf15-decision-ready-2026-10-26/03-ipd-51path-census-and-h12-preservation.json",
+      "blob_sha1": "1f449a75bd12736b24f0055dc85600083afae7f0",
+      "bytes": 1539,
+      "sha256": "4aa1e58c9319d2b4212dfe3509028fcb21bdd2af02166cbf2e135cea25890e57",
+      "matches_merge_git_object": true
+    },
+    {
+      "path": "evidence/integration/cap03-ipd-pr97-pf15-decision-ready-2026-10-26/04-irr-validation-suite-summary.txt",
+      "blob_sha1": "0be593e53c3c41b52185b473fef7fe31d569d409",
+      "bytes": 1598,
+      "sha256": "e8ab52b8c1462f32a9363e983faedac6f8bb0f6a3e6b0f1fd8e8e5608ed8ab8f",
+      "matches_merge_git_object": true
+    },
+    {
+      "path": "evidence/integration/cap03-ipd-pr97-pf15-decision-ready-2026-10-26/INDEX.md",
+      "blob_sha1": "8a1a330d8e5c3498bca1847b4f7faa904bf0b036",
+      "bytes": 2287,
+      "sha256": "491d095ef32c462bdcb00bf83b926b10f5b5810664657842e1fe580f282d44f6",
+      "matches_merge_git_object": true
+    },
+    {
+      "path": "evidence/integration/cap03-ipd-pr97-pf15-decision-ready-2026-10-26/SHA256SUMS.txt",
+      "blob_sha1": "6c056bd9290fb80811a0dee8fa9d41dd2715a363",
+      "bytes": 608,
+      "sha256": "353175ed4d6d0bb7c8f66558fab6544481c00ae77115a82f2a4f33674e160171",
+      "matches_merge_git_object": true
+    },
+    {
+      "path": "evidence/integration/cap03-ipd-pr97-pf15-decision-ready-2026-10-26/verify_current_state_and_pf15.py",
+      "blob_sha1": "d18713d2f4de1108c38cbf22863db7c8930a2d4b",
+      "bytes": 13845,
+      "sha256": "e1f07fe58a48f5d7dfe2b8d24174d1abc8d284098ac3f99692a6ed31f77483ef",
+      "matches_merge_git_object": true
+    }
+  ]
+}
