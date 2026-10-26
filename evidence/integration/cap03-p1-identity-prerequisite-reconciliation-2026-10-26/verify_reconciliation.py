@@ -19,6 +19,7 @@ Exit 0 = all checks pass; any failure raises AssertionError.
 import hashlib
 import json
 import pathlib
+import re
 import subprocess
 
 HERE = pathlib.Path(__file__).resolve().parent
@@ -104,7 +105,7 @@ def main():
         check(s in receipt, f"receipt contains: {s[:72]}")
     for s in REQUIRED_IN_TRACKER:
         check(s in tracker, f"tracker contains: {s[:72]}")
-    check(tracker.count("## §16.140") == 1, "exactly one §16.140 heading")
+    check(len(re.findall(r"(?m)^## \u00a716\.140", tracker)) == 1, "exactly one §16.140 heading")
     for vid in [f"`V{n}`" for n in range(907, 916)]:
         check(vid in tracker, f"tracker contains verification row {vid}")
 

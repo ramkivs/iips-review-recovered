@@ -12,7 +12,7 @@
 | Governing locus | IRR `ramkivs/iips-review-recovered`, `refs/heads/main`; IPD `ramkivs/iips-production-market-data` inspected strictly read-only (`0` IPD writes in this pass) |
 | Reconciliation date | `2026-10-26` (UTC) |
 | Live baselines re-verified | IRR `main@cc3c000a11fd586c540a84a8d139c4b2c39cd121`, tree `00f55e4ecbf9a7b09acb97051c59e3bb2a1de31c`, `0` open PRs; IPD `main@888eb375eebee01640e44ccdcbb138a71e8c4513`, tree `cf3b90482fa7ed1f9780f20a9286164686885d2b`, `0` open PRs (evidence `00-remote-identity-and-pin-readback.json`) |
-| Evidence bundle | `evidence/integration/cap03-p1-identity-prerequisite-reconciliation-2026-10-26/` (`collect_remote_evidence.py`, `00-remote-identity-and-pin-readback.json`, `verify_reconciliation.py`, `INDEX.md`, `SHA256SUMS.txt`; publication read-back added by the companion receipt update) |
+| Evidence bundle | `evidence/integration/cap03-p1-identity-prerequisite-reconciliation-2026-10-26/` (`collect_remote_evidence.py`, `00-remote-identity-and-pin-readback.json`, `verify_reconciliation.py`, `INDEX.md`, `SHA256SUMS.txt`; publication read-back `verify_publication.py` + `01-publication-readback.json` added by the companion receipt update `CHG-2026-10-26-22`, coordinates at §9) |
 | Authority source rule applied | The effective PA act is the authority source. Code constants, test fixtures, and runbook text are treated only as implementation/consistency evidence and confer no authority by themselves |
 
 ---
@@ -157,6 +157,24 @@ Subsequent order (each a separate governed step; none started here): formal S2 e
 
 This reconciliation **does not**: execute P-1 or consume its single attempt; create or pre-create any database or sidecar; create a new identity decision or change `ramki-personal-local` / `ipd-personal-local` / `ipd-owner-ramki-personal`; change any implementation code, validation fence, route, pin, manifest, or write authorization; render an S2 acceptance or a pin disposition; start S3, QE-1…QE-11, any acceptance act, or Gate 5; write to IPD (`0` writes); edit the successor act, the S1 determination, either PF-15 act, the S2 records, or any historical tracker statement (§4 supersession is by additive overlay only); or claim any native-Windows filesystem, host, endpoint, or runtime verification. `WRITE_NOT_AUTHORIZED`, the existing HTTP `503` fences, and `durable:false` are preserved until a separate governed acceptance authorizes change.
 
-**Publication completeness rule:** this receipt and tracker §16.140 take effect as the canonical current-state only after publication to IRR `main` by the normal PR process (green exact-head CI, regular `--merge`, green post-merge `main` CI) and independent remote Git-blob/byte read-back, recorded at tracker §16.140.7 rather than asserted by local file presence.
+**Publication completeness rule:** this receipt and tracker §16.140 take effect as the canonical current-state only after publication to IRR `main` by the normal PR process (green exact-head CI, regular `--merge`, green post-merge `main` CI) and independent remote Git-blob/byte read-back, recorded at §9 below and tracker §16.140.7 rather than asserted by local file presence (verified at merge `5e275941…`; this completion note is published by the companion receipt update).
+
+---
+
+## 9. Publication receipt (companion update `CHG-2026-10-26-22`; tracker §16.140.7)
+
+This receipt and tracker §16.140 were published to IRR `main` by PR **#308** (head `586a0b139d00fe2fa753a0d2824b9fdc99068985`; exact-head CI run `40341640398`, job `121637614357`, **SUCCESS**; regular merge-commit **`5e2759418645f94f66b79eb5bdcb1c61e409f0c8`** at `2026-10-26T14:41:52Z`; post-merge `main` CI run `40342036003`, job `121639011258`, **SUCCESS**; `7` files, `+1,023/−0`). Independent GitHub Git-Blobs-API read-back at the merge commit confirmed all seven published paths byte-identical to their local bytes, tracker/receipt markers present (single `## §16.140` heading), and no database artifact in the tree (machine record `01-publication-readback.json`, produced by `verify_publication.py`; all checks **PASS**):
+
+| Published path | Git blob SHA | Bytes | SHA-256 (remote bytes) |
+|---|---|---:|---|
+| `IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md` | `2a0f71163150877dd071de59d52eafbe13ba485b` | 2,494,131 | `41e50e3ad7ff447a26858ab921e6ecb103c856314d665a2486d507db905536c7` |
+| `docs/integration/IIPS_v3.0_CAP03_P1_IDENTITY_PREREQUISITE_RECONCILIATION_2026-10-26.md` | `ca8ef5725f7f7ed8a6ba5ca80a8a10853c80df61` | 34,281 | `1a06e6c7f57a5e61fb9073fdc23f2c9255c4d27810269aba170e4bbc4d4ed308` |
+| `evidence/integration/cap03-p1-identity-prerequisite-reconciliation-2026-10-26/00-remote-identity-and-pin-readback.json` | `848cac52f0ecbbf43fda7a3886c738cdf4fa6ed1` | 12,900 | `face317bd1d5b11f7befd3f83981f545a68f1637481cbadb72ae11e0a01f07ef` |
+| `evidence/integration/cap03-p1-identity-prerequisite-reconciliation-2026-10-26/collect_remote_evidence.py` | `d654a705e7bbc3815a5adec6c0696876fd477cd1` | 12,237 | `787736396ea1c1a16465a85a82dde1753a9602e52b9292b3d231877d6b948b9d` |
+| `evidence/integration/cap03-p1-identity-prerequisite-reconciliation-2026-10-26/verify_reconciliation.py` | `0f0d35ef5d3446070ac3c758c292b7650f2472dc` | 7,547 | `62cd42576d0ed68fcfb6ee07f7d65de852bf296f188af0b5fcd5d2b4e1f497bd` |
+| `evidence/integration/cap03-p1-identity-prerequisite-reconciliation-2026-10-26/INDEX.md` | `782b625f5eb1d203103e9e686a260659444214b2` | 2,856 | `3c5193eccbe735aed4f60054271091757643484fc16038c85e080c6627e9b6f0` |
+| `evidence/integration/cap03-p1-identity-prerequisite-reconciliation-2026-10-26/SHA256SUMS.txt` | `65dd5e3591ac4a81d6402388d1150b0de618f25e` | 366 | `9ea200fd1cce21294367ff7178b6af10a2d4f8c284a30c83835427d64ad75460` |
+
+The publication-completeness rule above is thereby satisfied for the carrying publication; this §9 and the companion files are themselves published by the follow-on receipt update recorded at tracker §16.140.7. `0` IPD writes; no P-1/DB/host action; fences unchanged.
 
 *End of `IIPS-V3-CAP03-P1-IDENTITY-PREREQUISITE-RECONCILIATION-2026-10-26-01` — identity decision SATISFIED under the existing effective PA determination; P-1 NOT EXECUTED and not yet to be executed on the non-identity prerequisites classified above; no host operation performed.*
