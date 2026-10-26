@@ -1,0 +1,41 @@
+# Independent remote re-read: does ANY rendered revocation approval / RV-1 determination exist in either locus?
+# (Task step 2.6, adapted: there is no decision to verify for effectiveness, so the ABSENCE is verified remotely,
+#  and the independent re-read is of the published baselines rather than of a rendered act.)
+# UTC 2026-10-26T06:50:27Z
+
+## IRR — committed HEAD 3cd61bcec11beaa96fafa351f8ca557bbfd41b22 (published main)
+  RV-1                             fixed-string file matches at HEAD: 0
+  QE8-REVOCATION                   fixed-string file matches at HEAD: 0
+  local_principal_binding.revoked  fixed-string file matches at HEAD: 0
+  status = 'REVOKED'               fixed-string file matches at HEAD: 4
+
+  The five files containing the phrase 'revocation procedure' were each opened and classified:
+    IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md:891:**What was rendered vs. what is outstanding.** **RENDERED:** the P-2 pa
+    IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md:10984:- **New prerequisite gap recorded (not decided):** QE-8 additionally 
+    docs/integration/IIPS_v3.0_CAP02_QE_EXECUTION_MATRIX_AND_HOST_PREREQUISITES_2026-10-26.md:151:| QE-8 | Revocation: after revocation, reads and wri
+    docs/integration/IIPS_v3.0_CAP03_S2_P1_S3_QE_EXECUTION_AND_EVIDENCE_MATRIX_2026-10-26.md:251:| QE-8 | revocation: post-revocation writes/reads ref
+    docs/integration/IIPS_v3.0_GATE_C_PORTFOLIO_IDENTITY_AND_SECURITY_IDENTIFIER_CONTRACT_PA_DECISION_REQUEST_2026-10-13.md:537:**What `GC-D4` execute
+    docs/integration/IIPS_v3.0_OWNER_CONTEXT_PROGRAM_AUTHORITY_DECISION.md:149:**PA must determine:** the establishing authority and act; the required
+  Classification: every hit is (a) a statement that the procedure is REQUIRED and NOT rendered (tracker
+  §16.127.2 line 10984; CAP-02 matrix QE-8 row; CAP-03 QE matrix QE-8 row), (b) the P-2 key
+  rotation/revocation package terms rendered in 2026-10-13 and unrelated to binding revocation (GC-D4), or
+  (c) an earlier statement that the PA must determine a change/revocation procedure for owner context.
+  None is an approval of a QE-8 binding-revocation procedure.
+
+## IPD — main f5eddbc20b944a098a9060a8e3349c6d10b7843e (read-only, 566 blobs)
+  GitHub code search, repo-scoped, for '"revocation procedure"': 0
+  tree census: blobs whose path matches /revok/i = 0; a rendered act would necessarily appear as a new
+  blob under evidence/cross-repository/ — none exists at this head.
+
+## Verdict
+  No rendered Program Authority approval of a QE-8 revocation procedure exists at either published
+  baseline. QE-8 remains AWAITING PROGRAM AUTHORITY. No decision is claimed, so no effectiveness is
+  asserted; when RV-1 is rendered, its effectiveness will be verified by the same independent
+  read-back chain used here (remote blob identity + completeness, green CI, act receipt).
+  No store exists and no host command was dispatched from this environment, so the sole operator
+  binding cannot have been touched by this pass.
+
+## Note on the `status = 'REVOKED'` hits
+The 4 files matching `status = 'REVOKED'` at HEAD are CAP-02/CAP-03 records that quote the schema or the
+proposed statement in prose. They are documentation, not an implementation and not an executed revocation.
+The IPD tree (the only locus that could contain an implementation) has zero revocation code paths.

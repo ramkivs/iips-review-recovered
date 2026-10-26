@@ -1,0 +1,76 @@
+# QE-8 criterion, binding/identity records, S1 determination, Gate 4 authority, existing safety controls
+# Source: IPD ramkivs/iips-production-market-data @ main f5eddbc20b944a098a9060a8e3349c6d10b7843e (read-only); quotes verbatim.
+
+## A. The criterion itself — Gate E write policy rev 1 (blob 4a9501bffb49abbbc0ba5b5c4f81d2841812913e)
+  132:- **Accepted disposition for revoked-binding data (G2-D5, Program Authority, 2026-10-18; approved in full).** (1) Subsequent reads **and** writes through the revoked binding are denied. (2) Data is **not** automatically transferred to a replacement binding. (3) Data is **not** silently deleted merely because a binding was revoked. (4) Before retained data can become accessible again, an explicit, governed **recovery, reassignment or deletion** action is required. (5) The failure behaviour must be defined and tested before qualification or admission (QE-8). This is the approved policy for **future** implementation. It is **not** represented as implemented or tested, and it is not a Gate 4 result.
+  160:| QE-8 | **Revocation:** after binding revocation, writes and reads refused, including after restart; revocation racing a write never yields a post-revocation commit | W-3, CV-20 §4.5 |
+
+## B. W-3 — the mechanism QE-8 measures (same blob)
+  ### W-3 Binding re-validation inside the transaction
+  
+  The binding (and its single `ACTIVE` membership) is re-read and checked **inside the same immediate/serialized transaction** that performs the mutation. If the binding is not `ACTIVE` at that point, the transaction aborts with no effect. A revocation that commits first therefore always wins over a racing write.
+  
+
+## C. G2-D5 — PA-approved revoked-binding data policy (same blob, five points)
+  - **Accepted disposition for revoked-binding data (G2-D5, Program Authority, 2026-10-18; approved in full).** (1) 
+  Subsequent reads **and** writes through the revoked binding are denied. (2) Data is **not** automatically transferred 
+  to a replacement binding. (3) Data is **not** silently deleted merely because a binding was revoked. (4) Before 
+  retained data can become accessible again, an explicit, governed **recovery, reassignment or deletion** action is 
+  required. (5) The failure behaviour must be defined and tested before qualification or admission (QE-8). This is the 
+  approved policy for **future** implementation. It is **not** represented as implemented or tested, and it is not a 
+  Gate 4 result.
+
+## D. Search for a rendered revocation procedure / approval in the effective Gate 4 instrument
+  Gate4-act                    matches for 'revoc' (case-insensitive): 0
+  S1-determination             matches for 'revoc' (case-insensitive): 0
+  GateA-prime-successor-act    matches for 'revoc' (case-insensitive): 0
+  Gate 4 act §14 separates the determinations it does NOT disguise as approvals; a revocation
+  procedure is not among the decisions rendered anywhere in the act (0 matches above).
+
+## E. Gate A' successor provisioning act §9 — express non-grant (blob 528de6ae...)
+  9-mappings; portfolio/revision/holding/contribution/provenance rows; operational writes; any
+  10-`WRITE_NOT_AUTHORIZED` relaxation; `durable:true`; endpoint service admission; Gate C or Gate 4
+  11:execution; result acceptance; Gate 5 admission; any IRR change; purge, re-association or restoration of
+  12-revoked-binding data; production eligibility; any change to W-1, to the brand gate beyond the single
+  13-named entrypoint, or to the existing refusal semantics; and any claim that qualification or
+
+## F. Gate 4 act §7 — the QE execution grant and its boundary (blob 66b56fd1...)
+  ## 7. Q6 — QE execution authority and its grant
+  
+  The seven-item QE-11 **execution** grant of the historical D-GC record is **re-issued** inside this act
+  for the designated commits (the historical grant names the reference-only `cec70802…` lineage and is
+  **not** reused or amended):
+  
+  1. Execute QE-1…QE-11 on `desktop-no0nhtp` at the designated commits and recorded digests.
+  2. Record every item verbatim, including attempts that fail.
+  3. Apply the Q11-before/after digest discipline (§3.2).
+  4. Execute Q9 (C5.1 zero bytes) with N ≥ 10 cold + 10 warm repetitions.
+  5. Execute Q11's Gate C subset (Q1–Q4, Q9–Q11) under the adopted H-12 and the ratified H-1…H-13
+  ...(grant items 1-7 elided; full text at the blob)
+  GRANT BOUNDARIES: execution and recording only; acceptance is a separate act.
+
+## G. CAP-03 host qualification readiness packet §5 (blob 9d9c5970...) — source of the 'PA-approved revocation procedure' wording
+  NOTE: this record is CAP-03-scoped ('at the freeze'), reports NO final pins, H-12 NOT ADOPTED and PF-15 NOT DESIGNATED.
+  Its pin/H-12/PF-15 statements are superseded or CAP-03-only and are NOT imported into CAP-02.
+  | **QE-8** revocation, post-restart refusal, revocation/write race | Tier 1 + Tier 2 | limitation until a provisioned 
+  binding and PA-approved revocation procedure exist; never revoke the sole operator binding without express authority 
+  | not designated | **BLOCKED / NOT RUN** |
+
+## H. IPD CAP-02 QE status matrix row QE-8 (blob e76d4a3e...) — the current CAP-02-locus status statement
+  | **QE-8** | Revocation: after revocation, writes and reads refused including after restart; a revocation racing a 
+  write never yields a post-revocation commit | B1 B2 B3 B4 B6 | 3 | **NOT RUN** | Requires a provisioned ACTIVE 
+  binding to revoke — **none exists**, and provisioning is not authorized (§ Phase B record). In-transaction 
+  revalidation and the four failure shapes are locally tested only | Gate A′ successor act + provisioning receipt 
+  first | PA |
+
+## I. Binding/identity records (S1 determination + provisioning act)
+  binding_id:    c5808abaffd072d6401ce63ad86c6ac0   (S1 determination, blob b7746b5e...)
+  membership_id: d25dcc5370100b00766efc5166f65cf3
+  principal_label ramki-personal-local / tenant ipd-personal-local / canonical owner ipd-owner-ramki-personal
+  V-A2-2 (successor act §5): exactly 1 binding, ACTIVE, revoked_at IS NULL  -> the QE-8 target IS the sole operator binding
+
+## J. Existing safety controls that bound any procedure
+  W-1 unchanged: WRITE_NOT_AUTHORIZED enforced before mutation; all twelve /api/user-portfolios* 503 fences intact
+  Enabling flags absent: IIPS_G3_IPC_BINDING_PROVISIONED / IIPS_ENABLE_WRITES / IIPS_G3_ENABLE_WRITES / GATE_E_OVERRIDE
+  Single-ACTIVE partial unique indexes (migration 003) + REVOKED rows retained as history (G2-D5 point 3)
+  Provisioning refuses ALREADY_PROVISIONED on any existing binding/membership row in ANY state (see 06-*.txt)

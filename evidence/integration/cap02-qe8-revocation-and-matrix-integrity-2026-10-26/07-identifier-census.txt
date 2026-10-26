@@ -1,0 +1,29 @@
+# New-identifier census — 2026-10-26T06:54:23Z
+# Method: fixed-string search (grep -F); an unanchored '.' matches any character and produces false hits.
+# History: an earlier census of §16.129/CV-CORR-109/CHG-2026-10-26-05/V779-V787 was invalidated when the
+#          concurrent CAP-03 publication (IRR PR #291, merge 5dfcea41) consumed those identifiers; this is
+#          the post-reallocation census and it gates publication.
+# Baseline A: published IRR main = 5dfcea41490131f86358c38c43b33a281040008c (Merge pull request #291 from ramkivs/arena/86f1916e-iips-rev)
+# Baseline B: this pass's working tree.   Baseline C: IPD main f5eddbc2 (566-blob tree, read-only).
+
+identifier                                                                 main      worktree  
+§16.130                                                                   0         2         
+CV-CORR-110                                                                0         2         
+CHG-2026-10-26-06                                                          0         2         
+V788                                                                       0         2         
+V795                                                                       0         2         
+V802                                                                       0         2         
+IIPS-V3-CAP02-QE8-REVOCATION-PROCEDURE-DECISION-REQUEST-2026-10-26-01      0         4         
+IIPS-V3-CAP02-QE8-MATRIX-INTEGRITY-RECONCILIATION-2026-10-26-01            0         3         
+IIPS-V3-CAP02-HOST-EXECUTION-RUNBOOK-AND-EVIDENCE-STRUCTURE-2026-10-26-01  0         4         
+
+## Identifiers consumed by the concurrent CAP-03 PR #291 (occupied at main; NOT reused by this pass)
+  §16.129             files at main: 2
+  CV-CORR-109          files at main: 2
+  CHG-2026-10-26-05    files at main: 2
+  V779                 files at main: 2
+  V787                 files at main: 2
+
+## IPD locus
+  files matching /revok/i in the 566-blob tree: 0
+  no identifier from this pass exists or is claimed in IPD (zero IPD writes).

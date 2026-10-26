@@ -1,0 +1,50 @@
+# Provisioning irreversibility — why the sole operator binding must not be casually revoked
+# Evidence: IPD main f5eddbc2 blobs + effective acts (read-only).
+
+## gateAPrimeProvisioning.ts (blob 2cbce83f6572d211630ce0620dae49fa02fe4622) — two independent refusals
+    if (existsSync(args.store)) {
+      if (statSync(args.store).isFile() && existingStoreHasProvisioningRows(args.store)) {
+        throwRefusal('ALREADY_PROVISIONED', 'the store already contains a binding or membership row');
+      }
+      throwRefusal('STORE_ALREADY_EXISTS', 'P-1 requires the provisioning store file not to pre-exist');
+    }
+  ...
+      .prepare('SELECT COUNT(*) AS n FROM local_principal_bindings')
+      .get() as { n: number | bigint };
+    const existingMemberships = db
+      .prepare('SELECT COUNT(*) AS n FROM local_principal_memberships')
+      .get() as { n: number | bigint };
+    if (Number(existing.n) > 0 || Number(existingMemberships.n) > 0) {
+      throw new GateAPrimeRefusalError('ALREADY_PROVISIONED', 'the store already contains a binding or membership row');
+    }
+  
+
+## Migration 003 (blob 32b125bf962bb76a6ae59d3b262203dbbb988197) — single-ACTIVE partial unique indexes
+  
+  CREATE UNIQUE INDEX idx_local_principal_bindings_single_active
+      ON local_principal_bindings ((1)) WHERE status = 'ACTIVE';
+  
+  CREATE UNIQUE INDEX idx_local_principal_memberships_single_active
+      ON local_principal_memberships ((1)) WHERE status = 'ACTIVE';
+  
+  CREATE INDEX idx_local_principal_memberships_binding
+      ON local_principal_memberships (binding_id, status);
+  `,
+  };
+
+## Gate A' successor act §8 duplicate-handling rule (blob 528de6ae...)
+  236:3. **Duplicate handling.** Any pre-existing binding **or** membership row in **any** state ⇒
+  237-   `ALREADY_PROVISIONED`, no mutation, no repair, no "re-activate". `ACTIVE → REVOKED` remains
+  238-   one-way; no restoration path is created by this act.
+  239-4. **No unintended mutations.** The entrypoint may not create, alter or delete any table, index,
+
+## Derived consequences (mechanical, not a decision)
+  1. Revoking the sole binding leaves the store file in place with a binding row in REVOKED state.
+  2. P-1 can never run again on that store: STORE_ALREADY_EXISTS (file exists) and ALREADY_PROVISIONED
+     (a binding/membership row exists in ANY state) both refuse before any SQL.
+  3. The partial unique index allows a new ACTIVE row only after the previous ACTIVE row is no longer
+     ACTIVE, but no way to insert one exists outside P-1 (which refuses on this store) — a NEW store path
+     plus a FRESH one-use PA act would be required.
+  4. Re-activating the revoked row (the test fixtures do this) is exactly the 'governed recovery /
+     reassignment' action that G2-D5 point (4) reserves to an explicit PA act. None exists.
+  => Revoking the sole authoritative binding is one-way under current authority.

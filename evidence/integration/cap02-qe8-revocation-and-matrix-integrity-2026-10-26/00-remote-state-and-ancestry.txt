@@ -1,0 +1,38 @@
+# CAP-02 QE-8 pass — remote state and ancestry (UTC 2026-10-26T06:43:18Z)
+
+## IRR ramkivs/iips-review-recovered
+main:            3cd61bcec11beaa96fafa351f8ca557bbfd41b22
+main tree:       0ff4e15c4cee0c9fbb48d3dfb659caacee7cb860
+open PRs:        0
+
+recent merged PRs:
+  #290 2026-10-26T06:32:11Z 3cd61bcec11b docs(cap03): receipt for PR #289 publication (§16.128.8)
+  #289 2026-10-26T06:26:28Z c482c23561dc docs(cap03): S2/P-1/S3/QE readiness matrix, PF-15 decision request, S2 operator runbook
+  #288 2026-10-26T06:10:21Z 0329964975eb docs(cap02): receipt for PR #287 (§16.127.5)
+  #287 2026-10-26T06:05:02Z 6334e2e571dc docs(cap02): publish QE execution matrix and host prerequisites
+  #286 2026-10-26T05:03:06Z c7fc7e40e400 docs(tracker): receipt CAP-03 S2 host-recovery blocker publication
+  #285 2026-10-26T04:58:19Z f72568c8e173 docs(cap03): record S2 host-recovery probe and precondition blocker
+
+recent CI runs:
+  40280401460 CI success 3cd61bce 2026-10-26T06:32:14Z
+  40280181288 CI success 541672e6 2026-10-26T06:30:07Z
+  40279831969 CI success c482c235 2026-10-26T06:26:31Z
+  40279615174 CI success 6dfb72f0 2026-10-26T06:24:17Z
+
+## IPD ramkivs/iips-production-market-data
+main:            f5eddbc20b944a098a9060a8e3349c6d10b7843e
+main tree:       5c93f1d1e6c4919fa632ff107569ac955f5e052e
+open PRs:        0
+blob count:      566
+
+## Designated pins
+IPD QE pin:      8eec74ae27cda09f3c368b9c299895eae41554db / tree 4eba29029f8d95cfe483e615a7047426b298ce50
+IRR consumer pin: ba64b2d5927c2f872560710cf1474c25a5cde0d5 / tree 5e4262f1cd75bf13b76ced5b45058f31434b5dad
+
+## Governing record blob identities re-read at IPD main (this pass)
+  Gate E write policy rev 1                      4a9501bffb49abbbc0ba5b5c4f81d2841812913e  16908 B
+  CAP-03 host qualification readiness packet     9d9c5970f66b1c901a2b5d28c02e8c9562078cf2  20923 B
+  Gate 4 act 2026-10-23-01                       66b56fd1584890525a7250aadd7da449def621e5  34316 B
+  S1 identity-value determination                b7746b5ed955abcf689ec57ca4a0748c0241ed09  35936 B
+  Gate A' successor provisioning act             528de6aeddbc8e5f3191be8792f3937d77de4037  29856 B
+  IPD CAP-02 QE status matrix                    e76d4a3e4c802f5cc8284b4052925613991e82c5  11343 B

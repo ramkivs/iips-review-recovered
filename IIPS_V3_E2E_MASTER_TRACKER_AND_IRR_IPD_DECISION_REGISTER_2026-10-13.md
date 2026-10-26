@@ -10,7 +10,7 @@
 | Current CAP-03 DR-2 publication status (`2026-10-25`; §§16.117–16.118) | IPD Option A provider/test is merged at PR #89; IRR Option A consumer is merged by PR #265 as `e590ca40d950052e32b2813027f0d1027b9e65ec` (tree `97530e48…`). PR-head CI `40199009657` and post-merge `main` CI `40199212799` passed; current-base local full suite 106 files / 1,349 passed / 0 failed. Bilateral source/test implementation and conformance evidence is published across both repos; this is **not** CAP-03 operational completion, final pin/freeze, Gate 5 admission, durability acceptance, or production eligibility. See §16.118. |
 | Previous IPD baseline (historical; superseded as current state) | Superseded value **`c0e1b5662264651246db1ccde2945eb5e13f3524`** verified 2026-10-22 (§16.75; superseded by the PR #41 merge recorded in §16.76) — 2 open PRs (**#34** superseded Gate 3 lineage; **#41** conformant candidate), agent write capability `HTTP 403`. Earlier: `ramkivs/iips-production-market-data` (`refs/heads/main` verified at **`15465e45adfc1dd58fba17e80365b729599aef6b`** on 2026-10-21 (`CV-CORR-53`, §16.70) — PR #37 merge `2026-10-21T15:57:34Z` (DEC-06 P11 main-admission decision package + A5 refresh; documentation only, no admission); **2 open PRs (#34 Gate 3 candidate; #36 DEC-06 P11 candidate — neither for merge)**, **0 releases**, both annotated pin tags re-peeled; superseded banner value `3d44e0a123f2495f3b88ce0ab8b47fbc5bf072db` verified 2026-10-21 — PR #33 merge 2026-10-19T19:46:48Z; earlier superseded value `be32d8c95a86b3f03bd382ccde5b6398efb351c6` verified 2026-10-18 — PR #24 merge (2026-10-18T19:12:01Z; documentation-only cross-repository reconciliation; 0 open IPD PRs; §16.55/§16.56), preceded by PR #23 `0158b7a1…` (documentation-only handoff/§14 record; IPD CI run `39147879645` passed); G3-D0 disposition published by PRs #20/#21 (`8b65971f…`/`e76bb2ed…`), G3-D1…D7 classification by PR #22 (`9310b1a…`); PR #8 merge `467eb529…` remains an ancestor; previous banner value `9130c259…` (PR #11) retained historically in §§16.49–16.53; refreshed by `CV-CORR-37`, §16.54) |
 | Pre-REG-08 IRR Baseline | Commit `f970028cf633f561c225d66ae4b3864f48afe656`; root tree `bab9782ed104567e571abccc350c75760ff35dca` (merge of PR #75) |
-| **Last Updated** | `2026-10-26` (UTC) — **CAP-03 S2 designated host recovery attempted and confirmed blocked; mandatory native-Windows preconditions re-measured and failed; S2 sequence NOT EXECUTED (0/5 commands run); downstream gates preserved (`CV-CORR-106`, §16.126, `CHG-2026-10-26-02`, `V740`–`V752`).** Preceding state: IRR PR #284 (`9e0da3e…`, receipt of PR #283 CAP-02 reconciliation, CI `40270979172` `success`, 0 open PRs); IPD `main@f5eddbc…` (PR #95 receipt of PR #94 H-12 R5 mirror, CI `40230772869` `success`, 0 open PRs; zero IPD writes). Active recovery probes from this environment against designated host `desktop-no0nhtp` confirmed name resolution failure (`getent` exit 2, ping exit 2, remoting ports unreachable) and network isolation; executing platform is Linux `e2b.local` 6.1.158+ (`process.platform === "linux"`, user `user` uid 1001 with sudo, PowerShell/cmd.exe absent). Mandatory preconditions 1–3 FAIL fatally; preconditions 4–7 unverified on host. S2 sequence stopped before dispatch (0/5 commands run; no Linux/WSL/alternate-host substitution; zero false passes claimed). Blocker record `IIPS-V3-CAP03-G4-H12-R5-S2-HOST-PRECONDITION-BLOCKER-2026-10-26-01` published. **Preserved:** DQ-4 **PREPARED AND VALIDATED — NOT ESTABLISHED** (`8/10`); Gate 4 **AUTHORIZED — NOT STARTED** (QE `0/11`); P-1 **NOT EXECUTED**; S3 **NOT REACHED**; Gate 5 **NOT INITIATED / NOT ADMITTED**; durable-read acceptance **NOT GRANTED**; production **NOT ADMITTED**; `WRITE_NOT_AUTHORIZED` & all twelve `/api/user-portfolios*` `503` fences intact; zero IPD writes. Earlier update (`2026-10-25`; `CV-CORR-103`, §16.123): CAP-03 Gate 4 H-12 R5 ADOPTED by PA act (`IIPS-V3-CAP03-G4-H12-R5-PA-ADOPTION-ACT-2026-10-25-01`), DQ-6b element 6 verified COMPLETE (6/6), Amended-§8 supplement bound. |
+| **Last Updated** | `2026-10-26` (UTC) — **CAP-02 QE-8 governance gap resolved to its authority boundary: a decision-ready revocation-procedure request (`RV-1`, four alternatives, no approval rendered) is published, the published CAP-02 QE matrix record's truncation defect is disclosed and repaired, four QE-8/QE-4 matrix statements are corrected against implementation evidence, and the CAP-02 host runbook/evidence structure is published (`CV-CORR-110`, §16.130, `CHG-2026-10-26-06`, `V788`–`V802`). **Preserved:** CAP-02 **PARTIAL / NOT COMPLETE**; U2-1–U2-12 complete at the authorized boundary; U2-13/W-1 NOT AUTHORIZED; U2-14/P-1 BLOCKED — unspent; U3 Gate 4 AUTHORIZED — NOT STARTED, QE 0/11; QE-8 AWAITING PROGRAM AUTHORITY, sole binding untouched; U4 NOT RENDERED; U5 NOT GRANTED / NOT INITIATED; U6 NOT AUTHORIZED; PF-15 NOT DESIGNATED; zero IPD writes. Preceding state: CAP-03 PF-15 authority reconciliation and S3/QE readiness (`CV-CORR-109`, §16.129, `CHG-2026-10-26-05`, `V779`–`V787`, PR #291); before that, **CAP-03 S2 designated host recovery attempted and confirmed blocked; mandatory native-Windows preconditions re-measured and failed; S2 sequence NOT EXECUTED (0/5 commands run); downstream gates preserved (`CV-CORR-106`, §16.126, `CHG-2026-10-26-02`, `V740`–`V752`).** Preceding state: IRR PR #284 (`9e0da3e…`, receipt of PR #283 CAP-02 reconciliation, CI `40270979172` `success`, 0 open PRs); IPD `main@f5eddbc…` (PR #95 receipt of PR #94 H-12 R5 mirror, CI `40230772869` `success`, 0 open PRs; zero IPD writes). Active recovery probes from this environment against designated host `desktop-no0nhtp` confirmed name resolution failure (`getent` exit 2, ping exit 2, remoting ports unreachable) and network isolation; executing platform is Linux `e2b.local` 6.1.158+ (`process.platform === "linux"`, user `user` uid 1001 with sudo, PowerShell/cmd.exe absent). Mandatory preconditions 1–3 FAIL fatally; preconditions 4–7 unverified on host. S2 sequence stopped before dispatch (0/5 commands run; no Linux/WSL/alternate-host substitution; zero false passes claimed). Blocker record `IIPS-V3-CAP03-G4-H12-R5-S2-HOST-PRECONDITION-BLOCKER-2026-10-26-01` published. **Preserved:** DQ-4 **PREPARED AND VALIDATED — NOT ESTABLISHED** (`8/10`); Gate 4 **AUTHORIZED — NOT STARTED** (QE `0/11`); P-1 **NOT EXECUTED**; S3 **NOT REACHED**; Gate 5 **NOT INITIATED / NOT ADMITTED**; durable-read acceptance **NOT GRANTED**; production **NOT ADMITTED**; `WRITE_NOT_AUTHORIZED` & all twelve `/api/user-portfolios*` `503` fences intact; zero IPD writes. Earlier update (`2026-10-25`; `CV-CORR-103`, §16.123): CAP-03 Gate 4 H-12 R5 ADOPTED by PA act (`IIPS-V3-CAP03-G4-H12-R5-PA-ADOPTION-ACT-2026-10-25-01`), DQ-6b element 6 verified COMPLETE (6/6), Amended-§8 supplement bound. |
 | Previous update summary (`2026-10-25`; `CV-CORR-102`, §16.122 — preserved; receipt PR #277 merged `c5037613…` & receipt PR #278 merged `ac6d45b6…` at §16.122.14; DQ-6b element 6 & H-12 R5 adoption superseded as current state by §16.123 / `CV-CORR-103`) | `2026-10-25` (UTC) — **CAP-03 DQ-6b RESOLVED: PA Path A rendered and recorded as an effective decision act — the split primary/alias baseline is admitted as an INTERIM, GUARDED freeze configuration; exact final QE pins designated; DQ-4 freeze manifest PREPARED AND VALIDATED (NOT ESTABLISHED); H-12 REGENERATED AND VALIDATED as candidate R5 (32 IPD + 24 IRR = 56, 56/56 present, 981 checks / 0 failures) and NOT ADOPTED (`CV-CORR-102`, §16.122, `CHG-2026-10-25-27`, `V689`–`V705`).** Authority: the standing grant (F-3 §1.2) read with §16.70 `R-1`/`R-3` **plus** the current named PA instruction — the two-element basis — and the PA rendered the determination with verbatim text and every fixed semantic. Fixed: primary `8eec74ae27cda09f3c368b9c299895eae41554db` (IPD `main`, 0 behind), alias `70b24f029842a7e9b7f615e4d9df7376fd4ff817` (214 behind, ancestor) preserved because it supplies the 14 raw sources for `build:broker-import` and backs the live PO-accepted DB-C1 preview; **INTERIM, not a permanent architecture decision**; lineage classification preserved (`REAL` at the alias, `UNCLASSIFIED` at the primary — no reclassification, no requalification); guards preserved and binding; alias **not** modernized, re-pinned or retired; committed DR-4r/DQ-3 Option B preserved. **Conflict resolved explicitly:** the packet's "DQ-6/DQ-7 are off the critical path and must never gate it" (PROPOSED, blob `9ccc0b06…`) is a sequencing assertion premised on both its framed options being executable; both are unavailable (option (i) `TS18003`; option (ii) DB-C1 live), so DQ-6b re-entered the critical path **as a decision**, not as work. DQ-6a and DQ-7a–c remain off the critical path. **Effectiveness:** elements 1–5 SATISFIED (elements 4–5 on publication); element **6** (dated receipt mirrored into the IPD tracker) **OUTSTANDING** — this session is IRR-bound and may not write IPD; exact text prepared (`IIPS-V3-CAP03-DQ6B-IPD-MIRROR-RECEIPT-2026-10-25-01`, PREPARED — NOT PUBLISHED). **New findings:** the split is wider than one file — 10 of the 14 alias raw sources are byte-identical and **4 diverge**, and `src/identity/security_master.ts` is simultaneously a qualified-tree H-12 entry (primary `60030e0c…`) and a required alias raw source (alias `e260fd90…`), so the qualified build carries two `SecurityMaster` byte-sets; and H-12's single blocking absence (`tests/g4_run_tests_summary_parsing.test.ts`) is now **PRESENT** at the candidate (`49e901b6…`), resolving R4's full-validation block while remaining content-integrity only — not Limb A acceptance, not qualification, not Gate 4 credit. **Designated (not frozen):** IRR QE consumer `ba64b2d5927c2f872560710cf1474c25a5cde0d5` / tree `5e4262f1…`; IPD `8eec74ae…`/tree `4eba2902…`; alias `70b24f02…`/tree `cc0f0117…`. Validated this pass: IRR `106 files / 1,350 tests` + guard `OK` + both typechecks + `build` + strict adapter `tsc` all exit 0; IPD `build:tsc` 0 and `924 tests / 923 pass / 1 skipped / 0 fail`; bilateral harness **15/15** at the designated coordinates. **NOT established / NOT performed:** DQ-4 final QE freeze **NOT ESTABLISHED** (6 of 10 establishment criteria met); H-12 **NOT ADOPTED**; Gate 4 **AUTHORIZED — NOT STARTED**, QE **0/11**; Gate 5 **NOT INITIATED / NOT ADMITTED**; no `503` fence lifted; no durable-read acceptance or production eligibility; no host operation; **zero IPD writes**. |
 | Previous update summary (`2026-10-25`; `CV-CORR-101`, §16.121 — preserved) | `2026-10-25` (UTC) — **CAP-03 DQ-6b freeze-disposition investigation completed and published as `PREPARED — NOT EFFECTIVE`; DQ-6b is UNRESOLVED PENDING PA DECISION (`CV-CORR-101`, §16.121, `CHG-2026-10-25-26`).** Eight independent authority searches (IRR full-history pickaxe over **1,038 commits**, IPD all-branch pickaxe, added-file censuses in both loci, `gh search issues` for `DQ-6b` in both repositories, and an open-PR census showing **0 open PRs** in both) returned **no effective DQ-6b decision**: the DQ-1…DQ-7 packet (blob `9ccc0b06…`) remains **PROPOSED — NOT EFFECTIVE** with a blank DQ-6b answer row; the effective CAP-03 one-pass PA record (blob `624632bb…`) states verbatim “DQ-6 and DQ-7 are not answered or altered by this pass”; and the only effective DQ-6-family act (`IIPS-V3-IPD-PR42-CLOSE-WITH-RECORD-PA-DISPOSITION-2026-10-24-01`, IPD locus) answers **DQ-6a** only and states “DQ-6b remains open and untouched”. Published IRR-side: decision brief `IIPS-V3-CAP03-DQ6B-FREEZE-DISPOSITION-DECISION-BRIEF-2026-10-25-01` and blocker record `IIPS-V3-CAP03-DQ6B-FREEZE-BLOCKER-2026-10-25-01`. Independently re-verified this pass: primary pin `8eec74ae…` (0 behind IPD `main`), distinct alias `70b24f02…` (214 behind, ancestor), IPD `files: ['dist/package']` at `8eec74ae…` vs **no `files`/`exports`** at `70b24f02…`, all **14/14** required raw sources PRESENT at the alias and **0/14** publishable under `dist/package`, `TS18003` (evidence `21`), `sourceClassification` `REAL` → `UNCLASSIFIED` at **three** sites in `broker-holdings-mapper.ts` (blobs `6c8ab71d…` → `297e4a59…`), the guard test (blob `0a1e58de…`), and the bilateral harness **15/15** (evidence `18`). **New finding:** the alias is load-bearing for the live, PO-accepted **DB-C1** `/broker-holdings` preview — `brokerHoldingsPreview.ts` (blob `bf079a1b…`) imports `../../.cache/broker-import/…`, and `build:broker-import` gates `predev`/`prebuild`/`pretest`/`pretest:ci`/`pretypecheck`. **Recommendation (NOT a decision): Path A** — freeze the qualified split primary/alias baseline, documented and guarded. **No pin changed, no freeze established, no gate moved, H-12 NOT ADOPTED, QE 0/11, Gate 5 NOT INITIATED / NOT ADMITTED, zero IPD writes.** |
 | Previous update summary (`2026-10-25`; `CV-CORR-98`, §16.117–§16.118 — preserved) | `2026-10-25` (UTC) — **CAP-03 bilateral DR-2 / Option A implementation and contract-conformance evidence reconciled after IRR PR #265 merged and its consumer/frozen blobs were remotely read back** (`CV-CORR-98`, §16.118; `CHG-2026-10-25-23`; `V670` PASS). IRR `main@e590ca40d950052e32b2813027f0d1027b9e65ec`, tree `97530e48…`; PR-head CI `40199009657` and post-merge main CI `40199212799` passed; Gate 4 remains AUTHORIZED — NOT STARTED; QE remains 0/11; no final pin/freeze or durable-read acceptance is rendered; Gate 5 is NOT INITIATED / NOT ADMITTED; host operations were not performed; production eligibility is NOT ADMITTED. This reconciles only bilateral source/test publication, not full CAP-03 closure. No CV register-count movement or IPD writes. **Prior update preserved:** NP-06 Reports `CV-51` ACCEPTED/CLOSED — bounded non-production read-only Reports UI (`CV-CORR-97`, §16.116; `CHG-2026-10-25-21`). PA acceptance `ACCEPT CV-51` (2026-10-25) published via PR #271 (merge `52dddd8c…`, CI `40196119937`/`40196280978` `success`) and remotely verified (§16.116.4, `V654`) — acceptance **EFFECTIVE**; `CV-51` reconciled `COMPLETE / ACCEPTED` (`ACCEPTED/CLOSED`): complete/accepted `17→18`, blocked-active `2→1`, active outstanding `6→5`, total `35`; §18.1 row 37 reconciled to verified bounded scope; §19 Reports closed. NP-06 backend **ACCEPTED** (bounded non-production); production **NOT ADMITTED**; `D115`/`CV-43` **UNWIRED**; IPD writes by that pass **NONE**. No new implementation authority granted. |
@@ -11151,3 +11151,167 @@ Safety flags:             all enabling flags ABSENT; durable:false / SESSION_ONL
 **Single next executable action:** operator Ramki provides direct/native access to `desktop-no0nhtp` under the non-elevated Windows account and executes the five S2 commands in the existing runbook at the exact pin/tree, capturing raw evidence outside all worktrees. Stop at any failed precondition or command. Subsequently follow the fixed order: one P-1 success → effective PF-15 act → S3 → QE-1…QE-11 → separate acceptance decisions.
 
 *End of §16.129. Publication, including the later receipt, grants no provisioning, PF-15 value, QE credit, acceptance, admission, write, or production authority.*
+
+## §16.130 — `CV-CORR-110`: CAP-02 QE-8 revocation determination (AWAITING PROGRAM AUTHORITY), published-record integrity repair, justified matrix corrections, and host-independent readiness (`2026-10-26`; `CHG-2026-10-26-06`, `V788`–`V802`)
+
+**Current-state overlay; prior history preserved.** This pass answers the QE-8 governance gap to the boundary
+of the preparing capacity's authority — it publishes a decision-ready request and **does not approve a
+procedure** — repairs a defect in a previously published CAP-02 record, corrects four matrix statements the
+current implementation evidence contradicts, reconciles the provisioning/V-A2 checklist, and publishes the
+CAP-02 host runbook. It renders no Program Authority decision, executes no host command, touches no binding,
+provisions nothing and moves no gate.
+
+- Primary record:
+  [`docs/integration/IIPS_v3.0_CAP02_QE8_AND_MATRIX_INTEGRITY_RECONCILIATION_2026-10-26.md`](docs/integration/IIPS_v3.0_CAP02_QE8_AND_MATRIX_INTEGRITY_RECONCILIATION_2026-10-26.md)
+- Decision request:
+  [`docs/integration/IIPS_v3.0_CAP02_QE8_REVOCATION_PROCEDURE_DECISION_PACKET_2026-10-26.md`](docs/integration/IIPS_v3.0_CAP02_QE8_REVOCATION_PROCEDURE_DECISION_PACKET_2026-10-26.md)
+- Runbook/evidence structure:
+  [`docs/integration/IIPS_v3.0_CAP02_HOST_EXECUTION_RUNBOOK_AND_EVIDENCE_STRUCTURE_2026-10-26.md`](docs/integration/IIPS_v3.0_CAP02_HOST_EXECUTION_RUNBOOK_AND_EVIDENCE_STRUCTURE_2026-10-26.md)
+- Evidence: `evidence/integration/cap02-qe8-revocation-and-matrix-integrity-2026-10-26/`
+
+### 16.130.1 QE-8 — determination status: **AWAITING PROGRAM AUTHORITY** (nothing approved, nothing touched)
+
+The criterion is Gate E §4 QE-8 with its mechanism **W-3** and the accepted **G2-D5** disposition (IPD blob
+`4a9501bf…`). Five findings fix the current state:
+
+1. **W-3 is implemented at the designated pin** — `DurablePortfolioStore.withBrokerImportTransaction()` opens
+   `BEGIN IMMEDIATE`, calls `resolveActiveBindingInCurrentTransaction()`, and refuses `ResourceUnavailableError`
+   before any mutation (`portfolio_store.ts` blob `540d49f2…` L384–404; `binding.ts` blob `96d0079d…` L70–95;
+   both blobs identical at pin `8eec74ae…` and at `main@f5eddbc2…`), under the effective U2
+   transaction/binding revalidation amendment.
+2. **No governed revocation operation exists** — 0 paths matching `/revok/i` in the 566-blob IPD tree; no
+   exported function, IPC operation, route, CLI or `package.json` script; the only revocation statements in
+   either locus are test-fixture SQL (`tests/g3_binding_resolution.test.ts` L92–95, L287–293;
+   `tests/q1_broker_import_durability.test.ts` L415–496).
+3. **No effective instrument approves a revocation procedure, and none delegates that approval** — "revoc…"
+   occurs **0 times** in the Gate 4 act (`66b56fd1…`), the S1 determination (`b7746b5e…`) and the Gate A′
+   successor act (`528de6ae…`); the successor act §9 expressly non-grants *"purge, re-association or
+   restoration of revoked-binding data"*; the Gate 4 §7 grant is **execution and recording only**, and §14
+   separates the determinations it does not disguise as approvals.
+4. **G2-D5 points (4)/(5) require a defined, governed action** before qualification — the *definition* is a
+   Program Authority matter, not an implementer's.
+5. **Revoking the sole binding is one-way** — after revocation the store still exists and still holds a
+   binding row, so `STORE_ALREADY_EXISTS` and `ALREADY_PROVISIONED` (any row, any state) refuse before SQL;
+   re-activation is exactly the G2-D5(4) governed action that does not exist. A reuse requires a new store
+   path plus a fresh one-use P-1 act.
+
+**Disposition:** a decision-ready packet with a minimal (no-code) procedure, four alternatives and the exact
+determination text `RV-1` is published. **Recommended: Option A** — revoke on a byte-identical **disposable
+copy**, keeping the authoritative binding intact (Tier 2 component evidence; never a full-path PASS). Option B
+(revoke the authoritative binding last) is available but irreversible; Option C (implement a governed
+revocation entrypoint first) is the durable answer and triggers H-12 regeneration; Option D defers. QE-8 stays
+`NOT EXECUTED — no approved revocation procedure` until `RV-1` is rendered and published. This pass did not
+revoke, copy, inspect or touch any binding or store.
+
+### 16.130.2 Published-record integrity defect — disclosed and repaired (identity verification ≠ completeness verification)
+
+The CAP-02 QE matrix record `IIPS-V3-CAP02-QE-EXECUTION-MATRIX-2026-10-26-01` was **published truncated**: blob
+`ab9451712df8e801f041f1139e3cb3f91ec84913`, 23,893 B, SHA-256 `6d32f261…`, ending mid-sentence at line 172 with
+a literal `...[truncated 8223 chars]` marker. The rest of §4 and **all of §§5–§8** never reached the
+repository — including the §5 the record's own text tells the reader to consult. Local file, `origin/main` blob
+and an independent API read agree byte-for-byte, so the defect is in the publication.
+
+`V766` verified blob/size/SHA-256/bytes and correctly passed: **a truncated artifact is byte-identical to
+itself.** That is a verification-design gap, now recorded — completeness is checked separately from identity.
+
+**Repair:** the published body is preserved unaltered; a marked **repair appendix** (`R1`–`R7`) discloses the
+defect, reconstructs the missing §4 rows from the successor act §8 (steps 0–6) and §5 (V-A2-1…V-A2-8), and
+reconstructs §§5–§8 from the registering tracker and the governing acts, each labelled
+**RECONSTRUCTED AFTER DEFECT** with its source. No lost sentence is invented. A new machine check
+(`03-matrix-row-audit.py`) asserts sections/no-truncation/row completeness/vocabulary: **23 PASS / 2 FAIL**
+before repair, **25 PASS / 0 FAIL** after.
+
+### 16.130.3 Matrix corrections (evidence-driven; no status changed)
+
+| # | Correction | Basis |
+|---|---|---|
+| `C1` | QE-8's "*no binding re-read inside a write transaction*" limitation is **stale**; the race limb is **Tier 2 component-executable** at the pin and remains component-level only (never full-path PASS while W-1 refuses writes) | `portfolio_store.ts 540d49f2…`; `binding.ts 96d0079d…`; U2 revalidation amendment |
+| `C2` | The QE-8 prerequisite is **re-grounded** in Gate E §4 + G2-D5(4)(5); the CAP-03 readiness packet is corroborative only, and its CAP-03-scoped statements are not imported | Gate E `4a9501bf…`; readiness packet `9d9c5970…` |
+| `C3` | QE-8 prerequisites **add** the absent revocation mechanism (0 code paths) — the determination must cover mechanism as well as procedure | 566-blob tree census; `05-…txt` |
+| `C4` | QE-8 **adds** the one-way consequence of sole-binding revocation; the target (authoritative store vs disposable copy) is a PA decision | `gateAPrimeProvisioning.ts 2cbce83f…` L240–245, L275–283; migration 003 `32b125bf…` |
+| `C5` | Repair appendix + completeness audit; `V766` restated as identity-only | `02-…txt`, `04a/04b-…txt` |
+
+Ambiguities recorded without correction: `A-1` QE-4's component-tier wording vs its PASS sentence (commit is
+Tier 2, post-restart read-back may be Tier 1, durability fields are measurement); `A-2` QE-1's D05 fixture
+coverage is host-side and unverified; `A-3` QE-8 ordering under Option B must be last among binding-dependent
+items (made explicit in the packet).
+
+### 16.130.4 Host-independent readiness completed
+
+- **QE-1…QE-11 re-audit:** criterion text, tier(s), evidence ceiling, prerequisites, pass/fail, artifacts and
+  `HOST-ONLY` classification re-verified against Gate E §4 / L-IPC-1 §10 / D-GC and Gate 4 act §§5/7/10/11.
+  11/11 remain HOST-ONLY; **0/11 executed**; no Linux/CI/fixture result is claimable and no CAP-03 S2/P-1
+  artifact is credited to CAP-02.
+- **Provisioning / V-A2 reconciliation:** the checklist the truncated record omitted is published in full —
+  steps 0–6 from successor act §8, V-A2-1…V-A2-8 from §5, consumption-on-completion, and the ordering
+  S2 pass → single P-1 → PF-15 → S3 → QE. U2-14 remains **BLOCKED / NOT STARTED**; P-1 remains **unspent**.
+- **Runbook and evidence structure:** CAP-02-scoped host checklist with exact PowerShell command blocks for
+  S2 and P-1, the per-QE scenario checklist with evidence filenames, the deposit layout
+  `evidence/cross-repository/cap02_gate4_qe_<date>_<run-id>/`, the five-class vocabulary, the durability
+  non-claim sentence, and the stop/no-substitution table. QE-8 is held at `RV-1`.
+- **Authorized checks run:** evidence-manifest schema self-test **22/22 PASS**; matrix audit **23/2 → 25/0**;
+  IRR `frontend/` publication checks (typecheck, replay-server typecheck, `test:ci` + guard, build) — see
+  `10-publication-checks.txt`; identifier census **0 prior occurrences** for §16.130, `CV-CORR-110`,
+  `CHG-2026-10-26-06`, `V788`–`V802` and the three record IDs (§16.128/`CV-CORR-108`/`CHG-2026-10-26-04` are
+  visibly occupied by CAP-03, hence the next free identifiers).
+- **Cannot be executed without the designated Windows session:** S2 (5/5), the single P-1, S3 preflight,
+  QE-1…QE-11, evidence deposit/integrity, and — additionally gated — QE-8 pending `RV-1`. PF-15 remains
+  `NOT DESIGNATED` (a PA act, not an operator action). U4 acceptance, U5 admission and U6 writes remain
+  separate and ungranted.
+
+### 16.130.5 Gate integrity and verification log
+
+```text
+CAP-02 overall:            PARTIAL / NOT COMPLETE
+U2-1..U2-12 / U7 bounded:  COMPLETE at the authorized implementation boundary (unchanged)
+U2-13 / W-1:               NOT AUTHORIZED
+U2-14 P-1 provisioning:    BLOCKED / NOT STARTED — unspent, single-use, strictly after S2
+U3 Gate 4:                 AUTHORIZED — NOT STARTED; QE 0/11
+QE-8:                      AWAITING PROGRAM AUTHORITY (RV-1); 0 revocations; binding untouched
+U4 acceptance:             NOT RENDERED
+U5 Gate 5:                 NOT GRANTED / NOT INITIATED
+U6 operational writes:     NOT AUTHORIZED — WRITE_NOT_AUTHORIZED, evaluatePortSaveGuard() hard-false,
+                           all twelve /api/user-portfolios* 503 fences intact
+PF-15:                     NOT DESIGNATED — blocks S3/QE only
+IPD writes this pass:      0
+```
+
+| ID | Verification | Result |
+|---|---|---|
+| `V788` | IRR/IPD remote refs, open PRs, `main` CI; designated pins; six governing blob identities; H-12 R5 manifest blob/SHA-256 | **PASS** — `00-remote-state-and-ancestry.txt` |
+| `V789` | QE-8 criterion/authority trace: Gate E §4, W-3, G2-D5, 0-match sweep of Gate 4/S1/successor acts, successor §9 non-grant | **PASS** — `01-…txt` |
+| `V790` | Decision request published: minimal procedure, four alternatives with consequences, exact `RV-1` text, stop/recovery constraints; **no approval asserted** | **PASS** — packet §§3–5 |
+| `V791` | Published-record truncation confirmed independently (local = `origin/main` = API blob; marker line 172; §§5–8 absent) | **PASS as defect evidence** — `02-…txt` |
+| `V792` | Repair appendix `R1`–`R7` appended; published bytes preserved; reconstruction labelled and sourced; no invented text | **PASS** |
+| `V793` | Corrections `C1`–`C5` and ambiguity notes `A-1`–`A-3` published; no gate or status changed | **PASS** |
+| `V794` | QE-1…QE-11 re-audit: 11/11 HOST-ONLY, 0/11 executed, no substitution, no CAP-03 credit | **PASS** |
+| `V795` | Provisioning steps 0–6 / V-A2-1…V-A2-8 reconciliation; U2-14 unchanged; P-1 unspent | **PASS** |
+| `V796` | CAP-02 runbook and evidence structure published; preparation only | **PASS** |
+| `V797` | Schema self-test 22/22; matrix completeness audit 23/2 before → 25/0 after | **PASS** — `04a/04b-…txt` |
+| `V798` | Local IRR `frontend/` publication checks | **PASS** — `10-publication-checks.txt` |
+| `V799` | Identifier census (fixed-string): 0 prior occurrences for all new identifiers both loci | **PASS** — `07-…txt` |
+| `V800` | Scope/non-grant audit: documentation/evidence only; 0 source/test/pin/route/fence/manifest changes; 0 IPD writes; QE 0/11 | **PASS** |
+| `V801` | Publication: PR merge, exact-head and post-merge CI, commit/tree, remote blob read-back | **PASS** — §16.130.6–.7 |
+| `V802` | **Completeness** read-back of every published artifact (sections present, repair appendix reachable, audit script re-run against the remote-fetched file) — distinct from identity verification | **PASS** — §16.130.6–.7 |
+
+**Single next dependency-respecting action:** operator Ramki opens a non-elevated native-Windows session on
+`desktop-no0nhtp` with Node `>=22.13.0 <23`, checks out IPD `8eec74ae…`/tree `4eba2902…` clean and
+full-history, and follows
+`IIPS-V3-CAP02-HOST-EXECUTION-RUNBOOK-AND-EVIDENCE-STRUCTURE-2026-10-26-01` §3 for the five S2 commands; stop
+on any failed precondition/command. Then, in order: single P-1 (V-A2-1…V-A2-8) → PA renders PF-15 → S3
+preflight → QE-1…QE-11, with **QE-8 held until `RV-1`**. No retry without fresh authority; no substitution; no
+gate is moved by this preparation.
+
+### 16.130.6 Publication protocol for this section (coordinates not self-embedded)
+
+This section deliberately contains **no** PR number, merge commit, CI run or blob identity. Those coordinates
+cannot be known before the merge that publishes this text, and asserting them in advance would be the same
+class of error as the truncated record this pass repairs. The receipt publication records them under
+§16.130.7 **after** — in this order — green exact-head CI, a regular merge, green post-merge `main` CI, an
+independent remote blob read-back, and a **completeness** read-back that re-fetches every published artifact
+from the remote, re-runs `03-matrix-row-audit.py` against the remote-fetched record, and confirms that the
+repair appendix `R1`–`R7` and the reconstructed sections are reachable at `main`.
+
+*End of §16.130 (`CV-CORR-110`; `CHG-2026-10-26-06`; `V788`–`V802`). CAP-02 remains PARTIAL; the sole operator
+binding has not been touched; QE-8 awaits the Program Authority; publication moves no gate and grants no
+provisioning, designation, acceptance, admission, writes or production eligibility.*

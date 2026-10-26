@@ -1,0 +1,35 @@
+# CAP-02 QE matrix structural/completeness audit — AFTER repair (UTC 2026-10-26T06:46:16Z)
+# command: python3 evidence/integration/cap02-qe8-revocation-and-matrix-integrity-2026-10-26/03-matrix-row-audit.py
+
+[PASS] record present — docs/integration/IIPS_v3.0_CAP02_QE_EXECUTION_MATRIX_AND_HOST_PREREQUISITES_2026-10-26.md 32764 B
+[PASS] truncation absent or disclosed and repaired — marker at line [172]; repair=True disclosed=True
+[PASS] sections 1..8 present (body) or body 1..4 + repair blocks R2..R6 — body sections [1, 2, 3, 4]; repair blocks ['R1', 'R2', 'R3', 'R4', 'R5', 'R6', 'R7']
+[PASS] exactly QE-1..QE-11 present, one row each — missing [], extra []
+[PASS] QE-1 row complete — rows=1 cells=7 tier=True ceiling=True pass/fail=True artifacts=True location=True
+[PASS] QE-2 row complete — rows=1 cells=7 tier=True ceiling=True pass/fail=True artifacts=True location=True
+[PASS] QE-3 row complete — rows=1 cells=7 tier=True ceiling=True pass/fail=True artifacts=True location=True
+[PASS] QE-4 row complete — rows=1 cells=7 tier=True ceiling=True pass/fail=True artifacts=True location=True
+[PASS] QE-5 row complete — rows=1 cells=7 tier=True ceiling=True pass/fail=True artifacts=True location=True
+[PASS] QE-6 row complete — rows=1 cells=7 tier=True ceiling=True pass/fail=True artifacts=True location=True
+[PASS] QE-7 row complete — rows=1 cells=7 tier=True ceiling=True pass/fail=True artifacts=True location=True
+[PASS] QE-8 row complete — rows=1 cells=7 tier=True ceiling=True pass/fail=True artifacts=True location=True
+[PASS] QE-9 row complete — rows=1 cells=7 tier=True ceiling=True pass/fail=True artifacts=True location=True
+[PASS] QE-10 row complete — rows=1 cells=7 tier=True ceiling=True pass/fail=True artifacts=True location=True
+[PASS] QE-11 row complete — rows=1 cells=7 tier=True ceiling=True pass/fail=True artifacts=True location=True
+[PASS] status vocabulary `PASS`
+[PASS] status vocabulary `FAIL`
+[PASS] status vocabulary `INCONCLUSIVE`
+[PASS] status vocabulary `NOT EXECUTED — <reason>`
+[PASS] status vocabulary `INVALID`
+[PASS] single exhaustive status vocabulary statement
+[PASS] durability non-claim sentence
+[PASS] current disposition 0/11 stated
+[PASS] U3 status statement present
+[PASS] QE-8 governing prerequisite recorded
+
+RESULT: 25 PASS / 0 FAIL
+
+exit code: 0
+
+Interpretation: the published body is truncated (disclosed); the repair appendix supplies R2-R6
+(rest of section 4 and sections 5-8). Identity-only verification (V766) would NOT have caught this.
