@@ -11737,3 +11737,74 @@ Publication coordinates are recorded here **after** — in order — green exact
 
 *End of §16.133 (`CV-CORR-113`; `CHG-2026-10-26-10`; `V823`–`V837`). DQ-4 remains `PREPARED AND VALIDATED — NOT ESTABLISHED (8/10)` — exactly two criteria outstanding: host sequence `S2→one bounded P-1→S3` (criterion 7) and its canonical Windows evidence (criterion 8), both P-1 + host-dependent; S2 sub-evidence for corrected candidate `001c3c80618f2ee1d40e9a90912237e1a06e7b58` (`399fa44a…` parent `8eec74ae…` PR #96→`1e76f4cf…`) is independently complete (consumer `9F7C64073A849E57D472C9CA30BB7616D04D1951626E90587241D61A470A85B1`, suite `C5DDFFA24393AED2E391EF8A72E8BFF1F8ECD9576C4349E182B288785F1B2941` `924/920/0/4`); PF-15 remains `NOT DESIGNATED` awaiting authority-dependent PA act with seven contents (P-1-independent); H-12 R5 `f4649e36…`/`d0be8bef…` preserved; P-1 `NOT EXECUTED`; S3 `NOT REACHED`; QE `0/11`; no gate moved.*
 
+
+## §16.134 — `CV-CORR-114`: CAP-03 S2 evidence-count reconciliation — `924/923/1` Linux baseline vs `924/920/4` Windows corrected candidate; no rerun, no combine, no overwrite, no re-pin (`2026-10-26`; `CHG-2026-10-26-11`, `V838`–`V844`)
+
+> **Evidence-count reconciliation only; prior history preserved.** Two records report different guarded-suite pass/skip splits for the same `924`-test total. Both are authentic transcripts from different commits/platforms and were preserved exactly. This section identifies the exact run each represents, preserves the approved baseline `8eec74ae27cda09f3c368b9c299895eae41554db` / `4eba29029f8d95cfe483e615a7047426b298ce50` (unchanged), and establishes that only the Windows transcript `C5DDFFA24393AED2E391EF8A72E8BFF1F8ECD9576C4349E182B288785F1B2941` supports the corrected candidate's qualification. No tests were rerun to reconcile, no counts combined, no failure evidence overwritten, no baseline silently re-pinned. `§16.132` `904` vs `§16.133` `907` distinction for P-1 is preserved; full qualification remains at `§16.132`/`§16.133`.
+
+### 16.134.1 Investigation without rerun — exact runs represented (V838–V840)
+
+| Reported summary | Source records (non-exhaustive) | Exact commit | Platform | Transcript provenance — no rerun |
+|---|---|---|---|---|
+| `924 executed / 923 passed / 0 failed / 1 skipped` — guard `OK — 924 test(s) executed, 923 passed, exit 0` — TAP `# tests 924 / # pass 923 / # fail 0 / # skipped 1` | `IIPS_v3.0_CAP03_DQ4_PIN_RECONCILIATION_AND_FREEZE_READINESS_2026-10-25.md` §5.4/§6.1; `IIPS_V3_CAP03_DQ4_QE_FREEZE_MANIFEST_2026-10-25.md` §6 row 10; `IIPS_V3_CAP03_S2_P1_S3_QE_EXECUTION_AND_EVIDENCE_MATRIX_2026-10-26.md` §2.2 row 4; `IIPS_V3_CAP03_S2_OPERATOR_RUNBOOK_2026-10-26.md` expected tail (Linux baseline note: host transcript, not these numbers, is qualification); tracker `V698`/`V714`/`V633` etc. | **Approved baseline `8eec74ae27cda09f3c368b9c299895eae41554db`** (IPD `main` ancestor, `9` ahead to `1e76f4cf…` with `0` qualified-surface diff — same `924/923/1` on `1e76f4cf…` Linux) | **Linux sandbox reproducibility baseline** at exact pin (read-only `/tmp` clone) | `evidence/integration/cap03-dq4-pin-reconciliation-2026-10-25/15-ipd-full-test-current-main.txt` (`[test-guard] OK — 924 test(s) executed, 923 passed, exit 0`, TAP `924/923/0/1`); `evidence/integration/cap03-one-pass-continuation-2026-10-26/10-ipd-8eec-s2-linux-baseline/04-guarded-npm-test.txt` (`# tests 924 / # pass 923 / # fail 0 / # skipped 1`, guard `OK`); explicitly classified in all source docs as **Linux sandbox evidence, not native-Windows qualification** |
+| `924 executed / 920 passed / 0 failed / 4 skipped` — guard `OK — 924 test(s) executed, 920 passed` — TAP `# tests 924 / # pass 920 / # fail 0 / # skipped 4` | `§16.132.3` / `§16.132.6` / `§16.133` D-2 | **Corrected candidate `001c3c80618f2ee1d40e9a90912237e1a06e7b58`** (tree `399fa44a5f1953c0f61b452420fefb5985426ef1` parent `8eec74ae…` → IPD PR #96 `MERGED` → `1e76f4cf…` `ahead 9/0`) | **Native Windows `desktop-no0nhtp` — the only host qualification** (`npm.cmd` invocation, `file://` URL fix) | `C:\iips-evidence\cap03-s2\s2-npm-launch-fix-suite-20261026T095613Z.txt` **SHA-256 `C5DDFFA24393AED2E391EF8A72E8BFF1F8ECD9576C4349E182B288785F1B2941`** `PASS` — `Total: 924 tests, Passed: 920, Failed: 0, Skipped: 4` + companion consumer `9F7C64073A849E57D472C9CA30BB7616D04D1951626E90587241D61A470A85B1` `PASS` (`cc2aa70186b8fd7bc7255452ac8d8b00d094f53e`) — both recorded verbatim in §16.132.3, §16.133, and `IIPS_V3_CAP03_S2_EVIDENCE_COUNT_RECONCILIATION_2026-10-26.md` §1; durable host log `C:\iips-evidence\cap03-s2\s2-tracker-recovery-20261026T154814Z.txt` |
+
+**Both counts are real.** The `924` total is conserved; the `3`-test pass/skip delta is the documented platform-specific skip policy: **4 `posixOnly` skips on Windows versus 1 `windowsOnly` skip on Linux, pass+skip conserved** — the same principle as Gate 3 evidence `754/750/4` (Windows `posixOnly`) vs `754/753/1` (Linux `windowsOnly`) at §16.73/§16.74 (`C090` delta). See `evidence/integration/cap03-s2-evidence-count-reconciliation-2026-10-26/00-commit-identities-and-ancestry.txt` and `01-transcript-provenance.txt`.
+
+### 16.134.2 No rerun, no combine, no overwrite, no re-pin (V841–V843)
+
+| Boundary preserved | Method | Result |
+|---|---|---|
+| **No rerun** | No `npm test` was re-executed to reconcile reporting — existing transcripts above were investigated read-only via `grep`/`cat` and GitHub object APIs | **Honored** |
+| **No combine** | Counts were **not summed or averaged** (e.g. no `920+923`, no `1+4`, no `(923+920)/2`) — each transcript is cited standalone at its commit/platform | **Honored** |
+| **No overwrite of original failure evidence** | The original Windows failure at `8eec74ae…` (guard `ERR_UNSUPPORTED_ESM_URL_SCHEME` on `filesystem path` not `file://`; `spawn ENOENT` on `npm` not `npm.cmd`) remains preserved as historical diagnostic evidence at §16.132.4; the corrected candidate's fix is recorded as the `2`-file patch `tests/portfolio_ui_package.test.ts` (`pathToFileURL`) + `scripts/verify-public-package.mjs` (`node npm-cli.js`) — `10`+`4` changed lines, isolated-worktree diff = exactly `2` files, `gh api compare 8eec74…→001c3c…` `ahead 1/0` | **Honored** |
+| **No silent re-pin of approved baseline** | Approved baseline remains **`8eec74ae27cda09f3c368b9c299895eae41554db` / `4eba29029f8d95cfe483e615a7047426b298ce50`** in every governing record (Gate 4 act §6/Q5, H-12 R5 adoption, §16.132.5, §16.133.2). The corrected candidate is recorded as **later candidate** `001c3c80…` / `399fa44a…` parent `8eec74ae…` (PR #96), **not** a new approved baseline pin — that promotion remains a future PA-governed determination if ever needed. | **Honored** |
+
+Evidence: `evidence/integration/cap03-s2-evidence-count-reconciliation-2026-10-26/02-skip-policy-and-baseline-preservation.txt`.
+
+### 16.134.3 Which transcript qualifies the corrected candidate (V841)
+
+| Transcript | Supports | Reason |
+|---|---|---|
+| `C5DDFFA2…` `924/920/0/4` PASS at `001c3c80…` on `desktop-no0nhtp` via `npm.cmd` + `pathToFileURL` | **Corrected candidate qualification (component validation only)** — proves the Windows launch fix without silently dropping tests; guard `OK` preserved, invocation via `npm.cmd` verified, `0` failures | Native-Windows evidence outside all worktrees, exit `0`, durable host hash cited verbatim |
+| `924/923/1` at `8eec74ae…` on Linux | **Approved-baseline Linux reproducibility baseline only** — shows IPD `8eec74…` green on Linux (`build:tsc 0`, `923 passed`); not native-Windows host qualification, not a substitute for the Windows transcript | Explicitly classified as Linux sandbox evidence in freeze manifest §6, pin reconciliation §6.1, readiness matrix §2.2 |
+
+The companion Windows consumer `9F7C6407…` `PASS` (`pack shasum `cc2aa70186b8fd7bc7255452ac8d8b00d094f53e`` matches H-12 R5 bound `npm_pack_tarball_shasum_sha1`) is required together with the suite `C5DDFFA2…` for the corrected candidate's S2 validation. Neither Linux `923/1` transcript can replace them, and no new gate is claimed.
+
+### 16.134.4 Tracker status reconciliation against authoritative evidence (V838–V844)
+
+After re-reading both repositories' current remote states (IRR `main@c493c5d…` `93300460…` and IPD `main@1e76f4cf…` `7003a282…` — see §16.133.1 baseline, re-verified `git ls-remote HEAD` + `gh api commits` + `gh api compare` in `00-commit-identities-and-ancestry.txt`):
+
+| Tracker item | Current tracker entry before this section | Verified evidence this pass | Action |
+|---|---|---|---|
+| DQ-4 final QE freeze | `PREPARED AND VALIDATED — NOT ESTABLISHED (8/10)` — criteria 7 (`S2→P-1→S3`) and 8 (canonical evidence) NOT MET (see §16.132.5, §16.133.2) | Freeze manifest `IIPS-V3-CAP03-DQ4-QE-FREEZE-MANIFEST-2026-10-25-01` §7 is `6/10` at drafting (`5–8 NOT MET`) but superseded for current state by §16.123 (`5–6 MET` via `6/6` element-6 mirror receipt `3430df5e…` + H-12 R5 adoption `9f3aa377…`/`d0be8bef…`) → `8/10`; §16.132.5 S2 sub-evidence for `001c3c80…` is component validation, not full-chain; host sequence + full evidence still outstanding | **No change** — entry already reconciled; §16.133 already correct |
+| H-12 R5 Authorized Manifest | `ADOPTED` — `f4649e36a81c7013287810cd3202b99586dbd951` `143,813 B` `d0be8bef…` + supplement `6c777de6…` | Re-hashed byte-identical (`sha256sum`/`git hash-object`) at this pass; adoption act blob `9f3aa377…` present | **No change** |
+| PF-15 | `NOT DESIGNATED` — awaiting attributable PA act with seven contents (§16.132.5, §16.133.4) | Authority search at `c493c5d…` + `1e76f4cf…` still `0` designations; resolver contracts `ipcClient.ts` `resolveIpcEndpoint` + `IIPS_G3_LOCAL_STATE_DIR` present; no PA value rendered | **No change** — preparatory work complete, designation still authority-dependent |
+| S2 qualification | §16.132.5: *Validated for corrected candidate (`001c3c80…` PASS); historical failure preserved*; §16.133: S2 sub-evidence independently complete, full chain still P-1-dependent | Windows `C5DDFFA2…` `924/920/0/4` + consumer `9F7C6407…` PASS at `001c3c80…`; Linux `924/923/1` at `8eec74…` is baseline reproducibility, not qualification; original failure at `8eec74…` preserved | **No status change** — this section adds the explicit count reconciliation (the `3`-test skip delta) that was previously implicit |
+| P-1 | `NOT EXECUTED` — unspent, single-use (§16.132.5) | No receipt exists at either locus; `authorizeExecution` still gates before DB connect; host preconditions still FAIL in sandbox | **No change** — not executed, not substituted |
+| S3 / QE-1…QE-11 | `NOT REACHED` / `0/11` (Gate 4 `AUTHORIZED — NOT STARTED`) | Host readiness packet PF-01…PF-17 (`9d9c5970…`) and QE matrix (`e76d4a3e…`) unchanged; Q11 digests still `ABSENT_PENDING_EXECUTION` | **No change** — not started, not executed |
+| Gate 4 / Gate 5 | `AUTHORIZED — NOT STARTED` / `NOT INITIATED / NOT ADMITTED` | No QE credit, no acceptance, no admission at either locus; 12 `503` fences + `W-1` `WRITE_NOT_AUTHORIZED` + `durable:false` intact | **No change** |
+| Approved baseline pin | `8eec74ae…` / `4eba2902…` | Still ancestor of `001c3c80…` (`ahead 1/0`) and of IPD `main@1e76f4cf…` (`9` ahead, `0` qualified-surface diff) | **No change** — this reconciliation explicitly records the no-re-pin invariant |
+
+No tracker entry was missing, stale, or inconsistent beyond the previously implicit `923/1` vs `920/4` assignment — which is now made explicit here. No historical record was edited or rewritten to appear successful; the original failure remains at §16.132.4.
+
+### 16.134.5 Verification register for this reconciliation (V838–V844)
+
+| ID | Check | Result |
+|---|---|---|
+| `V838` | Approved baseline pin unchanged: `8eec74ae…` / `4eba2902…` in §16.132.5 + §16.133.2 + this section | **PASS** |
+| `V839` | Corrected candidate identity + ancestry: `001c3c80…` / `399fa44a…` parent `8eec74ae…` → PR #96 `MERGED` → `1e76f4cf…` `ahead 9/0`, `8eec74…→001c3c80…` `ahead 1/0` `2` files | **PASS** — `gh api commits`/`compare`/`pulls/96` |
+| `V840` | Linux `924/923/1` transcripts exist (pin reconciliation `15-*` + one-pass-continuation `10-…/04-*` with `923 passed` / `# tests 924 / # pass 923 / # skipped 1`) — classified as Linux baseline, not Windows qualification | **PASS** |
+| `V841` | Windows `924/920/0/4` transcript `C5DDFFA2…` (`C:\iips-evidence\cap03-s2\s2-npm-launch-fix-suite-20261026T095613Z.txt`) + consumer `9F7C6407…` both present verbatim at §16.132.3 | **PASS** |
+| `V842` | Skip-policy delta `4 vs 1` (= `3`) explained as `posixOnly` (Windows) vs `windowsOnly` (Linux) with conserved `924` total — Gate 3 precedent `754/750/4` vs `754/753/1` cited | **PASS** |
+| `V843` | Original Windows failure at `8eec74…` preserved as diagnostic (§16.132.4) — not overwritten, not combined with `920/4` | **PASS** |
+| `V844` | Change limited to this reconciliation + tracker §16.134 — no source/test/build/IPD write, no P-1/S3/QE/Gate movement, no re-pin | **PASS** — `git diff --stat` shows exactly `1` tracker file + `1` docs file + `1` evidence deposit |
+
+### 16.134.6 Publication receipt (post-merge, remote identity- and completeness-verified)
+
+*This subsection is the publication receipt and is appended by the companion receipt publication — per the `§16.130.6` protocol it is **not self-embedded** before the merge that publishes `§16.134`.*
+
+Publication coordinates are recorded here **after** — in order — green exact-head CI, a regular 2-parent merge, green post-merge `main` CI, an independent remote blob read-back, and a completeness read-back re-fetching the tracker from remote `main` and confirming the candidate SHA, tree, and both validation evidence hashes are present. Until those conditions hold, the reconciliation is prepared but not yet effective and the pre-existing tracker state stands operationally.
+
+*End of §16.134 (`CV-CORR-114`; `CHG-2026-10-26-11`; `V838`–`V844`). Linux `924/923/1` is the `8eec74ae…` Linux reproducibility baseline; Windows `924/920/0/4` (`C5DDFFA2…` companion `9F7C6407…`) is the corrected-candidate `001c3c80…` native-Windows evidence; neither count was combined or overwritten; approved baseline remains `8eec74ae…` / `4eba2902…`; no re-pin, no new gate, no IPD writes, no P-1 consumed.*
+

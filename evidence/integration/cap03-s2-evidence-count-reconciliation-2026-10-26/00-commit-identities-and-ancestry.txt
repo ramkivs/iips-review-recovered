@@ -1,0 +1,23 @@
+=== Approved baseline ID ===
+Commit: 8eec74ae27cda09f3c368b9c299895eae41554db
+Tree: 4eba29029f8d95cfe483e615a7047426b298ce50
+{"message":"Merge pull request #91 from ramkivs/arena/dff844a3-iips-production-market-data\n\ndocs(ipd): annex the exact PR #89 / #90 remote-verification log","sha":"8eec74ae27cda09f3c368b9c299895eae41554db"}
+
+=== Corrected candidate ID ===
+Commit: 001c3c80618f2ee1d40e9a90912237e1a06e7b58
+Tree: 399fa44a5f1953c0f61b452420fefb5985426ef1
+Parent: 8eec74ae27cda09f3c368b9c299895eae41554db
+{"message":"Fix Windows S2 package-consumer execution","parents":["8eec74ae27cda09f3c368b9c299895eae41554db"],"sha":"001c3c80618f2ee1d40e9a90912237e1a06e7b58","tree_sha":"399fa44a5f1953c0f61b452420fefb5985426ef1"}
+
+=== Ancestry corrected -> IPD main ===
+{"ahead_by":9,"behind_by":0,"status":"ahead"}
+
+=== Ancestry approved -> corrected ===
+{"ahead_by":1,"behind_by":0,"files":["scripts/verify-public-package.mjs","tests/portfolio_ui_package.test.ts"],"status":"ahead"}
+
+=== PR #96 ===
+{"head_sha":"001c3c80618f2ee1d40e9a90912237e1a06e7b58","merge_commit_sha":"1e76f4cf9e9ca7d385a8345c9b6f438ae1ad6745","merged":true,"state":"closed","title":"Fix native Windows CAP-03 S2 package validation"}
+
+=== Patch summary (2 files only) ===
+{"filename":"scripts/verify-public-package.mjs","patch":"@@ -16,7 +16,11 @@ import { fileURLToPath } from 'node:url';\n import { build as viteBuild } from 'vite';\n \n const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');\n-const npm = process.platform === 'win32' ? 'npm.cmd' : 'npm';\n+const npm = process.platform === 'win32' ? process.execPath : 'npm';\n+const npmPrefix = process.platform === 'win32'\n+  ? [resolve(dirname(process.execPath), 'node_modules', 'npm', 'bin', 'npm-cli.js')]\n+  : [];\n+check(process.platform !== 'win32' || existsSync(npmPrefix[0]), 'Node-bundled npm CLI is missing');\n const expectedExports = ['./portfolio-ui', './pit', './d114-non-production'];\n const IRR_PIN = '98cd56a9a568f431ea31d5515e515a1b6cbb91ba';\n const IRR_IMPORTERS = [\n@@ -172,7 +176,7 @@ try {\n   }\n \n   console.log('[package-consumer] packing built artifacts');\n-  const packOutput = run(npm, ['pack', '--ignore-scripts', '--json', '--pack-destination', temporary], repoRoot);\n+  const packOutput = run(npm, [...npmPrefix, 'pack', '--ignore-scripts', '--json', '--pack-destination', temporary], repoRoot);\n   const pack = JSON.parse(packOutput)[0];\n   check(pack \u0026\u0026 Array.isArray(pack.files), 'npm pack returned no inspectable file list');\n   for (const file of pack.files) {\n@@ -211,7 +215,7 @@ try {\n   }, null, 2));\n \n   console.log('[package-consumer] installing tarball into isolated consumer');\n-  run(npm, [\n+  run(npm, [...npmPrefix,\n     'install', '--ignore-scripts', '--no-audit', '--no-fund', '--package-lock=false', '--save=false',\n     tarball,\n     'react@18.3.1',"}
+{"filename":"tests/portfolio_ui_package.test.ts","patch":"@@ -32,7 +32,7 @@ import { describe, it } from 'node:test';\n import assert from 'node:assert/strict';\n import { existsSync, readFileSync, statSync } from 'node:fs';\n import { dirname, isAbsolute, relative, resolve, sep } from 'node:path';\n-import { fileURLToPath } from 'node:url';\n+import { fileURLToPath, pathToFileURL } from 'node:url';\n \n import * as pkg from '../src/ui/portfolio_ui_package.js';\n import * as modalModule from '../frontend/src/features/portfolio/BrokerImportModal.js';\n@@ -416,7 +416,7 @@ describe('CAP-02 Increment A — T-PKG-4: package manifest and built artifacts',\n   });\n \n   it('the built entry point loads and exposes the same public names', async () =\u003e {\n-    const built = (await import(builtEntry)) as Record\u003cstring, unknown\u003e;\n+    const built = (await import(pathToFileURL(builtEntry).href)) as Record\u003cstring, unknown\u003e;\n     for (const name of REQUIRED_VALUE_EXPORTS) {\n       assert.notEqual(built[name], undefined, `built artifact does not export ${name}`);\n     }"}

@@ -1,0 +1,93 @@
+=== Linux baseline 924/923/1 — transcript excerpts ===
+
+--- cap03-dq4-pin-reconciliation 15-ipd-full-test-current-main.txt tail ---
+# suites 124
+# pass 923
+# fail 0
+# cancelled 0
+# skipped 1
+# todo 0
+# duration_ms 13808.068149
+
+[test-guard] OK — 924 test(s) executed, 923 passed, exit 0
+EXIT_CODE=0
+
+--- cap03-one-pass-continuation Linux baseline 04-guarded-npm-test.txt tail ---
+# tests 924
+# suites 124
+# pass 923
+# fail 0
+# cancelled 0
+# skipped 1
+# todo 0
+# duration_ms 13404.919836
+
+[test-guard] OK — 924 test(s) executed, 923 passed, exit 0
+
+--- Tracker references to 924/923/1 (Linux) — sample ---
+9:| Current IPD State (CAP-03 H-12 R5 adoption & DQ-6b element-6 read-only re-verification, 2026-10-25) | `ramkivs/iips-production-market-data` `main@c6b540afd1fd3da5f18d029a54d1d89331916ead` (tree `b18b5d8d2fbd5bf11a174f0e5578314ead5cbf76`, **0** open PRs): IPD PR **#92** (`head` `6689ba38…` → 2-parent `--merge` **`76d0f2d68e4a3e03ff48e9c2dd75ae1e813bd79e`** `2026-10-25T19:12:52Z`, tree `2be963aed662816c8d7abb9d432f4e14eeba0c23`, head CI `40224757268` & merge CI `40224953361` `success`, `924` tests / `923` passed / `0` failed) published the DQ-6b IPD mirror receipt `evidence/cross-repository/IIPS_V3_CAP03_DQ6B_DECISION_MIRROR_RECEIPT_2026-10-25.md` (`IIPS-V3-CAP03-DQ6B-IPD-MIRROR-RECEIPT-2026-10-25-01`, blob **`3430df5ec1c10cf5cab8b764577aae2a3503d09b`**, `14,292` B, SHA-256 `03b90f2edd30d629628c1f905dbb9fc6a74966d7a17d3dc10ba93a4b2493e0f6` — completing **DQ-6b element 6, `6/6` effective across both loci**), followed by receipt PR **#93** (`head` `0a5a4b85…` → 2-parent `--merge` `c6b540af…` `2026-10-25T19:16:38Z`, head CI `40225110793` & merge CI `40225262938` `success`); all `15` paths changed across `8eec74ae… → c6b540af…` are documentation/evidence under `evidence/cross-repository/` (**0** `src/`/`tests/`/`scripts/`/`package.json`/workflow drift); designated primary QE pin remains `8eec74ae27cda09f3c368b9c299895eae41554db` (`4` behind, full-history ancestor; PR #89 provider implementation merged as `79d06e3c5da60da2a234b7ac18c35df848bf9d11`, CI `40196407747` `success`) and alias pin remains `70b24f029842a7e9b7f615e4d9df7376fd4ff817` (`218` behind, ancestor). This IRR pass made **0 IPD writes**. See §16.123.2. |
+14:| Previous update summary (`2026-10-25`; `CV-CORR-102`, §16.122 — preserved; receipt PR #277 merged `c5037613…` & receipt PR #278 merged `ac6d45b6…` at §16.122.14; DQ-6b element 6 & H-12 R5 adoption superseded as current state by §16.123 / `CV-CORR-103`) | `2026-10-25` (UTC) — **CAP-03 DQ-6b RESOLVED: PA Path A rendered and recorded as an effective decision act — the split primary/alias baseline is admitted as an INTERIM, GUARDED freeze configuration; exact final QE pins designated; DQ-4 freeze manifest PREPARED AND VALIDATED (NOT ESTABLISHED); H-12 REGENERATED AND VALIDATED as candidate R5 (32 IPD + 24 IRR = 56, 56/56 present, 981 checks / 0 failures) and NOT ADOPTED (`CV-CORR-102`, §16.122, `CHG-2026-10-25-27`, `V689`–`V705`).** Authority: the standing grant (F-3 §1.2) read with §16.70 `R-1`/`R-3` **plus** the current named PA instruction — the two-element basis — and the PA rendered the determination with verbatim text and every fixed semantic. Fixed: primary `8eec74ae27cda09f3c368b9c299895eae41554db` (IPD `main`, 0 behind), alias `70b24f029842a7e9b7f615e4d9df7376fd4ff817` (214 behind, ancestor) preserved because it supplies the 14 raw sources for `build:broker-import` and backs the live PO-accepted DB-C1 preview; **INTERIM, not a permanent architecture decision**; lineage classification preserved (`REAL` at the alias, `UNCLASSIFIED` at the primary — no reclassification, no requalification); guards preserved and binding; alias **not** modernized, re-pinned or retired; committed DR-4r/DQ-3 Option B preserved. **Conflict resolved explicitly:** the packet's "DQ-6/DQ-7 are off the critical path and must never gate it" (PROPOSED, blob `9ccc0b06…`) is a sequencing assertion premised on both its framed options being executable; both are unavailable (option (i) `TS18003`; option (ii) DB-C1 live), so DQ-6b re-entered the critical path **as a decision**, not as work. DQ-6a and DQ-7a–c remain off the critical path. **Effectiveness:** elements 1–5 SATISFIED (elements 4–5 on publication); element **6** (dated receipt mirrored into the IPD tracker) **OUTSTANDING** — this session is IRR-bound and may not write IPD; exact text prepared (`IIPS-V3-CAP03-DQ6B-IPD-MIRROR-RECEIPT-2026-10-25-01`, PREPARED — NOT PUBLISHED). **New findings:** the split is wider than one file — 10 of the 14 alias raw sources are byte-identical and **4 diverge**, and `src/identity/security_master.ts` is simultaneously a qualified-tree H-12 entry (primary `60030e0c…`) and a required alias raw source (alias `e260fd90…`), so the qualified build carries two `SecurityMaster` byte-sets; and H-12's single blocking absence (`tests/g4_run_tests_summary_parsing.test.ts`) is now **PRESENT** at the candidate (`49e901b6…`), resolving R4's full-validation block while remaining content-integrity only — not Limb A acceptance, not qualification, not Gate 4 credit. **Designated (not frozen):** IRR QE consumer `ba64b2d5927c2f872560710cf1474c25a5cde0d5` / tree `5e4262f1…`; IPD `8eec74ae…`/tree `4eba2902…`; alias `70b24f02…`/tree `cc0f0117…`. Validated this pass: IRR `106 files / 1,350 tests` + guard `OK` + both typechecks + `build` + strict adapter `tsc` all exit 0; IPD `build:tsc` 0 and `924 tests / 923 pass / 1 skipped / 0 fail`; bilateral harness **15/15** at the designated coordinates. **NOT established / NOT performed:** DQ-4 final QE freeze **NOT ESTABLISHED** (6 of 10 establishment criteria met); H-12 **NOT ADOPTED**; Gate 4 **AUTHORIZED — NOT STARTED**, QE **0/11**; Gate 5 **NOT INITIATED / NOT ADMITTED**; no `503` fence lifted; no durable-read acceptance or production eligibility; no host operation; **zero IPD writes**. |
+10034:IPD PR #89's immutable annex records focused Q1 30/30; persistence/user-portfolio 316/316; full `npm test` 924 executed, 923 passed, 0 failed, 1 pre-existing skip; typecheck/build/package-consumer success; and a cross-repository harness result of **15/15**. That harness compiled the real IRR adapter from PR #265's then-current implementation and exercised the real IPD endpoint, including exact frozen G2 shapes, lifecycle, row-specific history, `NOT_FOUND` on unavailable resources, and fail-closed malformed values. This is verified IPD publication evidence; no IPD work was redone or modified in this IRR pass.
+10163:- **IPD baseline** at `8eec74ae…`: typecheck/build/package-consumer exit `0`; Q1 **30/30**; full **924 executed / 923 passed / 0 failed / 1 skipped** (evidence `10`–`15`).
+10184:| `V673` | IRR and IPD pre-change baselines | **PASS** — IRR `106/1,349`; IPD `923 passed/0 failed/1 skipped` plus Q1/package checks |
+10460:| `V698` | IPD at the designated coordinate is green: `build:tsc` 0; suite `924 tests / 923 pass / 1 skipped / 0 fail`, exit 0 | **PASS** |
+10543:| `V698` | IPD validation at the designated coordinate | **PASS** — `build:tsc` 0; 924 / 923 pass / 1 skipped / 0 fail |
+10637:| Local IRR & IPD validation suites | **IRR (`frontend/`):** `typecheck` `0`, `typecheck:replay-server` `0`, focused fence/Option-B suite `15` files / `248` passed, full `test:ci` **`106` files / `1,350` passed / `0` failed**, `assert-tests` `OK`, `build` `0`. **IPD (`8eec74ae…`):** guarded `npm test` **`924` executed / `923` passed / `1` skipped / `0` failed**, `test:package-consumer` **`PASS`**. | `30-irr-ci-and-guards.txt`, `32-ipd-8eec74ae-build-and-test-verification.txt` |
+10685:| `V714` | IPD designated-pin clean test & package-consumer validation (`924` / `923` pass / `1` skip / `0` fail; `test:package-consumer` `PASS`) | **PASS** — `32-ipd-8eec74ae-build-and-test-verification.txt` |
+11060:| 4 | guarded `npm test` (`node scripts/run-tests.mjs`) | 0 | **`[test-guard] OK — 924 test(s) executed, 923 passed, exit 0`**; TAP `# tests 924 / # pass 923 / # fail 0 / # skipped 1` |
+
+--- Docs references to 924/923/1 ---
+docs/integration/IIPS_v3.0_CAP03_DQ4_PIN_RECONCILIATION_AND_FREEZE_READINESS_2026-10-25.md:190:- full `npm test`: **924 executed, 923 passed, 0 failed, 1 skipped**.
+docs/integration/IIPS_v3.0_CAP03_DQ4_QE_FREEZE_MANIFEST_2026-10-25.md:158:| 10 | IPD suite | `npm test` at `8eec74ae…` | exit 0; `924 tests, 923 pass, 1 skipped, 0 fail` |
+docs/integration/IIPS_v3.0_CAP03_DQ6B_PA_DECISION_PATH_A_EFFECTIVE_2026-10-25.md:157:| `V698` | The IPD coordinate is green on its own terms | **PASS** — `build:tsc` 0; suite `924 tests, 923 pass, 1 skipped, 0 fail`, exit 0 | `10`, `11` logs |
+docs/integration/IIPS_v3.0_CAP03_G4_H12_R5_PA_ADOPTION_ACT_EFFECTIVE_2026-10-25.md:122:   - **IPD (`8eec74ae27cda09f3c368b9c299895eae41554db`):** two independent clean scratch checkouts built deterministically (`1,140` `dist/**` files `100%` byte-identical); canonical guarded `npm test` **`924` executed / `923` passed / `1` skipped / `0` failed**; `npm run test:package-consumer` **`PASS`** (`shasum` `cc2aa70186b8fd7bc7255452ac8d8b00d094f53e`).
+docs/integration/IIPS_v3.0_CAP03_S2_OPERATOR_RUNBOOK_2026-10-26.md:147:# TAP summary must show # tests 924 / # pass 923 / # fail 0 / # skipped 1
+docs/integration/IIPS_v3.0_CAP03_S2_OPERATOR_RUNBOOK_2026-10-26.md:156:with **1,140** `dist/**` files; guarded test **924 executed / 923 passed / 1 skipped / 0 failed**;
+docs/integration/IIPS_v3.0_CAP03_S2_P1_S3_QE_EXECUTION_AND_EVIDENCE_MATRIX_2026-10-26.md:83:| 4 | canonical guarded `npm test` (= `node scripts/run-tests.mjs`) | 0 | TAP `# tests 924 / # pass 923 / # fail 0 / # skipped 1`; guard line `[test-guard] OK — 924 test(s) executed, 923 passed, exit 0` | reproduced exactly (`04-guarded-npm-test.txt`) |
+docs/integration/IIPS_v3.0_GATE_C_P2_TRUST_ANCHOR_ISSUER_CONFIGURATION_PA_DECISION_REQUEST_2026-10-13.md:95:| `refs/heads/main` (remote and local) | **`56c2aa01889974e17bcb836b6434f1f1392415a0`** — merge of PR #86 (2026-10-13T16:10:52Z) | **current authoritative tip**; supersedes the `923988f…` baseline recorded in the 1A′ specification |
+docs/integration/IIPS_v3.0_CAP03_S2_EVIDENCE_COUNT_RECONCILIATION_2026-10-26.md:1:# CAP-03 — S2 Guarded-Suite Count Reconciliation: `924/923/1` vs `924/920/4` (`2026-10-26`)
+docs/integration/IIPS_v3.0_CAP03_S2_EVIDENCE_COUNT_RECONCILIATION_2026-10-26.md:23:| `924 tests, 923 passed, 0 failed, 1 skipped` — guard `OK — 924 test(s) executed, 923 passed, exit 0` | `IIPS_v3.0_CAP03_DQ4_PIN_RECONCILIATION_AND_FREEZE_READINESS_2026-10-25.md` §5.4/§6.1; `IIPS_V3_CAP03_DQ4_QE_FREEZE_MANIFEST_2026-10-25.md` §6 row 10; `IIPS_V3_CAP03_S2_P1_S3_QE_EXECUTION_AND_EVIDENCE_MATRIX_2026-10-26.md` §2.2 row 4; `IIPS_V3_CAP03_S2_OPERATOR_RUNBOOK_2026-10-26.md` expected guard tail; `IIPS_V3_CAP03_G4_H12_R5_PA_ADOPTION_ACT_EFFECTIVE_2026-10-25.md` §2.2; tracker §16.123 `V698`/`V714`/`V633` etc. | **Approved baseline `8eec74ae27cda09f3c368b9c299895eae41554db`** (and IPD `main@1e76f4cf…` which contains it as ancestor — `1e76` is `9` ahead with `0` qualified-surface diff) | **Linux sandbox baseline** — reproduced at exact pin in read-only `/tmp` clone and `evidence/integration/cap03-dq4-pin-reconciliation-2026-10-25/15-ipd-full-test-current-main.txt` and `cap03-one-pass-continuation-2026-10-26/10-ipd-8eec-s2-linux-baseline/04-guarded-npm-test.txt` (`TAP # tests 924 / # pass 923 / # fail 0 / # skipped 1`) — explicitly classified as **Linux sandbox evidence, not native Windows qualification** | N/A — Linux transcript (reproduced `exit 0`); TAP `924/923/0/1` + guard `923 passed` |
+
+=== Windows corrected 924/920/4 — transcript references ===
+
+--- Tracker §16.132.3 Windows evidence table ---
+No IPD implementation change beyond the two listed files is claimed. Do not modify or reopen the correction unless a new, independently demonstrated implementation defect requires it.
+
+### 16.132.3 Corrected-candidate validation evidence — Windows (V815–V817)
+
+Fresh native-Windows host validation was executed on `desktop-no0nhtp` by the designated operator against the corrected candidate checkout at `001c3c80618f2ee1d40e9a90912237e1a06e7b58`:
+
+| Validation | Result | Evidence path (native Windows, outside every worktree) | SHA-256 (evidence file) |
+|---|---|---|---|
+| **Package-consumer validation** | **PASS**; exit code `0` — consumer imports `dist/package` via file-URL dynamic import and validates public-package exports; purpose of fix verified | `C:\iips-evidence\cap03-s2\s2-npm-launch-fix-consumer-20261026T095613Z.txt` | `9F7C64073A849E57D472C9CA30BB7616D04D1951626E90587241D61A470A85B1` |
+| **Guarded test suite** | **PASS** — `Total: 924 tests, Passed: 920, Failed: 0, Skipped: 4` — guard tail `[test-guard] OK` semantics preserved; Windows invocation via `npm.cmd` verified; no test silently dropped | `C:\iips-evidence\cap03-s2\s2-npm-launch-fix-suite-20261026T095613Z.txt` | `C5DDFFA24393AED2E391EF8A72E8BFF1F8ECD9576C4349E182B288785F1B2941` |
+
+Supporting logs (native Windows, retained as durable evidence alongside the two validations):
+
+| Log | Path | Note |
+|---|---|---|
+| Previous reconciliation log (authoritative-merge) | `C:\iips-evidence\cap03-s2\s2-authoritative-merge-20261026T101205Z.txt` | Records IPD merge of `001c3c80` via PR #96 to `1e76f4cf…` and pre-reconciliation state |
+| Latest tracker-recovery log | `C:\iips-evidence\cap03-s2\s2-tracker-recovery-20261026T154814Z.txt` | Records §16.132 local modification attempt and heading-count `1` pass; candidate/evidence SHA assertions failed and are repaired here — **SHA-256 `334460227E63026A1FF18B16768D58F01C6A54814EC6566CA74BB0223004A696` is the earlier authoritative-merge log hash cited in the task summary; do not reuse a hash for a different file — the tracker-recovery log hash must be recomputed from the actual file bytes if needed as evidence** |
+| Fresh local clone creation (IRR) | `C:\iips-work\iips-review-recovered-cap03-s2-authoritative-20261026T101205Z` | Created from `610a4bd…` for §16.132 drafting; verified `§16.132` heading count `1` |
+
+The candidate commit `001c3c80618f2ee1d40e9a90912237e1a06e7b58` and its tree `399fa44a5f1953c0f61b452420fefb5985426ef1` and baseline `8eec74ae27cda09f3c368b9c299895eae41554db` are recorded verbatim in this section; the two evidence hashes `9F7C64073A849E57D472C9CA30BB7616D04D1951626E90587241D61A470A85B1` and `C5DDFFA24393AED2E391EF8A72E8BFF1F8ECD9576C4349E182B288785F1B2941` are present verbatim. Prior recovery attempt reported heading-count `1` PASS but the three SHA-bearing assertions failed — root cause was missing verbatim hash strings in the drafted section, not a host validation failure. Repaired by embedding the SHAs exactly as produced on the Windows host (uppercase hex, no whitespace normalization).
+
+### 16.132.4 Historical diagnostic vs. corrected-candidate validation (V818)
+
+```text
+Original S2 run (at approved baseline 8eec74ae…):  FAILED — Windows dynamic import used filesystem path
+                                                   instead of file:// URL → ERR_UNSUPPORTED_ESM_URL_SCHEME
+                                                   → package-consumer diagnostic failure. Preserved as
+                                                   historical diagnostic evidence; not retried, not hidden.
+
+Corrected candidate (001c3c80…, tree 399fa44a…):     Package-consumer PASS (C:\…consumer…txt SHA 9F7C6407…)
+                                                   Guarded suite PASS 924/920/0/4 (C:\…suite…txt SHA C5DDFFA2…)
+                                                   Implementation merged via IPD PR #96 → 1e76f4cf… (ancestor verified)
+                                                   Isolated-worktree diff = exactly 2 files changed
+
+Distinction:                                        Passing package-consumer + guarded-suite validations proves
+                                                   the Windows launch-fix correction, not full CAP-03 qualification.
+
+--- Evidence hashes present in tracker ---
+6
+6
