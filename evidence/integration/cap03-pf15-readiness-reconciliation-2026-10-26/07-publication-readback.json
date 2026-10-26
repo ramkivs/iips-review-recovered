@@ -1,0 +1,114 @@
+{
+  "classification": "POST-MERGE PUBLICATION RECEIPT \u2014 INDEPENDENT GITHUB API READ-BACK",
+  "pr": 291,
+  "merge_commit": "5dfcea41490131f86358c38c43b33a281040008c",
+  "merge_tree": "0fa1ac2626ca7357b66f302754b67aa9e34b9021",
+  "parents": [
+    "3cd61bcec11beaa96fafa351f8ca557bbfd41b22",
+    "7a742ee8e8cbba731dc7b9f4ae54cea6f8e023d2"
+  ],
+  "tested_head": "7a742ee8e8cbba731dc7b9f4ae54cea6f8e023d2",
+  "exact_head_ci": {
+    "conclusion": "success",
+    "databaseId": 40282121743,
+    "event": "pull_request",
+    "headSha": "7a742ee8e8cbba731dc7b9f4ae54cea6f8e023d2",
+    "status": "completed"
+  },
+  "post_merge_main_ci": {
+    "conclusion": "success",
+    "databaseId": 40282327164,
+    "event": "push",
+    "headSha": "5dfcea41490131f86358c38c43b33a281040008c",
+    "status": "completed"
+  },
+  "remote_paths_verified": 12,
+  "remote_paths_expected": 12,
+  "remote_readback_all_bytes_match": true,
+  "records_and_evidence": [
+    {
+      "path": "IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md",
+      "blob_sha1": "d40a880b192c159340e2f37ded8ee93d49710a23",
+      "bytes": 2315456,
+      "sha256": "c2888f3fab6f6f0bacf88ab5dad8fe897670fd1eba5b7be9b62c49ebef80e0f0",
+      "matches_merge_git_object": true
+    },
+    {
+      "path": "docs/integration/IIPS_v3.0_CAP03_PF15_AUTHORITY_AND_S3_QE_READINESS_RECONCILIATION_2026-10-26.md",
+      "blob_sha1": "7168e8b3a20a1922839a101451af317357d86900",
+      "bytes": 12636,
+      "sha256": "7dc500380c193f74ca9d2c478ad92faad3d5aef6e3fd0ca6843d84aa7b41a855",
+      "matches_merge_git_object": true
+    },
+    {
+      "path": "evidence/integration/cap03-pf15-readiness-reconciliation-2026-10-26/01-remote-baseline.json",
+      "blob_sha1": "f03864baf18515a0a2f46f91015f4a67048678ff",
+      "bytes": 3668,
+      "sha256": "19fe23311358168fc39e80a857f0e819233fc57960279712a07647c502e7f0e1",
+      "matches_merge_git_object": true
+    },
+    {
+      "path": "evidence/integration/cap03-pf15-readiness-reconciliation-2026-10-26/02-host-platform-probe.txt",
+      "blob_sha1": "86f1ada44d64e02b816a127de681df0305c5b7ab",
+      "bytes": 757,
+      "sha256": "d47505898b027b6ed4b0adf7008738b292b67b45f79feb125b374732fca668ed",
+      "matches_merge_git_object": true
+    },
+    {
+      "path": "evidence/integration/cap03-pf15-readiness-reconciliation-2026-10-26/03-readiness-audit.json",
+      "blob_sha1": "e382355ed205f3f102afbcf459f33562aaeaa88a",
+      "bytes": 4555,
+      "sha256": "d08638639aef509486bf97ecfc90fdcdd370a17f33749893f814f9f5d955f333",
+      "matches_merge_git_object": true
+    },
+    {
+      "path": "evidence/integration/cap03-pf15-readiness-reconciliation-2026-10-26/04-main-ci.txt",
+      "blob_sha1": "63d56098da4f9371317fc8ae28fe6959c4f4f9b5",
+      "bytes": 354,
+      "sha256": "346a66ee7e62f5ea22a2d5011b7493adea680f71dbb27423753f703e617f7ecf",
+      "matches_merge_git_object": true
+    },
+    {
+      "path": "evidence/integration/cap03-pf15-readiness-reconciliation-2026-10-26/05-ipc-source-pin-comparison.txt",
+      "blob_sha1": "d48912d39efcf38095fe155e26ce2173e378167e",
+      "bytes": 1317,
+      "sha256": "938c73653425d83bdfa691baa6b2db287009a80cdc12f356be1952a9af6ecc89",
+      "matches_merge_git_object": true
+    },
+    {
+      "path": "evidence/integration/cap03-pf15-readiness-reconciliation-2026-10-26/06-irr-checks.txt",
+      "blob_sha1": "80656a4430f3f0851d7fa290d957aef70f9a3725",
+      "bytes": 1481,
+      "sha256": "a9fe48b225a69967e665e5f90d62ff108d6adb970e293df157bc20c3a5963b86",
+      "matches_merge_git_object": true
+    },
+    {
+      "path": "evidence/integration/cap03-pf15-readiness-reconciliation-2026-10-26/INDEX.md",
+      "blob_sha1": "05b04dc7aec68131b63c01225dbbd241e58bb0f9",
+      "bytes": 1963,
+      "sha256": "39e23298ac6157821f1e3435b2bb13ba8ce20ed9c48b4b115ac94f7cad611f2e",
+      "matches_merge_git_object": true
+    },
+    {
+      "path": "evidence/integration/cap03-pf15-readiness-reconciliation-2026-10-26/SHA256SUMS.txt",
+      "blob_sha1": "23bcb187bbc19c4c010410f19e0a82f79ca8a136",
+      "bytes": 810,
+      "sha256": "113d374d30c8e7dfdb92a78c2db487bcf816aa41b491f5e641da7fedfefdb113",
+      "matches_merge_git_object": true
+    },
+    {
+      "path": "evidence/integration/cap03-pf15-readiness-reconciliation-2026-10-26/validate_readiness.py",
+      "blob_sha1": "85244a56965e466708b0b597c089c89b0adeb95f",
+      "bytes": 6234,
+      "sha256": "182b4622e1ef6b7641edd5e414da3d2658dcb763b22ff47f3c53e3fe7cb40bee",
+      "matches_merge_git_object": true
+    },
+    {
+      "path": "evidence/integration/cap03-pf15-readiness-reconciliation-2026-10-26/verify_remote_baseline.py",
+      "blob_sha1": "62df7b3eadc54d9625b66566ac6980a5c1c971ce",
+      "bytes": 3531,
+      "sha256": "e851e326234763523e96f49923a9fd02a32a2730a747885d8b38ab738800fc72",
+      "matches_merge_git_object": true
+    }
+  ]
+}
