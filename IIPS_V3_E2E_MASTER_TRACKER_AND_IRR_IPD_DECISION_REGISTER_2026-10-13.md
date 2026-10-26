@@ -12846,4 +12846,18 @@ observation is a separate requirement, not a repeat of completed work. **Do not 
 | `V990` | Decision capacity: NOT ACCEPTED recorded without rendering acceptance/authorization; P-1 unspent; gates/fences/pins/F1–F6 unmoved; `0` IPD writes | **PASS** |
 | `V991` | Documentation integrity: `verify_assessment.py` all checks pass; single `## §16.148` heading; §16.147 preserved; census (`§16.148`/`CV-CORR-128`/`CHG-2026-10-27-03`/record ID) `0` prior occurrences; `git diff --check` clean | **PASS** |
 
-*End of §16.148 (`CV-CORR-128`; `CHG-2026-10-27-03`; `V982`–`V991`; publication receipt `V992` by companion update). The complete 11-file REV2 preflight capture closes the transcript-existence, runtime, flags, evidence-root and NTFS gaps of §16.147, but preflight acceptance is refused on an affirmative wrong-pin PF-07 capture, an enumerated-only worktree exclusion, an unpublished capture script, and attempt-session freshness; `P-1-C` `NOT ESTABLISHED`, `P-1-D` `NOT VERIFIED` for the attempt, `P-1` `UNSPENT` and unauthorized — “PREFLIGHT CAPTURED — NOT AUTHORIZATION TO EXECUTE P-1.”*
+### 16.148.5 Publication receipt (`V992`)
+
+| Field | Independently verified remote value |
+|---|---|
+| Authoritative repository / ref | `ramkivs/iips-review-recovered`, `refs/heads/main` |
+| Carrying PR / result | IRR PR **#318**, **MERGED** (regular 2-parent `--merge`) |
+| Tested PR head | `f75354b5dbefd54b411d510bcf80a46be03bd719` |
+| Merge commit / tree / parents | **`8470ce26b3e6a68ca9e5a562fa6dd88cfad18b1c`**, tree `42da88120144b8fa07c04646e8673c792f6ab3c6`; parents `ff29734b877f018b207385e0e375a8d0bbf5b3e0` and the tested head above (`2026-10-26T20:58:40Z`) |
+| Exact-head CI | Run **`40400127948`** — `completed / success`, merge state `CLEAN` before merge |
+| Post-merge `main` CI | Run **`40400388258`** — `completed / success` |
+| Read-back result | **`7/7` artifacts MATCH, byte-identical** — tracker `0e8319ee…` (`2,591,322` B), record `d171f828…` (`20,672` B), `00` `997e05c1…`, `01` `cbe04e95…`, `INDEX` `a763bb89…`, `SHA256SUMS` `e0a96c35…`, verifier `7183e265…`; single `## §16.148` heading |
+| Companion evidence | `02-publication-readback.json` + `verify_publication.py` (this update) |
+| Current result | **§16.148 EFFECTIVE as recorded assessment.** No substantive change: preflight NOT ACCEPTED; `P-1-C` `NOT ESTABLISHED`; `P-1-D` `NOT VERIFIED` for the attempt; **`P-1` `UNSPENT` and unauthorized**; no host command, no store/flag action, `0` IPD writes |
+
+*End of §16.148 (`CV-CORR-128`; `CHG-2026-10-27-03` and `CHG-2026-10-27-04`; `V982`–`V992`). The complete 11-file REV2 preflight capture closes the transcript-existence, runtime, flags, evidence-root and NTFS gaps of §16.147, but preflight acceptance is refused on an affirmative wrong-pin PF-07 capture, an enumerated-only worktree exclusion, an unpublished capture script, and attempt-session freshness; `P-1-C` `NOT ESTABLISHED`, `P-1-D` `NOT VERIFIED` for the attempt, `P-1` `UNSPENT` and unauthorized — “PREFLIGHT CAPTURED — NOT AUTHORIZATION TO EXECUTE P-1.”*
