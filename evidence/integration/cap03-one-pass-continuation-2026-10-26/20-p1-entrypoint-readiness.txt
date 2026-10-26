@@ -1,0 +1,129 @@
+=== P-1 Provisioning Readiness and One-Attempt Boundary Verification at IPD 8eec74ae (2026-10-26 UTC) ===
+Timestamp (UTC): 2026-10-26T06:02:53Z
+Method: read-only source inspection of full-history scratch clone pinned at 8eec74ae27cda09f3c368b9c299895eae41554db
+Nothing was provisioned; no store, row, binding or membership exists or was created.
+
+--- 1. Act-bound entrypoint and read-only validator exist ---
+-rw-r--r-- 1 user user 15727 Oct 26 05:51 src/persistence/gateAPrimeProvisioning.ts
+-rw-r--r-- 1 user user 15688 Oct 26 05:51 src/persistence/gateAPrimeValidation.ts
+compiled artifacts after npm run build:
+-rw-r--r-- 1 user user 13917 Oct 26 05:53 dist/src/persistence/gateAPrimeProvisioning.js
+-rw-r--r-- 1 user user 14255 Oct 26 05:53 dist/src/persistence/gateAPrimeValidation.js
+
+--- 2. Compiled constants (gateAPrimeValidation.ts) ---
+export const GATE_A_PRIME_ACT_ID =
+  'IIPS-V3-CAP02-GATE-A-PRIME-SUCCESSOR-PROVISIONING-ACT-2026-10-23-01';
+export const BASIS_COMMIT = '5fc74085ade980846ff4a07b36415b6d49446486';
+export const BASIS_TREE = '7226ef0033b3a7049169d8fcf9bcbc9908e2590b';
+
+/**
+ * The three identity values for the single local principal of this personal,
+ * local, single-user IPD application.
+ *
+ * Source of authority: Program Authority determination
+ * `IIPS-V3-CAP02-S1-IDENTITY-VALUE-DETERMINATION-2026-10-24-01`
+ * (`evidence/cross-repository/IIPS_V3_CAP02_S1_IDENTITY_VALUE_DETERMINATION_EFFECTIVE_2026-10-24.md`),
+ * rendered under §4 of the effective Gate A′ successor provisioning act
+ * `IIPS-V3-CAP02-GATE-A-PRIME-SUCCESSOR-PROVISIONING-ACT-2026-10-23-01`.
+ *
+ * The values are PA-designated IPD-owned strings for this local environment.
+ * They are not derived from a host, Windows account, SID, e-mail, machine id,
+ * credential, portfolio identifier, fixture or any other identity domain, and
+ * none is copied from IRR (`owner-7f3a91c2` / `irr-domain-4b82d6e1`), from the
+ * offline provenance marker `IIPS_OFFLINE_BOOTSTRAP`, or from the spent
+ * 2026-10-16 Gate A execution. Changing any of them requires a new Program
+ * Authority determination and a new commit.
+ *
+ * The `string | null` type is deliberate: the null guard in the entrypoint
+ * stays meaningful, so a partially-populated triple still fails closed with
+ * `IDENTITY_VALUES_UNRESOLVED` before any database connection is opened.
+ */
+export const PRINCIPAL_LABEL: string | null = 'ramki-personal-local';
+export const TENANT_ID: string | null = 'ipd-personal-local';
+export const CANONICAL_OWNER_ID: string | null = 'ipd-owner-ramki-personal';
+
+--- 3. Authorization checks run BEFORE any database connection (gateAPrimeProvisioning.ts authorizeExecution) ---
+135:    throwRefusal('ACT_ID_MISMATCH', 'the supplied act id is not the effective Gate A′ successor act');
+138:    throwRefusal('STORE_PATH_INVALID', 'the store path must be a non-empty absolute path');
+141:    throwRefusal('STORE_PATH_IN_GIT_WORKTREE', 'the provisioning store must be outside every Git working tree');
+148:      'ENVIRONMENT_VALUES_NOT_AUTHORIZED',
+179:      'IDENTITY_VALUES_UNRESOLVED',
+185:      'IDENTITY_VALUES_UNRESOLVED',
+194:    throwRefusal('IDENTITY_VALUE_MISMATCH', 'supplied identity values differ from the act-bound constants');
+227:    throwRefusal('PLATFORM_UNSUPPORTED', `provisioning is restricted to win32; observed ${platform}`);
+237:    throwRefusal('RUNTIME_UNSUPPORTED', `Node ${version} is outside the required range >=22.13.0 <23`);
+242:      throwRefusal('ALREADY_PROVISIONED', 'the store already contains a binding or membership row');
+244:    throwRefusal('STORE_ALREADY_EXISTS', 'P-1 requires the provisioning store file not to pre-exist');
+251:    throwRefusal('STORE_ALREADY_EXISTS', 'the provisioning store appeared before the write path opened');
+281:    throw new GateAPrimeRefusalError('ALREADY_PROVISIONED', 'the store already contains a binding or membership row');
+
+--- 4. Runtime guard (connection.ts) ---
+ * Runtime guard (act §8.3): node:sqlite is flag-free only from Node 22.13.0. The
+ * guard runs before any file is opened, fails closed, and is code-enforced because
+ * adding an `engines` field to package.json is not authorized.
+ */
+import { DatabaseSync } from 'node:sqlite';
+import { mkdirSync } from 'node:fs';
+import { dirname, isAbsolute } from 'node:path';
+
+export const MINIMUM_NODE_MAJOR = 22;
+export const MINIMUM_NODE_MINOR = 13;
+export const MINIMUM_NODE_PATCH = 0;
+
+15:export const MINIMUM_NODE_MAJOR = 22;
+16:export const MINIMUM_NODE_MINOR = 13;
+40:    major > MINIMUM_NODE_MAJOR ||
+41:    (major === MINIMUM_NODE_MAJOR &&
+42:      (minor > MINIMUM_NODE_MINOR || (minor === MINIMUM_NODE_MINOR && patch >= MINIMUM_NODE_PATCH)));
+51:      `${MINIMUM_NODE_MAJOR}.${MINIMUM_NODE_MINOR}.${MINIMUM_NODE_PATCH}`,
+
+--- 5. One-transaction mutation shape (exactly 1 binding + 1 membership + 1 audit row) ---
+18:  appendAuditEvent,
+24:  BASIS_COMMIT,
+39:  BASIS_COMMIT,
+286:  db.exec('BEGIN IMMEDIATE;');
+289:      `INSERT INTO local_principal_bindings
+294:      `INSERT INTO local_principal_memberships
+298:    audit = appendAuditEvent(db, {
+304:    db.exec('COMMIT;');
+306:    if (db.isTransaction) db.exec('ROLLBACK;');
+317:    basisCommit: BASIS_COMMIT,
+
+--- 6. V-A2-1..V-A2-8 read-only validator labels ---
+170:      'V-A2-1',
+177:    return check('V-A2-1', false, `migration ledger unavailable: ${error instanceof Error ? error.message : String(error)}`);
+195:      'V-A2-6',
+213:    return check('V-A2-6', false, `active binding resolution failed: ${detail}`);
+245:        'V-A2-2',
+266:        'V-A2-3',
+285:        'V-A2-4',
+309:        'V-A2-5',
+323:        'V-A2-7',
+334:        'V-A2-8',
+
+--- 7. Deterministic id derivation (no randomness; S1 binding_id c5808aba / membership_id d25dcc53 recorded in tracker 16.95) ---
+13:import { createHash } from 'node:crypto';
+89:function bindingIdFor(principalLabel: string): string {
+90:  return createHash('sha256').update(`binding:${principalLabel}`, 'utf8').digest('hex').slice(0, 32);
+93:function membershipIdFor(tenantId: string, canonicalOwnerId: string): string {
+94:  return createHash('sha256')
+271:  const bindingId = bindingIdFor(principalLabel);
+272:  const membershipId = membershipIdFor(tenantId, canonicalOwnerId);
+recomputed binding_id: c5808abaffd072d6401ce63ad86c6ac0
+recomputed membership_id: d25dcc5370100b00766efc5166f65cf3
+
+--- 8. No package.json script/bin exposes provisioning (library + direct node invocation only) ---
+bin: null
+scripts: build, build:tsc, build:vite, build:portfolio-ui-package, build:pit-package, dev, test, test:direct, test:package-consumer, prepack, prepare
+provisioning script present: false
+
+--- 9. Static import-edge guard test present ---
+tests/g3_gate_a_prime_successor_provisioning.test.ts
+tests/g3_startup_validation.test.ts
+
+READINESS DETERMINATION (documentation only; executes nothing):
+- All code-side P-1 prerequisites are present at the designated pin, including the S1 identity constants
+  (IIPS-V3-CAP02-S1-IDENTITY-VALUE-DETERMINATION-2026-10-24-01) and the V-A2 validator.
+- P-1 remains NOT EXECUTED: it is host-gated (win32, non-elevated, Node >=22.13.0 <23, non-existent absolute
+  store outside every worktree), may run exactly once strictly after S2 passes, and is consumed on success OR failure.
+- No retry, repair, fallback, environment-value or fixture substitution is permitted (successor act sections 5.3, 7, 9).

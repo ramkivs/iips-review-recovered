@@ -11028,3 +11028,81 @@ machine-checkable template, current-state sample, self-test, and probe transcrip
 `V766` **PASS** PR merge, exact-head CI, post-merge CI, commit/tree ancestry, and remote blob/byte/SHA-256 read-back independently verified.
 
 *End of §16.127.5. Publication does not move any gate or grant provisioning, acceptance, admission, writes, or production eligibility.*
+
+---
+
+## §16.128 — `CV-CORR-108`: CAP-03 one-pass continuation without host access — S2/P-1/S3/QE readiness matrix, PF-15 decision request, operator runbook, and fresh Linux reproducibility baseline (`2026-10-26`; `CHG-2026-10-26-04`, `V767`–`V778`)
+
+**Current-state preparation overlay; prior history preserved.** In accordance with the CAP-03 one-pass continuation instruction, this pass resolved every prerequisite addressable without the designated host, re-measured the host blocker and the remote baseline, and published preparation instruments for the host-bound chain. It executed **no** host operation, **no** provisioning, **no** endpoint designation and **no** QE item. Full instruments: [`docs/integration/IIPS_v3.0_CAP03_S2_P1_S3_QE_EXECUTION_AND_EVIDENCE_MATRIX_2026-10-26.md`](docs/integration/IIPS_v3.0_CAP03_S2_P1_S3_QE_EXECUTION_AND_EVIDENCE_MATRIX_2026-10-26.md) (`IIPS-V3-CAP03-S2-P1-S3-QE-READINESS-MATRIX-2026-10-26-01`), [`docs/integration/IIPS_v3.0_CAP03_PF15_ENDPOINT_LOCAL_STATE_DESIGNATION_DECISION_REQUEST_2026-10-26.md`](docs/integration/IIPS_v3.0_CAP03_PF15_ENDPOINT_LOCAL_STATE_DESIGNATION_DECISION_REQUEST_2026-10-26.md) (`IIPS-V3-CAP03-PF15-ENDPOINT-LOCAL-STATE-DESIGNATION-DECISION-REQUEST-2026-10-26-01`), and [`docs/integration/IIPS_v3.0_CAP03_S2_OPERATOR_RUNBOOK_2026-10-26.md`](docs/integration/IIPS_v3.0_CAP03_S2_OPERATOR_RUNBOOK_2026-10-26.md) (`IIPS-V3-CAP03-S2-OPERATOR-RUNBOOK-2026-10-26-01`). Evidence: `evidence/integration/cap03-one-pass-continuation-2026-10-26/`. The parallel CAP-02 workstream's record `IIPS-V3-CAP02-QE-EXECUTION-MATRIX-2026-10-26-01` (§16.127, PRs #287/#288) covers CAP-02-scoped criteria; this section is CAP-03/H-12-R5-scoped and cross-references rather than duplicates it.
+
+### 16.128.1 Fresh remote baseline and designated-pin re-verification (`V767`–`V768`)
+
+| Repository | Remote `main` at final verification | Root tree | Open PRs | Latest `main` CI |
+|---|---|---|---:|---|
+| IRR `ramkivs/iips-review-recovered` | `0329964975eb4ec1f0d9bc75f4a2ebb69053f865` (advanced mid-pass from `c7fc7e40…` via CAP-02 PRs #287/#288) | `ff93c4c0d51f8030f11689a625220ee2cdf37dad` | only this publication PR (then 0 after merge) | run **`40278269714`** **success** |
+| IPD `ramkivs/iips-production-market-data` | `f5eddbc20b944a098a9060a8e3349c6d10b7843e` (unchanged all pass) | `5c93f1d1e6c4919fa632ff107569ac955f5e052e` | **0** | run **`40230772869`** **success** |
+
+The mid-pass IRR advance (two merges, 4 commits) touched exactly the tracker, the CAP-02 matrix doc and the `cap02-qe-execution-matrix-2026-10-26/` evidence directory: **0 `frontend/` paths, 0 qualified-surface paths, 0 fence/manifest/pin changes**; all twelve `/api/user-portfolios*` fences and `durable:false` remain intact. Designated S2 pin re-verified via GitHub API **and** a fresh full-history scratch clone outside every worktree: IPD commit `8eec74ae27cda09f3c368b9c299895eae41554db` resolves to tree `4eba29029f8d95cfe483e615a7047426b298ce50` exactly; `git merge-base --is-ancestor` = YES; the pin is **8 commits / 33 changed paths** behind IPD `main`, and **all 33 paths are under `evidence/cross-repository/`** (0 qualified-surface paths). Nine representative qualified blobs — `package.json`, `portfolio_store.ts`, both Gate A′ modules, `dispatch.ts`, `endpoint.ts`, the G4 parser test/helper and `run-tests.mjs` — are byte-identical pin vs `main`. The target commit, authority, host designation and prerequisites in the governing records are unchanged. Evidence: `00-remote-state-and-ancestry.txt` (both snapshots).
+
+### 16.128.2 Host blocker re-measured — preconditions 1–3 still fail fatally (`V769`)
+
+Fresh probes this session reproduce the 2026-10-25/26 blocker: executing host is Linux `e2b.local 6.1.158+` (Debian 12, Node `v22.22.3`, `process.platform='linux'`, uid 1001 with sudo); `getent hosts/ahostsv4 desktop-no0nhtp` exit 2, `ping` name-resolution failure, TCP 22/3389/5985/5986 all unresolved; `powershell`/`pwsh`/`cmd.exe` ABSENT. `node:sqlite` loads with **no flag** on the container Node but emits `ExperimentalWarning: SQLite is an experimental feature`; this is a Linux binary, not the operator-supplied Windows runtime, so PF-05/PF-06 remain **UNVERIFIED ON HOST**. All enabling flags (`IIPS_G3_IPC_BINDING_PROVISIONED`, `IIPS_ENABLE_WRITES`, `IIPS_G3_ENABLE_WRITES`, `GATE_E_OVERRIDE`, endpoint/store settings, `GATE_A_PRIME_*`) are ABSENT in the session. Verdict: mandatory preconditions 1 (host identity), 2 (win32 platform) and 3 (non-elevated Windows operator) **FAIL**; 4–7 **UNVERIFIED ON HOST**. **S2 was stopped before dispatch: 0 of 5 commands run as host evidence; no Linux/WSL/CI/alternate-host/alternate-commit substitute.** Evidence: `01-host-recovery-probe.txt`.
+
+### 16.128.3 S2 sequence validation against a fresh Linux clean-build baseline — non-host evidence (`V770`–`V771`)
+
+A full-history IPD scratch clone pinned at exactly `8eec74ae…` ran the five prescribed commands in order; all exited 0. Classification is **LINUX REPOSITORY EVIDENCE — NOT NATIVE-WINDOWS QUALIFICATION, NOT S2, NOT QE**:
+
+| # | Command | Exit | Measured result |
+|---|---|---:|---|
+| 1 | `npm ci --no-audit --no-fund` | 0 | locked install from `package-lock.json`; no manifest/lock change |
+| 2 | `npx tsc --noEmit` | 0 | silent clean typecheck |
+| 3 | `npm run build` | 0 | **exactly 1,140 `dist/**` files**; fresh build compared per-file against the H-12 R5 bound `runtime_dist_set`: **1,140/1,140 byte-identical, 0 missing/extra/mismatch** |
+| 4 | guarded `npm test` (`node scripts/run-tests.mjs`) | 0 | **`[test-guard] OK — 924 test(s) executed, 923 passed, exit 0`**; TAP `# tests 924 / # pass 923 / # fail 0 / # skipped 1` |
+| 5 | `npm run test:package-consumer` | 0 | **`"result": "PASS"`**; pack shasum `cc2aa70186b8fd7bc7255452ac8d8b00d094f53e` — identical to the bound `npm_pack_tarball_shasum_sha1` |
+
+The guarded runner's zero-test/stale-counterpart/missing-summary fail-closed behavior and the ratified `--test-reporter=tap` invocation were source-verified at the pin; mandatory parser test `49e901b6…` and helper `15c849fa…` are present. These figures are runbook targets and reproducibility proof only — the host transcript remains the sole qualifying artifact. Evidence: `10-ipd-8eec-s2-linux-baseline/` (incl. `INDEX.md`, `06-dist-inventory-byte-verification.txt`).
+
+### 16.128.4 P-1 readiness, one-attempt boundary and V-A2 checklist confirmed without provisioning (`V772`)
+
+Source verification at the pin: `src/persistence/gateAPrimeProvisioning.ts` and `gateAPrimeValidation.ts` exist; the S1 identity constants are populated (`ramki-personal-local` / `ipd-personal-local` / `ipd-owner-ramki-personal`, `string | null` + null guard retained); all authorization refusals (`ACT_ID_MISMATCH`, `STORE_PATH_INVALID`, `STORE_PATH_IN_GIT_WORKTREE`, `ENVIRONMENT_VALUES_NOT_AUTHORIZED`, `IDENTITY_VALUES_UNRESOLVED/MISMATCH`, `PLATFORM_UNSUPPORTED`, `RUNTIME_UNSUPPORTED`, `STORE_ALREADY_EXISTS`, `ALREADY_PROVISIONED`) run before any database connection; the success path is one `BEGIN IMMEDIATE` with exactly 1 binding + 1 membership + 1 hash-chained audit row; no `package.json` script or `bin` exposes provisioning. Deterministic id derivation was independently reproduced (`binding_id c5808abaffd072d6401ce63ad86c6ac0`, `membership_id d25dcc5370100b00766efc5166f65cf3`, matching §16.95's recorded prefixes). Read-only harness probes on Linux created **zero files/rows**: `--mode=validate` on a non-existent store fail-closes (exit 1) and `--mode=execute` refuses `PLATFORM_UNSUPPORTED` before SQL (exit 1). The V-A2-1…V-A2-8 receipt checklist, evidence requirements and consumption-on-success-or-failure rule are consolidated in the readiness matrix §3. **P-1 remains NOT EXECUTED and unspent; no provisioning is performed or claimed.** Evidence: `20-p1-entrypoint-readiness.txt`, `10-ipd-8eec-s2-linux-baseline/07-p1-validator-failclosed-probe.txt`.
+
+### 16.128.5 PF-15 exhaustive authority search — remains NOT DESIGNATED; decision request published, no value invented (`V773`)
+
+An exhaustive two-locus search (IRR `main` at both `c7fc7e40…` and post-advance `0329964…`; IPD at both `8eec74ae…` and `f5eddbc…`; GitHub code search) found **no rendered act naming an IPC endpoint value, named pipe or local-state directory**. Every PF-15 reference states the designation as outstanding (host readiness packet PF-15 row; H-12 R5 adoption act; §§16.123–16.127; CAP-02 reconciliation 2026-10-26; CAP-03 blocker records). The parallel CAP-02 record (§16.127.2) independently reaches the identical disposition — corroboration, not a second designation. The DQ-5 PA confirmation of 2026-10-25 confirmed host logistics and the P-1 store-path *process* but rendered no endpoint value; the CAP-03 DQ packet reserves endpoint/local-state naming to a PA option A/B act. The transport mechanism is complete and fail-closed in both loci (IPD `src/ipc/endpoint.ts` `resolveEndpointTarget`; IRR `ipcClient.ts` `resolveIpcEndpoint`; absolute `\\.\pipe\` form or bare name + absolute `IIPS_G3_LOCAL_STATE_DIR`; URLs/host:port/relative paths refused; no default/network fallback; same-host one-connection cap). The decision request specifies the seven required contents of a valid designation and presents options A/B without selecting either or supplying candidate strings. **PF-15 stays NOT DESIGNATED; it blocks only S3/QE, not S2/P-1.** Evidence: `03-pf15-authority-search.txt`; instrument: the PF-15 decision request record.
+
+### 16.128.6 S3/QE preparation matrix and operator runbook; scope separation from CAP-02 (`V774`)
+
+The readiness matrix consolidates, against the effective Gate 4 act/Q1–Q12, host readiness packet and H-12 R5 adoption: the full PF-01…PF-17 S3 preflight; the QE-1…QE-11 tier matrix (Tier 1 endpoint+fences, Tier 2 disposable-copy store, Tier 3 session-port refusal) with per-item evidence ceilings while W-1 refuses (QE-4/QE-8/QE-10 structurally limitation-classed); Q11-before-first/Q11-after-last digest discipline; QE-9 cold+warm N ≥ 10 with zero store effect; the five failure classes (`PASS/FAIL/INCONCLUSIVE/NOT EXECUTED — reason/INVALID`); disposable-copy fixture controls; and the `GQ-<yyyymmdd>-<nn>` evidence-deposit layout (`raw/**`, `MANIFEST.json`, `QE-01.md`…`QE-11.md`, `Q11-BEFORE/AFTER.json`, `EXECUTION-RECORD.md`, raw-byte SHA-256 with no normalization). The operator runbook renders the host session as an ordered PowerShell procedure: non-elevated preconditions PF-01…PF-10, clean full-history checkout of the exact pin, the five commands with per-command UTC timing/raw capture/`$LASTEXITCODE` outside every worktree, the 1,140-count gate and before/after `dist` SHA-256 inventories, publication path, and the explicit stop/no-substitution table. Scope separation: the CAP-02 matrix record (§16.127) owns CAP-02 U3 criterion wording, its H-6 IRR consumer pin `ba64b2d5…`, and its derived evidence-manifest schema; this CAP-03 set owns the H-12 R5 S2 procedure, P-1 entrypoint verification, PF-15 decision request and the CAP-03 DQ-4/QE chain — no content is duplicated, and neither workstream's receipts are interchangeable per §16.127.3.
+
+### 16.128.7 Gate integrity, non-grants and verification log (`V775`–`V778`)
+
+```text
+S2 qualification:         NOT EXECUTED — host preconditions 1–3 fail in the sandbox; 0/5 commands as host evidence
+P-1 provisioning:         NOT EXECUTED — single bounded attempt unspent; strictly after S2 passes; V-A2-1…V-A2-8 ready
+PF-15 designation:        NOT DESIGNATED — decision request published; reserved PA act; blocks S3/QE only
+S3 host preflight:        NOT REACHED — requires S2 pass + single P-1 + PF-15 designation
+DQ-4 final QE freeze:     PREPARED AND VALIDATED — NOT ESTABLISHED (8/10; criteria 7 & 8 NOT MET)
+Gate 4 (H-12 R5):         AUTHORIZED — NOT STARTED; QE 0/11 executed
+Gate 5 admission:         NOT INITIATED / NOT ADMITTED (CV-52 BLOCKED - ACTIVE)
+Durable reads / writes:   NOT GRANTED; WRITE_NOT_AUTHORIZED and all twelve /api/user-portfolios* 503 fences intact
+Safety flags:             all enabling flags ABSENT; durable:false / SESSION_ONLY preserved; production NOT ADMITTED
+```
+
+| ID | Check | Result |
+|---|---|---|
+| `V767` | Fresh IRR/IPD remote refs (both start-of-pass and post-advance snapshots), open PRs, green `main` CI | **PASS** — `00-remote-state-and-ancestry.txt` |
+| `V768` | Designated pin/tree identity, ancestry, 8-commit/33-path all-evidence drift census, 9/9 qualified blob spot match; mid-pass IRR advance confirmed documentation-only | **PASS** — same file |
+| `V769` | Host recovery probe and mandatory precondition enforcement | **PASS as blocker evidence** — preconditions 1–3 FAIL; stop before dispatch; `01-host-recovery-probe.txt` |
+| `V770` | Five-command S2-equivalent Linux baseline at the exact pin (all exit 0; 1,140; 924/923/1/0; package-consumer PASS) | **PASS as non-host repository evidence** — `10-ipd-8eec-s2-linux-baseline/` |
+| `V771` | Fresh `dist/**` vs bound H-12 R5 `runtime_dist_set`: 1,140/1,140 byte-identical; pack shasum match `cc2aa701…` | **PASS (Linux reproducibility only)** — `06-dist-inventory-byte-verification.txt` |
+| `V772` | P-1 entrypoint/validator/constants/refusal-order/one-transaction shape; deterministic id reproduction; zero-file fail-closed probes; no provisioning | **PASS** — `20-p1-entrypoint-readiness.txt`, `07-p1-validator-failclosed-probe.txt` |
+| `V773` | Exhaustive PF-15 authority search (two loci, both heads + code search); NOT DESIGNATED confirmed; decision request without invented value | **PASS** — `03-pf15-authority-search.txt` |
+| `V774` | S2/P-1/S3/QE matrix and operator runbook completeness vs effective acts (PF-01…PF-17, V-A2-1…8, QE-1…11, deposit layout, failure classes); CAP-02 scope separation | **PASS** — three new `docs/integration` records |
+| `V775` | New-identifier census after mid-pass collision: §16.128, `CV-CORR-108`, `CHG-2026-10-26-04`, `V767`–`V778`, three record IDs — 0 prior occurrences both loci; collided §16.127/`CV-CORR-107`/`CHG-2026-10-26-03`/`V753`–`V766` released to CAP-02 | **PASS** — `02-identifier-census.txt` |
+| `V776` | Scope/non-grant audit: documentation/evidence only; 0 source/test/pin/route/fence/manifest/H-12 changes; 0 IPD writes; no gate moved; QE remains 0/11 | **PASS** |
+| `V777` | Local IRR publication checks (`frontend/`: typecheck, replay typecheck, full `test:ci` + guard, build) at final base; intervening merges touched 0 `frontend/` paths | **PASS** — `30-irr-publication-checks.txt` |
+| `V778` | Publication, exact-head/post-merge CI, commit/tree, remote blob/byte read-back | **PASS** — recorded in the companion post-merge receipt subsection after merge |
+
+**Single next dependency-respecting action (unchanged and now fully instrumented):** operator Ramki opens a non-elevated native-Windows session on `desktop-no0nhtp`, follows `IIPS-V3-CAP03-S2-OPERATOR-RUNBOOK-2026-10-26-01` to run the five S2 commands at exact pin `8eec74ae…`/tree `4eba2902…` with raw evidence outside every worktree; stop on any failed precondition/command. Then only in order: one P-1 (V-A2-1…V-A2-8) → PA renders PF-15 → S3 preflight → QE-1…QE-11. No retry without fresh authority; no substitution; no gate is moved by this preparation.
+
+*End of §16.128 (`CV-CORR-108`; `CHG-2026-10-26-04`; `V767`–`V778`). Publication coordinates are appended in the companion post-merge receipt; until then this section is the pre-merge preparation record and moves no gate.*

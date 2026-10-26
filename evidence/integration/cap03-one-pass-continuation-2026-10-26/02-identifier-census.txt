@@ -1,0 +1,57 @@
+=== CAP-03 One-Pass Continuation — New-Identifier Census (2026-10-26 UTC) ===
+Timestamp (UTC): 2026-10-26T06:00:56Z
+Scope: ramkivs/iips-review-recovered working tree (all .md/.json/.ts files); plus IPD cross-repository docs at 8eec74ae and f5eddbc via /tmp/ipd-clone
+
+IRR  CV-CORR-107 : 0 hit(s)
+IRR  CHG-2026-10-26-03 : 0 hit(s)
+IRR  V753 : 0 hit(s)
+IRR  V754 : 0 hit(s)
+IRR  V755 : 0 hit(s)
+IRR  V756 : 0 hit(s)
+IRR  V757 : 0 hit(s)
+IRR  V758 : 0 hit(s)
+IRR  V759 : 0 hit(s)
+IRR  V760 : 0 hit(s)
+IRR  V761 : 0 hit(s)
+IRR  V762 : 0 hit(s)
+IRR  V763 : 0 hit(s)
+IRR  V764 : 0 hit(s)
+IRR  IIPS-V3-CAP03-S2-P1-S3-QE-READINESS-MATRIX-2026-10-26-01 : 0 hit(s)
+IRR  IIPS-V3-CAP03-PF15-ENDPOINT-LOCAL-STATE-DESIGNATION-DECISION-REQUEST-2026-10-26-01 : 0 hit(s)
+IRR  IIPS-V3-CAP03-S2-OPERATOR-RUNBOOK-2026-10-26-01 : 0 hit(s)
+
+IPD  CV-CORR-107 : 0 hit(s)
+IPD  IIPS-V3-CAP03-PF15-ENDPOINT-LOCAL-STATE-DESIGNATION-DECISION-REQUEST-2026-10-26-01 : 0 hit(s)
+IPD  IIPS-V3-CAP03-S2-OPERATOR-RUNBOOK-2026-10-26-01 : 0 hit(s)
+
+Census result: 0 prior occurrences for every new identifier; allocation is free.
+
+================================================================================
+SECOND CENSUS — collision discovery and reallocation (2026-10-26 ~06:20Z)
+================================================================================
+
+After PR #289 was opened, IRR main advanced via CAP-02 PRs #287/#288. Census on
+the new origin/main (0329964) found the originally allocated identifiers now
+CONSUMED by the parallel workstream:
+
+  CV-CORR-107        : 5 hits on origin/main (CAP-02 §16.127)
+  CHG-2026-10-26-03  : 5 hits
+  V753               : 5 hits; V766: 6 hits (range V753-V766 used)
+  §16.127            : 12 hits
+Their record ID IIPS-V3-CAP02-QE-EXECUTION-MATRIX-2026-10-26-01 is a different
+namespace; no collision with the three CAP03 record IDs.
+
+Reallocation, re-censused to ZERO prior occurrences on IRR origin/main AND on
+IPD at both 8eec74ae and origin/main (f5eddbc):
+
+  §16.128                                             : IRR 0, IPD pin 0, IPD main 0
+  CV-CORR-108                                         : IRR 0, IPD pin 0, IPD main 0
+  CHG-2026-10-26-04                                   : IRR 0, IPD pin 0, IPD main 0
+  V767 (and V778 boundary)                            : IRR 0, IPD pin 0, IPD main 0
+  IIPS-V3-CAP03-S2-OPERATOR-RUNBOOK-2026-10-26-01     : IRR 0
+  IIPS-V3-CAP03-PF15-...-DECISION-REQUEST-2026-10-26-01: IRR 0
+  IIPS-V3-CAP03-S2-P1-S3-QE-READINESS-MATRIX-2026-10-26-01: IRR 0
+
+Commands: git grep -F <id> origin/main; same in full-history /tmp/ipd-clone at
+8eec74ae27cda09f3c368b9c299895eae41554db and origin/main. No identifier in this
+publication collides at the reallocated values.

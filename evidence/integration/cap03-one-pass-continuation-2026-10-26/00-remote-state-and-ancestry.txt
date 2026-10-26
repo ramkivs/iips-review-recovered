@@ -1,0 +1,89 @@
+=== CAP-03 Remote State, Designated-Pin Ancestry and Drift Census (2026-10-26 UTC) ===
+Timestamp (UTC): 2026-10-26T06:00:35Z
+
+--- 1. IRR ramkivs/iips-review-recovered ---
+main: c7fc7e40e400ab018562b58c2b3b849be298baeb tree=d9cb69ec7a030e9f175c2087e92e710d5f069bde date=2026-10-26T05:03:06Z
+open PRs: 0
+latest main CI:
+  run 40272191685 success completed c7fc7e40e400 2026-10-26T05:03:09Z Merge pull request #286 from ramkivs/arena/c1d9293a-iips-review-recov…
+  run 40271774300 success completed f72568c8e173 2026-10-26T04:58:22Z Merge pull request #285 from ramkivs/arena/c1d9293a-iips-review-recov…
+  run 40270979172 success completed 9e0da3eec97c 2026-10-26T04:48:51Z Merge pull request #284 from ramkivs/arena/10a9b3e6-iips-review-recov…
+
+--- 2. IPD ramkivs/iips-production-market-data ---
+main: f5eddbc20b944a098a9060a8e3349c6d10b7843e tree=5c93f1d1e6c4919fa632ff107569ac955f5e052e date=2026-10-25T20:26:25Z
+open PRs: 0
+latest main CI:
+  run 40230772869 success completed f5eddbc20b94 2026-10-25T20:26:27Z Merge pull request #95 from ramkivs/arena/cb25c625-iips-production-ma…
+  run 40230541846 success completed 9efbf83a7429 2026-10-25T20:23:32Z Merge pull request #94 from ramkivs/arena/cb25c625-iips-production-ma…
+  run 40225262938 success completed c6b540afd1fd 2026-10-25T19:16:41Z Merge pull request #93 from ramkivs/arena/d677a106-iips-production-ma…
+
+--- 3. Designated S2 pin identity ---
+commit: 8eec74ae27cda09f3c368b9c299895eae41554db
+tree:   4eba29029f8d95cfe483e615a7047426b298ce50
+date:   2026-10-25T13:10:29Z
+subject: Merge pull request #91 from ramkivs/arena/dff844a3-iips-production-market-data
+
+--- 4. Ancestry: 8eec74ae... vs IPD main f5eddbc... ---
+status: ahead | ahead_by: 8 | behind_by: 0 | total_commits: 8
+intervening commits:
+  6689ba38aec9 docs(cap03): publish IPD-locus DQ-6b decision mirror receipt (effectiveness element 6)
+  76d0f2d68e4a Merge pull request #92 from ramkivs/arena/d677a106-iips-production-market-data
+  0a5a4b85bb36 docs(cap03): record PR #92 merge and independent remote verification (element 6)
+  c6b540afd1fd Merge pull request #93 from ramkivs/arena/d677a106-iips-production-market-data
+  cddee5910309 docs(cap03): mirror H-12 R5 adoption receipt into IPD and record S2 host-precondition stop
+  9efbf83a7429 Merge pull request #94 from ramkivs/arena/cb25c625-iips-production-market-data
+  6581d6e917d5 docs(cap03): record PR #94 H-12 R5 mirror publication receipt and remote read-back
+  f5eddbc20b94 Merge pull request #95 from ramkivs/arena/cb25c625-iips-production-market-data
+
+--- 5. Drift census: every changed path pin -> main (must all be evidence/cross-repository documentation) ---
+total changed paths: 33)
+paths outside evidence/cross-repository/: 0
+
+--- 6. Local full-history scratch clone cross-check (clone at /tmp/ipd-clone, outside every worktree of this repository) ---
+clone shallow: false
+pin HEAD: 8eec74ae27cda09f3c368b9c299895eae41554db tree 4eba29029f8d95cfe483e615a7047426b298ce50
+merge-base --is-ancestor pin main: YES
+local changed-path count: 33
+local non-evidence paths: 0
+
+--- 7. H-12 qualified-surface spot re-verification (32 core IPD entries must be byte-identical pin vs main) ---
+(full 1,606-check validation was last run 2026-10-25 §16.123; this pass re-runs a representative remote blob comparison)
+MATCH package.json 51796e63280c1abb368c27bf8811cc6bad46e132
+MATCH src/persistence/portfolio_store.ts 540d49f2deb2c8d600b5b866675d145cf76a1e46
+MATCH src/persistence/gateAPrimeProvisioning.ts 2cbce83f6572d211630ce0620dae49fa02fe4622
+MATCH src/persistence/gateAPrimeValidation.ts df5d48a583c9aaed51af90a90225c15c408fbd33
+MATCH src/ipc/dispatch.ts 27becc76749f5b11a37ca4e6254d58132620f57f
+MATCH src/ipc/endpoint.ts e565aa5b343266f62ffd411d17d74c89b9f29324
+MATCH tests/g4_run_tests_summary_parsing.test.ts 49e901b6ca957a5cc705b42e96cdeaf0365cfbc9
+MATCH scripts/test-summary-parser.mjs 15c849fa739765af501182919748e4610acc4157
+MATCH scripts/run-tests.mjs 05a0ea56f62d4f3b614480858c968a728bc24ca4
+
+================================================================================
+SECOND SNAPSHOT — post mid-pass IRR advance (2026-10-26T06:17:52Z, gh API)
+================================================================================
+
+Context: after the first publication PR (#289) was opened from the snapshot above,
+two parallel CAP-02 merges landed on IRR main (PR #287 at 06:05:02Z, PR #288 at
+06:10:21Z). Re-verified before any publication claim:
+
+IRR main tip : 0329964975eb4ec1f0d9bc75f4a2ebb69053f865 (was c7fc7e40...)
+IRR main tree: ff93c4c0d51f8030f11689a625220ee2cdf37dad
+IRR main CI  : run 40278269714 completed/success at 0329964975 (2026-10-26T06:10:24Z)
+IPD main tip : f5eddbc20b944a098a9060a8e3349c6d10b7843e — UNCHANGED; CI 40230772869 success
+Open PRs     : IRR: #289 only (this publication); IPD: 0
+
+Intervening IRR range c7fc7e40..0329964 changed paths (git diff --name-only):
+  IIPS_V3_E2E_MASTER_TRACKER...md
+  docs/integration/IIPS_v3.0_CAP02_QE_EXECUTION_MATRIX_AND_HOST_PREREQUISITES_2026-10-26.md
+  evidence/integration/cap02-qe-execution-matrix-2026-10-26/ (9 files)
+Qualified-surface paths (frontend/, routes, fences, manifests, lockfile, IPD): 0
+git diff --stat over frontend/ for the range: EMPTY (frontend untouched).
+
+Consequences:
+- Designated IPD pin 8eec74ae / tree 4eba2902, ancestry and 33-path all-evidence
+  drift census are unaffected (IPD did not move).
+- The parallel merges consumed identifiers §16.127, CV-CORR-107, CHG-2026-10-26-03,
+  V753-V766; this CAP-03 publication was reallocated to §16.128 / CV-CORR-108 /
+  CHG-2026-10-26-04 / V767-V778 (see 02-identifier-census.txt, second block).
+- All twelve /api/user-portfolios* 503 fences, WRITE_NOT_AUTHORIZED and
+  durable:false remain untouched (no qualified path in the intervening range).

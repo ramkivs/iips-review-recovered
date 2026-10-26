@@ -1,0 +1,25 @@
+=== Read-only gateAPrimeValidation fail-closed probe (Linux; NOT P-1 execution) ===
+Timestamp (UTC): 2026-10-26T06:02:26Z
+Purpose: verify the compiled P-1 entrypoint/validator exist at the pin and fail closed on a
+non-existent store WITHOUT creating any file. This is implementation/harness evidence only,
+explicitly NOT the single bounded P-1 provisioning execution (which is win32-gated and host-bound).
+
+probe store path: /tmp/ipd-s2-linux-baseline/P1-NONEXISTENT-STORE-PROBE.sqlite
+pre-run Test-Path equivalent: ABSENT
+
+--- node dist/src/persistence/gateAPrimeProvisioning.js --mode=validate (read-only) ---
+{"ok":false,"code":"UNEXPECTED_FAILURE","error":"the validation store file does not exist"}
+(node:3374) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+node exit code: 1 (non-zero expected for a non-existent store; process.exitCode=1 path)
+post-run store state: ABSENT-CORRECT
+
+--- platform refusal probe: --mode=execute on linux must refuse PLATFORM_UNSUPPORTED before any SQL ---
+{"ok":false,"code":"PLATFORM_UNSUPPORTED","error":"provisioning is restricted to win32; observed linux"}
+(node:3382) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+node exit code: 1 (non-zero expected)
+post-run store state: ABSENT-CORRECT
+
+Both probes create zero files and zero rows. The ExperimentalWarning above is the Linux Node
+v22.22.3 node:sqlite notice; the designated host's flag-free/warning behavior remains UNVERIFIED ON HOST.
