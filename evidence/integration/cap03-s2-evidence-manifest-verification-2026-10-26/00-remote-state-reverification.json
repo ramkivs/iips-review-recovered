@@ -1,0 +1,103 @@
+{
+  "record_id": "IIPS-V3-CAP03-S2-EVIDENCE-MANIFEST-VERIFICATION-RECEIPT-2026-10-26-01",
+  "evidence_file": "00-remote-state-reverification.json",
+  "classification": "Arena-independent remote verification (GitHub REST/Git APIs)",
+  "verified_date_utc": "2026-10-26",
+  "note": "Only the facts in this file are claimed as independently verified by Arena. No file on desktop-no0nhtp was inspected or hashed by Arena. No S2 run, test run, build, or manifest generation was performed.",
+  "irr": {
+    "repository": "ramkivs/iips-review-recovered",
+    "ref": "refs/heads/main",
+    "main_sha": "d9345004f5897ecb33fa532599b51a6ec799aa7a",
+    "main_root_tree": "8d1b820c8f892064bd7946becde43bdeb92942c4",
+    "main_parents": [
+      "6e080f89d0cec40ebbc0656f27435588c97a7278",
+      "af8558b5ee8a42444495dcfb99bfdd6fb6eb36af"
+    ],
+    "carrying_pr": 305,
+    "carrying_pr_merged_at": "2026-10-26T13:46:12Z",
+    "open_prs": 0,
+    "latest_main_push_ci_run": 40333508495,
+    "latest_main_push_ci_conclusion": "success",
+    "supplied_snapshot_sha": "11270b85db1354d8bce9c8278ff97a93e81c66f0",
+    "supplied_snapshot_disposition": "ancestor of live main; superseded as current state",
+    "commits_since_snapshot": 8,
+    "prs_since_snapshot": [302, 303, 304, 305],
+    "paths_changed_since_snapshot": [
+      "IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md",
+      "docs/integration/IIPS_v3.0_CAP03_PF15_ENDPOINT_LOCAL_STATE_DESIGNATION_PA_ACT_2026-10-26.md",
+      "docs/integration/IIPS_v3.0_CAP03_PF15_ENDPOINT_LOCAL_STATE_DESIGNATION_PA_ACT_CORRECTED_2026-10-26.md"
+    ],
+    "s2_evidence_paths_changed_since_snapshot": 0,
+    "actions_artifacts_total_count": 0
+  },
+  "ipd": {
+    "repository": "ramkivs/iips-production-market-data",
+    "ref": "refs/heads/main",
+    "main_sha": "f97b17e7d04a0c5c4573c0dbe51da2c4c595d829",
+    "main_root_tree": "6da6f82970fd3fb836500776708bbb6ea206baa1",
+    "open_prs": 0,
+    "latest_main_push_ci_run": 40315422170,
+    "latest_main_push_ci_conclusion": "success",
+    "approved_baseline_commit": "8eec74ae27cda09f3c368b9c299895eae41554db",
+    "approved_baseline_tree": "4eba29029f8d95cfe483e615a7047426b298ce50",
+    "approved_baseline_commits_behind_main": 14,
+    "corrected_candidate_commit": "001c3c80618f2ee1d40e9a90912237e1a06e7b58",
+    "corrected_candidate_tree": "399fa44a5f1953c0f61b452420fefb5985426ef1",
+    "corrected_candidate_parent": "8eec74ae27cda09f3c368b9c299895eae41554db",
+    "corrected_candidate_commits_behind_main": 13,
+    "baseline_to_candidate_compare": {
+      "status": "ahead",
+      "ahead_by": 1,
+      "behind_by": 0,
+      "files": [
+        {
+          "filename": "scripts/verify-public-package.mjs",
+          "status": "modified",
+          "additions": 7,
+          "deletions": 3
+        },
+        {
+          "filename": "tests/portfolio_ui_package.test.ts",
+          "status": "modified",
+          "additions": 2,
+          "deletions": 2
+        }
+      ]
+    },
+    "pr96": {
+      "number": 96,
+      "title": "Fix native Windows CAP-03 S2 package validation",
+      "state": "MERGED",
+      "merged_at": "2026-10-26T10:12:18Z",
+      "head_sha": "001c3c80618f2ee1d40e9a90912237e1a06e7b58",
+      "merge_commit": "1e76f4cf9e9ca7d385a8345c9b6f438ae1ad6745",
+      "merge_root_tree": "7003a2828bde51985393348fa6e657a6cb8d4eed",
+      "head_ci_run": 40305148754,
+      "head_ci_conclusion": "pass",
+      "url": "https://github.com/ramkivs/iips-production-market-data/pull/96"
+    },
+    "alias_pin": "70b24f029842a7e9b7f615e4d9df7376fd4ff817",
+    "alias_commits_behind_main": 228,
+    "actions_artifacts_total_count": 0,
+    "writes_in_this_pass": 0
+  },
+  "published_tracker_records_confirmed": [
+    "section 16.132.3 corrected-candidate validation table with both hashes verbatim",
+    "section 16.132.7 IRR PR #298 publication receipt",
+    "section 16.134.3 qualifying-transcript determination",
+    "section 16.134.6 IRR PR #299 publication receipt",
+    "section 16.135.4 raw-byte verification boundary (NOT COMPLETE)"
+  ],
+  "windows_bytes_available_to_arena": false,
+  "commands_used": [
+    "gh api repos/ramkivs/iips-review-recovered/branches/main",
+    "gh api repos/ramkivs/iips-review-recovered/commits/<sha>",
+    "gh api repos/ramkivs/iips-review-recovered/compare/11270b85db1354d8bce9c8278ff97a93e81c66f0...d9345004f5897ecb33fa532599b51a6ec799aa7a",
+    "gh pr list -R ramkivs/iips-review-recovered --state open/merged",
+    "gh api repos/ramkivs/iips-production-market-data/branches/main",
+    "gh api repos/ramkivs/iips-production-market-data/commits/<sha>",
+    "gh api repos/ramkivs/iips-production-market-data/compare/8eec74ae27cda09f3c368b9c299895eae41554db...001c3c80618f2ee1d40e9a90912237e1a06e7b58",
+    "gh pr view 96 -R ramkivs/iips-production-market-data",
+    "gh api repos/<repo>/actions/artifacts?per_page=5"
+  ]
+}

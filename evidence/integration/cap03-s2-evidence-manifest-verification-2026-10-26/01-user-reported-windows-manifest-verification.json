@@ -1,0 +1,92 @@
+{
+  "record_id": "IIPS-V3-CAP03-S2-EVIDENCE-MANIFEST-VERIFICATION-RECEIPT-2026-10-26-01",
+  "evidence_file": "01-user-reported-windows-manifest-verification.json",
+  "classification": "Structured transcription of user-reported Windows results — NOT Arena-observed, NOT Arena-recomputed",
+  "reported_date_utc": "2026-10-26",
+  "source": "User S2 evidence-publication report dated 2026-10-26 (execution directive carrying this closure); two rows re-cite previously published tracker records as noted",
+  "host": "desktop-no0nhtp",
+  "evidence_root_host": "C:\\iips-evidence\\cap03-s2\\",
+  "results": [
+    {
+      "item": "Final manifest verification",
+      "reported_result": "PASS",
+      "evidence_classification": "User-reported Windows verification"
+    },
+    {
+      "item": "Manifest entries",
+      "reported_result": 47,
+      "evidence_classification": "User-reported Windows verification"
+    },
+    {
+      "item": "Required S2 filenames",
+      "reported_result": "All nine present and verified",
+      "evidence_classification": "User-reported Windows verification",
+      "required_filenames_in_order": [
+        "s2-01-npm-ci.txt",
+        "s2-02-tsc-noemit.txt",
+        "s2-03-build.txt",
+        "s2-03-dist-count.txt",
+        "s2-03-dist-sha256-before.txt",
+        "s2-04-guarded-npm-test.txt",
+        "s2-05-package-consumer.txt",
+        "s2-post-run-pin.txt",
+        "s2-dist-sha256-after.txt"
+      ]
+    },
+    {
+      "item": "File existence and hash checks",
+      "reported_result": "All listed files existed and recomputed hashes matched",
+      "evidence_classification": "User-reported Windows verification"
+    },
+    {
+      "item": "Locked session transcript",
+      "reported_result": "Excluded from the manifest because it was locked during hashing",
+      "evidence_classification": "User-reported Windows verification",
+      "excluded_filename": "windows-session-transcript.txt",
+      "excluded_from_47_entry_manifest": true,
+      "must_not_be_implied_included": true
+    },
+    {
+      "item": "Post-run pin",
+      "reported_result": "Approved baseline commit/tree matched; working tree clean",
+      "evidence_classification": "User-reported Windows verification",
+      "approved_baseline_commit": "8eec74ae27cda09f3c368b9c299895eae41554db",
+      "approved_baseline_tree": "4eba29029f8d95cfe483e615a7047426b298ce50"
+    },
+    {
+      "item": "Distribution inventory",
+      "reported_result": "Expected and actual counts matched at 1,140",
+      "evidence_classification": "User-reported Windows verification",
+      "expected_count": 1140,
+      "actual_count": 1140
+    },
+    {
+      "item": "Corrected-candidate suite",
+      "reported_result": "924 total, 920 passed, 0 failed, 4 skipped",
+      "evidence_classification": "Previously recorded validation result",
+      "total": 924,
+      "passed": 920,
+      "failed": 0,
+      "skipped": 4,
+      "corrected_candidate_commit": "001c3c80618f2ee1d40e9a90912237e1a06e7b58",
+      "corrected_candidate_tree": "399fa44a5f1953c0f61b452420fefb5985426ef1",
+      "sha256_exact": "C5DDFFA24393AED2E391EF8A72E8BFF1F8ECD9576C4349E182B288785F1B2941",
+      "previously_recorded_at": "IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md section 16.132.3"
+    },
+    {
+      "item": "Package-consumer check",
+      "reported_result": "PASS",
+      "evidence_classification": "Previously recorded validation result",
+      "sha256_exact": "9F7C64073A849E57D472C9CA30BB7616D04D1951626E90587241D61A470A85B1",
+      "previously_recorded_at": "IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md section 16.132.3"
+    }
+  ],
+  "arena_boundary": {
+    "arena_inspected_windows_files": false,
+    "arena_recomputed_windows_hashes": false,
+    "read_only_access_to_raw_bytes_established": false,
+    "raw_byte_verification": "PENDING / NOT COMPLETE",
+    "windows_manifest_verification_output_available_to_arena": false,
+    "note": "No failure of the user's Windows verification is inferred from Arena's lack of host access. No S2 rerun, test rerun, build, or manifest regeneration was performed or is required to close the read-back step."
+  }
+}
