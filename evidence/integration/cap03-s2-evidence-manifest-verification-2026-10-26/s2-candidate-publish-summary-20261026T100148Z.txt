@@ -1,0 +1,12 @@
+RunId UTC: 20261026T100148Z
+Overall result: CANDIDATE_COMMITTED_PUBLISHED_AND_REMOTELY_VERIFIED
+Candidate branch: work/cap03-s2-windows-esm-url
+Candidate commit: 001c3c80618f2ee1d40e9a90912237e1a06e7b58
+Candidate tree: 399fa44a5f1953c0f61b452420fefb5985426ef1
+Commit passed: True
+Push passed: True
+Remote commit verified: True
+Candidate working-tree entries: 0
+Original checkout HEAD: 8eec74ae27cda09f3c368b9c299895eae41554db
+Original checkout working-tree entries: 0
+Evidence log: C:\iips-evidence\cap03-s2\s2-candidate-publish-20261026T100148Z.txt

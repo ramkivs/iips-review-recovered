@@ -1,0 +1,77 @@
+Diagnostic UTC: 2026-10-26T09:25:20.182Z
+Action: read-only analysis of existing test log; no tests rerun.
+Repository: C:\iips-work\iips-production-market-data
+HEAD: 8eec74ae27cda09f3c368b9c299895eae41554db
+Tree: 4eba29029f8d95cfe483e615a7047426b298ce50
+Working tree status entries: 0
+Test log: C:\iips-evidence\cap03-s2\s2-04-guarded-npm-test.txt
+Verified test log SHA256: 7DD2A1EFC3A3EA9D3EDA2A619E29BD2FDB240D6820C05F3FDC9BB21729B16EDA
+Captured log lines: 53553
+Failure-pattern matches: 6
+
+--- Matching failure lines and surrounding context ---
+Log line 3565:
+      type: 'test'
+      ...
+    # Subtest: the built entry point loads and exposes the same public names
+    not ok 7 - the built entry point loads and exposes the same public names
+      ---
+      duration_ms: 1.6439
+      type: 'test'
+      location: 'C:\\iips-work\\iips-production-market-data\\dist\\tests\\portfolio_ui_package.test.js:356:5'
+      failureType: 'testCodeFailure'
+
+Log line 3571:
+      type: 'test'
+      location: 'C:\\iips-work\\iips-production-market-data\\dist\\tests\\portfolio_ui_package.test.js:356:5'
+      failureType: 'testCodeFailure'
+      error: "Only URLs with a scheme in: file, data, and node are supported by the default ESM loader. On Windows, absolute paths must be valid file:// URLs. Received protocol 'c:'"
+      code: 'ERR_UNSUPPORTED_ESM_URL_SCHEME'
+      stack: |-
+        throwIfUnsupportedURLScheme (node:internal/modules/esm/load:195:11)
+        defaultLoadSync (node:internal/modules/esm/load:142:3)
+        #loadAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:796:12)
+
+Log line 3586:
+        onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:650:32)
+      ...
+    1..7
+not ok 43 - CAP-02 Increment A ΓÇö T-PKG-4: package manifest and built artifacts
+  ---
+  duration_ms: 165.1173
+  type: 'suite'
+  location: 'C:\\iips-work\\iips-production-market-data\\dist\\tests\\portfolio_ui_package.test.js:315:1'
+  failureType: 'subtestsFailed'
+
+Log line 3592:
+  type: 'suite'
+  location: 'C:\\iips-work\\iips-production-market-data\\dist\\tests\\portfolio_ui_package.test.js:315:1'
+  failureType: 'subtestsFailed'
+  error: '1 subtest failed'
+  code: 'ERR_TEST_FAILURE'
+  ...
+# Subtest: CAP-02 Increment A ΓÇö T-PKG-5: no privileged persistence/IPC internals on the surface
+    # Subtest: exposes none of the forbidden privileged symbols
+    ok 1 - exposes none of the forbidden privileged symbols
+
+Log line 53545:
+# tests 924
+# suites 124
+# pass 919
+# fail 1
+# cancelled 0
+# skipped 4
+# todo 0
+# duration_ms 17458.8929
+
+
+Log line 53551:
+# todo 0
+# duration_ms 17458.8929
+
+[test-guard] FAIL ΓÇö 924 test(s) executed, runner exit code 1
+S2 step 04-guarded-npm-test exit code: 1
+S2 step 04-guarded-npm-test end UTC: 2026-10-26T09:20:48.935Z
+
+
+Disposition: S2 STOPPED at step 4. Step 5 not authorized by this diagnostic. No retry or code change.

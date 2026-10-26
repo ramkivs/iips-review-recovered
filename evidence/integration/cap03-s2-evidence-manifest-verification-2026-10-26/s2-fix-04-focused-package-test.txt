@@ -1,0 +1,244 @@
+TAP version 13
+# Subtest: CAP-02 Increment A ΓÇö T-PKG-1: required exports resolve from the package entry point
+    # Subtest: exports every symbol the selected composition imports, with a usable kind
+    ok 1 - exports every symbol the selected composition imports, with a usable kind
+      ---
+      duration_ms: 1.3616
+      type: 'test'
+      ...
+    # Subtest: exposes the component as a mountable React component function
+    ok 2 - exposes the component as a mountable React component function
+      ---
+      duration_ms: 0.2389
+      type: 'test'
+      ...
+    # Subtest: exposes the port seam and the truthful durability descriptor
+    ok 3 - exposes the port seam and the truthful durability descriptor
+      ---
+      duration_ms: 0.2229
+      type: 'test'
+      ...
+    1..3
+ok 1 - CAP-02 Increment A ΓÇö T-PKG-1: required exports resolve from the package entry point
+  ---
+  duration_ms: 3.4493
+  type: 'suite'
+  ...
+# Subtest: CAP-02 Increment A ΓÇö T-PKG-2: exported symbols are the in-repo objects (no second implementation)
+    # Subtest: every value export is reference-identical to its authoritative module export
+    ok 1 - every value export is reference-identical to its authoritative module export
+      ---
+      duration_ms: 0.2966
+      type: 'test'
+      ...
+    # Subtest: does not define a second SecurityMaster, store, port or ingress implementation
+    ok 2 - does not define a second SecurityMaster, store, port or ingress implementation
+      ---
+      duration_ms: 7.5223
+      type: 'test'
+      ...
+    1..2
+ok 2 - CAP-02 Increment A ΓÇö T-PKG-2: exported symbols are the in-repo objects (no second implementation)
+  ---
+  duration_ms: 8.3075
+  type: 'suite'
+  ...
+# Subtest: CAP-02 Increment A ΓÇö T-PKG-3: source import closure is browser-safe
+    # Subtest: resolves every relative import in the closure (no dangling subpath)
+    ok 1 - resolves every relative import in the closure (no dangling subpath)
+      ---
+      duration_ms: 1.3567
+      type: 'test'
+      ...
+    # Subtest: imports no Node builtin anywhere in the closure
+    ok 2 - imports no Node builtin anywhere in the closure
+      ---
+      duration_ms: 0.928
+      type: 'test'
+      ...
+    # Subtest: imports no privileged module: IPC, persistence, durable store, migrations, binding, gate
+    ok 3 - imports no privileged module: IPC, persistence, durable store, migrations, binding, gate
+      ---
+      duration_ms: 0.4568
+      type: 'test'
+      ...
+    # Subtest: has exactly one external dependency: react
+    ok 4 - has exactly one external dependency: react
+      ---
+      duration_ms: 0.4876
+      type: 'test'
+      ...
+    # Subtest: every guarded Buffer reference is behind a typeof check (no unguarded Node global)
+    ok 5 - every guarded Buffer reference is behind a typeof check (no unguarded Node global)
+      ---
+      duration_ms: 37.1234
+      type: 'test'
+      ...
+    1..5
+ok 3 - CAP-02 Increment A ΓÇö T-PKG-3: source import closure is browser-safe
+  ---
+  duration_ms: 40.8399
+  type: 'suite'
+  ...
+# Subtest: CAP-02 Increment A ΓÇö T-PKG-4: package manifest and built artifacts
+    # Subtest: declares exactly the three authorized public subpaths
+    ok 1 - declares exactly the three authorized public subpaths
+      ---
+      duration_ms: 0.3518
+      type: 'test'
+      ...
+    # Subtest: publishes only the built package directory
+    ok 2 - publishes only the built package directory
+      ---
+      duration_ms: 0.1564
+      type: 'test'
+      ...
+    # Subtest: maps ./portfolio-ui to the emitted entry point for both runtime and types
+    ok 3 - maps ./portfolio-ui to the emitted entry point for both runtime and types
+      ---
+      duration_ms: 0.2032
+      type: 'test'
+      ...
+    # Subtest: has a build script that produces the package artifacts
+    ok 4 - has a build script that produces the package artifacts
+      ---
+      duration_ms: 0.1499
+      type: 'test'
+      ...
+    # Subtest: the declared artifacts exist on disk after the build
+    ok 5 - the declared artifacts exist on disk after the build
+      ---
+      duration_ms: 0.6531
+      type: 'test'
+      ...
+    # Subtest: the BUILT import closure is browser-safe too
+    ok 6 - the BUILT import closure is browser-safe too
+      ---
+      duration_ms: 50.4709
+      type: 'test'
+      ...
+    # Subtest: the built entry point loads and exposes the same public names
+    ok 7 - the built entry point loads and exposes the same public names
+      ---
+      duration_ms: 139.8644
+      type: 'test'
+      ...
+    1..7
+ok 4 - CAP-02 Increment A ΓÇö T-PKG-4: package manifest and built artifacts
+  ---
+  duration_ms: 192.617
+  type: 'suite'
+  ...
+# Subtest: CAP-02 Increment A ΓÇö T-PKG-5: no privileged persistence/IPC internals on the surface
+    # Subtest: exposes none of the forbidden privileged symbols
+    ok 1 - exposes none of the forbidden privileged symbols
+      ---
+      duration_ms: 0.29
+      type: 'test'
+      ...
+    # Subtest: does not expose SQLite, migration, binding or wire-contract machinery by any name
+    ok 2 - does not expose SQLite, migration, binding or wire-contract machinery by any name
+      ---
+      duration_ms: 0.5861
+      type: 'test'
+      ...
+    # Subtest: the port declaration and the descriptor stay durability-honest
+    ok 3 - the port declaration and the descriptor stay durability-honest
+      ---
+      duration_ms: 0.1495
+      type: 'test'
+      ...
+    1..3
+ok 5 - CAP-02 Increment A ΓÇö T-PKG-5: no privileged persistence/IPC internals on the surface
+  ---
+  duration_ms: 1.267
+  type: 'suite'
+  ...
+# Subtest: CAP-02 Increment A ΓÇö T-PKG-6: write denial unchanged
+    # Subtest: the browser-facing surface cannot reach the IPC dispatch gate at all
+    ok 1 - the browser-facing surface cannot reach the IPC dispatch gate at all
+      ---
+      duration_ms: 51.3543
+      type: 'test'
+      ...
+    # Subtest: the gate still refuses every write before mutation (source unchanged by this act)
+    ok 2 - the gate still refuses every write before mutation (source unchanged by this act)
+      ---
+      duration_ms: 0.8136
+      type: 'test'
+      ...
+    # Subtest: exposes no write operation and no durable-port factory
+    ok 3 - exposes no write operation and no durable-port factory
+      ---
+      duration_ms: 0.4116
+      type: 'test'
+      ...
+    1..3
+ok 6 - CAP-02 Increment A ΓÇö T-PKG-6: write denial unchanged
+  ---
+  duration_ms: 57.2851
+  type: 'suite'
+  ...
+# Subtest: CAP-02 Increment A ΓÇö T-PKG-7: no hidden IRR dependency
+    # Subtest: every closure file lives inside this repository
+    ok 1 - every closure file lives inside this repository
+      ---
+      duration_ms: 4.7044
+      type: 'test'
+      ...
+    # Subtest: imports no IRR package, path or sibling checkout
+    ok 2 - imports no IRR package, path or sibling checkout
+      ---
+      duration_ms: 0.7007
+      type: 'test'
+      ...
+    # Subtest: re-exports no IPD application shell or workspace surface
+    ok 3 - re-exports no IPD application shell or workspace surface
+      ---
+      duration_ms: 0.1815
+      type: 'test'
+      ...
+    1..3
+ok 7 - CAP-02 Increment A ΓÇö T-PKG-7: no hidden IRR dependency
+  ---
+  duration_ms: 5.7718
+  type: 'suite'
+  ...
+# Subtest: CAP-02 Increment A ΓÇö T-PKG-8: durability truth and identity refusal survive the surface
+    # Subtest: a session-only save status can never be described as durable
+    ok 1 - a session-only save status can never be described as durable
+      ---
+      duration_ms: 0.3669
+      type: 'test'
+      ...
+    # Subtest: the port guard still refuses holdings with no canonical identity
+    ok 2 - the port guard still refuses holdings with no canonical identity
+      ---
+      duration_ms: 0.2985
+      type: 'test'
+      ...
+    # Subtest: caller-supplied identity keys are still detected through the exported helper
+    ok 3 - caller-supplied identity keys are still detected through the exported helper
+      ---
+      duration_ms: 0.2751
+      type: 'test'
+      ...
+    1..3
+ok 8 - CAP-02 Increment A ΓÇö T-PKG-8: durability truth and identity refusal survive the surface
+  ---
+  duration_ms: 1.1026
+  type: 'suite'
+  ...
+1..8
+# tests 29
+# suites 8
+# pass 29
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 754.6561
+
+Command start UTC: 2026-10-26T09:34:43.8189535Z
+Command end UTC: 2026-10-26T09:34:44.7570737Z
+Command exit code: 0

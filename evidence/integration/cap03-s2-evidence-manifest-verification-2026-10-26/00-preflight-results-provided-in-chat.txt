@@ -1,0 +1,30 @@
+CAP-03 S2 — Native Windows preflight results transcribed from operator-pasted console output.
+This is a retrospective record, not a raw host transcript. The original outputs remain in the ChatGPT conversation.
+
+Host identity:
+Hostname: DESKTOP-NO0NHTP
+Account: desktop-no0nhtp\user
+SID: S-1-5-21-1872737340-673410177-2240931581-1001
+Administrator: False
+OS: Microsoft Windows 11 Home Single Language
+
+Initial PATH-selected Node:
+Path: C:\Program Files\nodejs\node.exe
+Version: v24.14.0
+PF-04: FAIL against required >=22.13.0 and <23.
+No Node installation or system PATH change was performed.
+
+Additional Node discovery:
+Path: C:\Users\USER\AppData\Local\nodejs22\node-v22.22.0-win-x64\node.exe
+Version: v22.22.0
+Runtime: {"platform":"win32","arch":"x64","node":"v22.22.0"}
+Flag-free node:sqlite result: {"v":"ok"}
+Warning observed: ExperimentalWarning: SQLite is an experimental feature and might change at any time.
+Candidate PF-04/PF-05 check: PASS using the explicit Node 22.22.0 executable.
+PF-06 explicit executable path recorded.
+PF-10 enabling-variable checks: NOT YET EXECUTED.
+All later preflight checks: NOT YET EXECUTED.
+S2 build/test commands: NOT EXECUTED.
+
+Initial diagnostic timestamp supplied in chat: 2026-10-26T09:03:28.0010727Z.
+The exact timestamps of the later Node discovery and Node 22 probe were not supplied and have not been inferred.

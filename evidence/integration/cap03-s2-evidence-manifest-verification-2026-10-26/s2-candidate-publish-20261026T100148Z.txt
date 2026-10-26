@@ -1,0 +1,131 @@
+CAP-03 S2 candidate publication workflow
+RunId UTC: 20261026T100148Z
+Candidate: C:\iips-work\iips-production-market-data-s2fix
+Original checkout: C:\iips-work\iips-production-market-data
+Expected branch: work/cap03-s2-windows-esm-url
+Required base commit: 8eec74ae27cda09f3c368b9c299895eae41554db
+Required base tree: 4eba29029f8d95cfe483e615a7047426b298ce50
+Candidate HEAD: 8eec74ae27cda09f3c368b9c299895eae41554db
+Candidate HEAD tree: 4eba29029f8d95cfe483e615a7047426b298ce50
+Candidate branch: work/cap03-s2-windows-esm-url
+Candidate origin: https://github.com/ramkivs/iips-production-market-data.git
+Original checkout HEAD: 8eec74ae27cda09f3c368b9c299895eae41554db
+Original checkout status entry count: 0
+Patch record SHA256: BC38B5852381970669E5AD26907C12CF844816EB4E9CCC4B89E313E61DE20B02
+Package-consumer log SHA256: 9F7C64073A849E57D472C9CA30BB7616D04D1951626E90587241D61A470A85B1
+Guarded-suite log SHA256: C5DDFFA24393AED2E391EF8A72E8BFF1F8ECD9576C4349E182B288785F1B2941
+Validation summary SHA256: 19D0182885770E49E58CE9555ECC2B950B71D51A3852DAB0EB732502FEA04F19
+Changed-file count: 2
+Changed file: scripts/verify-public-package.mjs
+Changed file: tests/portfolio_ui_package.test.ts
+git diff --check exit code: 0
+----- COMPLETE CANDIDATE DIFF START -----
+diff --git a/scripts/verify-public-package.mjs b/scripts/verify-public-package.mjs
+index f490ce6..e556afd 100644
+--- a/scripts/verify-public-package.mjs
++++ b/scripts/verify-public-package.mjs
+@@ -14,11 +14,15 @@ import { tmpdir } from 'node:os';
+ import { dirname, isAbsolute, join, resolve } from 'node:path';
+ import { fileURLToPath } from 'node:url';
+ import { build as viteBuild } from 'vite';
+ 
+ const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+-const npm = process.platform === 'win32' ? 'npm.cmd' : 'npm';
++const npm = process.platform === 'win32' ? process.execPath : 'npm';
++const npmPrefix = process.platform === 'win32'
++  ? [resolve(dirname(process.execPath), 'node_modules', 'npm', 'bin', 'npm-cli.js')]
++  : [];
++check(process.platform !== 'win32' || existsSync(npmPrefix[0]), 'Node-bundled npm CLI is missing');
+ const expectedExports = ['./portfolio-ui', './pit', './d114-non-production'];
+ const IRR_PIN = '98cd56a9a568f431ea31d5515e515a1b6cbb91ba';
+ const IRR_IMPORTERS = [
+   'frontend/server/pit/ipdPitReadAdapter.ts',
+   'frontend/server/pit/nonProductionPitStore.ts',
+@@ -170,11 +174,11 @@ try {
+     check(existsSync(join(repoRoot, entry.import)), `${subpath} runtime target is missing`);
+     check(existsSync(join(repoRoot, entry.types)), `${subpath} declaration target is missing`);
+   }
+ 
+   console.log('[package-consumer] packing built artifacts');
+-  const packOutput = run(npm, ['pack', '--ignore-scripts', '--json', '--pack-destination', temporary], repoRoot);
++  const packOutput = run(npm, [...npmPrefix, 'pack', '--ignore-scripts', '--json', '--pack-destination', temporary], repoRoot);
+   const pack = JSON.parse(packOutput)[0];
+   check(pack && Array.isArray(pack.files), 'npm pack returned no inspectable file list');
+   for (const file of pack.files) {
+     check(file.path === 'package.json' || file.path.startsWith('dist/package/'), `unexpected packed file: ${file.path}`);
+   }
+@@ -209,11 +213,11 @@ try {
+     },
+     files: ['./index.mts'],
+   }, null, 2));
+ 
+   console.log('[package-consumer] installing tarball into isolated consumer');
+-  run(npm, [
++  run(npm, [...npmPrefix,
+     'install', '--ignore-scripts', '--no-audit', '--no-fund', '--package-lock=false', '--save=false',
+     tarball,
+     'react@18.3.1',
+     'react-dom@18.3.1',
+     '@types/node@22.13.9',
+diff --git a/tests/portfolio_ui_package.test.ts b/tests/portfolio_ui_package.test.ts
+index c6c38d4..ecbc365 100644
+--- a/tests/portfolio_ui_package.test.ts
++++ b/tests/portfolio_ui_package.test.ts
+@@ -30,11 +30,11 @@
+  */
+ import { describe, it } from 'node:test';
+ import assert from 'node:assert/strict';
+ import { existsSync, readFileSync, statSync } from 'node:fs';
+ import { dirname, isAbsolute, relative, resolve, sep } from 'node:path';
+-import { fileURLToPath } from 'node:url';
++import { fileURLToPath, pathToFileURL } from 'node:url';
+ 
+ import * as pkg from '../src/ui/portfolio_ui_package.js';
+ import * as modalModule from '../frontend/src/features/portfolio/BrokerImportModal.js';
+ import * as portModule from '../frontend/src/features/portfolio/portfolioStorePort.js';
+ import * as storeModule from '../frontend/src/features/portfolio/portfolio-store.js';
+@@ -414,11 +414,11 @@ describe('CAP-02 Increment A ΓÇö T-PKG-4: package manifest and built artifacts',
+     });
+     assert.deepEqual(offenders, [], 'the published artifact reaches a Node-only or privileged module');
+   });
+ 
+   it('the built entry point loads and exposes the same public names', async () => {
+-    const built = (await import(builtEntry)) as Record<string, unknown>;
++    const built = (await import(pathToFileURL(builtEntry).href)) as Record<string, unknown>;
+     for (const name of REQUIRED_VALUE_EXPORTS) {
+       assert.notEqual(built[name], undefined, `built artifact does not export ${name}`);
+     }
+     assert.equal(typeof built.BrokerImportModal, 'function');
+   });
+----- COMPLETE CANDIDATE DIFF END -----
+git diff exit code: 0
+git add exit code: 0
+Staged-file count: 2
+Staged file: scripts/verify-public-package.mjs
+Staged file: tests/portfolio_ui_package.test.ts
+git diff --cached --check exit code: 0
+[work/cap03-s2-windows-esm-url 001c3c8] Fix Windows S2 package-consumer execution
+ 2 files changed, 9 insertions(+), 5 deletions(-)
+git commit exit code: 0
+New candidate commit: 001c3c80618f2ee1d40e9a90912237e1a06e7b58
+New candidate tree: 399fa44a5f1953c0f61b452420fefb5985426ef1
+remote: 
+remote: Create a pull request for 'work/cap03-s2-windows-esm-url' on GitHub by visiting:        
+remote:      https://github.com/ramkivs/iips-production-market-data/pull/new/work/cap03-s2-windows-esm-url        
+remote: 
+To https://github.com/ramkivs/iips-production-market-data.git
+ * [new branch]      work/cap03-s2-windows-esm-url -> work/cap03-s2-windows-esm-url
+branch 'work/cap03-s2-windows-esm-url' set up to track 'origin/work/cap03-s2-windows-esm-url'.
+git push exit code: 0
+git ls-remote exit code: 0
+001c3c80618f2ee1d40e9a90912237e1a06e7b58	refs/heads/work/cap03-s2-windows-esm-url
+Remote branch HEAD: 001c3c80618f2ee1d40e9a90912237e1a06e7b58
+Final candidate HEAD: 001c3c80618f2ee1d40e9a90912237e1a06e7b58
+Final candidate tree: 399fa44a5f1953c0f61b452420fefb5985426ef1
+Final candidate working-tree entry count: 0
+Final original checkout HEAD: 8eec74ae27cda09f3c368b9c299895eae41554db
+Final original checkout working-tree entry count: 0
+Commit passed: True
+Push passed: True
+Remote commit verified: True
+Overall result: CANDIDATE_COMMITTED_PUBLISHED_AND_REMOTELY_VERIFIED

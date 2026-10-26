@@ -1,0 +1,7 @@
+Report: C:\iips-evidence\cap03-s2\s2-windows-esm-investigation.txt
+SHA256: F75C0D449C8801C1938874D8FD59A731096841E05909195774107493B58BE66A
+Repository HEAD: 8eec74ae27cda09f3c368b9c299895eae41554db
+Repository tree: 743a284069d2d1eefd3cc36abdc889478f927961
+-encodedCommand
+dAByAGUAZQA=
+Working tree status entries: 0

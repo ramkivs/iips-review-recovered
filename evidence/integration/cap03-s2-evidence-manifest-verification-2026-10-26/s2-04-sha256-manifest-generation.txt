@@ -1,0 +1,8 @@
+UTC: 2026-10-26T12:47:40.4903210Z
+Evidence root: C:\iips-evidence\cap03-s2
+Manifest: C:\iips-evidence\cap03-s2\SHA256SUMS.txt
+Files included: 48
+Hash algorithm: SHA256
+Manifest self-hash excluded: True
+Verification/reconciliation reports excluded: True
+Result: GENERATED; independent verification: FAIL

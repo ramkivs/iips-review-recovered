@@ -1,0 +1,64 @@
+Run ID: 20261026T095613Z
+Start UTC: 2026-10-26T09:56:14.2402846Z
+Candidate branch: work/cap03-s2-windows-esm-url
+Base HEAD: 8eec74ae27cda09f3c368b9c299895eae41554db
+Node version: v22.22.0
+npm CLI: C:\Users\USER\AppData\Local\nodejs22\node-v22.22.0-win-x64\node_modules\npm\bin\npm-cli.js
+Verifier invokes npm CLI through Node on Windows.
+git diff --check exit code: 0
+Changed files: tests/portfolio_ui_package.test.ts; scripts/verify-public-package.mjs
+Tests executed during patch preparation: NO
+
+diff --git a/scripts/verify-public-package.mjs b/scripts/verify-public-package.mjs
+index f490ce6..e556afd 100644
+--- a/scripts/verify-public-package.mjs
++++ b/scripts/verify-public-package.mjs
+@@ -16,7 +16,11 @@ import { fileURLToPath } from 'node:url';
+ import { build as viteBuild } from 'vite';
+ 
+ const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+-const npm = process.platform === 'win32' ? 'npm.cmd' : 'npm';
++const npm = process.platform === 'win32' ? process.execPath : 'npm';
++const npmPrefix = process.platform === 'win32'
++  ? [resolve(dirname(process.execPath), 'node_modules', 'npm', 'bin', 'npm-cli.js')]
++  : [];
++check(process.platform !== 'win32' || existsSync(npmPrefix[0]), 'Node-bundled npm CLI is missing');
+ const expectedExports = ['./portfolio-ui', './pit', './d114-non-production'];
+ const IRR_PIN = '98cd56a9a568f431ea31d5515e515a1b6cbb91ba';
+ const IRR_IMPORTERS = [
+@@ -172,7 +176,7 @@ try {
+   }
+ 
+   console.log('[package-consumer] packing built artifacts');
+-  const packOutput = run(npm, ['pack', '--ignore-scripts', '--json', '--pack-destination', temporary], repoRoot);
++  const packOutput = run(npm, [...npmPrefix, 'pack', '--ignore-scripts', '--json', '--pack-destination', temporary], repoRoot);
+   const pack = JSON.parse(packOutput)[0];
+   check(pack && Array.isArray(pack.files), 'npm pack returned no inspectable file list');
+   for (const file of pack.files) {
+@@ -211,7 +215,7 @@ try {
+   }, null, 2));
+ 
+   console.log('[package-consumer] installing tarball into isolated consumer');
+-  run(npm, [
++  run(npm, [...npmPrefix,
+     'install', '--ignore-scripts', '--no-audit', '--no-fund', '--package-lock=false', '--save=false',
+     tarball,
+     'react@18.3.1',
+
+Package-consumer start UTC: 2026-10-26T09:56:14.2694664Z
+Package-consumer end UTC: 2026-10-26T09:57:42.9944516Z
+Package-consumer exit code: 0
+Package-consumer log: C:\iips-evidence\cap03-s2\s2-npm-launch-fix-consumer-20261026T095613Z.txt
+Package-consumer SHA256: 9F7C64073A849E57D472C9CA30BB7616D04D1951626E90587241D61A470A85B1
+
+Guarded suite start UTC: 2026-10-26T09:57:43.0649890Z
+Guarded suite end UTC: 2026-10-26T09:58:04.7664602Z
+Guarded suite exit code: 0
+Guarded suite log: C:\iips-evidence\cap03-s2\s2-npm-launch-fix-suite-20261026T095613Z.txt
+Guarded suite SHA256: C5DDFFA24393AED2E391EF8A72E8BFF1F8ECD9576C4349E182B288785F1B2941
+
+Package-consumer passed: True
+Guarded suite passed: True
+Original S2 result remains FAILED/STOPPED.
+No candidate commit or publication performed.
+End UTC: 2026-10-26T09:58:05.1795781Z

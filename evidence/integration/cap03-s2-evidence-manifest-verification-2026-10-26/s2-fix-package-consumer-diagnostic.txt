@@ -1,0 +1,54 @@
+Diagnostic UTC: 2026-10-26T09:37:03.8201814Z
+Source log: C:\iips-evidence\cap03-s2\s2-fix-06-package-consumer.txt
+Verified source log SHA256: ADE33E72405AA0DE1166479103F8ED48B8BD1763ADF4C83F0513E08B296B6B4C
+Source log line count: 22
+Action: read-only inspection; no commands rerun.
+
+=== FAILURE / ERROR MATCHES ===
+Line 14:
+
+[package-consumer] packing built artifacts
+[package-consumer] FAIL: Command failed (spawn error): npm.cmd pack --ignore-scripts --json --pack-destination C:\Users\USER\AppData\Local\Temp\ipd-cap02-public-package-2y8Ymv
+
+
+Error: spawnSync npm.cmd EINVAL
+[package-consumer] preserved temporary evidence: C:\Users\USER\AppData\Local\Temp\ipd-cap02-public-package-2y8Ymv
+---
+Line 17:
+
+
+Error: spawnSync npm.cmd EINVAL
+[package-consumer] preserved temporary evidence: C:\Users\USER\AppData\Local\Temp\ipd-cap02-public-package-2y8Ymv
+
+Command start UTC: 2026-10-26T09:35:04.5430534Z
+Command end UTC: 2026-10-26T09:35:15.2272498Z
+---
+Line 22:
+Command start UTC: 2026-10-26T09:35:04.5430534Z
+Command end UTC: 2026-10-26T09:35:15.2272498Z
+Command exit code: 1
+---
+
+=== LOG TAIL ===
+     1: 
+     2: > iips-production-market-data@1.0.0 test:package-consumer
+     3: > npm run build:portfolio-ui-package && npm run build:pit-package && node scripts/verify-public-package.mjs
+     4: 
+     5: 
+     6: > iips-production-market-data@1.0.0 build:portfolio-ui-package
+     7: > tsc -p tsconfig.portfolio-ui-package.json
+     8: 
+     9: 
+    10: > iips-production-market-data@1.0.0 build:pit-package
+    11: > tsc -p tsconfig.pit-package.json
+    12: 
+    13: [package-consumer] packing built artifacts
+    14: [package-consumer] FAIL: Command failed (spawn error): npm.cmd pack --ignore-scripts --json --pack-destination C:\Users\USER\AppData\Local\Temp\ipd-cap02-public-package-2y8Ymv
+    15: 
+    16: 
+    17: Error: spawnSync npm.cmd EINVAL
+    18: [package-consumer] preserved temporary evidence: C:\Users\USER\AppData\Local\Temp\ipd-cap02-public-package-2y8Ymv
+    19: 
+    20: Command start UTC: 2026-10-26T09:35:04.5430534Z
+    21: Command end UTC: 2026-10-26T09:35:15.2272498Z
+    22: Command exit code: 1

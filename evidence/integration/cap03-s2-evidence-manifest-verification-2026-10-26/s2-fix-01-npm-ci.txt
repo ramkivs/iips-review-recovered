@@ -1,0 +1,18 @@
+
+> iips-production-market-data@1.0.0 prepare
+> npm run build:portfolio-ui-package && npm run build:pit-package
+
+
+> iips-production-market-data@1.0.0 build:portfolio-ui-package
+> tsc -p tsconfig.portfolio-ui-package.json
+
+
+> iips-production-market-data@1.0.0 build:pit-package
+> tsc -p tsconfig.pit-package.json
+
+
+added 31 packages in 17s
+
+Command start UTC: 2026-10-26T09:33:43.4268853Z
+Command end UTC: 2026-10-26T09:34:01.2509324Z
+Command exit code: 0

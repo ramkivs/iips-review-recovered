@@ -1,0 +1,2 @@
+Report: C:\iips-evidence\cap03-s2\s2-windows-esm-fix-patch-record.txt
+SHA256: 40C0E6154A0CFBDA629F88898A3E63C0FFD57318CAB080B1703BB85F06BDAB7B
