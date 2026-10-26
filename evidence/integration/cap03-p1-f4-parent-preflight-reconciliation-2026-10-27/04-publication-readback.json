@@ -1,0 +1,100 @@
+{
+  "record": "IIPS-V3-CAP03-P1-F4-PARENT-PREFLIGHT-RECONCILIATION-2026-10-27-01",
+  "publication": {
+    "pr": 315,
+    "head": "5bfb7a92977340b592be1ba146a0b204a7dbaabe",
+    "merge": "4fd5a7c72db6aee9be1836e053f4bc427adee003",
+    "merge_parents": [
+      "fd5dd32b3dd269c840efdd13fcd0f90317ef27e4",
+      "5bfb7a92977340b592be1ba146a0b204a7dbaabe"
+    ],
+    "merge_tree": "8b6249432662f6286c0242e3183bbd251ac48c73",
+    "exact_head_ci": "40380345030",
+    "post_merge_main_ci": "40380708721"
+  },
+  "readback_method": "GitHub Git Blobs API at the merge commit; base64-decoded bytes re-hashed locally",
+  "all_match": true,
+  "files": [
+    {
+      "path": "docs/integration/IIPS_v3.0_CAP03_P1_F4_PARENT_PREFLIGHT_RECONCILIATION_2026-10-27.md",
+      "blob": "8e35986afffcb5187a68347fd2f6209b4e259275",
+      "size": 18975,
+      "remote_sha256": "14723ffd6be83d1e7869c78fe410b689f89ae899f1d7ac012c30918ffe263eca",
+      "local_sha256": "14723ffd6be83d1e7869c78fe410b689f89ae899f1d7ac012c30918ffe263eca",
+      "bytes_equal": true,
+      "match": true
+    },
+    {
+      "path": "IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md",
+      "blob": "9469989f828e4d9b11a67eaa570aa3df876e696e",
+      "size": 2571425,
+      "remote_sha256": "985e26274cfc666b8af4c420c9585fa057f276f989e8ab11c5f89cadb0396122",
+      "local_sha256": "985e26274cfc666b8af4c420c9585fa057f276f989e8ab11c5f89cadb0396122",
+      "bytes_equal": true,
+      "match": true
+    },
+    {
+      "path": "evidence/integration/cap03-p1-f4-parent-preflight-reconciliation-2026-10-27/00-cited-records-and-blobs.json",
+      "blob": "ea5ea317e68df979e687e4c9295613189b353967",
+      "size": 8137,
+      "remote_sha256": "6fdbf385ff1c6895ecf98e3c0615b9eaa00a22bbfd1cca8fa3662a26c721f876",
+      "local_sha256": "6fdbf385ff1c6895ecf98e3c0615b9eaa00a22bbfd1cca8fa3662a26c721f876",
+      "bytes_equal": true,
+      "match": true
+    },
+    {
+      "path": "evidence/integration/cap03-p1-f4-parent-preflight-reconciliation-2026-10-27/01-pf11-pf12-pf13-reconciliation.json",
+      "blob": "cb96d2687409e51229bf8b3e5535b5bcfca18449",
+      "size": 7398,
+      "remote_sha256": "7f2fb9face9ad833130ac090b61bfc54445757b55e31548bf82a451546ae41a3",
+      "local_sha256": "7f2fb9face9ad833130ac090b61bfc54445757b55e31548bf82a451546ae41a3",
+      "bytes_equal": true,
+      "match": true
+    },
+    {
+      "path": "evidence/integration/cap03-p1-f4-parent-preflight-reconciliation-2026-10-27/02-p1c-p1d-readonly-preflight.ps1",
+      "blob": "eaea3f7fc7ef7f49395c3cbec26ed1ad379f46bb",
+      "size": 10231,
+      "remote_sha256": "85ac7271c73469b6d5e454a3173ff3aad944a645a2352bb77ee36baee976a30b",
+      "local_sha256": "85ac7271c73469b6d5e454a3173ff3aad944a645a2352bb77ee36baee976a30b",
+      "bytes_equal": true,
+      "match": true
+    },
+    {
+      "path": "evidence/integration/cap03-p1-f4-parent-preflight-reconciliation-2026-10-27/03-reuse-determination.json",
+      "blob": "c17bd7b10f80f63949385d6aa9b75b80bed83f8e",
+      "size": 5770,
+      "remote_sha256": "038c0a5d0ecdf67609d2e9f6bebbea629cde36ce4e4ad398ba9d6b439e40d0e4",
+      "local_sha256": "038c0a5d0ecdf67609d2e9f6bebbea629cde36ce4e4ad398ba9d6b439e40d0e4",
+      "bytes_equal": true,
+      "match": true
+    },
+    {
+      "path": "evidence/integration/cap03-p1-f4-parent-preflight-reconciliation-2026-10-27/INDEX.md",
+      "blob": "25e0389c20f5784a4e6f1bd13c799842d62eea63",
+      "size": 3221,
+      "remote_sha256": "6cab6904fdf6e2ad0af62710e6720b650ac4b3cd411d8419598f1daa27437488",
+      "local_sha256": "6cab6904fdf6e2ad0af62710e6720b650ac4b3cd411d8419598f1daa27437488",
+      "bytes_equal": true,
+      "match": true
+    },
+    {
+      "path": "evidence/integration/cap03-p1-f4-parent-preflight-reconciliation-2026-10-27/SHA256SUMS.txt",
+      "blob": "5c39c7d46c993ff9d497fd3c99477ebf6deffaf7",
+      "size": 562,
+      "remote_sha256": "63e8d1891b95638b2d3b88b1b703e1cecc2d99b6b203d2e4b233eb7ccf28fcc9",
+      "local_sha256": "63e8d1891b95638b2d3b88b1b703e1cecc2d99b6b203d2e4b233eb7ccf28fcc9",
+      "bytes_equal": true,
+      "match": true
+    },
+    {
+      "path": "evidence/integration/cap03-p1-f4-parent-preflight-reconciliation-2026-10-27/verify_reconciliation.py",
+      "blob": "103ed100b96cb1da3a3439a40544c0dfe7035508",
+      "size": 8434,
+      "remote_sha256": "8637036a3bde975ebe70c5a35a640042463a2c4f10c8d95416c29e45bd38ba35",
+      "local_sha256": "8637036a3bde975ebe70c5a35a640042463a2c4f10c8d95416c29e45bd38ba35",
+      "bytes_equal": true,
+      "match": true
+    }
+  ]
+}
