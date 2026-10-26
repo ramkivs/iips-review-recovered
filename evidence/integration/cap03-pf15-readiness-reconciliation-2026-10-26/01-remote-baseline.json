@@ -1,0 +1,87 @@
+{
+  "classification": "READ-ONLY REMOTE BASELINE VERIFICATION; NO IPD WRITES",
+  "irr": {
+    "repo": "ramkivs/iips-review-recovered",
+    "main": "3cd61bcec11beaa96fafa351f8ca557bbfd41b22",
+    "tree": "0ff4e15c4cee0c9fbb48d3dfb659caacee7cb860",
+    "blobs": [
+      {
+        "path": "IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md",
+        "blob_sha1": "f26248219515048e352be2ed7f0412038f3b8fb2",
+        "bytes": 2308137,
+        "sha256": "92137c27cb9ec0a1bd81e140a7353db5948e5e4924901db2d791af77867aac35",
+        "matches_pinned_baseline": true
+      },
+      {
+        "path": "docs/integration/IIPS_v3.0_CAP03_S2_P1_S3_QE_EXECUTION_AND_EVIDENCE_MATRIX_2026-10-26.md",
+        "blob_sha1": "10bf69c972e0cf206a1dd9c70bf98dca5b8049b2",
+        "bytes": 26851,
+        "sha256": "e260b7518ea9a41e943e5316d1d55724c0230b70c1aee091d6745ce71a31525b",
+        "matches_pinned_baseline": true
+      },
+      {
+        "path": "docs/integration/IIPS_v3.0_CAP03_PF15_ENDPOINT_LOCAL_STATE_DESIGNATION_DECISION_REQUEST_2026-10-26.md",
+        "blob_sha1": "97dc890b016a85e40865c84861d68602eef46808",
+        "bytes": 10928,
+        "sha256": "d033fa99b9a36ba841d70290b091d98be67f6c13e1a5bfc102ca0a3b7691143c",
+        "matches_pinned_baseline": true
+      },
+      {
+        "path": "docs/integration/IIPS_v3.0_CAP03_S2_OPERATOR_RUNBOOK_2026-10-26.md",
+        "blob_sha1": "4cce435cebcec6402e733419fef88ab8ae5d9a1f",
+        "bytes": 12043,
+        "sha256": "4312e9f6fd9e0e2aaf7f1cddcf14cae1b24623267bd9b7279285b46e76f48837",
+        "matches_pinned_baseline": true
+      },
+      {
+        "path": "docs/integration/IIPS_v3.0_CAP03_S2_HOST_RECOVERY_AND_PRECONDITION_BLOCKER_2026-10-26.md",
+        "blob_sha1": "5e10f47820146d01e9c9d87281f908dd53f2ee2c",
+        "bytes": 10308,
+        "sha256": "efc0894d8cf59455b63c787104626cfee43794336b1c4a35a342e2dd94331577",
+        "matches_pinned_baseline": true
+      },
+      {
+        "path": "docs/integration/IIPS_v3.0_CAP03_G4_H12_R5_PA_ADOPTION_ACT_EFFECTIVE_2026-10-25.md",
+        "blob_sha1": "9f3aa377ab6468e8a27ec2d30bb2fc6d9395e1ff",
+        "bytes": 30278,
+        "sha256": "d29781bc5be47498a12caf00b797d9adbb3f0d55209039aa2755ebbaf8f5c1fd",
+        "matches_pinned_baseline": true
+      },
+      {
+        "path": "docs/integration/G4-H12-MANIFEST-v2-CANDIDATE-2026-10-25-R5.json",
+        "blob_sha1": "f4649e36a81c7013287810cd3202b99586dbd951",
+        "bytes": 143813,
+        "sha256": "d0be8bef3281ae6a296b8700265fe134b5088dd84b102b77ca8a157c8275cb76",
+        "matches_pinned_baseline": true
+      }
+    ]
+  },
+  "ipd": {
+    "repo": "ramkivs/iips-production-market-data",
+    "main": "f5eddbc20b944a098a9060a8e3349c6d10b7843e",
+    "tree": "5c93f1d1e6c4919fa632ff107569ac955f5e052e",
+    "blobs": [
+      {
+        "path": "src/ipc/endpoint.ts",
+        "blob_sha1": "e565aa5b343266f62ffd411d17d74c89b9f29324",
+        "bytes": 13292,
+        "sha256": "e0675f46ebf8c1a06d665a942445662d3e304b81a6ba20d0706688b58399734e",
+        "matches_pinned_baseline": null
+      },
+      {
+        "path": "src/ipc/entrypoint.ts",
+        "blob_sha1": "ae3edd12e1199845f6b5fe059fa79fed6245ae32",
+        "bytes": 5146,
+        "sha256": "cb84c19177fe8ddebd300c39a4d6a3f869f5d56b95b4f87bde7e51f6def3abd6",
+        "matches_pinned_baseline": null
+      },
+      {
+        "path": "evidence/cross-repository/IIPS_V3_CAP03_HOST_READINESS_PACKET_2026-10-24.md",
+        "blob_sha1": "9d9c5970f66b1c901a2b5d28c02e8c9562078cf2",
+        "bytes": 20923,
+        "sha256": "1ea2637f29a0c42497a0ef2232514b977147131afebfa6f557295b4706a90360",
+        "matches_pinned_baseline": null
+      }
+    ]
+  }
+}

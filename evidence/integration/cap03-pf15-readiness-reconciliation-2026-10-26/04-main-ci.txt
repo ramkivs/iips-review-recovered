@@ -1,0 +1,3 @@
+Current main CI status from GitHub Actions — 2026-10-26 UTC
+[{"conclusion":"success","databaseId":40280401460,"headSha":"3cd61bcec11beaa96fafa351f8ca557bbfd41b22","status":"completed","workflowName":"CI"}]
+[{"conclusion":"success","databaseId":40230772869,"headSha":"f5eddbc20b944a098a9060a8e3349c6d10b7843e","status":"completed","workflowName":"CI"}]
