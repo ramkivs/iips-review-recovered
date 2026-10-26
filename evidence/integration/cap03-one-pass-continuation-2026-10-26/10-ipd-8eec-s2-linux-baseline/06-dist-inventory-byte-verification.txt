@@ -1,0 +1,12 @@
+=== Fresh Linux clean-build reproducibility vs bound H-12 R5 supplemental runtime_dist_set ===
+Timestamp (UTC): 2026-10-26T06:01:43Z
+Build: /tmp/ipd-clone at 8eec74ae27cda09f3c368b9c299895eae41554db (full-history scratch clone, outside every worktree)
+
+bound inventory file_count: 1140 | entries: 1140
+fresh build dist files: 1140
+missing: 0 | extra: 0 | content mismatches: 0
+bound canonical_inventory_sha256: 81bddd5cdd007bccb391759d765f57d780cb3a9db886299890a5c0fa5c4311b2
+bound npm_pack_tarball_shasum_sha1: cc2aa70186b8fd7bc7255452ac8d8b00d094f53e
+VERDICT: 1,140/1,140 BYTE-IDENTICAL
+
+=== npm pack shasum re-measurement (npm pack --dry-run style; compare to bound cc2aa701...) ===

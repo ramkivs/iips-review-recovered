@@ -1,0 +1,51 @@
+=== IRR frontend publication checks (2026-10-26 UTC) ===
+Timestamp: 2026-10-26T06:12:55Z
+Note: initial npm ci failed UNABLE_TO_VERIFY_LEAF_SIGNATURE on codeload.github.com; documented sandbox-only retry 'npm ci --strict-ssl=false' succeeded (190 packages); package.json and package-lock.json unchanged (git diff empty).
+
+--- 1. npm run typecheck ---
+exit=0
+> tsc -p tsconfig.broker-import.json
+
+
+> @iips/v3-frontend@0.1.0 typecheck
+> tsc --noEmit
+
+--- 2. npm run typecheck:replay-server ---
+exit=0
+
+> @iips/v3-frontend@0.1.0 typecheck:replay-server
+> tsc -p tsconfig.replay-server.json --noEmit
+
+--- 3. npm run test:ci ---
+exit=0
+ Test Files  106 passed (106)
+      Tests  1350 passed (1350)
+--- 4. node .ci/assert-tests.js .vitest-report.json ---
+exit=0
+assert-tests: OK — 106 test file(s), 1350 test(s), 0 failed
+--- 5. npm run build ---
+exit=0
+✓ 142 modules transformed.
+✓ built in 3.19s
+
+=== RE-RUN AT FINAL BASE 0329964 (2026-10-26T06:21:50Z) ===
+Base advanced mid-pass via PRs #287/#288; git diff c7fc7e40..0329964 -- frontend/ is empty, so sources are identical; checks re-executed against the final base for receipt integrity.
+--- 1. npm run typecheck ---
+exit=0
+> tsc --noEmit
+
+--- 2. npm run typecheck:replay-server ---
+exit=0
+> tsc -p tsconfig.replay-server.json --noEmit
+
+--- 3. npm run test:ci ---
+exit=0
+ Test Files  106 passed (106)
+      Tests  1350 passed (1350)
+--- 4. node .ci/assert-tests.js .vitest-report.json ---
+assert-tests: OK — 106 test file(s), 1350 test(s), 0 failed
+exit=0
+--- 5. npm run build ---
+exit=0
+✓ 142 modules transformed.
+✓ built in 3.30s
