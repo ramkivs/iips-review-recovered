@@ -43,4 +43,8 @@ As a result, P-1 is no longer blocked by S2 evidence acceptance or the execution
 
 This receipt registers and corrects records only. It does not rerun S2, consume P-1, create a database/endpoint/evidence root, start S3/QE, change a pin/H-12 manifest/fence/production restriction, render an S2 acceptance, or write to IPD. `WRITE_NOT_AUTHORIZED`, all `503` fences and `durable:false` remain intact.
 
+## 5. Publication receipt
+
+The late-adapted §16.139 registration was carried by IRR PR **#313** (tested head `0f41aaeca23a48a497dcb69f7bcba607a0ffee11`; exact-head CI `40367807820` `success`) and regular 2-parent merge **`4ab046bf539a6f295a466fd60f8597d25a35003a`** / tree `316a4884367e109e4b97543f2a23eb54f30c6a95` (`2026-10-26T17:23:20Z`); post-merge `main` CI `40368144849` was `success`. Independent Git-Blobs-API read-back matched all seven representative merged artifacts. The companion update populates tracker §16.139.7 with those coordinates; it does not self-embed its own carrying merge. See `evidence/integration/cap02-cap03-unified-reconciliation-irr-review-2026-10-26/01-publication-readback.json`.
+
 *End of `IIPS-V3-CAP02-CAP03-UNIFIED-RECONCILIATION-IRR-REVIEW-2026-10-26-01`.*
