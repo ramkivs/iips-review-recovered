@@ -11473,3 +11473,25 @@ effective and QE-8's request-level AWAITING state stands operationally.
 the sole operator binding has not been touched; QE-8 is procedure-approved and not executed; publication
 moves no gate and grants no provisioning, designation, acceptance, admission, writes or production
 eligibility.*
+
+### 16.131.7 Publication receipt (post-merge, remote identity- and completeness-verified)
+
+| Coordinate | Value |
+|---|---|
+| PR | `ramkivs/iips-review-recovered` **#296** — **MERGED** `2026-10-26T07:33:16Z`, regular 2-parent merge commit `f73865c073c01b3c937ff68ef4cc3d0b4747ae08`, tree `b18e43b358e225c85910b47cca0074f8a3566873`; parents `5f03fe4a…` (then-current `main`) + `0f31a3e8…` (tested head, rebased after the §16.131.0 identifier collision) |
+| Tested head | `0f31a3e8ad123d2dc4c2857af3d2cd9761f33331` |
+| Exact-head CI | run **`40286319772`** (`pull_request`) — **success** on `0f31a3e8` (Typecheck · Test · Build) |
+| Post-merge CI | run **`40286492988`** (`push`, branch `main`) — **success** on `f73865c07`; no cancellation/supersession required |
+| Changed paths (8) | tracker (modified); one new effective act under `docs/integration/`; six evidence files (incl. `SHA256SUMS.txt`) under `evidence/integration/cap02-qe8-rv1-pa-decision-2026-10-26/` — **documentation/evidence only; 0 source/test/pin/route/fence/manifest/workflow paths; 0 IPD writes** |
+| Remote read-back (identity) | GitHub API at ref `f73865c07`: **8/8 PASS** — remote blob OIDs equal local git-blob OIDs and remote byte SHA-256 equal local file SHA-256 for every changed path. Act blob `eaf8dda5…` (20,997 B, SHA-256 `3eff1d87…`); tracker blob `adafc7e6…` (2,346,490 B, SHA-256 `35024e54…`, fetched via the git blobs API because the Contents API omits content above 1 MB — the empty-content response was detected and not recorded as a pass) |
+| Remote read-back (**completeness**) | remote-fetched act: all 7 sections present, 0 truncation markers, Option A/disposable-copy/`storePathRole`/delta-zero/T2-component-only/“never full-path PASS” language present, B/C/D non-selection stated; remote-fetched tracker: §16.131 + §16.131.0 collision disclosure + `CV-CORR-111` + `CHG-2026-10-26-08` + rows `V806`–`V811` all present; the only `[truncated …]` string at the ref is the historical §16.130.2 repair narrative; no identifier leak outside the disclosure |
+| Scope re-affirmed | zero IPD writes; no host command, provisioning, store/copy creation, binding touch, revocation, QE execution, acceptance or admission; QE remains **0/11**; U3 `AUTHORIZED — NOT STARTED`; all twelve `/api/user-portfolios*` `503` fences, `WRITE_NOT_AUTHORIZED`, W-1 and the H-12 R5 manifest intact |
+| Effectiveness | all four conditions of act §6 are satisfied (regular merge; green exact-head CI; green post-merge `main` CI; independent remote identity **and** completeness read-back) — `IIPS-V3-CAP02-QE8-RV1-REVOCATION-PROCEDURE-PA-ACT-2026-10-26-01` is **EFFECTIVE in the governing IRR locus**; QE-8 is `PROCEDURE APPROVED (RV-1, Option A) — NOT EXECUTED` |
+| Evidence | `evidence/integration/cap02-qe8-rv1-pa-decision-2026-10-26/05-publication-and-readback-verification.txt` |
+
+`V810`/`V811` **PASS** — the post-collision census (0 prior occurrences in both loci), merge, exact-head CI,
+post-merge CI, remote blob identity and remote completeness are all independently verified. The receipt is
+published by this companion receipt PR; nothing in §16.131 self-embedded coordinates before the merge.
+
+*End of §16.131.7. Publication approves the Option A revocation **procedure** only; it executes nothing,
+touches no binding, store or host, and grants no acceptance, admission, writes or production eligibility.*
