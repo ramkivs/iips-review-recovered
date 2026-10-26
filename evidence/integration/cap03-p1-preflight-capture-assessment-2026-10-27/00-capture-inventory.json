@@ -1,0 +1,145 @@
+{
+  "record_id": "IIPS-V3-CAP03-P1-PREFLIGHT-CAPTURE-ACCEPTANCE-ASSESSMENT-2026-10-27-01",
+  "assessment": "inventory of assessed published capture bytes (recomputed from the repository tree under review; not a recapture, not a re-verification of the completed publication chain)",
+  "repository": "ramkivs/iips-review-recovered",
+  "ref": "refs/heads/main",
+  "commit": "ff29734b877f018b207385e0e375a8d0bbf5b3e0",
+  "tree": "e96fa8ac60f97e8111a9c46d456473464fb047a3",
+  "parent": "ad09fdeae39d8582582d199b26032b812794e8ee",
+  "evidence_directory": "evidence/integration-/cap03-p1-reconcile-20261026T201328Z",
+  "run_id": "cap03-p1-reconcile-20261026T201328Z",
+  "run_observed_utc": "2026-10-26T20:13:28.3346687Z",
+  "run_window_utc": [
+    "2026-10-26T20:13:28.3538837Z",
+    "2026-10-26T20:13:34.0506351Z"
+  ],
+  "file_count": 11,
+  "files": [
+    {
+      "name": "00-run-parameters.txt",
+      "bytes": 427,
+      "sha256": "1bc7f35cd49d6fb791149610adc4829c66dad5da84d4711b6b01f1b41c8d1cf8",
+      "in_section_16_147_four_file_set": true,
+      "pf_scope": [
+        "ENVELOPE",
+        "PF-06",
+        "PF-11",
+        "PF-17"
+      ]
+    },
+    {
+      "name": "01-pf01-hostname.txt",
+      "bytes": 213,
+      "sha256": "07b30d0e39984b6bc2f35f0b9d342330e89be55450db2bf85ba3ba6ffeb95f65",
+      "in_section_16_147_four_file_set": false,
+      "pf_scope": [
+        "PF-01"
+      ]
+    },
+    {
+      "name": "02-pf02-pf03-os-identity.txt",
+      "bytes": 362,
+      "sha256": "a2809e02c91f34672926e1099567f73964156cde7976f773bf530b0bc229ed60",
+      "in_section_16_147_four_file_set": false,
+      "pf_scope": [
+        "PF-02",
+        "PF-03"
+      ]
+    },
+    {
+      "name": "03-pf04-pf05-pf06-runtime.txt",
+      "bytes": 597,
+      "sha256": "92b213a7f99e802e73c56922684b81c6fcf0872228e3ab8fb590ff67a3d3283e",
+      "in_section_16_147_four_file_set": false,
+      "pf_scope": [
+        "PF-04",
+        "PF-05",
+        "PF-06"
+      ]
+    },
+    {
+      "name": "04-pf07-pf08-pf09-repositories.txt",
+      "bytes": 791,
+      "sha256": "ef83c7ac8a0b2a539968acb90f505e41c70ab2399aee020bfddcb00f6f4291c9",
+      "in_section_16_147_four_file_set": false,
+      "pf_scope": [
+        "PF-07",
+        "PF-08",
+        "PF-09"
+      ]
+    },
+    {
+      "name": "05-pf10-enabling-flags.txt",
+      "bytes": 458,
+      "sha256": "1c12093f49bd4c4a286d0cd7c751bee2168d65613f7f418b4a884e4eaf45d23a",
+      "in_section_16_147_four_file_set": false,
+      "pf_scope": [
+        "PF-10"
+      ]
+    },
+    {
+      "name": "06-pf11-pf12-pf13-store-path.txt",
+      "bytes": 1312,
+      "sha256": "51a7c2d4f8aace6e2eeb2b4ee59e88e592d126bee8739797b636c0d3c5211571",
+      "in_section_16_147_four_file_set": true,
+      "pf_scope": [
+        "PF-11",
+        "PF-12",
+        "PF-13"
+      ]
+    },
+    {
+      "name": "07-pf14-evidence-root.txt",
+      "bytes": 408,
+      "sha256": "817ae418e958bc4a39ca5dc57c21c9388c84f4b3dfab6dfb3bf0409f6da6e559",
+      "in_section_16_147_four_file_set": false,
+      "pf_scope": [
+        "PF-14",
+        "PF-11"
+      ]
+    },
+    {
+      "name": "08-pf15-designation-crosscheck.txt",
+      "bytes": 432,
+      "sha256": "d6874071e9b58bf13a6e434872cd7a6a4cfa5e843e706fd049c48fb3ccd2fe12",
+      "in_section_16_147_four_file_set": false,
+      "pf_scope": [
+        "PF-15"
+      ]
+    },
+    {
+      "name": "98-script-integrity.txt",
+      "bytes": 165,
+      "sha256": "69b1d6a0e810971c69795346909d1438b8557a65bb386968d72d68feb395a3a7",
+      "in_section_16_147_four_file_set": true,
+      "pf_scope": [
+        "ENVELOPE"
+      ]
+    },
+    {
+      "name": "99-final-verdict.txt",
+      "bytes": 321,
+      "sha256": "b3ff1b20d1484029accd844d6ccec5d664e7f173eb255653362a3dbcd57c7423",
+      "in_section_16_147_four_file_set": true,
+      "pf_scope": [
+        "ENVELOPE"
+      ]
+    }
+  ],
+  "generating_script": {
+    "name": "CAP03_P1_ReadOnly_Preflight_Reconciliation_REV2.ps1",
+    "path_recorded": "C:\\Users\\USER\\Downloads\\CAP03_P1_ReadOnly_Preflight_Reconciliation_REV2.ps1",
+    "sha256_recorded_in_98": "CB7E674ED8E4DDFDB6F185204E1024743704623AD356632A7AAFE7BE6ED5C8B7",
+    "bytes_published": false
+  },
+  "final_verdict_verbatim": "PREFLIGHT CAPTURED \u2014 NOT AUTHORIZATION TO EXECUTE P-1",
+  "key_pins": {
+    "ipd_captured_head": "8eec74ae27cda09f3c368b9c299895eae41554db",
+    "ipd_captured_tree": "4eba29029f8d95cfe483e615a7047426b298ce50",
+    "ipd_designated_execution_head_section_16_143": "001c3c80618f2ee1d40e9a90912237e1a06e7b58",
+    "ipd_designated_execution_tree_section_16_143": "399fa44a5f1953c0f61b452420fefb5985426ef1",
+    "irr_captured_head": "ba64b2d5927c2f872560710cf1474c25a5cde0d5",
+    "irr_captured_tree": "5e4262f1cd75bf13b76ced5b45058f31434b5dad",
+    "pf15_effective_act_blob": "3fe9a2ddd5f3b8730eccee7748b6266b5e2d8b1d"
+  }
+}

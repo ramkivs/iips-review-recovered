@@ -1,0 +1,40 @@
+{
+  "record_id": "IIPS-V3-CAP03-P1-PREFLIGHT-CAPTURE-ACCEPTANCE-ASSESSMENT-2026-10-27-01",
+  "tracker_section": "16.148",
+  "cv_corr": "CV-CORR-128",
+  "assessed_run": "cap03-p1-reconcile-20261026T201328Z",
+  "status_vocabulary": ["SATISFIED", "SATISFIED_AT_CAPTURE", "NOT_SATISFIED", "INSUFFICIENT", "NOT_APPLICABLE"],
+  "session_note": "SATISFIED_AT_CAPTURE establishes host state only at 2026-10-26T20:13Z; P-1-C/P-1-D remain session-bound (sections 16.140.4, 16.146.3-16.146.4, 16.147).",
+  "requirements": [
+    {"id": "PF-01", "criterion_source": "matrix section 5", "evidence": ["01-pf01-hostname.txt"], "observed": "DESKTOP-NO0NHTP", "status": "SATISFIED_AT_CAPTURE"},
+    {"id": "PF-02", "criterion_source": "matrix section 5", "evidence": ["02-pf02-pf03-os-identity.txt"], "observed": "Microsoft Windows 11 Home Single Language; 10.0.26300", "status": "SATISFIED_AT_CAPTURE"},
+    {"id": "PF-03", "criterion_source": "matrix section 5", "evidence": ["02-pf02-pf03-os-identity.txt"], "observed": "IsAdministrator=False; SID S-1-5-21-1872737340-673410177-2240931581-1001", "status": "SATISFIED_AT_CAPTURE"},
+    {"id": "PF-04", "criterion_source": "matrix section 5", "evidence": ["03-pf04-pf05-pf06-runtime.txt"], "observed": "win32; v22.22.0; x64", "status": "SATISFIED_AT_CAPTURE"},
+    {"id": "PF-05", "criterion_source": "matrix section 5", "evidence": ["03-pf04-pf05-pf06-runtime.txt"], "observed": "node:sqlite probe ok; ExperimentalWarning verbatim", "status": "SATISFIED_AT_CAPTURE"},
+    {"id": "PF-06", "criterion_source": "matrix section 5", "evidence": ["00-run-parameters.txt", "03-pf04-pf05-pf06-runtime.txt"], "observed": "single operator-local node path inspected", "status": "SATISFIED_AT_CAPTURE"},
+    {"id": "PF-07", "criterion_source": "matrix sections 5/7 as designated by tracker section 16.143; runbook STOP-on-mismatch", "evidence": ["04-pf07-pf08-pf09-repositories.txt"], "expected": "001c3c80618f2ee1d40e9a90912237e1a06e7b58 / 399fa44a5f1953c0f61b452420fefb5985426ef1", "observed": "8eec74ae27cda09f3c368b9c299895eae41554db / 4eba29029f8d95cfe483e615a7047426b298ce50 (clean, diffs 0)", "status": "NOT_SATISFIED", "blocker": "T-1"},
+    {"id": "PF-08", "criterion_source": "matrix section 5; CAP-02 runbook designated IRR consumer pin", "evidence": ["04-pf07-pf08-pf09-repositories.txt"], "expected": "ba64b2d5927c2f872560710cf1474c25a5cde0d5 / 5e4262f1cd75bf13b76ced5b45058f31434b5dad", "observed": "exact match; porcelain empty; diffs 0", "status": "SATISFIED_AT_CAPTURE"},
+    {"id": "PF-09", "criterion_source": "matrix section 5", "evidence": ["04-pf07-pf08-pf09-repositories.txt"], "observed": "IsShallow=false (IPD)", "status": "SATISFIED_AT_CAPTURE"},
+    {"id": "PF-10", "criterion_source": "matrix section 5; successor act environment condition", "evidence": ["05-pf10-enabling-flags.txt"], "observed": "4 listed flags + 5 GATE_A_PRIME_* absent", "status": "SATISFIED_AT_CAPTURE"},
+    {"id": "PF-11", "criterion_source": "matrix section 5; successor step 1; PF-15 F4", "evidence": ["00-run-parameters.txt", "06-pf11-pf12-pf13-store-path.txt", "07-pf14-evidence-root.txt"], "observed": "absolute F4; NTFS Fixed volume C; not under configured OneDrive root; effective write probe PASS + cleanup; worktree exclusion enumerated-only with scope disclaimer, no ancestor-.git result", "status": "INSUFFICIENT", "blocker": "T-2", "limbs_satisfied_at_capture": ["absolute", "local fixed NTFS", "non-synced (configured OneDrive root)", "writable without elevation"]},
+    {"id": "PF-12", "criterion_source": "matrix section 5; DISP-02", "evidence": ["06-pf11-pf12-pf13-store-path.txt"], "observed": "store/-wal/-shm/-journal False; ProbeFileRemains=False", "status": "SATISFIED_AT_CAPTURE"},
+    {"id": "PF-13", "criterion_source": "matrix section 5 as reconciled at P-1 scope by DISP-01", "evidence": ["06-pf11-pf12-pf13-store-path.txt", "07-pf14-evidence-root.txt"], "observed": "StoreParentExists=True; nearest existing ancestor = terminal parent on NTFS Fixed volume; ancestors IsReparsePoint=False", "status": "SATISFIED_AT_CAPTURE", "note": "parent-exists premise delta vs section 16.146 recorded; provenance not evidenced; not a blocker"},
+    {"id": "PF-14", "criterion_source": "matrix sections 5/7", "evidence": ["07-pf14-evidence-root.txt"], "observed": "rooted; exists; not store; NTFS Fixed; transcripts deposited (writable)", "status": "SATISFIED_AT_CAPTURE"},
+    {"id": "PF-15", "criterion_source": "matrix section 5; effective act -02 (P-1-E)", "evidence": ["08-pf15-designation-crosscheck.txt"], "observed": "act -02 blob 3fe9a2ddd5f3b8730eccee7748b6266b5e2d8b1d; F4/F2 verbatim; F3 N/A Option A", "status": "SATISFIED"},
+    {"id": "PF-16", "criterion_source": "matrix sections 5/7", "evidence": ["00-run-parameters.txt", "04-pf07-pf08-pf09-repositories.txt", "08-pf15-designation-crosscheck.txt"], "observed": "store/act elements present; pin element fails; no dedicated transcript", "status": "NOT_SATISFIED", "blocker": "T-1 (consequential)"},
+    {"id": "PF-17", "criterion_source": "matrix sections 5/7 (P-1-F register)", "evidence": ["00-run-parameters.txt", "99-final-verdict.txt"], "observed": "script-scope P1Executed=False; tracker register sections 16.146.4/16.147 UNSPENT; no execution receipt", "status": "INSUFFICIENT", "note": "register state itself confirmed SATISFIED from authoritative records; re-confirm at attempt"},
+    {"id": "ENVELOPE", "criterion_source": "section 16.147 integrity boundary", "evidence": ["00-run-parameters.txt", "98-script-integrity.txt", "99-final-verdict.txt"], "observed": "REV2 SHA-256 CB7E674E... recorded; script bytes unpublished; verdict line verbatim", "status": "INSUFFICIENT", "blocker": "T-3"},
+    {"id": "FRESHNESS", "criterion_source": "sections 16.140.4 / 16.146.4 / 16.147 (immediately before attempt)", "evidence": ["00-run-parameters.txt"], "observed": "point-in-time run 2026-10-26T20:13:28Z; no attempt session", "status": "NOT_SATISFIED", "blocker": "T-4"},
+    {"id": "STEP0-HASHES", "criterion_source": "CAP-02 runbook section 4 step 0 (execution session)", "evidence": [], "observed": "outside published P-1-C/P-1-D instrument scope", "status": "NOT_APPLICABLE"}
+  ],
+  "upstream_gates_unchanged": {"P-1-A": "SATISFIED (16.144)", "P-1-B": "SATISFIED candidate-scoped (16.143)", "IDENTITY": "SATISFIED (16.140)", "P-1-E": "SATISFIED (16.137.6)", "P-1-F": "UNSPENT"},
+  "resulting_status": {"P-1-C": "NOT ESTABLISHED", "P-1-D": "DESIGNATED; NOT VERIFIED (observed at capture except every-worktree limb)", "PREFLIGHT_ACCEPTANCE": "NOT ACCEPTED", "P-1_EXECUTION": "UNSPENT / NOT AUTHORIZED"},
+  "blockers": {
+    "T-1": "PF-07 captured at superseded baseline pin (STOP); clears by attempt-session capture clean at 001c3c80.../399fa44a...",
+    "T-2": "PF-11 every-worktree limb enumerated-only; clears by attempt-session ancestor-.git walk (published instrument)",
+    "T-3": "REV2 script bytes unpublished; clears by depositing bytes matching CB7E674E... or by using the published instrument",
+    "T-4": "session freshness; clears only by capture immediately before the intended attempt"
+  },
+  "single_next_action": "Designated non-elevated operator runs the published instrument evidence/integration/cap03-p1-f4-parent-preflight-reconciliation-2026-10-27/02-p1c-p1d-readonly-preflight.ps1 on desktop-no0nhtp immediately before the intended attempt, IPD worktree clean at 001c3c80618f2ee1d40e9a90912237e1a06e7b58, and supplies transcripts for acceptance review; any STOP aborts. Do not execute P-1 on the REV2 set.",
+  "preserved_verdict": "PREFLIGHT CAPTURED \u2014 NOT AUTHORIZATION TO EXECUTE P-1"
+}
