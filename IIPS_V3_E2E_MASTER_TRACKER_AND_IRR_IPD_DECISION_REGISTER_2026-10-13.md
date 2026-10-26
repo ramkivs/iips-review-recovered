@@ -12007,9 +12007,9 @@ Resolve the outstanding P-1 identity-value authority in the designated IPD gover
 
 
 
-## §16.137 — `CV-CORR-117`: PF-15 PA-act exact-literal correction — preserve initial publication; successor act pending (`2026-10-26`; `CHG-2026-10-26-16`, `V873`–`V880`)
+## §16.137 — `CV-CORR-117`: PF-15 PA-act exact-literal correction — preserve initial publication; corrected successor published (`2026-10-26`; `CHG-2026-10-26-16`, `V873`–`V880`)
 
-> **Integrity correction; historical record preserved.** After PR #302's publication and remote read-back, direct code-point comparison between the user-approved F2/F4/F5 strings and act `...-01` found that the Markdown code spans contained excess literal backslashes. This is a transcription defect in the published document, not a resolver incompatibility and not a change to the PA's determinations. The original file and PR remain unchanged. Corrected distinct successor act [`docs/integration/IIPS_v3.0_CAP03_PF15_ENDPOINT_LOCAL_STATE_DESIGNATION_PA_ACT_CORRECTED_2026-10-26.md`](docs/integration/IIPS_v3.0_CAP03_PF15_ENDPOINT_LOCAL_STATE_DESIGNATION_PA_ACT_CORRECTED_2026-10-26.md), ID `IIPS-V3-CAP03-PF15-ENDPOINT-LOCAL-STATE-DESIGNATION-PA-ACT-2026-10-26-02`, re-renders the same approved F1–F6 values with exact literal characters. It becomes effective only upon its own green PR publication and independent remote read-back.
+> **Integrity correction; historical record preserved.** After PR #302's publication and remote read-back, direct code-point comparison between the user-approved F2/F4/F5 strings and act `...-01` found that the Markdown code spans contained excess literal backslashes. This is a transcription defect in the published document, not a resolver incompatibility and not a change to the PA's determinations. The original file and PR remain unchanged. Corrected distinct successor act [`docs/integration/IIPS_v3.0_CAP03_PF15_ENDPOINT_LOCAL_STATE_DESIGNATION_PA_ACT_CORRECTED_2026-10-26.md`](docs/integration/IIPS_v3.0_CAP03_PF15_ENDPOINT_LOCAL_STATE_DESIGNATION_PA_ACT_CORRECTED_2026-10-26.md), ID `IIPS-V3-CAP03-PF15-ENDPOINT-LOCAL-STATE-DESIGNATION-PA-ACT-2026-10-26-02`, re-renders the same approved F1–F6 values with exact literal characters. It became effective upon its own green PR publication and independent remote read-back; the publication receipt is recorded in §16.137.6.
 
 ### 16.137.1 Exact transcription defect and preservation (`V873`, `V874`)
 
@@ -12035,7 +12035,7 @@ The successor retains all safety constraints and non-grants in act `...-01`: fir
 
 - Correcting literal escaping grants no implementation or P-1 authority. The effective IPD Gate A′ successor act continues to state P-1 execution **NOT AUTHORIZED** while `principal_label`, `tenantId`, and `canonicalOwnerId` remain unresolved. An unspent attempt is not authorization.
 - Host-side existence/absence, NTFS, synchronization, worktree separation, pipe vacancy, DACL, and lifecycle properties remain **NOT VERIFIED by Arena**.
-- Until act `...-02` is merged with green exact-head/post-merge CI and independently read back, the current operative path designation is **STOP / NOT VALID FOR HOST USE**; do not execute against either set of literals.
+- Act `...-02` has now passed its green exact-head/post-merge CI and independent remote read-back; its publication conditions are satisfied. Act `...-01` remains preserved and is **DO NOT USE** as a source of operative literals. Host-side properties and authorization prerequisites remain separate and unverified/unresolved as stated here.
 
 ### 16.137.4 Validation register (`V873`–`V880`)
 
@@ -12048,17 +12048,29 @@ The successor retains all safety constraints and non-grants in act `...-01`: fir
 | `V877` | Bilateral resolver compatibility and F6 scope evidence retained | **PASS** — absolute named-pipe form supported; shared CAP-02/CAP-03 boundary recorded. |
 | `V878` | Required safety/non-grant constraints and prior S2 evidence isolation rechecked | **PASS** — corrected act; S2 evidence root is untouched. |
 | `V879` | Document structure, unique act ID, upstream request immutability, and `git diff --check` | **PASS** — publication receipt will include remote coordinates. |
-| `V880` | Act `...-02` publication and remote read-back | **PENDING** — no effectiveness claim until the receipt is complete. |
+| `V880` | Act `...-02` publication and remote read-back | **PASS** — PR #304 merged, exact-head/post-merge CI succeeded, and remote Git object/blob bytes and content were independently checked; see §16.137.6. |
 
 ### 16.137.5 Current PF-15 disposition and next action
 
-**Correction pending — do not use the prior published path literals.** Act `...-01` is preserved but fails exact approved-value transcription. Act `...-02` supersedes it only after the normal IRR PR, green exact-head and post-merge `main` CI, and independent remote byte/content read-back. No host execution is started.
+**Corrected designation EFFECTIVE; act `...-01` is preserved but its F2/F4/F5 literals are not operative.** Act `...-02` supersedes it for current PF-15 values after PR #304, green exact-head and post-merge `main` CI, and independent remote byte/content read-back. This is a documentation designation only; no host execution is started.
 
 After corrected-act publication, the next sequence action remains blocked by the separate P-1 authority prerequisite: the Program Authority must resolve the identity-value determination required by the effective IPD Gate A′ successor act. Only then may Ramki execute the single bounded P-1 step on `desktop-no0nhtp`, after verifying F4 path and DB/WAL/SHM absence and all host prerequisites. This PF-15 act does not authorize P-1, S3, QE, acceptance, or Gate 5.
 
 ### 16.137.6 Publication receipt
 
-To be populated only after corrected act `...-02` is merged, CI-green, and independently read back.
+| Field | Independently verified remote value |
+|---|---|
+| Authoritative repository/ref | `ramkivs/iips-review-recovered`, `refs/heads/main` |
+| Carrying PR / result | IRR PR **#304**, **MERGED** at `2026-10-26T13:41:29Z` |
+| Tested PR head | `8ca8e874155193142bf1393011c9c64629d6a7fd` |
+| Merge commit / root tree | **`6e080f89d0cec40ebbc0656f27435588c97a7278`**, root tree `77503f75be73e23c2592d060a8f5d87674d31d26`; parents `1bae67d05fb11bc8a24090bff815a96fa4e28b97` and tested head above |
+| Exact-head CI | Run **`40332489138`**, job `121605234743` — `completed / success` |
+| Post-merge `main` CI | Run **`40332807775`**, job `121606348075` — `completed / success` |
+| Published corrected PA act | `docs/integration/IIPS_v3.0_CAP03_PF15_ENDPOINT_LOCAL_STATE_DESIGNATION_PA_ACT_CORRECTED_2026-10-26.md`; Git blob `3fe9a2ddd5f3b8730eccee7748b6266b5e2d8b1d`; `11,860` bytes; SHA-256 `1f5c9e1d9d69cf15a51ec77e41bd70f07ba69516d6a944bf3a79678c6c19a033` |
+| Independent read-back | GitHub Git Blobs API bytes exactly matched the local corrected act. Exact F2/F4/F5 code-point checks and required-content/safety/non-grant checks passed; original act #01 also remains byte-identical to its historical blob. |
+| Upstream request preservation | Decision request blob `3415a1ce0be0bc73f124309bc311fab9496a0f70`; remote SHA-256 `76677264ce6cd8f92396aa6c1ceb30880605e98e4d9b7c84bd5a79799f8d2444`, unchanged. |
+| Tracker-at-merge identity | Tracker blob `786720d125b5d5e15ef28c4e3ca798dc4dcb41fa`, `2,452,329` bytes, SHA-256 `ba58ba399cc8d984c858c9f31a2f4f1dfb5615c39068f3004550ddeb17e29d45`; this is the version carried by PR #304, prior to this receipt update. |
+| Current result | **PF-15 DESIGNATION / ACT #02 EFFECTIVE.** Act #01 remains historical and its faulty literals are not operative. Host properties remain **NOT VERIFIED**; P-1 remains **NOT AUTHORIZED** pending the independent identity-value prerequisite; no downstream work is authorized by this correction. |
 
-*End of §16.137 (`CV-CORR-117`; `CHG-2026-10-26-16`; `V873`–`V880`). The initial PF-15 act remains preserved; its literal defect is not concealed. The approved F1–F6 determinations are unchanged. No host commands, IPD writes, P-1/S3/QE, implementation change, acceptance/admission, or gate movement occurred.*
+*End of §16.137 (`CV-CORR-117`; `CHG-2026-10-26-16`; `V873`–`V880`). The initial PF-15 act remains preserved; its literal defect is not concealed. The corrected successor act is effective for the same approved F1–F6 determinations. No host commands, IPD writes, P-1/S3/QE, implementation change, acceptance/admission, or gate movement occurred.*
 
