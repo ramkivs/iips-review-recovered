@@ -1,0 +1,99 @@
+{
+  "record": "IIPS-V3-CAP03-S2-EVIDENCE-PRESENCE-AND-DIGEST-MATRIX-2026-10-26-01",
+  "generated_by": "assess_s2_acceptance.py",
+  "criteria": [
+    {
+      "id": "A1",
+      "requirement": "Raw host evidence is deposited into the governed record through the governed evidence workflow: IRR PR, green exact-head CI, regular merge, green post-merge main CI, independent remote read-back.",
+      "source": "S2 operator runbook \u00a75.1; S2/P-1/S3/QE matrix \u00a72.3; receipt \u00a716.138 publication-completeness rule",
+      "status": "NOT MET",
+      "basis": "0 PRs from the branch, 0 CI runs, commit still a child of main \u2014 the evidence is preserved on a branch but is not in the governed record"
+    },
+    {
+      "id": "A2",
+      "requirement": "Independent read-back of the original host evidence bytes.",
+      "source": "Receipt \u00a716.138.4/\u00a75; tracker \u00a716.140.4 P-1-A",
+      "status": "PARTIAL",
+      "basis": "47/47 transferred originals present in the repository; digests reproduced for 46/47 from committed content modulo disclosed line-terminator restoration; mismatch: ['s2-checkout-verification.txt']; host-byte identity not established (transfer is LF)"
+    },
+    {
+      "id": "A3",
+      "requirement": "The final 47-entry manifest-verification output that reported PASS is available and independently checkable.",
+      "source": "Receipt \u00a716.138.1/\u00a75; tracker \u00a716.138.4 'exact next action'",
+      "status": "NOT MET",
+      "basis": "no artifact in the repository records a 47-entry verification or its PASS; the only preserved verification artifact is the mis-invoked 1148-entry run"
+    },
+    {
+      "id": "A4",
+      "requirement": "S2 passes as a coherent single-pin five-command sequence on the designated host.",
+      "source": "Runbook \u00a73 (five commands, in order, any non-zero exit stops); matrix \u00a77",
+      "status": "NOT MET",
+      "basis": "the published step-04 transcript records guard FAIL (#{'tests': 924, 'suites': 124, 'pass': 919, 'fail': 1, 'cancelled': 0, 'skipped': 4, 'todo': 0}) at approved baseline 8eec74ae\u2026; the passing suite/consumer bytes belong to the corrected-candidate window and the post-run pin states the baseline checkout"
+    },
+    {
+      "id": "A5",
+      "requirement": "Evidence is accepted into the record.",
+      "source": "Runbook \u00a75.2 ('Only after S2 passes and its evidence is accepted into the record'); matrix \u00a77",
+      "status": "NOT MET",
+      "basis": "deposit (A1) has not occurred and no acceptance determination exists"
+    },
+    {
+      "id": "A6",
+      "requirement": "DQ-4 establishment criterion 7 \u2014 host sequence S2 \u2192 one P-1 \u2192 S3 preflight on the designated native-Windows host.",
+      "source": "DQ-4 QE freeze manifest \u00a77 criterion 7",
+      "status": "NOT MET",
+      "basis": "P-1 unspent/not started, S3 not reached"
+    },
+    {
+      "id": "A7",
+      "requirement": "DQ-4 establishment criterion 8 \u2014 native-Windows canonical worktree evidence for this chain.",
+      "source": "DQ-4 QE freeze manifest \u00a77 criterion 8",
+      "status": "NOT MET",
+      "basis": "transcripts are present by transfer, but canonical evidence cannot exist before A1/A4 are resolved"
+    },
+    {
+      "id": "A8",
+      "requirement": "An execution-baseline pin disposition designating the exact execution commit/tree.",
+      "source": "Gate 4 act \u00a76/Q5; H-12 R5 adoption; tracker \u00a716.140.4 P-1-B",
+      "status": "NOT SATISFIED",
+      "basis": "approved baseline remains 8eec74ae\u2026/4eba2902\u2026, which the published step-04 transcript shows failing; the corrected candidate 001c3c80\u2026/399fa44a\u2026 is expressly not promoted. Without a PA disposition no passing S2 can be attributed to an authorized baseline"
+    },
+    {
+      "id": "A9",
+      "requirement": "Formal S2 acceptance determination rendered by the Program Authority.",
+      "source": "Tracker \u00a716.138.4; \u00a716.140.4 P-1-A",
+      "status": "NOT RENDERED",
+      "basis": "no such act exists; acceptance is never inferred from publication, reproduction, or a reported host PASS"
+    },
+    {
+      "id": "A10",
+      "requirement": "PF-15 endpoint/local-state designation effective (S3/QE prerequisite, not an S2 criterion).",
+      "source": "Corrected act \u2026-02; receipt \u00a716.137.6; tracker \u00a716.140.4 P-1-E",
+      "status": "SATISFIED",
+      "basis": "act \u2026-02 EFFECTIVE at IRR main; F1\u2013F6 values are PA-owned and are neither restated nor normalized by this pass"
+    }
+  ],
+  "verdict": {
+    "formal_s2_evidence_acceptance": "NOT RENDERED",
+    "reason": "No governing criterion set is satisfied, and the decisive blocker is not an evidence-availability problem: the published step-04 transcript shows the guarded suite failing at the approved baseline, so no further file transfer can convert this evidence into a passing S2. The passing bytes are candidate-scoped and the corrected candidate is expressly not promoted. A PA execution-baseline disposition (A8) is therefore the controlling next action; deposit (A1) and a formal acceptance determination (A9) follow from it.",
+    "transferred_files_present": "47/47",
+    "digest_mismatches": [
+      "s2-checkout-verification.txt"
+    ],
+    "required_nine_ok": true,
+    "blocking_criteria": [
+      "A1",
+      "A3",
+      "A4",
+      "A5",
+      "A6",
+      "A7",
+      "A8",
+      "A9"
+    ],
+    "decisive_blocker": "A8",
+    "not_blocking": {
+      "A10": "PF-15 designation is effective and is an S3/QE prerequisite"
+    }
+  }
+}
