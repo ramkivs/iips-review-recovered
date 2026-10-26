@@ -11014,3 +11014,17 @@ machine-checkable template, current-state sample, self-test, and probe transcrip
 | `V766` | Publication, CI, and remote read-back | **PASS** — PR merge, exact-head and post-merge CI, commit/tree, and remote blob/byte/SHA-256 read-back independently verified; coordinates in §16.127.5. |
 
 *End of §16.127 (`CV-CORR-107`; `CHG-2026-10-26-03`). CAP-02 remains PARTIAL; U3 is AUTHORIZED — NOT STARTED (QE 0/11); the concrete blocker is the unavailable designated host and the ordered, bounded operational sequence.*
+
+### 16.127.5 Publication receipt (post-merge, remote-verified)
+
+| Coordinate | Value |
+|---|---|
+| PR | `ramkivs/iips-review-recovered` **#287** — **MERGED** `2026-10-26T06:05:02Z`, merge commit `6334e2e571dcc01dbb69dd8e524c5e831b42bd8b`, tree `c9820b7a96acf8abe6f0ccf1332f84b5c07752bb` (identical to tested head tree) |
+| Exact-head CI | Run `40277485610`, job `121423209283` "Typecheck · Test · Build", `completed`/`success` on tested head `228ce4e7f57ffe69ddb9330db7fd556ad5ff0076` |
+| Post-merge `main` CI | Run `40277770339`, `completed`/`success` at merge head `6334e2e5`; prior #286 run `40272191685` superseded in order |
+| Changed paths | Exactly the tracker, the new matrix record, and the new evidence directory; documentation/evidence/template only |
+| Remote read-back | Record blob `ab9451712df8e801f041f1139e3cb3f91ec84913` (23,893 B) SHA-256 `6d32f261f23bc0e80c9ab3b1a78b610cc8c5055f4a58d9cf27d7beac740bd602` — local file, `origin/main` blob, and independent API byte read-back all identical; `SHA256SUMS.txt` blob `4f4d6d1985890f19a2f6c7d4336ddc2f0cef1c5f` present on remote `main`; remote tracker contains §16.127 |
+
+`V766` **PASS** PR merge, exact-head CI, post-merge CI, commit/tree ancestry, and remote blob/byte/SHA-256 read-back independently verified.
+
+*End of §16.127.5. Publication does not move any gate or grant provisioning, acceptance, admission, writes, or production eligibility.*
