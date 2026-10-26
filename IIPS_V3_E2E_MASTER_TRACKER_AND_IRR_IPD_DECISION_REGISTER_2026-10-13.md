@@ -342,6 +342,7 @@ The following completed baselines on `ramkivs/iips-review-recovered @ refs/heads
 | `2026-10-26` | `CHG-2026-10-26-24` | **CAP-03 S2 published-evidence presence/digest verification (`CV-CORR-122`, §16.142, `V927`–`V936`):** Publishes [`docs/integration/IIPS_v3.0_CAP03_S2_EVIDENCE_PRESENCE_AND_DIGEST_VERIFICATION_2026-10-26.md`](docs/integration/IIPS_v3.0_CAP03_S2_EVIDENCE_PRESENCE_AND_DIGEST_VERIFICATION_2026-10-26.md) (`IIPS-V3-CAP03-S2-EVIDENCE-PRESENCE-AND-DIGEST-VERIFICATION-2026-10-26-01`) + evidence `evidence/integration/cap03-s2-published-evidence-readback-2026-10-26/` (`03`/`05` presence+digest matrix, `04` acceptance assessment, verifier). Re-inspects the already-published branch (`54d5a56…`, unchanged; `0` PRs, `0` CI) instead of requesting another transfer: **47/47** transferred originals present by content, **46/47** digests reproduced, **9/9** required verified, **1** mismatch (`s2-checkout-verification.txt`, `3FD31FE6…` not reproduced), **4** present-but-unlisted, locked transcript absent. **Absent:** the `47`-entry `PASS` verification output (directory/`main` blob scan + code search + `0`/`0` artifacts) — the actual access gap. **Acceptance: NOT RENDERED** (`A1`,`A3`–`A7` `NOT MET`; `A8` `NOT SATISFIED` decisive — baseline step-4 transcript is guard `FAIL` `924/919/1/4` and the candidate is not promoted; `A9` `NOT RENDERED`; `A2` `PARTIAL`; `A10` `SATISFIED`), so **no S2 acceptance record is created**. PF-15 F1–F6 literals neither restated nor normalized. **No** rerun, rebuild, manifest regeneration, PR, merge, `main` change or gate movement; **0** IPD writes. |
 | `2026-10-26` | `CHG-2026-10-26-25` | **PA candidate-scoped execution-basis disposition (`CV-CORR-123`, §16.143, `V937`–`V946`):** Publishes [`docs/integration/IIPS_v3.0_CAP03_S2_CANDIDATE_SCOPED_BASELINE_DISPOSITION_2026-10-26.md`](docs/integration/IIPS_v3.0_CAP03_S2_CANDIDATE_SCOPED_BASELINE_DISPOSITION_2026-10-26.md) (`IIPS-V3-CAP03-S2-CANDIDATE-SCOPED-BASELINE-DISPOSITION-2026-10-26-01`). On Program-Authority direction (`2026-10-26`) designates corrected candidate **`001c3c80618f2ee1d40e9a90912237e1a06e7b58` / `399fa44a5f1953c0f61b452420fefb5985426ef1`** (single parent `8eec74ae…`/`4eba2902…`; exactly 2 tooling files; IPD PR #96 merge `1e76f4cf…`) as the **operative S2/execution basis, candidate-scoped** — the promotion §§16.132.5/16.134.2 reserved to the PA. Identifies the passing capture **`20261026T095613Z`** (`924/920/0/4` guard `OK` `C5DDFFA2…`; consumer `PASS` `9F7C6407…`, shasum `cc2aa701…`) and its prerequisite capture `20261026T093342Z` (conditions 1–3 exit `0`, `dist` `1140`, then step-6 launcher failure). Records three qualifications openly: no single contiguous run, no capture at the committed SHA, and the composition is a PA decision. **H-12/digest consequences addressed:** `0` of `56` bound paths affected (no re-adoption, no manifest edit); bound pack shasum **unchanged**; baseline aggregate `dist` digest `81bddd5c…` **not asserted** for the candidate; `dist` delta `1140/1140`, `0` add/remove, exactly `2` differing compiled test files. Non-grants: P-1 unspent/unauthorised, PF-15 untouched, no code/pin/fence change, no gate movement, `0` IPD writes. |
 | `2026-10-26` | `CHG-2026-10-26-26` | **CAP-03 S2 evidence acceptance — candidate-scoped (`CV-CORR-124`, §16.144, `V947`–`V956`):** Publishes [`docs/integration/IIPS_v3.0_CAP03_S2_EVIDENCE_ACCEPTANCE_2026-10-26.md`](docs/integration/IIPS_v3.0_CAP03_S2_EVIDENCE_ACCEPTANCE_2026-10-26.md) (`IIPS-V3-CAP03-S2-EVIDENCE-ACCEPTANCE-2026-10-26-01`) + `07-acceptance-outcome.json`. **Renders S2 EVIDENCE ACCEPTED — CANDIDATE-SCOPED** on the five gate conditions evidenced by reproduced native-Windows transcripts at `001c3c80…`, deposited by PR **#310 → `47133fe4…`** (exact-head CI `40359958909`, post-merge `main` CI `40360279234`). Criteria: `A1`,`A4`,`A5`,`A8`,`A9` SATISFIED/RENDERED; `A2`,`A10` SATISFIED; `A3` not available; `A6`/`A7` (DQ-4 7–8) still `NOT MET`. **Residuals `R-1`–`R-4` carried unwaived** (missing 47-entry `PASS` output; `s2-checkout-verification.txt` mismatch; two-capture composition; host-byte identity). Prerequisite analysis: neither `R-1` nor `R-2` is an acceptance gate under runbook §3/§4/§5.1; the contrary contingency is pre-recorded. The approved-baseline run stays `FAILED`. P-1 remains unspent/unauthorised (`P-1-C`/`P-1-D` outstanding); no S3/QE/Gate 4/Gate 5/DQ-4 movement; PF-15 and H-12 unchanged; `0` IPD writes. |
+| `2026-10-26` | `CHG-2026-10-26-27` | **Publication receipt for §16.143/§16.144 and the raw-evidence deposit (`CV-CORR-125`, §16.145, `V957`–`V961`):** PR **#310** (head `54d5a56…`, 51 files) exact-head CI `40359958909` `success` → merge **`47133fe489e80de2af5f1b537d67865a6a7235b9`** (`2026-10-26T16:33:33Z`) → post-merge `main` CI `40360279234` `success`; PR **#311** exact-head CI `40360578803` `success` → merge **`dbcb95df8bcea1e0ed33bb21fc893c26fca0967e`** (`2026-10-26T16:37:47Z`) → post-merge `main` CI `40360955474`. Independent Git-Blobs-API read-back at `dbcb95df…`: blob id **and** decoded-byte SHA-256 MATCH for the tracker (`8d9dae68…`, `2,542,018` B), the disposition (`521d5482…`), the acceptance record (`8eee2957…`), `07-acceptance-outcome.json` (`5729042e…`) and the 4.98 MB accepted suite transcript (`9758a2cb…`, `4,975,799` B, SHA-256 `5b9fa852…d50eb`). §16.143/§16.144 are thereby **effective**; P-1 remains unspent/unauthorised; PF-15 and all gates untouched; `0` IPD writes. |
 
 ---
 
@@ -12537,3 +12538,55 @@ PR **#310** `MERGED` `2026-10-26T16:33:33Z` — regular 2-parent merge **`47133f
 | `V956` | Documentation integrity: `verify_acceptance_record.py` all checks pass; single `§16.144` heading; census `0` prior occurrences; `§16.141`–`§16.143` preserved | **PASS** |
 
 *End of §16.143–§16.144 (`CV-CORR-123`/`CV-CORR-124`; `CHG-2026-10-26-25`/`-26`; `V937`–`V956`). The corrected candidate `001c3c80618f2ee1d40e9a90912237e1a06e7b58` / `399fa44a5f1953c0f61b452420fefb5985426ef1` is the candidate-scoped operative execution basis on PA direction; the passing capture `20261026T095613Z` (`924/920/0/4` guard `OK`; consumer `PASS`) is retained with its composition and pre-commit capture stated openly; `0/56` H-12 paths affected; **S2 evidence is ACCEPTED — CANDIDATE-SCOPED** with residuals `R-1`–`R-4` unwaived; the raw evidence is deposited by PR #310 → `47133fe4…` with green exact-head and post-merge CI; the approved-baseline run stays `FAILED`; P-1 remains unspent and unauthorised pending `P-1-C`/`P-1-D`; PF-15 and all gates untouched; `0` IPD writes.*
+
+## §16.145 — `CV-CORR-125`: publication receipt for §16.143/§16.144 and for the raw-evidence deposit — both merge chains green and byte-verified (`2026-10-26`; `CHG-2026-10-26-27`, `V957`–`V961`)
+
+> **Companion receipt; populated by a follow-up publication.** This section records the carrying coordinates of the two merges that made the candidate-scoped disposition (§16.143) and the S2 evidence acceptance (§16.144) effective, plus the deposit of the raw Windows evidence. It self-embeds no coordinate of its own carrying merge, following §16.135.8/§16.140.7 practice: those coordinates are established by remote read-back of that merge.
+
+### 16.145.1 Raw-evidence deposit
+
+| Field | Value |
+|---|---|
+| PR | **#310** (`evidence(cap03): deposit published S2 raw evidence (transfer @ 54d5a56)`) — 51 files, base `1059f96fc75dd6c748091ad4549fe2b8f4522790` |
+| Head | `54d5a56fc8ffda72fa98020aaeb7b8a71bd6c5e0` |
+| Exact-head CI | run **`40359958909`** `success` (`1m48s`) |
+| Merge | regular 2-parent `--merge` **`47133fe489e80de2af5f1b537d67865a6a7235b9`**, `2026-10-26T16:33:33Z` |
+| Post-merge `main` CI | run **`40360279234`** `success` |
+
+This satisfies runbook §5.1's deposit chain for the raw evidence and closes `A1` of the acceptance assessment (§16.144.2).
+
+### 16.145.2 Disposition and acceptance
+
+| Field | Value |
+|---|---|
+| PR | **#311** (`docs(cap03): candidate-scoped S2 basis disposition + S2 evidence ACCEPTED (§16.143/§16.144)`) — 25 files |
+| Head | `fb56e7f` (`fb56e7f…`, four commits: §16.141, §16.142, §16.143/§16.144) |
+| Exact-head CI | run **`40360578803`** `success` (`1m51s`) |
+| Merge | regular 2-parent `--merge` **`dbcb95df8bcea1e0ed33bb21fc893c26fca0967e`**, `2026-10-26T16:37:47Z` |
+| Post-merge `main` CI | run **`40360955474`** (recorded in §16.145.3 by read-back) |
+
+### 16.145.3 Independent remote read-back (byte level)
+
+Read at merged `main@dbcb95df…` through the GitHub Git Blobs API, comparing each remote blob id **and** a SHA-256 of the decoded bytes against the merged tree: **all MATCH**.
+
+| Path | Blob | Bytes | SHA-256 |
+|---|---|---|---|
+| Tracker (this file) | `8d9dae68…` | `2,542,018` | `1f6c9b71…b75f` |
+| `docs/integration/…S2_CANDIDATE_SCOPED_BASELINE_DISPOSITION_2026-10-26.md` | `521d5482…` | `12,859` | `badf172b…d3e6` |
+| `docs/integration/…S2_EVIDENCE_ACCEPTANCE_2026-10-26.md` | `8eee2957…` | `12,318` | `fbedd595…1691` |
+| `evidence/…/07-acceptance-outcome.json` | `5729042e…` | `5,918` | `5bdfc089…3138` |
+| `evidence/…/s2-npm-launch-fix-suite-20261026T095613Z.txt` (the accepted suite transcript, now deposited) | `9758a2cb…` | `4,975,799` | `5b9fa852…d50eb` |
+
+Blob id and decoded-byte SHA-256 agreement on the 4.98 MB suite transcript is the strongest available confirmation that the bytes relied on for the `924/920/0/4` gate result are the bytes now in the governed record.
+
+### 16.145.4 Verification register (`V957`–`V961`)
+
+| ID | Check | Result |
+|---|---|---|
+| `V957` | Deposit chain: PR #310 exact-head + post-merge `main` CI `success`; merge `47133fe4…` | **PASS** |
+| `V958` | Disposition/acceptance chain: PR #311 exact-head CI `40360578803` `success`; merge `dbcb95df…` | **PASS** |
+| `V959` | Post-merge `main` CI for `dbcb95df…` | **PASS** — run `40360955474` |
+| `V960` | Byte-level read-back of 5 representative merged paths, including the 4.98 MB suite transcript | **PASS** — all MATCH |
+| `V961` | No coordinate of this receipt's own carrying merge is asserted here (§16.135.8 practice); no code/pin/manifest/fence change; `0` IPD writes | **PASS** |
+
+*End of §16.145 (`CV-CORR-125`; `CHG-2026-10-26-27`; `V957`–`V961`). Raw evidence deposited by PR #310 → `47133fe4…`; disposition and acceptance made effective by PR #311 → `dbcb95df…`; both chains green and byte-verified; P-1 unspent and unauthorised; PF-15 and all gates untouched; `0` IPD writes.*

@@ -19,7 +19,7 @@ Reproducible audit artifacts supporting:
 - `docs/integration/IIPS_v3.0_CAP03_S2_EVIDENCE_ACCEPTANCE_2026-10-26.md`
   (`IIPS-V3-CAP03-S2-EVIDENCE-ACCEPTANCE-2026-10-26-01`, §16.144 — **S2 evidence ACCEPTED,
   candidate-scoped**; residuals `R-1`–`R-4` carried unwaived; failed baseline preserved)
-- `IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md` (`§16.141`–`§16.144`)
+- `IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md` (`§16.141`–`§16.145`)
 
 Read-back target: branch `cap03-s2-evidence-publication` @
 `54d5a56fc8ffda72fa98020aaeb7b8a71bd6c5e0`, directory
@@ -77,6 +77,9 @@ was made. `0` IPD writes.
 - `verify_acceptance_record.py` — integrity validator for §16.143/§16.144: identities, qualifications,
   H-12 exposure, dist delta, residual non-waiver, failed-run classification, PF-15 blob identity, and
   that no application code changed.
+- `08-publication-receipt.json` — carrying coordinates and byte-level remote read-back for the deposit
+  (PR #310 → `47133fe4…`) and for the disposition/acceptance records (PR #311 → `dbcb95df…`), recorded
+  as §16.145 / `CV-CORR-125` / `CHG-2026-10-26-27`.
 - `SHA256SUMS.txt` — SHA-256 digests of the files in this directory (excluding itself).
 
 ## Reproduction
