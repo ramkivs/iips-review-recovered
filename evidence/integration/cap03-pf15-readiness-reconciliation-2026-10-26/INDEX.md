@@ -9,8 +9,11 @@ This directory contains host-independent authority, remote-baseline, schema, int
 | `03-readiness-audit.json` | Output of the structural/integrity validator: PF-01…PF-17, QE-1…QE-11 status, Q11 bookends, QE-9 sampling, failure classes, H-12 digest, prior evidence checksums |
 | `04-main-ci.txt` | GitHub Actions latest-main status for both governing repositories at their recorded baselines |
 | `05-ipc-source-pin-comparison.txt` | Remote API Git-blob identity comparisons for IPD endpoint/entrypoint and IRR IPC client against their frozen pins |
+| `06-irr-checks.txt` | Local host-independent IRR verification commands and results |
+| `07-publication-readback.json` | Post-merge PR #291 commit/tree, exact-head and post-merge CI, and independent API byte read-back for 12/12 changed paths |
 | `validate_readiness.py` | Reproducible documentation/content-integrity assertions; does not invoke host operations |
 | `verify_remote_baseline.py` | Reproducible read-only GitHub API baseline and blob verification |
+| `verify_publication.py` | Reproducible post-merge commit/tree/CI/blob read-back for PR #291 |
 | `SHA256SUMS.txt` | SHA-256 over exact bytes of all evidence files except this checksum file |
 
 **Classification:** repository/authority-readiness evidence only. It is not S2, P-1, PF-15 effectiveness, S3, QE, acceptance, admission, or production evidence. QE remains `NOT RUN (0/11)`.
