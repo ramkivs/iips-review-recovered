@@ -1,0 +1,354 @@
+{
+  "record_id": "IIPS-V3-CAP03-P1-IDENTITY-PREREQUISITE-RECONCILIATION-2026-10-26-01",
+  "evidence_file": "00-remote-identity-and-pin-readback.json",
+  "classification": "Arena-independent live remote read-back via GitHub REST/Git APIs; no Windows host contact; no provisioning; zero IPD writes",
+  "retrieved_date_utc": "2026-10-26",
+  "irr": {
+    "repo": "ramkivs/iips-review-recovered",
+    "main": "cc3c000a11fd586c540a84a8d139c4b2c39cd121",
+    "tree": "00f55e4ecbf9a7b09acb97051c59e3bb2a1de31c",
+    "ls_remote": [
+      [
+        "cc3c000a11fd586c540a84a8d139c4b2c39cd121",
+        "HEAD"
+      ],
+      [
+        "cc3c000a11fd586c540a84a8d139c4b2c39cd121",
+        "refs/heads/main"
+      ]
+    ],
+    "open_prs": 0
+  },
+  "ipd": {
+    "repo": "ramkivs/iips-production-market-data",
+    "main": "888eb375eebee01640e44ccdcbb138a71e8c4513",
+    "tree": "cf3b90482fa7ed1f9780f20a9286164686885d2b",
+    "ls_remote": [
+      [
+        "888eb375eebee01640e44ccdcbb138a71e8c4513",
+        "HEAD"
+      ],
+      [
+        "888eb375eebee01640e44ccdcbb138a71e8c4513",
+        "refs/heads/main"
+      ]
+    ],
+    "open_prs": 0,
+    "tracker_at_main": {
+      "path": "evidence/cross-repository/IIPS_V3_CAP02_IPD_EXECUTION_TRACKER_2026-10-23.md",
+      "git_blob": "8a2a4e45615b84e517b65fe2700d4a09cde8c3f7",
+      "size": 162478
+    }
+  },
+  "prs": {
+    "ipd_pr80_s1_determination": {
+      "headRefOid": "f9ec0c5fd4c689360264b4f7a8b85fdf823d4374",
+      "mergeCommit": {
+        "oid": "d8568b0ebe2bec2a7a2f38ed758e1f877f861704"
+      },
+      "mergedAt": "2026-10-24T06:15:53Z",
+      "number": 80,
+      "state": "MERGED",
+      "title": "CAP-02: S1 identity-value determination and binding commit (2026-10-24)"
+    },
+    "ipd_pr81_receipt": {
+      "headRefOid": "e6b050a48d6ea4c6fabd276c2ce84140183b4c44",
+      "mergeCommit": {
+        "oid": "1864f908b26322071a866cc3a3dab074faa536fd"
+      },
+      "mergedAt": "2026-10-24T06:18:52Z",
+      "number": 81,
+      "state": "MERGED",
+      "title": "CAP-02: PR #80 publication and remote read-back receipt"
+    },
+    "ipd_pr96_s2_correction": {
+      "headRefOid": "001c3c80618f2ee1d40e9a90912237e1a06e7b58",
+      "mergeCommit": {
+        "oid": "1e76f4cf9e9ca7d385a8345c9b6f438ae1ad6745"
+      },
+      "mergedAt": "2026-10-26T10:12:18Z",
+      "number": 96,
+      "state": "MERGED",
+      "title": "Fix native Windows CAP-03 S2 package validation"
+    },
+    "irr_pr304_pf15_corrected": {
+      "headRefOid": "8ca8e874155193142bf1393011c9c64629d6a7fd",
+      "mergeCommit": {
+        "oid": "6e080f89d0cec40ebbc0656f27435588c97a7278"
+      },
+      "mergedAt": "2026-10-26T13:41:29Z",
+      "number": 304,
+      "state": "MERGED",
+      "title": "CAP-03: correct PF-15 PA value transcription"
+    },
+    "irr_pr305_pf15_receipt": {
+      "headRefOid": "af8558b5ee8a42444495dcfb99bfdd6fb6eb36af",
+      "mergeCommit": {
+        "oid": "d9345004f5897ecb33fa532599b51a6ec799aa7a"
+      },
+      "mergedAt": "2026-10-26T13:46:12Z",
+      "number": 305,
+      "state": "MERGED",
+      "title": "CAP-03: record corrected PF-15 publication receipt"
+    },
+    "irr_pr306_s2_receipt": {
+      "headRefOid": "ef01799b9f7c9dc322d7142332580ffcd717df24",
+      "mergeCommit": {
+        "oid": "83c6219becfeefb51055af9edfa20227e8ae3891"
+      },
+      "mergedAt": "2026-10-26T14:03:10Z",
+      "number": 306,
+      "state": "MERGED",
+      "title": "docs(cap03): publish S2 evidence-manifest verification receipt (§16.138)"
+    },
+    "ipd_pr98_unified_proposed_patch": {
+      "headRefOid": "8388c6178309c023c1158f14d53f5880b6ada7ea",
+      "mergeCommit": {
+        "oid": "4bb9a6541ed636ed4ad5c4895ad506dade01fdba"
+      },
+      "mergedAt": "2026-10-26T14:27:39Z",
+      "number": 98,
+      "state": "MERGED",
+      "title": "docs(cap02/cap03): unified authoritative status reconciliation + proposed IRR tracker patch (§16.139 / CV-CORR-119)"
+    }
+  },
+  "identity_determination_at_ipd_main": {
+    "path": "evidence/cross-repository/IIPS_V3_CAP02_S1_IDENTITY_VALUE_DETERMINATION_EFFECTIVE_2026-10-24.md",
+    "git_blob": "b7746b5ed955abcf689ec57ca4a0748c0241ed09",
+    "size": 35936,
+    "sha256_of_blob_bytes": "554741c70e3a24a794be297f463707894c4ce7e0e2a4f5aad0c97dd6b3c5f12c",
+    "record_id_present": true,
+    "status_rendered_effective_on_publication": true,
+    "values_as_determined": {
+      "principal_label": "ramki-personal-local",
+      "tenantId": "ipd-personal-local",
+      "canonicalOwnerId": "ipd-owner-ramki-personal"
+    },
+    "values_recomputed": {
+      "principal_label": {
+        "value": "ramki-personal-local",
+        "utf8_bytes": 20,
+        "sha256_of_value": "2df04453ca2845fcbaea0e496bbc2da4c056a2f40e9b83b72c10c88190858324"
+      },
+      "tenantId": {
+        "value": "ipd-personal-local",
+        "utf8_bytes": 18,
+        "sha256_of_value": "ae82ba19825eaae52f3732e6b6b1302c672f6548b830b883f377822d1876a730"
+      },
+      "canonicalOwnerId": {
+        "value": "ipd-owner-ramki-personal",
+        "utf8_bytes": 24,
+        "sha256_of_value": "3084b2ed3e43a85b668368268ff798da6633ce5e629f3948654ebb1c429e47c8"
+      }
+    },
+    "derived_ids_recomputed": {
+      "binding_id": "c5808abaffd072d6401ce63ad86c6ac0",
+      "membership_id": "d25dcc5370100b00766efc5166f65cf3"
+    },
+    "determination_stated_binding_id": "c5808abaffd072d6401ce63ad86c6ac0",
+    "determination_stated_membership_id": "d25dcc5370100b00766efc5166f65cf3"
+  },
+  "successor_provisioning_act_at_ipd_main": {
+    "path": "evidence/cross-repository/IIPS_V3_CAP02_GATE_A_PRIME_SUCCESSOR_PROVISIONING_ACT_EFFECTIVE_2026-10-23.md",
+    "git_blob": "528de6aeddbc8e5f3191be8792f3937d77de4037",
+    "size": 29856,
+    "record_id": "IIPS-V3-CAP02-GATE-A-PRIME-SUCCESSOR-PROVISIONING-ACT-2026-10-23-01",
+    "note": "Act text preserved unedited; its §4 UNRESOLVED table is the state at its own rendering and reserves the later determination that discharges it."
+  },
+  "implementation_at_ipd_main": {
+    "validation": {
+      "path": "src/persistence/gateAPrimeValidation.ts",
+      "git_blob": "df5d48a583c9aaed51af90a90225c15c408fbd33",
+      "size": 15688,
+      "sha256_of_blob_bytes": "c307549a38033f9b2ce03973bc0a5e0eacbf7e9132695ea1fc7ae09fa9bbe3ce",
+      "compiled_constants": {
+        "principal_label": "ramki-personal-local",
+        "tenantId": "ipd-personal-local",
+        "canonicalOwnerId": "ipd-owner-ramki-personal"
+      }
+    },
+    "provisioning": {
+      "path": "src/persistence/gateAPrimeProvisioning.ts",
+      "git_blob": "2cbce83f6572d211630ce0620dae49fa02fe4622",
+      "size": 15727,
+      "sha256_of_blob_bytes": "0bd6d134405dbcab27f5639c3e22a856c778daa9fd414d2cb0e26e5b03919aa3",
+      "authorize_execution_present": true,
+      "act_id_mismatch_refusal_present": true,
+      "identity_mismatch_refusal_present": true,
+      "platform_refusal_present": true
+    },
+    "test": {
+      "path": "tests/g3_gate_a_prime_successor_provisioning.test.ts",
+      "git_blob": "f2d0ab37ad4fbdae6db69a4316affc0a33704bf3",
+      "size": 16160,
+      "sha256_of_blob_bytes": "d45140f2727651da3d69f0655ad5a8fd8621ffaa45c52f0633920d34e7a74873",
+      "determined_constants": {
+        "principal_label": "ramki-personal-local",
+        "tenantId": "ipd-personal-local",
+        "canonicalOwnerId": "ipd-owner-ramki-personal"
+      }
+    },
+    "determination_compiled_test_all_equal": true
+  },
+  "blob_identity_across_refs": {
+    "pr80_merge": {
+      "ref": "d8568b0ebe2bec2a7a2f38ed758e1f877f861704",
+      "determination": {
+        "path": "evidence/cross-repository/IIPS_V3_CAP02_S1_IDENTITY_VALUE_DETERMINATION_EFFECTIVE_2026-10-24.md",
+        "git_blob": "b7746b5ed955abcf689ec57ca4a0748c0241ed09",
+        "size": 35936
+      },
+      "successor_act": {
+        "path": "evidence/cross-repository/IIPS_V3_CAP02_GATE_A_PRIME_SUCCESSOR_PROVISIONING_ACT_EFFECTIVE_2026-10-23.md",
+        "git_blob": "528de6aeddbc8e5f3191be8792f3937d77de4037",
+        "size": 29856
+      },
+      "validation": {
+        "path": "src/persistence/gateAPrimeValidation.ts",
+        "git_blob": "df5d48a583c9aaed51af90a90225c15c408fbd33",
+        "size": 15688
+      },
+      "provisioning": {
+        "path": "src/persistence/gateAPrimeProvisioning.ts",
+        "git_blob": "2cbce83f6572d211630ce0620dae49fa02fe4622",
+        "size": 15727
+      }
+    },
+    "approved_baseline": {
+      "ref": "8eec74ae27cda09f3c368b9c299895eae41554db",
+      "determination": {
+        "path": "evidence/cross-repository/IIPS_V3_CAP02_S1_IDENTITY_VALUE_DETERMINATION_EFFECTIVE_2026-10-24.md",
+        "git_blob": "b7746b5ed955abcf689ec57ca4a0748c0241ed09",
+        "size": 35936
+      },
+      "successor_act": {
+        "path": "evidence/cross-repository/IIPS_V3_CAP02_GATE_A_PRIME_SUCCESSOR_PROVISIONING_ACT_EFFECTIVE_2026-10-23.md",
+        "git_blob": "528de6aeddbc8e5f3191be8792f3937d77de4037",
+        "size": 29856
+      },
+      "validation": {
+        "path": "src/persistence/gateAPrimeValidation.ts",
+        "git_blob": "df5d48a583c9aaed51af90a90225c15c408fbd33",
+        "size": 15688
+      },
+      "provisioning": {
+        "path": "src/persistence/gateAPrimeProvisioning.ts",
+        "git_blob": "2cbce83f6572d211630ce0620dae49fa02fe4622",
+        "size": 15727
+      }
+    },
+    "corrected_candidate": {
+      "ref": "001c3c80618f2ee1d40e9a90912237e1a06e7b58",
+      "determination": {
+        "path": "evidence/cross-repository/IIPS_V3_CAP02_S1_IDENTITY_VALUE_DETERMINATION_EFFECTIVE_2026-10-24.md",
+        "git_blob": "b7746b5ed955abcf689ec57ca4a0748c0241ed09",
+        "size": 35936
+      },
+      "successor_act": {
+        "path": "evidence/cross-repository/IIPS_V3_CAP02_GATE_A_PRIME_SUCCESSOR_PROVISIONING_ACT_EFFECTIVE_2026-10-23.md",
+        "git_blob": "528de6aeddbc8e5f3191be8792f3937d77de4037",
+        "size": 29856
+      },
+      "validation": {
+        "path": "src/persistence/gateAPrimeValidation.ts",
+        "git_blob": "df5d48a583c9aaed51af90a90225c15c408fbd33",
+        "size": 15688
+      },
+      "provisioning": {
+        "path": "src/persistence/gateAPrimeProvisioning.ts",
+        "git_blob": "2cbce83f6572d211630ce0620dae49fa02fe4622",
+        "size": 15727
+      }
+    },
+    "ipd_main": {
+      "ref": "888eb375eebee01640e44ccdcbb138a71e8c4513",
+      "determination": {
+        "path": "evidence/cross-repository/IIPS_V3_CAP02_S1_IDENTITY_VALUE_DETERMINATION_EFFECTIVE_2026-10-24.md",
+        "git_blob": "b7746b5ed955abcf689ec57ca4a0748c0241ed09",
+        "size": 35936
+      },
+      "successor_act": {
+        "path": "evidence/cross-repository/IIPS_V3_CAP02_GATE_A_PRIME_SUCCESSOR_PROVISIONING_ACT_EFFECTIVE_2026-10-23.md",
+        "git_blob": "528de6aeddbc8e5f3191be8792f3937d77de4037",
+        "size": 29856
+      },
+      "validation": {
+        "path": "src/persistence/gateAPrimeValidation.ts",
+        "git_blob": "df5d48a583c9aaed51af90a90225c15c408fbd33",
+        "size": 15688
+      },
+      "provisioning": {
+        "path": "src/persistence/gateAPrimeProvisioning.ts",
+        "git_blob": "2cbce83f6572d211630ce0620dae49fa02fe4622",
+        "size": 15727
+      }
+    }
+  },
+  "ancestry": {
+    "pr80_merge_to_ipd_main": {
+      "status": "ahead",
+      "ahead_by": 39,
+      "behind_by": 0
+    },
+    "pr81_merge_to_ipd_main": {
+      "status": "ahead",
+      "ahead_by": 37,
+      "behind_by": 0
+    },
+    "baseline_to_candidate": {
+      "status": "ahead",
+      "ahead_by": 1,
+      "behind_by": 0
+    },
+    "candidate_to_ipd_main": {
+      "status": "ahead",
+      "ahead_by": 17,
+      "behind_by": 0
+    }
+  },
+  "baseline_to_candidate_files": [
+    {
+      "filename": "scripts/verify-public-package.mjs",
+      "status": "modified",
+      "additions": 7,
+      "deletions": 3
+    },
+    {
+      "filename": "tests/portfolio_ui_package.test.ts",
+      "status": "modified",
+      "additions": 2,
+      "deletions": 2
+    }
+  ],
+  "pf15_corrected_act_at_irr_main": {
+    "path": "docs/integration/IIPS_v3.0_CAP03_PF15_ENDPOINT_LOCAL_STATE_DESIGNATION_PA_ACT_CORRECTED_2026-10-26.md",
+    "git_blob": "3fe9a2ddd5f3b8730eccee7748b6266b5e2d8b1d",
+    "size": 11860,
+    "sha256_of_blob_bytes": "1f5c9e1d9d69cf15a51ec77e41bd70f07ba69516d6a944bf3a79678c6c19a033",
+    "act_id": "IIPS-V3-CAP03-PF15-ENDPOINT-LOCAL-STATE-DESIGNATION-PA-ACT-2026-10-26-02",
+    "act_id_present": true,
+    "code_spans": {
+      "F2_endpoint": {
+        "value": "\\\\.\\pipe\\iips-user-portfolio-v1",
+        "length": 31,
+        "backslash_count": 4
+      },
+      "F4_store": {
+        "value": "C:\\iips-data\\iips\\user-portfolio.sqlite",
+        "length": 39,
+        "backslash_count": 3
+      },
+      "F5_evidence_root": {
+        "value": "C:\\iips-evidence\\cap03-gate4",
+        "length": 28,
+        "backslash_count": 2
+      }
+    }
+  },
+  "boundaries": {
+    "windows_host_contacted": false,
+    "database_created": false,
+    "provisioning_executed": false,
+    "ipd_writes": 0
+  }
+}
