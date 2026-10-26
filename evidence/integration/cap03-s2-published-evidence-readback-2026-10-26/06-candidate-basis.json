@@ -1,0 +1,150 @@
+{
+  "record": "IIPS-V3-CAP03-S2-CANDIDATE-BASIS-VERIFICATION-2026-10-26-01",
+  "generated_by": "verify_candidate_basis.py",
+  "method": "read-only GitHub API identity reads + hashing-free reads of the published transcripts; no execution, no host access, no manifest operation",
+  "identities": {
+    "approved_baseline": {
+      "commit": "8eec74ae27cda09f3c368b9c299895eae41554db",
+      "tree": "4eba29029f8d95cfe483e615a7047426b298ce50",
+      "verified_live": true
+    },
+    "corrected_candidate": {
+      "commit": "001c3c80618f2ee1d40e9a90912237e1a06e7b58",
+      "tree": "399fa44a5f1953c0f61b452420fefb5985426ef1",
+      "parent": "8eec74ae27cda09f3c368b9c299895eae41554db",
+      "committed_at": "2026-10-26T10:02:04Z"
+    },
+    "ipd_merge": {
+      "pr": 96,
+      "state": "closed",
+      "merged_at": "2026-10-26T10:12:18Z",
+      "merge_commit": "1e76f4cf9e9ca7d385a8345c9b6f438ae1ad6745",
+      "changed_files": 2
+    },
+    "identities_verified": true
+  },
+  "operative_run": {
+    "passing_capture": {
+      "run_id": "20261026T095613Z",
+      "window_utc": "2026-10-26T09:56:14.2402846Z \u2013 2026-10-26T09:58:05.1795781Z",
+      "conditions_covered": [
+        "4",
+        "5"
+      ],
+      "guard_counts": {
+        "tests": 924,
+        "pass": 920,
+        "fail": 0,
+        "skipped": 4
+      },
+      "guard_ok": true,
+      "consumer_pass": true,
+      "consumer_shasum_line": "\"shasum\": \"cc2aa70186b8fd7bc7255452ac8d8b00d094f53e\"",
+      "suite_digest": "C5DDFFA24393AED2E391EF8A72E8BFF1F8ECD9576C4349E182B288785F1B2941",
+      "consumer_digest": "9F7C64073A849E57D472C9CA30BB7616D04D1951626E90587241D61A470A85B1",
+      "summary_states": {
+        "guarded suite exit 0": true,
+        "consumer exit 0": true,
+        "original S2 retained as failed": true,
+        "no candidate commit at capture time": true
+      }
+    },
+    "prerequisite_capture": {
+      "run_id": "20261026T093342Z",
+      "window_utc": "2026-10-26T09:33:43.4210391Z \u2013 2026-10-26T09:35:15.3219843Z",
+      "conditions_covered": [
+        "1",
+        "2",
+        "3",
+        "4(early)",
+        "5(FAILED)"
+      ],
+      "overall_passed": false,
+      "failure_step": "package-consumer",
+      "dist_count": "1140"
+    },
+    "single_contiguous_run_covering_all_five": false,
+    "run_at_committed_sha": false
+  },
+  "gate_conditions": [
+    {
+      "condition": "1",
+      "command": "npm ci --no-audit --no-fund",
+      "transcript": "s2-fix-01-npm-ci.txt",
+      "summary": "s2-fix-validation-20261026T093342Z.txt",
+      "capture_start_utc": "2026-10-26T09:33:43.4268853Z",
+      "recorded_verdict": "exit 0",
+      "transcript_exit_zero_line": true,
+      "transcript_bytes": 454
+    },
+    {
+      "condition": "2",
+      "command": "npx tsc --noEmit",
+      "transcript": "s2-fix-02-typecheck.txt",
+      "summary": "s2-fix-validation-20261026T093342Z.txt",
+      "capture_start_utc": "2026-10-26T09:34:01.2942862Z",
+      "recorded_verdict": "exit 0",
+      "transcript_exit_zero_line": true,
+      "transcript_bytes": 116
+    },
+    {
+      "condition": "3",
+      "command": "npm run build (+ dist count 1140 + inventory)",
+      "transcript": "s2-fix-03-build.txt / s2-fix-dist-inventory-20261026T093342Z.txt",
+      "summary": "s2-fix-validation-20261026T093342Z.txt",
+      "capture_start_utc": "2026-10-26T09:34:15.7862399Z",
+      "recorded_verdict": "exit 0, dist 1140",
+      "transcript_exit_zero_line": true,
+      "transcript_bytes": 1242
+    },
+    {
+      "condition": "4",
+      "command": "npm test (canonical guarded suite)",
+      "transcript": "s2-npm-launch-fix-suite-20261026T095613Z.txt",
+      "summary": "s2-npm-launch-fix-summary-20261026T095613Z.txt",
+      "capture_start_utc": "2026-10-26T09:57:43.0649890Z",
+      "recorded_verdict": "exit 0, 924/920/0/4, guard OK",
+      "transcript_exit_zero_line": true,
+      "transcript_bytes": 4975166
+    },
+    {
+      "condition": "5",
+      "command": "npm run test:package-consumer",
+      "transcript": "s2-npm-launch-fix-consumer-20261026T095613Z.txt",
+      "summary": "s2-npm-launch-fix-summary-20261026T095613Z.txt",
+      "capture_start_utc": "2026-10-26T09:56:14.2694664Z",
+      "recorded_verdict": "exit 0, result PASS",
+      "transcript_exit_zero_line": true,
+      "transcript_bytes": 2885
+    }
+  ],
+  "h12_consequences": {
+    "h12_entries": 56,
+    "changed_paths": [
+      "scripts/verify-public-package.mjs",
+      "tests/portfolio_ui_package.test.ts"
+    ],
+    "h12_bound_paths_affected": [],
+    "h12_re_adoption_needed": false,
+    "pack_tarball_shasum": {
+      "baseline_bound": "cc2aa70186b8fd7bc7255452ac8d8b00d094f53e",
+      "candidate_measured": "cc2aa70186b8fd7bc7255452ac8d8b00d094f53e",
+      "unchanged": true
+    },
+    "canonical_dist_inventory_sha256_bound_at_baseline": "81bddd5cdd007bccb391759d765f57d780cb3a9db886299890a5c0fa5c4311b2",
+    "aggregate_inventory_asserted_for_candidate": false,
+    "aggregate_note": "The canonical inventory digest is bound at the approved baseline. The candidate's inventory is byte-identical except the differing files listed below, so an aggregate digest at the candidate necessarily differs; its re-derivation needs the canonicalisation procedure and is not performed."
+  },
+  "dist_delta": {
+    "baseline_entries": 1140,
+    "candidate_entries": 1140,
+    "count_unchanged": true,
+    "only_in_baseline": [],
+    "only_in_candidate": [],
+    "differing": [
+      "dist/tests/portfolio_ui_package.test.js",
+      "dist/tests/portfolio_ui_package.test.js.map"
+    ],
+    "differing_count": 2
+  }
+}
