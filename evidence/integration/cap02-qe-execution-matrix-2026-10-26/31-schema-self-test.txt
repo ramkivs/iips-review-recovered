@@ -1,0 +1,24 @@
+CAP-02 QE run-evidence manifest template self-test — 22/22 PASS
+[PASS] A1 schema parses as JSON — /home/user/iips-review-recovered/evidence/integration/cap02-qe-execution-matrix-2026-10-26/cap02-qe-run-evidence-manifest.schema.json
+[PASS] A2 sample parses as JSON — /home/user/iips-review-recovered/evidence/integration/cap02-qe-execution-matrix-2026-10-26/cap02-qe-run-evidence-manifest.sample-not-executed.json
+[PASS] B1 every schema node carries a governing 'source' citation — 100 nodes cited
+[PASS] B2 no empty 'required' list in schema
+[PASS] C1 sample carries every top-level required field — 16 fields present
+[PASS] C2 sample qe carries QE-1..QE-11
+[PASS] C3 every QE item carries all required sub-fields — 8 sub-fields x 11 items
+[PASS] C4 sample carries V-A2-1..V-A2-8 — 8/8 present
+[PASS] C5 sample carries exactly 5 S2 commands — 5/5
+[PASS] C6 sample carries PF-01..PF-17 — 17/17
+[PASS] D1 no status/disposition field claims PASS/success/acceptance/admission
+[PASS] D2 every QE status is NOT EXECUTED-prefixed
+[PASS] D3 S2 shows 0/5 NOT RUN with null exit codes — 5/5 NOT RUN
+[PASS] D4 P-1 status NOT EXECUTED, store null, single-use unspent
+[PASS] D5 PF-15 NOT DESIGNATED in sample
+[PASS] D6 run_id/record_id null; u4 NOT RENDERED
+[PASS] D7 every QE artifacts list is empty (no fabricated evidence)
+[PASS] E1 sample IPD pin equals adopted R5 primary
+[PASS] E2 sample IRR pin equals adopted R5 consumer
+[PASS] E3 sample S1 values equal the determination
+[PASS] E4 expected dist count equals 1,140
+[PASS] E5 H-12 manifest blob/sha equal adopted R5
+SELF-TEST: 22/22 PASS

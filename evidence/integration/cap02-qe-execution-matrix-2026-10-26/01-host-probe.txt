@@ -1,0 +1,29 @@
+CAP-02 QE execution-matrix pass — designated-host currency probe (2026-10-26, UTC)
+Executing environment measurement only. No host contact was made or attempted beyond read-only
+resolution/connectivity probes; no qualification command was dispatched.
+
+hostname                     : e2b.local
+kernel                       : Linux e2b.local 6.1.158+ #1 SMP PREEMPT_DYNAMIC Mon May 11 18:48:24 UTC 2026 x86_64 GNU/Linux
+os                           : Debian GNU/Linux 12 (bookworm)
+getent hosts desktop-no0nhtp : exit 2 (no record)
+getent ahostsv4 desktop-no0nhtp : exit 2 (no address)
+ping -c 1 -W 2 desktop-no0nhtp : exit 2 (ping: desktop-no0nhtp: Name or service not known)
+TCP desktop-no0nhtp/22       : Name or service not known (unreachable)
+TCP desktop-no0nhtp/3389     : Name or service not known (unreachable)
+TCP desktop-no0nhtp/5985     : Name or service not known (unreachable)
+TCP desktop-no0nhtp/5986     : Name or service not known (unreachable)
+node platform probe          : {"platform":"linux","node":"v22.22.3","arch":"x64"}
+node executable              : /usr/local/bin/node, v22.22.3 (Linux binary, not the operator-supplied Windows runtime)
+powershell                   : ABSENT
+pwsh                         : ABSENT
+cmd.exe                      : ABSENT
+node:sqlite load probe       : typeof DatabaseSync = function, BUT emits
+                               (node:1799) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+                               (designated host requires flag-free operation without warnings)
+id                           : uid=1001(user) gid=1001(user) groups=1001(user),27(sudo),100(users)
+                               (Linux container user with sudo; not the non-elevated Windows operator Ramki)
+
+Verdict: the designated host desktop-no0nhtp remains unresolved and unreachable from this
+environment, and this environment is not that host. Mandatory preconditions 1-3 (host identity,
+native Windows 11 / win32, non-elevated operator Ramki) FAIL fatally here; preconditions 4-7 are
+UNVERIFIED ON HOST. The CAP-02 Gate 4 host blocker is CURRENT. S2/P-1/S3/QE remain NOT RUN.
