@@ -1,0 +1,15 @@
+=== IRR Validation Suite & Cross-Repository Audit Summary (2026-10-26 UTC) ===
+
+1. IRR frontend/ CI Suite (executed in /home/user/iips-review-recovered/frontend):
+   - npm ci --no-audit --no-fund (with NODE_EXTRA_CA_CERTS=/etc/ssl/certs/ca-certificates.crt for sandbox TLS CA): EXIT 0
+   - npm run typecheck (tsc --noEmit, incl. pretypecheck build:broker-import): EXIT 0
+   - npm run typecheck:replay-server (tsc -p tsconfig.replay-server.json --noEmit): EXIT 0
+   - npm run test:ci: EXIT 0 — Test Files 106 passed (106); Tests 1350 passed (1350); 0 failed
+   - node .ci/assert-tests.js .vitest-report.json: EXIT 0 — "assert-tests: OK — 106 test file(s), 1350 test(s), 0 failed"
+   - npm run build (tsc -b && vite build): EXIT 0 — 142 modules transformed; dist/assets/index-D7KYElFH.js 1,609.84 kB (gzip 226.69 kB)
+
+2. Structural, H-12 R5, and PF-15 Readiness Validators:
+   - verify_current_state_and_pf15.py: PASS — 130 assertions verified; 0 failures
+   - validate_readiness.py: PASS — 62 assertions; PF 17/17; QE 11/11 NOT RUN; 15 prior evidence files SHA-256 verified
+   - 22-h12-r5-validator.py: CHECKS 981 FAILS 0 (G4-H12-MANIFEST-v2-CANDIDATE-2026-10-25-R5.json blob f4649e36a81c7013287810cd3202b99586dbd951, SHA-256 d0be8bef3281ae6a296b8700265fe134b5088dd84b102b77ca8a157c8275cb76)
+   - 21-h12-r5-adoption-criteria-validator.py: ADOPTION_CRITERIA_CHECKS 466 FAILS 0 (32/32 IPD + 24/24 IRR = 56/56 PRESENT at pins and live origin/main IPD@f97b17e7 / IRR@e47b5896; 7/7 post-G3 CAP-02 entries, 11/11 companion guards, 14/14 alias sources, 1,140/1,140 deterministic dist/** files)

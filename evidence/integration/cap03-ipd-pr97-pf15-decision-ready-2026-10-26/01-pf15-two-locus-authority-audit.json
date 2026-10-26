@@ -1,0 +1,31 @@
+{
+  "audit_date_utc": "2026-10-26",
+  "irr_main_audited": "e47b58967621377ca92c2123c432a5eb5c5959ad",
+  "ipd_main_audited": "f97b17e7d04a0c5c4573c0dbe51da2c4c595d829",
+  "open_prs_irr": 0,
+  "open_prs_ipd": 0,
+  "irr_pf15_subject_commits_on_main": [
+    "429eca3 docs(tracker): reconcile S2 guarded-suite counts \u00a716.134 (CV-CORR-114)",
+    "5dfd0c0 docs(tracker): CAP-03 DQ-4 + PF-15 P-1-independent advancement \u00a716.133 (CV-CORR-113)",
+    "9075aae docs(tracker): reconcile CAP-03 S2 corrected candidate \u00a716.132 (CV-CORR-112)",
+    "0f31a3e docs(cap02): render RV-1 effective PA decision \u2014 QE-8 Option A disposable-copy revocation (not executed)",
+    "5f03fe4 Merge pull request #295 from ramkivs/arena/46365393-iips-review-recovered",
+    "b6f75fa docs(cap03): record PF-15 PA non-decision boundary",
+    "47badcc Merge pull request #293 from ramkivs/arena/86f1916e-iips-review-recovered",
+    "c5689b7 docs(cap03): record PF-15 readiness publication receipt",
+    "971633c Merge origin/main (PR #291) and reallocate identifiers to \u00a716.130 / CV-CORR-110 / CHG-2026-10-26-06 / V788-V802",
+    "5dfcea4 Merge pull request #291 from ramkivs/arena/86f1916e-iips-review-recovered",
+    "7a742ee docs(cap03): reconcile PF-15 authority and readiness",
+    "c482c23 Merge pull request #289 from ramkivs/arena/e25d9f8f-iips-review-recovered",
+    "6dfb72f docs(cap03): publish S2/P-1/S3/QE readiness matrix, PF-15 decision request and operator runbook",
+    "228ce4e docs(cap02): publish QE execution matrix and host prerequisites"
+  ],
+  "ipd_pf15_subject_commits_all_refs": [
+    "f97b17e Merge pull request #97 from ramkivs/arena/8f07b78e-iips-production-market-data",
+    "0ee666b CAP-03: publish independent IPD integrity and PF-15 readiness evidence"
+  ],
+  "effective_pf15_pa_decisions_found": 0,
+  "pf15_current_status": "NOT DESIGNATED",
+  "pa_nondecision_boundary_record": "IIPS-V3-CAP03-PF15-PA-RESPONSE-NONDECISION-ADDENDUM-2026-10-26-01 (IRR PR #295)",
+  "ipd_pr97_corroboration_comment_id": 6414952274
+}
