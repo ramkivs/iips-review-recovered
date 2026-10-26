@@ -1,0 +1,55 @@
+{
+  "record": "IIPS-V3-CAP03-S2-PUBLICATION-RECEIPT-2026-10-26-01",
+  "tracker_section": "§16.145",
+  "identifiers": {"cv": "CV-CORR-125", "chg": "CHG-2026-10-26-27", "verification": "V957-V961"},
+  "deposit": {
+    "purpose": "raw evidence deposit (runbook §5.1)",
+    "pr": 310,
+    "head": "54d5a56fc8ffda72fa98020aaeb7b8a71bd6c5e0",
+    "files": 51,
+    "exact_head_ci_run": "40359958909",
+    "exact_head_ci_result": "success",
+    "merge_commit": "47133fe489e80de2af5f1b537d67865a6a7235b9",
+    "merged_at": "2026-10-26T16:33:33Z",
+    "post_merge_ci_run": "40360279234",
+    "post_merge_ci_result": "success"
+  },
+  "records": {
+    "purpose": "candidate-scoped disposition (§16.143) + S2 evidence acceptance (§16.144)",
+    "pr": 311,
+    "head": "fb56e7f",
+    "files": 25,
+    "exact_head_ci_run": "40360578803",
+    "exact_head_ci_result": "success",
+    "merge_commit": "dbcb95df8bcea1e0ed33bb21fc893c26fca0967e",
+    "merged_at": "2026-10-26T16:37:47Z",
+    "post_merge_ci_run": "40360955474"
+  },
+  "remote_readback": {
+    "ref": "dbcb95df8bcea1e0ed33bb21fc893c26fca0967e",
+    "method": "GitHub Git Blobs API: remote blob id compared with the merged tree blob id, and SHA-256 of the decoded bytes compared with the merged tree blob bytes",
+    "result": "ALL MATCH",
+    "paths": [
+      {"path": "IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md",
+       "blob": "8d9dae685575271852950ae587aee6909ce82cf2", "bytes": 2542018,
+       "sha256": "1f6c9b7154377d1ff3adcca294ecaacbbb51b18bbef7e0d4633d77f992e8b75f"},
+      {"path": "docs/integration/IIPS_v3.0_CAP03_S2_CANDIDATE_SCOPED_BASELINE_DISPOSITION_2026-10-26.md",
+       "blob": "521d5482a331a9d7e4f50a1649ba93700f848df5", "bytes": 12859,
+       "sha256": "badf172beaf77c743f9d74bb18057380ca3ba088c10fe1f3f332b98b1c5bd3e6"},
+      {"path": "docs/integration/IIPS_v3.0_CAP03_S2_EVIDENCE_ACCEPTANCE_2026-10-26.md",
+       "blob": "8eee295740a5dff322b0dbe35d75fb18dc179097", "bytes": 12318,
+       "sha256": "fbedd595edad1c8f159bf8cdea459a3b3664ce7e41070de961c786286b581691"},
+      {"path": "evidence/integration/cap03-s2-published-evidence-readback-2026-10-26/07-acceptance-outcome.json",
+       "blob": "5729042e886d72e575e6c6770cb91290ced4cd28", "bytes": 5918,
+       "sha256": "5bdfc089ecc9bd301549301b0944f811fa527c842bf7cb82a4642c979cbf3138"},
+      {"path": "evidence/integration/cap03-s2-evidence-manifest-verification-2026-10-26/s2-npm-launch-fix-suite-20261026T095613Z.txt",
+       "blob": "9758a2cbf9b8e2c7801740eb92874f09bbbd0373", "bytes": 4975799,
+       "sha256": "5b9fa852179a7eb7e467a2aeaf966967933eaebd21dd3a14da457c41458d50eb"}
+    ]
+  },
+  "not_asserted": [
+    "coordinates of this receipt's own carrying merge (§16.135.8 practice)",
+    "host-byte identity of the transferred evidence (see acceptance residual R-4)"
+  ],
+  "ipd_writes": 0
+}
