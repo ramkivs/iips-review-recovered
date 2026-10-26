@@ -1,0 +1,139 @@
+{
+  "record": "IIPS-V3-CAP02-CAP03-UNIFIED-RECONCILIATION-IRR-REVIEW-2026-10-26-01",
+  "classification": "read-only verification; no PA decision or execution",
+  "baseline_irr_main": "16e215cb30603ecf1058d0e3392a9c6bff15ed7a",
+  "ipd_pr98_merge": "4bb9a6541ed636ed4ad5c4895ad506dade01fdba",
+  "ipd_evidence_tip": "888eb375eebee01640e44ccdcbb138a71e8c4513",
+  "checks": [
+    {
+      "id": "R1",
+      "check": "Reviewed IRR main/tree and baseline tracker blob identity",
+      "observed": {
+        "main": "16e215cb30603ecf1058d0e3392a9c6bff15ed7a",
+        "tree": "6e07ddef01d1505d1081d5e81421dd6fc8d803e7",
+        "tracker_blob": "413eb9d21f0cc17b37c1f98286a2afea1cab9d56",
+        "bytes": 2546975,
+        "sha256": "40b206f8396a6107256b800e6e6ab52a7c8b7d7e6d0e43706ed27a359f01941f"
+      },
+      "result": "PASS",
+      "source": "GitHub Commits + Git Blobs API"
+    },
+    {
+      "id": "R2",
+      "check": "No operative §16.139 heading existed at the reviewed baseline",
+      "observed": {
+        "heading_matches": 0
+      },
+      "result": "PASS",
+      "source": "Decoded authoritative tracker blob"
+    },
+    {
+      "id": "R3",
+      "check": "IPD PR #98 merged the reconciliation and proposed IRR patch",
+      "observed": {
+        "state": "closed",
+        "merged": true,
+        "head": "8388c6178309c023c1158f14d53f5880b6ada7ea",
+        "merge": "4bb9a6541ed636ed4ad5c4895ad506dade01fdba",
+        "merged_at": "2026-10-26T14:27:39Z"
+      },
+      "result": "PASS",
+      "source": "GitHub Pulls API"
+    },
+    {
+      "id": "R4",
+      "check": "PR #98 records IRR write failure as HTTP 403 integration scope",
+      "observed": {
+        "403_in_body": true,
+        "resource_scope_text": true
+      },
+      "result": "PASS",
+      "source": "GitHub Pulls API PR #98 body"
+    },
+    {
+      "id": "R5:IIPS_v3.0_CAP02_CAP03_UNIFIED_AUTHORITATIVE_STATUS_RECONCILIATION_2026-10-26.md",
+      "check": "IRR copy is byte-identical to the IPD published object",
+      "observed": {
+        "git_blob": "5bcc25a2234bed3c67d93f1b02fc9fbc0047360b",
+        "expected": "5bcc25a2234bed3c67d93f1b02fc9fbc0047360b",
+        "sha256": "81c9a210775808f6548dd8ca5430d9bde17b9881dbacad2a8ee789b59e7158ef",
+        "bytes": 35474
+      },
+      "result": "PASS",
+      "source": "git hash-object + IPD Git tree 888eb375eebe"
+    },
+    {
+      "id": "R5:IIPS_v3.0_CAP02_CAP03_UNIFIED_RECONCILIATION_IPD_MIRROR_RECEIPT_2026-10-26.md",
+      "check": "IRR copy is byte-identical to the IPD published object",
+      "observed": {
+        "git_blob": "ea18e9578ee4d0ecccb89282a65fa9ba6f2579e9",
+        "expected": "ea18e9578ee4d0ecccb89282a65fa9ba6f2579e9",
+        "sha256": "0cad1ba7ac802eb4a2ecb1727cca0ae7c9244f68d03bc6be216310861e4cb2cf",
+        "bytes": 7352
+      },
+      "result": "PASS",
+      "source": "git hash-object + IPD Git tree 888eb375eebe"
+    },
+    {
+      "id": "R5:TRACKER_PATCH_PROPOSED.diff",
+      "check": "IRR copy is byte-identical to the IPD published object",
+      "observed": {
+        "git_blob": "f1ccc3828999abef539632c148738e8da1e718a2",
+        "expected": "f1ccc3828999abef539632c148738e8da1e718a2",
+        "sha256": "9f364f46a0983cbb1d4dca975c756cd30902b1620eb8ae318d4556eba346e356",
+        "bytes": 115592
+      },
+      "result": "PASS",
+      "source": "git hash-object + IPD Git tree 888eb375eebe"
+    },
+    {
+      "id": "R6",
+      "check": "Copied IPD evidence bundle SHA256SUMS reproduces",
+      "observed": {
+        "all_match": true
+      },
+      "result": "PASS",
+      "source": "Local byte hashes"
+    },
+    {
+      "id": "R7",
+      "check": "F1–F6 rows identical; effective act -02 has canonical code-point spans",
+      "observed": {
+        "f_rows_identical": true,
+        "f2": {
+          "len": 31,
+          "backslashes": 4
+        },
+        "f4": {
+          "len": 39,
+          "backslashes": 3
+        },
+        "f5": {
+          "len": 28,
+          "backslashes": 2
+        },
+        "act02_blob": "3fe9a2ddd5f3b8730eccee7748b6266b5e2d8b1d",
+        "act02_sha256": "1f5c9e1d9d69cf15a51ec77e41bd70f07ba69516d6a944bf3a79678c6c19a033"
+      },
+      "result": "PASS",
+      "source": "Live IRR act files + git hash-object"
+    },
+    {
+      "id": "R8",
+      "check": "Later authoritative overlays and the single late §16.139 registration are present",
+      "observed": {
+        "section_16_139_headings": 1,
+        "has_16_140_4_p1e": true,
+        "has_16_144": true,
+        "has_16_145": true,
+        "receipt_exists": true
+      },
+      "result": "PASS",
+      "source": "Local governed tracker + receipt"
+    }
+  ],
+  "totals": {
+    "passed": 10,
+    "failed": 0
+  }
+}
