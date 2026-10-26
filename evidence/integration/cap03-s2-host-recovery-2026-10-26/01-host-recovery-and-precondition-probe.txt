@@ -1,0 +1,49 @@
+=== 01: Host & Environment Recovery Probe (2026-10-26 UTC) ===
+Timestamp (UTC): 2026-10-26T04:53:19Z
+
+--- Hostname & OS ---
+Linux e2b.local 6.1.158+ #1 SMP PREEMPT_DYNAMIC Mon May 11 18:48:24 UTC 2026 x86_64 GNU/Linux
+PRETTY_NAME="Debian GNU/Linux 12 (bookworm)"
+VERSION_ID="12"
+ID=debian
+
+--- Platform & Node ---
+{"platform":"linux","arch":"x64","node":"v22.22.3","uid":1001}
+
+--- Identity & Elevation ---
+uid=1001(user) gid=1001(user) groups=1001(user),27(sudo),100(users)
+
+--- Windows Tools Availability ---
+powershell: NOT_FOUND
+pwsh: NOT_FOUND
+cmd.exe: NOT_FOUND
+
+--- Designated Host Connectivity Probe: desktop-no0nhtp ---
+getent hosts desktop-no0nhtp: UNRESOLVED (exit 2)
+getent ahostsv4 desktop-no0nhtp: UNRESOLVED (exit 2)
+ping -c 1 desktop-no0nhtp: ping: desktop-no0nhtp: Name or service not known
+PING_FAILED (exit 2)
+nc -zv -w 2 desktop-no0nhtp 22: nc: getaddrinfo for host "desktop-no0nhtp" port 22: Name or service not known
+UNREACHABLE
+nc -zv -w 2 desktop-no0nhtp 3389: nc: getaddrinfo for host "desktop-no0nhtp" port 3389: Name or service not known
+UNREACHABLE
+nc -zv -w 2 desktop-no0nhtp 5985: nc: getaddrinfo for host "desktop-no0nhtp" port 5985: Name or service not known
+UNREACHABLE
+nc -zv -w 2 desktop-no0nhtp 5986: nc: getaddrinfo for host "desktop-no0nhtp" port 5986: Name or service not known
+UNREACHABLE
+
+--- node:sqlite Flag-Free Capability Probe ---
+node:sqlite require: OK, DatabaseSync: function
+node:sqlite in-memory query result: {"v":"test"}
+(node:4968) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+
+--- Mandatory Precondition Verdict ---
+Precondition 1 (Host identity: desktop-no0nhtp): FAIL (unresolved / unreachable)
+Precondition 2 (Native Windows 11 platform: win32): FAIL (Linux 6.1.158+)
+Precondition 3 (Operator: Ramki non-elevated): FAIL (user uid 1001 with sudo)
+Precondition 4 (Exact repository commit/tree on host): UNVERIFIED ON HOST
+Precondition 5 (Clean full-history checkout on host): UNVERIFIED ON HOST
+Precondition 6 (Compatible Node and flag-free node:sqlite on host): UNVERIFIED ON HOST
+Precondition 7 (Evidence destination outside worktree on host): UNVERIFIED ON HOST
+
+Conclusion: Mandatory preconditions 1-3 FAIL fatally. S2 sequence STOPPED before execution. 0/5 commands run.

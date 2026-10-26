@@ -1,0 +1,33 @@
+=== Local IRR Publication Checks (2026-10-26 UTC) ===
+Location: frontend/
+
+1. npm run typecheck
+Exit code: 0
+Output:
+> @iips/v3-frontend@0.1.0 pretypecheck
+> npm run build:broker-import
+> @iips/v3-frontend@0.1.0 build:broker-import
+> tsc -p tsconfig.broker-import.json
+> @iips/v3-frontend@0.1.0 typecheck
+> tsc --noEmit
+
+2. npm run typecheck:replay-server
+Exit code: 0
+Output:
+> @iips/v3-frontend@0.1.0 typecheck:replay-server
+> tsc -p tsconfig.replay-server.json --noEmit
+
+3. npm run test:ci
+Exit code: 0
+Vitest run: 106 test files passed, 1,350 tests passed, 0 failed.
+Duration: ~105s
+
+4. node .ci/assert-tests.js .vitest-report.json
+Exit code: 0
+Output: assert-tests: OK — 106 test file(s), 1350 test(s), 0 failed
+
+5. npm run build
+Exit code: 0
+Output: 142 modules transformed, built in ~4.5s.
+
+Note: These checks verify publication integrity of the review repository. They carry zero S2, Gate 4, QE, or host evidence credit.

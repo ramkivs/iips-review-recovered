@@ -1,0 +1,4 @@
+21fbfcd6ef673a66e15c9659f8a61c9b6bde95dd91e470edabb7fca2a4545483  00-remote-state-and-ancestry.txt
+d0bade17db5ad473b45b020ec240b3800f7ec2c8544be325a68ce0da130e717c  01-host-recovery-and-precondition-probe.txt
+e1ef2cad0e62347be7c80bcf30c9bd30bfadd3dd3f5fdb9856ccfb3c0c9c720d  02-identifier-census.txt
+4576b3437efe4ab4a3a1ea5694a230732baf4fc06fef2dd15aac2ea45a28dfc7  10-publication-checks.txt

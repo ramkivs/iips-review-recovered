@@ -1,0 +1,25 @@
+=== CAP-03 Remote State and Ancestry Verification (2026-10-26 UTC) ===
+
+1. IRR (ramkivs/iips-review-recovered)
+- Remote tip: refs/heads/main @ 9e0da3eec97cc9ef21714bdf36ea57f1f6deb27a
+- Tip tree: cf989579a8e037f60341cc4fc3030d303ead72bd
+- Recent PRs:
+  * PR #284 (docs(tracker): receipt CAP-02 reconciliation publication) merged at 2026-10-26T04:48:48Z as 9e0da3eec97cc9ef21714bdf36ea57f1f6deb27a (CI run 40270979172 SUCCESS)
+  * PR #283 (docs(cap02): reconcile decisions and Gate 4 host blocker) merged at 2026-10-26T04:44:20Z as 376a1639dc5566c66ebfb44eb87ce6561ef8d884 (CI run 40270599473 SUCCESS)
+- Open PRs: 0
+
+2. IPD (ramkivs/iips-production-market-data)
+- Remote tip: refs/heads/main @ f5eddbc20b944a098a9060a8e3349c6d10b7843e
+- Tip tree: 5c93f1d1e6c4919fa632ff107569ac955f5e052e
+- Recent PRs:
+  * PR #95 (CAP-03: record PR #94 H-12 R5 mirror publication receipt and independent remote read-back) merged at 2026-10-25T20:25:25Z (CI run 40230772869 SUCCESS)
+  * PR #94 (CAP-03: mirror H-12 R5 adoption receipt into IPD and record S2 host-precondition stop) merged at 2026-10-25T20:21:51Z as 9efbf83a74297d54dc392fa60efcd966ca52d486 (CI run 40230541846 SUCCESS)
+- Open PRs: 0
+
+3. Designated S2 Pin & Ancestry
+- Designated IPD commit: 8eec74ae27cda09f3c368b9c299895eae41554db
+- Designated IPD tree: 4eba29029f8d95cfe483e615a7047426b298ce50
+- Full-history ancestry: 8eec74ae27cda09f3c368b9c299895eae41554db is an ancestor of IPD main (f5eddbc20b944a098a9060a8e3349c6d10b7843e)
+- Distance behind live main: 8 commits (PRs #92, #93, #94, #95)
+- Intervening paths: exactly 15 paths, all documentary / evidence under evidence/cross-repository/
+- Qualified-surface drift: 0 files (32/32 core H-12 paths, 1/1 helper, 7/7 post-G3 entries, 10/10 G3 anchors 100% byte-identical)
