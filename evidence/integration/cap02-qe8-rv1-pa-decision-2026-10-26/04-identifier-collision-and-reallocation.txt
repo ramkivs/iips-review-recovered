@@ -1,0 +1,50 @@
+# Identifier collision, reallocation and post-#295 re-census — 2026-10-26T07:31:05Z
+
+## 1. Collision event
+While this pass was in flight (PR #296 open), IRR PR #295 'CAP-03: record PF-15 PA non-decision boundary'
+merged to main as 5f03fe4ae79ec2567b99a66a8c6df734bbc84549 (merge of b6f75fa). Its tracker addendum §16.129.4
+consumed identifiers provisionally taken by this pass:
+  CHG-2026-10-26-07  -> now OCCUPIED (§16.129.4)
+  V803, V804, V805   -> now OCCUPIED (§16.129.4 verification rows)
+PR #295 did not use §16.131, CV-CORR-111 or this pass's act ID. It renders no RV-1 and leaves PF-15
+NOT DESIGNATED with S2/P-1 independent — substantively consistent with the RV-1 act §5.2.
+
+## 2. Reallocation
+  retained (never occupied): §16.131; CV-CORR-111;
+    IIPS-V3-CAP02-QE8-RV1-REVOCATION-PROCEDURE-PA-ACT-2026-10-26-01
+  CHG-2026-10-26-07 -> CHG-2026-10-26-08
+  V803-V808         -> V806-V811
+
+## 3. Re-census at origin/main 5f03fe4ae79ec2567b99a66a8c6df734bbc84549 (git grep -F, tracked files)
+  IRR [§16.131] : 0
+  IRR [16.131] : 0
+  IRR [CV-CORR-111] : 0
+  IRR [CHG-2026-10-26-08] : 0
+  IRR [V806] : 0
+  IRR [V807] : 0
+  IRR [V808] : 0
+  IRR [V809] : 0
+  IRR [V810] : 0
+  IRR [V811] : 0
+  IRR [IIPS-V3-CAP02-QE8-RV1-REVOCATION-PROCEDURE-PA-ACT-2026-10-26-01] : 0
+  IRR [QE8-RV1] : 0
+  occupied-check CHG-2026-10-26-07 : 2 (expect >0)
+  occupied-check V803 : 3 (expect >0)
+
+## 4. IPD re-census (clone /tmp/ipd-census refreshed to f5eddbc)
+  IPD [§16.131] : 0
+  IPD [CV-CORR-111] : 0
+  IPD [CHG-2026-10-26-08] : 0
+  IPD [V806] : 0
+  IPD [V811] : 0
+  IPD [IIPS-V3-CAP02-QE8-RV1-REVOCATION-PROCEDURE-PA-ACT-2026-10-26-01] : 0
+
+## 5. Post-#295 remote baseline re-read
+  IRR main: 5f03fe4ae79ec2567b99a66a8c6df734bbc84549
+  open PRs: 1
+  CI 40285694020 completed/success 5f03fe4ae)
+  CI 40283329843 completed/success cd8c45237)
+  IPD main unchanged: f5eddbc20b944a098a9060a8e3349c6d10b7843e
+  IPD commits since 2026-10-26: 0
+
+Verdict: 0 prior occurrences in both loci for every reallocated identifier; no identifier is published twice.

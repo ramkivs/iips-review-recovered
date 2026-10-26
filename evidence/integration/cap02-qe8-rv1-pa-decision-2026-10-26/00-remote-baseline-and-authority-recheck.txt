@@ -1,0 +1,37 @@
+# CAP-02 RV-1 (Option A) PA decision — remote baseline and authority recheck
+# Generated 2026-10-26T07:15:48Z in sandbox e2b.local (linux); read-only remote calls
+
+## 1. IRR ramkivs/iips-review-recovered
+local HEAD : cd8c45237ec8516d02711d0009e3453fc6983976
+origin/main: cd8c45237ec8516d02711d0009e3453fc6983976
+open PRs   : 0
+latest 5 PRs:
+  #294 MERGED 2026-10-26T07:02:09Z docs(cap02): receipt for PR #292 (§16.130.7) — remote identity and completeness read-back
+  #293 MERGED 2026-10-26T06:57:28Z CAP-03: publish PF-15 readiness verification receipt
+  #292 MERGED 2026-10-26T06:56:35Z docs(cap02): QE-8 revocation determination (awaiting PA), published-record repair, matrix corrections, host runbook
+  #291 MERGED 2026-10-26T06:51:56Z CAP-03: reconcile PF-15 authority and S3/QE readiness
+  #290 MERGED 2026-10-26T06:32:11Z docs(cap03): receipt for PR #289 publication (§16.128.8)
+latest main CI:
+  40283329843 completed/success cd8c45237 Merge pull request #294 from ramkivs/arena/a01050b1-iips-rev
+  40282871274 completed/success 47badcce1 Merge pull request #293 from ramkivs/arena/86f1916e-iips-rev
+  40282782275 completed/cancelled 75bde856b Merge pull request #292 from ramkivs/arena/a01050b1-iips-rev
+
+## 2. IPD ramkivs/iips-production-market-data (read-only)
+main sha   : f5eddbc20b944a098a9060a8e3349c6d10b7843e  2026-10-25T20:26:25Z
+commits since 2026-10-26T00:00:00Z: 0
+open PRs   : 0
+
+## 3. Absence of any rendered RV-1 approval (remote recheck)
+IRR code search 'RV-1' (repo-scoped): 0 hits
+IRR files matching EFFECTIVE+revocation naming:
+IPD code search 'revoke': 0 hits
+IPD code search 'RV-1'  : 0 hits
+
+## 4. Host/store/binding state from this environment
+platform: Linux 6.1.158+ x86_64
+pwsh/powershell.exe present: none / none
+desktop-no0nhtp resolution exit: 2
+local sqlite/store files under /home/user (excl node_modules):
+  /home/user/iips-review-recovered/frontend/src/features/portfolio-import/irrPortfolioStorePortAdapter.test.ts
+  /home/user/iips-review-recovered/frontend/src/features/portfolio-import/irrPortfolioStorePortAdapter.ts
+(empty above = no store exists in this environment; P-1 unspent per tracker 16.130.5)

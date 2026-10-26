@@ -10,7 +10,7 @@
 | Current CAP-03 DR-2 publication status (`2026-10-25`; §§16.117–16.118) | IPD Option A provider/test is merged at PR #89; IRR Option A consumer is merged by PR #265 as `e590ca40d950052e32b2813027f0d1027b9e65ec` (tree `97530e48…`). PR-head CI `40199009657` and post-merge `main` CI `40199212799` passed; current-base local full suite 106 files / 1,349 passed / 0 failed. Bilateral source/test implementation and conformance evidence is published across both repos; this is **not** CAP-03 operational completion, final pin/freeze, Gate 5 admission, durability acceptance, or production eligibility. See §16.118. |
 | Previous IPD baseline (historical; superseded as current state) | Superseded value **`c0e1b5662264651246db1ccde2945eb5e13f3524`** verified 2026-10-22 (§16.75; superseded by the PR #41 merge recorded in §16.76) — 2 open PRs (**#34** superseded Gate 3 lineage; **#41** conformant candidate), agent write capability `HTTP 403`. Earlier: `ramkivs/iips-production-market-data` (`refs/heads/main` verified at **`15465e45adfc1dd58fba17e80365b729599aef6b`** on 2026-10-21 (`CV-CORR-53`, §16.70) — PR #37 merge `2026-10-21T15:57:34Z` (DEC-06 P11 main-admission decision package + A5 refresh; documentation only, no admission); **2 open PRs (#34 Gate 3 candidate; #36 DEC-06 P11 candidate — neither for merge)**, **0 releases**, both annotated pin tags re-peeled; superseded banner value `3d44e0a123f2495f3b88ce0ab8b47fbc5bf072db` verified 2026-10-21 — PR #33 merge 2026-10-19T19:46:48Z; earlier superseded value `be32d8c95a86b3f03bd382ccde5b6398efb351c6` verified 2026-10-18 — PR #24 merge (2026-10-18T19:12:01Z; documentation-only cross-repository reconciliation; 0 open IPD PRs; §16.55/§16.56), preceded by PR #23 `0158b7a1…` (documentation-only handoff/§14 record; IPD CI run `39147879645` passed); G3-D0 disposition published by PRs #20/#21 (`8b65971f…`/`e76bb2ed…`), G3-D1…D7 classification by PR #22 (`9310b1a…`); PR #8 merge `467eb529…` remains an ancestor; previous banner value `9130c259…` (PR #11) retained historically in §§16.49–16.53; refreshed by `CV-CORR-37`, §16.54) |
 | Pre-REG-08 IRR Baseline | Commit `f970028cf633f561c225d66ae4b3864f48afe656`; root tree `bab9782ed104567e571abccc350c75760ff35dca` (merge of PR #75) |
-| **Last Updated** | `2026-10-26` (UTC) — **PF-15 PA-response boundary recorded: the authorized PA rendered no A/B or value determination; the existing decision request is updated with the exact seven missing contents, required decision-maker, preserved options and consequences of non-decision. PF-15 remains NOT DESIGNATED; S2/P-1 remain independent (`§16.129.4`, `CHG-2026-10-26-07`, `V803`–`V805`).** Preceding state: CAP-02 QE-8 governance gap resolved to its authority boundary: a decision-ready revocation-procedure request (`RV-1`, four alternatives, no approval rendered) is published, the published CAP-02 QE matrix record's truncation defect is disclosed and repaired, four QE-8/QE-4 matrix statements are corrected against implementation evidence, and the CAP-02 host runbook/evidence structure is published (`CV-CORR-110`, §16.130, `CHG-2026-10-26-06`, `V788`–`V802`). **Preserved:** CAP-02 **PARTIAL / NOT COMPLETE**; U2-1–U2-12 complete at the authorized boundary; U2-13/W-1 NOT AUTHORIZED; U2-14/P-1 BLOCKED — unspent; U3 Gate 4 AUTHORIZED — NOT STARTED, QE 0/11; QE-8 AWAITING PROGRAM AUTHORITY, sole binding untouched; U4 NOT RENDERED; U5 NOT GRANTED / NOT INITIATED; U6 NOT AUTHORIZED; PF-15 NOT DESIGNATED; zero IPD writes. Preceding state: CAP-03 PF-15 authority reconciliation and S3/QE readiness (`CV-CORR-109`, §16.129, `CHG-2026-10-26-05`, `V779`–`V787`, PR #291); before that, **CAP-03 S2 designated host recovery attempted and confirmed blocked; mandatory native-Windows preconditions re-measured and failed; S2 sequence NOT EXECUTED (0/5 commands run); downstream gates preserved (`CV-CORR-106`, §16.126, `CHG-2026-10-26-02`, `V740`–`V752`).** Preceding state: IRR PR #284 (`9e0da3e…`, receipt of PR #283 CAP-02 reconciliation, CI `40270979172` `success`, 0 open PRs); IPD `main@f5eddbc…` (PR #95 receipt of PR #94 H-12 R5 mirror, CI `40230772869` `success`, 0 open PRs; zero IPD writes). Active recovery probes from this environment against designated host `desktop-no0nhtp` confirmed name resolution failure (`getent` exit 2, ping exit 2, remoting ports unreachable) and network isolation; executing platform is Linux `e2b.local` 6.1.158+ (`process.platform === "linux"`, user `user` uid 1001 with sudo, PowerShell/cmd.exe absent). Mandatory preconditions 1–3 FAIL fatally; preconditions 4–7 unverified on host. S2 sequence stopped before dispatch (0/5 commands run; no Linux/WSL/alternate-host substitution; zero false passes claimed). Blocker record `IIPS-V3-CAP03-G4-H12-R5-S2-HOST-PRECONDITION-BLOCKER-2026-10-26-01` published. **Preserved:** DQ-4 **PREPARED AND VALIDATED — NOT ESTABLISHED** (`8/10`); Gate 4 **AUTHORIZED — NOT STARTED** (QE `0/11`); P-1 **NOT EXECUTED**; S3 **NOT REACHED**; Gate 5 **NOT INITIATED / NOT ADMITTED**; durable-read acceptance **NOT GRANTED**; production **NOT ADMITTED**; `WRITE_NOT_AUTHORIZED` & all twelve `/api/user-portfolios*` `503` fences intact; zero IPD writes. Earlier update (`2026-10-25`; `CV-CORR-103`, §16.123): CAP-03 Gate 4 H-12 R5 ADOPTED by PA act (`IIPS-V3-CAP03-G4-H12-R5-PA-ADOPTION-ACT-2026-10-25-01`), DQ-6b element 6 verified COMPLETE (6/6), Amended-§8 supplement bound. |
+| **Last Updated** | `2026-10-26` (UTC) — **CAP-02 QE-8 `RV-1` rendered EFFECTIVE: the Program Authority expressly selected Option A (disposable-copy revocation); act `IIPS-V3-CAP02-QE8-RV1-REVOCATION-PROCEDURE-PA-ACT-2026-10-26-01` adopts decision-request §3.1–§3.7 verbatim and fixes an explicit disposable-copy boundary (byte-identical copy, copy-only mutating connection, authoritative-store delta-zero proof, `storePathRole='disposable-copy'`) with a Tier 2 component-only evidence ceiling — never a full-path PASS. The authoritative binding `c5808…` is untouched and QE-8 moves from AWAITING PROGRAM AUTHORITY to `PROCEDURE APPROVED (RV-1, Option A) — NOT EXECUTED`; nothing is executed (`CV-CORR-111`, §16.131, `CHG-2026-10-26-08`, `V806`–`V811`). Preserved: QE 0/11; U3 AUTHORIZED — NOT STARTED; U2-14/P-1 BLOCKED — unspent; S2 remains the designated-Windows operator task; P-1 remains blocked until S2 passes; PF-15 remains a separate PA decision, NOT DESIGNATED, required before S3; U4 NOT RENDERED; U5 NOT GRANTED / NOT INITIATED; U6/W-1 NOT AUTHORIZED; all twelve 503 fences and `WRITE_NOT_AUTHORIZED` intact; zero IPD writes; zero host commands; no store or copy created. Preceding state (same day, PR #295, §16.129.4, `CHG-2026-10-26-07`, `V803`–`V805`): PF-15 PA-response boundary recorded — the authorized PA rendered no A/B or value determination; the existing PF-15 request was updated with the exact seven missing contents and required decision-maker; PF-15 remains NOT DESIGNATED and S2/P-1 remain independent. Preceding state:** CAP-02 QE-8 governance gap resolved to its authority boundary: a decision-ready revocation-procedure request (`RV-1`, four alternatives, no approval rendered) is published,
 | Previous update summary (`2026-10-25`; `CV-CORR-102`, §16.122 — preserved; receipt PR #277 merged `c5037613…` & receipt PR #278 merged `ac6d45b6…` at §16.122.14; DQ-6b element 6 & H-12 R5 adoption superseded as current state by §16.123 / `CV-CORR-103`) | `2026-10-25` (UTC) — **CAP-03 DQ-6b RESOLVED: PA Path A rendered and recorded as an effective decision act — the split primary/alias baseline is admitted as an INTERIM, GUARDED freeze configuration; exact final QE pins designated; DQ-4 freeze manifest PREPARED AND VALIDATED (NOT ESTABLISHED); H-12 REGENERATED AND VALIDATED as candidate R5 (32 IPD + 24 IRR = 56, 56/56 present, 981 checks / 0 failures) and NOT ADOPTED (`CV-CORR-102`, §16.122, `CHG-2026-10-25-27`, `V689`–`V705`).** Authority: the standing grant (F-3 §1.2) read with §16.70 `R-1`/`R-3` **plus** the current named PA instruction — the two-element basis — and the PA rendered the determination with verbatim text and every fixed semantic. Fixed: primary `8eec74ae27cda09f3c368b9c299895eae41554db` (IPD `main`, 0 behind), alias `70b24f029842a7e9b7f615e4d9df7376fd4ff817` (214 behind, ancestor) preserved because it supplies the 14 raw sources for `build:broker-import` and backs the live PO-accepted DB-C1 preview; **INTERIM, not a permanent architecture decision**; lineage classification preserved (`REAL` at the alias, `UNCLASSIFIED` at the primary — no reclassification, no requalification); guards preserved and binding; alias **not** modernized, re-pinned or retired; committed DR-4r/DQ-3 Option B preserved. **Conflict resolved explicitly:** the packet's "DQ-6/DQ-7 are off the critical path and must never gate it" (PROPOSED, blob `9ccc0b06…`) is a sequencing assertion premised on both its framed options being executable; both are unavailable (option (i) `TS18003`; option (ii) DB-C1 live), so DQ-6b re-entered the critical path **as a decision**, not as work. DQ-6a and DQ-7a–c remain off the critical path. **Effectiveness:** elements 1–5 SATISFIED (elements 4–5 on publication); element **6** (dated receipt mirrored into the IPD tracker) **OUTSTANDING** — this session is IRR-bound and may not write IPD; exact text prepared (`IIPS-V3-CAP03-DQ6B-IPD-MIRROR-RECEIPT-2026-10-25-01`, PREPARED — NOT PUBLISHED). **New findings:** the split is wider than one file — 10 of the 14 alias raw sources are byte-identical and **4 diverge**, and `src/identity/security_master.ts` is simultaneously a qualified-tree H-12 entry (primary `60030e0c…`) and a required alias raw source (alias `e260fd90…`), so the qualified build carries two `SecurityMaster` byte-sets; and H-12's single blocking absence (`tests/g4_run_tests_summary_parsing.test.ts`) is now **PRESENT** at the candidate (`49e901b6…`), resolving R4's full-validation block while remaining content-integrity only — not Limb A acceptance, not qualification, not Gate 4 credit. **Designated (not frozen):** IRR QE consumer `ba64b2d5927c2f872560710cf1474c25a5cde0d5` / tree `5e4262f1…`; IPD `8eec74ae…`/tree `4eba2902…`; alias `70b24f02…`/tree `cc0f0117…`. Validated this pass: IRR `106 files / 1,350 tests` + guard `OK` + both typechecks + `build` + strict adapter `tsc` all exit 0; IPD `build:tsc` 0 and `924 tests / 923 pass / 1 skipped / 0 fail`; bilateral harness **15/15** at the designated coordinates. **NOT established / NOT performed:** DQ-4 final QE freeze **NOT ESTABLISHED** (6 of 10 establishment criteria met); H-12 **NOT ADOPTED**; Gate 4 **AUTHORIZED — NOT STARTED**, QE **0/11**; Gate 5 **NOT INITIATED / NOT ADMITTED**; no `503` fence lifted; no durable-read acceptance or production eligibility; no host operation; **zero IPD writes**. |
 | Previous update summary (`2026-10-25`; `CV-CORR-101`, §16.121 — preserved) | `2026-10-25` (UTC) — **CAP-03 DQ-6b freeze-disposition investigation completed and published as `PREPARED — NOT EFFECTIVE`; DQ-6b is UNRESOLVED PENDING PA DECISION (`CV-CORR-101`, §16.121, `CHG-2026-10-25-26`).** Eight independent authority searches (IRR full-history pickaxe over **1,038 commits**, IPD all-branch pickaxe, added-file censuses in both loci, `gh search issues` for `DQ-6b` in both repositories, and an open-PR census showing **0 open PRs** in both) returned **no effective DQ-6b decision**: the DQ-1…DQ-7 packet (blob `9ccc0b06…`) remains **PROPOSED — NOT EFFECTIVE** with a blank DQ-6b answer row; the effective CAP-03 one-pass PA record (blob `624632bb…`) states verbatim “DQ-6 and DQ-7 are not answered or altered by this pass”; and the only effective DQ-6-family act (`IIPS-V3-IPD-PR42-CLOSE-WITH-RECORD-PA-DISPOSITION-2026-10-24-01`, IPD locus) answers **DQ-6a** only and states “DQ-6b remains open and untouched”. Published IRR-side: decision brief `IIPS-V3-CAP03-DQ6B-FREEZE-DISPOSITION-DECISION-BRIEF-2026-10-25-01` and blocker record `IIPS-V3-CAP03-DQ6B-FREEZE-BLOCKER-2026-10-25-01`. Independently re-verified this pass: primary pin `8eec74ae…` (0 behind IPD `main`), distinct alias `70b24f02…` (214 behind, ancestor), IPD `files: ['dist/package']` at `8eec74ae…` vs **no `files`/`exports`** at `70b24f02…`, all **14/14** required raw sources PRESENT at the alias and **0/14** publishable under `dist/package`, `TS18003` (evidence `21`), `sourceClassification` `REAL` → `UNCLASSIFIED` at **three** sites in `broker-holdings-mapper.ts` (blobs `6c8ab71d…` → `297e4a59…`), the guard test (blob `0a1e58de…`), and the bilateral harness **15/15** (evidence `18`). **New finding:** the alias is load-bearing for the live, PO-accepted **DB-C1** `/broker-holdings` preview — `brokerHoldingsPreview.ts` (blob `bf079a1b…`) imports `../../.cache/broker-import/…`, and `build:broker-import` gates `predev`/`prebuild`/`pretest`/`pretest:ci`/`pretypecheck`. **Recommendation (NOT a decision): Path A** — freeze the qualified split primary/alias baseline, documented and guarded. **No pin changed, no freeze established, no gate moved, H-12 NOT ADOPTED, QE 0/11, Gate 5 NOT INITIATED / NOT ADMITTED, zero IPD writes.** |
 | Previous update summary (`2026-10-25`; `CV-CORR-98`, §16.117–§16.118 — preserved) | `2026-10-25` (UTC) — **CAP-03 bilateral DR-2 / Option A implementation and contract-conformance evidence reconciled after IRR PR #265 merged and its consumer/frozen blobs were remotely read back** (`CV-CORR-98`, §16.118; `CHG-2026-10-25-23`; `V670` PASS). IRR `main@e590ca40d950052e32b2813027f0d1027b9e65ec`, tree `97530e48…`; PR-head CI `40199009657` and post-merge main CI `40199212799` passed; Gate 4 remains AUTHORIZED — NOT STARTED; QE remains 0/11; no final pin/freeze or durable-read acceptance is rendered; Gate 5 is NOT INITIATED / NOT ADMITTED; host operations were not performed; production eligibility is NOT ADMITTED. This reconciles only bilateral source/test publication, not full CAP-03 closure. No CV register-count movement or IPD writes. **Prior update preserved:** NP-06 Reports `CV-51` ACCEPTED/CLOSED — bounded non-production read-only Reports UI (`CV-CORR-97`, §16.116; `CHG-2026-10-25-21`). PA acceptance `ACCEPT CV-51` (2026-10-25) published via PR #271 (merge `52dddd8c…`, CI `40196119937`/`40196280978` `success`) and remotely verified (§16.116.4, `V654`) — acceptance **EFFECTIVE**; `CV-51` reconciled `COMPLETE / ACCEPTED` (`ACCEPTED/CLOSED`): complete/accepted `17→18`, blocked-active `2→1`, active outstanding `6→5`, total `35`; §18.1 row 37 reconciled to verified bounded scope; §19 Reports closed. NP-06 backend **ACCEPTED** (bounded non-production); production **NOT ADMITTED**; `D115`/`CV-43` **UNWIRED**; IPD writes by that pass **NONE**. No new implementation authority granted. |
@@ -11354,3 +11354,122 @@ companion receipt PR; nothing in §16.130 self-embedded coordinates before the m
 
 *End of §16.130.7. Publication does not move any gate, approve the QE-8 revocation procedure, or grant
 provisioning, designation, acceptance, admission, writes or production eligibility.*
+
+## §16.131 — `CV-CORR-111`: CAP-02 QE-8 `RV-1` Program Authority decision rendered EFFECTIVE — Option A (disposable-copy revocation); procedure approved, nothing executed (`2026-10-26`; `CHG-2026-10-26-08`, `V806`–`V811`)
+
+**Current-state overlay; prior history preserved.** This pass carries the QE-8 revocation request of
+§16.130 across its authority boundary: the Program Authority rendered the explicit `RV-1` selection
+(**Option A**) that the preparing capacity could not render for itself, and an effective PA act is
+published. The pass executes nothing — no host command, no store, no copy, no binding touch, no
+revocation, no QE item — and moves no gate. QE-8 changes state from `AWAITING PROGRAM AUTHORITY` to
+`PROCEDURE APPROVED (RV-1, Option A) — NOT EXECUTED`.
+
+- Effective act:
+  [`docs/integration/IIPS_v3.0_CAP02_QE8_RV1_REVOCATION_PROCEDURE_PA_ACT_EFFECTIVE_2026-10-26.md`](docs/integration/IIPS_v3.0_CAP02_QE8_RV1_REVOCATION_PROCEDURE_PA_ACT_EFFECTIVE_2026-10-26.md)
+  (`IIPS-V3-CAP02-QE8-RV1-REVOCATION-PROCEDURE-PA-ACT-2026-10-26-01`)
+- Request granted in part (historical, preserved):
+  [`docs/integration/IIPS_v3.0_CAP02_QE8_REVOCATION_PROCEDURE_DECISION_PACKET_2026-10-26.md`](docs/integration/IIPS_v3.0_CAP02_QE8_REVOCATION_PROCEDURE_DECISION_PACKET_2026-10-26.md)
+- Evidence: `evidence/integration/cap02-qe8-rv1-pa-decision-2026-10-26/`
+
+### 16.131.0 Identifier collision during the pass — reallocated, disclosed
+
+While this pass was in flight, IRR PR #295 (CAP-03 PF-15 PA non-decision boundary, merge
+`5f03fe4ae79ec2567b99a66a8c6df734bbc84549`) consumed identifiers this pass had provisionally taken:
+**`CHG-2026-10-26-07` and verification rows `V803`–`V805`** (its §16.129.4 addendum). The collision was
+discovered at the pre-merge rebase against the advanced `main`, not after publication. Every identifier
+in this section, the act and the evidence was therefore reallocated and re-censused: **`CHG-2026-10-26-08`
+and `V806`–`V811`**; §16.131, `CV-CORR-111` and the act ID were never occupied and are retained. Fixed-
+string re-census at `origin/main@5f03fe4` and a fresh IPD clone returned **0 prior occurrences** for every
+reallocated identifier in both loci (`04-identifier-collision-and-reallocation.txt`). No identifier is
+published twice and the CAP-03 addendum is preserved unedited. PR #295 renders no `RV-1` and leaves PF-15
+`NOT DESIGNATED` with S2/P-1 independent — consistent with act §5.2; no substantive conflict exists.
+
+### 16.131.1 Authority state re-verified before the determination; no superseding decision existed
+
+Independent remote re-read immediately before rendering (`00-remote-baseline-and-authority-recheck.txt`):
+IRR `main` at `cd8c4523…` with **0 open PRs**; a second re-read after the in-flight PR #295 merge recorded `main@5f03fe4…` (see 16.131.0 and `04-identifier-collision-and-reallocation.txt`); latest merges #294 (§16.130.7 receipt) and #293 (CAP-03
+PF-15 receipt) are documentation receipts that render no revocation approval; IPD `main` unchanged at
+`f5eddbc2…` (0 commits since `2026-10-26T00:00Z`, 0 open PRs); full-tree greps and remote searches show
+**no rendered `RV-1`, no EFFECTIVE revocation act and zero `/revok/i` code paths** in either locus. The
+five §16.130.1 findings were re-verified at the live remotes (`02-ipd-implementation-reverification.txt`):
+W-3 blobs `540d49f2…`/`96d0079d…` and the one-way provisioning blob `2cbce83f…` are byte-identical to
+the request's citations; the four alternatives and their consequences therefore remain accurate, and no
+re-investigation was warranted or published. The sole operator binding remains untouched (P-1 unspent;
+no store exists; `desktop-no0nhtp` does not resolve from this Linux sandbox; no PowerShell; zero local
+store files).
+
+### 16.131.2 The determination and the Option A boundary (act §§2–3)
+
+On `2026-10-26` the Program Authority — presented alternatives A/B/C/D with their full consequences —
+expressly selected **Option A** and directed publication of the effective act. The selection is not
+inferred from the recommendation, CI, the W-3 wiring or the Gate 4 grant (act §1.2 anti-inference
+clause). The act adopts the request's §3.1–§3.7 procedure verbatim and makes the disposable-copy
+boundary controlling: (1) one byte-level copy of the post-P-1 authoritative store at a distinct
+absolute path outside every worktree, local fixed NTFS, unsynchronized; (2) SHA-256 equality of copy and
+authoritative store proven before `BEGIN`; (3) the mutating connection is proven to be the copy
+(`PRAGMA database_list`/opened-file evidence) and the authoritative-store connection runs no mutating
+statement; (4) process re-point to the copy is scoped to the QE-8 limbs and returned afterwards;
+(5) authoritative-store hash and `ACTIVE` rows are re-measured delta-zero after the limbs;
+(6) audit `detail.storePathRole` is fixed to `'disposable-copy'`; (7) the copy is retained with evidence
+— no deletion, purge or reactivation is authorized; (8) **all QE-8 observations are Tier 2 component
+evidence (T2), never a full-path PASS**, under the five-class vocabulary. Options B (irreversible
+authoritative revocation), C (governed entrypoint + H-12 regeneration) and D (defer) are not selected;
+substituting any of them without a new rendered PA act is prohibited.
+
+### 16.131.3 Gate integrity and independent execution progress (act §5)
+
+```text
+RV-1 / QE-8 procedure:     EFFECTIVE — Option A; QE-8 PROCEDURE APPROVED — NOT EXECUTED
+QE executed:               0/11 (no execution authorized or possible from this environment)
+Revocations executed:      0; stores/copies created: 0; bindings touched: 0
+U2-14 P-1 provisioning:    BLOCKED / NOT STARTED — unspent, single-use, strictly after S2 (unchanged)
+U3 Gate 4:                 AUTHORIZED — NOT STARTED (unchanged)
+S2:                        designated-Windows operator task on desktop-no0nhtp (unchanged; RV-1 is not a
+                           prerequisite for S2, P-1 or PF-15, and none is a prerequisite for RV-1)
+PF-15:                     NOT DESIGNATED — separate PA decision still required before S3 (unchanged)
+U4 acceptance:             NOT RENDERED; U5 Gate 5 NOT GRANTED / NOT INITIATED
+U6 operational writes:     NOT AUTHORIZED — WRITE_NOT_AUTHORIZED, evaluatePortSaveGuard() hard-false,
+                           all twelve /api/user-portfolios* 503 fences intact; W-1 NOT AUTHORIZED
+H-12 R5 manifest:          unchanged (Option A changes data bytes on a disposable copy only)
+IPD writes this pass:      0; host commands dispatched: 0
+```
+
+The next dependency-respecting sequence is unchanged: native-Windows S2 (5/5) → single P-1
+(V-A2-1…V-A2-8) → PA renders PF-15 → S3 preflight → QE-1…QE-11, with QE-8 now executable under the
+Option A act instead of held. No QE-8 dependency is imposed on S2, P-1 or S3; no gate, fence, manifest,
+pin, route, source or test is changed by this pass.
+
+### 16.131.4 Verification log
+
+| ID | Verification | Result |
+|---|---|---|
+| `V806` | Remote baseline both loci (refs, 0 open PRs, latest `main` CI success), absence of any prior rendered `RV-1`/EFFECTIVE revocation act, zero revoke code paths, host/store absence in-sandbox | **PASS** — `00-remote-baseline-and-authority-recheck.txt` |
+| `V807` | Technical basis re-verified at live IPD `main@f5eddbc2`: W-3 blobs `540d49f2…`/`96d0079d…`, one-way guards `2cbce83f…`, pin `8eec74ae…`/tree `4eba2902…`; four alternatives remain accurate; no new evidence | **PASS** — `02-ipd-implementation-reverification.txt` |
+| `V808` | Express PA selection of Option A captured; act adopts request §3.1–§3.7 verbatim; anti-inference clause; disposable-copy boundary explicit; component-only (T2) ceiling stated; B/C/D not selected and substitution prohibited | **PASS** — act §§1–4 |
+| `V809` | Independence audit: RV-1 not made a prerequisite for S2/P-1/PF-15; S2 Windows-only; P-1 blocked until S2; PF-15 separate PA act before S3; no gate moved; fences/W-1/H-12 unchanged | **PASS** — act §5, this section |
+| `V810` | Identifier census (fixed-string at committed IRR HEAD and fresh IPD clone): 0 prior occurrences for §16.131, `CV-CORR-111`, `CHG-2026-10-26-08`, `V806`–`V811`, the act ID and RV1 filenames in both loci after reallocation | **PASS** — `01-identifier-census.txt`, `04-identifier-collision-and-reallocation.txt` |
+| `V811` | Publication: exact-head CI, regular merge, post-merge `main` CI, remote blob identity **and** completeness read-back | **PASS** — coordinates in §16.131.7 (appended by the companion receipt PR) |
+
+### 16.131.5 Scope and non-grants
+
+Documentation/evidence plus one governance act only: 0 source/test/pin/route/fence/manifest/workflow
+paths; 0 IPD writes; 0 host operations; 0 provisioning; 0 stores/copies; 0 binding touches; 0
+revocations; QE remains 0/11. The act grants no restoration, re-activation, re-association, purge,
+second binding/provision, authoritative-store mutation, operational write, W-1 relaxation, fence change,
+H-12 change, acceptance, admission or production eligibility. A component (T2) QE-8 observation can
+never be recorded as a full-path PASS or used to claim Gate 4 completion, U4 acceptance, Gate 5
+admission or production eligibility.
+
+### 16.131.6 Publication protocol (coordinates not self-embedded)
+
+This section and the act deliberately contain **no** PR number, merge commit, CI run or post-merge blob
+identity. Per the §16.130.6 protocol, §16.131.7 records them only **after** green exact-head CI, a
+regular 2-parent merge, green post-merge `main` CI (cancellation-plus-supersession recorded honestly if
+it occurs), an independent remote blob read-back, and a completeness read-back re-fetching the act and
+this section from the remote. Until those conditions hold, the decision is rendered but not yet
+effective and QE-8's request-level AWAITING state stands operationally.
+
+*End of §16.131 (`CV-CORR-111`; `CHG-2026-10-26-08`; `V806`–`V811`). `RV-1` is rendered for Option A;
+the sole operator binding has not been touched; QE-8 is procedure-approved and not executed; publication
+moves no gate and grants no provisioning, designation, acceptance, admission, writes or production
+eligibility.*

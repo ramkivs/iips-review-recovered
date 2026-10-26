@@ -1,0 +1,44 @@
+# Identifier census — fixed-string, both loci, 2026-10-26T07:16:33Z
+# Method: IRR = 'git grep -F' at committed HEAD cd8c45237ec8516d02711d0009e3453fc6983976 (untracked new files NOT searched, so no self-counting);
+#         IPD = fresh full clone /tmp/ipd-census at f5eddbc20b944a098a9060a8e3349c6d10b7843e, grep -rF excluding .git.
+
+## Allocated identifiers (next free after §16.130 / CV-CORR-110 / CHG-2026-10-26-06 / V802):
+  tracker section §16.131; CV-CORR-111; CHG-2026-10-26-07; V803-V808;
+  act IIPS-V3-CAP02-QE8-RV1-REVOCATION-PROCEDURE-PA-ACT-2026-10-26-01
+
+## IRR census at committed HEAD (git grep, tracked files only)
+  IRR [§16.131] : 0
+  IRR [16.131] : 0
+  IRR [CV-CORR-111] : 0
+  IRR [CHG-2026-10-26-07] : 0
+  IRR [V803] : 0
+  IRR [V804] : 0
+  IRR [V805] : 0
+  IRR [V806] : 0
+  IRR [V807] : 0
+  IRR [V808] : 0
+  IRR [IIPS-V3-CAP02-QE8-RV1-REVOCATION-PROCEDURE-PA-ACT-2026-10-26-01] : 0
+  IRR [QE8-RV1] : 0
+  IRR [RV1-REVOCATION] : 0
+  IRR tracked filename glob *RV1* : 0
+
+## IPD census (clone /tmp/ipd-census, HEAD f5eddbc)
+  IPD [§16.131] : 0
+  IPD [CV-CORR-111] : 0
+  IPD [CHG-2026-10-26-07] : 0
+  IPD [V803] : 0
+  IPD [V804] : 0
+  IPD [V805] : 0
+  IPD [V806] : 0
+  IPD [V807] : 0
+  IPD [V808] : 0
+  IPD [IIPS-V3-CAP02-QE8-RV1-REVOCATION-PROCEDURE-PA-ACT-2026-10-26-01] : 0
+  IPD [QE8-RV1] : 0
+  IPD [RV1-REVOCATION] : 0
+
+Verdict: 0 prior occurrences in both loci for every allocated identifier.
+
+# POST-COLLISION ADDENDUM (2026-10-26): PR #295 merged while this pass was in flight and consumed
+# CHG-2026-10-26-07 and V803-V805. The allocations above were therefore reallocated to
+# CHG-2026-10-26-08 and V806-V811; see 04-identifier-collision-and-reallocation.txt for the
+# authoritative post-collision census (0 prior occurrences in both loci for every final identifier).

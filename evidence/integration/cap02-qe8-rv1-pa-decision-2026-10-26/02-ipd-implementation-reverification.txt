@@ -1,0 +1,41 @@
+# IPD implementation re-verification for RV-1 Option A — 2026-10-26T07:16:54Z
+# All reads against IPD main f5eddbc20b944a098a9060a8e3349c6d10b7843e (read-only; zero IPD writes)
+
+## 1. IPD main unchanged since the decision packet
+main: f5eddbc20b944a098a9060a8e3349c6d10b7843e  2026-10-25T20:26:25Z
+commits since 2026-10-26T00:00Z: 0
+
+## 2. Governing persistence blob identities (must match packet 16.130.1: 540d49f2 / 96d0079d / 2cbce83f)
+  src/persistence/portfolio_store.ts -> 540d49f2deb2c8d600b5b866675d145cf76a1e46  size=34084
+  src/persistence/binding.ts -> 96d0079dd04b75c6f257a2001c8f7eff1ffc560a  size=4112
+  src/persistence/gateAPrimeProvisioning.ts -> 2cbce83f6572d211630ce0620dae49fa02fe4622  size=15727
+
+## 3. W-3 mechanism present at main (BEGIN IMMEDIATE + in-transaction revalidation + refusal)
+  10: * foreign-owned or tombstoned portfolio share one ResourceUnavailableError so
+  15:import { BindingAbsentError, BindingInvalidError, resolveActiveBindingInCurrentTransaction } from './binding.js';
+  31:export class ResourceUnavailableError extends Error {
+  34:    this.name = 'ResourceUnavailableError';
+  57: * This is deliberately NOT `ResourceUnavailableError`: that error is reserved
+  359:    this.db.exec('BEGIN IMMEDIATE;');
+  395:        active = resolveActiveBindingInCurrentTransaction(this.db);
+  398:          throw new ResourceUnavailableError();
+  403:        throw new ResourceUnavailableError();
+  459:      throw new ResourceUnavailableError();
+
+## 4. No governed revocation operation (packet F3)
+  tree entries: 650
+  paths matching /revok/i: 0
+  code search 'revoke' total_count: 0
+
+## 5. One-way provisioning guards (packet F4)
+  242:      throwRefusal('ALREADY_PROVISIONED', 'the store already contains a binding or membership row');
+  244:    throwRefusal('STORE_ALREADY_EXISTS', 'P-1 requires the provisioning store file not to pre-exist');
+  251:    throwRefusal('STORE_ALREADY_EXISTS', 'the provisioning store appeared before the write path opened');
+  281:    throw new GateAPrimeRefusalError('ALREADY_PROVISIONED', 'the store already contains a binding or membership row');
+
+## 6. Designated QE pin still resolves
+  pin: 8eec74ae27cda09f3c368b9c299895eae41554db tree 4eba29029f8d95cfe483e615a7047426b298ce50
+
+Conclusion: the packet's four alternatives and their technical consequences (W-3 implemented; zero
+revoke operation; one-way sole-binding target; pin/main blob identity) remain accurate at publication
+of RV-1. No new evidence changes the decision basis.
