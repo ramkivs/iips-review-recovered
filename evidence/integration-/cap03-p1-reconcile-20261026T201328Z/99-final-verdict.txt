@@ -1,0 +1,8 @@
+Verdict=PREFLIGHT CAPTURED — NOT AUTHORIZATION TO EXECUTE P-1
+RunId=cap03-p1-reconcile-20261026T201328Z
+EvidenceRoot=C:\iips-evidence\cap03-p1-reconcile-20261026T201328Z
+P1Executed=False
+P1AuthorizedByThisScript=False
+Failures=0
+StopConditions=0
+Worktree exclusion scope is limited to the enumerated IPD/IRR worktrees.
