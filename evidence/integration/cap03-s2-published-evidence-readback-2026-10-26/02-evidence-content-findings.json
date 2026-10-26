@@ -1,0 +1,318 @@
+{
+  "record": "IIPS-V3-CAP03-S2-PUBLISHED-EVIDENCE-READBACK-2026-10-26-01",
+  "generated_by": "collect_content_findings.py",
+  "commit": "54d5a56fc8ffda72fa98020aaeb7b8a71bd6c5e0",
+  "evidence_dir": "evidence/integration/cap03-s2-evidence-manifest-verification-2026-10-26",
+  "manifest": {
+    "entries_total": 53,
+    "required_s2_files_in_manifest": [
+      "s2-01-npm-ci.txt",
+      "s2-02-tsc-noemit.txt",
+      "s2-03-build.txt",
+      "s2-03-dist-count.txt",
+      "s2-03-dist-sha256-before.txt",
+      "s2-04-guarded-npm-test.txt",
+      "s2-05-package-consumer.txt",
+      "s2-post-run-pin.txt",
+      "s2-dist-sha256-after.txt"
+    ],
+    "windows_session_transcript_listed": false,
+    "verification_artifacts_listed": {
+      "s2-04-sha256-manifest-generation.txt": false,
+      "s2-evidence-manifest-verification.txt": false,
+      "NON_AUTHORITATIVE_TRANSFER.md": false
+    }
+  },
+  "manifest_verification_conflict": {
+    "recorded_line": [
+      "Manifest entries: 1148"
+    ],
+    "inventory_line_count": 1148,
+    "inventory_dist_entry_lines": 1140,
+    "explanation": "The only preserved verification run parsed 1140 dist inventory entries (s2-dist-sha256-after.txt) as if they were manifest entries, so its Manifest entries: 1148 line count equals 7 metadata lines + the 'SHA256 INVENTORY:' header + 1140 dist entries. It is a tooling mis-invocation, not a Windows qualification failure; it neither corroborates nor refutes the reported 47-entry PASS.",
+    "independent_pass_output_present_in_bundle": false
+  },
+  "bookkeeping_difference": {
+    "manifest_generation_files_included": [
+      "Files included: 48"
+    ],
+    "transferred_manifest_entries": 53,
+    "note": "The generation artifact records 48 files; the transferred manifest carries 53 entries overall, of which 6 are pre-existing IRR files and 47 describe the transferred evidence. The one-entry difference is not resolvable from the bundle alone and is recorded, not rationalised."
+  },
+  "passing_evidence_hashes": {
+    "guarded_suite": {
+      "recorded": "C5DDFFA24393AED2E391EF8A72E8BFF1F8ECD9576C4349E182B288785F1B2941",
+      "file": "s2-npm-launch-fix-suite-20261026T095613Z.txt",
+      "tap_counts": {
+        "tests": 924,
+        "suites": 124,
+        "pass": 920,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 4,
+        "todo": 0
+      },
+      "baseline_step04_tap_counts": {
+        "tests": 924,
+        "suites": 124,
+        "pass": 919,
+        "fail": 1,
+        "cancelled": 0,
+        "skipped": 4,
+        "todo": 0
+      }
+    },
+    "package_consumer": {
+      "recorded": "9F7C64073A849E57D472C9CA30BB7616D04D1951626E90587241D61A470A85B1",
+      "files": [
+        "s2-05-package-consumer.txt",
+        "s2-npm-launch-fix-consumer-20261026T095613Z.txt"
+      ],
+      "identical_blobs": true,
+      "pack_shasum_line": [
+        "\"shasum\": \"cc2aa70186b8fd7bc7255452ac8d8b00d094f53e\""
+      ]
+    }
+  },
+  "files": {
+    "s2-01-npm-ci.txt": {
+      "file": "s2-01-npm-ci.txt",
+      "blob_sha1": "68c52ca3118fea2da1e2d0550531f6f27c03e7e1",
+      "bytes": 790,
+      "line_count": 22,
+      "utf8_mojibake_present": false,
+      "pins": [
+        "Commit: 8eec74ae27cda09f3c368b9c299895eae41554db",
+        "Tree: 4eba29029f8d95cfe483e615a7047426b298ce50"
+      ],
+      "timestamps": [
+        "S2 step 01 npm ci start UTC: 2026-10-26T09:15:34.195Z",
+        "S2 step 01 npm ci end UTC: 2026-10-26T09:16:19.230Z"
+      ],
+      "result_lines": []
+    },
+    "s2-02-tsc-noemit.txt": {
+      "file": "s2-02-tsc-noemit.txt",
+      "blob_sha1": "03626101db677c9c530bf1c80a19a1427b47f84f",
+      "bytes": 358,
+      "line_count": 7,
+      "utf8_mojibake_present": false,
+      "pins": [
+        "Commit: 8eec74ae27cda09f3c368b9c299895eae41554db",
+        "Tree: 4eba29029f8d95cfe483e615a7047426b298ce50"
+      ],
+      "timestamps": [
+        "S2 step 02 tsc start UTC: 2026-10-26T09:17:21.212Z",
+        "S2 step 02 tsc end UTC: 2026-10-26T09:17:33.374Z"
+      ],
+      "result_lines": []
+    },
+    "s2-03-build.txt": {
+      "file": "s2-03-build.txt",
+      "blob_sha1": "df26d6d1f4bc2f31ea9d1c5b4e55cec5a335bcb0",
+      "bytes": 1593,
+      "line_count": 35,
+      "utf8_mojibake_present": false,
+      "pins": [
+        "Commit: 8eec74ae27cda09f3c368b9c299895eae41554db",
+        "Tree: 4eba29029f8d95cfe483e615a7047426b298ce50"
+      ],
+      "timestamps": [
+        "S2 step 03 build start UTC: 2026-10-26T09:18:08.884Z",
+        "S2 step 03 build end UTC: 2026-10-26T09:18:37.569Z"
+      ],
+      "result_lines": []
+    },
+    "s2-03-dist-count.txt": {
+      "file": "s2-03-dist-count.txt",
+      "blob_sha1": "4540c828c843c6b236e5f504d4556cde25180961",
+      "bytes": 22,
+      "line_count": 1,
+      "utf8_mojibake_present": false,
+      "pins": [],
+      "timestamps": [],
+      "result_lines": []
+    },
+    "s2-03-dist-sha256-before.txt": {
+      "file": "s2-03-dist-sha256-before.txt",
+      "blob_sha1": "660bd114c7081b01c5952908c89aefdecc816476",
+      "bytes": 175316,
+      "line_count": 1140,
+      "utf8_mojibake_present": false,
+      "pins": [],
+      "timestamps": [],
+      "result_lines": []
+    },
+    "s2-04-guarded-npm-test.txt": {
+      "file": "s2-04-guarded-npm-test.txt",
+      "blob_sha1": "3aaac61b84c328ea06cf069f63364376dea4f7b2",
+      "bytes": 4821572,
+      "line_count": 53553,
+      "utf8_mojibake_present": true,
+      "pins": [
+        "Commit: 8eec74ae27cda09f3c368b9c299895eae41554db",
+        "Tree: 4eba29029f8d95cfe483e615a7047426b298ce50"
+      ],
+      "timestamps": [
+        "S2 step 04-guarded-npm-test start UTC: 2026-10-26T09:19:59.946Z",
+        "S2 step 04-guarded-npm-test end UTC: 2026-10-26T09:20:48.935Z"
+      ],
+      "result_lines": [
+        "[test-guard] files=68 (source suite files: 68)",
+        "# tests 924",
+        "# pass 919",
+        "# fail 1",
+        "# skipped 4",
+        "[test-guard] FAIL \u0393\u00c7\u00f6 924 test(s) executed, runner exit code 1"
+      ]
+    },
+    "s2-05-package-consumer.txt": {
+      "file": "s2-05-package-consumer.txt",
+      "blob_sha1": "5bdb1e7256f229acd8e32697a02360410b312cce",
+      "bytes": 2885,
+      "line_count": 92,
+      "utf8_mojibake_present": false,
+      "pins": [],
+      "timestamps": [
+        "Start UTC: 2026-10-26T09:56:14.2694664Z",
+        "End UTC: 2026-10-26T09:57:42.9944516Z"
+      ],
+      "result_lines": []
+    },
+    "s2-post-run-pin.txt": {
+      "file": "s2-post-run-pin.txt",
+      "blob_sha1": "e16450af540dcfda0bc72da8570edd8b5852939d",
+      "bytes": 446,
+      "line_count": 13,
+      "utf8_mojibake_present": false,
+      "pins": [
+        "ACTUAL COMMIT: 8eec74ae27cda09f3c368b9c299895eae41554db",
+        "ACTUAL TREE: 4eba29029f8d95cfe483e615a7047426b298ce50"
+      ],
+      "timestamps": [
+        "UTC: 2026-10-26T12:34:42.4886825Z"
+      ],
+      "result_lines": []
+    },
+    "s2-dist-sha256-after.txt": {
+      "file": "s2-dist-sha256-after.txt",
+      "blob_sha1": "9077008320e204409d929f7836111e9cc7f6937e",
+      "bytes": 123165,
+      "line_count": 1148,
+      "utf8_mojibake_present": false,
+      "pins": [],
+      "timestamps": [
+        "UTC: 2026-10-26T12:35:02.8432782Z"
+      ],
+      "result_lines": []
+    },
+    "s2-npm-launch-fix-suite-20261026T095613Z.txt": {
+      "file": "s2-npm-launch-fix-suite-20261026T095613Z.txt",
+      "blob_sha1": "9758a2cbf9b8e2c7801740eb92874f09bbbd0373",
+      "bytes": 4975799,
+      "line_count": 53530,
+      "utf8_mojibake_present": true,
+      "pins": [],
+      "timestamps": [
+        "Start UTC: 2026-10-26T09:57:43.0649890Z",
+        "End UTC: 2026-10-26T09:58:04.7664602Z"
+      ],
+      "result_lines": [
+        "[test-guard] files=68 (source suite files: 68)",
+        "# tests 924",
+        "# pass 920",
+        "# fail 0",
+        "# skipped 4",
+        "[test-guard] OK \u0393\u00c7\u00f6 924 test(s) executed, 920 passed, exit 0"
+      ]
+    },
+    "s2-npm-launch-fix-consumer-20261026T095613Z.txt": {
+      "file": "s2-npm-launch-fix-consumer-20261026T095613Z.txt",
+      "blob_sha1": "5bdb1e7256f229acd8e32697a02360410b312cce",
+      "bytes": 2885,
+      "line_count": 92,
+      "utf8_mojibake_present": false,
+      "pins": [],
+      "timestamps": [
+        "Start UTC: 2026-10-26T09:56:14.2694664Z",
+        "End UTC: 2026-10-26T09:57:42.9944516Z"
+      ],
+      "result_lines": []
+    },
+    "s2-04-sha256-manifest-generation.txt": {
+      "file": "s2-04-sha256-manifest-generation.txt",
+      "blob_sha1": "9a47376d95e779a96646e39315bb420647680a59",
+      "bytes": 303,
+      "line_count": 8,
+      "utf8_mojibake_present": false,
+      "pins": [],
+      "timestamps": [
+        "UTC: 2026-10-26T12:47:40.4903210Z"
+      ],
+      "result_lines": [
+        "Result: GENERATED; independent verification: FAIL"
+      ]
+    },
+    "s2-evidence-manifest-verification.txt": {
+      "file": "s2-evidence-manifest-verification.txt",
+      "blob_sha1": "02a72425d0d319e5e06c05628bf72fca6d09d08d",
+      "bytes": 66537,
+      "line_count": 1154,
+      "utf8_mojibake_present": false,
+      "pins": [],
+      "timestamps": [
+        "UTC: 2026-10-26T12:47:40.3711638Z",
+        "- Malformed manifest entry: UTC: 2026-10-26T12:35:02.8432782Z"
+      ],
+      "result_lines": [
+        "Result: FAIL"
+      ]
+    },
+    "s2-checkout-verification.txt": {
+      "file": "s2-checkout-verification.txt",
+      "blob_sha1": "918764b836ef4d188326caabec4a44b1ad48f86c",
+      "bytes": 1427,
+      "line_count": 47,
+      "utf8_mojibake_present": false,
+      "pins": [
+        "HEAD: 8eec74ae27cda09f3c368b9c299895eae41554db",
+        "Tree: 4eba29029f8d95cfe483e615a7047426b298ce50"
+      ],
+      "timestamps": [
+        "Started UTC: 2026-10-26T09:12:21.8695320Z",
+        "Completed UTC: 2026-10-26T09:12:31.0287356Z"
+      ],
+      "result_lines": []
+    },
+    "s2-fix-validation-20261026T093342Z.txt": {
+      "file": "s2-fix-validation-20261026T093342Z.txt",
+      "blob_sha1": "444b31482b4894124c4b65188bc40fe0fd86e3a1",
+      "bytes": 3267,
+      "line_count": 76,
+      "utf8_mojibake_present": false,
+      "pins": [
+        "Base HEAD: 8eec74ae27cda09f3c368b9c299895eae41554db",
+        "Base tree: 4eba29029f8d95cfe483e615a7047426b298ce50"
+      ],
+      "timestamps": [
+        "Start UTC: 2026-10-26T09:33:43.4210391Z",
+        "Start UTC: 2026-10-26T09:33:43.4268853Z",
+        "End UTC: 2026-10-26T09:34:01.2509324Z",
+        "Start UTC: 2026-10-26T09:34:01.2942862Z",
+        "End UTC: 2026-10-26T09:34:15.7622843Z",
+        "Start UTC: 2026-10-26T09:34:15.7862399Z"
+      ],
+      "result_lines": []
+    },
+    "s2-tracker-recovery-20261026T154814Z.txt": {
+      "file": "s2-tracker-recovery-20261026T154814Z.txt",
+      "blob_sha1": "9634b69d9bb79ca5868014677122ba9c41f9598f",
+      "bytes": 1395,
+      "line_count": 23,
+      "utf8_mojibake_present": false,
+      "pins": [],
+      "timestamps": [],
+      "result_lines": []
+    }
+  }
+}

@@ -1,0 +1,697 @@
+{
+  "record": "IIPS-V3-CAP03-S2-PUBLISHED-EVIDENCE-READBACK-2026-10-26-01",
+  "generated_by": "verify_manifest_reproduction.py",
+  "method": "git object read of the published commit; recorded SHA-256 reproduced only by explicit, disclosed line-terminator restoration; no host access; no execution",
+  "commit": "54d5a56fc8ffda72fa98020aaeb7b8a71bd6c5e0",
+  "evidence_dir": "evidence/integration/cap03-s2-evidence-manifest-verification-2026-10-26",
+  "manifest_path": "evidence/integration/cap03-s2-evidence-manifest-verification-2026-10-26/SHA256SUMS.txt",
+  "manifest_entries": 53,
+  "committed_files_in_dir": 57,
+  "classification_counts": {
+    "REPRODUCED": 52,
+    "NOT_REPRODUCED": 1
+  },
+  "required_files": {
+    "declared": [
+      "s2-01-npm-ci.txt",
+      "s2-02-tsc-noemit.txt",
+      "s2-03-build.txt",
+      "s2-03-dist-count.txt",
+      "s2-03-dist-sha256-before.txt",
+      "s2-04-guarded-npm-test.txt",
+      "s2-05-package-consumer.txt",
+      "s2-post-run-pin.txt",
+      "s2-dist-sha256-after.txt"
+    ],
+    "present": [
+      "s2-01-npm-ci.txt",
+      "s2-02-tsc-noemit.txt",
+      "s2-03-build.txt",
+      "s2-03-dist-count.txt",
+      "s2-03-dist-sha256-before.txt",
+      "s2-04-guarded-npm-test.txt",
+      "s2-05-package-consumer.txt",
+      "s2-post-run-pin.txt",
+      "s2-dist-sha256-after.txt"
+    ],
+    "all_present": true,
+    "all_reproduced": true
+  },
+  "reported_excluded_absent_from_tree": {
+    "windows-session-transcript.txt": true
+  },
+  "present_but_not_in_manifest": [
+    "NON_AUTHORITATIVE_TRANSFER.md",
+    "SHA256SUMS.txt",
+    "s2-04-sha256-manifest-generation.txt",
+    "s2-evidence-manifest-verification.txt"
+  ],
+  "listed_but_not_present": [],
+  "entries": [
+    {
+      "file": "00-preflight-results-provided-in-chat.txt",
+      "recorded_sha256": "BEE567CB90ECDE6F174AED6E3C0C372783D375CC1EFE19669397F11D6830A0A4",
+      "present_at_published_commit": true,
+      "blob_sha1": "6e582e214227ccaa971c707d2025716b83e70d0a",
+      "committed_bytes": 1363,
+      "committed_sha256": "CD828D2CED249893D944108FFF5AC9CD0A3B72CF049A1FE6238A821EE7AC8845",
+      "reproduced_by": "lf_body_with_single_trailing_crlf",
+      "classification": "REPRODUCED",
+      "required_s2_file": false
+    },
+    {
+      "file": "00-remote-state-reverification.json",
+      "recorded_sha256": "B09F4C8C80FCCFB9EB0241ED1F4E7E5BC5F9D57D3D659F05481843D9C93C1814",
+      "present_at_published_commit": true,
+      "blob_sha1": "44a04f217f7256e31fffea2eca2cb1db2fd97b05",
+      "committed_bytes": 4864,
+      "committed_sha256": "B09F4C8C80FCCFB9EB0241ED1F4E7E5BC5F9D57D3D659F05481843D9C93C1814",
+      "reproduced_by": "as_committed",
+      "classification": "REPRODUCED",
+      "required_s2_file": false
+    },
+    {
+      "file": "01-user-reported-windows-manifest-verification.json",
+      "recorded_sha256": "5C922CE96AC818590532E8F9A569CE8BC522DBFBB08BA9BC03E0BD9B91AF7C88",
+      "present_at_published_commit": true,
+      "blob_sha1": "b7b268cc4cd74ed7101f80bf497c9deec6cca6d2",
+      "committed_bytes": 4177,
+      "committed_sha256": "5C922CE96AC818590532E8F9A569CE8BC522DBFBB08BA9BC03E0BD9B91AF7C88",
+      "reproduced_by": "as_committed",
+      "classification": "REPRODUCED",
+      "required_s2_file": false
+    },
+    {
+      "file": "02-publication-readback.json",
+      "recorded_sha256": "A767B2E1A0E32514355650FD8ED24D237A9A66C2E925852C24B0D2C0CB34F701",
+      "present_at_published_commit": true,
+      "blob_sha1": "f3f4b7fd82e36a0973aeff9a6bda1b88d09c8bab",
+      "committed_bytes": 3741,
+      "committed_sha256": "A767B2E1A0E32514355650FD8ED24D237A9A66C2E925852C24B0D2C0CB34F701",
+      "reproduced_by": "as_committed",
+      "classification": "REPRODUCED",
+      "required_s2_file": false
+    },
+    {
+      "file": "INDEX.md",
+      "recorded_sha256": "1C61AE12D84BB60DAE34F7E3B93BC2EC110D75D2024F1E0189A2A30C7454A030",
+      "present_at_published_commit": true,
+      "blob_sha1": "46c1fe8c4917abe64f3afd3c8dc04425296e35e0",
+      "committed_bytes": 2486,
+      "committed_sha256": "1C61AE12D84BB60DAE34F7E3B93BC2EC110D75D2024F1E0189A2A30C7454A030",
+      "reproduced_by": "as_committed",
+      "classification": "REPRODUCED",
+      "required_s2_file": false
+    },
+    {
+      "file": "s2-01-npm-ci.sha256.txt",
+      "recorded_sha256": "60FF9262E5AA168821842267C6A44B163F8F5BAFEBC5652C8A08F0F3F615E6D8",
+      "present_at_published_commit": true,
+      "blob_sha1": "cb84601cc7bc475d77a2972ca7c3bae53d025ca1",
+      "committed_bytes": 73,
+      "committed_sha256": "6DD5C8C93CBF2A4D70C05C0CDC7BF81012657A20DF16B4574512285516AEB9C2",
+      "reproduced_by": "crlf_restored",
+      "classification": "REPRODUCED",
+      "required_s2_file": false
+    },
+    {
+      "file": "s2-01-npm-ci.txt",
+      "recorded_sha256": "58724630988C3DDAE0AE1B7B6605B33E0F629422282CAD8047DCD755AC4BB9A8",
+      "present_at_published_commit": true,
+      "blob_sha1": "68c52ca3118fea2da1e2d0550531f6f27c03e7e1",
+      "committed_bytes": 790,
+      "committed_sha256": "5FC8263479739A714C77147C71E810F9798BB6B7B43A52592DE47AE7E8BBED31",
+      "reproduced_by": "crlf_restored",
+      "classification": "REPRODUCED",
+      "required_s2_file": true
+    },
+    {
+      "file": "s2-02-tsc-noemit.sha256.txt",
+      "recorded_sha256": "6E93D17DF6B6E901CD454CEEA5436900919A38FAE178EB799EC3A097DC27A7F5",
+      "present_at_published_commit": true,
+      "blob_sha1": "413c40ea8bfce2d241d5bcfdf21e339800750ca2",
+      "committed_bytes": 73,
+      "committed_sha256": "2CD021D6F0F2571881E3793FB669EB751DD27515DBF5CE3BF0477C557CA752F1",
+      "reproduced_by": "crlf_restored",
+      "classification": "REPRODUCED",
+      "required_s2_file": false
+    },
+    {
+      "file": "s2-02-tsc-noemit.txt",
+      "recorded_sha256": "D1062E89354E62F99B892A904227AA3DDBAF398A1CF837E4B8209F1A956DCD2E",
+      "present_at_published_commit": true,
+      "blob_sha1": "03626101db677c9c530bf1c80a19a1427b47f84f",
+      "committed_bytes": 358,
+      "committed_sha256": "AF64EA8786EBB4A4657A48985BC45256B1B35B9F3907A1FB331059B433DF2658",
+      "reproduced_by": "crlf_restored",
+      "classification": "REPRODUCED",
+      "required_s2_file": true
+    },
+    {
+      "file": "s2-03-build.sha256.txt",
+      "recorded_sha256": "4F4B9E9CDDCC4CA47B135B11103BD0810E00E8FB96E827BF28E7E05FFE57DB4E",
+      "present_at_published_commit": true,
+      "blob_sha1": "450fa7e09038bd0b4f229e7d2d0816e0a3bbfd99",
+      "committed_bytes": 73,
+      "committed_sha256": "DF92AC50D7C359A7B1A2207518B010F7F804B1721A31123DD9DB7441AE7DB296",
+      "reproduced_by": "crlf_restored",
+      "classification": "REPRODUCED",
+      "required_s2_file": false
+    },
+    {
+      "file": "s2-03-build.txt",
+      "recorded_sha256": "B169699762823F2067C18622EFD778FEB2DAE28CFBB2668EA734BE9DA346A6BF",
+      "present_at_published_commit": true,
+      "blob_sha1": "df26d6d1f4bc2f31ea9d1c5b4e55cec5a335bcb0",
+      "committed_bytes": 1593,
+      "committed_sha256": "86310C99B105F93D80229B679E5085639973DC3C0EFCF966631492B776AFC0D2",
+      "reproduced_by": "crlf_restored",
+      "classification": "REPRODUCED",
+      "required_s2_file": true
+    },
+    {
+      "file": "s2-03-dist-count.txt",
+      "recorded_sha256": "B6237CC1C520261FDCC3C0F9B18235E529F80FBBE3C8E997C00275D3C3BE0D16",
+      "present_at_published_commit": true,
+      "blob_sha1": "4540c828c843c6b236e5f504d4556cde25180961",
+      "committed_bytes": 22,
+      "committed_sha256": "1B317B0041EC31D9B220A6089526F6D5C85B9A0A89DEF0EE09690725B407C547",
+      "reproduced_by": "crlf_restored",
+      "classification": "REPRODUCED",
+      "required_s2_file": true
+    },
+    {
+      "file": "s2-03-dist-sha256-before.txt",
+      "recorded_sha256": "E077A349D3777403D426A0B0F338C53AC6F0E3942F75A9174A6A9B6E42854CBB",
+      "present_at_published_commit": true,
+      "blob_sha1": "660bd114c7081b01c5952908c89aefdecc816476",
+      "committed_bytes": 175316,
+      "committed_sha256": "3337B395BA65951674AE5C38C74BBDC02717DA8C1235D9A988142D7FC6F22B1F",
+      "reproduced_by": "crlf_restored",
+      "classification": "REPRODUCED",
+      "required_s2_file": true
+    },
+    {
+      "file": "s2-04-guarded-npm-test.sha256.txt",
+      "recorded_sha256": "52604C60F331B655874EEC0E979F6B7642E1B8FE3346E9C33AFC1A3A65DA8CA4",
+      "present_at_published_commit": true,
+      "blob_sha1": "1da40e94660305ca03c8fce955ffc02643e7da4b",
+      "committed_bytes": 73,
+      "committed_sha256": "3D50CDE5678334C258294C446B76536F37C50B2719B605660C03BA0DDEC34AC4",
+      "reproduced_by": "crlf_restored",
+      "classification": "REPRODUCED",
+      "required_s2_file": false
+    },
+    {
+      "file": "s2-04-guarded-npm-test.txt",
+      "recorded_sha256": "7DD2A1EFC3A3EA9D3EDA2A619E29BD2FDB240D6820C05F3FDC9BB21729B16EDA",
+      "present_at_published_commit": true,
+      "blob_sha1": "3aaac61b84c328ea06cf069f63364376dea4f7b2",
+      "committed_bytes": 4821572,
+      "committed_sha256": "9AED70F367602314E97F8028183AC9C4F5552A2F356CCB964873DA9A4BE4AD9D",
+      "reproduced_by": "crlf_restored",
+      "classification": "REPRODUCED",
+      "required_s2_file": true
+    },
+    {
+      "file": "s2-05-package-consumer-baseline-failure-20261026.txt",
+      "recorded_sha256": "770BECCA1707575B271D8414A699D950DBF8058AF725BE440EA1A0564B4DC9C3",
+      "present_at_published_commit": true,
+      "blob_sha1": "b69b729146beeb42943533d1a1fbeced976f0af6",
+      "committed_bytes": 1032,
+      "committed_sha256": "81FEBB799EDA848396202ECB45C0121E3F0F5964FF38CD10161E3CEEC4820BBE",
+      "reproduced_by": "crlf_restored",
+      "classification": "REPRODUCED",
+      "required_s2_file": false
+    },
+    {
+      "file": "s2-05-package-consumer.txt",
+      "recorded_sha256": "9F7C64073A849E57D472C9CA30BB7616D04D1951626E90587241D61A470A85B1",
+      "present_at_published_commit": true,
+      "blob_sha1": "5bdb1e7256f229acd8e32697a02360410b312cce",
+      "committed_bytes": 2885,
+      "committed_sha256": "E4B48EF086668D18C2C63CC8042F45319EE436D4020A4E3B15A67D49E8521C81",
+      "reproduced_by": "crlf_restored",
+      "classification": "REPRODUCED",
+      "required_s2_file": true
+    },
+    {
+      "file": "s2-authoritative-correction-20261026T100850Z.txt",
+      "recorded_sha256": "77F585DF60D931F5AAE990C0B8A3C089EF0DBD69D709A84CF6E07110FFA74B46",
+      "present_at_published_commit": true,
+      "blob_sha1": "b99073293dda0cf0e85f9f8f74a40c52c1ca2c70",
+      "committed_bytes": 2448,
+      "committed_sha256": "697D559057746B11CCEB4CCB91950B440E31EDFF7BC1273F727ED27DC1EBD758",
+      "reproduced_by": "crlf_restored",
+      "classification": "REPRODUCED",
+      "required_s2_file": false
+    },
+    {
+      "file": "s2-authoritative-merge-20261026T101205Z.txt",
+      "recorded_sha256": "334460227E63026A1FF18B16768D58F01C6A54814EC6566CA74BB0223004A696",
+      "present_at_published_commit": true,
+      "blob_sha1": "36263ee2c91d73521a6cbac5975fcc1b932b85b5",
+      "committed_bytes": 4420,
+      "committed_sha256": "3C88C5E482A6F77B63FBD6C67C4281D950FD86F0ACDA04125C4F8AF0A8247F1A",
+      "reproduced_by": "crlf_restored",
+      "classification": "REPRODUCED",
+      "required_s2_file": false
+    },
+    {
+      "file": "s2-candidate-publish-20261026T100148Z.txt",
+      "recorded_sha256": "35061BC9D19511AEDB227896A6920F829192FB50D170118F0FB7693FE33C95A1",
+      "present_at_published_commit": true,
+      "blob_sha1": "43f16b53a02d86ecf798548b939aade81bb9ce6d",
+      "committed_bytes": 6781,
+      "committed_sha256": "5C7562CDF754547760B2683F141E4825BAE15EDA837FACFE4C0C86D233EC8CBD",
+      "reproduced_by": "crlf_restored",
+      "classification": "REPRODUCED",
+      "required_s2_file": false
+    },
+    {
+      "file": "s2-candidate-publish-summary-20261026T100148Z.txt",
+      "recorded_sha256": "A07935EA0E0363E9DAB7FD94F10A4405F49D3B740F7378AA8D3F9F98EE6D88DC",
+      "present_at_published_commit": true,
+      "blob_sha1": "cbb8f08fcf320558099dd5625beacad6a78f9b3f",
+      "committed_bytes": 550,
+      "committed_sha256": "46FF213B8C4F6768CAD8A47E73111A8F7AD406EB8C2791BB0E5960C472CE8F9E",
+      "reproduced_by": "crlf_restored",
+      "classification": "REPRODUCED",
+      "required_s2_file": false
+    },
+    {
+      "file": "s2-checkout-verification.txt",
+      "recorded_sha256": "3FD31FE6D3186C1DC76C1407656BFC72A1987118F8912687702662F8C7B84B2F",
+      "present_at_published_commit": true,
+      "blob_sha1": "918764b836ef4d188326caabec4a44b1ad48f86c",
+      "committed_bytes": 1427,
+      "committed_sha256": "0DF30BC6901DD23C27FD6C40639120115A797B3F8E13AC132BB251704982AAE6",
+      "reproduced_by": "none",
+      "classification": "NOT_REPRODUCED",
+      "required_s2_file": false
+    },
+    {
+      "file": "s2-dist-sha256-after.txt",
+      "recorded_sha256": "5D90FFF4086E04639E07BFBF6BC67AC531D5871B0E905420423784E3DAA0E003",
+      "present_at_published_commit": true,
+      "blob_sha1": "9077008320e204409d929f7836111e9cc7f6937e",
+      "committed_bytes": 123165,
+      "committed_sha256": "809AA51B950E976F42D591A69CD4C6A482B56119582449D10273D197ED779EB7",
+      "reproduced_by": "crlf_restored",
+      "classification": "REPRODUCED",
+      "required_s2_file": true
+    },
+    {
+      "file": "s2-failure-diagnostic.sha256.txt",
+      "recorded_sha256": "A93A79D5CEC586404B4B94290F27093F3D2DD4C13084BEA9B63A7C18AABD19CD",
+      "present_at_published_commit": true,
+      "blob_sha1": "e3091eb06445eac29c897d35e52146aa2722e4e8",
+      "committed_bytes": 274,
+      "committed_sha256": "7C9B7D2A0D34F667FA2B8EEABBCC09AEADAE2FD429A6853CA99210EF2F0712A7",
+      "reproduced_by": "crlf_restored",
+      "classification": "REPRODUCED",
+      "required_s2_file": false
+    },
+    {
+      "file": "s2-failure-diagnostic.txt",
+      "recorded_sha256": "B4542C4E0DDBD4EBDB98909150B7FDB5F42B1C62314AB2CC55663E8DD01936CB",
+      "present_at_published_commit": true,
+      "blob_sha1": "aa320e37dd99b0b24399ea619f6473429a3617cf",
+      "committed_bytes": 2884,
+      "committed_sha256": "67473AC27F08172C294E3CBC2894C10DC25957D39019A4F534F4E74745516C6D",
+      "reproduced_by": "crlf_restored",
+      "classification": "REPRODUCED",
+      "required_s2_file": false
+    },
+    {
+      "file": "s2-fix-01-npm-ci.txt",
+      "recorded_sha256": "F266BC6FFDF55A0E20BC33CD93B1A26270B882F2AA146AA179A3D2DCDBC95847",
+      "present_at_published_commit": true,
+      "blob_sha1": "4ac8c8aaa9a326eae98c52d0f5db1e30ed110297",
+      "committed_bytes": 454,
+      "committed_sha256": "3129C10A8CACB2CC6074FBD0836C8FEC4635C2770F738A428CFDFBCDD7C2FCB7",
+      "reproduced_by": "crlf_restored",
+      "classification": "REPRODUCED",
+      "required_s2_file": false
+    },
+    {
+      "file": "s2-fix-02-typecheck.txt",
+      "recorded_sha256": "9399D928C35DD3DDA2E0932FFD0FDC39A6D0180147702E4FF51392A68E9DE4ED",
+      "present_at_published_commit": true,
+      "blob_sha1": "4c58bcdd99c4cee1360dbfef1af27d31acdf1372",
+      "committed_bytes": 116,
+      "committed_sha256": "67C61542231344EB6D55193E265C27B7851191E24B9A4FE6D472FB590270E3BB",
+      "reproduced_by": "crlf_restored",
+      "classification": "REPRODUCED",
+      "required_s2_file": false
+    },
+    {
+      "file": "s2-fix-03-build.txt",
+      "recorded_sha256": "87A2EACA50F4C9A9C9FE1016D6635006754A7D75F5038214B2676E2F72205ACE",
+      "present_at_published_commit": true,
+      "blob_sha1": "1666ef7977841712e5591fa95fb6e0d741ea8d23",
+      "committed_bytes": 1260,
+      "committed_sha256": "88D51C0D52CBD2D19D717686145038771A2E0C8CCA2FE4C33AC8EC61E03BA2F0",
+      "reproduced_by": "crlf_restored",
+      "classification": "REPRODUCED",
+      "required_s2_file": false
+    },
+    {
+      "file": "s2-fix-04-focused-package-test.txt",
+      "recorded_sha256": "302D7846FE86159EE51170769CB1331AF3C932C6EFEDD2385F3C9D7DE72B3AB3",
+      "present_at_published_commit": true,
+      "blob_sha1": "8fb7dd69d7a1af70ea08f875973453707ecf3e39",
+      "committed_bytes": 8424,
+      "committed_sha256": "487402975B77607A6D63421768129FEC168B7CEB22B300F775CF552DCB7BB47D",
+      "reproduced_by": "crlf_restored",
+      "classification": "REPRODUCED",
+      "required_s2_file": false
+    },
+    {
+      "file": "s2-fix-05-guarded-npm-test.txt",
+      "recorded_sha256": "9D12A1B7272F5D2722FD6AE06EA3087B01F8E1ABBCD669EF0558E281A061591E",
+      "present_at_published_commit": true,
+      "blob_sha1": "7634738cbc8adce76789fe042efae294b28986c8",
+      "committed_bytes": 4975914,
+      "committed_sha256": "C56F6F69B7C9DAB8E99C4D0EC353012978A0EA838C6A306BA88F00DE975B82E3",
+      "reproduced_by": "crlf_restored",
+      "classification": "REPRODUCED",
+      "required_s2_file": false
+    },
+    {
+      "file": "s2-fix-06-package-consumer.txt",
+      "recorded_sha256": "ADE33E72405AA0DE1166479103F8ED48B8BD1763ADF4C83F0513E08B296B6B4C",
+      "present_at_published_commit": true,
+      "blob_sha1": "a94c08f80d1b3f0c410757b2a38bcbf956e7b19f",
+      "committed_bytes": 851,
+      "committed_sha256": "F611DCAA1E1249583A71B4615884975BA5706F3A8ADFE8CBE43B254D68945BB0",
+      "reproduced_by": "crlf_restored",
+      "classification": "REPRODUCED",
+      "required_s2_file": false
+    },
+    {
+      "file": "s2-fix-dist-inventory-20261026T093342Z.txt",
+      "recorded_sha256": "16F7C6956CC161475E9F79D6E036327233B884E28884AD0595A7A0655FBFD2C6",
+      "present_at_published_commit": true,
+      "blob_sha1": "beea8d0db3ab645b6ce2ccde720611e4f56edb6d",
+      "committed_bytes": 128576,
+      "committed_sha256": "5110968E473C055CEF37D88B9272A2961220288AC38B26E1FEBB29CC10DCA0E7",
+      "reproduced_by": "crlf_restored",
+      "classification": "REPRODUCED",
+      "required_s2_file": false
+    },
+    {
+      "file": "s2-fix-package-consumer-diagnostic.sha256.txt",
+      "recorded_sha256": "435C43BD213D6158E95282E1AB54589AF53A21BE4BFA0B368913F820CE9099A3",
+      "present_at_published_commit": true,
+      "blob_sha1": "ae37bc6147c53e38cb552b9d9e6ea836801cb800",
+      "committed_bytes": 252,
+      "committed_sha256": "CED941BD6C1D2BCDCBB9BC7DFD42DEE80C1F71CF5CE758432121F2D32CEA9BDF",
+      "reproduced_by": "crlf_restored",
+      "classification": "REPRODUCED",
+      "required_s2_file": false
+    },
+    {
+      "file": "s2-fix-package-consumer-diagnostic.txt",
+      "recorded_sha256": "F1928839D106A76751BD5C4ABB663F8F4EF59C6E303CD41AD453CD6CDEA90CD7",
+      "present_at_published_commit": true,
+      "blob_sha1": "245611014cab140196b8de82c786b4a32248672e",
+      "committed_bytes": 2125,
+      "committed_sha256": "05BF7C66995D5665C979FE8DAC134736FFF7AB82746299CFD1628FDC6B2877B3",
+      "reproduced_by": "crlf_restored",
+      "classification": "REPRODUCED",
+      "required_s2_file": false
+    },
+    {
+      "file": "s2-fix-validation-20261026T093342Z.txt",
+      "recorded_sha256": "A78928C2A36AC94AACE864C6439346E6686DE49F0F8C8DC2722FBCB1ABAC818F",
+      "present_at_published_commit": true,
+      "blob_sha1": "444b31482b4894124c4b65188bc40fe0fd86e3a1",
+      "committed_bytes": 3267,
+      "committed_sha256": "2B2935BE4BB43C68281C23BD0E6FBF2D3BB9D35A943EAA22D525F3189AA5BB05",
+      "reproduced_by": "crlf_restored",
+      "classification": "REPRODUCED",
+      "required_s2_file": false
+    },
+    {
+      "file": "s2-fix-validation-20261026T093342Z.txt.sha256.txt",
+      "recorded_sha256": "D21A67DBF35F1F466ADF1858D0AD17600328B6B702AEB50E073327ED0F0EA5CE",
+      "present_at_published_commit": true,
+      "blob_sha1": "0a9b17b0cc895efc55319fdc7f9ba4b418045f1f",
+      "committed_bytes": 147,
+      "committed_sha256": "2A808ED4848714ED0D2092C373B802050458BEA4585DA7C7556C4C0C1C6C9FFE",
+      "reproduced_by": "crlf_restored",
+      "classification": "REPRODUCED",
+      "required_s2_file": false
+    },
+    {
+      "file": "s2-ipd-pr-body-20261026T100850Z.md",
+      "recorded_sha256": "DC54484A6FA8C87585AF25CE2DB9144EEF122BC440FE2723D3BD1556A88F020F",
+      "present_at_published_commit": true,
+      "blob_sha1": "bb0699808caa60bf6f282d821748545f8a806004",
+      "committed_bytes": 1050,
+      "committed_sha256": "E05FB70D6A992857358C4ABC8FD8C8F488C4325DBD00FB9CAD75AD4A28628428",
+      "reproduced_by": "lf_body_with_single_trailing_crlf",
+      "classification": "REPRODUCED",
+      "required_s2_file": false
+    },
+    {
+      "file": "s2-node22-npm-launcher-inspection.txt",
+      "recorded_sha256": "2124C13ED36D14CF487FC7BA8E8B2E57D05F5DD40BE485CE997C5A5C271CBCB3",
+      "present_at_published_commit": true,
+      "blob_sha1": "fc2711feb64fff449c6eb4b269146a60835b4ef8",
+      "committed_bytes": 942,
+      "committed_sha256": "08C38AC4904CA089D7D60A5EA97AEADE0471143A555D69E48B399B6ACDCE0F6C",
+      "reproduced_by": "crlf_restored",
+      "classification": "REPRODUCED",
+      "required_s2_file": false
+    },
+    {
+      "file": "s2-npm-launch-fix-20261026T095613Z.txt",
+      "recorded_sha256": "BC38B5852381970669E5AD26907C12CF844816EB4E9CCC4B89E313E61DE20B02",
+      "present_at_published_commit": true,
+      "blob_sha1": "dfed10625b80240cb5ff683a4e9047ad9ed0e306",
+      "committed_bytes": 2227,
+      "committed_sha256": "8A32DF74036423C065773CEB703EAEBB86147CF16DDCF259EF859AFF3DA0AD0E",
+      "reproduced_by": "crlf_restored",
+      "classification": "REPRODUCED",
+      "required_s2_file": false
+    },
+    {
+      "file": "s2-npm-launch-fix-consumer-20261026T095613Z.txt",
+      "recorded_sha256": "9F7C64073A849E57D472C9CA30BB7616D04D1951626E90587241D61A470A85B1",
+      "present_at_published_commit": true,
+      "blob_sha1": "5bdb1e7256f229acd8e32697a02360410b312cce",
+      "committed_bytes": 2885,
+      "committed_sha256": "E4B48EF086668D18C2C63CC8042F45319EE436D4020A4E3B15A67D49E8521C81",
+      "reproduced_by": "crlf_restored",
+      "classification": "REPRODUCED",
+      "required_s2_file": false
+    },
+    {
+      "file": "s2-npm-launch-fix-suite-20261026T095613Z.txt",
+      "recorded_sha256": "C5DDFFA24393AED2E391EF8A72E8BFF1F8ECD9576C4349E182B288785F1B2941",
+      "present_at_published_commit": true,
+      "blob_sha1": "9758a2cbf9b8e2c7801740eb92874f09bbbd0373",
+      "committed_bytes": 4975799,
+      "committed_sha256": "5B9FA852179A7EB7E467A2AEAF966967933EAEBD21DD3A14DA457C41458D50EB",
+      "reproduced_by": "crlf_restored",
+      "classification": "REPRODUCED",
+      "required_s2_file": false
+    },
+    {
+      "file": "s2-npm-launch-fix-summary-20261026T095613Z.txt",
+      "recorded_sha256": "19D0182885770E49E58CE9555ECC2B950B71D51A3852DAB0EB732502FEA04F19",
+      "present_at_published_commit": true,
+      "blob_sha1": "42accd48d1dbe39f2adade174a18c6fe5271e2e0",
+      "committed_bytes": 3052,
+      "committed_sha256": "405F6B7D7BC597D17B3D8F16447412955DA2E0553407C3E8937CB8A68C41356A",
+      "reproduced_by": "crlf_restored",
+      "classification": "REPRODUCED",
+      "required_s2_file": false
+    },
+    {
+      "file": "s2-package-consumer-launch-inspection.sha256.txt",
+      "recorded_sha256": "94555C78BC8C538B413A18FDCD69BD568084752DD437047EC70F317CB367FA78",
+      "present_at_published_commit": true,
+      "blob_sha1": "4424585c4797e8135affea4f0817d8acc8792a58",
+      "committed_bytes": 149,
+      "committed_sha256": "F3D25079F1EE2F2CBDC9E044B5865F3CA5FA722D7C8905AAAA24061C60CD6F13",
+      "reproduced_by": "crlf_restored",
+      "classification": "REPRODUCED",
+      "required_s2_file": false
+    },
+    {
+      "file": "s2-package-consumer-launch-inspection.txt",
+      "recorded_sha256": "C377C0207AD2DB561D0B04FCACC26738F223C4588DA5486804C7359441E59CEB",
+      "present_at_published_commit": true,
+      "blob_sha1": "e1ae3703efb9a0fd0a87717c78356dc0af8dd404",
+      "committed_bytes": 28544,
+      "committed_sha256": "C684366674348ED13292C3DE444CE09C00255A5D424C430937881CEEA79E952D",
+      "reproduced_by": "crlf_restored",
+      "classification": "REPRODUCED",
+      "required_s2_file": false
+    },
+    {
+      "file": "s2-post-run-pin.txt",
+      "recorded_sha256": "84E823AE9C9AEB1A6E15A8F693A77A5B7B61CC2DB99738EE95EBA93B5DF9F458",
+      "present_at_published_commit": true,
+      "blob_sha1": "e16450af540dcfda0bc72da8570edd8b5852939d",
+      "committed_bytes": 446,
+      "committed_sha256": "2A611A7A11756D4C36EA71B4342BC65A0BB39DA8E993A0148FAD4E2F8C29FF95",
+      "reproduced_by": "crlf_restored",
+      "classification": "REPRODUCED",
+      "required_s2_file": true
+    },
+    {
+      "file": "s2-tracker-reconciliation-20261026T100434Z.txt",
+      "recorded_sha256": "298F50EBE50F54EC66AEB5A5DE03A70FCD99E9E80227687E285C1B83AB17CF9B",
+      "present_at_published_commit": true,
+      "blob_sha1": "3f488489cddfa7a6f075f1b72e39170ba7e7ae9e",
+      "committed_bytes": 4357,
+      "committed_sha256": "298F50EBE50F54EC66AEB5A5DE03A70FCD99E9E80227687E285C1B83AB17CF9B",
+      "reproduced_by": "as_committed",
+      "classification": "REPRODUCED",
+      "required_s2_file": false
+    },
+    {
+      "file": "s2-tracker-recovery-20261026T154814Z.txt",
+      "recorded_sha256": "31E8B16AFA39DCD4AC0D7F3841B6F2279A3273DDE294CE8C4D3AE5A82602BFA2",
+      "present_at_published_commit": true,
+      "blob_sha1": "9634b69d9bb79ca5868014677122ba9c41f9598f",
+      "committed_bytes": 1395,
+      "committed_sha256": "2FE2B5063F03FE004E82A49043E78711A5BA9B0EBB67C0A69B4B195A25AE56F8",
+      "reproduced_by": "crlf_restored",
+      "classification": "REPRODUCED",
+      "required_s2_file": false
+    },
+    {
+      "file": "s2-windows-esm-fix-patch-record.sha256.txt",
+      "recorded_sha256": "593D620D94E82E473A4CBBDF51141C9FFA49CE46B0D2E870E7AA363596F86BBB",
+      "present_at_published_commit": true,
+      "blob_sha1": "80b7193f30a5cd9001b08e692676082b54888d2c",
+      "committed_bytes": 143,
+      "committed_sha256": "50D75D4026449434112DC8EEF40A30DFEE1BE1AC1248FBA14D2D9D8EA68CFDBA",
+      "reproduced_by": "crlf_restored",
+      "classification": "REPRODUCED",
+      "required_s2_file": false
+    },
+    {
+      "file": "s2-windows-esm-fix-patch-record.txt",
+      "recorded_sha256": "40C0E6154A0CFBDA629F88898A3E63C0FFD57318CAB080B1703BB85F06BDAB7B",
+      "present_at_published_commit": true,
+      "blob_sha1": "294cc4245a815d7728a1a502fef6c32022ff9788",
+      "committed_bytes": 2007,
+      "committed_sha256": "6D0B571A981E1DADB30C90F0B31CE0565769BD3653CF14E5C23029EE29051DE0",
+      "reproduced_by": "crlf_restored",
+      "classification": "REPRODUCED",
+      "required_s2_file": false
+    },
+    {
+      "file": "s2-windows-esm-investigation.sha256.txt",
+      "recorded_sha256": "77D8B44F1EB6F44C1281E6B1D273F76479C57567FDC4F1247B16851DA9B0CC49",
+      "present_at_published_commit": true,
+      "blob_sha1": "ace2f6ca79763e64bdc12ab61d45d4778f25ece8",
+      "committed_bytes": 316,
+      "committed_sha256": "0453E8B6A8994923C3D525FDDB29A28620F0678C4072E583B34B69136541C98F",
+      "reproduced_by": "crlf_restored",
+      "classification": "REPRODUCED",
+      "required_s2_file": false
+    },
+    {
+      "file": "s2-windows-esm-investigation.txt",
+      "recorded_sha256": "F75C0D449C8801C1938874D8FD59A731096841E05909195774107493B58BE66A",
+      "present_at_published_commit": true,
+      "blob_sha1": "81eef874583946ac7135d78eb8c00d0800b0fd9e",
+      "committed_bytes": 7951,
+      "committed_sha256": "D89BA2E808BEAF050BD5A2E229F3E4AC4E7D9A0026FB2D81C80B000FAF0FED3D",
+      "reproduced_by": "crlf_restored",
+      "classification": "REPRODUCED",
+      "required_s2_file": false
+    },
+    {
+      "file": "verify_s2_publication.py",
+      "recorded_sha256": "9BC4FDBB8AF7D857796F3C1D7421BC4F93A4DE5A0472E8B0A4B5D9883EAB85CE",
+      "present_at_published_commit": true,
+      "blob_sha1": "82928f2d47d7c2ee4c65d51c90006c293e66a5f9",
+      "committed_bytes": 6248,
+      "committed_sha256": "9BC4FDBB8AF7D857796F3C1D7421BC4F93A4DE5A0472E8B0A4B5D9883EAB85CE",
+      "reproduced_by": "as_committed",
+      "classification": "REPRODUCED",
+      "required_s2_file": false
+    },
+    {
+      "file": "verify_s2_receipt.py",
+      "recorded_sha256": "9F0223578C057CB0C8D17C9423C6B7A9CD99CB6EF8D59363260F2AD6B02020A6",
+      "present_at_published_commit": true,
+      "blob_sha1": "5a6dd2ead30062ec2016b72a56398d26ed246e03",
+      "committed_bytes": 6210,
+      "committed_sha256": "9F0223578C057CB0C8D17C9423C6B7A9CD99CB6EF8D59363260F2AD6B02020A6",
+      "reproduced_by": "as_committed",
+      "classification": "REPRODUCED",
+      "required_s2_file": false
+    }
+  ],
+  "artifact_result_scan": {
+    "s2-04-sha256-manifest-generation.txt": {
+      "present": true,
+      "matched_lines": [
+        "Result: GENERATED; independent verification: FAIL"
+      ],
+      "match_count": 1
+    },
+    "s2-evidence-manifest-verification.txt": {
+      "present": true,
+      "matched_lines": [
+        "Manifest entries: 1148",
+        "Result: FAIL"
+      ],
+      "match_count": 2
+    },
+    "s2-04-guarded-npm-test.txt": {
+      "present": true,
+      "matched_lines": [
+        "[test-guard] files=68 (source suite files: 68)",
+        "# pass 919",
+        "# fail 1",
+        "[test-guard] FAIL \u0393\u00c7\u00f6 924 test(s) executed, runner exit code 1",
+        "S2 step 04-guarded-npm-test exit code: 1"
+      ],
+      "match_count": 5
+    },
+    "s2-npm-launch-fix-suite-20261026T095613Z.txt": {
+      "present": true,
+      "matched_lines": [
+        "[test-guard] files=68 (source suite files: 68)",
+        "# tests 924",
+        "# pass 920",
+        "# fail 0",
+        "# skipped 4",
+        "[test-guard] OK \u0393\u00c7\u00f6 924 test(s) executed, 920 passed, exit 0",
+        "Exit code: 0"
+      ],
+      "match_count": 7
+    },
+    "s2-05-package-consumer.txt": {
+      "present": true,
+      "matched_lines": [
+        "\"result\": \"PASS\",",
+        "\"shasum\": \"cc2aa70186b8fd7bc7255452ac8d8b00d094f53e\"",
+        "\"result\": \"PASS\",",
+        "\"result\": \"PASS\"",
+        "Start UTC: 2026-10-26T09:56:14.2694664Z",
+        "Exit code: 0"
+      ],
+      "match_count": 6
+    },
+    "s2-post-run-pin.txt": {
+      "present": true,
+      "matched_lines": [
+        "ACTUAL COMMIT: 8eec74ae27cda09f3c368b9c299895eae41554db",
+        "ACTUAL TREE: 4eba29029f8d95cfe483e615a7047426b298ce50",
+        "WORKING TREE CLEAN: True"
+      ],
+      "match_count": 3
+    }
+  }
+}
