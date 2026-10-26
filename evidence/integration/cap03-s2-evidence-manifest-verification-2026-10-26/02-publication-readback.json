@@ -1,0 +1,93 @@
+{
+  "record_id": "IIPS-V3-CAP03-S2-EVIDENCE-MANIFEST-VERIFICATION-RECEIPT-2026-10-26-01",
+  "evidence_file": "02-publication-readback.json",
+  "classification": "Arena-independent remote read-back (Git fetch + GitHub Git Blobs API + REST)",
+  "repository": "ramkivs/iips-review-recovered",
+  "ref": "refs/heads/main",
+  "pr": {
+    "headRefOid": "ef01799b9f7c9dc322d7142332580ffcd717df24",
+    "mergeCommit": {
+      "oid": "83c6219becfeefb51055af9edfa20227e8ae3891"
+    },
+    "mergedAt": "2026-10-26T14:03:10Z",
+    "number": 306,
+    "state": "MERGED",
+    "url": "https://github.com/ramkivs/iips-review-recovered/pull/306"
+  },
+  "merge_commit": "83c6219becfeefb51055af9edfa20227e8ae3891",
+  "merge_root_tree": "c1fa341f1e238889aa249bfd83f06c0249fce7e9",
+  "merge_parents": [
+    "d9345004f5897ecb33fa532599b51a6ec799aa7a",
+    "ef01799b9f7c9dc322d7142332580ffcd717df24"
+  ],
+  "tested_head": "ef01799b9f7c9dc322d7142332580ffcd717df24",
+  "exact_head_ci": [
+    {
+      "id": 40335814340,
+      "status": "completed",
+      "conclusion": "success"
+    }
+  ],
+  "post_merge_main_ci": [
+    {
+      "id": 40336047364,
+      "status": "completed",
+      "conclusion": "success"
+    }
+  ],
+  "files": [
+    {
+      "path": "IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md",
+      "git_blob": "0223157a63dabb9704cae6213071aeb4c1d261be",
+      "bytes": 2469861,
+      "sha256": "4252ab8ae77b081020186290eb4d09c7b09ddfe597e849a2d798b63d386dd081",
+      "matches_tested_head": true
+    },
+    {
+      "path": "docs/integration/IIPS_v3.0_CAP03_S2_EVIDENCE_MANIFEST_VERIFICATION_RECEIPT_2026-10-26.md",
+      "git_blob": "81d789b8a41454246551e34f8624620206fb9836",
+      "bytes": 14975,
+      "sha256": "3d6b58ca121cf77ba1c94b00d38c54cbafc48353652a525ffa41b976fee143b7",
+      "matches_tested_head": true
+    },
+    {
+      "path": "evidence/integration/cap03-s2-evidence-manifest-verification-2026-10-26/00-remote-state-reverification.json",
+      "git_blob": "44a04f217f7256e31fffea2eca2cb1db2fd97b05",
+      "bytes": 4864,
+      "sha256": "b09f4c8c80fccfb9eb0241ed1f4e7e5bc5f9d57d3d659f05481843d9c93c1814",
+      "matches_tested_head": true
+    },
+    {
+      "path": "evidence/integration/cap03-s2-evidence-manifest-verification-2026-10-26/01-user-reported-windows-manifest-verification.json",
+      "git_blob": "b7b268cc4cd74ed7101f80bf497c9deec6cca6d2",
+      "bytes": 4177,
+      "sha256": "5c922ce96ac818590532e8f9a569ce8bc522dbfbb08ba9bc03e0bd9b91af7c88",
+      "matches_tested_head": true
+    },
+    {
+      "path": "evidence/integration/cap03-s2-evidence-manifest-verification-2026-10-26/INDEX.md",
+      "git_blob": "46c1fe8c4917abe64f3afd3c8dc04425296e35e0",
+      "bytes": 2486,
+      "sha256": "1c61ae12d84bb60dae34f7e3b93bc2ec110d75d2024f1e0189a2a30c7454a030",
+      "matches_tested_head": true
+    },
+    {
+      "path": "evidence/integration/cap03-s2-evidence-manifest-verification-2026-10-26/SHA256SUMS.txt",
+      "git_blob": "37de2cbb8ced69a871dd54481b72c83ac7e5254e",
+      "bytes": 382,
+      "sha256": "82e1312c894e5352ec90ad291453c04aa133808f8dc4209bbacc9cc492c6e7ed",
+      "matches_tested_head": true
+    },
+    {
+      "path": "evidence/integration/cap03-s2-evidence-manifest-verification-2026-10-26/verify_s2_receipt.py",
+      "git_blob": "5a6dd2ead30062ec2016b72a56398d26ed246e03",
+      "bytes": 6210,
+      "sha256": "9f0223578c057cb0c8d17c9423c6b7a9cd99cb6ef8d59363260f2ad6b02020a6",
+      "matches_tested_head": true
+    }
+  ],
+  "all_files_match": true,
+  "receipt_completeness_missing": [],
+  "tracker_completeness_missing": [],
+  "windows_bytes_note": "This read-back covers only IRR-published documentation bytes. Raw Windows evidence-byte read-back remains PENDING / NOT COMPLETE."
+}
