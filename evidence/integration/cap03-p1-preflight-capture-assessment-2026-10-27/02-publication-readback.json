@@ -1,0 +1,79 @@
+{
+  "record_id": "IIPS-V3-CAP03-P1-PREFLIGHT-CAPTURE-ACCEPTANCE-ASSESSMENT-2026-10-27-01",
+  "pr": 318,
+  "pr_head": "f75354b5dbefd54b411d510bcf80a46be03bd719",
+  "exact_head_ci_run": 40400127948,
+  "merge_commit": "8470ce26b3e6a68ca9e5a562fa6dd88cfad18b1c",
+  "merge_tree": "42da88120144b8fa07c04646e8673c792f6ab3c6",
+  "merge_parents": [
+    "ff29734b877f018b207385e0e375a8d0bbf5b3e0",
+    "f75354b5dbefd54b411d510bcf80a46be03bd719"
+  ],
+  "merged_at": "2026-10-26T20:58:40Z",
+  "post_merge_main_ci_run": 40400388258,
+  "ci_conclusions": {
+    "exact_head": "success",
+    "post_merge_main": "success"
+  },
+  "readback_method": "GitHub Contents API (blob id) + Git Blobs API (decoded bytes re-hashed) at the merge commit",
+  "files": [
+    {
+      "path": "IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md",
+      "blob": "0e8319eea5c132c135895c9dcc01715e1de20636",
+      "bytes": 2591322,
+      "sha256_remote": "5aa5754da07e6fa75e3b7379de719a9a59b4751e2c8fbe461889df4580ed5403",
+      "sha256_local": "5aa5754da07e6fa75e3b7379de719a9a59b4751e2c8fbe461889df4580ed5403",
+      "match": true
+    },
+    {
+      "path": "docs/integration/IIPS_v3.0_CAP03_P1_PREFLIGHT_CAPTURE_ACCEPTANCE_ASSESSMENT_2026-10-27.md",
+      "blob": "d171f8280a021ea73ee70a6489262c0b70b8cc99",
+      "bytes": 20672,
+      "sha256_remote": "cd1f183afc828ce7dfa4a9923091b48f115dbc894965b0d71268302390f7fe54",
+      "sha256_local": "cd1f183afc828ce7dfa4a9923091b48f115dbc894965b0d71268302390f7fe54",
+      "match": true
+    },
+    {
+      "path": "evidence/integration/cap03-p1-preflight-capture-assessment-2026-10-27/00-capture-inventory.json",
+      "blob": "997e05c195ec310ddef68f735dd6f4716730844e",
+      "bytes": 4813,
+      "sha256_remote": "578753d0ca038af2078fd996f34580cb0f5b65f4e0e2bf736e4eb44b95ae7f72",
+      "sha256_local": "578753d0ca038af2078fd996f34580cb0f5b65f4e0e2bf736e4eb44b95ae7f72",
+      "match": true
+    },
+    {
+      "path": "evidence/integration/cap03-p1-preflight-capture-assessment-2026-10-27/01-acceptance-mapping.json",
+      "blob": "cbe04e95ebd12b47692e056fcf7a8cc4603958cb",
+      "bytes": 7626,
+      "sha256_remote": "98abeba13c19ae71caba9fd7a66014fe22544035eacad5cc26879ee053f6bf95",
+      "sha256_local": "98abeba13c19ae71caba9fd7a66014fe22544035eacad5cc26879ee053f6bf95",
+      "match": true
+    },
+    {
+      "path": "evidence/integration/cap03-p1-preflight-capture-assessment-2026-10-27/INDEX.md",
+      "blob": "a763bb899b98996cc4e6646381e9734aacdb7e31",
+      "bytes": 2253,
+      "sha256_remote": "a5276533685e8970773256233de9c0bf0aac3fdb53c659c06a3492fa940c2439",
+      "sha256_local": "a5276533685e8970773256233de9c0bf0aac3fdb53c659c06a3492fa940c2439",
+      "match": true
+    },
+    {
+      "path": "evidence/integration/cap03-p1-preflight-capture-assessment-2026-10-27/SHA256SUMS.txt",
+      "blob": "e0a96c35e33bca15787ddc83dc82cb8f0de088fb",
+      "bytes": 347,
+      "sha256_remote": "a61f497f4fdceddfa4d887fe3c4934aa5513130ee09faa2b1c568f16d05d54d6",
+      "sha256_local": "a61f497f4fdceddfa4d887fe3c4934aa5513130ee09faa2b1c568f16d05d54d6",
+      "match": true
+    },
+    {
+      "path": "evidence/integration/cap03-p1-preflight-capture-assessment-2026-10-27/verify_assessment.py",
+      "blob": "7183e2650717f60322acdeb9e48016cf60110c1e",
+      "bytes": 6151,
+      "sha256_remote": "032fa3168ab5f0d45b2a7751fbe5577bd3da4ad8e3b1908c9d27da430561720c",
+      "sha256_local": "032fa3168ab5f0d45b2a7751fbe5577bd3da4ad8e3b1908c9d27da430561720c",
+      "match": true
+    }
+  ],
+  "all_match": true,
+  "tracker_single_section_16_148_heading": true
+}

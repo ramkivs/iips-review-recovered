@@ -139,6 +139,21 @@ flag enabled; no pin, F1–F6 value, fence, manifest or gate changed; no host ca
 evidence publication not republished or re-verified; `0` IPD writes; no native-Windows verification claimed
 by Arena.
 
+## 6. Publication receipt (companion update `CHG-2026-10-27-04`; tracker §16.148.5)
+
+This record and tracker §16.148 were published to IRR `main` by PR **#318** (head
+`f75354b5dbefd54b411d510bcf80a46be03bd719`; exact-head CI run `40400127948` **success**; regular 2-parent
+merge **`8470ce26b3e6a68ca9e5a562fa6dd88cfad18b1c`**, tree `42da88120144b8fa07c04646e8673c792f6ab3c6`,
+parents `ff29734…` + head, at `2026-10-26T20:58:40Z`; post-merge `main` CI run `40400388258` **success**).
+Independent GitHub Contents/Git-Blobs-API read-back at the merge commit confirmed all **7** published paths
+byte-identical to their assessed bytes (tracker blob `0e8319ee…`, 2,591,322 B; this record `d171f828…`;
+evidence `00` `997e05c1…`, `01` `cbe04e95…`, `INDEX` `a763bb89…`, sums `e0a96c35…`, verifier `7183e265…`),
+with a single `## §16.148` heading (machine record `02-publication-readback.json`, all checks **PASS**).
+This §6 and the companion files are published by the follow-on receipt update; its own carrying coordinates
+are established by remote read-back of its merge and are not self-embedded. No substantive state change:
+preflight **NOT ACCEPTED**; `P-1-C` `NOT ESTABLISHED`; `P-1-D` `NOT VERIFIED` for the attempt; `P-1`
+`UNSPENT` and unauthorized; `0` IPD writes.
+
 *End of `IIPS-V3-CAP03-P1-PREFLIGHT-CAPTURE-ACCEPTANCE-ASSESSMENT-2026-10-27-01` — complete 11-file
 preflight capture assessed; PF-01…PF-06, PF-08…PF-10, PF-12…PF-15 satisfied at capture; PF-07 failed at the
 superseded baseline pin; PF-11 every-worktree limb, script reproducibility and session freshness

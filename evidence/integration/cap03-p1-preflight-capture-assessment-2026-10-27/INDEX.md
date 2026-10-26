@@ -13,6 +13,7 @@ here is reproducible from `evidence/integration-/cap03-p1-reconcile-20261026T201
 | `00-capture-inventory.json` | The 11 assessed files with byte sizes and SHA-256 recomputed from the published tree; four-file (§16.147) subset marked; generating-script identity; key pin coordinates |
 | `01-acceptance-mapping.json` | Per-requirement criterion source, evidence files, observed facts, status (`SATISFIED` / `SATISFIED_AT_CAPTURE` / `NOT_SATISFIED` / `INSUFFICIENT` / `NOT_APPLICABLE`), blockers `T-1`–`T-4`, resulting `P-1-C`/`P-1-D` status and the single next action |
 | `verify_assessment.py` | Recomputes the inventory and re-derives the mechanical findings (baseline-pin capture vs §16.143 designation, flags, store absence, NTFS, PF-15 blob, verdict) from transcript contents; checks documentation integrity |
+| `02-publication-readback.json` + `verify_publication.py` | Publication receipt machine record (companion update `CHG-2026-10-27-04`, `V992`): PR #318 → merge `8470ce26…`, green exact-head/post-merge CI, independent Git-Blobs-API read-back `7/7` byte-identical |
 | `SHA256SUMS.txt` | Digests for this bundle |
 
 ## Outcome supported by this bundle
