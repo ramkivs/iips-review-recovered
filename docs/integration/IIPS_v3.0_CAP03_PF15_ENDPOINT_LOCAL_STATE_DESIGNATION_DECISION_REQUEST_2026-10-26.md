@@ -132,3 +132,41 @@ Until then `S3`/QE remain blocked on this item in addition to the host/P-1 chain
 the single next executable action (which does not depend on PF-15).
 
 *End of `IIPS-V3-CAP03-PF15-ENDPOINT-LOCAL-STATE-DESIGNATION-DECISION-REQUEST-2026-10-26-01` — PROPOSED, NOT EFFECTIVE; PF-15 NOT DESIGNATED.*
+
+---
+
+## 6. Dated PA-response boundary addendum — no decision rendered (`2026-10-26`)
+
+| Field | Value |
+|---|---|
+| Addendum ID | `IIPS-V3-CAP03-PF15-PA-RESPONSE-NONDECISION-ADDENDUM-2026-10-26-01` |
+| Record type | Targeted update to this existing decision request; **not** a PA act, designation, duplicate reconciliation, qualification record or execution receipt |
+| Status | **NO AUTHORIZED, VALUE-BEARING PA DECISION OBTAINED.** This request remains **PROPOSED — NOT EFFECTIVE** and PF-15 remains **`NOT DESIGNATED`** |
+| Required decision-maker | **Ramki — Program Authority / single owner and user** (or a successor PA expressly recorded under the governing process). The operating agent and host operator may prepare and execute, but may not select, infer or delegate the reserved values |
+| Authority boundary verified | A direct request for the reserved determination was put to the authorized PA through the established governance channel in this execution. The response approved no A/B option and supplied no exact endpoint or state-directory path; it expressly selected **no decision**. The standing grant covers preparation, recording, publication and verification, but does not supply these missing operational values (`DEC-06` `R-2`/`R-3`; §2 above) |
+| Options preserved | Only **Option A** (absolute named pipe) and **Option B** (bare name plus absolute local-state directory) from §4 remain available. Neither is selected, recommended as effective, defaulted, ranked or given a candidate string |
+| Scope of this addendum | It fixes the precise response instrument, missing fields, attribution requirement and consequences only. It does not repeat the §2 authority search or recreate the §3/§16.129 evidence package |
+
+### 6.1 Exact PA response still required — all seven contents
+
+A valid response must be one attributable PA act that supplies, without placeholders or value inference by the agent/operator:
+
+| # | Missing PA response content | Exact requirement |
+|---:|---|---|
+| 1 | **Option + exact endpoint** | State `A` or `B`; then give the exact `IIPS_G2_IPC_ENDPOINT` string verbatim. `A` must be an absolute Windows named-pipe path under `\\.\pipe\`; `B` must be a bare name matching `[A-Za-z0-9._-]+` with no `..`. No URL, `host:port`, relative path, code-derived default or normalization is valid. |
+| 2 | **Exact local-state path where applicable** | For `B`, or if otherwise required, give the exact absolute `IIPS_G3_LOCAL_STATE_DIR`. It must satisfy, subject to host verification, the existing local fixed-NTFS, outside-every-worktree, non-synced and non-elevated-operator-writable constraints. It may be `N/A` only for a valid `A` designation; this does not assert that any directory exists. |
+| 3 | **Database/P-1 relationship** | State either that the IPC server opens the single P-1-provisioned store, or that the `IIPS_G3_DATABASE_PATH` is left entirely to the P-1 record. Do not preselect, create or guess the store path. |
+| 4 | **Evidence treatment** | Require the rendered endpoint/state/database values and the on-host observations to be recorded verbatim in the applicable QE evidence deposit; no credentials or real portfolio data may enter that deposit. |
+| 5 | **External evidence root / `MANIFEST.json`** | State the relationship to the external evidence root and require exact endpoint/state/database path values in `MANIFEST.json`. Host path values are operational facts, not secrets. |
+| 6 | **Host verification instructions** | Require native-Windows QE evidence for first-instance collision refusal, default-DACL observation, one-connection capacity, same-host/no-network-target refusal, clean-shutdown disappearance and per-call client configuration resolution. POSIX/CI results are not substitutes. |
+| 7 | **Scope, rationale, preconditions, constraints, locus and effectiveness** | State the bounded scope and PA rationale for the selected form; preserve `S2 pass → one bounded P-1 → PF-15 effective → S3 → QE-1…QE-11 → separate applicable acceptance acts`; keep the designated Windows host as a separate operator dependency; preserve all fences, write refusals, pins and authority boundaries; require a distinct PA act in IRR published by normal PR with green exact-head and post-merge CI plus independent remote read-back; require a new PA act for any later value change and treat drift as `STOP`. Technical compatibility alone is not a rendered rationale or value. |
+
+The established process is: an explicit, attributable PA instruction/act containing these seven contents → a distinct rendered PA act in the IRR governing locus → normal PR, green exact-head and post-merge `main` CI, regular merge, independent remote read-back → one tracker update carrying the exact act reference. A draft, proposed response, code-derived value, technical inference, or agent-authored guess cannot complete this chain.
+
+### 6.2 Consequences of non-decision and next actions
+
+Without the above act, there is **no effective decision reference** and PF-15 remains `NOT DESIGNATED`. `S3` and `QE-1…QE-11` stay blocked; QE remains `NOT RUN, 0/11`. No endpoint is opened, no state directory or store is created, no enabling flag is changed and no host-dependent qualification is claimed. All governing records, options, pins, fences, write refusals, acceptance/admission gates and the single-use P-1 boundary remain unchanged.
+
+This non-decision is **not** a prerequisite for `S2` or `P-1`. The independent operational next action remains: operator Ramki accesses `desktop-no0nhtp`, follows the existing S2 runbook at the exact pin, captures raw native-Windows evidence outside all worktrees, stops on any failure, and permits exactly one bounded P-1 only after S2 passes. In parallel, the PA may render the seven-content response; PF-15 becomes effective only from that separate attributable act and its verified publication. No further duplicate reconciliation is required to request that act.
+
+*End of `IIPS-V3-CAP03-PF15-PA-RESPONSE-NONDECISION-ADDENDUM-2026-10-26-01` — no value rendered; PF-15 remains NOT DESIGNATED.*
