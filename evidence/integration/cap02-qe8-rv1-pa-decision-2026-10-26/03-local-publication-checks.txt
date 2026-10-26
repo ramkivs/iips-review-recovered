@@ -1,0 +1,67 @@
+# IRR local publication checks — RV-1 Option A act — 2026-10-26T07:23:04Z
+# Environment: Linux 6.1.158+ x86_64, node v22.22.3, npm 10.9.8. Documentation/evidence-only change;
+# these are the repository CI equivalents (workflow .github/workflows/ci.yml), not S2/S3/QE/host evidence.
+
+## npm ci note
+first 'npm ci' failed with the sandbox UNABLE_TO_VERIFY_LEAF_SIGNATURE (pinned codeload.github.com
+archive, same fault recorded in §16.125); retry with --strict-ssl=false succeeded: 190 packages; no lockfile change.
+
+================ npm run typecheck ================
+start 2026-10-26T07:23:04Z
+
+> @iips/v3-frontend@0.1.0 pretypecheck
+> npm run build:broker-import
+
+
+> @iips/v3-frontend@0.1.0 build:broker-import
+> tsc -p tsconfig.broker-import.json
+
+
+> @iips/v3-frontend@0.1.0 typecheck
+> tsc --noEmit
+
+exit 0 at 2026-10-26T07:23:13Z
+
+================ npm run typecheck:replay-server ================
+start 2026-10-26T07:23:13Z
+
+> @iips/v3-frontend@0.1.0 typecheck:replay-server
+> tsc -p tsconfig.replay-server.json --noEmit
+
+exit 0 at 2026-10-26T07:23:21Z
+
+================ npm run test:ci ================
+start 2026-10-26T07:23:21Z
+ ✓ src/core/network/noAuthFetch.test.ts (2 tests) 8ms
+ ✓ src/components/state/StateComponents.test.tsx (6 tests) 83ms
+ ✓ src/components/shell/ShellStates.test.tsx (5 tests) 116ms
+ ✓ src/components/viz/ChartFoundations.test.tsx (4 tests) 42ms
+ ✓ src/components/company/CompanyHeader.test.tsx (2 tests) 48ms
+
+ Test Files  106 passed (106)
+      Tests  1350 passed (1350)
+   Start at  07:23:24
+   Duration  123.03s (transform 3.54s, setup 15.23s, collect 8.06s, tests 48.97s, environment 28.67s, prepare 6.87s)
+
+JSON report written to /home/user/iips-review-recovered/frontend/.vitest-report.json
+exit 0 at 2026-10-26T07:25:27Z
+
+================ npm run build ================
+start 2026-10-26T07:25:27Z
+✓ 142 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                     0.53 kB │ gzip:   0.33 kB
+dist/assets/index-CIWpEpGV.css      1.19 kB │ gzip:   0.61 kB
+dist/assets/index-D7KYElFH.js   1,609.84 kB │ gzip: 226.69 kB │ map: 4,928.74 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 4.39s
+exit 0 at 2026-10-26T07:25:41Z
+
+================ zero-test guard: node .ci/assert-tests.js .vitest-report.json ================
+assert-tests: OK — 106 test file(s), 1350 test(s), 0 failed
+guard exit 0
