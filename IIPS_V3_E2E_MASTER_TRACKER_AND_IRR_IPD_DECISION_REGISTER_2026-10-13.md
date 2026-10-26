@@ -10775,3 +10775,67 @@ Post-merge receipt for the authorized documentation-only reconciliation. The pul
 `V726` **PASS** — PR merge, exact-head CI, post-merge `main` CI and independent remote blob/byte read-back all verified. The tracker is larger than the Contents API's inline-content limit; its full bytes were independently retrieved from the Git Blobs API and compared, rather than treating an empty Contents response as content evidence.
 
 *End of §16.124.1. Publication does not render a decision or move any gate.*
+
+---
+
+## §16.125 — `CV-CORR-105`: CAP-02 one-pass execution, decision reconciliation, and Gate 4 host blocker (`2026-10-26`; `CHG-2026-10-26-01`, `V727`–`V739`)
+
+**Current-state overlay; prior history preserved.** This pass re-read current IRR/IPD refs, effective acts, merged PRs, and CI; it does not repeat completed implementation. Full criterion dispositions and the ordered next actions are in [`docs/integration/IIPS_v3.0_CAP02_ONE_PASS_EXECUTION_AND_GATE4_BLOCKER_RECONCILIATION_2026-10-26.md`](docs/integration/IIPS_v3.0_CAP02_ONE_PASS_EXECUTION_AND_GATE4_BLOCKER_RECONCILIATION_2026-10-26.md).
+
+### 16.125.1 Authoritative baseline and decision resolution
+
+- **IRR baseline:** `ramkivs/iips-review-recovered` `main@5956f31028d3af37c30ea6e5addd6f9321b1270c`, tree `2fb5b5a12b890eb70994116791a29158c38096cf`; PR #282 merged `2026-10-25T20:50:11Z`; post-merge `main` CI run `40232630312` **SUCCESS**. This is the latest mainline CAP-02 tracker receipt before this section.
+- **IPD baseline (read-only):** `ramkivs/iips-production-market-data` `main@f5eddbc20b944a098a9060a8e3349c6d10b7843e`, tree `5c93f1d1e6c4919fa632ff107569ac955f5e052e`; PR #95 merged `2026-10-25T20:26:25Z`. Current IPD CAP-02 tracker blob `8a2a4e45615b84e517b65fe2700d4a09cde8c3f7`, 162,478 bytes, SHA-256 `8f85ca5e1e4acc10e19fa77d8ab87c388567a88442c136f5388e76479841351c`, independently read through GitHub Contents API at IPD `main`.
+- **DB-C1 / PR #114:** live API confirms `MERGED` at `271ca5273e76e0eb28594dc5675f11094622c902`; post-merge CI `39955624531` / job `120420630624` **SUCCESS**. Existing §16.91 evidence verifies the bounded six-point Product-Owner preview acceptance and 14/14 blobs. This is preview-only, not durable-write acceptance.
+- **Already-effective decisions, not reopened:** (a) H-12 membership **Alternative A** (`32` IPD + `24` IRR core entries, plus separately inventoried supplemental sets), IPD PR #76 merge `00cad5c3c18552422f816d1b9a486d1057c78e43`, receipt PR #77 merge `5e4e54db752060f75c945eb437ab317b7b9f04bf`; (b) S1 PA value determination and binding commit, IPD PR #80 merge `d8568b0ebe2bec2a7a2f38ed758e1f877f861704`, receipt PR #81 merge `1864f908b26322071a866cc3a3dab074faa536fd`, effective determination blob `b7746b5ed955abcf689ec57ca4a0748c0241ed09`; (c) Gate 4 target-host authority is effective at IPD blob `66b56fd1584890525a7250aadd7da449def621e5`; (d) H-12 R5 was regenerated, validated and adopted by the distinct IRR PA act, PR #279 merge `ae82be857a554d96e6c2cffc0d519e99135effdd`, receipt PR #280 merge `c23069013965226c0ee3bdbd82fcfe2e0f7aa1db`, manifest blob `f4649e36a81c7013287810cd3202b99586dbd951` / SHA-256 `d0be8bef3281ae6a296b8700265fe134b5088dd84b102b77ca8a157c8275cb76`, with the bound 7/7 post-G3 CAP-02 supplemental paths. The R5 adoption/validation is not a QE result or gate acceptance.
+
+### 16.125.2 CAP-02 current criterion matrix
+
+| Item | Current status | Current evidence / exact boundary |
+|---|---|---|
+| DB-C1 bounded preview | **COMPLETE** | PR #114 + §16.91, 14/14 read-back; preview only. |
+| U0, B-1/B-1R, U1 | **COMPLETE** | Effective placement/transport records and merged composition/package implementation at §16.92. No native host execution implied. |
+| U2-1…U2-12 implementation and evidence | **COMPLETE** | Current IPD tracker and its criteria evidence; authorized code-manifest boundary only. |
+| U2-13 W-1 / operational durable claim | **NOT AUTHORIZED** | `WRITE_NOT_AUTHORIZED` remains pre-mutation; no W-1 satisfaction, `durable:true`, or fence lift. |
+| U2-14 binding provisioning | **BLOCKED / NOT STARTED** | Separate one-use host prerequisite, not a missing U2 implementation criterion; P-1 has not executed. |
+| U3 Gate 4 | **BLOCKED — AUTHORIZED, NOT STARTED** | QE `0/11`. Current IPD blocker `IIPS-V3-CAP03-G4-H12-R5-S2-HOST-PRECONDITION-BLOCKER-2026-10-25-01` says S2 `NOT EXECUTED`, 0/5 prescribed commands, designated host requirements unmet. |
+| U4 result acceptance | **BLOCKED — NOT RENDERED** | No qualifying host evidence exists; separate acceptance act required. |
+| U5 Gate 5 | **BLOCKED — NOT GRANTED / NOT INITIATED** | Requires accepted results and its distinct admission act. |
+| U6 operational writes | **NOT AUTHORIZED** | W-1 not satisfied; all safety fences remain. |
+| U7 bounded contract/composition | **COMPLETE** for the effective minimal receipt/refusal/unknown/revision-only contract and merged non-production composition; **PARTIAL** only if stretched to mean live durable end-to-end operation | The latter belongs to U3–U6 and remains unaccepted. |
+| Full G2 views/history/analytics; production/live broker use | **NOT APPLICABLE / NOT AUTHORIZED** | Outside authorized first-surface scope. |
+
+**Overall CAP-02: PARTIAL / NOT COMPLETE.** Durable-write integration acceptance remains partial/not admitted. No preview acceptance, U2 implementation evidence, hosted CI success, S1 determination, or H-12 adoption is promoted to operational closure.
+
+### 16.125.3 Host execution and dependency boundary
+
+The executing environment was re-measured as Linux `e2b.local`, x86_64, Node `v22.22.3`, `process.platform === "linux"`, with no PowerShell executable and no resolution for `desktop-no0nhtp`. The authoritative S2 blocker independently records the required native Windows 11 designated host, non-elevated operator Ramki, operator-supplied Node `>=22.13.0 <23`, exact IPD pin `8eec74ae27cda09f3c368b9c299895eae41554db` / tree `4eba29029f8d95cfe483e615a7047426b298ce50`, clean full history, and external raw-evidence roots.
+
+- Prescribed S2 in this pass: **NOT RUN**; current authoritative blocker records **0/5** commands executed. No Linux/WSL/alternate-host/alternate-commit substitute.
+- P-1 / V-A2-1…V-A2-8: **NOT RUN**; the one-use execution is downstream of S2 success and remains a separate operational step.
+- S3: **NOT RUN / NOT REACHED**; requires S2, the one bounded P-1 execution, and PF-15 endpoint/local-state designation.
+- QE-1…QE-11: **NOT RUN, 0/11**; U4 acceptance, U5 admission, and U6 writes remain unchanged.
+- The next executable CAP-02 U3 action is to make `desktop-no0nhtp` available to the designated operator and execute S2 there at the exact pin with raw evidence outside every worktree. Then, only in order and under the existing bounded authorities: one P-1 after S2 success, S3 after PF-15, then QE. A failed precondition/command stops the sequence; no failure is relabelled as pass.
+- **CAP-02 does not block CAP-03 S2.** Effective topology and CAP-03 prerequisite records continue to exclude CAP-02 closure as a CAP-03 S2 entry prerequisite. The common host boundary is recorded accurately without merging workstreams.
+
+### 16.125.4 Publication checks and scope
+
+The IRR PR #281 exact-head CI run `40232191689` and post-merge CI `40232352740` succeeded; PR #282 exact-head CI `40232504589` and post-merge `main` CI `40232630312` succeeded. In this pass, the current IRR `frontend/` workflow-equivalent checks also passed: `npm run typecheck`, `npm run typecheck:replay-server`, `npm run test:ci` (**106 files / 1,350 passed / 0 failed**), `node .ci/assert-tests.js .vitest-report.json` (**OK**), and `npm run build` (**142 modules**). The first `npm ci --no-audit --no-fund` failed with `UNABLE_TO_VERIFY_LEAF_SIGNATURE` fetching the pinned GitHub archive; the documented sandbox-only retry `npm ci --no-audit --no-fund --strict-ssl=false` succeeded (190 packages); no manifest or lockfile changed. The SQLite/React test warnings and large-chunk build warning were non-fatal. These are ordinary IRR publication checks, not host qualification. This section and the linked record are documentation-only. No IPD mutation, product-source/test/pin/route/fence/manifest change, host action, provisioning, QE execution, acceptance, admission, or write authorization occurred.
+
+| ID | Verification | Result |
+|---|---|---|
+| `V727` | IRR current ref/tree and latest merged tracker publication | **PASS** — `main@5956f310…`, tree `2fb5b5a1…`; PR #282, CI `40232630312` success. |
+| `V728` | IPD current ref/tree and CAP-02 tracker blob | **PASS, read-only** — `main@f5eddbc…`, tree `5c93f1d1…`; blob/size/SHA-256 above. |
+| `V729` | PR #114 / DB-C1 current remote state | **PASS** — merged commit `271ca527…`; CI `39955624531` success; bounded preview and 14/14 read-back remain as §16.91. |
+| `V730` | Alternative A and S1 identity/value/commit authority | **PASS** — effective IPD acts and merged PRs #76/#77/#80/#81 re-read; no decision reopened. |
+| `V731` | Gate 4 target-host authority and H-12 R5 status | **PASS** — effective Gate 4 authority; R5 adoption PRs #279/#280 merged; manifest and 7/7 CAP-02 supplemental paths bound. No QE credit. |
+| `V732` | Native environment identity | **PASS as a blocker measurement** — Linux, not `win32`; no designated host/PowerShell. Not host evidence. |
+| `V733` | S2 / P-1 / S3 / QE status | **PASS as status verification** — S2 0/5, P-1 not executed, S3 not reached, QE 0/11; no attempts performed here. |
+| `V734` | CAP-02 criterion matrix / overall disposition | **PASS** — U0/B-1/B-1R/U1/U2-1…12/U7 bounded scope complete; U3 blocked; U4/U5 blocked; U6 not authorized; CAP-02 partial. |
+| `V735` | CAP-02 → CAP-03 dependency | **PASS** — CAP-02 closure not a hard prerequisite to CAP-03 S2. |
+| `V736` | Scope/non-grant audit | **PASS** — no source, pin, route, fence, IPD, host, provisioning, gate, acceptance, admission, write, or production change. |
+| `V737` | New identifier census | **PASS** — `CV-CORR-105`, this record ID, `CHG-2026-10-26-01`, and `V727`–`V739` absent before registration. |
+| `V738` | Publication/CI/remote read-back for this new section | **PENDING PUBLICATION RECEIPT** — record separately in §16.125.5 after merge. |
+| `V739` | Prescribed native-Windows Gate 4 / QE qualification | **NOT RUN** — environmental precondition failed; no qualification claim. |
+
+*End of §16.125 (`CV-CORR-105`; `CHG-2026-10-26-01`). CAP-02 remains PARTIAL. No decision remains to be re-rendered from the questions examined here; the concrete blocker is the unavailable designated host and the ordered, bounded operational sequence.*
