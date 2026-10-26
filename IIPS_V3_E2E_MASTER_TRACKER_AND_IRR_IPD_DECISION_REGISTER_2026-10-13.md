@@ -10932,6 +10932,28 @@ Safety fences:            WRITE_NOT_AUTHORIZED and all twelve /api/user-portfoli
 | `V749` | Scope and non-grant audit | **PASS** — documentation/evidence only; 0 IPD writes; 0 source, test, pin, route, fence, or gate changes. |
 | `V750` | New identifier census | **PASS** — `CV-CORR-106`, `CHG-2026-10-26-02`, record ID `IIPS-V3-CAP03-G4-H12-R5-S2-HOST-PRECONDITION-BLOCKER-2026-10-26-01`, `V740`–`V752` verified 0 prior occurrences (`02-identifier-census.txt`). |
 | `V751` | Local IRR publication checks (`frontend/`) | **PASS** — `typecheck` 0, `typecheck:replay-server` 0, full `test:ci` 106 files / 1,350 passed / 0 failed, `assert-tests` OK, `build` 0 (142 modules) (`10-publication-checks.txt`). |
-| `V752` | Publication, CI, and remote read-back | **PENDING PUBLICATION RECEIPT** — record separately in §16.126.6 after merge. |
+| `V752` | Publication, CI, and remote read-back | **PASS** — PR #285 merge, exact-head and post-merge CI, commit/tree, and remote blob/byte/SHA-256 read-back independently verified; coordinates in §16.126.6. |
 
 *End of §16.126 (`CV-CORR-106`; `CHG-2026-10-26-02`). CAP-03 S2 remains NOT EXECUTED due to designated-host recovery failure. Gate 4 remains AUTHORIZED — NOT STARTED (QE 0/11).*
+
+### 16.126.6 Publication receipt for §16.126 (`V752`)
+
+PR #285 published the CAP-03 S2 host recovery attempt and updated precondition blocker record. Publication coordinates are taken directly from the live GitHub PR/API and independent post-merge read-back, not self-asserted in the execution record.
+
+| Item | Independently verified value |
+|---|---|
+| IRR PR | **#285** — `docs(cap03): record S2 host-recovery probe and precondition blocker` |
+| PR head / tree | `2097bd2c759052d9a9c2db04467dcab0b9ce0550` / `521cdaedb7569802e1ed9de3dc8c59894acc09df` |
+| Exact-head CI | run **`40271654996`** / job `121405569970` — `Typecheck · Test · Build` **SUCCESS** (typecheck, replay-server typecheck, full Vitest suite 106 files / 1,350 passed, assert-tests OK, production build 142 modules passed in `1m11s`) |
+| Merge | **MERGED** `2026-10-26T04:58:19Z` as `f72568c8e1735ab30baf918e10ff5bee6e9c4def` |
+| Merge tree | `521cdaedb7569802e1ed9de3dc8c59894acc09df` — identical to the tested head tree |
+| Post-merge `main` CI | run **`40271774300`** / job `121405933036` — **SUCCESS** at `f72568c8…` (`1m47s`) |
+| Remote `main` read-back | `f72568c8e1735ab30baf918e10ff5bee6e9c4def`, tree `521cdaedb7569802e1ed9de3dc8c59894acc09df`; PR head verified ancestor of remote `main` |
+| New blocker record at PR #285 merge | blob `5e10f47820146d01e9c9d87281f908dd53f2ee2c`, `10,308` bytes, SHA-256 `efc0894d8cf59455b63c787104626cfee43794336b1c4a35a342e2dd94331577` — GitHub Git Blobs API bytes compare **MATCH** to PR head |
+| Tracker at PR #285 merge | blob `d729812827b6c820b59c08fc5d92df5b0d728e02`, `2,274,870` bytes, SHA-256 `8aaa358b0574657a356311b93db9c0c5957e693ce11b0212650ee0add2e313c6` — retrieved from Git Blobs API and byte-compared with the PR-head snapshot (**MATCH**) |
+| Evidence directory at PR #285 merge | 5 files in `evidence/integration/cap03-s2-host-recovery-2026-10-26/` (blobs `504f01ed…`, `33e7cf76…`, `2ccd1605…`, `e2c7695f…`, `34b920a5…`), all verified **MATCH** and `SHA256SUMS.txt` verified **4/4 OK** |
+| Changed paths | Exactly the tracker, the new blocker record, and the evidence directory; documentation/evidence only |
+
+`V752` **PASS** — PR merge, exact-head CI, post-merge CI, commit/tree ancestry, and all 7 remote blobs independently verified.
+
+*End of §16.126.6. Publication does not move any gate or grant provisioning, acceptance, admission, writes, or production eligibility.*
