@@ -11101,8 +11101,22 @@ Safety flags:             all enabling flags ABSENT; durable:false / SESSION_ONL
 | `V775` | New-identifier census after mid-pass collision: §16.128, `CV-CORR-108`, `CHG-2026-10-26-04`, `V767`–`V778`, three record IDs — 0 prior occurrences both loci; collided §16.127/`CV-CORR-107`/`CHG-2026-10-26-03`/`V753`–`V766` released to CAP-02 | **PASS** — `02-identifier-census.txt` |
 | `V776` | Scope/non-grant audit: documentation/evidence only; 0 source/test/pin/route/fence/manifest/H-12 changes; 0 IPD writes; no gate moved; QE remains 0/11 | **PASS** |
 | `V777` | Local IRR publication checks (`frontend/`: typecheck, replay typecheck, full `test:ci` + guard, build) at final base; intervening merges touched 0 `frontend/` paths | **PASS** — `30-irr-publication-checks.txt` |
-| `V778` | Publication, exact-head/post-merge CI, commit/tree, remote blob/byte read-back | **PASS** — recorded in the companion post-merge receipt subsection after merge |
+| `V778` | Publication, exact-head/post-merge CI, commit/tree, remote blob/byte read-back | **PASS** — PR #289 merged; coordinates and read-back results in §16.128.8 |
 
 **Single next dependency-respecting action (unchanged and now fully instrumented):** operator Ramki opens a non-elevated native-Windows session on `desktop-no0nhtp`, follows `IIPS-V3-CAP03-S2-OPERATOR-RUNBOOK-2026-10-26-01` to run the five S2 commands at exact pin `8eec74ae…`/tree `4eba2902…` with raw evidence outside every worktree; stop on any failed precondition/command. Then only in order: one P-1 (V-A2-1…V-A2-8) → PA renders PF-15 → S3 preflight → QE-1…QE-11. No retry without fresh authority; no substitution; no gate is moved by this preparation.
 
-*End of §16.128 (`CV-CORR-108`; `CHG-2026-10-26-04`; `V767`–`V778`). Publication coordinates are appended in the companion post-merge receipt; until then this section is the pre-merge preparation record and moves no gate.*
+### 16.128.8 Publication receipt (post-merge, remote-verified)
+
+| Coordinate | Value |
+|---|---|
+| PR | `ramkivs/iips-review-recovered` **#289** — **MERGED** `2026-10-26T06:26:28Z`, merge commit `c482c23561dcdd8e0a13dd51839be6c8189b0104` (regular 2-parent merge; parents `0329964975eb…` + `6dfb72f063d9…`), merge tree `4ad0a92e6f7facf0d946b4edd9172824fc69be29` — identical to the tested head tree |
+| Tested head | `6dfb72f063d9b6d214a593f5635c153d4cb14f9a`, based on the then-current `main@0329964…`; first push `baf56ee…` was superseded by a force-with-lease update after the mid-pass identifier collision (§16.128.1, `V775`) required reallocation from §16.127/`CV-CORR-107` to §16.128/`CV-CORR-108` |
+| Exact-head CI | Run **`40279615174`**, job **`121429781894`** "Typecheck · Test · Build", event `pull_request`, `completed`/`success` on head `6dfb72f…` |
+| Post-merge `main` CI | Run **`40279831969`**, event `push`, `completed`/`success` at merge head `c482c235…`; prior `main` run `40278269714` superseded in order |
+| Changed paths | 20 paths vs previous `main@0329964…`: the tracker, three new `docs/integration` records, and 16 files under `evidence/integration/cap03-one-pass-continuation-2026-10-26/`; **documentation/evidence only — 0 source/test/pin/route/fence/manifest/lockfile paths** |
+| Remote read-back | Independent GitHub API read at `c482c235…`: all **20/20** new blob SHA-256/git-blob identities match the local files; remote evidence directory contains exactly 16 blobs vs 16 local files; tracker fetched via raw media type is byte-identical (2,305,591 bytes, SHA-256 `de1c42bf6d7f87b78ab9ca1e984bc1ac4ba850ad7aa1d17c0194f6fed1138ec7`) and contains §16.128. Record blobs: matrix `10bf69c972e0cf206a1dd9c70bf98dca5b8049b2`, PF-15 request `97dc890b016a85e40865c84861d68602eef46808`, runbook `4cce435cebcec6402e733419fef88ab8ae5d9a1f`; `SHA256SUMS` blob present and matching |
+| Scope re-affirmed | Zero IPD writes; no host operation, provisioning, PF-15 designation, QE execution, acceptance or admission; all twelve `/api/user-portfolios*` 503 fences, `WRITE_NOT_AUTHORIZED` and `durable:false` intact; QE remains 0/11; no gate moved |
+
+`V778` **PASS** — PR merge, exact-head CI, post-merge `main` CI, commit/tree ancestry (2-parent merge, merge tree = tested head tree), and independent remote blob/byte/SHA-256 read-back all verified. This receipt is itself published by the companion receipt PR and is the only post-merge coordinate source; nothing in this section self-embedded coordinates before the merge.
+
+*End of §16.128 (`CV-CORR-108`; `CHG-2026-10-26-04`; `V767`–`V778`). Publication does not move any gate or grant provisioning, PF-15 designation, acceptance, admission, writes, or production eligibility.*
