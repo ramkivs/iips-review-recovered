@@ -1,0 +1,693 @@
+{
+ "$comment": "PREPARED TEMPLATE \u2014 NOT AUTHORITY. Every property is derived from the effective act/clause named in its 'source' annotation and creates no requirement beyond it. Gate 4 remains AUTHORIZED \u2014 NOT STARTED; QE 0/11; P-1 NOT EXECUTED. This schema expresses a CAP-02 Gate 4 QE run-evidence manifest; it executes nothing and accepts nothing.",
+ "$id": "IIPS-V3-CAP02-QE-RUN-EVIDENCE-MANIFEST-SCHEMA-2026-10-26-01",
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "additionalProperties": false,
+ "description": "CAP-02 Gate 4 QE run-evidence manifest template. Deposit location and artifact rules: effective Gate 4 act Q8 (IPD blob 66b56fd1...).",
+ "properties": {
+  "evidence_deposit": {
+   "additionalProperties": false,
+   "description": "Deposit identity and integrity. IPD-side deposit per Gate 4 Q8; raw capture outside every worktree per H-12 R5 act section 2 item 9.",
+   "properties": {
+    "corrections_are_new_files": {
+     "description": "Immutability: artifacts written once, never edited; corrections are new files with recorded reason.",
+     "source": "Gate 4 act Q8 immutability; Gate 4 act section 10 rule 1",
+     "type": "boolean"
+    },
+    "deposit_path": {
+     "description": "IPD evidence/cross-repository/cap02_gate4_qe_<YYYY-MM-DD>_<run-id>/ (IPD-side deposit; IRR registration requires a separate IRR act).",
+     "source": "Gate 4 act Q8 primary deposit",
+     "type": "string"
+    },
+    "every_attempt_preserved": {
+     "description": "Every attempt preserved, including invalidated ones; deleting an attempt is prohibited.",
+     "source": "Gate 4 act section 10 rule 5",
+     "type": "boolean"
+    },
+    "manifest_sha256": {
+     "description": "SHA-256 of this manifest file's actual bytes; each artifact SHA-256 recorded in a manifest that is itself hashed.",
+     "source": "Gate 4 act Q8 immutability",
+     "type": "string"
+    },
+    "raw_capture_outside_worktrees": {
+     "description": "All raw logs, store files, IPC state and transcripts written outside every Git worktree during capture.",
+     "source": "H-12 R5 adoption act section 2 item 9; host readiness packet section 6 item 7",
+     "type": "boolean"
+    },
+    "remote_readback": {
+     "description": "Merge, green CI, remote blob read-back, independent second read-back with byte comparison; digests reproduced from a fresh clone.",
+     "source": "Gate 4 act Q8 publication and read-back",
+     "type": "string"
+    }
+   },
+   "required": [
+    "deposit_path",
+    "manifest_sha256",
+    "raw_capture_outside_worktrees",
+    "corrections_are_new_files",
+    "every_attempt_preserved",
+    "remote_readback"
+   ],
+   "source": "Gate 4 act Q8 (IPD blob 66b56fd1584890525a7250aadd7da449def621e5)",
+   "type": "object"
+  },
+  "h12": {
+   "additionalProperties": false,
+   "description": "Adopted H-12 baseline for the run. R5 adopted in the governing IRR locus; IPD mirror receipt published.",
+   "properties": {
+    "adoption_act": {
+     "description": "Distinct PA adoption act; candidate validation alone never adopts.",
+     "source": "Gate 4 act Q7; H-12 R5 adoption act IIPS-V3-CAP03-G4-H12-R5-PA-ADOPTION-ACT-2026-10-25-01",
+     "type": "string"
+    },
+    "amended_s8_supplement_blob": {
+     "description": "Bound amended-section-8 supplemental inventory: 7/7 post-G3 CAP-02 entries (S-1..S-7) + 11 companion guards.",
+     "source": "H-12 R5 adoption act section 2 item 8; blob 6c777de6f36bfd06ff89373540d755cc367744f2",
+     "type": "string"
+    },
+    "amended_s8_supplement_sha256": {
+     "description": "Raw SHA-256 of the supplemental inventory bytes.",
+     "source": "H-12 R5 adoption act section 2 item 8",
+     "type": "string"
+    },
+    "before_after_equal": {
+     "description": "Adopted H-12 digest set recorded at run start AND run end; any drift invalidates the run.",
+     "source": "Gate 4 act Q7 validation rules; Gate 4 act section 3.2 item 3; D-GC-H H-12",
+     "type": "boolean"
+    },
+    "core_entries": {
+     "description": "G4-AMEND-01 Alternative A: 32 mandatory IPD paths + 24 IRR paths = 56 core entries, all PRESENT.",
+     "source": "G4-AMEND-01 Alternative A (IPD blob 21a0f9eb6cd7b1bbc4849d6dfd26c6c8025d60b8); H-12 R5 adoption act section 2 item 1",
+     "type": "string"
+    },
+    "manifest_blob": {
+     "description": "Adopted primary manifest Git blob SHA-1.",
+     "source": "H-12 R5 adoption act header; blob f4649e36a81c7013287810cd3202b99586dbd951",
+     "type": "string"
+    },
+    "manifest_sha256": {
+     "description": "Raw SHA-256 of the adopted manifest bytes.",
+     "source": "H-12 R5 adoption act header; d0be8bef3281ae6a296b8700265fe134b5088dd84b102b77ca8a157c8275cb76",
+     "type": "string"
+    }
+   },
+   "required": [
+    "manifest_blob",
+    "manifest_sha256",
+    "adoption_act",
+    "core_entries",
+    "amended_s8_supplement_blob",
+    "amended_s8_supplement_sha256",
+    "before_after_equal"
+   ],
+   "source": "H-12 R5 adoption act (IRR PR #279 merge ae82be85...; receipt PR #280; IPD mirror PR #94)",
+   "type": "object"
+  },
+  "host": {
+   "additionalProperties": false,
+   "description": "Designated target host identity. No substitute host, platform, operator or runtime is qualifying.",
+   "properties": {
+    "account_sid": {
+     "description": "Current account SID recorded from the host.",
+     "source": "Host readiness packet PF-03",
+     "type": "string"
+    },
+    "edition": {
+     "description": "Windows edition as reported on the host.",
+     "source": "Gate 4 act section 12; host readiness packet PF-02",
+     "type": "string"
+    },
+    "hostname": {
+     "description": "Must be exactly desktop-no0nhtp.",
+     "source": "Gate 4 act section 12; Gate A-prime successor act section 8 (D-A-prime-2); host readiness packet PF-01",
+     "type": "string"
+    },
+    "non_elevated": {
+     "description": "Operator account is non-elevated; PF-03 administrator-role check returns False.",
+     "source": "Gate 4 act section 12; host readiness packet PF-03",
+     "type": "boolean"
+    },
+    "operator": {
+     "description": "Only QE executor under the effective Gate 4 act.",
+     "source": "Gate 4 act section 12; host readiness packet header",
+     "type": "string"
+    },
+    "platform": {
+     "description": "Node process.platform as reported on the host.",
+     "source": "Gate 4 act section 12; host readiness packet PF-04",
+     "type": "string"
+    }
+   },
+   "required": [
+    "hostname",
+    "edition",
+    "operator",
+    "non_elevated",
+    "account_sid",
+    "platform"
+   ],
+   "source": "Gate 4 act section 12 (IPD blob 66b56fd1584890525a7250aadd7da449def621e5)",
+   "type": "object"
+  },
+  "non_grants_acknowledged": {
+   "description": "Run record restates that it grants no acceptance, admission, write authorization, fence lift, durable claim or production eligibility.",
+   "source": "Gate 4 act section 16; Gate A-prime successor act section 9; H-12 R5 adoption act section 7.1",
+   "type": "boolean"
+  },
+  "p1_provisioning": {
+   "additionalProperties": false,
+   "description": "Single bounded P-1 execution. Strictly after S2 passes and before S3. Consumed once whether it succeeds or fails.",
+   "properties": {
+    "act_id": {
+     "description": "Act under which P-1 executes.",
+     "source": "Gate A-prime successor act header",
+     "type": "string"
+    },
+    "command": {
+     "description": "Verbatim single invocation: --mode=execute --act-id <ID> --store <absolute path> --principal-label <v> --tenant-id <v> --canonical-owner-id <v> --actor <label>. Values on the command line, never environment variables.",
+     "source": "Gate A-prime successor act section 8 step 3; section 5.3",
+     "type": "string"
+    },
+    "exit_code": {
+     "description": "Exact exit code of the single invocation.",
+     "source": "Gate A-prime successor act section 8.1",
+     "type": [
+      "integer",
+      "null"
+     ]
+    },
+    "ordering": {
+     "description": "P-1 strictly after S2 passes and before S3; single-use grant consumed once.",
+     "source": "H-12 R5 adoption act section 7.2; DQ-4 criterion 7; Gate A-prime successor act section 9",
+     "type": "string"
+    },
+    "pre_state": {
+     "description": "Pre-run proof the store file did not exist (Test-Path False verbatim); read-only --mode=validate showing 0 bindings / 0 memberships; zero portfolio rows. Any pre-existing binding/membership row in any state means the act does not apply.",
+     "source": "Gate A-prime successor act section 8 steps 1-2",
+     "type": "string"
+    },
+    "single_use_consumed": {
+     "description": "Authority consumed on completion whether the act succeeds or fails; any re-attempt requires a fresh rendering.",
+     "source": "Gate A-prime successor act section 9",
+     "type": "boolean"
+    },
+    "status": {
+     "description": "NOT EXECUTED until the single host execution occurs; then FAILED / ROLLED BACK or the V-A2 receipt.",
+     "source": "Gate A-prime successor act sections 7, 9",
+     "type": "string"
+    },
+    "store_path": {
+     "description": "Absolute path outside every Git worktree; local fixed NTFS; not synchronized; operator-writable without elevation; file must not pre-exist. Selected at execution time; recorded verbatim (operator path, not a secret).",
+     "source": "Gate A-prime successor act section 8 step 1 (P-1 rule); Gate 4 act Q8 sensitivity",
+     "type": [
+      "string",
+      "null"
+     ]
+    },
+    "store_sha256_after": {
+     "description": "Store SHA-256 + size recorded after commit.",
+     "source": "Gate A-prime successor act section 8 step 3",
+     "type": [
+      "string",
+      "null"
+     ]
+    },
+    "v_a2": {
+     "additionalProperties": false,
+     "description": "Read-only validation report V-A2-1..V-A2-8 from --mode=validate with the same arguments.",
+     "properties": {
+      "V-A2-1_schema_ledger": {
+       "description": "Pass: _migration_ledger holds 001-004 with computed checksums; schema 004; migration 001 blob f594a182 unchanged.",
+       "source": "Gate A-prime successor act section 6",
+       "type": "string"
+      },
+      "V-A2-2_binding_cardinality": {
+       "description": "Pass: exactly one row ACTIVE, revoked_at NULL, binding_id = deterministic id (c5808abaffd072d6401ce63ad86c6ac0).",
+       "source": "Gate A-prime successor act section 6; S1 determination section 3",
+       "type": "string"
+      },
+      "V-A2-3_membership_cardinality": {
+       "description": "Pass: exactly one row ACTIVE attached to the binding; tenant_id/canonical_owner_id equal the act values.",
+       "source": "Gate A-prime successor act section 6; S1 determination section 3",
+       "type": "string"
+      },
+      "V-A2-4_no_other_rows": {
+       "description": "Pass: portfolios, revisions, holdings, contributions all 0.",
+       "source": "Gate A-prime successor act section 6",
+       "type": "string"
+      },
+      "V-A2-5_audit": {
+       "description": "Pass: exactly one hash-chained audit_events row, event_type local_principal_binding.provisioned, subject binding label, detail owner pair; chain verifies.",
+       "source": "Gate A-prime successor act section 6",
+       "type": "string"
+      },
+      "V-A2-6_resolution": {
+       "description": "Pass: resolveActiveBinding returns exactly the provisioned context; threw BindingAbsentError before.",
+       "source": "Gate A-prime successor act section 6",
+       "type": "string"
+      },
+      "V-A2-7_refusal_preservation": {
+       "description": "Pass: IPC still WRITE_NOT_AUTHORIZED before mutation; evaluatePortSaveGuard still hard-false.",
+       "source": "Gate A-prime successor act section 6",
+       "type": "string"
+      },
+      "V-A2-8_consumption": {
+       "description": "Pass: second invocation refused with zero change; act recorded consumed (mandated idempotence check, not a retry).",
+       "source": "Gate A-prime successor act section 6; host readiness packet section 4 step 11",
+       "type": "string"
+      }
+     },
+     "required": [
+      "V-A2-1_schema_ledger",
+      "V-A2-2_binding_cardinality",
+      "V-A2-3_membership_cardinality",
+      "V-A2-4_no_other_rows",
+      "V-A2-5_audit",
+      "V-A2-6_resolution",
+      "V-A2-7_refusal_preservation",
+      "V-A2-8_consumption"
+     ],
+     "source": "Gate A-prime successor act section 6 (IPD blob 528de6aeddbc8e5f3191be8792f3937d77de4037)",
+     "type": "object"
+    }
+   },
+   "required": [
+    "act_id",
+    "ordering",
+    "status",
+    "store_path",
+    "pre_state",
+    "command",
+    "exit_code",
+    "store_sha256_after",
+    "v_a2",
+    "single_use_consumed"
+   ],
+   "source": "Gate A-prime successor act sections 6, 8, 8.1, 8.2, 9 (IPD blob 528de6aeddbc8e5f3191be8792f3937d77de4037)",
+   "type": "object"
+  },
+  "pins": {
+   "additionalProperties": false,
+   "description": "Designated QE coordinates. A pin is a named commit, not 'current main'; any non-documentary drift is a stop for explicit PA re-designation, never a silent re-pin.",
+   "properties": {
+    "ipd_commit": {
+     "description": "IPD primary QE coordinate.",
+     "source": "H-12 R5 adoption act section 2 item 1; DQ-4 freeze manifest section 1",
+     "type": "string"
+    },
+    "ipd_tree": {
+     "description": "Root tree of the IPD QE coordinate.",
+     "source": "H-12 R5 adoption act section 2 item 1",
+     "type": "string"
+    },
+    "irr_commit": {
+     "description": "IRR QE consumer coordinate.",
+     "source": "H-12 R5 adoption act section 2 item 1; DQ-4 freeze manifest section 1",
+     "type": "string"
+    },
+    "irr_tree": {
+     "description": "Root tree of the IRR QE consumer coordinate.",
+     "source": "H-12 R5 adoption act section 2 item 1",
+     "type": "string"
+    }
+   },
+   "required": [
+    "ipd_commit",
+    "ipd_tree",
+    "irr_commit",
+    "irr_tree"
+   ],
+   "source": "Gate 4 act section 3.2 commit rule; H-12 R5 adoption act section 3",
+   "type": "object"
+  },
+  "qe": {
+   "additionalProperties": false,
+   "description": "QE-1..QE-11 dispositions. Status vocabulary is exhaustive: PASS / FAIL / INCONCLUSIVE / NOT EXECUTED - <reason> / INVALID. No sixth class, no 'pass with caveats'. A limitation finding is never PASS. Component evidence is never PASS for a full-path criterion.",
+   "patternProperties": {
+    "^QE-(1[01]|[1-9])$": {
+     "additionalProperties": false,
+     "properties": {
+      "acceptance_separate": {
+       "description": "True where a separate acceptance act is additionally required (QE-11 Gate C subset; then Gate 4 result acceptance for all).",
+       "source": "Gate 4 act section 7 grant boundaries; Gate E section 4",
+       "type": "boolean"
+      },
+      "artifacts": {
+       "description": "Raw artifact paths for this item: command, exit code, UTC start/end, host identity, Node version, commit/tree, row counts, transcripts, manifests, execution record.",
+       "source": "Gate 4 act Q8 required artifacts",
+       "type": "array"
+      },
+      "evidence_ceiling": {
+       "description": "Highest honest classification under current authority: full-path candidate / component-level / limitation finding.",
+       "source": "Gate 4 act section 5 adopted rules; host readiness packet section 5",
+       "type": "string"
+      },
+      "execution_location": {
+       "description": "Native target host only. POSIX/CI/fixture evidence is non-qualifying.",
+       "source": "Gate E section 4; D-GC-F; Gate 4 act section 3.2",
+       "type": "string"
+      },
+      "pass_conditions": {
+       "description": "Observable conditions from the governing record. PASS additionally requires an executed scenario at the designated commit on the designated host, with raw evidence, in the tier that can reach it.",
+       "source": "Governing record per item; Gate 4 act section 5 adopted rule 2",
+       "type": "string"
+      },
+      "requirement": {
+       "description": "Verbatim governing requirement (abridged pointer; full text in the cited record).",
+       "source": "Gate E write policy rev 1 section 4 (IPD blob 4a9501bffb49abbbc0ba5b5c4f81d2841812913e) with L-IPC-1 section 10 / D-GC / G2-D3 mappings",
+       "type": "string"
+      },
+      "status": {
+       "description": "Exhaustive status vocabulary.",
+       "source": "Gate 4 act section 10 classes",
+       "type": "string"
+      },
+      "tiers": {
+       "description": "T1 real endpoint with all fences on; T2 real store on disposable copies; T3 session-port identity boundary. Every artifact carries a per-scenario tier label.",
+       "source": "Gate 4 act section 5",
+       "type": "string"
+      }
+     },
+     "required": [
+      "requirement",
+      "tiers",
+      "evidence_ceiling",
+      "execution_location",
+      "pass_conditions",
+      "artifacts",
+      "status",
+      "acceptance_separate"
+     ],
+     "type": "object",
+     "source": "Gate E section 4 (per-item requirement); Gate 4 act sections 5, 7, 10 (tiers, grant, classes)"
+    }
+   },
+   "source": "Gate E section 4; Gate 4 act sections 5, 7, 10; host readiness packet section 5",
+   "type": "object"
+  },
+  "record_id": {
+   "description": "Run-evidence manifest record identifier (assigned at run publication; census-checked).",
+   "source": "Gate 4 act section 13 registration rules",
+   "type": [
+    "string",
+    "null"
+   ]
+  },
+  "run_id": {
+   "description": "Run identifier; a repeated attempt gets a new run ID.",
+   "source": "Gate 4 act section 10 rule 1; D-GC H-7 run-id rule via proposal section 5.2(7)",
+   "type": [
+    "string",
+    "null"
+   ]
+  },
+  "runtime": {
+   "additionalProperties": false,
+   "description": "Runtime preflight. Historical v24.14.0 violates the required major and is not preflight evidence. No runtime installation or switch is authorized.",
+   "properties": {
+    "node_range": {
+     "description": "Required Node major 22 at or above 22.13.0.",
+     "source": "Gate 4 act section 12; Gate 3 act sections 8.1/8.3; host readiness packet PF-04",
+     "type": "string"
+    },
+    "node_version_observed": {
+     "description": "Actual node --version on the host.",
+     "source": "Host readiness packet PF-04",
+     "type": [
+      "string",
+      "null"
+     ]
+    },
+    "sqlite_flag_free": {
+     "description": "node:sqlite loads and operates without experimental flags or warnings.",
+     "source": "Gate 4 act section 12; host readiness packet PF-05",
+     "type": [
+      "boolean",
+      "null"
+     ]
+    }
+   },
+   "required": [
+    "node_range",
+    "node_version_observed",
+    "sqlite_flag_free"
+   ],
+   "source": "Gate 4 act section 12 (IPD blob 66b56fd1584890525a7250aadd7da449def621e5)",
+   "type": "object"
+  },
+  "s1_identity_values": {
+   "additionalProperties": false,
+   "description": "S1 identity values are determined and bound; they are inputs to P-1, not P-1 evidence.",
+   "properties": {
+    "canonicalOwnerId": {
+     "description": "Determined canonical owner id.",
+     "source": "S1 determination section 3 (IPD blob b7746b5ed955abcf689ec57ca4a0748c0241ed09)",
+     "type": "string"
+    },
+    "determination": {
+     "description": "Separate PA identity-value determination discharging successor act section 4.",
+     "source": "S1 determination header; IPD PR #80 merge d8568b0e...; receipt PR #81",
+     "type": "string"
+    },
+    "principal_label": {
+     "description": "Determined principal label.",
+     "source": "S1 determination section 3 (IPD blob b7746b5ed955abcf689ec57ca4a0748c0241ed09)",
+     "type": "string"
+    },
+    "tenantId": {
+     "description": "Determined tenant id.",
+     "source": "S1 determination section 3 (IPD blob b7746b5ed955abcf689ec57ca4a0748c0241ed09)",
+     "type": "string"
+    }
+   },
+   "required": [
+    "determination",
+    "principal_label",
+    "tenantId",
+    "canonicalOwnerId"
+   ],
+   "source": "S1 determination IIPS-V3-CAP02-S1-IDENTITY-VALUE-DETERMINATION-2026-10-24-01",
+   "type": "object"
+  },
+  "s2_host_verification": {
+   "additionalProperties": false,
+   "description": "S2 canonical native-Windows host verification: 5 ordered commands at the exact IPD pin. Requires no store path, no PF-15 designation, and consumes no P-1 grant. Any non-zero exit stops the sequence.",
+   "properties": {
+    "build_dist_count": {
+     "description": "Verified dist/** file count from a clean host build.",
+     "source": "H-12 R5 adoption act section 2 item 9; readiness packet section 6 item 2; S2 blocker section 2",
+     "type": [
+      "integer",
+      "null"
+     ]
+    },
+    "commands": {
+     "description": "Ordered S2 commands with per-command exit code, UTC start/end, stdout/stderr paths. Guarded npm test count is authoritative; direct TAP is supplemental only.",
+     "source": "Host readiness packet section 3; S2 blocker record sections 2-3",
+     "items": {
+      "additionalProperties": false,
+      "properties": {
+       "command": {
+        "source": "Host readiness packet section 3",
+        "type": "string"
+       },
+       "exit_code": {
+        "source": "Gate 4 act Q8 required artifacts",
+        "type": [
+         "integer",
+         "null"
+        ]
+       },
+       "status": {
+        "source": "S2 blocker record section 2 disposition vocabulary",
+        "type": "string"
+       }
+      },
+      "required": [
+       "command",
+       "status",
+       "exit_code"
+      ],
+      "type": "object",
+      "source": "Host readiness packet section 3; S2 blocker record section 2"
+     },
+     "maxItems": 5,
+     "minItems": 5,
+     "type": "array"
+    },
+    "expected_dist_count": {
+     "description": "Expected clean-build dist/** count; a different count is a stop for PA re-designation, never silently accepted.",
+     "source": "Host readiness packet section 6 item 2; H-12 R5 adoption act section 2 item 9",
+     "type": "integer"
+    },
+    "status": {
+     "description": "NOT EXECUTED until all five host commands run in order with raw capture outside every worktree.",
+     "source": "S2 blocker records (IPD 2026-10-25; IRR 2026-10-26)",
+     "type": "string"
+    }
+   },
+   "required": [
+    "status",
+    "commands",
+    "expected_dist_count",
+    "build_dist_count"
+   ],
+   "source": "Host readiness packet section 3; H-12 R5 adoption act section 7.2",
+   "type": "object"
+  },
+  "s3_preflight": {
+   "additionalProperties": false,
+   "description": "S3 host/runtime preflight. Strictly after S2 passes and the single P-1 executes; requires PF-15 endpoint/local-state designation. Any failure or ambiguity stops before QE.",
+   "properties": {
+    "pf01_host": {
+     "description": "hostname equals the designated host.",
+     "source": "Host readiness packet PF-01",
+     "type": "string"
+    },
+    "pf02_os_edition": {
+     "description": "Windows edition as designated.",
+     "source": "Host readiness packet PF-02",
+     "type": "string"
+    },
+    "pf03_non_elevated": {
+     "description": "Administrator-role check False; account SID recorded.",
+     "source": "Host readiness packet PF-03",
+     "type": "string"
+    },
+    "pf04_platform_runtime": {
+     "description": "platform win32; Node >=22.13.0 <23; arch recorded.",
+     "source": "Host readiness packet PF-04",
+     "type": "string"
+    },
+    "pf05_sqlite": {
+     "description": "node:sqlite loads without experimental flag; output recorded.",
+     "source": "Host readiness packet PF-05",
+     "type": "string"
+    },
+    "pf06_no_runtime_switch": {
+     "description": "Same designated runtime; no install or switch evidence.",
+     "source": "Host readiness packet PF-06",
+     "type": "string"
+    },
+    "pf07_ipd_clean_tree": {
+     "description": "IPD commit/tree exactly the designated pin; no tracked changes.",
+     "source": "Host readiness packet PF-07",
+     "type": "string"
+    },
+    "pf08_irr_clean_tree": {
+     "description": "IRR commit/tree exactly the designated consumer pin; no tracked changes.",
+     "source": "Host readiness packet PF-08",
+     "type": "string"
+    },
+    "pf09_full_history": {
+     "description": "git rev-parse --is-shallow-repository is false.",
+     "source": "Host readiness packet PF-09",
+     "type": "string"
+    },
+    "pf10_no_enabling_flags": {
+     "description": "IIPS_G3_IPC_BINDING_PROVISIONED, IIPS_ENABLE_WRITES, IIPS_G3_ENABLE_WRITES, GATE_E_OVERRIDE all absent.",
+     "source": "Host readiness packet PF-10",
+     "type": "string"
+    },
+    "pf11_store_syntax": {
+     "description": "Store path absolute, outside every worktree, local fixed NTFS, not synchronized, operator-writable without elevation.",
+     "source": "Host readiness packet PF-11",
+     "type": "string"
+    },
+    "pf12_store_state": {
+     "description": "Store existence state recorded verbatim as applicable to the ordered step (absent before P-1; provisioned store verified after).",
+     "source": "Host readiness packet PF-12; Gate A-prime successor act section 8",
+     "type": "string"
+    },
+    "pf13_parent_location": {
+     "description": "Parent exists, local fixed NTFS, not cloud-synced or network.",
+     "source": "Host readiness packet PF-13",
+     "type": "string"
+    },
+    "pf14_evidence_root": {
+     "description": "Evidence root designated outside every worktree; absolute, writable, not the store path, not synchronized.",
+     "source": "Host readiness packet PF-14",
+     "type": "string"
+    },
+    "pf15_endpoint_state": {
+     "description": "PA-designated IPC endpoint / local-state directory. NOT DESIGNATED today; S3 and QE stop here until named.",
+     "source": "Host readiness packet PF-15; H-12 R5 adoption act section 7.2",
+     "type": "string"
+    },
+    "pf16_authority_text": {
+     "description": "Rendered acts confirmed: exact Act IDs, pins, store, order, adoption digest; no placeholder accepted.",
+     "source": "Host readiness packet PF-16",
+     "type": "string"
+    },
+    "pf17_p1_unspent": {
+     "description": "P-1 execution unspent per the PA consumption register; any prior attempt or failure requires a fresh act.",
+     "source": "Host readiness packet PF-17; Gate A-prime successor act section 9",
+     "type": "string"
+    },
+    "status": {
+     "description": "NOT REACHED until S2 passes, the single P-1 executes, and PF-15 is designated.",
+     "source": "S2 blocker records section 4; H-12 R5 adoption act section 7.2",
+     "type": "string"
+    }
+   },
+   "required": [
+    "status",
+    "pf01_host",
+    "pf02_os_edition",
+    "pf03_non_elevated",
+    "pf04_platform_runtime",
+    "pf05_sqlite",
+    "pf06_no_runtime_switch",
+    "pf07_ipd_clean_tree",
+    "pf08_irr_clean_tree",
+    "pf09_full_history",
+    "pf10_no_enabling_flags",
+    "pf11_store_syntax",
+    "pf12_store_state",
+    "pf13_parent_location",
+    "pf14_evidence_root",
+    "pf15_endpoint_state",
+    "pf16_authority_text",
+    "pf17_p1_unspent"
+   ],
+   "source": "Host readiness packet section 2 (IPD blob 9d9c5970f66b1c901a2b5d28c02e8c9562078cf2); H-12 R5 adoption act section 7.2",
+   "type": "object"
+  },
+  "schema_id": {
+   "description": "This template's own identifier. Template status only; not an effective-act ID.",
+   "source": "This prepared record; census-checked at publication",
+   "type": "string"
+  },
+  "sequencing": {
+   "description": "Effective ordered sequence. Vocabulary note: Gate 4 act section 6 labels provisioning S1 and Limb A S2; the current operational sequence below (S2 host verification, then single P-1, then S3 preflight, then QE) follows the later effective sequencing in the H-12 R5 adoption act and DQ-4 criterion 7.",
+   "source": "H-12 R5 adoption act section 7.2; DQ-4 freeze manifest criterion 7; Gate 4 act section 6 as amended by later sequencing",
+   "type": "string"
+  },
+  "u4_acceptance": {
+   "description": "U4 result acceptance is a separate PA act after the run; it is never part of a run record. No run, commit, CI result or merged PR is acceptance.",
+   "source": "Gate 4 act sections 6 (S6), 14; Gate E W-1(3)",
+   "type": "string"
+  }
+ },
+ "required": [
+  "schema_id",
+  "record_id",
+  "run_id",
+  "sequencing",
+  "host",
+  "runtime",
+  "pins",
+  "h12",
+  "s1_identity_values",
+  "s2_host_verification",
+  "p1_provisioning",
+  "s3_preflight",
+  "qe",
+  "evidence_deposit",
+  "u4_acceptance",
+  "non_grants_acknowledged"
+ ],
+ "source": "Gate 4 act Q8/Q10/Q11/Q12 evidence, failure, durability and executor rules (IPD blob 66b56fd1584890525a7250aadd7da449def621e5); Gate A-prime successor act sections 6/8/9 (IPD blob 528de6aeddbc8e5f3191be8792f3937d77de4037)",
+ "title": "CAP-02 Gate 4 QE run-evidence manifest (prepared template)",
+ "type": "object"
+}

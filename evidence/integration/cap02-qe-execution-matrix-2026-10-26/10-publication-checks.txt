@@ -1,0 +1,21 @@
+CAP-02 QE execution-matrix pass — IRR publication checks (2026-10-26, UTC)
+Working directory: frontend/. Linux sandbox checks only; explicitly NOT S2, NOT QE, NOT host,
+NOT provisioning, NOT acceptance evidence. No manifest or lockfile change (git status clean for
+frontend/package.json and frontend/package-lock.json after install).
+
+1. npm ci --no-audit --no-fund
+   exit 1 — npm error code UNABLE_TO_VERIFY_LEAF_SIGNATURE requesting
+   https://codeload.github.com/ramkivs/iips-production-market-data/tar.gz/8eec74ae27cda09f3c368b9c299895eae41554db
+   (sandbox CA interception of the pinned GitHub archive; same failure class as §16.125.4).
+   Retained as the initial failure; not represented as a pass.
+2. npm ci --no-audit --no-fund --strict-ssl=false   [sandbox-only documented retry]
+   exit 0 — added 190 packages. No package.json / package-lock.json modification.
+3. npm run typecheck            : exit 0 (tsc --noEmit)
+4. npm run typecheck:replay-server : exit 0 (tsc -p tsconfig.replay-server.json --noEmit)
+5. npm run test:ci              : exit 0 — Test Files 106 passed (106); Tests 1350 passed (1350);
+   Duration ~102.63s. (Pre-existing SQLite/React test warnings non-fatal, as in prior passes.)
+6. node .ci/assert-tests.js .vitest-report.json : assert-tests: OK — 106 test file(s), 1350 test(s), 0 failed
+7. npm run build                : exit 0 — 142 modules transformed; built in ~3.73s.
+   (One pre-existing large-chunk size warning; non-fatal, as in prior passes.)
+
+Result: all CI-equivalent checks PASS. Ordinary IRR publication hygiene only.

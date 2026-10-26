@@ -1,0 +1,31 @@
+CAP-02 QE execution-matrix pass — qualified-surface drift check (2026-10-26, UTC)
+Question: have the adopted H-12 R5 pins drifted on either live main since adoption?
+Method: GitHub Compare API over the exact pin-to-tip ranges (read-only), full file lists.
+
+IPD range: 8eec74ae27cda09f3c368b9c299895eae41554db ... f5eddbc20b944a098a9060a8e3349c6d10b7843e
+  status=ahead, ahead_by=8, behind_by=0 (pin is a full-history ancestor of live main)
+  changed files (33/33 under evidence/cross-repository/):
+    IIPS_V3_CAP02_IPD_EXECUTION_TRACKER_2026-10-23.md
+    IIPS_V3_CAP03_DQ6B_DECISION_MIRROR_RECEIPT_2026-10-25.md
+    IIPS_V3_CAP03_G4_H12_R5_ADOPTION_IPD_MIRROR_RECEIPT_2026-10-25.md
+    IIPS_V3_CAP03_S2_HOST_PRECONDITION_BLOCKER_2026-10-25.md
+    cap03_dq6b_2026-10-25_ipd_mirror/ x17 (00,01,02,10,11,12,13,14,15,20,21,22 + SHA256SUMS)
+    cap03_h12r5_2026-10-25_adoption_mirror/ x14 (00,01,02,10,11,12,13,20,30,40,41,42,43,50,51 + SHA256SUMS)
+  source/test/script/package/CI/migration/protocol/route/fence/pin paths changed: 0
+  => 32/32 IPD core H-12 entries, 1/1 conditional helper, 7/7 post-G3 CAP-02 entries (S-1..S-7),
+     10/10 re-measured G3 anchors: UNCHANGED at live main. Qualified-surface drift: 0 files.
+
+IRR range: ba64b2d5927c2f872560710cf1474c25a5cde0d5 ... c7fc7e40e400ab018562b58c2b3b849be298baeb
+  status=ahead, ahead_by=20, behind_by=0 (consumer pin is an ancestor of live main)
+  changed files (47/47): master tracker (1), docs/integration (10: R5 manifest + validation,
+    CAP-02 reconciliation, DQ-4 freeze manifest, DQ-6b decision + prepared mirror receipt,
+    H-12 R5 adoption act + prepared IPD mirror receipt, CAP-03 S2 recovery blocker),
+    evidence/integration cap03-dq6b-path-a (19), cap03-h12-r5-adoption (12), cap03-s2-host-recovery (5)
+  frontend/ paths changed: 0  => 24/24 IRR H-12 consumer entries UNCHANGED at live main;
+  fence blobs (51704c12..., cb8db45d..., 98147054...) untouched; broker-import guard test untouched.
+  => Qualified-surface drift: 0 files.
+
+Conclusion: the adopted H-12 R5 baseline (IPD 8eec74ae/tree 4eba2902 + IRR ba64b2d5/tree 5e4262f1,
+manifest blob f4649e36/SHA d0be8bef, supplement blob 6c777de6/SHA 87442b0a) remains VALID at both
+live mains. No re-pin, no re-validation failure, no re-adoption trigger. CAP-02 U3 still references
+the same exact pins recorded in §16.125.3; no CAP-02 S2/QE evidence exists at any commit.

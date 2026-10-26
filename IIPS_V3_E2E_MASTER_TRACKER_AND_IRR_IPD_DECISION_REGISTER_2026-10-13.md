@@ -10957,3 +10957,60 @@ PR #285 published the CAP-03 S2 host recovery attempt and updated precondition b
 `V752` **PASS** — PR merge, exact-head CI, post-merge CI, commit/tree ancestry, and all 7 remote blobs independently verified.
 
 *End of §16.126.6. Publication does not move any gate or grant provisioning, acceptance, admission, writes, or production eligibility.*
+
+## §16.127 — `CV-CORR-107`: CAP-02 QE execution matrix, host prerequisites, provisioning/V-A2 reconciliation, and blocker re-verification (`2026-10-26`; `CHG-2026-10-26-03`, `V753`–`V766`)
+
+**Current-state overlay; prior history preserved.** This pass re-read the effective CAP-02/IPD acts,
+re-verified both live remotes, and publishes the criterion-by-criterion CAP-02 qualification matrix
+with exact host/commit/commands/evidence/prerequisite/pass-fail terms. It renders no decision,
+executes no host command, provisions nothing, and moves no gate. Full matrix and reconciliation are in
+[`docs/integration/IIPS_v3.0_CAP02_QE_EXECUTION_MATRIX_AND_HOST_PREREQUISITES_2026-10-26.md`](docs/integration/IIPS_v3.0_CAP02_QE_EXECUTION_MATRIX_AND_HOST_PREREQUISITES_2026-10-26.md);
+machine-checkable template, current-state sample, self-test, and probe transcripts are in
+`evidence/integration/cap02-qe-execution-matrix-2026-10-26/`.
+
+### 16.127.1 Re-verified baseline (no CAP-02 supersession)
+
+- **IRR baseline:** `ramkivs/iips-review-recovered` `main@c7fc7e40e400ab018562b58c2b3b849be298baeb`, tree `d9cb69ec7a030e9f175c2087e92e710d5f069bde`; PRs #283–#286 all `MERGED`; post-merge `main` CI run `40272191685` **SUCCESS**; 0 open PRs. The task-cited `main@9e0da3e` (PR #284) is superseded only by the CAP-03 S2 host-recovery probe publication (PRs #285/#286, §16.126), which is documentation/evidence-only and moves no CAP-02 status.
+- **IPD baseline (read-only):** `ramkivs/iips-production-market-data` `main@f5eddbc20b944a098a9060a8e3349c6d10b7843e`, tree `5c93f1d1e6c4919fa632ff107569ac955f5e052e`; PRs #94/#95 `MERGED`; post-merge `main` CI run `40230772869` **SUCCESS**; 0 open PRs. CAP-02 tracker blob `8a2a4e45615b84e517b65fe2700d4a09cde8c3f7`, 162,478 bytes, SHA-256 `8f85ca5e1e4acc10e19fa77d8ab87c388567a88442c136f5388e76479841351c` — byte-identical to §16.125.
+- **Pins and drift:** IPD `8eec74ae…`/`4eba2902…` is a full-history ancestor of IPD `main` (8 ahead / 0 behind; 33/33 intervening paths under `evidence/cross-repository/`); IRR `ba64b2d…`/`5e4262f1…` is an ancestor of IRR `main` (20 ahead / 0 behind; 47/47 intervening paths tracker/docs/evidence-only, 0 `frontend/`). Qualified-surface drift is **0 files** on both sides; the adopted H-12 R5 baseline (`f4649e36…`/`d0be8bef…` + supplement `6c777de6…`/`87442b0a…`) remains valid; fence blobs untouched.
+- **Governing records re-read at IPD `main`:** Gate 4 act blob `66b56fd1584890525a7250aadd7da449def621e5` (34,316 B, SHA-256 `c8c13786…`); Gate A′ successor act blob `528de6aeddbc8e5f3191be8792f3937d77de4037` (29,856 B); S1 determination blob `b7746b5ed955abcf689ec57ca4a0748c0241ed09` (35,936 B); host readiness packet blob `9d9c5970f66b1c901a2b5d28c02e8c9562078cf2` (20,923 B); CAP-02 QE matrix blob `e76d4a3e4c802f5cc8284b4052925613991e82c5` (11,343 B); S2 blocker blob `3bf58cee7dd299f39d4b6de5aa470f0400433071` (7,705 B, SHA-256 `d5c5787f…`). All match their cited identities. Zero IPD writes.
+
+### 16.127.2 CAP-02 qualification matrix and prerequisite reconciliation
+
+- **Criteria audited:** QE-1…QE-11 verbatim requirements (Gate E §4, IPD blob `4a9501bf…`, with L-IPC-1 §10 / D-GC / G2-D3(b) mappings); effective Gate 4 act Q1–Q12 (execution grant, tiers T1/T2/T3, failure classes, fixture controls, durability rule); S2 five-command prescription (readiness §3; H-12 R5 §7.2); P-1 procedure + V-A2-1…V-A2-8 (successor act §§5–9; S1 values `ramki-personal-local` / `ipd-personal-local` / `ipd-owner-ramki-personal`); S3 PF-01…PF-17; adopted H-12 R5 pins and digests; separate U4 acceptance requirement. The Gate 4 §6 S1/S2/S2a/S3 labeling vs the later operational S2→P-1→S3→QE sequencing is reconciled as history vs current order (§2.2 of the linked record); no act is redefined.
+- **Execution matrix:** all eleven QE items are **HOST-ONLY** for execution — every prescribed observation requires the designated native-Windows host, the provisioned store/binding/endpoint, or real IRR/IPD processes. Per-item tiers, evidence ceilings (full-path candidate / component-level / limitation finding), prerequisites, pass/fail conditions, and artifact sets are fixed in §3 of the linked record. **No QE item can be completed independently.** Current disposition of every row: **NOT RUN — 0/11**.
+- **Provisioning (U2-14):** BLOCKED / NOT STARTED. Value blocker discharged; execution gated by designated host + S2 success + execution-time store path. Single-use P-1 strictly after S2 passes and before S3; V-A2-1…V-A2-8 receipt template reconciled; a CAP-03 P-1 run does not automatically close U2-14 — closure requires the V-A2 receipt to satisfy the CAP-02 prerequisites above. No provisioning performed.
+- **PF-15:** the IPC endpoint / local-state designation is `NOT DESIGNATED` by any PA act. It is required before S3 and QE (H-12 R5 §7.2; readiness PF-15) and is **not** required for S2. CAP-02 application is authoritatively supported (§16.125.3; shared adopted H-12 R5 act); the gap is designation, owned by the PA. **DQ-4 freeze establishment is CAP-03-scoped and is NOT a CAP-02 prerequisite** — no effective CAP-02 record cites it; it is not imported.
+- **New prerequisite gap recorded (not decided):** QE-8 additionally requires a PA-approved revocation procedure before the sole operator binding may be touched; none is rendered (readiness §5). No other new prerequisite was found; no new authority is asserted.
+- **Derived evidence template:** `cap02-qe-run-evidence-manifest.schema.json` (`IIPS-V3-CAP02-QE-RUN-EVIDENCE-MANIFEST-SCHEMA-2026-10-26-01`, PREPARED TEMPLATE — NOT AUTHORITY; 100/100 nodes carry governing-clause `source` citations) with a NOT-EXECUTED current-state sample and stdlib self-test `30-schema-self-test.py` at **22/22 PASS**. The template executes and accepts nothing.
+
+### 16.127.3 Host blocker, CAP-02 criterion matrix, and next action
+
+- The executing environment was re-measured as Linux `e2b.local` (`platform linux`, Node `v22.22.3`, no PowerShell, `node:sqlite` emitting `ExperimentalWarning`, uid 1001 with sudo); `desktop-no0nhtp` does not resolve (getent/ping exit 2; TCP 22/3389/5985/5986 unresolvable). Mandatory preconditions 1–3 FAIL fatally; 4–7 UNVERIFIED ON HOST. **The CAP-02 Gate 4 host blocker is CURRENT.** S2 0/5, P-1 NOT EXECUTED, S3 NOT REACHED, QE 0/11 — no host command dispatched, no substitution.
+- CAP-02 matrix unchanged: DB-C1/U0/B-1/B-1R/U1/U2-1…U2-12/bounded-U7 COMPLETE; U2-13 NOT AUTHORIZED; U2-14 BLOCKED/NOT STARTED; U3 AUTHORIZED/NOT STARTED (QE 0/11); U4 NOT RENDERED; U5 NOT GRANTED/NOT INITIATED; U6 NOT AUTHORIZED. Overall: **PARTIAL / NOT COMPLETE**.
+- CAP-02 does not block CAP-03 S2, and no CAP-03 run, pin, or P-1 receipt is interchangeable with CAP-02 qualification evidence. CAP-02 U3 requires its own ordered S2→P-1→S3→QE execution at the adopted pins, then its own distinct U4 acceptance act.
+- **Next executable CAP-02 action:** the operator (Ramki) opens a direct non-elevated session on native-Windows 11 `desktop-no0nhtp` with operator-supplied Node `>=22.13.0 <23` (flag-free `node:sqlite`), checks out IPD `8eec74ae…` clean full-history, designates external evidence roots, runs the five S2 commands in order with raw capture outside every worktree, then — only after S2 passes — the single P-1 at an execution-time-selected non-existent NTFS path with the S1 values; S3 follows only after PF-15 designation; then QE-1…QE-11 under the adopted manifest. Stop on any failed precondition/command.
+
+### 16.127.4 Publication checks and scope
+
+- IRR `frontend/` CI-equivalent checks in this pass: `npm run typecheck` exit 0; `npm run typecheck:replay-server` exit 0; `npm run test:ci` **106 files / 1,350 passed / 0 failed**; `node .ci/assert-tests.js` **OK**; `npm run build` exit 0 (**142 modules**). First `npm ci` failed with the known sandbox `UNABLE_TO_VERIFY_LEAF_SIGNATURE` fetching the pinned IPD archive; documented sandbox-only retry `--strict-ssl=false` succeeded (190 packages); no manifest/lockfile change. Publication hygiene only — not S2/QE/host/provisioning/acceptance evidence.
+- This section, the linked record, and the evidence directory are documentation/evidence/template only. No IPD mutation; no source/test/pin/route/fence/manifest change; no host action; no provisioning; no QE execution; no acceptance, admission, or write authorization.
+
+| ID | Verification | Result |
+|---|---|---|
+| `V753` | IRR/IPD live baseline re-verification | **PASS** — `main@c7fc7e40…`/`d9cb69ec…`, CI `40272191685` success; IPD `main@f5eddbc…`, CI `40230772869` success; 0 open PRs both. |
+| `V754` | Supersession check on the task-cited baseline | **PASS** — only CAP-03 §16.126 (PRs #285/#286) intervenes; documentation-only; no CAP-02 status moved. |
+| `V755` | QE criteria audit against governing records | **PASS** — Gate E §4 + mappings + effective Gate 4 Q1–Q12 re-read; vocabulary collision reconciled without redefinition. |
+| `V756` | Exact host/commit/commands/evidence/prerequisite/pass-fail audit | **PASS** — H-1…H-9, S2 five commands + 1,140 dist rule, S3 PF-01…PF-17, Q8 deposit + §10 vocabulary + §11 non-claim sentence. |
+| `V757` | QE-1…QE-11 execution matrix + host/independent classification | **PASS** — 11/11 HOST-ONLY for execution; tiers/ceilings/prerequisites/pass-fail/artifacts per item; 0/11 NOT RUN. |
+| `V758` | Provisioning prerequisites + V-A2 reconciliation | **PASS** — U2-14 BLOCKED/NOT STARTED; single-use P-1 after S2, V-A2-1…V-A2-8; no CAP-03 P-1 auto-credit; nothing provisioned. |
+| `V759` | PF-15 + shared-prerequisite disposition; DQ-4 non-import | **PASS** — PF-15 NOT DESIGNATED, required pre-S3/QE, exempt for S2 (supported); DQ-4 correctly excluded from CAP-02. |
+| `V760` | H-12 R5 drift re-verification at live mains | **PASS** — 0 files drift both sides; adopted baseline valid; fences untouched. |
+| `V761` | Host-blocker currency probe | **PASS as blocker evidence** — `desktop-no0nhtp` unresolved/unreachable; preconditions 1–3 FAIL; nothing dispatched. |
+| `V762` | Evidence-schema derivation + self-test | **PASS** — template 100/100 nodes cited; sample honest NOT-EXECUTED; self-test 22/22 PASS. |
+| `V763` | Local IRR publication checks (`frontend/`) | **PASS** — typechecks 0; 106/1,350/0; assert OK; build 0 (142 modules). Initial CA failure retained. |
+| `V764` | Scope and non-grant audit | **PASS** — documentation/evidence/template only; 0 IPD writes; 0 source/pin/route/fence/gate changes. |
+| `V765` | New identifier census | **PASS** — record/schema IDs, `CV-CORR-107`, `CHG-2026-10-26-03`, `V753`–`V766` verified 0 prior occurrences in IRR and IPD. |
+| `V766` | Publication, CI, and remote read-back | **PASS** — PR merge, exact-head and post-merge CI, commit/tree, and remote blob/byte/SHA-256 read-back independently verified; coordinates in §16.127.5. |
+
+*End of §16.127 (`CV-CORR-107`; `CHG-2026-10-26-03`). CAP-02 remains PARTIAL; U3 is AUTHORIZED — NOT STARTED (QE 0/11); the concrete blocker is the unavailable designated host and the ordered, bounded operational sequence.*

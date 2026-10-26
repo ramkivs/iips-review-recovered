@@ -1,0 +1,28 @@
+CAP-02 QE execution-matrix pass — pre-rendering identifier census (2026-10-26, UTC)
+Method: recursive grep over the full IRR worktree (excluding .git) at the pre-publication base,
+plus recursive grep over the IPD main tarball (ramkivs-iips-production-market-data-f5eddbc,
+4,707,043 bytes) fetched read-only via the GitHub API. Zero IPD writes.
+
+Identifier                                              IRR hits   IPD hits
+IIPS-V3-CAP02-QE-EXECUTION-MATRIX-2026-10-26-01            0          0
+IIPS-V3-CAP02-QE-RUN-EVIDENCE-MANIFEST-SCHEMA-2026-10-26-01  0          0
+CV-CORR-107                                                0          0
+CHG-2026-10-26-03                                          0          0
+V753                                                       0          0
+V754                                                       0          0
+V755                                                       0          0
+V756                                                       0          0
+V757                                                       0          0
+V758                                                       0          0
+V759                                                       0          0
+V760                                                       0          0
+V761                                                       0          0
+V762                                                       0          0
+V763                                                       0          0
+V764                                                       0          0
+V765                                                       0          0
+V766                                                       0          0
+§16.127 (tracker section under construction)               0          0
+
+Result: 0 prior occurrences for every allocated identifier in both repositories.
+Allocation is collision-free at publication time.

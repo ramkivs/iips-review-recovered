@@ -1,0 +1,61 @@
+CAP-02 QE execution-matrix pass — remote state and ancestry (2026-10-26, UTC)
+Captured live via gh API (Contents/Commits/Pulls/Actions/Compare). IPD read-only; zero IPD writes.
+
+IRR ramkivs/iips-review-recovered
+  refs/heads/main : c7fc7e40e400ab018562b58c2b3b849be298baeb
+  main tree       : d9cb69ec7a030e9f175c2087e92e710d5f069bde
+  post-merge main CI (push): run 40272191685 / status completed / conclusion success (at c7fc7e40)
+  prior main CI  : 40271774300 success (f72568c8), 40270979172 success (9e0da3ee),
+                   40270599473 success (376a1639), 40232630312 success (5956f310)
+  PR #283 : MERGED 2026-10-26T04:44:20Z as 376a1639dc5566c66ebfb44eb87ce6561ef8d884 (head e5222167)
+  PR #284 : MERGED 2026-10-26T04:48:48Z as 9e0da3eec97cc9ef21714bdf36ea57f1f6deb27a (head 13a81e7f)
+  PR #285 : MERGED 2026-10-26T04:58:19Z as f72568c8e1735ab30baf918e10ff5bee6e9c4def (head 2097bd2a)
+  PR #286 : MERGED 2026-10-26T05:03:06Z as c7fc7e40e400ab018562b58c2b3b849be298baeb (head bb33305a)
+  open PRs: 0
+
+IPD ramkivs/iips-production-market-data (read-only)
+  refs/heads/main : f5eddbc20b944a098a9060a8e3349c6d10b7843e
+  main tree       : 5c93f1d1e6c4919fa632ff107569ac955f5e052e
+  post-merge main CI (push): run 40230772869 / completed / success (at f5eddbc2)
+  prior main CI  : 40230541846 success (9efbf83a), 40225262938 success (c6b540af)
+  PR #94 : MERGED 2026-10-25T20:23:30Z as 9efbf83a74297d54dc392fa60efcd966ca52d486 (head cddee591)
+  PR #95 : MERGED 2026-10-25T20:26:25Z as f5eddbc20b944a098a9060a8e3349c6d10b7843e (head 6581d6e9)
+  open PRs: 0
+  CAP-02 tracker at main: evidence/cross-repository/IIPS_V3_CAP02_IPD_EXECUTION_TRACKER_2026-10-23.md
+    blob 8a2a4e45615b84e517b65fe2700d4a09cde8c3f7, 162,478 bytes,
+    SHA-256 8f85ca5e1e4acc10e19fa77d8ab87c388567a88442c136f5388e76479841351c (MATCH to §16.125)
+
+Governing IPD records re-read at IPD main (blob id + size + SHA-256 verified)
+  Gate 4 act           IIPS_V3_CAP02_GATE4_TARGET_HOST_QUALIFICATION_ACT_EFFECTIVE_2026-10-23.md
+                       blob 66b56fd1584890525a7250aadd7da449def621e5, 34,316 B,
+                       SHA-256 c8c1378622657a320f14f34c008bb27fde2acaf57acc9a73a3489ea6be57c7b6
+  Gate A' successor    IIPS_V3_CAP02_GATE_A_PRIME_SUCCESSOR_PROVISIONING_ACT_EFFECTIVE_2026-10-23.md
+                       blob 528de6aeddbc8e5f3191be8792f3937d77de4037, 29,856 B,
+                       SHA-256 df8e44f704814e2321b5134206b04f25097830bdc5dd53c4d907d1256e4c788d
+  S1 determination     IIPS_V3_CAP02_S1_IDENTITY_VALUE_DETERMINATION_EFFECTIVE_2026-10-24.md
+                       blob b7746b5ed955abcf689ec57ca4a0748c0241ed09, 35,936 B,
+                       SHA-256 554741c70e3a24a794be297f463707894c4ce7e0e2a4f5aad0c97dd6b3c5f12c
+  Host readiness pkt   IIPS_V3_CAP03_HOST_READINESS_PACKET_2026-10-24.md
+                       blob 9d9c5970f66b1c901a2b5d28c02e8c9562078cf2, 20,923 B,
+                       SHA-256 1ea2637f29a0c42497a0ef2232514b977147131afebfa6f557295b4706a90360
+  CAP-02 QE matrix     IIPS_V3_CAP02_QE1_QE11_EXECUTION_STATUS_MATRIX_2026-10-23.md
+                       blob e76d4a3e4c802f5cc8284b4052925613991e82c5, 11,343 B,
+                       SHA-256 4ce874290d39f29f26444de85ffe6e52cc1d75cc323b6733501fa0abe70a19e1
+  S2 blocker (IPD)     IIPS_V3_CAP03_S2_HOST_PRECONDITION_BLOCKER_2026-10-25.md
+                       blob 3bf58cee7dd299f39d4b6de5aa470f0400433071, 7,705 B,
+                       SHA-256 d5c5787f6d99681d8297db170098118e8b5d09608f3b0212074da88388778e09
+
+Ancestry (Compare API; pins are named commits, not "current main")
+  IPD 8eec74ae27cda09f3c368b9c299895eae41554db ... f5eddbc20b944a098a9060a8e3349c6d10b7843e
+    status ahead, ahead_by 8, behind_by 0  => designated pin is a full-history ancestor of live main
+    changed files: 33, ALL under evidence/cross-repository/ (DQ-6b mirror set, H-12 R5 adoption
+    mirror set incl. S2 blocker, tracker) => 0 qualified-surface drift
+  IRR ba64b2d5927c2f872560710cf1474c25a5cde0d5 ... c7fc7e40e400ab018562b58c2b3b849be298baeb
+    status ahead, ahead_by 20, behind_by 0 => designated consumer pin is an ancestor of live main
+    changed files: 47, ALL tracker/docs/integration/evidence only (DQ-6b, H-12 R5 adoption,
+    CAP-02 reconciliation, CAP-03 S2 recovery) => 0 qualified-surface drift; 0 frontend/ paths
+
+Conclusion: the task-cited baseline (IRR main@9e0da3e + IPD main@f5eddbc) is superseded ONLY by the
+CAP-03 S2 host-recovery probe publication (IRR PRs #285/#286, tracker §16.126), which is
+documentation/evidence-only, preserves every downstream gate, and moves no CAP-02 status. IPD main
+is unchanged at f5eddbc. All §16.125 CAP-02 boundaries remain current.
