@@ -1,0 +1,33 @@
+Inspection UTC: 2026-10-26T09:15:33.853Z
+Node executable: C:\Users\USER\AppData\Local\nodejs22\node-v22.22.0-win-x64\node.exe
+npm launcher: C:\Users\USER\AppData\Local\nodejs22\node-v22.22.0-win-x64\npm.cmd
+Node version:
+v22.22.0
+npm.cmd contents:
+:: Created by npm, please don't edit manually.
+@ECHO OFF
+
+SETLOCAL
+
+SET "NODE_EXE=%~dp0\node.exe"
+IF NOT EXIST "%NODE_EXE%" (
+  SET "NODE_EXE=node"
+)
+
+SET "NPM_PREFIX_JS=%~dp0\node_modules\npm\bin\npm-prefix.js"
+SET "NPM_CLI_JS=%~dp0\node_modules\npm\bin\npm-cli.js"
+FOR /F "delims=" %%F IN ('CALL "%NODE_EXE%" "%NPM_PREFIX_JS%"') DO (
+  SET "NPM_PREFIX_NPM_CLI_JS=%%F\node_modules\npm\bin\npm-cli.js"
+)
+IF EXIST "%NPM_PREFIX_NPM_CLI_JS%" (
+  SET "NPM_CLI_JS=%NPM_PREFIX_NPM_CLI_JS%"
+)
+
+"%NODE_EXE%" "%NPM_CLI_JS%" %*
+
+
+Algorithm : SHA256
+Hash      : DFE173E85632895C4AAE972DACDFC9A33AEA512B51DCAB3C0F57A91555A1AE07
+Path      : C:\iips-evidence\cap03-s2\s2-node22-npm-launcher-inspection.txt
+
+

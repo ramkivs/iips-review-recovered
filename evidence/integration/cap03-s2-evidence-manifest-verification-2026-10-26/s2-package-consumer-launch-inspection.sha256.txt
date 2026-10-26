@@ -1,0 +1,2 @@
+Report: C:\iips-evidence\cap03-s2\s2-package-consumer-launch-inspection.txt
+SHA256: C377C0207AD2DB561D0B04FCACC26738F223C4588DA5486804C7359441E59CEB

@@ -1,0 +1,42 @@
+CAP-03 corrected-candidate authoritative publication
+Run ID: 20261026T100850Z
+Evidence root: C:\iips-evidence\cap03-s2
+Candidate patch record SHA256: BC38B5852381970669E5AD26907C12CF844816EB4E9CCC4B89E313E61DE20B02
+Package-consumer result SHA256: 9F7C64073A849E57D472C9CA30BB7616D04D1951626E90587241D61A470A85B1
+Guarded-suite result SHA256: C5DDFFA24393AED2E391EF8A72E8BFF1F8ECD9576C4349E182B288785F1B2941
+Candidate publication log SHA256: 35061BC9D19511AEDB227896A6920F829192FB50D170118F0FB7693FE33C95A1
+Candidate publication summary SHA256: A07935EA0E0363E9DAB7FD94F10A4405F49D3B740F7378AA8D3F9F98EE6D88DC
+Candidate branch: work/cap03-s2-windows-esm-url
+Candidate commit: 001c3c80618f2ee1d40e9a90912237e1a06e7b58
+Candidate tree: 399fa44a5f1953c0f61b452420fefb5985426ef1
+Candidate parent: 8eec74ae27cda09f3c368b9c299895eae41554db
+Candidate origin: https://github.com/ramkivs/iips-production-market-data.git
+Candidate working-tree entries: 0
+Candidate commit changed files: scripts/verify-public-package.mjs, tests/portfolio_ui_package.test.ts
+IPD remote candidate commit: 001c3c80618f2ee1d40e9a90912237e1a06e7b58
+github.com
+  Γ£ô Logged in to github.com account ramkivs (keyring)
+  - Active account: true
+  - Git operations protocol: https
+  - Token: gho_************************************
+  - Token scopes: 'gist', 'read:org', 'repo', 'workflow'
+GitHub CLI authentication exit code: 0
+Current IPD main SHA: f5eddbc20b944a098a9060a8e3349c6d10b7843e
+https://github.com/ramkivs/iips-production-market-data/pull/96
+IPD PR creation exit code: 0
+no checks reported on the 'work/cap03-s2-windows-esm-url' branch
+IPD PR checks exit code: 1
+IPD PR remains pending or blocked by repository checks/protection. Do not treat main as updated yet.
+From https://github.com/ramkivs/iips-review-recovered
+ * branch            main       -> FETCH_HEAD
+IRR origin: https://github.com/ramkivs/iips-review-recovered.git
+IRR HEAD: 610a4bd0c9174db9e7b3fc2e89087a3e0d298574
+IRR origin/main: 610a4bd0c9174db9e7b3fc2e89087a3e0d298574
+IRR working-tree entries before repair: 1
+BLOCKED: tracker content before the incomplete §16.132 entry differs from origin/main.
+Final disposition: INCOMPLETE
+IPD correction merged: False
+IRR tracker merged: False
+IPD candidate commit: 001c3c80618f2ee1d40e9a90912237e1a06e7b58
+IPD candidate tree: 399fa44a5f1953c0f61b452420fefb5985426ef1
+Reconciliation log: C:\iips-evidence\cap03-s2\s2-authoritative-correction-20261026T100850Z.txt

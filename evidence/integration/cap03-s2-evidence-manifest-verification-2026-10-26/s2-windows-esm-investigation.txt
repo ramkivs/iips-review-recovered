@@ -1,0 +1,114 @@
+Investigation start UTC: 2026-10-26T09:28:32.6603837Z
+Repository: C:\iips-work\iips-production-market-data
+HEAD: 8eec74ae27cda09f3c368b9c299895eae41554db
+Tree: 743a284069d2d1eefd3cc36abdc889478f927961
+-encodedCommand
+dAByAGUAZQA=
+Working tree status entries: 0
+Scope: read-only investigation of captured Windows ESM URL failure
+Tests executed: NO
+
+=== PACKAGE SCRIPTS AND MODULE CONFIGURATION ===
+type: module
+exports: {"./portfolio-ui":{"types":"./dist/package/src/ui/portfolio_ui_package.d.ts","import":"./dist/package/src/ui/portfolio_ui_package.js"},"./pit":{"types":"./dist/package/src/pit/package.d.ts","import":"./dist/package/src/pit/package.js"},"./d114-non-production":{"types":"./dist/package/src/d114/non_production_package.d.ts","import":"./dist/package/src/d114/non_production_package.js"}}
+scripts: {
+  "build": "tsc && vite build && npm run build:portfolio-ui-package && npm run build:pit-package",
+  "build:tsc": "tsc",
+  "build:vite": "vite build",
+  "build:portfolio-ui-package": "tsc -p tsconfig.portfolio-ui-package.json",
+  "build:pit-package": "tsc -p tsconfig.pit-package.json",
+  "dev": "vite",
+  "test": "node scripts/run-tests.mjs",
+  "test:direct": "node --test --experimental-strip-types tests/*.test.ts",
+  "test:package-consumer": "npm run build:portfolio-ui-package && npm run build:pit-package && node scripts/verify-public-package.mjs",
+  "prepack": "npm run build:portfolio-ui-package && npm run build:pit-package",
+  "prepare": "npm run build:portfolio-ui-package && npm run build:pit-package"
+}
+
+=== TRACKED SOURCE MATCHES ===
+HEAD:tests/portfolio_ui_package.test.ts:16: *   T-PKG-4  the package manifest resolves to the built artifacts on disk, and the BUILT closure is
+HEAD:tests/portfolio_ui_package.test.ts:362: * T-PKG-4 ΓÇö the package manifest resolves to the built artifacts
+HEAD:tests/portfolio_ui_package.test.ts:365:describe('CAP-02 Increment A ΓÇö T-PKG-4: package manifest and built artifacts', () => {
+HEAD:tests/portfolio_ui_package.test.ts:401:    assert.ok(existsSync(builtEntry), `missing built entry point: ${relPath(builtEntry)} (run npm run build)`);
+HEAD:tests/portfolio_ui_package.test.ts:404:    assert.ok(built.includes('export'), 'the built entry point exports nothing');
+HEAD:tests/portfolio_ui_package.test.ts:418:  it('the built entry point loads and exposes the same public names', async () => {
+
+=== BUILT TEST AROUND FAILURE ===
+  326:     it('publishes only the built package directory', () => {
+  327:         assert.deepEqual(PACKAGE_JSON.files, ['dist/package']);
+  328:     });
+  329:     it('maps ./portfolio-ui to the emitted entry point for both runtime and types', () => {
+  330:         assert.equal(exportEntry?.import, './dist/package/src/ui/portfolio_ui_package.js');
+  331:         assert.equal(exportEntry?.types, './dist/package/src/ui/portfolio_ui_package.d.ts');
+  332:         assert.equal(relPath(builtEntry), 'dist/package/src/ui/portfolio_ui_package.js');
+  333:         assert.equal(relPath(builtTypes), 'dist/package/src/ui/portfolio_ui_package.d.ts');
+  334:     });
+  335:     it('has a build script that produces the package artifacts', () => {
+  336:         assert.equal(PACKAGE_JSON.scripts?.['build:portfolio-ui-package'], 'tsc -p tsconfig.portfolio-ui-package.json');
+  337:         assert.ok((PACKAGE_JSON.scripts?.build ?? '').includes('build:portfolio-ui-package'), 'the production build must emit the package artifacts the exports map points at');
+  338:     });
+  339:     it('the declared artifacts exist on disk after the build', () => {
+  340:         assert.ok(existsSync(builtEntry), `missing built entry point: ${relPath(builtEntry)} (run npm run build)`);
+  341:         assert.ok(existsSync(builtTypes), `missing built declarations: ${relPath(builtTypes)}`);
+  342:         const built = readFileSync(builtEntry, 'utf8');
+  343:         assert.ok(built.includes('export'), 'the built entry point exports nothing');
+  344:     });
+  345:     it('the BUILT import closure is browser-safe too', () => {
+  346:         const builtGraph = walkGraph(builtEntry, resolveBuiltSpecifier);
+  347:         assert.deepEqual(builtGraph.unresolved, [], 'the built closure has unresolved imports');
+  348:         const offenders = builtGraph.files.filter((file) => {
+  349:             if (PRIVILEGED_PREFIXES.some((prefix) => file.startsWith(prefix)))
+  350:                 return true;
+  351:             const source = readFileSync(resolve(REPO_ROOT, file), 'utf8');
+  352:             return /from\s*['"]node:|require\(\s*['"]node:/.test(source);
+  353:         });
+  354:         assert.deepEqual(offenders, [], 'the published artifact reaches a Node-only or privileged module');
+  355:     });
+  356:     it('the built entry point loads and exposes the same public names', async () => {
+  357:         const built = (await import(builtEntry));
+  358:         for (const name of REQUIRED_VALUE_EXPORTS) {
+  359:             assert.notEqual(built[name], undefined, `built artifact does not export ${name}`);
+  360:         }
+  361:         assert.equal(typeof built.BrokerImportModal, 'function');
+  362:     });
+  363: });
+  364: /* ================================================================== *
+  365:  * T-PKG-5 — privileged persistence internals are not exposed
+  366:  * ================================================================== */
+  367: describe('CAP-02 Increment A — T-PKG-5: no privileged persistence/IPC internals on the surface', () => {
+  368:     it('exposes none of the forbidden privileged symbols', () => {
+  369:         const surface = Object.keys(pkg);
+  370:         for (const name of FORBIDDEN_EXPORT_NAMES) {
+  371:             assert.ok(!surface.includes(name), `privileged symbol exposed: ${name}`);
+  372:         }
+  373:     });
+  374:     it('does not expose SQLite, migration, binding or wire-contract machinery by any name', () => {
+  375:         const surface = Object.keys(pkg);
+  376:         const suspicious = surface.filter((name) => /(^|_)(sqlite|SQLite|Database|Migration|migrations|Binding|binding|IPC|Ipc|dispatch|Dispatch)/.test(name));
+  377:         assert.deepEqual(suspicious, [], 'surface exposes persistence/IPC machinery');
+  378:     });
+  379:     it('the port declaration and the descriptor stay durability-honest', () => {
+  380:         const port = pkg.getDefaultPortfolioStorePort();
+  381:         assert.equal(port.durability, 'SESSION_ONLY');
+  382:         assert.equal(port.durable, false);
+  383:     });
+  384: });
+  385: /* ================================================================== *
+  386:  * T-PKG-6 — write denial untouched and unreachable from the browser surface
+  387:  * ================================================================== */
+  388: describe('CAP-02 Increment A — T-PKG-6: write denial unchanged', () => {
+  389:     it('the browser-facing surface cannot reach the IPC dispatch gate at all', () => {
+  390:         const graph = walkGraph(resolve(REPO_ROOT, ENTRY_SOURCE), resolveSourceSpecifier);
+  391:         for (const file of graph.files) {
+  392:             assert.ok(!file.startsWith('src/ipc/'), `browser closure reaches the IPC layer: ${file}`);
+  393:         }
+  394:     });
+  395:     it('the gate still refuses every write before mutation (source unchanged by this act)', () => {
+  396:         const dispatch = readFileSync(resolve(REPO_ROOT, 'src/ipc/dispatch.ts'), 'utf8');
+  397:         assert.ok(dispatch.includes("'WRITE_NOT_AUTHORIZED'"), 'the Gate E W-1 refusal is no longer present in the dispatch path');
+  398:         const gateIndex = dispatch.indexOf('IPC_WRITE_OPERATIONS as readonly string[]');
+  399:         assert.ok(gateIndex >= 0, 'the write-set gate is no longer present in the dispatch path');
+  400:         const gateBlock = dispatch.slice(gateIndex, gateIndex + 500);
+
+Investigation end UTC: 2026-10-26T09:28:33.4783424Z
+No tests run; no source or configuration files modified.

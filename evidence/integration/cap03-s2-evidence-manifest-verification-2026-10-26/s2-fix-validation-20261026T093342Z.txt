@@ -1,0 +1,76 @@
+Run ID: 20261026T093342Z
+Start UTC: 2026-10-26T09:33:43.4210391Z
+Fix worktree: C:\iips-work\iips-production-market-data-s2fix
+Original checkout: C:\iips-work\iips-production-market-data
+Branch: work/cap03-s2-windows-esm-url
+Base HEAD: 8eec74ae27cda09f3c368b9c299895eae41554db
+Base tree: 4eba29029f8d95cfe483e615a7047426b298ce50
+Node executable: C:\Users\USER\AppData\Local\nodejs22\node-v22.22.0-win-x64\node.exe
+Node version: v22.22.0
+Initial tracked change: tests/portfolio_ui_package.test.ts
+Original checkout verified unchanged.
+Original failed S2 evidence retained.
+
+STEP 01 : npm-ci
+Start UTC: 2026-10-26T09:33:43.4268853Z
+Executable: C:\Users\USER\AppData\Local\nodejs22\node-v22.22.0-win-x64\npm.cmd
+Arguments: ci --no-audit --no-fund
+End UTC: 2026-10-26T09:34:01.2509324Z
+Exit code: 0
+Log: C:\iips-evidence\cap03-s2\s2-fix-01-npm-ci.txt
+Log SHA256: F266BC6FFDF55A0E20BC33CD93B1A26270B882F2AA146AA179A3D2DCDBC95847
+
+STEP 02 : typecheck
+Start UTC: 2026-10-26T09:34:01.2942862Z
+Executable: C:\Users\USER\AppData\Local\nodejs22\node-v22.22.0-win-x64\npm.cmd
+Arguments: exec -- tsc --noEmit
+End UTC: 2026-10-26T09:34:15.7622843Z
+Exit code: 0
+Log: C:\iips-evidence\cap03-s2\s2-fix-02-typecheck.txt
+Log SHA256: 9399D928C35DD3DDA2E0932FFD0FDC39A6D0180147702E4FF51392A68E9DE4ED
+
+STEP 03 : build
+Start UTC: 2026-10-26T09:34:15.7862399Z
+Executable: C:\Users\USER\AppData\Local\nodejs22\node-v22.22.0-win-x64\npm.cmd
+Arguments: run build
+End UTC: 2026-10-26T09:34:43.1924723Z
+Exit code: 0
+Log: C:\iips-evidence\cap03-s2\s2-fix-03-build.txt
+Log SHA256: 87A2EACA50F4C9A9C9FE1016D6635006754A7D75F5038214B2676E2F72205ACE
+
+Built dist file count: 1140
+Dist inventory: C:\iips-evidence\cap03-s2\s2-fix-dist-inventory-20261026T093342Z.txt
+Dist inventory SHA256: 16F7C6956CC161475E9F79D6E036327233B884E28884AD0595A7A0655FBFD2C6
+STEP 04 : focused-package-test
+Start UTC: 2026-10-26T09:34:43.8189535Z
+Executable: C:\Users\USER\AppData\Local\nodejs22\node-v22.22.0-win-x64\node.exe
+Arguments: --test C:\iips-work\iips-production-market-data-s2fix\dist\tests\portfolio_ui_package.test.js
+End UTC: 2026-10-26T09:34:44.7570737Z
+Exit code: 0
+Log: C:\iips-evidence\cap03-s2\s2-fix-04-focused-package-test.txt
+Log SHA256: 302D7846FE86159EE51170769CB1331AF3C932C6EFEDD2385F3C9D7DE72B3AB3
+
+STEP 05 : guarded-npm-test
+Start UTC: 2026-10-26T09:34:44.7969466Z
+Executable: C:\Users\USER\AppData\Local\nodejs22\node-v22.22.0-win-x64\npm.cmd
+Arguments: test
+End UTC: 2026-10-26T09:35:04.4850157Z
+Exit code: 0
+Log: C:\iips-evidence\cap03-s2\s2-fix-05-guarded-npm-test.txt
+Log SHA256: 9D12A1B7272F5D2722FD6AE06EA3087B01F8E1ABBCD669EF0558E281A061591E
+
+STEP 06 : package-consumer
+Start UTC: 2026-10-26T09:35:04.5430534Z
+Executable: C:\Users\USER\AppData\Local\nodejs22\node-v22.22.0-win-x64\npm.cmd
+Arguments: run test:package-consumer
+End UTC: 2026-10-26T09:35:15.2272498Z
+Exit code: 1
+Log: C:\iips-evidence\cap03-s2\s2-fix-06-package-consumer.txt
+Log SHA256: ADE33E72405AA0DE1166479103F8ED48B8BD1763ADF4C83F0513E08B296B6B4C
+
+STOP: package-consumer failed; no subsequent command will execute.
+End UTC: 2026-10-26T09:35:15.3219843Z
+Overall validation passed: False
+Failure step: package-consumer
+Original S2 result remains FAILED/STOPPED; this is candidate-fix validation.
+No retries were performed.

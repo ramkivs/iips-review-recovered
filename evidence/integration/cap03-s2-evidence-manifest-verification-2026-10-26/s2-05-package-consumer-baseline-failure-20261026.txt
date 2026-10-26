@@ -1,0 +1,25 @@
+UTC: 2026-10-26T12:35:34.1527459Z
+REPOSITORY: C:\iips-work\iips-production-market-data
+EXPECTED COMMIT: 8eec74ae27cda09f3c368b9c299895eae41554db
+ACTUAL COMMIT: 8eec74ae27cda09f3c368b9c299895eae41554db
+COMMAND: npm run test:package-consumer
+
+> iips-production-market-data@1.0.0 test:package-consumer
+> npm run build:portfolio-ui-package && npm run build:pit-package && node scripts/verify-public-package.mjs
+
+
+> iips-production-market-data@1.0.0 build:portfolio-ui-package
+> tsc -p tsconfig.portfolio-ui-package.json
+
+
+> iips-production-market-data@1.0.0 build:pit-package
+> tsc -p tsconfig.pit-package.json
+
+[package-consumer] packing built artifacts
+[package-consumer] FAIL: Command failed (spawn error): npm.cmd pack --ignore-scripts --json --pack-destination C:\Users\USER\AppData\Local\Temp\ipd-cap02-public-package-ajiWXQ
+
+
+Error: spawnSync npm.cmd EINVAL
+[package-consumer] preserved temporary evidence: C:\Users\USER\AppData\Local\Temp\ipd-cap02-public-package-ajiWXQ
+EXIT CODE: 1
+COMPLETED UTC: 2026-10-26T12:35:44.0870501Z

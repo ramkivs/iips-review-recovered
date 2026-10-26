@@ -1,0 +1,22 @@
+S2 step 01 npm ci start UTC: 2026-10-26T09:15:34.195Z
+Node executable: C:\Users\USER\AppData\Local\nodejs22\node-v22.22.0-win-x64\node.exe
+npm launcher: C:\Users\USER\AppData\Local\nodejs22\node-v22.22.0-win-x64\npm.cmd
+Repository: C:\iips-work\iips-production-market-data
+Commit: 8eec74ae27cda09f3c368b9c299895eae41554db
+Tree: 4eba29029f8d95cfe483e615a7047426b298ce50
+
+> iips-production-market-data@1.0.0 prepare
+> npm run build:portfolio-ui-package && npm run build:pit-package
+
+
+> iips-production-market-data@1.0.0 build:portfolio-ui-package
+> tsc -p tsconfig.portfolio-ui-package.json
+
+
+> iips-production-market-data@1.0.0 build:pit-package
+> tsc -p tsconfig.pit-package.json
+
+
+added 31 packages in 42s
+S2 step 01 npm ci exit code: 0
+S2 step 01 npm ci end UTC: 2026-10-26T09:16:19.230Z

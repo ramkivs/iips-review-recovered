@@ -1,0 +1,102 @@
+Publication log SHA256: 35061BC9D19511AEDB227896A6920F829192FB50D170118F0FB7693FE33C95A1
+Publication summary SHA256: A07935EA0E0363E9DAB7FD94F10A4405F49D3B740F7378AA8D3F9F98EE6D88DC
+Candidate commit: 001c3c80618f2ee1d40e9a90912237e1a06e7b58
+Candidate tree: 399fa44a5f1953c0f61b452420fefb5985426ef1
+Recorded remote branch commit: 001c3c80618f2ee1d40e9a90912237e1a06e7b58
+IPD origin: https://github.com/ramkivs/iips-production-market-data.git
+IPD local HEAD: 001c3c80618f2ee1d40e9a90912237e1a06e7b58
+IPD local tree: 399fa44a5f1953c0f61b452420fefb5985426ef1
+IPD working-tree entries: 0
+IPD ls-remote exit code: 0
+IPD independently fetched remote branch commit: 001c3c80618f2ee1d40e9a90912237e1a06e7b58
+Published candidate changed-file count: 2
+Published candidate file: scripts/verify-public-package.mjs
+Published candidate file: tests/portfolio_ui_package.test.ts
+Cloning into 'C:\iips-work\iips-review-recovered-cap03-s2-tracker'...
+Updating files:  31% (561/1788)
+Updating files:  32% (573/1788)
+Updating files:  33% (591/1788)
+Updating files:  34% (608/1788)
+Updating files:  35% (626/1788)
+Updating files:  36% (644/1788)
+Updating files:  37% (662/1788)
+Updating files:  38% (680/1788)
+Updating files:  39% (698/1788)
+Updating files:  40% (716/1788)
+Updating files:  41% (734/1788)
+Updating files:  42% (751/1788)
+Updating files:  43% (769/1788)
+Updating files:  44% (787/1788)
+Updating files:  45% (805/1788)
+Updating files:  46% (823/1788)
+Updating files:  47% (841/1788)
+Updating files:  48% (859/1788)
+Updating files:  49% (877/1788)
+Updating files:  50% (894/1788)
+Updating files:  51% (912/1788)
+Updating files:  52% (930/1788)
+Updating files:  53% (948/1788)
+Updating files:  54% (966/1788)
+Updating files:  55% (984/1788)
+Updating files:  56% (1002/1788)
+Updating files:  57% (1020/1788)
+Updating files:  58% (1038/1788)
+Updating files:  58% (1039/1788)
+Updating files:  59% (1055/1788)
+Updating files:  60% (1073/1788)
+Updating files:  61% (1091/1788)
+Updating files:  62% (1109/1788)
+Updating files:  63% (1127/1788)
+Updating files:  64% (1145/1788)
+Updating files:  65% (1163/1788)
+Updating files:  66% (1181/1788)
+Updating files:  67% (1198/1788)
+Updating files:  68% (1216/1788)
+Updating files:  69% (1234/1788)
+Updating files:  70% (1252/1788)
+Updating files:  71% (1270/1788)
+Updating files:  72% (1288/1788)
+Updating files:  73% (1306/1788)
+Updating files:  74% (1324/1788)
+Updating files:  75% (1341/1788)
+Updating files:  76% (1359/1788)
+Updating files:  77% (1377/1788)
+Updating files:  78% (1395/1788)
+Updating files:  79% (1413/1788)
+Updating files:  80% (1431/1788)
+Updating files:  81% (1449/1788)
+Updating files:  82% (1467/1788)
+Updating files:  83% (1485/1788)
+Updating files:  84% (1502/1788)
+Updating files:  84% (1505/1788)
+Updating files:  85% (1520/1788)
+Updating files:  86% (1538/1788)
+Updating files:  87% (1556/1788)
+Updating files:  88% (1574/1788)
+Updating files:  89% (1592/1788)
+Updating files:  90% (1610/1788)
+Updating files:  91% (1628/1788)
+Updating files:  92% (1645/1788)
+Updating files:  93% (1663/1788)
+Updating files:  94% (1681/1788)
+Updating files:  95% (1699/1788)
+Updating files:  96% (1717/1788)
+Updating files:  97% (1735/1788)
+Updating files:  98% (1753/1788)
+Updating files:  99% (1771/1788)
+Updating files: 100% (1788/1788)
+Updating files: 100% (1788/1788), done.
+IRR clone exit code: 0
+From https://github.com/ramkivs/iips-review-recovered
+ * branch            main       -> FETCH_HEAD
+IRR fetch exit code: 0
+Fresh IRR origin/main: 610a4bd0c9174db9e7b3fc2e89087a3e0d298574
+IRR working-tree entries before update: 0
+IRR remote main SHA: 610a4bd0c9174db9e7b3fc2e89087a3e0d298574
+IRR remote HEAD SHA: 610a4bd0c9174db9e7b3fc2e89087a3e0d298574
+Latest existing section number: 131
+Latest section heading: ## §16.131 — `CV-CORR-111`: CAP-02 QE-8 `RV-1` Program Authority decision rendered EFFECTIVE — Option A (disposable-copy revocation); procedure approved, nothing executed (`2026-10-26`; `CHG-2026-10-26-08`, `V806`–`V811`)
+BLOCKED: candidate commit/tree missing from the updated tracker.
+Workflow log: C:\iips-evidence\cap03-s2\s2-tracker-reconciliation-20261026T100434Z.txt
+Workflow log SHA256: 4A968BB49B6EA4E8D959D4CD85236A895747EDEC55DC910E93806E977E4717B3
+Tracker update ready: False

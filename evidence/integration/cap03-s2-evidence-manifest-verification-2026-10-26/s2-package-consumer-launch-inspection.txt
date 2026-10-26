@@ -1,0 +1,696 @@
+Inspection UTC: 2026-10-26T09:37:43.9237783Z
+Repository: C:\iips-work\iips-production-market-data-s2fix
+HEAD: 8eec74ae27cda09f3c368b9c299895eae41554db
+Working-tree entries: 1
+Verifier: C:\iips-work\iips-production-market-data-s2fix\scripts\verify-public-package.mjs
+Action: read-only source inspection; no tests or package commands executed.
+
+=== CHILD PROCESS AND PACKAGE INVOCATION REFERENCES ===
+Line 2:
+#!/usr/bin/env node
+/** Pack -> isolated install -> runtime/declaration/browser-closure verification. */
+import { spawnSync } from 'node:child_process';
+import {
+  copyFileSync,
+  existsSync,
+  mkdirSync,
+  mkdtempSync,
+  readFileSync,
+---
+Line 3:
+#!/usr/bin/env node
+/** Pack -> isolated install -> runtime/declaration/browser-closure verification. */
+import { spawnSync } from 'node:child_process';
+import {
+  copyFileSync,
+  existsSync,
+  mkdirSync,
+  mkdtempSync,
+  readFileSync,
+  rmSync,
+---
+Line 19:
+import { dirname, isAbsolute, join, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { build as viteBuild } from 'vite';
+
+const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+const npm = process.platform === 'win32' ? 'npm.cmd' : 'npm';
+const expectedExports = ['./portfolio-ui', './pit', './d114-non-production'];
+const IRR_PIN = '98cd56a9a568f431ea31d5515e515a1b6cbb91ba';
+const IRR_IMPORTERS = [
+  'frontend/server/pit/ipdPitReadAdapter.ts',
+  'frontend/server/pit/nonProductionPitStore.ts',
+  'frontend/server/pit/nonProductionRuntimePitStore.ts',
+  'frontend/server/pit/pitD114RuntimeIntegration.test.ts',
+---
+Line 40:
+function check(condition, message) {
+  if (!condition) throw new Error(message);
+}
+
+function run(command, args, cwd) {
+  const result = spawnSync(command, args, {
+    cwd,
+    encoding: 'utf8',
+    maxBuffer: 32 * 1024 * 1024,
+    env: { ...process.env, NO_UPDATE_NOTIFIER: '1' },
+  });
+  if (result.error || result.status !== 0) {
+    throw new Error(
+---
+Line 56:
+  }
+  return result.stdout.trim();
+}
+
+/**
+ * Compile the five verbatim IRR package importers at the verified read-only
+ * commit. Only the unrelated IRR HTTP server/vitest dependencies are compile
+ * stubs; the three production composition modules and adapter are executed.
+ */
+function verifyActualIrrConsumers(consumer, temporary, tsc) {
+  let source = process.env.IPD_IRR_READONLY;
+  if (source) {
+    source = resolve(source);
+---
+Line 83:
+    copyFileSync(join(source, relative), destination);
+    check(readFileSync(destination, 'utf8') === readFileSync(join(source, relative), 'utf8'), `IRR copy differs: ${relative}`);
+  }
+
+  // Compile-only substitutes for unrelated IRR composition/test infrastructure.
+  // No IPD package import is stubbed or rewritten in any consumer file.
+  writeFileSync(join(irrRoot, 'frontend/server/executive-transport.ts'),
+    "import type { Server } from 'node:http';\nexport declare const server: Server;\n");
+  writeFileSync(join(irrRoot, 'frontend/server/pit-transport.ts'),
+    "export const PIT_MARKET_DATA_ROUTE = '/api/pit/market-data';\n");
+  writeFileSync(join(irrRoot, 'vitest.d.ts'), `
+declare module 'vitest' {
+  export const describe: (name: string, body: () => unknown) => void;
+---
+Line 115:
+  writeFileSync(join(consumer, 'tsconfig.irr.json'), JSON.stringify({
+    compilerOptions: { ...compilerOptions, noEmit: true },
+    files: [...allFiles, './irr/vitest.d.ts'],
+  }, null, 2));
+
+  console.log(`[package-consumer] compiling five verbatim IRR importers at ${IRR_PIN}`);
+  run(process.execPath, [tsc, '-p', join(consumer, 'tsconfig.irr.json'), '--pretty', 'false'], consumer);
+
+  const runtimeModules = IRR_IMPORTERS.filter((file) => !file.endsWith('.test.ts'));
+  writeFileSync(join(consumer, 'tsconfig.irr-runtime.json'), JSON.stringify({
+    compilerOptions: {
+      ...compilerOptions,
+      outDir: './compiled-irr',
+---
+Line 149:
+check(fixture.found && fixture.payload.lastTradedPrice === 518.9, 'verbatim IRR adapter did not preserve the fixture series');
+const invalid = await port.queryAsOf({ securityId: 'NOT-AN-ISIN', domain: 'D01_QUOTES', asOf: T3 });
+check(!invalid.found && invalid.reason === 'INVALID_IDENTITY', 'verbatim IRR adapter changed a typed miss');
+console.log(JSON.stringify({ result: 'PASS', fixtureRecords: 8, combinedRecords: 20, d114ResolvedAsOf: d114.resolvedAsOf, invalidReason: invalid.reason }));
+`);
+  console.log('[package-consumer] executing verbatim IRR production composition and adapter');
+  const runtime = JSON.parse(run(process.execPath, [join(consumer, 'irr-runtime.mjs')], consumer));
+  check(runtime.result === 'PASS', 'verbatim IRR runtime composition failed');
+  return {
+    sourceCommit: IRR_PIN,
+    importerFiles: IRR_IMPORTERS,
+    verbatimCopies: true,
+    packageImportsRewritten: false,
+---
+Line 156:
+  check(runtime.result === 'PASS', 'verbatim IRR runtime composition failed');
+  return {
+    sourceCommit: IRR_PIN,
+    importerFiles: IRR_IMPORTERS,
+    verbatimCopies: true,
+    packageImportsRewritten: false,
+    typecheck: 'PASS',
+    productionModuleRuntime: runtime,
+    routeIntegrationTests: 'TYPECHECK_ONLY_NOT_IRR_E2E',
+  };
+}
+
+const temporary = mkdtempSync(join(tmpdir(), 'ipd-cap02-public-package-'));
+---
+Line 163:
+    productionModuleRuntime: runtime,
+    routeIntegrationTests: 'TYPECHECK_ONLY_NOT_IRR_E2E',
+  };
+}
+
+const temporary = mkdtempSync(join(tmpdir(), 'ipd-cap02-public-package-'));
+let succeeded = false;
+try {
+  const manifest = JSON.parse(readFileSync(join(repoRoot, 'package.json'), 'utf8'));
+  check(JSON.stringify(Object.keys(manifest.exports ?? {})) === JSON.stringify(expectedExports), 'export map is not the exact authorized map');
+  for (const subpath of expectedExports) {
+    const entry = manifest.exports[subpath];
+    check(existsSync(join(repoRoot, entry.import)), `${subpath} runtime target is missing`);
+---
+Line 166:
+}
+
+const temporary = mkdtempSync(join(tmpdir(), 'ipd-cap02-public-package-'));
+let succeeded = false;
+try {
+  const manifest = JSON.parse(readFileSync(join(repoRoot, 'package.json'), 'utf8'));
+  check(JSON.stringify(Object.keys(manifest.exports ?? {})) === JSON.stringify(expectedExports), 'export map is not the exact authorized map');
+  for (const subpath of expectedExports) {
+    const entry = manifest.exports[subpath];
+    check(existsSync(join(repoRoot, entry.import)), `${subpath} runtime target is missing`);
+    check(existsSync(join(repoRoot, entry.types)), `${subpath} declaration target is missing`);
+  }
+
+---
+Line 174:
+    const entry = manifest.exports[subpath];
+    check(existsSync(join(repoRoot, entry.import)), `${subpath} runtime target is missing`);
+    check(existsSync(join(repoRoot, entry.types)), `${subpath} declaration target is missing`);
+  }
+
+  console.log('[package-consumer] packing built artifacts');
+  const packOutput = run(npm, ['pack', '--ignore-scripts', '--json', '--pack-destination', temporary], repoRoot);
+  const pack = JSON.parse(packOutput)[0];
+  check(pack && Array.isArray(pack.files), 'npm pack returned no inspectable file list');
+  for (const file of pack.files) {
+    check(file.path === 'package.json' || file.path.startsWith('dist/package/'), `unexpected packed file: ${file.path}`);
+  }
+  for (const subpath of expectedExports) {
+---
+Line 175:
+    check(existsSync(join(repoRoot, entry.import)), `${subpath} runtime target is missing`);
+    check(existsSync(join(repoRoot, entry.types)), `${subpath} declaration target is missing`);
+  }
+
+  console.log('[package-consumer] packing built artifacts');
+  const packOutput = run(npm, ['pack', '--ignore-scripts', '--json', '--pack-destination', temporary], repoRoot);
+  const pack = JSON.parse(packOutput)[0];
+  check(pack && Array.isArray(pack.files), 'npm pack returned no inspectable file list');
+  for (const file of pack.files) {
+    check(file.path === 'package.json' || file.path.startsWith('dist/package/'), `unexpected packed file: ${file.path}`);
+  }
+  for (const subpath of expectedExports) {
+    const entry = manifest.exports[subpath];
+---
+Line 176:
+    check(existsSync(join(repoRoot, entry.types)), `${subpath} declaration target is missing`);
+  }
+
+  console.log('[package-consumer] packing built artifacts');
+  const packOutput = run(npm, ['pack', '--ignore-scripts', '--json', '--pack-destination', temporary], repoRoot);
+  const pack = JSON.parse(packOutput)[0];
+  check(pack && Array.isArray(pack.files), 'npm pack returned no inspectable file list');
+  for (const file of pack.files) {
+    check(file.path === 'package.json' || file.path.startsWith('dist/package/'), `unexpected packed file: ${file.path}`);
+  }
+  for (const subpath of expectedExports) {
+    const entry = manifest.exports[subpath];
+    for (const target of [entry.import, entry.types]) {
+---
+Line 177:
+  }
+
+  console.log('[package-consumer] packing built artifacts');
+  const packOutput = run(npm, ['pack', '--ignore-scripts', '--json', '--pack-destination', temporary], repoRoot);
+  const pack = JSON.parse(packOutput)[0];
+  check(pack && Array.isArray(pack.files), 'npm pack returned no inspectable file list');
+  for (const file of pack.files) {
+    check(file.path === 'package.json' || file.path.startsWith('dist/package/'), `unexpected packed file: ${file.path}`);
+  }
+  for (const subpath of expectedExports) {
+    const entry = manifest.exports[subpath];
+    for (const target of [entry.import, entry.types]) {
+      const normalized = target.replace(/^\.\//, '');
+---
+Line 178:
+
+  console.log('[package-consumer] packing built artifacts');
+  const packOutput = run(npm, ['pack', '--ignore-scripts', '--json', '--pack-destination', temporary], repoRoot);
+  const pack = JSON.parse(packOutput)[0];
+  check(pack && Array.isArray(pack.files), 'npm pack returned no inspectable file list');
+  for (const file of pack.files) {
+    check(file.path === 'package.json' || file.path.startsWith('dist/package/'), `unexpected packed file: ${file.path}`);
+  }
+  for (const subpath of expectedExports) {
+    const entry = manifest.exports[subpath];
+    for (const target of [entry.import, entry.types]) {
+      const normalized = target.replace(/^\.\//, '');
+      check(pack.files.some((file) => file.path === normalized), `${subpath} target absent from pack: ${normalized}`);
+---
+Line 179:
+  console.log('[package-consumer] packing built artifacts');
+  const packOutput = run(npm, ['pack', '--ignore-scripts', '--json', '--pack-destination', temporary], repoRoot);
+  const pack = JSON.parse(packOutput)[0];
+  check(pack && Array.isArray(pack.files), 'npm pack returned no inspectable file list');
+  for (const file of pack.files) {
+    check(file.path === 'package.json' || file.path.startsWith('dist/package/'), `unexpected packed file: ${file.path}`);
+  }
+  for (const subpath of expectedExports) {
+    const entry = manifest.exports[subpath];
+    for (const target of [entry.import, entry.types]) {
+      const normalized = target.replace(/^\.\//, '');
+      check(pack.files.some((file) => file.path === normalized), `${subpath} target absent from pack: ${normalized}`);
+    }
+---
+Line 185:
+  }
+  for (const subpath of expectedExports) {
+    const entry = manifest.exports[subpath];
+    for (const target of [entry.import, entry.types]) {
+      const normalized = target.replace(/^\.\//, '');
+      check(pack.files.some((file) => file.path === normalized), `${subpath} target absent from pack: ${normalized}`);
+    }
+  }
+  const tarball = isAbsolute(pack.filename) ? pack.filename : join(temporary, pack.filename);
+  check(existsSync(tarball), `packed tarball missing: ${tarball}`);
+
+  const consumer = join(temporary, 'consumer');
+  mkdirSync(consumer, { recursive: true });
+---
+Line 188:
+    for (const target of [entry.import, entry.types]) {
+      const normalized = target.replace(/^\.\//, '');
+      check(pack.files.some((file) => file.path === normalized), `${subpath} target absent from pack: ${normalized}`);
+    }
+  }
+  const tarball = isAbsolute(pack.filename) ? pack.filename : join(temporary, pack.filename);
+  check(existsSync(tarball), `packed tarball missing: ${tarball}`);
+
+  const consumer = join(temporary, 'consumer');
+  mkdirSync(consumer, { recursive: true });
+  writeFileSync(join(consumer, 'package.json'), JSON.stringify({ private: true, type: 'module' }, null, 2));
+  copyFileSync(join(repoRoot, 'scripts/public-package-consumer.mts'), join(consumer, 'index.mts'));
+  writeFileSync(join(consumer, 'tsconfig.json'), JSON.stringify({
+---
+Line 189:
+      const normalized = target.replace(/^\.\//, '');
+      check(pack.files.some((file) => file.path === normalized), `${subpath} target absent from pack: ${normalized}`);
+    }
+  }
+  const tarball = isAbsolute(pack.filename) ? pack.filename : join(temporary, pack.filename);
+  check(existsSync(tarball), `packed tarball missing: ${tarball}`);
+
+  const consumer = join(temporary, 'consumer');
+  mkdirSync(consumer, { recursive: true });
+  writeFileSync(join(consumer, 'package.json'), JSON.stringify({ private: true, type: 'module' }, null, 2));
+  copyFileSync(join(repoRoot, 'scripts/public-package-consumer.mts'), join(consumer, 'index.mts'));
+  writeFileSync(join(consumer, 'tsconfig.json'), JSON.stringify({
+    compilerOptions: {
+---
+Line 193:
+  const tarball = isAbsolute(pack.filename) ? pack.filename : join(temporary, pack.filename);
+  check(existsSync(tarball), `packed tarball missing: ${tarball}`);
+
+  const consumer = join(temporary, 'consumer');
+  mkdirSync(consumer, { recursive: true });
+  writeFileSync(join(consumer, 'package.json'), JSON.stringify({ private: true, type: 'module' }, null, 2));
+  copyFileSync(join(repoRoot, 'scripts/public-package-consumer.mts'), join(consumer, 'index.mts'));
+  writeFileSync(join(consumer, 'tsconfig.json'), JSON.stringify({
+    compilerOptions: {
+      target: 'ES2022',
+      module: 'NodeNext',
+      moduleResolution: 'NodeNext',
+      lib: ['ES2022', 'DOM'],
+---
+Line 194:
+  check(existsSync(tarball), `packed tarball missing: ${tarball}`);
+
+  const consumer = join(temporary, 'consumer');
+  mkdirSync(consumer, { recursive: true });
+  writeFileSync(join(consumer, 'package.json'), JSON.stringify({ private: true, type: 'module' }, null, 2));
+  copyFileSync(join(repoRoot, 'scripts/public-package-consumer.mts'), join(consumer, 'index.mts'));
+  writeFileSync(join(consumer, 'tsconfig.json'), JSON.stringify({
+    compilerOptions: {
+      target: 'ES2022',
+      module: 'NodeNext',
+      moduleResolution: 'NodeNext',
+      lib: ['ES2022', 'DOM'],
+      types: ['node', 'react', 'react-dom'],
+---
+Line 213:
+      forceConsistentCasingInFileNames: true,
+    },
+    files: ['./index.mts'],
+  }, null, 2));
+
+  console.log('[package-consumer] installing tarball into isolated consumer');
+  run(npm, [
+    'install', '--ignore-scripts', '--no-audit', '--no-fund', '--package-lock=false', '--save=false',
+    tarball,
+    'react@18.3.1',
+    'react-dom@18.3.1',
+    '@types/node@22.13.9',
+    '@types/react@18.3.31',
+---
+Line 214:
+    },
+    files: ['./index.mts'],
+  }, null, 2));
+
+  console.log('[package-consumer] installing tarball into isolated consumer');
+  run(npm, [
+    'install', '--ignore-scripts', '--no-audit', '--no-fund', '--package-lock=false', '--save=false',
+    tarball,
+    'react@18.3.1',
+    'react-dom@18.3.1',
+    '@types/node@22.13.9',
+    '@types/react@18.3.31',
+    '@types/react-dom@18.3.7',
+---
+Line 215:
+    files: ['./index.mts'],
+  }, null, 2));
+
+  console.log('[package-consumer] installing tarball into isolated consumer');
+  run(npm, [
+    'install', '--ignore-scripts', '--no-audit', '--no-fund', '--package-lock=false', '--save=false',
+    tarball,
+    'react@18.3.1',
+    'react-dom@18.3.1',
+    '@types/node@22.13.9',
+    '@types/react@18.3.31',
+    '@types/react-dom@18.3.7',
+  ], consumer);
+---
+Line 225:
+    '@types/react@18.3.31',
+    '@types/react-dom@18.3.7',
+  ], consumer);
+
+  const installedRoot = join(consumer, 'node_modules/iips-production-market-data');
+  const installedManifest = JSON.parse(readFileSync(join(installedRoot, 'package.json'), 'utf8'));
+  check(JSON.stringify(Object.keys(installedManifest.exports)) === JSON.stringify(expectedExports), 'installed export map differs');
+  for (const subpath of expectedExports) {
+    const entry = installedManifest.exports[subpath];
+    check(existsSync(join(installedRoot, entry.import)), `${subpath} installed runtime missing`);
+    check(existsSync(join(installedRoot, entry.types)), `${subpath} installed declarations missing`);
+  }
+
+---
+Line 234:
+    check(existsSync(join(installedRoot, entry.import)), `${subpath} installed runtime missing`);
+    check(existsSync(join(installedRoot, entry.types)), `${subpath} installed declarations missing`);
+  }
+
+  const tsc = join(repoRoot, 'node_modules/typescript/bin/tsc');
+  console.log('[package-consumer] TypeScript resolution and declaration validation');
+  run(process.execPath, [tsc, '-p', join(consumer, 'tsconfig.json'), '--noEmit', '--pretty', 'false'], consumer);
+  console.log('[package-consumer] compiling executable consumer');
+  run(process.execPath, [tsc, '-p', join(consumer, 'tsconfig.json'), '--pretty', 'false'], consumer);
+  console.log('[package-consumer] runtime public-subpath consumer');
+  const runtimeOutput = run(process.execPath, [join(consumer, 'compiled/index.mjs')], consumer);
+  const runtime = JSON.parse(runtimeOutput);
+  check(runtime.runtime === 'PASS' && runtime.declarations === 'PASS', 'consumer runtime did not pass');
+---
+Line 236:
+  }
+
+  const tsc = join(repoRoot, 'node_modules/typescript/bin/tsc');
+  console.log('[package-consumer] TypeScript resolution and declaration validation');
+  run(process.execPath, [tsc, '-p', join(consumer, 'tsconfig.json'), '--noEmit', '--pretty', 'false'], consumer);
+  console.log('[package-consumer] compiling executable consumer');
+  run(process.execPath, [tsc, '-p', join(consumer, 'tsconfig.json'), '--pretty', 'false'], consumer);
+  console.log('[package-consumer] runtime public-subpath consumer');
+  const runtimeOutput = run(process.execPath, [join(consumer, 'compiled/index.mjs')], consumer);
+  const runtime = JSON.parse(runtimeOutput);
+  check(runtime.runtime === 'PASS' && runtime.declarations === 'PASS', 'consumer runtime did not pass');
+  const irrConsumers = verifyActualIrrConsumers(consumer, temporary, tsc);
+
+---
+Line 238:
+  const tsc = join(repoRoot, 'node_modules/typescript/bin/tsc');
+  console.log('[package-consumer] TypeScript resolution and declaration validation');
+  run(process.execPath, [tsc, '-p', join(consumer, 'tsconfig.json'), '--noEmit', '--pretty', 'false'], consumer);
+  console.log('[package-consumer] compiling executable consumer');
+  run(process.execPath, [tsc, '-p', join(consumer, 'tsconfig.json'), '--pretty', 'false'], consumer);
+  console.log('[package-consumer] runtime public-subpath consumer');
+  const runtimeOutput = run(process.execPath, [join(consumer, 'compiled/index.mjs')], consumer);
+  const runtime = JSON.parse(runtimeOutput);
+  check(runtime.runtime === 'PASS' && runtime.declarations === 'PASS', 'consumer runtime did not pass');
+  const irrConsumers = verifyActualIrrConsumers(consumer, temporary, tsc);
+
+  console.log('[package-consumer] browser bundle and boundary scan');
+  const browser = await viteBuild({
+---
+Line 244:
+  const runtimeOutput = run(process.execPath, [join(consumer, 'compiled/index.mjs')], consumer);
+  const runtime = JSON.parse(runtimeOutput);
+  check(runtime.runtime === 'PASS' && runtime.declarations === 'PASS', 'consumer runtime did not pass');
+  const irrConsumers = verifyActualIrrConsumers(consumer, temporary, tsc);
+
+  console.log('[package-consumer] browser bundle and boundary scan');
+  const browser = await viteBuild({
+    configFile: false,
+    logLevel: 'silent',
+    build: {
+      write: false,
+      minify: false,
+      lib: {
+---
+Line 276:
+  check(hits.length === 0, `browser closure contains forbidden entries: ${hits.join(', ')}`);
+  check(browserText.length > 100_000, 'browser bundle is unexpectedly empty');
+
+  console.log(JSON.stringify({
+    result: 'PASS',
+    pack: {
+      files: pack.entryCount ?? pack.files.length,
+      packedBytes: pack.size,
+      unpackedBytes: pack.unpackedSize,
+      shasum: pack.shasum,
+    },
+    exports: installedManifest.exports,
+    runtime,
+---
+Line 277:
+  check(browserText.length > 100_000, 'browser bundle is unexpectedly empty');
+
+  console.log(JSON.stringify({
+    result: 'PASS',
+    pack: {
+      files: pack.entryCount ?? pack.files.length,
+      packedBytes: pack.size,
+      unpackedBytes: pack.unpackedSize,
+      shasum: pack.shasum,
+    },
+    exports: installedManifest.exports,
+    runtime,
+    irrConsumers,
+---
+Line 278:
+
+  console.log(JSON.stringify({
+    result: 'PASS',
+    pack: {
+      files: pack.entryCount ?? pack.files.length,
+      packedBytes: pack.size,
+      unpackedBytes: pack.unpackedSize,
+      shasum: pack.shasum,
+    },
+    exports: installedManifest.exports,
+    runtime,
+    irrConsumers,
+    browser: {
+---
+Line 279:
+  console.log(JSON.stringify({
+    result: 'PASS',
+    pack: {
+      files: pack.entryCount ?? pack.files.length,
+      packedBytes: pack.size,
+      unpackedBytes: pack.unpackedSize,
+      shasum: pack.shasum,
+    },
+    exports: installedManifest.exports,
+    runtime,
+    irrConsumers,
+    browser: {
+      platform: 'browser',
+---
+Line 280:
+    result: 'PASS',
+    pack: {
+      files: pack.entryCount ?? pack.files.length,
+      packedBytes: pack.size,
+      unpackedBytes: pack.unpackedSize,
+      shasum: pack.shasum,
+    },
+    exports: installedManifest.exports,
+    runtime,
+    irrConsumers,
+    browser: {
+      platform: 'browser',
+      bytes: browserText.length,
+---
+Line 286:
+    },
+    exports: installedManifest.exports,
+    runtime,
+    irrConsumers,
+    browser: {
+      platform: 'browser',
+      bytes: browserText.length,
+      forbiddenHits: hits,
+    },
+    typecheck: {
+      strict: true,
+      skipLibCheck: false,
+      result: 'PASS',
+---
+Line 298:
+      result: 'PASS',
+    },
+  }, null, 2));
+  succeeded = true;
+} catch (error) {
+  console.error(`[package-consumer] FAIL: ${error instanceof Error ? error.message : String(error)}`);
+  console.error(`[package-consumer] preserved temporary evidence: ${temporary}`);
+  process.exitCode = 1;
+} finally {
+  if (succeeded && process.env.IPD_PACKAGE_CONSUMER_KEEP !== '1') {
+    rmSync(temporary, { recursive: true, force: true });
+  } else if (succeeded) {
+    console.log(`[package-consumer] preserved temporary evidence: ${temporary}`);
+---
+Line 299:
+    },
+  }, null, 2));
+  succeeded = true;
+} catch (error) {
+  console.error(`[package-consumer] FAIL: ${error instanceof Error ? error.message : String(error)}`);
+  console.error(`[package-consumer] preserved temporary evidence: ${temporary}`);
+  process.exitCode = 1;
+} finally {
+  if (succeeded && process.env.IPD_PACKAGE_CONSUMER_KEEP !== '1') {
+    rmSync(temporary, { recursive: true, force: true });
+  } else if (succeeded) {
+    console.log(`[package-consumer] preserved temporary evidence: ${temporary}`);
+  }
+---
+Line 302:
+} catch (error) {
+  console.error(`[package-consumer] FAIL: ${error instanceof Error ? error.message : String(error)}`);
+  console.error(`[package-consumer] preserved temporary evidence: ${temporary}`);
+  process.exitCode = 1;
+} finally {
+  if (succeeded && process.env.IPD_PACKAGE_CONSUMER_KEEP !== '1') {
+    rmSync(temporary, { recursive: true, force: true });
+  } else if (succeeded) {
+    console.log(`[package-consumer] preserved temporary evidence: ${temporary}`);
+  }
+}
+---
+Line 305:
+  process.exitCode = 1;
+} finally {
+  if (succeeded && process.env.IPD_PACKAGE_CONSUMER_KEEP !== '1') {
+    rmSync(temporary, { recursive: true, force: true });
+  } else if (succeeded) {
+    console.log(`[package-consumer] preserved temporary evidence: ${temporary}`);
+  }
+}
+---
+
+=== SCRIPT HEADER ===
+    1: #!/usr/bin/env node
+    2: /** Pack -> isolated install -> runtime/declaration/browser-closure verification. */
+    3: import { spawnSync } from 'node:child_process';
+    4: import {
+    5:   copyFileSync,
+    6:   existsSync,
+    7:   mkdirSync,
+    8:   mkdtempSync,
+    9:   readFileSync,
+   10:   rmSync,
+   11:   writeFileSync,
+   12: } from 'node:fs';
+   13: import { tmpdir } from 'node:os';
+   14: import { dirname, isAbsolute, join, resolve } from 'node:path';
+   15: import { fileURLToPath } from 'node:url';
+   16: import { build as viteBuild } from 'vite';
+   17: 
+   18: const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+   19: const npm = process.platform === 'win32' ? 'npm.cmd' : 'npm';
+   20: const expectedExports = ['./portfolio-ui', './pit', './d114-non-production'];
+   21: const IRR_PIN = '98cd56a9a568f431ea31d5515e515a1b6cbb91ba';
+   22: const IRR_IMPORTERS = [
+   23:   'frontend/server/pit/ipdPitReadAdapter.ts',
+   24:   'frontend/server/pit/nonProductionPitStore.ts',
+   25:   'frontend/server/pit/nonProductionRuntimePitStore.ts',
+   26:   'frontend/server/pit/pitD114RuntimeIntegration.test.ts',
+   27:   'frontend/server/pit/pitRuntimeIntegration.test.ts',
+   28: ];
+   29: const IRR_SUPPORT_FILES = [
+   30:   'frontend/server/pit/pitReadBoundary.ts',
+   31:   'frontend/server/pit/pitReadContract.ts',
+   32:   'frontend/server/pit/pitReadPort.ts',
+   33: ];
+   34: 
+   35: function check(condition, message) {
+   36:   if (!condition) throw new Error(message);
+   37: }
+   38: 
+   39: function run(command, args, cwd) {
+   40:   const result = spawnSync(command, args, {
+   41:     cwd,
+   42:     encoding: 'utf8',
+   43:     maxBuffer: 32 * 1024 * 1024,
+   44:     env: { ...process.env, NO_UPDATE_NOTIFIER: '1' },
+   45:   });
+   46:   if (result.error || result.status !== 0) {
+   47:     throw new Error(
+   48:       `Command failed (${result.status ?? 'spawn error'}): ${command} ${args.join(' ')}\n` +
+   49:         `${result.stdout ?? ''}\n${result.stderr ?? ''}\n${result.error ?? ''}`,
+   50:     );
+   51:   }
+   52:   return result.stdout.trim();
+   53: }
+   54: 
+   55: /**
+   56:  * Compile the five verbatim IRR package importers at the verified read-only
+   57:  * commit. Only the unrelated IRR HTTP server/vitest dependencies are compile
+   58:  * stubs; the three production composition modules and adapter are executed.
+   59:  */
+   60: function verifyActualIrrConsumers(consumer, temporary, tsc) {
+   61:   let source = process.env.IPD_IRR_READONLY;
+   62:   if (source) {
+   63:     source = resolve(source);
+   64:     const actual = run('git', ['-C', source, 'rev-parse', 'HEAD'], temporary);
+   65:     check(actual === IRR_PIN, `IRR read-only source is ${actual}, expected ${IRR_PIN}`);
+   66:   } else {
+   67:     source = join(temporary, 'irr-readonly');
+   68:     run('git', ['init', '--quiet', source], temporary);
+   69:     run('git', ['-C', source, 'remote', 'add', 'origin', 'https://github.com/ramkivs/iips-review-recovered.git'], temporary);
+   70:     run('git', ['-C', source, 'fetch', '--quiet', '--depth', '1', 'origin', IRR_PIN], temporary);
+   71:     run('git', ['-C', source, 'checkout', '--quiet', '--detach', 'FETCH_HEAD'], temporary);
+   72:   }
+   73: 
+   74:   const irrRoot = join(consumer, 'irr');
+   75:   for (const relative of [...IRR_IMPORTERS, ...IRR_SUPPORT_FILES]) {
+   76:     const destination = join(irrRoot, relative);
+   77:     mkdirSync(dirname(destination), { recursive: true });
+   78:     copyFileSync(join(source, relative), destination);
+   79:     check(readFileSync(destination, 'utf8') === readFileSync(join(source, relative), 'utf8'), `IRR copy differs: ${relative}`);
+   80:   }
+   81: 
+   82:   // Compile-only substitutes for unrelated IRR composition/test infrastructure.
+   83:   // No IPD package import is stubbed or rewritten in any consumer file.
+   84:   writeFileSync(join(irrRoot, 'frontend/server/executive-transport.ts'),
+   85:     "import type { Server } from 'node:http';\nexport declare const server: Server;\n");
+   86:   writeFileSync(join(irrRoot, 'frontend/server/pit-transport.ts'),
+   87:     "export const PIT_MARKET_DATA_ROUTE = '/api/pit/market-data';\n");
+   88:   writeFileSync(join(irrRoot, 'vitest.d.ts'), `
+   89: declare module 'vitest' {
+   90:   export const describe: (name: string, body: () => unknown) => void;
+   91:   export const it: (name: string, body: () => unknown) => void;
+   92:   export const expect: any;
+   93:   export const beforeAll: (body: () => unknown) => void;
+   94:   export const afterAll: (body: () => unknown) => void;
+   95: }
+   96: `);
+   97: 
+   98:   const allFiles = [...IRR_IMPORTERS, ...IRR_SUPPORT_FILES].map((file) => `./irr/${file}`);
+   99:   const compilerOptions = {
+  100:     target: 'ES2022',
