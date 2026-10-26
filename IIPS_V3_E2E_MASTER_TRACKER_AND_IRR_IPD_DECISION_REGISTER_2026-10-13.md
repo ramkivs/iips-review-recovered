@@ -11315,3 +11315,24 @@ repair appendix `R1`–`R7` and the reconstructed sections are reachable at `mai
 *End of §16.130 (`CV-CORR-110`; `CHG-2026-10-26-06`; `V788`–`V802`). CAP-02 remains PARTIAL; the sole operator
 binding has not been touched; QE-8 awaits the Program Authority; publication moves no gate and grants no
 provisioning, designation, acceptance, admission, writes or production eligibility.*
+
+### 16.130.7 Publication receipt (post-merge, remote- and completeness-verified)
+
+| Coordinate | Value |
+|---|---|
+| PR | `ramkivs/iips-review-recovered` **#292** — **MERGED** `2026-10-26T06:56:35Z`, merge commit `75bde856b0f4a7e5a22aa1dc8dc0dea746102627`, tree `79dfde3976ae8a79993dfae7945ba1bae2fc4ba9` |
+| Tested head | `971633c7c87af2bba3fe7e9403fbf01846b9dce3` (merge of then-current `main@5dfcea41…` into `59b362d0…` after the identifier reallocation of §16.130.1) |
+| Exact-head CI | run **`40282225111`** / job `121437834255` **success** on `59b362d`; re-run **`40282582090`** / job `121438938900` **success** on the merged head `971633c` |
+| Post-merge CI | run `40282782275` at `75bde856` was **CANCELLED by the workflow's own concurrency group** when `main` advanced to `47badcce…` seconds later. Superseding `main` run **`40282871274`** at `47badcce…` is **success**, and `75bde856` is a confirmed ancestor of `47badcce`, so green coverage of this merge's tree is established — recorded as the cancellation-plus-supersession it is, not as a green run at `75bde856` |
+| Changed paths | the tracker, the published QE matrix record (repair appendix), three new `docs/integration` records, and the new evidence directory — **documentation/evidence only; 0 source/test/pin/route/fence/manifest/workflow paths; 0 IPD writes** |
+| Remote read-back (identity) | at ref `75bde856`: packet blob `fffe4670…` 17,829 B SHA-256 `b52f6e23…`; reconciliation blob `8400cc42…` 21,131 B `ae9c2acc…`; runbook blob `f6fd8cd7…` 12,150 B `32af5dab…`; matrix record blob `28a623ac…` 32,764 B `8959c31a…`; tracker blob `c5eed346…` 2,330,668 B `16a13130…` — local git-blob identities and remote blob identities identical for **5/5** |
+| Remote read-back (**completeness**) | the remote-fetched matrix record re-audited: **25 PASS / 0 FAIL**; repair appendix notice + `R1`–`R7` present at the remote ref; remote tracker contains §16.130 and rows `V788`–`V802` |
+| Scope re-affirmed | zero IPD writes; no host command, provisioning, store, binding touch, revocation, QE execution, acceptance or admission; QE remains **0/11**; U3 `AUTHORIZED — NOT STARTED`; all twelve `/api/user-portfolios*` `503` fences and `WRITE_NOT_AUTHORIZED` intact |
+| Evidence | `evidence/integration/cap02-qe8-revocation-and-matrix-integrity-2026-10-26/09-publication-and-readback-verification.txt` |
+
+`V801`/`V802` **PASS** — merge, exact-head CI, post-merge coverage (via supersession), commit/tree, remote blob
+identity **and** remote completeness all independently verified. The receipt itself is published by the
+companion receipt PR; nothing in §16.130 self-embedded coordinates before the merge.
+
+*End of §16.130.7. Publication does not move any gate, approve the QE-8 revocation procedure, or grant
+provisioning, designation, acceptance, admission, writes or production eligibility.*

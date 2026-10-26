@@ -1,0 +1,34 @@
+# Publication and independent remote read-back — CAP-02 QE-8 pass (UTC 2026-10-26T06:59:50Z)
+
+## PR and merge
+PR #292 MERGED 2026-10-26T06:56:35Z
+merge commit 75bde856b0f4a7e5a22aa1dc8dc0dea746102627  tree 79dfde3976ae8a79993dfae7945ba1bae2fc4ba9
+tested head   971633c7c87af2bba3fe7e9403fbf01846b9dce3 (merge of origin/main 5dfcea41 into 59b362d)
+
+## CI
+exact-head run 40282225111 job 121437834255  success (head 59b362d)
+exact-head run 40282582090 job 121438938900  success (head 971633c)
+post-merge run 40282782275 (head 75bde856) CANCELLED by the workflow concurrency group when main advanced
+  -> superseding run 40282871274 on later main 47badcce1200e05bdf792818c8cbb504da7cbb0d: SUCCESS
+  -> 75bde856 is a confirmed ancestor of 47badcce, so the green run covers this merge's tree.
+
+## Remote blob read-back (independent API read at ref 75bde856)
+  IIPS_v3.0_CAP02_QE8_REVOCATION_PROCEDURE_DECISION_PACKET_2026-10-26.md   blob=fffe4670c003ae3c04d66d3d5afd0961a3fe5b43 bytes=17829 sha256=b52f6e23a92d2bf03f757c400038d9a44696ce4ef4dea4a30f8b9fb561572609
+  IIPS_v3.0_CAP02_QE8_AND_MATRIX_INTEGRITY_RECONCILIATION_2026-10-26.md    blob=8400cc42173610a1109d90ba0edbc28202dd5e22 bytes=21131 sha256=ae9c2acc5dd7cb175b155a4469a69fa45e8f950f7629ea2502a16460010e3092
+  IIPS_v3.0_CAP02_HOST_EXECUTION_RUNBOOK_AND_EVIDENCE_STRUCTURE_2026-10-26.md blob=f6fd8cd78a7e47a60901e715915dd7047dd80903 bytes=12150 sha256=32af5dab13a77a2ea03b9ddc3f4c43b4ac1b75b1e0879760d6d673eba8676967
+  IIPS_v3.0_CAP02_QE_EXECUTION_MATRIX_AND_HOST_PREREQUISITES_2026-10-26.md blob=28a623ace212fdaaab5dc621f46895856c700ebb bytes=32764 sha256=8959c31a53df3ba6566ffebd1eb731d73b92cb99d0948b0f9308b003be6b33ab
+  IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md   blob=c5eed34638641542d3af1e858ec6d2fb9019af01 bytes=2330668 sha256=16a1313070be042f17e42b31338b622ad74f14f82119c036198a2c02433c0aa8
+  local git-blob identities and remote blob identities are identical for all five paths (MATCH).
+
+## Completeness read-back (identity is not completeness)
+  command: python3 03-matrix-row-audit.py <remote-fetched matrix record>
+  [PASS] U3 status statement present
+  [PASS] QE-8 governing prerequisite recorded
+  
+  RESULT: 25 PASS / 0 FAIL
+  repair appendix present at the remote ref: 9 markers (notice + R1..R7)
+  remote tracker contains §16.130: 7 occurrences; verification rows V788–V802 present
+
+## Scope re-affirmed
+  documentation/evidence only; zero IPD writes; no host command; no provisioning; no QE item executed;
+  no acceptance/admission; QE 0/11; U3 AUTHORIZED — NOT STARTED; sole operator binding untouched (no store exists).
