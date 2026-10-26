@@ -1,0 +1,191 @@
+{
+  "record": "IIPS-V3-CAP03-P1-F4-PARENT-PREFLIGHT-RECONCILIATION-2026-10-27-01",
+  "captured_utc_date": "2026-10-27",
+  "purpose": "Immutable citation set for the F4 parent-directory preflight reconciliation. Read-only capture; zero host contact; zero writes to either remote.",
+  "irr_locus": {
+    "repository": "ramkivs/iips-review-recovered",
+    "ref": "refs/heads/main",
+    "commit": "fd5dd32b3dd269c840efdd13fcd0f90317ef27e4"
+  },
+  "ipd_locus": {
+    "repository": "ramkivs/iips-production-market-data",
+    "ref": "refs/heads/main",
+    "commit": "888eb375eebee01640e44ccdcbb138a71e8c4513"
+  },
+  "files": {
+    "irr_tracker": {
+      "locus": "irr",
+      "path": "IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md",
+      "bytes": 2558287,
+      "sha256": "d4870fc06c4823580302d5f877fb05667e4ac5f7eed9eb9f2ad77a9dfc3367e6"
+    },
+    "irr_matrix": {
+      "locus": "irr",
+      "path": "docs/integration/IIPS_v3.0_CAP03_S2_P1_S3_QE_EXECUTION_AND_EVIDENCE_MATRIX_2026-10-26.md",
+      "bytes": 26851,
+      "sha256": "e260b7518ea9a41e943e5316d1d55724c0230b70c1aee091d6745ce71a31525b"
+    },
+    "irr_runbook": {
+      "locus": "irr",
+      "path": "docs/integration/IIPS_v3.0_CAP02_HOST_EXECUTION_RUNBOOK_AND_EVIDENCE_STRUCTURE_2026-10-26.md",
+      "bytes": 12150,
+      "sha256": "32af5dab13a77a2ea03b9ddc3f4c43b4ac1b75b1e0879760d6d673eba8676967"
+    },
+    "irr_pf15": {
+      "locus": "irr",
+      "path": "docs/integration/IIPS_v3.0_CAP03_PF15_ENDPOINT_LOCAL_STATE_DESIGNATION_PA_ACT_CORRECTED_2026-10-26.md",
+      "bytes": 11860,
+      "sha256": "1f5c9e1d9d69cf15a51ec77e41bd70f07ba69516d6a944bf3a79678c6c19a033"
+    },
+    "ipd_packet": {
+      "locus": "ipd",
+      "path": "evidence/cross-repository/IIPS_V3_CAP03_HOST_READINESS_PACKET_2026-10-24.md",
+      "bytes": 20923,
+      "sha256": "1ea2637f29a0c42497a0ef2232514b977147131afebfa6f557295b4706a90360",
+      "blob": "9d9c5970f66b1c901a2b5d28c02e8c9562078cf2"
+    },
+    "ipd_succ": {
+      "locus": "ipd",
+      "path": "evidence/cross-repository/IIPS_V3_CAP02_GATE_A_PRIME_SUCCESSOR_PROVISIONING_ACT_EFFECTIVE_2026-10-23.md",
+      "bytes": 29856,
+      "sha256": "df8e44f704814e2321b5134206b04f25097830bdc5dd53c4d907d1256e4c788d",
+      "blob": "528de6aeddbc8e5f3191be8792f3937d77de4037"
+    },
+    "ipd_conn": {
+      "locus": "ipd",
+      "path": "src/persistence/connection.ts",
+      "bytes": 3888,
+      "sha256": "51beab4e7b06ce4c44043ca04d678c4b193dd43fe3a0e53e895e481365e38a67",
+      "blob": "5169e402707cf1a73f16bfb15ffe0b1d395165ff"
+    },
+    "ipd_prov": {
+      "locus": "ipd",
+      "path": "src/persistence/gateAPrimeProvisioning.ts",
+      "bytes": 15727,
+      "sha256": "0bd6d134405dbcab27f5639c3e22a856c778daa9fd414d2cb0e26e5b03919aa3",
+      "blob": "2cbce83f6572d211630ce0620dae49fa02fe4622"
+    },
+    "ipd_val": {
+      "locus": "ipd",
+      "path": "src/persistence/gateAPrimeValidation.ts",
+      "bytes": 15688,
+      "sha256": "c307549a38033f9b2ce03973bc0a5e0eacbf7e9132695ea1fc7ae09fa9bbe3ce",
+      "blob": "df5d48a583c9aaed51af90a90225c15c408fbd33"
+    }
+  },
+  "citations": {
+    "PF-11": {
+      "key": "ipd_packet",
+      "line": 74,
+      "verbatim": "| **PF-11** | Store path syntax | `$StorePath` supplied verbatim by the PA act; `[IO.Path]::IsPathRooted($StorePath)` | absolute; outside every Git worktree; not synchronized; local fixed NTFS; operator-writable without elevation |"
+    },
+    "PF-12": {
+      "key": "ipd_packet",
+      "line": 75,
+      "verbatim": "| **PF-12** | Store absence | `Test-Path -LiteralPath $StorePath` | **False**; the path is recorded verbatim; no directory/file is created by preflight |"
+    },
+    "PF-13": {
+      "key": "ipd_packet",
+      "line": 76,
+      "verbatim": "| **PF-13** | Parent location | `Split-Path -Parent $StorePath`; volume/filesystem/synchronization inspection | parent exists and is local fixed NTFS; not a cloud-synced or network path |"
+    },
+    "packet_record_type": {
+      "key": "ipd_packet",
+      "line": 16,
+      "verbatim": "| **Record type** | Readiness checklist, procedure template, evidence template and blocker record. Not an execution receipt, qualification result or acceptance |"
+    },
+    "packet_prepared_by": {
+      "key": "ipd_packet",
+      "line": 18,
+      "verbatim": "| **Prepared by** | Arena Agent Mode — preparation and publication only; never host execution |"
+    },
+    "successor_step_1": {
+      "key": "ipd_succ",
+      "lines": [
+        259,
+        260,
+        261,
+        262
+      ],
+      "verbatim": {
+        "259": "   sha256 of `src/persistence/gateAPrimeProvisioning.ts`, `provisioning.ts`, `binding.ts`.",
+        "260": "1. **P-1 store path**: absolute; outside every Git working tree; local fixed NTFS; not a synchronized",
+        "261": "   folder; operator-writable without elevation; **file must not pre-exist** (`Test-Path` = `False`,",
+        "262": "   recorded verbatim). Any unmet condition stops the act."
+      }
+    },
+    "successor_step_2": {
+      "key": "ipd_succ",
+      "lines": [
+        263,
+        264
+      ],
+      "verbatim": {
+        "263": "2. **Pre-state inspection (read-only):** run `--mode=validate` first and record that bindings = 0 and",
+        "264": "   memberships = 0. A pre-existing `ACTIVE` row means this act does not apply."
+      }
+    },
+    "mkdir_recursive": {
+      "key": "ipd_conn",
+      "line": 84,
+      "verbatim": "  mkdirSync(dirname(filePath), { recursive: true });"
+    },
+    "validate_store_not_found": {
+      "key": "ipd_val",
+      "lines": [
+        371,
+        372
+      ],
+      "verbatim": {
+        "371": "  if (!existsSync(storePath) || !statSync(storePath).isFile()) {",
+        "372": "    throw new GateAPrimeStoreError('STORE_NOT_FOUND', 'the validation store file does not exist');"
+      }
+    },
+    "cli_requires_equals": {
+      "key": "ipd_prov",
+      "lines": [
+        376,
+        377,
+        378,
+        379,
+        380,
+        381,
+        382
+      ],
+      "verbatim": {
+        "376": "function requiredOption(argument: string, name: string): string {",
+        "377": "  const value = valueAfterEquals(argument);",
+        "378": "  if (value === undefined || value.length === 0) {",
+        "379": "    throw new GateAPrimeRefusalError('ARGUMENT_INVALID', `${name} must use the form ${name}=<value>`);",
+        "380": "  }",
+        "381": "  return value;",
+        "382": "}"
+      }
+    },
+    "runbook_p1_invocation": {
+      "key": "irr_runbook",
+      "lines": [
+        84,
+        85,
+        88,
+        89
+      ],
+      "verbatim": {
+        "84": "node dist/persistence/gateAPrimeProvisioning.js --mode=validate --act-id <ACT_ID> --store <ABS_PATH> `",
+        "85": "     --principal-label ramki-personal-local --tenant-id ipd-personal-local `",
+        "88": "node dist/persistence/gateAPrimeProvisioning.js --mode=execute  --act-id <ACT_ID> --store <ABS_PATH> `",
+        "89": "     --principal-label ramki-personal-local --tenant-id ipd-personal-local `"
+      }
+    },
+    "f4_designation": {
+      "key": "irr_pf15",
+      "line": 30,
+      "verbatim": "| **F4 — `IIPS_G3_DATABASE_PATH` / P-1 `$StorePath`** | `C:\\iips-data\\iips\\user-portfolio.sqlite` | **RENDERED as intended stable path** for the single P-1 store and subsequent S3/QE. It must be absolute, local fixed NTFS, and outside every worktree. The database, `-wal`, and `-shm` sidecars must not exist before the authorized P-1 attempt. Host properties and absence are **NOT VERIFIED by this repository act**. If any store or sidecar already exists, stop: do not overwrite, delete, reset, or reuse it without the required authority. |"
+    },
+    "f4_parent_characteristics_deferred": {
+      "key": "irr_pf15",
+      "line": 63,
+      "verbatim": "- **P-1 path:** F4 names the intended one-time `$StorePath`. The PA act does not claim the path's parent filesystem characteristics or that the DB/sidecars are absent. Those facts must be checked on the designated host under the governing P-1 procedure immediately before execution. If the DB or sidecars exist, stop without mutation."
+    }
+  }
+}

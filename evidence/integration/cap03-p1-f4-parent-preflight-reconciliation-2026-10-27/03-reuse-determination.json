@@ -1,0 +1,140 @@
+{
+  "record": "IIPS-V3-CAP03-P1-F4-PARENT-PREFLIGHT-RECONCILIATION-2026-10-27-01",
+  "subject": "P-1-C / P-1-D reuse determination — what existing evidence may be reused and what must be captured fresh",
+  "governing_prior_determination": {
+    "source": "tracker §16.140.4 P-1-C; docs/integration/IIPS_v3.0_CAP03_P1_IDENTITY_PREREQUISITE_RECONCILIATION_2026-10-26.md (line 118)",
+    "rule": "Prior S2 host activity is user-reported and does not establish a future P-1 session's state; a fresh P-1-session capture is required.",
+    "not_overturned_by_this_record": true
+  },
+  "classification": [
+    {
+      "pf": "PF-01",
+      "check": "host identity",
+      "reusable": false,
+      "reason": "session/state check; must be captured in the P-1 session",
+      "reusable_input": "expected value only — hostname desktop-no0nhtp",
+      "owner": "Ramki"
+    },
+    {
+      "pf": "PF-02",
+      "check": "OS edition",
+      "reusable": false,
+      "reason": "session/state check",
+      "reusable_input": "expected value only — Windows 11 Home Single Language",
+      "owner": "Ramki"
+    },
+    {
+      "pf": "PF-03",
+      "check": "non-elevation + SID",
+      "reusable": false,
+      "reason": "session/state check; elevation of the attempt session cannot be inherited from a prior report",
+      "reusable_input": "PA representation that the account is non-elevated; still requires verbatim capture",
+      "owner": "Ramki"
+    },
+    {
+      "pf": "PF-04",
+      "check": "platform/runtime",
+      "reusable": false,
+      "reason": "session/state check",
+      "reusable_input": "expected range only — win32, Node >=22.13.0 <23",
+      "owner": "Ramki"
+    },
+    {
+      "pf": "PF-05",
+      "check": "flag-free node:sqlite",
+      "reusable": false,
+      "reason": "session/state check",
+      "reusable_input": "none",
+      "owner": "Ramki"
+    },
+    {
+      "pf": "PF-06",
+      "check": "no runtime switch/install",
+      "reusable": false,
+      "reason": "session/state check",
+      "reusable_input": "none",
+      "owner": "Ramki"
+    },
+    {
+      "pf": "PF-07",
+      "check": "IPD clean tree",
+      "reusable": false,
+      "reason": "worktree cleanliness is a live state; a repository-side read cannot establish the host checkout",
+      "reusable_input": "expected coordinate only, read from the effective execution-basis designation at tracker §16.143 — NOT re-derived or reopened here",
+      "owner": "Ramki"
+    },
+    {
+      "pf": "PF-08",
+      "check": "IRR clean tree",
+      "reusable": false,
+      "reason": "live state",
+      "reusable_input": "expected coordinate only from the designated consumer pin",
+      "owner": "Ramki"
+    },
+    {
+      "pf": "PF-09",
+      "check": "full history",
+      "reusable": false,
+      "reason": "live state of the host clone",
+      "reusable_input": "none",
+      "owner": "Ramki"
+    },
+    {
+      "pf": "PF-10",
+      "check": "no enabling flags",
+      "reusable": false,
+      "reason": "process environment of the attempt session",
+      "reusable_input": "none",
+      "owner": "Ramki"
+    },
+    {
+      "pf": "PF-11",
+      "check": "store path syntax + writability",
+      "reusable": "partially",
+      "reason": "the path string and its syntax properties are fully determined repository-side and need no host contact; the volume/writability observation requires host capture",
+      "reusable_input": "F4 = C:\\iips-data\\iips\\user-portfolio.sqlite; 39 bytes; 3 separators; absolute under path.win32; outside every worktree by construction (C: chain contains no .git)",
+      "owner": "Arena (path facts, already recorded) + Ramki (volume/ACL observation)"
+    },
+    {
+      "pf": "PF-12",
+      "check": "store and sidecar absence",
+      "reusable": false,
+      "reason": "host filesystem state; must be Test-Path False recorded verbatim",
+      "reusable_input": "no prior host capture exists; absence is asserted by the PA statement and must be captured",
+      "owner": "Ramki"
+    },
+    {
+      "pf": "PF-13",
+      "check": "parent location",
+      "reusable": "rule now resolved; observation outstanding",
+      "reason": "DISP-01 fixes HOW the check is evaluated (nearest existing ancestor at P-1 scope); the observation itself is host-side",
+      "reusable_input": "ancestor chain computed repository-side: C:\\iips-data\\iips -> C:\\iips-data -> C:\\ ; nearest existing ancestor = C:\\ under the stated absence",
+      "owner": "Ramki"
+    },
+    {
+      "pf": "PF-14",
+      "check": "evidence root",
+      "reusable": false,
+      "reason": "operator selection at attempt time; must be absolute, outside every worktree, not the store",
+      "reusable_input": "none",
+      "owner": "Ramki"
+    }
+  ],
+  "what_arena_completed_this_pass": [
+    "DISP-01: removed the PF-13 / PF-12 / mkdirSync self-referential deadlock at P-1 scope",
+    "DISP-02: scoped PF-12 to the store path so PF-14 remains executable",
+    "DISP-03: defined the correct step-2 pre-state reading for a correctly absent store",
+    "OBS-01: disclosed the --flag=value CLI form",
+    "published the read-only capture instrument (02-p1c-p1d-readonly-preflight.ps1) that creates nothing on the store path",
+    "recorded the repository-side PF-11/PF-13 path facts and the ancestor chain"
+  ],
+  "what_remains": [
+    "the operator's verbatim P-1-session capture of PF-01..PF-14 on desktop-no0nhtp",
+    "independent read-back of that capture into the record as a dated P-1-C/P-1-D receipt"
+  ],
+  "status_after_this_record": {
+    "P-1-C": "NOT ESTABLISHED — capture instrument prepared; no P-1-session transcript exists",
+    "P-1-D": "DESIGNATED — structural blocker removed by DISP-01; host facts NOT VERIFIED",
+    "P-1": "UNSPENT — not executed, not authorized"
+  }
+}
