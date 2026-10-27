@@ -13,6 +13,7 @@
 | **Evidence bundle** | `evidence/integration/cap03-p1c-p1d-fresh-capture-procedure-2026-10-27/` |
 | **Tracker registration** | §16.153, `CV-CORR-133`, `CHG-2026-10-27-11`, `V1037`–`V1046`; publication receipt `CHG-2026-10-27-12` / `V1047` follows |
 | **Revision 2026-10-28** | Additive, in-scope revision adopting PA decisions DA-A1, DB-B1, and DC-C2 (`IIPS-V3-CAP03-P1-PA-DECISION-ADOPTION-2026-10-28-01`, tracker §16.160, `CV-CORR-140`, `CHG-2026-10-28-03`). Changes: v2 is the sole instrument identity (§3.2, §4.1, §4.4, §4.5); the source is read from the Git blob as raw bytes; §4.3a adds the pre-invocation PowerShell-edition and `Get-FileHash` checks for the next capture attempt only; §4.2 and §4.4 record the execution-pin distinction. **No status change:** P-1 remains NOT EXECUTED / UNSPENT / NOT AUTHORIZED; P-1-C, P-1-D, and the PF-17 capture limb are unchanged; no capture is performed by this revision. |
+| **Revision 2026-10-28b** | Additive, in-scope conformance revision (tracker §16.163, `CV-CORR-143`, `CHG-2026-10-28-06`, `V1122`–`V1125`). Changes: (1) §4.3a / §4.5 DC-b is the adopted Source-only test (the extra `CommandType -eq 'Cmdlet'` clause is removed, see §16.163.1); (2) §4.4 adds the literal DC-C2(c) `Get-FileHash -InputStream` check over the designated v2 bytes; (3) §4.5 adds the single-session `ProcessId` equality (L-1). No other gate, identity, pin, or evidence path changes. Historical revision 2026-10-28 is retained in the record; it is superseded only for the items listed here. |
 
 ## 1. Governing record reread and status boundary
 
@@ -176,7 +177,7 @@ function Assert-AttemptEngine {
     $pv = $PSVersionTable
     if ($pv.PSEdition -ne 'Desktop' -or $pv.PSVersion.Major -ne 5) { throw "STOP DC-a: attempt session is $($pv.PSEdition) $($pv.PSVersion); Windows PowerShell 5.x Desktop edition is required" }
     $cmd = Get-Command -Name Get-FileHash -ErrorAction Stop
-    if ($cmd.CommandType -ne 'Cmdlet' -or $cmd.Source -ne 'Microsoft.PowerShell.Utility') { throw "STOP DC-b: Get-FileHash resolves to $($cmd.CommandType) from source '$($cmd.Source)'; expected a cmdlet from Microsoft.PowerShell.Utility" }
+    if ($cmd.Source -ne 'Microsoft.PowerShell.Utility') { throw "STOP DC-b: Get-FileHash resolves to $($cmd.CommandType) from source '$($cmd.Source)'; expected Source Microsoft.PowerShell.Utility" }
     return [pscustomobject]@{ PSEdition=[string]$pv.PSEdition; PSVersion=$pv.PSVersion.ToString(); GetFileHashModule=[string]$cmd.Source; ProcessId=$PID }
 }
 $EngineCheck = Assert-AttemptEngine
@@ -250,9 +251,13 @@ function Get-Sha256Hex([byte[]]$Bytes) {
     try { return ([BitConverter]::ToString($sha.ComputeHash($Bytes)).Replace('-','').ToLowerInvariant()) } finally { $sha.Dispose() }
 }
 $blobBytes = Get-GitBlobBytes $PublisherRoot $InstrumentBlob
-# A6 / DB-B1: the identity is LF-only; any CR byte is a STOP. DC-c: the SHA-256 digest of these bytes is computed with System.Security.Cryptography, which yields the same digest Get-FileHash -Algorithm SHA256 reports for identical bytes.
+# A6 / DB-B1: the identity is LF-only; any CR byte is a STOP. The DB-B1 digest below uses System.Security.Cryptography; the separate literal DC-C2(c) Get-FileHash check follows it.
 if ($blobBytes -contains 13) { throw 'STOP DB: designated v2 blob contains CR bytes; the LF-only identity is required.' }
 if ($blobBytes.Length -ne $InstrumentBytes -or (Get-Sha256Hex $blobBytes) -ne $InstrumentSha256) { throw 'STOP DB: designated v2 blob bytes differ from the adopted identity (10,990 bytes, 13783385…).' }
+# DC-C2(c) (adopted text, revision 2026-10-28b): Get-FileHash -Algorithm SHA256 over the designated v2 bytes, read from a MemoryStream (no temp file), equals the adopted identity.
+$dcStream = New-Object -TypeName System.IO.MemoryStream -ArgumentList (,[byte[]]$blobBytes)
+try { $dcHash = (Get-FileHash -InputStream $dcStream -Algorithm SHA256).Hash.ToLowerInvariant() } finally { $dcStream.Dispose() }
+if ($dcHash -ne $InstrumentSha256) { throw "STOP DC-c: Get-FileHash of the designated v2 blob bytes is $dcHash, expected $InstrumentSha256" }
 if ((Get-GitText $PublisherRoot @('hash-object','--no-filters',$SourcePath)) -ne $InstrumentBlob) { throw 'STOP DB: Windows working-tree instrument differs from the designated blob (content or line-ending drift); preserve it and do not derive.' }
 if ((Get-GitText $IpdAuthorityRoot @('rev-parse',"HEAD:$IpdActRel")) -ne '528de6aeddbc8e5f3191be8792f3937d77de4037') { throw 'STOP: current IPD successor-act blob differs from the effective act.' }
 if (-not $CurrentIpdActText.Contains('## 9. Single execution, consumption, and what this act never grants')) { throw 'STOP: current IPD act §9 not readable.' }
@@ -409,7 +414,7 @@ foreach ($source in $sourceSpecs) {
 }
 [IO.File]::WriteAllLines((Join-Path $EvidenceRoot '16-step0-source-hashes.txt'),[string[]]$step0Lines,$utf8NoBom)
 $EngineCheckNow = Assert-AttemptEngine
-if ($EngineCheckNow.PSEdition -ne $EngineCheck.PSEdition -or $EngineCheckNow.PSVersion -ne $EngineCheck.PSVersion -or $EngineCheckNow.GetFileHashModule -ne $EngineCheck.GetFileHashModule) { throw 'STOP DC: attempt engine changed before invocation.' }
+if ($EngineCheckNow.PSEdition -ne $EngineCheck.PSEdition -or $EngineCheckNow.PSVersion -ne $EngineCheck.PSVersion -or $EngineCheckNow.GetFileHashModule -ne $EngineCheck.GetFileHashModule -or $EngineCheckNow.ProcessId -ne $EngineCheck.ProcessId) { throw 'STOP DC: attempt engine or process changed before invocation (single-session rule).' }
 & $ExecutingScript
 $scriptDigestPath = Join-Path $EvidenceRoot '99-script-digest.txt'
 if (-not (Test-Path -LiteralPath $scriptDigestPath -PathType Leaf)) { throw 'STOP: instrument did not emit its required self-digest; preserve all outputs.' }
@@ -514,3 +519,14 @@ This register covers the revision adopted under `IIPS-V3-CAP03-P1-PA-DECISION-AD
 | `V1103` | Scope and non-grants: no capture, host contact, P-1 execution, PF-17 satisfaction, P-1-C/P-1-D acceptance, IPD write, `BASIS_COMMIT` change, PF-11 change, or gate movement | **PASS** — static record review |
 
 *End of `IIPS-V3-CAP03-P1C-P1D-FRESH-CAPTURE-PROCEDURE-2026-10-27-01`. The IPD STOP on the baseline is correct; the IRR expected consumer pin is correct; the derivative approach is permitted only with the §16.152.3 proof set, which is absent for the reported launcher. The safe next action is the exact pin-guarded, fresh-run, parameter-only capture procedure above, followed by independent byte read-back. P-1 remains NOT EXECUTED, UNSPENT, and NOT AUTHORIZED.*
+
+### 6.2 Revision 2026-10-28b verification register (`V1122`–`V1125`; tracker numbering; static only)
+
+| ID | Check | Status |
+|---|---|---|
+| `V1122` | Textual diff against the 2026-10-28 revision is confined to the header row, §4.3a DC-b line, §4.4 DC-c comment and block, and the §4.5 engine recheck line | **PASS (static)** — see §16.163.2 |
+| `V1123` | PowerShell parse of all seven fenced blocks (tree-sitter PowerShell grammar): zero error nodes | **PASS (static)** — see §16.163.2 |
+| `V1124` | Conformance of the revised text to adopted DC-C2 (a)–(d) and to L-1 | **PASS (static)**; host execution NOT EXECUTED (`V1102`) |
+| `V1125` | Scope and non-grants: no PowerShell run, host contact, capture, P-1 execution, PF-17 satisfaction, P-1-C/P-1-D acceptance, IPD write, `BASIS_COMMIT` change, PF-11 change, or gate movement | **PASS** — static record review |
+
+*End of revision 2026-10-28b (`CV-CORR-143`; `CHG-2026-10-28-06`; `V1122`–`V1125`). Revision 2026-10-28 `V1097`–`V1103` entries are unchanged. `V1102` (DC-a/DC-b on the Windows host) remains NOT EXECUTED; it must record the actual `CommandType` and `Source` that Windows PowerShell 5.1 reports for `Get-FileHash`. P-1 remains NOT EXECUTED, UNSPENT, and NOT AUTHORIZED.*
