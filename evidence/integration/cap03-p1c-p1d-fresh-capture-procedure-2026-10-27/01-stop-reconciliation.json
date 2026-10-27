@@ -1,0 +1,80 @@
+{
+  "record_id": "IIPS-V3-CAP03-P1C-P1D-FRESH-CAPTURE-PROCEDURE-2026-10-27-01",
+  "input_status": "Operator-reported STOPs only; no launcher bytes or raw STOP outputs were supplied.",
+  "raw_operator_launcher_received": false,
+  "raw_stop_outputs_received": false,
+  "host_attempted_by_arena": false,
+  "observations": [
+    {
+      "id": "STOP-IPD-BASELINE",
+      "reported_root": "C:\\iips-work\\iips-production-market-data",
+      "reported_commit": "8eec74ae27cda09f3c368b9c299895eae41554db",
+      "reported_tree": "4eba29029f8d95cfe483e615a7047426b298ce50",
+      "authoritative_expected_commit": "001c3c80618f2ee1d40e9a90912237e1a06e7b58",
+      "authoritative_expected_tree": "399fa44a5f1953c0f61b452420fefb5985426ef1",
+      "authority": "IRR tracker §16.143 / CV-CORR-123; designated candidate-specific operative execution basis",
+      "determination": "STOP CORRECT. The reported checkout is the distinct approved baseline, not the designated candidate. Preserve checkout and failure outputs; do not use it for PF-07/PF-09 or the next capture.",
+      "verification_limit": "The observed host checkout remains operator-reported; Arena verified the governing pin from current IRR records and remote Git objects."
+    },
+    {
+      "id": "IPD-CANDIDATE-CHECKOUT",
+      "reported_root": "C:\\iips-work\\iips-production-market-data-p1-001c3c80",
+      "reported_status": "Launcher reportedly accepted its IPD pin guard.",
+      "authoritative_expected_commit": "001c3c80618f2ee1d40e9a90912237e1a06e7b58",
+      "authoritative_expected_tree": "399fa44a5f1953c0f61b452420fefb5985426ef1",
+      "determination": "Candidate pin is the correct expected coordinate, but the reported guard pass is NOT verified/accepted without raw commit/tree, origin, cleanliness, full-history and attempt-session bytes.",
+      "future_check": "Exact commit+tree; expected origin; clean index/worktree; full history (is-shallow-repository=false). No inference from ancestry or the launcher."
+    },
+    {
+      "id": "STOP-IRR-OBSERVER-CHECKOUT",
+      "reported_root": "C:\\iips-work\\irr-cap03-published-main",
+      "reported_commit": "f74af6d4f488ebf6d3e3a94f612a0d831b6b765a",
+      "reported_tree": "ed424ffbe4e3b3863ff00a47aa25fa0ca4e0c62f",
+      "authoritative_expected_commit": "ba64b2d5927c2f872560710cf1474c25a5cde0d5",
+      "authoritative_expected_tree": "5e4262f1cd75bf13b76ced5b45058f31434b5dad",
+      "authority": "IRR tracker §16.122.7 / CV-CORR-102, carried forward by §16.152.4",
+      "determination": "STOP CORRECT. f74 is not the designated PF-08 consumer coordinate. The launcher's expectation ba64…/5e426… is valid under the current explicit record; current main is a publication authority, not a replacement consumer pin.",
+      "current_main_recheck": {
+        "commit": "357689069473cf80921c65355cc6f70ce85c857b",
+        "tree": "6f38bb939342a5074445993bcc97650a7f8878e3",
+        "compare_ahead": 16,
+        "compare_behind": 0,
+        "changed_paths": 62,
+        "application_source_or_test_paths": 0,
+        "later_pin_designation_found": false
+      }
+    }
+  ],
+  "launcher_and_derivative": {
+    "launcher_path_or_bytes": "Not present in repository/workspace; not supplied with STOP report.",
+    "derivative_bytes": "Not present; cannot byte-compare or independently certify the reported launcher.",
+    "published_instrument": {
+      "path": "evidence/integration/cap03-p1-f4-parent-preflight-reconciliation-2026-10-27/02-p1c-p1d-readonly-preflight.ps1",
+      "git_blob": "eaea3f7fc7ef7f49395c3cbec26ed1ad379f46bb",
+      "bytes": 10231,
+      "sha256": "85ac7271c73469b6d5e454a3173ff3aad944a645a2352bb77ee36baee976a30b"
+    },
+    "published_instrument_limitations": [
+      "Default run ID cap03-p1-20261027-01 is unsafe to reuse because Out-File can overwrite prior outputs.",
+      "Two repository-root parameter values are literal placeholders.",
+      "Stop-Report is defined but never called; absence of STOP.txt or a completion message is not an acceptance/verdict.",
+      "Instrument records repo state but does not internally assert the designated exact pins."
+    ],
+    "method_determination": "A derivative is permitted under §16.152.3 only when edits are confined to the designated parameter-assignment lines and all four identity deposits are retained. The reported derivative has not been verified. The published source instrument must remain unchanged."
+  },
+  "preservation": {
+    "operator_reported_checkouts": "Do not switch, clean, reset, delete or repurpose; preserve existing artifacts and STOP outputs.",
+    "prior_run_ids_not_reusable": [
+      "cap03-p1-20261027-01",
+      "cap03-p1-20261027-02"
+    ],
+    "new_capture": "Requires a new UTC+GUID ID, an absent evidence root, no overwrite/cleanup, and complete raw-byte return."
+  },
+  "status": {
+    "p1c": "NOT ESTABLISHED",
+    "p1d": "DESIGNATED; SUBSTANTIVELY SUPPORTED AT REPORTED CAPTURE; NOT VERIFIED FOR THE ATTEMPT",
+    "p1": "NOT EXECUTED / UNSPENT / NOT AUTHORIZED",
+    "ipd_writes": 0,
+    "store_path_actions": 0
+  }
+}
