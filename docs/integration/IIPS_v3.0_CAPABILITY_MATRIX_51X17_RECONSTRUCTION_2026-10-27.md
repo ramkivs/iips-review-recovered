@@ -7,13 +7,16 @@
 | **Investigation date** | `2026-10-27` (UTC) |
 | **Investigator** | Arena Agent Mode — read-only investigation, execution of existing test/build/route surfaces, and documentation only |
 | **Repositories** | `ramkivs/iips-review-recovered` (IRR) and `ramkivs/iips-production-market-data` (IPD) |
-| **Prior artefacts (treated as prior records only, never as current status)** | `IIPS-V3-CAPMATRIX-51X17-RECONSTRUCTION-2026-10-23-01` (IPD `evidence/cross-repository/`, blob `90131a05…`; CSV blob `b02d5859…`); tracker §18.1 |
+| **Prior artefacts (treated as prior records only, never as current status)** | IPD `main`: `IIPS_V3_CAPABILITY_MATRIX_51x17_RECONSTRUCTION_2026-10-23.md` (blob `90131a05…`, 82,992 B); `artifacts/…_2026-10-23.csv` (blob `b02d5859…`, 38,300 B); `artifacts/…_2026-10-23.xlsx` (blob `bd3d3a3d…`, 25,566 B); `artifacts/…_POSTMERGE_VERIFICATION_2026-10-23.md` (blob `a989035c…`). Tracker §18.1 on IRR |
 | **Deliverables** | This report; `evidence/integration/capability-matrix-51x17-2026-10-27/IIPS_V3_CAPABILITY_MATRIX_51x17_2026-10-27.csv`; `…​.xlsx`; reproducible generator + verifier in the same directory |
 
-> **Starting condition.** No matrix spreadsheet is present in Arena, IRR or IPD as a standalone
-> artefact on any current ref. The only matrix of record is master tracker §18.1, whose values were
-> re-derived from primary evidence for this pass; the 2026-10-23 reconstruction was read as a prior
-> record and re-tested cell by cell. **No cell in §H is carried forward on a prior record's authority.**
+> **Starting condition (verified, and stated precisely).** IRR carries **no** matrix artefact on any ref —
+> it exists only as tracker §18.1. IPD `main` **does** carry the 2026-10-23 reconstruction plus its CSV,
+> XLSX and post-merge verification under `evidence/cross-repository/` (blobs `90131a05…`, `b02d5859…`,
+> `bd3d3a3d…`, `a989035c…`). Those were read as **prior records only**: their 17-column structure and all
+> 51 row names were compared against this pass's and match exactly (no renumbering, no renamed rows), and
+> every cell was re-tested against the repositories rather than inherited. **No cell in §H is carried
+> forward on a prior record's authority.**
 
 ---
 
