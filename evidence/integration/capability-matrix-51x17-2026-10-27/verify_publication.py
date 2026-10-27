@@ -108,12 +108,24 @@ def local_checks() -> tuple[list[dict], bool]:
     return results, all(r["ok"] for r in results)
 
 
-def gh_blob(repo: str, commit: str, path: str) -> bytes:
-    out = subprocess.run(
-        ["gh", "api", f"repos/{repo}/contents/{path}?ref={commit}"],
-        check=True, capture_output=True).stdout
+def gh_tree(repo: str, commit: str) -> dict[str, tuple[str, int]]:
+    """path -> (blob sha, size) for every blob in the commit's tree."""
+    out = subprocess.run(["gh", "api", f"repos/{repo}/git/trees/{commit}?recursive=1"],
+                         check=True, capture_output=True).stdout
+    return {e["path"]: (e["sha"], e.get("size", -1))
+            for e in json.loads(out).get("tree", []) if e["type"] == "blob"}
+
+
+def gh_blob(repo: str, blob_sha: str) -> bytes:
+    """Exact blob bytes. The Git blobs API is used because the Contents API omits
+    `content` for blobs over 1 MB (the tracker is 2.6 MB) and would silently return
+    an empty body."""
+    out = subprocess.run(["gh", "api", f"repos/{repo}/git/blobs/{blob_sha}"],
+                         check=True, capture_output=True).stdout
     payload = json.loads(out)
-    return base64.b64decode(payload["content"]), payload["sha"]
+    if payload.get("encoding") != "base64":
+        raise SystemExit(f"unexpected encoding {payload.get('encoding')!r} for {blob_sha}")
+    return base64.b64decode(payload["content"])
 
 
 def remote_checks(repo: str, commit: str) -> tuple[list[dict], bool]:
@@ -122,7 +134,24 @@ def remote_checks(repo: str, commit: str) -> tuple[list[dict], bool]:
     def add(name: str, ok: bool, detail: str = "") -> None:
         results.append({"check": name, "ok": bool(ok), "detail": detail})
 
-    sums = read_sums()
+    tree = gh_tree(repo, commit)
+    # Compare against the manifest *as published in this commit*, so the read-back is
+    # self-contained and does not depend on the working tree being at that commit.
+    manifest_path = ("evidence/integration/capability-matrix-51x17-2026-10-27/"
+                     "SHA256SUMS.txt")
+    if manifest_path not in tree:
+        add("published SHA256SUMS.txt exists", False, manifest_path)
+        return results, False
+    manifest_bytes = gh_blob(repo, tree[manifest_path][0])
+    sums = {}
+    for line in manifest_bytes.decode("utf-8").splitlines():
+        line = line.strip()
+        if not line or line.startswith("#"):
+            continue
+        digest, name = line.split(None, 1)
+        sums[name.strip()] = (digest.lower(), -1)
+    add("published SHA256SUMS.txt is readable and lists 18 artefacts",
+        len(sums) == 18, f"{len(sums)} entries")
     # bundle files live in this directory; the report and tracker live at repo paths
     resolved = []
     for name in sums:
@@ -136,18 +165,22 @@ def remote_checks(repo: str, commit: str) -> tuple[list[dict], bool]:
 
     all_ok = True
     for name, remote_path, local in resolved:
-        local_bytes = local.read_bytes()
-        remote_bytes, git_blob_sha = gh_blob(repo, commit, remote_path)
-        same = sha256(remote_bytes) == sha256(local_bytes) == sums[name][0]
-        all_ok &= same
-        add(f"remote == local == recorded: {name}", same,
-            f"{len(remote_bytes)} B sha256={sha256(remote_bytes)[:16]}… blob={git_blob_sha[:10]}…")
+        if remote_path not in tree:
+            all_ok = False
+            add(f"published: {name}", False, "path absent from the commit tree")
+            continue
+        blob_sha, size = tree[remote_path]
+        remote_bytes = gh_blob(repo, blob_sha)
+        digest = sha256(remote_bytes)
+        matches_manifest = digest == sums.get(name, ("",))[0]
+        matches_local = local.is_file() and local.read_bytes() == remote_bytes
+        all_ok &= matches_manifest
+        add(f"remote bytes == published manifest: {name}", matches_manifest,
+            f"{len(remote_bytes)} B sha256={digest[:16]}… blob={blob_sha[:10]}… "
+            f"local_match={matches_local}")
 
     # independent tracking checks on the published tree
-    out = subprocess.run(["gh", "api", f"repos/{repo}/git/trees/{commit}?recursive=1"],
-                         check=True, capture_output=True).stdout
-    tree = json.loads(out)
-    paths = {e["path"] for e in tree.get("tree", [])}
+    paths = set(tree)
     add("published tree contains the report", REPORT_REL in paths)
     add("published tree contains the CSV",
         "evidence/integration/capability-matrix-51x17-2026-10-27/"
