@@ -1,0 +1,97 @@
+{
+  "readback_utc": "2026-10-27T09:32:21Z",
+  "repository": "ramkivs/iips-review-recovered",
+  "ref": "refs/heads/main",
+  "commit": "56098372f74a41f5f8e8dde851c9ee419a1875ee",
+  "tree": "0a32f9383621188aa22fabd900650ce8e40eb8c5",
+  "pull_request": {
+    "number": 329,
+    "url": "https://github.com/ramkivs/iips-review-recovered/pull/329",
+    "head_commit": "2d83030bfd9f309b05c06dab7f8462b16900ea72",
+    "merge_commit": "56098372f74a41f5f8e8dde851c9ee419a1875ee",
+    "merged_at": "2026-10-27T09:31:35Z"
+  },
+  "ci": {
+    "workflow": "CI",
+    "run_id": 40481209745,
+    "run_url": "https://github.com/ramkivs/iips-review-recovered/actions/runs/40481209745",
+    "conclusion": "success",
+    "head_sha": "2d83030bfd9f309b05c06dab7f8462b16900ea72"
+  },
+  "remote_blob_readbacks": [
+    {
+      "path": "IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md",
+      "git_blob": "b6987bff7ed647aa6682edcd32b56b0b593548ba",
+      "bytes": 2687614,
+      "sha256": "6fc2b912a428704ad7b931349abaa9bcd5e5f2fdea7944c6bf745ada1d79fb30",
+      "remote_matches_local": true
+    },
+    {
+      "path": "docs/integration/IIPS_v3.0_CAP03_P1C_P1D_FRESH_CAPTURE_PROCEDURE_2026-10-27.md",
+      "git_blob": "f585cd3a8a3ff8f68422336b66956b085a646392",
+      "bytes": 44262,
+      "sha256": "db6ba4633e11987ce57ff0264e61dca391620bb487b45d663d7274d8ad55e544",
+      "remote_matches_local": true
+    },
+    {
+      "path": "evidence/integration/cap03-p1c-p1d-fresh-capture-procedure-2026-10-27/00-baseline-and-authority.json",
+      "git_blob": "97594304390e4b221453cadb545573695c7832ab",
+      "bytes": 7089,
+      "sha256": "0e99470c6539cac6ab8317347ee038755c2dc1c1c52d9e5c3b41dd50c083e880",
+      "remote_matches_local": true
+    },
+    {
+      "path": "evidence/integration/cap03-p1c-p1d-fresh-capture-procedure-2026-10-27/01-stop-reconciliation.json",
+      "git_blob": "fb9eaf115f2083b892518163605250ede32d86b5",
+      "bytes": 5060,
+      "sha256": "9c6b7b5b7983bc3b1991224158315efbb9ce3856f207f5fa7daa182b6a40df19",
+      "remote_matches_local": true
+    },
+    {
+      "path": "evidence/integration/cap03-p1c-p1d-fresh-capture-procedure-2026-10-27/02-static-validation.json",
+      "git_blob": "588d79e524a6b626fec605e536ed5f6ff74ca590",
+      "bytes": 4132,
+      "sha256": "08dd2736c9d5b44e6f30ca80fe7dc6930a98ae06b64fea968719b77fa7af8dcf",
+      "remote_matches_local": true
+    },
+    {
+      "path": "evidence/integration/cap03-p1c-p1d-fresh-capture-procedure-2026-10-27/INDEX.md",
+      "git_blob": "30eb3ec82d2ccb6ad9bdefed089a0cd2e09c780c",
+      "bytes": 2098,
+      "sha256": "e18d066f9d33b7192a17f2f0aed2dff5947487a435cb9b3df42c76e3fede25a7",
+      "remote_matches_local": true
+    },
+    {
+      "path": "evidence/integration/cap03-p1c-p1d-fresh-capture-procedure-2026-10-27/SHA256SUMS.txt",
+      "git_blob": "c541be0eafd0128cbe53425234244324e7c09fd3",
+      "bytes": 444,
+      "sha256": "e9b8185ea03ee01fa18a4f4286a955f4640a5e3f7c11340740e7470b51811b04",
+      "remote_matches_local": true
+    },
+    {
+      "path": "evidence/integration/cap03-p1c-p1d-fresh-capture-procedure-2026-10-27/verify_procedure.py",
+      "git_blob": "040fb8b12093db58901257933c427ec2f9c6d460",
+      "bytes": 10743,
+      "sha256": "de8e5125464799ce7929dd7f7454ada25eb23985186c9b10eace527900f5fb24",
+      "remote_matches_local": true
+    },
+    {
+      "path": "evidence/integration/cap03-p1-f4-parent-preflight-reconciliation-2026-10-27/02-p1c-p1d-readonly-preflight.ps1",
+      "git_blob": "eaea3f7fc7ef7f49395c3cbec26ed1ad379f46bb",
+      "bytes": 10231,
+      "sha256": "85ac7271c73469b6d5e454a3173ff3aad944a645a2352bb77ee36baee976a30b",
+      "remote_matches_local": true,
+      "expected_published_blob": "eaea3f7fc7ef7f49395c3cbec26ed1ad379f46bb",
+      "expected_sha256": "85ac7271c73469b6d5e454a3173ff3aad944a645a2352bb77ee36baee976a30b"
+    }
+  ],
+  "independently_verified": true,
+  "post_merge_ci": {
+    "workflow": "CI",
+    "run_id": 40481448142,
+    "run_url": "https://github.com/ramkivs/iips-review-recovered/actions/runs/40481448142",
+    "event": "push",
+    "conclusion": "success",
+    "head_sha": "56098372f74a41f5f8e8dde851c9ee419a1875ee"
+  }
+}
