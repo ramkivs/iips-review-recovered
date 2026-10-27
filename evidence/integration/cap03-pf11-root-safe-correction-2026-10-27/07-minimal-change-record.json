@@ -1,0 +1,49 @@
+{
+  "original": {
+    "path": "evidence/integration/cap03-p1-f4-parent-preflight-reconciliation-2026-10-27/02-p1c-p1d-readonly-preflight.ps1",
+    "blob": "eaea3f7fc7ef7f49395c3cbec26ed1ad379f46bb",
+    "sha256": "85ac7271c73469b6d5e454a3173ff3aad944a645a2352bb77ee36baee976a30b",
+    "bytes": 10231
+  },
+  "corrected": {
+    "path": "evidence/integration/cap03-pf11-root-safe-correction-2026-10-27/02-p1c-p1d-readonly-preflight-pf11-root-safe-v2.ps1",
+    "blob": "191f5828461286b0f6fcb688b023da5dfc68a265",
+    "sha256": "13783385cb8a7964387868ad96f05956cceb9b7d4ead048c0cfe72b325e6748e",
+    "bytes": 10990,
+    "line_endings": "LF"
+  },
+  "only_edits": [
+    {
+      "kind": "insert",
+      "location": "immediately before the PF-11/PF-12/PF-13 Capture block",
+      "content_path": "01-Find-GitWorktreeAncestor.ps1",
+      "content_sha256": "65dde9a1a8fc79d295baffdc24b6dc163744d1e70ce6a08056e201939ca6d382"
+    },
+    {
+      "kind": "replace",
+      "location": "PF-11 ancestor worktree check only",
+      "old_lines": [
+        "    # -- PF-11: outside every Git worktree (walk for .git, ancestors only) ------",
+        "    $g = $null; $w = Split-Path -Parent $StorePath",
+        "    while ($true) {",
+        "        if (Test-Path -LiteralPath (Join-Path $w '.git')) { $g = $w; break }",
+        "        $n = Split-Path -Parent $w",
+        "        if ($n -eq $w) { break }",
+        "        $w = $n",
+        "    }"
+      ],
+      "new_lines": [
+        "    # -- PF-11: outside every Git worktree (walk for .git, ancestors only) ------",
+        "    $w = Split-Path -Parent $StorePath",
+        "    $g = Find-GitWorktreeAncestor -StartPath $w"
+      ]
+    }
+  ],
+  "unchanged": [
+    "F4 literal and path observation",
+    "PF-12 absence checks",
+    "PF-13 nearest-existing-ancestor and volume/ACL/synchronization observations",
+    "all other instrument bytes and responsibilities"
+  ],
+  "runtime_boundary": "No capture invocation; no filesystem mutation by the traversal; native PowerShell tests supplied separately and not run in this Linux sandbox."
+}

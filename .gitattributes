@@ -11,3 +11,4 @@ iips-platform/src/sector-engines/cross-sector/index.ts text eol=lf
 iips-platform/src/sector-engines/cross-sector/population/ScreeningPopulation.ts text eol=lf
 NP-12-N4-CANONICAL-BYTE-GRAMMAR-DECISION-RECORD.md text eol=lf
 evidence/integration/cap03-p1-f4-parent-preflight-reconciliation-2026-10-27/02-p1c-p1d-readonly-preflight.ps1 text eol=lf
+evidence/integration/cap03-pf11-root-safe-correction-2026-10-27/02-p1c-p1d-readonly-preflight-pf11-root-safe-v2.ps1 text eol=lf

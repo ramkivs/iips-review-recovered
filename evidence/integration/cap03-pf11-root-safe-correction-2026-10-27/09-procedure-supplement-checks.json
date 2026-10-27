@@ -1,0 +1,43 @@
+{
+  "procedure_record": "IIPS-V3-CAP03-PF11-ROOT-SAFE-CORRECTION-2026-10-27-01",
+  "supplement_path": "docs/integration/IIPS_v3.0_CAP03_PF11_ROOT_SAFE_INSTRUMENT_CORRECTION_2026-10-27.md",
+  "supersedes_only": "The prior CAP-03 procedure's source-instrument identity and permitted-derivative source reference; all other requirements and boundaries are retained.",
+  "corrected_instrument": {
+    "path": "evidence/integration/cap03-pf11-root-safe-correction-2026-10-27/02-p1c-p1d-readonly-preflight-pf11-root-safe-v2.ps1",
+    "git_blob": "191f5828461286b0f6fcb688b023da5dfc68a265",
+    "bytes": 10990,
+    "sha256": "13783385cb8a7964387868ad96f05956cceb9b7d4ead048c0cfe72b325e6748e"
+  },
+  "original_published_instrument": {
+    "path": "evidence/integration/cap03-p1-f4-parent-preflight-reconciliation-2026-10-27/02-p1c-p1d-readonly-preflight.ps1",
+    "git_blob": "eaea3f7fc7ef7f49395c3cbec26ed1ad379f46bb",
+    "bytes": 10231,
+    "sha256": "85ac7271c73469b6d5e454a3173ff3aad944a645a2352bb77ee36baee976a30b",
+    "unchanged": true
+  },
+  "fixed_values": {
+    "F4": "C:\\iips-data\\iips\\user-portfolio.sqlite",
+    "F5": "C:\\iips-evidence\\cap03-gate4",
+    "P-1": "NOT EXECUTED / UNSPENT / NOT AUTHORIZED"
+  },
+  "test_outcomes": {
+    "portable_python_runtime": "8 passed",
+    "powershell_helper_and_harness_tree_sitter_parse": "passed",
+    "native_windows_powershell_5_1": "NOT RUN; Windows/PowerShell unavailable in Linux sandbox",
+    "native_windows_harness_required_before_capture": true
+  },
+  "prohibited_actions_this_correction": {
+    "instrument_invoked": false,
+    "capture_directory_created": false,
+    "store_or_sidecar_created": false,
+    "store_path_normalized_or_resolved": false,
+    "parent_created": false,
+    "provisioning_or_execution_mode": false,
+    "acl_change": false,
+    "environment_change": false,
+    "ipd_write": false,
+    "production_scope": false
+  },
+  "preserved_existing_capture": "D:\\iips-evidence\\cap03-p1-20261027T110433Z-3569c5ceff28428c8293c442c9436649",
+  "acceptance_status": "Existing attempt remains unaccepted; no acceptance change."
+}
