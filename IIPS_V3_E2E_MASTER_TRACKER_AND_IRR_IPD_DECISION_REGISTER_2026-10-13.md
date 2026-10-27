@@ -370,6 +370,7 @@ The following completed baselines on `ramkivs/iips-review-recovered @ refs/heads
 | `2026-10-28` | `CHG-2026-10-28-03` | **CAP-03 §16.160 — PA adoption of DA-A1, DB-B1, DC-C2 recorded additively (`CV-CORR-140`, `V1097`–`V1103`):** DA execution-pin interpretation adopted, limited (`BASIS_COMMIT` unchanged; executing HEAD recorded separately; the P-1 authorization act must name the execution commit); DB v2 instrument identity adopted as sole identity; DC native-harness prerequisite replaced for the next capture only. Procedure `IIPS_v3.0_CAP03_P1C_P1D_FRESH_CAPTURE_PROCEDURE_2026-10-27.md` revised additively (Appendix A A1–A12). Record `docs/integration/IIPS_v3.0_CAP03_P1_PA_DECISION_ADOPTION_2026-10-28.md`. **Static checks only; no PowerShell or Windows run; native run `92d931fb` remains NOT PASSED. P-1 NOT EXECUTED / UNSPENT / NOT AUTHORIZED; P-1-C / P-1-D / PF-17 capture limb unchanged; no capture, host run, IPD write, or gate movement.** |
 | `2026-10-28` | `CHG-2026-10-28-04` | **CAP-03 §16.161 — PF-11 Gate 6 recovered-artifact reconciliation and C-2 execution-context assessment (`CV-CORR-141`, `V1104`–`V1112`):** both previously unpublished artifacts recovered and stored with digests — `run-pf11-hash-compat.ps1` (1,858 B, SHA-256 `f8f33061…`, static parse clean, defines a script-scope `function Get-FileHash` and then invokes the published harness with `&` in the same process) and `harness-error.txt` (721 B, SHA-256 `a9c36adc…`, `03-test_pf11_root_safe.ps1:13 char:56`, `CommandNotFoundException`, matched character-exactly against the published harness). Findings: the compatibility pass is a **logic-under-substitution** result and never exercised the cmdlet; the recovered compatibility script is **not** the outer Gate 5/Gate 6 orchestrator and is **behaviourally incomplete** against `harness-compat-result.txt`, so an unpublished outer wrapper remains; the native harness run's process identity is **UNVERIFIED** (the earlier "child process" wording is withdrawn). DC-C2 as adopted is assessed **CONDITIONALLY SUFFICIENT** for protecting the next capture (same-process check immediately before a same-process `& $ExecutingScript`, fail-safe on every branch, no in-scope child process hashing), with L-1…L-5 limitations and R-1…R-3 technical recommendations that **require PA adoption and were not applied**. **No decision adopted, revised or reinterpreted; no procedure edit; native run `92d931fb` remains NOT PASSED; PF-11 acceptance and its waiver unchanged; P-1 NOT EXECUTED / UNSPENT / NOT AUTHORIZED; no capture, host run, IPD write, or gate movement.** |
 | `2026-10-28` | `CHG-2026-10-28-05` | **CAP-03 §16.162 — P-1 adoption reconciliation addendum (`CV-CORR-142`, `V1113`–`V1121`):** publishes [`docs/integration/IIPS_v3.0_CAP03_P1_ADOPTION_RECONCILIATION_2026-10-28.md`](docs/integration/IIPS_v3.0_CAP03_P1_ADOPTION_RECONCILIATION_2026-10-28.md) (additive). Reassesses D1 (H-12 is record-supported as NOT a P-1 precondition, subject to PA confirmation; the H-12/QE pin is OPEN and the Gate 4 literal pin `a52b47b0…` is pre-binding), records the IPD row-7 citation defect, reviews DC-C2 conformance (`(b)` stricter, `(c)` .NET substitution not disclosed in the adoption record), and corrects the R-2 shadow analysis in PR #340 and §16.161.4. No adoption, no procedure change, no authorization: P-1 NOT EXECUTED / UNSPENT / NOT AUTHORIZED; PF-11, PF-17, QE, Gate 4, Gate 5, S3, DQ-4 unchanged. |
+| `2026-10-28` | `CHG-2026-10-28-06` | **CAP-03 §16.163 — PA item status matrix, DC-C2 conformance correction, L-1 enforcement, and D2 receipt handoff (`CV-CORR-143`, `V1122`–`V1131`):** procedure revision 2026-10-28b (additive; DC-b Source-only; literal DC-C2(c) `Get-FileHash` check; L-1 `ProcessId` equality) in [`docs/integration/IIPS_v3.0_CAP03_P1C_P1D_FRESH_CAPTURE_PROCEDURE_2026-10-27.md`](docs/integration/IIPS_v3.0_CAP03_P1C_P1D_FRESH_CAPTURE_PROCEDURE_2026-10-27.md); additive adoption-record §8; new [status matrix](docs/integration/IIPS_v3.0_CAP03_P1_PA_STATUS_MATRIX_2026-10-28.md) and [D2 handoff](docs/integration/IIPS_v3.0_CAP03_D2_IPD_RECEIPT_HANDOFF_2026-10-28.md) (IPD read-only; no IPD write). PA-1, PA-2, PA-3d, PA-5 recorded as PA-reserved; no PA decision inferred. P-1 NOT EXECUTED / UNSPENT / NOT AUTHORIZED; PF-11, PF-17, QE, Gate 4, Gate 5, S3, DQ-4 unchanged. |
 
 ---
 
@@ -14169,4 +14170,57 @@ Additive, read-only reconciliation. Publishes [`docs/integration/IIPS_v3.0_CAP03
 
 No P-1 execution or authorization; no capture; no host diagnostic or PowerShell or harness run; no PF-11 reopening or acceptance change; no PF-17 satisfaction; no P-1-C or P-1-D acceptance; no QE, Gate 4, Gate 5, S3, or DQ-4 movement; no IPD write, branch, or PR; no PA approval or signature supplied or inferred.
 
+### 16.162.5 Publication receipt for PR #341 (populated by companion update, as §16.140.7)
+
+- **Merged:** PR #341 (head `cf88e50a`) merged to `main` as `41f77b1d172e80c7653f972daf15ccb0b8f713c7`.
+- **Exact-head CI:** run `40574724322` — SUCCESS at `cf88e50a`.
+- **Post-merge CI:** run `40574950098` — SUCCESS at `41f77b1d`.
+- **Read-back of `origin/main`:** exactly two paths changed, `M` tracker and `A` addendum `IIPS_v3.0_CAP03_P1_ADOPTION_RECONCILIATION_2026-10-28.md`. Package blob `62954f67` unchanged.
+- **Status:** the §16.162.3 receipt is now populated. No status, authority, or gate changed.
+
 *End of §16.162 (`CV-CORR-142`; `CHG-2026-10-28-05`; `V1113`–`V1121`).*
+
+---
+
+## §16.163 — `CV-CORR-143`: PA item status matrix, DC-C2 conformance correction, L-1 enforcement, and D2 receipt handoff (`2026-10-28`; `CHG-2026-10-28-06`; `V1122`–`V1131`)
+
+Scope: the 2026-10-28 one-pass directive (adopt DA-A1, DB-B1, DC-C2 as written; complete authorized one-pass IRR work). Routine in-scope IRR work only. No PA-reserved decision was made, and none was inferred. P-1 is NOT EXECUTED / UNSPENT / NOT AUTHORIZED.
+
+### 16.163.1 Findings and changes
+
+- **DC-C2 (b) deviation.** The `CommandType -eq 'Cmdlet'` clause added to procedure §4.3a by the 2026-10-28 revision (§16.160) is not in the adopted text. No governing artifact requires it (`V1128`). It is removed; the adopted Source-only test is applied. The PA may still ratify the stricter clause by amendment (PA-3b option ii).
+- **DC-C2 (c) deviation.** The `System.Security.Cryptography` substitution in §4.4 is not the adopted literal check. It is replaced by `Get-FileHash -Algorithm SHA256 -InputStream` over a `MemoryStream` of the designated v2 bytes, compared with `13783385…`. The v2 premise was verified (`V1127`).
+- **L-1.** The §4.5 engine recheck now compares `ProcessId`, under the adopted single-session requirement (PA-3c applied).
+- **Adoption record.** Its statement that (a) and (b) were adopted "as written", and its silence on the (c) substitution, were inaccurate. Corrected additively in adoption record §8.
+- **R-2 correction** (addendum §3.3) stands. PR #340 documents are unedited (append-only).
+- **D2 (PA-5).** DA-A1 requires the receipt to record the executing HEAD and tree. IPD `main` `888eb375` records the compiled basis only (`V1129`). This is a confirmed adopted-requirement gap and blocks P-1 authorization. The fix is in IPD and needs separate authorization. The handoff is `IIPS_v3.0_CAP03_D2_IPD_RECEIPT_HANDOFF_2026-10-28.md`. A correction commit moves the execution commit away from `001c3c80…`, so it needs a new PA pin decision and fresh S2 evidence (DA-A1). The PA chooses among Option A (operator bundle plus amendment), Option B (IPD correction and new pin), or Option C (hold).
+- **Reserved, not decided:** PA-1, PA-2, PA-3b ratification (if sought), PA-3d (diagnostics; not applied), PA-5.
+
+### 16.163.2 Verification (static and read-only; no PowerShell, harness, capture, host, or IPD write)
+
+| ID | Check | Result |
+|---|---|---|
+| `V1122` | Textual diff of the procedure against revision 2026-10-28: confined to the header row, §4.3a DC-b line, §4.4 DC-c comment and block, §4.5 recheck line, and the §6.2 register | **PASS (static)** |
+| `V1123` | Tree-sitter PowerShell parse of all seven fenced blocks: zero error nodes (grammar parse, not PowerShell runtime) | **PASS (static)** |
+| `V1124` | Conformance of revised §4.3a/§4.4/§4.5 to adopted DC-C2 (a)–(d) and L-1 (table in the status matrix §3) | **PASS (static)**; host execution NOT EXECUTED (`V1102`) |
+| `V1125` | Scope: no PowerShell run, host contact, capture, P-1 execution, PF-17 satisfaction, P-1-C/P-1-D acceptance, IPD write, `BASIS_COMMIT` change, PF-11 change, or gate movement | **PASS** (static record review) |
+| `V1126` | Baselines: IRR and IPD refs (`git ls-remote`); no open IRR PR; PR #339 (merge `4e9cc40e`), PR #340 (merge `3777dae4`), and PR #341 (merge `41f77b1d`) merged | **PASS** (read-only) |
+| `V1127` | v2 premise for DC-C2 (c): blob `191f5828…` = worktree = `origin/main`; 10,990 B; SHA-256 `13783385…`; zero CR bytes. Host `Get-FileHash` NOT run | **PASS (static)** |
+| `V1128` | Governing-artifact search for `CommandType`/`Cmdlet` requirement on IRR `main` and IPD `main`: none in adopted text; V1111 calls the clause an implementation addition | **PASS** |
+| `V1129` | IPD `main` `888eb375` D2 code path: `BASIS_COMMIT`/`BASIS_TREE` definitions (`gateAPrimeValidation.ts` 25–26); receipt fields (`gateAPrimeProvisioning.ts` 64–73, 317–318); no HEAD or tree resolution; no test of the success path. Read through scratch clone | **PASS (read-only)** |
+| `V1130` | PF-11 reconciliation: six `handoff/evidence/pf11-root-safe/` files unchanged since `41f77b1d`; `SHA256SUMS.txt` OK for all six diagnosis files | **PASS** |
+| `V1131` | No IPD write, ref, branch, or PR; IPD `main` unchanged at `888eb375`; no open IPD PR | **PASS** |
+
+### 16.163.3 Status summary
+
+See `IIPS_v3.0_CAP03_P1_PA_STATUS_MATRIX_2026-10-28.md` §§2, 3, 6. Summary: **PA-1** OPEN (PA-reserved). **PA-2** OPEN (PA-reserved; no pin). **PA-3a** applied as adopted (literal; PA may ratify the substitution). **PA-3b** applied as adopted (Source-only; PA may ratify the clause). **PA-3c** applied. **PA-3d** NOT APPLIED (PA-reserved). **PA-5** OPEN (PA-reserved; blocks P-1 authorization). **DC-C2 (a)–(d)** conform on paper; host execution NOT EXECUTED. **L-1** applied. **L-2** open, host-gated, no longer gating. Native `Get-FileHash` failure (`92d931fb`) NOT PASSED, undiagnosed.
+
+### 16.163.4 Publication
+
+Publication of this section follows the required path: PR from the session branch, exact-head CI, `gh pr merge --merge`, and read-back of `origin/main`. The PR number, CI run IDs, merge commit, and read-back result are not claimed in this section. They are reported in the PR and, per §16.140.7, to be populated by a companion update after merge.
+
+### 16.163.5 Non-grants
+
+No P-1 execution or authorization; no capture; no host diagnostic, PowerShell, harness, or compat-script run; no PF-11 reopening or acceptance change; no PF-17 satisfaction or requirement change; no P-1-C or P-1-D acceptance; no QE, Gate 4, Gate 5, S3, or DQ-4 movement; no IPD write, branch, or PR; no `BASIS_COMMIT` change; no PA approval, decision, or signature supplied or inferred; the package remains NOT ADOPTED and unchanged; no native pass claimed.
+
+*End of §16.163 (`CV-CORR-143`; `CHG-2026-10-28-06`; `V1122`–`V1131`).*

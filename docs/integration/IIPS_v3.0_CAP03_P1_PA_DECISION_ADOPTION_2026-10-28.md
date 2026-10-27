@@ -91,3 +91,26 @@ The verification register is in procedure §6.1 (`V1097`–`V1103`) and is regis
 This record does **not**: execute P-1; authorize or create a capture; run a host diagnostic or any PowerShell harness; satisfy PF-17; accept P-1-C or P-1-D; change PF-11 acceptance, PF-15, F4, F5, `DISP-01`–`03`, or `OBS-01`; move S3, QE, DQ-4, Gate 4, or Gate 5; change `BASIS_COMMIT`; create a replacement IPD act; write to IPD or any repository other than IRR; alter the six `handoff/evidence/pf11-root-safe/` files or any historical evidence; or change the package or the historical v1 record. **P-1 remains NOT EXECUTED / UNSPENT / NOT AUTHORIZED.**
 
 *End of `IIPS-V3-CAP03-P1-PA-DECISION-ADOPTION-2026-10-28-01`.*
+
+---
+
+## 8. Additive record — revision 2026-10-28b (`CV-CORR-143`; `CHG-2026-10-28-06`; `V1122`–`V1131`)
+
+This section is additive. Sections 1–7 are unchanged and remain the record of the 2026-10-28 adoption directive as applied by PR #339.
+
+**8.1 Corrections to the record in §1 and the DC-C2 row.** The statement that the procedure adopts DC-C2 (a) and (b) "as written" was inaccurate in two respects, both introduced by the 2026-10-28 procedure revision and not by the PA:
+
+- **(b)** the revision added `CommandType -eq 'Cmdlet'`, which is not in the adopted text. No governing artifact requires it.
+- **(c)** the revision used a `System.Security.Cryptography` substitution for `Get-FileHash`. That substitution was disclosed only in an in-code comment and was not disclosed in this record.
+
+**8.2 Applied in revision 2026-10-28b (within the adopted text; no new PA decision).**
+
+- DC-C2 (b): conformed to the adopted Source-only test.
+- DC-C2 (c): the literal `Get-FileHash -Algorithm SHA256 -InputStream` check over a `MemoryStream` of the designated v2 bytes, compared with `13783385…`, is now present in §4.4.
+- L-1: `ProcessId` equality is now compared at §4.5, under the adopted "single non-elevated … session" requirement.
+
+**8.3 Not applied; PA-reserved.** PA-1, PA-2, PA-3b (ratification of the stricter clause, if the PA wants it), PA-3d (diagnostics), and PA-5 (D2 receipt semantics). Each is recorded with its status in `IIPS_v3.0_CAP03_P1_PA_STATUS_MATRIX_2026-10-28.md`. No approval is inferred from the conformance in §8.2.
+
+**8.4 Host execution.** `V1102` (DC-a and DC-b on the Windows host, recording the actual `CommandType` and `Source`) is **NOT EXECUTED**. The DC-C2 (c) literal check is likewise **NOT EXECUTED**. No capture is authorized by this section.
+
+**8.5 Non-grants.** P-1 is NOT EXECUTED / UNSPENT / NOT AUTHORIZED. No capture, host diagnostic, PowerShell or harness run, IPD write, `BASIS_COMMIT` change, PF-11 or PF-17 change, or gate movement. The package `IIPS_v3.0_CAP03_P1_PA_DECISION_PACKAGE_2026-10-28.md` remains NOT ADOPTED as a historical record and is unchanged.
