@@ -1,0 +1,30 @@
+PASS ordinary existing parent expected=[] actual=[]
+PASS missing intermediate directory expected=[] actual=[]
+PASS filesystem root termination expected=[] actual=[]
+PASS .git directory in ancestor chain expected=[C:\Users\USER\AppData\Local\Temp\pf11-root-safe-e311bcfb88fa4d929ee9cbadf25c9996\repo-with-git-directory] actual=[C:\Users\USER\AppData\Local\Temp\pf11-root-safe-e311bcfb88fa4d929ee9cbadf25c9996\repo-with-git-directory]
+PASS .git file in ancestor chain expected=[C:\Users\USER\AppData\Local\Temp\pf11-root-safe-e311bcfb88fa4d929ee9cbadf25c9996\repo-with-git-file] actual=[C:\Users\USER\AppData\Local\Temp\pf11-root-safe-e311bcfb88fa4d929ee9cbadf25c9996\repo-with-git-file]
+PASS outside any Git worktree expected=[] actual=[]
+PASS fixture tree unchanged by traversal expected=[D|ordinary-parent|
+D|outside-worktree\branch\leaf|
+D|outside-worktree\branch|
+D|outside-worktree|
+D|repo-with-git-directory\.git|
+D|repo-with-git-directory\a\b|
+D|repo-with-git-directory\a|
+D|repo-with-git-directory|
+D|repo-with-git-file\a\b|
+D|repo-with-git-file\a|
+D|repo-with-git-file|
+F|repo-with-git-file\.git|37CD8B007EA5C81C717214918B39EE65CFBC98534B4C07A4D26D4FD10B3BEEB6] actual=[D|ordinary-parent|
+D|outside-worktree\branch\leaf|
+D|outside-worktree\branch|
+D|outside-worktree|
+D|repo-with-git-directory\.git|
+D|repo-with-git-directory\a\b|
+D|repo-with-git-directory\a|
+D|repo-with-git-directory|
+D|repo-with-git-file\a\b|
+D|repo-with-git-file\a|
+D|repo-with-git-file|
+F|repo-with-git-file\.git|37CD8B007EA5C81C717214918B39EE65CFBC98534B4C07A4D26D4FD10B3BEEB6]
+PASS all 6 traversal cases; no empty-path exception; no fixture mutation

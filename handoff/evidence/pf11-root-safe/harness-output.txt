@@ -1,0 +1,6 @@
+PASS ordinary existing parent expected=[] actual=[]
+PASS missing intermediate directory expected=[] actual=[]
+PASS filesystem root termination expected=[] actual=[]
+PASS .git directory in ancestor chain expected=[C:\Users\USER\AppData\Local\Temp\pf11-root-safe-b13e35ff2f784a59a9852c7fcce8dccb\repo-with-git-directory] actual=[C:\Users\USER\AppData\Local\Temp\pf11-root-safe-b13e35ff2f784a59a9852c7fcce8dccb\repo-with-git-directory]
+PASS .git file in ancestor chain expected=[C:\Users\USER\AppData\Local\Temp\pf11-root-safe-b13e35ff2f784a59a9852c7fcce8dccb\repo-with-git-file] actual=[C:\Users\USER\AppData\Local\Temp\pf11-root-safe-b13e35ff2f784a59a9852c7fcce8dccb\repo-with-git-file]
+PASS outside any Git worktree expected=[] actual=[]

@@ -1,0 +1,23 @@
+CAP-03 PF-11 — FINAL LOCAL TEST EVIDENCE
+========================================
+Recorded at: 2026-10-27T23:13:00.5428479+05:30
+Disposition: PASS — COMPATIBILITY-ASSISTED EXECUTION
+Published harness: 03-test_pf11_root_safe.ps1
+Published helper: 01-Find-GitWorktreeAncestor.ps1
+Authoritative commit: 115394724f7852544b90715d48b1c73a8dfecc52
+Harness SHA-256: 0e56dae1ed1cf91772144422cf3f30704f271bd9ebb6b95043937dd0af8862cb
+Helper SHA-256: 65dde9a1a8fc79d295baffdc24b6dc163744d1e70ce6a08056e201939ca6d382
+Traversal cases: 6 of 6 passed
+Fixture fingerprint check: completed by compatibility-assisted execution
+Process exit code: 0
+Required final success marker: verified
+Published harness and helper: unchanged
+Repository and branch: unchanged
+Capture procedure: not invoked
+P-1 provisioning or execution: not performed
+Scope: local PF-11 test evidence only
+Qualification: compatibility-assisted execution; not an unmodified native harness run
+PF-17-CAPTURE: not established by this test
+P-1 authorization: not granted by this test
+Source output: C:\Users\USER\Documents\CAP03-PF11-Results\92d931fbb5204f74870aedf78610e29a\harness-compat-output.txt
+Source result: C:\Users\USER\Documents\CAP03-PF11-Results\92d931fbb5204f74870aedf78610e29a\harness-compat-result.txt

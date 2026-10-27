@@ -1,0 +1,11 @@
+﻿Timestamp: 2026-10-27T23:07:39.9738649+05:30
+Original harness SHA-256: 0e56dae1ed1cf91772144422cf3f30704f271bd9ebb6b95043937dd0af8862cb
+Original helper SHA-256: 65dde9a1a8fc79d295baffdc24b6dc163744d1e70ce6a08056e201939ca6d382
+Harness started: True
+Harness exit code: 0
+Harness passed: True
+Final status: PASSED
+Failure: 
+Output: C:\Users\USER\Documents\CAP03-PF11-Results\92d931fbb5204f74870aedf78610e29a\harness-compat-output.txt
+Stderr: C:\Users\USER\Documents\CAP03-PF11-Results\92d931fbb5204f74870aedf78610e29a\harness-compat-error.txt
+Compatibility runner: C:\Users\USER\Documents\CAP03-PF11-Results\92d931fbb5204f74870aedf78610e29a\run-pf11-hash-compat.ps1
