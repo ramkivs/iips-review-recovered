@@ -1,0 +1,188 @@
+{
+ "record_id": "IIPS-V3-CAP03-P1C-P1D-EVIDENCE-RECONCILIATION-CORRECTION-2026-10-27-01",
+ "bundle_role": "03 - reproducible derivative reconstruction of BOTH captures against their designated sources, with an explicit confidence boundary. Read-only computation over authoritative bytes; nothing invoked, derived for execution, or written to any host path.",
+ "no_execution_note": "This is a byte comparison performed in the repository sandbox. No instrument was invoked, no executing copy was produced for use, no capture directory was created, and no host was contacted.",
+ "sources": {
+  "v1_original": {
+   "path": "evidence/integration/cap03-p1-f4-parent-preflight-reconciliation-2026-10-27/02-p1c-p1d-readonly-preflight.ps1",
+   "bytes": 10231,
+   "git_blob": "eaea3f7fc7ef7f49395c3cbec26ed1ad379f46bb",
+   "sha256": "85ac7271c73469b6d5e454a3173ff3aad944a645a2352bb77ee36baee976a30b",
+   "has_Find_GitWorktreeAncestor_helper": false,
+   "governing_record": "tracker 16.152.3 / 16.153.3 - the published read-only instrument"
+  },
+  "v2_root_safe": {
+   "path": "evidence/integration/cap03-pf11-root-safe-correction-2026-10-27/02-p1c-p1d-readonly-preflight-pf11-root-safe-v2.ps1",
+   "bytes": 10990,
+   "git_blob": "191f5828461286b0f6fcb688b023da5dfc68a265",
+   "sha256": "13783385cb8a7964387868ad96f05956cceb9b7d4ead048c0cfe72b325e6748e",
+   "has_Find_GitWorktreeAncestor_helper": true,
+   "governing_record": "tracker 16.154.3 - designates v2 for a future attempt and supersedes ONLY the earlier procedure's source-identity/derivative-source references"
+  }
+ },
+ "captures": {
+  "earlier": {
+   "run_id": "cap03-p1-20261027T110433Z-3569c5ceff28428c8293c442c9436649",
+   "archive_entry": "cap03-p1-20261027T110433Z-3569c5ceff28428c8293c442c9436649/02-executed-instrument.ps1",
+   "bytes": 10285,
+   "crlf": 0,
+   "sha256": "de763ba21be19d3a73e065c2683bc68f38d2bae3f1a885c4fc5784f01dbe2cfa",
+   "self_recorded_digest_matches": true,
+   "has_own_byte_diff_json": true,
+   "has_pf17_register": true
+  },
+  "root_safe": {
+   "run_id": "cap03-p1-20261027T133547Z-edc19dfb4f0e4dc997ea15854187c50f",
+   "archive_entry": "cap03-p1-20261027T133547Z-edc19dfb4f0e4dc997ea15854187c50f/02-executed-instrument.ps1",
+   "bytes": 11257,
+   "crlf": 214,
+   "sha256": "804a832296f326dff5ea1a8b3b0c779c3a7721d2db931e9a462ead648f5f6bd7",
+   "self_recorded_digest_matches": true,
+   "has_own_byte_diff_json": false,
+   "has_pf17_register": false
+  }
+ },
+ "reconstruction_earlier_vs_v1": {
+  "hypothesis": "earlier captured derivative == v1 published LF source + exactly the three permitted parameter substitutions",
+  "substitution_sites": [
+   {
+    "line": 22,
+    "byte_offset_in_source": 1171,
+    "old_len": 38,
+    "new_len": 76,
+    "delta": 38
+   },
+   {
+    "line": 27,
+    "byte_offset_in_source": 1553,
+    "old_len": 54,
+    "new_len": 65,
+    "delta": 11
+   },
+   {
+    "line": 28,
+    "byte_offset_in_source": 1619,
+    "old_len": 48,
+    "new_len": 53,
+    "delta": 5
+   }
+  ],
+  "reconstructed_bytes": 10285,
+  "captured_bytes": 10285,
+  "BYTE_EXACT_MATCH": true,
+  "reconstructed_sha256": "de763ba21be19d3a73e065c2683bc68f38d2bae3f1a885c4fc5784f01dbe2cfa",
+  "captured_sha256": "de763ba21be19d3a73e065c2683bc68f38d2bae3f1a885c4fc5784f01dbe2cfa",
+  "confidence": "ESTABLISHED byte-exactly from authoritative bytes. The earlier run's own 20-script-byte-diff.json independently reproduces.",
+  "note": "this run used the v1 lineage (no Find-GitWorktreeAncestor helper), so its PF-11 output carries the empty-path Join-Path/Split-Path errors already recorded; that defect is unaffected by this finding"
+ },
+ "reconstruction_root_safe_vs_v2": {
+  "hypothesis": "root-safe captured derivative == v2 published source + exactly the three permitted parameter substitutions, modulo line-ending representation and one trailing newline",
+  "substitution_sites_on_crlf_form": [
+   {
+    "line": 22,
+    "byte_offset_in_source": 1192,
+    "old_len": 38,
+    "new_len": 76,
+    "delta": 38
+   },
+   {
+    "line": 27,
+    "byte_offset_in_source": 1579,
+    "old_len": 54,
+    "new_len": 65,
+    "delta": 11
+   },
+   {
+    "line": 28,
+    "byte_offset_in_source": 1646,
+    "old_len": 48,
+    "new_len": 53,
+    "delta": 5
+   }
+  ],
+  "crlf_form_of_v2_bytes": 11205,
+  "reconstructed_crlf_bytes": 11259,
+  "captured_bytes": 11257,
+  "BYTE_EXACT_MATCH_AFTER_REMOVING_ONE_TRAILING_CRLF": true,
+  "BYTE_EXACT_MATCH_STRICT": false,
+  "line_level_diff_non_equal_opcodes": 3,
+  "line_level_diff_detail": [
+   {
+    "tag": "replace",
+    "source_lines_1based": [
+     22,
+     22
+    ],
+    "captured_lines_1based": [
+     22,
+     22
+    ],
+    "source_text": [
+     "$RunId        = 'cap03-p1-20261027-01'"
+    ],
+    "captured_text": [
+     "$RunId        = 'cap03-p1-20261027T133547Z-edc19dfb4f0e4dc997ea15854187c50f'"
+    ]
+   },
+   {
+    "tag": "replace",
+    "source_lines_1based": [
+     27,
+     28
+    ],
+    "captured_lines_1based": [
+     27,
+     28
+    ],
+    "source_text": [
+     "$IpdRoot = '<ABSOLUTE PATH OF THE IPD CHECKOUT ON H:>'",
+     "$IrrRoot = '<ABSOLUTE PATH OF THE IRR CHECKOUT>'"
+    ],
+    "captured_text": [
+     "$IpdRoot = 'C:\\iips-work\\iips-production-market-data-p1-001c3c80'",
+     "$IrrRoot = 'C:\\iips-work\\irr-cap03-consumer-ba64b2d5'"
+    ]
+   },
+   {
+    "tag": "delete",
+    "source_lines_1based": [
+     216,
+     216
+    ],
+    "captured_lines_1based": [
+     216,
+     215
+    ],
+    "source_text": [
+     ""
+    ],
+    "captured_text": []
+   }
+  ],
+  "lf_equivalent_strict_match": true,
+  "storepath_line_untouched": true,
+  "confidence": "CONTENT-LEVEL ESTABLISHED: the differences are confined to the three designated parameter assignment lines (22, 27-28) plus one trailing newline; no logic, safety line, check, output name, ordering or $StorePath byte differs.",
+  "residual_HOST_LOCUS_UNVERIFIED": [
+   "the captured derivative is CRLF-terminated while the designated v2 published source is LF and is protected by an exact-path 'text eol=lf' rule; a raw-byte substitution of the published LF bytes (as 16.152.3 / 16.154 and procedure 4.4's WriteAllBytes require) cannot by itself produce CRLF bytes",
+   "the captured derivative lacks the source's final trailing newline",
+   "no in-session 20-script-byte-diff.json was supplied for this run, so the operator-side diff proof required by 16.152.3 remains absent",
+   "the provenance of the CRLF working-tree form on the host is therefore UNVERIFIED and remains a host-locus item; it is NOT cured by this repository-side reconstruction"
+  ],
+  "explicitly_not_claimed": "This does NOT establish that the root-safe capture executed the exact governing published instrument bytes, and does NOT close R-4."
+ },
+ "separate_identities_preserved": {
+  "earlier_lineage_is_v1": true,
+  "root_safe_lineage_is_v2": true,
+  "lineages_differ": true,
+  "run_ids_distinct": true,
+  "evidence_never_mixed": true,
+  "statement": "the two captures used different instrument lineages and retain distinct run identities; neither is relabelled, merged or treated as evidence for the other"
+ },
+ "acceptance_boundary": {
+  "P-1-C": "NOT ESTABLISHED - unchanged; these findings are repository-side byte comparisons, not attempt-session acceptance",
+  "P-1-D": "DESIGNATED; SUBSTANTIVELY SUPPORTED AT REPORTED CAPTURE; NOT VERIFIED FOR THE ATTEMPT - unchanged",
+  "P-1": "NOT EXECUTED / UNSPENT / NOT AUTHORIZED - unchanged",
+  "R-4_status": "NOT closed; narrowed only",
+  "no_upgrade": "The derivative findings are deliberately NOT upgraded into P-1-C acceptance or P-1-D attempt verification."
+ }
+}

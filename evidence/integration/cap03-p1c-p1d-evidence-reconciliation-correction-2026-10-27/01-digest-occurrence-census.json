@@ -1,0 +1,72 @@
+{
+ "record_id": "IIPS-V3-CAP03-P1C-P1D-EVIDENCE-RECONCILIATION-CORRECTION-2026-10-27-01",
+ "bundle_role": "01 - exhaustive census of every 13783385-prefixed digest string in the tracked tree AT THE BASE COMMIT (read from git objects, so it is reproducible after this correction's own edits), and the exact transcription relationship between the valid and malformed forms",
+ "scanned_commit": "d8a4f77850ad0b45695282d6bfa20e51921f19e8",
+ "scan_method": "git ls-tree -r --name-only <base> then git show <base>:<path> for every text-typed tracked path; decoded bytes scanned with the regex 13783385[0-9a-fA-F]*. Nothing is read from the post-correction working tree.",
+ "scanned_tracked_paths": 2053,
+ "scanned_text_paths": 1905,
+ "authoritative_value": {
+  "digest": "13783385cb8a7964387868ad96f05956cceb9b7d4ead048c0cfe72b325e6748e",
+  "hex_length": 64,
+  "valid_sha256": true,
+  "reproduces_from_live_published_v2_blob": true,
+  "recorded_by": "tracker 16.154.8 publication receipt (16/16 independent remote blob read-back)",
+  "tracker_lines_at_base": [
+   364,
+   365,
+   13573,
+   13624
+  ]
+ },
+ "erroneous_value": {
+  "digest": "13783385cb8a7964387868ad96f05956cceb9b7d4ead0488c0cfe72b325e6748e",
+  "hex_length": 65,
+  "valid_sha256": false,
+  "relationship_to_authoritative_value": "the authoritative 64-char digest with exactly one extra '8' inserted into the '048c0cfe' run, producing '0488c0cfe'",
+  "first_divergence_index_0based": 47,
+  "first_divergence_context": {
+   "correct": "...b7d4ead048c0cfe72b32...",
+   "malformed": "...b7d4ead0488c0cfe72b3..."
+  },
+  "deletion_indices_0based_that_yield_the_correct_digest": [
+   46,
+   47
+  ],
+  "why_the_insertion_index_is_ambiguous": "the inserted character is '8' and the following character of the correct digest is also '8', so deleting either of the two adjacent '8' characters (indices [46, 47]) reproduces the correct digest; the defect is therefore stated as one extra '8' in the doubled run, not as a single unambiguous index",
+  "single_deletion_is_sufficient": true,
+  "verified": true
+ },
+ "census": [
+  {
+   "digest_string": "13783385cb8a7964387868ad96f05956cceb9b7d4ead048c0cfe72b325e6748e",
+   "hex_length": 64,
+   "valid_sha256_form": true,
+   "total_occurrences": 9,
+   "distinct_files": 5,
+   "per_file_counts": {
+    "IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md": 4,
+    "evidence/integration/cap03-pf11-root-safe-correction-2026-10-27/08-publication-readback.json": 2,
+    "evidence/integration/cap03-pf11-root-safe-correction-2026-10-27/07-minimal-change-record.json": 1,
+    "evidence/integration/cap03-pf11-root-safe-correction-2026-10-27/09-procedure-supplement-checks.json": 1,
+    "evidence/integration/cap03-pf11-root-safe-correction-2026-10-27/SHA256SUMS.txt": 1
+   }
+  },
+  {
+   "digest_string": "13783385cb8a7964387868ad96f05956cceb9b7d4ead0488c0cfe72b325e6748e",
+   "hex_length": 65,
+   "valid_sha256_form": false,
+   "total_occurrences": 1,
+   "distinct_files": 1,
+   "per_file_counts": {
+    "evidence/integration/cap03-p1c-p1d-evidence-reconciliation-2026-10-27/CAP03_P1C_P1D_EVIDENCE_RECONCILIATION_2026-10-27.md": 1
+   }
+  }
+ ],
+ "finding": "At the base commit the valid 64-character digest occurs 9 times across 5 tracked files, all of them the 16.154 correction record and its evidence bundle; the invalid 65-character string occurs exactly 1 time in the entire tracked tree, in the PR #333 reconciliation report. 16.155's assertion that 'the earlier recorded purported SHA-256 string had 65 hex characters and is invalid' is therefore FALSE as applied to 16.154.8: the 65-character string is PR #333's own transcription, not a value 16.154 recorded.",
+ "superseded_claim": {
+  "location": "tracker 16.155 (line 13650 at base) and evidence/integration/cap03-p1c-p1d-evidence-reconciliation-2026-10-27/CAP03_P1C_P1D_EVIDENCE_RECONCILIATION_2026-10-27.md lines 31 and 45",
+  "claim": "the previously recorded SHA-256 for the v2 instrument has 65 hex characters and is malformed / invalid",
+  "status": "SUPERSEDED by 16.156 - demonstrably false; 16.154.8's 64-char digest is correct and reproduces live"
+ },
+ "historical_record_handling": "The PR #333 report and assessment.json are preserved byte-for-byte and NOT edited; the correction is additive, per the 16.137 preserve-and-supersede precedent."
+}

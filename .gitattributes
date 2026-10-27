@@ -12,3 +12,7 @@ iips-platform/src/sector-engines/cross-sector/population/ScreeningPopulation.ts 
 NP-12-N4-CANONICAL-BYTE-GRAMMAR-DECISION-RECORD.md text eol=lf
 evidence/integration/cap03-p1-f4-parent-preflight-reconciliation-2026-10-27/02-p1c-p1d-readonly-preflight.ps1 text eol=lf
 evidence/integration/cap03-pf11-root-safe-correction-2026-10-27/02-p1c-p1d-readonly-preflight-pf11-root-safe-v2.ps1 text eol=lf
+# CRLF-canonical captured host evidence: stored byte-exactly as captured on the Windows host.
+# `-text` (not `text eol=lf`) is required here because the canonical bytes ARE CRLF; an eol=lf
+# rule would itself destroy the evidence. Prevents core.autocrlf re-normalisation on any checkout.
+evidence/integration/cap03-p1c-p1d-evidence-reconciliation-2026-10-27/captured_root_safe_instrument.ps1 -text

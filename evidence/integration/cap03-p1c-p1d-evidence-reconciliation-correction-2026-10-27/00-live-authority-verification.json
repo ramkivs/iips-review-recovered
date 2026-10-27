@@ -1,0 +1,46 @@
+{
+ "record_id": "IIPS-V3-CAP03-P1C-P1D-EVIDENCE-RECONCILIATION-CORRECTION-2026-10-27-01",
+ "bundle_role": "00 - live re-verification of every authority coordinate and instrument identity relied on by the correction, read from authoritative Git objects (GitHub API) and the local base checkout",
+ "method": "GitHub Branches / Git Trees / Contents(raw) API at the exact base commit; local git object database; SHA-256 and Git blob identities recomputed, never transcribed",
+ "base_commit_verified": {
+  "repository": "ramkivs/iips-review-recovered",
+  "remote_main_commit": "d8a4f77850ad0b45695282d6bfa20e51921f19e8",
+  "remote_main_tree": "334702f9a98297ce3fa4cccd8f133839752955ca",
+  "remote_main_date": "2026-10-27T14:34:13Z",
+  "expected_base_commit": "d8a4f77850ad0b45695282d6bfa20e51921f19e8",
+  "expected_base_tree": "334702f9a98297ce3fa4cccd8f133839752955ca",
+  "local_head": "d8a4f77850ad0b45695282d6bfa20e51921f19e8",
+  "match": true
+ },
+ "ipd_read_only": {
+  "repository": "ramkivs/iips-production-market-data",
+  "remote_main_commit": "888eb375eebee01640e44ccdcbb138a71e8c4513",
+  "remote_main_tree": "cf3b90482fa7ed1f9780f20a9286164686885d2b",
+  "writes_performed": 0,
+  "note": "read-only; unchanged since the PF-17 investigation and since tracker 16.153 recorded it"
+ },
+ "v2_root_safe_instrument": {
+  "path": "evidence/integration/cap03-pf11-root-safe-correction-2026-10-27/02-p1c-p1d-readonly-preflight-pf11-root-safe-v2.ps1",
+  "expected_blob_per_16_154_8": "191f5828461286b0f6fcb688b023da5dfc68a265",
+  "expected_bytes_per_16_154_8": 10990,
+  "expected_sha256_per_16_154_8": "13783385cb8a7964387868ad96f05956cceb9b7d4ead048c0cfe72b325e6748e",
+  "live_remote_bytes": 10990,
+  "live_remote_sha256": "13783385cb8a7964387868ad96f05956cceb9b7d4ead048c0cfe72b325e6748e",
+  "live_remote_recomputed_git_blob": "191f5828461286b0f6fcb688b023da5dfc68a265",
+  "live_remote_tree_blob_id": "191f5828461286b0f6fcb688b023da5dfc68a265",
+  "local_base_blob_id": "191f5828461286b0f6fcb688b023da5dfc68a265",
+  "sha256_length_hex_chars": 64,
+  "all_four_identities_match_16_154_8": true
+ },
+ "v1_original_instrument_unchanged": {
+  "path": "evidence/integration/cap03-p1-f4-parent-preflight-reconciliation-2026-10-27/02-p1c-p1d-readonly-preflight.ps1",
+  "expected_blob": "eaea3f7fc7ef7f49395c3cbec26ed1ad379f46bb",
+  "expected_bytes": 10231,
+  "expected_sha256": "85ac7271c73469b6d5e454a3173ff3aad944a645a2352bb77ee36baee976a30b",
+  "live_remote_bytes": 10231,
+  "live_remote_sha256": "85ac7271c73469b6d5e454a3173ff3aad944a645a2352bb77ee36baee976a30b",
+  "live_remote_recomputed_git_blob": "eaea3f7fc7ef7f49395c3cbec26ed1ad379f46bb",
+  "unchanged": true
+ },
+ "conclusion": "16.154.8's recorded v2 identity is CORRECT and reproduces from live authoritative bytes. No instrument source, execution pin or governing procedure is changed by this correction."
+}

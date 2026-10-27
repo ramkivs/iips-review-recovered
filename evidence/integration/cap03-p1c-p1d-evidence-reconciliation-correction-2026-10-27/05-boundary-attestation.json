@@ -1,0 +1,92 @@
+{
+ "record_id": "IIPS-V3-CAP03-P1C-P1D-EVIDENCE-RECONCILIATION-CORRECTION-2026-10-27-01",
+ "bundle_role": "05 - boundary attestation: exactly what this correction changes and the full list of things it does not",
+ "base_commit": "d8a4f77850ad0b45695282d6bfa20e51921f19e8",
+ "base_tree": "334702f9a98297ce3fa4cccd8f133839752955ca",
+ "branch": "arena/b66a6afe-iips-review-recovered",
+ "staged_changes": [
+  [
+   "M",
+   ".gitattributes"
+  ],
+  [
+   "M",
+   "evidence/integration/cap03-p1c-p1d-evidence-reconciliation-2026-10-27/INDEX.md"
+  ],
+  [
+   "M",
+   "evidence/integration/cap03-p1c-p1d-evidence-reconciliation-2026-10-27/SHA256SUMS.txt"
+  ],
+  [
+   "M",
+   "evidence/integration/cap03-p1c-p1d-evidence-reconciliation-2026-10-27/captured_root_safe_instrument.ps1"
+  ],
+  [
+   "A",
+   "evidence/integration/cap03-p1c-p1d-evidence-reconciliation-correction-2026-10-27/00-live-authority-verification.json"
+  ],
+  [
+   "A",
+   "evidence/integration/cap03-p1c-p1d-evidence-reconciliation-correction-2026-10-27/01-digest-occurrence-census.json"
+  ],
+  [
+   "A",
+   "evidence/integration/cap03-p1c-p1d-evidence-reconciliation-correction-2026-10-27/02-eol-normalisation-defect.json"
+  ],
+  [
+   "A",
+   "evidence/integration/cap03-p1c-p1d-evidence-reconciliation-correction-2026-10-27/03-derivative-reconstruction.json"
+  ],
+  [
+   "A",
+   "evidence/integration/cap03-p1c-p1d-evidence-reconciliation-correction-2026-10-27/verify_correction.py"
+  ]
+ ],
+ "changed_path_count": 9,
+ "what_is_changed": {
+  ".gitattributes": "one exact-path '-text' rule added for the captured CRLF evidence file, plus an explanatory comment; no existing rule altered or removed",
+  "evidence/integration/cap03-p1c-p1d-evidence-reconciliation-2026-10-27/captured_root_safe_instrument.ps1": "original CRLF evidence bytes restored (blob 811c6b63... -> 8a913f9a...); content is byte-identical to the file inside the preserved root_safe_capture.zip",
+  "evidence/integration/cap03-p1c-p1d-evidence-reconciliation-2026-10-27/INDEX.md": "corrected to describe the package accurately (publication status, canonical line endings, checks actually performed and their results, superseded conclusions)",
+  "evidence/integration/cap03-p1c-p1d-evidence-reconciliation-2026-10-27/SHA256SUMS.txt": "only the INDEX.md line updated, because INDEX.md content changed; the captured_root_safe_instrument.ps1 line is UNCHANGED because it was already correct",
+  "docs/integration/IIPS_v3.0_CAP03_P1C_P1D_EVIDENCE_RECONCILIATION_CORRECTION_2026-10-27.md": "new focused correction record",
+  "evidence/integration/cap03-p1c-p1d-evidence-reconciliation-correction-2026-10-27/": "new correction evidence bundle",
+  "IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md": "additive 16.156 successor correction record and one change-log row; no existing section edited"
+ },
+ "what_is_NOT_changed": {
+  "historical_records_preserved_byte_for_byte": [
+   "evidence/integration/cap03-p1c-p1d-evidence-reconciliation-2026-10-27/CAP03_P1C_P1D_EVIDENCE_RECONCILIATION_2026-10-27.md",
+   "evidence/integration/cap03-p1c-p1d-evidence-reconciliation-2026-10-27/assessment.json",
+   "evidence/integration/cap03-p1c-p1d-evidence-reconciliation-2026-10-27/verify_assessment.py"
+  ],
+  "capture_archives_preserved": [
+   "evidence/integration/cap03-p1c-p1d-evidence-reconciliation-2026-10-27/earlier_capture.zip",
+   "evidence/integration/cap03-p1c-p1d-evidence-reconciliation-2026-10-27/root_safe_capture.zip"
+  ],
+  "instruments_untouched": [
+   "evidence/integration/cap03-p1-f4-parent-preflight-reconciliation-2026-10-27/02-p1c-p1d-readonly-preflight.ps1 (v1, blob eaea3f7f...)",
+   "evidence/integration/cap03-pf11-root-safe-correction-2026-10-27/02-p1c-p1d-readonly-preflight-pf11-root-safe-v2.ps1 (v2, blob 191f5828...)"
+  ],
+  "tracker_sections_16_152_through_16_155": "unedited; 16.155's incorrect conclusions are superseded by the additive 16.156, not rewritten",
+  "governing_procedure": "docs/integration/IIPS_v3.0_CAP03_P1C_P1D_FRESH_CAPTURE_PROCEDURE_2026-10-27.md unedited",
+  "execution_pins": "IPD 001c3c80.../399fa44a... and IRR PF-08 ba64b2d5.../5e4262f1... unchanged and not re-designated",
+  "PF-17": "wording, threshold and required confirmation string 'UNSPENT - NO P-1 EXECUTION RECEIPT' unchanged; PF-17 is NOT satisfied by this correction and is not treated as host evidence",
+  "F4": "C:\\iips-data\\iips\\user-portfolio.sqlite - unchanged, not created, not modified",
+  "F5": "C:\\iips-evidence\\cap03-gate4 - unchanged",
+  "store_sidecars_parent": "none created, modified or deleted",
+  "IPD_repository": "read-only; 0 writes; no branch, PR, file or commit created or altered",
+  "windows_host": "not contacted; no command sent; no capture directory created; no capture rerun",
+  "executing_instrument": "not invoked, not derived, not generated; the derivative analysis in 03 is a read-only byte comparison in this sandbox",
+  "gates": "S3 / QE / DQ-4 / Gate 4 / Gate 5 unchanged; no gate advanced",
+  "acceptance": "no preflight accepted; no host validation claimed"
+ },
+ "status_after_correction": {
+  "P-1-C": "NOT ESTABLISHED",
+  "P-1-D": "DESIGNATED; SUBSTANTIVELY SUPPORTED AT REPORTED CAPTURE; NOT VERIFIED FOR THE ATTEMPT",
+  "P-1": "NOT EXECUTED / UNSPENT / NOT AUTHORIZED",
+  "PF-17_capture_limb": "STILL NOT EVIDENCED - host-locus; unchanged by this correction",
+  "native_windows_powershell_5_1_harness": "STILL OUTSTANDING (V1053 NOT AVAILABLE) - host-locus prerequisite before any subsequent capture",
+  "IPD_writes": 0,
+  "repository_writes_outside_IRR": 0
+ },
+ "grants": "This correction grants no execution authority, no acceptance, and no gate advancement. It repairs evidence storage and supersedes two demonstrably false conclusions."
+}

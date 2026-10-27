@@ -1,0 +1,80 @@
+{
+ "record_id": "IIPS-V3-CAP03-P1C-P1D-EVIDENCE-RECONCILIATION-CORRECTION-2026-10-27-01",
+ "bundle_role": "02 - the evidence-package integrity defect: affected path, original evidence bytes, bytes PR #333 committed, hashes, empirically reproduced mechanism, and the byte-preserving correction",
+ "affected_path": "evidence/integration/cap03-p1c-p1d-evidence-reconciliation-2026-10-27/captured_root_safe_instrument.ps1",
+ "original_evidence_bytes": {
+  "source": "evidence/integration/cap03-p1c-p1d-evidence-reconciliation-2026-10-27/root_safe_capture.zip -> cap03-p1-20261027T133547Z-edc19dfb4f0e4dc997ea15854187c50f/02-executed-instrument.ps1 (read from the preserved archive; the archive itself was NOT modified)",
+  "bytes": 11257,
+  "line_endings": "CRLF",
+  "crlf_count": 214,
+  "lf_count": 214,
+  "sha256": "804a832296f326dff5ea1a8b3b0c779c3a7721d2db931e9a462ead648f5f6bd7",
+  "git_blob": "8a913f9a7223ef7c6d32d5a5274c84c21e8ec0d0",
+  "matches_SHA256SUMS_line_as_published_by_PR333": true
+ },
+ "bytes_committed_by_pr_333_at_base": {
+  "commit": "d8a4f77850ad0b45695282d6bfa20e51921f19e8",
+  "git_blob": "811c6b63194b72859d180236eb944548c649f00e",
+  "bytes": 11043,
+  "line_endings": "LF",
+  "crlf_count": 0,
+  "lf_count": 214,
+  "sha256": "95aa38118066a5fafdb75ebb4676beeb5701a9b3385a07877b5b1cbd3a1d9532",
+  "listed_by_SHA256SUMS_at_base": "804a832296f326dff5ea1a8b3b0c779c3a7721d2db931e9a462ead648f5f6bd7",
+  "manifest_matched_committed_bytes": false
+ },
+ "defect": {
+  "statement": "PR #333 committed a line-ending-normalised (LF, 11,043 B) copy of captured host evidence whose canonical bytes are CRLF (11,257 B), while SHA256SUMS.txt described the CRLF original. The committed bytes were therefore not the evidence the manifest described, INDEX.md's 'byte-for-byte copy' statement was false of them, and the package verifier failed.",
+  "byte_delta": 214,
+  "byte_delta_equals_crlf_count": true,
+  "committed_equals_original_with_crlf_stripped": true,
+  "verifier_at_base": "FAIL exit 1 - sha256 mismatch: captured_root_safe_instrument.ps1",
+  "affected_manifest_lines": "1 of 7 (captured_root_safe_instrument.ps1); the other 6 matched at base",
+  "not_a_manifest_error": "SHA256SUMS.txt line 4 correctly described the ORIGINAL evidence bytes; the committed file was wrong, not the manifest"
+ },
+ "mechanism_empirically_reproduced": {
+  "method": "the original CRLF evidence bytes were written into scratch git repositories under the stated core.autocrlf settings, with and without an exact-path '-text' attribute, and the resulting staged blob id was read back with git ls-files -s. No value is transcribed.",
+  "blob_of_original_crlf_bytes": "8a913f9a7223ef7c6d32d5a5274c84c21e8ec0d0",
+  "blob_of_lf_normalised_bytes": "811c6b63194b72859d180236eb944548c649f00e",
+  "cases": {
+   "autocrlf_true__no_attribute": "811c6b63194b72859d180236eb944548c649f00e",
+   "autocrlf_true__with_-text_attribute": "8a913f9a7223ef7c6d32d5a5274c84c21e8ec0d0",
+   "autocrlf_input__no_attribute": "811c6b63194b72859d180236eb944548c649f00e",
+   "autocrlf_input__with_-text_attribute": "8a913f9a7223ef7c6d32d5a5274c84c21e8ec0d0",
+   "autocrlf_false__no_attribute": "8a913f9a7223ef7c6d32d5a5274c84c21e8ec0d0"
+  },
+  "conclusion": "core.autocrlf=true (or input) with NO attribute stages the LF blob 811c6b63194b72859d180236eb944548c649f00e - byte-for-byte the blob PR #333 committed. With the exact-path '-text' attribute the CRLF blob 8a913f9a7223ef7c6d32d5a5274c84c21e8ec0d0 is staged under every setting tested. The mechanism is therefore reproduced, not assumed.",
+  "reproduces_pr333_blob": true,
+  "note_on_base_environment": "core.autocrlf is unset in this correction environment, where git stages the CRLF bytes unchanged; the normalisation is attributable to the PR #333 authoring environment's conversion settings, and the '-text' rule makes preservation independent of that setting on any future checkout, including the designated Windows operator host"
+ },
+ "correction_applied": {
+  "approach": "byte-preserving evidence restoration - the original CRLF evidence bytes are restored and an exact-path '-text' attribute is added; SHA256SUMS.txt line 4 is UNCHANGED because it was already correct",
+  "restored_working_tree_bytes": 11257,
+  "restored_sha256": "804a832296f326dff5ea1a8b3b0c779c3a7721d2db931e9a462ead648f5f6bd7",
+  "restored_git_blob": "8a913f9a7223ef7c6d32d5a5274c84c21e8ec0d0",
+  "restored_bytes_identical_to_archive_original": true,
+  "gitattributes_rule_added": "evidence/integration/cap03-p1c-p1d-evidence-reconciliation-2026-10-27/captured_root_safe_instrument.ps1 -text",
+  "why_not_text_eol_lf": "the canonical evidence bytes ARE CRLF; a 'text eol=lf' rule would itself destroy the captured evidence, so the correct attribute is '-text' (no conversion)",
+  "why_not_manifest_edit": "editing SHA256SUMS.txt to the normalised hash would conceal the mismatch instead of preserving the evidence; the manifest was already correct",
+  "manifest_lines_changed": [
+   "INDEX.md (its own content was corrected, so its hash necessarily changes)"
+  ],
+  "manifest_lines_unchanged": [
+   "CAP03_P1C_P1D_EVIDENCE_RECONCILIATION_2026-10-27.md",
+   "assessment.json",
+   "captured_root_safe_instrument.ps1",
+   "earlier_capture.zip",
+   "root_safe_capture.zip",
+   "verify_assessment.py"
+  ]
+ },
+ "archives_preserved": {
+  "earlier_capture.zip_sha256": "950857083cb73295cd3a1da1ac6f339e1adce8f6f210fdd98ec0efb4dc026146",
+  "root_safe_capture.zip_sha256": "1294c4d28713a38770da4e8b93d1a96b01b5379dda39534af2723a3436a42571",
+  "unchanged_from_pr_333": true,
+  "opened_for_writing": false,
+  "reconstructed": false,
+  "recombined": false,
+  "run_identities_kept_separate": true
+ }
+}
