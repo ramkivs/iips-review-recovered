@@ -1,0 +1,112 @@
+{
+  "record": "IIPS-V3-CAPMATRIX-51X17-RECONSTRUCTION-2026-10-27-01",
+  "utc": "2026-10-27",
+  "remote": [
+    {
+      "check": "published SHA256SUMS.txt is readable and lists 18 artefacts",
+      "ok": true,
+      "detail": "18 entries"
+    },
+    {
+      "check": "remote bytes == published manifest: 00-artefact-checks.json",
+      "ok": true,
+      "detail": "699 B sha256=33c67ce30e5d89cf\u2026 blob=f00cd16de8\u2026 local_match=True"
+    },
+    {
+      "check": "remote bytes == published manifest: 01-execution-log.md",
+      "ok": true,
+      "detail": "4119 B sha256=f6d3b63317aa946f\u2026 blob=362a5d5ab3\u2026 local_match=True"
+    },
+    {
+      "check": "remote bytes == published manifest: 02-probe-matrix.md",
+      "ok": true,
+      "detail": "4129 B sha256=b2da530dae91abc4\u2026 blob=ab7b3af0cc\u2026 local_match=True"
+    },
+    {
+      "check": "remote bytes == published manifest: IIPS_V3_CAPABILITY_MATRIX_51x17_2026-10-27.csv",
+      "ok": true,
+      "detail": "56936 B sha256=6b05e0527e647361\u2026 blob=cbe8df29e9\u2026 local_match=True"
+    },
+    {
+      "check": "remote bytes == published manifest: IIPS_V3_CAPABILITY_MATRIX_51x17_2026-10-27.xlsx",
+      "ok": true,
+      "detail": "27057 B sha256=f8d038d54a5f7f3e\u2026 blob=535ef19ca2\u2026 local_match=True"
+    },
+    {
+      "check": "remote bytes == published manifest: INDEX.md",
+      "ok": true,
+      "detail": "3251 B sha256=76cd5e36e4bd1800\u2026 blob=bafbe3906e\u2026 local_match=True"
+    },
+    {
+      "check": "remote bytes == published manifest: build_matrix.py",
+      "ok": true,
+      "detail": "9124 B sha256=06caefb9dfdaba3e\u2026 blob=803b81080b\u2026 local_match=True"
+    },
+    {
+      "check": "remote bytes == published manifest: build_report.py",
+      "ok": true,
+      "detail": "3845 B sha256=411182640d883f1a\u2026 blob=21faa46870\u2026 local_match=True"
+    },
+    {
+      "check": "remote bytes == published manifest: disposition.py",
+      "ok": true,
+      "detail": "3359 B sha256=9bb0baa74575dc54\u2026 blob=5c52c9a93d\u2026 local_match=True"
+    },
+    {
+      "check": "remote bytes == published manifest: matrix_data.py",
+      "ok": true,
+      "detail": "59182 B sha256=36ff0b2f678d3b69\u2026 blob=961789b4cb\u2026 local_match=True"
+    },
+    {
+      "check": "remote bytes == published manifest: report-body.md",
+      "ok": true,
+      "detail": "30522 B sha256=d8fad06c04d097cd\u2026 blob=3f34a9c7b4\u2026 local_match=True"
+    },
+    {
+      "check": "remote bytes == published manifest: section-E-counts.md",
+      "ok": true,
+      "detail": "3223 B sha256=76775ea959cca302\u2026 blob=332fd84228\u2026 local_match=True"
+    },
+    {
+      "check": "remote bytes == published manifest: section-FG.md",
+      "ok": true,
+      "detail": "3935 B sha256=7a2e4c1d589e8b57\u2026 blob=fdc773d8a9\u2026 local_match=True"
+    },
+    {
+      "check": "remote bytes == published manifest: section-H-matrix.md",
+      "ok": true,
+      "detail": "57525 B sha256=0c15dfa5ede850d6\u2026 blob=93ef813fe8\u2026 local_match=True"
+    },
+    {
+      "check": "remote bytes == published manifest: sectionE.py",
+      "ok": true,
+      "detail": "2074 B sha256=a2569218ad9f5063\u2026 blob=cc86d1ad9e\u2026 local_match=True"
+    },
+    {
+      "check": "remote bytes == published manifest: verify_publication.py",
+      "ok": true,
+      "detail": "8249 B sha256=983a2616faa7b672\u2026 blob=270d04273b\u2026 local_match=False"
+    },
+    {
+      "check": "remote bytes == published manifest: IIPS_v3.0_CAPABILITY_MATRIX_51X17_RECONSTRUCTION_2026-10-27.md",
+      "ok": true,
+      "detail": "95206 B sha256=3105b0117a91ba75\u2026 blob=52998a0e12\u2026 local_match=True"
+    },
+    {
+      "check": "remote bytes == published manifest: IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md",
+      "ok": true,
+      "detail": "2622521 B sha256=964076956b05027f\u2026 blob=8d9616eb8c\u2026 local_match=True"
+    },
+    {
+      "check": "published tree contains the report",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "published tree contains the CSV",
+      "ok": true,
+      "detail": ""
+    }
+  ],
+  "commit": "52f295a2f0d1475e4040dd673002853c120dfe8a"
+}
