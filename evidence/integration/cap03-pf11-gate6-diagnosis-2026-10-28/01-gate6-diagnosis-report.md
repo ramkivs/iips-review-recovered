@@ -196,3 +196,79 @@ The failure class is established (per-session command resolution / `CommandNotFo
 **Single earliest next action:** obtain from the operator the **two unpublished scripts** — the Gate 5/Gate 6 orchestrator and `run-pf11-hash-compat.ps1` — plus `harness-error.txt` and, if the session is still available, its `$env:PSModulePath` / `Get-Module -ListAvailable Microsoft.PowerShell.Utility`. No host run, no capture, no P-1, no rerun of PF-11.
 
 *End of report. Static analysis only; no PowerShell runtime available; no historical record modified.*
+
+---
+
+# Addendum 2026-10-28-B — recovered-artifact evidence and reconciliation
+
+Record: `IIPS-V3-CAP03-PF11-GATE6-DIAGNOSIS-ADDENDUM-2026-10-28-02`.
+Additive: sections A–H above are **not rewritten**. Two statements in them are corrected here by explicit supersession (§I.1). No historical file, log, waiver or acceptance is altered.
+Mode: static, read-only. No PowerShell runtime exists in this environment.
+
+## I.1 Supersessions of the A–H text (explicit, minimal)
+
+- **S-1 — process identity (supersedes §B, §C "Invocation mechanism").** Section B stated that the harness "ran as a **child** process outside the transcript window". That is **not established by any published evidence and is withdrawn**. What is established is only that the harness's outputs are timestamped `23:01:48 +05:30`, *after* the transcript's `22:58:11` end. The call operator on a `.ps1` path (`& script.ps1`, the form used by recovered Artifact A) runs in the **same process and runspace**, in a child scope. Whether the historical launch used `&`, a child `powershell.exe`, or something else is **UNKNOWN**; the process identity of the native harness run is **UNVERIFIED**.
+- **S-2 — weight of the compatibility run (refines §C counter-evidence item 4 and §D).** Section C/D used the compatibility run's real digest (`37CD8B00…`) to conclude that "harness/helper logic is sound". The recovered Artifact A supplies the mechanism: a script-scope `function Get-FileHash` substituted for the cmdlet, computing `[BitConverter]::ToString(…).Replace('-','')` over `[IO.File]::ReadAllBytes`. That conclusion therefore narrows to: **the harness's traversal and fingerprint logic are sound given *some* working `Get-FileHash` implementation** — it is **not** evidence that the real cmdlet resolves in any session, and **not** evidence of a native pass. Everything else in §C stands.
+
+## I.2 Recovered artifacts (full content stored in this directory)
+
+| Artifact | Copy | Bytes | SHA-256 | Source |
+|---|---|---|---|---|
+| A — `run-pf11-hash-compat.ps1` | `02-recovered-run-pf11-hash-compat.ps1` | 1,858 | `f8f330612dad73d7444f5da18e89a01529f3f25b74b66b5ab989f4a17868b0d8` | recovered from the user's ChatGPT session library; **original Windows provenance not established** |
+| B — `harness-error.txt` | `03-recovered-harness-error.txt` | 721 | `a9c36adccc702b0b3ea91bf266f684631ab7b43094b392cdaaa3e26959f16551` | recovered from the user's ChatGPT session library; **not** from the original results directory |
+
+Full provenance treatment, consistency findings and remaining uncertainty: `04-recovered-artifact-manifest.md`. Static syntax check of Artifact A with `tree-sitter-powershell`: **0 error nodes** (syntax only, not runtime validation).
+
+## I.3 Static analysis of Artifact A
+
+1. **What the function implements.** A script-scope replacement for `Get-FileHash` with two parameter sets (`Path`, default; `LiteralPath`), an `Algorithm` `ValidateSet` defaulting to `SHA256`, `Resolve-Path -LiteralPath` for path resolution, and `[System.Security.Cryptography.HashAlgorithm]::Create($Algorithm)` over `[IO.File]::ReadAllBytes(...)`, emitting `[pscustomobject]@{Algorithm; Hash; Path}` with the digest upper-cased via `[BitConverter]::ToString(...).Replace('-','')`. It reimplements the *contract* the harness consumes (`.Hash` on a file path); it does not implement the cmdlet's provider generality, `-InputStream`, streaming, or non-filesystem behavior.
+2. **Defined before the harness is invoked?** **Yes** — the function occupies lines 4–50 and `& $PublishedHarness` is the last statement (line 58). The token `Get-FileHash` occurs **once** in the whole file: at the function definition on line 4. The script never calls the real cmdlet itself; its only call is the harness's, in the harness's own scope chain.
+3. **Does it launch a new `powershell.exe`/`pwsh`?** **No.** Static scan finds no `Start-Process`, no `powershell.exe`, no `pwsh`, no `Invoke-Expression`, and no exit-code capture. It is a same-process script.
+4. **What `& $PublishedHarness` expresses.** The call operator applied to a `.ps1` **path** runs that script **in the current process and runspace**, in a **child scope** of the calling scope. It is not a child process, not a job, not a remoting hop, and not dot-sourcing (so the harness's variables do not leak back, while the caller's functions remain visible to it).
+5. **Function visibility across that boundary.** Command lookup walks the current scope and then its **parent** scopes, and command precedence is **alias > function > cmdlet > external**. The harness's scope is a child of the compat script's scope, so the compat `Get-FileHash` **function** is found before the real **cmdlet** and services the harness's line-16 call. That is the mechanism by which the compatibility run reached a fingerprint at all.
+6. **What would establish that this script was used in the historical failing execution.** It cannot be established from the present evidence. Needed: the original file's digest (none was recorded), the original file itself from `…\92d931fb…\`, or the outer wrapper's invocation line showing `run-pf11-hash-compat.ps1` being launched for the *compatibility* step and the harness being launched separately for the *native* step. `harness-compat-result.txt` line 11 names the runner path, which fixes the filename and directory — **not** the bytes, and **not** that it was involved in the failing native execution.
+7. **Could the function definition explain a successful compatibility run without proving the original Gate 5/Gate 6 launch path was correct?** **Yes, decisively.** The compat run never exercised the cmdlet: the substituted function satisfied line 16. A PASS under a substituted implementation says nothing about whether `Get-FileHash` resolves in that session, nothing about the orchestrator, and nothing about the native prerequisite. This is a *narrower and more accurate* reading than "the harness works"; it is also the reason the compatibility basis for the §16.158 waiver was recorded as non-native.
+
+**Additional finding — Artifact A is not the outer orchestrator and is not a complete compat runner.** `harness-compat-result.txt` records `Original harness SHA-256`, `Original helper SHA-256`, and a `Stderr:` path to `harness-compat-error.txt`. Artifact A prints no digest, redirects no stream, writes no result file, creates no run ID, starts no transcript, and prints no Gate banner. It therefore cannot have produced `execution.log`, `execution-result.txt` or `harness-error.txt`, and as recovered it does not contain the code that produced the compat result file. Either the operator reproduced only the program body, or an **unpublished outer wrapper** performed digesting, redirection and result writing. Either way the outer wrapper remains unpublished — the same gap the A–H report identified.
+
+## I.4 What Artifact B proves, and what it does not
+
+Proved (all five items requested, each checkable in the recovered text):
+
+- the missing command was **`Get-FileHash`** — `ObjectNotFound: (Get-FileHash:String)`, `FullyQualifiedErrorId : CommandNotFoundException,Microsoft.PowerShell.Commands.ForEachObjectCommand`;
+- the error surfaced **while processing the `ForEach-Object` pipeline** (`ForEach-Object :` message prefix, caret under `ForEach-Object`);
+- the reported location is **`03-test_pf11_root_safe.ps1:13` char `56`**, and the quoted statement is `Get-ChildItem -LiteralPath $Path -Force -Recurse | ForEach-Object {`;
+- the category is **`CommandNotFoundException`** — a command-resolution failure, not a hashing error;
+- execution failed at resolution, **before any hash comparison could complete**.
+
+**Corroboration of the harness bytes (new).** In the published harness at `main`, line 13 is exactly `    Get-ChildItem -LiteralPath $Path -Force -Recurse | ForEach-Object {` (71 characters, 4-space indent) and `ForEach-Object` begins at **1-based character 56** — an exact match to the recorded `char:56`. Line 16 of that same function is the only `Get-FileHash` in the harness. The recovered error is therefore **structurally identical** to the published harness in the region it quotes. This is strong corroboration of the published harness identity; it is **not** a byte proof (only the digested copy in the results directory could establish that, and it was never hashed).
+
+Not proved, and not to be inferred from Artifact B:
+
+- **the cause.** The message is the *symptom* of a failed command lookup; it records no `$env:PSModulePath`, no `Get-Module -ListAvailable`, no language mode and no engine state.
+- **whether the compatibility function was available in the process that invoked the harness.** It was not: had the compat function been visible to that invocation, line 16 would have resolved and no such error could appear. Artifact B therefore also **excludes** the shadowing mechanism from the *native* run, which is exactly why the compat run needed its own wrapper.
+- **the behaviour of the original unpublished orchestrator** — including whether it continued past its own Gate 6 STOP, and whether the harness was launched from the same session.
+- **whether any preflight in a parent session protects a separately launched child process.** A preflight proves resolution only in the session that ran it. If the instrument is invoked in that same session (`& $ExecutingScript`, as the revised procedure does), the check is context-equivalent; if a future step reintroduces a separate launcher, it is not.
+
+## I.5 Revised reconstruction
+
+The union of the two published records and the two recovered artifacts supports exactly one description that is evidence-backed at every step:
+
+1. `22:58:10` — Windows PowerShell 5.1.26100.9444 Desktop, ConsoleHost, an interactive session under an **unpublished** orchestrator; Gate 5 PASS printed; at Gate 6 a `Get-FileHash` call failed as `CommandNotFoundException` and the orchestrator printed `STOP:` with the message.
+2. `22:58:11` — transcript stopped; `execution.log` closes.
+3. `23:01:48` — some **unpublished wrapper** launched `03-test_pf11_root_safe.ps1` (the copy at `…\92d931fb…\`), captured stdout to `harness-output.txt`, stderr to `harness-error.txt`, exit code to `execution-result.txt`. The six assertions passed; `Get-TreeFingerprint`'s `ForEach-Object` (line 13, col 56) threw the **same** `CommandNotFoundException` from line 16; `$ErrorActionPreference = 'Stop'` ended the script with exit 1.
+4. `23:07:39` — a compatibility run started the harness under a substituted `Get-FileHash` **function**; traversal logic passed and a fingerprint was produced; recorded as PASS, exit 0, **non-native**.
+
+Step 3 and step 1 may have been the same process/session or different ones; **the record cannot decide it** (S-1). Either way the two failures share one command-resolution mechanism, and the compat success in step 4 is explained entirely by the substitution (S-2).
+
+## I.6 Disposition after the addendum
+
+> **PARTIALLY DIAGNOSED — ADDITIONAL EVIDENCE REQUIRED** *(unchanged)*
+
+The classification in §D — **MOST LIKELY CAUSE — NOT PROVEN**, a per-session command-discovery/module-state condition — is unchanged and is now *better* supported: the two failures are the same message at two call sites, the compat pass is fully explained by substitution rather than by host repair, and no host-wide or version-inherent defect is consistent with the same-version 5.1 pass.
+
+What narrowed: the recovered evidence closes the "cause is in the harness" question and the "a compat function explains the pass" question. What remains: **the outer orchestrator/wrapper and the harness's session module state** — still unpublished, still the only route from *most likely* to *confirmed*.
+
+**Single earliest next action (unchanged in kind, narrowed in scope):** obtain the **outer orchestrator/wrapper** that printed `=== GATE 5 ===`/`=== GATE 6 ===` and that wrote `execution-result.txt` and redirected `harness-error.txt` (together with its invocation lines for the native and compatibility steps), and, if the session is still available, that session's `$env:PSModulePath` and `Get-Module -ListAvailable Microsoft.PowerShell.Utility`. The compatibility runner is no longer the priority: its salient content is recovered and its provenance limitation is recorded.
+
+*End of Addendum 2026-10-28-B.*
