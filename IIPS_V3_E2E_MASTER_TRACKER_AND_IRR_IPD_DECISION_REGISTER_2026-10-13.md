@@ -356,6 +356,7 @@ The following completed baselines on `ramkivs/iips-review-recovered @ refs/heads
 | `2026-10-27` | `CHG-2026-10-27-06` | **Full 51 × 17 capability-matrix reconstruction and reconciliation (`CV-CORR-130`, §16.150, `V1003`–`V1014`) — documentation only.** Independently re-derived all 51 rows × 15 assessed dimensions at IRR `f74af6d4…` / IPD `888eb375…`, with execution evidence gathered in the same pass (IRR 1,350/1,350 tests, build 1,609.84 kB; IPD 924/923/1/0 and package-consumer PASS; live transport probe); records eight discrepancies as dated overlays (C-01…C-08) and ten outstanding items (O-01…O-10) while editing no §18 text; renders no acceptance, qualification, admission or release decision; `P-1` remains **UNSPENT**. |
 | `2026-10-27` | `CHG-2026-10-27-07` | **CAP-03 P-1-C/P-1-D host-evidence reconciliation — new host-captured state reconciled with earlier operator-reported absence premise; `DISP-01` applied; preflight NOT ACCEPTED (`CV-CORR-131`, §16.151, `V1015`–`V1024`):** Publishes [`docs/integration/IIPS_v3.0_CAP03_P1C_P1D_HOST_EVIDENCE_RECONCILIATION_2026-10-27.md`](docs/integration/IIPS_v3.0_CAP03_P1C_P1D_HOST_EVIDENCE_RECONCILIATION_2026-10-27.md) (`IIPS-V3-CAP03-P1C-P1D-HOST-EVIDENCE-RECONCILIATION-2026-10-27-01`) + evidence `evidence/integration/cap03-p1c-p1d-host-evidence-reconciliation-2026-10-27/` (`00`–`06`, `INDEX`, `SHA256SUMS`, verifier). Live re-read at IRR `main@f74af6d4f488ebf6d3e3a94f612a0d831b6b765a` / tree `ed424ffb…` (`0` open PRs) and IPD `main@888eb375…` (`0` open PRs, `0` writes): reconciliation `-01` (`8e35986a…`), §§16.140.4/16.146/16.148/16.149, PF-15 act `-02` blob `3fe9a2dd…`, host packet `9d9c5970…`, successor act `528de6ae…`, matrix/runbook, published instrument `85AC7271…` (blob `eaea3f7f…`). Reconciles new operator-captured host evidence (`DESKTOP-NO0NHTP`, non-elevated `USER` SID `S-1-5-21-…-1001`; `C:\iips-data` + `C:\iips-data\iips` ordinary directories, not reparse points, creation `2026-10-26` with **UNKNOWN provenance**; C: local fixed healthy NTFS; outside OneDrive; `Authenticated Users` `Modify, Synchronize`; store + `-wal`/`-shm`/`-journal` absent) with the earlier **operator-reported** absence premise of §16.146 — Arena claimed no host contact then and claims none now; §16.148.2 premise delta preserved. **No allegation of unauthorized creation, no causal explanation, no new authority blocker.** `DISP-01` evaluated at the nearest existing ancestor (now `C:\iips-data\iips` itself): terminal-parent existence is not a STOP; successor act §8 step 1 does not require parent absence; S3 wording unchanged; F4 (39 B, 3 separators) and F5 unchanged, PF-15 not reopened. Criterion-by-criterion PF-01…PF-17 + envelope + freshness assessment: PF-01/PF-03/PF-11c–e/PF-12/PF-13 satisfied **at reported capture only**; PF-02/PF-04…PF-10/PF-14/PF-16 not evidenced in the supplied summary; PF-07 prior wrong-pin (`8eec74ae…` vs §16.143 `001c3c80…`) not cured; PF-11 every-worktree limb insufficient (no ancestor `.git` result); PF-17 register-unspent but no capture transcript. No `STOP.txt`, zero error-scan matches, a walkable ancestor chain and existing capture files are **not** acceptance proof (published instrument never calls `Stop-Report`). Fresh run `cap03-p1-20261027-02` exists under `C:\IIPS-EVIDENCE\cap03-p1-20261027-02`, but its instrument digest `B5D58F7F…` ≠ published `85AC7271…`, raw bytes are **NOT SUPPLIED** and Arena has **no** route to that directory: CAP-A (earlier 11-file REV2 capture) preserved verbatim with `11/11` digests; CAP-B (fresh preflight capture), CAP-C (separate read-only host assessment), CAP-D (generator bytes) recorded with `null` digests and an explicit list of files that must be deposited verbatim. **Decision: `P-1-C` `NOT ESTABLISHED`; `P-1-D` `DESIGNATED; SUBSTANTIVELY SUPPORTED AT REPORTED CAPTURE; NOT VERIFIED FOR THE ATTEMPT`; `P-1` `UNSPENT / UNEXECUTED / NOT AUTHORIZED`.** Six narrow blockers `B-1`…`B-6`; single next action = attempt-session raw-bytes deposit + independent byte read-back (no broad approval, no repeated investigation). No P-1, no `--mode=execute`, no parent/store/sidecar creation, no ACL/flag/pin/manifest/code/fence change, `0` IPD writes. Live `main` moved concurrently (PR #321 → `52f295a…`, CAP-04 §16.150/`CV-CORR-130`/`CHG-2026-10-27-06`/`V1003`–`V1014`); tracker re-read again at that head, CAP-04 section preserved byte-identically, and this block reallocated per the §16.140.0 collision precedent. Publication receipt follows (`CHG-2026-10-27-08`, `V1025`). |
 | `2026-10-27` | `CHG-2026-10-27-08` | **Publication receipt for §16.151 (`CV-CORR-131`, `V1025`):** IRR PR **#325** head `7c78f40e77b19b7ba83827e79cce34b8cbef2256`; exact-head CI **`40459212419`** `success` (`pull_request`) → regular 2-parent `--merge` **`acb97c9e1335dd3fc4c1c7c6f04c5be83a16a26d`**, tree `50e4ab453343374feecdc5229acffaa793804d1c`, parents `064e9f1fd038c2e81db90058e30dfa2a637331d3` + tested head, `2026-10-27T06:09:43Z` → post-merge `main` CI **`40459451075`** `success` (`push`). Independent GitHub Git-Trees/Git-Blobs-API read-back at the merge root tree: **29/29 artifacts MATCH, byte-identical** — tracker (blob `620316f7…`, `2,643,369` B, SHA-256 `02731fe0…2f`), focused record (`96d941b5…`, `32,500` B, `a4841085…8d`), all **19** primary-bundle files (including the 11 verbatim copies, `SHA256SUMS.txt` and verifier), plus seven unchanged primary-source blobs (reconciliation `-01`, PF-15 act `-02`, published instrument, four earlier-capture transcripts); blob identity recomputed via `git hash-object --stdin`, decoded-byte SHA-256 and size match; decoded tracker shows one `## §16.151`, CAP-04 §16.150 and §§16.146/16.148/16.149 preserved, `P-1-C` `NOT ESTABLISHED`, `P-1-D` `NOT VERIFIED FOR THE ATTEMPT`, P-1 UNSPENT. Companion machine record: `evidence/integration/cap03-p1c-p1d-host-evidence-reconciliation-2026-10-27-receipt/` (`00-publication-readback.json`, `INDEX`, `SHA256SUMS`, `verify_publication.py`); primary bundle `SHA256SUMS.txt` reproduces unchanged. **No substantive state change:** §16.151 EFFECTIVE as a recorded reconciliation; operator-local `C:\IIPS-EVIDENCE\cap03-p1-20261027-02` evidence still **NOT SUPPLIED** (`null` digests); preflight NOT ACCEPTED; `P-1-C` `NOT ESTABLISHED`; `P-1-D` `DESIGNATED; SUBSTANTIVELY SUPPORTED AT REPORTED CAPTURE; NOT VERIFIED FOR THE ATTEMPT`; **`P-1` `UNSPENT`/unauthorized**; F4 unchanged; no host command, no store/sidecar/parent creation, `0` IPD writes. |
+| `2026-10-27` | `CHG-2026-10-27-09` | **CAP-03 §16.152 — P-1-C/P-1-D evidence handoff attempted + independent acceptance review; zero raw bytes; capture superseded by operator decision; published instrument designated for the next capture (`CV-CORR-132`, §16.152, `V1026`–`V1035`):** Publishes [`docs/integration/IIPS_v3.0_CAP03_P1C_P1D_EVIDENCE_HANDOFF_ACCEPTANCE_REVIEW_2026-10-27.md`](docs/integration/IIPS_v3.0_CAP03_P1C_P1D_EVIDENCE_HANDOFF_ACCEPTANCE_REVIEW_2026-10-27.md) (`IIPS-V3-CAP03-P1C-P1D-EVIDENCE-HANDOFF-ACCEPTANCE-REVIEW-2026-10-27-01`) + evidence `evidence/integration/cap03-p1c-p1d-evidence-handoff-acceptance-review-2026-10-27/` (`00`–`05`, `INDEX`, `SHA256SUMS`, verifier). Baseline re-verified live: IRR `main@c3a014f…`/tree `dcb6707f…` (PR #326 receipt merge; `0` open PRs; no push after), IPD read-only `main@888eb375…` (`0` open PRs, `0` writes). **Handoff attempted across ten governed channels** (IRR main tree, all refs, issues, PR comments #325/#326, all PRs, releases/tags, code search both repos, IPD read-only — pushed_at `2026-10-26T14:34:09Z` predates the capture, workspace, session input): **raw bytes received 0**; CAP-B (`cap03-p1-20261027-02`), CAP-C (separate read-only host assessment) and CAP-D (`B5D58F7F…` generator bytes) NOT SUPPLIED; no host-generated listing or SHA-256 manifest; Arena-authored prose transcription explicitly not treated as raw host evidence. **Operator decision recorded (`2026-10-27`, this session):** the `B5D58F7F…` generator cannot be reproduced; a fresh **attempt-session** capture using the published read-only instrument (`85AC7271…`) verbatim will follow; the `20261027-02` capture and its companion assessment are **SUPERSEDED FOR ACCEPTANCE ONLY** (operator-local files preserved; §16.151 reported-state findings stand as REPORTED; §16.148 wrong-pin finding stands uncured; no adverse inference, no allegation, no new authority blocker, no reopened matter). **B-4 resolved by designation:** published instrument re-verified three ways (blob `eaea3f7f…`, `10,231` B LF, SHA-256 `85AC7271…`; `Stop-Report` defined-never-called; safety contract intact; instrument itself unmodified); next capture's executing copy may differ from the published blob only at the designated parameter lines (`$IpdRoot`, `$IrrRoot`, optionally `$RunId`/`$EvidenceRoot`) with four identity deposits (executing bytes, self-recorded `ScriptSHA256`, confined byte-diff, run parameters); `B5D58F7F` limb closed NOT APPLICABLE. **Expected values fixed read-only (IPD git ODB, `0` writes):** §16.143 pin `001c3c80…`/`399fa44a…` (parent `8eec74ae…`); successor §8 step-0 source SHA-256 `gateAPrimeProvisioning.ts` `0bd6d134…` (`15,727` B), `provisioning.ts` `7f04f86a…` (`4,330` B, blob = act §2.1 item 1), `binding.ts` `5e9e3dd8…` (`4,112` B, blob = act §2.1 item 2) — supplemental in-session capture required (the instrument does not hash them); F4 hex unchanged from act `-02`; F5 unchanged; standing IRR consumer pin `ba64b2d5…`/`5e4262f1…` recorded as fact. **Criterion-by-criterion review (36 rows, four-way vocabulary):** VERIFIED repository-side — F4/F5/PF-15 crosscheck, instrument identity, pin coordinates, step-0 expected values, PF-11a, `DISP-01` rule limb, P-1 register state; NOT VERIFIED — superseded capture's generator/raw bytes/CAP-C and the §16.148 wrong-pin; NOT EVIDENCED — every attempt-session item (PF-01…PF-10, PF-11b `.git` walk line, PF-11c–e, PF-12, PF-13 observation, PF-14, PF-16, PF-17 capture limb, session freshness); NOT APPLICABLE — directory provenance (UNKNOWN, not a criterion) and the `B5D58F7F` deposit limb. No pass inferred from missing `STOP.txt`, zero error-scan matches, walkability, capture existence or prose. **Decision: `P-1-C` `NOT ESTABLISHED`; `P-1-D` `DESIGNATED; SUBSTANTIVELY SUPPORTED AT REPORTED CAPTURE; NOT VERIFIED FOR THE ATTEMPT`; `P-1` `UNSPENT / UNEXECUTED / NOT AUTHORIZED`.** Residual evidence enumerated exactly as R-1…R-7 (from B-1…B-6 + CAP-C limb); no completed investigation repeated, no broad approval requested. No P-1, no `--mode=execute`, no parent/store/sidecar mutation, no ACL/flag/pin/manifest/code/fence change, `0` IPD writes. Publication receipt follows (`CHG-2026-10-27-10`, `V1036`). |
 
 ---
 
@@ -13274,3 +13275,153 @@ claimed by Arena.
 | Evidence boundary | The two operator-captured evidence sets under `C:\IIPS-EVIDENCE\cap03-p1-20261027-02` remain **NOT SUPPLIED**; their digests are `null` in the primary manifest and are not part of the 29/29 read-back. This receipt does not self-embed its own carrying coordinates; those are established by remote read-back of its own merge. |
 
 *End of §16.151 (`CV-CORR-131`; `CHG-2026-10-27-07` and `CHG-2026-10-27-08`; `V1015`–`V1025`). New host-captured state reconciled with earlier operator-reported absence premise; unknown directory provenance preserved as unknown and immaterial under the exact criteria; `DISP-01` applied with no new authority blocker; both operator evidence captures explicitly awaited verbatim; P-1-C `NOT ESTABLISHED`, P-1-D `NOT VERIFIED` for the attempt; P-1 `UNSPENT`, unexecuted and unauthorized; F4 unchanged; no gate advanced.*
+
+## §16.152 — `CV-CORR-132`: CAP-03 P-1-C/P-1-D evidence handoff attempted + independent acceptance review — zero raw bytes received; capture superseded by operator decision; published read-only instrument designated for the next attempt-session capture; **NO ACCEPTANCE** (`2026-10-27`; `CHG-2026-10-27-09`, `V1026`–`V1035`; publication receipt `CHG-2026-10-27-10`, `V1036`)
+
+> **Evidence-handoff attempt + independent acceptance review only — no acceptance, no host contact by
+> Arena, no execution.** Focused record:
+> [`docs/integration/IIPS_v3.0_CAP03_P1C_P1D_EVIDENCE_HANDOFF_ACCEPTANCE_REVIEW_2026-10-27.md`](docs/integration/IIPS_v3.0_CAP03_P1C_P1D_EVIDENCE_HANDOFF_ACCEPTANCE_REVIEW_2026-10-27.md)
+> (`IIPS-V3-CAP03-P1C-P1D-EVIDENCE-HANDOFF-ACCEPTANCE-REVIEW-2026-10-27-01`); machine bundle
+> `evidence/integration/cap03-p1c-p1d-evidence-handoff-acceptance-review-2026-10-27/`. This pass executes
+> the receiving half of §16.151.6's single narrow next action and nothing more. §16.151, §16.148, §16.149,
+> `DISP-01`–`03`, `OBS-01`, the §16.143 pin, PF-15 act `-02`, F1–F6 and every gate are **not reopened**.
+> `P-1` remains **UNSPENT / UNEXECUTED / NOT AUTHORIZED**.
+
+### 16.152.1 Baseline and the handoff attempt (`V1026`–`V1027`)
+
+IRR `refs/heads/main` = **`c3a014fe74fc4bb5d253957f060c8f4c2e4a6662`**, tree
+`dcb6707fef93ebe4fe02393cac75cf7ba4bfae1e` (PR #326 / §16.151.8 receipt merge, `2026-10-27T06:18:26Z`);
+`0` open PRs; repo pushed_at = the same merge — **no push after it** at verification
+(`2026-10-27T07:25:54Z`). IPD read-only `main@888eb375eebee01640e44ccdcbb138a71e8c4513`, tree
+`cf3b9048…`, `0` open PRs, **`0` IPD writes** (git fetch + Git object inspection only). The handoff was
+attempted across **ten** channels — IRR main working tree, all IRR refs, IRR issues (zero non-PR),
+PR comments on #325/#326 (none), all IRR PRs in every state (0 open; closed-unmerged #204/#129/#93 and
+non-arena-head #298/#310 all old and unrelated), releases/tags (2026-09-05, 0 assets), code search on
+both repos, the IPD repository read-only (pushed_at `2026-10-26T14:34:09Z` — **before** the capture
+existed), the Arena workspace (no attachments) and the session input. **Outcome: raw bytes received
+`0`.** CAP-B (`cap03-p1-20261027-02`), CAP-C (separate read-only host assessment) and CAP-D
+(`B5D58F7F…` generator bytes) NOT SUPPLIED; no host-generated directory listing or SHA-256 manifest.
+The Arena-authored prose transcription at the §16.151 bundle remains labelled **not** a raw host
+transcript and is **not** treated as raw host evidence. Arena claims no Windows verification.
+
+### 16.152.2 Operator decision — supersession, exactly scoped (`V1028`)
+
+Recorded in this session (`2026-10-27`): the `B5D58F7F…` generator **cannot be reproduced**; a fresh
+**attempt-session** capture using the published read-only instrument (`85AC7271…`) verbatim will follow.
+**Superseded, for acceptance purposes only:** CAP-B and CAP-C as acceptance evidence, and the
+`B5D58F7F` deposit limb of B-4. **Preserved unchanged:** the operator-local files (Arena has no route;
+nothing deleted or modified); §16.151 and its bundle byte-identically as history; the §16.151
+reported-state findings (all still REPORTED, not read back); and the §16.148 affirmative wrong-pin
+finding (`8eec74ae…` vs `001c3c80…`), not cured, not repeated, not re-investigated. **Binding
+non-inferences:** no adverse inference from the digest mismatch, the non-reproducibility or the
+supersession; the superseded capture's reported content is neither impeached nor upgraded; **no new
+authority blocker** — supersession converts B-4's either/or limb into the single designated path. No
+F4/F5, PF-15, `DISP-01`–`03`, `OBS-01`, §16.143 or gate matter is reopened.
+
+### 16.152.3 Generator-integrity resolution — the published instrument, verbatim by proof (`V1029`)
+
+Published instrument re-verified three ways at this baseline:
+`evidence/integration/cap03-p1-f4-parent-preflight-reconciliation-2026-10-27/02-p1c-p1d-readonly-preflight.ps1`,
+blob `eaea3f7fc7ef7f49395c3cbec26ed1ad379f46bb`, **`10,231` B LF**, SHA-256
+`85ac7271c73469b6d5e454a3173ff3aad944a645a2352bb77ee36baee976a30b` (local bytes + git object database +
+remote Git Blobs API). Safety contract intact (creates nothing on the store path; writes only under
+`$EvidenceRoot`; never `--mode=execute`); `Stop-Report` defined and never called, so a missing
+`STOP.txt` is expected and **not a verdict**; the instrument itself is **not** substituted, edited or
+modified. **Rule for the next capture:** the executing copy may differ from blob `eaea3f7f…` **only**
+at the designated parameter assignments (`$IpdRoot`, `$IrrRoot`, and `$RunId`/`$EvidenceRoot` if a
+dated run identity is chosen) — no logic, safety, check, output-name, ordering or `$StorePath` byte may
+differ — and the deposit must prove it with four items: the executing script's exact bytes; the
+self-recorded `99-script-digest.txt` `ScriptSHA256`; a byte-diff vs the published blob confined to the
+designated lines; and `00-run-parameters.txt` as executed. The `B5D58F7F` limb is closed **NOT
+APPLICABLE**; no digest is asserted for it.
+
+### 16.152.4 Expected values for the next capture, fixed read-only (`V1030`)
+
+IPD git object database (read-only, `0` writes): §16.143 pin `001c3c80618f2ee1d40e9a90912237e1a06e7b58`
+/ tree `399fa44a5f1953c0f61b452420fefb5985426ef1`, parent `8eec74ae…`. Successor §8 step-0 source
+SHA-256 at that pin: `src/persistence/gateAPrimeProvisioning.ts` =
+`0bd6d134405dbcab27f5639c3e22a856c778daa9fd414d2cb0e26e5b03919aa3` (`15,727` B, blob `2cbce83f…`);
+`src/persistence/provisioning.ts` = `7f04f86a9c23bd0c94def29d829bb0c54033bed941a8c77e35365c30bdbdba30`
+(`4,330` B, blob `dc844189…` = successor act §2.1 item 1); `src/persistence/binding.ts` =
+`5e9e3dd8fe705f0235baeab77894636e94cdfbc0df7dd5d42037100ae114a61b` (`4,112` B, blob `96d0079d…` =
+act §2.1 item 2). **The published instrument does not hash these files** — the operator captures them
+in the same attempt session (supplemental `Get-FileHash` lines). IRR consumer pin: the designation in
+force at the attempt, stated in run parameters; standing §16.122 designation
+`ba64b2d5927c2f872560710cf1474c25a5cde0d5`/tree `5e4262f1…` recorded as fact (current IRR
+`main@c3a014f…` is documentation-only movement, not a re-designation). F4 hex unchanged from act
+`-02` (`433a5c696970732d…73716c697465`, `39` B, `3` separators); F5 `C:\iips-evidence\cap03-gate4`
+unchanged and never replaced by a run root. Capture expectations enumerated: PF-11
+`AncestorChain=C:\iips-data\iips -> C:\iips-data -> C:\` with the explicit **`InsideGitWorktree=False`**
+per-ancestor `.git`-walk result (B-3; walkability is not the predicate); PF-12 four verbatim
+`Test-Path … = False` lines re-observed in-session (point-in-time observations are not reusable);
+PF-14 root properties + documented deviation from the published default
+`D:\iips-evidence\cap03-p1-20261027-01`; PF-17 a dedicated in-session consumption-register line.
+
+### 16.152.5 Criterion-by-criterion independent acceptance review (`V1031`–`V1032`)
+
+Four-way vocabulary — **VERIFIED** (independently read back by Arena from bytes Arena holds),
+**NOT VERIFIED** (reported/previously captured but not establishable from bytes, or a prior
+affirmative mismatch stands), **NOT EVIDENCED** (no evidence exists yet for the attempt session),
+**NOT APPLICABLE** (not a criterion at this scope, or a limb closed by supersession). 36 rows in bundle
+`04`. **VERIFIED repository-side:** F4 identity; F5; PF-15 crosscheck (act `-02` effective, F4/F2/F3
+not reopened); published instrument identity; §16.143 pin coordinates; the three §8 step-0 expected
+hashes; PF-11a absolute syntax; the `DISP-01` rule limb (existence not a STOP; S3 wording unchanged);
+P-1 register state (unspent; no execution receipt; no `--mode=execute`; no store/sidecar/row artifact
+in any governed channel). **NOT VERIFIED:** the superseded capture's generator identity, raw bytes
+(CAP-B/CAP-C) and the §16.148 wrong-pin finding (stands uncured). **NOT EVIDENCED:** every
+attempt-session item — PF-01…PF-10, PF-11b `.git`-walk line, PF-11c–e, PF-12, PF-13 observation limb,
+PF-14, PF-15 capture line (act-identity limb VERIFIED), PF-16, PF-17 capture limb, and session
+freshness itself. **NOT APPLICABLE:** directory creation
+provenance (recorded **UNKNOWN** exactly as §16.151.2 left it; not re-investigated) and the `B5D58F7F`
+deposit limb. No pass is inferred from a missing `STOP.txt`, zero error-scan matches, a walkable
+ancestor chain, existing capture files or the operator prose summary. **Conclusions: `P-1-C` `NOT
+ESTABLISHED`; `P-1-D` `DESIGNATED; SUBSTANTIVELY SUPPORTED AT REPORTED CAPTURE; NOT VERIFIED FOR THE
+ATTEMPT`; `P-1` `UNSPENT / UNEXECUTED / NOT AUTHORIZED TO EXECUTE`.**
+
+### 16.152.6 Residual evidence needed — exact, and nothing else (`V1032`)
+
+Carried onto the next capture as **R-1…R-7** (from §16.151's B-1…B-6 + the CAP-C limb): R-1 complete
+raw attempt-session capture (all fifteen instrument outputs `00`,`01`,`02`,`03`,`04`,`05`,`06`,`07`,
+`08`,`09`,`10`,`11`,`14`,`15`,`99`) + full directory listing + host-generated SHA-256 manifest + Arena
+independent byte read-back (names, completeness, sizes, digests, manifest consistency); R-2
+attempt-session freshness (declared session, immediately-before timing, the instrument's own UTC
+start/end per command); R-3 the explicit `InsideGitWorktree=False` / per-ancestor `.git` line; R-4
+generator identity per §16.152.3 (four deposits); R-5 IPD `001c3c80…`/`399fa44a…` clean observation,
+IRR at the stated designated pin, the three §8 step-0 source hashes in-session, and a dedicated PF-17
+register line; R-6 PF-14 root properties + documented deviation; R-7 the separate read-only host
+assessment's raw bytes if one accompanies the new capture. **Not required and not requested:**
+re-analysis of §16.148/§16.149/§16.151 findings; any new provenance investigation; any broad renewed
+approval; any PA instrument, pin or gate change; any `P-1` execution. **Single narrow next action
+(unchanged in character):** Ramki runs the published read-only instrument in the intended P-1 attempt
+session and deposits the capture verbatim with the host-generated manifest; Arena performs the
+independent byte read-back and the criterion-by-criterion acceptance review.
+
+### 16.152.7 Verification register (`V1026`–`V1035`; receipt `V1036` follows)
+
+| ID | Check | Result |
+|---|---|---|
+| `V1026` | Live baseline verified (IRR `main@c3a014f…`/tree `dcb6707f…`, `0` open PRs, no push after the §16.151 receipt merge; IPD read-only `main@888eb375…`, `0` open PRs); identifier census (§16.152/`CV-CORR-132`/`CHG-2026-10-27-09`/`V1026`–`V1035` unused at live head); primary blobs resolved | **PASS** |
+| `V1027` | Handoff attempted across ten governed channels with methods and results recorded; zero raw bytes; no host listing/manifest; prose transcription excluded as evidence | **PASS** |
+| `V1028` | Operator decision recorded; supersession scope exact; operator-local files preserved; no adverse inference, no allegation, no new authority blocker, no reopened matter | **PASS** |
+| `V1029` | Instrument identity reproduced three ways; verbatim-use rule fixed with four identity deposits; `B5D58F7F` limb closed NOT APPLICABLE; published instrument unmodified | **PASS** |
+| `V1030` | Expected values fixed read-only at the §16.143 pin (commit/tree/parent; three step-0 source hashes with act-§2.1-matching blob ids; F4 hex re-read from act `-02`; F5 unchanged; capture expectations enumerated) | **PASS** |
+| `V1031` | 36 criterion rows assessed individually with the four-way vocabulary; no pass inferred from any exit signal or prose | **PASS** |
+| `V1032` | P-1-C `NOT ESTABLISHED`; P-1-D `NOT VERIFIED FOR THE ATTEMPT`; P-1 UNSPENT/UNEXECUTED/NOT AUTHORIZED; residual evidence R-1…R-7 exact; not-required list explicit | **PASS** |
+| `V1033` | Boundaries: no execution/store/sidecar/parent mutation, no code/flag/pin/ACL/manifest/fence change, `0` IPD writes; §16.151 bundle reproduces its own digests unedited | **PASS** |
+| `V1034` | Documentation integrity: single `## §16.152` heading; identifiers registered (changelog row + section); JSON parses; bundle digests recompute; §16.151 and all prior sections unedited; `git diff --check` clean; change scope confined to tracker, focused record and bundle | **PASS** |
+| `V1035` | Scope discipline: no completed investigation repeated; no broad renewed approval requested; no new authority blocker created; the single narrow next action is preserved for the operator | **PASS** |
+
+### 16.152.8 Publication receipt (`V1036`)
+
+*To be populated by the companion receipt update (`CHG-2026-10-27-10`) after the governed PR, green
+exact-head CI, regular 2-parent merge, green post-merge `main` CI and independent remote Git-Blobs-API
+byte read-back. No coordinate is self-embedded here.*
+
+*End of §16.152 (`CV-CORR-132`; `CHG-2026-10-27-09`, receipt `CHG-2026-10-27-10`; `V1026`–`V1036`).
+Evidence handoff attempted across ten channels with zero raw bytes received; capture
+`cap03-p1-20261027-02` and its companion assessment superseded for acceptance only, with no adverse
+inference and no new authority blocker; the published read-only instrument (`85AC7271…`) designated
+verbatim — provable, not asserted — for the next attempt-session capture, with exact expected values
+fixed read-only; P-1-C `NOT ESTABLISHED`, P-1-D `NOT VERIFIED` for the attempt; residual evidence
+enumerated exactly as R-1…R-7; F4 unchanged; P-1 **UNSPENT, UNEXECUTED and NOT AUTHORIZED**; no gate
+advanced.*

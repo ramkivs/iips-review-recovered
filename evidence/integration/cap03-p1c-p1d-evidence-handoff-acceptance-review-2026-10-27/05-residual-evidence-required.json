@@ -1,0 +1,50 @@
+{
+  "record_id": "IIPS-V3-CAP03-P1C-P1D-EVIDENCE-HANDOFF-ACCEPTANCE-REVIEW-2026-10-27-01",
+  "bundle_role": "05 — the exact residual evidence needed for the next (attempt-session) capture, and nothing else",
+  "principle": "no completed investigation is repeated; no pass is inferred from a missing STOP.txt, zero error-scan matches, a walkable ancestor chain or existing capture files; no new authority blocker is created; no broad approval is requested",
+  "residual_evidence": [
+    {
+      "id": "R-1 (from B-1)",
+      "need": "complete raw attempt-session capture + independent byte read-back",
+      "exact_requirement": "the published instrument's full output set — 00-run-parameters.txt, 01-pf01-hostname.txt, 02-pf02-os.txt, 03-pf03-elevation.txt, 04-pf04-runtime.txt, 05-pf05-sqlite.txt, 06-pf06-node-path.txt, 07-pf07-ipd-tree.txt, 08-pf08-irr-tree.txt, 09-pf09-shallow.txt, 10-pf10-flags.txt, 11-pf11-12-13-store-path.txt, 14-pf14-evidence-root.txt, 15-pf15-designation.txt, 99-script-digest.txt — deposited verbatim with a full directory listing and a HOST-GENERATED SHA-256 manifest; Arena then reads the bytes back independently and verifies names, completeness, sizes, digests and manifest consistency"
+    },
+    {
+      "id": "R-2 (from B-2)",
+      "need": "attempt-session freshness",
+      "exact_requirement": "the capture must be run in the declared intended P-1 attempt session, immediately before the attempt, with the instrument's own UTC start/end timestamps per command; the session identity (date/time, intended attempt) must be declared with the deposit; point-in-time captures from other sessions are not usable"
+    },
+    {
+      "id": "R-3 (from B-3)",
+      "need": "explicit per-ancestor .git result",
+      "exact_requirement": "the 11-pf11-12-13-store-path.txt line 'InsideGitWorktree=False' (or the equivalent per-ancestor .git Test-Path results) covering C:\\iips-data\\iips, C:\\iips-data and C:\\ — produced by the published instrument's ancestor walk; walkability alone is not the predicate"
+    },
+    {
+      "id": "R-4 (from B-4, resolved by designation)",
+      "need": "generator identity for the new capture",
+      "exact_requirement": "generate the capture with the published instrument (blob eaea3f7f…, SHA-256 85AC7271…); deposit the executing script bytes verbatim, the self-recorded 99-script-digest.txt ScriptSHA256, and a byte-diff vs the published blob confined to the designated parameter lines ($IpdRoot, $IrrRoot, and $RunId/$EvidenceRoot if dated); StorePath must remain the F4 literal; the B5D58F7F limb is closed (superseded)"
+    },
+    {
+      "id": "R-5 (from B-5)",
+      "need": "PF-07 / PF-08 / PF-16 evidence at the designated pins",
+      "exact_requirement": "IPD worktree at HEAD 001c3c80618f2ee1d40e9a90912237e1a06e7b58 / tree 399fa44a5f1953c0f61b452420fefb5985426ef1, porcelain empty, diff clean, is-shallow=false; IRR worktree at the designated consumer pin (state the designation in run parameters; standing §16.122 designation ba64b2d5…/5e4262f1…), porcelain empty, diff clean; successor §8 step-0 source SHA-256 captured in-session with expected values gateAPrimeProvisioning.ts=0bd6d134405dbcab27f5639c3e22a856c778daa9fd414d2cb0e26e5b03919aa3, provisioning.ts=7f04f86a9c23bd0c94def29d829bb0c54033bed941a8c77e35365c30bdbdba30, binding.ts=5e9e3dd8fe705f0235baeab77894636e94cdfbc0df7dd5d42037100ae114a61b (supplemental Get-FileHash lines; the instrument does not hash these files); plus a dedicated PF-17 consumption-register observation line"
+    },
+    {
+      "id": "R-6 (from B-6)",
+      "need": "PF-14 evidence-root properties and documented deviation",
+      "exact_requirement": "the chosen root recorded in 00-run-parameters.txt; 14-pf14-evidence-root.txt evidencing absolute / writable / not-the-store-path / not-synchronized / outside-every-worktree; if it differs from the published default D:\\iips-evidence\\cap03-p1-20261027-01, the deviation documented with the deposit; F5 C:\\iips-evidence\\cap03-gate4 unaffected"
+    },
+    {
+      "id": "R-7 (carried from §16.151's CAP-C limb)",
+      "need": "separate read-only host assessment for the new session, if one is run",
+      "exact_requirement": "if a separate read-only host assessment accompanies the new capture (as it did the superseded one), its actual filename(s), full raw bytes and host-generated digests must be deposited; if none is run, the instrument outputs alone carry the P-1-D limbs"
+    }
+  ],
+  "deposit_protocol": "verbatim bytes + full directory listing + host-generated SHA-256 manifest, deposited through a governed channel (IRR branch/PR or an explicitly identified operator-supplied location Arena can read); Arena performs independent byte read-back and the criterion-by-criterion acceptance review — the standing single narrow next action of §16.151.6, unchanged in character",
+  "not_required_and_not_requested": [
+    "re-analysis of §16.148 (REV2 wrong-pin), §16.149 (CRLF defect) or §16.151 (provenance/DISP-01) findings",
+    "any new investigation of directory creation provenance (recorded UNKNOWN; not a criterion)",
+    "any broad renewed approval for work already authorized",
+    "any PA instrument, F4/F5 change, pin change, or gate movement",
+    "execution of P-1 or any --mode=execute invocation"
+  ]
+}

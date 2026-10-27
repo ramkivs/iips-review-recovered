@@ -1,0 +1,38 @@
+{
+  "record_id": "IIPS-V3-CAP03-P1C-P1D-EVIDENCE-HANDOFF-ACCEPTANCE-REVIEW-2026-10-27-01",
+  "bundle_role": "01 — the operator decision recorded in this session, and its exact supersession scope",
+  "decision": {
+    "decision_time_utc": "2026-10-27 (this session, recorded before drafting began)",
+    "decision_maker": "operator side of this session (Ramki, the designated non-elevated operator; the only party with a route to the operator-local evidence)",
+    "decision_text": "The B5D58F7F… generator cannot be reproduced; a fresh attempt-session capture using the published read-only instrument (85AC7271…) verbatim will be supplied later. The existing 20261027-02 capture is superseded rather than curable by depositing its generator.",
+    "decision_form": "structured selection in the Arena session (question: how the evidence handoff should proceed; selected option: new capture with the published instrument will follow)"
+  },
+  "supersession": {
+    "what_is_superseded": [
+      "CAP-B — the fresh (non-attempt-session) preflight capture cap03-p1-20261027-02, for ACCEPTANCE purposes only",
+      "CAP-C — the separate read-only host assessment, for ACCEPTANCE purposes only",
+      "CAP-D — the generator bytes hashing to B5D58F7FFF78C34DFFCD189EAC46A27889775F44ABF60F1A8ABD905224093C95 (the deposit limb of blocker B-4)"
+    ],
+    "supersession_basis": "the generator that produced the capture cannot be identified from bytes (never supplied) and cannot be reproduced (operator decision); the capture therefore cannot be made independently reproducible, which is the §16.148 T-3 class already recorded for unpublished generators",
+    "what_is_preserved_unchanged": [
+      "the operator-local files themselves — Arena has no route to C:\\IIPS-EVIDENCE\\cap03-p1-20261027-02 and deletes/modifies nothing",
+      "tracker §16.151 and its bundle, byte-identically, as history",
+      "the §16.151 reported-state findings (host DESKTOP-NO0NHTP; non-elevated DESKTOP-NO0NHTP\\USER, SID S-1-5-21-1872737340-673410177-2240931581-1001; C:\\iips-data and C:\\iips-data\\iips ordinary non-reparse directories, creation 2026-10-26 with UNKNOWN provenance; C: local fixed healthy NTFS; outside the configured OneDrive root; Authenticated Users Modify+Synchronize; store + -wal/-shm/-journal absent) — all remain REPORTED, not read back",
+      "the §16.148 affirmative wrong-pin finding (REV2 capture PF-07 at 8eec74ae…/4eba2902… vs the §16.143 designated 001c3c80…/399fa44a…) — preserved as history; not cured, not repeated, not re-investigated"
+    ],
+    "non_inferences": {
+      "no_adverse_inference_from_digest_mismatch": true,
+      "no_adverse_inference_from_non_reproducibility": true,
+      "no_allegation_about_capture_content": "the superseded capture's reported content is neither impeached nor upgraded; it is simply not independently verifiable and not attempt-session fresh",
+      "no_new_authority_blocker": true,
+      "no_new_authority_blocker_note": "supersession creates no new blocker; it converts B-4's either/or limb ('exact bytes OR published instrument') into the single designated path (published instrument) for the next capture",
+      "no_reopened_matter": "F4/F5, PF-15 act -02, DISP-01–DISP-03, OBS-01, the §16.143 pin, §16.148/§16.149 findings and every gate are untouched"
+    },
+    "status_after_decision": {
+      "cap03-p1-20261027-02": "SUPERSEDED FOR ACCEPTANCE; PRESERVED OPERATOR-LOCAL AS REPORTED STATE",
+      "cap_c_assessment": "SUPERSEDED FOR ACCEPTANCE; PRESERVED OPERATOR-LOCAL AS REPORTED STATE",
+      "b5d58f7f_generator": "NOT REPRODUCIBLE (operator decision); NOT SUPPLIED; no digest asserted; the B-4 'exact bytes' limb is closed as NOT APPLICABLE for this handoff",
+      "next_capture_generator": "the published read-only instrument, IRR blob eaea3f7fc7ef7f49395c3cbec26ed1ad379f46bb, SHA-256 85ac7271c73469b6d5e454a3173ff3aad944a645a2352bb77ee36baee976a30b — see 02-generator-integrity-resolution.json"
+    }
+  }
+}

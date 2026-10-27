@@ -1,0 +1,57 @@
+{
+  "record_id": "IIPS-V3-CAP03-P1C-P1D-EVIDENCE-HANDOFF-ACCEPTANCE-REVIEW-2026-10-27-01",
+  "bundle_role": "00 — reviewed baseline, governing context, and the exhaustive evidence-handoff channel check performed in this pass",
+  "character": "Evidence-handoff attempt + independent acceptance review only. NO host contact by Arena. NO acceptance rendered. NO execution. NO PA value changed. This file records where the operator evidence was sought, what was found, and what was not.",
+  "reviewed_baseline": {
+    "irr_main": "c3a014fe74fc4bb5d253957f060c8f4c2e4a6662",
+    "irr_main_tree": "dcb6707fef93ebe4fe02393cac75cf7ba4bfae1e",
+    "irr_main_note": "merge of IRR PR #326 (CAP-03 §16.151.8 publication receipt, CHG-2026-10-27-08 / V1025), 2026-10-27T06:18:26Z; 0 open IRR PRs at 2026-10-27T07:25:54Z; repo pushed_at 2026-10-27T06:18:26Z (no push after the receipt merge)",
+    "working_branch": "arena/495ba17b-iips-review-recovered (starts at the reviewed head; working tree clean)",
+    "ipd_read_only_head": "888eb375eebee01640e44ccdcbb138a71e8c4513",
+    "ipd_read_only_tree": "cf3b90482fa7ed1f9780f20a9286164686885d2b",
+    "ipd_open_prs": 0,
+    "ipd_writes_by_this_pass": 0,
+    "ipd_access_mode": "read-only (git fetch + Git object inspection only), as authorized for the governing criteria",
+    "verified_utc": "2026-10-27T07:25:54Z"
+  },
+  "governing_context": {
+    "authoritative_prior_record": "IIPS-V3-CAP03-P1C-P1D-HOST-EVIDENCE-RECONCILIATION-2026-10-27-01 (tracker §16.151, CV-CORR-131, CHG-2026-10-27-07, V1015–V1024; receipt CHG-2026-10-27-08, V1025)",
+    "governing_reconciliation": "IIPS-V3-CAP03-P1-F4-PARENT-PREFLIGHT-RECONCILIATION-2026-10-27-01, IRR blob 8e35986afffcb5187a68347fd2f6209b4e259275 — DISP-01–DISP-03 and OBS-01 stand unchanged",
+    "effective_pf15_act": "IIPS-V3-CAP03-PF15-ENDPOINT-LOCAL-STATE-DESIGNATION-PA-ACT-2026-10-26-02, IRR blob 3fe9a2ddd5f3b8730eccee7748b6266b5e2d8b1d",
+    "effective_f4": "C:\\iips-data\\iips\\user-portfolio.sqlite (39 bytes, 3 × U+005C, hex 433a5c696970732d646174615c696970735c757365722d706f7274666f6c696f2e73716c697465) — unchanged, not restated as a new selection",
+    "effective_f5": "C:\\iips-evidence\\cap03-gate4 — unchanged, not replaced by any capture evidence root",
+    "successor_provisioning_act": "IPD blob 528de6aeddbc8e5f3191be8792f3937d77de4037 (evidence/cross-repository/IIPS_V3_CAP02_GATE_A_PRIME_SUCCESSOR_PROVISIONING_ACT_EFFECTIVE_2026-10-23.md) — §8 step 0 (preflight capture incl. source sha256) and step 1 (complete P-1 store-path condition list), §8.1, §8.2, §9 single execution",
+    "host_readiness_packet": "IPD blob 9d9c5970f66b1c901a2b5d28c02e8c9562078cf2 (evidence/cross-repository/IIPS_V3_CAP03_HOST_READINESS_PACKET_2026-10-24.md) — PF-01…PF-17",
+    "p1_execution_basis_pin": "tracker §16.143 (CV-CORR-123): IPD 001c3c80618f2ee1d40e9a90912237e1a06e7b58 / tree 399fa44a5f1953c0f61b452420fefb5985426ef1",
+    "blockers_this_pass_addresses": ["B-1", "B-2", "B-3", "B-4", "B-5", "B-6 (as enumerated at tracker §16.151.6)"],
+    "hard_boundaries": "P-1 remains UNSPENT / UNEXECUTED / NOT AUTHORIZED TO EXECUTE throughout; no --mode=execute; no create/delete/modify of C:\\iips-data, C:\\iips-data\\iips, the store or any sidecar; no F4/F5 change; no ACL/flag/pin/application-code/safety-fence/IPD change; no S3/QE/DQ-4/Gate 4/Gate 5 advancement; no acceptance claim; no broad renewed approval"
+  },
+  "handoff_channels_checked": [
+    {"channel": "IRR refs/heads/main working tree at c3a014f", "method": "full checkout + repository-wide search for the capture id and the operator-reported generator digest", "result": "no CAP-B/CAP-C/CAP-D deposit; only §16.151's own references to them"},
+    {"channel": "IRR refs (all branches)", "method": "GitHub branches API (paginated) + git fetch --prune", "result": "arena/* session branches plus four pre-existing non-arena refs; no new ref pushed after 2026-10-27T06:18:26Z; none carries the operator evidence"},
+    {"channel": "IRR issues (non-PR)", "method": "GitHub issues API, state=all", "result": "zero non-PR issues exist"},
+    {"channel": "IRR PR comments on #325 and #326", "method": "GitHub issues comments API", "result": "no comments; no evidence deposited in either thread"},
+    {"channel": "IRR pull requests (all states)", "method": "GitHub pulls API, state=all/open/closed incl. merged_at=null filter", "result": "0 open; closed-unmerged #204/#129/#93 are old arena session branches, unrelated; non-arena-head PRs #298/#310 belong to the 2026-10-26 S2 pass; none carries the operator evidence"},
+    {"channel": "IRR releases and tags", "method": "GitHub releases/tags API", "result": "program-v1.2.0 (2026-09-05, 0 assets) and v3.0-phase12-certified; no evidence assets"},
+    {"channel": "GitHub code search (IRR + IPD)", "method": "search/code API for 'cap03-p1-20261027-02' (IRR) and 'cap03-p1-20261027' (IPD)", "result": "0 hits in IPD; IRR hits are §16.151's own record/bundle only"},
+    {"channel": "IPD repository (read-only)", "method": "repo pushed_at + refs + pulls APIs + full git clone (fetch only, zero writes)", "result": "IPD pushed_at 2026-10-26T14:34:09Z — BEFORE the cap03-p1-20261027-02 capture existed; main@888eb375 unchanged; 0 open PRs; no evidence deposit possible on any current ref"},
+    {"channel": "Arena workspace", "method": "filesystem inspection of /home/user", "result": "only the IRR checkout; no attachments; no evidence files"},
+    {"channel": "Arena conversation input", "method": "the task instruction and the structured operator question of this session", "result": "no raw bytes attached; the only new operator input is the decision recorded in 01-operator-decision-and-supersession.json"}
+  ],
+  "handoff_outcome": {
+    "raw_bytes_received": 0,
+    "raw_bytes_deposited_to_governed_channels": 0,
+    "cap_b_fresh_preflight_capture_raw_files_supplied": false,
+    "cap_b_note": "cap03-p1-20261027-02 remains operator-local under C:\\IIPS-EVIDENCE\\cap03-p1-20261027-02; Arena has no route to it and claims no Windows verification",
+    "cap_c_separate_read_only_host_assessment_supplied": false,
+    "cap_d_generator_bytes_supplied": false,
+    "cap_d_generator_reproducible": false,
+    "cap_d_note": "operator decision 2026-10-27 (this session): the generator hashing to B5D58F7FFF78C34DFFCD189EAC46A27889775F44ABF60F1A8ABD905224093C95 cannot be reproduced; a fresh attempt-session capture using the published read-only instrument verbatim will follow",
+    "host_generated_directory_listing_supplied": false,
+    "host_generated_sha256_manifest_supplied": false,
+    "prose_transcription_treated_as_raw_host_evidence": false,
+    "prose_note": "04-operator-host-evidence-verbatim.md in the §16.151 bundle remains what it declares itself to be: a verbatim transcription of operator prose, NOT a raw host transcript; it is not used as acceptance evidence in this review",
+    "arena_host_contact": false,
+    "arena_windows_verification_claimed": false
+  }
+}
