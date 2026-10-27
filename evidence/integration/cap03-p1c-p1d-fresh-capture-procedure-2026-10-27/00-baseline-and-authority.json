@@ -1,0 +1,140 @@
+{
+  "record_id": "IIPS-V3-CAP03-P1C-P1D-FRESH-CAPTURE-PROCEDURE-2026-10-27-01",
+  "read_time_utc": "2026-10-27",
+  "scope": [
+    "ramkivs/iips-review-recovered",
+    "ramkivs/iips-production-market-data (read-only)"
+  ],
+  "remote_baselines": {
+    "irr": {
+      "repository": "ramkivs/iips-review-recovered",
+      "ref": "refs/heads/main",
+      "commit": "357689069473cf80921c65355cc6f70ce85c857b",
+      "tree": "6f38bb939342a5074445993bcc97650a7f8878e3",
+      "verification": "GitHub Branches API + Git Commits API; matches the IRR checkout in this workspace"
+    },
+    "ipd_read_only": {
+      "repository": "ramkivs/iips-production-market-data",
+      "ref": "refs/heads/main",
+      "commit": "888eb375eebee01640e44ccdcbb138a71e8c4513",
+      "tree": "cf3b90482fa7ed1f9780f20a9286164686885d2b",
+      "verification": "GitHub Branches API + Git Commits API; no IPD write operation performed"
+    }
+  },
+  "latest_acceptance_review": {
+    "id": "IIPS-V3-CAP03-P1C-P1D-EVIDENCE-HANDOFF-ACCEPTANCE-REVIEW-2026-10-27-01",
+    "tracker_section": "§16.152",
+    "path": "docs/integration/IIPS_v3.0_CAP03_P1C_P1D_EVIDENCE_HANDOFF_ACCEPTANCE_REVIEW_2026-10-27.md",
+    "git_blob": "e1dd0f86cb2ca358aa76358c4067ea3ab81bd89d",
+    "sha256": "9b83d9fda30ade8074c18fa6339b6f49b797337685beb0e66d4272d9acf86f76",
+    "status": {
+      "p1c": "NOT ESTABLISHED",
+      "p1d": "DESIGNATED; SUBSTANTIVELY SUPPORTED AT REPORTED CAPTURE; NOT VERIFIED FOR THE ATTEMPT",
+      "p1": "UNSPENT / UNEXECUTED / NOT AUTHORIZED"
+    },
+    "publication_receipt_merge": "8c8a0756d4b67eb841c81ef396b7a9cd3d7a080e"
+  },
+  "ipd_p1_execution_basis": {
+    "authority": "IRR master tracker §16.143 / CV-CORR-123",
+    "repository": "ramkivs/iips-production-market-data",
+    "designated_commit": "001c3c80618f2ee1d40e9a90912237e1a06e7b58",
+    "designated_tree": "399fa44a5f1953c0f61b452420fefb5985426ef1",
+    "parent": "8eec74ae27cda09f3c368b9c299895eae41554db",
+    "baseline_commit_not_interchangeable": "8eec74ae27cda09f3c368b9c299895eae41554db",
+    "baseline_tree_not_interchangeable": "4eba29029f8d95cfe483e615a7047426b298ce50",
+    "remote_commit_object_verified": true,
+    "authority_source": "Explicit §16.143 PA disposition; not ancestry and not a local guard"
+  },
+  "irr_consumer_pin": {
+    "authority": "IRR master tracker §16.122.7 / CV-CORR-102, carried forward by §16.152.4",
+    "repository": "ramkivs/iips-review-recovered",
+    "designated_commit": "ba64b2d5927c2f872560710cf1474c25a5cde0d5",
+    "designated_tree": "5e4262f1cd75bf13b76ced5b45058f31434b5dad",
+    "remote_commit_object_verified": true,
+    "f74_observation_commit": "f74af6d4f488ebf6d3e3a94f612a0d831b6b765a",
+    "f74_observation_tree": "ed424ffbe4e3b3863ff00a47aa25fa0ca4e0c62f",
+    "f74_role": "Historical main/publication checkout; not the PF-08 consumer pin",
+    "current_irr_main": "357689069473cf80921c65355cc6f70ce85c857b",
+    "current_irr_main_tree": "6f38bb939342a5074445993bcc97650a7f8878e3",
+    "comparison": {
+      "base": "f74af6d4f488ebf6d3e3a94f612a0d831b6b765a",
+      "head": "357689069473cf80921c65355cc6f70ce85c857b",
+      "ahead_by": 16,
+      "behind_by": 0,
+      "changed_path_count": 62,
+      "changed_path_classes": {
+        "evidence/integration/": 57,
+        "docs/integration/": 3,
+        "tracker": 1,
+        ".gitignore": 1,
+        "application_source_or_test_paths": 0
+      },
+      "interpretation": "All 62 changed paths were enumerated by the Compare API; the change set is documentation/evidence plus .gitignore, with no application source/test path and no later IRR consumer-pin designation. It does not replace §16.122.7."
+    }
+  },
+  "published_instrument": {
+    "repository": "ramkivs/iips-review-recovered",
+    "ref_verified": "refs/heads/main at 357689069473cf80921c65355cc6f70ce85c857b",
+    "path": "evidence/integration/cap03-p1-f4-parent-preflight-reconciliation-2026-10-27/02-p1c-p1d-readonly-preflight.ps1",
+    "git_blob": "eaea3f7fc7ef7f49395c3cbec26ed1ad379f46bb",
+    "size_bytes": 10231,
+    "sha256": "85ac7271c73469b6d5e454a3173ff3aad944a645a2352bb77ee36baee976a30b",
+    "line_endings": "LF only",
+    "gitattributes_blob": "7ee09db0594211ee0f23357b13626a4320626cc3",
+    "gitattributes_rule": "evidence/integration/cap03-p1-f4-parent-preflight-reconciliation-2026-10-27/02-p1c-p1d-readonly-preflight.ps1 text eol=lf",
+    "same_instrument_blob_at_f74_and_current_main": true,
+    "source_safety_facts": {
+      "store_or_sidecar_creation": false,
+      "store_ancestor_creation": false,
+      "writes_only_under_evidence_root": true,
+      "mode_execute_invocation": false,
+      "stop_report_called": false,
+      "default_run_id": "cap03-p1-20261027-01",
+      "ipd_root_and_irr_root": "placeholder assignments; not literal executable checkout paths"
+    }
+  },
+  "ipd_p1_consumption_authority": {
+    "current_ipd_main_at_read": "888eb375eebee01640e44ccdcbb138a71e8c4513",
+    "successor_act_path": "evidence/cross-repository/IIPS_V3_CAP02_GATE_A_PRIME_SUCCESSOR_PROVISIONING_ACT_EFFECTIVE_2026-10-23.md",
+    "successor_act_blob": "528de6aeddbc8e5f3191be8792f3937d77de4037",
+    "successor_act_section": "§9 — one execution; consumed on completion whether success or failure; re-attempt requires a fresh rendering",
+    "execution_tracker_path": "evidence/cross-repository/IIPS_V3_CAP02_IPD_EXECUTION_TRACKER_2026-10-23.md",
+    "execution_tracker_blob_at_read": "8a2a4e45615b84e517b65fe2700d4a09cde8c3f7",
+    "host_readiness_packet_path": "evidence/cross-repository/IIPS_V3_CAP03_HOST_READINESS_PACKET_2026-10-24.md",
+    "host_readiness_packet_blob": "9d9c5970f66b1c901a2b5d28c02e8c9562078cf2",
+    "pf17": "Dedicated live attempt-session comparison of current IRR consumption register/status and current IPD act/tracker receipt is required; the prior preflight STOPs are not P-1 execution receipts."
+  },
+  "ipd_step0_source_hashes": [
+    {
+      "path": "src/persistence/gateAPrimeProvisioning.ts",
+      "git_blob": "2cbce83f6572d211630ce0620dae49fa02fe4622",
+      "bytes": 15727,
+      "sha256": "0bd6d134405dbcab27f5639c3e22a856c778daa9fd414d2cb0e26e5b03919aa3"
+    },
+    {
+      "path": "src/persistence/provisioning.ts",
+      "git_blob": "dc844189a1c92f00acc3d7572c22f3e28e138eb6",
+      "bytes": 4330,
+      "sha256": "7f04f86a9c23bd0c94def29d829bb0c54033bed941a8c77e35365c30bdbdba30"
+    },
+    {
+      "path": "src/persistence/binding.ts",
+      "git_blob": "96d0079dd04b75c6f257a2001c8f7eff1ffc560a",
+      "bytes": 4112,
+      "sha256": "5e9e3dd8fe705f0235baeab77894636e94cdfbc0df7dd5d42037100ae114a61b"
+    }
+  ],
+  "governing_values": {
+    "f4": "C:\\iips-data\\iips\\user-portfolio.sqlite",
+    "f4_sha256_of_utf8": "433a5c696970732d646174615c696970735c757365722d706f7274666f6c696f2e73716c697465",
+    "f5": "C:\\iips-evidence\\cap03-gate4",
+    "p1_status": "UNSPENT / UNEXECUTED / NOT AUTHORIZED"
+  },
+  "review_limits": {
+    "operator_launcher_bytes_received": false,
+    "operator_stop_transcripts_received": false,
+    "host_contact_by_arena": false,
+    "ipd_writes": 0,
+    "store_path_actions": 0
+  }
+}

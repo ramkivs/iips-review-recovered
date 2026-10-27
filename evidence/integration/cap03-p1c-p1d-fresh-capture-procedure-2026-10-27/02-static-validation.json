@@ -1,0 +1,68 @@
+{
+  "record_id": "IIPS-V3-CAP03-P1C-P1D-FRESH-CAPTURE-PROCEDURE-2026-10-27-01",
+  "validation_mode": "Static only. All six documented PowerShell code blocks parsed with tree-sitter-powershell 0.26.4 (no ERROR/missing nodes); byte-edit behavior simulated in Python. No PowerShell engine/Windows host execution; no operator host interaction.",
+  "new_procedure": {
+    "path": "docs/integration/IIPS_v3.0_CAP03_P1C_P1D_FRESH_CAPTURE_PROCEDURE_2026-10-27.md",
+    "requirements": {
+      "exact_ipd_commit_tree": [
+        "001c3c80618f2ee1d40e9a90912237e1a06e7b58",
+        "399fa44a5f1953c0f61b452420fefb5985426ef1"
+      ],
+      "exact_irr_consumer_commit_tree": [
+        "ba64b2d5927c2f872560710cf1474c25a5cde0d5",
+        "5e4262f1cd75bf13b76ced5b45058f31434b5dad"
+      ],
+      "source_instrument_blob_sha256_bytes": [
+        "eaea3f7fc7ef7f49395c3cbec26ed1ad379f46bb",
+        "85ac7271c73469b6d5e454a3173ff3aad944a645a2352bb77ee36baee976a30b",
+        10231
+      ],
+      "permitted_parameter_assignments": [
+        "$RunId",
+        "$IpdRoot",
+        "$IrrRoot"
+      ],
+      "self_digest": "Executing copy SHA-256 is recorded with the byte diff/authority parameters and compared to the instrument's 99-script-digest.txt before review.",
+      "fixed_f4": "C:\\iips-data\\iips\\user-portfolio.sqlite",
+      "fresh_id": "UTC timestamp plus GUID; collision check; no reuse/overwrite",
+      "evidence_root": "D:\\iips-evidence\\<fresh RunId>",
+      "additional_required_observations": [
+        "separate live IRR and IPD main snapshots for authority and PF-17; never substitute them for the designated PF-07/PF-08 pins",
+        "three IPD step-0 source blob IDs and SHA-256 values",
+        "PF-17 live IRR consumption-register + current IPD act §9/execution-tracker receipt comparison, with operator confirmation",
+        "PF-14 local/fixed/NTFS/non-sync/no-.git evidence-root observation",
+        "exact authority parameters and host session declaration"
+      ],
+      "byte_patch_changed_source_lines": [22, 27, 28],
+      "prohibited_actions": [
+        "run the unreviewed operator launcher",
+        "run P-1 or invoke provisioning",
+        "write to, create, or delete F4 or sidecars",
+        "create/delete anything at the F4 store path",
+        "change ACLs, flags, F4/F5 values, pins, or instrument logic",
+        "overwrite, clean, reuse, or delete prior evidence or failed outputs"
+      ]
+    },
+    "known_tooling_limit": "Neither pwsh nor Windows PowerShell is installed in the Arena sandbox; PowerShell syntax/runtime and Windows filesystem semantics were not exercised."
+  },
+  "checks_performed": [
+    "Remote GitHub API re-read of IRR main and IPD main (IPD read-only).",
+    "GitHub compare f74… to current IRR main: 16 ahead, 0 behind; 62 paths, all documentation/evidence plus tracker/.gitignore; no application source/test path; no new consumer-pin designation.",
+    "Remote Git tree/blob re-read of the published instrument at f74 and current IRR main; same blob eaea3f7…; .gitattributes eol=lf.",
+    "Current IRR decision register §§16.122, 16.143, 16.152 re-read.",
+    "Published acceptance report, host-reconciliation records, corrected PF-15 act, prior instrument and source hashes re-read.",
+    "tree-sitter-powershell 0.26.4 parsed all six documented PowerShell code blocks: zero ERROR or missing syntax nodes (static grammar parse only; not a PowerShell engine).",
+    "Python byte-level simulation by verify_procedure.py: exactly three allowed parameter lines change; output retains all other bytes and unchanged F4 line."
+  ],
+  "not_claimed": [
+    "launcher source or derivative verified",
+    "operator-reported STOP outputs independently read",
+    "PowerShell 5.1 engine/runtime semantics validated; the grammar parse is static only",
+    "host preflight or capture run",
+    "P-1 acceptance or authorization",
+    "P-1 execution",
+    "IPD writes",
+    "store path or sidecar action"
+  ],
+  "disposition": "Procedure is a documented, statically checked next action, not a host-tested launcher. Stop and preserve everything if any listed assertion fails."
+}
