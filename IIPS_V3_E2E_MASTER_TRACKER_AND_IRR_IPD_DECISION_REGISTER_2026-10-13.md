@@ -353,6 +353,7 @@ The following completed baselines on `ramkivs/iips-review-recovered @ refs/heads
 | `2026-10-27` | `CHG-2026-10-27-03` | **CAP-03 P-1 preflight-capture acceptance assessment — complete 11-file set; preflight NOT ACCEPTED (`CV-CORR-128`, §16.148, `V982`–`V991`):** Publishes [`docs/integration/IIPS_v3.0_CAP03_P1_PREFLIGHT_CAPTURE_ACCEPTANCE_ASSESSMENT_2026-10-27.md`](docs/integration/IIPS_v3.0_CAP03_P1_PREFLIGHT_CAPTURE_ACCEPTANCE_ASSESSMENT_2026-10-27.md) (`IIPS-V3-CAP03-P1-PREFLIGHT-CAPTURE-ACCEPTANCE-ASSESSMENT-2026-10-27-01`) + evidence `evidence/integration/cap03-p1-preflight-capture-assessment-2026-10-27/`. Reassesses §16.147's four-file `BLOCKED` finding against the seven files added at `main@ff29734…` (tree `e96fa8ac…`): **closed** — PF-01…PF-06, PF-08, PF-09, PF-10, PF-12, PF-13 (P-1-scope `DISP-01`), PF-14, PF-15 crosscheck, fixed-NTFS identity — each satisfied at capture time (`2026-10-26T20:13Z`) only; **not satisfied** — **`PF-07`**: clean IPD checkout evidenced at the superseded baseline `8eec74ae…`/`4eba2902…` (REV2 `ExpectedHEAD`), not the §16.143 designated execution basis `001c3c80…`/`399fa44a…`; pins are not equivalent, baseline S2 FAILED, exact-pin STOP applies (PF-16 consequential); **insufficient** — PF-11 every-worktree limb (enumerated IPD/IRR only; no ancestor-`.git` result; narrow, attempt-session closure), REV2 script bytes (hash `CB7E674E…` only), PF-17 as capture evidence (register state confirmed UNSPENT), session freshness. Records the parent-exists premise delta vs §16.146 under `DISP-01` (existence not a STOP; provenance unevidenced; PF-12 intact). **Decision: preflight NOT ACCEPTED; `P-1-C` `NOT ESTABLISHED`; `P-1-D` `DESIGNATED; NOT VERIFIED` for the attempt; `P-1` `UNSPENT`/unauthorized; verdict “PREFLIGHT CAPTURED — NOT AUTHORIZATION TO EXECUTE P-1” preserved.** Assessment only — no recapture, no republication, no provisioning, no store/flag action, no gate movement, `0` IPD writes. Publication receipt follows (`CHG-2026-10-27-04`, `V992`). |
 | `2026-10-27` | `CHG-2026-10-27-04` | **Publication receipt for §16.148 (`CV-CORR-128`, `V992`):** IRR PR **#318** head `f75354b5…`, exact-head CI `40400127948` `success` → regular 2-parent merge **`8470ce26b3e6a68ca9e5a562fa6dd88cfad18b1c`** / tree `42da8812…` → post-merge `main` CI `40400388258` `success`. Independent Git-Blobs-API read-back at the merge matched blob identity and decoded-byte SHA-256 for **`7/7`** artifacts. Populates §16.148.5; no substantive state change: preflight NOT ACCEPTED, `P-1-C` `NOT ESTABLISHED`, `P-1-D` `NOT VERIFIED`, `P-1` `UNSPENT` and unauthorized; `S3`/`QE`/DQ-4/Gate 4/Gate 5 untouched; `0` IPD writes. |
 | `2026-10-27` | `CHG-2026-10-27-05` | **CAP-03 P-1 preflight instrument integrity investigation — line-ending publication defect remediated (`CV-CORR-129`, §16.149, `V993`–`V1002`):** Investigates the `02-p1c-p1d-readonly-preflight.ps1` integrity discrepancy: manifest `85AC7271…` (`10,231 B` LF, blob `eaea3f7f…` at both `4fd5a7c`/`8b6249…` and `3c3adf4`/`010bfb4…`) vs Windows `Get-FileHash` `7C6D44B8…` (`10,425 B` CRLF). Independently reproduces via `git cat-file -p eaea3f7f…` (SHA-256 `85AC…` LF) and CRLF simulation (`\n`→`\r\n` +194 B → `7C6D…`). Root cause: `.gitattributes` omission — instrument qualifies as byte-exact canonical but was not listed `text eol=lf`; `core.autocrlf=true` on Windows produced CRLF (`10,425 B`). Historical `04-publication-readback.json` `all_match=true` is valid for Git-blob (LF) vs Linux (LF) but did not model `autocrlf` working-tree translation; PowerShell extraction failed due to encoding conversion. Publishes single-line `.gitattributes` correction (`02-*.ps1 text eol=lf`), preserves prior instrument bytes and manifest, adds investigation record [`docs/integration/IIPS_v3.0_CAP03_P1_F4_PARENT_PREFLIGHT_INTEGRITY_INVESTIGATION_2026-10-27.md`](docs/integration/IIPS_v3.0_CAP03_P1_F4_PARENT_PREFLIGHT_INTEGRITY_INVESTIGATION_2026-10-27.md) (`IIPS-V3-CAP03-P1-F4-PARENT-PREFLIGHT-INTEGRITY-INVESTIGATION-2026-10-27-01`) + evidence `evidence/integration/cap03-p1-f4-parent-preflight-integrity-investigation-2026-10-27/` (`00`–`04`, `INDEX`, `SHA256SUMS`, verifier). Safety checks: `verify_reconciliation.py` `39/39 PASS`, no `--mode=execute` invocation, no store/sidecar creation, no write-flag changes, `0` IPD writes, `git diff --check` clean. State preserved: `P-1-A` `SATISFIED`, `P-1-B` candidate-scoped `001c3c80…`, `P-1-C` `NOT ESTABLISHED`, `P-1-D` `DESIGNATED; NOT VERIFIED`, `P-1` `UNSPENT` and unauthorized; `S3`/`QE`/DQ-4/Gate 4/Gate 5 untouched. **Single next action:** Ramki fetches this merge, confirms `Get-FileHash` yields `85AC…` (`10,231 B` LF), then runs the published instrument in the intended P-1 session. |
+| `2026-10-27` | `CHG-2026-10-27-06` | **Full 51 × 17 capability-matrix reconstruction and reconciliation (`CV-CORR-130`, §16.150, `V1003`–`V1014`) — documentation only.** Independently re-derived all 51 rows × 15 assessed dimensions at IRR `f74af6d4…` / IPD `888eb375…`, with execution evidence gathered in the same pass (IRR 1,350/1,350 tests, build 1,609.84 kB; IPD 924/923/1/0 and package-consumer PASS; live transport probe); records eight discrepancies as dated overlays (C-01…C-08) and ten outstanding items (O-01…O-10) while editing no §18 text; renders no acceptance, qualification, admission or release decision; `P-1` remains **UNSPENT**. |
 
 ---
 
@@ -12990,3 +12991,100 @@ No acceptance is claimed. Governing conditions (§16.140.4 `P-1-C`, §16.146.3�
 **Single next action:** Ramki (PA / designated non-elevated operator), in the intended P-1 session immediately before the authorized attempt and with the IPD worktree clean at `001c3c80…`/`399fa44a…`, does: **`git fetch` IRR `main` to this merge** (thereby obtaining `text eol=lf`), confirm `Get-FileHash` yields `85AC7271C73469B6D5E454A3173FF3AAD944A645A2352BB77EE36BAEE976A30B` (`10,231 B` LF), then run the published instrument `02-p1c-p1d-readonly-preflight.ps1` and supply transcripts for read-back. Any STOP aborts; do **not** execute P-1, do not use `--mode=execute`, do not create `C:\iips-data\iips`, do not enable write flags.
 
 *End of §16.149 (`CV-CORR-129`; `CHG-2026-10-27-05`; `V993`–`V1002`). Integrity discrepancy resolved as a line-ending publication defect: instrument bytes preserved (LF `85AC…` `10,231 B` = manifest = blob `eaea3f7f…`); Windows CRLF `7C6D…` `10,425 B` explained by missing `eol=lf`; `.gitattributes` correction published; historical evidence preserved; `P-1` unspent and unauthorized; no gate advanced.*
+
+---
+
+## §16.150 — `CV-CORR-130`: full 51 × 17 capability-matrix reconstruction and reconciliation (`docs/integration/IIPS_v3.0_CAPABILITY_MATRIX_51X17_RECONSTRUCTION_2026-10-27.md`; `CHG-2026-10-27-06`; `V1003`–`V1014`)
+
+> **Documentation and reconciliation only — no acceptance, qualification, admission or release decision is rendered; no fence moves; nothing is provisioned.** This section publishes a full, independently re-derived 51 × 17 matrix at IRR `main@f74af6d4…` / IPD `main@888eb375…` and reconciles it against §18.1 and the 2026-10-23 reconstruction. Where the tracker and the repositories disagree, the discrepancy is recorded (§16.150.4) and the tracker text is **preserved verbatim** — corrections are overlays, never rewrites. `P-1` remains **UNSPENT**; `CV-52` remains blocked; `CV-21` remains deferred; the G24 lineage remains off-`main`.
+
+### 16.150.1 Verified baselines (`V1003`)
+
+| Field | Verified value |
+|---|---|
+| IRR `main` | `f74af6d4f488ebf6d3e3a94f612a0d831b6b765a` (merge of PR #320); tree `ed424ffbe4e3b3863ff00a47aa25fa0ca4e0c62f`; 850 commits; `240` remote branches; `0` open PRs |
+| IPD `main` | `888eb375eebee01640e44ccdcbb138a71e8c4513`; tree `cf3b90482fa7ed1f9780f20a9286164686885d2b`; 328 commits; `89` remote branches; `6` tags; `0` open PRs |
+| IRR tags | `program-v1.2.0` → commit `5decdca9…` (tag object `4ec8812e…`, release published `2026-09-05T06:11:08Z`); `v3.0-phase12-certified` → commit `7325aeda…` (tag object `a975b0dc…`) |
+| IPD pins in IRR `frontend/package.json` | **three** specifiers — `8eec74ae…` (`./pit`, `./portfolio-ui`, `./d114-non-production`, `./persistence`), `2e11fa3b…` (`iips-np04-governed-persistence`), `70b24f02…` (`iips-broker-import`, no exports declared) |
+| Clones used for ancestry | full, non-shallow (the Arena workspace checkout is depth-1 — D-08 trap avoided) |
+
+### 16.150.2 Execution performed for this section (`V1004`–`V1006`)
+
+| Check | Result |
+|---|---|
+| IRR `npm run typecheck` / `typecheck:replay-server` | **exit 0 / exit 0** |
+| IRR `npx vitest run` | **106 files / 365 suites / 1,350 tests / 1,350 passed / 0 failed** |
+| IRR `npm run build` | **exit 0**; 142 modules; 1,609.84 kB main chunk (gzip 226.69 kB) — **exactly** the runbook §1 figures restamped `2026-10-25` |
+| IRR restart block (`persistence-restart-proof`, `consumer-restart-read`, `owner-context-restart`, `reports-restart`) | **15 / 15 passed** in genuine separate OS processes (F-7 three-process lifecycle included) |
+| IRR fence/adapter/boundary block (6 files) | **112 / 112 passed** |
+| IRR reports block (`reports-api`, `reports-persistence-integration`, `Reports.test.tsx`) | **20 / 20 passed** |
+| IPD `npm ci` / `tsc --noEmit` / `npm run build` | **exit 0 / 0 / 0** |
+| IPD guarded runner | **924 tests / 923 passed / 1 skipped / 0 failed**; `[test-guard] OK` |
+| IPD `npm run test:package-consumer` | **PASS**; browser pack `1,729,700` B; `forbiddenHits: []`; strict typecheck `skipLibCheck:false` PASS |
+| Live HTTP probe of the composed transport (`npx tsx server/executive-transport.ts`) | 200: `/api/health`, `/api/executive`, `/api/portfolio`, `/api/company/banking`, `/api/cross-sector`, `/api/decision-matrix`, `/api/engines`, `POST /api/engines/sector.banking/execute` (`COMPLETED`), `POST /api/screener` (13 members, `NP12-SCREEN-EVALUATOR`), `/api/evidence/banking` (`referenceOnly`), `/api/replay/banking` (`NOT_PERFORMED`), `/api/ai-advisory/banking` (`nonAuthoritative`), `/api/pit/market-data` (vintage resolved `2026-02-10` → `2026-01-05`, no look-ahead). **503 `owner-context-unavailable`**: `/api/user-portfolios*`, `/api/watchlists`, `/api/settings`, `/api/collaboration`, `/api/reports/context`, `POST /api/reports/artifacts`. **404 by design**: `/api/sector/*`, `/api/reports`, `/api/broker-import`. **502 `RETRY_BUDGET_EXHAUSTED`**: `/api/macro/NAS` (no MoSPI egress in this sandbox — documented, not a defect) |
+| Ancestry | `470cc698` (`G-2` durable lineage) is **NOT** an ancestor of `main`; its branch is `7` ahead / `692` behind `f74af6d` |
+
+### 16.150.3 Delivered artefacts (`V1007`)
+
+| Artefact | Location |
+|---|---|
+| Report (record `IIPS-V3-CAPMATRIX-51X17-RECONSTRUCTION-2026-10-27-01`) | `docs/integration/IIPS_v3.0_CAPABILITY_MATRIX_51X17_RECONSTRUCTION_2026-10-27.md` |
+| Matrix (17 columns × 51 rows, machine-checked) | `evidence/integration/capability-matrix-51x17-2026-10-27/IIPS_V3_CAPABILITY_MATRIX_51x17_2026-10-27.csv` (and `.xlsx`) |
+| Single source of truth + generators | `matrix_data.py`, `build_matrix.py`, `disposition.py`, `sectionE.py`, `build_report.py` in the same directory |
+| Build self-check receipt | `00-artefact-checks.json` (51 rows, numbering 1–51, headers in order, arity 17, zero empty cells, zero unexplained `NA`, CSV round-trip equal) |
+| Publication verifier | `verify_publication.py` + `SHA256SUMS.txt` |
+
+The CSV, XLSX, §E and §H are **generated from `matrix_data.py`**, so they cannot diverge; the build fails closed on any arity, numbering, emptiness or `NA`-rationale defect (this is how the four surplus-cell rows found during authoring were caught before publication).
+
+### 16.150.4 Reconciliation findings — overlay only, no §18 text edited (`V1008`–`V1010`)
+
+| ID | §18 / prior-record claim | Reconciled status | Governing evidence |
+|---|---|---|---|
+| **C-01** | §18.1 row 35: Reports domain "`NI` — removed by the R4-B act"; acceptance `NOT SATISFIED`; anchor `reports-transport.ts` `98147054…` | **Present on `main` and ACCEPTED — bounded non-production (backend)**; 10 files under `frontend/server/reports/`; transport blob **`775d282b…`**; F-7 `SATISFIED`; `CV-51` `ACCEPTED/CLOSED`; durable owner write still deferred (`CV-21` A2) | `git ls-tree -r origin/main frontend/server/reports/`; `IIPS-V3-REPORTS-NP06-F7-QUALIFICATION-AND-ACCEPTANCE-2026-10-25-01`; §16.106, §16.112–§16.116 |
+| **C-02** | §18.1 row 25: "2,250 canonical entities, **52 real + 2,198 synthetic**" | **No governed D05 record is `REAL`** — all 2,250 are `UNCLASSIFIED` / `UNKNOWN origin`; the aggregate split is not per-record truth. Row 25 stays `ACCEPTED` at non-production scope | IPD `tests/d05_security_master_integrity_semantics.test.ts:76` (`SMI-01`, executed) |
+| **C-03** | §18.1 row 30 acceptance `V` ("`G2-UI-CONSUMER-IMPLEMENTATION` + `RECOVERY-REPUBLICATION`") | Acceptance is real but bounded to **fail-closed composition**; a data-backed owner read has **never** been demonstrated (`NOT SATISFIED`); the row is `BLOCKED` with the split shown in-cell | live `503 owner-context-unavailable` probes; §16.148.3 (`P-1-C` `NOT ESTABLISHED`, `P-1-D` `NOT VERIFIED`) |
+| **C-04** | §18.1 row 20 / `CV-05`: PIT seam bound to pin `2e11fa3b…` (later `2d9130e7…`) | **PIT seam pin is `8eec74ae…`** (it is `iips-production-market-data` that exports `./pit`); `2e11fa3b…` is the **np04 persistence** pin consumed by `frontend/server/reports/persistence-port.ts`; status of the row unchanged, only the anchor was wrong | `frontend/package.json:24-26`; package export census; live PIT `200` |
+| **C-05** | §18.1 row 45: "IRR `frontend/package.json` exact SHA pin" (singular) | **Three** specifiers install from `codeload`; no in-tree guard covers `70b24f02…`; recorded as open item **O-06** (needs an implementation act or an explicit PA disposition) — not fixed here | `package.json` + `package-lock.json`; `npm ci` at head |
+| **C-06** | prior record D-03: runbook figures no longer reproduce | **CLOSED** — runbook §1 was restamped `2026-10-25` to 106 files / 1,350 tests / 1,609.84 kB / gzip 226.69 kB and this pass measured exactly those values | `docs/OPERATOR_RUNBOOK.md:176`; measurements above |
+| **C-07** | §18.1 anchors citing `App.tsx:40` (row 3), `App.tsx:48,52` (row 13) | Anchors are **historically correct, currently drifted**: at head `/executive` is `:40`, `/research/company/:id` `:51`, `/evidence` `:63`, `/evidence/:id` `:67`, `/reports` `:68-69`. Historical pointers preserved; the matrix cites route paths | `frontend/src/app/App.tsx` |
+| **C-08** | §16.146 states the F4 parent is absent at P-1 scope; the §16.147/§16.148 capture shows `StoreParentExists=True` | **Not reconciled by inference** — creator and timing are **unestablished**; the store and sidecars remain absent (PF-12 intact); under `DISP-01` existence is not a STOP. Recorded so neither statement is read as the whole truth | §16.146 `DISP-01`; §16.148.2 |
+
+**No §18.1 cell was edited.** The corrective §18 edits (rows 20, 25, 30, 35 and the drifted anchors) remain open as **O-07** and require a later documentation pass; this section is the dated overlay that makes them auditable now.
+
+### 16.150.5 Outstanding items carried forward (`V1011`)
+
+| ID | Rows | Status | Boundary |
+|---|---|---|---|
+| **O-01** | 30, 34 | `P-1-C` `NOT ESTABLISHED`; `P-1-D` `DESIGNATED; NOT VERIFIED`; last capture **NOT ACCEPTED** (`T-1`…`T-4`) | Host-only (`desktop-no0nhtp`); no agent route |
+| **O-02** | 30, 32, 35 | `P-1` **UNSPENT** — no store, binding, membership or audit row exists | Successor act §§8–9; must not be attempted here |
+| **O-03** | 30, 32 | Owner-data durable read unavailable; G24 off-`main`; `CV-52` blocked | `CV-52` admission + `REG-12` promotion decision |
+| **O-04** | 35 | Reports durable owner contract not established; `CV-21` A2 deferral in force | `D-1`/`D-3` under `REG-11` |
+| **O-05** | 28 | IPD durable broker-import leg has no production consumer; admission withheld | `GOV-03`/`BI-08` admission act |
+| **O-06** | 45 | Third pin `70b24f02…` unguarded; heterogeneous pin set undocumented | Implementation act or explicit PA disposition |
+| **O-07** | 48 | §18.1 rows 20/25/30/35 + anchors stale | Documentation pass (this overlay is the record) |
+| **O-08** | 19 | Live macro E2E never captured from this environment (`502 RETRY_BUDGET_EXHAUSTED` here) | Operator host with MoSPI egress |
+| **O-09** | 27 | Windows offline-shell visual verification is source-reported only | Host-only capture |
+| **O-10** | 22 | `D115` boundary has zero consumers (retain-unwired) | No action authorized unless the PA commissions wiring |
+
+### 16.150.6 Disposition counts as re-derived (`V1012`)
+
+One bucket per row, assigned explicitly in `disposition.py` (never inferred from cell text):
+**ACCEPTED 23** (1, 2, 3, 6, 7, 9, 10, 11, 12, 13, 15, 17, 18, 20, 24, 25, 26, 31, 37, 38, 46, 49, 50) ·
+**ACCEPTED + follow-up 9** (4, 5, 19, 27, 35, 39, 45, 47, 48) · **DEFERRED 3** (8, 29, 41) ·
+**OUT OF SCOPE / CLOSED 8** (14, 16, 21, 23, 33, 40, 44, 51) · **BLOCKED 2** (30, 32) ·
+**IMPLEMENTED 2** (22, 28) · **BRANCH-ONLY 1** (36) · **HISTORICAL 2** (42, 43) · **VERIFIED 1** (34) = **51**.
+
+**Reading rules preserved from §16.67/§16.68:** a merge, a green CI run or the existence of code never
+creates acceptance; a dated exclusion outranks "not built"; branch-only work is never `main` state;
+`SOURCE-REPORTED` never counts as verified; a fail-closed `503` is correct wiring **and** simultaneously
+proof that a data-backed read was never demonstrated (C-03).
+
+### 16.150.7 Publication and verification (`V1013`–`V1014`)
+
+Published by a single documentation-only PR cut from `origin/main@f74af6d4…` on the session branch; the
+remote byte read-back (Git Blobs API, base64-decode, local re-hash against `SHA256SUMS.txt`) is recorded in
+`evidence/integration/capability-matrix-51x17-2026-10-27/verify_publication.py` and its receipt. Safety
+checks: `0` IPD writes; no store/sidecar/database artefact; no host command; `P-1` still `UNSPENT`; no
+§18 text edited; prior tracker sections preserved byte-identically.
+
+*End of §16.150 (`CV-CORR-130`; `CHG-2026-10-27-06`; `V1003`–`V1014`). Full current-state reconstruction of the 51 × 17 capability matrix at IRR `f74af6d4…` / IPD `888eb375…`, independently re-derived and machine-checked; eight discrepancies recorded as overlays (C-01…C-08) with no §18 text edited; ten outstanding items carried forward (O-01…O-10); no acceptance, qualification, admission or release decision rendered; `P-1` unspent and unauthorized.*

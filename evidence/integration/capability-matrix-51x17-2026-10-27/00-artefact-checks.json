@@ -1,0 +1,32 @@
+{
+  "rows": 51,
+  "numbers_contiguous_1_51": true,
+  "names_non_empty": true,
+  "headers_exact_17_in_order": true,
+  "row_arity_all_17": true,
+  "empty_cells": [],
+  "na_cells": 141,
+  "na_cells_without_inline_rationale": [],
+  "token_occurrences": {
+    "V \u2014": 407,
+    "P \u2014": 91,
+    "NI \u2014": 9,
+    "NW \u2014": 5,
+    "NP \u2014": 3,
+    "VP \u2014": 0,
+    "EP \u2014": 6,
+    "EM \u2014": 0,
+    "BL \u2014": 3,
+    "BRANCH-ONLY": 4,
+    "DEFERRED": 5,
+    "OOS": 16,
+    "NOT SATISFIED": 12,
+    "NOT AUTHORIZED": 14,
+    "NOT ACCEPTED": 0,
+    "SOURCE-REPORTED": 3,
+    "UNRESOLVED": 0
+  },
+  "csv_matches_source": true,
+  "csv_rows": 51,
+  "na_cells_completed_by_build": 75
+}
