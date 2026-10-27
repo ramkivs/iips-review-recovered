@@ -1,0 +1,37 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20261027225810
+Username: DESKTOP-NO0NHTP\USER
+RunAs User: DESKTOP-NO0NHTP\USER
+Configuration Name: 
+Machine: DESKTOP-NO0NHTP (Microsoft Windows NT 10.0.26300.0)
+Host Application: C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe -NoLogo -NoProfile -NoExit -Command Write-Host PowerShell version: $PSVersionTable.PSVersion; Write-Host Edition: $PSVersionTable.PSEdition
+Process ID: 18072
+PSVersion: 5.1.26100.9444
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.9444
+BuildVersion: 10.0.26100.9444
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+Run ID: 92d931fbb5204f74870aedf78610e29a
+Repository: C:\iips-work\iips-review-recovered-cap03-s2-authoritative-20261026T101205Z
+Remote commit: 115394724f7852544b90715d48b1c73a8dfecc52
+Evidence directory: C:\Users\USER\Documents\CAP03-PF11-Results\92d931fbb5204f74870aedf78610e29a
+
+=== GATE 5: DOWNLOAD AUTHORITATIVE FILES ===
+PASS: both files downloaded to the separate evidence directory.
+
+=== GATE 6: SHA-256 VERIFICATION ===
+
+STOP: The term 'Get-FileHash' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+PS C:\iips-work\iips-review-recovered-cap03-s2-authoritative-20261026T101205Z> if ($TranscriptStarted) {
+    Stop-Transcript | Out-Null
+    $TranscriptStarted = $false
+}
+**********************
+Windows PowerShell transcript end
+End time: 20261027225811
+**********************
