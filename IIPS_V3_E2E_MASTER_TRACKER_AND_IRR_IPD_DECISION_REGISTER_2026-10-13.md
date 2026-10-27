@@ -13638,3 +13638,32 @@ Correction publication is effective by IRR PR **#331**, exact-head CI and regula
 | `V1061` | No capture/acceptance/authorization status change | **PASS** — existing attempt unaccepted; P-1 NOT EXECUTED / UNSPENT / NOT AUTHORIZED |
 
 *End of §16.154 (`CV-CORR-134`; `CHG-2026-10-27-13`/`-14`; `V1048`–`V1061`). Correction publication is not a capture, acceptance, or authorization. The existing attempt remains preserved and unaccepted; native Windows PowerShell execution remains a subsequent-capture prerequisite; P-1 remains NOT EXECUTED / UNSPENT / NOT AUTHORIZED.*
+
+## §16.155 — `IIPS-V3-CAP03-P1C-P1D-PA-AUTHORIZED-EVIDENCE-RECONCILIATION-2026-10-27-01` — CAP-03 supplied capture evidence reconciliation; no acceptance or execution (2026-10-27; `CV-CORR-135`; `CHG-2026-10-27-15`; `V1062`–`V1071`)
+
+> **EVIDENCE RECONCILIATION ONLY.** This record does not establish P-1-C, verify P-1-D for the attempt, authorize or consume P-1, change F4/F5, or authorize store/sidecar/parent creation. IRR-only publication; IPD remains read-only.
+
+Report: `evidence/integration/cap03-p1c-p1d-evidence-reconciliation-2026-10-27/CAP03_P1C_P1D_EVIDENCE_RECONCILIATION_2026-10-27.md`
+
+- Earlier capture `cap03-p1-20261027T110433Z-3569c5ceff28428c8293c442c9436649` is preserved. PF-11 ancestor-walk errors mean its `InsideGitWorktree=False` is not reliable proof; its 24 manifest-listed hashes matched.
+- Root-safe capture `cap03-p1-20261027T133547Z-edc19dfb4f0e4dc997ea15854187c50f` is preserved. Its PF-11 output reports `InsideGitWorktree=False` without the earlier traversal errors, but the supplied ZIP lacks parts of the required acceptance envelope.
+- The captured instrument is 11,257 bytes / SHA-256 `804a832296f326dff5ea1a8b3b0c779c3a7721d2db931e9a462ead648f5f6bd7`. The live published source must match the recorded 10,990-byte Git blob `191f5828461286b0f6fcb688b023da5dfc68a265`; its SHA-256 is calculated live. The earlier recorded purported SHA-256 string had 65 hex characters and is invalid. The permitted three-substitution byte-diff proof is absent from the supplied root-safe ZIP, so derivative identity remains unproven.
+- P-1-C: **NOT ESTABLISHED**.
+- P-1-D: **DESIGNATED; SUBSTANTIVELY SUPPORTED AT REPORTED CAPTURE; NOT VERIFIED FOR THE ATTEMPT**.
+- P-1: **NOT EXECUTED / UNSPENT / NOT AUTHORIZED**.
+- F4 remains exactly `C:\iips-data\iips\user-portfolio.sqlite`; F4/F5 unchanged; IPD writes = 0.
+- Both capture archives remain separate; no capture is rerun and no run-specific evidence is mixed.
+
+### Validation ledger
+- V1062 — package manifest and all seven listed hashes verified.
+- V1063 — authoritative IRR origin and fetched `main` commit/tree verified.
+- V1064 — isolated worktree matched fetched `main` and was clean.
+- V1065 — tracker record uniqueness and destination absence verified.
+- V1066 — copied evidence file hashes matched source hashes.
+- V1067 — earlier PF-11 error retained as a limitation.
+- V1068 — root-safe PF-11 observation recorded without upgrading acceptance.
+- V1069 — instrument identity discrepancy and missing diff proof retained as open.
+- V1070 — P-1-C/P-1-D/P-1 boundaries preserved.
+- V1071 — exact staged paths, commit parent and remote post-push state checked.
+
+*End of §16.155; no gate advances.*

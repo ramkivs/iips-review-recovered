@@ -1,0 +1,105 @@
+{
+  "record_id": "IIPS-V3-CAP03-P1C-P1D-PA-AUTHORIZED-EVIDENCE-RECONCILIATION-2026-10-27-01",
+  "scope": "IRR-only evidence assessment; IPD read-only; no P-1 execution or authorization change",
+  "pa_authorization": "PA authorized inclusion of the preserved earlier capture in the assessment to document the PF-11 defect and corrective lineage.",
+  "captures": {
+    "earlier": {
+      "archive": "cap03-p1-20261027T110433Z-3569c5ceff28428c8293c442c9436649(1).zip",
+      "archive_sha256": "950857083cb73295cd3a1da1ac6f339e1adce8f6f210fdd98ec0efb4dc026146",
+      "entry_count": 25,
+      "files": [
+        "00-run-authority-parameters.txt",
+        "00-run-parameters.txt",
+        "01-pf01-hostname.txt",
+        "02-executed-instrument.ps1",
+        "02-pf02-os.txt",
+        "03-pf03-elevation.txt",
+        "04-pf04-runtime.txt",
+        "05-pf05-sqlite.txt",
+        "06-pf06-node-path.txt",
+        "07-pf07-ipd-tree.txt",
+        "08-pf08-irr-tree.txt",
+        "09-pf09-shallow.txt",
+        "10-pf10-flags.txt",
+        "11-pf11-12-13-store-path.txt",
+        "14-pf14-evidence-root.txt",
+        "15-pf15-designation.txt",
+        "16-step0-source-hashes.txt",
+        "17-pf17-consumption-register.txt",
+        "18-pf14-evidence-root.txt",
+        "19-attempt-session-declaration.txt",
+        "20-script-byte-diff.json",
+        "98-operator-session.txt",
+        "99-script-digest.txt",
+        "directory-listing.txt",
+        "SHA256SUMS.txt"
+      ],
+      "manifest_present": true,
+      "listing_present": true,
+      "manifest_entries_verified": 24,
+      "manifest_issues": []
+    },
+    "root_safe": {
+      "archive": "cap03-p1-20261027T133547Z-edc19dfb4f0e4dc997ea15854187c50f(1).zip",
+      "archive_sha256": "1294c4d28713a38770da4e8b93d1a96b01b5379dda39534af2723a3436a42571",
+      "entry_count": 16,
+      "files": [
+        "00-run-parameters.txt",
+        "01-pf01-hostname.txt",
+        "02-executed-instrument.ps1",
+        "02-pf02-os.txt",
+        "03-pf03-elevation.txt",
+        "04-pf04-runtime.txt",
+        "05-pf05-sqlite.txt",
+        "06-pf06-node-path.txt",
+        "07-pf07-ipd-tree.txt",
+        "08-pf08-irr-tree.txt",
+        "09-pf09-shallow.txt",
+        "10-pf10-flags.txt",
+        "11-pf11-12-13-store-path.txt",
+        "14-pf14-evidence-root.txt",
+        "15-pf15-designation.txt",
+        "99-script-digest.txt"
+      ],
+      "manifest_present": false,
+      "listing_present": false,
+      "manifest_entries_verified": 0,
+      "manifest_issues": []
+    }
+  },
+  "captured_instrument": {
+    "filename": "captured_root_safe_instrument.ps1",
+    "bytes": 11257,
+    "sha256": "804a832296f326dff5ea1a8b3b0c779c3a7721d2db931e9a462ead648f5f6bd7"
+  },
+  "published_instrument_identity_from_existing_governing_context": {
+    "path": "evidence/integration/cap03-pf11-root-safe-correction-2026-10-27/02-p1c-p1d-readonly-preflight-pf11-root-safe-v2.ps1",
+    "reported_blob": "191f5828461286b0f6fcb688b023da5dfc68a265",
+    "reported_bytes": 10990,
+    "reported_sha256": "INVALID_65_HEX_CHARACTERS_DO_NOT_USE_AS_SHA256"
+  },
+  "findings": {
+    "earlier_pf11": "The earlier capture records Join-Path and Split-Path errors at the filesystem-root traversal; its InsideGitWorktree=False line is not reliable proof of the predicate.",
+    "root_safe_pf11": "The root-safe capture reports InsideGitWorktree=False and its PF-11 output contains no ancestor-walk errors; this is a material corrected observation.",
+    "source_identity": "The captured root-safe executing script is byte-identical to the supplied 11,257-byte script (SHA-256 804a832296f326dff5ea1a8b3b0c779c3a7721d2db931e9a462ead648f5f6bd7). The governing published source identity recorded in prior correction material is 10,990 bytes / SHA-256 INVALID_65_HEX_CHARACTERS_DO_NOT_USE_AS_SHA256. A parameterized derivative is permitted by the procedure, so differing hashes are not themselves a failure. However, the root-safe capture ZIP lacks the required byte-diff JSON; the evidence therefore does not establish that the captured script derives from the designated published source using only the three permitted assignment substitutions. Verify the live remote source identity and the permitted-only byte diff; do not assume either failure or success from the hash difference alone.",
+    "supplements": "Earlier capture has authority parameters, step-0 hashes, PF-17 observation, attempt-session declaration, byte-diff record, operator transcript, directory listing, and a SHA256 manifest. Its manifest was independently recomputed against every listed file and all 24 entries verified. These are run-specific to the earlier RunId and must not be relabeled as root-safe-run supplements.",
+    "root_safe_envelope": "Root-safe ZIP contains only 15 instrument-output/script files (16 non-directory entries counting? See archive inventory); it does not include the authority-parameter file, step-0 source hashes, PF-17 record, attempt-session declaration, byte-diff JSON, operator transcript, directory listing, or SHA256 manifest required by the published procedure. Do not infer that those records never existed elsewhere; they are absent from the supplied root-safe ZIP.",
+    "manifest": "Earlier capture SHA256SUMS.txt matches all listed file hashes. Root-safe ZIP has no SHA256SUMS.txt or complete directory listing, so its complete raw envelope cannot be independently integrity-verified from that ZIP alone.",
+    "safety": "Both captures report F4 verbatim as C:\\iips-data\\iips\\user-portfolio.sqlite, store and sidecars absent, and P-1 was not invoked by the instrument. No evidence here authorizes P-1 execution."
+  },
+  "status": {
+    "P-1-C": "NOT ESTABLISHED",
+    "P-1-D": "DESIGNATED; SUBSTANTIVELY SUPPORTED AT REPORTED CAPTURE; NOT VERIFIED FOR THE ATTEMPT",
+    "P-1": "NOT EXECUTED / UNSPENT / NOT AUTHORIZED",
+    "F4": "C:\\iips-data\\iips\\user-portfolio.sqlite (unchanged)",
+    "F5": "C:\\iips-evidence\\cap03-gate4 (unchanged)",
+    "IPD_writes": 0,
+    "repository_publication": "NOT PERFORMED by this execution; no repository-write/PR capability is available in this session. This report is a prepared assessment artifact, not an effective IRR record."
+  },
+  "required_next_repository_actions": [
+    "From verified current IRR main, compare the exact remote blob/bytes of the designated PF-11 root-safe v2 instrument against the captured executing script and correct any stale identity references in the assessment based on live remote evidence.",
+    "Record the PA-authorized earlier capture as historical corrective evidence and the root-safe capture as the corrected observation, preserving run-specific evidence boundaries.",
+    "Register missing root-safe-run envelope evidence as absent from supplied archive unless it is found in already supplied companion materials; do not fabricate or re-run host observations.",
+    "Publish the assessment and tracker reconciliation through the standard IRR PR/CI/merge/remote-byte-readback lifecycle. No IPD write."
+  ]
+}
