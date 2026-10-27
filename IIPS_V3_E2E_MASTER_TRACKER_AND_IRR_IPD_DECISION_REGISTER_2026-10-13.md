@@ -369,6 +369,7 @@ The following completed baselines on `ramkivs/iips-review-recovered @ refs/heads
 | `2026-10-28` | `CHG-2026-10-28-02` | **CAP-03 §16.159 — P-1 Program Authority decision package prepared, NOT ADOPTED: DA (execution-pin of record: §16.143 coordinate `001c3c80…`/`399fa44a…` vs successor-act step-0 literal `5fc74085…`), DB (capture-instrument identity: v2 `191f5828…` / `13783385…` vs v1 `85AC…` STOP literals; procedure revision deferred), DC (native-harness prerequisite for the next capture: PA decision required; 27-October evidence limited, one archive verified PowerShell 7.6.8). Package `docs/integration/IIPS_v3.0_CAP03_P1_PA_DECISION_PACKAGE_2026-10-28.md`. No decision adopted; P-1 NOT EXECUTED / UNSPENT / NOT AUTHORIZED; no capture, host run, PF-17 satisfaction, P-1-C/P-1-D acceptance, gate movement, IPD write, or procedure edit.** (`CV-CORR-139`; `V1089`–`V1096`) |
 | `2026-10-28` | `CHG-2026-10-28-03` | **CAP-03 §16.160 — PA adoption of DA-A1, DB-B1, DC-C2 recorded additively (`CV-CORR-140`, `V1097`–`V1103`):** DA execution-pin interpretation adopted, limited (`BASIS_COMMIT` unchanged; executing HEAD recorded separately; the P-1 authorization act must name the execution commit); DB v2 instrument identity adopted as sole identity; DC native-harness prerequisite replaced for the next capture only. Procedure `IIPS_v3.0_CAP03_P1C_P1D_FRESH_CAPTURE_PROCEDURE_2026-10-27.md` revised additively (Appendix A A1–A12). Record `docs/integration/IIPS_v3.0_CAP03_P1_PA_DECISION_ADOPTION_2026-10-28.md`. **Static checks only; no PowerShell or Windows run; native run `92d931fb` remains NOT PASSED. P-1 NOT EXECUTED / UNSPENT / NOT AUTHORIZED; P-1-C / P-1-D / PF-17 capture limb unchanged; no capture, host run, IPD write, or gate movement.** |
 | `2026-10-28` | `CHG-2026-10-28-04` | **CAP-03 §16.161 — PF-11 Gate 6 recovered-artifact reconciliation and C-2 execution-context assessment (`CV-CORR-141`, `V1104`–`V1112`):** both previously unpublished artifacts recovered and stored with digests — `run-pf11-hash-compat.ps1` (1,858 B, SHA-256 `f8f33061…`, static parse clean, defines a script-scope `function Get-FileHash` and then invokes the published harness with `&` in the same process) and `harness-error.txt` (721 B, SHA-256 `a9c36adc…`, `03-test_pf11_root_safe.ps1:13 char:56`, `CommandNotFoundException`, matched character-exactly against the published harness). Findings: the compatibility pass is a **logic-under-substitution** result and never exercised the cmdlet; the recovered compatibility script is **not** the outer Gate 5/Gate 6 orchestrator and is **behaviourally incomplete** against `harness-compat-result.txt`, so an unpublished outer wrapper remains; the native harness run's process identity is **UNVERIFIED** (the earlier "child process" wording is withdrawn). DC-C2 as adopted is assessed **CONDITIONALLY SUFFICIENT** for protecting the next capture (same-process check immediately before a same-process `& $ExecutingScript`, fail-safe on every branch, no in-scope child process hashing), with L-1…L-5 limitations and R-1…R-3 technical recommendations that **require PA adoption and were not applied**. **No decision adopted, revised or reinterpreted; no procedure edit; native run `92d931fb` remains NOT PASSED; PF-11 acceptance and its waiver unchanged; P-1 NOT EXECUTED / UNSPENT / NOT AUTHORIZED; no capture, host run, IPD write, or gate movement.** |
+| `2026-10-28` | `CHG-2026-10-28-05` | **CAP-03 §16.162 — P-1 adoption reconciliation addendum (`CV-CORR-142`, `V1113`–`V1121`):** publishes [`docs/integration/IIPS_v3.0_CAP03_P1_ADOPTION_RECONCILIATION_2026-10-28.md`](docs/integration/IIPS_v3.0_CAP03_P1_ADOPTION_RECONCILIATION_2026-10-28.md) (additive). Reassesses D1 (H-12 is record-supported as NOT a P-1 precondition, subject to PA confirmation; the H-12/QE pin is OPEN and the Gate 4 literal pin `a52b47b0…` is pre-binding), records the IPD row-7 citation defect, reviews DC-C2 conformance (`(b)` stricter, `(c)` .NET substitution not disclosed in the adoption record), and corrects the R-2 shadow analysis in PR #340 and §16.161.4. No adoption, no procedure change, no authorization: P-1 NOT EXECUTED / UNSPENT / NOT AUTHORIZED; PF-11, PF-17, QE, Gate 4, Gate 5, S3, DQ-4 unchanged. |
 
 ---
 
@@ -14125,3 +14126,47 @@ Rejected as recommendations: pinning an engine or version; a blanket `Import-Mod
 **Non-grants.** No P-1 execution or authorization; no capture; no host diagnostic or PowerShell execution; no PF-11 or harness run; no PF-17 satisfaction; no P-1-C or P-1-D acceptance; no change to PF-11, PF-15, F4, F5, `DISP-01`–`03`, `OBS-01`, S3, QE, DQ-4, Gate 4, Gate 5, or `BASIS_COMMIT`; no IPD write or cross-repository change; no production activity.
 
 *End of §16.161 (`CV-CORR-141`; `CHG-2026-10-28-04`; `V1104`–`V1112`).*
+
+## §16.162 — `CV-CORR-142`: CAP-03 P-1 adoption reconciliation addendum — D1 reassessment, DC-C2 conformance review, R-2 correction (`2026-10-28`; `CHG-2026-10-28-05`; `V1113`–`V1121`)
+
+Additive, read-only reconciliation. Publishes [`docs/integration/IIPS_v3.0_CAP03_P1_ADOPTION_RECONCILIATION_2026-10-28.md`](docs/integration/IIPS_v3.0_CAP03_P1_ADOPTION_RECONCILIATION_2026-10-28.md). It decides nothing and adopts nothing. The adoption record, package (`62954f67…`, NOT ADOPTED), procedure, and PF-11 files are unchanged.
+
+### 16.162.1 Findings
+
+- **D1-A — H-12 vs P-1 (record-supported reading; PA confirmation requested, PA-1).** Successor §8 has no manifest or H-12 precondition (0 matches). Gate 4 §6 orders S1 (P-1 provisioning) before S2a (H-12 adoption). IPD tracker row 8 lists "S1 P-1 provisioning" as an input to H-12 adoption. IRR §16.140.4 contains no H-12 item, and P-1-E says PF-15 blocks "S3/QE only, never S2/P-1". The open reading is that Gate 4 "before host preflight" could mean the P-1-session preflight (P-1-C); the record does not support that reading.
+- **D1-B — H-12/QE pin (OPEN; PA designation required, PA-2).** Verified: Gate 4 §3.2(2) and §8 name the "final (post-merge) Limb A commit" `a52b47b0…`. Its `gateAPrimeValidation.ts` constants are `null`; the constants are non-null at P-1 pin `001c3c80…`. The determination, S1 request §9, and IPD row 7 require H-12 regeneration after the binding change, so `a52b47b0…` is stale against that rule. No document designates the H-12/QE pin. Not designated here.
+- **D1-C — IPD row 7 citation (IPD-side defect; recorded only).** Row 7 cites "successor act §8" for H-12 regeneration; successor §8 contains no manifest text. The rule is in Gate 4 §8 only. IRR cannot write IPD.
+- **D1-D — Terminology (recorded only).** "final Limb A commit", "final IPD commit", "final execution commit", "act-designated pin", and the S3/S4 labels are used inconsistently across IPD and IRR (addendum §1.4(D)).
+- **D2 — provisioning receipt (OPEN, PA-5).** `gateAPrimeProvisioning.ts` at `001c3c80…` line 317 returns `basisCommit: BASIS_COMMIT` with no HEAD comparison. Unchanged.
+- **DC-C2 conformance (addendum §3.1).** (a) conforms. (b) adds `CommandType -eq 'Cmdlet'`, which is stricter than the adopted Source-only text (L-2; PA-3b). (c) uses a .NET SHA-256 call in place of `Get-FileHash`; this is disclosed only in a code comment (line 253) and is **not** disclosed in the adoption record. Treated as a conformance blocker for the next capture pending PA-3a. (d) conforms.
+- **R-2 correction (addendum §3.3).** PR #340 `05-c2-execution-context-assessment.md` R-2 and §16.161.4 say a constant-hash control is one "a shadow cannot satisfy". That is incorrect: a shadow returning the correct SHA-256 passes a constant comparison. Shadow detection rests on the Source check. R-2 is not adopted. The earlier documents are not edited; this entry is the correction of record.
+- **L-1 (OPEN, PA-3c):** `ProcessId` is captured (line 180) but not compared at §4.5 (line 412). **L-2 (OPEN, host-gated):** `CommandType` on Windows PowerShell 5.1 is unverified (V1102).
+- **Native failure `92d931fb…` (unchanged):** NOT PASSED, not explained.
+
+### 16.162.2 Verification (static and read-only; no PowerShell, harness, capture, or host run)
+
+| ID | Check | Result |
+|---|---|---|
+| V1113 | IRR `origin/main` `3777dae`; no open PRs | PASS |
+| V1114 | IPD `main` `888eb375` documents read to scratch | PASS |
+| V1115 | Compare `a52b47b0` vs `5fc74085` (behind 4), vs `001c3c80` (ahead 46, behind 0), vs `888eb375` (ahead 63) | PASS (API) |
+| V1116 | `gateAPrimeValidation.ts` constants: `null` at `a52b47b0`; non-null at `001c3c80`; absent at `5fc74085` | PASS (API) |
+| V1117 | `gateAPrimeProvisioning.ts` `001c3c80` line 317 `basisCommit: BASIS_COMMIT` | PASS (API) |
+| V1118 | Successor §8: 0 manifest/H-12 matches; IPD rows 7–8 text | PASS (text) |
+| V1119 | Procedure line map (69, 177–182, 248–255, 263–265, 304, 324, 406–410, 411–412) | PASS (grep) |
+| V1120 | Adoption record does not mention the .NET SHA-256 substitution | PASS (grep); gap confirmed |
+| V1121 | Microsoft Learn `Get-FileHash` 5.1: `-InputStream` parameter set; `MemoryStream` example | PASS (external doc); not executed on host |
+| — | DC-a / DC-b on the host; any PowerShell execution; any harness run; any capture | **NOT EXECUTED — OPEN** (V1101/V1102 unchanged) |
+
+### 16.162.3 Disposition
+
+- No adoption, no authorization, no procedure change, no PA decision made. PA decisions PA-1, PA-2, PA-3a–d, PA-5 are requested in addendum §5 and are open.
+- **P-1 remains NOT EXECUTED / UNSPENT / NOT AUTHORIZED.** No P-1 receipt, store, or row exists. P-1-A…P-1-F statuses are unchanged.
+- Unchanged: PF-11 acceptance under §16.158 (compat-assisted; native NOT PASSED); PF-17 register limb verified and capture limb NOT EVIDENCED; P-1-C NOT ESTABLISHED; P-1-D DESIGNATED, NOT VERIFIED; PF-15, F4, F5, `DISP-01`–`03`, `OBS-01`, S3, QE, DQ-4, Gate 4, Gate 5; `BASIS_COMMIT` `5fc74085…`.
+- **Publication receipt:** not claimed in this section. To be populated by a companion update after PR merge and remote read-back, as in §16.140.7.
+
+### 16.162.4 Non-grants
+
+No P-1 execution or authorization; no capture; no host diagnostic or PowerShell or harness run; no PF-11 reopening or acceptance change; no PF-17 satisfaction; no P-1-C or P-1-D acceptance; no QE, Gate 4, Gate 5, S3, or DQ-4 movement; no IPD write, branch, or PR; no PA approval or signature supplied or inferred.
+
+*End of §16.162 (`CV-CORR-142`; `CHG-2026-10-28-05`; `V1113`–`V1121`).*
