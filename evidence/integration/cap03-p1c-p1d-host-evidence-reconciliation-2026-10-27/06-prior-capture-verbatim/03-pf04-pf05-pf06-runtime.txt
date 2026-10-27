@@ -1,0 +1,13 @@
+Name=03-pf04-pf05-pf06-runtime
+StartedUtc=2026-10-26T20:13:28.7499686Z
+EndedUtc=2026-10-26T20:13:29.8064824Z
+CaptureStatus=PASS
+--- OUTPUT BEGIN ---
+NodePath=C:\Users\USER\AppData\Local\nodejs22\node-v22.22.0-win-x64\node.exe
+{"platform":"win32","node":"v22.22.0","arch":"x64","execPath":"C:\\Users\\USER\\AppData\\Local\\nodejs22\\node-v22.22.0-win-x64\\node.exe"}
+SQLiteProbeBegin
+{"v":"ok"}
+(node:19440) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+SQLiteProbeEnd
+--- OUTPUT END ---

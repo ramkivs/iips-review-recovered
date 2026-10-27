@@ -354,6 +354,7 @@ The following completed baselines on `ramkivs/iips-review-recovered @ refs/heads
 | `2026-10-27` | `CHG-2026-10-27-04` | **Publication receipt for §16.148 (`CV-CORR-128`, `V992`):** IRR PR **#318** head `f75354b5…`, exact-head CI `40400127948` `success` → regular 2-parent merge **`8470ce26b3e6a68ca9e5a562fa6dd88cfad18b1c`** / tree `42da8812…` → post-merge `main` CI `40400388258` `success`. Independent Git-Blobs-API read-back at the merge matched blob identity and decoded-byte SHA-256 for **`7/7`** artifacts. Populates §16.148.5; no substantive state change: preflight NOT ACCEPTED, `P-1-C` `NOT ESTABLISHED`, `P-1-D` `NOT VERIFIED`, `P-1` `UNSPENT` and unauthorized; `S3`/`QE`/DQ-4/Gate 4/Gate 5 untouched; `0` IPD writes. |
 | `2026-10-27` | `CHG-2026-10-27-05` | **CAP-03 P-1 preflight instrument integrity investigation — line-ending publication defect remediated (`CV-CORR-129`, §16.149, `V993`–`V1002`):** Investigates the `02-p1c-p1d-readonly-preflight.ps1` integrity discrepancy: manifest `85AC7271…` (`10,231 B` LF, blob `eaea3f7f…` at both `4fd5a7c`/`8b6249…` and `3c3adf4`/`010bfb4…`) vs Windows `Get-FileHash` `7C6D44B8…` (`10,425 B` CRLF). Independently reproduces via `git cat-file -p eaea3f7f…` (SHA-256 `85AC…` LF) and CRLF simulation (`\n`→`\r\n` +194 B → `7C6D…`). Root cause: `.gitattributes` omission — instrument qualifies as byte-exact canonical but was not listed `text eol=lf`; `core.autocrlf=true` on Windows produced CRLF (`10,425 B`). Historical `04-publication-readback.json` `all_match=true` is valid for Git-blob (LF) vs Linux (LF) but did not model `autocrlf` working-tree translation; PowerShell extraction failed due to encoding conversion. Publishes single-line `.gitattributes` correction (`02-*.ps1 text eol=lf`), preserves prior instrument bytes and manifest, adds investigation record [`docs/integration/IIPS_v3.0_CAP03_P1_F4_PARENT_PREFLIGHT_INTEGRITY_INVESTIGATION_2026-10-27.md`](docs/integration/IIPS_v3.0_CAP03_P1_F4_PARENT_PREFLIGHT_INTEGRITY_INVESTIGATION_2026-10-27.md) (`IIPS-V3-CAP03-P1-F4-PARENT-PREFLIGHT-INTEGRITY-INVESTIGATION-2026-10-27-01`) + evidence `evidence/integration/cap03-p1-f4-parent-preflight-integrity-investigation-2026-10-27/` (`00`–`04`, `INDEX`, `SHA256SUMS`, verifier). Safety checks: `verify_reconciliation.py` `39/39 PASS`, no `--mode=execute` invocation, no store/sidecar creation, no write-flag changes, `0` IPD writes, `git diff --check` clean. State preserved: `P-1-A` `SATISFIED`, `P-1-B` candidate-scoped `001c3c80…`, `P-1-C` `NOT ESTABLISHED`, `P-1-D` `DESIGNATED; NOT VERIFIED`, `P-1` `UNSPENT` and unauthorized; `S3`/`QE`/DQ-4/Gate 4/Gate 5 untouched. **Single next action:** Ramki fetches this merge, confirms `Get-FileHash` yields `85AC…` (`10,231 B` LF), then runs the published instrument in the intended P-1 session. |
 | `2026-10-27` | `CHG-2026-10-27-06` | **Full 51 × 17 capability-matrix reconstruction and reconciliation (`CV-CORR-130`, §16.150, `V1003`–`V1014`) — documentation only.** Independently re-derived all 51 rows × 15 assessed dimensions at IRR `f74af6d4…` / IPD `888eb375…`, with execution evidence gathered in the same pass (IRR 1,350/1,350 tests, build 1,609.84 kB; IPD 924/923/1/0 and package-consumer PASS; live transport probe); records eight discrepancies as dated overlays (C-01…C-08) and ten outstanding items (O-01…O-10) while editing no §18 text; renders no acceptance, qualification, admission or release decision; `P-1` remains **UNSPENT**. |
+| `2026-10-27` | `CHG-2026-10-27-07` | **CAP-03 P-1-C/P-1-D host-evidence reconciliation — new host-captured state reconciled with earlier operator-reported absence premise; `DISP-01` applied; preflight NOT ACCEPTED (`CV-CORR-131`, §16.151, `V1015`–`V1024`):** Publishes [`docs/integration/IIPS_v3.0_CAP03_P1C_P1D_HOST_EVIDENCE_RECONCILIATION_2026-10-27.md`](docs/integration/IIPS_v3.0_CAP03_P1C_P1D_HOST_EVIDENCE_RECONCILIATION_2026-10-27.md) (`IIPS-V3-CAP03-P1C-P1D-HOST-EVIDENCE-RECONCILIATION-2026-10-27-01`) + evidence `evidence/integration/cap03-p1c-p1d-host-evidence-reconciliation-2026-10-27/` (`00`–`06`, `INDEX`, `SHA256SUMS`, verifier). Live re-read at IRR `main@f74af6d4f488ebf6d3e3a94f612a0d831b6b765a` / tree `ed424ffb…` (`0` open PRs) and IPD `main@888eb375…` (`0` open PRs, `0` writes): reconciliation `-01` (`8e35986a…`), §§16.140.4/16.146/16.148/16.149, PF-15 act `-02` blob `3fe9a2dd…`, host packet `9d9c5970…`, successor act `528de6ae…`, matrix/runbook, published instrument `85AC7271…` (blob `eaea3f7f…`). Reconciles new operator-captured host evidence (`DESKTOP-NO0NHTP`, non-elevated `USER` SID `S-1-5-21-…-1001`; `C:\iips-data` + `C:\iips-data\iips` ordinary directories, not reparse points, creation `2026-10-26` with **UNKNOWN provenance**; C: local fixed healthy NTFS; outside OneDrive; `Authenticated Users` `Modify, Synchronize`; store + `-wal`/`-shm`/`-journal` absent) with the earlier **operator-reported** absence premise of §16.146 — Arena claimed no host contact then and claims none now; §16.148.2 premise delta preserved. **No allegation of unauthorized creation, no causal explanation, no new authority blocker.** `DISP-01` evaluated at the nearest existing ancestor (now `C:\iips-data\iips` itself): terminal-parent existence is not a STOP; successor act §8 step 1 does not require parent absence; S3 wording unchanged; F4 (39 B, 3 separators) and F5 unchanged, PF-15 not reopened. Criterion-by-criterion PF-01…PF-17 + envelope + freshness assessment: PF-01/PF-03/PF-11c–e/PF-12/PF-13 satisfied **at reported capture only**; PF-02/PF-04…PF-10/PF-14/PF-16 not evidenced in the supplied summary; PF-07 prior wrong-pin (`8eec74ae…` vs §16.143 `001c3c80…`) not cured; PF-11 every-worktree limb insufficient (no ancestor `.git` result); PF-17 register-unspent but no capture transcript. No `STOP.txt`, zero error-scan matches, a walkable ancestor chain and existing capture files are **not** acceptance proof (published instrument never calls `Stop-Report`). Fresh run `cap03-p1-20261027-02` exists under `C:\IIPS-EVIDENCE\cap03-p1-20261027-02`, but its instrument digest `B5D58F7F…` ≠ published `85AC7271…`, raw bytes are **NOT SUPPLIED** and Arena has **no** route to that directory: CAP-A (earlier 11-file REV2 capture) preserved verbatim with `11/11` digests; CAP-B (fresh preflight capture), CAP-C (separate read-only host assessment), CAP-D (generator bytes) recorded with `null` digests and an explicit list of files that must be deposited verbatim. **Decision: `P-1-C` `NOT ESTABLISHED`; `P-1-D` `DESIGNATED; SUBSTANTIVELY SUPPORTED AT REPORTED CAPTURE; NOT VERIFIED FOR THE ATTEMPT`; `P-1` `UNSPENT / UNEXECUTED / NOT AUTHORIZED`.** Six narrow blockers `B-1`…`B-6`; single next action = attempt-session raw-bytes deposit + independent byte read-back (no broad approval, no repeated investigation). No P-1, no `--mode=execute`, no parent/store/sidecar creation, no ACL/flag/pin/manifest/code/fence change, `0` IPD writes. Live `main` moved concurrently (PR #321 → `52f295a…`, CAP-04 §16.150/`CV-CORR-130`/`CHG-2026-10-27-06`/`V1003`–`V1014`); tracker re-read again at that head, CAP-04 section preserved byte-identically, and this block reallocated per the §16.140.0 collision precedent. Publication receipt follows (`CHG-2026-10-27-08`, `V1025`). |
 
 ---
 
@@ -13088,3 +13089,171 @@ checks: `0` IPD writes; no store/sidecar/database artefact; no host command; `P-
 §18 text edited; prior tracker sections preserved byte-identically.
 
 *End of §16.150 (`CV-CORR-130`; `CHG-2026-10-27-06`; `V1003`–`V1014`). Full current-state reconstruction of the 51 × 17 capability matrix at IRR `f74af6d4…` / IPD `888eb375…`, independently re-derived and machine-checked; eight discrepancies recorded as overlays (C-01…C-08) with no §18 text edited; ten outstanding items carried forward (O-01…O-10); no acceptance, qualification, admission or release decision rendered; `P-1` unspent and unauthorized.*
+
+---
+
+## §16.151 — `CV-CORR-131`: CAP-03 P-1-C/P-1-D host-evidence reconciliation — earlier operator-reported absence premise vs host-captured existence; `DISP-01` applied; preflight **NOT ACCEPTED** (`2026-10-27`; `CHG-2026-10-27-07`, `V1015`–`V1024`; publication receipt `CHG-2026-10-27-08`, `V1025`)
+
+> **Evidence/governance reconciliation only — no acceptance, no host contact by Arena, no execution.** Focused record:
+> [`docs/integration/IIPS_v3.0_CAP03_P1C_P1D_HOST_EVIDENCE_RECONCILIATION_2026-10-27.md`](docs/integration/IIPS_v3.0_CAP03_P1C_P1D_HOST_EVIDENCE_RECONCILIATION_2026-10-27.md)
+> (`IIPS-V3-CAP03-P1C-P1D-HOST-EVIDENCE-RECONCILIATION-2026-10-27-01`); machine bundle
+> `evidence/integration/cap03-p1c-p1d-host-evidence-reconciliation-2026-10-27/`. Supersedes, **as current
+> reported state only**, the §16.146 terminal-parent-absence premise; a fresh (non-attempt-session) capture
+> is now reported and several host facts are now reported rather than wholly outstanding, but no
+> P-1-session transcript exists and no host fact is independently verified. Prior wording is preserved
+> byte-identically as history. `DISP-01`–`03`,
+> `OBS-01`, the §16.143 pin, PF-15 act `-02`, F1–F6 and every gate are **not reopened**. `P-1` remains
+> **UNSPENT / UNEXECUTED / NOT AUTHORIZED**.
+
+### 16.151.1 Baseline and primary-source re-read (`V1015`–`V1016`)
+
+IRR `refs/heads/main` = **`f74af6d4f488ebf6d3e3a94f612a0d831b6b765a`**, tree `ed424ffbe4e3b3863ff00a47aa25fa0ca4e0c62f`, `2026-10-27T04:48:21Z` (PR #320 / §16.149 merge), `0` open PRs; working branch
+`arena/e7cbbda2-iips-review-recovered` starts at that head. Tracker blob `83c30df1…` (`2,609,724` B, SHA-256
+`815faa3a…`). IPD `main@888eb375eebee01640e44ccdcbb138a71e8c4513`, tree `cf3b9048…`, `0` open PRs, `0` writes.
+Re-read: reconciliation `-01` (`8e35986a…`), §§16.140.4/16.146.3–.4/16.147/16.148/16.149.8, PF-15 act `-02`
+(`3fe9a2dd…`, `11,860` B), IPD host-readiness packet (`9d9c5970…`, PF-01…PF-17), IPD successor act
+(`528de6ae…`, §8 step 0 + step 1), CAP-03 matrix (`10bf69c9…`), CAP-02 runbook (`f6fd8cd7…`), published
+instrument (`eaea3f7f…`, SHA-256 `85AC7271…`, `10,231` B LF) and the earlier 11-file capture. Effective F4
+`C:\iips-data\iips\user-portfolio.sqlite` (`39` B, `3` separators, hex `433a5c69…73716c697465`) and F5
+`C:\iips-evidence\cap03-gate4` byte-unchanged. Successor act §8 step 1's complete condition list again
+confirmed: absolute; outside every worktree; local fixed NTFS; not synchronized; operator-writable without
+elevation; `Test-Path = False` — **no parent-existence clause**.
+
+**Live re-verification and reallocation (concurrent main movement).** A concurrent CAP-04 pass merged IRR PR
+**#321** at `2026-10-27T05:56:51Z` as **`52f295a2f0d1475e4040dd673002853c120dfe8a`**, tree
+`aad064a5a920a49f841221d865fd3ea9cbfe9f86`, adding §16.150 / `CV-CORR-130` / `CHG-2026-10-27-06` /
+`V1003`–`V1014`. The live authoritative tracker was re-read again at that head before editing; CAP-04's
+change-log row and §16.150 are **preserved byte-identically**. CAP-04 PRs #322/#323/#324 then advanced `main` to `064e9f1fd038c2e81db90058e30dfa2a637331d3` (tree `7ddcb80863cf07b55cace8e406c767ae09df68ba`) with docs/evidence-only changes and no tracker edit; the live tracker was re-read again there and this pass is based on that head. Per the
+§16.140.0 collision precedent this section is **reallocated** to §16.151 / `CV-CORR-131` /
+`CHG-2026-10-27-07` (receipt `CHG-2026-10-27-08`) / `V1015`–`V1024` (receipt `V1025`); no CAP-04 identifier
+is reused or altered. CAP-04 §16.150.4 finding **C-08** recorded the same F4 parent-exists discrepancy as
+"not reconciled by inference"; §16.151.2 below supplies the dated provenance reconciliation without editing
+C-08. IPD `main@888eb375…` unchanged; `0` IPD writes.
+
+### 16.151.2 Provenance reconciliation and unknown directory provenance (`V1017`–`V1018`)
+
+The §16.146 "terminal parent absent / nearest existing ancestor `C:\`" computation was **earlier
+operator-reported state**, not an Arena host measurement (that record declares `Host contact: NONE`); its
+ancestor chain was a conditional repository-side `path.win32` computation. §16.148.2 had already recorded the
+premise delta from `06-pf11-pf12-pf13-store-path.txt` (`StoreParentExists=True` at `2026-10-26T20:13Z`) as
+*recorded, not a blocker*; that investigation is not repeated. The **new state is host-captured**: fresh run
+`cap03-p1-20261027-02` plus a separate read-only host assessment report `C:\iips-data` and
+`C:\iips-data\iips` as ordinary directories (no reparse point), both created `2026-10-26`, host
+`DESKTOP-NO0NHTP`, non-elevated `DESKTOP-NO0NHTP\USER` (SID `S-1-5-21-1872737340-673410177-2240931581-1001`),
+C: local/fixed/healthy NTFS, outside `C:\Users\USER\OneDrive`, `Authenticated Users` granted
+`Modify, Synchronize`, and store + `-wal`/`-shm`/`-journal` all absent. The measurements reached Arena as
+**prose only**; no raw bytes, no independent read-back, and Arena claims **no** Windows verification.
+**Creation provenance is UNKNOWN** — no inference about who or which action created the directories, no
+allegation of unauthorized creation, no causal explanation from creation dates, the REV2 capture, the
+corrected traversal, the instrument digest or the unspent P-1. Recorded as **UNKNOWN**, not converted into a
+pass or an assumed failure. Provenance is **not a criterion** under successor §8 step 1 / PF-11–PF-12 /
+PF-13 (`DISP-01`) / PF-15 §4; it would matter only if evidence showed the preflight created a store-path
+ancestor in breach of PF-12. No such evidence is supplied; store/sidecars absent, PF-12 safety content intact.
+
+### 16.151.3 `DISP-01` applied — existence is not a new authority blocker (`V1019`)
+
+At P-1 scope PF-13 evaluates the **nearest existing ancestor**. With both directories present that ancestor is
+`C:\iips-data\iips` itself (chain `C:\iips-data\iips → C:\iips-data → C:\`), reported local fixed NTFS,
+outside the configured OneDrive root, not a network location; the corrected traversal reaching `C:\` is
+consistent with a walkable chain. Terminal-parent **existence is not a STOP** and creates **no new authority
+blocker** — the PA-level successor act step 1 does not require absence. `DISP-01`'s "pre-creating remains
+unauthorized" clause prohibits a deliberate preflight/workaround action, it does not make an existing
+directory of unknown provenance a STOP. S3 retains the original PF-13 wording. F4/F5 unchanged; F4
+designation not reopened or replaced; no new PA instrument rendered.
+
+### 16.151.4 Evidence manifest — what is preserved, what must be supplied (`V1021`)
+
+CAP-A (earlier 11-file REV2 capture `cap03-p1-reconcile-20261026T201328Z`) is **preserved verbatim**: originals
+unedited, `06-prior-capture-verbatim/` holds `11/11` byte-identical copies, `03-evidence-manifest.json`
+records all SHA-256 values (e.g. `06` `51a7c2d4…`, `99` `b3ff1b20…`). `05-prior-capture-relevant-transcripts.md`
+reproduces the full relevant raw transcripts; `04-operator-host-evidence-verbatim.md` transcribes the
+operator's prose summary verbatim, explicitly labelled **not** a raw host transcript. **The two original
+operator evidence captures — CAP-B (fresh preflight capture) and CAP-C (separate read-only host assessment) —
+are NOT accessible to Arena**: `C:\IIPS-EVIDENCE\cap03-p1-20261027-02` is operator-local; bytes read `0`,
+bytes deposited `0`; their digests are `null` (`NOT SUPPLIED`), never fabricated. Also missing: CAP-D generator
+bytes. Required verbatim deposit (names follow the published instrument unless the operator's generator used
+others — then supply every actual file plus a directory listing): `00-run-parameters.txt`,
+`01-pf01-hostname.txt`, `02-pf02-os.txt`, `03-pf03-elevation.txt`, `04-pf04-runtime.txt`,
+`05-pf05-sqlite.txt`, `06-pf06-node-path.txt`, `07-pf07-ipd-tree.txt`, `08-pf08-irr-tree.txt`,
+`09-pf09-shallow.txt`, `10-pf10-flags.txt`, `11-pf11-12-13-store-path.txt`, `14-pf14-evidence-root.txt`,
+`15-pf15-designation.txt`, `99-script-digest.txt`, the ancestor-walk transcript with per-ancestor `.git`
+result, error-scan command/patterns/zero-match output, UTC start/end timestamps, volume/ACL/reparse/OneDrive/
+`Test-Path` outputs, IPD/IRR pin lines, successor §8 step-0 source hashes, the CAP-C assessment file(s), and
+CAP-D bytes. **Arena-verified digests:** published instrument `85AC7271…`, PF-15 act `1f5c9e1d…`, tracker
+baseline `815faa3a…`, CAP-A `11/11`. **Operator-reported only:** new instrument
+`B5D58F7FFF78C34DFFCD189EAC46A27889775F44ABF60F1A8ABD905224093C95` (**≠** `85AC7271…`), REV2 generator
+`CB7E674E…`. The new run therefore used a different/modified generator whose scope and `STOP.txt` semantics
+are unknown until its bytes are supplied; no adverse inference is drawn.
+
+### 16.151.5 Criterion-by-criterion assessment (`V1020`)
+
+Two columns kept separate: substantive finding on reported measurements vs acceptance/evidence status for an
+attempt. **Exit signals are not proof:** the published instrument defines `Stop-Report` but never calls it, so
+a missing `STOP.txt` is not a verdict; zero matches in a limited error-pattern scan do not evaluate
+PF-01…PF-17; a traversal reaching `C:\` without errors evidences walkability, not `.git` absence; capture files
+existing is not acceptance (§16.148/§16.149.8).
+
+| PF / item | Finding on new reported evidence | Status for the attempt |
+|---|---|---|
+| PF-01 | `DESKTOP-NO0NHTP` matches | Satisfied at reported capture; not read back |
+| PF-02 | OS caption absent from supplied summary | NOT EVIDENCED (session state; prior capture not reusable) |
+| PF-03 | non-elevated `USER` + SID; confirmed by separate assessment | Satisfied at reported capture; not read back |
+| PF-04 | `win32`/Node/arch absent | NOT EVIDENCED |
+| PF-05 | flag-free `node:sqlite` transcript absent | NOT EVIDENCED |
+| PF-06 | node path/install evidence absent | NOT EVIDENCED |
+| PF-07 | no pin observation; corrected traversal unrelated | UNVERIFIED — §16.148 wrong-pin (`8eec74ae…` vs §16.143 `001c3c80…`) not cured |
+| PF-08 / PF-09 | IRR pin / `is-shallow=false` absent | NOT EVIDENCED |
+| PF-10 | flag enumeration absent | NOT EVIDENCED (no flag changed here) |
+| PF-11a absolute F4 | act `-02` byte-identical, `39` B / `3` separators | SATISFIED repository-side |
+| PF-11b outside every worktree | no explicit `InsideGitWorktree=False` / per-ancestor `.git` line | INSUFFICIENT on worktree limb (§16.148 T-2 class) |
+| PF-11c local fixed NTFS | C: local, fixed, healthy NTFS; no reparse points | Satisfied at reported capture; not read back |
+| PF-11d non-synced / non-network | outside configured OneDrive; local fixed volume; ACL `Synchronize` is a Windows access right, not cloud sync | Satisfied at reported capture; raw transcript needed |
+| PF-11e writable without elevation | `Authenticated Users` `Modify` ACE + membership + non-elevation | Strongly supported; no effective-access probe / full SDDL |
+| PF-12 store + sidecars | store, `-wal`, `-shm`, `-journal` all absent; no preflight creation reported | Satisfied at reported capture; must be re-observed immediately before attempt |
+| PF-13 (`DISP-01`) | nearest ancestor = terminal parent; NTFS/OneDrive/chain facts; existence not a STOP | Satisfied at reported capture; S3 wording unchanged |
+| PF-14 evidence root | `C:\IIPS-EVIDENCE\cap03-p1-20261027-02` ≠ published default `D:\iips-evidence\cap03-p1-20261027-01` ≠ F5 `C:\iips-evidence\cap03-gate4`; no root-property transcript | INSUFFICIENT; F5 unchanged, deviation must be documented |
+| PF-15 | act `-02` effective, F4/F2/F3 unchanged | SATISFIED repository-side |
+| PF-16 | no authority-text / §8 step-0 source-hash capture | UNVERIFIED (PF-07 pin element open) |
+| PF-17 | no dedicated transcript; register shows no receipt / no `--mode=execute` / no store | Satisfied as register state; insufficient as capture evidence |
+| Capture envelope | `B5D58F7F…` generator bytes absent; no `STOP.txt`; zero error matches | INSUFFICIENT — procedure not independently reproducible |
+| Session freshness / read-back | fresh run exists but no UTC timestamps, no declared attempt session, no raw bytes, no independent read-back | **NOT ESTABLISHED** |
+| Directory provenance | creation `2026-10-26`, creator/action unknown | **UNKNOWN** — not a criterion; not a pass, not an assumed failure, no new blocker |
+
+### 16.151.6 Status, blockers and narrow next action (`V1022`–`V1023`)
+
+| Item | State |
+|---|---|
+| `P-1-A` / `P-1-B` / `P-1-E` | `SATISFIED` candidate-scoped §16.144 / `SATISFIED` candidate-scoped `001c3c80…`/`399fa44a…` §16.143 / `SATISFIED EFFECTIVE` — unchanged |
+| **`P-1-C`** | **`NOT ESTABLISHED`** — fresh capture reported; no raw bytes, no independent read-back, no generator bytes, no attempt-session/immediately-before timing |
+| **`P-1-D`** | **`DESIGNATED; SUBSTANTIVELY SUPPORTED AT REPORTED CAPTURE; NOT VERIFIED FOR THE ATTEMPT`** — structural blocker stays removed; **no new authority blocker** from parent existence or unknown provenance |
+| **`P-1`** | **`UNSPENT / UNEXECUTED / NOT AUTHORIZED TO EXECUTE`** — no store/sidecar/row; `0` IPD writes |
+| `S3`/`QE`/`DQ-4`/Gate 4/Gate 5 | `NOT REACHED` / `0/11` / `8/10` / `AUTHORIZED — NOT STARTED` / `NOT INITIATED` — unchanged |
+
+Genuine prerequisites: **B-1** raw host bytes + independent byte read-back; **B-2** attempt-session
+freshness / immediately-before timing; **B-3** explicit ancestor `.git` result; **B-4** generator bytes
+(`B5D58F7F…`) or use of published `85AC7271…` instrument; **B-5** PF-07/PF-16 evidence at the §16.143
+basis incl. successor §8 step-0 hashes; **B-6** PF-14 root properties + documented deviation. **Single narrow
+next action:** Ramki deposits CAP-B + CAP-C verbatim (with host SHA-256 manifest, directory listing, UTC
+timestamps, ancestor `.git` line and generator bytes) from the intended P-1 session; Arena performs
+independent byte read-back and a criterion-by-criterion acceptance review. No broad new approval, no repeated
+investigation, no `P-1` execution. Hard prohibitions respected: no `--mode=execute`; no parent/store/sidecar
+create/delete/rename/modify; no ACL/flag/pin/manifest/code/fence change; F4 unchanged; no host verification
+claimed by Arena.
+
+### 16.151.7 Verification register (`V1015`–`V1024`; receipt `V1025` follows)
+
+| ID | Check | Result |
+|---|---|---|
+| `V1015` | Live branch/head/tree + primary blob re-read at IRR `f74af6d…` / IPD `888eb375…`, then **re-read again** at concurrent PR #321 merge `52f295a…` (tree `aad064a…`) before editing; CAP-04 §16.150 preserved byte-identically; `0` IPD writes | **PASS** |
+| `V1016` | Governing sources re-read (reconciliation, tracker sections, PF-15 act, packet, successor act, matrix, runbook, instrument) | **PASS** |
+| `V1017` | Prior absence premise provenance = earlier operator-reported state; §16.148.2 delta preserved; new state host-captured; Arena no host contact | **PASS** |
+| `V1018` | Creation provenance UNKNOWN; no unauthorized-creation allegation, no causal claim, not converted into pass/failure; materiality analysed | **PASS** |
+| `V1019` | `DISP-01` applied at nearest existing ancestor; existence not a STOP; no new authority blocker; S3 unchanged; F4/F5 unchanged | **PASS** |
+| `V1020` | Every PF condition assessed individually; `STOP.txt`/zero error scan/walkability/capture existence not treated as proof | **PASS** |
+| `V1021` | CAP-A verbatim (`11/11`), CAP-B/C/D `null` digests with explicit required-file list; verified vs reported digests separated | **PASS** |
+| `V1022` | `P-1-C` `NOT ESTABLISHED`; `P-1-D` supported at reported capture / `NOT VERIFIED` for attempt; P-1 unspent; downstream unchanged | **PASS** |
+| `V1023` | Boundaries: no execution/store/sidecar/parent mutation, no code/flag/pin/ACL/manifest/fence change, `0` IPD writes | **PASS** |
+| `V1024` | Documentation integrity: identifier census after reallocation (§16.151 / `CV-CORR-131` / `CHG-2026-10-27-07` / `V1015`–`V1024` unused at live head), JSON parses, bundle digests recompute, single `## §16.151` heading, CAP-04 §16.150 and all prior sections unedited, `git diff --check` clean | **PASS** |
+| `V1025` | Publication receipt — PR / exact-head CI / regular merge / post-merge CI / independent remote blob-byte read-back | **Companion update `CHG-2026-10-27-08`** |
+
+*End of §16.151 (`CV-CORR-131`; `CHG-2026-10-27-07` and `CHG-2026-10-27-08`; `V1015`–`V1025`). New host-captured state reconciled with earlier operator-reported absence premise; unknown directory provenance preserved as unknown and immaterial under the exact criteria; `DISP-01` applied with no new authority blocker; both operator evidence captures explicitly awaited verbatim; P-1-C `NOT ESTABLISHED`, P-1-D `NOT VERIFIED` for the attempt; P-1 `UNSPENT`, unexecuted and unauthorized; F4 unchanged; no gate advanced.*

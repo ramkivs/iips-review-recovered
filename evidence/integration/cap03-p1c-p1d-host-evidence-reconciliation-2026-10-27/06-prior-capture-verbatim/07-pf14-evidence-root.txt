@@ -1,0 +1,18 @@
+Name=07-pf14-evidence-root
+StartedUtc=2026-10-26T20:13:32.4512602Z
+EndedUtc=2026-10-26T20:13:33.9854618Z
+CaptureStatus=PASS
+--- OUTPUT BEGIN ---
+EvidenceRoot=C:\iips-evidence\cap03-p1-reconcile-20261026T201328Z
+IsPathRooted=True
+Exists=True
+EvidenceRootIsNotStore=True
+EvidenceBasePreExisted=True
+
+DriveLetter    : C
+FileSystemType : NTFS
+DriveType      : Fixed
+HealthStatus   : Healthy
+
+
+--- OUTPUT END ---

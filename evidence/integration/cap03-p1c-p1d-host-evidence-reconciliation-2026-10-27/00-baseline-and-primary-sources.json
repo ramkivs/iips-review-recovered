@@ -1,0 +1,160 @@
+{
+  "record_id": "IIPS-V3-CAP03-P1C-P1D-HOST-EVIDENCE-RECONCILIATION-2026-10-27-01",
+  "verification_time_utc": "2026-10-27T05:45:35Z",
+  "method": "git/gh read-only remote re-read; local shallow clone checked out at the same commit; IPD primary blobs fetched by GitHub Contents API at the recorded IPD main head and re-hashed locally; no host contact",
+  "baseline": {
+    "irr_default_branch": "refs/heads/main",
+    "irr_main_head": "f74af6d4f488ebf6d3e3a94f612a0d831b6b765a",
+    "irr_main_tree": "ed424ffbe4e3b3863ff00a47aa25fa0ca4e0c62f",
+    "irr_main_commit_date": "2026-10-27T04:48:21Z",
+    "irr_main_subject": "Merge pull request #320 from ramkivs/arena/210c304e-iips-review-recovered — CAP-03 §16.149 instrument integrity investigation (CV-CORR-129)",
+    "irr_open_prs_at_verification": 0,
+    "working_branch": "arena/e7cbbda2-iips-review-recovered",
+    "working_branch_start_head": "f74af6d4f488ebf6d3e3a94f612a0d831b6b765a",
+    "local_clone": "shallow; single commit f74af6d4f488ebf6d3e3a94f612a0d831b6b765a; main and working branch initially identical",
+    "ipd_default_branch": "refs/heads/main",
+    "ipd_main_head": "888eb375eebee01640e44ccdcbb138a71e8c4513",
+    "ipd_main_tree": "cf3b90482fa7ed1f9780f20a9286164686885d2b",
+    "ipd_main_commit_date": "2026-10-26T14:34:08Z",
+    "ipd_open_prs_at_verification": 0,
+    "ipd_writes_this_pass": 0,
+    "irr_main_head_at_publication_base": "064e9f1fd038c2e81db90058e30dfa2a637331d3",
+    "irr_main_tree_at_publication_base": "7ddcb80863cf07b55cace8e406c767ae09df68ba"
+  },
+  "governing_procedure": {
+    "successor_act_step_1_conditions": [
+      "absolute",
+      "outside every Git working tree",
+      "local fixed NTFS",
+      "not a synchronized folder",
+      "operator-writable without elevation",
+      "file must not pre-exist (Test-Path = False, recorded verbatim)"
+    ],
+    "parent_existence_in_step_1": false,
+    "successor_act_step_0": "Preflight capture: raw stdout+stderr, exit codes and UTC timestamps per command; exact pin; source SHA-256 digests; captured immediately before the single attempt",
+    "disp_01": "At P-1-session scope PF-13 is evaluated at the nearest existing ancestor; the terminal parent need not pre-exist; absence is not a STOP; S3 scope unchanged",
+    "disp_02": "PF-12 binds the store path and its ancestors; the PF-14 evidence root may be created",
+    "disp_03": "Step-2 pre-state on a correctly absent store is the STORE_NOT_FOUND refusal; a successful validate at step 2 is the anomaly/STOP",
+    "session_freshness": [
+      "§16.140.4 P-1-C",
+      "§16.146.3 reuse determination",
+      "§16.146.4 single next action",
+      "§16.147",
+      "§16.148 (T-4)",
+      "§16.149.8 single next action"
+    ],
+    "independent_read_back_required": true
+  },
+  "f4": {
+    "effective_value": "C:\\iips-data\\iips\\user-portfolio.sqlite",
+    "bytes": 39,
+    "backslash_separators": 3,
+    "utf8_hex": "433a5c696970732d646174615c696970735c757365722d706f7274666f6c696f2e73716c697465",
+    "effective_act": "IIPS-V3-CAP03-PF15-ENDPOINT-LOCAL-STATE-DESIGNATION-PA-ACT-2026-10-26-02",
+    "effective_act_blob": "3fe9a2ddd5f3b8730eccee7748b6266b5e2d8b1d",
+    "unchanged": true,
+    "reopened": false,
+    "restated_as_new_selection": false
+  },
+  "f5_evidence_root_pa_literal": "C:\\iips-evidence\\cap03-gate4",
+  "published_instrument": {
+    "run_id": "cap03-p1-20261027-01",
+    "default_evidence_root": "D:\\iips-evidence\\cap03-p1-20261027-01",
+    "blob": "eaea3f7fc7ef7f49395c3cbec26ed1ad379f46bb",
+    "bytes": 10231,
+    "sha256": "85ac7271c73469b6d5e454a3173ff3aad944a645a2352bb77ee36baee976a30b",
+    "stop_txt_semantics": "Defines function Stop-Report but never calls it; absence of STOP.txt is therefore not a positive verdict"
+  },
+  "primary_sources": [
+    {
+      "repository": "ramkivs/iips-review-recovered",
+      "path": "IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md",
+      "role": "Single authoritative tracker; §§16.140.4, 16.146, 16.148, 16.149 re-read",
+      "git_blob_at_baseline": "83c30df1be265385736f0380a3ec9a9abc798fd7",
+      "bytes": 2609724,
+      "sha256": "815faa3a98500fb56b55cc6592f3097f339b234c4896cffccc1194fd612bfc8c"
+    },
+    {
+      "repository": "ramkivs/iips-review-recovered",
+      "path": "docs/integration/IIPS_v3.0_CAP03_P1_F4_PARENT_PREFLIGHT_RECONCILIATION_2026-10-27.md",
+      "role": "Authoritative reconciliation bundle (record -01); DISP-01/02/03, OBS-01, instrument",
+      "git_blob_at_baseline": "8e35986afffcb5187a68347fd2f6209b4e259275",
+      "bytes": 18975,
+      "sha256": "14723ffd6be83d1e7869c78fe410b689f89ae899f1d7ac012c30918ffe263eca"
+    },
+    {
+      "repository": "ramkivs/iips-review-recovered",
+      "path": "docs/integration/IIPS_v3.0_CAP03_P1_PREFLIGHT_CAPTURE_ACCEPTANCE_ASSESSMENT_2026-10-27.md",
+      "role": "Prior 11-file capture assessment; premise delta and NOT ACCEPTED decision",
+      "git_blob_at_baseline": "daed402444ef5b7556142ee91978dd99f3a11ff3",
+      "bytes": 21958,
+      "sha256": "f13735446783be4967168a6a51cb2a63f20614853db5c9114d1403b43ba460b2"
+    },
+    {
+      "repository": "ramkivs/iips-review-recovered",
+      "path": "docs/integration/IIPS_v3.0_CAP03_PF15_ENDPOINT_LOCAL_STATE_DESIGNATION_PA_ACT_CORRECTED_2026-10-26.md",
+      "role": "Effective PF-15 act -02; F4/F5 values and §4 host-check clause",
+      "git_blob_at_baseline": "3fe9a2ddd5f3b8730eccee7748b6266b5e2d8b1d",
+      "bytes": 11860,
+      "sha256": "1f5c9e1d9d69cf15a51ec77e41bd70f07ba69516d6a944bf3a79678c6c19a033"
+    },
+    {
+      "repository": "ramkivs/iips-review-recovered",
+      "path": "docs/integration/IIPS_v3.0_CAP03_S2_P1_S3_QE_EXECUTION_AND_EVIDENCE_MATRIX_2026-10-26.md",
+      "role": "CAP-03 S2/P-1/S3/QE matrix §§3, 5, 7",
+      "git_blob_at_baseline": "10bf69c972e0cf206a1dd9c70bf98dca5b8049b2",
+      "bytes": 26851,
+      "sha256": "e260b7518ea9a41e943e5316d1d55724c0230b70c1aee091d6745ce71a31525b"
+    },
+    {
+      "repository": "ramkivs/iips-review-recovered",
+      "path": "docs/integration/IIPS_v3.0_CAP02_HOST_EXECUTION_RUNBOOK_AND_EVIDENCE_STRUCTURE_2026-10-26.md",
+      "role": "CAP-02 host runbook §§2, 4",
+      "git_blob_at_baseline": "f6fd8cd78a7e47a60901e715915dd7047dd80903",
+      "bytes": 12150,
+      "sha256": "32af5dab13a77a2ea03b9ddc3f4c43b4ac1b75b1e0879760d6d673eba8676967"
+    },
+    {
+      "repository": "ramkivs/iips-review-recovered",
+      "path": "evidence/integration/cap03-p1-f4-parent-preflight-reconciliation-2026-10-27/02-p1c-p1d-readonly-preflight.ps1",
+      "role": "Published read-only P-1-C/P-1-D capture instrument (LF canonical bytes)",
+      "git_blob_at_baseline": "eaea3f7fc7ef7f49395c3cbec26ed1ad379f46bb",
+      "bytes": 10231,
+      "sha256": "85ac7271c73469b6d5e454a3173ff3aad944a645a2352bb77ee36baee976a30b"
+    },
+    {
+      "repository": "ramkivs/iips-production-market-data",
+      "path": "evidence/cross-repository/IIPS_V3_CAP03_HOST_READINESS_PACKET_2026-10-24.md",
+      "role": "Host-readiness packet; PF-01…PF-17 criteria (PF-11/12/13 wording)",
+      "git_blob_at_baseline": "9d9c5970f66b1c901a2b5d28c02e8c9562078cf2",
+      "bytes": 20923,
+      "sha256": "1ea2637f29a0c42497a0ef2232514b977147131afebfa6f557295b4706a90360"
+    },
+    {
+      "repository": "ramkivs/iips-production-market-data",
+      "path": "evidence/cross-repository/IIPS_V3_CAP02_GATE_A_PRIME_SUCCESSOR_PROVISIONING_ACT_EFFECTIVE_2026-10-23.md",
+      "role": "Successor provisioning act; §8 step 0 (fresh preflight capture) and step 1 (exact P-1 store-path conditions)",
+      "git_blob_at_baseline": "528de6aeddbc8e5f3191be8792f3937d77de4037",
+      "bytes": 29856,
+      "sha256": "df8e44f704814e2321b5134206b04f25097830bdc5dd53c4d907d1256e4c788d"
+    }
+  ],
+  "hard_prohibitions": [
+    "no P-1 execution",
+    "no --mode=execute",
+    "no create/delete/rename/modify of F4 parent directories",
+    "no store or SQLite sidecar creation/modification",
+    "no ACL/environment-flag/pin/manifest/application-code/safety-fence changes",
+    "no F4 value change",
+    "no acceptance inferred from capture-file existence",
+    "no host verification claimed by Arena"
+  ],
+  "live_branch_reverification": {
+    "verified_baseline_at_start": "f74af6d4f488ebf6d3e3a94f612a0d831b6b765a / tree ed424ffbe4e3b3863ff00a47aa25fa0ca4e0c62f (2026-10-27T04:48:21Z; 0 open PRs at 2026-10-27T05:45:35Z)",
+    "concurrent_main_movement": "IRR PR #321 merged 2026-10-27T05:56:51Z as 52f295a2f0d1475e4040dd673002853c120dfe8a / tree aad064a5a920a49f841221d865fd3ea9cbfe9f86 (CAP-04 capability-matrix reconstruction); it added tracker §16.150 / CV-CORR-130 / CHG-2026-10-27-06 / V1003–V1014",
+    "publication_base": "064e9f1fd038c2e81db90058e30dfa2a637331d3 / tree 7ddcb80863cf07b55cace8e406c767ae09df68ba — live authoritative main head at PR creation (after CAP-04 PRs #321–#324); CAP-04 §16.150 preserved byte-identically",
+    "identifier_reallocation": "Following the §16.140.0 collision precedent, this pass is reallocated to §16.151 / CV-CORR-131 / CHG-2026-10-27-07 (receipt CHG-2026-10-27-08) / V1015–V1024 (receipt V1025). No CAP-04 identifier is reused or edited.",
+    "cap04_related_note": "CAP-04 §16.150.4 finding C-08 recorded the same F4 parent-exists discrepancy as \"not reconciled by inference\"; this pass supplies the dated provenance reconciliation without editing C-08.",
+    "subsequent_movement": "Subsequent CAP-04 PRs #322, #323 and #324 merged at 2026-10-27T06:05:29Z as 064e9f1fd038c2e81db90058e30dfa2a637331d3 / tree 7ddcb80863cf07b55cace8e406c767ae09df68ba (docs/evidence only; tracker unchanged, no new section or ID). Publication base below is that live head."
+  }
+}

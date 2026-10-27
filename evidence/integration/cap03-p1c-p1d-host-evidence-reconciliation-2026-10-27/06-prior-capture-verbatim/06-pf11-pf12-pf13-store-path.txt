@@ -1,0 +1,29 @@
+Name=06-pf11-pf12-pf13-store-path
+StartedUtc=2026-10-26T20:13:31.9352412Z
+EndedUtc=2026-10-26T20:13:32.4383001Z
+CaptureStatus=PASS
+--- OUTPUT BEGIN ---
+StorePath(verbatim)=C:\iips-data\iips\user-portfolio.sqlite
+StoreParent=C:\iips-data\iips
+StoreParentExists=True
+Exists[C:\iips-data\iips\user-portfolio.sqlite]=False
+Exists[C:\iips-data\iips\user-portfolio.sqlite-wal]=False
+Exists[C:\iips-data\iips\user-portfolio.sqlite-shm]=False
+Exists[C:\iips-data\iips\user-portfolio.sqlite-journal]=False
+EffectiveWriteProbe=PASS
+WriteProbeCleanup=PASS
+ProbeFileRemains=False
+ConfiguredOneDriveRoot=C:\Users\USER\OneDrive
+UnderConfiguredOneDriveRoot=False
+Ancestor=C:\iips-data\iips;Attributes=Directory;IsReparsePoint=False
+Ancestor=C:\iips-data;Attributes=Directory;IsReparsePoint=False
+Ancestor=C:\;Attributes=Hidden, System, Directory;IsReparsePoint=False
+WorktreeInventoryBegin
+Worktree=C:/iips-work/iips-production-market-data
+Worktree=C:/iips-work/iips-production-market-data-s2fix
+Worktree=C:/iips-work/pf08-irr-clean-tree-20261026
+Worktree=C:\iips-work\iips-production-market-data-s2fix
+WorktreeInventoryEnd
+OutsideEnumeratedIPDIRRWorktrees=True
+WorktreeScope=IPD/IRR git worktree lists plus the known S2-fix worktree; does not assert exclusion from unrelated repositories elsewhere on host.
+--- OUTPUT END ---

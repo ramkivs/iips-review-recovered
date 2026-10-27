@@ -1,0 +1,12 @@
+Name=02-pf02-pf03-os-identity
+StartedUtc=2026-10-26T20:13:28.4692453Z
+EndedUtc=2026-10-26T20:13:28.7407381Z
+CaptureStatus=PASS
+--- OUTPUT BEGIN ---
+OSCaption=Microsoft Windows 11 Home Single Language
+OSVersion=10.0.26300
+OSBuild=26300
+Account=DESKTOP-NO0NHTP\USER
+AccountSID=S-1-5-21-1872737340-673410177-2240931581-1001
+IsAdministrator=False
+--- OUTPUT END ---

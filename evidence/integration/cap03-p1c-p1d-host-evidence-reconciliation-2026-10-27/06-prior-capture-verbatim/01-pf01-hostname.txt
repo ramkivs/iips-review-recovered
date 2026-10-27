@@ -1,0 +1,8 @@
+Name=01-pf01-hostname
+StartedUtc=2026-10-26T20:13:28.3538837Z
+EndedUtc=2026-10-26T20:13:28.4456648Z
+CaptureStatus=PASS
+--- OUTPUT BEGIN ---
+ComputerName=DESKTOP-NO0NHTP
+Hostname=DESKTOP-NO0NHTP
+--- OUTPUT END ---

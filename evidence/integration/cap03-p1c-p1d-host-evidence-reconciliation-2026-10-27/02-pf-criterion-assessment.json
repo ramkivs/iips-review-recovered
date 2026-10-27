@@ -1,0 +1,365 @@
+{
+  "record_id": "IIPS-V3-CAP03-P1C-P1D-HOST-EVIDENCE-RECONCILIATION-2026-10-27-01",
+  "classification_note": "Two distinct columns are kept separate: (a) substantive finding on the operator-reported host measurements; (b) acceptance/evidence status for a P-1 attempt. A reported measurement is never silently upgraded into independently read-back evidence.",
+  "status_vocabulary": [
+    "SATISFIED_REPOSITORY_SIDE",
+    "SATISFIED_AT_REPORTED_CAPTURE_NOT_INDEPENDENTLY_READ_BACK",
+    "SATISFIED_REGISTER_STATE_INSUFFICIENT_CAPTURE_EVIDENCE",
+    "INSUFFICIENT",
+    "INSUFFICIENT_ON_WORKTREE_LIMB",
+    "UNVERIFIED",
+    "UNVERIFIED_PRIOR_MISMATCH_NOT_CURED",
+    "NOT_EVIDENCED_FOR_THIS_RUN",
+    "NOT_ESTABLISHED"
+  ],
+  "criteria": [
+    {
+      "id": "PF-01",
+      "scope": "P-1-C",
+      "criterion": "hostname exactly desktop-no0nhtp",
+      "source": "packet PF-01; matrix §5; successor §8 step 0",
+      "new_evidence": "Host DESKTOP-NO0NHTP reported in operator-captured summary",
+      "substantive_finding": "Matches the designated host (Windows hostname case-insensitive)",
+      "status": "SATISFIED_AT_REPORTED_CAPTURE_NOT_INDEPENDENTLY_READ_BACK",
+      "blockers": []
+    },
+    {
+      "id": "PF-02",
+      "scope": "P-1-C",
+      "criterion": "Windows 11 Home Single Language caption",
+      "source": "packet PF-02; matrix §5",
+      "new_evidence": "Not present in the operator-supplied summary; no raw transcript",
+      "substantive_finding": "Unverified for this run. Prior 11-file capture (2026-10-26T20:13Z) showed the caption but PF-02 is session state and is not reusable (§16.146.3).",
+      "status": "NOT_EVIDENCED_FOR_THIS_RUN",
+      "blockers": [
+        "B-1",
+        "B-5"
+      ]
+    },
+    {
+      "id": "PF-03",
+      "scope": "P-1-C",
+      "criterion": "IsInRole(Administrator)=False; account SID recorded",
+      "source": "packet PF-03; matrix §5",
+      "new_evidence": "Non-elevated; DESKTOP-NO0NHTP\\USER; SID S-1-5-21-1872737340-673410177-2240931581-1001; also confirmed by separate read-only host assessment",
+      "substantive_finding": "Non-elevation and identity supported at reported-host-measurement level; no raw transcript bytes available to Arena",
+      "status": "SATISFIED_AT_REPORTED_CAPTURE_NOT_INDEPENDENTLY_READ_BACK",
+      "blockers": [
+        "B-1"
+      ]
+    },
+    {
+      "id": "PF-04",
+      "scope": "P-1-C",
+      "criterion": "win32; Node >=22.13.0 <23; arch recorded",
+      "source": "packet PF-04; matrix §5; successor §8 step 0",
+      "new_evidence": "Not present in the operator-supplied summary; no raw transcript",
+      "substantive_finding": "Unverified for this run; prior capture showed v22.22.0/win32/x64 but is session state",
+      "status": "NOT_EVIDENCED_FOR_THIS_RUN",
+      "blockers": [
+        "B-1",
+        "B-5"
+      ]
+    },
+    {
+      "id": "PF-05",
+      "scope": "P-1-C",
+      "criterion": "node:sqlite loads flag-free; full output incl. warning verbatim",
+      "source": "packet PF-05; matrix §5",
+      "new_evidence": "Not present in the operator-supplied summary; no raw transcript",
+      "substantive_finding": "Unverified for this run",
+      "status": "NOT_EVIDENCED_FOR_THIS_RUN",
+      "blockers": [
+        "B-1",
+        "B-5"
+      ]
+    },
+    {
+      "id": "PF-06",
+      "scope": "P-1-C",
+      "criterion": "invoked node path inspected; no install/switch evidence",
+      "source": "packet PF-06; matrix §5",
+      "new_evidence": "Not present in the operator-supplied summary; no raw transcript",
+      "substantive_finding": "Unverified for this run",
+      "status": "NOT_EVIDENCED_FOR_THIS_RUN",
+      "blockers": [
+        "B-1",
+        "B-5"
+      ]
+    },
+    {
+      "id": "PF-07",
+      "scope": "P-1-C",
+      "criterion": "IPD checkout clean, full-history, at §16.143 execution basis 001c3c80618f2ee1d40e9a90912237e1a06e7b58 / 399fa44a5f1953c0f61b452420fefb5985426ef1",
+      "source": "packet PF-07; §16.143; §16.148 T-1; successor §8 step 0",
+      "new_evidence": "No pin/tree observation in the operator-supplied summary; corrected ancestor traversal is unrelated to the pin",
+      "substantive_finding": "UNVERIFIED. The only published pin capture (11-file REV2) evidenced the superseded baseline 8eec74ae…/4eba2902… and was NOT SATISFIED (§16.148). A fresh capture must evidence the designated basis.",
+      "status": "UNVERIFIED_PRIOR_MISMATCH_NOT_CURED",
+      "blockers": [
+        "B-5",
+        "B-1"
+      ]
+    },
+    {
+      "id": "PF-08",
+      "scope": "P-1-C",
+      "criterion": "IRR checkout clean at designated consumer pin",
+      "source": "packet PF-08; §16.148",
+      "new_evidence": "No IRR HEAD/tree observation in the operator-supplied summary",
+      "substantive_finding": "Unverified for this run",
+      "status": "NOT_EVIDENCED_FOR_THIS_RUN",
+      "blockers": [
+        "B-1",
+        "B-5"
+      ]
+    },
+    {
+      "id": "PF-09",
+      "scope": "P-1-C",
+      "criterion": "is-shallow-repository=false (IPD)",
+      "source": "packet PF-09; §16.148",
+      "new_evidence": "Not present in the operator-supplied summary",
+      "substantive_finding": "Unverified for this run",
+      "status": "NOT_EVIDENCED_FOR_THIS_RUN",
+      "blockers": [
+        "B-1",
+        "B-5"
+      ]
+    },
+    {
+      "id": "PF-10",
+      "scope": "P-1-C",
+      "criterion": "IIPS_G3_IPC_BINDING_PROVISIONED, IIPS_ENABLE_WRITES, IIPS_G3_ENABLE_WRITES, GATE_E_OVERRIDE (and GATE_A_PRIME_*) absent",
+      "source": "packet PF-10; successor §8.2; runbook §2",
+      "new_evidence": "No flag enumeration in the operator-supplied summary",
+      "substantive_finding": "Unverified for this run; this pass changed no environment flag",
+      "status": "NOT_EVIDENCED_FOR_THIS_RUN",
+      "blockers": [
+        "B-1",
+        "B-5"
+      ]
+    },
+    {
+      "id": "PF-11a",
+      "scope": "P-1-D",
+      "criterion": "store path absolute, F4 verbatim, unchanged",
+      "source": "PF-15 act F4; successor §8 step 1; packet PF-11",
+      "new_evidence": "Repository-side re-verified from effective act -02: 39 bytes, 3 backslash separators, hex 433a5c69…73716c697465",
+      "substantive_finding": "SATISFIED repository-side; no value drift, no restatement as a new selection",
+      "status": "SATISFIED_REPOSITORY_SIDE",
+      "blockers": []
+    },
+    {
+      "id": "PF-11b",
+      "scope": "P-1-D",
+      "criterion": "outside every Git worktree (ancestor .git walk)",
+      "source": "PF-15 act F4; successor §8 step 1; published instrument isInsideGitWorktree walk; §16.148 T-2",
+      "new_evidence": "Corrected ancestor traversal independently reproduced and reached C:\\ without errors; no explicit InsideGitWorktree=False / per-ancestor .git result reported to Arena",
+      "substantive_finding": "PARTIAL. A chain walk that reaches C:\\ shows the ancestors are enumerable; it does not by itself evidence the predicate that no ancestor carries a .git marker. Prior capture was enumerated-only. Raw transcript line required.",
+      "status": "INSUFFICIENT_ON_WORKTREE_LIMB",
+      "blockers": [
+        "B-3",
+        "B-1"
+      ]
+    },
+    {
+      "id": "PF-11c",
+      "scope": "P-1-D",
+      "criterion": "local fixed NTFS",
+      "source": "PF-15 act F4 §4; successor §8 step 1; packet PF-13",
+      "new_evidence": "C: reported local, fixed, healthy NTFS in the preflight transcript; both directories ordinary, not reparse points",
+      "substantive_finding": "SUPPORTED at reported-host-measurement level; raw volume transcript not supplied for independent read-back",
+      "status": "SATISFIED_AT_REPORTED_CAPTURE_NOT_INDEPENDENTLY_READ_BACK",
+      "blockers": [
+        "B-1"
+      ]
+    },
+    {
+      "id": "PF-11d",
+      "scope": "P-1-D",
+      "criterion": "not a synchronized folder / not a network location",
+      "source": "successor §8 step 1; packet PF-11/PF-13; DISP-01",
+      "new_evidence": "C:\\iips-data\\iips outside C:\\Users\\USER\\OneDrive; C: fixed local (not network); neither directory a reparse point",
+      "substantive_finding": "SUPPORTED at reported level. Caveats: the OneDrive comparison is against one configured root, and an ACL right named Synchronize is not cloud synchronization; a raw transcript (env roots, attributes, reparse status, volume) is needed for independent read-back.",
+      "status": "SATISFIED_AT_REPORTED_CAPTURE_NOT_INDEPENDENTLY_READ_BACK",
+      "blockers": [
+        "B-1"
+      ]
+    },
+    {
+      "id": "PF-11e",
+      "scope": "P-1-D",
+      "criterion": "operator-writable without elevation",
+      "source": "successor §8 step 1; packet PF-11; PF-03",
+      "new_evidence": "Non-elevated identity is a member of Authenticated Users; ACL grants that group Modify, Synchronize on C:\\iips-data\\iips; separate read-only host assessment confirmed ACLs/identity",
+      "substantive_finding": "STRONGLY SUPPORTED by a non-mutating ACL observation. Not a direct effective-access probe; full SDDL/deny-ACE review and the raw ACL transcript are not available to Arena.",
+      "status": "SATISFIED_AT_REPORTED_CAPTURE_NOT_INDEPENDENTLY_READ_BACK",
+      "blockers": [
+        "B-1"
+      ]
+    },
+    {
+      "id": "PF-12",
+      "scope": "P-1-D",
+      "criterion": "store, -wal, -shm, -journal absent (Test-Path False verbatim); preflight creates nothing on the store path",
+      "source": "packet PF-12; DISP-02; PF-15 act §4; successor §8 step 1",
+      "new_evidence": "All four paths absent, confirmed by the separate read-only host assessment; no store/sidecar creation reported",
+      "substantive_finding": "SATISFIED at reported capture. Session-bound: must be re-observed verbatim immediately before the attempt. Unknown directory provenance does not evidence that the preflight created anything; PF-12 safety content intact.",
+      "status": "SATISFIED_AT_REPORTED_CAPTURE_NOT_INDEPENDENTLY_READ_BACK",
+      "blockers": [
+        "B-1",
+        "B-2"
+      ]
+    },
+    {
+      "id": "PF-13",
+      "scope": "P-1-D",
+      "criterion": "nearest existing ancestor local fixed NTFS, not cloud-synced or network (DISP-01 at P-1 scope); terminal parent need not pre-exist",
+      "source": "packet PF-13 as modified by DISP-01 (§16.146 / record -01 §4); successor §8 step 1",
+      "new_evidence": "Nearest existing ancestor is now the terminal parent C:\\iips-data\\iips itself; C: local fixed healthy NTFS; outside configured OneDrive; not a reparse point; corrected traversal reached C:\\ without errors",
+      "substantive_finding": "SATISFIED at reported capture under DISP-01. Existence of the parent is not a STOP and creates no new authority blocker. Provenance of the directories is UNKNOWN and immaterial to this criterion. S3 wording unchanged.",
+      "status": "SATISFIED_AT_REPORTED_CAPTURE_NOT_INDEPENDENTLY_READ_BACK",
+      "blockers": [
+        "B-1"
+      ]
+    },
+    {
+      "id": "PF-14",
+      "scope": "P-1-C",
+      "criterion": "evidence root absolute, writable, outside every worktree, not synchronized, distinct from store; operator selection at attempt time",
+      "source": "packet PF-14; DISP-02; §16.146.3 reuse table; PF-15 F5 (unchanged)",
+      "new_evidence": "Run reported under C:\\IIPS-EVIDENCE\\cap03-p1-20261027-02. This differs from the published instrument default D:\\iips-evidence\\cap03-p1-20261027-01 and from the PA-rendered F5 literal C:\\iips-evidence\\cap03-gate4.",
+      "substantive_finding": "INSUFFICIENT. No root volume/attribute/synchronization/worktree/writability transcript supplied. F5 is NOT changed or replaced by this pass; a P-1 evidence root may be selected at attempt time, but the deviation from the published instrument default must be documented in run parameters and script bytes.",
+      "status": "INSUFFICIENT",
+      "blockers": [
+        "B-1",
+        "B-4",
+        "B-6"
+      ]
+    },
+    {
+      "id": "PF-15",
+      "scope": "crosscheck",
+      "criterion": "effective endpoint/state designation read verbatim",
+      "source": "packet PF-15; PF-15 act -02; §16.140.4 P-1-E",
+      "new_evidence": "Effective act -02 blob 3fe9a2dd… unchanged at reviewed baseline; F4/F2/F3 not reopened",
+      "substantive_finding": "SATISFIED repository-side; designation EFFECTIVE and unchanged",
+      "status": "SATISFIED_REPOSITORY_SIDE",
+      "blockers": []
+    },
+    {
+      "id": "PF-16",
+      "scope": "P-1-C",
+      "criterion": "exact act IDs, pins, store, order and adoption digests confirmed; no placeholder",
+      "source": "packet PF-16; §16.148 (PF-16 consequential failure); successor §8 step 0 source hashes",
+      "new_evidence": "No authority-text or provisioning-source SHA-256 capture in the operator-supplied summary",
+      "substantive_finding": "UNVERIFIED. Prior PF-07 pin mismatch propagates unless a fresh capture evidences the §16.143 basis; successor §8 step-0 source hashes are attempt-session items.",
+      "status": "UNVERIFIED",
+      "blockers": [
+        "B-1",
+        "B-5"
+      ]
+    },
+    {
+      "id": "PF-17",
+      "scope": "P-1-C",
+      "criterion": "no prior P-1 consumption; register unspent",
+      "source": "packet PF-17; §16.140.4 P-1-F; §§16.146.4/16.148/16.149.8",
+      "new_evidence": "No dedicated consumption-check transcript; authoritative tracker and this pass show no P-1 receipt, no --mode=execute invocation, no store",
+      "substantive_finding": "SATISFIED as register state; INSUFFICIENT as capture-set evidence",
+      "status": "SATISFIED_REGISTER_STATE_INSUFFICIENT_CAPTURE_EVIDENCE",
+      "blockers": [
+        "B-1"
+      ]
+    },
+    {
+      "id": "ENVELOPE",
+      "scope": "capture integrity",
+      "criterion": "independently reproducible raw capture with known generator bytes; verdicts; no STOP.txt; zero error-scan matches",
+      "source": "§16.148 T-3; published instrument; successor §8.1",
+      "new_evidence": "Instrument SHA-256 B5D58F7F… reported; published instrument is 85AC7271… (10,231 B LF, blob eaea3f7f…). No STOP.txt; zero error-scan matches.",
+      "substantive_finding": "NOT ESTABLISHED. The reported digest does not match the published instrument, so the generator is a different or modified script whose scope/safety/STOP semantics cannot be independently checked until its bytes are supplied. The published instrument defines Stop-Report but never calls it, so absence of STOP.txt is not a positive verdict. A limited error-pattern scan with zero matches does not evaluate PF-01…PF-17.",
+      "status": "INSUFFICIENT",
+      "blockers": [
+        "B-4",
+        "B-1"
+      ]
+    },
+    {
+      "id": "FRESHNESS",
+      "scope": "P-1-C/P-1-D",
+      "criterion": "complete raw capture immediately before the intended P-1 attempt, with independent remote byte read-back",
+      "source": "§16.140.4 P-1-C; §16.146.3–.4; §16.147; §16.148 T-4; §16.149.8; successor §8 step 0",
+      "new_evidence": "Fresh run cap03-p1-20261027-02 exists per operator report; no UTC start/end timestamps, no declared attempt session, no raw bytes, no independent read-back",
+      "substantive_finding": "NOT ESTABLISHED. A fresh capture existing is not the same as a complete, attempt-session capture read back independently. No attempt is authorized.",
+      "status": "NOT_ESTABLISHED",
+      "blockers": [
+        "B-1",
+        "B-2"
+      ]
+    }
+  ],
+  "exit_signals_not_proof": {
+    "no_stop_txt": "The published instrument never calls its Stop-Report function; a missing STOP.txt is expected regardless of unobserved criteria. It is not evidence of a pass.",
+    "zero_error_scan_matches": "A limited pattern scan over a transcript cannot establish PF-01…PF-17; zero matches means no matched error strings, not that every acceptance condition was evaluated and passed.",
+    "corrected_ancestor_traversal": "Reaching C:\\ without errors evidences walkability, not the absence of .git markers or the local/NTFS/non-sync predicates, unless the raw transcript says so.",
+    "capture_completion": "Capture files existing is not acceptance (§16.148, §16.149.8)."
+  },
+  "p1c": {
+    "status": "NOT ESTABLISHED",
+    "reason": "Fresh capture reported, but no raw bytes, no independent read-back, no generator bytes matching the published instrument, no declared attempt session/immediately-before timing, and multiple PF items (PF-02, PF-04…PF-10, PF-14, PF-16, PF-17) not evidenced in the supplied summary."
+  },
+  "p1d": {
+    "status": "DESIGNATED; SUBSTANTIVELY SUPPORTED AT REPORTED CAPTURE; NOT VERIFIED FOR THE ATTEMPT",
+    "reason": "On the reported host measurements the exact effective store-path criteria are supported (local fixed NTFS, outside configured OneDrive, non-network, non-elevated writability via group ACE, store + all sidecars absent, DISP-01 satisfied at the terminal parent). Remaining evidence gaps: independent byte read-back, attempt-session re-observation, explicit every-worktree ancestor .git result, full non-sync/ACL transcript.",
+    "new_blocker_from_parent_existence": false,
+    "unknown_provenance": "RECORDED AS UNKNOWN — not material to the governing criteria; not converted into a pass or an assumed failure"
+  },
+  "blockers": [
+    {
+      "id": "B-1",
+      "condition": "Raw host evidence bytes and independent remote byte read-back unavailable",
+      "narrow_action": "Deposit the two operator-captured evidence sets verbatim plus their per-file SHA-256 manifest and directory listing into the governed evidence bundle; Arena then performs independent byte read-back."
+    },
+    {
+      "id": "B-2",
+      "condition": "Attempt-session freshness / \"immediately before the intended P-1 attempt\" not established",
+      "narrow_action": "Produce the capture in the declared P-1 attempt session with UTC start/end timestamps and the intent-to-attempt statement; no rerun of completed investigations."
+    },
+    {
+      "id": "B-3",
+      "condition": "PF-11 every-worktree limb: no explicit ancestor .git result",
+      "narrow_action": "Supply the raw ancestor-walk transcript line (InsideGitWorktree=False / per-ancestor .git absence) for C:\\iips-data\\iips -> C:\\iips-data -> C:\\."
+    },
+    {
+      "id": "B-4",
+      "condition": "Capture generator bytes unavailable; reported digest B5D58F7F… != published instrument 85AC7271…",
+      "narrow_action": "Supply the exact script bytes hashing to B5D58F7F… (or use the published 85AC7271… instrument verbatim), plus its run parameters and corrected-traversal/error-scan transcripts."
+    },
+    {
+      "id": "B-5",
+      "condition": "PF-07 / PF-16 execution-basis evidence at §16.143 pin missing for this run",
+      "narrow_action": "Include in the attempt-session capture the IPD HEAD/tree/porcelain/diff and successor §8 step-0 source hashes at 001c3c80…/399fa44a…."
+    },
+    {
+      "id": "B-6",
+      "condition": "PF-14 evidence-root properties and the deviation from the published default / F5 undocumented",
+      "narrow_action": "Record the chosen root in 00-run-parameters and evidence its absolute/writable/non-synced/outside-worktree/NTFS properties; F5 unchanged."
+    }
+  ],
+  "single_narrow_next_action": "Ramki supplies, from C:\\IIPS-EVIDENCE\\cap03-p1-20261027-02 in the intended P-1 session, the complete raw transcript set, the separate read-only host assessment, the exact generator bytes and their SHA-256 manifest, the ancestor .git result, and the directory listing; Arena performs independent byte read-back and a criterion-by-criterion acceptance review. No broad new approval is requested; P-1 is not executed.",
+  "authority_state": {
+    "p1a": "SATISFIED (candidate-scoped §16.144, unchanged)",
+    "p1b": "SATISFIED candidate-scoped 001c3c80…/399fa44a… (§16.143, unchanged)",
+    "p1c": "NOT ESTABLISHED",
+    "p1d": "DESIGNATED; SUBSTANTIVELY SUPPORTED AT REPORTED CAPTURE; NOT VERIFIED FOR THE ATTEMPT",
+    "p1e": "SATISFIED EFFECTIVE (PF-15 act -02, unchanged)",
+    "p1": "UNSPENT / UNEXECUTED / NOT AUTHORIZED TO EXECUTE",
+    "s3": "NOT REACHED",
+    "qe": "0/11",
+    "dq4": "8/10",
+    "gate4": "AUTHORIZED — NOT STARTED",
+    "gate5": "NOT INITIATED"
+  },
+  "no_new_authority_blocker": true
+}

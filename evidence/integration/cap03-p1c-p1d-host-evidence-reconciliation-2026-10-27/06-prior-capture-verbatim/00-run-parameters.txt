@@ -1,0 +1,9 @@
+RunId=cap03-p1-reconcile-20261026T201328Z
+ObservedUtc=2026-10-26T20:13:28.3346687Z
+StorePath(verbatim)=C:\iips-data\iips\user-portfolio.sqlite
+EvidenceRoot=C:\iips-evidence\cap03-p1-reconcile-20261026T201328Z
+IpdRoot=C:\iips-work\iips-production-market-data
+IrrRoot=C:\iips-work\pf08-irr-clean-tree-20261026
+NodePath=C:\Users\USER\AppData\Local\nodejs22\node-v22.22.0-win-x64\node.exe
+ProvisioningInvoked=False
+P1Executed=False
