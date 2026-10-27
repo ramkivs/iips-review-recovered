@@ -154,3 +154,13 @@ This section is additive. It establishes which adopted text authorized the PR #3
 - Capture still requires the host run (`V1102`) and a separate PA capture authorization. P-1 is NOT EXECUTED / UNSPENT / NOT AUTHORIZED.
 
 **9.6 Non-grants.** No PowerShell run, harness or compat-script run, host diagnostic, capture, P-1 execution or authorization, PF-11 or PF-17 change, P-1-C or P-1-D acceptance, QE, Gate 4, Gate 5, S3, or DQ-4 movement, IPD write, `BASIS_COMMIT` or `BASIS_TREE` change, or PA approval or signature supplied or inferred.
+
+## 10. Additive record — A6 conformance (revision 2026-10-28c; `CV-CORR-144`; `CHG-2026-10-28-07`; `V1138`–`V1142`)
+
+**10.1 Row A6 (§4).** The "method note" in row A6 is superseded. The adopted parenthetical (the designated blob bytes are written to a file and checked there) is implemented in procedure revision `2026-10-28c` §4.4: a raw binary write, a read-back, STOP on any CR byte, length, or SHA-256 mismatch at the file, and a byte-for-byte evidence copy `01-source-blob-v2.bin` whose SHA-256 is re-checked. The in-memory method is not ratified. No PA decision was made, requested, or inferred.
+
+**10.2 Scope and status.** Static only. The runtime test that Appendix A requires ("must be tested before publication") is **NOT RUN** (no PowerShell in the sandbox) and must run on the host before any capture. DC-C2(c) is unchanged.
+
+**10.3 Unchanged.** Sections 1–9; DA-A1 (adopted); DB-B1 (adopted); DC (adopted for the next capture only). PA-1, PA-2, PA-3d, and PA-5 remain PA-reserved and are analysed in the consolidated package `docs/integration/IIPS_v3.0_CAP03_P1_PA_CONSOLIDATED_DECISION_PACKAGE_2026-10-28.md`.
+
+**10.4 Non-grants.** No PowerShell or harness run, host diagnostic, capture, P-1 authorization or execution, PF-17 satisfaction, P-1-C or P-1-D acceptance, IPD write, `BASIS_COMMIT` or `BASIS_TREE` change, H-12 adoption, Gate 4, S3, QE, or DQ-4 movement, or PA approval or signature supplied or inferred.

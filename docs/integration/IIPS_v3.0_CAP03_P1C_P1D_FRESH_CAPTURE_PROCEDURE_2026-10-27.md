@@ -14,6 +14,7 @@
 | **Tracker registration** | §16.153, `CV-CORR-133`, `CHG-2026-10-27-11`, `V1037`–`V1046`; publication receipt `CHG-2026-10-27-12` / `V1047` follows |
 | **Revision 2026-10-28** | Additive, in-scope revision adopting PA decisions DA-A1, DB-B1, and DC-C2 (`IIPS-V3-CAP03-P1-PA-DECISION-ADOPTION-2026-10-28-01`, tracker §16.160, `CV-CORR-140`, `CHG-2026-10-28-03`). Changes: v2 is the sole instrument identity (§3.2, §4.1, §4.4, §4.5); the source is read from the Git blob as raw bytes; §4.3a adds the pre-invocation PowerShell-edition and `Get-FileHash` checks for the next capture attempt only; §4.2 and §4.4 record the execution-pin distinction. **No status change:** P-1 remains NOT EXECUTED / UNSPENT / NOT AUTHORIZED; P-1-C, P-1-D, and the PF-17 capture limb are unchanged; no capture is performed by this revision. |
 | **Revision 2026-10-28b** | Additive, in-scope conformance revision (tracker §16.163, `CV-CORR-143`, `CHG-2026-10-28-06`, `V1122`–`V1125`). Changes: (1) §4.3a / §4.5 DC-b is the adopted Source-only test (the extra `CommandType -eq 'Cmdlet'` clause is removed, see §16.163.1); (2) §4.4 adds the literal DC-C2(c) `Get-FileHash -InputStream` check over the designated v2 bytes; (3) §4.5 adds the single-session `ProcessId` equality (L-1). No other gate, identity, pin, or evidence path changes. Historical revision 2026-10-28 is retained in the record; it is superseded only for the items listed here. |
+| **Revision 2026-10-28c** | Additive, in-scope conformance revision (tracker §16.164, `CV-CORR-144`, `CHG-2026-10-28-07`, `V1138`–`V1142`). Changes: §4.4 implements adopted A6 literally. The designated blob bytes are written to a file with a raw binary write, the file is read back, and the file is checked (STOP on any CR byte, length, or SHA-256). The evidence root receives a byte-for-byte copy, `01-source-blob-v2.bin`, whose SHA-256 is re-checked. The in-memory method disclosed in adoption record §4 (row A6) is withdrawn. DC-C2(c) is unchanged. Static only; host execution NOT EXECUTED. |
 
 ## 1. Governing record reread and status boundary
 
@@ -286,7 +287,12 @@ function Replace-UniqueBytes([byte[]]$InputBytes,[byte[]]$OldBytes,[byte[]]$NewB
 }
 
 # DB-B1: the source bytes are the designated blob bytes, not a working-tree read; re-verify identity before derivation.
-$originalBytes = $blobBytes
+# A6 (adopted text; revision 2026-10-28c): write the designated blob bytes to a file with a raw binary write, read that file back, and check the file.
+# The file, not the in-memory copy, is the source for derivation. The file is staged outside both Git worktrees and copied into the evidence root below.
+$SourceBlobStage = Join-Path ([IO.Path]::GetTempPath()) ('cap03-a6-' + [guid]::NewGuid().ToString('N') + '.bin')
+[IO.File]::WriteAllBytes($SourceBlobStage,$blobBytes) # raw bytes; do not use Set-Content / Out-File
+$originalBytes = [IO.File]::ReadAllBytes($SourceBlobStage)
+if ($originalBytes -contains 13) { throw 'STOP A6: the blob file contains CR bytes; the LF-only identity is required.' }
 if ((Get-Sha256Hex $originalBytes) -ne $InstrumentSha256 -or $originalBytes.Length -ne $InstrumentBytes) { throw 'STOP: source instrument byte identity changed.' }
 if ($IpdRoot.Contains("'") -or $IrrRoot.Contains("'") -or $RunId.Contains("'")) { throw 'STOP: unsupported quote in a path or run ID.' }
 $edits = @(
@@ -307,6 +313,10 @@ if ($scriptText.Contains('<ABSOLUTE PATH OF') -or -not $scriptText.Contains("`$S
 
 # Only now create the new evidence directory. It is outside the F4 store path.
 New-Item -ItemType Directory -Path $EvidenceRoot | Out-Null
+# A6: the evidence copy is a byte-for-byte copy of the file checked above; its own SHA-256 is re-checked.
+Copy-Item -LiteralPath $SourceBlobStage -Destination (Join-Path $EvidenceRoot '01-source-blob-v2.bin')
+if ((Get-FileHash -LiteralPath (Join-Path $EvidenceRoot '01-source-blob-v2.bin') -Algorithm SHA256).Hash.ToLowerInvariant() -ne $InstrumentSha256) { throw 'STOP A6: the evidence copy of the blob file differs from the designated identity.' }
+Remove-Item -LiteralPath $SourceBlobStage
 $SessionTranscript = Join-Path $EvidenceRoot '98-operator-session.txt'
 Start-Transcript -Path $SessionTranscript
 $IrrAuthorityNow = Assert-LiveMain 'IRR authority' $AuthorityRoot 'https://github.com/ramkivs/iips-review-recovered.git'
@@ -530,3 +540,14 @@ This register covers the revision adopted under `IIPS-V3-CAP03-P1-PA-DECISION-AD
 | `V1125` | Scope and non-grants: no PowerShell run, host contact, capture, P-1 execution, PF-17 satisfaction, P-1-C/P-1-D acceptance, IPD write, `BASIS_COMMIT` change, PF-11 change, or gate movement | **PASS** — static record review |
 
 *End of revision 2026-10-28b (`CV-CORR-143`; `CHG-2026-10-28-06`; `V1122`–`V1125`). Revision 2026-10-28 `V1097`–`V1103` entries are unchanged. `V1102` (DC-a/DC-b on the Windows host) remains NOT EXECUTED; it must record the actual `CommandType` and `Source` that Windows PowerShell 5.1 reports for `Get-FileHash`. P-1 remains NOT EXECUTED, UNSPENT, and NOT AUTHORIZED.*
+### 6.3 Revision 2026-10-28c verification register (`V1138`–`V1142`; tracker numbering; static only)
+
+| ID | Check | Status |
+|---|---|---|
+| `V1138` | Textual diff against revision 2026-10-28b is confined to the header row, the §4.4 A6 block, the evidence-copy lines after evidence-directory creation, and §6.3 | **PASS (static)** |
+| `V1139` | Ordering: the file read-back and identity checks precede derivation (`$scriptBytes`); the evidence copy follows `New-Item` for the evidence directory; the A7 gate (§4.3a) still precedes both | **PASS (static)** |
+| `V1140` | Adopted-text conformance: the blob bytes are written to a file (raw binary), read back, and checked for CR, length, and SHA-256 at the file; DC-C2(c) unchanged (MemoryStream) | **PASS (static)** |
+| `V1141` | Structure: seven fenced PowerShell blocks retained; brackets and quotes balanced (script check). PowerShell parse and run NOT RUN — no `pwsh` in the sandbox | **PASS (static)**; runtime test NOT RUN |
+| `V1142` | Scope and non-grants: no PowerShell run, host contact, capture, P-1 execution, PF-17 satisfaction, IPD write, `BASIS_COMMIT` change, or gate movement | **PASS** — static review |
+
+*End of revision 2026-10-28c (`CV-CORR-144`; `CHG-2026-10-28-07`; `V1138`–`V1142`). Revision 2026-10-28b entries are unchanged. P-1 remains NOT EXECUTED, UNSPENT, and NOT AUTHORIZED.*

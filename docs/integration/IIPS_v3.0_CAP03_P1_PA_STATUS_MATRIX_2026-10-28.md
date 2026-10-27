@@ -120,3 +120,20 @@ Authoritative reconciliation: adoption record §9 (`V1132`–`V1137`). Summary o
 - Unchanged: PA-1, PA-2, PA-3d, PA-5 (PA-reserved). L-2 host-gated. DC-C2 host execution NOT EXECUTED (`V1102`). P-1 NOT EXECUTED / UNSPENT / NOT AUTHORIZED.
 
 *End of record `IIPS-V3-CAP03-P1-PA-STATUS-MATRIX-2026-10-28-01`. P-1 remains NOT EXECUTED, UNSPENT, and NOT AUTHORIZED.*
+
+## 10. Consolidated PA pass pointer and A6 status (`CV-CORR-144`; `CHG-2026-10-28-07`)
+
+- **Consolidated package.** `docs/integration/IIPS_v3.0_CAP03_P1_PA_CONSOLIDATED_DECISION_PACKAGE_2026-10-28.md` (additive; it does not replace the historical package, adoption record, or D2 handoff).
+- **A6 (method conflict).** Status is now **CONFORMED** to the adopted text by procedure revision `2026-10-28c` §4.4 (bytes written to a file, read back, and checked). The "unresolved PA-reserved" statement in §9 is superseded for A6 only. The runtime test is **NOT RUN** and must run on the host before any capture.
+
+| Item | Status after this pass | Pointer |
+|---|---|---|
+| A6 | CONFORMED (no decision requested); runtime test NOT RUN | Adoption record §10; procedure §4.4, §6.3 |
+| PA-1 | RESERVED (H-12 versus P-1 order; meaning of "host preflight") | Consolidated package §3.2 |
+| PA-2 | RESERVED (IPD QE/H-12 commit; IRR consumer pin) | Consolidated package §3.3 |
+| PA-5 | RESERVED (Options A, B, C; DA-A1 receipt gap) | Consolidated package §3.4 |
+| PA-3d | RESERVED (non-gating) | Consolidated package §3.5 |
+
+- **Capture, P-1, H-12, S3, QE:** BLOCKED as stated in the consolidated package §6. No P-1 action is authorized. P-1 remains NOT EXECUTED, UNSPENT, and NOT AUTHORIZED.
+
+*End of §10 (`CV-CORR-144`; `CHG-2026-10-28-07`; `V1138`–`V1144`).*
