@@ -150,8 +150,10 @@ def remote_checks(repo: str, commit: str) -> tuple[list[dict], bool]:
             continue
         digest, name = line.split(None, 1)
         sums[name.strip()] = (digest.lower(), -1)
-    add("published SHA256SUMS.txt is readable and lists 18 artefacts",
-        len(sums) == 18, f"{len(sums)} entries")
+    local_sums = read_sums()
+    add("published SHA256SUMS.txt is readable and complete",
+        set(local_sums) <= set(sums), f"{len(sums)} entries published",
+        )
     # bundle files live in this directory; the report and tracker live at repo paths
     resolved = []
     for name in sums:

@@ -3,9 +3,9 @@
   "utc": "2026-10-27",
   "remote": [
     {
-      "check": "published SHA256SUMS.txt is readable and lists 18 artefacts",
+      "check": "published SHA256SUMS.txt is readable and complete",
       "ok": true,
-      "detail": "18 entries"
+      "detail": "19 entries published"
     },
     {
       "check": "remote bytes == published manifest: 00-artefact-checks.json",
@@ -23,6 +23,11 @@
       "detail": "4129 B sha256=b2da530dae91abc4\u2026 blob=ab7b3af0cc\u2026 local_match=True"
     },
     {
+      "check": "remote bytes == published manifest: 04-readback-remediation.md",
+      "ok": true,
+      "detail": "2598 B sha256=90275d5681581561\u2026 blob=f93337f4c0\u2026 local_match=True"
+    },
+    {
       "check": "remote bytes == published manifest: IIPS_V3_CAPABILITY_MATRIX_51x17_2026-10-27.csv",
       "ok": true,
       "detail": "56936 B sha256=6b05e0527e647361\u2026 blob=cbe8df29e9\u2026 local_match=True"
@@ -35,7 +40,7 @@
     {
       "check": "remote bytes == published manifest: INDEX.md",
       "ok": true,
-      "detail": "3251 B sha256=76cd5e36e4bd1800\u2026 blob=bafbe3906e\u2026 local_match=True"
+      "detail": "3574 B sha256=d478a2a23f0a4396\u2026 blob=ea4402b92c\u2026 local_match=True"
     },
     {
       "check": "remote bytes == published manifest: build_matrix.py",
@@ -85,7 +90,7 @@
     {
       "check": "remote bytes == published manifest: verify_publication.py",
       "ok": true,
-      "detail": "8249 B sha256=983a2616faa7b672\u2026 blob=270d04273b\u2026 local_match=False"
+      "detail": "9934 B sha256=238a9c4a22a488e1\u2026 blob=6886300b96\u2026 local_match=False"
     },
     {
       "check": "remote bytes == published manifest: IIPS_v3.0_CAPABILITY_MATRIX_51X17_RECONSTRUCTION_2026-10-27.md",
@@ -108,5 +113,6 @@
       "detail": ""
     }
   ],
-  "commit": "52f295a2f0d1475e4040dd673002853c120dfe8a"
+  "commit": "d49d4f3384b76addf48c71de5cccdeb6f9e340a2",
+  "note": "Read-back of merged d49d4f3384b76addf48c71de5cccdeb6f9e340a2 (PR #322). The earlier receipt for 52f295a2f0d1475e4040dd673002853c120dfe8a (PR #321) is preserved in 04-readback-remediation.md."
 }

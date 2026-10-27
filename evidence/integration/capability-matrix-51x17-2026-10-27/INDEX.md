@@ -23,7 +23,7 @@ no fence moved; nothing provisioned; `P-1` remains **UNSPENT**.
 | `02-probe-matrix.md` | The 30-request live HTTP probe of the composed transport, with the reading rules for `404`/`503`/`502` |
 | `verify_publication.py` | Verifier — `--local` re-derives and re-hashes; `--remote` reads every blob back from GitHub and compares |
 | `make_sums.py` → `SHA256SUMS.txt` | Hash manifest (bundle + report + tracker) |
-| `03-publication-readback.json` | Remote read-back receipt — 20/20 PASS at merged `52f295a2…` (PR #321), every artefact byte-identical to the published manifest |
+| `03-publication-readback.json` | Remote read-back receipt — 20/20 PASS at merged `d49d4f33…` (PR #322), every artefact byte-identical to the manifest published in that commit (the PR #321 read-back at `52f295a2…` is recorded in `04-`) |
 | `04-readback-remediation.md` | Why the first read-back reported 17/18 and how it was corrected: the Contents API omits `content` for blobs over 1 MB; the verifier now uses the Git blobs API and compares against the manifest published in the same commit |
 
 ## Reproduce
@@ -33,7 +33,7 @@ cd evidence/integration/capability-matrix-51x17-2026-10-27
 python3 build_report.py            # regenerates CSV/XLSX/§E/§H and the report, then self-checks
 python3 make_sums.py               # rewrites SHA256SUMS.txt
 python3 verify_publication.py --local
-python3 verify_publication.py --remote --commit 52f295a2f0d1475e4040dd673002853c120dfe8a
+python3 verify_publication.py --remote --commit d49d4f3384b76addf48c71de5cccdeb6f9e340a2
 ```
 
 The build is deterministic: two consecutive runs produce byte-identical CSV, XLSX and report, which is what
