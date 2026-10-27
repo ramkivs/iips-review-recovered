@@ -1,0 +1,63 @@
+{
+  "record_id": "IIPS-V3-CAP03-P1C-P1D-EVIDENCE-HANDOFF-ACCEPTANCE-REVIEW-2026-10-27-01",
+  "bundle_role": "03 — exact expected values for the next attempt-session capture, fixed repository-side (IPD inspected read-only) so the deposit can be checked without inference",
+  "ipd_execution_basis_pin": {
+    "source": "tracker §16.143 (CV-CORR-123, CHG-2026-10-26-25) — not re-derived, not re-designated here",
+    "commit": "001c3c80618f2ee1d40e9a90912237e1a06e7b58",
+    "tree": "399fa44a5f1953c0f61b452420fefb5985426ef1",
+    "parent": "8eec74ae27cda09f3c368b9c299895eae41554db",
+    "verified_read_only_this_pass": "git object database of ramkivs/iips-production-market-data at 888eb375 (fetch only; 0 writes)",
+    "pf07_pass_condition": "IPD worktree at HEAD=001c3c80618f2ee1d40e9a90912237e1a06e7b58, tree 399fa44a5f1953c0f61b452420fefb5985426ef1, porcelain empty, git diff --exit-code clean, git diff --cached --exit-code clean (PF-07); is-shallow-repository=false (PF-09)"
+  },
+  "successor_act_section_8_step_0_source_hashes": {
+    "requirement": "the successor provisioning act §8 step 0 requires the preflight capture to record the sha256 of src/persistence/gateAPrimeProvisioning.ts, provisioning.ts and binding.ts at the designated basis",
+    "expected_values_at_the_§16.143_pin": [
+      {"path": "src/persistence/gateAPrimeProvisioning.ts", "git_blob": "2cbce83f6572d211630ce0620dae49fa02fe4622", "bytes": 15727, "sha256": "0bd6d134405dbcab27f5639c3e22a856c778daa9fd414d2cb0e26e5b03919aa3", "role": "successor act §5.1 item 1 — the single act-bound provisioning entrypoint"},
+      {"path": "src/persistence/provisioning.ts", "git_blob": "dc844189a1c92f00acc3d7572c22f3e28e138eb6", "bytes": 4330, "sha256": "7f04f86a9c23bd0c94def29d829bb0c54033bed941a8c77e35365c30bdbdba30", "role": "successor act §2.1 item 1"},
+      {"path": "src/persistence/binding.ts", "git_blob": "96d0079dd04b75c6f257a2001c8f7eff1ffc560a", "bytes": 4112, "sha256": "5e9e3dd8fe705f0235baeab77894636e94cdfbc0df7dd5d42037100ae114a61b", "role": "successor act §2.1 item 2"}
+    ],
+    "verification_method": "each value read from the IPD Git object database at commit 001c3c80… (git rev-parse <commit>:<path> for the blob id; git show <commit>:<path> hashed with SHA-256); provisioning.ts and binding.ts blob ids equal the successor act §2.1 designations",
+    "capture_method_note": "the published instrument does NOT itself hash these three files; the operator must capture their SHA-256 in the SAME attempt session (e.g. Get-FileHash on the three files in the IPD worktree at the pin) as a supplemental capture line alongside the instrument outputs; the values above are the exact expected results",
+    "pf16_pass_condition": "exact Act IDs, pins, store, order and adoption digest confirmed against the rendered acts; no placeholder accepted; the three step-0 source hashes above recorded host-side"
+  },
+  "irr_consumer_pin": {
+    "standing_designation": "tracker §16.122 (CV-CORR-102): IRR QE consumer ba64b2d5927c2f872560710cf1474c25a5cde0d5 / tree 5e4262f1…",
+    "current_irr_main_at_this_record": "c3a014fe74fc4bb5d253957f060c8f4c2e4a6662 / tree dcb6707fef93ebe4fe02393cac75cf7ba4bfae1e (documentation-only movement since §16.122; recorded as fact, NOT a re-designation)",
+    "pf08_pass_condition": "IRR worktree HEAD/tree exactly the freeze designation in force for the attempt, porcelain empty, diff clean; the designation relied upon must be stated in the run parameters"
+  },
+  "f4_f5_literals": {
+    "f4": "C:\\iips-data\\iips\\user-portfolio.sqlite",
+    "f4_bytes": 39,
+    "f4_separators": 3,
+    "f4_utf8_hex": "433a5c696970732d646174615c696970735c757365722d706f7274666f6c696f2e73716c697465",
+    "f5": "C:\\iips-evidence\\cap03-gate4",
+    "note": "both unchanged from effective PF-15 act -02; the capture's evidence root is never F5 and never replaces it"
+  },
+  "pf11_ancestor_git_expectation": {
+    "capture_file": "11-pf11-12-13-store-path.txt",
+    "expected_lines": [
+      "StorePath(verbatim)=C:\\iips-data\\iips\\user-portfolio.sqlite (unnormalized)",
+      "AncestorChain=C:\\iips-data\\iips -> C:\\iips-data -> C:\\",
+      "NearestExistingAncestor=C:\\iips-data\\iips (per current reported state)",
+      "TerminalParentExists=True (expected per current reported state; under DISP-01 either value is acceptable — existence is not a STOP and absence is not required)",
+      "InsideGitWorktree=False  ← the explicit per-ancestor .git-walk result required by blocker B-3; the walk covers C:\\iips-data\\iips, C:\\iips-data and C:\\",
+      "Volume= local fixed NTFS for the nearest ancestor's drive"
+    ],
+    "note": "walkability of the chain is not the predicate; the explicit .git result line is"
+  },
+  "pf12_store_absence_expectation": {
+    "capture_file": "11-pf11-12-13-store-path.txt",
+    "expected_lines": "four verbatim lines: Test-Path LiteralPath 'C:\\iips-data\\iips\\user-portfolio.sqlite' = False; …-wal = False; …-shm = False; …-journal = False",
+    "note": "point-in-time observations are not reusable; PF-12 must be re-observed immediately before the attempt, in the attempt session"
+  },
+  "pf14_evidence_root_expectation": {
+    "required_properties": ["absolute", "writable", "not the store path", "not synchronized", "outside every Git worktree", "recorded verbatim in 00-run-parameters.txt"],
+    "published_default": "D:\\iips-evidence\\cap03-p1-20261027-01",
+    "prior_run_root": "C:\\IIPS-EVIDENCE\\cap03-p1-20261027-02 (superseded capture; deviation was never documented — blocker B-6)",
+    "requirement": "if the operator selects a different root, the selection and its properties must be documented in the capture itself (14-pf14-evidence-root.txt + 00-run-parameters.txt); F5 is unaffected"
+  },
+  "pf17_consumption_register": {
+    "register_state_verified_repository_side_this_pass": "P-1 UNSPENT — no execution receipt, no --mode=execute invocation, no store/sidecar artifact in any governed channel",
+    "capture_requirement": "the attempt session must include a dedicated consumption-register observation line (register/receipt comparison per PF-17), not only the repository-side register state"
+  }
+}
