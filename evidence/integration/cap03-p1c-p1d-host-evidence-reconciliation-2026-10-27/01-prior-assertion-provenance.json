@@ -1,0 +1,52 @@
+{
+  "record_id": "IIPS-V3-CAP03-P1C-P1D-HOST-EVIDENCE-RECONCILIATION-2026-10-27-01",
+  "prior_assertion": {
+    "source": "IIPS-V3-CAP03-P1-F4-PARENT-PREFLIGHT-RECONCILIATION-2026-10-27-01 (§§2.2, 4 DISP-01, 6.1); tracker §16.146.3",
+    "assertion": "The terminal parent C:\\iips-data\\iips was absent; \"under the stated absence of the terminal parent, the nearest existing ancestor is C:\\\"",
+    "provenance": "EARLIER OPERATOR-REPORTED STATE. Arena performed no host measurement and claimed none. The ancestor chain was computed repository-side under that stated premise, conditionally.",
+    "arena_host_contact": false,
+    "not_a_pa_value": "The existence premise was a factual working assumption about host state, not an F1–F6 value, pin, fence or determination. DISP-01 (the nearest-existing-ancestor rule) does not depend on the premise being true."
+  },
+  "already_recorded_premise_delta": {
+    "source": "tracker §16.148.2 / assessment record §2 (PF-13 row); raw file 06-pf11-pf12-pf13-store-path.txt",
+    "observation": "StoreParentExists=True at 2026-10-26T20:13Z in the published 11-file REV2 capture; ancestors C:\\iips-data\\iips, C:\\iips-data, C:\\ all listed with IsReparsePoint=False",
+    "effect": "§16.148 recorded the premise delta as recorded, not a blocker; this pass does not reopen it, does not repeat that investigation, and does not supersede DISP-01 or the F4 designation."
+  },
+  "new_host_captured_state": {
+    "provenance": "OPERATOR-CAPTURED HOST EVIDENCE relayed to Arena as a prose summary; raw bytes NOT supplied; independently re-observed by a separate read-only host assessment (bytes also NOT supplied). No independent Arena read-back.",
+    "capture_run": "cap03-p1-20261027-02",
+    "local_root": "C:\\IIPS-EVIDENCE\\cap03-p1-20261027-02",
+    "instrument_sha256_operator_reported": "B5D58F7FFF78C34DFFCD189EAC46A27889775F44ABF60F1A8ABD905224093C95",
+    "directories_exist": [
+      "C:\\iips-data",
+      "C:\\iips-data\\iips"
+    ],
+    "directory_kind": "ordinary directories; neither is a reparse point",
+    "creation_dates_reported": "2026-10-26 for both",
+    "creation_provenance": "UNKNOWN — no evidence of who created them, which action created them, or whether any governed procedure was involved; no causal explanation offered",
+    "store_and_sidecars": "user-portfolio.sqlite, -wal, -shm, -journal all absent",
+    "volume": "C: reported local, fixed, healthy NTFS in the preflight transcript",
+    "one_drive": "C:\\iips-data\\iips outside C:\\Users\\USER\\OneDrive",
+    "identity": "DESKTOP-NO0NHTP\\USER, SID S-1-5-21-1872737340-673410177-2240931581-1001, non-elevated, member of Authenticated Users",
+    "acl": "Authenticated Users granted Modify, Synchronize on C:\\iips-data\\iips",
+    "capture_signals": "No STOP.txt; transcript error scan zero matches; corrected ancestor traversal independently reproduced and reached C:\\ without errors",
+    "signals_are_not_acceptance_proof": true
+  },
+  "reconciliation": {
+    "prior_vs_new": "The earlier absence statement and the new existence measurement are different-provenance observations at different times. The earlier operator-reported state is not restated as a host measurement; the new host-captured state supersedes it as current reported state. No contradiction in authority: DISP-01 is a rule about which ancestor to evaluate, not a claim that the parent must be absent.",
+    "no_allegation": "No allegation of unauthorized creation; the mere existence of the directories, with unknown provenance, is not a finding that any preflight, operator workaround, or unauthorized act created them.",
+    "no_causal_claim": "No inference from the 2026-10-26 creation dates, from the earlier REV2 capture, from the corrected traversal, or from the instrument digest about who or what created the directories. P-1 remains unexecuted.",
+    "materiality": "Under the exact effective criteria (successor act §8 step 1; PF-11/PF-12 and PF-13 as read by DISP-01; PF-15 act §4), creation provenance is NOT a criterion. The criteria test current absolute/local-fixed-NTFS/outside-worktree/non-synchronized/non-elevated-writable characteristics and store + sidecar absence. Provenance is material only to the PF-12/DISP-01 prohibition on the preflight itself creating store-path directories; no supplied evidence shows the preflight created them, and the store/sidecars remain absent.",
+    "provenance_disposition": "RECORDED AS UNKNOWN — neither converted into a pass nor into an assumed failure; not a new authority blocker."
+  },
+  "disp_01_application": {
+    "nearest_existing_ancestor_now": "C:\\iips-data\\iips (the terminal parent itself)",
+    "ancestor_chain": "C:\\iips-data\\iips -> C:\\iips-data -> C:\\",
+    "evaluation_target": "local fixed NTFS and non-synchronized / non-network at C:\\iips-data\\iips, backed by the C: volume measurement",
+    "existence_not_a_stop": true,
+    "s3_scope": "unchanged — at S3 the original PF-13 text still requires the parent to exist and it is then inspected directly",
+    "pre_creating_clause_reading": "DISP-01 says pre-creating the terminal parent outside the authorized execution remains unauthorized and a STOP. That clause governs a deliberate preflight/workaround action to satisfy PF-13; it is not a rule that a directory whose provenance is unknown becomes a STOP merely because it exists. It would be engaged only by evidence that the preflight or an operator workaround created it. No such evidence is supplied.",
+    "new_authority_blocker": false
+  },
+  "concurrent_cap04_c08": "Live main 52f295a… (CAP-04 §16.150.4, finding C-08) independently recorded that §16.146’s absence statement and the §16.148 StoreParentExists=True capture were not reconciled by inference and that creator/timing are unestablished. This section reconciles the provenance without editing C-08: the earlier absence premise was operator-reported; the new state is host-captured; provenance remains UNKNOWN."
+}

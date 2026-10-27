@@ -1,0 +1,11 @@
+Name=08-pf15-designation-crosscheck
+StartedUtc=2026-10-26T20:13:33.9947341Z
+EndedUtc=2026-10-26T20:13:34.0506351Z
+CaptureStatus=PASS
+--- OUTPUT BEGIN ---
+EffectiveAct=IIPS-V3-CAP03-PF15-ENDPOINT-LOCAL-STATE-DESIGNATION-PA-ACT-2026-10-26-02
+EffectiveBlob=3fe9a2ddd5f3b8730eccee7748b6266b5e2d8b1d
+F4(verbatim)=C:\iips-data\iips\user-portfolio.sqlite
+F2(verbatim)=\\.\pipe\iips-user-portfolio-v1
+F3=N/A for Option A
+--- OUTPUT END ---

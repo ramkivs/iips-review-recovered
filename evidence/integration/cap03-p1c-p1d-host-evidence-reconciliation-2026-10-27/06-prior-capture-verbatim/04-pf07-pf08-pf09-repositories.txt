@@ -1,0 +1,24 @@
+Name=04-pf07-pf08-pf09-repositories
+StartedUtc=2026-10-26T20:13:29.8153465Z
+EndedUtc=2026-10-26T20:13:31.8929380Z
+CaptureStatus=PASS
+--- OUTPUT BEGIN ---
+[IPD] Path=C:\iips-work\iips-production-market-data
+HEAD=8eec74ae27cda09f3c368b9c299895eae41554db
+TREE=4eba29029f8d95cfe483e615a7047426b298ce50
+PORCELAIN-BEGIN
+PORCELAIN-END
+UnstagedDiffExit=0
+StagedDiffExit=0
+ExpectedHEAD=8eec74ae27cda09f3c368b9c299895eae41554db
+ExpectedTREE=4eba29029f8d95cfe483e615a7047426b298ce50
+IsShallow=false
+[IRR] Path=C:\iips-work\pf08-irr-clean-tree-20261026
+HEAD=ba64b2d5927c2f872560710cf1474c25a5cde0d5
+TREE=5e4262f1cd75bf13b76ced5b45058f31434b5dad
+PORCELAIN-BEGIN
+PORCELAIN-END
+UnstagedDiffExit=0
+StagedDiffExit=0
+ExpectedIRRHeadFromHostFollowup=ba64b2d5927c2f872560710cf1474c25a5cde0d5
+--- OUTPUT END ---

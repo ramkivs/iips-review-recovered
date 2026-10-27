@@ -1,0 +1,314 @@
+{
+  "record_id": "IIPS-V3-CAP03-P1C-P1D-HOST-EVIDENCE-RECONCILIATION-2026-10-27-01",
+  "manifest_character": "Repository-side facts + explicitly enumerated MISSING operator evidence. No digest is fabricated for a file Arena has not read. `null` means NOT SUPPLIED / NOT VERIFIED, never \"zero\" or \"matching\".",
+  "arena_access": {
+    "operator_local_directory": "C:\\IIPS-EVIDENCE\\cap03-p1-20261027-02",
+    "accessible_to_arena": false,
+    "raw_bytes_read": 0,
+    "raw_bytes_deposited": 0,
+    "host_verification_claimed": false,
+    "note": "Arena is a Linux sandbox with outbound access limited to GitHub/npm/PyPI hosts. It has no route to the operator’s Windows filesystem and makes no claim of Windows verification."
+  },
+  "captures": [
+    {
+      "capture_id": "CAP-A",
+      "name": "cap03-p1-reconcile-20261026T201328Z",
+      "kind": "earlier 11-file REV2 read-only preflight capture",
+      "repository_path": "evidence/integration-/cap03-p1-reconcile-20261026T201328Z/",
+      "status": "PRESERVED VERBATIM — originals unedited; byte-identical copies in 06-prior-capture-verbatim/",
+      "assessed_at": "§16.147 (four files) and §16.148 (complete 11-file set: NOT ACCEPTED)",
+      "generating_script": {
+        "path_reported": "C:\\Users\\USER\\Downloads\\CAP03_P1_ReadOnly_Preflight_Reconciliation_REV2.ps1",
+        "sha256_reported": "CB7E674ED8E4DDFDB6F185204E1024743704623AD356632A7AAFE7BE6ED5C8B7",
+        "bytes_available": false
+      },
+      "files": [
+        {
+          "name": "00-run-parameters.txt",
+          "bytes": 427,
+          "sha256": "1bc7f35cd49d6fb791149610adc4829c66dad5da84d4711b6b01f1b41c8d1cf8",
+          "git_blob_at_baseline": "61a704bf76acb0f983cbe53c4d41506c87456929",
+          "verbatim_copy": "06-prior-capture-verbatim/00-run-parameters.txt",
+          "verbatim_copy_sha256": "1bc7f35cd49d6fb791149610adc4829c66dad5da84d4711b6b01f1b41c8d1cf8"
+        },
+        {
+          "name": "01-pf01-hostname.txt",
+          "bytes": 213,
+          "sha256": "07b30d0e39984b6bc2f35f0b9d342330e89be55450db2bf85ba3ba6ffeb95f65",
+          "git_blob_at_baseline": "af29576a80ebf9a53be911bf159ded2e706c0730",
+          "verbatim_copy": "06-prior-capture-verbatim/01-pf01-hostname.txt",
+          "verbatim_copy_sha256": "07b30d0e39984b6bc2f35f0b9d342330e89be55450db2bf85ba3ba6ffeb95f65"
+        },
+        {
+          "name": "02-pf02-pf03-os-identity.txt",
+          "bytes": 362,
+          "sha256": "a2809e02c91f34672926e1099567f73964156cde7976f773bf530b0bc229ed60",
+          "git_blob_at_baseline": "a73875e76bc9369da7e9e9c72c3cb99d277ae810",
+          "verbatim_copy": "06-prior-capture-verbatim/02-pf02-pf03-os-identity.txt",
+          "verbatim_copy_sha256": "a2809e02c91f34672926e1099567f73964156cde7976f773bf530b0bc229ed60"
+        },
+        {
+          "name": "03-pf04-pf05-pf06-runtime.txt",
+          "bytes": 597,
+          "sha256": "92b213a7f99e802e73c56922684b81c6fcf0872228e3ab8fb590ff67a3d3283e",
+          "git_blob_at_baseline": "437b4eb3d2fcf1e47d571e489f749df28b50855b",
+          "verbatim_copy": "06-prior-capture-verbatim/03-pf04-pf05-pf06-runtime.txt",
+          "verbatim_copy_sha256": "92b213a7f99e802e73c56922684b81c6fcf0872228e3ab8fb590ff67a3d3283e"
+        },
+        {
+          "name": "04-pf07-pf08-pf09-repositories.txt",
+          "bytes": 791,
+          "sha256": "ef83c7ac8a0b2a539968acb90f505e41c70ab2399aee020bfddcb00f6f4291c9",
+          "git_blob_at_baseline": "387e737de6e144c8bd8a377d806a6294de8cf390",
+          "verbatim_copy": "06-prior-capture-verbatim/04-pf07-pf08-pf09-repositories.txt",
+          "verbatim_copy_sha256": "ef83c7ac8a0b2a539968acb90f505e41c70ab2399aee020bfddcb00f6f4291c9"
+        },
+        {
+          "name": "05-pf10-enabling-flags.txt",
+          "bytes": 458,
+          "sha256": "1c12093f49bd4c4a286d0cd7c751bee2168d65613f7f418b4a884e4eaf45d23a",
+          "git_blob_at_baseline": "dd6225ad665500d7e709f5bbc1634d5558ec1c59",
+          "verbatim_copy": "06-prior-capture-verbatim/05-pf10-enabling-flags.txt",
+          "verbatim_copy_sha256": "1c12093f49bd4c4a286d0cd7c751bee2168d65613f7f418b4a884e4eaf45d23a"
+        },
+        {
+          "name": "06-pf11-pf12-pf13-store-path.txt",
+          "bytes": 1312,
+          "sha256": "51a7c2d4f8aace6e2eeb2b4ee59e88e592d126bee8739797b636c0d3c5211571",
+          "git_blob_at_baseline": "a63c6fb4bec02dd3ee35059dff097fb547a5a459",
+          "verbatim_copy": "06-prior-capture-verbatim/06-pf11-pf12-pf13-store-path.txt",
+          "verbatim_copy_sha256": "51a7c2d4f8aace6e2eeb2b4ee59e88e592d126bee8739797b636c0d3c5211571"
+        },
+        {
+          "name": "07-pf14-evidence-root.txt",
+          "bytes": 408,
+          "sha256": "817ae418e958bc4a39ca5dc57c21c9388c84f4b3dfab6dfb3bf0409f6da6e559",
+          "git_blob_at_baseline": "6f91c5a30603dcb6c13e82f57ea29da74ca8f4be",
+          "verbatim_copy": "06-prior-capture-verbatim/07-pf14-evidence-root.txt",
+          "verbatim_copy_sha256": "817ae418e958bc4a39ca5dc57c21c9388c84f4b3dfab6dfb3bf0409f6da6e559"
+        },
+        {
+          "name": "08-pf15-designation-crosscheck.txt",
+          "bytes": 432,
+          "sha256": "d6874071e9b58bf13a6e434872cd7a6a4cfa5e843e706fd049c48fb3ccd2fe12",
+          "git_blob_at_baseline": "585e94a106c6a633f93ed93d824149cef275ca33",
+          "verbatim_copy": "06-prior-capture-verbatim/08-pf15-designation-crosscheck.txt",
+          "verbatim_copy_sha256": "d6874071e9b58bf13a6e434872cd7a6a4cfa5e843e706fd049c48fb3ccd2fe12"
+        },
+        {
+          "name": "98-script-integrity.txt",
+          "bytes": 165,
+          "sha256": "69b1d6a0e810971c69795346909d1438b8557a65bb386968d72d68feb395a3a7",
+          "git_blob_at_baseline": "4732740c351aeea8d41368b8251eb0ab5c4b6035",
+          "verbatim_copy": "06-prior-capture-verbatim/98-script-integrity.txt",
+          "verbatim_copy_sha256": "69b1d6a0e810971c69795346909d1438b8557a65bb386968d72d68feb395a3a7"
+        },
+        {
+          "name": "99-final-verdict.txt",
+          "bytes": 321,
+          "sha256": "b3ff1b20d1484029accd844d6ccec5d664e7f173eb255653362a3dbcd57c7423",
+          "git_blob_at_baseline": "3f96055d2e4b63285589763fddaa9c219266889b",
+          "verbatim_copy": "06-prior-capture-verbatim/99-final-verdict.txt",
+          "verbatim_copy_sha256": "b3ff1b20d1484029accd844d6ccec5d664e7f173eb255653362a3dbcd57c7423"
+        }
+      ]
+    },
+    {
+      "capture_id": "CAP-B",
+      "name": "cap03-p1-20261027-02 fresh preflight capture run",
+      "kind": "operator-captured host preflight transcript set (one of the two original evidence captures)",
+      "status": "BYTES NOT SUPPLIED — MUST BE DEPOSITED VERBATIM",
+      "local_root": "C:\\IIPS-EVIDENCE\\cap03-p1-20261027-02",
+      "instrument_sha256_operator_reported": "B5D58F7FFF78C34DFFCD189EAC46A27889775F44ABF60F1A8ABD905224093C95",
+      "instrument_bytes_available": false,
+      "instrument_matches_published_instrument": false,
+      "published_instrument_sha256_verified": "85ac7271c73469b6d5e454a3173ff3aad944a645a2352bb77ee36baee976a30b",
+      "expected_or_required_files": [
+        {
+          "name": "00-run-parameters.txt",
+          "sha256": null,
+          "bytes": null,
+          "available_to_arena": false,
+          "must_be_supplied": true,
+          "note": "Names follow the published instrument; if the operator’s generator used different filenames, supply every actual file verbatim and the directory listing."
+        },
+        {
+          "name": "01-pf01-hostname.txt",
+          "sha256": null,
+          "bytes": null,
+          "available_to_arena": false,
+          "must_be_supplied": true,
+          "note": "Names follow the published instrument; if the operator’s generator used different filenames, supply every actual file verbatim and the directory listing."
+        },
+        {
+          "name": "02-pf02-os.txt",
+          "sha256": null,
+          "bytes": null,
+          "available_to_arena": false,
+          "must_be_supplied": true,
+          "note": "Names follow the published instrument; if the operator’s generator used different filenames, supply every actual file verbatim and the directory listing."
+        },
+        {
+          "name": "03-pf03-elevation.txt",
+          "sha256": null,
+          "bytes": null,
+          "available_to_arena": false,
+          "must_be_supplied": true,
+          "note": "Names follow the published instrument; if the operator’s generator used different filenames, supply every actual file verbatim and the directory listing."
+        },
+        {
+          "name": "04-pf04-runtime.txt",
+          "sha256": null,
+          "bytes": null,
+          "available_to_arena": false,
+          "must_be_supplied": true,
+          "note": "Names follow the published instrument; if the operator’s generator used different filenames, supply every actual file verbatim and the directory listing."
+        },
+        {
+          "name": "05-pf05-sqlite.txt",
+          "sha256": null,
+          "bytes": null,
+          "available_to_arena": false,
+          "must_be_supplied": true,
+          "note": "Names follow the published instrument; if the operator’s generator used different filenames, supply every actual file verbatim and the directory listing."
+        },
+        {
+          "name": "06-pf06-node-path.txt",
+          "sha256": null,
+          "bytes": null,
+          "available_to_arena": false,
+          "must_be_supplied": true,
+          "note": "Names follow the published instrument; if the operator’s generator used different filenames, supply every actual file verbatim and the directory listing."
+        },
+        {
+          "name": "07-pf07-ipd-tree.txt",
+          "sha256": null,
+          "bytes": null,
+          "available_to_arena": false,
+          "must_be_supplied": true,
+          "note": "Names follow the published instrument; if the operator’s generator used different filenames, supply every actual file verbatim and the directory listing."
+        },
+        {
+          "name": "08-pf08-irr-tree.txt",
+          "sha256": null,
+          "bytes": null,
+          "available_to_arena": false,
+          "must_be_supplied": true,
+          "note": "Names follow the published instrument; if the operator’s generator used different filenames, supply every actual file verbatim and the directory listing."
+        },
+        {
+          "name": "09-pf09-shallow.txt",
+          "sha256": null,
+          "bytes": null,
+          "available_to_arena": false,
+          "must_be_supplied": true,
+          "note": "Names follow the published instrument; if the operator’s generator used different filenames, supply every actual file verbatim and the directory listing."
+        },
+        {
+          "name": "10-pf10-flags.txt",
+          "sha256": null,
+          "bytes": null,
+          "available_to_arena": false,
+          "must_be_supplied": true,
+          "note": "Names follow the published instrument; if the operator’s generator used different filenames, supply every actual file verbatim and the directory listing."
+        },
+        {
+          "name": "11-pf11-12-13-store-path.txt",
+          "sha256": null,
+          "bytes": null,
+          "available_to_arena": false,
+          "must_be_supplied": true,
+          "note": "Names follow the published instrument; if the operator’s generator used different filenames, supply every actual file verbatim and the directory listing."
+        },
+        {
+          "name": "14-pf14-evidence-root.txt",
+          "sha256": null,
+          "bytes": null,
+          "available_to_arena": false,
+          "must_be_supplied": true,
+          "note": "Names follow the published instrument; if the operator’s generator used different filenames, supply every actual file verbatim and the directory listing."
+        },
+        {
+          "name": "15-pf15-designation.txt",
+          "sha256": null,
+          "bytes": null,
+          "available_to_arena": false,
+          "must_be_supplied": true,
+          "note": "Names follow the published instrument; if the operator’s generator used different filenames, supply every actual file verbatim and the directory listing."
+        },
+        {
+          "name": "99-script-digest.txt",
+          "sha256": null,
+          "bytes": null,
+          "available_to_arena": false,
+          "must_be_supplied": true,
+          "note": "Names follow the published instrument; if the operator’s generator used different filenames, supply every actual file verbatim and the directory listing."
+        }
+      ],
+      "additional_required_evidence": [
+        "directory listing of the run root proving no STOP.txt and enumerating every file (absence cannot be hashed)",
+        "raw corrected ancestor-traversal reproduction transcript including the per-ancestor .git result",
+        "raw error-scan command, pattern list and its zero-match output",
+        "UTC start/end timestamps per command and the declared intent-to-attempt session statement",
+        "host-generated SHA-256 manifest (e.g. SHA256SUMS.txt / MANIFEST.json) for every file in this run",
+        "raw volume output (DriveLetter/FileSystemType/DriveType/HealthStatus) and reparse-point attributes",
+        "full ACL / SDDL dump for C:\\iips-data\\iips and the group-membership proof",
+        "store/sidecar Test-Path = False lines for -wal, -shm, -journal",
+        "IPD/IRR HEAD+tree+porcelain+diff lines and successor §8 step-0 provisioning-source SHA-256 digests"
+      ]
+    },
+    {
+      "capture_id": "CAP-C",
+      "name": "cap03-p1-20261027-02 separate read-only host assessment",
+      "kind": "operator-captured independent host assessment (the second original evidence capture)",
+      "status": "BYTES NOT SUPPLIED — MUST BE DEPOSITED VERBATIM",
+      "required_files": [
+        {
+          "name": null,
+          "note": "Supply the actual filename(s) and full raw bytes of the separate read-only host assessment verbatim, including its SHA-256. The filename is not known to Arena.",
+          "sha256": null,
+          "bytes": null,
+          "available_to_arena": false,
+          "must_be_supplied": true
+        }
+      ]
+    },
+    {
+      "capture_id": "CAP-D",
+      "name": "instrument bytes hashing to B5D58F7F…",
+      "kind": "capture generator",
+      "status": "BYTES NOT SUPPLIED — MUST BE DEPOSITED VERBATIM",
+      "required_files": [
+        {
+          "name": null,
+          "note": "Supply the exact .ps1 bytes whose Get-FileHash is B5D58F7FFF78C34DFFCD189EAC46A27889775F44ABF60F1A8ABD905224093C95, its path, byte length and a fresh SHA-256 recomputation; or state that the published 85AC7271… instrument was used and reconcile the digest.",
+          "sha256": "b5d58f7fff78c34dffcd189eac46a27889775f44abf60f1a8abd905224093c95",
+          "bytes": null,
+          "available_to_arena": false,
+          "must_be_supplied": true
+        }
+      ]
+    }
+  ],
+  "digest_policy": {
+    "verified_by_arena": [
+      "CAP-A 11 originals",
+      "CAP-A 11 verbatim copies",
+      "published instrument",
+      "all primary IRR/IPD source blobs",
+      "this bundle’s own files"
+    ],
+    "not_verified_by_arena": [
+      "CAP-B any file",
+      "CAP-C any file",
+      "CAP-D generator bytes",
+      "host-generated SHA-256 manifest",
+      "operator-reported instrument digest (prose only)"
+    ],
+    "operator_reported_digests": {
+      "cap03_p1_20261027_02_instrument": "B5D58F7FFF78C34DFFCD189EAC46A27889775F44ABF60F1A8ABD905224093C95",
+      "cap03_p1_reconcile_rev2_script": "CB7E674ED8E4DDFDB6F185204E1024743704623AD356632A7AAFE7BE6ED5C8B7"
+    }
+  },
+  "bundle_files_note": "INDEX.md enumerates this bundle; SHA256SUMS.txt digests every file in the bundle (including the verbatim copies) except itself; verify_reconciliation.py recomputes them."
+}
