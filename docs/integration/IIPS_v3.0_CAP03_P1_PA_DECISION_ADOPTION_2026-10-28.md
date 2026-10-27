@@ -114,3 +114,43 @@ This section is additive. Sections 1–7 are unchanged and remain the record of 
 **8.4 Host execution.** `V1102` (DC-a and DC-b on the Windows host, recording the actual `CommandType` and `Source`) is **NOT EXECUTED**. The DC-C2 (c) literal check is likewise **NOT EXECUTED**. No capture is authorized by this section.
 
 **8.5 Non-grants.** P-1 is NOT EXECUTED / UNSPENT / NOT AUTHORIZED. No capture, host diagnostic, PowerShell or harness run, IPD write, `BASIS_COMMIT` change, PF-11 or PF-17 change, or gate movement. The package `IIPS_v3.0_CAP03_P1_PA_DECISION_PACKAGE_2026-10-28.md` remains NOT ADOPTED as a historical record and is unchanged.
+
+---
+
+## 9. Additive authority reconciliation — revision 2026-10-28b (PR #342; `CV-CORR-143`; `V1132`–`V1137`)
+
+This section is additive. It establishes which adopted text authorized the PR #342 procedure changes, classifies each change, and corrects §8.1. It makes **no new PA decision** and infers **no PA approval**.
+
+**9.1 Governing text (verbatim, from the package on `origin/main`, blob `62954f67`, unchanged).**
+
+- Package §3.6(b): "`Get-Command Get-FileHash -ErrorAction Stop` resolves to Source `Microsoft.PowerShell.Utility`".
+- Package §3.6(c): "`Get-FileHash` of the v2 instrument's source bytes, read from Git blob `191f5828461286b0f6fcb688b023da5dfc68a265`, equals `13783385cb8a7964387868ad96f05956cceb9b7d4ead048c0cfe72b325e6748e`".
+- Package §3.6 preamble: checks "all performed in a single non-elevated Windows PowerShell 5.1 session".
+- Package §4 consolidated decision: "(2) adopts DB as stated in §2.7 and **authorizes the procedure revision described in Appendix A**, … (3) adopts DC as stated in §3.6."
+- Appendix A, row A7: "Add the DC §3.6 checks (a)–(d) as a STOP gate, **before** any capture directory is created."
+- Appendix A, row A8: "Keep the text and enforce it through A7."
+
+**9.2 Change history (verified by `git show`).** The 2026-10-27 procedure (`2d83030`) contains none of `CommandType`, `Get-Sha256Hex`, or `Assert-AttemptEngine`. Commit `6ba9d71` (PR #339, merged as `4e9cc40e`) introduced `Assert-AttemptEngine` with the extra `CommandType -ne 'Cmdlet'` clause, the `System.Security.Cryptography` (c) check, and a `ProcessId` capture that was not compared. No package or Appendix A text specifies those forms.
+
+**9.3 Classification.**
+
+| Item | Class | Authority | Result |
+|---|---|---|---|
+| DC-b Source-only test (`Source -eq Microsoft.PowerShell.Utility`) | **1 — implementing an adopted requirement** | §3.6(b); §4 items (2)–(3); A7 | Applied in `0fb7979c`. The `CommandType` clause was an IRR addition that the adopted text does not contain; removing it restores the adopted text |
+| DC-c literal `Get-FileHash` check over the v2 bytes | **1 — implementing an adopted requirement** | §3.6(c); §4 items (2)–(3); A7 | Applied. `-InputStream` over a `MemoryStream` is an implementation choice within "read from Git blob". It creates no file. It does not resolve the A6 method note (9.5) |
+| L-1 `ProcessId` equality at the §4.5 recheck | **1 — implementing an adopted requirement** | §3.6 preamble ("single … session"); A8 | Applied. Fails closed |
+| Re-adding the stricter `CommandType -eq 'Cmdlet'` clause | **2 — new substantive governance choice** | None. Would need a PA amendment | **Not made.** The PA may choose to add it by amendment |
+| Ratifying the `.NET` SHA-256 substitution as the (c) check | **2 — new substantive governance choice** | None. Would need a PA amendment | **Not made.** Superseded by the literal check |
+| PA-3d diagnostics (`$PID`, `CommandLine`, `PSModulePath`) | **3 — unresolved, PA-reserved** | Not in the adopted text | **Not applied** |
+| A6 method: bytes held in memory through a binary stream, not written to a file | **3 — unresolved conflict with a governing artifact** | Appendix A A6 parenthetical ("written to a file"); disclosed in §4 as a "Method note" | **Not reconciled. Not changed in this pass.** The PA must either ratify the method or direct the file-write form. Documented as a blocker for capture, not improvised |
+
+**9.4 Correction to earlier records.** Addendum §3.1 (PR #341) and §8.1 of this record (PR #342) say the `.NET` (c) substitution was "not disclosed" in this record. That is **inaccurate**. Row A7 of §4 does state "(c) is the blob SHA-256 in §4.4", but describes it as applied "as written" and does not flag it as a deviation. The §1 DC-C2 summary paraphrases (c) without the words `Get-FileHash`. Separately, §8.1 is correct that the (a)/(b) "as written" statement was inaccurate for (b). The historical text is unchanged. This section is the correction of record.
+
+**9.5 Consequences and residual boundaries.**
+
+- The adopted decision (§4 items (2)–(3), with A7) already authorizes the procedure to carry DC §3.6 checks (a)–(d) as written. The 2026-10-28b changes implement that text. No further PA adoption is needed for them. The addendum §3.5 rule that changes to §4.3a/§4.4 need PA adoption is satisfied for implementation of the adopted text. It does not extend to anything beyond it.
+- Removing the `CommandType` clause reduces the procedure's check to the adopted strength. That the Source-only check distinguishes a shadowing function or alias from the cmdlet is an inference. It is **host-gated** and **not verified**. `V1102` must record the actual `CommandType` and `Source`.
+- The A6 method conflict (9.3) is a residual PA-reserved item. It is not a precondition that IRR can close by editing. It must be resolved, or accepted by PA, before any capture.
+- Capture still requires the host run (`V1102`) and a separate PA capture authorization. P-1 is NOT EXECUTED / UNSPENT / NOT AUTHORIZED.
+
+**9.6 Non-grants.** No PowerShell run, harness or compat-script run, host diagnostic, capture, P-1 execution or authorization, PF-11 or PF-17 change, P-1-C or P-1-D acceptance, QE, Gate 4, Gate 5, S3, or DQ-4 movement, IPD write, `BASIS_COMMIT` or `BASIS_TREE` change, or PA approval or signature supplied or inferred.

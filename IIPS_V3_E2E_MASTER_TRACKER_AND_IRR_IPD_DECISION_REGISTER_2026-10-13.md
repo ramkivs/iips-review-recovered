@@ -14223,4 +14223,31 @@ Publication of this section follows the required path: PR from the session branc
 
 No P-1 execution or authorization; no capture; no host diagnostic, PowerShell, harness, or compat-script run; no PF-11 reopening or acceptance change; no PF-17 satisfaction or requirement change; no P-1-C or P-1-D acceptance; no QE, Gate 4, Gate 5, S3, or DQ-4 movement; no IPD write, branch, or PR; no `BASIS_COMMIT` change; no PA approval, decision, or signature supplied or inferred; the package remains NOT ADOPTED and unchanged; no native pass claimed.
 
+### 16.163.6 Publication receipt for PR #342 (populated by this append; `2026-10-28`)
+
+- **PR:** #342, `ramkivs/iips-review-recovered`, base `main`, head branch `arena/4ceb5dc1-iips-review-recovered`, head commit `7879a975f2295f05ce423f161fab56b1e68ed148`.
+- **Merge:** `0fb7979c1adbd8e04f486301e175f75776d457d8` (merge commit; parents `41f77b1d172e80c7653f972daf15ccb0b8f713c7` and `7879a975f2295f05ce423f161fab56b1e68ed148`); merged `2026-10-27T20:26:34Z`.
+- **Exact-head CI:** run `40577765404` (`pull_request`) — SUCCESS at `7879a975`.
+- **Post-merge CI:** run `40578086341` (`push`) — SUCCESS at `0fb7979c`.
+- **Files changed (5):** M tracker; A `IIPS_v3.0_CAP03_D2_IPD_RECEIPT_HANDOFF_2026-10-28.md`; M procedure (revision 2026-10-28b); M adoption record (§8); A `IIPS_v3.0_CAP03_P1_PA_STATUS_MATRIX_2026-10-28.md`.
+- **Status:** the receipt deferred by §16.163.4 is now recorded here. No prior receipt existed (verified). The receipt is append-only; §16.163.4 is unchanged.
+
+### 16.163.7 Authority reconciliation for PA-3a / PA-3b (`CV-CORR-143`; no new decision)
+
+- **Authority.** The 2026-10-28 adoption of DC §3.6 as written, with package §4 items (2)–(3) and Appendix A row A7, authorizes the procedure to carry checks (a)–(d) as written before any capture directory is created. The literal DC-b (Source-only) and DC-c (`Get-FileHash` over the v2 bytes) implement that text. Their order is verified: DC-b at line 180 and DC-c at line 259 both precede evidence-directory creation at line 309 (`V1135`).
+- **Change history.** The `CommandType` clause, the `.NET` (c) check, and the uncompared `ProcessId` were introduced by `6ba9d71` (PR #339). The 2026-10-27 procedure has none of them (`V1134`). They were not adopted text. Removing them restores the adopted text.
+- **Classification.** The DC-b and DC-c changes and L-1 are implementations of an adopted requirement. Re-adding the `CommandType` clause or ratifying the `.NET` substitution would be new substantive choices. Neither was made. PA-3d (diagnostics) and the A6 method conflict (bytes held in memory rather than written to a file, disclosed in adoption record §4) remain **unresolved and PA-reserved**. They block capture and are not changed in this pass. Full reasoning and the correction of adoption record §8.1 are in the adoption record §9. Matrix §9 is the matching pointer.
+- **Verification (static and read-only).**
+
+| ID | Check | Result |
+|---|---|---|
+| `V1132` | Remote state: `origin/main` = `0fb7979c`, merge of PR #342; PR #342 MERGED; exact-head run `40577765404` SUCCESS at `7879a975`; post-merge run `40578086341` SUCCESS at `0fb7979c`; no open IRR PR; IPD `main` `888eb375` unchanged | **PASS** (read-only; the `7879a975` ancestry check was re-run after `git fetch --unshallow`) |
+| `V1133` | Governing wording read verbatim: package §3.6(b), (c), preamble; §4 items (2)–(3); Appendix A A6–A8; adoption record §1 and §4 | **PASS** (read-only) |
+| `V1134` | Change history: `2d83030` has no `CommandType`, `Get-Sha256Hex`, or `Assert-AttemptEngine`; `6ba9d71` introduces them | **PASS** (`git show`, read-only) |
+| `V1135` | Ordering: DC-b (180) and DC-c (259) precede evidence-directory creation (309) on `0fb7979c` | **PASS** (static) |
+| `V1136` | PR #342 identifiers and file list checked against the GitHub PR and merge metadata | **PASS** |
+| `V1137` | Adoption record §9, matrix §9, and this section: table pipes, relative links, and `git diff --check` | **PASS** (static) |
+
+*End of §16.163.6–7 (`CV-CORR-143`; PR #342 receipt; `V1132`–`V1137`). P-1 remains NOT EXECUTED, UNSPENT, and NOT AUTHORIZED.*
+
 *End of §16.163 (`CV-CORR-143`; `CHG-2026-10-28-06`; `V1122`–`V1131`).*
