@@ -1,0 +1,48 @@
+{
+  "record": "IIPS-V3-CAP03-P1-F4-PARENT-PREFLIGHT-INTEGRITY-INVESTIGATION-2026-10-27-01",
+  "subject": "Why the historical publication receipt reported all_match=true despite the Windows mismatch",
+  "publication_pr": 315,
+  "publication_head": "5bfb7a92977340b592be1ba146a0b204a7dbaabe",
+  "publication_merge": "4fd5a7c72db6aee9be1836e053f4bc427adee003",
+  "publication_tree": "8b6249432662f6286c0242e3183bbd251ac48c73",
+  "generation_procedure": {
+    "where": "Arena Linux sandbox (no Windows route)",
+    "how_manifest_computed": "hashlib.sha256(Path(p).read_bytes()).hexdigest() on Linux checkout — Path.read_bytes() returns LF bytes (10231 B) on Linux because core.autocrlf default is false/input on Linux",
+    "result_for_instrument": {
+      "size": 10231,
+      "sha256": "85ac7271c73469b6d5e454a3173ff3aad944a645a2352bb77ee36baee976a30b",
+      "matches_git_blob": true,
+      "matches_linux_working_tree": true,
+      "matches_windows_crlf_working_tree": false
+    },
+    "dot_gitattributes_at_generation": "ca1ec6019fc23d29c992fe26d74855d6fc517f57 — instrument not listed",
+    "why_no_crlf_detected": "Linux sandbox never exercises core.autocrlf=true CRLF conversion; generation environment is not Windows-equivalent"
+  },
+  "readback_procedure": {
+    "file": "evidence/integration/cap03-p1-f4-parent-preflight-reconciliation-2026-10-27/04-publication-readback.json",
+    "blob": "c17bd7b10f80f63949385d6aa9b75b80bed83f8e",
+    "method": "GitHub Git Blobs API at the merge commit; base64-decoded bytes re-hashed locally, identity and size",
+    "result_for_instrument": {
+      "path": "evidence/integration/cap03-p1-f4-parent-preflight-reconciliation-2026-10-27/02-p1c-p1d-readonly-preflight.ps1",
+      "blob": "eaea3f7fc7ef7f49395c3cbec26ed1ad379f46bb",
+      "size": 10231,
+      "remote_sha256": "85ac7271c73469b6d5e454a3173ff3aad944a645a2352bb77ee36baee976a30b",
+      "local_sha256": "85ac7271c73469b6d5e454a3173ff3aad944a645a2352bb77ee36baee976a30b",
+      "bytes_equal": true,
+      "match": true
+    },
+    "what_all_match_true_means": "9/9 artifacts' remote Git blob bytes (LF) are byte-identical to local Linux sandbox bytes (LF). It validates repository<->remote consistency, not repository<->Windows working-tree consistency.",
+    "what_it_did_not_validate": "Windows working-tree rendering with core.autocrlf=true CRLF conversion (10425 B, 7C6D44...) — because neither the manifest generation nor the read-back modeled autocrlf translation"
+  },
+  "powershell_failure": {
+    "attempts": "Extract exact blob bytes using PowerShell failed",
+    "why": "PowerShell Get-Content, string pipelines, and Out-File perform encoding/line-ending normalization (UTF-8/BOM heuristics, CRLF default). They do not return raw 10231-byte LF blob bytes without explicit -Raw -AsByteStream handling, which was not correctly used. No valid exact-byte comparison had been completed prior to this investigation.",
+    "correct_method": "git cat-file -p <blob> on Linux, or [IO.File]::ReadAllBytes / git show HEAD:<path> --binary on Windows with eol=lf honored"
+  },
+  "fault_attribution": {
+    "manifest_correct_for_blob": true,
+    "script_bytes_correct": true,
+    "hashing_procedure_deficient": "omission: did not enforce eol=lf and did not test Windows CRLF rendering",
+    "host_representation_crlf_transformed": "expected given missing gitattributes + autocrlf=true"
+  }
+}

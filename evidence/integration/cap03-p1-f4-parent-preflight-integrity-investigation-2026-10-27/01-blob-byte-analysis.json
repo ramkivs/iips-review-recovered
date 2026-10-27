@@ -1,0 +1,63 @@
+{
+  "record": "IIPS-V3-CAP03-P1-F4-PARENT-PREFLIGHT-INTEGRITY-INVESTIGATION-2026-10-27-01",
+  "instrument": "evidence/integration/cap03-p1-f4-parent-preflight-reconciliation-2026-10-27/02-p1c-p1d-readonly-preflight.ps1",
+  "git_blob": "eaea3f7fc7ef7f49395c3cbec26ed1ad379f46bb",
+  "verification_method": "git cat-file -p <blob> > /tmp/blob_raw.bin ; sha256sum /tmp/blob_raw.bin ; independent GitHub Git Blobs API base64-decode re-hash",
+  "reproducible_commands": [
+    "git cat-file -p eaea3f7fc7ef7f49395c3cbec26ed1ad379f46bb | sha256sum",
+    "gh api repos/ramkivs/iips-review-recovered/git/blobs/eaea3f7fc7ef7f49395c3cbec26ed1ad379f46bb | python3 -c \"import base64,hashlib,json,sys; d=json.load(sys.stdin); b=base64.b64decode(d['content']); print(hashlib.sha256(b).hexdigest())\"",
+    "wc -c evidence/integration/cap03-p1-f4-parent-preflight-reconciliation-2026-10-27/02-p1c-p1d-readonly-preflight.ps1 && sha256sum evidence/integration/cap03-p1-f4-parent-preflight-reconciliation-2026-10-27/02-p1c-p1d-readonly-preflight.ps1",
+    "python3 -c \"import subprocess,hashlib; b=subprocess.check_output(['git','cat-file','-p','eaea3f7fc7ef7f49395c3cbec26ed1ad379f46bb']); c=b.replace(b'\\n', b'\\r\\n'); print(len(c), hashlib.sha256(c).hexdigest().upper())\""
+  ],
+  "blob_bytes": {
+    "size": 10231,
+    "lf_count": 194,
+    "cr_count": 0,
+    "crlf_count": 0,
+    "sha256_lower": "85ac7271c73469b6d5e454a3173ff3aad944a645a2352bb77ee36baee976a30b",
+    "sha256_upper": "85AC7271C73469B6D5E454A3173FF3AAD944A645A2352BB77EE36BAEE976A30B",
+    "first_bytes_hex": "3c230a202020204341502d3033202f204341502d3032e2809420502d312d4320616e6420502d312d4420726561642d6f6e6c7920707265666c69676874206361707475726520696e737472756d656e74",
+    "blob_header": "blob 10231\\0 (Git object header not hashed; SHA-256 is of raw content bytes only)"
+  },
+  "crlf_transformed_bytes": {
+    "description": "LF (\\n) -> CRLF (\\r\\n) for all 194 LF, simulating Windows core.autocrlf=true without eol=lf. No other transformation.",
+    "size": 10425,
+    "delta_bytes": 194,
+    "sha256_lower": "7c6d44b89723c09a0aa356e6735cacaFAF7bf032bed80d3ae0a99a2acfe35924",
+    "sha256_upper": "7C6D44B89723C09A0AA356E6735CACAFAF7BF032BED80D3AE0A99A2ACFE35924",
+    "matches_windows_get_filehash": true
+  },
+  "other_variants_tested": [
+    {
+      "variant": "LF + UTF-8 BOM (EF BB BF prefix)",
+      "size": 10234,
+      "sha256_upper": "F553EC7A3F586D9E41FFAD81406E13437100F72C2C43E598BA2C8D0E9D317F38",
+      "matches_windows": false
+    },
+    {
+      "variant": "UTF-16LE (no BOM)",
+      "size": 20462,
+      "sha256_upper": "0AB81F5D1D162514504C2B04B7EA9EC5E82734FDA44B52D4799EC3F5CBAA2011",
+      "matches_windows": false
+    }
+  ],
+  "linux_working_tree_file": {
+    "path": "evidence/integration/cap03-p1-f4-parent-preflight-reconciliation-2026-10-27/02-p1c-p1d-readonly-preflight.ps1",
+    "size": 10231,
+    "sha256_matches_blob": true,
+    "git_ls_files_eol_before_fix": "i/lf w/lf attr/",
+    "git_ls_files_eol_after_fix": "i/lf w/lf attr/text eol=lf"
+  },
+  "github_api_blob": {
+    "blob": "eaea3f7fc7ef7f49395c3cbec26ed1ad379f46bb",
+    "api_size": 10231,
+    "decoded_sha256_matches_blob": true
+  },
+  "manifest_entry": {
+    "path": "evidence/integration/cap03-p1-f4-parent-preflight-reconciliation-2026-10-27/SHA256SUMS.txt",
+    "declared_sha256": "85ac7271c73469b6d5e454a3173ff3aad944a645a2352bb77ee36baee976a30b",
+    "blob": "5c39c7d46c993ff9d497fd3c99477ebf6deffaf7",
+    "size": 562,
+    "matches_blob_and_working_tree": true
+  }
+}

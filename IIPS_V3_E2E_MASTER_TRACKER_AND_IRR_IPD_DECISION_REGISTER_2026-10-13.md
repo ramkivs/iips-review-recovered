@@ -351,6 +351,8 @@ The following completed baselines on `ramkivs/iips-review-recovered @ refs/heads
 | `2026-10-27` | `CHG-2026-10-27-01` | **CAP-03 P-1 F4 parent-directory preflight reconciliation (`CV-CORR-127`, §16.146, `V971`–`V980`):** Publishes [`docs/integration/IIPS_v3.0_CAP03_P1_F4_PARENT_PREFLIGHT_RECONCILIATION_2026-10-27.md`](docs/integration/IIPS_v3.0_CAP03_P1_F4_PARENT_PREFLIGHT_RECONCILIATION_2026-10-27.md) (`IIPS-V3-CAP03-P1-F4-PARENT-PREFLIGHT-RECONCILIATION-2026-10-27-01`) + evidence `evidence/integration/cap03-p1-f4-parent-preflight-reconciliation-2026-10-27/`. Resolves the self-referential deadlock between PF-13 (parent must exist), PF-12 (preflight creates nothing on the store path) and `connection.ts` line 84 (recursive `mkdirSync`): **`DISP-01`** evaluates PF-13 at P-1 scope against the **nearest existing ancestor**, so the terminal parent `C:\iips-data\iips` need not pre-exist and its absence is not a STOP — it is created by the authorized single P-1 execution and by nothing else; **S3 scope unchanged**. **`DISP-02`** confines PF-12 to the store path so the PF-14 evidence root stays creatable; **`DISP-03`** reads step-2 `--mode=validate` on a correctly absent store as the `STORE_NOT_FOUND` refusal (a *successful* step-2 report is the STOP); **`OBS-01`** discloses the `--flag=value` CLI form. The packet is confirmed a preparing-capacity checklist (lines 16, 18), and the PA-level successor act step 1 does not list parent existence — so **no new PA instrument is required** (the conditional one is named at record §10). Publishes the read-only P-1-C/P-1-D capture instrument (**not executed**; Arena has no host route) and the reuse determination. **F4 unchanged** (39 bytes, 3 separators); `P-1-C` remains `NOT ESTABLISHED`; `P-1-D` structural blocker removed, host facts `NOT VERIFIED`; **`P-1` unspent and unauthorized**; S3/QE/DQ-4/Gate 4/Gate 5 untouched; no host command, no store/sidecar/directory created, `0` IPD writes. |
 | `2026-10-27` | `CHG-2026-10-27-02` | **Publication receipt for §16.146 (`CV-CORR-127`, `V981`):** IRR PR **#315** head `5bfb7a92…`, exact-head CI `40380345030` `success` → regular 2-parent merge **`4fd5a7c72db6aee9be1836e053f4bc427adee003`** / tree `8b624943…` → post-merge `main` CI `40380708721` `success`. Independent Git-Blobs-API read-back at the merge matched blob identity and decoded-byte SHA-256 for **`9/9`** artifacts (record, tracker, `00`–`03`, `INDEX`, `SHA256SUMS`, verifier). Populates §16.146.6; no substantive state change: F4 unchanged (`39` B, `3` separators); `P-1-C` `NOT ESTABLISHED`; `P-1-D` structural blocker removed but host facts `NOT VERIFIED`; **`P-1` `UNSPENT` and unauthorized**; no host command, no store/sidecar/directory created, `0` IPD writes. |
 | `2026-10-27` | `CHG-2026-10-27-03` | **CAP-03 P-1 preflight-capture acceptance assessment — complete 11-file set; preflight NOT ACCEPTED (`CV-CORR-128`, §16.148, `V982`–`V991`):** Publishes [`docs/integration/IIPS_v3.0_CAP03_P1_PREFLIGHT_CAPTURE_ACCEPTANCE_ASSESSMENT_2026-10-27.md`](docs/integration/IIPS_v3.0_CAP03_P1_PREFLIGHT_CAPTURE_ACCEPTANCE_ASSESSMENT_2026-10-27.md) (`IIPS-V3-CAP03-P1-PREFLIGHT-CAPTURE-ACCEPTANCE-ASSESSMENT-2026-10-27-01`) + evidence `evidence/integration/cap03-p1-preflight-capture-assessment-2026-10-27/`. Reassesses §16.147's four-file `BLOCKED` finding against the seven files added at `main@ff29734…` (tree `e96fa8ac…`): **closed** — PF-01…PF-06, PF-08, PF-09, PF-10, PF-12, PF-13 (P-1-scope `DISP-01`), PF-14, PF-15 crosscheck, fixed-NTFS identity — each satisfied at capture time (`2026-10-26T20:13Z`) only; **not satisfied** — **`PF-07`**: clean IPD checkout evidenced at the superseded baseline `8eec74ae…`/`4eba2902…` (REV2 `ExpectedHEAD`), not the §16.143 designated execution basis `001c3c80…`/`399fa44a…`; pins are not equivalent, baseline S2 FAILED, exact-pin STOP applies (PF-16 consequential); **insufficient** — PF-11 every-worktree limb (enumerated IPD/IRR only; no ancestor-`.git` result; narrow, attempt-session closure), REV2 script bytes (hash `CB7E674E…` only), PF-17 as capture evidence (register state confirmed UNSPENT), session freshness. Records the parent-exists premise delta vs §16.146 under `DISP-01` (existence not a STOP; provenance unevidenced; PF-12 intact). **Decision: preflight NOT ACCEPTED; `P-1-C` `NOT ESTABLISHED`; `P-1-D` `DESIGNATED; NOT VERIFIED` for the attempt; `P-1` `UNSPENT`/unauthorized; verdict “PREFLIGHT CAPTURED — NOT AUTHORIZATION TO EXECUTE P-1” preserved.** Assessment only — no recapture, no republication, no provisioning, no store/flag action, no gate movement, `0` IPD writes. Publication receipt follows (`CHG-2026-10-27-04`, `V992`). |
+| `2026-10-27` | `CHG-2026-10-27-04` | **Publication receipt for §16.148 (`CV-CORR-128`, `V992`):** IRR PR **#318** head `f75354b5…`, exact-head CI `40400127948` `success` → regular 2-parent merge **`8470ce26b3e6a68ca9e5a562fa6dd88cfad18b1c`** / tree `42da8812…` → post-merge `main` CI `40400388258` `success`. Independent Git-Blobs-API read-back at the merge matched blob identity and decoded-byte SHA-256 for **`7/7`** artifacts. Populates §16.148.5; no substantive state change: preflight NOT ACCEPTED, `P-1-C` `NOT ESTABLISHED`, `P-1-D` `NOT VERIFIED`, `P-1` `UNSPENT` and unauthorized; `S3`/`QE`/DQ-4/Gate 4/Gate 5 untouched; `0` IPD writes. |
+| `2026-10-27` | `CHG-2026-10-27-05` | **CAP-03 P-1 preflight instrument integrity investigation — line-ending publication defect remediated (`CV-CORR-129`, §16.149, `V993`–`V1002`):** Investigates the `02-p1c-p1d-readonly-preflight.ps1` integrity discrepancy: manifest `85AC7271…` (`10,231 B` LF, blob `eaea3f7f…` at both `4fd5a7c`/`8b6249…` and `3c3adf4`/`010bfb4…`) vs Windows `Get-FileHash` `7C6D44B8…` (`10,425 B` CRLF). Independently reproduces via `git cat-file -p eaea3f7f…` (SHA-256 `85AC…` LF) and CRLF simulation (`\n`→`\r\n` +194 B → `7C6D…`). Root cause: `.gitattributes` omission — instrument qualifies as byte-exact canonical but was not listed `text eol=lf`; `core.autocrlf=true` on Windows produced CRLF (`10,425 B`). Historical `04-publication-readback.json` `all_match=true` is valid for Git-blob (LF) vs Linux (LF) but did not model `autocrlf` working-tree translation; PowerShell extraction failed due to encoding conversion. Publishes single-line `.gitattributes` correction (`02-*.ps1 text eol=lf`), preserves prior instrument bytes and manifest, adds investigation record [`docs/integration/IIPS_v3.0_CAP03_P1_F4_PARENT_PREFLIGHT_INTEGRITY_INVESTIGATION_2026-10-27.md`](docs/integration/IIPS_v3.0_CAP03_P1_F4_PARENT_PREFLIGHT_INTEGRITY_INVESTIGATION_2026-10-27.md) (`IIPS-V3-CAP03-P1-F4-PARENT-PREFLIGHT-INTEGRITY-INVESTIGATION-2026-10-27-01`) + evidence `evidence/integration/cap03-p1-f4-parent-preflight-integrity-investigation-2026-10-27/` (`00`–`04`, `INDEX`, `SHA256SUMS`, verifier). Safety checks: `verify_reconciliation.py` `39/39 PASS`, no `--mode=execute` invocation, no store/sidecar creation, no write-flag changes, `0` IPD writes, `git diff --check` clean. State preserved: `P-1-A` `SATISFIED`, `P-1-B` candidate-scoped `001c3c80…`, `P-1-C` `NOT ESTABLISHED`, `P-1-D` `DESIGNATED; NOT VERIFIED`, `P-1` `UNSPENT` and unauthorized; `S3`/`QE`/DQ-4/Gate 4/Gate 5 untouched. **Single next action:** Ramki fetches this merge, confirms `Get-FileHash` yields `85AC…` (`10,231 B` LF), then runs the published instrument in the intended P-1 session. |
 
 ---
 
@@ -12861,3 +12863,130 @@ observation is a separate requirement, not a repeat of completed work. **Do not 
 | Current result | **§16.148 EFFECTIVE as recorded assessment.** No substantive change: preflight NOT ACCEPTED; `P-1-C` `NOT ESTABLISHED`; `P-1-D` `NOT VERIFIED` for the attempt; **`P-1` `UNSPENT` and unauthorized**; no host command, no store/flag action, `0` IPD writes |
 
 *End of §16.148 (`CV-CORR-128`; `CHG-2026-10-27-03` and `CHG-2026-10-27-04`; `V982`–`V992`). The complete 11-file REV2 preflight capture closes the transcript-existence, runtime, flags, evidence-root and NTFS gaps of §16.147, but preflight acceptance is refused on an affirmative wrong-pin PF-07 capture, an enumerated-only worktree exclusion, an unpublished capture script, and attempt-session freshness; `P-1-C` `NOT ESTABLISHED`, `P-1-D` `NOT VERIFIED` for the attempt, `P-1` `UNSPENT` and unauthorized — “PREFLIGHT CAPTURED — NOT AUTHORIZATION TO EXECUTE P-1.”*
+
+---
+
+## §16.149 — `CV-CORR-129`: CAP-03 P-1 preflight instrument integrity discrepancy — line-ending publication defect investigated and remediated (`2026-10-27`; `CHG-2026-10-27-05`, `V993`–`V1002`)
+
+> **Integrity investigation and remediation only — no P-1 execution.** The published preflight instrument's manifest hash (`85AC7271…`, `10,231 B` LF, blob `eaea3f7f…`) disagrees with the Windows host `Get-FileHash` (`7C6D44B8…`, `10,425 B` CRLF). This section reproduces the exact byte-level cause, attributes the fault, and publishes the smallest governance-compliant correction. Historical evidence is preserved; no silent replacement; `P-1` remains **UNSPENT** and **not authorized**; `S3`/`QE`/DQ-4/Gate 4/Gate 5 untouched; `0` IPD writes.
+
+### 16.149.1 Verified observations and exact commits/trees/blobs (`V993`)
+
+| Field | Verified value |
+|---|---|
+| Current `main` | `3c3adf4ce2f8abd930dcc97b3fa9c8ad3ca903a7`; tree `010bfb4d535a5faa6edce255208ad341c614979b` |
+| Historical publication merge | `4fd5a7c72db6aee9be1836e053f4bc427adee003`; tree `8b6249432662f6286c0242e3183bbd251ac48c73`; parents `fd5dd32b3dd269c840efdd13fcd0f90317ef27e4` + `5bfb7a92…` (PR #315) |
+| Script Git blob at both commits | `eaea3f7fc7ef7f49395c3cbec26ed1ad379f46bb` — **no post-publication change** |
+| Historical + current manifest | `SHA256SUMS.txt` declares `85AC7271C73469B6D5E454A3173FF3AAD944A645A2352BB77EE36BAEE976A30B` for `02-p1c-p1d-readonly-preflight.ps1` |
+| Windows `Get-FileHash` (checked-out file) | `7C6D44B89723C09A0AA356E6735CACAFAF7BF032BED80D3AE0A99A2ACFE35924` |
+| Historical receipt | `04-publication-readback.json` — `all_match=true` (9/9 via GitHub Git Blobs API base64-decode + local re-hash) |
+| PowerShell exact-byte extraction | **failed** — no valid exact-byte comparison completed before this investigation |
+
+### 16.149.2 Independent SHA-256 from exact Git blob bytes — no PowerShell conversion (`V994`)
+
+**Method (executed on `arena/210c304e-iips-review-recovered` Linux sandbox):**
+
+```bash
+git cat-file -p eaea3f7fc7ef7f49395c3cbec26ed1ad379f46bb | sha256sum
+gh api repos/ramkivs/iips-review-recovered/git/blobs/eaea3f7fc7ef7f49395c3cbec26ed1ad379f46bb | python3 -c "import base64,hashlib,json,sys; d=json.load(sys.stdin); b=base64.b64decode(d['content']); print(hashlib.sha256(b).hexdigest())"
+```
+
+| Source | Size | SHA-256 (lower) | Matches manifest? |
+|---|---|---|---|
+| `git cat-file -p eaea3f7f…` (exact blob bytes) | **10,231 B** | `85ac7271c73469b6d5e454a3173ff3aad944a645a2352bb77ee36baee976a30b` | **YES** (`85AC…`) |
+| Linux working-tree `02-*.ps1` (LF) | 10,231 B | `85ac7271c73469b6d5e454a3173ff3aad944a645a2352bb77ee36baee976a30b` | **YES** |
+| GitHub Git Blobs API `eaea3f7f…` (base64-decoded) | 10,231 B | `85ac7271c73469b6d5e454a3173ff3aad944a645a2352bb77ee36baee976a30b` | **YES** |
+| CRLF simulation (`\n`→`\r\n` for 194 LF) | **10,425 B** (+194) | `7c6d44b89723c09a0aa356e6735cacaFAF7bf032bed80d3ae0a99a2acfe35924` | matches **Windows `7C6D…`** exactly |
+
+Census: **194 LF (`0x0A`), 0 CR, 0 CRLF** in blob; CRLF conversion adds 194 B deterministically. Other variants (UTF-8 BOM, UTF-16LE) do not match Windows hash. **Manifest is byte-exact for the committed LF blob at both trees; Windows mismatch is CRLF host rendering.**
+
+### 16.149.3 Publication-generation procedure and receipt — why `all_match=true` (`V995`)
+
+*Generation (PR #315, `5bfb7a9…` → `4fd5a7c…`):* manifest `SHA256SUMS.txt` (blob `5c39c7d4…`, 562 B) was produced on Linux by hashing `Path.read_bytes()` (LF `10,231 B` → `85AC…`). `.gitattributes` at `fd5dd32…` and `8b6249…` lists 8 LF-protected calibration paths + `NP-12-N4-CANONICAL-BYTE-GRAMMAR-DECISION-RECORD.md` but **not** the `*.ps1` instrument. On Windows with `core.autocrlf=true`, Git converts unlisted text files LF→CRLF on checkout → `Get-FileHash` sees `10,425 B` CRLF `7C6D…`.
+
+*Read-back (`04-publication-readback.json`):* method = GitHub Git Blobs API at merge commit, base64-decode, re-hash locally — remote `eaea3f7f…` `10,231 B` `85AC…` vs local Linux `85AC…` → `bytes_equal=true`, `match=true` for 9/9. This validates **server Git-object ↔ Linux consistency (LF↔LF)**, not **server ↔ Windows working-tree (LF↔CRLF)**. `all_match=true` is true for the server-side store but **incomplete as a host-verification claim** — `autocrlf` translation was not modeled. PowerShell extraction failed due to `Get-Content`/`Out-File` encoding/line-ending normalization.
+
+### 16.149.4 Fault determination (`V996`) — exact IDs, byte counts, hashes
+
+| Candidate | Verdict | Evidence (reproducible) |
+|---|---|---|
+| **Manifest** | **Correct for committed-blob bytes; incomplete as host-verification guarantee without `eol=lf`** | `85AC…` = `sha256(git cat-file -p eaea3f7f…)` (`10,231 B`) = Linux working-tree file at both `4fd5a7c`/`8b6249…` and `3c3adf4`/`010bfb4…` |
+| **Script bytes** | **Correct** — canonical LF | Blob `eaea3f7f…` resolves at both trees; `100644 blob eaea3f7f…` in `git ls-tree`; LF-only, 194 LF, size `10,231` |
+| **Hashing/readback procedure** | **Deficient (omission)** — did not account for `autocrlf` working-tree translation | Generation & read-back both hashed LF bytes (Linux + GitHub API) → `all_match`; neither hashed Windows CRLF rendering |
+| **Host-side representation** | **CRLF-transformed (`10,425 B`, `7C6D…`) — expected given missing gitattributes** | `7C6D…` = `sha256(LF with \n→\r\n)` (+194 B); `.gitattributes` blob `ca1ec601…` lacks `ps1` entry; Windows default `core.autocrlf=true` explains |
+
+**Root cause:** `.gitattributes` omission. The header defines *Byte-exact canonical files asserted by committed-blob or raw-byte hash tests — keep LF working-tree bytes for these exact paths regardless of core.autocrlf*. The instrument qualifies (SHA-256 published, operator verification via `Get-FileHash`) and was omitted — a publication defect, not a script defect.
+
+### 16.149.5 Correction — smallest governance-compliant remediation (`V997`)
+
+*Preservation:* instrument blob `eaea3f7f…` **unchanged** (not re-edited); manifest `SHA256SUMS.txt` `5c39c7d4…` correct for LF canonical bytes and **not rewritten**; historical `04-publication-readback.json` preserved with annotation that `all_match=true` was server-side LF↔LF.
+
+*Correction (this investigation):*
+
+1. **`.gitattributes` — single-line addition (only code change):**
+
+   ```diff
+   +evidence/integration/cap03-p1-f4-parent-preflight-reconciliation-2026-10-27/02-p1c-p1d-readonly-preflight.ps1 text eol=lf
+   ```
+
+   Effect: Windows `core.autocrlf=true` now preserves LF → `Get-FileHash` yields `85AC…` `10,231 B` matching manifest/blob. `git ls-files --eol` before: `i/lf w/lf attr/` (unprotected → `w/crlf` on Windows `7C6…`); after: `i/lf w/lf attr/text eol=lf`.
+
+2. **New integrity record** — this section + [`docs/integration/IIPS_v3.0_CAP03_P1_F4_PARENT_PREFLIGHT_INTEGRITY_INVESTIGATION_2026-10-27.md`](docs/integration/IIPS_v3.0_CAP03_P1_F4_PARENT_PREFLIGHT_INTEGRITY_INVESTIGATION_2026-10-27.md) (`IIPS-V3-CAP03-P1-F4-PARENT-PREFLIGHT-INTEGRITY-INVESTIGATION-2026-10-27-01`) documenting cause with exact IDs/byte counts/hashes and reproducible commands.
+
+3. **New evidence bundle** — `evidence/integration/cap03-p1-f4-parent-preflight-integrity-investigation-2026-10-27/` (`00` inputs, `01` byte analysis, `02` gitattributes defect, `03` procedure analysis, `04` safety transcript, `INDEX`, `SHA256SUMS`, `verify_investigation.py`) independently hashed.
+
+4. **Tracker** — this §16.149 (`CV-CORR-129`, `CHG-2026-10-27-05`) records the discrepancy, reproduction, fault, and correction.
+
+No IPD write, no P-1 execution, no F4 parent/store/sidecar creation, no flag enablement.
+
+### 16.149.6 Non-execution safety checks on the instrument source (`V998`)
+
+| Check | Method | Result |
+|---|---|---|
+| No `--mode=execute` invocation | `strip_powershell_comments` + scan for `gateAPrimeProvisioning` + `--mode=execute` on same executable line; `node` + `--mode=execute` | **PASS** — only in comments / `Write-Host` display |
+| No store/sidecar creation | `New-Item` outside `$EvidenceRoot` scan; declares `creates NO store file, no -wal …` | **PASS** — sole `New-Item` is `EvidenceRoot` |
+| No provisioning | `gateAPrimeProvisioning.js` invocation scan | **PASS** — only `--mode=validate` in comments |
+| No F4 parent creation | ancestor chain `Test-Path` only; no `mkdir` on store ancestors | **PASS** — `C:\iips-data\iips` probed, never created |
+| No write-flag enablement | `PF-10` probe reads `IIPS_ENABLE_WRITES` etc. as `<ABSENT>` | **PASS** — read-only |
+| No sqlite artifacts | `find … -name "*.sqlite"` + `EVIDENCE.rglob` | **PASS** — 0 files |
+| `verify_reconciliation.py` | `39/39 checks passed — RECONCILIATION VERIFIED` (F4 bytes, LF, citation, dispositions, reuse, tracker id, `git diff --check`) | **PASS** |
+| `verify_investigation.py` | 40/42 → **42/42 after this section** (blob hashes, gitattributes entry, bundle integrity) | **PASS** |
+| `git diff --check` / working-tree hygiene | `clean` | **PASS** |
+
+Safety contract (§16.146 `PF-14` evidence-root only; no store mutation) preserved.
+
+### 16.149.7 Publication, verification and preserved historical evidence (`V999`–`V1002`)
+
+| ID | Check | Result |
+|---|---|---|
+| `V993` | Verified observations — current `main` `3c3adf4`/`010bfb4…`, historical merge `4fd5a7c`/`8b6249…`, script blob `eaea3f7f…` identical at both, manifest `85AC…`, Windows `7C6D…`, receipt `all_match=true`, no prior exact-byte comparison | **PASS** |
+| `V994` | Independent SHA-256 from exact blob bytes — `git cat-file -p eaea3f7f…` `10,231 B` `85AC…` matches manifest; CRLF `10,425 B` `7C6D…` matches Windows; byte census 194 LF | **PASS** |
+| `V995` | Publication-procedure inspection — manifest generation (Linux LF) + Git Blobs API read-back (LF↔LF) explain `all_match=true`; `.gitattributes` `ca1ec601…` missing `ps1`; PowerShell failure due to encoding normalization | **PASS** |
+| `V996` | Fault determination — manifest correct for LF blob, script bytes correct, procedure deficient (omission of `eol=lf`), host representation CRLF-transformed; exact IDs/byte counts/hashes table | **PASS** |
+| `V997` | Correction — single-line `.gitattributes` `text eol=lf` for `02-*.ps1` (no byte change, no historical rewrite); new investigation record + evidence bundle; tracker §16.149 | **PASS** |
+| `V998` | Non-execution safety checks — no P-1/provisioning/F4 creation/flag changes; `verify_reconciliation.py` 39/39 + `verify_investigation.py` PASS; `git diff --check` clean | **PASS** |
+| `V999` | Tracker update — §16.149 singleton, `CHG-2026-10-27-05` (`CV-CORR-129`), record ID present; historical `SHA256SUMS.txt` and instrument preserved | **PASS** |
+| `V1000` | Evidence bundle — `00`–`04`, `INDEX`, `SHA256SUMS`, `verify_investigation.py` parse, carry record ID, bundle SHAs recompute | **PASS** |
+| `V1001` | No IPD writes, no store/sidecar/DB artifacts, `P-1` `UNSPENT` preserved (tracker + doc `UNSPENT`) | **PASS** |
+| `V1002` | Working-tree hygiene — `git diff --check` clean; `git ls-files --eol` shows `text eol=lf` for instrument; `0` sqlite artifacts | **PASS** |
+
+**Historical evidence preservation:** `evidence/integration/cap03-p1-f4-parent-preflight-reconciliation-2026-10-27/` (blobs `ea5ea317…`, `cb96d268…`, `eaea3f7f…`, `c17bd7b1…`, `25e0389c…`, `5c39c7d4…`, `103ed100…`) remains byte-identical at both `4fd5a7c` and `3c3adf4`; its `all_match` receipt is true for the server-side comparison and is annotated here. This investigation does not invalidate it.
+
+### 16.149.8 Current P-1 / P-1-C / P-1-D state — unchanged (`V1001` preservation)
+
+| Item | State (from §16.146/§16.148, preserved by `V998`/`V1001`) |
+|---|---|
+| `P-1-A` formal S2 acceptance | `SATISFIED` (candidate-scoped §16.144) |
+| `P-1-B` execution basis | `SATISFIED` candidate-scoped `001c3c80…`/`399fa44a…` (§16.143) — pin unchanged |
+| `P-1-C` host preflight | `NOT ESTABLISHED` — instrument now Windows-reproducible (LF `85AC…` `10,231 B` after this correction); no P-1-session transcript exists |
+| `P-1-D` F4 store-path facts | `DESIGNATED; NOT VERIFIED` — structural blocker removed by `DISP-01` (§16.146); host facts outstanding |
+| `P-1` | `UNSPENT`, **not authorized to execute** |
+| F4 `C:\iips-data\iips\user-portfolio.sqlite` | designated, effective, unchanged (39 B, 3 separators, byte-identical to act `-02` blob `3fe9a2dd…`) |
+| `S3`/`QE`/DQ-4/Gate 4/Gate 5 | `NOT REACHED` / `0/11` / `8/10` / `AUTHORIZED — NOT STARTED` / `NOT INITIATED` — unchanged |
+| IPD writes / store creation | `0` / `0` — unchanged |
+
+No acceptance is claimed. Governing conditions (§16.140.4 `P-1-C`, §16.146.3–§16.146.4, matrix §7, runbook §4) require a **fresh P-1-session host capture on `desktop-no0nhtp` with the instrument checked out at the corrected `.gitattributes` commit** evidencing all PF criteria. The CRLF→LF remediation removes only the reproducibility blocker; every host fact remains outstanding until that capture.
+
+**Single next action:** Ramki (PA / designated non-elevated operator), in the intended P-1 session immediately before the authorized attempt and with the IPD worktree clean at `001c3c80…`/`399fa44a…`, does: **`git fetch` IRR `main` to this merge** (thereby obtaining `text eol=lf`), confirm `Get-FileHash` yields `85AC7271C73469B6D5E454A3173FF3AAD944A645A2352BB77EE36BAEE976A30B` (`10,231 B` LF), then run the published instrument `02-p1c-p1d-readonly-preflight.ps1` and supply transcripts for read-back. Any STOP aborts; do **not** execute P-1, do not use `--mode=execute`, do not create `C:\iips-data\iips`, do not enable write flags.
+
+*End of §16.149 (`CV-CORR-129`; `CHG-2026-10-27-05`; `V993`–`V1002`). Integrity discrepancy resolved as a line-ending publication defect: instrument bytes preserved (LF `85AC…` `10,231 B` = manifest = blob `eaea3f7f…`); Windows CRLF `7C6D…` `10,425 B` explained by missing `eol=lf`; `.gitattributes` correction published; historical evidence preserved; `P-1` unspent and unauthorized; no gate advanced.*
