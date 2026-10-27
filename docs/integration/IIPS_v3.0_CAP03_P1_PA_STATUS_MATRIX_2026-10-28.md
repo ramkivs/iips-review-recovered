@@ -108,4 +108,15 @@ The adoption record's statement (§1, and the DC-C2 row) that the procedure adop
 
 No P-1 execution or authorization. No capture. No host diagnostic. No PowerShell, harness, or compat-script execution. No PF-11 reopening or acceptance change. No PF-17 satisfaction and no change to its requirement. No P-1-C or P-1-D acceptance. No S3, QE, DQ-4, Gate 4, or Gate 5 movement. No IPD write, branch, or PR. No `BASIS_COMMIT` change. No PA approval, decision, or signature supplied or inferred. No native pass claimed. No conversion or explanation of the native `Get-FileHash` failure.
 
+---
+
+## 9. Authority reconciliation pointer and correction (PR #342)
+
+Authoritative reconciliation: adoption record §9 (`V1132`–`V1137`). Summary of what changes in §§2–3 of this matrix:
+
+- **PA-3a and PA-3b.** The applied procedure text is the adopted text (package §3.6(b) and (c); §4 items (2)–(3); Appendix A A7). These are **implementations of an adopted requirement**, not open PA decisions. The only remaining PA options are optional amendments to ratify a deviation: re-adding the `CommandType` clause, or ratifying the `.NET` substitution. Neither was requested or made.
+- **Correction.** §3 above says the `.NET` (c) substitution was "not disclosed in the adoption record". That is inaccurate. Adoption record §4 row A7 discloses it, but describes it as applied "as written". The statement is corrected in adoption record §9.4.
+- **New residual item.** Appendix A A6 method: the bytes are held in memory, not written to a file. This is disclosed in adoption record §4 and is **unresolved PA-reserved**. It blocks capture until resolved.
+- Unchanged: PA-1, PA-2, PA-3d, PA-5 (PA-reserved). L-2 host-gated. DC-C2 host execution NOT EXECUTED (`V1102`). P-1 NOT EXECUTED / UNSPENT / NOT AUTHORIZED.
+
 *End of record `IIPS-V3-CAP03-P1-PA-STATUS-MATRIX-2026-10-28-01`. P-1 remains NOT EXECUTED, UNSPENT, and NOT AUTHORIZED.*
