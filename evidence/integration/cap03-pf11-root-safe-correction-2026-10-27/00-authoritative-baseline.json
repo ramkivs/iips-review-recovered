@@ -1,0 +1,54 @@
+{
+  "record_id": "IIPS-V3-CAP03-PF11-ROOT-SAFE-CORRECTION-2026-10-27-01",
+  "read_at_utc": "2026-10-27T12:41:38Z",
+  "repository_scope": "IRR only: ramkivs/iips-review-recovered",
+  "baseline": {
+    "ref": "refs/heads/main",
+    "commit": "cf6e0af50c984b8fc04ba76a70ec3a3e401fb200",
+    "tree": "0a0918f0e1f816c970a44860763d32c32fc44f2b",
+    "verification": "GitHub Branches API and local checked-out object identities agreed before edits"
+  },
+  "authoritative_inputs": {
+    "published_cap03_fresh_capture_procedure": {
+      "record": "IIPS-V3-CAP03-P1C-P1D-FRESH-CAPTURE-PROCEDURE-2026-10-27-01",
+      "path": "docs/integration/IIPS_v3.0_CAP03_P1C_P1D_FRESH_CAPTURE_PROCEDURE_2026-10-27.md",
+      "git_blob": "f585cd3a8a3ff8f68422336b66956b085a646392",
+      "sha256": "db6ba4633e11987ce57ff0264e61dca391620bb487b45d663d7274d8ad55e544",
+      "sha256_bytes": 44262
+    },
+    "published_pf11_pf12_pf13_instrument": {
+      "path": "evidence/integration/cap03-p1-f4-parent-preflight-reconciliation-2026-10-27/02-p1c-p1d-readonly-preflight.ps1",
+      "git_blob": "eaea3f7fc7ef7f49395c3cbec26ed1ad379f46bb",
+      "sha256": "85ac7271c73469b6d5e454a3173ff3aad944a645a2352bb77ee36baee976a30b",
+      "sha256_bytes": 10231,
+      "line_endings": "LF",
+      "disposition": "Preserved unchanged; not the correction artifact and not invoked"
+    },
+    "governing_acceptance_review": {
+      "record": "IIPS-V3-CAP03-P1C-P1D-EVIDENCE-HANDOFF-ACCEPTANCE-REVIEW-2026-10-27-01",
+      "tracker_section": "§16.152 / CV-CORR-132",
+      "path": "docs/integration/IIPS_v3.0_CAP03_P1C_P1D_EVIDENCE_HANDOFF_ACCEPTANCE_REVIEW_2026-10-27.md",
+      "git_blob": "e1dd0f86cb2ca358aa76358c4067ea3ab81bd89d",
+      "sha256": "9b83d9fda30ade8074c18fa6339b6f49b797337685beb0e66d4272d9acf86f76"
+    },
+    "most_recent_procedure_tracker_record": {
+      "tracker_section": "§16.153 / CV-CORR-133",
+      "change_records": ["CHG-2026-10-27-11", "CHG-2026-10-27-12"],
+      "procedure_publication_receipt": "V1047"
+    }
+  },
+  "defect_observation": {
+    "path": "evidence/integration/cap03-p1-f4-parent-preflight-reconciliation-2026-10-27/02-p1c-p1d-readonly-preflight.ps1",
+    "lines": "PF-11 worktree ancestor walk",
+    "root_cause": "Repeated Split-Path -Parent can advance past a filesystem root to an empty path; the next Join-Path/Split-Path receives that empty path and errors rather than terminating safely.",
+    "known_capture": "D:\\iips-evidence\\cap03-p1-20261027T110433Z-3569c5ceff28428c8293c442c9436649",
+    "known_capture_disposition": "Preserved exactly as instructed; no access, overwrite, modification, invocation, or new capture was performed. Its prior acceptance status remains unaccepted."
+  },
+  "fixed_store_path": {
+    "f4_verbatim": "C:\\iips-data\\iips\\user-portfolio.sqlite",
+    "bytes_utf8": 39,
+    "sha256_utf8": "4c8da37b3a837a6d0c51b2508b85c482108c7686ffa6657dc72cf078882d364b",
+    "policy": "No normalization/resolution/creation/modification/provisioning/ACL/environment operation on the store path"
+  },
+  "authority_boundary": "P-1 remains NOT EXECUTED / UNSPENT / NOT AUTHORIZED. No acceptance, authorization, or status change follows from this correction."
+}

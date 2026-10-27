@@ -1,0 +1,8 @@
+Command environment: Linux x86_64
+Parser: tree-sitter 0.26.0; tree-sitter-powershell 0.26.4
+Method: parse the standalone tested helper and Windows PowerShell fixture harness; fail if root_node.has_error.
+
+PASS evidence/integration/cap03-pf11-root-safe-correction-2026-10-27/01-Find-GitWorktreeAncestor.ps1: syntax parser
+PASS evidence/integration/cap03-pf11-root-safe-correction-2026-10-27/03-test_pf11_root_safe.ps1: syntax parser
+
+This is static syntax parsing only. It is not a Windows PowerShell runtime test and does not assert native Windows drive-root behavior. Native PowerShell 5.1 execution remains required before a subsequent capture.

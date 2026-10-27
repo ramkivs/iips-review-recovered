@@ -1,0 +1,6 @@
+Platform: Linux x86_64
+PowerShell executable discovery:
+pwsh: NOT INSTALLED
+powershell: NOT INSTALLED
+Windows runtime: NOT AVAILABLE in this sandbox
+PowerShell test harness: authored, not run here; native Windows PowerShell acceptance remains required before a subsequent capture.

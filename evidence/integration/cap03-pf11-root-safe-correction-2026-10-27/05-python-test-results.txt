@@ -1,0 +1,13 @@
+test_filesystem_root_termination (__main__.PF11AncestorWalkTests.test_filesystem_root_termination) ... ok
+test_fixtures_unchanged_by_walk (__main__.PF11AncestorWalkTests.test_fixtures_unchanged_by_walk) ... ok
+test_git_directory_in_ancestor_chain (__main__.PF11AncestorWalkTests.test_git_directory_in_ancestor_chain) ... ok
+test_git_file_in_ancestor_chain (__main__.PF11AncestorWalkTests.test_git_file_in_ancestor_chain) ... ok
+test_missing_intermediate_directory (__main__.PF11AncestorWalkTests.test_missing_intermediate_directory) ... ok
+test_ordinary_existing_parent (__main__.PF11AncestorWalkTests.test_ordinary_existing_parent) ... ok
+test_outside_any_git_worktree (__main__.PF11AncestorWalkTests.test_outside_any_git_worktree) ... ok
+test_source_identity_and_no_store_mutation_behavior_added (__main__.PF11AncestorWalkTests.test_source_identity_and_no_store_mutation_behavior_added) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.003s
+
+OK
