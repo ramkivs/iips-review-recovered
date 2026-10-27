@@ -149,3 +149,7 @@ vite.config.ts.timestamp-*
 .iips-data/
 # CI: Vitest JSON summary consumed by .github/workflows/ci.yml (CV-42); generated, never committed
 frontend/.vitest-report.json
+
+# Python bytecode from the evidence generators
+__pycache__/
+*.pyc
