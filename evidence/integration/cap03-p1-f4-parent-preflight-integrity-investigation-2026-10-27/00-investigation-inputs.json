@@ -1,0 +1,36 @@
+{
+  "record": "IIPS-V3-CAP03-P1-F4-PARENT-PREFLIGHT-INTEGRITY-INVESTIGATION-2026-10-27-01",
+  "investigation_date": "2026-10-27",
+  "purpose": "Immutable inputs for the integrity discrepancy investigation. All loci, commits, trees, blobs are Git-verifiable.",
+  "verified_observations_from_windows_host": {
+    "current_main": {
+      "commit": "3c3adf4ce2f8abd930dcc97b3fa9c8ad3ca903a7",
+      "tree": "010bfb4d535a5faa6edce255208ad341c614979b"
+    },
+    "historical_publication_merge": {
+      "commit": "4fd5a7c72db6aee9be1836e053f4bc427adee003",
+      "tree": "8b6249432662f6286c0242e3183bbd251ac48c73",
+      "parents": [
+        "fd5dd32b3dd269c840efdd13fcd0f90317ef27e4",
+        "5bfb7a92977340b592be1ba146a0b204a7dbaabe"
+      ],
+      "pr": 315,
+      "pr_head": "5bfb7a92977340b592be1ba146a0b204a7dbaabe",
+      "exact_head_ci": "40380345030",
+      "post_merge_main_ci": "40380708721"
+    },
+    "script": {
+      "path": "evidence/integration/cap03-p1-f4-parent-preflight-reconciliation-2026-10-27/02-p1c-p1d-readonly-preflight.ps1",
+      "git_blob_at_both_commits": "eaea3f7fc7ef7f49395c3cbec26ed1ad379f46bb",
+      "history_after_publication": "no changes; blob identical at both trees",
+      "manifest_declared_sha256_historical_and_current": "85AC7271C73469B6D5E454A3173FF3AAD944A645A2352BB77EE36BAEE976A30B",
+      "windows_get_filehash_checked_out": "7C6D44B89723C09A0AA356E6735CACAFAF7BF032BED80D3AE0A99A2ACFE35924",
+      "historical_receipt_all_match": true
+    },
+    "manifest_path": "evidence/integration/cap03-p1-f4-parent-preflight-reconciliation-2026-10-27/SHA256SUMS.txt",
+    "receipt_path": "evidence/integration/cap03-p1-f4-parent-preflight-reconciliation-2026-10-27/04-publication-readback.json",
+    "powershell_exact_byte_extraction": "failed — no valid exact-byte comparison completed prior to this investigation"
+  },
+  "authoritative_repository": "ramkivs/iips-review-recovered",
+  "branch": "refs/heads/main"
+}

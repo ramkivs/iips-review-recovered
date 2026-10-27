@@ -1,0 +1,57 @@
+# Safety checks for CAP-03 P-1 integrity investigation (2026-10-27)
+# Executed on arena/210c304e-iips-review-recovered sandbox at 3c3adf4ce2f8abd930dcc97b3fa9c8ad3ca903a7
+# No P-1 execution, provisioning, F4 parent/store/sidecar creation, or write-flag changes occurred.
+
+## 04-publication-readback.json all_match scope
+-- Historical receipt used GitHub Git Blobs API base64-decode -> LF bytes; validated LF vs LF only.
+
+## Instrument non-execution checks (from verify_reconciliation.py and manual inspection)
+
+## verify_reconciliation.py (original bundle) — 39/39 PASS
+# Run: python3 evidence/integration/cap03-p1-f4-parent-preflight-reconciliation-2026-10-27/verify_reconciliation.py
+# Result: 39/39 checks passed, RECONCILIATION VERIFIED
+# Key checks:
+# - F4-length-39, F4-separators-3, F4-hex, F4-verbatim-in-record: PASS
+# - instrument-no-execute-invocation: PASS (no gateAPrimeProvisioning + --mode=execute on executable line)
+# - instrument-no-execute-flag-passed-to-node: PASS
+# - instrument-execute-flag-only-in-comments-or-display: PASS (only Write-Host display string)
+# - instrument-has-no-create-item-outside-evidence-root: PASS (only New-Item on EvidenceRoot)
+# - record-declares-zero-ipd-writes, record-declares-p1-unspent, no-db-artifacts-in-evidence: PASS
+# - git-diff-check-clean: PASS
+
+## Manual instrument source inspection (2026-10-27)
+
+$ grep -n "gateAPrimeProvisioning.*--mode=execute" evidence/integration/cap03-p1-f4-parent-preflight-reconciliation-2026-10-27/02-p1c-p1d-readonly-preflight.ps1
+# (no output — no executable line combines both strings)
+# The flag appears only in:
+#   - Comment block documenting future P-1 steps (not invoked)
+#   - Write-Host display: "Do NOT run --mode=execute until P-1-C and P-1-D are accepted."
+
+$ grep -n "New-Item" evidence/integration/cap03-p1-f4-parent-preflight-reconciliation-2026-10-27/02-p1c-p1d-readonly-preflight.ps1
+# 50: New-Item -ItemType Directory -Path $EvidenceRoot -Force | Out-Null   # evidence root only — never the store path
+# No New-Item on $StorePath or its ancestors.
+
+$ find . -name "*.sqlite" -o -name "*.wal" -o -name "*.shm" -o -name "*.journal"
+# (no output — 0 files, 0 directories on store path)
+
+$ grep -rn "IIPS_G3_IPC_BINDING_PROVISIONED\|IIPS_ENABLE_WRITES\|IIPS_G3_ENABLE_WRITES" evidence/integration/cap03-p1-f4-parent-preflight-reconciliation-2026-10-27/02-p1c-p1d-readonly-preflight.ps1
+# 135: foreach ($n in 'IIPS_G3_IPC_BINDING_PROVISIONED','IIPS_ENABLE_WRITES','IIPS_G3_ENABLE_WRITES','GATE_E_OVERRIDE')
+# Read-only probe: reports <ABSENT>/<PRESENT>, never sets.
+
+$ git status --porcelain
+# (only .gitattributes and new investigation docs are modified/untracked; no store artifacts)
+
+## gitattributes correction verification
+$ git ls-files --eol evidence/integration/cap03-p1-f4-parent-preflight-reconciliation-2026-10-27/02-p1c-p1d-readonly-preflight.ps1
+# Before: i/lf w/lf attr/                  (unprotected)
+# After:  i/lf w/lf attr/text eol=lf       (LF preserved regardless of core.autocrlf)
+
+## IPD writes / provisioning / store creation
+-- No iips-production-market-data writes (0 IPD writes declared in §16.146 and preserved here)
+-- No --mode=execute invocation; no provisioning
+-- No F4 parent (C:\iips-data\iips) directory creation in this investigation
+-- No sidecar (user-portfolio.sqlite-wal/-shm/-journal) creation
+
+## Verdict
+-- ALL non-execution safety checks PASS. No P-1 execution, provisioning, F4 parent/store/sidecar creation, or write-flag changes occurred in this investigation.
+

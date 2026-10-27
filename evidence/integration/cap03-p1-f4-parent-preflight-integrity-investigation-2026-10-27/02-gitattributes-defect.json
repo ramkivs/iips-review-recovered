@@ -1,0 +1,52 @@
+{
+  "record": "IIPS-V3-CAP03-P1-F4-PARENT-PREFLIGHT-INTEGRITY-INVESTIGATION-2026-10-27-01",
+  "subject": ".gitattributes omission as root cause of host-side CRLF divergence",
+  "header_comment": "Byte-exact canonical files asserted by committed-blob or raw-byte hash tests. Keep LF working-tree bytes for these exact paths regardless of core.autocrlf, so raw SHA-256 and Git blob identities match the committed canonical content. Exact paths only: no globs, no repository-wide line-ending policy.",
+  "before_fix": {
+    "commit": "4fd5a7c72db6aee9be1836e053f4bc427adee003",
+    "tree": "8b6249432662f6286c0242e3183bbd251ac48c73",
+    "parent_tree": "fd5dd32b3dd269c840efdd13fcd0f90317ef27e4",
+    "gitattributes_blob": "ca1ec6019fc23d29c992fe26d74855d6fc517f57",
+    "contents": [
+      "# Byte-exact canonical files asserted by committed-blob or raw-byte hash tests.",
+      "# Keep LF working-tree bytes for these exact paths regardless of core.autocrlf,",
+      "# so raw SHA-256 and Git blob identities match the committed canonical content.",
+      "# Exact paths only: no globs, no repository-wide line-ending policy.",
+      "ies-012-utilities/calibration/utilities-calibration-1.0.0.json text eol=lf",
+      "ies-013-consumer/calibration/consumer-calibration-1.0.0.json text eol=lf",
+      "ies-014-industrials/calibration/industrials-calibration-1.0.0.json text eol=lf",
+      "ies-015-technology/calibration/technology-calibration-1.0.0.json text eol=lf",
+      "iips-platform/src/sector-engines/cross-sector/definition/ScreenDefinition.ts text eol=lf",
+      "iips-platform/src/sector-engines/cross-sector/index.ts text eol=lf",
+      "iips-platform/src/sector-engines/cross-sector/population/ScreeningPopulation.ts text eol=lf",
+      "NP-12-N4-CANONICAL-BYTE-GRAMMAR-DECISION-RECORD.md text eol=lf"
+    ],
+    "instrument_path_protected": false,
+    "instrument_present": false,
+    "git_ls_files_eol": "i/lf    w/lf    attr/                 \tevidence/integration/cap03-p1-f4-parent-preflight-reconciliation-2026-10-27/02-p1c-p1d-readonly-preflight.ps1",
+    "consequence_on_windows_with_autocrlf_true": "Git converts LF->CRLF on checkout for unlisted text files; Get-FileHash sees 10425 B CRLF bytes -> 7C6D44B8... mismatch vs manifest 85AC... (10231 B LF)"
+  },
+  "after_fix": {
+    "commit_to_be": "to be assigned at merge (arena branch correction)",
+    "contents": [
+      "# Byte-exact canonical files asserted by committed-blob or raw-byte hash tests.",
+      "# Keep LF working-tree bytes for these exact paths regardless of core.autocrlf,",
+      "# so raw SHA-256 and Git blob identities match the committed canonical content.",
+      "# Exact paths only: no globs, no repository-wide line-ending policy.",
+      "ies-012-utilities/calibration/utilities-calibration-1.0.0.json text eol=lf",
+      "ies-013-consumer/calibration/consumer-calibration-1.0.0.json text eol=lf",
+      "ies-014-industrials/calibration/industrials-calibration-1.0.0.json text eol=lf",
+      "ies-015-technology/calibration/technology-calibration-1.0.0.json text eol=lf",
+      "iips-platform/src/sector-engines/cross-sector/definition/ScreenDefinition.ts text eol=lf",
+      "iips-platform/src/sector-engines/cross-sector/index.ts text eol=lf",
+      "iips-platform/src/sector-engines/cross-sector/population/ScreeningPopulation.ts text eol=lf",
+      "NP-12-N4-CANONICAL-BYTE-GRAMMAR-DECISION-RECORD.md text eol=lf",
+      "evidence/integration/cap03-p1-f4-parent-preflight-reconciliation-2026-10-27/02-p1c-p1d-readonly-preflight.ps1 text eol=lf"
+    ],
+    "instrument_path_protected": true,
+    "git_ls_files_eol": "i/lf    w/lf    attr/text eol=lf      \tevidence/integration/cap03-p1-f4-parent-preflight-reconciliation-2026-10-27/02-p1c-p1d-readonly-preflight.ps1",
+    "consequence_on_windows_with_autocrlf_true": "Git preserves LF on checkout despite autocrlf; Get-FileHash sees 10231 B LF bytes -> 85AC... matches manifest and blob"
+  },
+  "why_instrument_qualifies_as_canonical": "Its SHA-256 is published in SHA256SUMS.txt and is referenced by the P-1-C/P-1-D procedure as the operator's execution input; byte identity must be reproducible via Get-FileHash on Windows. This matches the .gitattributes header's criterion exactly.",
+  "smallest_governance_compliant_correction": "Single-line .gitattributes addition — no instrument byte change, no manifest rewrite, no historical evidence deletion. Preserves prior artifact and explains."
+}
