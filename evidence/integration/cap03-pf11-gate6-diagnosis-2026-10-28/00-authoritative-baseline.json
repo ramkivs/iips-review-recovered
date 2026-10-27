@@ -1,0 +1,52 @@
+{
+  "record": "IIPS-V3-CAP03-PF11-GATE6-GETFILEHASH-DIAGNOSIS-2026-10-28-01",
+  "investigation_utc": "2026-10-28",
+  "irr_main_commit": "bb427aea8897d438329adda41175f9ff2a91817e",
+  "irr_main_tree": "32096cc6ac0905bbb2ae48db7fcc9a0ecdd38da9",
+  "irr_main_verified_by": "git ls-remote origin refs/heads/main (live, this session) + local full clone after `git fetch --unshallow`",
+  "irr_shallow_before": true,
+  "irr_commits_reachable_from_main": 888,
+  "tracker": {
+    "path": "IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md",
+    "blob": "e6851fdfa55cd89475638fe69a4f66a4d9c8fc61",
+    "bytes": 2766767,
+    "last_section": "§16.159"
+  },
+  "ipd": {
+    "read_only": true,
+    "accessed": false,
+    "reason": "No IPD evidence is required by this investigation; every PF-11 / Gate 6 fact is IRR-locus."
+  },
+  "subjects": {
+    "harness": {
+      "path": "evidence/integration/cap03-pf11-root-safe-correction-2026-10-27/03-test_pf11_root_safe.ps1",
+      "blob": "504470e1e59a8f15ec1e7c385232df30b97c794a",
+      "bytes": 4014,
+      "lf": 78,
+      "cr": 0,
+      "sha256": "0e56dae1ed1cf91772144422cf3f30704f271bd9ebb6b95043937dd0af8862cb"
+    },
+    "helper": {
+      "path": "evidence/integration/cap03-pf11-root-safe-correction-2026-10-27/01-Find-GitWorktreeAncestor.ps1",
+      "blob": "c522b62370cdc751aeda2ade91df54a9b0bafb6b",
+      "sha256": "65dde9a1a8fc79d295baffdc24b6dc163744d1e70ce6a08056e201939ca6d382"
+    },
+    "corrected_instrument_v2": {
+      "path": "evidence/integration/cap03-pf11-root-safe-correction-2026-10-27/02-p1c-p1d-readonly-preflight-pf11-root-safe-v2.ps1",
+      "blob": "191f5828461286b0f6fcb688b023da5dfc68a265",
+      "bytes": 10990,
+      "sha256": "13783385cb8a7964387868ad96f05956cceb9b7d4ead048c0cfe72b325e6748e"
+    },
+    "native_run": {
+      "run_id": "92d931fbb5204f74870aedf78610e29a",
+      "files": {
+        "handoff/evidence/pf11-root-safe/execution-result.txt": "caaf911fc987691b4f36f62133521c3a03f4d278",
+        "handoff/evidence/pf11-root-safe/execution.log": "1e4b1dc18a8d509c0d6fd28b72cdfa6159a5e143",
+        "handoff/evidence/pf11-root-safe/harness-output.txt": "4fcd25211d38fe07dd0d57171086fec29e3e6f7c",
+        "handoff/evidence/pf11-root-safe/harness-compat-output.txt": "15e329f96e16b5bc6ed3a7dd9e7b9b1b6120da48",
+        "handoff/evidence/pf11-root-safe/harness-compat-result.txt": "197dd6134373f3237d66e09ae06640983a583054",
+        "handoff/evidence/pf11-root-safe/PF11-FINAL-EVIDENCE-SUMMARY.txt": "47005728a02d92c67d43ae08f777054454b9742b"
+      }
+    }
+  }
+}
