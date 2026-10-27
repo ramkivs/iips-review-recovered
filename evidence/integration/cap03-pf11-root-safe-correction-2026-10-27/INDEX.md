@@ -13,7 +13,7 @@ Scope: IRR only; no IPD writes, no production scope, no host capture, no executi
 | `05-python-test-results.txt` | Actual Linux sandbox execution transcript: 8/8 tests passed |
 | `06-runtime-availability.txt` | Actual runtime availability check; Windows and PowerShell unavailable here |
 | `07-minimal-change-record.json` | Source identities and exact inserted/replaced PF-11 blocks; test reconstructs the corrected bytes from these exact edits |
-| `08-sha256-publication-readback.json` | Post-publication artifact/commit/tree and remote-readback receipt (completed during publication) |
+| `08-publication-readback.json` | PR #331 exact-head/merge/CI, IRR main tree, and decoded remote artifact read-back (16/16 matched) |
 | `09-procedure-supplement-checks.json` | Procedure/source consistency and scope assertions |
 | `10-powershell-static-parse-results.txt` | Exact parser versions and static parse results for helper and Windows test harness |
 | `verify_correction.py` | Bundle-integrity and source-identity verifier |

@@ -1,0 +1,170 @@
+{
+  "record_id": "IIPS-V3-CAP03-PF11-ROOT-SAFE-CORRECTION-PUBLICATION-READBACK-2026-10-27-01",
+  "readback_at_utc": "2026-10-27T12:52:52Z",
+  "repository": "ramkivs/iips-review-recovered",
+  "ref": "refs/heads/main",
+  "main_commit": "5e06f05d9386a01760e323552da78ed5407a8a8b",
+  "main_tree": "a11292785c9527fbd6638669d74c5ecac62b4083",
+  "pr": {
+    "number": 331,
+    "url": "https://github.com/ramkivs/iips-review-recovered/pull/331",
+    "state": "MERGED",
+    "head": "fb212920b95c3a02903e57307801af7c88d2e8d4",
+    "merge_commit": "5e06f05d9386a01760e323552da78ed5407a8a8b",
+    "merge_tree": "a11292785c9527fbd6638669d74c5ecac62b4083",
+    "merged_at": "2026-10-27T12:50:09Z"
+  },
+  "ci": {
+    "exact_head_run": {
+      "conclusion": "success",
+      "databaseId": 40506648145,
+      "event": "pull_request",
+      "headSha": "fb212920b95c3a02903e57307801af7c88d2e8d4",
+      "status": "completed"
+    },
+    "post_merge_main_run": {
+      "conclusion": "success",
+      "databaseId": 40506919285,
+      "event": "push",
+      "headSha": "5e06f05d9386a01760e323552da78ed5407a8a8b",
+      "status": "completed"
+    }
+  },
+  "readback": {
+    "method": "GitHub Git Trees and Git Blobs API; each blob decoded and checked against local bytes, Git blob SHA-1 and SHA-256",
+    "verified_file_count": 16,
+    "all_bytes_match": true,
+    "files": [
+      {
+        "path": ".gitattributes",
+        "git_blob": "e602817b669fca977e313e0463bb663529b33d9d",
+        "bytes": 1174,
+        "sha256": "67f20f375b41cc73b63ae644612731c5ff1da2640cf65bda3afca9daed4ca3a7",
+        "decoded_remote_bytes_match_local": true
+      },
+      {
+        "path": "IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md",
+        "git_blob": "92598ac32476592730967fb9b1240765b0f111af",
+        "bytes": 2703144,
+        "sha256": "e1cfd7156656ed0d4787748758eda0cefbac3b5e876e95ebee6942ee70a817a3",
+        "decoded_remote_bytes_match_local": true
+      },
+      {
+        "path": "docs/integration/IIPS_v3.0_CAP03_PF11_ROOT_SAFE_INSTRUMENT_CORRECTION_2026-10-27.md",
+        "git_blob": "b2a2aa8086563f137f3f34324b5abb3509eb867e",
+        "bytes": 10075,
+        "sha256": "f9910f5209ea6d2fb359121665d929d5700c1b111024a36536f79020d299cb24",
+        "decoded_remote_bytes_match_local": true
+      },
+      {
+        "path": "evidence/integration/cap03-pf11-root-safe-correction-2026-10-27/00-authoritative-baseline.json",
+        "git_blob": "99abf1f5a4423bb9a66d0f5807211b2189a3fdcd",
+        "bytes": 3191,
+        "sha256": "3923f11a6284cf117f6527c02c433e691ec5f14fb96884d9306925e4283d6c7f",
+        "decoded_remote_bytes_match_local": true
+      },
+      {
+        "path": "evidence/integration/cap03-pf11-root-safe-correction-2026-10-27/01-Find-GitWorktreeAncestor.ps1",
+        "git_blob": "c522b62370cdc751aeda2ade91df54a9b0bafb6b",
+        "bytes": 909,
+        "sha256": "65dde9a1a8fc79d295baffdc24b6dc163744d1e70ce6a08056e201939ca6d382",
+        "decoded_remote_bytes_match_local": true
+      },
+      {
+        "path": "evidence/integration/cap03-pf11-root-safe-correction-2026-10-27/02-p1c-p1d-readonly-preflight-pf11-root-safe-v2.ps1",
+        "git_blob": "191f5828461286b0f6fcb688b023da5dfc68a265",
+        "bytes": 10990,
+        "sha256": "13783385cb8a7964387868ad96f05956cceb9b7d4ead048c0cfe72b325e6748e",
+        "decoded_remote_bytes_match_local": true
+      },
+      {
+        "path": "evidence/integration/cap03-pf11-root-safe-correction-2026-10-27/03-test_pf11_root_safe.ps1",
+        "git_blob": "504470e1e59a8f15ec1e7c385232df30b97c794a",
+        "bytes": 4014,
+        "sha256": "0e56dae1ed1cf91772144422cf3f30704f271bd9ebb6b95043937dd0af8862cb",
+        "decoded_remote_bytes_match_local": true
+      },
+      {
+        "path": "evidence/integration/cap03-pf11-root-safe-correction-2026-10-27/04-test_pf11_root_safe.py",
+        "git_blob": "969d573c2aa22de3aec210c0a0c7e074685af173",
+        "bytes": 5992,
+        "sha256": "dd3580a3c4c0360c37ea3691deb2b3cfd494d60726ee53bfb0a407da7e32d45a",
+        "decoded_remote_bytes_match_local": true
+      },
+      {
+        "path": "evidence/integration/cap03-pf11-root-safe-correction-2026-10-27/05-python-test-results.txt",
+        "git_blob": "a060245d0c4ddd24b514adbf2749b907c6ae425a",
+        "bytes": 994,
+        "sha256": "106342746e95eb44f413dafe792a504123b92bb0a5c2c0f4af9bd5383498681e",
+        "decoded_remote_bytes_match_local": true
+      },
+      {
+        "path": "evidence/integration/cap03-pf11-root-safe-correction-2026-10-27/06-runtime-availability.txt",
+        "git_blob": "6e98f115cb75b032d6834993546b417624ca2eae",
+        "bytes": 281,
+        "sha256": "5d73c9b882afc269a157b8d28a69a73176dda8ac0d0ff14756ab9fc3ba2f6d97",
+        "decoded_remote_bytes_match_local": true
+      },
+      {
+        "path": "evidence/integration/cap03-pf11-root-safe-correction-2026-10-27/07-minimal-change-record.json",
+        "git_blob": "47d4cf07102680471950917056573414fc1248a9",
+        "bytes": 2080,
+        "sha256": "1681b12045fa324544c08c480f1396abf62a3a64d167bebaf722c5ddccdb0372",
+        "decoded_remote_bytes_match_local": true
+      },
+      {
+        "path": "evidence/integration/cap03-pf11-root-safe-correction-2026-10-27/09-procedure-supplement-checks.json",
+        "git_blob": "b60dd5984238b9bc7ae662ab805471352f1a921d",
+        "bytes": 2100,
+        "sha256": "4647a0a4179c379110d6088ad99cb66c54ddd4eb084ae95d2825641a60a99191",
+        "decoded_remote_bytes_match_local": true
+      },
+      {
+        "path": "evidence/integration/cap03-pf11-root-safe-correction-2026-10-27/10-powershell-static-parse-results.txt",
+        "git_blob": "2d9c239cd3d36c6d23c9ef45e5de8f94555921df",
+        "bytes": 647,
+        "sha256": "69a487bd0096648c34eac6090771f64cd7168ffcd156bad3a1d3243bdbad1e9a",
+        "decoded_remote_bytes_match_local": true
+      },
+      {
+        "path": "evidence/integration/cap03-pf11-root-safe-correction-2026-10-27/INDEX.md",
+        "git_blob": "eb3e2a61f0aa9cb4226637a4f4fe774d740e13f7",
+        "bytes": 2470,
+        "sha256": "83149a112dbb2737af7381e3b1b51102be15557bb131c732ba5ef08b4595fc00",
+        "decoded_remote_bytes_match_local": true
+      },
+      {
+        "path": "evidence/integration/cap03-pf11-root-safe-correction-2026-10-27/SHA256SUMS.txt",
+        "git_blob": "13d53dd8153da8125ba7db52e6cbcd34fb679436",
+        "bytes": 1150,
+        "sha256": "f9e4071175b3b1e47e1a8903ca45d246bb57cebc857e4badfdebf0d2e17da3ec",
+        "decoded_remote_bytes_match_local": true
+      },
+      {
+        "path": "evidence/integration/cap03-pf11-root-safe-correction-2026-10-27/verify_correction.py",
+        "git_blob": "8abc4249dc057168a68172aa9cbe224033bd0de2",
+        "bytes": 3691,
+        "sha256": "d70335ccb4fbe0978340504888a38591237fd7190be5a6f43d0ec24661c55fd0",
+        "decoded_remote_bytes_match_local": true
+      }
+    ]
+  },
+  "corrected_instrument": {
+    "path": "evidence/integration/cap03-pf11-root-safe-correction-2026-10-27/02-p1c-p1d-readonly-preflight-pf11-root-safe-v2.ps1",
+    "git_blob": "191f5828461286b0f6fcb688b023da5dfc68a265",
+    "bytes": 10990,
+    "sha256": "13783385cb8a7964387868ad96f05956cceb9b7d4ead048c0cfe72b325e6748e"
+  },
+  "historical_instrument_unchanged": {
+    "path": "evidence/integration/cap03-p1-f4-parent-preflight-reconciliation-2026-10-27/02-p1c-p1d-readonly-preflight.ps1",
+    "git_blob": "eaea3f7fc7ef7f49395c3cbec26ed1ad379f46bb",
+    "sha256": "85ac7271c73469b6d5e454a3173ff3aad944a645a2352bb77ee36baee976a30b"
+  },
+  "capture_boundary": {
+    "existing_capture": "D:\\iips-evidence\\cap03-p1-20261027T110433Z-3569c5ceff28428c8293c442c9436649",
+    "new_capture_created": false,
+    "instrument_invoked": false,
+    "acceptance_changed": false,
+    "P-1": "NOT EXECUTED / UNSPENT / NOT AUTHORIZED"
+  }
+}
