@@ -1,0 +1,8 @@
+﻿Timestamp: 2026-10-27T23:01:48.9123185+05:30
+Harness started: True
+Harness passed: False
+Harness exit code: 1
+Final status: NOT PASSED
+Failure: STOP: harness returned exit code 1.
+Harness output: C:\Users\USER\Documents\CAP03-PF11-Results\92d931fbb5204f74870aedf78610e29a\harness-output.txt
+Harness stderr: C:\Users\USER\Documents\CAP03-PF11-Results\92d931fbb5204f74870aedf78610e29a\harness-error.txt
