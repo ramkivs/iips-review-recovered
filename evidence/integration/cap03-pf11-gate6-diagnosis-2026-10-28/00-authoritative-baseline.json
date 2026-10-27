@@ -1,0 +1,82 @@
+{
+  "record": "IIPS-V3-CAP03-PF11-GATE6-GETFILEHASH-DIAGNOSIS-2026-10-28-01",
+  "investigation_utc": "2026-10-28",
+  "irr_main_commit": "bb427aea8897d438329adda41175f9ff2a91817e",
+  "irr_main_tree": "32096cc6ac0905bbb2ae48db7fcc9a0ecdd38da9",
+  "irr_main_verified_by": "git ls-remote origin refs/heads/main (live, this session) + local full clone after `git fetch --unshallow`",
+  "irr_shallow_before": true,
+  "irr_commits_reachable_from_main": 888,
+  "tracker": {
+    "path": "IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md",
+    "blob": "e6851fdfa55cd89475638fe69a4f66a4d9c8fc61",
+    "bytes": 2766767,
+    "last_section": "\u00a716.159"
+  },
+  "ipd": {
+    "read_only": true,
+    "accessed": false,
+    "reason": "No IPD evidence is required by this investigation; every PF-11 / Gate 6 fact is IRR-locus."
+  },
+  "subjects": {
+    "harness": {
+      "path": "evidence/integration/cap03-pf11-root-safe-correction-2026-10-27/03-test_pf11_root_safe.ps1",
+      "blob": "504470e1e59a8f15ec1e7c385232df30b97c794a",
+      "bytes": 4014,
+      "lf": 78,
+      "cr": 0,
+      "sha256": "0e56dae1ed1cf91772144422cf3f30704f271bd9ebb6b95043937dd0af8862cb"
+    },
+    "helper": {
+      "path": "evidence/integration/cap03-pf11-root-safe-correction-2026-10-27/01-Find-GitWorktreeAncestor.ps1",
+      "blob": "c522b62370cdc751aeda2ade91df54a9b0bafb6b",
+      "sha256": "65dde9a1a8fc79d295baffdc24b6dc163744d1e70ce6a08056e201939ca6d382"
+    },
+    "corrected_instrument_v2": {
+      "path": "evidence/integration/cap03-pf11-root-safe-correction-2026-10-27/02-p1c-p1d-readonly-preflight-pf11-root-safe-v2.ps1",
+      "blob": "191f5828461286b0f6fcb688b023da5dfc68a265",
+      "bytes": 10990,
+      "sha256": "13783385cb8a7964387868ad96f05956cceb9b7d4ead048c0cfe72b325e6748e"
+    },
+    "native_run": {
+      "run_id": "92d931fbb5204f74870aedf78610e29a",
+      "files": {
+        "handoff/evidence/pf11-root-safe/execution-result.txt": "caaf911fc987691b4f36f62133521c3a03f4d278",
+        "handoff/evidence/pf11-root-safe/execution.log": "1e4b1dc18a8d509c0d6fd28b72cdfa6159a5e143",
+        "handoff/evidence/pf11-root-safe/harness-output.txt": "4fcd25211d38fe07dd0d57171086fec29e3e6f7c",
+        "handoff/evidence/pf11-root-safe/harness-compat-output.txt": "15e329f96e16b5bc6ed3a7dd9e7b9b1b6120da48",
+        "handoff/evidence/pf11-root-safe/harness-compat-result.txt": "197dd6134373f3237d66e09ae06640983a583054",
+        "handoff/evidence/pf11-root-safe/PF11-FINAL-EVIDENCE-SUMMARY.txt": "47005728a02d92c67d43ae08f777054454b9742b"
+      }
+    }
+  },
+  "reverification": {
+    "record": "IIPS-V3-CAP03-PF11-GATE6-DIAGNOSIS-ADDENDUM-2026-10-28-02",
+    "irr_main_commit": "4e9cc40e31ebb1c3ebb12dd8e40e99f5bfa7a636",
+    "irr_main_commit_note": "advanced from bb427aea8897d438329adda41175f9ff2a91817e by PR #339 (merge of arena/824f134a), which added 6ba9d71 'record PA adoption of DA-A1, DB-B1, DC-C2 and revise fresh-capture procedure'",
+    "irr_main_verified_by": "git ls-remote origin refs/heads/main (live, 2026-10-28)",
+    "verified_main_ci": "Typecheck / Test / Build \u2014 success on 4e9cc40",
+    "case_under_prior_record_commit": "bb427aea8897d438329adda41175f9ff2a91817e (sections A-H were written against this commit)",
+    "subsequent_governance_state": "DC-C2 ADOPTED (tracker \u00a716.160, CV-CORR-140, CHG-2026-10-28-03); the PA decision package itself remains NOT ADOPTED and unedited; P-1 NOT EXECUTED / UNSPENT / NOT AUTHORIZED",
+    "procedure_now_at_main": "docs/integration/IIPS_v3.0_CAP03_P1C_P1D_FRESH_CAPTURE_PROCEDURE_2026-10-27.md, revision 2026-10-28 \u2014 \u00a74.3a (Assert-AttemptEngine) and \u00a74.5 (immediate pre-invocation recheck) implement DC-C2",
+    "harness_identity_rechecked": "03-test_pf11_root_safe.ps1 blob 504470e1e59a8f15ec1e7c385232df30b97c794a, 4,014 B, SHA-256 0e56dae1ed1cf91772144422cf3f30704f271bd9ebb6b95043937dd0af8862cb \u2014 unchanged at 4e9cc40",
+    "recovered_artifacts": {
+      "A_run-pf11-hash-compat.ps1": {
+        "stored": "02-recovered-run-pf11-hash-compat.ps1",
+        "bytes": 1858,
+        "sha256": "f8f330612dad73d7444f5da18e89a01529f3f25b74b66b5ab989f4a17868b0d8",
+        "source": "ChatGPT session library",
+        "original_windows_provenance": "NOT ESTABLISHED"
+      },
+      "B_harness-error.txt": {
+        "stored": "03-recovered-harness-error.txt",
+        "bytes": 721,
+        "sha256": "a9c36adccc702b0b3ea91bf266f684631ab7b43094b392cdaaa3e26959f16551",
+        "source": "ChatGPT session library",
+        "original_windows_provenance": "NOT ESTABLISHED"
+      }
+    },
+    "corroboration": "recovered harness-error.txt reports 03-test_pf11_root_safe.ps1:13 char:56; in the published harness, line 13 is '    Get-ChildItem -LiteralPath $Path -Force -Recurse | ForEach-Object {' and ForEach-Object begins at 1-based character 56 \u2014 exact match (structural corroboration, not byte proof)",
+    "statements_superseded": "S-1 process identity of the native harness run is UNVERIFIED (not 'child process'); S-2 the compatibility run evidences harness logic only under a substituted Get-FileHash function",
+    "non_grants": "no host run, no PowerShell execution, no PF-11 rerun, no capture, no P-1 execution/consumption/authorization, no IPD write, no gate movement"
+  }
+}
