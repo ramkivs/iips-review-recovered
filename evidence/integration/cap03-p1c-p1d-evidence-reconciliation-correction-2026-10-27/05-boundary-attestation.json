@@ -11,6 +11,14 @@
   ],
   [
    "M",
+   "IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md"
+  ],
+  [
+   "A",
+   "docs/integration/IIPS_v3.0_CAP03_P1C_P1D_EVIDENCE_RECONCILIATION_CORRECTION_2026-10-27.md"
+  ],
+  [
+   "M",
    "evidence/integration/cap03-p1c-p1d-evidence-reconciliation-2026-10-27/INDEX.md"
   ],
   [
@@ -39,17 +47,33 @@
   ],
   [
    "A",
+   "evidence/integration/cap03-p1c-p1d-evidence-reconciliation-correction-2026-10-27/04-package-verification.txt"
+  ],
+  [
+   "A",
+   "evidence/integration/cap03-p1c-p1d-evidence-reconciliation-correction-2026-10-27/05-boundary-attestation.json"
+  ],
+  [
+   "A",
+   "evidence/integration/cap03-p1c-p1d-evidence-reconciliation-correction-2026-10-27/INDEX.md"
+  ],
+  [
+   "A",
+   "evidence/integration/cap03-p1c-p1d-evidence-reconciliation-correction-2026-10-27/SHA256SUMS.txt"
+  ],
+  [
+   "A",
    "evidence/integration/cap03-p1c-p1d-evidence-reconciliation-correction-2026-10-27/verify_correction.py"
   ]
  ],
- "changed_path_count": 9,
+ "changed_path_count": 15,
  "what_is_changed": {
   ".gitattributes": "one exact-path '-text' rule added for the captured CRLF evidence file, plus an explanatory comment; no existing rule altered or removed",
   "evidence/integration/cap03-p1c-p1d-evidence-reconciliation-2026-10-27/captured_root_safe_instrument.ps1": "original CRLF evidence bytes restored (blob 811c6b63... -> 8a913f9a...); content is byte-identical to the file inside the preserved root_safe_capture.zip",
   "evidence/integration/cap03-p1c-p1d-evidence-reconciliation-2026-10-27/INDEX.md": "corrected to describe the package accurately (publication status, canonical line endings, checks actually performed and their results, superseded conclusions)",
   "evidence/integration/cap03-p1c-p1d-evidence-reconciliation-2026-10-27/SHA256SUMS.txt": "only the INDEX.md line updated, because INDEX.md content changed; the captured_root_safe_instrument.ps1 line is UNCHANGED because it was already correct",
   "docs/integration/IIPS_v3.0_CAP03_P1C_P1D_EVIDENCE_RECONCILIATION_CORRECTION_2026-10-27.md": "new focused correction record",
-  "evidence/integration/cap03-p1c-p1d-evidence-reconciliation-correction-2026-10-27/": "new correction evidence bundle",
+  "evidence/integration/cap03-p1c-p1d-evidence-reconciliation-correction-2026-10-27/": "new correction evidence bundle: 00-05 machine records, INDEX.md, SHA256SUMS.txt (8 entries, excludes itself), verify_correction.py",
   "IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md": "additive 16.156 successor correction record and one change-log row; no existing section edited"
  },
  "what_is_NOT_changed": {
@@ -88,5 +112,7 @@
   "IPD_writes": 0,
   "repository_writes_outside_IRR": 0
  },
- "grants": "This correction grants no execution authority, no acceptance, and no gate advancement. It repairs evidence storage and supersedes two demonstrably false conclusions."
+ "grants": "This correction grants no execution authority, no acceptance, and no gate advancement. It repairs evidence storage and supersedes two demonstrably false conclusions.",
+ "change_set_computed_against": "d8a4f77850ad0b45695282d6bfa20e51921f19e8",
+ "note_on_this_file": "generated last-but-one, so it enumerates the complete change set against the base commit including itself and the package manifest; the two commits are content (C1) then verification transcript + manifest (C2)"
 }
