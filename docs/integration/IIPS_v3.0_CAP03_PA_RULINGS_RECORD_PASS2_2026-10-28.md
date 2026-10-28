@@ -70,3 +70,25 @@ These are listed for the next sitting question only. They are not decided here.
 ---
 
 *Recorded from the user's sitting response. Table 1 unchanged. Register `01-sitting-decision-register.tsv` and its checks are unchanged (a snapshot of the 2026-10-28 sitting packet).*
+
+---
+
+## 6. Rulings recorded in rounds 3 and 4 (2026-10-28, pass 2)
+
+Each is the user's answer to the precise question quoted in the sitting response. Recommended options were offered; the answer shown is the option selected.
+
+| Item | Ruling recorded | Consequence under existing authority |
+|---|---|---|
+| D1 (Q-S2-1 remainder) | **Open pending operator read-back of host originals** | D1 not closed. Closure needs host-original evidence not in the repository. |
+| PASS status (Q-S2-1 remainder) | **User-reported** (until the 47-entry output is supplied) | Consistent with acceptance §5. |
+| PF10 (procedure line 147) | **KEEP the GATE_A_PRIME_* wildcard** | No change to line 147. KEEP requires D-INST (successor instrument identity, validation, and A6 before use). |
+| D-Q (object and method) | **Object: store parent. Method: D-2, with D-1 as supporting evidence** | Triggers D-INST (new instrument revision, new identity under DB-B1, A6 before use). |
+| ADP-D1 (final execution commit) | **Adopt IRR wording**: the P-1 execution commit is the designated B-1 commit `a891802e`; manifest regeneration applies only where Gate 4 §8 applies | Adopted. |
+| ADP-D2 (receipt executing identity) | **Accept at `a891802e`, scoped to the P-1 receipt element** | Adopted for the receipt element. P1-F stays blocked by its other conditions. |
+| QP1 (F2, F4, F5 literals) | **Approved as rendered in act -02, lines 28, 30, 31** | Approved. The -01 and -02 rows are byte-identical (recorded §3 of the designation record). |
+| C-Q1 / C-Q2 | **MC-2**, with A6 confirmed commit-independent as written (blob-keyed raw-byte read) | Host qualification proceeds under its own operator authorization. Commit-keyed observations stay in the attempt session. |
+| E7 (DC-C2 scope) | **Confirmed: next capture only** | Later captures still need the native PowerShell 5.1 run. |
+| B-Q4 | **Resolved on existing formal text** (formal §4.6 step 5: L2a waits on H-12 at the designated commit) | No new authority. |
+| E8 (root and parent) | **Parent: D:** (procedure default). **Root path: NOT YET GIVEN.** | E3 cannot apply the root text until the full path is named. |
+
+**Still open:** the E8 root path (required for E3); the S2 native run and its results (operator); the IPD A-Q5 act and IPD-S1 pointer (IPD, separate authority).

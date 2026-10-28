@@ -64,6 +64,8 @@ Matter A closes when this IPD act is executed and recorded in IRR. A-Q6 (act §8
 - **Native S2 run at `a891802e`** on a native Windows host, per the route (c) ruling and the Gate 4 act. This is the operator's action. It is not CI and not claimed here.
 - **Supply of R-1 output** (47-entry operator output). Non-blocking under the R-1 ruling; PASS stays user-reported until supplied.
 
-## 6. Not ruled (still open)
+## 6. Rulings since this record was first written (rounds 3 and 4)
 
-D1 status (Q-S2-1); PF10; E8 root and parent; D-Q method; ADP-D1; ADP-D2; QP1 (approval of F2/F4/F5 literals). These are in `06-recommendations.tsv` and are not decided here.
+Recorded in `docs/integration/IIPS_v3.0_CAP03_PA_RULINGS_RECORD_PASS2_2026-10-28.md` §6: D1 open pending read-back; PF10 KEEP; D-Q object store parent, method D-2 with D-1 supporting; ADP-D1 adopted; ADP-D2 accepted at `a891802e` for the P-1 receipt element; QP1 approved; MC-2; E7 next capture only; B-Q4 on formal text; E8 parent D:, root path not yet given.
+
+**Still open:** the E8 root path (E3 waits); D-INST identity adoption and A6 (see §7 of this record once published).
