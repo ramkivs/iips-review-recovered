@@ -229,3 +229,12 @@ Merging this record to `main` is **not** performed here. The request said not to
 ---
 
 *End of record `IIPS-V3-CAP03-S2-POST-PUBLICATION-EVIDENCE-RECONCILIATION-2026-10-28-01`. This record makes no PA decision and does not claim formal acceptance. Original host bytes, the user-reported `47`-entry `PASS`, and IRR branch protection (HTTP 403) were not verified.*
+
+---
+
+## Dated pointer — 2026-10-28, pass 2 (R-2 route; no in-place rewrite)
+
+- **Q-S2-1 (R-2) route recorded:** corroborating transcript (`s2-post-run-pin.txt`). Archive-original route not required. Ruling and premise check: `docs/integration/IIPS_v3.0_CAP03_PA_RULINGS_RECORD_PASS2_2026-10-28.md` §2–§3.
+- **Premise correction:** the transcript's manifest digest (`84E823AE…`, SHA256SUMS line 45) reproduces only with CRLF line endings. The deposited blob is LF (`2a611a7a…`). The `s2-checkout-verification.txt` mismatch (deposited `0df30bc6…` vs recorded `3FD31FE6…`) remains open.
+- **R-1:** not absolute per the ruling; remains an open residual. The 47-entry PASS stays user-reported until the operator supplies the output.
+- **Table rows above are not rewritten.** Read the R-2 row together with this pointer.
