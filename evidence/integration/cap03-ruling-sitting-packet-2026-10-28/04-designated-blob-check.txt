@@ -1,0 +1,16 @@
+act: evidence/cross-repository/IIPS_V3_CAP02_GATE_A_PRIME_SUCCESSOR_PROVISIONING_ACT_EFFECTIVE_2026-10-23.md at 1ba0740a; act blob 528de6ae
+designated rows parsed: 12
+item | path | designated | 5fc74085 | 001c3c80 | 1ba0740a | matches designated at 1ba0740a
+1 | src/persistence/provisioning.ts | dc844189 | dc844189 | dc844189 | dc844189 | yes
+2 | src/persistence/binding.ts | 96d0079d | 96d0079d | 96d0079d | 96d0079d | yes
+3 | src/persistence/audit.ts | 273ccd3b | 273ccd3b | 273ccd3b | 273ccd3b | yes
+4 | src/persistence/connection.ts | 5169e402 | 5169e402 | 5169e402 | 5169e402 | yes
+5 | src/persistence/migrations/001_initial_schema.ts | f594a182 | f594a182 | f594a182 | f594a182 | yes
+6 | src/persistence/migrations/002_audit_event_sequence.ts | 932af8e6 | 932af8e6 | 932af8e6 | 932af8e6 | yes
+7 | src/persistence/migrations/003_local_principal_bindings.ts | 32b125bf | 32b125bf | 32b125bf | 32b125bf | yes
+8 | src/persistence/migrations/004_portfolio_contribution_provenance.ts | 6bad5a50 | 6bad5a50 | 6bad5a50 | 6bad5a50 | yes
+9 | src/ipc/dispatch.ts | 27becc76 | 27becc76 | 27becc76 | 27becc76 | yes
+10 | src/persistence/portfolio_store.ts | 4a005b73 | 4a005b73 | 540d49f2 | 540d49f2 | NO
+11 | package.json | 51796e63 | 51796e63 | 51796e63 | 51796e63 | yes
+12 | tests/g3_startup_validation.test.ts | 9a5fd9e3 | 9a5fd9e3 | edd0305e | edd0305e | NO
+matches at 1ba0740a: 10 of 12; mismatches: [10, 12]

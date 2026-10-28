@@ -1,0 +1,40 @@
+== V1 register structure
+columns=17 rows=36 ragged=0
+duplicate item_id: none
+readiness vocabulary violations: none
+status vocabulary violations: none
+sitting values: ['1', '2', '3', 'IPD']
+
+== V2 coverage against the 77-row Table 1 TSV
+Table 1 rows=77 categories={'AWAIT-OPERATOR': 9, 'AWAIT-PA': 33, 'CLOSED': 2, 'COMPLETE': 10, 'SEPARATE-ACT': 4, 'TECH-BLOCKED': 19}
+AWAIT-PA rows in Table 1: 33; mapped: 33; missing: none; duplicated: none
+ADDED items (not in Table 1; source-established): ['ADP-D1', 'ADP-D2', 'FRM-D1C']
+
+== V3 dependency order (topological; dependency must precede its dependant)
+ordering OK: True
+external/gated dependencies (not register items; not ordered here): ['A6', 'EXT:C-prime-exists (MET)', 'EXT:C-prime-exists (MET: a891802e)', 'L2a', 'L2c', 'P1-C', 'P1-D', 'S2a']
+free-text dependency tokens to review: none
+
+== V4 every register item_id appears in Addendum 1 section 7
+section 7 present: True
+item_ids absent from section 7: none
+
+== V5 counts
+sitting 1: 16 items
+sitting 2: 5 items
+sitting 3: 14 items
+sitting IPD: 1 items
+readiness: {'conditional': 0, 'dependent-on-ruling': 1, 'not-applicable': 15, 'ready': 14, 'ready-after-dep': 1, 'ready-with-gap': 5}
+
+== V6 IPD facts (read only; IPD clone: /tmp/ipd-ro5)
+IPD main resolves: yes
+C-prime is ancestor of origin/main: yes
+D2 base is ancestor of C-prime: yes
+DA-A1 coordinate is ancestor of D2 base: yes
+executingCommit occurrences in C-prime provisioning module: a891802e2691bd9c65a67d6abff20d8ce0c26d7d:src/persistence/gateAPrimeProvisioning.ts:6 (git grep)
+non-evidence paths 001c3c80..a891802e: ['src/persistence/gateAPrimeProvisioning.ts', 'tests/g3_gate_a_prime_successor_provisioning.test.ts']
+evidence paths 001c3c80..a891802e: 60
+evidence paths 001c3c80..888eb375: 60; identical set to the above: True
+evidence paths 888eb375..a891802e: 0
+PR #102 merge a9cd18e8 parents: a9cd18e8ef3ad0543794da0a1abaaae5814c0bfe db84ac12f297eec2bb159ae785c3cc584f7d7e34 a58dbc42b3b0f51715de03ba37d6014b959ff949
+paths changed by PR #102 vs its first parent db84ac12: ['evidence/cross-repository/IIPS_V3_CAP02_IPD_EXECUTION_TRACKER_2026-10-23.md']
