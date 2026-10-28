@@ -1,0 +1,22 @@
+STEP: 02-npm-ci
+UTC start: 2026-10-28T19:25:31.422Z
+Command: C:\Node22\node-v22.16.0-win-x64\npm.cmd ci --no-audit --no-fund
+Working directory: C:\iips-work\ipd-s2-a891802e-20261028T192516Z
+--- raw output begins ---
+
+> iips-production-market-data@1.0.0 prepare
+> npm run build:portfolio-ui-package && npm run build:pit-package
+
+
+> iips-production-market-data@1.0.0 build:portfolio-ui-package
+> tsc -p tsconfig.portfolio-ui-package.json
+
+
+> iips-production-market-data@1.0.0 build:pit-package
+> tsc -p tsconfig.pit-package.json
+
+
+added 31 packages in 48s
+--- raw output ends ---
+RETURN CODE: 0
+UTC end: 2026-10-28T19:26:20.085Z

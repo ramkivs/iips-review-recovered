@@ -1,0 +1,42 @@
+[2026-10-28T19:25:17.077Z] RUN ID s2-a891802e-20261028T192516Z
+[2026-10-28T19:25:17.083Z] Evidence root C:\iips-evidence\cap03-s2-a891802e\s2-a891802e-20261028T192516Z.inprogress (local fixed NTFS: C:)
+[2026-10-28T19:25:17.225Z] PF-01 hostname: DESKTOP-NO0NHTP
+[2026-10-28T19:25:17.480Z] PF-02 OS: Microsoft Windows 11 Home Single Language | version 10.0.26300 | build 26300 | 64-bit
+[2026-10-28T19:25:17.498Z] PF-02 computer: DESKTOP-NO0NHTP | domain/workgroup: WORKGROUP
+[2026-10-28T19:25:17.519Z] PF-03 Administrator role: False
+[2026-10-28T19:25:17.601Z] PF-03 whoami /user:  USER INFORMATION ----------------  User Name            SID                                           ==================== ============================================= desktop-no0nhtp\user S-1-5-21-1872737340-673410177-2240931581-1001
+[2026-10-28T19:25:17.623Z] PowerShell 7.6.9 at C:\Program Files\WindowsApps\Microsoft.PowerShell_7.6.9.0_x64__8wekyb3d8bbwe\pwsh.exe
+[2026-10-28T19:25:17.716Z] PF-04 git: C:\Program Files\Git\cmd\git.exe
+[2026-10-28T19:25:17.743Z] PF-04 node: C:\Node22\node-v22.16.0-win-x64\node.exe
+[2026-10-28T19:25:17.769Z] PF-04 npm.cmd: C:\Node22\node-v22.16.0-win-x64\npm.cmd
+[2026-10-28T19:25:17.789Z] PF-04 npx.cmd: C:\Node22\node-v22.16.0-win-x64\npx.cmd
+[2026-10-28T19:25:17.920Z] PF-04 git version 2.55.0.windows.2
+[2026-10-28T19:25:18.547Z] PF-05 platform win32 | arch x64 | node v22.16.0 | execPath C:\Node22\node-v22.16.0-win-x64\node.exe
+[2026-10-28T19:25:22.716Z] PF-06 npm 10.9.2
+[2026-10-28T19:25:22.896Z] PF-07 node:sqlite probe output: {"v":"ok"}
+(node:10664) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+[2026-10-28T19:25:22.948Z] PF-08 variables set in this session: none
+[2026-10-28T19:25:22.972Z] PF-09 clone directory (new): C:\iips-work\ipd-s2-a891802e-20261028T192516Z
+[2026-10-28T19:25:23.003Z] STEP 01-clone start: C:\Program Files\Git\cmd\git.exe clone --no-checkout https://github.com/ramkivs/iips-production-market-data.git C:\iips-work\ipd-s2-a891802e-20261028T192516Z
+[2026-10-28T19:25:28.451Z] STEP 01-clone return code 0
+[2026-10-28T19:25:28.487Z] STEP 01b-checkout-pin start: C:\Program Files\Git\cmd\git.exe -C C:\iips-work\ipd-s2-a891802e-20261028T192516Z checkout --detach a891802e2691bd9c65a67d6abff20d8ce0c26d7d
+[2026-10-28T19:25:29.865Z] STEP 01b-checkout-pin return code 0
+[2026-10-28T19:25:30.733Z] PF-10 HEAD a891802e2691bd9c65a67d6abff20d8ce0c26d7d
+[2026-10-28T19:25:30.761Z] PF-10 tree 76f083d7058e170d8212455c03bad1033136ee68
+[2026-10-28T19:25:30.812Z] PF-10 shallow false
+[2026-10-28T19:25:31.422Z] STEP 02-npm-ci start: C:\Node22\node-v22.16.0-win-x64\npm.cmd ci --no-audit --no-fund
+[2026-10-28T19:26:20.089Z] STEP 02-npm-ci return code 0
+[2026-10-28T19:26:20.119Z] STEP 03-tsc-noemit start: C:\Node22\node-v22.16.0-win-x64\npx.cmd tsc --noEmit
+[2026-10-28T19:26:43.531Z] STEP 03-tsc-noemit return code 0
+[2026-10-28T19:26:43.556Z] STEP 04-build start: C:\Node22\node-v22.16.0-win-x64\npm.cmd run build
+[2026-10-28T19:27:23.440Z] STEP 04-build return code 0
+[2026-10-28T19:27:23.629Z] dist file count 1140 (expected 1140)
+[2026-10-28T19:27:24.449Z] STEP 05-guarded-npm-test start: C:\Node22\node-v22.16.0-win-x64\npm.cmd test
+[2026-10-28T19:27:48.938Z] STEP 05-guarded-npm-test return code 0
+[2026-10-28T19:27:53.997Z] GUARD executed 930 | passed 926
+[2026-10-28T19:27:54.019Z] TAP tests 930 | pass 926 | fail 0 | skipped 4 | cancelled 0
+[2026-10-28T19:27:55.291Z] STEP 06-package-consumer start: C:\Node22\node-v22.16.0-win-x64\npm.cmd run test:package-consumer
+[2026-10-28T19:29:13.259Z] STEP 06-package-consumer return code 0
+[2026-10-28T19:29:13.368Z] PACK shasum cc2aa70186b8fd7bc7255452ac8d8b00d094f53e (reference cc2aa70186b8fd7bc7255452ac8d8b00d094f53e)
+[2026-10-28T19:29:14.866Z] SEAL start: status PASS
