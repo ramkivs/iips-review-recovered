@@ -378,6 +378,7 @@ The following completed baselines on `ramkivs/iips-review-recovered @ refs/heads
 | `2026-10-28` | `CHG-2026-10-28-11` | **CAP-03 §16.167 — IRR-owned PA decision packet A–F for P-1-C / P-1-D (`CV-CORR-147`, `V1165`–`V1172`):** new packet `IIPS_v3.0_CAP03_P1C_P1D_PA_DECISION_PACKET_A-F_2026-10-28.md` restructures the reserved matters into A (blob disposition), B (execution-commit designation or deferral; DA-A1 receipt element), C (sequencing of host observations), D (non-mutating effective-write method), E (capture authorization boundary and prerequisites), and F (P-1-C / P-1-D acceptance evidence), with order of operations, a bounded IRR checklist, stop conditions, and non-grants. Records only: **no option selected, no PA decision, approval, or signature; no designation of any commit, pin, or `C′`; no procedure or instrument edit; no IPD write; no host, capture, PowerShell, A6, V1102, or PF-11 action. P-1-C NOT ESTABLISHED; P-1-D DESIGNATED, NOT VERIFIED FOR THE ATTEMPT; P-1 NOT EXECUTED / UNSPENT / NOT AUTHORIZED.** Receipt of this PR is recorded at the next substantive update. |
 | `2026-10-28` | `CHG-2026-10-28-12` | **CAP-03 §16.168 — reconciliation with IPD PR #102 (`CV-CORR-148`, `V1173`–`V1192`):** IPD `main` moved `db84ac12` → `a9cd18e8` (tree `546c8cea`) through a tracker-only change (IPD tracker blob `62576970`); D2 runtime unchanged. Successor-act §2.1 recomputed at the act's basis (**12/12 MATCH**) and at `001c3c80`, `a891802e`, `db84ac12`, `a9cd18e8` (**10/12**, items 10 and 12). Corrections and supersessions recorded in packet §14 without rewriting history. Out-of-set post-basis changes enumerated (`gateAPrimeProvisioning.ts`, `gateAPrimeValidation.ts`, g4 test, portfolio UI test, q1 test, `portfolio_store.ts`). Local rerun at `a9cd18e8` in a scratch clone: `npm test` 931 executed / 930 passed / 0 failed / 1 skipped, `dist` 1,140, T-10…T-16 19/19. **No PA decision; no designation; no procedure, instrument, act, or pin edit; no IPD write; no host, capture, PowerShell, or P-1 action.** P-1-C NOT ESTABLISHED; P-1-D DESIGNATED, NOT VERIFIED FOR THE ATTEMPT; P-1 NOT EXECUTED / UNSPENT / NOT AUTHORIZED. |
 | `2026-10-28` | `CHG-2026-10-28-13` | **CAP-03 §16.169 — candidate-identity verification; Matter A and B refinement; §14 corrections; V1183 rerun; V1186/V1187 withdrawn (`CV-CORR-149`, `V1193`–`V1206`):** adds packet §15 (additive; identity table, Matter A/B facts and options, minimum PA rulings, conflict classification, §14 corrections) and this section. Corrects the packet's "Limb A merge outstanding" statements (the merge exists at `a52b47b0`). Withdraws `V1186`/`V1187` as results. No decision, designation, pin, IPD write, host, capture, or P-1 action. **P-1-C NOT ESTABLISHED; P-1-D DESIGNATED, NOT VERIFIED FOR THE ATTEMPT; P-1 NOT EXECUTED / UNSPENT / NOT AUTHORIZED.** |
+| `2026-10-28` | `CHG-2026-10-28-14` | **CAP-03 addendum 3 — current refs (IRR `758478be`; IPD `aa43dec2`), PF-15 literal integrity, S2 status conflicts, IPD PR #103 classification, naming (`CV-CORR-150`, §16.170, `V1207`–`V1222`):** adds packet §16 and the register rows; no designation, pin, IPD write, host, capture or P-1 action. |
 
 ---
 
@@ -14583,3 +14584,58 @@ No PA decision, signature, or designation. No execution pin, Gate 4 QE/H-12 pin,
 | `V1206` | PF-10, root, native-harness and S2 line references (packet §15.7) | Procedure lines 131, 146–148, 150, 154, 167, 172, 193, 440, 486; instrument lines 91–98; bundle `06` line 6 and `10` line 8; Gate 4 act line 197 | PASS, rerun |
 
 *End of §16.169 (`CV-CORR-149`; `CHG-2026-10-28-13`; `V1193`–`V1206`). `V1192` remains deferred. `V1183` is rerun in `V1202`. `V1186` and `V1187` are withdrawn in `V1203`.*
+
+**Supersession pointer (`CV-CORR-150`, `CHG-2026-10-28-14`, §16.170, `2026-10-28`).** The current refs in §16.169.1 are historical. IRR `main` is now `758478be3bc020f78444bebf1e98f108e3770c12`, and IPD `main` is now `aa43dec2df76cc5dd5077c9806b3c97ea8e428b6` (tree `244f87bf…`, PR #103 merge). The statements in §16.169.2 about the Limb A merge, line references and the V1183 rerun are retained. §16.170 qualifies them where verified facts differ.
+
+---
+
+## §16.170 — `CV-CORR-150`: addendum 3 — current refs; PF-15 literal integrity; S2 status conflicts; IPD `aa43dec2` classified; naming; corrections (`2026-10-28`; `CHG-2026-10-28-14`; `V1207`–`V1222`)
+
+**Purpose.** Verify the current refs and the new IPD `main` (`aa43dec2`), classify the S2 and PF-15 conflicts found in this pass, and correct the packet where verified facts differ. Additive only. The full analysis is in the packet's new §16 (`IIPS_v3.0_CAP03_P1C_P1D_PA_DECISION_PACKET_A-F_2026-10-28.md`, §16.1–§16.11). This section adds the register rows and the status boundary. It does not duplicate the IPD tracker.
+
+### 16.170.1 Refs verified this pass (read-only)
+
+| Repository | Ref | Identity | Note |
+|---|---|---|---|
+| IRR | `main` | `758478be3bc020f78444bebf1e98f108e3770c12` (PR #350 merge, `2026-10-28T07:52:57Z`) | Open IRR PRs 0 |
+| IRR | `arena/f1566976-iips-review-recovered` | local HEAD `758478be`; no remote branch existed before this pass | Session branch |
+| IRR | `arena/3930db71-iips-review-recovered` | `a8a72aeb…` | PR #350 head; merged; historical |
+| IPD | `main` | `aa43dec2df76cc5dd5077c9806b3c97ea8e428b6`, tree `244f87bf…`; parents `a9cd18e8…`, `753017d2…` | PR #103 merge; open IPD PRs 0; the only change since `a9cd18e8` is the IPD execution tracker (+120/−0) |
+| IPD | PR #103 head | `753017d2487ff2c6125eda47719e2ce48b061901`, tree `244f87bf…` | `gh pr view 103` (MERGED) |
+| IPD | PR #96 merge (`1e76f4cf`) and head (`001c3c80`) | carried from §15.3 | Not re-derived |
+
+### 16.170.2 Corrections and status boundary
+
+- **Refs.** IRR `main` `f45cfaf1` and IPD `main` `a9cd18e8` (§15.1) are historical as current refs (packet §16.1). Both remain ancestors of their successors.
+- **PF-15 `-02` (`CV-CORR-150` P-1).** The PF-15 corrected act (blob `3fe9a2dd`) is on IRR `main` through PR #304 (head `8ca8e87`; merge `6e080f8`). Its exact-head check and post-merge check both report `Typecheck · Test · Build` success. The act's own effectiveness conditions appear met (`V1219`).
+- **PF-15 literal premise (`CV-CORR-150` P-2).** The `-02` act says the `-01` publication had excess backslashes. The measured bytes of `-01` (`59bd379`) and `-02` (`3fe9a2dd`) are identical for F2, F4 and F5 (single-backslash F4 39 B; F5 28 B; F2 4 backslashes, 31 B). The premise is not reproduced in any committed byte. The approved values can only be confirmed by the PA (Q-P1). Not resolved here (`V1220`).
+- **S2 status conflicts (classified, not resolved).** IRR CV-CORR-124 renders candidate-scoped S2 acceptance (`ACCEPTED — CANDIDATE-SCOPED`, A9 RENDERED). The unified status reconciliation and IPD PR #103 state "full S2 evidence acceptance NOT RENDERED" and D1 PENDING. The tracker's top state (line 16) says the 47-entry verification is "COMPLETE AND CLOSED on the user's reported `PASS`", while the acceptance record says that output is NOT AVAILABLE (R-1). Q-S2-1 (`V1217`).
+- **Stale field.** The acceptance record shows PR #310's post-merge CI `40360279234` as `in_progress`. It is `completed` / `success` on `47133fe4` (`V1216`). No record was edited.
+- **Gate 4 S2 versus CAP-03 S2.** The `npm test` run at `001c3c80` (`924 / 920 pass / 0 fail / 4 skip`, guard OK) and Gate 4 act §6 (native canonical `npm test` at the post-merge Limb A commit) are the same command at different commits. DQ-4 criterion 8 is NOT MET. Q-S2-2 (`V1218`).
+- **Naming.** "C-1 / C-2 / C-3" denotes both Matter C options (packet §5.3) and the Gate 4 QE/H-12 pin choices (packet §4.4; formal record §4.5). Labels only; not renamed (`V1221`). Q-N1.
+- **IPD PR #103 statements (IPD-owned; not edited).** "Matter A Q4" has no IRR counterpart and is mapped to Q-A3 for this packet only (`V1212`). The "§5.1 does not name `scripts/` or the test path" statement is literally true but incomplete (`V1213`). "Neither repository tree contains them" is accurate only for host originals; IRR holds 51 transferred copies (`V1214`). The IPD statements may be corrected only in a separate IPD pass with separate authorization.
+- **V1183 / V1186 / V1187.** V1183 (ancestry of six anchors) is reproduced in `V1208`. V1186 and V1187 remain WITHDRAWN (`V1203`): no build or test was run in this pass.
+- **Status boundary (unchanged).** P-1-C NOT ESTABLISHED. P-1-D DESIGNATED; NOT VERIFIED FOR THE ATTEMPT. P-1 NOT EXECUTED / UNSPENT / NOT AUTHORIZED. No PA decision, approval, or signature. No designation of any execution commit, pin, `C′`, or Gate 4 QE / H-12 pin. No option selected. `aa43dec2` is an option only (B-O4), not a designation. No change to the successor act, the procedure, `BASIS_COMMIT` or `BASIS_TREE`. No IPD write. No host, capture, PowerShell, `pwsh`, A6 runtime, PF-11 rerun, V1102 action, compatibility script, store action, or P-1 step. No S3, QE, DQ-4, Gate 4 or Gate 5 movement.
+
+### 16.170.3 Register rows
+
+| ID | Check | Evidence (ref) | Result |
+|---|---|---|---|
+| `V1207` | IRR `main`; `arena/f1566976…` remote absent; open IRR PRs | `git ls-remote`; `gh pr list --state open` | PASS, this pass |
+| `V1208` | Six anchors are ancestors of `a9cd18e8` and of `aa43dec2` (V1183 reproduced): `5fc74085`, `001c3c80`, `a891802e`, `d2782f23`, `db84ac12`, `a9cd18e8` | blobless IPD clone at `aa43dec2`; `git merge-base --is-ancestor` | PASS, rerun (6/6 Y/Y) |
+| `V1209` | `aa43dec2` tree `244f87bf`; parents; numstat against `a9cd18e8` (tracker only, +120/−0); three runtime blobs equal to `a9cd18e8` (`540d49f2`, `edd0305e`, `9b15eca3`) | `git rev-parse`; `git diff --numstat`; `git rev-parse` on paths | PASS, rerun |
+| `V1210` | `aa43dec2` check runs: `executed test count` success; `typecheck · build · test` success | `gh api …/commits/aa43dec2…/check-runs` | PASS (CI result, read through the API). No local build or test run |
+| `V1211` | PR #96 record present in the IPD tracker at `aa43dec2` (section `CAP-03 — S2 Windows corrected candidate`); content "historical evidence only" | `git show aa43dec2:evidence/cross-repository/IIPS_V3_CAP02_IPD_EXECUTION_TRACKER_2026-10-23.md` | PASS (read) |
+| `V1212` | "Matter A Q4" label | IRR `git grep` 0 hits; IPD record §6 | PASS (absent in IRR); mapped to Q-A3 (packet §16.5 I-2) |
+| `V1213` | IPD statement that §5.1 "does not name `scripts/` or the test path" | Successor act §5.1 prohibitions ("any existing test other than item 4"; "any IRR path") | PASS as literal reading; incomplete (I-1) |
+| `V1214` | IPD statement that "neither repository tree contains" the 47 raw files | IRR `git ls-files`: 51 files under `evidence/integration/cap03-s2-evidence-manifest-verification-2026-10-26/` (incl. `s2-05-package-consumer.txt`); diff from `1059f96f` | CONFLICT: accurate for host originals only (I-3) |
+| `V1215` | CV-CORR-124 acceptance record read: outcome, operative basis, deposit, A1–A10, residuals R-1–R-4, `not_moved` | `07-acceptance-outcome.json`; acceptance record `…ACCEPTANCE_2026-10-26.md` | PASS (read); A2 and A3 values carried from the record |
+| `V1216` | PR #310 deposit chain: merge `47133fe4` on IRR `main`; exact-head run `40359958909` success (carried); post-merge run `40360279234` now `completed` / `success` | `gh run view`; `git merge-base` | PASS, rerun. Acceptance record field stale (S-5) |
+| `V1217` | S2 status: "full S2 evidence acceptance NOT RENDERED" (unified record) versus "ACCEPTED — CANDIDATE-SCOPED" (CV-CORR-124); tracker line 16 "CLOSED" versus R-1; D1 PENDING versus A2 46/47 | Unified record lines 55, 103–104, 123; tracker line 16; acceptance record A2, A3, R-1 | CONFLICT, classified; Q-S2-1 |
+| `V1218` | Gate 4 S2 versus CAP-03 S2: `npm test` 924/920/0/4 at `001c3c80`; Gate 4 act §6 requires the post-merge commit; A7 NOT MET | Acceptance record line 42, A7; Gate 4 act line 197 (IPD `a9cd18e8`) | CONFLICT, classified; Q-S2-2 |
+| `V1219` | PF-15 `-02` publication receipts: PR #304 head `8ca8e87` exact-head check `121605234743` success; merge `6e080f8` post-merge check `121606348075` success; blob `3fe9a2dd` on `origin/main` | `gh api …/commits/…/check-runs`; `git rev-parse origin/main:<path>` | PASS, rerun |
+| `V1220` | PF-15 F2 / F4 / F5 bytes: `-01` (`59bd379`) and `-02` (`3fe9a2dd`) identical; F4 39 B single backslashes; F5 28 B single backslashes; F2 `\\.\pipe\…` 31 B; host hex `433a5c69…` decodes to the same F4 (39 B); `8ca8e87` changed no F-row | `git show`; Python byte count; host reconciliation line 20; unified literal-integrity file `05` | PASS (bytes); CONFLICT (premise of the `-02` correction not reproduced) — Q-P1 |
+| `V1221` | Naming collision "C-1 / C-2 / C-3" (packet §5.3 lines 161–163; §4.4 line 121; formal record §4.5 lines 137–139) | Packet and formal record read this pass | CONFLICT (naming); Q-N1 |
+| `V1222` | Packet §16.2 corrections C-11 to C-16 applied; §15 and §14.1 pointers present; §15.1 refs historical | `git diff` (packet and tracker) | PASS (applied in this pass) |
+
+*End of §16.170 (`CV-CORR-150`; `CHG-2026-10-28-14`; `V1207`–`V1222`). `V1192` remains deferred. `V1183` is reproduced in `V1208`. `V1186` and `V1187` remain withdrawn (`V1203`). No PA decision, designation, pin, IPD write, host action, capture or P-1 step occurred.*
