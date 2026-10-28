@@ -152,6 +152,7 @@ Verified facts (this pass):
 ### 3.11 S1 provisioning execution — **BLOCKED**
 - Gate 4 act §6 row S1: "BLOCKED — successor act effective, but its identity values are unresolved (successor act §4) and no store exists."
 - The identity values (`PRINCIPAL_LABEL`, `TENANT_ID`, `CANONICAL_OWNER_ID`) are still `null`. A separate PA identity-value determination is required. Gate A′ provisioning **NOT AUTHORIZED.**
+- **[Correction CV-CORR-158, 2026-10-28, §16.178 — the two bullets above are stale.]** The PA's S1 identity-value determination of 2026-10-24 names the values (`ramki-personal-local`, `ipd-personal-local`, `ipd-owner-ramki-personal`). Binding commit `f9ec0c5` sets them as non-null compiled constants; it is an ancestor of IPD `main` `b9dd6fce` and of the pin `a891802e`. The identity value limb is resolved. S1 provisioning execution remains **BLOCKED / NOT EXECUTED** (successor act §8). See `IIPS_v3.0_CAP03_S2_RECONCILIATION_RECORD_2026-10-28.md` §2.
 - Type: PA, then IPD. Not started, and no action is authorized by this record.
 
 ### 3.12 P-5 — FRM-D1C (IPD row 7 citation correction) — **UNTRIGGERED**

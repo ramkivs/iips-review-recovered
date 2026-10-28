@@ -39,7 +39,7 @@ The stop condition in the successor act §8.2 reads: "Basis commit/tree or any d
 |---|---|---|
 | Designated blobs, items 10 and 12 | **CLEARED** | Act §4; both blobs verified at `a891802e` and `0edadb2d` (§1 above) |
 | Basis commit/tree | **CLEARED under PA reading (ii)** | Compiled `BASIS_COMMIT` `5fc74085ade980846ff4a07b36415b6d49446486` and `BASIS_TREE` `7226ef0033b3a7049169d8fcf9bcbc9908e2590b` equal the successor act's selected basis (§5.2). Verified unchanged at `0edadb2d` and `a891802e`; `5fc74085^{tree}` = `7226ef00`; `5fc74085` is an ancestor of `a891802e`. The executing commit is recorded through the D2 receipt (`executingCommit` / `executingTree`), not compared to the constants. |
-| Identity values | **NOT CLEARED (unchanged)** | `PRINCIPAL_LABEL`, `TENANT_ID`, `CANONICAL_OWNER_ID` are `null` (successor act §4/§5.2). A separate PA identity-value determination is still required. Not touched by the A-Q5 act. |
+| Identity values | **NOT CLEARED (unchanged)** | `PRINCIPAL_LABEL`, `TENANT_ID`, `CANONICAL_OWNER_ID` are `null` (successor act §4/§5.2). A separate PA identity-value determination is still required. Not touched by the A-Q5 act. **[Correction CV-CORR-158 (2026-10-28, §16.178): the row above is stale. The three constants are non-null at IPD `main` `b9dd6fce` and at the designated pin `a891802e`, set by binding commit `f9ec0c5` (an ancestor of both), using the values in the PA's S1 identity-value determination of 2026-10-24. S1 provisioning execution remains BLOCKED. See `IIPS_v3.0_CAP03_S2_RECONCILIATION_RECORD_2026-10-28.md` §2.]** |
 | Host, Node-version, P-1-condition, pre-existing-row, V-A2, store-repair | Unchanged by the act (act §4). **Not verified by IRR.** Gated host or runtime conditions. | Act §4 |
 
 **Basis reading (PA ruling, round 5).** The compiled-basis question was first answered by option (a), a compiled-basis amendment to `a891802e`. On re-reading the successor act and the D2 text, that answer rested on a reading that needed confirmation. The PA then ruled **reading (ii)**: §8.2 checks that the compiled constants equal the selected basis, and the executing checkout is recorded through the D2 receipt. Under (ii) the basis limb holds and no compiled-basis amendment is required. The earlier option (a) is **superseded** by this ruling and is not executed. Reading (i), where the executing checkout is compared, was not selected.
@@ -48,7 +48,7 @@ The stop condition in the successor act §8.2 reads: "Basis commit/tree or any d
 
 - **Matter A: CLOSED (as to the §7 closure test).** The act's §7 says Matter A closes when the act is executed on IPD `main` and recorded in IRR. Both are now done: the IPD half is executed (`0edadb2d`), and this record is the IRR half. The designated-blob limb is cleared (§1), and the basis limb is cleared under ruling (ii) (§3).
 - **A-Q6 (§8.2 stop, designated-blob limb):** **CLEARED**, items 10 and 12 only.
-- **Scope of "Matter A closed":** this is not a clearance of the other §8.2 limbs. Identity values remain unresolved, and the host, Node, P-1 and V-A2 limbs are gated and unverified by IRR (§3).
+- **Scope of "Matter A closed":** this is not a clearance of the other §8.2 limbs. Identity values were already resolved by the PA's S1 identity-value determination of 2026-10-24 (binding commit `f9ec0c5`); this record's reading of them as unresolved was stale (correction CV-CORR-158, §16.178), and the host, Node, P-1 and V-A2 limbs are gated and unverified by IRR (§3).
 
 ## 5. IPD-S1 (A-GAP1 pointer correction) — PUBLISHED (verified 2026-10-28)
 
