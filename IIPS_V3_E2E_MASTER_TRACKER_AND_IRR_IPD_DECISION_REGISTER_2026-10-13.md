@@ -376,6 +376,7 @@ The following completed baselines on `ramkivs/iips-review-recovered @ refs/heads
 | `2026-10-28` | `CHG-2026-10-28-09` | **CAP-03 §16.166 — one-pass P-1-C / P-1-D reconciliation after the IPD D2 merge (`CV-CORR-146`, `V1153`–`V1160`):** new [reconciliation and PA packet](docs/integration/IIPS_v3.0_CAP03_P1C_P1D_ONE_PASS_RECONCILIATION_AND_PA_PACKET_2026-10-28.md) (PF matrix, P-1-D limbs, designated-blob matrix, reserved packets §7.A–§7.D); IRR PR #345 and IPD PR #100 (D2) publication receipts; additive existence pointers (formal record, status matrix §12, consolidated package); `C′` recorded as an existing, **undesignated** candidate. **No PA decision, designation, approval, or signature. No IPD write. No host, capture, PowerShell, or store action. P-1-C NOT ESTABLISHED; P-1-D DESIGNATED, NOT VERIFIED FOR THE ATTEMPT; P-1 NOT EXECUTED / UNSPENT / NOT AUTHORIZED.** This PR's own receipt is deferred to the next substantive update. |
 | `2026-10-28` | `CHG-2026-10-28-10` | **CAP-03 §16.166.7 — post-merge reconciliation (`CV-CORR-146` addendum, `V1161`–`V1164`):** IRR PR #346 publication receipt recorded; IPD PR #101 (D2 follow-up) receipt recorded; IPD `main` moved to `db84ac12` (tree `831f00e0`), with candidate identities updated and **not designated**; the successor-test `T-14`–`T-16` discrepancy resolved at `db84ac12`; additive pointers appended to the formal record, status matrix, and consolidated package. **No PA decision, designation, approval, or signature. No IPD write. P-1-C NOT ESTABLISHED; P-1-D DESIGNATED, NOT VERIFIED FOR THE ATTEMPT; P-1 NOT EXECUTED / UNSPENT / NOT AUTHORIZED.** This PR's own receipt is deferred to the next substantive update. |
 | `2026-10-28` | `CHG-2026-10-28-11` | **CAP-03 §16.167 — IRR-owned PA decision packet A–F for P-1-C / P-1-D (`CV-CORR-147`, `V1165`–`V1172`):** new packet `IIPS_v3.0_CAP03_P1C_P1D_PA_DECISION_PACKET_A-F_2026-10-28.md` restructures the reserved matters into A (blob disposition), B (execution-commit designation or deferral; DA-A1 receipt element), C (sequencing of host observations), D (non-mutating effective-write method), E (capture authorization boundary and prerequisites), and F (P-1-C / P-1-D acceptance evidence), with order of operations, a bounded IRR checklist, stop conditions, and non-grants. Records only: **no option selected, no PA decision, approval, or signature; no designation of any commit, pin, or `C′`; no procedure or instrument edit; no IPD write; no host, capture, PowerShell, A6, V1102, or PF-11 action. P-1-C NOT ESTABLISHED; P-1-D DESIGNATED, NOT VERIFIED FOR THE ATTEMPT; P-1 NOT EXECUTED / UNSPENT / NOT AUTHORIZED.** Receipt of this PR is recorded at the next substantive update. |
+| `2026-10-28` | `CHG-2026-10-28-12` | **CAP-03 §16.168 — reconciliation with IPD PR #102 (`CV-CORR-148`, `V1173`–`V1192`):** IPD `main` moved `db84ac12` → `a9cd18e8` (tree `546c8cea`) through a tracker-only change (IPD tracker blob `62576970`); D2 runtime unchanged. Successor-act §2.1 recomputed at the act's basis (**12/12 MATCH**) and at `001c3c80`, `a891802e`, `db84ac12`, `a9cd18e8` (**10/12**, items 10 and 12). Corrections and supersessions recorded in packet §14 without rewriting history. Out-of-set post-basis changes enumerated (`gateAPrimeProvisioning.ts`, `gateAPrimeValidation.ts`, g4 test, portfolio UI test, q1 test, `portfolio_store.ts`). Local rerun at `a9cd18e8` in a scratch clone: `npm test` 931 executed / 930 passed / 0 failed / 1 skipped, `dist` 1,140, T-10…T-16 19/19. **No PA decision; no designation; no procedure, instrument, act, or pin edit; no IPD write; no host, capture, PowerShell, or P-1 action.** P-1-C NOT ESTABLISHED; P-1-D DESIGNATED, NOT VERIFIED FOR THE ATTEMPT; P-1 NOT EXECUTED / UNSPENT / NOT AUTHORIZED. |
 
 ---
 
@@ -14401,6 +14402,7 @@ No PA decision, signature, or designation. No execution pin, Gate 4 QE/H-12 pin,
 
 **Movement and correction.**
 - IPD `main` is now `db84ac12`. It was recorded as `888eb375` in §16.165.3 (as of PR #344) and as `a891802e` in §16.166.4 (as of PR #345 and D2). Each was correct when written.
+  - **Supersession pointer (2026-10-28, IPD PR #102).** IPD `main` is now `a9cd18e8ef3ad0543794da0a1abaaae5814c0bfe` (tree `546c8cea…`); PR #102 changed only the IPD tracker. The `db84ac12` statements above were correct as of PR #101 and are superseded as current. See packet §14 (`IIPS_v3.0_CAP03_P1C_P1D_PA_DECISION_PACKET_A-F_2026-10-28.md`) and tracker §16.168. No decision, designation, or P-1 status changes.
 - The D2 candidate is **not designated**. Its identity is moving while the IPD D2 pass continues. Any designation must name the commit the final IPD pass reports. The current candidates are `db84ac12` (merge) and `d2782f2` (head), tree `831f00e0…`. `f722d7d` and `a891802e` remain ancestors.
 - The `T-14`/`T-15` discrepancy recorded in §16.166.2 and `V1155` is **resolved at `db84ac12`**. The file names `T-10`–`T-16` and its header states `T-10…T-16`. Those rows are accurate for `f722d7d` only.
 - The designated-blob conflict (§16.166.4 `V1156`) is **unchanged**. `portfolio_store.ts` is `540d49f2…` and `tests/g3_startup_validation.test.ts` is `edd0305e…` at `db84ac12`. PR #101 changed only `gateAPrimeProvisioning.ts` (`9b15eca…`) and the g3 successor test (`0ea47e8…`).
@@ -14462,3 +14464,76 @@ No PA decision, signature, or designation. No execution pin, Gate 4 QE/H-12 pin,
 **Status boundary (unchanged).** P-1-C NOT ESTABLISHED. P-1-D DESIGNATED; NOT VERIFIED FOR THE ATTEMPT. P-1 NOT EXECUTED / UNSPENT / NOT AUTHORIZED. No PA decision, approval, or signature. No designation of any execution pin, `C′`, or Gate 4 QE/H-12 pin. No IPD write. No host, capture, PowerShell, `pwsh`, A6 runtime, V1102, PF-11 rerun, compatibility script, store action, or provisioning. No S2, QE, DQ-4, Gate 4, Gate 5, S3, or H-12 movement.
 
 *End of §16.167 (`CV-CORR-147`; `CHG-2026-10-28-11`; `V1165`–`V1172`).*
+
+## §16.168 — `CV-CORR-148`: reconciliation with IPD PR #102; current refs; blob comparison at each ref; supersessions (`2026-10-28`; `CHG-2026-10-28-12`; `V1173`–`V1192`)
+
+**Purpose.** Reconcile the IRR PA decision packet (`IIPS_v3.0_CAP03_P1C_P1D_PA_DECISION_PACKET_A-F_2026-10-28.md`, §§0–13 as of PR #348) and §16.167 with IPD PR #102 (`a9cd18e8`). Additive only. The packet's new §14 holds the full correction table. This section records the refs, receipts, reruns, and carried-forward rows. It decides nothing.
+
+### 16.168.1 Authoritative refs (read-only; verified this pass)
+
+| Repository | Ref | Identity | Note |
+|---|---|---|---|
+| IRR | `main` | `54a67d227889e14748afd16eda6beedcd9b4d5d3` | PR #348 merge `2026-10-28T06:27:23Z`. Tree `5b5e1677…`. Open IRR PRs 0 |
+| IRR | session branch `arena/a1f161ca-iips-review-recovered` | at `54a67d22` (local); remote not present before this pass | First push creates it |
+| IPD | `main` | `a9cd18e8ef3ad0543794da0a1abaaae5814c0bfe` | PR #102 merge `2026-10-28T06:30:22Z`. Tree `546c8cea0f578116dcff5e19b5c78a0e9692ed05`. Parents `db84ac12…` and `a58dbc42…`. Open IPD PRs 0 |
+| IPD | PR #102 head | `a58dbc42b3b0f51715de03ba37d6014b959ff949` | Tree `546c8cea…` (same as merge) |
+| IPD | tracker blob | `62576970…` at `a9cd18e8` (was `8a2a4e45…` at `db84ac12`) | Appended section "CAP-03 — Gate A′ designated-blob factual correction …" at tracker line ~1762 |
+
+**Historical IPD refs, labelled.** `5fc74085…` (tree `7226ef00…`): act basis and `BASIS_COMMIT`/`BASIS_TREE`. `001c3c80…` (tree `399fa44a…`): DA-A1 pin of record. `a891802e…` (tree `76f083d7…`): PR #100 merge. `f722d7d…` (tree `76f083d7…`): PR #100 head. `d2782f2…` (tree `831f00e0…`): PR #101 head. `db84ac12…` (tree `831f00e0…`): PR #101 merge. Each was correct as the "current" ref when recorded. None is current.
+
+### 16.168.2 Receipts
+
+| PR | Head | Exact-head CI | Merge commit | Merged (UTC) | Post-merge CI |
+|---|---|---|---|---|---|
+| IPD #100 (D2) | `f722d7d4…` | `40639983508` SUCCESS (recorded earlier) | `a891802e…` | `2026-10-28T05:48:27Z` | `40640127958` SUCCESS (recorded earlier) |
+| IPD #101 (D2 follow-up) | `d2782f23…` | `40642066409` SUCCESS | `db84ac12…` | `2026-10-28T06:09:51Z` | `40642196820` SUCCESS |
+| IPD #102 (tracker-only) | `a58dbc42…` | `40644087712` SUCCESS | `a9cd18e8…` | `2026-10-28T06:30:22Z` | `40644264937` SUCCESS |
+| IRR #347 | `2d27cb0` | `40642617832` PASS | `bb644a98` | `2026-10-28T06:15:40Z` | `40642779744` SUCCESS |
+| IRR #348 (§16.167 publication) | `c868d49f` | `40643755473` SUCCESS | `54a67d22` | `2026-10-28T06:27:23Z` | `40643961127` SUCCESS |
+
+**Earlier open item closed.** The post-merge run `40642316483` for IRR PR #346 (`5def45b5`) now reads SUCCESS on remote read-back. It was previously recorded as "outcome not recorded".
+
+### 16.168.3 Verification rows
+
+| ID | Check | Ref / evidence covered | Result |
+|---|---|---|---|
+| `V1173` | IRR `main`, session branch, open IRR PRs | `54a67d22` (`git ls-remote`; `gh pr list --state open`) | **PASS, rerun** |
+| `V1174` | IPD `main` identity and tree; PR #102 metadata; open IPD PRs | `a9cd18e8` / tree `546c8cea` (`git ls-remote`; read-only clone; `gh pr list --state all`) | **PASS, rerun** |
+| `V1175` | PR #102 exact-head and post-merge CI | `a58dbc42` run `40644087712`; `a9cd18e8` run `40644264937` (`gh pr checks`; `gh run list`) | **PASS, rerun** |
+| `V1176` | Scope of PR #102 | `db84ac12..a9cd18e8` = 1 file (IPD tracker); no runtime, test, script, package, or pin file | **PASS, rerun** |
+| `V1177` | IPD tracker blob and section | `62576970` at `a9cd18e8`; section present; §2 names the overstated S1 and readiness statements | **PASS, rerun** |
+| `V1178` | Successor act §2.1: 12 designated blobs at the act's own basis | `5fc74085…` (tree `7226ef00`) | **12/12 MATCH, rerun** |
+| `V1179` | Same 12 blobs at DA-A1 pin | `001c3c80…` (tree `399fa44a`) | **10/12, rerun.** Items 10 (`540d49f2`) and 12 (`edd0305e`) differ |
+| `V1180` | Same 12 blobs at PR #100 merge | `a891802e…` (tree `76f083d7`) | **10/12, rerun.** Same two items differ |
+| `V1181` | Same 12 blobs at PR #101 merge | `db84ac12…` (tree `831f00e0`) | **10/12, rerun.** Same two items differ |
+| `V1182` | Same 12 blobs at PR #102 merge | `a9cd18e8…` (tree `546c8cea`) | **10/12, rerun.** Same two items differ |
+| `V1183` | Six anchors are ancestors of `a9cd18e8`; tree identities | `5fc74085`, `001c3c80`, `a891802e`, `d2782f2`, `db84ac12`, `a9cd18e8` (`git merge-base --is-ancestor`); `a58dbc42` tree = `546c8cea` | **PASS, rerun** |
+| `V1184` | Runtime blobs unchanged `db84ac12` → `a9cd18e8`; compiled basis unchanged; identity constants present | `gateAPrimeProvisioning.ts` `9b15eca3…`; g3 successor test `0ea47e8f…`; `gateAPrimeValidation.ts` `df5d48a5…`; `BASIS_COMMIT`/`BASIS_TREE` = `5fc74085…`/`7226ef00…`; `PRINCIPAL_LABEL`, `TENANT_ID`, `CANONICAL_OWNER_ID` = non-null at `a9cd18e8` | **PASS, rerun** |
+| `V1185` | D2 read-back at `a9cd18e8`: fix elements present; no pin artifact read | `executingRepositoryRoot`, `isSameRepositoryRoot` (`realpathSync.native`), `REPO_ROOT_MISMATCH`, `EXECUTING_HEAD_UNRESOLVED`, `EXECUTION_PIN_MISMATCH`, result fields `executingCommit`/`executingTree`. Grep for `readFileSync`, `readdirSync`, `createReadStream`, `EXPECTED_EXECUTION`, `process.env.*PIN` returns no match. Expected pin is taken from `args.executionCommit` / `args.executionTree` | **PASS, rerun (static)**; expected-pin limitation **confirmed still present** |
+| `V1186` | T-10…T-16 present and passing | `a9cd18e8`; `node --test dist/tests/g3_gate_a_prime_successor_provisioning.test.js` in a scratch clone (`npm ci`, `npm run build`); 19 tests, 19 pass, 0 fail | **PASS, rerun (local, not CI)** |
+| `V1187` | Full validation at `a9cd18e8` | Scratch clone (no IPD write): `npm ci` exit 0; `npx tsc --noEmit` exit 0; `npm run build` exit 0, `dist` 1,140 files; `npm test` 931 executed / 930 passed / 0 failed / 1 skipped, exit 0. The first `npm test` attempt failed only because `dist` did not exist; the test guard requires a build first | **PASS, rerun (local, not CI)** |
+| `V1188` | Changes outside the act's §2.1 set since the basis | Enumerated in packet §14.5: `gateAPrimeProvisioning.ts` (new per act §5.1 item 1); `gateAPrimeValidation.ts` (S1 binding); g4 test (new, `c62dee8`; IPD Gate 4 Limb A rows); `portfolio_ui_package.test.ts` (`001c3c80`, 2-line import fix, not in IPD tracker); q1 test and `portfolio_store.ts` (`bc144b9`; DR-2 manifest) | **PASS (factual); authority questions reserved to PA** |
+| `V1189` | Carried-forward and superseded rows | See §16.168.4 | **Recorded** |
+| `V1190` | Receipts for §16.167 (IRR #348) and closure of `V1169`–`V1172` in §16.167 | Receipts in §16.168.2 | **PASS (receipts recorded)** |
+| `V1191` | Validation of this change before publication | Packet §14 and this section: link resolution; no CR; table integrity; `git diff --check`; `git diff --name-only` shows only IRR records; no procedure, instrument, act, pin, or compiled-basis edit; relative links | **Recorded at exact head, see PR receipt** |
+| `V1192` | Exact-head CI and post-merge read-back of this change | Deferred to the next substantive update, following the §16.167 convention. The merge receipt is in the session handoff | **Deferred** |
+
+### 16.168.4 Carried-forward and superseded rows
+
+| Row | Earlier result | Status now | Reason |
+|---|---|---|---|
+| `V1155` (T-14/T-15 discrepancy) | Resolved at `db84ac12` | **Carried forward, not rerun by a new check; still valid** | The test file blob `0ea47e8f…` is unchanged at `a9cd18e8`. Test names are rechecked by `V1186` |
+| `V1156` (designated-blob conflict) | Unchanged, `db84ac12` | **Superseded in part by rerun** | Items 10 and 12 rechecked at all five refs (`V1178`–`V1182`). Conflict unchanged |
+| `V1161` (IPD `main` = `db84ac12`) | Correct at PR #347 time | **Historical; superseded as current** by `V1174` | IPD `main` is `a9cd18e8` |
+| `V1162` (delta 62 files; act matrix 10 match, 2 differ) | Correct at `db84ac12` | **Superseded by rerun** (`V1176`, `V1178`–`V1182`) | Delta set `001c3c80..a9cd18e8` is identical to `001c3c80..db84ac12`, 62 files |
+| `V1163` (T-10…T-16 names; receipt fields; audit detail; no `dist` change in delta) | Recorded at `db84ac12` | **Partly rerun, partly carried.** Rerun: T-10…T-16 names and the D2 receipt fields (`V1185`, `V1186`); no `dist` path in the delta (`V1176`). **Carried:** the audit-detail value `{ tenantId, canonicalOwnerId }` was not re-read this pass. The module it lives in has an unchanged blob (`V1184`), so the carry is by identity, not by a new read | Partly rerun |
+| `V1164` (pointers appended to three records) | Correct | **Carried forward**; supplemented by the pointers appended in this PR (packet §14, S-13) | The three records are unchanged except for the new dated pointer |
+| `V1167` (blob table carried) | Carried in IRR packet §16.167 | **Superseded by rerun** (`V1178`–`V1182`) | IPD `main` moved, so the carry no longer applied |
+
+### 16.168.5 Corrections and status boundary
+
+- Corrected in packet §14: S-1 to S-14 (current refs; tree identity; `4a005b73` carrier history; S1 wording now read; the Limb A source conflict; the out-of-set change list; the pointer in each dated record).
+- No decision is recorded. Matter A, B, C, D, E, and F remain as in packet §§3–8. §14.7 gives the minimum decision per matter. Nothing is inferred from "current head", "newer", or "all green".
+- **Status boundary (unchanged).** P-1-C NOT ESTABLISHED. P-1-D DESIGNATED; NOT VERIFIED FOR THE ATTEMPT. P-1 NOT EXECUTED / UNSPENT / NOT AUTHORIZED. No PA decision, approval, or signature. No designation of any execution commit, pin, `C′`, or Gate 4 QE/H-12 pin. No IPD write. No host, capture, PowerShell, `pwsh`, A6 runtime, V1102, PF-11 rerun, compatibility script, store action, or provisioning. No S2, QE, DQ-4, Gate 4, Gate 5, S3, or H-12 movement.
+
+*End of §16.168 (`CV-CORR-148`; `CHG-2026-10-28-12`; `V1173`–`V1192`).*
