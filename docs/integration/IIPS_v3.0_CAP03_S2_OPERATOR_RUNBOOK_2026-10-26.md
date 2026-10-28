@@ -198,4 +198,11 @@ Get-ChildItem -Path $EvidenceRoot -Recurse -File | Sort-Object FullName |
 | Any non-documentary drift from the pinned tree | `INVALID`; STOP for PA disposition; no silent re-pin |
 | Temptation to use WSL/Linux/CI/another host/another commit | prohibited; the run does not count and must not be relabelled |
 
+## 7. Dated note (2026-10-28): designated pin `a891802e`
+
+- The totals in §3 (924 executed / 923 passed / 1 skipped; dist 1,140) were written for pin `8eec74ae`. The historical native Windows transcripts for that pin show 924 executed / 920 passed / 4 POSIX-only skipped, so the "1 skipped" expectation does not match native Windows. It is superseded as the reference for the designated pin.
+- For `a891802e` / tree `76f083d7` the reference is 930 executed (IPD CI, Linux), with exactly the four POSIX-only tests skipped and the Windows named-pipe tests `ok`. Pack shasum reference `cc2aa70186b8fd7bc7255452ac8d8b00d094f53e` (2026-10-26). Dist count 1,140 is expected and not yet confirmed natively.
+- The governing procedure for that pin is `IIPS_v3.0_CAP03_S2_PIN_A891802E_WINDOWS_RUN_RECORD_2026-10-28.md` and its `.ps1`. The evidence root is a separate per-run subfolder under `C:\iips-evidence\cap03-s2-a891802e\`, not F5 (`cap03-gate4`) and not `cap03-s2`.
+- This note does not alter §§0–6, the `8eec74ae` S2 record, or any PF-15 value.
+
 *End of `IIPS-V3-CAP03-S2-OPERATOR-RUNBOOK-2026-10-26-01`. Preparation only; no host operation is performed by this document.*
