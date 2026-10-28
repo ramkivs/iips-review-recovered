@@ -1,0 +1,3 @@
+23bd49657369ea3d05c23a374fe0c2f31bba7c356cdee49f4985945a223a3e44  01-authorization-and-state.txt
+9c9319fa3d7eaa822834c2f500e04dfec2b18d8157724843126a749b2bec91ab  02-deposit-manifest-expected.txt
+a1c94ba6a2b96e08a1dc9e7e1d2c73be92c6c38f09d74aa4f00c5d8e445e0ede  03-host-transfer-minimal-operation.txt
