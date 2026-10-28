@@ -15,6 +15,7 @@
 | **Revision 2026-10-28** | Additive, in-scope revision adopting PA decisions DA-A1, DB-B1, and DC-C2 (`IIPS-V3-CAP03-P1-PA-DECISION-ADOPTION-2026-10-28-01`, tracker §16.160, `CV-CORR-140`, `CHG-2026-10-28-03`). Changes: v2 is the sole instrument identity (§3.2, §4.1, §4.4, §4.5); the source is read from the Git blob as raw bytes; §4.3a adds the pre-invocation PowerShell-edition and `Get-FileHash` checks for the next capture attempt only; §4.2 and §4.4 record the execution-pin distinction. **No status change:** P-1 remains NOT EXECUTED / UNSPENT / NOT AUTHORIZED; P-1-C, P-1-D, and the PF-17 capture limb are unchanged; no capture is performed by this revision. |
 | **Revision 2026-10-28b** | Additive, in-scope conformance revision (tracker §16.163, `CV-CORR-143`, `CHG-2026-10-28-06`, `V1122`–`V1125`). Changes: (1) §4.3a / §4.5 DC-b is the adopted Source-only test (the extra `CommandType -eq 'Cmdlet'` clause is removed, see §16.163.1); (2) §4.4 adds the literal DC-C2(c) `Get-FileHash -InputStream` check over the designated v2 bytes; (3) §4.5 adds the single-session `ProcessId` equality (L-1). No other gate, identity, pin, or evidence path changes. Historical revision 2026-10-28 is retained in the record; it is superseded only for the items listed here. |
 | **Revision 2026-10-28c** | Additive, in-scope conformance revision (tracker §16.164, `CV-CORR-144`, `CHG-2026-10-28-07`, `V1138`–`V1142`). Changes: §4.4 implements adopted A6 literally. The designated blob bytes are written to a file with a raw binary write, the file is read back, and the file is checked (STOP on any CR byte, length, or SHA-256). The evidence root receives a byte-for-byte copy, `01-source-blob-v2.bin`, whose SHA-256 is re-checked. The in-memory method disclosed in adoption record §4 (row A6) is withdrawn. DC-C2(c) is unchanged. Static only; host execution NOT EXECUTED. |
+| **Revision 2026-10-28d** | Additive governance revision from the pass-2 PA rulings (`docs/integration/IIPS_v3.0_CAP03_PA_RULINGS_RECORD_PASS2_2026-10-28.md`). Changes: E8 ruling names the evidence root `D:\cap03-p1-capture-20261028-01` (parent `D:`), replacing the generated `D:\iips-evidence\<RunId>` in the preflight evidence-root text, the PF-14 parent check, and the capture root; the output-directory statement is updated to match. PF10 ruling KEEP: the GATE_A_PRIME_* presence check is unchanged. C-Q1/C-Q2 ruling MC-2: A6 is commit-independent as written (blob-keyed raw-byte read); no A6 byte change. D-Q ruling D-2 (with D-1): the successor instrument is a candidate only (`evidence/integration/cap03-p1-d-inst-d2-candidate-2026-10-28/`); the instrument identity in this procedure is unchanged until PA adoption. E7 ruling: DC-C2 applies to the next capture only. **Not an execution authorization. A6, PF preflight and capture remain gated.** |
 
 ## 1. Governing record reread and status boundary
 
@@ -128,7 +129,7 @@ If a pin assertion fails, stop before making an evidence directory. Do not switc
 
 ### 4.3 Session, environment, and evidence-root checks
 
-Run this in the intended preflight session. It is read-only. Under revision 2026-10-28, run §4.3a (engine and cmdlet checks) first, before this section creates anything. The evidence root uses the published default parent `D:\iips-evidence`; if that parent is absent, non-NTFS, non-fixed, synchronized, inside a worktree, or not operator-writable, **STOP** and do not substitute another path silently. This procedure authorizes no alternative evidence parent; do not edit `$EvidenceRoot` or silently substitute another path. If the published default fails any check, STOP and preserve the failure output.
+Run this in the intended preflight session. It is read-only. Under revision 2026-10-28, run §4.3a (engine and cmdlet checks) first, before this section creates anything. Under revision 2026-10-28d the evidence root is the PA-named root `D:\cap03-p1-capture-20261028-01` (E8 ruling; parent `D:`). If the parent `D:` is absent, non-NTFS, non-fixed, synchronized, inside a worktree, or the named root already exists, **STOP** and do not substitute another path silently. Do not edit `$EvidenceRoot` except to the named root. If the published default fails any check, STOP and preserve the failure output.
 
 ```powershell
 $HostName = (hostname).Trim()
@@ -147,7 +148,7 @@ $present = @($writeFlags | Where-Object { $null -ne [Environment]::GetEnvironmen
 $primeFlags = @(Get-ChildItem Env: | Where-Object { $_.Name -like 'GATE_A_PRIME_*' })
 if ($present.Count -ne 0 -or $primeFlags.Count -ne 0) { throw 'STOP PF-10: one or more governed write/provisioning flags are present' }
 
-$EvidenceParent = 'D:\iips-evidence'
+$EvidenceParent = 'D:\'   # revision 2026-10-28d: parent for the PA-named root (E8 ruling)
 if (-not (Test-Path -LiteralPath $EvidenceParent -PathType Container)) { throw 'STOP PF-14: default evidence parent is absent; do not create it as a workaround.' }
 $disk = Get-CimInstance Win32_LogicalDisk -Filter "DeviceID='D:'"
 $volume = Get-Volume -DriveLetter 'D'
@@ -164,7 +165,7 @@ while ($true) {
     if ($null -eq $parent) { break }
     $ancestor = $parent.FullName
 }
-# Also confirm, as the operator, that no other sync client manages D:\iips-evidence.
+# Also confirm, as the operator, that no other sync client manages the named evidence root D:\cap03-p1-capture-20261028-01.
 ```
 
 ### 4.3a Attempt-session engine and cmdlet checks (DC-C2, revision 2026-10-28)
@@ -190,7 +191,7 @@ Generate a new run ID only after the pin checks pass. Do not use either prior ru
 
 ```powershell
 $RunId = 'cap03-p1-' + [DateTime]::UtcNow.ToString("yyyyMMdd'T'HHmmss'Z'") + '-' + [Guid]::NewGuid().ToString('N')
-$EvidenceRoot = "D:\iips-evidence\$RunId"
+$EvidenceRoot = 'D:\cap03-p1-capture-20261028-01'   # PA-named root (E8 ruling, 2026-10-28d); replaces the generated D:\iips-evidence\<RunId>
 $ProcedureRecordId = 'IIPS-V3-CAP03-P1C-P1D-FRESH-CAPTURE-PROCEDURE-2026-10-27-01'
 $AuthorityRoot = "C:\iips-work\irr-cap03-authority-$RunId"
 $IpdAuthorityRoot = "C:\iips-work\ipd-cap03-authority-$RunId"
@@ -437,7 +438,7 @@ The instrument writes only to `$EvidenceRoot`; its code does not create the F4 p
 After the instrument returns, create the final non-instrument supplements, close the operator transcript, and build the directory listing and SHA-256 manifest. These commands do not edit any instrument output:
 
 ```powershell
-$OtherSyncClientAttestation = Read-Host 'Type NONE only after confirming no non-OneDrive sync client manages D:\iips-evidence; otherwise stop'
+$OtherSyncClientAttestation = Read-Host 'Type NONE only after confirming no non-OneDrive sync client manages the named root D:\cap03-p1-capture-20261028-01; otherwise stop'
 if ($OtherSyncClientAttestation -cne 'NONE') { throw 'STOP PF-14: evidence-root sync-client status is not clear.' }
 $pf14Lines = @(
     "ObservedUTC=$([DateTime]::UtcNow.ToString('yyyy-MM-ddTHH:mm:ssZ'))",
@@ -483,7 +484,7 @@ The 15 instrument outputs must remain byte-for-byte untouched: `00-run-parameter
 
 ### 4.6 Evidence return and output location
 
-The expected output directory is exactly the generated `D:\iips-evidence\<RunId>\` printed by the instrument and recorded in `00-run-parameters.txt`. `<RunId>` is generated once by §4.4 and is not reusable. Preserve and do not overwrite the prior `cap03-p1-20261027-01`, `cap03-p1-20261027-02`, or any launcher failure directory. Return the **complete directory contents**, raw bytes, full directory listing, host-generated manifest, and any separate assessment bytes for independent read-back. No acceptance is inferred from a clean pin, a completed capture, or the presence of files.
+The expected output directory is exactly the PA-named root `D:\cap03-p1-capture-20261028-01\` printed by the instrument and recorded in `00-run-parameters.txt`. `<RunId>` is generated once by §4.4 and is not reusable. Preserve and do not overwrite the prior `cap03-p1-20261027-01`, `cap03-p1-20261027-02`, or any launcher failure directory. Return the **complete directory contents**, raw bytes, full directory listing, host-generated manifest, and any separate assessment bytes for independent read-back. No acceptance is inferred from a clean pin, a completed capture, or the presence of files.
 
 ## 5. No change to status or authority
 

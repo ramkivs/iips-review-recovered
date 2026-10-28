@@ -92,3 +92,11 @@ Each is the user's answer to the precise question quoted in the sitting response
 | E8 (root and parent) | **Parent: D:** (procedure default). **Root path: NOT YET GIVEN.** | E3 cannot apply the root text until the full path is named. |
 
 **Still open:** the E8 root path (required for E3); the S2 native run and its results (operator); the IPD A-Q5 act and IPD-S1 pointer (IPD, separate authority).
+
+---
+
+## 7. E8 root path recorded; E3 applied (2026-10-28, pass 2)
+
+- **E8 root path (user response):** `D:\cap03-p1-capture-20261028-01`, parent `D:`. The name is not `cap03-p1-20261027-01` or `-02`. Whether it already exists on the host is not verifiable from the repository; the procedure refuses an existing root (line 197 check).
+- **E3 applied:** procedure `docs/integration/IIPS_v3.0_CAP03_P1C_P1D_FRESH_CAPTURE_PROCEDURE_2026-10-27.md` revision **2026-10-28d** (row 18). It replaces the generated `D:\iips-evidence\<RunId>` with the named root, sets the PF-14 parent to `D:`, and updates the operator sync-client attestation and the expected-output statement. PF10 (KEEP), the F2/F4/F5 literals, and instrument identity `191f5828` are unchanged.
+- **Not authorized by this record:** A6 runtime, PF preflight, PowerShell, host capture, E10 (the capture-authorization act, which PA drafts), P-1. The D-2 successor instrument is a candidate (`evidence/integration/cap03-p1-d-inst-d2-candidate-2026-10-28/`) and needs PA adoption of its identity and A6 before use.
