@@ -1,0 +1,33 @@
+COMMIT=origin/docs/g3-d0-registration-2026-10-18
+RUN=s2-a891802e-20261028T192516Z
+INVENTORY paths=18 folder_files=17 transcript=True
+SEAL self-hash published=9D3C09DBDB691C2527A45605DEA20826B4EC2BA2F110985EE3F1033783B5225E transcript-recorded=9D3C09DBDB691C2527A45605DEA20826B4EC2BA2F110985EE3F1033783B5225E MATCH
+SEAL entries=16 (expected 16)
+ARTIFACT 01-clone.txt                     class=crlf-restored OK lines=9 stored=413 recorded=422 manifest-digest=OK bytes=stored+lines (all-CRLF restore)
+ARTIFACT 01b-checkout-pin.txt             class=crlf-restored OK lines=9 stored=443 recorded=452 manifest-digest=OK bytes=stored+lines (all-CRLF restore)
+ARTIFACT 02-npm-ci.txt                    class=crlf-restored OK lines=22 stored=627 recorded=649 manifest-digest=OK bytes=stored+lines (all-CRLF restore)
+ARTIFACT 03-tsc-noemit.txt                class=crlf-restored OK lines=8 stored=282 recorded=290 manifest-digest=OK bytes=stored+lines (all-CRLF restore)
+ARTIFACT 04-build.txt                     class=crlf-restored OK lines=35 stored=1428 recorded=1463 manifest-digest=OK bytes=stored+lines (all-CRLF restore)
+ARTIFACT 05-guarded-npm-test.txt          class=crlf-restored OK lines=53570 stored=4951489 recorded=5005059 manifest-digest=OK bytes=stored+lines (all-CRLF restore)
+ARTIFACT 05b-test-summary.txt             class=crlf-restored OK lines=21 stored=1361 recorded=1382 manifest-digest=OK bytes=stored+lines (all-CRLF restore)
+ARTIFACT 06-package-consumer.txt          class=crlf-restored OK lines=96 stored=3094 recorded=3190 manifest-digest=OK bytes=stored+lines (all-CRLF restore)
+ARTIFACT MANIFEST.json                    class=as-stored     OK lines=30 stored=3280 recorded=None manifest-digest=X 
+ARTIFACT RESULT.txt                       class=as-stored     OK lines=16 stored=743 recorded=743 manifest-digest=OK bytes=as-stored (LF at creation)
+ARTIFACT s2-00-run-log.txt                class=unreproduced  DIGEST-NOT-REPRODUCIBLE lines=42 stored=3876 recorded=3916 manifest-digest=OK bytes=stored+40 (partial EOL restore: stored 3876 + 40 = recorded 3916)
+RUNLOG recorded bytes = stored + (lines - 2): consistent with exactly 2 of 42 lines already LF-terminated on the host; uniform CRLF restore overshoots by 2 bytes; digest requires host originals
+ARTIFACT s2-01c-pin-verification.txt      class=crlf-restored OK lines=5 stored=163 recorded=168 manifest-digest=OK bytes=stored+lines (all-CRLF restore)
+ARTIFACT s2-04b-dist-count.txt            class=crlf-restored OK lines=2 stored=37 recorded=39 manifest-digest=OK bytes=stored+lines (all-CRLF restore)
+ARTIFACT s2-04c-dist-sha256-before.txt    class=crlf-restored OK lines=1140 stored=129716 recorded=130856 manifest-digest=OK bytes=stored+lines (all-CRLF restore)
+ARTIFACT s2-08-post-run-pin.txt           class=crlf-restored OK lines=3 stored=120 recorded=123 manifest-digest=OK bytes=stored+lines (all-CRLF restore)
+ARTIFACT s2-08b-dist-sha256-after.txt     class=crlf-restored OK lines=1140 stored=129716 recorded=130856 manifest-digest=OK bytes=stored+lines (all-CRLF restore)
+CATEGORIES as-stored=2 crlf-restored=13 unreproduced=1 (expected 2 / 13 / 1)
+DIST before-lines=1140 after-lines=1140 identical=True
+TAP ^# tests (\d+)$ = ['930']
+TAP ^# pass (\d+)$ = ['926']
+TAP ^# fail (\d+)$ = ['0']
+TAP ^# cancelled (\d+)$ = ['0']
+TAP ^# skipped (\d+)$ = ['4']
+CONSUMER result=PASS shasum=reference RETURN CODE: 0 present: True
+TRANSCRIPT runid=True ok-recheck1=16 ok-recheck2=16 issues-zero=True seal-sha-present=True final-PASS=True published=True
+============================================================
+ALL CHECKS MATCH THE CLASSIFICATION (2 as-stored, 13 CRLF-restored, 1 run-log digest requiring host originals; seal self-hash reproduced)
