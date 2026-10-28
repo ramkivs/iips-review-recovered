@@ -2,6 +2,8 @@
 
 **Status: PREPARED — NOT EXECUTED.** Arena cannot run Windows host operations. No native S2 result exists for this pin. This record makes no claim that S2 has passed. The sealing logic has not been executed by PowerShell anywhere (see §7).
 
+> **2026-10-29 — status overlay (additive; the historical text above is preserved verbatim).** The native S2 run this record prepares for has since been executed and published: tracker `§16.180` and `docs/g3-d0-registration-2026-10-18@2cc5bc4302436f8ae6d84a9e657b8c1ed06b5478` (sealed `RESULT.txt PASS`, run `s2-a891802e-20261028T192516Z`, `2026-10-28T19:25:17Z`–`19:29:15Z`; verification `evidence/integration/cap03-s2-a891802e-publication-verification-2026-10-28/`). The `PREPARED — NOT EXECUTED` header remains true of this **branch-side preparation** and does not deny the published run. **This document must not be cited as evidence that execution occurred; the run of record is the sealed folder plus `§16.180`.** Formal acceptance was rendered on `2026-10-29` as PA decision `S2-ACC-A1` (conditional, content-level; `main §16.183`); the governed byte-verbatim raw-folder deposit `S2-DEP-A` remains authorized—open, blocked on host-original transfer (`evidence/integration/cap03-s2-dep-a-2026-10-29/`). The 2026-10-26 failed baseline and the `001c3c80…` candidate-scoped record of that date remain **distinct, unrevised records**; nothing here conflates them with this pin's run, and no downstream gate or acceptance beyond the quoted `S2-ACC-A1` scope is implied.
+
 ## 1. Identity
 
 | Item | Value |
