@@ -1,0 +1,5 @@
+Verified this pass (before writing; after the final push the branch head is re-verified in the pass report)
+IRR main                                  82b3f4a5d31134e40fd3a1a23169a0ca8d638dfc   (ls-remote; check run success)
+IRR session branch (pre-push)             d86d00ddfae6ef88f21c3eefb9f3bdf75acb3e2d   (PR #353 head; check run success)
+IRR open PRs                              #353 only (gh pr list --state open)
+IPD main (read-only ls-remote)            0616ba2d8466e0a6837ca06073b656486fc84f54   (unchanged from CV-CORR-151)

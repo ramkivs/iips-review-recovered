@@ -1,0 +1,39 @@
+Log excerpts for the validation run, 2026-10-28 (sandbox; cwd frontend/). Full logs are scratch files under /tmp and are not committed.
+
+== typecheck
+> tsc --noEmit
+
+EXIT=0
+== typecheck:replay-server
+> tsc -p tsconfig.replay-server.json --noEmit
+
+EXIT=0
+== test:ci (tail)
+ ✓ src/components/state/StateComponents.test.tsx (6 tests) 86ms
+ ✓ src/components/shell/ShellStates.test.tsx (5 tests) 82ms
+ ✓ src/components/viz/ChartFoundations.test.tsx (4 tests) 46ms
+ ✓ src/components/company/CompanyHeader.test.tsx (2 tests) 48ms
+
+ Test Files  106 passed (106)
+      Tests  1350 passed (1350)
+   Start at  10:34:19
+   Duration  114.06s (transform 3.19s, setup 14.57s, collect 7.51s, tests 44.88s, environment 26.52s, prepare 6.50s)
+
+JSON report written to /home/user/iips-review-recovered/frontend/.vitest-report.json
+TEST_CI_EXIT=0
+== assert-tests guard
+assert-tests: OK — 106 test file(s), 1350 test(s), 0 failed
+GUARD_EXIT=0
+== build (tail)
+rendering chunks...
+computing gzip size...
+dist/index.html                     0.53 kB │ gzip:   0.33 kB
+dist/assets/index-CIWpEpGV.css      1.19 kB │ gzip:   0.61 kB
+dist/assets/index-D7KYElFH.js   1,609.84 kB │ gzip: 226.69 kB │ map: 4,928.74 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 4.00s
+BUILD_EXIT=0
