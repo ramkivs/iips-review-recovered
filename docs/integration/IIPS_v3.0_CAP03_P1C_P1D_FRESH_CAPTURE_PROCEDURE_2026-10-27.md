@@ -255,7 +255,7 @@ $blobBytes = Get-GitBlobBytes $PublisherRoot $InstrumentBlob
 # A6 / DB-B1: the identity is LF-only; any CR byte is a STOP. The DB-B1 digest below uses System.Security.Cryptography; the separate literal DC-C2(c) Get-FileHash check follows it.
 if ($blobBytes -contains 13) { throw 'STOP DB: designated v2 blob contains CR bytes; the LF-only identity is required.' }
 if ($blobBytes.Length -ne $InstrumentBytes -or (Get-Sha256Hex $blobBytes) -ne $InstrumentSha256) { throw 'STOP DB: designated v2 blob bytes differ from the adopted identity (10,990 bytes, 13783385…).' }
-# DC-C2(c) (adopted text, revision 2026-10-28b): Get-FileHash -Algorithm SHA256 over the designated v2 bytes, read from a MemoryStream (no temp file), equals the adopted identity.
+# DC-C2(c) (adopted text, revision 2026-10-28b): Get-FileHash -Algorithm SHA256 over the designated v2 bytes, read from a MemoryStream (no temp file), equals the adopted identity. The Get-FileHash input is the in-memory stream only; the A6 staging file written below is a separate artifact and is not an input to this check.
 $dcStream = New-Object -TypeName System.IO.MemoryStream -ArgumentList (,[byte[]]$blobBytes)
 try { $dcHash = (Get-FileHash -InputStream $dcStream -Algorithm SHA256).Hash.ToLowerInvariant() } finally { $dcStream.Dispose() }
 if ($dcHash -ne $InstrumentSha256) { throw "STOP DC-c: Get-FileHash of the designated v2 blob bytes is $dcHash, expected $InstrumentSha256" }
