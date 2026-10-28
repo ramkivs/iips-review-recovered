@@ -1,0 +1,38 @@
+rows parsed: 77 (expected 77)
+
+group | rows | owners | IRR-owned rows | depends on Q-S2-1/Q-S2-2 (transitive) | row IDs
+G1 | 2 | IRR | R-01,R-02 | 0/2  | R-01, R-02
+G2 | 2 | IRR,PA | PK-01 | 0/2  | PK-01, Q-N1
+G3 | 5 | IRR,Operator,PA | S2-DEP | 3/5 (Q-S2-2,Q-B5,S2-ORIG) | S2-DEP, Q-S2-1, Q-S2-2, Q-B5, S2-ORIG
+G4 | 14 | IPD,PA | - | 5/14 (B-Q1,B-Q2,B-Q3,B-DESIG,DA-A1) | A-Q1, A-Q2, A-Q3, A-Q4, A-GAP1, A-Q5, A-Q6, B-Q4, B-Q6, B-Q1, B-Q2, B-Q3, B-DESIG, DA-A1
+G5 | 15 | Operator,PA | - | 8/15 (C-Q2,E5,E6,PFREG,E9,E10,CAP,MF) | C-Q1, C-Q2, D-Q, E7, E8, PF10, QP1, E5, E6, PF-11D, PFREG, E9, E10, CAP, MF
+G6 | 7 | Operator,PA | - | 6/7 (P1-A,P1-B,P1-C,P1-D,P1-F,P1-EXEC) | P1-A, P1-B, P1-C, P1-D, P1-E, P1-F, P1-EXEC
+G7 | 1 | Operator | - | 1/1 (S3) | S3
+G8 | 11 | Operator | - | 11/11 (QE-1,QE-2,QE-3,QE-4,QE-5,QE-6,QE-7,QE-8,QE-9,QE-10,QE-11) | QE-1, QE-2, QE-3, QE-4, QE-5, QE-6, QE-7, QE-8, QE-9, QE-10, QE-11
+G9 | 1 | PA | - | 1/1 (DQ4) | DQ4
+G10 | 6 | IRR,Operator,PA | G4-S2A,L2C | 5/6 (G4-S2,G4-S2A,L2A,L2C,G4-PIN) | G4-S2, G4-S2A, L2A, L2C, G4-PIN, L2B
+G11 | 1 | PA | - | 1/1 (G5-ADM) | G5-ADM
+G12 | 5 | IRR,PA | S2-IRRDOC,D-INST,E3,IRR-PROC | 4/5 (S2-IRRDOC,D-INST,E3,E4) | S2-IRRDOC, D-INST, E3, E4, IRR-PROC
+G13 | 6 | IPD | - | 2/6 (IPD-S2REC,IPD-C2) | IPD-S2REC, A-IPD, D2-REV, IPD-C2, IPD-DIST, IPD-S1
+G14 | 1 | IRR | FINAL | 0/1  | FINAL
+
+Items that do NOT transitively depend on Q-S2-1 or Q-S2-2 (independent of the S2 rulings):
+R-01, R-02, PK-01, Q-N1, S2-DEP, A-Q1, A-Q2, A-Q3, A-Q4, A-GAP1, A-Q5, A-Q6, A-IPD, D2-REV, B-Q4, B-Q6, C-Q1, D-Q, E7, E8, PF10, QP1, PF-11D, P1-E, L2B, IPD-DIST, IPD-S1
+CAVEAT: parsed from explicit row IDs only. Free-text dependencies (IRR-PROC, FINAL) are excluded from this list and must be read from Table 1. E8 depends on Q-P1 (QP1), which is itself independent of Q-S2-1/Q-S2-2.
+
+Rows that depend on S2-ORIG (host-original retrieval): NONE
+Rows that depend on IPD-S2REC: NONE
+Rows that depend on Q-B5: NONE
+
+IRR-owned rows (all groups):
+   1 R-01       G1   status='**complete/verified**' next='None (done)'
+   2 R-02       G1   status='**not started**' next='Only on request'
+   3 PK-01      G2   status='**implemented**' next='Next write pass, if authorized'
+   5 S2-DEP     G3   status='**complete/verified**' next='None'
+  10 S2-IRRDOC  G12  status='**not started**' next='After ruling'
+  31 D-INST     G12  status='**not started** — not started (condition' next='Only after D-Q'
+  36 E3         G12  status='**not started** — not started (deliberat' next='After rulings'
+  67 G4-S2A     G10  status='**not started** — not started (AUTHORIZE' next='After designation'
+  69 L2C        G10  status='**not started**' next='After B-DESIG and B-Q4'
+  73 IRR-PROC   G12  status='**not started**' next='After rulings'
+  77 FINAL      G14  status='**not started**' next='After rulings'
