@@ -373,6 +373,7 @@ The following completed baselines on `ramkivs/iips-review-recovered @ refs/heads
 | `2026-10-28` | `CHG-2026-10-28-06` | **CAP-03 §16.163 — PA item status matrix, DC-C2 conformance correction, L-1 enforcement, and D2 receipt handoff (`CV-CORR-143`, `V1122`–`V1131`):** procedure revision 2026-10-28b (additive; DC-b Source-only; literal DC-C2(c) `Get-FileHash` check; L-1 `ProcessId` equality) in [`docs/integration/IIPS_v3.0_CAP03_P1C_P1D_FRESH_CAPTURE_PROCEDURE_2026-10-27.md`](docs/integration/IIPS_v3.0_CAP03_P1C_P1D_FRESH_CAPTURE_PROCEDURE_2026-10-27.md); additive adoption-record §8; new [status matrix](docs/integration/IIPS_v3.0_CAP03_P1_PA_STATUS_MATRIX_2026-10-28.md) and [D2 handoff](docs/integration/IIPS_v3.0_CAP03_D2_IPD_RECEIPT_HANDOFF_2026-10-28.md) (IPD read-only; no IPD write). PA-1, PA-2, PA-3d, PA-5 recorded as PA-reserved; no PA decision inferred. P-1 NOT EXECUTED / UNSPENT / NOT AUTHORIZED; PF-11, PF-17, QE, Gate 4, Gate 5, S3, DQ-4 unchanged. |
 | `2026-10-28` | `CHG-2026-10-28-07` | **CAP-03 §16.164 — consolidated PA decision package (A6, PA-1, PA-2, PA-5, PA-3d) and A6 conformance (`CV-CORR-144`, `V1138`–`V1144`):** new additive package [`docs/integration/IIPS_v3.0_CAP03_P1_PA_CONSOLIDATED_DECISION_PACKAGE_2026-10-28.md`](docs/integration/IIPS_v3.0_CAP03_P1_PA_CONSOLIDATED_DECISION_PACKAGE_2026-10-28.md); procedure revision `2026-10-28c` (A6 bytes written to a file, read back, and checked; static only; host test NOT RUN); additive adoption-record §10 and status-matrix §10. **No PA decision is made.** PA-1, PA-2, PA-3d, PA-5 remain PA-reserved; A6 is CONFORMED. No IPD write; P-1 NOT EXECUTED / UNSPENT / NOT AUTHORIZED; PF-11, PF-17, QE, Gate 4, Gate 5, S3, DQ-4, and `BASIS_COMMIT` unchanged. PR receipt deferred to the next substantive update. |
 | `2026-10-28` | `CHG-2026-10-28-08` | **CAP-03 §16.165 — formal PA decision record (PA-1 adopted; PA-2 model adopted, no pin designated; PA-5 Option B selected; PA-3d deferred), bounded non-production IPD implementation authority, A6 / DC-C2 reconciliation, PR #343 and PR #344 publication receipts, and tracker identifier correction (`CV-CORR-145`, `V1145`–`V1152`):** new [formal decision record](docs/integration/IIPS_v3.0_CAP03_P1_PA_FORMAL_DECISION_RECORD_2026-10-28.md) and [IPD execution prompt](docs/integration/IIPS_v3.0_CAP03_D2_IPD_EXECUTION_PROMPT_2026-10-28.md); additive adoption-record §11 and status-matrix §11; comment-only clarification in [procedure revision `2026-10-28c`](docs/integration/IIPS_v3.0_CAP03_P1C_P1D_FRESH_CAPTURE_PROCEDURE_2026-10-27.md); `CHG-2026-10-15-06` duplicate relabelled `CHG-2026-10-15-06B` (§16.165.4). **IPD read-only in this pass; no IPD pin designated; IPD implementation authorized but NOT started; A6 runtime test NOT RUN; V1102 OPEN; native run `92d931fb` NOT PASSED. P-1 NOT EXECUTED / UNSPENT / NOT AUTHORIZED.** PR receipt for this pass deferred to the next substantive update. |
+| `2026-10-28` | `CHG-2026-10-28-09` | **CAP-03 §16.166 — one-pass P-1-C / P-1-D reconciliation after the IPD D2 merge (`CV-CORR-146`, `V1153`–`V1160`):** new [reconciliation and PA packet](docs/integration/IIPS_v3.0_CAP03_P1C_P1D_ONE_PASS_RECONCILIATION_AND_PA_PACKET_2026-10-28.md) (PF matrix, P-1-D limbs, designated-blob matrix, reserved packets §7.A–§7.D); IRR PR #345 and IPD PR #100 (D2) publication receipts; additive existence pointers (formal record, status matrix §12, consolidated package); `C′` recorded as an existing, **undesignated** candidate. **No PA decision, designation, approval, or signature. No IPD write. No host, capture, PowerShell, or store action. P-1-C NOT ESTABLISHED; P-1-D DESIGNATED, NOT VERIFIED FOR THE ATTEMPT; P-1 NOT EXECUTED / UNSPENT / NOT AUTHORIZED.** This PR's own receipt is deferred to the next substantive update. |
 
 ---
 
@@ -14329,3 +14330,60 @@ PR #343 had no receipt in this tracker before this section. Both are recorded he
 - **Non-grants.** No PA signature supplied. No capture, host preflight, PowerShell, harness, compatibility script, or host diagnostic run. No PF-17, S2, H-12, QE, Gate 4, Gate 5, S3, or DQ-4 movement. No `BASIS_COMMIT` or `BASIS_TREE` change. No IPD write.
 
 *End of §16.165 (`CV-CORR-145`; `CHG-2026-10-28-08`; `V1145`–`V1152`).*
+
+## §16.166 — `CV-CORR-146`: one-pass P-1-C / P-1-D reconciliation after the IPD D2 merge; reserved PA packet; publication receipts (`2026-10-28`; `CHG-2026-10-28-09`; `V1153`–`V1160`)
+
+### 16.166.1 Findings and changes
+
+- **New record.** `docs/integration/IIPS_v3.0_CAP03_P1C_P1D_ONE_PASS_RECONCILIATION_AND_PA_PACKET_2026-10-28.md` (`IIPS-V3-CAP03-P1C-P1D-RECONCILIATION-PA-PACKET-2026-10-28-01`): P-1-C PF-01…PF-17 matrix with step-0 and capture-envelope rows; P-1-D limb matrix; act §2.1 designated-blob matrix with history; reserved PA packets §7.A (designated-blob conflict and §8.2 stop rule), §7.B (execution identity: `001c3c80` versus a D2-based `C′`), §7.C (write-access verification method), §7.D (step-0 scope and PF-10 coverage).
+- **Additive existence pointers** (designation unchanged): formal decision record (end section), PA status matrix §12, consolidated decision package (end section). Historical text is not rewritten.
+- **Procedure.** Not edited. The execution pin of record (DA-A1 `001c3c80`) and its step-0 hashes remain as written until a `C′` is designated.
+- **Historical records unchanged:** package `62954f67`; D2 handoff `74939dc6`; IPD execution prompt; adoption and matrix §§1–11.
+
+### 16.166.2 Publication receipts
+
+| Repository and PR | Head | Exact-head CI | Merge commit | Merged (UTC) | Post-merge CI |
+|---|---|---|---|---|---|
+| IRR #345 | `ca537c76` | `40634841173` SUCCESS | `981020f` | `2026-10-28T04:54:52Z` | `40634968642` SUCCESS |
+| IPD #100 (D2) | `f722d7d46e056d4eb3039e9d3df8045b1cce4e1c` (tree `76f083d7…`) | `40639983508` SUCCESS | `a891802e2691bd9c65a67d6abff20d8ce0c26d7d` | `2026-10-28T05:48:27Z` | `40640127958` SUCCESS |
+
+- The IPD PR #100 receipt is recorded here as a publication fact. It is **not** an IRR PR and **not** a designation. D2's implementation, correctness, and tests are not reviewed in IRR. The header of the D2 test file states `T-10…T-15`; test names `T-10`–`T-13` are present and no `T-14` or `T-15` name was found. The discrepancy goes to the IPD owner.
+- The IRR PR #345 receipt was deferred by §16.165.2 and is now recorded.
+- The receipt for the PR that publishes §16.166 is deferred to the next substantive update, following the convention of §§16.163.6 and 16.165.2.
+
+### 16.166.3 Stale existence statements corrected by pointer (designation unchanged)
+
+| Record | Statement (existence only) | Position |
+|---|---|---|
+| Formal decision record | L2a "`C′` … does not yet exist"; PA-5 resulting pin "not existing" | `C′` exists as an **undesignated** candidate (`f722d7d` / `a891802e`) |
+| PA status matrix §11 (PA-5 row) | "`C′` not existing" | Same. Pointer at matrix §12 |
+| Consolidated package | P2-C "Commit not yet created"; Option B "changes … to `C′`" | Same. Pointer appended |
+| Tracker §16.165.6 | "`C′` (**not existing**; identity recorded only after it exists)" | Corrected here; the identity is recorded as a candidate, not designated |
+
+### 16.166.4 Verification (this pass; read-only in IPD)
+
+| ID | Check | Result |
+|---|---|---|
+| `V1153` | Baselines: IRR `origin/main` `981020f`; session branch at `981020f` before this pass; IPD `main` `a891802e` (moved from `888eb375`); D2 `f722d7d` tree `76f083d7`; `001c3c80` tree `399fa44a`; compiled basis `5fc74085` / `7226ef00` unchanged; open PRs IRR 0, IPD 0 | **PASS** (`git ls-remote`, `gh pr list`, blobless IPD clone `/tmp/ipd-ro`) |
+| `V1154` | PR #100 metadata; exact-head CI `40639983508` and post-merge `40640127958`; PR #345 exact-head `40634841173` and post-merge `40634968642` | **PASS** (`gh pr view`, `gh pr checks`, `gh run list` / `view`) |
+| `V1155` | D2 delta and receipt facts: 2 code files (`527`/`6`); 62 files and 18 commits from `001c3c80`; runtime `src` delta is D2 only; `BASIS_COMMIT` / `BASIS_TREE` in `gateAPrimeValidation.ts` unchanged; receipt fields and error codes present by name; `T-10`–`T-13` present by name, `T-14`/`T-15` not found; no `dist` file changed | **PASS** (factual; no correctness judgment) |
+| `V1156` | Act §2.1 twelve designated blobs at `001c3c80` and `a891802e`: 10 match; `portfolio_store.ts` (`4a005b73` vs `540d49f2`) and g3 startup test (`9a5fd9e3` vs `edd0305e`) differ; history by blob (`95f1dcc`, `bc144b9`, `673ec75`, `c62dee8`); `5412330` not on `main` | **PASS** (static recompute) |
+| `V1157` | Procedure step-0 hashes (lines 413–415) match `001c3c80`; `gateAPrimeProvisioning.ts` at `f722d7d` is `5f49936b…`, so step 0 is stale for any `C′`; step-0 scope covers 3 files against the act's 12 | **PASS** (static recompute) |
+| `V1158` | P-1-C / P-1-D statuses reproduced from the host reconciliation §§5.2–5.3; v2 PF-05 probe flag-free (line 66); PF-10 coverage mismatch (procedure includes `GATE_A_PRIME_*`; v2 checks four names); "PF-11" used in two senses (F4 criterion; native run `92d931fb`) and labelled by criterion in the packet | **PASS** (static; mismatches recorded, not fixed) |
+| `V1159` | Write-access evidence: v2 `Get-Acl` read-only (line 164); v2 header "writes only under `$EvidenceRoot`" (line 12); 10-26 file 06 `EffectiveWriteProbe=PASS`, cleanup PASS, `ProbeFileRemains=False`, probe location unstated; REV2 generator `CB7E674E…` unpublished; v1 `85AC7271…` = `eaea3f7f`; v2 `13783385…` = `191f5828` | **PASS** (static) |
+| `V1160` | Additive only; no historical text rewritten; no duplicate `CHG` or `V` identifiers introduced; relative links resolve; LF only; `git diff --check` clean; no executable text changed | **PASS** (static; checked before PR; see the PR record) |
+
+### 16.166.5 Status boundary
+
+- **P-1-C: NOT ESTABLISHED.** No complete attempt-session raw capture with independent read-back exists. The 10-26 and 10-27 captures are historical and session-bound.
+- **P-1-D: DESIGNATED; NOT VERIFIED FOR THE ATTEMPT.** F4 designation stable (PF-15 corrected act `3fe9a2dd…`). Open limbs: per-ancestor `.git` result, sync attestation, writability method (§7.C).
+- **D2 (IPD `main` `a891802e`; PR head `f722d7d`):** published; **not designated**; not an execution pin; §4.6 steps 3–5 open; no S2 or H-12 run.
+- **Reserved PA matters, not decided:** §7.A blob conflict (`portfolio_store.ts`; g3 test; S1 §12.2 inconsistency); §7.B execution identity (E-0 / E-1 / E-2 / E-3); §7.C write-access method; §7.D step-0 scope and PF-10 coverage; Gate 4 QE/H-12 pin (C-1 / C-2 / C-3, undesignated).
+- **Unchanged:** A6 runtime **NOT RUN**; V1102 **OPEN** (PA-3d deferred); PF-11 `92d931fb` **NOT PASSED** and undiagnosed; PF-17 register limb VERIFIED, capture limb **NOT EVIDENCED**; S3 NOT REACHED; QE 0/11; DQ-4 8/10; Gate 4 AUTHORIZED — NOT STARTED; Gate 5 NOT INITIATED.
+- **P-1 authorization act:** **NOT RENDERED.** P-1 remains NOT EXECUTED, UNSPENT, and NOT AUTHORIZED.
+
+### 16.166.6 Non-grants
+
+No PA decision, signature, or designation. No execution pin, Gate 4 QE/H-12 pin, or `C′` designated. No `BASIS_COMMIT` or `BASIS_TREE` change. No IPD write. No capture, host preflight, PowerShell, `pwsh`, PF-11 rerun, V1102, A6 runtime test, compatibility script, host diagnostic, database open, or store probe. No S2, QE, DQ-4, Gate 4, Gate 5, or S3 movement.
+
+*End of §16.166 (`CV-CORR-146`; `CHG-2026-10-28-09`; `V1153`–`V1160`).*

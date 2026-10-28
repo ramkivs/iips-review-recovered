@@ -227,3 +227,11 @@ PA is asked to decide, in whatever order PA chooses, and each answer must name t
 - **Non-grants (exhaustive).** No P-1 authorization, execution, or receipt; no capture; no host run or diagnostic; no PF-17 satisfaction; no acceptance of P-1-C or P-1-D; no IPD write; no change to `BASIS_COMMIT` or `BASIS_TREE`; no H-12 adoption or manifest promotion; no Gate 4, S3, QE, DQ-4, or Gate 5 movement; no PF-11 change; no PA decision made, inferred, or signed.
 
 *End of consolidated PA decision package (`2026-10-28`). P-1 remains NOT EXECUTED, UNSPENT, and NOT AUTHORIZED.*
+
+
+## Post-D2 status pointer (`CV-CORR-146`; `CHG-2026-10-28-09`; additive)
+
+- **Existence correction.** After IPD PR #100 (D2) merged to IPD `main` as `a891802e2691bd9c65a67d6abff20d8ce0c26d7d` (PR head `f722d7d46e056d4eb3039e9d3df8045b1cce4e1c`; tree `76f083d7058e170d8212455c03bad1033136ee68`; exact-head CI `40639983508` and post-merge CI `40640127958`, both SUCCESS), the post-correction commit `C′` **exists as a candidate**. The statements above that it "does not yet exist", "not existing", or "commit not yet created" were accurate on their dates and are superseded **as to existence only**.
+- **Designation unchanged.** No commit is designated as `C′` or as any execution pin. The Gate 4 QE/H-12 pin is undesignated. D2 is not reviewed here for correctness.
+- **Detail and decisions.** `IIPS_v3.0_CAP03_P1C_P1D_ONE_PASS_RECONCILIATION_AND_PA_PACKET_2026-10-28.md` (§§2, 6, 7.A–7.D) and tracker §16.166.
+- **P-1 remains NOT EXECUTED / UNSPENT / NOT AUTHORIZED.** P-1-C remains NOT ESTABLISHED; P-1-D remains DESIGNATED; NOT VERIFIED FOR THE ATTEMPT.
