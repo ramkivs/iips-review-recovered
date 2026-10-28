@@ -153,3 +153,11 @@ Authoritative reconciliation: adoption record §9 (`V1132`–`V1137`). Summary o
 - **P-1 remains NOT EXECUTED, UNSPENT, and NOT AUTHORIZED.** Capture, host preflight, S3, QE, H-12 adoption, and DQ-4 are not advanced.
 
 *End of §11 (`CV-CORR-145`; `CHG-2026-10-28-08`; `V1145`–`V1152`).*
+
+
+## 12. Post-D2 status pointer (`CV-CORR-146`; `CHG-2026-10-28-09`; additive)
+
+- **Existence correction.** After IPD PR #100 (D2) merged to IPD `main` as `a891802e2691bd9c65a67d6abff20d8ce0c26d7d` (PR head `f722d7d46e056d4eb3039e9d3df8045b1cce4e1c`; tree `76f083d7058e170d8212455c03bad1033136ee68`; exact-head CI `40639983508` and post-merge CI `40640127958`, both SUCCESS), the post-correction commit `C′` **exists as a candidate**. The statements above that it "does not yet exist", "not existing", or "commit not yet created" were accurate on their dates and are superseded **as to existence only**.
+- **Designation unchanged.** No commit is designated as `C′` or as any execution pin. The Gate 4 QE/H-12 pin is undesignated. D2 is not reviewed here for correctness.
+- **Detail and decisions.** `IIPS_v3.0_CAP03_P1C_P1D_ONE_PASS_RECONCILIATION_AND_PA_PACKET_2026-10-28.md` (§§2, 6, 7.A–7.D) and tracker §16.166.
+- **P-1 remains NOT EXECUTED / UNSPENT / NOT AUTHORIZED.** P-1-C remains NOT ESTABLISHED; P-1-D remains DESIGNATED; NOT VERIFIED FOR THE ATTEMPT.
