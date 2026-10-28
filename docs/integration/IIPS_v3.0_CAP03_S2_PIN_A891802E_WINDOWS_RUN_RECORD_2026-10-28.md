@@ -11,7 +11,7 @@
 | Governing basis | PA designation record pass 2, §4.6 step 5 (fresh S2 at the pin); CAP-03 S2 operator runbook command sequence |
 | Prior reconciliation | `IIPS_v3.0_CAP03_S2_RECONCILIATION_RECORD_2026-10-28.md` (IRR `acf8a5d`): existing S2 evidence does not satisfy the requirement at the pin; fresh native S2 ELIGIBLE, NOT STARTED |
 | Procedure | `docs/integration/IIPS_v3.0_CAP03_S2_PIN_A891802E_WINDOWS_RUN_2026-10-28.ps1` |
-| Procedure SHA-256 | `c7ae44506058e4d82558ae2655ea19eb641c817869e7deebec36b9e8a8d472f4` (25,791 bytes; verify before running, see §4) |
+| Procedure SHA-256 | `39b3590093c30de66a11179c84d70876616b0d2268f3d973acf025f219242e59` (29,367 bytes; corrected finalization, see §6a; verify before running, see §4) |
 | Host | `desktop-no0nhtp`, Windows 11 Home, **non-elevated** session (host identity is inferred from the designation; the run itself must record it) |
 | Evidence root (new per run) | `C:\iips-evidence\cap03-s2-a891802e\s2-a891802e-<UTC stamp>\` |
 | Work clone (new per run) | `C:\iips-work\ipd-s2-a891802e-<UTC stamp>\` |
@@ -42,7 +42,7 @@ The evidence root is **not** the F5 Gate 4 root (`C:\iips-evidence\cap03-gate4`)
    ```powershell
    Get-FileHash -Algorithm SHA256 -LiteralPath "$env:USERPROFILE\iips-s2\IIPS_v3.0_CAP03_S2_PIN_A891802E_WINDOWS_RUN_2026-10-28.ps1"
    ```
-   The hash must be `C7AE44506058E4D82558AE2655EA19EB641C817869E7DEEBEC36B9E8A8D472F4`. Any other value: **STOP** and report.
+   The hash must be `39B3590093C30DE66A11179C84D70876616B0D2268F3D973ACF025F219242E59`. Any other value: **STOP** and report.
 
 ## 5. Run instructions
 
@@ -87,9 +87,9 @@ The runbook's "924 executed / 923 passed / 1 skipped" figures are **not** the ex
 | `05b-test-summary.txt` | named-pipe states, skip set, guard and TAP totals |
 | `06-package-consumer.txt` | raw output, including `result` and `shasum` |
 | `s2-08-post-run-pin.txt`, `s2-08b-dist-sha256-after.txt` | post-run HEAD, tree, status, dist hashes |
-| `RESULT.txt` | final status and reason (written last, after manifest verification) |
-| `SHA256SUMS.txt` | manifest of every evidence file except itself, the verification file, and `RESULT.txt` |
-| `manifest-verification.txt` | re-hash results and `RESULT.txt` hash |
+| `RESULT.txt` | final status, reason, and the seal and verification hashes. Written at run start as `INCOMPLETE`; overwritten once at the end (see §6a). Its own SHA-256 is printed on the console and must be recorded in the return |
+| `SHA256SUMS.txt` | seal: SHA-256 of every payload file (all evidence files except `RESULT.txt`, `SHA256SUMS.txt`, and `manifest-verification.txt`) |
+| `manifest-verification.txt` | verification record: per-entry OK/MISMATCH/ABSENT, unlisted and not-on-disk sets in both directions, verdict, and the SHA-256 of `SHA256SUMS.txt` |
 
 **Return to Arena (or the PA process) for disposition:** the complete evidence-root folder (zipped), plus the console lines beginning `[S2] FINAL STATUS`, `[S2] Reason`, and `[S2] Evidence root`, plus the `PF-02` and `PF-05` log lines. Return the raw files; do not summarise them.
 
@@ -101,9 +101,37 @@ The runbook's "924 executed / 923 passed / 1 skipped" figures are **not** the ex
 | **FAIL** | A command returned non-zero, a test is `not ok` or failing, a named-pipe test is skipped, package-consumer did not pass, or manifest verification failed | Preserve everything; STOP; no retry-as-fix |
 | **INCONCLUSIVE** | Dist count ≠ 1,140, executed count ≠ 930, skip set ≠ the four names, pack shasum ≠ reference, or no named-pipe lines found | STOP; PA disposition required; never silently accept |
 | **INVALID** | HEAD/tree/shallow/clean-tree/ancestor/lockfile mismatch, or the tree changed during the run | STOP; PA disposition; no silent re-pin |
+| **INCOMPLETE** | Not a verdict. Written at run start and left in place if the run is interrupted (window closed, power loss, crash). Any evidence folder whose `RESULT.txt` still reads INCOMPLETE is unsealed and must not be used as evidence | Return the folder as-is; the run did not finish |
 | **NOT EXECUTED** | A preflight check failed before any mutation (host, elevation, Node version, runtime directory, node:sqlite, absent variables, existing evidence or clone directory) | Fix the stated precondition in a new run; no evidence-root contamination (the procedure does not write into a pre-existing root) |
 
-A PASS requires all of: guard exit 0; `# fail 0`; `# cancelled 0`; guard executed = TAP tests = 930; every named-pipe test `ok`; skip set = the four names; dist count = 1,140; package consumer `"result": "PASS"`; pack shasum = reference; post-run HEAD and tree unchanged and tree clean; manifest 0 mismatches.
+A PASS requires all of: guard exit 0; `# fail 0`; `# cancelled 0`; guard executed = TAP tests = 930; every named-pipe test `ok`; skip set = the four names; dist count = 1,140; package consumer `"result": "PASS"`; pack shasum = reference; post-run HEAD and tree unchanged and tree clean; all 14 required evidence files present and non-empty; seal written; verification verdict OK with 0 mismatches, 0 unlisted, 0 listed-but-absent.
+
+### 6a. Sealing, verification, and interruption (corrected 2026-10-28)
+
+The earlier draft wrote `RESULT.txt` after the manifest and appended its hash to an unhashed file, so the result was outside the manifest. That is corrected as follows:
+
+1. At run start, `RESULT.txt` is written as `INCOMPLETE`. An interrupted run therefore leaves no PASS.
+2. No code path writes `PASS` until every check has passed. The only `PASS` write is the last evidence-related step.
+3. The payload is every evidence file except `RESULT.txt`, `SHA256SUMS.txt`, and `manifest-verification.txt`. `SHA256SUMS.txt` lists the payload.
+4. The verification re-hashes every listed file and compares the listed set with the files on disk in both directions. Any issue throws, and `RESULT.txt` becomes FAIL.
+5. `manifest-verification.txt` records the seal hash of `SHA256SUMS.txt`. `RESULT.txt` then records the seal and verification hashes. It is written through a temporary file and moved into place.
+6. **Residual, stated plainly:** `RESULT.txt` cannot list its own hash. Its SHA-256 is printed on the console as `RESULT.txt SHA-256 (record this in the return)`. That value must be returned with the folder.
+
+**Verify a returned evidence folder** (PowerShell, from the folder; the three expected values come from `RESULT.txt` and the console line):
+
+```powershell
+$root = 'C:\iips-evidence\cap03-s2-a891802e\s2-a891802e-<UTC stamp>'
+Get-FileHash -Algorithm SHA256 -LiteralPath (Join-Path $root 'RESULT.txt')        # must equal the console value
+Get-FileHash -Algorithm SHA256 -LiteralPath (Join-Path $root 'SHA256SUMS.txt')    # must equal the SEAL line in RESULT.txt
+Get-FileHash -Algorithm SHA256 -LiteralPath (Join-Path $root 'manifest-verification.txt')  # must equal the VERIFICATION line in RESULT.txt
+Get-Content -LiteralPath (Join-Path $root 'SHA256SUMS.txt') | ForEach-Object {
+  $p = $_ -split '  ', 2
+  $actual = (Get-FileHash -Algorithm SHA256 -LiteralPath (Join-Path $root $p[1])).Hash
+  if ($actual -ne $p[0]) { 'MISMATCH ' + $p[1] }
+}
+```
+
+An empty output from the last block means every listed file matches. A `RESULT.txt` that reads anything other than `PASS` is not a pass, whatever else the folder contains.
 
 ## 7. Open items that a native run cannot close by itself
 
@@ -112,7 +140,7 @@ A PASS requires all of: guard exit 0; `# fail 0`; `# cancelled 0`; guard execute
 - **Dist count 1,140 at the pin:** expected from the file-set diff between `8eec74ae` and `a891802e` (four non-evidence files modified, none added or deleted). Not confirmed natively.
 - **Changed files at the pin:** `8eec74ae`→`a891802e` modifies exactly four non-evidence files and adds or deletes none: `src/persistence/gateAPrimeProvisioning.ts`, `tests/g3_gate_a_prime_successor_provisioning.test.ts`, `tests/portfolio_ui_package.test.ts`, and `scripts/verify-public-package.mjs` (the package-consumer script). Because the package-consumer script changed, the 2026-10-26 `PASS` and shasum do not carry over automatically; the procedure checks both against the references.
 - **Pack shasum:** the reference `cc2aa…` is the 2026-10-26 value. If the pin changed packaged content the shasum will differ. That stops the run as INCONCLUSIVE. Do not re-pin silently.
-- **Procedure execution:** the `.ps1` has been syntax-checked with a tree-sitter PowerShell grammar (no parse errors; the grammar also flags deliberately broken input) and reviewed by hand. It has **not been executed on PowerShell**, and no PowerShell runtime was available to Arena. Its first native run is the first execution.
+- **Procedure execution:** the `.ps1` has been syntax-checked with a tree-sitter PowerShell grammar (no parse errors; the grammar also flags deliberately broken input), reviewed by hand, and checked by the static contract tests in `evidence/integration/cap03-s2-a891802e-finalization-contract-2026-10-28/` (18 tests; they include negative controls, and they fail on the pre-correction script). They read the file as text. It has **not been executed on PowerShell** (not permitted in this pass and not available to Arena). Its first native run is the first execution, and no behaviour of the sealing logic is established until that run returns verified evidence.
 - **PowerShell version:** the script was written for Windows PowerShell 5.1 and PowerShell 7. Neither has been tested here. The run logs the version.
 
 ## 8. Dated reconciliation notes (2026-10-28)
@@ -123,7 +151,7 @@ A PASS requires all of: guard exit 0; `# fail 0`; `# cancelled 0`; guard execute
 
 ## 9. Pass / hold summary
 
-- Arena: procedure drafted, grammar-checked, reviewed; record written. Nothing executed on Windows.
+- Arena: procedure drafted, grammar-checked, reviewed; finalization corrected (§6a); static contract tests passing; record written. Nothing executed on Windows.
 - Native execution: **awaiting** an operator on `desktop-no0nhtp` per §5.
 - PF-15 `V1295`: **NOT MET** until a binding test or equivalent native evidence exists. Not closed by this run.
 - Designation disposition: needed only if the run returns INCONCLUSIVE or INVALID.

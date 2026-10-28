@@ -14,6 +14,7 @@
 #   Output     : C:\iips-evidence\cap03-s2-a891802e\s2-a891802e-<UTC stamp>\  (see the run record)
 #
 #   Status vocabulary: PASS | FAIL | INCONCLUSIVE | NOT EXECUTED | INVALID
+#   INCOMPLETE = run started but did not finish (interrupted); not a verdict.
 #   Any mismatch stops the sequence. Nothing is retried, repaired, or normalised.
 # =============================================================================
 
@@ -67,6 +68,7 @@ $GuardExec    = ''
 $GuardPass    = ''
 $PackSha      = ''
 $EvidenceCreated = $false
+$ResultExtra = @()
 
 # ---- helpers ------------------------------------------------------------------
 function Get-UtcStamp {
@@ -146,7 +148,11 @@ function Write-Result([string]$FileName) {
     ('GUARD PASSED: ' + $GuardPass),
     ('PACK SHASUM: ' + $PackSha)
   )
-  $lines | Out-File -LiteralPath $path -Encoding utf8
+  $lines += $ResultExtra
+  # Write to a temporary file and move it into place, so a partial write cannot leave a truncated PASS
+  $tmp = $path + '.tmp'
+  $lines | Out-File -LiteralPath $tmp -Encoding utf8
+  Move-Item -LiteralPath $tmp -Destination $path -Force
 }
 
 # ---- sequence -----------------------------------------------------------------
@@ -178,6 +184,9 @@ try {
   }
   New-Item -ItemType Directory -Path $EvidenceRoot | Out-Null
   $EvidenceCreated = $true
+  $Status = 'INCOMPLETE'
+  $Reason = 'run started and has not finished. If this file still reads INCOMPLETE, the run was interrupted or its window was closed. This is not a verdict.'
+  Write-Result 'RESULT.txt'
   $MainLog = Join-Path $EvidenceRoot 's2-00-run-log.txt'
   Write-Log ('RUN ID ' + $RunId)
   Write-Log ('Evidence root ' + $EvidenceRoot + ' (local fixed NTFS: ' + $drive + ')')
@@ -478,49 +487,126 @@ try {
   }
   $distAfter | Out-File -LiteralPath (Join-Path $EvidenceRoot 's2-08b-dist-sha256-after.txt') -Encoding utf8
 
-  # All S2 criteria met
-  $Status = 'PASS'
-  $Reason = 'all S2 criteria met at the designated pin (native Windows host)'
-  Write-Log 'S2 criteria met. Building the evidence manifest.'
+  # All S2 criteria met. Nothing before this point writes PASS. The sealing steps decide the final status.
+  Write-Log 'S2 criteria met. Sealing the evidence.'
 
-  # Evidence manifest (SHA-256 of every evidence file except the manifest and its verification)
+  # 1. Required evidence must be present and non-empty before anything is sealed.
+  $requiredEvidence = @(
+    's2-00-run-log.txt', '01-clone.txt', '01b-checkout-pin.txt', 's2-01c-pin-verification.txt',
+    '02-npm-ci.txt', '03-tsc-noemit.txt', '04-build.txt', 's2-04b-dist-count.txt',
+    's2-04c-dist-sha256-before.txt', '05-guarded-npm-test.txt', '05b-test-summary.txt',
+    '06-package-consumer.txt', 's2-08-post-run-pin.txt', 's2-08b-dist-sha256-after.txt'
+  )
+  $missingEvidence = @()
+  foreach ($name in $requiredEvidence) {
+    $req = Join-Path $EvidenceRoot $name
+    if (-not (Test-Path -LiteralPath $req)) {
+      $missingEvidence += $name
+    }
+    if (Test-Path -LiteralPath $req) {
+      if ((Get-Item -LiteralPath $req).Length -eq 0) {
+        $missingEvidence += ($name + ' (empty)')
+      }
+    }
+  }
+  if ($missingEvidence.Count -gt 0) {
+    throw ('FAIL - required evidence missing or empty: ' + ($missingEvidence -join ', '))
+  }
+
+  # 2. Payload = every evidence file except the three control files. RESULT.txt cannot list its own hash,
+  #    so it is the root of the chain: its SHA-256 is printed on the console and recorded in the run record.
+  $controlNames = @('RESULT.txt', 'SHA256SUMS.txt', 'manifest-verification.txt')
+  $payloadFiles = @(Get-ChildItem -LiteralPath $EvidenceRoot -Recurse -File | Where-Object { $controlNames -notcontains $_.Name } | Sort-Object FullName)
+  $diskPaths = @()
+  foreach ($f in $payloadFiles) {
+    $diskPaths += $f.FullName.Substring($EvidenceRoot.Length + 1)
+  }
+
+  # 3. Write the manifest and record its seal hash.
   $manifestFile = Join-Path $EvidenceRoot 'SHA256SUMS.txt'
-  $evidenceFiles = @(Get-ChildItem -LiteralPath $EvidenceRoot -Recurse -File | Where-Object { $_.Name -ne 'SHA256SUMS.txt' -and $_.Name -ne 'manifest-verification.txt' } | Sort-Object FullName)
   $manifestLines = @()
-  foreach ($f in $evidenceFiles) {
+  foreach ($f in $payloadFiles) {
     $manifestLines += ('{0}  {1}' -f (Get-FileHash -Algorithm SHA256 -LiteralPath $f.FullName).Hash, $f.FullName.Substring($EvidenceRoot.Length + 1))
   }
   $manifestLines | Out-File -LiteralPath $manifestFile -Encoding utf8
+  $sealHash = (Get-FileHash -Algorithm SHA256 -LiteralPath $manifestFile).Hash
 
-  # Independent verification: re-hash every listed file and compare
-  $verifyOut = @()
+  # 4. Independent verification: re-hash every listed file, and compare the listed set with the files on disk in both directions.
+  $verifyOut = @(
+    'Verification of SHA256SUMS.txt against the evidence root',
+    ('Payload excludes: ' + ($controlNames -join ', ')),
+    ('SEAL SHA256SUMS.txt SHA256 ' + $sealHash)
+  )
+  $listedPaths = @()
   $checked = 0
   $mismatch = 0
   foreach ($line in (Get-Content -LiteralPath $manifestFile)) {
     $parts = $line -split '  ', 2
-    $actual = (Get-FileHash -Algorithm SHA256 -LiteralPath (Join-Path $EvidenceRoot $parts[1])).Hash
+    $listedPaths += $parts[1]
     $checked = $checked + 1
-    if ($actual -eq $parts[0]) {
-      $verifyOut += ('OK       ' + $parts[1])
-    }
-    if ($actual -ne $parts[0]) {
+    $target = Join-Path $EvidenceRoot $parts[1]
+    if (-not (Test-Path -LiteralPath $target)) {
       $mismatch = $mismatch + 1
-      $verifyOut += ('MISMATCH ' + $parts[1])
+      $verifyOut += ('ABSENT   ' + $parts[1])
+    }
+    if (Test-Path -LiteralPath $target) {
+      $actual = (Get-FileHash -Algorithm SHA256 -LiteralPath $target).Hash
+      if ($actual -eq $parts[0]) {
+        $verifyOut += ('OK       ' + $parts[1])
+      }
+      if ($actual -ne $parts[0]) {
+        $mismatch = $mismatch + 1
+        $verifyOut += ('MISMATCH ' + $parts[1])
+      }
     }
   }
-  $verifyOut += ('Entries listed: ' + $checked + ' | files on disk (excluding manifest and verification): ' + $evidenceFiles.Count + ' | mismatches: ' + $mismatch)
+  $unlisted = @()
+  foreach ($p in $diskPaths) {
+    if ($listedPaths -notcontains $p) {
+      $unlisted += $p
+    }
+  }
+  $notOnDisk = @()
+  foreach ($p in $listedPaths) {
+    if ($diskPaths -notcontains $p) {
+      $notOnDisk += $p
+    }
+  }
+  foreach ($p in $unlisted) {
+    $verifyOut += ('UNLISTED ' + $p)
+  }
+  foreach ($p in $notOnDisk) {
+    $verifyOut += ('NOT ON DISK ' + $p)
+  }
+  $issues = $mismatch + $unlisted.Count + $notOnDisk.Count
+  $verifyOut += ('Entries listed: ' + $checked + ' | payload files on disk: ' + $diskPaths.Count + ' | hash mismatches or absent: ' + $mismatch + ' | unlisted: ' + $unlisted.Count + ' | listed but not on disk: ' + $notOnDisk.Count)
+  if ($issues -eq 0) {
+    $verifyOut += 'Verification verdict: OK'
+  }
+  if ($issues -gt 0) {
+    $verifyOut += 'Verification verdict: FAILED'
+  }
   $verifyOut | Out-File -LiteralPath (Join-Path $EvidenceRoot 'manifest-verification.txt') -Encoding utf8
-  if ($mismatch -gt 0) {
-    throw ('FAIL - evidence manifest verification found ' + $mismatch + ' mismatch(es)')
+  if ($issues -gt 0) {
+    throw ('FAIL - evidence manifest verification found ' + $issues + ' issue(s); see manifest-verification.txt')
   }
-  if ($checked -ne $evidenceFiles.Count) {
-    throw 'FAIL - evidence manifest does not list every evidence file'
+  if ($checked -eq 0) {
+    throw 'FAIL - the evidence manifest lists no entries'
   }
-  Write-Host ('Manifest verified: ' + $checked + ' entries, 0 mismatches')
-  # RESULT.txt is written only after verification succeeds, so it never reports PASS over a failed manifest
+  Write-Host ('Manifest verified: ' + $checked + ' entries, 0 issues')
+
+  # 5. Final result, written LAST. It records the seal and verification hashes. The verification file is final by now.
+  $verifyHash = (Get-FileHash -Algorithm SHA256 -LiteralPath (Join-Path $EvidenceRoot 'manifest-verification.txt')).Hash
+  $Status = 'PASS'
+  $Reason = 'all S2 criteria met at the designated pin (native Windows host); evidence sealed and verified'
+  $ResultExtra = @(
+    ('SEAL SHA256SUMS.txt SHA256: ' + $sealHash),
+    ('VERIFICATION manifest-verification.txt SHA256: ' + $verifyHash),
+    ('ENTRIES SEALED: ' + $checked)
+  )
   Write-Result 'RESULT.txt'
   $resultHash = (Get-FileHash -Algorithm SHA256 -LiteralPath (Join-Path $EvidenceRoot 'RESULT.txt')).Hash
-  Add-Content -LiteralPath (Join-Path $EvidenceRoot 'manifest-verification.txt') -Encoding utf8 -Value ('RESULT.txt SHA256 ' + $resultHash)
+  Write-Host ('RESULT.txt SHA-256 (record this in the return): ' + $resultHash)
 } catch {
   $message = [string]$_.Exception.Message
   $Reason = $message
@@ -540,6 +626,12 @@ try {
   Write-Host ''
   Write-Host ('[S2] ' + $Status + ' - ' + $Reason) -ForegroundColor Red
   Set-Location -LiteralPath $StartDir
+  if ($EvidenceCreated) {
+    $staleTmp = Join-Path $EvidenceRoot 'RESULT.txt.tmp'
+    if (Test-Path -LiteralPath $staleTmp) {
+      Remove-Item -LiteralPath $staleTmp -Force
+    }
+  }
   Write-Result 'RESULT.txt'
 }
 
