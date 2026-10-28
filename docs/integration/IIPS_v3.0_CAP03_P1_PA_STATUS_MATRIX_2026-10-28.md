@@ -137,3 +137,19 @@ Authoritative reconciliation: adoption record §9 (`V1132`–`V1137`). Summary o
 - **Capture, P-1, H-12, S3, QE:** BLOCKED as stated in the consolidated package §6. No P-1 action is authorized. P-1 remains NOT EXECUTED, UNSPENT, and NOT AUTHORIZED.
 
 *End of §10 (`CV-CORR-144`; `CHG-2026-10-28-07`; `V1138`–`V1144`).*
+
+## 11. Formal status after the decision record (`CV-CORR-145`; `CHG-2026-10-28-08`)
+
+- **Formal record.** `docs/integration/IIPS_v3.0_CAP03_P1_PA_FORMAL_DECISION_RECORD_2026-10-28.md` (§8 there holds the full readiness matrix). Its status supersedes the "open" or "reserved" statuses in §§9–10 of this matrix for PA-1, PA-2, PA-5, and PA-3d only.
+
+| Item | Status after the formal record | Pointer |
+|---|---|---|
+| PA-1 | **ADOPTED** (interpretation and terminology). Independent prerequisites remain open | Formal record §3 |
+| PA-2 | **MODEL ADOPTED.** No IPD pin designated. IPD QE/H-12 pin is a dependent scope choice (C-1 / C-2 / C-3) | Formal record §4 |
+| PA-5 | **ADOPTED** (Option B). Implementation **FUTURE**, authorized under the IPD execution prompt; `C′` not existing | Formal record §5; `IIPS_v3.0_CAP03_D2_IPD_EXECUTION_PROMPT_2026-10-28.md` |
+| PA-3d | **ADOPTED (deferred)**; DC-C2 scope retained; V1102 **OPEN** | Formal record §6 |
+| A6 | **CONFORMED** in revision `2026-10-28c`; runtime test **NOT RUN** | Formal record §7 |
+
+- **P-1 remains NOT EXECUTED, UNSPENT, and NOT AUTHORIZED.** Capture, host preflight, S3, QE, H-12 adoption, and DQ-4 are not advanced.
+
+*End of §11 (`CV-CORR-145`; `CHG-2026-10-28-08`; `V1145`–`V1152`).*

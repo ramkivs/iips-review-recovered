@@ -164,3 +164,11 @@ This section is additive. It establishes which adopted text authorized the PR #3
 **10.3 Unchanged.** Sections 1–9; DA-A1 (adopted); DB-B1 (adopted); DC (adopted for the next capture only). PA-1, PA-2, PA-3d, and PA-5 remain PA-reserved and are analysed in the consolidated package `docs/integration/IIPS_v3.0_CAP03_P1_PA_CONSOLIDATED_DECISION_PACKAGE_2026-10-28.md`.
 
 **10.4 Non-grants.** No PowerShell or harness run, host diagnostic, capture, P-1 authorization or execution, PF-17 satisfaction, P-1-C or P-1-D acceptance, IPD write, `BASIS_COMMIT` or `BASIS_TREE` change, H-12 adoption, Gate 4, S3, QE, or DQ-4 movement, or PA approval or signature supplied or inferred.
+
+## 11. Formal decision pointer — PA-1, PA-2, PA-5, PA-3d (`CV-CORR-145`; `CHG-2026-10-28-08`; `V1145`–`V1152`)
+
+- **Formal record.** `docs/integration/IIPS_v3.0_CAP03_P1_PA_FORMAL_DECISION_RECORD_2026-10-28.md`. It records the four approved directions and the bounded, non-production IPD implementation authority for Option B.
+- **Adopted by that record.** PA-1 interpretation and terminology (H-12 adoption is not a P-1 provisioning prerequisite; "host preflight" in Gate 4 means S3). PA-2 purpose-specific pinning model (no pin designated). PA-5 Option B selected. PA-3d deferred, with DC-C2 scope retained.
+- **Not adopted or not designated by that record.** The IPD QE/H-12 pin (dependent scope choice in its §4.5); any new IRR consumer commit; the post-correction commit `C′`, which does not yet exist.
+- **A6 and DC-C2.** A6 is conformed in revision `2026-10-28c` (§10 above). The runtime test is **NOT RUN**. V1102 remains **OPEN**. Native run `92d931fb` remains **NOT PASSED**.
+- **Non-grants.** P-1 remains NOT EXECUTED, UNSPENT, and NOT AUTHORIZED. No capture, host, PowerShell, or PF-17 action was taken or authorized.
