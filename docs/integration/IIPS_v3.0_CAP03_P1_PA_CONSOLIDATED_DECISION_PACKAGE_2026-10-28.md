@@ -235,3 +235,5 @@ PA is asked to decide, in whatever order PA chooses, and each answer must name t
 - **Designation unchanged.** No commit is designated as `C′` or as any execution pin. The Gate 4 QE/H-12 pin is undesignated. D2 is not reviewed here for correctness.
 - **Detail and decisions.** `IIPS_v3.0_CAP03_P1C_P1D_ONE_PASS_RECONCILIATION_AND_PA_PACKET_2026-10-28.md` (§§2, 6, 7.A–7.D) and tracker §16.166.
 - **P-1 remains NOT EXECUTED / UNSPENT / NOT AUTHORIZED.** P-1-C remains NOT ESTABLISHED; P-1-D remains DESIGNATED; NOT VERIFIED FOR THE ATTEMPT.
+
+- **Post-D2 follow-up (`CV-CORR-146` addendum).** IPD PR #101 merged to `main` as `db84ac12f297eec2bb159ae785c3cc584f7d7e34` (head `d2782f2`; tree `831f00e0…`; CI `40642066409` and `40642196820`, SUCCESS). The D2 candidate identity has moved. It is still **undesignated**. See the packet §11 and tracker §16.166.7.
