@@ -1,0 +1,14 @@
+CAP-03 decision reconciliation, 2026-10-28 (one pass). Read-only verification; no IPD write; no host action.
+
+== 01 authoritative refs
+IRR origin/main: 82b3f4a5d31134e40fd3a1a23169a0ca8d638dfc
+IRR session branch: ec39c85c2a6a1bae5d60aa9a090f70f364f4ed63  local HEAD: ec39c85c2a6a1bae5d60aa9a090f70f364f4ed63
+PR #353: OPEN false not merged ec39c85c2a6a1bae5d60aa9a090f70f364f4ed63
+IPD origin/main: 1ba0740a32e69284d7c524fd6ac8daf5455038d0
+IPD open PRs: 0
+packet blob 796e0c82 on main: 796e0c82
+procedure blob on main: 9aae3657
+formal record blob: 3098fb09  adoption record blob: b39d047e
+S2 acceptance blob: 8eee2957  disposition blob: 521d5482
+DQ-6b path A blob: b41c76f7  PF-15 corrected act blob: 3fe9a2dd
+IRR tracker blob on main: 24451138

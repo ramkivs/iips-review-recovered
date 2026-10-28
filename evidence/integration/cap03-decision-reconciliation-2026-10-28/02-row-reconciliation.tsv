@@ -1,0 +1,78 @@
+row	id	category	reconciled_status_and_basis	change_from_table1
+1	R-01	COMPLETE	complete/verified; tracker 16.173.1	prior: complete/verified
+2	R-02	COMPLETE	complete/verified this pass (lead 40e36ab9 unchanged)	CHANGED: not started -> complete/verified (16.173.1)
+3	PK-01	COMPLETE	implemented; packet blob 796e0c82 on IRR main (verified)	prior: implemented
+4	Q-N1	AWAIT-PA	awaiting PA; formal record 4.5 reuses C-1/C-2/C-3 labels for pin choices; labels not adopted	prior: awaiting PA
+5	S2-DEP	COMPLETE	complete/verified	prior: complete/verified
+6	Q-S2-1	AWAIT-PA	NARROWED: candidate-scoped operative basis adopted by PA direction 2026-10-26 (disposition 16.143). Open: R-1 absolute or not, D1, PASS status, R-2 register direction. Premise of option (c) corrected: acceptance 5 states R-2 clearing condition	CHANGED: disputed -> awaiting PA (narrowed)
+7	Q-S2-2	AWAIT-PA	Gate 4 S2 Limb A OUTSTANDING, not started (formal record 8); no route adopted	prior: disputed; state unchanged
+8	Q-B5	AWAIT-PA	awaiting PA; labels only	prior: awaiting PA
+9	S2-ORIG	AWAIT-OPERATOR	operator supplies original host bytes and 47-entry output; no Table 1 dependents	prior: awaiting operator
+10	S2-IRRDOC	AWAIT-PA	prepared (Addendum 1 section 4); applies after Q-S2-1 direction and Q-S2-2 outcome	prior: not started; still not applied
+11	IPD-S2REC	COMPLETE	IPD-side correction merged (IPD PR 106, 1ba0740a); IRR does not write IPD; PA direction only if PA requires	CHANGED: disputed -> complete (IPD-side)
+12	A-Q1	AWAIT-PA	awaiting PA; no adopted decision in formal record	prior: awaiting PA
+13	A-Q2	AWAIT-PA	awaiting PA; designated-blob conflict C-2 recorded (item 12 designated 9a5fd9e3, observed edd0305e)	prior: awaiting PA
+14	A-Q3	AWAIT-PA	awaiting PA; PA-5 scope wording question C-5	prior: awaiting PA
+15	A-Q4	AWAIT-PA	awaiting PA	prior: awaiting PA
+16	A-GAP1	AWAIT-PA	authority gap; no Q-ID; Gate 4 act 6 S1 text vs S1 determination 12.2 (C-4)	prior: disputed; state unchanged
+17	A-Q5	AWAIT-PA	awaiting PA after A-Q1 to A-Q4	prior: awaiting PA
+18	A-Q6	AWAIT-PA	awaiting PA after A-Q5	prior: awaiting PA
+19	A-IPD	SEPARATE-ACT	IPD-owned act; trigger A-Q5; IRR does not write IPD	prior: not started
+20	D2-REV	COMPLETE	IPD-reported review complete (IRR not re-verified)	prior: implemented
+21	B-Q4	AWAIT-PA	awaiting PA	prior: awaiting PA
+22	B-Q6	AWAIT-PA	awaiting PA	prior: awaiting PA
+23	B-Q1	AWAIT-PA	awaiting PA; B-1 designation needs a separate act after C' (formal record 4.2, 4.6)	prior: awaiting PA
+24	B-Q2	AWAIT-PA	conditional on B-Q1 = B-0; PA-5 Option B addresses the receipt element by IPD implementation (PR 100), but the choice is PA's	prior: not started (conditional)
+25	B-Q3	AWAIT-PA	conditional on B-Q1 = B-1; after A-Q1 to A-Q6	prior: not started (conditional)
+26	B-DESIG	AWAIT-PA	no designation made; formal record 4.2 L2a NOT DESIGNATED	prior: not started
+27	DA-A1	COMPLETE	ADOPTED as written, limited to stated scope (adoption record 1); not a P-1 authorization	CHANGED: implemented -> adopted (adoption record 1)
+28	C-Q1	AWAIT-PA	awaiting PA (fact question; source does not state it)	prior: awaiting PA
+29	C-Q2	AWAIT-PA	awaiting PA; also depends on B-Q1 for commit-keyed items	prior: awaiting PA
+30	D-Q	AWAIT-PA	awaiting PA; object of the criterion first	prior: awaiting PA
+31	D-INST	AWAIT-PA	conditional on D-Q = D-2 and A6 host runtime; v2 instrument (DB-B1) is the current identity, not a D-INST change	prior: not started (conditional)
+32	E7	AWAIT-PA	NARROWED: replacement for the next capture adopted (DC-C2, adoption record 1); subsequent-capture requirement not decided	CHANGED: awaiting PA -> awaiting PA (narrowed)
+33	E8	AWAIT-PA	awaiting PA-named root; procedure still D:\iips-evidence (lines 131, 150, 154, 167, 193, 440, 486)	prior: awaiting PA
+34	PF10	AWAIT-PA	awaiting PA; procedure line 147 still wildcard GATE_A_PRIME_*	prior: awaiting PA
+35	QP1	AWAIT-PA	operative F2/F4/F5 values are those of effective act -02 (P-1-E satisfied); PA confirmation or further act not recorded	prior: awaiting PA; values recorded
+36	E3	AWAIT-PA	PARTIALLY APPLIED: revisions 2026-10-28, b and c (DB-B1 v2 identity, DC-C2 4.3a, A6 conformance); PF-10, root, pins and acceptance criteria remain PA-reserved	CHANGED: not started -> partially applied
+37	E4	COMPLETE	complete/verified: v2 identity 191f5828 / 13783385 (DB-B1; procedure lines 82-83)	prior: complete/verified
+38	E5	AWAIT-OPERATOR	host run NOT RUN (no pwsh in sandbox); host-only	prior: blocked
+39	E6	AWAIT-OPERATOR	V1102 OPEN; host verification of DC-a and DC-b	prior: pending
+40	PF-11D	AWAIT-OPERATOR	native run 92d931fb NOT PASSED, undiagnosed; PA-3d deferred; reconsideration only on authorized host evidence	prior: blocked
+41	PFREG	AWAIT-OPERATOR	operator register read; attempt session	prior: pending
+42	E9	AWAIT-OPERATOR	attempt session only; not applicable now	prior: not applicable now
+43	E10	AWAIT-PA	capture-authorization PA act NOT RENDERED; prerequisites open	prior: not started
+44	CAP	AWAIT-OPERATOR	gated by E10; attempt session only	prior: not started
+45	MF	CLOSED	not applicable before the attempt	prior: not applicable
+46	P1-A	COMPLETE	accepted under candidate-scoped scope (formal record 8: SATISFIED)	prior: accepted under scope
+47	P1-B	CLOSED	superseded for execution by C' designation (formal record 4.2)	prior: superseded
+48	P1-C	AWAIT-OPERATOR	P-1-C NOT ESTABLISHED: attempt-session raw bytes, PA capture authority, host run	prior: pending
+49	P1-D	AWAIT-OPERATOR	P-1-D DESIGNATED, NOT VERIFIED FOR THE ATTEMPT	prior: pending
+50	P1-E	COMPLETE	SATISFIED (act -02; formal record 8)	prior: complete/verified
+51	P1-F	AWAIT-PA	P-1 authorization act NOT RENDERED; prerequisites open (P1-C, P1-D, B-DESIG, L2a, L2c)	prior: not started
+52	P1-EXEC	TECH-BLOCKED	NOT AUTHORIZED; prerequisites P1-F, A-GAP1, S2a	prior: blocked
+53	S3	TECH-BLOCKED	blocked: S1 and S2a	prior: blocked
+54	QE-1	TECH-BLOCKED	blocked: QE requires S3 and the Gate 4 chain; native-Windows evidence required (no CI substitute)	prior: blocked
+55	QE-2	TECH-BLOCKED	blocked: QE requires S3 and the Gate 4 chain; native-Windows evidence required (no CI substitute)	prior: blocked
+56	QE-3	TECH-BLOCKED	blocked: QE requires S3 and the Gate 4 chain; native-Windows evidence required (no CI substitute)	prior: blocked
+57	QE-4	TECH-BLOCKED	blocked: QE requires S3 and the Gate 4 chain; native-Windows evidence required (no CI substitute)	prior: blocked
+58	QE-5	TECH-BLOCKED	blocked: QE requires S3 and the Gate 4 chain; native-Windows evidence required (no CI substitute)	prior: blocked
+59	QE-6	TECH-BLOCKED	blocked: QE requires S3 and the Gate 4 chain; native-Windows evidence required (no CI substitute)	prior: blocked
+60	QE-7	TECH-BLOCKED	blocked: QE requires S3 and the Gate 4 chain; native-Windows evidence required (no CI substitute)	prior: blocked
+61	QE-8	TECH-BLOCKED	blocked: QE requires S3 and the Gate 4 chain; native-Windows evidence required (no CI substitute)	prior: blocked
+62	QE-9	TECH-BLOCKED	blocked: QE requires S3 and the Gate 4 chain; native-Windows evidence required (no CI substitute)	prior: blocked
+63	QE-10	TECH-BLOCKED	blocked: QE requires S3 and the Gate 4 chain; native-Windows evidence required (no CI substitute)	prior: blocked
+64	QE-11	TECH-BLOCKED	blocked: QE requires S3 and the Gate 4 chain; native-Windows evidence required (no CI substitute)	prior: blocked
+65	DQ4	TECH-BLOCKED	8/10 criteria MET (criteria 5 and 6 MET per tracker 16.122 series); freeze NOT ESTABLISHED; criteria 7 and 8 NOT MET	CHANGED: pending -> blocked (8/10 carried)
+66	G4-S2	AWAIT-PA	awaiting Q-S2-2 route; native Limb A run is operator-dependent	prior: not started
+67	G4-S2A	TECH-BLOCKED	needs B-Q4, B-DESIG, L2c	prior: not started
+68	L2A	TECH-BLOCKED	needs PA designation of the execution commit (B-DESIG) and S2 at that commit	prior: not started
+69	L2C	TECH-BLOCKED	needs B-DESIG and H-12 regeneration at the designated commit	prior: not started
+70	G4-PIN	AWAIT-PA	trigger 'C-prime exists' now met (a891802e verified); decision not made; decision item prepared in Addendum 1 section 6	CHANGED: awaiting PA; trigger met
+71	L2B	AWAIT-PA	PA if required	prior: pending
+72	G5-ADM	TECH-BLOCKED	blocked: P1-EXEC, S2a, Gate 4 Limb A, QE, Gate 4 acceptance	prior: blocked
+73	IRR-PROC	AWAIT-PA	dependent on rulings in G2 to G5; not applied	prior: not started
+74	IPD-C2	SEPARATE-ACT	IPD-owned; needs B-Q1 and a separate IPD prompt	prior: not started
+75	IPD-DIST	SEPARATE-ACT	IPD-reported complete (dist 1,140, PR 106); IRR does not verify IPD actions	prior: pending
+76	IPD-S1	SEPARATE-ACT	IPD-owned; needs A-Q2 and A-GAP1	prior: disputed
+77	FINAL	TECH-BLOCKED	after all groups; not eligible	prior: not started

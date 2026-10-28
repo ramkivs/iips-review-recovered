@@ -1,0 +1,9 @@
+== 04 procedure conformance on IRR main (static; no execution)
+v2 identity lines 82-83: $InstrumentBlob = '191f5828461286b0f6fcb688b023da5dfc68a265' $InstrumentSha256 = '13783385cb8a7964387868ad96f05956cceb9b7d4ead048c0cfe72b325e
+DB-B1 gate line 257 present: 2
+4.3a DC-C2 (line 172) present: 1
+PA-1 terminology: 'host preflight' occurrences: 0
+PA-3d terms CommandLine/PSModulePath: 0  $PID occurrences: 1 (L-1 session check, adoption record 9.3)
+PF-10 wildcard line 147 present: 1
+revision 2026-10-28c marker: 2
+root D: (procedure literal D:\\iips-evidence) line numbers: [131, 150, 167, 193, 440, 486] (count 6)

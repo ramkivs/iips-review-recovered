@@ -139,4 +139,68 @@ Note: the procedure's line 131 already carries the text "Under revision 2026-10-
 
 P-1-C NOT ESTABLISHED. P-1-D DESIGNATED, NOT VERIFIED FOR THE ATTEMPT. P-1 NOT EXECUTED / UNSPENT / NOT AUTHORIZED.
 
-*End of Addendum 1. It records options as the governing record defines them, verified deltas, and triggers. It makes no PA decision and does not supersede the PA package.*
+*End of Addendum 1 as first issued (sections 1–5). Section 6 (post-adoption reconciliation, `CV-CORR-155`) follows. Neither part makes a PA decision or supersedes the PA package.*
+
+## 6. Post-adoption reconciliation (`CV-CORR-155`; status only; no new PA decision)
+
+Added after the formal adoption records were re-read on IRR `main` `82b3f4a5`. Sections 1–5 are unchanged. Evidence: `evidence/integration/cap03-decision-reconciliation-2026-10-28/` (`01`–`04`; row-level table `02-row-reconciliation.tsv`, generated and count-checked by `build_row_reconciliation.py`).
+
+### 6.1 Formal decisions reconciled against their records
+
+| Decision | Authoritative record (blob on IRR `main`) | Status on the record | Reflected in IRR records this pass | Still open |
+|---|---|---|---|---|
+| **DA-A1** execution-pin reading for the successor act | Adoption record `b39d047e` section 1 | **ADOPTED**, limited to its stated scope | Procedure PF-08 expectation `001c3c80` is unchanged and consistent | A P-1 authorization act must name the execution commit; no P-1 authorization |
+| **DB-B1** capture-instrument identity (v2) | Adoption record section 1 | **ADOPTED** | Procedure lines 82–83 and 257 carry `191f5828…` / `13783385…` / 10,990 bytes (verified, `04`) | None for DB-B1. Capture still NOT AUTHORIZED |
+| **DC-C2** native-harness prerequisite, next capture only | Adoption record section 1 | **ADOPTED**, next capture only | Procedure section 4.3a (line 172) (verified) | Whether a subsequent capture needs the native run (E7 residual). V1102 OPEN |
+| **PA-1** H-12 not a P-1 provisioning prerequisite; terminology | Formal record `3098fb09` section 3 | **ADOPTED** | Procedure has **0** occurrences of "host preflight" (verified). New text uses "P-1-C/P-1-D capture" | None |
+| **PA-2** purpose-specific pinning model | Formal record section 4 | **MODEL ADOPTED; NO PIN DESIGNATED** | R1/R2 purpose split recorded; no pin changed; procedure PF-08 unchanged | G4-PIN (C-1/C-2/C-3, PA); B-DESIG; L2a designation |
+| **PA-5** Option B (receipt records execution identity separately) | Formal record section 5 | **ADOPTED**; IPD implementation performed by IPD PRs #100–#102 (`CV-CORR-146`) | Receipt `executingCommit` present at candidate `a891802e` (verified, `03`) | Retrospective scope question C-5; any designation (PA) |
+| **PA-3d** diagnostics deferred; DC-C2 retained | Formal record section 6 | **ADOPTED (deferred)** | `CommandLine` and `PSModulePath` absent from procedure (verified). `$PID` appears only in the L-1 session check, which the adoption record (section 9.3) classifies as implementing an adopted requirement | Reconsider only on authorized host evidence. V1102 OPEN. PF-11 `92d931fb` NOT PASSED |
+| **DQ-6b** Path A (interim, guarded) | DQ-6b act `b41c76f7` | **EFFECTIVE**: six of six elements complete in both loci, per IRR tracker section 16.122 series and IPD tracker (IPD PR #92; mirror receipt on IPD `main`) | Existing IRR record already shows criterion 5 MET; no change needed here | DQ-4 freeze remains NOT ESTABLISHED (criteria 7 and 8 NOT MET) |
+| **H-12 R5** adoption | R5 adoption act (2026-10-25) | **ADOPTED** (on its face; effective on publication, CI and read-back as the act states) | Criterion 6 MET in existing IRR record; not re-verified here | H-12 regeneration at a designated commit (S2a) |
+| **PF-15** corrected act `-02` (`3fe9a2dd`) | Corrected act `-02` | **EFFECTIVE**; P-1-E SATISFIED | Operative F2/F4/F5 values are those of `-02` (table 5.7; code-span equality verified in PR #352 pass) | Whether PA confirms the values or issues a further act (Q-P1). Premise of a `-01` transcription defect not reproduced; not verified |
+| **S2 candidate-scoped disposition** (PA direction 2026-10-26) | Disposition `521d5482` (section 16.143) | **OPERATIVE BASIS ADOPTED**: `001c3c80` / `399fa44a`, candidate-scoped | P-1-A recorded as SATISFIED (candidate-scoped) | Whether R-1 is an absolute prerequisite; D1; PASS status; R-2 register direction (see 6.3) |
+
+### 6.2 Table 1 status corrections (factual; from `02-row-reconciliation.tsv`)
+
+Changed status (from PA package Table 1): **R-02** not started to complete/verified; **DA-A1** implemented to adopted; **IPD-S2REC** disputed to complete (IPD-side; PA direction only if required); **E3** not started to partially applied; **E7** narrowed (next-capture replacement adopted); **Q-S2-1** narrowed (candidate-scoped operative basis adopted; the remainder is PA-reserved); **Q-S2-2** disputed to awaiting PA (Limb A OUTSTANDING, no route adopted); **DQ4** pending to blocked (8/10 criteria met; freeze not established); **G4-PIN** to awaiting PA with its trigger met (6.3); **QP1** values recorded in effective act `-02`, PA confirmation still not recorded; **P1-C** pending to operator (NOT ESTABLISHED); **P1-D** pending to operator (DESIGNATED, NOT VERIFIED FOR THE ATTEMPT).
+
+The 77-row distribution after this pass: COMPLETE 10; AWAIT-PA 33; AWAIT-OPERATOR 9; TECH-BLOCKED 19; SEPARATE-ACT 4 (all IPD-owned: A-IPD, IPD-C2, IPD-DIST, IPD-S1); CLOSED 2 (MF not applicable before attempt; P1-B superseded).
+
+### 6.3 Q-S2-1 premise correction (factual)
+
+Section 5.1 of the PA package states that the record "does not specify" a clearing condition for R-2. The acceptance record's residual table (`8eee2957`, section 5, row `R-2`) does specify one: "original bytes supplied, or PA accepts the corroborating transcript". Per the PR #353 reconciliation record section 3.5, the archive original's SHA-256 equals `3FD31FE6…`. The condition is therefore met on the record's own terms. **The register update itself is not applied in this pass** because it awaits the PA direction on Q-S2-1 (as the directive requires). Option (c) of Q-S2-1 is narrowed accordingly; it is not thereby decided.
+
+### 6.4 G4-PIN decision item (prepared; NOT decided; trigger met)
+
+**Trigger.** Formal record section 8 returns the Gate 4 QE/H-12 pin choice "after `C′` exists". `C′` is the post-correction commit. The receipt correction is present at IPD `a891802e` (PR #100 merge; ancestor of IPD `main`; executing identity fields present; `03`). The trigger is therefore **met**. The formal record also says `C′` is not designated by existence, and that designation needs a separate PA act and the evidence in 6.5. Recency is not a basis; later IPD commits are not evaluated here.
+
+**Choices, exactly as the formal record states them (section 4.5; none made):**
+- **C-1:** Accept the post-binding commit `C′` (or `001c3c80` if it becomes the execution pin) as the Gate 4 QE/H-12 content pin, with express scope acceptance of the non-Limb-A content, and regenerate H-12 at that commit.
+- **C-2:** Require a Limb A-only QE commit. This requires new IPD implementation authority and a new pin, and is **not authorized** by the record.
+- **C-3:** Keep the Gate 4 QE/H-12 pin undesignated until the CAP-03 chain has produced `C′`, and decide C-1 or C-2 then. (The `C′`-exists condition of C-3 is now met; the choice between C-1 and C-2 remains open.)
+
+**Facts the choice rests on (formal record 4.5, carried; verified where stated).** `a52b47b0` is pre-binding (identity constants null). The binding `f9ec0c5` is non-documentary drift requiring express re-designation under Gate 4 section 3.2(4). `001c3c80` carries DR-2 Option A, the S2 fix, and other content outside the Gate 4 Limb A boundary. Between `001c3c80` and `a891802e` (verified): 19 commits; non-evidence paths changed are exactly `src/persistence/gateAPrimeProvisioning.ts` and `tests/g3_gate_a_prime_successor_provisioning.test.ts` (the PA-5 authorized files); 60 evidence paths also changed.
+
+### 6.5 Designation prerequisites (formal record 4.6), status after this pass
+
+| Step | Requirement | Status |
+|---|---|---|
+| 1 | Commit exists on IPD `main` with exact-head and post-merge CI | `a891802e` exists and is an ancestor of IPD `main`. CI results recorded in the formal record's post-D2 pointer (`40639983508`, `40640127958`; carried, not re-run) |
+| 2 | Delta classified (in or out of scope for the purpose) | **PARTIAL.** Non-evidence set (2 files) is within the PA-5 authorized scope. The 60 evidence paths are not individually classified. OPEN |
+| 3 | Designated tests run at the candidate (Linux CI; native Windows where the act requires) | **OPEN** for `a891802e`. Not verified in this pass |
+| 4 | Separate PA designation act naming commit, tree and blobs | **NOT MADE** |
+| 5 | Fresh S2 at `C′` (L2a) and H-12 regeneration (L2c) at that commit | **NOT STARTED** |
+| 6 | Receipt, designation and evidence reference the same identities | **NOT APPLICABLE YET** |
+
+Tree identities for reference only (not a basis for choice): `001c3c80` tree `399fa44a`; `a891802e` tree `76f083d7`; IPD `main` `1ba0740a` tree `b3fde03a`.
+
+### 6.6 Gated actions
+
+No change to section 3. Operator-dependent and PA-reserved actions remain as listed there. Specifically: no host run, A6 runtime, PowerShell run, capture, P-1 authorization or execution, S3, QE, DQ-4 freeze, Gate 4 or Gate 5 action; no PR #353 merge.
+
+### 6.7 Non-grants and status
+
+No PA decision, adoption, designation, pin change, acceptance, or signature was made or inferred in this section. Recording an adopted decision here reports the status shown on its own authoritative record and does not create authority. No IPD write. No change to `BASIS_COMMIT` or `BASIS_TREE`.
+
+P-1-C NOT ESTABLISHED. P-1-D DESIGNATED, NOT VERIFIED FOR THE ATTEMPT. P-1 NOT EXECUTED / UNSPENT / NOT AUTHORIZED.
