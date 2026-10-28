@@ -13,8 +13,9 @@
 #   Run from   : a NON-ELEVATED Windows PowerShell session on host desktop-no0nhtp.
 #   Output     : C:\iips-evidence\cap03-s2-a891802e\s2-a891802e-<UTC stamp>\  (see the run record)
 #
-#   Status vocabulary: PASS | FAIL | INCONCLUSIVE | NOT EXECUTED | INVALID
-#   INCOMPLETE = run started but did not finish (interrupted); not a verdict.
+#   Status vocabulary (CAP-02 section 0, rule 3): PASS | FAIL | INCONCLUSIVE | NOT EXECUTED - <reason> | INVALID
+#   The run writes into <run folder>.inprogress. Only a sealed, published folder is evidence. A folder
+#   still named .inprogress (or .seal-failed) is not evidence and carries no verdict.
 #   Any mismatch stops the sequence. Nothing is retried, repaired, or normalised.
 # =============================================================================
 
@@ -53,7 +54,9 @@ $StartDir     = (Get-Location).Path
 $Stamp        = (Get-Date).ToUniversalTime().ToString('yyyyMMddTHHmmssZ')
 $RunId        = "s2-a891802e-$Stamp"
 $EvidenceBase = 'C:\iips-evidence\cap03-s2-a891802e'
-$EvidenceRoot = Join-Path $EvidenceBase $RunId
+$PublishRoot  = Join-Path $EvidenceBase $RunId
+$EvidenceRoot = $PublishRoot + '.inprogress'
+$RecheckLog   = Join-Path $EvidenceBase ($RunId + '.seal-recheck.txt')
 $WorkRoot     = 'C:\iips-work'
 $RepoDir      = Join-Path $WorkRoot ("ipd-" + $RunId)
 $MainLog      = $null
@@ -68,7 +71,10 @@ $GuardExec    = ''
 $GuardPass    = ''
 $PackSha      = ''
 $EvidenceCreated = $false
-$ResultExtra = @()
+$ObservedHead = ''
+$ObservedTree = ''
+$SealHash = ''
+$FinalLocation = ''
 
 # ---- helpers ------------------------------------------------------------------
 function Get-UtcStamp {
@@ -130,36 +136,306 @@ function Get-Git([string[]]$GitArgs) {
   return (($r.Lines) -join "`n").Trim()
 }
 
-function Write-Result([string]$FileName) {
-  if (-not $EvidenceCreated) { return }
-  $path = Join-Path $EvidenceRoot $FileName
-  $lines = @(
+# ---- sealing and terminal result ------------------------------------------------
+# Coverage (CAP-02 section 6; S2 runbook section 4): MANIFEST.json covers every artifact in the run
+# folder except itself and SHA256SUMS.txt. RESULT.txt is an artifact of the run and is covered.
+# SHA256SUMS.txt covers every artifact and lists MANIFEST.json as its LAST line ("manifest hashed
+# last"). SHA256SUMS.txt cannot list itself; its SHA-256 is printed on the console and recorded in
+# the seal-recheck transcript, which sits next to the run folder and is returned with it.
+# Order: status -> RESULT.txt -> fresh inventory -> MANIFEST.json -> SHA256SUMS.txt -> recheck ->
+# publication (rename of the .inprogress folder to its final name). Nothing in the folder is
+# written after SHA256SUMS.txt. The folder is evidence only once it has been published.
+
+$RequiredEvidence = @(
+  's2-00-run-log.txt', '01-clone.txt', '01b-checkout-pin.txt', 's2-01c-pin-verification.txt',
+  '02-npm-ci.txt', '03-tsc-noemit.txt', '04-build.txt', 's2-04b-dist-count.txt',
+  's2-04c-dist-sha256-before.txt', '05-guarded-npm-test.txt', '05b-test-summary.txt',
+  '06-package-consumer.txt', 's2-08-post-run-pin.txt', 's2-08b-dist-sha256-after.txt'
+)
+
+function Write-Utf8NoBom([string]$Path, [string[]]$Lines) {
+  $text = ($Lines -join "`n") + "`n"
+  [System.IO.File]::WriteAllText($Path, $text, (New-Object System.Text.UTF8Encoding($false)))
+}
+
+function ConvertTo-JsonText([string]$Value) {
+  return '"' + $Value.Replace('\', '\\').Replace('"', '\"') + '"'
+}
+
+function Get-RelName([string]$Root, [string]$FullName) {
+  return $FullName.Substring($Root.Length + 1).Replace('\', '/')
+}
+
+# Fresh inventory of a run folder: every file with SHA-256, byte count and UTC last-write time.
+function Get-Artifacts([string]$Root) {
+  $items = @()
+  foreach ($f in @(Get-ChildItem -LiteralPath $Root -Recurse -File)) {
+    $items += [pscustomobject]@{
+      Rel   = Get-RelName $Root $f.FullName
+      Full  = $f.FullName
+      Hash  = (Get-FileHash -Algorithm SHA256 -LiteralPath $f.FullName).Hash
+      Bytes = [int64]$f.Length
+      Utc   = $f.LastWriteTimeUtc.ToString('yyyy-MM-ddTHH:mm:ssZ')
+    }
+  }
+  return @($items | Sort-Object -Property Rel)
+}
+
+# Independent recheck of a sealed folder. Appends every finding to $Out and returns the issue count.
+# Checks: seal file layout, MANIFEST.json last, every sealed file present and unaltered, no
+# unsealed file present, MANIFEST.json consistent with the seal, RESULT.txt status matches.
+function Test-Seal([string]$Root, [string]$ExpectedStatus, $Out) {
+  $issues = 0
+  $sumsPath = Join-Path $Root 'SHA256SUMS.txt'
+  $manPath  = Join-Path $Root 'MANIFEST.json'
+  $resPath  = Join-Path $Root 'RESULT.txt'
+  foreach ($p in @($sumsPath, $manPath, $resPath)) {
+    if (-not (Test-Path -LiteralPath $p)) {
+      $Out.Add('MISSING    ' + (Split-Path -Leaf $p) + ' (seal control file)')
+      $issues = $issues + 1
+    }
+  }
+  if ($issues -gt 0) { return $issues }
+
+  $sums = @{}
+  $last = ''
+  foreach ($line in @([System.IO.File]::ReadAllLines($sumsPath))) {
+    if ($line -match '^([0-9A-F]{64})  (.+)$') {
+      $rel = $Matches[2]
+      $hash = $Matches[1]
+      if ($sums.ContainsKey($rel)) {
+        $Out.Add('DUPLICATE  ' + $rel)
+        $issues = $issues + 1
+      }
+      $sums[$rel] = $hash
+      $last = $rel
+    }
+    else {
+      $Out.Add('MALFORMED  SHA256SUMS.txt line: ' + $line)
+      $issues = $issues + 1
+    }
+  }
+  if ($last -ne 'MANIFEST.json') {
+    $Out.Add('ORDER      MANIFEST.json is not the last line of SHA256SUMS.txt (last: ' + $last + ')')
+    $issues = $issues + 1
+  }
+
+  $disk = @{}
+  foreach ($a in @(Get-Artifacts $Root)) {
+    if ($a.Rel -ne 'SHA256SUMS.txt') { $disk[$a.Rel] = $a }
+  }
+  foreach ($rel in @($sums.Keys)) {
+    if (-not $disk.ContainsKey($rel)) {
+      $Out.Add('MISSING    ' + $rel)
+      $issues = $issues + 1
+    }
+    elseif ($disk[$rel].Hash -ne $sums[$rel]) {
+      $Out.Add('ALTERED    ' + $rel)
+      $issues = $issues + 1
+    }
+    else {
+      $Out.Add('OK         ' + $rel)
+    }
+  }
+  foreach ($rel in @($disk.Keys)) {
+    if (-not $sums.ContainsKey($rel)) {
+      $Out.Add('ADDED      ' + $rel + ' (on disk, not sealed)')
+      $issues = $issues + 1
+    }
+  }
+
+  $man = $null
+  try {
+    $man = [System.IO.File]::ReadAllText($manPath) | ConvertFrom-Json
+  }
+  catch {
+    $Out.Add('UNREADABLE MANIFEST.json')
+    $issues = $issues + 1
+  }
+  if ($null -ne $man) {
+    if ([string]$man.run_id -ne $RunId) {
+      $Out.Add('MANIFEST   run_id does not match this run')
+      $issues = $issues + 1
+    }
+    if ([string]$man.status -ne $ExpectedStatus) {
+      $Out.Add('MANIFEST   status is ' + [string]$man.status + ', expected ' + $ExpectedStatus)
+      $issues = $issues + 1
+    }
+    $mapped = @{}
+    foreach ($e in @($man.artifacts)) {
+      $mapped[[string]$e.path] = [string]$e.sha256
+    }
+    if ($mapped.ContainsKey('MANIFEST.json') -or $mapped.ContainsKey('SHA256SUMS.txt')) {
+      $Out.Add('MANIFEST   lists a seal file')
+      $issues = $issues + 1
+    }
+    foreach ($rel in @($sums.Keys)) {
+      if ($rel -eq 'MANIFEST.json') { continue }
+      if (-not $mapped.ContainsKey($rel)) {
+        $Out.Add('MANIFEST   does not list ' + $rel)
+        $issues = $issues + 1
+      }
+      elseif ($mapped[$rel] -ne $sums[$rel]) {
+        $Out.Add('MANIFEST   hash differs from SHA256SUMS.txt for ' + $rel)
+        $issues = $issues + 1
+      }
+    }
+    foreach ($rel in @($mapped.Keys)) {
+      if (-not $sums.ContainsKey($rel)) {
+        $Out.Add('MANIFEST   lists a file that is not sealed: ' + $rel)
+        $issues = $issues + 1
+      }
+    }
+  }
+
+  $resText = [System.IO.File]::ReadAllText($resPath)
+  if ($resText -notmatch ('(?m)^STATUS: ' + [regex]::Escape($ExpectedStatus) + '\r?$')) {
+    $Out.Add('RESULT.txt STATUS line does not read ' + $ExpectedStatus)
+    $issues = $issues + 1
+  }
+  return $issues
+}
+
+# Seals the run folder, rechecks it, and publishes it by renaming it to its final name.
+# Sets $script:Status, $script:Reason, $script:SealHash and $script:FinalLocation.
+function Invoke-Finalize {
+  # 1. PASS requires every required artifact present and non-empty, and no other artifact
+  #    in the folder. Checked before RESULT.txt is written.
+  if ($script:Status -eq 'PASS') {
+    $missing = @()
+    foreach ($name in $RequiredEvidence) {
+      $p = Join-Path $EvidenceRoot $name
+      if (-not (Test-Path -LiteralPath $p)) {
+        $missing += $name
+      }
+      elseif ((Get-Item -LiteralPath $p).Length -eq 0) {
+        $missing += ($name + ' (empty)')
+      }
+    }
+    if ($missing.Count -gt 0) {
+      $script:Status = 'FAIL'
+      $script:Reason = 'required evidence missing or empty: ' + ($missing -join ', ')
+    }
+    else {
+      $extra = @(Get-Artifacts $EvidenceRoot | Where-Object { $RequiredEvidence -notcontains $_.Rel } | ForEach-Object { $_.Rel })
+      if ($extra.Count -gt 0) {
+        $script:Status = 'FAIL'
+        $script:Reason = 'unexpected artifacts in the run folder: ' + ($extra -join ', ')
+      }
+    }
+  }
+  Write-Log ('SEAL start: status ' + $script:Status)
+
+  # 2. RESULT.txt: an artifact of the run, covered by the seal. It cannot contain its own hash.
+  $resultLines = @(
+    ('STATUS: ' + $script:Status),
+    ('REASON: ' + $script:Reason),
     ('RUN ID: ' + $RunId),
-    ('STATUS: ' + $Status),
-    ('REASON: ' + $Reason),
-    ('UTC: ' + (Get-UtcStamp)),
     ('PIN COMMIT: ' + $PinCommit),
     ('PIN TREE: ' + $PinTree),
+    ('OBSERVED HEAD (post-run): ' + $ObservedHead),
+    ('OBSERVED TREE (post-run): ' + $ObservedTree),
     ('HOST: ' + $HostNow),
     ('NODE: ' + $NodeVersion),
     ('NPM: ' + $NpmVersion),
     ('DIST FILE COUNT: ' + $DistCount),
     ('GUARD EXECUTED: ' + $GuardExec),
     ('GUARD PASSED: ' + $GuardPass),
-    ('PACK SHASUM: ' + $PackSha)
+    ('PACK SHASUM: ' + $PackSha),
+    'SEAL: SHA256SUMS.txt covers every other artifact in this folder, including this file and MANIFEST.json.',
+    'SEAL SHA-256: printed on the console and recorded in the seal-recheck transcript (it cannot be stored in the seal).'
   )
-  $lines += $ResultExtra
-  # Write to a temporary file and move it into place, so a partial write cannot leave a truncated PASS
-  $tmp = $path + '.tmp'
-  $lines | Out-File -LiteralPath $tmp -Encoding utf8
-  Move-Item -LiteralPath $tmp -Destination $path -Force
+  Write-Utf8NoBom (Join-Path $EvidenceRoot 'RESULT.txt') $resultLines
+
+  # 3. Fresh inventory, taken after RESULT.txt is final and before MANIFEST.json is written.
+  $artifacts = @(Get-Artifacts $EvidenceRoot)
+  $rels = @($artifacts | ForEach-Object { $_.Rel })
+  if ($script:Status -eq 'PASS') {
+    $expectedSet = @($RequiredEvidence) + @('RESULT.txt')
+    $diff = @(Compare-Object -ReferenceObject $expectedSet -DifferenceObject $rels)
+    if ($diff.Count -gt 0) {
+      throw ('pre-manifest inventory differs from the expected set: ' + (($diff | ForEach-Object { [string]$_.InputObject }) -join ', '))
+    }
+  }
+
+  # 4. MANIFEST.json (CAP-02 section 6): every artifact with SHA-256, bytes and UTC time, plus host,
+  #    Node, commit and tree. Written as UTF-8 without BOM so it parses on any reader.
+  $mf = New-Object System.Collections.Generic.List[string]
+  $mf.Add('{')
+  $mf.Add('  "schema": "IIPS-V3-CAP03-S2-RUN-MANIFEST-v1",')
+  $mf.Add('  "record": ' + (ConvertTo-JsonText 'IIPS_v3.0_CAP03_S2_PIN_A891802E_WINDOWS_RUN_RECORD_2026-10-28.md') + ',')
+  $mf.Add('  "run_id": ' + (ConvertTo-JsonText $RunId) + ',')
+  $mf.Add('  "status": ' + (ConvertTo-JsonText $script:Status) + ',')
+  $mf.Add('  "reason": ' + (ConvertTo-JsonText $script:Reason) + ',')
+  $mf.Add('  "utc_manifest": ' + (ConvertTo-JsonText (Get-UtcStamp)) + ',')
+  $mf.Add('  "host": {"observed": ' + (ConvertTo-JsonText $HostNow) + ', "expected": ' + (ConvertTo-JsonText $ExpectedHost) + '},')
+  $mf.Add('  "node": ' + (ConvertTo-JsonText $NodeVersion) + ',')
+  $mf.Add('  "npm": ' + (ConvertTo-JsonText $NpmVersion) + ',')
+  $mf.Add('  "pin": {"commit": ' + (ConvertTo-JsonText $PinCommit) + ', "tree": ' + (ConvertTo-JsonText $PinTree) + '},')
+  $mf.Add('  "observed": {"head": ' + (ConvertTo-JsonText $ObservedHead) + ', "tree": ' + (ConvertTo-JsonText $ObservedTree) + '},')
+  $mf.Add('  "artifacts": [')
+  for ($i = 0; $i -lt $artifacts.Count; $i++) {
+    $a = $artifacts[$i]
+    if ($i -lt ($artifacts.Count - 1)) { $comma = ',' } else { $comma = '' }
+    $mf.Add('    {"path": ' + (ConvertTo-JsonText $a.Rel) + ', "sha256": "' + $a.Hash + '", "bytes": ' + [string]$a.Bytes + ', "utc_last_write": "' + $a.Utc + '"}' + $comma)
+  }
+  $mf.Add('  ]')
+  $mf.Add('}')
+  $manifestPath = Join-Path $EvidenceRoot 'MANIFEST.json'
+  Write-Utf8NoBom $manifestPath $mf.ToArray()
+  $manifestHash = (Get-FileHash -Algorithm SHA256 -LiteralPath $manifestPath).Hash
+
+  # 5. SHA256SUMS.txt (the seal): every artifact, then MANIFEST.json as the LAST line.
+  $sumLines = @()
+  foreach ($a in $artifacts) {
+    $sumLines += ($a.Hash + '  ' + $a.Rel)
+  }
+  $sumLines += ($manifestHash + '  MANIFEST.json')
+  $sumsPath = Join-Path $EvidenceRoot 'SHA256SUMS.txt'
+  Write-Utf8NoBom $sumsPath $sumLines
+  $script:SealHash = (Get-FileHash -Algorithm SHA256 -LiteralPath $sumsPath).Hash
+
+  # 6. Recheck immediately before acceptance, then publish by rename. Any failure is not a PASS.
+  $transcript = New-Object System.Collections.Generic.List[string]
+  $transcript.Add('CAP-03 S2 seal recheck (' + $RunId + ')')
+  $transcript.Add('UTC: ' + (Get-UtcStamp))
+  $transcript.Add('Status sealed: ' + $script:Status)
+  $transcript.Add('SEAL SHA256SUMS.txt SHA-256: ' + $script:SealHash)
+  $transcript.Add('Recheck 1 of folder: ' + $EvidenceRoot)
+  $issues = Test-Seal $EvidenceRoot $script:Status $transcript
+  $transcript.Add('Recheck 1 issues: ' + $issues)
+  if ($issues -eq 0) {
+    if (Test-Path -LiteralPath $PublishRoot) {
+      throw ('publication target already exists: ' + $PublishRoot)
+    }
+    [System.IO.Directory]::Move($EvidenceRoot, $PublishRoot)
+    $script:FinalLocation = $PublishRoot
+    $transcript.Add('Published to: ' + $PublishRoot)
+    $issues2 = Test-Seal $PublishRoot $script:Status $transcript
+    $transcript.Add('Recheck 2 issues (published folder): ' + $issues2)
+    if ($issues2 -gt 0) {
+      $script:Status = 'INVALID'
+      $script:Reason = 'post-publication seal recheck failed; folder not accepted'
+    }
+  }
+  else {
+    $script:Status = 'INVALID'
+    $script:Reason = 'seal recheck failed before publication; folder not accepted'
+    $failedRoot = $PublishRoot + '.seal-failed'
+    [System.IO.Directory]::Move($EvidenceRoot, $failedRoot)
+    $script:FinalLocation = $failedRoot
+    $transcript.Add('Moved to: ' + $failedRoot)
+  }
+  $transcript.Add('Final status: ' + $script:Status)
+  Write-Utf8NoBom $RecheckLog $transcript.ToArray()
+  foreach ($line in $transcript) { Write-Host ('[S2 seal] ' + $line) }
 }
 
 # ---- sequence -----------------------------------------------------------------
 try {
   # PF-00 evidence root (separate from F5 and from cap03-s2). Checked before anything is created.
-  if (Test-Path -LiteralPath $EvidenceRoot) {
-    throw ('NOT EXECUTED - evidence root already exists: ' + $EvidenceRoot)
+  if ((Test-Path -LiteralPath $PublishRoot) -or (Test-Path -LiteralPath $EvidenceRoot)) {
+    throw ('NOT EXECUTED - evidence root already exists: ' + $PublishRoot)
   }
   $drive = Split-Path -Qualifier $EvidenceRoot
   $disk = Get-CimInstance -ClassName Win32_LogicalDisk -Filter ("DeviceID='" + $drive + "'")
@@ -184,9 +460,6 @@ try {
   }
   New-Item -ItemType Directory -Path $EvidenceRoot | Out-Null
   $EvidenceCreated = $true
-  $Status = 'INCOMPLETE'
-  $Reason = 'run started and has not finished. If this file still reads INCOMPLETE, the run was interrupted or its window was closed. This is not a verdict.'
-  Write-Result 'RESULT.txt'
   $MainLog = Join-Path $EvidenceRoot 's2-00-run-log.txt'
   Write-Log ('RUN ID ' + $RunId)
   Write-Log ('Evidence root ' + $EvidenceRoot + ' (local fixed NTFS: ' + $drive + ')')
@@ -465,6 +738,8 @@ try {
   # Post-run capture: pin still intact, dist inventory after the run
   $postHead = Get-Git @('rev-parse', 'HEAD')
   $postTree = Get-Git @('rev-parse', 'HEAD^{tree}')
+  $ObservedHead = $postHead
+  $ObservedTree = $postTree
   $postStatus = Get-Git @('status', '--porcelain')
   $postStatusText = '<empty>'
   if ($postStatus -ne '') {
@@ -487,136 +762,10 @@ try {
   }
   $distAfter | Out-File -LiteralPath (Join-Path $EvidenceRoot 's2-08b-dist-sha256-after.txt') -Encoding utf8
 
-  # All S2 criteria met. Nothing before this point writes PASS.
-  # Finalization order: required-evidence check -> seal (SHA256SUMS.txt) -> fresh post-seal
-  # inventory and verification (manifest-verification.txt) -> RESULT.txt PASS (last write).
-  Write-Log 'S2 criteria met. Sealing the evidence.'
-
-  # 1. Required evidence must be present and non-empty before anything is sealed.
-  $requiredEvidence = @(
-    's2-00-run-log.txt', '01-clone.txt', '01b-checkout-pin.txt', 's2-01c-pin-verification.txt',
-    '02-npm-ci.txt', '03-tsc-noemit.txt', '04-build.txt', 's2-04b-dist-count.txt',
-    's2-04c-dist-sha256-before.txt', '05-guarded-npm-test.txt', '05b-test-summary.txt',
-    '06-package-consumer.txt', 's2-08-post-run-pin.txt', 's2-08b-dist-sha256-after.txt'
-  )
-  $missingEvidence = @()
-  foreach ($name in $requiredEvidence) {
-    $req = Join-Path $EvidenceRoot $name
-    if (-not (Test-Path -LiteralPath $req)) {
-      $missingEvidence += $name
-    }
-    if (Test-Path -LiteralPath $req) {
-      if ((Get-Item -LiteralPath $req).Length -eq 0) {
-        $missingEvidence += ($name + ' (empty)')
-      }
-    }
-  }
-  if ($missingEvidence.Count -gt 0) {
-    throw ('FAIL - required evidence missing or empty: ' + ($missingEvidence -join ', '))
-  }
-
-  # 2. Control files sit at the evidence root and are never part of the seal. Matching is by root-relative path,
-  #    so a payload file in a subfolder cannot be mistaken for a control file.
-  $controlPaths = @('RESULT.txt', 'SHA256SUMS.txt', 'manifest-verification.txt')
-  $payloadFiles = @()
-  foreach ($f in @(Get-ChildItem -LiteralPath $EvidenceRoot -Recurse -File | Sort-Object FullName)) {
-    $rel = $f.FullName.Substring($EvidenceRoot.Length + 1)
-    if ($controlPaths -notcontains $rel) {
-      $payloadFiles += $f
-    }
-  }
-
-  # 3. Seal: SHA256SUMS.txt lists every payload file. Its own hash is recorded at creation (SEAL line below).
-  $manifestFile = Join-Path $EvidenceRoot 'SHA256SUMS.txt'
-  $manifestLines = @()
-  foreach ($f in $payloadFiles) {
-    $manifestLines += ('{0}  {1}' -f (Get-FileHash -Algorithm SHA256 -LiteralPath $f.FullName).Hash, $f.FullName.Substring($EvidenceRoot.Length + 1))
-  }
-  $manifestLines | Out-File -LiteralPath $manifestFile -Encoding utf8
-  $sealHash = (Get-FileHash -Algorithm SHA256 -LiteralPath $manifestFile).Hash
-
-  # 4. Post-seal inventory: a fresh enumeration of the evidence root AFTER the seal exists.
-  #    Compared with the manifest in both directions: missing, altered, added. The seal must be unchanged.
-  $listed = @{}
-  foreach ($line in (Get-Content -LiteralPath $manifestFile)) {
-    $parts = $line -split '  ', 2
-    $listed[$parts[1]] = $parts[0]
-  }
-  $onDisk = @{}
-  foreach ($f in @(Get-ChildItem -LiteralPath $EvidenceRoot -Recurse -File)) {
-    $onDisk[$f.FullName.Substring($EvidenceRoot.Length + 1)] = $f.FullName
-  }
-  $verifyOut = @(
-    'Post-seal verification of SHA256SUMS.txt (fresh enumeration after the seal was written)',
-    ('Control files (not sealed): ' + ($controlPaths -join ', ')),
-    ('SEAL SHA256SUMS.txt at creation: ' + $sealHash)
-  )
-  $sealNow = (Get-FileHash -Algorithm SHA256 -LiteralPath $manifestFile).Hash
-  $sealUnchanged = ($sealNow -eq $sealHash)
-  $verifyOut += ('SEAL SHA256SUMS.txt now: ' + $sealNow + ' | unchanged: ' + $sealUnchanged)
-  $missingCount = 0
-  $alteredCount = 0
-  $addedCount = 0
-  $verifiedCount = 0
-  foreach ($k in @($listed.Keys | Sort-Object)) {
-    if (-not $onDisk.ContainsKey($k)) {
-      $missingCount = $missingCount + 1
-      $verifyOut += ('MISSING  ' + $k)
-    }
-    if ($onDisk.ContainsKey($k)) {
-      $actual = (Get-FileHash -Algorithm SHA256 -LiteralPath $onDisk[$k]).Hash
-      if ($actual -eq $listed[$k]) {
-        $verifiedCount = $verifiedCount + 1
-        $verifyOut += ('OK       ' + $k)
-      }
-      if ($actual -ne $listed[$k]) {
-        $alteredCount = $alteredCount + 1
-        $verifyOut += ('ALTERED  ' + $k)
-      }
-    }
-  }
-  foreach ($k in @($onDisk.Keys | Sort-Object)) {
-    $isSeal = ($k -eq 'SHA256SUMS.txt')
-    $isControl = ($controlPaths -contains $k)
-    if ((-not $listed.ContainsKey($k)) -and (-not $isSeal) -and (-not $isControl)) {
-      $addedCount = $addedCount + 1
-      $verifyOut += ('ADDED    ' + $k + ' (on disk, not sealed, not a control file)')
-    }
-  }
-  $issues = $missingCount + $alteredCount + $addedCount
-  if (-not $sealUnchanged) {
-    $issues = $issues + 1
-  }
-  if ($listed.Count -eq 0) {
-    $issues = $issues + 1
-  }
-  $verifyOut += ('Summary: sealed ' + $listed.Count + ' | verified ' + $verifiedCount + ' | missing ' + $missingCount + ' | altered ' + $alteredCount + ' | added ' + $addedCount + ' | seal unchanged ' + $sealUnchanged)
-  if ($issues -eq 0) {
-    $verifyOut += 'Post-seal verdict: OK'
-  }
-  if ($issues -gt 0) {
-    $verifyOut += 'Post-seal verdict: FAILED'
-  }
-  $verifyOut | Out-File -LiteralPath (Join-Path $EvidenceRoot 'manifest-verification.txt') -Encoding utf8
-  if ($issues -gt 0) {
-    throw ('FAIL - post-seal verification found ' + $issues + ' issue(s); see manifest-verification.txt')
-  }
-  Write-Host ('Post-seal verification OK: ' + $listed.Count + ' sealed, 0 missing, 0 altered, 0 added, seal unchanged')
-
-  # 5. Final result, written LAST. RESULT.txt is the terminal record: it cannot list its own hash, so its SHA-256 is
-  #    printed on the console and must be returned with the folder. It is never written as PASS before verification passed.
-  $verifyHash = (Get-FileHash -Algorithm SHA256 -LiteralPath (Join-Path $EvidenceRoot 'manifest-verification.txt')).Hash
+  # All S2 criteria met. Nothing before this point writes PASS. Sealing, the seal recheck and
+  # publication happen in Invoke-Finalize after this block.
   $Status = 'PASS'
-  $Reason = 'all S2 criteria met at the designated pin (native Windows host); evidence sealed and post-seal verification OK'
-  $ResultExtra = @(
-    ('SEAL SHA256SUMS.txt SHA256: ' + $sealHash),
-    ('VERIFICATION manifest-verification.txt SHA256: ' + $verifyHash),
-    ('SEALED ENTRIES: ' + $listed.Count),
-    'POST-SEAL CHECK: OK (missing 0, altered 0, added 0, seal unchanged)'
-  )
-  Write-Result 'RESULT.txt'
-  $resultHash = (Get-FileHash -Algorithm SHA256 -LiteralPath (Join-Path $EvidenceRoot 'RESULT.txt')).Hash
-  Write-Host ('RESULT.txt SHA-256 (record this in the return): ' + $resultHash)
+  $Reason = 'all S2 criteria met at the designated pin (native Windows host)'
 } catch {
   $message = [string]$_.Exception.Message
   $Reason = $message
@@ -636,18 +785,34 @@ try {
   Write-Host ''
   Write-Host ('[S2] ' + $Status + ' - ' + $Reason) -ForegroundColor Red
   Set-Location -LiteralPath $StartDir
-  $ResultExtra = @()
-  if ($EvidenceCreated) {
-    $staleTmp = Join-Path $EvidenceRoot 'RESULT.txt.tmp'
-    if (Test-Path -LiteralPath $staleTmp) {
-      Remove-Item -LiteralPath $staleTmp -Force
-    }
+}
+
+if ($EvidenceCreated) {
+  try {
+    Invoke-Finalize
   }
-  Write-Result 'RESULT.txt'
+  catch {
+    $Status = 'INVALID'
+    $Reason = 'sealing or publication failed: ' + [string]$_.Exception.Message + ' (not published at the final name; the .inprogress folder is not evidence)'
+    $FinalLocation = $EvidenceRoot
+    Write-Host ('[S2] ' + $Status + ' - ' + $Reason) -ForegroundColor Red
+  }
 }
 
 Write-Host ''
 Write-Host ('[S2] FINAL STATUS: ' + $Status) -ForegroundColor Cyan
 Write-Host ('[S2] Reason: ' + $Reason)
-Write-Host ('[S2] Evidence root: ' + $EvidenceRoot)
+if ($EvidenceCreated) {
+  Write-Host ('[S2] Evidence root: ' + $FinalLocation)
+  if ($SealHash -ne '') {
+    Write-Host ('[S2] SHA256SUMS.txt SHA-256 (record this in the return): ' + $SealHash)
+  }
+  else {
+    Write-Host '[S2] SHA256SUMS.txt: not written (folder is not sealed; not evidence)'
+  }
+  Write-Host ('[S2] Seal-recheck transcript (return with the folder): ' + $RecheckLog)
+}
+else {
+  Write-Host '[S2] Evidence root: not created (preflight stopped before any folder was written)'
+}
 $null = Read-Host -Prompt 'Run finished. Press Enter to close this window'
