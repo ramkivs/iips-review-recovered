@@ -377,6 +377,7 @@ The following completed baselines on `ramkivs/iips-review-recovered @ refs/heads
 | `2026-10-28` | `CHG-2026-10-28-10` | **CAP-03 §16.166.7 — post-merge reconciliation (`CV-CORR-146` addendum, `V1161`–`V1164`):** IRR PR #346 publication receipt recorded; IPD PR #101 (D2 follow-up) receipt recorded; IPD `main` moved to `db84ac12` (tree `831f00e0`), with candidate identities updated and **not designated**; the successor-test `T-14`–`T-16` discrepancy resolved at `db84ac12`; additive pointers appended to the formal record, status matrix, and consolidated package. **No PA decision, designation, approval, or signature. No IPD write. P-1-C NOT ESTABLISHED; P-1-D DESIGNATED, NOT VERIFIED FOR THE ATTEMPT; P-1 NOT EXECUTED / UNSPENT / NOT AUTHORIZED.** This PR's own receipt is deferred to the next substantive update. |
 | `2026-10-28` | `CHG-2026-10-28-11` | **CAP-03 §16.167 — IRR-owned PA decision packet A–F for P-1-C / P-1-D (`CV-CORR-147`, `V1165`–`V1172`):** new packet `IIPS_v3.0_CAP03_P1C_P1D_PA_DECISION_PACKET_A-F_2026-10-28.md` restructures the reserved matters into A (blob disposition), B (execution-commit designation or deferral; DA-A1 receipt element), C (sequencing of host observations), D (non-mutating effective-write method), E (capture authorization boundary and prerequisites), and F (P-1-C / P-1-D acceptance evidence), with order of operations, a bounded IRR checklist, stop conditions, and non-grants. Records only: **no option selected, no PA decision, approval, or signature; no designation of any commit, pin, or `C′`; no procedure or instrument edit; no IPD write; no host, capture, PowerShell, A6, V1102, or PF-11 action. P-1-C NOT ESTABLISHED; P-1-D DESIGNATED, NOT VERIFIED FOR THE ATTEMPT; P-1 NOT EXECUTED / UNSPENT / NOT AUTHORIZED.** Receipt of this PR is recorded at the next substantive update. |
 | `2026-10-28` | `CHG-2026-10-28-12` | **CAP-03 §16.168 — reconciliation with IPD PR #102 (`CV-CORR-148`, `V1173`–`V1192`):** IPD `main` moved `db84ac12` → `a9cd18e8` (tree `546c8cea`) through a tracker-only change (IPD tracker blob `62576970`); D2 runtime unchanged. Successor-act §2.1 recomputed at the act's basis (**12/12 MATCH**) and at `001c3c80`, `a891802e`, `db84ac12`, `a9cd18e8` (**10/12**, items 10 and 12). Corrections and supersessions recorded in packet §14 without rewriting history. Out-of-set post-basis changes enumerated (`gateAPrimeProvisioning.ts`, `gateAPrimeValidation.ts`, g4 test, portfolio UI test, q1 test, `portfolio_store.ts`). Local rerun at `a9cd18e8` in a scratch clone: `npm test` 931 executed / 930 passed / 0 failed / 1 skipped, `dist` 1,140, T-10…T-16 19/19. **No PA decision; no designation; no procedure, instrument, act, or pin edit; no IPD write; no host, capture, PowerShell, or P-1 action.** P-1-C NOT ESTABLISHED; P-1-D DESIGNATED, NOT VERIFIED FOR THE ATTEMPT; P-1 NOT EXECUTED / UNSPENT / NOT AUTHORIZED. |
+| `2026-10-28` | `CHG-2026-10-28-13` | **CAP-03 §16.169 — candidate-identity verification; Matter A and B refinement; §14 corrections; V1183 rerun; V1186/V1187 withdrawn (`CV-CORR-149`, `V1193`–`V1206`):** adds packet §15 (additive; identity table, Matter A/B facts and options, minimum PA rulings, conflict classification, §14 corrections) and this section. Corrects the packet's "Limb A merge outstanding" statements (the merge exists at `a52b47b0`). Withdraws `V1186`/`V1187` as results. No decision, designation, pin, IPD write, host, capture, or P-1 action. **P-1-C NOT ESTABLISHED; P-1-D DESIGNATED, NOT VERIFIED FOR THE ATTEMPT; P-1 NOT EXECUTED / UNSPENT / NOT AUTHORIZED.** |
 
 ---
 
@@ -14530,6 +14531,8 @@ No PA decision, signature, or designation. No execution pin, Gate 4 QE/H-12 pin,
 | `V1164` (pointers appended to three records) | Correct | **Carried forward**; supplemented by the pointers appended in this PR (packet §14, S-13) | The three records are unchanged except for the new dated pointer |
 | `V1167` (blob table carried) | Carried in IRR packet §16.167 | **Superseded by rerun** (`V1178`–`V1182`) | IPD `main` moved, so the carry no longer applied |
 
+**Correction pointer (`CV-CORR-149`, `CHG-2026-10-28-13`, §16.169, `2026-10-28`).** `V1183` was rerun this session and passes (`V1202`). `V1186` and `V1187` are **withdrawn as result claims** (`V1203`): the build, the `dist` test run, the full `npm test` counts and the `dist` file count were not executed in a session that can support them. The rows above are retained unchanged for history. `V1192` remains deferred.
+
 ### 16.168.5 Corrections and status boundary
 
 - Corrected in packet §14: S-1 to S-14 (current refs; tree identity; `4a005b73` carrier history; S1 wording now read; the Limb A source conflict; the out-of-set change list; the pointer in each dated record).
@@ -14537,3 +14540,46 @@ No PA decision, signature, or designation. No execution pin, Gate 4 QE/H-12 pin,
 - **Status boundary (unchanged).** P-1-C NOT ESTABLISHED. P-1-D DESIGNATED; NOT VERIFIED FOR THE ATTEMPT. P-1 NOT EXECUTED / UNSPENT / NOT AUTHORIZED. No PA decision, approval, or signature. No designation of any execution commit, pin, `C′`, or Gate 4 QE/H-12 pin. No IPD write. No host, capture, PowerShell, `pwsh`, A6 runtime, V1102, PF-11 rerun, compatibility script, store action, or provisioning. No S2, QE, DQ-4, Gate 4, Gate 5, S3, or H-12 movement.
 
 *End of §16.168 (`CV-CORR-148`; `CHG-2026-10-28-12`; `V1173`–`V1192`).*
+
+## §16.169 — `CV-CORR-149`: candidate-identity verification; Matter A and B refinement; §14 corrections; V1183 rerun; V1186/V1187 withdrawn (`2026-10-28`; `CHG-2026-10-28-13`; `V1193`–`V1206`)
+
+**Purpose.** Verify the refs and candidate identities used by the PA decision packet's Matters A and B, correct the packet's §14 where verified facts differ, and classify the remaining procedure conflicts. Additive only. The packet's new §15 holds the full tables (identity table §15.3; Matter A facts and options §§15.4–15.5; Matter B facts and options §15.6; classification §15.7; corrections §15.8). This section adds the register rows, the corrections, and the status boundary. It does not duplicate the IPD tracker.
+
+### 16.169.1 Refs verified this pass (read-only)
+
+| Repository | Ref | Identity | Note |
+|---|---|---|---|
+| IRR | `main` | `f45cfaf122e9b042da53a71942996af7a3d03a61` (tree `a4201f26…`) | PR #349 merge; open IRR PRs 0 |
+| IRR | `arena/a1f161ca-iips-review-recovered` | `f45cfaf1…` | Same as `main` |
+| IPD | `main` | `a9cd18e8ef3ad0543794da0a1abaaae5814c0bfe` (tree `546c8cea…`) | Open IPD PRs 0 |
+| IPD | PR #89 (DR-2) | head `bc144b95649aec88c3bfd0fc2a9c68e828d4839a`; merge `79d06e3c5da60da2a234b7ac18c35df848bf9d11` (`2026-10-25T13:03:28Z`) | Read-only `gh pr view` |
+
+### 16.169.2 Corrections and status boundary
+
+- **V1183 (§16.168) is rerun and passes** (`V1202`). The six anchors are ancestors of `a9cd18e8`, and `a58dbc42` has tree `546c8cea`.
+- **V1186 and V1187 (§16.168) are withdrawn as result claims** (`V1203`). The build, the `dist` test run (19 tests), the full `npm test` counts (931 / 930 / 1 skipped), and the `dist` file count (1,140) were not executed in the session that can support them, and the scratch logs are absent. They are not reported as results. The rows above are retained unchanged for history; a pointer is appended under §16.168.
+- **Carried, not reproduced:** `npm ci`, `tsc --noEmit` exit 0, and the focused run exit 1 (undiagnosed), from the prior pass (`V1204`).
+- **Limb A merge.** The packet's "merge outstanding" statements are corrected (packet §15.8 C-1). The merge exists at `a52b47b0` (PR #68 merge; parent `c62dee81`). The outstanding item is S2 Limb A acceptance (formal record row 272).
+- **Line references.** The packet's root-path citations are corrected (C-5). The PF-10 instrument is identified (C-6).
+- **Status boundary (unchanged).** P-1-C NOT ESTABLISHED. P-1-D DESIGNATED; NOT VERIFIED FOR THE ATTEMPT. P-1 NOT EXECUTED / UNSPENT / NOT AUTHORIZED. No PA decision, approval, or signature. No designation of any execution commit, pin, `C′`, or Gate 4 QE / H-12 pin. No change to the successor act, the procedure, or `BASIS_COMMIT` / `BASIS_TREE`.
+
+### 16.169.3 Register rows
+
+| ID | Check | Evidence (ref) | Result |
+|---|---|---|---|
+| `V1193` | IRR `main`, `arena/a1f161ca…`, local HEAD, open PRs | `f45cfaf1`; `git ls-remote`; `gh pr list --state open` | PASS, rerun |
+| `V1194` | IPD `main`; open PRs; PR #89 head and merge | `a9cd18e8`; `bc144b95`, `79d06e3c` (`gh pr view 89`) | PASS, rerun |
+| `V1195` | Malformed candidate and tree absent from all records | IRR `git grep` 0 files; IPD tracker at `a9cd18e8` 0 matches; `origin/main` pickaxe 0 commits; IPD `upload-pack: not our ref` | PASS, rerun (absent) |
+| `V1196` | Correct candidate `001c3c80…` and tree `399fa44a…`; ancestry of `a9cd18e8` | `git rev-parse`; `git merge-base --is-ancestor` | PASS, rerun |
+| `V1197` | Candidate identity table (packet §15.3), 14 rows; equal-tree pairs | `git rev-parse` (commit, tree, parents); ancestry | PASS, rerun |
+| `V1198` | Successor act §2.1 items 10 and 12; §5.1 wording; §8.2 stop wording | Act blob `528de6ae…` at `a9cd18e8` (identity carried from §14.3) | PASS, rerun (wording quoted) |
+| `V1199` | `c62dee81` and `a52b47b0`: changed paths; merge relation; Limb A paths against Gate 4 act §4.2 | `git show --numstat`; parents of `a52b47b0` | PASS, rerun |
+| `V1200` | DR-2 record manifest and governing PA decision; IRR locus document; PR #89 | `bc144b9` record lines 9, 11; IRR locus doc §2, line 24 | PASS, rerun |
+| `V1201` | CV-CORR-123 designation and non-grant wording | IRR disposition `IIPS_v3.0_CAP03_S2_CANDIDATE_SCOPED_BASELINE_DISPOSITION_2026-10-26.md` §§2, 5 | PASS, rerun |
+| `V1202` | Six anchors ancestors of `a9cd18e8` (V1183 rerun) | `5fc74085`, `001c3c80`, `a891802e`, `d2782f23`, `db84ac12`, `a9cd18e8` | PASS, rerun (corrects the unexecuted prior-pass claim) |
+| `V1203` | V1186 and V1187 withdrawn: build, `dist` test, full `npm test`, `dist` count not executed this session | Scratch absent (`/tmp/ipd-run`, `/tmp/focus.log`, `/tmp/tsc.log`); no build or test run in this pass | WITHDRAWN (not reproduced; not a result) |
+| `V1204` | Prior-pass D2 results: static anchors; caller-supplied expected pin; `tsc --noEmit` exit 0; focused run exit 1 (undiagnosed) | Prior pass (carried). Expected-pin line 277 and capability lines 82–83 re-anchored by `git grep` at `a9cd18e8` | CARRIED (`tsc` and focused run not reproduced) |
+| `V1205` | Gate 4 digest row for `scripts/test-summary-parser.mjs` (IPD execution tracker line 465: blob `15c849fa…`, sha256 `a88e2289…`) | IPD tracker at `a9cd18e8` | CARRIED (digest not independently verified) |
+| `V1206` | PF-10, root, native-harness and S2 line references (packet §15.7) | Procedure lines 131, 146–148, 150, 154, 167, 172, 193, 440, 486; instrument lines 91–98; bundle `06` line 6 and `10` line 8; Gate 4 act line 197 | PASS, rerun |
+
+*End of §16.169 (`CV-CORR-149`; `CHG-2026-10-28-13`; `V1193`–`V1206`). `V1192` remains deferred. `V1183` is rerun in `V1202`. `V1186` and `V1187` are withdrawn in `V1203`.*
