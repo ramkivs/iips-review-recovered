@@ -487,7 +487,9 @@ try {
   }
   $distAfter | Out-File -LiteralPath (Join-Path $EvidenceRoot 's2-08b-dist-sha256-after.txt') -Encoding utf8
 
-  # All S2 criteria met. Nothing before this point writes PASS. The sealing steps decide the final status.
+  # All S2 criteria met. Nothing before this point writes PASS.
+  # Finalization order: required-evidence check -> seal (SHA256SUMS.txt) -> fresh post-seal
+  # inventory and verification (manifest-verification.txt) -> RESULT.txt PASS (last write).
   Write-Log 'S2 criteria met. Sealing the evidence.'
 
   # 1. Required evidence must be present and non-empty before anything is sealed.
@@ -513,16 +515,18 @@ try {
     throw ('FAIL - required evidence missing or empty: ' + ($missingEvidence -join ', '))
   }
 
-  # 2. Payload = every evidence file except the three control files. RESULT.txt cannot list its own hash,
-  #    so it is the root of the chain: its SHA-256 is printed on the console and recorded in the run record.
-  $controlNames = @('RESULT.txt', 'SHA256SUMS.txt', 'manifest-verification.txt')
-  $payloadFiles = @(Get-ChildItem -LiteralPath $EvidenceRoot -Recurse -File | Where-Object { $controlNames -notcontains $_.Name } | Sort-Object FullName)
-  $diskPaths = @()
-  foreach ($f in $payloadFiles) {
-    $diskPaths += $f.FullName.Substring($EvidenceRoot.Length + 1)
+  # 2. Control files sit at the evidence root and are never part of the seal. Matching is by root-relative path,
+  #    so a payload file in a subfolder cannot be mistaken for a control file.
+  $controlPaths = @('RESULT.txt', 'SHA256SUMS.txt', 'manifest-verification.txt')
+  $payloadFiles = @()
+  foreach ($f in @(Get-ChildItem -LiteralPath $EvidenceRoot -Recurse -File | Sort-Object FullName)) {
+    $rel = $f.FullName.Substring($EvidenceRoot.Length + 1)
+    if ($controlPaths -notcontains $rel) {
+      $payloadFiles += $f
+    }
   }
 
-  # 3. Write the manifest and record its seal hash.
+  # 3. Seal: SHA256SUMS.txt lists every payload file. Its own hash is recorded at creation (SEAL line below).
   $manifestFile = Join-Path $EvidenceRoot 'SHA256SUMS.txt'
   $manifestLines = @()
   foreach ($f in $payloadFiles) {
@@ -531,78 +535,84 @@ try {
   $manifestLines | Out-File -LiteralPath $manifestFile -Encoding utf8
   $sealHash = (Get-FileHash -Algorithm SHA256 -LiteralPath $manifestFile).Hash
 
-  # 4. Independent verification: re-hash every listed file, and compare the listed set with the files on disk in both directions.
-  $verifyOut = @(
-    'Verification of SHA256SUMS.txt against the evidence root',
-    ('Payload excludes: ' + ($controlNames -join ', ')),
-    ('SEAL SHA256SUMS.txt SHA256 ' + $sealHash)
-  )
-  $listedPaths = @()
-  $checked = 0
-  $mismatch = 0
+  # 4. Post-seal inventory: a fresh enumeration of the evidence root AFTER the seal exists.
+  #    Compared with the manifest in both directions: missing, altered, added. The seal must be unchanged.
+  $listed = @{}
   foreach ($line in (Get-Content -LiteralPath $manifestFile)) {
     $parts = $line -split '  ', 2
-    $listedPaths += $parts[1]
-    $checked = $checked + 1
-    $target = Join-Path $EvidenceRoot $parts[1]
-    if (-not (Test-Path -LiteralPath $target)) {
-      $mismatch = $mismatch + 1
-      $verifyOut += ('ABSENT   ' + $parts[1])
+    $listed[$parts[1]] = $parts[0]
+  }
+  $onDisk = @{}
+  foreach ($f in @(Get-ChildItem -LiteralPath $EvidenceRoot -Recurse -File)) {
+    $onDisk[$f.FullName.Substring($EvidenceRoot.Length + 1)] = $f.FullName
+  }
+  $verifyOut = @(
+    'Post-seal verification of SHA256SUMS.txt (fresh enumeration after the seal was written)',
+    ('Control files (not sealed): ' + ($controlPaths -join ', ')),
+    ('SEAL SHA256SUMS.txt at creation: ' + $sealHash)
+  )
+  $sealNow = (Get-FileHash -Algorithm SHA256 -LiteralPath $manifestFile).Hash
+  $sealUnchanged = ($sealNow -eq $sealHash)
+  $verifyOut += ('SEAL SHA256SUMS.txt now: ' + $sealNow + ' | unchanged: ' + $sealUnchanged)
+  $missingCount = 0
+  $alteredCount = 0
+  $addedCount = 0
+  $verifiedCount = 0
+  foreach ($k in @($listed.Keys | Sort-Object)) {
+    if (-not $onDisk.ContainsKey($k)) {
+      $missingCount = $missingCount + 1
+      $verifyOut += ('MISSING  ' + $k)
     }
-    if (Test-Path -LiteralPath $target) {
-      $actual = (Get-FileHash -Algorithm SHA256 -LiteralPath $target).Hash
-      if ($actual -eq $parts[0]) {
-        $verifyOut += ('OK       ' + $parts[1])
+    if ($onDisk.ContainsKey($k)) {
+      $actual = (Get-FileHash -Algorithm SHA256 -LiteralPath $onDisk[$k]).Hash
+      if ($actual -eq $listed[$k]) {
+        $verifiedCount = $verifiedCount + 1
+        $verifyOut += ('OK       ' + $k)
       }
-      if ($actual -ne $parts[0]) {
-        $mismatch = $mismatch + 1
-        $verifyOut += ('MISMATCH ' + $parts[1])
+      if ($actual -ne $listed[$k]) {
+        $alteredCount = $alteredCount + 1
+        $verifyOut += ('ALTERED  ' + $k)
       }
     }
   }
-  $unlisted = @()
-  foreach ($p in $diskPaths) {
-    if ($listedPaths -notcontains $p) {
-      $unlisted += $p
+  foreach ($k in @($onDisk.Keys | Sort-Object)) {
+    $isSeal = ($k -eq 'SHA256SUMS.txt')
+    $isControl = ($controlPaths -contains $k)
+    if ((-not $listed.ContainsKey($k)) -and (-not $isSeal) -and (-not $isControl)) {
+      $addedCount = $addedCount + 1
+      $verifyOut += ('ADDED    ' + $k + ' (on disk, not sealed, not a control file)')
     }
   }
-  $notOnDisk = @()
-  foreach ($p in $listedPaths) {
-    if ($diskPaths -notcontains $p) {
-      $notOnDisk += $p
-    }
+  $issues = $missingCount + $alteredCount + $addedCount
+  if (-not $sealUnchanged) {
+    $issues = $issues + 1
   }
-  foreach ($p in $unlisted) {
-    $verifyOut += ('UNLISTED ' + $p)
+  if ($listed.Count -eq 0) {
+    $issues = $issues + 1
   }
-  foreach ($p in $notOnDisk) {
-    $verifyOut += ('NOT ON DISK ' + $p)
-  }
-  $issues = $mismatch + $unlisted.Count + $notOnDisk.Count
-  $verifyOut += ('Entries listed: ' + $checked + ' | payload files on disk: ' + $diskPaths.Count + ' | hash mismatches or absent: ' + $mismatch + ' | unlisted: ' + $unlisted.Count + ' | listed but not on disk: ' + $notOnDisk.Count)
+  $verifyOut += ('Summary: sealed ' + $listed.Count + ' | verified ' + $verifiedCount + ' | missing ' + $missingCount + ' | altered ' + $alteredCount + ' | added ' + $addedCount + ' | seal unchanged ' + $sealUnchanged)
   if ($issues -eq 0) {
-    $verifyOut += 'Verification verdict: OK'
+    $verifyOut += 'Post-seal verdict: OK'
   }
   if ($issues -gt 0) {
-    $verifyOut += 'Verification verdict: FAILED'
+    $verifyOut += 'Post-seal verdict: FAILED'
   }
   $verifyOut | Out-File -LiteralPath (Join-Path $EvidenceRoot 'manifest-verification.txt') -Encoding utf8
   if ($issues -gt 0) {
-    throw ('FAIL - evidence manifest verification found ' + $issues + ' issue(s); see manifest-verification.txt')
+    throw ('FAIL - post-seal verification found ' + $issues + ' issue(s); see manifest-verification.txt')
   }
-  if ($checked -eq 0) {
-    throw 'FAIL - the evidence manifest lists no entries'
-  }
-  Write-Host ('Manifest verified: ' + $checked + ' entries, 0 issues')
+  Write-Host ('Post-seal verification OK: ' + $listed.Count + ' sealed, 0 missing, 0 altered, 0 added, seal unchanged')
 
-  # 5. Final result, written LAST. It records the seal and verification hashes. The verification file is final by now.
+  # 5. Final result, written LAST. RESULT.txt is the terminal record: it cannot list its own hash, so its SHA-256 is
+  #    printed on the console and must be returned with the folder. It is never written as PASS before verification passed.
   $verifyHash = (Get-FileHash -Algorithm SHA256 -LiteralPath (Join-Path $EvidenceRoot 'manifest-verification.txt')).Hash
   $Status = 'PASS'
-  $Reason = 'all S2 criteria met at the designated pin (native Windows host); evidence sealed and verified'
+  $Reason = 'all S2 criteria met at the designated pin (native Windows host); evidence sealed and post-seal verification OK'
   $ResultExtra = @(
     ('SEAL SHA256SUMS.txt SHA256: ' + $sealHash),
     ('VERIFICATION manifest-verification.txt SHA256: ' + $verifyHash),
-    ('ENTRIES SEALED: ' + $checked)
+    ('SEALED ENTRIES: ' + $listed.Count),
+    'POST-SEAL CHECK: OK (missing 0, altered 0, added 0, seal unchanged)'
   )
   Write-Result 'RESULT.txt'
   $resultHash = (Get-FileHash -Algorithm SHA256 -LiteralPath (Join-Path $EvidenceRoot 'RESULT.txt')).Hash
@@ -626,6 +636,7 @@ try {
   Write-Host ''
   Write-Host ('[S2] ' + $Status + ' - ' + $Reason) -ForegroundColor Red
   Set-Location -LiteralPath $StartDir
+  $ResultExtra = @()
   if ($EvidenceCreated) {
     $staleTmp = Join-Path $EvidenceRoot 'RESULT.txt.tmp'
     if (Test-Path -LiteralPath $staleTmp) {
