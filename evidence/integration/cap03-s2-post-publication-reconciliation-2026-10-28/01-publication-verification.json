@@ -1,0 +1,26 @@
+{
+  "publication_commit": "e43476eb45a58eab130cc43535f2ba61de9e450f",
+  "commit_parents": [
+    "82b3f4a5d31134e40fd3a1a23169a0ca8d638dfc"
+  ],
+  "commit_tree": "eb1e661a23bc7aa2ab4d02f8b806a6960758b7fa",
+  "files_changed_vs_main": [
+    "A\thandoff/non-authoritative-evidence/cap03-s2/CAP03-S2-original-evidence-recovery-20261028T090844Z.zip",
+    "A\thandoff/non-authoritative-evidence/cap03-s2/CAP03-S2-original-evidence-recovery-20261028T090844Z.zip.sha256",
+    "A\thandoff/non-authoritative-evidence/cap03-s2/PUBLICATION-RECEIPT.txt"
+  ],
+  "zip_bytes": 551087,
+  "zip_sha256": "86C46B79A02DA13EC9D57B891762098B23E49AF7B4AE66CE7FB551DA9B759223",
+  "zip_sha256_expected": "86C46B79A02DA13EC9D57B891762098B23E49AF7B4AE66CE7FB551DA9B759223",
+  "zip_sha256_matches_expected": true,
+  "sidecar_digest": "86C46B79A02DA13EC9D57B891762098B23E49AF7B4AE66CE7FB551DA9B759223",
+  "sidecar_matches_zip": true,
+  "receipt_digest": "86C46B79A02DA13EC9D57B891762098B23E49AF7B4AE66CE7FB551DA9B759223",
+  "receipt_matches_zip": true,
+  "receipt_size_matches": true,
+  "zip_entry_count": 51,
+  "receipt_zip_entries_matches": true,
+  "publication_paths_on_main": [],
+  "main_ref": "82b3f4a5d31134e40fd3a1a23169a0ca8d638dfc",
+  "publication_base_is_main_head_at_publication": true
+}
