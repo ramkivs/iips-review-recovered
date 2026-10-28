@@ -74,3 +74,5 @@ Recorded in `docs/integration/IIPS_v3.0_CAP03_PA_RULINGS_RECORD_PASS2_2026-10-28
 ## 8. IPD-A-Q5 result (verified 2026-10-28; updated after round-5 rulings)
 
 IPD act `IIPS-V3-CAP02-GATE-A-PRIME-AMEND-01-DESIGNATED-BLOBS-2026-10-28-01` published at IPD `main` merge `0edadb2d` (PR #107; CI green). Items 10 and 12 re-designated at `a891802e` as ruled. **Designated-blob limb cleared. Basis limb cleared under PA reading (ii)** (compiled `BASIS_COMMIT` `5fc74085` / `BASIS_TREE` `7226ef00` equal the selected basis; executing commit recorded via D2). **Matter A closed as to the act §7 closure test.** B-1 remains **not effective**: fresh S2 and H-12 at `a891802e` are not produced. Identity values remain unresolved. Details: `docs/integration/IIPS_v3.0_CAP03_IPD_A-Q5_RESULT_RECORD_2026-10-28.md`.
+
+**IPD-S1 (pointer) status, 2026-10-28:** published at IPD `b9dd6fce` (PR #108; act `IIPS-V3-CAP03-S1-POINTER-ACT-01-2026-10-28-01`). It records the governing text only. S1 execution remains BLOCKED. Dependency handoff: `docs/integration/IIPS_v3.0_CAP03_IPD_S1_PUBLICATION_AND_DEPENDENCY_HANDOFF_2026-10-28.md`.

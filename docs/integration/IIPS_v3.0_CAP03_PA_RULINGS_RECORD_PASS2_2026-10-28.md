@@ -107,3 +107,7 @@ Each is the user's answer to the precise question quoted in the sitting response
 - A-Q5 IPD act published at IPD `0edadb2d` (CI green). Result and §8.2 limb status: `docs/integration/IIPS_v3.0_CAP03_IPD_A-Q5_RESULT_RECORD_2026-10-28.md`.
 - Round 5, basis limb: first answer option (a), a compiled-basis amendment to `a891802e`, was **superseded** after the D2 text was re-read. PA then ruled **reading (ii)**: §8.2 checks the compiled constants against the selected basis (`5fc74085` / `7226ef00`), with the executing commit recorded via the D2 receipt. No basis amendment is authorized or executed.
 - Effect: basis limb cleared on reading (ii); designated-blob limb cleared; Matter A closed as to the act §7 test. B-1 still not effective (fresh S2 and H-12 at `a891802e` not produced). Identity values still unresolved.
+
+## 9. Pointer (2026-10-28): IPD-S1 published; §5 "still open" superseded
+
+The §5 line "the IPD A-Q5 act and IPD-S1 pointer (IPD, separate authority)" is superseded by dated pointer. A-Q5 is executed at IPD `0edadb2d` (§8 above). The IPD-S1 pointer is published at IPD `b9dd6fce` (PR #108; act `IIPS-V3-CAP03-S1-POINTER-ACT-01-2026-10-28-01`). The original §5 text is unchanged. See `docs/integration/IIPS_v3.0_CAP03_IPD_S1_PUBLICATION_AND_DEPENDENCY_HANDOFF_2026-10-28.md`.

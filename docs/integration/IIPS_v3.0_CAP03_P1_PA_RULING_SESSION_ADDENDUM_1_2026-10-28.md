@@ -335,3 +335,7 @@ No PA decision, adoption, designation, pin, acceptance, register update of a PA 
 P-1-C NOT ESTABLISHED. P-1-D DESIGNATED, NOT VERIFIED FOR THE ATTEMPT. P-1 NOT EXECUTED / UNSPENT / NOT AUTHORIZED.
 
 *End of Addendum 1 section 7 (`CV-CORR-156`). It is the consolidated sitting packet. The package and Addendum 1 sections 1–6 remain as written, with the pointers above.*
+
+### 7.6 Pointer (2026-10-28): P-3 IPD-S1 executed
+
+P-3 (IPD-S1) is executed: pointer published at IPD `b9dd6fce` (PR #108). Recorded in `docs/integration/IIPS_v3.0_CAP03_IPD_S1_PUBLICATION_AND_DEPENDENCY_HANDOFF_2026-10-28.md` §3.9. The trigger table above is not edited. Other P-n rows: P-1 (A-IPD) complete at `0edadb2d`; P-2 (IPD-C2) trigger partial, not issued; P-5 (FRM-D1C) untriggered.

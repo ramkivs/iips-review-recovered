@@ -50,12 +50,12 @@ The stop condition in the successor act §8.2 reads: "Basis commit/tree or any d
 - **A-Q6 (§8.2 stop, designated-blob limb):** **CLEARED**, items 10 and 12 only.
 - **Scope of "Matter A closed":** this is not a clearance of the other §8.2 limbs. Identity values remain unresolved, and the host, Node, P-1 and V-A2 limbs are gated and unverified by IRR (§3).
 
-## 5. IPD-S1 (A-GAP1 pointer correction)
+## 5. IPD-S1 (A-GAP1 pointer correction) — PUBLISHED (verified 2026-10-28)
 
-- **Status: PENDING, not published.** No IPD-S1 pointer is present on IPD `main` at `0edadb2d` (search of `*.md`). The IPD tracker still lists `IPD-S1` as a separate act ("disputed; correction only if PA requires", tracker line ~2383).
-- The A-GAP1 ruling is recorded in IRR. Whether it meets the tracker's trigger for IPD-S1 is for IPD to decide. IRR does not write IPD.
-- Prompt: `docs/integration/IIPS_v3.0_CAP03_IPD_PROMPT_S1_POINTER_2026-10-28.md`. Ready. Not performed.
-- The A-Q5 act is not a substitute for IPD-S1 and does not claim to be one.
+- **Status: PUBLISHED.** IPD PR #108 merged; IPD `main` merge `b9dd6fce48fafba8ca6095debefb62fd54234f85`; pre-merge head `bda1f057`. Record `IIPS-V3-CAP03-S1-POINTER-ACT-01-2026-10-28-01`, act `evidence/cross-repository/IIPS_V3_CAP03_S1_POINTER_ACT_01_EFFECTIVE_2026-10-28.md`, pointer under §12.2 of the S1 determination (`+25/-0`, §12.2 preserved), receipt in the IPD execution tracker (`+63/-0`).
+- **Distinction.** The pointer identifies the governing text (Gate 4 act §6 row S1). It does not execute S1. S1 remains `BLOCKED`.
+- **Full reconciliation and remaining dependencies:** `docs/integration/IIPS_v3.0_CAP03_IPD_S1_PUBLICATION_AND_DEPENDENCY_HANDOFF_2026-10-28.md`.
+- The IRR S1 prompt (`IIPS_v3.0_CAP03_IPD_PROMPT_S1_POINTER_2026-10-28.md`) is not edited, because the published act cites its blob.
 
 ## 6. B-1, fresh S2, H-12, and formal §4.6 step 5
 

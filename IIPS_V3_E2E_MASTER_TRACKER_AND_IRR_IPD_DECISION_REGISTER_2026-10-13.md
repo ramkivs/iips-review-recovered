@@ -15388,3 +15388,90 @@ P-1-C NOT ESTABLISHED. P-1-D DESIGNATED, NOT VERIFIED FOR THE ATTEMPT. P-1 NOT E
 No PA decision, adoption, designation, pin change, acceptance, Table 1 status change, procedure edit, IPD write, merge, host operation, PowerShell run, capture, store probe, S3, QE, DQ4 freeze, Gate 4 or Gate 5 action occurred in this pass. V1102 OPEN. A6 runtime not claimed as passed. DC-C2 not reopened. `BASIS_COMMIT` and `BASIS_TREE` unchanged.
 
 *End of §16.176 (`CV-CORR-156`; `CHG-2026-10-28-20`; `V1271`–`V1280`). It records the packet and its checks. It makes no PA decision and claims no acceptance.*
+
+---
+
+### 16.177 CAP-03 — IPD-S1 publication reconciled into IRR; dependency handoff (`CV-CORR-157`; `CHG-2026-10-28-21`; `V1281`–`V1290`)
+
+#### 16.177.1 Refs verified this pass (live, read only)
+
+- IRR `main` `82b3f4a5d31134e40fd3a1a23169a0ca8d638dfc` (unchanged). Session branch `arena/b776c15a-iips-review-recovered` at `822ef100b2f24f5d54f2aa7e22bea19040cf8476` before this pass's commit. PR #353: OPEN, not draft, base `main`, head `822ef100`, not merged. No merge authorization recorded.
+- IPD `main` `b9dd6fce48fafba8ca6095debefb62fd54234f85` (merge of PR #108; first parent `0edadb2d`; second parent `bda1f057386b89221194e3a1d83f608d9c7cc0a7`, tree `34ee1a3b97b787a4bdbc6d27943c6c4cfb1f6f6f`). PR #108 MERGED `2026-10-28T15:47:00Z`. Check-runs on `bda1f057` and `b9dd6fce`: "typecheck · build · test" success; "executed test count" success.
+- IPD `main` ancestry: `0edadb2d` (A-Q5 act) and `cddee59` (H-12 R5 mirror receipt, `2026-10-25`) are both ancestors of `b9dd6fce`.
+
+#### 16.177.2 IPD-S1 publication verified
+
+- PR #108 first-parent diff: 3 paths. `A` `evidence/cross-repository/IIPS_V3_CAP03_S1_POINTER_ACT_01_EFFECTIVE_2026-10-28.md` (blob `5afe4236`); `M` S1 determination §12.2 pointer (`+25/-0`; blob `845ee551`); `M` IPD execution tracker receipt (`+63/-0`; blob `b46dce34`). No code, test, script, manifest or workflow path changed.
+- Record `IIPS-V3-CAP03-S1-POINTER-ACT-01-2026-10-28-01`. Prompt cited by the act: IRR blob `d6d4fbe6` (1,200 bytes), verified at `caca0213`.
+- Distinction recorded by the act and preserved: governing text identified (Gate 4 act §6 row S1, `BLOCKED`); S1 execution not performed.
+
+#### 16.177.3 IRR records reconciled (pointers and status corrections; no historical text rewritten)
+
+1. `IIPS_v3.0_CAP03_IPD_A-Q5_RESULT_RECORD_2026-10-28.md` §5: status corrected from "PENDING" to "PUBLISHED (verified)".
+2. `IIPS_v3.0_CAP03_PA_RULINGS_RECORD_PASS2_2026-10-28.md` §9: dated pointer (the §5 "still open" line is superseded).
+3. `IIPS_v3.0_CAP03_PA_DESIGNATION_RECORD_PASS2_2026-10-28.md`: IPD-S1 status line appended.
+4. `IIPS_v3.0_CAP03_P1_PA_RULING_SESSION_ADDENDUM_1_2026-10-28.md` §7.6: P-3 executed; other P-n rows noted.
+5. New consolidated record: `IIPS_v3.0_CAP03_IPD_S1_PUBLICATION_AND_DEPENDENCY_HANDOFF_2026-10-28.md` (the dependency matrix).
+
+Deliberately not edited: the S1 prompt (blob `d6d4fbe6` cited by the published IPD act); the R5 H-12 adoption act (effective; its stale §13.2 statement is corrected by pointer here); the PA status matrix and formal record (their dated statements are superseded by pointer in the handoff).
+
+#### 16.177.4 H-12 R5 cross-locus correction (pointer)
+
+R5 act §13.2 states the IPD mirror receipt is "PREPARED — NOT PUBLISHED". It is published in IPD: `evidence/cross-repository/IIPS_V3_CAP03_G4_H12_R5_ADOPTION_IPD_MIRROR_RECEIPT_2026-10-25.md`, receipt `IIPS-V3-CAP03-G4-H12-R5-ADOPTION-IPD-MIRROR-RECEIPT-2026-10-25-01`, IPD commit `cddee59` (ancestor of IPD `main`). The receipt is "registration only": it adopts nothing on IPD's behalf and moves no pin. R5 adoption binds `8eec74ae` (IPD) / `ba64b2d5` (IRR), not the designated Gate 4 pin `a891802e`.
+
+#### 16.177.5 Dependency status (verified; full matrix in the handoff record §3)
+
+| Item | Status | Type |
+|---|---|---|
+| IRR reconciliation of IPD-S1 | COMPLETE (this pass) | DOC |
+| Gate 4 §4.6 step 5 | OPEN. Steps 1–4 satisfied; 5 and 6 not satisfied | DOC after evidence |
+| Native S2 at `a891802e` (route (c), fresh L2a) | ELIGIBLE, NOT STARTED | OP |
+| H-12 at `a891802e` (L2c) | NOT ADOPTED AT THIS PIN; R5 adopted at `8eec74ae`/`ba64b2d5` only; regeneration not started | PA then IPD/IRR |
+| R-2 `s2-checkout-verification.txt` | OPEN. CRLF explains the pin-file digest only; the checkout-verification digest does not reproduce | OP then PA |
+| D-INST candidate | CANDIDATE; not parsed, not run, not adopted; D-2 effective-write check not established; A6 NOT RUN | PA, then OP |
+| P-1-C / P-1-D / P-1 | NOT ESTABLISHED / DESIGNATED, NOT VERIFIED / NOT EXECUTED, UNSPENT, NOT AUTHORIZED (unchanged) | — |
+| P-2 IPD-C2 | Trigger partial: B-Q1 ruled; separate IPD prompt NOT issued | IPD (after PA question) |
+| P-3 IPD-S1 | COMPLETE (IPD PR #108) | IPD (done) |
+| P-1 A-IPD (manifest label) | COMPLETE (IPD `0edadb2d`) | IPD (done) |
+| P-5 FRM-D1C | UNTRIGGERED (no separate IPD authority recorded) | IPD (after PA authority) |
+| Host root `D:\cap03-p1-capture-20261028-01` | EXISTENCE NOT VERIFIED | OP (after E10) |
+| A6, PF preflight, PowerShell, store probing, capture | NOT EXECUTED; blocked on E10 and host | OP |
+| PR #353 merge | NOT AUTHORIZED | — |
+
+#### 16.177.6 PA questions carried forward (not decided here)
+
+1. Whether H-12 regeneration is to be run at `a891802e` (the R5 adoption does not carry over by itself).
+2. The order of S2 and H-12 at the designated pin (DQ-4 vs. PA-1; Gate 4 §4.6 step 5 requires both before reliance).
+3. Whether IPD-C2 may be prompted before B-1 is effective.
+4. Which R-2 artifact is the artifact of record (requires the operator's original file).
+5. The host and procedure for the route (c) run at `a891802e`.
+
+#### 16.177.7 Integrity findings
+
+- R-2: the checkout-verification mismatch is not explained by CRLF (CRLF form `3fdda19b` vs recorded `3FD31FE6`).
+- "S2" is used for four different runs (2026-10-26 at `8eec74ae`; Gate 4 Limb A row S2; route (c) at `a891802e`; the R5 S2 target at `8eec74ae`). Records must name the run.
+- The 2026-10-25 S2 host-precondition blocker (IPD `b9dd6fce`) records the designated host as unreachable from the executing environment on that date; the S2 sequence did not start.
+- A-Q5 prompt header added in `822ef100` after `caca0213`; the published act cites the prompt by path and commit, not blob. Disclosed.
+
+#### 16.177.8 Verification register (`V1281`–`V1290`)
+
+| ID | Check | Result |
+|---|---|---|
+| `V1281` | Live refs: IRR `main`, branch, PR #353 state and head; IPD `main`, PR #108 state, merge and head | PASS (§16.177.1) |
+| `V1282` | IPD-S1 act, determination pointer and tracker receipt exist at `b9dd6fce` at the stated paths | PASS (`git ls-tree`) |
+| `V1283` | PR #108 first-parent diff: exactly 3 paths; no code, test, script, manifest or workflow path | PASS (`git diff --name-status`) |
+| `V1284` | §12.2 preserved: determination `+25/-0`; tracker `+63/-0`; no removed line | PASS (`git diff --numstat`) |
+| `V1285` | Pre-merge tree `34ee1a3b…`; merge commit `b9dd6fce` ancestry of `0edadb2d` and `bda1f057` | PASS (`git rev-parse`, `merge-base`) |
+| `V1286` | IPD CI on `bda1f057` and `b9dd6fce`: both checks success | PASS (check-runs API) |
+| `V1287` | R-2 digests: pin file `2a611a7a` (LF) → CRLF `84e823ae` = `SHA256SUMS` line 45; checkout verification `0df30bc6` (LF) → CRLF `3fdda19b` ≠ recorded `3FD31FE6` | PASS as measurement; mismatch OPEN |
+| `V1288` | D-INST candidate: not parsed, not run; no PowerShell in the sandbox; static checks not counted as effective-write check | PASS (record and environment check) |
+| `V1289` | H-12 R5: IRR `main` adoption, PR #279 merge `ae82be85`; IPD receipt `cddee59` ancestor of `b9dd6fce`; generator and validator present on IRR `main` | PASS (`git ls-tree`, `merge-base`) |
+| `V1290` | Document integrity for the new handoff record and the edited records: `git diff --check`; no CR bytes in the new record | PASS (see the commit's verification note) |
+
+#### 16.177.9 Status boundary
+
+No PA decision, adoption, designation, pin change, acceptance, Table 1 status change, IPD write, merge, host operation, PowerShell run, capture, store probe, A6 run, S3, QE, DQ4 freeze, Gate 4 or Gate 5 action occurred in this pass. The S1 act is not executed. P-1 is not executed or authorized.
+
+**P-1-C NOT ESTABLISHED. P-1-D DESIGNATED, NOT VERIFIED FOR THE ATTEMPT. P-1 NOT EXECUTED / UNSPENT / NOT AUTHORIZED.**
+
+*End of §16.177 (`CV-CORR-157`; `CHG-2026-10-28-21`; `V1281`–`V1290`). It records the IPD-S1 reconciliation and the dependency handoff. It makes no PA decision and claims no acceptance.*
