@@ -206,15 +206,18 @@ Original and later results are listed separately. Counts are parsed from the tra
 
 ### 7.2 Remote verification
 
-Recorded in §7.3 after the push. Earlier checks are listed in §1 and §2.
+Verified after push (`ls-remote`; explicit fetch of `arena/b776c15a-iips-review-recovered`):
+- Branch `arena/b776c15a-iips-review-recovered` = `50d757302c85efc7863f2fdbaa11271a97282b23` at the time of the first push, with parent `82b3f4a5…` (= `main`).
+- The six files (this record, `verify_reconciliation.py`, three JSON outputs, `SHA256SUMS.txt`) are byte-identical to the local copies (`cmp`), and `sha256sum -c` on the remote `SHA256SUMS.txt` returns OK for all four listed files.
+- `main` = `82b3f4a5…` (unchanged).
 
 ### 7.3 Publication status
 
-Recorded after the push (see §7.4).
+Pull request **#353** (`arena/b776c15a-iips-review-recovered` → `main`) is open, not draft, and **not merged**. Its head at creation was `50d75730…`. The exact-head check results are not recorded in this record.
 
 ### 7.4 Authorisation boundary
 
-Merging this record to `main` is **not** performed here. The request said not to change `main` without the necessary authority, and documentation-only publication was not shown to be authorised for direct merge in the governance records reviewed. The record is on the session branch, with an open pull request for review.
+Merging this record to `main` is **not** performed here. The request said not to change `main` without the necessary authority, and documentation-only publication was not shown to be authorised for direct merge in the governance records reviewed. The record is on the session branch, with open pull request #353 for review. The PA ruling on Q-S2-1 and D1 is outside this pass.
 
 ### 7.5 Next action
 
