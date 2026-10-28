@@ -75,3 +75,14 @@ The stop condition in act §8.2 reads: "Basis commit/tree or any designated blob
 ## 8. Tracker note
 
 The IRR master tracker was not edited in this pass. The record above is the IRR-owned pointer for the A-Q5 result. The user's Library tracker was not modified.
+
+## 9. Basis-limb reading — PA ruling required before any basis act (added after the first draft)
+
+The PA ruled the compiled-basis question as option (a): a separate compiled-basis amendment act to `a891802e` / `76f083d7`. On re-reading the authoritative text, that ruling rests on a reading that needs confirmation:
+
+- The successor act selects `5fc74085` / `7226ef00` as **its** implementation basis. Section 5.2 fixes `BASIS_COMMIT` and `BASIS_TREE` to those values. Section 8.2 stops on "basis commit/tree … differs". Section 4 of this IPD act says any checkout whose basis differs from those constants still triggers §8.2.
+- The D2 code on `a891802e` (PA-5 Option B, already on IPD `main`) states that `BASIS_COMMIT` and `BASIS_TREE` "keep exactly that meaning; they are never the identity of the checkout that ran". The executing commit is measured and recorded separately (`executingCommit` / `executingTree`).
+- Verified: the compiled constants at `a891802e` and `0edadb2d` are `5fc74085` / `7226ef00`, unchanged. `5fc74085` is an ancestor of `a891802e`.
+- Two readings: **(i)** §8.2 compares the executing checkout with the selected basis, so `a891802e` engages the limb and a compiled-basis amendment is needed (the earlier option (a)). This would also require V-A2 and test re-validation at the new basis, which the act did not perform. **(ii)** §8.2 checks the compiled constants against the selected basis, which holds; the executing checkout is recorded through the D2 receipt; no basis amendment is needed.
+
+IRR does not choose between these. The PA was asked to confirm the reading. Until it is confirmed, the basis limb is recorded as **UNRESOLVED (reading pending)**, and Matter A remains open.
