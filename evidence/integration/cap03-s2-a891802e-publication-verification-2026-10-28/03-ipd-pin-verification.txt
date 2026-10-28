@@ -1,0 +1,20 @@
+CAP-03 S2 designated-pin verification against IPD (read-only; zero IPD writes)
+Executed 2026-10-28T20:00Z UTC from a fresh blobless clone of https://github.com/ramkivs/iips-production-market-data.git (read-only; zero IPD writes)
+
+[1] IPD remote main tip (git ls-remote):
+    c3cfb7e690aefd2ceb0a8323052c9a6f38f4a032	refs/heads/main
+
+[2] Pin object at the designated commit (independent clone; NOT the Windows host's view — the run's own s2-01c/s2-08 records are the host-side view):
+    type: commit
+    tree: 76f083d7058e170d8212455c03bad1033136ee68
+      subject: Merge pull request #100 from ramkivs/arena/0cf227ae-iips-production-market-data
+      date:    2026-10-28T11:18:27+05:30
+    ancestor-of origin/main: yes (matches run record s2-01c 'ANCESTOR OF origin/main: yes')
+
+    Designated tree 76f083d7058e170d8212455c03bad1033136ee68 == live tree of a891802e: MATCH
+    Pin subject 'Merge pull request #100 from ramkivs/arena/0cf227ae-iips-production-market-data' == the subject line recorded in the run's 01b-checkout-pin.txt: MATCH
+
+[3] IPD CI at the pin (gh api check-runs):
+    'executed test count' check-run id 122656474278 conclusion success
+    'typecheck · build · test' check-run id 122656086105 conclusion success
+    The Linux guard-count reference (930) cited by the run record §6 table is the recorded check run 122656474278; confirmed present and green at the pin.
