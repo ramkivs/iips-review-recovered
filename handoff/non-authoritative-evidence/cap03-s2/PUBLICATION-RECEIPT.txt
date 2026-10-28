@@ -1,0 +1,18 @@
+CAP-03 S2 — Original Evidence Recovery Publication
+Classification: NON-AUTHORITATIVE EVIDENCE
+Repository: ramkivs/iips-review-recovered
+Publication branch: evidence-cap03-s2-original-recovery-20261028
+Base main commit: 82b3f4a5d31134e40fd3a1a23169a0ca8d638dfc
+Archive path: handoff/non-authoritative-evidence/cap03-s2/CAP03-S2-original-evidence-recovery-20261028T090844Z.zip
+Archive SHA-256: 86C46B79A02DA13EC9D57B891762098B23E49AF7B4AE66CE7FB551DA9B759223
+Archive size bytes: 551087
+ZIP entries: 51
+Recovered manifest entry count reported by the recovery audit: 47
+Publication timestamp UTC: 2026-10-28T10:06:56Z
+Source archive: C:\Users\USER\Desktop\CAP03-S2-original-evidence-recovery-20261028T090844Z.zip
+Publication scope: recovered archive, SHA-256 sidecar and this receipt.
+No local repository checkout was used for publication.
+No S2 tests, builds, or execution were rerun.
+The original manifest was not regenerated.
+This publication does not establish formal S2 acceptance.
+The original S2 failure and later successful checks must remain distinct.
