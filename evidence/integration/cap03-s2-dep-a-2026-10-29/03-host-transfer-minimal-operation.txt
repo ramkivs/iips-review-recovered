@@ -1,0 +1,20 @@
+S2-DEP-A — minimum required operation to bring host originals into the governed workflow (PA-authorized deposit; blocked solely on this transfer).
+Executed BY THE OPERATOR on host DESKTOP-NO0NHTP (Windows 11 26300). Nothing here is executed or requested by the agent; no S2 re-run, no new capture, no modification of any evidence file.
+
+1. Open PowerShell in C:\iips-evidence\cap03-s2-a891802e. Confirm the folder is byte-untouched since 2026-10-28 (no edits, renames, or re-seals).
+2. Verify every artifact against the sealed manifest, recording raw output:
+     Get-ChildItem s2-a891802e-20261028T192516Z\* -Exclude SHA256SUMS.txt | ForEach-Object { (Get-FileHash $_.FullName -Algorithm SHA256).Hash.ToLower() + "  " + $_.Name } | Set-Content ..\deposit-host-hashes.txt
+   Compare 16 lines against MANIFEST.json digests; all must match (they matched at run time; this re-confirms nothing changed since).
+3. Compute the sibling transcript digest for the record: (Get-FileHash s2-a891802e-20261028T192516Z.seal-recheck.txt -Algorithm SHA256).Hash | Add-Content ..\deposit-host-hashes.txt
+4. Stage a binary-safe transfer into the repo without touching any governed branch:
+     git clone <IRR url> deposit ; cd deposit
+     git config core.autocrlf false ; git -c core.hooksPath=/dev/null config core.safecrlf false   # no renormalization
+     New-Item -ItemType Directory -Force evidence\cap03-s2\s2-a891802e-20261028T192516Z
+     Copy-Item ..\s2-a891802e-20261028T192516Z\* evidence\cap03-s2\s2-a891802e-20261028T192516Z\ -Force
+     Copy-Item ..\s2-a891802e-20261028T192516Z.seal-recheck.txt ..\deposit-host-hashes.txt evidence\cap03-s2\ -Force
+     # then, BEFORE committing, verify stored==host for every file:
+     git add --renormalize? — NO. Use: git add evidence/cap03-s2   then for each staged file run:  git cat-file blob :evidence/cap03-s2/<path> | sha256  (or git show :path through Get-FileHash on a temp checkout) and compare to MANIFEST/deposit-host-hashes.
+     All 18 (17 + hashes file) digests must equal the host values BEFORE any commit; if git proposes normalization (safecrlf warning), stop and report — do not commit normalized bytes.
+5. Commit on a new branch (e.g. cap03-s2-deposit-host-originals-2026-10-29), sign per repo policy, push to origin.
+6. Agent-side (IRR only, governed workflow): verify pushed blob digests == host digests (all 18, byte-exact), confirm no overlap with existing main paths except the intended new evidence/cap03-s2/... folder + this hash record, open the deposit PR (evidence-only scope), exact-head CI, merge, per-blob remote read-back, then §16.184+ records DISCHARGE of the run-record §6 deposit obligation and cure of F-A-2 on main, and PR #353 reconciliation proceeds on the deposit-correct ref identities.
+Blocker until step 1–5: host filesystem is not reachable from the Linux execution environment (verified this pass: no mount, no agent; path C:\iips-evidence absent). No substitute content is admissible: a deposit built from the 2cc5bc4 Git copies would fail verification for 14 of 16 artifacts (see 02-deposit-manifest-expected.txt) and is prohibited by the decision mandate.

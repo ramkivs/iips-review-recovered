@@ -1,0 +1,40 @@
+CAP-03 S2 acceptance package — authoritative-state read-back and identifier-collision ledger
+Executed 2026-10-28T20:20Z UTC, Arena sandbox, IRR read-only against origin; zero IPD writes; zero host operations.
+
+[1] IRR main
+    tip = a130785528f6474be9b4541fef3b61158fefe900 (PR #354 merge; parents 82b3f4a + 52b878c; mergedAt 2026-10-28T20:04:49Z)
+    exact-head CI run 40759803728 pass (Typecheck · Test · Build, 1m14s)
+    post-merge main CI check-run 123069179533 success
+    §16.180 present exactly 1x; CHG-2026-10-29-02 present; §16.181 absent (free)
+
+[2] Evidence locus
+    origin/docs/g3-d0-registration-2026-10-18 = 2cc5bc4302436f8ae6d84a9e657b8c1ed06b5478 (unchanged this pass)
+    0 CI check-runs at 2cc5bc4 (re-confirmed; PR #354 CI does NOT retroactively validate this commit)
+    re-run of evidence/integration/cap03-s2-a891802e-publication-verification-2026-10-28/verify_cap03_s2_publication.py
+    against the live origin ref: ALL CHECKS MATCH (see 02-verification-rerun.txt); evidence unmodified between passes
+    verification folder on main: 5 paths; verifier blob on main = 0fdb3ef5… = its own published SHA256SUMS.txt entry (Contents API read-back)
+
+[3] PR #353 (read-only)
+    state=OPEN head=ed020b0976b23897c73d33a75a0b6476e7b9976e base=main mergeable=CONFLICTING mergeState=DIRTY updatedAt=2026-10-28T20:01:08Z
+    26 commits; head CI run 40759493433 pass (1m12s) at ed020b09; checks at head only — a rebase would require re-run
+    changed-path scope: docs/integration/**, evidence/integration/**, handoff/**, tracker only; zero application-source paths
+    run-record doc present on PR head (docs/integration/IIPS_v3.0_CAP03_S2_PIN_A891802E_WINDOWS_RUN_RECORD_2026-10-28.md); absent from main
+    procedure doc at PR head: IIPS_v3.0_CAP03_S2_PIN_A891802E_WINDOWS_RUN_2026-10-28.ps1
+      blob sha256 = BE952E25622B033B875C0B61DEB4C124BA75B0CA61B5E74CABCDC11430563249; 40,274 bytes; 890 lines; CR count 0 (LF-canonical file)
+      == the procedure SHA-256 recorded in run record §1 / §4.6 → branch-side procedure identity confirmed
+      (host-side copy match was an operator prerequisite on the Windows host; not observable from this sandbox)
+
+[4] Identifier-collision ledger (facts)
+    MERGED (main, a130785, 20:04:49Z):  §16.180 / CV-CORR-160 / CHG-2026-10-29-02 / V1311–V1322 = 'S2 native Windows evidence admission — published-evidence verification' (commit 52b878c, authored ~19:58Z)
+    OPEN (PR #353 head ed020b09, pushed 20:01:08Z): §16.180 / CV-CORR-160 / CHG-2026-10-29-02 / V1311–V1322 = 'resolve outstanding corrections A–E' (commit authored 19:42:08Z)
+    Different content, identical identifier set. The PR head contains no reference to PR #354 / a130785 / 2cc5bc4 (predates the merge) → racing claim, not copying.
+    main currently contains exactly one §16.180. A merge of PR #353 as-is would create a duplicate identifier pair; convention reserves merged identifiers for the mainline and requires the unmerged side to renumber through its own governed flow (V1186/V1187-withdrawal and 'tracker identifier correction' precedents).
+    This pass renumbers nothing on PR #353 and claims §16.181 / CV-CORR-161 / CHG-2026-10-29-03 / V1323–V1331.
+
+[5] Merge-conflict forecast for PR #353 (against current main)
+    Local three-way merge computation unavailable: sandbox clone is shallow (graft .git/shallow @ a130785) → git merge-tree reports unrelated histories; GitHub mergeability UNKNOWN at read time (recomputing).
+    Content-anchor analysis instead: both sides rewrote the same 'Last Updated' header row; both inserted CHG rows after the CHG-2026-10-28-15 row; both appended sections at the file end (their §16.172–180 vs main's §16.180 — same insertion region); PR #353 additionally amends the row-16 'Current S2 evidence-publication state' cell (CV-CORR-152) where main now also carries an adjacent new row. Textual conflicts are therefore near-certain on at least four anchors; a rebase-and-reconcile pass by the PR #353 flow is a prerequisite for any merge.
+
+[6] IPD (read-only)
+    main = c3cfb7e690aefd2ceb0a8323052c9a6f38f4a032 (unchanged since the prior pass)
+    compare pin...main: status ahead / main 18 ahead of the pin / pin 0 ahead of main → pin a891802e remains a strict ancestor of IPD main

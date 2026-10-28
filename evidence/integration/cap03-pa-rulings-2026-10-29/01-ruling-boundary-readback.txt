@@ -1,0 +1,34 @@
+CAP-03 PA ruling-boundary readback — executed 2026-10-28T20:42:35Z (UTC). All commands run against live remote/committed objects; zero writes outside this evidence folder.
+
+[A] Remote state
+main tip: 9814a03e8200f34d88f6fefbbb87afa569cef3e4
+docs/g3-d0 tip: 2cc5bc4302436f8ae6d84a9e657b8c1ed06b5478
+PR#353 head: ed020b0976b23897c73d33a75a0b6476e7b9976e
+PR list (all states, 6):
+  #355 MERGED CAP-03 S2 acceptance & PR #353 disposition PA decision package (§16.18
+  #354 MERGED CAP-03 S2 native Windows evidence admission: published-evidence verifi
+  #353 OPEN CAP-03 S2 post-publication reconciliation and IRR outstanding-work dis
+  #352 MERGED CAP-03: publish PA ruling-session package (PA ruling preparation only)
+  #351 MERGED CAP-03 addendum 3: current refs, PF-15 literal integrity, S2 status co
+  #350 MERGED CV-CORR-149: CAP-03 candidate-identity verification, Matter A/B refine
+
+[B] Ruling-absence census on main tracker (origin/main@9814a03)
+sections beyond §16.181: 0 (max heading '## §16.181'; next-free §16.182 taken by this record's pointer)
+adoption-marker grep (excluding NOT ADOPTED/preparation-only context): 0 hits
+'R-5' occurrences in tracker: 1 — line 8 (2026-10-23 DB-C1/DEC-06 list item; UNRELATED to the CAP-03 S2 R-1..R-4 residual series) → S2-series R-5 uncreated, label requires the §16.144-extension disambiguation when adopted
+PR #355 comments: 1 (this agent's post-merge receipt 2026-10-28T20:27:37Z); PR #353 comments since 19:00Z: none
+issues recent: #201/#200 last activity 2026-10-24T09:03:5xZ
+
+[C] Governing deposit text (run record at PR head ed020b09, §6 table line 107):
+| **PASS** | Every criterion in the procedure met at the pin, the folder sealed, the seal recheck found no issue, and the folder published under its final name | Deposit the evidence through the gover
+run record header (lines 3):
+**Status: PREPARED — NOT EXECUTED.** Arena cannot run Windows host operations. No native S2 result exists for this pin. This record makes no claim that S2 has passed. The sealing logic has not been 
+
+[D] §16.180 second-copy instruction sentence (main tracker, F-A-2 row):
+14707:**Findings.** `F-A-1` — the publication pipeline normalized CRLF captures to LF in the committed blobs for 13 of 14 transcripts (finding above; content 
+
+[E] Q-S2-1 / D1 / R-1 preserved wording (main tracker):
+- **S2 status (Q-S2-1).** Candidate-scoped ACCEPTED (CV-CORR-124) versus "full S2 NOT RENDERED"; R-1 absent; R-2 not reproduced; D1 open or closed. PA ruling only.
+**Reserved to the PA (not decided here).** Whether this run's sealed, rechecked, published evidence satisfies the outstanding `Q-S2-1` remainder (`D1`: "closure needs host-original evidence not in the repository" — this run's host evidenc
+
+[F] Package conditions A-i..A-iv re-read on main: present verbatim (blob 545b523a8a4c73a758144df687c2dafc50a21ccc == merged content; four condition bullets A-i/A-ii/A-iii/A-iv each 1 hit)
