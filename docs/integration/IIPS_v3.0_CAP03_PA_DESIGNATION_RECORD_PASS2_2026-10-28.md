@@ -69,3 +69,8 @@ Matter A closes when this IPD act is executed and recorded in IRR. A-Q6 (act §8
 Recorded in `docs/integration/IIPS_v3.0_CAP03_PA_RULINGS_RECORD_PASS2_2026-10-28.md` §6: D1 open pending read-back; PF10 KEEP; D-Q object store parent, method D-2 with D-1 supporting; ADP-D1 adopted; ADP-D2 accepted at `a891802e` for the P-1 receipt element; QP1 approved; MC-2; E7 next capture only; B-Q4 on formal text; E8 parent D:, root path not yet given.
 
 **Still open:** the E8 root path (E3 waits); D-INST identity adoption and A6 (see §7 of this record once published).
+
+
+## 8. IPD-A-Q5 result (verified 2026-10-28)
+
+IPD act `IIPS-V3-CAP02-GATE-A-PRIME-AMEND-01-DESIGNATED-BLOBS-2026-10-28-01` published at IPD `main` merge `0edadb2d` (PR #107; CI green). Items 10 and 12 re-designated at `a891802e` as ruled. **Designated-blob limb of §8.2 cleared; basis limb NOT cleared** (act compiled basis `5fc74085` / `7226ef00` vs designated `a891802e` / `76f083d7`). Matter A not closed; B-1 not advanced; fresh S2 and H-12 at `a891802e` not produced. See `docs/integration/IIPS_v3.0_CAP03_IPD_A-Q5_RESULT_RECORD_2026-10-28.md`.

@@ -100,3 +100,8 @@ Each is the user's answer to the precise question quoted in the sitting response
 - **E8 root path (user response):** `D:\cap03-p1-capture-20261028-01`, parent `D:`. The name is not `cap03-p1-20261027-01` or `-02`. Whether it already exists on the host is not verifiable from the repository; the procedure refuses an existing root (line 197 check).
 - **E3 applied:** procedure `docs/integration/IIPS_v3.0_CAP03_P1C_P1D_FRESH_CAPTURE_PROCEDURE_2026-10-27.md` revision **2026-10-28d** (row 18). It replaces the generated `D:\iips-evidence\<RunId>` with the named root, sets the PF-14 parent to `D:`, and updates the operator sync-client attestation and the expected-output statement. PF10 (KEEP), the F2/F4/F5 literals, and instrument identity `191f5828` are unchanged.
 - **Not authorized by this record:** A6 runtime, PF preflight, PowerShell, host capture, E10 (the capture-authorization act, which PA drafts), P-1. The D-2 successor instrument is a candidate (`evidence/integration/cap03-p1-d-inst-d2-candidate-2026-10-28/`) and needs PA adoption of its identity and A6 before use.
+
+
+## 8. IPD-A-Q5 executed; basis limb open (2026-10-28)
+
+The A-Q5 IPD act is published (IPD `0edadb2d`). Its result and the limb-by-limb §8.2 status are in `docs/integration/IIPS_v3.0_CAP03_IPD_A-Q5_RESULT_RECORD_2026-10-28.md`. The basis limb is not cleared and requires a separate PA ruling on a compiled-basis amendment before Matter A can close.
