@@ -300,3 +300,27 @@ Parallel and independent: the A6 runtime test, V1102, and the PF-11 native diagn
 - P-1-C remains **NOT ESTABLISHED**. P-1-D remains **DESIGNATED; NOT VERIFIED FOR THE ATTEMPT**. P-1 remains **NOT EXECUTED / UNSPENT / NOT AUTHORIZED**.
 
 *End of record `IIPS-V3-CAP03-P1C-P1D-RECONCILIATION-PA-PACKET-2026-10-28-01`. Tracker §16.166 (`CV-CORR-146`; `CHG-2026-10-28-09`; `V1153`–`V1160`).*
+
+
+---
+
+## 11. Addendum — IPD movement after this record was first written (`2026-10-28`; tracker §16.166.7)
+
+**Movement.** After §§1–10 were written, IPD `main` advanced from `a891802e` to **`db84ac12f297eec2bb159ae785c3cc584f7d7e34`** through IPD PR #101, "CAP-03 D2 follow-up: bind the executing identity to the repository that is executing." Verified read-only in this pass.
+
+| Item | Identity | Evidence |
+|---|---|---|
+| PR #101 head | `d2782f235a9b11a9716128b8b8b70ddedf6775ab`; parent `a891802e`; tree `831f00e08c44dbee36943c0c53f8e164848e74b3` | `gh pr view 101`; `git cat-file` |
+| PR #101 merge (IPD `main`) | `db84ac12f297eec2bb159ae785c3cc584f7d7e34`; tree `831f00e0…`; merged `2026-10-28T06:09:51Z` | `gh pr view 101`; `git ls-remote` |
+| Exact-head CI | run `40642066409` (`pull_request`, head `d2782f2`): **SUCCESS** | `gh run list` |
+| Post-merge CI | run `40642196820` (`push`, `db84ac12`): **SUCCESS** | `gh run list` |
+
+**Consequences (factual; no designation).**
+
+1. **Candidate identity is moving.** The current D2 candidates on `main` are `db84ac12` (merge) and `d2782f2` (PR head), both tree `831f00e0`. `f722d7d` and `a891802e` remain existing ancestors, but they are no longer the head of `main`. The IPD D2 pass is still in progress, so its final commit is not yet known. **A designation must name the commit that the final IPD pass reports.** Equal trees are not interchangeable commit identities, and this record does not prefer either commit by recency.
+2. **Blobs.** `gateAPrimeProvisioning.ts` is `9b15eca…` at `db84ac12` (it was `5f49936b…` at `f722d7d`). The g3 successor test is `0ea47e8…` (it was `1f66621…`). `provisioning.ts` (`dc844189…`), `binding.ts` (`96d0079d…`), and `gateAPrimeValidation.ts` (`df5d48a…`, which holds the unchanged compiled-basis constants) are unchanged. The act's designated-blob matrix (§6) is **unchanged**: row 10 `portfolio_store.ts` is still `540d49f2…` and row 12 `tests/g3_startup_validation.test.ts` is still `edd0305e…`, because PR #101 changed neither file.
+3. **Delta from the DA-A1 candidate `001c3c80`** to `db84ac12`: 62 files. Runtime files are the same two (`gateAPrimeProvisioning.ts` and the g3 successor test). The other 60 are under `evidence/cross-repository/`.
+4. **Test-name discrepancy resolved.** At `db84ac12` the successor test file names `T-10` through `T-16` and its header states `T-10…T-16`. The statements in §2.2 and tracker V1155 apply to `f722d7d` only.
+5. **Receipt facts at `db84ac12`** (recorded, not judged): `executingCommit` and `executingTree` fields, `--repo-root`, and `EXECUTING_HEAD_UNRESOLVED` are present. The audit detail remains `{ tenantId, canonicalOwnerId }`.
+6. **Unchanged by this addendum:** P-1-C NOT ESTABLISHED; P-1-D DESIGNATED; NOT VERIFIED FOR THE ATTEMPT; the §7.A to §7.D decisions (open); the §4.6 steps 2–5 status (open); the Gate 4 QE/H-12 pin (undesignated); P-1 NOT EXECUTED / UNSPENT / NOT AUTHORIZED.
+7. **Procedure.** Still not edited. Its step-0 hash `2cbce83f…` is stale for any `C′`, and that does not change.
