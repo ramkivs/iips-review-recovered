@@ -1,0 +1,11 @@
+S2-DEP-A authorization + state verification readback — executed 2026-10-28T20:56:39Z.
+pre-mutation state (all re-read, none assumed):
+  IRR main = 10631c94bfbbfd5dccd5272aecb8adcb9adb4096 (== last reported; unchanged)
+  docs/g3-d0 tip = 2cc5bc4302436f8ae6d84a9e657b8c1ed06b5478 (unchanged); 2cc5bc4 CI check-runs: 0 (F-A-2 stands; no retroactive-CI inference)
+  PR #356 MERGED 3cec6c36a6 (verified); PR #355/#354 merged; #353 OPEN head ed020b0976 unchanged, CONFLICTING/DIRTY (per last pass); merge-base main<->#353 = 82b3f4a5 (computed after deepen; three-way merge now tractable)
+  IPD pin/tree = a891802e… / 76f083d7… (governing record citation; no IPD access made this pass)
+authority: PA directive 2026-10-29 accepting S2-ACC-A1, S2-DEP-A, and PR #353 proceed-after-recording; recorded verbatim in the decision record.
+host access test: C:\iips-evidence and all bridges absent on Linux sandbox → byte-verbatim deposit NOT executable here; NO normalized-copy deposit fabricated (mandate).
+evidence integrity re-run this pass: verifier ALL CHECKS MATCH (see cap03-pa-rulings 03 + §16.182 records); docs branch untouched.
+deposit manifest computed from live 2cc5bc4 objects (see 02); 18-file deposit set + hash record defined; transfer instructions issued (03) — operator-only steps 1–5 unblock.
+this folder + decision record + tracker §16.183 are the full extent of authorized IRR-side work while the deposit is blocked.

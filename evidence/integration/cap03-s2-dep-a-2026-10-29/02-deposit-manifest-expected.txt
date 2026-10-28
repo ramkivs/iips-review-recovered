@@ -1,0 +1,30 @@
+S2-DEP-A expected deposit manifest — computed 2026-10-28T20:57:13Z from published evidence at 2cc5bc4 (read-only; zero writes to evidence).
+Host-original expectations taken from the sealed SHA256SUMS.txt (16 lines; its own stored bytes are host-exact: reproduces recorded self-hash 9d3c09db…b5225e) and MANIFEST.json byte counts.
+stored-digest = SHA-256 of the git blob at 2cc5bc4; restored = stored bytes with each LF rewritten to CRLF (the recorded restoration model).
+
+sealed artifacts (16):
+path | host-digest | stored-bytes | stored==host | restored==host | git blob
+01-clone.txt | 0353321e9b1a42b2… | 413 | no | YES | 0399df0e8f
+01b-checkout-pin.txt | b1d6784869a37167… | 443 | no | YES | 6e619677f9
+02-npm-ci.txt | a66db000f833663b… | 627 | no | YES | aa1a216d0e
+03-tsc-noemit.txt | f5258290d988b0f4… | 282 | no | YES | 3e3a34ffc5
+04-build.txt | 76fc494ad49f3f4a… | 1428 | no | YES | 57bdfdfc58
+05-guarded-npm-test.txt | 4c1f9e9989c3d232… | 4951489 | no | YES | 9849e328dc
+05b-test-summary.txt | 95b3f04986293662… | 1361 | no | YES | c24e1b7fe6
+06-package-consumer.txt | 525075817f5bc909… | 3094 | no | YES | b7928be446
+MANIFEST.json | ff27751ba19d825c… | 3280 | YES | no | 6a2473b828
+RESULT.txt | 13d311a2633aab1f… | 743 | YES | no | 5d276dce46
+s2-00-run-log.txt | 843a34d333fb015d… | 3876 | no | no | a504998df1
+s2-01c-pin-verification.txt | 53ec416cd912cb90… | 163 | no | YES | 8a5fac125f
+s2-04b-dist-count.txt | 5b06f556fbd58489… | 37 | no | YES | bd07652126
+s2-04c-dist-sha256-before.txt | fd8af62c8200cfd3… | 129716 | no | YES | 5775fb9ced
+s2-08-post-run-pin.txt | 5f5d2979b64ef544… | 120 | no | YES | d6ce74f086
+s2-08b-dist-sha256-after.txt | fd8af62c8200cfd3… | 129716 | no | YES | 5775fb9ced
+
+TALLY over the 16 sealed artifacts: host-digest match as-stored 2/16 (RESULT.txt, MANIFEST.json); match under LF→CRLF restoration 13/16 (the 13 transcripts); NOT reproducible from Git bytes: 1 → ['s2-00-run-log.txt'] (recorded 3,916 host bytes vs 3,876 stored; 40-CRLF/2-LF size model; every field cross-validates; byte identity unproven → host original required).
+seal SHA256SUMS.txt itself | recorded host self-hash 9d3c09db…b5225e | stored digest 9d3c09dbdb691c25… | stored==recorded: YES | blob dbdef6cc40
+../s2-a891802e-20261028T192516Z.seal-recheck.txt (outside the seal) | NO recorded host digest exists | stored bytes 1563 | operator computes the host digest at transfer (step 3) | blob 38698e7e03
+
+Deposit content set = 16 sealed artifacts + folder SHA256SUMS.txt + sibling seal-recheck transcript = 18 files (plus the operator's deposit-host-hashes.txt verification record).
+CONCLUSION: 13 of the 18 must be deposited from HOST ORIGINALS to be byte-verbatim (they fail as-stored); the two that pass as-stored (RESULT.txt, MANIFEST.json) and the seal could pass from Git, but the decision mandate requires the whole folder to arrive host-verbatim as one unit — no split/patchwork deposit. A deposit built from Git copies is prohibited and would fail verification for 13 artifacts.
+MANIFEST record-field: manifest 'record' = 'IIPS_v3.0_CAP03_S2_PIN_A891802E_WINDOWS_RUN_RECORD_2026-10-28.md' — PR #353-branch-resident until that PR merges; never to be described as on main before then (F-A-3; reconciliation plan item 8).
