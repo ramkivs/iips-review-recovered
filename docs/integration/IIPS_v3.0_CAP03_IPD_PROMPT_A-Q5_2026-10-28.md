@@ -1,3 +1,5 @@
+> **STATUS (2026-10-28):** EXECUTED on IPD `main` at `0edadb2d` (act `IIPS-V3-CAP02-GATE-A-PRIME-AMEND-01-DESIGNATED-BLOBS-2026-10-28-01`). This prompt is retained for the record only; do not run it again. Result: `docs/integration/IIPS_v3.0_CAP03_IPD_A-Q5_RESULT_RECORD_2026-10-28.md`.
+
 # IPD prompt — A-Q5 designation act (items 10 and 12, mechanism A-O3, commit a891802e)
 
 **Target repository:** `ramkivs/iips-production-market-data` (IPD). **Not executed from IRR.** Run in a separate IPD session with IPD write authority.

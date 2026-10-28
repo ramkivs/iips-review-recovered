@@ -102,6 +102,8 @@ Each is the user's answer to the precise question quoted in the sitting response
 - **Not authorized by this record:** A6 runtime, PF preflight, PowerShell, host capture, E10 (the capture-authorization act, which PA drafts), P-1. The D-2 successor instrument is a candidate (`evidence/integration/cap03-p1-d-inst-d2-candidate-2026-10-28/`) and needs PA adoption of its identity and A6 before use.
 
 
-## 8. IPD-A-Q5 executed; basis limb open (2026-10-28)
+## 8. IPD-A-Q5 executed; basis-limb reading ruled (2026-10-28)
 
-The A-Q5 IPD act is published (IPD `0edadb2d`). Its result and the limb-by-limb §8.2 status are in `docs/integration/IIPS_v3.0_CAP03_IPD_A-Q5_RESULT_RECORD_2026-10-28.md`. The basis limb is not cleared and requires a separate PA ruling on a compiled-basis amendment before Matter A can close.
+- A-Q5 IPD act published at IPD `0edadb2d` (CI green). Result and §8.2 limb status: `docs/integration/IIPS_v3.0_CAP03_IPD_A-Q5_RESULT_RECORD_2026-10-28.md`.
+- Round 5, basis limb: first answer option (a), a compiled-basis amendment to `a891802e`, was **superseded** after the D2 text was re-read. PA then ruled **reading (ii)**: §8.2 checks the compiled constants against the selected basis (`5fc74085` / `7226ef00`), with the executing commit recorded via the D2 receipt. No basis amendment is authorized or executed.
+- Effect: basis limb cleared on reading (ii); designated-blob limb cleared; Matter A closed as to the act §7 test. B-1 still not effective (fresh S2 and H-12 at `a891802e` not produced). Identity values still unresolved.
