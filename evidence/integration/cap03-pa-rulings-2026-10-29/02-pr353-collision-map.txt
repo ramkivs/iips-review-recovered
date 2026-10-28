@@ -1,0 +1,17 @@
+PR #353 collision map + mergeability — executed 2026-10-28T20:42:35Z (UTC), read-only.
+state/head/base: OPEN head=ed020b0976b23897c73d33a75a0b6476e7b9976e base=main mergeable=CONFLICTING mergeState=DIRTY updated=2026-10-28T20:01:08Z
+=> GitHub mergeability advanced from UNKNOWN (prior passes) to CONFLICTING/DIRTY against main@9814a03 — authoritative confirmation of the §16.181 forecast
+checks: head CI 'Typecheck · Test · Build' COMPLETED/SUCCESS (run 40759493433; pre-rebase validation only)
+commits: 26; changed files: 51 (docs/evidence/handoff/tracker only)
+
+Content census of /tmp/pr353-tracker.md (git show ed020b09:TRACKER):
+  heading-style note: their 177+ sections use '### 16.1xx' (no §); heading-level greps alone undercount — census below is content-based
+  '16.180':22 hits; '16.177'-'16.179' present; '16.181':1 stray non-claim; 'CV-CORR-160':9; 'CV-CORR-161':0; V max = V1322; V1323+: 0
+  line 14: Last Updated claims 'CV-CORR-160, §16.180, CHG-2026-10-29-02 — outstanding corrections A–E'
+  line 388: CHG-2026-10-29-01 (their §16.179 row); line 389: CHG-2026-10-29-02 (their §16.180 row, claims V1311–V1322)
+  '§16.181'/'CV-CORR-161'/'CHG-2026-10-29-03'/'V1323'+ hits on their head: 0 → §16.182/CV-CORR-162/CHG-2026-10-29-04/V1332–V1339 free both sides (verified: 0/0 on each)
+  docs/integration A891802E paths: main=1 (decision package only) vs their head=2 (run record + .ps1) → F-A-3 stands: run record NOT on main
+
+main occupation of colliding IDs (origin/main@9814a03): §16.180 heading 1x (S2 admission record); CHG-2026-10-29-02/03 present; V1311–V1322 owned by §16.180; V1323–V1331 owned by §16.181.
+Renumbering target for their post-rebase colliding set (after this record merges): §16.183 / CV-CORR-163 / CHG-2026-10-29-05 / V1340+.
+No reference to PR #354/#355, a130785, 9814a03, or 2cc5bc4 anywhere on their head (authored 19:42:08Z, pre-merge) — racing claim, not copy; §16.181 characterization stands.
