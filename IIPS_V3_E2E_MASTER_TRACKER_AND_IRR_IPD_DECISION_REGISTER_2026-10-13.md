@@ -375,6 +375,7 @@ The following completed baselines on `ramkivs/iips-review-recovered @ refs/heads
 | `2026-10-28` | `CHG-2026-10-28-08` | **CAP-03 §16.165 — formal PA decision record (PA-1 adopted; PA-2 model adopted, no pin designated; PA-5 Option B selected; PA-3d deferred), bounded non-production IPD implementation authority, A6 / DC-C2 reconciliation, PR #343 and PR #344 publication receipts, and tracker identifier correction (`CV-CORR-145`, `V1145`–`V1152`):** new [formal decision record](docs/integration/IIPS_v3.0_CAP03_P1_PA_FORMAL_DECISION_RECORD_2026-10-28.md) and [IPD execution prompt](docs/integration/IIPS_v3.0_CAP03_D2_IPD_EXECUTION_PROMPT_2026-10-28.md); additive adoption-record §11 and status-matrix §11; comment-only clarification in [procedure revision `2026-10-28c`](docs/integration/IIPS_v3.0_CAP03_P1C_P1D_FRESH_CAPTURE_PROCEDURE_2026-10-27.md); `CHG-2026-10-15-06` duplicate relabelled `CHG-2026-10-15-06B` (§16.165.4). **IPD read-only in this pass; no IPD pin designated; IPD implementation authorized but NOT started; A6 runtime test NOT RUN; V1102 OPEN; native run `92d931fb` NOT PASSED. P-1 NOT EXECUTED / UNSPENT / NOT AUTHORIZED.** PR receipt for this pass deferred to the next substantive update. |
 | `2026-10-28` | `CHG-2026-10-28-09` | **CAP-03 §16.166 — one-pass P-1-C / P-1-D reconciliation after the IPD D2 merge (`CV-CORR-146`, `V1153`–`V1160`):** new [reconciliation and PA packet](docs/integration/IIPS_v3.0_CAP03_P1C_P1D_ONE_PASS_RECONCILIATION_AND_PA_PACKET_2026-10-28.md) (PF matrix, P-1-D limbs, designated-blob matrix, reserved packets §7.A–§7.D); IRR PR #345 and IPD PR #100 (D2) publication receipts; additive existence pointers (formal record, status matrix §12, consolidated package); `C′` recorded as an existing, **undesignated** candidate. **No PA decision, designation, approval, or signature. No IPD write. No host, capture, PowerShell, or store action. P-1-C NOT ESTABLISHED; P-1-D DESIGNATED, NOT VERIFIED FOR THE ATTEMPT; P-1 NOT EXECUTED / UNSPENT / NOT AUTHORIZED.** This PR's own receipt is deferred to the next substantive update. |
 | `2026-10-28` | `CHG-2026-10-28-10` | **CAP-03 §16.166.7 — post-merge reconciliation (`CV-CORR-146` addendum, `V1161`–`V1164`):** IRR PR #346 publication receipt recorded; IPD PR #101 (D2 follow-up) receipt recorded; IPD `main` moved to `db84ac12` (tree `831f00e0`), with candidate identities updated and **not designated**; the successor-test `T-14`–`T-16` discrepancy resolved at `db84ac12`; additive pointers appended to the formal record, status matrix, and consolidated package. **No PA decision, designation, approval, or signature. No IPD write. P-1-C NOT ESTABLISHED; P-1-D DESIGNATED, NOT VERIFIED FOR THE ATTEMPT; P-1 NOT EXECUTED / UNSPENT / NOT AUTHORIZED.** This PR's own receipt is deferred to the next substantive update. |
+| `2026-10-28` | `CHG-2026-10-28-11` | **CAP-03 §16.167 — IRR-owned PA decision packet A–F for P-1-C / P-1-D (`CV-CORR-147`, `V1165`–`V1172`):** new packet `IIPS_v3.0_CAP03_P1C_P1D_PA_DECISION_PACKET_A-F_2026-10-28.md` restructures the reserved matters into A (blob disposition), B (execution-commit designation or deferral; DA-A1 receipt element), C (sequencing of host observations), D (non-mutating effective-write method), E (capture authorization boundary and prerequisites), and F (P-1-C / P-1-D acceptance evidence), with order of operations, a bounded IRR checklist, stop conditions, and non-grants. Records only: **no option selected, no PA decision, approval, or signature; no designation of any commit, pin, or `C′`; no procedure or instrument edit; no IPD write; no host, capture, PowerShell, A6, V1102, or PF-11 action. P-1-C NOT ESTABLISHED; P-1-D DESIGNATED, NOT VERIFIED FOR THE ATTEMPT; P-1 NOT EXECUTED / UNSPENT / NOT AUTHORIZED.** Receipt of this PR is recorded at the next substantive update. |
 
 ---
 
@@ -14416,3 +14417,48 @@ No PA decision, signature, or designation. No execution pin, Gate 4 QE/H-12 pin,
 **Status boundary (unchanged).** P-1-C NOT ESTABLISHED. P-1-D DESIGNATED; NOT VERIFIED FOR THE ATTEMPT. P-1 NOT EXECUTED / UNSPENT / NOT AUTHORIZED. No PA decision. No designation of any execution pin, `C′`, or Gate 4 QE/H-12 pin. No IPD write. No host, capture, PowerShell, or store action.
 
 *End of §16.166.7 (`CV-CORR-146`; `CHG-2026-10-28-10`; `V1161`–`V1164`).*
+
+
+### 16.167 Decision packet A–F for P-1-C / P-1-D (`CV-CORR-147`; `CHG-2026-10-28-11`; `V1165`–`V1172`)
+
+**Purpose.** Restructure the reserved matters from `IIPS-V3-CAP03-P1C-P1D-RECONCILIATION-PA-PACKET-2026-10-28-01` (§§4–7) and §16.166 into six decision matters for PA, with facts, options, consequences, and dependencies separated from IRR recommendations. This section is records only. It makes no decision, designation, approval, or authorization.
+
+**Record.** `docs/integration/IIPS_v3.0_CAP03_P1C_P1D_PA_DECISION_PACKET_A-F_2026-10-28.md` (`IIPS-V3-CAP03-P1C-P1D-PA-DECISION-PACKET-AF-2026-10-28-01`).
+
+**Verified state at the start of this pass (read-only).**
+
+| Item | Value |
+|---|---|
+| IRR `main` | `bb644a98` (PR #347 merge; post-merge CI `40642779744` SUCCESS); open IRR PRs 0 |
+| IPD `main` | `db84ac12` (tree `831f00e0…`); open IPD PRs 0; unchanged since §16.166.7 |
+| Session branch | `arena/fa962375-iips-review-recovered` at `bb644a98` before this PR; worktree clean |
+
+**Matters (summary; full detail in the packet).**
+
+| Matter | Question | Status |
+|---|---|---|
+| A | Blob disposition: `portfolio_store.ts` (`4a005b73` designated; `540d49f2` actual) and g3 test (`9a5fd9e3` designated; `edd0305e` actual); step 0 covers three of the act's designated files | **RESERVED — OPEN** |
+| B | Execution-commit designation or deferral; DA-A1 receipt element unmet at `001c3c80`; D2 final identity not reported | **RESERVED — OPEN** |
+| C | Whether any host observation may precede commit designation (options C-1 / C-2 / C-3; recommendation C-2 for PA's consideration) | **RESERVED — OPEN** |
+| D | Acceptable non-mutating effective-write method; v2 instrument has no effective-access probe (recommendation D-2 for PA's consideration) | **RESERVED — OPEN** |
+| E | Capture authorization boundary; eleven prerequisites (E1–E11), none currently satisfied in full | **NOT RENDERED** |
+| F | Evidence for P-1-C acceptance (F1–F11) and P-1-D limbs (a)–(f) | **Specified; not accepted** |
+
+**Source conflicts flagged for PA (not resolved here).** (i) Native PF-11 / harness wording: evidence bundle says native acceptance remains required before a subsequent capture; procedure §4.3a says DC-C2 replaces that prerequisite for the next attempt only. (ii) "S2" names two different things (CAP-03 candidate-scoped S2; Gate 4 S2 Limb A). (iii) §4.6 step 5 bundles fresh S2 (L2a) and H-12 (L2c), while PA-1 states H-12 is not a P-1 precondition. (iv) Procedure root is hard-coded `D:` (lines 150, 154, 193, 440, 486); the 10-27-02 run used `C:`. (v) PF-10 coverage differs: instrument checks four named flags (lines 91–98); procedure also checks `GATE_A_PRIME_*` (lines 146–148). (vi) The procedure's registration anchor (line 228) is `## §16.153`; the PF-17 register limb is recorded at §16.160.4.
+
+**Verification.**
+
+| ID | Check | Result |
+|---|---|---|
+| `V1165` | IRR `main` `bb644a98`; IPD `main` `db84ac12`; open PRs 0 and 0; IRR branch clean before this PR | **PASS** (`git ls-remote`, `gh pr list`, `git status`) |
+| `V1166` | Procedure anchors cited in the packet verified by line read: pins 77–83, 121–122, 127, 150, 154, 193, 257, 318, 402, 405–406, 413–417, 435, 440–441, 447, 451, 484–488; PF-10 at procedure lines 146–148; instrument PF-10 at lines 91–98; instrument `Get-Acl` at line 164; instrument header at line 12 | **PASS** (static read; no run) |
+| `V1167` | Blob-table facts (10 match; `portfolio_store.ts` and g3 differ) carried from `V1162`; IPD `main` unchanged since `V1162`, so not re-computed this pass | **CARRIED** (not re-run this pass) |
+| `V1168` | Packet states no option selected, no PA decision, no designation of any commit, pin, `C′`, or Gate 4 QE/H-12 pin; procedure and instrument not edited | **PASS** (static read; `git diff --name-only` shows only this PR's records) |
+| `V1169` | Relative Markdown links in the packet and §16.167 resolve; the naive checker's false positive on the procedure's `$runtime.node.TrimStart('v')` text is not a link | **PASS** (static; to be re-confirmed at the exact head) |
+| `V1170` | LF only; `git diff --check`; no duplicate `CHG-2026-10-28-11` or `V1165`–`V1172` definitions | **PASS** (static; to be re-confirmed at the exact head) |
+| `V1171` | Procedure file and v2 instrument byte-identical to `bb644a98` (no operative edit) | **PASS** (`git diff --quiet bb644a98 -- <paths>`; to be re-confirmed at the exact head) |
+| `V1172` | Exact-head CI, merge only if permitted, post-merge CI, remote read-back of `main` | **PENDING** (recorded at the next substantive update) |
+
+**Status boundary (unchanged).** P-1-C NOT ESTABLISHED. P-1-D DESIGNATED; NOT VERIFIED FOR THE ATTEMPT. P-1 NOT EXECUTED / UNSPENT / NOT AUTHORIZED. No PA decision, approval, or signature. No designation of any execution pin, `C′`, or Gate 4 QE/H-12 pin. No IPD write. No host, capture, PowerShell, `pwsh`, A6 runtime, V1102, PF-11 rerun, compatibility script, store action, or provisioning. No S2, QE, DQ-4, Gate 4, Gate 5, S3, or H-12 movement.
+
+*End of §16.167 (`CV-CORR-147`; `CHG-2026-10-28-11`; `V1165`–`V1172`).*
