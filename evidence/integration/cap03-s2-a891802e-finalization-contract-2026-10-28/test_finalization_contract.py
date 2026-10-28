@@ -25,6 +25,8 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[3]
 SCRIPT = REPO / "docs/integration/IIPS_v3.0_CAP03_S2_PIN_A891802E_WINDOWS_RUN_2026-10-28.ps1"
+RUNBOOK = REPO / "docs/integration/IIPS_v3.0_CAP03_S2_OPERATOR_RUNBOOK_2026-10-26.md"
+RUNBOOK_LEGACY_SEAL = "Tee-Object -FilePath (Join-Path $EvidenceRoot 'SHA256SUMS.txt') | Out-Null"
 
 REQUIRED = [
     "s2-00-run-log.txt", "01-clone.txt", "01b-checkout-pin.txt", "s2-01c-pin-verification.txt",
@@ -95,10 +97,14 @@ def check_no_legacy_result_design(t):
 
 
 def check_status_vocabulary(t):
-    values = set(re.findall(r"\$(?:script:)?Status = '([^']*)'", t))
+    literals = re.findall(r"\$(?:script:)?Status = '([^']*)'( \+ \$Reason)?", t)
+    values = {v for v, concat in literals if not concat}
+    prefixes = {v for v, concat in literals if concat}
     bad = values - VOCAB
     if bad:
         raise AssertionError(f"status values outside the CAP-02 vocabulary: {bad}")
+    if prefixes - {"NOT EXECUTED - "}:
+        raise AssertionError(f"status prefixes outside the CAP-02 vocabulary: {prefixes}")
     if t.count("$Status = 'PASS'") != 1:
         raise AssertionError("PASS must be assigned exactly once, in the main sequence")
 
@@ -191,6 +197,43 @@ def check_catch_never_passes(t):
         raise AssertionError("the finalization catch can produce PASS")
 
 
+def check_post_publication_quarantine(t):
+    body = function_body(t, "Invoke-Finalize")
+    gate = one(body, "if ($issues2 -gt 0) {")
+    move = one(body, "[System.IO.Directory]::Move($PublishRoot, $failedRoot)")
+    if not gate < move:
+        raise AssertionError("a post-publication recheck failure is not quarantined")
+    if "$failedRoot = $PublishRoot + '.seal-failed'" not in body or body.index("$failedRoot = $PublishRoot + '.seal-failed'") > gate:
+        raise AssertionError("failedRoot is not defined before the recheck that uses it")
+    fc = t.index("Invoke-Finalize\n  }\n  catch {")
+    fc_text = t[fc:t.index("Write-Host ('[S2] ' + $Status", fc)]
+    for needle in ("if ((Test-Path -LiteralPath $PublishRoot) -and -not (Test-Path -LiteralPath $EvidenceRoot)) {",
+                   "[System.IO.Directory]::Move($PublishRoot, $failedRoot)"):
+        if needle not in fc_text:
+            raise AssertionError("the finalization catch does not quarantine a folder published before a failure: " + needle)
+
+
+def check_not_executed_form(t):
+    if "$Status = 'NOT EXECUTED - ' + $Reason" not in t:
+        raise AssertionError("NOT EXECUTED is not assigned in the CAP-02 form 'NOT EXECUTED - <reason>'")
+    if "$Status = 'NOT EXECUTED'" in t:
+        raise AssertionError("a bare NOT EXECUTED status is assigned")
+
+
+def runbook_section4(text):
+    start = text.index("## 4. Post-run capture and sealing")
+    return text[start:text.index("## 5. Publication and what may happen next", start)]
+
+
+def check_runbook_section4(text):
+    sec = runbook_section4(text)
+    if RUNBOOK_LEGACY_SEAL in sec or "Get-FileHash" in sec:
+        raise AssertionError("runbook section 4 still carries the legacy manual seal command")
+    for needle in ("MANIFEST.json", "last line", "RESULT.txt", "seal-failed", "run record"):
+        if needle not in sec:
+            raise AssertionError("runbook section 4 does not state: " + needle)
+
+
 def check_no_writes_after_seal(t):
     body = function_body(t, "Invoke-Finalize")
     after = body[body.index("$script:SealHash = (Get-FileHash"):]
@@ -248,7 +291,8 @@ PART_A = [check_required_list, check_no_legacy_result_design, check_status_vocab
           check_pass_only_in_sequence, check_finalize_order, check_manifest_last, check_manifest_fields,
           check_result_not_self_hashed, check_publication_gated, check_test_seal_detects,
           check_pf00_both_roots, check_catch_never_passes, check_no_writes_after_seal,
-          check_forbidden_keywords, check_no_write_enable, check_p1_absent, check_governance]
+          check_forbidden_keywords, check_no_write_enable, check_p1_absent, check_governance,
+          check_post_publication_quarantine, check_not_executed_form]
 
 
 class ProcedureText(unittest.TestCase):
@@ -286,6 +330,15 @@ class ProcedureText(unittest.TestCase):
 
     def test_publication_gated(self):
         check_publication_gated(self.t)
+
+    def test_post_publication_quarantine(self):
+        check_post_publication_quarantine(self.t)
+
+    def test_not_executed_form(self):
+        check_not_executed_form(self.t)
+
+    def test_runbook_section4_has_no_legacy_seal_command(self):
+        check_runbook_section4(RUNBOOK.read_text(encoding="utf-8"))
 
     def test_test_seal_detects(self):
         check_test_seal_detects(self.t)
@@ -451,18 +504,24 @@ def attacker_reseal(root):
         fh.write("\n".join([f"{h}  {r}" for r, h, _ in payload] + [f"{mhash}  MANIFEST.json"]) + "\n")
 
 
-def model_publish(root, parent, run_id, status):
-    """Mirror of Invoke-Finalize step 6: recheck, then publish by rename or move to .seal-failed."""
-    issues = model_test_seal(root, status)
-    if not issues:
-        final = os.path.join(parent, run_id)
-        if os.path.exists(final):
-            raise AssertionError("publication target already exists")
-        os.rename(root, final)
-        post = model_test_seal(final, status)
-        return (status if not post else "INVALID"), final
+def model_publish(root, parent, run_id, status, tamper=None):
+    """Mirror of Invoke-Finalize step 6. Recheck 1 failure quarantines the working folder. Publication
+    is by rename, and recheck 2 failure quarantines the published folder. Nothing fails silently."""
     failed = os.path.join(parent, run_id + ".seal-failed")
-    os.rename(root, failed)
+    if model_test_seal(root, status):
+        os.rename(root, failed)
+        return "INVALID", failed
+    final = os.path.join(parent, run_id)
+    if os.path.exists(final):
+        raise AssertionError("publication target already exists")
+    os.rename(root, final)
+    if tamper is not None:
+        tamper(final)
+    if not model_test_seal(final, status):
+        return status, final
+    if os.path.exists(failed):
+        raise AssertionError("quarantine target already exists")
+    os.rename(final, failed)
     return "INVALID", failed
 
 
@@ -522,7 +581,8 @@ class ModelTests(unittest.TestCase):
                     os.makedirs(root)
                     with open(os.path.join(root, "s2-00-run-log.txt"), "w") as fh:
                         fh.write("log\n")
-                    got, _ = model_finalize(root, st.split(" - ")[0] if st.startswith("NOT") else st, "x")
+                    got, _ = model_finalize(root, st, "x")
+                    self.assertEqual(got, st)
                     self.assertNotEqual(got, "PASS")
                     self.assertEqual(model_test_seal(root, got), [])
                 finally:
@@ -589,6 +649,17 @@ class ModelTests(unittest.TestCase):
         self.assertEqual(location, os.path.join(self.tmp, RUN_ID))
         self.assertFalse(os.path.exists(self.root))
 
+    def test_post_publication_tamper_is_quarantined_not_left_at_final_name(self):
+        self.seal("PASS")
+
+        def tamper(folder):
+            _append(os.path.join(folder, "05-guarded-npm-test.txt"), "after publication\n")
+
+        final_status, location = model_publish(self.root, self.tmp, RUN_ID, "PASS", tamper=tamper)
+        self.assertEqual(final_status, "INVALID")
+        self.assertTrue(location.endswith(".seal-failed"))
+        self.assertFalse(os.path.exists(os.path.join(self.tmp, RUN_ID)))
+
     def test_failed_recheck_is_not_published_as_pass(self):
         self.seal("PASS")
         with open(os.path.join(self.root, "03-tsc-noemit.txt"), "a") as fh:
@@ -634,6 +705,17 @@ CONTROLS = [
      lambda t: mutate(t, "    $script:Status = 'INVALID'\n    $script:Reason = 'seal recheck failed before",
                       "    $script:Status = 'SUCCESS'\n    $script:Reason = 'seal recheck failed before"),
      check_status_vocabulary),
+    ("post-publication failure left at the final name",
+     lambda t: mutate(t, "      [System.IO.Directory]::Move($PublishRoot, $failedRoot)\n      $script:FinalLocation = $failedRoot\n",
+                      "      $script:FinalLocation = $failedRoot\n"),
+     check_post_publication_quarantine),
+    ("finalization catch ignores a published folder",
+     lambda t: mutate(t, "    if ((Test-Path -LiteralPath $PublishRoot) -and -not (Test-Path -LiteralPath $EvidenceRoot)) {",
+                      "    if ($false) {"),
+     check_post_publication_quarantine),
+    ("NOT EXECUTED reverted to a bare status",
+     lambda t: mutate(t, "    $Status = 'NOT EXECUTED - ' + $Reason", "    $Status = 'NOT EXECUTED'"),
+     check_not_executed_form),
     ("ADDED detection removed",
      lambda t: mutate(t, "$Out.Add('ADDED      ' + $rel + ' (on disk, not sealed)')", "$Out.Add('note ' + $rel)"),
      check_test_seal_detects),
@@ -687,6 +769,14 @@ CONTROLS = [
 
 
 class NegativeControls(unittest.TestCase):
+    def test_runbook_section4_rejects_reintroduced_legacy_seal_command(self):
+        t = RUNBOOK.read_text(encoding="utf-8")
+        mutated = t.replace("## 5. Publication and what may happen next",
+                            RUNBOOK_LEGACY_SEAL + "\n\n## 5. Publication and what may happen next", 1)
+        self.assertNotEqual(mutated, t, "mutation did not change the runbook")
+        with self.assertRaises(AssertionError):
+            check_runbook_section4(mutated)
+
     def test_real_script_passes_every_part_a_check(self):
         t = real_text()
         for check in PART_A + [check_ascii_lf_text]:

@@ -402,6 +402,7 @@ function Invoke-Finalize {
   $transcript.Add('Status sealed: ' + $script:Status)
   $transcript.Add('SEAL SHA256SUMS.txt SHA-256: ' + $script:SealHash)
   $transcript.Add('Recheck 1 of folder: ' + $EvidenceRoot)
+  $failedRoot = $PublishRoot + '.seal-failed'
   $issues = Test-Seal $EvidenceRoot $script:Status $transcript
   $transcript.Add('Recheck 1 issues: ' + $issues)
   if ($issues -eq 0) {
@@ -414,14 +415,20 @@ function Invoke-Finalize {
     $issues2 = Test-Seal $PublishRoot $script:Status $transcript
     $transcript.Add('Recheck 2 issues (published folder): ' + $issues2)
     if ($issues2 -gt 0) {
+      # A folder that fails the recheck after publication is quarantined, never left at its final name.
+      if (Test-Path -LiteralPath $failedRoot) {
+        throw ('quarantine target already exists: ' + $failedRoot)
+      }
       $script:Status = 'INVALID'
-      $script:Reason = 'post-publication seal recheck failed; folder not accepted'
+      $script:Reason = 'post-publication seal recheck failed; folder not accepted and moved to ' + $failedRoot
+      [System.IO.Directory]::Move($PublishRoot, $failedRoot)
+      $script:FinalLocation = $failedRoot
+      $transcript.Add('Moved to: ' + $failedRoot)
     }
   }
   else {
     $script:Status = 'INVALID'
     $script:Reason = 'seal recheck failed before publication; folder not accepted'
-    $failedRoot = $PublishRoot + '.seal-failed'
     [System.IO.Directory]::Move($EvidenceRoot, $failedRoot)
     $script:FinalLocation = $failedRoot
     $transcript.Add('Moved to: ' + $failedRoot)
@@ -767,14 +774,13 @@ try {
   $Status = 'PASS'
   $Reason = 'all S2 criteria met at the designated pin (native Windows host)'
 } catch {
-  $message = [string]$_.Exception.Message
+  $message = ([string]$_.Exception.Message) -replace '[\r\n]+', ' '
   $Reason = $message
   $Status = 'FAIL'
-  if ($Phase -eq 'preflight') {
-    $Status = 'NOT EXECUTED'
-  }
-  if ($message -like 'NOT EXECUTED*') {
-    $Status = 'NOT EXECUTED'
+  if ($Phase -eq 'preflight' -or $message -like 'NOT EXECUTED*') {
+    # CAP-02 section 0 rule 3: the status is "NOT EXECUTED - <reason>".
+    $Reason = $message -replace '^NOT EXECUTED - ', ''
+    $Status = 'NOT EXECUTED - ' + $Reason
   }
   if ($message -like 'INVALID*') {
     $Status = 'INVALID'
@@ -792,9 +798,33 @@ if ($EvidenceCreated) {
     Invoke-Finalize
   }
   catch {
+    $detail = ([string]$_.Exception.Message) -replace '[\r\n]+', ' '
+    $failedRoot = $PublishRoot + '.seal-failed'
+    if ((Test-Path -LiteralPath $PublishRoot) -and -not (Test-Path -LiteralPath $EvidenceRoot)) {
+      # Published before the failure: the folder is not accepted, so it is quarantined as a failed seal.
+      try {
+        [System.IO.Directory]::Move($PublishRoot, $failedRoot)
+        $FinalLocation = $failedRoot
+        $where = 'the folder was moved to ' + $failedRoot + ' and is not accepted'
+      }
+      catch {
+        $FinalLocation = $PublishRoot
+        $where = 'the folder could not be moved and remains at its final name; it is NOT accepted'
+      }
+    }
+    elseif (Test-Path -LiteralPath $failedRoot) {
+      $FinalLocation = $failedRoot
+      $where = 'the folder is quarantined at ' + $failedRoot + ' and is not accepted'
+    }
+    else {
+      $FinalLocation = $EvidenceRoot
+      $where = 'the working folder is not at its final name and is not evidence'
+    }
     $Status = 'INVALID'
-    $Reason = 'sealing or publication failed: ' + [string]$_.Exception.Message + ' (not published at the final name; the .inprogress folder is not evidence)'
-    $FinalLocation = $EvidenceRoot
+    $Reason = 'sealing or publication failed: ' + $detail + ' (' + $where + ')'
+    if (-not (Test-Path -LiteralPath $RecheckLog)) {
+      Write-Utf8NoBom $RecheckLog @('CAP-03 S2 seal exception (no recheck transcript was written)', 'Status: INVALID', ('Reason: ' + $Reason))
+    }
     Write-Host ('[S2] ' + $Status + ' - ' + $Reason) -ForegroundColor Red
   }
 }

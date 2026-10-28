@@ -158,20 +158,17 @@ package consumer **PASS** with pack shasum `cc2aa70186b8fd7bc7255452ac8d8b00d094
 that differs is recorded truthfully and stops the sequence for disposition — it is never normalized
 to match the Linux baseline.
 
-## 4. Immediate post-run capture
+## 4. Post-run capture and sealing
 
-```powershell
-# re-verify pin/cleanliness after the run
-git rev-parse HEAD; git rev-parse "HEAD^{tree}"; git status --porcelain
-# post-QE (here post-S2) dist inventory for the Q11 after-read
-Get-ChildItem -Path dist -Recurse -File | Sort-Object FullName |
-  ForEach-Object { "{0}  {1}" -f (Get-FileHash -Algorithm SHA256 $_.FullName).Hash, $_.FullName } |
-  Tee-Object -FilePath (Join-Path $EvidenceRoot 's2-dist-sha256-after.txt') | Out-Null
-# hash every evidence artifact; the manifest itself is hashed last
-Get-ChildItem -Path $EvidenceRoot -Recurse -File | Sort-Object FullName |
-  ForEach-Object { "{0}  {1}" -f (Get-FileHash -Algorithm SHA256 $_.FullName).Hash, $_.Name } |
-  Tee-Object -FilePath (Join-Path $EvidenceRoot 'SHA256SUMS.txt') | Out-Null
-```
+For the designated pin `a891802e` (see §7), the post-run capture and the evidence seal are performed by the S2 procedure, not by hand. The manual commands that stood in this section are withdrawn for that pin. They hashed the evidence folder while `SHA256SUMS.txt` was being written, so the seal could list itself. They did not write `MANIFEST.json`. They also named the dist inventory differently from the procedure.
+
+The procedure:
+
+1. records the post-run HEAD, tree, and working-tree status (`s2-08-post-run-pin.txt`) and the post-run dist hashes (`s2-08b-dist-sha256-after.txt`);
+2. writes `RESULT.txt`, takes a fresh inventory of the run folder, writes `MANIFEST.json`, and writes `SHA256SUMS.txt`. The seal lists every other artifact in the folder, and `MANIFEST.json` is its last line;
+3. rechecks the seal in the working folder, publishes the folder by renaming it to its final name, and rechecks it again. A folder that fails either recheck is moved to `<run folder>.seal-failed` and is not accepted.
+
+Do not hand-write, re-sum, or re-seal any file in the run folder. The `SHA256SUMS.txt` SHA-256 is printed on the console and recorded in the seal-recheck transcript next to the folder. After the run, check the returned folder with the commands in run record §6a (`IIPS_v3.0_CAP03_S2_PIN_A891802E_WINDOWS_RUN_RECORD_2026-10-28.md`). Do not normalise or re-hash a returned folder.
 
 ## 5. Publication and what may happen next
 
@@ -203,6 +200,7 @@ Get-ChildItem -Path $EvidenceRoot -Recurse -File | Sort-Object FullName |
 - The totals in §3 (924 executed / 923 passed / 1 skipped; dist 1,140) were written for pin `8eec74ae`. The historical native Windows transcripts for that pin show 924 executed / 920 passed / 4 POSIX-only skipped, so the "1 skipped" expectation does not match native Windows. It is superseded as the reference for the designated pin.
 - For `a891802e` / tree `76f083d7` the reference is 930 executed (IPD CI, Linux), with exactly the four POSIX-only tests skipped and the Windows named-pipe tests `ok`. Pack shasum reference `cc2aa70186b8fd7bc7255452ac8d8b00d094f53e` (2026-10-26). Dist count 1,140 is expected and not yet confirmed natively.
 - The governing procedure for that pin is `IIPS_v3.0_CAP03_S2_PIN_A891802E_WINDOWS_RUN_RECORD_2026-10-28.md` and its `.ps1`. The evidence root is a separate per-run subfolder under `C:\iips-evidence\cap03-s2-a891802e\`, not F5 (`cap03-gate4`) and not `cap03-s2`.
-- This note does not alter §§0–6, the `8eec74ae` S2 record, or any PF-15 value.
+- §4 (manual post-run capture) is superseded for `a891802e` by the procedure's sealing, as described in §4 above. The manual `Tee-Object` command that wrote `SHA256SUMS.txt` hashed the folder it was writing into, so the seal could list itself, and it did not write `MANIFEST.json`. The §3 `Run-Step` output names (`s2-<name>.txt`) also differ from the procedure's names. For this pin, the procedure's names are authoritative.
+- This note does not alter §§0–3, 5, or 6, the `8eec74ae` S2 record, or any PF-15 value.
 
 *End of `IIPS-V3-CAP03-S2-OPERATOR-RUNBOOK-2026-10-26-01`. Preparation only; no host operation is performed by this document.*
