@@ -129,7 +129,7 @@ def check_finalize_order(t):
         "Write-Utf8NoBom $sumsPath $sumLines",
         "$script:SealHash = (Get-FileHash",
         "$issues = Test-Seal $EvidenceRoot $script:Status $transcript",
-        "if ($issues -eq 0) {",
+        "if ($issues -gt 0) {",
         "[System.IO.Directory]::Move($EvidenceRoot, $PublishRoot)",
     ]
     pos = [one(body, m) for m in marks]
@@ -162,14 +162,14 @@ def check_result_not_self_hashed(t):
 
 def check_publication_gated(t):
     body = function_body(t, "Invoke-Finalize")
-    gate = one(body, "if ($issues -eq 0) {")
+    gate = one(body, "if ($issues -gt 0) {")
     move = one(body, "[System.IO.Directory]::Move($EvidenceRoot, $PublishRoot)")
     if not gate < move:
-        raise AssertionError("publication is not gated by the seal recheck")
+        raise AssertionError("publication is not reached only through a passing seal recheck")
+    if body.index("  else {", gate) > move:
+        raise AssertionError("publication is not in the branch that follows a passing recheck")
     if "throw ('publication target already exists" not in body or body.index("Test-Path -LiteralPath $PublishRoot") > move:
         raise AssertionError("publication target existence check missing or after the move")
-    if "$PublishRoot + '.seal-failed'" not in body:
-        raise AssertionError("failed seals are not moved to a .seal-failed name")
 
 
 def check_test_seal_detects(t):
@@ -200,17 +200,44 @@ def check_catch_never_passes(t):
 def check_post_publication_quarantine(t):
     body = function_body(t, "Invoke-Finalize")
     gate = one(body, "if ($issues2 -gt 0) {")
-    move = one(body, "[System.IO.Directory]::Move($PublishRoot, $failedRoot)")
-    if not gate < move:
-        raise AssertionError("a post-publication recheck failure is not quarantined")
-    if "$failedRoot = $PublishRoot + '.seal-failed'" not in body or body.index("$failedRoot = $PublishRoot + '.seal-failed'") > gate:
-        raise AssertionError("failedRoot is not defined before the recheck that uses it")
+    quarantine = gate + one(body[gate:], "$q = Move-RunToQuarantine")
+    accept = one(body, "$script:EvidenceAccepted = $true")
+    if not gate < quarantine < accept:
+        raise AssertionError("a failed post-publication recheck is not quarantined before acceptance is recorded")
+    if "else {" not in body[gate:accept]:
+        raise AssertionError("acceptance is not limited to the branch where recheck 2 passed")
+
+
+def check_quarantine_collision_safe(t):
+    helper = function_body(t, "Get-FreeQuarantinePath")
+    for needle in ("if (-not (Test-Path -LiteralPath $base)) { return $base }", "for ($n = 2",
+                   "if (-not (Test-Path -LiteralPath $candidate)) { return $candidate }"):
+        if needle not in helper:
+            raise AssertionError("quarantine name is not chosen collision-safely; missing: " + needle)
+    mover = function_body(t, "Move-RunToQuarantine")
+    move = one(mover, "[System.IO.Directory]::Move($script:FinalLocation, $target)")
+    record = one(mover, "$script:FinalLocation = $target")
+    if not move < record:
+        raise AssertionError("the recorded location changes before the move has succeeded")
+    for fixed in ("Move($PublishRoot, $failedRoot)", "Move($EvidenceRoot, $failedRoot)"):
+        if fixed in t:
+            raise AssertionError("a fixed quarantine name is used as a move target: " + fixed)
+
+
+def check_catch_quarantine_and_location(t):
     fc = t.index("Invoke-Finalize\n  }\n  catch {")
-    fc_text = t[fc:t.index("Write-Host ('[S2] ' + $Status", fc)]
-    for needle in ("if ((Test-Path -LiteralPath $PublishRoot) -and -not (Test-Path -LiteralPath $EvidenceRoot)) {",
-                   "[System.IO.Directory]::Move($PublishRoot, $failedRoot)"):
-        if needle not in fc_text:
-            raise AssertionError("the finalization catch does not quarantine a folder published before a failure: " + needle)
+    catch = t[fc:t.index("Write-Host ('[S2] ' + $Status", fc)]
+    for needle in ("if ($FinalLocation -eq $PublishRoot) {", "$q = Move-RunToQuarantine",
+                   "elseif ($FinalLocation -eq $EvidenceRoot) {"):
+        if needle not in catch:
+            raise AssertionError("finalization catch does not track the run location: missing " + needle)
+    if "seal-failed" in catch:
+        raise AssertionError("finalization catch infers a quarantine location from a path name")
+    body = function_body(t, "Invoke-Finalize")
+    if "[System.IO.Directory]::Move($EvidenceRoot, $PublishRoot)\n    $script:FinalLocation = $PublishRoot" not in body:
+        raise AssertionError("the recorded location is not set immediately after the publication move")
+    if "\n  $FinalLocation = $EvidenceRoot\n" not in t:
+        raise AssertionError("the recorded location is not set when the working folder is created")
 
 
 def check_not_executed_form(t):
@@ -292,7 +319,8 @@ PART_A = [check_required_list, check_no_legacy_result_design, check_status_vocab
           check_result_not_self_hashed, check_publication_gated, check_test_seal_detects,
           check_pf00_both_roots, check_catch_never_passes, check_no_writes_after_seal,
           check_forbidden_keywords, check_no_write_enable, check_p1_absent, check_governance,
-          check_post_publication_quarantine, check_not_executed_form]
+          check_post_publication_quarantine, check_not_executed_form,
+          check_quarantine_collision_safe, check_catch_quarantine_and_location]
 
 
 class ProcedureText(unittest.TestCase):
@@ -339,6 +367,12 @@ class ProcedureText(unittest.TestCase):
 
     def test_runbook_section4_has_no_legacy_seal_command(self):
         check_runbook_section4(RUNBOOK.read_text(encoding="utf-8"))
+
+    def test_quarantine_collision_safe(self):
+        check_quarantine_collision_safe(self.t)
+
+    def test_catch_quarantine_and_location(self):
+        check_catch_quarantine_and_location(self.t)
 
     def test_test_seal_detects(self):
         check_test_seal_detects(self.t)
@@ -504,25 +538,85 @@ def attacker_reseal(root):
         fh.write("\n".join([f"{h}  {r}" for r, h, _ in payload] + [f"{mhash}  MANIFEST.json"]) + "\n")
 
 
-def model_publish(root, parent, run_id, status, tamper=None):
-    """Mirror of Invoke-Finalize step 6. Recheck 1 failure quarantines the working folder. Publication
-    is by rename, and recheck 2 failure quarantines the published folder. Nothing fails silently."""
-    failed = os.path.join(parent, run_id + ".seal-failed")
-    if model_test_seal(root, status):
-        os.rename(root, failed)
-        return "INVALID", failed
-    final = os.path.join(parent, run_id)
-    if os.path.exists(final):
-        raise AssertionError("publication target already exists")
-    os.rename(root, final)
-    if tamper is not None:
-        tamper(final)
-    if not model_test_seal(final, status):
-        return status, final
-    if os.path.exists(failed):
-        raise AssertionError("quarantine target already exists")
-    os.rename(final, failed)
-    return "INVALID", failed
+class MoveRefused(OSError):
+    """A folder move was refused: the target exists, or an injected failure."""
+
+
+def dir_move(src, dst, refuse=False):
+    """Mirror of [System.IO.Directory]::Move: refuses an existing target and never overwrites it."""
+    if refuse:
+        raise MoveRefused("folder move refused (injected)")
+    if os.path.exists(dst):
+        raise MoveRefused("target already exists: " + dst)
+    os.rename(src, dst)
+
+
+def free_quarantine_path(publish_root):
+    """Mirror of Get-FreeQuarantinePath: the first free name among <base> and <base>.<n>, n >= 2."""
+    base = publish_root + ".seal-failed"
+    if not os.path.exists(base):
+        return base
+    for n in range(2, 1000):
+        candidate = f"{base}.{n}"
+        if not os.path.exists(candidate):
+            return candidate
+    raise AssertionError("no free quarantine name")
+
+
+def model_seal_and_publish(root, parent, run_id, status, inject=None):
+    """Model of Invoke-Finalize steps 6-8 and the finalization catch. This is a Python mirror of the
+    decision logic, not PowerShell execution. Hooks in `inject`: 'before_recheck1' and 'after_publish'
+    receive the folder currently holding the run and may tamper with it; 'quarantine_refused' makes every
+    quarantine move fail, including the catch's own attempt."""
+    inject = inject or {}
+    publish_root = os.path.join(parent, run_id)
+    st = {"loc": root, "status": status, "accepted": False, "reason": ""}
+
+    def quarantine():
+        target = free_quarantine_path(publish_root)
+        dir_move(st["loc"], target, refuse=bool(inject.get("quarantine_refused")))
+        st["loc"] = target
+        return target
+
+    try:
+        if "before_recheck1" in inject:
+            inject["before_recheck1"](st["loc"])
+        if model_test_seal(st["loc"], status):
+            st["status"] = "INVALID"
+            q = quarantine()
+            st["reason"] = "seal recheck failed before publication; folder not accepted; quarantined at " + q
+        else:
+            if os.path.exists(publish_root):
+                raise AssertionError("publication target already exists")
+            dir_move(st["loc"], publish_root)
+            st["loc"] = publish_root
+            if "after_publish" in inject:
+                inject["after_publish"](st["loc"])
+            if model_test_seal(st["loc"], status):
+                st["status"] = "INVALID"
+                q = quarantine()
+                st["reason"] = "post-publication seal recheck failed; folder not accepted; quarantined at " + q
+            else:
+                st["accepted"] = True
+    except MoveRefused as exc:
+        # Mirror of the finalization catch: the recorded location decides what happens next.
+        if st["loc"] == publish_root:
+            try:
+                where = "quarantined at " + quarantine()
+            except MoveRefused as exc2:
+                where = ("QUARANTINE FAILED (" + str(exc2) + "); the INVALID run remains at the canonical path "
+                         + publish_root + " and must not be used as evidence")
+        else:
+            where = "the working folder remains at " + st["loc"] + " and is not evidence"
+        st["status"] = "INVALID"
+        st["accepted"] = False
+        st["reason"] = "sealing or publication failed: " + str(exc) + " (" + where + ")"
+    return {"status": st["status"], "reason": st["reason"], "location": st["loc"],
+            "accepted": st["accepted"], "canonical_exists": os.path.exists(publish_root)}
+
+
+def _hashes(folder):
+    return {r: h for r, h, _ in artifacts(folder)}
 
 
 class ModelTests(unittest.TestCase):
@@ -642,32 +736,122 @@ class ModelTests(unittest.TestCase):
         _write(p, "\n".join(lines) + "\n")
         self.assertIn("ORDER MANIFEST.json not last", model_test_seal(self.root, "PASS"))
 
-    def test_clean_seal_is_published_under_the_final_name(self):
-        self.seal("PASS")
-        final_status, location = model_publish(self.root, self.tmp, RUN_ID, "PASS")
-        self.assertEqual(final_status, "PASS")
-        self.assertEqual(location, os.path.join(self.tmp, RUN_ID))
-        self.assertFalse(os.path.exists(self.root))
+    def _older_quarantine(self, suffix):
+        path = os.path.join(self.tmp, RUN_ID + suffix)
+        os.makedirs(path)
+        _write(os.path.join(path, "OLDER-RUN.txt"), "older run, not to be touched\n")
+        return path
 
-    def test_post_publication_tamper_is_quarantined_not_left_at_final_name(self):
-        self.seal("PASS")
-
+    def _tamper_after_publish(self, snap):
         def tamper(folder):
             _append(os.path.join(folder, "05-guarded-npm-test.txt"), "after publication\n")
+            snap["hashes"] = _hashes(folder)
+        return tamper
 
-        final_status, location = model_publish(self.root, self.tmp, RUN_ID, "PASS", tamper=tamper)
-        self.assertEqual(final_status, "INVALID")
-        self.assertTrue(location.endswith(".seal-failed"))
-        self.assertFalse(os.path.exists(os.path.join(self.tmp, RUN_ID)))
+    def _tamper_before_recheck1(self, snap):
+        def tamper(folder):
+            _append(os.path.join(folder, "03-tsc-noemit.txt"), "late change\n")
+            snap["hashes"] = _hashes(folder)
+        return tamper
 
-    def test_failed_recheck_is_not_published_as_pass(self):
+    def test_post_publication_failure_without_existing_quarantine(self):
+        # Scenario 1
         self.seal("PASS")
-        with open(os.path.join(self.root, "03-tsc-noemit.txt"), "a") as fh:
-            fh.write("late change\n")
-        final_status, location = model_publish(self.root, self.tmp, RUN_ID, "PASS")
-        self.assertEqual(final_status, "INVALID")
-        self.assertTrue(location.endswith(".seal-failed"))
-        self.assertFalse(os.path.exists(os.path.join(self.tmp, RUN_ID)))
+        snap = {}
+        r = model_seal_and_publish(self.root, self.tmp, RUN_ID, "PASS", {"after_publish": self._tamper_after_publish(snap)})
+        self.assertEqual(r["status"], "INVALID")
+        self.assertFalse(r["accepted"])
+        self.assertEqual(r["location"], os.path.join(self.tmp, RUN_ID + ".seal-failed"))
+        self.assertFalse(r["canonical_exists"])
+        self.assertEqual(_hashes(r["location"]), snap["hashes"], "the procedure changed a file while quarantining")
+        self.assertIn("STATUS: PASS", _read(os.path.join(r["location"], "RESULT.txt")), "sealed verdict must not be rewritten")
+
+    def test_post_publication_failure_with_existing_quarantine_leaves_older_run_alone(self):
+        # Scenario 2
+        older = self._older_quarantine(".seal-failed")
+        older_before = _hashes(older)
+        self.seal("PASS")
+        snap = {}
+        r = model_seal_and_publish(self.root, self.tmp, RUN_ID, "PASS", {"after_publish": self._tamper_after_publish(snap)})
+        self.assertEqual(r["location"], os.path.join(self.tmp, RUN_ID + ".seal-failed.2"))
+        self.assertNotEqual(r["location"], older, "the older quarantine was reported as this run")
+        self.assertEqual(_hashes(older), older_before, "the older quarantine was modified")
+        self.assertEqual(_hashes(r["location"]), snap["hashes"])
+        self.assertEqual(r["status"], "INVALID")
+        self.assertFalse(r["accepted"])
+        self.assertFalse(r["canonical_exists"])
+
+    def test_pre_publication_failure_with_existing_quarantine_leaves_older_run_alone(self):
+        # Scenario 3
+        older = self._older_quarantine(".seal-failed")
+        older_before = _hashes(older)
+        self.seal("PASS")
+        snap = {}
+        r = model_seal_and_publish(self.root, self.tmp, RUN_ID, "PASS", {"before_recheck1": self._tamper_before_recheck1(snap)})
+        self.assertEqual(r["location"], os.path.join(self.tmp, RUN_ID + ".seal-failed.2"))
+        self.assertEqual(_hashes(older), older_before)
+        self.assertEqual(_hashes(r["location"]), snap["hashes"])
+        self.assertEqual(r["status"], "INVALID")
+        self.assertFalse(r["accepted"])
+        self.assertFalse(r["canonical_exists"], "a run that failed recheck 1 reached the canonical path")
+
+    def test_quarantine_refused_after_post_publication_failure_reports_canonical_location(self):
+        # Scenario 4a
+        self.seal("PASS")
+        snap = {}
+        r = model_seal_and_publish(self.root, self.tmp, RUN_ID, "PASS",
+                                   {"after_publish": self._tamper_after_publish(snap), "quarantine_refused": True})
+        self.assertEqual(r["status"], "INVALID")
+        self.assertFalse(r["accepted"])
+        self.assertEqual(r["location"], os.path.join(self.tmp, RUN_ID), "the reported location is not the real one")
+        self.assertTrue(r["canonical_exists"])
+        self.assertIn("QUARANTINE FAILED", r["reason"])
+        self.assertIn("remains at the canonical path", r["reason"])
+        self.assertFalse(os.path.exists(os.path.join(self.tmp, RUN_ID + ".seal-failed")))
+        self.assertEqual(_hashes(r["location"]), snap["hashes"])
+
+    def test_quarantine_refused_after_pre_publication_failure_reports_working_folder(self):
+        # Scenario 4b
+        self.seal("PASS")
+        snap = {}
+        r = model_seal_and_publish(self.root, self.tmp, RUN_ID, "PASS",
+                                   {"before_recheck1": self._tamper_before_recheck1(snap), "quarantine_refused": True})
+        self.assertEqual(r["status"], "INVALID")
+        self.assertFalse(r["accepted"])
+        self.assertEqual(r["location"], self.root)
+        self.assertFalse(r["canonical_exists"])
+        self.assertIn("remains at", r["reason"])
+        self.assertEqual(_hashes(r["location"]), snap["hashes"])
+
+    def test_successful_publication_is_unchanged(self):
+        # Scenario 5
+        self.seal("PASS")
+        before = _hashes(self.root)
+        r = model_seal_and_publish(self.root, self.tmp, RUN_ID, "PASS")
+        final = os.path.join(self.tmp, RUN_ID)
+        self.assertEqual(r["status"], "PASS")
+        self.assertTrue(r["accepted"])
+        self.assertEqual(r["location"], final)
+        self.assertTrue(r["canonical_exists"])
+        self.assertFalse(os.path.exists(self.root))
+        self.assertFalse(os.path.exists(final + ".seal-failed"))
+        self.assertEqual(_hashes(final), before)
+        self.assertIn("STATUS: PASS", _read(os.path.join(final, "RESULT.txt")))
+
+    def test_published_non_pass_verdict_is_recorded_not_quarantined(self):
+        self.seal("FAIL")
+        r = model_seal_and_publish(self.root, self.tmp, RUN_ID, "FAIL")
+        self.assertEqual(r["status"], "FAIL")
+        self.assertTrue(r["accepted"])
+        self.assertEqual(r["location"], os.path.join(self.tmp, RUN_ID))
+
+    def test_free_quarantine_name_skips_every_existing_name(self):
+        publish_root = os.path.join(self.tmp, RUN_ID)
+        self.assertEqual(free_quarantine_path(publish_root), publish_root + ".seal-failed")
+        self._older_quarantine(".seal-failed")
+        self._older_quarantine(".seal-failed.2")
+        self.assertEqual(free_quarantine_path(publish_root), publish_root + ".seal-failed.3")
+
 
 
 # ---------------------------------------------------------------- Part C -----
@@ -694,7 +878,7 @@ CONTROLS = [
      lambda t: mutate(t, "  Write-Log ('SEAL start: status ' + $script:Status)\n",
                       "  $script:Status = 'PASS'\n  Write-Log ('SEAL start: status ' + $script:Status)\n"),
      check_pass_only_in_sequence),
-    ("publication gate removed", lambda t: mutate(t, "  if ($issues -eq 0) {\n    if (Test-Path", "  if ($true) {\n    if (Test-Path"),
+    ("publication gate removed", lambda t: mutate(t, "  if ($issues -gt 0) {\n    # Recheck 1 failed", "  if ($false) {\n    # Recheck 1 failed"),
      check_publication_gated),
     ("MANIFEST.json not appended to SHA256SUMS.txt",
      lambda t: mutate(t, "  $sumLines += ($manifestHash + '  MANIFEST.json')\n", ""), check_manifest_last),
@@ -702,17 +886,35 @@ CONTROLS = [
      lambda t: mutate(t, "  $Status = 'PASS'\n  $Reason = 'all S2", "  $Status = 'INCOMPLETE'\n  $Status = 'PASS'\n  $Reason = 'all S2"),
      check_no_legacy_result_design),
     ("status outside the vocabulary",
-     lambda t: mutate(t, "    $script:Status = 'INVALID'\n    $script:Reason = 'seal recheck failed before",
-                      "    $script:Status = 'SUCCESS'\n    $script:Reason = 'seal recheck failed before"),
+     lambda t: mutate(t, "    $script:Status = 'INVALID'\n    $q = Move-RunToQuarantine\n    $script:Reason = 'seal recheck failed before",
+                      "    $script:Status = 'SUCCESS'\n    $q = Move-RunToQuarantine\n    $script:Reason = 'seal recheck failed before"),
      check_status_vocabulary),
-    ("post-publication failure left at the final name",
-     lambda t: mutate(t, "      [System.IO.Directory]::Move($PublishRoot, $failedRoot)\n      $script:FinalLocation = $failedRoot\n",
-                      "      $script:FinalLocation = $failedRoot\n"),
+    ("post-publication failure not quarantined",
+     lambda t: mutate(t, "      $q = Move-RunToQuarantine\n      $script:Reason = 'post-publication",
+                      "      $q = 'skipped'\n      $script:Reason = 'post-publication"),
      check_post_publication_quarantine),
-    ("finalization catch ignores a published folder",
-     lambda t: mutate(t, "    if ((Test-Path -LiteralPath $PublishRoot) -and -not (Test-Path -LiteralPath $EvidenceRoot)) {",
-                      "    if ($false) {"),
+    ("recheck 2 gate removed (acceptance without recheck 2)",
+     lambda t: mutate(t, "    if ($issues2 -gt 0) {\n      # Recheck 2 failed", "    if ($false) {\n      # Recheck 2 failed"),
      check_post_publication_quarantine),
+    ("finalization catch ignores the canonical path",
+     lambda t: mutate(t, "    if ($FinalLocation -eq $PublishRoot) {\n      # The run was published",
+                      "    if ($false) {\n      # The run was published"),
+     check_catch_quarantine_and_location),
+    ("finalization catch infers a misattributed quarantine",
+     lambda t: mutate(t, "    elseif ($FinalLocation -eq $EvidenceRoot) {",
+                      "    elseif (Test-Path -LiteralPath ($PublishRoot + '.seal-failed')) {\n      $where = 'misattributed'\n    }\n    elseif ($FinalLocation -eq $EvidenceRoot) {"),
+     check_catch_quarantine_and_location),
+    ("location recorded before the publication move",
+     lambda t: mutate(t, "    [System.IO.Directory]::Move($EvidenceRoot, $PublishRoot)\n    $script:FinalLocation = $PublishRoot\n",
+                      "    $script:FinalLocation = $PublishRoot\n    [System.IO.Directory]::Move($EvidenceRoot, $PublishRoot)\n"),
+     check_catch_quarantine_and_location),
+    ("fixed quarantine name reintroduced",
+     lambda t: mutate(t, "  if (-not (Test-Path -LiteralPath $base)) { return $base }\n", "  return $base\n"),
+     check_quarantine_collision_safe),
+    ("recorded location changed before the quarantine move",
+     lambda t: mutate(t, "  [System.IO.Directory]::Move($script:FinalLocation, $target)\n  $script:FinalLocation = $target\n",
+                      "  $script:FinalLocation = $target\n  [System.IO.Directory]::Move($script:FinalLocation, $target)\n"),
+     check_quarantine_collision_safe),
     ("NOT EXECUTED reverted to a bare status",
      lambda t: mutate(t, "    $Status = 'NOT EXECUTED - ' + $Reason", "    $Status = 'NOT EXECUTED'"),
      check_not_executed_form),

@@ -11,8 +11,8 @@
 | Governing basis | PA designation record pass 2, §4.6 step 5 (fresh S2 at the pin); CAP-03 S2 operator runbook §0 (hard rules), §3 (command sequence), §4 (hash every artifact, manifest hashed last); CAP-02 host runbook §0 rule 3 (status vocabulary) and §6 (MANIFEST.json and SHA256SUMS.txt structure) |
 | Prior reconciliation | `IIPS_v3.0_CAP03_S2_RECONCILIATION_RECORD_2026-10-28.md` (IRR `acf8a5d`): existing S2 evidence does not satisfy the requirement at the pin; fresh native S2 ELIGIBLE, NOT STARTED |
 | Procedure | `docs/integration/IIPS_v3.0_CAP03_S2_PIN_A891802E_WINDOWS_RUN_2026-10-28.ps1` |
-| Procedure SHA-256 | `420a45f4ea304943630e48ce8f068bce50d4d52ad65fd37e031a3663c8450000` (38,455 bytes; sealing design of §6a; verify before running, see §4) |
-| Contract tests | `evidence/integration/cap03-s2-a891802e-finalization-contract-2026-10-28/test_finalization_contract.py` (SHA-256 `0f7ba0d5249fc52bcb5d7febcab9927f74f6ff470e16858b0898035f4242277c`, 36,375 bytes; 40 test methods and 47 subtests, all passing; §7) |
+| Procedure SHA-256 | `be952e25622b033b875c0b61deb4c124ba75b0ca61b5e74cabcdc11430563249` (40,274 bytes; sealing and quarantine design of §6a; verify before running, see §4) |
+| Contract tests | `evidence/integration/cap03-s2-a891802e-finalization-contract-2026-10-28/test_finalization_contract.py` (SHA-256 `d21f73c066d47aac50d9cc81365e9e0f7cc478ffaff2a9837c9183e59a2f3b02`, 47,118 bytes; 47 test methods (23 ProcedureText, 21 ModelTests, 3 NegativeControls) and 54 subtests (4 ModelTests, 50 NegativeControls), all passing; §7) |
 | Host | `desktop-no0nhtp`, Windows 11 Home, **non-elevated** session (host identity is inferred from the designation; the run itself must record it) |
 | Final evidence folder (new per run) | `C:\iips-evidence\cap03-s2-a891802e\s2-a891802e-<UTC stamp>\` |
 | Working folder (exists only while the run is in progress) | the same path with `.inprogress` appended. It is not evidence (§6a) |
@@ -45,7 +45,7 @@ The evidence root is **not** the F5 Gate 4 root (`C:\iips-evidence\cap03-gate4`)
    ```powershell
    Get-FileHash -Algorithm SHA256 -LiteralPath "$env:USERPROFILE\iips-s2\IIPS_v3.0_CAP03_S2_PIN_A891802E_WINDOWS_RUN_2026-10-28.ps1"
    ```
-   The hash must be `420A45F4EA304943630E48CE8F068BCE50D4D52AD65FD37E031A3663C8450000`. Any other value: **STOP** and report.
+   The hash must be `BE952E25622B033B875C0B61DEB4C124BA75B0CA61B5E74CABCDC11430563249`. Any other value: **STOP** and report.
 
 ## 5. Run instructions
 
@@ -57,7 +57,7 @@ The evidence root is **not** the F5 Gate 4 root (`C:\iips-evidence\cap03-gate4`)
    powershell.exe -NoProfile -ExecutionPolicy Bypass -File ".\IIPS_v3.0_CAP03_S2_PIN_A891802E_WINDOWS_RUN_2026-10-28.ps1"
    ```
    `-ExecutionPolicy Bypass` applies to this process only. Do not run `Set-ExecutionPolicy`.
-4. The sequence stops at the first failure. Once a folder has been created, the outcome is always sealed and then either published under the final name or moved to `.seal-failed`. The console then prints the final status, the folder path, the `SHA256SUMS.txt` SHA-256, and the transcript path, and waits at "Press Enter to close this window". A preflight failure before any folder exists prints the status only. Do not close the window until §6 is collected.
+4. The sequence stops at the first failure. Once a folder has been created, the outcome is always sealed and then either published under the final name or moved to a quarantine name (`.seal-failed`, or `.seal-failed.2` and so on; §6a). The console then prints the final status, the run folder's current location, whether it is `PUBLISHED` or `NOT PUBLISHED`, the `SHA256SUMS.txt` SHA-256, and the transcript path, and waits at "Press Enter to close this window". A preflight failure before any folder exists prints the status only. Do not close the window until §6 is collected.
 5. Do not retry, repair, re-pin, or clean up. If the run stops, keep everything it created and return it (§6).
 
 ## 6. Expected outcomes and return list
@@ -107,14 +107,14 @@ Any file in the folder other than the list above is an **ADDED** finding and fai
 | **PASS** | Every criterion in the procedure met at the pin, the folder sealed, the seal recheck found no issue, and the folder published under its final name | Deposit the evidence through the governed workflow (IRR PR; CI; read-back) |
 | **FAIL** | A command returned non-zero, a test is `not ok` or failing, a named-pipe test is skipped, package-consumer did not pass, a required artifact is missing or empty, or the folder contains an unexpected artifact | Preserve everything; STOP; no retry-as-fix |
 | **INCONCLUSIVE** | Dist count ≠ 1,140, executed count ≠ 930, skip set ≠ the four names, pack shasum ≠ reference, or no named-pipe lines found | STOP; PA disposition required; never silently accept |
-| **INVALID** | HEAD/tree/shallow/clean-tree/ancestor/lockfile mismatch, the tree changed during the run, or the seal recheck failed (the folder is then at `<run folder>.seal-failed` and is not accepted) | STOP; PA disposition; no silent re-pin |
+| **INVALID** | HEAD/tree/shallow/clean-tree/ancestor/lockfile mismatch, the tree changed during the run, or the seal recheck failed (the folder is moved to the first free `<run folder>.seal-failed[.n]` name and is not accepted; §6a) | STOP; PA disposition; no silent re-pin |
 | **NOT EXECUTED - reason** | A preflight check failed before any command ran (host, elevation, Node version, runtime directory, node:sqlite, absent variables, existing evidence or clone directory). The status line reads `STATUS: NOT EXECUTED - <reason>` in `RESULT.txt`, which is the CAP-02 §0 rule 3 form | Fix the stated precondition in a new run; the procedure does not write into a pre-existing root |
 
 A run that is interrupted (window closed, power loss, crash) leaves a folder named `<run folder>.inprogress`. It has no `SHA256SUMS.txt` and no verdict. It is **not evidence**, whatever its contents, and must be returned as-is for disposition.
 
 A PASS requires all of: guard exit 0; `# fail 0`; `# cancelled 0`; guard executed = TAP tests = 930; every named-pipe test `ok`; skip set = the four names; dist count = 1,140; package consumer `"result": "PASS"`; pack shasum = reference; post-run HEAD and tree unchanged and tree clean; all 14 required evidence files present and non-empty, and no other file in the folder before the seal; the seal written; the seal recheck with zero issues; publication under the final name.
 
-### 6a. Sealing, recheck, and publication (pass 4, 2026-10-28)
+### 6a. Sealing, recheck, publication, and quarantine (pass 4, 2026-10-28; quarantine correction 2026-10-29)
 
 **Governing text.**
 - S2 runbook §4: "hash every evidence artifact; the manifest itself is hashed last". The file it names is `SHA256SUMS.txt`.
@@ -129,22 +129,36 @@ A PASS requires all of: guard exit 0; `# fail 0`; `# cancelled 0`; guard execute
 
 **Sequence (order is enforced by `Invoke-Finalize` and checked by the contract tests):**
 
-1. The run writes raw evidence into `<run folder>.inprogress`. Nothing is named or published until step 7.
+1. The run writes raw evidence into `<run folder>.inprogress`. Nothing is named or published until step 8.
 2. The status is decided from the run's own criteria. A `PASS` is downgraded to `FAIL` if any of the 14 required files is missing or empty, or if any other file is present.
 3. `RESULT.txt` is written with the status and reason.
 4. A fresh inventory of the folder is taken. For a PASS, it must equal the 14 required files plus `RESULT.txt`.
 5. `MANIFEST.json` is written from that inventory.
 6. `SHA256SUMS.txt` is written: every artifact, then `MANIFEST.json` as the last line. Its SHA-256 is recorded.
-7. **Recheck before acceptance.** The working folder is checked in full: the seal layout and order, every listed file present and unaltered, no unlisted file, `MANIFEST.json` consistent with the seal (run identity, status, every hash), and the `RESULT.txt` status line. Any finding makes the status `INVALID`, and the folder is moved to `<run folder>.seal-failed`.
-8. **Publication.** If the recheck is clean, the folder is renamed to its final name in one operation and rechecked again. A failure of that second check makes the status `INVALID`, and the published folder is moved to `<run folder>.seal-failed` and is not accepted. If that move fails, the console says the folder is NOT accepted at its final name.
-9. **Any exception.** An exception during sealing, before publication, leaves the `.inprogress` folder, which is not evidence. An exception after publication is handled like a failed second recheck: the folder is moved to `<run folder>.seal-failed`. The console prints the location that applies.
-9. The seal-recheck transcript is written beside the folder. The console prints the final status, the folder path, the `SHA256SUMS.txt` SHA-256, and the transcript path.
+7. **Recheck 1 (before publication).** The working folder is checked in full: the seal layout and order, every listed file present and unaltered, no unlisted file, `MANIFEST.json` consistent with the seal (run identity, status, every hash), and the `RESULT.txt` status line. Any finding makes the status `INVALID`, and the working folder is moved to quarantine (step 9). A failed recheck 1 is never published.
+8. **Publication and recheck 2.** If recheck 1 is clean, the folder is renamed to its final name in one operation. The recorded location changes to the final name only after the rename has succeeded. Recheck 2 then runs on the published folder. Any finding makes the status `INVALID`, and the published folder is moved to quarantine (step 9). Acceptance is recorded only when recheck 2 is clean.
+9. **Quarantine.** The quarantine name is the first free one of `<run folder>.seal-failed`, `<run folder>.seal-failed.2`, `.seal-failed.3`, and so on up to `.999`. A name that already exists, including one left by an earlier run, is never reused or overwritten. The move starts from the recorded location. The recorded location changes only after the move has succeeded. If the move fails, the folder stays where it is, the status remains `INVALID`, and the console and transcript state the actual location.
+10. **Any exception.** An exception before publication leaves the `.inprogress` folder, which is not evidence. An exception after publication is handled like a failed recheck 2 (step 9). If that move also fails, the console reports that the INVALID folder remains at the final name and is NOT accepted.
+11. The seal-recheck transcript is written beside the folder. The console prints the final status, the run folder's current location, a `PUBLISHED` or `NOT PUBLISHED` line, the `SHA256SUMS.txt` SHA-256, and the transcript path.
 
-**Why `PASS` is never published unverified.** The `RESULT.txt` PASS text exists only inside the `.inprogress` folder, before the seal. Only a folder that has passed the recheck is renamed to the final name, and only the final name is evidence. An interrupted run leaves an `.inprogress` folder, which is not evidence, whatever `RESULT.txt` says. A failed recheck, before or after publication, moves the folder to `.seal-failed`. So does an exception after publication. A failed PASS therefore cannot sit under the final name.
+**Location and acceptance at each failure point.** These are the only outcomes. The console prints the location that applies.
+
+| Failure point | Location afterwards | Accepted? |
+|---|---|---|
+| Exception before publication, including during sealing | `<run folder>.inprogress` | No (`INVALID`) |
+| Recheck 1 fails | quarantine name (`.seal-failed`, `.seal-failed.2`, ...) | No (`INVALID`) |
+| Publication rename fails | `<run folder>.inprogress` | No (`INVALID`) |
+| Recheck 2 fails | quarantine name | No (`INVALID`) |
+| Quarantine move fails after recheck 1 | `<run folder>.inprogress` | No (`INVALID`) |
+| Quarantine move fails after recheck 2 or an exception after publication | the final name (console: `QUARANTINE FAILED`) | No (`INVALID`); not evidence |
+| Both rechecks pass | the final name | Yes, with the status as sealed (`PASS`, `FAIL`, `INCONCLUSIVE`, `NOT EXECUTED - reason`, or `INVALID`) |
+
+**Why `PASS` is never published unverified.** The `RESULT.txt` PASS text exists only inside the `.inprogress` folder, before the seal. A folder is accepted only after recheck 2 passes, and only the final name is evidence. A failed recheck, before or after publication, moves the folder to quarantine, and so does an exception after publication. A quarantined folder keeps its sealed `RESULT.txt`, so it can still read `STATUS: PASS`. The sealed artifacts are not edited to record the failure. Its non-evidence status is recorded by its quarantine name, by the console, and by the transcript, which all say `INVALID`. A quarantine name is never shared with an earlier run.
 
 **Residuals, stated plainly (not resolved by any file-level design):**
 - **The seal's own hash cannot be inside the seal.** `SHA256SUMS.txt` cannot list itself. Its SHA-256 is printed on the console and recorded in the transcript, and it must be returned with the folder. Any later change to `SHA256SUMS.txt` is caught only by comparing its hash with that value.
-- **Post-publication change is caught only at a later check.** The second recheck catches changes made before publication completes. A change made after the folder is accepted is caught only by a later comparison with the printed seal hash.
+- **A change after recheck 2 is caught only at a later check.** Recheck 2 runs after the rename. A change made after it passes, including by an operator, is caught only by a later comparison with the printed seal hash.
+- **A failed quarantine move leaves an INVALID folder in place.** The console and transcript report where it is. Return it with the console output. It is not evidence, and no one may treat it as such.
 - **The seal-recheck transcript is outside the seal.** It is returned alongside the folder and is the record of the recheck.
 
 **Verify a returned evidence folder** (PowerShell; replace the placeholder with the real folder name):
@@ -181,7 +195,7 @@ Check 2 and check 3 must both print nothing. Check 4 must read `STATUS: PASS`. T
   Because the package-consumer script changed in the candidate step, the 2026-10-26 `PASS` and shasum are candidate-scoped and do not carry over automatically to the pin. The procedure checks both against the references.
 - **Pack shasum:** the reference `cc2aa…` is the 2026-10-26 value. If the pin changed packaged content the shasum will differ. That stops the run as INCONCLUSIVE. Do not re-pin silently.
 - **Layout versus CAP-02 §6.** CAP-02 §6 shows an example deposit with per-stage subfolders (`10-s2/`, …). That example is for the Gate 4 QE deposit (`cap02_gate4_qe_<date>_<run-id>/`). The S2 runbook §3–§4 specifies a flat S2 root, and PF-15 act `-02` requires S2 evidence to stay separate from F5. This procedure keeps the flat root. The MANIFEST.json and SHA256SUMS.txt requirements of CAP-02 §6 are applied in full to it. This is an interpretation recorded here, not a change to any contract.
-- **Procedure execution (limits of the validation).** The `.ps1` has been syntax-checked with a tree-sitter PowerShell grammar (0 error nodes), which is a parse check and not the PowerShell parser. No PowerShell engine is available in the sandbox: there is no `pwsh`, no .NET runtime, and the PowerShell packages that are reachable from the sandbox are Windows-only wrappers. The sealing logic is therefore covered only by (a) static text checks on the script (19 section checks, an ASCII check, and a check on the runbook §4 seal text), (b) 16 model test methods of the same sequence and recheck rules in Python (with 4 subtests for non-PASS statuses), and (c) 23 negative-control subtests, each of which applies a mutation to a copy of the real script or runbook and requires the same named check to reject it, with the rejection message recorded. None of this executes PowerShell. The sealing logic is not established until a native run returns verified evidence.
+- **Procedure execution (limits of the validation).** The `.ps1` has been syntax-checked with a tree-sitter PowerShell grammar (0 error nodes), which is a parse check and not the PowerShell parser. No PowerShell engine is available in the sandbox: there is no `pwsh`, no .NET runtime, and the PowerShell packages that are reachable from the sandbox are Windows-only wrappers. The sealing logic is therefore covered only by (a) static text checks on the script (21 section checks and an ASCII check, 22 subtests, plus a check on the runbook §4 seal text), (b) 21 model test methods in Python of the same sequence, recheck, and quarantine decision rules (with 4 subtests for non-PASS statuses; these are model-based tests, not PowerShell execution), and (c) 28 negative-control subtests, each of which applies a mutation to a copy of the real script or runbook and requires the same named check to reject it, with the rejection message recorded. None of this executes PowerShell. The sealing logic is not established until a native run returns verified evidence.
 - **PowerShell version:** the script was written for Windows PowerShell 5.1 and PowerShell 7. Neither has been tested here. The run logs the version.
 
 ## 8. Dated reconciliation notes (2026-10-28)
@@ -190,11 +204,11 @@ Check 2 and check 3 must both print nothing. Check 4 must read `STATUS: PASS`. T
 2. **Historical S2 is not repeated.** Nothing in this record replaces, invalidates, or re-labels the completed 2026-10-26 S2 evidence (candidate `001c3c80`, and the approved-baseline run at `8eec74ae`, which the tracker records as FAILED). The fresh run at `a891802e` is a separate S2 under §4.6 step 5.
 3. **No IPD change.** No IPD commit is made or needed for this procedure. Any IPD commit would move the pin.
 4. **Record harmonised with the status vocabulary.** The `INCOMPLETE` status used in the pass-3 record is withdrawn. It was not one of the five classes in CAP-02 §0 rule 3.
-5. **Runbook §4 corrected in pass 5 (not deferred).** The CAP-03 S2 operator runbook §4 (line 173, a `Tee-Object` writing `SHA256SUMS.txt`) is a manual capture command from before this procedure. For the run at `a891802e`, the procedure's own sealing (§6a: `MANIFEST.json` and `SHA256SUMS.txt` in the order given) applies in its place. The runbook §4 manual capture is replaced in this pass with a description of what the procedure does, and the runbook §7 dated note records the supersession. The old command hashed the folder it was writing into, so the seal could list itself. It also did not write `MANIFEST.json`, and its dist file name differed from the procedure's. A contract test (`test_runbook_section4_has_no_legacy_seal_command`) and a negative control enforce the change.
+5. **Runbook §4 corrected in pass 5 (not deferred), and edited again in the 2026-10-29 quarantine correction.** The runbook is edited in that correction, in its §4 step 3 only: it now gives the collision-safe quarantine name and states that a failed move leaves the folder in place, not accepted. No pinned value and no other runbook text changed. Runbook SHA-256 `c9efbea3128b487787d7e489ec1b170e589dc911531ac75ca67595486814a66e` (14449 bytes). The CAP-03 S2 operator runbook §4 (line 173, a `Tee-Object` writing `SHA256SUMS.txt`) is a manual capture command from before this procedure. For the run at `a891802e`, the procedure's own sealing (§6a: `MANIFEST.json` and `SHA256SUMS.txt` in the order given) applies in its place. The runbook §4 manual capture is replaced in this pass with a description of what the procedure does, and the runbook §7 dated note records the supersession. The old command hashed the folder it was writing into, so the seal could list itself. It also did not write `MANIFEST.json`, and its dist file name differed from the procedure's. A contract test (`test_runbook_section4_has_no_legacy_seal_command`) and a negative control enforce the change.
 
 ## 9. Pass / hold summary
 
-- Arena: procedure drafted, parse-checked, and reviewed; sealing redesigned in pass 4 (§6a) so that the manifest covers every artifact including the result, the manifest is hashed last, and no PASS is published before the seal recheck; 40 test methods and 47 subtests passing (measured with the unittest runner; §7). Nothing executed on Windows.
+- Arena: procedure drafted, parse-checked, and reviewed; sealing redesigned in pass 4 (§6a) so that the manifest covers every artifact including the result, the manifest is hashed last, and no PASS is published before the seal recheck; quarantine corrected on 2026-10-29 (§6a): a failed recheck, before or after publication, is never accepted, quarantine names are collision-safe, and every failure reports its actual location; 47 test methods and 54 subtests passing (measured with the unittest runner; §7). Nothing executed on Windows.
 - Native execution: **awaiting** an operator on `desktop-no0nhtp` per §5.
 - PF-15 `V1295`: **NOT MET** until a binding test or equivalent native evidence exists. Not closed by this run.
 - PA disposition is needed only if the run returns INCONCLUSIVE or INVALID, or if the sealing residuals in §6a are not accepted as stated.

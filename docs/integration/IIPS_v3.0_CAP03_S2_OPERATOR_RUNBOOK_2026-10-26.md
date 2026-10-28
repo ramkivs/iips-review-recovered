@@ -166,7 +166,7 @@ The procedure:
 
 1. records the post-run HEAD, tree, and working-tree status (`s2-08-post-run-pin.txt`) and the post-run dist hashes (`s2-08b-dist-sha256-after.txt`);
 2. writes `RESULT.txt`, takes a fresh inventory of the run folder, writes `MANIFEST.json`, and writes `SHA256SUMS.txt`. The seal lists every other artifact in the folder, and `MANIFEST.json` is its last line;
-3. rechecks the seal in the working folder, publishes the folder by renaming it to its final name, and rechecks it again. A folder that fails either recheck is moved to `<run folder>.seal-failed` and is not accepted.
+3. rechecks the seal in the working folder, publishes the folder by renaming it to its final name, and rechecks it again. A folder that fails either recheck is moved to the first free quarantine name, `<run folder>.seal-failed`, or `<run folder>.seal-failed.2` (then `.3`, and so on) if an earlier quarantine exists, and is not accepted. An existing quarantine is never reused or overwritten. If the move itself fails, the folder stays where it is and the console says so; that folder is not evidence.
 
 Do not hand-write, re-sum, or re-seal any file in the run folder. The `SHA256SUMS.txt` SHA-256 is printed on the console and recorded in the seal-recheck transcript next to the folder. After the run, check the returned folder with the commands in run record §6a (`IIPS_v3.0_CAP03_S2_PIN_A891802E_WINDOWS_RUN_RECORD_2026-10-28.md`). Do not normalise or re-hash a returned folder.
 

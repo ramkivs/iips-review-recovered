@@ -75,6 +75,7 @@ $ObservedHead = ''
 $ObservedTree = ''
 $SealHash = ''
 $FinalLocation = ''
+$EvidenceAccepted = $false
 
 # ---- helpers ------------------------------------------------------------------
 function Get-UtcStamp {
@@ -296,6 +297,28 @@ function Test-Seal([string]$Root, [string]$ExpectedStatus, $Out) {
   return $issues
 }
 
+# Quarantine destination, chosen at the moment of the move: <PublishRoot>.seal-failed, or the first free
+# <PublishRoot>.seal-failed.<n>. An existing folder is never reused, so an older quarantine can never be
+# mistaken for this run. [System.IO.Directory]::Move never overwrites its target.
+function Get-FreeQuarantinePath {
+  $base = $PublishRoot + '.seal-failed'
+  if (-not (Test-Path -LiteralPath $base)) { return $base }
+  for ($n = 2; $n -le 999; $n++) {
+    $candidate = $base + '.' + $n
+    if (-not (Test-Path -LiteralPath $candidate)) { return $candidate }
+  }
+  throw ('no free quarantine name for ' + $PublishRoot)
+}
+
+# Moves this run's folder from its current location ($script:FinalLocation) to a free quarantine name.
+# The recorded location changes only after the move has succeeded.
+function Move-RunToQuarantine {
+  $target = Get-FreeQuarantinePath
+  [System.IO.Directory]::Move($script:FinalLocation, $target)
+  $script:FinalLocation = $target
+  return $target
+}
+
 # Seals the run folder, rechecks it, and publishes it by renaming it to its final name.
 # Sets $script:Status, $script:Reason, $script:SealHash and $script:FinalLocation.
 function Invoke-Finalize {
@@ -402,10 +425,16 @@ function Invoke-Finalize {
   $transcript.Add('Status sealed: ' + $script:Status)
   $transcript.Add('SEAL SHA256SUMS.txt SHA-256: ' + $script:SealHash)
   $transcript.Add('Recheck 1 of folder: ' + $EvidenceRoot)
-  $failedRoot = $PublishRoot + '.seal-failed'
   $issues = Test-Seal $EvidenceRoot $script:Status $transcript
   $transcript.Add('Recheck 1 issues: ' + $issues)
-  if ($issues -eq 0) {
+  if ($issues -gt 0) {
+    # Recheck 1 failed: the working folder is quarantined and is never published.
+    $script:Status = 'INVALID'
+    $q = Move-RunToQuarantine
+    $script:Reason = 'seal recheck failed before publication; folder not accepted; quarantined at ' + $q
+    $transcript.Add('Moved to: ' + $q)
+  }
+  else {
     if (Test-Path -LiteralPath $PublishRoot) {
       throw ('publication target already exists: ' + $PublishRoot)
     }
@@ -415,25 +444,21 @@ function Invoke-Finalize {
     $issues2 = Test-Seal $PublishRoot $script:Status $transcript
     $transcript.Add('Recheck 2 issues (published folder): ' + $issues2)
     if ($issues2 -gt 0) {
-      # A folder that fails the recheck after publication is quarantined, never left at its final name.
-      if (Test-Path -LiteralPath $failedRoot) {
-        throw ('quarantine target already exists: ' + $failedRoot)
-      }
+      # Recheck 2 failed after publication: the folder is quarantined, never left at the canonical path.
       $script:Status = 'INVALID'
-      $script:Reason = 'post-publication seal recheck failed; folder not accepted and moved to ' + $failedRoot
-      [System.IO.Directory]::Move($PublishRoot, $failedRoot)
-      $script:FinalLocation = $failedRoot
-      $transcript.Add('Moved to: ' + $failedRoot)
+      $q = Move-RunToQuarantine
+      $script:Reason = 'post-publication seal recheck failed; folder not accepted; quarantined at ' + $q
+      $transcript.Add('Moved to: ' + $q)
+    }
+    else {
+      $script:EvidenceAccepted = $true
     }
   }
-  else {
-    $script:Status = 'INVALID'
-    $script:Reason = 'seal recheck failed before publication; folder not accepted'
-    [System.IO.Directory]::Move($EvidenceRoot, $failedRoot)
-    $script:FinalLocation = $failedRoot
-    $transcript.Add('Moved to: ' + $failedRoot)
-  }
   $transcript.Add('Final status: ' + $script:Status)
+  $transcript.Add('Current run folder: ' + $script:FinalLocation)
+  $pubText = 'no'
+  if ($script:EvidenceAccepted) { $pubText = 'yes' }
+  $transcript.Add('Evidence record published: ' + $pubText)
   Write-Utf8NoBom $RecheckLog $transcript.ToArray()
   foreach ($line in $transcript) { Write-Host ('[S2 seal] ' + $line) }
 }
@@ -467,6 +492,7 @@ try {
   }
   New-Item -ItemType Directory -Path $EvidenceRoot | Out-Null
   $EvidenceCreated = $true
+  $FinalLocation = $EvidenceRoot
   $MainLog = Join-Path $EvidenceRoot 's2-00-run-log.txt'
   Write-Log ('RUN ID ' + $RunId)
   Write-Log ('Evidence root ' + $EvidenceRoot + ' (local fixed NTFS: ' + $drive + ')')
@@ -799,31 +825,37 @@ if ($EvidenceCreated) {
   }
   catch {
     $detail = ([string]$_.Exception.Message) -replace '[\r\n]+', ' '
-    $failedRoot = $PublishRoot + '.seal-failed'
-    if ((Test-Path -LiteralPath $PublishRoot) -and -not (Test-Path -LiteralPath $EvidenceRoot)) {
-      # Published before the failure: the folder is not accepted, so it is quarantined as a failed seal.
+    $script:EvidenceAccepted = $false
+    if ($FinalLocation -eq $PublishRoot) {
+      # The run was published and is not valid, so it must leave the canonical path.
       try {
-        [System.IO.Directory]::Move($PublishRoot, $failedRoot)
-        $FinalLocation = $failedRoot
-        $where = 'the folder was moved to ' + $failedRoot + ' and is not accepted'
+        $q = Move-RunToQuarantine
+        $where = 'quarantined at ' + $q
       }
       catch {
-        $FinalLocation = $PublishRoot
-        $where = 'the folder could not be moved and remains at its final name; it is NOT accepted'
+        $qerr = ([string]$_.Exception.Message) -replace '[\r\n]+', ' '
+        $where = 'QUARANTINE FAILED (' + $qerr + '); the INVALID run remains at the canonical path ' + $PublishRoot + ' and must not be used as evidence'
       }
     }
-    elseif (Test-Path -LiteralPath $failedRoot) {
-      $FinalLocation = $failedRoot
-      $where = 'the folder is quarantined at ' + $failedRoot + ' and is not accepted'
+    elseif ($FinalLocation -eq $EvidenceRoot) {
+      $where = 'the working folder remains at ' + $EvidenceRoot + ' and is not evidence'
     }
     else {
-      $FinalLocation = $EvidenceRoot
-      $where = 'the working folder is not at its final name and is not evidence'
+      $where = 'the folder is at ' + $FinalLocation + ' and is not accepted'
     }
     $Status = 'INVALID'
     $Reason = 'sealing or publication failed: ' + $detail + ' (' + $where + ')'
-    if (-not (Test-Path -LiteralPath $RecheckLog)) {
-      Write-Utf8NoBom $RecheckLog @('CAP-03 S2 seal exception (no recheck transcript was written)', 'Status: INVALID', ('Reason: ' + $Reason))
+    try {
+      $noteLines = @('CAP-03 S2 seal exception', 'Status: INVALID', ('Reason: ' + $Reason), ('Current run folder: ' + $FinalLocation), 'Evidence record published: no')
+      if (Test-Path -LiteralPath $RecheckLog) {
+        Add-Content -LiteralPath $RecheckLog -Encoding ascii -Value $noteLines
+      }
+      else {
+        Write-Utf8NoBom $RecheckLog $noteLines
+      }
+    }
+    catch {
+      Write-Host ('[S2] could not write the seal exception note: ' + $_.Exception.Message) -ForegroundColor Red
     }
     Write-Host ('[S2] ' + $Status + ' - ' + $Reason) -ForegroundColor Red
   }
@@ -833,7 +865,16 @@ Write-Host ''
 Write-Host ('[S2] FINAL STATUS: ' + $Status) -ForegroundColor Cyan
 Write-Host ('[S2] Reason: ' + $Reason)
 if ($EvidenceCreated) {
-  Write-Host ('[S2] Evidence root: ' + $FinalLocation)
+  Write-Host ('[S2] Current run folder: ' + $FinalLocation)
+  if ($EvidenceAccepted) {
+    Write-Host '[S2] Evidence record: PUBLISHED at the final name after passing the seal recheck. The verdict above is recorded as-is.'
+  }
+  else {
+    Write-Host '[S2] Evidence record: NOT PUBLISHED. This run is not accepted as evidence.'
+  }
+  if ($FinalLocation -eq $PublishRoot -and -not $EvidenceAccepted) {
+    Write-Host ('[S2] WARNING: an INVALID run is at the canonical path ' + $PublishRoot + '. Do not use it as evidence. Return it for PA disposition.') -ForegroundColor Red
+  }
   if ($SealHash -ne '') {
     Write-Host ('[S2] SHA256SUMS.txt SHA-256 (record this in the return): ' + $SealHash)
   }
@@ -843,6 +884,7 @@ if ($EvidenceCreated) {
   Write-Host ('[S2] Seal-recheck transcript (return with the folder): ' + $RecheckLog)
 }
 else {
-  Write-Host '[S2] Evidence root: not created (preflight stopped before any folder was written)'
+  Write-Host '[S2] Current run folder: not created (preflight stopped before any folder was written)'
+  Write-Host '[S2] Evidence record: NOT PUBLISHED. This run is not accepted as evidence.'
 }
 $null = Read-Host -Prompt 'Run finished. Press Enter to close this window'
