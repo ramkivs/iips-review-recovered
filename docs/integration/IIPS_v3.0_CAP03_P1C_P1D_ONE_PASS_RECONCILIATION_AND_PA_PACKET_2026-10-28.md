@@ -308,6 +308,8 @@ Parallel and independent: the A6 runtime test, V1102, and the PF-11 native diagn
 
 **Movement.** After §§1–10 were written, IPD `main` advanced from `a891802e` to **`db84ac12f297eec2bb159ae785c3cc584f7d7e34`** through IPD PR #101, "CAP-03 D2 follow-up: bind the executing identity to the repository that is executing." Verified read-only in this pass.
 
+**Supersession pointer (2026-10-28, IPD PR #102).** IPD `main` is now `a9cd18e8ef3ad0543794da0a1abaaae5814c0bfe` (tree `546c8cea…`); PR #102 changed only the IPD tracker. The `db84ac12` statements above were correct as of PR #101 and are superseded as current. See packet §14 (`IIPS_v3.0_CAP03_P1C_P1D_PA_DECISION_PACKET_A-F_2026-10-28.md`) and tracker §16.168. No decision, designation, or P-1 status changes.
+
 | Item | Identity | Evidence |
 |---|---|---|
 | PR #101 head | `d2782f235a9b11a9716128b8b8b70ddedf6775ab`; parent `a891802e`; tree `831f00e08c44dbee36943c0c53f8e164848e74b3` | `gh pr view 101`; `git cat-file` |

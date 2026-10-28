@@ -3,6 +3,8 @@
 > **STATUS: DECISION PACKET ONLY. NO DECISION IS MADE OR IMPLIED. P-1 IS NOT EXECUTED / UNSPENT / NOT AUTHORIZED.**
 > **P-1-C = NOT ESTABLISHED. P-1-D = DESIGNATED; NOT VERIFIED FOR THE ATTEMPT.**
 >
+> **Current-ref note (2026-10-28, IPD PR #102):** IPD `main` is now `a9cd18e8ef3ad0543794da0a1abaaae5814c0bfe` (tree `546c8cea…`). Sections 0–13 record the state as of IRR PR #348 and are retained as history. Where §14 names a superseded statement, §14 governs for the refs it names.
+>
 > This record restructures the reserved matters of the one-pass reconciliation (`IIPS-V3-CAP03-P1C-P1D-RECONCILIATION-PA-PACKET-2026-10-28-01`, §§4–7) into six decision matters **A–F**. For each matter it separates source-supported facts, IRR recommendations, and unresolved questions. It does not select any option, designate any commit, approve any capture, or render any authorization. Recommendations are labelled as such and are for PA's consideration only.
 
 | Field | Value |
@@ -364,3 +366,125 @@ No item below is performed by this record. The procedure is **not** edited now (
 - P-1-C remains **NOT ESTABLISHED**. P-1-D remains **DESIGNATED; NOT VERIFIED FOR THE ATTEMPT**. P-1 remains **NOT EXECUTED / UNSPENT / NOT AUTHORIZED**.
 
 *End of record `IIPS-V3-CAP03-P1C-P1D-PA-DECISION-PACKET-AF-2026-10-28-01`. Tracker §16.167 (`CV-CORR-147`; `CHG-2026-10-28-11`; `V1165`–`V1172`).*
+
+---
+
+## 14. Reconciliation addendum — IPD PR #102 and current refs (2026-10-28)
+
+**Scope.** Additive. Sections 0–13 are not rewritten. This section (a) records the current authoritative refs, (b) recomputes the successor act's twelve designated blobs at each relevant ref, (c) corrects or supersedes the statements the new evidence affects, (d) classifies the procedural conflicts, and (e) states the minimum decision each open matter needs. It decides nothing. No option is selected, and no commit, pin, or `C′` is designated.
+
+### 14.1 Authoritative refs (read-only this pass; not taken from reports)
+
+| Item | Identity | Verification |
+|---|---|---|
+| IRR `main` | `54a67d227889e14748afd16eda6beedcd9b4d5d3` (PR #348 merge; `2026-10-28T06:27:23Z`) | `git ls-remote origin refs/heads/main`; tree `5b5e1677…` (local `HEAD^{tree}`) |
+| IRR open PRs | none | `gh pr list --state open` |
+| IRR session branch | `arena/a1f161ca-iips-review-recovered` local at `54a67d22`; the remote session branch did not exist before this pass | `git ls-remote`; `git branch --show-current` |
+| IPD `main` | `a9cd18e8ef3ad0543794da0a1abaaae5814c0bfe`, tree `546c8cea0f578116dcff5e19b5c78a0e9692ed05`; parents `db84ac12…` and `a58dbc42…` | `git ls-remote` (read-only); blobless read-only clone |
+| IPD PR #102 | title "CAP-03: Gate A′ designated-blob factual correction and D2 publication record (append-only)"; head `a58dbc42b3b0f51715de03ba37d6014b959ff949` (tree `546c8cea…`); merged `2026-10-28T06:30:22Z` | `gh pr list --state all` |
+| IPD PR #102 exact-head CI | run `40644087712` on `a58dbc42…`: SUCCESS | `gh pr checks 102`; `gh run list --branch arena/24771bc4-iips-production-market-data` |
+| IPD PR #102 post-merge CI | run `40644264937` on `a9cd18e8…`: SUCCESS | `gh run list --branch main` |
+| IPD open PRs | none | `gh pr list --state open` |
+| IPD tracker blob | `62576970…` at `a9cd18e8…` (was `8a2a4e45…` at `db84ac12…`) | `git rev-parse a9cd18e8:<path>` |
+
+**Scope of PR #102.** `db84ac12..a9cd18e8` changes exactly one file: `evidence/cross-repository/IIPS_V3_CAP02_IPD_EXECUTION_TRACKER_2026-10-23.md` (+168 lines, a new appended section). PR #102 did not change any runtime, test, script, package, or pin file.
+
+**Earlier IPD refs (historical; label as such).** `5fc74085…` (tree `7226ef00…`) is the act's and the compiled basis, `BASIS_COMMIT`/`BASIS_TREE`. `001c3c80…` (tree `399fa44a…`) is the DA-A1 pin of record. `a891802e…` (tree `76f083d7…`) is the PR #100 merge. `f722d7d…` (tree `76f083d7…`) is the PR #100 head. `d2782f2…` (tree `831f00e0…`) is the PR #101 head. `db84ac12…` (tree `831f00e0…`) is the PR #101 merge.
+
+### 14.2 Commit identity and tree identity
+
+- The **executable content** of the D2 candidate is unchanged between `db84ac12` and `a9cd18e8`. Runtime blobs are identical: `gateAPrimeProvisioning.ts` `9b15eca3…`, the g3 successor test `0ea47e8f…`, and `gateAPrimeValidation.ts` `df5d48a5…`.
+- The **tree identity** has changed. `831f00e0…` is the tree of `db84ac12` and `d2782f2`. `546c8cea…` is the tree of `a9cd18e8` and `a58dbc42`. Each statement that gives `831f00e0` as the current D2 tree is correct for `db84ac12` and `d2782f2` only.
+- The rule of record stands. Equal trees are not interchangeable commit identities. Commit and tree must be designated together, and the designation must name the commit the final IPD pass reports.
+- Current candidate identities, none designated: `db84ac12…` (merge; tree `831f00e0…`), `d2782f2…` (head; tree `831f00e0…`), `a9cd18e8…` (merge; tree `546c8cea…`), `a58dbc42…` (head; tree `546c8cea…`). Recency is not a basis for choosing among them.
+
+### 14.3 Successor-act §2.1 designated blobs, recomputed at each ref (this pass)
+
+The act's basis is `5fc74085ade980846ff4a07b36415b6d49446486` (tree `7226ef00…`). Each column is a separate ref. Values were read with `git rev-parse <ref>:<path>`. "MATCH" means the blob equals the §2.1 designation.
+
+| # | Path | Designated (§2.1) | @ basis `5fc74085` | @ `001c3c80` (DA-A1) | @ `a891802e` (PR #100 merge) | @ `db84ac12` (PR #101 merge) | @ `a9cd18e8` (PR #102 merge) |
+|---|---|---|---|---|---|---|---|
+| 1 | `src/persistence/provisioning.ts` | `dc844189` | MATCH | MATCH | MATCH | MATCH | MATCH |
+| 2 | `src/persistence/binding.ts` | `96d0079d` | MATCH | MATCH | MATCH | MATCH | MATCH |
+| 3 | `src/persistence/audit.ts` | `273ccd3b` | MATCH | MATCH | MATCH | MATCH | MATCH |
+| 4 | `src/persistence/connection.ts` | `5169e402` | MATCH | MATCH | MATCH | MATCH | MATCH |
+| 5 | `…/migrations/001_initial_schema.ts` | `f594a182` | MATCH | MATCH | MATCH | MATCH | MATCH |
+| 6 | `…/migrations/002_audit_event_sequence.ts` | `932af8e6` | MATCH | MATCH | MATCH | MATCH | MATCH |
+| 7 | `…/migrations/003_local_principal_bindings.ts` | `32b125bf` | MATCH | MATCH | MATCH | MATCH | MATCH |
+| 8 | `…/migrations/004_portfolio_contribution_provenance.ts` | `6bad5a50` | MATCH | MATCH | MATCH | MATCH | MATCH |
+| 9 | `src/ipc/dispatch.ts` | `27becc76` | MATCH | MATCH | MATCH | MATCH | MATCH |
+| 10 | `src/persistence/portfolio_store.ts` | `4a005b73` | MATCH | DIFFERS (`540d49f2`) | DIFFERS (`540d49f2`) | DIFFERS (`540d49f2`) | DIFFERS (`540d49f2`) |
+| 11 | `package.json` | `51796e63` | MATCH | MATCH | MATCH | MATCH | MATCH |
+| 12 | `tests/g3_startup_validation.test.ts` | `9a5fd9e3` | MATCH | DIFFERS (`edd0305e`) | DIFFERS (`edd0305e`) | DIFFERS (`edd0305e`) | DIFFERS (`edd0305e`) |
+| | **Result** | | **12/12** | **10/12** | **10/12** | **10/12** | **10/12** |
+
+**What this establishes.** The act's §2.1 designations are exact at the act's own basis. The divergence begins after the basis. Item 12 changed at `c62dee8` (2026-10-23), and item 10 changed at `bc144b9` (2026-10-25). The prior statement that the designation "is accurate for its own basis" is therefore confirmed, not contradicted.
+
+### 14.4 Corrections and supersessions
+
+| # | Statement (record and location) | Status | Correction |
+|---|---|---|---|
+| S-1 | §0 "IPD `main` `db84ac12…`; unchanged since the last pass" | **Superseded as current** | IPD `main` is `a9cd18e8…`. The §0 statement was correct as of IRR PR #348. |
+| S-2 | §4.2 and §4 candidate rows naming tree `831f00e0…` as the D2 tree | **Superseded for `a9cd18e8`** | `a9cd18e8` has tree `546c8cea…`. `831f00e0…` still applies to `db84ac12` and `d2782f2`. |
+| S-3 | §4 "Do not designate `db84ac12` or `d2782f2` merely because they are the current heads" | **Superseded** | Current heads are `a9cd18e8` (merge) and `a58dbc42` (head). The rule is unchanged. |
+| S-4 | §3.2 "`4a005b73` is carried only by `95f1dcc` (2026-10-23)" | **Imprecise; corrected** | `4a005b73` was introduced at `95f1dcc` (2026-10-23). It was unchanged through the path's history until `bc144b9` (2026-10-25), the next commit that touched the file. The path history since the basis is `bc144b9` alone. |
+| S-5 | §3.2 S1 row: S1 wording "not re-read in this pass" | **Now read; recorded** | S1 determination line 79 and §12.2 lines 330–334 state the 12 designated blobs resolve "as designated" / "12/12 identical at this baseline". S1 readiness request line 79 says the same. Both enumerate item 12 as `edd0305e…`, and at `db84ac12` only 10 of 12 match. The IPD tracker section added by PR #102 (§2 of that section) identifies these statements as overstated and leaves them in place. IRR records them and does not amend them. |
+| S-6 | §3.2 "Other ten designated blobs match at `001c3c80` and at `db84ac12`" | **Extended** | Also true at the act's basis, where all 12 match (§14.3). |
+| S-7 | §3.3 Option A-1: "row 12 should name the post-addition blob, since §5.1 item 4 contemplates that addition" | **Strengthened, still a PA choice** | §5.1 item 4 of the act reads "modified (bounded)". The act therefore authorizes the modification that makes row 12 differ from its own §2.1 designation. This is an internal inconsistency within the act. Which blob to designate remains a PA decision. |
+| S-8 | §3.5 Q1: whether `bc144b9` (DR-2) "falls inside the act's intended comparison set" | **Sharpened** | The IPD tracker names the DR-2 record's "Authorized change manifest" (`portfolio_store.ts` and `tests/q1_ipc_read_contract_conformance.test.ts`) as the claimed authority. The question is whether that record is the "further act" that §5.1 requires for `portfolio_store.ts` and for the q1 test. |
+| S-9 | §4.2 "Delta `001c3c80..db84ac12`: 62 files" | **Extended** | `001c3c80..a9cd18e8` is also 62 files, and the set of changed paths is identical. `db84ac12..a9cd18e8` is 1 file (the IPD tracker). |
+| S-10 | §4.2 step-0 row `gateAPrimeProvisioning.ts` `9b15eca…` at `db84ac12` | **Still correct at `a9cd18e8`** | Blob unchanged. |
+| S-11 | Tracker §16.167 `V1167` "CARRIED" (blob table) | **Superseded by rerun** | Rerun this pass: §14.3, rows `V1178`–`V1182` of the tracker. |
+| S-12 | Tracker §16.167 `V1172` "PENDING" and `V1169`–`V1171` "to be re-confirmed at exact head" | **Superseded by receipts** | Receipts recorded in tracker §16.168 (`V1190`). |
+| S-13 | Post-D2 pointers that name `db84ac12` as current: packet §11; formal record; status matrix; consolidated package; tracker §16.166.7 | **Dated; supersession pointer appended** | Each pointer is dated as of PR #101. A one-line pointer to §14 and tracker §16.168 has been appended to each. |
+| S-14 | §11 "Limb A" naming: IRR formal record treats Gate 4 Limb A merge as outstanding | **Source conflict recorded** | IPD tracker (Gate 4 Limb A table row) says "Implemented on this session branch"; the mandatory `tests/g4_run_tests_summary_parsing.test.ts` was created on `main` at `c62dee8` (2026-10-23). Relationship not reconciled. No Gate 4 movement. |
+
+### 14.5 Newly established facts (factual; source-verified this pass)
+
+Post-basis changes to files outside the act's §2.1 designated set. The act's §5.1 heading reads "File set (exhaustive — no other path may change)".
+
+| File | Change (commit, date) | Size | Authority named in the IPD record | Status in this record |
+|---|---|---|---|---|
+| `src/persistence/gateAPrimeProvisioning.ts` | **created** at `c62dee8` (2026-10-23); modified at `f9ec0c5` (S1 binding), `f722d7d` (D2), `d2782f2` (D2 follow-up) | new file | Act §5.1 item 1 lists it as **new**; not in the §2.1 blob table | Creation authorized by the act. Subsequent modifications: the D2 changes rely on PA-5 Option B (adopted). Blob not designated. |
+| `src/persistence/gateAPrimeValidation.ts` | `c62dee8`; `f9ec0c5` (+25/−4, S1 binding) | existing module | Act §5.2: compiled constants fixed by the act and changed only by a later act. The S1 determination is the claimed later act. Identity constants went from `null` to `ramki-personal-local`, `ipd-personal-local`, and `ipd-owner-ramki-personal` at `f9ec0c5`. | `BASIS_COMMIT`/`BASIS_TREE` unchanged. Identity-constant change: authority chain not re-audited this pass. |
+| `tests/g4_run_tests_summary_parsing.test.ts` | **created** at `c62dee8` (+125) | new file | IPD tracker (Gate 4 Limb A rows, lines 322, 407, 470) | Not in the act's §5.1 set. Documented under the Gate 4 authority. Whether that authority covers the act's "no other path may change" is a PA question. |
+| `tests/portfolio_ui_package.test.ts` | `001c3c80` (+2/−2) | existing test | **None found** in the IPD tracker. The change is a Windows import-URL fix (`pathToFileURL`) in T-PKG-4. | Not in the act's §5.1 set. Not mentioned in the IPD tracker. Not in any procedure check. Factual gap; PA to decide whether it needs a record. |
+| `tests/q1_ipc_read_contract_conformance.test.ts` | `bc144b9` (+1264/−121) | existing test | DR-2 record "Authorized change manifest" (IPD tracker lines 1371, 1842) | Act §5.1 prohibits any other existing test "without a further act". Same question as S-8. |
+| `src/persistence/portfolio_store.ts` | `bc144b9` (+274) | existing module | DR-2 record (as above) | Same question as S-8. |
+
+**Two observations.** First, the act's file set is exhaustive by its own heading, but later records (S1, DR-2, Gate 4 Limb A, and the portfolio UI fix) changed files outside it. Second, the act's §8.2 stop condition is written in terms of "designated blob", so a change to a non-designated file does not by its own wording trigger §8.2. Whether it breaches the §5.1 scope is a separate question.
+
+### 14.6 Classification of procedural and record conflicts
+
+| Conflict (where first recorded) | Classification | Minimum next action |
+|---|---|---|
+| Matter A: blob comparison, items 10 and 12 (§3) | **Factual inconsistency** (blob table vs later commits); **reserved authority decision** (re-pin vs fresh act) | PA ruling per item (§14.7). Not inferred. |
+| S-7: item 12 pre-modification blob vs act §5.1 item 4 "modified (bounded)" | **Ambiguous / overlapping requirement** within the act | PA ruling: which blob the act designates for row 12. |
+| S-5: S1 and readiness-request statements "12/12 as designated" | **Factual inconsistency** (statements vs enumeration and measurement) | IPD owns the correction. IRR records it. No IRR amendment of IPD records. |
+| §14.5 out-of-set post-basis changes | **Ambiguous / overlapping requirement** (exhaustive §5.1 vs later records) and **reserved authority decision** | PA ruling on whether later records cover each item. |
+| Matter B: execution-commit designation; DA-A1 receipt element (§4) | **Reserved authority decision**; the receipt element is a **factual** precondition. Unmet at `001c3c80`. At `db84ac12` and later the D2 fields and T-10…T-16 are present and pass locally (§14.1, V1185–V1187), but whether that satisfies the DA-A1 element is a **PA determination**, not made here | PA ruling after the IPD final-commit report. |
+| D2 expected-pin limitation: the expected pin is caller-supplied (`--execution-commit` / `--execution-tree`); the module reads no governed pin artifact | **Factual** (confirmed by static grep at `a9cd18e8`); the consequence for authority is a **reserved decision** | Designation act (PA) must name the commit. Any change to the module is an IPD pass. |
+| Step-0 covers 3 of the act's 12 files (procedure lines 413–415) | **Procedure correction requiring prior decisions** (Matter A) | Revise after A. Not before. |
+| Procedure pins `001c3c80` / `399fa44a` (lines 77–80, 121–122, 405–406) | **Procedure correction requiring prior decisions** (Matter B) | Revise after B. Not before. |
+| PF-10 coverage: instrument checks four named flags (lines 91–98); procedure also checks `GATE_A_PRIME_*` (lines 146–148) | **Ambiguous requirement**; resolution is either a **procedure narrowing** (PA) or an **instrument change** with its own identity and validation | PA choice first. |
+| Native harness wording: evidence bundle vs procedure §4.3a (DC-C2) | **Ambiguous / overlapping requirement** | Reserved PA ruling (E7). |
+| Root hard-coded `D:` (lines 150, 154, 193, 440, 486); 10-27-02 run used `C:` | **Procedure correction requiring a prior decision** (root choice); PF-14 transcript is a **host/attempt-session condition** | PA chooses root; then procedure revision; then host observation in the attempt session. |
+| S2 naming (CAP-03 candidate-scoped S2 vs Gate 4 S2 Limb A) | **Ambiguous terminology**; the two must not be combined | PA names which S2 each requirement means. |
+| §4.6 step 5 bundles fresh S2 (L2a) and H-12 (L2c); PA-1 says H-12 is not a P-1 precondition | **Ambiguous / overlapping requirement** | Reserved PA ruling. H-12 is not treated as a P-1 prerequisite in this record without that ruling. |
+| Limb A: IRR "merge outstanding" vs IPD "implemented on session branch" and `c62dee8` on `main` (S-14) | **Factual inconsistency**; the authority question is **reserved** (Gate 4) | Gate 4 owner records the relationship. No Gate 4 movement from this record. |
+| PF-17 anchor: procedure checks `## §16.153` (line 228); register limb recorded at §16.160.4 | **Procedure correction requiring prior decisions** (anchor text) | Confirm the authoritative anchor; revise after decisions. |
+| PF-11 native `92d931fb`: NOT PASSED, undiagnosed | **Host/attempt-session condition** and a **reserved** decision on any diagnostic | No diagnostic is run by this record. |
+| A6 runtime NOT RUN; DC-a/DC-b (V1102) OPEN | **Host/attempt-session conditions** | Separate host authorization. Not performed. |
+| Writability method (D) and object of the criterion | **Reserved authority decision**; an instrument change would need its own identity and validation | PA ruling (Matter D). |
+
+### 14.7 Minimum decision required per open matter (refined by this pass)
+
+- **Matter A (blob disposition).** Four PA rulings, none inferred. (a) Item 10: is the DR-2 record (`bc144b9`) the "further act" that §5.1 requires for `portfolio_store.ts`? If yes, does PA re-designate `540d49f2…` by act? If no, does PA order a fresh rendering? (b) Item 12: does PA designate the pre-modification blob (`9a5fd9e3…`, as written) or the §5.1-authorized post-modification blob (`edd0305e…`)? (c) Does the §5.1 "exhaustive" scope cover the out-of-set changes in §14.5, and if so, on what record? (d) Does PA require any record for the `portfolio_ui_package` change in §14.5?
+- **Matter B (execution commit).** Requires (a) a final IPD commit report, which the IPD tracker's "none designated" status confirms is still outstanding, and (b) Matter A. The minimum decision is one commit identity and its tree, from the candidates in §14.2, or deferral. The runtime content is identical across `db84ac12` and `a9cd18e8`. The choice therefore changes the tree and the tracker blob, not the executable content. The designation must still name the commit and tree it names.
+- **Matter C, D, E, F.** Unchanged from §§5–8. No explicit governing decision is present in the record that changes them.
+
+### 14.8 Non-grants (this addendum)
+
+No PA decision, approval, or signature. No option selected in any matter. No execution pin, `C′`, Gate 4 QE/H-12 pin, or successor-act designation changed. No change to `BASIS_COMMIT` or `BASIS_TREE`. No procedure, instrument, or successor-act edit. No IPD write. No host, capture, PowerShell, `pwsh`, A6 runtime, V1102, PF-11 rerun, compatibility script, store action, or provisioning. No P-1 execution, authorization, or spending. P-1-C NOT ESTABLISHED. P-1-D DESIGNATED; NOT VERIFIED FOR THE ATTEMPT. P-1 NOT EXECUTED / UNSPENT / NOT AUTHORIZED.
+
+*End of §14 (`IIPS-V3-CAP03-P1C-P1D-PA-DECISION-PACKET-AF-2026-10-28-01`, addendum).*
