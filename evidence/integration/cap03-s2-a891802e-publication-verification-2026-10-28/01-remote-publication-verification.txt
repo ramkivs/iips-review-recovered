@@ -1,0 +1,41 @@
+CAP-03 S2 remote publication verification (independent read-back)
+Executed: 2026-10-28T20:00Z UTC (sandbox), read-only against the origin remote
+
+[1] Remote branch tip (git ls-remote origin):
+    2cc5bc4302436f8ae6d84a9e657b8c1ed06b5478	refs/heads/docs/g3-d0-registration-2026-10-18
+    declared published-evidence commit: 2cc5bc4302436f8ae6d84a9e657b8c1ed06b5478
+    MATCH: branch tip equals the published evidence commit
+
+[2] Publication commit metadata (git show -s):
+    commit=2cc5bc4302436f8ae6d84a9e657b8c1ed06b5478
+    parent=f78f08e37157d04ff910c5a1e82dc3c16b721ce9
+    author=Ramaki <sairam260573@gmail.com>
+    date=2026-10-29T01:14:47+05:30
+    subject=docs: publish CAP-03 S2 Windows evidence
+
+[3] Complete change set at 2cc5bc4302436f8ae6d84a9e657b8c1ed06b5478 (git show --stat, all paths):
+    A	evidence/cap03-s2/s2-a891802e-20261028T192516Z.seal-recheck.txt
+    A	evidence/cap03-s2/s2-a891802e-20261028T192516Z/01-clone.txt
+    A	evidence/cap03-s2/s2-a891802e-20261028T192516Z/01b-checkout-pin.txt
+    A	evidence/cap03-s2/s2-a891802e-20261028T192516Z/02-npm-ci.txt
+    A	evidence/cap03-s2/s2-a891802e-20261028T192516Z/03-tsc-noemit.txt
+    A	evidence/cap03-s2/s2-a891802e-20261028T192516Z/04-build.txt
+    A	evidence/cap03-s2/s2-a891802e-20261028T192516Z/05-guarded-npm-test.txt
+    A	evidence/cap03-s2/s2-a891802e-20261028T192516Z/05b-test-summary.txt
+    A	evidence/cap03-s2/s2-a891802e-20261028T192516Z/06-package-consumer.txt
+    A	evidence/cap03-s2/s2-a891802e-20261028T192516Z/MANIFEST.json
+    A	evidence/cap03-s2/s2-a891802e-20261028T192516Z/RESULT.txt
+    A	evidence/cap03-s2/s2-a891802e-20261028T192516Z/SHA256SUMS.txt
+    A	evidence/cap03-s2/s2-a891802e-20261028T192516Z/s2-00-run-log.txt
+    A	evidence/cap03-s2/s2-a891802e-20261028T192516Z/s2-01c-pin-verification.txt
+    A	evidence/cap03-s2/s2-a891802e-20261028T192516Z/s2-04b-dist-count.txt
+    A	evidence/cap03-s2/s2-a891802e-20261028T192516Z/s2-04c-dist-sha256-before.txt
+    A	evidence/cap03-s2/s2-a891802e-20261028T192516Z/s2-08-post-run-pin.txt
+    A	evidence/cap03-s2/s2-a891802e-20261028T192516Z/s2-08b-dist-sha256-after.txt
+    18 paths, all under evidence/cap03-s2/; zero paths outside it; single commit; no unrelated implementation change.
+
+[4] Commit date vs run timeline: run sealed 2026-10-28T19:29:14.994Z (manifest), recheck 19:29:15.044Z; publication commit 2026-10-29T01:14:47+05:30 = 2026-10-28T19:44:47Z. Publication follows the seal; ordering consistent.
+
+[5] CI status at the publication commit (gh api):
+    check-runs for 2cc5bc4: 0; commit status state: pending (0 statuses).
+    The evidence commit was pushed directly to docs/g3-d0-registration-2026-10-18; it did not travel as a pull request and has no CI. Recorded as finding F-A-2 (see tracker section §16.180).
