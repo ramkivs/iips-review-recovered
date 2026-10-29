@@ -1,6 +1,7 @@
 # CAP-03 — PA designation record, pass 2 (2026-10-28)
 
 **Repository:** IRR `ramkivs/iips-review-recovered`. **Base:** `b9e8d4a5` (rulings record). PR #353 open, not merged.
+> **Status update (2026-10-29, `CV-CORR-179`, §16.199).** PR #353 is **MERGED** (merge `fcc0227`, `2026-10-29T10:41:19Z`). The "open, not merged" text in this header is the 2026-10-28 point-in-time status and is preserved unchanged.
 **Basis:** rulings in `docs/integration/IIPS_v3.0_CAP03_PA_RULINGS_RECORD_PASS2_2026-10-28.md` (G4-PIN = G4P-1 at a891802e; B-Q1 = B-1 at a891802e; A-Q5 mechanism = A-O3 at a891802e; A-Q4 = YES).
 **Authority boundary:** this record designates identities for the PA sequence. It does not write to IPD, does not execute S2, H-12, P-1, host work, or merge.
 **Standing status (unchanged):** P-1-C NOT ESTABLISHED. P-1-D DESIGNATED, NOT VERIFIED FOR THE ATTEMPT. P-1 NOT EXECUTED / UNSPENT / NOT AUTHORIZED.

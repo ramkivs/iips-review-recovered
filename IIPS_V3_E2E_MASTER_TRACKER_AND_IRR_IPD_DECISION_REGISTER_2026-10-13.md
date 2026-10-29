@@ -10086,6 +10086,8 @@ Acceptance grants no production readiness, no new backend capabilities, no write
 
 *End of §16.116.*
 
+> **Dated annotation (2026-10-29, `CV-CORR-179`, §16.199 — original text preserved).** The planned `§2 REG-11` annotation listed above ("approval → implementation/qualification → effective acceptance and closure") was **not recorded**. The §2 REG-11 row records R1/R2 effectiveness and the bounded non-production capability acceptance (§16.112), and states that "no formal closure or promotion of REG-11 is recorded" (§16.190 D-6). REG-11 remains **BLOCKED / DEFERRED**; no closure is recorded or implied by this pointer.
+
 ## §16.117 — `CV-CORR-98`: CAP-03 DR-2/DQ-1 bilateral implementation and current-base IRR PR #265 validation; DR-4r/DQ-3 and DQ-4 boundaries preserved — `2026-10-25` (`CHG-2026-10-25-22`)
 
 *Additive current-base execution record. The CAP-03 allocation previously proposed as `CV-CORR-96` / §16.114 / `CHG-2026-10-25-17/-18` / `V645`–`V657` collided with subsequently merged IRR Reports records in §16.114–§16.116; those mainline records are preserved verbatim above. The current CAP-03 allocation is `CV-CORR-98` / §16.117–§16.118 / `CHG-2026-10-25-22` (execution) / `CHG-2026-10-25-23` (post-merge receipt) / `V658`–`V670`. This section records the pre-merge current-base validation; §16.118 is reserved for the independently verified PR #265 merge receipt. Nothing here initiates Gate 5, accepts a durable read, adopts H-12, runs host-gated provisioning, lifts P12 fences, or republishes/repackages/regenerates the completed host-operations package.*
@@ -16293,6 +16295,8 @@ Caveats. The F-7 record's "18/18 across five suites" is not reproduced by count;
 
 ## §16.197 — `CV-CORR-177`: governance and dependency reconciliation — A-Q4 and A-Q5 decision basis prepared (no ruling recorded); designation-record conflict flagged; P-1 chain, Gate 4/S1, QE/Gate 5, REG-11 and REG-12 verified unchanged (`2026-10-29`; `CHG-2026-10-29-19`; `V1450`–`V1458`)
 
+> **Dated pointer (2026-10-29, `CV-CORR-179`, §16.199 — original text preserved).** The statements in this section that the Gate 4 pin `a891802e` is "step 5 NOT SATISFIED" and that the next step is "operator fresh S2 … at `a891802e`" are **superseded for L2a** by §16.198: the native run `s2-a891802e-20261028T192516Z` is recorded `STATUS: PASS` (admission PA-reserved). L2c, and the rest of this section, are unchanged.
+
 **Scope.** Governance and dependency reconciliation only. IRR only; no IPD write; no PowerShell; no pinned-value change. Excluded: portfolio HTTP read path, IPC adapter, durable-store work, UI and macro E2E verification, and all IPD changes. Companion record: `docs/integration/IIPS_v3.0_CAP03_GOVERNANCE_DEPENDENCY_RECONCILIATION_2026-10-29.md` (the decision basis; cited by pointer here, not restated).
 
 **Live state verified at pass start.** IRR `main` = `70c5a9afd35e86cba24705e83d4db4eeee669405` (PR #368 merge, `2026-10-29T11:05:28Z`); IRR open PRs `0` (`gh pr list`). IPD facts read (read-only): PR #96 (merged `2026-10-26T10:12:18Z`, head `001c3c80`, merge `1e76f4cf`); PR #103 (`aa43dec2`, merge, one file); PR #107 (`0edadb2d`, merged `2026-10-28T15:30:43Z`); PR #108 (`b9dd6fce`, merged `2026-10-28T15:47:00Z`); pin `a891802e` is an ancestor of IPD `main` (compare `behind_by: 0`).
@@ -16445,3 +16449,53 @@ Caveats. The F-7 record's "18/18 across five suites" is not reproduced by count;
 | `V1471` | PR #369 readiness: `frontend` typecheck, replay-server typecheck, `test:ci` 1373/1373 (369 files), assert-tests, build; `ipcPortAdapterIntegration` 8/8; `fenceUnchanged` 26/26; no Gate 3 static import in the composition root | PASS (sandbox requires `NODE_EXTRA_CA_CERTS`; CI does not) |
 
 *End of §16.198 (`CV-CORR-178`; `CHG-2026-10-29-20`; `V1459`–`V1471`). Documentation and verification only; no PA ruling recorded; no gate, acceptance, qualification, admission, authorization, pin, capability, `503` fence or runtime behaviour changed.*
+
+---
+
+## §16.199 — `CV-CORR-179`: one-pass closure verification; no new authoritative decision on the reserved items; dated pointers for stale statements (`2026-10-29`; `CHG-2026-10-29-21`; `V1472`–`V1475`)
+
+**Scope.** IRR only. No IPD write. No PA ruling recorded. No reserved item resolved, advanced or re-scoped. No gate, acceptance, qualification, admission, authorization, pin, capability, `503` fence or runtime behaviour changed. Excluded: DR-2 (PR #372 already corrected the readiness record), portfolio HTTP read path, IPC adapter implementation, durable store, UI and macro E2E, and the IPD-side PR #107 sourcing defect.
+
+**Live state (verified this pass).**
+- IRR `origin/main` = `24e5b16eda382d285d1111c990ea317b3d4fb626`: merge of PR #372 (`2026-10-29T12:38:53Z`; head `38966c1d54`), `success` on post-merge CI.
+- PR #371 (`CV-CORR-178`, §16.198) merged as `e65e59e4f9ff0a21f119277f3904f1a08f517e28` (`2026-10-29T12:33:25Z`); ancestor of `main`; post-merge CI run `40874238212` `success`.
+- Changes on IRR `main` after PR #371: PR #372 only, four evidence files in `evidence/integration/irr-nonprod-parallel-readiness-2026-10-29/` (DR-2 attribution correction; no decision, gate or code). No new PA act, rulings record, designation, 06/register change or S2/P-1 evidence appeared on IRR `main`.
+- IPD `main` = `188a4ff943175fe6338485706cca12da3b0735ff`. Since 2026-10-28 16:00Z: PR #109 (`c3cfb7e6`, merged `2026-10-28T18:49:29Z`; decision packet for the row-28 durable broker-import admission prerequisite) and PR #110 (`188a4ff9`, merged `2026-10-29T12:25:21Z`; DR-2 envelope verification and IRR-attribution correction). Both are IPD-side. Keyword checks of their bodies found no PA decision on a reserved item. The IPD workstream is outside this pass.
+
+**Reserved PA items — status after this pass (all remain BLOCKED; none resolved).**
+
+| # | Item | Status | Outstanding decision or prerequisite (only the owner can supply it) |
+|---|---|---|---|
+| 1 | Source confirmation: G4P-1 / G4-PIN, B-1, A-O3, A-Q4 = YES | **BLOCKED — CONFLICT UNRESOLVED** | A dated PA statement that either (a) records each as ruled, with the sitting-response text, or (b) records each as not ruled. The rulings record does not contain them; `06-recommendations.tsv` marks them NOT ADOPTED; the register lists them AWAIT-PA. |
+| 2 | P-1 execution coordinate | **BLOCKED — TWO ADOPTED POSITIONS CONFLICT** | A PA decision naming one execution commit for P-1 of record. DA-A1 (tracker §16.160, `CV-CORR-140`) and `521d5482` §5(b) name `001c3c80618f2ee1d40e9a90912237e1a06e7b58`. ADP-D1 (rulings §6, line 86, "Adopted") names `a891802e`. Both cannot stand as written. |
+| 3 | S2 admission basis at `a891802e` | **BLOCKED — PA-RESERVED** | (a) A PA ruling admitting or not admitting native run `s2-a891802e-20261028T192516Z` (`RESULT.txt` `STATUS: PASS`; 16/16 `SHA256SUMS` match on `main`; §16.180 F-A-1 CRLF caveat). (b) Reconciling `521d5482` §5(a), which grants candidate `001c3c80` as the basis for S2 evidence acceptance. A recorded PASS is not admission. |
+| 4 | Sequencing and Gate 4 | **BLOCKED** | A-Q4 ruling (authorizing record for the two PR #96 paths); A-Q5 ratify, re-act, or provisional for IPD `0edadb2d` (its stated ruling locus is unsupported; IPD session); A-Q6 cleared by A-Q1–A-Q5 or by a fresh designation; Gate 4 status text C-3 ("AUTHORIZED — NOT STARTED" in the carried text and `521d5482` §5, versus "NOT AUTHORIZED / NOT ACCEPTED" on the CV-20 row). |
+| 5a | G4-PIN | **BLOCKED — AWAIT-PA** (register; trigger met; NOT designated) | Item 1 resolved, then an express pin choice (C-1…C-3 per Addendum §6.4). |
+| 5b | D-INST | **BLOCKED — candidate only** | PA adoption of the D-2 successor-instrument identity; A6 required before use. |
+| 5c | E10 | **BLOCKED — NOT RENDERED** | The P-1 capture-authorization act. No such record on `main`. |
+| 5d | P1-F | **BLOCKED — NOT RENDERED** | The P-1 authorization act. It must name one execution commit (item 2) and follow items 1–5c. P-1 remains NOT AUTHORIZED. |
+| 5e | H-12 at `a891802e` (L2c) and S2a | **BLOCKED — NOT EVIDENCED / NOT ADOPTED** | PA direction to regenerate H-12 at `a891802e`, then the regenerated evidence, then S2a adoption. |
+| 6 | REG-12 mapping (`companyId` ↔ `ISIN` ↔ G24 ticker) | **BLOCKED — owner decision** | PA decision (CV-43 / D115, 2026-10-24): an express act designating a Company Identity Authority, or declining, that names the bounded domain, the authoritative source and the exact consumer. No owner is recorded. |
+
+**Independent IRR documentation corrections completed in this pass (no reserved matter decided).**
+1. **Tracker §16.116**: the planned "`§2 REG-11` … closure" annotation (row 66 of that section) was never recorded. The §2 row has no closure annotation and states "no formal closure or promotion of REG-11 is recorded" (§16.190 D-6). Dated pointer added after the section; REG-11 remains BLOCKED / DEFERRED.
+2. **Tracker §16.197**: its statements that the Gate 4 pin is "step 5 NOT SATISFIED" and that "operator fresh S2 … at `a891802e`" is the next step are superseded for L2a by §16.198. Dated pointer added to the section heading area. The companion record's correction note had said this pointer existed; it now does.
+3. **PR #353 status in three CAP-03 record headers.** The rulings record, the designation record and the A-Q5 result record still state "PR #353, open, not merged" in their headers. PR #353 merged as `fcc0227` at `2026-10-29T10:41:19Z`. Dated status pointer added to each header; the original 2026-10-28 text is preserved.
+4. **Companion decision basis** (`docs/integration/IIPS_v3.0_CAP03_GOVERNANCE_DEPENDENCY_RECONCILIATION_2026-10-29.md`) §§7–8: the statements "not reconciled in this pass" and "flagged, not corrected" are updated to point at the corrections made in §16.198 and this section.
+
+**Already complete — not repeated.** DR-2 IPD-provider attribution correction (PR #372). PR #371 governance reconciliation and the §16.198 corrections (row 31 anchor; L2a status; REG-11 cross-reference; designation/A-Q5/S1 annotations). PR #369 readiness and CI-equivalent green suite (`1373/1373`; §16.198 V1471). S2-DEP-A deposit of the native S2 evidence on `main` (16/16 SHA256SUMS match).
+
+**Not required.** Any IRR code or test change: no documentation item in this pass depends on a code change, so no test was added or altered. The existing repository CI (`Typecheck · Test · Build`) runs on this PR. No IPD change. No host, PowerShell, A6, P-1-C/P-1-D capture or D1 read-back: their prerequisites remain unmet (items 2–5 above). No protection or permission change.
+
+**Validation (this pass).** Verified: no conflict markers in the tracker, the companion record or the edited headers; `CV-CORR-179`, `CHG-2026-10-29-21`, `V1472`–`V1475` were absent from `main` except as the §16.198 next-free pointer; the new V-rows are unique; PR #372 and PR #371 are ancestors of `origin/main`; each new pointer cites a verified source line or commit.
+
+**Next free.** §16.200 / `CV-CORR-180` / `CHG-2026-10-29-22` / `V1476`.
+
+| V-row | Check | Result |
+|---|---|---|
+| `V1472` | Live state: `main` `24e5b16`; PR #371 `e65e59e` ancestor; PR #372 merged; post-merge CI success; no new IRR decision record since PR #371 | PASS |
+| `V1473` | Reserved items 1–6 re-checked against `main`, IPD `main` `188a4ff`, IPD PR #109 / #110 bodies; no qualifying decision found | BLOCKED — all retained |
+| `V1474` | Documentation corrections 1–4 applied as dated pointers; original text preserved; no status changed | DONE |
+| `V1475` | Conflict-marker and identifier checks; companion and tracker cross-references consistent | PASS |
+
+*End of §16.199 (`CV-CORR-179`; `CHG-2026-10-29-21`; `V1472`–`V1475`). Documentation only; no PA ruling recorded; no reserved item resolved; no gate, acceptance, qualification, admission, authorization, pin, capability, `503` fence or runtime behaviour changed.*

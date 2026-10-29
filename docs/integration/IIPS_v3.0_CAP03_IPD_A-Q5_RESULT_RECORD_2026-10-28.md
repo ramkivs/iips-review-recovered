@@ -1,6 +1,7 @@
 # CAP-03 — IPD-A-Q5 result record and Matter A reconciliation (2026-10-28)
 
 **IRR repository:** `ramkivs/iips-review-recovered`. **Branch:** `arena/b776c15a-iips-review-recovered` (PR #353, open, not merged).
+> **Status update (2026-10-29, `CV-CORR-179`, §16.199).** PR #353 is **MERGED** (merge `fcc0227`, `2026-10-29T10:41:19Z`). The "open, not merged" text in this header is the 2026-10-28 point-in-time status and is preserved unchanged.
 **Standing status (unchanged):** P-1-C NOT ESTABLISHED. P-1-D DESIGNATED, NOT VERIFIED FOR THE ATTEMPT. P-1 NOT EXECUTED / UNSPENT / NOT AUTHORIZED.
 > **Dated pointer (2026-10-29, `CV-CORR-178`, §16.198; original text preserved).** Line 32 lists "A-O3 (mechanism)" among the rulings this act records. The rulings record (`docs/integration/IIPS_v3.0_CAP03_PA_RULINGS_RECORD_PASS2_2026-10-28.md` §1 line 20 and §5) records A-Q4 and the A-Q5 mechanism as open and lists A-O3 as "recommended", not ruled. `evidence/integration/cap03-ruling-sitting-packet-2026-10-28/06-recommendations.tsv` marks the decision rows A-Q4, A-Q5 and A-Q6 `RECOMMENDATION ONLY - NOT ADOPTED`. This act's executed content (designated blobs for items 10 and 12) is not changed by this pointer. Sequencing and mechanism remain PA-reserved (§16.176.9; §16.197; §16.198).
 

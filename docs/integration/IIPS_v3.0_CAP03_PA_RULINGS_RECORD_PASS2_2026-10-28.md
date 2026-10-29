@@ -1,6 +1,7 @@
 # CAP-03 — PA rulings recorded, pass 2 (2026-10-28)
 
 **Repository:** IRR `ramkivs/iips-review-recovered`. **Base:** `d895e547` (PR #353, open, not merged).
+> **Status update (2026-10-29, `CV-CORR-179`, §16.199).** PR #353 is **MERGED** (merge `fcc0227`, `2026-10-29T10:41:19Z`). The "open, not merged" text in this header is the 2026-10-28 point-in-time status and is preserved unchanged.
 **Scope:** records rulings given in the sitting response and the consequences that follow under the existing authority. This record does not change Table 1 status, does not designate any commit, tree, or blob, and does not write to IPD.
 **Standing status (unchanged):** P-1-C NOT ESTABLISHED. P-1-D DESIGNATED, NOT VERIFIED FOR THE ATTEMPT. P-1 NOT EXECUTED / UNSPENT / NOT AUTHORIZED.
 

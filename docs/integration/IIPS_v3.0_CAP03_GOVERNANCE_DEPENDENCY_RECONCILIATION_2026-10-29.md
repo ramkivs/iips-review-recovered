@@ -132,7 +132,7 @@ The G4-PIN row is open: PACKAGE `docs/integration/IIPS_v3.0_CAP03_P1_PA_RULING_S
 ## 7. REG-11 and REG-12 — dispositions verified as recorded (no change)
 
 **REG-11 (`NP-06` / `F-4`).** Register row (tracker line 107): **BLOCKED / DEFERRED**; PA disposition **OPTION C (RETAIN DEFERRAL)**, recorded 2026-10-13 (tracker §11, heading line 680). The row also says the deferral is superseded "for the bounded non-authentication baseline by the effective R1 and R2 acts of 2026-10-25, §16.190", and that no formal closure or promotion is recorded. §16.190 (D-6, tracker line 16059) cites "§§16.106–16.116" for the effective bounded non-production R1/R2 acts. Tracker §11.3 states that the 2026-10-13 disposition is effective only on durable publication, and that its effect on Reports' operative state is "none" (already deferral, fail-closed).
-- **Not reconciled in this pass:** tracker §16.107 (2026-10-25, line 9269) records R1 as "NOT ESTABLISHED" for the state it examined. I did not read §§16.106–16.116 to reconcile that with the effective acts that §16.190 cites. The register row is left unchanged.
+- **Reconciled by §16.198 and §16.199 (`CV-CORR-178`/`179`):** tracker §16.107 (2026-10-25) records R1 as "NOT ESTABLISHED" for the state it examined, and §16.112 records R1/R2 effective later. The register row cross-reference now cites §16.112 as primary and §16.190 D-6 as cross-reference; status is unchanged. The §16.116 planned "closure" annotation was not recorded and is pointer-annotated (§16.199); REG-11 is not closed.
 - **Decision needed only if the PA wants to reopen or formally close REG-11:** a PA act stating the intended disposition. No such act is recorded.
 
 **REG-12 (`G-2` / `F-4` / `AG-5`; durable user portfolio identity binding; IPD G24).** Current disposition: `DEFERRED` → `AUTHORIZED` (bounded Gate 3) → **`IMPLEMENTED & ACCEPTED` for bounded Gate 3 scope only** (tracker §16.77, `IIPS-V3-G3-ACCEPTANCE-2026-10-22-01`, 2026-10-22). Gate 4 host qualification, result acceptance, Gate 5 admission, runtime enablement, `durable:true` and any `503` lift remain **DEFERRED / NOT GRANTED**. The tracker states that the `companyId` ↔ `ISIN` ↔ G24-ticker **mapping** blocker is **NOT resolved** by either act it records.
@@ -144,7 +144,7 @@ The G4-PIN row is open: PACKAGE `docs/integration/IIPS_v3.0_CAP03_P1_PA_RULING_S
 
 - **Rulings, designations, dispositions, statuses, gates, acceptance, qualification, admission, authorization, pins:** none changed.
 - **Added:** this document, and tracker `§16.197` (`CV-CORR-177`, `CHG-2026-10-29-19`, `V1450`–`V1458`), which records the verified facts and these flags by pointer.
-- **Flagged, not corrected:** the designation record's basis line and the dependent S1 handoff and A-Q5 result records (§1); the REG-11 cross-reference chain (§7), which is left unchanged pending a read of §§16.106–16.116.
+- **Corrected by annotation (not rewritten), `CV-CORR-178`/`179`:** the designation record's basis line, with the dependent S1 handoff and A-Q5 result records (§1); the REG-11 cross-reference (§7); the superseded L2a statements in tracker §16.197; the planned REG-11 closure text in §16.116; the PR #353 "open" status in three record headers. No ruling, status or gate was changed.
 
 ---
 
