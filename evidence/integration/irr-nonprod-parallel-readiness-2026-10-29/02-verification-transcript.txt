@@ -1,0 +1,53 @@
+CAP-03/IRR parallel implementation & readiness pass — verification transcript (2026-10-29, sandbox)
+== suite run (harness: vitest 2.1.9, node env; reports pair & restart spawns are CI-side, see record) ==
+ ✓ ../../home/user/iips-review-recovered/frontend/server/user-portfolio/ipcPortAdapter.test.ts (49 tests) 33ms
+ ✓ ../../home/user/iips-review-recovered/frontend/server/user-portfolio/ipcClient.test.ts (34 tests) 344ms
+ ✓ ../../home/user/iips-review-recovered/frontend/server/user-portfolio/fenceUnchanged.test.ts (26 tests) 241ms
+ ✓ ../../home/user/iips-review-recovered/frontend/server/user-portfolio/ipcPortAdapterIntegration.test.ts (8 tests) 427ms
+   ✓ ipcPortAdapter — end-to-end over the real ipcClient and a contract-v1 unix peer > turns a silent peer into outcome-unknown, never retried, over the real socket 352ms
+ ✓ ../../home/user/iips-review-recovered/frontend/server/owner-context-integration.test.ts (14 tests) 264ms
+ ✓ ../../home/user/iips-review-recovered/frontend/server/user-portfolio/userPortfolioContract.test.ts (19 tests) 8ms
+ ✓ ../../home/user/iips-review-recovered/frontend/server/owner-context-resolver.test.ts (26 tests) 16ms
+ ✓ ../../home/user/iips-review-recovered/frontend/server/user-portfolio/ownerContextFromBinding.test.ts (15 tests) 10ms
+ ✓ ../../home/user/iips-review-recovered/frontend/server/user-portfolio/option2F.test.ts (15 tests) 32ms
+   × Reports transport — configured carrier and persistence > executes full 5-operation contract with single declared owner and rejects client claims 19ms
+ ✓ ../../home/user/iips-review-recovered/frontend/server/user-portfolio/userPortfolioBoundary.test.ts (8 tests) 4ms
+   × F-3 mechanism — durability across a separate process > process 1 serves the owner context and writes through the real composed server 374ms
+   × F-3 mechanism — durability across a separate process > process 2 — a FRESH process — serves the same owner context from the same carrier 336ms
+   × F-3 mechanism — durability across a separate process > every owner-scoped record written by process 1 is durable and readable by process 2 2ms
+   × F-3 mechanism — durability across a separate process > writes each capability to its own journal directory in the server-owned data domain 2ms
+   × F-3 mechanism — durability across a separate process > keeps the journal format header stable — no journal-format change was introduced 1ms
+   × F-3 mechanism — fail-closed and recovery across a separate process > a restarted process serves NO owner context when the carrier was tampered with 320ms
+   × F-3 mechanism — fail-closed and recovery across a separate process > a restarted process serves NO owner context when the carrier is absent 343ms
+   × F-3 mechanism — fail-closed and recovery across a separate process > recovers across a separate process once the authorised carrier is restored 344ms
+   × F-3 carrier — materialisation and recovery > refuses a target inside a Git working tree so the carrier can never be committed 4ms
+   × Reports API — composed route > serves reports context and operations when carrier and database are configured 14ms
+ ✓ ../../home/user/iips-review-recovered/frontend/server/user-portfolio-transport.test.ts (3 tests) 69ms
+ ✓ ../../home/user/iips-review-recovered/frontend/server/user-portfolio/translationBoundary.test.ts (4 tests) 3ms
+⎯⎯⎯⎯⎯⎯ Failed Tests 11 ⎯⎯⎯⎯⎯⎯⎯
+ Test Files  4 failed | 12 passed (16)
+      Tests  11 failed | 233 passed (244)
+
+== strict typecheck of new file with frontend/tsconfig flags ==
+tsc exit 0 (strict + noUnusedLocals/noUnusedParameters)
+
+== controls ==
+C1 adapter row-check weakened -> ipcPortAdapterIntegration: 1 failed | 7 passed (target test RED)
+C2 fail-closed precondition bypassed -> 1 failed | 7 passed (precondition test RED)
+restore: cmp byte-exact both times; re-run 8 passed (8) GREEN
+
+== section 18.1 correction verification (live origin/main fcc02270) ==
+user-portfolio-transport.ts main blob 51704c12... : MATCH
+owner-context-unavailable.ts main blob cb8db45d...: MATCH
+reports-transport.ts main blob 775d282bc50f67993a58d6e6d1c7dd45e4aceeac: MATCH (row 35)
+reports-transport.ts at 4740ba21ea6103f1a7ebc9768269ae7795920698 = 981470541812a64c733309f1debec75455d85bee: MATCH; 4740ba21 ancestor of main (compare ahead): CONFIRMED
+row 35 anchors: :705 '/api/reports', prefix entry: TRUE; :755 reports dispatch: TRUE
+row 20 primary pin 8eec74ae27cda09f3c368b9c299895eae41554db in frontend/package.json: TRUE
+G2_CONTRACT_VERSION '2' pinned: TRUE
+row 30 battery composition it() counts: fenceUnchanged 26, user-portfolio-transport 3, ownerContextFromBinding 15, reports-transport 4, reports-api 3 = 51: TRUE
+FINDING F1: row 31 dispatch anchor 'executive-transport.ts:710' is stale on current main:
+  line 710 = '/api/settings', (prefix array); UP dispatch if = line 767; handleUserPortfolioRequest call = line 771.
+  Not edited here: tracker reconciliation belongs to the governance session/PA (CV-CORR-159 class correction).
+INFO F2: IPD main HEAD now c3cfb7e690aefd2ceb0a8323052c9a6f38f4a032; row-25 recorded b9dd6fce48fa... (compare: b9dd6fce BEHIND main -> IPD moved past it after that record). Read-only note for PA; no pins touched.
+== deposit/fence non-touch ==
+0
