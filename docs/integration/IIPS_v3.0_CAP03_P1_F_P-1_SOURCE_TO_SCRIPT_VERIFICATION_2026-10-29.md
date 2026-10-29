@@ -1,209 +1,211 @@
-# IIPS v3.0 CAP-03 — P-1 (P1-F) source-to-script verification and corrected procedure — 2026-10-29 (revision 2)
+# IIPS v3.0 CAP-03 — P-1 (P1-F) source-to-script verification and corrected procedure — 2026-10-29 (revision 3)
 
 | Field | Value |
 |---|---|
-| Authority | P1-F, `docs/integration/IIPS_v3.0_CAP03_P1_AUTHORIZATION_ACT_AND_PREREQUISITE_DECISIONS_2026-10-29.md` §6 (conditions 1–5), IRR `origin/main` blob `a90bb00141194608e64503b24d43964bf7ff85a0`, baseline `aa013db4bd2cc50a249ef30bfca9ce303fe2f5fe` |
-| Base act | `IIPS-V3-CAP02-GATE-A-PRIME-SUCCESSOR-PROVISIONING-ACT-2026-10-23-01`, IPD `evidence/cross-repository/IIPS_V3_CAP02_GATE_A_PRIME_SUCCESSOR_PROVISIONING_ACT_EFFECTIVE_2026-10-23.md` at `a891802e`, blob `528de6aeddbc8e5f3191be8792f3937d77de4037` (§§4, 7, 8, 9) |
-| IPD pin | commit `a891802e2691bd9c65a67d6abff20d8ce0c26d7d`, tree `76f083d7058e170d8212455c03bad1033136ee68` |
-| PF-15 designation | `docs/integration/IIPS_v3.0_CAP03_PF15_ENDPOINT_LOCAL_STATE_DESIGNATION_PA_ACT_CORRECTED_2026-10-26.md`, blob `3fe9a2ddd5f3b8730eccee7748b6266b5e2d8b1d` (row F4, §1.1, §4) |
-| Companion script | `docs/integration/IIPS_v3.0_CAP03_P1_F_P-1_CORRECTED_EXECUTION_SCRIPT_2026-10-29.ps1` (revision 2; ASCII; not parsed or run) |
-| Status of this pass | **Read-only with respect to the host and the store.** No provisioning, no entrypoint invocation (including execute-mode diagnostics), no store or row, no authorization consumption, no IPD write, no PowerShell or Windows execution in this environment, no PA request. |
-| P-1 | **UNSPENT.** Not invoked. No store, binding, membership, audit event, or receipt exists. |
-| Readiness | **NOT READY TO INVOKE.** Four authority items (Q-1 to Q-4) have no recorded answer; the script refuses until they do (section E). |
+| Record | Companion to `docs/integration/IIPS_v3.0_CAP03_P1_F_P-1_CORRECTED_EXECUTION_SCRIPT_2026-10-29.ps1` (revision 3, 786 lines, ASCII) |
+| Authority read | P1-F, IRR `docs/integration/IIPS_v3.0_CAP03_P1_AUTHORIZATION_ACT_AND_PREREQUISITE_DECISIONS_2026-10-29.md` (blob `a90bb001…`, §6) and tracker §16.206 (`CV-CORR-186`) |
+| Pinned IPD execution basis | commit `a891802e2691bd9c65a67d6abff20d8ce0c26d7d`, tree `76f083d7058e170d8212455c03bad1033136ee68` (remote tree re-read this pass) |
+| IRR baseline and origin/main | `aa013db4bd2cc50a249ef30bfca9ce303fe2f5fe` (tree `3a9ef48c…`, 2218 entries); origin/main unchanged at the time of the checks |
+| PR | #382 (`arena/325002ab-iips-review-recovered`); head is recorded in the publication section of E |
+| Status of P-1 | **UNSPENT. Not executed on any host. No provisioning command, store, binding, membership, audit row, or receipt has been created.** |
+| Scope of this pass | Documentation and script review only. No PowerShell was run or parsed, no entrypoint was invoked (including execute-mode diagnostics), no IPD write, no merge, no gate or authority change |
 
-Method for revision 2: re-read the pinned entrypoint, validator, connection, provisioning, ledger, audit and migration sources (fetched at `a891802e` into scratch and re-hashed; the scratch copies of `vite.config.ts` and `tsconfig.json` from an earlier pass did **not** match the pinned blobs and are not cited); read act §§7–9 and P1-F §§5–6 verbatim; read the build configuration at the pin; re-read the whole draft script line by line for PowerShell 5.1 issues. Every check below is either source-verified, record-verified, or listed in A4 as unverified.
+**Evidence labels used below.** `SRC` = read in the pinned IPD source at `a891802e` (scratch copies under `/tmp/w`; the file path is cited). `REC` = read in an IRR or IPD record (path and line cited). `LIVE` = read from the GitHub API in this pass. `STATIC` = checked by reading or text scan only; no PowerShell parser or host was used. `NOT VERIFIED` = not established. Blob or tree IDs are cited as published; nothing here is runtime evidence.
 
 ---
 
 ## A. Findings
 
-### A1. Defects in the revision-1 draft, corrected in revision 2
+### A1. Corrections made in revision 3 (this pass)
 
-| # | Defect in revision 1 | Consequence | Correction in revision 2 |
+Each correction below cites the finding that required it. Revision 2 remains on the reviewed-but-unpublished local state and is replaced in place by revision 3 (same path).
+
+| # | Revision 2 defect or gap | Revision 3 correction | Evidence |
 |---|---|---|---|
-| A1-1 | Argument wrapper used `'\"'` in single quotes, so quoted arguments carried a literal backslash before the quote. | Any argument containing a space would reach `node` with malformed quoting. | Wrapper is `'"'`. |
-| A1-2 | `ARG_QUOTE` test was `'[\"\\r\\n]'` in single quotes. The regex class therefore matched `"`, `\`, `r` and `n`. | Every argument containing a backslash (every store and repo path) would have been refused, so the draft would stop at the first pre-state call (S05). | Test is `'["\r\n]'`. |
-| A1-3 | Git checks read `StdOut` only and ignored exit codes. | A failed `git` (for example a `safe.directory` refusal) produces empty output, which passes `S02-CLEAN`. | `Invoke-Git` throws on any non-zero exit. |
-| A1-4 | `-ActorLabel` was accepted on format alone; `-StorePath` had a default. | A parameter or default was treated as authority. | Both must equal designation constants; both are null or unset in this revision, so every run refuses at S00. |
-| A1-5 | No authorization-freshness check. | Nothing verified that P1-F remained effective and unspent immediately before invocation. | `Invoke-Freshness` (GitHub API, read-only) runs after S05 and before the GO gate; any unverifiable result stops. |
-| A1-6 | V-A2-8 counted as a pass in the S08 gate, while the summary said it was "not performed". | The gate represented an unperformed check as passed. | S08 labels V-A2-8 as the row-state proxy; the summary states that the literal second-invocation check is NOT PERFORMED. |
-| A1-7 | S04 accepted a pre-existing `dist/`, did not check that the entry was emitted in this run, and did not check the entry's imports. | Stale or foreign build output could be used. | `dist/` must be absent; entry mtime must be ≥ build start; direct relative imports must exist; ignored output must be only `node_modules/`, `dist/`, `dist-frontend/`. |
-| A1-8 | Ledger dump used `SELECT *`. | Column set not fixed by the source. | Dump selects `migration_id, checksum, applied_at` (`migration_ledger.ts` line 25 DDL; line 90 insert). |
-| A1-9 | `Split-Path -Parent` walked to the drive root (PS 5.1 behaviour on a root unverified). | Unknown behaviour on the ancestor walk. | `[System.IO.Path]::GetDirectoryName`, which returns null at the root. |
-| A1-10 | `Get-Command node` read `.Source` on a possibly multi-result array under `StrictMode`. | Possible error on a path that should be a clean stop. | First element of an array, after a count check. |
-| A1-11 | Child-process output used the default code page. | Non-ASCII output could be altered in the raw evidence. | `StandardOutputEncoding` and `StandardErrorEncoding` set to UTF-8. |
-| A1-12 | `SHA256SUMS.txt` excluded `run-summary.json` and was not written on stop paths. | Evidence could be unsealed. | Summary is written first; the seal covers every other file, including the final `run.log`, on success and on stop. |
-| A1-13 | Outcome logic was nested string-compare chains; `else` and `continue` were used. | Hard to review; violates the directive's control-flow rule. | Explicit state assignments; no `else`, `elseif`, `finally`, `break`, `continue`, or `exit` statements. |
-| A1-14 | Edition check used an assumed EditionID mapping. | An unstated requirement. | Product name is compared with the act's own wording, "Windows 11 Home Single Language" (act §8). EditionID is recorded only. |
-| A1-15 | S00 created the run directory before validating designations. | Evidence written for a run that could never be authorized. | Designations are checked before any directory is created. |
+| C-1 | Freshness used the compare API `files` array with a `< 300` completeness test. | Replaced by a complete recursive tree diff (`git/commits/{sha}` → `git/trees/{sha}?recursive=1`); a `truncated` flag is a stop. The compare API is not used for completeness. | LIVE, §A2-F1 |
+| C-2 | No record of an interrupted or crashed execute. | `EXECUTE-MARKER.json` is written before `Process.Start`. S00 refuses if any prior `p1-*` run directory holds a marker, or lacks `SHA256SUMS.txt` (unknown state). Sealed read-only runs do not block. | STATIC; design in §B |
+| C-3 | Pre-existing `dist/` refused the run. | `dist/` is no longer refused. The relative-import closure of the entry file must exist and every file in it must have mtime ≥ this run's build start. The closure with SHA-256 is written to `entry-closure-sha256.txt`. | SRC (`src_tsconfig.json`, `src_package.json`); §A2-F5 |
+| C-4 | S05 expected emitted code `STORE_NOT_FOUND`. The emitted code is `UNEXPECTED_FAILURE` with the message `the validation store file does not exist`. A correct refusal would have stopped the run. | S05 accepts either the code `STORE_NOT_FOUND` or `UNEXPECTED_FAILURE` with that exact message, and records both verbatim. | SRC, §A2-F3 (defect D-14) |
+| C-5 | Summary had no V-A2-8 fields. | Summary now has `v2A8ProxyPass` (measured proxy result) and `v2A8LiteralTest: NOT_PERFORMED`. | STATIC; §A2-F6 |
+| C-6 | Freshness ran before the pre-state validation, not immediately before GO. | Order is S05 → freshness → GO → marker → invocation. | STATIC |
+| C-7 | Evidence root could be created by the script. | The evidence root must already exist. The script never creates it. | STATIC |
+| C-8 | Raw evidence was written with BOM and with `Set-Content` newline rules. | Raw files use `[IO.File]::WriteAllText` as UTF-8 without BOM; the command line is written before the process starts. | STATIC |
+| C-9 | IPD pin tree was not checked on the remote from the script. | `F-IPD-PIN-TREE` reads `repos/ramkivs/iips-production-market-data/git/commits/a891802e…` and requires tree `76f083d7…`. | LIVE (value confirmed this pass) |
+| C-10 | Tracker changes were not inspected. | `F-TRACKER-ADDED-P1-LINES` compares the tracker blob at baseline and origin/main and stops on any added line that names P-1 together with a consumption, revocation, supersession, or failure term. | LIVE (tracker blob unchanged, §A2-F2) |
+| C-11 | Entry path was relative to the working directory. | The entry is passed as an absolute path. The `isMain` guard accepts a `.js` path ending (SRC `gateAPrimeProvisioning.ts`, `isMain`). | SRC |
 
-### A2. Verified against source and records (corrections to the revision-1 reading)
+**Withdrawn finding (no change made).** A revision-2 review pass suspected that the regular-expression and path literals in the script were double-escaped. A raw-character count (`BS=` per string) shows they are correct: `'["\r\n]'`, `'\\$'` (one literal backslash at end), `'^[A-Za-z]:\\'` (one backslash), `'^\d+ blob …\t(.+)$'`, `'^v22\.(\d+)\.(\d+)$'`, and the `yyyy-MM-dd\THH` date formats are right. The apparent doubling came from the tool display, which doubles backslashes. No change is needed; do not "fix" these.
 
-**A2-a. V-A2-8 and the second-invocation contradiction (resolved as NOT PERFORMED).**
-- Act §8 step 5 lists "V-A2-8 second invocation refused with zero change" as a post-state check.
-- P1-F condition 2: "One attempt, single-use … No second attempt without a further PA act."
-- Validator `src/persistence/gateAPrimeValidation.ts` lines 331–336: `consumedShape = bindings.length > 0 || memberships.length > 0`; the check passes iff `consumedShape && bindings.length <= 1 && memberships.length <= 1`. This is a row-state proxy. It does not exercise a second invocation.
-- Source-level refusal path (not executed): `gateAPrimeProvisioning.ts` `authorizeExecution` ~lines 409–411: if the store exists, `ALREADY_PROVISIONED` (rows present) or `STORE_ALREADY_EXISTS` (file, no rows); and a second check ~lines 433–435 before `openDatabase`. Both are pre-SQL.
-- Consequence: the code refuses a second execute **only if the store file exists**. If a first attempt fails before the file is created, the code would permit another execute. Single-attempt is therefore a governance rule (P1-F condition 2), not a code-enforced rule.
-- Resolution used here: the script never invokes execute twice; the literal V-A2-8 is recorded as **NOT PERFORMED**; the S08 validator result is labelled as the row-state proxy. A PASS of the proxy is not a PASS of V-A2-8.
+### A2. Verified against source, records and remote (with identity)
 
-**A2-b. Actor (Q-4).**
-- P1-F §6 required-value table names no `--actor`. Base act §8 step 3 does name `--actor <label>`.
-- `parseGateAPrimeArguments` (entrypoint, lines ~584–606) accepts `--actor`; `actor` is optional in the type (`GateAPrimeArguments.actor?`), and the receipt does not record it. The value has no store effect.
-- The label is therefore a designation question, not a source question. The script does not supply a value.
+**F1. Freshness completeness (LIVE, this pass).** The compare API `files` array is capped and is not paginated:
 
-**A2-c. Store path (Q-2).**
-- P1-F §6: "`--store` … an absolute path that does not exist at invocation; no store path is pre-designated by this act."
-- PF-15 corrected act `-02` row F4 names `C:\iips-data\iips\user-portfolio.sqlite` as the "P-1 `$StorePath`" for the single P-1 store and subsequent S3/QE. §4 of that act says PF-15 does not grant or consume P-1.
-- Base act §8 step 1 conditions: absolute; outside every Git working tree; local fixed NTFS; not a synchronized folder; operator-writable without elevation; must not pre-exist.
-- The script uses F4's value as `$DesignatedStorePath` and refuses any other value. Whether F4 binds the `--store` argument is open (Q-2). The script does not treat F4 as that binding.
-
-**A2-d. Evidence root (Q-3).**
-- No record designates an evidence root for P-1 **execution** evidence.
-- E8 `D:\cap03-p1-capture-20261028-01` (capture procedure, revision 2026-10-28d) belongs to the E10 capture session; P1-F §5 and PA-13 state E10 is "not P-1 authorization".
-- F5 `C:\iips-evidence\cap03-gate4` is the Gate 4 evidence root (S2 pin script comments; PF-15 row F5).
-- Neither is a P-1 designation. The script refuses until one is recorded.
-
-**A2-e. Build pre-step (reconciled; not authority).**
-- Act §8 does not name a build. The entry path `dist/src/persistence/gateAPrimeProvisioning.js` exists only after a build. P1-F's table names `dist/persistence/...` (D-1); the emitted path is `dist/src/...` (`tsconfig.json` `rootDir: "./"`, `outDir: "./dist"`).
-- `npm run build` at the pin = `tsc && vite build && npm run build:portfolio-ui-package && npm run build:pit-package` (`package.json`, blob `51796e63…`, which matches the P1-F table).
-- `vite.config.ts` (blob `5563e1bc…`): `build.outDir = 'dist-frontend'`, so `vite build` does not empty `dist/`.
-- `tsconfig.portfolio-ui-package.json` (blob `b5395d7b…`) and `tsconfig.pit-package.json` (blob `8dc497c0…`): `outDir: ./dist/package`, which does not overlap `dist/src`.
-- `tsconfig.json` (blob `6d696ec2…`): no `incremental` or `tsBuildInfo`, so a stale build cache cannot cause skipped emission. A pre-existing `dist/` is still refused because its provenance is unknown.
-- `npm ci` runs the root `prepare` script, which runs both package builds. This is a lifecycle side effect of the pinned `package.json`, recorded in the script.
-- Pinned `.gitignore`: `node_modules/`, `dist/`, `dist-frontend/`, `*.log`, `.DS_Store`, `run-d114-acquisition.ps1`. The script allows only the first three as ignored build output.
-- Build output is not designated evidence. It is a prerequisite for the entry path and is re-emitted from the pinned tree in the same run.
-
-**A2-f. Validate and execute argument rules (source).**
-- Validate requires only `--mode`, `--act-id`, `--store` (parser lines ~600–606). Validate opens with `new DatabaseSync(path, { readOnly: true })` (validator line 377), returns `STORE_NOT_FOUND` on an absent store (validator lines 371–372), and makes no directories.
-- Execute requires `--repo-root`, `--execution-commit`, `--execution-tree` in addition (parser lines ~608–612). The base act §8 step 3 command omits them; P1-F's table names them. The script supplies them, with values equal to the pinned commit and tree.
-- Strict parser: unknown arguments are refused; `--name=value` form only (`requiredOption`, line 566).
-
-**A2-g. Execute side effects (source).**
-- `openDatabase` (`connection.ts` lines 67–85) calls `mkdirSync(dirname(filePath), { recursive: true })` and sets `journal_mode = DELETE`. Execute can therefore create the store's parent directories. The script records whether the parent pre-existed (`storeParentPreexisted`) and does not create it.
-- `executeProvisioning` (~line 523) runs `ensureMigrations` before `executeWithAuthorization`. On a fresh store, each pending migration runs in its own `BEGIN IMMEDIATE`, followed by the provisioning transaction. A failure in a migration can leave a store file with a partial ledger (D-12). The script records the state and does not repair it.
-- `isInsideGitWorktree` (entrypoint ~line 290) refuses a store inside a Git working tree. The script mirrors this check with a `.git` ancestor scan and a `git worktree list` check.
-- `environmentCarriesGateValues` (line 284, used at line 312) refuses `GATE_A_PRIME_*` environment variables. The script refuses on the same condition.
-- Platform: `process.platform` must be `win32` (line 395). Runtime: Node `>=22.13.0 <23` (`authorizeExecution`, ~lines 400–406).
-
-**A2-h. Receipt and report schemas (source).**
-- Execute success (stdout, one JSON object; exit 0), return object at lines 496–508: `mode`, `actId`, `store`, `bindingId`, `membershipId`, `auditEventId`, `basisCommit`, `basisTree`, `executingCommit`, `executingTree`.
-- Execute refusal (stderr, one JSON object; exit 1), lines 640–644: `{ ok: false, code, error }`.
-- Validate report (validator lines 78–90, 355–359): `actId`, `storePath`, `status` (`PASS`/`FAIL`), `checks[]` of `{ id, ok, detail }`, `bindings`, `memberships`, `auditEvents`.
-
-**A2-i. Tables and ledger (source).**
-- `portfolios`, `portfolio_revisions`, `portfolio_holdings`, `portfolio_contributions`: migration 001 (`CREATE TABLE` at lines 17, 33, 49, 75).
-- `local_principal_bindings`, `local_principal_memberships`: migration 003 (lines 14, 23).
-- `audit_events`: `audit.ts` (lines 47, 54, 82).
-- `_migration_ledger` (`migration_id`, `checksum`, `applied_at`): `migration_ledger.ts` line 25 (DDL), 57, 90, 103.
-- `migration_ledger.ts` (blob `88198b44…`) is a transitive module that P1-F §2.3 does not designate. It is recorded here, not treated as designated.
-
-**A2-j. Wording readings for the Program Authority (Q-5).**
-- Act §7.2 says "On success: exactly one `BEGIN IMMEDIATE`, one binding row, one membership row, one audit row". The source runs migration transactions before the provisioning transaction on a fresh store. The reading used here is that §7.2 governs the provisioning transaction.
-- Act §7.4 says the entrypoint "may not create, alter or delete any … migration". V-A2-1 requires `_migration_ledger` to hold 001–004 after execution. The reading used here is that creating the four ledger rows and their tables is the expected result, and that §7.4 forbids altering or removing existing migrations.
-- Neither reading is a blocker for the script, but both must be confirmed in the PA ruling before any run.
-
-### A3. Verified in this pass (remote or record, with identity)
-
-| Fact | Evidence |
-|---|---|
-| IRR `origin/main` = `aa013db4bd2cc50a249ef30bfca9ce303fe2f5fe` | `git fetch origin` and `git rev-parse origin/main` |
-| P1-F blob at `origin/main` = `a90bb001…` | `git rev-parse origin/main:<P1-F path>` |
-| PF-15 corrected act blob at `origin/main` = `3fe9a2dd…` | `git rev-parse origin/main:<PF-15 path>` |
-| Base act blob at IPD `a891802e` = `528de6ae…` | `gh api contents` at the pin (the file is in IPD, not IRR) |
-| Pinned `package.json` blob = `51796e63…`, `tsconfig.json` blob = `6d696ec2…`, `vite.config.ts` blob = `5563e1bc…`, `tsconfig.portfolio-ui-package.json` = `b5395d7b…`, `tsconfig.pit-package.json` = `8dc497c0…` | `gh api contents` at `a891802e` |
-| Entry, validator, connection, provisioning, binding, audit, migrations 001–004, dispatch, portfolio_store, and test blobs match P1-F §2.3 | Prior pass, recorded in the 2026-10-29 readiness record |
-| Validator blob = `df5d48a5…` and entrypoint blob = `5f49936b…` (designated) | Prior pass |
-
-### A4. Still unverified (each is a named item)
-
-1. Windows runtime of the script. Not run; PowerShell 5.1 parse not performed. Static review and bracket-balance check only.
-2. Host identity, elevation, Windows edition, Node version, `node:sqlite` flag-free load, `NODE_OPTIONS`, `GATE_A_PRIME_*` absence: all on `desktop-no0nhtp`, not measured.
-3. Host checkout HEAD, tree, and cleanliness; `dist/` absence; the build's result on Windows.
-4. Store absence and ancestor ACLs on host; whether any other worktree contains the store path.
-5. `gh` authentication on the host, so the freshness check's result is unknown until run.
-6. The actor label (Q-4) and the evidence root (Q-3). Neither is designated.
-7. Whether F4 binds `--store` (Q-2).
-8. Whether a pre-invocation stop consumes P1-F (Q-1).
-9. Literal V-A2-8 (second invocation refusal): not performable without a second invocation.
-10. V-A2-7 runtime (IPC `WRITE_NOT_AUTHORIZED`, `evaluatePortSaveGuard()` hard-false): source-only (`src/ipc/dispatch.ts` blob `27becc76…`, line 231).
-11. Partial-migration behaviour under a fault during `ensureMigrations` (D-12): source-read only.
-12. `npm ci` lifecycle behaviour on the host (the `prepare` script runs the package builds).
-13. Freshness: the compare API result for a long change list (the script stops at 300 files, the API cap).
-
----
-
-## B. Corrected script (revision 2)
-
-Path: `docs/integration/IIPS_v3.0_CAP03_P1_F_P-1_CORRECTED_EXECUTION_SCRIPT_2026-10-29.ps1`.
-
-Stages, in order:
-
-| Stage | Content | Invokes |
-|---|---|---|
-| S00 | Designation gates (ruling reference, actor, evidence root, store = F4); absolute paths; evidence outside worktree and store chain; run directory created only after all gates pass | none |
-| S01 | Host name, non-elevated, product name, GATE_A_PRIME_* absent, NODE_OPTIONS unset, Node `>=22.13.0 <23`, `node:sqlite` probe (no database opened) | `node -v`, probe |
-| S02 | `rev-parse` toplevel, HEAD, HEAD^{tree}; `status` clean (all untracked); `ls-tree -r HEAD` for the 15 designated blobs; SHA-256 of three sources | git (read-only) |
-| S03 | Store absent; sidecars absent; outside worktree; `git worktree list`; ancestor chain (no `.git`, no reparse points); fixed NTFS; not OneDrive; nearest-ancestor ACL file | git, file tests |
-| S04 | `dist/` absent; `npm ci`; `npm run build`; entry present and emitted this run; direct imports exist; clean tree; ignored output allow-list | `npm ci`, `npm run build` (build pre-step, not authority) |
-| S05 | Pre-state `--mode=validate`; expects code 1 and `STORE_NOT_FOUND`; store still absent | `node --mode=validate` (read-only) |
-| Freshness | P1-F and PF-15 blobs at `origin/main`; compare `aa013db…origin/main`; no P-1-named path changed except the two review artifacts; changed-file list recorded | `gh api` (read-only) |
-| S06 | GO gate; `-PreflightOnly` stops here | none |
-| S07 | The one `--mode=execute` invocation (only if not preflight and `-ConfirmToken P1-F-ONE-ATTEMPT`); receipt checked | `node --mode=execute` |
-| S08 | `--mode=validate` after execute; V-A2-1…V-A2-7 and the V-A2-8 row-state proxy must pass; counts 1/1/1; status PASS | `node --mode=validate` (read-only) |
-| S09 | Store SHA-256, size, UTC last write, sidecars; read-only table counts and ledger rows | `node` read-only dump |
-| S10 | `run-summary.json`; `SHA256SUMS.txt` over all other run files | none |
-
-Stop behaviour: every stop is a `throw` caught once. A stop writes `run-summary.json` and the seal when a run directory exists. After any invocation, the outcome becomes `CONSUMED_STOPPED_AFTER_INVOCATION`.
-
-Limits of the script: it does not set a process exit code, so the summary is authoritative. It does not probe store writability (PF-12). It does not run V-A2-7 or the literal V-A2-8.
-
----
-
-## C. Go/no-go checklist
-
-| ID | Item | State | Basis |
+| Range (base…main) | Compare API `files` | Recursive tree diff | Result |
 |---|---|---|---|
-| G-01 | P1-F effective and unspent at invocation | **Automated check; operator read still required** (tracker and P1-F status on `origin/main`) | Freshness stage; P1-F §6, §8 |
-| G-02 | Single-attempt reading for a pre-invocation stop (Q-1) | **NO-GO — unresolved** | P1-F cond. 2; base act §9 |
-| G-03 | Pin, tree, designated blobs, clean checkout on host | Static design only; **not measured on host** | S02 |
-| G-04 | Host, elevation, edition, Node, sqlite, env | Static design only; **not measured on host** | S01 |
-| G-05 | Store absent; ancestors; fixed NTFS; not synced | Static design only; **not measured on host** | S03 |
-| G-06 | Build pre-step produces the entry, cleanly | Static design only; **not run** | S04 |
-| G-07 | Pre-state validate returns `STORE_NOT_FOUND` | Static design only; **not run** | S05 |
-| G-08 | Store path binding to `--store` (Q-2) | **NO-GO — unresolved** (F4 value is the designated value; binding is a PA question) | PF-15 F4; P1-F §6 |
-| G-09 | Actor label (Q-4) | **NO-GO — not designated** | Base act §8 step 3; P1-F §6 silent |
-| G-10 | Evidence root for P-1 execution (Q-3) | **NO-GO — not designated** (E8 and F5 are not P-1 designations) | P1-F §5; PA-13; PF-15 F5 |
-| G-11 | Partial-migration and §7.2/§7.4 wording (Q-5) | Non-blocking reading; **PA confirmation requested** | Section A2-j |
-| G-12 | V-A2-8 literal | **NOT PERFORMABLE without a second invocation**; recorded as NOT PERFORMED | P1-F cond. 2; A2-a |
-| G-13 | V-A2-7 runtime | Operator post-step; not automated | Act §8 step 5 |
+| `064e9f1f…aa013db` (149 commits) | 241 | 241 | Identical lists (0 in one only, 0 in the other only) |
+| `cf4c9a38…aa013db` (410 commits) | 300 (no truncation flag) | 790 | 490 changes omitted silently |
+| `cf4c9a38…aa013db`, `page=2&per_page=100` | 0 files (100 commits) | — | `files` is not paginated; only commits page |
+| `aa013db…origin/main` (origin/main was `aa013db` at the check) | 0 | 0 | Identical; this range cannot exercise the large-diff path |
+
+Conclusion: a count below 300 is not a completeness proof. The docs wording on the 300-file cap was **not** retrieved in this pass (the GitHub compare-endpoint documentation chunk was not reached), so it is not cited as documentary evidence. Revision 3 does not depend on it.
+
+**F2. Freshness constants re-read at origin/main (LIVE).** Tree of `aa013db` = `3a9ef48c…`, 2218 entries, not truncated. Base and main trees are identical, so the changed-path count is 0.
+- `docs/integration/IIPS_v3.0_CAP03_P1_AUTHORIZATION_ACT_AND_PREREQUISITE_DECISIONS_2026-10-29.md` → blob `a90bb00141194608e64503b24d43964bf7ff85a0` (matches P1-F blob).
+- `docs/integration/IIPS_v3.0_CAP03_PF15_ENDPOINT_LOCAL_STATE_DESIGNATION_PA_ACT_CORRECTED_2026-10-26.md` → blob `3fe9a2ddd5f3b8730eccee7748b6266b5e2d8b1d` (matches PF-15 `-02`).
+- Tracker blob `12e483edc4d946b489e2ece9b79794b931c1fa2f`, unchanged base→main.
+- IPD `a891802e…` → tree `76f083d7…` (remote).
+
+**F3. Argument parser and validate behaviour (SRC, IPD `a891802e`).**
+- `gateAPrimeProvisioning.ts` lines 574–626 (`parseGateAPrimeArguments`): allow-list of ten flags (`--mode`, `--act-id`, `--store`, `--principal-label`, `--tenant-id`, `--canonical-owner-id`, `--actor`, `--repo-root`, `--execution-commit`, `--execution-tree`). Each value must be `--name=value` (`requiredOption`, lines 566–571). Execute requires the last three (lines 609–611). `--actor` is accepted and optional; the parser stores it and does not require it.
+- `--actor` is not recorded in any output (`GateAPrimeExecutionResult`, lines 84–106). This is the source fact behind D-6.
+- Validate mode (`validateProvisioning`, lines ~536–548) calls `assertCommonArguments` (lines 300–309: act id, absolute store, store outside any Git worktree) and then `validateStoreAtPath`. It does not require the identity arguments.
+- `validateStoreAtPath` (`gateAPrimeValidation.ts` lines 367–377) opens with `readOnly: true` and throws `GateAPrimeStoreError('STORE_NOT_FOUND', …)` at line 372 when the file is absent.
+- Execute path (SRC, `gateAPrimeProvisioning.ts` lines 513–524; `connection.ts` lines 67–86): `openDatabase` creates the store's parent directories (`mkdirSync`, line 84) and the store file (`new DatabaseSync`, line 85) before any migration; `ensureMigrations` runs at line 524; the provisioning `BEGIN IMMEDIATE` is at line 471 (inside the write function). A failure after line 85 can therefore leave a store file with a partial schema (defect D-12). S03 checks the parent's ancestor chain for this reason.
+- `GateAPrimeStoreError` extends `Error` (`gateAPrimeValidation.ts` line 93). `GateAPrimeRefusalError` extends `Error` in the provisioning module (line 107). The entry-point `isMain` block maps only `GateAPrimeRefusalError` to `code`; any other error is `UNEXPECTED_FAILURE`.
+
+**F4. Execute refusals (SRC).** `STORE_ALREADY_EXISTS` at `gateAPrimeProvisioning.ts` lines 413 and 434; `ALREADY_PROVISIONED` at lines 411 and 466. A second execute on an existing store therefore refuses on the store-existence check. This is source-only; it is not run.
+
+**F5. Module and build (SRC at the pin: `package.json` blob `51796e63…`; `tsconfig.json` blob `6d696ec2…`, read this pass via the API).** `package.json` has `"type": "module"`. `tsconfig.json` uses `module` and `moduleResolution` `NodeNext`, `outDir: ./dist`, `rootDir: ./`, `include` of `src/**`, `tests/**` and `frontend/**`, and does not set `incremental`. A type error anywhere in `frontend/**` would therefore fail `npm run build` before the closure check (listed as U-5). Consequences: the emitted entry is `dist/src/persistence/gateAPrimeProvisioning.js` (not `dist/persistence/…`); every build rewrites every emitted file, so the mtime test is meaningful; relative specifiers are explicit `./x.js`, so the closure walk can follow them. `prepare` runs `build:portfolio-ui-package` and `build:pit-package`, so `npm ci` also emits package output. `npm run build` is `tsc && vite build && …` (`dist-frontend` for Vite). The base act §8 does not name a build step; the QE matrix does list `npm ci --no-audit --no-fund` (`docs/integration/IIPS_v3.0_CAP02_QE_EXECUTION_MATRIX_AND_HOST_PREREQUISITES_2026-10-26.md`, line 90). The build is treated here as a pre-step that is not authority and touches no store. This is open question Q-MIG-B below only as a confirmation.
+
+**F6. Post-state report and receipt (SRC).**
+- Validate report (`GateAPrimeValidationReport`, `gateAPrimeValidation.ts` lines 82–91): `actId`, `storePath`, `readOnly`, `status` (`PASS`|`FAIL`), `checks` (`{id, ok, detail}`, line 129–131), `bindings`, `memberships`, `auditEvents`.
+- Execute result (`GateAPrimeExecutionResult`, lines 84–106): `mode`, `actId`, `store`, `bindingId`, `membershipId`, `auditEventId` (number), `basisCommit`, `basisTree`, `executingCommit`, `executingTree`. The script's receipt test uses these names.
+- Ledger table (`pin_migration_ledger.ts` lines 25–28): `_migration_ledger(migration_id, checksum, applied_at)`; the read-only dump selects these columns. Provisioning table names match migrations 001–004 (`local_principal_bindings`, `local_principal_memberships`, `audit_events`, `portfolios`, `portfolio_revisions`, `portfolio_holdings`, `portfolio_contributions`).
+- Validation proxy for V-A2-8 (`gateAPrimeValidation.ts` lines 331–336): `consumedShape && bindings <= 1 && memberships <= 1`. This is a row-state proxy evaluated in validate mode. It does not demonstrate refusal of a second execute.
+
+**F7. Authority records (REC).**
+- Tracker §16.206 current pointer (line 22): `P-1` is **AUTHORIZED — ONE ATTEMPT, NOT YET MADE — UNSPENT** (P1-F rendered). The same line records P-1 as NOT EXECUTED and not authorized only in the superseded 2026-10-27 text.
+- Tracker §16.206 P1-F row (line 16926) and conditions (line 16928): condition (2), "the first attempt, successful or not, spends the act, per successor act §8". Condition (1): `EXECUTION_PIN_MISMATCH` before any connection. Condition (4): receipt records basis and executing HEAD/tree. Non-grants include "second attempt or re-run".
+- Base act (IPD `a891802e`, `evidence/cross-repository/IIPS_V3_CAP02_GATE_A_PRIME_SUCCESSOR_PROVISIONING_ACT_EFFECTIVE_2026-10-23.md`, §§6–9, blob `528de6ae…`): §7 items 1–6 (refuse before SQL; one `BEGIN IMMEDIATE`; duplicate handling; no unintended mutations; no retry; no fixture substitution); §8 step 3 names `--actor <label>`; §8.2 stop conditions ("stop, record, do not proceed"); §9 "consumed on completion whether the act succeeds or fails; a failure is recorded `FAILED / ROLLED BACK` or `NOT EXECUTED — <reason>`".
+- PF-15 corrected act `-02` (`/tmp/w/pf15c.md`, blob `3fe9a2dd`): row F4 (line 30) `C:\iips-data\iips\user-portfolio.sqlite` "RENDERED as intended stable path for the single P-1 store and subsequent S3/QE"; line 36 "Keep F4 stable … Any unexpected value drift is STOP; technical compatibility is not permission to substitute a value"; line 63 "F4 names the intended one-time `$StorePath`"; line 64 "PF-15 does not grant or consume P-1"; row F5 (line 31) "RENDERED as intended Gate 4 evidence root".
+- CAP-02 host runbook (`docs/integration/IIPS_v3.0_CAP02_HOST_EXECUTION_RUNBOOK_AND_EVIDENCE_STRUCTURE_2026-10-26.md`): header (lines 1–5) "PREPARATION ONLY … designates no value"; §4 (lines 75–100) "one attempt, consumed on completion", with steps 0–2 before the single invocation and the act-consumed record after it; §7 (line 142) "Any PF mismatch → STOP before commands; `NOT EXECUTED — <reason>`"; example `--actor ramki` (lines 86, 90); example `$EvidenceRoot = "D:\iips-evidence\$RunId"` (line 53); example entry path `dist/persistence/…` (no `src/`), which is wrong against the pin (see §A2-F5).
+- S2 execution matrix (`docs/integration/IIPS_v3.0_CAP03_S2_P1_S3_QE_EXECUTION_AND_EVIDENCE_MATRIX_2026-10-26.md`): line 142 template `--actor=<label>` (placeholder); line 147 "success performs exactly one `BEGIN IMMEDIATE`".
+- QE matrix H-8 (line 80): `$EvidenceRoot` absolute, writable, outside every Git worktree, "not the store path", not synchronized.
+- Consolidated PA package pass 7 (`docs/integration/IIPS_v3.0_CAP03_CONSOLIDATED_PA_DECISION_PACKAGE_PROPOSED_2026-10-29.md`, line 13 and line 67): E8 capture root `D:\cap03-p1-capture-20261028-01`, parent `D:`; PA-13/E10 is capture authorization, "not P-1 authorization and not a `P1-F` precondition" (tracker PA-13 row, line 16925).
+
+**F8. Record-accuracy note (no edit made this pass).** Tracker line 12741 (`DISP-03`) records that validate at step 2 "refuses `STORE_NOT_FOUND`". That names the thrown class. The emitted code, per F3, is `UNEXPECTED_FAILURE` with that message. This note is for a later IRR record correction under PA direction. It does not change any gate.
+
+### A3. Still unverified (named items)
+
+| # | Item | Why it is unverified | Who can verify |
+|---|---|---|---|
+| U-1 | Whether the PowerShell script parses and behaves as designed on PS 5.1 | No PowerShell in this sandbox; static review only (§A4) | Operator, on the designated host, only after designations and a PA ruling |
+| U-2 | Host facts: hostname, non-elevation, product name, Node version, flag-free `node:sqlite`, `GATE_A_PRIME_*` absence, NODE_OPTIONS, OneDrive, NTFS, ACLs | Windows host only; this sandbox is Linux | Operator, read-only, in the preflight |
+| U-3 | Store absence, sidecar absence, parent existence, reparse points, `.git` in the ancestor chain | Host filesystem | Operator, read-only |
+| U-4 | Clean checkout at `a891802e` / `76f083d7`; designated blobs at HEAD | No local IPD checkout in this sandbox; remote tree only (15/15 designated blobs, remote, prior pass) | Operator, in S02 |
+| U-5 | `npm ci` and `npm run build` on the host; closure emission | Not run; no PowerShell or Windows | Operator, in S04 |
+| U-6 | V-A2-1 to V-A2-7 at runtime | Validator and entry are source-only here; V-A2-7 is `src/ipc/dispatch.ts` line 231 at `27becc76` (source only) | Operator, S08 |
+| U-7 | Literal V-A2-8 (second invocation refused) | Requires a second invocation, which the single-attempt rule forbids; not performed (§E) | Not performable within P-1 |
+| U-8 | Store ACL writability | Attested, not probed (PF-12) | Operator attestation |
+| U-9 | Non-P-1-named documents that revoke P-1 | The freshness check covers P-1-named paths and tracker lines only | Reviewer of the full changed-path list in `run-summary.json` |
+
+### A4. Static review of revision 3 (PowerShell 5.1; no runtime claim)
+
+Checks performed by reading the file and by scripted text scans (no PowerShell parser; no execution):
+- ASCII only (0 non-ASCII lines). Forbidden keywords `else`, `elseif`, `finally`, `break`, `continue`: 0 occurrences. `exit`: 0 occurrences as code (a comment word was changed to avoid it).
+- Brackets and quotes balanced under a PowerShell-aware text scan (single-quote doubling and backtick escapes handled). This is not a parse.
+- 53 check identifiers; `S08-VALIDATE` appears in two mutually exclusive branches by design.
+- Every stop is a `throw` from `Stop-Gate` or `Require-Check`, caught by one outer `catch` that writes `run-summary.json` and `SHA256SUMS.txt` when a run directory exists. No process code is set. The summary is authoritative.
+- Process invocation uses `System.Diagnostics.ProcessStartInfo` with separate stdout/stderr capture, `UseShellExecute = false`. Only `npm` runs through `$env:ComSpec /d /c`. Arguments containing whitespace are wrapped in double quotes; a quoted argument ending in a backslash is refused; a quote or newline in any argument is refused. The designated values (act id, store, identity values, commit and tree) contain no whitespace; the repo-root argument is quoted if its path contains whitespace.
+- PS 5.1 features used: `ConvertFrom-Json`, `ConvertTo-Json -Depth` (3.0+), `Get-FileHash` (4.0+), `Get-ChildItem -Directory`, `New-Object` with generic HashSet, `[IO.File]::WriteAllText`, `[regex]::Matches`, `Set-StrictMode -Version Latest` (ordinal hashtable access is strict-safe; object-property access is guarded).
+- Single-attempt semantics: the marker is written and `ExecuteInvoked` is set only immediately before `Invoke-Capture` for `--mode=execute`. A failed marker write stops before invocation. Any stop after that point sets `CONSUMED_STOPPED_AFTER_INVOCATION` (see §E).
+- Risks not verified at runtime: `ConvertFrom-Json` over the ~2,200-entry recursive tree and the tracker blob (size is well within expected limits, but unverified on PS 5.1); `gh` authentication on the host; `Get-Acl` availability; `npm.cmd` resolution through `ComSpec`.
 
 ---
 
-## D. Post-execution validation procedure
+## B. Corrected script (revision 3): structure and stop points
 
-Run only after an invocation has occurred.
+The script is `docs/integration/IIPS_v3.0_CAP03_P1_F_P-1_CORRECTED_EXECUTION_SCRIPT_2026-10-29.ps1`. As committed, it refuses at S00 because the three designations are null. It is a reviewed artifact, not a runnable procedure.
 
-1. Receipt (S07): stdout must be one JSON object whose fields match section A2-h. Compare `basisCommit`/`basisTree` with `5fc74085…`/`7226ef00…`, `executingCommit`/`executingTree` with the pin, and `bindingId`/`membershipId` with `c5808abaffd072d6401ce63ad86c6ac0`/`d25dcc5370100b00766efc5166f65cf3`.
-2. Validation (S08): V-A2-1 (ledger 001–004 and checksums), V-A2-2…V-A2-7 as named in the validator, and the V-A2-8 row-state proxy. Counts: bindings 1, memberships 1, audit events 1. Literal V-A2-8 is NOT PERFORMED.
-3. Store (S09): SHA-256 and size; UTC last write; sidecars absent; table counts for the eight tables (expected: bindings 1, memberships 1, audit events 1, portfolio tables 0, ledger 4 rows).
-4. Evidence: raw stdout and stderr, command lines, exit codes, UTC start and end times, `run.log`, `run-summary.json`, `SHA256SUMS.txt`. No receipt is written before the raw evidence.
-5. Remaining operator checks: V-A2-7 (IPC `WRITE_NOT_AUTHORIZED`; `evaluatePortSaveGuard()` hard-false), read-only, separate from the script.
-6. Failure states. Any non-zero execute exit is recorded as consumed. Recorded dispositions are `FAILED / ROLLED BACK` or `NOT EXECUTED — <reason>` (base act §9). No repair, no re-run, no deletion of the store.
+| Step | Read-only? | Content | Stop |
+|---|---|---|---|
+| S00 | yes | Designations (ruling, actor, evidence root, store = F4); absolute paths; evidence root exists and is outside the worktree and store chain; prior-run scan (marker and unsealed runs refuse); run directory created | `S00-*` |
+| S01 | yes | Host name, non-elevated, product name, `GATE_A_PRIME_*` absent, NODE_OPTIONS unset, Node `v22.13+`, flag-free `node:sqlite` probe (no database opened) | `S01-*` |
+| S02 | yes | HEAD commit and tree, clean status (`--untracked-files=all`), designated blobs at HEAD | `S02-*` |
+| S03 | yes | Store and sidecars absent; outside worktree; no `.git` or reparse point in the ancestor chain; fixed NTFS; not OneDrive; nearest-ancestor ACL written for review | `S03-*` |
+| S04 | build | `npm ci`, `npm run build`; entry closure present and emitted this run; clean after build; ignored entries limited to `node_modules/`, `dist/`, `dist-frontend/` | `S04-*` |
+| S05 | yes | `--mode=validate` with absent store; expects exit 1, empty stdout, code `STORE_NOT_FOUND` or `UNEXPECTED_FAILURE` with the exact message; store still absent | `S05-*` |
+| Freshness | yes | origin/main; IPD pin tree on remote; complete base→main tree diff (`truncated` stops); P1-F, PF-15 blobs; tracker added-line scan; P-1-named changes (review artifacts excluded) | `F-*`, `FRESHNESS_*` |
+| S06 | — | GO gate. `PreflightOnly` stops here | — |
+| S07 | **invokes once** | Writes `EXECUTE-MARKER.json`; then `--mode=execute` with all ten flags; receipt fields compared with the pin and the expected binding and membership ids | `S07-*`, `EXECUTION_*` |
+| S08 | yes | `--mode=validate` with the same arguments; V-A2-1…8 proxy checks and counts 1/1/1 | `S08-*` |
+| S09 | yes | Store SHA-256, size, UTC timestamp, sidecar presence; read-only dump of table counts and ledger rows | `S09-*` |
+| S10 | — | Summary and seal (`SHA256SUMS.txt` over every other file in the run directory) | — |
+
+Refusals before the run directory exists (all of S00's designation and path checks, and the evidence-root scan) create nothing and write no summary file; the stop is then visible on the console only. Operators must keep the console transcript for those stops.
+
+Run directory layout: `p1-<UTC stamp>/` under the evidence root, containing `run.log`, `run-summary.json`, every raw `NN-name.{cmdline,stdout,stderr,code,timing}.txt`, `probe-sqlite.mjs`, `nearest-ancestor-acl.txt`, `entry-closure-sha256.txt`, `readonly-dump.mjs`, `EXECUTE-MARKER.json` (only when an invocation is about to happen), `validate-report.json`, `SHA256SUMS.txt`. The S07 receipt is the raw stdout of `NN-p1-execute-SINGLE-ATTEMPT.stdout.txt`, not a separate file.
 
 ---
 
-## E. Final status
+## C. Go/no-go checklist (current state: NO-GO)
 
-- **P-1: UNSPENT.** Not invoked. No store, binding, membership, audit event, or receipt exists.
-- **Source-verified:** the entrypoint argument rules, validate and execute paths, refusal and receipt schemas, table and ledger names, build chain and emitted entry path, `openDatabase` directory creation, `ensureMigrations` transactions, the single-attempt code path (A2-a), and the designated blob set (A3).
-- **Script:** revision 2 is a static-reviewed draft. It is not parsed or run. It refuses every run until the designations are recorded.
-- **Unresolved authority questions (not decided by this record):**
-  - **Q-1.** Does a pre-invocation stop (S00–S06 or a freshness stop) consume P1-F? P1-F cond. 2 and base act §9 do not say. Until a ruling exists, treat it as undetermined.
-  - **Q-2.** Does PF-15 F4 designate the value of the P1-F `--store` argument?
-  - **Q-3.** Which absolute evidence root is designated for P-1 execution evidence?
-  - **Q-4.** What is the `--actor` label value? (P1-F is silent; base act §8 step 3 requires it.)
-  - **Q-5.** Confirm the readings in A2-j (§7.2 transaction scope; §7.4 migration creation; partial-migration disposition).
-- **Next safe action:** no host action in this pass. (1) The Program Authority answers Q-1 to Q-4 and confirms Q-5. (2) The answers are committed as reviewed designation changes to the script constants and this record; the operator then confirms that the script's git blob on the host equals the reviewed PR head (`git hash-object` on the file). (3) Only then does the operator run `-PreflightOnly` on `desktop-no0nhtp`, and only if the Q-1 answer permits a pre-invocation run. (4) A preflight stop is not followed by a rerun without a ruling. No execute invocation occurs until the preflight output has been reviewed and the designations are in place.
-- **G-08 (store binding), G-09 (actor), G-10 (evidence root)** remain NO-GO until designated. In the 2026-10-28 numbering these were G-10, G-13 and G-14.
-- **Unchanged by this record:** Gate 4 AUTHORIZED — NOT STARTED; QE 0/11; Gate 5 NOT INITIATED; S3 not started; V1295 NOT MET; no production, no `durable:true`; IPD not written by IRR; PA-19 (H-1 to H-9 PA-WAIVED) remains in effect; PA-20 waives host-side evidence requirements and is not a blocker by itself.
+| # | Gate | State | Owner |
+|---|---|---|---|
+| G-08 | Store binding (`--store` = F4) | Open: Q-STORE (F4 supported; confirmation requested) | PA |
+| G-09 | Actor label | Open: Q-ACTOR (no designation; examples only) | PA |
+| G-10 | Evidence root | Open: Q-EV (none designated; F5 is Gate 4 scope) | PA |
+| G-11 | Single-attempt consumption for stops before invocation | Open: Q-CONS | PA |
+| G-12 | Migration on fresh store and transaction boundaries | Open: Q-MIG, Q-TX (both supported by the act's V-A2-1 and §7.2 text; confirmation requested) | PA |
+| G-13 | Authorization freshness at GO | Mechanism written (tree diff, P1-F, PF-15, IPD pin, tracker); not yet run on a host | Operator, at run time |
+| G-14 | Host preconditions (U-2, U-3, U-4, U-5) | Not verifiable from this sandbox | Operator |
+| G-15 | Post-run acceptance rule for V-A2-8 | Open (§E, V-A2-8 decision) | PA |
+
+**Do not run any preflight or invocation until G-08 to G-12 are ruled.** The reason is Q-CONS: if a stop before invocation can be read as spending the attempt, even a preflight run would carry that risk.
+
+---
+
+## D. Post-execution validation procedure (what the run must record)
+
+Recorded for each stage, in the run directory: raw stdout, raw stderr, exit code, UTC start and end, the exact command line (secrets excluded; none are used).
+- S05 pre-state: exit code, stderr JSON (`code`, `error`), store-absent fact.
+- S07 execute: exit code; on exit 0, the receipt object (raw stdout of the execute call) with `mode`, `actId`, `store`, `basisCommit`, `basisTree`, `executingCommit`, `executingTree`, `bindingId`, `membershipId`, `auditEventId`; on non-zero, the refusal code and message.
+- S08 validate: `status`, the `checks` list with `id`/`ok`, counts `bindings`, `memberships`, `auditEvents`.
+- S09 store: SHA-256, size, UTC last write, sidecar presence, read-only counts for each table, and the ledger rows (`migration_id`, `checksum`, `applied_at`).
+- Summary: `outcome`, `executeInvoked`, `executeMarkerWritten`, `p1fConsumption`, `v2A8ProxyPass`, `v2A8LiteralTest: NOT_PERFORMED`, freshness facts, and the not-performed list.
+
+---
+
+## E. Final status, authority questions and next safe action
+
+### E1. Authority questions (reconciled against the records)
+
+Mapping to the requested items: Q-1 = consumption (Q-CONS); Q-2 = store binding (Q-STORE); Q-3 = evidence root (Q-EV); Q-4 = actor (Q-ACTOR); Q-5 = migration and transaction (Q-MIG, Q-TX). The rev-2 "Q-1 to Q-4" labels are superseded by these names.
+
+| Question | Record evidence | Reconciled status | Decision needed |
+|---|---|---|---|
+| **Q-CONS** (Q-1): does a stop before any entrypoint invocation consume P1-F? | P1-F cond. 2 and §16.206 P1-F row: "the first attempt, successful or not, spends the act". Base act §9: consumed "on completion whether the act succeeds or fails", with `NOT EXECUTED — <reason>` as a failure disposition. Runbook §4 and §7: NOT EXECUTED is a status for an item that did not run; "act consumed" appears only in the post-execution record list. | **UNRESOLVED.** §9 can be read to make a NOT EXECUTED record a consumed-act disposition; runbook §4 reads a pre-execution stop as not an attempt. The record does not settle it. | PA ruling, in writing: whether a read-only preflight, or a stop before invocation, consumes P1-F. |
+| **Q-STORE** (Q-2): does `--store` equal the PF-15 F4 path? | PF-15 F4: "the single P-1 store"; "keep F4 stable across the P-1 … sequence"; drift is STOP (lines 30, 36, 63). P1-F: `--store` absolute and non-existent, "not pre-designated" (§16.206 P1-F row). | **LARGELY SUPPORTED.** The record names F4 as the single P-1 store and makes any drift a STOP. P1-F is silent on binding. | PA confirmation that F4 is the `--store` for P-1. The script constant already equals F4. |
+| **Q-EV** (Q-3): which evidence root for P-1? | None designated for P-1. E8/PA-13 root is capture-only and "not a P1-F precondition". F5 is "intended Gate 4 evidence root". QE H-8: absolute, outside worktrees, not the store path. Runbook `$EvidenceRoot` designates no value. | **UNRESOLVED.** | PA designation (absolute local path; outside worktrees, cloud sync, and the store chain; pre-existing). Do not reuse E8 or F5 without a ruling. |
+| **Q-ACTOR** (Q-4): which `--actor` value? | Base act §8 step 3 names `--actor <label>`. P1-F's identity table omits it. The parser accepts it and never records it (D-6). Values in the repo: `ramki` (runbook examples lines 86, 90; preflight instrument examples); `<label>` placeholder (S2 matrix line 142). | **UNRESOLVED.** Examples are not designations. | PA designation of the label (or confirmation that `ramki` is designated). |
+| **Q-MIG** (Q-5a): do migrations 001–004 apply on the fresh store? | Base act §6 V-A2-1 requires ledger `001`–`004` with the basis checksums. §7 item 4 forbids unintended creation of migrations. SRC: `executeProvisioning` calls `ensureMigrations` at line 524, after `openDatabase`. | **LARGELY SUPPORTED.** Schema creation is the intended consequence of V-A2-1; the act does not say it expressly. | PA confirmation. |
+| **Q-TX** (Q-5b): is the provisioning write one transaction? | Base act §7 item 2: "exactly one `BEGIN IMMEDIATE`" for the provisioning writes. S2 matrix line 147 repeats it. SRC: migrations run in per-migration transactions before the provisioning transaction (`pin_migration_ledger.ts` lines 43–45, 56–90). | **LARGELY SUPPORTED.** The §7 item 2 wording covers the provisioning writes. | PA confirmation that migration transactions sit outside §7 item 2. |
+| **Q-V8** (post-run acceptance): is V-A2-8 satisfied by the proxy? | Act §6 V-A2-8: "a second invocation is refused and changes nothing; the act is recorded consumed." Validator lines 331–336: row-state proxy only. Source refusal path: §A2-F4. The literal test would be a second invocation, which P1-F forbids. | **PROXY MEASURED; LITERAL NOT PERFORMED.** Not a precondition to run. | PA rule after the run: accept the proxy plus source-verified refusal, or record V-A2-8 as not satisfied. |
+
+### E2. V-A2-8 contradiction, resolved
+
+The act's V-A2-8 requires a second invocation to be refused. P1-F condition 2 and the directive forbid a second invocation. Both cannot be met by running the test. Resolution:
+- The validator's V-A2-8 (lines 331–336) is a row-state proxy, evaluated in validate mode. It is measured in S08 as `v2A8ProxyPass`. It is not a refusal test.
+- The literal test is **NOT PERFORMED** and must not be run. The summary records `v2A8LiteralTest: NOT_PERFORMED`.
+- No record in this pass represents V-A2-8 as passed. The proxy result is reported as measured only.
+
+### E3. Publication and remote verification
+
+- Local files written in this pass: revision 3 script (786 lines) and this record (revision 3), both at the paths above, uncommitted at the time of writing.
+- Remote verification of PR #382 (`headRefOid`, branch head, `ls-remote`) is recorded in the PR body after the commit and push, not claimed here before they happen.
+
+### E4. Final status (this pass)
+
+- **P-1 remains UNSPENT.** No provisioning command, store, binding, membership, audit row, or receipt has been created. No entrypoint invocation occurred, including execute-mode diagnostics.
+- **Source-verified:** the parser allow-list and required arguments; validate behaviour on an absent store (code `UNEXPECTED_FAILURE`, message); the execute refusal paths; the module format and emitted entry path; the receipt and report field names; the ledger columns; the V-A2-8 proxy definition; the base act and P1-F text cited above.
+- **Record-verified:** tracker §16.206 current state; PF-15 F4 and F5 wording; runbook status; the actor, evidence-root and store questions listed in E1.
+- **Live-verified (GitHub, this pass):** origin/main `aa013db` and tree `3a9ef48c…`; base and main tree identical; P1-F blob `a90bb001…`; PF-15 blob `3fe9a2dd…`; tracker blob unchanged; IPD pin tree `76f083d7…`; the compare-API truncation behaviour in §A2-F1.
+- **Static only:** the script's PowerShell 5.1 behaviour (§A4); the bracket and quote balance; ASCII.
+- **Not verified:** U-1 to U-9 (§A3).
+- **Not decided here:** Q-CONS, Q-STORE, Q-EV, Q-ACTOR, Q-MIG, Q-TX, and the V-A2-8 acceptance rule (§E1). No PA ruling is recorded or inferred.
+
+### E5. Exact next safe action
+
+1. The Program Authority rules in writing on Q-CONS, Q-EV and Q-ACTOR (required), and confirms Q-STORE, Q-MIG and Q-TX. No preflight or invocation until then.
+2. Only after the ruling: a reviewed change sets the three designations and the ruling reference in the script, citing the ruling. Then the operator runs the read-only preflight on `DESKTOP-NO0NHTP` with `-PreflightOnly`, and returns the raw run directory for independent review.
+3. The single attempt is taken only in a separate, explicitly authorized run with `-ConfirmToken P1-F-ONE-ATTEMPT`, after the preflight is reviewed. Nothing in this pass authorizes that run.
