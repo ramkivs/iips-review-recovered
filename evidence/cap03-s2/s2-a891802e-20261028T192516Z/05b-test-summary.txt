@@ -1,0 +1,21 @@
+WINDOWS NAMED-PIPE TESTS (Windows-only tests must be ok, not skipped):
+ok - pipelined second frame -> zero bytes, MALFORMED_FRAME
+ok - delivers exactly one response even though pipe EOF only arrives via the forced 50 ms break
+ok - the broken-pipe EOF after a successful flush is harmless and leaves no reader listeners
+ok - a default-policy handler withholds every response byte on the Windows pipe timeline
+ok - g3 / T-A flush-guard settlement (Windows named-pipe transport emulation)
+ok - the Windows endpoint is a named pipe with no filesystem artifact
+ok - an explicit Windows pipe path is accepted; other absolute Windows paths are refused
+ok - the Windows descriptor claims no application-enforced DACL and names the Gate 4 items
+ok - maps a Windows pipe EADDRINUSE bind fault (F7) to EndpointCollisionError at bind
+ok - the Windows pipe branch reaches bind without creating or requiring a state directory
+ok - WS-B / P05 Ingress Pipeline & Dead-Letter Routing
+
+SKIPPED TESTS (expected: the four POSIX-only tests):
+SKIP - the POSIX state directory is owner-only 0700
+SKIP - the POSIX socket itself is mode 0600 and owner-owned
+SKIP - refuses an occupied POSIX endpoint path at bind with no second endpoint
+SKIP - refuses an unsafe pre-existing state directory instead of repairing it
+
+GUARD executed 930 passed 926
+TAP tests 930 pass 926 fail 0 skipped 4

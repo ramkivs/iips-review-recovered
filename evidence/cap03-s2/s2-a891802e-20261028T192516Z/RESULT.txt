@@ -1,0 +1,16 @@
+STATUS: PASS
+REASON: all S2 criteria met at the designated pin (native Windows host)
+RUN ID: s2-a891802e-20261028T192516Z
+PIN COMMIT: a891802e2691bd9c65a67d6abff20d8ce0c26d7d
+PIN TREE: 76f083d7058e170d8212455c03bad1033136ee68
+OBSERVED HEAD (post-run): a891802e2691bd9c65a67d6abff20d8ce0c26d7d
+OBSERVED TREE (post-run): 76f083d7058e170d8212455c03bad1033136ee68
+HOST: DESKTOP-NO0NHTP
+NODE: v22.16.0
+NPM: 10.9.2
+DIST FILE COUNT: 1140
+GUARD EXECUTED: 930
+GUARD PASSED: 926
+PACK SHASUM: cc2aa70186b8fd7bc7255452ac8d8b00d094f53e
+SEAL: SHA256SUMS.txt covers every other artifact in this folder, including this file and MANIFEST.json.
+SEAL SHA-256: printed on the console and recorded in the seal-recheck transcript (it cannot be stored in the seal).

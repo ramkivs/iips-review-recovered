@@ -1,0 +1,8 @@
+STEP: 03-tsc-noemit
+UTC start: 2026-10-28T19:26:20.116Z
+Command: C:\Node22\node-v22.16.0-win-x64\npx.cmd tsc --noEmit
+Working directory: C:\iips-work\ipd-s2-a891802e-20261028T192516Z
+--- raw output begins ---
+--- raw output ends ---
+RETURN CODE: 0
+UTC end: 2026-10-28T19:26:43.530Z
