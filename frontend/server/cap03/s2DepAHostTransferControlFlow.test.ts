@@ -1,7 +1,7 @@
 /**
  * CAP-03 S2-DEP-A host-transfer instrument — terminal-state control-flow contract.
  *
- * Authority: IRR tracker §16.191 (`CV-CORR-171`, `CHG-2026-10-29-13`), rev-5.
+ * Authority: IRR tracker §16.192 (`CV-CORR-172`, `CHG-2026-10-29-14`), rev-6.
  * Pins (regression teeth, per fix pass):
  *  - rev-2: a failed remote-SHA check after a completed push could print
  *    `RESULT: PASS` (fixed rev 3; still pinned);
@@ -11,7 +11,11 @@
  *    pushes even when the origin read was empty or UNVERIFIABLE, and PHASE-10
  *    treated a Contains-match over unvalidated ls-remote output as
  *    verification without checking the exit code (fixed rev 5: read-classifier
- *    arms; exit-code-checked, exact ref-line-match verification).
+ *    arms; exit-code-checked, exact ref-line-match verification);
+ *  - rev-5: PHASE-4 piped `git clone` output through the run log without `--quiet`, so
+ *    PowerShell 5.1 converted git's routine progress into a terminating
+ *    NativeCommandError (fixed rev 6: quiet clone; exit-code gate and the PHASE-4b
+ *    running-bytes identity gate remain untouched and mandatory).
  * Structural interpretation: each top-level `if ($STATE ...)` block executes
  * iff its gate holds; a Set-Blocked flips the state for later pass-gated
  * blocks; an exception unwinds past the footer into the catch; Set-Result
@@ -123,7 +127,7 @@ function simulate(inject: Injection): { out: string[]; pushState: string } {
 // is exactly ONE real terminal emission with the right value.
 const real = (out: string[]) => out.filter((x) => x !== 'SUPPRESSED' && x !== 'RAW-EMIT' && x !== 'CATCH-CONSULTS-ORIGIN');
 
-describe('S2-DEP-A instrument rev 5 — terminal reporting contract (§16.191)', () => {
+describe('S2-DEP-A instrument rev 6 — terminal reporting contract (§16.192)', () => {
   it('block structure: init, push, verification, success and footer are separate gated blocks in order', () => {
     expect(INIT_IDX).toBe(0);
     expect(PUSH_IDX).toBeGreaterThan(INIT_IDX);
@@ -283,6 +287,21 @@ describe('S2-DEP-A instrument rev 5 — terminal reporting contract (§16.191)',
     expect(idx).toBeGreaterThan(LINES.findIndex((l) => /remote head verified/.test(l)));
   });
 
+  it('rev6 PHASE-4: quiet clone so PS 5.1 never treats routine progress as a terminating error; exit-code and identity gates intact', () => {
+    const i = LINES.findIndex((l) => /git\.exe clone/.test(l));
+    expect(i, 'clone call located').toBeGreaterThan(-1);
+    expect(LINES[i]).toMatch(/& git\.exe clone --quiet -- \$REPO_URL \$REPOD 2>&1 \| ForEach-Object \{ Write-Log \('git: ' \+ \$_\.ToString\(\)\) \}/);
+    expect(LINES[i + 1], 'genuine error handling preserved').toMatch(/if \(\$LASTEXITCODE -ne 0\) \{ Set-Blocked 'git clone failed' \}/);
+    expect(SRC, 'no un-quieted clone anywhere').not.toMatch(/git\.exe clone (?!--quiet)/);
+    // PHASE-4b running-bytes identity gate untouched (this gate fail-closed on the locally patched copy)
+    expect(SRC).toMatch(/\$runDig = \(Get-FileHash -LiteralPath \$PSCommandPath -Algorithm SHA256\)\.Hash\.ToLower\(\)/);
+    expect(SRC).toMatch(/if \(\$runDig -ne \$pubInstr\.sha\) \{ Set-Blocked 'running script bytes differ from the published instrument blob on origin\/main/);
+    expect(SRC).toMatch(/re-run the bootstrap block/);
+    for (const l of LINES.filter((x) => x.includes('2>&1'))) {
+      expect(l, 'every merged-stderr native call is quiet-guarded: ' + l.trim().slice(0, 64)).toMatch(/--quiet|commit -q|Out-Null/);
+    }
+  });
+
   it('frozen hash record and 19-path byte gates preserved from revs 3/4', () => {
     expect(SRC).toMatch(/\$hostExpected\['evidence\/cap03-s2\/deposit-host-hashes\.txt'\]/);
     const writes = SRC.match(/Add-Content -LiteralPath \$HASHES/g) ?? [];
@@ -297,10 +316,10 @@ describe('S2-DEP-A instrument rev 5 — terminal reporting contract (§16.191)',
     expect(SRC).toMatch(/host copy byte-identical to committed copy/);
   });
 
-  it('authorization anchors at rev 5 (marker CHG-2026-10-29-13, baseline f46e7286, immutable locus, sealed digests, drift logging)', () => {
+  it('authorization anchors at rev 6 (marker CHG-2026-10-29-14, baseline 4908842e, immutable locus, sealed digests, drift logging)', () => {
     for (const anchor of [
-      'CHG-2026-10-29-13',
-      'f46e72869003b23eeb126f51f48c60001a6a0d9f',
+      'CHG-2026-10-29-14',
+      '4908842e40d0c23c42a7f4b8cbebeade579ac2d9',
       '2cc5bc4302436f8ae6d84a9e657b8c1ed06b5478',
       '9d3c09dbdb691c2527a45605dea20826b4ec2ba2f110985ee3f1033783b5225e',
       '9c9319fa3d7eaa822834c2f500e04dfec2b18d8157724843126a749b2bec91ab',
@@ -311,8 +330,8 @@ describe('S2-DEP-A instrument rev 5 — terminal reporting contract (§16.191)',
     ]) {
       expect(SRC, `anchor: ${anchor}`).toContain(anchor);
     }
-    expect(SRC).toMatch(/' rev5'/);
-    expect(SRC).not.toMatch(/rev4/);
+    expect(SRC).toMatch(/' rev6'/);
+    expect(SRC).not.toMatch(/rev5/);
   });
 
   it('constraint surface: no else/elseif/finally/exit/break anywhere, ASCII-only, balanced, terminal kept open', () => {

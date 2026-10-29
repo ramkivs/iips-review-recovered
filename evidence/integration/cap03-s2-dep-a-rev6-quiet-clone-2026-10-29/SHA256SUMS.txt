@@ -1,0 +1,2 @@
+300090d9ce9bfb64bf3bbb317075a36beee6befd1c4ad4d3fa38cbb0416b6bb3  01-rev6-quiet-clone-and-anchor-reconciliation.txt
+2093e5b1dae8afb13c1d4839f8ef186667b99fa84fa28ec137321c708bd2e630  02-operator-bootstrap-and-handoff.txt
