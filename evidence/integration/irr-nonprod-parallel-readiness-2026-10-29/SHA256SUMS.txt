@@ -1,0 +1,2 @@
+dc160dfd9e67e6917e518b8d129a728622f13f4123cda5ff9080b1814ba967d5  01-readiness-verification-record.txt
+cf0514c2aef73fcf8191493d582200822c5052debbc4f04891e2223afd5cc7e2  02-verification-transcript.txt
