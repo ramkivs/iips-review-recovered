@@ -1,11 +1,23 @@
 # ============================================================================
 # CAP-03 S2-DEP-A - governed byte-verbatim host-original deposit: operator
-# steps 1-5 of the published procedure (REV 2 - authorization-anchor guard).
-# REV 2 (recorded in tracker 16.187 / CHG-2026-10-29-09 on main): the rev-1
-#   equality gate "origin/main must equal 8292fe1c..." was self-invalidating -
-#   it rejected the current authoritative main advanced by this instrument's
-#   own publication (#359). Rev 2 authorizes via CONTENT anchors evaluated on
-#   the live origin/main at run time: (a) the bytes you are running equal the
+# steps 1-5 of the published procedure (REV 3 - terminal-state integrity).
+# REV 3 (recorded in tracker 16.188 / CHG-2026-10-29-10 on main): rev 2 emitted
+#   'RESULT: PASS' from inside the SAME unguarded block as the remote-head
+#   verification, so a push that succeeded but whose SHA check FAILED logged a
+#   terminal PASS (then a contradictory "nothing was pushed" footer, although a
+#   branch DID reach origin). Rev 3: push exit code is captured and a durable
+#   PUSH-COMPLETED marker is logged before any terminal statement; remote SHA
+#   mismatch blocks fail closed in their own gated block; the terminal result
+#   line is emitted exactly once via Set-Result and PASS only after all
+#   verification blocks passed; post-push exceptions with a completed push are
+#   recorded truthfully as partial post-push state (branch on origin, deposit
+#   NOT valid). The verification record is no longer mutated after staging: the
+#   host copy stays byte-identical to the committed copy (procedure step 4
+#   gates exactly those bytes; nothing appends afterwards); branch/head/drift
+#   metadata moves to the durable run log. No integrity gate was weakened.
+# REV 2 (record 16.187 / CHG-2026-10-29-09 on main): replaced the self-
+#   invalidating pinned-main equality gate with content anchors evaluated on
+#   the live origin/main at run time. (a) the bytes you are running equal the
 #   published instrument blob on origin/main; (b) the approval marker of the
 #   revision is present in the tracker on origin/main; (c) the governing
 #   procedure and manifest blobs on origin/main equal their sealed digests;
@@ -26,7 +38,7 @@
 #   tracker) proceeds per:
 #   procedure : evidence/integration/cap03-s2-dep-a-2026-10-29/03-host-transfer-minimal-operation.txt
 #   manifest  : evidence/integration/cap03-s2-dep-a-2026-10-29/02-deposit-manifest-expected.txt
-#   authority : tracker 16.183 (S2-ACC-A1; S2-DEP-A AUTHORIZED), 16.185, 16.186, 16.187 on main
+#   authority : tracker 16.183 (S2-ACC-A1; S2-DEP-A AUTHORIZED), 16.185, 16.186, 16.187, 16.188 on main
 # This script NEVER writes into the source evidence folder, never renames,
 # regenerates, re-seals, normalizes or reconstructs anything, and never touches
 # sibling folders (including any .inprogress or .seal-failed history): the
@@ -38,8 +50,8 @@ $ErrorActionPreference = 'Stop'
 $EXP_SEAL_SHA   = '9d3c09dbdb691c2527a45605dea20826b4ec2ba2f110985ee3f1033783b5225e'   # recorded self-hash of folder SHA256SUMS.txt (16.180; manifest 02)
 $EXP_PROC02_SHA = '9c9319fa3d7eaa822834c2f500e04dfec2b18d8157724843126a749b2bec91ab'   # sealed digest of the governing manifest (folder SHA256SUMS.txt on main)
 $EXP_PROC03_SHA = 'a1c94ba6a2b96e08a1dc9e7e1d2c73be92c6c38f09d74aa4f00c5d8e445e0ede'   # sealed digest of the governing procedure
-$BASELINE_MAIN  = '63f70682dac7c14250c807cd82f494773339c976'   # reviewed publication baseline (drift reference only; NOT an equality gate)
-$APPROVAL_MARKER = 'CHG-2026-10-29-09'                          # rev-2 approval record; must be present in the tracker on origin/main
+$BASELINE_MAIN  = '25486fd832eeff1abb4cb097c0077ed8eafd7b79'   # reviewed publication baseline (drift reference only; NOT an equality gate; movement is logged)
+$APPROVAL_MARKER = 'CHG-2026-10-29-10'                          # rev-3 approval record; must be present in the tracker on origin/main
 $INSTR_REL  = 'docs/integration/IIPS_v3.0_CAP03_S2_DEP_A_HOST_TRANSFER_2026-10-29.ps1'
 $TRACKER_REL = 'IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md'
 $DEP02_REL  = 'evidence/integration/cap03-s2-dep-a-2026-10-29/02-deposit-manifest-expected.txt'
@@ -68,6 +80,14 @@ function Write-Log([string]$m) {
 function Set-Blocked([string]$m) {
   $script:STATE = 'BLOCKED'
   Write-Log ('FAIL ' + $m)
+}
+$script:PUSHED = $false
+$script:RESULT = ''
+function Set-Result([string]$r) {
+  if ($script:RESULT -eq '') {
+    $script:RESULT = $r
+    Write-Log ('RESULT: ' + $r)
+  }
 }
 function Get-HostHash([string]$p) {
   $ok = Test-Path -LiteralPath $p
@@ -291,21 +311,36 @@ try {
     }
   }
   if ($STATE -eq 'PASS') {
+    Write-Log 'PHASE-9 push (reached only if every gate above passed); exit code captured; PUSH-COMPLETED marker precedes any terminal statement'
     & git.exe -C $REPOD push --quiet --set-upstream origin $BRANCH 2>&1 | ForEach-Object { Write-Log ('push: ' + $_.ToString()) }
-    if ($LASTEXITCODE -ne 0) { Set-Blocked ('push rejected (server hook? signing rule?). Commit is preserved at ' + $REPOD + '; report to PA with log ' + $LOG) }
+    $pushCode = $LASTEXITCODE
+    if ($pushCode -ne 0) { Set-Blocked ('push rejected (git exit ' + $pushCode + '; server hook? signing rule?). No ref update reached origin. Commit is preserved at ' + $REPOD + '; report to PA with log ' + $LOG) }
+    if ($pushCode -eq 0) {
+      $script:PUSHED = $true
+      Write-Log ('PUSH-COMPLETED git exit 0; branch ' + $BRANCH + ' now on origin; remote head SHA verification follows BEFORE any terminal result')
+    }
   }
   if ($STATE -eq 'PASS') {
+    Write-Log 'PHASE-10 remote head verification (its own gated block; failure here can never print a PASS)'
     $headSha = (& git.exe -C $REPOD rev-parse --verify HEAD).Trim()
-    $remoteLine = (& git.exe -C $REPOD ls-remote origin ('refs/heads/' + $BRANCH))
-    if ($remoteLine -notmatch $headSha) { Set-Blocked 'pushed ref does not match local head' }
-    Add-Content -LiteralPath $HASHES -Value ('# deposit branch ' + $BRANCH + ' head ' + $headSha + ' base ' + $BASE + ' reviewed-baseline ' + $BASELINE_MAIN + ' drift: ' + $DRIFT)
-    Write-Log 'RESULT: PASS'
+    $remoteOut = @(& git.exe -C $REPOD ls-remote origin ('refs/heads/' + $BRANCH))
+    $remoteLine = ($remoteOut -join ' ')
+    if ($remoteLine.Contains($headSha) -eq $false) {
+      Set-Blocked ('REMOTE SHA MISMATCH: local head ' + $headSha + ' not found on the origin ref (remote read: [' + $remoteLine + ']). PARTIAL POST-PUSH STATE: the branch exists on origin per PUSH-COMPLETED above; the deposit is NOT valid; do NOT open a deposit PR from it without PA review.')
+    }
+  }
+  if ($STATE -eq 'PASS') {
+    Write-Log 'PHASE-11 success record (the verification record is final: host copy stays byte-identical to the committed copy; post-push metadata is logged, never appended to the record)'
+    Write-Log ('deposit branch ' + $BRANCH + ' head ' + $headSha + ' base ' + $BASE + ' reviewed-baseline ' + $BASELINE_MAIN + ' drift: ' + $DRIFT)
     Write-Log ('branch=' + $BRANCH + ' head=' + $headSha + ' base=' + $BASE + ' drift=' + $DRIFT)
-    Write-Log ('source folder untouched; 19 paths (18 governed content files + 1 verification record) staged/committed/pushed; verification record: ' + $HASHES)
+    Write-Log ('source folder untouched; 19 paths (18 governed content files + 1 verification record, host copy byte-identical to committed copy) staged/committed/pushed; verification record: ' + $HASHES)
     Write-Log 'NEXT (agent side, step 6): independently verify pushed blob digests vs host digests above, open the dedicated deposit PR (base main), CI, merge, per-blob remote read-back, tracker record. No downstream gate is implied by the deposit.'
+    Set-Result 'PASS'
   }
   if ($STATE -ne 'PASS') {
-    Write-Log 'RESULT: BLOCKED - nothing was pushed. Work directory (if any) is preserved for inspection; source evidence untouched.'
+    Write-Log 'Terminal summary: work directory (if any) and all source evidence are preserved untouched.'
+    if ($script:PUSHED -eq $true) { Set-Result 'BLOCKED (post-push) - PUSH-COMPLETED is logged above: a branch exists on origin but its head SHA could not be confirmed or a gate failed after push; do NOT treat the deposit as valid; report the full log to PA.' }
+    if ($script:PUSHED -eq $false) { Set-Result 'BLOCKED - nothing was pushed; source evidence untouched; work directory (if any) preserved for inspection.' }
     Write-Log ('Report this log to the PA/agent: ' + $LOG)
   }
 }
@@ -313,8 +348,16 @@ catch {
   $script:STATE = 'BLOCKED'
   Write-Log ('EXCEPTION ' + $_.Exception.Message)
   Write-Log ('AT ' + $_.InvocationInfo.PositionMessage)
-  Write-Log 'RESULT: BLOCKED (exception) - source evidence untouched; nothing was pushed unless a push-completed line is logged above.'
+  if ($script:PUSHED -eq $true -and $script:RESULT -eq '') {
+    Set-Result 'BLOCKED (exception, post-push) - PUSH-COMPLETED is logged above: a branch MAY exist on origin; verify remote state before any reuse; source evidence untouched; deposit not claimed.'
+  }
+  if ($script:PUSHED -eq $true -and $script:RESULT -ne '') {
+    Write-Log 'EXCEPTION occurred AFTER the terminal result was logged (post-success bookkeeping only); terminal result unchanged.'
+  }
+  if ($script:PUSHED -eq $false) {
+    Set-Result 'BLOCKED (exception) - source evidence untouched; nothing was pushed (no PUSH-COMPLETED line above).'
+  }
 }
 Write-Host ''
-Write-Host ('S2-DEP-A host transfer finished with state: ' + $STATE + '   (log: ' + $LOG + ')')
+Write-Host ('S2-DEP-A host transfer finished: ' + $script:RESULT + '   (state ' + $STATE + '; log: ' + $LOG + ')')
 Read-Host 'Press ENTER when done reading the log above (terminal may then be closed)'
