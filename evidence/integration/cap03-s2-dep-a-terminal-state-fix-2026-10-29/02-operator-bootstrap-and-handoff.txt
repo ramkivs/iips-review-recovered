@@ -1,0 +1,29 @@
+CAP-03 S2-DEP-A - operator bootstrap + approved-hash attestation (rev-3 instrument). Supersedes the 02 handoff in cap03-s2-dep-a-guard-fix (its "committed copy plus trailer line" note no longer applies: the rev-3 record is frozen and byte-identical host==committed). Run ON DESKTOP-NO0NHTP where C:\iips-evidence exists. The agent cannot run it and claims no execution. No substitute files; no normalized copies.
+
+ONE copy-pasteable block (Windows PowerShell 5.1, non-elevated, from any location):
+
+$ErrorActionPreference = 'Stop'
+$src  = 'C:\iips-evidence\cap03-s2-a891802e'
+$want = '2f75baf818a3ab0c5acf1b6249cac12bf36f67487139d733a602118fa6e8994c'
+$boot = Join-Path $src ('deposit-bootstrap-' + (Get-Date).ToUniversalTime().ToString('yyyyMMddTHHmmssZ'))
+New-Item -ItemType Directory -Force -Path $boot | Out-Null
+& git.exe clone --quiet -- https://github.com/ramkivs/iips-review-recovered.git (Join-Path $boot 'repo') 2>&1 | ForEach-Object { Write-Host $_ }
+$ok = $true
+if ($LASTEXITCODE -ne 0) { $ok = $false; Write-Host 'BOOTSTRAP BLOCKED: clone failed (check network/credentials)' }
+if ($ok -eq $true) { cmd.exe /c ('cd /d ' + (Join-Path $boot 'repo') + ' && git cat-file blob refs/remotes/origin/main:docs/integration/IIPS_v3.0_CAP03_S2_DEP_A_HOST_TRANSFER_2026-10-29.ps1 > ' + (Join-Path $boot 'instrument.ps1')) | Out-Null }
+if ($ok -eq $true) { if ($LASTEXITCODE -ne 0) { $ok = $false; Write-Host 'BOOTSTRAP BLOCKED: extraction failed' } }
+$got = ''
+if ($ok -eq $true) { $got = (Get-FileHash -LiteralPath (Join-Path $boot 'instrument.ps1') -Algorithm SHA256).Hash.ToLower() }
+if ($ok -eq $true) { if ($got -ne $want) { $ok = $false; Write-Host ('BOOTSTRAP BLOCKED: published instrument hash ' + $got + ' != approved hash ' + $want + ' - main no longer carries the PA-approved rev-3 script; STOP and report to PA') } }
+if ($ok -eq $true) { Write-Host ('approved rev-3 instrument attested by hash and executing (it re-attests against origin/main and all authorization anchors internally)') }
+if ($ok -eq $true) { powershell.exe -NoProfile -ExecutionPolicy Bypass -File (Join-Path $boot 'instrument.ps1') }
+if ($ok -eq $false) { Write-Host 'Bootstrap stopped before any transfer; source untouched.' }
+if ($ok -eq $false) { Read-Host 'Press ENTER when done' }
+
+Parameters: none (constants embedded; stamp = UTC run time). Approved identity: docs/integration/IIPS_v3.0_CAP03_S2_DEP_A_HOST_TRANSFER_2026-10-29.ps1, SHA-256 2f75baf818a3ab0c5acf1b6249cac12bf36f67487139d733a602118fa6e8994c, git blob 30bbbbacde50fd0e40d8aca64f2792c181ed61f6, 363 lines, ASCII-only. Baseline/drift rule: reviewed baseline main 25486fd832eeff1abb4cb097c0077ed8eafd7b79; authority = content anchors at the fetched head (approval marker CHG-2026-10-29-10 in the tracker; sealed digests of governing 02/03; docs tip 2cc5bc4; instrument byte-identity); any movement is logged (MAIN-MOVED), any anchor miss blocks.
+
+OUTCOMES (exactly one terminal RESULT: line, rev-3 guarantee):
+  PASS - all gates green: 19/19 staged AND committed blobs byte-equal to host originals; branch cap03-s2-deposit-host-originals-<stamp> pushed; PUSH-COMPLETED logged before RESULT: PASS.
+  BLOCKED - nothing reached origin (no PUSH-COMPLETED) OR 'BLOCKED (post-push)' - a branch exists on origin but a post-push gate could not be confirmed; in ALL blocked cases: source folder untouched (read-only by design), deposit-host-hashes-<stamp>.txt frozen at staging, deposit-work-<stamp> and both stamped files preserved; do NOT hand-fix bytes, re-seal, or re-run S2.
+  EXCEPTION after RESULT: PASS (log bookkeeping only) - terminal result stands; the log carries 'terminal result unchanged' - report to PA anyway.
+RETURN: the two stamped files under C:\iips-evidence\cap03-s2-a891802e\, the branch name and head SHA (also printed), and the log. Agent step 6 then: independent per-blob verify (committed hash record now compares byte-identically to the host record - no trailer reconciliation needed), dedicated deposit PR, CI, merge, per-blob read-back, tracker discharge. Until then S2-DEP-A remains AUTHORIZED - OPEN and no deposit is claimed.
