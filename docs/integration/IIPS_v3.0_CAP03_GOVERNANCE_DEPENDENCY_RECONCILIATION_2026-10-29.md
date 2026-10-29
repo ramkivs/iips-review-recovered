@@ -170,6 +170,8 @@ The G4-PIN row is open: PACKAGE `docs/integration/IIPS_v3.0_CAP03_P1_PA_RULING_S
 
 ## 10. Dependency-ordered next steps
 
+> **Dated pointer (2026-10-29, `CV-CORR-182`, tracker §16.202; original text kept).** Under PA ruling PA-19 (consolidated package §3), H-1 to H-9 are PA-WAIVED — NOT A BLOCKER. This applies to the operator steps 3–5 below (A6, P-1-C/P-1-D capture and verification, D1 read-back, H-12 regeneration) and to the S2 deposit. The surviving technical prerequisites are T-1 (successor instrument validation before first use), T-2 (attempt observations for the P1-F act) and T-3 (H-12 artifact for adoption at a pin). The S2-DEP-A deposit is complete per tracker §16.194 (PR #366, `078e50cb`).
+
 1. **PA:** item 1 (source confirmation). Matter A, Matter B and the Gate 4 pin depend on it.
 2. **PA:** items 2–4 (A-Q4, A-Q5 sequencing, A-Q6); then item 5 (B-Q6).
 3. **PA:** item 6 (D-INST adoption). **Operator:** A6 on the designated host only after that adoption.
