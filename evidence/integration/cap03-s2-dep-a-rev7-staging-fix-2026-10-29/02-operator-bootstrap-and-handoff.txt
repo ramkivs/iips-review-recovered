@@ -1,0 +1,32 @@
+CAP-03 S2-DEP-A - operator bootstrap + approved-hash attestation (rev-7 instrument). Supersedes the 02 handoff in cap03-s2-dep-a-rev6-quiet-clone (rev-6, sha256 3d0f04d4...): rev 7 fixes PHASE-6 staging - the published add command carried a flag git only accepts with --dry-run, git refused it, and the fail-closed design blocked the run before anything was staged, committed or pushed. Rev 7 stages with a plain pathspec-restricted 'git add --' under an inner try with the exit code captured; all post-add gates (exactly 19 staged paths, evidence/cap03-s2/ prefix, PHASE-7 byte equality) are unchanged and remain the authority. Discard any locally-patched or rev-6 copy: only the bootstrap-extracted, hash-attested rev-7 bytes may run (PHASE-4b enforces this). The two aborted attempts consumed nothing - preserve their work dirs and stamped files exactly as they are; do NOT delete, edit or rerun anything inside them. Evidence layout, frozen hash record (host copy byte-identical to committed copy) and agent step 6 are UNCHANGED. Do NOT run any rev-3/rev-4/rev-5/rev-6 bootstrap. Run ON DESKTOP-NO0NHTP where C:\iips-evidence exists. The agent cannot run it and claims no execution. No substitute files; no normalized copies.
+
+ONE copy-pasteable block (Windows PowerShell 5.1, non-elevated, from any location):
+
+$ErrorActionPreference = 'Stop'
+$src  = 'C:\iips-evidence\cap03-s2-a891802e'
+$want = 'f06d98d57585d750a57b34ce48b14784a8ca0425e81d19b72b3ac01021559e73'
+$boot = Join-Path $src ('deposit-bootstrap-' + (Get-Date).ToUniversalTime().ToString('yyyyMMddTHHmmssZ'))
+New-Item -ItemType Directory -Force -Path $boot | Out-Null
+& git.exe clone --quiet -- https://github.com/ramkivs/iips-review-recovered.git (Join-Path $boot 'repo') 2>&1 | ForEach-Object { Write-Host $_ }
+$ok = $true
+if ($LASTEXITCODE -ne 0) { $ok = $false; Write-Host 'BOOTSTRAP BLOCKED: clone failed (check network/credentials)' }
+if ($ok -eq $true) { cmd.exe /c ('cd /d ' + (Join-Path $boot 'repo') + ' && git cat-file blob refs/remotes/origin/main:docs/integration/IIPS_v3.0_CAP03_S2_DEP_A_HOST_TRANSFER_2026-10-29.ps1 > ' + (Join-Path $boot 'instrument.ps1')) | Out-Null }
+if ($ok -eq $true) { if ($LASTEXITCODE -ne 0) { $ok = $false; Write-Host 'BOOTSTRAP BLOCKED: extraction failed' } }
+$got = ''
+if ($ok -eq $true) { $got = (Get-FileHash -LiteralPath (Join-Path $boot 'instrument.ps1') -Algorithm SHA256).Hash.ToLower() }
+if ($ok -eq $true) { if ($got -ne $want) { $ok = $false; Write-Host ('BOOTSTRAP BLOCKED: published instrument hash ' + $got + ' != approved hash ' + $want + ' - main no longer carries the PA-approved rev-7 script; STOP and report to PA') } }
+if ($ok -eq $true) { Write-Host ('approved rev-7 instrument attested by hash and executing (it re-attests against origin/main and all authorization anchors internally)') }
+if ($ok -eq $true) { powershell.exe -NoProfile -ExecutionPolicy Bypass -File (Join-Path $boot 'instrument.ps1') }
+if ($ok -eq $false) { Write-Host 'Bootstrap stopped before any transfer; source untouched.' }
+if ($ok -eq $false) { Read-Host 'Press ENTER when done' }
+
+Parameters: none (constants embedded; stamp = UTC run time). Approved identity: docs/integration/IIPS_v3.0_CAP03_S2_DEP_A_HOST_TRANSFER_2026-10-29.ps1, SHA-256 f06d98d57585d750a57b34ce48b14784a8ca0425e81d19b72b3ac01021559e73, git blob 3af97afca5cf4fc55355e43547cc2ecf4f4d5ebf, 535 lines, 38143 bytes, ASCII-only. Baseline/drift rule: reviewed baseline main f44c72e55f3de18e9b5130eb45c3f39158a26095; authority = content anchors at the fetched head (approval marker CHG-2026-10-29-15 in the tracker; sealed digests of governing 02/03; docs tip 2cc5bc4; instrument byte-identity); any movement of main is logged (MAIN-MOVED), any anchor miss blocks.
+
+OUTCOMES (rev-7 reporting contract - unchanged from rev 6 except the hardened PHASE-6 staging):
+  RESULT: PASS - ONLY when the push exited 0 AND the verification query to origin SUCCEEDED (exit 0) AND returned exactly one line '<this-run-head> refs/heads/<branch>'. PUSH-COMPLETED is always logged before PASS.
+  RESULT: BLOCKED (no push attempted) - a gate failed before PHASE-9 (covers initialization, clone, anchors, and any 'git add failed (exit N)' at PHASE-6 where NOTHING was committed); no ref update by this run is possible.
+  RESULT: BLOCKED (push rejected|indeterminate) - classified by the actual origin read, quoted inline; UNKNOWN states never claim absence; carries-head says non-publication CANNOT be claimed (no re-push, no force-update); absence only from a verifiable read.
+  RESULT: BLOCKED (post-push) - push exit 0 but verification did not complete: a branch EXISTS on origin per git's own report; deposit NOT valid; report to PA.
+  RESULT: BLOCKED (exception after push...) - 'a branch may exist on origin; verify before any reuse'.
+  In ALL blocked cases: source folder untouched (read-only by design); deposit-host-hashes-<stamp>.txt frozen at staging; deposit-work-<stamp> and both stamped files preserved (including the two earlier aborted attempts - do NOT delete or hand-fix anything).
+RETURN: the two stamped files under C:\iips-evidence\cap03-s2-a891802e\, the branch name and head SHA (also printed), the log, and - whenever shown - the quoted origin ref read. Agent step 6 then: independent per-blob verify (committed hash record byte-identical to the host record), dedicated deposit PR, CI, merge, per-blob read-back, tracker discharge. Until then S2-DEP-A remains AUTHORIZED - OPEN and no deposit is claimed.
