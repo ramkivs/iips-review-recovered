@@ -1,0 +1,67 @@
+CAP-03 S2-DEP-A push-indeterminate independent verification transcript
+inputs: refs fetched fresh from origin at verification time (sandbox; host-side outcomes below are operator-reported via PA, not sandbox-readable)
+deposit head reported by host log: 5133035109f3fa6a04b677790c880f058badfef8
+
+R1 origin refs matching cap03-s2-deposit*:
+5133035109f3fa6a04b677790c880f058badfef8	refs/heads/cap03-s2-deposit-host-originals-20261029T094829Z
+R2 commit object:
+tree 78b7582e8b7073ef4fedfd0bdf5d17905b027d01
+parent 963f71692ef85f1952352df5d7884b352fc14e1f
+author ramkivs <302525469+ramkivs@users.noreply.github.com> 1793267334 +0530
+committer ramkivs <302525469+ramkivs@users.noreply.github.com> 1793267334 +0530
+
+evidence(cap03): S2-DEP-A byte-verbatim host-original deposit of s2-a891802e-20261028T192516Z (16 sealed artifacts + seal + seal-recheck transcript + hash record = 19 paths); base main 963f7169; per procedure step 5
+R3 ancestry: rev-list count parent..deposit = 1 (expect 1); main at verification = 078e50cbe3fa2b33f6d1d82993d7e8e0c1ade835
+R4 tree delta outside evidence/cap03-s2/ (expect empty): ''
+R5 name-status (19 paths):
+  A  evidence/cap03-s2/deposit-host-hashes.txt
+  A  evidence/cap03-s2/s2-a891802e-20261028T192516Z.seal-recheck.txt
+  A  evidence/cap03-s2/s2-a891802e-20261028T192516Z/01-clone.txt
+  A  evidence/cap03-s2/s2-a891802e-20261028T192516Z/01b-checkout-pin.txt
+  A  evidence/cap03-s2/s2-a891802e-20261028T192516Z/02-npm-ci.txt
+  A  evidence/cap03-s2/s2-a891802e-20261028T192516Z/03-tsc-noemit.txt
+  A  evidence/cap03-s2/s2-a891802e-20261028T192516Z/04-build.txt
+  A  evidence/cap03-s2/s2-a891802e-20261028T192516Z/05-guarded-npm-test.txt
+  A  evidence/cap03-s2/s2-a891802e-20261028T192516Z/05b-test-summary.txt
+  A  evidence/cap03-s2/s2-a891802e-20261028T192516Z/06-package-consumer.txt
+  A  evidence/cap03-s2/s2-a891802e-20261028T192516Z/MANIFEST.json
+  A  evidence/cap03-s2/s2-a891802e-20261028T192516Z/RESULT.txt
+  A  evidence/cap03-s2/s2-a891802e-20261028T192516Z/SHA256SUMS.txt
+  A  evidence/cap03-s2/s2-a891802e-20261028T192516Z/s2-00-run-log.txt
+  A  evidence/cap03-s2/s2-a891802e-20261028T192516Z/s2-01c-pin-verification.txt
+  A  evidence/cap03-s2/s2-a891802e-20261028T192516Z/s2-04b-dist-count.txt
+  A  evidence/cap03-s2/s2-a891802e-20261028T192516Z/s2-04c-dist-sha256-before.txt
+  A  evidence/cap03-s2/s2-a891802e-20261028T192516Z/s2-08-post-run-pin.txt
+  A  evidence/cap03-s2/s2-a891802e-20261028T192516Z/s2-08b-dist-sha256-after.txt
+
+R6 frozen host hash record (committed, canonical name) -> per-blob sha256+bytes vs branch:
+  01-clone.txt                               0353321e9b1a42b2c1597fff6d61761482f3246b7a17f6c5b6e6d8cfd9cbd9b2  bytes=422/422 OK
+  01b-checkout-pin.txt                       b1d6784869a37167e84639dd18836e7882da325b5850a0523c9f2e11ae05388e  bytes=452/452 OK
+  02-npm-ci.txt                              a66db000f833663bcae1d6c6f680483cb6a3aeedfe3ca63e97be0919bb77afee  bytes=649/649 OK
+  03-tsc-noemit.txt                          f5258290d988b0f4dd012f7ad0394c42383deb9cc05be51084402deedcf398eb  bytes=290/290 OK
+  04-build.txt                               76fc494ad49f3f4ab3e1feabce1958ebf164c73e03e2e20215dce701f980bac3  bytes=1463/1463 OK
+  05-guarded-npm-test.txt                    4c1f9e9989c3d23296671697495452877ad94c8548b07265fff231e53d090c5e  bytes=5005059/5005059 OK
+  05b-test-summary.txt                       95b3f0498629366248cc2f417bac881afc6373729099cc4c2b68bd0b8a3c3b93  bytes=1382/1382 OK
+  06-package-consumer.txt                    525075817f5bc9097c122fdf02e7a2d0e56a8be90e12c7bd702a746f5c31b0ca  bytes=3190/3190 OK
+  RESULT.txt                                 13d311a2633aab1f89386fe37c2b9b04567ef36297a6a110d0057793fc4bafbc  bytes=743/743 OK
+  s2-00-run-log.txt                          843a34d333fb015d1f8c899586e0e2967fee490ead93d364f80780a6429652d3  bytes=3916/3916 OK
+  s2-01c-pin-verification.txt                53ec416cd912cb908aaba7f010298b741d703034ea13aa6f176b55aed457eabe  bytes=168/168 OK
+  s2-04b-dist-count.txt                      5b06f556fbd58489f518f244e66b38b88eeb2f0c53b1070e7d668a4ca9da09ba  bytes=39/39 OK
+  s2-04c-dist-sha256-before.txt              fd8af62c8200cfd3e5b02b94610d63663ac657827414d011572f5001a5ca79d4  bytes=130856/130856 OK
+  s2-08-post-run-pin.txt                     5f5d2979b64ef54444a3a11a3b839c310471642599531f98e6ccca4364a91130  bytes=123/123 OK
+  s2-08b-dist-sha256-after.txt               fd8af62c8200cfd3e5b02b94610d63663ac657827414d011572f5001a5ca79d4  bytes=130856/130856 OK
+  MANIFEST.json                              ff27751ba19d825cb42ac62dd247be0b22e90e52c40da4e69767079f55f0c51f  bytes=3280/3280 OK
+  SHA256SUMS.txt                             9d3c09dbdb691c2527a45605dea20826b4ec2ba2f110985ee3f1033783b5225e  bytes=1379/1379 OK
+  s2-a891802e-20261028T192516Z.seal-recheck.txt d4c5d9431115bf57d824df465e3d99b11c619bc6d59a3f0974036f3bfcc2f7ca  bytes=1563/1563 OK
+  record lines verified: 18 / 18 (18 expected)
+R7 MANIFEST artifacts vs branch blobs: 15 / 15
+R8 sealed SHA256SUMS lines vs branch folder: 16 / 16 (16 incl MANIFEST)
+R9 published-vs-committed byte identity at pinned docs tip 2cc5bc4302436f8ae6d84a9e657b8c1ed06b5478
+  MANIFEST.json equal: True | SHA256SUMS.txt equal: True
+R10 transcript: cites seal digest 9d3c09db: True | Recheck1 issues 0: True | Recheck2 issues 0: True | Final status PASS: True
+R11 INFO docs-branch renderings == branch bytes modulo CRLF: 15/15 (pre-byte-gate publication form; deposit carries host originals verbatim)
+R12 record self-identity on branch: sha256(deposit-host-hashes.txt) = ffd0956482427acb404543e36dac2705d802b04828e380290232c06129f3afad (covers 18 content paths; is itself the 19th; frozen at staging; no trailer)
+R13 RESULT.txt (sealed artifact) first lines:
+  STATUS: PASS
+  REASON: all S2 criteria met at the designated pin (native Windows host)
+  RUN ID: s2-a891802e-20261028T192516Z
