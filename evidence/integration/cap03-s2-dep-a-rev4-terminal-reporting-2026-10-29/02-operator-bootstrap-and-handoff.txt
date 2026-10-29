@@ -1,0 +1,32 @@
+CAP-03 S2-DEP-A - operator bootstrap + approved-hash attestation (rev-4 instrument). Supersedes the 02 handoff in cap03-s2-dep-a-terminal-state-fix (rev-3, sha256 2f75baf8...): rev 4 corrects terminal reporting (init boundary + five-state push outcome with origin consultation); the evidence layout, stamped-file names and agent step 6 are UNCHANGED from rev 3, including the frozen hash record (host copy byte-identical to committed copy). Run ON DESKTOP-NO0NHTP where C:\iips-evidence exists. The agent cannot run it and claims no execution. No substitute files; no normalized copies.
+
+ONE copy-pasteable block (Windows PowerShell 5.1, non-elevated, from any location):
+
+$ErrorActionPreference = 'Stop'
+$src  = 'C:\iips-evidence\cap03-s2-a891802e'
+$want = 'd94e5824c76ca7a47aa458d30b9451e0e9012cdd7b8e584dcdcff636a6c41280'
+$boot = Join-Path $src ('deposit-bootstrap-' + (Get-Date).ToUniversalTime().ToString('yyyyMMddTHHmmssZ'))
+New-Item -ItemType Directory -Force -Path $boot | Out-Null
+& git.exe clone --quiet -- https://github.com/ramkivs/iips-review-recovered.git (Join-Path $boot 'repo') 2>&1 | ForEach-Object { Write-Host $_ }
+$ok = $true
+if ($LASTEXITCODE -ne 0) { $ok = $false; Write-Host 'BOOTSTRAP BLOCKED: clone failed (check network/credentials)' }
+if ($ok -eq $true) { cmd.exe /c ('cd /d ' + (Join-Path $boot 'repo') + ' && git cat-file blob refs/remotes/origin/main:docs/integration/IIPS_v3.0_CAP03_S2_DEP_A_HOST_TRANSFER_2026-10-29.ps1 > ' + (Join-Path $boot 'instrument.ps1')) | Out-Null }
+if ($ok -eq $true) { if ($LASTEXITCODE -ne 0) { $ok = $false; Write-Host 'BOOTSTRAP BLOCKED: extraction failed' } }
+$got = ''
+if ($ok -eq $true) { $got = (Get-FileHash -LiteralPath (Join-Path $boot 'instrument.ps1') -Algorithm SHA256).Hash.ToLower() }
+if ($ok -eq $true) { if ($got -ne $want) { $ok = $false; Write-Host ('BOOTSTRAP BLOCKED: published instrument hash ' + $got + ' != approved hash ' + $want + ' - main no longer carries the PA-approved rev-4 script; STOP and report to PA') } }
+if ($ok -eq $true) { Write-Host ('approved rev-4 instrument attested by hash and executing (it re-attests against origin/main and all authorization anchors internally)') }
+if ($ok -eq $true) { powershell.exe -NoProfile -ExecutionPolicy Bypass -File (Join-Path $boot 'instrument.ps1') }
+if ($ok -eq $false) { Write-Host 'Bootstrap stopped before any transfer; source untouched.' }
+if ($ok -eq $false) { Read-Host 'Press ENTER when done' }
+
+Parameters: none (constants embedded; stamp = UTC run time). Approved identity: docs/integration/IIPS_v3.0_CAP03_S2_DEP_A_HOST_TRANSFER_2026-10-29.ps1, SHA-256 d94e5824c76ca7a47aa458d30b9451e0e9012cdd7b8e584dcdcff636a6c41280, git blob 54af18c84b29a6a3d54f89600a14f33f3adf6ad0, 441 lines, 30829 bytes, ASCII-only. Baseline/drift rule: reviewed baseline main 1bc39c06df7eb505c6124467fb7316982384c7aa; authority = content anchors at the fetched head (approval marker CHG-2026-10-29-11 in the tracker; sealed digests of governing 02/03; docs tip 2cc5bc4; instrument byte-identity); any movement is logged (MAIN-MOVED), any anchor miss blocks.
+
+OUTCOMES (rev-4 reporting contract - every in-script path ends with exactly one terminal RESULT: line, console-first; if the durable log could not be opened the RESULT line still appears on the console and says so; an external process kill remains outside any script's guarantee):
+  RESULT: PASS - emitted ONLY when the push exited 0 AND origin was read back showing the branch carrying this run's head (state 'verified'). PUSH-COMPLETED is always logged before it. 19/19 paths staged AND committed blobs byte-equal to host originals.
+  RESULT: BLOCKED (no push attempted) - a gate failed before PHASE-9 (this wording also covers initialization failure); no ref update by this run is possible.
+  RESULT: BLOCKED (push rejected) / BLOCKED (push indeterminate) - origin was consulted first; the RESULT quotes the actual ref read. A 'no published branch from this run' statement appears only when the read was verifiable; an unverifiable read is reported as INDETERMINATE - never as absent - and you must treat the outcome as unknown.
+  RESULT: BLOCKED (post-push) - push completed (exit 0) but verification did not finish: A BRANCH EXISTS on origin; the deposit is NOT valid from this run. Do not delete or force-update anything; report to PA.
+  RESULT: BLOCKED (exception after push...) - 'a branch may exist on origin; verify before any reuse' - treat as unknown until the quoted ref read says otherwise.
+  In ALL blocked cases: source folder untouched (read-only by design), deposit-host-hashes-<stamp>.txt frozen at staging, deposit-work-<stamp> and both stamped files preserved; do NOT hand-fix bytes, re-seal, re-push blindly, or re-run S2. If the RESULT says indeterminate and you intend to re-run, report to PA first so the existing ref state is recorded.
+RETURN: the two stamped files under C:\iips-evidence\cap03-s2-a891802e\, the branch name and head SHA (also printed), the log, and - whenever shown - the quoted origin ref read. Agent step 6 then: independent per-blob verify (committed hash record compares byte-identically to the host record), dedicated deposit PR, CI, merge, per-blob read-back, tracker discharge. Until then S2-DEP-A remains AUTHORIZED - OPEN and no deposit is claimed.

@@ -1,0 +1,2 @@
+8e7a162d38dfea547a3446849661648ca157b49a31eb8b8ffcb72942f3b153cb  01-rev4-integrity-review-and-fix-record.txt
+d6a42781a412a27de3267745ad27b6e1598f00455a5975844d158ea14be2150e  02-operator-bootstrap-and-handoff.txt
