@@ -2,7 +2,7 @@
 
 > **STATUS: PROPOSED — NOT ADOPTED — NOT EFFECTIVE.** This is the single decision package for the CAP-03 sitting. Every "recommendation" below is an IRR recommendation for PA consideration. It is not a decision. Proposed wording becomes effective only when the PA adopts it in a dated act recorded in the authoritative record. Preparing this package authorizes nothing: no P-1, no capture, no A6 run, no host action, no QE, no Gate 4 execution, no Gate 5 admission, no IPD write, no durable write, no gate, pin, acceptance, qualification, admission, authorization or capability status change.
 >
-> **PA WAIVER RECORDED — PA-19 (2026-10-29; authority: Ramki, PA and sole user; scope: IIPS v3.0 CAP-03, non-production, single-user).** Items **H-1 through H-9** of §5 are **PA-WAIVED — NOT A BLOCKER** as governance, documentary and workflow blockers. PA-19 is an affirmative PA ruling and is effective on its recording in §3 and in tracker §16.202. It does not decide PA-01 to PA-18, which remain PROPOSED — NOT ADOPTED. It does not establish any fact that was not established before. Surviving technical prerequisites are limited to T-1 to T-3 in §5.2.
+> **PA WAIVER RECORDED — PA-19 (2026-10-29; authority: Ramki, PA and sole user; scope: IIPS v3.0 CAP-03, non-production, single-user).** Items **H-1 through H-9** of §5 are **PA-WAIVED — NOT A BLOCKER** as governance, documentary and workflow blockers. PA-19 is an affirmative PA ruling and is effective on its recording in §3 and in tracker §16.202. It does not decide PA-01 to PA-18, which remain PROPOSED — NOT ADOPTED. It does not establish any fact that was not established before. Surviving technical prerequisites are limited to T-1 to T-4 in §5.2 (T-4 added on 2026-10-29, pass 4). Pass-4 dispositions of PA-01 to PA-18 are recorded under each item in §3; none is a PA act.
 >
 > Tracker pointers: §16.200 (`CV-CORR-180`, PR #374, merge `d7352ed`), §16.201 (`CV-CORR-181`, PR #375, merge `f980f10`) and §16.202 (`CV-CORR-182`, PA-19, this revision). This file replaces the 2026-10-29 first draft in place; the first draft's decision list was incomplete and is superseded here.
 
@@ -17,7 +17,7 @@
 1. Read §1 (verified baseline) and §2 (resolved items; not for decision). Do not re-open §2 items without new evidence.
 2. Decide the items in §3 in the order given in §4. Each decision has an ID (`PA-nn`). Adopt, amend or decline each by ID. Do not combine IDs unless the text says so.
 3. Each decision lists what it unlocks and what stays blocked after adoption. Adoption of one decision never authorizes a downstream step; the downstream step needs its own prerequisites (§4.2).
-4. Operator evidence items H-1 to H-9 (§5) are PA-WAIVED as blockers by PA-19 (§3). PA-19 supplies no evidence and establishes no fact. Technical prerequisites that survive are T-1 to T-3 (§5.2).
+4. Operator evidence items H-1 to H-9 (§5) are PA-WAIVED as blockers by PA-19 (§3). PA-19 supplies no evidence and establishes no fact. Technical prerequisites that survive are T-1 to T-4 (§5.2).
 
 ---
 
@@ -79,6 +79,8 @@ Each entry: question; evidence; conflicting statements; choices and consequences
 
 ### PA-01 — Source confirmation (companion §9.1)
 
+**Pass-4 disposition (2026-10-29): PA DECISION REQUIRED — record conflict; not resolvable by IRR.** The designation record (`docs/integration/IIPS_v3.0_CAP03_PA_DESIGNATION_RECORD_PASS2_2026-10-28.md`, verification annotation items 1–4, `CV-CORR-178`) states that G4P-1, B-1, A-O3 and A-Q4 = YES were ruled. The rulings record lists A-Q4 as 'not ruled in this pass (remain open)' (`docs/integration/IIPS_v3.0_CAP03_PA_RULINGS_RECORD_PASS2_2026-10-28.md` §1 and §5). The packet rows carry 'RECOMMENDATION ONLY – NOT ADOPTED'. A-Q6 (item v) is recorded as cleared in rulings §8 (see PA-04). Items (i)–(iv) are not confirmed by any record in the repository and are not treated as confirmed here.
+
 - **Question.** Did the PA give the following rulings, which the designation record states but the rulings record does not contain: (i) `G4P-1` (Gate 4 QE/H-12 pin `a891802e`); (ii) `B-1` (= B-Q1, P-1 coordinate `a891802e`); (iii) `A-O3` (A-Q5 mechanism); (iv) `A-Q4 = YES`; (v) clearance of `A-Q6`?
 - **Evidence.** Designation record header (`docs/integration/IIPS_v3.0_CAP03_PA_DESIGNATION_RECORD_PASS2_2026-10-28.md`): states all five; line 55: "A-Q6 is cleared only by that act". Rulings record (`…RULINGS_RECORD_PASS2_2026-10-28.md` §1 line 20 and §5): A-Q4, A-Q5 mechanism and target commit, A-Q6 "not ruled"; `B-Q1` and `G4-PIN` "not decided here". Tracker §16.196: A-Q4 "Not ruled … OPEN". Sitting packet `06-recommendations.tsv`: every row `RECOMMENDATION ONLY - NOT ADOPTED`. The sitting-response text that would establish any of the five is not in the repository (companion §1).
 - **Conflicting statements.** Designation record (five rulings) vs rulings record and tracker (not ruled). The A-Q5 result record (§2) and the S1 handoff record cite the designation record as governing.
@@ -93,6 +95,8 @@ Each entry: question; evidence; conflicting statements; choices and consequences
 - **Still blocked after adoption.** Everything in §5; P-1; QE; Gate 4 execution; Gate 5.
 
 ### PA-02 — A-Q4: authorizing record for the two PR #96 paths
+
+**Pass-4 disposition: PA DECISION REQUIRED.** Re-verified: `521d5482` (`docs/integration/IIPS_v3.0_CAP03_S2_CANDIDATE_SCOPED_BASELINE_DISPOSITION_2026-10-26.md`, line 46) names exactly the two PR #96 paths as its change set. Rulings §1 and §5 still list A-Q4 as not ruled. No recorded PA act answers it. Not a P-1 prerequisite (PA-14 list); needed for the Matter A record.
 
 - **Question.** Do `scripts/verify-public-package.mjs` and `tests/portfolio_ui_package.test.ts` (IPD PR #96, merge `1e76f4cf`, head `001c3c80`, merged `2026-10-26T10:12:18Z`) require an authorizing record, and if so, which record?
 - **Evidence.** The `521d5482` disposition (`…S2_CANDIDATE_SCOPED_BASELINE_DISPOSITION_2026-10-26.md`, line 46) names exactly these two paths as its change set (verified this pass; see C-A). Its own text states it is not a qualification, acceptance, admission or implementation grant. IPD `aa43dec2` (PR #103 merge) changes one path, `evidence/cross-repository/IIPS_V3_CAP02_IPD_EXECUTION_TRACKER_2026-10-23.md`, and names neither PR #96 path (companion §2). The act's own file table for `tests/portfolio_ui_package.test.ts` (IRR `…BROKER_IMPORT_UI_COMPOSITION_ACT_2026-10-23-02.md`) creates the path, and the act does not authorize later modification (companion §2).
@@ -109,6 +113,8 @@ Each entry: question; evidence; conflicting statements; choices and consequences
 
 ### PA-03 — A-Q5: treatment of the executed IPD act `0edadb2d`
 
+**Pass-4 disposition: PA DECISION REQUIRED (sequencing ratification only).** The executed act is verified on IPD `main`: `0edadb2d` (IPD PR #107 merge, `2026-10-28T15:30:43Z`). The PA's round-5 ruling (rulings §8) records the designated-blob and basis effects and 'Matter A closed as to the act §7 closure test'. The express ratification of the sequencing deviation (act executed before A-Q4 was ruled) is not recorded as a PA act. The PA-04 clearance below rests on the round-5 ruling in §8, not on this ratification, which remains open as a documentary item.
+
 - **Question.** The IPD act (IPD PR #107, merge `0edadb2d`, `2026-10-28T15:30:43Z`; IPD-side) re-designated §2.1 items 10 and 12 by mechanism A-O3 at `a891802e`. A-Q5 was executed while A-Q4 was open, against the register order. How is the executed act treated?
 - **Evidence.** Result record `docs/integration/IIPS_v3.0_CAP03_IPD_A-Q5_RESULT_RECORD_2026-10-28.md` §2 and header (mechanism A-O3; target commit `a891802e`; "No ruling is reopened"). Rulings §1: A-Q5 mechanism and target commit "not ruled (recommended A-O3 at C′ `a891802e`)". Rulings §8: basis-limb reading (ii) ruled; designated-blob limb cleared. Tracker §16.176.9 items 1 and 4: A-Q5 belongs to Sitting 3, after A-Q1 to A-Q4. Companion §3.
 - **Conflicting statements.** Result record (A-O3 and `a891802e` ruled) vs rulings §1 (not ruled). The act touches only items 10 and 12; it does not touch the PR #96 paths (companion §3).
@@ -124,6 +130,8 @@ Each entry: question; evidence; conflicting statements; choices and consequences
 
 ### PA-04 — A-Q6: §8.2 stop, designated-blob and basis limbs
 
+**Pass-4 disposition: RESOLVED by an existing recorded PA ruling.** Designated-blob limb CLEARED for items 10 and 12, and basis limb CLEARED under reading (ii), per rulings §8 (round-5 PA ruling) and the A-Q5 result record §3–§4 (`docs/integration/IIPS_v3.0_CAP03_IPD_A-Q5_RESULT_RECORD_2026-10-28.md`). The condition in rulings §4 (clearance only once A-Q5 is executed as a fresh designation act) is met by the executed act `0edadb2d`. Identity limb: PA-15. Host, Node, P-1 and V-A2 limbs remain gated and unverified. No other §8.2 limb is cleared by this disposition.
+
 - **Question.** Is the §8.2 stop ("Basis commit/tree or any designated blob differs … stop, record, do not proceed") cleared, and on what basis?
 - **Evidence.** A-Q5 result record §3 and §4: designated-blob limb CLEARED (items 10 and 12); basis limb CLEARED under reading (ii); host, Node, P-1 and V-A2 limbs gated and unverified; identity limb per PA-15. Rulings §4: "A-Q6 is not cleared by these rulings … clears only when A-Q5 is executed as a fresh designation act." Rulings §8: designated-blob limb and basis limb cleared; "B-1 still not effective". Designation record line 55: cleared "only by that act". Companion §3.
 - **Conflicting statements.** Rulings §4 (clears only on a fresh designation act) vs A-Q5 result record §4 (CLEARED on the 2026-10-28 act). The status depends on PA-03.
@@ -138,6 +146,8 @@ Each entry: question; evidence; conflicting statements; choices and consequences
 
 ### PA-05 — B-Q6: eligibility of `aa43dec2` as a Matter B candidate
 
+**Pass-4 disposition: NOT A BLOCKER — no operation depends on it.** No record designates `aa43dec2`. The designation records (`PA_DESIGNATION_RECORD_PASS2_2026-10-28.md` §1–§3) name only `a891802e` and its blobs. The packet recommendation (not eligible) is not adopted. The PA may still decide eligibility; no P-1, S2 or Gate 4 step is affected.
+
 - **Question.** Is IPD `aa43dec2` (merge of PR #103) eligible as a Matter B designation target?
 - **Evidence.** Packet `06-recommendations.tsv`, row B-Q6: "NOT ELIGIBLE as a Matter B designation target … `aa43dec2` changes only the IPD tracker against `a9cd18e8` (+120/−0), and its runtime blobs equal `a9cd18e8`." Companion §2: one changed path, `evidence/cross-repository/IIPS_V3_CAP02_IPD_EXECUTION_TRACKER_2026-10-23.md`; names neither PR #96 path. Companion §9.5: "Not ruled".
 - **Choices and consequences.**
@@ -150,6 +160,8 @@ Each entry: question; evidence; conflicting statements; choices and consequences
 - **Still blocked after adoption.** PA-08 designation remains blocked until PA-04 and the other §4.6 steps are complete.
 
 ### PA-06 — S2 admission basis (companion §9.0; packet Q-S2-1 / Q-B7 remainder)
+
+**Pass-4 disposition: PA DECISION REQUIRED (sequencing and admission).** Facts: the native run `s2-a891802e-20261028T192516Z` is recorded at `2026-10-28T19:25:17Z`–`19:29:15Z` (S2-ACC-A1 §2(a)). Route (c) requires the designation act before the run (rulings §2). The designation record's pin designation (Designation A, §4.6 step 4) carries no timestamp in the repository, so the sequence cannot be checked from the repository. Under PA-19 no repeat run is needed. The PA decides option (a), (b) or (c) only.
 
 - **Question.** For downstream reliance (Gate 4 Limb A, the P-1 chain and L2a), which S2 result is admitted: the native run at `a891802e`, the candidate-scoped `001c3c80` acceptance, or both? And does the existing native run satisfy the "fresh S2 at the designated commit" requirement?
 - **Evidence.**
@@ -171,6 +183,8 @@ Each entry: question; evidence; conflicting statements; choices and consequences
 
 ### PA-07 — Labels (Q-N1, Q-B5, and the PF-11 and Limb A collisions)
 
+**Pass-4 disposition: PA DECISION (label-only; non-blocking).** No gate, operation or P-1 step depends on the labels. Not adopted in this pass.
+
 - **Question.** Adopt the label scheme for the four uses of "S2" (packet §16.7 N-2), for the matter and G4-PIN option aliases (Q-N1), and for the PF-11 and Limb A collisions. Label-only; no substantive effect.
 - **Evidence.** Packet rows Q-N1, Q-B5; sitting package §5.7; companion §9 (not an item).
 - **Choices and consequences.** (a) Adopt the packet's labels. (b) Substitute labels. No gate depends on any label.
@@ -185,6 +199,8 @@ Each entry: question; evidence; conflicting statements; choices and consequences
 Three separate decisions, because they are different authority acts.
 
 **PA-08a — Which commit is the P-1 execution commit of record?**
+
+**Pass-4 disposition: RESERVED PA DESIGNATION — technical finding recorded; conflict not resolved by IRR.** Verified on IPD source: `a891802e` (tree `76f083d7`) carries the receipt fields `executingCommit` / `executingTree` in `src/persistence/gateAPrimeProvisioning.ts` (blob `5f49936b`; lines 103–104, 123–124, 269–271). `001c3c80` (tree `399fa44a`) does not (blob `2cbce83f`; zero matches for `executingCommit`). The adopted receipt rule (PA-5 §5.1; DA-A1) requires each receipt to record the executing HEAD and tree, so `001c3c80` cannot meet that rule as an execution commit without a waiver. The conflict between ADP-D1 (rulings §6: `a891802e`) and DA-A1 step 0 (`001c3c80`) stays a reserved PA act (designation record annotation item 5). Formal §4.2 requires a separate PA designation act naming the commit, tree and blobs; it has not been given.
 
 - **Evidence.**
   - `001c3c80`: DA-A1 (adoption record §2, line 20, adopted 2026-10-28, limited): the "act-designated pin" for successor act §8 step 0 and §8.2, candidate-scoped; "Acknowledgement is not a grant … Does not authorize P-1"; the authorization act "must name the execution commit explicitly". `521d5482` §5(b): `001c3c80` is "the coordinate at which P-1 of record would be executed".
@@ -203,6 +219,8 @@ Three separate decisions, because they are different authority acts.
 
 **PA-08b — Step-0 pin (DA-A1) versus the execution commit.**
 
+**Pass-4 disposition: CONDITIONAL on PA-08a.** Formal §4.2 states that the procedure's PF-08 expectation of `001c3c80` must be revised by a later procedure revision after the commit is designated. No revision is made in this pass.
+
 - **Question.** Are the DA-A1 "act-designated pin" (successor act §8 step 0 and §8.2) and the P-1 execution commit the same commit?
 - **Evidence.** DA-A1 reads the act-designated pin as `001c3c80`. The A-Q5 result record names `a891802e` as the designated basis for the designated blobs. Rulings §8 treats the basis limb as cleared on constants versus the selected basis `5fc74085` / `7226ef00`, with the executing commit recorded through the D2 receipt (reading (ii)).
 - **Choices and consequences.**
@@ -214,6 +232,8 @@ Three separate decisions, because they are different authority acts.
   > "PA-08b: [i / ii / iii]. The act-designated pin for successor act §8 step 0 and §8.2 is `[commit]`. DA-A1 is [superseded for this reading / unchanged]."
 
 **PA-08c — Scope of "final execution commit" (DA-A1 open item D1).**
+
+**Pass-4 disposition: CONDITIONAL on PA-08a.** ADP-D1 (rulings §6) scopes the adopted wording to the P-1 execution commit and limits manifest regeneration to 'where Gate 4 §8 applies'. On its face that matches option (a). DA-A1 D1 is recorded as 'not resolved by this record' (adoption record §3). The PA confirms option (a) together with PA-08a.
 
 - **Question.** Does the determination's "final execution commit" (§7; DA-A1 D1) apply to P-1 only, or to the QE and Gate 4 chain as well?
 - **Evidence.** Adoption record §3 D1: "not resolved by this record". ADP-D1 is worded for P-1 only. Gate 4 pin is G4-PIN (PA-09).
@@ -227,6 +247,8 @@ Three separate decisions, because they are different authority acts.
 **PA-08 still blocked after adoption.** L2a admission (PA-06); H-12 adoption at the designated commit (PA-10b, T-3); P1-F (PA-14); P-1 execution and the attempt observations (PA-13, T-2). The repeat S2 run (H-7) and the H-12 regeneration (H-9) are not blockers under PA-19.
 
 ### PA-09 — G4-PIN: Gate 4 QE and H-12 content pin
+
+**Pass-4 disposition: PA DECISION REQUIRED (Gate 4 chain).** Depends on PA-01 (i). Under PA-1 (formal §3.1, ADOPTED) and formal §4.2, H-12 adoption and the QE/H-12 pin are not preconditions of P-1 provisioning. The packet's P1-F list still names L2c (PA-10a); that is designation evidence, and H-9 is PA-WAIVED (PA-19). No Gate 4 designation is made in this pass.
 
 - **Question.** Which commit is the Gate 4 QE and H-12 content pin: G4P-1 (`a891802e`), G4P-2 (requires new IPD implementation authority) or G4P-3?
 - **Evidence.** Packet row G4-PIN: "G4P-1: accept `a891802e` (not `001c3c80`) as the QE/H-12 content pin, with express scope acceptance of the non-Limb-A content, and regenerate H-12 at `a891802e`." Rulings §2 route (c). Gate 4 act §3.2 (no silent re-pin; `5fc74085` reconciliation base predates later deltas, per IRR tracker line 8294). Companion §5 step 4: "Unverified" (G4P-1 appears only in the designation record). Formal §4.6 step 4.
@@ -244,12 +266,17 @@ Three separate decisions, because they are different authority acts.
 ### PA-10 — H-12 at the designated commit: regeneration (L2c), adoption (S2a), and its P-1 relevance
 
 - **PA-10a — H-12 regeneration at the designated commit (L2c).** Question: direct H-12 regeneration with full validation at the commit designated under PA-08a or PA-09. Status under PA-19: H-9 is PA-WAIVED as a blocker; regeneration remains the technical prerequisite T-3 for H-12 adoption (PA-10b) only. Evidence: formal §4.6 step 5; rulings §6 B-Q4 (H-12 regeneration gates L2a); tracker: "H-12 at `a891802e` (L2c) NOT ADOPTED AT THIS PIN; not started". Options: (a) direct regeneration at the designated commit; (b) defer. Recommendation: (a), at the commit chosen under PA-08a/PA-09. Proposed wording: "PA-10a: [direct / defer] H-12 regeneration with full validation at `[commit]`."
+  - **Pass-4 disposition: NOT ADVANCED in this pass.** Its own path (L2c, Gate 4 QE/H-12 content) is gated by PA-09 and is not a P-1 prerequisite (PA-10c). No direction in this pass requires it. No regeneration was started and no artifact was produced. Nothing here is recorded as performed.
 - **PA-10b — H-12 adoption at that pin (S2a).** Question: adopt H-12 at the regenerated pin. Evidence: tracker §16.177.3 (R5 adoption effective only at its own pins `8eec74ae…` / `ba64b2d5…`); S2a "NOT ADOPTED" (companion §4). Options: (a) adopt after PA-10a; (b) defer. Recommendation: (a) only after PA-10a evidence exists. Proposed wording: "PA-10b: [adopt / defer] H-12 at `[commit]`, regenerated under PA-10a. This adoption is effective only at its own pins."
+  - **Pass-4 disposition: DEFERRED.** Depends on PA-10a and on T-3 (regenerated H-12 artifact at the pin). Not a P-1 prerequisite. Not advanced in this pass.
 - **PA-10c — Is H-12 adoption (S2a) a P-1 prerequisite?** Question: Formal PA-1 (§3.1, adopted): "H-12 adoption is not a prerequisite for P-1 provisioning". The packet's P1-F blocker list (row P1-F) and companion §4 sequence both list S2a before P1-F. Choices: (a) Follow PA-1: S2a is not a P1-F prerequisite; S2a is required before S3 and QE (Gate 4 §6). (b) S2a is a P1-F prerequisite as the packet and companion list. Recommendation: (a), because PA-1 is adopted and specifically addresses P-1 provisioning. Proposed wording: "PA-10c: [a / b]. For P1-F, H-12 adoption (S2a) is [not a prerequisite / a prerequisite]."
+  - **Pass-4 disposition: RESOLVED by existing authority.** Formal PA-1 §3.1 (ADOPTED; formal table row PA-1) states that H-12 adoption is not a prerequisite for P-1 provisioning. S2a is therefore not a P1-F prerequisite. S2a remains required before S3 and QE (formal §3.1 consequence). The DQ-4 freeze sequence (tracker §16.122.9(b)) lists H-12 adoption before the P-1 step. That is a freeze-level sequence and is not changed here; the PA-1 interpretation governs P-1 authority.
 - **Unlocks.** PA-10a enables L2c; PA-10b enables S2a; PA-10c fixes P1-F's list.
 - **Still blocked after adoption.** S3 and QE (need S1 and S2a complete per Gate 4 §6); Gate 4 execution.
 
 ### PA-11 — D-INST: adoption of the successor D-2 instrument identity (DB-B1)
+
+**Pass-4 disposition: PA DECISION REQUIRED.** No adoption record exists for the candidate identity. DA-A1 and DB-B1 cover only the current v2 identity `191f5828` (adoption record §2). Not adopted here. No parse, run or A6 performed, so T-1 is not triggered. Conditional prerequisite: the ruled method D-2 and PF10 KEEP cannot be used until a successor identity is adopted (rulings §6). If the PA declines, Matter D reverts to D-1 (packet option (b)).
 
 - **Question.** Adopt the successor effective-write instrument identity for D-2 under DB-B1, which is required by D-Q (D-2, ruled) and PF10 (KEEP, ruled).
 - **Evidence.** Candidate `evidence/integration/cap03-p1-d-inst-d2-candidate-2026-10-28/` (`02-p1-d2-effective-write-check-CANDIDATE.ps1`; identity in `SHA256SUMS.txt`). The candidate is "not parsed, not run, not adopted"; static checks only; PowerShell parse is a standing boundary (candidate record). Current identity v2 `191f5828` unchanged. Rulings §6 and §7: D-2 use requires a successor identity and A6 before use. Companion §4: D-INST "NOT ADOPTED".
@@ -264,6 +291,8 @@ Three separate decisions, because they are different authority acts.
 - **Still blocked after adoption.** Any run of the instrument (host, PowerShell); A6; capture; P-1.
 
 ### PA-12 — A6 runtime: authorization and sequence
+
+**Pass-4 disposition: RESOLVED (authority route) by recorded rulings.** C-Q1 = YES (A6 reads the designated blob by hash and is commit-independent). C-Q2 = MC-2 (rulings §6): host qualification proceeds under its own operator authorization, and commit-keyed observations stay in the attempt session. The statement in rulings §7 that the record does not authorize A6 is about that record only and is not contrary to MC-2. Successor A6 is required before any successor use (T-1, conditional on PA-11). A6 has not been run; it requires the operator's host and is not performed here.
 
 - **Question.** Does A6 (runtime check on the designated host; E5) require a separate PA authorization act, or is it authorized under the operator's own authorization (MC-2)? And must A6 run on the successor instrument before use?
 - **Evidence.** Rulings §6 (C-Q1 YES; C-Q2 MC-2): "Host qualification proceeds under its own operator authorization." Rulings §7: "Not authorized by this record: A6 runtime, PF preflight, PowerShell, host capture, E10 …, P-1. The D-2 successor instrument … needs PA adoption of its identity and A6 before use." Companion §4: A6 "NOT STARTED"; Operator. Packet C-Q1: A6 reads the designated blob by hash and does not depend on the checked-out commit.
@@ -281,6 +310,8 @@ Three separate decisions, because they are different authority acts.
 
 ### PA-13 — E10: capture-authorization act for P-1-C and P-1-D
 
+**Pass-4 disposition: NOT RENDERED (PA drafts).** Prerequisite status: E3 applied (procedure revision 2026-10-28d); E8 root and parent recorded (rulings §7). The instrument-identity choice is open (PA-11, if D-2 is used). The choice between option (a) (v2 `191f5828`) and option (b) (successor identity) is a PA decision and is not made here. This is not P-1 authorization.
+
 - **Question.** Render the capture-authorization act (E10) naming host, session, root, identity, pins, window and operator. Render now, or after PA-11 and PA-12?
 - **Evidence.** Companion §4: E10 "NOT RENDERED (PA drafts it)". Packet E10: "PA drafts the capture-authorization act only after E3 and the listed rulings. This is not P-1 authorization." Session package §5.6: a capture does not spend the attempt, does not satisfy P-1-C or P-1-D, and does not authorize provisioning (procedure line 435). Procedure `2026-10-28d` (E3 applied; rulings §7). Root and parent ruled (E8).
 - **Choices and consequences.**
@@ -294,6 +325,8 @@ Three separate decisions, because they are different authority acts.
 - **Still blocked after adoption.** P-1 execution; P1-F (PA-14); S3; QE.
 
 ### PA-14 — P-1 authorization act (P1-F): prerequisites only in this sitting
+
+**Pass-4 disposition: P-1 NOT AUTHORIZED. No P1-F act rendered. No P-1 attempt performed, and none is executable from this environment (T-4).** Status after this pass: S2a is not a prerequisite (PA-10c). ADP-D2 is accepted (unchanged). A-GAP1 is ruled. A-Q5 is executed (`0edadb2d`). A-Q6 is partly cleared (PA-04). Still open: PA-01, PA-08a and PA-08b (commit of record and step-0 pin); PA-06 (admission of the native run); PA-15 (identity reading); PA-13 (E10); and the P-1-C and P-1-D observations (T-2, requiring T-4). See tracker §16.203.
 
 - **Question.** This sitting does not authorize P-1. The PA decides only whether the prerequisites in the list below are complete when the P1-F act is later rendered. No P1-F act is decided here.
 - **Evidence.** Packet P1-F row: "Blocked by P1-C, P1-D, B-DESIG, L2a, L2c, ADP-D1, ADP-D2, A-GAP1, S2a." Formal §4.6 and PA-5 (P-1-F: "Render only after PA-5 path and C′ designation"). Companion §4: "P-1 remains NOT AUTHORIZED until P1-F is rendered."
@@ -322,6 +355,8 @@ Three separate decisions, because they are different authority acts.
 
 ### PA-15 — Identity values for successor act §4 / §5.2 (the S1 identity limb)
 
+**Pass-4 disposition: FACTS VERIFIED; READING REQUIRES A PA DECISION.** `PRINCIPAL_LABEL` = `'ramki-personal-local'`, `TENANT_ID` = `'ipd-personal-local'` and `CANONICAL_OWNER_ID` = `'ipd-owner-ramki-personal'` are set (non-null) in `src/persistence/gateAPrimeValidation.ts` (blob `df5d48a5`, identical at IPD `f9ec0c5` and `a891802e`), verified through the IPD API in this pass. The statement 'identity values remain unresolved' (rulings §8) and act row S1 ('BLOCKED — identity values unresolved', which governs S1 under A-GAP1) therefore describe the values' status inconsistently with the constants. The PA decides whether the identity limb is cleared and whether row S1 is updated (by an IPD pointer; IPD-owned). IRR does not change row S1.
+
 - **Question.** Are the identity values `PRINCIPAL_LABEL`, `TENANT_ID` and `CANONICAL_OWNER_ID` resolved, and does the S1 identity-value determination of 2026-10-24 (IPD `f9ec0c5`) govern?
 - **Evidence.** Rulings §8: "Identity values still unresolved" (successor act §4 / §5.2). A-Q5 result record §4 correction (CV-CORR-158): constants non-null at IPD `main` `b9dd6fce` and at `a891802e`, set by binding commit `f9ec0c5` (IPD commit "CAP-02: S1 identity-value determination and binding commit", `2026-10-24T06:13`; tree `fcf7cb85`). Act §6 row S1 (IPD `66b56fd1…` context; companion §5): "BLOCKED — identity values unresolved" (governs under A-GAP1). IRR has not verified the constant values in this pass.
 - **Choices and consequences.**
@@ -335,6 +370,8 @@ Three separate decisions, because they are different authority acts.
 
 ### PA-16 — REG-11: optional reopen or formal closure
 
+**Pass-4 disposition: NO ACTION TAKEN; status quo retained.** The Option C deferral remains the recorded state (tracker §11, §16.112). REG-11 is not closed. No P-1, S2, gate or capture step depends on it. The optional PA decision remains open.
+
 - **Question.** Only if the PA wishes: retain Option C deferral (no action), formally close it, or reopen it.
 - **Evidence.** Tracker §11 (Option C, 2026-10-13); register row BLOCKED / DEFERRED; §16.116 "closure" text was never recorded (pointer annotated §16.199); R1/R2 effective per §16.112 (companion §7).
 - **Choices.** (a) No action (retain Option C). (b) Formal closure act. (c) Reopen.
@@ -345,6 +382,8 @@ Three separate decisions, because they are different authority acts.
 
 ### PA-17 — REG-12: Company Identity Authority (mapping blocker)
 
+**Pass-4 disposition: PA DECISION REQUIRED (non-blocking for P-1).** No authoritative disposition exists (CV-43 / D115). Gate 4 host qualification, result acceptance, Gate 5, durable enablement and any `503` change remain not granted regardless.
+
 - **Question.** For the mapping blocker (`companyId` ↔ `ISIN` ↔ G24 ticker), designate a Company Identity Authority by express act naming the bounded domain, source and consumer, or expressly decline designation.
 - **Evidence.** Bounded Gate 3 scope `IMPLEMENTED & ACCEPTED` (tracker §16.77). PA decision 2026-10-24 (CV-43 / D115): no Company Identity Authority designated; re-entry requires an express act. Tracker §16.199 table row 6: BLOCKED — owner decision.
 - **Choices.** (a) Designate a Company Identity Authority, naming domain, source and consumer. (b) Decline designation; the bounded Gate 3 scope stays the only accepted scope.
@@ -354,6 +393,8 @@ Three separate decisions, because they are different authority acts.
 - **Unlocks / blocked.** Gate 4 host qualification, result acceptance, Gate 5, runtime enablement, `durable:true` and any `503` lift remain not granted regardless of this decision.
 
 ### PA-18 — L2b: is any action required?
+
+**Pass-4 disposition: NO TRIGGER FOUND; non-blocking.** Formal §4.2 lists L2b as 'Designated, not established (§16.122.9)'. Tracker §16.122.9 gives no L2b action or trigger. The P1-F list in PA-14 does not include L2b. No action is recorded. Any PA L2b decision remains open and is not needed for P-1.
 
 - **Question.** Is any L2b action (CAP-03 / Path A DR-track QE, §16.122.7) required, and if so, what is its scope?
 - **Evidence.** Formal record line 102: L2b "Designated, not established (§16.122.9)". Addendum row L2B: "not yet eligible; PA (only if required)". Packet row L2B: "No recommendation: the register holds no basis for IRR to say whether an L2b action is required."
@@ -384,7 +425,7 @@ Three separate decisions, because they are different authority acts.
   - It does not change any gate, pin, acceptance, qualification, admission, authorization or capability status. P-1 remains NOT AUTHORIZED; QE 0/11; Gate 4 AUTHORIZED — NOT STARTED; Gate 5 NOT INITIATED / NOT ADMITTED.
   - It does not waive any technical prerequisite. The surviving prerequisites are T-1, T-2 and T-3 (§5.2) and no others.
 - **Unlocks on recording.** The removal of H-1 to H-9 as blockers in the statements listed in tracker §16.202.
-- **Still open after recording.** PA-01 to PA-18 (PROPOSED — NOT ADOPTED), and the surviving technical prerequisites T-1 to T-3 for the operations they name.
+- **Still open after recording.** PA-01 to PA-18 (PROPOSED — NOT ADOPTED), and the surviving technical prerequisites T-1 to T-4 for the operations they name.
 
 ---
 
@@ -465,10 +506,11 @@ PA-19 does not treat a waived item as satisfied. Where a record states that some
 
 ### 5.2 Surviving technical prerequisites (complete list)
 
-Only the following three prerequisites survive. Each is a property of the operation itself, not an evidence transfer or a documentary gap.
+Only the following four prerequisites survive. Each is a property of the operation itself, not an evidence transfer or a documentary gap.
 
 - **T-1 — Successor instrument validation before first use.** Applies only if PA-11 adopts a successor D-2 instrument. The candidate record states that it has not been parsed and has not been run; it has static checks only. Its first use on a host cannot be validated by a waiver, so parse and run validation (with A6) must precede that first use. Affected operation: any use of the successor instrument. Not affected: adoption of the identity under PA-11.
 - **T-2 — Attempt-session observations for P-1.** P-1-C capture and P-1-D verification are facts that the P1-F act must cite. They exist only if an attempt session produces them. A waiver cannot create them, so P1-F cannot cite them as established until they exist. Affected operation: the P1-F act and P-1 execution. Not affected: rendering E10 (E10 is not P-1 authorization).
+- **T-4 — Native Windows execution for the P-1-C capture and P-1-D verification (added 2026-10-29, pass 4).** The capture and verification run on the operator's native Windows host under PowerShell 5.1 (E7; procedure). The IRR sandbox has no such host, and the session constraints exclude PowerShell. Any attempt must therefore be executed by the operator on that host. This is an execution requirement, not an evidence transfer, so PA-19 does not waive it. Affected operation: P-1-C capture and P-1-D verification, and therefore the T-2 observations. Not affected: the documentary decisions PA-01 to PA-18.
 - **T-3 — H-12 artifact at the designated commit.** Applies only to adoption of H-12 at that pin (PA-10b / S2a). An adoption operates on a regenerated artifact, and none exists yet. Affected operation: H-12 adoption at the designated commit. Not affected: S2 admission (PA-06), PA-10a direction, or any other decision.
 
 No other technical prerequisite is identified in the statements affected by PA-19.
