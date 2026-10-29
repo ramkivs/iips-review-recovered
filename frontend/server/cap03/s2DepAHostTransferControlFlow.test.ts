@@ -1,25 +1,23 @@
 /**
  * CAP-03 S2-DEP-A host-transfer instrument — terminal-state control-flow contract.
  *
- * Authority: IRR tracker §16.189 (`CV-CORR-169`, `CHG-2026-10-29-11`), rev-4.
+ * Authority: IRR tracker §16.191 (`CV-CORR-171`, `CHG-2026-10-29-13`), rev-5.
  * Pins (regression teeth, per fix pass):
- *  - rev-2 defect: a failed remote-SHA check after a completed push emitting
+ *  - rev-2: a failed remote-SHA check after a completed push could print
  *    `RESULT: PASS` (fixed rev 3; still pinned);
- *  - rev-3 defect: initialization (source dir + durable log) OUTSIDE the try,
- *    so an init failure produced NO terminal line at all, and unguarded
- *    Add-Content inside Write-Log (fixed rev 4: console-first logging with a
- *    guarded durable sink; init inside PHASE-0; terminal always emitted from
- *    the guarded region — external process kill stays out of scope and the
- *    script no longer claims otherwise);
- *  - rev-3 defect: push failures reported "nothing was pushed" WITHOUT ever
- *    consulting origin (fixed rev 4: five-state PUSHSTATE machine; every
- *    attempted-push outcome reads the remote ref before any absence claim;
- *    UNVERIFIABLE reads never assume absence).
+ *  - rev-3: init outside the try (no terminal line at all on init failure)
+ *    and blind "nothing was pushed" wording (fixed rev 4);
+ *  - rev-4: the footer asserted non-publication for rejected/indeterminate
+ *    pushes even when the origin read was empty or UNVERIFIABLE, and PHASE-10
+ *    treated a Contains-match over unvalidated ls-remote output as
+ *    verification without checking the exit code (fixed rev 5: read-classifier
+ *    arms; exit-code-checked, exact ref-line-match verification).
  * Structural interpretation: each top-level `if ($STATE ...)` block executes
  * iff its gate holds; a Set-Blocked flips the state for later pass-gated
  * blocks; an exception unwinds past the footer into the catch; Set-Result
- * emits exactly once. No PowerShell runtime exists in CI; these assertions
- * interpret the published script's real block layout.
+ * emits exactly once (later attempts are guarded no-ops). No PowerShell
+ * runtime exists in CI; these assertions interpret the published script's
+ * real block layout.
  *
  * @vitest-environment node
  */
@@ -121,11 +119,11 @@ function simulate(inject: Injection): { out: string[]; pushState: string } {
   return { out, pushState };
 }
 
-// The single-emit guard means SUPPRESSED entries are guarded no-ops: the
-// contract is exactly ONE real terminal emission with the right value.
+// The single-emit guard makes SUPPRESSED entries guarded no-ops: the contract
+// is exactly ONE real terminal emission with the right value.
 const real = (out: string[]) => out.filter((x) => x !== 'SUPPRESSED' && x !== 'RAW-EMIT' && x !== 'CATCH-CONSULTS-ORIGIN');
 
-describe('S2-DEP-A instrument rev 4 — terminal reporting contract (§16.189)', () => {
+describe('S2-DEP-A instrument rev 5 — terminal reporting contract (§16.191)', () => {
   it('block structure: init, push, verification, success and footer are separate gated blocks in order', () => {
     expect(INIT_IDX).toBe(0);
     expect(PUSH_IDX).toBeGreaterThan(INIT_IDX);
@@ -161,57 +159,106 @@ describe('S2-DEP-A instrument rev 4 — terminal reporting contract (§16.189)',
     expect(SRC).toMatch(/the durable log is unavailable; this terminal line exists only on the console/);
   });
 
-  it('push outcome states: five-state machine; attempted-push paths consult origin BEFORE claiming absence; unverifiable never assumes absent', () => {
+  it('push outcome states: five-state machine; attempted-push paths consult origin BEFORE any claim; rev5 classifies the read', () => {
     const push = BLOCKS[PUSH_IDX] as Block;
     for (const st of ['not-attempted', 'indeterminate', 'rejected', "'success'", 'verified']) {
       expect(SRC, `state string present: ${st}`).toContain(st);
     }
     expect(push.text).toMatch(/\$script:PUSHSTATE = 'indeterminate'/);
     expect(push.text).toMatch(/if \(\$pushCode -ne 0\) \{ \$script:PUSHSTATE = 'rejected' \}/);
-    expect(push.text).toMatch(/if \(\$pushCode -eq 0\) \{/);
     expect(push.text).toMatch(/PUSH-COMPLETED/);
-    // consultation precedes ANY claim in all three reporting branches:
-    const pushSrc = (BLOCKS[PUSH_IDX] as Block).text;
-    expect(pushSrc, 'origin consulted INSIDE the reject/indeterminate arm').toMatch(
-      /'indeterminate'\) \{\s*\$script:REMOTE = Get-RemoteRef \$BRANCH/,
-    );
-    const consultIdx = pushSrc.search(/Get-RemoteRef \$BRANCH/);
-    const claims = [
+    expect(push.text, 'consult inside reject/indet arm').toMatch(/'indeterminate'\) \{\s*\$script:REMOTE = Get-RemoteRef \$BRANCH/);
+    expect(push.text).toMatch(/\$script:REMREAD = Get-ReadClass \$script:REMOTE \$headSha/);
+    const consultIdx = push.text.search(/Get-RemoteRef \$BRANCH/);
+    for (const claim of [
       'origin ref read \\[',
       'does not carry this run head - no published branch from this run',
       'outcome INDETERMINATE - absence is NOT assumed',
       'state unconfirmed by this run',
-    ];
-    for (const claim of claims) {
-      const at = pushSrc.search(new RegExp(claim));
+    ]) {
+      const at = push.text.search(new RegExp(claim));
       expect(at, `claim located: ${claim}`).toBeGreaterThan(-1);
       expect(at, `every claim follows the origin consult: ${claim}`).toBeGreaterThan(consultIdx);
     }
-    // the blind phrase from rev 3 is gone everywhere
     expect(SRC).not.toMatch(/nothing was pushed/);
-    // absence is asserted only from a verifiable read; the empty-read signal is 'ABSENT'
-    const absentArm = pushSrc.split('\n').find((l) => l.includes('does not carry this run head')) ?? '';
-    expect(absentArm, 'absence line is gated on a non-UNVERIFIABLE read').toContain("StartsWith('UNVERIFIABLE') -eq $false");
+    const absentArm = push.text.split('\n').find((l) => l.includes('does not carry this run head')) ?? '';
+    expect(absentArm, 'in-block absence line gated on non-UNVERIFIABLE read').toContain("StartsWith('UNVERIFIABLE') -eq $false");
     expect(SRC).toMatch(/if \(\$read\.Count -eq 0\) \{ return 'ABSENT' \}/);
   });
 
-  it('push failure (rejected): sim yields one BLOCKED with remote read quoted; no PASS; commit preserved', () => {
+  it('rev5 read classifier: total, ordered, else-free; every terminal wording keys on it', () => {
+    const fn = SRC.slice(SRC.indexOf('function Get-ReadClass'), SRC.indexOf('function Get-HostHash'));
+    expect(fn.length, 'function located').toBeGreaterThan(10);
+    expect(fn).toMatch(/if \(\$head -eq ''\) \{ return 'unverifiable' \}/);
+    expect(fn).toMatch(/if \(\$read -eq ''\) \{ return 'not-read' \}/);
+    expect(fn).toMatch(/StartsWith\('UNVERIFIABLE'\) -eq \$true\) \{ return 'unverifiable' \}/);
+    expect(fn).toMatch(/-eq 'ABSENT'\) \{ return 'confirmed-absent' \}/);
+    expect(fn).toMatch(/Contains\(\$head\) -eq \$true\) \{ return 'carries-head' \}/);
+    expect(fn).toMatch(/return 'other-head'/);
+    expect(fn).not.toMatch(/\b(else|exit|break)\b/);
+    expect((SRC.match(/Get-ReadClass/g) ?? []).length, 'def + 4 call sites').toBe(5);
+  });
+
+  it('rev5 footer: five mutually exclusive remote-read arms; unknown/unverifiable NEVER claim non-publication; grounded arms do', () => {
+    const foot = (BLOCKS[FOOTER_IDX] as Block).text;
+    const arms = foot.split('\n').filter((l) => l.includes("REMREAD -eq '"));
+    expect(arms.length, 'exactly five classified arms').toBe(5);
+    const arm = (cls: string) => arms.find((l) => l.includes(`REMREAD -eq '${cls}'`)) ?? '';
+    const claim = 'nothing from this run is published';
+    expect(arm('not-read')).toContain('UNKNOWN');
+    expect(arm('not-read')).not.toContain(claim);
+    expect(arm('unverifiable')).toContain('UNKNOWN');
+    expect(arm('unverifiable')).toContain('absence is NOT assumed');
+    expect(arm('unverifiable')).not.toContain(claim);
+    expect(arm('carries-head')).toContain('CANNOT be claimed');
+    expect(arm('carries-head')).not.toContain(claim);
+    expect(arm('confirmed-absent')).toContain(claim);
+    expect(arm('confirmed-absent')).toContain('verified origin read');
+    expect(arm('other-head')).toContain(claim);
+    expect(arm('other-head')).toContain('different head');
+    expect(SRC, 'blind rev-4 arm is gone').not.toMatch(
+      /origin ref read: \[' \+ \$script:REMOTE \+ '\]; nothing from this run is published at this head/,
+    );
     const { out } = simulate({ kind: 'blockfail', index: PUSH_IDX });
     expect(real(out)).toEqual(['BLOCKED']);
     expect(out[0]).toBe('BLOCKED');
-    const footer = BLOCKS[FOOTER_IDX] as Block;
-    expect(footer.text).toMatch(/PUSHSTATE -eq 'rejected' -or \$script:PUSHSTATE -eq 'indeterminate'/);
-    expect(footer.text).toMatch(/origin ref read: \[' \+ \$script:REMOTE/);
-    expect(footer.text).toMatch(/no ref update by this run is possible/);
-    expect(footer.text).toMatch(/push completed \(exit 0\) but the run did not finish verification/);
+    expect(foot).toMatch(/no ref update by this run is possible/);
+    expect(foot).toMatch(/push completed \(exit 0\) but the run did not finish verification/);
   });
 
-  it('indeterminate + UNVERIFIABLE: reported as indeterminate, indistinguishable absence never asserted; catch on post-push states consults origin', () => {
+  it('rev5 PHASE-10: exit code captured immediately; verified only on exit 0 AND exactly one exact ref-line match; failed query partial output NEVER verifies', () => {
+    const verify = (BLOCKS[VERIFY_IDX] as Block).text;
+    expect(verify).toMatch(
+      /\$remoteOut = @\(& git\.exe -C \$REPOD ls-remote origin \('refs\/heads\/' \+ \$BRANCH\) 2>\$null\)\n\s*\$verifyCode = \$LASTEXITCODE/,
+    );
+    expect(verify).toMatch(/\$verifyCode = -1/); // throw path counts as failed query
+    expect(verify).toMatch(/if \(\$verifyCode -ne 0\) \{ \$script:REMOTE = \('UNVERIFIABLE \(git ls-remote exit ' \+ \$verifyCode/);
+    expect(verify).toMatch(/partial output quoted but NEVER used for verification/);
+    expect(verify).toMatch(/\$parts\[0\] -eq \$headSha -and \$parts\[1\] -eq \('refs\/heads\/' \+ \$BRANCH\)/);
+    expect(verify).toMatch(/if \(\$verifyCode -eq 0 -and \$exact -eq 1\) \{\n\s*\$script:PUSHSTATE = 'verified'/);
+    expect(verify).toMatch(/partial output establishes NOTHING/);
+    expect(verify).toMatch(/REMOTE ANOMALY: ' \+ \$exact \+ ' exact matching lines \(exactly 1 expected\)/);
+    expect((SRC.match(/PUSHSTATE = 'verified'/g) ?? []).length, 'single verified assignment').toBe(1);
+    expect(verify).not.toMatch(/Set-Result/); // terminal stays with the footer/PASS block
+    expect(verify).toMatch(/no exact line/); // mismatch arm requires a successful query
+  });
+
+  it('remote SHA mismatch (verified-absent query): footer post-push arm names the branch that exists; sim one BLOCKED', () => {
+    const verify = BLOCKS[VERIFY_IDX] as Block;
+    expect(verify.text).toMatch(/REMOTE SHA MISMATCH/);
+    expect(verify.text).toMatch(/PUSH-COMPLETED above stands - a branch exists on origin/);
+    const { out } = simulate({ kind: 'blockfail', index: VERIFY_IDX });
+    expect(real(out)).toEqual(['BLOCKED']);
+    expect(SRC).toMatch(/PUSHSTATE -eq 'success' -or \$script:PUSHSTATE -eq 'verified'\) \{ Set-Result \('BLOCKED \(post-push\)/);
+  });
+
+  it('indeterminate + UNVERIFIABLE never reported absent; catch classifies and consults origin when uncached', () => {
     expect(SRC).toMatch(/UNVERIFIABLE \(git ls-remote exit/);
     expect(SRC).toMatch(/UNVERIFIABLE \(ls-remote threw/);
     const cb = catchBlock();
     expect(cb).toMatch(/PUSHSTATE -eq 'success' -or \$script:PUSHSTATE -eq 'verified' -or \$script:PUSHSTATE -eq 'indeterminate'/);
     expect(cb).toMatch(/if \(\$script:REMOTE -eq ''\) \{ \$script:REMOTE = Get-RemoteRef \$BRANCH \}/);
+    expect(cb).toMatch(/\$script:REMREAD = Get-ReadClass \$script:REMOTE \$headSha/);
     expect(cb).toMatch(/a branch may exist on origin/);
     expect(cb).not.toMatch(/Set-Result 'PASS'/);
     const { out } = simulate({ kind: 'exception-after-push' });
@@ -219,16 +266,6 @@ describe('S2-DEP-A instrument rev 4 — terminal reporting contract (§16.189)',
     expect(real(out)).toEqual(['BLOCKED']);
     expect(out).not.toContain('PASS');
     expect(out).not.toContain('CATCH-PASS-LEAK');
-  });
-
-  it('remote SHA mismatch (success-unverified): verify block emits nothing terminal; footer names the branch that EXISTS on origin', () => {
-    const verify = BLOCKS[VERIFY_IDX] as Block;
-    expect(verify.text).not.toMatch(/Set-Result/);
-    expect(verify.text).toMatch(/REMOTE SHA MISMATCH/);
-    expect(verify.text).toMatch(/PUSH-COMPLETED above stands - a branch exists on origin/);
-    const { out } = simulate({ kind: 'blockfail', index: VERIFY_IDX });
-    expect(real(out)).toEqual(['BLOCKED']);
-    expect(SRC).toMatch(/PUSHSTATE -eq 'success' -or \$script:PUSHSTATE -eq 'verified'\) \{ Set-Result \('BLOCKED \(post-push\)/);
   });
 
   it('PASS is structurally gated on verified state, not only on STATE (defense in depth)', () => {
@@ -246,7 +283,7 @@ describe('S2-DEP-A instrument rev 4 — terminal reporting contract (§16.189)',
     expect(idx).toBeGreaterThan(LINES.findIndex((l) => /remote head verified/.test(l)));
   });
 
-  it('frozen hash record and 19-path byte gates preserved from rev 3', () => {
+  it('frozen hash record and 19-path byte gates preserved from revs 3/4', () => {
     expect(SRC).toMatch(/\$hostExpected\['evidence\/cap03-s2\/deposit-host-hashes\.txt'\]/);
     const writes = SRC.match(/Add-Content -LiteralPath \$HASHES/g) ?? [];
     expect(writes.length, 'record built pre-commit only').toBe(5);
@@ -260,10 +297,10 @@ describe('S2-DEP-A instrument rev 4 — terminal reporting contract (§16.189)',
     expect(SRC).toMatch(/host copy byte-identical to committed copy/);
   });
 
-  it('authorization anchors preserved (marker -11, baseline 1bc39c06, immutable locus, sealed digests, drift logging)', () => {
+  it('authorization anchors at rev 5 (marker CHG-2026-10-29-13, baseline f46e7286, immutable locus, sealed digests, drift logging)', () => {
     for (const anchor of [
-      'CHG-2026-10-29-11',
-      '1bc39c06df7eb505c6124467fb7316982384c7aa',
+      'CHG-2026-10-29-13',
+      'f46e72869003b23eeb126f51f48c60001a6a0d9f',
       '2cc5bc4302436f8ae6d84a9e657b8c1ed06b5478',
       '9d3c09dbdb691c2527a45605dea20826b4ec2ba2f110985ee3f1033783b5225e',
       '9c9319fa3d7eaa822834c2f500e04dfec2b18d8157724843126a749b2bec91ab',
@@ -274,6 +311,8 @@ describe('S2-DEP-A instrument rev 4 — terminal reporting contract (§16.189)',
     ]) {
       expect(SRC, `anchor: ${anchor}`).toContain(anchor);
     }
+    expect(SRC).toMatch(/' rev5'/);
+    expect(SRC).not.toMatch(/rev4/);
   });
 
   it('constraint surface: no else/elseif/finally/exit/break anywhere, ASCII-only, balanced, terminal kept open', () => {

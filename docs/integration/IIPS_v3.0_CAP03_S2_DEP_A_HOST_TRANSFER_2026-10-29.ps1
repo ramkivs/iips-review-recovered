@@ -1,7 +1,24 @@
 # ============================================================================
 # CAP-03 S2-DEP-A - governed byte-verbatim host-original deposit: operator
-# steps 1-5 of the published procedure (REV 4 - truthful initialization and
-# push-outcome reporting).
+# steps 1-5 of the published procedure (REV 5 - honest remote-read
+# classification and exit-verified push confirmation).
+# REV 5 (recorded in tracker 16.191 / CHG-2026-10-29-13 on main): two
+#   residual defects in rev 4, reporting-only; no integrity gate changed.
+#   (1) The footer arm for rejected/indeterminate pushes asserted that
+#   nothing was published at this head even when the origin read was empty
+#   or UNVERIFIABLE. Rev 5 classifies every remote read with a dedicated
+#   classifier (not-read / unverifiable / carries-head / confirmed-absent /
+#   other-head)
+#   and the footer reports each state truthfully: non-publication is claimed
+#   ONLY from a successful verifiable read; unknown and unverifiable reads
+#   are reported as UNKNOWN with no absence assumption.
+#   (2) PHASE-10 never checked the ls-remote exit code and accepted a
+#   Contains-match anywhere in the joined output as verification. Rev 5
+#   captures the exit code immediately after the call, treats a failed or
+#   thrown query as UNVERIFIABLE (partial output quoted, NEVER used), and
+#   establishes state 'verified' only when a zero-exit query contains
+#   exactly one line whose SHA equals the local head and whose ref equals
+#   refs/heads/<branch>.
 # REV 4 (recorded in tracker 16.189 / CHG-2026-10-29-11 on main): two
 #   corrections, both reporting-only; no integrity gate changed.
 #   (1) Initialization boundary: rev 3 created the source directory and opened
@@ -41,7 +58,7 @@
 #   Any unapproved or unexplained change fails closed.
 # Target: host DESKTOP-NO0NHTP (Windows 11 26300), non-elevated Windows
 #   PowerShell 5.1. Acquisition: run the published bootstrap block (operator
-#   handoff record, evidence/integration/cap03-s2-dep-a-rev4-terminal-reporting-
+#   handoff record, evidence/integration/cap03-s2-dep-a-rev5-remote-verification-
 #   2026-10-29/02-operator-bootstrap-and-handoff.txt); it clones IRR,
 #   byte-extracts THIS file from refs/remotes/origin/main and executes it.
 #   Do NOT paste this script from memory or chat - PHASE-4 proves
@@ -50,7 +67,7 @@
 #   tracker) proceeds per:
 #   procedure : evidence/integration/cap03-s2-dep-a-2026-10-29/03-host-transfer-minimal-operation.txt
 #   manifest  : evidence/integration/cap03-s2-dep-a-2026-10-29/02-deposit-manifest-expected.txt
-#   authority : tracker 16.183 (S2-ACC-A1; S2-DEP-A AUTHORIZED), 16.185, 16.186, 16.187, 16.188, 16.189 on main
+#   authority : tracker 16.183 (S2-ACC-A1; S2-DEP-A AUTHORIZED), 16.185, 16.186, 16.187, 16.188, 16.189, 16.191 on main
 # This script NEVER writes into the source evidence folder, never renames,
 # regenerates, re-seals, normalizes or reconstructs anything, and never touches
 # sibling folders (including any .inprogress or .seal-failed history): the
@@ -62,8 +79,8 @@ $ErrorActionPreference = 'Stop'
 $EXP_SEAL_SHA   = '9d3c09dbdb691c2527a45605dea20826b4ec2ba2f110985ee3f1033783b5225e'   # recorded self-hash of folder SHA256SUMS.txt (16.180; manifest 02)
 $EXP_PROC02_SHA = '9c9319fa3d7eaa822834c2f500e04dfec2b18d8157724843126a749b2bec91ab'   # sealed digest of the governing manifest (folder SHA256SUMS.txt on main)
 $EXP_PROC03_SHA = 'a1c94ba6a2b96e08a1dc9e7e1d2c73be92c6c38f09d74aa4f00c5d8e445e0ede'   # sealed digest of the governing procedure
-$BASELINE_MAIN  = '1bc39c06df7eb505c6124467fb7316982384c7aa'   # reviewed publication baseline (drift reference only; NOT an equality gate; movement is logged)
-$APPROVAL_MARKER = 'CHG-2026-10-29-11'                          # rev-4 approval record; must be present in the tracker on origin/main
+$BASELINE_MAIN  = 'f46e72869003b23eeb126f51f48c60001a6a0d9f'   # reviewed publication baseline (drift reference only; NOT an equality gate; movement is logged)
+$APPROVAL_MARKER = 'CHG-2026-10-29-13'                          # rev-5 approval record; must be present in the tracker on origin/main
 $INSTR_REL  = 'docs/integration/IIPS_v3.0_CAP03_S2_DEP_A_HOST_TRANSFER_2026-10-29.ps1'
 $TRACKER_REL = 'IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md'
 $DEP02_REL  = 'evidence/integration/cap03-s2-dep-a-2026-10-29/02-deposit-manifest-expected.txt'
@@ -88,6 +105,7 @@ $script:LOGOK   = $false
 $script:RESULT  = ''
 $script:PUSHSTATE = 'not-attempted'
 $script:REMOTE  = ''
+$script:REMREAD = 'not-read'
 function Write-Log([string]$m) {
   $line = (Get-Date).ToUniversalTime().ToString('yyyy-MM-ddTHH:mm:ssZ') + ' ' + $m
   Write-Host $line
@@ -122,6 +140,15 @@ function Get-RemoteRef([string]$br) {
   }
   if ($read.Count -eq 0) { return 'ABSENT' }
   return (($read | ForEach-Object { $_.ToString() }) -join ' | ')
+}
+function Get-ReadClass([string]$read, [string]$head) {
+  # rev5: classifies a remote-read string for truthful terminal reporting
+  if ($head -eq '') { return 'unverifiable' }
+  if ($read -eq '') { return 'not-read' }
+  if ($read.StartsWith('UNVERIFIABLE') -eq $true) { return 'unverifiable' }
+  if ($read -eq 'ABSENT') { return 'confirmed-absent' }
+  if ($read.Contains($head) -eq $true) { return 'carries-head' }
+  return 'other-head'
 }
 function Get-HostHash([string]$p) {
   $ok = Test-Path -LiteralPath $p
@@ -159,10 +186,10 @@ function Get-GitBlobText([string]$refName) {
 }
 try {
   if ($STATE -eq 'PASS') {
-    Write-Log 'PHASE-0 initialization (inside the guarded region; durable log is best-effort beneath a console-first path; rev4)'
+    Write-Log 'PHASE-0 initialization (inside the guarded region; durable log is best-effort beneath a console-first path; rev5)'
     try {
       New-Item -ItemType Directory -Force -Path $SRC_ROOT | Out-Null
-      $hdr = '# S2-DEP-A host transfer log started ' + (Get-Date).ToUniversalTime().ToString('yyyy-MM-ddTHH:mm:ssZ') + ' PS ' + $PSVersionTable.PSVersion.ToString() + ' host ' + $env:COMPUTERNAME + ' rev4'
+      $hdr = '# S2-DEP-A host transfer log started ' + (Get-Date).ToUniversalTime().ToString('yyyy-MM-ddTHH:mm:ssZ') + ' PS ' + $PSVersionTable.PSVersion.ToString() + ' host ' + $env:COMPUTERNAME + ' rev5'
       Add-Content -LiteralPath $LOG -Value $hdr
       $script:LOGOK = $true
       Write-Log ('durable log open at ' + $LOG)
@@ -358,7 +385,7 @@ try {
     }
   }
   if ($STATE -eq 'PASS') {
-    Write-Log 'PHASE-9 push (only after every gate above passed); outcome classified into five states; absence never claimed without consulting origin'
+    Write-Log 'PHASE-9 push (only after every gate above passed); outcome classified into five states (rev5); absence claims grounded only in verifiable reads'
     $headSha = (& git.exe -C $REPOD rev-parse --verify HEAD).Trim()
     $pushCode = 'not-captured'
     $script:PUSHSTATE = 'indeterminate'
@@ -369,6 +396,7 @@ try {
       if ($pushCode -eq 0) {
         $script:PUSHSTATE = 'success'
         $script:REMOTE = Get-RemoteRef $BRANCH
+        $script:REMREAD = Get-ReadClass $script:REMOTE $headSha
         Write-Log ('PUSH-COMPLETED git exit 0; branch ' + $BRANCH + ' reported pushed; remote head verification follows BEFORE any terminal result')
       }
     } catch {
@@ -377,6 +405,7 @@ try {
     }
     if ($script:PUSHSTATE -eq 'rejected' -or $script:PUSHSTATE -eq 'indeterminate') {
       $script:REMOTE = Get-RemoteRef $BRANCH
+      $script:REMREAD = Get-ReadClass $script:REMOTE $headSha
       Write-Log ('origin ref read after ' + $script:PUSHSTATE + ' (git exit ' + $pushCode + '): [' + $script:REMOTE + ']')
       if ($script:REMOTE.Contains($headSha) -eq $true) { Set-Blocked ('push status was ' + $script:PUSHSTATE + ' (git exit ' + $pushCode + ') but origin ref READS AT THIS RUN HEAD - state unconfirmed by this run; deposit NOT valid; do NOT proceed; report to PA') }
       if ($script:REMOTE.Contains($headSha) -eq $false -and $script:REMOTE.StartsWith('UNVERIFIABLE') -eq $true) { Set-Blocked ('push ' + $script:PUSHSTATE + ' and origin could not be consulted (' + $script:REMOTE + '); outcome INDETERMINATE - absence is NOT assumed; commit preserved at ' + $REPOD + '; report to PA') }
@@ -384,15 +413,36 @@ try {
     }
   }
   if ($STATE -eq 'PASS') {
-    Write-Log 'PHASE-10 remote head verification (separate gated block; failure here can never print a PASS)'
-    $remoteOut = @(& git.exe -C $REPOD ls-remote origin ('refs/heads/' + $BRANCH) 2>$null)
-    $script:REMOTE = (($remoteOut | ForEach-Object { $_.ToString() }) -join ' | ')
-    if ($script:REMOTE.Contains($headSha) -eq $false) {
-      Set-Blocked ('REMOTE SHA MISMATCH: local head ' + $headSha + ' not on the origin ref (read: [' + $script:REMOTE + ']). PARTIAL POST-PUSH STATE: PUSH-COMPLETED above stands - a branch exists on origin; the deposit is NOT valid; do NOT open a deposit PR without PA review.')
+    Write-Log 'PHASE-10 remote head verification (separate gated block; failure here can never print a PASS; rev5: exit code checked immediately, exact ref-line match required)'
+    $verifyCode = 'not-captured'
+    $remoteOut = @()
+    try {
+      $remoteOut = @(& git.exe -C $REPOD ls-remote origin ('refs/heads/' + $BRANCH) 2>$null)
+      $verifyCode = $LASTEXITCODE
+    } catch {
+      $verifyCode = -1
+      Write-Log ('verification ls-remote threw (treated as failed query): ' + $_.Exception.Message)
     }
+    $join = (($remoteOut | ForEach-Object { $_.ToString() }) -join ' | ')
+    if ($verifyCode -ne 0) { $script:REMOTE = ('UNVERIFIABLE (git ls-remote exit ' + $verifyCode + '; partial output quoted but NEVER used for verification: [' + $join + '])') }
+    if ($verifyCode -eq 0 -and $remoteOut.Count -eq 0) { $script:REMOTE = 'ABSENT' }
+    if ($verifyCode -eq 0 -and $remoteOut.Count -gt 0) { $script:REMOTE = $join }
+    $script:REMREAD = Get-ReadClass $script:REMOTE $headSha
+    $exact = 0
+    if ($verifyCode -eq 0) {
+      foreach ($rl in $remoteOut) {
+        $parts = ($rl.ToString() -split '\s+')
+        if ($parts.Count -ge 2) { if ($parts[0] -eq $headSha -and $parts[1] -eq ('refs/heads/' + $BRANCH)) { $exact = $exact + 1 } }
+      }
+    }
+    if ($verifyCode -ne 0) { Set-Blocked ('remote verification query FAILED (ls-remote exit ' + $verifyCode + '); partial output establishes NOTHING; verification state INDETERMINATE - PUSH-COMPLETED above stands; a branch may exist on origin; deposit NOT valid; do NOT open a deposit PR; report to PA') }
+    if ($verifyCode -eq 0 -and $exact -eq 0) { Set-Blocked ('REMOTE SHA MISMATCH: query succeeded (exit 0) but no exact line ' + $headSha + ' refs/heads/' + $BRANCH + ' present in [' + $script:REMOTE + ']. PARTIAL POST-PUSH STATE: PUSH-COMPLETED above stands - a branch exists on origin; the deposit is NOT valid; do NOT open a deposit PR without PA review.') }
+    if ($verifyCode -eq 0 -and $exact -gt 1) { Set-Blocked ('REMOTE ANOMALY: ' + $exact + ' exact matching lines (exactly 1 expected); verification NOT established; treat as INDETERMINATE; do NOT proceed; report to PA') }
     if ($STATE -eq 'PASS') {
-      $script:PUSHSTATE = 'verified'
-      Write-Log ('remote head verified: ' + $BRANCH + ' on origin carries ' + $headSha)
+      if ($verifyCode -eq 0 -and $exact -eq 1) {
+        $script:PUSHSTATE = 'verified'
+        Write-Log ('remote head verified: ls-remote exit 0; exactly one exact line ' + $headSha + ' refs/heads/' + $BRANCH + ' on origin')
+      }
     }
   }
   if ($STATE -eq 'PASS') {
@@ -417,7 +467,13 @@ try {
     if ($script:LOGOK -eq $true) { Write-Log ('Report this log to the PA/agent: ' + $LOG) }
     if ($script:LOGOK -eq $false) { Write-Log 'Report the console output to the PA/agent (durable log unavailable - terminal line above is console-only).' }
     if ($script:PUSHSTATE -eq 'not-attempted') { Set-Result 'BLOCKED (no push attempted) - a gate failed before PHASE-9; no ref update by this run is possible; source evidence untouched.' }
-    if ($script:PUSHSTATE -eq 'rejected' -or $script:PUSHSTATE -eq 'indeterminate') { Set-Result ('BLOCKED (push ' + $script:PUSHSTATE + ') - origin ref read: [' + $script:REMOTE + ']; nothing from this run is published at this head; preserve log + work dir; report to PA') }
+    if ($script:PUSHSTATE -eq 'rejected' -or $script:PUSHSTATE -eq 'indeterminate') {
+      if ($script:REMREAD -eq 'not-read') { Set-Result ('BLOCKED (push ' + $script:PUSHSTATE + ') - origin was never successfully read by this run; publication state UNKNOWN - absence is NOT claimed; verify from a clean checkout before any reuse; preserve log + work dir; report to PA') }
+      if ($script:REMREAD -eq 'unverifiable') { Set-Result ('BLOCKED (push ' + $script:PUSHSTATE + ') - origin could not be consulted (' + $script:REMOTE + '); publication state UNKNOWN - absence is NOT assumed; verify externally before any reuse; preserve log + work dir; report to PA') }
+      if ($script:REMREAD -eq 'carries-head') { Set-Result ('BLOCKED (push ' + $script:PUSHSTATE + ') - origin ref READS AT THIS RUN HEAD [' + $script:REMOTE + ']; non-publication CANNOT be claimed; do NOT re-push or force-update; preserve log + work dir; report to PA') }
+      if ($script:REMREAD -eq 'confirmed-absent') { Set-Result ('BLOCKED (push ' + $script:PUSHSTATE + ') - verified origin read shows refs/heads/' + $BRANCH + ' ABSENT on origin; nothing from this run is published; preserve log + work dir; report to PA') }
+      if ($script:REMREAD -eq 'other-head') { Set-Result ('BLOCKED (push ' + $script:PUSHSTATE + ') - verified origin read shows the ref at a different head, not this run commit [' + $script:REMOTE + ']; nothing from this run is published at this head; preserve log + work dir; report to PA') }
+    }
     if ($script:PUSHSTATE -eq 'success' -or $script:PUSHSTATE -eq 'verified') { Set-Result ('BLOCKED (post-push) - push completed (exit 0) but the run did not finish verification; origin ref read: [' + $script:REMOTE + ']; a branch EXISTS on origin; deposit NOT valid from this run; report to PA') }
   }
 }
@@ -427,6 +483,7 @@ catch {
   Write-Log ('AT ' + $_.InvocationInfo.PositionMessage)
   if ($script:PUSHSTATE -eq 'success' -or $script:PUSHSTATE -eq 'verified' -or $script:PUSHSTATE -eq 'indeterminate') {
     if ($script:REMOTE -eq '') { $script:REMOTE = Get-RemoteRef $BRANCH }
+    $script:REMREAD = Get-ReadClass $script:REMOTE $headSha
     Set-Result ('BLOCKED (exception after push was attempted; push state ' + $script:PUSHSTATE + '; origin ref read: [' + $script:REMOTE + ']) - a branch may exist on origin; verify before any reuse; deposit not claimed; source evidence untouched.')
   }
   if ($script:PUSHSTATE -eq 'not-attempted' -or $script:PUSHSTATE -eq 'rejected') {
