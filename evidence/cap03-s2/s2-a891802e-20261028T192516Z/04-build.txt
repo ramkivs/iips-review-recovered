@@ -1,0 +1,35 @@
+STEP: 04-build
+UTC start: 2026-10-28T19:26:43.556Z
+Command: C:\Node22\node-v22.16.0-win-x64\npm.cmd run build
+Working directory: C:\iips-work\ipd-s2-a891802e-20261028T192516Z
+--- raw output begins ---
+
+> iips-production-market-data@1.0.0 build
+> tsc && vite build && npm run build:portfolio-ui-package && npm run build:pit-package
+
+[36mvite v8.3.0 [32mbuilding client environment for production...[36m[39m
+transforming...
+Γ£ô 73 modules transformed.
+rendering chunks...
+computing gzip size...
+dist-frontend/index.html                     0.58 kB Γöé gzip:   0.38 kB
+dist-frontend/assets/index-DRxJRl4Q.css     14.17 kB Γöé gzip:   3.80 kB
+dist-frontend/assets/index-DESzrqsS.js   1,489.05 kB Γöé gzip: 189.37 kB Γöé map: 4,072.70 kB
+
+[32mΓ£ô built in 882ms[39m
+[33m[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.[39m
+
+> iips-production-market-data@1.0.0 build:portfolio-ui-package
+> tsc -p tsconfig.portfolio-ui-package.json
+
+
+> iips-production-market-data@1.0.0 build:pit-package
+> tsc -p tsconfig.pit-package.json
+
+--- raw output ends ---
+RETURN CODE: 0
+UTC end: 2026-10-28T19:27:23.427Z
