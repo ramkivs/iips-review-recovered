@@ -3,6 +3,8 @@
 > **STATUS: PROPOSED — NOT ADOPTED — NOT EFFECTIVE.** This is the single decision package for the CAP-03 sitting. Every "recommendation" below is an IRR recommendation for PA consideration. It is not a decision. Proposed wording becomes effective only when the PA adopts it in a dated act recorded in the authoritative record. Preparing this package authorizes nothing: no P-1, no capture, no A6 run, no host action, no QE, no Gate 4 execution, no Gate 5 admission, no IPD write, no durable write, no gate, pin, acceptance, qualification, admission, authorization or capability status change.
 >
 > Tracker pointers: §16.200 (`CV-CORR-180`, PR #374, merge `d7352ed`) and §16.201 (`CV-CORR-181`, this revision). This file replaces the 2026-10-29 first draft in place; the first draft's decision list was incomplete and is superseded here.
+>
+> **ADOPTED DECISION CARRIED IN THIS FILE — `PA-W-01`.** `IIPS-V3-CAP03-H1-H9-BLOCKER-WAIVER-PA-DECISION-2026-10-29-01` (2026-10-29, Program Authority Ramki) is **ADOPTED and EFFECTIVE** on publication to IRR `main`: the operator/host evidence items **H-1 through H-9 of §5 are PA-WAIVED — NOT A BLOCKER** as governance, documentary and workflow blockers, on the terms in **§9**. This ruling does not adopt, amend or make effective any of PA-01 to PA-18 or any other proposed wording in this file; those remain `PROPOSED — NOT ADOPTED — NOT EFFECTIVE`, and the header status above continues to govern them. Where §3, §4, §5 or §7 still describe H-1…H-9 as outstanding, §5.1 and §9 control; those passages are retained verbatim as the pre-ruling record and carry dated pointers. Tracker record: §16.202 (`CV-CORR-182`).
 
 **Scope.** CAP-03 PA decisions and the external evidence they depend on. IRR documentation only. Excluded and not addressed: the IPD PR #107 sourcing defect; IPD-owned changes (listed in §6 only as non-PA); the portfolio HTTP read path, IPC and durable-store work, UI and macro E2E. Non-production, single-user scope is unchanged.
 
@@ -15,7 +17,7 @@
 1. Read §1 (verified baseline) and §2 (resolved items; not for decision). Do not re-open §2 items without new evidence.
 2. Decide the items in §3 in the order given in §4. Each decision has an ID (`PA-nn`). Adopt, amend or decline each by ID. Do not combine IDs unless the text says so.
 3. Each decision lists what it unlocks and what stays blocked after adoption. Adoption of one decision never authorizes a downstream step; the downstream step needs its own prerequisites (§4.2).
-4. Operator evidence (§5) is not a PA decision and cannot be supplied by a PA ruling.
+4. Operator evidence (§5) is not a PA decision and cannot be supplied by a PA ruling. *(Dated note `PA-W-01`, 2026-10-29: the Program Authority has now ruled on these items as a class — they are waived as blockers on the terms of §9. The sentence above is retained as the pre-ruling rule. A waiver is not evidence: §5.1 states, for every item, what remains unperformed and therefore must not be claimed.)*
 
 ---
 
@@ -49,18 +51,18 @@ Corrections found while preparing this revision (not decisions; dated pointers a
 | A-Q2 | `edd0305e` designated for `tests/g3_startup_validation.test.ts` (rulings §1) | Feeds PA-03 |
 | A-Q3 | Workstream-scoped reading of act §5.1 "exhaustive" (rulings §1) | Feeds PA-02 path analysis |
 | A-GAP1 | Act §6 row S1 governs; determination §12.2 superseded for S1 by pointer (rulings §1) | S1 remains BLOCKED; identity-value conflict is PA-15 |
-| Q-S2-1 | R-1 not absolute; candidate-scoped acceptance `8eee2957` stands; R-2 cleared by corroborating transcript; D1 closed as repository-sufficiency item by S2-ACC-A1 §4 (rulings §2; decision record §4) | Operator evidence in §5 (H-2, H-3); the DA-A1 "D1" is a different item (PA-08c) |
+| Q-S2-1 | R-1 not absolute; candidate-scoped acceptance `8eee2957` stands; R-2 cleared by corroborating transcript; D1 closed as repository-sufficiency item by S2-ACC-A1 §4 (rulings §2; decision record §4) | Operator evidence in §5 (H-2, H-3) *(both `PA-WAIVED` by `PA-W-01`, 2026-10-29 — no residual)*; the DA-A1 "D1" is a different item (PA-08c) |
 | Q-S2-2 / Q-B7 | Gate 4 S2 Limb A route (c) recorded (rulings §2): PA designates a Gate 4 commit by separate act, then the native run | The designation act is PA-09; the run's admissibility is PA-06 |
 | PF10 | KEEP the `GATE_A_PRIME_*` wildcard (rulings §6) | Requires D-INST (PA-11) before use |
 | D-Q | Object: store parent. Method: D-2, with D-1 supporting (rulings §6) | Triggers PA-11 |
 | E7 | DC-C2 applies to the next capture only (rulings §6) | Later captures need the native PowerShell 5.1 run |
-| E8 | Parent `D:`; root `D:\cap03-p1-capture-20261028-01` (rulings §7; E3 applied, procedure `2026-10-28d`) | Existence of the root on the host is not verifiable from the repository (H-6) |
+| E8 | Parent `D:`; root `D:\cap03-p1-capture-20261028-01` (rulings §7; E3 applied, procedure `2026-10-28d`) | Existence of the root on the host is not verifiable from the repository (H-6) *(H-6 `PA-WAIVED` by `PA-W-01`, 2026-10-29: retained as a statement of fact, no longer a blocker; the procedure evaluates the root at invocation)* |
 | QP1 | PF-15 literals F2, F4, F5 approved as rendered in act `-02` (rulings §6) | None |
 | B-Q4 | H-12 regeneration gates L2a at the designated commit (formal §4.6 step 5; rulings §6) | H-12 adoption status is PA-10c |
 | ADP-D2 | Accepted at `a891802e`, receipt element only (rulings §6) | P1-F still blocked by other conditions |
 | C-Q1 / C-Q2 | A6 confirmed commit-independent; MC-2 chosen (rulings §6) | Authorization wording conflict is PA-12 |
 | DB-B1 | Sole capture-instrument identity is PF-11 root-safe v2, blob `191f5828` (adoption record §2) | Successor identity is PA-11 |
-| DC-C2 | Pre-invocation checks for the next capture only (adoption record §2) | Operator must perform them (H-5 scope) |
+| DC-C2 | Pre-invocation checks for the next capture only (adoption record §2) | Operator must perform them (H-5 scope) *(H-5 `PA-WAIVED` by `PA-W-01`, 2026-10-29 as a scheduling blocker; the checks remain procedure steps at any future capture)* |
 | S2-ACC-A1 | Conditional acceptance of the S2 technical result at `a891802e`; moves no gate (decision record; tracker §16.183) | S2 admission basis is PA-06 |
 | S2-IRRDOC | Dated pointer and R-2 update applied (rulings §4) | None |
 | Gate 4 authority limb | `AUTHORIZED — NOT STARTED`, effective on IPD `main` from `2026-10-23` (verified §1) | Execution, QE, Gate 5: not granted (§6) |
@@ -164,6 +166,7 @@ Each entry: question; evidence; conflicting statements; choices and consequences
   > "PA-06: [Option a / b / c]. S2 admission basis for downstream reliance: [`a891802e` / `001c3c80` / both, scoped as follows]. The pre-designation sequence of the native run at `a891802e` [is / is not] waived for L2a and Gate 4 Limb A under rulings route (c). R-1 remains an open residual until H-2 is supplied."
 - **Unlocks on adoption.** L2a status; PA-08 step 5; PA-09 step 5.
 - **Still blocked after adoption.** QE (0/11); Gate 4 execution; Gate 5 admission; `V1295`; production; S2 does not authorize P-1 (PA-14).
+- **Dated note (`PA-W-01`, 2026-10-29).** `H-2` and `H-7` are waived as blockers (§5.1). Consequences: option (b) is no longer available as a route that would demand a repeat native run, so the proposed wording's option list reduces in practice to (a) or (c); "R-1 remains an open residual until `H-2` is supplied" is superseded — the `R-1` residual is waived and the 2026-10-26 `PASS` remains recorded as **user-reported**, which is a fact and not a blocker. The choice among (a)/(c) is still a `PA` decision because it is an **admission** question; the waiver does not admit anything.
 
 ### PA-07 — Labels (Q-N1, Q-B5, and the PF-11 and Limb A collisions)
 
@@ -244,6 +247,7 @@ Three separate decisions, because they are different authority acts.
 - **PA-10c — Is H-12 adoption (S2a) a P-1 prerequisite?** Question: Formal PA-1 (§3.1, adopted): "H-12 adoption is not a prerequisite for P-1 provisioning". The packet's P1-F blocker list (row P1-F) and companion §4 sequence both list S2a before P1-F. Choices: (a) Follow PA-1: S2a is not a P1-F prerequisite; S2a is required before S3 and QE (Gate 4 §6). (b) S2a is a P1-F prerequisite as the packet and companion list. Recommendation: (a), because PA-1 is adopted and specifically addresses P-1 provisioning. Proposed wording: "PA-10c: [a / b]. For P1-F, H-12 adoption (S2a) is [not a prerequisite / a prerequisite]."
 - **Unlocks.** PA-10a enables L2c; PA-10b enables S2a; PA-10c fixes P1-F's list.
 - **Still blocked after adoption.** S3 and QE (need S1 and S2a complete per Gate 4 §6); Gate 4 execution.
+- **Dated note (`PA-W-01`, 2026-10-29).** `H-9` is waived (§5.1): `L2c` no longer blocks anything, so PA-10a no longer gates a live dependency and PA-10b (`S2a` adoption) is no longer sequenced behind operator work — it is an authority decision only. `H-12` remains **NOT REGENERATED** at `a891802e` and **NOT ADOPTED** at that pin (facts preserved). PA-10c's question is unaffected.
 
 ### PA-11 — D-INST: adoption of the successor D-2 instrument identity (DB-B1)
 
@@ -274,6 +278,7 @@ Three separate decisions, because they are different authority acts.
 
 - **Unlocks on adoption.** Operator A6 run (H-4); successor A6 before PA-11 use.
 - **Still blocked after adoption.** Capture (PA-13); P-1; any commit-keyed observation (MC-2 limits these to the attempt session).
+- **Dated note (`PA-W-01`, 2026-10-29).** `H-4` is waived as a blocker (§5.1). A6 as a **precondition** of PA-11/PA-13 sequencing is removed; `A6` remains **NOT RUN** and no D-2 effective-access result exists, so the D-2 method must not be reported as established. The MC-2 versus rulings-§7 authority question — the actual subject of PA-12 — is unaffected by the waiver.
 
 ### PA-13 — E10: capture-authorization act for P-1-C and P-1-D
 
@@ -288,6 +293,7 @@ Three separate decisions, because they are different authority acts.
   > "PA-13: [a / b / c]. E10 capture authorization: host `[ ]`, session `[ ]`, root `D:\cap03-p1-capture-20261028-01`, parent `D:`, identity `[ ]`, pins `[ ]`, window `[ ]`, operator `[ ]`. This is not P-1 authorization and does not satisfy P-1-C or P-1-D."
 - **Unlocks on adoption.** Operator P-1-C capture and P-1-D verification (H-8).
 - **Still blocked after adoption.** P-1 execution; P1-F (PA-14); S3; QE.
+- **Dated note (`PA-W-01`, 2026-10-29).** `H-5` and `H-6` are waived as blockers (§5.1): E10's rendering no longer waits on them, and no repository-verifiable root check or `DC` result is required. The procedure's own invocation-time checks are unchanged and are not a governance blocker. `H-8` is also waived — see PA-14 — so E10's *authority* is now the only thing standing between this decision and a capture, and E10 is **NOT RENDERED**.
 
 ### PA-14 — P-1 authorization act (P1-F): prerequisites only in this sitting
 
@@ -295,26 +301,29 @@ Three separate decisions, because they are different authority acts.
 - **Evidence.** Packet P1-F row: "Blocked by P1-C, P1-D, B-DESIG, L2a, L2c, ADP-D1, ADP-D2, A-GAP1, S2a." Formal §4.6 and PA-5 (P-1-F: "Render only after PA-5 path and C′ designation"). Companion §4: "P-1 remains NOT AUTHORIZED until P1-F is rendered."
 - **Prerequisite status (verified against the records above).**
 
-| Prerequisite | Status | Decision or evidence needed |
-|---|---|---|
-| P1-C (capture) | NOT ESTABLISHED | PA-13; H-8 |
-| P1-D (verification) | NOT VERIFIED FOR THE ATTEMPT | H-8 |
-| B-DESIG (designation act) | NOT DONE | PA-08a, PA-09 (step 4) |
-| L2a (fresh S2 at designated commit) | Run recorded at `a891802e`; admission open | PA-06; H-7 if option (b) |
-| L2c (H-12 at designated commit) | NOT EVIDENCED | PA-10a |
-| ADP-D1 (P-1 commit definition) | Adopted, conditional on B-1 | PA-08a |
-| ADP-D2 (receipt element) | ACCEPTED at `a891802e` (receipt element only) | None |
-| A-GAP1 (act row S1 governs) | RULED | None (subject to PA-15 for identity values) |
-| S2a (H-12 adoption) | NOT ADOPTED; P-1 relevance open | PA-10b, PA-10c |
-| Source confirmation | OPEN | PA-01 |
-| A-Q5 / A-Q6 | OPEN / CONDITIONAL | PA-03, PA-04 |
-| Identity values (successor act §4 / §5.2) | CONFLICTING | PA-15 |
+| Prerequisite | Status | Decision or evidence needed | After `PA-W-01` (2026-10-29) |
+|---|---|---|---|
+| P1-C (capture) | NOT ESTABLISHED | PA-13; H-8 | `H-8` **waived** — not a blocker; the status stays a fact. `PA-13` (E10) remains outstanding authority |
+| P1-D (verification) | NOT VERIFIED FOR THE ATTEMPT | H-8 | `H-8` **waived** — not a blocker; the status stays a fact |
+| B-DESIG (designation act) | NOT DONE | PA-08a, PA-09 (step 4) | Unchanged — authority |
+| L2a (fresh S2 at designated commit) | Run recorded at `a891802e`; admission open | PA-06; H-7 if option (b) | `H-7` **waived** — the option-(b) repeat-run branch no longer applies; admission remains `PA-06` |
+| L2c (H-12 at designated commit) | NOT EVIDENCED | PA-10a | `H-9` **waived** — not a blocker; the status stays a fact |
+| ADP-D1 (P-1 commit definition) | Adopted, conditional on B-1 | PA-08a | Unchanged — authority |
+| ADP-D2 (receipt element) | ACCEPTED at `a891802e` (receipt element only) | None | Unchanged |
+| A-GAP1 (act row S1 governs) | RULED | None (subject to PA-15 for identity values) | Unchanged |
+| S2a (H-12 adoption) | NOT ADOPTED; P-1 relevance open | PA-10b, PA-10c | Unchanged — authority |
+| Source confirmation | OPEN | PA-01 | Unchanged — authority |
+| A-Q5 / A-Q6 | OPEN / CONDITIONAL | PA-03, PA-04 | Unchanged — authority |
+| Identity values (successor act §4 / §5.2) | CONFLICTING | PA-15 | Unchanged — authority |
+
+- **`PA-W-01` effect on this list (`2026-10-29`).** No `H` item remains in the P1-F prerequisite chain: `H-7`, `H-8` and `H-9` are waived as blockers (§5.1, §9). What remains is exclusively **authority and admission** — `PA-06`, `PA-08a`, `PA-09`, `PA-13`, `PA-10b`/`PA-10c`, `PA-03`/`PA-04`, `PA-15` — or a status that is a **fact** (`P1-C` not established, `P1-D` not verified, `L2c` not evidenced, `S2a` not adopted) and must not be reported otherwise.
 
 - **IRR recommendation.** No recommendation on P1-F in this sitting. Schedule the P1-F act only after every listed prerequisite is complete and recorded. The sitting should record the prerequisite list as the agreed order.
 - **Proposed PA wording.**
   > "PA-14: The Program Authority notes the prerequisite list in this package. No P-1 authorization is given by this decision. P-1 remains NOT AUTHORIZED. The P1-F act will be rendered only after the listed prerequisites are recorded, and will name the execution commit, tree and blobs."
 - **Unlocks on adoption.** Nothing. This is a sequencing acknowledgement.
 - **Still blocked after adoption.** Everything in the P-1 chain.
+- **Dated note (`PA-W-01`, 2026-10-29).** The prerequisite list above now contains no waived evidence item; the sequencing acknowledgement therefore concerns only authority and admission decisions. P-1 remains **NOT AUTHORIZED** and no `P1-F` act is rendered by the waiver.
 
 ### PA-15 — Identity values for successor act §4 / §5.2 (the S1 identity limb)
 
@@ -382,14 +391,29 @@ Stage 3 (after the designated commit is recorded):
 
 Stage 4 (D-INST and capture):
 11. PA-11 (D-INST adoption). Depends on D-Q and PF10 (both ruled).
-12. PA-12 (A6 authorization and sequence). Operator A6 (H-4) follows.
-13. PA-13 (E10). Depends on PA-11 (if option b), PA-12, and root check (H-6).
-14. Operator P-1-C capture and P-1-D verification (H-8) under E10.
+12. PA-12 (A6 authorization and sequence). Operator A6 (H-4) follows. *(H-4 waived — see §4.1.1)*
+13. PA-13 (E10). Depends on PA-11 (if option b), PA-12, and root check (H-6). *(H-6 waived — see §4.1.1)*
+14. Operator P-1-C capture and P-1-D verification (H-8) under E10. *(H-8 waived as a prerequisite — see §4.1.1)*
 
 Stage 5 (P-1 authorization):
-15. PA-14 prerequisite check, then the P1-F act (not in this sitting). Requires PA-08a, PA-06 (L2a), L2c (PA-10a), S2a per PA-10c, PA-15, PA-03/04, PA-01, and the operator steps H-8.
+15. PA-14 prerequisite check, then the P1-F act (not in this sitting). Requires PA-08a, PA-06 (L2a), L2c (PA-10a), S2a per PA-10c, PA-15, PA-03/04, PA-01, and the operator steps H-8. *(H-7/H-8/H-9 waived — no operator evidence step remains in this set; see §4.1.1)*
 
 Stage 6 (after P-1 — out of scope for this sitting): S3, QE-1 to QE-11, Gate 4 execution and result acceptance, DQ-4 freeze, Gate 5 admission. Each has its own authority and is not decided here.
+
+### 4.1.1 Sequence after `PA-W-01` (2026-10-29) — waived items removed
+
+The sequence above is retained verbatim as the pre-ruling record. Read with the waiver, steps 12–15 change as follows; **no other step changes**, and no step is added.
+
+| Pre-ruling step | Waived dependency it carried | Post-waiver form |
+|---|---|---|
+| 5 (PA-06) | `H-2`, `H-7` | PA-06 is decided on **admission only**. Option (b) (a fresh native run) is no longer a live branch, so no operator step follows from this decision |
+| 8 (PA-10a) | `H-9` (`L2c`) | `L2c` no longer gates anything. PA-10a/PA-10b are authority decisions; `H-12` remains **NOT REGENERATED** and **NOT ADOPTED** at `a891802e` as facts |
+| 12 (PA-12 / A6) | `H-4` | `A6` is no longer a precondition of PA-11 use or PA-13 readiness; it stays **NOT RUN**, and no D-2 effective-access result may be claimed |
+| 13 (PA-13 / E10) | `H-5`, `H-6` | E10 waits only on `PA-11` / `PA-12` authority. Procedure invocation-time checks (`DC-C2`, root refusal) are unchanged and are not scheduling blockers |
+| 14 (operator P-1-C / P-1-D) | `H-8` | No operator evidence step is scheduled as a prerequisite. `P-1-C` **NOT ESTABLISHED** and `P-1-D` **NOT VERIFIED** stay recorded as facts. A capture occurs only if and when E10 authorizes one, and executing P-1 still requires that capture to have happened — the operation itself, not an evidence precondition |
+| 15 (PA-14 → P1-F) | `H-7`, `H-8` | The P1-F prerequisite set contains **no waived evidence item**; it is all authority/admission (§3 PA-14). P-1 remains **NOT AUTHORIZED** |
+
+**No stop condition in this sequence remains that is founded on a waived H item.** The two operator-environment facts the procedure evaluates at invocation (existing root; `DC-C2` checks) are procedure behaviour, not blockers, and are recorded as such in §5.1.
 
 ### 4.2 What adoption does not authorize
 
@@ -411,9 +435,11 @@ Stage 6 (after P-1 — out of scope for this sitting): S3, QE-1 to QE-11, Gate 4
 
 ---
 
-## 5. Operator and host evidence (not PA decisions)
+## 5. Operator and host evidence (not PA decisions) — H-1…H-9 **PA-WAIVED** under `PA-W-01`
 
-| ID | Evidence | Where / how | Blocks |
+> **Dated note (`PA-W-01`, 2026-10-29).** Items **H-1 through H-9** are classified **PA-WAIVED — NOT A BLOCKER** by the adopted ruling `IIPS-V3-CAP03-H1-H9-BLOCKER-WAIVER-PA-DECISION-2026-10-29-01` (§9). The table below is retained verbatim as the pre-ruling record; its "Blocks" column is superseded for H-1…H-9 by §5.1, which states for each item the waiver's exact effect, the factual status that is **not** upgraded, and any residual functional prerequisite attached to a specific operation. **H-10 is not waived** (it was never a prerequisite; it remains optional). The identifier set here is this package's own; it is not the CAP-02 QE matrix §1 `H-1`…`H-8` set, nor the G2-2 record's `H-1`…`H-9` errata set, and the waiver does not reach those.
+
+| ID | Evidence | Where / how | Blocks (pre-ruling) |
 |---|---|---|---|
 | H-1 | Host originals of the S2 run (16 sealed artifacts, `SHA256SUMS.txt` with self-hash `9d3c09db…b5225e`, `MANIFEST.json`, `s2-a891802e-20261028T192516Z.seal-recheck.txt`, `deposit-host-hashes.txt`): 18 host digests must equal the expected manifest (`evidence/integration/cap03-s2-dep-a-2026-10-29/02-deposit-manifest-expected.txt`) | `C:\iips-evidence\cap03-s2-a891802e` on host `DESKTOP-NO0NHTP`; S2-DEP-A steps 1–3 | D1 read-back; S2-DEP-A deposit |
 | H-2 | The 47-entry verification output (R-1). Until supplied, the PASS is user-reported | Operator output file; not in the repository | R-1 residual; PA-06 scope statement |
@@ -426,7 +452,26 @@ Stage 6 (after P-1 — out of scope for this sitting): S3, QE-1 to QE-11, Gate 4
 | H-9 | H-12 regeneration with full validation at the designated commit (L2c) | IPD / IRR tooling after PA-10a direction; no host requirement recorded | L2c; S2a |
 | H-10 | PF-11 `92d931fb` diagnosis (only if the PA requests it) | Operator | Not a prerequisite; optional |
 
-The S2-DEP-A transfer (steps 4–5) cannot be performed from the Linux execution environment: the host filesystem is not reachable (S2-DEP-A §3). No substitute content is admissible.
+The S2-DEP-A transfer (steps 4–5) cannot be performed from the Linux execution environment: the host filesystem is not reachable (S2-DEP-A §3). No substitute content is admissible. *(Dated note `PA-W-01`, 2026-10-29: retained as a statement of environment fact. It is no longer an outstanding obligation — `S2-DEP-A` closed as **DEPOSITED — COMPLETE** on 2026-10-29 (tracker §16.194), and H-1's remaining limbs are waived below. No further host-evidence transfer is initiated or required.)*
+
+### 5.1 Status of H-1…H-9 after `PA-W-01` — waived blocker, retained fact, residual prerequisite
+
+Every row's first fact is the ruling: **PA-WAIVED — NOT A BLOCKER.** The remaining columns exist so the waiver is not read as evidence: nothing in the repository is upgraded, no unperformed action is recorded as performed, and no missing artifact is claimed to exist.
+
+| ID | Kind of item | Waiver effect — no longer blocks | Retained factual status (not upgraded by the waiver) | Residual *functional/technical* prerequisite, and the operation it attaches to |
+|---|---|---|---|---|
+| H-1 | Evidence transfer / deposit duplicate (host originals, 18-digest reconciliation) | Closure of the `D1` read-back; any further `S2-DEP-A` deposit step. `S2-DEP-A` is already **DEPOSITED — COMPLETE** (tracker §16.194) | The 18 host-original digests were not reconciled in this repository; the deposited set's 16/16 `SHA256SUMS` match on `main` stands as recorded. No claim that the host originals were re-verified | **None.** |
+| H-2 | Evidence held outside the repository (47-entry verification output, `R-1`) | The `R-1` residual and the `PA-06` scope statement | The 2026-10-26 `PASS` remains **user-reported**; the 47-entry output is not in the repository and was not independently reproduced. The later native `s2-a891802e` run has its own published evidence (§1) | **None.** |
+| H-3 | Disputed deposit copy (recorded digest `3FD31FE6…` vs deposited `0df30bc6…`) | Closure of the `S2-ACC-A1` integrity note | The discrepancy stays recorded and **unresolved**; the deposited copy on `main` is the authoritative file for content purposes, and the host original was not produced or compared | **None.** |
+| H-4 | Unperformed runtime observation (`A6`, `E5`) | `PA-11` successor-use gating and `PA-13` capture readiness | `A6` **NOT RUN**; **no effective-access (DACL) result for the store parent exists**; the D-2 method must not be reported as established | **None that blocks a decision.** If D-2 is ever relied on, the result must come from the instrument at the time of that use; a pre-existing `A6` result cannot be cited because none exists. Affected operation: any future reliance on a D-2 effective-access finding |
+| H-5 | Unperformed operator checks (`DC-a`/`DC-b`; `DC-C2` pre-invocation checks) | `PA-13` capture-readiness gating | `DC-a`/`DC-b` results absent; the `DC-C2` checks have not been performed for any capture | **None that blocks a decision.** `DC-C2` are pre-invocation safety checks performed *by the procedure at the moment of* any future capture (procedure `2026-10-28d`); they are waived as scheduling blockers, not deleted from the procedure. Affected operation: a future capture invocation |
+| H-6 | Repository-unverifiable host fact (root `D:\cap03-p1-capture-20261028-01` absent; parent `D:` present) | `PA-13` / `E10` sequencing | Root state on `D:` was **not verified** and remains unverifiable from the repository | **None that blocks a decision.** The procedure refuses an existing root (line 197), so the instrument evaluates it at invocation; a refusal there is a procedure outcome. Affected operation: a future capture |
+| H-7 | Repeat-run demand (native S2 at the designated commit, only under `PA-06` option (b)) | `L2a` and Gate 4 Limb A; and `PA-06` option (b)'s precondition, which no longer applies | The native run `s2-a891802e-20261028T192516Z` remains the recorded run at the designated pin (`PASS`, 16/16 on `main`). Its **admission remains `PA-06`** — an authority question the waiver does not decide | **None.** The waiver removes the repeat run; it does not admit the existing run (that is `PA-06`) |
+| H-8 | Unperformed operator work (`P-1-C` capture, `P-1-D` verification) | The `P1-F` documentary prerequisite chain for `P1-C`/`P1-D` | `P-1-C` **NOT ESTABLISHED**; `P-1-D` **NOT VERIFIED FOR THE ATTEMPT**; no capture was performed and none is claimed | **Executing P-1 requires a capture to have been performed** — that is the operation itself, not a documentary precondition. Affected operation: **P-1 execution only**, which remains **NOT AUTHORIZED** (`PA-14` / the unrendered `P1-F` act). The waiver does not authorize it |
+| H-9 | Unperformed regeneration (`H-12` at the designated commit, `L2c`) | `L2c`, and the `S2a` sequencing limb that waited on it | `H-12` **NOT REGENERATED** at `a891802e`; **NOT ADOPTED** at that pin. The `H-12 R5` adoption remains effective only at its own pins | **None.** `S2a` adoption is a PA decision (`PA-10b`) — authority, not evidence — and is unaffected |
+
+**Reading rule.** For every H-1…H-9 item the answer to "does this still block a CAP-03 decision, sequence step or gate?" is **no**. The two residual entries (H-4, H-8) are not evidence demands: they state what a future *execution* would necessarily do, and neither is a prerequisite of anything decided in this package. No item above is reclassified as a technical blocker.
+
 
 ---
 
@@ -437,7 +482,7 @@ The S2-DEP-A transfer (steps 4–5) cannot be performed from the Linux execution
 | FRM-D1C (IPD row 7 citation) | IPD-OWNED | IPD prompt when IPD authority is granted; no PA ruling needed |
 | IRR-PROC (procedure text change) | NOT PA-GATED | IRR action after PA-11 (successor identity) only |
 | E3 (procedure revision) | APPLIED (`2026-10-28d`) | Further revision only if PA-11 or PA-12 require |
-| G4-S2 (native run route) | Route recorded (Q-S2-2 (c)); run depends on PA-06 and PA-09 | Operator |
+| G4-S2 (native run route) | Route recorded (Q-S2-2 (c)); run depends on PA-06 and PA-09 *(Dated note `PA-W-01`, 2026-10-29: the repeat-run limb `H-7` is waived, so this row is an admission question only and schedules no operator run)* | Operator |
 | S2-IRRDOC | APPLIED | None |
 | IPD PR #107 sourcing defect | EXCLUDED | Not addressed in this package |
 | DQ-4 freeze, S3, QE-1 to QE-11, Gate 4 execution, Gate 5 | NOT GRANTED; NOT DECIDED HERE | Separate authority after P-1 and the Gate 4 chain |
@@ -451,9 +496,10 @@ The S2-DEP-A transfer (steps 4–5) cannot be performed from the Linux execution
 | Source list | Items | Where decided |
 |---|---|---|
 | Companion §9 (items 0–12) | 0 S2 admission → PA-06; 1 source confirmation → PA-01; 2 A-Q4 → PA-02; 3 A-Q5 → PA-03; 4 A-Q6 → PA-04; 5 B-Q6 → PA-05; 6 D-INST → PA-11; 7 E10 → PA-13; 8 S2a → PA-10b/PA-10c; 9 P1-F → PA-14; 10 G4-PIN → PA-09; 11 REG-11 → PA-16; 12 REG-12 → PA-17 | Complete |
-| Companion §4 dependency sequence | PA-01, A-Q4, A-Q5, A-Q6, B-Q6, B-Q1 / B-1 (PA-08a), D-INST, E10, D1 read-back (H-1), L2c / L2a (PA-10a, PA-06), S2a (PA-10b), P1-F | Complete |
-| Packet Table 1 PA-open rows (AWAIT-PA) | A-Q1, A-Q2, A-Q3: RULED (§2). A-GAP1: RULED (§2). A-Q4: PA-02. A-Q5, A-Q6: PA-03, PA-04. B-Q1, B-Q3: PA-08a. B-Q2: not applicable under B-1; PA-08a (B-0 branch). B-Q4: RULED (§2). B-Q6: PA-05. C-Q1, C-Q2: RULED (MC-2), with conflict in PA-12. D-Q: RULED (§2). QP1: RULED (§2). E8: RULED (§2). E7: RULED (§2). PF10: RULED KEEP (§2). Q-N1, Q-B5: PA-07. Q-S2-1: RULED (§2), residual H-2/H-3. Q-S2-2 / Q-B7: RULED route (c) (§2); run admissibility PA-06. G4-S2: operator run (H-7 if needed). S2-IRRDOC: APPLIED. B-DESIG: PA-08 step 4 and PA-09. G4-PIN: PA-09. L2B: PA-18. E3: APPLIED. D-INST: PA-11. IRR-PROC: §6. E10: PA-13. P1-F: PA-14. FRM-D1C: §6. ADP-D1: PA-08a. ADP-D2: RULED (§2). | Complete |
+| Companion §4 dependency sequence | PA-01, A-Q4, A-Q5, A-Q6, B-Q6, B-Q1 / B-1 (PA-08a), D-INST, E10, D1 read-back (H-1), L2c / L2a (PA-10a, PA-06), S2a (PA-10b), P1-F *(H-1 and `L2c` `PA-WAIVED` by `PA-W-01`, 2026-10-29)* | Complete |
+| Packet Table 1 PA-open rows (AWAIT-PA) | A-Q1, A-Q2, A-Q3: RULED (§2). A-GAP1: RULED (§2). A-Q4: PA-02. A-Q5, A-Q6: PA-03, PA-04. B-Q1, B-Q3: PA-08a. B-Q2: not applicable under B-1; PA-08a (B-0 branch). B-Q4: RULED (§2). B-Q6: PA-05. C-Q1, C-Q2: RULED (MC-2), with conflict in PA-12. D-Q: RULED (§2). QP1: RULED (§2). E8: RULED (§2). E7: RULED (§2). PF10: RULED KEEP (§2). Q-N1, Q-B5: PA-07. Q-S2-1: RULED (§2), residual H-2/H-3 *(waived `PA-W-01`, 2026-10-29 — no residual)*. Q-S2-2 / Q-B7: RULED route (c) (§2); run admissibility PA-06. G4-S2: operator run (H-7 if needed). S2-IRRDOC: APPLIED. B-DESIG: PA-08 step 4 and PA-09. G4-PIN: PA-09. L2B: PA-18. E3: APPLIED. D-INST: PA-11. IRR-PROC: §6. E10: PA-13. P1-F: PA-14. FRM-D1C: §6. ADP-D1: PA-08a. ADP-D2: RULED (§2). | Complete |
 | Session package Table 1 / §5.2 minimum rulings | Q-A1 to Q-A6 and A-GAP1 (§2, PA-02 to PA-04); Q-B1 to Q-B4 and Q-B6 (PA-08a, §2, PA-05); C-Q1 and C-Q2 (§2, PA-12); D-Q (§2, PA-11 consequence); E7, E8, PF-10 (§2, PA-11, PA-13); Q-P1 (§2); Q-S2-1, Q-S2-2, Q-B5 (§2, PA-06, PA-07) | Complete |
+| §5 operator/host evidence `H-1`…`H-9` | 9 items, each waived by `PA-W-01` | §5.1 (effect, retained fact, residual) and §9 (ruling); tracked at tracker §16.202 |
 | Rulings §5 open choices | 1 G4 pin (PA-09); 2 A-Q5 mechanism (PA-03); 3 A-Q4 (PA-02); 4 R-2 premise (ruled §2; the CRLF premise recorded in rulings §3 stands); 5 D1 for Q-S2-1 (closed by S2-ACC-A1 §4; DA `D1` is PA-08c); 6 PF10, E8, D-Q, ADP-D1, ADP-D2, QP1, B-Q1, G4-PIN (§2, PA-08a, PA-09) | Complete |
 | Formal record §4.6 steps 1–6 (adopted pin-selection process) | Designation prerequisites for PA-08a and PA-09 | PA-08, PA-09, PA-10 |
 
@@ -462,3 +508,97 @@ The S2-DEP-A transfer (steps 4–5) cannot be performed from the Linux execution
 ## 8. Non-grants
 
 Nothing in this package grants: any P-1 authorization; any capture, A6 or PowerShell run; any host action; QE; Gate 4 execution or result acceptance; Gate 5 admission; S3; DQ-4 freeze; production eligibility; `durable:true`; `503` lift; any IPD write; any change to the compiled basis constants, `BASIS_COMMIT` or `BASIS_TREE`; any gate, acceptance, qualification, admission, authorization, pin or capability status. Preparing this package is not adoption of any decision in it.
+
+**`PA-W-01` boundary (`2026-10-29`).** The adopted waiver of `H-1`…`H-9` (§9) grants **none** of the above. It waives governance, documentary and workflow blocker status only. It is not a production authorization, not a durable-write authorization, not a Gate 4, QE or Gate 5 authority, not a P-1 authorization, and not an admission of any evidence. It does not change the non-production, single-user scope, and it does not make any unperformed action performed or any absent artifact present.
+
+---
+
+## 9. Adopted PA ruling — `PA-W-01`: waiver of H-1…H-9 as blockers
+
+> **This section is an ADOPTED, EFFECTIVE Program Authority decision.** It is the only adopted decision in this file. Everything in §3 remains `PROPOSED — NOT ADOPTED — NOT EFFECTIVE`.
+
+### 9.1 Decision identity
+
+| Field | Value |
+|---|---|
+| **Decision ID** | `IIPS-V3-CAP03-H1-H9-BLOCKER-WAIVER-PA-DECISION-2026-10-29-01` (short form `PA-W-01`) |
+| **Decision date** | `2026-10-29` (IST; `2026-10-29` UTC) |
+| **Authority** | **Program Authority — Ramki**, single owner, sole user and Program Authority of the single-user personal-use IIPS platform (tracker header). Rendered as an express affirmative ruling, under the standing authorization for CAP-03 in-scope work |
+| **Decision type** | Affirmative PA waiver — **not** a recommendation, **not** a proposal awaiting further approval, **not** a request |
+| **Scope** | IIPS v3.0 CAP-03, non-production, single-user application, in the IRR locus. The items are exactly **H-1 through H-9** of §5 of this package |
+| **Effective** | On publication to IRR `main` from the merge of the carrying PR, and verified by post-merge read-back (tracker §16.202) |
+| **Register effect** | Each of `H-1`…`H-9`: classification becomes **PA-WAIVED — NOT A BLOCKER** |
+
+### 9.2 The ruling, as directed
+
+The Program Authority directs that the outstanding material-evidence and host-operator items **H-1 through H-9** identified in this consolidated CAP-03 decision package are **WAIVED AS BLOCKERS**. These items are not to remain governance or workflow blockers merely because evidence was previously transferred, is held outside the repository, has a disputed deposit copy, or would require another operator transfer or repeat run to reproduce.
+
+### 9.3 Rationale
+
+1. **Reproduction cost without decision value.** Each item is either a duplicate of evidence already published and byte-verified on `main` (H-1; the 16/16 `SHA256SUMS` match and the sealed-run publication), or an artifact whose absence changes no finding already recorded (H-2, H-3), or a repeat of an unperformed action whose status is already correctly recorded as unperformed (H-4 to H-9).
+2. **The items were gating workflow, not conclusions.** They blocked sequencing steps and prerequisite lists while the underlying authority questions — admission, designation, authorization — remained untouched. Removing them from the chain changes what is *scheduled*, not what is *known*.
+3. **The host is not reachable from the execution environment.** The S2-DEP-A and D1 read-back limbs cannot be performed from the Linux environment (S2-DEP-A §3); treating them as standing blockers converts an environment limitation into an indefinite stop condition.
+4. **Single-user, non-production scope.** The Program Authority is the sole user and the operator. The cost of a repeat transfer is borne entirely by the same party who is deciding, and that party has ruled it unnecessary.
+
+### 9.4 Exact effect — item by item
+
+| Item | Class before the ruling | Class after the ruling | Removed from |
+|---|---|---|---|
+| H-1 | BLOCKED — operator (evidence transfer) | **PA-WAIVED — NOT A BLOCKER** | `D1` read-back; `S2-DEP-A` deposit limb (already `DEPOSITED — COMPLETE`, §16.194) |
+| H-2 | BLOCKED — external evidence | **PA-WAIVED — NOT A BLOCKER** | `R-1` residual; `PA-06` scope statement |
+| H-3 | BLOCKED — disputed deposit copy | **PA-WAIVED — NOT A BLOCKER** | `S2-ACC-A1` integrity-note closure |
+| H-4 | BLOCKED — operator (`A6` unrun) | **PA-WAIVED — NOT A BLOCKER** | `PA-11` successor-use sequencing; `PA-13` capture readiness |
+| H-5 | BLOCKED — operator (`DC-a`/`DC-b`, `DC-C2`) | **PA-WAIVED — NOT A BLOCKER** | `PA-13` capture readiness |
+| H-6 | BLOCKED — operator (root check) | **PA-WAIVED — NOT A BLOCKER** | `PA-13` / `E10` sequencing |
+| H-7 | BLOCKED — repeat run | **PA-WAIVED — NOT A BLOCKER** | `L2a`; Gate 4 Limb A; `PA-06` option (b) precondition |
+| H-8 | BLOCKED — operator (`P-1-C`, `P-1-D`) | **PA-WAIVED — NOT A BLOCKER** | `P1-F` documentary prerequisite chain |
+| H-9 | BLOCKED — regeneration (`L2c`) | **PA-WAIVED — NOT A BLOCKER** | `L2c`; `S2a` sequencing limb |
+
+**Consolidated effect.** (a) The nine items are removed from blocker counts, stop conditions and dependency chains wherever they appeared solely as evidence or governance requirements. (b) §4.1.1 replaces the affected sequence steps. (c) §5.1 governs the §5 table. (d) §3 items `PA-06`, `PA-10`, `PA-12`, `PA-13` and `PA-14` carry dated notes. (e) No other item is reclassified.
+
+### 9.5 What the ruling does **not** do
+
+- **It is not evidence.** Nothing in the repository is upgraded. No unperformed action is recorded as performed; no absent artifact is claimed to exist; no digest discrepancy is declared resolved. Every retained fact in §5.1 stands exactly as recorded before the ruling: `A6` not run; `DC` results absent; root state unverified; the 47-entry output not in the repository; the `H-3` digest mismatch unresolved; `P-1-C` not established; `P-1-D` not verified for the attempt; `H-12` not regenerated and not adopted at `a891802e`.
+- **It is not an admission.** S2 admission (`PA-06`), the P-1 coordinate (`PA-08a`), `G4-PIN` (`PA-09`), `L2c`/`S2a` adoption (`PA-10a`/`PA-10b`), `D-INST` (`PA-11`), `A6` authority (`PA-12`), `E10` (`PA-13`), `P1-F` (`PA-14`), identity values (`PA-15`) and every other `PA-01`…`PA-18` item remain undecided and proposed, except where §2 records them as already resolved by existing authority.
+- **It is not a production or durability authorization.** Non-production, single-user scope is unchanged. `durable:true`, any durable write, any `503` lift, Gate 4 execution, QE, result acceptance, Gate 5 admission, S3 and the DQ-4 freeze are **not** granted.
+- **It is not a P-1 authorization.** P-1 remains **NOT EXECUTED / UNSPENT / NOT AUTHORIZED**; `P1-F` is not rendered.
+- **It does not authorise another host action.** No transfer is initiated, no completed run is repeated, and the same waiver is not to be sought again.
+- **It does not reach the tracked registers.** The register counts, the `51×17` capability matrix, the gate statuses and the IPD repository are untouched. H-numbered sets in *other* IRR records (the CAP-02 QE matrix §1 `H-1`…`H-8`; the G2-2 record's `H-1`…`H-9` errata set) are **out of scope** and unchanged.
+- **It does not reach IPD.** No IPD file, branch, PR or tracker is modified from IRR. Any IPD-side consequence remains within IPD's own authority and workflow.
+
+### 9.6 Residual prerequisites — only precise functional/technical ones
+
+The waiver refuses to relabel evidence inconvenience as a technical blocker, and equally refuses to pretend that unperformed execution has no consequence. Exactly two operations carry a residual that is functional rather than documentary; neither is a prerequisite of any decision in this package, and neither is a blocker:
+
+| Operation affected | Precise residual prerequisite | Why it cannot be waived, and what it is not |
+|---|---|---|
+| **Any future reliance on a D-2 effective-access result for the store parent** (`H-4`) | A D-2 result must be produced by the instrument at the time of that use | No `A6` result exists, so none can be cited. This is a statement about what an unrun check can prove — not a demand for a transfer, and not a blocker to any sequencing step |
+| **Executing P-1** (`H-8`) | The P-1 capture must actually have been performed | An operation cannot be executed without being executed. This is the operation itself, and P-1 remains **NOT AUTHORIZED** (`PA-14` / unrendered `P1-F`); the waiver does not authorize it |
+
+No other operation has a residual. In particular: no capture-readiness step, no `L2a` or Gate 4 Limb A step, no `P1-F` prerequisite and no sequencing step retains a waived item.
+
+### 9.7 Consequences for dependent decisions (no contradiction left standing)
+
+| Decision | Pre-ruling dependency on a waived item | Post-ruling position |
+|---|---|---|
+| `PA-06` | `H-2` (`R-1` residual); `H-7` (option (b) fresh run) | Admission only; option (b) is not a live branch; `R-1` waived |
+| `PA-10a` / `PA-10b` | `H-9` (`L2c` evidence before `S2a`) | Authority only; no operator step precedes `S2a` |
+| `PA-11` | `H-4` (`A6` before successor use) | Adoption decision unaffected; `A6` no longer sequenced |
+| `PA-12` | `H-4` (the `A6` authority question) | Unaffected — it was always an authority question, and it remains open |
+| `PA-13` | `H-5`, `H-6`, `H-8` | Authority only; procedure invocation-time checks unchanged |
+| `PA-14` / `P1-F` | `H-7`, `H-8`, `H-9` | Prerequisite list is authority/admission only (§3 PA-14) |
+| `§4.1` sequence | steps 5, 8, 12, 13, 14, 15 | Replaced by §4.1.1; every other step unchanged |
+
+### 9.8 Register
+
+| ID | Check | Result |
+|---|---|---|
+| `V-W-01` | Decision ID, date, authority, scope, rationale, exact effect and non-effect recorded | **DONE** (this section) |
+| `V-W-02` | `H-1`…`H-9` each classified **PA-WAIVED — NOT A BLOCKER**, with retained fact and residual stated | **DONE** (§5.1, §9.4, §9.6) |
+| `V-W-03` | Waived items removed from blockers, stop conditions and dependency chains; no contradictory requirement left that demands the waived evidence | **DONE** (§4.1.1, §3 dated notes, §5.1, §7) |
+| `V-W-04` | Dependent decisions and sequence reconciled | **DONE** (§9.7) |
+| `V-W-05` | No factual upgrade: no unperformed action recorded as performed; no absent artifact claimed present | **DONE** (§5.1, §9.5) |
+| `V-W-06` | No new production, durability, gate, admission or P-1 authorization created | **DONE** (§8 boundary, §9.5) |
+| `V-W-07` | No IPD modification from IRR | **DONE** (no IPD write in this pass) |
+
+*End of §9. `PA-W-01` is adopted and effective; every other entry in this file remains proposed. Nothing outside `H-1`…`H-9` is waived, admitted, authorized or reclassified.*
