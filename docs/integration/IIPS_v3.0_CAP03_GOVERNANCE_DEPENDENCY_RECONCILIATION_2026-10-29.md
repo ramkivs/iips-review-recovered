@@ -33,6 +33,8 @@
 
 ## 2. A-Q4 — decision basis (no ruling recorded)
 
+> **Dated pointer (2026-10-29, `CV-CORR-181`, tracker §16.201; original text kept).** The statement below that "no IRR document under `docs/` or `evidence/` names the two PR #96 paths in the §16.143 disposition" is **incorrect**. The disposition `docs/integration/IIPS_v3.0_CAP03_S2_CANDIDATE_SCOPED_BASELINE_DISPOSITION_2026-10-26.md` (line 46, "Change set") names exactly `scripts/verify-public-package.mjs` and `tests/portfolio_ui_package.test.ts`. Verified on `origin/main` `d7352ed`. Whether that disposition is an authorizing record for the two paths is still open: PA-02 in `IIPS_v3.0_CAP03_CONSOLIDATED_PA_DECISION_PACKAGE_PROPOSED_2026-10-29.md`.
+
 **Question.** Do the two PR #96 paths (`scripts/verify-public-package.mjs`; `tests/portfolio_ui_package.test.ts`) require an authorizing record, and does IPD `aa43dec2` satisfy it? (Packet Q-A4: `docs/integration/IIPS_v3.0_CAP03_P1C_P1D_PA_DECISION_PACKET_A-F_2026-10-28.md` line 500; Tracker §16.196.)
 
 **Status.** OPEN. Rulings §1 "Not ruled"; tracker §16.196 "Not ruled … OPEN". The designation record's "A-Q4 = YES" has no supporting ruling text (§1 above).
