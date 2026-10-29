@@ -2,11 +2,13 @@
 
 > **STATUS: PROPOSED — NOT ADOPTED — NOT EFFECTIVE.** This is the single decision package for the CAP-03 sitting. Every "recommendation" below is an IRR recommendation for PA consideration. It is not a decision. Proposed wording becomes effective only when the PA adopts it in a dated act recorded in the authoritative record. Preparing this package authorizes nothing: no P-1, no capture, no A6 run, no host action, no QE, no Gate 4 execution, no Gate 5 admission, no IPD write, no durable write, no gate, pin, acceptance, qualification, admission, authorization or capability status change.
 >
-> Tracker pointers: §16.200 (`CV-CORR-180`, PR #374, merge `d7352ed`) and §16.201 (`CV-CORR-181`, this revision). This file replaces the 2026-10-29 first draft in place; the first draft's decision list was incomplete and is superseded here.
+> **PA WAIVER RECORDED — PA-19 (2026-10-29; authority: Ramki, PA and sole user; scope: IIPS v3.0 CAP-03, non-production, single-user).** Items **H-1 through H-9** of §5 are **PA-WAIVED — NOT A BLOCKER** as governance, documentary and workflow blockers. PA-19 is an affirmative PA ruling and is effective on its recording in §3 and in tracker §16.202. It does not decide PA-01 to PA-18, which remain PROPOSED — NOT ADOPTED. It does not establish any fact that was not established before. Surviving technical prerequisites are limited to T-1 to T-3 in §5.2.
+>
+> Tracker pointers: §16.200 (`CV-CORR-180`, PR #374, merge `d7352ed`), §16.201 (`CV-CORR-181`, PR #375, merge `f980f10`) and §16.202 (`CV-CORR-182`, PA-19, this revision). This file replaces the 2026-10-29 first draft in place; the first draft's decision list was incomplete and is superseded here.
 
 **Scope.** CAP-03 PA decisions and the external evidence they depend on. IRR documentation only. Excluded and not addressed: the IPD PR #107 sourcing defect; IPD-owned changes (listed in §6 only as non-PA); the portfolio HTTP read path, IPC and durable-store work, UI and macro E2E. Non-production, single-user scope is unchanged.
 
-**Status classes.** RESOLVED — existing authority (a recorded decision settles it; cited). OPEN — PA decision required (§3). BLOCKED — operator or external evidence required (§5). EXCLUDED / NON-PA (§6).
+**Status classes.** RESOLVED — existing authority (a recorded decision settles it; cited). OPEN — PA decision required (§3). BLOCKED — operator or external evidence required (§5; none remains after PA-19 for H-1 to H-9). EXCLUDED / NON-PA (§6). PA-WAIVED — NOT A BLOCKER (PA-19; H-1 to H-9 only).
 
 ---
 
@@ -15,7 +17,7 @@
 1. Read §1 (verified baseline) and §2 (resolved items; not for decision). Do not re-open §2 items without new evidence.
 2. Decide the items in §3 in the order given in §4. Each decision has an ID (`PA-nn`). Adopt, amend or decline each by ID. Do not combine IDs unless the text says so.
 3. Each decision lists what it unlocks and what stays blocked after adoption. Adoption of one decision never authorizes a downstream step; the downstream step needs its own prerequisites (§4.2).
-4. Operator evidence (§5) is not a PA decision and cannot be supplied by a PA ruling.
+4. Operator evidence items H-1 to H-9 (§5) are PA-WAIVED as blockers by PA-19 (§3). PA-19 supplies no evidence and establishes no fact. Technical prerequisites that survive are T-1 to T-3 (§5.2).
 
 ---
 
@@ -30,6 +32,7 @@
 | IPD `main` ancestry | `a891802e2691bd9c65a67d6abff20d8ce0c26d7d` ancestor of `main` (behind 0; companion §5); `f722d7d46e056d4eb3039e9d3df8045b1cce4e1c` ancestor of `main` (compare `f722d7d…main`: ahead, behind 0); `0edadb2d` (IPD PR #107 merge) on `main`; `f9ec0c5fd` (S1 identity-value determination) exists | `gh api …/compare`; A-Q5 result record §1 |
 | Tree identity | `a891802e` and `f722d7d` both have tree `76f083d7058e170d8212455c03bad1033136ee68`. `f722d7d` is an ancestor of `a891802e`; compare `f722d7d…a891802e` reports 0 changed files | `gh api …/commits/…` (tree field); compare |
 | S2 native run | `s2-a891802e-20261028T192516Z` on host `DESKTOP-NO0NHTP`; `RESULT.txt` `PASS`; `SHA256SUMS` 16/16 on `main`; 13 of 16 transcript digests reproduce only after LF→CRLF restoration | S2-ACC-A1 decision record §2; companion §5 |
+| S2 host originals (H-1) | Deposited on `main`: 19 files under `evidence/cap03-s2/` (verified present). PR #366 merged as `078e50cb…` (`2026-10-29T09:56:56Z`); `078e50cb` is an ancestor of `main` (compare ahead 53 / behind 0). Tracker §16.194 (`CV-CORR-174`, V1430–V1435): "S2-DEP-A is complete". The host-run log is operator-reported and not sandbox-readable (recorded as a report in §16.194). | `gh pr view 366`; `gh api …/compare/078e50cb…main`; `git ls-tree origin/main evidence/cap03-s2/` |
 | Standing (unchanged) | P-1-C NOT ESTABLISHED; P-1-D DESIGNATED, NOT VERIFIED FOR THE ATTEMPT; P-1 NOT EXECUTED / UNSPENT / NOT AUTHORIZED; QE 0/11; Gate 5 NOT INITIATED / NOT ADMITTED; `V1295` NOT MET; H-12 NOT ADOPTED at `a891802e`; G14 AWAIT-PA; DQ-4 8/10 (not re-verified) | tracker §16.176.10; rulings record header |
 
 Corrections found while preparing this revision (not decisions; dated pointers added in the tracker §16.201):
@@ -38,6 +41,7 @@ Corrections found while preparing this revision (not decisions; dated pointers a
 - **C-B (identity values).** Rulings record §8 says identity values are "still unresolved". The A-Q5 result record §4 (correction CV-CORR-158) says the three constants were resolved by the PA S1 identity-value determination of 2026-10-24 (binding commit `f9ec0c5`). Both cannot stand. See PA-15.
 - **C-C (A-Q5 and A-Q6 wording).** The A-Q5 result record §2 says A-O3 and target commit `a891802e` are "recorded exactly" in the IPD act and that A-Q6 is "CLEARED, items 10 and 12 only". Rulings §1 says A-Q5 mechanism and target commit were "not ruled" and §4 says A-Q6 clears only on a fresh designation act. See PA-03 and PA-04.
 - **C-D (companion §1 and the register).** The register's A-Q5, A-Q6, A-GAP1 and Q-S2-2 rows still show `AWAIT-PA` (a 2026-10-28 snapshot). A-GAP1, A-Q1, A-Q2, A-Q3 and Q-S2-2 are ruled in the rulings record (§1, §2). They are listed as RESOLVED in §2 and are not re-asked.
+- **C-G (S2-DEP-A status).** The 2026-10-29 first revision and the earlier §5 said the S2 deposit was BLOCKED. That was stale: tracker §16.194 records the deposit as complete (PR #366, `078e50cb`). Corrected in §1, §5 and §7. The waiver under PA-19 does not depend on this correction.
 
 ---
 
@@ -49,18 +53,18 @@ Corrections found while preparing this revision (not decisions; dated pointers a
 | A-Q2 | `edd0305e` designated for `tests/g3_startup_validation.test.ts` (rulings §1) | Feeds PA-03 |
 | A-Q3 | Workstream-scoped reading of act §5.1 "exhaustive" (rulings §1) | Feeds PA-02 path analysis |
 | A-GAP1 | Act §6 row S1 governs; determination §12.2 superseded for S1 by pointer (rulings §1) | S1 remains BLOCKED; identity-value conflict is PA-15 |
-| Q-S2-1 | R-1 not absolute; candidate-scoped acceptance `8eee2957` stands; R-2 cleared by corroborating transcript; D1 closed as repository-sufficiency item by S2-ACC-A1 §4 (rulings §2; decision record §4) | Operator evidence in §5 (H-2, H-3); the DA-A1 "D1" is a different item (PA-08c) |
+| Q-S2-1 | R-1 not absolute; candidate-scoped acceptance `8eee2957` stands; R-2 cleared by corroborating transcript; D1 closed as repository-sufficiency item by S2-ACC-A1 §4 (rulings §2; decision record §4) | Operator items H-2 and H-3 are PA-WAIVED as blockers (PA-19); the DA-A1 "D1" is a different item (PA-08c) |
 | Q-S2-2 / Q-B7 | Gate 4 S2 Limb A route (c) recorded (rulings §2): PA designates a Gate 4 commit by separate act, then the native run | The designation act is PA-09; the run's admissibility is PA-06 |
 | PF10 | KEEP the `GATE_A_PRIME_*` wildcard (rulings §6) | Requires D-INST (PA-11) before use |
 | D-Q | Object: store parent. Method: D-2, with D-1 supporting (rulings §6) | Triggers PA-11 |
 | E7 | DC-C2 applies to the next capture only (rulings §6) | Later captures need the native PowerShell 5.1 run |
-| E8 | Parent `D:`; root `D:\cap03-p1-capture-20261028-01` (rulings §7; E3 applied, procedure `2026-10-28d`) | Existence of the root on the host is not verifiable from the repository (H-6) |
+| E8 | Parent `D:`; root `D:\cap03-p1-capture-20261028-01` (rulings §7; E3 applied, procedure `2026-10-28d`) | Existence of the root on the host is not verifiable from the repository; H-6 PA-WAIVED as blocker (PA-19); the procedure refuses an existing root at runtime (line 197) |
 | QP1 | PF-15 literals F2, F4, F5 approved as rendered in act `-02` (rulings §6) | None |
 | B-Q4 | H-12 regeneration gates L2a at the designated commit (formal §4.6 step 5; rulings §6) | H-12 adoption status is PA-10c |
 | ADP-D2 | Accepted at `a891802e`, receipt element only (rulings §6) | P1-F still blocked by other conditions |
 | C-Q1 / C-Q2 | A6 confirmed commit-independent; MC-2 chosen (rulings §6) | Authorization wording conflict is PA-12 |
 | DB-B1 | Sole capture-instrument identity is PF-11 root-safe v2, blob `191f5828` (adoption record §2) | Successor identity is PA-11 |
-| DC-C2 | Pre-invocation checks for the next capture only (adoption record §2) | Operator must perform them (H-5 scope) |
+| DC-C2 | Pre-invocation checks for the next capture only (adoption record §2) | Checks run inside the capture procedure; H-5 PA-WAIVED as blocker (PA-19) |
 | S2-ACC-A1 | Conditional acceptance of the S2 technical result at `a891802e`; moves no gate (decision record; tracker §16.183) | S2 admission basis is PA-06 |
 | S2-IRRDOC | Dated pointer and R-2 update applied (rulings §4) | None |
 | Gate 4 authority limb | `AUTHORIZED — NOT STARTED`, effective on IPD `main` from `2026-10-23` (verified §1) | Execution, QE, Gate 5: not granted (§6) |
@@ -157,11 +161,11 @@ Each entry: question; evidence; conflicting statements; choices and consequences
 - **Conflicting statements.** Rulings §2 (run must follow designation) vs the recorded run at `a891802e` before any designation act; §5(a) `001c3c80` vs S2-ACC-A1 `a891802e`.
 - **Choices and consequences.**
   - (a) Admit the `a891802e` run as L2a and as the Gate 4 Limb A S2 result, by an express waiver of the pre-designation sequencing in route (c), once PA-09 designates `a891802e`. Consequence: no new native run is needed.
-  - (b) Admit only `001c3c80` for candidate-scoped acceptance. Consequence: a fresh native run at the designated commit is required before L2a and Gate 4 Limb A (operator H-7).
+  - (b) Admit only `001c3c80` for candidate-scoped acceptance. Consequence: the existing run is not admitted as L2a or as the Gate 4 Limb A S2 result. Under PA-19 the repeat run is not a blocker (H-7 waived), so no repeat run is required. L2a at the designated commit is then established only if a later PA act so decides.
   - (c) Both: `001c3c80` for candidate-scoped acceptance (as stated in `8eee2957`); `a891802e` for L2a and Gate 4 Limb A only after the waiver in option (a). Consequence: each admitted result is stated with its scope.
-- **IRR recommendation.** Option (c). Reason: S2-ACC-A1 already accepts the `a891802e` result at content level, and the run's executing identity equals the candidate pin. The sequencing deviation from route (c) must be waived expressly rather than assumed. If the PA declines the waiver, option (b) applies and H-7 is required.
+- **IRR recommendation.** Option (c). Reason: S2-ACC-A1 already accepts the `a891802e` result at content level, and the run's executing identity equals the candidate pin. The sequencing deviation from route (c) must be waived expressly rather than assumed. If the PA declines the sequencing waiver, option (b) applies. Under PA-19 no repeat run is required as a blocker (H-7 waived).
 - **Proposed PA wording.**
-  > "PA-06: [Option a / b / c]. S2 admission basis for downstream reliance: [`a891802e` / `001c3c80` / both, scoped as follows]. The pre-designation sequence of the native run at `a891802e` [is / is not] waived for L2a and Gate 4 Limb A under rulings route (c). R-1 remains an open residual until H-2 is supplied."
+  > "PA-06: [Option a / b / c]. S2 admission basis for downstream reliance: [`a891802e` / `001c3c80` / both, scoped as follows]. The pre-designation sequence of the native run at `a891802e` [is / is not] waived for L2a and Gate 4 Limb A under rulings route (c). R-1 remains recorded as an open residual. H-2 is PA-WAIVED as a blocker (PA-19); the PASS stays user-reported as recorded, and this decision does not depend on the 47-entry output."
 - **Unlocks on adoption.** L2a status; PA-08 step 5; PA-09 step 5.
 - **Still blocked after adoption.** QE (0/11); Gate 4 execution; Gate 5 admission; `V1295`; production; S2 does not authorize P-1 (PA-14).
 
@@ -190,7 +194,7 @@ Three separate decisions, because they are different authority acts.
 - **Conflicting statements.** ADP-D1 (`a891802e`) vs DA-A1 step-0 reading (`001c3c80`) vs `521d5482` §5(b) (`001c3c80`). Also the S1 handoff and rulings §8 ("B-1 not effective").
 - **Choices and consequences.**
   - (B-0) `001c3c80` as the P-1 execution commit. Consequence: DA-A1 receipt element (`executingCommit`) must be waived or deferred (packet B-Q2). ADP-D1 is superseded.
-  - (B-1) `a891802e` (tree `76f083d7`). Consequence: ADP-D1 is confirmed; the designation act must name the commit, tree and blobs (formal §4.6 step 4); fresh S2 (L2a) and H-12 (L2c) at `a891802e` are then required before reliance (formal §4.6 step 5). Designation is not effective for reliance until those exist (rulings §8).
+  - (B-1) `a891802e` (tree `76f083d7`). Consequence: ADP-D1 is confirmed; the designation act must name the commit, tree and blobs (formal §4.6 step 4); under PA-19 the repeat S2 run (H-7) and the H-12 regeneration (H-9) are not blockers. Reliance on the designation then depends on PA-06 (S2 admission) and, for any H-12 adoption, on T-3.
   - (B-1′) `f722d7d` (tree `76f083d7`). Consequence: the same tree, a different commit. The designation act must name one commit; `f722d7d` is the D2 PR head, `a891802e` is the commit on `main` where the A-Q5 act and S2 run are recorded. Not recommended without a stated reason.
   - (B-2) Defer. Consequence: P1-F and any P-1 step remain blocked.
 - **IRR recommendation.** B-1 at `a891802e` (tree `76f083d7…`), per the packet's B-Q1 and ADP-D1. Reason: `a891802e` is the commit at which the designated basis is recorded (A-Q5 result §2), the S2 run and the acceptance are recorded there (PA-06), and the receipt element was accepted there (ADP-D2). This is a recommendation; it is effective only if the PA designates it under PA-08a and §4.6 step 4 is satisfied.
@@ -220,7 +224,7 @@ Three separate decisions, because they are different authority acts.
 
 **PA-08 unlocks on adoption.** The designation act for the P-1 coordinate (B-DESIG step 4). Designation is not effective for reliance until steps 5 and 6 of formal §4.6 are satisfied.
 
-**PA-08 still blocked after adoption.** L2a (admission per PA-06); L2c (H-12 regeneration at the designated commit, PA-10a); P1-F (PA-14); P-1 execution and every P-1 capture (PA-13, §5).
+**PA-08 still blocked after adoption.** L2a admission (PA-06); H-12 adoption at the designated commit (PA-10b, T-3); P1-F (PA-14); P-1 execution and the attempt observations (PA-13, T-2). The repeat S2 run (H-7) and the H-12 regeneration (H-9) are not blockers under PA-19.
 
 ### PA-09 — G4-PIN: Gate 4 QE and H-12 content pin
 
@@ -239,7 +243,7 @@ Three separate decisions, because they are different authority acts.
 
 ### PA-10 — H-12 at the designated commit: regeneration (L2c), adoption (S2a), and its P-1 relevance
 
-- **PA-10a — H-12 regeneration at the designated commit (L2c).** Question: direct H-12 regeneration with full validation at the commit designated under PA-08a or PA-09. Evidence: formal §4.6 step 5; rulings §6 B-Q4 (H-12 regeneration gates L2a); tracker: "H-12 at `a891802e` (L2c) NOT ADOPTED AT THIS PIN; not started". Options: (a) direct regeneration at the designated commit; (b) defer. Recommendation: (a), at the commit chosen under PA-08a/PA-09. Proposed wording: "PA-10a: [direct / defer] H-12 regeneration with full validation at `[commit]`."
+- **PA-10a — H-12 regeneration at the designated commit (L2c).** Question: direct H-12 regeneration with full validation at the commit designated under PA-08a or PA-09. Status under PA-19: H-9 is PA-WAIVED as a blocker; regeneration remains the technical prerequisite T-3 for H-12 adoption (PA-10b) only. Evidence: formal §4.6 step 5; rulings §6 B-Q4 (H-12 regeneration gates L2a); tracker: "H-12 at `a891802e` (L2c) NOT ADOPTED AT THIS PIN; not started". Options: (a) direct regeneration at the designated commit; (b) defer. Recommendation: (a), at the commit chosen under PA-08a/PA-09. Proposed wording: "PA-10a: [direct / defer] H-12 regeneration with full validation at `[commit]`."
 - **PA-10b — H-12 adoption at that pin (S2a).** Question: adopt H-12 at the regenerated pin. Evidence: tracker §16.177.3 (R5 adoption effective only at its own pins `8eec74ae…` / `ba64b2d5…`); S2a "NOT ADOPTED" (companion §4). Options: (a) adopt after PA-10a; (b) defer. Recommendation: (a) only after PA-10a evidence exists. Proposed wording: "PA-10b: [adopt / defer] H-12 at `[commit]`, regenerated under PA-10a. This adoption is effective only at its own pins."
 - **PA-10c — Is H-12 adoption (S2a) a P-1 prerequisite?** Question: Formal PA-1 (§3.1, adopted): "H-12 adoption is not a prerequisite for P-1 provisioning". The packet's P1-F blocker list (row P1-F) and companion §4 sequence both list S2a before P1-F. Choices: (a) Follow PA-1: S2a is not a P1-F prerequisite; S2a is required before S3 and QE (Gate 4 §6). (b) S2a is a P1-F prerequisite as the packet and companion list. Recommendation: (a), because PA-1 is adopted and specifically addresses P-1 provisioning. Proposed wording: "PA-10c: [a / b]. For P1-F, H-12 adoption (S2a) is [not a prerequisite / a prerequisite]."
 - **Unlocks.** PA-10a enables L2c; PA-10b enables S2a; PA-10c fixes P1-F's list.
@@ -272,7 +276,7 @@ Three separate decisions, because they are different authority acts.
 - **Proposed PA wording.**
   > "PA-12: [a / b / c]. A6 is authorized [under operator authorization per MC-2 / by PA act]. A6 on the successor instrument is required before any use of the successor identity."
 
-- **Unlocks on adoption.** Operator A6 run (H-4); successor A6 before PA-11 use.
+- **Unlocks on adoption.** A6 run (H-4; PA-WAIVED as blocker, PA-19). T-1 applies before any successor use.
 - **Still blocked after adoption.** Capture (PA-13); P-1; any commit-keyed observation (MC-2 limits these to the attempt session).
 
 ### PA-13 — E10: capture-authorization act for P-1-C and P-1-D
@@ -286,7 +290,7 @@ Three separate decisions, because they are different authority acts.
 - **IRR recommendation.** Option (b), because D-Q (D-2) and PF10 (KEEP) are ruled and require the successor. This is a recommendation.
 - **Proposed PA wording.**
   > "PA-13: [a / b / c]. E10 capture authorization: host `[ ]`, session `[ ]`, root `D:\cap03-p1-capture-20261028-01`, parent `D:`, identity `[ ]`, pins `[ ]`, window `[ ]`, operator `[ ]`. This is not P-1 authorization and does not satisfy P-1-C or P-1-D."
-- **Unlocks on adoption.** Operator P-1-C capture and P-1-D verification (H-8).
+- **Unlocks on adoption.** The attempt session may run P-1-C capture and P-1-D verification (H-8; PA-WAIVED as blocker, PA-19). Those observations remain the technical prerequisite T-2 for P1-F. The waiver cannot establish them.
 - **Still blocked after adoption.** P-1 execution; P1-F (PA-14); S3; QE.
 
 ### PA-14 — P-1 authorization act (P1-F): prerequisites only in this sitting
@@ -297,11 +301,11 @@ Three separate decisions, because they are different authority acts.
 
 | Prerequisite | Status | Decision or evidence needed |
 |---|---|---|
-| P1-C (capture) | NOT ESTABLISHED | PA-13; H-8 |
-| P1-D (verification) | NOT VERIFIED FOR THE ATTEMPT | H-8 |
+| P1-C (capture) | NOT ESTABLISHED (not performed) | PA-13. H-8 PA-WAIVED as blocker (PA-19); attempt observations remain technical prerequisite T-2 |
+| P1-D (verification) | NOT VERIFIED FOR THE ATTEMPT (not performed) | H-8 PA-WAIVED as blocker (PA-19); T-2 |
 | B-DESIG (designation act) | NOT DONE | PA-08a, PA-09 (step 4) |
-| L2a (fresh S2 at designated commit) | Run recorded at `a891802e`; admission open | PA-06; H-7 if option (b) |
-| L2c (H-12 at designated commit) | NOT EVIDENCED | PA-10a |
+| L2a (fresh S2 at designated commit) | Run recorded at `a891802e`; admission open | PA-06. H-7 repeat run PA-WAIVED as blocker (PA-19) |
+| L2c (H-12 at designated commit) | NOT EVIDENCED | PA-10a. H-9 regeneration PA-WAIVED as blocker (PA-19); T-3 applies to adoption |
 | ADP-D1 (P-1 commit definition) | Adopted, conditional on B-1 | PA-08a |
 | ADP-D2 (receipt element) | ACCEPTED at `a891802e` (receipt element only) | None |
 | A-GAP1 (act row S1 governs) | RULED | None (subject to PA-15 for identity values) |
@@ -360,6 +364,30 @@ Three separate decisions, because they are different authority acts.
 
 ---
 
+### PA-19 — Waiver of H-1 to H-9 as blockers (PA ruling; EFFECTIVE on recording)
+
+- **Decision.** PA ruling by the Program Authority (Ramki), sole user and PA of the personal application. Effective on recording (2026-10-29). This item only; PA-01 to PA-18 are not decided by it.
+- **Authority and scope.** The PA's express direction of 2026-10-29 (the directive is the authority). Scope: IIPS v3.0 CAP-03; non-production; single-user; governance, documentary and workflow blockers only.
+- **Question.** Are the items H-1 to H-9 (§5) blockers?
+- **Ruling.** H-1 to H-9 are **PA-WAIVED — NOT A BLOCKER**.
+- **Rationale (as stated by the PA).** The evidence was previously transferred, is held outside the repository, has a disputed deposit copy, or would require another operator transfer or repeat run to reproduce. None of these is a blocker under this ruling.
+- **Records checked before recording (not re-investigated).** H-1: deposit on `main` (PR #366, `078e50cb`; tracker §16.194). H-2: absent from the repository. H-3: integrity note recorded. H-4 to H-9: not performed, as recorded.
+- **Exact effect.**
+  1. H-1 to H-9 are classified PA-WAIVED — NOT A BLOCKER in §3, §4, §5, §6, §7 of this package and in tracker §16.202, and in the dated pointers listed there.
+  2. They are removed from blocker counts, stop conditions and dependency chains where they appear solely as evidence or governance requirements covered by this ruling.
+  3. The repeat S2 run (H-7) and the H-12 regeneration (H-9) are not required as governance blockers for L2a and L2c sequencing. Their admission and adoption questions remain PA-06 and PA-10b.
+  4. S2-DEP-A is recorded as complete per tracker §16.194. No further transfer is initiated.
+- **What PA-19 does not do.**
+  - It does not establish any fact that was not established before: no P-1-C or P-1-D observation, A6 result, root existence, H-12 artifact, L2a or L2c status, PASS, digest match or identity value.
+  - It does not decide PA-01 to PA-18, and does not change any option under PA-06 or PA-08.
+  - It does not authorize any operation: capture, A6, host action, PowerShell, P-1, QE, Gate 4 execution, Gate 5, S3, DQ-4 freeze, production, durable write, `503` lift or IPD write.
+  - It does not change any gate, pin, acceptance, qualification, admission, authorization or capability status. P-1 remains NOT AUTHORIZED; QE 0/11; Gate 4 AUTHORIZED — NOT STARTED; Gate 5 NOT INITIATED / NOT ADMITTED.
+  - It does not waive any technical prerequisite. The surviving prerequisites are T-1, T-2 and T-3 (§5.2) and no others.
+- **Unlocks on recording.** The removal of H-1 to H-9 as blockers in the statements listed in tracker §16.202.
+- **Still open after recording.** PA-01 to PA-18 (PROPOSED — NOT ADOPTED), and the surviving technical prerequisites T-1 to T-3 for the operations they name.
+
+---
+
 ## 4. Dependency order
 
 ### 4.1 Sequence
@@ -382,12 +410,12 @@ Stage 3 (after the designated commit is recorded):
 
 Stage 4 (D-INST and capture):
 11. PA-11 (D-INST adoption). Depends on D-Q and PF10 (both ruled).
-12. PA-12 (A6 authorization and sequence). Operator A6 (H-4) follows.
-13. PA-13 (E10). Depends on PA-11 (if option b), PA-12, and root check (H-6).
-14. Operator P-1-C capture and P-1-D verification (H-8) under E10.
+12. PA-12 (A6 authorization and sequence). The A6 run (H-4) is PA-WAIVED as a blocker (PA-19); T-1 applies before successor use.
+13. PA-13 (E10). Depends on PA-11 (if option b) and PA-12. The root check (H-6) is PA-WAIVED as a blocker; the procedure's runtime check applies.
+14. Attempt session: P-1-C capture and P-1-D verification under E10 (H-8 PA-WAIVED as a blocker; T-2 applies to P1-F).
 
 Stage 5 (P-1 authorization):
-15. PA-14 prerequisite check, then the P1-F act (not in this sitting). Requires PA-08a, PA-06 (L2a), L2c (PA-10a), S2a per PA-10c, PA-15, PA-03/04, PA-01, and the operator steps H-8.
+15. PA-14 prerequisite check, then the P1-F act (not in this sitting). Requires PA-08a, PA-06 (L2a), L2c (PA-10a), S2a per PA-10c, PA-15, PA-03/04, PA-01, and the attempt observations (T-2).
 
 Stage 6 (after P-1 — out of scope for this sitting): S3, QE-1 to QE-11, Gate 4 execution and result acceptance, DQ-4 freeze, Gate 5 admission. Each has its own authority and is not decided here.
 
@@ -408,25 +436,44 @@ Stage 6 (after P-1 — out of scope for this sitting): S3, QE-1 to QE-11, Gate 4
 | PA-13 (E10) | P-1 authorization (E10 is not P-1 authorization) |
 | PA-14 (prerequisite list) | P-1 |
 | PA-17 (REG-12) | Gate 4 host qualification; Gate 5; `durable:true`; `503` lift |
+| PA-19 (waiver of H-1 to H-9 as blockers) | Any capture, A6 run, host operation, P-1 step, successor use, repeat run, or any established fact (for example P-1-C, L2a or L2c). It does not decide PA-01 to PA-18. |
 
 ---
 
-## 5. Operator and host evidence (not PA decisions)
+## 5. Operator and host evidence (H-1 to H-10; PA-19 status)
 
-| ID | Evidence | Where / how | Blocks |
-|---|---|---|---|
-| H-1 | Host originals of the S2 run (16 sealed artifacts, `SHA256SUMS.txt` with self-hash `9d3c09db…b5225e`, `MANIFEST.json`, `s2-a891802e-20261028T192516Z.seal-recheck.txt`, `deposit-host-hashes.txt`): 18 host digests must equal the expected manifest (`evidence/integration/cap03-s2-dep-a-2026-10-29/02-deposit-manifest-expected.txt`) | `C:\iips-evidence\cap03-s2-a891802e` on host `DESKTOP-NO0NHTP`; S2-DEP-A steps 1–3 | D1 read-back; S2-DEP-A deposit |
-| H-2 | The 47-entry verification output (R-1). Until supplied, the PASS is user-reported | Operator output file; not in the repository | R-1 residual; PA-06 scope statement |
-| H-3 | Host original of `s2-checkout-verification.txt`. Recorded digest `3FD31FE6…` does not match the deposited copy `0df30bc6…` | Host original; S2-ACC-A1 integrity note | Integrity note closure |
-| H-4 | A6 runtime on the designated host (E5). Not run | Operator, under its own authorization (PA-12) | Successor use (PA-11); capture (PA-13) |
-| H-5 | DC-a and DC-b (V1102) under their own authorization (E6); DC-C2 pre-invocation checks (E7, next capture) | Operator | PA-13 capture readiness |
-| H-6 | Root check: `D:\cap03-p1-capture-20261028-01` absent; parent `D:` present (procedure refuses an existing root, line 197) | Operator | PA-13 |
-| H-7 | Native S2 run at the designated commit, only if PA-06 option (b) or non-waiver applies | Operator; route (c) | L2a; Gate 4 Limb A |
-| H-8 | P-1-C capture and P-1-D verification under E10 | Operator; procedure `2026-10-28d` | P1-C, P1-D; P1-F |
-| H-9 | H-12 regeneration with full validation at the designated commit (L2c) | IPD / IRR tooling after PA-10a direction; no host requirement recorded | L2c; S2a |
-| H-10 | PF-11 `92d931fb` diagnosis (only if the PA requests it) | Operator | Not a prerequisite; optional |
+Items H-1 to H-9 are **PA-WAIVED — NOT A BLOCKER** under PA-19 (§3). The "Record state" column states what the records show; PA-19 does not change it. Nothing in this section is a PA decision.
 
-The S2-DEP-A transfer (steps 4–5) cannot be performed from the Linux execution environment: the host filesystem is not reachable (S2-DEP-A §3). No substitute content is admissible.
+| ID | Evidence or action | Record state (unchanged by PA-19) | PA-19 status | Surviving technical prerequisite |
+|---|---|---|---|---|
+| H-1 | S2 host originals and deposit: 16 sealed artifacts, seal `SHA256SUMS.txt`, `MANIFEST.json`, seal-recheck, deposit hashes; operator read-back (D1) | Deposited to `main` via PR #366 (`078e50cb`), 19 files under `evidence/cap03-s2/`; tracker §16.194: "S2-DEP-A is complete". The D1 read-back is not recorded as performed | PA-WAIVED — NOT A BLOCKER. Covers the S2-DEP-A deposit, the D1 read-back and the associated transfer | None |
+| H-2 | 47-entry verification output (R-1) | Not in the repository. The PASS remains user-reported | PA-WAIVED — NOT A BLOCKER | None. The PASS is not converted into repository-recorded evidence |
+| H-3 | Host original of `s2-checkout-verification.txt` (recorded digest `3FD31FE6…`; deposited copy `0df30bc6…`) | Integrity note open, as recorded in rulings §3 and S2-ACC-A1 | PA-WAIVED — NOT A BLOCKER | None. The mismatch remains a recorded historical fact |
+| H-4 | A6 runtime on the designated host (E5) | Not run | PA-WAIVED — NOT A BLOCKER | T-1, only for first use of a successor instrument (PA-11) |
+| H-5 | DC-a and DC-b (V1102) (E6); DC-C2 pre-invocation checks (E7) | Not run | PA-WAIVED — NOT A BLOCKER | None. The checks run inside the capture procedure |
+| H-6 | Root check: `D:\cap03-p1-capture-20261028-01` absent and parent `D:` present | Existence not verifiable from the repository | PA-WAIVED — NOT A BLOCKER | None. The procedure refuses an existing root at runtime (line 197) |
+| H-7 | Repeat native S2 run at the designated commit | Not performed. The existing run at `a891802e` is recorded | PA-WAIVED — NOT A BLOCKER | None. Admission of the existing run is PA-06 |
+| H-8 | P-1-C capture and P-1-D verification under E10 | Not performed | PA-WAIVED — NOT A BLOCKER as a governance, E10-rendering or sequencing blocker | T-2 (see §5.2) |
+| H-9 | H-12 regeneration with full validation at the designated commit (L2c) | Not performed | PA-WAIVED — NOT A BLOCKER | T-3, only for H-12 adoption at that pin (PA-10b) |
+| H-10 | PF-11 `92d931fb` diagnosis | Optional; only on PA request | Not waived; not required; not a blocker | None |
+
+### 5.1 What "waived" covers
+
+Under PA-19, H-1 to H-9 are removed as governance, documentary and workflow blockers wherever they appear solely as evidence transfer, evidence in a repository location, a disputed deposit copy, operator read-back, a repeat run, or an operator step that has not yet been performed. They are removed from blocker counts, stop conditions and dependency chains in this package and in tracker §16.202.
+
+PA-19 does not treat a waived item as satisfied. Where a record states that something has not happened, the record remains as written.
+
+### 5.2 Surviving technical prerequisites (complete list)
+
+Only the following three prerequisites survive. Each is a property of the operation itself, not an evidence transfer or a documentary gap.
+
+- **T-1 — Successor instrument validation before first use.** Applies only if PA-11 adopts a successor D-2 instrument. The candidate record states that it has not been parsed and has not been run; it has static checks only. Its first use on a host cannot be validated by a waiver, so parse and run validation (with A6) must precede that first use. Affected operation: any use of the successor instrument. Not affected: adoption of the identity under PA-11.
+- **T-2 — Attempt-session observations for P-1.** P-1-C capture and P-1-D verification are facts that the P1-F act must cite. They exist only if an attempt session produces them. A waiver cannot create them, so P1-F cannot cite them as established until they exist. Affected operation: the P1-F act and P-1 execution. Not affected: rendering E10 (E10 is not P-1 authorization).
+- **T-3 — H-12 artifact at the designated commit.** Applies only to adoption of H-12 at that pin (PA-10b / S2a). An adoption operates on a regenerated artifact, and none exists yet. Affected operation: H-12 adoption at the designated commit. Not affected: S2 admission (PA-06), PA-10a direction, or any other decision.
+
+No other technical prerequisite is identified in the statements affected by PA-19.
+
+No further host transfer, run, capture, A6 execution or repeat S2 run is initiated by this package.
 
 ---
 
@@ -437,7 +484,7 @@ The S2-DEP-A transfer (steps 4–5) cannot be performed from the Linux execution
 | FRM-D1C (IPD row 7 citation) | IPD-OWNED | IPD prompt when IPD authority is granted; no PA ruling needed |
 | IRR-PROC (procedure text change) | NOT PA-GATED | IRR action after PA-11 (successor identity) only |
 | E3 (procedure revision) | APPLIED (`2026-10-28d`) | Further revision only if PA-11 or PA-12 require |
-| G4-S2 (native run route) | Route recorded (Q-S2-2 (c)); run depends on PA-06 and PA-09 | Operator |
+| G4-S2 (native run route) | Route recorded (Q-S2-2 (c)); run depends on PA-06 and PA-09 | Operator; repeat run is not a blocker (H-7, PA-19) |
 | S2-IRRDOC | APPLIED | None |
 | IPD PR #107 sourcing defect | EXCLUDED | Not addressed in this package |
 | DQ-4 freeze, S3, QE-1 to QE-11, Gate 4 execution, Gate 5 | NOT GRANTED; NOT DECIDED HERE | Separate authority after P-1 and the Gate 4 chain |
@@ -451,8 +498,8 @@ The S2-DEP-A transfer (steps 4–5) cannot be performed from the Linux execution
 | Source list | Items | Where decided |
 |---|---|---|
 | Companion §9 (items 0–12) | 0 S2 admission → PA-06; 1 source confirmation → PA-01; 2 A-Q4 → PA-02; 3 A-Q5 → PA-03; 4 A-Q6 → PA-04; 5 B-Q6 → PA-05; 6 D-INST → PA-11; 7 E10 → PA-13; 8 S2a → PA-10b/PA-10c; 9 P1-F → PA-14; 10 G4-PIN → PA-09; 11 REG-11 → PA-16; 12 REG-12 → PA-17 | Complete |
-| Companion §4 dependency sequence | PA-01, A-Q4, A-Q5, A-Q6, B-Q6, B-Q1 / B-1 (PA-08a), D-INST, E10, D1 read-back (H-1), L2c / L2a (PA-10a, PA-06), S2a (PA-10b), P1-F | Complete |
-| Packet Table 1 PA-open rows (AWAIT-PA) | A-Q1, A-Q2, A-Q3: RULED (§2). A-GAP1: RULED (§2). A-Q4: PA-02. A-Q5, A-Q6: PA-03, PA-04. B-Q1, B-Q3: PA-08a. B-Q2: not applicable under B-1; PA-08a (B-0 branch). B-Q4: RULED (§2). B-Q6: PA-05. C-Q1, C-Q2: RULED (MC-2), with conflict in PA-12. D-Q: RULED (§2). QP1: RULED (§2). E8: RULED (§2). E7: RULED (§2). PF10: RULED KEEP (§2). Q-N1, Q-B5: PA-07. Q-S2-1: RULED (§2), residual H-2/H-3. Q-S2-2 / Q-B7: RULED route (c) (§2); run admissibility PA-06. G4-S2: operator run (H-7 if needed). S2-IRRDOC: APPLIED. B-DESIG: PA-08 step 4 and PA-09. G4-PIN: PA-09. L2B: PA-18. E3: APPLIED. D-INST: PA-11. IRR-PROC: §6. E10: PA-13. P1-F: PA-14. FRM-D1C: §6. ADP-D1: PA-08a. ADP-D2: RULED (§2). | Complete |
+| Companion §4 dependency sequence | PA-01, A-Q4, A-Q5, A-Q6, B-Q6, B-Q1 / B-1 (PA-08a), D-INST, E10, D1 read-back (H-1, PA-WAIVED as blocker), L2c / L2a (PA-10a, PA-06), S2a (PA-10b), P1-F | Complete |
+| Packet Table 1 PA-open rows (AWAIT-PA) | A-Q1, A-Q2, A-Q3: RULED (§2). A-GAP1: RULED (§2). A-Q4: PA-02. A-Q5, A-Q6: PA-03, PA-04. B-Q1, B-Q3: PA-08a. B-Q2: not applicable under B-1; PA-08a (B-0 branch). B-Q4: RULED (§2). B-Q6: PA-05. C-Q1, C-Q2: RULED (MC-2), with conflict in PA-12. D-Q: RULED (§2). QP1: RULED (§2). E8: RULED (§2). E7: RULED (§2). PF10: RULED KEEP (§2). Q-N1, Q-B5: PA-07. Q-S2-1: RULED (§2), residual H-2/H-3 (PA-WAIVED as blockers, PA-19). Q-S2-2 / Q-B7: RULED route (c) (§2); run admissibility PA-06. G4-S2: operator run (H-7 PA-WAIVED as blocker). S2-IRRDOC: APPLIED. B-DESIG: PA-08 step 4 and PA-09. G4-PIN: PA-09. L2B: PA-18. E3: APPLIED. D-INST: PA-11. IRR-PROC: §6. E10: PA-13. P1-F: PA-14. FRM-D1C: §6. ADP-D1: PA-08a. ADP-D2: RULED (§2). | Complete |
 | Session package Table 1 / §5.2 minimum rulings | Q-A1 to Q-A6 and A-GAP1 (§2, PA-02 to PA-04); Q-B1 to Q-B4 and Q-B6 (PA-08a, §2, PA-05); C-Q1 and C-Q2 (§2, PA-12); D-Q (§2, PA-11 consequence); E7, E8, PF-10 (§2, PA-11, PA-13); Q-P1 (§2); Q-S2-1, Q-S2-2, Q-B5 (§2, PA-06, PA-07) | Complete |
 | Rulings §5 open choices | 1 G4 pin (PA-09); 2 A-Q5 mechanism (PA-03); 3 A-Q4 (PA-02); 4 R-2 premise (ruled §2; the CRLF premise recorded in rulings §3 stands); 5 D1 for Q-S2-1 (closed by S2-ACC-A1 §4; DA `D1` is PA-08c); 6 PF10, E8, D-Q, ADP-D1, ADP-D2, QP1, B-Q1, G4-PIN (§2, PA-08a, PA-09) | Complete |
 | Formal record §4.6 steps 1–6 (adopted pin-selection process) | Designation prerequisites for PA-08a and PA-09 | PA-08, PA-09, PA-10 |
