@@ -1,2 +1,6 @@
-dc160dfd9e67e6917e518b8d129a728622f13f4123cda5ff9080b1814ba967d5  01-readiness-verification-record.txt
+# CAP-03 DR-2 readiness evidence folder — checksum manifest.
+# 01 was corrected 2026-10-29 (record 03); the superseded digest is preserved in 03 §6.
+# 04-correction-verification-transcript.txt is self-excluded (it contains this check's output); precedent: blob-digests.txt.
+dcc4677453ecfc043077a749b729bc53cd299335f51059fa54067b33373930d0  01-readiness-verification-record.txt
 cf0514c2aef73fcf8191493d582200822c5052debbc4f04891e2223afd5cc7e2  02-verification-transcript.txt
+74c160ac021471b5a1646a435092881a57a27e9bad0cbafb97e3d2e547a19e93  03-dr2-ipd-provider-closure-correction.md
