@@ -1,12 +1,32 @@
 # ============================================================================
-# CAP-03 S2-DEP-A - governed byte-verbatim host-original deposit: operator step
-# Target: host DESKTOP-NO0NHTP (Windows 11), non-elevated Windows PowerShell.
-# Paste the WHOLE block into one console. This script performs operator steps
-# 1-5 of the published procedure; step 6+ (verify pushed blobs, open/verify the
-# deposit PR, CI, merge, read-back, tracker) is the agent side, per:
+# CAP-03 S2-DEP-A - governed byte-verbatim host-original deposit: operator
+# steps 1-5 of the published procedure (REV 2 - authorization-anchor guard).
+# REV 2 (recorded in tracker 16.187 / CHG-2026-10-29-09 on main): the rev-1
+#   equality gate "origin/main must equal 8292fe1c..." was self-invalidating -
+#   it rejected the current authoritative main advanced by this instrument's
+#   own publication (#359). Rev 2 authorizes via CONTENT anchors evaluated on
+#   the live origin/main at run time: (a) the bytes you are running equal the
+#   published instrument blob on origin/main; (b) the approval marker of the
+#   revision is present in the tracker on origin/main; (c) the governing
+#   procedure and manifest blobs on origin/main equal their sealed digests;
+#   (d) the docs evidence tip must still equal 2cc5bc4 (immutable locus);
+#   (e) main movement vs the reviewed baseline is logged, never silent.
+#   Any unapproved or unexplained change fails closed. No byte check, source
+#   protection, branch protection or staged/committed blob-equality gate was
+#   weakened; the hash record is now itself byte-verified before commit (all
+#   19 staged paths gated; rev 1 gated 18 content files, the record was not).
+# Target: host DESKTOP-NO0NHTP (Windows 11 26300), non-elevated Windows
+#   PowerShell 5.1. Acquisition: run the published bootstrap block (operator
+#   handoff record, evidence/integration/cap03-s2-dep-a-guard-fix-2026-10-29/
+#   02-operator-bootstrap-and-handoff.txt); it clones IRR, byte-extracts THIS
+#   file from refs/remotes/origin/main and executes it. Do NOT paste this
+#   script from memory or chat - PHASE-4 proves execution-time identity and
+#   will fail closed otherwise.
+# Agent step 6+ (verify pushed blobs, deposit PR, CI, merge, read-back,
+#   tracker) proceeds per:
 #   procedure : evidence/integration/cap03-s2-dep-a-2026-10-29/03-host-transfer-minimal-operation.txt
 #   manifest  : evidence/integration/cap03-s2-dep-a-2026-10-29/02-deposit-manifest-expected.txt
-#   authority : tracker 16.183 (S2-ACC-A1; S2-DEP-A) and 16.185 (reconciliation) on IRR main
+#   authority : tracker 16.183 (S2-ACC-A1; S2-DEP-A AUTHORIZED), 16.185, 16.186, 16.187 on main
 # This script NEVER writes into the source evidence folder, never renames,
 # regenerates, re-seals, normalizes or reconstructs anything, and never touches
 # sibling folders (including any .inprogress or .seal-failed history): the
@@ -15,8 +35,15 @@
 # is recorded (seal-recheck transcript), none is invented - it is computed here
 # and becomes the transfer-time expectation, exactly as the manifest states.
 $ErrorActionPreference = 'Stop'
-$EXP_SEAL_SHA = '9d3c09dbdb691c2527a45605dea20826b4ec2ba2f110985ee3f1033783b5225e'   # recorded self-hash of SHA256SUMS.txt (16.180; verification folder 02)
-$EXP_MAIN_SHA = '8292fe1c8f9bbf1982fc6e49fcbc80d9d641fd6c'
+$EXP_SEAL_SHA   = '9d3c09dbdb691c2527a45605dea20826b4ec2ba2f110985ee3f1033783b5225e'   # recorded self-hash of folder SHA256SUMS.txt (16.180; manifest 02)
+$EXP_PROC02_SHA = '9c9319fa3d7eaa822834c2f500e04dfec2b18d8157724843126a749b2bec91ab'   # sealed digest of the governing manifest (folder SHA256SUMS.txt on main)
+$EXP_PROC03_SHA = 'a1c94ba6a2b96e08a1dc9e7e1d2c73be92c6c38f09d74aa4f00c5d8e445e0ede'   # sealed digest of the governing procedure
+$BASELINE_MAIN  = '63f70682dac7c14250c807cd82f494773339c976'   # reviewed publication baseline (drift reference only; NOT an equality gate)
+$APPROVAL_MARKER = 'CHG-2026-10-29-09'                          # rev-2 approval record; must be present in the tracker on origin/main
+$INSTR_REL  = 'docs/integration/IIPS_v3.0_CAP03_S2_DEP_A_HOST_TRANSFER_2026-10-29.ps1'
+$TRACKER_REL = 'IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md'
+$DEP02_REL  = 'evidence/integration/cap03-s2-dep-a-2026-10-29/02-deposit-manifest-expected.txt'
+$DEP03_REL  = 'evidence/integration/cap03-s2-dep-a-2026-10-29/03-host-transfer-minimal-operation.txt'
 $EXP_DOCS_SHA = '2cc5bc4302436f8ae6d84a9e657b8c1ed06b5478'
 $REPO_URL     = 'https://github.com/ramkivs/iips-review-recovered.git'
 $SRC_ROOT = 'C:\iips-evidence\cap03-s2-a891802e'
@@ -30,6 +57,8 @@ $HASHES = Join-Path $SRC_ROOT ('deposit-host-hashes-' + $STAMP + '.txt')
 $LOG    = Join-Path $SRC_ROOT ('deposit-run-log-' + $STAMP + '.txt')
 $BRANCH = 'cap03-s2-deposit-host-originals-' + $STAMP
 $STATE  = 'PASS'
+$BASE   = ''
+$DRIFT  = 'none'
 $script:LOGREF = $LOG
 function Write-Log([string]$m) {
   $line = (Get-Date).ToUniversalTime().ToString('yyyy-MM-ddTHH:mm:ssZ') + ' ' + $m
@@ -45,26 +74,40 @@ function Get-HostHash([string]$p) {
   if ($ok -eq $false) { return '' }
   return (Get-FileHash -LiteralPath $p -Algorithm SHA256).Hash.ToLower()
 }
-function Get-GitBlobDigest([string]$refName) {
+function New-BlobTmp([string]$refName) {
   New-Item -ItemType Directory -Force -Path $WORK | Out-Null
   $tmp = Join-Path $WORK ('depblob-' + [Guid]::NewGuid().ToString('N') + '.bin')
   $inner = 'cd /d ' + $REPOD + ' && git cat-file blob ' + $refName + ' > ' + $tmp
   cmd.exe /c $inner | Out-Null
   $code = $LASTEXITCODE
   $result = $null
-  if ($code -eq 0) {
-    $h = (Get-FileHash -LiteralPath $tmp -Algorithm SHA256).Hash.ToLower()
-    $len = (Get-Item -LiteralPath $tmp).Length
-    $result = @{ sha = $h; len = $len }
-  }
-  $ex = Test-Path -LiteralPath $tmp
-  if ($ex -eq $true) { Remove-Item -LiteralPath $tmp -Force }
+  if ($code -eq 0) { $result = $tmp }
   return $result
 }
+function Remove-BlobTmp([string]$tmp) {
+  $ex = Test-Path -LiteralPath $tmp
+  if ($ex -eq $true) { Remove-Item -LiteralPath $tmp -Force }
+}
+function Get-GitBlobDigest([string]$refName) {
+  $tmp = New-BlobTmp $refName
+  if ($tmp -eq $null) { return $null }
+  $h = (Get-FileHash -LiteralPath $tmp -Algorithm SHA256).Hash.ToLower()
+  $len = (Get-Item -LiteralPath $tmp).Length
+  Remove-BlobTmp $tmp
+  return @{ sha = $h; len = $len }
+}
+function Get-GitBlobText([string]$refName) {
+  $tmp = New-BlobTmp $refName
+  if ($tmp -eq $null) { return $null }
+  $txt = Get-Content -LiteralPath $tmp -Raw
+  Remove-BlobTmp $tmp
+  return $txt
+}
 New-Item -ItemType Directory -Force -Path $SRC_ROOT | Out-Null
-Add-Content -LiteralPath $LOG -Value ('# S2-DEP-A host transfer log started ' + (Get-Date).ToUniversalTime().ToString('yyyy-MM-ddTHH:mm:ssZ') + ' PS ' + $PSVersionTable.PSVersion.ToString() + ' host ' + $env:COMPUTERNAME)
+Add-Content -LiteralPath $LOG -Value ('# S2-DEP-A host transfer log started ' + (Get-Date).ToUniversalTime().ToString('yyyy-MM-ddTHH:mm:ssZ') + ' PS ' + $PSVersionTable.PSVersion.ToString() + ' host ' + $env:COMPUTERNAME + ' rev2')
 try {
   Write-Log 'PHASE-1 preflight (ordered)'
+  if ($PSCommandPath -eq '') { Set-Blocked 'script must run from a file (bootstrap), not console paste - identity cannot be attested' }
   if ((Get-Command git.exe -ErrorAction SilentlyContinue) -eq $null) { Set-Blocked 'git not installed/on PATH' }
   $dirOk = Test-Path -LiteralPath $RUN_DIR -PathType Container
   if ($dirOk -eq $false) { Set-Blocked ('source folder missing: ' + $RUN_DIR) }
@@ -97,7 +140,7 @@ try {
     if ($extra.Count -ne 0)   { Set-Blocked ('unexpected files in folder: ' + ($extra -join ',')) }
   }
   if ($STATE -eq 'PASS') {
-    Write-Log 'PHASE-3 host digests vs sealed manifest (step 2 of procedure); transcript digest computed (step 3; no recorded expectation exists - none invented)'
+    Write-Log 'PHASE-3 host digests vs sealed manifest (procedure step 2); transcript digest computed (step 3; no recorded expectation exists - none invented)'
     Add-Content -LiteralPath $HASHES -Value ('# S2-DEP-A deposit-host-hashes ' + $STAMP + ' host ' + $env:COMPUTERNAME)
     $hostDigests = @{}
     foreach ($a in $artifacts) {
@@ -120,6 +163,7 @@ try {
     $hostDigests[($RUN_NAME + '.seal-recheck.txt')] = $trDig
     Add-Content -LiteralPath $HASHES -Value ($trDig + '  ' + $RUN_NAME + '.seal-recheck.txt  bytes=' + (Get-Item -LiteralPath $TRANSCRIPT).Length + '  (transfer-time expectation; none recorded upstream)')
     # cross-check: every line inside the seal must match the host file just hashed
+    # (this verifies MANIFEST.json externally, via the seal line - not by self-reference)
     $sealLines = @(Get-Content -LiteralPath $sealPath)
     foreach ($ln in $sealLines) {
       $t = $ln.Trim()
@@ -130,10 +174,10 @@ try {
       if ($hostDigests.ContainsKey($n) -eq $false) { Set-Blocked ('seal names unknown file: ' + $n); continue }
       if ($mm.Groups[1].Value.ToLower() -ne $hostDigests[$n]) { Set-Blocked ('seal line disagrees with host hash: ' + $n) }
     }
-    Write-Log ('PHASE-3 done; ' + $artifacts.Count + ' artifacts + seal + transcript hashed; state ' + $STATE)
+    Write-Log ('PHASE-3 done; 16 sealed artifacts (incl. MANIFEST.json) + seal + transcript hashed; state ' + $STATE)
   }
   if ($STATE -eq 'PASS') {
-    Write-Log 'PHASE-4 clone and base-pin (fresh work dir; nothing existing is reused or deleted)'
+    Write-Log 'PHASE-4 clone (fresh work dir; nothing existing is reused or deleted)'
     $wdOk = Test-Path -LiteralPath $WORK
     if ($wdOk -eq $true) { Set-Blocked 'work dir already exists (unexpected)' }
   }
@@ -143,13 +187,42 @@ try {
     if ($LASTEXITCODE -ne 0) { Set-Blocked 'git clone failed' }
   }
   if ($STATE -eq 'PASS') {
+    Write-Log 'PHASE-4b authorization anchors (content-anchored; fail-closed on any unapproved change; drift logged, never silent)'
     & git.exe -C $REPOD fetch --quiet origin refs/heads/main:refs/remotes/origin/main refs/heads/docs/g3-d0-registration-2026-10-18:refs/remotes/origin/docs/g3-d0-registration-2026-10-18 2>&1 | Out-Null
+    if ($LASTEXITCODE -ne 0) { Set-Blocked 'cannot fetch main or docs refs from origin' }
     $mainNow = (& git.exe -C $REPOD rev-parse --verify refs/remotes/origin/main).Trim()
-    if ($mainNow -ne $EXP_MAIN_SHA) { Set-Blocked ('main moved (expected ' + $EXP_MAIN_SHA + ' got ' + $mainNow + '). STOP: fetch the current script version from main and rerun from phase 1.') }
     $docsNow = (& git.exe -C $REPOD rev-parse --verify refs/remotes/origin/docs/g3-d0-registration-2026-10-18).Trim()
-    if ($docsNow -ne $EXP_DOCS_SHA) { Set-Blocked 'docs evidence branch tip moved; STOP and report to PA' }
+    if ($docsNow -ne $EXP_DOCS_SHA) { Set-Blocked 'docs evidence branch tip moved off 2cc5bc4; STOP and report to PA (evidence locus is immutable)' }
     $bDup = (& git.exe -C $REPOD ls-remote --heads origin $BRANCH)
     if ([string]::IsNullOrWhiteSpace($bDup) -eq $false) { Set-Blocked 'deposit branch name already exists on origin' }
+    $pubInstr = Get-GitBlobDigest ('refs/remotes/origin/main:' + $INSTR_REL)
+    if ($pubInstr -eq $null) { Set-Blocked 'instrument not found on origin/main' }
+    if ($PSCommandPath -eq $null) { Set-Blocked 'running file path unavailable; bootstrap required' }
+    if ($STATE -eq 'PASS') {
+      $runDig = (Get-FileHash -LiteralPath $PSCommandPath -Algorithm SHA256).Hash.ToLower()
+      if ($runDig -ne $pubInstr.sha) { Set-Blocked 'running script bytes differ from the published instrument blob on origin/main (main advanced or file edited after extraction) - re-run the bootstrap block' }
+    }
+    $trk = Get-GitBlobText ('refs/remotes/origin/main:' + $TRACKER_REL)
+    if ($trk -eq $null) { Set-Blocked 'tracker not readable at origin/main' }
+    if ($STATE -eq 'PASS') {
+      if ($trk.Contains($APPROVAL_MARKER) -eq $false) { Set-Blocked ('approval record ' + $APPROVAL_MARKER + ' absent from the tracker on origin/main; this instrument is not authorized against that head') }
+    }
+    $p02 = Get-GitBlobDigest ('refs/remotes/origin/main:' + $DEP02_REL)
+    $p03 = Get-GitBlobDigest ('refs/remotes/origin/main:' + $DEP03_REL)
+    if ($p02 -eq $null) { Set-Blocked 'governing manifest not readable at origin/main' }
+    if ($p03 -eq $null) { Set-Blocked 'governing procedure not readable at origin/main' }
+    if ($STATE -eq 'PASS') {
+      if ($p02.sha -ne $EXP_PROC02_SHA) { Set-Blocked 'governing manifest (02) digest differs from its sealed hash record - procedure set changed; STOP, report to PA' }
+      if ($p03.sha -ne $EXP_PROC03_SHA) { Set-Blocked 'governing procedure (03) digest differs from its sealed hash record - procedure set changed; STOP, report to PA' }
+    }
+    if ($STATE -eq 'PASS') {
+      $BASE = $mainNow
+      if ($mainNow -ne $BASELINE_MAIN) {
+        $DRIFT = 'main moved ' + $BASELINE_MAIN.Substring(0,8) + ' -> ' + $mainNow.Substring(0,8) + '; all content anchors verified at this head'
+        Write-Log ('MAIN-MOVED from reviewed baseline; ' + $DRIFT)
+      }
+      Write-Log ('PHASE-4b PASS; authorized main head ' + $mainNow + ' (reviewed baseline ' + $BASELINE_MAIN + ')')
+    }
   }
   if ($STATE -eq 'PASS') {
     Write-Log 'PHASE-5 double-anchor: host MANIFEST.json must equal the published blob at 2cc5bc4 (folder unchanged since publication)'
@@ -163,8 +236,8 @@ try {
     if ($pubSeal.sha -ne $sealHost) { Set-Blocked 'host seal differs from published blob; STOP' }
   }
   if ($STATE -eq 'PASS') {
-    Write-Log 'PHASE-6 create deposit branch from pinned main; binary-safe copy; stage ONLY authorized paths'
-    & git.exe -C $REPOD checkout -q -b $BRANCH $EXP_MAIN_SHA
+    Write-Log 'PHASE-6 create deposit branch from the verified main head; binary-safe copy; stage ONLY authorized paths (19)'
+    & git.exe -C $REPOD checkout -q -b $BRANCH $BASE
     $dest = Join-Path $REPOD ('evidence/cap03-s2/' + $RUN_NAME)
     New-Item -ItemType Directory -Force -Path $dest | Out-Null
     $relPaths = @()
@@ -178,22 +251,25 @@ try {
     $relPaths += ('evidence/cap03-s2/' + $RUN_NAME + '/SHA256SUMS.txt')
     Copy-Item -LiteralPath $TRANSCRIPT -Destination (Join-Path $REPOD ('evidence/cap03-s2/' + $RUN_NAME + '.seal-recheck.txt')) -Force
     $relPaths += ('evidence/cap03-s2/' + $RUN_NAME + '.seal-recheck.txt')
+    # committed verification record: canonical name per procedure step 4; host-local copy keeps
+    # the stamp so successive runs never overwrite prior transfer records (failed-run history)
     Copy-Item -LiteralPath $HASHES -Destination (Join-Path $REPOD 'evidence/cap03-s2/deposit-host-hashes.txt') -Force
     $relPaths += 'evidence/cap03-s2/deposit-host-hashes.txt'
     & git.exe -C $REPOD add --ignore-missing -- $relPaths 2>&1 | Out-Null
     $staged = @(& git.exe -C $REPOD diff --cached --name-only)
-    if ($staged.Count -ne $relPaths.Count) { Set-Blocked ('staged count ' + $staged.Count + ' != expected ' + $relPaths.Count) }
+    if ($staged.Count -ne 19) { Set-Blocked ('staged count ' + $staged.Count + ' != expected 19 (18 content + 1 verification record)') }
     foreach ($s in $staged) {
       if ($s.StartsWith('evidence/cap03-s2/') -eq $false) { Set-Blocked ('unexpected staged path: ' + $s) }
     }
   }
   if ($STATE -eq 'PASS') {
-    Write-Log 'PHASE-7 STOP-BEFORE-COMMIT gate: staged blob bytes must equal host bytes for all 18 evidence files (catches ANY git normalization)'
+    Write-Log 'PHASE-7 STOP-BEFORE-COMMIT gate: staged blob bytes must equal host bytes for all 19 staged paths (catches ANY git normalization)'
     $hostExpected = @{}
     foreach ($a in $artifacts) { $hostExpected[('evidence/cap03-s2/' + $RUN_NAME + '/' + $a.path)] = @{ sha = $a.sha256.ToLower(); len = [int]$a.bytes } }
     $hostExpected[('evidence/cap03-s2/' + $RUN_NAME + '/SHA256SUMS.txt')] = @{ sha = $sealHost; len = (Get-Item -LiteralPath $sealPath).Length }
     $hostExpected[('evidence/cap03-s2/' + $RUN_NAME + '/MANIFEST.json')] = @{ sha = $manHost; len = (Get-Item -LiteralPath $manPath).Length }
     $hostExpected[('evidence/cap03-s2/' + $RUN_NAME + '.seal-recheck.txt')] = @{ sha = $trDig; len = (Get-Item -LiteralPath $TRANSCRIPT).Length }
+    $hostExpected['evidence/cap03-s2/deposit-host-hashes.txt'] = @{ sha = (Get-HostHash $HASHES); len = (Get-Item -LiteralPath $HASHES).Length }
     foreach ($k in ($hostExpected.Keys | Sort-Object)) {
       $st = Get-GitBlobDigest (':' + $k)
       if ($st -eq $null) { Set-Blocked ('cannot extract staged blob: ' + $k); continue }
@@ -207,7 +283,7 @@ try {
   }
   if ($STATE -eq 'PASS') {
     Write-Log 'PHASE-8 commit, re-verify committed blobs, then (and only then) push'
-    & git.exe -C $REPOD -c user.name='ramkivs' -c user.email='302525469+ramkivs@users.noreply.github.com' commit -q -m ('evidence(cap03): S2-DEP-A byte-verbatim host-original deposit of ' + $RUN_NAME + ' (16 sealed artifacts + seal + seal-recheck transcript + hash record); base main ' + $EXP_MAIN_SHA.Substring(0,8) + '; per procedure step 5') 2>&1 | Out-Null
+    & git.exe -C $REPOD -c user.name='ramkivs' -c user.email='302525469+ramkivs@users.noreply.github.com' commit -q -m ('evidence(cap03): S2-DEP-A byte-verbatim host-original deposit of ' + $RUN_NAME + ' (16 sealed artifacts + seal + seal-recheck transcript + hash record = 19 paths); base main ' + $BASE.Substring(0,8) + '; per procedure step 5') 2>&1 | Out-Null
     foreach ($k in ($hostExpected.Keys | Sort-Object)) {
       $cb = Get-GitBlobDigest ('HEAD:' + $k)
       if ($cb -eq $null) { Set-Blocked ('cannot read committed blob: ' + $k); continue }
@@ -222,10 +298,10 @@ try {
     $headSha = (& git.exe -C $REPOD rev-parse --verify HEAD).Trim()
     $remoteLine = (& git.exe -C $REPOD ls-remote origin ('refs/heads/' + $BRANCH))
     if ($remoteLine -notmatch $headSha) { Set-Blocked 'pushed ref does not match local head' }
-    Add-Content -LiteralPath $HASHES -Value ('# deposit branch ' + $BRANCH + ' head ' + $headSha + ' base ' + $EXP_MAIN_SHA)
+    Add-Content -LiteralPath $HASHES -Value ('# deposit branch ' + $BRANCH + ' head ' + $headSha + ' base ' + $BASE + ' reviewed-baseline ' + $BASELINE_MAIN + ' drift: ' + $DRIFT)
     Write-Log 'RESULT: PASS'
-    Write-Log ('branch=' + $BRANCH + ' head=' + $headSha + ' base=' + $EXP_MAIN_SHA)
-    Write-Log ('source folder untouched; 19 files staged/committed/pushed; verification record: ' + $HASHES)
+    Write-Log ('branch=' + $BRANCH + ' head=' + $headSha + ' base=' + $BASE + ' drift=' + $DRIFT)
+    Write-Log ('source folder untouched; 19 paths (18 governed content files + 1 verification record) staged/committed/pushed; verification record: ' + $HASHES)
     Write-Log 'NEXT (agent side, step 6): independently verify pushed blob digests vs host digests above, open the dedicated deposit PR (base main), CI, merge, per-blob remote read-back, tracker record. No downstream gate is implied by the deposit.'
   }
   if ($STATE -ne 'PASS') {
@@ -237,7 +313,7 @@ catch {
   $script:STATE = 'BLOCKED'
   Write-Log ('EXCEPTION ' + $_.Exception.Message)
   Write-Log ('AT ' + $_.InvocationInfo.PositionMessage)
-  Write-Log 'RESULT: BLOCKED (exception) - source evidence untouched; nothing was pushed on exception after PHASE-8 push start unless logged above.'
+  Write-Log 'RESULT: BLOCKED (exception) - source evidence untouched; nothing was pushed unless a push-completed line is logged above.'
 }
 Write-Host ''
 Write-Host ('S2-DEP-A host transfer finished with state: ' + $STATE + '   (log: ' + $LOG + ')')

@@ -1,0 +1,32 @@
+CAP-03 S2-DEP-A - operator bootstrap and handoff (rev-2 instrument). PA-authorized deposit; operator executes ON DESKTOP-NO0NHTP where C:\iips-evidence exists. The agent cannot and does not execute it. No substitute files; no normalized copies; stop at this boundary otherwise.
+
+ONE copy-pasteable PowerShell block (Windows PowerShell 5.1, non-elevated; run from any location):
+
+$ErrorActionPreference = 'Stop'
+$src  = 'C:\iips-evidence\cap03-s2-a891802e'
+$boot = Join-Path $src ('deposit-bootstrap-' + (Get-Date).ToUniversalTime().ToString('yyyyMMddTHHmmssZ'))
+New-Item -ItemType Directory -Force -Path $boot | Out-Null
+& git.exe clone --quiet -- https://github.com/ramkivs/iips-review-recovered.git (Join-Path $boot 'repo') 2>&1 | ForEach-Object { Write-Host $_ }
+$ok = $true
+if ($LASTEXITCODE -ne 0) { $ok = $false; Write-Host 'BOOTSTRAP BLOCKED: clone failed (check network/credentials)' }
+if ($ok -eq $true) { cmd.exe /c ('cd /d ' + (Join-Path $boot 'repo') + ' && git cat-file blob refs/remotes/origin/main:docs/integration/IIPS_v3.0_CAP03_S2_DEP_A_HOST_TRANSFER_2026-10-29.ps1 > ' + (Join-Path $boot 'instrument.ps1')) | Out-Null }
+if ($ok -eq $true) { if ($LASTEXITCODE -eq 0) { Write-Host 'instrument extracted byte-exactly from origin/main' } }
+if ($ok -eq $true) { if ($LASTEXITCODE -ne 0) { $ok = $false; Write-Host 'BOOTSTRAP BLOCKED: extraction failed' } }
+if ($ok -eq $true) { powershell.exe -NoProfile -ExecutionPolicy Bypass -File (Join-Path $boot 'instrument.ps1') }
+if ($ok -eq $false) { Write-Host 'Bootstrap stopped before any transfer; source untouched; report to PA.' }
+if ($ok -eq $false) { Read-Host 'Press ENTER when done' }
+
+WHAT IT DOES: byte-extracts the approved instrument (docs/integration/IIPS_v3.0_CAP03_S2_DEP_A_HOST_TRANSFER_2026-10-29.ps1 on main; sha256 b97dab0ae179a785da61b934fe296685966da4c3e64099cccea0f8c2065b754a; 320 lines; blob bffc0ff0529274a286d717ed8b601d60398f1ab1) from the live origin/main and executes it. The instrument re-asserts its own identity against main, then performs procedure steps 1-5: validates folders/manifest/hashes, clones, checks authorization anchors (approval marker CHG-2026-10-29-09 + sealed procedure/manifest digests + docs tip 2cc5bc4 + instrument byte-identity; reviewed baseline main 63f70682..., drift logged not silent), copies exactly the 19 authorized paths, gates staged AND committed blob bytes == host bytes for all 19, then commits, pushes branch cap03-s2-deposit-host-originals-<stamp>, confirms via ls-remote. Parameters: none required (all constants embedded; branch stamp is UTC run time).
+
+BASELINE AND DRIFT RULES (approved): deposit base = the current origin/main head at run time AFTER all content anchors pass; anchors are the authority, the 63f70682 baseline is a logged reference. Main moving because governance records (e.g. PR #353's own reconciliation merge) land after this publication does NOT invalidate the instrument; any change to the instrument, the procedure/manifest pair, the approval marker's tracker record, or the 2cc5bc4 locus DOES block.
+
+EXPECTED OUTCOMES:
+  PASS     - log ends 'RESULT: PASS'; branch pushed; return files:
+             C:\iips-evidence\cap03-s2-a891802e\deposit-run-log-<stamp>.txt
+             C:\iips-evidence\cap03-s2-a891802e\deposit-host-hashes-<stamp>.txt
+             (the committed record evidence/cap03-s2/deposit-host-hashes.txt on the pushed branch is the same content plus one trailer line appended after push - the agent verifies the committed copy against the 18 hash lines, the trailer is metadata)
+  BLOCKED  - 'RESULT: BLOCKED ...' with the failing gate named; NOTHING pushed; source folder untouched (read-only by design); work dir deposit-work-<stamp> and the log preserved for inspection; failed-run history (sibling .inprogress/.seal-failed entries and prior logs) untouched - report the log to PA/agent verbatim. Do NOT hand-fix bytes, do NOT re-seal, do NOT rerun S2.
+  EXCEPTION line = same BLOCKED handling.
+EVIDENCE TO RETURN: both <stamp> files above + the branch name + any git output lines logged. The pushed branch's head SHA is printed in the PASS summary.
+
+STATUS CONFIRMATIONS: source folder byte-untouched requirement is enforced (double-anchor to 2cc5bc4 + seal self-hash); the agent side performs no transfer; no deposit is claimed by any artifact until step 6 verification completes (independent blob-vs-host digests, dedicated deposit PR, CI, merge, per-blob read-back, tracker record) - and only then may S2-DEP-A be recorded complete and PR #353's merge be re-presented under its own authority.
