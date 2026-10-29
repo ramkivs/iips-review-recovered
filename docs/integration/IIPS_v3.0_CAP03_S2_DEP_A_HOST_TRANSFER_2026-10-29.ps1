@@ -1,7 +1,22 @@
 # ============================================================================
 # CAP-03 S2-DEP-A - governed byte-verbatim host-original deposit: operator
-# steps 1-5 of the published procedure (REV 5 - honest remote-read
-# classification and exit-verified push confirmation).
+# steps 1-5 of the published procedure (REV 6 - PHASE-4 clone runs quietly
+# so PowerShell 5.1 cannot convert the routine clone progress of git into
+# a terminating error; published identity reconciled at origin/main).
+# REV 6 (recorded in tracker 16.192 / CHG-2026-10-29-14 on main): one
+#   operational correction, reporting-and-robustness only; no integrity gate
+#   changed. The first host run (log deposit-run-log-20261029T090117Z) saw
+#   PHASE-4 pipe git clone output through the run log; the routine
+#   'Cloning into ...' progress goes to stderr, and Windows PowerShell 5.1
+#   with ErrorActionPreference=Stop converts such merged stderr records into
+#   a terminating NativeCommandError - aborting an otherwise healthy clone.
+#   Rev 6 adds --quiet to the clone (routine progress suppressed; any
+#   remaining stderr lines are still logged) while KEEPING the exit-code
+#   gate and the outer catch, so genuine clone failures still block. A locally
+#   patched copy of the instrument was correctly refused by the PHASE-4b
+#   running-bytes identity gate (fail-closed, as designed); rev 6 reconciles
+#   this by PUBLISHING the corrected bytes and advancing the approval anchors
+#   - the identity gate itself is untouched and remains mandatory.
 # REV 5 (recorded in tracker 16.191 / CHG-2026-10-29-13 on main): two
 #   residual defects in rev 4, reporting-only; no integrity gate changed.
 #   (1) The footer arm for rejected/indeterminate pushes asserted that
@@ -58,7 +73,7 @@
 #   Any unapproved or unexplained change fails closed.
 # Target: host DESKTOP-NO0NHTP (Windows 11 26300), non-elevated Windows
 #   PowerShell 5.1. Acquisition: run the published bootstrap block (operator
-#   handoff record, evidence/integration/cap03-s2-dep-a-rev5-remote-verification-
+#   handoff record, evidence/integration/cap03-s2-dep-a-rev6-quiet-clone-
 #   2026-10-29/02-operator-bootstrap-and-handoff.txt); it clones IRR,
 #   byte-extracts THIS file from refs/remotes/origin/main and executes it.
 #   Do NOT paste this script from memory or chat - PHASE-4 proves
@@ -67,7 +82,7 @@
 #   tracker) proceeds per:
 #   procedure : evidence/integration/cap03-s2-dep-a-2026-10-29/03-host-transfer-minimal-operation.txt
 #   manifest  : evidence/integration/cap03-s2-dep-a-2026-10-29/02-deposit-manifest-expected.txt
-#   authority : tracker 16.183 (S2-ACC-A1; S2-DEP-A AUTHORIZED), 16.185, 16.186, 16.187, 16.188, 16.189, 16.191 on main
+#   authority : tracker 16.183 (S2-ACC-A1; S2-DEP-A AUTHORIZED), 16.185, 16.186, 16.187, 16.188, 16.189, 16.191, 16.192 on main
 # This script NEVER writes into the source evidence folder, never renames,
 # regenerates, re-seals, normalizes or reconstructs anything, and never touches
 # sibling folders (including any .inprogress or .seal-failed history): the
@@ -79,8 +94,8 @@ $ErrorActionPreference = 'Stop'
 $EXP_SEAL_SHA   = '9d3c09dbdb691c2527a45605dea20826b4ec2ba2f110985ee3f1033783b5225e'   # recorded self-hash of folder SHA256SUMS.txt (16.180; manifest 02)
 $EXP_PROC02_SHA = '9c9319fa3d7eaa822834c2f500e04dfec2b18d8157724843126a749b2bec91ab'   # sealed digest of the governing manifest (folder SHA256SUMS.txt on main)
 $EXP_PROC03_SHA = 'a1c94ba6a2b96e08a1dc9e7e1d2c73be92c6c38f09d74aa4f00c5d8e445e0ede'   # sealed digest of the governing procedure
-$BASELINE_MAIN  = 'f46e72869003b23eeb126f51f48c60001a6a0d9f'   # reviewed publication baseline (drift reference only; NOT an equality gate; movement is logged)
-$APPROVAL_MARKER = 'CHG-2026-10-29-13'                          # rev-5 approval record; must be present in the tracker on origin/main
+$BASELINE_MAIN  = '4908842e40d0c23c42a7f4b8cbebeade579ac2d9'   # reviewed publication baseline (drift reference only; NOT an equality gate; movement is logged)
+$APPROVAL_MARKER = 'CHG-2026-10-29-14'                          # rev-6 approval record; must be present in the tracker on origin/main
 $INSTR_REL  = 'docs/integration/IIPS_v3.0_CAP03_S2_DEP_A_HOST_TRANSFER_2026-10-29.ps1'
 $TRACKER_REL = 'IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md'
 $DEP02_REL  = 'evidence/integration/cap03-s2-dep-a-2026-10-29/02-deposit-manifest-expected.txt'
@@ -142,7 +157,7 @@ function Get-RemoteRef([string]$br) {
   return (($read | ForEach-Object { $_.ToString() }) -join ' | ')
 }
 function Get-ReadClass([string]$read, [string]$head) {
-  # rev5: classifies a remote-read string for truthful terminal reporting
+  # rev 5: classifies a remote-read string for truthful terminal reporting
   if ($head -eq '') { return 'unverifiable' }
   if ($read -eq '') { return 'not-read' }
   if ($read.StartsWith('UNVERIFIABLE') -eq $true) { return 'unverifiable' }
@@ -186,10 +201,10 @@ function Get-GitBlobText([string]$refName) {
 }
 try {
   if ($STATE -eq 'PASS') {
-    Write-Log 'PHASE-0 initialization (inside the guarded region; durable log is best-effort beneath a console-first path; rev5)'
+    Write-Log 'PHASE-0 initialization (inside the guarded region; durable log is best-effort beneath a console-first path; rev6)'
     try {
       New-Item -ItemType Directory -Force -Path $SRC_ROOT | Out-Null
-      $hdr = '# S2-DEP-A host transfer log started ' + (Get-Date).ToUniversalTime().ToString('yyyy-MM-ddTHH:mm:ssZ') + ' PS ' + $PSVersionTable.PSVersion.ToString() + ' host ' + $env:COMPUTERNAME + ' rev5'
+      $hdr = '# S2-DEP-A host transfer log started ' + (Get-Date).ToUniversalTime().ToString('yyyy-MM-ddTHH:mm:ssZ') + ' PS ' + $PSVersionTable.PSVersion.ToString() + ' host ' + $env:COMPUTERNAME + ' rev6'
       Add-Content -LiteralPath $LOG -Value $hdr
       $script:LOGOK = $true
       Write-Log ('durable log open at ' + $LOG)
@@ -270,13 +285,13 @@ try {
     Write-Log ('PHASE-3 done; 16 sealed artifacts (incl. MANIFEST.json) + seal + transcript hashed; state ' + $STATE)
   }
   if ($STATE -eq 'PASS') {
-    Write-Log 'PHASE-4 clone (fresh work dir; nothing existing is reused or deleted)'
+    Write-Log 'PHASE-4 clone (fresh work dir; nothing existing is reused or deleted; rev6: --quiet so PS 5.1 cannot treat routine clone progress as an error)'
     $wdOk = Test-Path -LiteralPath $WORK
     if ($wdOk -eq $true) { Set-Blocked 'work dir already exists (unexpected)' }
   }
   if ($STATE -eq 'PASS') {
     New-Item -ItemType Directory -Force -Path $WORK | Out-Null
-    & git.exe clone -- $REPO_URL $REPOD 2>&1 | ForEach-Object { Write-Log ('git: ' + $_.ToString()) }
+    & git.exe clone --quiet -- $REPO_URL $REPOD 2>&1 | ForEach-Object { Write-Log ('git: ' + $_.ToString()) }
     if ($LASTEXITCODE -ne 0) { Set-Blocked 'git clone failed' }
   }
   if ($STATE -eq 'PASS') {
@@ -385,7 +400,7 @@ try {
     }
   }
   if ($STATE -eq 'PASS') {
-    Write-Log 'PHASE-9 push (only after every gate above passed); outcome classified into five states (rev5); absence claims grounded only in verifiable reads'
+    Write-Log 'PHASE-9 push (only after every gate above passed); outcome classified into five states (rev 5); absence claims grounded only in verifiable reads'
     $headSha = (& git.exe -C $REPOD rev-parse --verify HEAD).Trim()
     $pushCode = 'not-captured'
     $script:PUSHSTATE = 'indeterminate'
@@ -413,7 +428,7 @@ try {
     }
   }
   if ($STATE -eq 'PASS') {
-    Write-Log 'PHASE-10 remote head verification (separate gated block; failure here can never print a PASS; rev5: exit code checked immediately, exact ref-line match required)'
+    Write-Log 'PHASE-10 remote head verification (separate gated block; failure here can never print a PASS; rev 5: exit code checked immediately, exact ref-line match required)'
     $verifyCode = 'not-captured'
     $remoteOut = @()
     try {
