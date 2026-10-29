@@ -1,28 +1,35 @@
 #Requires -Version 5.1
 <#
-  IIPS CAP-03 - P-1 corrected execution script, REVISION 4 (2026-10-29).
+  IIPS CAP-03 - P-1 corrected execution script, REVISION 5 (focused correction of revision 4, 2026-10-29).
   Authority: P1-F, IRR docs/integration/IIPS_v3.0_CAP03_P1_AUTHORIZATION_ACT_AND_PREREQUISITE_DECISIONS_2026-10-29.md
   (section 6, conditions 1-5). Base act: IPD commit a891802e2691bd9c65a67d6abff20d8ce0c26d7d, tree
   76f083d7058e170d8212455c03bad1033136ee68, evidence/cross-repository/IIPS_V3_CAP02_GATE_A_PRIME_SUCCESSOR_PROVISIONING_ACT_EFFECTIVE_2026-10-23.md
-  (sections 4, 6, 7, 8, 9). Companion record: docs/integration/IIPS_v3.0_CAP03_P1_F_P-1_SOURCE_TO_SCRIPT_VERIFICATION_2026-10-29.md
+  (sections 2, 4, 6, 7, 8, 9). Companion record: docs/integration/IIPS_v3.0_CAP03_P1_F_P-1_SOURCE_TO_SCRIPT_VERIFICATION_2026-10-29.md
 
-  STATUS OF THIS FILE: NOT PARSED, NOT RUN ON ANY HOST. Static review only (companion record).
-  As committed, every run refuses at S00: the designations $AuthorityRulingRef, $DesignatedActorLabel,
-  $DesignatedEvidenceRoot and $DesignatedWritabilityMethod are null. Filling them is a reviewed change that
-  cites a Program Authority record. Open questions Q-STORE, Q-EV, Q-CONS, Q-ACTOR, Q-MIG, Q-TX, Q-WRITE,
-  Q-V8, Q-BUILD are listed in the companion record, section E.
+  STATUS OF THIS FILE: NOT PARSED, NOT RUN ON ANY HOST. Static review and the companion record only.
+  As committed, every run refuses at S00 (designations null) and, if S00 were passed, at S04 (BuildAuthorityRef null).
 
-  Two stages (no default proceeds):
-    -Mode Preflight  Read-only. Runs S00-S06 and writes a sealed preflight run directory. Never invokes the
-                     entrypoint. Its run-summary.json is the input to the Execute acceptance file.
-    -Mode Execute    Requires -AcceptanceFile (a reviewed acceptance of a sealed preflight run, bound to this
-                     script's SHA-256) and -ConfirmToken P1-F-ONE-ATTEMPT. Repeats every safety check, writes
-                     EXECUTE-MARKER.json, then performs ONE --mode=execute invocation. Post-invocation steps
-                     S07-S09 always run and preserve raw evidence. There is no retry, repair or second execute.
+  EXACT EFFECTS OF EACH MODE. Neither mode is read-only. Every effect is listed here and in the summary.
+  -Mode Preflight
+    Writes:  a run directory p1-pre-<UTC>-<guid8> with raw evidence under EvidenceRoot (created exclusively);
+             node_modules, dist and dist-frontend inside the IPD checkout (npm ci and npm run build, S04);
+             one probe file in the store PARENT directory, created and then removed, only when the
+             PARENT_PROBE writability method is designated (S03). Cleanup failure of the probe is a stop.
+    Invokes: node on the built entrypoint with --mode=validate (S05). The store is expected to be absent: the
+             validation refuses (STORE_NOT_FOUND, or the recorded UNEXPECTED_FAILURE message) and does not create it.
+             Also node (sqlite load probe, S01), git, and the GitHub API (read-only queries, S02 and S06).
+    Never:   creates or modifies the designated store; creates provisioning records; writes EXECUTE-MARKER.json;
+             writes execute-claim.json; invokes --mode=execute.
+  -Mode Execute
+    Additionally: writes execute-claim.json exclusively (cross-process exclusion; retained on every outcome after
+    acquisition); writes EXECUTE-MARKER.json; performs ONE --mode=execute invocation (S07); then the post-invocation
+    evidence operations (S08-S09), each isolated and recorded as OK, FAILED, NOT_APPLICABLE or SKIPPED.
+    Requires -AcceptanceFile (a reviewed acceptance of a sealed preflight run, bound to this script's SHA-256)
+    and -ConfirmToken P1-F-ONE-ATTEMPT. There is no retry, repair, or second execute in this file.
 
-  Records: run directories are named p1-pre-<UTC>-<guid8> or p1-exe-<UTC>-<guid8>, created exclusively.
-  Files are created exclusively (CreateNew); nothing is overwritten. run-summary.json is written on a normal
-  end; failure-summary.json is written on any stop. SHA256SUMS.txt seals the directory last.
+  Records: run directories are named p1-pre-<UTC>-<guid8> or p1-exe-<UTC>-<guid8> and are created exclusively.
+  Files are created exclusively (CreateNew); nothing is overwritten. run-summary.json is written on a normal end;
+  failure-summary.json is written on any stop. SHA256SUMS.txt seals the directory last.
   The process status code is not a result. The run-summary.json or failure-summary.json file is the record.
 #>
 [CmdletBinding()]
@@ -58,6 +65,7 @@ $EntryRelative        = 'dist\src\persistence\gateAPrimeProvisioning.js'
 $ConfirmRequired      = 'P1-F-ONE-ATTEMPT'
 $MarkerName           = 'EXECUTE-MARKER.json'
 $AcceptanceSchema     = 'IIPS-P1-PREFLIGHT-ACCEPTANCE/1'
+$ClaimName            = 'execute-claim.json'
 
 # Expected migration ledger, from the pinned migration SQL (SHA-256 of the UTF-8 SQL string, as in
 # migration_ledger.ts migrationChecksum). Computed for this revision from the pinned blobs
@@ -85,6 +93,7 @@ $AuthorityRulingRef         = $null  # ruling id covering Q-STORE, Q-EV, Q-CONS,
 $DesignatedActorLabel       = $null  # Q-ACTOR: --actor label. P1-F does not name --actor; base act section 8 step 3 does.
 $DesignatedEvidenceRoot     = $null  # Q-EV: absolute external evidence root (none designated; F5 is Gate 4 scope)
 $DesignatedWritabilityMethod = $null # Q-WRITE: 'ACL_EVALUATION' or 'PARENT_PROBE'. Neither is authorized yet.
+$BuildAuthorityRef          = $null  # Q-BUILD: the exact build command sequence. Refuses S04 while null (record section B3a).
 
 # Designated blobs at the pin (P1-F section 2.3 / base act 2.3; remote-verified at a891802e on 2026-10-29).
 $DesignatedBlobs = @(
@@ -144,13 +153,20 @@ $script:LogPath        = ''
 $script:RepoFull       = ''
 $script:Sealed         = $false
 $script:StartUtc       = ''
-$script:Facts          = @{ v2A8ProxyPass = $false; v2A8LiteralTest = 'NOT_PERFORMED' }
+$script:Facts          = @{ v2A8ProxyPass = $false; v2A8LiteralTest = 'NOT_PERFORMED'; invocationStatus = 'NOT_INVOKED'; evidenceComplete = $false; evidenceRoot = '' }
 $script:ScriptPath     = [string]$MyInvocation.MyCommand.Path
 $script:ScriptSha256   = ''
 $script:AcceptanceSha256 = ''
 $script:ClosureRecord  = ''
 $script:EntryFull     = ''
 $script:ValidatePassAll = $false
+$script:ClaimAcquired  = $false
+$script:ClaimPath      = ''
+$script:ExecResult     = $null
+$script:LastCapture    = $null
+$script:ExecRawWriteFailed = $false
+$script:Forensics      = New-Object System.Collections.ArrayList
+$script:PostForensicsDone = $false
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -254,6 +270,7 @@ function Invoke-Capture {
     $proc.WaitForExit()
     $stderr = $errTask.Result
     $code = $proc.ExitCode
+    $script:LastCapture = [pscustomobject]@{ Tag = $tag; Code = $code; StdOut = $stdout; StdErr = $stderr; CommandLine = $cmdLine }
     $endedAt = Get-UtcStamp
     $proc.Dispose()
     if ($script:RunDir -ne '') {
@@ -308,6 +325,57 @@ function Get-RefusalField {
     } catch {
         return 'UNPARSEABLE'
     }
+}
+
+function Get-CanonicalPath {
+    # Canonicalizes a local drive-absolute path BEFORE any containment, ancestry or equality check. Fails closed:
+    # relative, UNC, device (\\?\), alternate-stream (colon after the drive), dot segments, empty segments,
+    # short-name (tilde) forms, trailing dot or space, forward slashes, and control characters are refused, never
+    # normalized. Limits (stated in the summary): case is not folded to the on-disk case, and SUBST aliasing is
+    # detected only by Get-SubstHits. Network and reparse-point cases are handled by the chain checks.
+    param([string] $Path, [string] $Label)
+    if ([string]::IsNullOrEmpty($Path)) { Stop-Gate 'PATH_EMPTY' ($Label + ' is empty') }
+    if ($Path -notmatch '^[A-Za-z]:\\') { Stop-Gate 'PATH_NOT_DRIVE_ABSOLUTE' ($Label + ' must start with a drive letter and a backslash') }
+    if ($Path -match '[/*?"<>|\x00-\x1f]') { Stop-Gate 'PATH_INVALID_CHARACTER' ($Label + ' contains a forbidden character') }
+    if ($Path.Substring(2).Contains(':')) { Stop-Gate 'PATH_ALTERNATE_STREAM_OR_DEVICE' ($Label + ' contains a colon after the drive letter') }
+    if ($Path.Substring(2).Contains('\\')) { Stop-Gate 'PATH_EMPTY_SEGMENT' ($Label + ' contains a doubled separator') }
+    $parts = $Path.Split('\')
+    for ($k = 1; $k -lt $parts.Count; $k++) {
+        $seg = $parts[$k]
+        if (($seg -eq '') -and ($k -lt ($parts.Count - 1))) { Stop-Gate 'PATH_EMPTY_SEGMENT' ($Label + ' contains an empty segment') }
+        if (($seg -eq '.') -or ($seg -eq '..')) { Stop-Gate 'PATH_DOT_SEGMENT' ($Label + ' contains a dot segment') }
+        if ($seg.Contains('~')) { Stop-Gate 'PATH_SHORT_NAME_FORM' ($Label + ' contains a tilde (short-name form)') }
+        if ($seg -match '[. ]$') { Stop-Gate 'PATH_TRAILING_DOT_OR_SPACE' ($Label + ' contains a segment ending in a dot or space') }
+    }
+    $full = ''
+    try {
+        $full = [System.IO.Path]::GetFullPath($Path)
+    } catch {
+        Stop-Gate 'PATH_CANONICALIZATION_FAILED' ($Label + ': ' + $_.Exception.Message)
+    }
+    if (-not ($full.TrimEnd('\') -ceq $Path.TrimEnd('\'))) { Stop-Gate 'PATH_NOT_CANONICAL' ($Label + ' is not in canonical form; given ' + $Path + ', canonical ' + $full) }
+    return $full.TrimEnd('\')
+}
+
+function Get-SubstHits {
+    # Read-only: lists SUBST mappings. A drive letter that aliases a folder hides the real location from string
+    # canonicalization, so any mapping on the path's drive letter is a stop. A failed listing is a stop.
+    param([string] $Path)
+    $r = Invoke-Capture -Name 'subst-list' -FilePath $env:ComSpec -ArgList @('/d', '/c', 'subst') -WorkDir $env:SystemRoot
+    if ($r.Code -ne 0) { Stop-Gate 'SUBST_UNVERIFIABLE' ('subst listing returned code ' + $r.Code) }
+    $letter = $Path.Substring(0, 2)
+    $hits = @()
+    foreach ($line in ($r.StdOut -split "`n")) {
+        $t = $line.Trim()
+        if (($t.Length -ge 2) -and ($t.Substring(0, 2) -ieq $letter)) { $hits += $t }
+    }
+    return @($hits)
+}
+
+function Add-Forensic {
+    # One record per evidence operation: OK, FAILED, NOT_APPLICABLE (with a reason) or SKIPPED (with a reason).
+    param([string] $Op, [string] $Status, [string] $Reason)
+    [void]$script:Forensics.Add([pscustomobject]@{ Op = $Op; Status = $Status; Reason = $Reason })
 }
 
 function Get-AncestorChain {
@@ -383,58 +451,91 @@ function Get-WriteAclEvaluation {
 }
 
 function Get-ProbeWritable {
-    # PARENT_PROBE: creates and removes one uniquely named probe file in the store PARENT directory. Never on the store
-    # path. Runs once per script run, in Preflight and Execute stages.
+    # PARENT_PROBE: creates one uniquely named probe file in the store PARENT directory and removes it. Never on the
+    # store path. Creation and cleanup are recorded separately. A cleanup failure leaves the file in place, is
+    # recorded with its path, and is a stop; the file is never deleted by any other means.
     param([string] $Dir)
     $name = '.p1-writeprobe-' + [guid]::NewGuid().ToString('N') + '.tmp'
     $probe = Join-Path $Dir $name
-    Write-RawFile -Path $probe -Text 'probe'
-    $existedAfterWrite = Test-Path -LiteralPath $probe -PathType Leaf
-    Remove-Item -LiteralPath $probe -Force
-    $removed = -not (Test-Path -LiteralPath $probe)
-    return ($existedAfterWrite -and $removed)
+    $result = [pscustomobject]@{ Path = $probe; CreateError = ''; Created = $false; CleanupError = ''; Removed = $false; Ok = $false }
+    try {
+        Write-RawFile -Path $probe -Text 'probe'
+    } catch {
+        $result.CreateError = $_.Exception.Message
+    }
+    $result.Created = Test-Path -LiteralPath $probe -PathType Leaf
+    if ($result.Created) {
+        try {
+            Remove-Item -LiteralPath $probe -Force -ErrorAction Stop
+        } catch {
+            $result.CleanupError = $_.Exception.Message
+        }
+        $result.Removed = -not (Test-Path -LiteralPath $probe)
+        if ((-not $result.Removed) -and ($result.CleanupError -eq '')) { $result.CleanupError = 'probe still present after removal' }
+    }
+    if (-not $result.Created) { $result.Removed = -not (Test-Path -LiteralPath $probe) }
+    $result.Ok = ($result.CreateError -eq '') -and $result.Created -and $result.Removed -and ($result.CleanupError -eq '')
+    return $result
 }
 
 function Get-P1Consumption {
     if ($Mode -ne 'Execute') { return 'NOT_APPLICABLE (Preflight: no marker, no invocation)' }
     if ($script:MarkerWritten) { return 'CONSUMED (EXECUTE-MARKER.json written before process start; P1-F condition 2; Q-CONS-3)' }
-    return 'UNDETERMINED (no marker, no invocation; Q-CONS-2 open; the run directory makes later execute runs refuse at S00)'
+    return 'UNDETERMINED (no marker, no invocation; Q-CONS-2 open; the retained execute claim and the run directory make later execute runs refuse at S00)'
 }
 
 function Write-Summary {
     param([string] $FileName)
+    $claimFile = ''
+    if ($script:ClaimAcquired) { $claimFile = $ClaimName }
     $summary = [ordered]@{
-        act                  = $ActId
-        mode                 = $Mode
-        authority            = 'P1-F section 6 (conditions 1-5); base act sections 6-9'
-        outcome              = $script:Outcome
-        phaseAtEnd           = $script:Phase
-        executeMarkerWritten = $script:MarkerWritten
-        executeCalls         = $script:ExecuteCalls
-        executeState         = $script:ExecState
-        p1fConsumption       = (Get-P1Consumption)
-        failure              = $script:Failure
-        postStepFailures     = @($script:PostFailures)
-        utcStart             = $script:StartUtc
-        utcEnd               = (Get-UtcStamp)
-        runDirectory         = $script:RunDirName
-        scriptSha256         = $script:ScriptSha256
-        acceptanceSha256     = $script:AcceptanceSha256
-        pinCommit            = $ExpectedCommit
-        pinTree              = $ExpectedTree
-        storePath            = $StorePath
-        evidenceRoot         = $script:Facts.evidenceRoot
-        authorityRulingRef   = [string]$AuthorityRulingRef
-        v2A8ProxyPass        = [bool]$script:Facts.v2A8ProxyPass
-        v2A8LiteralTest      = 'NOT_PERFORMED'
-        facts                = $script:Facts
-        checks               = @($script:Checks)
-        notPerformedByScript = @(
-            'V-A2-8 literal: second-invocation refusal NOT PERFORMED (P1-F condition 2 forbids a second execute; base act section 8 step 5 requires it; Q-V8). v2A8ProxyPass reports only the validator row-state check, which does not test a refusal.',
-            'V-A2-7 runtime: the validator calls evaluatePortSaveGuard() at runtime; the IPC WRITE_NOT_AUTHORIZED path (src/ipc/dispatch.ts 27becc76, line 231) is source-only and NOT PERFORMED here.',
-            'Store-directory writability: ACL evaluation or a parent probe only. Neither is an effective-access test (Q-WRITE).',
-            'Operator-only facts: Windows runtime, PowerShell 5.1 parse, OneDrive or other sync-provider state beyond environment roots, Program Authority records beyond the designation, and remote read-back of published artifacts.',
-            'Tracker and P1-F status are read through blob identity, pointer-row identity and an added-line scan on origin/main; a revocation recorded under a non-P-1 name is not detected.'
+        act                      = $ActId
+        mode                     = $Mode
+        revision                 = 5
+        authority                = 'P1-F section 6 (conditions 1-5); base act sections 6-9'
+        outcome                  = $script:Outcome
+        phaseAtEnd               = $script:Phase
+        executeMarkerWritten     = $script:MarkerWritten
+        executeCalls             = $script:ExecuteCalls
+        executeState             = $script:ExecState
+        invocationStatus         = [string]$script:Facts.invocationStatus
+        invocationFailure        = [bool]$script:Facts.invocationFailure
+        evidenceComplete         = [bool]$script:Facts.evidenceComplete
+        evidenceIntegrityFailure = [bool]$script:Facts.evidenceIntegrityFailure
+        forensicOperations       = @($script:Forensics)
+        p1fConsumption           = (Get-P1Consumption)
+        executeClaim             = [ordered]@{ acquired = [bool]$script:ClaimAcquired; file = $claimFile; retention = 'retained on every outcome after acquisition; release only by a Program Authority ruling (Q-CONS)' }
+        declaredEffects          = @(Get-DeclaredEffects)
+        failure                  = $script:Failure
+        postStepFailures         = @($script:PostFailures)
+        utcStart                 = $script:StartUtc
+        utcEnd                   = (Get-UtcStamp)
+        runDirectory             = $script:RunDirName
+        scriptSha256             = $script:ScriptSha256
+        acceptanceSha256         = $script:AcceptanceSha256
+        pinCommit                = $ExpectedCommit
+        pinTree                  = $ExpectedTree
+        storePath                = $StorePath
+        evidenceRoot             = $script:Facts.evidenceRoot
+        authorityRulingRef       = [string]$AuthorityRulingRef
+        writabilityMethod        = [string]$DesignatedWritabilityMethod
+        buildAuthorityRef        = [string]$BuildAuthorityRef
+        v2A8ProxyPass            = [bool]$script:Facts.v2A8ProxyPass
+        v2A8LiteralTest          = 'NOT_PERFORMED'
+        v2A8Acceptance           = 'PA_DECISION_REQUIRED (Q-V8): the row-state proxy above is not a literal second-invocation test'
+        facts                    = $script:Facts
+        checks                   = @($script:Checks)
+        notPerformedByScript     = @(
+            'V-A2-8 literal: second-invocation refusal NOT PERFORMED. P1-F condition 2 forbids a second execute; base act section 8 step 5 requires it; Q-V8 is a PA decision. v2A8ProxyPass reports only the validator row-state check, which does not test a refusal.',
+            'V-A2-7 runtime: the IPC WRITE_NOT_AUTHORIZED path (src/ipc/dispatch.ts 27becc76, line 231) is source-only and NOT PERFORMED here.',
+            'Store-directory writability (Q-WRITE): ACL_EVALUATION reads ACL entries and cannot prove effective access (group membership, inherited rights, deny interactions). PARENT_PROBE proves creation and removal of one file in the store parent, not writability of the store path. Neither method is designated.',
+            'Build sequence (Q-BUILD): base act section 2 (npm ci, npx tsc --noEmit, npm run build, npm test), the QE matrix (npm ci --no-audit --no-fund, tsc, build with exactly 1,140 dist files, guarded npm test, test:package-consumer) and this script (npm ci, npm run build) differ. Not resolved; Preflight and Execute stop at S04 while BuildAuthorityRef is null.',
+            'Execute claim: a retained claim proves exclusion only inside this evidence root on this file system. It does not prove that no attempt happened elsewhere or out of band (Q-CONS).',
+            'Path canonicalization: SUBST aliases are detected by listing; reparse points are detected on the chain; drive-letter case is not folded to on-disk case; GetFinalPathNameByHandle is not called. These limits are not closed by this script.',
+            'Acceptance: integrity of the preflight directory is checked by name, placement, reparse points, subdirectories, seal form, set equality and SHA-256. The acceptance file is an operator-reviewed record; this script verifies only its bindings.',
+            'Authorization freshness and revocation (S06) are read from repository and GitHub state only. Out-of-band revocation or attempts are not detectable from that state.',
+            'Tracker and P1-F status are read through blob identity, pointer-row identity and an added-line scan on origin/main; a revocation recorded under a non-P-1 name is not detected.',
+            'Operator-only facts: Windows runtime, PowerShell 5.1 parse, OneDrive or other sync-provider state beyond environment roots, Program Authority records beyond designations, host-preflight evidence, and remote read-back of published artifacts.'
         )
     }
     Write-RawFile -Path (Join-Path $script:RunDir $FileName) -Text ($summary | ConvertTo-Json -Depth 8)
@@ -548,14 +649,18 @@ function Invoke-GitPin {
 
 function Invoke-EvidencePlacement {
     # Evidence root containment (S00). Read-only.
-    $evFull = $EvidenceRoot.TrimEnd('\')
+    $evFull = Get-CanonicalPath -Path $EvidenceRoot -Label 'EvidenceRoot'
     $script:Facts.evidenceRoot = $evFull
-    Require-Check -Id 'S00-EVIDENCE-DESIGNATED-EQUALS' -Pass ($evFull -ceq ([string]$DesignatedEvidenceRoot).TrimEnd('\')) -Detail 'EvidenceRoot must equal the designated evidence root (Q-EV)'
+    $designatedEv = ''
+    if (-not [string]::IsNullOrEmpty($DesignatedEvidenceRoot)) { $designatedEv = Get-CanonicalPath -Path $DesignatedEvidenceRoot -Label 'DesignatedEvidenceRoot' }
+    Require-Check -Id 'S00-EVIDENCE-DESIGNATED-EQUALS' -Pass (($designatedEv -ne '') -and ($evFull -ieq $designatedEv)) -Detail ('EvidenceRoot canonical form must equal the designated canonical root (Q-EV); given ' + $evFull + '; designated ' + $designatedEv)
     Require-Check -Id 'S00-EVIDENCE-EXISTS' -Pass (Test-Path -LiteralPath $evFull -PathType Container) -Detail 'EvidenceRoot must already exist (operator-created); the script never creates it'
     $evDrive = Get-DriveFacts -Path $evFull
     Require-Check -Id 'S00-EVIDENCE-NOT-DRIVE-ROOT' -Pass ($evFull -ne $evDrive.Root.TrimEnd('\')) -Detail ('EvidenceRoot must not be a drive root (' + $evDrive.Root + ')')
     Require-Check -Id 'S00-EVIDENCE-DRIVE-FIXED-NTFS' -Pass (($evDrive.Type -eq 'Fixed') -and ($evDrive.Format -eq 'NTFS')) -Detail ('evidence drive ' + $evDrive.Root + ' type ' + $evDrive.Type + ', format ' + $evDrive.Format + ' (applied to evidence by this revision; authority to confirm)')
     $evChain = Get-AncestorChain -Path $evFull -IncludeSelf $true
+    $evSubst = @(Get-SubstHits -Path $evFull)
+    Require-Check -Id 'S00-EVIDENCE-NO-SUBST-ALIAS' -Pass ($evSubst.Count -eq 0) -Detail ('SUBST mappings on the evidence drive = ' + ($evSubst -join ' | ') + '; an alias can hide the real folder')
     $evGit = Get-GitMarkerHits -Chain $evChain
     Require-Check -Id 'S00-EVIDENCE-NO-GIT-IN-CHAIN' -Pass ($evGit.Count -eq 0) -Detail ('.git (file or directory) found at or above EvidenceRoot = ' + ($evGit -join ', ') + '; any Git working tree contains such a marker')
     $evReparse = Get-ReparseHits -Chain $evChain
@@ -570,7 +675,7 @@ function Invoke-EvidencePlacement {
         }
     }
     Require-Check -Id 'S00-EVIDENCE-NOT-IN-LISTED-WORKTREE' -Pass ($wtHits.Count -eq 0) -Detail ('listed worktrees containing EvidenceRoot = ' + ($wtHits -join ', '))
-    $storeFull = $StorePath.TrimEnd('\')
+    $storeFull = Get-CanonicalPath -Path $StorePath -Label 'StorePath'
     $storeChain = Get-AncestorChain -Path ([System.IO.Path]::GetDirectoryName($storeFull)) -IncludeSelf $true
     Require-Check -Id 'S00-EVIDENCE-NOT-STORE-CHAIN' -Pass (-not ($storeChain -contains $evFull)) -Detail 'EvidenceRoot must not equal the store directory or any ancestor of it'
     Require-Check -Id 'S00-EVIDENCE-NOT-IN-STORE-DIR' -Pass (-not $evFull.StartsWith(([System.IO.Path]::GetDirectoryName($storeFull)) + '\', [StringComparison]::OrdinalIgnoreCase)) -Detail 'EvidenceRoot must not lie inside the store directory'
@@ -584,7 +689,7 @@ function Invoke-EvidencePlacement {
 function Invoke-StorePlacement {
     # S03. Read-only except the PARENT_PROBE method, which is run only when $ProbeAllowed is true (first pass).
     param([bool] $ProbeAllowed)
-    $storeFull = $StorePath.TrimEnd('\')
+    $storeFull = Get-CanonicalPath -Path $StorePath -Label 'StorePath'
     $storeParent = [System.IO.Path]::GetDirectoryName($storeFull)
     Require-Check -Id 'S03-STORE-ABSENT' -Pass (-not (Test-Path -LiteralPath $StorePath)) -Detail 'store file must not pre-exist (Test-Path = False)'
     foreach ($sfx in @('-journal', '-wal', '-shm')) {
@@ -606,6 +711,8 @@ function Invoke-StorePlacement {
     $reparse = Get-ReparseHits -Chain $chain
     Require-Check -Id 'S03-NO-REPARSE-IN-CHAIN' -Pass ($reparse.Count -eq 0) -Detail ('reparse points in the existing chain = ' + ($reparse -join ', '))
     $storeDrive = Get-DriveFacts -Path $storeFull
+    $storeSubst = @(Get-SubstHits -Path $storeFull)
+    Require-Check -Id 'S03-STORE-NO-SUBST-ALIAS' -Pass ($storeSubst.Count -eq 0) -Detail ('SUBST mappings on the store drive = ' + ($storeSubst -join ' | '))
     Require-Check -Id 'S03-FIXED-NTFS' -Pass (($storeDrive.Type -eq 'Fixed') -and ($storeDrive.Format -eq 'NTFS')) -Detail ('drive ' + $storeDrive.Root + ' type ' + $storeDrive.Type + ', format ' + $storeDrive.Format)
     $oneDriveRoots = @($env:OneDrive, $env:OneDriveCommercial, $env:OneDriveConsumer) | Where-Object { -not [string]::IsNullOrEmpty($_) }
     $inOneDrive = @($oneDriveRoots | Where-Object { $storeFull.StartsWith($_.TrimEnd('\') + '\', [StringComparison]::OrdinalIgnoreCase) })
@@ -628,8 +735,9 @@ function Invoke-StorePlacement {
     if ($DesignatedWritabilityMethod -ceq 'PARENT_PROBE') {
         if ($ProbeAllowed) {
             $probeOk = Get-ProbeWritable -Dir $storeParent
-            $script:Facts.writeProbe = [bool]$probeOk
-            Require-Check -Id 'S03-WRITE-PARENT-PROBE' -Pass ([bool]$probeOk) -Detail ('probe file created and removed in the store parent ' + $storeParent + ' (not on the store path)')
+            $script:Facts.writeProbe = $probeOk
+            Require-Check -Id 'S03-WRITE-PARENT-PROBE' -Pass ($probeOk.Created -and ($probeOk.CreateError -eq '')) -Detail ('probe created in the store parent ' + $storeParent + ' (not on the store path); create error = ' + $probeOk.CreateError)
+            Require-Check -Id 'S03-WRITE-PARENT-PROBE-CLEANUP' -Pass ($probeOk.Removed -and ($probeOk.CleanupError -eq '')) -Detail ('probe removal; path ' + $probeOk.Path + '; cleanup error = ' + $probeOk.CleanupError + '. A cleanup failure is a stop; the file is not deleted by any other means.')
         }
         if (-not $ProbeAllowed) {
             Add-Check -Id 'S03-WRITE-PARENT-PROBE-SKIPPED' -Pass $true -Detail 'probe is run once, in the first pass only; the pre-invocation pass does not write'
@@ -639,8 +747,9 @@ function Invoke-StorePlacement {
 }
 
 function Invoke-BuildPreStep {
-    # S04. Build pre-step (ONCE per run). Not authority; touches no store. Basis-validation commands are act 'Local validation at
-    # the selected basis' (base act section 3 table line 63): npm ci, npm run build. Act section 8 has no build step (D-4).
+    # S04. Build pre-step (ONCE per run). Declared effects: writes node_modules, dist and dist-frontend in the checkout. Touches no store. Basis-validation commands are act 'Local validation at
+    # the selected basis' (base act section 2, table line 63): npm ci, npm run build. Act section 8 has no build step (D-4).
+    Require-Check -Id 'S04-BUILD-AUTHORITY-DESIGNATED' -Pass (-not [string]::IsNullOrEmpty($BuildAuthorityRef)) -Detail 'the build command sequence is not designated (Q-BUILD). Act section 2, the QE matrix and this script differ; see record section B3a. Execute and Preflight stop here until designated.'
     $distPath = Join-Path $script:RepoFull 'dist'
     $script:Facts.distPreexisted = (Test-Path -LiteralPath $distPath)
     $buildStart = [DateTime]::UtcNow
@@ -687,6 +796,10 @@ function Invoke-BuildPreStep {
     Require-Check -Id 'S04-CLOSURE-PRESENT' -Pass ($closureMissing.Count -eq 0) -Detail ('closure files = ' + $closureFiles.Count + '; missing = ' + ($closureMissing -join ', '))
     Require-Check -Id 'S04-CLOSURE-EMITTED-THIS-BUILD' -Pass ($closureStale.Count -eq 0) -Detail ('closure files older than build start ' + $buildStart.ToString('o') + ' = ' + ($closureStale -join ', '))
     # Emitted migration identity: a read-only Node probe imports the built validator and ledger modules (no database opened).
+    # The ledger module path is inferred from the pinned source layout (src/persistence/migration_ledger.ts); it is checked
+    # here by presence only, as an explicit named stop before the probe runs.
+    $ledgerEmitted = Join-Path $script:RepoFull 'dist\src\persistence\migration_ledger.js'
+    Require-Check -Id 'S04-EMITTED-LEDGER-MODULE' -Pass (Test-Path -LiteralPath $ledgerEmitted -PathType Leaf) -Detail ('emitted module ' + $ledgerEmitted + ' must exist (presence check only; path inferred from the pinned source layout)')
     $migProbe = Join-Path $script:RunDir ('probe-migrations-' + [guid]::NewGuid().ToString('N') + '.mjs')
     Write-RawFile -Path $migProbe -Text ("import { pathToFileURL } from 'node:url';`nimport { join } from 'node:path';`nconst root = process.argv[2];`nconst v = await import(pathToFileURL(join(root, 'src', 'persistence', 'gateAPrimeValidation.js')).href);`nconst l = await import(pathToFileURL(join(root, 'src', 'persistence', 'migration_ledger.js')).href);`nconsole.log(JSON.stringify(v.GATE3_MIGRATIONS.map((m) => ({ id: m.id, sha256: l.migrationChecksum(m) }))));`n")
     $mp = Invoke-Capture -Name 'emitted-migrations' -FilePath 'node' -ArgList @($migProbe, (Join-Path $script:RepoFull 'dist')) -WorkDir $script:RunDir
@@ -844,27 +957,53 @@ function Test-AcceptanceAndPreflight {
     Require-Check -Id 'S00-ACCEPTANCE-STORE-EVIDENCE' -Pass (([string](Get-Prop -Obj $acc -Name 'storePath') -ceq $StorePath) -and ([string](Get-Prop -Obj $acc -Name 'evidenceRoot') -ceq $script:Facts.evidenceRoot)) -Detail 'acceptance must bind the store path and the evidence root'
     Require-Check -Id 'S00-ACCEPTANCE-REVIEWER' -Pass ((-not [string]::IsNullOrEmpty([string](Get-Prop -Obj $acc -Name 'reviewer'))) -and (-not [string]::IsNullOrEmpty([string](Get-Prop -Obj $acc -Name 'reviewedUtc')))) -Detail 'acceptance must name a reviewer and a UTC review time'
     $prename = [string](Get-Prop -Obj $acc -Name 'preflightRunDirectory')
-    Require-Check -Id 'S00-ACCEPTANCE-PREFLIGHT-NAME' -Pass ($prename -match '^p1-pre-\d{8}T\d{9}Z-[0-9a-f]{8}$') -Detail ('preflight run directory name "' + $prename + '"')
+    Require-Check -Id 'S00-ACCEPTANCE-PREFLIGHT-NAME' -Pass ($prename -cmatch '^p1-pre-\d{8}T\d{9}Z-[0-9a-f]{8}$') -Detail ('preflight run directory name must match the pattern; given ' + $prename)
     $preDir = Join-Path $script:Facts.evidenceRoot $prename
-    Require-Check -Id 'S00-PREFLIGHT-DIR' -Pass (Test-Path -LiteralPath $preDir -PathType Container) -Detail 'the named preflight run directory must exist under the evidence root'
+    Require-Check -Id 'S00-PREFLIGHT-DIR' -Pass (Test-Path -LiteralPath $preDir -PathType Container) -Detail 'the named preflight run directory must exist directly under the evidence root'
+    $preItem = Get-Item -LiteralPath $preDir -Force
+    Require-Check -Id 'S00-PREFLIGHT-DIR-DIRECT-CHILD' -Pass ([System.IO.Path]::GetDirectoryName($preItem.FullName) -ieq $script:Facts.evidenceRoot) -Detail 'the preflight directory must be a direct child of the canonical evidence root'
+    Require-Check -Id 'S00-PREFLIGHT-DIR-NOT-REPARSE' -Pass (($preItem.Attributes -band [IO.FileAttributes]::ReparsePoint) -eq 0) -Detail 'the preflight directory must not be a reparse point'
+    $preEntries = @(Get-ChildItem -LiteralPath $preDir -Force)
+    $preSubdirs = @($preEntries | Where-Object { $_.PSIsContainer } | ForEach-Object { [string]$_.Name })
+    Require-Check -Id 'S00-PREFLIGHT-NO-SUBDIRECTORY' -Pass ($preSubdirs.Count -eq 0) -Detail ('subdirectories in the preflight directory = ' + ($preSubdirs -join ', ') + '; a sealed preflight directory is flat')
+    $preReparse = @($preEntries | Where-Object { ($_.Attributes -band [IO.FileAttributes]::ReparsePoint) -ne 0 } | ForEach-Object { [string]$_.Name })
+    Require-Check -Id 'S00-PREFLIGHT-NO-REPARSE-ENTRY' -Pass ($preReparse.Count -eq 0) -Detail ('reparse-point entries in the preflight directory = ' + ($preReparse -join ', '))
     $sumPath = Join-Path $preDir 'SHA256SUMS.txt'
-    Require-Check -Id 'S00-PREFLIGHT-SEALED' -Pass (Test-Path -LiteralPath $sumPath -PathType Leaf) -Detail 'the preflight run must be sealed (SHA256SUMS.txt)'
+    Require-Check -Id 'S00-PREFLIGHT-SEALED' -Pass (Test-Path -LiteralPath $sumPath -PathType Leaf) -Detail 'the preflight run must be sealed (SHA256SUMS.txt, a regular file)'
+    $sumText = [IO.File]::ReadAllText($sumPath)
+    $sumLines = @($sumText -split "`r?`n" | Where-Object { $_ -ne '' })
     $listed = @{}
-    foreach ($line in ([IO.File]::ReadAllText($sumPath) -split "`r?`n")) {
-        if ($line.Trim() -ne '') {
-            $m = [regex]::Match($line, '^([0-9A-F]{64})  (.+)$')
-            if ($m.Success) { $listed[$m.Groups[2].Value] = $m.Groups[1].Value }
+    $listedOrder = @()
+    $malformed = @()
+    $dupes = @()
+    foreach ($line in $sumLines) {
+        $m = [regex]::Match($line, '^([0-9A-F]{64})  ([^\\/:*?"<>|\r\n]+)$')
+        if (-not $m.Success) { $malformed += $line }
+        if ($m.Success) {
+            $n = $m.Groups[2].Value
+            if ($listed.ContainsKey($n)) { $dupes += $n }
+            if (-not $listed.ContainsKey($n)) {
+                $listed[$n] = $m.Groups[1].Value
+                $listedOrder += $n
+            }
         }
     }
-    $actualNames = @(Get-ChildItem -LiteralPath $preDir -File | Where-Object { $_.Name -ne 'SHA256SUMS.txt' } | ForEach-Object { [string]$_.Name } | Sort-Object)
-    $listedNames = @($listed.Keys | Sort-Object)
-    Require-Check -Id 'S00-PREFLIGHT-SEAL-SET' -Pass (($actualNames -join '|') -ceq ($listedNames -join '|')) -Detail ('files in the preflight directory equal the sealed list: actual ' + $actualNames.Count + ', sealed ' + $listedNames.Count)
+    Require-Check -Id 'S00-PREFLIGHT-SEAL-WELLFORMED' -Pass (($malformed.Count -eq 0) -and ($dupes.Count -eq 0) -and ($listedOrder -notcontains 'SHA256SUMS.txt')) -Detail ('seal lines = ' + $sumLines.Count + '; malformed = ' + $malformed.Count + '; duplicate names = ' + ($dupes -join ', ') + '; the seal must not list itself')
+    $actualNames = @($preEntries | Where-Object { -not $_.PSIsContainer } | ForEach-Object { [string]$_.Name } | Where-Object { $_ -cne 'SHA256SUMS.txt' })
+    $missing = @($listedOrder | Where-Object { $actualNames -notcontains $_ })
+    $unexpected = @($actualNames | Where-Object { $listedOrder -notcontains $_ })
+    Require-Check -Id 'S00-PREFLIGHT-SEAL-SET' -Pass (($missing.Count -eq 0) -and ($unexpected.Count -eq 0)) -Detail ('sealed but missing = ' + ($missing -join ', ') + '; present but unsealed = ' + ($unexpected -join ', '))
     $sealBad = @()
-    foreach ($n in $listedNames) {
-        $h = (Get-FileHash -Algorithm SHA256 -LiteralPath (Join-Path $preDir $n)).Hash
-        if ($h -cne [string]$listed[$n]) { $sealBad += $n }
+    foreach ($n in $listedOrder) {
+        $fp = Join-Path $preDir $n
+        $isReparse = (((Get-Item -LiteralPath $fp -Force).Attributes -band [IO.FileAttributes]::ReparsePoint) -ne 0)
+        if ($isReparse) { $sealBad += ($n + ' (reparse point)') }
+        if (-not $isReparse) {
+            $h = (Get-FileHash -Algorithm SHA256 -LiteralPath $fp).Hash
+            if ($h -cne [string]$listed[$n]) { $sealBad += $n }
+        }
     }
-    Require-Check -Id 'S00-PREFLIGHT-SEAL-HASHES' -Pass ($sealBad.Count -eq 0) -Detail ('sealed file hash mismatches = ' + ($sealBad -join ', '))
+    Require-Check -Id 'S00-PREFLIGHT-SEAL-HASHES' -Pass ($sealBad.Count -eq 0) -Detail ('sealed file hash mismatches = ' + ($sealBad -join ', ') + '; every listed entry is hashed, uppercase hex compared exactly')
     $preSummaryPath = Join-Path $preDir 'run-summary.json'
     Require-Check -Id 'S00-PREFLIGHT-SUMMARY-HASH' -Pass ((Get-FileHash -Algorithm SHA256 -LiteralPath $preSummaryPath).Hash -ieq [string](Get-Prop -Obj $acc -Name 'preflightSummarySha256')) -Detail 'acceptance must bind the SHA-256 of the preflight run-summary.json'
     $pre = Read-JsonText -Text ([IO.File]::ReadAllText($preSummaryPath)) -Label 'preflight run-summary'
@@ -878,19 +1017,349 @@ function Test-AcceptanceAndPreflight {
 }
 
 function Invoke-PreInvocationRecheck {
-    # Immediately before the marker. Repeats every stage check that can change, with no mutation.
+    # Immediately before the marker. Repeats every stage check that can change, including canonical evidence-root
+    # containment and the execute claim. Creates no probe (ProbeAllowed false), runs no build, writes no marker.
     Require-Check -Id 'R-SCRIPT-UNCHANGED' -Pass ((Get-FileHash -Algorithm SHA256 -LiteralPath $script:ScriptPath).Hash -ceq $script:ScriptSha256) -Detail 'the script bytes are unchanged since S00'
     Require-Check -Id 'R-ACCEPTANCE-UNCHANGED' -Pass ((Get-FileHash -Algorithm SHA256 -LiteralPath $AcceptanceFile).Hash -ceq $script:AcceptanceSha256) -Detail 'the acceptance file is unchanged since S00'
     Invoke-HostAndRuntime
     Invoke-GitPin
+    Invoke-EvidencePlacement
     Invoke-StorePlacement -ProbeAllowed $false
     $now = @(Get-ClosureRecordNow)
     $then = @($script:ClosureRecord -split "`r`n" | Where-Object { $_.Trim() -ne '' } | ForEach-Object { (($_ -split '  ')[0] + '  ' + ($_ -split '  ')[1]) })
     $nowCmp = @($now | ForEach-Object { ($_ -split '  ')[0] + '  ' + ($_ -split '  ')[1] })
     Require-Check -Id 'R-CLOSURE-UNCHANGED' -Pass (($nowCmp -join '|') -ceq ($then -join '|')) -Detail ('entry closure hashes equal the S04 record; files = ' + $nowCmp.Count)
-    $liveFiles = @(Get-ChildItem -LiteralPath $script:Facts.evidenceRoot -Directory -Filter 'p1-*')
-    Require-Check -Id 'R-NO-PRIOR-EXECUTE-RUN' -Pass (@($liveFiles | Where-Object { $_.Name -like 'p1-exe-*' }).Count -eq 1) -Detail ('p1-exe-* directories = ' + @($liveFiles | Where-Object { $_.Name -like 'p1-exe-*' }).Count + '; expected only this run')
+    $liveExec = @(Get-ChildItem -LiteralPath $script:Facts.evidenceRoot -Directory -Filter 'p1-exe-*' | ForEach-Object { [string]$_.Name })
+    Require-Check -Id 'R-NO-PRIOR-EXECUTE-RUN' -Pass (($liveExec.Count -eq 1) -and ($liveExec[0] -ceq $script:RunDirName)) -Detail ('p1-exe-* directories = ' + ($liveExec -join ', ') + '; required: exactly this run (' + $script:RunDirName + ')')
+    Require-Check -Id 'R-CLAIM-HELD' -Pass ($script:ClaimAcquired -and (Test-Path -LiteralPath $script:ClaimPath -PathType Leaf)) -Detail 'the execute claim written by this run is still present'
     Invoke-Freshness
+}
+
+function Invoke-ExecuteClaim {
+    # Cross-process exclusion for Execute. The claim is created with FileMode.CreateNew (Write-RawFile), which is atomic:
+    # of any number of concurrent Execute processes for one evidence root, at most one can create it. It is written after
+    # every read-only check and before the run directory and the marker. Retention: no code in this script deletes it;
+    # it is retained on every outcome after acquisition. Release is a Program Authority act (Q-CONS). The claim does not
+    # declare P-1 consumed; the marker does (Q-CONS-3). Not excluded by this file: an attempt under another evidence root
+    # or on another machine, and any out-of-band attempt.
+    $script:ClaimPath = Join-Path $script:Facts.evidenceRoot $ClaimName
+    $claim = [ordered]@{
+        claimState       = 'ACQUIRED'
+        utc              = Get-UtcStamp
+        pid              = $PID
+        machine          = $env:COMPUTERNAME
+        actId            = $ActId
+        store            = $StorePath
+        scriptSha256     = $script:ScriptSha256
+        acceptanceSha256 = $script:AcceptanceSha256
+        runDirectory     = $script:RunDirName
+        retention        = 'retained on every outcome after acquisition; release only by a Program Authority ruling (Q-CONS)'
+    }
+    try {
+        Write-RawFile -Path $script:ClaimPath -Text ($claim | ConvertTo-Json -Depth 4)
+    } catch {
+        $claimExists = Test-Path -LiteralPath $script:ClaimPath -PathType Leaf
+        if ($claimExists) {
+            Stop-Gate 'EXECUTE_CLAIM_EXISTS' ('an execute claim already exists at ' + $script:ClaimPath + '; a prior or concurrent Execute holds it; no retry is permitted')
+        }
+        Stop-Gate 'EXECUTE_CLAIM_UNVERIFIABLE' ('the execute claim could not be created: ' + $_.Exception.Message)
+    }
+    $script:ClaimAcquired = $true
+    $back = Read-JsonText -Text ([IO.File]::ReadAllText($script:ClaimPath)) -Label 'execute claim read-back'
+    Require-Check -Id 'S00-EXECUTE-CLAIM-READBACK' -Pass (([string](Get-Prop -Obj $back -Name 'claimState') -ceq 'ACQUIRED') -and ([string](Get-Prop -Obj $back -Name 'runDirectory') -ceq $script:RunDirName)) -Detail 'the execute claim reads back with its own state and run directory'
+}
+
+function Get-DeclaredEffects {
+    # Declared, not inferred: the effects each mode can have. The summary records them, so no mode is read as read-only.
+    $effects = New-Object System.Collections.ArrayList
+    [void]$effects.Add('creates a run directory and raw evidence under EvidenceRoot (exclusive creation)')
+    [void]$effects.Add('S04: npm ci and npm run build write node_modules, dist and dist-frontend inside the IPD checkout')
+    [void]$effects.Add('S03 PARENT_PROBE, only when that method is designated: creates and then removes one probe file in the store PARENT directory')
+    [void]$effects.Add('S05: node --mode=validate expects the store absent and refuses without creating it')
+    [void]$effects.Add('S01, S02, S06: read-only queries (sqlite load probe, git, GitHub API)')
+    if ($Mode -eq 'Preflight') {
+        [void]$effects.Add('no store creation, no provisioning record, no execute-mode invocation, no marker, no execute claim')
+    }
+    if ($Mode -eq 'Execute') {
+        [void]$effects.Add('execute-claim.json created exclusively in EvidenceRoot; retained on every outcome after acquisition')
+        [void]$effects.Add('EXECUTE-MARKER.json written before process start (the attempt is spent)')
+        [void]$effects.Add('ONE node --mode=execute invocation (S07). It may create the store file and migration state and writes provisioning records in one transaction. A failure can leave the store file in place; that is recorded and never repaired.')
+        [void]$effects.Add('S08-S09: validate and read-only dump after the invocation; these steps do not write the store')
+    }
+    return @($effects)
+}
+
+function Invoke-PostInvocationForensics {
+    # Runs once, after the single --mode=execute invocation was started, whatever it returned. Every operation is isolated:
+    # a failure is recorded as FAILED with its message and the next operation still runs. Nothing here invokes the
+    # entrypoint in execute mode, and nothing here reruns it to recover evidence. evidenceComplete is true only when no
+    # operation FAILED or was SKIPPED and no post-step failure was recorded.
+    $script:PostForensicsDone = $true
+    $script:Phase = 'S07-RESULT'
+    $exec = $script:ExecResult
+    $executedOk = $false
+
+    # F-EXEC-RAW and the S07 receipt. No process result is an invocation-level failure. A failed raw write is an evidence
+    # failure; the in-memory result is still evaluated for the receipt.
+    if ($null -eq $exec) {
+        $script:ExecState = 'INVOCATION_EXCEPTION'
+        $script:Facts.invocationStatus = 'INVOCATION_EXCEPTION_NO_RESULT'
+        Add-Forensic -Op 'F-EXEC-RAW' -Status 'FAILED' -Reason 'no process result was returned by the invocation wrapper; the process may have run; no rerun is made'
+    }
+    if ($null -ne $exec) {
+        $script:Facts.executeCode = $exec.Code
+        $script:Facts.executeCommandLine = $exec.CommandLine
+        $statusText = 'PROCESS_EXIT_CODE_' + [string]$exec.Code
+        if ($script:ExecRawWriteFailed) {
+            $statusText = $statusText + '_RAW_CAPTURE_FAILED'
+            Add-Forensic -Op 'F-EXEC-RAW' -Status 'FAILED' -Reason 'a raw-file write failed after the process ended; the in-memory stdout and stderr were used for the receipt; raw evidence is INCOMPLETE'
+        }
+        if (-not $script:ExecRawWriteFailed) {
+            Add-Forensic -Op 'F-EXEC-RAW' -Status 'OK' -Reason 'raw stdout, stderr, exit code and UTC timing written to the run directory'
+        }
+        $script:Facts.invocationStatus = $statusText
+        if ($exec.Code -eq 0) {
+            try {
+                $receipt = Read-JsonText -Text $exec.StdOut -Label 'execute stdout'
+                $receiptOk = ([string](Get-Prop -Obj $receipt -Name 'mode') -ceq 'execute') -and
+                             ([string](Get-Prop -Obj $receipt -Name 'actId') -ceq $ActId) -and
+                             ([string](Get-Prop -Obj $receipt -Name 'store') -ceq $StorePath) -and
+                             ([string](Get-Prop -Obj $receipt -Name 'basisCommit') -ceq $BasisCommit) -and
+                             ([string](Get-Prop -Obj $receipt -Name 'basisTree') -ceq $BasisTree) -and
+                             ([string](Get-Prop -Obj $receipt -Name 'executingCommit') -ceq $ExpectedCommit) -and
+                             ([string](Get-Prop -Obj $receipt -Name 'executingTree') -ceq $ExpectedTree) -and
+                             ([string](Get-Prop -Obj $receipt -Name 'bindingId') -ceq $ExpectedBindingId) -and
+                             ([string](Get-Prop -Obj $receipt -Name 'membershipId') -ceq $ExpectedMembershipId) -and
+                             ($null -ne (Get-Prop -Obj $receipt -Name 'auditEventId'))
+                Add-Check -Id 'S07-RECEIPT' -Pass $receiptOk -Detail 'receipt fields (mode, actId, store, basis, executing identity, binding and membership ids, auditEventId) match the pinned values'
+                if ($receiptOk) { $script:ExecState = 'RECEIPT_MATCHES' }
+                if (-not $receiptOk) { $script:ExecState = 'RECEIPT_MISMATCH' }
+                Add-Forensic -Op 'F-RECEIPT' -Status 'OK' -Reason ('receipt parsed as one JSON object; fields match = ' + [string]$receiptOk)
+            } catch {
+                $script:ExecState = 'RECEIPT_MISMATCH'
+                Add-PostFailure -Id 'S07-RECEIPT-PARSE' -Message $_.Exception.Message
+                Add-Forensic -Op 'F-RECEIPT' -Status 'FAILED' -Reason ('receipt did not parse: ' + $_.Exception.Message)
+            }
+        }
+        if ($exec.Code -ne 0) {
+            $script:ExecState = 'REFUSED_OR_FAILED'
+            $script:Facts.executeRefusalCode = (Get-RefusalField -StdErr $exec.StdErr -Field 'code')
+            Add-Check -Id 'S07-RESULT' -Pass $false -Detail ('execute process code ' + $exec.Code + '; refusal code ' + $script:Facts.executeRefusalCode + '; the attempt is spent; no retry is permitted')
+            Add-Forensic -Op 'F-RECEIPT' -Status 'NOT_APPLICABLE' -Reason ('process code ' + $exec.Code + ' is a refusal or failure; no success receipt is expected')
+        }
+    }
+    $executedOk = ($script:ExecState -ceq 'RECEIPT_MATCHES')
+    $script:Facts.receiptMatched = $executedOk
+
+    # S08 - store fingerprint after the attempt (read-only).
+    $script:Phase = 'S08'
+    $storeAfterExec = ''
+    $storeNow = $false
+    try {
+        $storeNow = Test-Path -LiteralPath $StorePath -PathType Leaf
+        $script:Facts.storeExistsAfter = $storeNow
+        if ($storeNow) {
+            $storeAfterExec = (Get-FileHash -Algorithm SHA256 -LiteralPath $StorePath).Hash
+            $script:Facts.storeSha256AfterExecute = $storeAfterExec
+            Add-Forensic -Op 'F-STORE-HASH' -Status 'OK' -Reason 'store SHA-256 read after the attempt'
+        }
+        if (-not $storeNow) {
+            if ($executedOk) {
+                Add-PostFailure -Id 'S08-STORE-ABSENT-AFTER-RECEIPT' -Message 'the receipt matched but the store file is absent (integrity anomaly)'
+                Add-Forensic -Op 'F-STORE-HASH' -Status 'FAILED' -Reason 'the receipt matched but the store file is absent'
+            }
+            if (-not $executedOk) {
+                Add-Forensic -Op 'F-STORE-HASH' -Status 'NOT_APPLICABLE' -Reason 'store absent after a non-matching outcome; a refusal before creation is expected'
+            }
+        }
+    } catch {
+        Add-PostFailure -Id 'S08-STORE-HASH' -Message $_.Exception.Message
+        Add-Forensic -Op 'F-STORE-HASH' -Status 'FAILED' -Reason $_.Exception.Message
+    }
+
+    # S08 - validate (read-only). Its V-A2-8 result is the validator row-state proxy only (Q-V8).
+    $postArgs = @(
+        $script:EntryFull,
+        '--mode=validate',
+        ('--act-id=' + $ActId),
+        ('--store=' + $StorePath),
+        ('--principal-label=' + $PrincipalLabel),
+        ('--tenant-id=' + $TenantId),
+        ('--canonical-owner-id=' + $CanonicalOwnerId),
+        ('--actor=' + $ActorLabel),
+        ('--repo-root=' + $script:RepoFull),
+        ('--execution-commit=' + $ExpectedCommit),
+        ('--execution-tree=' + $ExpectedTree)
+    )
+    $script:ValidatePassAll = $false
+    try {
+        $post = Invoke-Capture -Name 'p1-postvalidate' -FilePath 'node' -ArgList $postArgs -WorkDir $script:RepoFull
+        if ($post.Code -eq 0) {
+            $report = Read-JsonText -Text $post.StdOut -Label 'post-state validate'
+            $requiredIds = @('V-A2-1', 'V-A2-2', 'V-A2-3', 'V-A2-4', 'V-A2-5', 'V-A2-6', 'V-A2-7', 'V-A2-8')
+            $reportChecks = @(Get-Prop -Obj $report -Name 'checks')
+            $passedIds = @($reportChecks | Where-Object { [bool](Get-Prop -Obj $_ -Name 'ok') } | ForEach-Object { [string](Get-Prop -Obj $_ -Name 'id') })
+            $allRequiredPassed = $true
+            foreach ($vid in $requiredIds) { if ($passedIds -notcontains $vid) { $allRequiredPassed = $false } }
+            $script:Facts.v2A8ProxyPass = ($passedIds -contains 'V-A2-8')
+            $script:Facts.v2PassedIds = $passedIds
+            $countsOk = ([int](Get-Prop -Obj $report -Name 'bindings') -eq 1) -and ([int](Get-Prop -Obj $report -Name 'memberships') -eq 1) -and ([int](Get-Prop -Obj $report -Name 'auditEvents') -eq 1)
+            $statusPass = ([string](Get-Prop -Obj $report -Name 'status') -ceq 'PASS')
+            $script:Facts.postStatus = [string](Get-Prop -Obj $report -Name 'status')
+            $script:ValidatePassAll = $allRequiredPassed -and $countsOk -and $statusPass
+            Add-Check -Id 'S08-VALIDATE' -Pass $script:ValidatePassAll -Detail ('status=' + $script:Facts.postStatus + '; checks passed=' + ($passedIds -join ',') + '; bindings/memberships/auditEvents = 1/1/1 required; V-A2-8 here is the row-state proxy only; the literal second-invocation refusal is NOT PERFORMED')
+            Add-Forensic -Op 'F-VALIDATE' -Status 'OK' -Reason ('validate report parsed; status ' + $script:Facts.postStatus)
+        }
+        if ($post.Code -ne 0) {
+            $script:Facts.postValidateRefusalCode = (Get-RefusalField -StdErr $post.StdErr -Field 'code')
+            Add-Check -Id 'S08-VALIDATE-REFUSED' -Pass $false -Detail ('validate process code ' + $post.Code + '; refusal code ' + $script:Facts.postValidateRefusalCode)
+            Add-Forensic -Op 'F-VALIDATE' -Status 'OK' -Reason ('raw validate output captured; process code ' + $post.Code + '; refusal code ' + $script:Facts.postValidateRefusalCode)
+        }
+    } catch {
+        Add-PostFailure -Id 'S08-VALIDATE-STEP' -Message $_.Exception.Message
+        Add-Forensic -Op 'F-VALIDATE' -Status 'FAILED' -Reason $_.Exception.Message
+    }
+
+    # S09 - store state, read-only dump, ledger, read-back invariant, sidecars. Each operation is isolated.
+    $script:Phase = 'S09'
+    $script:Facts.dumpQueriesOk = $false
+    $script:Facts.dumpLedgerOk = $false
+    $absentStatus = 'NOT_APPLICABLE'
+    $absentReason = 'store absent; no read-only dump or ledger read'
+    if ($executedOk) {
+        $absentStatus = 'FAILED'
+        $absentReason = 'the receipt matched but the store is absent; the dump and ledger cannot be read'
+    }
+    $storeExistsNow = $false
+    try {
+        $storeExistsNow = Test-Path -LiteralPath $StorePath -PathType Leaf
+    } catch {
+        Add-PostFailure -Id 'S09-STORE-STATE-TEST' -Message $_.Exception.Message
+        Add-Forensic -Op 'F-STORE-STATE' -Status 'FAILED' -Reason $_.Exception.Message
+    }
+    if (-not $storeExistsNow) {
+        Add-Forensic -Op 'F-STORE-STATE' -Status $absentStatus -Reason 'store file absent'
+        Add-Forensic -Op 'F-DUMP' -Status $absentStatus -Reason $absentReason
+        Add-Forensic -Op 'F-LEDGER' -Status $absentStatus -Reason $absentReason
+        Add-Forensic -Op 'F-INVARIANT' -Status $absentStatus -Reason 'store absent; no read-back invariant'
+        Add-Forensic -Op 'F-SIDECARS' -Status 'NOT_APPLICABLE' -Reason 'store absent'
+    }
+    if ($storeExistsNow) {
+        try {
+            $si = Get-Item -LiteralPath $StorePath -Force
+            $script:Facts.storeSizeBytes = $si.Length
+            $script:Facts.storeUtcLastWrite = $si.LastWriteTimeUtc.ToString('o')
+            $script:Facts.sidecarsBeforeDump = @(@('-journal', '-wal', '-shm') | Where-Object { Test-Path -LiteralPath ($StorePath + $_) })
+            Add-Forensic -Op 'F-STORE-STATE' -Status 'OK' -Reason 'size, last write time and sidecars recorded'
+        } catch {
+            Add-PostFailure -Id 'S09-STORE-STATE-CAPTURE' -Message $_.Exception.Message
+            Add-Forensic -Op 'F-STORE-STATE' -Status 'FAILED' -Reason $_.Exception.Message
+        }
+        $dumpObj = $null
+        $dumpOk = $false
+        try {
+            $dumpPath = Join-Path $script:RunDir ('readonly-dump-' + [guid]::NewGuid().ToString('N') + '.mjs')
+                $dumpSource = @(
+                    "import { DatabaseSync } from 'node:sqlite';",
+                    "const out = { schema: 'IIPS-P1-READONLY-DUMP/1', ok: true, tables: {}, ledger: null, error: '' };",
+                    "const tables = ['_migration_ledger','local_principal_bindings','local_principal_memberships','audit_events','portfolios','portfolio_revisions','portfolio_holdings','portfolio_contributions'];",
+                    "let db = null;",
+                    "try { db = new DatabaseSync(process.argv[2], { readOnly: true }); } catch (e) { out.ok = false; out.error = 'open: ' + String(e && e.message); }",
+                    "if (db !== null) {",
+                    "  for (const t of tables) {",
+                    "    try { const row = db.prepare('SELECT COUNT(*) AS n FROM ' + t).get(); out.tables[t] = { ok: true, count: Number(row.n) }; }",
+                    "    catch (e) { out.tables[t] = { ok: false, error: String(e && e.message) }; out.ok = false; }",
+                    "  }",
+                    "  try { const rows = db.prepare('SELECT migration_id, checksum FROM _migration_ledger ORDER BY migration_id').all(); out.ledger = { ok: true, rows: rows.map((r) => ({ migration_id: String(r.migration_id), checksum: String(r.checksum) })) }; }",
+                    "  catch (e) { out.ledger = { ok: false, error: String(e && e.message) }; out.ok = false; }",
+                    "  db.close();",
+                    "}",
+                    "console.log(JSON.stringify(out));"
+                ) -join "`n"
+
+            Write-RawFile -Path $dumpPath -Text ($dumpSource + "`n")
+            $dump = Invoke-Capture -Name 'readonly-dump' -FilePath 'node' -ArgList @($dumpPath, $StorePath) -WorkDir $script:RunDir
+            if ($dump.Code -eq 0) {
+                $dumpObj = Read-JsonText -Text $dump.StdOut -Label 'readonly dump'
+                $dumpOk = ([string](Get-Prop -Obj $dumpObj -Name 'schema') -ceq 'IIPS-P1-READONLY-DUMP/1') -and [bool](Get-Prop -Obj $dumpObj -Name 'ok')
+            }
+            Add-Check -Id 'S09-DUMP-QUERIES' -Pass $dumpOk -Detail 'every table count query and the migration ledger query returned ok (structured stdout; not a text search)'
+            $script:Facts.dumpQueriesOk = [bool]$dumpOk
+            if ($dumpOk) { Add-Forensic -Op 'F-DUMP' -Status 'OK' -Reason 'every table count and the ledger query returned ok' }
+            if (-not $dumpOk) { Add-Forensic -Op 'F-DUMP' -Status 'FAILED' -Reason ('dump process code ' + $dump.Code + ' or ok=false; raw output captured') }
+        } catch {
+            Add-PostFailure -Id 'S09-DUMP-STEP' -Message $_.Exception.Message
+            Add-Forensic -Op 'F-DUMP' -Status 'FAILED' -Reason $_.Exception.Message
+        }
+        $ledgerOk = $false
+        $ledgerDetail = 'ledger not read'
+        try {
+            if ($dumpOk) {
+                $rows = @(Get-Prop -Obj (Get-Prop -Obj $dumpObj -Name 'ledger') -Name 'rows')
+                $ledgerIds = @($rows | ForEach-Object { [string](Get-Prop -Obj $_ -Name 'migration_id') })
+                $expectedIds = @($ExpectedMigrations | ForEach-Object { [string]$_.Id })
+                $idsMatch = (($ledgerIds -join '|') -ceq ($expectedIds -join '|'))
+                $sumsMatch = $true
+                if ($idsMatch) {
+                    for ($i = 0; $i -lt $ExpectedMigrations.Count; $i++) {
+                        if ([string](Get-Prop -Obj $rows[$i] -Name 'checksum') -cne [string]$ExpectedMigrations[$i].Sha256) { $sumsMatch = $false }
+                    }
+                }
+                $ledgerOk = $idsMatch -and $sumsMatch
+                $ledgerDetail = 'ledger ids ' + ($ledgerIds -join ',') + '; checksums equal pinned values = ' + $sumsMatch
+                Add-Forensic -Op 'F-LEDGER' -Status 'OK' -Reason $ledgerDetail
+            }
+            if (-not $dumpOk) {
+                Add-Forensic -Op 'F-LEDGER' -Status 'FAILED' -Reason 'ledger not read because the dump did not return ok'
+            }
+        } catch {
+            Add-PostFailure -Id 'S09-LEDGER-STEP' -Message $_.Exception.Message
+            Add-Forensic -Op 'F-LEDGER' -Status 'FAILED' -Reason $_.Exception.Message
+        }
+        if ($executedOk) {
+            Add-Check -Id 'S09-LEDGER-EXPECTED' -Pass $ledgerOk -Detail $ledgerDetail
+        }
+        if (-not $executedOk) {
+            Add-Check -Id 'S09-LEDGER-RECORDED' -Pass $true -Detail ('ledger recorded for the non-matching outcome (not a pass criterion): ' + $ledgerDetail)
+        }
+        $script:Facts.dumpLedgerOk = [bool]$ledgerOk
+        try {
+            $storeAfterRead = (Get-FileHash -Algorithm SHA256 -LiteralPath $StorePath).Hash
+            $script:Facts.storeSha256AfterRead = $storeAfterRead
+            $invariantOk = ($storeAfterExec -ne '') -and ($storeAfterRead -ceq $storeAfterExec)
+            Add-Check -Id 'S09-READONLY-INVARIANT' -Pass $invariantOk -Detail 'the store SHA-256 after the read-only validate and dump equals the SHA-256 captured after the attempt; an empty capture never passes'
+            Add-Forensic -Op 'F-INVARIANT' -Status 'OK' -Reason ('read-back evaluated; equal = ' + [string]$invariantOk)
+        } catch {
+            Add-PostFailure -Id 'S09-INVARIANT-STEP' -Message $_.Exception.Message
+            Add-Forensic -Op 'F-INVARIANT' -Status 'FAILED' -Reason $_.Exception.Message
+        }
+        try {
+            $script:Facts.sidecarsAfterDump = @(@('-journal', '-wal', '-shm') | Where-Object { Test-Path -LiteralPath ($StorePath + $_) })
+            Add-Check -Id 'S09-SIDECARS' -Pass ($script:Facts.sidecarsAfterDump.Count -eq 0) -Detail ('sidecars after the read-only steps = ' + (@($script:Facts.sidecarsAfterDump) -join ', ') + ' (journal_mode DELETE expected to leave none)')
+            Add-Forensic -Op 'F-SIDECARS' -Status 'OK' -Reason 'sidecar state recorded after the read-only steps'
+        } catch {
+            Add-PostFailure -Id 'S09-SIDECARS-STEP' -Message $_.Exception.Message
+            Add-Forensic -Op 'F-SIDECARS' -Status 'FAILED' -Reason $_.Exception.Message
+        }
+    }
+
+    # Completeness and outcome. A FAILED or SKIPPED operation, or any post-step failure, means the evidence is not complete.
+    $failedOps = @($script:Forensics | Where-Object { $_.Status -ceq 'FAILED' })
+    $skippedOps = @($script:Forensics | Where-Object { $_.Status -ceq 'SKIPPED' })
+    $script:Facts.evidenceComplete = (($failedOps.Count -eq 0) -and ($skippedOps.Count -eq 0) -and ($script:PostFailures.Count -eq 0))
+    $script:Facts.evidenceFailedOperations = @($failedOps | ForEach-Object { [string]$_.Op })
+    $script:Facts.invocationFailure = (($script:ExecState -ceq 'INVOCATION_EXCEPTION') -or ($script:ExecState -ceq 'REFUSED_OR_FAILED') -or ($script:ExecState -ceq 'RECEIPT_MISMATCH'))
+    $script:Facts.evidenceIntegrityFailure = (-not $script:Facts.evidenceComplete)
+    $ledgerAndQueriesOk = ([bool]$script:Facts.dumpQueriesOk) -and ([bool]$script:Facts.dumpLedgerOk)
+    if ($script:ExecState -ceq 'RECEIPT_MATCHES') {
+        if (($script:ValidatePassAll) -and $ledgerAndQueriesOk -and $script:Facts.evidenceComplete) { $script:Outcome = 'EXECUTED_VALIDATED_PASS' }
+        if (($script:ValidatePassAll) -and $ledgerAndQueriesOk -and (-not $script:Facts.evidenceComplete)) { $script:Outcome = 'EXECUTED_POST_STEP_FAILED' }
+        if (-not (($script:ValidatePassAll) -and $ledgerAndQueriesOk)) { $script:Outcome = 'EXECUTED_POST_VALIDATION_NOT_PASSED' }
+    }
+    if ($script:ExecState -ceq 'RECEIPT_MISMATCH') { $script:Outcome = 'EXECUTED_RECEIPT_MISMATCH' }
+    if ($script:ExecState -ceq 'REFUSED_OR_FAILED') { $script:Outcome = 'EXECUTION_REFUSED_OR_FAILED' }
+    if ($script:ExecState -ceq 'INVOCATION_EXCEPTION') { $script:Outcome = 'MARKER_WRITTEN_INVOCATION_EXCEPTION' }
+    Write-Log ('POST-INVOCATION evidenceComplete=' + [string]$script:Facts.evidenceComplete + '; failed operations=' + ($script:Facts.evidenceFailedOperations -join ','))
 }
 
 # ---------------------------------------------------------------------------
@@ -910,7 +1379,11 @@ try {
     Require-Check -Id 'S00-STORE-DESIGNATED' -Pass ($StorePath -ceq $DesignatedStorePath) -Detail ('StorePath must equal the PF-15 F4 designation ' + $DesignatedStorePath + ' (binding to --store is Q-STORE)')
     Require-Check -Id 'S00-REPO-ABSOLUTE' -Pass ([System.IO.Path]::IsPathRooted($RepoRoot)) -Detail '--repo-root must be absolute'
     Require-Check -Id 'S00-REPO-EXISTS' -Pass (Test-Path -LiteralPath $RepoRoot -PathType Container) -Detail 'RepoRoot must be an existing directory'
-    $script:RepoFull = (Resolve-Path -LiteralPath $RepoRoot).ProviderPath.TrimEnd('\')
+    $script:RepoFull = Get-CanonicalPath -Path (Resolve-Path -LiteralPath $RepoRoot).ProviderPath -Label 'RepoRoot'
+    $repoSubst = @(Get-SubstHits -Path $script:RepoFull)
+    Require-Check -Id 'S00-REPO-NO-SUBST-ALIAS' -Pass ($repoSubst.Count -eq 0) -Detail ('SUBST mappings on the repository drive = ' + ($repoSubst -join ' | '))
+    $repoReparse = @(Get-ReparseHits -Chain (Get-AncestorChain -Path $script:RepoFull -IncludeSelf $true))
+    Require-Check -Id 'S00-REPO-NO-REPARSE-IN-CHAIN' -Pass ($repoReparse.Count -eq 0) -Detail ('reparse points at or above the repository root = ' + ($repoReparse -join ', '))
     Require-Check -Id 'S00-EVIDENCE-ABSOLUTE' -Pass ($EvidenceRoot -match '^[A-Za-z]:\\') -Detail 'EvidenceRoot must be an absolute local drive path'
     Require-Check -Id 'S00-STORE-ABSOLUTE' -Pass ($StorePath -match '^[A-Za-z]:\\') -Detail 'StorePath must be an absolute local drive path'
     Require-Check -Id 'S00-MODE-CONFIRM' -Pass (($Mode -eq 'Preflight') -or ($ConfirmToken -ceq $ConfirmRequired)) -Detail ('Execute requires -ConfirmToken ' + $ConfirmRequired + '; Preflight needs none')
@@ -932,6 +1405,9 @@ try {
     Require-Check -Id 'S00-NO-PRIOR-MARKER' -Pass ($priorMarked.Count -eq 0) -Detail ('prior run directories with ' + $MarkerName + ' = ' + ($priorMarked -join ', ') + '; the attempt is spent')
     Require-Check -Id 'S00-NO-UNSEALED-PRIOR-RUN' -Pass ($priorUnsealed.Count -eq 0) -Detail ('prior run directories without SHA256SUMS.txt = ' + ($priorUnsealed -join ', ') + '; state unknown, refuse')
     Require-Check -Id 'S00-NO-PRIOR-FILE' -Pass ($priorFiles.Count -eq 0) -Detail ('p1-* files directly under EvidenceRoot = ' + $priorFiles.Count)
+    $claimHere = Test-Path -LiteralPath (Join-Path $script:Facts.evidenceRoot $ClaimName) -PathType Leaf
+    if ($Mode -eq 'Execute') { Require-Check -Id 'S00-NO-EXECUTE-CLAIM' -Pass (-not $claimHere) -Detail ($ClaimName + ' exists in the evidence root; a retained claim blocks every later execute (Q-CONS)') }
+    if ($Mode -eq 'Preflight') { Add-Check -Id 'S00-EXECUTE-CLAIM-INFO' -Pass $true -Detail ('execute claim present = ' + $claimHere + ' (informational in Preflight)') }
     if ($Mode -eq 'Execute') {
         Test-AcceptanceAndPreflight
     }
@@ -942,12 +1418,13 @@ try {
     $script:RunDirName = 'p1-' + $modeTag + '-' + (Get-FileStamp) + '-' + [guid]::NewGuid().ToString('N').Substring(0, 8)
     $script:RunDir = Join-Path $script:Facts.evidenceRoot $script:RunDirName
     Require-Check -Id 'S00-RUNDIR-NEW' -Pass (-not (Test-Path -LiteralPath $script:RunDir)) -Detail ('new run directory ' + $script:RunDirName)
+    if ($Mode -eq 'Execute') { Invoke-ExecuteClaim }
     New-Item -ItemType Directory -Path $script:RunDir -ErrorAction Stop | Out-Null
     $script:LogPath = Join-Path $script:RunDir 'run.log'
     Write-RawFile -Path $script:LogPath -Text ''
     $script:Facts.repoFull = $script:RepoFull
     $script:Facts.psVersion = [string]$PSVersionTable.PSVersion
-    Write-Log ('P-1 script revision 4 start; mode={0}; actId={1}; scriptSha256={2}' -f $Mode, $ActId, $script:ScriptSha256)
+    Write-Log ('P-1 script revision 5 start; mode={0}; actId={1}; scriptSha256={2}' -f $Mode, $ActId, $script:ScriptSha256)
     Add-Check -Id 'S00' -Pass $true -Detail 'designations match; arguments absolute; evidence root contained; no prior execute attempt, marker or unsealed run; run directory created exclusively'
 
     # S01 - host, elevation, product, environment, Node, flag-free sqlite (read-only).
@@ -1017,189 +1494,22 @@ try {
         $script:ExecuteCalls = $script:ExecuteCalls + 1
         if ($script:ExecuteCalls -gt 1) { Stop-Gate 'SECOND_INVOCATION_REFUSED' 'a second --mode=execute invocation is never made' }
         $script:ExecState = 'STARTING'
-        $exec = $null
         try {
             $exec = Invoke-Capture -Name 'p1-execute-SINGLE-ATTEMPT' -FilePath 'node' -ArgList $execArgs -WorkDir $script:RepoFull
+            $script:ExecResult = $exec
         } catch {
-            # Raised by the invocation wrapper: process start, or raw-capture writing after the process ended. The marker is
-            # already written, so the attempt is spent. S08 and S09 read the store state either way.
-            $script:ExecState = 'INVOCATION_EXCEPTION'
-            $script:Outcome = 'MARKER_WRITTEN_INVOCATION_EXCEPTION'
+            # Raised by the invocation wrapper: a process start failure, or a raw-file write after the process ended. The
+            # marker is already written, so the attempt is spent. No rerun is made. If the process ended and only the raw
+            # write failed, the in-memory result is kept for the receipt and the evidence is recorded as incomplete.
             Add-PostFailure -Id 'S07-INVOCATION-EXCEPTION' -Message $_.Exception.Message
+            $lc = $script:LastCapture
+            if (($null -ne $lc) -and ([string]$lc.Tag -like '*p1-execute-SINGLE-ATTEMPT')) {
+                $script:ExecResult = $lc
+                $script:ExecRawWriteFailed = $true
+            }
         }
         $script:Phase = 'S07-RESULT'
-        if ($null -ne $exec) {
-            $script:Facts.executeCode = $exec.Code
-            $script:Facts.executeCommandLine = $exec.CommandLine
-            if ($exec.Code -eq 0) {
-                try {
-                    $receipt = Read-JsonText -Text $exec.StdOut -Label 'execute stdout'
-                    $receiptOk = ([string](Get-Prop -Obj $receipt -Name 'mode') -ceq 'execute') -and
-                                 ([string](Get-Prop -Obj $receipt -Name 'actId') -ceq $ActId) -and
-                                 ([string](Get-Prop -Obj $receipt -Name 'store') -ceq $StorePath) -and
-                                 ([string](Get-Prop -Obj $receipt -Name 'basisCommit') -ceq $BasisCommit) -and
-                                 ([string](Get-Prop -Obj $receipt -Name 'basisTree') -ceq $BasisTree) -and
-                                 ([string](Get-Prop -Obj $receipt -Name 'executingCommit') -ceq $ExpectedCommit) -and
-                                 ([string](Get-Prop -Obj $receipt -Name 'executingTree') -ceq $ExpectedTree) -and
-                                 ([string](Get-Prop -Obj $receipt -Name 'bindingId') -ceq $ExpectedBindingId) -and
-                                 ([string](Get-Prop -Obj $receipt -Name 'membershipId') -ceq $ExpectedMembershipId) -and
-                                 ($null -ne (Get-Prop -Obj $receipt -Name 'auditEventId'))
-                    Add-Check -Id 'S07-RECEIPT' -Pass $receiptOk -Detail 'receipt fields (mode, actId, store, basis, executing identity, binding and membership ids, auditEventId) match the pinned values'
-                    if ($receiptOk) { $script:ExecState = 'RECEIPT_MATCHES' }
-                    if (-not $receiptOk) { $script:ExecState = 'RECEIPT_MISMATCH' }
-                } catch {
-                    $script:ExecState = 'RECEIPT_MISMATCH'
-                    Add-PostFailure -Id 'S07-RECEIPT-PARSE' -Message $_.Exception.Message
-                }
-            }
-            if ($exec.Code -ne 0) {
-                $script:ExecState = 'REFUSED_OR_FAILED'
-                $script:Facts.executeRefusalCode = (Get-RefusalField -StdErr $exec.StdErr -Field 'code')
-                Add-Check -Id 'S07-RESULT' -Pass $false -Detail ('execute process code ' + $exec.Code + '; refusal code ' + $script:Facts.executeRefusalCode + '; the attempt is spent; no retry is permitted')
-            }
-        }
-        if ($script:ExecState -ceq 'RECEIPT_MATCHES') { $script:Outcome = 'EXECUTED_RECEIPT_MATCHES' }
-        if ($script:ExecState -ceq 'RECEIPT_MISMATCH') { $script:Outcome = 'EXECUTED_RECEIPT_MISMATCH' }
-        if ($script:ExecState -ceq 'REFUSED_OR_FAILED') { $script:Outcome = 'EXECUTION_REFUSED_OR_FAILED' }
-
-        # S08 - post-state validation (read-only). Always runs once S07 has been reached, whatever S07 returned.
-        $script:Phase = 'S08'
-        $storeAfterExec = ''
-        try {
-            if (Test-Path -LiteralPath $StorePath -PathType Leaf) {
-                $storeAfterExec = (Get-FileHash -Algorithm SHA256 -LiteralPath $StorePath).Hash
-            }
-            $script:Facts.storeSha256AfterExecute = $storeAfterExec
-        } catch {
-            Add-PostFailure -Id 'S08-STORE-HASH' -Message $_.Exception.Message
-        }
-        $postArgs = @(
-            $script:EntryFull,
-            '--mode=validate',
-            ('--act-id=' + $ActId),
-            ('--store=' + $StorePath),
-            ('--principal-label=' + $PrincipalLabel),
-            ('--tenant-id=' + $TenantId),
-            ('--canonical-owner-id=' + $CanonicalOwnerId),
-            ('--actor=' + $ActorLabel),
-            ('--repo-root=' + $script:RepoFull),
-            ('--execution-commit=' + $ExpectedCommit),
-            ('--execution-tree=' + $ExpectedTree)
-        )
-        $script:ValidatePassAll = $false
-        try {
-            $post = Invoke-Capture -Name 'p1-postvalidate' -FilePath 'node' -ArgList $postArgs -WorkDir $script:RepoFull
-            if ($post.Code -eq 0) {
-                $report = Read-JsonText -Text $post.StdOut -Label 'post-state validate'
-                $requiredIds = @('V-A2-1', 'V-A2-2', 'V-A2-3', 'V-A2-4', 'V-A2-5', 'V-A2-6', 'V-A2-7', 'V-A2-8')
-                $reportChecks = @(Get-Prop -Obj $report -Name 'checks')
-                $passedIds = @($reportChecks | Where-Object { [bool](Get-Prop -Obj $_ -Name 'ok') } | ForEach-Object { [string](Get-Prop -Obj $_ -Name 'id') })
-                $allRequiredPassed = $true
-                foreach ($vid in $requiredIds) { if ($passedIds -notcontains $vid) { $allRequiredPassed = $false } }
-                $script:Facts.v2A8ProxyPass = ($passedIds -contains 'V-A2-8')
-                $script:Facts.v2PassedIds = $passedIds
-                $countsOk = ([int](Get-Prop -Obj $report -Name 'bindings') -eq 1) -and ([int](Get-Prop -Obj $report -Name 'memberships') -eq 1) -and ([int](Get-Prop -Obj $report -Name 'auditEvents') -eq 1)
-                $statusPass = ([string](Get-Prop -Obj $report -Name 'status') -ceq 'PASS')
-                $script:Facts.postStatus = [string](Get-Prop -Obj $report -Name 'status')
-                $script:ValidatePassAll = $allRequiredPassed -and $countsOk -and $statusPass
-                Add-Check -Id 'S08-VALIDATE' -Pass $script:ValidatePassAll -Detail ('status=' + $script:Facts.postStatus + '; checks passed=' + ($passedIds -join ',') + '; bindings/memberships/auditEvents = 1/1/1 required; V-A2-8 here is the row-state proxy only; the literal second-invocation refusal is NOT PERFORMED')
-            }
-            if ($post.Code -ne 0) {
-                $script:Facts.postValidateRefusalCode = (Get-RefusalField -StdErr $post.StdErr -Field 'code')
-                Add-Check -Id 'S08-VALIDATE' -Pass $false -Detail ('validate process code ' + $post.Code + '; refusal code ' + $script:Facts.postValidateRefusalCode)
-            }
-        } catch {
-            Add-PostFailure -Id 'S08-VALIDATE-STEP' -Message $_.Exception.Message
-        }
-
-        # S09 - store fingerprint, sidecars, read-only dump (structured) and the read-only invariant. Never writes the store.
-        $script:Phase = 'S09'
-        try {
-            $storeExistsNow = Test-Path -LiteralPath $StorePath -PathType Leaf
-            $script:Facts.storeExistsAfter = $storeExistsNow
-            if (-not $storeExistsNow) {
-                Add-Check -Id 'S09-STORE-ABSENT' -Pass $true -Detail 'the store file does not exist after the attempt; no dump; the store absence is recorded as a fact'
-            }
-            if ($storeExistsNow) {
-                $script:Facts.storeSizeBytes = (Get-Item -LiteralPath $StorePath).Length
-                $script:Facts.storeUtcLastWrite = (Get-Item -LiteralPath $StorePath).LastWriteTimeUtc.ToString('o')
-                $script:Facts.sidecarsBeforeDump = @(@('-journal', '-wal', '-shm') | Where-Object { Test-Path -LiteralPath ($StorePath + $_) })
-                $dumpPath = Join-Path $script:RunDir ('readonly-dump-' + [guid]::NewGuid().ToString('N') + '.mjs')
-                $dumpSource = @(
-                    "import { DatabaseSync } from 'node:sqlite';",
-                    "const out = { schema: 'IIPS-P1-READONLY-DUMP/1', ok: true, tables: {}, ledger: null, error: '' };",
-                    "const tables = ['_migration_ledger','local_principal_bindings','local_principal_memberships','audit_events','portfolios','portfolio_revisions','portfolio_holdings','portfolio_contributions'];",
-                    "let db = null;",
-                    "try { db = new DatabaseSync(process.argv[2], { readOnly: true }); } catch (e) { out.ok = false; out.error = 'open: ' + String(e && e.message); }",
-                    "if (db !== null) {",
-                    "  for (const t of tables) {",
-                    "    try { const row = db.prepare('SELECT COUNT(*) AS n FROM ' + t).get(); out.tables[t] = { ok: true, count: Number(row.n) }; }",
-                    "    catch (e) { out.tables[t] = { ok: false, error: String(e && e.message) }; out.ok = false; }",
-                    "  }",
-                    "  try { const rows = db.prepare('SELECT migration_id, checksum FROM _migration_ledger ORDER BY migration_id').all(); out.ledger = { ok: true, rows: rows.map((r) => ({ migration_id: String(r.migration_id), checksum: String(r.checksum) })) }; }",
-                    "  catch (e) { out.ledger = { ok: false, error: String(e && e.message) }; out.ok = false; }",
-                    "  db.close();",
-                    "}",
-                    "console.log(JSON.stringify(out));"
-                ) -join "`n"
-                Write-RawFile -Path $dumpPath -Text ($dumpSource + "`n")
-                $dump = Invoke-Capture -Name 'readonly-dump' -FilePath 'node' -ArgList @($dumpPath, $StorePath) -WorkDir $script:RunDir
-                $dumpObj = $null
-                $dumpOk = $false
-                if ($dump.Code -eq 0) {
-                    try {
-                        $dumpObj = Read-JsonText -Text $dump.StdOut -Label 'readonly dump'
-                        $dumpOk = ([string](Get-Prop -Obj $dumpObj -Name 'schema') -ceq 'IIPS-P1-READONLY-DUMP/1') -and [bool](Get-Prop -Obj $dumpObj -Name 'ok')
-                    } catch {
-                        $dumpOk = $false
-                    }
-                }
-                Add-Check -Id 'S09-DUMP-QUERIES' -Pass $dumpOk -Detail 'every table count query and the migration ledger query returned ok (structured stdout; not a text search)'
-                $script:Facts.dumpQueriesOk = [bool]$dumpOk
-                $ledgerOk = $false
-                $ledgerDetail = 'ledger not read'
-                if ($dumpOk) {
-                    $rows = @(Get-Prop -Obj (Get-Prop -Obj $dumpObj -Name 'ledger') -Name 'rows')
-                    $ledgerIds = @($rows | ForEach-Object { [string](Get-Prop -Obj $_ -Name 'migration_id') })
-                    $expectedIds = @($ExpectedMigrations | ForEach-Object { [string]$_.Id })
-                    $idsMatch = (($ledgerIds -join '|') -ceq ($expectedIds -join '|'))
-                    $sumsMatch = $true
-                    if ($idsMatch) {
-                        for ($i = 0; $i -lt $ExpectedMigrations.Count; $i++) {
-                            if ([string](Get-Prop -Obj $rows[$i] -Name 'checksum') -cne [string]$ExpectedMigrations[$i].Sha256) { $sumsMatch = $false }
-                        }
-                    }
-                    $ledgerOk = $idsMatch -and $sumsMatch
-                    $ledgerDetail = 'ledger ids ' + ($ledgerIds -join ',') + '; checksums equal pinned values = ' + $sumsMatch
-                }
-                if ($script:Outcome -ceq 'EXECUTED_RECEIPT_MATCHES') {
-                    Add-Check -Id 'S09-LEDGER-EXPECTED' -Pass $ledgerOk -Detail $ledgerDetail
-                }
-                if ($script:Outcome -cne 'EXECUTED_RECEIPT_MATCHES') {
-                    Add-Check -Id 'S09-LEDGER-RECORDED' -Pass $true -Detail ('ledger recorded for the non-matching outcome (not a pass criterion): ' + $ledgerDetail)
-                }
-                $script:Facts.dumpLedgerOk = [bool]$ledgerOk
-                $storeAfterRead = (Get-FileHash -Algorithm SHA256 -LiteralPath $StorePath).Hash
-                $script:Facts.storeSha256AfterRead = $storeAfterRead
-                Require-Check -Id 'S09-READONLY-INVARIANT' -Pass ($storeAfterRead -ceq $storeAfterExec) -Detail 'the store SHA-256 after the read-only validate and dump equals the SHA-256 after the execute step'
-                $script:Facts.sidecarsAfterDump = @(@('-journal', '-wal', '-shm') | Where-Object { Test-Path -LiteralPath ($StorePath + $_) })
-                Add-Check -Id 'S09-SIDECARS' -Pass ($script:Facts.sidecarsAfterDump.Count -eq 0) -Detail ('sidecars after the read-only steps = ' + (@($script:Facts.sidecarsAfterDump) -join ', ') + ' (journal_mode DELETE expected to leave none)')
-            }
-        } catch {
-            Add-PostFailure -Id 'S09-STEP' -Message $_.Exception.Message
-        }
-
-        # Final outcome for the executed branch. Post-step failures are recorded; they never skip the remaining steps.
-        $ledgerAndQueriesOk = ([bool]$script:Facts.dumpQueriesOk) -and ([bool]$script:Facts.dumpLedgerOk)
-        if (($script:Outcome -ceq 'EXECUTED_RECEIPT_MATCHES') -and ($script:ValidatePassAll) -and $ledgerAndQueriesOk -and ($script:PostFailures.Count -eq 0)) {
-            $script:Outcome = 'EXECUTED_VALIDATED_PASS'
-        }
-        if (($script:Outcome -ceq 'EXECUTED_RECEIPT_MATCHES') -and ($script:ValidatePassAll) -and $ledgerAndQueriesOk -and ($script:PostFailures.Count -gt 0)) {
-            $script:Outcome = 'EXECUTED_POST_STEP_FAILED'
-        }
-        if (($script:Outcome -ceq 'EXECUTED_RECEIPT_MATCHES') -and (-not (($script:ValidatePassAll) -and $ledgerAndQueriesOk))) {
-            $script:Outcome = 'EXECUTED_POST_VALIDATION_NOT_PASSED'
-        }
+        Invoke-PostInvocationForensics
     }
 
     # S10 - summary and seal. No further invocations.
@@ -1208,15 +1518,34 @@ try {
     Write-Seal
 }
 catch {
-    # Any stop, including a stop after invocation. The outcome is set from the recorded state, and the remaining
-    # read-only evidence is written as failure-summary.json. A stop before the run directory exists writes nothing.
+    # Any stop. The outcome is set from recorded state. If the single invocation was started, the post-invocation evidence
+    # operations run now, once and isolated, and the summary is still written. A stop before the run directory exists
+    # writes nothing.
     $script:Failure = $_.Exception.Message
     if ($Mode -eq 'Preflight') {
         $script:Outcome = 'PREFLIGHT_STOPPED'
     }
-    if ($script:MarkerWritten) {
-        if ($script:ExecState -ceq 'NOT_REACHED') { $script:ExecState = 'STOPPED_AFTER_MARKER' }
+    # A marker file can exist even if the write threw after creation (CreateNew). Record what is on disk: a present
+    # marker spends the attempt, whatever the in-memory flag says.
+    if (($script:RunDir -ne '') -and (-not $script:MarkerWritten) -and (Test-Path -LiteralPath (Join-Path $script:RunDir $MarkerName) -PathType Leaf)) {
+        $script:MarkerWritten = $true
+    }
+    if (($script:MarkerWritten) -and ($script:ExecuteCalls -eq 0)) {
+        $script:ExecState = 'STOPPED_AFTER_MARKER'
         $script:Outcome = 'MARKER_WRITTEN_STOPPED_AFTER_MARKER'
+    }
+    if ($script:ExecuteCalls -ge 1) {
+        if (-not $script:PostForensicsDone) {
+            try {
+                Invoke-PostInvocationForensics
+            } catch {
+                Add-Forensic -Op 'F-POST-FORENSICS' -Status 'FAILED' -Reason $_.Exception.Message
+                Add-PostFailure -Id 'S09-POST-FORENSICS' -Message $_.Exception.Message
+            }
+        }
+        if ($script:Outcome -ceq 'EXECUTED_VALIDATED_PASS') {
+            $script:Outcome = 'EXECUTED_POST_STEP_FAILED'
+        }
     }
     Write-Log ('STOP at phase ' + $script:Phase + ': ' + $script:Failure)
     if ($script:RunDir -ne '') {
@@ -1225,10 +1554,12 @@ catch {
         } catch {
             Write-Host ('FAILURE SUMMARY NOT WRITTEN: ' + $_.Exception.Message)
         }
-        try {
-            Write-Seal
-        } catch {
-            Write-Host ('SEAL NOT WRITTEN: ' + $_.Exception.Message)
+        if (-not $script:Sealed) {
+            try {
+                Write-Seal
+            } catch {
+                Write-Host ('SEAL NOT WRITTEN (the run directory stays unsealed; later runs refuse it): ' + $_.Exception.Message)
+            }
         }
     }
 }
