@@ -1,8 +1,22 @@
 # ============================================================================
 # CAP-03 S2-DEP-A - governed byte-verbatim host-original deposit: operator
-# steps 1-5 of the published procedure (REV 6 - PHASE-4 clone runs quietly
-# so PowerShell 5.1 cannot convert the routine clone progress of git into
-# a terminating error; published identity reconciled at origin/main).
+# steps 1-5 of the published procedure (REV 7 - PHASE-6 staging uses a
+# plain, exit-gated git add for the 19 authorized paths; published identity
+# reconciled at origin/main).
+# REV 7 (recorded in tracker 16.193 / CHG-2026-10-29-15 on main): one
+#   operational correction, staging-command-only; no integrity gate changed.
+#   The second host run (log deposit-run-log-20261029T092200Z) passed
+#   PHASE-1..5 and correctly BLOCKED at PHASE-6: the add command carried a
+#   flag that git only accepts together with --dry-run, so git refused to
+#   run it, wrote a fatal line to stderr, and PowerShell 5.1 (with
+#   ErrorActionPreference=Stop) turned that into a terminating error before
+#   anything was staged, committed or pushed - fail-closed as designed.
+#   Rev 7 stages with a plain 'git add -- <the 19 pathspecs>' (path
+#   restriction kept), wrapped so stderr from genuine add errors is logged
+#   and mapped to Set-Blocked with the captured exit code instead of an
+#   unclassified abort; NO --dry-run is used anywhere - a failed add leaves
+#   nothing staged, and the existing staged-count-19 gate, the per-path
+#   prefix gate and the PHASE-7 byte-equality gate remain the authority.
 # REV 6 (recorded in tracker 16.192 / CHG-2026-10-29-14 on main): one
 #   operational correction, reporting-and-robustness only; no integrity gate
 #   changed. The first host run (log deposit-run-log-20261029T090117Z) saw
@@ -73,7 +87,7 @@
 #   Any unapproved or unexplained change fails closed.
 # Target: host DESKTOP-NO0NHTP (Windows 11 26300), non-elevated Windows
 #   PowerShell 5.1. Acquisition: run the published bootstrap block (operator
-#   handoff record, evidence/integration/cap03-s2-dep-a-rev6-quiet-clone-
+#   handoff record, evidence/integration/cap03-s2-dep-a-rev7-staging-fix-
 #   2026-10-29/02-operator-bootstrap-and-handoff.txt); it clones IRR,
 #   byte-extracts THIS file from refs/remotes/origin/main and executes it.
 #   Do NOT paste this script from memory or chat - PHASE-4 proves
@@ -82,7 +96,7 @@
 #   tracker) proceeds per:
 #   procedure : evidence/integration/cap03-s2-dep-a-2026-10-29/03-host-transfer-minimal-operation.txt
 #   manifest  : evidence/integration/cap03-s2-dep-a-2026-10-29/02-deposit-manifest-expected.txt
-#   authority : tracker 16.183 (S2-ACC-A1; S2-DEP-A AUTHORIZED), 16.185, 16.186, 16.187, 16.188, 16.189, 16.191, 16.192 on main
+#   authority : tracker 16.183 (S2-ACC-A1; S2-DEP-A AUTHORIZED), 16.185, 16.186, 16.187, 16.188, 16.189, 16.191, 16.192, 16.193 on main
 # This script NEVER writes into the source evidence folder, never renames,
 # regenerates, re-seals, normalizes or reconstructs anything, and never touches
 # sibling folders (including any .inprogress or .seal-failed history): the
@@ -94,8 +108,8 @@ $ErrorActionPreference = 'Stop'
 $EXP_SEAL_SHA   = '9d3c09dbdb691c2527a45605dea20826b4ec2ba2f110985ee3f1033783b5225e'   # recorded self-hash of folder SHA256SUMS.txt (16.180; manifest 02)
 $EXP_PROC02_SHA = '9c9319fa3d7eaa822834c2f500e04dfec2b18d8157724843126a749b2bec91ab'   # sealed digest of the governing manifest (folder SHA256SUMS.txt on main)
 $EXP_PROC03_SHA = 'a1c94ba6a2b96e08a1dc9e7e1d2c73be92c6c38f09d74aa4f00c5d8e445e0ede'   # sealed digest of the governing procedure
-$BASELINE_MAIN  = '4908842e40d0c23c42a7f4b8cbebeade579ac2d9'   # reviewed publication baseline (drift reference only; NOT an equality gate; movement is logged)
-$APPROVAL_MARKER = 'CHG-2026-10-29-14'                          # rev-6 approval record; must be present in the tracker on origin/main
+$BASELINE_MAIN  = 'f44c72e55f3de18e9b5130eb45c3f39158a26095'   # reviewed publication baseline (drift reference only; NOT an equality gate; movement is logged)
+$APPROVAL_MARKER = 'CHG-2026-10-29-15'                          # rev-7 approval record; must be present in the tracker on origin/main
 $INSTR_REL  = 'docs/integration/IIPS_v3.0_CAP03_S2_DEP_A_HOST_TRANSFER_2026-10-29.ps1'
 $TRACKER_REL = 'IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md'
 $DEP02_REL  = 'evidence/integration/cap03-s2-dep-a-2026-10-29/02-deposit-manifest-expected.txt'
@@ -201,10 +215,10 @@ function Get-GitBlobText([string]$refName) {
 }
 try {
   if ($STATE -eq 'PASS') {
-    Write-Log 'PHASE-0 initialization (inside the guarded region; durable log is best-effort beneath a console-first path; rev6)'
+    Write-Log 'PHASE-0 initialization (inside the guarded region; durable log is best-effort beneath a console-first path; rev7)'
     try {
       New-Item -ItemType Directory -Force -Path $SRC_ROOT | Out-Null
-      $hdr = '# S2-DEP-A host transfer log started ' + (Get-Date).ToUniversalTime().ToString('yyyy-MM-ddTHH:mm:ssZ') + ' PS ' + $PSVersionTable.PSVersion.ToString() + ' host ' + $env:COMPUTERNAME + ' rev6'
+      $hdr = '# S2-DEP-A host transfer log started ' + (Get-Date).ToUniversalTime().ToString('yyyy-MM-ddTHH:mm:ssZ') + ' PS ' + $PSVersionTable.PSVersion.ToString() + ' host ' + $env:COMPUTERNAME + ' rev7'
       Add-Content -LiteralPath $LOG -Value $hdr
       $script:LOGOK = $true
       Write-Log ('durable log open at ' + $LOG)
@@ -285,7 +299,7 @@ try {
     Write-Log ('PHASE-3 done; 16 sealed artifacts (incl. MANIFEST.json) + seal + transcript hashed; state ' + $STATE)
   }
   if ($STATE -eq 'PASS') {
-    Write-Log 'PHASE-4 clone (fresh work dir; nothing existing is reused or deleted; rev6: --quiet so PS 5.1 cannot treat routine clone progress as an error)'
+    Write-Log 'PHASE-4 clone (fresh work dir; nothing existing is reused or deleted; rev 6: --quiet so PS 5.1 cannot treat routine clone progress as an error)'
     $wdOk = Test-Path -LiteralPath $WORK
     if ($wdOk -eq $true) { Set-Blocked 'work dir already exists (unexpected)' }
   }
@@ -344,7 +358,7 @@ try {
     if ($pubSeal.sha -ne $sealHost) { Set-Blocked 'host seal differs from published blob; STOP' }
   }
   if ($STATE -eq 'PASS') {
-    Write-Log 'PHASE-6 create deposit branch from the verified main head; binary-safe copy; stage ONLY authorized paths (19)'
+    Write-Log 'PHASE-6 create deposit branch from the verified main head; binary-safe copy; stage ONLY authorized paths (19); rev 7: plain exit-gated add (no dry-run-only flags)'
     & git.exe -C $REPOD checkout -q -b $BRANCH $BASE
     $dest = Join-Path $REPOD ('evidence/cap03-s2/' + $RUN_NAME)
     New-Item -ItemType Directory -Force -Path $dest | Out-Null
@@ -364,7 +378,15 @@ try {
     # The record is FROZEN at staging: nothing is appended to it after this point (rev 3 rule).
     Copy-Item -LiteralPath $HASHES -Destination (Join-Path $REPOD 'evidence/cap03-s2/deposit-host-hashes.txt') -Force
     $relPaths += 'evidence/cap03-s2/deposit-host-hashes.txt'
-    & git.exe -C $REPOD add --ignore-missing -- $relPaths 2>&1 | Out-Null
+    $addCode = 'not-captured'
+    try {
+      & git.exe -C $REPOD add -- $relPaths 2>&1 | ForEach-Object { Write-Log ('add: ' + $_.ToString()) }
+      $addCode = $LASTEXITCODE
+    } catch {
+      $addCode = -1
+      Write-Log 'git add raised a terminating error under Stop (stderr output seen); staging treated as failed'
+    }
+    if ($addCode -ne 0) { Set-Blocked ('git add failed (exit ' + $addCode + '); NOTHING committed; work dir preserved; report to PA') }
     $staged = @(& git.exe -C $REPOD diff --cached --name-only)
     if ($staged.Count -ne 19) { Set-Blocked ('staged count ' + $staged.Count + ' != expected 19 (18 content + 1 verification record)') }
     foreach ($s in $staged) {

@@ -1,0 +1,2 @@
+37f747bba9a3183cc6f4f529a627d5ab4bc8b925767a40eed4472554a9b4198d  01-rev7-staging-fix-record.txt
+e683b3ede7654d225123bac9b1dc0a69bd2e1a935aa4e86f3806853d2244706e  02-operator-bootstrap-and-handoff.txt

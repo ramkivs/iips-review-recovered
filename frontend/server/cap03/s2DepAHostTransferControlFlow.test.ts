@@ -1,7 +1,7 @@
 /**
  * CAP-03 S2-DEP-A host-transfer instrument — terminal-state control-flow contract.
  *
- * Authority: IRR tracker §16.192 (`CV-CORR-172`, `CHG-2026-10-29-14`), rev-6.
+ * Authority: IRR tracker §16.193 (`CV-CORR-173`, `CHG-2026-10-29-15`), rev-7.
  * Pins (regression teeth, per fix pass):
  *  - rev-2: a failed remote-SHA check after a completed push could print
  *    `RESULT: PASS` (fixed rev 3; still pinned);
@@ -15,7 +15,12 @@
  *  - rev-5: PHASE-4 piped `git clone` output through the run log without `--quiet`, so
  *    PowerShell 5.1 converted git's routine progress into a terminating
  *    NativeCommandError (fixed rev 6: quiet clone; exit-code gate and the PHASE-4b
- *    running-bytes identity gate remain untouched and mandatory).
+ *    running-bytes identity gate remain untouched and mandatory);
+ *  - rev-6: PHASE-6 ran `git add` with a flag git only accepts alongside --dry-run, so
+ *    git refused the command and its fatal stderr became a PS 5.1 terminating error before
+ *    anything staged (fail-closed, nothing committed or pushed). Fixed rev 7: plain
+ *    pathspec-restricted add under an inner try with captured exit code; the
+ *    staged-count-19, staged-prefix and PHASE-7 byte gates remain the authority.
  * Structural interpretation: each top-level `if ($STATE ...)` block executes
  * iff its gate holds; a Set-Blocked flips the state for later pass-gated
  * blocks; an exception unwinds past the footer into the catch; Set-Result
@@ -127,7 +132,7 @@ function simulate(inject: Injection): { out: string[]; pushState: string } {
 // is exactly ONE real terminal emission with the right value.
 const real = (out: string[]) => out.filter((x) => x !== 'SUPPRESSED' && x !== 'RAW-EMIT' && x !== 'CATCH-CONSULTS-ORIGIN');
 
-describe('S2-DEP-A instrument rev 6 — terminal reporting contract (§16.192)', () => {
+describe('S2-DEP-A instrument rev 7 — terminal reporting contract (§16.193)', () => {
   it('block structure: init, push, verification, success and footer are separate gated blocks in order', () => {
     expect(INIT_IDX).toBe(0);
     expect(PUSH_IDX).toBeGreaterThan(INIT_IDX);
@@ -298,8 +303,32 @@ describe('S2-DEP-A instrument rev 6 — terminal reporting contract (§16.192)',
     expect(SRC).toMatch(/if \(\$runDig -ne \$pubInstr\.sha\) \{ Set-Blocked 'running script bytes differ from the published instrument blob on origin\/main/);
     expect(SRC).toMatch(/re-run the bootstrap block/);
     for (const l of LINES.filter((x) => x.includes('2>&1'))) {
-      expect(l, 'every merged-stderr native call is quiet-guarded: ' + l.trim().slice(0, 64)).toMatch(/--quiet|commit -q|Out-Null/);
+      expect(l, 'every merged-stderr native call is guarded (quiet, -q, Out-Null, or logged): ' + l.trim().slice(0, 64)).toMatch(/--quiet|commit -q|Out-Null|ForEach-Object/);
     }
+  });
+
+  it('rev7 PHASE-6: plain pathspec-restricted add under inner-try with exit-code gate; count/prefix/byte gates intact; no dry-run-only flag anywhere', () => {
+    expect(SRC, 'the rejected flag is gone').not.toMatch(/ignore-missing/);
+    expect(SRC, 'no --dry-run workaround on the staging path').not.toMatch(/add --[^\n]*--dry-run|--dry-run[^\n]*\| add/);
+    const p6 = BLOCKS.find((b) => /PHASE-6 create deposit branch/.test(b.text)) as Block | undefined;
+    expect(p6, 'PHASE-6 block located').toBeDefined();
+    const txt = (p6 as Block).text;
+    expect(txt).toMatch(/& git\.exe -C \$REPOD add -- \$relPaths 2>&1 \| ForEach-Object \{ Write-Log \('add: ' \+ \$_\.ToString\(\)\) \}/);
+    expect(txt, 'path restriction kept (explicit 19 pathspecs after --)').toMatch(/add -- \$relPaths/);
+    expect(txt).toMatch(/\$addCode = 'not-captured'/);
+    expect(txt).toMatch(/\$addCode = \$LASTEXITCODE/);
+    expect(txt, 'genuine-error path maps to a captured failure state').toMatch(/\$addCode = -1/);
+    expect(txt).toMatch(/if \(\$addCode -ne 0\) \{ Set-Blocked \('git add failed \(exit ' \+ \$addCode/);
+    const addIdx = txt.search(/git\.exe -C \$REPOD add --/);
+    const gateIdx = txt.search(/if \(\$addCode -ne 0\)/);
+    const countIdx = txt.search(/if \(\$staged\.Count -ne 19\)/);
+    expect(gateIdx, 'exit gate follows the add').toBeGreaterThan(addIdx);
+    expect(countIdx, 'staged-count gate follows the exit gate').toBeGreaterThan(gateIdx);
+    expect(txt).toMatch(/Set-Blocked \('staged count ' \+ \$staged\.Count \+ ' != expected 19/);
+    expect(txt).toMatch(/unexpected staged path/);
+    const copyLines = txt.split('\n').filter((l) => l.includes('Copy-Item -LiteralPath'));
+    expect(copyLines.length, 'binary-safe copy sites').toBe(5);
+    for (const cl of copyLines) expect(cl, 'every copy is -Force: ' + cl.trim().slice(0, 48)).toMatch(/-Force$/);
   });
 
   it('frozen hash record and 19-path byte gates preserved from revs 3/4', () => {
@@ -316,10 +345,10 @@ describe('S2-DEP-A instrument rev 6 — terminal reporting contract (§16.192)',
     expect(SRC).toMatch(/host copy byte-identical to committed copy/);
   });
 
-  it('authorization anchors at rev 6 (marker CHG-2026-10-29-14, baseline 4908842e, immutable locus, sealed digests, drift logging)', () => {
+  it('authorization anchors at rev 7 (marker CHG-2026-10-29-15, baseline f44c72e5, immutable locus, sealed digests, drift logging)', () => {
     for (const anchor of [
-      'CHG-2026-10-29-14',
-      '4908842e40d0c23c42a7f4b8cbebeade579ac2d9',
+      'CHG-2026-10-29-15',
+      'f44c72e55f3de18e9b5130eb45c3f39158a26095',
       '2cc5bc4302436f8ae6d84a9e657b8c1ed06b5478',
       '9d3c09dbdb691c2527a45605dea20826b4ec2ba2f110985ee3f1033783b5225e',
       '9c9319fa3d7eaa822834c2f500e04dfec2b18d8157724843126a749b2bec91ab',
@@ -330,8 +359,8 @@ describe('S2-DEP-A instrument rev 6 — terminal reporting contract (§16.192)',
     ]) {
       expect(SRC, `anchor: ${anchor}`).toContain(anchor);
     }
-    expect(SRC).toMatch(/' rev6'/);
-    expect(SRC).not.toMatch(/rev5/);
+    expect(SRC).toMatch(/' rev7'/);
+    expect(SRC).not.toMatch(/rev6/);
   });
 
   it('constraint surface: no else/elseif/finally/exit/break anywhere, ASCII-only, balanced, terminal kept open', () => {
