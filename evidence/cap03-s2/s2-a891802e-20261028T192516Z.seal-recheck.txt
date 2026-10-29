@@ -1,0 +1,43 @@
+CAP-03 S2 seal recheck (s2-a891802e-20261028T192516Z)
+UTC: 2026-10-28T19:29:15.044Z
+Status sealed: PASS
+SEAL SHA256SUMS.txt SHA-256: 9D3C09DBDB691C2527A45605DEA20826B4EC2BA2F110985EE3F1033783B5225E
+Recheck 1 of folder: C:\iips-evidence\cap03-s2-a891802e\s2-a891802e-20261028T192516Z.inprogress
+OK         04-build.txt
+OK         s2-08-post-run-pin.txt
+OK         RESULT.txt
+OK         03-tsc-noemit.txt
+OK         06-package-consumer.txt
+OK         s2-00-run-log.txt
+OK         s2-08b-dist-sha256-after.txt
+OK         01-clone.txt
+OK         02-npm-ci.txt
+OK         05b-test-summary.txt
+OK         s2-01c-pin-verification.txt
+OK         MANIFEST.json
+OK         s2-04c-dist-sha256-before.txt
+OK         05-guarded-npm-test.txt
+OK         s2-04b-dist-count.txt
+OK         01b-checkout-pin.txt
+Recheck 1 issues: 0
+Published to: C:\iips-evidence\cap03-s2-a891802e\s2-a891802e-20261028T192516Z
+OK         04-build.txt
+OK         s2-08-post-run-pin.txt
+OK         RESULT.txt
+OK         03-tsc-noemit.txt
+OK         06-package-consumer.txt
+OK         s2-00-run-log.txt
+OK         s2-08b-dist-sha256-after.txt
+OK         01-clone.txt
+OK         02-npm-ci.txt
+OK         05b-test-summary.txt
+OK         s2-01c-pin-verification.txt
+OK         MANIFEST.json
+OK         s2-04c-dist-sha256-before.txt
+OK         05-guarded-npm-test.txt
+OK         s2-04b-dist-count.txt
+OK         01b-checkout-pin.txt
+Recheck 2 issues (published folder): 0
+Final status: PASS
+Current run folder: C:\iips-evidence\cap03-s2-a891802e\s2-a891802e-20261028T192516Z
+Evidence record published: yes
