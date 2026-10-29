@@ -1,0 +1,38 @@
+CAP-03 S2-DEP-A instrument rev 2 - guard correction and deposit-path inventory reconciliation
+Executed 2026-10-29 (UTC) from IRR session branch, base main 63f70682dac7c14250c807cd82f494773339c976. Read-only against origin except this publication; zero host operations (none possible; none claimed); zero IPD access; no writes to any evidence locus; 2cc5bc4 immutable.
+
+[A] Live state established at read time (fresh ls-remote/fetch; local snapshots from earlier turns were re-verified, not trusted):
+    origin/main       = 63f70682dac7c14250c807cd82f494773339c976  tree = 457a810733cb6605cac24e129b43c24557a9cb9f
+    docs branch tip   = 2cc5bc4302436f8ae6d84a9e657b8c1ed06b5478 (unchanged; immutable evidence locus)
+    instrument rev 1  = blob e9b279acdd0621ed589fafa794cf14c1e38cdd51 sha256 dacd944414c1d7cc3472504b5fbbc8e051ae94f77853e0bee3d26cf839423591 (verified on main; working copy byte-identical)
+    governing inputs re-read from main and verified by the prescribed method (folder SHA256SUMS.txt on main):
+      02-deposit-manifest-expected.txt   MATCH 9c9319fa3d7eaa822834c2f500e04dfec2b18d8157724843126a749b2bec91ab
+      03-host-transfer-minimal-operation.txt MATCH a1c94ba6a2b96e08a1dc9e7e1d2c73be92c6c38f09d74aa4f00c5d8e445e0ede
+    PR #353: OPEN, head 5a4a3976d5924ff5a041e99413e20bee7fa087c1, CONFLICTING/DIRTY vs current main (expected overlap with merged records 16.185/16.186; untouched by this pass; merge withheld)
+    no deposit branch on origin matching the instrument's pattern (only cap03-s2-evidence-publication and cap03-s2-tracker-132, unrelated); deposit remains AUTHORIZED - OPEN
+    note: this pass initially probed a guessed filename (01-remote-state-and-input-verification.txt) - actual is 01-authorization-and-state.txt (blob 59b4581e33); corrected by folder listing, no content assumed
+
+[B] Guard defect (rev 1) and disposition:
+    Defect: rev 1 pinned 'origin/main must equal 8292fe1c8f9bbf1982fc6e49fcbc80d9d641fd6c' (line 19/148) AND created the deposit branch from that stale constant (lines 167/210). Main advanced to 63f70682dac7c14250c807cd82f494773339c976 by #359 (which published the instrument itself), so the script would reject the very state its own publication created; its remediation string ('fetch the current script version from main') returns the same stale pin - a self-invalidating loop. Verified by direct inspection of the published blob, not by report text.
+    Correction (rev 2): commit-equality gate replaced by content anchors evaluated on the freshly-fetched origin/main at run time:
+      (a) running-file SHA-256 == SHA-256 of the published instrument blob at origin/main (no embedded self-hash; extraction-time vs execution-time drift caught)
+      (b) approval marker CHG-2026-10-29-09 present in the tracker blob at origin/main (the exact approved revision; arbitrary heads without it are rejected)
+      (c) governing procedure/manifest blobs at origin/main == sealed digests above (9c9319fa.../a1c94ba6...)
+      (d) docs tip must still equal 2cc5bc4... (strict, unchanged - movement there is never acceptable without PA)
+      (e) any movement vs the reviewed baseline 63f70682... is logged explicitly (MAIN-MOVED ... all content anchors verified at this head) - never silent; deposit branches from the verified current head, so a governance-only advance of main between publication and operator run no longer requires a script edit
+    Preserved without weakening: source read-only; double-anchor host-vs-2cc5bc4 byte checks (host MANIFEST.json and seal); folder exact-set (17 files, missing/extra both block); manifest size+digest checks for 15 artifacts; seal self-hash 9d3c09db...; seal-line cross-check (verifies MANIFEST.json externally - no self-reference); transcript computed-at-transfer only; autocrlf/safecrlf off with NO renormalize; stage-only-authorized-paths; staged-blob==host byte gate pre-commit with check-attr diagnostics; committed-blob re-verify; push only after all gates; ls-remote head confirm; durable log; PASS/BLOCKED; outer try/catch; terminal open; branch-name collision check; .inprogress guard; failed-run history preserved (stamped local record name; canonical committed name per procedure).
+
+[C] Path-set reconciliation (the 18-vs-19 question): a counting/classification difference in the governing prose, NOT a scope mismatch:
+    02 manifest (authoritative sentence): 'Deposit content set = 16 sealed artifacts + folder SHA256SUMS.txt + sibling seal-recheck transcript = 18 files (plus the operator's deposit-host-hashes.txt verification record)'. 16 sealed = 15 MANIFEST.json-listed artifacts + MANIFEST.json itself; folder therefore holds 17 files.
+    03 step 4 counts 'All 18 (17 + hashes file)' folder-centric and separately copies the transcript; step 6 verifies 'all 18'. Union of both readings = 18 governed content bytes + 1 transfer-produced verification record = 19 staged paths.
+    Authoritative inventory under evidence/cap03-s2/ on the deposit branch:
+      sealed artifacts (16): s2-a891802e-20261028T192516Z/{01-clone.txt,01b-checkout-pin.txt,02-npm-ci.txt,03-tsc-noemit.txt,04-build.txt,05-guarded-npm-test.txt,05b-test-summary.txt,06-package-consumer.txt,MANIFEST.json,RESULT.txt,s2-00-run-log.txt,s2-01c-pin-verification.txt,s2-04b-dist-count.txt,s2-04c-dist-sha256-before.txt,s2-08-post-run-pin.txt,s2-08b-dist-sha256-after.txt} - expectations: MANIFEST.json digests+bytes (15), MANIFEST.json itself verified via its sealed SHA256SUMS.txt line (external, not self-referenced)
+      seal (1):                s2-a891802e-20261028T192516Z/SHA256SUMS.txt - expected host hash 9d3c09db...b5225e (recorded)
+      sibling transcript (1): s2-a891802e-20261028T192516Z.seal-recheck.txt - NO recorded host digest (per manifest); computed at transfer (step 3); 1,563 stored bytes at 2cc5bc4 given as reference only
+      verification record (1): deposit-host-hashes.txt (canonical committed name per procedure; host-local file stamp-suffixed to preserve run history; 18 hash lines + header)
+      = 19 staged paths; rev 2 now byte-gates ALL 19 at the STOP-BEFORE-COMMIT and post-commit stages (rev 1 gated the 18 content files only; the record itself is now covered)
+    Procedure-internal path ambiguity noted and resolved without invention: step 2's relative '..\deposit-host-hashes.txt' and step 4's copy-source disagree on the record's host location; the script defines its own durable record path under C:\iips-evidence\cap03-s2-a891802e\ (stamped) and stages it to the path step 4 prescribes (evidence/cap03-s2/). No evidence-folder semantics changed.
+
+[D] Rev-2 identity: git blob bffc0ff0529274a286d717ed8b601d60398f1ab1; sha256 b97dab0ae179a785da61b934fe296685966da4c3e64099cccea0f8c2065b754a; 320 lines; ASCII-only.
+    Static validation this pass: braces 100/100, parens 278/278, brackets 28/28; quote parity all lines even; forbidden-statement scan (else/elseif/finally/exit/break) EMPTY; inline-else scan EMPTY; stale-pin scan EMPTY; $BASE set only from the anchor-verified head, consumed by checkout/commit-message/trailer; hostExpected map = 19 keys; staged-count gate literal 19 with prefix guard on every staged path.
+    No PowerShell runtime exists in this environment; conformance is static + design-reviewed (same constraint disclosed for rev 1). No host execution; no deposit content; nothing here advances S2-DEP-A.

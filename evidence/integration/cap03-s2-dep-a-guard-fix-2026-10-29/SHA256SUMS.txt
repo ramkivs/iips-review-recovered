@@ -1,0 +1,2 @@
+cb73a04592048314d4c177285af5e8c33f7c770457185eb31ccfbec8776cb77e  01-guard-and-inventory-reconciliation.txt
+5d45887853b41dc0429c73740e37ccda61dcff6508b61f856928069e47608bcf  02-operator-bootstrap-and-handoff.txt

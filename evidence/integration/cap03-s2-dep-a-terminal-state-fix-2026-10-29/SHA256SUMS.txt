@@ -1,0 +1,2 @@
+3315076fbdc8c24629ffdb1b5d19640b3aac0dfa43ec562fe55e13640cfcc873  01-terminal-state-defect-and-fix.txt
+d3b82091c5186e14d57435f8bf65be82fcc058642fd8bc9f2de964f45d276c8d  02-operator-bootstrap-and-handoff.txt
