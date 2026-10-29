@@ -53,6 +53,8 @@
 
 **Effective only when:** (i) Matter A closes, which requires the A-Q5 IPD act (Designation C below) to be executed; and (ii) fresh S2 and H-12 at `a891802e` exist (§4.6 step 5). Until then, P-1 remains NOT AUTHORIZED.
 
+> **Status pointer (2026-10-29, `CV-CORR-186`, §16.206; additive — the 2026-10-28 text is preserved).** (i) is satisfied: the A-Q5 IPD act `0edadb2d` is executed and Matter A is closed as to the act §7 test (rulings §8). For (ii): the fresh S2 at `a891802e` exists and is admitted as L2a by `PA-06`; the H-12 element is **not applicable to P-1** (adopted `PA-1`) and its regeneration is `PA-WAIVED` as a blocker (`PA-19`/`PA-20`). This Designation B's identity (`a891802e` / `76f083d7`) is confirmed by `PA-08a` and completed as the formal §4.6 designation by `PD-1`, for purpose `L2a` only. `P1-F` is rendered: P-1 is **AUTHORIZED, ONE ATTEMPT, NOT YET MADE**. The "Ruled; not yet effective for reliance" status and the annotation in this record are otherwise unchanged.
+
 ## 3. Designation C — Matter A designations (A-Q5 mechanism A-O3, target `a891802e`)
 
 Designations for the IPD act (executed in IPD, not in IRR):

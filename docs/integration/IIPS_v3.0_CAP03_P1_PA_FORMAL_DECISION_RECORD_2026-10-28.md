@@ -267,6 +267,7 @@ Status key: **ADOPTED** = formally decided by this record. **DONE** = work compl
 | **P-1-D** | **DESIGNATED**, not verified for the attempt | Tracker §16.160.4 | PA; operator | Verify for the attempt | PA capture authority |
 | **P-1-E** PF-15 act | **SATISFIED** (act `-02`) | Tracker §16.160.4 | — | None | — |
 | **P-1-F** P-1 authorization | **UNSPENT**; conditions incomplete; act **not rendered** | Tracker §16.160.4 | PA | Render only after PA-5 path and `C′` designation | §5.5; §4.6 |
+| **P-1-F** *(status pointer, 2026-10-29, `CV-CORR-186`)* | **RENDERED** — P-1 **AUTHORIZED, ONE ATTEMPT, NOT YET MADE**. The `PA-5` path is implemented and merged at `a891802e`, and the `C′` designation is made for purpose `L2a` by `PD-1` (commit, tree, 15 per-path blobs, steps 1–6 evidenced; H-12/L2c element not applicable). Record: `IIPS_v3.0_CAP03_P1_AUTHORIZATION_ACT_AND_PREREQUISITE_DECISIONS_2026-10-29.md`; tracker §16.206 | §5; §4.6 | PA | None open on this row | — |
 | **PF-17** register limb | **VERIFIED** | Tracker §16.160.4 | — | None | — |
 | **PF-17** capture limb | **NOT EVIDENCED** | Tracker §16.160.4 | PA; operator | Capture evidence under separate authority | Capture authority; host run |
 | **S2 acceptance** (Gate 4 S2, Limb A) | **OUTSTANDING** — not started | Gate 4 §6 | IPD owner | Limb A merge and native-Windows `npm test` at the designated commit | §4.5 (scope); `C′` |
@@ -300,6 +301,8 @@ Status key: **ADOPTED** = formally decided by this record. **DONE** = work compl
 - **No signature or approval** added beyond the approval source stated in the header.
 
 *End of formal decision record `IIPS-V3-CAP03-P1-PA-FORMAL-DECISION-RECORD-2026-10-28-01`. P-1 remains NOT EXECUTED, UNSPENT, and NOT AUTHORIZED.*
+
+> **Status pointer (2026-10-29, `CV-CORR-186`, §16.206; additive — the sentence above is preserved as the 2026-10-28 record).** P-1 is now **AUTHORIZED — ONE ATTEMPT, NOT YET MADE — UNSPENT**: `PD-1` completes the §4.6 designation for purpose `L2a`; `PA-06` admits the L2a evidence at that commit; `PA-15` clears the identity limb; `PA-13` renders E10; `P1-F` is rendered. No P-1 attempt has occurred, no store or receipt exists, and no gate, pin, acceptance or admission status has changed.
 
 
 ## Post-D2 status pointer (`CV-CORR-146`; `CHG-2026-10-28-09`; additive)
