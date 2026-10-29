@@ -1,0 +1,48 @@
+CAP-03 S2-DEP-A - push-indeterminate outcome: resolution record (2026-10-29).
+
+EVENT (operator-reported host log; NOT sandbox-readable; recorded as report): the rev-7 run on
+DESKTOP-NO0NHTP (stamp 20261029T094829Z, log deposit-run-log-20261029T094829Z.txt) passed
+PHASE-3..PHASE-8 exactly as designed (host digests vs sealed manifest; published-bytes anchors at
+docs tip 2cc5bc4; identity gate; plain exit-gated git add of the 19 authorized paths; staged-count
+19; PHASE-7 byte equality; PHASE-8 committed-blob re-verify). The PHASE-9 push invocation then
+threw locally. The instrument's mandated origin read found exactly one ref
+refs/heads/cap03-s2-deposit-host-originals-20261029T094829Z at head
+5133035109f3fa6a04b677790c880f058badfef8 - i.e. origin HAD accepted the push; the local throw
+occurred after transfer, and the outcome was classified from the actual origin read (UNKNOWN never
+claims absence; no re-push; no force-update; no replacement branch) as required.
+
+PA DIRECTIVE (one pass): (1) fetch and inspect the remote branch/commit independently; (2) verify
+all 19 authorized committed blobs byte-for-byte against the frozen host hash record and confirm
+scope, parent, commit integrity; (3) if verified, dedicated deposit PR, CI, merge, post-merge
+per-blob read-back, tracker reconciliation; (4) if not, preserve everything and report the precise
+blocker.
+
+INDEPENDENT VERIFICATION (this sandbox, fresh fetches; full battery transcript:
+02-independent-verification-transcript.txt, checks R1-R13, zero FAIL lines):
+ - Exactly one deposit ref on origin, at the reported head (R1). Single commit; parent
+   963f7169... (= main at run time; also verified main had not moved mid-window); tree delta
+   outside evidence/cap03-s2/ empty; exactly 19 added paths, all under evidence/cap03-s2/ (R2-R5).
+ - Committed frozen host hash record (canonical name evidence/cap03-s2/deposit-host-hashes.txt;
+   header stamps run + host): all 18 content lines match the corresponding committed blobs by
+   sha256 AND byte-size, 18/18, incl. the seal-recheck transcript sibling path (R6).
+ - 15 manifest artifacts vs blobs 15/15; sealed SHA256SUMS.txt covers the 16 folder files 16/16;
+   MANIFEST.json and SHA256SUMS.txt committed bytes byte-identical to the published blobs at the
+   pinned immutable docs tip 2cc5bc43... (still the live tip) (R7-R9).
+ - Transcript: both host-side seal rechecks 0 issues; cites the same seal digest 9d3c09db...;
+   Final status: PASS (R10). INFO (R11): docs-branch renderings of the 15 text artifacts equal the
+   host originals modulo CRLF - the known pre-byte-gate publication form; this deposit carries the
+   host originals verbatim, which is the point of S2-DEP-A.
+ - RESULT.txt (sealed artifact): "STATUS: PASS - all S2 criteria met at the designated pin
+   (native Windows host)" (R13).
+
+DISPOSITION: verified - proceeded to deposit. PR #366 (head 51330351...) with this evidence quoted
+in the body; exact-head CI 40853324629 SUCCESS; merged at 2026-10-29T09:56:56Z as
+078e50cbe3fa2b33f6d1d82993d7e8e0c1ade835; post-merge per-blob read-back from live main repeated
+R6/R9 assertions (18/18 + published-byte identity) and the 19-path delta. The deposit branch ref
+was preserved untouched on origin (evidence preservation; not deleted, not re-pushed, not amended).
+
+STATUS: S2-DEP-A DEPOSITED - completion recorded by tracker section 16.194 (CV-CORR-174,
+CHG-2026-10-29-16, V1430-V1435). No host action remains for the deposit; the instrument itself
+needs no rev-8 (its fail-safe behaved exactly as specified). Boundary respect: no host execution or
+diagnostics by the agent; source host evidence untouched; no normalized/derived copies anywhere;
+#353 untouched.
