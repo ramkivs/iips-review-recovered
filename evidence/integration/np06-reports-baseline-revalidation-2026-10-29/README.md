@@ -1,6 +1,6 @@
 # NP-06 Reports — one-pass baseline revalidation (2026-10-29)
 
-Scope: read-only revalidation of the IRR Reports baseline at **IRR `main` `63f70682dac7c14250c807cd82f494773339c976`** (tree `457a810733cb6605cac24e129b43c24557a9cb9f`). Recorded in tracker §16.187 (`CV-CORR-167`, `CHG-2026-10-29-09`). Documentation and evidence only: no runtime, pin, UI, status, acceptance, qualification, or IPD change.
+Scope: read-only revalidation of the IRR Reports baseline at **IRR `main` `63f70682dac7c14250c807cd82f494773339c976`** (tree `457a810733cb6605cac24e129b43c24557a9cb9f`). Recorded in tracker §16.190 (`CV-CORR-170`, `CHG-2026-10-29-12`). Documentation and evidence only: no runtime, pin, UI, status, acceptance, qualification, or IPD change.
 
 ## Environment
 - Node `v22.22.3`, npm `10.9.8`, Linux sandbox (`/tmp/irr-main`, detached worktree at `63f70682`; `git status` clean at run time).
@@ -28,5 +28,5 @@ The step logs are committed as `.txt`: the repository's `.gitignore` excludes `*
 ## Known limits
 - The test-count baseline in the acceptance record (§2(3) of the Reports acceptance) says 1,346. Measured this run: 1,350. This is recorded as baseline drift, not as a failure.
 - The CV-51 browser qualification (Chromium B-1–B-6, 92 checks) was **not** re-run here. Its committed `browser-results.json` records 0 failures; the qualification MANIFEST states 92 PASS / 0 FAIL. Both are source-recorded.
-- No raw F-7-specific test output is committed. The F-7 leg-by-leg mapping is recorded in §16.187.3 of the tracker. Leg 5 ("rejects ambient auth tokens") has no test asserting it and the transport does not read an `Authorization` header; this is recorded as a wording gap in the F-7 record. Nothing here changes F-7's acceptance status.
+- No raw F-7-specific test output is committed. The F-7 leg-by-leg mapping is recorded in §16.190.3 of the tracker. Leg 5 ("rejects ambient auth tokens") has no test asserting it and the transport does not read an `Authorization` header; this is recorded as a wording gap in the F-7 record. Nothing here changes F-7's acceptance status.
 - Protection/ruleset state and IPD job logs were not verified in this pass.
