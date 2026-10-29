@@ -1,0 +1,11 @@
+# cmd: npm run typecheck:replay-server
+# cwd: /tmp/irr-main/frontend
+# started_utc: 2026-10-29T06:02:08Z
+# ---- raw output ----
+
+> @iips/v3-frontend@0.1.0 typecheck:replay-server
+> tsc -p tsconfig.replay-server.json --noEmit
+
+# ---- end raw output ----
+# exit_code: 0
+# finished_utc: 2026-10-29T06:02:15Z

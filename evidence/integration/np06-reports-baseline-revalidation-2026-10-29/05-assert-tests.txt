@@ -1,0 +1,8 @@
+# cmd: node .ci/assert-tests.js .vitest-report.json
+# cwd: /tmp/irr-main/frontend
+# started_utc: 2026-10-29T06:04:13Z
+# ---- raw output ----
+assert-tests: OK — 106 test file(s), 1350 test(s), 0 failed
+# ---- end raw output ----
+# exit_code: 0
+# finished_utc: 2026-10-29T06:04:13Z

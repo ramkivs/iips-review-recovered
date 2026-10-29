@@ -1,0 +1,597 @@
+# cmd: npx vitest run --reporter=verbose server/reports-restart.test.ts server/reports/reports-persistence-integration.test.ts server/reports/reports-artifact.test.ts server/reports/reports-canonical.test.ts server/reports-transport.test.ts server/reports-api.test.ts server/reports-owner-carrier.test.ts server/reports-owner-resolver.test.ts src/api/reports.test.ts src/features/reports/Reports.test.tsx src/app/App.test.tsx
+# cwd: /tmp/irr-main/frontend
+# started_utc: 2026-10-29T06:02:15Z
+# ---- raw output ----
+
+ RUN  v2.1.9 /tmp/irr-main/frontend
+
+ ✓ server/reports/reports-artifact.test.ts > NP-06 composition — from the frozen ReportingEngine output (read-only) > pins the engine's ACTUAL identifier form against the mirror used to reject it
+ ✓ server/reports/reports-artifact.test.ts > NP-06 composition — from the frozen ReportingEngine output (read-only) > composes canonical content from the real engine output
+ ✓ server/reports/reports-artifact.test.ts > NP-06 composition — from the frozen ReportingEngine output (read-only) > records the engine output as provenance, never as instance identity
+ ✓ server/reports/reports-artifact.test.ts > NP-06 composition — from the frozen ReportingEngine output (read-only) > composes content and then validates it as a durable artifact
+ ✓ server/reports/reports-artifact.test.ts > NP-06 composition — from the frozen ReportingEngine output (read-only) > does not mutate the engine output it consumes
+ ✓ server/reports/reports-artifact.test.ts > NP-06 composition — from the frozen ReportingEngine output (read-only) > is deterministic for identical engine output
+ ✓ server/reports/reports-artifact.test.ts > NP-06 composition — from the frozen ReportingEngine output (read-only) > separates content identity from instance identity: identical content, different reportId
+ ✓ server/reports/reports-artifact.test.ts > NP-06 composition — from the frozen ReportingEngine output (read-only) > rejects an engine output whose reportId is not the frozen engine form
+ ✓ server/reports/reports-artifact.test.ts > NP-06 composition — from the frozen ReportingEngine output (read-only) > rejects a malformed engine output rather than coercing it
+ ✓ server/reports/reports-artifact.test.ts > NP-06 composition — from the frozen ReportingEngine output (read-only) > rejects a non-canonicalizable engine payload
+ ✓ server/reports/reports-artifact.test.ts > NP-06 §5.3 — reportId must never be the engine content-derived identifier > rejects the engine identifier as durable instance identity
+ ✓ server/reports/reports-artifact.test.ts > NP-06 §5.3 — reportId must never be the engine content-derived identifier > accepts a store-assigned opaque identifier
+ ✓ server/reports/reports-artifact.test.ts > NP-06 §5.3 — reportId must never be the engine content-derived identifier > rejects an absent or empty reportId (instance identity is not optional)
+ ✓ server/reports/reports-artifact.test.ts > NP-06 §5.3 — validation contract, field by field (fail closed) > accepts a conforming artifact and returns the normalized artifact
+ ✓ server/reports/reports-artifact.test.ts > NP-06 §5.3 — validation contract, field by field (fail closed) > rejects a reportKey that is not 64 lowercase hex
+ ✓ server/reports/reports-artifact.test.ts > NP-06 §5.3 — validation contract, field by field (fail closed) > rejects a reportKey that does not recompute from the canonical members
+ ✓ server/reports/reports-artifact.test.ts > NP-06 §5.3 — validation contract, field by field (fail closed) > detects tampering with a canonical member
+ ✓ server/reports/reports-artifact.test.ts > NP-06 §5.3 — validation contract, field by field (fail closed) > rejects schemaVersion that is absent, non-integer, or < 1
+ ✓ server/reports/reports-artifact.test.ts > NP-06 §5.3 — validation contract, field by field (fail closed) > rejects artifactVersion that is absent, non-integer, or < 1
+ ✓ server/reports/reports-artifact.test.ts > NP-06 §5.3 — validation contract, field by field (fail closed) > enforces supersedesReportId null iff artifactVersion is 1
+ ✓ server/reports/reports-artifact.test.ts > NP-06 §5.3 — validation contract, field by field (fail closed) > rejects an artifact that supersedes itself
+ ✓ server/reports/reports-artifact.test.ts > NP-06 §5.3 — validation contract, field by field (fail closed) > rejects a canonicalPayload that is not canonical text
+ ✓ server/reports/reports-artifact.test.ts > NP-06 §5.3 — validation contract, field by field (fail closed) > rejects a canonicalPayload that is not parseable JSON
+ ✓ server/reports/reports-artifact.test.ts > NP-06 §5.3 — validation contract, field by field (fail closed) > rejects non-object payload/ownership/provenance
+ ✓ server/reports/reports-artifact.test.ts > NP-06 §5.3 — validation contract, field by field (fail closed) > rejects empty provenance and provenance without an engine reference
+ ✓ server/reports/reports-artifact.test.ts > NP-06 §5.3 — validation contract, field by field (fail closed) > does not mutate the artifact it validates
+ ✓ server/reports/reports-artifact.test.ts > NP-06 §5.3 — generatedAt must be ISO-8601 UTC with an explicit offset > accepts 2026-10-02T09:00:00Z
+ ✓ server/reports/reports-artifact.test.ts > NP-06 §5.3 — generatedAt must be ISO-8601 UTC with an explicit offset > accepts 2026-10-02T09:00:00.000Z
+ ✓ server/reports/reports-artifact.test.ts > NP-06 §5.3 — generatedAt must be ISO-8601 UTC with an explicit offset > accepts 2026-10-02T09:00:00+00:00
+ ✓ server/reports/reports-artifact.test.ts > NP-06 §5.3 — generatedAt must be ISO-8601 UTC with an explicit offset > accepts 2026-10-02T09:00:00-00:00
+ ✓ server/reports/reports-artifact.test.ts > NP-06 §5.3 — generatedAt must be ISO-8601 UTC with an explicit offset > rejects offset-less local time
+ ✓ server/reports/reports-artifact.test.ts > NP-06 §5.3 — generatedAt must be ISO-8601 UTC with an explicit offset > rejects offset-less with millis
+ ✓ server/reports/reports-artifact.test.ts > NP-06 §5.3 — generatedAt must be ISO-8601 UTC with an explicit offset > rejects non-UTC offset
+ ✓ server/reports/reports-artifact.test.ts > NP-06 §5.3 — generatedAt must be ISO-8601 UTC with an explicit offset > rejects non-UTC negative offset
+ ✓ server/reports/reports-artifact.test.ts > NP-06 §5.3 — generatedAt must be ISO-8601 UTC with an explicit offset > rejects date only
+ ✓ server/reports/reports-artifact.test.ts > NP-06 §5.3 — generatedAt must be ISO-8601 UTC with an explicit offset > rejects out-of-range hour
+ ✓ server/reports/reports-artifact.test.ts > NP-06 §5.3 — generatedAt must be ISO-8601 UTC with an explicit offset > rejects out-of-range minute
+ ✓ server/reports/reports-artifact.test.ts > NP-06 §5.3 — generatedAt must be ISO-8601 UTC with an explicit offset > rejects impossible calendar date
+ ✓ server/reports/reports-artifact.test.ts > NP-06 §5.3 — generatedAt must be ISO-8601 UTC with an explicit offset > rejects non-leap Feb 29
+ ✓ server/reports/reports-artifact.test.ts > NP-06 §5.3 — generatedAt must be ISO-8601 UTC with an explicit offset > rejects non-string
+ ✓ server/reports/reports-artifact.test.ts > NP-06 §5.3 — generatedAt must be ISO-8601 UTC with an explicit offset > accepts a real leap day
+ ✓ server/reports/reports-artifact.test.ts > NP-06 §5.3 — ownership equals the authenticated principal > rejects ownership that differs from the creating principal
+ ✓ server/reports/reports-artifact.test.ts > NP-06 §5.3 — ownership equals the authenticated principal > requires both ownership members to be non-empty
+ ✓ server/reports/reports-artifact.test.ts > NP-06 §5.3 — ownership equals the authenticated principal > derives ownership from the principal only — there is no owner parameter
+ ✓ server/reports/reports-artifact.test.ts > NP-06 §5.3 — ownership equals the authenticated principal > rejects a principal that is absent or has empty members
+ ✓ server/reports/reports-artifact.test.ts > NP-06 §5.3 — ownership equals the authenticated principal > requires provenance to reference the engine output
+ ✓ server/reports/reports-artifact.test.ts > NP-06 §5.3 — ownership equals the authenticated principal > validates reportKey in isolation
+ ✓ server/reports/reports-artifact.test.ts > NP-06 §5.3 / C1 / C3 — chain contiguity, single-parent supersession, immutable ownership > accepts a contiguous single-parent chain
+ ✓ server/reports/reports-artifact.test.ts > NP-06 §5.3 / C1 / C3 — chain contiguity, single-parent supersession, immutable ownership > accepts a chain supplied out of order
+ ✓ server/reports/reports-artifact.test.ts > NP-06 §5.3 / C1 / C3 — chain contiguity, single-parent supersession, immutable ownership > rejects a gap in artifactVersion (contiguity)
+ ✓ server/reports/reports-artifact.test.ts > NP-06 §5.3 / C1 / C3 — chain contiguity, single-parent supersession, immutable ownership > rejects a chain that does not start at 1
+ ✓ server/reports/reports-artifact.test.ts > NP-06 §5.3 / C1 / C3 — chain contiguity, single-parent supersession, immutable ownership > rejects branching supersession (not single-parent)
+ ✓ server/reports/reports-artifact.test.ts > NP-06 §5.3 / C1 / C3 — chain contiguity, single-parent supersession, immutable ownership > rejects duplicate reportId across versions
+ ✓ server/reports/reports-artifact.test.ts > NP-06 §5.3 / C1 / C3 — chain contiguity, single-parent supersession, immutable ownership > rejects ownership changing across a chain (immutable ownership)
+ ✓ server/reports/reports-artifact.test.ts > NP-06 §5.3 / C1 / C3 — chain contiguity, single-parent supersession, immutable ownership > rejects reportType or portfolioId changing across a chain
+ ✓ server/reports/reports-artifact.test.ts > NP-06 §5.3 / C1 / C3 — chain contiguity, single-parent supersession, immutable ownership > rejects an empty chain
+stderr | src/features/reports/Reports.test.tsx > ReportsWorkspace (/reports) > renders loading, then the empty state for an empty governed store
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ src/features/reports/Reports.test.tsx > ReportsWorkspace (/reports) > renders loading, then the empty state for an empty governed store
+ ✓ src/features/reports/Reports.test.tsx > ReportsWorkspace (/reports) > renders the populated current-head list with governed posture and no write controls
+ ✓ src/features/reports/Reports.test.tsx > ReportsWorkspace (/reports) > appends the next cursor page without duplicating report identifiers
+ ✓ src/features/reports/Reports.test.tsx > ReportsWorkspace (/reports) > preserves loaded rows when a pagination fetch fails and offers retry
+ ✓ src/features/reports/Reports.test.tsx > ReportsWorkspace (/reports) > shows the sanitized owner-context 503 state and recovers after Retry
+ ✓ src/features/reports/Reports.test.tsx > ReportsWorkspace (/reports) > shows persistence-unavailable from /artifacts even when /context succeeds
+ ✓ src/features/reports/Reports.test.tsx > ReportDetail (/reports/:reportId) > renders all four disclosure levels in exact D8 order with verbatim values
+ ✓ src/features/reports/Reports.test.tsx > ReportDetail (/reports/:reportId) > navigates list → current head → superseded version and back to the head
+ ✓ src/features/reports/Reports.test.tsx > ReportDetail (/reports/:reportId) > discards a stale in-flight version response after rapid version switching
+ ✓ src/features/reports/Reports.test.tsx > ReportDetail (/reports/:reportId) > shows the indistinguishable 404 state for an unknown report identifier
+ ✓ src/features/reports/Reports.test.tsx > ReportDetail (/reports/:reportId) > supports keyboard traversal: focus the version link and activate with Enter
+ ✓ src/features/reports/Reports.test.tsx > ReportDetail (/reports/:reportId) > shows sanitized transport failure with Retry and recovers
+stderr | src/app/App.test.tsx > Application Shell > renders the brand without login, role, tenant, or identity controls
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+Warning: An update to ExecutiveDashboard inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at ExecutiveDashboard (/tmp/irr-main/frontend/src/features/executive/ExecutiveDashboard.tsx:36:49)
+    at RenderedRoute (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:535:7)
+    at Outlet (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:1182:28)
+    at main
+    at div
+    at AppShell (/tmp/irr-main/frontend/src/app/AppShell.tsx:12:42)
+    at RenderedRoute (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:535:7)
+    at Routes (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:1269:7)
+    at App
+    at Router (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:1203:17)
+    at MemoryRouter (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:1097:7)
+Warning: An update to ExecutiveDashboard inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at ExecutiveDashboard (/tmp/irr-main/frontend/src/features/executive/ExecutiveDashboard.tsx:36:49)
+    at RenderedRoute (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:535:7)
+    at Outlet (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:1182:28)
+    at main
+    at div
+    at AppShell (/tmp/irr-main/frontend/src/app/AppShell.tsx:12:42)
+    at RenderedRoute (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:535:7)
+    at Routes (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:1269:7)
+    at App
+    at Router (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:1203:17)
+    at MemoryRouter (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:1097:7)
+Warning: An update to ExecutiveDashboard inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at ExecutiveDashboard (/tmp/irr-main/frontend/src/features/executive/ExecutiveDashboard.tsx:36:49)
+    at RenderedRoute (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:535:7)
+    at Outlet (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:1182:28)
+    at main
+    at div
+    at AppShell (/tmp/irr-main/frontend/src/app/AppShell.tsx:12:42)
+    at RenderedRoute (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:535:7)
+    at Routes (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:1269:7)
+    at App
+    at Router (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:1203:17)
+    at MemoryRouter (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:1097:7)
+
+ ✓ src/app/App.test.tsx > Application Shell > renders the brand without login, role, tenant, or identity controls
+stderr | src/app/App.test.tsx > Application Shell > shows roleless navigation for the available product surfaces
+Warning: An update to ExecutiveDashboard inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at ExecutiveDashboard (/tmp/irr-main/frontend/src/features/executive/ExecutiveDashboard.tsx:36:49)
+    at RenderedRoute (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:535:7)
+    at Outlet (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:1182:28)
+    at main
+    at div
+    at AppShell (/tmp/irr-main/frontend/src/app/AppShell.tsx:12:42)
+    at RenderedRoute (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:535:7)
+    at Routes (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:1269:7)
+    at App
+    at Router (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:1203:17)
+    at MemoryRouter (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:1097:7)
+Warning: An update to ExecutiveDashboard inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at ExecutiveDashboard (/tmp/irr-main/frontend/src/features/executive/ExecutiveDashboard.tsx:36:49)
+    at RenderedRoute (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:535:7)
+    at Outlet (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:1182:28)
+    at main
+    at div
+    at AppShell (/tmp/irr-main/frontend/src/app/AppShell.tsx:12:42)
+    at RenderedRoute (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:535:7)
+    at Routes (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:1269:7)
+    at App
+    at Router (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:1203:17)
+    at MemoryRouter (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:1097:7)
+Warning: An update to ExecutiveDashboard inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at ExecutiveDashboard (/tmp/irr-main/frontend/src/features/executive/ExecutiveDashboard.tsx:36:49)
+    at RenderedRoute (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:535:7)
+    at Outlet (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:1182:28)
+    at main
+    at div
+    at AppShell (/tmp/irr-main/frontend/src/app/AppShell.tsx:12:42)
+    at RenderedRoute (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:535:7)
+    at Routes (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:1269:7)
+    at App
+    at Router (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:1203:17)
+    at MemoryRouter (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:1097:7)
+
+ ✓ src/app/App.test.tsx > Application Shell > redirects / to /executive and fetches executive data without credentials
+ ✓ src/app/App.test.tsx > Application Shell > shows roleless navigation for the available product surfaces
+ ✓ src/app/App.test.tsx > Application Shell > resolves the Collaboration route directly without a session provider
+stderr | src/app/App.test.tsx > Application Shell > renders the available Intelligence child destination
+Warning: An update to ExecutiveDashboard inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at ExecutiveDashboard (/tmp/irr-main/frontend/src/features/executive/ExecutiveDashboard.tsx:36:49)
+    at RenderedRoute (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:535:7)
+    at Outlet (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:1182:28)
+    at main
+    at div
+    at AppShell (/tmp/irr-main/frontend/src/app/AppShell.tsx:12:42)
+    at RenderedRoute (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:535:7)
+    at Routes (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:1269:7)
+    at App
+    at Router (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:1203:17)
+    at MemoryRouter (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:1097:7)
+Warning: An update to ExecutiveDashboard inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at ExecutiveDashboard (/tmp/irr-main/frontend/src/features/executive/ExecutiveDashboard.tsx:36:49)
+    at RenderedRoute (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:535:7)
+    at Outlet (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:1182:28)
+    at main
+    at div
+    at AppShell (/tmp/irr-main/frontend/src/app/AppShell.tsx:12:42)
+    at RenderedRoute (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:535:7)
+    at Routes (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:1269:7)
+    at App
+    at Router (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:1203:17)
+    at MemoryRouter (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:1097:7)
+Warning: An update to ExecutiveDashboard inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at ExecutiveDashboard (/tmp/irr-main/frontend/src/features/executive/ExecutiveDashboard.tsx:36:49)
+    at RenderedRoute (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:535:7)
+    at Outlet (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:1182:28)
+    at main
+    at div
+    at AppShell (/tmp/irr-main/frontend/src/app/AppShell.tsx:12:42)
+    at RenderedRoute (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:535:7)
+    at Routes (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:1269:7)
+    at App
+    at Router (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:1203:17)
+    at MemoryRouter (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:1097:7)
+
+stderr | src/app/App.test.tsx > Application Shell > does not render parameterised or placeholder children as global links
+Warning: An update to ExecutiveDashboard inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at ExecutiveDashboard (/tmp/irr-main/frontend/src/features/executive/ExecutiveDashboard.tsx:36:49)
+    at RenderedRoute (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:535:7)
+    at Outlet (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:1182:28)
+    at main
+    at div
+    at AppShell (/tmp/irr-main/frontend/src/app/AppShell.tsx:12:42)
+    at RenderedRoute (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:535:7)
+    at Routes (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:1269:7)
+    at App
+    at Router (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:1203:17)
+    at MemoryRouter (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:1097:7)
+Warning: An update to ExecutiveDashboard inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at ExecutiveDashboard (/tmp/irr-main/frontend/src/features/executive/ExecutiveDashboard.tsx:36:49)
+    at RenderedRoute (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:535:7)
+    at Outlet (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:1182:28)
+    at main
+    at div
+    at AppShell (/tmp/irr-main/frontend/src/app/AppShell.tsx:12:42)
+    at RenderedRoute (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:535:7)
+    at Routes (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:1269:7)
+    at App
+    at Router (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:1203:17)
+    at MemoryRouter (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:1097:7)
+Warning: An update to ExecutiveDashboard inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at ExecutiveDashboard (/tmp/irr-main/frontend/src/features/executive/ExecutiveDashboard.tsx:36:49)
+    at RenderedRoute (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:535:7)
+    at Outlet (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:1182:28)
+    at main
+    at div
+    at AppShell (/tmp/irr-main/frontend/src/app/AppShell.tsx:12:42)
+    at RenderedRoute (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:535:7)
+    at Routes (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:1269:7)
+    at App
+    at Router (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:1203:17)
+    at MemoryRouter (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:1097:7)
+
+ ✓ src/app/App.test.tsx > Application Shell > renders available Research destinations and navigates to Cross-Sector
+ ✓ src/app/App.test.tsx > Application Shell > renders the available Intelligence child destination
+ ✓ src/app/App.test.tsx > Application Shell > does not render parameterised or placeholder children as global links
+stderr | src/app/App.test.tsx > Application Shell > renders group-only parents as headings, never as links to an unbuilt surface
+Warning: An update to ExecutiveDashboard inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at ExecutiveDashboard (/tmp/irr-main/frontend/src/features/executive/ExecutiveDashboard.tsx:36:49)
+    at RenderedRoute (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:535:7)
+    at Outlet (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:1182:28)
+    at main
+    at div
+    at AppShell (/tmp/irr-main/frontend/src/app/AppShell.tsx:12:42)
+    at RenderedRoute (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:535:7)
+    at Routes (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:1269:7)
+    at App
+    at Router (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:1203:17)
+    at MemoryRouter (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:1097:7)
+Warning: An update to ExecutiveDashboard inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at ExecutiveDashboard (/tmp/irr-main/frontend/src/features/executive/ExecutiveDashboard.tsx:36:49)
+    at RenderedRoute (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:535:7)
+    at Outlet (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:1182:28)
+    at main
+    at div
+    at AppShell (/tmp/irr-main/frontend/src/app/AppShell.tsx:12:42)
+    at RenderedRoute (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:535:7)
+    at Routes (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:1269:7)
+    at App
+    at Router (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:1203:17)
+    at MemoryRouter (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:1097:7)
+Warning: An update to ExecutiveDashboard inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at ExecutiveDashboard (/tmp/irr-main/frontend/src/features/executive/ExecutiveDashboard.tsx:36:49)
+    at RenderedRoute (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:535:7)
+    at Outlet (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:1182:28)
+    at main
+    at div
+    at AppShell (/tmp/irr-main/frontend/src/app/AppShell.tsx:12:42)
+    at RenderedRoute (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:535:7)
+    at Routes (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:1269:7)
+    at App
+    at Router (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:1203:17)
+    at MemoryRouter (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:1097:7)
+
+ ✓ src/app/App.test.tsx > Application Shell > opens AI Explanation directly and sends no authorization header
+ ✓ src/app/App.test.tsx > Application Shell > renders group-only parents as headings, never as links to an unbuilt surface
+ ✓ src/app/App.test.tsx > Application Shell > resolves every clickable nav destination to a built surface (no nav click lands on "not yet built")
+ ✓ src/app/App.test.tsx > Application Shell > does not mount an administration route or expose an administration surface
+ ✓ src/app/App.test.tsx > Application Shell > uses the feature-unavailable placeholder for an unmatched route
+ ✓ src/app/App.test.tsx > Application Shell > opens the R3 Opportunities deep link without credentials or a session
+ ✓ src/app/App.test.tsx > Application Shell > navigates to the R3 Opportunities child without replacing the group-only parent
+ ✓ src/app/App.test.tsx > Application Shell > opens the R3 Risks deep link without credentials or a session
+ ✓ src/app/App.test.tsx > Application Shell > navigates to the R3 Risks child without replacing the group-only parent
+ ✓ src/app/App.test.tsx > Application Shell > opens the R3 Rankings deep link without credentials or a session
+stderr | src/app/App.test.tsx > Application Shell > shows the Reports L1 entry between Evidence and Settings without credentials
+Warning: An update to ExecutiveDashboard inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at ExecutiveDashboard (/tmp/irr-main/frontend/src/features/executive/ExecutiveDashboard.tsx:36:49)
+    at RenderedRoute (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:535:7)
+    at Outlet (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:1182:28)
+    at main
+    at div
+    at AppShell (/tmp/irr-main/frontend/src/app/AppShell.tsx:12:42)
+    at RenderedRoute (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:535:7)
+    at Routes (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:1269:7)
+    at App
+    at Router (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:1203:17)
+    at MemoryRouter (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:1097:7)
+Warning: An update to ExecutiveDashboard inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at ExecutiveDashboard (/tmp/irr-main/frontend/src/features/executive/ExecutiveDashboard.tsx:36:49)
+    at RenderedRoute (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:535:7)
+    at Outlet (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:1182:28)
+    at main
+    at div
+    at AppShell (/tmp/irr-main/frontend/src/app/AppShell.tsx:12:42)
+    at RenderedRoute (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:535:7)
+    at Routes (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:1269:7)
+    at App
+    at Router (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:1203:17)
+    at MemoryRouter (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:1097:7)
+Warning: An update to ExecutiveDashboard inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at ExecutiveDashboard (/tmp/irr-main/frontend/src/features/executive/ExecutiveDashboard.tsx:36:49)
+    at RenderedRoute (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:535:7)
+    at Outlet (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:1182:28)
+    at main
+    at div
+    at AppShell (/tmp/irr-main/frontend/src/app/AppShell.tsx:12:42)
+    at RenderedRoute (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:535:7)
+    at Routes (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:1269:7)
+    at App
+    at Router (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:1203:17)
+    at MemoryRouter (/tmp/irr-main/frontend/node_modules/react-router/dist/umd/react-router.development.js:1097:7)
+
+ ✓ src/app/App.test.tsx > Application Shell > navigates to the R3 Rankings child without replacing the group-only parent
+ ✓ src/app/App.test.tsx > Application Shell > shows the Reports L1 entry between Evidence and Settings without credentials
+ ✓ src/app/App.test.tsx > Application Shell > resolves the /reports deep link credential-free and renders the governed list
+ ✓ src/app/App.test.tsx > Application Shell > resolves the /reports/:reportId deep link credential-free with ordered disclosure
+ ✓ server/reports/reports-canonical.test.ts > NP-06 §5.2 canonical reportKey — golden vectors from the authoritative NP-04 implementation > 'minimal — absent scenario and paramet…'
+ ✓ server/reports/reports-canonical.test.ts > NP-06 §5.2 canonical reportKey — golden vectors from the authoritative NP-04 implementation > 'explicit null scenario and parameters…'
+ ✓ server/reports/reports-canonical.test.ts > NP-06 §5.2 canonical reportKey — golden vectors from the authoritative NP-04 implementation > 'explicit scenario'
+ ✓ server/reports/reports-canonical.test.ts > NP-06 §5.2 canonical reportKey — golden vectors from the authoritative NP-04 implementation > 'all four primitive parameter types'
+ ✓ server/reports/reports-canonical.test.ts > NP-06 §5.2 canonical reportKey — golden vectors from the authoritative NP-04 implementation > 'parameter order permutation A'
+ ✓ server/reports/reports-canonical.test.ts > NP-06 §5.2 canonical reportKey — golden vectors from the authoritative NP-04 implementation > 'parameter order permutation B (same k…'
+ ✓ server/reports/reports-canonical.test.ts > NP-06 §5.2 canonical reportKey — golden vectors from the authoritative NP-04 implementation > 'empty parameter object canonicalizes …'
+ ✓ server/reports/reports-canonical.test.ts > NP-06 §5.2 canonical reportKey — golden vectors from the authoritative NP-04 implementation > 'astral vs BMP parameter names ordered…'
+ ✓ server/reports/reports-canonical.test.ts > NP-06 §5.2 canonical reportKey — golden vectors from the authoritative NP-04 implementation > 'case is not folded — upper'
+ ✓ server/reports/reports-canonical.test.ts > NP-06 §5.2 canonical reportKey — golden vectors from the authoritative NP-04 implementation > 'case is not folded — lower (differs f…'
+ ✓ server/reports/reports-canonical.test.ts > NP-06 §5.2 canonical reportKey — golden vectors from the authoritative NP-04 implementation > 'Unicode NFC composed is preserved as …'
+ ✓ server/reports/reports-canonical.test.ts > NP-06 §5.2 canonical reportKey — golden vectors from the authoritative NP-04 implementation > 'Unicode NFD decomposed is NOT normali…'
+ ✓ server/reports/reports-canonical.test.ts > NP-06 §5.2 canonical reportKey — golden vectors from the authoritative NP-04 implementation > 'numbers use shortest round-trip form'
+ ✓ server/reports/reports-canonical.test.ts > NP-06 §5.2 canonical reportKey — golden vectors from the authoritative NP-04 implementation > 'string escaping per JSON'
+ ✓ server/reports/reports-canonical.test.ts > NP-06 §5.2 canonical reportKey — golden vectors from the authoritative NP-04 implementation > is byte-stable: repeated derivation is identical
+ ✓ server/reports/reports-canonical.test.ts > NP-06 §5.2 canonical reportKey — golden vectors from the authoritative NP-04 implementation > orders parameter names by true code point, not UTF-16 code unit
+ ✓ server/reports/reports-canonical.test.ts > NP-06 §5.2 canonical reportKey — golden vectors from the authoritative NP-04 implementation > distinguishes NFC from NFD — no Unicode normalization is applied
+ ✓ server/reports/reports-canonical.test.ts > NP-06 §5.2 canonical reportKey — golden vectors from the authoritative NP-04 implementation > uses exactly four canonical members and no others
+ ✓ server/reports/reports-canonical.test.ts > NP-06 §5.2 canonical reportKey — golden vectors from the authoritative NP-04 implementation > produces lowercase hex SHA-256
+ ✓ server/reports/reports-canonical.test.ts > NP-06 §5.2 — fail-closed rejection (reject, never coerce) > rejects: nested object parameter (must be rejected, not flattened)
+ ✓ server/reports/reports-canonical.test.ts > NP-06 §5.2 — fail-closed rejection (reject, never coerce) > rejects: array parameter
+ ✓ server/reports/reports-canonical.test.ts > NP-06 §5.2 — fail-closed rejection (reject, never coerce) > rejects: NaN parameter
+ ✓ server/reports/reports-canonical.test.ts > NP-06 §5.2 — fail-closed rejection (reject, never coerce) > rejects: Infinity parameter
+ ✓ server/reports/reports-canonical.test.ts > NP-06 §5.2 — fail-closed rejection (reject, never coerce) > rejects: -Infinity parameter
+ ✓ server/reports/reports-canonical.test.ts > NP-06 §5.2 — fail-closed rejection (reject, never coerce) > rejects: empty reportType
+ ✓ server/reports/reports-canonical.test.ts > NP-06 §5.2 — fail-closed rejection (reject, never coerce) > rejects: empty portfolioId
+ ✓ server/reports/reports-canonical.test.ts > NP-06 §5.2 — fail-closed rejection (reject, never coerce) > rejects: non-string reportType
+ ✓ server/reports/reports-canonical.test.ts > NP-06 §5.2 — fail-closed rejection (reject, never coerce) > rejects: empty scenario string
+ ✓ server/reports/reports-canonical.test.ts > NP-06 §5.2 — fail-closed rejection (reject, never coerce) > rejects: empty parameter name
+ ✓ server/reports/reports-canonical.test.ts > NP-06 §5.2 — fail-closed rejection (reject, never coerce) > rejects: undefined parameter value
+ ✓ server/reports/reports-canonical.test.ts > NP-06 §5.2 — fail-closed rejection (reject, never coerce) > rejects: parameters as array
+ ✓ server/reports/reports-canonical.test.ts > NP-06 §5.2 — fail-closed rejection (reject, never coerce) > rejects: null input
+ ✓ server/reports/reports-canonical.test.ts > canonical structured payload (NP-06 §5.3 re-canonicalization) > sorts object members by code point at every level
+ ✓ server/reports/reports-canonical.test.ts > canonical structured payload (NP-06 §5.3 re-canonicalization) > preserves array order while canonicalizing elements
+ ✓ server/reports/reports-canonical.test.ts > canonical structured payload (NP-06 §5.3 re-canonicalization) > is byte-stable regardless of construction order
+ ✓ server/reports/reports-canonical.test.ts > canonical structured payload (NP-06 §5.3 re-canonicalization) > uses the same shortest round-trip number form as reportKey canonicalization
+ ✓ server/reports/reports-canonical.test.ts > canonical structured payload (NP-06 §5.3 re-canonicalization) > escapes strings per JSON
+ ✓ server/reports/reports-canonical.test.ts > canonical structured payload (NP-06 §5.3 re-canonicalization) > rejects non-canonicalizable value: undefined
+ ✓ server/reports/reports-canonical.test.ts > canonical structured payload (NP-06 §5.3 re-canonicalization) > rejects non-canonicalizable value: function
+ ✓ server/reports/reports-canonical.test.ts > canonical structured payload (NP-06 §5.3 re-canonicalization) > rejects non-canonicalizable value: bigint
+ ✓ server/reports/reports-canonical.test.ts > canonical structured payload (NP-06 §5.3 re-canonicalization) > rejects non-canonicalizable value: non-finite number
+ ✓ server/reports/reports-canonical.test.ts > canonical structured payload (NP-06 §5.3 re-canonicalization) > rejects non-canonicalizable value: Date instance (non-plain object)
+ ✓ server/reports/reports-canonical.test.ts > canonical structured payload (NP-06 §5.3 re-canonicalization) > rejects non-canonicalizable value: Map instance
+ ✓ server/reports/reports-canonical.test.ts > canonical structured payload (NP-06 §5.3 re-canonicalization) > rejects non-canonicalizable value: class instance
+ ✓ server/reports/reports-canonical.test.ts > canonical structured payload (NP-06 §5.3 re-canonicalization) > rejects a cyclic structure rather than hanging or truncating
+ ✓ server/reports/reports-canonical.test.ts > canonical structured payload (NP-06 §5.3 re-canonicalization) > does not mutate its input
+ ✓ src/api/reports.test.ts > api/reports read-only client (CV-51) > fetches context credential-free and strips partition literals from the view
+ ✓ src/api/reports.test.ts > api/reports read-only client (CV-51) > lists artifacts with only limit/cursor parameters and sanitized view models
+ ✓ src/api/reports.test.ts > api/reports read-only client (CV-51) > encodes the report identifier as a single path segment for detail reads
+ ✓ src/api/reports.test.ts > api/reports read-only client (CV-51) > fetches the supersession chain with current head and history
+ ✓ src/api/reports.test.ts > api/reports read-only client (CV-51) > rejects an empty report identifier without issuing a request
+ ✓ src/api/reports.test.ts > api/reports read-only client (CV-51) > maps 503 owner-context-unavailable and discards the raw reason detail
+ ✓ src/api/reports.test.ts > api/reports read-only client (CV-51) > maps 503 persistence-unavailable and discards the raw SQLite reason
+ ✓ src/api/reports.test.ts > api/reports read-only client (CV-51) > maps other 503 responses to service-unavailable
+ ✓ src/api/reports.test.ts > api/reports read-only client (CV-51) > maps 404 report-not-found indistinguishably
+ ✓ src/api/reports.test.ts > api/reports read-only client (CV-51) > maps 400 to invalid-request and 500 to transport-error without leaking detail
+ ✓ src/api/reports.test.ts > api/reports read-only client (CV-51) > maps network failure to network-unavailable with status 0
+ ✓ src/api/reports.test.ts > api/reports read-only client (CV-51) > fails closed as invalid-envelope on malformed 200 envelopes
+ ✓ src/api/reports.test.ts > api/reports read-only client (CV-51) > never transmits prohibited identity, tenant, carrier, or durable-identity fields
+ ✓ server/reports-transport.test.ts > Reports transport — fail-closed without valid carrier > returns 503 owner-context-unavailable on all endpoints when carrier is unset
+ ✓ server/reports-transport.test.ts > Reports transport — fail-closed without valid carrier > preserves route/method validation regardless of carrier presence
+ ✓ server/reports-transport.test.ts > Reports transport — configured carrier and persistence > serves context when carrier is valid and returns 503 persistence-unavailable when store unset
+(node:3779) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ✓ server/reports-transport.test.ts > Reports transport — configured carrier and persistence > executes full 5-operation contract with single declared owner and rejects client claims
+(node:3799) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ✓ server/reports/reports-persistence-integration.test.ts > R3-Option B dependency surface > admits exactly the decided second specifier and guards the reconciled primary and broker pins
+ ✓ server/reports/reports-persistence-integration.test.ts > R3-Option B dependency surface > fails closed when no server-owned database path is configured
+ ✓ server/reports/reports-persistence-integration.test.ts > five-operation contract against the real governed store > creates, resolves, queries, appends and chains — with cross-owner non-disclosure
+ ✓ server/reports/reports-persistence-integration.test.ts > five-operation contract against the real governed store > survives database close and reopen at the same server-owned path (persistence level)
+ ✓ server/reports/reports-persistence-integration.test.ts > five-operation contract against the real governed store > resolves the admitted port through the runtime resolver when configured
+(node:3920) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3952) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3984) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:4016) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ✓ server/reports-restart.test.ts > NP-06 Reports — F-7 Separate-Process Durable HTTP Acceptance > Process 1 & 2 fail closed with 503 across processes when carrier is not provisioned 3231ms
+ ✓ server/reports-restart.test.ts > NP-06 Reports — F-7 Separate-Process Durable HTTP Acceptance > proves F-7 durable HTTP lifecycle across 3 distinct OS processes 6821ms
+ ✓ server/reports-api.test.ts > Reports API — composed route > dispatches known owner-scoped report paths to 503 when carrier is absent
+(node:4067) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ✓ server/reports-api.test.ts > Reports API — composed route > serves reports context and operations when carrier and database are configured
+ ✓ server/reports-api.test.ts > Reports API — composed route > does not disturb the certified reference portfolio route
+ ✓ server/reports-owner-resolver.test.ts > NP-06 Reports owner resolver > returns path-not-configured when environment variable is unset
+ ✓ server/reports-owner-resolver.test.ts > NP-06 Reports owner resolver > resolves the approved owner context from a valid materialised carrier
+ ✓ server/reports-owner-resolver.test.ts > NP-06 Reports owner resolver > fails closed on tampered carrier (integrity mismatch)
+ ✓ server/reports-owner-resolver.test.ts > NP-06 Reports owner resolver > fails closed on empty or oversized carrier
+ ✓ server/reports-owner-resolver.test.ts > NP-06 Reports owner resolver > fails closed when carrier is removed (immediate per-request revocation)
+ ✓ server/reports-owner-carrier.test.ts > NP-06 Reports owner carrier integrity > hashes exactly to the pinned SHA-256 digest
+ ✓ server/reports-owner-carrier.test.ts > NP-06 Reports owner carrier integrity > matches the exact canonical byte length
+ ✓ server/reports-owner-carrier.test.ts > NP-06 Reports owner carrier integrity > parses as valid JSON carrying approved values and exact keys
+ ✓ server/reports-owner-carrier.test.ts > NP-06 Reports owner carrier integrity > materialises outside a git working tree and fails inside one
+
+ Test Files  11 passed (11)
+      Tests  171 passed (171)
+   Start at  06:02:15
+   Duration  18.55s (transform 1.19s, setup 1.19s, collect 1.79s, tests 12.09s, environment 1.60s, prepare 586ms)
+
+# ---- end raw output ----
+# exit_code: 0
+# finished_utc: 2026-10-29T06:02:34Z
