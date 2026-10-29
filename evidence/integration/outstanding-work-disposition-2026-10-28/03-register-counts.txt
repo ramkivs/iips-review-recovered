@@ -1,0 +1,9 @@
+CAP-03 package rows parsed: 77
+  NOT OUTSTANDING (complete/superseded/closed): 5
+  KEY TECHNICAL/FUNCTIONAL BLOCKER: 0
+  REQUIRED RESERVED DECISION - SPECIFIC OPERATION ONLY: 60
+  ACTIONABLE - PROCEED UNDER EXISTING AUTHORITY: 0
+  MINOR RESIDUAL - NON-BLOCKING: 5
+  OUT OF SCOPE: 7
+CV-* rows parsed (tracker first occurrence): 35
+CV-* row identities: ['CV-01', 'CV-02', 'CV-03', 'CV-04', 'CV-05', 'CV-06', 'CV-07', 'CV-08', 'CV-09', 'CV-10', 'CV-11', 'CV-20', 'CV-21', 'CV-22', 'CV-23', 'CV-24', 'CV-25', 'CV-30', 'CV-31', 'CV-32', 'CV-33', 'CV-34', 'CV-35', 'CV-36', 'CV-37', 'CV-38', 'CV-39', 'CV-40', 'CV-41', 'CV-42', 'CV-43', 'CV-50', 'CV-51', 'CV-52', 'CV-53']

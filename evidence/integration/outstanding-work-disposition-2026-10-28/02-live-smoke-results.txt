@@ -1,0 +1,40 @@
+Live workflow smoke (loopback, sandbox only; no host operation; bind 127.0.0.1 is the governed C8 setting)
+Server: frontend/server/executive-transport.ts via tsx; EXEC_TRANSPORT_PORT=8787.
+
+RUN A - no owner carrier configured (IIPS_OWNER_CONTEXT_PATH unset); IIPS_DATA_DIR=/tmp
+  GET  /api/health                              200  status ok
+  GET  /api/executive                           200  reference portfolio PF-REAL (SNAPSHOT)
+  GET  /api/portfolio                           200
+  GET  /api/engines                             200  13 engine registry entries
+  POST /api/engines/sector.banking/execute      200  engine output envelope (state C)
+  GET  /api/cross-sector                        200
+  GET  /api/decision-matrix                     200
+  GET  /api/company/Banking                     200  companyId Banking-H1
+  GET  /api/evidence/Banking                    200  referenceOnly true
+  GET  /api/replay/Banking                      200  replay NOT_PERFORMED, SECTOR_REFERENCE_NOT_CAPTURE (by design)
+  GET  /api/macro/nas                           400  indicatorCode required (route live; no parameter given)
+  GET  /api/macro/cpi                           502  RETRY_BUDGET_EXHAUSTED - sandbox cannot reach the upstream statistics host (environment limit; not an application defect)
+  GET  /api/watchlists                          503  owner-context-unavailable (fail-closed; no owner inferred)
+  GET  /api/collaboration                       503  owner-context-unavailable
+  GET  /api/settings                            503  owner-context-unavailable
+  GET  /api/user-portfolios                     503  owner-context-unavailable
+  GET  /api/user-portfolios/context             503  owner-context-unavailable
+  GET  /api/reports/context                     503  owner-context-unavailable
+  GET  /api/reports/artifacts?limit=25          503  owner-context-unavailable
+  GET  /api/pit/market-data                     404  found:false, INVALID_IDENTITY (needs identity parameters; not probed further)
+  POST /api/screener  (malformed body)          400/422  request-shape validation fires; the screener workflow itself is covered by the suite (screener-transport.test.ts), not claimed from this smoke
+
+RUN B - approved owner carrier (IIPS_OWNER_CONTEXT_PATH=/tmp/iips-oc/owner-context.json)
+  Carrier: CANONICAL_CARRIER_TEXT from frontend/server/owner-context-carrier.ts, 363 bytes,
+           SHA-256 d5a79efb8f13790834f3e4047c5f19030a46d8d0365fa48b28209b1a988ebbe4 (equals the pinned digest).
+           Written to /tmp only; not in the repository.
+  GET  /api/watchlists                          200  empty list, provenance governed:certified-v2.0-reference-universe
+  POST /api/watchlists {watchlistId,name}       201  created wl-smoke-1 (a first attempt wrapped the body in {value:...} and got 400 watchlistId-required: request-shape error, corrected)
+  Journal: /tmp/iips-smoke-data2/watchlists/journal.ndjson  line 2 = seq 1 op create, ownerUserId owner-7f3a91c2, tenant irr-domain-4b82d6e1
+  RESTART (server stopped and started again, same journal)
+  GET  /api/watchlists                          200  returns wl-smoke-1 created before the restart  -> durable restart read PASS (single-user, non-production)
+  GET  /api/settings                            200  GOVERNED_DEFAULT settings for the owner
+  GET  /api/executive                           200
+  GET  /api/user-portfolios                     503  owner-context-unavailable - the user-portfolio surface stays fenced (PA-governed; not lifted in this pass)
+
+Not performed: no browser run; no host; no IPD write; no change to the fences; no PA-gated operation.

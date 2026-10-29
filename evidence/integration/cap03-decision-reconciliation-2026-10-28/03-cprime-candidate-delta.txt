@@ -1,0 +1,9 @@
+== 03 C-prime candidate (IPD, read-only /tmp/ipd-ro5)
+a891802e ancestor of origin/main: yes
+receipt executingCommit at a891802e: a891802e:src/persistence/gateAPrimeProvisioning.ts:6
+001c3c80..a891802e (ahead/behind of 001c3c80 vs a891802e): 0	19
+non-evidence paths changed 001c3c80..a891802e:
+  src/persistence/gateAPrimeProvisioning.ts
+  tests/g3_gate_a_prime_successor_provisioning.test.ts
+evidence paths changed: 60
+trees: 001c3c80=399fa44a a891802e=76f083d7 origin/main=b3fde03a

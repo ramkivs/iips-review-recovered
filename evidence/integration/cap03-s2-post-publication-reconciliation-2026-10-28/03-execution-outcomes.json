@@ -1,0 +1,331 @@
+{
+  "method": "Counts and exit codes parsed from transcripts in the archive; no test, build or S2 step was run.",
+  "rows": {
+    "step01_npm_ci_original": {
+      "file": "s2-01-npm-ci.txt",
+      "bytes": 812,
+      "sha256": "58724630988C3DDAE0AE1B7B6605B33E0F629422282CAD8047DCD755AC4BB9A8",
+      "start_utc": "2026-10-26T09:15:34.195Z",
+      "end_utc": "2026-10-26T09:16:19.230Z",
+      "commit_lines": [
+        "8eec74ae27cda09f3c368b9c299895eae41554db"
+      ],
+      "tests": [],
+      "pass": [],
+      "fail": [],
+      "skipped": [],
+      "guard_line": null,
+      "exit_codes": [
+        "0"
+      ],
+      "result_pass": false,
+      "spawn_EINVAL": false,
+      "ERR_UNSUPPORTED_ESM_URL_SCHEME": false,
+      "not_ok_lines": []
+    },
+    "step02_tsc_original": {
+      "file": "s2-02-tsc-noemit.txt",
+      "bytes": 365,
+      "sha256": "D1062E89354E62F99B892A904227AA3DDBAF398A1CF837E4B8209F1A956DCD2E",
+      "start_utc": "2026-10-26T09:17:21.212Z",
+      "end_utc": "2026-10-26T09:17:33.374Z",
+      "commit_lines": [
+        "8eec74ae27cda09f3c368b9c299895eae41554db"
+      ],
+      "tests": [],
+      "pass": [],
+      "fail": [],
+      "skipped": [],
+      "guard_line": null,
+      "exit_codes": [
+        "0"
+      ],
+      "result_pass": false,
+      "spawn_EINVAL": false,
+      "ERR_UNSUPPORTED_ESM_URL_SCHEME": false,
+      "not_ok_lines": []
+    },
+    "step03_build_original": {
+      "file": "s2-03-build.txt",
+      "bytes": 1628,
+      "sha256": "B169699762823F2067C18622EFD778FEB2DAE28CFBB2668EA734BE9DA346A6BF",
+      "start_utc": "2026-10-26T09:18:08.884Z",
+      "end_utc": "2026-10-26T09:18:37.569Z",
+      "commit_lines": [
+        "8eec74ae27cda09f3c368b9c299895eae41554db"
+      ],
+      "tests": [],
+      "pass": [],
+      "fail": [],
+      "skipped": [],
+      "guard_line": null,
+      "exit_codes": [
+        "0"
+      ],
+      "result_pass": false,
+      "spawn_EINVAL": false,
+      "ERR_UNSUPPORTED_ESM_URL_SCHEME": false,
+      "not_ok_lines": []
+    },
+    "step04_guarded_test_original": {
+      "file": "s2-04-guarded-npm-test.txt",
+      "bytes": 4875125,
+      "sha256": "7DD2A1EFC3A3EA9D3EDA2A619E29BD2FDB240D6820C05F3FDC9BB21729B16EDA",
+      "start_utc": "2026-10-26T09:19:59.946Z",
+      "end_utc": "2026-10-26T09:20:48.935Z",
+      "commit_lines": [
+        "8eec74ae27cda09f3c368b9c299895eae41554db"
+      ],
+      "tests": [
+        "924"
+      ],
+      "pass": [
+        "919"
+      ],
+      "fail": [
+        "1"
+      ],
+      "skipped": [
+        "4"
+      ],
+      "guard_line": "FAIL",
+      "exit_codes": [
+        "1"
+      ],
+      "result_pass": false,
+      "spawn_EINVAL": false,
+      "ERR_UNSUPPORTED_ESM_URL_SCHEME": true,
+      "not_ok_lines": [
+        "not ok 7 - the built entry point loads and exposes the same public names",
+        "not ok 43 - CAP-02 Increment A \u0393\u00c7\u00f6 T-PKG-4: package manifest and built artifacts"
+      ]
+    },
+    "step05_package_consumer_baseline_12_35": {
+      "file": "s2-05-package-consumer-baseline-failure-20261026.txt",
+      "bytes": 1057,
+      "sha256": "770BECCA1707575B271D8414A699D950DBF8058AF725BE440EA1A0564B4DC9C3",
+      "start_utc": "2026-10-26T12:35:34.1527459Z",
+      "end_utc": "2026-10-26T12:35:44.0870501Z",
+      "commit_lines": [
+        "8eec74ae27cda09f3c368b9c299895eae41554db"
+      ],
+      "tests": [],
+      "pass": [],
+      "fail": [],
+      "skipped": [],
+      "guard_line": null,
+      "exit_codes": [
+        "1"
+      ],
+      "result_pass": false,
+      "spawn_EINVAL": true,
+      "ERR_UNSUPPORTED_ESM_URL_SCHEME": false,
+      "not_ok_lines": []
+    },
+    "fix_step01_npm_ci": {
+      "file": "s2-fix-01-npm-ci.txt",
+      "bytes": 472,
+      "sha256": "F266BC6FFDF55A0E20BC33CD93B1A26270B882F2AA146AA179A3D2DCDBC95847",
+      "start_utc": "2026-10-26T09:33:43.4268853Z",
+      "end_utc": "2026-10-26T09:34:01.2509324Z",
+      "commit_lines": [],
+      "tests": [],
+      "pass": [],
+      "fail": [],
+      "skipped": [],
+      "guard_line": null,
+      "exit_codes": [
+        "0"
+      ],
+      "result_pass": false,
+      "spawn_EINVAL": false,
+      "ERR_UNSUPPORTED_ESM_URL_SCHEME": false,
+      "not_ok_lines": []
+    },
+    "fix_step02_typecheck": {
+      "file": "s2-fix-02-typecheck.txt",
+      "bytes": 120,
+      "sha256": "9399D928C35DD3DDA2E0932FFD0FDC39A6D0180147702E4FF51392A68E9DE4ED",
+      "start_utc": "2026-10-26T09:34:01.2942862Z",
+      "end_utc": "2026-10-26T09:34:15.7622843Z",
+      "commit_lines": [],
+      "tests": [],
+      "pass": [],
+      "fail": [],
+      "skipped": [],
+      "guard_line": null,
+      "exit_codes": [
+        "0"
+      ],
+      "result_pass": false,
+      "spawn_EINVAL": false,
+      "ERR_UNSUPPORTED_ESM_URL_SCHEME": false,
+      "not_ok_lines": []
+    },
+    "fix_step03_build": {
+      "file": "s2-fix-03-build.txt",
+      "bytes": 1291,
+      "sha256": "87A2EACA50F4C9A9C9FE1016D6635006754A7D75F5038214B2676E2F72205ACE",
+      "start_utc": "2026-10-26T09:34:15.7862399Z",
+      "end_utc": "2026-10-26T09:34:43.1924723Z",
+      "commit_lines": [],
+      "tests": [],
+      "pass": [],
+      "fail": [],
+      "skipped": [],
+      "guard_line": null,
+      "exit_codes": [
+        "0"
+      ],
+      "result_pass": false,
+      "spawn_EINVAL": false,
+      "ERR_UNSUPPORTED_ESM_URL_SCHEME": false,
+      "not_ok_lines": []
+    },
+    "fix_step04_focused_package_test": {
+      "file": "s2-fix-04-focused-package-test.txt",
+      "bytes": 8668,
+      "sha256": "302D7846FE86159EE51170769CB1331AF3C932C6EFEDD2385F3C9D7DE72B3AB3",
+      "start_utc": "2026-10-26T09:34:43.8189535Z",
+      "end_utc": "2026-10-26T09:34:44.7570737Z",
+      "commit_lines": [],
+      "tests": [
+        "29"
+      ],
+      "pass": [
+        "29"
+      ],
+      "fail": [
+        "0"
+      ],
+      "skipped": [
+        "0"
+      ],
+      "guard_line": null,
+      "exit_codes": [
+        "0"
+      ],
+      "result_pass": false,
+      "spawn_EINVAL": false,
+      "ERR_UNSUPPORTED_ESM_URL_SCHEME": false,
+      "not_ok_lines": []
+    },
+    "fix_step05_guarded_test": {
+      "file": "s2-fix-05-guarded-npm-test.txt",
+      "bytes": 5029444,
+      "sha256": "9D12A1B7272F5D2722FD6AE06EA3087B01F8E1ABBCD669EF0558E281A061591E",
+      "start_utc": "2026-10-26T09:34:44.7969466Z",
+      "end_utc": "2026-10-26T09:35:04.4850157Z",
+      "commit_lines": [],
+      "tests": [
+        "924"
+      ],
+      "pass": [
+        "920"
+      ],
+      "fail": [
+        "0"
+      ],
+      "skipped": [
+        "4"
+      ],
+      "guard_line": "OK",
+      "exit_codes": [
+        "0"
+      ],
+      "result_pass": false,
+      "spawn_EINVAL": false,
+      "ERR_UNSUPPORTED_ESM_URL_SCHEME": false,
+      "not_ok_lines": []
+    },
+    "fix_step06_package_consumer_09_35": {
+      "file": "s2-fix-06-package-consumer.txt",
+      "bytes": 873,
+      "sha256": "ADE33E72405AA0DE1166479103F8ED48B8BD1763ADF4C83F0513E08B296B6B4C",
+      "start_utc": "2026-10-26T09:35:04.5430534Z",
+      "end_utc": "2026-10-26T09:35:15.2272498Z",
+      "commit_lines": [],
+      "tests": [],
+      "pass": [],
+      "fail": [],
+      "skipped": [],
+      "guard_line": null,
+      "exit_codes": [
+        "1"
+      ],
+      "result_pass": false,
+      "spawn_EINVAL": true,
+      "ERR_UNSUPPORTED_ESM_URL_SCHEME": false,
+      "not_ok_lines": []
+    },
+    "launch_fix_package_consumer_09_56": {
+      "file": "s2-npm-launch-fix-consumer-20261026T095613Z.txt",
+      "bytes": 2977,
+      "sha256": "9F7C64073A849E57D472C9CA30BB7616D04D1951626E90587241D61A470A85B1",
+      "start_utc": "2026-10-26T09:56:14.2694664Z",
+      "end_utc": "2026-10-26T09:57:42.9944516Z",
+      "commit_lines": [],
+      "tests": [],
+      "pass": [],
+      "fail": [],
+      "skipped": [],
+      "guard_line": null,
+      "exit_codes": [
+        "0"
+      ],
+      "result_pass": true,
+      "spawn_EINVAL": false,
+      "ERR_UNSUPPORTED_ESM_URL_SCHEME": false,
+      "not_ok_lines": []
+    },
+    "launch_fix_guarded_suite_09_57": {
+      "file": "s2-npm-launch-fix-suite-20261026T095613Z.txt",
+      "bytes": 5029329,
+      "sha256": "C5DDFFA24393AED2E391EF8A72E8BFF1F8ECD9576C4349E182B288785F1B2941",
+      "start_utc": "2026-10-26T09:57:43.0649890Z",
+      "end_utc": "2026-10-26T09:58:04.7664602Z",
+      "commit_lines": [],
+      "tests": [
+        "924"
+      ],
+      "pass": [
+        "920"
+      ],
+      "fail": [
+        "0"
+      ],
+      "skipped": [
+        "4"
+      ],
+      "guard_line": "OK",
+      "exit_codes": [
+        "0"
+      ],
+      "result_pass": false,
+      "spawn_EINVAL": false,
+      "ERR_UNSUPPORTED_ESM_URL_SCHEME": false,
+      "not_ok_lines": []
+    },
+    "post_run_pin_12_34": {
+      "file": "s2-post-run-pin.txt",
+      "bytes": 459,
+      "sha256": "84E823AE9C9AEB1A6E15A8F693A77A5B7B61CC2DB99738EE95EBA93B5DF9F458",
+      "start_utc": "2026-10-26T12:34:42.4886825Z",
+      "end_utc": null,
+      "commit_lines": [
+        "8eec74ae27cda09f3c368b9c299895eae41554db"
+      ],
+      "tests": [],
+      "pass": [],
+      "fail": [],
+      "skipped": [],
+      "guard_line": null,
+      "exit_codes": [],
+      "result_pass": false,
+      "spawn_EINVAL": false,
+      "ERR_UNSUPPORTED_ESM_URL_SCHEME": false,
+      "not_ok_lines": []
+    }
+  },
+  "fix_patch_check_note": "The recorded patch texts were applied to 8eec74ae blobs in a scratch repository and compared with IPD 001c3c80 in a separate step; that step is not replayed by this script (see the record, section 4.3)."
+}

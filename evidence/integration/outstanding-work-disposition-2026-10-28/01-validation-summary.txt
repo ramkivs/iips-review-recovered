@@ -1,0 +1,19 @@
+Outstanding-work disposition pass, 2026-10-28 (IRR branch arena/b776c15a-iips-review-recovered)
+Application validation: frontend/ (no application source changed in this pass)
+
+Environment note: first `npm ci` failed with UNABLE_TO_VERIFY_LEAF_SIGNATURE when fetching the
+pinned git dependency from codeload.github.com (sandbox TLS interception). The retry set
+NODE_EXTRA_CA_CERTS=/usr/local/share/ca-certificates/e2b-ca.crt (sandbox CA). No TLS verification
+was disabled and no repository file was changed to make the install succeed.
+
+Command (cwd frontend/)                                   Exit  Result
+npm ci --no-audit --no-fund  (with NODE_EXTRA_CA_CERTS)    0    added 190 packages
+npm run typecheck            (tsc --noEmit)                0    clean
+npm run typecheck:replay-server                            0    clean
+npm run test:ci              (pretest:ci builds broker)    0    Test Files 106 passed (106); Tests 1350 passed (1350); 0 failed; 0 pending
+node .ci/assert-tests.js .vitest-report.json               0    OK - 106 test file(s), 1350 test(s), 0 failed
+npm run build                (tsc -b && vite build)        0    142 modules; dist/assets/index-*.js 1,609.84 kB (gzip 226.69 kB); chunk-size warning (non-blocking)
+
+Remote CI parity: IRR check run "Typecheck · Test · Build" = success on main 82b3f4a5 and on PR #353 head d86d00dd (gh api check-runs).
+Working tree after the build: git status clean (generated outputs are git-ignored).
+Test-count note: this run recorded 1350 tests (log markers TEST_CI_EXIT=0, GUARD_EXIT=0). Earlier tracker snapshots record 106 files / 1,349 tests (for example tracker lines 10119-10120 and 10141). The difference of one test is recorded as a MINOR RESIDUAL and not investigated further; no failure is present.

@@ -1,0 +1,43 @@
+CAP-03 execution-group reconciliation — reference verification, 2026-10-28 (IRR one pass)
+Read-only. No IPD write. No host operation. Commands are shown with their live results.
+
+== IRR
+git ls-remote origin refs/heads/main: 82b3f4a5d31134e40fd3a1a23169a0ca8d638dfc
+git ls-remote origin session branch: bbe5425b6891e292c9e9db0a571d592a11254ada
+local HEAD: bbe5425b6891e292c9e9db0a571d592a11254ada  branch: arena/b776c15a-iips-review-recovered  tree clean: no
+open IRR PRs: #353@bbe5425b6 
+PR #353: open false not merged bbe5425b6
+frontend changed main..HEAD (empty = no code change since 1350 validation): []
+
+== IPD (read-only)
+origin/main: 2d0cc005  (previously recorded 0616ba2d)
+commits 0616ba2d..origin/main:
+  2d0cc00 Merge pull request #105 from ramkivs/arena/d960804e-iips-production-market-data
+  e08d013 fix(cap03): report a missing validation store as STORE_NOT_FOUND, and dispose the outstanding-work list
+files changed 0616ba2d..origin/main:
+   ...PS_V3_CAP02_IPD_EXECUTION_TRACKER_2026-10-23.md | 138 +++++++++++++++++++++
+   src/persistence/gateAPrimeProvisioning.ts          |  14 ++-
+   .../g3_gate_a_prime_successor_provisioning.test.ts |  37 +++++-
+   3 files changed, 187 insertions(+), 2 deletions(-)
+blob ids (0616ba2d -> origin/main):
+  src/persistence/gateAPrimeProvisioning.ts: 9b15eca3 -> fc3b53e2
+  tests/g3_gate_a_prime_successor_provisioning.test.ts: 0ea47e8f -> 1fe70466
+  src/persistence/portfolio_store.ts: 540d49f2 -> 540d49f2
+IRR consumer pin 8eec74ae ancestor of origin/main: yes
+open IPD PRs: 0
+
+== Lead branch for R-02 (read-only fetch to refs/remotes/origin/lead-cap03-p1c)
+remote: 40e36ab930b2b71952401f20c0bd7d0ba2b5ddc4
+ancestor of origin/main: yes
+left-right count (main-only, lead-only): 42 0
+diff main...lead bytes: 0
+
+== PK-01 packet blob on IRR main
+796e0c8256667a10eab4336084a9975355db4faf
+
+== F-1 range in IPD
+888eb375 resolves: yes; ancestor of a9cd18e8: yes
+files 888eb375..a9cd18e8:
+  evidence/cross-repository/IIPS_V3_CAP02_IPD_EXECUTION_TRACKER_2026-10-23.md
+  src/persistence/gateAPrimeProvisioning.ts
+  tests/g3_gate_a_prime_successor_provisioning.test.ts

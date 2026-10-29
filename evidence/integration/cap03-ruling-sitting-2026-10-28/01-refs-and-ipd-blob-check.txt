@@ -1,0 +1,51 @@
+CAP-03 ruling-sitting addendum — evidence, 2026-10-28 (IRR one pass). Read-only. No IPD write, no host action.
+
+== IRR refs
+origin/main: 82b3f4a5d31134e40fd3a1a23169a0ca8d638dfc
+session branch: f3c2df380508782fbda72752c99bf20c8f172703  local HEAD: f3c2df380508782fbda72752c99bf20c8f172703  tree clean: no
+PR #353: OPEN false not merged f3c2df380
+open IRR PRs: 1
+lead branch 40e36ab9 remote: 40e36ab930b2b71952401f20c0bd7d0ba2b5ddc4
+frontend diff main..HEAD: []
+
+== IPD (read-only clone /tmp/ipd-ro5)
+origin/main: 1ba0740a32e69284d7c524fd6ac8daf5455038d0
+commits 2d0cc005..main:
+  1ba0740 Merge pull request #106 from ramkivs/arena/159849b5-iips-production-market-data
+  5431ef6 docs(cap03): reconcile IPD execution groups G1-G14 and correct the 47-file record's "3 not reproduced" count
+files 2d0cc005..main:
+   ...PS_V3_CAP02_IPD_EXECUTION_TRACKER_2026-10-23.md | 137 +++++++++++++++++++++
+   1 file changed, 137 insertions(+)
+IPD open PRs: 0
+IRR pin 8eec74ae ancestor of IPD main: yes
+
+== Designated-blob check (IPD paths per PA decision package §5.2 items 10 and 12; blob = 8-char prefix)
+src/persistence/portfolio_store.ts
+   5fc74085     4a005b73
+   001c3c80     540d49f2
+   a9cd18e8     540d49f2
+   0616ba2d     540d49f2
+   2d0cc005     540d49f2
+   origin/main  540d49f2
+tests/g3_startup_validation.test.ts
+   5fc74085     9a5fd9e3
+   001c3c80     edd0305e
+   a9cd18e8     edd0305e
+   0616ba2d     edd0305e
+   2d0cc005     edd0305e
+   origin/main  edd0305e
+src/persistence/gateAPrimeProvisioning.ts
+   5fc74085     MISSING
+   001c3c80     2cbce83f
+   a9cd18e8     9b15eca3
+   0616ba2d     9b15eca3
+   2d0cc005     fc3b53e2
+   origin/main  fc3b53e2
+tests/g3_gate_a_prime_successor_provisioning.test.ts
+   5fc74085     MISSING
+   001c3c80     f2d0ab37
+   a9cd18e8     0ea47e8f
+   0616ba2d     0ea47e8f
+   2d0cc005     1fe70466
+   origin/main  1fe70466
+designated (act §2.1 per PA package §5.2): portfolio_store.ts 4a005b73; g3_startup_validation.test.ts 9a5fd9e3

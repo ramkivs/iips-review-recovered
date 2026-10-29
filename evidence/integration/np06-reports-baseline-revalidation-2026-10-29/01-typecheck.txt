@@ -1,0 +1,19 @@
+# cmd: npm run typecheck
+# cwd: /tmp/irr-main/frontend
+# started_utc: 2026-10-29T06:02:01Z
+# ---- raw output ----
+
+> @iips/v3-frontend@0.1.0 pretypecheck
+> npm run build:broker-import
+
+
+> @iips/v3-frontend@0.1.0 build:broker-import
+> tsc -p tsconfig.broker-import.json
+
+
+> @iips/v3-frontend@0.1.0 typecheck
+> tsc --noEmit
+
+# ---- end raw output ----
+# exit_code: 0
+# finished_utc: 2026-10-29T06:02:08Z

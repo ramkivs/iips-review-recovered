@@ -1,0 +1,7 @@
+verified (UTC) 2026-10-28T13:22:29Z
+IRR main: 82b3f4a5d31134e40fd3a1a23169a0ca8d638dfc
+IRR session branch: fb7d3088bc7af2ceef3141c017f33f8cbc4c1c28
+IPD main: 1ba0740a32e69284d7c524fd6ac8daf5455038d0
+PR #353: {"headRefOid":"fb7d3088bc7af2ceef3141c017f33f8cbc4c1c28","isDraft":false,"mergedAt":null,"state":"OPEN"}
+IRR open PRs: [{"number":353}]
+IPD open PRs: []

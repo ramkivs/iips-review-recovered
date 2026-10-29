@@ -1,0 +1,669 @@
+{
+  "method": "Arena recomputation from the archive and from git objects; Windows-reported statements are labelled as such.",
+  "manifest_bytes": 4791,
+  "manifest_sha256": "2192AD317FD33DAC20E4C9009FFDB51786E974BFACF6E9180A397D1E48FC86E2",
+  "manifest_sha256_audit_claim": "2192AD317FD33DAC20E4C9009FFDB51786E974BFACF6E9180A397D1E48FC86E2",
+  "manifest_sha256_matches_audit_claim": true,
+  "manifest_entries": 47,
+  "manifest_duplicate_names": 0,
+  "entries_matching_manifest": 47,
+  "per_entry": [
+    {
+      "file": "00-preflight-results-provided-in-chat.txt",
+      "manifest_sha256": "BEE567CB90ECDE6F174AED6E3C0C372783D375CC1EFE19669397F11D6830A0A4",
+      "archive_sha256": "BEE567CB90ECDE6F174AED6E3C0C372783D375CC1EFE19669397F11D6830A0A4",
+      "match": true,
+      "bytes": 1364,
+      "crlf": 1,
+      "bare_lf": 29
+    },
+    {
+      "file": "s2-01-npm-ci.sha256.txt",
+      "manifest_sha256": "60FF9262E5AA168821842267C6A44B163F8F5BAFEBC5652C8A08F0F3F615E6D8",
+      "archive_sha256": "60FF9262E5AA168821842267C6A44B163F8F5BAFEBC5652C8A08F0F3F615E6D8",
+      "match": true,
+      "bytes": 74,
+      "crlf": 1,
+      "bare_lf": 0
+    },
+    {
+      "file": "s2-01-npm-ci.txt",
+      "manifest_sha256": "58724630988C3DDAE0AE1B7B6605B33E0F629422282CAD8047DCD755AC4BB9A8",
+      "archive_sha256": "58724630988C3DDAE0AE1B7B6605B33E0F629422282CAD8047DCD755AC4BB9A8",
+      "match": true,
+      "bytes": 812,
+      "crlf": 22,
+      "bare_lf": 0
+    },
+    {
+      "file": "s2-02-tsc-noemit.sha256.txt",
+      "manifest_sha256": "6E93D17DF6B6E901CD454CEEA5436900919A38FAE178EB799EC3A097DC27A7F5",
+      "archive_sha256": "6E93D17DF6B6E901CD454CEEA5436900919A38FAE178EB799EC3A097DC27A7F5",
+      "match": true,
+      "bytes": 74,
+      "crlf": 1,
+      "bare_lf": 0
+    },
+    {
+      "file": "s2-02-tsc-noemit.txt",
+      "manifest_sha256": "D1062E89354E62F99B892A904227AA3DDBAF398A1CF837E4B8209F1A956DCD2E",
+      "archive_sha256": "D1062E89354E62F99B892A904227AA3DDBAF398A1CF837E4B8209F1A956DCD2E",
+      "match": true,
+      "bytes": 365,
+      "crlf": 7,
+      "bare_lf": 0
+    },
+    {
+      "file": "s2-03-build.sha256.txt",
+      "manifest_sha256": "4F4B9E9CDDCC4CA47B135B11103BD0810E00E8FB96E827BF28E7E05FFE57DB4E",
+      "archive_sha256": "4F4B9E9CDDCC4CA47B135B11103BD0810E00E8FB96E827BF28E7E05FFE57DB4E",
+      "match": true,
+      "bytes": 74,
+      "crlf": 1,
+      "bare_lf": 0
+    },
+    {
+      "file": "s2-03-build.txt",
+      "manifest_sha256": "B169699762823F2067C18622EFD778FEB2DAE28CFBB2668EA734BE9DA346A6BF",
+      "archive_sha256": "B169699762823F2067C18622EFD778FEB2DAE28CFBB2668EA734BE9DA346A6BF",
+      "match": true,
+      "bytes": 1628,
+      "crlf": 35,
+      "bare_lf": 0
+    },
+    {
+      "file": "s2-03-dist-count.txt",
+      "manifest_sha256": "B6237CC1C520261FDCC3C0F9B18235E529F80FBBE3C8E997C00275D3C3BE0D16",
+      "archive_sha256": "B6237CC1C520261FDCC3C0F9B18235E529F80FBBE3C8E997C00275D3C3BE0D16",
+      "match": true,
+      "bytes": 23,
+      "crlf": 1,
+      "bare_lf": 0
+    },
+    {
+      "file": "s2-03-dist-sha256-before.txt",
+      "manifest_sha256": "E077A349D3777403D426A0B0F338C53AC6F0E3942F75A9174A6A9B6E42854CBB",
+      "archive_sha256": "E077A349D3777403D426A0B0F338C53AC6F0E3942F75A9174A6A9B6E42854CBB",
+      "match": true,
+      "bytes": 176456,
+      "crlf": 1140,
+      "bare_lf": 0
+    },
+    {
+      "file": "s2-04-guarded-npm-test.sha256.txt",
+      "manifest_sha256": "52604C60F331B655874EEC0E979F6B7642E1B8FE3346E9C33AFC1A3A65DA8CA4",
+      "archive_sha256": "52604C60F331B655874EEC0E979F6B7642E1B8FE3346E9C33AFC1A3A65DA8CA4",
+      "match": true,
+      "bytes": 74,
+      "crlf": 1,
+      "bare_lf": 0
+    },
+    {
+      "file": "s2-04-guarded-npm-test.txt",
+      "manifest_sha256": "7DD2A1EFC3A3EA9D3EDA2A619E29BD2FDB240D6820C05F3FDC9BB21729B16EDA",
+      "archive_sha256": "7DD2A1EFC3A3EA9D3EDA2A619E29BD2FDB240D6820C05F3FDC9BB21729B16EDA",
+      "match": true,
+      "bytes": 4875125,
+      "crlf": 53553,
+      "bare_lf": 0
+    },
+    {
+      "file": "s2-05-package-consumer-baseline-failure-20261026.txt",
+      "manifest_sha256": "770BECCA1707575B271D8414A699D950DBF8058AF725BE440EA1A0564B4DC9C3",
+      "archive_sha256": "770BECCA1707575B271D8414A699D950DBF8058AF725BE440EA1A0564B4DC9C3",
+      "match": true,
+      "bytes": 1057,
+      "crlf": 25,
+      "bare_lf": 0
+    },
+    {
+      "file": "s2-05-package-consumer.txt",
+      "manifest_sha256": "9F7C64073A849E57D472C9CA30BB7616D04D1951626E90587241D61A470A85B1",
+      "archive_sha256": "9F7C64073A849E57D472C9CA30BB7616D04D1951626E90587241D61A470A85B1",
+      "match": true,
+      "bytes": 2977,
+      "crlf": 92,
+      "bare_lf": 0
+    },
+    {
+      "file": "s2-authoritative-correction-20261026T100850Z.txt",
+      "manifest_sha256": "77F585DF60D931F5AAE990C0B8A3C089EF0DBD69D709A84CF6E07110FFA74B46",
+      "archive_sha256": "77F585DF60D931F5AAE990C0B8A3C089EF0DBD69D709A84CF6E07110FFA74B46",
+      "match": true,
+      "bytes": 2490,
+      "crlf": 42,
+      "bare_lf": 0
+    },
+    {
+      "file": "s2-authoritative-merge-20261026T101205Z.txt",
+      "manifest_sha256": "334460227E63026A1FF18B16768D58F01C6A54814EC6566CA74BB0223004A696",
+      "archive_sha256": "334460227E63026A1FF18B16768D58F01C6A54814EC6566CA74BB0223004A696",
+      "match": true,
+      "bytes": 4532,
+      "crlf": 112,
+      "bare_lf": 0
+    },
+    {
+      "file": "s2-candidate-publish-20261026T100148Z.txt",
+      "manifest_sha256": "35061BC9D19511AEDB227896A6920F829192FB50D170118F0FB7693FE33C95A1",
+      "archive_sha256": "35061BC9D19511AEDB227896A6920F829192FB50D170118F0FB7693FE33C95A1",
+      "match": true,
+      "bytes": 6912,
+      "crlf": 131,
+      "bare_lf": 0
+    },
+    {
+      "file": "s2-candidate-publish-summary-20261026T100148Z.txt",
+      "manifest_sha256": "A07935EA0E0363E9DAB7FD94F10A4405F49D3B740F7378AA8D3F9F98EE6D88DC",
+      "archive_sha256": "A07935EA0E0363E9DAB7FD94F10A4405F49D3B740F7378AA8D3F9F98EE6D88DC",
+      "match": true,
+      "bytes": 562,
+      "crlf": 12,
+      "bare_lf": 0
+    },
+    {
+      "file": "s2-checkout-verification.txt",
+      "manifest_sha256": "3FD31FE6D3186C1DC76C1407656BFC72A1987118F8912687702662F8C7B84B2F",
+      "archive_sha256": "3FD31FE6D3186C1DC76C1407656BFC72A1987118F8912687702662F8C7B84B2F",
+      "match": true,
+      "bytes": 1469,
+      "crlf": 42,
+      "bare_lf": 5
+    },
+    {
+      "file": "s2-dist-sha256-after.txt",
+      "manifest_sha256": "5D90FFF4086E04639E07BFBF6BC67AC531D5871B0E905420423784E3DAA0E003",
+      "archive_sha256": "5D90FFF4086E04639E07BFBF6BC67AC531D5871B0E905420423784E3DAA0E003",
+      "match": true,
+      "bytes": 124313,
+      "crlf": 1148,
+      "bare_lf": 0
+    },
+    {
+      "file": "s2-failure-diagnostic.sha256.txt",
+      "manifest_sha256": "A93A79D5CEC586404B4B94290F27093F3D2DD4C13084BEA9B63A7C18AABD19CD",
+      "archive_sha256": "A93A79D5CEC586404B4B94290F27093F3D2DD4C13084BEA9B63A7C18AABD19CD",
+      "match": true,
+      "bytes": 278,
+      "crlf": 4,
+      "bare_lf": 0
+    },
+    {
+      "file": "s2-failure-diagnostic.txt",
+      "manifest_sha256": "B4542C4E0DDBD4EBDB98909150B7FDB5F42B1C62314AB2CC55663E8DD01936CB",
+      "archive_sha256": "B4542C4E0DDBD4EBDB98909150B7FDB5F42B1C62314AB2CC55663E8DD01936CB",
+      "match": true,
+      "bytes": 2961,
+      "crlf": 77,
+      "bare_lf": 0
+    },
+    {
+      "file": "s2-fix-01-npm-ci.txt",
+      "manifest_sha256": "F266BC6FFDF55A0E20BC33CD93B1A26270B882F2AA146AA179A3D2DCDBC95847",
+      "archive_sha256": "F266BC6FFDF55A0E20BC33CD93B1A26270B882F2AA146AA179A3D2DCDBC95847",
+      "match": true,
+      "bytes": 472,
+      "crlf": 18,
+      "bare_lf": 0
+    },
+    {
+      "file": "s2-fix-02-typecheck.txt",
+      "manifest_sha256": "9399D928C35DD3DDA2E0932FFD0FDC39A6D0180147702E4FF51392A68E9DE4ED",
+      "archive_sha256": "9399D928C35DD3DDA2E0932FFD0FDC39A6D0180147702E4FF51392A68E9DE4ED",
+      "match": true,
+      "bytes": 120,
+      "crlf": 4,
+      "bare_lf": 0
+    },
+    {
+      "file": "s2-fix-03-build.txt",
+      "manifest_sha256": "87A2EACA50F4C9A9C9FE1016D6635006754A7D75F5038214B2676E2F72205ACE",
+      "archive_sha256": "87A2EACA50F4C9A9C9FE1016D6635006754A7D75F5038214B2676E2F72205ACE",
+      "match": true,
+      "bytes": 1291,
+      "crlf": 31,
+      "bare_lf": 0
+    },
+    {
+      "file": "s2-fix-04-focused-package-test.txt",
+      "manifest_sha256": "302D7846FE86159EE51170769CB1331AF3C932C6EFEDD2385F3C9D7DE72B3AB3",
+      "archive_sha256": "302D7846FE86159EE51170769CB1331AF3C932C6EFEDD2385F3C9D7DE72B3AB3",
+      "match": true,
+      "bytes": 8668,
+      "crlf": 244,
+      "bare_lf": 0
+    },
+    {
+      "file": "s2-fix-05-guarded-npm-test.txt",
+      "manifest_sha256": "9D12A1B7272F5D2722FD6AE06EA3087B01F8E1ABBCD669EF0558E281A061591E",
+      "archive_sha256": "9D12A1B7272F5D2722FD6AE06EA3087B01F8E1ABBCD669EF0558E281A061591E",
+      "match": true,
+      "bytes": 5029444,
+      "crlf": 53530,
+      "bare_lf": 0
+    },
+    {
+      "file": "s2-fix-06-package-consumer.txt",
+      "manifest_sha256": "ADE33E72405AA0DE1166479103F8ED48B8BD1763ADF4C83F0513E08B296B6B4C",
+      "archive_sha256": "ADE33E72405AA0DE1166479103F8ED48B8BD1763ADF4C83F0513E08B296B6B4C",
+      "match": true,
+      "bytes": 873,
+      "crlf": 22,
+      "bare_lf": 0
+    },
+    {
+      "file": "s2-fix-dist-inventory-20261026T093342Z.txt",
+      "manifest_sha256": "16F7C6956CC161475E9F79D6E036327233B884E28884AD0595A7A0655FBFD2C6",
+      "archive_sha256": "16F7C6956CC161475E9F79D6E036327233B884E28884AD0595A7A0655FBFD2C6",
+      "match": true,
+      "bytes": 129716,
+      "crlf": 1140,
+      "bare_lf": 0
+    },
+    {
+      "file": "s2-fix-package-consumer-diagnostic.sha256.txt",
+      "manifest_sha256": "435C43BD213D6158E95282E1AB54589AF53A21BE4BFA0B368913F820CE9099A3",
+      "archive_sha256": "435C43BD213D6158E95282E1AB54589AF53A21BE4BFA0B368913F820CE9099A3",
+      "match": true,
+      "bytes": 255,
+      "crlf": 3,
+      "bare_lf": 0
+    },
+    {
+      "file": "s2-fix-package-consumer-diagnostic.txt",
+      "manifest_sha256": "F1928839D106A76751BD5C4ABB663F8F4EF59C6E303CD41AD453CD6CDEA90CD7",
+      "archive_sha256": "F1928839D106A76751BD5C4ABB663F8F4EF59C6E303CD41AD453CD6CDEA90CD7",
+      "match": true,
+      "bytes": 2179,
+      "crlf": 54,
+      "bare_lf": 0
+    },
+    {
+      "file": "s2-fix-validation-20261026T093342Z.txt",
+      "manifest_sha256": "A78928C2A36AC94AACE864C6439346E6686DE49F0F8C8DC2722FBCB1ABAC818F",
+      "archive_sha256": "A78928C2A36AC94AACE864C6439346E6686DE49F0F8C8DC2722FBCB1ABAC818F",
+      "match": true,
+      "bytes": 3343,
+      "crlf": 76,
+      "bare_lf": 0
+    },
+    {
+      "file": "s2-fix-validation-20261026T093342Z.txt.sha256.txt",
+      "manifest_sha256": "D21A67DBF35F1F466ADF1858D0AD17600328B6B702AEB50E073327ED0F0EA5CE",
+      "archive_sha256": "D21A67DBF35F1F466ADF1858D0AD17600328B6B702AEB50E073327ED0F0EA5CE",
+      "match": true,
+      "bytes": 149,
+      "crlf": 2,
+      "bare_lf": 0
+    },
+    {
+      "file": "s2-ipd-pr-body-20261026T100850Z.md",
+      "manifest_sha256": "DC54484A6FA8C87585AF25CE2DB9144EEF122BC440FE2723D3BD1556A88F020F",
+      "archive_sha256": "DC54484A6FA8C87585AF25CE2DB9144EEF122BC440FE2723D3BD1556A88F020F",
+      "match": true,
+      "bytes": 1051,
+      "crlf": 1,
+      "bare_lf": 18
+    },
+    {
+      "file": "s2-node22-npm-launcher-inspection.txt",
+      "manifest_sha256": "2124C13ED36D14CF487FC7BA8E8B2E57D05F5DD40BE485CE997C5A5C271CBCB3",
+      "archive_sha256": "2124C13ED36D14CF487FC7BA8E8B2E57D05F5DD40BE485CE997C5A5C271CBCB3",
+      "match": true,
+      "bytes": 975,
+      "crlf": 33,
+      "bare_lf": 0
+    },
+    {
+      "file": "s2-npm-launch-fix-20261026T095613Z.txt",
+      "manifest_sha256": "BC38B5852381970669E5AD26907C12CF844816EB4E9CCC4B89E313E61DE20B02",
+      "archive_sha256": "BC38B5852381970669E5AD26907C12CF844816EB4E9CCC4B89E313E61DE20B02",
+      "match": true,
+      "bytes": 2273,
+      "crlf": 46,
+      "bare_lf": 0
+    },
+    {
+      "file": "s2-npm-launch-fix-consumer-20261026T095613Z.txt",
+      "manifest_sha256": "9F7C64073A849E57D472C9CA30BB7616D04D1951626E90587241D61A470A85B1",
+      "archive_sha256": "9F7C64073A849E57D472C9CA30BB7616D04D1951626E90587241D61A470A85B1",
+      "match": true,
+      "bytes": 2977,
+      "crlf": 92,
+      "bare_lf": 0
+    },
+    {
+      "file": "s2-npm-launch-fix-suite-20261026T095613Z.txt",
+      "manifest_sha256": "C5DDFFA24393AED2E391EF8A72E8BFF1F8ECD9576C4349E182B288785F1B2941",
+      "archive_sha256": "C5DDFFA24393AED2E391EF8A72E8BFF1F8ECD9576C4349E182B288785F1B2941",
+      "match": true,
+      "bytes": 5029329,
+      "crlf": 53530,
+      "bare_lf": 0
+    },
+    {
+      "file": "s2-npm-launch-fix-summary-20261026T095613Z.txt",
+      "manifest_sha256": "19D0182885770E49E58CE9555ECC2B950B71D51A3852DAB0EB732502FEA04F19",
+      "archive_sha256": "19D0182885770E49E58CE9555ECC2B950B71D51A3852DAB0EB732502FEA04F19",
+      "match": true,
+      "bytes": 3116,
+      "crlf": 64,
+      "bare_lf": 0
+    },
+    {
+      "file": "s2-package-consumer-launch-inspection.sha256.txt",
+      "manifest_sha256": "94555C78BC8C538B413A18FDCD69BD568084752DD437047EC70F317CB367FA78",
+      "archive_sha256": "94555C78BC8C538B413A18FDCD69BD568084752DD437047EC70F317CB367FA78",
+      "match": true,
+      "bytes": 151,
+      "crlf": 2,
+      "bare_lf": 0
+    },
+    {
+      "file": "s2-package-consumer-launch-inspection.txt",
+      "manifest_sha256": "C377C0207AD2DB561D0B04FCACC26738F223C4588DA5486804C7359441E59CEB",
+      "archive_sha256": "C377C0207AD2DB561D0B04FCACC26738F223C4588DA5486804C7359441E59CEB",
+      "match": true,
+      "bytes": 29240,
+      "crlf": 696,
+      "bare_lf": 0
+    },
+    {
+      "file": "s2-post-run-pin.txt",
+      "manifest_sha256": "84E823AE9C9AEB1A6E15A8F693A77A5B7B61CC2DB99738EE95EBA93B5DF9F458",
+      "archive_sha256": "84E823AE9C9AEB1A6E15A8F693A77A5B7B61CC2DB99738EE95EBA93B5DF9F458",
+      "match": true,
+      "bytes": 459,
+      "crlf": 13,
+      "bare_lf": 0
+    },
+    {
+      "file": "s2-tracker-reconciliation-20261026T100434Z.txt",
+      "manifest_sha256": "298F50EBE50F54EC66AEB5A5DE03A70FCD99E9E80227687E285C1B83AB17CF9B",
+      "archive_sha256": "298F50EBE50F54EC66AEB5A5DE03A70FCD99E9E80227687E285C1B83AB17CF9B",
+      "match": true,
+      "bytes": 4357,
+      "crlf": 102,
+      "bare_lf": 0
+    },
+    {
+      "file": "s2-tracker-recovery-20261026T154814Z.txt",
+      "manifest_sha256": "31E8B16AFA39DCD4AC0D7F3841B6F2279A3273DDE294CE8C4D3AE5A82602BFA2",
+      "archive_sha256": "31E8B16AFA39DCD4AC0D7F3841B6F2279A3273DDE294CE8C4D3AE5A82602BFA2",
+      "match": true,
+      "bytes": 1418,
+      "crlf": 23,
+      "bare_lf": 0
+    },
+    {
+      "file": "s2-windows-esm-fix-patch-record.sha256.txt",
+      "manifest_sha256": "593D620D94E82E473A4CBBDF51141C9FFA49CE46B0D2E870E7AA363596F86BBB",
+      "archive_sha256": "593D620D94E82E473A4CBBDF51141C9FFA49CE46B0D2E870E7AA363596F86BBB",
+      "match": true,
+      "bytes": 145,
+      "crlf": 2,
+      "bare_lf": 0
+    },
+    {
+      "file": "s2-windows-esm-fix-patch-record.txt",
+      "manifest_sha256": "40C0E6154A0CFBDA629F88898A3E63C0FFD57318CAB080B1703BB85F06BDAB7B",
+      "archive_sha256": "40C0E6154A0CFBDA629F88898A3E63C0FFD57318CAB080B1703BB85F06BDAB7B",
+      "match": true,
+      "bytes": 2048,
+      "crlf": 41,
+      "bare_lf": 0
+    },
+    {
+      "file": "s2-windows-esm-investigation.sha256.txt",
+      "manifest_sha256": "77D8B44F1EB6F44C1281E6B1D273F76479C57567FDC4F1247B16851DA9B0CC49",
+      "archive_sha256": "77D8B44F1EB6F44C1281E6B1D273F76479C57567FDC4F1247B16851DA9B0CC49",
+      "match": true,
+      "bytes": 323,
+      "crlf": 7,
+      "bare_lf": 0
+    },
+    {
+      "file": "s2-windows-esm-investigation.txt",
+      "manifest_sha256": "F75C0D449C8801C1938874D8FD59A731096841E05909195774107493B58BE66A",
+      "archive_sha256": "F75C0D449C8801C1938874D8FD59A731096841E05909195774107493B58BE66A",
+      "match": true,
+      "bytes": 8065,
+      "crlf": 114,
+      "bare_lf": 0
+    }
+  ],
+  "archive_files_not_in_manifest": [],
+  "archive_files_not_in_manifest_expected": [
+    "SHA256SUMS.txt (self, excluded by generation rule)",
+    "recovery-audit.txt (post-generation audit)",
+    "existing-report-candidates/* (verification reports, excluded by rule)"
+  ],
+  "report_001_files_included": [
+    "48"
+  ],
+  "report_001_result": [
+    "GENERATED; independent verification: FAIL\r"
+  ],
+  "report_002_manifest_entries": [
+    "1148"
+  ],
+  "report_002_result": [
+    "FAIL\r"
+  ],
+  "dist_inventory_lines": 1148,
+  "dist_inventory_metadata_lines": 8,
+  "dist_inventory_hash_lines": 1140,
+  "report_002_missing_file_findings": 1140,
+  "report_002_malformed_findings": 8,
+  "missing_findings_equal_inventory_paths": true,
+  "required_s2_names_in_missing_findings": [],
+  "report_002_is_mis_invocation_consistent": true,
+  "committed_copy_relation_counts": {
+    "committed == original with CRLF->LF": 46,
+    "identical": 1
+  },
+  "committed_copy_relation": [
+    {
+      "file": "00-preflight-results-provided-in-chat.txt",
+      "relation": "committed == original with CRLF->LF"
+    },
+    {
+      "file": "s2-01-npm-ci.sha256.txt",
+      "relation": "committed == original with CRLF->LF"
+    },
+    {
+      "file": "s2-01-npm-ci.txt",
+      "relation": "committed == original with CRLF->LF"
+    },
+    {
+      "file": "s2-02-tsc-noemit.sha256.txt",
+      "relation": "committed == original with CRLF->LF"
+    },
+    {
+      "file": "s2-02-tsc-noemit.txt",
+      "relation": "committed == original with CRLF->LF"
+    },
+    {
+      "file": "s2-03-build.sha256.txt",
+      "relation": "committed == original with CRLF->LF"
+    },
+    {
+      "file": "s2-03-build.txt",
+      "relation": "committed == original with CRLF->LF"
+    },
+    {
+      "file": "s2-03-dist-count.txt",
+      "relation": "committed == original with CRLF->LF"
+    },
+    {
+      "file": "s2-03-dist-sha256-before.txt",
+      "relation": "committed == original with CRLF->LF"
+    },
+    {
+      "file": "s2-04-guarded-npm-test.sha256.txt",
+      "relation": "committed == original with CRLF->LF"
+    },
+    {
+      "file": "s2-04-guarded-npm-test.txt",
+      "relation": "committed == original with CRLF->LF"
+    },
+    {
+      "file": "s2-05-package-consumer-baseline-failure-20261026.txt",
+      "relation": "committed == original with CRLF->LF"
+    },
+    {
+      "file": "s2-05-package-consumer.txt",
+      "relation": "committed == original with CRLF->LF"
+    },
+    {
+      "file": "s2-authoritative-correction-20261026T100850Z.txt",
+      "relation": "committed == original with CRLF->LF"
+    },
+    {
+      "file": "s2-authoritative-merge-20261026T101205Z.txt",
+      "relation": "committed == original with CRLF->LF"
+    },
+    {
+      "file": "s2-candidate-publish-20261026T100148Z.txt",
+      "relation": "committed == original with CRLF->LF"
+    },
+    {
+      "file": "s2-candidate-publish-summary-20261026T100148Z.txt",
+      "relation": "committed == original with CRLF->LF"
+    },
+    {
+      "file": "s2-checkout-verification.txt",
+      "relation": "committed == original with CRLF->LF"
+    },
+    {
+      "file": "s2-dist-sha256-after.txt",
+      "relation": "committed == original with CRLF->LF"
+    },
+    {
+      "file": "s2-failure-diagnostic.sha256.txt",
+      "relation": "committed == original with CRLF->LF"
+    },
+    {
+      "file": "s2-failure-diagnostic.txt",
+      "relation": "committed == original with CRLF->LF"
+    },
+    {
+      "file": "s2-fix-01-npm-ci.txt",
+      "relation": "committed == original with CRLF->LF"
+    },
+    {
+      "file": "s2-fix-02-typecheck.txt",
+      "relation": "committed == original with CRLF->LF"
+    },
+    {
+      "file": "s2-fix-03-build.txt",
+      "relation": "committed == original with CRLF->LF"
+    },
+    {
+      "file": "s2-fix-04-focused-package-test.txt",
+      "relation": "committed == original with CRLF->LF"
+    },
+    {
+      "file": "s2-fix-05-guarded-npm-test.txt",
+      "relation": "committed == original with CRLF->LF"
+    },
+    {
+      "file": "s2-fix-06-package-consumer.txt",
+      "relation": "committed == original with CRLF->LF"
+    },
+    {
+      "file": "s2-fix-dist-inventory-20261026T093342Z.txt",
+      "relation": "committed == original with CRLF->LF"
+    },
+    {
+      "file": "s2-fix-package-consumer-diagnostic.sha256.txt",
+      "relation": "committed == original with CRLF->LF"
+    },
+    {
+      "file": "s2-fix-package-consumer-diagnostic.txt",
+      "relation": "committed == original with CRLF->LF"
+    },
+    {
+      "file": "s2-fix-validation-20261026T093342Z.txt",
+      "relation": "committed == original with CRLF->LF"
+    },
+    {
+      "file": "s2-fix-validation-20261026T093342Z.txt.sha256.txt",
+      "relation": "committed == original with CRLF->LF"
+    },
+    {
+      "file": "s2-ipd-pr-body-20261026T100850Z.md",
+      "relation": "committed == original with CRLF->LF"
+    },
+    {
+      "file": "s2-node22-npm-launcher-inspection.txt",
+      "relation": "committed == original with CRLF->LF"
+    },
+    {
+      "file": "s2-npm-launch-fix-20261026T095613Z.txt",
+      "relation": "committed == original with CRLF->LF"
+    },
+    {
+      "file": "s2-npm-launch-fix-consumer-20261026T095613Z.txt",
+      "relation": "committed == original with CRLF->LF"
+    },
+    {
+      "file": "s2-npm-launch-fix-suite-20261026T095613Z.txt",
+      "relation": "committed == original with CRLF->LF"
+    },
+    {
+      "file": "s2-npm-launch-fix-summary-20261026T095613Z.txt",
+      "relation": "committed == original with CRLF->LF"
+    },
+    {
+      "file": "s2-package-consumer-launch-inspection.sha256.txt",
+      "relation": "committed == original with CRLF->LF"
+    },
+    {
+      "file": "s2-package-consumer-launch-inspection.txt",
+      "relation": "committed == original with CRLF->LF"
+    },
+    {
+      "file": "s2-post-run-pin.txt",
+      "relation": "committed == original with CRLF->LF"
+    },
+    {
+      "file": "s2-tracker-reconciliation-20261026T100434Z.txt",
+      "relation": "identical"
+    },
+    {
+      "file": "s2-tracker-recovery-20261026T154814Z.txt",
+      "relation": "committed == original with CRLF->LF"
+    },
+    {
+      "file": "s2-windows-esm-fix-patch-record.sha256.txt",
+      "relation": "committed == original with CRLF->LF"
+    },
+    {
+      "file": "s2-windows-esm-fix-patch-record.txt",
+      "relation": "committed == original with CRLF->LF"
+    },
+    {
+      "file": "s2-windows-esm-investigation.sha256.txt",
+      "relation": "committed == original with CRLF->LF"
+    },
+    {
+      "file": "s2-windows-esm-investigation.txt",
+      "relation": "committed == original with CRLF->LF"
+    }
+  ],
+  "report_001_matches_committed_normalised": true,
+  "report_002_matches_committed_normalised": true,
+  "zip_local_to_utc_assumption": "UTC+05:30 (IST); cross-checked below",
+  "cross_check_recovery_audit_utc_header": "2026-10-28T09:09:01Z",
+  "cross_check_recovery_audit_zip_utc": "2026-10-28 09:09:00",
+  "cross_check_001_internal_utc": "2026-10-26T12:47:40.4903210Z",
+  "cross_check_001_zip_utc": "2026-10-26 12:47:40",
+  "cross_check_002_internal_utc": "2026-10-26T12:47:40.3711638Z",
+  "cross_check_002_zip_utc": "2026-10-26 12:47:40",
+  "manifest_zip_utc": "2026-10-26 12:51:02",
+  "latest_listed_file_zip_utc": "2026-10-26 12:35:44 s2-05-package-consumer-baseline-failure-20261026.txt",
+  "manifest_written_after_generation_log": true,
+  "interpretation_limit": "mtime evidence shows the manifest file was last written after the generation log; it does not show why or by which process.",
+  "windows_session_transcript_in_archive": false
+}
