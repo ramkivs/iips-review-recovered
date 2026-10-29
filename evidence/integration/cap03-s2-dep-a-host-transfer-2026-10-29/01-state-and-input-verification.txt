@@ -1,0 +1,23 @@
+CAP-03 S2-DEP-A host-transfer preparation - state and input verification
+Executed 2026-10-29T05:5xZ UTC from IRR branch arena/62d788a6-iips-review-recovered at base main. Read-only against origin; zero host operations (none possible or attempted); zero IPD access; evidence files untouched.
+
+[1] Remote state at read time
+    main = 8292fe1c8f9bbf1982fc6e49fcbc80d9d641fd6c (unchanged from prior pass; tip commit unsigned-accepted: signing not enforced)
+    docs/g3-d0-registration-2026-10-18 = 2cc5bc4302436f8ae6d84a9e657b8c1ed06b5478 (evidence locus unchanged)
+    deposit-precondition scan: NO operator deposit branch exists on origin (ls-remote sweep; only historical phase14.1-recovery-deposit from an unrelated workstream)
+    open PRs: #353 only (head 5a4a3976d5..., mergeability UNKNOWN at read, reconciled/CLEAN as of prior pass, CI 40769270202 pass there)
+
+[2] Governing inputs verified on the authoritative ref (git show origin/main:...; recomputed SHA-256 == published folder SHA256SUMS.txt lines)
+    02-deposit-manifest-expected.txt   3,289 B  sha256 9c9319fa3d7eaa822834c2f500e04dfec2b18d8157724843126a749b2bec91ab  MATCH
+    03-host-transfer-minimal-operation.txt 3,152 B sha256 a1c94ba6a2b96e08a1dc9e7e1d2c73be92c6c38f09d74aa4f00c5d8e445e0ede MATCH
+    (folder hash record itself: main@8292fe1 evidence/integration/cap03-s2-dep-a-2026-10-29/SHA256SUMS.txt)
+
+[3] Decision/status confirmation
+    tracker 16.183 present (S2-ACC-A1 recorded; deposit AUTHORIZED - OUTSTANDING); 16.185 present (PR #353 reconciliation; merge withheld pending S2-DEP-A + explicit authority). Deposit obligation UNDISCHARGED as of this pass; no byte-verbatim content was or could be produced from 2cc5bc4 (13/16 artifacts fail as-stored; mandate forbids substitution).
+
+[4] Deliverable prepared this pass
+    operator script: docs/integration/IIPS_v3.0_CAP03_S2_DEP_A_HOST_TRANSFER_2026-10-29.ps1
+    git blob e9b279acdd0621ed589fafa794cf14c1e38cdd51 ; sha256 dacd944414c1d7cc3472504b5fbbc8e051ae94f77853e0bee3d26cf839423591 ; 16207 bytes ; 244 lines ; ASCII-only (contract-test precedent)
+    constraints honored: outer try/catch; no else/elseif/finally/exit/break (scanned 0); ordered prereqs; STOP-BEFORE-COMMIT staged-byte gate; transcript digest computed not invented; source folder read-only (never written); sibling/inprogress/quarantine history preserved and logged; branch from pinned main 8292fe1; staged set limited to 19 evidence paths; durable log + PASS/BLOCKED lines; terminal kept open via Read-Host; script NOT executed by the agent (no host exists in Arena) - it is a prepared operator instrument, nothing more.
+
+[5] Deposit remains OPEN. Unblocking = operator executes the script on DESKTOP-NO0NHTP. On PASS it pushes cap03-s2-deposit-host-originals-<stamp>; the agent side then executes procedure step 6 (independent blob-vs-host verification, dedicated deposit PR -> CI -> merge -> per-blob read-back -> tracker record) and only then S2-DEP-A may be marked complete. On BLOCKED: preserve log + work dir; nothing pushed; source untouched; report to PA.
