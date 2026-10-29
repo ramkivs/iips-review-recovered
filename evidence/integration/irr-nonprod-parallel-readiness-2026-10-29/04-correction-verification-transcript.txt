@@ -1,0 +1,91 @@
+CAP-03 / DR-2 readiness-attribution correction — verification transcript (2026-10-29, sandbox)
+Repository: ramkivs/iips-review-recovered (IRR). IPD was read-only in this pass: every IPD access below is a GET.
+Purpose: prove the IPD-provider half of the DR-2 / DQ-1 Option A read envelope is CLOSED, and record the exact IRR correction.
+
+== 1. live baselines ==
+$ gh api repos/ramkivs/iips-review-recovered/branches/main --jq '{sha:.commit.sha,tree:.commit.commit.tree.sha}'
+{"sha":"e65e59e4f9ff0a21f119277f3904f1a08f517e28","tree":"4030b9d4578f653077f5a1f3a8dd3dd42eba935f"}
+$ gh api repos/ramkivs/iips-production-market-data/branches/main --jq '{sha:.commit.sha,tree:.commit.commit.tree.sha}'
+{"sha":"188a4ff943175fe6338485706cca12da3b0735ff","tree":"79bc8e507735a37a128a28737269300164ad7a58"}
+
+== 2. IPD PR #89 — the provider-half implementation ==
+$ gh api repos/ramkivs/iips-production-market-data/pulls/89 --jq '{number,title,state,merged_at,merge_commit_sha,head:.head.sha,base:.base.ref}'
+{"base":"main","head":"bc144b95649aec88c3bfd0fc2a9c68e828d4839a","merge_commit_sha":"79d06e3c5da60da2a234b7ac18c35df848bf9d11","merged_at":"2026-10-25T13:03:28Z","number":89,"state":"closed","title":"CAP-03: implement DR-2 Option A IPD provider read envelope (7 values + isSaved lifecycle, fail-closed)"}
+$ gh api .../compare/79d06e3c5da60da2a234b7ac18c35df848bf9d11...main --jq '{status,ahead_by,behind_by}'
+{"ahead_by":44,"behind_by":0,"status":"ahead"}
+
+== 3. provider/test blobs at IPD main (must equal the PR #89 merge identities) ==
+$ gh api .../contents/src/persistence/portfolio_store.ts --jq '{sha,size}'
+{"sha":"540d49f2deb2c8d600b5b866675d145cf76a1e46","size":34084}
+$ gh api .../contents/tests/q1_ipc_read_contract_conformance.test.ts --jq '{sha,size}'
+{"sha":"eddedd56449d6d0ac27dd394bd2a7262d0cb0c24","size":61324}
+
+== 4. published evidence record (IPD PR #110) — evidence-only change set ==
+$ gh pr view 110 --repo ramkivs/iips-production-market-data --json number,title,state,mergedAt,mergeCommit,changedFiles
+{"changedFiles":2,"mergeCommit":{"oid":"188a4ff943175fe6338485706cca12da3b0735ff"},"mergedAt":"2026-10-29T12:25:21Z","number":110,"state":"MERGED","title":"CAP-03 — DR-2 IPD provider envelope: closure independently verified; stale IRR blocker attribution corrected (no code change)"}
+$ gh api .../pulls/110/files --jq '.[] | {filename,additions,deletions,status}'
+{"additions":88,"deletions":0,"filename":"evidence/cross-repository/IIPS_V3_CAP02_IPD_EXECUTION_TRACKER_2026-10-23.md","status":"modified"}
+{"additions":187,"deletions":0,"filename":"evidence/cross-repository/IIPS_V3_CAP03_DR2_IPD_PROVIDER_ENVELOPE_VERIFICATION_2026-10-29.md","status":"added"}
+$ gh api .../contents/evidence/cross-repository/IIPS_V3_CAP03_DR2_IPD_PROVIDER_ENVELOPE_VERIFICATION_2026-10-29.md --jq '{sha,size}'
+{"sha":"aac8ffa17e4c403c0698cec163aa57b18a03ab27","size":16149}
+
+== 5. the IRR adapter bytes that record examined are the bytes on IRR main ==
+$ git rev-parse HEAD:frontend/server/user-portfolio/ipcPortAdapter.ts   # record cites 1e20e98023f20f80ed61d8d32d070fdde677d3c7
+1e20e98023f20f80ed61d8d32d070fdde677d3c7
+$ git rev-parse HEAD:frontend/server/user-portfolio/ipcPortAdapterIntegration.test.ts   # record cites a688b6011be66c48918f7992ea197ff8308ba328
+a688b6011be66c48918f7992ea197ff8308ba328
+
+== 6. the stale attribution and its location ==
+$ git rev-parse HEAD:evidence/integration/irr-nonprod-parallel-readiness-2026-10-29/01-readiness-verification-record.txt   # published (pre-correction) blob
+0505b7ee125d96ca627328854a2b0b2fe8a8ea67
+$ grep -rn 'IPD-provider half of the envelope closure' --include='*.md' --include='*.txt' . | grep -v node_modules | cut -c1-150
+./evidence/integration/irr-nonprod-parallel-readiness-2026-10-29/01-readiness-verification-record.txt:13:GENUINE REMAINING BLOCKERS for the read path 
+./evidence/integration/irr-nonprod-parallel-readiness-2026-10-29/03-dr2-ipd-provider-closure-correction.md:18:> **(1) IPD-provider half of the envelop
+  (01: the preserved original inside the dated correction marker; 03: the verbatim quotation in the correction record. No other IRR file carries this attribution.)
+
+== 7. tracker DR-2 rows already record IPD PR #89 as merged — no tracker correction required for accuracy ==
+11:| Current CAP-03 DR-2 publication status (`2026-10-25`; §§16.117–16.118) | IPD Option A provider/test is merged at PR #89; IRR Option A consumer is merged by PR #265 as `e590ca40d950052e32b2813
+10198:IPD PR #89 had already published the provider implementation/test at IPD `main@8eec74ae27cda09f3c368b9c299895eae41554db`; current source/test blobs `540d49f2deb2c8d600b5b866675d145cf76a1e46` and
+
+== 8. corrected text as it now reads ==
+5:IMPLEMENTATION FINDINGS (scope items 1, 2, 4): the portfolio HTTP read path, the F-3 owner-context resolution stack and the IPC port adapter are fully implemented and unit-tested on main; the C8 remediation is applied exactly as scoped (loopback bind, no wildcard CORS on owner-scoped routes, Vite loopback); the IRR half of the DR-2/DQ-1 Option A envelope mapping is applied and every pre-closure 
+13:GENUINE REMAINING BLOCKERS for the read path (exact owners): (1) [CORRECTED 2026-10-29 — the IPD-provider half is CLOSED, not outstanding. Original text preserved verbatim: "IPD-provider half of the envelope closure (IPD locus; then the recorded refusal paths in the new test flip only by a future authorized act)". The IPD-provider half was implemented, tested, merged and remote-verified by IP
+
+== 9. change scope of this corrective pass ==
+$ git status --porcelain
+ M evidence/integration/irr-nonprod-parallel-readiness-2026-10-29/01-readiness-verification-record.txt
+ M evidence/integration/irr-nonprod-parallel-readiness-2026-10-29/SHA256SUMS.txt
+?? evidence/integration/irr-nonprod-parallel-readiness-2026-10-29/03-dr2-ipd-provider-closure-correction.md
+?? evidence/integration/irr-nonprod-parallel-readiness-2026-10-29/04-correction-verification-transcript.txt
+$ git diff --numstat
+16	2	evidence/integration/irr-nonprod-parallel-readiness-2026-10-29/01-readiness-verification-record.txt
+5	1	evidence/integration/irr-nonprod-parallel-readiness-2026-10-29/SHA256SUMS.txt
+
+== 10. no source, test, configuration or dependency file in the change set ==
+$ (git status --porcelain | awk '{print $2}' | grep -E '\.(ts|tsx|js|mjs|cjs|json|yml|yaml|lock)$' || echo NONE)
+NONE
+
+== 11. checksum manifest (04 is self-excluded; it carries this check's own output) ==
+$ sha256sum -c SHA256SUMS.txt   (run in the evidence folder)
+01-readiness-verification-record.txt: OK
+02-verification-transcript.txt: OK
+03-dr2-ipd-provider-closure-correction.md: OK
+
+== 12. encoding and line endings ==
+$ LC_ALL=C grep -c $'\r' 01-readiness-verification-record.txt 03-dr2-ipd-provider-closure-correction.md
+01-readiness-verification-record.txt:0
+03-dr2-ipd-provider-closure-correction.md:0
+(0 = LF only, no CR bytes)
+$ wc -c 01-readiness-verification-record.txt 03-dr2-ipd-provider-closure-correction.md
+10938 01-readiness-verification-record.txt
+11877 03-dr2-ipd-provider-closure-correction.md
+22815 total
+
+== 13. governance state preserved (nothing advanced by this pass) ==
+Gate A'/P-1: NOT EXECUTED / UNSPENT / NOT AUTHORIZED. Gate 5 (CV-52): NOT INITIATED / NOT ADMITTED.
+DR-4r/DQ-3: refused by decision. DQ-4 freeze: none. H-12: NOT ADOPTED. Gate 4: AUTHORIZED - NOT STARTED; QE 0/11.
+WRITE_NOT_AUTHORIZED and SESSION_ONLY/durable:false unchanged. No durable write path created, widened or exercised.
+No IPD write, push, branch, PR, merge or test run was issued in this pass; the completed IPD implementation and tests were NOT redone.
+
+== 14. remote publication receipt ==
+IRR PR number / merge commit / CI run ids and post-merge blob read-back are recorded on the pull-request page (not self-embedded here).
