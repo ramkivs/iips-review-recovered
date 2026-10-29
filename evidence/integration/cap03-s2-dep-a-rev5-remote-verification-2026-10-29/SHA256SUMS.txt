@@ -1,0 +1,2 @@
+500d75e34758e28044b8ebda28916a87cc75aa8007a8d91f2b6c8c57fd70bcb8  01-rev5-residual-defects-and-fix.txt
+b2def5d6f52ff38834b07dc322d9a8199eebf99921c35c26c99f2622f7853140  02-operator-bootstrap-and-handoff.txt
