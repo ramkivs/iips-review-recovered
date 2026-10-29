@@ -5,6 +5,15 @@
 **Authority boundary:** this record designates identities for the PA sequence. It does not write to IPD, does not execute S2, H-12, P-1, host work, or merge.
 **Standing status (unchanged):** P-1-C NOT ESTABLISHED. P-1-D DESIGNATED, NOT VERIFIED FOR THE ATTEMPT. P-1 NOT EXECUTED / UNSPENT / NOT AUTHORIZED.
 
+> **Verification annotation (2026-10-29, `CV-CORR-178`, §16.198). Original text above is preserved verbatim; this annotation does not restate a ruling.**
+> 1. **The basis cited above is not supported by the rulings record.** `docs/integration/IIPS_v3.0_CAP03_PA_RULINGS_RECORD_PASS2_2026-10-28.md` (`b9e8d4a5`, 14:05Z; carried unchanged at `caca0213` and on `main`) lists G4-PIN, B-Q1 and A-Q5 as not decided (§5), A-Q4 as "Not ruled in this pass (remain open)" and A-Q6 as open (§1 line 20). It records A-O3 only as "recommended". It contains no ruling text for G4P-1, B-1 or A-Q4 = YES.
+> 2. **The recommendation file marks each item as not adopted.** `evidence/integration/cap03-ruling-sitting-packet-2026-10-28/06-recommendations.tsv` (commit `d895e54`, 2026-10-28 13:47Z) carries `RECOMMENDATION ONLY - NOT ADOPTED; Table 1 status unchanged` on the rows A-Q4, A-Q5, A-Q6, B-Q1 and G4-PIN. The register `01-sitting-decision-register.tsv` shows those items `AWAIT-PA` (G4-PIN: "unresolved (trigger met)").
+> 3. **Downstream records cite this record as their ruling source.** IPD PR #107 (`0edadb2d`, merged 2026-10-28T15:30:43Z) lists "`A-Q4` `521d5482…` authorizes the two PR #96 paths · `A-Q5` mechanism `A-O3`" among its applied rulings. It locates them at IRR PR #353 head `caca0213…`, where the rulings record says A-Q4 is not ruled and A-O3 is recommended. The IRR A-Q5 result record and S1 handoff also cite this record (see their dated pointers).
+> 4. **Status.** The status "Ruled; not yet effective for reliance" (Designation B, line 49) and the other "Ruled" entries are **not verified** by any ruling text in the repository. Whether the PA gave these rulings in the sitting response is a **reserved PA confirmation**, not something this record can establish. No rule, gate, pin or P-1 status is changed by this annotation.
+> 5. **Two P-1 coordinates are recorded and not reconciled in the repository.** `521d5482` (PA-rendered disposition, 2026-10-26) §5 designates `001c3c80618f2ee1d40e9a90912237e1a06e7b58` as the coordinate "at which P-1 of record would be executed". Tracker §16.160 (`CV-CORR-140`, `CHG-2026-10-28-03`) records the PA adoption of DA-A1, limited, naming the §16.143 coordinate `001c3c80` as the act-designated pin, and that the P-1 authorization act must name the execution commit. This Designation B names `a891802e` as "the P-1 coordinate". The rulings record §6 line 86 (ADP-D1) records as "Adopted" that "the P-1 execution commit is the designated B-1 commit `a891802e`". The two adopted positions cannot both govern as written. Which commit the P-1 authorization act must name is a **reserved PA item**; no P-1 status is changed here.
+> 
+
+
 ---
 
 ## 1. Designation A — Gate 4 QE/H-12 content pin (route (c) prerequisite)

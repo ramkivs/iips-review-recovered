@@ -5,6 +5,8 @@
 > **P-1-C NOT ESTABLISHED. P-1-D DESIGNATED, NOT VERIFIED FOR THE ATTEMPT. P-1 NOT EXECUTED / UNSPENT / NOT AUTHORIZED.**
 
 **Repository boundary.** IRR writes only to `ramkivs/iips-review-recovered`. IPD (`ramkivs/iips-production-market-data`) was read only in this pass.
+> **Dated pointer (2026-10-29, `CV-CORR-178`, §16.198; original text preserved).** The "Governing record" and "Governing records" lines below (lines 74 and 85) cite the designation record §1 (G4P-1) and the rulings record Q-S2-2. The G4P-1 designation is **not verified** by the rulings record (which lists G4-PIN as not decided, §5), and the `06-recommendations.tsv` row for G4-PIN is marked `RECOMMENDATION ONLY - NOT ADOPTED`. Treat G4P-1 as a PA-reserved confirmation item, not a governing ruling. The S1 pointer itself (A-GAP1: act §6 row S1 governs) is recorded in the rulings record §1 and is unaffected.
+
 
 ---
 
