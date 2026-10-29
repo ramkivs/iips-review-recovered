@@ -1,10 +1,12 @@
 # CAP-03 — Consolidated PA Decision Package (single sitting)
 
-> **STATUS: PROPOSED — NOT ADOPTED — NOT EFFECTIVE.** This is the single decision package for the CAP-03 sitting. Every "recommendation" below is an IRR recommendation for PA consideration. It is not a decision. Proposed wording becomes effective only when the PA adopts it in a dated act recorded in the authoritative record. Preparing this package authorizes nothing: no P-1, no capture, no A6 run, no host action, no QE, no Gate 4 execution, no Gate 5 admission, no IPD write, no durable write, no gate, pin, acceptance, qualification, admission, authorization or capability status change.
+> **STATUS: PROPOSED — NOT ADOPTED — NOT EFFECTIVE.** This is the single decision package for the CAP-03 sitting. Every "recommendation" below is an IRR recommendation for PA consideration. It is not a decision. Proposed wording becomes effective only when the PA adopts it in a dated act recorded in the authoritative record. Preparing this package authorizes nothing: no P-1, no capture, no A6 run, no host action, no QE, no Gate 4 execution, no Gate 5 admission, no IPD write, no durable write, no gate, pin, acceptance, qualification, admission, authorization or capability status change. **Three items are excepted from that status as of 2026-10-29 (pass 5): PA-08a, PA-08b and PA-08c are ADOPTED and recorded in §3; every other item remains PROPOSED — NOT ADOPTED (tracker §16.204, `CV-CORR-184`).**
 >
 > **PA WAIVER RECORDED — PA-19 (2026-10-29; authority: Ramki, PA and sole user; scope: IIPS v3.0 CAP-03, non-production, single-user).** Items **H-1 through H-9** of §5 are **PA-WAIVED — NOT A BLOCKER** as governance, documentary and workflow blockers. PA-19 is an affirmative PA ruling and is effective on its recording in §3 and in tracker §16.202. It does not decide PA-01 to PA-18, which remain PROPOSED — NOT ADOPTED. It does not establish any fact that was not established before. Surviving technical prerequisites are limited to T-1 to T-4 in §5.2 (T-4 added on 2026-10-29, pass 4). Pass-4 dispositions of PA-01 to PA-18 are recorded under each item in §3; none is a PA act.
 >
 > Tracker pointers: §16.200 (`CV-CORR-180`, PR #374, merge `d7352ed`), §16.201 (`CV-CORR-181`, PR #375, merge `f980f10`) and §16.202 (`CV-CORR-182`, PA-19, this revision). This file replaces the 2026-10-29 first draft in place; the first draft's decision list was incomplete and is superseded here.
+>
+> **PA-08a / PA-08b / PA-08c ADOPTED — 2026-10-29 (pass 5; authority: Ramki, PA and sole user; scope: IIPS v3.0 CAP-03, non-production, single-user).** Three linked decisions are adopted and recorded in §3 under PA-08. **PA-08a = B-1:** the P-1 execution coordinate is `a891802e2691bd9c65a67d6abff20d8ce0c26d7d` (tree `76f083d7058e170d8212455c03bad1033136ee68`). **PA-08b = (ii) distinct coordinate roles:** the DA-A1 step-0 coordinate `001c3c80618f2ee1d40e9a90912237e1a06e7b58` (tree `399fa44a5f1953c0f61b452420fefb5985426ef1`) is preserved and is **not** moved to the P-1 execution coordinate. **PA-08c = (a) P-1 only:** "final execution commit" governs the P-1 chain only; the Gate 4 §8 coordinate remains a separate PA-09 matter. These are decision acts. They do not designate a Gate 4 coordinate, adopt H-12, authorize P-1, start Gate 4 execution, establish P-1-C or P-1-D, or admit Gate 5. Recorded in tracker §16.204 (`CV-CORR-184`, `CHG-2026-10-29-26`), which is **prepared and unpublished** pending reconciliation with the concurrent CAP-03 pass; the authoritative record follows on merge.
 
 **Scope.** CAP-03 PA decisions and the external evidence they depend on. IRR documentation only. Excluded and not addressed: the IPD PR #107 sourcing defect; IPD-owned changes (listed in §6 only as non-PA); the portfolio HTTP read path, IPC and durable-store work, UI and macro E2E. Non-production, single-user scope is unchanged.
 
@@ -198,9 +200,19 @@ Each entry: question; evidence; conflicting statements; choices and consequences
 
 Three separate decisions, because they are different authority acts.
 
+**Pass-5 record status (2026-10-29).** All three are decided: **PA-08a = B-1**, **PA-08b = (ii)**, **PA-08c = (a)**. This text is their **prepared record** — not published, not authoritative until merged (tracker §16.204, `CV-CORR-184`). The pass-4 lines below are preserved verbatim as the record of that pass and are superseded as to status only.
+
 **PA-08a — Which commit is the P-1 execution commit of record?**
 
 **Pass-4 disposition: RESERVED PA DESIGNATION — technical finding recorded; conflict not resolved by IRR.** Verified on IPD source: `a891802e` (tree `76f083d7`) carries the receipt fields `executingCommit` / `executingTree` in `src/persistence/gateAPrimeProvisioning.ts` (blob `5f49936b`; lines 103–104, 123–124, 269–271). `001c3c80` (tree `399fa44a`) does not (blob `2cbce83f`; zero matches for `executingCommit`). The adopted receipt rule (PA-5 §5.1; DA-A1) requires each receipt to record the executing HEAD and tree, so `001c3c80` cannot meet that rule as an execution commit without a waiver. The conflict between ADP-D1 (rulings §6: `a891802e`) and DA-A1 step 0 (`001c3c80`) stays a reserved PA act (designation record annotation item 5). Formal §4.2 requires a separate PA designation act naming the commit, tree and blobs; it has not been given.
+
+**Pass-5 PA ACT — ADOPTED (2026-10-29; `CV-CORR-184`; tracker §16.204): PA-08a = B-1.** The P-1 execution coordinate of record is `a891802e2691bd9c65a67d6abff20d8ce0c26d7d` (tree `76f083d7058e170d8212455c03bad1033136ee68`), purpose **P-1 execution coordinate**. `ADP-D1` (rulings §6, adopted) is **confirmed, not superseded**.
+
+- **Authority.** The PA (Ramki; PA and sole user), on the standing direction to record the three linked PA-08 decisions. Scope: IIPS v3.0 CAP-03, non-production, single user. The adopted text is the wording recorded under **Adopted** below.
+- **Identity (verified 2026-10-29 against the live IPD remote; no host evidence and no repeat run).** `a891802e2691bd9c65a67d6abff20d8ce0c26d7d`, tree `76f083d7058e170d8212455c03bad1033136ee68`, committer `2026-10-28T05:48:27Z`, subject "Merge pull request #100"; ancestor of IPD `main`. Compared with `001c3c80618f2ee1d40e9a90912237e1a06e7b58` (tree `399fa44a5f1953c0f61b452420fefb5985426ef1`) and `f722d7d46e056d4eb3039e9d3df8045b1cce4e1c` (tree `76f083d7…`, the PR head, one commit before the merge).
+- **Rationale.** `ADP-D1` already names this commit as the P-1 execution commit. It is the only candidate at which the adopted receipt can satisfy formal §4.6 step 6 without a waiver: `src/persistence/gateAPrimeProvisioning.ts` blob `5f49936b61efd07cc7b151d8f028f1020e48aee0` declares `executingCommit` / `executingTree`, measures the executing HEAD and tree from `--repo-root`, and refuses `EXECUTION_PIN_MISMATCH` before any connection is opened; blob `2cbce83f6572d211630ce0620dae49fa02fe4622` (at `001c3c80`) has no such fields. B-0 would therefore require waiving the adopted receipt element; B-1′ fails the merge-commit rule (an equal tree does not make two commits interchangeable).
+- **Boundary — decision, designation and authorization are distinct.** This is a **decision** fixing the coordinate of record and its purpose. Under formal §4.6 step 4 a designation names commit, tree, blob identities and purpose; this act names commit, tree and purpose and therefore **does not complete** the §4.6 step 4 record by itself, because it names no per-path blob set. Blob identity, the step-4 record and steps 5–6 remain open (**B-DESIG**). Verified identities available to that record at `a891802e`: `5f49936b…` (`src/persistence/gateAPrimeProvisioning.ts`) and `df5d48a583c9aaed51af90a90225c15c408fbd33` (`src/persistence/gateAPrimeValidation.ts`).
+- **Exclusions.** Does not authorize P-1 (`P1-F` unspent; no P-1 attempt). Does not admit the `a891802e` S2 run as L2a (PA-06). Does not adopt or regenerate H-12. Does not designate the Gate 4 QE/H-12 coordinate (PA-09). Does not establish P-1-C or P-1-D. Does not change any gate, acceptance, qualification, admission or capability status.
 
 - **Evidence.**
   - `001c3c80`: DA-A1 (adoption record §2, line 20, adopted 2026-10-28, limited): the "act-designated pin" for successor act §8 step 0 and §8.2, candidate-scoped; "Acknowledgement is not a grant … Does not authorize P-1"; the authorization act "must name the execution commit explicitly". `521d5482` §5(b): `001c3c80` is "the coordinate at which P-1 of record would be executed".
@@ -216,10 +228,19 @@ Three separate decisions, because they are different authority acts.
 - **IRR recommendation.** B-1 at `a891802e` (tree `76f083d7…`), per the packet's B-Q1 and ADP-D1. Reason: `a891802e` is the commit at which the designated basis is recorded (A-Q5 result §2), the S2 run and the acceptance are recorded there (PA-06), and the receipt element was accepted there (ADP-D2). This is a recommendation; it is effective only if the PA designates it under PA-08a and §4.6 step 4 is satisfied.
 - **Proposed PA wording.**
   > "PA-08a: [B-0 / B-1 / B-1′ / B-2]. The P-1 execution commit of record is `[commit]` (tree `[tree]`). ADP-D1 is [confirmed / superseded] accordingly."
+- **Adopted PA wording (2026-10-29).**
+  > "PA-08a: B-1. The P-1 execution commit of record is `a891802e2691bd9c65a67d6abff20d8ce0c26d7d` (tree `76f083d7058e170d8212455c03bad1033136ee68`), purpose P-1 execution coordinate. ADP-D1 is confirmed accordingly. This does not authorize P-1."
 
 **PA-08b — Step-0 pin (DA-A1) versus the execution commit.**
 
 **Pass-4 disposition: CONDITIONAL on PA-08a.** Formal §4.2 states that the procedure's PF-08 expectation of `001c3c80` must be revised by a later procedure revision after the commit is designated. No revision is made in this pass.
+
+**Pass-5 PA ACT — ADOPTED (2026-10-29; `CV-CORR-184`; tracker §16.204): PA-08b = (ii) distinct coordinate roles.** The DA-A1 step-0 coordinate is `001c3c80618f2ee1d40e9a90912237e1a06e7b58` (tree `399fa44a5f1953c0f61b452420fefb5985426ef1`), purpose **successor act §8 step 0 and §8.2 (step-0)**. The P-1 execution coordinate is `a891802e2691bd9c65a67d6abff20d8ce0c26d7d` (tree `76f083d7058e170d8212455c03bad1033136ee68`, PA-08a), purpose **P-1 execution**. The two purposes are distinct and neither coordinate substitutes for the other. **The step-0 pin is not moved** to the P-1 execution commit, and **DA-A1 is not superseded** for this reading.
+
+- **Authority and scope.** The PA (Ramki; PA and sole user), same act and scope as PA-08a. The adopted text is the wording recorded under **Adopted** below. The **IRR recommendation of option (i)** stated in this item is **not adopted**: it remains a recommendation of this package, and the adopted decision supersedes it. Its unstated cost is the reason recorded in the rationale below.
+- **Rationale (verified, reused from the investigation; no new run).** The step-0 coordinate is the coordinate at which the capture procedure's step-0 source specification matches: procedure lines 413–415 pin `gateAPrimeProvisioning.ts` blob `2cbce83f6572d211630ce0620dae49fa02fe4622`, `provisioning.ts` `dc844189a1c92f00acc3d7572c22f3e28e138eb6`, `binding.ts` `96d0079dd04b75c6f257a2001c8f7eff1ffc560a`, and all three hold at `001c3c80`. At `a891802e` the first is `5f49936b…` (the same blob as at `f722d7d4`); the other two are unchanged. Moving the step-0 coordinate would therefore stale the step-0 specification and require a procedure restatement with new step-0 hashes (`V1157`), whereas the P-1 execution coordinate is the coordinate whose receipt measures its own executing identity (PA-08a). The distinctness is a property of the procedure and of the code, not a preference.
+- **Procedure preserved.** No procedure revision is made by this act. The step-0 specification and its three pinned source blobs stand unchanged. Formal §4.2's note that the PF-08 expectation must be revised by a later procedure revision after a `C′` designation is not triggered by this act, because the step-0 coordinate does not move.
+- **Exclusions.** Does not move, re-scope or retire the step-0 coordinate; does not revise the procedure; does not supersede DA-A1; does not authorize P-1 or any capture (E10 not rendered); does not designate the Gate 4 coordinate; no gate, pin, acceptance or admission status changes.
 
 - **Question.** Are the DA-A1 "act-designated pin" (successor act §8 step 0 and §8.2) and the P-1 execution commit the same commit?
 - **Evidence.** DA-A1 reads the act-designated pin as `001c3c80`. The A-Q5 result record names `a891802e` as the designated basis for the designated blobs. Rulings §8 treats the basis limb as cleared on constants versus the selected basis `5fc74085` / `7226ef00`, with the executing commit recorded through the D2 receipt (reading (ii)).
@@ -230,10 +251,19 @@ Three separate decisions, because they are different authority acts.
 - **IRR recommendation.** Option (i), stated as a supersession of DA-A1's step-0 reading. This is a recommendation; DA-A1 is an adopted decision and only the PA may supersede it.
 - **Proposed PA wording.**
   > "PA-08b: [i / ii / iii]. The act-designated pin for successor act §8 step 0 and §8.2 is `[commit]`. DA-A1 is [superseded for this reading / unchanged]."
+- **Adopted PA wording (2026-10-29).**
+  > "PA-08b: (ii). The act-designated pin for successor act §8 step 0 and §8.2 is `001c3c80618f2ee1d40e9a90912237e1a06e7b58` (tree `399fa44a5f1953c0f61b452420fefb5985426ef1`). The P-1 execution coordinate is separate, per PA-08a. DA-A1 is unchanged; the step-0 pin is not moved."
 
 **PA-08c — Scope of "final execution commit" (DA-A1 open item D1).**
 
 **Pass-4 disposition: CONDITIONAL on PA-08a.** ADP-D1 (rulings §6) scopes the adopted wording to the P-1 execution commit and limits manifest regeneration to 'where Gate 4 §8 applies'. On its face that matches option (a). DA-A1 D1 is recorded as 'not resolved by this record' (adoption record §3). The PA confirms option (a) together with PA-08a.
+
+**Pass-5 PA ACT — ADOPTED (2026-10-29; `CV-CORR-184`; tracker §16.204): PA-08c = (a) P-1 only.** The phrase "final execution commit" governs the **P-1 execution chain only**. The Gate 4 §8 H-12/QE coordinate remains a **separate PA-09 (G4-PIN) matter**: it is not selected, not narrowed, not pre-empted and not aligned to `a891802e` by this act.
+
+- **Authority and scope.** The PA (Ramki; PA and sole user), same act and scope as PA-08a. The adopted text is the wording recorded under **Adopted** below.
+- **Rationale.** The determination (§7) fixes the term only when the sequence runs, so the term is sequence-specific and is not a shareable designation; `ADP-D1` clause 2 limits manifest regeneration to "where Gate 4 §8 applies"; `PA-1` (formal §3.1, ADOPTED) holds that H-12 adoption is not a P-1 prerequisite and places S2a before S3 and QE only; the adopted `PA-2` model keeps purpose-specific coordinates (L0 basis, L1 executing, L2a P-1 execution, L2c Gate 4 QE/H-12). Option (b) would perform the §4.5 C-1 scope acceptance — treating the non-Limb-A content at `a891802e` as in-scope for Gate 4 QE — which is not this act's to make and would pre-empt PA-09.
+- **Closes.** DA-A1 open item `D1` (adoption record §3) as to scope: the term is disposed of for the P-1 chain and no longer open for that question.
+- **Exclusions (express).** This disposition does **not** select a Gate 4 coordinate; does **not** adopt H-12 (no regenerated artifact exists, T-3); does **not** authorize P-1; does **not** start Gate 4 execution; does **not** establish P-1-C or P-1-D; does **not** admit Gate 5. `PA-09` remains open, `G4-PIN` remains undesignated, and the Gate 4 §8 coordinate is unaffected.
 
 - **Question.** Does the determination's "final execution commit" (§7; DA-A1 D1) apply to P-1 only, or to the QE and Gate 4 chain as well?
 - **Evidence.** Adoption record §3 D1: "not resolved by this record". ADP-D1 is worded for P-1 only. Gate 4 pin is G4-PIN (PA-09).
@@ -241,10 +271,14 @@ Three separate decisions, because they are different authority acts.
 - **IRR recommendation.** Option (a), consistent with ADP-D1. The Gate 4 pin is decided separately by PA-09.
 - **Proposed PA wording.**
   > "PA-08c: [P-1 only / P-1 and Gate 4 / deferred]."
+- **Adopted PA wording (2026-10-29).**
+  > "PA-08c: P-1 only. The determination's 'final execution commit' governs the P-1 execution chain only. The Gate 4 §8 H-12/QE coordinate remains a separate PA-09 matter and is not designated, adopted or aligned by this disposition."
 
 **PA-08 unlocks on adoption.** The designation act for the P-1 coordinate (B-DESIG step 4). Designation is not effective for reliance until steps 5 and 6 of formal §4.6 are satisfied.
 
 **PA-08 still blocked after adoption.** L2a admission (PA-06); H-12 adoption at the designated commit (PA-10b, T-3); P1-F (PA-14); P-1 execution and the attempt observations (PA-13, T-2). The repeat S2 run (H-7) and the H-12 regeneration (H-9) are not blockers under PA-19.
+
+**Pass-5 effect (2026-10-29).** PA-08a, PA-08b and PA-08c are **ADOPTED** (B-1; (ii); (a)); `ADP-D1` is confirmed and the step-0 coordinate is preserved. That adoption is a **decision act** and nothing more. Still open and unchanged: the formal §4.6 step 4 record for the blob set and steps 5–6 (**B-DESIG**); L2a admission (PA-06); H-12 adoption (PA-10b, T-3); `P1-F` (PA-14); P-1 execution and its attempt observations (PA-13, T-2, T-4). The Gate 4 QE/H-12 coordinate remains **undesignated** (PA-09; §4.5 C-1/C-2/C-3 unchosen). **P-1 remains NOT EXECUTED / UNSPENT / NOT AUTHORIZED.**
 
 ### PA-09 — G4-PIN: Gate 4 QE and H-12 content pin
 
@@ -327,6 +361,8 @@ Three separate decisions, because they are different authority acts.
 ### PA-14 — P-1 authorization act (P1-F): prerequisites only in this sitting
 
 **Pass-4 disposition: P-1 NOT AUTHORIZED. No P1-F act rendered. No P-1 attempt performed, and none is executable from this environment (T-4).** Status after this pass: S2a is not a prerequisite (PA-10c). ADP-D2 is accepted (unchanged). A-GAP1 is ruled. A-Q5 is executed (`0edadb2d`). A-Q6 is partly cleared (PA-04). Still open: PA-01, PA-08a and PA-08b (commit of record and step-0 pin); PA-06 (admission of the native run); PA-15 (identity reading); PA-13 (E10); and the P-1-C and P-1-D observations (T-2, requiring T-4). See tracker §16.203.
+
+**Pass-5 pointer (2026-10-29).** PA-08a and PA-08b are now adopted (§3 PA-08; B-1 and distinct coordinate roles). The prerequisite list above is otherwise unchanged: PA-01, PA-06, PA-15, PA-13, T-2 and T-4 remain open, the §4.6 step 4 blob record and steps 5–6 remain, and **P-1 remains NOT AUTHORIZED**.
 
 - **Question.** This sitting does not authorize P-1. The PA decides only whether the prerequisites in the list below are complete when the P1-F act is later rendered. No P1-F act is decided here.
 - **Evidence.** Packet P1-F row: "Blocked by P1-C, P1-D, B-DESIG, L2a, L2c, ADP-D1, ADP-D2, A-GAP1, S2a." Formal §4.6 and PA-5 (P-1-F: "Render only after PA-5 path and C′ designation"). Companion §4: "P-1 remains NOT AUTHORIZED until P1-F is rendered."
@@ -460,6 +496,8 @@ Stage 5 (P-1 authorization):
 
 Stage 6 (after P-1 — out of scope for this sitting): S3, QE-1 to QE-11, Gate 4 execution and result acceptance, DQ-4 freeze, Gate 5 admission. Each has its own authority and is not decided here.
 
+**Pass-5 note (2026-10-29).** PA-08a, PA-08b and PA-08c were adopted out of the order shown above (PA-06 remains open). The ordering is preserved unchanged: it records the dependency analysis, not the sequence taken. Adoption of PA-08a does not admit the `a891802e` S2 run as L2a (PA-06) and does not authorize P-1 (PA-14).
+
 ### 4.2 What adoption does not authorize
 
 | Adopted decision | Does not authorize |
@@ -469,7 +507,7 @@ Stage 6 (after P-1 — out of scope for this sitting): S3, QE-1 to QE-11, Gate 4
 | PA-03 (A-Q5 ratification) | Changes to the compiled basis constants; S1 execution |
 | PA-04 (A-Q6) | Host, Node, P-1 or V-A2 limbs; any execution |
 | PA-06 (S2 admission) | QE; Gate 4 execution; Gate 5; `V1295`; production |
-| PA-08 (P-1 commit) | P-1 execution; L2a or L2c being satisfied (they need their own evidence) |
+| PA-08 (P-1 commit) | P-1 execution; L2a or L2c being satisfied (they need their own evidence). **Adopted 2026-10-29 as PA-08a (B-1), PA-08b (ii) and PA-08c (a): also does not select a Gate 4 coordinate, adopt H-12, start Gate 4 execution, establish P-1-C or P-1-D, admit Gate 5, or move the step-0 coordinate.** |
 | PA-09 (G4-PIN) | Gate 4 execution; QE; result acceptance |
 | PA-10b (H-12 adoption) | Anything beyond its own pins; QE |
 | PA-11 (D-INST) | Any run of the instrument; A6; capture |
