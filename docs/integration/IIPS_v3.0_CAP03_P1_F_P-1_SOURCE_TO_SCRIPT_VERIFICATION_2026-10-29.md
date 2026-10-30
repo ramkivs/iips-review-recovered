@@ -559,3 +559,35 @@ No parse of any kind was obtained. **PowerShell 5.1 parse: NOT PERFORMED.**
 - An execution policy that permits this file. This is not a property of the script.
 
 **Statuses (unchanged by this pass).** P-1 consumed: NO. Execute invocation performed: NO. Host Preflight authorized: NO. Host Preflight performed: NO. Store or provisioning state touched: NO. PR merged: NO. Execution readiness: NO-GO (F11).
+
+---
+
+## D. Revision 6 — PA-scoped Windows 10 personal host profile (2026-10-30)
+
+This dated implementation addendum supersedes only the Revision 5 `S01-PRODUCT` target for the PA's expressly authorized personal environment. Revision 5 findings above remain historical and unchanged. The base Act Section 8 lives in IPD and is not modified here; its external text still specifies Windows 11 Home Single Language. The PA's 2026-10-30 direction authorizes the existing IRR execution script's exact personal target to be Windows 10 Home Single Language on `DESKTOP-NO0NHTP`, without adding a separate application architecture.
+
+| Item | Revision 5 baseline | Revision 6 implementation |
+|---|---|---|
+| Hostname (`S01-HOST`) | `DESKTOP-NO0NHTP` exact case-insensitive match | **Unchanged** |
+| Elevation (`S01-NONELEVATED`) | Administrator role must be false | **Unchanged** |
+| Product (`S01-PRODUCT`) | Exact case-sensitive `ProductName = Windows 11 Home Single Language`, copied from base Act §8 | Exact case-sensitive `ProductName = Windows 10 Home Single Language`, profile `IIPS-V3-CAP03-P1-WINDOWS10-PERSONAL-HOST-PROFILE-PA-2026-10-30-01`, PA-authorized for this personal local scope |
+| Evidence facts | Product and EditionID recorded | Adds profile reference, target product and scope to the facts; records actual `ProductName` and `EditionID` as before |
+| Other runtime controls | S01 environment/runtime checks | **Unchanged:** gate/Git/Node environment checks; Node `>=22.13.0 <23`; flag-free `node:sqlite` |
+| Filesystem/authority controls | S00/S02/S03/S04 and single-attempt execution logic | **Unchanged.** Designation and build-authority values remain null; script still refuses at S00/S04. |
+
+### D.1 Runtime/filesystem review
+
+No Windows 11 OS-version condition was found in IRR `frontend` or `iips-platform` source. The existing frontend `ipcClient.ts` selects `node:path.win32` and Windows named-pipe endpoints when `process.platform === 'win32'`; the existing test file has explicit `win32` cases. No source change to that IPC architecture was needed. The P-1 script's product-name check was the only Windows 11-specific gate in the reviewed execution instrument.
+
+The other declared assumptions are retained rather than weakened: Windows PowerShell 5.1; Node 22.13+ and <23; flag-free `node:sqlite`; non-elevation; exact host name; no `GATE_A_PRIME_*`, `GIT_*`, or `NODE_OPTIONS`; clean exact pin; local fixed NTFS; store absence; evidence/store separation; no reparse points or Git worktree in relevant path chains; no sync root; sealed evidence; and single-use claim/marker. These gates were not host-tested against Revision 6. The prior Windows 10 F9 observation is evidence of the OS product only under Revision 5; it is not a Revision 6 S01 result.
+
+### D.2 Implementation and validation state
+
+- Existing execution script edited in place, not copied: exact product target and S01 diagnostic changed; profile/target/scope facts recorded. No other check or execution sequence was changed.
+- New validator: `docs/integration/cap03-p1-f9/validate_windows10_host_profile.py` (Python standard library only). It checks the profile, preserved controls, old R5 F9 pin and unchanged null S00/S04 authority fields. Arena run: **PASS**. It does not parse PowerShell or execute the app.
+- Revision 6 script SHA-256: `9396c7cc9e770a09a248dbd4624a96a6a2c4702f3e0c7a12d3bc0e51fb5f7d4b`; 1575 lines; 112,549 bytes. This exact digest is also emitted by the static validator.
+- PowerShell 5.1 parser and actual Windows runtime validation of Revision 6: **NOT RUN** (no PowerShell/Windows host in Arena). Operator's exact parse-only command is recorded in `docs/integration/cap03-p1-f9/README.md`; no `-Mode Preflight`, `-Mode Execute`, entrypoint, store, build or provisioning command was run.
+- F9-6 remains PARTIAL/NOT TESTED; F9-8 R5 observation remains BLOCKED and WV-02 WAIVED; U-4/U-5/U-10 remain NOT RUN and waived. No completed Windows tests were repeated.
+- Existing Rev5 acceptance/preflight outputs are bound to the old script hash and cannot bind Revision 6. Any future P-1 route would still require its original authorities, current source/hash-bound evidence and build decision.
+
+P-1 remains **AUTHORIZED — NOT EXECUTED — UNSPENT**. This host-profile implementation changes no authorization state and does not establish execution readiness.

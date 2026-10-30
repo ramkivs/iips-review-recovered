@@ -107,3 +107,44 @@ The PA's written direction dated 2026-10-30 is recorded here as five distinct **
 The five named conditions cease to be **policy blockers to progression within the PA's personal, single-user, non-production scope**, while retaining their actual PARTIAL / BLOCKED / NOT RUN classifications. They do **not** establish that an application build or runtime has been completed, do not grant access to an unverified production/P-1 execution path, and do not change any production requirement. In particular, the current production script still stops on this Windows 10 host. Until a separate non-P-1 Windows 10 path is explicitly authorized, designed and verified, **deployment through the current script remains blocked**; no such path is established by this record.
 
 P-1 remains **AUTHORIZED — NOT EXECUTED — UNSPENT**. These waivers do not spend the single-use authorization, amend Act Section 8, qualify the Windows 10 host for production, authorize P-1 execution, or resolve any separate P-1 prerequisite. No Windows tests were rerun for this decision.
+
+---
+
+## PA implementation update — Revision 6 Windows 10 host profile (2026-10-30)
+
+> **CURRENT IMPLEMENTATION:** The PA's subsequent Windows 10 runtime authorization grants implementation authority for the existing architecture, not execution authority. This section supersedes only the earlier WV-02 implementation-status statement that no implementation authority existed. It does **not** change WV-01 through WV-05 or any earlier F9 observation.
+
+The existing P-1 execution script at `docs/integration/IIPS_v3.0_CAP03_P1_F_P-1_CORRECTED_EXECUTION_SCRIPT_2026-10-29.ps1` is now Revision 6, SHA-256 `9396c7cc9e770a09a248dbd4624a96a6a2c4702f3e0c7a12d3bc0e51fb5f7d4b` (1575 lines; 112,549 bytes). Its exact `S01-PRODUCT` target is `Windows 10 Home Single Language`, bound to host profile `IIPS-V3-CAP03-P1-WINDOWS10-PERSONAL-HOST-PROFILE-PA-2026-10-30-01`. It still compares actual registry `ProductName` with case-sensitive exact equality. The designated host name remains `DESKTOP-NO0NHTP`, and the non-elevated requirement is unchanged. The profile is limited to the PA's existing, personally operated, local, single-user Windows 10 laptop; it is not a general Windows 10 allowlist, production claim, or claim that base Act Section 8's external text was edited.
+
+### Reconciliation and preserved controls
+
+The external base Act Section 8 text still says Windows 11 Home Single Language; this task is IRR-only, so that source was not modified. The PA's later explicit direction authorizes the IRR execution script's exact host target to reflect the real personal application environment. The earlier F9-8 Windows 10 observation and **BLOCKED** status remain historical for Revision 5. **WV-02 remains WAIVED** for personal use; Revision 6's source constant is not a new F9-8 result and is not recorded as PASS.
+
+The code review found no separate Windows 11 OS check in the existing IRR application source (`frontend`/`iips-platform`). The existing frontend IPC client already has a `win32` named-pipe route and tests that exercise Windows path resolution. In the P-1 instrument, the only Windows 11 product gate was the `S01-PRODUCT` expected value. Revision 6 changes that expected value/profile and the diagnostic/evidence fields only. It retains the expected hostname, non-elevation check, exact ProductName comparison, environment gates (`GATE_A_PRIME_*`, `GIT_*`, `NODE_OPTIONS`), Node `>=22.13.0 <23`, flag-free `node:sqlite`, pin/clean-checkout checks, NTFS/fixed-volume and synchronization checks, store absence, no-reparse/worktree boundaries, evidence sealing, and single-attempt/marker controls. No alternative application architecture or OS-identity spoof was introduced.
+
+The Revision 5 F9 runner and evidence remain pinned to SHA-256 `7aa52aa407c548940446817b0cb99b9a31c427660af39baf636bd3e59e45e916`. It is intentionally **not** retargeted to Revision 6; it will fail closed on the changed script hash. All supplied Windows results remain Revision 5 observations, and WV-01–WV-05 are preserved. No completed Windows test was rerun.
+
+### Automated/static validation and remaining host checks
+
+The new standard-library-only static validator is `docs/integration/cap03-p1-f9/validate_windows10_host_profile.py`. Run with:
+
+```text
+python docs/integration/cap03-p1-f9/validate_windows10_host_profile.py
+```
+
+It verifies the exact Windows 10 profile and that the named S01, filesystem, evidence, pin and one-attempt controls remain in source. It also verifies the Rev5 F9 runner remains hard-pinned to its historical hash and that P-1 authority/build designations remain null. It reads text only: it is **not** a PowerShell parse, Windows host test, application test, or P-1 readiness result. Arena's run passed and printed the Revision 6 SHA above. `git diff --check` passed. The production script was not invoked.
+
+Arena has no Windows PowerShell runtime. Before any later authorized host use, an operator must perform a **parse-only** Windows PowerShell 5.1 check of Revision 6; this must not invoke `-Mode Preflight` or `-Mode Execute`:
+
+```powershell
+$path = (Resolve-Path .\docs\integration\IIPS_v3.0_CAP03_P1_F_P-1_CORRECTED_EXECUTION_SCRIPT_2026-10-29.ps1).Path
+$tokens = $null
+$errors = $null
+[System.Management.Automation.Language.Parser]::ParseFile($path, [ref]$tokens, [ref]$errors) | Out-Null
+if ($errors.Count -gt 0) { $errors | ForEach-Object { $_.Message }; throw 'Revision 6 PowerShell parse failed' }
+'REVISION_6_PARSE_PASS'
+```
+
+A later authorized operation would still need to establish the host/runtime facts (Node `>=22.13.0 <23`, flag-free `node:sqlite`, environment gates, and storage facts) through the governing procedure. No such test is claimed here. More immediately, this script intentionally remains fail-closed: `$AuthorityRulingRef`, actor, evidence root, writability method and `$BuildAuthorityRef` are still null, so it stops at S00 and, if that were resolved, S04. This implementation authorization does not fill them, authorize Host Preflight, or authorize P-1 execution. Existing Revision 5 acceptance/preflight evidence bound to the old script SHA cannot bind Revision 6.
+
+P-1 remains **AUTHORIZED — NOT EXECUTED — UNSPENT**. WV-01 through WV-05 remain scoped waivers; actual F9 statuses remain unchanged. The current source is Windows 10-targeted but has not been PowerShell-parsed or run on the host, and no actual application workflow has been executed.

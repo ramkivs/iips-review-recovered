@@ -1,13 +1,16 @@
 #Requires -Version 5.1
 <#
-  IIPS CAP-03 - P-1 corrected execution script, REVISION 5 (focused correction of revision 4, 2026-10-29).
+  IIPS CAP-03 - P-1 corrected execution script, REVISION 6 (PA-authorized Windows 10 personal host profile, 2026-10-30).
   Authority: P1-F, IRR docs/integration/IIPS_v3.0_CAP03_P1_AUTHORIZATION_ACT_AND_PREREQUISITE_DECISIONS_2026-10-29.md
-  (section 6, conditions 1-5). Base act: IPD commit a891802e2691bd9c65a67d6abff20d8ce0c26d7d, tree
+  (section 6, conditions 1-5), plus the scoped PA implementation direction recorded at master tracker section 16.208.
+  Base act: IPD commit a891802e2691bd9c65a67d6abff20d8ce0c26d7d, tree
   76f083d7058e170d8212455c03bad1033136ee68, evidence/cross-repository/IIPS_V3_CAP02_GATE_A_PRIME_SUCCESSOR_PROVISIONING_ACT_EFFECTIVE_2026-10-23.md
-  (sections 2, 4, 6, 7, 8, 9). Companion record: docs/integration/IIPS_v3.0_CAP03_P1_F_P-1_SOURCE_TO_SCRIPT_VERIFICATION_2026-10-29.md
+  (sections 2, 4, 6, 7, 8, 9). Its published Section 8 text is not edited here. The PA-approved host profile below
+  applies only to the personally operated, single-user Windows 10 target; it does not claim production Act section 8
+  compliance or create authority to execute P-1. Companion source review: docs/integration/IIPS_v3.0_CAP03_P1_F_P-1_SOURCE_TO_SCRIPT_VERIFICATION_2026-10-29.md
 
-  STATUS OF THIS FILE: NOT PARSED, NOT RUN ON ANY HOST. Static review and the companion record only.
-  As committed, every run refuses at S00 (designations null) and, if S00 were passed, at S04 (BuildAuthorityRef null).
+  STATUS OF THIS FILE: Revision 6 has not been parsed or run on any host. Source-level validation only.
+  As committed, every run still refuses at S00 (designations null) and, if S00 were passed, at S04 (BuildAuthorityRef null).
 
   EXACT EFFECTS OF EACH MODE. Neither mode is read-only. Every effect is listed here and in the summary.
   -Mode Preflight
@@ -47,11 +50,14 @@ Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
 # ---------------------------------------------------------------------------
-# Act-bound constants (P1-F section 6; base act sections 2.3, 4, 7, 8)
+# P1-F constants and PA-authorized personal host profile (see IRR master tracker section 16.208).
+# The external base Act section 8 remains textually unchanged; only this IRR execution profile is scoped to the PA's
+# personal Windows 10 Home Single Language host. The exact product comparison remains fail-closed.
 # ---------------------------------------------------------------------------
 $ActId                = 'IIPS-V3-CAP02-GATE-A-PRIME-SUCCESSOR-PROVISIONING-ACT-2026-10-23-01'
 $ExpectedHost         = 'DESKTOP-NO0NHTP'
-$ExpectedProductName  = 'Windows 11 Home Single Language'
+$HostProfileRef       = 'IIPS-V3-CAP03-P1-WINDOWS10-PERSONAL-HOST-PROFILE-PA-2026-10-30-01'
+$ExpectedProductName  = 'Windows 10 Home Single Language'
 $ExpectedCommit       = 'a891802e2691bd9c65a67d6abff20d8ce0c26d7d'
 $ExpectedTree         = '76f083d7058e170d8212455c03bad1033136ee68'
 $BasisCommit          = '5fc74085ade980846ff4a07b36415b6d49446486'
@@ -153,7 +159,7 @@ $script:LogPath        = ''
 $script:RepoFull       = ''
 $script:Sealed         = $false
 $script:StartUtc       = ''
-$script:Facts          = @{ v2A8ProxyPass = $false; v2A8LiteralTest = 'NOT_PERFORMED'; invocationStatus = 'NOT_INVOKED'; evidenceComplete = $false; evidenceRoot = '' }
+$script:Facts          = @{ hostProfileRef = $HostProfileRef; expectedProductName = $ExpectedProductName; hostProfileScope = 'PA-authorized personal single-user Windows 10 Home Single Language only'; baseActSection8Product = 'Windows 11 Home Single Language (external Act text unchanged)'; v2A8ProxyPass = $false; v2A8LiteralTest = 'NOT_PERFORMED'; invocationStatus = 'NOT_INVOKED'; evidenceComplete = $false; evidenceRoot = '' }
 $script:ScriptPath     = [string]$MyInvocation.MyCommand.Path
 $script:ScriptSha256   = ''
 $script:AcceptanceSha256 = ''
@@ -601,7 +607,7 @@ function Invoke-HostAndRuntime {
     $ntKey = Get-ItemProperty -LiteralPath 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion'
     $script:Facts.windowsProductName = [string]$ntKey.ProductName
     $script:Facts.windowsEditionId = [string]$ntKey.EditionID
-    Require-Check -Id 'S01-PRODUCT' -Pass ([string]$ntKey.ProductName -ceq $ExpectedProductName) -Detail ('product "' + [string]$ntKey.ProductName + '"; act section 8 requires "' + $ExpectedProductName + '". EditionID is recorded only.')
+    Require-Check -Id 'S01-PRODUCT' -Pass ([string]$ntKey.ProductName -ceq $ExpectedProductName) -Detail ('product "' + [string]$ntKey.ProductName + '"; PA host profile ' + $HostProfileRef + ' requires exact ProductName "' + $ExpectedProductName + '" for personal single-user Windows 10 use. The external base Act section 8 text is unchanged; this is the PA-directed host target for this environment only. EditionID is recorded only.')
     $gateEnv = @(Get-ChildItem -Path Env: | Where-Object { $_.Name -like 'GATE_A_PRIME_*' })
     Require-Check -Id 'S01-ENV-GATE' -Pass ($gateEnv.Count -eq 0) -Detail ('GATE_A_PRIME_* variables present = ' + $gateEnv.Count + ' (the entrypoint refuses these; the check here is case-insensitive, which is stricter)')
     # The entrypoint strips every GIT_* variable before it measures HEAD and tree (readExecutionHead). This script's own
