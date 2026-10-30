@@ -99,11 +99,12 @@ $DesignatedStorePath  = 'C:\iips-data\iips\user-portfolio.sqlite'
 # Effective authorities: P1-F is the single-attempt authority; the named PA is the sole operator.
 $AuthorityRulingRef         = 'IIPS-V3-CAP03-P1-AUTHORIZATION-ACT-2026-10-29-01'
 $DesignatedActorLabel       = 'Ramki' # exact PA identity in the P1-F authorization record; display label only.
-# No effective record designates a canonical P-1 run-record root. A caller-selected -EvidenceRoot is not a PA
-# designation; S00 fails closed until the PA records one. PF-15 F5 (Gate 4) and PA-13 E10 (capture) are not repurposed.
-# Read-only ACL_EVALUATION is selected; it is a DACL precheck only, never proof of effective or actual writability.
-$EvidenceRootDesignationState = 'PA_DESIGNATION_REQUIRED'
-$DesignatedEvidenceRoot = 'NOT DESIGNATED'
+# PA act IIPS-V3-CAP03-P1-QEV-RUN-RECORD-ROOT-PA-DESIGNATION-ACT-2026-10-30-01 designates
+# the one-attempt run-record root. The exact parameter match is required before any caller-path access.
+# PF-15 F5 (Gate 4) and PA-13 E10 (capture) are not repurposed. Read-only ACL_EVALUATION remains a
+# DACL projection only, never proof of effective or actual writability.
+$EvidenceRootDesignationState = 'DESIGNATED'
+$DesignatedEvidenceRoot = 'H:\IIPS-P1-EVIDENCE'
 $SelectedWritabilityMethod = 'ACL_EVALUATION'
 $S2RunId                   = 's2-a891802e-20261028T192516Z'
 $S2EvidenceRelative        = 'evidence\cap03-s2\s2-a891802e-20261028T192516Z'
@@ -137,14 +138,14 @@ $DesignatedBlobs = @(
 # Authorization freshness (checked at S06 and again immediately before the one invocation). Read-only.
 $IrrRepo              = 'ramkivs/iips-review-recovered'
 $IpdRepo              = 'ramkivs/iips-production-market-data'
-$BaselineIrrCommit    = '238dfa3185fcb77aac1a50e1d8dee60856c9739d'
+$BaselineIrrCommit    = 'f6ae5ebd8552990fc156f7a4c9a6a1110b22a413'
 $P1FPath              = 'docs/integration/IIPS_v3.0_CAP03_P1_AUTHORIZATION_ACT_AND_PREREQUISITE_DECISIONS_2026-10-29.md'
 $P1FEntry             = '100644 blob a90bb00141194608e64503b24d43964bf7ff85a0'
 $Pf15Path             = 'docs/integration/IIPS_v3.0_CAP03_PF15_ENDPOINT_LOCAL_STATE_DESIGNATION_PA_ACT_CORRECTED_2026-10-26.md'
 $Pf15Entry            = '100644 blob 3fe9a2ddd5f3b8730eccee7748b6266b5e2d8b1d'
 $TrackerPath          = 'IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md'
 # After publication, main must carry this revision's dated status pointers. The baseline is current authoritative main at merge reconciliation; later main changes are freshness-checked.
-$TrackerPointerMarkers = @('**Latest (`CV-CORR-196`', '**Current CAP-03 P-1 / PF-15 status**')
+$TrackerPointerMarkers = @('**Latest (`CV-CORR-201`', '**Current CAP-03 P-1 / PF-15 status**')
 $TrackerPointerRequiredText = 'P-1 remains **AUTHORIZED'
 $P1NamePattern        = '(?i)(P1|P-1|GATE[_-]A[_-]PRIME|PF-?15|PA[_-]RULING)'
 $TrackerP1Term        = '(?i)(P-1|P1-F|CAP-03 P1)'
@@ -157,7 +158,8 @@ $ReviewArtifactPaths  = @(
     'docs/integration/IIPS_v3.0_CAP03_P1_AUTHORIZATION_ACT_AND_PREREQUISITE_DECISIONS_2026-10-29.md',
     'IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md',
     'docs/integration/cap03-p1-f9/README.md',
-    'docs/integration/cap03-p1-f9/validate_windows10_host_profile.py'
+    'docs/integration/cap03-p1-f9/validate_windows10_host_profile.py',
+    'docs/integration/IIPS_v3.0_CAP03_P1_QEV_RUN_RECORD_ROOT_PA_ACT_2026-10-30.md'
 )
 
 # ---------------------------------------------------------------------------
@@ -178,7 +180,7 @@ $script:LogPath        = ''
 $script:RepoFull       = ''
 $script:Sealed         = $false
 $script:StartUtc       = ''
-$script:Facts          = @{ hostProfileRef = $HostProfileRef; expectedProductName = $ExpectedProductName; hostProfileScope = 'PA-authorized personal single-user Windows 10 Home Single Language only'; baseActSection8Product = 'Windows 11 Home Single Language (external Act text unchanged)'; v2A8ProxyPass = $false; v2A8LiteralTest = 'NOT_PERFORMED'; invocationStatus = 'NOT_INVOKED'; evidenceComplete = $false; evidenceRoot = ''; s2RunId = $S2RunId; s2Admission = $S2AdmissionRef; u5Status = 'NOT RUN' }
+$script:Facts          = @{ hostProfileRef = $HostProfileRef; expectedProductName = $ExpectedProductName; hostProfileScope = 'PA-authorized personal single-user Windows 10 Home Single Language only'; baseActSection8Product = 'Windows 11 Home Single Language (external Act text unchanged)'; v2A8ProxyPass = $false; v2A8LiteralTest = 'NOT_PERFORMED'; invocationStatus = 'NOT_INVOKED'; evidenceComplete = $false; evidenceRoot = ''; evidenceRootOwnerMatchesCurrentUser = 'NOT_CHECKED'; s2RunId = $S2RunId; s2Admission = $S2AdmissionRef; u5Status = 'NOT RUN' }
 $script:ScriptPath     = [string]$MyInvocation.MyCommand.Path
 $script:IrrRoot         = [System.IO.Path]::GetFullPath((Join-Path (Split-Path -Parent (Split-Path -Parent (Split-Path -Parent $script:ScriptPath))) '.'))
 $script:ScriptSha256   = ''
@@ -530,7 +532,7 @@ function Write-Summary {
             'P-1 consumption: a pre-marker stop with no process-start request is NOT CONSUMED, but any claim is never automatically released and prevents reuse of the canonical root. A durable marker or process-start request consumes the one attempt even if OS process startup fails.',
             'Migration contract: the existing pinned-source review establishes fresh-store migrations 001-004 in order; each migration/ledger update commits independently before the single provisioning BEGIN IMMEDIATE transaction. A later migration failure may leave earlier migrations committed; a provisioning rollback covers provisioning writes only. The marker has already consumed P-1; no automatic repair/retry is permitted.',
             'Path canonicalization: SUBST aliases are detected by listing; reparse points are detected on the chain; drive-letter case is not folded to on-disk case; GetFinalPathNameByHandle is not called. These limits are not closed by this script.',
-            'No canonical P-1 EvidenceRoot is designated: S00 fails closed before touching a caller-selected destination or creating a run directory. PF-15 F5 Gate 4 and PA-13 E10 are different roots and are not repurposed.',
+            'Q-EV is designated as H:\IIPS-P1-EVIDENCE by the effective PA act; S00 requires exact parameter equality and execution-time checks on the already-existing root. No filesystem, owner or host facts were verified in this IRR review. PF-15 F5 Gate 4 and PA-13 E10 are different roots and are not repurposed.',
             'Authorization freshness and revocation (S06) are read from repository and GitHub state only. Out-of-band revocation or attempts are not detectable from that state.',
             'Tracker and P1-F status are read through blob identity, pointer-row identity and an added-line scan on origin/main; a revocation recorded under a non-P-1 name is not detected.',
             'Operator-only facts: Windows runtime, PowerShell 5.1 parse, OneDrive or other sync-provider state beyond environment roots, Program Authority records beyond designations, host-preflight evidence, and remote read-back of published artifacts.'
@@ -675,8 +677,8 @@ function Invoke-PreClaimTrackerPointer {
 }
 
 function Invoke-EvidencePlacement {
-    # S00 stops before touching a caller-selected destination unless the effective PA record designates it exactly.
-    Require-Check -Id 'S00-EVIDENCE-ROOT-DESIGNATED' -Pass (($EvidenceRootDesignationState -ceq 'DESIGNATED') -and [System.IO.Path]::IsPathRooted($DesignatedEvidenceRoot) -and ($DesignatedEvidenceRoot -cne 'NOT DESIGNATED')) -Detail 'no canonical P-1 run-record root is designated by effective authority; caller input, PF-15 F5 and PA-13 E10 cannot substitute; stop before any path access or write'
+    # S00 stops before touching caller input unless the effective PA record designates it exactly.
+    Require-Check -Id 'S00-EVIDENCE-ROOT-DESIGNATED' -Pass (($EvidenceRootDesignationState -ceq 'DESIGNATED') -and [System.IO.Path]::IsPathRooted($DesignatedEvidenceRoot) -and ($DesignatedEvidenceRoot -cne 'NOT DESIGNATED')) -Detail 'Q-EV is designated by the current PA act; caller input, PF-15 F5 and PA-13 E10 cannot substitute'
     Require-Check -Id 'S00-EVIDENCE-ROOT-EQUALS-DESIGNATION' -Pass ($EvidenceRoot -ceq $DesignatedEvidenceRoot) -Detail 'EvidenceRoot must equal the exact PA-designated canonical root'
     # Evidence root containment (S00). Read-only.
     $evFull = Get-CanonicalPath -Path $EvidenceRoot -Label 'EvidenceRoot'
@@ -711,6 +713,20 @@ function Invoke-EvidencePlacement {
     $oneDriveRoots = @($env:OneDrive, $env:OneDriveCommercial, $env:OneDriveConsumer) | Where-Object { -not [string]::IsNullOrEmpty($_) }
     $inOneDrive = @($oneDriveRoots | Where-Object { $evFull.StartsWith($_.TrimEnd('\') + '\', [StringComparison]::OrdinalIgnoreCase) -or ($evFull -ieq $_.TrimEnd('\')) })
     Require-Check -Id 'S00-EVIDENCE-NOT-ONEDRIVE-ENV' -Pass ($inOneDrive.Count -eq 0) -Detail 'environment-variable OneDrive roots only; this is not a sync-state proof'
+    # Read-only ownership check against the PA-designated existing personal Windows account. No SID or account
+    # name is emitted; this does not inspect DACL effective access or prove writability.
+    $ownerMatchesCurrentUser = $false
+    try {
+        $evidenceOwner = [string](Get-Acl -LiteralPath $evFull).Owner
+        $ownerSid = [string]([System.Security.Principal.NTAccount]::new($evidenceOwner).Translate([System.Security.Principal.SecurityIdentifier]).Value)
+        $currentIdentity = [Security.Principal.WindowsIdentity]::GetCurrent()
+        $currentSid = [string]$currentIdentity.User.Value
+        $ownerMatchesCurrentUser = (($ownerSid -ne '') -and ($currentSid -ne '') -and ($ownerSid -ceq $currentSid))
+    } catch {
+        $ownerMatchesCurrentUser = $false
+    }
+    $script:Facts.evidenceRootOwnerMatchesCurrentUser = [bool]$ownerMatchesCurrentUser
+    Require-Check -Id 'S00-EVIDENCE-OWNER-CURRENT-USER' -Pass $ownerMatchesCurrentUser -Detail ('read-only evidence-root owner SID equals the running Windows user's SID = ' + $ownerMatchesCurrentUser + '; no effective-access or writability claim')
     $script:Facts.evidenceChain = @($evChain)
 }
 
@@ -1125,7 +1141,7 @@ function Invoke-PreInvocationRecheck {
 }
 
 function Invoke-ExecuteClaim {
-    # The canonical root is fixed by PA authority before execution (currently absent, so S00 fails closed). Within that
+    # The canonical root is fixed by the PA act before execution. Within that
     # root, FileMode.CreateNew atomically excludes concurrent/repeated Execute runs. A pre-marker stop, including one
     # after acquisition, does not consume P-1 because no process-start request occurred; the claim remains permanently
     # retained and no automatic release/retry exists. The marker is the commitment point: after it exists the one attempt
@@ -1162,7 +1178,7 @@ function Invoke-ExecuteClaim {
 function Get-DeclaredEffects {
     # Declared, not inferred: the effects each mode can have. The summary records them, so no mode is read as read-only.
     $effects = New-Object System.Collections.ArrayList
-    [void]$effects.Add('would create a run directory only after EvidenceRoot equals an exact PA-designated canonical root; no such designation currently exists, so S00 fails before any write')
+    [void]$effects.Add('would create a run directory only after EvidenceRoot equals the exact PA-designated root and all S00 checks pass; this IRR review does not verify host/filesystem state')
     [void]$effects.Add('S04: reads/verifies PA-06-admitted S2 evidence from IRR and compares existing pinned-checkout dist read-only; no IPD install/build/probe/write')
     [void]$effects.Add('S03: read-only ACL_EVALUATION of the nearest existing store-parent ancestor; no parent/store write probe; effective/actual writability NOT VERIFIED')
     [void]$effects.Add('S05: node --mode=validate expects the store absent and refuses without creating it')

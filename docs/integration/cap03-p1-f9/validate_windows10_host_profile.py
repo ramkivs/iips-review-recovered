@@ -18,11 +18,14 @@ RUNNER = ROOT / "cap03-p1-f9" / "CAP03_P1_F9_WindowsFixtureTests.ps1"
 TRACKER = REPO / "IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md"
 AUTHORITY = ROOT / "IIPS_v3.0_CAP03_P1_AUTHORIZATION_ACT_AND_PREREQUISITE_DECISIONS_2026-10-29.md"
 PF15_ACT = ROOT / "IIPS_v3.0_CAP03_PF15_ENDPOINT_LOCAL_STATE_DESIGNATION_PA_ACT_CORRECTED_2026-10-26.md"
+QEV_ACT = ROOT / "IIPS_v3.0_CAP03_P1_QEV_RUN_RECORD_ROOT_PA_ACT_2026-10-30.md"
+QEV_ACT_ID = "IIPS-V3-CAP03-P1-QEV-RUN-RECORD-ROOT-PA-DESIGNATION-ACT-2026-10-30-01"
+DESIGNATED_EVIDENCE_ROOT = r"H:\IIPS-P1-EVIDENCE"
 IRR_ONLY_WORKFLOW = REPO / ".github" / "workflows" / "cap03-revision7-irr-static.yml"
 EVIDENCE_ROOT = REPO / "evidence" / "cap03-s2"
 RUN_ID = "s2-a891802e-20261028T192516Z"
 RUN_DIR = EVIDENCE_ROOT / RUN_ID
-EXPECTED_SHA256 = "42253eab76161ecb2452b6b1fca8e629b010131b8bd88dbb5357dc929e084f90"
+EXPECTED_SHA256 = "6f5bed8fc17628a9817bcfe71dab795d20a4c940e8c8b0aa3b5422cd7b01b854"
 EXPECTED_SEAL_SHA256 = "9D3C09DBDB691C2527A45605DEA20826B4EC2BA2F110985EE3F1033783B5225E"
 EXPECTED_DEPOSIT_SHA256 = "FFD0956482427ACB404543E36DAC2705D802B04828E380290232C06129F3AFAD"
 EXPECTED_TRANSCRIPT_SHA256 = "D4C5D9431115BF57D824DF465E3D99B11C619BC6D59A3F0974036F3BFCC2F7CA"
@@ -55,6 +58,7 @@ report = (ROOT / "IIPS_v3.0_CAP03_P1_F_P-1_SOURCE_TO_SCRIPT_VERIFICATION_2026-10
 readme = (ROOT / "cap03-p1-f9" / "README.md").read_text(encoding="utf-8")
 tracker = TRACKER.read_text(encoding="utf-8")
 pf15_act = PF15_ACT.read_text(encoding="utf-8")
+qev_act = QEV_ACT.read_text(encoding="utf-8")
 irr_only_workflow = IRR_ONLY_WORKFLOW.read_text(encoding="utf-8")
 script_sha = hashlib.sha256(script_bytes).hexdigest()
 if EXPECTED_SHA256 != "TO_BE_SET_AFTER_FINAL_EDIT":
@@ -97,11 +101,19 @@ require("IIPS-V3-CAP03-PF15-ENDPOINT-LOCAL-STATE-DESIGNATION-PA-ACT-2026-10-26-0
         "C:\\iips-data\\iips\\user-portfolio.sqlite" in pf15_act,
         "effective corrected PF-15 F4 source does not match the bound store literal")
 for text, message in [
-    ("$EvidenceRootDesignationState = 'PA_DESIGNATION_REQUIRED'", "missing explicit PA evidence-root gap state"),
-    ("$DesignatedEvidenceRoot = 'NOT DESIGNATED'", "missing non-path evidence-root sentinel"),
+    ("$EvidenceRootDesignationState = 'DESIGNATED'", "PA-approved Q-EV designation state missing"),
+    (f"$DesignatedEvidenceRoot = '{DESIGNATED_EVIDENCE_ROOT}'", "exact PA-designated evidence-root literal missing"),
     ("$SelectedWritabilityMethod = 'ACL_EVALUATION'", "Q-WRITE method is not fixed to read-only ACL_EVALUATION"),
 ]:
     require(text in source, message)
+require(QEV_ACT_ID in qev_act and DESIGNATED_EVIDENCE_ROOT in qev_act and
+        "existing personal Windows user account running the authorized operation" in qev_act and
+        "Ramki**, sole system owner" in qev_act and "retained permanently" in qev_act and
+        "No alternative path, alias, namespace, or root is authoritative" in qev_act,
+        "Q-EV PA act does not record the exact approved values/retention/recovery boundaries")
+require(QEV_ACT_ID in source and DESIGNATED_EVIDENCE_ROOT in source and
+        "S00-EVIDENCE-OWNER-CURRENT-USER" in source,
+        "Revision 7 exact-root binding or read-only current-user owner check is missing")
 require("$DesignatedWritabilityMethod" not in source and "PARENT_PROBE" not in source,
         "obsolete or mutating writability method remains")
 require("S00-EVIDENCE-ROOT-DESIGNATED" in source and "S00-EVIDENCE-ROOT-EQUALS-DESIGNATION" in source,
@@ -118,16 +130,17 @@ require("designated operator/security owner" in report and
         "single-attempt claim/marker namespace" in report and
         "No PA record is amended to pretend otherwise" in report,
         "Q-EV exact missing-authority tuple is not documented")
-require(not re.search(r"\$DesignatedEvidenceRoot\s*=\s*'(?!(?:NOT DESIGNATED))", source),
-        "a concrete root was assigned without an effective PA designation")
 require("S00-TRACKER-POINTER-PUBLISHED" in source and "Invoke-PreClaimTrackerPointer" in source,
         "pre-claim authoritative-main pointer guard is missing")
 main_flow = source[source.index("# Main. Control flow"):]
 require(main_flow.index("Invoke-PreClaimTrackerPointer") < main_flow.index("Invoke-EvidencePlacement") < main_flow.index("Invoke-ExecuteClaim"),
         "published-main pointer and evidence-root checks must precede any claim acquisition")
 placement = source[source.index("function Invoke-EvidencePlacement"):source.index("function Invoke-StorePlacement")]
-require(placement.index("S00-EVIDENCE-ROOT-DESIGNATED") < placement.index("Get-CanonicalPath -Path $EvidenceRoot"),
-        "S00 must refuse before canonicalizing or touching an undesignated caller path")
+require(placement.index("S00-EVIDENCE-ROOT-DESIGNATED") < placement.index("S00-EVIDENCE-ROOT-EQUALS-DESIGNATION") < placement.index("Get-CanonicalPath -Path $EvidenceRoot"),
+        "S00 designation and exact equality must precede canonicalizing/accessing caller path")
+require(placement.index("S00-EVIDENCE-NO-REPARSE-IN-CHAIN") < placement.index("S00-EVIDENCE-OWNER-CURRENT-USER") and
+        placement.index("S00-STORE-NOT-IN-EVIDENCE") < placement.index("S00-EVIDENCE-OWNER-CURRENT-USER"),
+        "read-only root-owner comparison must follow path-integrity/store-separation gates")
 
 # Host/runtime and safety controls remain in source; this is not a host test.
 required_guards = [
@@ -144,7 +157,8 @@ required_guards = [
     "S00-NO-PRIOR-MARKER", "S02-COMMIT", "S02-TREE", "S02-CLEAN",
     "P1-F-ONE-ATTEMPT", "SECOND_INVOCATION_REFUSED",
     "EXECUTE-MARKER.json", "execute-claim.json",
-    "S00-EVIDENCE-NOT-IN-LISTED-WORKTREE", "S03-NO-WORKTREE-CONTAINS-STORE",
+    "S00-EVIDENCE-NOT-IN-LISTED-WORKTREE", "S00-EVIDENCE-OWNER-CURRENT-USER", "Get-Acl -LiteralPath $evFull",
+    "evidenceRootOwnerMatchesCurrentUser", "S03-NO-WORKTREE-CONTAINS-STORE",
 ]
 for guard in required_guards:
     require(guard in source, "required authority/runtime/path/single-attempt guard missing: " + guard)
@@ -169,9 +183,9 @@ for forbidden in [
 require("$DesignatedStorePath  = 'C:\\iips-data\\iips\\user-portfolio.sqlite'" in source,
         "exact PF-15 F4 designated store literal missing")
 for text, message in [
-    ("$BaselineIrrCommit    = '238dfa3185fcb77aac1a50e1d8dee60856c9739d'", "reviewed current-main baseline for post-merge freshness changed"),
+    ("$BaselineIrrCommit    = 'f6ae5ebd8552990fc156f7a4c9a6a1110b22a413'", "reviewed current-main baseline for post-merge freshness changed"),
     ("$P1FEntry             = '100644 blob a90bb00141194608e64503b24d43964bf7ff85a0'", "effective P1-F source entry is not bound to the current main tree"),
-    ("$TrackerPointerMarkers = @('**Latest (`CV-CORR-196`'", "current tracker pointer is not revision-bound"),
+    ("$TrackerPointerMarkers = @('**Latest (`CV-CORR-201`'", "current tracker pointer is not revision-bound"),
     ("'docs/integration/IIPS_v3.0_CAP03_P1_AUTHORIZATION_ACT_AND_PREREQUISITE_DECISIONS_2026-10-29.md'", "reviewed effective P1-F record is not allowlisted for exact-blob freshness checking"),
     ("$TrackerPointerRequiredText = 'P-1 remains **AUTHORIZED'", "freshness check no longer binds the authorized/unspent status"),
 ]:
@@ -212,10 +226,10 @@ require("$encoded = ('\\dist\\' + $relative)" in source,
 # The supplementary hosted route must remain strictly IRR-local and standard-library-only.
 for forbidden in ("npm ci", "npm install", "npm run", "iips-production-market-data", "git clone", "actions/cache"):
     require(forbidden not in irr_only_workflow, "IRR-only workflow contains forbidden dependency access: " + forbidden)
-for required in ("actions/checkout@v4", "actions/setup-python@v5", "python -m py_compile", "validate_windows10_host_profile.py", "pull_request", "branches:", "main"):
+for required in ("actions/checkout@v4", "actions/setup-python@v5", "python -m py_compile", "validate_windows10_host_profile.py", "pull_request", "branches:", "main", "IIPS_v3.0_CAP03_P1_QEV_RUN_RECORD_ROOT_PA_ACT_2026-10-30.md"):
     require(required in irr_only_workflow, "IRR-only workflow missing required safe check/trigger: " + required)
 
-# The additive current-main reconciliation preserves current main's full history and Revision 7 branch records.
+# Reconcile the complete tracker against the latest main snapshot and preserve prior branch records.
 require(not any(marker in tracker for marker in ("<<<<<<<", "=======", ">>>>>>>")),
         "unresolved merge marker remains in authoritative tracker")
 for heading in (
@@ -224,14 +238,17 @@ for heading in (
     "## §16.214 — `CV-CORR-194`:",
     "## §16.215 — `CV-CORR-195`:",
     "## §16.216 — `CV-CORR-196`:",
+    "## §16.218 — `CV-CORR-198`:",
+    "## §16.219 — `CV-CORR-199`:",
+    "## §16.220 — `CV-CORR-200`:",
+    "## §16.221 — `CV-CORR-201`:",
 ):
     require(tracker.count(heading) == 1, "authoritative tracker heading missing/duplicated: " + heading)
 for heading in ("## 16.208 CAP-03 P-1 Revision 5", "## 16.209 CAP-03 P-1 Revision 6", "## 16.210 CAP-03 P-1 Revision 7"):
     require(tracker.count(heading) == 1, "branch record not preserved exactly once: " + heading)
 
-# Prove current main's §§16.211/213/214/215 and the original branch history are preserved.
-base_commit = "238dfa3185fcb77aac1a50e1d8dee60856c9739d"
-branch_commit = "c0e9ce660e063ffccc94c07fdd442c56f56ab9c6"
+base_commit = "f6ae5ebd8552990fc156f7a4c9a6a1110b22a413"
+branch_commit = "a63b19b6eb705d209ec0d0e09e73f8cebc60c695"
 base_tracker = subprocess.run(
     ["git", "show", f"{base_commit}:{TRACKER.name}"], cwd=REPO,
     check=True, capture_output=True, text=True, encoding="utf-8",
@@ -241,47 +258,93 @@ branch_tracker = subprocess.run(
     check=True, capture_output=True, text=True, encoding="utf-8",
 ).stdout
 
+# Allocation census across all tracked IRR paths at the exact main/branch tips.
+def git_grep_count(revision: str, token: str) -> int:
+    result = subprocess.run(
+        ["git", "grep", "-F", "-n", token, revision, "--"], cwd=REPO,
+        capture_output=True, text=True, encoding="utf-8", check=False,
+    )
+    require(result.returncode in (0, 1), "git grep census failed at " + revision + ": " + token)
+    return len(result.stdout.splitlines())
+
+for revision in (base_commit, branch_commit):
+    require(git_grep_count(revision, "## §16.221") == 0,
+            "§16.221 already had an allocation heading at census baseline " + revision)
+    require(git_grep_count(revision, QEV_ACT_ID) == 0,
+            "Q-EV PA act ID was already present at census baseline " + revision)
+    for number in range(1703, 1714):
+        value = f"V{number}"
+        require(git_grep_count(revision, value) == 0,
+                "Q-EV verification allocation collides at census baseline " + revision + ": " + value)
+require(git_grep_count(base_commit, "CV-CORR-201") == 2 and
+        git_grep_count(base_commit, "CHG-2026-10-31-01") == 2 and
+        git_grep_count(base_commit, "V1702") == 2,
+        "latest main's §16.220 next-free declaration census changed")
+for token in ("CV-CORR-201", "CHG-2026-10-31-01", "V1702"):
+    require(git_grep_count(branch_commit, token) == 0,
+            "PR #382 pre-act branch already claimed the Q-EV allocation: " + token)
+
 def tracker_section(text: str, heading: str, end_heading: str | None = None) -> str:
     start = text.index("\n" + heading) + 1
     end = text.index("\n" + end_heading, start) if end_heading else len(text)
     return text[start:end]
-
-for start, end in (
-    ("## §16.211 — `CV-CORR-191`:", "## §16.213 — `CV-CORR-193`:"),
-    ("## §16.213 — `CV-CORR-193`:", "## §16.214 — `CV-CORR-194`:"),
-    ("## §16.214 — `CV-CORR-194`:", "## §16.215 — `CV-CORR-195`:"),
-    ("## §16.215 — `CV-CORR-195`:", None),
-):
-    base_part = tracker_section(base_tracker, start, end)
-    current_part = tracker_section(tracker, start, "## §16.216 — `CV-CORR-196`:")
-    require(current_part.startswith(base_part), "current-main register section not byte-preserved before additive overlay: " + start)
 
 def one_record(text: str, heading: str) -> str:
     at = text.index(heading)
     nxt = re.search(r"(?m)^## ", text[at + len(heading):])
     return text[at:at + len(heading) + nxt.start()] if nxt else text[at:]
 
+# Current main's records and the original Revision 7 branch history are byte-preserved.
+for start_heading, end_heading in (
+    ("## §16.211 — `CV-CORR-191`:", "## §16.213 — `CV-CORR-193`:"),
+    ("## §16.213 — `CV-CORR-193`:", "## §16.214 — `CV-CORR-194`:"),
+    ("## §16.214 — `CV-CORR-194`:", "## §16.215 — `CV-CORR-195`:"),
+    ("## §16.215 — `CV-CORR-195`:", "## §16.218 — `CV-CORR-198`:"),
+    ("## §16.218 — `CV-CORR-198`:", "## §16.219 — `CV-CORR-199`:"),
+    ("## §16.219 — `CV-CORR-199`:", "## §16.220 — `CV-CORR-200`:"),
+    ("## §16.220 — `CV-CORR-200`:", "## §16.221 — `CV-CORR-201`:"),
+):
+    require(one_record(tracker, start_heading).startswith(one_record(base_tracker, start_heading)),
+            "latest-main tracker section not byte-preserved: " + start_heading)
 for section in ("16.208", "16.209", "16.210"):
     heading = f"## {section} CAP-03 P-1 Revision"
     require(one_record(branch_tracker, heading) == one_record(tracker, heading),
             "branch Revision 5–7 section not byte-preserved: " + section)
+require(one_record(branch_tracker, "## §16.216 — `CV-CORR-196`:") ==
+        one_record(tracker, "## §16.216 — `CV-CORR-196`:"),
+        "previously published Revision 7 section §16.216 was not preserved")
 for verification_id in range(1649, 1662):
     row = f"| `V{verification_id}` |"
     require(tracker.count(row) == 1, "current reconciliation verification row missing/duplicated: " + row)
+for verification_id in range(1692, 1714):
+    row = f"| `V{verification_id}` |"
+    require(tracker.count(row) == 1, "main/Q-EV verification row missing/duplicated: " + row)
 require(tracker.count("| `2026-10-30` | `CHG-2026-10-30-11` |") == 1 and
-        "**Next free after this reconciliation:** `§16.217` / `CV-CORR-197` / `CHG-2026-10-30-12` / `V1662`." in tracker,
-        "change-log or next-free pointer is inconsistent with current reconciliation")
+        tracker.count("| `2026-10-30` | `CHG-2026-10-30-15` |") == 1 and
+        "current/next-free pointer is §16.217/CV-CORR-197/CHG-12/V1662" in tracker and
+        "Next free after this section: `§16.221` / `CV-CORR-201` / `CHG-2026-10-31-01` / `V1702`" in tracker,
+        "historical Revision 7 change-log or latest-main/Q-EV allocation is inconsistent")
 first_lines = "\n".join(tracker.splitlines()[:30])
-require("**Latest (`CV-CORR-196`, §16.216, `CHG-2026-10-30-11`" in first_lines,
-        "Last Updated pointer does not identify the current Revision 7 reconciliation")
-require("**Current CAP-03 P-1 / PF-15 status** — *current-state pointer (`CV-CORR-196`, §16.216" in first_lines,
-        "CAP-03 current-state pointer does not identify the Revision 7 reconciliation")
+require("**Latest (`CV-CORR-201`, §16.221, `CHG-2026-10-31-01`" in first_lines and
+        DESIGNATED_EVIDENCE_ROOT in first_lines,
+        "Last Updated pointer does not identify the current Q-EV designation")
+require("**Current CAP-03 P-1 / PF-15 status** — *current-state pointer (`CV-CORR-201`, §16.221" in first_lines and
+        "P-1-C NOT ESTABLISHED" in first_lines and "P-1-D DESIGNATED / NOT VERIFIED FOR THE ATTEMPT" in first_lines,
+        "CAP-03 current-state pointer does not identify the current one-attempt/Q-EV state")
 require("## §16.207 — `CV-CORR-187`: O-07 closed" in tracker,
         "origin/main O-07 section was lost in additive merge")
 for q in ["Q-CONS-2", "Q-CONS-3", "Q-MIG", "Q-TX", "Q-V8", "Q-WRITE", "Q-EV", "Q-BUILD"]:
     require(q in tracker[tracker.index("## §16.216"):], "tracker disposition missing: " + q)
 for required in ("No PA act or path is invented", "filesystem-owner designation", "PA-13 E10", "PF-15 F5", "PR #382"):
-    require(required in tracker[tracker.index("## §16.216"):], "Q-EV/root/publication boundary missing: " + required)
+    require(required in tracker[tracker.index("## §16.216"):tracker.index("## §16.218")],
+            "historical Q-EV/root/publication boundary was not preserved: " + required)
+current_qev = tracker[tracker.index("## §16.221 — `CV-CORR-201`:"): ]
+for required in (QEV_ACT_ID, DESIGNATED_EVIDENCE_ROOT, "existing personal Windows user account running the authorized operation",
+                 "Ramki**, sole system owner", "single authorized P-1 attempt only", "retained permanently",
+                 "original bytes, hashes, provenance", "NOT VERIFIED", "AUTHORIZED — NOT EXECUTED — UNSPENT",
+                 "P-1-C", "P-1-D", "V1702`–`V1713"):
+    require(required in current_qev, "current Q-EV act/tracker record is missing: " + required)
+require("PENDING" in current_qev, "publication ledger is missing pending final verification placeholders")
 request_doc = ROOT / "IIPS_v3.0_REPORTS_NP06_C4_HEADER_CLAIM_PA_DECISION_REQUEST_2026-10-30.md"
 act_doc = ROOT / "IIPS_V3_REPORTS_NP06_C4_2_HEADER_CLAIM_CLARIFICATION_PA_ACT_EFFECTIVE_2026-10-30.md"
 require(request_doc.is_file() and act_doc.is_file() and

@@ -1,6 +1,6 @@
 # IIPS v3.0 CAP-03 — P-1 (P1-F) source-to-script verification — historical Revision 5 plus current Revision 7 addendum
 
-> **Current companion status (2026-10-30):** the current procedure is Revision 7. Sections A–F and the Revision 6 addendum below preserve their dated snapshots; **section H governs the current Revision 7 one-pass reconciliation** wherever earlier statements differ; section G is preserved as the status at its original publication. No PowerShell parse, host run, S2 rerun, P-1 Preflight/Execute, or IPD access occurred for Revision 7.
+> **Current companion status (2026-10-30):** the current procedure is Revision 7. Sections A–F and the Revision 6 addendum below preserve their dated snapshots; **section I governs the current Q-EV designation and exact-root binding**, while section H governs the prior one-pass technical dispositions except where section I records the now-issued designation. Section G is preserved as the status at its original publication. No PowerShell parse, host run, S2 rerun, P-1 Preflight/Execute, or IPD access occurred for Revision 7.
 
 
 | Field | Value |
@@ -703,3 +703,45 @@ For this Revision 7 S04 path, the admitted `s2-a891802e-20261028T192516Z` L2a ev
 The PR #382 DIRTY report was not merely stale: `main` first advanced from the recorded PR base `72e56ba…` to `9b54dbd…`, and this branch was initially reconciled and published against that explicit snapshot. Before the work completed, main advanced again through PR #388 to `238dfa3185fcb77aac1a50e1d8dee60856c9739d`, recording the effective `C4-2` PA act and D-9 closure. That main section consumes §16.215 / `CV-CORR-195` / `CHG-2026-10-30-10` / `V1639`–`V1648`, which collides with the first Revision 7 allocation. To preserve current main without identifier reuse, Revision 7 is now §16.216 / `CV-CORR-196` / `CHG-2026-10-30-11`; its technical record `V1593`–`V1612` remains unchanged and its reconciliation verification range moves to `V1649`–`V1661`. Main §§16.211/213/214/215, the D-9 decision-request history and effective act/addenda are preserved; branch §§16.208–210 and the §16.212 reservation are preserved. The script freshness baseline is exact current main `238dfa…`, and its pointer guard requires §16.216.
 
 The current reconciled Revision 7 script is 1,650 LF lines / 119,683 bytes; SHA-256 `42253eab76161ecb2452b6b1fca8e629b010131b8bd88dbb5357dc929e084f90` (exact identity recorded at §16.216 / `V1654`). Verification is IRR-only: standard-library source/admitted-evidence/tracker validation, Python compilation, tracker marker/heading/identifier and source-identity checks, and `git diff --check`. The new `cap03-revision7-irr-static.yml` workflow uses only IRR checkout plus Python standard library and does not install Node/IPD dependencies. It is not run on this PR because GitHub loads PR workflows from the base branch and the workflow is newly added here; no full hosted workflow is triggered. The existing CI workflow's `npm ci` fetches three IPD Git dependencies, so it is not run. No PowerShell parser is available; no parse is claimed. No IPD access/clone/worktree/inspection/build/install/write, local operator filesystem investigation, S2 or host rerun, P-1 Preflight/Execute/entrypoint, store, database, marker, claim, evidence root, probe, dump, fixture, acceptance artifact, or second invocation occurred. `P-1-C` remains NOT ESTABLISHED; `P-1-D` remains DESIGNATED / NOT VERIFIED FOR THE ATTEMPT; both are not blockers. A6 remains NOT RUN. P-1 remains **AUTHORIZED — NOT EXECUTED — UNSPENT**.
+
+## I. Q-EV PA designation and exact-root Revision 7 binding — current addendum (2026-10-30)
+
+This additive IRR reconciliation records the user's explicit PA approval; it supersedes section H5 and the Q-EV row in section H **only as to the current designation status**. All other section H technical resolutions remain unchanged.
+
+| Field | Current record |
+|---|---|
+| PA act | `IIPS-V3-CAP03-P1-QEV-RUN-RECORD-ROOT-PA-DESIGNATION-ACT-2026-10-30-01`, `docs/integration/IIPS_v3.0_CAP03_P1_QEV_RUN_RECORD_ROOT_PA_ACT_2026-10-30.md` |
+| Tracker | §16.221 / `CV-CORR-201` / `CHG-2026-10-31-01` / `V1702`–`V1713` |
+| Canonical Q-EV root | **`H:\IIPS-P1-EVIDENCE`** — exact root supplied and expressly approved by Ramki; no alias or alternative authoritative namespace |
+| Accountable operator / security owner | Ramki under P1-F; sole system owner |
+| Filesystem owner | The existing personal Windows user account running the authorized operation; no account name, SID, service identity, or enterprise account is inferred |
+| Exclusive purpose / environment | Evidence for the single authorized P-1 attempt only; personal, single-user, non-commercial IIPS installation on one Windows laptop |
+| Claim / marker | `execute-claim.json` directly under the root; `EXECUTE-MARKER.json` under the unique execute run directory beneath it; both retained permanently |
+| Current Revision 7 script | 1,666 LF lines / 120,919 bytes; SHA-256 `6f5bed8fc17628a9817bcfe71dab795d20a4c940e8c8b0aa3b5422cd7b01b854` |
+| Current IRR baseline | `f6ae5ebd8552990fc156f7a4c9a6a1110b22a413`; additive integration preserves main §16.218/CV-CORR-198/CHG-13/V1672–V1681 and the effective O5-A decision §16.219/CV-CORR-199/CHG-14/V1682–V1691 and implementation/publication-blocker record §16.220/CV-CORR-200/CHG-2026-10-30-15/V1692–V1701; Q-EV uses §16.221 after main declared §16.221/CV-CORR-201/CHG-2026-10-31-01/V1702 next-free, and avoids the claimed/skipped §16.216–§16.217 ranges |
+
+### I1. Decision boundaries and permanent evidence semantics
+
+The designation is **APPROVED AND ISSUED**, but is not an execution. P1-F still grants exactly one attempt, remains AUTHORIZED — NOT EXECUTED — UNSPENT, and grants no retry. An acquired or indeterminate `execute-claim.json` is never automatically released or deleted. A pre-marker stop without a process-start request remains NOT CONSUMED under Q-CONS-2 but permanently blocks reuse through the retained claim. `EXECUTE-MARKER.json` is written before process start; marker creation or a process-start request consumes the attempt, including process-start failure. Marker and claim retention are permanent. Interrupted/partial evidence retains its original bytes, hashes, provenance, and chain of custody; it is not rewritten, re-rooted, treated as a second attempt, or replaced by an alternative authoritative namespace.
+
+### I2. Script binding and fail-closed owner check
+
+The Revision 7 script now sets `$EvidenceRootDesignationState = 'DESIGNATED'` and `$DesignatedEvidenceRoot = 'H:\IIPS-P1-EVIDENCE'`. Mandatory `-EvidenceRoot` equality is exact and case-sensitive; the designation and equality checks precede `Get-CanonicalPath` and any access to caller-supplied evidence-root input. The claim and marker locations derive beneath this root.
+
+After the root has passed the existing S00 checks for existence, fixed NTFS, non-root placement, SUBST/reparse/worktree/path integrity, store separation, and the environment-only OneDrive check, S00 now performs a **read-only filesystem owner SID comparison**: the root's owner must equal the SID of the currently running Windows user. The result is recorded as a Boolean only; no account name or SID is emitted. Failure or an unresolvable identity stops before claim/run-directory creation. This is an execution-time guard, not a host fact observed in this IRR review, and it does not prove the personal account is accessible or writable.
+
+The selected `ACL_EVALUATION` remains unchanged: `Get-WriteAclEvaluation` is a read-only DACL projection for the nearest existing **store-parent** ancestor, not an effective-access test or proof of writability. The new root-owner comparison is not a DACL/effective-access evaluation. No ACL or ownership was inspected on H: during this work.
+
+### I3. Required checks and non-claims
+
+The root must already exist; neither this act nor the script's root gate creates it. Execution must still establish local fixed NTFS, not a drive root, no SUBST alias or prohibited reparse chain, no relevant Git worktree, separation from the SQLite store and its path chain, and absence of previous P-1 run/claim/marker state. The environment-variable OneDrive check is not proof of sync state. The reported `142 GB` free on H: is capacity only and does not demonstrate existence, locality, filesystem type, owner, security, suitability, or successful checks.
+
+This pass did not access IPD, inspect the operator's filesystem, create the root/store/database/claim/marker/probe/evidence/acceptance file, run PowerShell, run a host check, perform P-1 Preflight/Execute, invoke provisioning, or run consuming tests. No filesystem check is claimed passed. PR #382 must remain OPEN/UNMERGED; the script's authoritative-main freshness gate remains active, and the branch publication alone cannot initiate an attempt.
+
+### I4. Unchanged adjudications
+
+Q-CONS-2/3, Q-MIG, Q-TX, Q-V8, Q-WRITE and Q-BUILD remain exactly as resolved in section H. PA-06/13/19/20/1, their waivers, admitted evidence, NOT RUN and NOT ESTABLISHED statuses remain unchanged. `P-1-C` is still **NOT ESTABLISHED**; `P-1-D` remains **DESIGNATED / NOT VERIFIED FOR THE ATTEMPT**; both are non-blockers, not PASS. No earlier PA decision is reopened or amended.
+
+### I5. IRR-only validation and publication
+
+The final source SHA-256, line/byte identity, static-validator result, `py_compile`, diff/scope audit, exact pushed commit, and PR #382 read-back are recorded in tracker verification rows V1708–V1713 after completion. Only Python standard-library checks and static IRR source/document inspection are permitted. No frontend/npm/full workflow or hosted CI that could fetch IPD dependencies is run. PowerShell 5.1 parse and Windows host validation remain NOT RUN / NOT PERFORMED.
