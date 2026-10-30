@@ -350,7 +350,11 @@ for required in (QEV_ACT_ID, DESIGNATED_EVIDENCE_ROOT, "existing personal Window
     require(required in current_qev, "current Q-EV act/tracker record is missing: " + required)
 require("PASS — merge reconciliation commit `7ced4ad6faf1eaa33bd2fd3d39fcbc7c5ea46f86`" in current_qev and
         "final head/state are read back separately" in current_qev,
-        "publication ledger is missing the verified PR #382 push/read-back record")
+        "publication ledger is missing the verified prior PR #382 push/read-back record")
+require("PASS — commit `5dd5b9f227be9652f10a99d49887d3e1093929ab` pushed without force" in current_qev and
+        "9c0a78baa676275b4a7557aa1ac02ccbc98459d4" in current_qev and
+        "mergeStateStatus: UNSTABLE" in current_qev,
+        "operator evidence publication ledger is missing the remote commit/tree/PR state read-back")
 # Verify the later operator-supplied Q-EV evidence and DACL acceptance without elevating it to execution evidence.
 operator_record = OPERATOR_QEV_RECORD.read_text(encoding="utf-8")
 for required in (
