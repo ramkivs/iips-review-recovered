@@ -17084,7 +17084,7 @@ Before any actual application execution, all existing execution authorities/desi
 | `V1562` | Rev5 acceptance/preflight cannot bind Revision 6 after source SHA change | VERIFIED from script SHA-binding source |
 | `V1563` | README, auth handoff, source verification appendix and tracker agree on exact target, hash, status and scope | PASS after final static checks |
 | `V1564` | `git diff --check`, static Python validator, script hash, change-scope review | PASS (static only; no PowerShell/Windows execution) |
-| `V1565` | Push to existing branch, PR #382 head/state, independent remote artifact read-back, exact-head CI | TO BE RECORDED AFTER PUBLICATION |
+| `V1565` | Implementation commit `4b226b76f4d1d6cffbe213c3cd7b44b42ce120e7` independently confirmed at the existing branch; PR #382 OPEN/unmerged; all six changed artifacts read back byte-identically via GitHub Contents/Git Blob APIs; exact-head CI run `41040272522` passed Typecheck, Test and Build | PASS |
 
 **Next free after this pass:** §16.209 / `CV-CORR-189` / `CHG-2026-10-30-03` / `V1566`.
 
