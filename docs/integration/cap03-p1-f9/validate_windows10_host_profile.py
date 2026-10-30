@@ -483,7 +483,7 @@ require(tracker.count("## §16.225 — `CV-CORR-205`:") == 1 and
         "post-merge review allocation or change-log row missing/duplicated")
 require(git_grep_count(base_commit, "## §16.225") == 0,
         "post-merge review allocation already existed on the current-main baseline")
-for verification_id in range(1748, 1756):
+for verification_id in range(1748, 1761):
     row = f"| `V{verification_id}` |"
     require(tracker.count(row) == 1, "post-merge verification row missing/duplicated: " + row)
 for verification_id in range(1738, 1748):
