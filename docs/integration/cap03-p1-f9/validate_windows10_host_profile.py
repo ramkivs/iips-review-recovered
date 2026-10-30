@@ -24,10 +24,13 @@ OPERATOR_QEV_ID = "IIPS-V3-CAP03-P1-QEV-OPERATOR-VERIFICATION-DACL-ACCEPTANCE-20
 OPERATOR_QEV_RECORD = ROOT / "IIPS_v3.0_CAP03_P1_QEV_OPERATOR_VERIFICATION_DACL_ACCEPTANCE_2026-10-30.md"
 DESIGNATED_EVIDENCE_ROOT = r"H:\IIPS-P1-EVIDENCE"
 IRR_ONLY_WORKFLOW = REPO / ".github" / "workflows" / "cap03-revision7-irr-static.yml"
+GENERIC_CI_WORKFLOW = REPO / ".github" / "workflows" / "ci.yml"
+POST_CI_RECORD = ROOT / "IIPS_v3.0_CAP03_P1_REV7_POST_CI_BOUNDARY_RECONCILIATION_2026-10-30.md"
+POST_CI_RECORD_ID = "IIPS-V3-CAP03-P1-REV7-POST-CI-BOUNDARY-RECONCILIATION-2026-10-30-01"
 EVIDENCE_ROOT = REPO / "evidence" / "cap03-s2"
 RUN_ID = "s2-a891802e-20261028T192516Z"
 RUN_DIR = EVIDENCE_ROOT / RUN_ID
-EXPECTED_SHA256 = "650c2913d80a24ae349a16841de7201931a7198e2038920d43e7a2200e7eab0b"
+EXPECTED_SHA256 = "4442833d569fb8a738cd90c3e76bea8988d3895ea23f66a06a2661e4aff451a2"
 EXPECTED_SEAL_SHA256 = "9D3C09DBDB691C2527A45605DEA20826B4EC2BA2F110985EE3F1033783B5225E"
 EXPECTED_DEPOSIT_SHA256 = "FFD0956482427ACB404543E36DAC2705D802B04828E380290232C06129F3AFAD"
 EXPECTED_TRANSCRIPT_SHA256 = "D4C5D9431115BF57D824DF465E3D99B11C619BC6D59A3F0974036F3BFCC2F7CA"
@@ -62,6 +65,8 @@ tracker = TRACKER.read_text(encoding="utf-8")
 pf15_act = PF15_ACT.read_text(encoding="utf-8")
 qev_act = QEV_ACT.read_text(encoding="utf-8")
 irr_only_workflow = IRR_ONLY_WORKFLOW.read_text(encoding="utf-8")
+generic_ci_workflow = GENERIC_CI_WORKFLOW.read_text(encoding="utf-8")
+post_ci_record = POST_CI_RECORD.read_text(encoding="utf-8")
 script_sha = hashlib.sha256(script_bytes).hexdigest()
 if EXPECTED_SHA256 != "TO_BE_SET_AFTER_FINAL_EDIT":
     require(script_sha == EXPECTED_SHA256, "Revision 7 source SHA-256 differs from the pinned validator identity")
@@ -187,7 +192,7 @@ require("$DesignatedStorePath  = 'C:\\iips-data\\iips\\user-portfolio.sqlite'" i
 for text, message in [
     ("$BaselineIrrCommit    = 'f6ae5ebd8552990fc156f7a4c9a6a1110b22a413'", "reviewed current-main baseline for post-merge freshness changed"),
     ("$P1FEntry             = '100644 blob a90bb00141194608e64503b24d43964bf7ff85a0'", "effective P1-F source entry is not bound to the current main tree"),
-    ("$TrackerPointerMarkers = @('**Latest (`CV-CORR-202`'", "current tracker pointer is not revision-bound"),
+    ("$TrackerPointerMarkers = @('**Latest (`CV-CORR-203`'", "current tracker pointer is not revision-bound"),
     ("'docs/integration/IIPS_v3.0_CAP03_P1_AUTHORIZATION_ACT_AND_PREREQUISITE_DECISIONS_2026-10-29.md'", "reviewed effective P1-F record is not allowlisted for exact-blob freshness checking"),
     ("$TrackerPointerRequiredText = 'P-1 remains **AUTHORIZED'", "freshness check no longer binds the authorized/unspent status"),
 ]:
@@ -229,8 +234,39 @@ require("$encoded = ('\\dist\\' + $relative)" in source,
 for forbidden in ("npm ci", "npm install", "npm run", "iips-production-market-data", "git clone", "actions/cache"):
     require(forbidden not in irr_only_workflow, "IRR-only workflow contains forbidden dependency access: " + forbidden)
 for required in ("actions/checkout@v4", "actions/setup-python@v5", "python -m py_compile", "validate_windows10_host_profile.py", "pull_request", "branches:", "main", "IIPS_v3.0_CAP03_P1_QEV_RUN_RECORD_ROOT_PA_ACT_2026-10-30.md",
-                 "IIPS_v3.0_CAP03_P1_QEV_OPERATOR_VERIFICATION_DACL_ACCEPTANCE_2026-10-30.md"):
+                 "IIPS_v3.0_CAP03_P1_QEV_OPERATOR_VERIFICATION_DACL_ACCEPTANCE_2026-10-30.md",
+                 "IIPS_v3.0_CAP03_P1_REV7_POST_CI_BOUNDARY_RECONCILIATION_2026-10-30.md",
+                 "'.github/workflows/ci.yml'"):
     require(required in irr_only_workflow, "IRR-only workflow missing required safe check/trigger: " + required)
+
+# Product CI retains its checks only for frontend/test-guard changes. IRR-only updates must stay on
+# the separate dependency-free route; changes to this workflow are covered by that route too.
+expected_ci_triggers = """on:
+  pull_request:
+    paths:
+      - 'frontend/**'
+      - '.ci/**'
+  push:
+    branches:
+      - main
+    paths:
+      - 'frontend/**'
+      - '.ci/**'
+"""
+require(expected_ci_triggers in generic_ci_workflow,
+        "generic CI is not narrowly path-scoped to frontend/test-guard changes")
+ci_trigger_text = generic_ci_workflow.split("\non:\n", 1)[1].split("\n# Read-only:", 1)[0]
+require("docs/integration/" not in ci_trigger_text and
+        "IIPS_V3_E2E_MASTER_TRACKER" not in ci_trigger_text and
+        ".github/workflows/ci.yml" not in ci_trigger_text and
+        "workflow_dispatch" not in ci_trigger_text,
+        "generic CI trigger allowlist includes an IRR-only path or manual dispatch")
+require("run: npm ci --no-audit --no-fund" in generic_ci_workflow and
+        "ramkivs/iips-production-market-data" in (REPO / "frontend" / "package.json").read_text(encoding="utf-8"),
+        "product CI's IPD-pinned install risk is no longer explicit in its reviewed source")
+require(POST_CI_RECORD_ID in post_ci_record and "network access to the IPD GitHub repository during this run is **UNVERIFIED**" in post_ci_record and
+        "UNVERIFIED" in post_ci_record and "AUTHORIZED — NOT EXECUTED — UNSPENT" in post_ci_record,
+        "post-CI record does not preserve the access uncertainty and P-1 status")
 
 # Reconcile the complete tracker against the latest main snapshot and preserve prior branch records.
 require(not any(marker in tracker for marker in ("<<<<<<<", "=======", ">>>>>>>")),
@@ -246,6 +282,7 @@ for heading in (
     "## §16.220 — `CV-CORR-200`:",
     "## §16.221 — `CV-CORR-201`:",
     "## §16.222 — `CV-CORR-202`:",
+    "## §16.223 — `CV-CORR-203`:",
 ):
     require(tracker.count(heading) == 1, "authoritative tracker heading missing/duplicated: " + heading)
 for heading in ("## 16.208 CAP-03 P-1 Revision 5", "## 16.209 CAP-03 P-1 Revision 6", "## 16.210 CAP-03 P-1 Revision 7"):
@@ -329,11 +366,12 @@ require(tracker.count("| `2026-10-30` | `CHG-2026-10-30-11` |") == 1 and
         "Next free after this section: `§16.221` / `CV-CORR-201` / `CHG-2026-10-31-01` / `V1702`" in tracker,
         "historical Revision 7 change-log or latest-main/Q-EV allocation is inconsistent")
 first_lines = "\n".join(tracker.splitlines()[:30])
-require("**Latest (`CV-CORR-202`, §16.222, `CHG-2026-10-31-02`" in first_lines and
+require("**Latest (`CV-CORR-203`, §16.223, `CHG-2026-10-31-03`" in first_lines and
+        "actual IPD access is **UNVERIFIED**" in first_lines and
         DESIGNATED_EVIDENCE_ROOT in first_lines,
-        "Last Updated pointer does not identify the current Q-EV designation")
-require("**Current CAP-03 P-1 / PF-15 status** — *current-state pointer (`CV-CORR-202`, §16.222" in first_lines and
-        "P-1-C NOT ESTABLISHED" in first_lines and "P-1-D DESIGNATED / NOT VERIFIED FOR THE ATTEMPT" in first_lines,
+        "Last Updated pointer does not identify the post-CI boundary reconciliation")
+require("**Current CAP-03 P-1 / PF-15 status** — *current-state pointer (`CV-CORR-203`, §16.223" in first_lines and
+        "P-1-C remains NOT ESTABLISHED" in first_lines and "P-1-D DESIGNATED / NOT VERIFIED FOR THE ATTEMPT" in first_lines,
         "CAP-03 current-state pointer does not identify the current one-attempt/Q-EV state")
 require("## §16.207 — `CV-CORR-187`: O-07 closed" in tracker,
         "origin/main O-07 section was lost in additive merge")
@@ -395,6 +433,31 @@ require(git_grep_count(prior_qev_commit, "CV-CORR-202") == 2 and
         git_grep_count(prior_qev_commit, "CHG-2026-10-31-02") == 2 and
         git_grep_count(prior_qev_commit, "V1714") == 2,
         "pre-update PR #382 head no longer declares the expected §16.222 next-free allocation")
+
+# The post-CI correction consumes only the §16.223 allocation declared by the pre-update branch.
+prior_ci_commit = "698920a8c7a43801cafd592129401ea6c399b75d"
+for revision in (base_commit, prior_ci_commit):
+    require(git_grep_count(revision, "## §16.223") == 0 and
+            git_grep_count(revision, POST_CI_RECORD_ID) == 0,
+            "post-CI reconciliation allocation already existed at census baseline " + revision)
+    for number in range(1729, 1738):
+        require(git_grep_count(revision, f"V{number}") == 0,
+                "post-CI verification allocation collides at census baseline " + revision)
+for token in ("CV-CORR-203", "CHG-2026-10-31-03", "V1728"):
+    require(git_grep_count(base_commit, token) == 0,
+            "latest main already claims the post-CI allocation: " + token)
+    require(git_grep_count(prior_ci_commit, token) == 1,
+            "pre-update PR #382 head does not declare exactly one post-CI next-free token: " + token)
+require(tracker.count("## §16.223 — `CV-CORR-203`:") == 1 and
+        tracker.count(POST_CI_RECORD_ID) >= 1,
+        "post-CI reconciliation heading or record identity missing/duplicated")
+for verification_id in range(1728, 1738):
+    row = f"| `V{verification_id}` |"
+    require(tracker.count(row) == 1, "post-CI verification row missing/duplicated: " + row)
+for required in ("41102065894", "41102065682", "41101977469", "41101976326",
+                 "results-receiver.actions.githubusercontent.com", "npm cache", "boundary deviation",
+                 "P-1 remains **AUTHORIZED — NOT EXECUTED — UNSPENT**"):
+    require(required in post_ci_record, "post-CI record missing verified evidence or limitation: " + required)
 
 request_doc = ROOT / "IIPS_v3.0_REPORTS_NP06_C4_HEADER_CLAIM_PA_DECISION_REQUEST_2026-10-30.md"
 act_doc = ROOT / "IIPS_V3_REPORTS_NP06_C4_2_HEADER_CLAIM_CLARIFICATION_PA_ACT_EFFECTIVE_2026-10-30.md"

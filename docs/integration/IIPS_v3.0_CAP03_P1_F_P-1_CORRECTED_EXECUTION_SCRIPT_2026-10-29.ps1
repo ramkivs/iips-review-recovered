@@ -145,7 +145,7 @@ $Pf15Path             = 'docs/integration/IIPS_v3.0_CAP03_PF15_ENDPOINT_LOCAL_ST
 $Pf15Entry            = '100644 blob 3fe9a2ddd5f3b8730eccee7748b6266b5e2d8b1d'
 $TrackerPath          = 'IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md'
 # After publication, main must carry this revision's dated status pointers. The baseline is current authoritative main at merge reconciliation; later main changes are freshness-checked.
-$TrackerPointerMarkers = @('**Latest (`CV-CORR-202`', '**Current CAP-03 P-1 / PF-15 status**')
+$TrackerPointerMarkers = @('**Latest (`CV-CORR-203`', '**Current CAP-03 P-1 / PF-15 status**')
 $TrackerPointerRequiredText = 'P-1 remains **AUTHORIZED'
 $P1NamePattern        = '(?i)(P1|P-1|GATE[_-]A[_-]PRIME|PF-?15|PA[_-]RULING)'
 $TrackerP1Term        = '(?i)(P-1|P1-F|CAP-03 P1)'
