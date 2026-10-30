@@ -306,20 +306,64 @@ function Test-F9_7 {
     # Exercise the exact outer catch body from the authoritative file with a marker on disk; sinks are intercepted only to keep all writes in this fixture.
     $outerTry=@($ProductionAst.EndBlock.Statements|Where-Object{$_ -is [System.Management.Automation.Language.TryStatementAst]})|Select-Object -Last 1
     Assert-That ($null -ne $outerTry -and $outerTry.CatchClauses.Count -eq 1) 'outer main catch AST must be found'
-    $catchText=$outerTry.CatchClauses[0].Body.Extent.Text;$catchBlock=[scriptblock]::Create($catchText)
+    $catchBody=$outerTry.CatchClauses[0].Body
+    $markerCheckStatements=@($catchBody.Statements|Where-Object{$_ -is [System.Management.Automation.Language.IfStatementAst] -and $_.Extent.Text.Contains('$script:MarkerWritten') -and $_.Extent.Text.Contains('$MarkerName')})
+    Assert-That ($markerCheckStatements.Count -eq 1) 'exact outer-catch marker-on-disk if statement must be identified once'
+    $catchStatementTexts=New-Object System.Collections.ArrayList
+    $markerSnapshotCall='Write-F9MarkerCatchSnapshot -Mode $Mode -MarkerName $MarkerName -RunDir $script:RunDir -MarkerWritten $script:MarkerWritten -ExecuteCalls $script:ExecuteCalls'
+    foreach($statement in $catchBody.Statements){
+        if($statement.Extent.StartOffset -eq $markerCheckStatements[0].Extent.StartOffset){[void]$catchStatementTexts.Add($markerSnapshotCall)}
+        [void]$catchStatementTexts.Add($statement.Extent.Text)
+    }
+    $catchStatements=@($catchStatementTexts) -join "`r`n"
+    Assert-That ($catchStatements -ne '') 'exact outer-catch AST statements must be extractable'
     $markerRun=Join-Path $base 'marker-run';[void](New-Item -ItemType Directory -Path $markerRun);$script:RunDir=$markerRun;$script:MarkerName='EXECUTE-MARKER.json';$script:MarkerWritten=$false;$script:ExecuteCalls=0;$script:Mode='Preflight';$script:Outcome='STOPPED_BEFORE_MARKER';$script:Phase='S07-MARKER';$script:Failure='';$script:Sealed=$false;$script:SummaryRequested='';$script:SealRequested=$false
-    # Production catch reads $Mode and $MarkerName unqualified. Bind those names here, then dot-source the exact
-    # extracted body so its $script: writes share the runner scope, as in the top-level production catch. Using &
-    # would add a child scope and would not reproduce that top-level execution context.
+    # Production reads $Mode and $MarkerName unqualified. Bind those top-level names explicitly in this harness.
     $Mode=[string]$script:Mode;$MarkerName=[string]$script:MarkerName
     Assert-That ($Mode -ceq 'Preflight' -and $MarkerName -ceq 'EXECUTE-MARKER.json') 'catch harness must bind the production top-level names and values'
     Assert-That (-not $script:MarkerWritten -and $script:ExecuteCalls -eq 0) 'catch fixture must begin with false marker flag and zero execute calls'
-    [IO.File]::WriteAllText((Join-Path $markerRun $MarkerName),'fixture marker only',(New-Object System.Text.UTF8Encoding($false)))
-    Assert-That (Test-Path -LiteralPath (Join-Path $script:RunDir $MarkerName) -PathType Leaf) 'fixture marker must exist at the exact unqualified-marker path before the catch runs'
+    $markerPathBefore=Join-Path $script:RunDir $MarkerName
+    [IO.File]::WriteAllText($markerPathBefore,'fixture marker only',(New-Object System.Text.UTF8Encoding($false)))
+    $markerBefore=[pscustomobject]@{Mode=$Mode;MarkerName=$MarkerName;RunDir=[string]$script:RunDir;MarkerWritten=[bool]$script:MarkerWritten;ExecuteCalls=[int]$script:ExecuteCalls;MarkerPath=[string]$markerPathBefore;MarkerFileExists=[IO.File]::Exists($markerPathBefore)}
+    Assert-That ($markerBefore.MarkerFileExists -and (Test-Path -LiteralPath $markerPathBefore -PathType Leaf)) 'fixture marker must exist at the exact catch lookup path before execution'
+    $script:F9MarkerSnapshot=$null
+    function Write-F9MarkerCatchSnapshot {
+        param([string]$Mode,[string]$MarkerName,[string]$RunDir,[bool]$MarkerWritten,[int]$ExecuteCalls)
+        $path='';if(($RunDir -ne '') -and ($MarkerName -ne '')){try{$path=Join-Path $RunDir $MarkerName}catch{$path=''}}
+        $exists=$false;if($path -ne ''){$exists=[IO.File]::Exists($path)}
+        $script:F9MarkerSnapshot=[pscustomobject]@{Mode=$Mode;MarkerName=$MarkerName;RunDir=$RunDir;MarkerWritten=$MarkerWritten;ExecuteCalls=$ExecuteCalls;MarkerPath=$path;MarkerFileExists=$exists}
+    }
+    $script:F9MarkerProbe=[pscustomobject]@{Calls=0;LiteralPath='';PathType='';Result=$false;RunDirAtCall='';MarkerWrittenAtCall=$null;ExecuteCallsAtCall=$null}
+    $priorTestPathFunction=Get-Item Function:\Test-Path -ErrorAction SilentlyContinue
+    function Test-Path {
+        param([string]$LiteralPath,[string]$PathType)
+        $actual=Microsoft.PowerShell.Management\Test-Path -LiteralPath $LiteralPath -PathType $PathType
+        $script:F9MarkerProbe.Calls=[int]$script:F9MarkerProbe.Calls+1
+        $script:F9MarkerProbe.LiteralPath=[string]$LiteralPath
+        $script:F9MarkerProbe.PathType=[string]$PathType
+        $script:F9MarkerProbe.Result=[bool]$actual
+        $script:F9MarkerProbe.RunDirAtCall=[string]$script:RunDir
+        $script:F9MarkerProbe.MarkerWrittenAtCall=[bool]$script:MarkerWritten
+        $script:F9MarkerProbe.ExecuteCallsAtCall=[int]$script:ExecuteCalls
+        return $actual
+    }
     function Write-Summary {param([string]$FileName)$script:SummaryRequested=$FileName}
     function Write-Seal {$script:SealRequested=$true}
-    try { try { throw 'F9 marker-on-disk injection' } catch { . $catchBlock } } finally { Remove-Item Function:\Write-Summary -ErrorAction SilentlyContinue;Remove-Item Function:\Write-Seal -ErrorAction SilentlyContinue }
-    Assert-That $script:MarkerWritten 'outer catch must detect marker present on disk even when in-memory flag is false'
+    $catchExecutionError=''
+    try { try { throw 'F9 marker-on-disk injection' } catch { try { Invoke-Expression $catchStatements } catch { $catchExecutionError=$_.Exception.Message } } }
+    finally {
+        Remove-Item Function:\Write-Summary -ErrorAction SilentlyContinue
+        Remove-Item Function:\Write-Seal -ErrorAction SilentlyContinue
+        Remove-Item Function:\Write-F9MarkerCatchSnapshot -ErrorAction SilentlyContinue
+        if($null -ne $priorTestPathFunction){Set-Item Function:\Test-Path -Value $priorTestPathFunction.ScriptBlock}else{Remove-Item Function:\Test-Path -ErrorAction SilentlyContinue}
+    }
+    $markerAfter=[pscustomobject]@{RunDir=[string]$script:RunDir;MarkerWritten=[bool]$script:MarkerWritten;ExecuteCalls=[int]$script:ExecuteCalls;Failure=[string]$script:Failure;Outcome=[string]$script:Outcome}
+    $markerTrace=[ordered]@{Before=$markerBefore;CatchStateBeforeMarkerCheck=$script:F9MarkerSnapshot;CatchExecutionError=$catchExecutionError;CatchTestPathCalls=[int]$script:F9MarkerProbe.Calls;CatchTestPathLiteralPath=[string]$script:F9MarkerProbe.LiteralPath;CatchTestPathType=[string]$script:F9MarkerProbe.PathType;CatchTestPathResult=[bool]$script:F9MarkerProbe.Result;RunDirAtTestPath=[string]$script:F9MarkerProbe.RunDirAtCall;MarkerWrittenAtTestPath=[bool]$script:F9MarkerProbe.MarkerWrittenAtCall;ExecuteCallsAtTestPath=[int]$script:F9MarkerProbe.ExecuteCallsAtCall;After=$markerAfter;AssertionPredicate=[bool]$script:MarkerWritten}
+    $markerTraceJson=$markerTrace|ConvertTo-Json -Compress -Depth 5
+    Write-TestLog ('F9-7-MARKER-DIAGNOSTIC '+$markerTraceJson)
+    Assert-That ($catchExecutionError -eq '') ('exact extracted catch statements must complete; trace='+$markerTraceJson)
+    Assert-That $script:MarkerWritten ('outer catch must detect marker present on disk even when in-memory flag is false; trace='+$markerTraceJson)
+    Assert-That ($script:F9MarkerProbe.Calls -eq 1 -and $script:F9MarkerProbe.LiteralPath -ceq $markerPathBefore -and $script:F9MarkerProbe.PathType -ceq 'Leaf' -and $script:F9MarkerProbe.Result) ('catch must reach exactly the expected marker Test-Path and observe a leaf; trace='+$markerTraceJson)
     Assert-That ($script:Outcome -eq 'MARKER_WRITTEN_STOPPED_AFTER_MARKER' -and $script:ExecuteCalls -eq 0) 'marker-on-disk path must record stopped after marker without implying process invocation'
     Assert-That ($script:SummaryRequested -eq 'failure-summary.json' -and $script:SealRequested) 'outer catch must request failure summary and seal through fixture sinks'
     Add-Result 'F9-7' 'PASS' 'actual post-forensics function isolated raw/receipt/store-hash/store-state/validate/dump/ledger failures; actual Write-Seal success and CreateNew refusal tested; exact main catch AST recognized fixture marker; no node or entrypoint process started'
