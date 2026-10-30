@@ -20,12 +20,14 @@ AUTHORITY = ROOT / "IIPS_v3.0_CAP03_P1_AUTHORIZATION_ACT_AND_PREREQUISITE_DECISI
 PF15_ACT = ROOT / "IIPS_v3.0_CAP03_PF15_ENDPOINT_LOCAL_STATE_DESIGNATION_PA_ACT_CORRECTED_2026-10-26.md"
 QEV_ACT = ROOT / "IIPS_v3.0_CAP03_P1_QEV_RUN_RECORD_ROOT_PA_ACT_2026-10-30.md"
 QEV_ACT_ID = "IIPS-V3-CAP03-P1-QEV-RUN-RECORD-ROOT-PA-DESIGNATION-ACT-2026-10-30-01"
+OPERATOR_QEV_ID = "IIPS-V3-CAP03-P1-QEV-OPERATOR-VERIFICATION-DACL-ACCEPTANCE-2026-10-30-01"
+OPERATOR_QEV_RECORD = ROOT / "IIPS_v3.0_CAP03_P1_QEV_OPERATOR_VERIFICATION_DACL_ACCEPTANCE_2026-10-30.md"
 DESIGNATED_EVIDENCE_ROOT = r"H:\IIPS-P1-EVIDENCE"
 IRR_ONLY_WORKFLOW = REPO / ".github" / "workflows" / "cap03-revision7-irr-static.yml"
 EVIDENCE_ROOT = REPO / "evidence" / "cap03-s2"
 RUN_ID = "s2-a891802e-20261028T192516Z"
 RUN_DIR = EVIDENCE_ROOT / RUN_ID
-EXPECTED_SHA256 = "6f5bed8fc17628a9817bcfe71dab795d20a4c940e8c8b0aa3b5422cd7b01b854"
+EXPECTED_SHA256 = "650c2913d80a24ae349a16841de7201931a7198e2038920d43e7a2200e7eab0b"
 EXPECTED_SEAL_SHA256 = "9D3C09DBDB691C2527A45605DEA20826B4EC2BA2F110985EE3F1033783B5225E"
 EXPECTED_DEPOSIT_SHA256 = "FFD0956482427ACB404543E36DAC2705D802B04828E380290232C06129F3AFAD"
 EXPECTED_TRANSCRIPT_SHA256 = "D4C5D9431115BF57D824DF465E3D99B11C619BC6D59A3F0974036F3BFCC2F7CA"
@@ -185,7 +187,7 @@ require("$DesignatedStorePath  = 'C:\\iips-data\\iips\\user-portfolio.sqlite'" i
 for text, message in [
     ("$BaselineIrrCommit    = 'f6ae5ebd8552990fc156f7a4c9a6a1110b22a413'", "reviewed current-main baseline for post-merge freshness changed"),
     ("$P1FEntry             = '100644 blob a90bb00141194608e64503b24d43964bf7ff85a0'", "effective P1-F source entry is not bound to the current main tree"),
-    ("$TrackerPointerMarkers = @('**Latest (`CV-CORR-201`'", "current tracker pointer is not revision-bound"),
+    ("$TrackerPointerMarkers = @('**Latest (`CV-CORR-202`'", "current tracker pointer is not revision-bound"),
     ("'docs/integration/IIPS_v3.0_CAP03_P1_AUTHORIZATION_ACT_AND_PREREQUISITE_DECISIONS_2026-10-29.md'", "reviewed effective P1-F record is not allowlisted for exact-blob freshness checking"),
     ("$TrackerPointerRequiredText = 'P-1 remains **AUTHORIZED'", "freshness check no longer binds the authorized/unspent status"),
 ]:
@@ -226,7 +228,8 @@ require("$encoded = ('\\dist\\' + $relative)" in source,
 # The supplementary hosted route must remain strictly IRR-local and standard-library-only.
 for forbidden in ("npm ci", "npm install", "npm run", "iips-production-market-data", "git clone", "actions/cache"):
     require(forbidden not in irr_only_workflow, "IRR-only workflow contains forbidden dependency access: " + forbidden)
-for required in ("actions/checkout@v4", "actions/setup-python@v5", "python -m py_compile", "validate_windows10_host_profile.py", "pull_request", "branches:", "main", "IIPS_v3.0_CAP03_P1_QEV_RUN_RECORD_ROOT_PA_ACT_2026-10-30.md"):
+for required in ("actions/checkout@v4", "actions/setup-python@v5", "python -m py_compile", "validate_windows10_host_profile.py", "pull_request", "branches:", "main", "IIPS_v3.0_CAP03_P1_QEV_RUN_RECORD_ROOT_PA_ACT_2026-10-30.md",
+                 "IIPS_v3.0_CAP03_P1_QEV_OPERATOR_VERIFICATION_DACL_ACCEPTANCE_2026-10-30.md"):
     require(required in irr_only_workflow, "IRR-only workflow missing required safe check/trigger: " + required)
 
 # Reconcile the complete tracker against the latest main snapshot and preserve prior branch records.
@@ -242,6 +245,7 @@ for heading in (
     "## §16.219 — `CV-CORR-199`:",
     "## §16.220 — `CV-CORR-200`:",
     "## §16.221 — `CV-CORR-201`:",
+    "## §16.222 — `CV-CORR-202`:",
 ):
     require(tracker.count(heading) == 1, "authoritative tracker heading missing/duplicated: " + heading)
 for heading in ("## 16.208 CAP-03 P-1 Revision 5", "## 16.209 CAP-03 P-1 Revision 6", "## 16.210 CAP-03 P-1 Revision 7"):
@@ -325,10 +329,10 @@ require(tracker.count("| `2026-10-30` | `CHG-2026-10-30-11` |") == 1 and
         "Next free after this section: `§16.221` / `CV-CORR-201` / `CHG-2026-10-31-01` / `V1702`" in tracker,
         "historical Revision 7 change-log or latest-main/Q-EV allocation is inconsistent")
 first_lines = "\n".join(tracker.splitlines()[:30])
-require("**Latest (`CV-CORR-201`, §16.221, `CHG-2026-10-31-01`" in first_lines and
+require("**Latest (`CV-CORR-202`, §16.222, `CHG-2026-10-31-02`" in first_lines and
         DESIGNATED_EVIDENCE_ROOT in first_lines,
         "Last Updated pointer does not identify the current Q-EV designation")
-require("**Current CAP-03 P-1 / PF-15 status** — *current-state pointer (`CV-CORR-201`, §16.221" in first_lines and
+require("**Current CAP-03 P-1 / PF-15 status** — *current-state pointer (`CV-CORR-202`, §16.222" in first_lines and
         "P-1-C NOT ESTABLISHED" in first_lines and "P-1-D DESIGNATED / NOT VERIFIED FOR THE ATTEMPT" in first_lines,
         "CAP-03 current-state pointer does not identify the current one-attempt/Q-EV state")
 require("## §16.207 — `CV-CORR-187`: O-07 closed" in tracker,
@@ -347,6 +351,47 @@ for required in (QEV_ACT_ID, DESIGNATED_EVIDENCE_ROOT, "existing personal Window
 require("PASS — merge reconciliation commit `7ced4ad6faf1eaa33bd2fd3d39fcbc7c5ea46f86`" in current_qev and
         "final head/state are read back separately" in current_qev,
         "publication ledger is missing the verified PR #382 push/read-back record")
+# Verify the later operator-supplied Q-EV evidence and DACL acceptance without elevating it to execution evidence.
+operator_record = OPERATOR_QEV_RECORD.read_text(encoding="utf-8")
+for required in (
+    OPERATOR_QEV_ID, DESIGNATED_EVIDENCE_ROOT, "Windows PowerShell 5.1",
+    "DESKTOP-NO0NHTP\\USER", "S-1-5-21-1872737340-673410177-2240931581-1001",
+    "142.31 GB available", "Local fixed disk", "NTFS", "No SUBST mapping detected",
+    "not a drive root", "Reparse-point checks", "Git-worktree separation",
+    "SQLite-store separation", "OneDrive environment-root check", "owner matches",
+    "execute-claim.json", "EXECUTE-MARKER.json", "BUILTIN\\Administrators",
+    "NT AUTHORITY\\SYSTEM", "NT AUTHORITY\\Authenticated Users",
+    "BUILTIN\\Users", "Modify", "ReadAndExecute", "not blockers",
+    "do **not** establish any of the following", "parsing the Revision 7 PowerShell script", "executing Revision 7 S00 or S03", "Overall P-1 execution readiness is **NOT CLEARED**",
+    "AUTHORIZED — NOT EXECUTED — UNSPENT", "no permission change",
+):
+    require(required in operator_record, "operator Q-EV record missing or changed: " + required)
+require(OPERATOR_QEV_ID in report and OPERATOR_QEV_ID in readme,
+        "source report or README does not reference the current operator evidence record")
+require(tracker.count("## §16.222 — `CV-CORR-202`:") == 1,
+        "operator evidence tracker heading missing/duplicated")
+for verification_id in range(1714, 1728):
+    row = f"| `V{verification_id}` |"
+    require(tracker.count(row) == 1, "operator evidence verification row missing/duplicated: " + row)
+
+# The operator record uses the declared next-free allocation from the preceding PR head.
+prior_qev_commit = "d14d575a15133221d4fb8470b88ee74a1b1a9a7b"
+for revision in (base_commit, prior_qev_commit):
+    require(git_grep_count(revision, "## §16.222") == 0,
+            "§16.222 already had a heading at operator-record census baseline " + revision)
+    require(git_grep_count(revision, OPERATOR_QEV_ID) == 0,
+            "operator Q-EV record ID already present at census baseline " + revision)
+    for number in range(1715, 1728):
+        require(git_grep_count(revision, f"V{number}") == 0,
+                "operator evidence verification allocation collides at census baseline " + revision)
+for token in ("CV-CORR-202", "CHG-2026-10-31-02", "V1714"):
+    require(git_grep_count(base_commit, token) == 0,
+            "latest main already claims the operator-record next-free allocation: " + token)
+require(git_grep_count(prior_qev_commit, "CV-CORR-202") == 2 and
+        git_grep_count(prior_qev_commit, "CHG-2026-10-31-02") == 2 and
+        git_grep_count(prior_qev_commit, "V1714") == 2,
+        "pre-update PR #382 head no longer declares the expected §16.222 next-free allocation")
+
 request_doc = ROOT / "IIPS_v3.0_REPORTS_NP06_C4_HEADER_CLAIM_PA_DECISION_REQUEST_2026-10-30.md"
 act_doc = ROOT / "IIPS_V3_REPORTS_NP06_C4_2_HEADER_CLAIM_CLARIFICATION_PA_ACT_EFFECTIVE_2026-10-30.md"
 require(request_doc.is_file() and act_doc.is_file() and
