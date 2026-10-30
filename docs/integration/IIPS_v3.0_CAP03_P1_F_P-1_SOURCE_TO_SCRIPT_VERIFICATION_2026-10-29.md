@@ -2,7 +2,7 @@
 
 | Field | Value |
 |---|---|
-| Record | Companion to `docs/integration/IIPS_v3.0_CAP03_P1_F_P-1_CORRECTED_EXECUTION_SCRIPT_2026-10-29.ps1` (revision 5, 1565 lines, 110,812 bytes, ASCII, LF, SHA-256 `ba0a6b79…48c2`) |
+| Record | Companion to `docs/integration/IIPS_v3.0_CAP03_P1_F_P-1_CORRECTED_EXECUTION_SCRIPT_2026-10-29.ps1` (revision 5, 1569 lines, 111,385 bytes, ASCII, LF, SHA-256 `7aa52aa4…e916`; final pass in F13) |
 | Supersedes | Revision 4 of this record and script (commit `fe6e801`) and earlier revisions. Revision-4 text is in git history (`git show fe6e801:<path>`). Revision-5 changes are in **section F**; where section F states a change, section F governs the earlier sections. |
 | Authority read | P1-F, IRR `docs/integration/IIPS_v3.0_CAP03_P1_AUTHORIZATION_ACT_AND_PREREQUISITE_DECISIONS_2026-10-29.md` (blob `a90bb001…`, §6, conditions 1–5); tracker §16.206 (`CV-CORR-186`) current-state pointer rows at baseline lines 14 and 22 |
 | Pinned IPD execution basis | commit `a891802e2691bd9c65a67d6abff20d8ce0c26d7d`, tree `76f083d7058e170d8212455c03bad1033136ee68` |
@@ -109,7 +109,7 @@ The script is `docs/integration/IIPS_v3.0_CAP03_P1_F_P-1_CORRECTED_EXECUTION_SCR
 | S00 | both | None before the run directory. Reads the evidence root, store chain, repository and (Execute) the acceptance file. | Script path; designations (ruling, actor, evidence root, writability method, store = F4); absolute and canonical paths (`Get-CanonicalPath`); evidence-root containment (`Invoke-EvidencePlacement`); prior-run scan (`p1-exe-*` any; marker; unsealed; any `p1-*` file); claim presence (Execute); acceptance and preflight verification (Execute) | `S00-*` |
 | S00 claim | execute | Creates `execute-claim.json` exclusively in the evidence root, before the run directory; retained on every outcome after acquisition | `Invoke-ExecuteClaim`; read-back | `S00-EXECUTE-CLAIM-*`, `R-CLAIM-HELD` |
 | — | both | Creates the run directory (`p1-pre-…` or `p1-exe-…`) exclusively, and `run.log` | Name and exclusive creation | `S00-RUNDIR-NEW` |
-| S01 | both | Run-directory files only (probe script, logs); reads host, Node and environment | Host, non-elevated, product, `GATE_A_PRIME_*` absent, NODE_OPTIONS unset, Node 22 ≥ 13, flag-free `node:sqlite` probe | `S01-*` |
+| S01 | both | Run-directory files only (probe script, logs); reads host, Node and environment | Host, non-elevated, product, `GATE_A_PRIME_*` absent, `GIT_*` absent (F13), NODE_OPTIONS unset, Node 22 ≥ 13, flag-free `node:sqlite` probe | `S01-*` |
 | S02 | both | Run-directory files; read-only git queries | HEAD and tree = pin; `status --porcelain --untracked-files=all` empty; designated blobs (`ls-tree`) | `S02-*` |
 | S03 | both | Run-directory files; `PARENT_PROBE` (only if designated) creates and removes one probe file in the store parent, with creation and cleanup recorded separately; `ACL_EVALUATION` reads ACLs only | Store absent; sidecars absent; outside worktrees; no `.git` or reparse in the chain; SUBST; fixed NTFS; not OneDrive env root; writability by the designated method | `S03-*` |
 | S04 | both | `npm ci` and `npm run build` write `node_modules`, `dist`, `dist-frontend` in the checkout; no store | Build (requires `$BuildAuthorityRef`, Q-BUILD); closure present and emitted this build; emitted ledger module presence (`S04-EMITTED-LEDGER-MODULE`); emitted migration identity; clean after build; ignored entries limited to `node_modules/`, `dist/`, `dist-frontend/` | `S04-*` |
@@ -175,13 +175,13 @@ Refusals before the run directory exists (all of S00 before creation) create not
 
 | Check | Result |
 |---|---|
-| Lines / bytes / SHA-256 | 1565 lines; 110,812 bytes; SHA-256 `ba0a6b79991875b4926a8969243938185e50f97374f1e150fc8834ba663248c2`; LF (0 CR) |
+| Lines / bytes / SHA-256 | 1569 lines; 111,385 bytes; SHA-256 `7aa52aa407c548940446817b0cb99b9a31c427660af39baf636bd3e59e45e916`; LF (0 CR) |
 | Non-ASCII characters | 0 |
-| `ps_static` text checks (this pass, final file) | FAILS: 0; 19 PASS lines (F8) |
-| Bracket balance (text scan that skips strings, comments and here-text) | Parentheses 1110/1110; braces 332/332; brackets 344/344. Text scan, not a parse. |
+| Static text checks, final file (`/tmp/w/static_check.py`, re-implemented in the final pass because the earlier `ps_static.py` was lost in a scratch reset; its earlier 19-line result is not reproduced here) | FAILS: 0; 15 PASS (F8, F13) |
+| Bracket balance (text scan that skips strings, comments and here-text) | Parentheses 1113/1113; braces 333/333; brackets 344/344. Text scan, not a parse. |
 | Forbidden code keywords (`exit`, `else`, `elseif`, `finally`, `break`, `continue`, `switch`) | 0 hits in code |
 | try blocks | 20; each followed by `catch` |
-| Check IDs | 135 literal call sites (`Require-Check`, `Add-Check`, `Add-PostFailure`); 135 distinct |
+| Check IDs | 136 literal call sites (`Require-Check`, `Add-Check`, `Add-PostFailure`); 136 distinct |
 | Script-scope variables read but never assigned | None |
 | Forensic status values | `OK`, `FAILED`, `NOT_APPLICABLE`. `SKIPPED` is enforced by the completeness rule but is not emitted (F1, R5-05). |
 | Embedded JavaScript (dump, emitted-migration probe, S01 sqlite probe) | `node --check` PASS for all three, extracted from the final text (F8) |
@@ -218,6 +218,7 @@ Status: **SRC** source-verified at the pin; **REC** record-verified (IRR); **GH*
 | Host name, elevation, product | base act §8 "Host"; runbook | `Invoke-HostAndRuntime` | `S01-HOST`, `S01-NONELEVATED`, `S01-PRODUCT` | REC; host NOT PERFORMED |
 | Node range and flag-free sqlite | base act §8 "Runtime"; `gateAPrimeProvisioning.ts` 399–407 (F16) | `S01-NODE`, `S01-SQLITE` probe | `S01-NODE`, `S01-SQLITE` | SRC, TEST (Linux only) |
 | `GATE_A_PRIME_*` refused | `gateAPrimeProvisioning.ts` 284–316 (F15) | `S01-ENV-GATE` | `S01-ENV-GATE` | SRC |
+| `GIT_*` variables stripped by the entrypoint before it measures HEAD and tree | `gateAPrimeProvisioning.ts` `sanitizedGitEnvironment` and `readExecutionHead`, ~158–220 at `a891802e` (F13) | `S01-ENV-GIT` (also in the S07 recheck) | `S01-ENV-GIT` | SRC; host NOT PERFORMED |
 | `NODE_OPTIONS` unset | base act §8 ("flag-free") | `S01-ENV-NODEOPTS` | `S01-ENV-NODEOPTS` | REC; host NOT PERFORMED |
 | Store absent, sidecars absent, outside worktree | base act §8 step 1; P1-F; `gateAPrimeProvisioning.ts` 409–414 (`STORE_ALREADY_EXISTS`) | `Invoke-StorePlacement` | `S03-STORE-ABSENT`, `S03-NO-SIDECAR-*`, `S03-OUTSIDE-WORKTREE`, `S03-NO-WORKTREE-CONTAINS-STORE` | SRC; host NOT PERFORMED |
 | `.git` at or above store and evidence paths | base act §8 step 1 ("outside every Git working tree"); `gateAPrimeProvisioning.ts` 290–297 (`isInsideGitWorktree`) | `Get-GitMarkerHits` | `S03-NO-GIT-IN-CHAIN`, `S00-EVIDENCE-NO-GIT-IN-CHAIN` | SRC |
@@ -303,9 +304,9 @@ Source facts for the question: P1-F condition 2 and tracker §16.206 P1-F row: "
 ### E4. Final status (revision 5 pass)
 
 - **P-1 remains UNSPENT.** Nothing executed on any host. No entrypoint invocation (including execute-mode diagnostics), no provisioning, no store, no binding, no membership, no audit row, no receipt, no execute marker, no execute claim.
-- **Static only:** revision-5 script text checks (B5, 19 PASS lines, 0 FAIL). Not a PowerShell parse.
+- **Static only:** revision-5 script text checks (B5; final pass 15 PASS, 0 FAIL). Not a PowerShell parse.
 - **Linux-tested only:** the three embedded JavaScript blocks (`node --check`), the S01 flag-free sqlite probe on Linux, and the dump on a nonexistent path (F8).
-- **NOT PERFORMED:** PowerShell 5.1 parse; Windows runtime; host preflight; any build on a host; any entrypoint invocation; literal V-A2-8; the revision-5 runtime test matrix (F8).
+- **NOT PERFORMED:** PowerShell 5.1 parse, and any other PowerShell parser (none available; F13); Windows runtime; host preflight; any build on a host; any entrypoint invocation; literal V-A2-8; the revision-5 runtime test matrix (F8).
 - **Not decided here:** every item in F10.
 
 ### E5. Exact next safe action
@@ -321,7 +322,7 @@ Source facts for the question: P1-F condition 2 and tracker §16.206 P1-F row: "
 
 ## F. Revision 5 (focused correction, R5-01 to R5-10)
 
-**Basis.** Revision 4 (`fe6e801`) plus this pass. Same PR, same branch, same paths. The investigation was not repeated. Line numbers in F refer to the revision-5 script (1565 lines, SHA-256 `ba0a6b79991875b4926a8969243938185e50f97374f1e150fc8834ba663248c2`) unless marked rev4.
+**Basis.** Revision 4 (`fe6e801`) plus this pass. Same PR, same branch, same paths. The investigation was not repeated. Line numbers in F refer to the revision-5 script (1569 lines, SHA-256 `7aa52aa407c548940446817b0cb99b9a31c427660af39baf636bd3e59e45e916`, after the F13 correction) unless marked rev4. F1–F12 line numbers were written against the 1565-line script before the F13 insertion; from about line 609 on, the 1569-line script is 4 lines higher. F13 line numbers are from the 1569-line script.
 
 **Changes made in this pass** (all in the script unless marked):
 
@@ -330,6 +331,7 @@ Source facts for the question: P1-F condition 2 and tracker §16.206 P1-F row: "
 3. The consumption text (`Get-P1Consumption`) now states that the retained execute claim, as well as the run directory, makes later execute runs refuse at S00.
 4. The `$script:Sealed` guard in the outer catch (line 1557) was added before this pass and is verified here.
 5. This record: sections B1, B2, B5, C (note), D-1, E1, E3–E6 replaced, and section F added.
+6. Final execution-critical pass (F13): `S01-ENV-GIT` added to the script; B1, B5, C, F8, F9, E4 and F13 updated for it.
 
 ### F1. Status of R5-01 to R5-10
 
@@ -428,18 +430,19 @@ Consequence: Execute is blocked (S04-BUILD-AUTHORITY-DESIGNATED; D-9; Q-BUILD). 
 
 | Test | Scope | Result |
 |---|---|---|
-| `/tmp/w/ps_static.py` on the final script (SHA-256 `ba0a6b79…48c2`) | Text checks (B5) | 19 PASS lines; FAILS: 0. Static text checks only; not a parse. |
+| `/tmp/w/static_check.py` (re-implemented; B5) on the final script (SHA-256 `7aa52aa4…e916`) | Text checks (B5) | 15 PASS; FAILS: 0. Text checks only; not a parse. |
 | `node --check` on the dump JavaScript, extracted from the final script (15 lines) | JavaScript syntax | PASS |
 | `node --check` on the emitted-migration probe, extracted from the final script | JavaScript syntax | PASS |
 | `node --check` on the S01 sqlite probe, extracted from the final script | JavaScript syntax | PASS |
 | S01 sqlite probe run on Linux (no database opened) | Linux only; not the host S01 | Prints `SQLITE_FLAG_FREE_OK`; exit 0 |
-| Dump on a nonexistent path (`/tmp/w/r5chk/nx/x.sqlite`) | Read-only open refusal | JSON `ok:false`, error `open: unable to open database file`; exit 0 (the script decides by `ok`); no directory created |
+| Dump on a nonexistent path (`/tmp/w/js/nonexistent/none.sqlite`, final pass) | Read-only open refusal | JSON `ok:false`, error `open: unable to open database file`; exit 0 (the script decides by `ok`); no directory created |
 | Byte comparison of the migration probe line and the S01 probe line with revision 4 | Unchanged probe text | Identical (the revision-5 presence check is inserted above the probe, not inside it) |
 
 **Designed, NOT run** (for the operator's Windows validation, F9):
 
 - PowerShell 5.1 parse (`[System.Management.Automation.Language.Parser]::ParseFile`). No `pwsh` is available here.
 - StrictMode runtime exercise of S00 on fixtures.
+- `GIT_*` refusal (F13): a fixture run with `GIT_DIR` set must stop at `S01-ENV-GIT`, after the claim and before the marker, and must write no marker.
 - The canonicalization refusal matrix (F1, R5-02) on fixture paths.
 - Probe object tests: creation failure; cleanup failure (locked file).
 - Claim exclusion: two concurrent Execute runs against one fixture evidence root produce one `CreateNew` winner and one refusal.
@@ -459,7 +462,8 @@ Consequence: Execute is blocked (S04-BUILD-AUTHORITY-DESIGNATED; D-9; Q-BUILD). 
 5. Claim exclusion on a fixture evidence root.
 6. Acceptance-directory fixtures (R5-04).
 7. Forensic isolation with each post-invocation operation forced to fail (R5-05).
-8. Host facts U-2 to U-5 and U-10, and host preflight (D-13); PowerShell runtime (D-14).
+8. `GIT_*` refusal (F13) on a fixture, and the `S01-ENV-GIT` result on the host.
+9. Host facts U-2 to U-5 and U-10, and host preflight (D-13); PowerShell runtime (D-14).
 
 None of these has been performed.
 
@@ -510,3 +514,48 @@ PA-19 (H-1 to H-9 PA-WAIVED) does not cover these items. They are reserved decis
 | Pre-invocation recheck without containment | Recheck repeats containment (R5-02). |
 | Non-atomic count check as the only gate | Claim added; count retained (R5-03). |
 | Marker file on disk but in-memory flag unset after a write exception | Corrected in the outer catch (this pass). |
+
+### F13. Final execution-critical pass (revision 5, after `9b96b4f`)
+
+**Scope.** The critical path only: acceptance binding, pre-invocation recheck, claim and marker ordering, the single invocation, and forensics. One defect class (inherited environment) was examined in full. The investigation was not repeated. The only change to the script is the one below.
+
+**Defect corrected: `S01-ENV-GIT`.**
+
+- The entrypoint strips every `GIT_*` variable before it measures HEAD and tree (`sanitizedGitEnvironment` and `readExecutionHead`, `ep.ts` ~158–220 at `a891802e`, blob `5f49936b`). Its `EXECUTION_PIN_MISMATCH` refusal is raised after the marker has been written.
+- The script's git calls (`Invoke-Git`, line 286) inherit the operator environment. Before this pass S01 checked `GATE_A_PRIME_*` and `NODE_OPTIONS` only. An inherited `GIT_DIR`, `GIT_WORK_TREE` or `GIT_INDEX_FILE` could make the script's S02 pin check measure a different repository from the one the entrypoint measures. The mismatch would surface only after the marker, so one attempt would be spent on a repository the script had not pinned.
+- Fix (script, S01 in `Invoke-HostAndRuntime`): `S01-ENV-GIT` is fail-closed. Any environment variable whose name begins with `GIT_` (case-insensitive) stops the run. The detail records a count only, never values. The check runs at S01 and again in the S07 recheck, so it is repeated immediately before the marker.
+- Order, stated exactly: in Execute mode S01 runs after the claim is acquired (line 1425 before line 1436). A stop at S01 or at the recheck writes no marker and does not consume P-1. It does leave `execute-claim.json` in the evidence root, which is retained on every outcome (Q-CONS-2). This record does not claim that the check stops before the claim.
+- Not run. The check has not been executed on Windows (F9, item 8).
+
+**Critical-path review (static, read-only). No further defect found.**
+
+- *Acceptance binding* (`Test-AcceptanceAndPreflight`, ~945–1017). Binds the script SHA-256; the acceptance-named preflight run directory (direct child of the canonical evidence root, not a reparse point, flat); a well-formed seal with no self-listing and no duplicates; set equality between the seal and the directory; every sealed hash, compared exactly; the preflight summary hash; mode `Preflight`; outcome `PREFLIGHT_PASSED_NOT_EXECUTED`; zero execute calls and no marker; the same script, store path and evidence root; every preflight check passed. The acceptance file is hashed at S00 and again in the recheck.
+- *Recheck* (`Invoke-PreInvocationRecheck`, ~1019–1036). Repeats the script and acceptance hashes, S01 (including `S01-ENV-GIT`), S02 (pin and cleanliness), evidence-root containment, store absence (with no probe), entry closure hashes, exclusivity of the execute run directory, claim presence, and freshness. It runs before the marker.
+- *Claim and marker ordering* (`Invoke-ExecuteClaim`, ~1038–1070; main ~1425–1505). Claim (`CreateNew`, read back) → run directory → S01–S06 → recheck → marker (`WRITTEN_BEFORE_PROCESS_START`) → `ExecuteCalls` incremented after the marker write → the second-invocation guard → one `Invoke-Capture`. A failed marker write leaves `ExecuteCalls` at 0. A marker found on disk is treated as written (outer catch).
+- *Single invocation.* The only `--mode=execute` argument is at line 1473; the only call that starts it is `Invoke-Capture` at line 1502, inside its own try block. The `--mode=validate` calls (lines 853, 1200) are read-only and run at S05 and after the attempt. None of them replaces the execute call.
+- *Forensics* (`Invoke-PostInvocationForensics`, ~1092–1210). Each operation records its own status: `OK`, `FAILED`, or `NOT_APPLICABLE` with a reason. A receipt parse failure is isolated (`S07-RECEIPT-PARSE`). Store hash, post-validate and manifest steps run after an earlier failure. `NOT_APPLICABLE` is a fourth status beyond the three that R5-05 names. It is used only where an operation does not apply, always with a reason. It is disclosed here and not presented as `SKIPPED`. `evidenceComplete` is false when any operation failed or was skipped.
+
+**Parse attempts (this pass).** No PowerShell is available in the sandbox.
+
+- The official PowerShell release host is unreachable (`objects.githubusercontent.com` SSL failure, as tested in this pass).
+- The npm `pwsh` package is an installer, which needs the same host.
+- The `tree-sitter-powershell` 0.26.6 grammar (npm) could not be loaded. It requires tree-sitter 0.25, whose native build fails in this sandbox; the 0.21 core loaded the grammar's language object but rejected it.
+
+No parse of any kind was obtained. **PowerShell 5.1 parse: NOT PERFORMED.**
+
+**Embedded JavaScript (re-verified this pass).** The first extraction in this pass wrote an empty file for one block, and that result was discarded. All three blocks were re-extracted from the final script and checked again:
+
+- `node --check` PASS for the sqlite probe, the emitted-migration probe, and the read-only dump.
+- The sqlite probe prints `SQLITE_FLAG_FREE_OK` (exit 0).
+- The dump on a nonexistent path returns `ok:false` with `open: unable to open database file` (exit 0). No directory is created.
+- The emitted-migration probe needs the pinned IPD checkout and was not run.
+
+**Host prerequisites (operator; the script checks the ones marked).**
+
+- Windows PowerShell 5.1, non-elevated, on `DESKTOP-NO0NHTP` (S01-HOST, S01-NONELEVATED, S01-PRODUCT).
+- `node` 22 with minor version 13 or later on PATH (S01-NODE); `git` on PATH (S02); `npm` reachable through `ComSpec` (S04).
+- `gh` on PATH and authenticated for `gh api` (S06 freshness and the recheck). A missing `gh` stops the run. In Execute mode that stop follows claim acquisition, so the claim is retained (Q-CONS-2).
+- If the designated writability method is `PARENT_PROBE`, the store parent directory must already exist, because S03 creates and removes its probe there. The entrypoint creates parent directories only during execute (`openDatabase`). A missing parent stops the run at S03. Preflight is expected to catch this earlier.
+- An execution policy that permits this file. This is not a property of the script.
+
+**Statuses (unchanged by this pass).** P-1 consumed: NO. Execute invocation performed: NO. Host Preflight authorized: NO. Host Preflight performed: NO. Store or provisioning state touched: NO. PR merged: NO. Execution readiness: NO-GO (F11).

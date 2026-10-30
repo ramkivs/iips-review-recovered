@@ -604,6 +604,10 @@ function Invoke-HostAndRuntime {
     Require-Check -Id 'S01-PRODUCT' -Pass ([string]$ntKey.ProductName -ceq $ExpectedProductName) -Detail ('product "' + [string]$ntKey.ProductName + '"; act section 8 requires "' + $ExpectedProductName + '". EditionID is recorded only.')
     $gateEnv = @(Get-ChildItem -Path Env: | Where-Object { $_.Name -like 'GATE_A_PRIME_*' })
     Require-Check -Id 'S01-ENV-GATE' -Pass ($gateEnv.Count -eq 0) -Detail ('GATE_A_PRIME_* variables present = ' + $gateEnv.Count + ' (the entrypoint refuses these; the check here is case-insensitive, which is stricter)')
+    # The entrypoint strips every GIT_* variable before it measures HEAD and tree (readExecutionHead). This script's own
+    # git calls would otherwise measure a different repository (GIT_DIR, GIT_WORK_TREE, GIT_INDEX_FILE, ...). Count only; no values.
+    $gitEnv = @(Get-ChildItem -Path Env: | Where-Object { $_.Name -like 'GIT_*' })
+    Require-Check -Id 'S01-ENV-GIT' -Pass ($gitEnv.Count -eq 0) -Detail ('GIT_* variables present = ' + $gitEnv.Count + '; the entrypoint ignores them when it measures the executing identity, so this script must not run with them set')
     $nodeOpts = [Environment]::GetEnvironmentVariable('NODE_OPTIONS')
     Require-Check -Id 'S01-ENV-NODEOPTS' -Pass ([string]::IsNullOrEmpty($nodeOpts)) -Detail 'NODE_OPTIONS must be unset'
     $nodeCmds = @(Get-Command node -CommandType Application -ErrorAction SilentlyContinue)
