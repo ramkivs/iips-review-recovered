@@ -14,12 +14,13 @@ ROOT = Path(__file__).resolve().parents[1]
 REPO = ROOT.parent.parent
 SCRIPT = ROOT / "IIPS_v3.0_CAP03_P1_F_P-1_CORRECTED_EXECUTION_SCRIPT_2026-10-29.ps1"
 RUNNER = ROOT / "cap03-p1-f9" / "CAP03_P1_F9_WindowsFixtureTests.ps1"
+TRACKER = REPO / "IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md"
 AUTHORITY = ROOT / "IIPS_v3.0_CAP03_P1_AUTHORIZATION_ACT_AND_PREREQUISITE_DECISIONS_2026-10-29.md"
 PF15_ACT = ROOT / "IIPS_v3.0_CAP03_PF15_ENDPOINT_LOCAL_STATE_DESIGNATION_PA_ACT_CORRECTED_2026-10-26.md"
 EVIDENCE_ROOT = REPO / "evidence" / "cap03-s2"
 RUN_ID = "s2-a891802e-20261028T192516Z"
 RUN_DIR = EVIDENCE_ROOT / RUN_ID
-EXPECTED_SHA256 = "e70050d0f841498b5784e4566898a6586918cf7a77ef659eb5016aa26e8b64e3"
+EXPECTED_SHA256 = "d9a26c3e0233712c8cd2fe230ae3f0e366c12cc6c3b0237b352ee0fe76b26561"
 EXPECTED_SEAL_SHA256 = "9D3C09DBDB691C2527A45605DEA20826B4EC2BA2F110985EE3F1033783B5225E"
 EXPECTED_DEPOSIT_SHA256 = "FFD0956482427ACB404543E36DAC2705D802B04828E380290232C06129F3AFAD"
 EXPECTED_TRANSCRIPT_SHA256 = "D4C5D9431115BF57D824DF465E3D99B11C619BC6D59A3F0974036F3BFCC2F7CA"
@@ -48,10 +49,20 @@ require(b"\r" not in script_bytes, "Revision 7 source unexpectedly contains CR c
 source = script_bytes.decode("ascii")
 runner = RUNNER.read_text(encoding="utf-8")
 authority = AUTHORITY.read_text(encoding="utf-8")
+report = (ROOT / "IIPS_v3.0_CAP03_P1_F_P-1_SOURCE_TO_SCRIPT_VERIFICATION_2026-10-29.md").read_text(encoding="utf-8")
+readme = (ROOT / "cap03-p1-f9" / "README.md").read_text(encoding="utf-8")
+tracker = TRACKER.read_text(encoding="utf-8")
 pf15_act = PF15_ACT.read_text(encoding="utf-8")
 script_sha = hashlib.sha256(script_bytes).hexdigest()
 if EXPECTED_SHA256 != "TO_BE_SET_AFTER_FINAL_EDIT":
-    require(script_sha == EXPECTED_SHA256, "Revision 7 source SHA-256 differs from the documented artifact")
+    require(script_sha == EXPECTED_SHA256, "Revision 7 source SHA-256 differs from the pinned validator identity")
+lines_formatted, bytes_formatted = f"{len(script_bytes.splitlines()):,}", f"{len(script_bytes):,}"
+require(f"SHA-256 `{script_sha}`" in report and f"{lines_formatted} LF lines / {bytes_formatted} bytes" in report,
+        "companion source-to-script report does not bind the exact Revision 7 identity")
+require(f"SHA-256 `{script_sha}`" in tracker and f"{lines_formatted} LF lines / {bytes_formatted} bytes" in tracker,
+        "authoritative tracker does not bind the exact Revision 7 identity")
+require(f"SHA-256 `{script_sha}`" in readme and f"{lines_formatted} LF lines, {bytes_formatted} bytes" in readme,
+        "F9 README does not bind the exact Revision 7 identity")
 
 # Exact PA-scoped Windows 10 target; no product allowlist or host spoof.
 for text, message in [
@@ -82,8 +93,24 @@ require("IIPS-V3-CAP03-P1-AUTHORIZATION-ACT-2026-10-29-01" in authority and
 require("IIPS-V3-CAP03-PF15-ENDPOINT-LOCAL-STATE-DESIGNATION-PA-ACT-2026-10-26-02" in pf15_act and
         "C:\\iips-data\\iips\\user-portfolio.sqlite" in pf15_act,
         "effective corrected PF-15 F4 source does not match the bound store literal")
-require("$DesignatedEvidenceRoot" not in source and "$DesignatedWritabilityMethod" not in source,
-        "obsolete fixed evidence-root or writability-method designation remains")
+for text, message in [
+    ("$EvidenceRootDesignationState = 'PA_DESIGNATION_REQUIRED'", "missing explicit PA evidence-root gap state"),
+    ("$DesignatedEvidenceRoot = 'NOT DESIGNATED'", "missing non-path evidence-root sentinel"),
+    ("$SelectedWritabilityMethod = 'ACL_EVALUATION'", "Q-WRITE method is not fixed to read-only ACL_EVALUATION"),
+]:
+    require(text in source, message)
+require("$DesignatedWritabilityMethod" not in source and "PARENT_PROBE" not in source,
+        "obsolete or mutating writability method remains")
+require("S00-EVIDENCE-ROOT-DESIGNATED" in source and "S00-EVIDENCE-ROOT-EQUALS-DESIGNATION" in source,
+        "canonical evidence-root fail-closed binding is missing")
+require("S00-TRACKER-POINTER-PUBLISHED" in source and "Invoke-PreClaimTrackerPointer" in source,
+        "pre-claim authoritative-main pointer guard is missing")
+main_flow = source[source.index("# Main. Control flow"):]
+require(main_flow.index("Invoke-PreClaimTrackerPointer") < main_flow.index("Invoke-EvidencePlacement") < main_flow.index("Invoke-ExecuteClaim"),
+        "published-main pointer and evidence-root checks must precede any claim acquisition")
+placement = source[source.index("function Invoke-EvidencePlacement"):source.index("function Invoke-StorePlacement")]
+require(placement.index("S00-EVIDENCE-ROOT-DESIGNATED") < placement.index("Get-CanonicalPath -Path $EvidenceRoot"),
+        "S00 must refuse before canonicalizing or touching an undesignated caller path")
 
 # Host/runtime and safety controls remain in source; this is not a host test.
 required_guards = [
@@ -96,7 +123,7 @@ required_guards = [
     "Require-Check -Id 'S01-SQLITE' -Pass",
     "'^v22\\.(\\d+)\\.(\\d+)$'",
     "S03-STORE-ABSENT", "S03-NO-SIDECAR", "S03-NO-REPARSE-IN-CHAIN",
-    "S03-FIXED-NTFS", "S03-NOT-ONEDRIVE-ENV", "S00-EVIDENCE-NO-REPARSE-IN-CHAIN",
+    "S03-FIXED-NTFS", "S03-NOT-ONEDRIVE-ENV", "S03-WRITE-ACL-EVALUATION", "ACL_EVALUATION", "effectiveAccessVerified = $false", "S00-EVIDENCE-NO-REPARSE-IN-CHAIN",
     "S00-NO-PRIOR-MARKER", "S02-COMMIT", "S02-TREE", "S02-CLEAN",
     "P1-F-ONE-ATTEMPT", "SECOND_INVOCATION_REFUSED",
     "EXECUTE-MARKER.json", "execute-claim.json",
@@ -126,16 +153,59 @@ require("$DesignatedStorePath  = 'C:\\iips-data\\iips\\user-portfolio.sqlite'" i
         "exact PF-15 F4 designated store literal missing")
 for text, message in [
     ("$BaselineIrrCommit    = 'b5c91a73b4b6367140847676534d5c03af0be88d'", "reviewed IRR baseline for post-merge freshness changed"),
-    ("$TrackerPointerMarkers = @('**Latest (`CV-CORR-189`'", "current tracker pointer is not revision-bound"),
+    ("$TrackerPointerMarkers = @('**Latest (`CV-CORR-191`'", "current tracker pointer is not revision-bound"),
     ("$TrackerPointerRequiredText = 'P-1 remains **AUTHORIZED'", "freshness check no longer binds the authorized/unspent status"),
 ]:
     require(text in source, message)
-require("UNDETERMINED (no marker/no execute invocation; Q-CONS-2 remains unresolved)" in source,
-        "pre-marker execute stop is being misreported as resolved/not-consumed")
+require("NOT CONSUMED (no marker and no process-start request)" in source and
+        "any acquired/ambiguous claim is retained" in source and
+        "no automatic release or retry" in source,
+        "pre-marker consumption/claim-retention decision is missing")
+require("CONSUMED (durable marker or process-start request; startup failure still consumes; no retry)" in source,
+        "marker/process-start failure consumption rule is missing")
+require("execute-claim.json' is never deleted" not in source, "unexpected test-only claim wording")
+require("never deleted by this script" in source and "permanently" in source and
+        "preMarkerStop    = 'NOT CONSUMED; claim remains retained" in source and
+        "releaseRule      = 'no automatic release or retry exists in this script'" in source,
+        "claim permanence/no-release/pre-marker contract is missing")
+require("SOURCE-ONLY NON-REPEATABILITY ASSURANCE accepted" in source and
+        "v2A8LiteralTest          = 'NOT_PERFORMED'" in source and
+        "V-A2-8 is NOT reported PASS" in source,
+        "Q-V8 source-only disposition or NOT-PASS literal boundary is missing")
+# Marker is the durable commit point; marker and single-call counter must precede the only invocation wrapper call.
+marker_write = source.index("Write-RawFile -Path (Join-Path $script:RunDir $MarkerName)")
+exec_call_increment = source.index("$script:ExecuteCalls = $script:ExecuteCalls + 1", marker_write)
+invoke_call = source.index("Invoke-Capture -Name 'p1-execute-SINGLE-ATTEMPT'", exec_call_increment)
+require(marker_write < exec_call_increment < invoke_call, "marker/call commitment order changed")
+require(source.count("Invoke-Capture -Name 'p1-execute-SINGLE-ATTEMPT'") == 1,
+        "more than one Execute process-start call site exists")
+# Migration transaction decision must be documented from the prior pinned-source review; no IPD call is made here.
+for text in ["Q-MIG is resolved **YES — all 001–004 are required on a fresh store**",
+             "Q-TX is resolved **YES — per-migration commits precede and sit outside the one provisioning `BEGIN IMMEDIATE` transaction**",
+             "U-5 remains **NOT RUN**"]:
+    require(text in report, "Q-MIG/Q-TX/Q-BUILD closure record missing: " + text)
 require("S04-CURRENT-DIST-ADMITTED-MATCH" in source and "R-CURRENT-DIST-UNCHANGED" in source,
         "existing distribution match and pre-invocation unchanged check missing")
 require("$encoded = ('\\dist\\' + $relative)" in source,
         "current dist inventory paths are not represented with the admitted single-separator path form")
+
+
+# The additive tracker merge must preserve main's O-07 section and expose this pass as the current pointer.
+require(not any(marker in tracker for marker in ("<<<<<<<", "=======", ">>>>>>>")),
+        "unresolved merge marker remains in authoritative tracker")
+require(tracker.count("## §16.211") == 1 and
+        "CV-CORR-191" in tracker and "CHG-2026-10-30-05" in tracker and
+        "V1593" in tracker and "V1612" in tracker,
+        "one-pass tracker section or allocated identifiers missing")
+first_lines = "\n".join(tracker.splitlines()[:25])
+require("**Latest (`CV-CORR-191`, §16.211, `CHG-2026-10-30-05`" in first_lines,
+        "Last Updated pointer does not identify the current one-pass record")
+require("**Current CAP-03 P-1 / PF-15 status** — *current-state pointer (`CV-CORR-191`, §16.211" in first_lines,
+        "CAP-03 current-state pointer does not identify the one-pass record")
+require("## §16.207 — `CV-CORR-187`: O-07 closed" in tracker,
+        "origin/main O-07 section was lost in additive merge")
+for q in ["Q-CONS-2", "Q-CONS-3", "Q-MIG", "Q-TX", "Q-V8", "Q-WRITE", "Q-EV", "Q-BUILD"]:
+    require(q in tracker[tracker.index("## §16.211"):], "tracker disposition missing: " + q)
 
 # Static-check the literal .NET regexes (PowerShell single-quoted literals preserve these backslashes).
 dist_hash_pattern = re.search(r"\$distHashes\s*=.*?-match '([^']+)'", source)

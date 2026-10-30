@@ -1,8 +1,8 @@
 #Requires -Version 5.1
 <#
-  IIPS CAP-03 - P-1 corrected execution script, REVISION 7 (PA-authorized Windows 10 personal host profile; admitted S2 evidence reuse, 2026-10-30).
+  IIPS CAP-03 - P-1 corrected execution script, REVISION 7 (PA-authorized Windows 10 personal host profile; admitted S2 evidence reuse; one-pass semantics reconciliation, 2026-10-30).
   Authority: P1-F, IRR docs/integration/IIPS_v3.0_CAP03_P1_AUTHORIZATION_ACT_AND_PREREQUISITE_DECISIONS_2026-10-29.md
-  (section 6, conditions 1-5), plus the scoped PA implementation direction recorded at master tracker section 16.208.
+  (section 6, conditions 1-5), plus the scoped PA implementation direction recorded at master tracker section 16.209.
   Base act: IPD commit a891802e2691bd9c65a67d6abff20d8ce0c26d7d, tree
   76f083d7058e170d8212455c03bad1033136ee68, evidence/cross-repository/IIPS_V3_CAP02_GATE_A_PRIME_SUCCESSOR_PROVISIONING_ACT_EFFECTIVE_2026-10-23.md
   (sections 2, 4, 6, 7, 8, 9). Its published Section 8 text is not edited here. The PA-approved host profile below
@@ -14,23 +14,27 @@
   During a later authorized run it compares an already-existing pinned-checkout dist read-only; this IRR review did not
   inspect IPD. U-5 remains NOT RUN; this evidence is not represented as U-5 PASS.
 
-  EXACT EFFECTS OF EACH MODE. Neither mode is read-only. Every effect is listed here and in the summary.
-  -Mode Preflight
-    Writes:  a run directory p1-pre-<UTC>-<guid8> with raw evidence under EvidenceRoot (created exclusively);
-             no IPD writes; S04 reads admitted S2 evidence from this IRR checkout and, during a later authorized run,
-             compares any existing pinned-checkout dist read-only; no dependency installation, build, emitted-file probe,
-             or store-parent probe.
+  EXACT EFFECTS OF EACH MODE. Neither mode is read-only. The effective PA record does not designate a canonical
+  P-1 run-record root, so both modes currently fail at S00 before canonicalizing or touching -EvidenceRoot and before
+  creating any run directory or file. The following are conditional future effects only after the exact root is
+  designated and every precondition passes; they are not effects of this current fail-closed source state.
+  -Mode Preflight (conditional future effects)
+    Writes:  a run directory p1-pre-<UTC>-<guid8> with raw evidence under the exact PA-designated root (created
+             exclusively); no IPD writes; S04 reads admitted S2 evidence from this IRR checkout and compares any
+             existing pinned-checkout dist read-only; no dependency installation, build, emitted-file probe, or
+             store-parent probe.
     Invokes: node on the built entrypoint with --mode=validate (S05). The store is expected to be absent: the
              validation refuses (STORE_NOT_FOUND, or the recorded UNEXPECTED_FAILURE message) and does not create it.
              Also node (sqlite load probe, S01), git, and the GitHub API (read-only queries, S02 and S06).
     Never:   creates or modifies the designated store; creates provisioning records; writes EXECUTE-MARKER.json;
              writes execute-claim.json; invokes --mode=execute.
-  -Mode Execute
-    Additionally: writes execute-claim.json exclusively (cross-process exclusion; retained on every outcome after
-    acquisition); writes EXECUTE-MARKER.json; performs ONE --mode=execute invocation (S07); then the post-invocation
-    evidence operations (S08-S09), each isolated and recorded as OK, FAILED, NOT_APPLICABLE or SKIPPED.
+  -Mode Execute (conditional future effects)
+    Additionally: writes execute-claim.json exclusively (cross-process exclusion; retained permanently after creation);
+    before any process-start request it writes EXECUTE-MARKER.json, which consumes the one attempt even if OS process
+    startup fails; performs exactly ONE --mode=execute invocation (S07), then isolated post-invocation evidence
+    operations (S08-S09). A pre-marker stop does not consume P-1 but leaves any claim latched; there is no release,
+    retry, repair, or second execute in this file.
     Requires -ConfirmToken P1-F-ONE-ATTEMPT. A prior Preflight or operator acceptance file is not a P1-F condition.
-    There is no retry, repair, or second execute in this file.
 
   Records: run directories are named p1-pre-<UTC>-<guid8> or p1-exe-<UTC>-<guid8> and are created exclusively.
   Files are created exclusively (CreateNew); nothing is overwritten. run-summary.json is written on a normal end;
@@ -95,9 +99,12 @@ $DesignatedStorePath  = 'C:\iips-data\iips\user-portfolio.sqlite'
 # Effective authorities: P1-F is the single-attempt authority; the named PA is the sole operator.
 $AuthorityRulingRef         = 'IIPS-V3-CAP03-P1-AUTHORIZATION-ACT-2026-10-29-01'
 $DesignatedActorLabel       = 'Ramki' # exact PA identity in the P1-F authorization record; display label only.
-# P1-F does not designate a P-1 evidence root. -EvidenceRoot is only a run-record destination, not an authority
-# designation; S00 validates it and never creates it. PF-15 F5 (Gate 4) and PA-13 E10 (capture) are not repurposed.
-# No writability method is designated or run: no probe or ACL inference is treated as a blocker or PASS.
+# No effective record designates a canonical P-1 run-record root. A caller-selected -EvidenceRoot is not a PA
+# designation; S00 fails closed until the PA records one. PF-15 F5 (Gate 4) and PA-13 E10 (capture) are not repurposed.
+# Read-only ACL_EVALUATION is selected; it is a DACL precheck only, never proof of effective or actual writability.
+$EvidenceRootDesignationState = 'PA_DESIGNATION_REQUIRED'
+$DesignatedEvidenceRoot = 'NOT DESIGNATED'
+$SelectedWritabilityMethod = 'ACL_EVALUATION'
 $S2RunId                   = 's2-a891802e-20261028T192516Z'
 $S2EvidenceRelative        = 'evidence\cap03-s2\s2-a891802e-20261028T192516Z'
 $S2SealSha256              = '9D3C09DBDB691C2527A45605DEA20826B4EC2BA2F110985EE3F1033783B5225E'
@@ -137,7 +144,7 @@ $Pf15Path             = 'docs/integration/IIPS_v3.0_CAP03_PF15_ENDPOINT_LOCAL_ST
 $Pf15Entry            = '100644 blob 3fe9a2ddd5f3b8730eccee7748b6266b5e2d8b1d'
 $TrackerPath          = 'IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md'
 # After publication, main must carry this revision's dated status pointers. The baseline is the PR's reviewed parent.
-$TrackerPointerMarkers = @('**Latest (`CV-CORR-189`', '**Current CAP-03 P-1 / PF-15 status**')
+$TrackerPointerMarkers = @('**Latest (`CV-CORR-191`', '**Current CAP-03 P-1 / PF-15 status**')
 $TrackerPointerRequiredText = 'P-1 remains **AUTHORIZED'
 $P1NamePattern        = '(?i)(P1|P-1|GATE[_-]A[_-]PRIME|PF-?15|PA[_-]RULING)'
 $TrackerP1Term        = '(?i)(P-1|P1-F|CAP-03 P1)'
@@ -436,16 +443,48 @@ function Get-DriveFacts {
     return [pscustomobject]@{ Root = $root; Type = [string]$drive.DriveType; Format = [string]$drive.DriveFormat }
 }
 
+function Get-WriteAclEvaluation {
+    # Read-only DACL projection for the nearest existing store-parent ancestor. This is not AccessCheck,
+    # an effective-access test, or proof that a create will succeed; no file is written.
+    param([string] $Dir)
+    $acl = Get-Acl -LiteralPath $Dir
+    $wi = [Security.Principal.WindowsIdentity]::GetCurrent()
+    $sids = @{}
+    if ($null -ne $wi.User) { $sids[[string]$wi.User.Value] = $true }
+    foreach ($g in $wi.Groups) { $sids[[string]$g.Value] = $true }
+    $need = [int]([System.Security.AccessControl.FileSystemRights]::CreateFiles) -bor [int]([System.Security.AccessControl.FileSystemRights]::CreateDirectories)
+    $allowBits = 0
+    $denySids = @()
+    $ruleCount = 0
+    foreach ($rule in $acl.GetAccessRules($true, $true, [System.Security.Principal.SecurityIdentifier])) {
+        $sid = [string]$rule.IdentityReference.Value
+        if ($sids.ContainsKey($sid)) {
+            $ruleCount++
+            $bits = [int]$rule.FileSystemRights
+            if (($rule.AccessControlType -eq [System.Security.AccessControl.AccessControlType]::Deny) -and (($bits -band $need) -ne 0)) { $denySids += $sid }
+            if ($rule.AccessControlType -eq [System.Security.AccessControl.AccessControlType]::Allow) { $allowBits = $allowBits -bor ($bits -band $need) }
+        }
+    }
+    $allowsByDacl = (($allowBits -band $need) -eq $need) -and ($denySids.Count -eq 0)
+    return [pscustomobject]@{ Dir = $Dir; RulesForCurrentIdentity = $ruleCount; AllowBits = $allowBits; NeedBits = $need; DenySids = @($denySids); AllowsCreateByDaclProjection = $allowsByDacl }
+}
+
 function Get-P1Consumption {
     if ($Mode -ne 'Execute') { return 'NOT_APPLICABLE (Preflight: no marker, no invocation)' }
-    if ($script:MarkerWritten) { return 'CONSUMED (marker committed before the single execute call; P1-F condition 2; no retry)' }
-    return 'UNDETERMINED (no marker/no execute invocation; Q-CONS-2 remains unresolved); retained claim/run directory fail-closed until PA disposition'
+    $markerOnDisk = $false
+    if ($script:RunDir -ne '') { $markerOnDisk = Test-Path -LiteralPath (Join-Path $script:RunDir $MarkerName) -PathType Leaf }
+    if ($script:MarkerWritten -or $markerOnDisk -or ($script:ExecuteCalls -gt 0)) {
+        return 'CONSUMED (durable marker or process-start request; startup failure still consumes; no retry)'
+    }
+    return 'NOT CONSUMED (no marker and no process-start request); any acquired/ambiguous claim is retained and blocks this designated root; no automatic release or retry'
 }
 
 function Write-Summary {
     param([string] $FileName)
     $claimFile = ''
-    if ($script:ClaimAcquired) { $claimFile = $ClaimName }
+    $claimPresent = $false
+    if ($script:Facts.evidenceRoot -ne '') { $claimPresent = Test-Path -LiteralPath (Join-Path $script:Facts.evidenceRoot $ClaimName) -PathType Leaf }
+    if ($claimPresent) { $claimFile = $ClaimName }
     $summary = [ordered]@{
         act                      = $ActId
         mode                     = $Mode
@@ -462,7 +501,7 @@ function Write-Summary {
         evidenceIntegrityFailure = [bool]$script:Facts.evidenceIntegrityFailure
         forensicOperations       = @($script:Forensics)
         p1fConsumption           = (Get-P1Consumption)
-        executeClaim             = [ordered]@{ acquired = [bool]$script:ClaimAcquired; file = $claimFile; retention = 'retained on every outcome after acquisition as a fail-closed duplicate-attempt barrier' }
+        executeClaim             = [ordered]@{ acquired = [bool]$script:ClaimAcquired; present = [bool]$claimPresent; file = $claimFile; release = 'never automatic; any claim present is preserved and blocks reuse of the designated root'; retention = 'a pre-marker claim does not consume P-1, but remains a permanent local latch under this script' }
         declaredEffects          = @(Get-DeclaredEffects)
         failure                  = $script:Failure
         postStepFailures         = @($script:PostFailures)
@@ -479,17 +518,18 @@ function Write-Summary {
         s2RunId                  = $S2RunId
         v2A8ProxyPass            = [bool]$script:Facts.v2A8ProxyPass
         v2A8LiteralTest          = 'NOT_PERFORMED'
-        v2A8Acceptance           = 'NOT PERFORMED: P1-F authorizes one attempt; second invocation is not authorized. Proxy is not the literal test.'
+        v2A8Acceptance           = 'SOURCE-ONLY NON-REPEATABILITY ASSURANCE accepted for this one-attempt path from admitted refusal evidence and static call/claim/marker guards; literal second invocation remains NOT PERFORMED and V-A2-8 is NOT reported PASS.'
         facts                    = $script:Facts
         checks                   = @($script:Checks)
         notPerformedByScript     = @(
-            'V-A2-8 literal: second-invocation refusal NOT PERFORMED. P1-F condition 2 forbids a second execute. v2A8ProxyPass reports only the validator row-state check, not a literal refusal test.',
+            'V-A2-8 literal: second-invocation refusal NOT PERFORMED. P1-F condition 2 forbids a second execute. Source-refusal evidence and static single-call guards support the one-attempt path only; v2A8ProxyPass is not a literal refusal test and V-A2-8 is not reported PASS.',
             'V-A2-7 runtime: the IPC WRITE_NOT_AUTHORIZED path (src/ipc/dispatch.ts 27becc76, line 231) is source-only and NOT PERFORMED here.',
-            'Store-directory writability was NOT PROBED; no temporary file or ACL-based pass is claimed. The single authorized application operation retains its own actual success/failure behavior.',
+            'Store-directory writability uses read-only ACL_EVALUATION only; effective/actual writability is NOT VERIFIED and no parent/store write probe is performed.',
             'U-5 remains NOT RUN. S04 consumes PA-06-admitted historical S2 records and, if present, compares existing dist bytes read-only to the admitted inventory; it runs no install/build and no exact entry-closure or emitted-migration probe. IRR retains no dist bytes.',
-            'Execute claim: a retained claim proves exclusion only inside this evidence root on this file system. It does not prove that no attempt happened elsewhere or out of band (Q-CONS).',
+            'P-1 consumption: a pre-marker stop with no process-start request is NOT CONSUMED, but any claim is never automatically released and prevents reuse of the canonical root. A durable marker or process-start request consumes the one attempt even if OS process startup fails.',
+            'Migration contract: the existing pinned-source review establishes fresh-store migrations 001-004 in order; each migration/ledger update commits independently before the single provisioning BEGIN IMMEDIATE transaction. A later migration failure may leave earlier migrations committed; a provisioning rollback covers provisioning writes only. The marker has already consumed P-1; no automatic repair/retry is permitted.',
             'Path canonicalization: SUBST aliases are detected by listing; reparse points are detected on the chain; drive-letter case is not folded to on-disk case; GetFinalPathNameByHandle is not called. These limits are not closed by this script.',
-            'EvidenceRoot is an explicit run-record destination, not a P1-F designation; it must already exist and pass S00 path/separation checks. No operator acceptance artifact is required.',
+            'No canonical P-1 EvidenceRoot is designated: S00 fails closed before touching a caller-selected destination or creating a run directory. PF-15 F5 Gate 4 and PA-13 E10 are different roots and are not repurposed.',
             'Authorization freshness and revocation (S06) are read from repository and GitHub state only. Out-of-band revocation or attempts are not detectable from that state.',
             'Tracker and P1-F status are read through blob identity, pointer-row identity and an added-line scan on origin/main; a revocation recorded under a non-P-1 name is not detected.',
             'Operator-only facts: Windows runtime, PowerShell 5.1 parse, OneDrive or other sync-provider state beyond environment roots, Program Authority records beyond designations, host-preflight evidence, and remote read-back of published artifacts.'
@@ -608,11 +648,39 @@ function Invoke-GitPin {
     }
 }
 
+function Invoke-PreClaimTrackerPointer {
+    # Before any claim or run directory, require the current Revision 7 pointer to be present on authoritative IRR main.
+    # This keeps an unmerged/stale PR branch from latching the one-attempt root before the later full freshness check.
+    $ref = Get-GhJson -Label 'gh-preclaim-main-ref' -ApiPath ('repos/' + $IrrRepo + '/git/ref/heads/main')
+    $mainSha = [string](Get-Prop -Obj (Get-Prop -Obj $ref -Name 'object') -Name 'sha')
+    Require-Check -Id 'S00-MAIN-POINTER-SHA' -Pass ($mainSha -match '^[0-9a-f]{40}$') -Detail ('authoritative IRR main SHA = ' + $mainSha)
+    $treeSha = Get-CommitTree -Label 'gh-preclaim-main-commit' -Repo $IrrRepo -Sha $mainSha
+    $entries = Get-TreeEntries -Label 'gh-preclaim-main-tree' -TreeSha $treeSha
+    $entry = [string]$entries[$TrackerPath]
+    Require-Check -Id 'S00-MAIN-TRACKER-ENTRY' -Pass ($entry -match '^100644 blob [0-9a-f]{40}$') -Detail ('authoritative main tracker entry = ' + $entry)
+    $blob = $entry.Split(' ')[2]
+    $text = Get-BlobText -Label 'gh-preclaim-tracker' -Sha $blob
+    $lines = @($text -split "`n" | ForEach-Object { $_.TrimEnd("`r") })
+    $missing = @()
+    foreach ($marker in $TrackerPointerMarkers) {
+        $matches = @($lines | Where-Object { $_.IndexOf($marker, [StringComparison]::Ordinal) -ge 0 })
+        if (($matches.Count -ne 1) -or ($matches[0].IndexOf($TrackerPointerRequiredText, [StringComparison]::Ordinal) -lt 0) -or ($matches[0] -notmatch '(?i)NOT EXECUTED.*UNSPENT')) {
+            $missing += ($marker + ' (row count=' + $matches.Count + ')')
+        }
+    }
+    $script:Facts.preClaimTrackerMainSha = $mainSha
+    $script:Facts.preClaimTrackerBlob = $blob
+    Require-Check -Id 'S00-TRACKER-POINTER-PUBLISHED' -Pass ($missing.Count -eq 0) -Detail ('current Revision 7 tracker pointer must already be on authoritative main before any claim/run directory; missing/mismatched=' + ($missing -join '; '))
+}
+
 function Invoke-EvidencePlacement {
+    # S00 stops before touching a caller-selected destination unless the effective PA record designates it exactly.
+    Require-Check -Id 'S00-EVIDENCE-ROOT-DESIGNATED' -Pass (($EvidenceRootDesignationState -ceq 'DESIGNATED') -and [System.IO.Path]::IsPathRooted($DesignatedEvidenceRoot) -and ($DesignatedEvidenceRoot -cne 'NOT DESIGNATED')) -Detail 'no canonical P-1 run-record root is designated by effective authority; caller input, PF-15 F5 and PA-13 E10 cannot substitute; stop before any path access or write'
+    Require-Check -Id 'S00-EVIDENCE-ROOT-EQUALS-DESIGNATION' -Pass ($EvidenceRoot -ceq $DesignatedEvidenceRoot) -Detail 'EvidenceRoot must equal the exact PA-designated canonical root'
     # Evidence root containment (S00). Read-only.
     $evFull = Get-CanonicalPath -Path $EvidenceRoot -Label 'EvidenceRoot'
     $script:Facts.evidenceRoot = $evFull
-    Add-Check -Id 'S00-EVIDENCE-RUNTIME-INPUT' -Pass $true -Detail 'EvidenceRoot is an explicit output destination, not a PA designation; it must pre-exist and pass all placement checks'
+    Add-Check -Id 'S00-EVIDENCE-RUNTIME-INPUT' -Pass $true -Detail 'EvidenceRoot equals the exact PA designation; this code is unreachable until the designation gate passes'
     Require-Check -Id 'S00-EVIDENCE-EXISTS' -Pass (Test-Path -LiteralPath $evFull -PathType Container) -Detail 'EvidenceRoot must already exist (operator-created); the script never creates it'
     $evDrive = Get-DriveFacts -Path $evFull
     Require-Check -Id 'S00-EVIDENCE-NOT-DRIVE-ROOT' -Pass ($evFull -ne $evDrive.Root.TrimEnd('\')) -Detail ('EvidenceRoot must not be a drive root (' + $evDrive.Root + ')')
@@ -646,7 +714,7 @@ function Invoke-EvidencePlacement {
 }
 
 function Invoke-StorePlacement {
-    # S03. Read-only store placement checks; no ACL evaluation or write probe.
+    # S03. Read-only store placement and selected ACL_EVALUATION; never writes a probe or claims effective access.
     $storeFull = Get-CanonicalPath -Path $StorePath -Label 'StorePath'
     $storeParent = [System.IO.Path]::GetDirectoryName($storeFull)
     Require-Check -Id 'S03-STORE-ABSENT' -Pass (-not (Test-Path -LiteralPath $StorePath)) -Detail 'store file must not pre-exist (Test-Path = False)'
@@ -682,8 +750,14 @@ function Invoke-StorePlacement {
     $script:Facts.storeAncestorChain = @($chain)
     $script:Facts.nearestExistingAncestor = $nearest
     $script:Facts.storeParentPreexisted = (Test-Path -LiteralPath $storeParent -PathType Container)
-    $script:Facts.storeWritability = 'NOT PROBED; no ACL inference or parent write probe; the single authorized operation retains its actual runtime behavior'
-    Add-Check -Id 'S03' -Pass $true -Detail 'store placement checks pass (store absent; sidecars absent; outside worktrees; ancestry and fixed NTFS; writability is not probed)'
+    Require-Check -Id 'S03-ACL-ANCESTOR-EXISTS' -Pass (-not [string]::IsNullOrEmpty($nearest)) -Detail 'an existing store-parent ancestor is required for the read-only DACL projection'
+    $aclEval = Get-WriteAclEvaluation -Dir $nearest
+    $aclPass = [bool]$aclEval.AllowsCreateByDaclProjection
+    $script:Facts.storeWritability = 'ACL_EVALUATION only: DACL projection allows required create bits=' + [string]$aclPass + '; effective/actual writability NOT VERIFIED; no parent/store write probe'
+    $script:Facts.writabilityMethod = $SelectedWritabilityMethod
+    $script:Facts.writabilityAcl = [ordered]@{ evaluatedAncestor = $nearest; matchingRules = $aclEval.RulesForCurrentIdentity; allowBits = ('0x{0:X}' -f $aclEval.AllowBits); requiredBits = ('0x{0:X}' -f $aclEval.NeedBits); denySids = @($aclEval.DenySids); allowsByDaclProjection = $aclPass; effectiveAccessVerified = $false }
+    Require-Check -Id 'S03-WRITE-ACL-EVALUATION' -Pass $aclPass -Detail ('read-only DACL projection on ' + $nearest + ': matching rules=' + $aclEval.RulesForCurrentIdentity + '; allow=0x' + $aclEval.AllowBits.ToString('X') + ' need=0x' + $aclEval.NeedBits.ToString('X') + '; matching deny SID count=' + @($aclEval.DenySids).Count + '; not an effective-access or actual-writability test')
+    Add-Check -Id 'S03' -Pass $true -Detail 'store placement checks pass; ACL_EVALUATION is DACL-only and does not verify effective or actual writability'
 }
 
 function Get-Sha256Hex {
@@ -1050,12 +1124,11 @@ function Invoke-PreInvocationRecheck {
 }
 
 function Invoke-ExecuteClaim {
-    # Cross-process exclusion for Execute. The claim is created with FileMode.CreateNew (Write-RawFile), which is atomic:
-    # of any number of concurrent Execute processes for one evidence root, at most one can create it. It is written after
-    # every read-only check and before the run directory and the marker. Retention: no code in this script deletes it;
-    # it is retained on every outcome after acquisition. Q-CONS-2 leaves any release authority/rule unresolved; no
-    # release mechanism is implemented. The claim does not declare P-1 consumed; the marker does. Not excluded by this file: an attempt under another evidence root
-    # or on another machine, and any out-of-band attempt.
+    # The canonical root is fixed by PA authority before execution (currently absent, so S00 fails closed). Within that
+    # root, FileMode.CreateNew atomically excludes concurrent/repeated Execute runs. A pre-marker stop, including one
+    # after acquisition, does not consume P-1 because no process-start request occurred; the claim remains permanently
+    # retained and no automatic release/retry exists. The marker is the commitment point: after it exists the one attempt
+    # is consumed even when operating-system process startup fails. No code in this script deletes either barrier.
     $script:ClaimPath = Join-Path $script:Facts.evidenceRoot $ClaimName
     $claim = [ordered]@{
         claimState       = 'ACQUIRED'
@@ -1066,7 +1139,10 @@ function Invoke-ExecuteClaim {
         store            = $StorePath
         scriptSha256     = $script:ScriptSha256
         runDirectory     = $script:RunDirName
-        retention        = 'retained on every outcome after acquisition as a fail-closed duplicate-attempt barrier'
+        consumptionRule  = 'claim acquisition alone does not consume P-1; durable marker or process-start request does'
+        preMarkerStop    = 'NOT CONSUMED; claim remains retained and blocks reuse of this designated root'
+        releaseRule      = 'no automatic release or retry exists in this script'
+        retention        = 'never deleted by this script; pre-marker claim does not consume P-1 but permanently blocks reuse of the designated root'
     }
     try {
         Write-RawFile -Path $script:ClaimPath -Text ($claim | ConvertTo-Json -Depth 4)
@@ -1085,17 +1161,17 @@ function Invoke-ExecuteClaim {
 function Get-DeclaredEffects {
     # Declared, not inferred: the effects each mode can have. The summary records them, so no mode is read as read-only.
     $effects = New-Object System.Collections.ArrayList
-    [void]$effects.Add('creates a run directory under a caller-supplied, pre-existing EvidenceRoot after S00 validation (exclusive creation)')
+    [void]$effects.Add('would create a run directory only after EvidenceRoot equals an exact PA-designated canonical root; no such designation currently exists, so S00 fails before any write')
     [void]$effects.Add('S04: reads/verifies PA-06-admitted S2 evidence from IRR and compares existing pinned-checkout dist read-only; no IPD install/build/probe/write')
-    [void]$effects.Add('S03: no ACL evaluation or temporary parent/store writability probe; store/path safety checks remain')
+    [void]$effects.Add('S03: read-only ACL_EVALUATION of the nearest existing store-parent ancestor; no parent/store write probe; effective/actual writability NOT VERIFIED')
     [void]$effects.Add('S05: node --mode=validate expects the store absent and refuses without creating it')
     [void]$effects.Add('S01, S02, S06: read-only queries (sqlite load probe, git, GitHub API)')
     if ($Mode -eq 'Preflight') {
         [void]$effects.Add('no store creation, no provisioning record, no execute-mode invocation, no marker, no execute claim')
     }
     if ($Mode -eq 'Execute') {
-        [void]$effects.Add('execute-claim.json created exclusively in EvidenceRoot; retained on every outcome after acquisition')
-        [void]$effects.Add('EXECUTE-MARKER.json written before process start (the attempt is spent)')
+        [void]$effects.Add('execute-claim.json created exclusively in the designated EvidenceRoot; never auto-released; a pre-marker stop is NOT CONSUMED but the retained claim permanently blocks reuse through this script')
+        [void]$effects.Add('EXECUTE-MARKER.json written before the process-start request; this durable marker is the commitment point, including process-start failure')
         [void]$effects.Add('ONE node --mode=execute invocation (S07). It may create the store file and migration state and writes provisioning records in one transaction. A failure can leave the store file in place; that is recorded and never repaired.')
         [void]$effects.Add('S08-S09: validate and read-only dump after the invocation; these steps do not write the store')
     }
@@ -1398,6 +1474,7 @@ try {
     Require-Check -Id 'S00-EVIDENCE-ABSOLUTE' -Pass ($EvidenceRoot -match '^[A-Za-z]:\\') -Detail 'EvidenceRoot must be an absolute local drive path'
     Require-Check -Id 'S00-STORE-ABSOLUTE' -Pass ($StorePath -match '^[A-Za-z]:\\') -Detail 'StorePath must be an absolute local drive path'
     Require-Check -Id 'S00-MODE-CONFIRM' -Pass (($Mode -eq 'Preflight') -or ($ConfirmToken -ceq $ConfirmRequired)) -Detail ('Execute requires -ConfirmToken ' + $ConfirmRequired + '; Preflight needs none')
+    Invoke-PreClaimTrackerPointer
     Invoke-EvidencePlacement
     $script:Facts.storeDirectory = [System.IO.Path]::GetDirectoryName($StorePath.TrimEnd('\'))
     # Prior-run scan. Any p1-exe-* directory means an attempt was made or may have been made: every later run refuses.
