@@ -91,7 +91,7 @@ function Invoke-ExpectedStop([scriptblock]$Body,[string]$ExpectedCode) {
 }
 
 # Load only source function definitions needed by the fixture tests. No production top-level code is dot-sourced.
-$needed = @('Get-UtcStamp','Get-FileStamp','Stop-Gate','Get-Prop','Write-RawFile','Write-Log','Write-Seal','Add-Check','Require-Check','Add-PostFailure','Invoke-Capture','Read-JsonText','Get-RefusalField','Get-CanonicalPath','Add-Forensic','Get-AncestorChain','Get-GitMarkerHits','Get-ReparseHits','Get-DriveFacts','Get-ProbeWritable','Get-P1Consumption','Test-AcceptanceAndPreflight','Invoke-ExecuteClaim','Invoke-PostInvocationForensics','Invoke-HostAndRuntime')
+$needed = @('Get-UtcStamp','Get-FileStamp','Stop-Gate','Get-Prop','Write-RawFile','Write-Log','Write-Seal','Add-Check','Require-Check','Add-PostFailure','Invoke-Capture','Read-JsonText','Get-LastJsonLine','Get-RefusalField','Get-CanonicalPath','Add-Forensic','Get-AncestorChain','Get-GitMarkerHits','Get-ReparseHits','Get-DriveFacts','Get-ProbeWritable','Get-P1Consumption','Test-AcceptanceAndPreflight','Invoke-ExecuteClaim','Invoke-PostInvocationForensics','Invoke-HostAndRuntime')
 $productionFunctionText = Get-ProductionFunctionText -Names $needed
 Invoke-Expression $productionFunctionText
 foreach ($functionName in $needed) {
@@ -124,7 +124,7 @@ function Test-F9_3 {
         @{Path='relative\child';Code='PATH_NOT_DRIVE_ABSOLUTE'},
         @{Path='\\server\share\x';Code='PATH_NOT_DRIVE_ABSOLUTE'},
         @{Path='\\?\C:\device';Code='PATH_NOT_DRIVE_ABSOLUTE'},
-        @{Path='C:/fixture/x';Code='PATH_INVALID_CHARACTER'},
+        @{Path='C:/fixture/x';Code='PATH_NOT_DRIVE_ABSOLUTE'},
         @{Path='C:\fixture\..\x';Code='PATH_DOT_SEGMENT'},
         @{Path='C:\fixture\\x';Code='PATH_EMPTY_SEGMENT'},
         @{Path='C:\fixture\name.';Code='PATH_TRAILING_DOT_OR_SPACE'},
@@ -244,6 +244,11 @@ function Test-AcceptanceCase([string]$Name,[string]$Mutation,[string]$Expected) 
       'bad-hash' { [IO.File]::WriteAllText((Join-Path $f.pre 'run.log'),'tampered') }
       'missing-file' { Microsoft.PowerShell.Management\Remove-Item -LiteralPath (Join-Path $f.pre 'run.log') -Force }
       'reparse-file' { try { New-Item -ItemType SymbolicLink -Path (Join-Path $f.pre 'link-to-log') -Target (Join-Path $f.pre 'run.log') -ErrorAction Stop | Out-Null } catch { $script:ReparseFixtureUnsupported=$true; return } }
+      'reparse-dir-junction' {
+          $target=Join-Path (Split-Path -Parent $f.pre) 'preflight-target'
+          Microsoft.PowerShell.Management\Move-Item -LiteralPath $f.pre -Destination $target
+          try { New-Item -ItemType Junction -Path $f.pre -Target $target -ErrorAction Stop | Out-Null } catch { $script:DirJunctionUnsupported=$true; return }
+      }
       'self-list' { $line=((Get-FileHash -Algorithm SHA256 -LiteralPath (Join-Path $f.pre 'SHA256SUMS.txt')).Hash.ToUpperInvariant()+'  SHA256SUMS.txt'+"`r`n");[IO.File]::AppendAllText((Join-Path $f.pre 'SHA256SUMS.txt'),$line) }
       'none' { }
     }
@@ -261,8 +266,10 @@ function Test-F9_6 {
     Test-AcceptanceCase 'missing-file' 'missing-file' 'S00-PREFLIGHT-SEAL-SET'
     $script:ReparseFixtureUnsupported=$false
     Test-AcceptanceCase 'reparse-entry' 'reparse-file' 'S00-PREFLIGHT-NO-REPARSE-ENTRY'
+    $script:DirJunctionUnsupported=$false
+    Test-AcceptanceCase 'reparse-directory' 'reparse-dir-junction' 'S00-PREFLIGHT-DIR-NOT-REPARSE'
     Test-AcceptanceCase 'self-list' 'self-list' 'S00-PREFLIGHT-SEAL-WELLFORMED'
-    if($script:ReparseFixtureUnsupported){Add-Result 'F9-6' 'PARTIAL' 'all fixture cases passed except reparse-entry: Windows refused creation of a non-elevated fixture symlink'}else{Add-Result 'F9-6' 'PASS' 'actual Test-AcceptanceAndPreflight accepted valid seal and refused extra/missing entries, subdirectory, reparse entry, duplicate/malformed/self-listed seal and hash mismatch'}
+    if($script:ReparseFixtureUnsupported -or $script:DirJunctionUnsupported){Add-Result 'F9-6' 'PARTIAL' ('all available reparse fixtures passed; file-entry symlink available='+(-not $script:ReparseFixtureUnsupported)+'; non-elevated directory junction available='+(-not $script:DirJunctionUnsupported)+'; any unavailable reparse branch remains NOT TESTED')}else{Add-Result 'F9-6' 'PASS' 'actual Test-AcceptanceAndPreflight accepted valid seal and refused extra/missing entries, subdirectory, reparse entry, reparse directory, duplicate/malformed/self-listed seal and hash mismatch'}
 }
 
 function Test-F9_7 {
@@ -318,16 +325,29 @@ function Test-F9_8 {
     for($i=0;$i -lt $lines.Count;$i++){if(($lines[$i].IndexOf('$gitEnv = @(',[StringComparison]::Ordinal) -ge 0) -and ($lines[$i].IndexOf('GIT_*',[StringComparison]::Ordinal) -ge 0)){ $start=$i }; if($start -ge 0 -and $lines[$i] -match "Require-Check -Id 'S01-ENV-GIT'"){ $end=$i;break }}
     Assert-That ($start -ge 0 -and $end -ge $start) 'actual S01-ENV-GIT source statements must be found in production function'
     $snippet=($lines[$start..$end] -join "`r`n")
-    $old=$env:GIT_DIR;$had=Test-Path Env:\GIT_DIR
+    # Save inherited GIT_* values in memory, clear them only in this PowerShell process, test one controlled variable,
+    # then test the clean case and restore the exact original process environment in finally.
+    $savedGit = @(Get-ChildItem Env: | Where-Object { $_.Name -like 'GIT_*' } | ForEach-Object { [pscustomobject]@{ Name=$_.Name; Value=$_.Value } })
+    $injectedGitPath = Join-Path $RunRoot 'must-not-be-logged.git'
     try {
-        $env:GIT_DIR=Join-Path $RunRoot 'must-not-be-logged.git';$script:Checks=New-Object System.Collections.ArrayList
+        foreach ($item in $savedGit) { [Environment]::SetEnvironmentVariable([string]$item.Name,$null,[EnvironmentVariableTarget]::Process) }
+        [Environment]::SetEnvironmentVariable('GIT_DIR',$injectedGitPath,[EnvironmentVariableTarget]::Process)
+        $script:Checks=New-Object System.Collections.ArrayList
         $thrown='';try{Invoke-Expression $snippet}catch{$thrown=$_.Exception.Message}
-        $check=Get-Check 'S01-ENV-GIT'
-        Assert-That ($check.Count -eq 1 -and -not $check[0].Pass) 'inherited GIT_DIR must fail the actual source check'
-        Assert-That ($check[0].Detail -match 'present = 1' -and $check[0].Detail -notmatch [regex]::Escape($env:GIT_DIR)) 'diagnostic must count only and not disclose the environment value'
-        Assert-That ($thrown -match 'STOP\[S01-ENV-GIT\]') 'actual Require-Check must stop on GIT_DIR'
-    } finally { if($had){$env:GIT_DIR=$old}else{Remove-Item Env:\GIT_DIR -ErrorAction SilentlyContinue} }
-    Add-Result 'F9-8-GIT' 'PASS' 'actual production S01-ENV-GIT source refuses inherited GIT_DIR and emits count only'
+        $check=@(Get-Check 'S01-ENV-GIT')
+        Assert-That ($check.Count -eq 1 -and -not $check[0].Pass) 'one controlled inherited GIT_DIR must fail the actual source check'
+        Assert-That ($check[0].Detail -match 'present = 1' -and $check[0].Detail -notmatch [regex]::Escape($injectedGitPath)) 'diagnostic must count only and not disclose the environment value'
+        Assert-That ($thrown -match 'STOP\[S01-ENV-GIT\]') 'actual Require-Check must stop on controlled GIT_DIR'
+        [Environment]::SetEnvironmentVariable('GIT_DIR',$null,[EnvironmentVariableTarget]::Process)
+        $script:Checks=New-Object System.Collections.ArrayList
+        $cleanThrown='';try{Invoke-Expression $snippet}catch{$cleanThrown=$_.Exception.Message}
+        $cleanCheck=@(Get-Check 'S01-ENV-GIT')
+        Assert-That ($cleanThrown -eq '' -and $cleanCheck.Count -eq 1 -and $cleanCheck[0].Pass) 'same actual source check must pass when process GIT_* environment is clean'
+    } finally {
+        foreach ($item in @(Get-ChildItem Env: | Where-Object { $_.Name -like 'GIT_*' })) { [Environment]::SetEnvironmentVariable([string]$item.Name,$null,[EnvironmentVariableTarget]::Process) }
+        foreach ($item in $savedGit) { [Environment]::SetEnvironmentVariable([string]$item.Name,[string]$item.Value,[EnvironmentVariableTarget]::Process) }
+    }
+    Add-Result 'F9-8-GIT' 'PASS' ('actual production S01-ENV-GIT source refused one controlled GIT_DIR, passed with no GIT_* variables, and restored '+$savedGit.Count+' inherited process variables')
     # Actual full host/runtime function, on fixture RunDir/RepoFull. It can only run the flag-free Node sqlite capability probe.
     $f=New-ChildFixture 'F9-8-host';$script:RunDir=$f;$script:RepoFull=$f;$script:Facts=@{};$script:Checks=New-Object System.Collections.ArrayList;$script:ExpectedHost='DESKTOP-NO0NHTP';$script:ExpectedProductName='Windows 11 Home Single Language';$script:LogPath=''
     $hostStatus='PASS';$hostDetail=''
