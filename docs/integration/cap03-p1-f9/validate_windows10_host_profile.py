@@ -22,7 +22,7 @@ IRR_ONLY_WORKFLOW = REPO / ".github" / "workflows" / "cap03-revision7-irr-static
 EVIDENCE_ROOT = REPO / "evidence" / "cap03-s2"
 RUN_ID = "s2-a891802e-20261028T192516Z"
 RUN_DIR = EVIDENCE_ROOT / RUN_ID
-EXPECTED_SHA256 = "e685a5fca9bf725b091a9ccc943b7d9316868dd7b89cb96f7972709c6bb3be1f"
+EXPECTED_SHA256 = "42253eab76161ecb2452b6b1fca8e629b010131b8bd88dbb5357dc929e084f90"
 EXPECTED_SEAL_SHA256 = "9D3C09DBDB691C2527A45605DEA20826B4EC2BA2F110985EE3F1033783B5225E"
 EXPECTED_DEPOSIT_SHA256 = "FFD0956482427ACB404543E36DAC2705D802B04828E380290232C06129F3AFAD"
 EXPECTED_TRANSCRIPT_SHA256 = "D4C5D9431115BF57D824DF465E3D99B11C619BC6D59A3F0974036F3BFCC2F7CA"
@@ -169,9 +169,9 @@ for forbidden in [
 require("$DesignatedStorePath  = 'C:\\iips-data\\iips\\user-portfolio.sqlite'" in source,
         "exact PF-15 F4 designated store literal missing")
 for text, message in [
-    ("$BaselineIrrCommit    = '9b54dbd0faa52bd0dd41085430d5ddde01257f27'", "reviewed current-main baseline for post-merge freshness changed"),
+    ("$BaselineIrrCommit    = '238dfa3185fcb77aac1a50e1d8dee60856c9739d'", "reviewed current-main baseline for post-merge freshness changed"),
     ("$P1FEntry             = '100644 blob a90bb00141194608e64503b24d43964bf7ff85a0'", "effective P1-F source entry is not bound to the current main tree"),
-    ("$TrackerPointerMarkers = @('**Latest (`CV-CORR-195`'", "current tracker pointer is not revision-bound"),
+    ("$TrackerPointerMarkers = @('**Latest (`CV-CORR-196`'", "current tracker pointer is not revision-bound"),
     ("'docs/integration/IIPS_v3.0_CAP03_P1_AUTHORIZATION_ACT_AND_PREREQUISITE_DECISIONS_2026-10-29.md'", "reviewed effective P1-F record is not allowlisted for exact-blob freshness checking"),
     ("$TrackerPointerRequiredText = 'P-1 remains **AUTHORIZED'", "freshness check no longer binds the authorized/unspent status"),
 ]:
@@ -215,7 +215,7 @@ for forbidden in ("npm ci", "npm install", "npm run", "iips-production-market-da
 for required in ("actions/checkout@v4", "actions/setup-python@v5", "python -m py_compile", "validate_windows10_host_profile.py", "pull_request", "branches:", "main"):
     require(required in irr_only_workflow, "IRR-only workflow missing required safe check/trigger: " + required)
 
-# The additive current-main reconciliation preserves main's records and the Revision 7 branch history.
+# The additive current-main reconciliation preserves current main's full history and Revision 7 branch records.
 require(not any(marker in tracker for marker in ("<<<<<<<", "=======", ">>>>>>>")),
         "unresolved merge marker remains in authoritative tracker")
 for heading in (
@@ -223,13 +223,14 @@ for heading in (
     "## §16.213 — `CV-CORR-193`:",
     "## §16.214 — `CV-CORR-194`:",
     "## §16.215 — `CV-CORR-195`:",
+    "## §16.216 — `CV-CORR-196`:",
 ):
     require(tracker.count(heading) == 1, "authoritative tracker heading missing/duplicated: " + heading)
 for heading in ("## 16.208 CAP-03 P-1 Revision 5", "## 16.209 CAP-03 P-1 Revision 6", "## 16.210 CAP-03 P-1 Revision 7"):
     require(tracker.count(heading) == 1, "branch record not preserved exactly once: " + heading)
 
-# Prove current main's sections and the branch's records are byte-preserved in the additive resolution.
-base_commit = "9b54dbd0faa52bd0dd41085430d5ddde01257f27"
+# Prove current main's §§16.211/213/214/215 and the original branch history are preserved.
+base_commit = "238dfa3185fcb77aac1a50e1d8dee60856c9739d"
 branch_commit = "c0e9ce660e063ffccc94c07fdd442c56f56ab9c6"
 base_tracker = subprocess.run(
     ["git", "show", f"{base_commit}:{TRACKER.name}"], cwd=REPO,
@@ -248,10 +249,11 @@ def tracker_section(text: str, heading: str, end_heading: str | None = None) -> 
 for start, end in (
     ("## §16.211 — `CV-CORR-191`:", "## §16.213 — `CV-CORR-193`:"),
     ("## §16.213 — `CV-CORR-193`:", "## §16.214 — `CV-CORR-194`:"),
-    ("## §16.214 — `CV-CORR-194`:", None),
+    ("## §16.214 — `CV-CORR-194`:", "## §16.215 — `CV-CORR-195`:"),
+    ("## §16.215 — `CV-CORR-195`:", None),
 ):
     base_part = tracker_section(base_tracker, start, end)
-    current_part = tracker_section(tracker, start, "## §16.215 — `CV-CORR-195`:")
+    current_part = tracker_section(tracker, start, "## §16.216 — `CV-CORR-196`:")
     require(current_part.startswith(base_part), "current-main register section not byte-preserved before additive overlay: " + start)
 
 def one_record(text: str, heading: str) -> str:
@@ -263,23 +265,28 @@ for section in ("16.208", "16.209", "16.210"):
     heading = f"## {section} CAP-03 P-1 Revision"
     require(one_record(branch_tracker, heading) == one_record(tracker, heading),
             "branch Revision 5–7 section not byte-preserved: " + section)
-for verification_id in range(1639, 1652):
+for verification_id in range(1649, 1662):
     row = f"| `V{verification_id}` |"
     require(tracker.count(row) == 1, "current reconciliation verification row missing/duplicated: " + row)
-require(tracker.count("| `2026-10-30` | `CHG-2026-10-30-10` |") == 1 and
-        "**Next free after this reconciliation:** `§16.216` / `CV-CORR-196` / `CHG-2026-10-30-11` / `V1652`." in tracker,
+require(tracker.count("| `2026-10-30` | `CHG-2026-10-30-11` |") == 1 and
+        "**Next free after this reconciliation:** `§16.217` / `CV-CORR-197` / `CHG-2026-10-30-12` / `V1662`." in tracker,
         "change-log or next-free pointer is inconsistent with current reconciliation")
 first_lines = "\n".join(tracker.splitlines()[:30])
-require("**Latest (`CV-CORR-195`, §16.215, `CHG-2026-10-30-10`" in first_lines,
+require("**Latest (`CV-CORR-196`, §16.216, `CHG-2026-10-30-11`" in first_lines,
         "Last Updated pointer does not identify the current Revision 7 reconciliation")
-require("**Current CAP-03 P-1 / PF-15 status** — *current-state pointer (`CV-CORR-195`, §16.215" in first_lines,
+require("**Current CAP-03 P-1 / PF-15 status** — *current-state pointer (`CV-CORR-196`, §16.216" in first_lines,
         "CAP-03 current-state pointer does not identify the Revision 7 reconciliation")
 require("## §16.207 — `CV-CORR-187`: O-07 closed" in tracker,
         "origin/main O-07 section was lost in additive merge")
 for q in ["Q-CONS-2", "Q-CONS-3", "Q-MIG", "Q-TX", "Q-V8", "Q-WRITE", "Q-EV", "Q-BUILD"]:
-    require(q in tracker[tracker.index("## §16.215"):], "tracker disposition missing: " + q)
+    require(q in tracker[tracker.index("## §16.216"):], "tracker disposition missing: " + q)
 for required in ("No PA act or path is invented", "filesystem-owner designation", "PA-13 E10", "PF-15 F5", "PR #382"):
-    require(required in tracker[tracker.index("## §16.215"):], "Q-EV/root/publication boundary missing: " + required)
+    require(required in tracker[tracker.index("## §16.216"):], "Q-EV/root/publication boundary missing: " + required)
+request_doc = ROOT / "IIPS_v3.0_REPORTS_NP06_C4_HEADER_CLAIM_PA_DECISION_REQUEST_2026-10-30.md"
+act_doc = ROOT / "IIPS_V3_REPORTS_NP06_C4_2_HEADER_CLAIM_CLARIFICATION_PA_ACT_EFFECTIVE_2026-10-30.md"
+require(request_doc.is_file() and act_doc.is_file() and
+        "IIPS-V3-REPORTS-NP06-C4-2-HEADER-CLAIM-CLARIFICATION-PA-ACT-2026-10-30-01" in act_doc.read_text(encoding="utf-8"),
+        "current-main D-9 decision request/history or effective C4-2 act is missing")
 
 # Static-check the literal .NET regexes (PowerShell single-quoted literals preserve these backslashes).
 dist_hash_pattern = re.search(r"\$distHashes\s*=.*?-match '([^']+)'", source)

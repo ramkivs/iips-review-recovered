@@ -82,3 +82,29 @@ This act renders `R2` effective and authorizes transport implementation. It does
 - Grant capability acceptance, `CV-51` closure, or production admission.
 
 *Program Authority: Ramki. **Status: EFFECTIVE. `R2` RENDERED & BOUND.***
+
+---
+
+## 4. Dated addendum (`2026-10-30`) — `C-4` request-header limb clarified by `C4-2`
+
+> **Dated addendum — additive; §§1–3 above are preserved unaltered.** This act's `C-4` text is **not rewritten**; its **request-header limb** is disposed of by the later effective instrument `IIPS-V3-REPORTS-NP06-C4-2-HEADER-CLAIM-CLARIFICATION-PA-ACT-2026-10-30-01` (**`C4-2`, SELECTED — EFFECTIVE**), recorded at tracker `§16.215` (`CV-CORR-195`; `CHG-2026-10-30-10`).
+
+**What `C4-2` determined, as it bears on this act.**
+
+1. Client-supplied identity or tenant claims supplied **in request headers** are **not accepted as identity or ownership inputs**; they are **ignored** and cannot establish or alter identity, tenant, owner context or authorization.
+2. Such a request **may proceed**, and a valid operation **may succeed and persist an artifact**, under the single server-established personal application principal.
+3. The historical requirement in `C-4` to answer header-borne claims with **`400 Bad Request`** is **superseded as to that channel**. `C-4`'s **URL query parameter** and **request body** limbs remain **operative and unchanged**, including the `400` and the body `{"error":"client-supplied tenant or identity claims are prohibited"}`.
+4. The `C-4` prohibition itself is **not relaxed**: no client-supplied claim may ever be authoritative, on any channel.
+5. `C-2`, `C-3`, `C-6`, `C-7`/`A-2` and `C-8` are **unchanged**.
+
+**Operative reading of `C-4` from `2026-10-30`:**
+
+> Any client-supplied tenant or identity claim in **URL query parameters or request bodies** (`tenantId`, `userId`, `owner`, `ownerUserId`, `authenticatedUser`, `principal`) is refused with `400 Bad Request`. A claim supplied **in request headers** is not an accepted identity or ownership input: it is ignored, cannot establish or alter identity, tenant, owner context or authorization, and does not prevent the request from proceeding under the single server-established personal application principal.
+
+**Why the clarification was needed.** The `2026-10-30` investigation (tracker `§16.213`) established that no version of `frontend/server/reports-transport.ts` ever refused a header-borne claim: the transport has always read `req.url`, `req.method` and the body only. The PA therefore clarified the contract to match the intended private, single-user, locally hosted operating model rather than adding multi-user rejection behaviour the application does not need. No implementation change resulted; targeted non-effect tests were added.
+
+**Boundaries.** This addendum grants nothing beyond §4 of the `C4-2` act: no multi-user access, no public internet exposure, no remote tenant selection, no client-controlled identity or ownership, no authentication via bearer tokens, no production deployment, no relaxation of any unrelated control. **IPD's consumer clause `C7` ("caller-supplied authority is refused, not ignored") is untouched** — it governs the IPD same-host IPC endpoint, not this Reports HTTP surface.
+
+**Status.** `R2` remains **`EFFECTIVE`**; this act remains **`RENDERED & BOUND`**, with `C-4`'s header limb disposed of as above.
+
+*End of the `2026-10-30` addendum. `C4-2` effective; `C-4` header limb clarified; query/body limbs, `C-2`, `C-3`, `C-6`, `C-8` unchanged; no status moved.*

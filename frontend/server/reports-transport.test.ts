@@ -50,6 +50,7 @@ async function request(
   path: string,
   method = 'GET',
   payload?: unknown,
+  headers: Record<string, string> = {},
 ): Promise<{ status: number; body: Record<string, unknown>; allow?: string | null }> {
   const server = http.createServer((req, res) => {
     void handleReportsRequest(req, res);
@@ -57,9 +58,9 @@ async function request(
   await new Promise<void>((resolve) => server.listen(0, resolve));
   const port = (server.address() as AddressInfo).port;
   try {
-    const init: RequestInit = { method };
+    const init: RequestInit = { method, headers: { ...headers } };
     if (payload !== undefined) {
-      init.headers = { 'Content-Type': 'application/json' };
+      init.headers = { ...headers, 'Content-Type': 'application/json' };
       init.body = JSON.stringify(payload);
     }
     const response = await fetch(`http://127.0.0.1:${port}${path}`, init);
@@ -221,5 +222,153 @@ describe('Reports transport — configured carrier and persistence', () => {
     // 11. Unknown report ID -> 404 without disclosure
     const missingRes = await request('/api/reports/artifacts/nonexistent-id-999');
     expect(missingRes.status).toBe(404);
+  });
+});
+
+/**
+ * `C4-2` (`IIPS-V3-REPORTS-NP06-C4-2-HEADER-CLAIM-CLARIFICATION-PA-ACT-2026-10-30-01`, effective
+ * 2026-10-30): for this private, single-user, locally hosted application there is exactly one
+ * server-established personal application principal, and it is the sole authority for Reports
+ * ownership context. Ambient `Authorization` credentials and client-supplied identity/tenant
+ * claims in request headers cannot establish or change identity, tenant or ownership, and a
+ * request carrying them may proceed and persist an artifact under that principal.
+ *
+ * These tests assert the clarified contract: NON-EFFECT and permitted success. They deliberately
+ * do NOT assert `400` for a header-borne claim — `C4-2` superseded that requirement for the
+ * request-header channel. Query-parameter and request-body refusal remain asserted elsewhere and
+ * are re-asserted here as controls.
+ */
+const HOSTILE_HEADERS: Record<string, string> = Object.freeze({
+  Authorization: 'Bearer ambient-token-cannot-establish-identity',
+  'X-Tenant-Id': 'foreign-tenant',
+  tenantId: 'foreign-tenant',
+  userId: 'attacker-user-id',
+  owner: 'attacker-owner',
+  ownerUserId: 'attacker-owner-user-id',
+  authenticatedUser: 'attacker-authenticated-user',
+  principal: 'attacker-principal',
+  'X-Authenticated-User': 'attacker-authenticated-user',
+});
+
+const AMBIENT_CREDENTIALS: ReadonlyArray<Record<string, string>> = Object.freeze([
+  { Authorization: 'Bearer ambient-token-cannot-establish-identity' },
+  { Authorization: 'Basic Zm9vOmJhcg==' },
+  { Authorization: 'Bearer tenantId=foreign-tenant' },
+]);
+
+const DECLARED_OWNERSHIP = Object.freeze({
+  tenantId: APPROVED_REPORTS_TENANT_ID,
+  userId: APPROVED_REPORTS_OWNER_USER_ID,
+});
+
+describe('Reports transport — C4-2: credentials and header claims are not identity inputs', () => {
+  it('cannot establish or change identity via ambient credentials on the context endpoint', async () => {
+    const dir = tempDir();
+    process.env[REPORTS_OWNER_PATH_ENV] = materialiseReportsOwnerCarrier(dir);
+    process.env[NP04_DATABASE_PATH_ENV] = path.join(dir, 'reports.db');
+
+    const baseline = await request('/api/reports/context');
+    expect(baseline.status).toBe(200);
+    expect(baseline.body.data).toEqual({
+      surfaceName: 'NP-06',
+      disposition: 'ESTABLISHED',
+      tenantId: APPROVED_REPORTS_TENANT_ID,
+      ownerUserId: APPROVED_REPORTS_OWNER_USER_ID,
+    });
+
+    for (const credential of AMBIENT_CREDENTIALS) {
+      const withCredential = await request('/api/reports/context', 'GET', undefined, credential);
+      expect(withCredential.status).toBe(200);
+      expect(withCredential.body).toEqual(baseline.body);
+    }
+  });
+
+  it('cannot change the personal application principal via header-borne identity or tenant claims', async () => {
+    const dir = tempDir();
+    process.env[REPORTS_OWNER_PATH_ENV] = materialiseReportsOwnerCarrier(dir);
+    process.env[NP04_DATABASE_PATH_ENV] = path.join(dir, 'reports.db');
+
+    const baseline = await request('/api/reports/context');
+    expect(baseline.status).toBe(200);
+
+    const withClaims = await request('/api/reports/context', 'GET', undefined, HOSTILE_HEADERS);
+    // Ignored, not refused: the claim is not an accepted input, and it does not perturb the
+    // declared principal in any field.
+    expect(withClaims.status).toBe(200);
+    expect(withClaims.body).toEqual(baseline.body);
+    const data = withClaims.body.data as Record<string, unknown>;
+    expect(data.tenantId).toBe(APPROVED_REPORTS_TENANT_ID);
+    expect(data.ownerUserId).toBe(APPROVED_REPORTS_OWNER_USER_ID);
+    for (const claimValue of ['foreign-tenant', 'attacker-owner', 'attacker-owner-user-id']) {
+      expect(JSON.stringify(data)).not.toContain(claimValue);
+    }
+  });
+
+  it('may proceed and persist an artifact under the declared principal while hostile headers are present', async () => {
+    const dir = tempDir();
+    process.env[REPORTS_OWNER_PATH_ENV] = materialiseReportsOwnerCarrier(dir);
+    process.env[NP04_DATABASE_PATH_ENV] = path.join(dir, 'reports.db');
+
+    // 1. Create WITH hostile credentials and claims: the request proceeds (C4-2 determination 6)
+    //    and persists under the server-established principal (determination 7).
+    const createRes = await request('/api/reports/artifacts', 'POST', sampleInput('C4-2', 42), HOSTILE_HEADERS);
+    expect(createRes.status).toBe(201);
+    const created = createRes.body.data as Record<string, unknown>;
+    expect(created.ownership).toEqual(DECLARED_OWNERSHIP);
+    const reportId = created.reportId as string;
+    expect(reportId).toBeTruthy();
+    expect(created.artifactVersion).toBe(1);
+
+    // 2. Read back WITH the same hostile headers: same artifact, same declared ownership.
+    const readRes = await request(`/api/reports/artifacts/${reportId}`, 'GET', undefined, HOSTILE_HEADERS);
+    expect(readRes.status).toBe(200);
+    const readBack = readRes.body.data as Record<string, unknown>;
+    expect(readBack.reportId).toBe(reportId);
+    expect(readBack.ownership).toEqual(DECLARED_OWNERSHIP);
+
+    // 3. The artifact is genuinely persisted and visible under the single declared principal.
+    const listRes = await request('/api/reports/artifacts', 'GET', undefined, HOSTILE_HEADERS);
+    expect(listRes.status).toBe(200);
+    const items = listRes.body.data as Array<{ reportId: string }>;
+    expect(items.some((i) => i.reportId === reportId)).toBe(true);
+
+    // 4. No claim value became authoritative anywhere in the persisted projection.
+    const projection = JSON.stringify({ created, readBack, list: items });
+    for (const claimValue of [
+      'foreign-tenant',
+      'attacker-user-id',
+      'attacker-owner',
+      'attacker-owner-user-id',
+      'attacker-authenticated-user',
+      'attacker-principal',
+      'ambient-token-cannot-establish-identity',
+    ]) {
+      expect(projection).not.toContain(claimValue);
+    }
+  });
+
+  it('keeps query-parameter and request-body refusal unchanged, and the namespace server-constant', async () => {
+    const dir = tempDir();
+    process.env[REPORTS_OWNER_PATH_ENV] = materialiseReportsOwnerCarrier(dir);
+    process.env[NP04_DATABASE_PATH_ENV] = path.join(dir, 'reports.db');
+
+    // Controls: the two channels C4-2 left untouched still refuse with 400.
+    const queryClaim = await request('/api/reports/artifacts?tenantId=foreign-tenant');
+    expect(queryClaim.status).toBe(400);
+    expect(queryClaim.body.error).toBe('client-supplied tenant or identity claims are prohibited');
+
+    const bodyClaim = await request('/api/reports/artifacts', 'POST', {
+      ...sampleInput(),
+      tenantId: 'foreign-tenant',
+    });
+    expect(bodyClaim.status).toBe(400);
+    expect(bodyClaim.body.error).toBe('client-supplied tenant or identity claims are prohibited');
+
+    // Route/method discipline and the server-constant namespace are unchanged by C4-2.
+    expect((await request('/api/reportsEVIL')).status).toBe(404);
+    expect((await request('/api/reports/artifacts/id/versions', 'GET')).status).toBe(405);
+    expect((await request('/api/reports/artifacts/id/versions', 'GET')).allow).toBe('POST');
+    expect(isReportsPath('/api/reports/context?limit=1')).toBe(true);
+    expect(isReportsPath('/api/reportsEVIL')).toBe(false);
   });
 });
