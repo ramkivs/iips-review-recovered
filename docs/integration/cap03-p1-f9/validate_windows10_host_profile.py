@@ -9,6 +9,7 @@ from pathlib import Path
 import hashlib
 import json
 import re
+import subprocess
 
 ROOT = Path(__file__).resolve().parents[1]
 REPO = ROOT.parent.parent
@@ -17,10 +18,11 @@ RUNNER = ROOT / "cap03-p1-f9" / "CAP03_P1_F9_WindowsFixtureTests.ps1"
 TRACKER = REPO / "IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md"
 AUTHORITY = ROOT / "IIPS_v3.0_CAP03_P1_AUTHORIZATION_ACT_AND_PREREQUISITE_DECISIONS_2026-10-29.md"
 PF15_ACT = ROOT / "IIPS_v3.0_CAP03_PF15_ENDPOINT_LOCAL_STATE_DESIGNATION_PA_ACT_CORRECTED_2026-10-26.md"
+IRR_ONLY_WORKFLOW = REPO / ".github" / "workflows" / "cap03-revision7-irr-static.yml"
 EVIDENCE_ROOT = REPO / "evidence" / "cap03-s2"
 RUN_ID = "s2-a891802e-20261028T192516Z"
 RUN_DIR = EVIDENCE_ROOT / RUN_ID
-EXPECTED_SHA256 = "d9a26c3e0233712c8cd2fe230ae3f0e366c12cc6c3b0237b352ee0fe76b26561"
+EXPECTED_SHA256 = "e685a5fca9bf725b091a9ccc943b7d9316868dd7b89cb96f7972709c6bb3be1f"
 EXPECTED_SEAL_SHA256 = "9D3C09DBDB691C2527A45605DEA20826B4EC2BA2F110985EE3F1033783B5225E"
 EXPECTED_DEPOSIT_SHA256 = "FFD0956482427ACB404543E36DAC2705D802B04828E380290232C06129F3AFAD"
 EXPECTED_TRANSCRIPT_SHA256 = "D4C5D9431115BF57D824DF465E3D99B11C619BC6D59A3F0974036F3BFCC2F7CA"
@@ -53,6 +55,7 @@ report = (ROOT / "IIPS_v3.0_CAP03_P1_F_P-1_SOURCE_TO_SCRIPT_VERIFICATION_2026-10
 readme = (ROOT / "cap03-p1-f9" / "README.md").read_text(encoding="utf-8")
 tracker = TRACKER.read_text(encoding="utf-8")
 pf15_act = PF15_ACT.read_text(encoding="utf-8")
+irr_only_workflow = IRR_ONLY_WORKFLOW.read_text(encoding="utf-8")
 script_sha = hashlib.sha256(script_bytes).hexdigest()
 if EXPECTED_SHA256 != "TO_BE_SET_AFTER_FINAL_EDIT":
     require(script_sha == EXPECTED_SHA256, "Revision 7 source SHA-256 differs from the pinned validator identity")
@@ -103,6 +106,20 @@ require("$DesignatedWritabilityMethod" not in source and "PARENT_PROBE" not in s
         "obsolete or mutating writability method remains")
 require("S00-EVIDENCE-ROOT-DESIGNATED" in source and "S00-EVIDENCE-ROOT-EQUALS-DESIGNATION" in source,
         "canonical evidence-root fail-closed binding is missing")
+for guard in ("S00-EVIDENCE-EXISTS", "S00-EVIDENCE-DRIVE-FIXED-NTFS", "S00-EVIDENCE-NOT-DRIVE-ROOT",
+              "S00-EVIDENCE-NO-SUBST-ALIAS", "S00-EVIDENCE-NO-GIT-IN-CHAIN",
+              "S00-EVIDENCE-NO-REPARSE-IN-CHAIN", "S00-EVIDENCE-NOT-STORE-CHAIN",
+              "S00-EVIDENCE-NOT-IN-STORE-DIR", "S00-STORE-NOT-IN-EVIDENCE"):
+    require(guard in source, "future pre-existing-root filesystem safeguard missing: " + guard)
+require("D:\\cap03-p1-capture-20261028-01" in authority and
+        "C:\\iips-evidence\\cap03-gate4" in pf15_act,
+        "PA-13 E10/PF-15 F5 designated roots were not distinguished from the P-1 root")
+require("designated operator/security owner" in report and
+        "single-attempt claim/marker namespace" in report and
+        "No PA record is amended to pretend otherwise" in report,
+        "Q-EV exact missing-authority tuple is not documented")
+require(not re.search(r"\$DesignatedEvidenceRoot\s*=\s*'(?!(?:NOT DESIGNATED))", source),
+        "a concrete root was assigned without an effective PA designation")
 require("S00-TRACKER-POINTER-PUBLISHED" in source and "Invoke-PreClaimTrackerPointer" in source,
         "pre-claim authoritative-main pointer guard is missing")
 main_flow = source[source.index("# Main. Control flow"):]
@@ -152,8 +169,10 @@ for forbidden in [
 require("$DesignatedStorePath  = 'C:\\iips-data\\iips\\user-portfolio.sqlite'" in source,
         "exact PF-15 F4 designated store literal missing")
 for text, message in [
-    ("$BaselineIrrCommit    = 'b5c91a73b4b6367140847676534d5c03af0be88d'", "reviewed IRR baseline for post-merge freshness changed"),
-    ("$TrackerPointerMarkers = @('**Latest (`CV-CORR-191`'", "current tracker pointer is not revision-bound"),
+    ("$BaselineIrrCommit    = '9b54dbd0faa52bd0dd41085430d5ddde01257f27'", "reviewed current-main baseline for post-merge freshness changed"),
+    ("$P1FEntry             = '100644 blob a90bb00141194608e64503b24d43964bf7ff85a0'", "effective P1-F source entry is not bound to the current main tree"),
+    ("$TrackerPointerMarkers = @('**Latest (`CV-CORR-195`'", "current tracker pointer is not revision-bound"),
+    ("'docs/integration/IIPS_v3.0_CAP03_P1_AUTHORIZATION_ACT_AND_PREREQUISITE_DECISIONS_2026-10-29.md'", "reviewed effective P1-F record is not allowlisted for exact-blob freshness checking"),
     ("$TrackerPointerRequiredText = 'P-1 remains **AUTHORIZED'", "freshness check no longer binds the authorized/unspent status"),
 ]:
     require(text in source, message)
@@ -190,22 +209,77 @@ require("$encoded = ('\\dist\\' + $relative)" in source,
         "current dist inventory paths are not represented with the admitted single-separator path form")
 
 
-# The additive tracker merge must preserve main's O-07 section and expose this pass as the current pointer.
+# The supplementary hosted route must remain strictly IRR-local and standard-library-only.
+for forbidden in ("npm ci", "npm install", "npm run", "iips-production-market-data", "git clone", "actions/cache"):
+    require(forbidden not in irr_only_workflow, "IRR-only workflow contains forbidden dependency access: " + forbidden)
+for required in ("actions/checkout@v4", "actions/setup-python@v5", "python -m py_compile", "validate_windows10_host_profile.py", "pull_request", "branches:", "main"):
+    require(required in irr_only_workflow, "IRR-only workflow missing required safe check/trigger: " + required)
+
+# The additive current-main reconciliation preserves main's records and the Revision 7 branch history.
 require(not any(marker in tracker for marker in ("<<<<<<<", "=======", ">>>>>>>")),
         "unresolved merge marker remains in authoritative tracker")
-require(tracker.count("## §16.211") == 1 and
-        "CV-CORR-191" in tracker and "CHG-2026-10-30-05" in tracker and
-        "V1593" in tracker and "V1612" in tracker,
-        "one-pass tracker section or allocated identifiers missing")
-first_lines = "\n".join(tracker.splitlines()[:25])
-require("**Latest (`CV-CORR-191`, §16.211, `CHG-2026-10-30-05`" in first_lines,
-        "Last Updated pointer does not identify the current one-pass record")
-require("**Current CAP-03 P-1 / PF-15 status** — *current-state pointer (`CV-CORR-191`, §16.211" in first_lines,
-        "CAP-03 current-state pointer does not identify the one-pass record")
+for heading in (
+    "## §16.211 — `CV-CORR-191`:",
+    "## §16.213 — `CV-CORR-193`:",
+    "## §16.214 — `CV-CORR-194`:",
+    "## §16.215 — `CV-CORR-195`:",
+):
+    require(tracker.count(heading) == 1, "authoritative tracker heading missing/duplicated: " + heading)
+for heading in ("## 16.208 CAP-03 P-1 Revision 5", "## 16.209 CAP-03 P-1 Revision 6", "## 16.210 CAP-03 P-1 Revision 7"):
+    require(tracker.count(heading) == 1, "branch record not preserved exactly once: " + heading)
+
+# Prove current main's sections and the branch's records are byte-preserved in the additive resolution.
+base_commit = "9b54dbd0faa52bd0dd41085430d5ddde01257f27"
+branch_commit = "c0e9ce660e063ffccc94c07fdd442c56f56ab9c6"
+base_tracker = subprocess.run(
+    ["git", "show", f"{base_commit}:{TRACKER.name}"], cwd=REPO,
+    check=True, capture_output=True, text=True, encoding="utf-8",
+).stdout
+branch_tracker = subprocess.run(
+    ["git", "show", f"{branch_commit}:{TRACKER.name}"], cwd=REPO,
+    check=True, capture_output=True, text=True, encoding="utf-8",
+).stdout
+
+def tracker_section(text: str, heading: str, end_heading: str | None = None) -> str:
+    start = text.index("\n" + heading) + 1
+    end = text.index("\n" + end_heading, start) if end_heading else len(text)
+    return text[start:end]
+
+for start, end in (
+    ("## §16.211 — `CV-CORR-191`:", "## §16.213 — `CV-CORR-193`:"),
+    ("## §16.213 — `CV-CORR-193`:", "## §16.214 — `CV-CORR-194`:"),
+    ("## §16.214 — `CV-CORR-194`:", None),
+):
+    base_part = tracker_section(base_tracker, start, end)
+    current_part = tracker_section(tracker, start, "## §16.215 — `CV-CORR-195`:")
+    require(current_part.startswith(base_part), "current-main register section not byte-preserved before additive overlay: " + start)
+
+def one_record(text: str, heading: str) -> str:
+    at = text.index(heading)
+    nxt = re.search(r"(?m)^## ", text[at + len(heading):])
+    return text[at:at + len(heading) + nxt.start()] if nxt else text[at:]
+
+for section in ("16.208", "16.209", "16.210"):
+    heading = f"## {section} CAP-03 P-1 Revision"
+    require(one_record(branch_tracker, heading) == one_record(tracker, heading),
+            "branch Revision 5–7 section not byte-preserved: " + section)
+for verification_id in range(1639, 1652):
+    row = f"| `V{verification_id}` |"
+    require(tracker.count(row) == 1, "current reconciliation verification row missing/duplicated: " + row)
+require(tracker.count("| `2026-10-30` | `CHG-2026-10-30-10` |") == 1 and
+        "**Next free after this reconciliation:** `§16.216` / `CV-CORR-196` / `CHG-2026-10-30-11` / `V1652`." in tracker,
+        "change-log or next-free pointer is inconsistent with current reconciliation")
+first_lines = "\n".join(tracker.splitlines()[:30])
+require("**Latest (`CV-CORR-195`, §16.215, `CHG-2026-10-30-10`" in first_lines,
+        "Last Updated pointer does not identify the current Revision 7 reconciliation")
+require("**Current CAP-03 P-1 / PF-15 status** — *current-state pointer (`CV-CORR-195`, §16.215" in first_lines,
+        "CAP-03 current-state pointer does not identify the Revision 7 reconciliation")
 require("## §16.207 — `CV-CORR-187`: O-07 closed" in tracker,
         "origin/main O-07 section was lost in additive merge")
 for q in ["Q-CONS-2", "Q-CONS-3", "Q-MIG", "Q-TX", "Q-V8", "Q-WRITE", "Q-EV", "Q-BUILD"]:
-    require(q in tracker[tracker.index("## §16.211"):], "tracker disposition missing: " + q)
+    require(q in tracker[tracker.index("## §16.215"):], "tracker disposition missing: " + q)
+for required in ("No PA act or path is invented", "filesystem-owner designation", "PA-13 E10", "PF-15 F5", "PR #382"):
+    require(required in tracker[tracker.index("## §16.215"):], "Q-EV/root/publication boundary missing: " + required)
 
 # Static-check the literal .NET regexes (PowerShell single-quoted literals preserve these backslashes).
 dist_hash_pattern = re.search(r"\$distHashes\s*=.*?-match '([^']+)'", source)

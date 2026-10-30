@@ -1,0 +1,59 @@
+name: CAP-03 Revision 7 IRR-only static checks
+
+# This workflow is intentionally independent of frontend/npm CI. It checks tracked IRR
+# documents and admitted IRR-held S2 evidence using Python's standard library only.
+# It never fetches, clones, installs, builds, inspects, or writes IPD.
+on:
+  pull_request:
+    paths:
+      - 'IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md'
+      - 'docs/integration/IIPS_v3.0_CAP03_P1_F_P-1_CORRECTED_EXECUTION_SCRIPT_2026-10-29.ps1'
+      - 'docs/integration/IIPS_v3.0_CAP03_P1_F_P-1_SOURCE_TO_SCRIPT_VERIFICATION_2026-10-29.md'
+      - 'docs/integration/IIPS_v3.0_CAP03_P1_AUTHORIZATION_ACT_AND_PREREQUISITE_DECISIONS_2026-10-29.md'
+      - 'docs/integration/cap03-p1-f9/**'
+      - '.github/workflows/cap03-revision7-irr-static.yml'
+  push:
+    branches:
+      - main
+    paths:
+      - 'IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md'
+      - 'docs/integration/IIPS_v3.0_CAP03_P1_F_P-1_CORRECTED_EXECUTION_SCRIPT_2026-10-29.ps1'
+      - 'docs/integration/IIPS_v3.0_CAP03_P1_F_P-1_SOURCE_TO_SCRIPT_VERIFICATION_2026-10-29.md'
+      - 'docs/integration/IIPS_v3.0_CAP03_P1_AUTHORIZATION_ACT_AND_PREREQUISITE_DECISIONS_2026-10-29.md'
+      - 'docs/integration/cap03-p1-f9/**'
+      - '.github/workflows/cap03-revision7-irr-static.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  verify-irr-only:
+    name: Python compile · source/evidence/tracker validation
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out IRR only
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile the standard-library validator
+        run: python -m py_compile docs/integration/cap03-p1-f9/validate_windows10_host_profile.py
+      - name: Validate Revision 7 source, admitted IRR evidence, and tracker
+        run: python docs/integration/cap03-p1-f9/validate_windows10_host_profile.py
+      - name: Check changed-file whitespace
+        shell: bash
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          BEFORE_SHA: ${{ github.event.before }}
+          HEAD_SHA: ${{ github.sha }}
+        run: |
+          if [[ "$EVENT_NAME" == "pull_request" ]]; then
+            git diff --check "${BASE_SHA}...${HEAD_SHA}"
+          else
+            git diff --check "${BEFORE_SHA}...${HEAD_SHA}"
+          fi

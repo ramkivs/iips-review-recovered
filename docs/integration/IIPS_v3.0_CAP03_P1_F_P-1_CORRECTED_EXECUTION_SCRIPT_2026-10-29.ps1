@@ -137,14 +137,14 @@ $DesignatedBlobs = @(
 # Authorization freshness (checked at S06 and again immediately before the one invocation). Read-only.
 $IrrRepo              = 'ramkivs/iips-review-recovered'
 $IpdRepo              = 'ramkivs/iips-production-market-data'
-$BaselineIrrCommit    = 'b5c91a73b4b6367140847676534d5c03af0be88d'
+$BaselineIrrCommit    = '9b54dbd0faa52bd0dd41085430d5ddde01257f27'
 $P1FPath              = 'docs/integration/IIPS_v3.0_CAP03_P1_AUTHORIZATION_ACT_AND_PREREQUISITE_DECISIONS_2026-10-29.md'
 $P1FEntry             = '100644 blob a90bb00141194608e64503b24d43964bf7ff85a0'
 $Pf15Path             = 'docs/integration/IIPS_v3.0_CAP03_PF15_ENDPOINT_LOCAL_STATE_DESIGNATION_PA_ACT_CORRECTED_2026-10-26.md'
 $Pf15Entry            = '100644 blob 3fe9a2ddd5f3b8730eccee7748b6266b5e2d8b1d'
 $TrackerPath          = 'IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md'
-# After publication, main must carry this revision's dated status pointers. The baseline is the PR's reviewed parent.
-$TrackerPointerMarkers = @('**Latest (`CV-CORR-191`', '**Current CAP-03 P-1 / PF-15 status**')
+# After publication, main must carry this revision's dated status pointers. The baseline is current authoritative main at merge reconciliation; later main changes are freshness-checked.
+$TrackerPointerMarkers = @('**Latest (`CV-CORR-195`', '**Current CAP-03 P-1 / PF-15 status**')
 $TrackerPointerRequiredText = 'P-1 remains **AUTHORIZED'
 $P1NamePattern        = '(?i)(P1|P-1|GATE[_-]A[_-]PRIME|PF-?15|PA[_-]RULING)'
 $TrackerP1Term        = '(?i)(P-1|P1-F|CAP-03 P1)'
@@ -154,6 +154,7 @@ $TrackerConsumeTerm   = '(?i)(P-1.{0,120}(authorization revoked|authorization wi
 $ReviewArtifactPaths  = @(
     'docs/integration/IIPS_v3.0_CAP03_P1_F_P-1_CORRECTED_EXECUTION_SCRIPT_2026-10-29.ps1',
     'docs/integration/IIPS_v3.0_CAP03_P1_F_P-1_SOURCE_TO_SCRIPT_VERIFICATION_2026-10-29.md',
+    'docs/integration/IIPS_v3.0_CAP03_P1_AUTHORIZATION_ACT_AND_PREREQUISITE_DECISIONS_2026-10-29.md',
     'IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md',
     'docs/integration/cap03-p1-f9/README.md',
     'docs/integration/cap03-p1-f9/validate_windows10_host_profile.py'
