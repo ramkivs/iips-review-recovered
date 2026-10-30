@@ -308,10 +308,17 @@ function Test-F9_7 {
     Assert-That ($null -ne $outerTry -and $outerTry.CatchClauses.Count -eq 1) 'outer main catch AST must be found'
     $catchText=$outerTry.CatchClauses[0].Body.Extent.Text;$catchBlock=[scriptblock]::Create($catchText)
     $markerRun=Join-Path $base 'marker-run';[void](New-Item -ItemType Directory -Path $markerRun);$script:RunDir=$markerRun;$script:MarkerName='EXECUTE-MARKER.json';$script:MarkerWritten=$false;$script:ExecuteCalls=0;$script:Mode='Preflight';$script:Outcome='STOPPED_BEFORE_MARKER';$script:Phase='S07-MARKER';$script:Failure='';$script:Sealed=$false;$script:SummaryRequested='';$script:SealRequested=$false
-    [IO.File]::WriteAllText((Join-Path $markerRun $script:MarkerName),'fixture marker only',(New-Object System.Text.UTF8Encoding($false)))
+    # Production catch reads $Mode and $MarkerName unqualified. Bind those names here, then dot-source the exact
+    # extracted body so its $script: writes share the runner scope, as in the top-level production catch. Using &
+    # would add a child scope and would not reproduce that top-level execution context.
+    $Mode=[string]$script:Mode;$MarkerName=[string]$script:MarkerName
+    Assert-That ($Mode -ceq 'Preflight' -and $MarkerName -ceq 'EXECUTE-MARKER.json') 'catch harness must bind the production top-level names and values'
+    Assert-That (-not $script:MarkerWritten -and $script:ExecuteCalls -eq 0) 'catch fixture must begin with false marker flag and zero execute calls'
+    [IO.File]::WriteAllText((Join-Path $markerRun $MarkerName),'fixture marker only',(New-Object System.Text.UTF8Encoding($false)))
+    Assert-That (Test-Path -LiteralPath (Join-Path $script:RunDir $MarkerName) -PathType Leaf) 'fixture marker must exist at the exact unqualified-marker path before the catch runs'
     function Write-Summary {param([string]$FileName)$script:SummaryRequested=$FileName}
     function Write-Seal {$script:SealRequested=$true}
-    try { try { throw 'F9 marker-on-disk injection' } catch { & $catchBlock } } finally { Remove-Item Function:\Write-Summary -ErrorAction SilentlyContinue;Remove-Item Function:\Write-Seal -ErrorAction SilentlyContinue }
+    try { try { throw 'F9 marker-on-disk injection' } catch { . $catchBlock } } finally { Remove-Item Function:\Write-Summary -ErrorAction SilentlyContinue;Remove-Item Function:\Write-Seal -ErrorAction SilentlyContinue }
     Assert-That $script:MarkerWritten 'outer catch must detect marker present on disk even when in-memory flag is false'
     Assert-That ($script:Outcome -eq 'MARKER_WRITTEN_STOPPED_AFTER_MARKER' -and $script:ExecuteCalls -eq 0) 'marker-on-disk path must record stopped after marker without implying process invocation'
     Assert-That ($script:SummaryRequested -eq 'failure-summary.json' -and $script:SealRequested) 'outer catch must request failure summary and seal through fixture sinks'
