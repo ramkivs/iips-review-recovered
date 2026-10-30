@@ -191,3 +191,38 @@ Formal §4.6 step 5 names H-12 regeneration because it covers both purposes. For
 This record establishes none of the following and must not be read as establishing any of them: that P-1 ran; that a store, row, binding, membership or audit event exists; that `P-1-C` or `P-1-D` observations exist; that A6 ran; that any H-12 artifact exists; that any gate, acceptance, qualification or admission status moved; that the Gate 4 pin is designated; that `C′` extends to any purpose other than L2a; that `R-1` or `F-A-1`/`F-A-2` are resolved; that the S2 host originals were re-read.
 
 *End of `IIPS-V3-CAP03-P1-AUTHORIZATION-ACT-2026-10-29-01`.*
+
+---
+
+## Post-record operational handoff — F9 Windows fixture results (2026-10-30)
+
+> **NON-AUTHORIZING SUPPLEMENT.** This dated operational note records subsequent operator-supplied fixture results; it does not amend this act, change any designation or prerequisite, grant new authority, or establish P-1 readiness or execution. The operative status in §8 remains **P-1 AUTHORIZED — NOT EXECUTED — UNSPENT**. F9 did not invoke Host Preflight, Execute, the P-1 entrypoint, provisioning, or an IPD write.
+
+The detailed result matrix, all local evidence paths, runner defect/correction history, and fixture boundaries are recorded in [`docs/integration/cap03-p1-f9/README.md`](cap03-p1-f9/README.md). Arena cannot access the operator's Windows temporary directories or independently inspect their contents; the outcomes are attributed to the operator.
+
+| F9 disposition | Status on 2026-10-30 | Handoff meaning |
+|---|---|---|
+| F9-2 | **PASS** | StrictMode/S00 refusal fixture passed. |
+| F9-3 | **PASS** | Fourteen canonicalization cases passed after the runner expectation was corrected to the first production refusal code. |
+| F9-4 | **PASS** | Probe creation and separately injected cleanup failure were reported. |
+| F9-5 | **PASS** | Concurrent disposable claim race behaved as expected. |
+| F9-6 | **PARTIAL** | Available cases, including a non-elevated directory junction, passed; file-entry symbolic-link branch remains **NOT TESTED**. No reparse-point control is weakened. |
+| F9-7 | **PASS** | Post-forensics isolation, seal/no-overwrite, exact catch AST marker recognition and marker recovery passed; no Node process or entrypoint was started. |
+| F9-8 GIT | **PASS** | Controlled `GIT_DIR` refusal, clean-environment pass, and restoration of two inherited process variables. |
+| F9-8 HOST | **BLOCKED** | Host identity and non-elevation passed, but `DESKTOP-NO0NHTP` reported `Windows 10 Home Single Language`. Production `S01-PRODUCT` compares `ProductName` exactly against `Windows 11 Home Single Language` required by base Act §8; it correctly stopped before entrypoint invocation. |
+| F9-9 initial | **FAIL — runner defect** | Function-scoped `$MyInvocation.MyCommand.Path` access failed because the object was `FunctionInfo`. |
+| F9-9 corrected rerun | **PARTIAL** | The runner correction captured `$PSCommandPath` at script scope (IRR commit `3f08ce3780e9ab1a9fa29b617fe431dc67a08d18`). D-14 parser, U-2 read-only host facts, and U-3 fixture-only checks were reported; U-4/U-5/U-10 remain **NOT RUN / PARTIAL** under the no-IPD-write boundary. |
+
+The unchanged production script's expected host is `DESKTOP-NO0NHTP`; its `S01-PRODUCT` check reads `HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProductName` and uses case-sensitive exact equality against `$ExpectedProductName = 'Windows 11 Home Single Language'`. The F9-8 host outcome is therefore a real prerequisite block, not a failing GIT test or a fixture defect. No relaxation is authorized. F9 does not perform the required Windows 11 product check in an authorized Host Preflight and does not clear the block.
+
+### F9-9 U-4/U-5/U-10 handoff boundary
+
+The Revision 5 source-to-script verification record defines these items and assigns host-side work to the operator (U-4 in S02; U-5 in S04; U-10 in S04/S09). The intended assertions and evidence limits are:
+
+- **U-4 — local checkout identity (read-only):** expected IPD commit/tree `a891802e…` / `76f083d7…`, clean local checkout, and all 15 designated blobs present at local `HEAD`. Remote-tree inspection and F9 fixtures do not establish the local checkout state. Evidence belongs to the local repository checks, not the P-1 store. Owner: operator with the designated local IPD checkout. Collection through S02 is not part of this task and requires the otherwise applicable authorization for that route.
+- **U-5 — build and emitted identity:** `npm ci`, `npm run build`, emitted entrypoint closure, and emitted migration identity. This is S04 evidence; the commands write dependency/build outputs in the IPD checkout (`node_modules`, `dist`, `dist-frontend`), though not the P-1 store. Owner: operator. Route is blocked pending resolution/designation of `$BuildAuthorityRef` (Q-BUILD/D-9) and explicit authorization for those IPD checkout writes; the base act §8 does not itself add the build step. It remains **NOT RUN**.
+- **U-10 — host Node runtime behavior:** run the emitted-migration probe and dump JavaScript on the designated host's Node 22.x runtime and inspect outputs (S04/S09). Linux syntax checking is not Windows runtime evidence. S09's dump is read-only against the store and writes only evidence, but it is in the P-1 execution sequence. Owner: operator through the separately applicable authorized host/P-1 route. It is not run by F9 and remains **NOT RUN**.
+
+F9-9's U-2 host facts and U-3 disposable fixture checks do not substitute for these items. Arena has no local IPD checkout and performed no U-4/U-5/U-10 action. Under the present task boundary there is no request to run them, no IPD write, and no P-1 entrypoint invocation. No completed Windows fixture test is requested again. F9-6's symlink branch remains PARTIAL/NOT TESTED; F9-8 HOST remains BLOCKED; F9-9 remains PARTIAL.
+
+*End of non-authorizing operational handoff. No change to the decision or status in §§8–9.*
