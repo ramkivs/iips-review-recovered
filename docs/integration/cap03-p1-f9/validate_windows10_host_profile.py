@@ -30,7 +30,7 @@ POST_CI_RECORD_ID = "IIPS-V3-CAP03-P1-REV7-POST-CI-BOUNDARY-RECONCILIATION-2026-
 EVIDENCE_ROOT = REPO / "evidence" / "cap03-s2"
 RUN_ID = "s2-a891802e-20261028T192516Z"
 RUN_DIR = EVIDENCE_ROOT / RUN_ID
-EXPECTED_SHA256 = "b95bc2786741c426f47b8e6ec260bde9954a63fe04c31d76c23e6cb82362d851"
+EXPECTED_SHA256 = "47bd766fa47c1fd6976f945b1d87ba8e1dd73a81fbbbaea0a5a4d0425ba94068"
 EXPECTED_SEAL_SHA256 = "9D3C09DBDB691C2527A45605DEA20826B4EC2BA2F110985EE3F1033783B5225E"
 EXPECTED_DEPOSIT_SHA256 = "FFD0956482427ACB404543E36DAC2705D802B04828E380290232C06129F3AFAD"
 EXPECTED_TRANSCRIPT_SHA256 = "D4C5D9431115BF57D824DF465E3D99B11C619BC6D59A3F0974036F3BFCC2F7CA"
@@ -190,9 +190,9 @@ for forbidden in [
 require("$DesignatedStorePath  = 'C:\\iips-data\\iips\\user-portfolio.sqlite'" in source,
         "exact PF-15 F4 designated store literal missing")
 for text, message in [
-    ("$BaselineIrrCommit    = 'f6ae5ebd8552990fc156f7a4c9a6a1110b22a413'", "reviewed current-main baseline for post-merge freshness changed"),
+    ("$BaselineIrrCommit     = '78abb254abe095a1f7b03db58bdd9dd30aba0fbf'", "reviewed current-main baseline for post-merge freshness changed"),
     ("$P1FEntry             = '100644 blob a90bb00141194608e64503b24d43964bf7ff85a0'", "effective P1-F source entry is not bound to the current main tree"),
-    ("$TrackerPointerMarkers = @('**Latest (`CV-CORR-203`'", "current tracker pointer is not revision-bound"),
+    ("$TrackerPointerMarkers = @('**Latest (`CV-CORR-204`'", "current tracker pointer is not revision-bound"),
     ("'docs/integration/IIPS_v3.0_CAP03_P1_AUTHORIZATION_ACT_AND_PREREQUISITE_DECISIONS_2026-10-29.md'", "reviewed effective P1-F record is not allowlisted for exact-blob freshness checking"),
     ("$TrackerPointerRequiredText = 'AUTHORIZED'", "freshness check no longer binds an authorized/unspent current pointer"),
 ]:
@@ -283,12 +283,13 @@ for heading in (
     "## §16.221 — `CV-CORR-201`:",
     "## §16.222 — `CV-CORR-202`:",
     "## §16.223 — `CV-CORR-203`:",
+    "## §16.224 — `CV-CORR-204`:",
 ):
     require(tracker.count(heading) == 1, "authoritative tracker heading missing/duplicated: " + heading)
 for heading in ("## 16.208 CAP-03 P-1 Revision 5", "## 16.209 CAP-03 P-1 Revision 6", "## 16.210 CAP-03 P-1 Revision 7"):
     require(tracker.count(heading) == 1, "branch record not preserved exactly once: " + heading)
 
-base_commit = "f6ae5ebd8552990fc156f7a4c9a6a1110b22a413"
+base_commit = "78abb254abe095a1f7b03db58bdd9dd30aba0fbf"
 branch_commit = "a63b19b6eb705d209ec0d0e09e73f8cebc60c695"
 base_tracker = subprocess.run(
     ["git", "show", f"{base_commit}:{TRACKER.name}"], cwd=REPO,
@@ -332,21 +333,16 @@ def git_grep_count(revision: str, token: str) -> int:
     return len(result.stdout.splitlines())
 
 for revision in (base_commit, branch_commit):
-    require(git_grep_count(revision, "## §16.221") == 0,
-            "§16.221 already had an allocation heading at census baseline " + revision)
+    require(git_grep_count(revision, "## §16.222") == 0,
+            "§16.222 already had a Q-EV allocation heading at census baseline " + revision)
     require(git_grep_count(revision, QEV_ACT_ID) == 0,
             "Q-EV PA act ID was already present at census baseline " + revision)
-    for number in range(1703, 1714):
-        value = f"V{number}"
-        require(git_grep_count(revision, value) == 0,
-                "Q-EV verification allocation collides at census baseline " + revision + ": " + value)
-require(git_grep_count(base_commit, "CV-CORR-201") == 2 and
-        git_grep_count(base_commit, "CHG-2026-10-31-01") == 2 and
-        git_grep_count(base_commit, "V1702") == 2,
-        "latest main's §16.220 next-free declaration census changed")
-for token in ("CV-CORR-201", "CHG-2026-10-31-01", "V1702"):
-    require(git_grep_count(branch_commit, token) == 0,
-            "PR #382 pre-act branch already claimed the Q-EV allocation: " + token)
+    for number in range(1712, 1724):
+        row = f"| `V{number}` |"
+        require(git_grep_count(revision, row) == 0,
+                "Q-EV verification allocation row collides at census baseline " + revision + ": " + row)
+require("Next free after this section: **`§16.222` / `CV-CORR-202` / `CHG-2026-10-30-17` / `V1712`**" in base_tracker,
+        "latest main does not declare the expected post-O-05 next-free Q-EV allocation")
 
 def tracker_section(text: str, heading: str, end_heading: str | None = None) -> str:
     start = text.index("\n" + heading) + 1
@@ -377,23 +373,30 @@ for section in ("16.208", "16.209", "16.210"):
 require(one_record(branch_tracker, "## §16.216 — `CV-CORR-196`:") ==
         one_record(tracker, "## §16.216 — `CV-CORR-196`:"),
         "previously published Revision 7 section §16.216 was not preserved")
+o05_heading = "## §16.221 — `CV-CORR-201`: `O-05` publication reconciliation"
+require(one_record(tracker, o05_heading).rstrip() == one_record(base_tracker, o05_heading).rstrip(),
+        "intervening main O-05 publication section was not preserved byte-for-byte")
+o05_change_row = next(line for line in base_tracker.splitlines()
+                      if line.startswith("| `2026-10-30` | `CHG-2026-10-30-16` |"))
+require(o05_change_row in tracker,
+        "intervening main O-05 change-log row was not preserved")
 for verification_id in range(1649, 1662):
     row = f"| `V{verification_id}` |"
     require(tracker.count(row) == 1, "current reconciliation verification row missing/duplicated: " + row)
-for verification_id in range(1692, 1714):
+for verification_id in range(1692, 1724):
     row = f"| `V{verification_id}` |"
     require(tracker.count(row) == 1, "main/Q-EV verification row missing/duplicated: " + row)
 require(tracker.count("| `2026-10-30` | `CHG-2026-10-30-11` |") == 1 and
         tracker.count("| `2026-10-30` | `CHG-2026-10-30-15` |") == 1 and
         "current/next-free pointer is §16.217/CV-CORR-197/CHG-12/V1662" in tracker and
-        "Next free after this section: `§16.221` / `CV-CORR-201` / `CHG-2026-10-31-01` / `V1702`" in tracker,
+        "Next free after this section: **`§16.222` / `CV-CORR-202` / `CHG-2026-10-30-17` / `V1712`**" in tracker,
         "historical Revision 7 change-log or latest-main/Q-EV allocation is inconsistent")
 first_lines = "\n".join(tracker.splitlines()[:30])
-require("**Latest (`CV-CORR-203`, §16.223, `CHG-2026-10-31-03`" in first_lines and
+require("**Latest (`CV-CORR-204`, §16.224, `CHG-2026-10-31-03`" in first_lines and
         "actual IPD access is **UNVERIFIED**" in first_lines and
         DESIGNATED_EVIDENCE_ROOT in first_lines,
         "Last Updated pointer does not identify the post-CI boundary reconciliation")
-require("**Current CAP-03 P-1 / PF-15 status** — *current-state pointer (`CV-CORR-203`, §16.223" in first_lines and
+require("**Current CAP-03 P-1 / PF-15 status** — *current-state pointer (`CV-CORR-204`, §16.224" in first_lines and
         "P-1-C remains NOT ESTABLISHED" in first_lines and "P-1-D DESIGNATED / NOT VERIFIED FOR THE ATTEMPT" in first_lines,
         "CAP-03 current-state pointer does not identify the current one-attempt/Q-EV state")
 require("## §16.207 — `CV-CORR-187`: O-07 closed" in tracker,
@@ -403,11 +406,11 @@ for q in ["Q-CONS-2", "Q-CONS-3", "Q-MIG", "Q-TX", "Q-V8", "Q-WRITE", "Q-EV", "Q
 for required in ("No PA act or path is invented", "filesystem-owner designation", "PA-13 E10", "PF-15 F5", "PR #382"):
     require(required in tracker[tracker.index("## §16.216"):tracker.index("## §16.218")],
             "historical Q-EV/root/publication boundary was not preserved: " + required)
-current_qev = tracker[tracker.index("## §16.221 — `CV-CORR-201`:"): ]
+current_qev = tracker[tracker.index("## §16.222 — `CV-CORR-202`:"): ]
 for required in (QEV_ACT_ID, DESIGNATED_EVIDENCE_ROOT, "existing personal Windows user account running the authorized operation",
                  "Ramki**, sole system owner", "single authorized P-1 attempt only", "retained permanently",
                  "original bytes, hashes, provenance", "NOT VERIFIED", "AUTHORIZED — NOT EXECUTED — UNSPENT",
-                 "P-1-C", "P-1-D", "V1702`–`V1713"):
+                 "P-1-C", "P-1-D", "V1712`–`V1723"):
     require(required in current_qev, "current Q-EV act/tracker record is missing: " + required)
 require("PASS — merge reconciliation commit `7ced4ad6faf1eaa33bd2fd3d39fcbc7c5ea46f86`" in current_qev and
         "final head/state are read back separately" in current_qev,
@@ -427,54 +430,45 @@ for required in (
     "execute-claim.json", "EXECUTE-MARKER.json", "BUILTIN\\Administrators",
     "NT AUTHORITY\\SYSTEM", "NT AUTHORITY\\Authenticated Users",
     "BUILTIN\\Users", "Modify", "ReadAndExecute", "not blockers",
-    "do **not** establish any of the following", "parsing the Revision 7 PowerShell script", "executing Revision 7 S00 or S03", "Overall P-1 execution readiness is **NOT CLEARED**",
+    "do **not** establish any of the following", "parsing the Revision 7 PowerShell script", "executing Revision 7 S00 or S03", "At the time this operator record was issued, PR #382 was open and unmerged",
     "AUTHORIZED — NOT EXECUTED — UNSPENT", "no permission change",
 ):
     require(required in operator_record, "operator Q-EV record missing or changed: " + required)
 require(OPERATOR_QEV_ID in report and OPERATOR_QEV_ID in readme,
         "source report or README does not reference the current operator evidence record")
-require(tracker.count("## §16.222 — `CV-CORR-202`:") == 1,
+require(tracker.count("## §16.223 — `CV-CORR-203`:") == 1,
         "operator evidence tracker heading missing/duplicated")
-for verification_id in range(1714, 1728):
+for verification_id in range(1724, 1738):
     row = f"| `V{verification_id}` |"
     require(tracker.count(row) == 1, "operator evidence verification row missing/duplicated: " + row)
 
 # The operator record uses the declared next-free allocation from the preceding PR head.
 prior_qev_commit = "d14d575a15133221d4fb8470b88ee74a1b1a9a7b"
 for revision in (base_commit, prior_qev_commit):
-    require(git_grep_count(revision, "## §16.222") == 0,
-            "§16.222 already had a heading at operator-record census baseline " + revision)
+    require(git_grep_count(revision, "## §16.223") == 0,
+            "§16.223 already had a heading at operator-record census baseline " + revision)
     require(git_grep_count(revision, OPERATOR_QEV_ID) == 0,
             "operator Q-EV record ID already present at census baseline " + revision)
-    for number in range(1715, 1728):
-        require(git_grep_count(revision, f"V{number}") == 0,
-                "operator evidence verification allocation collides at census baseline " + revision)
-for token in ("CV-CORR-202", "CHG-2026-10-31-02", "V1714"):
-    require(git_grep_count(base_commit, token) == 0,
-            "latest main already claims the operator-record next-free allocation: " + token)
-require(git_grep_count(prior_qev_commit, "CV-CORR-202") == 2 and
-        git_grep_count(prior_qev_commit, "CHG-2026-10-31-02") == 2 and
-        git_grep_count(prior_qev_commit, "V1714") == 2,
-        "pre-update PR #382 head no longer declares the expected §16.222 next-free allocation")
+    for number in range(1724, 1738):
+        row = f"| `V{number}` |"
+        require(git_grep_count(revision, row) == 0,
+                "operator evidence verification allocation row collides at census baseline " + revision)
 
-# The post-CI correction consumes only the §16.223 allocation declared by the pre-update branch.
+
+# The post-CI correction consumes the next free §16.224 allocation after the operator record.
 prior_ci_commit = "698920a8c7a43801cafd592129401ea6c399b75d"
 for revision in (base_commit, prior_ci_commit):
-    require(git_grep_count(revision, "## §16.223") == 0 and
+    require(git_grep_count(revision, "## §16.224") == 0 and
             git_grep_count(revision, POST_CI_RECORD_ID) == 0,
             "post-CI reconciliation allocation already existed at census baseline " + revision)
-    for number in range(1729, 1738):
-        require(git_grep_count(revision, f"V{number}") == 0,
-                "post-CI verification allocation collides at census baseline " + revision)
-for token in ("CV-CORR-203", "CHG-2026-10-31-03", "V1728"):
-    require(git_grep_count(base_commit, token) == 0,
-            "latest main already claims the post-CI allocation: " + token)
-    require(git_grep_count(prior_ci_commit, token) == 1,
-            "pre-update PR #382 head does not declare exactly one post-CI next-free token: " + token)
-require(tracker.count("## §16.223 — `CV-CORR-203`:") == 1 and
+    for number in range(1738, 1748):
+        row = f"| `V{number}` |"
+        require(git_grep_count(revision, row) == 0,
+                "post-CI verification allocation row collides at census baseline " + revision)
+require(tracker.count("## §16.224 — `CV-CORR-204`:") == 1 and
         tracker.count(POST_CI_RECORD_ID) >= 1,
         "post-CI reconciliation heading or record identity missing/duplicated")
-for verification_id in range(1728, 1738):
+for verification_id in range(1738, 1748):
     row = f"| `V{verification_id}` |"
     require(tracker.count(row) == 1, "post-CI verification row missing/duplicated: " + row)
 for required in ("41102065894", "41102065682", "41101977469", "41101976326",

@@ -3,7 +3,7 @@
 **Act ID:** `IIPS-V3-CAP03-P1-QEV-RUN-RECORD-ROOT-PA-DESIGNATION-ACT-2026-10-30-01`
 **Issued:** 2026-10-30 (Asia/Calcutta)
 **Program Authority / sole system owner:** Ramki
-**Governance registration:** IRR master tracker §16.221, `CV-CORR-201`, `CHG-2026-10-31-01`, verification range `V1702`–`V1713`.
+**Governance registration:** IRR master tracker §16.222, `CV-CORR-202`, `CHG-2026-10-30-17`, verification range `V1712`–`V1723`.
 
 ## 1. Authority and decision
 
@@ -55,7 +55,7 @@ The reported `142 GB` free on H: is capacity only. It does not prove that this e
 
 The corrected Revision 7 script binds `$EvidenceRootDesignationState` to `DESIGNATED` and `$DesignatedEvidenceRoot` to the exact literal `H:\IIPS-P1-EVIDENCE`. The mandatory `-EvidenceRoot` must match the literal using the script's exact comparison. S00 checks the designation and equality before canonicalization or access to caller-supplied evidence-root input. Claim and marker paths derive from that root. The read-only root-owner comparison is reached only after designation, existence, path-integrity, worktree, store-separation, and environment checks; failure or inability to resolve the owner comparison fails closed before any claim or run directory.
 
-The script's authoritative-main freshness gate remains in force. Because PR #382 is to remain open and unmerged, this branch publication does not make the pointer available on authoritative `main`; no P-1 Preflight or Execute is authorized by this publication state.
+At issuance (2026-10-30), PR #382 was open and unmerged, so this branch publication did not then satisfy the authoritative-main freshness gate. This act alone does not authorize a host operation. After later publication, the current main pointer, script freshness, and all execution-time checks must be read back and verified before any separately authorized invocation. No P-1 Preflight or Execute is performed or authorized by this act itself.
 
 ## 6. Unchanged authority and explicit non-effects
 
@@ -65,4 +65,4 @@ P-1 remains **AUTHORIZED — NOT EXECUTED — UNSPENT**. This act does not execu
 
 ## 7. Effect and record status
 
-The PA designation itself is **APPROVED AND ISSUED** by the explicit instruction cited in §1. Its repository record and script binding are published on the existing IRR PR #382 branch for review. The PR must remain OPEN / UNMERGED. The script's independent authoritative-main freshness gate is not waived; until that gate is satisfied on `main`, S00 prevents any attempt from this branch state. The user-approved designation does not itself initiate, preflight, provision, or execute P-1.
+The PA designation itself is **APPROVED AND ISSUED** by the explicit instruction cited in §1. At issuance, its repository record and script binding were on the existing IRR PR #382 branch, which was OPEN / UNMERGED. A later merge does not itself initiate, preflight, provision, or execute P-1, and does not waive the script's independent authoritative-main freshness and runtime checks. The designation remains limited to the exact single attempt under P1-F.

@@ -3,7 +3,7 @@
 **Record ID:** `IIPS-V3-CAP03-P1-QEV-OPERATOR-VERIFICATION-DACL-ACCEPTANCE-2026-10-30-01`
 **Date:** `2026-10-30`
 **Authoritative root:** `H:\IIPS-P1-EVIDENCE`
-**Tracker allocation:** §16.222 / `CV-CORR-202` / `CHG-2026-10-31-02` / `V1714`–`V1727`
+**Tracker allocation:** §16.223 / `CV-CORR-203` / `CHG-2026-10-31-02` / `V1724`–`V1737`
 
 ## 1. Purpose and evidentiary basis
 
@@ -76,4 +76,4 @@ Revision 7 must still enforce its exact `-EvidenceRoot` equality to `H:\IIPS-P1-
 
 The operator-reported results resolve the previously unverified **Q-EV root, volume, path-separation, owner-match, and existing-state observations for the time checked**; the operator also expressly accepts the existing DACL, so it is not a blocker. This is not an agent host validation, not a claim of effective writability, and not an execution-readiness or execution result.
 
-Overall P-1 execution readiness is **NOT CLEARED**: PR #382 remains open and unmerged, so Revision 7's authoritative-main freshness/publication gate remains unsatisfied. No S00/S03 execution, script parse, Preflight, or Execute is claimed. P-1 remains **AUTHORIZED — NOT EXECUTED — UNSPENT**, with exactly one attempt and no retry or second attempt. `P-1-C` remains **NOT ESTABLISHED** and `P-1-D` remains **DESIGNATED / NOT VERIFIED FOR THE ATTEMPT**; both remain non-blockers, not PASS. No prior PA decision or waiver is reopened or amended. Q-CONS-2/3, Q-MIG, Q-TX, Q-V8, Q-WRITE and Q-BUILD remain unchanged.
+At the time this operator record was issued, PR #382 was open and unmerged, so the authoritative-main publication gate had not then been satisfied. This record does not itself authorize a host operation. Current readiness must be determined from the latest tracker pointer and independently verified runtime gates. No S00/S03 execution, script parse, Preflight, or Execute is claimed. P-1 remains **AUTHORIZED — NOT EXECUTED — UNSPENT**, with exactly one attempt and no retry or second attempt. `P-1-C` remains **NOT ESTABLISHED** and `P-1-D` remains **DESIGNATED / NOT VERIFIED FOR THE ATTEMPT**; both remain non-blockers, not PASS. No prior PA decision or waiver is reopened or amended. Q-CONS-2/3, Q-MIG, Q-TX, Q-V8, Q-WRITE and Q-BUILD remain unchanged.

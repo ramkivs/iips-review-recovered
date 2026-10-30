@@ -138,14 +138,14 @@ $DesignatedBlobs = @(
 # Authorization freshness (checked at S06 and again immediately before the one invocation). Read-only.
 $IrrRepo              = 'ramkivs/iips-review-recovered'
 $IpdRepo              = 'ramkivs/iips-production-market-data'
-$BaselineIrrCommit    = 'f6ae5ebd8552990fc156f7a4c9a6a1110b22a413'
+$BaselineIrrCommit     = '78abb254abe095a1f7b03db58bdd9dd30aba0fbf'
 $P1FPath              = 'docs/integration/IIPS_v3.0_CAP03_P1_AUTHORIZATION_ACT_AND_PREREQUISITE_DECISIONS_2026-10-29.md'
 $P1FEntry             = '100644 blob a90bb00141194608e64503b24d43964bf7ff85a0'
 $Pf15Path             = 'docs/integration/IIPS_v3.0_CAP03_PF15_ENDPOINT_LOCAL_STATE_DESIGNATION_PA_ACT_CORRECTED_2026-10-26.md'
 $Pf15Entry            = '100644 blob 3fe9a2ddd5f3b8730eccee7748b6266b5e2d8b1d'
 $TrackerPath          = 'IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md'
 # After publication, main must carry this revision's dated status pointers. The baseline is current authoritative main at merge reconciliation; later main changes are freshness-checked.
-$TrackerPointerMarkers = @('**Latest (`CV-CORR-203`', '**Current CAP-03 P-1 / PF-15 status**')
+$TrackerPointerMarkers = @('**Latest (`CV-CORR-204`', '**Current CAP-03 P-1 / PF-15 status**')
 $TrackerPointerRequiredText = 'AUTHORIZED'
 $P1NamePattern        = '(?i)(P1|P-1|GATE[_-]A[_-]PRIME|PF-?15|PA[_-]RULING)'
 $TrackerP1Term        = '(?i)(P-1|P1-F|CAP-03 P1)'
