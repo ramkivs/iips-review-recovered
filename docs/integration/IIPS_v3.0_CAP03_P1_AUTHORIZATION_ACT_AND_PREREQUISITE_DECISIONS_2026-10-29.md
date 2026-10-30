@@ -191,3 +191,72 @@ Formal §4.6 step 5 names H-12 regeneration because it covers both purposes. For
 This record establishes none of the following and must not be read as establishing any of them: that P-1 ran; that a store, row, binding, membership or audit event exists; that `P-1-C` or `P-1-D` observations exist; that A6 ran; that any H-12 artifact exists; that any gate, acceptance, qualification or admission status moved; that the Gate 4 pin is designated; that `C′` extends to any purpose other than L2a; that `R-1` or `F-A-1`/`F-A-2` are resolved; that the S2 host originals were re-read.
 
 *End of `IIPS-V3-CAP03-P1-AUTHORIZATION-ACT-2026-10-29-01`.*
+
+---
+
+## Post-record operational handoff — F9 Windows fixture results (2026-10-30)
+
+> **NON-AUTHORIZING SUPPLEMENT.** This dated operational note records subsequent operator-supplied fixture results; it does not amend this act, change any designation or prerequisite, grant new authority, or establish P-1 readiness or execution. The operative status in §8 remains **P-1 AUTHORIZED — NOT EXECUTED — UNSPENT**. F9 did not invoke Host Preflight, Execute, the P-1 entrypoint, provisioning, or an IPD write.
+
+The detailed result matrix, all local evidence paths, runner defect/correction history, and fixture boundaries are recorded in [`docs/integration/cap03-p1-f9/README.md`](cap03-p1-f9/README.md). Arena cannot access the operator's Windows temporary directories or independently inspect their contents; the outcomes are attributed to the operator.
+
+| F9 disposition | Status on 2026-10-30 | Handoff meaning |
+|---|---|---|
+| F9-2 | **PASS** | StrictMode/S00 refusal fixture passed. |
+| F9-3 | **PASS** | Fourteen canonicalization cases passed after the runner expectation was corrected to the first production refusal code. |
+| F9-4 | **PASS** | Probe creation and separately injected cleanup failure were reported. |
+| F9-5 | **PASS** | Concurrent disposable claim race behaved as expected. |
+| F9-6 | **PARTIAL** | Available cases, including a non-elevated directory junction, passed; file-entry symbolic-link branch remains **NOT TESTED**. No reparse-point control is weakened. |
+| F9-7 | **PASS** | Post-forensics isolation, seal/no-overwrite, exact catch AST marker recognition and marker recovery passed; no Node process or entrypoint was started. |
+| F9-8 GIT | **PASS** | Controlled `GIT_DIR` refusal, clean-environment pass, and restoration of two inherited process variables. |
+| F9-8 HOST | **BLOCKED** | Host identity and non-elevation passed, but `DESKTOP-NO0NHTP` reported `Windows 10 Home Single Language`. Production `S01-PRODUCT` compares `ProductName` exactly against `Windows 11 Home Single Language` required by base Act §8; it correctly stopped before entrypoint invocation. |
+| F9-9 initial | **FAIL — runner defect** | Function-scoped `$MyInvocation.MyCommand.Path` access failed because the object was `FunctionInfo`. |
+| F9-9 corrected rerun | **PARTIAL** | The runner correction captured `$PSCommandPath` at script scope (IRR commit `3f08ce3780e9ab1a9fa29b617fe431dc67a08d18`). D-14 parser, U-2 read-only host facts, and U-3 fixture-only checks were reported; U-4/U-5/U-10 remain **NOT RUN / PARTIAL** under the no-IPD-write boundary. |
+
+The unchanged production script's expected host is `DESKTOP-NO0NHTP`; its `S01-PRODUCT` check reads `HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProductName` and uses case-sensitive exact equality against `$ExpectedProductName = 'Windows 11 Home Single Language'`. The F9-8 host outcome is therefore a real prerequisite block, not a failing GIT test or a fixture defect. No relaxation is authorized. F9 does not perform the required Windows 11 product check in an authorized Host Preflight and does not clear the block.
+
+### F9-9 U-4/U-5/U-10 handoff boundary
+
+The Revision 5 source-to-script verification record defines these items and assigns host-side work to the operator (U-4 in S02; U-5 in S04; U-10 in S04/S09). The intended assertions and evidence limits are:
+
+- **U-4 — local checkout identity (read-only):** expected IPD commit/tree `a891802e…` / `76f083d7…`, clean local checkout, and all 15 designated blobs present at local `HEAD`. Remote-tree inspection and F9 fixtures do not establish the local checkout state. Evidence belongs to the local repository checks, not the P-1 store. Owner: operator with the designated local IPD checkout. Collection through S02 is not part of this task and requires the otherwise applicable authorization for that route.
+- **U-5 — build and emitted identity:** `npm ci`, `npm run build`, emitted entrypoint closure, and emitted migration identity. This is S04 evidence; the commands write dependency/build outputs in the IPD checkout (`node_modules`, `dist`, `dist-frontend`), though not the P-1 store. Owner: operator. Route is blocked pending resolution/designation of `$BuildAuthorityRef` (Q-BUILD/D-9) and explicit authorization for those IPD checkout writes; the base act §8 does not itself add the build step. It remains **NOT RUN**.
+- **U-10 — host Node runtime behavior:** run the emitted-migration probe and dump JavaScript on the designated host's Node 22.x runtime and inspect outputs (S04/S09). Linux syntax checking is not Windows runtime evidence. S09's dump is read-only against the store and writes only evidence, but it is in the P-1 execution sequence. Owner: operator through the separately applicable authorized host/P-1 route. It is not run by F9 and remains **NOT RUN**.
+
+F9-9's U-2 host facts and U-3 disposable fixture checks do not substitute for these items. Arena has no local IPD checkout and performed no U-4/U-5/U-10 action. Under the present task boundary there is no request to run them, no IPD write, and no P-1 entrypoint invocation. No completed Windows fixture test is requested again. F9-6's symlink branch remains PARTIAL/NOT TESTED; F9-8 HOST remains BLOCKED; F9-9 remains PARTIAL.
+
+*End of non-authorizing operational handoff. No change to the decision or status in §§8–9.*
+
+---
+
+## PA direction — scoped waivers for personal non-production use (2026-10-30)
+
+> **PA DECISION; SCOPE-LIMITED.** At the PA's written direction dated 2026-10-30, five specific test/evidence or host-prerequisite conditions are **WAIVED — NOT A BLOCKER** for personal, single-user, non-production progression only: F9-6's file-entry symlink fixture branch, the F9-8 Windows 11 product prerequisite, and F9-9 U-4, U-5 and U-10. The dispositions are WV-01 (F9-6), WV-02 (F9-8 HOST), WV-03 (U-4), WV-04 (U-5), and WV-05 (U-10). Detailed requirement/result/alternative/risk/control entries are in the F9 README's “PA-scoped waivers” section and master tracker §16.207 (`CV-CORR-187`). Actual statuses remain F9-6 **PARTIAL / NOT TESTED**, F9-8 HOST **BLOCKED**, and U-4/U-5/U-10 **NOT RUN**. No waiver is a test PASS. Existing technical ownership is unchanged: the operator owns any future F9-6 fixture-host run and F9-8 host observation; the operator owns U-4 in S02, U-5 in S04 after build authority, and U-10 in S04/S09 under the applicable authorized host/P-1 route. The PA owns the waiver decisions and any separate implementation authorization. No completed Windows test is to be repeated.
+
+The F9-6 branch has no practical equivalent under the existing host conditions: the alternatives require symlink privilege, a system capability change, or another Windows host; a junction, mock, or Linux symlink does not establish the file-entry Windows reparse branch. The waiver leaves the acceptance criterion and reparse checks intact.
+
+For F9-8, the Windows 10 observation is preserved. Act Section 8 and `S01-PRODUCT` still require Windows 11 Home Single Language; the current script reads registry `ProductName` and will refuse on Windows 10. The waiver changes neither that check nor production applicability. A documentation-only waiver cannot create a runtime pass. The appropriate treatment is not to override the host check: do not run the existing P-1 script on Windows 10. Actual personal Windows 10 use would require a separately authorized, clearly labeled non-P-1 local application path, not a wrapper around or copy of the P-1 script; it must not invoke the P-1 entrypoint or touch the P-1 store/evidence and must use a separately designated non-production data boundary. **This PA direction does not grant implementation authority for that path.** Explicit PA implementation authority must define its files, allowed side effects, data boundary, non-P-1 isolation and verification before any implementation or use.
+
+For U-4, remote blob review cannot establish the absent local checkout's clean state; for U-5, the necessary build writes IPD outputs and Q-BUILD remains unresolved; for U-10, host runtime/dump work depends on unavailable emitted artifacts and a prohibited P-1 sequence. Their waivers remove only their validation-evidence status as a blocker to the scoped non-production progression. No IPD activity is performed, and the waivers cannot satisfy production/P-1 requirements.
+
+**Effect:** the named validation/host conditions cease to block governance progression within the scoped personal non-production use, but deployment through the current production script remains blocked on Windows 10 because its unchanged runtime check stops. No actual non-production execution path is established here. No other P-1 requirement is waived. **P-1 remains AUTHORIZED — NOT EXECUTED — UNSPENT.** Sections 8–9 and the one-attempt production authorization remain unchanged. No test reruns, Host Preflight, Execute, entrypoint invocation, provisioning, or IPD write occurred.
+
+---
+
+## PA implementation direction — Windows 10 personal host profile (2026-10-30)
+
+> **IMPLEMENTATION AUTHORITY GRANTED; EXECUTION AUTHORITY NOT GRANTED.** The PA's written direction dated 2026-10-30 authorizes adapting the existing P-1 script's host profile to the real personal target: local, single-user, Windows 10 Home Single Language on `DESKTOP-NO0NHTP`. No separate application architecture is authorized or created. No P-1 invocation, provisioning, application workflow execution, IPD write, or PR merge occurred.
+
+The base Act Section 8 source in IPD specifies Windows 11 Home Single Language. The source Act was not edited (IRR-only boundary). The PA's explicit target-specific direction is implemented in the existing IRR script as Revision 6: exact expected `ProductName` is now `Windows 10 Home Single Language`, under profile `IIPS-V3-CAP03-P1-WINDOWS10-PERSONAL-HOST-PROFILE-PA-2026-10-30-01`. The S01 comparison remains case-sensitive exact equality; the expected hostname and non-elevated requirement remain. The script records the profile reference, actual product/edition, and scope in the run facts. This is a scoped reconciliation for the PA's intended personal application environment; it does not claim the external Act text was changed or that Windows 11 was observed.
+
+No other guard was modified: `GATE_A_PRIME_*`, `GIT_*`, `NODE_OPTIONS`, Node `>=22.13.0 <23`, flag-free `node:sqlite`, pin and clean tree, store/evidence separation, fixed NTFS, sync/OneDrive, reparse/worktree, store-absent, sealing, execute marker, and single-use controls remain. The existing frontend code already handles `win32` local named-pipe IPC; no new application path or dependency was introduced.
+
+**F9 waiver preservation:** WV-01 through WV-05 remain in force. Rev5 F9-8 HOST's actual BLOCKED observation (Windows 10 against the old Windows 11 expected value) remains historical and WV-02 remains WAIVED; no new F9-8 PASS is claimed. The Revision 5 F9 suite remains pinned to its prior hash and is not retargeted or rerun. The other actual F9 results and waivers are unchanged.
+
+Revision 6 script path is the existing `docs/integration/IIPS_v3.0_CAP03_P1_F_P-1_CORRECTED_EXECUTION_SCRIPT_2026-10-29.ps1`; SHA-256 `9396c7cc9e770a09a248dbd4624a96a6a2c4702f3e0c7a12d3bc0e51fb5f7d4b`. Standard-library static validator `docs/integration/cap03-p1-f9/validate_windows10_host_profile.py` passed. It checks the exact W10 target, preserved host/filesystem/runtime/evidence/single-attempt controls, historical F9 pin, and null execution designations. It does not parse or execute PowerShell.
+
+**Host tests not performed:** Arena has no Windows PowerShell runtime. A parse-only Windows PowerShell 5.1 check of Revision 6 is still required before any later authorized host use; the exact parser-only command is in the F9 README. The Windows host Node `>=22.13.0 <23` and flag-free SQLite probe/storage facts also remain unverified here. No F9 retest is requested. This supplement is not Host Preflight and does not authorize it.
+
+The existing P-1 script deliberately remains fail-closed at S00 (`$AuthorityRulingRef`, actor, evidence root and writability method are null), and at S04 if reached (`$BuildAuthorityRef` is null). This PA implementation direction does not fill those values, resolve Q-BUILD, or authorize the P-1 entrypoint. Rev5 acceptance evidence bound to the former script SHA does not bind Revision 6.
+
+**P-1 remains AUTHORIZED — NOT EXECUTED — UNSPENT.** The one-attempt authorization, external Act record and all non-host requirements remain unchanged. No actual application workflow was run.

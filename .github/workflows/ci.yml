@@ -20,11 +20,21 @@
 # outside that closure are tested/transformed, not asserted to be typechecked or qualified.
 name: CI
 
+# IMPORTANT DEPENDENCY BOUNDARY: `npm ci` resolves three frontend dependencies pinned to
+# `ramkivs/iips-production-market-data`. This product CI is therefore limited to frontend code
+# and the test guard. IRR-only documentation, governance, script, validator and workflow changes
+# are covered by `cap03-revision7-irr-static.yml`; do not add those paths here.
 on:
   pull_request:
+    paths:
+      - 'frontend/**'
+      - '.ci/**'
   push:
     branches:
       - main
+    paths:
+      - 'frontend/**'
+      - '.ci/**'
 
 # Read-only: this workflow verifies, it never writes to the repository, an environment or a release.
 permissions:
