@@ -1,5 +1,7 @@
 # CAP-03 P-1 Revision 5 — F9 Windows fixture validation package
 
+> **Current P-1 source is Revision 7**, documented in the Revision 7 status section below. This package remains the historical Revision 5 F9 fixture runner and source pin; it is not retargeted, rerun, or evidence for Revision 7.
+
 ## Authority and boundary
 
 This package is pinned to the Revision 5 production source from `f9081d525a19864da7660de358896d514c60d4a2` and the authoritative production script SHA-256:
@@ -132,19 +134,14 @@ The new standard-library-only static validator is `docs/integration/cap03-p1-f9/
 python docs/integration/cap03-p1-f9/validate_windows10_host_profile.py
 ```
 
-It verifies the exact Windows 10 profile and that the named S01, filesystem, evidence, pin and one-attempt controls remain in source. It also verifies the Rev5 F9 runner remains hard-pinned to its historical hash and that P-1 authority/build designations remain null. It reads text only: it is **not** a PowerShell parse, Windows host test, application test, or P-1 readiness result. Arena's run passed and printed the Revision 6 SHA above. `git diff --check` passed. The production script was not invoked.
+The prior Revision 6 validator and parse guidance are historical and do not describe current Revision 7 S04/evidence behavior; PA-20 leaves PowerShell validation waived as a blocker.
 
-Arena has no Windows PowerShell runtime. Before any later authorized host use, an operator must perform a **parse-only** Windows PowerShell 5.1 check of Revision 6; this must not invoke `-Mode Preflight` or `-Mode Execute`:
+## Revision 7 status — admitted S2 evidence reuse (2026-10-30)
 
-```powershell
-$path = (Resolve-Path .\docs\integration\IIPS_v3.0_CAP03_P1_F_P-1_CORRECTED_EXECUTION_SCRIPT_2026-10-29.ps1).Path
-$tokens = $null
-$errors = $null
-[System.Management.Automation.Language.Parser]::ParseFile($path, [ref]$tokens, [ref]$errors) | Out-Null
-if ($errors.Count -gt 0) { $errors | ForEach-Object { $_.Message }; throw 'Revision 6 PowerShell parse failed' }
-'REVISION_6_PARSE_PASS'
-```
+The existing P-1 script is now Revision 7 (1,572 LF lines, 111,642 bytes; SHA-256 `e70050d0f841498b5784e4566898a6586918cf7a77ef659eb5016aa26e8b64e3`). S04 verifies the PA-06-admitted S2 evidence bundle held in IRR and, during a future authorized procedure, requires an already-existing pinned-checkout `dist` to match the admitted 1,140-file inventory exactly, read-only; absence or mismatch fails closed. It never runs `npm ci`, `npm run build`, an emitted-entry closure probe, or an emitted-migration probe; it does not create or repair `dist`. No emitted distribution bytes are retained in IRR. The S2 evidence is admitted as **L2a only**, not Gate 4 S2. **U-5 remains NOT RUN**; the WV-04 blocker is waived for the personal non-production scope, not passed. The inventory match is not a closure/migration-probe result.
 
-A later authorized operation would still need to establish the host/runtime facts (Node `>=22.13.0 <23`, flag-free `node:sqlite`, environment gates, and storage facts) through the governing procedure. No such test is claimed here. More immediately, this script intentionally remains fail-closed: `$AuthorityRulingRef`, actor, evidence root, writability method and `$BuildAuthorityRef` are still null, so it stops at S00 and, if that were resolved, S04. This implementation authorization does not fill them, authorize Host Preflight, or authorize P-1 execution. Existing Revision 5 acceptance/preflight evidence bound to the old script SHA cannot bind Revision 6.
+S00 now cites the effective P1-F act, uses the PA's name only as the `--actor` display label, and binds the single store path to effective PF-15 F4: `C:\iips-data\iips\user-portfolio.sqlite`. It does not invent a fixed P-1 evidence root: `-EvidenceRoot` is a required, pre-existing run-record destination validated for path separation and filesystem protections; PF-15 F5 and PA-13 E10 are not repurposed. The preflight-acceptance artifact is not a P1-F prerequisite. S03 preserves store absence, sidecar, worktree, reparse, fixed-NTFS and path-separation checks, but does not create a write probe or report writeability as tested.
 
-P-1 remains **AUTHORIZED — NOT EXECUTED — UNSPENT**. WV-01 through WV-05 remain scoped waivers; actual F9 statuses remain unchanged. The current source is Windows 10-targeted but has not been PowerShell-parsed or run on the host, and no actual application workflow has been executed.
+The Revision 5 F9 fixture runner remains pinned to its historical source and is not retargeted or rerun. The current static validator checks source text and already-admitted IRR evidence only. It does not parse PowerShell, access IPD, inspect a host or current `dist`, run S04, invoke Preflight/Execute, or establish readiness. PowerShell 5.1 parsing and host/runtime facts remain **NOT RUN**; this IRR task did not access IPD or perform any P-1 workflow.
+
+P-1 remains **AUTHORIZED — NOT EXECUTED — UNSPENT**. P-1-C remains **NOT ESTABLISHED** and P-1-D remains **DESIGNATED / NOT VERIFIED FOR THE ATTEMPT**; both are not blockers, not PASS. A6 remains NOT RUN; H-12/L2c/S2a remains outside P-1 prerequisites. No F9 result was changed.

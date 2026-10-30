@@ -1,4 +1,7 @@
-# IIPS v3.0 CAP-03 — P-1 (P1-F) source-to-script verification and corrected procedure — 2026-10-29 (revision 5)
+# IIPS v3.0 CAP-03 — P-1 (P1-F) source-to-script verification — historical Revision 5 plus current Revision 7 addendum
+
+> **Current companion status (2026-10-30):** the current procedure is Revision 7. Sections A–F and the Revision 6 addendum below preserve their dated snapshots; **section G governs the current Revision 7 source/evidence reconciliation** wherever earlier statements differ. No PowerShell parse, host run, S2 rerun, P-1 Preflight/Execute, or IPD access occurred for Revision 7.
+
 
 | Field | Value |
 |---|---|
@@ -591,3 +594,63 @@ The other declared assumptions are retained rather than weakened: Windows PowerS
 - Existing Rev5 acceptance/preflight outputs are bound to the old script hash and cannot bind Revision 6. Any future P-1 route would still require its original authorities, current source/hash-bound evidence and build decision.
 
 P-1 remains **AUTHORIZED — NOT EXECUTED — UNSPENT**. This host-profile implementation changes no authorization state and does not establish execution readiness.
+
+
+---
+
+## G. Revision 7 — PA-06 admitted S2 evidence reuse; no IPD build (`2026-10-30`)
+
+### G1. Status and authority basis
+
+Revision 7 is the current source snapshot; the previous sections remain historical evidence. The applicable effective decisions were read in the IRR record: `PA-19` (§16.202) waives H-1–H-9 as blockers; `PA-20` (§16.205) waives Windows-host, PowerShell, operator-presence and Windows/operator-generated-evidence blockers; `PA-1` (§16.206) keeps H-12/L2c/S2a outside P-1 prerequisites; `PA-06` (§16.206) admits `s2-a891802e-20261028T192516Z` as **L2a for the P-1 chain only**; `P1-F` (§16.206 / authorization act §6) authorizes one unspent Execute attempt; and corrected PF-15 F4 designates the P-1 store path. These are existing decisions, not new authority rendered by this source reconciliation. No waiver or NOT RUN result is treated as PASS.
+
+S2 identity was checked only from IRR-held records: run `s2-a891802e-20261028T192516Z`; commit `a891802e2691bd9c65a67d6abff20d8ce0c26d7d`; tree `76f083d7058e170d8212455c03bad1033136ee68`; seal SHA-256 `9D3C09DBDB691C2527A45605DEA20826B4EC2BA2F110985EE3F1033783B5225E`; host-deposit hash-record SHA-256 `FFD0956482427ACB404543E36DAC2705D802B04828E380290232C06129F3AFAD`; seal-recheck transcript SHA-256 `D4C5D9431115BF57D824DF465E3D99B11C619BC6D59A3F0974036F3BFCC2F7CA`. The admitted record reports the run status PASS, Node `v22.16.0`, npm `10.9.2`, typecheck/build return code 0, test summary 930 executed / 926 passed / 0 failed / 4 expected skips, package-consumer PASS, and identical before/after 1,140-line distribution inventories. This is PA-06-admitted historical evidence, not a repeated run and not Gate 4 S2 acceptance.
+
+The retained inventory contains path/hash records, not the 1,140 emitted file bytes. It identifies the emitted provisioning entry, validator and migration-ledger modules, but it does **not** prove exact entry-import closure or an emitted-migration probe. `U-5` therefore remains **NOT RUN**. `WV-04` waives the blocker only for the specified personal non-production scope; it neither grants IPD build/write authority nor converts U-5 to PASS.
+
+### G2. Requirement-by-requirement S02 / S00 / S03 reconciliation
+
+| Stage / requirement | Current Revision 7 treatment | Authority / result boundary |
+|---|---|---|
+| **S02 — pin** | Retains exact commit/tree and all 15 designated blob checks from `PD-1`; no H-12/L2c/S2a dependency is added. | `PA-1`, `PD-1`, `PA-06`; source contract only. No IPD checkout was read in this pass. |
+| **S02 — local checkout identity / clean state** | Existing local `HEAD`, tree, clean-tree and worktree guards remain; no local IPD checkout is inspected now. | `U-4` remains NOT RUN, with its blocker waived under `PA-20`; remote/admitted evidence is not represented as local checkout evidence. |
+| **S00 — authorization reference** | `$AuthorityRulingRef` is `IIPS-V3-CAP03-P1-AUTHORIZATION-ACT-2026-10-29-01` (`P1-F`); S00 requires that exact act identifier. | Effective `P1-F`; one Execute attempt, not yet made. |
+| **S00 — actor** | `$DesignatedActorLabel` is `Ramki`, the PA/operator named in P1-F. It is passed as metadata only; the pinned parser does not make it an authorization identity. No other label is invented. | P1-F names the PA/operator; base Act parser behavior is documented in earlier sections. |
+| **S00 — store** | `$DesignatedStorePath` is exactly `C:\iips-data\iips\user-portfolio.sqlite`; supplied `-StorePath` must exactly equal it. | Corrected PF-15 F4; no host property or absence is claimed here. |
+| **S00 — evidence root** | There is no PA-designated P-1 evidence-root literal. The mandatory `-EvidenceRoot` is an already-existing run-record destination, not a designation; S00 validates it and never creates it. PF-15 F5 is the Gate 4 root; PA-13 E10's `D:\cap03-p1-capture-20261028-01` is a capture-session root. Neither is reused as the P-1 run root. | No root is invented or represented as approved. The exact host path and its existence remain unobserved; fixed-NTFS, path separation, worktree, `.git`, reparse and sync-environment checks remain in code. |
+| **S00 — writable method** | No ACL method or parent write probe is designated or run. The script reports store writability **NOT PROBED** and preserves the entrypoint's actual operation behavior. | `PA-20` waives operator-generated evidence as a blocker; this is not a writability PASS or a separate probe authorization. |
+| **S00 — prior run / one attempt** | Execute claim, marker-before-process, one invocation, no retry and prior execute-directory refusal remain fail-closed. A no-marker Execute stop is reported **UNDETERMINED**; the retained claim/run blocks reuse pending PA disposition. | P1-F authorizes one attempt. No attempt was made. The claim/marker do not establish an out-of-band attempt. |
+| **S03 — store and paths** | Exact F4 store equality; absent DB and `-journal`/`-wal`/`-shm`; outside checkout and all listed worktrees; `.git`/reparse ancestry; local fixed NTFS; SUBST and OneDrive-environment checks remain. No ACL inference or write probe occurs. | These are future runtime checks, not facts established in this IRR-only pass. |
+| **S03 — writability** | Reported as NOT PROBED; no temporary file is created. | No `ACL_EVALUATION` or `PARENT_PROBE` designation is claimed. A failure of the authorized provisioning operation remains a failure of the one attempt, not an invitation to retry. |
+
+### G3. S04 evidence consumption and distribution comparison
+
+S04 now reads the existing admitted evidence in IRR at `evidence/cap03-s2/s2-a891802e-20261028T192516Z/` and its two publication companions. It verifies: (1) the effective P1-F record's PA-06/L2a admission reference; (2) the expected direct-file inventory and absence of subdirectories/reparse points in the evidence chain; (3) seal identity and every sealed content digest, allowing only the documented exact/LF/CRLF representation variants; (4) manifest run, status, host/runtime, commit/tree and artifact-to-seal identity; (5) result/run/pin/1,140-count/guard/package identities; (6) recorded install, typecheck, build, test and package-consumer result summaries; (7) equality and count of the admitted before/after 1,140-line inventories, including the named emitted entry/validator/ledger paths; and (8) host-deposit hash and two-pass publication transcript identities. This is a static verification of admitted IRR records, not a rerun of S2 or its host tests.
+
+At a later authorized invocation, S04 reads any already-existing `dist` in the designated pinned checkout and compares the complete file set and SHA-256 values to the admitted 1,140-entry inventory; reparse points or any missing, extra or changed file fail closed. The pre-invocation recheck repeats a fingerprint of the same distribution and refuses if it changed after S04. Neither check installs dependencies, builds, repairs `dist`, creates a probe, or writes IPD. No current `dist` was accessed or compared in this IRR review, so no match is claimed. A missing/currently different distribution is not silently accepted; the script's existing S05/entrypoint requirements remain distinct from U-5's unrun build/emitted probes.
+
+S04 explicitly records `U-5 = NOT RUN`, exact emitted-entry closure = NOT RUN, and emitted-migration probe = NOT RUN. Admitted S2 build/test records stay historical L2a evidence only. No emitted distribution bytes are copied into IRR.
+
+### G4. Authority questions: resolved scope and genuine residuals
+
+| Question | Current reconciliation | Status |
+|---|---|---|
+| `Q-STORE` | PF-15 corrected F4 is the exact P-1 `--store` literal. The script binds the argument to it; no substitution. | **RESOLVED for the path binding**; host existence/sidecars remain unobserved. |
+| `Q-ACTOR` | P1-F names Ramki as PA/operator; `--actor Ramki` is display metadata only. | **RESOLVED for this non-authoritative label**; no identity claim is made from parser metadata. |
+| `Q-EV` | No fixed P-1 root is designated by P1-F, PA-13 E10 or PF-15 F5. A safe, pre-existing runtime output destination is required, but no path is invented. | **No PA path designation established.** This is not represented as resolved; exact runtime input and host checks are unobserved. |
+| `Q-WRITE` | No method is selected; S03 no longer performs a probe or treats ACL interpretation as effective access. | **Method unresolved / not required by this procedure; no writability PASS.** PA-20's waiver removes an evidence blocker only in scope. |
+| `Q-BUILD` | S04 no longer runs any build, so no build sequence or `$BuildAuthorityRef` is needed for this path. | **Unresolved for any future build/IPD write; not a current S04 action.** U-5 remains NOT RUN. |
+| `Q-CONS-1` | P1-F authorizes one provisioning Execute operation; a `-Mode Preflight` does not issue the entrypoint's `--mode=execute` call and no operator acceptance file is a P1-F condition. | **No preflight-acceptance prerequisite.** No standalone Preflight authority is inferred or used here. |
+| `Q-CONS-2` | P1-F does not state a release rule for a retained execute claim after a stop before the marker. Code retains the claim and blocks another Execute. | **UNRESOLVED PA disposition.** Never infer that an unmarked stop consumed or did not consume the act; no retry/release path is added. |
+| `Q-CONS-3` | P1-F says the first attempt, successful or failed/partial, spends the act. The code writes the marker before the single process-start call and conservatively treats any marker as spent. | **No-retry safeguard preserved.** Whether a process-start exception before the entrypoint actually starts is itself an “attempt” is not separately stated; the implementation remains conservatively spent. |
+| `Q-MIG` | PA-06 admits historical S2 evidence; it does not decide a future store's V-A2-1 expected migration state. | **UNRESOLVED PA interpretation;** no migration-state or emitted probe is claimed. |
+| `Q-TX` | No effective record located that determines whether per-migration commits sit outside Act §7 item 2. | **UNRESOLVED PA interpretation;** no transaction conclusion is added. |
+| `Q-V8` | P1-F's single-attempt rule prevents a literal second invocation test. The summary retains `NOT_PERFORMED`; a row-state/source proxy is not equated with it. | **UNRESOLVED acceptance interpretation;** no second invocation was attempted or authorized. |
+
+`PA-19`, `PA-20`, and `PA-1` were not expanded beyond their written scope. The open items above are not turned into blockers merely by retaining their accurate status; conversely, a waiver, designation, or historical PASS is never promoted to a technical observation.
+
+### G5. Validation and limits
+
+The Revision 7 script is 1,572 LF lines / 111,642 bytes; SHA-256 `e70050d0f841498b5784e4566898a6586918cf7a77ef659eb5016aa26e8b64e3`. The standard-library validator `docs/integration/cap03-p1-f9/validate_windows10_host_profile.py` checks Revision 7 source policy, the exact authority/path literals, preserved safeguards, S04's admitted-evidence and current-dist checks, regex path semantics against the admitted single-separator inventory format, and the IRR-held S2 evidence identity/completeness/digests. `git diff --check` is also required. These are IRR-only static checks. No PowerShell parser is available here; **no PowerShell parse is claimed**.
+
+No IPD access, clone, worktree, inspection, build, dependency installation, write, or host operation was performed. No S2/host test was repeated. No P-1 Preflight/Execute/entrypoint, store, evidence root, marker, claim, probe, dump, fixture or acceptance file was created. `P-1-C` remains NOT ESTABLISHED; `P-1-D` remains DESIGNATED / NOT VERIFIED FOR THE ATTEMPT; both are not blockers. A6 remains NOT RUN. P-1 remains **AUTHORIZED — NOT EXECUTED — UNSPENT**. No F9 result changed.

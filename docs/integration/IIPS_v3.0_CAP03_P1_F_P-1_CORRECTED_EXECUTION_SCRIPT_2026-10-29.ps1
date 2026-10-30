@@ -1,6 +1,6 @@
 #Requires -Version 5.1
 <#
-  IIPS CAP-03 - P-1 corrected execution script, REVISION 6 (PA-authorized Windows 10 personal host profile, 2026-10-30).
+  IIPS CAP-03 - P-1 corrected execution script, REVISION 7 (PA-authorized Windows 10 personal host profile; admitted S2 evidence reuse, 2026-10-30).
   Authority: P1-F, IRR docs/integration/IIPS_v3.0_CAP03_P1_AUTHORIZATION_ACT_AND_PREREQUISITE_DECISIONS_2026-10-29.md
   (section 6, conditions 1-5), plus the scoped PA implementation direction recorded at master tracker section 16.208.
   Base act: IPD commit a891802e2691bd9c65a67d6abff20d8ce0c26d7d, tree
@@ -9,15 +9,17 @@
   applies only to the personally operated, single-user Windows 10 target; it does not claim production Act section 8
   compliance or create authority to execute P-1. Companion source review: docs/integration/IIPS_v3.0_CAP03_P1_F_P-1_SOURCE_TO_SCRIPT_VERIFICATION_2026-10-29.md
 
-  STATUS OF THIS FILE: Revision 6 has not been parsed or run on any host. Source-level validation only.
-  As committed, every run still refuses at S00 (designations null) and, if S00 were passed, at S04 (BuildAuthorityRef null).
+  STATUS OF THIS FILE: Revision 7 has not been parsed or run on any host. Source-level validation only.
+  S04 reads and verifies the PA-06-admitted S2 evidence already held in IRR. It does not install dependencies or build.
+  During a later authorized run it compares an already-existing pinned-checkout dist read-only; this IRR review did not
+  inspect IPD. U-5 remains NOT RUN; this evidence is not represented as U-5 PASS.
 
   EXACT EFFECTS OF EACH MODE. Neither mode is read-only. Every effect is listed here and in the summary.
   -Mode Preflight
     Writes:  a run directory p1-pre-<UTC>-<guid8> with raw evidence under EvidenceRoot (created exclusively);
-             node_modules, dist and dist-frontend inside the IPD checkout (npm ci and npm run build, S04);
-             one probe file in the store PARENT directory, created and then removed, only when the
-             PARENT_PROBE writability method is designated (S03). Cleanup failure of the probe is a stop.
+             no IPD writes; S04 reads admitted S2 evidence from this IRR checkout and, during a later authorized run,
+             compares any existing pinned-checkout dist read-only; no dependency installation, build, emitted-file probe,
+             or store-parent probe.
     Invokes: node on the built entrypoint with --mode=validate (S05). The store is expected to be absent: the
              validation refuses (STORE_NOT_FOUND, or the recorded UNEXPECTED_FAILURE message) and does not create it.
              Also node (sqlite load probe, S01), git, and the GitHub API (read-only queries, S02 and S06).
@@ -27,8 +29,8 @@
     Additionally: writes execute-claim.json exclusively (cross-process exclusion; retained on every outcome after
     acquisition); writes EXECUTE-MARKER.json; performs ONE --mode=execute invocation (S07); then the post-invocation
     evidence operations (S08-S09), each isolated and recorded as OK, FAILED, NOT_APPLICABLE or SKIPPED.
-    Requires -AcceptanceFile (a reviewed acceptance of a sealed preflight run, bound to this script's SHA-256)
-    and -ConfirmToken P1-F-ONE-ATTEMPT. There is no retry, repair, or second execute in this file.
+    Requires -ConfirmToken P1-F-ONE-ATTEMPT. A prior Preflight or operator acceptance file is not a P1-F condition.
+    There is no retry, repair, or second execute in this file.
 
   Records: run directories are named p1-pre-<UTC>-<guid8> or p1-exe-<UTC>-<guid8> and are created exclusively.
   Files are created exclusively (CreateNew); nothing is overwritten. run-summary.json is written on a normal end;
@@ -42,7 +44,6 @@ param(
     [Parameter(Mandatory = $true)] [string] $EvidenceRoot,
     [Parameter(Mandatory = $true)] [string] $ActorLabel,
     [Parameter(Mandatory = $true)] [string] $StorePath,
-    [string] $AcceptanceFile = '',
     [string] $ConfirmToken = ''
 )
 
@@ -70,7 +71,6 @@ $ExpectedMembershipId = 'd25dcc5370100b00766efc5166f65cf3'
 $EntryRelative        = 'dist\src\persistence\gateAPrimeProvisioning.js'
 $ConfirmRequired      = 'P1-F-ONE-ATTEMPT'
 $MarkerName           = 'EXECUTE-MARKER.json'
-$AcceptanceSchema     = 'IIPS-P1-PREFLIGHT-ACCEPTANCE/1'
 $ClaimName            = 'execute-claim.json'
 
 # Expected migration ledger, from the pinned migration SQL (SHA-256 of the UTF-8 SQL string, as in
@@ -89,17 +89,24 @@ $CountedTables = @(
     'portfolios', 'portfolio_revisions', 'portfolio_holdings', 'portfolio_contributions'
 )
 
-# PF-15 corrected act -02, row F4 (blob 3fe9a2dd at origin/main). It names the single P-1 store path.
-# Whether F4 binds the --store argument is Q-STORE. Any other value is refused.
+# PF-15 corrected act -02, row F4 (blob 3fe9a2dd, effective via IRR PR #304). It names the single P-1 $StorePath.
 $DesignatedStorePath  = 'C:\iips-data\iips\user-portfolio.sqlite'
 
-# Designations NOT YET RECORDED. Each is set only by a reviewed change citing a Program Authority record.
-# While these are null every run refuses at S00. Do not fill them from a parameter or a default.
-$AuthorityRulingRef         = $null  # ruling id covering Q-STORE, Q-EV, Q-CONS, Q-ACTOR, Q-MIG, Q-TX, Q-WRITE, Q-V8, Q-BUILD
-$DesignatedActorLabel       = $null  # Q-ACTOR: --actor label. P1-F does not name --actor; base act section 8 step 3 does.
-$DesignatedEvidenceRoot     = $null  # Q-EV: absolute external evidence root (none designated; F5 is Gate 4 scope)
-$DesignatedWritabilityMethod = $null # Q-WRITE: 'ACL_EVALUATION' or 'PARENT_PROBE'. Neither is authorized yet.
-$BuildAuthorityRef          = $null  # Q-BUILD: the exact build command sequence. Refuses S04 while null (record section B3a).
+# Effective authorities: P1-F is the single-attempt authority; the named PA is the sole operator.
+$AuthorityRulingRef         = 'IIPS-V3-CAP03-P1-AUTHORIZATION-ACT-2026-10-29-01'
+$DesignatedActorLabel       = 'Ramki' # exact PA identity in the P1-F authorization record; display label only.
+# P1-F does not designate a P-1 evidence root. -EvidenceRoot is only a run-record destination, not an authority
+# designation; S00 validates it and never creates it. PF-15 F5 (Gate 4) and PA-13 E10 (capture) are not repurposed.
+# No writability method is designated or run: no probe or ACL inference is treated as a blocker or PASS.
+$S2RunId                   = 's2-a891802e-20261028T192516Z'
+$S2EvidenceRelative        = 'evidence\cap03-s2\s2-a891802e-20261028T192516Z'
+$S2SealSha256              = '9D3C09DBDB691C2527A45605DEA20826B4EC2BA2F110985EE3F1033783B5225E'
+$S2DepositHashesSha256     = 'FFD0956482427ACB404543E36DAC2705D802B04828E380290232C06129F3AFAD'
+$S2TranscriptSha256        = 'D4C5D9431115BF57D824DF465E3D99B11C619BC6D59A3F0974036F3BFCC2F7CA'
+$S2AdmissionRef            = 'PA-06 (tracker section 16.206; authorization record section 3), L2a only'
+$script:S2EvidenceFingerprint = ''
+$script:IrrRoot             = ''
+
 
 # Designated blobs at the pin (P1-F section 2.3 / base act 2.3; remote-verified at a891802e on 2026-10-29).
 $DesignatedBlobs = @(
@@ -123,22 +130,26 @@ $DesignatedBlobs = @(
 # Authorization freshness (checked at S06 and again immediately before the one invocation). Read-only.
 $IrrRepo              = 'ramkivs/iips-review-recovered'
 $IpdRepo              = 'ramkivs/iips-production-market-data'
-$BaselineIrrCommit    = 'aa013db4bd2cc50a249ef30bfca9ce303fe2f5fe'
+$BaselineIrrCommit    = 'b5c91a73b4b6367140847676534d5c03af0be88d'
 $P1FPath              = 'docs/integration/IIPS_v3.0_CAP03_P1_AUTHORIZATION_ACT_AND_PREREQUISITE_DECISIONS_2026-10-29.md'
 $P1FEntry             = '100644 blob a90bb00141194608e64503b24d43964bf7ff85a0'
 $Pf15Path             = 'docs/integration/IIPS_v3.0_CAP03_PF15_ENDPOINT_LOCAL_STATE_DESIGNATION_PA_ACT_CORRECTED_2026-10-26.md'
 $Pf15Entry            = '100644 blob 3fe9a2ddd5f3b8730eccee7748b6266b5e2d8b1d'
 $TrackerPath          = 'IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md'
-# Pointer rows: each marker must match exactly one line at the baseline, and that line must still exist at origin/main.
-$TrackerPointerMarkers = @('**Latest (`CV-CORR-186`', '**Current CAP-03 P-1 / PF-15 status**')
+# After publication, main must carry this revision's dated status pointers. The baseline is the PR's reviewed parent.
+$TrackerPointerMarkers = @('**Latest (`CV-CORR-189`', '**Current CAP-03 P-1 / PF-15 status**')
+$TrackerPointerRequiredText = 'P-1 remains **AUTHORIZED'
 $P1NamePattern        = '(?i)(P1|P-1|GATE[_-]A[_-]PRIME|PF-?15|PA[_-]RULING)'
 $TrackerP1Term        = '(?i)(P-1|P1-F|CAP-03 P1)'
-$TrackerConsumeTerm   = '(?i)(consum|spent|invoked|attempted|revok|withdr|supersed|rolled back|FAILED|NOT EXECUTED|executed)'
+$TrackerConsumeTerm   = '(?i)(P-1.{0,120}(authorization revoked|authorization withdrawn|attempted:\s*yes|status:\s*(consumed|spent)|is not authorized)|(authorization revoked|authorization withdrawn|attempted:\s*yes|status:\s*(consumed|spent)|not authorized).{0,120}P-1)'
 # Review artifacts of this revision. Their own changes are allowed by the freshness check; the operator must
-# confirm the script bytes equal the reviewed PR head (companion record, section E).
+# confirm the script bytes equal this reviewed PR head (companion record, section G).
 $ReviewArtifactPaths  = @(
     'docs/integration/IIPS_v3.0_CAP03_P1_F_P-1_CORRECTED_EXECUTION_SCRIPT_2026-10-29.ps1',
-    'docs/integration/IIPS_v3.0_CAP03_P1_F_P-1_SOURCE_TO_SCRIPT_VERIFICATION_2026-10-29.md'
+    'docs/integration/IIPS_v3.0_CAP03_P1_F_P-1_SOURCE_TO_SCRIPT_VERIFICATION_2026-10-29.md',
+    'IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md',
+    'docs/integration/cap03-p1-f9/README.md',
+    'docs/integration/cap03-p1-f9/validate_windows10_host_profile.py'
 )
 
 # ---------------------------------------------------------------------------
@@ -159,11 +170,10 @@ $script:LogPath        = ''
 $script:RepoFull       = ''
 $script:Sealed         = $false
 $script:StartUtc       = ''
-$script:Facts          = @{ hostProfileRef = $HostProfileRef; expectedProductName = $ExpectedProductName; hostProfileScope = 'PA-authorized personal single-user Windows 10 Home Single Language only'; baseActSection8Product = 'Windows 11 Home Single Language (external Act text unchanged)'; v2A8ProxyPass = $false; v2A8LiteralTest = 'NOT_PERFORMED'; invocationStatus = 'NOT_INVOKED'; evidenceComplete = $false; evidenceRoot = '' }
+$script:Facts          = @{ hostProfileRef = $HostProfileRef; expectedProductName = $ExpectedProductName; hostProfileScope = 'PA-authorized personal single-user Windows 10 Home Single Language only'; baseActSection8Product = 'Windows 11 Home Single Language (external Act text unchanged)'; v2A8ProxyPass = $false; v2A8LiteralTest = 'NOT_PERFORMED'; invocationStatus = 'NOT_INVOKED'; evidenceComplete = $false; evidenceRoot = ''; s2RunId = $S2RunId; s2Admission = $S2AdmissionRef; u5Status = 'NOT RUN' }
 $script:ScriptPath     = [string]$MyInvocation.MyCommand.Path
+$script:IrrRoot         = [System.IO.Path]::GetFullPath((Join-Path (Split-Path -Parent (Split-Path -Parent (Split-Path -Parent $script:ScriptPath))) '.'))
 $script:ScriptSha256   = ''
-$script:AcceptanceSha256 = ''
-$script:ClosureRecord  = ''
 $script:EntryFull     = ''
 $script:ValidatePassAll = $false
 $script:ClaimAcquired  = $false
@@ -426,68 +436,10 @@ function Get-DriveFacts {
     return [pscustomobject]@{ Root = $root; Type = [string]$drive.DriveType; Format = [string]$drive.DriveFormat }
 }
 
-function Get-WriteAclEvaluation {
-    # ACL EVALUATION, not an effective-access test: evaluates the DACL of the nearest existing ancestor for the
-    # current user SID and group SIDs. Inherited and privilege-based access and non-ACL denials are not evaluated.
-    param([string] $Dir)
-    $acl = Get-Acl -LiteralPath $Dir
-    $wi = [Security.Principal.WindowsIdentity]::GetCurrent()
-    $sids = @{}
-    $sids[[string]$wi.User.Value] = $true
-    foreach ($g in $wi.Groups) { $sids[[string]$g.Value] = $true }
-    $need = [int]([System.Security.AccessControl.FileSystemRights]::CreateFiles) -bor [int]([System.Security.AccessControl.FileSystemRights]::CreateDirectories)
-    $allowBits = 0
-    $denySids = @()
-    $ruleCount = 0
-    foreach ($rule in $acl.GetAccessRules($true, $true, [System.Security.Principal.SecurityIdentifier])) {
-        $sid = [string]$rule.IdentityReference.Value
-        if ($sids.ContainsKey($sid)) {
-            $ruleCount = $ruleCount + 1
-            $bits = [int]$rule.FileSystemRights
-            if ($rule.AccessControlType -eq [System.Security.AccessControl.AccessControlType]::Deny) {
-                if (($bits -band $need) -ne 0) { $denySids += $sid }
-            }
-            if ($rule.AccessControlType -eq [System.Security.AccessControl.AccessControlType]::Allow) {
-                $allowBits = $allowBits -bor ($bits -band $need)
-            }
-        }
-    }
-    $allowsCreate = (($allowBits -band $need) -eq $need) -and ($denySids.Count -eq 0)
-    return [pscustomobject]@{ Dir = $Dir; RulesForCurrentIdentity = $ruleCount; AllowBits = $allowBits; NeedBits = $need; DenySids = @($denySids); AllowsCreateByEvaluation = $allowsCreate }
-}
-
-function Get-ProbeWritable {
-    # PARENT_PROBE: creates one uniquely named probe file in the store PARENT directory and removes it. Never on the
-    # store path. Creation and cleanup are recorded separately. A cleanup failure leaves the file in place, is
-    # recorded with its path, and is a stop; the file is never deleted by any other means.
-    param([string] $Dir)
-    $name = '.p1-writeprobe-' + [guid]::NewGuid().ToString('N') + '.tmp'
-    $probe = Join-Path $Dir $name
-    $result = [pscustomobject]@{ Path = $probe; CreateError = ''; Created = $false; CleanupError = ''; Removed = $false; Ok = $false }
-    try {
-        Write-RawFile -Path $probe -Text 'probe'
-    } catch {
-        $result.CreateError = $_.Exception.Message
-    }
-    $result.Created = Test-Path -LiteralPath $probe -PathType Leaf
-    if ($result.Created) {
-        try {
-            Remove-Item -LiteralPath $probe -Force -ErrorAction Stop
-        } catch {
-            $result.CleanupError = $_.Exception.Message
-        }
-        $result.Removed = -not (Test-Path -LiteralPath $probe)
-        if ((-not $result.Removed) -and ($result.CleanupError -eq '')) { $result.CleanupError = 'probe still present after removal' }
-    }
-    if (-not $result.Created) { $result.Removed = -not (Test-Path -LiteralPath $probe) }
-    $result.Ok = ($result.CreateError -eq '') -and $result.Created -and $result.Removed -and ($result.CleanupError -eq '')
-    return $result
-}
-
 function Get-P1Consumption {
     if ($Mode -ne 'Execute') { return 'NOT_APPLICABLE (Preflight: no marker, no invocation)' }
-    if ($script:MarkerWritten) { return 'CONSUMED (EXECUTE-MARKER.json written before process start; P1-F condition 2; Q-CONS-3)' }
-    return 'UNDETERMINED (no marker, no invocation; Q-CONS-2 open; the retained execute claim and the run directory make later execute runs refuse at S00)'
+    if ($script:MarkerWritten) { return 'CONSUMED (marker committed before the single execute call; P1-F condition 2; no retry)' }
+    return 'UNDETERMINED (no marker/no execute invocation; Q-CONS-2 remains unresolved); retained claim/run directory fail-closed until PA disposition'
 }
 
 function Write-Summary {
@@ -497,7 +449,7 @@ function Write-Summary {
     $summary = [ordered]@{
         act                      = $ActId
         mode                     = $Mode
-        revision                 = 5
+        revision                 = 7
         authority                = 'P1-F section 6 (conditions 1-5); base act sections 6-9'
         outcome                  = $script:Outcome
         phaseAtEnd               = $script:Phase
@@ -510,7 +462,7 @@ function Write-Summary {
         evidenceIntegrityFailure = [bool]$script:Facts.evidenceIntegrityFailure
         forensicOperations       = @($script:Forensics)
         p1fConsumption           = (Get-P1Consumption)
-        executeClaim             = [ordered]@{ acquired = [bool]$script:ClaimAcquired; file = $claimFile; retention = 'retained on every outcome after acquisition; release only by a Program Authority ruling (Q-CONS)' }
+        executeClaim             = [ordered]@{ acquired = [bool]$script:ClaimAcquired; file = $claimFile; retention = 'retained on every outcome after acquisition as a fail-closed duplicate-attempt barrier' }
         declaredEffects          = @(Get-DeclaredEffects)
         failure                  = $script:Failure
         postStepFailures         = @($script:PostFailures)
@@ -518,27 +470,26 @@ function Write-Summary {
         utcEnd                   = (Get-UtcStamp)
         runDirectory             = $script:RunDirName
         scriptSha256             = $script:ScriptSha256
-        acceptanceSha256         = $script:AcceptanceSha256
         pinCommit                = $ExpectedCommit
         pinTree                  = $ExpectedTree
         storePath                = $StorePath
         evidenceRoot             = $script:Facts.evidenceRoot
         authorityRulingRef       = [string]$AuthorityRulingRef
-        writabilityMethod        = [string]$DesignatedWritabilityMethod
-        buildAuthorityRef        = [string]$BuildAuthorityRef
+        s2AdmissionRef           = $S2AdmissionRef
+        s2RunId                  = $S2RunId
         v2A8ProxyPass            = [bool]$script:Facts.v2A8ProxyPass
         v2A8LiteralTest          = 'NOT_PERFORMED'
-        v2A8Acceptance           = 'PA_DECISION_REQUIRED (Q-V8): the row-state proxy above is not a literal second-invocation test'
+        v2A8Acceptance           = 'NOT PERFORMED: P1-F authorizes one attempt; second invocation is not authorized. Proxy is not the literal test.'
         facts                    = $script:Facts
         checks                   = @($script:Checks)
         notPerformedByScript     = @(
-            'V-A2-8 literal: second-invocation refusal NOT PERFORMED. P1-F condition 2 forbids a second execute; base act section 8 step 5 requires it; Q-V8 is a PA decision. v2A8ProxyPass reports only the validator row-state check, which does not test a refusal.',
+            'V-A2-8 literal: second-invocation refusal NOT PERFORMED. P1-F condition 2 forbids a second execute. v2A8ProxyPass reports only the validator row-state check, not a literal refusal test.',
             'V-A2-7 runtime: the IPC WRITE_NOT_AUTHORIZED path (src/ipc/dispatch.ts 27becc76, line 231) is source-only and NOT PERFORMED here.',
-            'Store-directory writability (Q-WRITE): ACL_EVALUATION reads ACL entries and cannot prove effective access (group membership, inherited rights, deny interactions). PARENT_PROBE proves creation and removal of one file in the store parent, not writability of the store path. Neither method is designated.',
-            'Build sequence (Q-BUILD): base act section 2 (npm ci, npx tsc --noEmit, npm run build, npm test), the QE matrix (npm ci --no-audit --no-fund, tsc, build with exactly 1,140 dist files, guarded npm test, test:package-consumer) and this script (npm ci, npm run build) differ. Not resolved; Preflight and Execute stop at S04 while BuildAuthorityRef is null.',
+            'Store-directory writability was NOT PROBED; no temporary file or ACL-based pass is claimed. The single authorized application operation retains its own actual success/failure behavior.',
+            'U-5 remains NOT RUN. S04 consumes PA-06-admitted historical S2 records and, if present, compares existing dist bytes read-only to the admitted inventory; it runs no install/build and no exact entry-closure or emitted-migration probe. IRR retains no dist bytes.',
             'Execute claim: a retained claim proves exclusion only inside this evidence root on this file system. It does not prove that no attempt happened elsewhere or out of band (Q-CONS).',
             'Path canonicalization: SUBST aliases are detected by listing; reparse points are detected on the chain; drive-letter case is not folded to on-disk case; GetFinalPathNameByHandle is not called. These limits are not closed by this script.',
-            'Acceptance: integrity of the preflight directory is checked by name, placement, reparse points, subdirectories, seal form, set equality and SHA-256. The acceptance file is an operator-reviewed record; this script verifies only its bindings.',
+            'EvidenceRoot is an explicit run-record destination, not a P1-F designation; it must already exist and pass S00 path/separation checks. No operator acceptance artifact is required.',
             'Authorization freshness and revocation (S06) are read from repository and GitHub state only. Out-of-band revocation or attempts are not detectable from that state.',
             'Tracker and P1-F status are read through blob identity, pointer-row identity and an added-line scan on origin/main; a revocation recorded under a non-P-1 name is not detected.',
             'Operator-only facts: Windows runtime, PowerShell 5.1 parse, OneDrive or other sync-provider state beyond environment roots, Program Authority records beyond designations, host-preflight evidence, and remote read-back of published artifacts.'
@@ -661,13 +612,11 @@ function Invoke-EvidencePlacement {
     # Evidence root containment (S00). Read-only.
     $evFull = Get-CanonicalPath -Path $EvidenceRoot -Label 'EvidenceRoot'
     $script:Facts.evidenceRoot = $evFull
-    $designatedEv = ''
-    if (-not [string]::IsNullOrEmpty($DesignatedEvidenceRoot)) { $designatedEv = Get-CanonicalPath -Path $DesignatedEvidenceRoot -Label 'DesignatedEvidenceRoot' }
-    Require-Check -Id 'S00-EVIDENCE-DESIGNATED-EQUALS' -Pass (($designatedEv -ne '') -and ($evFull -ieq $designatedEv)) -Detail ('EvidenceRoot canonical form must equal the designated canonical root (Q-EV); given ' + $evFull + '; designated ' + $designatedEv)
+    Add-Check -Id 'S00-EVIDENCE-RUNTIME-INPUT' -Pass $true -Detail 'EvidenceRoot is an explicit output destination, not a PA designation; it must pre-exist and pass all placement checks'
     Require-Check -Id 'S00-EVIDENCE-EXISTS' -Pass (Test-Path -LiteralPath $evFull -PathType Container) -Detail 'EvidenceRoot must already exist (operator-created); the script never creates it'
     $evDrive = Get-DriveFacts -Path $evFull
     Require-Check -Id 'S00-EVIDENCE-NOT-DRIVE-ROOT' -Pass ($evFull -ne $evDrive.Root.TrimEnd('\')) -Detail ('EvidenceRoot must not be a drive root (' + $evDrive.Root + ')')
-    Require-Check -Id 'S00-EVIDENCE-DRIVE-FIXED-NTFS' -Pass (($evDrive.Type -eq 'Fixed') -and ($evDrive.Format -eq 'NTFS')) -Detail ('evidence drive ' + $evDrive.Root + ' type ' + $evDrive.Type + ', format ' + $evDrive.Format + ' (applied to evidence by this revision; authority to confirm)')
+    Require-Check -Id 'S00-EVIDENCE-DRIVE-FIXED-NTFS' -Pass (($evDrive.Type -eq 'Fixed') -and ($evDrive.Format -eq 'NTFS')) -Detail ('evidence drive ' + $evDrive.Root + ' type ' + $evDrive.Type + ', format ' + $evDrive.Format + ' (read-only path property check; not a claim that host state was observed in this IRR review)')
     $evChain = Get-AncestorChain -Path $evFull -IncludeSelf $true
     $evSubst = @(Get-SubstHits -Path $evFull)
     Require-Check -Id 'S00-EVIDENCE-NO-SUBST-ALIAS' -Pass ($evSubst.Count -eq 0) -Detail ('SUBST mappings on the evidence drive = ' + ($evSubst -join ' | ') + '; an alias can hide the real folder')
@@ -697,8 +646,7 @@ function Invoke-EvidencePlacement {
 }
 
 function Invoke-StorePlacement {
-    # S03. Read-only except the PARENT_PROBE method, which is run only when $ProbeAllowed is true (first pass).
-    param([bool] $ProbeAllowed)
+    # S03. Read-only store placement checks; no ACL evaluation or write probe.
     $storeFull = Get-CanonicalPath -Path $StorePath -Label 'StorePath'
     $storeParent = [System.IO.Path]::GetDirectoryName($storeFull)
     Require-Check -Id 'S03-STORE-ABSENT' -Pass (-not (Test-Path -LiteralPath $StorePath)) -Detail 'store file must not pre-exist (Test-Path = False)'
@@ -734,124 +682,233 @@ function Invoke-StorePlacement {
     $script:Facts.storeAncestorChain = @($chain)
     $script:Facts.nearestExistingAncestor = $nearest
     $script:Facts.storeParentPreexisted = (Test-Path -LiteralPath $storeParent -PathType Container)
-    Require-Check -Id 'S03-WRITABILITY-METHOD-DESIGNATED' -Pass (@('ACL_EVALUATION', 'PARENT_PROBE') -contains [string]$DesignatedWritabilityMethod) -Detail 'writability method must be designated (Q-WRITE); ACL evaluation is a fact, not an effective-access test'
-    if ($DesignatedWritabilityMethod -ceq 'ACL_EVALUATION') {
-        $ev = Get-WriteAclEvaluation -Dir $nearest
-        $script:Facts.writeAclEvaluation = $ev
-        Write-RawFile -Path (Join-Path $script:RunDir ('acl-' + $script:Seq + '-nearest-ancestor.txt')) -Text ((Get-Acl -LiteralPath $nearest | Format-List | Out-String))
-        $script:Seq = $script:Seq + 1
-        Require-Check -Id 'S03-WRITE-ACL-EVALUATION' -Pass $ev.AllowsCreateByEvaluation -Detail ('ACL evaluation on ' + $nearest + ': rules for current identity ' + $ev.RulesForCurrentIdentity + '; allow bits 0x' + $ev.AllowBits.ToString('X') + ' need 0x' + $ev.NeedBits.ToString('X') + '; deny rules matched ' + @($ev.DenySids).Count + '. Evaluation only; not an effective-access test.')
-    }
-    if ($DesignatedWritabilityMethod -ceq 'PARENT_PROBE') {
-        if ($ProbeAllowed) {
-            $probeOk = Get-ProbeWritable -Dir $storeParent
-            $script:Facts.writeProbe = $probeOk
-            Require-Check -Id 'S03-WRITE-PARENT-PROBE' -Pass ($probeOk.Created -and ($probeOk.CreateError -eq '')) -Detail ('probe created in the store parent ' + $storeParent + ' (not on the store path); create error = ' + $probeOk.CreateError)
-            Require-Check -Id 'S03-WRITE-PARENT-PROBE-CLEANUP' -Pass ($probeOk.Removed -and ($probeOk.CleanupError -eq '')) -Detail ('probe removal; path ' + $probeOk.Path + '; cleanup error = ' + $probeOk.CleanupError + '. A cleanup failure is a stop; the file is not deleted by any other means.')
-        }
-        if (-not $ProbeAllowed) {
-            Add-Check -Id 'S03-WRITE-PARENT-PROBE-SKIPPED' -Pass $true -Detail 'probe is run once, in the first pass only; the pre-invocation pass does not write'
-        }
-    }
-    Add-Check -Id 'S03' -Pass $true -Detail 'store placement checks pass (store absent; sidecars absent; outside worktrees; ancestry; drive; writability per the designated method)'
+    $script:Facts.storeWritability = 'NOT PROBED; no ACL inference or parent write probe; the single authorized operation retains its actual runtime behavior'
+    Add-Check -Id 'S03' -Pass $true -Detail 'store placement checks pass (store absent; sidecars absent; outside worktrees; ancestry and fixed NTFS; writability is not probed)'
 }
 
-function Invoke-BuildPreStep {
-    # S04. Build pre-step (ONCE per run). Declared effects: writes node_modules, dist and dist-frontend in the checkout. Touches no store. Basis-validation commands are act 'Local validation at
-    # the selected basis' (base act section 2, table line 63): npm ci, npm run build. Act section 8 has no build step (D-4).
-    Require-Check -Id 'S04-BUILD-AUTHORITY-DESIGNATED' -Pass (-not [string]::IsNullOrEmpty($BuildAuthorityRef)) -Detail 'the build command sequence is not designated (Q-BUILD). Act section 2, the QE matrix and this script differ; see record section B3a. Execute and Preflight stop here until designated.'
-    $distPath = Join-Path $script:RepoFull 'dist'
-    $script:Facts.distPreexisted = (Test-Path -LiteralPath $distPath)
-    $buildStart = [DateTime]::UtcNow
-    $ci = Invoke-Capture -Name 'npm-ci' -FilePath $env:ComSpec -ArgList @('/d', '/c', 'npm', 'ci') -WorkDir $script:RepoFull
-    Require-Check -Id 'S04-NPM-CI' -Pass ($ci.Code -eq 0) -Detail ('npm ci code ' + $ci.Code + '; npm ci also runs the prepare script (package builds)')
-    $bd = Invoke-Capture -Name 'npm-run-build' -FilePath $env:ComSpec -ArgList @('/d', '/c', 'npm', 'run', 'build') -WorkDir $script:RepoFull
-    Require-Check -Id 'S04-BUILD' -Pass ($bd.Code -eq 0) -Detail ('npm run build code ' + $bd.Code + ' (tsc, vite to dist-frontend, package builds)')
-    $entryFull = Join-Path $script:RepoFull $EntryRelative
-    Require-Check -Id 'S04-ENTRY' -Pass (Test-Path -LiteralPath $entryFull -PathType Leaf) -Detail ('entry present at ' + $EntryRelative)
-    # Relative-import closure of the entry file. Every closure file must exist and must have been written at or after this build's start.
-    $closureFiles = New-Object System.Collections.ArrayList
-    $closureSeen = @{}
-    $closureMissing = New-Object System.Collections.ArrayList
-    $closureStale = New-Object System.Collections.ArrayList
-    [void]$closureFiles.Add($entryFull)
-    $closureSeen[$entryFull] = $true
-    $cursorIdx = 0
-    while ($cursorIdx -lt $closureFiles.Count) {
-        $file = [string]$closureFiles[$cursorIdx]
-        $cursorIdx = $cursorIdx + 1
-        if (-not (Test-Path -LiteralPath $file -PathType Leaf)) { [void]$closureMissing.Add($file) }
-        if (Test-Path -LiteralPath $file -PathType Leaf) {
-            if ((Get-Item -LiteralPath $file).LastWriteTimeUtc -lt $buildStart) { [void]$closureStale.Add($file) }
-            $text = [IO.File]::ReadAllText($file)
-            $dirName = [IO.Path]::GetDirectoryName($file)
-            foreach ($m in [regex]::Matches($text, '[''"](\.{1,2}/[^''"]+)[''"]')) {
-                $target = [IO.Path]::GetFullPath((Join-Path $dirName ($m.Groups[1].Value -replace '/', '\')))
-                if (-not $closureSeen.ContainsKey($target)) {
-                    $closureSeen[$target] = $true
-                    [void]$closureFiles.Add($target)
-                }
-            }
-        }
-    }
-    $closureLines = @()
-    foreach ($cf in $closureFiles) {
-        if (Test-Path -LiteralPath $cf -PathType Leaf) {
-            $closureLines += ((Get-FileHash -Algorithm SHA256 -LiteralPath $cf).Hash + '  ' + $cf.Substring($script:RepoFull.Length + 1) + '  mtimeUtc=' + (Get-Item -LiteralPath $cf).LastWriteTimeUtc.ToString('o'))
-        }
-    }
-    $script:ClosureRecord = ($closureLines -join "`r`n")
-    Write-RawFile -Path (Join-Path $script:RunDir 'entry-closure-sha256.txt') -Text ($script:ClosureRecord + "`r`n")
-    $script:Facts.entryClosureCount = $closureFiles.Count
-    Require-Check -Id 'S04-CLOSURE-PRESENT' -Pass ($closureMissing.Count -eq 0) -Detail ('closure files = ' + $closureFiles.Count + '; missing = ' + ($closureMissing -join ', '))
-    Require-Check -Id 'S04-CLOSURE-EMITTED-THIS-BUILD' -Pass ($closureStale.Count -eq 0) -Detail ('closure files older than build start ' + $buildStart.ToString('o') + ' = ' + ($closureStale -join ', '))
-    # Emitted migration identity: a read-only Node probe imports the built validator and ledger modules (no database opened).
-    # The ledger module path is inferred from the pinned source layout (src/persistence/migration_ledger.ts); it is checked
-    # here by presence only, as an explicit named stop before the probe runs.
-    $ledgerEmitted = Join-Path $script:RepoFull 'dist\src\persistence\migration_ledger.js'
-    Require-Check -Id 'S04-EMITTED-LEDGER-MODULE' -Pass (Test-Path -LiteralPath $ledgerEmitted -PathType Leaf) -Detail ('emitted module ' + $ledgerEmitted + ' must exist (presence check only; path inferred from the pinned source layout)')
-    $migProbe = Join-Path $script:RunDir ('probe-migrations-' + [guid]::NewGuid().ToString('N') + '.mjs')
-    Write-RawFile -Path $migProbe -Text ("import { pathToFileURL } from 'node:url';`nimport { join } from 'node:path';`nconst root = process.argv[2];`nconst v = await import(pathToFileURL(join(root, 'src', 'persistence', 'gateAPrimeValidation.js')).href);`nconst l = await import(pathToFileURL(join(root, 'src', 'persistence', 'migration_ledger.js')).href);`nconsole.log(JSON.stringify(v.GATE3_MIGRATIONS.map((m) => ({ id: m.id, sha256: l.migrationChecksum(m) }))));`n")
-    $mp = Invoke-Capture -Name 'emitted-migrations' -FilePath 'node' -ArgList @($migProbe, (Join-Path $script:RepoFull 'dist')) -WorkDir $script:RunDir
-    $emittedOk = $false
-    if ($mp.Code -eq 0) {
-        $emitted = Read-JsonText -Text $mp.StdOut -Label 'emitted migrations'
-        $emittedList = @($emitted)
-        $emittedOk = ($emittedList.Count -eq $ExpectedMigrations.Count)
-        for ($i = 0; $i -lt $ExpectedMigrations.Count; $i++) {
-            if ($emittedOk) {
-                $e = $emittedList[$i]
-                $x = $ExpectedMigrations[$i]
-                if ((-not ([string](Get-Prop -Obj $e -Name 'id') -ceq $x.Id)) -or (-not ([string](Get-Prop -Obj $e -Name 'sha256') -ceq $x.Sha256))) { $emittedOk = $false }
-            }
-        }
-    }
-    Require-Check -Id 'S04-EMITTED-MIGRATIONS' -Pass $emittedOk -Detail 'emitted GATE3_MIGRATIONS ids and migrationChecksum values equal the pinned expected list (001-004, SHA-256 of migration SQL)'
-    $script:Facts.entrySha256 = (Get-FileHash -Algorithm SHA256 -LiteralPath $entryFull).Hash
-    $statusAfterBuild = (Invoke-Git -GitArgs @('status', '--porcelain', '--untracked-files=all')).StdOut
-    Require-Check -Id 'S04-CLEAN-AFTER-BUILD' -Pass ($statusAfterBuild.Trim() -eq '') -Detail 'build must not dirty the tracked or untracked tree'
-    $ignoredOut = (Invoke-Git -GitArgs @('status', '--porcelain', '--ignored=traditional')).StdOut
-    $unexpectedIgnored = @()
-    foreach ($line in ($ignoredOut -split "`n")) {
-        if ($line.StartsWith('!! ')) {
-            $ip = $line.Substring(3).Trim()
-            if (-not (@('node_modules/', 'dist/', 'dist-frontend/') -contains $ip)) { $unexpectedIgnored += $ip }
-        }
-    }
-    Require-Check -Id 'S04-IGNORED-ONLY-BUILD-OUTPUT' -Pass ($unexpectedIgnored.Count -eq 0) -Detail ('ignored entries outside node_modules/, dist/, dist-frontend/ = ' + ($unexpectedIgnored -join ', '))
+function Get-Sha256Hex {
+    param([byte[]] $Bytes)
+    $sha = [System.Security.Cryptography.SHA256]::Create()
+    try { return ([BitConverter]::ToString($sha.ComputeHash($Bytes))).Replace('-', '') }
+    finally { $sha.Dispose() }
 }
 
-function Get-ClosureRecordNow {
-    # Recomputes the closure hash lines (for the pre-invocation comparison with the S04 record).
-    $lines = @()
-    foreach ($line in ($script:ClosureRecord -split "`r`n")) {
-        if ($line.Trim() -ne '') {
-            $path = ($line -split '  ')[1]
-            $full = Join-Path $script:RepoFull $path
-            $lines += ((Get-FileHash -Algorithm SHA256 -LiteralPath $full).Hash + '  ' + $path)
+function Get-Sha256EolCandidates {
+    param([byte[]] $Bytes)
+    $text = [System.Text.Encoding]::UTF8.GetString($Bytes)
+    $lfText = $text.Replace("`r`n", "`n").Replace("`r", "`n")
+    $crlfText = $lfText.Replace("`n", "`r`n")
+    $values = @((Get-Sha256Hex -Bytes $Bytes),
+                (Get-Sha256Hex -Bytes ([System.Text.Encoding]::UTF8.GetBytes($lfText))),
+                (Get-Sha256Hex -Bytes ([System.Text.Encoding]::UTF8.GetBytes($crlfText))))
+    return @($values | Select-Object -Unique)
+}
+
+function Get-S2EvidenceFingerprint {
+    # Read-only fingerprint used both at S04 and immediately before the one invocation.
+    $root = Join-Path $script:IrrRoot $S2EvidenceRelative
+    if (-not (Test-Path -LiteralPath $root -PathType Container)) { throw 'PA-06-admitted S2 evidence folder is missing from IRR' }
+    $paths = @($root, (Join-Path $script:IrrRoot 'evidence\cap03-s2\s2-a891802e-20261028T192516Z.seal-recheck.txt'),
+        (Join-Path $script:IrrRoot 'evidence\cap03-s2\deposit-host-hashes.txt'))
+    $parts = New-Object System.Collections.ArrayList
+    foreach ($base in $paths) {
+        if (Test-Path -LiteralPath $base -PathType Container) {
+            foreach ($f in (Get-ChildItem -LiteralPath $base -File -Force | Sort-Object Name)) {
+                [void]$parts.Add(($f.FullName.Substring($script:IrrRoot.Length + 1) + '  ' + (Get-FileHash -Algorithm SHA256 -LiteralPath $f.FullName).Hash))
+            }
+        } elseif (Test-Path -LiteralPath $base -PathType Leaf) {
+            [void]$parts.Add(($base.Substring($script:IrrRoot.Length + 1) + '  ' + (Get-FileHash -Algorithm SHA256 -LiteralPath $base).Hash))
+        } else { throw ('required admitted S2 evidence companion is missing: ' + $base) }
+    }
+    $joined = (@($parts) -join "`n")
+    return (Get-Sha256Hex -Bytes ([System.Text.Encoding]::UTF8.GetBytes($joined)))
+}
+
+function Invoke-AdmittedS2EvidenceCheck {
+    # S04 consumes IRR-held, PA-06-admitted records without invoking npm/node or creating probes. During the
+    # authorized run it separately reads an existing pinned-checkout dist for exact hash comparison only; it does not
+    # create, repair or write IPD outputs. Missing retained S2 distribution bytes are not reconstructed or inferred.
+    $root = Join-Path $script:IrrRoot $S2EvidenceRelative
+    $s2EvidenceReparse = @(Get-ReparseHits -Chain (Get-AncestorChain -Path $root -IncludeSelf $true))
+    Require-Check -Id 'S04-S2-NO-REPARSE-IN-CHAIN' -Pass ($s2EvidenceReparse.Count -eq 0) -Detail ('reparse points at or above the IRR-held admitted S2 evidence folder=' + ($s2EvidenceReparse -join ', '))
+    $manifestPath = Join-Path $root 'MANIFEST.json'
+    $resultPath = Join-Path $root 'RESULT.txt'
+    $sealPath = Join-Path $root 'SHA256SUMS.txt'
+    $hostHashesPath = Join-Path $script:IrrRoot 'evidence\cap03-s2\deposit-host-hashes.txt'
+    $transcriptPath = Join-Path $script:IrrRoot ('evidence\cap03-s2\' + $S2RunId + '.seal-recheck.txt')
+    $authorityPath = Join-Path $script:IrrRoot $P1FPath
+
+    Require-Check -Id 'S04-S2-AUTHORITY' -Pass ((Test-Path -LiteralPath $authorityPath -PathType Leaf) -and (([IO.File]::ReadAllText($authorityPath)).Contains('ADMITTED as L2a evidence for the P-1 chain')) -and (([IO.File]::ReadAllText($authorityPath)).Contains($S2RunId))) -Detail ('P1-F record explicitly cites PA-06 admission of ' + $S2RunId + ' as L2a; not Gate 4 admission')
+    Require-Check -Id 'S04-S2-FOLDER' -Pass (Test-Path -LiteralPath $root -PathType Container) -Detail ('IRR-held evidence folder ' + $S2EvidenceRelative)
+
+    $entries = @(Get-ChildItem -LiteralPath $root -Force)
+    $dirs = @($entries | Where-Object { $_.PSIsContainer })
+    $evidenceFileReparse = @($entries | Where-Object { (-not $_.PSIsContainer) -and (($_.Attributes -band [IO.FileAttributes]::ReparsePoint) -ne 0) } | ForEach-Object { $_.FullName })
+    Require-Check -Id 'S04-S2-NO-REPARSE-FILES' -Pass ($evidenceFileReparse.Count -eq 0) -Detail ('reparse-point files in admitted evidence folder=' + ($evidenceFileReparse -join ', '))
+    $files = @($entries | Where-Object { -not $_.PSIsContainer } | ForEach-Object { [string]$_.Name })
+    $sealText = [IO.File]::ReadAllText($sealPath)
+    $sealMap = @{}
+    $malformed = @()
+    foreach ($line in ($sealText -split "`r?`n" | Where-Object { $_ -ne '' })) {
+        $m = [regex]::Match($line, '^([0-9A-Fa-f]{64})  ([^\\/:*?"<>|\r\n]+)$')
+        if (-not $m.Success) { $malformed += $line }
+        elseif ($sealMap.ContainsKey($m.Groups[2].Value)) { $malformed += ('duplicate ' + $m.Groups[2].Value) }
+        else { $sealMap[$m.Groups[2].Value] = $m.Groups[1].Value.ToUpperInvariant() }
+    }
+    $expectedNames = @($sealMap.Keys) + @('SHA256SUMS.txt')
+    $expectedNames = @($expectedNames | Sort-Object)
+    $actualNames = @($files | Sort-Object)
+    $namesOk = (($dirs.Count -eq 0) -and ($malformed.Count -eq 0) -and ($sealMap.Count -eq 16) -and (($actualNames -join '|') -ceq ($expectedNames -join '|')))
+    Require-Check -Id 'S04-S2-COMPLETE-INVENTORY' -Pass $namesOk -Detail ('direct files=' + $files.Count + '; sealed entries=' + $sealMap.Count + '; subdirectories=' + $dirs.Count + '; malformed/duplicate=' + $malformed.Count)
+
+    $sealHashes = Get-Sha256EolCandidates -Bytes ([IO.File]::ReadAllBytes($sealPath))
+    Require-Check -Id 'S04-S2-SEAL-IDENTITY' -Pass ($sealHashes -contains $S2SealSha256) -Detail ('seal SHA-256 must match the recorded host seal ' + $S2SealSha256)
+    $badFiles = @()
+    foreach ($name in $sealMap.Keys) {
+        $filePath = Join-Path $root $name
+        if (-not (Test-Path -LiteralPath $filePath -PathType Leaf)) { $badFiles += ($name + ':missing'); continue }
+        $candidates = Get-Sha256EolCandidates -Bytes ([IO.File]::ReadAllBytes($filePath))
+        if ($candidates -notcontains [string]$sealMap[$name]) { $badFiles += ($name + ':digest') }
+    }
+    Require-Check -Id 'S04-S2-SEALED-FILES' -Pass ($badFiles.Count -eq 0) -Detail ('sealed file digest mismatches after exact/LF/CRLF representation checks = ' + ($badFiles -join ', '))
+
+    $manifest = Read-JsonText -Text ([IO.File]::ReadAllText($manifestPath)) -Label 'PA-06 S2 manifest'
+    $manifestArtifacts = @(Get-Prop -Obj $manifest -Name 'artifacts')
+    $manifestPaths = @($manifestArtifacts | ForEach-Object { [string](Get-Prop -Obj $_ -Name 'path') } | Sort-Object)
+    $manifestSealedNames = @($sealMap.Keys | Where-Object { $_ -cne 'MANIFEST.json' } | Sort-Object)
+    $manifestDigestBad = @()
+    foreach ($a in $manifestArtifacts) {
+        $path = [string](Get-Prop -Obj $a -Name 'path')
+        $digest = [string](Get-Prop -Obj $a -Name 'sha256')
+        if ((-not $sealMap.ContainsKey($path)) -or ($digest.ToUpperInvariant() -cne [string]$sealMap[$path])) { $manifestDigestBad += $path }
+    }
+    $manifestOk = (([string](Get-Prop -Obj $manifest -Name 'schema') -ceq 'IIPS-V3-CAP03-S2-RUN-MANIFEST-v1') -and
+        ([string](Get-Prop -Obj $manifest -Name 'node') -ceq 'v22.16.0') -and
+        ([string](Get-Prop -Obj $manifest -Name 'npm') -ceq '10.9.2') -and
+        ([string](Get-Prop -Obj (Get-Prop -Obj $manifest -Name 'host') -Name 'observed') -ceq $ExpectedHost) -and
+        ([string](Get-Prop -Obj $manifest -Name 'run_id') -ceq $S2RunId) -and
+        ([string](Get-Prop -Obj (Get-Prop -Obj $manifest -Name 'pin') -Name 'commit') -ceq $ExpectedCommit) -and
+        ([string](Get-Prop -Obj (Get-Prop -Obj $manifest -Name 'pin') -Name 'tree') -ceq $ExpectedTree) -and
+        ([string](Get-Prop -Obj (Get-Prop -Obj $manifest -Name 'observed') -Name 'head') -ceq $ExpectedCommit) -and
+        ([string](Get-Prop -Obj (Get-Prop -Obj $manifest -Name 'observed') -Name 'tree') -ceq $ExpectedTree) -and
+        ([string](Get-Prop -Obj $manifest -Name 'status') -ceq 'PASS') -and
+        (($manifestPaths -join '|') -ceq ($manifestSealedNames -join '|')) -and ($manifestDigestBad.Count -eq 0))
+    Require-Check -Id 'S04-S2-MANIFEST-IDENTITY' -Pass $manifestOk -Detail ('run, status, pin/tree and artifact list match the PA-06-admitted evidence folder; manifest entries=' + $manifestPaths.Count)
+
+    $result = [IO.File]::ReadAllText($resultPath)
+    $resultOk = ($result.Contains('STATUS: PASS') -and $result.Contains('RUN ID: ' + $S2RunId) -and
+        $result.Contains('PIN COMMIT: ' + $ExpectedCommit) -and $result.Contains('PIN TREE: ' + $ExpectedTree) -and
+        $result.Contains('OBSERVED HEAD (post-run): ' + $ExpectedCommit) -and $result.Contains('OBSERVED TREE (post-run): ' + $ExpectedTree) -and
+        $result.Contains('DIST FILE COUNT: 1140') -and $result.Contains('GUARD EXECUTED: 930') -and
+        $result.Contains('GUARD PASSED: 926') -and $result.Contains('PACK SHASUM: cc2aa70186b8fd7bc7255452ac8d8b00d094f53e'))
+    Require-Check -Id 'S04-S2-RESULT-IDENTITY' -Pass $resultOk -Detail 'RESULT.txt PASS, run identity, exact pins, 1,140 distribution count and guard totals'
+
+    $ciText = [IO.File]::ReadAllText((Join-Path $root '02-npm-ci.txt'))
+    $tscText = [IO.File]::ReadAllText((Join-Path $root '03-tsc-noemit.txt'))
+    $buildText = [IO.File]::ReadAllText((Join-Path $root '04-build.txt'))
+    $testSummary = [IO.File]::ReadAllText((Join-Path $root '05b-test-summary.txt'))
+    $consumer = [IO.File]::ReadAllText((Join-Path $root '06-package-consumer.txt'))
+    $installOk = ($ciText.Contains('Command:') -and $ciText.Contains('npm.cmd ci --no-audit --no-fund') -and $ciText.Contains('RETURN CODE: 0'))
+    $typecheckOk = ($tscText.Contains('tsc --noEmit') -and $tscText.Contains('RETURN CODE: 0'))
+    $buildOk = ($buildText.Contains('npm.cmd run build') -and $buildText.Contains('RETURN CODE: 0'))
+    $testOk = ($testSummary.Contains('GUARD executed 930 passed 926') -and $testSummary.Contains('TAP tests 930 pass 926 fail 0 skipped 4') -and $testSummary.Contains('SKIPPED TESTS (expected: the four POSIX-only tests)'))
+    $consumerOk = ($consumer.Contains('"result": "PASS"') -and $consumer.Contains('"shasum": "cc2aa70186b8fd7bc7255452ac8d8b00d094f53e"') -and $consumer.Contains('RETURN CODE: 0'))
+    Require-Check -Id 'S04-S2-INSTALL-TYPECHECK-BUILD' -Pass ($installOk -and $typecheckOk -and $buildOk) -Detail ('admitted records report npm ci, tsc --noEmit and build exit 0; no command is run by S04')
+    Require-Check -Id 'S04-S2-TESTS' -Pass $testOk -Detail 'admitted test summary: 930 executed, 926 passed, 0 failed, 4 expected POSIX-only skips'
+    Require-Check -Id 'S04-S2-PACKAGE-CONSUMER' -Pass $consumerOk -Detail 'admitted isolated package-consumer result and pack shasum'
+
+    $distBeforePath = Join-Path $root 's2-04c-dist-sha256-before.txt'
+    $distAfterPath = Join-Path $root 's2-08b-dist-sha256-after.txt'
+    $distBefore = [IO.File]::ReadAllText($distBeforePath)
+    $distAfter = [IO.File]::ReadAllText($distAfterPath)
+    $distLines = @($distBefore -split "`r?`n" | Where-Object { $_ -ne '' })
+    $distAfterLines = @($distAfter -split "`r?`n" | Where-Object { $_ -ne '' })
+    $distHashes = @($distLines | Where-Object { $_ -match '^[0-9A-Fa-f]{64}  \\dist\\' })
+    $entryListed = @($distHashes | Where-Object { $_ -match '\\dist\\src\\persistence\\gateAPrimeProvisioning\.js  *$' }).Count -eq 1
+    $ledgerListed = @($distHashes | Where-Object { $_ -match '\\dist\\src\\persistence\\migration_ledger\.js  *$' }).Count -eq 1
+    $validatorListed = @($distHashes | Where-Object { $_ -match '\\dist\\src\\persistence\\gateAPrimeValidation\.js  *$' }).Count -eq 1
+    $distOk = (($distLines.Count -eq 1140) -and ($distAfterLines.Count -eq 1140) -and
+        (($distBefore -replace "`r`n", "`n") -ceq ($distAfter -replace "`r`n", "`n")) -and
+        ($distHashes.Count -eq 1140) -and $entryListed -and $ledgerListed -and $validatorListed)
+    Require-Check -Id 'S04-S2-DIST-INVENTORY' -Pass $distOk -Detail ('admitted before/after hash inventories both have 1,140 identical entries and list provisioning, validator and migration-ledger emitted filenames; emitted bytes are not retained in IRR')
+
+    # Read-only local distribution match. This never creates or rebuilds dist; it refuses if the pinned checkout does
+    # not already contain the exact file set and hashes recorded by PA-06's admitted S2 build.
+    $distRoot = [System.IO.Path]::GetFullPath((Join-Path $script:RepoFull 'dist'))
+    $expectedDistMap = @{}
+    $distInventoryMalformed = @()
+    foreach ($line in $distLines) {
+        $dm = [regex]::Match($line, '^([0-9A-Fa-f]{64})  (\\dist\\.+)$')
+        if (-not $dm.Success) { $distInventoryMalformed += $line }
+        elseif ($expectedDistMap.ContainsKey($dm.Groups[2].Value)) { $distInventoryMalformed += ('duplicate ' + $dm.Groups[2].Value) }
+        else { $expectedDistMap[$dm.Groups[2].Value] = $dm.Groups[1].Value.ToUpperInvariant() }
+    }
+    $localDistMap = @{}
+    $distReparse = @()
+    $distRootExists = Test-Path -LiteralPath $distRoot -PathType Container
+    if ($distRootExists) {
+        if (((Get-Item -LiteralPath $distRoot -Force).Attributes -band [IO.FileAttributes]::ReparsePoint) -ne 0) { $distReparse += $distRoot }
+        $distEntries = @(Get-ChildItem -LiteralPath $distRoot -Recurse -Force)
+        foreach ($entry in $distEntries) {
+            if (($entry.Attributes -band [IO.FileAttributes]::ReparsePoint) -ne 0) { $distReparse += $entry.FullName }
+        }
+        $localDistFiles = @($distEntries | Where-Object { -not $_.PSIsContainer })
+        foreach ($f in $localDistFiles) {
+            $relative = $f.FullName.Substring($distRoot.Length).TrimStart('\')
+            $encoded = ('\dist\' + $relative)
+            if ($localDistMap.ContainsKey($encoded)) { $distReparse += ('duplicate local path ' + $encoded) }
+            else { $localDistMap[$encoded] = (Get-FileHash -Algorithm SHA256 -LiteralPath $f.FullName).Hash.ToUpperInvariant() }
         }
     }
-    return @($lines)
+    $distIdentityBad = @($distInventoryMalformed)
+    foreach ($key in $expectedDistMap.Keys) {
+        if ((-not $localDistMap.ContainsKey($key)) -or ([string]$localDistMap[$key] -cne [string]$expectedDistMap[$key])) { $distIdentityBad += ('missing/hash mismatch ' + $key) }
+    }
+    foreach ($key in $localDistMap.Keys) {
+        if (-not $expectedDistMap.ContainsKey($key)) { $distIdentityBad += ('unexpected ' + $key) }
+    }
+    $currentDistMatches = ($distRootExists -and ($distReparse.Count -eq 0) -and ($expectedDistMap.Count -eq 1140) -and ($localDistMap.Count -eq 1140) -and ($distIdentityBad.Count -eq 0))
+    Require-Check -Id 'S04-CURRENT-DIST-ADMITTED-MATCH' -Pass $currentDistMatches -Detail ('read-only exact file/hash comparison to PA-06 S2; expected=' + $expectedDistMap.Count + '; local=' + $localDistMap.Count + '; reparse=' + $distReparse.Count + '; mismatches=' + $distIdentityBad.Count + '; S04 does not build or repair dist')
+    $distFingerprintLines = @($localDistMap.Keys | Sort-Object | ForEach-Object { [string]$_ + '  ' + [string]$localDistMap[$_] })
+    $script:Facts.currentDistFingerprint = Get-Sha256Hex -Bytes ([System.Text.Encoding]::UTF8.GetBytes(($distFingerprintLines -join "`n")))
+
+    $hostHashesBytes = [IO.File]::ReadAllBytes($hostHashesPath)
+    $hostHashes = [System.Text.Encoding]::UTF8.GetString($hostHashesBytes)
+    $hostHashCandidates = Get-Sha256EolCandidates -Bytes $hostHashesBytes
+    $transcriptBytes = [IO.File]::ReadAllBytes($transcriptPath)
+    $transcript = [System.Text.Encoding]::UTF8.GetString($transcriptBytes)
+    $transcriptHashes = Get-Sha256EolCandidates -Bytes $transcriptBytes
+    $transcriptOkLines = [regex]::Matches($transcript, '(?m)^OK\s+\S+$').Count
+    $sealTranscriptOk = ($transcript.Contains('Status sealed: PASS') -and $transcript.Contains('Recheck 1 issues: 0') -and $transcript.Contains('Recheck 2 issues (published folder): 0') -and $transcript.Contains('Final status: PASS') -and $transcript.Contains('Evidence record published: yes') -and ($transcriptOkLines -eq 32))
+    $hostHashMap = @{}
+    $hostHashBad = @()
+    foreach ($line in ($hostHashes -split "`r?`n")) {
+        $hm = [regex]::Match($line, '^([0-9A-Fa-f]{64})  (.+?)  bytes=([0-9]+)')
+        if ($hm.Success) {
+            $name = $hm.Groups[2].Value
+            if ($hostHashMap.ContainsKey($name)) { $hostHashBad += ('duplicate ' + $name) }
+            else { $hostHashMap[$name] = $hm.Groups[1].Value.ToUpperInvariant() }
+        }
+    }
+    foreach ($name in $sealMap.Keys) {
+        if ((-not $hostHashMap.ContainsKey($name)) -or ([string]$hostHashMap[$name] -cne [string]$sealMap[$name])) { $hostHashBad += ('seal/deposit mismatch ' + $name) }
+    }
+    if ((-not $hostHashMap.ContainsKey('SHA256SUMS.txt')) -or ([string]$hostHashMap['SHA256SUMS.txt'] -cne $S2SealSha256)) { $hostHashBad += 'deposit seal identity' }
+    $hostHashesIdentityOk = ($hostHashCandidates -contains $S2DepositHashesSha256)
+    $transcriptIdentityOk = ($transcriptHashes -contains $S2TranscriptSha256) -and $hostHashMap.ContainsKey(($S2RunId + '.seal-recheck.txt')) -and ([string]$hostHashMap[($S2RunId + '.seal-recheck.txt')] -ceq $S2TranscriptSha256)
+    $hostSealOk = $hostHashes.Contains(($S2SealSha256.ToLowerInvariant() + '  SHA256SUMS.txt'))
+    Require-Check -Id 'S04-S2-PUBLICATION-RECORD' -Pass ($sealTranscriptOk -and $hostSealOk -and $hostHashesIdentityOk -and $transcriptIdentityOk -and ($hostHashBad.Count -eq 0)) -Detail ('host-deposit record, all seal entries, and 16/16 twice-rechecked publication transcript agree; mismatches=' + ($hostHashBad -join ', '))
+
+    $script:S2EvidenceFingerprint = Get-S2EvidenceFingerprint
+    $script:Facts.s2EvidenceFingerprint = $script:S2EvidenceFingerprint
+    $script:Facts.s2EvidenceRoot = $S2EvidenceRelative
+    $script:Facts.s2AdmittedAs = 'L2a only under PA-06; not Gate 4 S2'
+    $script:Facts.s2BuildRecords = 'Historical admitted S2 records report PASS; not a current run or U-5 PASS'
+    $script:Facts.currentDistMatchesAdmittedS2 = [bool]$currentDistMatches
+    $script:Facts.u5Status = 'NOT RUN; WV-04 blocker waived; no IPD build or emitted probe performed'
+    $script:Facts.emittedEntryClosure = 'NOT RUN; exact import-closure probe is not implied by the hash-inventory comparison'
+    $script:Facts.emittedMigrationProbe = 'NOT RUN against emitted files; migration-related suite records are not equivalent'
+    Add-Check -Id 'S04' -Pass $true -Detail 'S04 consumed the complete PA-06-admitted S2 evidence records from IRR; it ran no install, build, probe, or IPD write'
 }
 
 function Invoke-PreStateValidate {
@@ -919,12 +976,15 @@ function Invoke-Freshness {
             }
         }
         foreach ($marker in $TrackerPointerMarkers) {
-            $basePtr = @($baseLines | Where-Object { $_.IndexOf($marker, [StringComparison]::Ordinal) -ge 0 })
-            if ($basePtr.Count -ne 1) { Stop-Gate 'TRACKER_POINTER_AMBIGUOUS' ('pointer marker "' + $marker + '" matches ' + $basePtr.Count + ' baseline lines; expected 1') }
-            if (-not $mainLines.Contains([string]$basePtr[0])) { [void]$pointerMissing.Add($marker) }
+            $mainPtr = @($mainLines | Where-Object { $_.IndexOf($marker, [StringComparison]::Ordinal) -ge 0 })
+            if ($mainPtr.Count -ne 1) {
+                [void]$pointerMissing.Add($marker + ' (current row count=' + $mainPtr.Count + ')')
+            } elseif ((([string]$mainPtr[0]).IndexOf($TrackerPointerRequiredText, [StringComparison]::Ordinal) -lt 0) -or ([string]$mainPtr[0] -notmatch '(?i)NOT EXECUTED.*UNSPENT')) {
+                [void]$pointerMissing.Add($marker + ' (current P-1 status text differs)')
+            }
         }
     }
-    Require-Check -Id 'F-TRACKER-POINTER-IDENTITY' -Pass ($pointerMissing.Count -eq 0) -Detail ('pointer rows unchanged at origin/main: markers changed or removed = ' + ($pointerMissing -join '; ') + ' (identity only; does not prove absence of an unrecorded revocation)')
+    Require-Check -Id 'F-TRACKER-POINTER-IDENTITY' -Pass ($pointerMissing.Count -eq 0) -Detail ('current pointer rows match this revision at origin/main: missing/mismatched = ' + ($pointerMissing -join '; ') + ' (identity only; does not prove absence of an unrecorded revocation)')
     Require-Check -Id 'F-TRACKER-ADDED-P1-LINES' -Pass ($trackerAddedHits.Count -eq 0) -Detail ('tracker lines added since baseline that name P-1 with a consumption, revocation or failure term = ' + $trackerAddedHits.Count)
     $p1Named = @()
     foreach ($entry in $changed) {
@@ -952,93 +1012,37 @@ function Invoke-Freshness {
     Add-Check -Id 'F-SUMMARY' -Pass $true -Detail ('P1-F, PF-15, IPD pin tree, tracker pointer and tracker-addition checks pass; ' + $changed.Count + ' changed paths since baseline, none P-1-named outside the review artifacts')
 }
 
-function Test-AcceptanceAndPreflight {
-    # S00 (Execute only): the acceptance file must bind a sealed preflight run of THIS script, and that run must have passed.
-    $accFull = [System.IO.Path]::GetFullPath($AcceptanceFile)
-    Require-Check -Id 'S00-ACCEPTANCE-PRESENT' -Pass (Test-Path -LiteralPath $accFull -PathType Leaf) -Detail 'AcceptanceFile must exist (reviewed preflight acceptance)'
-    Require-Check -Id 'S00-ACCEPTANCE-OUTSIDE-REPO' -Pass (-not $accFull.StartsWith($script:RepoFull + '\', [StringComparison]::OrdinalIgnoreCase)) -Detail 'AcceptanceFile must be outside the IPD checkout'
-    $script:AcceptanceSha256 = (Get-FileHash -Algorithm SHA256 -LiteralPath $accFull).Hash
-    $acc = Read-JsonText -Text ([IO.File]::ReadAllText($accFull)) -Label 'acceptance file'
-    Require-Check -Id 'S00-ACCEPTANCE-SCHEMA' -Pass ([string](Get-Prop -Obj $acc -Name 'schema') -ceq $AcceptanceSchema) -Detail ('acceptance schema must be ' + $AcceptanceSchema)
-    Require-Check -Id 'S00-ACCEPTANCE-DECISION' -Pass ([string](Get-Prop -Obj $acc -Name 'decision') -ceq 'ACCEPTED') -Detail 'acceptance decision must be ACCEPTED'
-    Require-Check -Id 'S00-ACCEPTANCE-SCRIPT-HASH' -Pass ([string](Get-Prop -Obj $acc -Name 'scriptSha256') -ieq $script:ScriptSha256) -Detail ('acceptance binds script SHA-256 ' + [string](Get-Prop -Obj $acc -Name 'scriptSha256') + '; this script is ' + $script:ScriptSha256)
-    Require-Check -Id 'S00-ACCEPTANCE-RULING' -Pass ([string](Get-Prop -Obj $acc -Name 'authorityRulingRef') -ceq [string]$AuthorityRulingRef) -Detail 'acceptance must cite the designated authority ruling'
-    Require-Check -Id 'S00-ACCEPTANCE-PINS' -Pass (([string](Get-Prop -Obj $acc -Name 'pinCommit') -ceq $ExpectedCommit) -and ([string](Get-Prop -Obj $acc -Name 'pinTree') -ceq $ExpectedTree)) -Detail 'acceptance must bind the pinned commit and tree'
-    Require-Check -Id 'S00-ACCEPTANCE-STORE-EVIDENCE' -Pass (([string](Get-Prop -Obj $acc -Name 'storePath') -ceq $StorePath) -and ([string](Get-Prop -Obj $acc -Name 'evidenceRoot') -ceq $script:Facts.evidenceRoot)) -Detail 'acceptance must bind the store path and the evidence root'
-    Require-Check -Id 'S00-ACCEPTANCE-REVIEWER' -Pass ((-not [string]::IsNullOrEmpty([string](Get-Prop -Obj $acc -Name 'reviewer'))) -and (-not [string]::IsNullOrEmpty([string](Get-Prop -Obj $acc -Name 'reviewedUtc')))) -Detail 'acceptance must name a reviewer and a UTC review time'
-    $prename = [string](Get-Prop -Obj $acc -Name 'preflightRunDirectory')
-    Require-Check -Id 'S00-ACCEPTANCE-PREFLIGHT-NAME' -Pass ($prename -cmatch '^p1-pre-\d{8}T\d{9}Z-[0-9a-f]{8}$') -Detail ('preflight run directory name must match the pattern; given ' + $prename)
-    $preDir = Join-Path $script:Facts.evidenceRoot $prename
-    Require-Check -Id 'S00-PREFLIGHT-DIR' -Pass (Test-Path -LiteralPath $preDir -PathType Container) -Detail 'the named preflight run directory must exist directly under the evidence root'
-    $preItem = Get-Item -LiteralPath $preDir -Force
-    Require-Check -Id 'S00-PREFLIGHT-DIR-DIRECT-CHILD' -Pass ([System.IO.Path]::GetDirectoryName($preItem.FullName) -ieq $script:Facts.evidenceRoot) -Detail 'the preflight directory must be a direct child of the canonical evidence root'
-    Require-Check -Id 'S00-PREFLIGHT-DIR-NOT-REPARSE' -Pass (($preItem.Attributes -band [IO.FileAttributes]::ReparsePoint) -eq 0) -Detail 'the preflight directory must not be a reparse point'
-    $preEntries = @(Get-ChildItem -LiteralPath $preDir -Force)
-    $preSubdirs = @($preEntries | Where-Object { $_.PSIsContainer } | ForEach-Object { [string]$_.Name })
-    Require-Check -Id 'S00-PREFLIGHT-NO-SUBDIRECTORY' -Pass ($preSubdirs.Count -eq 0) -Detail ('subdirectories in the preflight directory = ' + ($preSubdirs -join ', ') + '; a sealed preflight directory is flat')
-    $preReparse = @($preEntries | Where-Object { ($_.Attributes -band [IO.FileAttributes]::ReparsePoint) -ne 0 } | ForEach-Object { [string]$_.Name })
-    Require-Check -Id 'S00-PREFLIGHT-NO-REPARSE-ENTRY' -Pass ($preReparse.Count -eq 0) -Detail ('reparse-point entries in the preflight directory = ' + ($preReparse -join ', '))
-    $sumPath = Join-Path $preDir 'SHA256SUMS.txt'
-    Require-Check -Id 'S00-PREFLIGHT-SEALED' -Pass (Test-Path -LiteralPath $sumPath -PathType Leaf) -Detail 'the preflight run must be sealed (SHA256SUMS.txt, a regular file)'
-    $sumText = [IO.File]::ReadAllText($sumPath)
-    $sumLines = @($sumText -split "`r?`n" | Where-Object { $_ -ne '' })
-    $listed = @{}
-    $listedOrder = @()
-    $malformed = @()
-    $dupes = @()
-    foreach ($line in $sumLines) {
-        $m = [regex]::Match($line, '^([0-9A-F]{64})  ([^\\/:*?"<>|\r\n]+)$')
-        if (-not $m.Success) { $malformed += $line }
-        if ($m.Success) {
-            $n = $m.Groups[2].Value
-            if ($listed.ContainsKey($n)) { $dupes += $n }
-            if (-not $listed.ContainsKey($n)) {
-                $listed[$n] = $m.Groups[1].Value
-                $listedOrder += $n
-            }
-        }
-    }
-    Require-Check -Id 'S00-PREFLIGHT-SEAL-WELLFORMED' -Pass (($malformed.Count -eq 0) -and ($dupes.Count -eq 0) -and ($listedOrder -notcontains 'SHA256SUMS.txt')) -Detail ('seal lines = ' + $sumLines.Count + '; malformed = ' + $malformed.Count + '; duplicate names = ' + ($dupes -join ', ') + '; the seal must not list itself')
-    $actualNames = @($preEntries | Where-Object { -not $_.PSIsContainer } | ForEach-Object { [string]$_.Name } | Where-Object { $_ -cne 'SHA256SUMS.txt' })
-    $missing = @($listedOrder | Where-Object { $actualNames -notcontains $_ })
-    $unexpected = @($actualNames | Where-Object { $listedOrder -notcontains $_ })
-    Require-Check -Id 'S00-PREFLIGHT-SEAL-SET' -Pass (($missing.Count -eq 0) -and ($unexpected.Count -eq 0)) -Detail ('sealed but missing = ' + ($missing -join ', ') + '; present but unsealed = ' + ($unexpected -join ', '))
-    $sealBad = @()
-    foreach ($n in $listedOrder) {
-        $fp = Join-Path $preDir $n
-        $isReparse = (((Get-Item -LiteralPath $fp -Force).Attributes -band [IO.FileAttributes]::ReparsePoint) -ne 0)
-        if ($isReparse) { $sealBad += ($n + ' (reparse point)') }
-        if (-not $isReparse) {
-            $h = (Get-FileHash -Algorithm SHA256 -LiteralPath $fp).Hash
-            if ($h -cne [string]$listed[$n]) { $sealBad += $n }
-        }
-    }
-    Require-Check -Id 'S00-PREFLIGHT-SEAL-HASHES' -Pass ($sealBad.Count -eq 0) -Detail ('sealed file hash mismatches = ' + ($sealBad -join ', ') + '; every listed entry is hashed, uppercase hex compared exactly')
-    $preSummaryPath = Join-Path $preDir 'run-summary.json'
-    Require-Check -Id 'S00-PREFLIGHT-SUMMARY-HASH' -Pass ((Get-FileHash -Algorithm SHA256 -LiteralPath $preSummaryPath).Hash -ieq [string](Get-Prop -Obj $acc -Name 'preflightSummarySha256')) -Detail 'acceptance must bind the SHA-256 of the preflight run-summary.json'
-    $pre = Read-JsonText -Text ([IO.File]::ReadAllText($preSummaryPath)) -Label 'preflight run-summary'
-    Require-Check -Id 'S00-PREFLIGHT-MODE' -Pass (([string](Get-Prop -Obj $pre -Name 'mode') -ceq 'Preflight') -and ([string](Get-Prop -Obj $pre -Name 'outcome') -ceq 'PREFLIGHT_PASSED_NOT_EXECUTED')) -Detail 'preflight run must be Mode Preflight with outcome PREFLIGHT_PASSED_NOT_EXECUTED'
-    Require-Check -Id 'S00-PREFLIGHT-NO-INVOCATION' -Pass (([int](Get-Prop -Obj $pre -Name 'executeCalls') -eq 0) -and (-not [bool](Get-Prop -Obj $pre -Name 'executeMarkerWritten'))) -Detail 'preflight run must show zero execute calls and no marker'
-    Require-Check -Id 'S00-PREFLIGHT-SAME-SCRIPT' -Pass ([string](Get-Prop -Obj $pre -Name 'scriptSha256') -ieq $script:ScriptSha256) -Detail 'preflight run must be made by this exact script (SHA-256)'
-    Require-Check -Id 'S00-PREFLIGHT-SAME-STORE-EVIDENCE' -Pass (([string](Get-Prop -Obj $pre -Name 'storePath') -ceq $StorePath) -and ([string](Get-Prop -Obj $pre -Name 'evidenceRoot') -ceq $script:Facts.evidenceRoot)) -Detail 'preflight run must have used the same store path and evidence root'
-    $preChecks = @(Get-Prop -Obj $pre -Name 'checks')
-    $preFail = @($preChecks | Where-Object { -not [bool](Get-Prop -Obj $_ -Name 'Pass') })
-    Require-Check -Id 'S00-PREFLIGHT-ALL-CHECKS-PASS' -Pass (($preChecks.Count -gt 0) -and ($preFail.Count -eq 0)) -Detail ('preflight checks = ' + $preChecks.Count + '; failing = ' + $preFail.Count)
-}
-
 function Invoke-PreInvocationRecheck {
     # Immediately before the marker. Repeats every stage check that can change, including canonical evidence-root
-    # containment and the execute claim. Creates no probe (ProbeAllowed false), runs no build, writes no marker.
+    # containment and the execute claim. Runs no build or probe and writes no marker.
     Require-Check -Id 'R-SCRIPT-UNCHANGED' -Pass ((Get-FileHash -Algorithm SHA256 -LiteralPath $script:ScriptPath).Hash -ceq $script:ScriptSha256) -Detail 'the script bytes are unchanged since S00'
-    Require-Check -Id 'R-ACCEPTANCE-UNCHANGED' -Pass ((Get-FileHash -Algorithm SHA256 -LiteralPath $AcceptanceFile).Hash -ceq $script:AcceptanceSha256) -Detail 'the acceptance file is unchanged since S00'
     Invoke-HostAndRuntime
     Invoke-GitPin
     Invoke-EvidencePlacement
-    Invoke-StorePlacement -ProbeAllowed $false
-    $now = @(Get-ClosureRecordNow)
-    $then = @($script:ClosureRecord -split "`r`n" | Where-Object { $_.Trim() -ne '' } | ForEach-Object { (($_ -split '  ')[0] + '  ' + ($_ -split '  ')[1]) })
-    $nowCmp = @($now | ForEach-Object { ($_ -split '  ')[0] + '  ' + ($_ -split '  ')[1] })
-    Require-Check -Id 'R-CLOSURE-UNCHANGED' -Pass (($nowCmp -join '|') -ceq ($then -join '|')) -Detail ('entry closure hashes equal the S04 record; files = ' + $nowCmp.Count)
+    Invoke-StorePlacement
+    $liveS2Root = Join-Path $script:IrrRoot $S2EvidenceRelative
+    $liveS2Reparse = @(Get-ReparseHits -Chain (Get-AncestorChain -Path $liveS2Root -IncludeSelf $true))
+    Require-Check -Id 'R-S2-EVIDENCE-NO-REPARSE' -Pass ($liveS2Reparse.Count -eq 0) -Detail ('reparse points at or above admitted evidence folder=' + ($liveS2Reparse -join ', '))
+    $liveS2Entries = @(Get-ChildItem -LiteralPath $liveS2Root -Force)
+    $liveS2FileReparse = @($liveS2Entries | Where-Object { (-not $_.PSIsContainer) -and (($_.Attributes -band [IO.FileAttributes]::ReparsePoint) -ne 0) })
+    Require-Check -Id 'R-S2-EVIDENCE-NO-REPARSE-FILES' -Pass ($liveS2FileReparse.Count -eq 0) -Detail ('reparse-point evidence files=' + $liveS2FileReparse.Count)
+    $liveS2Fingerprint = Get-S2EvidenceFingerprint
+    Require-Check -Id 'R-S2-EVIDENCE-UNCHANGED' -Pass ($liveS2Fingerprint -ceq $script:S2EvidenceFingerprint) -Detail 'PA-06-admitted IRR evidence bytes are unchanged since S04'
+    $distRoot = [System.IO.Path]::GetFullPath((Join-Path $script:RepoFull 'dist'))
+    $liveDistEntries = @(Get-ChildItem -LiteralPath $distRoot -Recurse -Force)
+    $liveDistReparse = @($liveDistEntries | Where-Object { ($_.Attributes -band [IO.FileAttributes]::ReparsePoint) -ne 0 })
+    if (((Get-Item -LiteralPath $distRoot -Force).Attributes -band [IO.FileAttributes]::ReparsePoint) -ne 0) { $liveDistReparse += (Get-Item -LiteralPath $distRoot -Force) }
+    Require-Check -Id 'R-DIST-NO-REPARSE' -Pass ($liveDistReparse.Count -eq 0) -Detail ('reparse points in existing dist tree=' + $liveDistReparse.Count)
+    $liveDistFiles = @($liveDistEntries | Where-Object { -not $_.PSIsContainer })
+    $liveDistLines = @()
+    foreach ($f in $liveDistFiles) {
+        $relative = $f.FullName.Substring($distRoot.Length).TrimStart('\')
+        $encoded = ('\dist\' + $relative)
+        $liveDistLines += ($encoded + '  ' + (Get-FileHash -Algorithm SHA256 -LiteralPath $f.FullName).Hash.ToUpperInvariant())
+    }
+    $liveDistLines = @($liveDistLines | Sort-Object)
+    $liveDistFingerprint = Get-Sha256Hex -Bytes ([System.Text.Encoding]::UTF8.GetBytes(($liveDistLines -join "`n")))
+    Require-Check -Id 'R-CURRENT-DIST-UNCHANGED' -Pass ($liveDistFingerprint -ceq [string]$script:Facts.currentDistFingerprint) -Detail ('existing emitted distribution file set/hashes unchanged since S04; files=' + $liveDistFiles.Count)
     $liveExec = @(Get-ChildItem -LiteralPath $script:Facts.evidenceRoot -Directory -Filter 'p1-exe-*' | ForEach-Object { [string]$_.Name })
     Require-Check -Id 'R-NO-PRIOR-EXECUTE-RUN' -Pass (($liveExec.Count -eq 1) -and ($liveExec[0] -ceq $script:RunDirName)) -Detail ('p1-exe-* directories = ' + ($liveExec -join ', ') + '; required: exactly this run (' + $script:RunDirName + ')')
     Require-Check -Id 'R-CLAIM-HELD' -Pass ($script:ClaimAcquired -and (Test-Path -LiteralPath $script:ClaimPath -PathType Leaf)) -Detail 'the execute claim written by this run is still present'
@@ -1049,8 +1053,8 @@ function Invoke-ExecuteClaim {
     # Cross-process exclusion for Execute. The claim is created with FileMode.CreateNew (Write-RawFile), which is atomic:
     # of any number of concurrent Execute processes for one evidence root, at most one can create it. It is written after
     # every read-only check and before the run directory and the marker. Retention: no code in this script deletes it;
-    # it is retained on every outcome after acquisition. Release is a Program Authority act (Q-CONS). The claim does not
-    # declare P-1 consumed; the marker does (Q-CONS-3). Not excluded by this file: an attempt under another evidence root
+    # it is retained on every outcome after acquisition. Q-CONS-2 leaves any release authority/rule unresolved; no
+    # release mechanism is implemented. The claim does not declare P-1 consumed; the marker does. Not excluded by this file: an attempt under another evidence root
     # or on another machine, and any out-of-band attempt.
     $script:ClaimPath = Join-Path $script:Facts.evidenceRoot $ClaimName
     $claim = [ordered]@{
@@ -1061,9 +1065,8 @@ function Invoke-ExecuteClaim {
         actId            = $ActId
         store            = $StorePath
         scriptSha256     = $script:ScriptSha256
-        acceptanceSha256 = $script:AcceptanceSha256
         runDirectory     = $script:RunDirName
-        retention        = 'retained on every outcome after acquisition; release only by a Program Authority ruling (Q-CONS)'
+        retention        = 'retained on every outcome after acquisition as a fail-closed duplicate-attempt barrier'
     }
     try {
         Write-RawFile -Path $script:ClaimPath -Text ($claim | ConvertTo-Json -Depth 4)
@@ -1082,9 +1085,9 @@ function Invoke-ExecuteClaim {
 function Get-DeclaredEffects {
     # Declared, not inferred: the effects each mode can have. The summary records them, so no mode is read as read-only.
     $effects = New-Object System.Collections.ArrayList
-    [void]$effects.Add('creates a run directory and raw evidence under EvidenceRoot (exclusive creation)')
-    [void]$effects.Add('S04: npm ci and npm run build write node_modules, dist and dist-frontend inside the IPD checkout')
-    [void]$effects.Add('S03 PARENT_PROBE, only when that method is designated: creates and then removes one probe file in the store PARENT directory')
+    [void]$effects.Add('creates a run directory under a caller-supplied, pre-existing EvidenceRoot after S00 validation (exclusive creation)')
+    [void]$effects.Add('S04: reads/verifies PA-06-admitted S2 evidence from IRR and compares existing pinned-checkout dist read-only; no IPD install/build/probe/write')
+    [void]$effects.Add('S03: no ACL evaluation or temporary parent/store writability probe; store/path safety checks remain')
     [void]$effects.Add('S05: node --mode=validate expects the store absent and refuses without creating it')
     [void]$effects.Add('S01, S02, S06: read-only queries (sqlite load probe, git, GitHub API)')
     if ($Mode -eq 'Preflight') {
@@ -1187,7 +1190,7 @@ function Invoke-PostInvocationForensics {
         Add-Forensic -Op 'F-STORE-HASH' -Status 'FAILED' -Reason $_.Exception.Message
     }
 
-    # S08 - validate (read-only). Its V-A2-8 result is the validator row-state proxy only (Q-V8).
+    # S08 - validate (read-only). Its V-A2-8 result is the validator row-state proxy only; the literal second invocation is not performed.
     $postArgs = @(
         $script:EntryFull,
         '--mode=validate',
@@ -1377,16 +1380,14 @@ function Invoke-PostInvocationForensics {
 # ---------------------------------------------------------------------------
 $script:StartUtc = Get-UtcStamp
 try {
-    # S00 - designations, arguments, and the no-prior-run scan. Nothing is created before S00 passes.
+    # S00 - effective authority references, explicit arguments, path separation, and the no-prior-attempt scan.
     $script:Phase = 'S00'
-    Require-Check -Id 'S00-SCRIPT-PATH' -Pass ((-not [string]::IsNullOrEmpty($script:ScriptPath)) -and (Test-Path -LiteralPath $script:ScriptPath -PathType Leaf)) -Detail 'the script must run from a file (its SHA-256 is bound by the acceptance)'
+    Require-Check -Id 'S00-SCRIPT-PATH' -Pass ((-not [string]::IsNullOrEmpty($script:ScriptPath)) -and (Test-Path -LiteralPath $script:ScriptPath -PathType Leaf)) -Detail 'the script must run from a file; exact bytes are captured in this run record'
     $script:ScriptSha256 = (Get-FileHash -Algorithm SHA256 -LiteralPath $script:ScriptPath).Hash
-    Require-Check -Id 'S00-RULING' -Pass (-not [string]::IsNullOrEmpty($AuthorityRulingRef)) -Detail 'no Program Authority ruling reference is recorded in this revision (Q-STORE, Q-EV, Q-CONS, Q-ACTOR, Q-MIG, Q-TX, Q-WRITE, Q-V8, Q-BUILD); refuse'
-    Require-Check -Id 'S00-ACTOR-DESIGNATED' -Pass (-not [string]::IsNullOrEmpty($DesignatedActorLabel)) -Detail 'no actor label is designated (Q-ACTOR); -ActorLabel is never taken as authority'
-    Require-Check -Id 'S00-WRITABILITY-DESIGNATED' -Pass (@('ACL_EVALUATION', 'PARENT_PROBE') -contains [string]$DesignatedWritabilityMethod) -Detail 'writability method must be designated (Q-WRITE); ACL evaluation is a fact, not an effective-access test'
+    Require-Check -Id 'S00-RULING' -Pass ($AuthorityRulingRef -ceq 'IIPS-V3-CAP03-P1-AUTHORIZATION-ACT-2026-10-29-01') -Detail 'effective P1-F one-attempt authority record is fixed'
+    Require-Check -Id 'S00-ACTOR-DESIGNATED' -Pass ($DesignatedActorLabel -ceq 'Ramki') -Detail 'actor label is the named Program Authority/operator (Ramki); metadata only'
     Require-Check -Id 'S00-ACTOR-EQUALS' -Pass ($ActorLabel -ceq [string]$DesignatedActorLabel) -Detail 'ActorLabel must equal the designated actor label'
-    Require-Check -Id 'S00-EVIDENCE-DESIGNATED' -Pass (-not [string]::IsNullOrEmpty($DesignatedEvidenceRoot)) -Detail 'no P-1 execution evidence root is designated (Q-EV); the E8 capture root and F5 are not P-1 designations'
-    Require-Check -Id 'S00-STORE-DESIGNATED' -Pass ($StorePath -ceq $DesignatedStorePath) -Detail ('StorePath must equal the PF-15 F4 designation ' + $DesignatedStorePath + ' (binding to --store is Q-STORE)')
+    Require-Check -Id 'S00-STORE-DESIGNATED' -Pass ($StorePath -ceq $DesignatedStorePath) -Detail ('StorePath must equal the effective PF-15 F4 P-1 $StorePath designation ' + $DesignatedStorePath)
     Require-Check -Id 'S00-REPO-ABSOLUTE' -Pass ([System.IO.Path]::IsPathRooted($RepoRoot)) -Detail '--repo-root must be absolute'
     Require-Check -Id 'S00-REPO-EXISTS' -Pass (Test-Path -LiteralPath $RepoRoot -PathType Container) -Detail 'RepoRoot must be an existing directory'
     $script:RepoFull = Get-CanonicalPath -Path (Resolve-Path -LiteralPath $RepoRoot).ProviderPath -Label 'RepoRoot'
@@ -1397,7 +1398,6 @@ try {
     Require-Check -Id 'S00-EVIDENCE-ABSOLUTE' -Pass ($EvidenceRoot -match '^[A-Za-z]:\\') -Detail 'EvidenceRoot must be an absolute local drive path'
     Require-Check -Id 'S00-STORE-ABSOLUTE' -Pass ($StorePath -match '^[A-Za-z]:\\') -Detail 'StorePath must be an absolute local drive path'
     Require-Check -Id 'S00-MODE-CONFIRM' -Pass (($Mode -eq 'Preflight') -or ($ConfirmToken -ceq $ConfirmRequired)) -Detail ('Execute requires -ConfirmToken ' + $ConfirmRequired + '; Preflight needs none')
-    Require-Check -Id 'S00-ACCEPTANCE-ARG' -Pass (($Mode -eq 'Preflight') -or (-not [string]::IsNullOrEmpty($AcceptanceFile))) -Detail 'Execute requires -AcceptanceFile'
     Invoke-EvidencePlacement
     $script:Facts.storeDirectory = [System.IO.Path]::GetDirectoryName($StorePath.TrimEnd('\'))
     # Prior-run scan. Any p1-exe-* directory means an attempt was made or may have been made: every later run refuses.
@@ -1416,11 +1416,8 @@ try {
     Require-Check -Id 'S00-NO-UNSEALED-PRIOR-RUN' -Pass ($priorUnsealed.Count -eq 0) -Detail ('prior run directories without SHA256SUMS.txt = ' + ($priorUnsealed -join ', ') + '; state unknown, refuse')
     Require-Check -Id 'S00-NO-PRIOR-FILE' -Pass ($priorFiles.Count -eq 0) -Detail ('p1-* files directly under EvidenceRoot = ' + $priorFiles.Count)
     $claimHere = Test-Path -LiteralPath (Join-Path $script:Facts.evidenceRoot $ClaimName) -PathType Leaf
-    if ($Mode -eq 'Execute') { Require-Check -Id 'S00-NO-EXECUTE-CLAIM' -Pass (-not $claimHere) -Detail ($ClaimName + ' exists in the evidence root; a retained claim blocks every later execute (Q-CONS)') }
+    if ($Mode -eq 'Execute') { Require-Check -Id 'S00-NO-EXECUTE-CLAIM' -Pass (-not $claimHere) -Detail ($ClaimName + ' exists in the evidence root; a retained claim blocks another Execute under this root') }
     if ($Mode -eq 'Preflight') { Add-Check -Id 'S00-EXECUTE-CLAIM-INFO' -Pass $true -Detail ('execute claim present = ' + $claimHere + ' (informational in Preflight)') }
-    if ($Mode -eq 'Execute') {
-        Test-AcceptanceAndPreflight
-    }
 
     # Create the run directory exclusively. The name is unique by UTC time and a GUID fragment; no existing directory is reused.
     $modeTag = 'pre'
@@ -1434,8 +1431,8 @@ try {
     Write-RawFile -Path $script:LogPath -Text ''
     $script:Facts.repoFull = $script:RepoFull
     $script:Facts.psVersion = [string]$PSVersionTable.PSVersion
-    Write-Log ('P-1 script revision 5 start; mode={0}; actId={1}; scriptSha256={2}' -f $Mode, $ActId, $script:ScriptSha256)
-    Add-Check -Id 'S00' -Pass $true -Detail 'designations match; arguments absolute; evidence root contained; no prior execute attempt, marker or unsealed run; run directory created exclusively'
+    Write-Log ('P-1 script revision 7 start; mode={0}; actId={1}; scriptSha256={2}' -f $Mode, $ActId, $script:ScriptSha256)
+    Add-Check -Id 'S00' -Pass $true -Detail 'effective P1-F authority/store/actor values match; arguments absolute; run-record destination is safely contained; no prior execute attempt, marker or unsealed run; run directory created exclusively'
 
     # S01 - host, elevation, product, environment, Node, flag-free sqlite (read-only).
     $script:Phase = 'S01'
@@ -1445,14 +1442,14 @@ try {
     $script:Phase = 'S02'
     Invoke-GitPin
 
-    # S03 - store placement (read-only except the designated PARENT_PROBE, once).
+    # S03 - store placement (read-only; no writability probe).
     $script:Phase = 'S03'
-    Invoke-StorePlacement -ProbeAllowed $true
+    Invoke-StorePlacement
 
-    # S04 - build pre-step (once) and emitted-migration identity.
+    # S04 - read-only validation of PA-06-admitted S2 evidence from IRR; no build or IPD write.
     $script:Phase = 'S04'
     $script:EntryFull = Join-Path $script:RepoFull $EntryRelative
-    Invoke-BuildPreStep
+    Invoke-AdmittedS2EvidenceCheck
 
     # S05 - pre-state validation (read-only).
     $script:Phase = 'S05'

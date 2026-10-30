@@ -1,81 +1,154 @@
 #!/usr/bin/env python3
-"""Static policy check for the PA-authorized Revision 6 Windows 10 host profile.
+"""IRR-only static source and admitted-evidence validation for P-1 Revision 7.
 
-This reads source text only. It does not parse or execute PowerShell, run the application,
-invoke the P-1 entrypoint, access IPD, or test the Windows host/runtime.
+Reads tracked IRR source and the already-admitted S2 evidence records only. It does not
+parse/execute PowerShell, inspect an IPD checkout or distribution, access a host, build,
+install dependencies, run S2, invoke P-1, or create evidence.
 """
 from pathlib import Path
 import hashlib
+import json
+import re
 
 ROOT = Path(__file__).resolve().parents[1]
+REPO = ROOT.parent.parent
 SCRIPT = ROOT / "IIPS_v3.0_CAP03_P1_F_P-1_CORRECTED_EXECUTION_SCRIPT_2026-10-29.ps1"
 RUNNER = ROOT / "cap03-p1-f9" / "CAP03_P1_F9_WindowsFixtureTests.ps1"
-EXPECTED_SHA256 = "9396c7cc9e770a09a248dbd4624a96a6a2c4702f3e0c7a12d3bc0e51fb5f7d4b"
+AUTHORITY = ROOT / "IIPS_v3.0_CAP03_P1_AUTHORIZATION_ACT_AND_PREREQUISITE_DECISIONS_2026-10-29.md"
+PF15_ACT = ROOT / "IIPS_v3.0_CAP03_PF15_ENDPOINT_LOCAL_STATE_DESIGNATION_PA_ACT_CORRECTED_2026-10-26.md"
+EVIDENCE_ROOT = REPO / "evidence" / "cap03-s2"
+RUN_ID = "s2-a891802e-20261028T192516Z"
+RUN_DIR = EVIDENCE_ROOT / RUN_ID
+EXPECTED_SHA256 = "e70050d0f841498b5784e4566898a6586918cf7a77ef659eb5016aa26e8b64e3"
+EXPECTED_SEAL_SHA256 = "9D3C09DBDB691C2527A45605DEA20826B4EC2BA2F110985EE3F1033783B5225E"
+EXPECTED_DEPOSIT_SHA256 = "FFD0956482427ACB404543E36DAC2705D802B04828E380290232C06129F3AFAD"
+EXPECTED_TRANSCRIPT_SHA256 = "D4C5D9431115BF57D824DF465E3D99B11C619BC6D59A3F0974036F3BFCC2F7CA"
+EXPECTED_COMMIT = "a891802e2691bd9c65a67d6abff20d8ce0c26d7d"
+EXPECTED_TREE = "76f083d7058e170d8212455c03bad1033136ee68"
 
-script_bytes = SCRIPT.read_bytes()
-if any(byte >= 0x80 for byte in script_bytes):
-    raise SystemExit("FAIL: Revision 6 source is not ASCII; Windows PowerShell 5.1 encoding behavior needs explicit handling")
-if b"\r" in script_bytes:
-    raise SystemExit("FAIL: Revision 6 source unexpectedly contains CR characters")
-source = script_bytes.decode("ascii")
-runner = RUNNER.read_text(encoding="utf-8")
 
 def require(condition: bool, message: str) -> None:
     if not condition:
         raise SystemExit("FAIL: " + message)
 
-require(hashlib.sha256(script_bytes).hexdigest() == EXPECTED_SHA256,
-        "Revision 6 source SHA-256 differs from the documented durable artifact")
 
-# Exact environment-specific target; do not broaden to a product-name allowlist.
-require("$HostProfileRef       = 'IIPS-V3-CAP03-P1-WINDOWS10-PERSONAL-HOST-PROFILE-PA-2026-10-30-01'" in source,
-        "PA host-profile reference is missing")
-require("$ExpectedProductName  = 'Windows 10 Home Single Language'" in source,
-        "the exact Windows 10 Home Single Language product target is missing")
-require("$ExpectedHost         = 'DESKTOP-NO0NHTP'" in source,
-        "the designated host-name check changed")
-require("$HostProfileRef + ' requires exact ProductName \"' + $ExpectedProductName" in source,
-        "S01-PRODUCT does not report the scoped profile")
-require("$script:Facts.windowsProductName = [string]$ntKey.ProductName" in source and
-        "$script:Facts.windowsEditionId = [string]$ntKey.EditionID" in source,
-        "actual product/edition evidence fields were removed")
+def sha256(data: bytes) -> str:
+    return hashlib.sha256(data).hexdigest().upper()
 
-# S01 safety predicates remain strict and unchanged apart from the exact target profile.
+
+def eol_digest_candidates(data: bytes) -> set[str]:
+    text = data.decode("utf-8")
+    lf = text.replace("\r\n", "\n").replace("\r", "\n")
+    return {sha256(data), sha256(lf.encode("utf-8")), sha256(lf.replace("\n", "\r\n").encode("utf-8"))}
+
+
+script_bytes = SCRIPT.read_bytes()
+require(all(byte < 0x80 for byte in script_bytes), "Revision 7 source is not ASCII")
+require(b"\r" not in script_bytes, "Revision 7 source unexpectedly contains CR characters")
+source = script_bytes.decode("ascii")
+runner = RUNNER.read_text(encoding="utf-8")
+authority = AUTHORITY.read_text(encoding="utf-8")
+pf15_act = PF15_ACT.read_text(encoding="utf-8")
+script_sha = hashlib.sha256(script_bytes).hexdigest()
+if EXPECTED_SHA256 != "TO_BE_SET_AFTER_FINAL_EDIT":
+    require(script_sha == EXPECTED_SHA256, "Revision 7 source SHA-256 differs from the documented artifact")
+
+# Exact PA-scoped Windows 10 target; no product allowlist or host spoof.
+for text, message in [
+    ("$HostProfileRef       = 'IIPS-V3-CAP03-P1-WINDOWS10-PERSONAL-HOST-PROFILE-PA-2026-10-30-01'", "host-profile reference missing"),
+    ("$ExpectedProductName  = 'Windows 10 Home Single Language'", "exact Windows 10 product target missing"),
+    ("$ExpectedHost         = 'DESKTOP-NO0NHTP'", "designated hostname check changed"),
+    ("Require-Check -Id 'S01-PRODUCT' -Pass ([string]$ntKey.ProductName -ceq $ExpectedProductName)", "exact fail-closed product comparison changed"),
+    ("$script:Facts.windowsProductName = [string]$ntKey.ProductName", "actual product evidence removed"),
+    ("$script:Facts.windowsEditionId = [string]$ntKey.EditionID", "actual edition evidence removed"),
+]:
+    require(text in source, message)
+
+# Effective authority values and deliberately undesignated run/evidence properties.
+for text, message in [
+    ("$AuthorityRulingRef         = 'IIPS-V3-CAP03-P1-AUTHORIZATION-ACT-2026-10-29-01'", "P1-F authority reference missing"),
+    ("$DesignatedActorLabel       = 'Ramki'", "named PA/operator actor label missing"),
+    ("$DesignatedStorePath  = 'C:\\iips-data\\iips\\user-portfolio.sqlite'", "PF-15 F4 store path changed"),
+    ("$S2AdmissionRef            = 'PA-06 (tracker section 16.206; authorization record section 3), L2a only'", "PA-06 evidence scope missing"),
+    ("$script:Facts.u5Status = 'NOT RUN; WV-04 blocker waived; no IPD build or emitted probe performed'", "U-5 NOT RUN / waiver distinction missing"),
+    ("$script:Facts.emittedEntryClosure = 'NOT RUN; exact import-closure probe is not implied by the hash-inventory comparison'", "emitted closure limitation missing"),
+    ("$script:Facts.emittedMigrationProbe = 'NOT RUN against emitted files; migration-related suite records are not equivalent'", "emitted migration-probe limitation missing"),
+    ("$DesignatedStorePath  = 'C:\\iips-data\\iips\\user-portfolio.sqlite'", "PF-15 F4 store binding is not exact"),
+]:
+    require(text in source, message)
+require("IIPS-V3-CAP03-P1-AUTHORIZATION-ACT-2026-10-29-01" in authority and
+        "ADMITTED as L2a evidence for the P-1 chain" in authority and RUN_ID in authority,
+        "effective P1-F record ID/admission scope no longer matches the source references")
+require("IIPS-V3-CAP03-PF15-ENDPOINT-LOCAL-STATE-DESIGNATION-PA-ACT-2026-10-26-02" in pf15_act and
+        "C:\\iips-data\\iips\\user-portfolio.sqlite" in pf15_act,
+        "effective corrected PF-15 F4 source does not match the bound store literal")
+require("$DesignatedEvidenceRoot" not in source and "$DesignatedWritabilityMethod" not in source,
+        "obsolete fixed evidence-root or writability-method designation remains")
+
+# Host/runtime and safety controls remain in source; this is not a host test.
 required_guards = [
     "Require-Check -Id 'S01-HOST' -Pass ($hostName -ieq $ExpectedHost)",
     "Require-Check -Id 'S01-NONELEVATED' -Pass (-not $isAdmin)",
-    "Require-Check -Id 'S01-PRODUCT' -Pass ([string]$ntKey.ProductName -ceq $ExpectedProductName)",
     "Require-Check -Id 'S01-ENV-GATE' -Pass ($gateEnv.Count -eq 0)",
     "Require-Check -Id 'S01-ENV-GIT' -Pass ($gitEnv.Count -eq 0)",
     "Require-Check -Id 'S01-ENV-NODEOPTS' -Pass ([string]::IsNullOrEmpty($nodeOpts))",
     "Require-Check -Id 'S01-NODE' -Pass $nodeOk",
     "Require-Check -Id 'S01-SQLITE' -Pass",
     "'^v22\\.(\\d+)\\.(\\d+)$'",
-]
-for guard in required_guards:
-    require(guard in source, "required S01 guard missing or changed: " + guard)
-
-# Filesystem, identity, evidence and single-attempt controls remain present.
-for guard in [
     "S03-STORE-ABSENT", "S03-NO-SIDECAR", "S03-NO-REPARSE-IN-CHAIN",
-    "S03-FIXED-NTFS", "S03-NOT-ONEDRIVE-ENV", "S00-PREFLIGHT-NO-REPARSE-ENTRY",
+    "S03-FIXED-NTFS", "S03-NOT-ONEDRIVE-ENV", "S00-EVIDENCE-NO-REPARSE-IN-CHAIN",
     "S00-NO-PRIOR-MARKER", "S02-COMMIT", "S02-TREE", "S02-CLEAN",
     "P1-F-ONE-ATTEMPT", "SECOND_INVOCATION_REFUSED",
-]:
-    require(guard in source, "required execution/filesystem control missing: " + guard)
+    "EXECUTE-MARKER.json", "execute-claim.json",
+    "S00-EVIDENCE-NOT-IN-LISTED-WORKTREE", "S03-NO-WORKTREE-CONTAINS-STORE",
+]
+for guard in required_guards:
+    require(guard in source, "required authority/runtime/path/single-attempt guard missing: " + guard)
 
-# The PA granted implementation authority, not execution authority: safety ruling/build
-# designations remain null, preserving fail-closed S00/S04 behavior and the unspent attempt.
-for designation in [
-    "$AuthorityRulingRef         = $null",
-    "$DesignatedActorLabel       = $null",
-    "$DesignatedEvidenceRoot     = $null",
-    "$DesignatedWritabilityMethod = $null",
-    "$BuildAuthorityRef          = $null",
+# S04 uses admitted evidence and an exact read-only existing-dist comparison. It does not rebuild or probe.
+for guard in [
+    "Invoke-AdmittedS2EvidenceCheck", "S04-S2-AUTHORITY", "S04-S2-NO-REPARSE-IN-CHAIN",
+    "S04-S2-NO-REPARSE-FILES", "S04-S2-COMPLETE-INVENTORY", "S04-S2-SEAL-IDENTITY", "S04-S2-SEALED-FILES",
+    "S04-S2-MANIFEST-IDENTITY", "S04-S2-RESULT-IDENTITY", "S04-S2-TESTS",
+    "S04-S2-PACKAGE-CONSUMER", "S04-S2-DIST-INVENTORY", "S04-CURRENT-DIST-ADMITTED-MATCH",
+    "R-S2-EVIDENCE-NO-REPARSE", "R-S2-EVIDENCE-NO-REPARSE-FILES",
+    "R-S2-EVIDENCE-UNCHANGED", "R-CURRENT-DIST-UNCHANGED",
 ]:
-    require(designation in source, "execution authority was unintentionally populated: " + designation)
+    require(guard in source, "S04 admission/completeness/relevance/fingerprint check missing: " + guard)
+require("function Invoke-BuildPreStep" not in source and "$BuildAuthorityRef" not in source,
+        "old S04 build-authority gate or build procedure remains")
+for forbidden in [
+    "Invoke-Capture -Name 'npm-ci'", "Invoke-Capture -Name 'npm-run-build'",
+    "probe-migrations-", "Get-ProbeWritable", "PARENT_PROBE",
+]:
+    require(forbidden not in source, "forbidden IPD build/probe invocation remains: " + forbidden)
+require("$DesignatedStorePath  = 'C:\\iips-data\\iips\\user-portfolio.sqlite'" in source,
+        "exact PF-15 F4 designated store literal missing")
+for text, message in [
+    ("$BaselineIrrCommit    = 'b5c91a73b4b6367140847676534d5c03af0be88d'", "reviewed IRR baseline for post-merge freshness changed"),
+    ("$TrackerPointerMarkers = @('**Latest (`CV-CORR-189`'", "current tracker pointer is not revision-bound"),
+    ("$TrackerPointerRequiredText = 'P-1 remains **AUTHORIZED'", "freshness check no longer binds the authorized/unspent status"),
+]:
+    require(text in source, message)
+require("UNDETERMINED (no marker/no execute invocation; Q-CONS-2 remains unresolved)" in source,
+        "pre-marker execute stop is being misreported as resolved/not-consumed")
+require("S04-CURRENT-DIST-ADMITTED-MATCH" in source and "R-CURRENT-DIST-UNCHANGED" in source,
+        "existing distribution match and pre-invocation unchanged check missing")
+require("$encoded = ('\\dist\\' + $relative)" in source,
+        "current dist inventory paths are not represented with the admitted single-separator path form")
 
-# Keep the Revision 5 F9 results as history; its hard-pinned runner must refuse Revision 6.
+# Static-check the literal .NET regexes (PowerShell single-quoted literals preserve these backslashes).
+dist_hash_pattern = re.search(r"\$distHashes\s*=.*?-match '([^']+)'", source)
+dist_map_pattern = re.search(r"\$dm\s*=\s*\[regex\]::Match\(\$line, '([^']+)'\)", source)
+require(dist_hash_pattern is not None and dist_map_pattern is not None, "dist inventory regex source not found")
+sample = "56FEA1A5850621B4501D3AFB3221B0F55E9B44B7275E9552B306F8F9C9EEB325  \\dist\\src\\persistence\\gateAPrimeProvisioning.js"
+require(re.search(dist_hash_pattern.group(1), sample) is not None, "dist hash regex does not match admitted single-separator paths")
+parsed = re.fullmatch(dist_map_pattern.group(1), sample)
+require(parsed is not None and parsed.group(1).upper() == "56FEA1A5850621B4501D3AFB3221B0F55E9B44B7275E9552B306F8F9C9EEB325" and
+        parsed.group(2) == "\\dist\\src\\persistence\\gateAPrimeProvisioning.js",
+        "dist inventory parser does not extract exact path/hash from admitted line")
+
+# The historical F9 fixture runner remains pinned to Revision 5 and is not retargeted or rerun.
 old_f9_hash = "7aa52aa407c548940446817b0cb99b9a31c427660af39baf636bd3e59e45e916"
 require(old_f9_hash in runner, "historical Revision 5 F9 runner pin was altered")
 require("$ProductionHash -cne $ExpectedProductionSha256" in runner,
@@ -83,8 +156,74 @@ require("$ProductionHash -cne $ExpectedProductionSha256" in runner,
 require("$script:ExpectedProductName='Windows 11 Home Single Language'" in runner,
         "historical Revision 5 F9 host fixture was unexpectedly rewritten")
 
-sha = hashlib.sha256(SCRIPT.read_bytes()).hexdigest()
-print("PASS: exact PA-scoped Windows 10 host profile and preserved safety controls")
-print("PASS: S00/S04 authority gates remain null; no P-1 execution authority added")
-print("PASS: Revision 5 F9 runner remains pinned to its historical production script")
-print("REVISION_6_SCRIPT_SHA256=" + sha)
+# Verify the PA-06 evidence already admitted and held in IRR. EOL candidates reflect the published CRLF/LF handling;
+# this never runs or regenerates S2 and does not inspect any IPD distribution.
+entries = {p.name: p.read_bytes() for p in RUN_DIR.iterdir() if p.is_file()}
+require(len(entries) == 17 and "SHA256SUMS.txt" in entries, "admitted S2 folder is not the expected 17-file inventory")
+seal_bytes = entries["SHA256SUMS.txt"]
+require(EXPECTED_SEAL_SHA256 in eol_digest_candidates(seal_bytes), "admitted S2 seal identity mismatch")
+seal_map: dict[str, str] = {}
+for line in seal_bytes.decode("utf-8").splitlines():
+    if not line:
+        continue
+    match = re.fullmatch(r"([0-9A-Fa-f]{64})  ([^\\/:*?\"<>|\r\n]+)", line)
+    require(match is not None, "malformed or unsafe filename in S2 seal")
+    name = match.group(2)
+    require(name not in seal_map, "duplicate filename in S2 seal: " + name)
+    seal_map[name] = match.group(1).upper()
+require(len(seal_map) == 16 and set(entries) == set(seal_map) | {"SHA256SUMS.txt"},
+        "S2 sealed-file set is incomplete or contains extras")
+for name, digest in seal_map.items():
+    require(digest in eol_digest_candidates(entries[name]), "S2 sealed-file digest mismatch: " + name)
+manifest = json.loads(entries["MANIFEST.json"])
+require(manifest.get("schema") == "IIPS-V3-CAP03-S2-RUN-MANIFEST-v1" and
+        manifest.get("run_id") == RUN_ID and manifest.get("status") == "PASS", "S2 manifest identity/status mismatch")
+require(manifest.get("pin") == {"commit": EXPECTED_COMMIT, "tree": EXPECTED_TREE} and
+        manifest.get("observed") == {"head": EXPECTED_COMMIT, "tree": EXPECTED_TREE}, "S2 execution pin/tree mismatch")
+require(manifest.get("node") == "v22.16.0" and manifest.get("npm") == "10.9.2", "S2 runtime identity mismatch")
+artifacts = manifest.get("artifacts", [])
+require({item.get("path") for item in artifacts} == set(seal_map) - {"MANIFEST.json"},
+        "manifest artifact list is not the complete sealed set")
+for item in artifacts:
+    require(item.get("sha256", "").upper() == seal_map[item["path"]], "manifest/seal digest mismatch: " + item["path"])
+result = entries["RESULT.txt"].decode("utf-8")
+for text in [
+    "STATUS: PASS", f"RUN ID: {RUN_ID}", f"PIN COMMIT: {EXPECTED_COMMIT}", f"PIN TREE: {EXPECTED_TREE}",
+    f"OBSERVED HEAD (post-run): {EXPECTED_COMMIT}", f"OBSERVED TREE (post-run): {EXPECTED_TREE}",
+    "DIST FILE COUNT: 1140", "GUARD EXECUTED: 930", "GUARD PASSED: 926",
+    "PACK SHASUM: cc2aa70186b8fd7bc7255452ac8d8b00d094f53e",
+]:
+    require(text in result, "S2 RESULT identity/summary field missing: " + text)
+for name in ["02-npm-ci.txt", "03-tsc-noemit.txt", "04-build.txt", "06-package-consumer.txt"]:
+    require("RETURN CODE: 0" in entries[name].decode("utf-8"), "S2 recorded nonzero/missing result: " + name)
+summary = entries["05b-test-summary.txt"].decode("utf-8")
+require("GUARD executed 930 passed 926" in summary and "TAP tests 930 pass 926 fail 0 skipped 4" in summary,
+        "S2 test summary totals do not match the admitted record")
+consumer = entries["06-package-consumer.txt"].decode("utf-8")
+require('"result": "PASS"' in consumer and '"shasum": "cc2aa70186b8fd7bc7255452ac8d8b00d094f53e"' in consumer,
+        "S2 package-consumer result identity mismatch")
+before = entries["s2-04c-dist-sha256-before.txt"].splitlines()
+after = entries["s2-08b-dist-sha256-after.txt"].splitlines()
+require(len(before) == len(after) == 1140 and before == after, "S2 before/after 1,140-file inventories differ")
+for emitted in [
+    "\\dist\\src\\persistence\\gateAPrimeProvisioning.js",
+    "\\dist\\src\\persistence\\gateAPrimeValidation.js",
+    "\\dist\\src\\persistence\\migration_ledger.js",
+]:
+    require(sum(line.split(b"  ", 1)[1].decode("utf-8") == emitted for line in before) == 1,
+            "admitted S2 inventory lacks a unique emitted identity: " + emitted)
+host_hashes = (EVIDENCE_ROOT / "deposit-host-hashes.txt").read_bytes()
+require(EXPECTED_DEPOSIT_SHA256 in eol_digest_candidates(host_hashes), "host-deposit hash-record identity mismatch")
+transcript_path = EVIDENCE_ROOT / f"{RUN_ID}.seal-recheck.txt"
+transcript = transcript_path.read_bytes()
+require(EXPECTED_TRANSCRIPT_SHA256 in eol_digest_candidates(transcript), "S2 publication transcript identity mismatch")
+transcript_text = transcript.decode("utf-8")
+for text in ["Recheck 1 issues: 0", "Recheck 2 issues (published folder): 0", "Final status: PASS", "Evidence record published: yes"]:
+    require(text in transcript_text, "S2 publication/recheck transcript incomplete: " + text)
+
+print("PASS: exact PA-authorized Windows 10 profile and preserved P-1 safety/path/one-attempt controls")
+print("PASS: S04 source validates PA-06 L2a evidence and defines a read-only current-dist match; no build/install/probe invocation")
+print("PASS: admitted S2 authority, pin, completeness, hashes, build/test/package records and publication transcript verified")
+print("LIMIT: this is IRR-only static validation; no PowerShell parse, IPD inspection, current-dist check, S2 rerun or U-5 PASS")
+print("U-5 remains NOT RUN; exact emitted-entry closure and emitted-migration probes remain NOT RUN")
+print("REVISION_7_SCRIPT_SHA256=" + script_sha)
