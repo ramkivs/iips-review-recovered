@@ -12,6 +12,8 @@ param(
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 if ($PSVersionTable.PSVersion.Major -ne 5 -or $PSVersionTable.PSVersion.Minor -ne 1) { throw ('Windows PowerShell 5.1 required; found ' + [string]$PSVersionTable.PSVersion) }
+$script:FixtureScriptPath = [IO.Path]::GetFullPath($PSCommandPath)
+$script:F9InvocationCommandType = ''
 
 $ExpectedProductionSha256 = '7aa52aa407c548940446817b0cb99b9a31c427660af39baf636bd3e59e45e916'
 $ProductionPath = Join-Path $PSScriptRoot '..\IIPS_v3.0_CAP03_P1_F_P-1_CORRECTED_EXECUTION_SCRIPT_2026-10-29.ps1'
@@ -67,6 +69,19 @@ function Assert-That([bool]$Condition, [string]$Message) { if (-not $Condition) 
 function Add-Result([string]$Id,[string]$Status,[string]$Detail) {
     [void]$script:Results.Add([pscustomobject]@{ test=$Id; status=$Status; detail=$Detail; utc=[DateTime]::UtcNow.ToString('o') })
     Write-TestLog ($Id + ' ' + $Status + ' ' + $Detail)
+}
+function Format-ErrorDiagnostic {
+    param([System.Management.Automation.ErrorRecord]$Record,[string]$TestId)
+    $inv=$Record.InvocationInfo;$commandName='';$commandObjectType='';$scriptName='';$lineNumber=0;$positionMessage='';$scriptStackTrace='';$targetObjectType=''
+    if($null -ne $inv){
+        try{if($null -ne $inv.MyCommand){$commandName=[string]$inv.MyCommand.Name;$commandObjectType=$inv.MyCommand.GetType().FullName}}catch{}
+        try{$scriptName=[string]$inv.ScriptName;$lineNumber=[int]$inv.ScriptLineNumber;$positionMessage=[string]$inv.PositionMessage}catch{}
+    }
+    try{$scriptStackTrace=[string]$Record.ScriptStackTrace}catch{}
+    try{$target=$Record.TargetObject;if($null -ne $target){$targetObjectType=$target.GetType().FullName}}catch{}
+    $diagnostic=[ordered]@{test=$TestId;exceptionType=$Record.Exception.GetType().FullName;message=$Record.Exception.Message;scriptName=$scriptName;lineNumber=$lineNumber;commandName=$commandName;commandObjectType=$commandObjectType;targetObjectType=$targetObjectType;fullyQualifiedErrorId=[string]$Record.FullyQualifiedErrorId;positionMessage=$positionMessage;scriptStackTrace=$scriptStackTrace}
+    if($TestId -eq 'F9-9'){$diagnostic.f9InvocationCommandType=$script:F9InvocationCommandType}
+    return ($diagnostic|ConvertTo-Json -Compress -Depth 5)
 }
 function Get-ProductionFunctionText {
     param([string[]]$Names)
@@ -407,7 +422,9 @@ function Test-F9_8 {
 }
 
 function Test-F9_9 {
-    $facts=[ordered]@{computerName=$env:COMPUTERNAME;psVersion=[string]$PSVersionTable.PSVersion;is64BitProcess=[Environment]::Is64BitProcess;osVersion=[Environment]::OSVersion.VersionString;node=(Get-Command node -ErrorAction SilentlyContinue | Select-Object -First 1 -ExpandProperty Source -ErrorAction SilentlyContinue);git=(Get-Command git -ErrorAction SilentlyContinue | Select-Object -First 1 -ExpandProperty Source -ErrorAction SilentlyContinue)}
+    $invokedCommand=$MyInvocation.MyCommand
+    $script:F9InvocationCommandType=$invokedCommand.GetType().FullName
+    $facts=[ordered]@{computerName=$env:COMPUTERNAME;psVersion=[string]$PSVersionTable.PSVersion;is64BitProcess=[Environment]::Is64BitProcess;osVersion=[Environment]::OSVersion.VersionString;node=(Get-Command node -ErrorAction SilentlyContinue | Select-Object -First 1 -ExpandProperty Source -ErrorAction SilentlyContinue);git=(Get-Command git -ErrorAction SilentlyContinue | Select-Object -First 1 -ExpandProperty Source -ErrorAction SilentlyContinue);f9InvocationCommandType=$script:F9InvocationCommandType;fixtureSuitePath=$script:FixtureScriptPath}
     $facts.oneDriveEnvPresent=(@(Get-ChildItem Env: | Where-Object {$_.Name -like 'OneDrive*'}).Count -gt 0)
     $facts.gitEnvCount=@(Get-ChildItem Env: | Where-Object {$_.Name -like 'GIT_*'}).Count
     $facts.gateEnvCount=@(Get-ChildItem Env: | Where-Object {$_.Name -like 'GATE_A_PRIME_*'}).Count
@@ -429,7 +446,7 @@ function Test-F9_9 {
     try { New-Item -ItemType Junction -Path $junction -Target $target -ErrorAction Stop | Out-Null;$junctionCreated=$true } catch { $facts.fixtureReparse='UNAVAILABLE: '+$_.Exception.Message }
     if($junctionCreated){$facts.fixtureReparse=(@(Get-ReparseHits -Chain @($junction)) -contains $junction);Assert-That $facts.fixtureReparse 'actual Get-ReparseHits must report the generated fixture junction';try{Microsoft.PowerShell.Management\Remove-Item -LiteralPath $junction -Force -ErrorAction Stop;$facts.fixtureReparseRemoved=(-not(Test-Path -LiteralPath $junction))}catch{$facts.fixtureReparseRemoved=$false;$facts.fixtureReparseCleanupError=$_.Exception.Message}}
     $tokens=$null;$errors=$null;[void][System.Management.Automation.Language.Parser]::ParseFile($ProductionPath,[ref]$tokens,[ref]$errors);$facts.productionParseErrors=@($errors|ForEach-Object{$_.Message})
-    $testPath=[IO.Path]::GetFullPath($MyInvocation.MyCommand.Path);$tt=$null;$ee=$null;[void][System.Management.Automation.Language.Parser]::ParseFile($testPath,[ref]$tt,[ref]$ee);$facts.fixtureSuiteParseErrors=@($ee|ForEach-Object{$_.Message})
+    $testPath=$script:FixtureScriptPath;$tt=$null;$ee=$null;[void][System.Management.Automation.Language.Parser]::ParseFile($testPath,[ref]$tt,[ref]$ee);$facts.fixtureSuiteParseErrors=@($ee|ForEach-Object{$_.Message})
     if($facts.node){$nodeOut=& $facts.node --version 2>&1|Out-String;$facts.nodeVersion=$nodeOut.Trim()}else{$facts.nodeVersion='NOT_FOUND'}
     $facts.u2_note='Read-only host facts recorded. Sync state beyond environment roots is not inferred.'
     $facts.u3_note='Filesystem predicates exercised only on generated fixture paths; the P-1 store/evidence root are never queried.'
@@ -446,7 +463,7 @@ function Test-F9_9 {
 
 $map=@{'F9-2'={Test-F9_2};'F9-3'={Test-F9_3};'F9-4'={Test-F9_4};'F9-5'={Test-F9_5};'F9-6'={Test-F9_6};'F9-7'={Test-F9_7};'F9-8'={Test-F9_8};'F9-9'={Test-F9_9}}
 $runIds=@();if($TestId -eq 'All'){$runIds=@('F9-2','F9-3','F9-4','F9-5','F9-6','F9-7','F9-8','F9-9')}else{$runIds=@($TestId)}
-foreach($id in $runIds){try{& $map[$id]}catch{Add-Result $id 'FAIL' $_.Exception.Message}}
+foreach($id in $runIds){try{& $map[$id]}catch{$detail=$_.Exception.Message;if($id -eq 'F9-9'){$detail=Format-ErrorDiagnostic -Record $_ -TestId $id};Add-Result $id 'FAIL' $detail}}
 $report=[ordered]@{schema='CAP03-P1-F9-WINDOWS-FIXTURE-RESULTS/1';utc=[DateTime]::UtcNow.ToString('o');productionCommit='f9081d525a19864da7660de358896d514c60d4a2';productionSha256=$ProductionHash;host=$env:COMPUTERNAME;powershell=[string]$PSVersionTable.PSVersion;testResults=@($script:Results);boundary='No P-1 path/store, no execute invocation, no provisioning, no IPD write; F9-9 U4/U5/U10 caveats are explicit.'}
 [IO.File]::WriteAllText((Join-Path $RunRoot 'results.json'),($report|ConvertTo-Json -Depth 8),(New-Object System.Text.UTF8Encoding($false)))
 Write-TestLog ('EVIDENCE_ROOT=' + $RunRoot)
