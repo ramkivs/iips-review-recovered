@@ -344,7 +344,9 @@ for required in (QEV_ACT_ID, DESIGNATED_EVIDENCE_ROOT, "existing personal Window
                  "original bytes, hashes, provenance", "NOT VERIFIED", "AUTHORIZED — NOT EXECUTED — UNSPENT",
                  "P-1-C", "P-1-D", "V1702`–`V1713"):
     require(required in current_qev, "current Q-EV act/tracker record is missing: " + required)
-require("PENDING" in current_qev, "publication ledger is missing pending final verification placeholders")
+require("PASS — merge reconciliation commit `7ced4ad6faf1eaa33bd2fd3d39fcbc7c5ea46f86`" in current_qev and
+        "final head/state are read back separately" in current_qev,
+        "publication ledger is missing the verified PR #382 push/read-back record")
 request_doc = ROOT / "IIPS_v3.0_REPORTS_NP06_C4_HEADER_CLAIM_PA_DECISION_REQUEST_2026-10-30.md"
 act_doc = ROOT / "IIPS_V3_REPORTS_NP06_C4_2_HEADER_CLAIM_CLARIFICATION_PA_ACT_EFFECTIVE_2026-10-30.md"
 require(request_doc.is_file() and act_doc.is_file() and
