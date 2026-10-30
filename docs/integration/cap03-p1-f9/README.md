@@ -14,7 +14,7 @@ The runner writes a uniquely named evidence directory under `%TEMP%\CAP03-P1-F9-
 
 ## Commands — run in this exact order
 
-Open **Windows PowerShell 5.1** with the current directory at the IRR repository root and the checkout at the authoritative `f9081d5` commit. Do not run from an IPD checkout. Use the commands below unchanged; each uses automatically generated fixture paths.
+Open **Windows PowerShell 5.1** with the current directory at the IRR repository root and the checkout at the published package commit `4a56155` on `arena/325002ab-iips-review-recovered`. That commit is a descendant of `f9081d5`; the production script remains byte-identical to the mandatory `f9081d5` baseline. Do not run from an IPD checkout. Use the commands below unchanged; each uses automatically generated fixture paths.
 
 **First command (F9-2):**
 
