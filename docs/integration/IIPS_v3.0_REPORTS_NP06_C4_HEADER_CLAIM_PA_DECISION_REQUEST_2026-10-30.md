@@ -14,6 +14,8 @@
 
 > **Bottom line.** The effective `R2` act (`C-4`) says client-supplied tenant or identity claims **in request headers**, URL query parameters, or request bodies are **refused with `400 Bad Request`**. The accepted transport enforces the query and body limbs and **never reads request headers at all**, so a header-borne claim is silently ignored and the request succeeds. No committed test covers the header limb, and **no version of `reports-transport.ts` has ever scanned request headers for identity/tenant claims** — the gap is as old as the transport. This document asks **one** question: whether `C-4`'s request-header limb is operative as written. Everything downstream — implementation, tests, F-7 legs 2 and 5, the leg-5 verdict, the qualification status and `D-9` — follows from the answer. It selects nothing.
 
+> **Dated clarification added `2026-10-30` (second pass).** The operational consequences of `C4-1` and `C4-2` — refusal and non-execution versus silent acceptance and persistence — are set out in **§16** at the end of this record. §§1–15 above are preserved unaltered; the options remain `PROPOSED — UNSELECTED` and the ruling remains `PENDING`.
+
 ---
 
 ## 1. Why this is the smallest complete ask
@@ -219,3 +221,79 @@ This request, its tracker record (`§16.214`), the `D-9` pointer annotation, and
 ---
 
 *Decision request only. `C4-1` / `C4-2` unselected. No authority rendered. Prepared `2026-10-30` at IRR `main` `fb73080f…`; IPD read-only at `aa356ec2…`.*
+
+---
+
+## 16. Dated clarification (`2026-10-30`, second pass) — the operational consequences of `C4-1` and `C4-2`
+
+> **Dated addendum — additive; §§1–15 above are preserved unaltered; amends no clause; selects no option; renders no authority.** Recorded under `CV-CORR-194` (tracker `§16.214.11`; `CHG-2026-10-30-09`; `V1634`–`V1638`). Its purpose is narrow: make explicit what each ruling would *operationally* authorize, so that PA can decide on consequences rather than on wording. **`C4-1` and `C4-2` both remain `PROPOSED — UNSELECTED`; the ruling remains `PENDING`; nothing here may be read as approval, and silence is not approval.** No implementation, test, act, qualification or acceptance change is made or authorised by this addendum.
+
+**Baseline for this addendum** (re-read, not carried forward): IRR `main` `6bf5bfeef52e4bfedda8ea0dd14eda7eed8b746c`, tree `9c285f7bf4c6de6fd91af0960dcd9d15b41067df`, post-merge CI `41076371497` **SUCCESS**; `R2` act `e3ad095e…`, F-7 record `77fc793c…`, `reports-transport.ts` `775d282b…` and its test `08ff8c6f…` all unchanged. IPD `main` `aa356ec222527e78462740fb6c91d34b9ff6cbbc` — read-only, zero writes. The drafting baseline `fb73080f…` recorded above is preserved as the original preparation baseline.
+
+### 16.1 `C4-1` — literal enforcement: exactly what PA would be authorising
+
+If PA rules that `C-4`'s request-header limb is operative as written, the ruling authorises and requires all of the following, jointly:
+
+1. **Refusal.** A client-supplied identity or tenant claim arriving in a request header must be **refused with HTTP `400 Bad Request`** — the same status and the same established body (`{"error":"client-supplied tenant or identity claims are prohibited"}`) that query and body claims already receive.
+2. **No operation.** The request **must not proceed to perform its requested operation.** Refusal precedes the operation; the handler must not execute the create, append, read, listing, supersession or context work the request asked for.
+3. **No artifact.** A request that would otherwise **create or persist a Reports artifact must not create or persist that artifact.** No store write, no store-minted `reportId`, no `artifactVersion`, no supersession edge, no partial record.
+4. **Implementation correction.** The implementation **must be corrected to enforce the refusal** — `frontend/server/reports-transport.ts` gains a header check beside the existing query check; nothing else in the transport changes.
+5. **Regression evidence.** Regression tests **must prove the refusal and the absence of the prohibited operation's side effects** — i.e. the `400` *and* the fact that the store was not written and no artifact exists afterwards. Asserting only the status is insufficient.
+6. **Query/body unchanged.** The **existing query and body refusal behaviour must remain conformant** — same statuses, same bodies, no relaxation.
+7. **Credentials unchanged.** Ambient `Authorization` credentials **must remain incapable of establishing identity or tenant context** under `C-2`/`C-3`. `C4-1` governs claims; it does not create a credential path and does not require any credential refusal response.
+8. **Requalification.** **F-7 leg 2 and any other affected qualification evidence must be reassessed under the effective ruling** — leg 2's recorded evidence covers query and body only, so it cannot be carried forward as proof of the corrected behaviour.
+
+**Do not assume that the current implementation's silent-ignore behaviour satisfies `C-4`.** Under this ruling it does not: the current path returns `200`/`201` and, on a claim-bearing `POST`, persists an artifact — the opposite of items 1–3.
+
+### 16.2 `C4-2` — explicit authoritative clarification: exactly what PA would be authorising
+
+If PA rules that `C-4`'s request-header limb is **not** intended to require HTTP `400`, the ruling must do all of the following, in an authoritative act:
+
+1. **Clarify the operative meaning** of `C-4` through the appropriate authoritative instrument (an amendment act, or a dated additive clarification of the `G2-D4` style that preserves the original text and amends no clause) — **not** an informal reading.
+2. **Distinguish the two categories:** ambient authentication credentials (`C-2`/`C-3`) versus client-supplied identity and tenant claims (`C-4`). They are not interchangeable and must not be described as one category.
+3. **State explicitly whether header-borne claims are ignored rather than refused** — i.e. name the actual behaviour, rather than leaving it to inference from "no credential is read".
+4. **State that those claims cannot establish or alter identity, tenant, owner context or authorization** — the guarantee that survives either way.
+5. **State explicitly whether a request containing such a claim may proceed** — permitted to continue, or not.
+6. **State explicitly whether the operation may succeed and persist an artifact** under the declared server-owned owner context. This is the substantive consequence: under `C4-2` a claim-bearing `POST` returning `201` and persisting an artifact becomes **conformant by act**, and PA should be understood to be authorising exactly that.
+7. **Explain the disposition of `C-4`'s existing request-header wording** — amended, superseded, or read down by a dated note — so that an effective act does not keep stating an operative refusal that nothing performs.
+8. **Reassess the implementation and test requirements against the effective clarification** — including whether any test of header-borne claims is required at all, and if so what it must assert.
+
+**`C4-2` is not a zero-cost relabelling.** It requires narrowing an effective PA act and it explicitly legitimises silent acceptance of claim-bearing requests. It must be recorded as such, not described as an equivalent to `C4-1`.
+
+### 16.3 The actual distinction — stated plainly
+
+- Under **`C4-1`**, the prohibited header claim causes **HTTP `400`** and **the requested operation does not proceed**.
+- Under the **currently observed implementation**, the header claim is **ignored** and **the request can proceed** to completion.
+- The `2026-10-30` real-handler probe recorded — as **evidence from the earlier investigation (tracker `§16.213.5`), not as a new test and not as a newly executed result in this pass** — a **successful `HTTP 201` artifact-creation response** to a `POST /api/reports/artifacts` carrying six header-borne identity/tenant claims, with the artifact persisted and `ownership` set to the declared server-owned pair.
+- **Preventing a claim from changing identity or tenant is not equivalent to refusing the claim.** The first is an outcome guarantee; the second is a required response.
+- The difference therefore concerns **both** (i) **the response** (`400` versus `200`/`201`) **and** (ii) **whether the requested operation is allowed to proceed** (refused before execution versus executed, including durable side effects).
+
+**Reading note on §6 above.** §6's sentence "The security-relevant outcome is identical in both columns" describes only the **identity/tenant outcome** — no claim can move either under any reading. It must **not** be read as saying the *operational* outcome is identical: the response status differs, and whether the operation executes and persists differs. This addendum supplies that qualification; §6's text is preserved unaltered.
+
+### 16.4 What this addendum does not do
+
+| Item | Status after this addendum |
+|---|---|
+| `C4-1` | **`PROPOSED — UNSELECTED`** |
+| `C4-2` | **`PROPOSED — UNSELECTED`** |
+| PA ruling | **`PENDING`** |
+| `C4-1` recommendation in §10 | **decision input only** — not a ruling, not approval |
+| PA Decision 2 (F-7 consequences) | **not prepared, not put** — still sequenced after this ruling |
+| F-7 historical verdicts (legs 1–5) | **unchanged** (`PROVEN` ×5) |
+| F-7 qualification status | **`SATISFIED` — unchanged** |
+| Capability acceptance | **`ACCEPTED (bounded non-production)` — unchanged** |
+| Production admission | **`NOT ADMITTED` — unchanged** |
+| `D-9` | **`OPEN — AWAITING PA DECISION`** |
+| `R2` act, implementation, tests, pins, manifests | **unchanged — no write outside this record and the tracker** |
+
+It does not select or combine the options, does not treat silence as approval, does not decide F-7 consequences, and does not change any qualification, acceptance, admission, gate or authorization status.
+
+### 16.5 The question a ruling must answer
+
+The question is unchanged, and PA's ruling must address the **operational consequences** set out in §16.1 and §16.2 — not merely a wording preference:
+
+> **Is `C-4`'s request-header limb operative as written, requiring client-supplied identity and tenant claims in request headers to be refused with HTTP `400 Bad Request`?**
+
+`C4-1` = yes, operative as written (§16.1). `C4-2` = no, with the contract explicitly clarified on the terms in §16.2. Any answer must state which of §16.1 items 1–3 apply, and — if they do not — must state, in the terms of §16.2 items 5–6, that the request may proceed and the artifact may be persisted.
+
+*End of the `2026-10-30` dated clarification to this record. `C4-1`/`C4-2` unselected; ruling `PENDING`; all protected statuses unchanged; no authority rendered.*
