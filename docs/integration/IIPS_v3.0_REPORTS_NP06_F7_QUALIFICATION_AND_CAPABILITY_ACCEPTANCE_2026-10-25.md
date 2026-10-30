@@ -57,3 +57,69 @@ Qualification executed via `server/reports-restart.test.ts` driving `server/repo
    - 0 non-test importers of company identity runtime.
 
 *Program Authority: Ramki. **Status: F-7 SATISFIED. Capability ACCEPTED for bounded non-production backend scope. CV-51 and Production Admission WITHHELD.***
+
+---
+
+## 4. Dated addendum (`2026-10-30`) — `C4-2` clarification: leg 2 and leg 5 restated; verdicts and status preserved
+
+> **Dated addendum — additive; §§1–3 above are preserved unaltered; amends no verdict; changes no status; grants no authority beyond that recorded.** Recorded under `IIPS-V3-REPORTS-NP06-C4-2-HEADER-CLAIM-CLARIFICATION-PA-ACT-2026-10-30-01` (**`C4-2`, SELECTED — EFFECTIVE**), tracker `§16.215` (`CV-CORR-195`; `CHG-2026-10-30-10`). Its purpose is to remove the two assertions in §1 that **contradict the now-clarified contract** and to record newly executed evidence — **not** to re-open the qualification, re-run history, or move any status.
+
+### 4.1 Why an addendum, and what it is not
+
+`§1` leg 5 recorded that the transport "**rejects ambient auth tokens**", and leg 2 recorded that "**client-supplied identity/tenant claims rejected**" without distinguishing channels. Under `C4-2` (effective `2026-10-30`) the operative contract is that header-borne claims are **ignored**, cannot be authoritative, and **do not prevent the request from proceeding**. Leaving the §1 wording in place would preserve a **qualification assertion that contradicts the effective contract** — which this program does not permit. The original text is therefore **preserved verbatim** and the corrected reading is recorded here.
+
+This addendum does **not**: revoke the historical qualification; re-issue the five verdicts; change `SATISFIED`; change capability acceptance; change production admission; or create a new qualification leg.
+
+### 4.2 Leg 2 — clarification
+
+**As recorded (`§1`, preserved):** bar — "Cross-owner queries return 404 without existence disclosure. Client-supplied identity/tenant claims rejected."; evidence — query `?tenantId=…` → `400`; body with `tenantId`/`userId`/`reportId` → `400`; unknown `reportId` → `404`; verdict **`PROVEN`**.
+
+**Corrected reading (operative from `2026-10-30`):**
+
+- The leg's recorded evidence covers the **query-parameter** and **request-body** channels. Both remain operative, unchanged, and `400` — verified again in this pass (§4.5).
+- The leg's phrase "claims rejected" is **scoped to those two channels**. It does **not** assert, and must not be read as asserting, a `400` for claims arriving in **request headers**. Under `C4-2`, header-borne claims are **ignored** and are **not** an accepted identity or ownership input; a request carrying them **may proceed**.
+- The **cross-owner `404` without existence disclosure** requirement is unaffected and remains proven.
+- **Verdict `PROVEN` stands, on the scoped reading.** The bar it was assessed against (query/body rejection plus non-disclosing `404`) is met by executed evidence; the header channel was never part of the evidence it cites, and the contract no longer requires a refusal there.
+
+### 4.3 Leg 5 — clarification
+
+**As recorded (`§1`, preserved):** bar — "No client-supplied identity is accepted, roles are retired, and no authentication credential is inferred."; evidence — "Transport applies single declared owner partition (`P-1`); **rejects ambient auth tokens**; enforces server-constant namespace `reports.*`."; verdict **`PROVEN`**.
+
+**Corrected reading (operative from `2026-10-30`):**
+
+- **"Rejects ambient auth tokens" is superseded as wording.** The transport does not *reject* a credential — it **never reads** one. The accurate statement is: *ambient `Authorization` credentials are not read, cannot establish or change application identity, tenant or ownership, and are not inferred to exist* (`C-2`, and `C4-2` determination 3).
+- **"No client-supplied identity is accepted"** — accurate and now precise: not accepted *as an input on any channel* (query, body, header), and on the header channel specifically the claim is **ignored** (`C4-2` determinations 4–5).
+- **"Roles are retired"** — unchanged (`C-3`), evidenced by the absence of any role, principal or RBAC reference on the Reports path.
+- **"Server-constant namespace `reports.*`"** — unchanged (`C-6`), evidenced by the fixed route table and prefix dispatch.
+- **Verdict `PROVEN` stands, on the corrected reading.** Every element of the bar is met: no client-supplied identity is accepted (now evidenced on the header channel too, as non-effect); roles are retired; no credential is inferred or read.
+
+### 4.4 The five verdicts and the statuses
+
+| # | Item | Disposition |
+|---|---|---|
+| 1 | Legs 1, 3, 4 verdicts (`PROVEN`) | **Unchanged.** No clause of this addendum touches them. |
+| 2 | Leg 2 verdict (`PROVEN`) | **Unchanged**, on the scoped reading (§4.2). |
+| 3 | Leg 5 verdict (`PROVEN`) | **Unchanged**, on the corrected reading (§4.3). |
+| 4 | F-7 qualification status | **`SATISFIED` — unchanged.** Every leg's bar is met under the clarified contract; two legs required correction of their *description*, not of their *outcome*. |
+| 5 | Capability acceptance | **`ACCEPTED (bounded non-production)` — unchanged.** Expressly preserved by the `C4-2` act §7 and not changed here. |
+| 6 | Production admission | **`NOT ADMITTED` — unchanged.** The `C4-2` clarification is a private, single-user, local-deployment clarification; it grants no production authority (§4 of the act). |
+
+**Historical evidence is distinguished from newly established evidence.** The `2026-10-25` execution and the `2026-10-29` revalidation (§1's evidence) remain historical records of what was run then, against the contract as it then read. The evidence in §4.5 is **new**, executed `2026-10-30` against the clarified contract, and is recorded as such. Neither is presented as the other.
+
+### 4.5 Newly executed evidence (`2026-10-30`, at IRR `main` `9b54dbd0…`)
+
+Added to `frontend/server/reports-transport.test.ts` under `C4-2`, and executed with the full Reports scope:
+
+| Requirement | Test |
+|---|---|
+| Ambient `Authorization` cannot establish or change identity | "`C4-2` — ambient credentials and header claims are not identity inputs" |
+| Header identity claims cannot change the personal application principal | same test |
+| Header tenant claims cannot change ownership or tenant context | same test |
+| Ownership always comes from the server-established principal | same test (create + read with hostile headers) |
+| A valid request may proceed and persist an artifact under that principal | same test (`201`, artifact retrievable) |
+| Query/body rejection remains correct | pre-existing "rejects client claims" test, plus re-assertion in the new test |
+| `reports.*` namespace and route/method discipline remain correct | pre-existing tests, re-run |
+
+**No test asserts `400` for a header claim.** Exact commands, counts, commit and tree are recorded at tracker `§16.215.5`; results are reported there and in the pass completion report, and are not restated as history.
+
+*End of the `2026-10-30` addendum. Leg 2 and leg 5 restated on the clarified contract; five verdicts and all three statuses unchanged; new evidence recorded separately from historical evidence.*
