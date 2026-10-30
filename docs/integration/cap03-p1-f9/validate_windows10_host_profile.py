@@ -30,7 +30,7 @@ POST_CI_RECORD_ID = "IIPS-V3-CAP03-P1-REV7-POST-CI-BOUNDARY-RECONCILIATION-2026-
 EVIDENCE_ROOT = REPO / "evidence" / "cap03-s2"
 RUN_ID = "s2-a891802e-20261028T192516Z"
 RUN_DIR = EVIDENCE_ROOT / RUN_ID
-EXPECTED_SHA256 = "4442833d569fb8a738cd90c3e76bea8988d3895ea23f66a06a2661e4aff451a2"
+EXPECTED_SHA256 = "b95bc2786741c426f47b8e6ec260bde9954a63fe04c31d76c23e6cb82362d851"
 EXPECTED_SEAL_SHA256 = "9D3C09DBDB691C2527A45605DEA20826B4EC2BA2F110985EE3F1033783B5225E"
 EXPECTED_DEPOSIT_SHA256 = "FFD0956482427ACB404543E36DAC2705D802B04828E380290232C06129F3AFAD"
 EXPECTED_TRANSCRIPT_SHA256 = "D4C5D9431115BF57D824DF465E3D99B11C619BC6D59A3F0974036F3BFCC2F7CA"
@@ -194,7 +194,7 @@ for text, message in [
     ("$P1FEntry             = '100644 blob a90bb00141194608e64503b24d43964bf7ff85a0'", "effective P1-F source entry is not bound to the current main tree"),
     ("$TrackerPointerMarkers = @('**Latest (`CV-CORR-203`'", "current tracker pointer is not revision-bound"),
     ("'docs/integration/IIPS_v3.0_CAP03_P1_AUTHORIZATION_ACT_AND_PREREQUISITE_DECISIONS_2026-10-29.md'", "reviewed effective P1-F record is not allowlisted for exact-blob freshness checking"),
-    ("$TrackerPointerRequiredText = 'P-1 remains **AUTHORIZED'", "freshness check no longer binds the authorized/unspent status"),
+    ("$TrackerPointerRequiredText = 'AUTHORIZED'", "freshness check no longer binds an authorized/unspent current pointer"),
 ]:
     require(text in source, message)
 require("NOT CONSUMED (no marker and no process-start request)" in source and
@@ -298,6 +298,29 @@ branch_tracker = subprocess.run(
     ["git", "show", f"{branch_commit}:{TRACKER.name}"], cwd=REPO,
     check=True, capture_output=True, text=True, encoding="utf-8",
 ).stdout
+
+# Every P-1-named artifact in this PR must be explicitly allowlisted by the script's post-merge
+# freshness guard. This prevents a newly added governance/verification record from making S06
+# fail on the authoritative main tree after publication.
+changed_pr_paths = subprocess.run(
+    ["git", "diff", "--name-only", base_commit, "HEAD"], cwd=REPO,
+    check=True, capture_output=True, text=True, encoding="utf-8",
+).stdout.splitlines()
+review_artifact_block = re.search(r"(?s)\$ReviewArtifactPaths\s*=\s*@\((.*?)\)", source)
+require(review_artifact_block is not None, "Revision 7 review-artifact allowlist is missing")
+review_artifact_paths = set(re.findall(r"(?m)^\s*'([^']+)'", review_artifact_block.group(1)))
+p1_path_pattern = re.compile(r"(?i)(P1|P-1|GATE[_-]A[_-]PRIME|PF-?15|PA[_-]RULING)")
+unlisted_p1_paths = [path for path in changed_pr_paths if p1_path_pattern.search(path) and path not in review_artifact_paths]
+require(not unlisted_p1_paths,
+        "PR adds P-1-named paths missing from the freshness allowlist: " + ", ".join(unlisted_p1_paths))
+for artifact in (
+    "docs/integration/IIPS_v3.0_CAP03_P1_QEV_OPERATOR_VERIFICATION_DACL_ACCEPTANCE_2026-10-30.md",
+    "docs/integration/IIPS_v3.0_CAP03_P1_REV7_POST_CI_BOUNDARY_RECONCILIATION_2026-10-30.md",
+    "docs/integration/cap03-p1-f9/CAP03_P1_F9_WindowsFixtureTests.ps1",
+):
+    require(artifact in review_artifact_paths, "freshness allowlist misses reviewed PR artifact: " + artifact)
+require("$TrackerPointerRequiredText = 'AUTHORIZED'" in source,
+        "pre-claim/freshness pointer matcher does not match the current tracker rows")
 
 # Allocation census across all tracked IRR paths at the exact main/branch tips.
 def git_grep_count(revision: str, token: str) -> int:

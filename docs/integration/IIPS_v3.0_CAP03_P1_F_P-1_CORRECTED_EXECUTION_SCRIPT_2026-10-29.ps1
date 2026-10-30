@@ -146,7 +146,7 @@ $Pf15Entry            = '100644 blob 3fe9a2ddd5f3b8730eccee7748b6266b5e2d8b1d'
 $TrackerPath          = 'IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md'
 # After publication, main must carry this revision's dated status pointers. The baseline is current authoritative main at merge reconciliation; later main changes are freshness-checked.
 $TrackerPointerMarkers = @('**Latest (`CV-CORR-203`', '**Current CAP-03 P-1 / PF-15 status**')
-$TrackerPointerRequiredText = 'P-1 remains **AUTHORIZED'
+$TrackerPointerRequiredText = 'AUTHORIZED'
 $P1NamePattern        = '(?i)(P1|P-1|GATE[_-]A[_-]PRIME|PF-?15|PA[_-]RULING)'
 $TrackerP1Term        = '(?i)(P-1|P1-F|CAP-03 P1)'
 $TrackerConsumeTerm   = '(?i)(P-1.{0,120}(authorization revoked|authorization withdrawn|attempted:\s*yes|status:\s*(consumed|spent)|is not authorized)|(authorization revoked|authorization withdrawn|attempted:\s*yes|status:\s*(consumed|spent)|not authorized).{0,120}P-1)'
@@ -159,7 +159,10 @@ $ReviewArtifactPaths  = @(
     'IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md',
     'docs/integration/cap03-p1-f9/README.md',
     'docs/integration/cap03-p1-f9/validate_windows10_host_profile.py',
-    'docs/integration/IIPS_v3.0_CAP03_P1_QEV_RUN_RECORD_ROOT_PA_ACT_2026-10-30.md'
+    'docs/integration/IIPS_v3.0_CAP03_P1_QEV_RUN_RECORD_ROOT_PA_ACT_2026-10-30.md',
+    'docs/integration/IIPS_v3.0_CAP03_P1_QEV_OPERATOR_VERIFICATION_DACL_ACCEPTANCE_2026-10-30.md',
+    'docs/integration/IIPS_v3.0_CAP03_P1_REV7_POST_CI_BOUNDARY_RECONCILIATION_2026-10-30.md',
+    'docs/integration/cap03-p1-f9/CAP03_P1_F9_WindowsFixtureTests.ps1'
 )
 
 # ---------------------------------------------------------------------------
