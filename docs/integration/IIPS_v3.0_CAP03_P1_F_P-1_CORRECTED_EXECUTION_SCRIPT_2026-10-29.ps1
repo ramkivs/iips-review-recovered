@@ -1,6 +1,6 @@
 #Requires -Version 5.1
 <#
-  IIPS CAP-03 - P-1 corrected execution script, REVISION 7 (PA-authorized Windows 10 personal host profile; admitted S2 evidence reuse; one-pass semantics reconciliation, 2026-10-30).
+  IIPS CAP-03 - P-1 corrected execution script, REVISION 7 (PA-authorized Windows 10 personal host profile; admitted S2 evidence reuse; one-pass semantics, Q-CONS-1 reconciliation and one-time capture-only Preflight PA decision, 2026-10-31).
   Authority: P1-F, IRR docs/integration/IIPS_v3.0_CAP03_P1_AUTHORIZATION_ACT_AND_PREREQUISITE_DECISIONS_2026-10-29.md
   (section 6, conditions 1-5), plus the scoped PA implementation direction recorded at master tracker section 16.209.
   Base act: IPD commit a891802e2691bd9c65a67d6abff20d8ce0c26d7d, tree
@@ -14,27 +14,32 @@
   During a later authorized run it compares an already-existing pinned-checkout dist read-only; this IRR review did not
   inspect IPD. U-5 remains NOT RUN; this evidence is not represented as U-5 PASS.
 
-  EXACT EFFECTS OF EACH MODE. Neither mode is read-only. The effective PA record does not designate a canonical
-  P-1 run-record root, so both modes currently fail at S00 before canonicalizing or touching -EvidenceRoot and before
-  creating any run directory or file. The following are conditional future effects only after the exact root is
-  designated and every precondition passes; they are not effects of this current fail-closed source state.
-  -Mode Preflight (conditional future effects)
-    Writes:  a run directory p1-pre-<UTC>-<guid8> with raw evidence under the exact PA-designated root (created
-             exclusively); no IPD writes; S04 reads admitted S2 evidence from this IRR checkout and compares any
-             existing pinned-checkout dist read-only; no dependency installation, build, emitted-file probe, or
-             store-parent probe.
-    Invokes: node on the built entrypoint with --mode=validate (S05). The store is expected to be absent: the
-             validation refuses (STORE_NOT_FOUND, or the recorded UNEXPECTED_FAILURE message) and does not create it.
-             Also node (sqlite load probe, S01), git, and the GitHub API (read-only queries, S02 and S06).
-    Never:   creates or modifies the designated store; creates provisioning records; writes EXECUTE-MARKER.json;
-             writes execute-claim.json; invokes --mode=execute.
-  -Mode Execute (conditional future effects)
-    Additionally: writes execute-claim.json exclusively (cross-process exclusion; retained permanently after creation);
-    before any process-start request it writes EXECUTE-MARKER.json, which consumes the one attempt even if OS process
+  AUTHORITY AND MODE BOUNDARY (current record state, CV-CORR-208). P1-F authorizes one provisioning Execute only. The distinct
+  PA decision IIPS-V3-CAP03-P1-REV7-PREFLIGHT-PA-AUTHORIZATION-ACT-2026-10-31-01 authorizes exactly one standalone Revision 7
+  -Mode Preflight invocation for capture-only validation and documented run-record evidence. The decision is bound to the
+  existing Q-EV designation H:\IIPS-P1-EVIDENCE; PA-13 E10 remains a different optional procedure/root, not a prerequisite.
+  After the published-main pointer and exact-root checks, exclusive creation of PREFLIGHT-PA-AUTHORIZATION-USE.json marks
+  invocation start and permanently bars a second Preflight, even after failure/interruption. This marker is distinct from and
+  does not acquire execute-claim.json or write EXECUTE-MARKER.json. The guard is before host/Node/entrypoint activity.
+
+  PREFLIGHT EFFECTS AND ONE-USE SEMANTICS. The one authorized Preflight creates a durable p1-pre-* run directory and
+  documented raw evidence under the exact designated root; it runs documented local validation/read-only pin checks and
+  invokes the entrypoint only with --mode=validate. That validation expects the store absent and refuses without creating
+  it. Preflight does not create a store/provisioning record, acquire the Execute claim, write EXECUTE-MARKER.json, request
+  --mode=execute, build/install dependencies, or perform IPD writes. Its separate exclusive
+  PREFLIGHT-PA-AUTHORIZATION-USE.json is the invocation-start/spend record for this one-time PA authority, not a P1-F
+  marker. Once it exists it is never deleted; any later failure/interruption/unsealed run remains one-use and blocks a
+  second Preflight. If a p1-pre-* run directory exists, the existing failure-summary/seal flow applies; interruption
+  after marker creation but before the run directory leaves the marker as the durable spend record. This marker does not
+  block Execute and does not consume P1-F.
+
+  -Mode Execute (only under the existing separate P1-F authority)
+    Writes execute-claim.json exclusively (cross-process exclusion; retained permanently after creation); before the
+    provisioner process-start request it writes EXECUTE-MARKER.json, which consumes the one attempt even if OS process
     startup fails; performs exactly ONE --mode=execute invocation (S07), then isolated post-invocation evidence
     operations (S08-S09). A pre-marker stop does not consume P-1 but leaves any claim latched; there is no release,
-    retry, repair, or second execute in this file.
-    Requires -ConfirmToken P1-F-ONE-ATTEMPT. A prior Preflight or operator acceptance file is not a P1-F condition.
+    retry, repair, or second execute in this file. Requires -ConfirmToken P1-F-ONE-ATTEMPT. A prior Preflight or
+    operator acceptance file is not a P1-F condition.
 
   Records: run directories are named p1-pre-<UTC>-<guid8> or p1-exe-<UTC>-<guid8> and are created exclusively.
   Files are created exclusively (CreateNew); nothing is overwritten. run-summary.json is written on a normal end;
@@ -138,14 +143,17 @@ $DesignatedBlobs = @(
 # Authorization freshness (checked at S06 and again immediately before the one invocation). Read-only.
 $IrrRepo              = 'ramkivs/iips-review-recovered'
 $IpdRepo              = 'ramkivs/iips-production-market-data'
-$BaselineIrrCommit     = '44baa4505e44c19fcdccad78693ec2061d1afe31'
+$BaselineIrrCommit     = '235b793dcca944fdfca1da166f3d09cc655afb49'
+# Exact one-invocation PA decision; authority is effective only when its act and tracker pointer are published on main.
+$StandalonePreflightAuthorityRef = 'IIPS-V3-CAP03-P1-REV7-PREFLIGHT-PA-AUTHORIZATION-ACT-2026-10-31-01'
+$PreflightAuthorizationUseMarkerName = 'PREFLIGHT-PA-AUTHORIZATION-USE.json'
 $P1FPath              = 'docs/integration/IIPS_v3.0_CAP03_P1_AUTHORIZATION_ACT_AND_PREREQUISITE_DECISIONS_2026-10-29.md'
-$P1FEntry             = '100644 blob a90bb00141194608e64503b24d43964bf7ff85a0'
+$P1FEntry             = '100644 blob e49bdd4156453971ae6b2bc61c4d2ec1b070f59c'
 $Pf15Path             = 'docs/integration/IIPS_v3.0_CAP03_PF15_ENDPOINT_LOCAL_STATE_DESIGNATION_PA_ACT_CORRECTED_2026-10-26.md'
 $Pf15Entry            = '100644 blob 3fe9a2ddd5f3b8730eccee7748b6266b5e2d8b1d'
 $TrackerPath          = 'IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md'
 # After publication, main must carry this revision's dated status pointers. The baseline is current authoritative main at merge reconciliation; later main changes are freshness-checked.
-$TrackerPointerMarkers = @('**Latest (`CV-CORR-205`', '**Current CAP-03 P-1 / PF-15 status**')
+$TrackerPointerMarkers = @('**Latest (`CV-CORR-208`', '**Current CAP-03 P-1 / PF-15 status**')
 $TrackerPointerRequiredText = 'AUTHORIZED'
 $P1NamePattern        = '(?i)(P1|P-1|GATE[_-]A[_-]PRIME|PF-?15|PA[_-]RULING)'
 $TrackerP1Term        = '(?i)(P-1|P1-F|CAP-03 P1)'
@@ -155,6 +163,7 @@ $TrackerConsumeTerm   = '(?i)(P-1.{0,120}(authorization revoked|authorization wi
 $ReviewArtifactPaths  = @(
     'docs/integration/IIPS_v3.0_CAP03_P1_F_P-1_CORRECTED_EXECUTION_SCRIPT_2026-10-29.ps1',
     'docs/integration/IIPS_v3.0_CAP03_P1_F_P-1_SOURCE_TO_SCRIPT_VERIFICATION_2026-10-29.md',
+    'docs/integration/CAP03_P1_QCONS1_PREFLIGHT_CONSUMPTION_AND_AUTHORITY_RECONCILIATION_2026-10-31.md',
     'docs/integration/IIPS_v3.0_CAP03_P1_AUTHORIZATION_ACT_AND_PREREQUISITE_DECISIONS_2026-10-29.md',
     'IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md',
     'docs/integration/cap03-p1-f9/README.md',
@@ -191,6 +200,8 @@ $script:EntryFull     = ''
 $script:ValidatePassAll = $false
 $script:ClaimAcquired  = $false
 $script:ClaimPath      = ''
+$script:PreflightAuthorizationMarkerPath = ''
+$script:PreflightAuthorizationConsumed = $false
 $script:ExecResult     = $null
 $script:LastCapture    = $null
 $script:ExecRawWriteFailed = $false
@@ -231,6 +242,38 @@ function Write-RawFile {
     $fs = New-Object System.IO.FileStream($Path, [System.IO.FileMode]::CreateNew, [System.IO.FileAccess]::Write, [System.IO.FileShare]::None)
     $fs.Write($bytes, 0, $bytes.Length)
     $fs.Dispose()
+}
+
+function Consume-PreflightAuthorization {
+    # This distinct authority-use marker is not the Execute claim or Execute marker. Exclusive creation is the
+    # invocation-start/spend point for the one-time PA grant. It is never deleted or reset, including on failure.
+    if ($Mode -ne 'Preflight') { return }
+    $expectedRef = 'IIPS-V3-CAP03-P1-REV7-PREFLIGHT-PA-AUTHORIZATION-ACT-2026-10-31-01'
+    Require-Check -Id 'S00-PREFLIGHT-AUTHORITY' -Pass ($StandalonePreflightAuthorityRef -ceq $expectedRef) -Detail ('exact one-time PA decision is bound; P1-F remains a separate Execute-only authorization: ' + $StandalonePreflightAuthorityRef)
+    Require-Check -Id 'S00-PREFLIGHT-AUTHORITY-ROOT' -Pass ($EvidenceRoot -ceq $DesignatedEvidenceRoot) -Detail 'the one-time-use marker can only be placed at the exact existing PA-designated Q-EV root'
+    $script:PreflightAuthorizationMarkerPath = Join-Path $script:Facts.evidenceRoot $PreflightAuthorizationUseMarkerName
+    $useRecord = [ordered]@{
+        decisionReference = $StandalonePreflightAuthorityRef
+        mode = 'Preflight'
+        useState = 'SPENT_AT_INVOCATION_START'
+        invocationStartUtc = [DateTimeOffset]::UtcNow.ToString('o')
+        runDirectory = $script:RunDirName
+        scriptSha256 = $script:ScriptSha256
+        p1fConsumption = 'NON-CONSUMING'
+        executeClaimCreated = $false
+        executeMarkerWritten = $false
+        executeProcessStartRequested = $false
+    }
+    try {
+        Write-RawFile -Path $script:PreflightAuthorizationMarkerPath -Text ($useRecord | ConvertTo-Json -Depth 4)
+        $script:PreflightAuthorizationConsumed = $true
+    } catch {
+        if (Test-Path -LiteralPath $script:PreflightAuthorizationMarkerPath -PathType Leaf) {
+            $script:PreflightAuthorizationConsumed = $true
+        }
+        Stop-Gate 'S00-PREFLIGHT-AUTHORITY-ALREADY-USED-OR-UNRECORDABLE' ('the one-use marker already exists or could not be safely created; no second attempt or alternate marker path is allowed. ' + $_.Exception.Message)
+    }
+    Add-Check -Id 'S00-PREFLIGHT-AUTHORITY-USE' -Pass $true -Detail ('the one-time PA authority is now spent; exclusive marker created at the exact designated root: ' + $PreflightAuthorizationUseMarkerName)
 }
 
 function Write-Log {
@@ -476,7 +519,8 @@ function Get-WriteAclEvaluation {
 }
 
 function Get-P1Consumption {
-    if ($Mode -ne 'Execute') { return 'NOT_APPLICABLE (Preflight: no marker, no invocation)' }
+    if ($Mode -eq 'Preflight') { return 'NON-CONSUMING (this Preflight invocation does not acquire an Execute claim, write EXECUTE-MARKER.json, or request the provisioner --mode=execute process start)' }
+    if ($Mode -ne 'Execute') { return 'NOT_APPLICABLE (mode is neither Preflight nor Execute)' }
     $markerOnDisk = $false
     if ($script:RunDir -ne '') { $markerOnDisk = Test-Path -LiteralPath (Join-Path $script:RunDir $MarkerName) -PathType Leaf }
     if ($script:MarkerWritten -or $markerOnDisk -or ($script:ExecuteCalls -gt 0)) {
@@ -507,6 +551,9 @@ function Write-Summary {
         evidenceIntegrityFailure = [bool]$script:Facts.evidenceIntegrityFailure
         forensicOperations       = @($script:Forensics)
         p1fConsumption           = (Get-P1Consumption)
+        preflightAuthorizationRef = $StandalonePreflightAuthorityRef
+        preflightAuthorizationConsumed = [bool]$script:PreflightAuthorizationConsumed
+        preflightAuthorizationUseMarker = $PreflightAuthorizationUseMarkerName
         executeClaim             = [ordered]@{ acquired = [bool]$script:ClaimAcquired; present = [bool]$claimPresent; file = $claimFile; release = 'never automatic; any claim present is preserved and blocks reuse of the designated root'; retention = 'a pre-marker claim does not consume P-1, but remains a permanent local latch under this script' }
         declaredEffects          = @(Get-DeclaredEffects)
         failure                  = $script:Failure
@@ -536,6 +583,7 @@ function Write-Summary {
             'Migration contract: the existing pinned-source review establishes fresh-store migrations 001-004 in order; each migration/ledger update commits independently before the single provisioning BEGIN IMMEDIATE transaction. A later migration failure may leave earlier migrations committed; a provisioning rollback covers provisioning writes only. The marker has already consumed P-1; no automatic repair/retry is permitted.',
             'Path canonicalization: SUBST aliases are detected by listing; reparse points are detected on the chain; drive-letter case is not folded to on-disk case; GetFinalPathNameByHandle is not called. These limits are not closed by this script.',
             'Q-EV is designated as H:\IIPS-P1-EVIDENCE by the effective PA act; S00 requires exact parameter equality and execution-time checks on the already-existing root. No filesystem, owner or host facts were verified in this IRR review. PF-15 F5 Gate 4 and PA-13 E10 are different roots and are not repurposed.',
+            'The one-time standalone Preflight authorization is spent at exclusive creation of PREFLIGHT-PA-AUTHORIZATION-USE.json in the already-designated Q-EV root; the marker is separate from P1-F claim/marker state and is never removed.',
             'Authorization freshness and revocation (S06) are read from repository and GitHub state only. Out-of-band revocation or attempts are not detectable from that state.',
             'Tracker and P1-F status are read through blob identity, pointer-row identity and an added-line scan on origin/main; a revocation recorded under a non-P-1 name is not detected.',
             'Operator-only facts: Windows runtime, PowerShell 5.1 parse, OneDrive or other sync-provider state beyond environment roots, Program Authority records beyond designations, host-preflight evidence, and remote read-back of published artifacts.'
@@ -674,9 +722,13 @@ function Invoke-PreClaimTrackerPointer {
             $missing += ($marker + ' (row count=' + $matches.Count + ')')
         }
     }
+    if ($Mode -eq 'Preflight') {
+        $decisionPublished = $text.Contains($StandalonePreflightAuthorityRef)
+        Require-Check -Id 'S00-PREFLIGHT-AUTHORITY-PUBLISHED' -Pass $decisionPublished -Detail ('exact one-time Preflight PA decision must appear in the authoritative main tracker: ' + $StandalonePreflightAuthorityRef)
+    }
     $script:Facts.preClaimTrackerMainSha = $mainSha
     $script:Facts.preClaimTrackerBlob = $blob
-    Require-Check -Id 'S00-TRACKER-POINTER-PUBLISHED' -Pass ($missing.Count -eq 0) -Detail ('current Revision 7 tracker pointer must already be on authoritative main before any claim/run directory; missing/mismatched=' + ($missing -join '; '))
+    Require-Check -Id 'S00-TRACKER-POINTER-PUBLISHED' -Pass ($missing.Count -eq 0) -Detail ('current Revision 7/P1-F tracker pointers must already be on authoritative main before any claim/run directory; missing/mismatched=' + ($missing -join '; '))
 }
 
 function Invoke-EvidencePlacement {
@@ -1187,7 +1239,9 @@ function Get-DeclaredEffects {
     [void]$effects.Add('S05: node --mode=validate expects the store absent and refuses without creating it')
     [void]$effects.Add('S01, S02, S06: read-only queries (sqlite load probe, git, GitHub API)')
     if ($Mode -eq 'Preflight') {
-        [void]$effects.Add('no store creation, no provisioning record, no execute-mode invocation, no marker, no execute claim')
+        [void]$effects.Add('one-time PA decision authorizes exactly one Revision 7 Preflight; after published-main and exact-root checks, an exclusive distinct Preflight-use marker spends that authority before run-directory or host/Node activity')
+        [void]$effects.Add('the Preflight-use marker is not the Execute claim or marker; the mode remains NON-CONSUMING of P1-F and never requests provisioner --mode=execute')
+        [void]$effects.Add('creates durable p1-pre run-record evidence after the separate use marker; no store creation, provisioning record, Execute claim, Execute marker, or --mode=execute process start')
     }
     if ($Mode -eq 'Execute') {
         [void]$effects.Add('execute-claim.json created exclusively in the designated EvidenceRoot; never auto-released; a pre-marker stop is NOT CONSUMED but the retained claim permanently blocks reuse through this script')
@@ -1494,11 +1548,23 @@ try {
     Require-Check -Id 'S00-EVIDENCE-ABSOLUTE' -Pass ($EvidenceRoot -match '^[A-Za-z]:\\') -Detail 'EvidenceRoot must be an absolute local drive path'
     Require-Check -Id 'S00-STORE-ABSOLUTE' -Pass ($StorePath -match '^[A-Za-z]:\\') -Detail 'StorePath must be an absolute local drive path'
     Require-Check -Id 'S00-MODE-CONFIRM' -Pass (($Mode -eq 'Preflight') -or ($ConfirmToken -ceq $ConfirmRequired)) -Detail ('Execute requires -ConfirmToken ' + $ConfirmRequired + '; Preflight needs none')
+    if ($Mode -eq 'Preflight') {
+        Require-Check -Id 'S00-PREFLIGHT-AUTHORITY' -Pass ($StandalonePreflightAuthorityRef -ceq 'IIPS-V3-CAP03-P1-REV7-PREFLIGHT-PA-AUTHORIZATION-ACT-2026-10-31-01') -Detail 'exact one-time Revision 7 Preflight PA decision is bound; P1-F authorizes Execute only and PA-13 E10 is separate/optional'
+    }
     Invoke-PreClaimTrackerPointer
     Invoke-EvidencePlacement
     $script:Facts.storeDirectory = [System.IO.Path]::GetDirectoryName($StorePath.TrimEnd('\'))
+    # The one-use marker is the invocation-start/spend point: after exact authority, current-main and root-placement
+    # checks, but before any later S00 scan or operation. A failure after this point spends this Preflight authorization.
+    if ($Mode -eq 'Preflight') {
+        $script:RunDirName = 'p1-pre-' + (Get-FileStamp) + '-' + [guid]::NewGuid().ToString('N').Substring(0, 8)
+        $script:RunDir = Join-Path $script:Facts.evidenceRoot $script:RunDirName
+        Require-Check -Id 'S00-RUNDIR-NEW' -Pass (-not (Test-Path -LiteralPath $script:RunDir)) -Detail ('new run directory ' + $script:RunDirName)
+        Consume-PreflightAuthorization
+    }
     # Prior-run scan. Any p1-exe-* directory means an attempt was made or may have been made: every later run refuses.
-    # Any p1-* file, or a p1-pre-* directory without a seal, is an unknown state and refuses. Sealed preflight runs do not block.
+    # Any p1-* file, or a p1-pre-* directory without a seal, is an unknown state and refuses. The separate PA-use marker
+    # blocks every second Preflight even when the first run sealed successfully; it does not block Execute.
     $priorDirs = @(Get-ChildItem -LiteralPath $script:Facts.evidenceRoot -Directory -Filter 'p1-*')
     $priorFiles = @(Get-ChildItem -LiteralPath $script:Facts.evidenceRoot -File -Filter 'p1-*')
     $priorExec = @($priorDirs | Where-Object { $_.Name -like 'p1-exe-*' })
@@ -1517,12 +1583,12 @@ try {
     if ($Mode -eq 'Preflight') { Add-Check -Id 'S00-EXECUTE-CLAIM-INFO' -Pass $true -Detail ('execute claim present = ' + $claimHere + ' (informational in Preflight)') }
 
     # Create the run directory exclusively. The name is unique by UTC time and a GUID fragment; no existing directory is reused.
-    $modeTag = 'pre'
-    if ($Mode -eq 'Execute') { $modeTag = 'exe' }
-    $script:RunDirName = 'p1-' + $modeTag + '-' + (Get-FileStamp) + '-' + [guid]::NewGuid().ToString('N').Substring(0, 8)
-    $script:RunDir = Join-Path $script:Facts.evidenceRoot $script:RunDirName
-    Require-Check -Id 'S00-RUNDIR-NEW' -Pass (-not (Test-Path -LiteralPath $script:RunDir)) -Detail ('new run directory ' + $script:RunDirName)
-    if ($Mode -eq 'Execute') { Invoke-ExecuteClaim }
+    if ($Mode -eq 'Execute') {
+        $script:RunDirName = 'p1-exe-' + (Get-FileStamp) + '-' + [guid]::NewGuid().ToString('N').Substring(0, 8)
+        $script:RunDir = Join-Path $script:Facts.evidenceRoot $script:RunDirName
+        Require-Check -Id 'S00-RUNDIR-NEW' -Pass (-not (Test-Path -LiteralPath $script:RunDir)) -Detail ('new run directory ' + $script:RunDirName)
+        Invoke-ExecuteClaim
+    }
     New-Item -ItemType Directory -Path $script:RunDir -ErrorAction Stop | Out-Null
     $script:LogPath = Join-Path $script:RunDir 'run.log'
     Write-RawFile -Path $script:LogPath -Text ''
@@ -1633,6 +1699,9 @@ catch {
     # marker spends the attempt, whatever the in-memory flag says.
     if (($script:RunDir -ne '') -and (-not $script:MarkerWritten) -and (Test-Path -LiteralPath (Join-Path $script:RunDir $MarkerName) -PathType Leaf)) {
         $script:MarkerWritten = $true
+    }
+    if (($Mode -eq 'Preflight') -and ($script:PreflightAuthorizationMarkerPath -ne '') -and (Test-Path -LiteralPath $script:PreflightAuthorizationMarkerPath -PathType Leaf)) {
+        $script:PreflightAuthorizationConsumed = $true
     }
     if (($script:MarkerWritten) -and ($script:ExecuteCalls -eq 0)) {
         $script:ExecState = 'STOPPED_AFTER_MARKER'
