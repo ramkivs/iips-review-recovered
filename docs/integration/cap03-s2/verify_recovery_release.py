@@ -329,6 +329,15 @@ def main() -> int:
 if __name__ == "__main__":
     try:
         raise SystemExit(main())
-    except Exception as exc:  # CI should emit one concise failure with nonzero status.
-        print(f"FAIL: {exc}", file=sys.stderr)
+    except Exception as exc:  # CI should emit a visible check annotation and concise failure.
+        message = f"CAP-03 recovery release audit failed: {exc}"
+        print(f"FAIL: {message}", file=sys.stderr)
+        # Check-run annotations are also available through the GitHub Checks API,
+        # unlike hosted-runner log archives which may not be reachable from IRR-only sandboxes.
+        escaped = message.replace("%", "%25").replace("\r", "%0D").replace("\n", "%0A")
+        print(f"::error title=CAP-03 release audit::{escaped}", file=sys.stderr)
+        summary = os.environ.get("GITHUB_STEP_SUMMARY")
+        if summary:
+            with open(summary, "a", encoding="utf-8") as handle:
+                handle.write(f"## CAP-03 recovery release audit failure\n\n`{message}`\n")
         raise SystemExit(1)
