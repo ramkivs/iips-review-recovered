@@ -1,7 +1,7 @@
 /**
  * CAP-03 S2-DEP-A host-transfer instrument — terminal-state control-flow contract.
  *
- * Authority: IRR tracker §16.193 (`CV-CORR-173`, `CHG-2026-10-29-15`), rev-7.
+ * Authority: IRR tracker §16.193 (`CV-CORR-173`, `CHG-2026-10-29-15`), rev-7, as superseded for the staging path-set gate by §16.230 (`CV-CORR-210`, `CHG-2026-10-31-09`), rev-8.
  * Pins (regression teeth, per fix pass):
  *  - rev-2: a failed remote-SHA check after a completed push could print
  *    `RESULT: PASS` (fixed rev 3; still pinned);
@@ -20,7 +20,7 @@
  *    git refused the command and its fatal stderr became a PS 5.1 terminating error before
  *    anything staged (fail-closed, nothing committed or pushed). Fixed rev 7: plain
  *    pathspec-restricted add under an inner try with captured exit code; the
- *    staged-count-19, staged-prefix and PHASE-7 byte gates remain the authority.
+ *    manifest-derived exact staged-path set, staged-prefix and PHASE-7 byte gates remain the authority (rev-8).
  * Structural interpretation: each top-level `if ($STATE ...)` block executes
  * iff its gate holds; a Set-Blocked flips the state for later pass-gated
  * blocks; an exception unwinds past the footer into the catch; Set-Result
@@ -132,7 +132,7 @@ function simulate(inject: Injection): { out: string[]; pushState: string } {
 // is exactly ONE real terminal emission with the right value.
 const real = (out: string[]) => out.filter((x) => x !== 'SUPPRESSED' && x !== 'RAW-EMIT' && x !== 'CATCH-CONSULTS-ORIGIN');
 
-describe('S2-DEP-A instrument rev 7 — terminal reporting contract (§16.193)', () => {
+describe('S2-DEP-A instrument rev 8 — terminal reporting and manifest-derived staging contract (§16.193 / §16.230)', () => {
   it('block structure: init, push, verification, success and footer are separate gated blocks in order', () => {
     expect(INIT_IDX).toBe(0);
     expect(PUSH_IDX).toBeGreaterThan(INIT_IDX);
@@ -314,29 +314,34 @@ describe('S2-DEP-A instrument rev 7 — terminal reporting contract (§16.193)',
     expect(p6, 'PHASE-6 block located').toBeDefined();
     const txt = (p6 as Block).text;
     expect(txt).toMatch(/& git\.exe -C \$REPOD add -- \$relPaths 2>&1 \| ForEach-Object \{ Write-Log \('add: ' \+ \$_\.ToString\(\)\) \}/);
-    expect(txt, 'path restriction kept (explicit 19 pathspecs after --)').toMatch(/add -- \$relPaths/);
+    expect(txt, 'path restriction kept (manifest-derived pathspecs after --)').toMatch(/add -- \$relPaths/);
     expect(txt).toMatch(/\$addCode = 'not-captured'/);
     expect(txt).toMatch(/\$addCode = \$LASTEXITCODE/);
     expect(txt, 'genuine-error path maps to a captured failure state').toMatch(/\$addCode = -1/);
     expect(txt).toMatch(/if \(\$addCode -ne 0\) \{ Set-Blocked \('git add failed \(exit ' \+ \$addCode/);
     const addIdx = txt.search(/git\.exe -C \$REPOD add --/);
     const gateIdx = txt.search(/if \(\$addCode -ne 0\)/);
-    const countIdx = txt.search(/if \(\$staged\.Count -ne 19\)/);
+    const setIdx = txt.search(/Test-S2TransferPathSet -ExpectedPaths \$relPaths -ActualPaths \$staged/);
     expect(gateIdx, 'exit gate follows the add').toBeGreaterThan(addIdx);
-    expect(countIdx, 'staged-count gate follows the exit gate').toBeGreaterThan(gateIdx);
-    expect(txt).toMatch(/Set-Blocked \('staged count ' \+ \$staged\.Count \+ ' != expected 19/);
+    expect(setIdx, 'exact manifest-derived path-set gate follows the exit gate').toBeGreaterThan(gateIdx);
+    expect(txt).toMatch(/if \(-not \$stageContract\.Passed\) \{ Set-Blocked \('staged paths differ from exact manifest-authorized set/);
+    expect(txt, 'rev-8 removes the fixed staged-count-19 assumption').not.toMatch(/\$staged\.Count -ne 19/);
     expect(txt).toMatch(/unexpected staged path/);
+    expect(SRC, 'sealed manifest must name exactly one dist-artifacts.zip').toMatch(/\$distArchiveMembers\.Count -ne 1/);
+    expect(SRC, 'shared strict transfer path-set helper is imported').toContain("Import-Module -Name (Join-Path $PSScriptRoot 'cap03-p1-f9\\CAP03S2DistArtifacts.psm1') -Force -ErrorAction Stop");
     const copyLines = txt.split('\n').filter((l) => l.includes('Copy-Item -LiteralPath'));
     expect(copyLines.length, 'binary-safe copy sites').toBe(5);
     for (const cl of copyLines) expect(cl, 'every copy is -Force: ' + cl.trim().slice(0, 48)).toMatch(/-Force$/);
   });
 
-  it('frozen hash record and 19-path byte gates preserved from revs 3/4', () => {
+  it('frozen hash record and manifest-derived byte gates preserved from revs 3/4 and strengthened by rev 8', () => {
     expect(SRC).toMatch(/\$hostExpected\['evidence\/cap03-s2\/deposit-host-hashes\.txt'\]/);
     const writes = SRC.match(/Add-Content -LiteralPath \$HASHES/g) ?? [];
     expect(writes.length, 'record built pre-commit only').toBe(5);
     expect(SRC).not.toMatch(/Add-Content -LiteralPath \$HASHES -Value \('# deposit branch/);
-    expect(SRC).toMatch(/\$staged\.Count -ne 19/);
+    expect(SRC, 'every manifest artifact is byte-gated').toMatch(/foreach \(\$a in \$artifacts\) \{ \$hostExpected\[/);
+    expect(SRC, 'exact staged path-set gate replaces fixed count').toMatch(/Test-S2TransferPathSet -ExpectedPaths \$relPaths -ActualPaths \$staged/);
+    expect(SRC).not.toMatch(/\$staged\.Count -ne 19/);
     for (const gate of ['STAGED BYTE MISMATCH', 'STAGED BYTE COUNT MISMATCH', 'COMMITTED BYTE MISMATCH', 'check-attr text eol', 'core\\.autocrlf false', 'core\\.safecrlf false', 'host MANIFEST\\.json differs from published blob', 'seal line disagrees with host hash', "\\.StartsWith\\('evidence/cap03-s2/'\\)", 'Get-GitBlobDigest \\(\':\' \\+ \\$k\\)', "Get-GitBlobDigest \\('HEAD:' \\+ \\$k\\)"]) {
       expect(new RegExp(gate).test(SRC), `gate: ${gate}`).toBe(true);
     }
@@ -345,7 +350,7 @@ describe('S2-DEP-A instrument rev 7 — terminal reporting contract (§16.193)',
     expect(SRC).toMatch(/host copy byte-identical to committed copy/);
   });
 
-  it('authorization anchors at rev 7 (marker CHG-2026-10-29-15, baseline f44c72e5, immutable locus, sealed digests, drift logging)', () => {
+  it('authorization anchors at rev 8 (marker CHG-2026-10-29-15 preserved, baseline f44c72e5, immutable locus, sealed digests, drift logging)', () => {
     for (const anchor of [
       'CHG-2026-10-29-15',
       'f44c72e55f3de18e9b5130eb45c3f39158a26095',

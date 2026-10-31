@@ -1,15 +1,15 @@
 {
   "record": "IIPS-V3-CAPMATRIX-51X17-REASSESSMENT-2026-10-31-01",
   "date": "2026-10-31",
-  "irr_main": "fff8cf98ddcc7af1c6ab58d3ae9a3442a5322935",
-  "ipd_main": "4e275ec97a7701521e6a4e7632e9324bafe8d286",
+  "irr_main": "7fd824de30d8268ed3eca210bc664dc60749fa8c",
+  "ipd_main": "527f811b17edb02caa665b345d9f36102435e1e8",
   "matrix_rows": 51,
   "matrix_columns": 17,
   "headers_preserved": true,
   "row_numbering_preserved": true,
   "changed_cells": 116,
-  "pending_items": 44,
-  "evidence_items": 36,
+  "pending_items": 40,
+  "evidence_items": 42,
   "disposition_counts": {
     "ACCEPTED": 20,
     "ACCEPTED+FOLLOWUP": 12,
@@ -26,9 +26,8 @@
     "PA decisions / governance": 17,
     "Cross-repository integration / dependencies": 5,
     "Operator execution": 2,
-    "IRR implementation / deliverables": 4,
-    "IPD implementation / deliverables": 1,
     "Qualification / admission gates": 5,
+    "IRR implementation / deliverables": 1,
     "External / infrastructure blockers": 2
   },
   "dimension_counts": {
@@ -77,10 +76,9 @@
       "NP": 1
     },
     "Validation": {
-      "V": 47,
+      "V": 48,
       "SOURCE-REPORTED": 2,
-      "NOT SATISFIED": 1,
-      "P": 1
+      "NOT SATISFIED": 1
     },
     "E2E": {
       "NA": 20,
@@ -113,27 +111,27 @@
       "NOT SATISFIED": 3
     },
     "Release-readiness": {
-      "V": 45,
+      "V": 46,
       "BL": 3,
-      "P": 3
+      "P": 2
     }
   },
   "files": {
     "IIPS_V3_CAPABILITY_MATRIX_51x17_REASSESSED_2026-10-31.csv": {
-      "bytes": 58821,
-      "sha256": "d1d6861f6de514a0859d0073a52b683a79482c70211b1bd1610eb3f8618cf7ce"
+      "bytes": 59094,
+      "sha256": "dbe5b7261031c3e6ba35506be915ef591d8051577c47f2717c02c220d215082c"
     },
     "IIPS_V3_OUTSTANDING_PENDING_2026-10-31.csv": {
-      "bytes": 29349,
-      "sha256": "865ee7dd0b7ad19409277c36e6fbf99445fb680e1a327bc14c0a582bc86480c2"
+      "bytes": 27348,
+      "sha256": "d89467bd559c49c9ccac777886faa5e92c8a8ad920d29de94ce1f551a9008ae7"
     },
     "IIPS_V3_CAPABILITY_MATRIX_51x17_REASSESSED_2026-10-31.xlsx": {
-      "bytes": 104127,
-      "sha256": "49f2ae72c7b7f1b2b3239465e7f8c9a3287e05f4289a8f8510a973f242d08d1c"
+      "bytes": 104057,
+      "sha256": "0f3cb372c967943355fd585387e0bd4a9cf4d517c745e3960bceab5f9359669e"
     },
     "RECONCILIATION_REPORT.md": {
-      "bytes": 4479,
-      "sha256": "044a56544d721c1ffe46c864c873b27f132f0d41bb3395ae52c00aa01342653c"
+      "bytes": 4699,
+      "sha256": "8d7883509aee10646b3a7990980fffddda1bebd4f61c95d9770e5326460d46e5"
     }
   }
 }

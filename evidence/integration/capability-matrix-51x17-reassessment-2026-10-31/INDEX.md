@@ -10,7 +10,7 @@ Tracker overlay: §16.231 (`CV-CORR-211`, `CHG-2026-10-31-10`, `V1818`–`V1829`
 |---|---|
 | `IIPS_V3_CAPABILITY_MATRIX_51x17_REASSESSED_2026-10-31.xlsx` | Updated workbook: Sheet 1 updated 51×17 matrix; Sheet 2 outstanding/pending register; supporting reconciliation/evidence/census/validation sheets |
 | `IIPS_V3_CAPABILITY_MATRIX_51x17_REASSESSED_2026-10-31.csv` | Updated matrix CSV, 51 rows × 17 columns |
-| `IIPS_V3_OUTSTANDING_PENDING_2026-10-31.csv` | 44-item pending register CSV, 16 columns |
+| `IIPS_V3_OUTSTANDING_PENDING_2026-10-31.csv` | 40-item pending register (post consolidated resolution; P-11/P-18/P-19/P-20 closed) CSV, 16 columns |
 | `RECONCILIATION_REPORT.md` | Concise reconciliation summary |
 | `00-reassessment-checks.json` | Machine receipt: shape, counts, hashes |
 | `changed-cells.json` | Cell-level baseline→current diff |

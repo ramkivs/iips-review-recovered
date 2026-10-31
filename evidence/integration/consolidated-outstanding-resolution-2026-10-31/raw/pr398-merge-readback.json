@@ -1,0 +1,152 @@
+{
+  "pr": 398,
+  "state": "closed",
+  "merged": true,
+  "merged_at": "2026-10-31T16:46:48Z",
+  "head_sha": "eddbaead386b3d9627402e4070537defd3dfa0e0",
+  "merge_commit_sha": "7fd824de30d8268ed3eca210bc664dc60749fa8c",
+  "parents": [
+    "11f064a3add34ab237735191df47eb8bea59e013",
+    "eddbaead386b3d9627402e4070537defd3dfa0e0"
+  ],
+  "main": "7fd824de30d8268ed3eca210bc664dc60749fa8c",
+  "tree": "62785a3cdc099aab4090868629e745be9d1383e4",
+  "files": [
+    {
+      "path": ".github/workflows/cap03-p1-consolidated-windows.yml",
+      "bytes": 2210,
+      "sha256": "487907a27923329ce5675ff05f8ab08299af4e42b22dd644e5421aa2a142fc5e",
+      "git_blob_sha1": "11fa227f35f716d41710997dc48dabd27bf32a5d",
+      "pr_blob_sha": "11fa227f35f716d41710997dc48dabd27bf32a5d",
+      "match": true
+    },
+    {
+      "path": ".github/workflows/cap03-revision7-irr-static.yml",
+      "bytes": 3794,
+      "sha256": "0bb9636bc47a31f407c396eba899f69834b1da77167b40f190e7daa50d9733a2",
+      "git_blob_sha1": "b93699a2dd1fbe92412905c8830bcae69c81bad8",
+      "pr_blob_sha": "b93699a2dd1fbe92412905c8830bcae69c81bad8",
+      "match": true
+    },
+    {
+      "path": "IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md",
+      "bytes": 3623622,
+      "sha256": "7b0f27c8f305dbfa77c5786617ce81588eab4f1d953fe6e3c94f0cf5971746e4",
+      "git_blob_sha1": "0cb69f112348f8fb7ea83712268a4390f02a2d11",
+      "pr_blob_sha": "0cb69f112348f8fb7ea83712268a4390f02a2d11",
+      "match": true
+    },
+    {
+      "path": "docs/integration/CAP03_P1_F_CONSOLIDATED_CORRECTION_2026-10-31.md",
+      "bytes": 10861,
+      "sha256": "28885266795e70025ee7a455db025d4e2a78d8fe35fcdce7a951557dc5550379",
+      "git_blob_sha1": "5828031a022b1a1084c2897cca97214d2e04273c",
+      "pr_blob_sha": "5828031a022b1a1084c2897cca97214d2e04273c",
+      "match": true
+    },
+    {
+      "path": "docs/integration/IIPS_v3.0_CAP03_P1_F_P-1_CORRECTED_EXECUTION_SCRIPT_2026-10-29.ps1",
+      "bytes": 133216,
+      "sha256": "6639633855300cd645248ce597bb2c867b5cdbf6045947bf4281721bb1cde6d1",
+      "git_blob_sha1": "2e5bce0c828af5f854dcb81bfcd39a4437ebc46c",
+      "pr_blob_sha": "2e5bce0c828af5f854dcb81bfcd39a4437ebc46c",
+      "match": true
+    },
+    {
+      "path": "docs/integration/IIPS_v3.0_CAP03_P1_F_P-1_SOURCE_TO_SCRIPT_VERIFICATION_2026-10-29.md",
+      "bytes": 151405,
+      "sha256": "2f0e339b79aab17036cd4cc41dc829bec55497b73a456c426d87c967a0b835b2",
+      "git_blob_sha1": "1d7f9a7dd4203f1a8447d2a6446113e27ab2190e",
+      "pr_blob_sha": "1d7f9a7dd4203f1a8447d2a6446113e27ab2190e",
+      "match": true
+    },
+    {
+      "path": "docs/integration/IIPS_v3.0_CAP03_S2_DEP_A_HOST_TRANSFER_2026-10-29.ps1",
+      "bytes": 39197,
+      "sha256": "c4f94fe793006b38b39341842ed8f8cd923c1144e58c40fdef5da7bc78896c58",
+      "git_blob_sha1": "ddcd28c0d253a26b789776081a017dbf0e578b3f",
+      "pr_blob_sha": "ddcd28c0d253a26b789776081a017dbf0e578b3f",
+      "match": true
+    },
+    {
+      "path": "docs/integration/IIPS_v3.0_CAP03_S2_OPERATOR_RUNBOOK_2026-10-26.md",
+      "bytes": 18738,
+      "sha256": "8b8827a0d38996f4eb87addd63e2a4ce2488b7e7b936bcdf54420dd2a6ec8c15",
+      "git_blob_sha1": "d1fa06d037cec2071b8df09ed2ec49b3c6398d50",
+      "pr_blob_sha": "d1fa06d037cec2071b8df09ed2ec49b3c6398d50",
+      "match": true
+    },
+    {
+      "path": "docs/integration/IIPS_v3.0_CAP03_S2_ORIGINAL_DIST_RECOVERY_2026-10-31.ps1",
+      "bytes": 2088,
+      "sha256": "9528c161299fc4854addd9450bbbf158093ec80e41752be31e0be52c6e225357",
+      "git_blob_sha1": "64851c7f5e0bcc8b96ecd0770c9154a331864aeb",
+      "pr_blob_sha": "64851c7f5e0bcc8b96ecd0770c9154a331864aeb",
+      "match": true
+    },
+    {
+      "path": "docs/integration/IIPS_v3.0_CAP03_S2_PIN_A891802E_WINDOWS_RUN_2026-10-28.ps1",
+      "bytes": 41609,
+      "sha256": "c37a1ed0ed79b493683b12f2e0de6e7c747c6b6ae0aca6de335befa28f9ec3b2",
+      "git_blob_sha1": "21c3dd975eb60dead6b3a834e34a791ca96688b1",
+      "pr_blob_sha": "21c3dd975eb60dead6b3a834e34a791ca96688b1",
+      "match": true
+    },
+    {
+      "path": "docs/integration/cap03-p1-f9/CAP03P1FailureSummary.psm1",
+      "bytes": 2933,
+      "sha256": "f3ae5516d435b9adfa042cfb8bde92e8cd51f858dabe77f5b87429e028afe291",
+      "git_blob_sha1": "cccee4d64518013e790bd99dfd7bfffe5c70d31e",
+      "pr_blob_sha": "cccee4d64518013e790bd99dfd7bfffe5c70d31e",
+      "match": true
+    },
+    {
+      "path": "docs/integration/cap03-p1-f9/CAP03S2DistArtifacts.psm1",
+      "bytes": 38601,
+      "sha256": "cc90992979dfe6ca9ca4d32f9df9f57637d0b3806d6da77dd07f96600969d107",
+      "git_blob_sha1": "63b628eb4d5259d1e7a386a0ac4c6e5d6d505fb4",
+      "pr_blob_sha": "63b628eb4d5259d1e7a386a0ac4c6e5d6d505fb4",
+      "match": true
+    },
+    {
+      "path": "docs/integration/cap03-p1-f9/CAP03_P1_ConsolidatedCorrection.Tests.ps1",
+      "bytes": 29622,
+      "sha256": "a94467fa7fdd23d5b39abbfe91e21e319c537d81100e31f0f36c268dbb18cf5b",
+      "git_blob_sha1": "aa4348c69cd9991fa572c57f5d0795b25823370d",
+      "pr_blob_sha": "aa4348c69cd9991fa572c57f5d0795b25823370d",
+      "match": true
+    },
+    {
+      "path": "docs/integration/cap03-p1-f9/README.md",
+      "bytes": 63888,
+      "sha256": "9b0dc98de435996d8148ec67772698a1fa5eafd26da264405f3abb43b60ade8a",
+      "git_blob_sha1": "2d0bee6329f46e9f9623ff0e08a504a047e1d3b8",
+      "pr_blob_sha": "2d0bee6329f46e9f9623ff0e08a504a047e1d3b8",
+      "match": true
+    },
+    {
+      "path": "docs/integration/cap03-p1-f9/validate_windows10_host_profile.py",
+      "bytes": 55527,
+      "sha256": "97c6f19d6b08c66928d68e4752c796279a1d3f9338a7afbc2a6b8e0325b6df64",
+      "git_blob_sha1": "99f18005492aeaf531571ca1681768f63ebec9f0",
+      "pr_blob_sha": "99f18005492aeaf531571ca1681768f63ebec9f0",
+      "match": true
+    },
+    {
+      "path": "docs/integration/cap03-s2/verify_recovery_release.py",
+      "bytes": 16483,
+      "sha256": "398d40e97f3413470cb46ede509832ee66b40120b622fb0daf9a365753c7b9e0",
+      "git_blob_sha1": "9d0a80ad48dae6b47c49de0b069b70cef053202b",
+      "pr_blob_sha": "9d0a80ad48dae6b47c49de0b069b70cef053202b",
+      "match": true
+    },
+    {
+      "path": "evidence/integration/cap03-s2-a891802e-finalization-contract-2026-10-28/test_finalization_contract.py",
+      "bytes": 48396,
+      "sha256": "3bfc3a0bfce773c6fec28e07b8c90816825bc8b8c5c9a63d80cd6090d2d7b0b0",
+      "git_blob_sha1": "e537bd4e6b4cf2511b389761b01510d012da1ea0",
+      "pr_blob_sha": "e537bd4e6b4cf2511b389761b01510d012da1ea0",
+      "match": true
+    }
+  ]
+}

@@ -1,11 +1,11 @@
 {
   "repo": "IPD",
   "slug": "ramkivs/iips-production-market-data",
-  "main": "4e275ec97a7701521e6a4e7632e9324bafe8d286",
+  "main": "527f811b17edb02caa665b345d9f36102435e1e8",
   "remote_branch_count": 102,
   "local_branches": [],
   "open_prs": [],
-  "pr_count": 109,
+  "pr_count": 110,
   "branches": [
     {
       "repo": "IPD",
@@ -15626,6 +15626,21 @@
       "base_ref": "main",
       "merge_commit_sha": "94f519bfb707b27dc97ace999697bb98cbcb4b50",
       "html_url": "https://github.com/ramkivs/iips-production-market-data/pull/1"
+    },
+    {
+      "number": 114,
+      "title": "docs(cap-02): P-20 \u2014 correct stale P-1 authorization limb by dated pointer to IRR P1-F",
+      "state": "MERGED",
+      "draft": false,
+      "created_at": "2026-10-31T16:19:25Z",
+      "updated_at": "2026-10-31T16:21:29Z",
+      "closed_at": "2026-10-31T16:21:29Z",
+      "merged_at": "2026-10-31T16:21:29Z",
+      "head_ref": "arena/82d660c8-iips-production-market-data",
+      "head_sha": "2ca99a36e050dbd6972f29bf8219434cb66d60de",
+      "base_ref": "main",
+      "merge_commit_sha": "527f811b17edb02caa665b345d9f36102435e1e8",
+      "html_url": "https://github.com/ramkivs/iips-production-market-data/pull/114"
     }
   ]
 }

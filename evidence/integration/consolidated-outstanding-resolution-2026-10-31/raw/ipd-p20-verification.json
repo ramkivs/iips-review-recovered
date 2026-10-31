@@ -1,0 +1,29 @@
+{
+  "repo": "ramkivs/iips-production-market-data",
+  "pr": 114,
+  "pr_state": "closed",
+  "merged": true,
+  "merged_at": "2026-10-31T16:21:29Z",
+  "merge_commit_sha": "527f811b17edb02caa665b345d9f36102435e1e8",
+  "head_sha": "2ca99a36e050dbd6972f29bf8219434cb66d60de",
+  "commit_sha": "527f811b17edb02caa665b345d9f36102435e1e8",
+  "parents": [
+    "4e275ec97a7701521e6a4e7632e9324bafe8d286",
+    "2ca99a36e050dbd6972f29bf8219434cb66d60de"
+  ],
+  "commit_tree": "e1e478ae3fad0ef02aeb85bf59d06ac0575cfed2",
+  "main_sha": "527f811b17edb02caa665b345d9f36102435e1e8",
+  "path": "evidence/cross-repository/IIPS_V3_CAP02_IPD_EXECUTION_TRACKER_2026-10-23.md",
+  "bytes": 256174,
+  "sha256": "8fdd6c5d6eab7539507752aa4e809dcfe12582fd3072896557d8db789eb94b7e",
+  "git_blob_sha1": "5ceb5398b0cb172bdc793e62bdfaea005b7c426a",
+  "main_bytes_match": true,
+  "changed_files": [
+    "evidence/cross-repository/IIPS_V3_CAP02_IPD_EXECUTION_TRACKER_2026-10-23.md"
+  ],
+  "stats": {
+    "total": 90,
+    "additions": 90,
+    "deletions": 0
+  }
+}

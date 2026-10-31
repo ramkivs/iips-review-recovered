@@ -1,0 +1,3 @@
+
+> @iips/v3-frontend@0.1.0 typecheck:replay-server
+> tsc -p tsconfig.replay-server.json --noEmit

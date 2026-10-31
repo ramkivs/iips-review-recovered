@@ -1,0 +1,7 @@
+PASS: exact PA-authorized Windows 10 profile and preserved P-1 safety/path/one-attempt controls
+PASS: S04 source validates PA-06 L2a evidence and defines a read-only current-dist match; no build/install/probe invocation
+PASS: admitted S2 authority, pin, completeness, hashes, build/test/package records and publication transcript verified
+LIMIT: this is IRR-only static validation; no PowerShell parse, IPD inspection, current-dist check, S2 rerun or U-5 PASS
+DURABLE IRR RETENTION: PARTIAL — hosted release audit 41220038505 independently verified four release-asset hashes and 1,140 ZIP payload hashes against the original inventory. The sealed S04 bundle is not yet present; the exact original verification-output file remains a separate Windows input, and the release transcript is not substituted for it.
+U-5 remains NOT RUN; exact emitted-entry closure and emitted-migration probes remain NOT RUN
+REVISION_7_SCRIPT_SHA256=6639633855300cd645248ce597bb2c867b5cdbf6045947bf4281721bb1cde6d1

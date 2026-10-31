@@ -28,18 +28,14 @@ for row in ROWS:
 assert len(ROWS) == 51 and all(len(r) == 17 for r in ROWS)
 assert [r[0] for r in ROWS] == list(range(1,52))
 assert HEADERS == base.HEADERS
-# Ensure every mapped pending ID is visible in the 17th dimension without adding columns.
+# Ensure the 17th dimension carries exactly the current mapped pending IDs.
+import re as _re
 for _row in ROWS:
+    _anchor = _re.sub(r"\s*Pending:.*$", "", str(_row[16])).rstrip()
     _ids = MAP.get(_row[0], [])
     if _ids:
-        _anchor = str(_row[16])
-        _missing = [i for i in _ids if i not in _anchor]
-        if _missing:
-            if 'Pending:' in _anchor:
-                _anchor = _anchor.rstrip('.') + ', ' + ', '.join(_missing) + '.'
-            else:
-                _anchor = _anchor.rstrip('.') + '. Pending: ' + ', '.join(_missing) + '.'
-            _row[16] = _anchor
+        _anchor = _anchor.rstrip('.') + '. Pending: ' + ', '.join(_ids) + '.'
+    _row[16] = _anchor
 
 PENDING_HEADERS = ["Item ID","Group","Capability / matrix reference","Outstanding requirement / action","Current status","What remains pending","Dependency / prerequisite","Dependency owner","Accountable owner (PA/IRR/IPD)","Execution owner","Required decision / authorization","Blocking issue / constraint","Required completion evidence","Repository / branch / commit / artifact references","Recommended next action","Completion criteria"]
 
@@ -126,7 +122,7 @@ recon_rows = [
  ['Matrix shape', '51 capabilities x 17 dimensions; headers and row numbering preserved exactly'],
  ['Changed matrix cells', len(changed_cells)],
  ['Pending items', len(PENDING)],
- ['Open PRs at census', 'IRR #398 (OPEN/UNSTABLE); IPD none'],
+ ['Open PRs at census', 'IRR #398 merged during consolidated resolution; IPD none'],
  ['IRR branch census', '304 remote branches; 32 non-ancestors of main; 396 PRs inspected'],
  ['IPD branch census', '102 remote branches; 32 non-ancestors of main; 109 PRs inspected'],
  ['IRR current validation', '108 files / 1377 tests / 0 failed; typecheck/replay/build/guard PASS'],
@@ -182,9 +178,9 @@ report.append(f'**Record:** `IIPS-V3-CAPMATRIX-51X17-REASSESSMENT-2026-10-31-01`
 report.append('## A. Scope and method\n')
 report.append('This reassessment inspected both authoritative repositories, all available remote branches and PRs in full clones, current trackers/decision acts, implementation artifacts, and executed current-head validation. The original 51 capabilities and 17 dimensions are preserved. Statuses are updated only where current evidence supports a change; historical text is retained in the baseline bundle. Production remains outside scope.\n')
 report.append('## B. What changed from the October 27 baseline\n')
-report.append('- **O-05 / row 28:** IPD PR #113 merged a bounded refusing-only broker-import consumer; state-2 code-level limb satisfied, admission limb remains open.\n- **D-9 / row 35:** C4-2 PA act effective; Reports header-claim question closed; F-7 bounded backend acceptance unchanged; G-14 residual recorded.\n- **O-06 / row 45:** closed no action required; all three IPD specifiers guarded.\n- **O-07 / row 48:** closed documentation reconciliation; row 27 re-scoped; O-09 remains open.\n- **P-1 / rows 30/32:** P1-F remains authorized/unspent on authoritative main; operator-reported S00 stop recorded; PR #398 open with Windows CI failure.\n- **Validation counts:** IRR 108 files / 1377 tests; IPD 941 tests / 940 pass / 1 skip.\n- **Branch distances:** G24 branch 7 ahead / 920 behind; historical Reports branch 28 ahead / 1043 behind.\n- **Runbook:** start path works but headline figures require restamp.\n')
+report.append('- **O-05 / row 28:** IPD PR #113 merged a bounded refusing-only broker-import consumer; state-2 code-level limb satisfied, admission limb remains open.\n- **D-9 / row 35:** C4-2 PA act effective; Reports header-claim question closed; F-7 bounded backend acceptance unchanged; G-14 residual recorded.\n- **O-06 / row 45:** closed no action required; all three IPD specifiers guarded.\n- **O-07 / row 48:** closed documentation reconciliation; row 27 re-scoped; O-09 remains open.\n- **P-1 / rows 30/32:** PR #398 merged; P1-F consumption remains NOT RECONCILED and no host execution is inferred.\n- **Validation counts:** IRR 108 files / 1377 tests after S2-DEP-A rev-8 contract-test correction; IPD 941 tests / 940 pass / 1 skip.\n- **Branch distances:** G24 branch 7 ahead / 920 behind; historical Reports branch 28 ahead / 1043 behind.\n- **Runbook:** restamped to 108/1377 with exact frontend-tree pointer.\n- **P-20:** IPD PR #114 merged; IRR pending register no longer lists the resolved IPD documentation conflict.\n- **P-33/G14:** dependency assessment published; final G14 remains blocked by upstream gates.\n')
 report.append('## C. Downgrades / reopened items\n')
-report.append('No accepted capability was reopened without contradictory evidence. The runbook figure drift is a documentation downgrade (row 47). Row 48 remains partial because PR #398 is unmerged and the IPD tracker footer conflicts with IRR P1-F. Row 19 is upgraded for live-source E2E based on operator-transferred evidence, with a non-blocking browser-rendering residual.\n')
+report.append('No accepted capability was reopened without contradictory evidence. Row 47 is restored to verified current figures. Row 48 remains partial because G14 final reconciliation is blocked and P1-F consumption is not reconciled, not because PR #398 or IPD P-20 remains open. Row 19 is upgraded for live-source E2E based on operator-transferred evidence, with a non-blocking browser-rendering residual.\n')
 report.append('## D. Remaining blockers and dependencies\n')
 report.append('The dominant chain remains: PA-09 Gate 4 pin → P-1 runtime execution → S2/Limb A native run → H-12 L2c/S2a → S3 → QE-1..11 → Gate C subset acceptance → Gate 4/U4 acceptance → DQ-4 freeze → Gate 5/CV-52/U5 → U6 write authorization. O-05 admission and DR-2/DR-4r operational closure sit downstream. PA-01/02/03 are documentary conflicts, not P-1 prerequisites. REG-12 mapping, CV-22 expansion, CV-24 F6/TD-7b, REG-06 Operator Drop and D115 wiring are separate governance/dormant items.\n')
 report.append('## E. Responsibility distribution\n')
@@ -192,7 +188,7 @@ for g,n in sorted(group_counts.items()): report.append(f'- {g}: {n} pending item
 report.append('## F. Overall position\n')
 report.append(f'- Matrix: 51 × 17 preserved; {len(changed_cells)} cells updated.\n')
 for b,ids in sorted(bucket_counts.items()): report.append(f'- {b}: {len(ids)} rows ({", ".join(map(str,ids))}).\n')
-report.append(f'- Pending register: {len(PENDING)} items; completed/OOS rows are excluded unless a distinct residual remains.\n- Open PRs: IRR #398; IPD none.\n')
+report.append(f'- Pending register: {len(PENDING)} items; completed/OOS rows are excluded unless a distinct residual remains.\n- Open PRs: none at final census (IRR #398 merged; IPD none).\n')
 report.append('## G. Evidence and artifacts\n')
 report.append('- Workbook: `IIPS_V3_CAPABILITY_MATRIX_51x17_REASSESSED_2026-10-31.xlsx`\n- Matrix CSV: `IIPS_V3_CAPABILITY_MATRIX_51x17_REASSESSED_2026-10-31.csv`\n- Pending CSV: `IIPS_V3_OUTSTANDING_PENDING_2026-10-31.csv`\n- Raw execution/probe/census logs: `raw/`\n- Evidence register: workbook sheet `Evidence Register` and `reassessment_data.py`.\n')
 report.append('## H. Non-claims\n')
