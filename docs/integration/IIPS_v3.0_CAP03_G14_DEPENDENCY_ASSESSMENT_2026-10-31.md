@@ -2,7 +2,7 @@
 
 **Record:** `IIPS-V3-CAP03-G14-DEPENDENCY-ASSESSMENT-2026-10-31-01`
 **Final G14 status:** **BLOCKED — NOT STARTED**. The dependency assessment is complete; the final reconciliation is not eligible because G2–G13 are not all closed.
-**Baselines:** IRR `main@7fd824de30d8268ed3eca210bc664dc60749fa8c` (plus §16.233 overlay in this publication); IPD `main@527f811b17edb02caa665b345d9f36102435e1e8`. IPD read-only.
+**Baselines:** IRR `main@7fd824de30d8268ed3eca210bc664dc60749fa8c` (plus §16.234 overlay in this publication); IPD `main@527f811b17edb02caa665b345d9f36102435e1e8`. IPD read-only.
 
 ## Assessment rule
 

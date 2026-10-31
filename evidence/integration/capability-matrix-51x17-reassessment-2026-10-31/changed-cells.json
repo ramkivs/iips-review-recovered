@@ -663,7 +663,7 @@
     "row": 48,
     "dimension": "Existence",
     "baseline": "V \u2014 master tracker `IIPS_V3_E2E_MASTER_TRACKER_\u20262026-10-13.md` at head (`2,591,322+` B, now through \u00a716.149) + IPD cross-repository evidence set.",
-    "current": "V \u2014 master tracker at main@7fd824de through \u00a716.232, with \u00a716.233 consolidated resolution overlay; IPD cross-repository evidence set corrected by PR #114; dated overlays govern historical text [E004][E005][E041]."
+    "current": "V \u2014 master tracker at main@7fd824de through \u00a716.232, with \u00a716.234 consolidated resolution overlay; IPD cross-repository evidence set corrected by PR #114; dated overlays govern historical text [E004][E005][E041]."
   },
   {
     "row": 48,

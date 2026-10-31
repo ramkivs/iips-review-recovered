@@ -12,8 +12,8 @@
   "pending_register_count": 40,
   "files": {
     "INDEX.md": {
-      "bytes": 1711,
-      "sha256": "87b6ff2137adbb84f5a2ed7f99bfdc1836c56a1aea0e1d63b41c65663d37eca8"
+      "bytes": 1718,
+      "sha256": "5a051180b39b1c6c3cdfeb63d5e2ba1b961534c57fcf9bdabf2b485765bbd6d4"
     },
     "raw/ipd-p20-blob-and-ci.json": {
       "bytes": 500,
@@ -55,10 +55,6 @@
       "bytes": 503484,
       "sha256": "5af11c29e866557777e00c7d309b995f4ff6cde06f85f7d83b9c641f05e384b5"
     },
-    "raw/p19-allocation-census-pre.json": {
-      "bytes": 1074,
-      "sha256": "054ce5db4c5b48b7666524acb45a1d5d62b268c6effb379f528324705d261dff"
-    },
     "raw/pending-register-pre-resolution.csv": {
       "bytes": 29349,
       "sha256": "865ee7dd0b7ad19409277c36e6fbf99445fb680e1a327bc14c0a582bc86480c2"
@@ -76,8 +72,13 @@
       "sha256": "742e0b50bb91b1f47375e9dee6a41e002f6b63a3e7d011f69c01bfd0ab098827"
     },
     "raw/static-validator-after-tracker.log.txt": {
-      "bytes": 1016,
-      "sha256": "742e0b50bb91b1f47375e9dee6a41e002f6b63a3e7d011f69c01bfd0ab098827"
+      "bytes": 171,
+      "sha256": "702de94ef10474b062f0556636d9e65c8b36625601d2b7a1896f92e22a35ed08"
+    },
+    "raw/identifier-allocation-census-pre.json": {
+      "bytes": 1074,
+      "sha256": "054ce5db4c5b48b7666524acb45a1d5d62b268c6effb379f528324705d261dff"
     }
-  }
+  },
+  "tracker_overlay": "\u00a716.234 / CV-CORR-214 / CHG-2026-10-31-13 / V1851\u2013V1862"
 }

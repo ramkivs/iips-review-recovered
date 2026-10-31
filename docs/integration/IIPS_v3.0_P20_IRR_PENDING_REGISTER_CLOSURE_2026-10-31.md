@@ -31,7 +31,7 @@ IPD PR #114 appends a dated overlay and an inline pointer above the historical f
 
 ## IRR-side action
 
-The IRR pending register `evidence/integration/capability-matrix-51x17-reassessment-2026-10-31/IIPS_V3_OUTSTANDING_PENDING_2026-10-31.csv` and its workbook no longer list P-20 as outstanding. The closure is recorded here and in tracker §16.233. Matrix row 48 now cites IPD PR #114 and the corrected blob/merge commit rather than the stale blob-as-commit reference.
+The IRR pending register `evidence/integration/capability-matrix-51x17-reassessment-2026-10-31/IIPS_V3_OUTSTANDING_PENDING_2026-10-31.csv` and its workbook no longer list P-20 as outstanding. The closure is recorded here and in tracker §16.234. Matrix row 48 now cites IPD PR #114 and the corrected blob/merge commit rather than the stale blob-as-commit reference.
 
 ## Ownership boundary
 

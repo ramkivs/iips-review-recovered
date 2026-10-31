@@ -1,7 +1,7 @@
 # IRR consolidated outstanding-items resolution — P-11, P-18, P-19, P-20, P-33 (2026-10-31)
 
 **Record:** `IIPS-V3-CONSOLIDATED-OUTSTANDING-RESOLUTION-2026-10-31-01`
-**Tracker overlay:** §16.233 / `CV-CORR-213` / `CHG-2026-10-31-12` / `V1835`–`V1846`
+**Tracker overlay:** §16.234 / `CV-CORR-214` / `CHG-2026-10-31-13` / `V1851`–`V1862`
 **Authoritative repository:** `ramkivs/iips-review-recovered`
 **IPD boundary:** read-only verification only; no IPD write.
 
@@ -11,7 +11,7 @@
 |---|---|---|---|
 | P-11 — PR #398 / Windows CI | **COMPLETE** | PR #398 merged as `7fd824de30d8268ed3eca210bc664dc60749fa8c`; exact head `eddbaead386b3d9627402e4070537defd3dfa0e0`; Windows run `41220141777` PASS; static/recovery-audit run `41220141940` PASS; post-merge runs `41221317984` / `41221318050` PASS; 17/17 changed-path blobs read back. | None for P-11. S04-compatible retained-bundle acceptance remains P-36. |
 | P-18 — runbook restamp | **COMPLETE** | `docs/OPERATOR_RUNBOOK.md` now states 108 files / 1,377 tests and points to IRR `main@7fd824de…`, frontend tree `67607e1de119a79cba4acfa9d2375493aa898bea`, and raw receipts. | None. |
-| P-19 — identifier allocation | **COMPLETE** | §16.230 / §16.231 / §16.232 unique; V1806–V1834 unique; CHG-2026-10-31-11 change-log row reconciled; §16.233 consumes the declared next free allocation. | None. Next free §16.234 / CV-CORR-214 / CHG-2026-10-31-13 / V1847. |
+| P-19 — identifier allocation | **COMPLETE** | §16.230 / §16.231 / §16.232 / §16.233 unique after PR #398/#400/#402; V1806–V1850 unique; CHG-2026-10-31-11/12 change-log rows reconciled; §16.234 consumes the declared next free allocation. | None. Next free §16.235 / CV-CORR-214 / CHG-2026-10-31-13 / V1847. |
 | P-20 — IRR pending-register closure | **COMPLETE** | IPD PR #114 merged as `527f811b17edb02caa665b345d9f36102435e1e8`; corrected tracker blob `5ceb5398b0cb172bdc793e62bdfaea005b7c426a`; `31fd3b84…` verified as blob, not commit; IRR register no longer lists P-20 as outstanding. | None for the documentation conflict. |
 | P-33 — G14 final reconciliation | **PARTIAL — final G14 BLOCKED / NOT STARTED** | `IIPS_v3.0_CAP03_G14_DEPENDENCY_ASSESSMENT_2026-10-31.md` reconciles G2–G13. | G6 P1-F consumption NOT RECONCILED; G7 S3; G8 QE 0/11; G9 DQ-4 8/10; G10 Gate 4 pin/acceptance; G11 Gate 5; PA-01/02/03/09/17. Owners: PA / Operator / IRR / IPD as scoped. |
 
@@ -40,7 +40,7 @@ The runbook startup path and operator instructions were preserved.
 
 ## P-19 allocation reconciliation
 
-PR #398 consumed §16.230 / CV-CORR-210 / V1806–V1817 and §16.232 / CV-CORR-212 / V1830–V1834. The earlier reassessment consumed §16.231 / CV-CORR-211 / V1818–V1829. The final census found each heading and verification row unique. The missing change-log row for CHG-2026-10-31-11 was added as a reconciliation of the identifier already consumed by §16.232; it did not create a competing allocation. This resolution consumes §16.233 / CV-CORR-213 / CHG-2026-10-31-12 / V1835–V1846.
+PR #398 consumed §16.230 / CV-CORR-210 / V1806–V1817 and §16.232 / CV-CORR-212 / V1830–V1834. The earlier reassessment consumed §16.231 / CV-CORR-211 / V1818–V1829. PR #400/#402 consumed §16.233 / CV-CORR-213 / V1835–V1850. The final census found each heading and verification row unique. Missing change-log rows for CHG-2026-10-31-11/12 were added as reconciliations of identifiers already consumed by §16.232/§16.233; they did not create competing allocations. This resolution consumes §16.234 / CV-CORR-214 / CHG-2026-10-31-13 / V1851–V1862.
 
 ## P-20 remote IPD verification
 
@@ -64,7 +64,7 @@ The final G14 reconciliation was **not** declared complete. The dependency asses
 
 ## Updated registers and artifacts
 
-- Tracker: `IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md`, §16.233.
+- Tracker: `IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md`, §16.234.
 - Pending register: `evidence/integration/capability-matrix-51x17-reassessment-2026-10-31/IIPS_V3_OUTSTANDING_PENDING_2026-10-31.csv` — now **40** genuinely pending items; P-11/P-18/P-19/P-20 removed.
 - Workbook: `evidence/integration/capability-matrix-51x17-reassessment-2026-10-31/IIPS_V3_CAPABILITY_MATRIX_51x17_REASSESSED_2026-10-31.xlsx` — 51 × 17 matrix preserved; pending sheet updated; traceability verified.
 - Runbook: `docs/OPERATOR_RUNBOOK.md`.
