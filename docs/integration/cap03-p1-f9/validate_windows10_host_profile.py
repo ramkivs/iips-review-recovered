@@ -342,6 +342,7 @@ for heading in (
     "## §16.226 — `CV-CORR-206`:",
     "## §16.227 — `CV-CORR-207`:",
     "## §16.228 — `CV-CORR-208`:",
+    "## §16.229 — `CV-CORR-209`:",
 ):
     require(tracker.count(heading) == 1, "authoritative tracker heading missing/duplicated: " + heading)
 for heading in ("## 16.208 CAP-03 P-1 Revision 5", "## 16.209 CAP-03 P-1 Revision 6", "## 16.210 CAP-03 P-1 Revision 7"):
@@ -471,14 +472,22 @@ require(tracker.count("| `2026-10-30` | `CHG-2026-10-30-11` |") == 1 and
         "Next free after this section: **`§16.222` / `CV-CORR-202` / `CHG-2026-10-30-17` / `V1712`**" in tracker,
         "historical Revision 7 change-log or latest-main/Q-EV allocation is inconsistent")
 first_lines = "\n".join(tracker.splitlines()[:30])
-require("**Latest (`CV-CORR-208`, §16.228, `CHG-2026-10-31-07`" in first_lines and
+require("**Latest (`CV-CORR-209`, §16.229, `CHG-2026-10-31-08`" in first_lines and
+        "**Latest (`CV-CORR-208`" in first_lines and
         PREFLIGHT_AUTHORITY_ID in first_lines and "exactly one capture-only" in first_lines and
         "NON-CONSUMING" in first_lines and DESIGNATED_EVIDENCE_ROOT in first_lines,
-        "Last Updated pointer does not identify the current one-time PA authorization/consumption boundary")
-require("**Current CAP-03 P-1 / PF-15 status** — *current-state pointer (`CV-CORR-208`, §16.228" in first_lines and
+        "Last Updated pointer does not preserve Revision 7's fixed compatibility token and current one-time PA boundary")
+require("**Current CAP-03 P-1 / PF-15 status** — *current-state pointer (`CV-CORR-209`, §16.229" in first_lines and
         "P-1-C remains NOT ESTABLISHED" in first_lines and "P-1-D remains DESIGNATED / NOT VERIFIED FOR THE ATTEMPT" in first_lines and
-        PREFLIGHT_AUTHORITY_ID in first_lines and "P1-F remains AUTHORIZED" in first_lines,
-        "CAP-03 current-state pointer does not preserve P1-F/P-1 status and current Preflight decision")
+        "P1-F remains **AUTHORIZED — ONE ATTEMPT ONLY — NOT EXECUTED — UNSPENT**" in first_lines,
+        "CAP-03 current-state pointer does not preserve P1-F/P-1 status and the S00 stop")
+tracker_lines = tracker.splitlines()
+latest_pointer_lines = [line for line in tracker_lines if "**Latest (`CV-CORR-208`" in line]
+current_status_lines = [line for line in tracker_lines if "**Current CAP-03 P-1 / PF-15 status**" in line]
+require(len(latest_pointer_lines) == 1 and len(current_status_lines) == 1 and
+        "AUTHORIZED" in current_status_lines[0] and
+        re.search(r"(?i)NOT EXECUTED.*UNSPENT", current_status_lines[0]) is not None,
+        "Revision 7 S00 current-pointer cardinality/status contract is not satisfied")
 require("## §16.207 — `CV-CORR-187`: O-07 closed" in tracker,
         "origin/main O-07 section was lost in additive merge")
 for q in ["Q-CONS-2", "Q-CONS-3", "Q-MIG", "Q-TX", "Q-V8", "Q-WRITE", "Q-EV", "Q-BUILD"]:
@@ -585,6 +594,24 @@ for required in (PREFLIGHT_AUTHORITY_ID, "Exactly one Revision 7 `-Mode Prefligh
                  "H-12 / S2-Limb A / DQ-4 / PA-09 unchanged"):
     require(required in tracker[tracker.index("## §16.228 — `CV-CORR-208`:"):],
             "§16.228 decision or governance boundary missing: " + required)
+require(tracker.count("| Previous CAP-03 P-1 / PF-15 status snapshot (`CV-CORR-205`, §16.225; historical, superseded by §16.229):") == 1,
+        "duplicate CV-CORR-205 current-status row was not retained as an explicitly historical snapshot")
+for required in (
+    "## §16.229 — `CV-CORR-209`:",
+    "26C3E661DDCE2C98153F60156F4D289250192B7B72EEEAAD73A9F3AC61186C17",
+    "d1adeb7960c616a1ceb4016f1e822ebd8e3f39cc5772db10974199815e128c2c",
+    "S00-TRACKER-POINTER-PUBLISHED pass=False",
+    "row count=2",
+    "no Execute claim was acquired",
+    "no Execute marker was written",
+    "operator-reported",
+    "Next free after this section:** `§16.230` / `CV-CORR-210` / `CHG-2026-10-31-09` / `V1806`",
+):
+    require(required in tracker[tracker.index("## §16.229 — `CV-CORR-209`:"):],
+            "§16.229 S00 correction record is missing: " + required)
+for verification_id in range(1795, 1806):
+    row = f"| `V{verification_id}` |"
+    require(tracker.count(row) == 1, "S00 correction verification row missing/duplicated: " + row)
 
 for revision in (allocation_history_commit, base_commit):
     require(git_grep_count(revision, "## §16.226") == 0,
