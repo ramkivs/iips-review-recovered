@@ -1,4 +1,4 @@
-177c52d799b56a71cb11300c03fac5552cdae4f3b6a2ba723a9443c3b2a5cc3c  00-resolution-checks.json
+e1e6aba11eb2d47a6456c9c515347f480b2959fae9214d9ef86b4c56d6f0886f  00-resolution-checks.json
 5a051180b39b1c6c3cdfeb63d5e2ba1b961534c57fcf9bdabf2b485765bbd6d4  INDEX.md
 054ce5db4c5b48b7666524acb45a1d5d62b268c6effb379f528324705d261dff  raw/identifier-allocation-census-pre.json
 678025234a8144e4ad5ba2e63e5cbb2b314c24e5481b25db800287789b4e93b8  raw/ipd-p20-blob-and-ci.json
@@ -15,4 +15,4 @@ ae9efe710a1d6c81126ae417a01771886f92e9de0e12d0efa59a41cec7c5ade9  raw/irr-test-g
 031b3f93273390dcb250283a8dec7d22ba6de0191d135d7f34586d1baeb2c11e  raw/pr398-finalization-tests.log.txt
 17fd3c2323baa20e11fa4dead4ecd69d2911e2111d4cdc190141c721d0ac860e  raw/pr398-merge-readback.json
 742e0b50bb91b1f47375e9dee6a41e002f6b63a3e7d011f69c01bfd0ab098827  raw/pr398-static-validator.log.txt
-702de94ef10474b062f0556636d9e65c8b36625601d2b7a1896f92e22a35ed08  raw/static-validator-after-tracker.log.txt
+b160e12efeaab7cd29ff11d4671bca793514601b2fd6ec847e6b7fa71562deb6  raw/static-validator-after-tracker.log.txt
