@@ -20,6 +20,7 @@
 # =============================================================================
 
 $ErrorActionPreference = 'Stop'
+Import-Module -Name (Join-Path $PSScriptRoot 'cap03-p1-f9\CAP03S2DistArtifacts.psm1') -Force -ErrorAction Stop
 $env:GIT_TERMINAL_PROMPT = '0'
 
 # ---- pinned identities and reference values ---------------------------------
@@ -150,7 +151,7 @@ function Get-Git([string[]]$GitArgs) {
 $RequiredEvidence = @(
   's2-00-run-log.txt', '01-clone.txt', '01b-checkout-pin.txt', 's2-01c-pin-verification.txt',
   '02-npm-ci.txt', '03-tsc-noemit.txt', '04-build.txt', 's2-04b-dist-count.txt',
-  's2-04c-dist-sha256-before.txt', '05-guarded-npm-test.txt', '05b-test-summary.txt',
+  's2-04c-dist-sha256-before.txt', 'dist-artifacts.zip', '05-guarded-npm-test.txt', '05b-test-summary.txt',
   '06-package-consumer.txt', 's2-08-post-run-pin.txt', 's2-08b-dist-sha256-after.txt'
 )
 
@@ -495,6 +496,10 @@ try {
   $FinalLocation = $EvidenceRoot
   $MainLog = Join-Path $EvidenceRoot 's2-00-run-log.txt'
   Write-Log ('RUN ID ' + $RunId)
+  $scriptSourcePath = [IO.Path]::GetFullPath($PSCommandPath)
+  $artifactModulePath = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot 'cap03-p1-f9\CAP03S2DistArtifacts.psm1'))
+  Write-Log ('S2 procedure source SHA-256 ' + (Get-FileHash -Algorithm SHA256 -LiteralPath $scriptSourcePath).Hash.ToUpperInvariant())
+  Write-Log ('S2 artifact module source SHA-256 ' + (Get-FileHash -Algorithm SHA256 -LiteralPath $artifactModulePath).Hash.ToUpperInvariant())
   Write-Log ('Evidence root ' + $EvidenceRoot + ' (local fixed NTFS: ' + $drive + ')')
 
   # PF-01 host identity
@@ -674,6 +679,14 @@ try {
     '{0}  {1}' -f (Get-FileHash -Algorithm SHA256 -LiteralPath $_.FullName).Hash, $_.FullName.Substring($RepoDir.Length)
   }
   $distBefore | Out-File -LiteralPath (Join-Path $EvidenceRoot 's2-04c-dist-sha256-before.txt') -Encoding utf8
+  $distMap = ConvertFrom-S2DistInventory -Lines @($distBefore) -ExpectedCount $ExpectedDist
+  $distArchivePath = Join-Path $EvidenceRoot 'dist-artifacts.zip'
+  $distArchive = New-S2DistArchive -DistRoot $distDir -ArchivePath $distArchivePath -ExpectedCount $ExpectedDist
+  $distArchiveCheck = Test-S2DistArchive -ArchivePath $distArchivePath -ExpectedMap $distMap -ExpectedCount $ExpectedDist
+  if (-not $distArchiveCheck.Passed) {
+    throw ('FAIL - retained dist archive failed byte-for-byte verification: ' + (@($distArchiveCheck.Failures) -join '; '))
+  }
+  Write-Log ('dist-artifacts.zip retained in the sealed S2 evidence folder; files=' + $distArchiveCheck.VerifiedCount + '; bytes=' + $distArchive.Bytes + '; sha256=' + $distArchive.Sha256)
 
   # S2 command 4: canonical guarded test
   Invoke-Step '05-guarded-npm-test' $npmExe @('test') $RepoDir

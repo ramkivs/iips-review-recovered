@@ -1,0 +1,49 @@
+name: CAP-03 P-1 consolidated PowerShell 5.1 fixtures
+
+on:
+  pull_request:
+    paths:
+      - 'docs/integration/IIPS_v3.0_CAP03_P1_F_P-1_CORRECTED_EXECUTION_SCRIPT_2026-10-29.ps1'
+      - 'docs/integration/IIPS_v3.0_CAP03_S2_PIN_A891802E_WINDOWS_RUN_2026-10-28.ps1'
+      - 'docs/integration/IIPS_v3.0_CAP03_S2_DEP_A_HOST_TRANSFER_2026-10-29.ps1'
+      - 'docs/integration/IIPS_v3.0_CAP03_S2_ORIGINAL_DIST_RECOVERY_2026-10-31.ps1'
+      - 'docs/integration/cap03-p1-f9/CAP03S2DistArtifacts.psm1'
+      - 'docs/integration/cap03-p1-f9/CAP03P1FailureSummary.psm1'
+      - 'docs/integration/cap03-p1-f9/CAP03_P1_ConsolidatedCorrection.Tests.ps1'
+  push:
+    branches:
+      - main
+    paths:
+      - 'docs/integration/IIPS_v3.0_CAP03_P1_F_P-1_CORRECTED_EXECUTION_SCRIPT_2026-10-29.ps1'
+      - 'docs/integration/IIPS_v3.0_CAP03_S2_PIN_A891802E_WINDOWS_RUN_2026-10-28.ps1'
+      - 'docs/integration/IIPS_v3.0_CAP03_S2_DEP_A_HOST_TRANSFER_2026-10-29.ps1'
+      - 'docs/integration/IIPS_v3.0_CAP03_S2_ORIGINAL_DIST_RECOVERY_2026-10-31.ps1'
+      - 'docs/integration/cap03-p1-f9/CAP03S2DistArtifacts.psm1'
+      - 'docs/integration/cap03-p1-f9/CAP03P1FailureSummary.psm1'
+      - 'docs/integration/cap03-p1-f9/CAP03_P1_ConsolidatedCorrection.Tests.ps1'
+
+permissions:
+  contents: read
+
+jobs:
+  fixtures:
+    name: Windows PowerShell 5.1 parser and controlled fixtures
+    runs-on: windows-2022
+    timeout-minutes: 10
+    steps:
+      - name: Check out IRR source only
+        uses: actions/checkout@v4
+      - name: Run parser and pure fixture tests (no P-1/S2/IPD execution)
+        shell: powershell
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $PSVersionTable.PSVersion.ToString()
+          try {
+            & .\docs\integration\cap03-p1-f9\CAP03_P1_ConsolidatedCorrection.Tests.ps1
+          } catch {
+            $detail = [string]($_ | Out-String).Trim()
+            Add-Content -LiteralPath $env:GITHUB_STEP_SUMMARY -Value ('### PowerShell fixture failure' + "`r`n`r`n" + $detail)
+            $escaped = $detail.Replace('%', '%25').Replace("`r", '%0D').Replace("`n", '%0A')
+            Write-Output ('::error title=PowerShell fixture failure::' + $escaped)
+            throw
+          }

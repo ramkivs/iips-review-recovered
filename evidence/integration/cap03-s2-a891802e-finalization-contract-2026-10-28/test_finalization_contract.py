@@ -31,7 +31,7 @@ RUNBOOK_LEGACY_SEAL = "Tee-Object -FilePath (Join-Path $EvidenceRoot 'SHA256SUMS
 REQUIRED = [
     "s2-00-run-log.txt", "01-clone.txt", "01b-checkout-pin.txt", "s2-01c-pin-verification.txt",
     "02-npm-ci.txt", "03-tsc-noemit.txt", "04-build.txt", "s2-04b-dist-count.txt",
-    "s2-04c-dist-sha256-before.txt", "05-guarded-npm-test.txt", "05b-test-summary.txt",
+    "s2-04c-dist-sha256-before.txt", "dist-artifacts.zip", "05-guarded-npm-test.txt", "05b-test-summary.txt",
     "06-package-consumer.txt", "s2-08-post-run-pin.txt", "s2-08b-dist-sha256-after.txt",
 ]
 VOCAB = {"PASS", "FAIL", "INCONCLUSIVE", "INVALID", "NOT EXECUTED"}
@@ -87,7 +87,22 @@ def check_required_list(t):
         raise AssertionError("RequiredEvidence array not found")
     names = re.findall(r"'([^']+)'", m.group(1))
     if names != REQUIRED:
-        raise AssertionError(f"RequiredEvidence differs from the 14-file contract: {names}")
+        raise AssertionError(f"RequiredEvidence differs from the 15-file contract: {names}")
+
+
+def check_dist_archive_retained(t):
+    required = check_required_list
+    required(t)
+    if "Import-Module -Name (Join-Path $PSScriptRoot 'cap03-p1-f9\\CAP03S2DistArtifacts.psm1')" not in t:
+        raise AssertionError("S2 runner does not import the shared emitted-artifact implementation")
+    if "'s2-04c-dist-sha256-before.txt', 'dist-artifacts.zip', '05-guarded-npm-test.txt'" not in t:
+        raise AssertionError("dist-artifacts.zip is not part of required S2 evidence")
+    if "New-S2DistArchive -DistRoot $distDir -ArchivePath $distArchivePath -ExpectedCount $ExpectedDist" not in t:
+        raise AssertionError("S2 runner does not retain an archive of emitted distribution bytes")
+    if "Test-S2DistArchive -ArchivePath $distArchivePath -ExpectedMap $distMap -ExpectedCount $ExpectedDist" not in t:
+        raise AssertionError("S2 runner does not hash-check every archived emitted file")
+    if t.index("Test-S2DistArchive -ArchivePath $distArchivePath") > t.index("# S2 command 4: canonical guarded test"):
+        raise AssertionError("distribution archive verification must finish before later S2 checks")
 
 
 def check_no_legacy_result_design(t):
@@ -314,7 +329,7 @@ def real_text():
     return SCRIPT.read_text(encoding="ascii")
 
 
-PART_A = [check_required_list, check_no_legacy_result_design, check_status_vocabulary,
+PART_A = [check_required_list, check_dist_archive_retained, check_no_legacy_result_design, check_status_vocabulary,
           check_pass_only_in_sequence, check_finalize_order, check_manifest_last, check_manifest_fields,
           check_result_not_self_hashed, check_publication_gated, check_test_seal_detects,
           check_pf00_both_roots, check_catch_never_passes, check_no_writes_after_seal,
@@ -334,6 +349,9 @@ class ProcedureText(unittest.TestCase):
 
     def test_required_list(self):
         check_required_list(self.t)
+
+    def test_dist_archive_retained_and_verified(self):
+        check_dist_archive_retained(self.t)
 
     def test_no_legacy_result_design(self):
         check_no_legacy_result_design(self.t)
