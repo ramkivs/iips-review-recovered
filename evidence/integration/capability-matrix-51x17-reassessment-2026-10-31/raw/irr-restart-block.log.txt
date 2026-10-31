@@ -1,0 +1,33 @@
+
+ RUN  v2.1.9 /home/user/capability-matrix-work/irr-main/frontend
+
+ ✓ server/persistence/consumer-restart-read.test.ts (3 tests) 8232ms
+   ✓ CAP-01 — consumer-level post-restart reads (rows 9/10/11, separate processes) > row 9 Watchlists: Process B reads the persisted watchlist through the real service after Process A terminated 3029ms
+   ✓ CAP-01 — consumer-level post-restart reads (rows 9/10/11, separate processes) > row 10 Collaboration: Process B reads the persisted thread and comment through the real service after Process A terminated 3121ms
+   ✓ CAP-01 — consumer-level post-restart reads (rows 9/10/11, separate processes) > row 11 Settings incl. reset: Process B reads the surviving update AND the reset-to-defaults through the real service after Process A terminated 2081ms
+ ✓ server/persistence/persistence-restart-proof.test.ts (2 tests) 2024ms
+   ✓ PF-1 — separate-process restart proof (D-1 journal extension §3.8) > cycle 1: Process B recovers Process A committed state after full termination 1052ms
+   ✓ PF-1 — separate-process restart proof (D-1 journal extension §3.8) > cycle 2: distinct fixture, identical recovery semantics (deterministic repeat) 971ms
+(node:9823) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:9855) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:9887) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:9919) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ✓ server/reports-restart.test.ts (2 tests) 9253ms
+   ✓ NP-06 Reports — F-7 Separate-Process Durable HTTP Acceptance > Process 1 & 2 fail closed with 503 across processes when carrier is not provisioned 2611ms
+   ✓ NP-06 Reports — F-7 Separate-Process Durable HTTP Acceptance > proves F-7 durable HTTP lifecycle across 3 distinct OS processes 6642ms
+ ✓ server/owner-context-restart.test.ts (8 tests) 6621ms
+   ✓ F-3 mechanism — durability across a separate process > process 1 serves the owner context and writes through the real composed server 1297ms
+   ✓ F-3 mechanism — durability across a separate process > process 2 — a FRESH process — serves the same owner context from the same carrier 1387ms
+   ✓ F-3 mechanism — fail-closed and recovery across a separate process > a restarted process serves NO owner context when the carrier was tampered with 1318ms
+   ✓ F-3 mechanism — fail-closed and recovery across a separate process > a restarted process serves NO owner context when the carrier is absent 1298ms
+   ✓ F-3 mechanism — fail-closed and recovery across a separate process > recovers across a separate process once the authorised carrier is restored 1317ms
+
+ Test Files  4 passed (4)
+      Tests  15 passed (15)
+   Start at  14:01:21
+   Duration  28.19s (transform 175ms, setup 463ms, collect 201ms, tests 26.13s, environment 676ms, prepare 217ms)
+
