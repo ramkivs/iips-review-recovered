@@ -150,7 +150,8 @@ $duplicateStage = @($authorizedPaths) + @($authorizedPaths[0])
 $transferDuplicate = Test-S2TransferPathSet -ExpectedPaths $authorizedPaths -ActualPaths $duplicateStage
 Assert-True (-not [bool]$transferDuplicate.Passed) 'duplicate staged path fails strict transfer allowlist'
 Assert-Throws { ConvertFrom-S2DistInventory -Lines @($inventoryLines[0], $inventoryLines[0]) -ExpectedCount 2 } 'duplicate inventory path'
-Assert-Throws { ConvertFrom-S2DistInventory -Lines @(([string]$inventoryLines[0]).Replace('src\persistence', '..\escape')) -ExpectedCount 1 } 'parent traversal inventory path'
+$traversalLine = [string](@($inventoryLines | Where-Object { $_ -like '*src\persistence*' })[0]).Replace('src\persistence', '..\escape')
+Assert-Throws { ConvertFrom-S2DistInventory -Lines @($traversalLine) -ExpectedCount 1 } 'parent traversal inventory path'
 Assert-Throws { ConvertFrom-S2DistInventory -Lines @($inventoryLines[0]) -ExpectedCount 3 } 'incomplete inventory count'
 $created = New-S2DistArchive -DistRoot $distRoot -ArchivePath $archivePath -ExpectedCount 3
 Assert-Equal 3 $created.FileCount 'archive creation file count'
