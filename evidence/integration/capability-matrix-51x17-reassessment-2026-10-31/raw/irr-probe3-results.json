@@ -1,0 +1,20 @@
+[
+  {
+    "method": "POST",
+    "path": "/api/screener",
+    "status": 200,
+    "body": "{\"execution\":{\"executionId\":\"0ccb969771036b5ba0131b1f8912dfdcd87fc71c06f8ddde91623c17a5d91f37\",\"definitionId\":\"REASSESS-MATCH-ALL\",\"version\":\"1\",\"definitionDigest\":\"e0b16b152509a2172f87045baf8e112679ce256d9c3568febf3690d0e5c27d03\",\"populationIdentity\":\"4c781cf0af605f1c9c64034b7765a653874478146b29f0a52a5f4e22575ef0ee\",\"evaluatorId\":\"NP12-SCREEN-EVALUATOR\",\"evaluatorVersion\":\"01\",\"executionSemanticsVersion\":\"01\",\"members\":[{\"sector\":\"Automobile\",\"referenceId\":\"AU-001\",\"inputHash\":\"54e52a1fa968cc4c113a5bd41c6eb921416ca1f4799c0e6ca7783159038f6c85\",\"convictionText\":\"71.6\",\"qualityText\":\"71.6\",\"growthAvailability\":\"AVAILABLE\",\"growthText\":\"71.6\",\"engineId\":\"sector.auto\",\"engineVersion\":\"1.0.0\",\"calibrationVersion\":\"1.0.0\",\"snapshotId\":\"SNAP_CFAD3308\",\"evidenceId\":\"ev_sector.auto_2026-08-09T00:00:00.000Z\",\"status\":\"VALID\",\"errorCode\":\"\"},{\"sector\":\"Banking\",\"referenceId\":\"BK-001\",\"inputHash\":\"d6bd2c2ff780ee6e5a8fa51b621f2e00714f308348257633e30ccb1e6c51cd17\",\"convictionText\":\"47.1\",\"qualityText\":\"15\",\"growthAvailability\":\"UNAVAILABLE\",\"engineId\":\"sector.banking\",\"engineVersion\":\"1.0.0\",\"calibrationVersion\":\"1.0.0\",\"snapshotId\":\"SNAP_47584F01\",\"evidenceId\":\"ev_sector.banking_2026-08-09T00:00:00.000Z\",\"status\":\"VALID\",\"errorCode\":\"\"},{\"sector\":\"Capital Markets\",\"referenceId\":\"CM-001\",\"inputHash\":\"64233405599438f72659397c8238d8894f66868246a9d665198ad3f55ff747e5\",\"convictionText\":\"84.6\",\"qualityText\":\"90\",\"growthAvailability\":\"AVAILABLE\",\"growthText\":\"82.5\",\"engineId\":\"sector.capital-mar"
+  },
+  {
+    "method": "POST",
+    "path": "/api/screener",
+    "status": 400,
+    "body": "{\"error\":\"missing-definition\"}"
+  },
+  {
+    "method": "POST",
+    "path": "/api/screener",
+    "status": 422,
+    "body": "{\"error\":\"client-supplied-members-rejected\"}"
+  }
+]

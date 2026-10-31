@@ -1,0 +1,698 @@
+[
+  {
+    "row": 1,
+    "dimension": "Validation",
+    "baseline": "V \u2014 executed this pass: IRR `tsc --noEmit` 0; full suite 106 files / 365 suites / 1,350 tests / 0 failed.",
+    "current": "V \u2014 executed 2026-10-31 at IRR main@fff8cf98: typecheck/replay typecheck exit 0; test:ci 108 files / 1377 tests / 0 failed; zero-test guard OK; build exit 0 [E006]."
+  },
+  {
+    "row": 1,
+    "dimension": "Evidence Anchor",
+    "baseline": "`frontend/src/features/executive/**`; `App.tsx:40`; probe `GET /api/executive` 200; IRR suite 1,350/1,350; tracker \u00a718 row 1.",
+    "current": "IRR main@fff8cf98; frontend/src/features/executive/**; live GET /api/executive 200 PF-REAL 13 holdings [E002][E006][E008]; tracker \u00a718 row 1."
+  },
+  {
+    "row": 2,
+    "dimension": "Validation",
+    "baseline": "V \u2014 full suite green at head (1,350 tests) incl. portfolio shell tests.",
+    "current": "V \u2014 executed 2026-10-31 at IRR main@fff8cf98: typecheck/replay typecheck exit 0; test:ci 108 files / 1377 tests / 0 failed; zero-test guard OK; build exit 0 [E006]."
+  },
+  {
+    "row": 2,
+    "dimension": "Evidence Anchor",
+    "baseline": "`frontend/src/features/portfolio/**`; `App.tsx:41-42`; probe 200; tracker \u00a718 row 2.",
+    "current": "IRR main@fff8cf98; frontend/src/features/portfolio/**; live GET /api/portfolio 200 PF-REAL 13 holdings [E002][E006][E008]; tracker \u00a718 row 2."
+  },
+  {
+    "row": 3,
+    "dimension": "Validation",
+    "baseline": "V \u2014 suite green; transport test present.",
+    "current": "V \u2014 executed 2026-10-31 at IRR main@fff8cf98: typecheck/replay typecheck exit 0; test:ci 108 files / 1377 tests / 0 failed; zero-test guard OK; build exit 0 [E006]."
+  },
+  {
+    "row": 3,
+    "dimension": "Evidence Anchor",
+    "baseline": "`frontend/src/features/company/**`; `App.tsx:51`; probe 200; tracker \u00a718 row 3.",
+    "current": "IRR main@fff8cf98; frontend/src/features/company/**; live GET /api/company/banking 200 Banking-H1 Watch 47.1 [E002][E006][E008]; tracker \u00a718 row 3."
+  },
+  {
+    "row": 4,
+    "dimension": "Validation",
+    "baseline": "V \u2014 sector suite included in the 1,350-test green run.",
+    "current": "V \u2014 executed 2026-10-31 at IRR main@fff8cf98: typecheck/replay typecheck exit 0; test:ci 108 files / 1377 tests / 0 failed; zero-test guard OK; build exit 0 [E006]."
+  },
+  {
+    "row": 4,
+    "dimension": "E2E",
+    "baseline": "EP \u2014 no operator browser acceptance executed; surface-level E2E pending.",
+    "current": "EP \u2014 no operator browser acceptance executed in this reassessment; surface-level composition verified by suite and governed route probes [E006][E008]."
+  },
+  {
+    "row": 4,
+    "dimension": "Qualification",
+    "baseline": "P \u2014 qualified at component/surface level; browser E2E operator-owned.",
+    "current": "P \u2014 qualified at component/surface level; browser E2E operator-owned (P-01)."
+  },
+  {
+    "row": 4,
+    "dimension": "Evidence Anchor",
+    "baseline": "`frontend/src/features/sector/**`; `App.tsx:52`; probe `/api/sector/banking` 404 (expected); tracker \u00a718 row 4.",
+    "current": "IRR main@fff8cf98; frontend/src/features/sector/**; /api/sector/banking 404 by design; PKG-08 row-4 acceptance [E006][E008]. Pending: P-01."
+  },
+  {
+    "row": 5,
+    "dimension": "Validation",
+    "baseline": "V \u2014 IRR suite green; platform chain not re-executed in this pass.",
+    "current": "V \u2014 executed 2026-10-31 at IRR main@fff8cf98: typecheck/replay typecheck exit 0; test:ci 108 files / 1377 tests / 0 failed; zero-test guard OK; build exit 0 [E006]."
+  },
+  {
+    "row": 5,
+    "dimension": "E2E",
+    "baseline": "P \u2014 IRR route E2E executed; platform\u2192IRR pipeline not executed end-to-end here.",
+    "current": "P \u2014 IRR route E2E executed; platform\u2192IRR pipeline not re-executed end-to-end in this reassessment [E006][E008]."
+  },
+  {
+    "row": 5,
+    "dimension": "Qualification",
+    "baseline": "P \u2014 IRR surface qualified; platform chain `SOURCE-REPORTED`.",
+    "current": "P \u2014 IRR surface qualified; platform chain SOURCE-REPORTED (P-02)."
+  },
+  {
+    "row": 5,
+    "dimension": "Evidence Anchor",
+    "baseline": "`App.tsx:53`; probe 200; `iips-cross-sector/CSIP_EXECUTION_PIPELINE.md`; `program-v1.1-certification/PROGRAM_v1.1_TRACK2_CROSS_SECTOR_CERTIFICATION.md`.",
+    "current": "IRR main@fff8cf98; live GET /api/cross-sector 200 avgConviction 72.9; iips-cross-sector/CSIP_*; program-v1.1-certification [E006][E008]. Pending: P-02."
+  },
+  {
+    "row": 6,
+    "dimension": "Validation",
+    "baseline": "V \u2014 suite green incl. `server/engine-transport.test.ts`.",
+    "current": "V \u2014 executed 2026-10-31 at IRR main@fff8cf98: typecheck/replay typecheck exit 0; test:ci 108 files / 1377 tests / 0 failed; zero-test guard OK; build exit 0 [E006]."
+  },
+  {
+    "row": 6,
+    "dimension": "Evidence Anchor",
+    "baseline": "`App.tsx:55`; probes `GET /api/engines` 200, `POST \u2026/execute` 200; tracker \u00a718 row 6.",
+    "current": "IRR main@fff8cf98; live GET /api/engines 200 (13 engines), POST /api/engines/sector.banking/execute 200 COMPLETED [E002][E006][E008]."
+  },
+  {
+    "row": 7,
+    "dimension": "Validation",
+    "baseline": "V \u2014 suite green; three refusal classes re-executed live this pass.",
+    "current": "V \u2014 executed 2026-10-31 at IRR main@fff8cf98: typecheck/replay typecheck exit 0; test:ci 108 files / 1377 tests / 0 failed; zero-test guard OK; build exit 0 [E006]."
+  },
+  {
+    "row": 7,
+    "dimension": "Evidence Anchor",
+    "baseline": "`App.tsx:56`; probes 200/400/422 (this pass); `server/screener/screener-transport.ts`; tracker \u00a718 row 7.",
+    "current": "IRR main@fff8cf98; live POST /api/screener 200 memberCount 13, {} 400 missing-definition, client members 422 rejected [E006][E008]; NP-12 governance."
+  },
+  {
+    "row": 9,
+    "dimension": "Validation",
+    "baseline": "V \u2014 full suite + focused restart run green.",
+    "current": "V \u2014 executed 2026-10-31 at IRR main@fff8cf98: typecheck/replay typecheck exit 0; test:ci 108 files / 1377 tests / 0 failed; zero-test guard OK; build exit 0 [E006]."
+  },
+  {
+    "row": 9,
+    "dimension": "E2E",
+    "baseline": "EP \u2014 HTTP path could not be exercised without a carrier in this environment; recovery proven at service level.",
+    "current": "EP \u2014 HTTP owner path returns 503 without carrier in this environment; service-level restart/recovery proven (15/15 restart block) [E006][E008]."
+  },
+  {
+    "row": 9,
+    "dimension": "Evidence Anchor",
+    "baseline": "`frontend/src/features/watchlists/**`; `App.tsx:47`; restart suite (executed 2026-10-27); tracker \u00a718 row 9.",
+    "current": "IRR main@fff8cf98; frontend/server/watchlists/**; restart block 15/15; GET /api/watchlists 503 [E006][E008]. Pending: P-03."
+  },
+  {
+    "row": 10,
+    "dimension": "Validation",
+    "baseline": "V \u2014 full suite + focused run green.",
+    "current": "V \u2014 executed 2026-10-31 at IRR main@fff8cf98: typecheck/replay typecheck exit 0; test:ci 108 files / 1377 tests / 0 failed; zero-test guard OK; build exit 0 [E006]."
+  },
+  {
+    "row": 10,
+    "dimension": "E2E",
+    "baseline": "EP \u2014 HTTP path not exercised here (no carrier).",
+    "current": "EP \u2014 HTTP owner path returns 503 without carrier; service-level restart/recovery proven [E006][E008]."
+  },
+  {
+    "row": 10,
+    "dimension": "Evidence Anchor",
+    "baseline": "`frontend/src/features/collaboration/**`; `App.tsx:48`; restart suite; tracker \u00a718 row 10.",
+    "current": "IRR main@fff8cf98; frontend/server/collaboration/**; restart block 15/15; GET /api/collaboration 503 [E006][E008]. Pending: P-03."
+  },
+  {
+    "row": 11,
+    "dimension": "Validation",
+    "baseline": "V \u2014 full suite + focused run green.",
+    "current": "V \u2014 executed 2026-10-31 at IRR main@fff8cf98: typecheck/replay typecheck exit 0; test:ci 108 files / 1377 tests / 0 failed; zero-test guard OK; build exit 0 [E006]."
+  },
+  {
+    "row": 11,
+    "dimension": "E2E",
+    "baseline": "EP \u2014 HTTP path not exercised here (no carrier).",
+    "current": "EP \u2014 HTTP owner path returns 503 without carrier; update/reset recovery proven at service level [E006][E008]."
+  },
+  {
+    "row": 11,
+    "dimension": "Evidence Anchor",
+    "baseline": "`frontend/src/features/settings/**`; `App.tsx:49`; restart suite; tracker \u00a718 row 11.",
+    "current": "IRR main@fff8cf98; frontend/server/settings/**; restart block 15/15; GET /api/settings 503 [E006][E008]. Pending: P-03."
+  },
+  {
+    "row": 12,
+    "dimension": "Validation",
+    "baseline": "V \u2014 8/8 across separate processes (this pass).",
+    "current": "V \u2014 executed 2026-10-31 at IRR main@fff8cf98: typecheck/replay typecheck exit 0; test:ci 108 files / 1377 tests / 0 failed; zero-test guard OK; build exit 0 [E006]."
+  },
+  {
+    "row": 12,
+    "dimension": "Evidence Anchor",
+    "baseline": "`frontend/server/owner-context-carrier.ts`; `owner-context-restart.test.ts` (8/8, 2026-10-27); tracker \u00a718 row 12.",
+    "current": "IRR main@fff8cf98; owner-context carrier/resolver/unavailable; owner-context-restart tests in 15/15 restart block; five owner families 503 [E006][E008]."
+  },
+  {
+    "row": 13,
+    "dimension": "Validation",
+    "baseline": "V \u2014 suite green.",
+    "current": "V \u2014 executed 2026-10-31 at IRR main@fff8cf98: typecheck/replay typecheck exit 0; test:ci 108 files / 1377 tests / 0 failed; zero-test guard OK; build exit 0 [E006]."
+  },
+  {
+    "row": 13,
+    "dimension": "Evidence Anchor",
+    "baseline": "`App.tsx:63,67`; probe 200/404; `frontend/src/features/evidence/**`; tracker \u00a718 row 13.",
+    "current": "IRR main@fff8cf98; live GET /api/evidence/banking 200 referenceOnly:true [E006][E008]; NP-13 navigation governance."
+  },
+  {
+    "row": 15,
+    "dimension": "Validation",
+    "baseline": "V \u2014 replay transport + service suites green within the 1,350-test run.",
+    "current": "V \u2014 executed 2026-10-31 at IRR main@fff8cf98: typecheck/replay typecheck exit 0; test:ci 108 files / 1377 tests / 0 failed; zero-test guard OK; build exit 0 [E006]."
+  },
+  {
+    "row": 15,
+    "dimension": "Evidence Anchor",
+    "baseline": "`App.tsx:66`; probe 200 `NOT_PERFORMED`; `server/replay/**`; `program-v1.1-certification/PROGRAM_v1.1_TRACK3_REPLAY_CERTIFICATION.md`.",
+    "current": "IRR main@fff8cf98; live GET /api/replay/banking 200 original:null NOT_PERFORMED SECTOR_REFERENCE_NOT_CAPTURE [E006][E008]; Stage A scope."
+  },
+  {
+    "row": 17,
+    "dimension": "Validation",
+    "baseline": "V \u2014 suite green.",
+    "current": "V \u2014 executed 2026-10-31 at IRR main@fff8cf98: typecheck/replay typecheck exit 0; test:ci 108 files / 1377 tests / 0 failed; zero-test guard OK; build exit 0 [E006]."
+  },
+  {
+    "row": 17,
+    "dimension": "Evidence Anchor",
+    "baseline": "`App.tsx:57`; probe 200; tracker \u00a718 row 17.",
+    "current": "IRR main@fff8cf98; live GET /api/decision-matrix 200 scatter, no certified quadrant/band [E006][E008]."
+  },
+  {
+    "row": 18,
+    "dimension": "Validation",
+    "baseline": "V \u2014 `ai-advisory-transport.test.ts` in the green suite.",
+    "current": "V \u2014 executed 2026-10-31 at IRR main@fff8cf98: typecheck/replay typecheck exit 0; test:ci 108 files / 1377 tests / 0 failed; zero-test guard OK; build exit 0 [E006]."
+  },
+  {
+    "row": 18,
+    "dimension": "Evidence Anchor",
+    "baseline": "`App.tsx:58`; probe 200 (`nonAuthoritative:true`); tracker \u00a718 row 18.",
+    "current": "IRR main@fff8cf98; live GET /api/ai-advisory/banking 200 nonAuthoritative:true grounded:true [E006][E008]."
+  },
+  {
+    "row": 19,
+    "dimension": "Validation",
+    "baseline": "V \u2014 suite green incl. macro guard tests.",
+    "current": "V \u2014 executed 2026-10-31 at IRR main@fff8cf98: typecheck/replay typecheck exit 0; test:ci 108 files / 1377 tests / 0 failed; zero-test guard OK; build exit 0 [E006]."
+  },
+  {
+    "row": 19,
+    "dimension": "E2E",
+    "baseline": "NOT SATISFIED \u2014 live-source E2E requires the operator's Windows host with egress; not demonstrated here.",
+    "current": "V \u2014 live-source E2E A ESTABLISHED at application-route level on operator-transferred Windows evidence: NAS 200 129/129, CPI 200 259/259, IIP 200 3/3 [E027]. P \u2014 browser rendering of live observations not observed; sandbox probe remains 502 no-egress [E008]."
+  },
+  {
+    "row": 19,
+    "dimension": "Qualification",
+    "baseline": "P \u2014 offline refusal qualified; live-source qualification operator-owned.",
+    "current": "P \u2014 offline refusal qualified here; live-source qualification operator-evidenced; browser live rendering residual (P-04)."
+  },
+  {
+    "row": 19,
+    "dimension": "Evidence Anchor",
+    "baseline": "`App.tsx:54`; probe 502 `RETRY_BUDGET_EXHAUSTED`; `docs/integration/2026-10-18/PKG-06-MACRO-QUALIFICATION-BLOCKERS.md`; tracker \u00a718 row 19.",
+    "current": "IRR main@fff8cf98; live GET /api/macro/NAS 502 RETRY_BUDGET_EXHAUSTED in sandbox; tracker \u00a7\u00a716.29/16.31 live E2E A [E008][E027]. Pending: P-04, P-35."
+  },
+  {
+    "row": 20,
+    "dimension": "Integration",
+    "baseline": "V \u2014 IRR consumes the real IPD `PitReadService` over the pinned package.",
+    "current": "V \u2014 executed 2026-10-31: securityId EQ/BL 200 found:true resolvedAsOf 2026-01-05T15:30:00.000Z; INVALID_IDENTITY/INVALID_DOMAIN/INVALID_ASOF 404 [E008]."
+  },
+  {
+    "row": 20,
+    "dimension": "Validation",
+    "baseline": "V \u2014 integration suite green; six probe cases executed this pass.",
+    "current": "V \u2014 executed 2026-10-31 at IRR main@fff8cf98: typecheck/replay typecheck exit 0; test:ci 108 files / 1377 tests / 0 failed; zero-test guard OK; build exit 0 [E006]."
+  },
+  {
+    "row": 20,
+    "dimension": "Evidence Anchor",
+    "baseline": "`frontend/server/pit-transport.ts:26`; probes (this pass); `frontend/package.json` pin `iips-production-market-data#8eec74ae\u2026`; tracker \u00a718 row 20 (**pin anchor in \u00a718/CV-05 is stale \u2014 see report C-04**).",
+    "current": "IRR main@fff8cf98; frontend/server/pit-transport.ts; package pin iips-production-market-data#8eec74ae; PIT probes [E008][E024]; tracker \u00a718 row 20 pin anchor reconciled by \u00a716.179."
+  },
+  {
+    "row": 22,
+    "dimension": "Integration",
+    "baseline": "NI \u2014 zero non-test consumers: the only importer of `d115-runtime` is its own test file (verified by grep this pass).",
+    "current": "NI \u2014 zero non-test consumers re-verified at main@fff8cf98: only d115-runtime.test.ts imports d115-runtime [E025]."
+  },
+  {
+    "row": 22,
+    "dimension": "Validation",
+    "baseline": "V \u2014 boundary tests green in the 1,350-test run.",
+    "current": "V \u2014 executed 2026-10-31 at IRR main@fff8cf98: typecheck/replay typecheck exit 0; test:ci 108 files / 1377 tests / 0 failed; zero-test guard OK; build exit 0 [E006]."
+  },
+  {
+    "row": 22,
+    "dimension": "Evidence Anchor",
+    "baseline": "`frontend/server/d115-runtime.ts`; `docs/integration/IIPS_v3.0_CV43_D115_RETAIN_UNWIRED_PA_DISPOSITION_2026-10-24.md`; tracker \u00a718 row 22.",
+    "current": "IRR main@fff8cf98; frontend/server/d115-runtime.ts; CV-43 retain-unwired disposition [E025]. Pending: P-05 (only if PA commissions wiring)."
+  },
+  {
+    "row": 24,
+    "dimension": "Validation",
+    "baseline": "V \u2014 suite green incl. NP-18 view tests.",
+    "current": "V \u2014 executed 2026-10-31 at IRR main@fff8cf98: typecheck/replay typecheck exit 0; test:ci 108 files / 1377 tests / 0 failed; zero-test guard OK; build exit 0 [E006]."
+  },
+  {
+    "row": 25,
+    "dimension": "Validation",
+    "baseline": "V \u2014 executed this pass: IPD guarded suite 924 tests / 923 pass / 1 skip / 0 fail.",
+    "current": "V \u2014 executed 2026-10-31 at IPD main@4e275ec9: build:tsc exit 0; guarded runner 941 tests / 940 pass / 0 fail / 1 skip; package-consumer PASS [E007]."
+  },
+  {
+    "row": 25,
+    "dimension": "Evidence Anchor",
+    "baseline": "`src/identity/security_master.ts`; `tests/d05_security_master_integrity_semantics.test.ts:76` (SMI-01); IPD suite 924/923/1/0 (2026-10-27).",
+    "current": "IPD main@4e275ec9; src/identity/security_master.ts; tests/d05_*; guarded suite 941/940/0/1 [E007]; no per-record REAL classification (SMI-01). Pending: P-30."
+  },
+  {
+    "row": 26,
+    "dimension": "Validation",
+    "baseline": "V \u2014 adapter suites green in the 924-test run.",
+    "current": "V \u2014 executed 2026-10-31 at IPD main@4e275ec9: build:tsc exit 0; guarded runner 941 tests / 940 pass / 0 fail / 1 skip; package-consumer PASS [E007]."
+  },
+  {
+    "row": 26,
+    "dimension": "Evidence Anchor",
+    "baseline": "`src/engine_adapters/**`; `src/index.ts:21` export; IPD suite executed 2026-10-27.",
+    "current": "IPD main@4e275ec9; src/engine_adapters/**; src/index.ts export; guarded suite 941/940/0/1 [E007]."
+  },
+  {
+    "row": 27,
+    "dimension": "Validation",
+    "baseline": "V \u2014 `shell_*` tests (executive/intelligence/multifactor/evidence surfaces) in the 924-test run.",
+    "current": "V \u2014 executed 2026-10-31 at IPD main@4e275ec9: build:tsc exit 0; guarded runner 941 tests / 940 pass / 0 fail / 1 skip; package-consumer PASS [E007]."
+  },
+  {
+    "row": 27,
+    "dimension": "E2E",
+    "baseline": "EP \u2014 Windows visual verification remains source-reported; no browser E2E executed.",
+    "current": "EP \u2014 Windows visual/offline-shell verification remains source-reported; no browser E2E executed in this reassessment (P-06) [E004][E007]."
+  },
+  {
+    "row": 27,
+    "dimension": "Qualification",
+    "baseline": "P \u2014 structure qualified; visual/Windows qualification source-reported.",
+    "current": "P \u2014 structure qualified; visual/Windows qualification source-reported (P-06)."
+  },
+  {
+    "row": 27,
+    "dimension": "Evidence Anchor",
+    "baseline": "`src/ui/**`; `tests/shell_*.test.ts`; IPD suite 2026-10-27; tracker \u00a718 row 27.",
+    "current": "IPD main@4e275ec9; src/ui/**; tests/shell_*; guarded suite 941/940/0/1 [E007]; tracker \u00a718 row 27 / O-09. Pending: P-06, P-34."
+  },
+  {
+    "row": 28,
+    "dimension": "Integration",
+    "baseline": "P \u2014 chain is complete to the durable port, but **no production consumer**: `durablePortfolioStorePort` and `brokerImportPersistence` are imported only by tests (verified this pass).",
+    "current": "P \u2014 chain complete to durable port; a bounded refusing-only runtime consumer is now wired at IPD entrypoint (O5-A state-2 code-level limb satisfied) [E014]. No successful durable write."
+  },
+  {
+    "row": 28,
+    "dimension": "Wiring",
+    "baseline": "NI \u2014 no IPD listener/service exposes the chain; IRR broker-import UI talks to IRR routes, not to this chain.",
+    "current": "V \u2014 src/ipc/entrypoint.ts imports createBrokerImportConsumer and wires it to DurablePortfolioStorePort; consumer performs no bare store construction/I/O [E014]."
+  },
+  {
+    "row": 28,
+    "dimension": "Persistence",
+    "baseline": "P \u2014 durable store port exists but is unwired: nothing in production writes through it.",
+    "current": "P \u2014 durable store port exists; no successful durable commit occurs because evaluatePortSaveGuard() remains authorized:false [E014]."
+  },
+  {
+    "row": 28,
+    "dimension": "Recovery",
+    "baseline": "NP \u2014 no restart durability proven for the durable leg (no consumer).",
+    "current": "NP \u2014 no restart durability proven for a successful durable leg; refusal path only [E014]."
+  },
+  {
+    "row": 28,
+    "dimension": "Validation",
+    "baseline": "V \u2014 `tests/q1_broker_import_durability.test.ts` and `bi*` suites green (924/923/1/0).",
+    "current": "V \u2014 executed 2026-10-31 at IPD main@4e275ec9: build:tsc exit 0; guarded runner 941 tests / 940 pass / 0 fail / 1 skip; package-consumer PASS [E007]."
+  },
+  {
+    "row": 28,
+    "dimension": "E2E",
+    "baseline": "EP \u2014 no end-to-end ingestion-to-durable-store path in any running process.",
+    "current": "EP \u2014 refusal-only consumer wiring tested; no end-to-end successful ingestion-to-durable-store path qualified [E007][E014]."
+  },
+  {
+    "row": 28,
+    "dimension": "Acceptance",
+    "baseline": "NOT SATISFIED \u2014 durable ingestion not admitted.",
+    "current": "NOT SATISFIED \u2014 durable ingestion admission withheld; O-05 remains OPEN on admission limb [E014]."
+  },
+  {
+    "row": 28,
+    "dimension": "Evidence Anchor",
+    "baseline": "`src/ingress/**`; `src/persistence/durablePortfolioStorePort.ts`; grep census (tests only); IPD suite 2026-10-27.",
+    "current": "IPD main@4e275ec9; src/ipc/brokerImportConsumer.ts 308c83ee; src/ipc/entrypoint.ts 16d4112e; guard 540d49f2 authorized:false; IRR \u00a716.227 [E014]. Pending: P-07, P-22, P-23, P-24, P-25, P-26, P-32, P-44."
+  },
+  {
+    "row": 29,
+    "dimension": "Integration",
+    "baseline": "NI \u2014 no runtime caller outside tests.",
+    "current": "P \u2014 internal OQ failover-harness references and root src/index.ts export exist; package export map exposes only ./portfolio-ui, ./pit, ./d114-non-production; no product runtime admission [E018][E026]."
+  },
+  {
+    "row": 29,
+    "dimension": "Validation",
+    "baseline": "V \u2014 parser suite green.",
+    "current": "V \u2014 executed 2026-10-31 at IPD main@4e275ec9: build:tsc exit 0; guarded runner 941 tests / 940 pass / 0 fail / 1 skip; package-consumer PASS [E007]."
+  },
+  {
+    "row": 29,
+    "dimension": "Evidence Anchor",
+    "baseline": "`src/operator_drop/**`; tracker `REG-06`; `evidence/intelligence-data-supply-governance/GATE-Y-M2-\u2026md` M-1.",
+    "current": "IPD main@4e275ec9; src/operator_drop/**; src/oq/synthetic_failover.ts; package.json exports; REG-06 deferred [E018][E026]. Pending: P-08."
+  },
+  {
+    "row": 30,
+    "dimension": "Authority",
+    "baseline": "P \u2014 composition authorized (`G2-UI-CONSUMER-*`); the ownership source needed for a data-backed read is **NOT ESTABLISHED** for production, and the provisioning chain (P-1) is unspent.",
+    "current": "P \u2014 composition authorized; P1-F one-attempt provisioning authorization is effective but NOT EXECUTED/UNSPENT; ownership source for data-backed read not established [E011][E004]."
+  },
+  {
+    "row": 30,
+    "dimension": "Persistence",
+    "baseline": "NP \u2014 no owner data persisted (no store exists; P-1 unspent).",
+    "current": "NP \u2014 no owner data persisted; operator-reported Execute stopped at S00 before claim/marker; P1-F remains unspent on authoritative main [E004]."
+  },
+  {
+    "row": 30,
+    "dimension": "Validation",
+    "baseline": "V \u2014 fence/adapter/boundary block re-executed this pass: 6 files / 112 tests passed; 12-fence matrix intact.",
+    "current": "V \u2014 executed 2026-10-31 at IRR main@fff8cf98: typecheck/replay typecheck exit 0; test:ci 108 files / 1377 tests / 0 failed; zero-test guard OK; build exit 0 [E006]."
+  },
+  {
+    "row": 30,
+    "dimension": "E2E",
+    "baseline": "NOT SATISFIED \u2014 no data-backed end-to-end read has ever been demonstrated; the fail-closed path is what is proven.",
+    "current": "NOT SATISFIED \u2014 no data-backed end-to-end read demonstrated; fail-closed 503 path proven [E008]."
+  },
+  {
+    "row": 30,
+    "dimension": "Release-readiness",
+    "baseline": "BL \u2014 blocked on `P-1-C`/`P-1-D` host preflight and the unspent single provisioning attempt.",
+    "current": "BL \u2014 blocked on P-1 runtime readiness/execution and downstream qualification/admission; P-1-C/P-1-D are non-blockers, not PASS [E011][E004]."
+  },
+  {
+    "row": 30,
+    "dimension": "Evidence Anchor",
+    "baseline": "`App.tsx:44-46`; probes 503 (this pass); `server/user-portfolio/**`; tracker \u00a718 row 30 + \u00a716.148.3 (`P-1-C` NOT ESTABLISHED).",
+    "current": "IRR main@fff8cf98; /api/user-portfolios* 503; tracker \u00a716.229 S00 stop; P1-F act [E004][E008][E011]. Pending: P-09, P-10, P-11, P-21, P-22, P-23, P-24, P-25, P-26, P-27, P-28, P-29, P-31, P-32, P-34, P-36, P-37, P-38, P-39, P-40, P-42, P-43."
+  },
+  {
+    "row": 31,
+    "dimension": "Validation",
+    "baseline": "V \u2014 112-test fence/adapter/boundary block green (executed).",
+    "current": "V \u2014 executed 2026-10-31 at IRR main@fff8cf98: typecheck/replay typecheck exit 0; test:ci 108 files / 1377 tests / 0 failed; zero-test guard OK; build exit 0 [E006]."
+  },
+  {
+    "row": 31,
+    "dimension": "Evidence Anchor",
+    "baseline": "`server/user-portfolio/{userPortfolioContract,userPortfolioPort,translationBoundary,option2F,ownerContextFromBinding}.ts`; 112/112 executed 2026-10-27.",
+    "current": "IRR main@fff8cf98; server/user-portfolio contract/port/boundary; portfolio/reports/broker-import block 24 files / 385 tests passed [E006]; D-2 \u00a78 / G-2 \u00a75. Pending: P-32."
+  },
+  {
+    "row": 32,
+    "dimension": "Existence",
+    "baseline": "BRANCH-ONLY \u2014 the G-2 durable implementation commit `470cc698` exists only on `origin/arena/a2df3b85-iips-review-recovered`; `git merge-base --is-ancestor 470cc698 origin/main` \u2192 **NOT ancestor** (re-verified 2026-10-27).",
+    "current": "BRANCH-ONLY \u2014 G-2 durable implementation 470cc698 remains only on arena/a2df3b85-iips-review-recovered; not an ancestor of main@fff8cf98 (re-verified full clone) [E020]."
+  },
+  {
+    "row": 32,
+    "dimension": "Release-readiness",
+    "baseline": "BL \u2014 branch is 692 commits behind / 7 ahead of `main`; promotion would need a new act and full re-qualification.",
+    "current": "BL \u2014 branch is 7 ahead / 920 behind main; promotion requires CV-52 admission act and full re-qualification [E020]."
+  },
+  {
+    "row": 32,
+    "dimension": "Evidence Anchor",
+    "baseline": "`git rev-list --left-right --count origin/main...origin/arena/a2df3b85-\u2026` = `692 7`; `git branch -r --contains 470cc698`; tracker \u00a718 row 32 + `CV-52`.",
+    "current": "IRR full-clone census: arena/a2df3b85@5eba01b6 7 ahead / 920 behind; 470cc698 not ancestor; CV-52 [E009][E020]. Pending: P-12, P-09, P-10, P-21, P-22, P-23, P-24, P-25, P-27, P-28, P-29, P-38, P-39, P-40, P-42, P-43."
+  },
+  {
+    "row": 34,
+    "dimension": "Validation",
+    "baseline": "V \u2014 12-fence matrix + refusal tests green (112-test block + reports block 20/20).",
+    "current": "V \u2014 executed 2026-10-31 at IRR main@fff8cf98: typecheck/replay typecheck exit 0; test:ci 108 files / 1377 tests / 0 failed; zero-test guard OK; build exit 0 [E006]."
+  },
+  {
+    "row": 34,
+    "dimension": "Evidence Anchor",
+    "baseline": "`git hash-object` (this pass): `775d282b\u2026` / `51704c12\u2026` / `cb8db45d\u2026` / `e6b57bb8\u2026`; live probes; tracker \u00a718 row 34.",
+    "current": "IRR main@fff8cf98; blobs reports-transport 775d282b, user-portfolio-transport 51704c12, owner-context-unavailable cb8db45d; live 503/404 probes [E006][E008]. Pending: P-31."
+  },
+  {
+    "row": 35,
+    "dimension": "Data",
+    "baseline": "P \u2014 the durable owner contract is NOT established for this product; `CV-21` deferral reaffirmed (2026-10-25, A2).",
+    "current": "V \u2014 R1 ownership declaration, R2 contract shape and R3 consumer admission effective for bounded non-production personal scope; D-9/C4-2 closed [E015][E004]."
+  },
+  {
+    "row": 35,
+    "dimension": "Persistence",
+    "baseline": "P \u2014 store path resolution exists (`persistence-port.ts`, pinned `iips-np04-governed-persistence`), but no durable write is authorized or possible in the accepted scope.",
+    "current": "V \u2014 bounded non-production durable HTTP lifecycle accepted (F-7); pinned NP-04 persistence adapter; browser-originated writes and production not granted [E015][E004]."
+  },
+  {
+    "row": 35,
+    "dimension": "Validation",
+    "baseline": "V \u2014 F-7 five legs qualified (record `IIPS-V3-REPORTS-NP06-F7-\u2026`); 20/20 reports tests green (executed).",
+    "current": "V \u2014 executed 2026-10-31 at IRR main@fff8cf98: typecheck/replay typecheck exit 0; test:ci 108 files / 1377 tests / 0 failed; zero-test guard OK; build exit 0 [E006]."
+  },
+  {
+    "row": 35,
+    "dimension": "E2E",
+    "baseline": "P \u2014 F-7 proven with a disposable/test carrier; no production owner contract.",
+    "current": "V \u2014 F-7 backend lifecycle proven with disposable/test carrier; no production owner contract [E006][E015]."
+  },
+  {
+    "row": 35,
+    "dimension": "Release-readiness",
+    "baseline": "V \u2014 bounded non-production only; writes and production admission `NOT AUTHORIZED`.",
+    "current": "V \u2014 bounded non-production backend durable lifecycle accepted (F-7); browser-originated writes and production admission NOT AUTHORIZED [E015][E004]."
+  },
+  {
+    "row": 35,
+    "dimension": "Evidence Anchor",
+    "baseline": "`frontend/server/reports/**` (10 files); `reports-transport.ts` blob `775d282b\u2026`; probes 503; F-7 record; **\u00a718 row 35 is stale \u2014 see report C-01**.",
+    "current": "IRR main@fff8cf98; frontend/server/reports/** 10 files; reports-transport 775d282b; F-7/CV-51 accepted bounded; D-9 CLOSED C4-2 [E006][E015]. Pending: P-13, P-41."
+  },
+  {
+    "row": 36,
+    "dimension": "Release-readiness",
+    "baseline": "V \u2014 no release action; promotion of the old lineage is prohibited.",
+    "current": "V \u2014 no release action; historical lineage promotion prohibited; branch 28 ahead / 1043 behind main [E021]."
+  },
+  {
+    "row": 36,
+    "dimension": "Evidence Anchor",
+    "baseline": "`arena/01a0f1b3-\u2026@6a8afbb`, `4906a6b`; \u00a716.106 dated clarification; `REG-11 R4-B` disposition.",
+    "current": "IRR arena/01a0f1b3@6a8afbb2bb 28 ahead / 1043 behind; historical Reports lineage; current main re-implementation row 35 [E009][E021]."
+  },
+  {
+    "row": 37,
+    "dimension": "Validation",
+    "baseline": "V \u2014 reports block 20/20 (transport/api/persistence-integration/UI) green.",
+    "current": "V \u2014 executed 2026-10-31 at IRR main@fff8cf98: typecheck/replay typecheck exit 0; test:ci 108 files / 1377 tests / 0 failed; zero-test guard OK; build exit 0 [E006]."
+  },
+  {
+    "row": 37,
+    "dimension": "E2E",
+    "baseline": "P \u2014 UI-level E2E not executed in a browser; route-level behaviour verified.",
+    "current": "V \u2014 CV-51 Chromium browser qualification source-recorded 92 PASS / 0 FAIL; not re-executed here; route-level refusal probes executed [E008][E028]."
+  },
+  {
+    "row": 37,
+    "dimension": "Evidence Anchor",
+    "baseline": "`App.tsx:68-69`; `frontend/src/features/reports/**`; CV-51 acceptance blob `2318962b\u2026`; tracker \u00a716.116, \u00a718 row 37.",
+    "current": "IRR main@fff8cf98; frontend/src/features/reports/**; CV-51 acceptance bounded read-only; browser qualification 92/92 source-recorded [E028]."
+  },
+  {
+    "row": 38,
+    "dimension": "Validation",
+    "baseline": "V \u2014 suite green + focused run.",
+    "current": "V \u2014 executed 2026-10-31 at IRR main@fff8cf98: typecheck/replay typecheck exit 0; test:ci 108 files / 1377 tests / 0 failed; zero-test guard OK; build exit 0 [E006]."
+  },
+  {
+    "row": 38,
+    "dimension": "Evidence Anchor",
+    "baseline": "`frontend/server/persistence/persistence-service.ts`; restart suites (2026-10-27); tracker \u00a718 row 38.",
+    "current": "IRR main@fff8cf98; frontend/server/persistence/persistence-service.ts; restart block 15/15 executed 2026-10-31 [E006]."
+  },
+  {
+    "row": 39,
+    "dimension": "Authority",
+    "baseline": "P \u2014 TD-7a approved; TD-7b (production profile) deferred.",
+    "current": "P \u2014 TD-7a approved; TD-7b production profile deferred/reserved under CV-24 [E019]."
+  },
+  {
+    "row": 39,
+    "dimension": "Validation",
+    "baseline": "V \u2014 policy tests green.",
+    "current": "V \u2014 executed 2026-10-31 at IRR main@fff8cf98: typecheck/replay typecheck exit 0; test:ci 108 files / 1377 tests / 0 failed; zero-test guard OK; build exit 0 [E006]."
+  },
+  {
+    "row": 39,
+    "dimension": "Acceptance",
+    "baseline": "P \u2014 TD-7a accepted; TD-7b NOT SATISFIED.",
+    "current": "P \u2014 TD-7a accepted; TD-7b NOT SATISFIED / reserved PA decision [E019]."
+  },
+  {
+    "row": 39,
+    "dimension": "Evidence Anchor",
+    "baseline": "`persistence-service.ts:109`; `.gitignore:149`; tests green; tracker \u00a718 row 39.",
+    "current": "IRR main@fff8cf98; resolveDataDir/IIPS_DATA_DIR; .gitignore; CV-24 F6/TD-7b reserved [E019]. Pending: P-14."
+  },
+  {
+    "row": 41,
+    "dimension": "Validation",
+    "baseline": "V \u2014 the preservation is verified by the executed screener run.",
+    "current": "V \u2014 executed 2026-10-31 at IRR main@fff8cf98: typecheck/replay typecheck exit 0; test:ci 108 files / 1377 tests / 0 failed; zero-test guard OK; build exit 0 [E006]."
+  },
+  {
+    "row": 41,
+    "dimension": "Evidence Anchor",
+    "baseline": "`docs/integration/IIPS_v3.0_CV22_OPTION_C_PA_DECISION_2026-10-19.md`; screener probe (13 members, 2026-10-27); tracker \u00a718 row 41.",
+    "current": "IRR main@fff8cf98; CV-22 Option C; screener memberCount 13 executed [E008][E017]. Pending: P-15, P-30."
+  },
+  {
+    "row": 44,
+    "dimension": "Existence",
+    "baseline": "BRANCH-ONLY \u2014 `main` contains **zero** auth/OIDC/Keycloak implementation paths (verified: no match under `frontend/src`/`frontend/server`); the retired stack survives only on unmerged branches (e.g. `feat/global-no-auth-implementation` retains 30 auth-named paths).",
+    "current": "BRANCH-ONLY \u2014 main has zero auth/OIDC/Keycloak/admin implementation paths; retired stack survives on unmerged branches (e.g. arena/01a03e3b, gai-impl-canonical, phase13-next) [E022]."
+  },
+  {
+    "row": 44,
+    "dimension": "Evidence Anchor",
+    "baseline": "`feat/global-no-auth-implementation`; `main` tree has no auth source; tracker \u00a715.19 (`GC-P2-SCOPE-CORR-01`).",
+    "current": "IRR full-clone auth-path census; main absence verified; unmerged retired-stack branches retained as history [E009][E022]."
+  },
+  {
+    "row": 45,
+    "dimension": "Data",
+    "baseline": "P \u2014 three different IPD commits are consumed simultaneously; `70b24f02\u2026` has no in-tree guard.",
+    "current": "V \u2014 three IPD specifiers are intentional, documented and individually guarded; DQ-6b Path A effective 6/6; O-06 CLOSED no action required [E016][E024]."
+  },
+  {
+    "row": 45,
+    "dimension": "E2E",
+    "baseline": "P \u2014 durability verified by installation, not by a digest guard for the third specifier.",
+    "current": "V \u2014 package-reference durability verified by clean install and guard tests; not a product readiness claim [E006][E024]."
+  },
+  {
+    "row": 45,
+    "dimension": "Release-readiness",
+    "baseline": "P \u2014 durable, but the pin set is heterogeneous: IRR still consumes the **approved baseline** `8eec74ae\u2026` while the S2/P-1 basis is the candidate `001c3c80\u2026`.",
+    "current": "P \u2014 durable guarded pin set; DQ-4 final QE freeze not established; alias modernization off critical path [E013][E024]."
+  },
+  {
+    "row": 45,
+    "dimension": "Evidence Anchor",
+    "baseline": "`frontend/package.json:24-26`; `package-lock.json` (3 pins); `npm ci` transcript; report C-05.",
+    "current": "IRR main@fff8cf98; frontend/package.json three pins; guard blobs 0a1e58de / 4f6024f0; O-06 closed \u00a716.211 [E016][E024]. Pending: P-16, P-17, P-36."
+  },
+  {
+    "row": 46,
+    "dimension": "Validation",
+    "baseline": "V \u2014 executed 2026-10-27 (924/923/1/0).",
+    "current": "V \u2014 executed 2026-10-31 at IPD main@4e275ec9: build:tsc exit 0; guarded runner 941 tests / 940 pass / 0 fail / 1 skip; package-consumer PASS [E007]."
+  },
+  {
+    "row": 46,
+    "dimension": "Evidence Anchor",
+    "baseline": "`scripts/run-tests.mjs`; executed output 2026-10-27; tracker \u00a718 row 46.",
+    "current": "IPD main@4e275ec9; scripts/run-tests.mjs; tests/g4_run_tests_summary_parsing.test.ts; executed 941/940/0/1 guard OK [E007]."
+  },
+  {
+    "row": 47,
+    "dimension": "Validation",
+    "baseline": "V \u2014 the runbook's three headline figures now reproduce exactly at head: 106 files / 1,350 tests; main chunk 1,609.84 kB / gzip 226.69 kB (measured today).",
+    "current": "P \u2014 start path and probes reproduced; runbook headline figures are stale: document says 106 files / 1350 tests, current head executes 108 / 1377 [E006][E023]."
+  },
+  {
+    "row": 47,
+    "dimension": "Release-readiness",
+    "baseline": "V \u2014 operator-facing readiness is current at head (**prior D-03 stale-figure finding is resolved \u2014 see report C-06**).",
+    "current": "P \u2014 operator-facing readiness current except runbook figure restamp (P-18) [E023]."
+  },
+  {
+    "row": 47,
+    "dimension": "Evidence Anchor",
+    "baseline": "`docs/OPERATOR_RUNBOOK.md:176` (restamp 2026-10-25); executed 2026-10-27 (106/1,350; 1,609.84 kB); tracker \u00a716.42.5.",
+    "current": "IRR main@fff8cf98; docs/OPERATOR_RUNBOOK.md e94d2b80; live start/probe; current suite 108/1377 [E006][E008][E023]. Pending: P-18."
+  },
+  {
+    "row": 48,
+    "dimension": "Existence",
+    "baseline": "V \u2014 master tracker `IIPS_V3_E2E_MASTER_TRACKER_\u20262026-10-13.md` at head (`2,591,322+` B, now through \u00a716.149) + IPD cross-repository evidence set.",
+    "current": "V \u2014 master tracker at main@fff8cf98 through \u00a716.229 (blob edf4fb64) + IPD cross-repository evidence set; dated overlays govern historical text [E004][E005]."
+  },
+  {
+    "row": 48,
+    "dimension": "Validation",
+    "baseline": "V \u2014 every cited coordinate in this pass was resolved to a live ref/blob except where marked.",
+    "current": "V \u2014 full-clone branch/PR census, current-main blob read-back and executed IRR/IPD validation reconciled; 115 matrix cells updated with evidence IDs [E006][E007][E009]."
+  },
+  {
+    "row": 48,
+    "dimension": "Governance",
+    "baseline": "V \u2014 overlay practice is followed; no history overwritten by this pass.",
+    "current": "V \u2014 O-07 documentation reconciliation CLOSED; O-06 CLOSED; overlay practice followed; no history overwritten [E016]."
+  },
+  {
+    "row": 48,
+    "dimension": "Release-readiness",
+    "baseline": "P \u2014 integrity is good but not clean: \u00a718 rows 20/35/36 carry stale content (report \u00a7C).",
+    "current": "P \u2014 integrity good; open PR #398 proposes \u00a716.230 and is not merged; IPD tracker footer P-1 status stale vs IRR P1-F (recorded conflict) [E005][E010]."
+  },
+  {
+    "row": 48,
+    "dimension": "Evidence Anchor",
+    "baseline": "tracker \u00a7\u00a716.146\u201316.149, \u00a718, \u00a719; IPD `evidence/cross-repository/**`; this pass's read-backs.",
+    "current": "IRR tracker \u00a7\u00a716.207/16.211/16.229; IPD tracker; PR #398 OPEN/UNSTABLE [E004][E005][E010][E016]. Pending: P-19, P-20, P-11, P-33, P-37, P-39."
+  },
+  {
+    "row": 49,
+    "dimension": "Evidence Anchor",
+    "baseline": "`git tag -l --format` (`program-v1.2.0` \u2192 `5decdca9\u2026`); `gh release view` 2026-10-27; tracker \u00a718 row 49.",
+    "current": "IRR tag program-v1.2.0; GitHub Release published 2026-09-05, not draft/prerelease [E036]."
+  }
+]
