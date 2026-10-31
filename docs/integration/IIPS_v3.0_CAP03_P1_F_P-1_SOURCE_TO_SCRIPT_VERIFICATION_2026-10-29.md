@@ -816,3 +816,16 @@ P1-F remains **AUTHORIZED — ONE ATTEMPT ONLY — NOT EXECUTED — UNSPENT**; P
 
 
 **Current corrected script identity (CV-CORR-206):** 1,681 LF lines / 122,730 bytes; SHA-256 `b7eccc577b6e3a8b114cac224e6bd65261d9e9524785fee96d5361f0e660dee5`. This supersedes earlier script identities above only as the current source binding; historical snapshots remain intact.
+
+
+## P. PA one-time capture-only Preflight decision and current source binding (2026-10-31)
+
+The Program Authority rendered decision `IIPS-V3-CAP03-P1-REV7-PREFLIGHT-PA-AUTHORIZATION-ACT-2026-10-31-01` in authorization-act §10 and tracker §16.227. The decision authorizes exactly one Revision 7 `-Mode Preflight` invocation, limited to capture-only validation and its documented run-record evidence. It does not authorize P-1 provisioning or Execute; PA-13 E10 remains optional. The preceding Q-CONS-1 section O and all statements there are historical at their original review time; the distinct decision and implementation below are current.
+
+**One-use boundary.** The script binds `S00-PREFLIGHT-AUTHORITY` to the exact decision ID and requires that ID in the published current-main tracker. Following the published-main pointer and existing exact-root validation, `PREFLIGHT-PA-AUTHORIZATION-USE.json` is created with exclusive `CreateNew` at the exact already-designated Q-EV root before a run directory or S01/host/Node/entrypoint activity. This successful atomic creation is the invocation-start/spend point. An existing marker refuses the second invocation; the file is retained and never cleaned up/reset. Any later validation failure, interruption, or unsealed run therefore consumes the one-time Preflight authority. If a `p1-pre-*` directory exists, the existing failure-summary/seal behavior remains; interruption after marker creation but before run-directory creation leaves the marker as the spend record. No Preflight-use marker is the Execute claim or Execute marker, and the marker does not block a separately authorized Execute.
+
+**P1-F preservation.** Preflight remains **NON-CONSUMING** of P1-F: its path does not acquire/create `execute-claim.json`, write `EXECUTE-MARKER.json`, or request the provisioner's `--mode=execute` process start. The distinct authority-use marker consumes only this one-time Preflight decision. Existing Execute claim, marker-before-process-start, retained-claim, one-call and no-retry controls are unchanged. P1-F remains **AUTHORIZED — ONE ATTEMPT ONLY — NOT EXECUTED — UNSPENT**; P-1-C/P-1-D and all unrelated qualification, acceptance, admission and production statuses are unchanged.
+
+**Task-time boundary and validation limits.** This governance implementation ran no Preflight, Execute, provisioner, host, IPD query/access, or filesystem investigation and created no evidence root, store, claim, marker, run record or acceptance artifact. The source was validated statically with the IRR-only standard-library validator and workflow; no PowerShell parse or host execution is claimed.
+
+**Current Revision 7 identity (`CV-CORR-207`):** 1,738 LF lines / 127,376 bytes; SHA-256 `5b0f41ad0f5665684dea9f2ea665e2da80c9974758f949d67df125024fb58d3f`. This is the exact source identity bound by the updated tracker, README, validator and PA decision implementation; prior identity notes remain historical.

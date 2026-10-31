@@ -260,3 +260,37 @@ Revision 6 script path is the existing `docs/integration/IIPS_v3.0_CAP03_P1_F_P-
 The existing P-1 script deliberately remains fail-closed at S00 (`$AuthorityRulingRef`, actor, evidence root and writability method are null), and at S04 if reached (`$BuildAuthorityRef` is null). This PA implementation direction does not fill those values, resolve Q-BUILD, or authorize the P-1 entrypoint. Rev5 acceptance evidence bound to the former script SHA does not bind Revision 6.
 
 **P-1 remains AUTHORIZED — NOT EXECUTED — UNSPENT.** The one-attempt authorization, external Act record and all non-host requirements remain unchanged. No actual application workflow was run.
+
+
+---
+
+## 10. PA decision — one-time CAP-03 P-1 Revision 7 capture-only Preflight (2026-10-31)
+
+**Decision reference:** `IIPS-V3-CAP03-P1-REV7-PREFLIGHT-PA-AUTHORIZATION-ACT-2026-10-31-01`
+**Disposition:** **DECIDED — AUTHORIZED FOR EXACTLY ONE INVOCATION.**
+**Decision source:** the Program Authority's explicit PA decision supplied for this IRR task on 2026-10-31. This is a distinct mode-limited act; it does not amend or expand `P1-F`.
+
+> **PA DECISION — P-1 REVISION 7 CAPTURE-ONLY PREFLIGHT**
+>
+> 1. Exactly **one invocation** of Revision 7 `-Mode Preflight` is authorized.
+> 2. Scope is limited to capture-only Preflight and its documented validation and run-record evidence.
+> 3. The authorization is **NON-CONSUMING** with respect to P1-F. The invocation must not acquire or create `execute-claim.json`, write `EXECUTE-MARKER.json`, or request the provisioner's `--mode=execute` process start.
+> 4. No provisioning, Execute, second Preflight invocation, retry, claim release, or operation across the P1-F consumption boundary is authorized.
+> 5. P1-F remains **AUTHORIZED — ONE ATTEMPT ONLY — NOT EXECUTED — UNSPENT**.
+> 6. An interrupted, failed, or unsealed Preflight does not spend P1-F. Existing run-record and unsealed-run blocking semantics remain; no cleanup or deletion to enable a repeat is authorized.
+> 7. The single Preflight authorization is spent when its authorized invocation begins, regardless of outcome. No second invocation is permitted under this decision.
+> 8. PA-13 E10 remains optional and is not a prerequisite.
+
+### 10.1 Invocation-start and one-use guard
+
+The implementation binds the authorization to this exact decision reference and the already-designated Q-EV root. After the effective decision and current-main pointer are verified and the exact designated root passes its existing read-only S00 placement checks, successful exclusive creation of the distinct file `PREFLIGHT-PA-AUTHORIZATION-USE.json` is the durable invocation-start/spend point. That file is **not** `execute-claim.json` or `EXECUTE-MARKER.json`; it records only use of this one-time Preflight authority. `CreateNew` refuses an existing file. It is retained permanently and is never removed by the script. Any failure, interruption, or unsealed run after this point leaves the use marker in place and blocks a second Preflight before a run directory or host/Node/entrypoint activity. The existing `p1-pre-*` summary/seal and unsealed-run blocking behavior continues unchanged for runs that reach run-directory creation. No marker or run record is created by recording this decision or validating the implementation.
+
+A failure before the durable one-use marker can be created does not start a Preflight run: the script fails closed without creating an evidence root or substituting another path. Once the marker is created, the authorization is spent even if later validation, evidence capture, summary writing, sealing, or an external read-only query fails. No operator cleanup, deletion, marker reset, retry, or second use is authorized.
+
+### 10.2 Scope and status boundary
+
+This decision authorizes only Revision 7 `-Mode Preflight` at the exact script identity published with this record, after the PR/review process publishes the matching tracker and decision pointer on authoritative IRR `main`. It adds no P1-F acceptance prerequisite and changes no P1-F claim/marker/one-attempt rule. The Preflight implementation must remain technically separate from Execute: no `Invoke-ExecuteClaim` call on the Preflight path, no Execute marker write, and no `--mode=execute` process-start request. Preflight's `--mode=validate` check, read-only repository/pin validation, and documented durable `p1-pre-*` evidence remain within this one invocation only.
+
+PA-13 E10's separate one-session capture procedure remains optional and is not a condition of this grant. This decision creates no evidence root, store, claim, marker, run record, acceptance, qualification, admission, or production status; performs no Preflight/Execute/provisioning; makes no IPD access or write; and changes no gate, pin, waiver, or P-1-C/P-1-D status. **P1-F remains AUTHORIZED — ONE ATTEMPT ONLY — NOT EXECUTED — UNSPENT.**
+
+*End of decision `IIPS-V3-CAP03-P1-REV7-PREFLIGHT-PA-AUTHORIZATION-ACT-2026-10-31-01`.*
