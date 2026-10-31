@@ -10,7 +10,8 @@ Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
 $RepoRoot = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..\..\..'))
-$P1Path = Join-Path $RepoRoot 'docs\integration\IIPS_v3.0_CAP03_P1_F_P-1_CORRECTED_EXECUTION_SCRIPT_2026-10-29.ps1'
+$P1Path = Join-Path $RepoRoot 'docs\integration\IIPS_v3.0_CAP03_P1_F_P-1_CORRECTED_EXECUTION_SCRIPT_2026-10-31.ps1'
+$HistoricalP1Path = Join-Path $RepoRoot 'docs\integration\IIPS_v3.0_CAP03_P1_F_P-1_CORRECTED_EXECUTION_SCRIPT_2026-10-29.ps1'
 $S2Path = Join-Path $RepoRoot 'docs\integration\IIPS_v3.0_CAP03_S2_PIN_A891802E_WINDOWS_RUN_2026-10-28.ps1'
 $TransferPath = Join-Path $RepoRoot 'docs\integration\IIPS_v3.0_CAP03_S2_DEP_A_HOST_TRANSFER_2026-10-29.ps1'
 $RecoveryPath = Join-Path $RepoRoot 'docs\integration\IIPS_v3.0_CAP03_S2_ORIGINAL_DIST_RECOVERY_2026-10-31.ps1'
@@ -37,7 +38,7 @@ function Assert-Throws {
     if (-not $thrown) { throw ('ASSERTION FAILED: expected exception: ' + $Message) }
 }
 
-$parseTargets = @($P1Path, $S2Path, $TransferPath, $RecoveryPath, $ArtifactModulePath, $SummaryModulePath, $TestPath)
+$parseTargets = @($P1Path, $HistoricalP1Path, $S2Path, $TransferPath, $RecoveryPath, $ArtifactModulePath, $SummaryModulePath, $TestPath)
 foreach ($target in $parseTargets) {
     $tokens = $null
     $errors = $null
@@ -205,6 +206,20 @@ $recoveryBundleCheck = Test-S2OriginalDistRecoveryBundle -RecoveryRoot $recovery
     -ExpectedSourceDist ([IO.Path]::GetFullPath($distRoot)) -ExpectedSourceRunId 's2-a891802e-20261028T192516Z'
 Assert-True ([bool]$recoveryBundleCheck.Passed) ('recovery bundle manifest/seal/all files verify: ' + (@($recoveryBundleCheck.Failures) -join '; '))
 Assert-Equal 3 $recoveryBundleCheck.VerifiedCount 'recovery bundle confirms the complete dist entry count'
+Assert-True ([bool]$recoveryBundleCheck.HistoricalAdmittedPathSetEqual) 'historical admitted map path-set comparison is reported separately'
+$historicalMapFixture = @{}
+foreach ($historicalName in $inventory.Keys) { $historicalMapFixture[$historicalName] = [string]$inventory[$historicalName] }
+$historicalNameToDiffer = @($historicalMapFixture.Keys | Sort-Object)[0]
+$historicalMapFixture[$historicalNameToDiffer] = ('0' * 64)
+$informationalHashDifference = Test-S2OriginalDistRecoveryBundle -RecoveryRoot $recoveryRoot -ExpectedMap $historicalMapFixture -ExpectedCount 3 `
+    -ExpectedSourceDist ([IO.Path]::GetFullPath($distRoot)) -ExpectedSourceRunId 's2-a891802e-20261028T192516Z'
+Assert-True ([bool]$informationalHashDifference.Passed) ('older admitted-map hash difference must remain informational: ' + (@($informationalHashDifference.Failures) -join '; '))
+Assert-Equal 1 $informationalHashDifference.HistoricalAdmittedHashDifferenceCount 'one older-map hash difference is reported without substitution'
+$wrongArchiveAuthority = Test-S2OriginalDistRecoveryBundle -RecoveryRoot $recoveryRoot -ExpectedMap $inventory -ExpectedCount 3 `
+    -ExpectedSourceDist ([IO.Path]::GetFullPath($distRoot)) -ExpectedSourceRunId 's2-a891802e-20261028T192516Z' `
+    -ExpectedArchiveSha256 ('0' * 64)
+Assert-True (-not [bool]$wrongArchiveAuthority.Passed) 'recovery archive identity must fail closed against a pinned expected SHA-256'
+Assert-True (@($wrongArchiveAuthority.Failures | Where-Object { $_ -like '*RECOVERY_BUNDLE_ARCHIVE_AUTHORITY_MISMATCH*' }).Count -gt 0) 'wrong pinned archive hash is surfaced as an authority mismatch'
 $recoverySealText = [IO.File]::ReadAllText($recoveryResult.SealPath)
 Assert-True ($recoverySealText.Contains('dist-artifacts.zip')) 'recovery seal records the archive file digest'
 $archiveHashBeforeRefusal = (Get-FileHash -Algorithm SHA256 -LiteralPath (Join-Path $recoveryRoot 'dist-artifacts.zip')).Hash
