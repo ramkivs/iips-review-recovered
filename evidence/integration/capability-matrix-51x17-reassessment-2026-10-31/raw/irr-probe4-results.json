@@ -1,0 +1,32 @@
+[
+  {
+    "method": "GET",
+    "path": "/api/pit/market-data?securityId=ISIN%3AINE467B01029%3AEQ&domain=D01_QUOTES&asOf=2026-02-10T00%3A00%3A00.000Z",
+    "status": 200,
+    "body": "{\"found\":true,\"securityId\":\"ISIN:INE467B01029:EQ\",\"domain\":\"D01_QUOTES\",\"asOf\":\"2026-02-10T00:00:00.000Z\",\"resolvedAsOf\":\"2026-01-05T15:30:00.000Z\",\"payload\":{\"companyId\":\"TCS\",\"symbol\":\"TCS\",\"exchange\":\"NSE\",\"currency\":\"INR\",\"bid\":4010.25,\"ask\":4010.25,\"ltp\":4010.25,\"open\":4000,\"high\":4020,\"low\":3990,\"previousClose\":3995,\"volume\":1800000,\"change\":15.25,\"pctChange\":0.38,\"securityIdentity\":{\"securityId\":\"ISIN:INE467B01029:EQ\",\"isin\":\"INE467B01029\",\"series\":\"EQ\",\"isinAuthority\":\"NON_AUTHORITATIVE\"}},\"provenance\":{\"asOf\":\"2026-01-05T15:30:00.000Z\",\"receivedAt\":\"2026-09-20T12:00:00.000Z\",\"evaluatedAt\":\"2026-09-20T12:00:00.000Z\",\"dataVersion\":\"v1.0.0-d114-historical\",\"lineageHash\":\"8c4bfade20a141d51e72d121249e9dfbd25865c58911efbc088bd086bfbecce5\",\"qualityState\":\"GOOD\"}}"
+  },
+  {
+    "method": "GET",
+    "path": "/api/pit/market-data?securityId=ISIN%3AINE467B01029%3ABL&domain=D01_QUOTES&asOf=2026-02-10T00%3A00%3A00.000Z",
+    "status": 200,
+    "body": "{\"found\":true,\"securityId\":\"ISIN:INE467B01029:BL\",\"domain\":\"D01_QUOTES\",\"asOf\":\"2026-02-10T00:00:00.000Z\",\"resolvedAsOf\":\"2026-01-05T15:30:00.000Z\",\"payload\":{\"companyId\":\"TCS\",\"symbol\":\"TCS\",\"exchange\":\"NSE\",\"currency\":\"INR\",\"bid\":4015.8,\"ask\":4015.8,\"ltp\":4015.8,\"open\":4005,\"high\":4022,\"low\":4002,\"previousClose\":4000,\"volume\":300000,\"change\":15.8,\"pctChange\":0.4,\"securityIdentity\":{\"securityId\":\"ISIN:INE467B01029:BL\",\"isin\":\"INE467B01029\",\"series\":\"BL\",\"isinAuthority\":\"NON_AUTHORITATIVE\"}},\"provenance\":{\"asOf\":\"2026-01-05T15:30:00.000Z\",\"receivedAt\":\"2026-09-20T12:00:00.000Z\",\"evaluatedAt\":\"2026-09-20T12:00:00.000Z\",\"dataVersion\":\"v1.0.0-d114-historical\",\"lineageHash\":\"e085092592beee5c40ac50fa48b30a94ce0559191a1cc0fa26c585b7e9dfd98a\",\"qualityState\":\"GOOD\"}}"
+  },
+  {
+    "method": "GET",
+    "path": "/api/pit/market-data?securityId=BAD&domain=D01_QUOTES&asOf=2026-02-10T00%3A00%3A00.000Z",
+    "status": 404,
+    "body": "{\"found\":false,\"reason\":\"INVALID_IDENTITY\"}"
+  },
+  {
+    "method": "GET",
+    "path": "/api/pit/market-data?securityId=ISIN%3AINE467B01029%3AEQ&domain=fundamentals&asOf=2026-02-10T00%3A00%3A00.000Z",
+    "status": 404,
+    "body": "{\"found\":false,\"reason\":\"INVALID_DOMAIN\"}"
+  },
+  {
+    "method": "GET",
+    "path": "/api/pit/market-data?securityId=ISIN%3AINE467B01029%3AEQ&domain=D01_QUOTES&asOf=2026-02-10",
+    "status": 404,
+    "body": "{\"found\":false,\"reason\":\"INVALID_ASOF\"}"
+  }
+]

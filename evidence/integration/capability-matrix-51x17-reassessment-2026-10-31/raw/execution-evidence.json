@@ -1,0 +1,65 @@
+{
+  "irr_ref": "fff8cf98ddcc7af1c6ab58d3ae9a3442a5322935",
+  "ipd_ref": "4e275ec97a7701521e6a4e7632e9324bafe8d286",
+  "irr_npm_ci": {
+    "exit": 0,
+    "log": "irr-npm-ci-2.log.txt",
+    "note": "NODE_EXTRA_CA_CERTS=/etc/ssl/certs/ca-certificates.crt; first attempt without CA bundle failed UNABLE_TO_VERIFY_LEAF_SIGNATURE"
+  },
+  "irr_typecheck": {
+    "exit": 0,
+    "log": "irr-typecheck.log.txt"
+  },
+  "irr_typecheck_replay": {
+    "exit": 0,
+    "log": "irr-typecheck-replay.log.txt"
+  },
+  "irr_test_ci": {
+    "exit": 0,
+    "files": 108,
+    "tests": 1377,
+    "passed": 1377,
+    "failed": 0,
+    "log": "irr-test-ci.log.txt"
+  },
+  "irr_test_guard": {
+    "exit": 0,
+    "log": "irr-test-guard.log.txt"
+  },
+  "irr_build": {
+    "exit": 0,
+    "modules": 142,
+    "main_js": "index-D7KYElFH.js",
+    "kb": 1609.84,
+    "gzip_kb": 226.69,
+    "log": "irr-build.log.txt"
+  },
+  "ipd_npm_ci": {
+    "exit": 0,
+    "log": "ipd-npm-ci.log.txt"
+  },
+  "ipd_typecheck": {
+    "exit": 0,
+    "log": "ipd-typecheck.log.txt"
+  },
+  "ipd_test": {
+    "exit": 0,
+    "tests": 941,
+    "suites": 128,
+    "pass": 940,
+    "fail": 0,
+    "skipped": 1,
+    "log": "ipd-test.log.txt"
+  },
+  "ipd_package_consumer": {
+    "exit": 0,
+    "browser_bytes": 1729973,
+    "forbiddenHits": [],
+    "strict_typecheck": "PASS",
+    "log": "ipd-package-consumer.log.txt"
+  },
+  "live_probe": {
+    "results": "irr-probe-results.json",
+    "server_log": "irr-probe-server.log.txt"
+  }
+}

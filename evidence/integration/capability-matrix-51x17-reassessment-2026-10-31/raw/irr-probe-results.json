@@ -1,0 +1,122 @@
+[
+  {
+    "method": "GET",
+    "path": "/api/health",
+    "status": 200,
+    "body": "{\"status\":\"ok\",\"transport\":\"program-v3.0 executive (dev)\"}"
+  },
+  {
+    "method": "GET",
+    "path": "/api/executive",
+    "status": 200,
+    "body": "{\"portfolio\":{\"portfolioId\":\"PF-REAL\",\"scenario\":\"Balanced\",\"holdings\":13,\"sectorExposure\":{\"Banking\":7.7,\"Insurance\":7.7,\"Capital Markets\":7.7,\"Healthcare\":7.7,\"Hospitality\":7.7,\"Energy\":7.7,\"Utilities\":7.7,\"Consumer\":7.7,\"Industrials\":7.7,\"Technology\":7.7,\"Telecommunications\":7.7,\"Automobile\":7.7,\"Materials & Metals\":7.7},\"concentration\":7.7,\"diversificationScore\":128.3,\"avgConviction\":72.9,\"avgQuality\":70.2,\"avgRisk\":76.5},\"diversification\":{\"band\":\"High\",\"flags\":[\"elevated risk / correlated downside\",\"single-factor exposure (growth)\"]},\"ranking\":[{\"companyId\":\"Capital Markets-H1\",\"sector\":\"Capital Markets\",\"conviction\":84.6},{\"companyId\":\"Consumer-H1\",\"sector\":\"Consumer\",\"conviction\":79.5},{\"companyId\":\"Hospitality-H1\",\"sector\":\"Hospitality\",\"conviction\":79},{\"companyId\":\"Industrials-H1\",\"sector\":\"Industrials\",\"conviction\":77.2},{\"companyId\":\"Technology-H1\",\"sector\":\"Technology\",\"conviction\":76.3},{\"companyId\":\"Healthcare-H1\",\"sector\":\"Healthcare\",\"conviction\":75.5},{\"companyId\":\"Materials & Metals-H1\",\"sector\":\"Materials & Metals\",\"conviction\":74.9},{\"companyId\":\"Utilities-H1\",\"sector\":\"Utilities\",\"conviction\":74.1},{\"companyId\":\"Insurance-H1\",\"sector\":\"Insurance\",\"conviction\""
+  },
+  {
+    "method": "GET",
+    "path": "/api/portfolio",
+    "status": 200,
+    "body": "{\"portfolio\":{\"portfolioId\":\"PF-REAL\",\"scenario\":\"Balanced\",\"holdings\":13,\"sectorExposure\":{\"Banking\":7.7,\"Insurance\":7.7,\"Capital Markets\":7.7,\"Healthcare\":7.7,\"Hospitality\":7.7,\"Energy\":7.7,\"Utilities\":7.7,\"Consumer\":7.7,\"Industrials\":7.7,\"Technology\":7.7,\"Telecommunications\":7.7,\"Automobile\":7.7,\"Materials & Metals\":7.7},\"concentration\":7.7,\"diversificationScore\":128.3,\"avgConviction\":72.9,\"avgQuality\":70.2,\"avgRisk\":76.5},\"diversification\":{\"band\":\"High\",\"flags\":[\"elevated risk / correlated downside\",\"single-factor exposure (growth)\"]},\"allocation\":{\"strategy\":\"Balanced\",\"recommendation\":\"Reduce risk / raise quality / increase diversification\",\"rulesApplied\":[\"1-mandatory-risk\",\"1-mandatory-risk-crisis\",\"3-strategy-balanced\",\"4-ranking\",\"5-allocation\"]},\"holdings\":[{\"companyId\":\"Banking-H1\",\"sector\":\"Banking\",\"decision\":\"Watch\",\"composite\":47.1,\"confidence\":0.8,\"quality\":15,\"risk\":70,\"weight\":7.7},{\"companyId\":\"Insurance-H1\",\"sector\":\"Insurance\",\"decision\":\"Buy\",\"composite\":72.3,\"confidence\":0.8,\"quality\":72.2,\"risk\":75,\"weight\":7.7},{\"companyId\":\"Capital Markets-H1\",\"sector\":\"Capital Markets\",\"decision\":\"Strong Buy\",\"composite\":84.6,\"confidence\":0.8,\"quality\":90,\"risk\":90,\"wei"
+  },
+  {
+    "method": "GET",
+    "path": "/api/company/banking",
+    "status": 200,
+    "body": "{\"companyId\":\"Banking-H1\",\"sector\":\"Banking\",\"decision\":{\"verdict\":\"Watch\",\"composite\":47.1,\"confidence\":0.8},\"overrides\":[],\"pillars\":{\"asset-quality\":15,\"profitability\":45.5,\"funding-quality\":75,\"capital-strength\":70,\"growth\":50,\"operating-efficiency\":50,\"valuation\":50},\"resolvedSubsegment\":null,\"resolvedArchetype\":null,\"calibrationVersion\":null,\"inputs\":[{\"key\":\"BM-001\",\"value\":0.55},{\"key\":\"BM-002\",\"value\":9.5},{\"key\":\"BM-003\",\"value\":2.6},{\"key\":\"BM-004\",\"value\":40},{\"key\":\"BM-005\",\"value\":6.5},{\"key\":\"BM-006\",\"value\":3},{\"key\":\"BM-014\",\"value\":11},{\"key\":\"BM-015\",\"value\":13}],\"evidence\":{\"evidenceId\":\"ev_Banking\",\"engineId\":\"sector.banking\",\"recommendation\":\"Watch\",\"compositeScore\":47.1},\"provenance\":{\"dataSource\":\"certified v2.0 platform (frozen sector engine) over frozen v1.1 Replay Baseline inputs\",\"freshness\":\"SNAPSHOT\",\"calibratedAt\":\"2026-08-09T00:00:00.000Z\",\"transportSemantics\":\"1:1 mapping; transport transformation != decision transformation\"}}"
+  },
+  {
+    "method": "GET",
+    "path": "/api/sector/banking",
+    "status": 404,
+    "body": "{\"error\":\"not found\"}"
+  },
+  {
+    "method": "GET",
+    "path": "/api/cross-sector",
+    "status": 200,
+    "body": "{\"portfolio\":{\"portfolioId\":\"PF-REAL\",\"scenario\":\"Balanced\",\"holdings\":13,\"avgConviction\":72.9,\"avgQuality\":70.2,\"avgRisk\":76.5,\"concentration\":7.7,\"diversificationScore\":128.3},\"diversification\":{\"band\":\"High\",\"flags\":[\"elevated risk / correlated downside\",\"single-factor exposure (growth)\"]},\"ranking\":[{\"companyId\":\"Capital Markets-H1\",\"sector\":\"Capital Markets\",\"conviction\":84.6},{\"companyId\":\"Consumer-H1\",\"sector\":\"Consumer\",\"conviction\":79.5},{\"companyId\":\"Hospitality-H1\",\"sector\":\"Hospitality\",\"conviction\":79},{\"companyId\":\"Industrials-H1\",\"sector\":\"Industrials\",\"conviction\":77.2},{\"companyId\":\"Technology-H1\",\"sector\":\"Technology\",\"conviction\":76.3},{\"companyId\":\"Healthcare-H1\",\"sector\":\"Healthcare\",\"conviction\":75.5},{\"companyId\":\"Materials & Metals-H1\",\"sector\":\"Materials & Metals\",\"conviction\":74.9},{\"companyId\":\"Utilities-H1\",\"sector\":\"Utilities\",\"conviction\":74.1},{\"companyId\":\"Insurance-H1\",\"sector\":\"Insurance\",\"conviction\":72.3},{\"companyId\":\"Automobile-H1\",\"sector\":\"Automobile\",\"conviction\":71.6},{\"companyId\":\"Telecommunications-H1\",\"sector\":\"Telecommunications\",\"conviction\":68.4},{\"companyId\":\"Energy-H1\",\"sector\":\"Energy\",\"conviction\":66.9},{\"companyId\":\"Banking-H1\",\""
+  },
+  {
+    "method": "GET",
+    "path": "/api/engines",
+    "status": 200,
+    "body": "{\"apiVersion\":\"1.0\",\"engines\":[{\"engineId\":\"sector.banking\",\"ies\":\"IES-006\",\"iesTitle\":\"Banking Sector Engine\",\"sectorFamily\":\"Banking\",\"engineVersion\":\"1.0.0\",\"secVersion\":\"1.0\",\"semcVersion\":\"1.0\",\"calibrationProfile\":\"banking-calibration-1.0.0\",\"calibrationVersion\":\"1.0.0\",\"capabilities\":[\"metrics\",\"scoring\",\"calibration\",\"decision\",\"evidence\"]},{\"engineId\":\"sector.insurance\",\"ies\":\"IES-007\",\"iesTitle\":\"Insurance Sector Engine\",\"sectorFamily\":\"Insurance\",\"engineVersion\":\"1.0.0\",\"secVersion\":\"1.0\",\"semcVersion\":\"1.0\",\"calibrationProfile\":\"insurance-calibration-1.0.0\",\"calibrationVersion\":\"1.0.0\",\"capabilities\":[\"metrics\",\"scoring\",\"calibration\",\"decision\",\"evidence\"]},{\"engineId\":\"sector.capital-markets\",\"ies\":\"IES-008\",\"iesTitle\":\"Capital Markets Sector Engine\",\"sectorFamily\":\"Capital Markets\",\"engineVersion\":\"1.0.0\",\"secVersion\":\"1.0\",\"semcVersion\":\"1.0\",\"calibrationProfile\":\"capital-markets-calibration-1.0.0\",\"calibrationVersion\":\"1.0.0\",\"capabilities\":[\"metrics\",\"scoring\",\"calibration\",\"decision\",\"evidence\"]},{\"engineId\":\"sector.healthcare\",\"ies\":\"IES-009\",\"iesTitle\":\"Healthcare Sector Engine\",\"sectorFamily\":\"Healthcare\",\"engineVersion\":\"1.0.0\",\"secVersion\":\"1.0\",\"semcVersion"
+  },
+  {
+    "method": "POST",
+    "path": "/api/engines/sector.banking/execute",
+    "status": 200,
+    "body": "{\"apiVersion\":\"1.0\",\"engineId\":\"sector.banking\",\"requestId\":\"req-1793454737663\",\"ies\":\"IES-006\",\"engineVersion\":\"1.0.0\",\"state\":\"COMPLETED\",\"verdict\":\"Watch\",\"composite\":50,\"snapshotRef\":\"SNAP_FC8793B2\",\"evidenceRef\":\"ev_sector.banking_2026-08-09T00:00:00.000Z\",\"evidenceId\":\"ev_sector.banking_2026-08-09T00:00:00.000Z\",\"provenance\":{\"engineId\":\"sector.banking\",\"ies\":\"IES-006\",\"engineVersion\":\"1.0.0\",\"secVersion\":\"1.0\",\"semcVersion\":\"1.0\",\"calibrationProfile\":\"banking-calibration-1.0.0\",\"calibrationVersion\":\"1.0.0\",\"snapshotId\":\"SNAP_FC8793B2\",\"evidenceId\":\"ev_sector.banking_2026-08-09T00:00:00.000Z\",\"deterministic\":true,\"runtimeConfig\":{\"clock\":\"fixed\",\"idProvider\":\"deterministic\",\"schemaVersion\":\"snapshot-1.0\",\"transportVersion\":\"v1\"}}}"
+  },
+  {
+    "method": "GET",
+    "path": "/api/evidence/banking",
+    "status": 200,
+    "body": "{\"referenceOnly\":true,\"decision\":{\"verdict\":\"Watch\",\"composite\":47.1,\"confidence\":0.8},\"evidence\":{\"evidenceId\":\"ev_Banking\",\"engineId\":\"sector.banking\",\"recommendation\":\"Watch\",\"compositeScore\":47.1,\"confidence\":0.8,\"keyMetrics\":[{\"id\":\"BM-001\",\"name\":\"BM-001\",\"value\":0.55},{\"id\":\"BM-002\",\"name\":\"BM-002\",\"value\":9.5},{\"id\":\"BM-003\",\"name\":\"BM-003\",\"value\":2.6},{\"id\":\"BM-004\",\"name\":\"BM-004\",\"value\":40},{\"id\":\"BM-005\",\"name\":\"BM-005\",\"value\":6.5},{\"id\":\"BM-006\",\"name\":\"BM-006\",\"value\":3},{\"id\":\"BM-014\",\"name\":\"BM-014\",\"value\":11},{\"id\":\"BM-015\",\"name\":\"BM-015\",\"value\":13}],\"supportingScores\":[{\"id\":\"asset-quality\",\"name\":\"asset-quality\",\"value\":15},{\"id\":\"profitability\",\"name\":\"profitability\",\"value\":45.5},{\"id\":\"funding-quality\",\"name\":\"funding-quality\",\"value\":75},{\"id\":\"capital-strength\",\"name\":\"capital-strength\",\"value\":70},{\"id\":\"growth\",\"name\":\"growth\",\"value\":50},{\"id\":\"operating-efficiency\",\"name\":\"operating-efficiency\",\"value\":50},{\"id\":\"valuation\",\"name\":\"valuation\",\"value\":50}],\"calibrationVersion\":\"1.0.0\",\"decisionRulesApplied\":[],\"replayReference\":null,\"provenance\":{\"frameworkVersion\":\"1.0\",\"engineVersion\":\"1.0.0\",\"methodologyVersion\":\"IES-Banking\",\"snapshotId\":\"snap_B"
+  },
+  {
+    "method": "GET",
+    "path": "/api/replay/banking",
+    "status": 200,
+    "body": "{\"original\":null,\"replay\":{\"state\":\"NOT_PERFORMED\",\"code\":\"SECTOR_REFERENCE_NOT_CAPTURE\",\"diagnostic\":\"A sector reference is not a retained governed Screen evaluation. No independent replay was performed.\"},\"differenceAvailable\":false,\"note\":\"Reference availability only. Run a new governed Screen with capture to obtain a process-local replay handle. No field-level difference is provided.\",\"evidenceRefs\":[],\"provenance\":{\"dataSource\":\"Sector reference availability over frozen v1.1 Replay Baseline inputs; no retained original or replay execution\",\"freshness\":\"SNAPSHOT\",\"calibratedAt\":\"2026-08-09T00:00:00.000Z\",\"transportSemantics\":\"Reference availability, not an engine ReplayResult\"}}"
+  },
+  {
+    "method": "GET",
+    "path": "/api/decision-matrix",
+    "status": 200,
+    "body": "{\"matrixType\":\"scatter\",\"note\":\"Business Quality and Valuation are certified per-company axis scores. The platform does not expose a certified quadrant/band classification; the UI positions these scores without computing bands, quadrants, or thresholds.\",\"companies\":[{\"companyId\":\"Banking-H1\",\"sector\":\"Banking\",\"verdict\":\"Watch\",\"composite\":47.1,\"quality\":15,\"valuation\":50},{\"companyId\":\"Insurance-H1\",\"sector\":\"Insurance\",\"verdict\":\"Buy\",\"composite\":72.3,\"quality\":72.2,\"valuation\":null},{\"companyId\":\"Capital Markets-H1\",\"sector\":\"Capital Markets\",\"verdict\":\"Strong Buy\",\"composite\":84.6,\"quality\":90,\"valuation\":null},{\"companyId\":\"Healthcare-H1\",\"sector\":\"Healthcare\",\"verdict\":\"Buy\",\"composite\":75.5,\"quality\":40,\"valuation\":null},{\"companyId\":\"Hospitality-H1\",\"sector\":\"Hospitality\",\"verdict\":\"Buy\",\"composite\":79,\"quality\":75,\"valuation\":null},{\"companyId\":\"Energy-H1\",\"sector\":\"Energy\",\"verdict\":\"Accumulate\",\"composite\":66.9,\"quality\":75,\"valuation\":30},{\"companyId\":\"Utilities-H1\",\"sector\":\"Utilities\",\"verdict\":\"Buy\",\"composite\":74.1,\"quality\":79.5,\"valuation\":30},{\"companyId\":\"Consumer-H1\",\"sector\":\"Consumer\",\"verdict\":\"Buy\",\"composite\":79.5,\"quality\":90,\"valuation\":30},{\"companyId\""
+  },
+  {
+    "method": "GET",
+    "path": "/api/ai-advisory/banking",
+    "status": 200,
+    "body": "{\"adviceId\":\"FE556BE4\",\"engineResultId\":\"Banking\",\"kind\":\"explanation\",\"text\":\"This is a supplementary advisory explanation. It is not a certified engine result and does not alter the certified result.\",\"grounded\":true,\"nonAuthoritative\":true,\"model\":\"iips-deterministic-advisor\",\"modelVersion\":\"1.0.0\",\"engineResultRef\":\"SNAP_F3F53B67\",\"label\":\"AI EXPLANATION \u2260 CERTIFIED RESULT\",\"freshness\":\"SNAPSHOT\",\"unavailable\":[\"timestamp\",\"tenant\",\"provider\",\"confidence\",\"citations\",\"decision\"]}"
+  },
+  {
+    "method": "GET",
+    "path": "/api/macro/NAS?indicatorCode=1",
+    "status": 502,
+    "body": "{\"error\":\"macro upstream failure\",\"code\":\"RETRY_BUDGET_EXHAUSTED\",\"message\":\"request failed after 4 attempt(s): TypeError: fetch failed\",\"dataset\":\"NAS\"}"
+  },
+  {
+    "method": "GET",
+    "path": "/api/user-portfolios",
+    "status": 503,
+    "body": "{\"error\":\"owner-context-unavailable\",\"detail\":{\"reason\":\"No non-authentication ownership source has been established. No owner is inferred; no data is read or changed.\"}}"
+  },
+  {
+    "method": "GET",
+    "path": "/api/watchlists",
+    "status": 503,
+    "body": "{\"error\":\"owner-context-unavailable\",\"detail\":{\"reason\":\"No non-authentication ownership source has been established. No owner is inferred; no data is read or changed.\"}}"
+  },
+  {
+    "method": "GET",
+    "path": "/api/settings",
+    "status": 503,
+    "body": "{\"error\":\"owner-context-unavailable\",\"detail\":{\"reason\":\"No non-authentication ownership source has been established. No owner is inferred; no data is read or changed.\"}}"
+  },
+  {
+    "method": "GET",
+    "path": "/api/collaboration",
+    "status": 503,
+    "body": "{\"error\":\"owner-context-unavailable\",\"detail\":{\"reason\":\"No non-authentication ownership source has been established. No owner is inferred; no data is read or changed.\"}}"
+  },
+  {
+    "method": "GET",
+    "path": "/api/reports/context",
+    "status": 503,
+    "body": "{\"error\":\"owner-context-unavailable\",\"detail\":{\"reason\":\"No non-authentication ownership source has been established. No owner is inferred; no data is read or changed.\"}}"
+  },
+  {
+    "method": "GET",
+    "path": "/api/broker-import",
+    "status": 404,
+    "body": "{\"error\":\"not found\"}"
+  },
+  {
+    "method": "GET",
+    "path": "/api/not-a-route",
+    "status": 404,
+    "body": "{\"error\":\"not found\"}"
+  }
+]

@@ -1,0 +1,139 @@
+{
+  "record": "IIPS-V3-CAPMATRIX-51X17-REASSESSMENT-2026-10-31-01",
+  "date": "2026-10-31",
+  "irr_main": "fff8cf98ddcc7af1c6ab58d3ae9a3442a5322935",
+  "ipd_main": "4e275ec97a7701521e6a4e7632e9324bafe8d286",
+  "matrix_rows": 51,
+  "matrix_columns": 17,
+  "headers_preserved": true,
+  "row_numbering_preserved": true,
+  "changed_cells": 116,
+  "pending_items": 44,
+  "evidence_items": 36,
+  "disposition_counts": {
+    "ACCEPTED": 20,
+    "ACCEPTED+FOLLOWUP": 12,
+    "DEFERRED": 3,
+    "OOS": 8,
+    "IMPLEMENTED": 2,
+    "BLOCKED": 2,
+    "VERIFIED": 1,
+    "BRANCH_ONLY": 1,
+    "HISTORICAL": 2
+  },
+  "pending_group_counts": {
+    "Evidence / certification / verification": 8,
+    "PA decisions / governance": 17,
+    "Cross-repository integration / dependencies": 5,
+    "Operator execution": 2,
+    "IRR implementation / deliverables": 4,
+    "IPD implementation / deliverables": 1,
+    "Qualification / admission gates": 5,
+    "External / infrastructure blockers": 2
+  },
+  "dimension_counts": {
+    "Existence": {
+      "V": 41,
+      "P": 4,
+      "BRANCH-ONLY": 3,
+      "NA": 2,
+      "NI": 1
+    },
+    "Authority": {
+      "V": 38,
+      "OOS": 7,
+      "DEFERRED": 3,
+      "P": 2,
+      "NOT AUTHORIZED": 1
+    },
+    "Integration": {
+      "V": 32,
+      "NA": 8,
+      "P": 6,
+      "NI": 5
+    },
+    "Wiring": {
+      "V": 29,
+      "NA": 14,
+      "NW": 5,
+      "P": 2,
+      "NI": 1
+    },
+    "Data": {
+      "P": 25,
+      "V": 19,
+      "NA": 7
+    },
+    "Persistence": {
+      "NA": 35,
+      "P": 7,
+      "V": 7,
+      "NP": 2
+    },
+    "Recovery": {
+      "NA": 36,
+      "V": 8,
+      "P": 6,
+      "NP": 1
+    },
+    "Validation": {
+      "V": 47,
+      "SOURCE-REPORTED": 2,
+      "NOT SATISFIED": 1,
+      "P": 1
+    },
+    "E2E": {
+      "NA": 20,
+      "P": 14,
+      "V": 10,
+      "EP": 6,
+      "NOT SATISFIED": 1
+    },
+    "Evidence": {
+      "V": 50,
+      "BRANCH-ONLY": 1
+    },
+    "Governance": {
+      "V": 50,
+      "NOT SATISFIED": 1
+    },
+    "Acceptance": {
+      "V": 33,
+      "OOS": 8,
+      "NOT SATISFIED": 4,
+      "DEFERRED": 2,
+      "P": 2,
+      "NA": 1,
+      "SATISFIED": 1
+    },
+    "Qualification": {
+      "V": 23,
+      "NA": 18,
+      "P": 7,
+      "NOT SATISFIED": 3
+    },
+    "Release-readiness": {
+      "V": 45,
+      "BL": 3,
+      "P": 3
+    }
+  },
+  "files": {
+    "IIPS_V3_CAPABILITY_MATRIX_51x17_REASSESSED_2026-10-31.csv": {
+      "bytes": 58821,
+      "sha256": "d1d6861f6de514a0859d0073a52b683a79482c70211b1bd1610eb3f8618cf7ce"
+    },
+    "IIPS_V3_OUTSTANDING_PENDING_2026-10-31.csv": {
+      "bytes": 29349,
+      "sha256": "865ee7dd0b7ad19409277c36e6fbf99445fb680e1a327bc14c0a582bc86480c2"
+    },
+    "IIPS_V3_CAPABILITY_MATRIX_51x17_REASSESSED_2026-10-31.xlsx": {
+      "bytes": 104127,
+      "sha256": "49f2ae72c7b7f1b2b3239465e7f8c9a3287e05f4289a8f8510a973f242d08d1c"
+    },
+    "RECONCILIATION_REPORT.md": {
+      "bytes": 4479,
+      "sha256": "044a56544d721c1ffe46c864c873b27f132f0d41bb3395ae52c00aa01342653c"
+    }
+  }
+}
