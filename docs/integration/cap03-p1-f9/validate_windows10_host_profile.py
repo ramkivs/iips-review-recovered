@@ -14,6 +14,7 @@ import subprocess
 ROOT = Path(__file__).resolve().parents[1]
 REPO = ROOT.parent.parent
 SCRIPT = ROOT / "IIPS_v3.0_CAP03_P1_F_P-1_CORRECTED_EXECUTION_SCRIPT_2026-10-29.ps1"
+CORRECTED_SCRIPT = ROOT / "IIPS_v3.0_CAP03_P1_F_P-1_CORRECTED_EXECUTION_SCRIPT_2026-10-31.ps1"
 RUNNER = ROOT / "cap03-p1-f9" / "CAP03_P1_F9_WindowsFixtureTests.ps1"
 CORRECTION_TESTS = ROOT / "cap03-p1-f9" / "CAP03_P1_ConsolidatedCorrection.Tests.ps1"
 ARTIFACT_MODULE = ROOT / "cap03-p1-f9" / "CAP03S2DistArtifacts.psm1"
@@ -62,6 +63,7 @@ script_bytes = SCRIPT.read_bytes()
 require(all(byte < 0x80 for byte in script_bytes), "Revision 7 source is not ASCII")
 require(b"\r" not in script_bytes, "Revision 7 source unexpectedly contains CR characters")
 source = script_bytes.decode("ascii")
+corrected_source = CORRECTED_SCRIPT.read_text(encoding="ascii")
 runner = RUNNER.read_text(encoding="utf-8")
 correction_tests = CORRECTION_TESTS.read_text(encoding="utf-8")
 artifact_module = ARTIFACT_MODULE.read_text(encoding="utf-8")
@@ -386,8 +388,8 @@ changed_pr_paths = subprocess.run(
     ["git", "diff", "--name-only", base_commit, "HEAD"], cwd=REPO,
     check=True, capture_output=True, text=True, encoding="utf-8",
 ).stdout.splitlines()
-review_artifact_block = re.search(r"(?s)\$ReviewArtifactPaths\s*=\s*@\((.*?)\)", source)
-require(review_artifact_block is not None, "Revision 7 review-artifact allowlist is missing")
+review_artifact_block = re.search(r"(?s)\$ReviewArtifactPaths\s*=\s*@\((.*?)\)", corrected_source)
+require(review_artifact_block is not None, "S04-correction candidate review-artifact allowlist is missing")
 review_artifact_paths = set(re.findall(r"(?m)^\s*'([^']+)'", review_artifact_block.group(1)))
 p1_path_pattern = re.compile(r"(?i)(P1|P-1|GATE[_-]A[_-]PRIME|PF-?15|PA[_-]RULING)")
 unlisted_p1_paths = [path for path in changed_pr_paths if p1_path_pattern.search(path) and path not in review_artifact_paths]
@@ -688,15 +690,30 @@ require("$SourceDist = 'C:\\iips-work\\iips-production-market-data\\dist'" in re
         "-ExpectedCount 1140" in recovery_script and
         "Invoke-S2OriginalDistRecovery" in recovery_script and
         "Test-S2DistTree" in artifact_module and "RECOVERY_DESTINATION_EXISTS:" in artifact_module and
-        "Test-S2OriginalDistRecoveryBundle" in source and
+        "Test-S2OriginalDistRecoveryBundle" in corrected_source and
+        "Join-Path $script:IrrRoot 'evidence\\cap03-s2\\s2-original-dist-recovery-2026-10-31'" in corrected_source and
+        "S04-CURRENT-DIST-ADMITTED-MATCH" in corrected_source and
+        "[string]$localDistMap[$key] -cne [string]$expectedDistMap[$key]" in corrected_source and
         "ConvertFrom-S2DistInventory -Lines ([System.IO.File]::ReadAllLines($inventoryCopy))" in artifact_module and
-        "RECOVERY_BUNDLE_INVENTORY_HASH_MAP_MISMATCH" in artifact_module,
-        "recovery path is not bound to the reported original source/inventory or fails to enforce safe tree recovery")
+        "ExpectedArchiveSha256 '57656309D721A0C6F6A072F14F6A9067A2CC788737EFA92F34AA0997FB5D2D48'" in corrected_source and
+        "ExpectedOriginalInventorySha256 'E077A349D3777403D426A0B0F338C53AC6F0E3942F75A9174A6A9B6E42854CBB'" in corrected_source and
+        "historical admitted S2 map only for diagnosis" in artifact_module and
+        "HistoricalAdmittedHashDifferenceCount" in artifact_module and
+        "RECOVERY_BUNDLE_ARCHIVE_AUTHORITY_MISMATCH" in artifact_module and
+        "older admitted-map hash difference must remain informational" in correction_tests,
+        "recovery path must use the original inventory/archive authority and keep historical admitted-map differences informational")
 require("OriginalVerificationOutputPath" in recovery_script and
+        "RECOVERY_TRANSCRIPT_OUTPUT_NOT_BYTE_IDENTICAL" not in artifact_module and
+        "OriginalVerificationOutputSha256 = $verificationSha" in artifact_module and
+        "RecoveryTranscriptAssetPath" in recovery_script and "ExpectedArchiveSha256" in recovery_script and
         "RECOVERY_VERIFICATION_OUTPUT_COPY_HASH_MISMATCH" in artifact_module and
         "dist-artifacts.zip" in artifact_module and "SHA256SUMS.txt" in artifact_module and
-        "RECOVERY_SEAL_READBACK_MISMATCH:" in artifact_module,
-        "recovery path does not preserve verification output, verify the archive, and seal/read back the bundle")
+        "RECOVERY_SEAL_READBACK_MISMATCH:" in artifact_module and
+        re.search(r"(?im)^\s*try\s*\{", recovery_script) and
+        re.search(r"(?im)^\s*\}\s*catch\s*\{", recovery_script) and
+        "Read-Host 'Press Enter to close this recovery procedure'" in recovery_script and
+        not re.search(r"(?i)\b(else|elseif|finally|exit|break)\b", recovery_script),
+        "recovery path must preserve the distinct original verification output, validate the released transcript separately, seal/read back, retain diagnostics, and keep the terminal open")
 
 # The historical F9 fixture runner remains pinned to Revision 5 and is not retargeted or rerun.
 old_f9_hash = "7aa52aa407c548940446817b0cb99b9a31c427660af39baf636bd3e59e45e916"
@@ -776,6 +793,6 @@ print("PASS: exact PA-authorized Windows 10 profile and preserved P-1 safety/pat
 print("PASS: S04 source validates PA-06 L2a evidence and defines a read-only current-dist match; no build/install/probe invocation")
 print("PASS: admitted S2 authority, pin, completeness, hashes, build/test/package records and publication transcript verified")
 print("LIMIT: this is IRR-only static validation; no PowerShell parse, IPD inspection, current-dist check, S2 rerun or U-5 PASS")
-print("DURABLE IRR RETENTION: PARTIAL — latest exact-head hosted runner 41220038505 (repeat 41219882811) independently verified all four release-asset hashes and all 1,140 ZIP payload hashes against the original inventory. The remote release is durable storage, but its four-asset layout is not the S04 sealed bundle; S04-compatible retained-evidence acceptance remains pending")
+print("DURABLE IRR RETENTION: PARTIAL — hosted release audit 41220038505 independently verified four release-asset hashes and 1,140 ZIP payload hashes against the original inventory. The sealed S04 bundle is not yet present; the exact original verification-output file remains a separate Windows input, and the release transcript is not substituted for it.")
 print("U-5 remains NOT RUN; exact emitted-entry closure and emitted-migration probes remain NOT RUN")
 print("REVISION_7_SCRIPT_SHA256=" + script_sha)

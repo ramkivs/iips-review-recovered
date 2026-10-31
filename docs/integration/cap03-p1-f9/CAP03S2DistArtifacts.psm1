@@ -278,14 +278,23 @@ function Test-S2OriginalDistRecoveryBundle {
         [Parameter(Mandatory = $true)] [System.Collections.IDictionary] $ExpectedMap,
         [Parameter(Mandatory = $true)] [int] $ExpectedCount,
         [Parameter(Mandatory = $true)] [string] $ExpectedSourceDist,
-        [Parameter(Mandatory = $true)] [string] $ExpectedSourceRunId
+        [Parameter(Mandatory = $true)] [string] $ExpectedSourceRunId,
+        [string] $ExpectedArchiveSha256 = '',
+        [string] $ExpectedOriginalInventorySha256 = ''
     )
     $failures = New-Object System.Collections.ArrayList
     $originalInventorySha256 = ''
+    $historicalPathSetEqual = $false
+    $historicalHashDifferenceCount = 0
+    $historicalHashDifferencePaths = @()
     $verified = 0
     if (-not (Test-Path -LiteralPath $RecoveryRoot -PathType Container)) {
         [void]$failures.Add('RECOVERY_BUNDLE_MISSING: ' + $RecoveryRoot)
-        return [pscustomobject]@{ Passed = $false; VerifiedCount = 0; OriginalInventorySha256 = ''; Failures = @($failures) }
+        return [pscustomobject]@{
+            Passed = $false; VerifiedCount = 0; OriginalInventorySha256 = ''
+            HistoricalAdmittedPathSetEqual = $false; HistoricalAdmittedHashDifferenceCount = 0
+            HistoricalAdmittedHashDifferencePaths = @(); Failures = @($failures)
+        }
     }
     try {
         $root = [System.IO.Path]::GetFullPath($RecoveryRoot)
@@ -310,13 +319,69 @@ function Test-S2OriginalDistRecoveryBundle {
         if (-not $actualFiles.ContainsKey('MANIFEST.json')) { [void]$failures.Add('RECOVERY_BUNDLE_MANIFEST_MISSING') }
         if (-not $actualFiles.ContainsKey('SHA256SUMS.txt')) { [void]$failures.Add('RECOVERY_BUNDLE_SEAL_MISSING') }
         if (-not $actualFiles.ContainsKey('MANIFEST.json') -or -not $actualFiles.ContainsKey('SHA256SUMS.txt')) {
-            return [pscustomobject]@{ Passed = $false; VerifiedCount = 0; OriginalInventorySha256 = ''; Failures = @($failures) }
+            return [pscustomobject]@{
+                Passed = $false; VerifiedCount = 0; OriginalInventorySha256 = ''
+                HistoricalAdmittedPathSetEqual = $false; HistoricalAdmittedHashDifferenceCount = 0
+                HistoricalAdmittedHashDifferencePaths = @(); Failures = @($failures)
+            }
         }
         $manifest = [System.IO.File]::ReadAllText($manifestPath) | ConvertFrom-Json
         if ([string]$manifest.schema -cne 'IIPS-V3-CAP03-S2-ORIGINAL-DIST-RECOVERY-MANIFEST-v1') { [void]$failures.Add('RECOVERY_BUNDLE_SCHEMA_MISMATCH') }
         if ([string]$manifest.status -cne 'PASS') { [void]$failures.Add('RECOVERY_BUNDLE_STATUS_NOT_PASS') }
         if ([string]$manifest.run_id -cne 's2-original-dist-recovery-2026-10-31') { [void]$failures.Add('RECOVERY_BUNDLE_RUN_ID_MISMATCH') }
         if ([string]$manifest.source_s2_run_id -cne $ExpectedSourceRunId) { [void]$failures.Add('RECOVERY_BUNDLE_SOURCE_RUN_ID_MISMATCH') }
+        if ($ExpectedArchiveSha256 -ne '') {
+            if ($ExpectedOriginalInventorySha256 -eq '') { [void]$failures.Add('RECOVERY_BUNDLE_ORIGINAL_INVENTORY_PIN_REQUIRED') }
+            $expectedReleaseAssets = @(
+                @{ id = 695808804; name = 'CAP03-S2-Original-1140-Artifacts.zip'; path = 'dist-artifacts.zip'; bytes = 10328940; sha256 = $ExpectedArchiveSha256.ToUpperInvariant() },
+                @{ id = 695808801; name = 'original-s2-sha256-inventory.txt'; path = 'original-inventory.txt'; bytes = 176456; sha256 = $ExpectedOriginalInventorySha256.ToUpperInvariant() },
+                @{ id = 695808803; name = 'recovery-evidence.json'; path = 'release-assets/recovery-evidence.json'; bytes = 800; sha256 = '412ED94F4C1D501F9FE7106631B8D2B51665F5732EDFFB29757693B9473C1522' },
+                @{ id = 695808800; name = 'recovery-run-20261031-212225-35931ce8.txt'; path = 'release-assets/recovery-run-20261031-212225-35931ce8.txt'; bytes = 1630; sha256 = '1073C035045932A2706DFC51F10833E63B5CF62AF943B80CB1FFFAA20A648DA6' }
+            )
+            $recordedReleaseAssets = @($manifest.release_assets)
+            if ($recordedReleaseAssets.Count -ne $expectedReleaseAssets.Count) { [void]$failures.Add('RECOVERY_BUNDLE_RELEASE_ASSET_COUNT_MISMATCH') }
+            foreach ($expectedAsset in $expectedReleaseAssets) {
+                $assetRecord = @($recordedReleaseAssets | Where-Object { [string]$_.name -ceq [string]$expectedAsset.name })
+                if ($assetRecord.Count -ne 1) { [void]$failures.Add('RECOVERY_BUNDLE_RELEASE_ASSET_MISSING: ' + $expectedAsset.name); continue }
+                $assetRecord = $assetRecord[0]
+                if (([int64]$assetRecord.id -ne [int64]$expectedAsset.id) -or ([string]$assetRecord.path -cne [string]$expectedAsset.path) -or
+                    ([int64]$assetRecord.bytes -ne [int64]$expectedAsset.bytes) -or ([string]$assetRecord.sha256 -cne [string]$expectedAsset.sha256)) {
+                    [void]$failures.Add('RECOVERY_BUNDLE_RELEASE_ASSET_METADATA_MISMATCH: ' + $expectedAsset.name)
+                }
+                if (-not $actualFiles.ContainsKey([string]$expectedAsset.path)) { [void]$failures.Add('RECOVERY_BUNDLE_RELEASE_ASSET_FILE_MISSING: ' + $expectedAsset.path); continue }
+                $assetActual = $actualFiles[[string]$expectedAsset.path]
+                if (([string]$assetActual.Sha256 -cne [string]$expectedAsset.sha256) -or ([int64]$assetActual.Bytes -ne [int64]$expectedAsset.bytes)) {
+                    [void]$failures.Add('RECOVERY_BUNDLE_RELEASE_ASSET_FILE_MISMATCH: ' + $expectedAsset.path)
+                }
+            }
+            $releaseTranscriptPath = Join-Path $root 'release-assets/recovery-run-20261031-212225-35931ce8.txt'
+            if ($actualFiles.ContainsKey('release-assets/recovery-run-20261031-212225-35931ce8.txt')) {
+                $releaseTranscriptText = [System.IO.File]::ReadAllText($releaseTranscriptPath)
+                foreach ($transcriptText in @('Windows PowerShell transcript start', 'PSVersion: 5.1.', 'CAP-03 S2 ORIGINAL ARTIFACT RECOVERY', '20261031-212225-35931ce8', 'Source files verified: 1,140', 'Archive entries verified: 1,140', $ExpectedArchiveSha256.ToUpperInvariant(), 'RECOVERY RESULT: PASS')) {
+                    if (-not $releaseTranscriptText.Contains($transcriptText)) { [void]$failures.Add('RECOVERY_BUNDLE_RELEASE_TRANSCRIPT_CONTENT_MISMATCH: ' + $transcriptText) }
+                }
+                $sourceLineMatches = [regex]::Matches($releaseTranscriptText, '(?im)^\s*Source:\s*(.+?)\s*$')
+                $inventoryLineMatches = [regex]::Matches($releaseTranscriptText, '(?im)^\s*Inventory:\s*(.+?)\s*$')
+                if (($sourceLineMatches.Count -ne 1) -or ([string]$sourceLineMatches[0].Groups[1].Value -ine $ExpectedSourceDist)) { [void]$failures.Add('RECOVERY_BUNDLE_RELEASE_TRANSCRIPT_SOURCE_PATH_MISMATCH') }
+                if (($inventoryLineMatches.Count -ne 1) -or ([string]$inventoryLineMatches[0].Groups[1].Value -ine 'C:\iips-evidence\cap03-s2\s2-03-dist-sha256-before.txt')) { [void]$failures.Add('RECOVERY_BUNDLE_RELEASE_TRANSCRIPT_INVENTORY_PATH_MISMATCH') }
+            }
+            $releaseEvidencePath = Join-Path $root 'release-assets/recovery-evidence.json'
+            if ($actualFiles.ContainsKey('release-assets/recovery-evidence.json')) {
+                $releaseEvidence = [System.IO.File]::ReadAllText($releaseEvidencePath) | ConvertFrom-Json
+                if (([string]$releaseEvidence.RecoveryRun -cne '20261031-212225-35931ce8') -or
+                    ([string]$releaseEvidence.SourceDirectory -cne 'C:\iips-work\iips-production-market-data\dist') -or
+                    ([string]$releaseEvidence.OriginalInventory -cne 'C:\iips-evidence\cap03-s2\s2-03-dist-sha256-before.txt') -or
+                    ([int]$releaseEvidence.OriginalInventoryEntries -ne $ExpectedCount) -or
+                    ([int]$releaseEvidence.SourceFilesVerified -ne $ExpectedCount) -or
+                    ([int]$releaseEvidence.ArchiveEntries -ne $ExpectedCount) -or
+                    ([int]$releaseEvidence.ArchiveEntriesHashVerified -ne $ExpectedCount) -or
+                    ([int]$releaseEvidence.Missing -ne 0) -or ([int]$releaseEvidence.Mismatched -ne 0) -or
+                    ([string]$releaseEvidence.ArchiveSHA256 -cne $ExpectedArchiveSha256.ToUpperInvariant()) -or
+                    ([string]$releaseEvidence.Result -cne 'PASS') -or
+                    ([string]$releaseEvidence.Scope -cne 'Historical artifact recovery only; not S2 certification or P-1 authorization') -or
+                    ([IO.Path]::GetFileName([string]$releaseEvidence.Archive) -cne 'CAP03-S2-Original-1140-Artifacts.zip')) { [void]$failures.Add('RECOVERY_BUNDLE_RELEASE_JSON_IDENTITY_MISMATCH') }
+            }
+        }
         if ([string]$manifest.source_verification.source -cne $ExpectedSourceDist) { [void]$failures.Add('RECOVERY_BUNDLE_SOURCE_PATH_MISMATCH') }
         $inventoryCopy = Join-Path $root 'original-inventory.txt'
         $originalInventorySha256 = ''
@@ -325,14 +390,25 @@ function Test-S2OriginalDistRecoveryBundle {
             if (-not $actualFiles.ContainsKey('original-inventory.txt')) { throw 'original-inventory.txt missing' }
             $originalInventorySha256 = (Get-FileHash -Algorithm SHA256 -LiteralPath $inventoryCopy).Hash.ToUpperInvariant()
             if ([string]$manifest.original_inventory_sha256 -cne $originalInventorySha256) { [void]$failures.Add('RECOVERY_BUNDLE_INVENTORY_IDENTITY_MISMATCH') }
+            if (($ExpectedOriginalInventorySha256 -ne '') -and ($originalInventorySha256 -cne $ExpectedOriginalInventorySha256.ToUpperInvariant())) {
+                [void]$failures.Add('RECOVERY_BUNDLE_ORIGINAL_INVENTORY_AUTHORITY_MISMATCH')
+            }
             $originalMap = ConvertFrom-S2DistInventory -Lines ([System.IO.File]::ReadAllLines($inventoryCopy)) -ExpectedCount $ExpectedCount
+            # The recovery's copied original inventory is authoritative for its recovered tree and archive.
+            # Compare the historical admitted S2 map only for diagnosis; its five reported hash differences
+            # must never replace the original inventory or fail the independently verified recovery bundle.
             $inventoryPathSet = Test-S2TransferPathSet -ExpectedPaths @($ExpectedMap.Keys) -ActualPaths @($originalMap.Keys)
-            if (-not $inventoryPathSet.Passed) { [void]$failures.Add('RECOVERY_BUNDLE_INVENTORY_PATH_SET_MISMATCH: ' + (@($inventoryPathSet.Details) -join '; ')) }
+            $historicalPathSetEqual = [bool]$inventoryPathSet.Passed
+            if (-not $historicalPathSetEqual) { [void]$failures.Add('RECOVERY_BUNDLE_HISTORICAL_ADMITTED_PATH_SET_MISMATCH') }
+            $differencePaths = New-Object System.Collections.ArrayList
             foreach ($inventoryName in $ExpectedMap.Keys) {
-                if (-not $originalMap.ContainsKey([string]$inventoryName) -or ([string]$originalMap[$inventoryName] -cne [string]$ExpectedMap[$inventoryName])) {
-                    [void]$failures.Add('RECOVERY_BUNDLE_INVENTORY_HASH_MAP_MISMATCH: ' + [string]$inventoryName)
+                if ($originalMap.ContainsKey([string]$inventoryName) -and
+                    ([string]$originalMap[$inventoryName] -cne [string]$ExpectedMap[$inventoryName])) {
+                    [void]$differencePaths.Add([string]$inventoryName)
                 }
             }
+            $historicalHashDifferencePaths = @($differencePaths | Sort-Object)
+            $historicalHashDifferenceCount = $historicalHashDifferencePaths.Count
         } catch {
             [void]$failures.Add('RECOVERY_BUNDLE_ORIGINAL_INVENTORY_INVALID: ' + $_.Exception.Message)
         }
@@ -414,6 +490,10 @@ function Test-S2OriginalDistRecoveryBundle {
         } else {
             $archiveCheck = Test-S2DistArchive -ArchivePath $archivePath -ExpectedMap $originalMap -ExpectedCount $ExpectedCount
             if (-not $archiveCheck.Passed) { [void]$failures.Add('RECOVERY_BUNDLE_ARCHIVE_INVALID: ' + (@($archiveCheck.Failures) -join '; ')) }
+            $actualArchiveSha256 = (Get-FileHash -Algorithm SHA256 -LiteralPath $archivePath).Hash.ToUpperInvariant()
+            if (($ExpectedArchiveSha256 -ne '') -and ($actualArchiveSha256 -cne $ExpectedArchiveSha256.ToUpperInvariant())) {
+                [void]$failures.Add('RECOVERY_BUNDLE_ARCHIVE_AUTHORITY_MISMATCH')
+            }
             if ([string]$manifest.recovery_verification.archiveSha256 -cne [string]$archiveRecord.sha256) { [void]$failures.Add('RECOVERY_BUNDLE_ARCHIVE_REPORT_HASH_MISMATCH') }
             if ([int64]$manifest.recovery_verification.archiveBytes -ne [int64]$archiveRecord.bytes) { [void]$failures.Add('RECOVERY_BUNDLE_ARCHIVE_REPORT_SIZE_MISMATCH') }
             if ([int]$manifest.recovery_verification.archiveEntries -ne $ExpectedCount) { [void]$failures.Add('RECOVERY_BUNDLE_ARCHIVE_REPORT_COUNT_MISMATCH') }
@@ -425,7 +505,15 @@ function Test-S2OriginalDistRecoveryBundle {
         $verified = 0
     }
     if ($null -eq $verified) { $verified = 0 }
-    return [pscustomobject]@{ Passed = ($failures.Count -eq 0 -and $verified -eq $ExpectedCount); VerifiedCount = $verified; OriginalInventorySha256 = $originalInventorySha256; Failures = @($failures) }
+    return [pscustomobject]@{
+        Passed = ($failures.Count -eq 0 -and $verified -eq $ExpectedCount)
+        VerifiedCount = $verified
+        OriginalInventorySha256 = $originalInventorySha256
+        HistoricalAdmittedPathSetEqual = $historicalPathSetEqual
+        HistoricalAdmittedHashDifferenceCount = $historicalHashDifferenceCount
+        HistoricalAdmittedHashDifferencePaths = @($historicalHashDifferencePaths)
+        Failures = @($failures)
+    }
 }
 
 function Test-S2NoReparsePathChain {
@@ -452,11 +540,25 @@ function Invoke-S2OriginalDistRecovery {
         [Parameter(Mandatory = $true)] [string] $InventoryPath,
         [Parameter(Mandatory = $true)] [string] $OriginalVerificationOutputPath,
         [Parameter(Mandatory = $true)] [string] $RecoveryRoot,
-        [Parameter(Mandatory = $true)] [int] $ExpectedCount
+        [Parameter(Mandatory = $true)] [int] $ExpectedCount,
+        [string] $OriginalArchivePath = '',
+        [string] $ExpectedArchiveSha256 = '',
+        [string] $ExpectedOriginalInventorySha256 = '',
+        [string] $RecoveryEvidenceJsonPath = '',
+        [string] $RecoveryTranscriptAssetPath = ''
     )
     if (-not (Test-Path -LiteralPath $InventoryPath -PathType Leaf)) { throw ('RECOVERY_INVENTORY_MISSING: ' + $InventoryPath) }
     if (-not (Test-Path -LiteralPath $OriginalVerificationOutputPath -PathType Leaf)) { throw ('RECOVERY_ORIGINAL_VERIFICATION_OUTPUT_MISSING: ' + $OriginalVerificationOutputPath) }
-    foreach ($inputPath in @($SourceDist, $InventoryPath, $OriginalVerificationOutputPath)) {
+    if (($ExpectedArchiveSha256 -ne '') -and ($OriginalArchivePath -eq '')) { throw 'RECOVERY_PINNED_ARCHIVE_REQUIRED' }
+    if (($ExpectedArchiveSha256 -ne '') -and ($ExpectedOriginalInventorySha256 -eq '')) { throw 'RECOVERY_PINNED_INVENTORY_REQUIRED' }
+    if (($RecoveryEvidenceJsonPath -ne '') -and (-not (Test-Path -LiteralPath $RecoveryEvidenceJsonPath -PathType Leaf))) { throw ('RECOVERY_JSON_ASSET_MISSING: ' + $RecoveryEvidenceJsonPath) }
+    if (($RecoveryTranscriptAssetPath -ne '') -and (-not (Test-Path -LiteralPath $RecoveryTranscriptAssetPath -PathType Leaf))) { throw ('RECOVERY_TRANSCRIPT_ASSET_MISSING: ' + $RecoveryTranscriptAssetPath) }
+    if (($ExpectedArchiveSha256 -ne '') -and (($RecoveryEvidenceJsonPath -eq '') -or ($RecoveryTranscriptAssetPath -eq ''))) { throw 'RECOVERY_RELEASE_PROVENANCE_ASSETS_REQUIRED' }
+    $recoveryInputs = @($SourceDist, $InventoryPath, $OriginalVerificationOutputPath)
+    if ($OriginalArchivePath -ne '') { $recoveryInputs += $OriginalArchivePath }
+    if ($RecoveryEvidenceJsonPath -ne '') { $recoveryInputs += $RecoveryEvidenceJsonPath }
+    if ($RecoveryTranscriptAssetPath -ne '') { $recoveryInputs += $RecoveryTranscriptAssetPath }
+    foreach ($inputPath in $recoveryInputs) {
         $chainCheck = Test-S2NoReparsePathChain -Path $inputPath
         if (-not $chainCheck.Passed) { throw ('RECOVERY_INPUT_PATH_REPARSE_POINT: ' + (@($chainCheck.Failures) -join '; ')) }
     }
@@ -470,6 +572,47 @@ function Invoke-S2OriginalDistRecovery {
     $expectedMap = ConvertFrom-S2DistInventory -Lines $inventoryLines -ExpectedCount $ExpectedCount
     $inventorySha = (Get-FileHash -Algorithm SHA256 -LiteralPath $InventoryPath).Hash.ToUpperInvariant()
     $verificationSha = (Get-FileHash -Algorithm SHA256 -LiteralPath $OriginalVerificationOutputPath).Hash.ToUpperInvariant()
+    if (($ExpectedOriginalInventorySha256 -ne '') -and ($inventorySha -cne $ExpectedOriginalInventorySha256.ToUpperInvariant())) {
+        throw 'RECOVERY_ORIGINAL_INVENTORY_AUTHORITY_MISMATCH'
+    }
+    $releaseArchiveSha = ''
+    $releaseEvidenceJsonSha = ''
+    $releaseTranscriptSha = ''
+    if ($OriginalArchivePath -ne '') {
+        $releaseArchiveSha = (Get-FileHash -Algorithm SHA256 -LiteralPath $OriginalArchivePath).Hash.ToUpperInvariant()
+        if (($ExpectedArchiveSha256 -ne '') -and ($releaseArchiveSha -cne $ExpectedArchiveSha256.ToUpperInvariant())) { throw 'RECOVERY_RELEASE_ARCHIVE_SHA256_MISMATCH' }
+        $releaseArchiveCheck = Test-S2DistArchive -ArchivePath $OriginalArchivePath -ExpectedMap $expectedMap -ExpectedCount $ExpectedCount
+        if (-not $releaseArchiveCheck.Passed) { throw ('RECOVERY_RELEASE_ARCHIVE_INVALID: ' + (@($releaseArchiveCheck.Failures) -join '; ')) }
+    }
+    if ($RecoveryEvidenceJsonPath -ne '') {
+        $releaseEvidenceJsonSha = (Get-FileHash -Algorithm SHA256 -LiteralPath $RecoveryEvidenceJsonPath).Hash.ToUpperInvariant()
+        if ($releaseEvidenceJsonSha -cne '412ED94F4C1D501F9FE7106631B8D2B51665F5732EDFFB29757693B9473C1522') { throw 'RECOVERY_RELEASE_JSON_SHA256_MISMATCH' }
+        $releaseEvidence = [IO.File]::ReadAllText($RecoveryEvidenceJsonPath) | ConvertFrom-Json
+        if (([string]$releaseEvidence.RecoveryRun -cne '20261031-212225-35931ce8') -or
+            ([string]$releaseEvidence.SourceDirectory -cne 'C:\iips-work\iips-production-market-data\dist') -or
+            ([string]$releaseEvidence.OriginalInventory -cne 'C:\iips-evidence\cap03-s2\s2-03-dist-sha256-before.txt') -or
+            ([int]$releaseEvidence.OriginalInventoryEntries -ne $ExpectedCount) -or
+            ([int]$releaseEvidence.SourceFilesVerified -ne $ExpectedCount) -or
+            ([int]$releaseEvidence.ArchiveEntries -ne $ExpectedCount) -or
+            ([int]$releaseEvidence.ArchiveEntriesHashVerified -ne $ExpectedCount) -or
+            ([int]$releaseEvidence.Missing -ne 0) -or ([int]$releaseEvidence.Mismatched -ne 0) -or
+            ([string]$releaseEvidence.ArchiveSHA256 -cne $ExpectedArchiveSha256.ToUpperInvariant()) -or
+            ([string]$releaseEvidence.Result -cne 'PASS') -or
+            ([string]$releaseEvidence.Scope -cne 'Historical artifact recovery only; not S2 certification or P-1 authorization') -or
+            ([IO.Path]::GetFileName([string]$releaseEvidence.Archive) -cne 'CAP03-S2-Original-1140-Artifacts.zip')) { throw 'RECOVERY_RELEASE_JSON_IDENTITY_MISMATCH' }
+    }
+    if ($RecoveryTranscriptAssetPath -ne '') {
+        $releaseTranscriptSha = (Get-FileHash -Algorithm SHA256 -LiteralPath $RecoveryTranscriptAssetPath).Hash.ToUpperInvariant()
+        if ($releaseTranscriptSha -cne '1073C035045932A2706DFC51F10833E63B5CF62AF943B80CB1FFFAA20A648DA6') { throw 'RECOVERY_RELEASE_TRANSCRIPT_SHA256_MISMATCH' }
+        $releaseTranscriptText = [IO.File]::ReadAllText($RecoveryTranscriptAssetPath)
+        foreach ($expectedTranscriptText in @('Windows PowerShell transcript start', 'PSVersion: 5.1.', 'CAP-03 S2 ORIGINAL ARTIFACT RECOVERY', '20261031-212225-35931ce8', 'Source files verified: 1,140', 'Archive entries verified: 1,140', $ExpectedArchiveSha256.ToUpperInvariant(), 'RECOVERY RESULT: PASS')) {
+            if (-not $releaseTranscriptText.Contains($expectedTranscriptText)) { throw ('RECOVERY_RELEASE_TRANSCRIPT_IDENTITY_MISMATCH: ' + $expectedTranscriptText) }
+        }
+        $sourceLineMatches = [regex]::Matches($releaseTranscriptText, '(?im)^\s*Source:\s*(.+?)\s*$')
+        $inventoryLineMatches = [regex]::Matches($releaseTranscriptText, '(?im)^\s*Inventory:\s*(.+?)\s*$')
+        if (($sourceLineMatches.Count -ne 1) -or ([string]$sourceLineMatches[0].Groups[1].Value -ine 'C:\iips-work\iips-production-market-data\dist')) { throw 'RECOVERY_RELEASE_TRANSCRIPT_SOURCE_PATH_MISMATCH' }
+        if (($inventoryLineMatches.Count -ne 1) -or ([string]$inventoryLineMatches[0].Groups[1].Value -ine 'C:\iips-evidence\cap03-s2\s2-03-dist-sha256-before.txt')) { throw 'RECOVERY_RELEASE_TRANSCRIPT_INVENTORY_PATH_MISMATCH' }
+    }
     $sourceCheck = Test-S2DistTree -DistRoot $SourceDist -ExpectedMap $expectedMap -ExpectedCount $ExpectedCount
     if (-not $sourceCheck.Passed) {
         throw ('RECOVERY_SOURCE_VALIDATION_FAILED: ' + (@($sourceCheck.Failures) -join '; '))
@@ -517,9 +660,27 @@ function Invoke-S2OriginalDistRecovery {
         $recoveredCheck = Test-S2DistTree -DistRoot $recoveredDist -ExpectedMap $expectedMap -ExpectedCount $ExpectedCount
         if (-not $recoveredCheck.Passed) { throw ('RECOVERY_COPY_VALIDATION_FAILED: ' + (@($recoveredCheck.Failures) -join '; ')) }
         $archivePath = Join-Path $recoveryFull 'dist-artifacts.zip'
-        $archive = New-S2DistArchive -DistRoot $recoveredDist -ArchivePath $archivePath -ExpectedCount $ExpectedCount
+        if ($OriginalArchivePath -ne '') {
+            [System.IO.File]::Copy($OriginalArchivePath, $archivePath, $false)
+            $archive = [pscustomobject]@{
+                Path = $archivePath
+                FileCount = $ExpectedCount
+                Sha256 = (Get-FileHash -Algorithm SHA256 -LiteralPath $archivePath).Hash.ToUpperInvariant()
+                Bytes = [int64](Get-Item -LiteralPath $archivePath).Length
+            }
+            if (($ExpectedArchiveSha256 -ne '') -and ($archive.Sha256 -cne $ExpectedArchiveSha256.ToUpperInvariant())) { throw 'RECOVERY_ARCHIVE_COPY_SHA256_MISMATCH' }
+        } else {
+            $archive = New-S2DistArchive -DistRoot $recoveredDist -ArchivePath $archivePath -ExpectedCount $ExpectedCount
+        }
         $archiveCheck = Test-S2DistArchive -ArchivePath $archivePath -ExpectedMap $expectedMap -ExpectedCount $ExpectedCount
         if (-not $archiveCheck.Passed) { throw ('RECOVERY_ARCHIVE_VALIDATION_FAILED: ' + (@($archiveCheck.Failures) -join '; ')) }
+        if (($ExpectedArchiveSha256 -ne '') -and ($archive.Sha256 -cne $ExpectedArchiveSha256.ToUpperInvariant())) { throw 'RECOVERY_ARCHIVE_AUTHORITY_MISMATCH' }
+        if (($RecoveryEvidenceJsonPath -ne '') -or ($RecoveryTranscriptAssetPath -ne '')) {
+            $releaseAssetsRoot = Join-Path $recoveryFull 'release-assets'
+            [void](New-Item -ItemType Directory -Path $releaseAssetsRoot -ErrorAction Stop)
+            if ($RecoveryEvidenceJsonPath -ne '') { [System.IO.File]::Copy($RecoveryEvidenceJsonPath, (Join-Path $releaseAssetsRoot 'recovery-evidence.json'), $false) }
+            if ($RecoveryTranscriptAssetPath -ne '') { [System.IO.File]::Copy($RecoveryTranscriptAssetPath, (Join-Path $releaseAssetsRoot 'recovery-run-20261031-212225-35931ce8.txt'), $false) }
+        }
         if ((Get-FileHash -Algorithm SHA256 -LiteralPath (Join-Path $recoveryFull 'original-inventory.txt')).Hash.ToUpperInvariant() -cne $inventorySha) {
             throw 'RECOVERY_INVENTORY_COPY_HASH_MISMATCH'
         }
@@ -569,6 +730,15 @@ function Invoke-S2OriginalDistRecovery {
                 bytes = [int64]$file.Length
             }
         }
+        $releaseAssetRecords = @()
+        if ($ExpectedArchiveSha256 -ne '') {
+            $releaseAssetRecords = @(
+                [pscustomobject]@{ id = 695808804; name = 'CAP03-S2-Original-1140-Artifacts.zip'; path = 'dist-artifacts.zip'; bytes = [int64](Get-Item -LiteralPath $archivePath).Length; sha256 = $archive.Sha256 },
+                [pscustomobject]@{ id = 695808801; name = 'original-s2-sha256-inventory.txt'; path = 'original-inventory.txt'; bytes = [int64](Get-Item -LiteralPath (Join-Path $recoveryFull 'original-inventory.txt')).Length; sha256 = $inventorySha },
+                [pscustomobject]@{ id = 695808803; name = 'recovery-evidence.json'; path = 'release-assets/recovery-evidence.json'; bytes = [int64](Get-Item -LiteralPath (Join-Path $releaseAssetsRoot 'recovery-evidence.json')).Length; sha256 = $releaseEvidenceJsonSha },
+                [pscustomobject]@{ id = 695808800; name = 'recovery-run-20261031-212225-35931ce8.txt'; path = 'release-assets/recovery-run-20261031-212225-35931ce8.txt'; bytes = [int64](Get-Item -LiteralPath (Join-Path $releaseAssetsRoot 'recovery-run-20261031-212225-35931ce8.txt')).Length; sha256 = $releaseTranscriptSha }
+            )
+        }
         $manifest = [ordered]@{
             schema = 'IIPS-V3-CAP03-S2-ORIGINAL-DIST-RECOVERY-MANIFEST-v1'
             status = 'PASS'
@@ -576,6 +746,7 @@ function Invoke-S2OriginalDistRecovery {
             source_s2_run_id = 's2-a891802e-20261028T192516Z'
             original_inventory_sha256 = $inventorySha
             artifacts = @($artifactRecords)
+            release_assets = @($releaseAssetRecords)
             source_verification = $sourceReport
             recovery_verification = $recoveryReport
         }
@@ -610,6 +781,7 @@ function Invoke-S2OriginalDistRecovery {
             FileCount = $recoveredCheck.VerifiedCount
             ArchiveSha256 = $archive.Sha256
             ArchiveBytes = $archive.Bytes
+            OriginalVerificationOutputSha256 = $verificationSha
             SealedPathCount = $sealExpected.Count
             ManifestPath = (Join-Path $recoveryFull 'MANIFEST.json')
             SealPath = (Join-Path $recoveryFull 'SHA256SUMS.txt')
