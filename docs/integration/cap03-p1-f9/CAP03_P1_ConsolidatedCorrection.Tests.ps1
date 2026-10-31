@@ -156,7 +156,7 @@ Assert-Throws { ConvertFrom-S2DistInventory -Lines @($inventoryLines[0]) -Expect
 $created = New-S2DistArchive -DistRoot $distRoot -ArchivePath $archivePath -ExpectedCount 3
 Assert-Equal 3 $created.FileCount 'archive creation file count'
 $verified = Test-S2DistArchive -ArchivePath $archivePath -ExpectedMap $inventory -ExpectedCount 3
-Assert-True ([bool]$verified.Passed) 'independent archive readback verifies each emitted fixture hash'
+Assert-True ([bool]$verified.Passed) ('independent archive readback verifies each emitted fixture hash: ' + (@($verified.Failures) -join '; '))
 Assert-Equal 3 $verified.VerifiedCount 'all fixture payloads independently hashed'
 $caseRoot = Join-Path $temp 'case-dist'
 [void](New-Item -ItemType Directory -Path $caseRoot -Force)
