@@ -19116,8 +19116,19 @@ The API-reported ZIP digest matches the expected value supplied in this task. Th
 | `V1849` | Remote source SHA-256 readback | PASS — GitHub Git-Blobs-API bytes for the P1-F candidate, recovery wrapper and artifact module match merged local content; SHA-256 values are `f2f7adc4…f63746`, `caea9e03…f378f`, and `a2b7bda3…c0ddea`. |
 | `V1850` | S04 bundle and P1-F authority boundary | BLOCKED — code publication and tests pass; actual Windows bundle/output evidence and consumption-state reconciliation remain outstanding. |
 
-### 16.233.3 Published-source status-label correction (follow-up pending)
+### 16.233.3 Published-source status-label correction and independent readback (PR #402)
 
-PR #400's published P1-F candidate blob `5af4b60ae09cad88d4a75e765e994fdd388ecd8e` carried a pre-merge status sentence calling the file unpublished. A comment-only status restatement now distinguishes publication from authorization: it states the candidate is published, not an authorization instrument, and remains non-runnable while consumption is NOT RECONCILED and S04 Windows bundle/readback prerequisites are unmet. Working-tree restatement identity is 1,797 LF lines / 134,037 bytes / SHA-256 `4c744639fc8504b797b26765de3226c22bf10f578ce254fd366ddb5247362521`; it is not yet a remote blob and is pending a separate session-branch PR with fresh Windows parser/fixture CI. This text change neither alters Revision 7 nor weakens the S00 guard.
+PR #400's published P1-F candidate blob `5af4b60ae09cad88d4a75e765e994fdd388ecd8e` carried a pre-merge status sentence calling the file unpublished. PR #402 changed only that source comment to accurately distinguish publication from authorization: the candidate is published, is not an authorization instrument, and remains non-runnable while consumption is NOT RECONCILED and S04 Windows bundle/readback prerequisites are unmet. Revision 7 is unchanged and the S00 guard is intact.
+
+PR #402 head `22bff94607a03214c2eb07bb6363ba07158b5a2d` merged at **`d980598f4ca5ecc366bf478d2f721d239eb156cf`**, tree **`ffca593cbdf4c432f2aa57c7e6f8706c01280ce3`**; remote `refs/heads/main` equals that merge. The recursive GitHub tree was not truncated and all four changed-path blob IDs/sizes match the local merge objects:
+
+| Path | Remote blob | Bytes |
+|---|---|---:|
+| `IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md` | `b468272ea7c3c596ac9b7e97a8fc07626ab1da78` | 3,635,523 |
+| `docs/integration/CAP03_P1_F_CONSOLIDATED_CORRECTION_2026-10-31.md` | `fe21c9303748d6a979c9b6c86325ff19415e81ca` | 13,471 |
+| `docs/integration/IIPS_v3.0_CAP03_P1_F_P-1_CORRECTED_EXECUTION_SCRIPT_2026-10-31.ps1` | `51154ceff4f1363a8397e209ea6207e2c5abb6a5` | 134,037 |
+| `docs/integration/cap03-p1-f9/README.md` | `49ba07b6a7b77ff846de3a3a099c305199bf7981` | 66,708 |
+
+GitHub Git-Blobs-API bytes for the updated P1 candidate match the merge content; its final SHA-256 is `4c744639fc8504b797b26765de3226c22bf10f578ce254fd366ddb5247362521` (1,797 LF lines / 134,037 bytes). PR-head Windows parser/fixtures run `41225129671` and static/release-audit run `41225129384` passed on `22bff94607a03214c2eb07bb6363ba07158b5a2d`. Post-merge main Windows run `41225172765` and static/release-audit run `41225172727` passed on `d980598f4ca5ecc366bf478d2f721d239eb156cf`. No P1-F, Preflight, provisioning, or S2 was executed.
 
 **Next free after this section:** `§16.234` / `CV-CORR-214` / `CHG-2026-10-31-13` / `V1851`.
