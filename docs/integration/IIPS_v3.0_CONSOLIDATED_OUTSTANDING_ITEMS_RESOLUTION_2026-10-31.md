@@ -1,8 +1,8 @@
 # IRR consolidated outstanding-items resolution — P-11, P-18, P-19, P-20, P-33 (2026-10-31)
 
-**Record:** `IIPS-V3-CONSOLIDATED-OUTSTANDING-RESOLUTION-2026-10-31-01`  
-**Tracker overlay:** §16.233 / `CV-CORR-213` / `CHG-2026-10-31-12` / `V1835`–`V1846`  
-**Authoritative repository:** `ramkivs/iips-review-recovered`  
+**Record:** `IIPS-V3-CONSOLIDATED-OUTSTANDING-RESOLUTION-2026-10-31-01`
+**Tracker overlay:** §16.233 / `CV-CORR-213` / `CHG-2026-10-31-12` / `V1835`–`V1846`
+**Authoritative repository:** `ramkivs/iips-review-recovered`
 **IPD boundary:** read-only verification only; no IPD write.
 
 ## Final item status

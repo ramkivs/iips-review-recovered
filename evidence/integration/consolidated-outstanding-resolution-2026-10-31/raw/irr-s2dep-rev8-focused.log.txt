@@ -7,4 +7,3 @@
       Tests  15 passed (15)
    Start at  17:08:41
    Duration  613ms (transform 116ms, setup 197ms, collect 94ms, tests 29ms, environment 0ms, prepare 88ms)
-

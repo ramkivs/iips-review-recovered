@@ -1,6 +1,6 @@
 # P-20 — IRR pending-register closure after verified IPD PR #114 (2026-10-31)
 
-**Record:** `IIPS-V3-P20-IRR-PENDING-REGISTER-CLOSURE-2026-10-31-01`  
+**Record:** `IIPS-V3-P20-IRR-PENDING-REGISTER-CLOSURE-2026-10-31-01`
 **Scope:** IRR documentation/evidence only. IPD was read-only. No PA decision, gate, acceptance, qualification, admission, provisioning, host execution, `durable:true`, `503` lift or production authority is created.
 
 ## Verified IPD outcome
