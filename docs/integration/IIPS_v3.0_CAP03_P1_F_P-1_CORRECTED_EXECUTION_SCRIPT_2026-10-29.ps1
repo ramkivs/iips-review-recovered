@@ -14,7 +14,7 @@
   During a later authorized run it compares an already-existing pinned-checkout dist read-only; this IRR review did not
   inspect IPD. U-5 remains NOT RUN; this evidence is not represented as U-5 PASS.
 
-  AUTHORITY AND MODE BOUNDARY (current record state, CV-CORR-207). P1-F authorizes one provisioning Execute only. The distinct
+  AUTHORITY AND MODE BOUNDARY (current record state, CV-CORR-208). P1-F authorizes one provisioning Execute only. The distinct
   PA decision IIPS-V3-CAP03-P1-REV7-PREFLIGHT-PA-AUTHORIZATION-ACT-2026-10-31-01 authorizes exactly one standalone Revision 7
   -Mode Preflight invocation for capture-only validation and documented run-record evidence. The decision is bound to the
   existing Q-EV designation H:\IIPS-P1-EVIDENCE; PA-13 E10 remains a different optional procedure/root, not a prerequisite.
@@ -153,7 +153,7 @@ $Pf15Path             = 'docs/integration/IIPS_v3.0_CAP03_PF15_ENDPOINT_LOCAL_ST
 $Pf15Entry            = '100644 blob 3fe9a2ddd5f3b8730eccee7748b6266b5e2d8b1d'
 $TrackerPath          = 'IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md'
 # After publication, main must carry this revision's dated status pointers. The baseline is current authoritative main at merge reconciliation; later main changes are freshness-checked.
-$TrackerPointerMarkers = @('**Latest (`CV-CORR-207`', '**Current CAP-03 P-1 / PF-15 status**')
+$TrackerPointerMarkers = @('**Latest (`CV-CORR-208`', '**Current CAP-03 P-1 / PF-15 status**')
 $TrackerPointerRequiredText = 'AUTHORIZED'
 $P1NamePattern        = '(?i)(P1|P-1|GATE[_-]A[_-]PRIME|PF-?15|PA[_-]RULING)'
 $TrackerP1Term        = '(?i)(P-1|P1-F|CAP-03 P1)'

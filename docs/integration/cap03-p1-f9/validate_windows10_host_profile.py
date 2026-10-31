@@ -30,7 +30,7 @@ POST_CI_RECORD_ID = "IIPS-V3-CAP03-P1-REV7-POST-CI-BOUNDARY-RECONCILIATION-2026-
 EVIDENCE_ROOT = REPO / "evidence" / "cap03-s2"
 RUN_ID = "s2-a891802e-20261028T192516Z"
 RUN_DIR = EVIDENCE_ROOT / RUN_ID
-EXPECTED_SHA256 = "5b0f41ad0f5665684dea9f2ea665e2da80c9974758f949d67df125024fb58d3f"
+EXPECTED_SHA256 = "d1adeb7960c616a1ceb4016f1e822ebd8e3f39cc5772db10974199815e128c2c"
 PREFLIGHT_AUTHORITY_ID = "IIPS-V3-CAP03-P1-REV7-PREFLIGHT-PA-AUTHORIZATION-ACT-2026-10-31-01"
 EXPECTED_SEAL_SHA256 = "9D3C09DBDB691C2527A45605DEA20826B4EC2BA2F110985EE3F1033783B5225E"
 EXPECTED_DEPOSIT_SHA256 = "FFD0956482427ACB404543E36DAC2705D802B04828E380290232C06129F3AFAD"
@@ -245,7 +245,7 @@ require("$DesignatedStorePath  = 'C:\\iips-data\\iips\\user-portfolio.sqlite'" i
 for text, message in [
     ("$BaselineIrrCommit     = '235b793dcca944fdfca1da166f3d09cc655afb49'", "reviewed current-main baseline for post-merge freshness changed"),
     ("$P1FEntry             = '100644 blob e49bdd4156453971ae6b2bc61c4d2ec1b070f59c'", "effective PA/P1-F source entry is not bound to the current main tree"),
-    ("$TrackerPointerMarkers = @('**Latest (`CV-CORR-207`'", "current tracker pointer is not revision-bound"),
+    ("$TrackerPointerMarkers = @('**Latest (`CV-CORR-208`'", "current tracker pointer is not revision-bound"),
     ("'docs/integration/IIPS_v3.0_CAP03_P1_AUTHORIZATION_ACT_AND_PREREQUISITE_DECISIONS_2026-10-29.md'", "reviewed effective P1-F record is not allowlisted for exact-blob freshness checking"),
     ("$TrackerPointerRequiredText = 'AUTHORIZED'", "freshness check no longer binds an authorized/unspent current pointer"),
 ]:
@@ -341,6 +341,7 @@ for heading in (
     "## §16.225 — `CV-CORR-205`:",
     "## §16.226 — `CV-CORR-206`:",
     "## §16.227 — `CV-CORR-207`:",
+    "## §16.228 — `CV-CORR-208`:",
 ):
     require(tracker.count(heading) == 1, "authoritative tracker heading missing/duplicated: " + heading)
 for heading in ("## 16.208 CAP-03 P-1 Revision 5", "## 16.209 CAP-03 P-1 Revision 6", "## 16.210 CAP-03 P-1 Revision 7"):
@@ -360,6 +361,11 @@ branch_tracker = subprocess.run(
 qcons1_commit = "29eb2d46b164cbf93bb0e120e978f0ce38bd6e54"
 qcons1_tracker = subprocess.run(
     ["git", "show", f"{qcons1_commit}:{TRACKER.name}"], cwd=REPO,
+    check=True, capture_output=True, text=True, encoding="utf-8",
+).stdout
+current_main_commit = "cfbdb61cfbd7391cb40153df188cd6e9aabf958e"
+current_main_tracker = subprocess.run(
+    ["git", "show", f"{current_main_commit}:{TRACKER.name}"], cwd=REPO,
     check=True, capture_output=True, text=True, encoding="utf-8",
 ).stdout
 
@@ -465,11 +471,11 @@ require(tracker.count("| `2026-10-30` | `CHG-2026-10-30-11` |") == 1 and
         "Next free after this section: **`§16.222` / `CV-CORR-202` / `CHG-2026-10-30-17` / `V1712`**" in tracker,
         "historical Revision 7 change-log or latest-main/Q-EV allocation is inconsistent")
 first_lines = "\n".join(tracker.splitlines()[:30])
-require("**Latest (`CV-CORR-207`, §16.227, `CHG-2026-10-31-06`" in first_lines and
+require("**Latest (`CV-CORR-208`, §16.228, `CHG-2026-10-31-07`" in first_lines and
         PREFLIGHT_AUTHORITY_ID in first_lines and "exactly one capture-only" in first_lines and
         "NON-CONSUMING" in first_lines and DESIGNATED_EVIDENCE_ROOT in first_lines,
         "Last Updated pointer does not identify the current one-time PA authorization/consumption boundary")
-require("**Current CAP-03 P-1 / PF-15 status** — *current-state pointer (`CV-CORR-207`, §16.227" in first_lines and
+require("**Current CAP-03 P-1 / PF-15 status** — *current-state pointer (`CV-CORR-208`, §16.228" in first_lines and
         "P-1-C remains NOT ESTABLISHED" in first_lines and "P-1-D remains DESIGNATED / NOT VERIFIED FOR THE ATTEMPT" in first_lines and
         PREFLIGHT_AUTHORITY_ID in first_lines and "P1-F remains AUTHORIZED" in first_lines,
         "CAP-03 current-state pointer does not preserve P1-F/P-1 status and current Preflight decision")
@@ -550,27 +556,35 @@ require(tracker.count("## §16.225 — `CV-CORR-205`:") == 1 and
 require(git_grep_count(base_commit, "## §16.226") == 0 and
         "Next free after this record:** `§16.226` / `CV-CORR-206` / `CHG-2026-10-31-05` / `V1761`" in base_tracker,
         "Q-CONS-1 allocation does not match the exact current-main next-free reservation")
-require(tracker.count("## §16.227 — `CV-CORR-207`: ") == 1 and
-        tracker.count("| `2026-10-31` | `CHG-2026-10-31-06` |") == 1 and
+require(tracker.count("## §16.228 — `CV-CORR-208`: ") == 1 and
+        tracker.count("| `2026-10-31` | `CHG-2026-10-31-07` |") == 1 and
         tracker.count(PREFLIGHT_AUTHORITY_ID) >= 3,
         "one-time Preflight PA decision allocation/change row missing or duplicated")
 require("Next free after this section:** `§16.227` / `CV-CORR-207` / `CHG-2026-10-31-06` / `V1773`" in qcons1_tracker,
-        "Q-CONS-1 predecessor does not declare the §16.227 one-time decision allocation")
+        "Q-CONS-1 predecessor does not declare the §16.227 allocation consumed by intervening current main")
 require(one_record(qcons1_tracker, "## §16.226 — `CV-CORR-206`:").rstrip() ==
         one_record(tracker, "## §16.226 — `CV-CORR-206`:").rstrip(),
         "published Q-CONS-1 predecessor section was modified while adding the new PA decision")
+o05_current_heading = "## §16.227 — `CV-CORR-207`: `O-05`"
+require(one_record(current_main_tracker, o05_current_heading).rstrip() ==
+        one_record(tracker, o05_current_heading).rstrip(),
+        "intervening current-main O-05 §16.227 was not preserved byte-for-byte")
+require("Next free after this section: **`§16.228` / `CV-CORR-208` / `CHG-2026-10-31-07` / `V1783`**" in current_main_tracker and
+        git_grep_count(current_main_commit, "## §16.228") == 0 and
+        git_grep_count(current_main_commit, "| `V1783` |") == 0,
+        "§16.228/CV-CORR-208/V1783 was not the declared next-free current-main allocation")
 require(git_grep_count(qcons1_commit, "## §16.227") == 0 and
         git_grep_count(qcons1_commit, "| `V1773` |") == 0,
-        "§16.227/V1773 allocation was already consumed before this decision")
-for verification_id in range(1773, 1785):
+        "§16.227/V1773 allocation was already consumed before Q-CONS-1")
+for verification_id in range(1783, 1795):
     row = f"| `V{verification_id}` |"
     require(tracker.count(row) == 1, "one-time Preflight verification row missing/duplicated: " + row)
 for required in (PREFLIGHT_AUTHORITY_ID, "Exactly one Revision 7 `-Mode Preflight` invocation",
                  "PREFLIGHT-PA-AUTHORIZATION-USE.json", "NOT EXECUTED — UNSPENT",
                  "Gate 4 acceptance not rendered", "Gate 5/CV-52 not initiated",
                  "H-12 / S2-Limb A / DQ-4 / PA-09 unchanged"):
-    require(required in tracker[tracker.index("## §16.227 — `CV-CORR-207`:"):],
-            "§16.227 decision or governance boundary missing: " + required)
+    require(required in tracker[tracker.index("## §16.228 — `CV-CORR-208`:"):],
+            "§16.228 decision or governance boundary missing: " + required)
 
 for revision in (allocation_history_commit, base_commit):
     require(git_grep_count(revision, "## §16.226") == 0,
