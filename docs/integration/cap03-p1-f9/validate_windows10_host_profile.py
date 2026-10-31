@@ -20,6 +20,8 @@ CORRECTION_TESTS = ROOT / "cap03-p1-f9" / "CAP03_P1_ConsolidatedCorrection.Tests
 ARTIFACT_MODULE = ROOT / "cap03-p1-f9" / "CAP03S2DistArtifacts.psm1"
 TRANSFER_SCRIPT = ROOT / "IIPS_v3.0_CAP03_S2_DEP_A_HOST_TRANSFER_2026-10-29.ps1"
 RECOVERY_SCRIPT = ROOT / "IIPS_v3.0_CAP03_S2_ORIGINAL_DIST_RECOVERY_2026-10-31.ps1"
+ONE_PASS_SCRIPT = ROOT / "IIPS_v3.0_CAP03_P1_ONE_PASS_COMPLETION_2026-11-01.ps1"
+PA_WAIVER_ACT = ROOT / "IIPS_v3.0_CAP03_PA_BLANKET_WAIVER_AND_ONE_PASS_AUTHORIZATION_2026-11-01.md"
 TRACKER = REPO / "IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md"
 AUTHORITY = ROOT / "IIPS_v3.0_CAP03_P1_AUTHORIZATION_ACT_AND_PREREQUISITE_DECISIONS_2026-10-29.md"
 PF15_ACT = ROOT / "IIPS_v3.0_CAP03_PF15_ENDPOINT_LOCAL_STATE_DESIGNATION_PA_ACT_CORRECTED_2026-10-26.md"
@@ -69,6 +71,8 @@ correction_tests = CORRECTION_TESTS.read_text(encoding="utf-8")
 artifact_module = ARTIFACT_MODULE.read_text(encoding="utf-8")
 transfer_script = TRANSFER_SCRIPT.read_text(encoding="utf-8")
 recovery_script = RECOVERY_SCRIPT.read_text(encoding="utf-8")
+one_pass_script = ONE_PASS_SCRIPT.read_text(encoding="utf-8")
+pa_waiver_act = PA_WAIVER_ACT.read_text(encoding="utf-8")
 authority = AUTHORITY.read_text(encoding="utf-8")
 report = (ROOT / "IIPS_v3.0_CAP03_P1_F_P-1_SOURCE_TO_SCRIPT_VERIFICATION_2026-10-29.md").read_text(encoding="utf-8")
 readme = (ROOT / "cap03-p1-f9" / "README.md").read_text(encoding="utf-8")
@@ -402,11 +406,17 @@ for artifact in (
     "docs/integration/cap03-p1-f9/CAP03_P1_F9_WindowsFixtureTests.ps1",
     "docs/integration/cap03-p1-f9/CAP03_P1_ConsolidatedCorrection.Tests.ps1",
     "docs/integration/CAP03_P1_F_CONSOLIDATED_CORRECTION_2026-10-31.md",
+    "docs/integration/IIPS_v3.0_CAP03_PA_BLANKET_WAIVER_AND_ONE_PASS_AUTHORIZATION_2026-11-01.md",
+    "docs/integration/IIPS_v3.0_CAP03_S2_ORIGINAL_DIST_RECOVERY_2026-10-31.ps1",
+    "docs/integration/cap03-p1-f9/CAP03S2DistArtifacts.psm1",
     ".github/workflows/cap03-p1-consolidated-windows.yml",
 ):
     require(artifact in review_artifact_paths, "freshness allowlist misses reviewed PR artifact: " + artifact)
-require("$TrackerPointerRequiredText = 'AUTHORIZED'" in source,
-        "pre-claim/freshness pointer matcher does not match the current tracker rows")
+require("$TrackerPointerRequiredText = 'AUTHORIZED'" in corrected_source and
+        "FRESH P1-F Execute authorization: AUTHORIZED - ONE ATTEMPT ONLY - NOT EXECUTED - UNSPENT" in corrected_source and
+        "S00-P1F-FRESH-AUTHORITY-PUBLISHED" in corrected_source and
+        "IIPS-V3-CAP03-PA-BLANKET-WAIVER-ONE-PASS-AUTHORIZATION-2026-11-01-01" in corrected_source,
+        "candidate pre-claim/freshness matcher does not bind the explicit fresh PA attempt authority")
 
 # Allocation census across all tracked IRR paths at the exact main/branch tips.
 def git_grep_count(revision: str, token: str) -> int:
@@ -486,15 +496,18 @@ require(tracker.count("| `2026-10-30` | `CHG-2026-10-30-11` |") == 1 and
         "Next free after this section: **`§16.222` / `CV-CORR-202` / `CHG-2026-10-30-17` / `V1712`**" in tracker,
         "historical Revision 7 change-log or latest-main/Q-EV allocation is inconsistent")
 first_lines = "\n".join(tracker.splitlines()[:30])
-require("**Latest (`CV-CORR-209`, §16.229, `CHG-2026-10-31-08`" in first_lines and
+require("**Latest (`CV-CORR-215`" in first_lines and
+        "**Latest (`CV-CORR-209`, §16.229, `CHG-2026-10-31-08`" in first_lines and
         "**Latest (`CV-CORR-208`" in first_lines and
         PREFLIGHT_AUTHORITY_ID in first_lines and "exactly one capture-only" in first_lines and
         "NON-CONSUMING" in first_lines and DESIGNATED_EVIDENCE_ROOT in first_lines,
         "Last Updated pointer does not preserve Revision 7's fixed compatibility token and current one-time PA boundary")
 require("**Current CAP-03 P-1 / PF-15 status** — *pointer (`CV-CORR-210`, §16.230" in first_lines and
         "P1-F consumption state: NOT RECONCILED" in first_lines and
-        "prior §16.229 operator-reported S00 stop" in first_lines and "later S04 stop" in first_lines and
-        "NOT EXECUTED — UNSPENT" in first_lines and
+        "prior §16.229 operator-reported S00 stop" in first_lines and "later separately user-reported S04 stop" in first_lines and
+        "NOT EXECUTED - UNSPENT" in first_lines and
+        "FRESH P1-F Execute authorization: AUTHORIZED - ONE ATTEMPT ONLY - NOT EXECUTED - UNSPENT" in first_lines and
+        "IIPS-V3-CAP03-PA-BLANKET-WAIVER-ONE-PASS-AUTHORIZATION-2026-11-01-01" in first_lines and
         "P-1-C remains NOT ESTABLISHED" in first_lines and
         "P-1-D remains DESIGNATED / NOT VERIFIED FOR THE ATTEMPT" in first_lines,
         "CAP-03 current-state pointer does not preserve distinct-stop provenance or unreconciled consumption")
@@ -503,8 +516,10 @@ latest_pointer_lines = [line for line in tracker_lines if "**Latest (`CV-CORR-20
 current_status_lines = [line for line in tracker_lines if "**Current CAP-03 P-1 / PF-15 status**" in line]
 require(len(latest_pointer_lines) == 1 and len(current_status_lines) == 1 and
         "AUTHORIZED" in current_status_lines[0] and
-        re.search(r"(?i)NOT EXECUTED.*UNSPENT", current_status_lines[0]) is not None,
-        "Revision 7 S00 current-pointer cardinality/status contract is not satisfied")
+        re.search(r"(?i)NOT EXECUTED.*UNSPENT", current_status_lines[0]) is not None and
+        "FRESH P1-F Execute authorization: AUTHORIZED - ONE ATTEMPT ONLY - NOT EXECUTED - UNSPENT" in latest_pointer_lines[0] and
+        "FRESH P1-F Execute authorization: AUTHORIZED - ONE ATTEMPT ONLY - NOT EXECUTED - UNSPENT" in current_status_lines[0],
+        "S00 current-pointer cardinality/status or fresh PA authority contract is not satisfied")
 require("## §16.207 — `CV-CORR-187`: O-07 closed" in tracker,
         "origin/main O-07 section was lost in additive merge")
 for q in ["Q-CONS-2", "Q-CONS-3", "Q-MIG", "Q-TX", "Q-V8", "Q-WRITE", "Q-EV", "Q-BUILD"]:
@@ -703,8 +718,10 @@ require("$SourceDist = 'C:\\iips-work\\iips-production-market-data\\dist'" in re
         "older admitted-map hash difference must remain informational" in correction_tests,
         "recovery path must use the original inventory/archive authority and keep historical admitted-map differences informational")
 require("OriginalVerificationOutputPath" in recovery_script and
+        "S04WaiverRecordPath" in recovery_script and
         "RECOVERY_TRANSCRIPT_OUTPUT_NOT_BYTE_IDENTICAL" not in artifact_module and
-        "OriginalVerificationOutputSha256 = $verificationSha" in artifact_module and
+        "originalVerificationOutputState = $(if ($waiverMode) { 'WAIVED_BY_PA' } else { 'PRESENT' })" in artifact_module and
+        "RECOVERY_BUNDLE_WAIVER_MUST_NOT_SUBSTITUTE_ORIGINAL_OUTPUT" in artifact_module and
         "RecoveryTranscriptAssetPath" in recovery_script and "ExpectedArchiveSha256" in recovery_script and
         "RECOVERY_VERIFICATION_OUTPUT_COPY_HASH_MISMATCH" in artifact_module and
         "dist-artifacts.zip" in artifact_module and "SHA256SUMS.txt" in artifact_module and
@@ -712,8 +729,25 @@ require("OriginalVerificationOutputPath" in recovery_script and
         re.search(r"(?im)^\s*try\s*\{", recovery_script) and
         re.search(r"(?im)^\s*\}\s*catch\s*\{", recovery_script) and
         "Read-Host 'Press Enter to close this recovery procedure'" in recovery_script and
-        not re.search(r"(?i)\b(else|elseif|finally|exit|break)\b", recovery_script),
-        "recovery path must preserve the distinct original verification output, validate the released transcript separately, seal/read back, retain diagnostics, and keep the terminal open")
+        "if (-not $NonInteractive)" in recovery_script and
+        "must not be relabelled" in (ROOT / "IIPS_v3.0_CAP03_PA_BLANKET_WAIVER_AND_ONE_PASS_AUTHORIZATION_2026-11-01.md").read_text(encoding="utf-8"),
+        "recovery path must preserve the distinct original output when present, apply the exact PA waiver when absent, keep the transcript separate, seal/read back, retain diagnostics, and support one-pass noninteractive use")
+
+PA_WAIVER_ID = "IIPS-V3-CAP03-PA-BLANKET-WAIVER-ONE-PASS-AUTHORIZATION-2026-11-01-01"
+PA_WAIVER_SHA256 = "235487714EDF4888DF53FC8C7362C0851A2E6C73BE5B30E3846AA6B18033CF27"
+require(PA_WAIVER_ID in pa_waiver_act and "APPROVED" in pa_waiver_act and
+        hashlib.sha256(PA_WAIVER_ACT.read_bytes()).hexdigest().upper() == PA_WAIVER_SHA256,
+        "PA waiver act identity/approved bytes do not match the pinned operative record")
+require("docs/integration/IIPS_v3.0_CAP03_PA_BLANKET_WAIVER_AND_ONE_PASS_AUTHORIZATION_2026-11-01.md text eol=lf" in
+        (REPO / ".gitattributes").read_text(encoding="utf-8"),
+        "pinned PA waiver record must retain LF bytes on Windows checkouts")
+require(one_pass_script.count("& $P1Script -Mode Execute") == 1 and
+        "-Mode Preflight" not in one_pass_script and
+        "S04_BUNDLE_INDEPENDENT_READBACK_FAILED" in one_pass_script and
+        "IRR_CHECKOUT_NOT_AT_CURRENT_ORIGIN_MAIN" in one_pass_script and
+        "FRESH_P1F_AUTHORITY_NOT_PUBLISHED_ON_AUTHORITATIVE_MAIN" in one_pass_script and
+        "IIPS-V3-CAP03-PA-BLANKET-WAIVER-ONE-PASS-AUTHORIZATION-2026-11-01-01" in one_pass_script,
+        "one-pass runner must gate on published authority, independently read back S04, and make exactly one Execute call")
 
 # The historical F9 fixture runner remains pinned to Revision 5 and is not retargeted or rerun.
 old_f9_hash = "7aa52aa407c548940446817b0cb99b9a31c427660af39baf636bd3e59e45e916"
@@ -793,6 +827,6 @@ print("PASS: exact PA-authorized Windows 10 profile and preserved P-1 safety/pat
 print("PASS: S04 source validates PA-06 L2a evidence and defines a read-only current-dist match; no build/install/probe invocation")
 print("PASS: admitted S2 authority, pin, completeness, hashes, build/test/package records and publication transcript verified")
 print("LIMIT: this is IRR-only static validation; no PowerShell parse, IPD inspection, current-dist check, S2 rerun or U-5 PASS")
-print("DURABLE IRR RETENTION: PARTIAL — hosted release audit 41220038505 independently verified four release-asset hashes and 1,140 ZIP payload hashes against the original inventory. The sealed S04 bundle is not yet present; the exact original verification-output file remains a separate Windows input, and the release transcript is not substituted for it.")
+print("DURABLE IRR RETENTION: WAIVER AUTHORIZED — hosted release audit 41220038505 independently verified four release-asset hashes and 1,140 ZIP payload hashes against the original inventory. The distinct original verification-output file may be absent under PA act IIPS-V3-CAP03-PA-BLANKET-WAIVER-ONE-PASS-AUTHORIZATION-2026-11-01-01; the transcript remains separate. A sealed S04 bundle and Windows readback are still NOT PERFORMED by this static validator.")
 print("U-5 remains NOT RUN; exact emitted-entry closure and emitted-migration probes remain NOT RUN")
 print("REVISION_7_SCRIPT_SHA256=" + script_sha)

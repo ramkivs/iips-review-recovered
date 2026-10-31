@@ -4,14 +4,15 @@ CAP-03 original S2 dist recovery. Read/copy/archive only:
 - Never builds, regenerates, edits, or substitutes source artifacts.
 - Validates the live source dist against the preserved original inventory before creating the recovery destination.
 - Pins the released archive, inventory, JSON evidence, and Windows recovery transcript by known SHA-256 and size.
-- Requires the distinct original verification-output file as an operator-supplied input; the published recovery transcript is retained separately and is NOT relabeled as that output.
+- Uses the PA-approved 2026-11-01 waiver when the distinct original verification-output file is unavailable; the released transcript remains separate and is never relabeled as that output.
 - Refuses an existing recovery destination and preserves failed download/recovery staging for diagnosis.
 - Does not transfer, commit, push, modify the historical S2 run record, provision, or execute P1-F.
 #>
 [CmdletBinding()]
 param(
-    [Parameter(Mandatory = $true)] [string] $OriginalVerificationOutputPath,
-    [string] $RecoveryRoot = (Join-Path (Split-Path -Parent (Split-Path -Parent $PSScriptRoot)) 'evidence\cap03-s2\s2-original-dist-recovery-2026-10-31')
+    [string] $OriginalVerificationOutputPath = '',
+    [string] $RecoveryRoot = (Join-Path (Split-Path -Parent (Split-Path -Parent $PSScriptRoot)) 'evidence\cap03-s2\s2-original-dist-recovery-2026-10-31'),
+    [switch] $NonInteractive
 )
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
@@ -19,6 +20,8 @@ $SourceDist = 'C:\iips-work\iips-production-market-data\dist'
 $OriginalInventory = 'C:\iips-evidence\cap03-s2\s2-03-dist-sha256-before.txt'
 $ExpectedArchiveSha256 = '57656309D721A0C6F6A072F14F6A9067A2CC788737EFA92F34AA0997FB5D2D48'
 $ExpectedInventorySha256 = 'E077A349D3777403D426A0B0F338C53AC6F0E3942F75A9174A6A9B6E42854CBB'
+$WaiverDecisionRef = 'IIPS-V3-CAP03-PA-BLANKET-WAIVER-ONE-PASS-AUTHORIZATION-2026-11-01-01'
+$WaiverDecisionPath = Join-Path $PSScriptRoot 'IIPS_v3.0_CAP03_PA_BLANKET_WAIVER_AND_ONE_PASS_AUTHORIZATION_2026-11-01.md'
 $assetSpecs = @(
     [pscustomobject]@{ Name = 'CAP03-S2-Original-1140-Artifacts.zip'; Bytes = 10328940; Sha256 = $ExpectedArchiveSha256 },
     [pscustomobject]@{ Name = 'original-s2-sha256-inventory.txt'; Bytes = 176456; Sha256 = $ExpectedInventorySha256 },
@@ -34,7 +37,15 @@ try {
     if (Test-Path -LiteralPath $RecoveryRoot) { throw ('RECOVERY_DESTINATION_EXISTS: ' + $RecoveryRoot) }
     if (-not (Test-Path -LiteralPath $SourceDist -PathType Container)) { throw ('ORIGINAL_SOURCE_DIST_MISSING: ' + $SourceDist) }
     if (-not (Test-Path -LiteralPath $OriginalInventory -PathType Leaf)) { throw ('ORIGINAL_INVENTORY_MISSING: ' + $OriginalInventory) }
-    if (-not (Test-Path -LiteralPath $OriginalVerificationOutputPath -PathType Leaf)) { throw ('ORIGINAL_VERIFICATION_OUTPUT_MISSING: ' + $OriginalVerificationOutputPath) }
+    if ($OriginalVerificationOutputPath -ne '' -and -not (Test-Path -LiteralPath $OriginalVerificationOutputPath -PathType Leaf)) { throw ('ORIGINAL_VERIFICATION_OUTPUT_MISSING: ' + $OriginalVerificationOutputPath) }
+    if ($OriginalVerificationOutputPath -eq '') {
+        if (-not (Test-Path -LiteralPath $WaiverDecisionPath -PathType Leaf)) { throw 'S04_WAIVER_DECISION_RECORD_MISSING' }
+        $waiverText = [System.IO.File]::ReadAllText($WaiverDecisionPath)
+        if ((Get-FileHash -Algorithm SHA256 -LiteralPath $WaiverDecisionPath).Hash.ToUpperInvariant() -cne '235487714EDF4888DF53FC8C7362C0851A2E6C73BE5B30E3846AA6B18033CF27') { throw 'S04_WAIVER_DECISION_RECORD_SHA256_MISMATCH' }
+        foreach ($requiredWaiverText in @($WaiverDecisionRef, 'APPROVED', 'distinct original verification-output file as a procedural prerequisite', 'must not be relabelled')) {
+            if (-not $waiverText.Contains($requiredWaiverText)) { throw ('S04_WAIVER_DECISION_RECORD_INVALID: ' + $requiredWaiverText) }
+        }
+    }
     $inventoryHash = (Get-FileHash -Algorithm SHA256 -LiteralPath $OriginalInventory).Hash.ToUpperInvariant()
     if ($inventoryHash -cne $ExpectedInventorySha256) { throw 'ORIGINAL_INVENTORY_SHA256_MISMATCH' }
     [void][System.IO.Directory]::CreateDirectory($downloadRoot)
@@ -57,6 +68,7 @@ try {
         -SourceDist $SourceDist `
         -InventoryPath $OriginalInventory `
         -OriginalVerificationOutputPath $OriginalVerificationOutputPath `
+        -S04WaiverRecordPath $(if ($OriginalVerificationOutputPath -eq '') { $WaiverDecisionPath } else { '' }) `
         -RecoveryRoot $RecoveryRoot `
         -ExpectedCount 1140 `
         -OriginalArchivePath $archivePath `
@@ -69,7 +81,11 @@ try {
     Write-Output ('Recovery folder: ' + $result.RecoveryRoot)
     Write-Output ('Manifest: ' + $result.ManifestPath)
     Write-Output ('Seal: ' + $result.SealPath)
-    Write-Output ('Original verification output SHA-256: ' + $result.OriginalVerificationOutputSha256)
+    if ($result.OriginalVerificationOutputState -eq 'WAIVED_BY_PA') {
+        Write-Output ('Original verification output: ABSENT — WAIVED by ' + $result.WaiverDecisionRef + '; the recovery transcript remains separate and is not substituted.')
+    } else {
+        Write-Output ('Original verification output SHA-256: ' + $result.OriginalVerificationOutputSha256)
+    }
     Write-Output ('Release asset staging retained at: ' + $downloadRoot)
     Write-Output 'BOUNDARY: read/copy/archive only; no S2/build, provisioning, P-1, IPD checkout write, production action, or Git operation was invoked.'
     $script:ProcedureStatus = 'PASS: recovery bundle created and independently sealed'
@@ -81,4 +97,4 @@ try {
     $script:ProcedureStatus = 'FAIL: ' + $_.Exception.Message
 }
 Write-Output ('FINAL STATUS: ' + $script:ProcedureStatus)
-[void](Read-Host 'Press Enter to close this recovery procedure')
+if (-not $NonInteractive) { [void](Read-Host 'Press Enter to close this recovery procedure') }

@@ -63,3 +63,23 @@ The reported later S04 stop remains user-reported unless corroborating authority
 ## Publication and reconciliation
 
 The S04 implementation was published through PR #400; merge commit/tree, 10 remote blob IDs, exact source hashes and PR/main-push CI runs are recorded in tracker §16.233.2. The candidate's status header was clarified in PR #402, merged at `d980598f4ca5ecc366bf478d2f721d239eb156cf`; final SHA-256 `4c744639fc8504b797b26765de3226c22bf10f578ce254fd366ddb5247362521` and exact-head CI/readback are recorded in tracker §16.233.3. PR #398 was not reopened. No direct push to `main` or IPD change occurred. The complete Windows recovery bundle and P1-F execution remain blocked by the missing distinct original verification-output input and unreconciled consumption state. No independent review is claimed.
+
+## PA decision addendum — one fresh Execute attempt and S04 output waiver (2026-11-01)
+
+PA explicitly approved consolidated decision `IIPS-V3-CAP03-PA-BLANKET-WAIVER-ONE-PASS-AUTHORIZATION-2026-11-01-01` (full operative record: `IIPS_v3.0_CAP03_PA_BLANKET_WAIVER_AND_ONE_PASS_AUTHORIZATION_2026-11-01.md`; tracker §16.235). The prior consumption state remains **NOT RECONCILED**; the act grants one new attempt and does not retroactively infer the earlier attempt's status. The candidate now permits Execute through S00 only when the exact decision and fresh one-attempt pointer are published on authoritative `main`; all unrelated fail-closed controls and the single-use claim/marker remain. No retry is authorized.
+
+The distinct original verification-output file is waived solely as an S04 procedural prerequisite. If absent, the recovery module includes the PA decision as `PA-S04-OUTPUT-WAIVER.md`, records `WAIVED_BY_PA`, and omits both the missing file and its hash. It does not relabel or substitute the released Windows transcript. Original archive/inventory identities, complete 1,140-entry readback, seal validation, historical-difference treatment, and S04 current-dist checks remain in force. The Windows one-pass launcher `IIPS_v3.0_CAP03_P1_ONE_PASS_COMPLETION_2026-11-01.ps1` is the only intended operator route; it calls the recovery path, independently validates the bundle, then invokes Execute once. It is not run in Arena or CI.
+
+The PA decision and implementation do not claim a Windows bundle, P1-F execution, host operation, or production readiness. Arena's authority is limited to IRR publication and local app/test work; the designated Windows source/evidence filesystem is external. This addendum replaces only the earlier statement that the original output must be located and that no new P1-F authorization exists; other technical checks and historical reports remain intact.
+
+**Current candidate hashes (local review tree; not yet PR-head or remote-readback identities):**
+
+| Artifact | Bytes | SHA-256 |
+|---|---:|---|
+| Corrected P1-F candidate | 136,421 | `0ffaf9fcee14cbcf4e1bfa27825806347c7ce4a6cfe292ceebe043da1258a508` |
+| S04 recovery wrapper | 7,750 | `da3ac5ba9d5b0951124d6e64d4ab3da284090da990403068fee35d1c47321bf1` |
+| Shared S2/S04 artifact module | 60,556 | `c378d8c155394546823b2d1594ed823011e4189426df311aafde78abf0c70bc8` |
+| One-pass Windows launcher | 9,121 | `78bf8a923154ea3398b5df8d0951242e9c80236885639c7543e93806b724ab2d` |
+| Approved PA decision | 6,668 | `235487714edf4888df53fc8c7362c0851a2e6c73be5b30e3846aa6b18033cf27` |
+
+The approved decision's exact SHA-256 is pinned in the helper, recovery wrapper, and one-pass runner; `.gitattributes` forces LF checkout for that record. Local IRR static validation, Python 48/48, and frontend 108/1,377 tests/build pass. Exact-head Windows parser/fixtures and remote publication/readback remain pending; no S04 bundle, Windows readback, or Execute is claimed.

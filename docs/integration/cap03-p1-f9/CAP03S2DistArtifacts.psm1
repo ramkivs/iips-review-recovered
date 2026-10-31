@@ -280,7 +280,10 @@ function Test-S2OriginalDistRecoveryBundle {
         [Parameter(Mandatory = $true)] [string] $ExpectedSourceDist,
         [Parameter(Mandatory = $true)] [string] $ExpectedSourceRunId,
         [string] $ExpectedArchiveSha256 = '',
-        [string] $ExpectedOriginalInventorySha256 = ''
+        [string] $ExpectedOriginalInventorySha256 = '',
+        [switch] $AllowWaivedOriginalVerificationOutput,
+        [string] $ExpectedWaiverDecisionRef = 'IIPS-V3-CAP03-PA-BLANKET-WAIVER-ONE-PASS-AUTHORIZATION-2026-11-01-01',
+        [string] $ExpectedWaiverDocumentSha256 = '235487714EDF4888DF53FC8C7362C0851A2E6C73BE5B30E3846AA6B18033CF27'
     )
     $failures = New-Object System.Collections.ArrayList
     $originalInventorySha256 = ''
@@ -431,21 +434,51 @@ function Test-S2OriginalDistRecoveryBundle {
             if ([string]$artifact.sha256 -cne [string]$actual.Sha256) { [void]$failures.Add('RECOVERY_BUNDLE_ARTIFACT_HASH_MISMATCH: ' + $path) }
             if ([int64]$artifact.bytes -ne [int64]$actual.Bytes) { [void]$failures.Add('RECOVERY_BUNDLE_ARTIFACT_SIZE_MISMATCH: ' + $path) }
         }
-        $requiredArtifacts = @('dist-artifacts.zip', 'original-inventory.txt', 'original-verification-output.txt', 'source-verification.json', 'recovery-verification.json')
+        $waiverMode = ([string]$manifest.recovery_verification.originalVerificationOutputState -ceq 'WAIVED_BY_PA')
+        if ($waiverMode) {
+            $requiredArtifacts = @('dist-artifacts.zip', 'original-inventory.txt', 'PA-S04-OUTPUT-WAIVER.md', 'source-verification.json', 'recovery-verification.json')
+            if (-not $AllowWaivedOriginalVerificationOutput) { [void]$failures.Add('RECOVERY_BUNDLE_OUTPUT_WAIVER_NOT_ENABLED') }
+            if ([string]$manifest.recovery_verification.originalVerificationOutputWaiverRef -cne $ExpectedWaiverDecisionRef) { [void]$failures.Add('RECOVERY_BUNDLE_OUTPUT_WAIVER_AUTHORITY_MISMATCH') }
+            if ($artifactMap.ContainsKey('original-verification-output.txt') -or $actualFiles.ContainsKey('original-verification-output.txt')) { [void]$failures.Add('RECOVERY_BUNDLE_WAIVER_MUST_NOT_SUBSTITUTE_ORIGINAL_OUTPUT') }
+            if ($actualFiles.ContainsKey('PA-S04-OUTPUT-WAIVER.md')) {
+                if ([string]$actualFiles['PA-S04-OUTPUT-WAIVER.md'].Sha256 -cne $ExpectedWaiverDocumentSha256.ToUpperInvariant()) { [void]$failures.Add('RECOVERY_BUNDLE_OUTPUT_WAIVER_DOCUMENT_HASH_MISMATCH') }
+                $waiverText = [System.IO.File]::ReadAllText((Join-Path $root 'PA-S04-OUTPUT-WAIVER.md'))
+                foreach ($waiverPhrase in @($ExpectedWaiverDecisionRef, 'APPROVED', 'distinct original verification-output file as a procedural prerequisite', 'must not be relabelled')) {
+                    if (-not $waiverText.Contains($waiverPhrase)) { [void]$failures.Add('RECOVERY_BUNDLE_OUTPUT_WAIVER_CONTENT_MISMATCH: ' + $waiverPhrase) }
+                }
+            }
+        } else {
+            $requiredArtifacts = @('dist-artifacts.zip', 'original-inventory.txt', 'original-verification-output.txt', 'source-verification.json', 'recovery-verification.json')
+            if ($manifest.recovery_verification.PSObject.Properties.Name -contains 'originalVerificationOutputState' -and
+                [string]$manifest.recovery_verification.originalVerificationOutputState -cne 'PRESENT') { [void]$failures.Add('RECOVERY_BUNDLE_OUTPUT_STATE_INVALID') }
+            if ($actualFiles.ContainsKey('original-verification-output.txt') -and
+                ([string]$manifest.recovery_verification.originalVerificationOutputSha256 -cne [string]$actualFiles['original-verification-output.txt'].Sha256)) {
+                [void]$failures.Add('RECOVERY_BUNDLE_ORIGINAL_VERIFICATION_OUTPUT_MISMATCH')
+            }
+        }
         foreach ($requiredPath in $requiredArtifacts) {
             if (-not $artifactMap.ContainsKey($requiredPath)) { [void]$failures.Add('RECOVERY_BUNDLE_REQUIRED_ARTIFACT_MISSING: ' + $requiredPath) }
-        }
-        if ($actualFiles.ContainsKey('original-verification-output.txt') -and
-            ([string]$manifest.recovery_verification.originalVerificationOutputSha256 -cne [string]$actualFiles['original-verification-output.txt'].Sha256)) {
-            [void]$failures.Add('RECOVERY_BUNDLE_ORIGINAL_VERIFICATION_OUTPUT_MISMATCH')
         }
         $sourceReportPath = Join-Path $root 'source-verification.json'
         $recoveryReportPath = Join-Path $root 'recovery-verification.json'
         $sourceReport = [System.IO.File]::ReadAllText($sourceReportPath) | ConvertFrom-Json
         $recoveryReport = [System.IO.File]::ReadAllText($recoveryReportPath) | ConvertFrom-Json
+        $sourceOutputStateOk = $false
+        $recoveryOutputStateOk = $false
+        if ($waiverMode) {
+            $sourceOutputStateOk = ([string]$sourceReport.originalVerificationOutputState -ceq 'WAIVED_BY_PA') -and
+                ([string]$sourceReport.originalVerificationOutputWaiverRef -ceq $ExpectedWaiverDecisionRef) -and
+                ($null -eq $sourceReport.verificationOutputSha256)
+            $recoveryOutputStateOk = ([string]$recoveryReport.originalVerificationOutputState -ceq 'WAIVED_BY_PA') -and
+                ([string]$recoveryReport.originalVerificationOutputWaiverRef -ceq $ExpectedWaiverDecisionRef) -and
+                ($null -eq $recoveryReport.originalVerificationOutput) -and
+                ($null -eq $recoveryReport.originalVerificationOutputSha256)
+        } else {
+            $sourceOutputStateOk = ([string]$sourceReport.verificationOutputSha256 -ceq [string]$manifest.recovery_verification.originalVerificationOutputSha256)
+            $recoveryOutputStateOk = ([string]$recoveryReport.originalVerificationOutputSha256 -ceq [string]$manifest.recovery_verification.originalVerificationOutputSha256)
+        }
         if (($sourceReport.result -cne 'PASS') -or ([string]$sourceReport.source -cne $ExpectedSourceDist) -or
-            ([string]$sourceReport.inventorySha256 -cne $originalInventorySha256) -or
-            ([string]$sourceReport.verificationOutputSha256 -cne [string]$manifest.recovery_verification.originalVerificationOutputSha256) -or
+            ([string]$sourceReport.inventorySha256 -cne $originalInventorySha256) -or (-not $sourceOutputStateOk) -or
             ([int]$sourceReport.exactHashMatches -ne $ExpectedCount)) {
             [void]$failures.Add('RECOVERY_BUNDLE_SOURCE_REPORT_MISMATCH')
         }
@@ -453,7 +486,7 @@ function Test-S2OriginalDistRecoveryBundle {
             ([int]$recoveryReport.recoveredCount -ne $ExpectedCount) -or
             ([string]$recoveryReport.archive -cne 'dist-artifacts.zip') -or
             ([string]$recoveryReport.archiveSha256 -cne [string]$manifest.recovery_verification.archiveSha256) -or
-            ([string]$recoveryReport.originalVerificationOutputSha256 -cne [string]$manifest.recovery_verification.originalVerificationOutputSha256)) {
+            (-not $recoveryOutputStateOk)) {
             [void]$failures.Add('RECOVERY_BUNDLE_RECOVERY_REPORT_MISMATCH')
         }
         $artifactNames = @($artifactMap.Keys)
@@ -538,7 +571,8 @@ function Invoke-S2OriginalDistRecovery {
     param(
         [Parameter(Mandatory = $true)] [string] $SourceDist,
         [Parameter(Mandatory = $true)] [string] $InventoryPath,
-        [Parameter(Mandatory = $true)] [string] $OriginalVerificationOutputPath,
+        [string] $OriginalVerificationOutputPath = '',
+        [string] $S04WaiverRecordPath = '',
         [Parameter(Mandatory = $true)] [string] $RecoveryRoot,
         [Parameter(Mandatory = $true)] [int] $ExpectedCount,
         [string] $OriginalArchivePath = '',
@@ -548,13 +582,25 @@ function Invoke-S2OriginalDistRecovery {
         [string] $RecoveryTranscriptAssetPath = ''
     )
     if (-not (Test-Path -LiteralPath $InventoryPath -PathType Leaf)) { throw ('RECOVERY_INVENTORY_MISSING: ' + $InventoryPath) }
-    if (-not (Test-Path -LiteralPath $OriginalVerificationOutputPath -PathType Leaf)) { throw ('RECOVERY_ORIGINAL_VERIFICATION_OUTPUT_MISSING: ' + $OriginalVerificationOutputPath) }
+    $waiverMode = ($OriginalVerificationOutputPath -eq '')
+    if (-not $waiverMode -and -not (Test-Path -LiteralPath $OriginalVerificationOutputPath -PathType Leaf)) { throw ('RECOVERY_ORIGINAL_VERIFICATION_OUTPUT_MISSING: ' + $OriginalVerificationOutputPath) }
+    if ($waiverMode -and -not (Test-Path -LiteralPath $S04WaiverRecordPath -PathType Leaf)) { throw 'RECOVERY_S04_WAIVER_RECORD_REQUIRED' }
+    if ($waiverMode) {
+        $waiverText = [System.IO.File]::ReadAllText($S04WaiverRecordPath)
+        $waiverSha256 = (Get-FileHash -Algorithm SHA256 -LiteralPath $S04WaiverRecordPath).Hash.ToUpperInvariant()
+        if ($waiverSha256 -cne '235487714EDF4888DF53FC8C7362C0851A2E6C73BE5B30E3846AA6B18033CF27') { throw 'RECOVERY_S04_WAIVER_DOCUMENT_HASH_MISMATCH' }
+        foreach ($waiverPhrase in @('IIPS-V3-CAP03-PA-BLANKET-WAIVER-ONE-PASS-AUTHORIZATION-2026-11-01-01', 'APPROVED', 'distinct original verification-output file as a procedural prerequisite', 'must not be relabelled')) {
+            if (-not $waiverText.Contains($waiverPhrase)) { throw ('RECOVERY_S04_WAIVER_AUTHORITY_INVALID: ' + $waiverPhrase) }
+        }
+    }
     if (($ExpectedArchiveSha256 -ne '') -and ($OriginalArchivePath -eq '')) { throw 'RECOVERY_PINNED_ARCHIVE_REQUIRED' }
     if (($ExpectedArchiveSha256 -ne '') -and ($ExpectedOriginalInventorySha256 -eq '')) { throw 'RECOVERY_PINNED_INVENTORY_REQUIRED' }
     if (($RecoveryEvidenceJsonPath -ne '') -and (-not (Test-Path -LiteralPath $RecoveryEvidenceJsonPath -PathType Leaf))) { throw ('RECOVERY_JSON_ASSET_MISSING: ' + $RecoveryEvidenceJsonPath) }
     if (($RecoveryTranscriptAssetPath -ne '') -and (-not (Test-Path -LiteralPath $RecoveryTranscriptAssetPath -PathType Leaf))) { throw ('RECOVERY_TRANSCRIPT_ASSET_MISSING: ' + $RecoveryTranscriptAssetPath) }
     if (($ExpectedArchiveSha256 -ne '') -and (($RecoveryEvidenceJsonPath -eq '') -or ($RecoveryTranscriptAssetPath -eq ''))) { throw 'RECOVERY_RELEASE_PROVENANCE_ASSETS_REQUIRED' }
-    $recoveryInputs = @($SourceDist, $InventoryPath, $OriginalVerificationOutputPath)
+    $recoveryInputs = @($SourceDist, $InventoryPath)
+    if (-not $waiverMode) { $recoveryInputs += $OriginalVerificationOutputPath }
+    if ($waiverMode) { $recoveryInputs += $S04WaiverRecordPath }
     if ($OriginalArchivePath -ne '') { $recoveryInputs += $OriginalArchivePath }
     if ($RecoveryEvidenceJsonPath -ne '') { $recoveryInputs += $RecoveryEvidenceJsonPath }
     if ($RecoveryTranscriptAssetPath -ne '') { $recoveryInputs += $RecoveryTranscriptAssetPath }
@@ -562,7 +608,10 @@ function Invoke-S2OriginalDistRecovery {
         $chainCheck = Test-S2NoReparsePathChain -Path $inputPath
         if (-not $chainCheck.Passed) { throw ('RECOVERY_INPUT_PATH_REPARSE_POINT: ' + (@($chainCheck.Failures) -join '; ')) }
     }
-    foreach ($inputPath in @($InventoryPath, $OriginalVerificationOutputPath)) {
+    $singleFileInputs = @($InventoryPath)
+    if (-not $waiverMode) { $singleFileInputs += $OriginalVerificationOutputPath }
+    if ($waiverMode) { $singleFileInputs += $S04WaiverRecordPath }
+    foreach ($inputPath in $singleFileInputs) {
         if (((Get-Item -LiteralPath $inputPath -Force).Attributes -band [IO.FileAttributes]::ReparsePoint) -ne 0) {
             throw ('RECOVERY_INPUT_REPARSE_POINT: ' + $inputPath)
         }
@@ -571,7 +620,8 @@ function Invoke-S2OriginalDistRecovery {
     $inventoryLines = [System.IO.File]::ReadAllLines($InventoryPath)
     $expectedMap = ConvertFrom-S2DistInventory -Lines $inventoryLines -ExpectedCount $ExpectedCount
     $inventorySha = (Get-FileHash -Algorithm SHA256 -LiteralPath $InventoryPath).Hash.ToUpperInvariant()
-    $verificationSha = (Get-FileHash -Algorithm SHA256 -LiteralPath $OriginalVerificationOutputPath).Hash.ToUpperInvariant()
+    $verificationSha = ''
+    if (-not $waiverMode) { $verificationSha = (Get-FileHash -Algorithm SHA256 -LiteralPath $OriginalVerificationOutputPath).Hash.ToUpperInvariant() }
     if (($ExpectedOriginalInventorySha256 -ne '') -and ($inventorySha -cne $ExpectedOriginalInventorySha256.ToUpperInvariant())) {
         throw 'RECOVERY_ORIGINAL_INVENTORY_AUTHORITY_MISMATCH'
     }
@@ -648,7 +698,11 @@ function Invoke-S2OriginalDistRecovery {
         $recoveredDist = Join-Path $recoveryFull 'dist'
         [void](New-Item -ItemType Directory -Path $recoveredDist -ErrorAction Stop)
         [System.IO.File]::Copy($InventoryPath, (Join-Path $recoveryFull 'original-inventory.txt'), $false)
-        [System.IO.File]::Copy($OriginalVerificationOutputPath, (Join-Path $recoveryFull 'original-verification-output.txt'), $false)
+        if ($waiverMode) {
+            [System.IO.File]::Copy($S04WaiverRecordPath, (Join-Path $recoveryFull 'PA-S04-OUTPUT-WAIVER.md'), $false)
+        } else {
+            [System.IO.File]::Copy($OriginalVerificationOutputPath, (Join-Path $recoveryFull 'original-verification-output.txt'), $false)
+        }
         foreach ($relative in ($expectedMap.Keys | Sort-Object)) {
             $relativeOs = ([string]$relative).Replace('/', [string][IO.Path]::DirectorySeparatorChar)
             $sourceFile = Join-Path ([System.IO.Path]::GetFullPath($SourceDist)) $relativeOs
@@ -684,7 +738,10 @@ function Invoke-S2OriginalDistRecovery {
         if ((Get-FileHash -Algorithm SHA256 -LiteralPath (Join-Path $recoveryFull 'original-inventory.txt')).Hash.ToUpperInvariant() -cne $inventorySha) {
             throw 'RECOVERY_INVENTORY_COPY_HASH_MISMATCH'
         }
-        if ((Get-FileHash -Algorithm SHA256 -LiteralPath (Join-Path $recoveryFull 'original-verification-output.txt')).Hash.ToUpperInvariant() -cne $verificationSha) {
+        if ($waiverMode) {
+            $copiedWaiverText = [System.IO.File]::ReadAllText((Join-Path $recoveryFull 'PA-S04-OUTPUT-WAIVER.md'))
+            if (-not $copiedWaiverText.Contains('IIPS-V3-CAP03-PA-BLANKET-WAIVER-ONE-PASS-AUTHORIZATION-2026-11-01-01')) { throw 'RECOVERY_WAIVER_COPY_AUTHORITY_MISMATCH' }
+        } elseif ((Get-FileHash -Algorithm SHA256 -LiteralPath (Join-Path $recoveryFull 'original-verification-output.txt')).Hash.ToUpperInvariant() -cne $verificationSha) {
             throw 'RECOVERY_VERIFICATION_OUTPUT_COPY_HASH_MISMATCH'
         }
         $sourceReport = [ordered]@{
@@ -698,7 +755,9 @@ function Invoke-S2OriginalDistRecovery {
             missing = 0
             mismatched = 0
             invalid = 0
-            verificationOutputSha256 = $verificationSha
+            verificationOutputSha256 = $(if ($waiverMode) { $null } else { $verificationSha })
+            originalVerificationOutputState = $(if ($waiverMode) { 'WAIVED_BY_PA' } else { 'PRESENT' })
+            originalVerificationOutputWaiverRef = $(if ($waiverMode) { 'IIPS-V3-CAP03-PA-BLANKET-WAIVER-ONE-PASS-AUTHORIZATION-2026-11-01-01' } else { $null })
             verificationMethod = 'read-only SHA-256 of each source file compared with the preserved original inventory'
         }
         [System.IO.File]::WriteAllText((Join-Path $recoveryFull 'source-verification.json'), (ConvertTo-Json -InputObject $sourceReport -Depth 5), (New-Object System.Text.UTF8Encoding($false)))
@@ -708,8 +767,10 @@ function Invoke-S2OriginalDistRecovery {
             source = $sourceFull
             originalInventory = 'original-inventory.txt'
             originalInventorySha256 = $inventorySha
-            originalVerificationOutput = 'original-verification-output.txt'
-            originalVerificationOutputSha256 = $verificationSha
+            originalVerificationOutput = $(if ($waiverMode) { $null } else { 'original-verification-output.txt' })
+            originalVerificationOutputSha256 = $(if ($waiverMode) { $null } else { $verificationSha })
+            originalVerificationOutputState = $(if ($waiverMode) { 'WAIVED_BY_PA' } else { 'PRESENT' })
+            originalVerificationOutputWaiverRef = $(if ($waiverMode) { 'IIPS-V3-CAP03-PA-BLANKET-WAIVER-ONE-PASS-AUTHORIZATION-2026-11-01-01' } else { $null })
             recoveredDist = 'dist/'
             recoveredCount = $recoveredCheck.VerifiedCount
             archive = 'dist-artifacts.zip'
@@ -782,6 +843,8 @@ function Invoke-S2OriginalDistRecovery {
             ArchiveSha256 = $archive.Sha256
             ArchiveBytes = $archive.Bytes
             OriginalVerificationOutputSha256 = $verificationSha
+            OriginalVerificationOutputState = $(if ($waiverMode) { 'WAIVED_BY_PA' } else { 'PRESENT' })
+            WaiverDecisionRef = $(if ($waiverMode) { 'IIPS-V3-CAP03-PA-BLANKET-WAIVER-ONE-PASS-AUTHORIZATION-2026-11-01-01' } else { '' })
             SealedPathCount = $sealExpected.Count
             ManifestPath = (Join-Path $recoveryFull 'MANIFEST.json')
             SealPath = (Join-Path $recoveryFull 'SHA256SUMS.txt')
