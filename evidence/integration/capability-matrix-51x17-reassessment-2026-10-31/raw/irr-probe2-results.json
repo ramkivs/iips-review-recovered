@@ -1,0 +1,56 @@
+[
+  {
+    "method": "GET",
+    "path": "/api/pit/market-data?identity=ISIN%3AINE467B01029%3AEQ&domain=D01_QUOTES&asOf=2026-02-10T00%3A00%3A00.000Z",
+    "status": 404,
+    "body": "{\"found\":false,\"reason\":\"INVALID_IDENTITY\"}"
+  },
+  {
+    "method": "GET",
+    "path": "/api/pit/market-data?identity=ISIN%3AINE467B01029%3ABL&domain=D01_QUOTES&asOf=2026-02-10T00%3A00%3A00.000Z",
+    "status": 404,
+    "body": "{\"found\":false,\"reason\":\"INVALID_IDENTITY\"}"
+  },
+  {
+    "method": "GET",
+    "path": "/api/pit/market-data?identity=BAD&domain=D01_QUOTES&asOf=2026-02-10T00%3A00%3A00.000Z",
+    "status": 404,
+    "body": "{\"found\":false,\"reason\":\"INVALID_IDENTITY\"}"
+  },
+  {
+    "method": "GET",
+    "path": "/api/pit/market-data?identity=ISIN%3AINE467B01029%3AEQ&domain=fundamentals&asOf=2026-02-10T00%3A00%3A00.000Z",
+    "status": 404,
+    "body": "{\"found\":false,\"reason\":\"INVALID_IDENTITY\"}"
+  },
+  {
+    "method": "GET",
+    "path": "/api/pit/market-data?identity=ISIN%3AINE467B01029%3AEQ&domain=D01_QUOTES&asOf=2026-02-10",
+    "status": 404,
+    "body": "{\"found\":false,\"reason\":\"INVALID_IDENTITY\"}"
+  },
+  {
+    "method": "POST",
+    "path": "/api/reports/artifacts",
+    "status": 503,
+    "body": "{\"error\":\"owner-context-unavailable\",\"detail\":{\"reason\":\"No non-authentication ownership source has been established. No owner is inferred; no data is read or changed.\"}}"
+  },
+  {
+    "method": "GET",
+    "path": "/api/reports",
+    "status": 404,
+    "body": "{\"error\":\"not found\"}"
+  },
+  {
+    "method": "GET",
+    "path": "/api/user-portfolios/import",
+    "status": 503,
+    "body": "{\"error\":\"owner-context-unavailable\",\"detail\":{\"reason\":\"No non-authentication ownership source has been established. No owner is inferred; no data is read or changed.\"}}"
+  },
+  {
+    "method": "GET",
+    "path": "/api/user-portfolios/x",
+    "status": 503,
+    "body": "{\"error\":\"owner-context-unavailable\",\"detail\":{\"reason\":\"No non-authentication ownership source has been established. No owner is inferred; no data is read or changed.\"}}"
+  }
+]
