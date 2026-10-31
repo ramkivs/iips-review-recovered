@@ -5,21 +5,21 @@ Only cells with a current evidence basis are overridden. Pending IDs are appende
 the Evidence Anchor dimension so the 17-column structure is preserved.
 """
 
-IRR = "fff8cf98ddcc7af1c6ab58d3ae9a3442a5322935"
-IPD = "4e275ec97a7701521e6a4e7632e9324bafe8d286"
+IRR = "7fd824de30d8268ed3eca210bc664dc60749fa8c"
+IPD = "527f811b17edb02caa665b345d9f36102435e1e8"
 DATE = "2026-10-31"
 
 EVIDENCE = [
     ("E001", "IRR", IRR, "evidence/integration/capability-matrix-51x17-2026-10-27/", "535ef19ca2e2e855e7066b283118872af49b9578 (XLSX blob)", "Original 51x17 baseline bundle; 20/20 blob read-back verified at reference commit."),
-    ("E002", "IRR", IRR, "git ref refs/heads/main", "tree 3e60d4f795a80e5656191947e792e8716dc2a031", "Current authoritative IRR main; PR #397 merged; IRR-only CI 41195957176 success."),
-    ("E003", "IPD", IPD, "git ref refs/heads/main", "tree f12fd52d658bd8e8029106f77f4491b22b798485", "Current authoritative IPD main; PR #113 merged; CI 41128431372 success."),
+    ("E002", "IRR", IRR, "git ref refs/heads/main", "tree 62785a3cdc099aab4090868629e745be9d1383e4", "Current authoritative IRR main after PR #398; post-merge Windows run 41221317984 and static/recovery-audit run 41221318050 success."),
+    ("E003", "IPD", IPD, "git ref refs/heads/main", "tree e1e478ae3fad0ef02aeb85bf59d06ac0575cfed2", "Current authoritative IPD main after PR #114; CI 41219297374 success; code tree unchanged from 4e275ec9."),
     ("E004", "IRR", IRR, "IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md", "edf4fb64ac11257544b1df8271d0961279bbf5d6", "Authoritative tracker through §16.229; dated overlays govern over preserved historical text."),
-    ("E005", "IPD", IPD, "evidence/cross-repository/IIPS_V3_CAP02_IPD_EXECUTION_TRACKER_2026-10-23.md", "31fd3b84746b7d47465f7cdf14e853c216ea71a5", "IPD execution tracker; final footer P-1 NOT AUTHORIZED is stale vs IRR P1-F and recorded as a conflict."),
+    ("E005", "IPD", "527f811b17edb02caa665b345d9f36102435e1e8", "evidence/cross-repository/IIPS_V3_CAP02_IPD_EXECUTION_TRACKER_2026-10-23.md", "5ceb5398b0cb172bdc793e62bdfaea005b7c426a", "IPD execution tracker corrected by PR #114; stale P-1 NOT AUTHORIZED limb superseded by dated pointer; historical 31fd3b84 was a blob, not a commit."),
     ("E006", "IRR", IRR, "raw/irr-test-ci.log.txt; raw/irr-vitest-report.json; raw/irr-build.log.txt", "executed 2026-10-31", "npm ci/typecheck/replay typecheck/test:ci/guard/build exit 0; 108 files / 1377 tests / 0 failed; build 142 modules, 1609.84 kB."),
     ("E007", "IPD", IPD, "raw/ipd-test.log.txt; raw/ipd-typecheck.log.txt; raw/ipd-package-consumer.log.txt", "executed 2026-10-31", "npm ci/build:tsc/test/package-consumer exit 0; guarded 941 tests / 940 pass / 0 fail / 1 skip; browser pack 1729973 B forbiddenHits []."),
     ("E008", "IRR", IRR, "raw/irr-probe-results.json; raw/irr-probe3-results.json; raw/irr-probe4-results.json", "executed 2026-10-31", "Composed transport live probes: certified reads 200; screener 200/400/422; PIT 200/404; owner fences 503; macro 502 no-egress."),
     ("E009", "IRR+IPD", IRR+" / "+IPD, "raw/irr-ref-pr-census.json; raw/ipd-ref-pr-census.json", "full-clone census 2026-10-31", "IRR 304 remote branches / 396 PRs / 1 open (#398); IPD 102 branches / 109 PRs / 0 open; ancestry and divergence measured."),
-    ("E010", "IRR", "e3dcb4dff1924bfc7a0c6046300ce7052fec6f3b", "PR #398", "OPEN / UNSTABLE", "Unmerged consolidated P1/S2 correction; Windows PowerShell fixture run 41207888891 failure; static run 41207888919 success; proposes §16.230."),
+    ("E010", "IRR", "7fd824de30d8268ed3eca210bc664dc60749fa8c", "PR #398", "MERGED", "Consolidated P1/S2 correction merged; exact head eddbaead; Windows run 41220141777 and static/recovery-audit run 41220141940 PASS; post-merge runs 41221317984/41221318050 PASS; §16.230 and §16.232 preserved."),
     ("E011", "IRR", IRR, "docs/integration/IIPS_v3.0_CAP03_P1_AUTHORIZATION_ACT_AND_PREREQUISITE_DECISIONS_2026-10-29.md", "e49bdd4156453971ae6b2bc61c4d2ec1b070f59c", "P1-F one-attempt authorization; PA-06 L2a; PA-13 E10 optional; §10 one-time Preflight authority; WV-01..05 waivers."),
     ("E012", "IPD", IPD, "evidence/cross-repository/IIPS_V3_CAP02_GATE4_TARGET_HOST_QUALIFICATION_ACT_EFFECTIVE_2026-10-23.md", "66b56fd1584890525a7250aadd7da449def621e5", "Effective Gate 4 authority; S0 done; S1/S2/S2a/S3/S4/S5/S6 ordering; QE execution grant not acceptance."),
     ("E013", "IRR", IRR, "docs/integration/IIPS_v3.0_CAP03_DQ4_QE_FREEZE_MANIFEST_2026-10-25.md", "f74628950c0dd328ea007dcb96eda60c1c9313ae", "DQ-4 manifest prepared/validated, not established; §7 criteria; tracker §16.123 updates 8/10 with criteria 7-8 not met."),
@@ -32,7 +32,7 @@ EVIDENCE = [
     ("E020", "IRR", "5eba01b6e8 (branch tip)", "arena/a2df3b85-iips-review-recovered", "7 ahead / 920 behind main", "G24 durable implementation 470cc698 remains branch-only; not an ancestor of IRR main; CV-52 blocked."),
     ("E021", "IRR", "6a8afbb2bb (branch tip)", "arena/01a0f1b3-iips-review-recovered", "28 ahead / 1043 behind main", "Historical Reports lineage branch-only; current main Reports re-implementation is separate and accepted bounded."),
     ("E022", "IRR", IRR, "full-clone branch auth-path census", "raw/irr-ref-pr-census.json", "main has no auth/OIDC/Keycloak/admin implementation paths; retired stack survives on unmerged branches (e.g. arena/01a03e3b, gai-impl-canonical)."),
-    ("E023", "IRR", IRR, "docs/OPERATOR_RUNBOOK.md", "e94d2b801967fc50093f27177cd19276b51faf97", "Runbook start path works; headline figures still 106/1350 while current head executes 108/1377; restamp pending."),
+    ("E023", "IRR", "7fd824de30d8268ed3eca210bc664dc60749fa8c", "docs/OPERATOR_RUNBOOK.md", "restamped 2026-10-31", "Runbook start path preserved; headline figures restamped to 108 files / 1377 tests with exact frontend-tree verification pointer and raw receipts."),
     ("E024", "IRR", IRR, "frontend/server/broker-import/brokerImportPackageConsumer.test.ts; frontend/server/reports/reports-persistence-integration.test.ts", "0a1e58de96fae755a4d054e2aa319ab51e2caba3 / 4f6024f0ca13f4552507b69e8e1d8224188de6d3", "Three IPD specifiers guarded: primary 8eec74ae, alias 70b24f02, NP-04 2e11fa3b; DQ-6b Path A effective 6/6."),
     ("E025", "IRR", IRR, "frontend/server/d115-runtime.ts; IRR tracker CV-43", "only importer is d115-runtime.test.ts", "D115 boundary retained unwired by disposition; zero runtime consumers; wiring would require a new PA act."),
     ("E026", "IPD", IPD, "src/index.ts; src/oq/synthetic_failover.ts; package.json", "executed source census", "Operator Drop has internal OQ harness references and root-module export, but no package export-map/product runtime admission."),
@@ -46,6 +46,12 @@ EVIDENCE = [
     ("E034", "IRR", IRR, "docs/integration/IIPS_v3.0_CAP02_QE8_RV1_REVOCATION_PROCEDURE_PA_ACT_EFFECTIVE_2026-10-26.md", "IRR tracker §16.131", "QE-8 RV-1 Option A disposable-copy revocation procedure approved, not executed."),
     ("E035", "IRR+IPD", IRR+" / "+IPD, "IRR tracker §16.125; IPD tracker U2 matrix", "CV-CORR-105", "U2-1..12 bounded complete; U2-13 W-1 not authorized; U2-14 provisioning blocked/not started; U3 QE 0/11; U4/U5/U6 not rendered/granted."),
     ("E036", "IRR", "program-v1.2.0", "GitHub Release program-v1.2.0", "published 2026-09-05T06:11:08Z", "Release exists, not draft/prerelease; does not admit fenced capabilities."),
+    ("E037", "IRR", "7fd824de30d8268ed3eca210bc664dc60749fa8c", "evidence/integration/consolidated-outstanding-resolution-2026-10-31/", "PR #398 merge read-back", "17/17 PR #398 changed-path blobs independently read back at merge; script SHA-256 6639633855300cd645248ce597bb2c867b5cdbf6045947bf4281721bb1cde6d1."),
+    ("E038", "IPD", "527f811b17edb02caa665b345d9f36102435e1e8", "evidence/integration/consolidated-outstanding-resolution-2026-10-31/raw/ipd-p20-verification.json", "PR #114 remote verification", "IPD PR #114 merged; one tracker path +90/-0; corrected blob 5ceb5398; main bytes match; CI 41219297374 success."),
+    ("E039", "IRR", "7fd824de30d8268ed3eca210bc664dc60749fa8c", "evidence/integration/consolidated-outstanding-resolution-2026-10-31/raw/", "108/1377 validation", "npm ci/typecheck/replay/test:ci/guard/build PASS at frontend tree 67607e1d; S2-DEP-A rev-8 contract test corrected and focused 15/15 PASS."),
+    ("E040", "IRR", "7fd824de30d8268ed3eca210bc664dc60749fa8c", "docs/integration/IIPS_v3.0_CAP03_G14_DEPENDENCY_ASSESSMENT_2026-10-31.md", "G14 dependency assessment", "G2-G13 reconciled from current evidence; G14 final reconciliation BLOCKED/NOT STARTED because upstream gates remain incomplete."),
+    ("E041", "IRR", "7fd824de30d8268ed3eca210bc664dc60749fa8c", "IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md", "§16.230/§16.231/§16.232 allocation census", "Headings unique; V1806-V1834 unique; CHG-09/10/11 reconciled; next free §16.233/CV-CORR-213/CHG-2026-10-31-12/V1835."),
+    ("E042", "IRR", "7fd824de30d8268ed3eca210bc664dc60749fa8c", "docs/integration/IIPS_v3.0_P20_IRR_PENDING_REGISTER_CLOSURE_2026-10-31.md", "IRR P-20 closure", "IRR pending register no longer lists the resolved IPD documentation conflict; IPD merge/blob references corrected; IRR/IPD ownership distinction preserved."),
 ]
 
 # Dimension indices follow baseline HEADERS: 2 Existence ... 16 Evidence Anchor.
@@ -134,14 +140,14 @@ put(45, 10, "V — package-reference durability verified by clean install and gu
 put(45, 15, "P — durable guarded pin set; DQ-4 final QE freeze not established; alias modernization off critical path [E013][E024].")
 put(45, 16, "IRR main@fff8cf98; frontend/package.json three pins; guard blobs 0a1e58de / 4f6024f0; O-06 closed §16.211 [E016][E024]. Pending: P-16, P-17.")
 put(46, 16, "IPD main@4e275ec9; scripts/run-tests.mjs; tests/g4_run_tests_summary_parsing.test.ts; executed 941/940/0/1 guard OK [E007].")
-put(47, 9, "P — start path and probes reproduced; runbook headline figures are stale: document says 106 files / 1350 tests, current head executes 108 / 1377 [E006][E023].")
-put(47, 15, "P — operator-facing readiness current except runbook figure restamp (P-18) [E023].")
-put(47, 16, "IRR main@fff8cf98; docs/OPERATOR_RUNBOOK.md e94d2b80; live start/probe; current suite 108/1377 [E006][E008][E023]. Pending: P-18.")
+put(47, 9, "V — start path and probes reproduced; runbook restamped to 108 files / 1377 tests at exact frontend tree 67607e1d with raw receipts [E023][E039].")
+put(47, 15, "V — operator-facing readiness current for the verified non-production baseline; runbook restamp complete [E023][E039].")
+put(47, 16, "IRR main@7fd824de; docs/OPERATOR_RUNBOOK.md restamped; live start/probe; current suite 108/1377 [E008][E023][E039].")
 put(48, 9, "V — full-clone branch/PR census, current-main blob read-back and executed IRR/IPD validation reconciled; 115 matrix cells updated with evidence IDs [E006][E007][E009].")
-put(48, 2, "V — master tracker at main@fff8cf98 through §16.229 (blob edf4fb64) + IPD cross-repository evidence set; dated overlays govern historical text [E004][E005].")
+put(48, 2, "V — master tracker at main@7fd824de through §16.232, with §16.233 consolidated resolution overlay; IPD cross-repository evidence set corrected by PR #114; dated overlays govern historical text [E004][E005][E041].")
 put(48, 12, "V — O-07 documentation reconciliation CLOSED; O-06 CLOSED; overlay practice followed; no history overwritten [E016].")
-put(48, 15, "P — integrity good; open PR #398 proposes §16.230 and is not merged; IPD tracker footer P-1 status stale vs IRR P1-F (recorded conflict) [E005][E010].")
-put(48, 16, "IRR tracker §§16.207/16.211/16.229; IPD tracker; PR #398 OPEN/UNSTABLE [E004][E005][E010][E016]. Pending: P-19, P-20.")
+put(48, 15, "P — tracker integrity good; PR #398 merged and IPD P-20 corrected; G14 final reconciliation remains blocked by upstream gates and P1-F consumption remains NOT RECONCILED [E010][E038][E040].")
+put(48, 16, "IRR tracker §§16.207/16.211/16.229/16.230/16.232/16.233; IPD PR #114; PR #398 MERGED [E004][E005][E010][E016][E038][E041].")
 put(49, 16, "IRR tag program-v1.2.0; GitHub Release published 2026-09-05, not draft/prerelease [E036].")
 
 # Pending register: only genuinely outstanding / unresolved / partial / blocked / awaiting action.
@@ -236,3 +242,25 @@ MAP[45] = sorted(set(MAP.get(45,[]) + ["P-36"]))
 MAP[48] = sorted(set(MAP.get(48,[]) + ["P-37","P-39"]))
 MAP[35] = sorted(set(MAP.get(35,[]) + ["P-41"]))
 MAP[28] = sorted(set(MAP.get(28,[]) + ["P-44"]))
+
+
+# 2026-10-31 consolidated resolution: completed items are removed from the exclusively-pending register.
+CLOSED_PENDING = {"P-11", "P-18", "P-19", "P-20"}
+PENDING = [p for p in PENDING if p[0] not in CLOSED_PENDING]
+for _i, _p in enumerate(PENDING):
+    if _p[0] == "P-33":
+        PENDING[_i] = ("P-33","IRR implementation / deliverables","Rows 30,48 — Governance","G14 final cross-stage reconciliation","BLOCKED — dependency assessment published; final G14 NOT STARTED","Perform final IRR cross-stage reconciliation only after G2-G13 close. Current assessment identifies incomplete PA decisions, P-1 consumption reconciliation/execution, S3, QE, DQ-4, Gate 4 acceptance and Gate 5 admission.","G2-G13 completion","PA + Operator + IRR + IPD","IRR","IRR","Existing one-pass authorization; no upstream gate may be inferred closed","G6 P-1 consumption NOT RECONCILED; G7 S3 not started; G8 QE 0/11; G9 DQ-4 8/10; G10 Gate 4 acceptance not rendered; G11 Gate 5 not initiated","Final G14 register + tracker pointer after upstream closure","IRR docs/integration/IIPS_v3.0_CAP03_G14_DEPENDENCY_ASSESSMENT_2026-10-31.md; IRR tracker §16.233; IPD main@527f811 [E040][E041]","Progress upstream PA/operator gates; do not declare G14 complete","All G2-G13 statuses reconciled from evidence and final G14 record published")
+    if _p[0] == "P-36":
+        PENDING[_i] = ("P-36","Evidence / certification / verification","Rows 30,45 — Evidence, Validation","Historical S2 emitted bytes / S04-compatible retained bundle","PARTIAL — release assets byte-verified; S04 bundle acceptance pending","PR #398 verified the four recovery-release assets and all 1,140 ZIP payload hashes against the original inventory. The four-asset release is not the S04 sealed-directory bundle; obtain/accept the complete sealed bundle or retain the limitation.","S04-compatible sealed bundle / PA disposition","Operator + IRR","IRR","Operator + IRR","No rebuild/fabrication; S04 contract must not be weakened","Release layout lacks canonical MANIFEST/SHA256SUMS/seal/reports/dist bundle required by S04","S04 bundle read-back + per-entry hash match, or dated limitation/disposition","IRR PR #398 §16.232; recovery release cap03-s2-recovery-20261031-212225 [E010][E037]","Assemble/verify the canonical sealed bundle from exact original bytes if available; otherwise retain limitation","S04-compatible retention accepted or limitation formally retained; no S2/P-1 authority inferred")
+for _row in list(MAP):
+    MAP[_row] = [x for x in MAP[_row] if x not in CLOSED_PENDING]
+# clean completed pending IDs from existing anchor overrides
+import re as _re
+for _row, _dims in OVERRIDES.items():
+    if 16 in _dims:
+        _txt = _dims[16]
+        for _cid in CLOSED_PENDING:
+            _txt = _re.sub(r",?\s*" + _cid + r"", "", _txt)
+        _txt = _re.sub(r"Pending:\s*\.?", "", _txt)
+        _txt = _re.sub(r"\s+\.", ".", _txt)
+        _dims[16] = _txt

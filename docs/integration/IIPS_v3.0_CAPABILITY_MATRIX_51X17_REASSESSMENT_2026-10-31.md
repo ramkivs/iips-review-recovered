@@ -1,9 +1,9 @@
 # IIPS v3.0 — 51 × 17 Capability Matrix Reassessment (2026-10-31)
 **Record:** `IIPS-V3-CAPMATRIX-51X17-REASSESSMENT-2026-10-31-01`
 
-**IRR main:** `fff8cf98ddcc7af1c6ab58d3ae9a3442a5322935`
+**IRR main:** `7fd824de30d8268ed3eca210bc664dc60749fa8c`
 
-**IPD main:** `4e275ec97a7701521e6a4e7632e9324bafe8d286`
+**IPD main:** `527f811b17edb02caa665b345d9f36102435e1e8`
 
 **Baseline:** `evidence/integration/capability-matrix-51x17-2026-10-27/` at reference commit `fff8cf98ddcc7af1c6ab58d3ae9a3442a5322935`.
 ## A. Scope and method
@@ -13,20 +13,21 @@ This reassessment inspected both authoritative repositories, all available remot
 - **D-9 / row 35:** C4-2 PA act effective; Reports header-claim question closed; F-7 bounded backend acceptance unchanged; G-14 residual recorded.
 - **O-06 / row 45:** closed no action required; all three IPD specifiers guarded.
 - **O-07 / row 48:** closed documentation reconciliation; row 27 re-scoped; O-09 remains open.
-- **P-1 / rows 30/32:** P1-F remains authorized/unspent on authoritative main; operator-reported S00 stop recorded; PR #398 open with Windows CI failure.
-- **Validation counts:** IRR 108 files / 1377 tests; IPD 941 tests / 940 pass / 1 skip.
+- **P-1 / rows 30/32:** PR #398 merged; P1-F consumption remains NOT RECONCILED and no host execution is inferred.
+- **Validation counts:** IRR 108 files / 1377 tests after S2-DEP-A rev-8 contract-test correction; IPD 941 tests / 940 pass / 1 skip.
 - **Branch distances:** G24 branch 7 ahead / 920 behind; historical Reports branch 28 ahead / 1043 behind.
-- **Runbook:** start path works but headline figures require restamp.
+- **Runbook:** restamped to 108/1377 with exact frontend-tree pointer.
+- **P-20:** IPD PR #114 merged; IRR pending register no longer lists the resolved IPD documentation conflict.
+- **P-33/G14:** dependency assessment published; final G14 remains blocked by upstream gates.
 ## C. Downgrades / reopened items
-No accepted capability was reopened without contradictory evidence. The runbook figure drift is a documentation downgrade (row 47). Row 48 remains partial because PR #398 is unmerged and the IPD tracker footer conflicts with IRR P1-F. Row 19 is upgraded for live-source E2E based on operator-transferred evidence, with a non-blocking browser-rendering residual.
+No accepted capability was reopened without contradictory evidence. Row 47 is restored to verified current figures. Row 48 remains partial because G14 final reconciliation is blocked and P1-F consumption is not reconciled, not because PR #398 or IPD P-20 remains open. Row 19 is upgraded for live-source E2E based on operator-transferred evidence, with a non-blocking browser-rendering residual.
 ## D. Remaining blockers and dependencies
 The dominant chain remains: PA-09 Gate 4 pin → P-1 runtime execution → S2/Limb A native run → H-12 L2c/S2a → S3 → QE-1..11 → Gate C subset acceptance → Gate 4/U4 acceptance → DQ-4 freeze → Gate 5/CV-52/U5 → U6 write authorization. O-05 admission and DR-2/DR-4r operational closure sit downstream. PA-01/02/03 are documentary conflicts, not P-1 prerequisites. REG-12 mapping, CV-22 expansion, CV-24 F6/TD-7b, REG-06 Operator Drop and D115 wiring are separate governance/dormant items.
 ## E. Responsibility distribution
 - Cross-repository integration / dependencies: 5 pending item(s).
 - Evidence / certification / verification: 8 pending item(s).
 - External / infrastructure blockers: 2 pending item(s).
-- IPD implementation / deliverables: 1 pending item(s).
-- IRR implementation / deliverables: 4 pending item(s).
+- IRR implementation / deliverables: 1 pending item(s).
 - Operator execution: 2 pending item(s).
 - PA decisions / governance: 17 pending item(s).
 - Qualification / admission gates: 5 pending item(s).
@@ -41,8 +42,8 @@ The dominant chain remains: PA-09 Gate 4 pin → P-1 runtime execution → S2/Li
 - IMPLEMENTED: 2 rows (22, 28).
 - OOS: 8 rows (14, 16, 21, 23, 33, 40, 44, 51).
 - VERIFIED: 1 rows (34).
-- Pending register: 44 items; completed/OOS rows are excluded unless a distinct residual remains.
-- Open PRs: IRR #398; IPD none.
+- Pending register: 40 items; completed/OOS rows are excluded unless a distinct residual remains.
+- Open PRs: none at final census (IRR #398 merged; IPD none).
 ## G. Evidence and artifacts
 - Workbook: `IIPS_V3_CAPABILITY_MATRIX_51x17_REASSESSED_2026-10-31.xlsx`
 - Matrix CSV: `IIPS_V3_CAPABILITY_MATRIX_51x17_REASSESSED_2026-10-31.csv`

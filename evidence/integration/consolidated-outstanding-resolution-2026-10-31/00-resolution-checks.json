@@ -1,0 +1,83 @@
+{
+  "record": "IIPS-V3-CONSOLIDATED-OUTSTANDING-RESOLUTION-2026-10-31-01",
+  "irr_main": "7fd824de30d8268ed3eca210bc664dc60749fa8c",
+  "ipd_main": "527f811b17edb02caa665b345d9f36102435e1e8",
+  "items": {
+    "P-11": "COMPLETE",
+    "P-18": "COMPLETE",
+    "P-19": "COMPLETE",
+    "P-20": "COMPLETE",
+    "P-33": "PARTIAL \u2014 final G14 BLOCKED/NOT STARTED"
+  },
+  "pending_register_count": 40,
+  "files": {
+    "INDEX.md": {
+      "bytes": 1711,
+      "sha256": "87b6ff2137adbb84f5a2ed7f99bfdc1836c56a1aea0e1d63b41c65663d37eca8"
+    },
+    "raw/ipd-p20-blob-and-ci.json": {
+      "bytes": 500,
+      "sha256": "678025234a8144e4ad5ba2e63e5cbb2b314c24e5481b25db800287789b4e93b8"
+    },
+    "raw/ipd-p20-verification.json": {
+      "bytes": 1026,
+      "sha256": "f1f155a4af8abe4193381befd285f28612d1ef22982eee2b91fad1260e353bdb"
+    },
+    "raw/irr-build.log.txt": {
+      "bytes": 901,
+      "sha256": "0f9249c7c8804096fcea579be34f69caf24b8e58f622bcb4b2a9d8d84de43075"
+    },
+    "raw/irr-npm-ci.log.txt": {
+      "bytes": 699,
+      "sha256": "e701533a3435db2c44e930427b0bb55f921b0bd655e4ae2590a685d7146e36da"
+    },
+    "raw/irr-s2dep-rev8-focused.log.txt": {
+      "bytes": 314,
+      "sha256": "65528c343a4e546bf85aac07a69fb5a51677847128aab70ce9d840450fd48f0a"
+    },
+    "raw/irr-test-ci.log.txt": {
+      "bytes": 54363,
+      "sha256": "b3eb68cf06d07e8ecfa7cb49af2614397f639098f8b3e2a976e170fe3b265040"
+    },
+    "raw/irr-test-guard.log.txt": {
+      "bytes": 62,
+      "sha256": "ae9efe710a1d6c81126ae417a01771886f92e9de0e12d0efa59a41cec7c5ade9"
+    },
+    "raw/irr-typecheck-replay.log.txt": {
+      "bytes": 98,
+      "sha256": "1bf6577f549f187957c32601b6155f07569a3a44718bf5e315a2dbe47276e870"
+    },
+    "raw/irr-typecheck.log.txt": {
+      "bytes": 209,
+      "sha256": "bc13c4ff7d50b61cc5833d2aec9d4accfbb8315cab0bb958db4ad66d35ddfea9"
+    },
+    "raw/irr-vitest-report.json": {
+      "bytes": 503484,
+      "sha256": "5af11c29e866557777e00c7d309b995f4ff6cde06f85f7d83b9c641f05e384b5"
+    },
+    "raw/p19-allocation-census-pre.json": {
+      "bytes": 1074,
+      "sha256": "054ce5db4c5b48b7666524acb45a1d5d62b268c6effb379f528324705d261dff"
+    },
+    "raw/pending-register-pre-resolution.csv": {
+      "bytes": 29349,
+      "sha256": "865ee7dd0b7ad19409277c36e6fbf99445fb680e1a327bc14c0a582bc86480c2"
+    },
+    "raw/pr398-finalization-tests.log.txt": {
+      "bytes": 98,
+      "sha256": "031b3f93273390dcb250283a8dec7d22ba6de0191d135d7f34586d1baeb2c11e"
+    },
+    "raw/pr398-merge-readback.json": {
+      "bytes": 6490,
+      "sha256": "17fd3c2323baa20e11fa4dead4ecd69d2911e2111d4cdc190141c721d0ac860e"
+    },
+    "raw/pr398-static-validator.log.txt": {
+      "bytes": 1016,
+      "sha256": "742e0b50bb91b1f47375e9dee6a41e002f6b63a3e7d011f69c01bfd0ab098827"
+    },
+    "raw/static-validator-after-tracker.log.txt": {
+      "bytes": 1016,
+      "sha256": "742e0b50bb91b1f47375e9dee6a41e002f6b63a3e7d011f69c01bfd0ab098827"
+    }
+  }
+}

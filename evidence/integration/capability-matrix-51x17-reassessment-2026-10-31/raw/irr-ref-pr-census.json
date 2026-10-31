@@ -1,7 +1,7 @@
 {
   "repo": "IRR",
   "slug": "ramkivs/iips-review-recovered",
-  "main": "fff8cf98ddcc7af1c6ab58d3ae9a3442a5322935",
+  "main": "7fd824de30d8268ed3eca210bc664dc60749fa8c",
   "remote_branch_count": 304,
   "local_branches": [
     {
@@ -13,9 +13,7 @@
       "sha": "fff8cf98ddcc7af1c6ab58d3ae9a3442a5322935"
     }
   ],
-  "open_prs": [
-    398
-  ],
+  "open_prs": [],
   "pr_count": 396,
   "branches": [
     {
@@ -7997,16 +7995,16 @@
     {
       "number": 398,
       "title": "fix(cap03): retain and verify S2 emitted artifacts",
-      "state": "OPEN",
+      "state": "MERGED",
       "draft": false,
       "created_at": "2026-10-31T13:57:26Z",
       "updated_at": "2026-10-31T13:57:26Z",
       "closed_at": null,
-      "merged_at": null,
+      "merged_at": "2026-10-31T16:46:48Z",
       "head_ref": "arena/4eaf2041-iips-review-recovered",
-      "head_sha": "e3dcb4dff1924bfc7a0c6046300ce7052fec6f3b",
+      "head_sha": "eddbaead386b3d9627402e4070537defd3dfa0e0",
       "base_ref": "main",
-      "merge_commit_sha": null,
+      "merge_commit_sha": "7fd824de30d8268ed3eca210bc664dc60749fa8c",
       "html_url": "https://github.com/ramkivs/iips-review-recovered/pull/398"
     },
     {

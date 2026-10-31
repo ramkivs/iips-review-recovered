@@ -57,7 +57,7 @@
     "row": 4,
     "dimension": "Evidence Anchor",
     "baseline": "`frontend/src/features/sector/**`; `App.tsx:52`; probe `/api/sector/banking` 404 (expected); tracker \u00a718 row 4.",
-    "current": "IRR main@fff8cf98; frontend/src/features/sector/**; /api/sector/banking 404 by design; PKG-08 row-4 acceptance [E006][E008]. Pending: P-01."
+    "current": "IRR main@fff8cf98; frontend/src/features/sector/**; /api/sector/banking 404 by design; PKG-08 row-4 acceptance [E006][E008]. P-01. Pending: P-01."
   },
   {
     "row": 5,
@@ -81,7 +81,7 @@
     "row": 5,
     "dimension": "Evidence Anchor",
     "baseline": "`App.tsx:53`; probe 200; `iips-cross-sector/CSIP_EXECUTION_PIPELINE.md`; `program-v1.1-certification/PROGRAM_v1.1_TRACK2_CROSS_SECTOR_CERTIFICATION.md`.",
-    "current": "IRR main@fff8cf98; live GET /api/cross-sector 200 avgConviction 72.9; iips-cross-sector/CSIP_*; program-v1.1-certification [E006][E008]. Pending: P-02."
+    "current": "IRR main@fff8cf98; live GET /api/cross-sector 200 avgConviction 72.9; iips-cross-sector/CSIP_*; program-v1.1-certification [E006][E008]. P-02. Pending: P-02."
   },
   {
     "row": 6,
@@ -123,7 +123,7 @@
     "row": 9,
     "dimension": "Evidence Anchor",
     "baseline": "`frontend/src/features/watchlists/**`; `App.tsx:47`; restart suite (executed 2026-10-27); tracker \u00a718 row 9.",
-    "current": "IRR main@fff8cf98; frontend/server/watchlists/**; restart block 15/15; GET /api/watchlists 503 [E006][E008]. Pending: P-03."
+    "current": "IRR main@fff8cf98; frontend/server/watchlists/**; restart block 15/15; GET /api/watchlists 503 [E006][E008]. P-03. Pending: P-03."
   },
   {
     "row": 10,
@@ -141,7 +141,7 @@
     "row": 10,
     "dimension": "Evidence Anchor",
     "baseline": "`frontend/src/features/collaboration/**`; `App.tsx:48`; restart suite; tracker \u00a718 row 10.",
-    "current": "IRR main@fff8cf98; frontend/server/collaboration/**; restart block 15/15; GET /api/collaboration 503 [E006][E008]. Pending: P-03."
+    "current": "IRR main@fff8cf98; frontend/server/collaboration/**; restart block 15/15; GET /api/collaboration 503 [E006][E008]. P-03. Pending: P-03."
   },
   {
     "row": 11,
@@ -159,7 +159,7 @@
     "row": 11,
     "dimension": "Evidence Anchor",
     "baseline": "`frontend/src/features/settings/**`; `App.tsx:49`; restart suite; tracker \u00a718 row 11.",
-    "current": "IRR main@fff8cf98; frontend/server/settings/**; restart block 15/15; GET /api/settings 503 [E006][E008]. Pending: P-03."
+    "current": "IRR main@fff8cf98; frontend/server/settings/**; restart block 15/15; GET /api/settings 503 [E006][E008]. P-03. Pending: P-03."
   },
   {
     "row": 12,
@@ -243,7 +243,7 @@
     "row": 19,
     "dimension": "Evidence Anchor",
     "baseline": "`App.tsx:54`; probe 502 `RETRY_BUDGET_EXHAUSTED`; `docs/integration/2026-10-18/PKG-06-MACRO-QUALIFICATION-BLOCKERS.md`; tracker \u00a718 row 19.",
-    "current": "IRR main@fff8cf98; live GET /api/macro/NAS 502 RETRY_BUDGET_EXHAUSTED in sandbox; tracker \u00a7\u00a716.29/16.31 live E2E A [E008][E027]. Pending: P-04, P-35."
+    "current": "IRR main@fff8cf98; live GET /api/macro/NAS 502 RETRY_BUDGET_EXHAUSTED in sandbox; tracker \u00a7\u00a716.29/16.31 live E2E A [E008][E027]. P-04. Pending: P-04, P-35."
   },
   {
     "row": 20,
@@ -279,7 +279,7 @@
     "row": 22,
     "dimension": "Evidence Anchor",
     "baseline": "`frontend/server/d115-runtime.ts`; `docs/integration/IIPS_v3.0_CV43_D115_RETAIN_UNWIRED_PA_DISPOSITION_2026-10-24.md`; tracker \u00a718 row 22.",
-    "current": "IRR main@fff8cf98; frontend/server/d115-runtime.ts; CV-43 retain-unwired disposition [E025]. Pending: P-05 (only if PA commissions wiring)."
+    "current": "IRR main@fff8cf98; frontend/server/d115-runtime.ts; CV-43 retain-unwired disposition [E025]. P-05 (only if PA commissions wiring). Pending: P-05."
   },
   {
     "row": 24,
@@ -297,7 +297,7 @@
     "row": 25,
     "dimension": "Evidence Anchor",
     "baseline": "`src/identity/security_master.ts`; `tests/d05_security_master_integrity_semantics.test.ts:76` (SMI-01); IPD suite 924/923/1/0 (2026-10-27).",
-    "current": "IPD main@4e275ec9; src/identity/security_master.ts; tests/d05_*; guarded suite 941/940/0/1 [E007]; no per-record REAL classification (SMI-01). Pending: P-30."
+    "current": "IPD main@4e275ec9; src/identity/security_master.ts; tests/d05_*; guarded suite 941/940/0/1 [E007]; no per-record REAL classification (SMI-01). P-30. Pending: P-30."
   },
   {
     "row": 26,
@@ -333,7 +333,7 @@
     "row": 27,
     "dimension": "Evidence Anchor",
     "baseline": "`src/ui/**`; `tests/shell_*.test.ts`; IPD suite 2026-10-27; tracker \u00a718 row 27.",
-    "current": "IPD main@4e275ec9; src/ui/**; tests/shell_*; guarded suite 941/940/0/1 [E007]; tracker \u00a718 row 27 / O-09. Pending: P-06, P-34."
+    "current": "IPD main@4e275ec9; src/ui/**; tests/shell_*; guarded suite 941/940/0/1 [E007]; tracker \u00a718 row 27 / O-09. P-06. Pending: P-06, P-34."
   },
   {
     "row": 28,
@@ -381,7 +381,7 @@
     "row": 28,
     "dimension": "Evidence Anchor",
     "baseline": "`src/ingress/**`; `src/persistence/durablePortfolioStorePort.ts`; grep census (tests only); IPD suite 2026-10-27.",
-    "current": "IPD main@4e275ec9; src/ipc/brokerImportConsumer.ts 308c83ee; src/ipc/entrypoint.ts 16d4112e; guard 540d49f2 authorized:false; IRR \u00a716.227 [E014]. Pending: P-07, P-22, P-23, P-24, P-25, P-26, P-32, P-44."
+    "current": "IPD main@4e275ec9; src/ipc/brokerImportConsumer.ts 308c83ee; src/ipc/entrypoint.ts 16d4112e; guard 540d49f2 authorized:false; IRR \u00a716.227 [E014]. P-07, P-22. Pending: P-07, P-22, P-23, P-24, P-25, P-26, P-32, P-44."
   },
   {
     "row": 29,
@@ -399,7 +399,7 @@
     "row": 29,
     "dimension": "Evidence Anchor",
     "baseline": "`src/operator_drop/**`; tracker `REG-06`; `evidence/intelligence-data-supply-governance/GATE-Y-M2-\u2026md` M-1.",
-    "current": "IPD main@4e275ec9; src/operator_drop/**; src/oq/synthetic_failover.ts; package.json exports; REG-06 deferred [E018][E026]. Pending: P-08."
+    "current": "IPD main@4e275ec9; src/operator_drop/**; src/oq/synthetic_failover.ts; package.json exports; REG-06 deferred [E018][E026]. P-08. Pending: P-08."
   },
   {
     "row": 30,
@@ -435,7 +435,7 @@
     "row": 30,
     "dimension": "Evidence Anchor",
     "baseline": "`App.tsx:44-46`; probes 503 (this pass); `server/user-portfolio/**`; tracker \u00a718 row 30 + \u00a716.148.3 (`P-1-C` NOT ESTABLISHED).",
-    "current": "IRR main@fff8cf98; /api/user-portfolios* 503; tracker \u00a716.229 S00 stop; P1-F act [E004][E008][E011]. Pending: P-09, P-10, P-11, P-21, P-22, P-23, P-24, P-25, P-26, P-27, P-28, P-29, P-31, P-32, P-34, P-36, P-37, P-38, P-39, P-40, P-42, P-43."
+    "current": "IRR main@fff8cf98; /api/user-portfolios* 503; tracker \u00a716.229 S00 stop; P1-F act [E004][E008][E011]. P-09, P-10, P-11. Pending: P-09, P-10, P-21, P-22, P-23, P-24, P-25, P-26, P-27, P-28, P-29, P-31, P-32, P-34, P-36, P-37, P-38, P-39, P-40, P-42, P-43."
   },
   {
     "row": 31,
@@ -447,7 +447,7 @@
     "row": 31,
     "dimension": "Evidence Anchor",
     "baseline": "`server/user-portfolio/{userPortfolioContract,userPortfolioPort,translationBoundary,option2F,ownerContextFromBinding}.ts`; 112/112 executed 2026-10-27.",
-    "current": "IRR main@fff8cf98; server/user-portfolio contract/port/boundary; portfolio/reports/broker-import block 24 files / 385 tests passed [E006]; D-2 \u00a78 / G-2 \u00a75. Pending: P-32."
+    "current": "IRR main@fff8cf98; server/user-portfolio contract/port/boundary; portfolio/reports/broker-import block 24 files / 385 tests passed [E006]; D-2 \u00a78 / G-2 \u00a75. P-32. Pending: P-32."
   },
   {
     "row": 32,
@@ -465,7 +465,7 @@
     "row": 32,
     "dimension": "Evidence Anchor",
     "baseline": "`git rev-list --left-right --count origin/main...origin/arena/a2df3b85-\u2026` = `692 7`; `git branch -r --contains 470cc698`; tracker \u00a718 row 32 + `CV-52`.",
-    "current": "IRR full-clone census: arena/a2df3b85@5eba01b6 7 ahead / 920 behind; 470cc698 not ancestor; CV-52 [E009][E020]. Pending: P-12, P-09, P-10, P-21, P-22, P-23, P-24, P-25, P-27, P-28, P-29, P-38, P-39, P-40, P-42, P-43."
+    "current": "IRR full-clone census: arena/a2df3b85@5eba01b6 7 ahead / 920 behind; 470cc698 not ancestor; CV-52 [E009][E020]. P-12. Pending: P-09, P-10, P-12, P-21, P-22, P-23, P-24, P-25, P-27, P-28, P-29, P-38, P-39, P-40, P-42, P-43."
   },
   {
     "row": 34,
@@ -477,7 +477,7 @@
     "row": 34,
     "dimension": "Evidence Anchor",
     "baseline": "`git hash-object` (this pass): `775d282b\u2026` / `51704c12\u2026` / `cb8db45d\u2026` / `e6b57bb8\u2026`; live probes; tracker \u00a718 row 34.",
-    "current": "IRR main@fff8cf98; blobs reports-transport 775d282b, user-portfolio-transport 51704c12, owner-context-unavailable cb8db45d; live 503/404 probes [E006][E008]. Pending: P-31."
+    "current": "IRR main@fff8cf98; blobs reports-transport 775d282b, user-portfolio-transport 51704c12, owner-context-unavailable cb8db45d; live 503/404 probes [E006][E008]. P-31. Pending: P-31."
   },
   {
     "row": 35,
@@ -513,7 +513,7 @@
     "row": 35,
     "dimension": "Evidence Anchor",
     "baseline": "`frontend/server/reports/**` (10 files); `reports-transport.ts` blob `775d282b\u2026`; probes 503; F-7 record; **\u00a718 row 35 is stale \u2014 see report C-01**.",
-    "current": "IRR main@fff8cf98; frontend/server/reports/** 10 files; reports-transport 775d282b; F-7/CV-51 accepted bounded; D-9 CLOSED C4-2 [E006][E015]. Pending: P-13, P-41."
+    "current": "IRR main@fff8cf98; frontend/server/reports/** 10 files; reports-transport 775d282b; F-7/CV-51 accepted bounded; D-9 CLOSED C4-2 [E006][E015]. P-13. Pending: P-13, P-41."
   },
   {
     "row": 36,
@@ -579,7 +579,7 @@
     "row": 39,
     "dimension": "Evidence Anchor",
     "baseline": "`persistence-service.ts:109`; `.gitignore:149`; tests green; tracker \u00a718 row 39.",
-    "current": "IRR main@fff8cf98; resolveDataDir/IIPS_DATA_DIR; .gitignore; CV-24 F6/TD-7b reserved [E019]. Pending: P-14."
+    "current": "IRR main@fff8cf98; resolveDataDir/IIPS_DATA_DIR;.gitignore; CV-24 F6/TD-7b reserved [E019]. P-14. Pending: P-14."
   },
   {
     "row": 41,
@@ -591,7 +591,7 @@
     "row": 41,
     "dimension": "Evidence Anchor",
     "baseline": "`docs/integration/IIPS_v3.0_CV22_OPTION_C_PA_DECISION_2026-10-19.md`; screener probe (13 members, 2026-10-27); tracker \u00a718 row 41.",
-    "current": "IRR main@fff8cf98; CV-22 Option C; screener memberCount 13 executed [E008][E017]. Pending: P-15, P-30."
+    "current": "IRR main@fff8cf98; CV-22 Option C; screener memberCount 13 executed [E008][E017]. P-15. Pending: P-15, P-30."
   },
   {
     "row": 44,
@@ -627,7 +627,7 @@
     "row": 45,
     "dimension": "Evidence Anchor",
     "baseline": "`frontend/package.json:24-26`; `package-lock.json` (3 pins); `npm ci` transcript; report C-05.",
-    "current": "IRR main@fff8cf98; frontend/package.json three pins; guard blobs 0a1e58de / 4f6024f0; O-06 closed \u00a716.211 [E016][E024]. Pending: P-16, P-17, P-36."
+    "current": "IRR main@fff8cf98; frontend/package.json three pins; guard blobs 0a1e58de / 4f6024f0; O-06 closed \u00a716.211 [E016][E024]. P-16, P-17. Pending: P-16, P-17, P-36."
   },
   {
     "row": 46,
@@ -645,25 +645,25 @@
     "row": 47,
     "dimension": "Validation",
     "baseline": "V \u2014 the runbook's three headline figures now reproduce exactly at head: 106 files / 1,350 tests; main chunk 1,609.84 kB / gzip 226.69 kB (measured today).",
-    "current": "P \u2014 start path and probes reproduced; runbook headline figures are stale: document says 106 files / 1350 tests, current head executes 108 / 1377 [E006][E023]."
+    "current": "V \u2014 start path and probes reproduced; runbook restamped to 108 files / 1377 tests at exact frontend tree 67607e1d with raw receipts [E023][E039]."
   },
   {
     "row": 47,
     "dimension": "Release-readiness",
     "baseline": "V \u2014 operator-facing readiness is current at head (**prior D-03 stale-figure finding is resolved \u2014 see report C-06**).",
-    "current": "P \u2014 operator-facing readiness current except runbook figure restamp (P-18) [E023]."
+    "current": "V \u2014 operator-facing readiness current for the verified non-production baseline; runbook restamp complete [E023][E039]."
   },
   {
     "row": 47,
     "dimension": "Evidence Anchor",
     "baseline": "`docs/OPERATOR_RUNBOOK.md:176` (restamp 2026-10-25); executed 2026-10-27 (106/1,350; 1,609.84 kB); tracker \u00a716.42.5.",
-    "current": "IRR main@fff8cf98; docs/OPERATOR_RUNBOOK.md e94d2b80; live start/probe; current suite 108/1377 [E006][E008][E023]. Pending: P-18."
+    "current": "IRR main@7fd824de; docs/OPERATOR_RUNBOOK.md restamped; live start/probe; current suite 108/1377 [E008][E023][E039]. P-18."
   },
   {
     "row": 48,
     "dimension": "Existence",
     "baseline": "V \u2014 master tracker `IIPS_V3_E2E_MASTER_TRACKER_\u20262026-10-13.md` at head (`2,591,322+` B, now through \u00a716.149) + IPD cross-repository evidence set.",
-    "current": "V \u2014 master tracker at main@fff8cf98 through \u00a716.229 (blob edf4fb64) + IPD cross-repository evidence set; dated overlays govern historical text [E004][E005]."
+    "current": "V \u2014 master tracker at main@7fd824de through \u00a716.232, with \u00a716.233 consolidated resolution overlay; IPD cross-repository evidence set corrected by PR #114; dated overlays govern historical text [E004][E005][E041]."
   },
   {
     "row": 48,
@@ -681,13 +681,13 @@
     "row": 48,
     "dimension": "Release-readiness",
     "baseline": "P \u2014 integrity is good but not clean: \u00a718 rows 20/35/36 carry stale content (report \u00a7C).",
-    "current": "P \u2014 integrity good; open PR #398 proposes \u00a716.230 and is not merged; IPD tracker footer P-1 status stale vs IRR P1-F (recorded conflict) [E005][E010]."
+    "current": "P \u2014 tracker integrity good; PR #398 merged and IPD P-20 corrected; G14 final reconciliation remains blocked by upstream gates and P1-F consumption remains NOT RECONCILED [E010][E038][E040]."
   },
   {
     "row": 48,
     "dimension": "Evidence Anchor",
     "baseline": "tracker \u00a7\u00a716.146\u201316.149, \u00a718, \u00a719; IPD `evidence/cross-repository/**`; this pass's read-backs.",
-    "current": "IRR tracker \u00a7\u00a716.207/16.211/16.229; IPD tracker; PR #398 OPEN/UNSTABLE [E004][E005][E010][E016]. Pending: P-19, P-20, P-11, P-33, P-37, P-39."
+    "current": "IRR tracker \u00a7\u00a716.207/16.211/16.229/16.230/16.232/16.233; IPD PR #114; PR #398 MERGED [E004][E005][E010][E016][E038][E041]. P-11, P-19, P-20, P-33. Pending: P-33, P-37, P-39."
   },
   {
     "row": 49,
