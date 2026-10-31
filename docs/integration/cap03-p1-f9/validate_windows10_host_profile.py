@@ -30,7 +30,7 @@ POST_CI_RECORD_ID = "IIPS-V3-CAP03-P1-REV7-POST-CI-BOUNDARY-RECONCILIATION-2026-
 EVIDENCE_ROOT = REPO / "evidence" / "cap03-s2"
 RUN_ID = "s2-a891802e-20261028T192516Z"
 RUN_DIR = EVIDENCE_ROOT / RUN_ID
-EXPECTED_SHA256 = "d918680889be6d58ceca35b682ce6c44e3accd83ab01789d37daa3af6a7f4151"
+EXPECTED_SHA256 = "b7eccc577b6e3a8b114cac224e6bd65261d9e9524785fee96d5361f0e660dee5"
 EXPECTED_SEAL_SHA256 = "9D3C09DBDB691C2527A45605DEA20826B4EC2BA2F110985EE3F1033783B5225E"
 EXPECTED_DEPOSIT_SHA256 = "FFD0956482427ACB404543E36DAC2705D802B04828E380290232C06129F3AFAD"
 EXPECTED_TRANSCRIPT_SHA256 = "D4C5D9431115BF57D824DF465E3D99B11C619BC6D59A3F0974036F3BFCC2F7CA"
@@ -104,6 +104,14 @@ for text, message in [
 require("IIPS-V3-CAP03-P1-AUTHORIZATION-ACT-2026-10-29-01" in authority and
         "ADMITTED as L2a evidence for the P-1 chain" in authority and RUN_ID in authority,
         "effective P1-F record ID/admission scope no longer matches the source references")
+qcons1_record = ROOT / "CAP03_P1_QCONS1_PREFLIGHT_CONSUMPTION_AND_AUTHORITY_RECONCILIATION_2026-10-31.md"
+qcons1 = qcons1_record.read_text(encoding="utf-8")
+require("NOT AUTHORIZED by the effective acts reviewed" in qcons1 and
+        "NON-CONSUMING by implementation semantics" in qcons1 and
+        "Proposed, not effective" in qcons1 and
+        "S00-PREFLIGHT-AUTHORITY" in qcons1 and
+        "AUTHORIZED for one session" in qcons1,
+        "Q-CONS-1 authority/consumption distinctions or proposed-not-effective boundary missing")
 require("IIPS-V3-CAP03-PF15-ENDPOINT-LOCAL-STATE-DESIGNATION-PA-ACT-2026-10-26-02" in pf15_act and
         "C:\\iips-data\\iips\\user-portfolio.sqlite" in pf15_act,
         "effective corrected PF-15 F4 source does not match the bound store literal")
@@ -139,9 +147,18 @@ require("designated operator/security owner" in report and
         "Q-EV exact missing-authority tuple is not documented")
 require("S00-TRACKER-POINTER-PUBLISHED" in source and "Invoke-PreClaimTrackerPointer" in source,
         "pre-claim authoritative-main pointer guard is missing")
+require("$StandalonePreflightAuthorityRef = 'NOT AUTHORIZED'" in source and
+        "Require-Check -Id 'S00-PREFLIGHT-AUTHORITY'" in source and
+        "NON-CONSUMING (this Preflight invocation does not acquire an Execute claim" in source,
+        "standalone Preflight must remain explicitly unauthorized and technically non-consuming")
 main_flow = source[source.index("# Main. Control flow"):]
-require(main_flow.index("Invoke-PreClaimTrackerPointer") < main_flow.index("Invoke-EvidencePlacement") < main_flow.index("Invoke-ExecuteClaim"),
-        "published-main pointer and evidence-root checks must precede any claim acquisition")
+require(main_flow.index("S00-PREFLIGHT-AUTHORITY") < main_flow.index("Invoke-PreClaimTrackerPointer") <
+        main_flow.index("Invoke-EvidencePlacement") < main_flow.index("Invoke-ExecuteClaim"),
+        "standalone Preflight authority and published-main/evidence-root checks must precede any claim acquisition")
+require("P1-F authorizes Execute only and PA-13 E10 is a separate capture procedure" in source,
+        "standalone Preflight authority gate does not distinguish PA-13 E10")
+require("NOT AUTHORIZED" in source[source.index("function Get-DeclaredEffects"):source.index("function Invoke-PostInvocationForensics")],
+        "declared effects omit the currently unauthorized Preflight boundary")
 placement = source[source.index("function Invoke-EvidencePlacement"):source.index("function Invoke-StorePlacement")]
 require(placement.index("S00-EVIDENCE-ROOT-DESIGNATED") < placement.index("S00-EVIDENCE-ROOT-EQUALS-DESIGNATION") < placement.index("Get-CanonicalPath -Path $EvidenceRoot"),
         "S00 designation and exact equality must precede canonicalizing/accessing caller path")
@@ -190,9 +207,9 @@ for forbidden in [
 require("$DesignatedStorePath  = 'C:\\iips-data\\iips\\user-portfolio.sqlite'" in source,
         "exact PF-15 F4 designated store literal missing")
 for text, message in [
-    ("$BaselineIrrCommit     = '44baa4505e44c19fcdccad78693ec2061d1afe31'", "reviewed current-main baseline for post-merge freshness changed"),
+    ("$BaselineIrrCommit     = '235b793dcca944fdfca1da166f3d09cc655afb49'", "reviewed current-main baseline for post-merge freshness changed"),
     ("$P1FEntry             = '100644 blob a90bb00141194608e64503b24d43964bf7ff85a0'", "effective P1-F source entry is not bound to the current main tree"),
-    ("$TrackerPointerMarkers = @('**Latest (`CV-CORR-205`'", "current tracker pointer is not revision-bound"),
+    ("$TrackerPointerMarkers = @('**Latest (`CV-CORR-206`'", "current tracker pointer is not revision-bound"),
     ("'docs/integration/IIPS_v3.0_CAP03_P1_AUTHORIZATION_ACT_AND_PREREQUISITE_DECISIONS_2026-10-29.md'", "reviewed effective P1-F record is not allowlisted for exact-blob freshness checking"),
     ("$TrackerPointerRequiredText = 'AUTHORIZED'", "freshness check no longer binds an authorized/unspent current pointer"),
 ]:
@@ -236,6 +253,7 @@ for forbidden in ("npm ci", "npm install", "npm run", "iips-production-market-da
 for required in ("actions/checkout@v4", "actions/setup-python@v5", "python -m py_compile", "validate_windows10_host_profile.py", "pull_request", "branches:", "main", "IIPS_v3.0_CAP03_P1_QEV_RUN_RECORD_ROOT_PA_ACT_2026-10-30.md",
                  "IIPS_v3.0_CAP03_P1_QEV_OPERATOR_VERIFICATION_DACL_ACCEPTANCE_2026-10-30.md",
                  "IIPS_v3.0_CAP03_P1_REV7_POST_CI_BOUNDARY_RECONCILIATION_2026-10-30.md",
+                 "CAP03_P1_QCONS1_PREFLIGHT_CONSUMPTION_AND_AUTHORITY_RECONCILIATION_2026-10-31.md",
                  "'.github/workflows/ci.yml'"):
     require(required in irr_only_workflow, "IRR-only workflow missing required safe check/trigger: " + required)
 
@@ -285,12 +303,13 @@ for heading in (
     "## §16.223 — `CV-CORR-203`:",
     "## §16.224 — `CV-CORR-204`:",
     "## §16.225 — `CV-CORR-205`:",
+    "## §16.226 — `CV-CORR-206`:",
 ):
     require(tracker.count(heading) == 1, "authoritative tracker heading missing/duplicated: " + heading)
 for heading in ("## 16.208 CAP-03 P-1 Revision 5", "## 16.209 CAP-03 P-1 Revision 6", "## 16.210 CAP-03 P-1 Revision 7"):
     require(tracker.count(heading) == 1, "branch record not preserved exactly once: " + heading)
 
-base_commit = "44baa4505e44c19fcdccad78693ec2061d1afe31"
+base_commit = "235b793dcca944fdfca1da166f3d09cc655afb49"
 allocation_history_commit = "78abb254abe095a1f7b03db58bdd9dd30aba0fbf"
 branch_commit = "a63b19b6eb705d209ec0d0e09e73f8cebc60c695"
 base_tracker = subprocess.run(
@@ -319,6 +338,7 @@ require(not unlisted_p1_paths,
 for artifact in (
     "docs/integration/IIPS_v3.0_CAP03_P1_QEV_OPERATOR_VERIFICATION_DACL_ACCEPTANCE_2026-10-30.md",
     "docs/integration/IIPS_v3.0_CAP03_P1_REV7_POST_CI_BOUNDARY_RECONCILIATION_2026-10-30.md",
+    "docs/integration/CAP03_P1_QCONS1_PREFLIGHT_CONSUMPTION_AND_AUTHORITY_RECONCILIATION_2026-10-31.md",
     "docs/integration/cap03-p1-f9/CAP03_P1_F9_WindowsFixtureTests.ps1",
 ):
     require(artifact in review_artifact_paths, "freshness allowlist misses reviewed PR artifact: " + artifact)
@@ -379,6 +399,7 @@ for heading in (
     "## §16.222 — `CV-CORR-202`:",
     "## §16.223 — `CV-CORR-203`:",
     "## §16.224 — `CV-CORR-204`:",
+    "## §16.225 — `CV-CORR-205`:",
 ):
     require(one_record(tracker, heading).rstrip() == one_record(base_tracker, heading).rstrip(),
             "latest-main CAP-03 section changed during post-merge reconciliation: " + heading)
@@ -402,13 +423,14 @@ require(tracker.count("| `2026-10-30` | `CHG-2026-10-30-11` |") == 1 and
         "Next free after this section: **`§16.222` / `CV-CORR-202` / `CHG-2026-10-30-17` / `V1712`**" in tracker,
         "historical Revision 7 change-log or latest-main/Q-EV allocation is inconsistent")
 first_lines = "\n".join(tracker.splitlines()[:30])
-require("**Latest (`CV-CORR-205`, §16.225, `CHG-2026-10-31-04`" in first_lines and
-        "actual IPD access is **UNVERIFIED**" in first_lines and
+require("**Latest (`CV-CORR-206`, §16.226, `CHG-2026-10-31-05`" in first_lines and
+        "NOT AUTHORIZED" in first_lines and "NON-CONSUMING" in first_lines and
         DESIGNATED_EVIDENCE_ROOT in first_lines,
-        "Last Updated pointer does not identify the post-CI boundary reconciliation")
-require("**Current CAP-03 P-1 / PF-15 status** — *current-state pointer (`CV-CORR-205`, §16.225" in first_lines and
-        "P-1-C remains NOT ESTABLISHED" in first_lines and "P-1-D DESIGNATED / NOT VERIFIED FOR THE ATTEMPT" in first_lines,
-        "CAP-03 current-state pointer does not identify the current one-attempt/Q-EV state")
+        "Last Updated pointer does not identify the current Q-CONS-1 authority/consumption finding")
+require("**Current CAP-03 P-1 / PF-15 status** — *current-state pointer (`CV-CORR-206`, §16.226" in first_lines and
+        "P-1-C remains NOT ESTABLISHED" in first_lines and "P-1-D DESIGNATED / NOT VERIFIED FOR THE ATTEMPT" in first_lines and
+        "do not invoke Revision 7 `-Mode Preflight`" in first_lines,
+        "CAP-03 current-state pointer does not identify the current one-attempt/Q-CONS-1 state")
 require("## §16.207 — `CV-CORR-187`: O-07 closed" in tracker,
         "origin/main O-07 section was lost in additive merge")
 for q in ["Q-CONS-2", "Q-CONS-3", "Q-MIG", "Q-TX", "Q-V8", "Q-WRITE", "Q-EV", "Q-BUILD"]:
@@ -479,13 +501,26 @@ require(tracker.count("## §16.224 — `CV-CORR-204`:") == 1 and
         tracker.count(POST_CI_RECORD_ID) >= 1,
         "post-CI reconciliation heading or record identity missing/duplicated")
 require(tracker.count("## §16.225 — `CV-CORR-205`:") == 1 and
-        tracker.count("| `2026-10-31` | `CHG-2026-10-31-04` |") == 1,
-        "post-merge review allocation or change-log row missing/duplicated")
-require(git_grep_count(base_commit, "## §16.225") == 0,
-        "post-merge review allocation already existed on the current-main baseline")
+        tracker.count("| `2026-10-31` | `CHG-2026-10-31-04` |") == 1 and
+        tracker.count("## §16.226 — `CV-CORR-206`:") == 1 and
+        tracker.count("| `2026-10-31` | `CHG-2026-10-31-05` |") == 1,
+        "post-merge/CV-CORR-206 allocation or change-log row missing/duplicated")
+require(git_grep_count(base_commit, "## §16.226") == 0 and
+        "Next free after this record:** `§16.226` / `CV-CORR-206` / `CHG-2026-10-31-05` / `V1761`" in base_tracker,
+        "Q-CONS-1 allocation does not match the exact current-main next-free reservation")
+for revision in (allocation_history_commit, base_commit):
+    require(git_grep_count(revision, "## §16.226") == 0,
+            "Q-CONS-1 heading already exists at allocation baseline " + revision)
+    for number in range(1761, 1773):
+        row = f"| `V{number}` |"
+        require(git_grep_count(revision, row) == 0,
+                "Q-CONS-1 verification ID collides at " + revision + ": " + row)
 for verification_id in range(1748, 1761):
     row = f"| `V{verification_id}` |"
     require(tracker.count(row) == 1, "post-merge verification row missing/duplicated: " + row)
+for verification_id in range(1761, 1773):
+    row = f"| `V{verification_id}` |"
+    require(tracker.count(row) == 1, "Q-CONS-1 verification row missing/duplicated: " + row)
 for verification_id in range(1738, 1748):
     row = f"| `V{verification_id}` |"
     require(tracker.count(row) == 1, "post-CI verification row missing/duplicated: " + row)
