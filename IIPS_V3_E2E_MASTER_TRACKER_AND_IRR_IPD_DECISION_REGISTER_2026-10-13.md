@@ -11,6 +11,7 @@
 | Current CAP-03 DR-2 publication status (`2026-10-25`; §§16.117–16.118) | IPD Option A provider/test is merged at PR #89; IRR Option A consumer is merged by PR #265 as `e590ca40d950052e32b2813027f0d1027b9e65ec` (tree `97530e48…`). PR-head CI `40199009657` and post-merge `main` CI `40199212799` passed; current-base local full suite 106 files / 1,349 passed / 0 failed. Bilateral source/test implementation and conformance evidence is published across both repos; this is **not** CAP-03 operational completion, final pin/freeze, Gate 5 admission, durability acceptance, or production eligibility. See §16.118. |
 | Previous IPD baseline (historical; superseded as current state) | Superseded value **`c0e1b5662264651246db1ccde2945eb5e13f3524`** verified 2026-10-22 (§16.75; superseded by the PR #41 merge recorded in §16.76) — 2 open PRs (**#34** superseded Gate 3 lineage; **#41** conformant candidate), agent write capability `HTTP 403`. Earlier: `ramkivs/iips-production-market-data` (`refs/heads/main` verified at **`15465e45adfc1dd58fba17e80365b729599aef6b`** on 2026-10-21 (`CV-CORR-53`, §16.70) — PR #37 merge `2026-10-21T15:57:34Z` (DEC-06 P11 main-admission decision package + A5 refresh; documentation only, no admission); **2 open PRs (#34 Gate 3 candidate; #36 DEC-06 P11 candidate — neither for merge)**, **0 releases**, both annotated pin tags re-peeled; superseded banner value `3d44e0a123f2495f3b88ce0ab8b47fbc5bf072db` verified 2026-10-21 — PR #33 merge 2026-10-19T19:46:48Z; earlier superseded value `be32d8c95a86b3f03bd382ccde5b6398efb351c6` verified 2026-10-18 — PR #24 merge (2026-10-18T19:12:01Z; documentation-only cross-repository reconciliation; 0 open IPD PRs; §16.55/§16.56), preceded by PR #23 `0158b7a1…` (documentation-only handoff/§14 record; IPD CI run `39147879645` passed); G3-D0 disposition published by PRs #20/#21 (`8b65971f…`/`e76bb2ed…`), G3-D1…D7 classification by PR #22 (`9310b1a…`); PR #8 merge `467eb529…` remains an ancestor; previous banner value `9130c259…` (PR #11) retained historically in §§16.49–16.53; refreshed by `CV-CORR-37`, §16.54) |
 | Pre-REG-08 IRR Baseline | Commit `f970028cf633f561c225d66ae4b3864f48afe656`; root tree `bab9782ed104567e571abccc350c75760ff35dca` (merge of PR #75) |
+| **Prepared O-05 summary (historical source text; identifiers remapped)** | `2026-10-31` (IST; `2026-10-30` UTC) — **Latest (`CV-CORR-207`, §16.227, `CHG-2026-10-31-06`; `V1773`–`V1782`): `O-05` — IPD **PR #113 MERGED** UNDER EXPLICIT PA AUTHORIZATION; POST-MERGE CI GREEN ON THE RESULTING `main`; REMOTE BLOB READ-BACK COMPLETE — THE `O5-A` CLAUSE-5 STATE-2 LIMB IS **SATISFIED AT CODE LEVEL** (REFUSING-ONLY); `O-05` REMAINS **`OPEN`** ON ITS ADMISSION LIMB (§16.227).** Merge commit **`4e275ec97a7701521e6a4e7632e9324bafe8d286`** = new IPD `main`, tree `f12fd52d…` (identical to the PR head tree), parents `aa356ec2…` + `184fb235…`, merged `2026-10-30T21:06:04Z` by `ramkivs`, merge-commit method, 3 files `+441/−1`, both source branches preserved. **Post-merge** CI run `41128431372` (`push`/`main`/`4e275ec9…`) **success** — `typecheck · build · test` `124312841182` and `executed test count` `124313339256` success; **941 executed / 940 passed / 0 failed / 1 skipped**. Remote read-back `308c83ee…` / `16d4112e…` / `dd94f32f…`; whole-tree diff old→new `main` contains **only** those three paths; guard `540d49f2…` unchanged at literal `authorized: false` with `W-1(3)`/`W-1(4)`; **no pin or lockfile moved; no successful durable write occurred**. Independent re-execution at `4e275ec9…`: guarded **941/940/0/1**, targeted **9/9**, package-consumer PASS. **`O-05` `OPEN`** — admission limb (`GOV-03`/`BI-08`, S6 chain) untouched; `QE` `0/11`; Gate 4 acceptance **not rendered**; Gate 5/`CV-52` **not initiated**; durable-write qualification **incomplete**; H-12 / S2-Limb A / DQ-4 / `PA-09` untouched; **`P-1` UNSPENT**; production **NOT AUTHORIZED / OUT OF SCOPE**. §16.150.5 `O-05` row preserved byte-for-byte (supersession recorded as dated overlay); `§18.1` unchanged at **51 × 17**; the 16-failure report remains preserved historical evidence, not reproduced, not reconstructed. **IRR publication of this registration is BLOCKED (`403` on both REST and git paths).** Previous (`CV-CORR-201`, §16.221, `CHG-2026-10-30-16`; `V1702`–`V1711`): `O-05` publication reconciled — PR #113 verified live (`OPEN`, unmerged, green); the 16-failure report was not reproduced and is preserved as historical evidence. |
 | **Last Updated** | `2026-10-31` (IST; `2026-10-30` UTC) — **Latest (`CV-CORR-205`, §16.225, `CHG-2026-10-31-04`; `V1748`–`V1760`): post-merge review, whitespace remediation and final main read-back. PR #382 merged as `44baa4505e44c19fcdccad78693ec2061d1afe31`; PR #393 published the CV-CORR-205 pointer as `a8dfa0dbb3eb5fdf42e57c657aad0971270dd9d1`, tree `4f72bffe5ce2f8e8e29eb0623fb0f84a883c265e`. Main IRR-only run `41129836674` exposed a trailing-space failure; correction was revalidated successfully by PR run `41130887248` and main run `41130989232`. O-05 §16.221/CV-CORR-201 and CAP-03 §16.222–§16.224/CV-CORR-202–204 remain preserved. Script baseline `44baa...`, current marker CV-CORR-205, SHA-256 `d918680889be6d58ceca35b682ce6c44e3accd83ab01789d37daa3af6a7f4151`; freshness gate satisfied by published pointer; overall runtime readiness remains NOT CLEARED. P-1 remains AUTHORIZED — NOT EXECUTED — UNSPENT; no host/IPD/P-1 operation. See §16.225. Historical current-head generic CI `41102065894` and IRR-only `41102065682` succeeded at `698920a8c7a43801cafd592129401ea6c399b75d`; the generic job used three IPD-pinned dependency packages, but actual IPD access is **UNVERIFIED** because run logs/step metadata were unavailable; no IPD write is evidenced and the agent did not access IPD. The corrected product workflow path boundary is on main. Q-EV root `H:\\IIPS-P1-EVIDENCE` remains designated. P-1 remains AUTHORIZED — NOT EXECUTED — UNSPENT; no host or IPD operation. See §16.224. |
 | **Previous Last Updated through CV-CORR-203** | `2026-10-30` (IST; `2026-10-30` UTC) — **Latest (`CV-CORR-203`, §16.223, `CHG-2026-10-31-02`; `V1724`–`V1737`): operator-reported read-only Windows PowerShell 5.1 verification and explicit existing-DACL acceptance recorded for the exact Q-EV root `H:\IIPS-P1-EVIDENCE`. Reported account/SID, root/volume/path/owner checks and point-in-time no-prior-state/claim/marker observation remain operator-supplied, not independently verified. Inherited DACL accepted; no ACL change or effective-writability claim. P-1 remains AUTHORIZED — NOT EXECUTED — UNSPENT. No script parse/S00/S03, Preflight, Execute, provisioning, IPD or filesystem action by the agent. Prior PA statuses unchanged. |
 | **Previous Last Updated through CV-CORR-202** | `2026-10-30` (IST; `2026-10-30` UTC) — **Latest (`CV-CORR-202`, §16.222, `CHG-2026-10-30-17`; `V1712`–`V1723`): Q-EV root designated by PA act `IIPS-V3-CAP03-P1-QEV-RUN-RECORD-ROOT-PA-DESIGNATION-ACT-2026-10-30-01`; exact canonical root `H:\IIPS-P1-EVIDENCE`; filesystem owner is the existing personal Windows user account running the authorized operation; Ramki is accountable operator/security owner. All filesystem checks remain execution-time only. P1-F remains one attempt, AUTHORIZED — NOT EXECUTED — UNSPENT; no root/claim/marker/store/evidence created. |
@@ -425,6 +426,7 @@ The following completed baselines on `ramkivs/iips-review-recovered @ refs/heads
 | `2026-10-30` | `CHG-2026-10-31-02` | **P-1 Q-EV operator verification evidence and DACL acceptance (`CV-CORR-203`, §16.223, `V1724`–`V1737`):** operator reports read-only Windows PowerShell 5.1 checks passed for exact designated root; account/SID, local fixed NTFS volume, root/path integrity, separation, owner match and point-in-time no-prior-state/claim/marker results recorded. Operator explicitly accepts the inspected inherited DACL, including `Authenticated Users` Modify and `Users` ReadAndExecute; no ACL change or new security identity. Evidence is operator-supplied, not independent host verification. No script parse/S00/S03, effective-writability proof, P-1 Preflight/Execute, provisioning, consuming test, second attempt, IPD or artifact creation. P-1 remains AUTHORIZED — NOT EXECUTED — UNSPENT; PR #382 remains OPEN/UNMERGED. |
 | `2026-10-30` | `CHG-2026-10-31-03` | **Post-CI IRR/IPD workflow-boundary reconciliation (`CV-CORR-204`, §16.224, `V1738`–`V1747`):** exact-head workflow results independently checked; generic CI installed/use-tested three IPD-pinned dependency packages under unconditional `npm ci`, but run logs and step metadata could not distinguish remote GitHub fetch from npm cache. Actual remote IPD access UNVERIFIED; no IPD write evidenced and no IPD access by the agent. Generic CI now triggers only for `frontend/**` and `.ci/**`; dependency-free IRR static route retained and checks the boundary. Main remains `f6ae5ebd…`; PR #382 OPEN/UNMERGED; P-1 freshness gate unsatisfied; P-1 AUTHORIZED — NOT EXECUTED — UNSPENT. No generic CI rerun, host/P-1 operation, merge or PA-status change. |
 | `2026-10-31` | `CHG-2026-10-31-04` | **Post-merge formal review and exact-main check correction (`CV-CORR-205`, §16.225, `V1748`–`V1760`):** PR #382 merged as `44baa4505e44c19fcdccad78693ec2061d1afe31`, tree `064f5c3a4f106c7c7c9ab6ae6abc56ffe93b3aba`; main O-05 and CV-CORR-202/203/204 records retained. Main IRR-only run `41129836674` passed Python compilation and source/evidence/tracker validation but failed changed-file whitespace on the post-CI report's Record ID line 3; the exact two trailing spaces were removed in the follow-up. New baseline `44baa...`, marker CV-CORR-205, script SHA-256 `d918680889be6d58ceca35b682ce6c44e3accd83ab01789d37daa3af6a7f4151`. Follow-up PR #393 merged as `a8dfa0dbb3eb5fdf42e57c657aad0971270dd9d1`, tree `4f72bffe5ce2f8e8e29eb0623fb0f84a883c265e`; PR head `bad376d1a062ab2ad58a0c095a36a9a26e553e90` passed hosted IRR-only run `41130887248`, and exact-main run `41130989232` also passed compile, source/evidence/tracker validation and whitespace. CV-CORR-205 pointer is published and freshness gate is satisfied; no generic CI/IPD/host/P-1 activity. P-1 remains AUTHORIZED — NOT EXECUTED — UNSPENT; readiness NOT CLEARED. |
+| `2026-10-30` | `CHG-2026-10-31-06` | **`O-05` — IPD PR #113 **MERGED** under explicit PA authorization; post-merge CI green on the resulting `main`; remote blob read-back complete — `O5-A` clause-5 state-2 limb **SATISFIED at code level**; `O-05` remains **`OPEN`** on its admission limb (`CV-CORR-207`, §16.227, `V1773`–`V1782`):** merge commit **`4e275ec9…`** = new `main`, tree **`f12fd52d…`** (identical to the PR head tree), parents `aa356ec2…` + `184fb235…`, merged `2026-10-30T21:06:04Z` by `ramkivs`, merge-commit method, 3 files `+441/−1`; both source branches preserved. **Post-merge CI** run **`41128431372`** (`event: push`, `head_branch: main`, `head_sha: 4e275ec9…`) **success**; checks `typecheck · build · test` `124312841182` and `executed test count` `124313339256` success; CI-recorded **"941 tests executed — 940 passed, 0 failed"** (skipped 1 derived; locally confirmed). **Remote read-back** from `main`: `308c83ee…` / `16d4112e…` / `dd94f32f…`; whole-tree diff old→new `main` contains **only** those three paths (690→692 entries); `dispatch.ts` `27becc76…`, `protocol.ts` `f4dc72b1…`, `migration_ledger.ts` `88198b44…`, `package.json` `51796e63…`, `package-lock.json` `98ae3c63…` byte-identical — **no pin or lockfile moved**. Guard unchanged (`540d49f2…`, `authorized: false`, `W-1(3)`/`W-1(4)`); consumer bounded, refusing-only, zero bare-store constructions, zero I/O, one call site; **no successful durable write occurred**. Independent re-execution at `4e275ec9…`: install/typecheck/build 0, guarded **941/940/0/1**, targeted **9/9**, package-consumer PASS. **§16.150.5 `O-05` row preserved byte-for-byte**; its "no production consumer" clause superseded by dated overlay per the `O-06`/§16.211.6 convention; "admission withheld" still accurate. `§18.1` unchanged 51 × 17. **16-failure report preserved, not reproduced, not reconstructed.** `QE` `0/11`; Gate 4 acceptance not rendered; Gate 5/`CV-52` not initiated; durable-write qualification incomplete; H-12/S2-Limb A/DQ-4/`PA-09` untouched; **`P-1` unspent**; production **not authorized**. IRR tracker publication **BLOCKED `403`** on both the REST and git paths — this registration is prepared and pending an authorized IRR write path. Next free `§16.228`/`CV-CORR-208`/`CHG-2026-10-31-07`/`V1783`. **Publication reconciliation:** the `403` sentence is the preparation-pass record; this row is registered on current IRR main under the remapped allocation. |
 
 ---
 
@@ -18575,3 +18577,237 @@ P-1 remains **AUTHORIZED — ONE ATTEMPT ONLY — NOT EXECUTED — UNSPENT**. P-
 | `V1760` | Final readiness and next legitimate action | PASS — P-1 remains AUTHORIZED — ONE ATTEMPT ONLY — NOT EXECUTED — UNSPENT; P-1-C NOT ESTABLISHED, P-1-D DESIGNATED / NOT VERIFIED FOR THE ATTEMPT, U-4/U-5/A6 NOT RUN, prior waivers preserved. Overall runtime readiness remains NOT CLEARED. After exact main/pins and safeguards are re-confirmed, the next legitimate action is one capture-only P-1 Preflight; no Execute authority follows. |
 
 **Next free after this record:** `§16.226` / `CV-CORR-206` / `CHG-2026-10-31-05` / `V1761`.
+
+## §16.227 — `CV-CORR-207`: `O-05` — **IPD PR #113 MERGED under explicit PA authorization; post-merge CI green on the resulting `main` commit; remote blob read-back complete — the `O5-A` clause-5 state-2 limb is now SATISFIED at code level, and `O-05` remains `OPEN` on its admission limb** (`2026-10-30` UTC / `2026-10-31` IST; `CHG-2026-10-31-06`; `V1773`–`V1782`)
+
+**Current-main reconciliation and publication scope (`2026-10-31`).** This section registers the
+prepared artifact `IRR_S16_222_O05_MERGE_RECONCILIATION_APPLY_READY_2026-10-31.md`
+(SHA-256 `5efbab1730f50b30ecdc214dd9f6f49511ca32cb97fbde70e70aec0e8ae6f55d`) with identifier
+reconciliation only; its O-05 evidence and governance boundaries are preserved. The artifact targeted
+IRR `main` `78abb254abe095a1f7b03db58bdd9dd30aba0fbf`; latest authoritative `main` is
+`235b793dcca944fdfca1da166f3d09cc655afb49` and preserves the intervening Q-EV allocation of the
+artifact's original identifiers. Under the tracker's published-main precedence and additive
+renumbering convention (§16.189/§16.191; §16.220.8/§16.224.5), the active allocation is remapped to
+`§16.227` / `CV-CORR-207` / `CHG-2026-10-31-06` / `V1773`–`V1782`. The original identifiers remain
+Q-EV's and are not duplicated as headings, change-log rows or verification rows. PR #395's claimed
+`§16.226` / `CV-CORR-206` / `CHG-2026-10-31-05` / `V1761`–`V1772` range is skipped; PR #395 is read
+only for collision census and is not used or modified. The artifact's internal `403` /
+`IRR writes: none` statements are preserved as historical preparation-pass evidence and do not
+describe this publication pass. The prepared front-matter summary is retained as a historical source
+row rather than replacing the current Revision 7 `Last Updated` marker, because current main's static
+validator and P-1 pointer guard bind that marker; no P-1 status, freshness authority or implementation
+boundary is changed. `O-05` remains `OPEN`.
+
+### 16.227.1 What this section records, and what it does not
+
+This section registers the **merge of IPD PR #113 and its post-merge verification**, executed under
+Ramki's explicit authorization of `2026-10-31`, and reassesses the `O5-A` clause-5 state-2 limb
+against that evidence.
+
+§16.221.7 stated the limb's satisfaction condition verbatim: *"merging PR #113 (a PA/owner act …),
+a green **post-merge** CI run on the resulting `main` commit, and an independent remote blob
+read-back of that commit. `O-05` would still remain `OPEN` after all three, because the admission
+limb is untouched by `O5-A` and remains governed by the S6 chain."* **All three conditions are now
+met.** The limb is therefore recorded as **satisfied at code level**, with the refusing-only
+qualifier, and **`O-05` remains `OPEN`** exactly as §16.221.7 predicted.
+
+This section renders **no** acceptance, qualification, admission, release or production decision.
+It changes **no** `§18.1` cell, `CV-*` matrix row, gate, count, `QE` result or admission status.
+It does **not** authorize a durable write: the write gate remains literal `authorized: false` and
+every write still refuses with `WRITE_NOT_AUTHORIZED` / `storeEffect: 'NONE'`.
+
+### 16.227.2 IPD PR #113 — final state (`gh api`, read live this pass)
+
+| Field | Verified value |
+|---|---|
+| Repository | `ramkivs/iips-production-market-data` (`default_branch: main`) |
+| PR | **#113** — `state: closed`, **`merged: true`** |
+| Merged at | **`2026-10-30T21:06:04Z`** |
+| Merged by | `ramkivs` |
+| Head SHA (unchanged from publication) | **`184fb235a31f7d009ce3d224e310d0b0b901422e`** |
+| Head tree | **`f12fd52d658bd8e8029106f77f4491b22b798485`** |
+| Head parent | `aa356ec222527e78462740fb6c91d34b9ff6cbbc` |
+| Base | `main` |
+| Diff | 3 files, **`+441/−1`** |
+| Head branch at merge | `arena/7ba41b85-iips-production-market-data` |
+
+**Branch-name note (recorded, not silently reconciled).** §16.221 recorded the PR head branch as
+`arena/7ba41b85-…` while the original publication branch is
+`local/o5a-broker-import-consumer-publication`. Both were re-verified this pass to resolve to the
+**same object** `184fb235a31f7d009ce3d224e310d0b0b901422e`, and both **remain alive after the
+merge** (`delete_branch_on_merge: false`). No commit was substituted: the merged head is byte-for-byte
+the commit §16.220/§16.221 validated.
+
+**Merge method.** Merge commit (two parents), matching the repository's established convention —
+`aa356ec2…` (#112), `b4f2475a…` (#111) and `188a4ff9…` (#110) are all two-parent merge commits.
+No force-push, no history rewrite, no rebase, no squash.
+
+### 16.227.3 The merge commit and resulting `main`
+
+| Field | Verified value |
+|---|---|
+| **Merge commit = new `main`** | **`4e275ec97a7701521e6a4e7632e9324bafe8d286`** |
+| Message | `Merge pull request #113 from ramkivs/arena/7ba41b85-iips-production-market-data` |
+| **Tree** | **`f12fd52d658bd8e8029106f77f4491b22b798485`** — **identical to the PR head tree**, so `main` holds exactly the reviewed content and nothing else |
+| Parents | `aa356ec222527e78462740fb6c91d34b9ff6cbbc`, `184fb235a31f7d009ce3d224e310d0b0b901422e` |
+| `main` read back remotely | `4e275ec97a7701521e6a4e7632e9324bafe8d286` |
+
+### 16.227.4 Post-merge CI — a distinct run from PR-head CI (`V1774`)
+
+Pre-merge CI (run `41107859098`, `event: pull_request`, head `184fb235…`) is **not** treated as
+post-merge CI. The merge commit triggered its own run:
+
+| Field | Verified value |
+|---|---|
+| Workflow run | **`41128431372`** — workflow `CI` |
+| `event` / `head_branch` | **`push`** / **`main`** |
+| `head_sha` | **`4e275ec97a7701521e6a4e7632e9324bafe8d286`** |
+| `run_attempt` | 1 |
+| `status` / `conclusion` | `completed` / **`success`** |
+| Started / updated | `2026-10-30T21:06:06Z` / `2026-10-30T21:07:18Z` |
+| Check `typecheck · build · test` | id `124312841182` — `completed` / **`success`** (`21:06:09Z`→`21:07:17Z`) |
+| Check `executed test count` | id `124313339256` — `completed` / **`success`** (`21:07:14Z`) |
+| CI-recorded count | title **`941 tests executed, 0 failed`**; summary *"**941 tests executed — 940 passed, 0 failed.** Guard: a run that executes zero tests fails (CV-35). Head: `4e275ec97a7701521e6a4e7632e9324bafe8d286`."* |
+
+Executed/passed/failed/skipped: **941 / 940 / 0 / 1**. The workflow parser records only
+tests/pass/fail; **skipped = 1 is derived arithmetically** (941 − 940 − 0) and independently
+confirmed by this pass's local run. No required check failed or remained pending.
+
+The raw job log could not be downloaded from this environment (`results-receiver.actions.githubusercontent.com`
+is outside the permitted egress set), so the counts above rest on the **CI-recorded check summary**,
+which is the authoritative remote artefact, plus an independent local re-execution (§16.227.6).
+
+### 16.227.5 Remote blob read-back at the merged `main` (`V1775`–`V1777`)
+
+Read from `main` @ `4e275ec9…` via the contents/blobs API — not from a local checkout:
+
+| Path | Blob at new `main` | Status |
+|---|---|---|
+| `src/ipc/brokerImportConsumer.ts` | **`308c83ee69168b76b217b4edecf835b24ad3ec0d`** | added (67 lines) |
+| `src/ipc/entrypoint.ts` | `ae3edd12…` → **`16d4112ead5f5542080711c1ea168955c622f435`** | modified (`+19/−1`) |
+| `tests/q1_broker_import_consumer_wiring.test.ts` | **`dd94f32f95052cbb5918a8df169a1fe45405f214`** | added (355 lines) |
+
+The consumer blob `308c83ee…` and the test blob `dd94f32f…` are **identical to the blobs §16.220.2
+drafted and §16.221 recorded as authoritative**. All three also hash-match the local working tree
+(`git hash-object`), so remote and local content are the same objects.
+
+**Whole-tree difference, old `main` → new `main`** (recursive tree comparison, 690 → 692 entries):
+`src` `5e910c8f…`→`6dc098d2…`; `src/ipc` `b2abf81a…`→`0ae17e16…`; `tests` `3cb270d5…`→`838f3a37…`;
+plus the three file entries above. **Nothing else differs.** Explicitly byte-identical:
+`src/ipc/dispatch.ts` `27becc76…`, `src/ipc/protocol.ts` `f4dc72b1…`,
+`src/persistence/migration_ledger.ts` `88198b44…`, `package.json` `51796e63…`,
+`package-lock.json` `98ae3c63…`. **No pin, manifest or lockfile moved.**
+
+**Consumer semantics read back from `main`:** exports exactly `BrokerImportConsumer` (type),
+`createBrokerImportConsumer`, `submitBrokerImport`; `new DurablePortfolioStorePort(` × 1;
+`new DurablePortfolioStore(` × **0** (the W-1 boundary is not stepped around);
+`persistBrokerImport(` × 1; I/O primitives (`openDatabase`, `.exec(`, `fs.`, `readFile`,
+`writeFile`, `BEGIN`, `COMMIT`) × **0**. In `entrypoint.ts`, `createBrokerImportConsumer(` appears
+exactly **once** (L124) — the single authorized call site.
+
+**Guard read back from `main`:** `src/persistence/portfolio_store.ts` blob **`540d49f2deb2c8d600b5b866675d145cf76a1e46`**
+(unchanged), L215 **`authorized: false,`**, L216 `reasons: ['W-1(3): Gate 4 qualification not accepted', 'W-1(4): Gate 5 admission not accepted']`.
+
+### 16.227.6 Independent re-execution at the merge commit (`V1778`)
+
+Run this pass at `4e275ec9…`, not quoted from any PR or prior section:
+
+| Step | Result |
+|---|---|
+| `npm ci --no-audit --no-fund` | exit 0 |
+| `npx tsc --noEmit` | exit 0 |
+| `npm run build` (tsc + vite + both package emits) | exit 0 |
+| `npm test` (guarded) | **941 tests · 940 pass · 0 fail · 1 skipped**, `[test-guard] OK — 941 test(s) executed, 940 passed, exit 0` |
+| `npm run test:package-consumer` | exit 0 — `typecheck` PASS, `result` PASS, `verbatimCopies: true` |
+| targeted `q1_broker_import_consumer_wiring` | **9/9** |
+| `evaluatePortSaveGuard()` at runtime | `authorized: false`, reasons `W-1(3)`, `W-1(4)` |
+
+This matches the post-merge CI counts exactly (941/940/0/1).
+
+### 16.227.7 `O5-A` clause-5 state-2 limb — **SATISFIED at code level** (`V1779`)
+
+| Clause-5 condition | Before §16.227 | Now |
+|---|---|---|
+| PR #113 merged | not met | **MET** — merge commit `4e275ec9…`, `2026-10-30T21:06:04Z` |
+| Green **post-merge** CI on the resulting `main` commit | not met | **MET** — run `41128431372` (`push`/`main`/`4e275ec9…`) `success`; 941/940/0 |
+| Independent remote blob read-back of that commit | partially met (PR head only) | **MET** — `308c83ee…` / `16d4112e…` / `dd94f32f…` read from `main` tree `f12fd52d…` |
+
+**The limb is satisfied at code level only.** A runtime consumer is now wired to the persistence
+port in shipped code on `main`. It is **refusing-only**: every import returns
+`WRITE_NOT_AUTHORIZED` with `storeEffect: 'NONE'` and zero row effect. **No successful durable
+write occurred** — none is possible while the gate is hard-false, and this pass performed no write,
+no provisioning and no host execution.
+
+### 16.227.8 `O-05` status — **`OPEN`** (`V1780`)
+
+| Item | State after this section |
+|---|---|
+| **`O-05`** | **`OPEN`** — unchanged |
+| **State-2 limb** ("a runtime consumer is wired to the persistence port") | **SATISFIED at code level** (refusing-only qualifier), per §16.227.7 |
+| **Admission limb** (`GOV-03`/`BI-08` admission act; S6 chain) | **NOT satisfied — untouched by `O5-A`** |
+| `QE-1`…`QE-11` | **`0/11`** — untouched; not implied by a green suite |
+| Gate 4 result acceptance | **not rendered** |
+| Gate 5 / `CV-52` / `G24` | **not initiated, not admitted** |
+| Durable-write qualification | **not complete**; guard hard-false, every write refuses |
+| H-12 · S2/Limb A · DQ-4 · `PA-09` | unchanged, untouched |
+| `P-1` | **UNSPENT** — not executed, not consumed, not authorized by this pass |
+| Production | **not authorized, out of scope** |
+
+**Supersession of the §16.150.5 `O-05` row wording (recorded, not edited in place).** The
+§16.150.5 row (line 13126) reads *"IPD durable broker-import leg has no production consumer;
+admission withheld"*. Its first clause is **superseded by this section**: a bounded refusing-only
+production consumer now exists on `main` @ `4e275ec9…`. Its second clause — **admission withheld** —
+**remains accurate and is the reason `O-05` stays `OPEN`**. Following the tracker's established
+convention for stale §16.150.5 rows (the `O-06` disambiguation was recorded as the §16.211.6
+overlay rather than a row edit; §16.150 itself is described as "the dated overlay that makes them
+auditable now"), **the row is preserved byte-for-byte** and this section is its dated overlay.
+
+### 16.227.9 Non-effect, prohibitions and identifier census (`V1781`)
+
+**IPD writes:** exactly one — the authorized merge of PR #113. No force-push, no history rewrite,
+no implementation change, no authorization-guard change, no production-eligibility change, no
+provisioning, no successful durable write, no unrelated file touched. Both source branches
+preserved. **IRR writes: none** — both write paths returned `403` (§0 above). No pin, manifest,
+lockfile, migration, schema, protocol, dispatch or test change in either repository beyond the
+three merged paths. `§18.1` unchanged at **51 rows × 17 cells** (verified this pass: 51 numbered
+data rows, rows 1–51, 17 columns). IRR PR #382 open and untouched.
+
+**Identifier census (prepared artifact, historical).**
+
+**Identifier census.** `§16.222`, `CV-CORR-202`, `CHG-2026-10-30-17`, `V1712`–`V1721`: `0` prior
+consumed occurrences on IRR `main` (`78abb254…`) — each appeared only as reservation text at line
+418 and line 18068. `CHG-2026-10-31-01` remains the unused rollover candidate declared in
+§16.220.8. No duplicate identifier is introduced.
+
+**Identifier census (reconciled).** The prepared artifact's historical census at IRR `main`
+`78abb254…` recorded `§16.222`, `CV-CORR-202`, `CHG-2026-10-30-17`, `V1712`–`V1721` as reservation
+text only. That census is preserved as historical evidence; latest IRR `main` `235b793d…` now assigns
+those identifiers to Q-EV (§16.222/CV-CORR-202/CHG-2026-10-30-17/V1712–V1723). This registration
+consumes `§16.227`, `CV-CORR-207`, `CHG-2026-10-31-06`, `V1773`–`V1782`; none had a consumed heading,
+change-log row or verification row on latest main or PR #395 before this edit. PR #395's next-free
+pointer is a reservation, not a consumed row. `CHG-2026-10-31-01` remains the unused rollover
+candidate declared in §16.220.8. No duplicate identifier is introduced.
+
+**Historical 16-failure report.** §16.221.6's treatment is **preserved unchanged**: the report
+remains attributed historical evidence, was **not reproduced** (0 failures measured at
+`184fb235…` and again at `4e275ec9…`), was **not deleted**, and its missing test identities are
+**not reconstructed**. The merge does not retroactively explain it.
+
+Next free after this section: **`§16.228` / `CV-CORR-208` / `CHG-2026-10-31-07` / `V1783`**.
+
+### 16.227.10 Validation (`V1773`–`V1782`)
+
+| ID | Assertion | Result |
+|---|---|---|
+| `V1773` | PR #113 `closed`/`merged: true` at `2026-10-30T21:06:04Z` by `ramkivs`; head `184fb235…` unchanged; 3 files `+441/−1`; base `main`; merge commit method with two parents | PASS |
+| `V1774` | Post-merge CI is a **distinct** run: `41128431372`, `event: push`, `head_branch: main`, `head_sha: 4e275ec9…`, `conclusion: success`; checks `124312841182` and `124313339256` both `success`; CI-recorded **941 executed / 940 passed / 0 failed**; skipped 1 derived and locally confirmed | PASS |
+| `V1775` | New `main` = `4e275ec9…`; tree `f12fd52d…` **equals the PR head tree**; parents `aa356ec2…` + `184fb235…`; read back remotely | PASS |
+| `V1776` | Remote blob read-back: `308c83ee…`, `16d4112e…`, `dd94f32f…`; consumer and test blobs identical to the §16.220.2/§16.221 records; local `git hash-object` matches all three | PASS |
+| `V1777` | Whole-tree diff old→new `main` contains **only** the three expected paths (690→692 entries); `dispatch.ts` `27becc76…`, `protocol.ts` `f4dc72b1…`, `migration_ledger.ts` `88198b44…`, `package.json` `51796e63…`, `package-lock.json` `98ae3c63…` byte-identical | PASS |
+| `V1778` | Independent re-execution at `4e275ec9…`: install 0, typecheck 0, build 0, guarded **941/940/0/1**, targeted **9/9**, package-consumer PASS | PASS |
+| `V1779` | Clause-5 state-2 limb: all three conditions met; recorded **satisfied at code level** with the refusing-only qualifier; **no successful durable write occurred** | PASS |
+| `V1780` | `O-05` **`OPEN`**; admission limb untouched; `QE` `0/11`; Gate 4 acceptance not rendered; Gate 5/`CV-52` not initiated; durable-write qualification incomplete; H-12/S2-Limb A/DQ-4/`PA-09` untouched; `P-1` unspent; production not authorized | PASS |
+| `V1781` | Guard unchanged: `portfolio_store.ts` blob `540d49f2…`, L215 `authorized: false`, L216 `W-1(3)`/`W-1(4)`; runtime `evaluatePortSaveGuard().authorized === false`; consumer has zero bare-store constructions and zero I/O primitives; exactly one entrypoint call site | PASS |
+| `V1782` | Documentation integrity: one new level-2 `§16.227` heading, ten sub-sections, no duplicate heading; `§18.1` unchanged at 51 rows × 17 cells; the `§16.150.5` `O-05` row byte-unchanged (supersession recorded as overlay per the `O-06`/§16.211.6 convention); no conflict markers; LF only; IRR write blocked `403` on both paths with no stray ref (historical preparation-pass assertion; current publication is reconciled in the registration note) | PASS |
+
+*End of §16.227 (`CV-CORR-207`; `CHG-2026-10-31-06`; `V1773`–`V1782`).*
