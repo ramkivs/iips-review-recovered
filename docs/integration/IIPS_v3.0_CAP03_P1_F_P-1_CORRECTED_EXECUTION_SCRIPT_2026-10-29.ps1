@@ -587,7 +587,7 @@ function Write-Summary {
             'V-A2-8 literal: second-invocation refusal NOT PERFORMED. P1-F condition 2 forbids a second execute. Source-refusal evidence and static single-call guards support the one-attempt path only; v2A8ProxyPass is not a literal refusal test and V-A2-8 is not reported PASS.',
             'V-A2-7 runtime: the IPC WRITE_NOT_AUTHORIZED path (src/ipc/dispatch.ts 27becc76, line 231) is source-only and NOT PERFORMED here.',
             'Store-directory writability uses read-only ACL_EVALUATION only; effective/actual writability is NOT VERIFIED and no parent/store write probe is performed.',
-            'U-5 remains NOT RUN. S04 consumes PA-06-admitted historical S2 records and, if present, compares existing dist bytes read-only to the admitted inventory; it runs no install/build and no exact entry-closure or emitted-migration probe. S04 requires the sealed dist-artifacts.zip in the IRR-held S2 record and hashes every archived entry against the admitted inventory; inventory equality alone is insufficient.',
+            'U-5 remains NOT RUN. S04 consumes PA-06-admitted historical S2 records and, if present, compares existing dist bytes read-only to the admitted inventory; it runs no install/build and no exact entry-closure or emitted-migration probe. S04 requires either the sealed dist-artifacts.zip in the admitted S2 record or a separately sealed original-dist recovery bundle; every archived entry is hashed against the original inventory and cross-checked to the admitted inventory. Inventory equality alone is insufficient.',
             'P-1 consumption: a pre-marker stop with no process-start request is NOT CONSUMED, but any claim is never automatically released and prevents reuse of the canonical root. A durable marker or process-start request consumes the one attempt even if OS process startup fails.',
             'Migration contract: the existing pinned-source review establishes fresh-store migrations 001-004 in order; each migration/ledger update commits independently before the single provisioning BEGIN IMMEDIATE transaction. A later migration failure may leave earlier migrations committed; a provisioning rollback covers provisioning writes only. The marker has already consumed P-1; no automatic repair/retry is permitted.',
             'Path canonicalization: SUBST aliases are detected by listing; reparse points are detected on the chain; drive-letter case is not folded to on-disk case; GetFinalPathNameByHandle is not called. These limits are not closed by this script.',
@@ -1005,8 +1005,8 @@ function Invoke-AdmittedS2EvidenceCheck {
     $distPathsOk = (($expectedDistMap.Count -eq 1140) -and ($distInventoryMalformed.Count -eq 0))
     Require-Check -Id 'S04-S2-DIST-INVENTORY-PATHS' -Pass $distPathsOk -Detail ('parsed inventory paths=' + $expectedDistMap.Count + '; malformed/duplicate=' + ($distInventoryMalformed -join '|'))
 
-    # Independent IRR readback: the archive is a sealed, manifest-listed file in this IRR-held S2 folder.
-    # Inventory equality alone never proves that emitted bytes are retained or retrievable.
+    # Independent IRR readback: accept either the original S2 folder's sealed archive or the strictly validated supplemental recovery bundle.
+    # Inventory equality alone never proves that emitted bytes are retained or retrievable; historical run files remain unchanged.
     $distArchivePath = Join-Path $root 'dist-artifacts.zip'
     $archiveMember = @($manifestPaths | Where-Object { $_ -ceq 'dist-artifacts.zip' }).Count -eq 1
     $archiveSealMember = $sealMap.ContainsKey('dist-artifacts.zip')
@@ -1015,9 +1015,17 @@ function Invoke-AdmittedS2EvidenceCheck {
     if ($archiveMember -and $archiveSealMember -and $archivePresent) {
         $archiveResult = Test-S2DistArchive -ArchivePath $distArchivePath -ExpectedMap $expectedDistMap -ExpectedCount 1140
     }
-    $archiveOk = ($archiveMember -and $archiveSealMember -and $archivePresent -and ($null -ne $archiveResult) -and [bool]$archiveResult.Passed)
-    $archiveDetail = 'IRR-retained archive member=' + [string]$archiveMember + '; sealed=' + [string]$archiveSealMember + '; present=' + [string]$archivePresent
-    if ($null -ne $archiveResult) { $archiveDetail += '; expected=' + $archiveResult.ExpectedCount + '; archive=' + $archiveResult.ArchiveCount + '; byte-hash-verified=' + $archiveResult.VerifiedCount + '; failures=' + (@($archiveResult.Failures) -join '|') }
+    $primaryArchiveOk = ($archiveMember -and $archiveSealMember -and $archivePresent -and ($null -ne $archiveResult) -and [bool]$archiveResult.Passed)
+    # Original S2 evidence remains unchanged. A separately sealed recovery bundle may supply the original bytes.
+    $recoveryEvidenceRoot = Join-Path $script:RepoFull 'evidence\cap03-s2\s2-original-dist-recovery-2026-10-31'
+    $recoveryArchiveResult = Test-S2OriginalDistRecoveryBundle -RecoveryRoot $recoveryEvidenceRoot `
+        -ExpectedMap $expectedDistMap -ExpectedCount 1140 `
+        -ExpectedSourceDist 'C:\iips-work\iips-production-market-data\dist' `
+        -ExpectedSourceRunId $S2RunId
+    $archiveOk = ($primaryArchiveOk -or [bool]$recoveryArchiveResult.Passed)
+    $archiveDetail = 'original-run archive member=' + [string]$archiveMember + '; sealed=' + [string]$archiveSealMember + '; present=' + [string]$archivePresent
+    if ($null -ne $archiveResult) { $archiveDetail += '; primary expected=' + $archiveResult.ExpectedCount + '; archive=' + $archiveResult.ArchiveCount + '; byte-hash-verified=' + $archiveResult.VerifiedCount + '; failures=' + (@($archiveResult.Failures) -join '|') }
+    $archiveDetail += '; supplemental recovery bundle=' + [string]$recoveryArchiveResult.Passed + '; inventory sha256=' + [string]$recoveryArchiveResult.OriginalInventorySha256 + '; verified=' + $recoveryArchiveResult.VerifiedCount + '; failures=' + (@($recoveryArchiveResult.Failures) -join '|')
     Require-Check -Id 'S04-S2-DIST-ARTIFACT-RETENTION' -Pass $archiveOk -Detail $archiveDetail
 
     # Read-only local distribution match. This never creates or rebuilds dist; it refuses if the pinned checkout does

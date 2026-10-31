@@ -13,6 +13,7 @@ $RepoRoot = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..\..\..'))
 $P1Path = Join-Path $RepoRoot 'docs\integration\IIPS_v3.0_CAP03_P1_F_P-1_CORRECTED_EXECUTION_SCRIPT_2026-10-29.ps1'
 $S2Path = Join-Path $RepoRoot 'docs\integration\IIPS_v3.0_CAP03_S2_PIN_A891802E_WINDOWS_RUN_2026-10-28.ps1'
 $TransferPath = Join-Path $RepoRoot 'docs\integration\IIPS_v3.0_CAP03_S2_DEP_A_HOST_TRANSFER_2026-10-29.ps1'
+$RecoveryPath = Join-Path $RepoRoot 'docs\integration\IIPS_v3.0_CAP03_S2_ORIGINAL_DIST_RECOVERY_2026-10-31.ps1'
 $ArtifactModulePath = Join-Path $PSScriptRoot 'CAP03S2DistArtifacts.psm1'
 $SummaryModulePath = Join-Path $PSScriptRoot 'CAP03P1FailureSummary.psm1'
 $TestPath = $PSCommandPath
@@ -36,7 +37,7 @@ function Assert-Throws {
     if (-not $thrown) { throw ('ASSERTION FAILED: expected exception: ' + $Message) }
 }
 
-$parseTargets = @($P1Path, $S2Path, $TransferPath, $ArtifactModulePath, $SummaryModulePath, $TestPath)
+$parseTargets = @($P1Path, $S2Path, $TransferPath, $RecoveryPath, $ArtifactModulePath, $SummaryModulePath, $TestPath)
 foreach ($target in $parseTargets) {
     $tokens = $null
     $errors = $null
@@ -47,6 +48,7 @@ foreach ($target in $parseTargets) {
 $p1 = [IO.File]::ReadAllText($P1Path)
 $s2 = [IO.File]::ReadAllText($S2Path)
 $transfer = [IO.File]::ReadAllText($TransferPath)
+$recoveryScript = [IO.File]::ReadAllText($RecoveryPath)
 $artifactModule = [IO.File]::ReadAllText($ArtifactModulePath)
 $summaryModule = [IO.File]::ReadAllText($SummaryModulePath)
 
@@ -82,6 +84,7 @@ Assert-True ($p1.Contains('$expectedDistMap = ConvertFrom-S2DistInventory -Lines
 Assert-True ($p1.IndexOf('Import-Module -Name (Join-Path $PSScriptRoot ''cap03-p1-f9\CAP03P1FailureSummary.psm1'')') -lt $p1.IndexOf('$script:Facts          = Initialize-P1Facts')) 'failure-summary functions must be imported before Facts initialization'
 Assert-True ($p1.IndexOf('Import-Module -Name (Join-Path $PSScriptRoot ''cap03-p1-f9\CAP03S2DistArtifacts.psm1'')') -lt $p1.IndexOf('$script:Facts          = Initialize-P1Facts')) 'artifact functions must be imported before S04 can run'
 Assert-True ($p1.Contains('Test-S2DistArchive -ArchivePath $distArchivePath -ExpectedMap $expectedDistMap -ExpectedCount 1140')) 'S04 must independently hash every retained archive member'
+Assert-True ($p1.Contains('Test-S2OriginalDistRecoveryBundle -RecoveryRoot $recoveryEvidenceRoot')) 'S04 must accept only the separately sealed original-dist recovery bundle as a fallback'
 Assert-True ($p1.Contains('Require-Check -Id ''S04-S2-DIST-ARTIFACT-RETENTION'' -Pass $archiveOk')) 'missing or inaccessible emitted bytes must fail the S04 retention gate'
 Assert-True ($p1.Contains('$archiveMember -and $archiveSealMember -and $archivePresent')) 'S04 must require manifest, seal, and retrievable archive bytes'
 Assert-True ($p1.Contains("S00-P1F-CONSUMPTION-RECONCILED")) 'Execute must fail closed while current P1-F consumption state is unresolved'
@@ -101,6 +104,20 @@ Assert-True ($transfer.Contains('Import-Module -Name (Join-Path $PSScriptRoot ''
 Assert-True ($transfer.Contains('[string]$_.path -ceq ''dist-artifacts.zip''')) 'transfer must fail closed when the sealed manifest omits the archive'
 Assert-True ($transfer.Contains('Test-S2TransferPathSet -ExpectedPaths $relPaths -ActualPaths $staged')) 'transfer must require exact manifest-derived staged-path set equality'
 Assert-True ($transfer.Contains('foreach ($a in $artifacts)')) 'transfer must copy every sealed manifest artifact, including the archive'
+Assert-True ($recoveryScript.Contains('$SourceDist = ''C:\iips-work\iips-production-market-data\dist''')) 'recovery wrapper must bind the user-reported original source path'
+Assert-True ($recoveryScript.Contains('$OriginalInventory = ''C:\iips-evidence\cap03-s2\s2-03-dist-sha256-before.txt''')) 'recovery wrapper must bind the original inventory authority'
+Assert-True ($recoveryScript.Contains('-ExpectedCount 1140')) 'recovery wrapper must require the original 1,140-entry count'
+Assert-True ($recoveryScript.Contains('-OriginalVerificationOutputPath $OriginalVerificationOutputPath')) 'recovery must preserve the supplied original verification output'
+Assert-True ($artifactModule.Contains('function Test-S2DistTree')) 'source and copied trees need exact inventory/hash validation'
+Assert-True ($artifactModule.Contains('function Test-S2OriginalDistRecoveryBundle')) 'S04 recovery-bundle verifier is implemented'
+Assert-True ($artifactModule.Contains('function Invoke-S2OriginalDistRecovery')) 'safe recovery operation is implemented in the shared helper'
+Assert-True ($artifactModule.Contains('RECOVERY_DESTINATION_EXISTS:')) 'recovery must refuse an existing destination'
+Assert-True ($artifactModule.Contains('RECOVERY_SOURCE_VALIDATION_FAILED:')) 'recovery must validate complete source inventory before copying'
+Assert-True ($artifactModule.Contains('RECOVERY_COPY_VALIDATION_FAILED:')) 'recovery must verify every copied file against original inventory'
+Assert-True ($artifactModule.Contains('RECOVERY_ARCHIVE_VALIDATION_FAILED:')) 'recovery must independently verify the completed archive'
+Assert-True ($artifactModule.Contains('RECOVERY_INVENTORY_COPY_HASH_MISMATCH')) 'original inventory copy must be byte-identical'
+Assert-True ($artifactModule.Contains('RECOVERY_VERIFICATION_OUTPUT_COPY_HASH_MISMATCH')) 'original verification output copy must be byte-identical'
+Assert-True ($artifactModule.Contains('RECOVERY_SEAL_READBACK_MISMATCH:')) 'recovery bundle seal must be independently read back'
 Assert-True ($artifactModule.Contains('ARCHIVE_ENTRY_MISSING:')) 'archive verifier must fail closed on incomplete bytes'
 Assert-True ($artifactModule.Contains('ARCHIVE_READ_FAILED:')) 'archive verifier must fail closed on inaccessible/corrupt bytes'
 Assert-True ($artifactModule.Contains('ARCHIVE_HASH_MISMATCH:')) 'archive verifier must hash-verify each file payload'
@@ -158,6 +175,55 @@ Assert-Equal 3 $created.FileCount 'archive creation file count'
 $verified = Test-S2DistArchive -ArchivePath $archivePath -ExpectedMap $inventory -ExpectedCount 3
 Assert-True ([bool]$verified.Passed) ('independent archive readback verifies each emitted fixture hash: ' + (@($verified.Failures) -join '; '))
 Assert-Equal 3 $verified.VerifiedCount 'all fixture payloads independently hashed'
+$sourceTreeCheck = Test-S2DistTree -DistRoot $distRoot -ExpectedMap $inventory -ExpectedCount 3
+Assert-True ([bool]$sourceTreeCheck.Passed) ('source tree exact inventory/hash check passes: ' + (@($sourceTreeCheck.Failures) -join '; '))
+Assert-Equal 3 $sourceTreeCheck.VerifiedCount 'all source tree fixture files match inventory'
+$inventoryPath = Join-Path $temp 'original-inventory.txt'
+$admittedFormatInventoryPath = Join-Path $temp 'admitted-format-inventory.txt'
+[IO.File]::WriteAllLines($admittedFormatInventoryPath, [string[]]$inventoryLines, (New-Object System.Text.UTF8Encoding($false)))
+$reorderedOriginalInventoryLines = [string[]]$inventoryLines.Clone()
+[Array]::Reverse($reorderedOriginalInventoryLines)
+[IO.File]::WriteAllLines($inventoryPath, $reorderedOriginalInventoryLines, (New-Object System.Text.UTF8Encoding($false)))
+Assert-True ((Get-FileHash -Algorithm SHA256 -LiteralPath $admittedFormatInventoryPath).Hash -cne (Get-FileHash -Algorithm SHA256 -LiteralPath $inventoryPath).Hash) 'original inventory raw bytes may differ from admitted inventory formatting while parsed map remains authoritative'
+$originalVerificationPath = Join-Path $temp 'prior-verification-output.txt'
+$originalVerificationText = "Read-only source verification fixture`r`n3 original files verified`r`n"
+[IO.File]::WriteAllText($originalVerificationPath, $originalVerificationText, (New-Object System.Text.UTF8Encoding($false)))
+$recoveryRoot = Join-Path $temp 'original-dist-recovery'
+$recoveryResult = Invoke-S2OriginalDistRecovery -SourceDist $distRoot -InventoryPath $inventoryPath `
+    -OriginalVerificationOutputPath $originalVerificationPath -RecoveryRoot $recoveryRoot -ExpectedCount 3
+Assert-True ([bool]$recoveryResult.Passed) 'original dist recovery fixture completes all validation gates'
+Assert-Equal 3 $recoveryResult.FileCount 'recovery copies and verifies every source fixture file'
+Assert-True (-not (Test-Path -LiteralPath ($recoveryRoot + '.inprogress'))) 'successful recovery removes only its in-progress claim'
+Assert-Equal ((Get-FileHash -Algorithm SHA256 -LiteralPath $inventoryPath).Hash) ((Get-FileHash -Algorithm SHA256 -LiteralPath (Join-Path $recoveryRoot 'original-inventory.txt')).Hash) 'original inventory is preserved byte-for-byte'
+Assert-Equal ((Get-FileHash -Algorithm SHA256 -LiteralPath $originalVerificationPath).Hash) ((Get-FileHash -Algorithm SHA256 -LiteralPath (Join-Path $recoveryRoot 'original-verification-output.txt')).Hash) 'original verification output is preserved byte-for-byte'
+$recoveryManifest = Get-Content -LiteralPath $recoveryResult.ManifestPath -Raw | ConvertFrom-Json
+Assert-Equal 'PASS' $recoveryManifest.status 'recovery manifest records PASS only after verification'
+Assert-Equal $recoveryResult.ArchiveSha256 $recoveryManifest.recovery_verification.archiveSha256 'recovery manifest records independently verified archive identity'
+$recoveryArchiveCheck = Test-S2DistArchive -ArchivePath (Join-Path $recoveryRoot 'dist-artifacts.zip') -ExpectedMap $inventory -ExpectedCount 3
+Assert-True ([bool]$recoveryArchiveCheck.Passed) 'recovery archive remains independently verifiable against the original inventory'
+$recoveryBundleCheck = Test-S2OriginalDistRecoveryBundle -RecoveryRoot $recoveryRoot -ExpectedMap $inventory -ExpectedCount 3 `
+    -ExpectedSourceDist ([IO.Path]::GetFullPath($distRoot)) -ExpectedSourceRunId 's2-a891802e-20261028T192516Z'
+Assert-True ([bool]$recoveryBundleCheck.Passed) ('recovery bundle manifest/seal/all files verify: ' + (@($recoveryBundleCheck.Failures) -join '; '))
+Assert-Equal 3 $recoveryBundleCheck.VerifiedCount 'recovery bundle confirms the complete dist entry count'
+$recoverySealText = [IO.File]::ReadAllText($recoveryResult.SealPath)
+Assert-True ($recoverySealText.Contains('dist-artifacts.zip')) 'recovery seal records the archive file digest'
+$archiveHashBeforeRefusal = (Get-FileHash -Algorithm SHA256 -LiteralPath (Join-Path $recoveryRoot 'dist-artifacts.zip')).Hash
+Assert-Throws { Invoke-S2OriginalDistRecovery -SourceDist $distRoot -InventoryPath $inventoryPath -OriginalVerificationOutputPath $originalVerificationPath -RecoveryRoot $recoveryRoot -ExpectedCount 3 } 'existing recovery destination refusal'
+Assert-Equal $archiveHashBeforeRefusal (Get-FileHash -Algorithm SHA256 -LiteralPath (Join-Path $recoveryRoot 'dist-artifacts.zip')).Hash 'refused rerun leaves existing recovery archive unchanged'
+$recoveredDispatch = Join-Path $recoveryRoot 'dist\src\ipc\dispatch.js'
+$recoveredDispatchBytes = [IO.File]::ReadAllBytes($recoveredDispatch)
+[IO.File]::WriteAllBytes($recoveredDispatch, [Text.Encoding]::UTF8.GetBytes('tampered after recovery'))
+$tamperedBundleCheck = Test-S2OriginalDistRecoveryBundle -RecoveryRoot $recoveryRoot -ExpectedMap $inventory -ExpectedCount 3 `
+    -ExpectedSourceDist ([IO.Path]::GetFullPath($distRoot)) -ExpectedSourceRunId 's2-a891802e-20261028T192516Z'
+Assert-True (-not [bool]$tamperedBundleCheck.Passed) 'tampered recovered file fails recovery-bundle manifest/seal verification'
+[IO.File]::WriteAllBytes($recoveredDispatch, $recoveredDispatchBytes)
+$badSourceRoot = Join-Path $temp 'bad-source'
+[void](New-Item -ItemType Directory -Path $badSourceRoot -Force)
+Get-ChildItem -LiteralPath $distRoot -Force | Copy-Item -Destination $badSourceRoot -Recurse -Force
+[IO.File]::WriteAllBytes((Join-Path $badSourceRoot 'src\ipc\dispatch.js'), [Text.Encoding]::UTF8.GetBytes('altered source bytes'))
+$badRecoveryRoot = Join-Path $temp 'bad-recovery'
+Assert-Throws { Invoke-S2OriginalDistRecovery -SourceDist $badSourceRoot -InventoryPath $inventoryPath -OriginalVerificationOutputPath $originalVerificationPath -RecoveryRoot $badRecoveryRoot -ExpectedCount 3 } 'source discrepancy blocks recovery before destination creation'
+Assert-True (-not (Test-Path -LiteralPath $badRecoveryRoot)) 'source discrepancy creates no recovery destination'
 $caseRoot = Join-Path $temp 'case-dist'
 [void](New-Item -ItemType Directory -Path $caseRoot -Force)
 Get-ChildItem -LiteralPath $distRoot -Force | Copy-Item -Destination $caseRoot -Recurse -Force

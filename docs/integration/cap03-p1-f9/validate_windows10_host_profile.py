@@ -18,6 +18,7 @@ RUNNER = ROOT / "cap03-p1-f9" / "CAP03_P1_F9_WindowsFixtureTests.ps1"
 CORRECTION_TESTS = ROOT / "cap03-p1-f9" / "CAP03_P1_ConsolidatedCorrection.Tests.ps1"
 ARTIFACT_MODULE = ROOT / "cap03-p1-f9" / "CAP03S2DistArtifacts.psm1"
 TRANSFER_SCRIPT = ROOT / "IIPS_v3.0_CAP03_S2_DEP_A_HOST_TRANSFER_2026-10-29.ps1"
+RECOVERY_SCRIPT = ROOT / "IIPS_v3.0_CAP03_S2_ORIGINAL_DIST_RECOVERY_2026-10-31.ps1"
 TRACKER = REPO / "IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md"
 AUTHORITY = ROOT / "IIPS_v3.0_CAP03_P1_AUTHORIZATION_ACT_AND_PREREQUISITE_DECISIONS_2026-10-29.md"
 PF15_ACT = ROOT / "IIPS_v3.0_CAP03_PF15_ENDPOINT_LOCAL_STATE_DESIGNATION_PA_ACT_CORRECTED_2026-10-26.md"
@@ -33,7 +34,7 @@ POST_CI_RECORD_ID = "IIPS-V3-CAP03-P1-REV7-POST-CI-BOUNDARY-RECONCILIATION-2026-
 EVIDENCE_ROOT = REPO / "evidence" / "cap03-s2"
 RUN_ID = "s2-a891802e-20261028T192516Z"
 RUN_DIR = EVIDENCE_ROOT / RUN_ID
-EXPECTED_SHA256 = "bc0e3d1da774258ec941b566a1936eeac94d98d83b39659fc33ce2b0a4e0b253"
+EXPECTED_SHA256 = "6639633855300cd645248ce597bb2c867b5cdbf6045947bf4281721bb1cde6d1"
 PREFLIGHT_AUTHORITY_ID = "IIPS-V3-CAP03-P1-REV7-PREFLIGHT-PA-AUTHORIZATION-ACT-2026-10-31-01"
 EXPECTED_SEAL_SHA256 = "9D3C09DBDB691C2527A45605DEA20826B4EC2BA2F110985EE3F1033783B5225E"
 EXPECTED_DEPOSIT_SHA256 = "FFD0956482427ACB404543E36DAC2705D802B04828E380290232C06129F3AFAD"
@@ -65,6 +66,7 @@ runner = RUNNER.read_text(encoding="utf-8")
 correction_tests = CORRECTION_TESTS.read_text(encoding="utf-8")
 artifact_module = ARTIFACT_MODULE.read_text(encoding="utf-8")
 transfer_script = TRANSFER_SCRIPT.read_text(encoding="utf-8")
+recovery_script = RECOVERY_SCRIPT.read_text(encoding="utf-8")
 authority = AUTHORITY.read_text(encoding="utf-8")
 report = (ROOT / "IIPS_v3.0_CAP03_P1_F_P-1_SOURCE_TO_SCRIPT_VERIFICATION_2026-10-29.md").read_text(encoding="utf-8")
 readme = (ROOT / "cap03-p1-f9" / "README.md").read_text(encoding="utf-8")
@@ -681,6 +683,20 @@ require("case-different archived path fails exact emitted-entry verification" in
         "early fallback JSON round-trip retains original failure" in correction_tests and
         "intermediate fallback JSON round-trip retains execute count" in correction_tests,
         "consolidated PowerShell fixtures omit exact archive-case or failure-summary JSON regressions")
+require("$SourceDist = 'C:\\iips-work\\iips-production-market-data\\dist'" in recovery_script and
+        "$OriginalInventory = 'C:\\iips-evidence\\cap03-s2\\s2-03-dist-sha256-before.txt'" in recovery_script and
+        "-ExpectedCount 1140" in recovery_script and
+        "Invoke-S2OriginalDistRecovery" in recovery_script and
+        "Test-S2DistTree" in artifact_module and "RECOVERY_DESTINATION_EXISTS:" in artifact_module and
+        "Test-S2OriginalDistRecoveryBundle" in source and
+        "ConvertFrom-S2DistInventory -Lines ([System.IO.File]::ReadAllLines($inventoryCopy))" in artifact_module and
+        "RECOVERY_BUNDLE_INVENTORY_HASH_MAP_MISMATCH" in artifact_module,
+        "recovery path is not bound to the reported original source/inventory or fails to enforce safe tree recovery")
+require("OriginalVerificationOutputPath" in recovery_script and
+        "RECOVERY_VERIFICATION_OUTPUT_COPY_HASH_MISMATCH" in artifact_module and
+        "dist-artifacts.zip" in artifact_module and "SHA256SUMS.txt" in artifact_module and
+        "RECOVERY_SEAL_READBACK_MISMATCH:" in artifact_module,
+        "recovery path does not preserve verification output, verify the archive, and seal/read back the bundle")
 
 # The historical F9 fixture runner remains pinned to Revision 5 and is not retargeted or rerun.
 old_f9_hash = "7aa52aa407c548940446817b0cb99b9a31c427660af39baf636bd3e59e45e916"
@@ -760,6 +776,6 @@ print("PASS: exact PA-authorized Windows 10 profile and preserved P-1 safety/pat
 print("PASS: S04 source validates PA-06 L2a evidence and defines a read-only current-dist match; no build/install/probe invocation")
 print("PASS: admitted S2 authority, pin, completeness, hashes, build/test/package records and publication transcript verified")
 print("LIMIT: this is IRR-only static validation; no PowerShell parse, IPD inspection, current-dist check, S2 rerun or U-5 PASS")
-print("HISTORICAL EMITTED-BYTE RETENTION: PENDING — original dist bytes/archive are absent; fixture verification is not historical verification")
+print("DURABLE IRR RETENTION: PENDING — original source/inventory match is user-reported; no recovery archive is included or remotely read back; fixture verification is not historical verification")
 print("U-5 remains NOT RUN; exact emitted-entry closure and emitted-migration probes remain NOT RUN")
 print("REVISION_7_SCRIPT_SHA256=" + script_sha)
