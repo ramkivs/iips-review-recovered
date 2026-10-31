@@ -19059,7 +19059,7 @@ The API-reported ZIP digest matches the expected value supplied in this task. Th
 
 ## §16.233 — `CV-CORR-213`: CAP-03 release-aligned S04 recovery candidate and P1-F consumption boundary (`2026-10-31`; `CHG-2026-10-31-12`; `V1835`–`V1844`)
 
-**Scope.** IRR-only correction candidate on `arena/fb9af122-iips-review-recovered`, based on authoritative `main@7fd824de30d8268ed3eca210bc664dc60749fa8c` (PR #398 merge). PR #398 is MERGED and will not be reopened. The PA has now requested a new follow-up publication route; changes will be submitted from this session branch through a new PR, with no direct push to `main`. No IPD or production files/operations are in scope. Working-tree candidate identities at submission: P1-F candidate `docs/integration/IIPS_v3.0_CAP03_P1_F_P-1_CORRECTED_EXECUTION_SCRIPT_2026-10-31.ps1`, SHA-256 `f2f7adc4b2c9eb12eba9f1088d881c1ad64402d0feb4329e78cb189091f63746`; recovery wrapper SHA-256 `caea9e0373233cd36294313ed92f53985fd19a4076f520867852005a035f378f`; artifact module SHA-256 `a2b7bda396f9fa55f98cd8424d109440940cb0ffb50c69b19c3acbd434c0ddea`. These are not yet published identities; exact post-merge refs are pending.
+**Scope.** IRR-only correction on session branch `arena/fb9af122-iips-review-recovered`, based on authoritative `main@7fd824de30d8268ed3eca210bc664dc60749fa8c` (PR #398 merge). PR #398 is MERGED and was not reopened. The user authorized a new follow-up PR; PR #400 from this session branch was merged without any direct push to `main`. No IPD or production files/operations are in scope. Published P1-F candidate `docs/integration/IIPS_v3.0_CAP03_P1_F_P-1_CORRECTED_EXECUTION_SCRIPT_2026-10-31.ps1`, SHA-256 `f2f7adc4b2c9eb12eba9f1088d881c1ad64402d0feb4329e78cb189091f63746`; recovery wrapper SHA-256 `caea9e0373233cd36294313ed92f53985fd19a4076f520867852005a035f378f`; artifact module SHA-256 `a2b7bda396f9fa55f98cd8424d109440940cb0ffb50c69b19c3acbd434c0ddea`. Exact merge commit/tree/blob identities and CI are recorded below.
 
 **S04 correction.** The candidate preserves the original archive SHA-256 `57656309d721a0c6f6a072f14f6a9067a2cc788737efa92f34aa0997fb5d2d48` and original inventory raw SHA-256 `e077a349d3777403d426a0b0f338c53ac6f0e3942f75a9174a6a9b6e42854cbb`. Recovery tree/archive verification uses the original inventory as the byte authority. The historical admitted S2 map must have the same path set; its five differing hashes remain diagnostic-only and cannot replace the original recovery map. The existing-checkout `dist/` comparison remains exact against the PA-06 admitted S2 map. S2-DEP-A remains byte-pinned to the historical S2 run and unchanged. The recovery candidate retains the four release assets, but separately requires the distinct original verification-output file; the Windows transcript is not substituted or relabeled.
 
@@ -19073,7 +19073,7 @@ The API-reported ZIP digest matches the expected value supplied in this task. Th
 
 | ID | Verification | Result |
 |---|---|---|
-| `V1835` | Main baseline and PR #398 status | PASS — current main is `7fd824de30d8268ed3eca210bc664dc60749fa8c`; PR #398 is merged and not an available update route. |
+| `V1835` | Main baseline and PR #398 status | PASS — pre-follow-up main baseline was `7fd824de30d8268ed3eca210bc664dc60749fa8c`; PR #398 is merged and not an available update route. PR #400 publication is recorded below. |
 | `V1836` | Revision 7 preservation | PASS — `IIPS_v3.0_CAP03_P1_F_P-1_CORRECTED_EXECUTION_SCRIPT_2026-10-29.ps1` is unchanged; correction is in the separate 2026-10-31 candidate. |
 | `V1837` | Inventory/archive authority | PASS by source inspection — candidate pins the original inventory and archive; old-map path-set equality is retained and five hash differences are informational; current-checkout `dist/` admitted-map exact match remains. |
 | `V1838` | Release provenance and original output | PARTIAL — all four release assets are independently hashed by hosted audit `41220038505`; wrapper retains transcript as separate provenance and requires the missing distinct original verification-output file. |
@@ -19081,9 +19081,43 @@ The API-reported ZIP digest matches the expected value supplied in this task. Th
 | `V1840` | S2-DEP-A | PASS by diff — historical pin and procedure unchanged. |
 | `V1841` | Python S2 contract tests | PASS — 48/48. |
 | `V1842` | IRR static validator/compile | PASS — static validator and `py_compile`; static-only, not PowerShell validation. |
-| `V1843` | Windows PowerShell 5.1 validation | PENDING — fresh PR workflow required for these changed PowerShell files; no local Windows parser claim. |
+| `V1843` | Windows PowerShell 5.1 validation | PASS — PR-head run `41224630741` and post-merge main run `41224679175` parsed the changed P1 candidate, recovery wrapper, module and tests and passed controlled fixtures. |
 | `V1844` | P1-F consumption/authority | BLOCKED — NOT RECONCILED remains; exact evidence/decision prerequisite above is open. |
 
-**Publication and exact-head verification.** Follow-up PR number, head commit/tree/blob identities and CI results are pending creation and remote readback. Merge only after exact-head Windows PowerShell 5.1 parser/fixture tests, static validation, hosted release audit, and review pass. The user has requested publication to `main`; this authorization does not authorize P1-F execution, recovery on Windows, or changes to IPD/S2-DEP-A.
+**Publication and independent remote readback.** Follow-up PR [#400](https://github.com/ramkivs/iips-review-recovered/pull/400), head `20762ca4161eac0f944e1fe27584667a120ed67b`, was merged by an authorized PR merge at `2026-10-31T17:28:15Z`. Merge commit is **`96f09ba365a99b99ef971887a6124a9de7f00763`**, tree **`bce8b96d39c0d621e0708c14d55e95e68ba892d7`**, parents `7fd824de30d8268ed3eca210bc664dc60749fa8c` and `20762ca4161eac0f944e1fe27584667a120ed67b`. Remote `refs/heads/main` independently resolves to that merge commit; GitHub's recursive tree is not truncated. All 10 changed paths' GitHub tree blob IDs/sizes match the merged commit's local Git objects. For the P1-F candidate, recovery wrapper, and artifact module, GitHub Git-Blobs-API payload bytes were separately fetched and matched the local merged bytes and SHA-256 values stated above.
 
-**Next free after this section:** `§16.234` / `CV-CORR-214` / `CHG-2026-10-31-13` / `V1845`.
+**Exact changed-path blob readback (GitHub tree API at merge commit):**
+
+| Path | Remote blob | Bytes |
+|---|---|---:|
+| `.github/workflows/cap03-p1-consolidated-windows.yml` | `af62fd0cbece205771a0c109d44ed824245a439f` | 2,398 |
+| `.github/workflows/cap03-revision7-irr-static.yml` | `a9ab318d910304531facfffd3dff33a86792780a` | 3,982 |
+| `IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md` | `1f999cc36e8f8c21093957bb265977c2d57a041d` | 3,630,174 |
+| `docs/integration/CAP03_P1_F_CONSOLIDATED_CORRECTION_2026-10-31.md` | `994fac521a316cf5bfba88ef252f7c919a7ffc96` | 13,003 |
+| `docs/integration/IIPS_v3.0_CAP03_P1_F_P-1_CORRECTED_EXECUTION_SCRIPT_2026-10-31.ps1` | `5af4b60ae09cad88d4a75e765e994fdd388ecd8e` | 133,931 |
+| `docs/integration/IIPS_v3.0_CAP03_S2_ORIGINAL_DIST_RECOVERY_2026-10-31.ps1` | `d1d3289616630208466fedc7497d42511cfefd04` | 6,259 |
+| `docs/integration/cap03-p1-f9/CAP03S2DistArtifacts.psm1` | `95a2d64d864ee2d55df65ae31881895567ef862f` | 54,676 |
+| `docs/integration/cap03-p1-f9/CAP03_P1_ConsolidatedCorrection.Tests.ps1` | `5fa25dfb4ec7e9f901bfdafb0b68aaf9dbc1fe0c` | 31,397 |
+| `docs/integration/cap03-p1-f9/README.md` | `d3a6bb18c81c5900fe8d8025341056f0bb187636` | 66,486 |
+| `docs/integration/cap03-p1-f9/validate_windows10_host_profile.py` | `cf474711e6d5ef95189fa4a3729bcddb39c2417f` | 57,156 |
+
+**Exact-head CI:** PR-head Windows PowerShell 5.1 controlled fixtures [41224630741](https://github.com/ramkivs/iips-review-recovered/actions/runs/41224630741) and Python/static/release-asset audit [41224630891](https://github.com/ramkivs/iips-review-recovered/actions/runs/41224630891) passed on `20762ca4161eac0f944e1fe27584667a120ed67b`. Post-merge main-push Windows fixtures [41224679175](https://github.com/ramkivs/iips-review-recovered/actions/runs/41224679175) and Python/static/release-asset audit [41224679193](https://github.com/ramkivs/iips-review-recovered/actions/runs/41224679193) passed on exact merge commit `96f09ba365a99b99ef971887a6124a9de7f00763`. The Windows jobs ran parser and isolated controlled fixtures only; the static job compiled the validator, checked IRR/tracker state, and independently downloaded/verified the four release assets and 1,140 ZIP payloads. None executed P1-F, Preflight, provisioning, or S2.
+
+**Authority remains separate.** Publishing the code does not reconcile P1-F consumption or authorize a host run. The current NOT RECONCILED guard and the missing consumption-evidence/PA determination specified above remain binding. The published recovery wrapper has not been run against the Windows source, and the exact original verification-output file remains a separate prerequisite; S04 bundle creation/readback and P1-F readiness remain **PENDING/BLOCKED**. The user's publication instruction was not treated as authorization to execute P1-F, perform Windows recovery, or change IPD/S2-DEP-A.
+
+### 16.233.2 Post-merge verification ledger (`V1845`–`V1850`)
+
+| ID | Verification | Result |
+|---|---|---|
+| `V1845` | PR #400 merge and main ref | PASS — merge commit `96f09ba365a99b99ef971887a6124a9de7f00763`; remote main equals it. |
+| `V1846` | PR-head Windows PowerShell 5.1 parser/fixtures | PASS — run `41224630741` on exact PR head `20762ca4161eac0f944e1fe27584667a120ed67b`. |
+| `V1847` | Main-push Windows parser/fixtures and IRR static/release audit | PASS — runs `41224679175` and `41224679193` on exact merge commit. |
+| `V1848` | Remote tree and changed blobs | PASS — GitHub tree `bce8b96d39c0d621e0708c14d55e95e68ba892d7`, `truncated=false`; all 10 changed-path blob IDs/sizes match local merge objects. |
+| `V1849` | Remote source SHA-256 readback | PASS — GitHub Git-Blobs-API bytes for the P1-F candidate, recovery wrapper and artifact module match merged local content; SHA-256 values are `f2f7adc4…f63746`, `caea9e03…f378f`, and `a2b7bda3…c0ddea`. |
+| `V1850` | S04 bundle and P1-F authority boundary | BLOCKED — code publication and tests pass; actual Windows bundle/output evidence and consumption-state reconciliation remain outstanding. |
+
+### 16.233.3 Published-source status-label correction (follow-up pending)
+
+PR #400's published P1-F candidate blob `5af4b60ae09cad88d4a75e765e994fdd388ecd8e` carried a pre-merge status sentence calling the file unpublished. A comment-only status restatement now distinguishes publication from authorization: it states the candidate is published, not an authorization instrument, and remains non-runnable while consumption is NOT RECONCILED and S04 Windows bundle/readback prerequisites are unmet. Working-tree restatement identity is 1,797 LF lines / 134,037 bytes / SHA-256 `4c744639fc8504b797b26765de3226c22bf10f578ce254fd366ddb5247362521`; it is not yet a remote blob and is pending a separate session-branch PR with fresh Windows parser/fixture CI. This text change neither alters Revision 7 nor weakens the S00 guard.
+
+**Next free after this section:** `§16.234` / `CV-CORR-214` / `CHG-2026-10-31-13` / `V1851`.

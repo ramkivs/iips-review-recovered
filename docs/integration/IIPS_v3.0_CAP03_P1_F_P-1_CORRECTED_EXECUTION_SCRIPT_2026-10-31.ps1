@@ -9,7 +9,7 @@
   applies only to the personally operated, single-user Windows 10 target; it does not claim production Act section 8
   compliance or create authority to execute P-1. Companion source review: docs/integration/IIPS_v3.0_CAP03_P1_F_P-1_SOURCE_TO_SCRIPT_VERIFICATION_2026-10-29.md
 
-  STATUS OF THIS FILE: Unpublished S04-correction candidate derived from Revision 7. It is not an authorization instrument and must not execute until an authorized follow-up main update binds its exact path and SHA-256.
+  STATUS OF THIS FILE: Published S04-correction candidate derived from Revision 7. It is not an authorization instrument. Current P1-F consumption is NOT RECONCILED (tracker section 16.233); do not execute until the authoritative consumption determination and complete S04 Windows bundle/readback prerequisites are satisfied.
   S04 reads and verifies the PA-06-admitted S2 evidence already held in IRR. It does not install dependencies or build.
   During a later authorized run it compares an already-existing pinned-checkout dist read-only; this IRR review did not
   inspect IPD. U-5 remains NOT RUN; this evidence is not represented as U-5 PASS.
