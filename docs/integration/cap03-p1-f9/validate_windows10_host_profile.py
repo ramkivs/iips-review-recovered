@@ -776,6 +776,6 @@ print("PASS: exact PA-authorized Windows 10 profile and preserved P-1 safety/pat
 print("PASS: S04 source validates PA-06 L2a evidence and defines a read-only current-dist match; no build/install/probe invocation")
 print("PASS: admitted S2 authority, pin, completeness, hashes, build/test/package records and publication transcript verified")
 print("LIMIT: this is IRR-only static validation; no PowerShell parse, IPD inspection, current-dist check, S2 rerun or U-5 PASS")
-print("DURABLE IRR RETENTION: PARTIAL — GitHub release assets are present and the API-reported ZIP digest matches the expected value; raw ZIP was not downloaded/checked and the release layout is not the S04 sealed directory bundle, so independent integrity and S04 acceptance remain pending")
+print("DURABLE IRR RETENTION: PARTIAL — exact-head hosted runner downloaded and independently hashed all four release assets; ZIP digest and original-inventory seal match, but the first audit stopped before ZIP-entry checks due an erroneous comparison with the historical admitted S2 map. Corrected 1,140-entry audit is pending; the four-asset release layout is not the S04 sealed bundle, so S04 acceptance remains pending")
 print("U-5 remains NOT RUN; exact emitted-entry closure and emitted-migration probes remain NOT RUN")
 print("REVISION_7_SCRIPT_SHA256=" + script_sha)
