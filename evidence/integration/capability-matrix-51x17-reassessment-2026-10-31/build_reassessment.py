@@ -47,7 +47,7 @@ def sha256(b: bytes) -> str: return hashlib.sha256(b).hexdigest()
 
 def write_csv(path, headers, rows):
     with path.open('w', newline='', encoding='utf-8') as f:
-        w = csv.writer(f, quoting=csv.QUOTE_ALL); w.writerow(headers); w.writerows(rows)
+        w = csv.writer(f, quoting=csv.QUOTE_ALL, lineterminator='\n'); w.writerow(headers); w.writerows(rows)
 
 matrix_csv = OUT / 'IIPS_V3_CAPABILITY_MATRIX_51x17_REASSESSED_2026-10-31.csv'
 pending_csv = OUT / 'IIPS_V3_OUTSTANDING_PENDING_2026-10-31.csv'
@@ -178,7 +178,7 @@ assert [[str(c) for c in r] for r in ROWS] == rt[1:]
 # Report
 report = []
 report.append('# IIPS v3.0 — 51 × 17 Capability Matrix Reassessment (2026-10-31)\n')
-report.append(f'**Record:** `IIPS-V3-CAPMATRIX-51X17-REASSESSMENT-2026-10-31-01`  \n**IRR main:** `{IRR}`  \n**IPD main:** `{IPD}`  \n**Baseline:** `evidence/integration/capability-matrix-51x17-2026-10-27/` at reference commit `fff8cf98ddcc7af1c6ab58d3ae9a3442a5322935`.\n')
+report.append(f'**Record:** `IIPS-V3-CAPMATRIX-51X17-REASSESSMENT-2026-10-31-01`\n\n**IRR main:** `{IRR}`\n\n**IPD main:** `{IPD}`\n\n**Baseline:** `evidence/integration/capability-matrix-51x17-2026-10-27/` at reference commit `fff8cf98ddcc7af1c6ab58d3ae9a3442a5322935`.\n')
 report.append('## A. Scope and method\n')
 report.append('This reassessment inspected both authoritative repositories, all available remote branches and PRs in full clones, current trackers/decision acts, implementation artifacts, and executed current-head validation. The original 51 capabilities and 17 dimensions are preserved. Statuses are updated only where current evidence supports a change; historical text is retained in the baseline bundle. Production remains outside scope.\n')
 report.append('## B. What changed from the October 27 baseline\n')

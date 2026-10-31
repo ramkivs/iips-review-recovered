@@ -1,7 +1,10 @@
 # IIPS v3.0 — 51 × 17 Capability Matrix Reassessment (2026-10-31)
-**Record:** `IIPS-V3-CAPMATRIX-51X17-REASSESSMENT-2026-10-31-01`  
-**IRR main:** `fff8cf98ddcc7af1c6ab58d3ae9a3442a5322935`  
-**IPD main:** `4e275ec97a7701521e6a4e7632e9324bafe8d286`  
+**Record:** `IIPS-V3-CAPMATRIX-51X17-REASSESSMENT-2026-10-31-01`
+
+**IRR main:** `fff8cf98ddcc7af1c6ab58d3ae9a3442a5322935`
+
+**IPD main:** `4e275ec97a7701521e6a4e7632e9324bafe8d286`
+
 **Baseline:** `evidence/integration/capability-matrix-51x17-2026-10-27/` at reference commit `fff8cf98ddcc7af1c6ab58d3ae9a3442a5322935`.
 ## A. Scope and method
 This reassessment inspected both authoritative repositories, all available remote branches and PRs in full clones, current trackers/decision acts, implementation artifacts, and executed current-head validation. The original 51 capabilities and 17 dimensions are preserved. Statuses are updated only where current evidence supports a change; historical text is retained in the baseline bundle. Production remains outside scope.
