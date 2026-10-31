@@ -173,9 +173,8 @@ $shortRoot = Join-Path $temp 'short-dist'
 [void](New-Item -ItemType Directory -Path $shortRoot -Force)
 Get-ChildItem -LiteralPath $distRoot -Force | Copy-Item -Destination $shortRoot -Recurse -Force
 Remove-Item -LiteralPath (Join-Path $shortRoot 'src\ipc\dispatch.js') -Force
-Add-Type -AssemblyName System.IO.Compression.FileSystem
 $shortArchive = Join-Path $temp 'incomplete.zip'
-[System.IO.Compression.ZipFile]::CreateFromDirectory($shortRoot, $shortArchive, [System.IO.Compression.CompressionLevel]::Optimal, $false)
+$shortCreated = New-S2DistArchive -DistRoot $shortRoot -ArchivePath $shortArchive -ExpectedCount 2
 $incomplete = Test-S2DistArchive -ArchivePath $shortArchive -ExpectedMap $inventory -ExpectedCount 3
 Assert-True (-not [bool]$incomplete.Passed) 'incomplete archive fails closed'
 Assert-True (@($incomplete.Failures | Where-Object { $_ -like 'ARCHIVE_ENTRY_MISSING:*' }).Count -gt 0) 'incomplete archive names missing expected byte entries'

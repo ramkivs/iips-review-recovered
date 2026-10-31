@@ -51,13 +51,32 @@ function New-S2DistArchive {
     if ($regularFiles.Count -ne $ExpectedCount) {
         throw ('DIST_ARCHIVE_FILE_COUNT_MISMATCH: expected=' + $ExpectedCount + '; actual=' + $regularFiles.Count)
     }
-    Add-Type -AssemblyName System.IO.Compression.FileSystem
-    [System.IO.Compression.ZipFile]::CreateFromDirectory(
-        $root,
-        [System.IO.Path]::GetFullPath($ArchivePath),
-        [System.IO.Compression.CompressionLevel]::Optimal,
-        $false
-    )
+    Add-Type -AssemblyName System.IO.Compression
+    $archiveFullPath = [System.IO.Path]::GetFullPath($ArchivePath)
+    $archiveStream = $null
+    $zip = $null
+    try {
+        $archiveStream = [System.IO.File]::Open($archiveFullPath, [System.IO.FileMode]::CreateNew, [System.IO.FileAccess]::ReadWrite, [System.IO.FileShare]::None)
+        $zip = [System.IO.Compression.ZipArchive]::new($archiveStream, [System.IO.Compression.ZipArchiveMode]::Create, $false)
+        foreach ($file in ($regularFiles | Sort-Object FullName)) {
+            $relative = $file.FullName.Substring($root.Length).TrimStart([char[]]@([IO.Path]::DirectorySeparatorChar, [IO.Path]::AltDirectorySeparatorChar))
+            $entryName = $relative.Replace('\\', '/')
+            $inputStream = $null
+            $entryStream = $null
+            try {
+                $inputStream = [System.IO.File]::Open($file.FullName, [System.IO.FileMode]::Open, [System.IO.FileAccess]::Read, [System.IO.FileShare]::Read)
+                $entry = $zip.CreateEntry($entryName, [System.IO.Compression.CompressionLevel]::Optimal)
+                $entryStream = $entry.Open()
+                $inputStream.CopyTo($entryStream)
+            } finally {
+                if ($null -ne $entryStream) { $entryStream.Dispose() }
+                if ($null -ne $inputStream) { $inputStream.Dispose() }
+            }
+        }
+    } finally {
+        if ($null -ne $zip) { $zip.Dispose() }
+        elseif ($null -ne $archiveStream) { $archiveStream.Dispose() }
+    }
     return [pscustomobject]@{
         Path = [System.IO.Path]::GetFullPath($ArchivePath)
         FileCount = $regularFiles.Count
