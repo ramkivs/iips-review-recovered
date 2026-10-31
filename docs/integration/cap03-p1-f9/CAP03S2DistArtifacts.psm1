@@ -60,7 +60,7 @@ function New-S2DistArchive {
         $zip = [System.IO.Compression.ZipArchive]::new($archiveStream, [System.IO.Compression.ZipArchiveMode]::Create, $false)
         foreach ($file in ($regularFiles | Sort-Object FullName)) {
             $relative = $file.FullName.Substring($root.Length).TrimStart([char[]]@([IO.Path]::DirectorySeparatorChar, [IO.Path]::AltDirectorySeparatorChar))
-            $entryName = $relative.Replace('\\', '/')
+            $entryName = $relative.Replace('\', '/')
             $inputStream = $null
             $entryStream = $null
             try {
