@@ -843,4 +843,4 @@ The PowerShell 5.1 parser and fixture suite lives at `docs/integration/cap03-p1-
 **Current consolidated source hash/line count and validated test results:** see the tracker’s consolidated-correction section and CI run record. No historical P-1 consumption state is inferred or reconciled by this technical supplement.
 
 
-**Current consolidated source identity:** 1,786 LF lines / 132,146 bytes; SHA-256 `bc0e3d1da774258ec941b566a1936eeac94d98d83b39659fc33ce2b0a4e0b253`. The Windows parser/fixture workflow remains pending; this exact source identity does not represent P-1 execution or historical emitted-byte verification.
+**Current consolidated source identity:** 1,786 LF lines / 132,146 bytes; SHA-256 `bc0e3d1da774258ec941b566a1936eeac94d98d83b39659fc33ce2b0a4e0b253`. The Windows PowerShell 5.1 parser/fixture workflow passed on source commit `a19d30cb8433dd19616fa246f8862d2c3b49be57` (run `41208774273`); this exact source identity does not represent P-1 execution or historical emitted-byte verification.

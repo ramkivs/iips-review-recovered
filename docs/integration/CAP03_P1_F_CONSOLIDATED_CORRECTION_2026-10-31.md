@@ -2,7 +2,7 @@
 
 **Repository:** IRR, `ramkivs/iips-review-recovered`
 **Session branch:** `arena/4eaf2041-iips-review-recovered`
-**Status:** implementation in progress; Windows PowerShell 5.1 parser/fixture CI and publication are pending.
+**Status:** published to IRR PR #398 (OPEN, not merged); Windows PowerShell 5.1 parser/fixture CI and static validation passed for source commit `a19d30cb8433dd19616fa246f8862d2c3b49be57`.
 **Scope:** IRR source, fixture tests, technical record and tracker only. No production/IPD changes.
 
 ## Correction scope and source locations
@@ -47,7 +47,7 @@ The native Windows test entrypoint is `docs/integration/cap03-p1-f9/CAP03_P1_Con
 
 The existing Python S2 finalization contract suite was run locally: **48 tests passed**. It now checks the required archive and S2 source ordering. This Python suite is source/model verification only; it does not parse PowerShell or establish actual ZIP helper behavior.
 
-**Windows PowerShell 5.1 status: PENDING CI.** No native parser or fixture result is claimed until the named workflow completes on the exact PR commit. The exact workflow run, assertion count, parser result, and remote commit/blob readback will be added here after CI/publication.
+**Windows PowerShell 5.1 status: PASS.** Workflow run [41208774273](https://github.com/ramkivs/iips-review-recovered/actions/runs/41208774273) passed the parser and controlled fixture suite on commit `a19d30cb8433dd19616fa246f8862d2c3b49be57`; it runs 86 assertions (81 call sites plus the parser assertion over six files). Python static/source/tracker workflow [41208774290](https://github.com/ramkivs/iips-review-recovered/actions/runs/41208774290) also passed. The PR is [#398](https://github.com/ramkivs/iips-review-recovered/pull/398), OPEN and not merged. `git ls-remote` matched the pushed branch head; the GitHub commit tree was not truncated and all 14 PR-changed paths' remote blob IDs matched local Git blob IDs. These checks validate this IRR source/fixtures only; the historical emitted bytes remain unavailable and unverified.
 
 ## Historical emitted-byte status: PENDING
 
@@ -57,4 +57,4 @@ The reported later S04 stop remains user-reported unless corroborating authority
 
 ## Publication and reconciliation
 
-Publication is through an IRR pull request from this session branch; no direct push to IRR `main` and no IPD change is authorized. After CI, update this section and tracker with the exact script/module hashes and line counts, tests and counts, PR/commit/check links, independent remote blob readback, and the unchanged historical-byte PENDING item. Do not report an independent review unless one is actually recorded.
+Publication is through IRR PR [#398](https://github.com/ramkivs/iips-review-recovered/pull/398) from this session branch; no direct push to IRR `main` and no IPD change occurred. The exact P1 source identity, Python/Windows check run links, 86 PowerShell assertion count, source commit and independent remote blob readback are recorded above and in tracker §16.230.2. Historical emitted-byte verification remains PENDING. No independent review is claimed.
