@@ -1,8 +1,13 @@
 # ============================================================================
 # CAP-03 S2-DEP-A - governed byte-verbatim host-original deposit: operator
-# steps 1-5 of the published procedure (REV 7 - PHASE-6 staging uses a
-# plain, exit-gated git add for the 19 authorized paths; published identity
-# reconciled at origin/main).
+# steps 1-5 of the published procedure (REV 8 - manifest-derived exact
+# staged-path set; accepts newly required dist-artifacts.zip without a fixed
+# staged-count assumption; published historical identity is left unchanged).
+# REV 8 (consolidated correction; proposed until IRR PR merge): require the
+# sealed dist-artifacts.zip manifest member, preserve manifest allowlisting,
+# require exact staged-path equality, and derive counts from the manifest.
+# The historical run lacks this member and therefore fails closed; no historical
+# record is rewritten or augmented.
 # REV 7 (recorded in tracker 16.193 / CHG-2026-10-29-15 on main): one
 #   operational correction, staging-command-only; no integrity gate changed.
 #   The second host run (log deposit-run-log-20261029T092200Z) passed
@@ -11,11 +16,11 @@
 #   run it, wrote a fatal line to stderr, and PowerShell 5.1 (with
 #   ErrorActionPreference=Stop) turned that into a terminating error before
 #   anything was staged, committed or pushed - fail-closed as designed.
-#   Rev 7 stages with a plain 'git add -- <the 19 pathspecs>' (path
+#   Rev 7 stages with a plain 'git add -- <the manifest-derived pathspecs>' (path
 #   restriction kept), wrapped so stderr from genuine add errors is logged
 #   and mapped to Set-Blocked with the captured exit code instead of an
 #   unclassified abort; NO --dry-run is used anywhere - a failed add leaves
-#   nothing staged, and the existing staged-count-19 gate, the per-path
+#   nothing staged, and the manifest-derived exact staged-path set, per-path
 #   prefix gate and the PHASE-7 byte-equality gate remain the authority.
 # REV 6 (recorded in tracker 16.192 / CHG-2026-10-29-14 on main): one
 #   operational correction, reporting-and-robustness only; no integrity gate
@@ -105,6 +110,7 @@
 # is recorded (seal-recheck transcript), none is invented - it is computed here
 # and becomes the transfer-time expectation, exactly as the manifest states.
 $ErrorActionPreference = 'Stop'
+Import-Module -Name (Join-Path $PSScriptRoot 'cap03-p1-f9\CAP03S2DistArtifacts.psm1') -Force -ErrorAction Stop
 $EXP_SEAL_SHA   = '9d3c09dbdb691c2527a45605dea20826b4ec2ba2f110985ee3f1033783b5225e'   # recorded self-hash of folder SHA256SUMS.txt (16.180; manifest 02)
 $EXP_PROC02_SHA = '9c9319fa3d7eaa822834c2f500e04dfec2b18d8157724843126a749b2bec91ab'   # sealed digest of the governing manifest (folder SHA256SUMS.txt on main)
 $EXP_PROC03_SHA = 'a1c94ba6a2b96e08a1dc9e7e1d2c73be92c6c38f09d74aa4f00c5d8e445e0ede'   # sealed digest of the governing procedure
@@ -251,6 +257,8 @@ try {
     if ($man.status -ne 'PASS') { Set-Blocked ('manifest status not PASS: ' + $man.status) }
     if ($man.run_id -ne $RUN_NAME) { Set-Blocked ('manifest run_id mismatch: ' + $man.run_id) }
     $artifacts = @($man.artifacts)
+    $distArchiveMembers = @($artifacts | Where-Object { [string]$_.path -ceq 'dist-artifacts.zip' })
+    if ($distArchiveMembers.Count -ne 1) { Set-Blocked ('manifest must list exactly one dist-artifacts.zip; found ' + $distArchiveMembers.Count) }
     $sealOk = Test-Path -LiteralPath $sealPath -PathType Leaf
     if ($sealOk -eq $false) { Set-Blocked 'SHA256SUMS.txt absent from source folder' }
     $exact = @()
@@ -296,7 +304,7 @@ try {
       if ($hostDigests.ContainsKey($n) -eq $false) { Set-Blocked ('seal names unknown file: ' + $n); continue }
       if ($mm.Groups[1].Value.ToLower() -ne $hostDigests[$n]) { Set-Blocked ('seal line disagrees with host hash: ' + $n) }
     }
-    Write-Log ('PHASE-3 done; 16 sealed artifacts (incl. MANIFEST.json) + seal + transcript hashed; state ' + $STATE)
+    Write-Log ('PHASE-3 done; ' + $artifacts.Count + ' manifest-listed artifacts + manifest + seal + transcript hashed; state ' + $STATE)
   }
   if ($STATE -eq 'PASS') {
     Write-Log 'PHASE-4 clone (fresh work dir; nothing existing is reused or deleted; rev 6: --quiet so PS 5.1 cannot treat routine clone progress as an error)'
@@ -358,7 +366,7 @@ try {
     if ($pubSeal.sha -ne $sealHost) { Set-Blocked 'host seal differs from published blob; STOP' }
   }
   if ($STATE -eq 'PASS') {
-    Write-Log 'PHASE-6 create deposit branch from the verified main head; binary-safe copy; stage ONLY authorized paths (19); rev 7: plain exit-gated add (no dry-run-only flags)'
+    Write-Log ('PHASE-6 create deposit branch from the verified main head; binary-safe copy; stage ONLY exact manifest-authorized paths (expected total=' + ($artifacts.Count + 4) + '); rev 8: plain exit-gated add (no dry-run-only flags)')
     & git.exe -C $REPOD checkout -q -b $BRANCH $BASE
     $dest = Join-Path $REPOD ('evidence/cap03-s2/' + $RUN_NAME)
     New-Item -ItemType Directory -Force -Path $dest | Out-Null
@@ -388,13 +396,14 @@ try {
     }
     if ($addCode -ne 0) { Set-Blocked ('git add failed (exit ' + $addCode + '); NOTHING committed; work dir preserved; report to PA') }
     $staged = @(& git.exe -C $REPOD diff --cached --name-only)
-    if ($staged.Count -ne 19) { Set-Blocked ('staged count ' + $staged.Count + ' != expected 19 (18 content + 1 verification record)') }
+    $stageContract = Test-S2TransferPathSet -ExpectedPaths $relPaths -ActualPaths $staged
+    if (-not $stageContract.Passed) { Set-Blocked ('staged paths differ from exact manifest-authorized set: ' + (@($stageContract.Details) -join '; ')) }
     foreach ($s in $staged) {
       if ($s.StartsWith('evidence/cap03-s2/') -eq $false) { Set-Blocked ('unexpected staged path: ' + $s) }
     }
   }
   if ($STATE -eq 'PASS') {
-    Write-Log 'PHASE-7 STOP-BEFORE-COMMIT gate: staged blob bytes must equal host bytes for all 19 staged paths (catches ANY git normalization)'
+    Write-Log 'PHASE-7 STOP-BEFORE-COMMIT gate: staged blob bytes must equal host bytes for every manifest-authorized staged path (catches ANY git normalization)'
     $hostExpected = @{}
     foreach ($a in $artifacts) { $hostExpected[('evidence/cap03-s2/' + $RUN_NAME + '/' + $a.path)] = @{ sha = $a.sha256.ToLower(); len = [int]$a.bytes } }
     $hostExpected[('evidence/cap03-s2/' + $RUN_NAME + '/SHA256SUMS.txt')] = @{ sha = $sealHost; len = (Get-Item -LiteralPath $sealPath).Length }
@@ -414,7 +423,7 @@ try {
   }
   if ($STATE -eq 'PASS') {
     Write-Log 'PHASE-8 commit, re-verify committed blobs, then (and only then) push'
-    & git.exe -C $REPOD -c user.name='ramkivs' -c user.email='302525469+ramkivs@users.noreply.github.com' commit -q -m ('evidence(cap03): S2-DEP-A byte-verbatim host-original deposit of ' + $RUN_NAME + ' (16 sealed artifacts + seal + seal-recheck transcript + hash record = 19 paths); base main ' + $BASE.Substring(0,8) + '; per procedure step 5') 2>&1 | Out-Null
+    & git.exe -C $REPOD -c user.name='ramkivs' -c user.email='302525469+ramkivs@users.noreply.github.com' commit -q -m ('evidence(cap03): S2-DEP-A byte-verbatim host-original deposit of ' + $RUN_NAME + ' (' + $artifacts.Count + ' manifest-listed artifacts + MANIFEST + seal + seal-recheck transcript + hash record); base main ' + $BASE.Substring(0,8) + '; per procedure step 5') 2>&1 | Out-Null
     foreach ($k in ($hostExpected.Keys | Sort-Object)) {
       $cb = Get-GitBlobDigest ('HEAD:' + $k)
       if ($cb -eq $null) { Set-Blocked ('cannot read committed blob: ' + $k); continue }
@@ -487,7 +496,7 @@ try {
       Write-Log 'PHASE-11 success record (verification record frozen at staging: host copy byte-identical to committed copy; post-push metadata is logged, never appended to the record)'
       Write-Log ('deposit branch ' + $BRANCH + ' head ' + $headSha + ' base ' + $BASE + ' reviewed-baseline ' + $BASELINE_MAIN + ' drift: ' + $DRIFT)
       Write-Log ('branch=' + $BRANCH + ' head=' + $headSha + ' base=' + $BASE + ' drift=' + $DRIFT)
-      Write-Log ('source folder untouched; 19 paths (18 governed content files + 1 verification record, host copy byte-identical to committed copy) staged/committed/pushed/remote-verified; verification record: ' + $HASHES)
+      Write-Log ('source folder untouched; ' + $artifacts.Count + ' sealed manifest artifacts plus manifest, seal, transcript and verification record (host copy byte-identical to committed copy) staged/committed/pushed/remote-verified; verification record: ' + $HASHES)
       Write-Log 'NEXT (agent side, step 6): independently verify pushed blob digests vs host digests above, open the dedicated deposit PR (base main), CI, merge, per-blob remote read-back, tracker record. No downstream gate is implied by the deposit.'
       Set-Result 'PASS'
     }

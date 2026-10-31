@@ -15,6 +15,9 @@ ROOT = Path(__file__).resolve().parents[1]
 REPO = ROOT.parent.parent
 SCRIPT = ROOT / "IIPS_v3.0_CAP03_P1_F_P-1_CORRECTED_EXECUTION_SCRIPT_2026-10-29.ps1"
 RUNNER = ROOT / "cap03-p1-f9" / "CAP03_P1_F9_WindowsFixtureTests.ps1"
+CORRECTION_TESTS = ROOT / "cap03-p1-f9" / "CAP03_P1_ConsolidatedCorrection.Tests.ps1"
+ARTIFACT_MODULE = ROOT / "cap03-p1-f9" / "CAP03S2DistArtifacts.psm1"
+TRANSFER_SCRIPT = ROOT / "IIPS_v3.0_CAP03_S2_DEP_A_HOST_TRANSFER_2026-10-29.ps1"
 TRACKER = REPO / "IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md"
 AUTHORITY = ROOT / "IIPS_v3.0_CAP03_P1_AUTHORIZATION_ACT_AND_PREREQUISITE_DECISIONS_2026-10-29.md"
 PF15_ACT = ROOT / "IIPS_v3.0_CAP03_PF15_ENDPOINT_LOCAL_STATE_DESIGNATION_PA_ACT_CORRECTED_2026-10-26.md"
@@ -30,7 +33,7 @@ POST_CI_RECORD_ID = "IIPS-V3-CAP03-P1-REV7-POST-CI-BOUNDARY-RECONCILIATION-2026-
 EVIDENCE_ROOT = REPO / "evidence" / "cap03-s2"
 RUN_ID = "s2-a891802e-20261028T192516Z"
 RUN_DIR = EVIDENCE_ROOT / RUN_ID
-EXPECTED_SHA256 = "d1adeb7960c616a1ceb4016f1e822ebd8e3f39cc5772db10974199815e128c2c"
+EXPECTED_SHA256 = "bc0e3d1da774258ec941b566a1936eeac94d98d83b39659fc33ce2b0a4e0b253"
 PREFLIGHT_AUTHORITY_ID = "IIPS-V3-CAP03-P1-REV7-PREFLIGHT-PA-AUTHORIZATION-ACT-2026-10-31-01"
 EXPECTED_SEAL_SHA256 = "9D3C09DBDB691C2527A45605DEA20826B4EC2BA2F110985EE3F1033783B5225E"
 EXPECTED_DEPOSIT_SHA256 = "FFD0956482427ACB404543E36DAC2705D802B04828E380290232C06129F3AFAD"
@@ -59,6 +62,9 @@ require(all(byte < 0x80 for byte in script_bytes), "Revision 7 source is not ASC
 require(b"\r" not in script_bytes, "Revision 7 source unexpectedly contains CR characters")
 source = script_bytes.decode("ascii")
 runner = RUNNER.read_text(encoding="utf-8")
+correction_tests = CORRECTION_TESTS.read_text(encoding="utf-8")
+artifact_module = ARTIFACT_MODULE.read_text(encoding="utf-8")
+transfer_script = TRANSFER_SCRIPT.read_text(encoding="utf-8")
 authority = AUTHORITY.read_text(encoding="utf-8")
 report = (ROOT / "IIPS_v3.0_CAP03_P1_F_P-1_SOURCE_TO_SCRIPT_VERIFICATION_2026-10-29.md").read_text(encoding="utf-8")
 readme = (ROOT / "cap03-p1-f9" / "README.md").read_text(encoding="utf-8")
@@ -214,7 +220,7 @@ required_guards = [
     "'^v22\\.(\\d+)\\.(\\d+)$'",
     "S03-STORE-ABSENT", "S03-NO-SIDECAR", "S03-NO-REPARSE-IN-CHAIN",
     "S03-FIXED-NTFS", "S03-NOT-ONEDRIVE-ENV", "S03-WRITE-ACL-EVALUATION", "ACL_EVALUATION", "effectiveAccessVerified = $false", "S00-EVIDENCE-NO-REPARSE-IN-CHAIN",
-    "S00-NO-PRIOR-MARKER", "S02-COMMIT", "S02-TREE", "S02-CLEAN",
+    "S00-NO-PRIOR-MARKER", "S00-P1F-CONSUMPTION-RECONCILED", "S02-COMMIT", "S02-TREE", "S02-CLEAN",
     "P1-F-ONE-ATTEMPT", "SECOND_INVOCATION_REFUSED",
     "EXECUTE-MARKER.json", "execute-claim.json",
     "S00-EVIDENCE-NOT-IN-LISTED-WORKTREE", "S00-EVIDENCE-OWNER-CURRENT-USER", "Get-Acl -LiteralPath $evFull",
@@ -228,7 +234,8 @@ for guard in [
     "Invoke-AdmittedS2EvidenceCheck", "S04-S2-AUTHORITY", "S04-S2-NO-REPARSE-IN-CHAIN",
     "S04-S2-NO-REPARSE-FILES", "S04-S2-COMPLETE-INVENTORY", "S04-S2-SEAL-IDENTITY", "S04-S2-SEALED-FILES",
     "S04-S2-MANIFEST-IDENTITY", "S04-S2-RESULT-IDENTITY", "S04-S2-TESTS",
-    "S04-S2-PACKAGE-CONSUMER", "S04-S2-DIST-INVENTORY", "S04-CURRENT-DIST-ADMITTED-MATCH",
+    "S04-S2-PACKAGE-CONSUMER", "S04-S2-DIST-INVENTORY", "S04-S2-DIST-INVENTORY-PATHS",
+    "S04-S2-DIST-ARTIFACT-RETENTION", "S04-CURRENT-DIST-ADMITTED-MATCH",
     "R-S2-EVIDENCE-NO-REPARSE", "R-S2-EVIDENCE-NO-REPARSE-FILES",
     "R-S2-EVIDENCE-UNCHANGED", "R-CURRENT-DIST-UNCHANGED",
 ]:
@@ -389,6 +396,9 @@ for artifact in (
     "docs/integration/IIPS_v3.0_CAP03_P1_REV7_POST_CI_BOUNDARY_RECONCILIATION_2026-10-30.md",
     "docs/integration/CAP03_P1_QCONS1_PREFLIGHT_CONSUMPTION_AND_AUTHORITY_RECONCILIATION_2026-10-31.md",
     "docs/integration/cap03-p1-f9/CAP03_P1_F9_WindowsFixtureTests.ps1",
+    "docs/integration/cap03-p1-f9/CAP03_P1_ConsolidatedCorrection.Tests.ps1",
+    "docs/integration/CAP03_P1_F_CONSOLIDATED_CORRECTION_2026-10-31.md",
+    ".github/workflows/cap03-p1-consolidated-windows.yml",
 ):
     require(artifact in review_artifact_paths, "freshness allowlist misses reviewed PR artifact: " + artifact)
 require("$TrackerPointerRequiredText = 'AUTHORIZED'" in source,
@@ -477,10 +487,13 @@ require("**Latest (`CV-CORR-209`, §16.229, `CHG-2026-10-31-08`" in first_lines 
         PREFLIGHT_AUTHORITY_ID in first_lines and "exactly one capture-only" in first_lines and
         "NON-CONSUMING" in first_lines and DESIGNATED_EVIDENCE_ROOT in first_lines,
         "Last Updated pointer does not preserve Revision 7's fixed compatibility token and current one-time PA boundary")
-require("**Current CAP-03 P-1 / PF-15 status** — *current-state pointer (`CV-CORR-209`, §16.229" in first_lines and
-        "P-1-C remains NOT ESTABLISHED" in first_lines and "P-1-D remains DESIGNATED / NOT VERIFIED FOR THE ATTEMPT" in first_lines and
-        "P1-F remains **AUTHORIZED — ONE ATTEMPT ONLY — NOT EXECUTED — UNSPENT**" in first_lines,
-        "CAP-03 current-state pointer does not preserve P1-F/P-1 status and the S00 stop")
+require("**Current CAP-03 P-1 / PF-15 status** — *pointer (`CV-CORR-210`, §16.230" in first_lines and
+        "P1-F consumption state: NOT RECONCILED" in first_lines and
+        "prior §16.229 operator-reported S00 stop" in first_lines and "later S04 stop" in first_lines and
+        "NOT EXECUTED — UNSPENT" in first_lines and
+        "P-1-C remains NOT ESTABLISHED" in first_lines and
+        "P-1-D remains DESIGNATED / NOT VERIFIED FOR THE ATTEMPT" in first_lines,
+        "CAP-03 current-state pointer does not preserve distinct-stop provenance or unreconciled consumption")
 tracker_lines = tracker.splitlines()
 latest_pointer_lines = [line for line in tracker_lines if "**Latest (`CV-CORR-208`" in line]
 current_status_lines = [line for line in tracker_lines if "**Current CAP-03 P-1 / PF-15 status**" in line]
@@ -642,14 +655,32 @@ require(request_doc.is_file() and act_doc.is_file() and
 
 # Static-check the literal .NET regexes (PowerShell single-quoted literals preserve these backslashes).
 dist_hash_pattern = re.search(r"\$distHashes\s*=.*?-match '([^']+)'", source)
-dist_map_pattern = re.search(r"\$dm\s*=\s*\[regex\]::Match\(\$line, '([^']+)'\)", source)
+dist_map_pattern = re.search(r"\$line -notmatch '([^']+)'", artifact_module)
 require(dist_hash_pattern is not None and dist_map_pattern is not None, "dist inventory regex source not found")
 sample = "56FEA1A5850621B4501D3AFB3221B0F55E9B44B7275E9552B306F8F9C9EEB325  \\dist\\src\\persistence\\gateAPrimeProvisioning.js"
 require(re.search(dist_hash_pattern.group(1), sample) is not None, "dist hash regex does not match admitted single-separator paths")
 parsed = re.fullmatch(dist_map_pattern.group(1), sample)
 require(parsed is not None and parsed.group(1).upper() == "56FEA1A5850621B4501D3AFB3221B0F55E9B44B7275E9552B306F8F9C9EEB325" and
-        parsed.group(2) == "\\dist\\src\\persistence\\gateAPrimeProvisioning.js",
-        "dist inventory parser does not extract exact path/hash from admitted line")
+        parsed.group(2) == "src\\persistence\\gateAPrimeProvisioning.js",
+        "shared inventory parser does not extract exact relative path/hash from admitted line")
+require("$key = $relative.Replace('\\', '/')" in artifact_module and
+        "Test-S2DistArchive -ArchivePath $distArchivePath -ExpectedMap $expectedDistMap -ExpectedCount 1140" in source,
+        "S04 does not normalize paths and independently read back retained archive bytes")
+require("$archiveMember -and $archiveSealMember -and $archivePresent" in source and
+        "ARCHIVE_HASH_MISMATCH:" in artifact_module and "ARCHIVE_READ_FAILED:" in artifact_module,
+        "S04 archive retention/readability/hash gate is not fail-closed")
+require("Import-Module -Name (Join-Path $PSScriptRoot 'cap03-p1-f9\\CAP03S2DistArtifacts.psm1')" in transfer_script and
+        "[string]$_.path -ceq 'dist-artifacts.zip'" in transfer_script and
+        "Test-S2TransferPathSet -ExpectedPaths $relPaths -ActualPaths $staged" in transfer_script and
+        "function Test-S2TransferPathSet" in artifact_module,
+        "S2-DEP-A does not use the shared, fixture-testable exact manifest path allowlist")
+require("[System.Collections.Hashtable]::new([System.StringComparer]::Ordinal)" in artifact_module and
+        "$expectedExact.ContainsKey($name)" in artifact_module,
+        "archive readback does not enforce case-sensitive emitted-entry paths")
+require("case-different archived path fails exact emitted-entry verification" in correction_tests and
+        "early fallback JSON round-trip retains original failure" in correction_tests and
+        "intermediate fallback JSON round-trip retains execute count" in correction_tests,
+        "consolidated PowerShell fixtures omit exact archive-case or failure-summary JSON regressions")
 
 # The historical F9 fixture runner remains pinned to Revision 5 and is not retargeted or rerun.
 old_f9_hash = "7aa52aa407c548940446817b0cb99b9a31c427660af39baf636bd3e59e45e916"
@@ -662,7 +693,8 @@ require("$script:ExpectedProductName='Windows 11 Home Single Language'" in runne
 # Verify the PA-06 evidence already admitted and held in IRR. EOL candidates reflect the published CRLF/LF handling;
 # this never runs or regenerates S2 and does not inspect any IPD distribution.
 entries = {p.name: p.read_bytes() for p in RUN_DIR.iterdir() if p.is_file()}
-require(len(entries) == 17 and "SHA256SUMS.txt" in entries, "admitted S2 folder is not the expected 17-file inventory")
+require(len(entries) == 17 and "SHA256SUMS.txt" in entries, "historical admitted S2 folder is not the expected 17-file inventory")
+require("dist-artifacts.zip" not in entries, "historical S2 evidence unexpectedly changed: do not rewrite or fabricate original emitted bytes")
 seal_bytes = entries["SHA256SUMS.txt"]
 require(EXPECTED_SEAL_SHA256 in eol_digest_candidates(seal_bytes), "admitted S2 seal identity mismatch")
 seal_map: dict[str, str] = {}
@@ -728,5 +760,6 @@ print("PASS: exact PA-authorized Windows 10 profile and preserved P-1 safety/pat
 print("PASS: S04 source validates PA-06 L2a evidence and defines a read-only current-dist match; no build/install/probe invocation")
 print("PASS: admitted S2 authority, pin, completeness, hashes, build/test/package records and publication transcript verified")
 print("LIMIT: this is IRR-only static validation; no PowerShell parse, IPD inspection, current-dist check, S2 rerun or U-5 PASS")
+print("HISTORICAL EMITTED-BYTE RETENTION: PENDING — original dist bytes/archive are absent; fixture verification is not historical verification")
 print("U-5 remains NOT RUN; exact emitted-entry closure and emitted-migration probes remain NOT RUN")
 print("REVISION_7_SCRIPT_SHA256=" + script_sha)

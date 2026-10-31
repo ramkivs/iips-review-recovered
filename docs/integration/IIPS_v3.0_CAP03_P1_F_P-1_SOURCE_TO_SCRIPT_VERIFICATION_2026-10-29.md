@@ -829,3 +829,18 @@ The Program Authority rendered decision `IIPS-V3-CAP03-P1-REV7-PREFLIGHT-PA-AUTH
 **Task-time boundary and validation limits.** This governance implementation ran no Preflight, Execute, provisioner, host, IPD query/access, or filesystem investigation and created no evidence root, store, claim, marker, run record or acceptance artifact. The source was validated statically with the IRR-only standard-library validator and workflow; no PowerShell parse or host execution is claimed.
 
 **Current Revision 7 identity (`CV-CORR-208`):** 1,738 LF lines / 127,376 bytes; SHA-256 `d1adeb7960c616a1ceb4016f1e822ebd8e3f39cc5772db10974199815e128c2c`. This is the exact source identity bound by the updated tracker, README, validator and PA decision implementation; prior identity notes remain historical.
+
+## N. Consolidated CAP-03 correction (2026-10-31) — current source supplement
+
+This dated supplement supersedes prior script identity/status fields only for the current source identity and correction scope; the earlier sections remain their historical snapshots. The consolidated implementation and exact source locations are also recorded in `CAP03_P1_F_CONSOLIDATED_CORRECTION_2026-10-31.md` and the authoritative tracker overlay.
+
+The change integrates all five PowerShell 5.1 fixes: array capture for the S00 evidence-root Git/reparse results and S03 store-chain Git/reparse results, plus doubled apostrophe in the single-quoted Windows-user SID diagnostic. It imports two shared helpers before Facts initialization or S04 use. The S04 inventory rows are parsed into a normalized, strict 1,140-path/hash map; the three emitted filename patterns match Windows inventory paths; S04 requires an IRR-retained, manifest-listed, sealed `dist-artifacts.zip` and independently reads/hashes all archive members against that map. S2 creates and verifies the archive before continuing; the manifest includes it; S2-DEP-A copies each manifest item and checks exact staged-path equality rather than a fixed path count. Facts have early defaults and safe lookups. Summary writing is guarded by a fallback path that retains the original failure and separately reports summary/fallback errors.
+
+The PowerShell 5.1 parser and fixture suite lives at `docs/integration/cap03-p1-f9/CAP03_P1_ConsolidatedCorrection.Tests.ps1`; its workflow is `.github/workflows/cap03-p1-consolidated-windows.yml`. The suite is limited to parsing, temporary fixtures and pure helper tests; it does not invoke P-1, Preflight, provisioning, S2/build or IPD. The historical S2 record is not changed. It lacks the original emitted bytes/archive, so historical byte verification remains **PENDING**; fixture outcomes must not be represented as historical verification.
+
+**Execute consumption guard.** The current tracker pointer explicitly marks P1-F consumption as NOT RECONCILED. Execute now fails closed at `S00-P1F-CONSUMPTION-RECONCILED`, and the freshness check repeats the refusal; an older `NOT EXECUTED — UNSPENT` report is not treated as current proof. This added safeguard does not alter the separate one-time capture-only Preflight authority or its non-consuming semantics.
+
+**Current consolidated source hash/line count and validated test results:** see the tracker’s consolidated-correction section and CI run record. No historical P-1 consumption state is inferred or reconciled by this technical supplement.
+
+
+**Current consolidated source identity:** 1,786 LF lines / 132,146 bytes; SHA-256 `bc0e3d1da774258ec941b566a1936eeac94d98d83b39659fc33ce2b0a4e0b253`. The Windows parser/fixture workflow remains pending; this exact source identity does not represent P-1 execution or historical emitted-byte verification.

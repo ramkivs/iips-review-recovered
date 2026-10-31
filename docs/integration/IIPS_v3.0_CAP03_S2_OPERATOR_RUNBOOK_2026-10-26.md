@@ -204,3 +204,11 @@ Do not hand-write, re-sum, or re-seal any file in the run folder. The `SHA256SUM
 - This note does not alter §§0–3, 5, or 6, the `8eec74ae` S2 record, or any PF-15 value.
 
 *End of `IIPS-V3-CAP03-S2-OPERATOR-RUNBOOK-2026-10-26-01`. Preparation only; no host operation is performed by this document.*
+
+## Consolidated emitted-byte retention and transfer correction (2026-10-31)
+
+This is a prospective operator-instruction correction only; it does not authorize or perform another S2/build. The amended S2 runner requires `dist-artifacts.zip` in each new evidence folder. The runner must be invoked from the IRR checkout with `docs/integration/cap03-p1-f9/CAP03S2DistArtifacts.psm1` retained at that exact relative location. It logs both source hashes in the S2 run log, creates the archive from the already-emitted `dist` tree, and reads/hashes every archive entry against the 1,140-entry inventory before continuing. A missing module, archive, inventory entry or byte mismatch is a fail-closed stop.
+
+The host-transfer script also imports this shared module. Invoke it with the IRR checkout/module present; a standalone copy without the module fails before staging. The transfer manifest remains the sole artifact allowlist. Every manifest path is copied, and exact staged-path-set equality is verified with no fixed count. The existing host/staged/committed byte checks remain in force. Do not add `dist-artifacts.zip` to an old manifest, old seal, or historical run by hand; do not rebuild or fabricate historical bytes. S04 requires actual IRR-retained bytes and independently verifies every hash. The historical 2026-10-28 emitted-byte question remains PENDING until the exact original bytes become available.
+
+The controlled Windows PowerShell 5.1 tests are in `docs/integration/cap03-p1-f9/CAP03_P1_ConsolidatedCorrection.Tests.ps1`. They test parser, helper, transfer-path-set, retention, independent-readback, fail-closed and failure-summary behavior only with temporary fixtures. They are not an S2 run, build, P-1 execution or historical-byte verification.
