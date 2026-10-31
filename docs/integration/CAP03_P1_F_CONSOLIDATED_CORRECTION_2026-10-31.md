@@ -2,7 +2,7 @@
 
 **Repository:** IRR, `ramkivs/iips-review-recovered`
 **Session branch:** `arena/4eaf2041-iips-review-recovered`
-**Status:** existing fixes remain on IRR PR #398 (OPEN, not merged); this addendum adds the user-reported original-source recovery path on the same branch. The recovery changes require fresh Windows PowerShell fixture CI and remote readback before validation is claimed.
+**Status:** existing fixes and the recovery addendum are on IRR PR #398 (OPEN, not merged). Fresh Windows PowerShell 5.1 parser/fixture CI passed on commit `82d9428230e15ffe02a315a207745196b6815c50`; the separate recovered bundle and its remote IRR readback remain pending.
 **Scope:** IRR source, fixture tests, technical record and tracker only. No production/IPD changes.
 
 ## Correction scope and source locations
@@ -50,7 +50,7 @@ The native Windows test entrypoint is `docs/integration/cap03-p1-f9/CAP03_P1_Con
 
 The Python S2 finalization contract suite passed **48/48** locally on this checkout. The current static validator and `git diff --check` also pass. These checks are source/model verification only; they do not parse PowerShell or establish actual ZIP helper behavior.
 
-**Prior Windows PowerShell 5.1 status:** the original PR implementation passed workflow run [41208774273](https://github.com/ramkivs/iips-review-recovered/actions/runs/41208774273) on commit `a19d30cb8433dd19616fa246f8862d2c3b49be57` (86 assertions); the corresponding Python workflow [41208774290](https://github.com/ramkivs/iips-review-recovered/actions/runs/41208774290) also passed. **Recovery addendum status: PENDING fresh Windows fixture CI and remote readback.** The PR remains [#398](https://github.com/ramkivs/iips-review-recovered/pull/398), OPEN and not merged. Historical source availability is now user-reported PASS; durable IRR archive retention remains PENDING.
+**Earlier Windows PowerShell 5.1 status:** the original PR implementation passed workflow run [41208774273](https://github.com/ramkivs/iips-review-recovered/actions/runs/41208774273) on commit `a19d30cb8433dd19616fa246f8862d2c3b49be57` (86 assertions); the corresponding Python workflow [41208774290](https://github.com/ramkivs/iips-review-recovered/actions/runs/41208774290) also passed. **Recovery addendum status:** fresh Windows parser/recovery-fixture workflow [41212103215](https://github.com/ramkivs/iips-review-recovered/actions/runs/41212103215) and static/source workflow [41212103223](https://github.com/ramkivs/iips-review-recovered/actions/runs/41212103223) passed on commit `82d9428230e15ffe02a315a207745196b6815c50`. The PR remains [#398](https://github.com/ramkivs/iips-review-recovered/pull/398), OPEN and not merged. Historical source availability is user-reported PASS; durable IRR archive retention remains PENDING until the recovery bundle is produced and remotely read back.
 
 ## Original source verification and durable IRR retention status
 
