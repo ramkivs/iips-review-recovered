@@ -36,4 +36,12 @@ jobs:
         run: |
           $ErrorActionPreference = 'Stop'
           $PSVersionTable.PSVersion.ToString()
-          & .\docs\integration\cap03-p1-f9\CAP03_P1_ConsolidatedCorrection.Tests.ps1
+          try {
+            & .\docs\integration\cap03-p1-f9\CAP03_P1_ConsolidatedCorrection.Tests.ps1
+          } catch {
+            $detail = [string]($_ | Out-String).Trim()
+            Add-Content -LiteralPath $env:GITHUB_STEP_SUMMARY -Value ('### PowerShell fixture failure' + "`r`n`r`n" + $detail)
+            $escaped = $detail.Replace('%', '%25').Replace("`r", '%0D').Replace("`n", '%0A')
+            Write-Output ('::error title=PowerShell fixture failure::' + $escaped)
+            throw
+          }
