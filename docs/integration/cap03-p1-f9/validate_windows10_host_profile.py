@@ -38,6 +38,7 @@ EVIDENCE_ROOT = REPO / "evidence" / "cap03-s2"
 RUN_ID = "s2-a891802e-20261028T192516Z"
 RUN_DIR = EVIDENCE_ROOT / RUN_ID
 EXPECTED_SHA256 = "6639633855300cd645248ce597bb2c867b5cdbf6045947bf4281721bb1cde6d1"
+EXPECTED_CORRECTED_SCRIPT_SHA256 = "2384e0a81816d9cf44f5a946faf1ed209622f83400ccf38303320f8b5899a04c"
 PREFLIGHT_AUTHORITY_ID = "IIPS-V3-CAP03-P1-REV7-PREFLIGHT-PA-AUTHORIZATION-ACT-2026-10-31-01"
 EXPECTED_SEAL_SHA256 = "9D3C09DBDB691C2527A45605DEA20826B4EC2BA2F110985EE3F1033783B5225E"
 EXPECTED_DEPOSIT_SHA256 = "FFD0956482427ACB404543E36DAC2705D802B04828E380290232C06129F3AFAD"
@@ -92,6 +93,15 @@ require(f"SHA-256 `{script_sha}`" in tracker and f"{lines_formatted} LF lines / 
         "authoritative tracker does not bind the exact Revision 7 identity")
 require(f"SHA-256 `{script_sha}`" in readme and f"{lines_formatted} LF lines, {bytes_formatted} bytes" in readme,
         "F9 README does not bind the exact Revision 7 identity")
+corrected_script_bytes = CORRECTED_SCRIPT.read_bytes()
+corrected_script_sha = hashlib.sha256(corrected_script_bytes).hexdigest()
+corrected_lines, corrected_bytes = f"{len(corrected_script_bytes.splitlines()):,}", f"{len(corrected_script_bytes):,}"
+require(corrected_script_sha == EXPECTED_CORRECTED_SCRIPT_SHA256 and
+        f"SHA-256 `{corrected_script_sha}`" in report and
+        f"{corrected_lines} LF lines / {corrected_bytes} bytes" in report and
+        f"SHA-256 `{corrected_script_sha}`" in readme and
+        f"{corrected_lines} LF lines / {corrected_bytes} bytes" in readme,
+        "current corrected P1-F candidate identity differs from its source report/README pin")
 for document, label in ((report, "source report"), (readme, "F9 README")):
     require(PREFLIGHT_AUTHORITY_ID in document and "PREFLIGHT-PA-AUTHORIZATION-USE.json" in document and
             "exactly one" in document.lower() and "NON-CONSUMING" in document,
@@ -236,6 +246,16 @@ required_guards = [
 ]
 for guard in required_guards:
     require(guard in source, "required authority/runtime/path/single-attempt guard missing: " + guard)
+
+# The current one-pass candidate must launch every Node command through the exact preinstalled Node 22 binary.
+node_invocations = re.findall(r"(?m)Invoke-Capture[^\r\n]*?-FilePath\s+([^\s]+)", corrected_source)
+require(r"$PinnedNodeExe        = 'C:\Node22\node-v22.16.0-win-x64\node.exe'" in corrected_source and
+        "$script:Facts.nodePath = $PinnedNodeExe" in corrected_source and
+        "S01-NODE-EXEC-PATH" in corrected_source and
+        node_invocations.count("$script:Facts.nodePath") == 7 and
+        not any(value.strip("'") in ("node", "node.exe", "npm", "npm.cmd", "npx", "npx.cmd") for value in node_invocations) and
+        "Get-Command node" not in corrected_source,
+        "current P1-F candidate must pin version/sqlite/validate/dump/execute Node invocations to Node 22.16.0, never PATH")
 
 # S04 uses admitted evidence and an exact read-only existing-dist comparison. It does not rebuild or probe.
 for guard in [
