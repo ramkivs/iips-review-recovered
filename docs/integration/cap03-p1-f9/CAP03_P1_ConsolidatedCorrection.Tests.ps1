@@ -10,6 +10,7 @@ Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
 $RepoRoot = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..\..\..'))
+$GitAttributesPath = Join-Path $RepoRoot '.gitattributes'
 $P1Path = Join-Path $RepoRoot 'docs\integration\IIPS_v3.0_CAP03_P1_F_P-1_CORRECTED_EXECUTION_SCRIPT_2026-10-31.ps1'
 $HistoricalP1Path = Join-Path $RepoRoot 'docs\integration\IIPS_v3.0_CAP03_P1_F_P-1_CORRECTED_EXECUTION_SCRIPT_2026-10-29.ps1'
 $S2Path = Join-Path $RepoRoot 'docs\integration\IIPS_v3.0_CAP03_S2_PIN_A891802E_WINDOWS_RUN_2026-10-28.ps1'
@@ -76,6 +77,22 @@ Assert-True ($retryAuthorityText.Contains('no retry follows')) 'PA act forbids r
 Assert-True ($retryModuleText.Contains('executeCalls') -and $retryModuleText.Contains('executeMarkerWritten')) 'retry verifier requires recorded zero execute calls and no marker'
 Assert-True ($retryModuleText.Contains('SHA256SUMS.txt') -and $retryModuleText.Contains('Get-FileHash')) 'retry verifier independently checks sealed prior-run bytes'
 Assert-True ($retryModuleText.Contains('p1-exe-20261101T091303265Z-332114a4')) 'retry verifier requires the known original-run anchor; an empty root is not a fresh retry'
+$retryPolicyBytes = [IO.File]::ReadAllBytes($RetryModulePath)
+$retryPolicySha256 = (Get-FileHash -Algorithm SHA256 -LiteralPath $RetryModulePath).Hash.ToUpperInvariant()
+$p1RetryPolicyPin = [regex]::Match($p1, '(?m)^\$RetryPolicySha256 = ''([0-9A-F]{64})''\r?$')
+$onePassRetryPolicyPin = [regex]::Match($onePassScript, '(?m)^\$RetryPolicyModuleSha256 = ''([0-9A-F]{64})''\r?$')
+Assert-True $p1RetryPolicyPin.Success 'P1-F must declare one exact retry-policy module hash pin'
+Assert-True $onePassRetryPolicyPin.Success 'one-pass launcher must declare one exact retry-policy module hash pin'
+Assert-Equal 'C4FA71B5DFDF8653139FC8DC5CB4E2F6E624CAB917A68AC99FAC5A0B171DD8C0' $retryPolicySha256 'Windows checkout module bytes must equal the published LF-canonical retry policy hash'
+Assert-Equal $retryPolicySha256 $p1RetryPolicyPin.Groups[1].Value 'P1-F hash pin must match the exact retry module filesystem bytes'
+Assert-Equal $retryPolicySha256 $onePassRetryPolicyPin.Groups[1].Value 'one-pass hash pin must match the exact retry module filesystem bytes'
+Assert-True (([Array]::IndexOf($retryPolicyBytes, [byte]13)) -lt 0) 'retry module checkout must retain canonical LF bytes, not CRLF-convert them'
+$retryPolicyRelativePath = 'docs/integration/cap03-p1-f9/CAP03P1PrestartRetry.psm1'
+$gitAttributesLines = [IO.File]::ReadAllLines($GitAttributesPath)
+Assert-True ($gitAttributesLines -ccontains ($retryPolicyRelativePath + ' text eol=lf')) 'the exact retry-module path must have a canonical LF checkout rule'
+$retryEolAttribute = @(& git -C $RepoRoot check-attr eol -- $retryPolicyRelativePath)
+Assert-Equal 0 $LASTEXITCODE 'git check-attr must succeed for the retry module'
+Assert-Equal ($retryPolicyRelativePath + ': eol: lf') ($retryEolAttribute -join '') 'exact .gitattributes rule must protect the retry module working-tree bytes'
 Assert-True ($p1.Contains('Get-IipsP1FPrestartRetryReview')) 'P1-F revalidates prior attempt evidence at S00 and before marker'
 Assert-True ($p1.Contains('execute-claim-'' + $script:RunDirName + ''.json')) 'each retry creates a new claim without overwriting the retained original'
 Assert-True ($p1.Contains('Local\IIPS-P1F-EXECUTE-')) 'same-session concurrent P1-F invocations are mutually excluded'

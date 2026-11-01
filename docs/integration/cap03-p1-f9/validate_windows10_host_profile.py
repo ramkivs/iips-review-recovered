@@ -33,6 +33,7 @@ OPERATOR_QEV_ID = "IIPS-V3-CAP03-P1-QEV-OPERATOR-VERIFICATION-DACL-ACCEPTANCE-20
 OPERATOR_QEV_RECORD = ROOT / "IIPS_v3.0_CAP03_P1_QEV_OPERATOR_VERIFICATION_DACL_ACCEPTANCE_2026-10-30.md"
 DESIGNATED_EVIDENCE_ROOT = r"H:\IIPS-P1-EVIDENCE"
 IRR_ONLY_WORKFLOW = REPO / ".github" / "workflows" / "cap03-revision7-irr-static.yml"
+WINDOWS_FIXTURE_WORKFLOW = REPO / ".github" / "workflows" / "cap03-p1-consolidated-windows.yml"
 GENERIC_CI_WORKFLOW = REPO / ".github" / "workflows" / "ci.yml"
 POST_CI_RECORD = ROOT / "IIPS_v3.0_CAP03_P1_REV7_POST_CI_BOUNDARY_RECONCILIATION_2026-10-30.md"
 POST_CI_RECORD_ID = "IIPS-V3-CAP03-P1-REV7-POST-CI-BOUNDARY-RECONCILIATION-2026-10-30-01"
@@ -85,6 +86,7 @@ tracker = TRACKER.read_text(encoding="utf-8")
 pf15_act = PF15_ACT.read_text(encoding="utf-8")
 qev_act = QEV_ACT.read_text(encoding="utf-8")
 irr_only_workflow = IRR_ONLY_WORKFLOW.read_text(encoding="utf-8")
+windows_fixture_workflow = WINDOWS_FIXTURE_WORKFLOW.read_text(encoding="utf-8")
 generic_ci_workflow = GENERIC_CI_WORKFLOW.read_text(encoding="utf-8")
 post_ci_record = POST_CI_RECORD.read_text(encoding="utf-8")
 script_sha = hashlib.sha256(script_bytes).hexdigest()
@@ -96,6 +98,16 @@ require(("$FreshExecuteAuthoritySha256 = '" + retry_authority_sha256 + "'") in c
 require(("$RetryPolicySha256 = '" + retry_policy_sha256 + "'") in corrected_source and
         ("$RetryPolicyModuleSha256 = '" + retry_policy_sha256 + "'") in one_pass_script,
         "P1-F and one-pass launcher do not pin the exact retry-verifier module bytes")
+retry_module_relative = "docs/integration/cap03-p1-f9/CAP03P1PrestartRetry.psm1"
+gitattributes_text = (REPO / ".gitattributes").read_text(encoding="utf-8")
+require(retry_module_relative + " text eol=lf" in gitattributes_text.splitlines(),
+        "retry verifier lacks an exact LF working-tree attribute")
+retry_attr = subprocess.run(
+    ["git", "check-attr", "eol", "--", retry_module_relative], cwd=REPO,
+    capture_output=True, text=True, encoding="utf-8", check=False,
+)
+require(retry_attr.returncode == 0 and retry_attr.stdout.strip() == retry_module_relative + ": eol: lf",
+        "Git attribute resolution does not preserve canonical LF bytes for the retry verifier")
 if EXPECTED_SHA256 != "TO_BE_SET_AFTER_FINAL_EDIT":
     require(script_sha == EXPECTED_SHA256, "Revision 7 source SHA-256 differs from the pinned validator identity")
 lines_formatted, bytes_formatted = f"{len(script_bytes.splitlines()):,}", f"{len(script_bytes):,}"
@@ -457,6 +469,12 @@ for token in ("SHA256SUMS.txt", "executeMarkerWritten", "executeCalls", "execute
 require("Get-IipsP1FPrestartRetryReview" in corrected_source and "Local\\IIPS-P1F-EXECUTE-" in corrected_source and
         "execute-claim-" in corrected_source and "PRESTART-RETRY-HISTORY" in corrected_source,
         "P1-F retry path lacks review, concurrency exclusion, or per-run claim mechanism")
+for token in ("Get-FileHash -Algorithm SHA256 -LiteralPath $RetryModulePath", "$RetryPolicySha256", "$RetryPolicyModuleSha256",
+              "canonical LF bytes", "git -C $RepoRoot check-attr eol"):
+    require(token in correction_tests, "Windows regression suite does not lock module-byte integrity: " + token)
+for workflow in (irr_only_workflow, windows_fixture_workflow):
+    require(workflow.count("      - '.gitattributes'") == 2,
+            "line-ending integrity changes must trigger PR and main-push validation workflows")
 
 require("$TrackerPointerRequiredText = 'AUTHORIZED'" in corrected_source and
         "FRESH P1-F Execute authorization: AUTHORIZED - PRESTART RETRIES ONLY - NOT EXECUTED - UNSPENT" in corrected_source and
@@ -476,6 +494,13 @@ def git_grep_count(revision: str, token: str) -> int:
     return len(result.stdout.splitlines())
 
 for revision in (allocation_history_commit, branch_commit):
+    require(git_grep_count(revision, "## §16.242") == 0 and
+            git_grep_count(revision, "CV-CORR-222") == 0 and
+            git_grep_count(revision, "CHG-2026-11-01-21") == 0,
+            "retry-module integrity allocation already exists at census baseline " + revision)
+    for number in range(1936, 1946):
+        require(git_grep_count(revision, f"| `V{number}` |") == 0,
+                "retry-module integrity verification allocation collides at census baseline " + revision)
     require(git_grep_count(revision, "## §16.222") == 0,
             "§16.222 already had a Q-EV allocation heading at census baseline " + revision)
     require(git_grep_count(revision, QEV_ACT_ID) == 0,
@@ -544,7 +569,7 @@ require(tracker.count("| `2026-10-30` | `CHG-2026-10-30-11` |") == 1 and
         "Next free after this section: **`§16.222` / `CV-CORR-202` / `CHG-2026-10-30-17` / `V1712`**" in tracker,
         "historical Revision 7 change-log or latest-main/Q-EV allocation is inconsistent")
 first_lines = "\n".join(tracker.splitlines()[:30])
-require("**Latest (`CV-CORR-221`, §16.241, `CHG-2026-11-01-20`" in first_lines and
+require("**Latest (`CV-CORR-222`, §16.242, `CHG-2026-11-01-21`" in first_lines and
         "CV-CORR-209`/§16.229" in first_lines and
         "**Latest (`CV-CORR-208`" in first_lines and
         PREFLIGHT_AUTHORITY_ID in first_lines and "exactly one capture-only" in first_lines and
@@ -561,6 +586,16 @@ require("**Current CAP-03 P-1 / PF-15 status** — *current pointer (`CV-CORR-22
         "P-1-C remains NOT ESTABLISHED" in first_lines and
         "P-1-D remains DESIGNATED / NOT VERIFIED FOR THE ATTEMPT" in first_lines,
         "CAP-03 current-state pointer does not preserve distinct-stop provenance or unreconciled consumption")
+retry_integrity_heading = "## §16.242 — `CV-CORR-222`: CAP-03 P1-F retry-policy module working-tree integrity correction"
+require(tracker.count(retry_integrity_heading) == 1 and
+        "## §16.241 — `CV-CORR-221`: PA standing authorization" in tracker and
+        "C4FA71B5DFDF8653139FC8DC5CB4E2F6E624CAB917A68AC99FAC5A0B171DD8C0" in tracker and
+        "168DF3C2C8CC42313920832A70B289FE88A4FBFC27E403B3987F1D2197F688D8" in tracker and
+        "§16.243` / `CV-CORR-223` / `CHG-2026-11-01-22` / `V1946`" in tracker,
+        "retry-module integrity correction allocation or exact byte-level finding is incomplete")
+for verification_id in range(1936, 1946):
+    require(tracker.count(f"| `V{verification_id}` |") == 1,
+            "retry-module integrity verification row missing/duplicated: V" + str(verification_id))
 tracker_lines = tracker.splitlines()
 latest_pointer_lines = [line for line in tracker_lines if "**Latest (`CV-CORR-208`" in line]
 current_status_lines = [line for line in tracker_lines if "**Current CAP-03 P-1 / PF-15 status**" in line]

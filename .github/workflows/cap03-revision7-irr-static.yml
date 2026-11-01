@@ -7,6 +7,7 @@ name: CAP-03 Revision 7 IRR-only static checks
 on:
   pull_request:
     paths:
+      - '.gitattributes'
       - 'IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md'
       - 'docs/integration/IIPS_v3.0_CAP03_P1_F_P-1_CORRECTED_EXECUTION_SCRIPT_2026-10-31.ps1'
       - 'docs/integration/IIPS_v3.0_CAP03_P1_ONE_PASS_COMPLETION_2026-11-01.ps1'
@@ -27,6 +28,7 @@ on:
     branches:
       - main
     paths:
+      - '.gitattributes'
       - 'IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md'
       - 'docs/integration/IIPS_v3.0_CAP03_P1_F_P-1_CORRECTED_EXECUTION_SCRIPT_2026-10-31.ps1'
       - 'docs/integration/IIPS_v3.0_CAP03_P1_ONE_PASS_COMPLETION_2026-11-01.ps1'
