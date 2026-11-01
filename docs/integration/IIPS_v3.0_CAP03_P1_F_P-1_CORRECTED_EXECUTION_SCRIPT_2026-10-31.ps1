@@ -70,6 +70,7 @@ $HostProfileRef       = 'IIPS-V3-CAP03-P1-WINDOWS10-PERSONAL-HOST-PROFILE-PA-202
 $ExpectedProductName  = 'Windows 10 Home Single Language'
 $ExpectedCommit       = 'a891802e2691bd9c65a67d6abff20d8ce0c26d7d'
 $ExpectedTree         = '76f083d7058e170d8212455c03bad1033136ee68'
+$PinnedNodeExe        = 'C:\Node22\node-v22.16.0-win-x64\node.exe'
 $BasisCommit          = '5fc74085ade980846ff4a07b36415b6d49446486'
 $BasisTree            = '7226ef0033b3a7049169d8fcf9bcbc9908e2590b'
 $PrincipalLabel       = 'ramki-personal-local'
@@ -678,17 +679,30 @@ function Invoke-HostAndRuntime {
     Require-Check -Id 'S01-ENV-GIT' -Pass ($gitEnv.Count -eq 0) -Detail ('GIT_* variables present = ' + $gitEnv.Count + '; the entrypoint ignores them when it measures the executing identity, so this script must not run with them set')
     $nodeOpts = [Environment]::GetEnvironmentVariable('NODE_OPTIONS')
     Require-Check -Id 'S01-ENV-NODEOPTS' -Pass ([string]::IsNullOrEmpty($nodeOpts)) -Detail 'NODE_OPTIONS must be unset'
-    $nodeCmds = @(Get-Command node -CommandType Application -ErrorAction SilentlyContinue)
-    Require-Check -Id 'S01-NODE-PRESENT' -Pass ($nodeCmds.Count -ge 1) -Detail 'node.exe must be on PATH'
-    $script:Facts.nodePath = [string]$nodeCmds[0].Source
-    $nodeVersionOut = (Invoke-Capture -Name 'node-version' -FilePath 'node' -ArgList @('-v') -WorkDir $script:RepoFull).StdOut.Trim()
+    # Pin every Node operation to the previously installed compliant binary. Never resolve `node` through PATH:
+    # the host may have a different major (notably Node 24) earlier on PATH.
+    $script:Facts.nodePath = $PinnedNodeExe
+    Require-Check -Id 'S01-NODE-PRESENT' -Pass (Test-Path -LiteralPath $script:Facts.nodePath -PathType Leaf) -Detail ('pinned node.exe must exist: ' + $script:Facts.nodePath)
+    $nodeVersionResult = Invoke-Capture -Name 'node-version' -FilePath $script:Facts.nodePath -ArgList @('-v') -WorkDir $script:RepoFull
+    $nodeVersionOut = $nodeVersionResult.StdOut.Trim()
     $script:Facts.nodeVersion = $nodeVersionOut
     $nodeMatch = [regex]::Match($nodeVersionOut, '^v22\.(\d+)\.(\d+)$')
-    $nodeOk = $nodeMatch.Success -and ([int]$nodeMatch.Groups[1].Value -ge 13)
-    Require-Check -Id 'S01-NODE' -Pass $nodeOk -Detail ('node ' + $nodeVersionOut + '; required >=22.13.0 <23')
+    $nodeOk = ($nodeVersionResult.Code -eq 0) -and $nodeMatch.Success -and ([int]$nodeMatch.Groups[1].Value -ge 13)
+    Require-Check -Id 'S01-NODE' -Pass $nodeOk -Detail ('pinned node ' + $nodeVersionOut + '; required >=22.13.0 <23; executable=' + $script:Facts.nodePath)
+    $nodeExecPathResult = Invoke-Capture -Name 'node-exec-path' -FilePath $script:Facts.nodePath -ArgList @('-p', 'process.execPath') -WorkDir $script:RepoFull
+    $nodeExecPathOut = $nodeExecPathResult.StdOut.Trim()
+    $nodeExecPathOk = $false
+    if (($nodeExecPathResult.Code -eq 0) -and ($nodeExecPathOut -ne '')) {
+        try {
+            $nodeExecPathCanonical = [System.IO.Path]::GetFullPath($nodeExecPathOut)
+            $nodePinnedPathCanonical = [System.IO.Path]::GetFullPath($script:Facts.nodePath)
+            $nodeExecPathOk = [string]::Equals($nodeExecPathCanonical, $nodePinnedPathCanonical, [System.StringComparison]::OrdinalIgnoreCase)
+        } catch { $nodeExecPathOk = $false }
+    }
+    Require-Check -Id 'S01-NODE-EXEC-PATH' -Pass $nodeExecPathOk -Detail ('Node process.execPath=' + $nodeExecPathOut + '; pinned executable=' + $script:Facts.nodePath)
     $probeName = 'probe-sqlite-' + [guid]::NewGuid().ToString('N') + '.mjs'
     Write-RawFile -Path (Join-Path $script:RunDir $probeName) -Text ("import { DatabaseSync } from 'node:sqlite';`nconsole.log(typeof DatabaseSync === 'function' ? 'SQLITE_FLAG_FREE_OK' : 'SQLITE_MISSING');`n")
-    $probe = Invoke-Capture -Name 'sqlite-probe' -FilePath 'node' -ArgList @((Join-Path $script:RunDir $probeName)) -WorkDir $script:RunDir
+    $probe = Invoke-Capture -Name 'sqlite-probe' -FilePath $script:Facts.nodePath -ArgList @((Join-Path $script:RunDir $probeName)) -WorkDir $script:RunDir
     Require-Check -Id 'S01-SQLITE' -Pass (($probe.Code -eq 0) -and ($probe.StdOut.Trim() -ceq 'SQLITE_FLAG_FREE_OK')) -Detail 'node:sqlite loads flag-free (no database opened; stderr may carry an ExperimentalWarning, which is recorded and ignored)'
 }
 
@@ -1118,7 +1132,7 @@ function Invoke-AdmittedS2EvidenceCheck {
 function Invoke-PreStateValidate {
     # S05. Read-only validate on the absent store. The recorded refusal code and message are verbatim.
     $preArgs = @($script:EntryFull, '--mode=validate', ('--act-id=' + $ActId), ('--store=' + $StorePath))
-    $pre = Invoke-Capture -Name 'p1-prestate-validate' -FilePath 'node' -ArgList $preArgs -WorkDir $script:RepoFull
+    $pre = Invoke-Capture -Name 'p1-prestate-validate' -FilePath $script:Facts.nodePath -ArgList $preArgs -WorkDir $script:RepoFull
     $preCode = ''
     $preMsg = ''
     if ($pre.Code -eq 1) {
@@ -1425,7 +1439,7 @@ function Invoke-PostInvocationForensics {
     )
     $script:ValidatePassAll = $false
     try {
-        $post = Invoke-Capture -Name 'p1-postvalidate' -FilePath 'node' -ArgList $postArgs -WorkDir $script:RepoFull
+        $post = Invoke-Capture -Name 'p1-postvalidate' -FilePath $script:Facts.nodePath -ArgList $postArgs -WorkDir $script:RepoFull
         if ($post.Code -eq 0) {
             $report = Read-JsonText -Text $post.StdOut -Label 'post-state validate'
             $requiredIds = @('V-A2-1', 'V-A2-2', 'V-A2-3', 'V-A2-4', 'V-A2-5', 'V-A2-6', 'V-A2-7', 'V-A2-8')
@@ -1510,7 +1524,7 @@ function Invoke-PostInvocationForensics {
                 ) -join "`n"
 
             Write-RawFile -Path $dumpPath -Text ($dumpSource + "`n")
-            $dump = Invoke-Capture -Name 'readonly-dump' -FilePath 'node' -ArgList @($dumpPath, $StorePath) -WorkDir $script:RunDir
+            $dump = Invoke-Capture -Name 'readonly-dump' -FilePath $script:Facts.nodePath -ArgList @($dumpPath, $StorePath) -WorkDir $script:RunDir
             if ($dump.Code -eq 0) {
                 $dumpObj = Read-JsonText -Text $dump.StdOut -Label 'readonly dump'
                 $dumpOk = ([string](Get-Prop -Obj $dumpObj -Name 'schema') -ceq 'IIPS-P1-READONLY-DUMP/1') -and [bool](Get-Prop -Obj $dumpObj -Name 'ok')
@@ -1734,7 +1748,7 @@ try {
         if ($script:ExecuteCalls -gt 1) { Stop-Gate 'SECOND_INVOCATION_REFUSED' 'a second --mode=execute invocation is never made' }
         $script:ExecState = 'STARTING'
         try {
-            $exec = Invoke-Capture -Name 'p1-execute-SINGLE-ATTEMPT' -FilePath 'node' -ArgList $execArgs -WorkDir $script:RepoFull
+            $exec = Invoke-Capture -Name 'p1-execute-SINGLE-ATTEMPT' -FilePath $script:Facts.nodePath -ArgList $execArgs -WorkDir $script:RepoFull
             $script:ExecResult = $exec
         } catch {
             # Raised by the invocation wrapper: a process start failure, or a raw-file write after the process ended. The

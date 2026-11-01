@@ -57,6 +57,14 @@ $paAuthorityText = [IO.File]::ReadAllText($PaAuthorityPath)
 $artifactModule = [IO.File]::ReadAllText($ArtifactModulePath)
 $summaryModule = [IO.File]::ReadAllText($SummaryModulePath)
 
+# Pin every P1-F Node invocation to the installed compliant Node 22 binary; PATH must not select Node 24.
+Assert-True ($p1.Contains('C:\Node22\node-v22.16.0-win-x64\node.exe')) 'P1-F must pin the approved existing Node 22 executable'
+Assert-True ($p1.Contains("Test-Path -LiteralPath `$script:Facts.nodePath -PathType Leaf")) 'P1-F must require the pinned executable to exist before invoking Node'
+Assert-True ($p1.Contains("S01-NODE-EXEC-PATH")) 'P1-F must verify Node reports the same process.execPath it was launched from'
+Assert-Equal 7 ([regex]::Matches($p1, '(?m)-FilePath \$script:Facts\.nodePath').Count) 'all runtime, entrypoint, and forensic Node invocations must use the pinned executable'
+Assert-Equal 0 ([regex]::Matches($p1, "(?m)-FilePath\s+'node'\b").Count) 'P1-F must never resolve Node through PATH'
+Assert-True (-not $p1.Contains("-FilePath 'npm.cmd'") -and -not $p1.Contains("-FilePath 'npx.cmd'")) 'P1-F must not introduce npm/npx PATH launchers; it does not install or rebuild'
+
 # Regressions for the five PowerShell 5.1 array/scalar and quote fixes.
 Assert-True ($p1.Contains('$evGit = @(Get-GitMarkerHits -Chain $evChain)')) 'S00 git marker results must be array-captured'
 Assert-True ($p1.Contains('$evReparse = @(Get-ReparseHits -Chain $evChain)')) 'S00 reparse results must be array-captured'
