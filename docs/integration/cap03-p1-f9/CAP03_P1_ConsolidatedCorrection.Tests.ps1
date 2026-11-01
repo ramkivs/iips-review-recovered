@@ -15,6 +15,7 @@ $HistoricalP1Path = Join-Path $RepoRoot 'docs\integration\IIPS_v3.0_CAP03_P1_F_P
 $S2Path = Join-Path $RepoRoot 'docs\integration\IIPS_v3.0_CAP03_S2_PIN_A891802E_WINDOWS_RUN_2026-10-28.ps1'
 $TransferPath = Join-Path $RepoRoot 'docs\integration\IIPS_v3.0_CAP03_S2_DEP_A_HOST_TRANSFER_2026-10-29.ps1'
 $RecoveryPath = Join-Path $RepoRoot 'docs\integration\IIPS_v3.0_CAP03_S2_ORIGINAL_DIST_RECOVERY_2026-10-31.ps1'
+$OnePassPath = Join-Path $RepoRoot 'docs\integration\IIPS_v3.0_CAP03_P1_ONE_PASS_COMPLETION_2026-11-01.ps1'
 $ArtifactModulePath = Join-Path $PSScriptRoot 'CAP03S2DistArtifacts.psm1'
 $SummaryModulePath = Join-Path $PSScriptRoot 'CAP03P1FailureSummary.psm1'
 $TestPath = $PSCommandPath
@@ -38,7 +39,7 @@ function Assert-Throws {
     if (-not $thrown) { throw ('ASSERTION FAILED: expected exception: ' + $Message) }
 }
 
-$parseTargets = @($P1Path, $HistoricalP1Path, $S2Path, $TransferPath, $RecoveryPath, $ArtifactModulePath, $SummaryModulePath, $TestPath)
+$parseTargets = @($P1Path, $HistoricalP1Path, $S2Path, $TransferPath, $RecoveryPath, $OnePassPath, $ArtifactModulePath, $SummaryModulePath, $TestPath)
 foreach ($target in $parseTargets) {
     $tokens = $null
     $errors = $null
@@ -50,6 +51,7 @@ $p1 = [IO.File]::ReadAllText($P1Path)
 $s2 = [IO.File]::ReadAllText($S2Path)
 $transfer = [IO.File]::ReadAllText($TransferPath)
 $recoveryScript = [IO.File]::ReadAllText($RecoveryPath)
+$onePassScript = [IO.File]::ReadAllText($OnePassPath)
 $artifactModule = [IO.File]::ReadAllText($ArtifactModulePath)
 $summaryModule = [IO.File]::ReadAllText($SummaryModulePath)
 
@@ -118,6 +120,14 @@ Assert-True ($artifactModule.Contains('RECOVERY_COPY_VALIDATION_FAILED:')) 'reco
 Assert-True ($artifactModule.Contains('RECOVERY_ARCHIVE_VALIDATION_FAILED:')) 'recovery must independently verify the completed archive'
 Assert-True ($artifactModule.Contains('RECOVERY_INVENTORY_COPY_HASH_MISMATCH')) 'original inventory copy must be byte-identical'
 Assert-True ($artifactModule.Contains('RECOVERY_VERIFICATION_OUTPUT_COPY_HASH_MISMATCH')) 'original verification output copy must be byte-identical'
+Assert-True ($artifactModule.Contains('RECOVERY_BUNDLE_OUTPUT_WAIVER_NOT_ENABLED')) 'S04 output waiver must be explicitly enabled by the P1 verifier'
+Assert-True ($artifactModule.Contains('RECOVERY_BUNDLE_WAIVER_MUST_NOT_SUBSTITUTE_ORIGINAL_OUTPUT')) 'waiver path must reject a fabricated or substituted original-output file'
+Assert-True ($recoveryScript.Contains('$NonInteractive')) 'one-pass recovery wrapper must support non-interactive use'
+Assert-True ($onePassScript.Contains('IIPS-V3-CAP03-PA-BLANKET-WAIVER-ONE-PASS-AUTHORIZATION-2026-11-01-01')) 'one-pass runner must bind the explicit PA decision'
+Assert-True ($onePassScript.Contains('-Mode Execute')) 'one-pass runner invokes only the explicitly authorized Execute mode'
+Assert-True (-not $onePassScript.Contains('-Mode Preflight')) 'one-pass runner must not invoke the separate Preflight path'
+Assert-Equal 1 ([regex]::Matches($onePassScript, '(?m)^\s*& \$P1Script').Count) 'one-pass runner contains exactly one P1-F script invocation'
+Assert-True ($onePassScript.Contains('S04_BUNDLE_INDEPENDENT_READBACK_FAILED')) 'one-pass runner independently verifies the recovery bundle before the single Execute call'
 Assert-True ($artifactModule.Contains('RECOVERY_SEAL_READBACK_MISMATCH:')) 'recovery bundle seal must be independently read back'
 Assert-True ($artifactModule.Contains('ARCHIVE_ENTRY_MISSING:')) 'archive verifier must fail closed on incomplete bytes'
 Assert-True ($artifactModule.Contains('ARCHIVE_READ_FAILED:')) 'archive verifier must fail closed on inaccessible/corrupt bytes'
@@ -220,6 +230,28 @@ $wrongArchiveAuthority = Test-S2OriginalDistRecoveryBundle -RecoveryRoot $recove
     -ExpectedArchiveSha256 ('0' * 64)
 Assert-True (-not [bool]$wrongArchiveAuthority.Passed) 'recovery archive identity must fail closed against a pinned expected SHA-256'
 Assert-True (@($wrongArchiveAuthority.Failures | Where-Object { $_ -like '*RECOVERY_BUNDLE_ARCHIVE_AUTHORITY_MISMATCH*' }).Count -gt 0) 'wrong pinned archive hash is surfaced as an authority mismatch'
+$waiverDecisionPath = Join-Path $PSScriptRoot '..\IIPS_v3.0_CAP03_PA_BLANKET_WAIVER_AND_ONE_PASS_AUTHORIZATION_2026-11-01.md'
+$waiverRecoveryRoot = Join-Path $temp 'waived-original-output-recovery'
+$waiverRecoveryResult = Invoke-S2OriginalDistRecovery -SourceDist $distRoot -InventoryPath $inventoryPath `
+    -S04WaiverRecordPath $waiverDecisionPath -RecoveryRoot $waiverRecoveryRoot -ExpectedCount 3
+Assert-True ([bool]$waiverRecoveryResult.Passed) 'PA-authorized S04 waiver recovery completes without inventing the missing output'
+Assert-Equal 'WAIVED_BY_PA' $waiverRecoveryResult.OriginalVerificationOutputState 'waiver state is explicit in the recovery result'
+Assert-True (-not (Test-Path -LiteralPath (Join-Path $waiverRecoveryRoot 'original-verification-output.txt'))) 'waiver bundle never fabricates the original verification output'
+Assert-True (Test-Path -LiteralPath (Join-Path $waiverRecoveryRoot 'PA-S04-OUTPUT-WAIVER.md')) 'waiver decision is retained as a distinct authentic artifact'
+$waiverBundleCheck = Test-S2OriginalDistRecoveryBundle -RecoveryRoot $waiverRecoveryRoot -ExpectedMap $inventory -ExpectedCount 3 `
+    -ExpectedSourceDist ([IO.Path]::GetFullPath($distRoot)) -ExpectedSourceRunId 's2-a891802e-20261028T192516Z' `
+    -AllowWaivedOriginalVerificationOutput -ExpectedWaiverDecisionRef 'IIPS-V3-CAP03-PA-BLANKET-WAIVER-ONE-PASS-AUTHORIZATION-2026-11-01-01'
+Assert-True ([bool]$waiverBundleCheck.Passed) ('waiver bundle verifies with its explicit authority: ' + (@($waiverBundleCheck.Failures) -join '; '))
+$waiverWithoutEnable = Test-S2OriginalDistRecoveryBundle -RecoveryRoot $waiverRecoveryRoot -ExpectedMap $inventory -ExpectedCount 3 `
+    -ExpectedSourceDist ([IO.Path]::GetFullPath($distRoot)) -ExpectedSourceRunId 's2-a891802e-20261028T192516Z'
+Assert-True (-not [bool]$waiverWithoutEnable.Passed) 'S04 verifier refuses waived output unless the caller expressly enables the PA path'
+$forbiddenSubstitutePath = Join-Path $waiverRecoveryRoot 'original-verification-output.txt'
+[IO.File]::WriteAllText($forbiddenSubstitutePath, 'Windows PowerShell recovery transcript; not the original verification output.', (New-Object System.Text.UTF8Encoding($false)))
+$waiverWithSubstitute = Test-S2OriginalDistRecoveryBundle -RecoveryRoot $waiverRecoveryRoot -ExpectedMap $inventory -ExpectedCount 3 `
+    -ExpectedSourceDist ([IO.Path]::GetFullPath($distRoot)) -ExpectedSourceRunId 's2-a891802e-20261028T192516Z' `
+    -AllowWaivedOriginalVerificationOutput -ExpectedWaiverDecisionRef 'IIPS-V3-CAP03-PA-BLANKET-WAIVER-ONE-PASS-AUTHORIZATION-2026-11-01-01'
+Assert-True (-not [bool]$waiverWithSubstitute.Passed) 'waiver verifier refuses a transcript or any other file placed under the absent original-output filename'
+Assert-True (@($waiverWithSubstitute.Failures | Where-Object { $_ -like '*RECOVERY_BUNDLE_WAIVER_MUST_NOT_SUBSTITUTE_ORIGINAL_OUTPUT*' }).Count -gt 0) 'substitution refusal is an explicit verifier failure'
 $recoverySealText = [IO.File]::ReadAllText($recoveryResult.SealPath)
 Assert-True ($recoverySealText.Contains('dist-artifacts.zip')) 'recovery seal records the archive file digest'
 $archiveHashBeforeRefusal = (Get-FileHash -Algorithm SHA256 -LiteralPath (Join-Path $recoveryRoot 'dist-artifacts.zip')).Hash

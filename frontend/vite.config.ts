@@ -6,12 +6,11 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   server: {
-    // C8 remediation (2026-10-19, G3-D7 / act §5.2): the dev server previously bound
-    // every interface and admitted a wildcard external host suffix. It now binds
-    // loopback only and admits loopback hostnames only. No other dev-server feature
-    // is added and the proxy target is unchanged.
-    host: '127.0.0.1',
-    allowedHosts: ['localhost', '127.0.0.1'],
+    // Personal single-user development only. Bind all sandbox interfaces so Arena's
+    // isolated preview proxy can reach Vite; restrict Host validation to loopback and
+    // Arena's preview domain. This is not a production/public-service deployment.
+    host: '0.0.0.0',
+    allowedHosts: ['localhost', '127.0.0.1', '.e2b.app'],
     port: 5173,
     proxy: {
       // Proxy the v3.0 executive transport (runs the certified platform in-process).

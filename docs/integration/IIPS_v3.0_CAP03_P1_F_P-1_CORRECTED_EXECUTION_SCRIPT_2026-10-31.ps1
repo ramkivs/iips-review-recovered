@@ -9,7 +9,7 @@
   applies only to the personally operated, single-user Windows 10 target; it does not claim production Act section 8
   compliance or create authority to execute P-1. Companion source review: docs/integration/IIPS_v3.0_CAP03_P1_F_P-1_SOURCE_TO_SCRIPT_VERIFICATION_2026-10-29.md
 
-  STATUS OF THIS FILE: Published S04-correction candidate derived from Revision 7. It is not an authorization instrument. Current P1-F consumption is NOT RECONCILED (tracker section 16.233); do not execute until the authoritative consumption determination and complete S04 Windows bundle/readback prerequisites are satisfied.
+  STATUS OF THIS FILE: Published S04-correction candidate derived from Revision 7. The PA decision IIPS-V3-CAP03-PA-BLANKET-WAIVER-ONE-PASS-AUTHORIZATION-2026-11-01-01 grants one fresh Execute attempt without asserting prior consumption. Execute remains blocked until this decision and its exact fresh-attempt pointer are present on authoritative main and the S04 recovery bundle is created/read back.
   S04 reads and verifies the PA-06-admitted S2 evidence already held in IRR. It does not install dependencies or build.
   During a later authorized run it compares an already-existing pinned-checkout dist read-only; this IRR review did not
   inspect IPD. U-5 remains NOT RUN; this evidence is not represented as U-5 PASS.
@@ -152,9 +152,11 @@ $P1FEntry             = '100644 blob e49bdd4156453971ae6b2bc61c4d2ec1b070f59c'
 $Pf15Path             = 'docs/integration/IIPS_v3.0_CAP03_PF15_ENDPOINT_LOCAL_STATE_DESIGNATION_PA_ACT_CORRECTED_2026-10-26.md'
 $Pf15Entry            = '100644 blob 3fe9a2ddd5f3b8730eccee7748b6266b5e2d8b1d'
 $TrackerPath          = 'IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md'
-# After publication, main must carry this revision's dated status pointers. The baseline is current authoritative main at merge reconciliation; later main changes are freshness-checked.
+# After publication, main must carry this revision's dated status pointers and explicit fresh-attempt act.
 $TrackerPointerMarkers = @('**Latest (`CV-CORR-208`', '**Current CAP-03 P-1 / PF-15 status**')
 $TrackerPointerRequiredText = 'AUTHORIZED'
+$FreshExecuteAuthorityRef = 'IIPS-V3-CAP03-PA-BLANKET-WAIVER-ONE-PASS-AUTHORIZATION-2026-11-01-01'
+$FreshExecuteAuthorityPointerText = 'FRESH P1-F Execute authorization: AUTHORIZED - ONE ATTEMPT ONLY - NOT EXECUTED - UNSPENT'
 $P1NamePattern        = '(?i)(P1|P-1|GATE[_-]A[_-]PRIME|PF-?15|PA[_-]RULING)'
 $TrackerP1Term        = '(?i)(P-1|P1-F|CAP-03 P1)'
 $TrackerConsumeTerm   = '(?i)(P-1.{0,120}(authorization revoked|authorization withdrawn|attempted:\s*yes|status:\s*(consumed|spent)|is not authorized)|(authorization revoked|authorization withdrawn|attempted:\s*yes|status:\s*(consumed|spent)|not authorized).{0,120}P-1)'
@@ -171,6 +173,11 @@ $ReviewArtifactPaths  = @(
     'docs/integration/cap03-p1-f9/validate_windows10_host_profile.py',
     'docs/integration/IIPS_v3.0_CAP03_P1_QEV_RUN_RECORD_ROOT_PA_ACT_2026-10-30.md',
     'docs/integration/IIPS_v3.0_CAP03_P1_QEV_OPERATOR_VERIFICATION_DACL_ACCEPTANCE_2026-10-30.md',
+    'docs/integration/IIPS_v3.0_CAP03_PA_BLANKET_WAIVER_AND_ONE_PASS_AUTHORIZATION_2026-11-01.md',
+    'docs/integration/CAP03_P1_F_CONSOLIDATED_CORRECTION_2026-10-31.md',
+    'docs/integration/IIPS_v3.0_CAP03_S2_ORIGINAL_DIST_RECOVERY_2026-10-31.ps1',
+    'docs/integration/IIPS_v3.0_CAP03_P1_ONE_PASS_COMPLETION_2026-11-01.ps1',
+    'docs/integration/cap03-p1-f9/CAP03S2DistArtifacts.psm1',
     'docs/integration/IIPS_v3.0_CAP03_P1_REV7_POST_CI_BOUNDARY_RECONCILIATION_2026-10-30.md',
     'docs/integration/cap03-p1-f9/CAP03_P1_F9_WindowsFixtureTests.ps1',
     'docs/integration/cap03-p1-f9/CAP03S2DistArtifacts.psm1',
@@ -727,16 +734,22 @@ function Invoke-PreClaimTrackerPointer {
     $lines = @($text -split "`n" | ForEach-Object { $_.TrimEnd("`r") })
     $missing = @()
     $executeConsumptionUnreconciled = $false
+    $freshAuthorityPointerCount = 0
     foreach ($marker in $TrackerPointerMarkers) {
         $matches = @($lines | Where-Object { $_.IndexOf($marker, [StringComparison]::Ordinal) -ge 0 })
         if (($matches.Count -ne 1) -or ($matches[0].IndexOf($TrackerPointerRequiredText, [StringComparison]::Ordinal) -lt 0) -or ($matches[0] -notmatch '(?i)NOT EXECUTED.*UNSPENT')) {
             $missing += ($marker + ' (row count=' + $matches.Count + ')')
+        } elseif ([string]$matches[0].Contains($FreshExecuteAuthorityPointerText)) {
+            $freshAuthorityPointerCount++
         }
         if (($Mode -eq 'Execute') -and ($matches.Count -eq 1) -and ($matches[0].Contains('P1-F consumption state: NOT RECONCILED'))) {
             $executeConsumptionUnreconciled = $true
         }
     }
-    Require-Check -Id 'S00-P1F-CONSUMPTION-RECONCILED' -Pass (-not $executeConsumptionUnreconciled) -Detail ('Execute requires an authoritative reconciliation of P1-F consumption; a prior status phrase alone is insufficient')
+    $freshAuthorityPublished = $text.Contains($FreshExecuteAuthorityRef) -and ($freshAuthorityPointerCount -eq $TrackerPointerMarkers.Count)
+    $freshAuthorityRequired = ($Mode -eq 'Execute') -and $executeConsumptionUnreconciled
+    Require-Check -Id 'S00-P1F-FRESH-AUTHORITY-PUBLISHED' -Pass ((-not $freshAuthorityRequired) -or $freshAuthorityPublished) -Detail ('unreconciled prior consumption is permitted only under the exact published fresh-attempt PA decision and all current tracker pointers; no prior-status inference or implicit bypass')
+    Require-Check -Id 'S00-P1F-CONSUMPTION-RECONCILED' -Pass ((-not $executeConsumptionUnreconciled) -or $freshAuthorityPublished) -Detail ('Execute requires either authoritative consumption reconciliation or the exact newly published one-attempt PA authority; the historical NOT RECONCILED finding remains unchanged')
     if ($Mode -eq 'Preflight') {
         $decisionPublished = $text.Contains($StandalonePreflightAuthorityRef)
         Require-Check -Id 'S00-PREFLIGHT-AUTHORITY-PUBLISHED' -Pass $decisionPublished -Detail ('exact one-time Preflight PA decision must appear in the authoritative main tracker: ' + $StandalonePreflightAuthorityRef)
@@ -1024,7 +1037,8 @@ function Invoke-AdmittedS2EvidenceCheck {
         -ExpectedSourceDist 'C:\iips-work\iips-production-market-data\dist' `
         -ExpectedSourceRunId $S2RunId `
         -ExpectedArchiveSha256 '57656309D721A0C6F6A072F14F6A9067A2CC788737EFA92F34AA0997FB5D2D48' `
-        -ExpectedOriginalInventorySha256 'E077A349D3777403D426A0B0F338C53AC6F0E3942F75A9174A6A9B6E42854CBB'
+        -ExpectedOriginalInventorySha256 'E077A349D3777403D426A0B0F338C53AC6F0E3942F75A9174A6A9B6E42854CBB' `
+        -AllowWaivedOriginalVerificationOutput -ExpectedWaiverDecisionRef $FreshExecuteAuthorityRef
     $archiveOk = ($primaryArchiveOk -or [bool]$recoveryArchiveResult.Passed)
     $archiveDetail = 'original-run archive member=' + [string]$archiveMember + '; sealed=' + [string]$archiveSealMember + '; present=' + [string]$archivePresent
     if ($null -ne $archiveResult) { $archiveDetail += '; primary expected=' + $archiveResult.ExpectedCount + '; archive=' + $archiveResult.ArchiveCount + '; byte-hash-verified=' + $archiveResult.VerifiedCount + '; failures=' + (@($archiveResult.Failures) -join '|') }
@@ -1165,13 +1179,24 @@ function Invoke-Freshness {
                 [void]$trackerAddedHits.Add($t.Substring(0, [Math]::Min(200, $t.Length)))
             }
         }
+        $mainFreshAuthorityPublished = $tMainText.Contains($FreshExecuteAuthorityRef)
+        $mainFreshAuthorityPointerCount = 0
         foreach ($marker in $TrackerPointerMarkers) {
             $mainPtr = @($mainLines | Where-Object { $_.IndexOf($marker, [StringComparison]::Ordinal) -ge 0 })
             if ($mainPtr.Count -ne 1) {
                 [void]$pointerMissing.Add($marker + ' (current row count=' + $mainPtr.Count + ')')
-            } elseif ((([string]$mainPtr[0]).IndexOf($TrackerPointerRequiredText, [StringComparison]::Ordinal) -lt 0) -or ([string]$mainPtr[0] -notmatch '(?i)NOT EXECUTED.*UNSPENT') -or (($Mode -eq 'Execute') -and ([string]$mainPtr[0]).Contains('P1-F consumption state: NOT RECONCILED'))) {
-                [void]$pointerMissing.Add($marker + ' (current P-1 status text differs or consumption is unreconciled)')
+            } else {
+                if ([string]$mainPtr[0].Contains($FreshExecuteAuthorityPointerText)) { $mainFreshAuthorityPointerCount++ }
+                $priorConsumptionUnknown = (($Mode -eq 'Execute') -and ([string]$mainPtr[0]).Contains('P1-F consumption state: NOT RECONCILED'))
+                $freshStatusMissing = $priorConsumptionUnknown -and (-not [string]$mainPtr[0].Contains($FreshExecuteAuthorityPointerText))
+                if ((([string]$mainPtr[0]).IndexOf($TrackerPointerRequiredText, [StringComparison]::Ordinal) -lt 0) -or ([string]$mainPtr[0] -notmatch '(?i)NOT EXECUTED.*UNSPENT') -or $freshStatusMissing) {
+                    [void]$pointerMissing.Add($marker + ' (current P-1 status text differs or explicit fresh authority is missing)')
+                }
             }
+        }
+        if (($Mode -eq 'Execute') -and $tMainText.Contains('P1-F consumption state: NOT RECONCILED') -and
+            ((-not $mainFreshAuthorityPublished) -or ($mainFreshAuthorityPointerCount -ne $TrackerPointerMarkers.Count))) {
+            [void]$pointerMissing.Add('fresh PA authority reference/current pointer missing from authoritative main')
         }
     }
     Require-Check -Id 'F-TRACKER-POINTER-IDENTITY' -Pass ($pointerMissing.Count -eq 0) -Detail ('current pointer rows match this revision at origin/main: missing/mismatched = ' + ($pointerMissing -join '; ') + ' (identity only; does not prove absence of an unrecorded revocation)')

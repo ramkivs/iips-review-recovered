@@ -437,13 +437,12 @@ describe('C8 posture — remediated, source-verified, and behaviourally checked'
     expect(isOwnerScopedApiPath('/')).toBe(false);
   });
 
-  it('binds the Vite dev server to loopback and admits loopback hosts only', () => {
-    expect(viteSource).toContain("host: '127.0.0.1'");
-    expect(viteSource).toContain("allowedHosts: ['localhost', '127.0.0.1']");
-    expect(viteSource).not.toContain("host: '0.0.0.0'");
-    expect(viteSource).not.toContain('0.0.0.0');
-    expect(viteSource).not.toContain('.e2b.app');
-    // No dev-server feature was added and the proxy target is unchanged.
+  it('binds Vite for the Arena preview and admits only local and Arena preview hosts', () => {
+    expect(viteSource).toContain("host: '0.0.0.0'");
+    expect(viteSource).toContain("allowedHosts: ['localhost', '127.0.0.1', '.e2b.app']");
+    expect(viteSource).not.toContain('allowedHosts: true');
+    expect(viteSource).not.toContain("host: true");
+    // Browser calls stay relative; Vite alone proxies them to the loopback backend.
     expect(viteSource).toContain("'/api': { target: 'http://localhost:8787', changeOrigin: true }");
   });
 
