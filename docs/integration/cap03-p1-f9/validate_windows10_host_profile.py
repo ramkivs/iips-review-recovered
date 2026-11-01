@@ -538,6 +538,14 @@ for revision in (allocation_history_commit, branch_commit, s02_pin_allocation_ba
     for number in range(1960, 1973):
         require(git_grep_count(revision, f"| `V{number}` |") == 0,
                 "S02 pin-investigation verification allocation collides at census baseline " + revision)
+s02_retry_baseline = "fc2e609a5dbdd7194bcca985b9a671ac9dbb35d4"
+for revision in (allocation_history_commit, branch_commit, s02_retry_baseline):
+    require(git_grep_count(revision, "## §16.245 — `CV-CORR-225`") == 0 and
+            git_grep_count(revision, "| `CHG-2026-11-01-24` |") == 0,
+            "retry-readiness allocation already exists at census baseline " + revision)
+    for number in range(1973, 1983):
+        require(git_grep_count(revision, f"| `V{number}` |") == 0,
+                "retry-readiness verification allocation collides at census baseline " + revision)
 for revision in (allocation_history_commit, branch_commit):
     require(git_grep_count(revision, "## §16.222") == 0,
             "§16.222 already had a Q-EV allocation heading at census baseline " + revision)
@@ -607,7 +615,7 @@ require(tracker.count("| `2026-10-30` | `CHG-2026-10-30-11` |") == 1 and
         "Next free after this section: **`§16.222` / `CV-CORR-202` / `CHG-2026-10-30-17` / `V1712`**" in tracker,
         "historical Revision 7 change-log or latest-main/Q-EV allocation is inconsistent")
 first_lines = "\n".join(tracker.splitlines()[:30])
-require("**Latest (`CV-CORR-224`, §16.244, `CHG-2026-11-01-23`" in first_lines and
+require("**Latest (`CV-CORR-225`, §16.245, `CHG-2026-11-01-24`" in first_lines and
         "CV-CORR-209`/§16.229" in first_lines and
         "**Latest (`CV-CORR-208`" in first_lines and
         PREFLIGHT_AUTHORITY_ID in first_lines and "exactly one capture-only" in first_lines and
@@ -631,16 +639,27 @@ require(tracker.count(retry_integrity_heading) == 1 and tracker.count(s02_pin_he
         "## §16.242 — `CV-CORR-222`: REG-06 Operator Drop implementation admitted on IPD and reconciled in IRR" in tracker and
         "C4FA71B5DFDF8653139FC8DC5CB4E2F6E624CAB917A68AC99FAC5A0B171DD8C0" in tracker and
         "168DF3C2C8CC42313920832A70B289FE88A4FBFC27E403B3987F1D2197F688D8" in tracker and
-        "§16.245` / `CV-CORR-225` / `CHG-2026-11-01-24` / `V1973`" in tracker and
+        "§16.246` / `CV-CORR-226` / `CHG-2026-11-01-25` / `V1983`" in tracker and
         "p1-exe-20261101T131605529Z-94200985" in tracker and
-        "retry eligibility remains unestablished" in tracker,
-        "retry-integrity history or new S02 pin investigation/allocation is incomplete")
+        "RETRY_BLOCKED" in tracker and
+        "/home/user/iips-p1f-execution-a891802e" in tracker,
+        "retry-integrity history or current S02 pin/retry-readiness reconciliation is incomplete")
 for verification_id in range(1950, 1960):
     require(tracker.count(f"| `V{verification_id}` |") == 1,
             "retry-module integrity verification row missing/duplicated: V" + str(verification_id))
 for verification_id in range(1960, 1973):
     require(tracker.count(f"| `V{verification_id}` |") == 1,
             "S02 pin-investigation verification row missing/duplicated: V" + str(verification_id))
+for verification_id in range(1973, 1983):
+    require(tracker.count(f"| `V{verification_id}` |") == 1,
+            "retry-readiness verification row missing/duplicated: V" + str(verification_id))
+require("## §16.245 — `CV-CORR-225`: CAP-03 P1-F PR #422 publication and retry-readiness reconciliation" in tracker and
+        "## T. PR #422 publication, exact IPD checkout recovery, and retry-readiness determination" in report and
+        "RETRY_BLOCKED" in report and "ramkivs/ipo-screening-engine" in report and
+        "ramkivs/iips-production-market-data" in report and
+        "/home/user/iips-p1f-execution-a891802e" in report and
+        "H:\\IIPS-P1-EVIDENCE" in report,
+        "merge/checkout/evidence-limitation/retry-blocker reconciliation is missing")
 require("## S. S02 execution-pin stop: IRR freshness is not an IPD execution checkout" in report and
         "## 19. S02 pin mismatch: repository identity boundary" in readme,
         "S02 authority finding is not documented in the source report and CAP-03 README")
