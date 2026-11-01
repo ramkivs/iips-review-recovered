@@ -1,0 +1,28 @@
+CAP-03 G14 independent advancement — publication and independent remote read-back
+Date: 2026-11-01
+Repository: ramkivs/iips-review-recovered (IRR only)
+
+Pull request #427
+- URL: https://github.com/ramkivs/iips-review-recovered/pull/427
+- Title: docs(cap03): reconcile current G14 qualification dependencies
+- PR head: be7c228eec2fa3e024d9dcdf5acd51c712d6c953
+- Merge commit: e62745cffa21c956eba9fab7144f6da828296b6f
+- Merge tree: 05d89daf7953e5ed488e0825b062d8b4df87d450
+- Parent order: dd352e1e83be8bd2431196c8fa70a527bf5f67cf; be7c228eec2fa3e024d9dcdf5acd51c712d6c953
+- Merged: 2026-11-01T18:11:43Z
+- Exact-head IRR-only check: run 41335258093, Python compile/source-evidence-tracker validation, PASS (all steps, including recovery-release verification and changed-file whitespace).
+- Post-merge authoritative-main check: run 41335341992 at merge commit e62745cffa21c956eba9fab7144f6da828296b6f, PASS (all steps, including recovery-release verification and changed-file whitespace).
+- Initial superseded PR-head run 41335006846 at 91a7c5d7345e1b2121e0b240e4e07152ae53f745 failed the Revision 7 static validator because the first Last Updated pointer edit dropped protected Revision 7 compatibility text. Follow-up commit be7c228 restored that exact safety pointer verbatim; the local validator passed, and the corrected exact-head and post-merge checks above both passed. This initial failure was corrected before merge.
+
+Independent remote API read-back
+GitHub Contents API bytes at ref e62745cffa21c956eba9fab7144f6da828296b6f were compared byte-for-byte (`cmp`) with the merged PR-head objects. All five paths matched; GitHub blob IDs equal local Git blob IDs:
+
+| Path | Git blob OID (local = remote) | Remote raw SHA-256 |
+|---|---|---|
+| `IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md` | `a41ec712cfeb0aa99b1caedc38bec016330728e3` | `2433d81b36be8608d4010bdcfdf99f4434266a08c5361269881871c814344b7f` |
+| `docs/integration/IIPS_v3.0_CAP03_G14_INDEPENDENT_ADVANCEMENT_RECONCILIATION_2026-11-01.md` | `daa5d2eecf9273282ce5475a6698f02168cd7ba6` | `458478160cc2dd1b6e54e290e9095a54797d159abf12a427914929e6700dcc88` |
+| `evidence/integration/cap03-g14-independent-advancement-2026-11-01/00-remote-and-source-baseline.txt` | `6f4936f42ee1efd1343fd4f763594b4a35aa7d16` | `ecd07e2fba7d5fe79b94d8a63023921d98d69a35b5d95a620f54c3b27c170375` |
+| `evidence/integration/cap03-g14-independent-advancement-2026-11-01/01-capability-matrix-verification.txt` | `4d6e18b92ac1527ad535617d0171d0e64f1bbd3d` | `2629d683125a9ee3b855753410c26d49b332eadf673ada3f0b7d3ef61f607527` |
+| `evidence/integration/cap03-g14-independent-advancement-2026-11-01/SHA256SUMS.txt` | `a6fbc5f2e418d4fee0fe2b96cdd930216813e603` | `3dc680b6b05abc4d4a9ce063c17664ab32faaf5dcd9c84eeddcd9a00d2e7ce9e` |
+
+The PR #427 merge is the current IRR `main` tip at the time of read-back. No IPD change, host access, gate movement, or qualification execution is part of this publication receipt.

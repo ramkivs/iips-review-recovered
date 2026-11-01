@@ -1,3 +1,4 @@
 458478160cc2dd1b6e54e290e9095a54797d159abf12a427714929e6700dcc88  docs/integration/IIPS_v3.0_CAP03_G14_INDEPENDENT_ADVANCEMENT_RECONCILIATION_2026-11-01.md
 ecd07e2fba7d5fe79b94d8a63023921d98d69a35b5d95a620f54c3b27c170375  evidence/integration/cap03-g14-independent-advancement-2026-11-01/00-remote-and-source-baseline.txt
 2629d683125a9ee3b855753410c26d49b332eadf673ada3f0b7d3ef61f607527  evidence/integration/cap03-g14-independent-advancement-2026-11-01/01-capability-matrix-verification.txt
+95559cd106ea64a97cf0da83753c52c4a158e4842a989ca5cd9ac29105dd0bad  evidence/integration/cap03-g14-independent-advancement-2026-11-01/02-publication-readback.txt
