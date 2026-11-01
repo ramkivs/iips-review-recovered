@@ -1,0 +1,197 @@
+{
+  "ipd_repository": "ramkivs/iips-production-market-data",
+  "ipd_main": "eb9289222e2bdfd0e79381d4d81f7f81715e019b",
+  "ipd_pr": 117,
+  "ipd_pr_head": "5b2c03dc8888aa40a4dd967ef6e7f3b76731c01e",
+  "merged_at": "2026-11-01T10:48:22Z",
+  "governance_record": "IIPS_V3_REG06_OPERATOR_DROP_PRODUCT_ADMISSION_2026-11-01",
+  "governance_change": "CHG-2026-11-01-01",
+  "tracker_blob": "c1c666149c2d907026df3d9a2d184d2b9a2383c0",
+  "package_blob": "99e262d36341e0bd850ea20d103280131f4f2c71",
+  "exports": [
+    "./portfolio-ui",
+    "./pit",
+    "./d114-non-production",
+    "./operator-drop"
+  ],
+  "operator_drop_export": {
+    "types": "./dist/package/src/operator_drop/package.d.ts",
+    "import": "./dist/package/src/operator_drop/package.js"
+  },
+  "emitted_operator_files": [
+    {
+      "path": "dist/package/src/operator_drop/drop_ingestion.d.ts",
+      "bytes": 3722,
+      "sha256": "30e30bf7b2d1634fe13a2ee6de9a176f9d7480818e6f6e9fed396e0cf84b41fa"
+    },
+    {
+      "path": "dist/package/src/operator_drop/drop_ingestion.js",
+      "bytes": 7680,
+      "sha256": "6814cabe42763abb09f2940429543d3ce4f1df4812e3454573ab07904fb50c47"
+    },
+    {
+      "path": "dist/package/src/operator_drop/package.d.ts",
+      "bytes": 1365,
+      "sha256": "abd06dd1d386bfb9b0653e656184b84da2cd25a79884232d1cc09ad84a5a477d"
+    },
+    {
+      "path": "dist/package/src/operator_drop/package.js",
+      "bytes": 661,
+      "sha256": "02bf97c2013c6ec7a7ee11d08687e58f3c68cea835b76cd6cb6ed6ad089aa017"
+    },
+    {
+      "path": "dist/package/src/operator_drop/parser.d.ts",
+      "bytes": 1353,
+      "sha256": "6a1f164b68764ca45111022f84cc7074275f2018db629cd03a69e6747b1ae253"
+    },
+    {
+      "path": "dist/package/src/operator_drop/parser.js",
+      "bytes": 3351,
+      "sha256": "ccc01f3dcd0eb12e3eafb1c88ccf71a6fc734609cbca3b203e61f88976e01cf2"
+    },
+    {
+      "path": "dist/package/src/operator_drop/product_runtime.d.ts",
+      "bytes": 3306,
+      "sha256": "99cbc33e23e439240a9861f8c7ef2c1dc8224eb859ac34a139cbcd91d469cd2d"
+    },
+    {
+      "path": "dist/package/src/operator_drop/product_runtime.js",
+      "bytes": 3169,
+      "sha256": "27aa1bcbb506556575bf539b94eb08dda8c647aea944105743b9b25cf3e7d070"
+    }
+  ],
+  "pack": {
+    "files": 151,
+    "shasum": "2f45b5acb12baa7db85c0c73b843375ef20927e2",
+    "sha256": "42c28ff849017610cae2ba6bed1906833bb92d35817be33605454b888a16d19d",
+    "operator_entries": [
+      "dist/package/src/operator_drop/drop_ingestion.d.ts",
+      "dist/package/src/operator_drop/drop_ingestion.js",
+      "dist/package/src/operator_drop/package.d.ts",
+      "dist/package/src/operator_drop/package.js",
+      "dist/package/src/operator_drop/parser.d.ts",
+      "dist/package/src/operator_drop/parser.js",
+      "dist/package/src/operator_drop/product_runtime.d.ts",
+      "dist/package/src/operator_drop/product_runtime.js"
+    ]
+  },
+  "full_suite": {
+    "tests": 987,
+    "passed": 986,
+    "failed": 0,
+    "skipped": 1
+  },
+  "focused_compiled_suite": {
+    "tests": 46,
+    "passed": 46,
+    "failed": 0
+  },
+  "package_consumer": {
+    "result": "PASS",
+    "pack": {
+      "files": 151,
+      "packedBytes": 265360,
+      "unpackedBytes": 2800302,
+      "shasum": "2f45b5acb12baa7db85c0c73b843375ef20927e2"
+    },
+    "exports": {
+      "./portfolio-ui": {
+        "types": "./dist/package/src/ui/portfolio_ui_package.d.ts",
+        "import": "./dist/package/src/ui/portfolio_ui_package.js"
+      },
+      "./pit": {
+        "types": "./dist/package/src/pit/package.d.ts",
+        "import": "./dist/package/src/pit/package.js"
+      },
+      "./d114-non-production": {
+        "types": "./dist/package/src/d114/non_production_package.d.ts",
+        "import": "./dist/package/src/d114/non_production_package.js"
+      },
+      "./operator-drop": {
+        "types": "./dist/package/src/operator_drop/package.d.ts",
+        "import": "./dist/package/src/operator_drop/package.js"
+      }
+    },
+    "runtime": {
+      "runtime": "PASS",
+      "declarations": "PASS",
+      "pitRecords": 1,
+      "d114Records": 12,
+      "replayDuplicates": 12,
+      "uiRuntimeExports": 22,
+      "durability": "SESSION_ONLY",
+      "durable": false,
+      "refusalCodes": [
+        "WRITE_NOT_AUTHORIZED",
+        "RESOURCE_UNAVAILABLE"
+      ]
+    },
+    "irrConsumers": {
+      "sourceCommit": "98cd56a9a568f431ea31d5515e515a1b6cbb91ba",
+      "importerFiles": [
+        "frontend/server/pit/ipdPitReadAdapter.ts",
+        "frontend/server/pit/nonProductionPitStore.ts",
+        "frontend/server/pit/nonProductionRuntimePitStore.ts",
+        "frontend/server/pit/pitD114RuntimeIntegration.test.ts",
+        "frontend/server/pit/pitRuntimeIntegration.test.ts"
+      ],
+      "verbatimCopies": true,
+      "packageImportsRewritten": false,
+      "typecheck": "PASS",
+      "productionModuleRuntime": {
+        "result": "PASS",
+        "fixtureRecords": 8,
+        "combinedRecords": 20,
+        "d114ResolvedAsOf": "2026-02-10T15:30:00.000Z",
+        "invalidReason": "INVALID_IDENTITY"
+      },
+      "routeIntegrationTests": "TYPECHECK_ONLY_NOT_IRR_E2E"
+    },
+    "browser": {
+      "platform": "browser",
+      "bytes": 1729973,
+      "forbiddenHits": []
+    },
+    "typecheck": {
+      "strict": true,
+      "skipLibCheck": false,
+      "result": "PASS"
+    }
+  },
+  "independent_tarball_smoke": "PASS",
+  "protected_paths_unchanged": [
+    "src/operator_drop/parser.ts",
+    "src/persistence/gateAPrimeProvisioning.ts",
+    "src/persistence/gateAPrimeValidation.ts",
+    "src/persistence/migration_ledger.ts",
+    "src/ipc/dispatch.ts",
+    "src/ipc/entrypoint.ts"
+  ],
+  "irr_executable_operator_drop_consumers": 0,
+  "ipd_checkout_clean": true,
+  "ipd_write": false,
+  "node": "v22.22.3",
+  "production_admission": false,
+  "ad17_m2_authorized": false,
+  "o05": "OPEN",
+  "p1_c": "NOT ESTABLISHED",
+  "p1_d": "DESIGNATED, NOT VERIFIED FOR THE ATTEMPT",
+  "p1": "AUTHORIZED \u2014 ONE ATTEMPT ONLY \u2014 NOT EXECUTED \u2014 UNSPENT",
+  "verification_attempts": [
+    {
+      "attempt": "git-archive snapshot npm test",
+      "result": "FAIL",
+      "reason": "Six Gate A-prime identity tests require Git metadata absent from an archive export; no source/test edits were made."
+    },
+    {
+      "attempt": "direct TypeScript strip-types focused invocation",
+      "result": "FAIL",
+      "reason": "Unsupported invocation for this project: type-only .js imports are not emitted by strip-types. The supported compiled focused suite passed 46/46."
+    },
+    {
+      "attempt": "exact Git checkout npm test and compiled focused suite",
+      "result": "PASS",
+      "reason": "987/986/0/1 full; 46/46 focused."
+    }
+  ]
+}

@@ -17,6 +17,8 @@
 
 ---
 
+> **Current REG-06 supersession (`2026-11-01`, `CV-CORR-222`):** IPD PR #117 merge `eb9289222e2bdfd0e79381d4d81f7f81715e019b` records PA-authorized product admission and completed durable PIT / Operator Drop implementation. The historical DEFERRED decision and the earlier PR #115 technical correction below are preserved verbatim. Current state is governed by new §5.6 and `docs/integration/IIPS_v3.0_REG06_OPERATOR_DROP_IMPLEMENTATION_IRR_RECONCILIATION_2026-11-01.md`. IRR reconciliation is separate; production admission/deployment, AD-17/M-2, O-05 admission and P-1 execution are not granted.
+
 > **Dated technical correction (`2026-11-01`, `CV-CORR-218`):** §5.2 is a preserved `2026-10-13` snapshot. Its packaging and identifier observations are corrected by §5.5 against IPD PR #115, merge `e9c2eef6c82ba51814a72ce962cf227e9fd89d56`. The REG-06 decision in §§5.1/5.3/5.4 is unchanged: internal primitive retained; product admission **DEFERRED**, fail-closed. This is a technical/documentation correction, not a new PA admission decision.
 
 ## 1. Purpose and Authority
@@ -161,6 +163,23 @@ No runtime callers; no package exports; no PIT writes; no company/security-ident
 **Traceability.** IRR tracker §16.238; `docs/integration/IIPS_v3.0_P08_REG06_IRR_RECONCILIATION_2026-11-01.md`; `evidence/integration/p08-reg06-irr-reconciliation-2026-11-01/`. The original PA record blob was `b13b1fc3029f70d61a06d1f2bb0c2b6fce02cc98`; Git history and the quoted historical observations preserve it. No IPD file, ref, branch, PR or issue was modified.
 
 ---
+
+### 5.6 Superseding REG-06 implementation assessment (`2026-11-01`, `CV-CORR-222`)
+
+**Current disposition:** IPD REG-06 product admission and implementation are **COMPLETED on IPD**; IRR verification/reconciliation is completed by this dated record. The 2026-10-13 DEFERRED decision and §5.5's PR #115 assessment were accurate at their cited baselines and are preserved as history, not rewritten.
+
+| Verified subject | Current evidence at IPD `eb9289222e2bdfd0e79381d4d81f7f81715e019b` (PR #117) |
+|---|---|
+| Authority record | `IIPS_V3_REG06_OPERATOR_DROP_PRODUCT_ADMISSION_2026-11-01` / `CHG-2026-11-01-01`; tracker blob `c1c666149c2d907026df3d9a2d184d2b9a2383c0`. The record grants IPD product admission and preserves the earlier DEFERRED record. |
+| Durable PIT | `src/pit/pit_durable_store.ts` implements SQLite persistence, series-qualified keys, append-only snapshots, idempotent replay, conflict rejection and transactional rollback with an isolated migration ledger. |
+| Operator Drop identity | `src/operator_drop/drop_ingestion.ts` reuses `buildD114SecurityIdentity` / `isD114SecurityIdentity`; missing or ambiguous identity is rejected, with no company-only or cross-series fallback. The unchanged parser still reads `record.companyId` for the company field. |
+| Product runtime | `src/operator_drop/product_runtime.ts` composes drop ingestion, durable PIT writes and point-in-time screening/history reads. This is an IPD runtime, not an IRR route or runtime registration. |
+| Package | `package.json` blob `99e262d36341e0bd850ea20d103280131f4f2c71` exports `./operator-drop`; clean build emits eight Operator Drop JS/declaration files and the 151-entry tarball contains them. An isolated tarball consumer passed ingest → restart → read, replay, series separation and fail-closed checks. |
+| Validation | Exact-checkout full suite: 987 executed / 986 passed / 0 failed / 1 skipped; focused compiled REG-06 suite: 46/46; package-consumer, build and typecheck PASS. PR CI `41298988402` and post-merge CI `41299084025` succeeded. |
+
+**Boundaries:** this assessment does not grant production admission/deployment, AD-17/M-2, O-05 admission, IRR product acceptance, a package-pin change, runtime registration or P-1 execution. O-05 remains OPEN; P-1-C is NOT ESTABLISHED; P-1-D is DESIGNATED, NOT VERIFIED FOR THE ATTEMPT; P-1 remains AUTHORIZED — ONE ATTEMPT ONLY — NOT EXECUTED — UNSPENT. The existing §16.241 pre-start-retry guard is a separate authority and is unchanged. CV-39 still distinguishes Operator Drop from broker/Dhan ingestion.
+
+Full evidence and cell-level reconciliation: `docs/integration/IIPS_v3.0_REG06_OPERATOR_DROP_IMPLEMENTATION_IRR_RECONCILIATION_2026-11-01.md` and `evidence/integration/reg06-operator-drop-implementation-reconciliation-2026-11-01`.
 
 ## 6. What This Record Does Not Do
 

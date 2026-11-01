@@ -1,5 +1,7 @@
 # IIPS v3.0 — 51 × 17 Capability Matrix: Full Current-State Investigation and Reconstruction (`2026-10-27`)
 
+> **Current-state pointer (`2026-11-01`):** row 29 below is the preserved 2026-10-27 reconstruction. REG-06 was subsequently admitted and implemented on IPD by PR #117 (`eb9289222e2bdfd0e79381d4d81f7f81715e019b`); see the living reassessment bundle and [`IIPS_v3.0_REG06_OPERATOR_DROP_IMPLEMENTATION_IRR_RECONCILIATION_2026-11-01.md`](IIPS_v3.0_REG06_OPERATOR_DROP_IMPLEMENTATION_IRR_RECONCILIATION_2026-11-01.md). No historical cell is rewritten.
+
 | Field | Value |
 |---|---|
 | **Record ID** | `IIPS-V3-CAPMATRIX-51X17-RECONSTRUCTION-2026-10-27-01` |

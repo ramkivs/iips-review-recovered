@@ -1,0 +1,27 @@
+import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
+import { mkdtempSync, rmSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { OperatorDropProductRuntime, resolveDropSecurityIdentity } from 'iips-production-market-data/operator-drop';
+const dir=mkdtempSync(join(tmpdir(),'reg06-independent-tarball-'));
+const storePath=join(dir,'market-data.sqlite');
+const asOf='2026-11-01T09:15:00.000Z';
+const eq=resolveDropSecurityIdentity({isin:'INE123456789',series:'EQ'}).identity;
+const bl=resolveDropSecurityIdentity({isin:'INE123456789',series:'BL'}).identity;
+assert.ok(eq && bl && eq.securityId!==bl.securityId);
+function quote(ltp,identity){return {companyId:'SWANENERGY',symbol:'SWANENERGY',exchange:'NSE',currency:'INR',bid:ltp-0.25,ask:ltp+0.25,ltp,open:ltp-5,high:ltp+10,low:ltp-10,close:ltp,previousClose:ltp-12,volume:1000000,change:12,pctChange:0.8,securityIdentity:identity};}
+const records=[quote(120.5,eq),quote(118,bl)];const rawContent=JSON.stringify(records);
+const drop={manifest:{batchId:'INDEPENDENT-TARBALL-1',domain:'D01_QUOTES',fileChecksumSha256:createHash('sha256').update(rawContent).digest('hex'),recordCount:2,droppedAt:asOf,operatorId:'IRR-READONLY-VERIFIER'},rawContent};
+let runtime=new OperatorDropProductRuntime({storePath,domain:'D01_QUOTES'});
+const first=runtime.ingest(drop);assert.equal(first.status,'ACCEPTED');assert.equal(first.appended,2);assert.equal(runtime.getRecordCount(),2);runtime.close();
+runtime=new OperatorDropProductRuntime({storePath,domain:'D01_QUOTES'});
+const replay=runtime.ingest(drop);assert.equal(replay.status,'ACCEPTED');assert.equal(replay.appended,0);assert.equal(replay.duplicates,2);assert.equal(runtime.getRecordCount(),2);
+const query={domain:'D01_QUOTES',asOf:'2026-11-01T10:00:00.000Z'};
+const qe=runtime.screen({...query,securityId:eq.securityId});const qb=runtime.screen({...query,securityId:bl.securityId});
+assert.equal(qe.screened,true);assert.equal(qb.screened,true);assert.equal(qe.result.payload.ltp,120.5);assert.equal(qb.result.payload.ltp,118);
+const future=runtime.screen({domain:'D01_QUOTES',securityId:eq.securityId,asOf:'2026-11-01T09:00:00.000Z'});assert.equal(future.screened,false);
+const missingRecord=quote(100,eq);delete missingRecord.securityIdentity;const missingRaw=JSON.stringify([missingRecord]);const missing=runtime.ingest({manifest:{...drop.manifest,batchId:'MISSING',fileChecksumSha256:createHash('sha256').update(missingRaw).digest('hex'),recordCount:1},rawContent:missingRaw});assert.equal(missing.status,'REJECTED');assert.equal(missing.rejectedByIdentity,1);assert.equal(runtime.getRecordCount(),2);
+const conflictRaw=JSON.stringify([quote(999,eq)]);const conflict=runtime.ingest({manifest:{...drop.manifest,batchId:'CONFLICT',fileChecksumSha256:createHash('sha256').update(conflictRaw).digest('hex'),recordCount:1},rawContent:conflictRaw});assert.equal(conflict.status,'REJECTED');assert.equal(conflict.rejections[0].reason,'SNAPSHOT_CONFLICT');assert.equal(runtime.getRecordCount(),2);
+runtime.close();rmSync(dir,{recursive:true,force:true});
+console.log(JSON.stringify({result:'PASS',source:'actual npm-pack tarball installed into isolated consumer',subpath:'iips-production-market-data/operator-drop',durableAppend:2,restartRecovery:true,replayDuplicates:2,seriesQualifiedReads:true,historicalReadFailsClosed:true,missingIdentityRejected:true,snapshotConflictRejected:true,finalRecordCount:2,productionDeployment:false},null,2));

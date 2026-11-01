@@ -7,10 +7,11 @@
   "matrix_columns": 17,
   "headers_preserved": true,
   "row_numbering_preserved": true,
-  "changed_cells": 120,
+  "changed_cells": 128,
   "pending_items": 40,
   "register_entries": 40,
-  "resolved_governance_deferrals": [
+  "resolved_governance_deferrals": [],
+  "completed_reconciled": [
     "P-08"
   ],
   "p08_amendment": {
@@ -21,15 +22,24 @@
     "ipd_tracker_blob": "efa804097d51263ce91dff4ac7201fb572ef1d8a",
     "outcome": "RESOLVED \u2014 CONTINUED DEFERRAL (REG-06)"
   },
-  "evidence_items": 44,
+  "reg06_implementation_amendment": {
+    "date": "2026-11-01",
+    "irr_baseline": "ed41a4c1f0e1a92cc429b31210794aa2e4b5948b",
+    "ipd_merge": "eb9289222e2bdfd0e79381d4d81f7f81715e019b",
+    "ipd_pr": 117,
+    "ipd_head": "5b2c03dc8888aa40a4dd967ef6e7f3b76731c01e",
+    "ipd_tracker_blob": "c1c666149c2d907026df3d9a2d184d2b9a2383c0",
+    "outcome": "IPD product admission/implementation COMPLETED; IRR RECONCILED"
+  },
+  "evidence_items": 50,
   "disposition_counts": {
     "ACCEPTED": 20,
     "ACCEPTED+FOLLOWUP": 12,
-    "DEFERRED": 3,
+    "DEFERRED": 2,
     "OOS": 8,
     "IMPLEMENTED": 2,
+    "VERIFIED": 2,
     "BLOCKED": 2,
-    "VERIFIED": 1,
     "BRANCH_ONLY": 1,
     "HISTORICAL": 2
   },
@@ -37,7 +47,7 @@
     "Evidence / certification / verification": 8,
     "PA decisions / governance": 16,
     "Cross-repository integration / dependencies": 5,
-    "Resolved governance deferrals": 1,
+    "Completed / reconciled items": 1,
     "Operator execution": 2,
     "Qualification / admission gates": 5,
     "IRR implementation / deliverables": 1,
@@ -52,40 +62,38 @@
       "NI": 1
     },
     "Authority": {
-      "V": 38,
+      "V": 39,
       "OOS": 7,
       "DEFERRED": 2,
       "P": 2,
-      "NOT AUTHORIZED": 1,
-      "RESOLVED": 1
+      "NOT AUTHORIZED": 1
     },
     "Integration": {
-      "V": 32,
+      "V": 33,
       "NA": 8,
-      "P": 6,
-      "NI": 5
+      "NI": 5,
+      "P": 5
     },
     "Wiring": {
-      "V": 29,
+      "V": 30,
       "NA": 14,
       "NW": 5,
-      "P": 2,
-      "NI": 1
+      "P": 2
     },
     "Data": {
-      "P": 25,
-      "V": 19,
+      "P": 24,
+      "V": 20,
       "NA": 7
     },
     "Persistence": {
-      "NA": 35,
+      "NA": 34,
+      "V": 8,
       "P": 7,
-      "V": 7,
       "NP": 2
     },
     "Recovery": {
-      "NA": 36,
-      "V": 8,
+      "NA": 35,
+      "V": 9,
       "P": 6,
       "NP": 1
     },
@@ -95,9 +103,9 @@
       "NOT SATISFIED": 1
     },
     "E2E": {
-      "NA": 20,
+      "NA": 19,
       "P": 14,
-      "V": 10,
+      "V": 11,
       "EP": 6,
       "NOT SATISFIED": 1
     },
@@ -110,17 +118,17 @@
       "NOT SATISFIED": 1
     },
     "Acceptance": {
-      "V": 33,
+      "V": 34,
       "OOS": 8,
       "NOT SATISFIED": 4,
-      "DEFERRED": 2,
       "P": 2,
+      "DEFERRED": 1,
       "NA": 1,
       "SATISFIED": 1
     },
     "Qualification": {
-      "V": 23,
-      "NA": 18,
+      "V": 24,
+      "NA": 17,
       "P": 7,
       "NOT SATISFIED": 3
     },
@@ -132,20 +140,20 @@
   },
   "files": {
     "IIPS_V3_CAPABILITY_MATRIX_51x17_REASSESSED_2026-10-31.csv": {
-      "bytes": 59762,
-      "sha256": "28f66ecc5712d67b00464c0ab4e8e23e486ae24dc0206947bd4b1d600b3ba1e0"
+      "bytes": 60800,
+      "sha256": "b356e92171224fc5b6dbc832fe3434d3312d65817d84147cce34a12839b65708"
     },
     "IIPS_V3_OUTSTANDING_PENDING_2026-10-31.csv": {
-      "bytes": 28096,
-      "sha256": "043625c6d71dda7370b6947db1846ea414db2750dc6e843b2e7d10b26f361a84"
+      "bytes": 28150,
+      "sha256": "f28c5e2677eba70aca19bf5018bac35eb4d7700b492f2c2b2cdafa852572f606"
     },
     "IIPS_V3_CAPABILITY_MATRIX_51x17_REASSESSED_2026-10-31.xlsx": {
-      "bytes": 105902,
-      "sha256": "a58832d6861230b1c004379f188202fde1116403466225fa9b64897e9e441f75"
+      "bytes": 108006,
+      "sha256": "c8c9a376c836dbf6d8c50f9fd73bbe85ec879d334c76bd5a131e0a9221f0f968"
     },
     "RECONCILIATION_REPORT.md": {
-      "bytes": 5900,
-      "sha256": "38005fa049717810eb7b97cd0e77402c885b7d7c75e55be7e72b1f0c4eb87312"
+      "bytes": 6769,
+      "sha256": "23392128afa22307ea1c8f4b54984fad7ae152d17b9c624ad1bf1df0443134ac"
     }
   }
 }

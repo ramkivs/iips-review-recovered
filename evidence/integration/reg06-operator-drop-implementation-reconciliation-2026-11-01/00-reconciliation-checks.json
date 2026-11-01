@@ -1,0 +1,138 @@
+{
+  "record": "IIPS-V3-REG06-OPERATOR-DROP-IMPLEMENTATION-IRR-RECONCILIATION-2026-11-01-01",
+  "outcome": "IPD product admission/implementation COMPLETED; IRR RECONCILED",
+  "checks": [
+    {
+      "check": "IPD PR #117 merged",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "IPD remote main at merge",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "merge parents",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "17 changed paths",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "23 remote artifacts byte-verified",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "governance tracker blob",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "IPD admission record",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "ipd-pr-ci.json",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "ipd-main-ci.json",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "IPD executed count",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "exports and emitted package",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "full/focused/tarball validation",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "protected paths and IPD read-only",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "separate boundaries",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "historical \u00a716.238 verbatim",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "unique new allocation",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "current tracker completed/reconciled",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "historical PA REG-06 text preserved",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "historical P-08 body preserved",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "matrix shape",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "only matrix row 29 amended",
+      "result": "PASS",
+      "detail": "[('29', 2), ('29', 3), ('29', 4), ('29', 5), ('29', 6), ('29', 7), ('29', 8), ('29', 9), ('29', 10), ('29', 11), ('29', 12), ('29', 13), ('29', 14), ('29', 15), ('29', 16)]"
+    },
+    {
+      "check": "tracker \u00a718 row 29 equals living matrix",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "row 29 current outcome",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "only P-08 register entry amended",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "P-08 completed/reconciled",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "bundle SHA256SUMS",
+      "result": "PASS",
+      "detail": ""
+    }
+  ],
+  "pass": true,
+  "scope": "IRR-only reconciliation; IPD read-only; production/AD-17/M-2/P-1 not authorized"
+}

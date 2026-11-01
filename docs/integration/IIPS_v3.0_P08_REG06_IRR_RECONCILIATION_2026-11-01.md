@@ -1,5 +1,7 @@
 # P-08 / REG-06 — IRR reconciliation and dated technical correction
 
+> **Superseded as current state (`2026-11-01`, `CV-CORR-222`):** this document remains the accurate historical PR #115 / continued-deferral assessment. IPD PR #117 merge `eb9289222e2bdfd0e79381d4d81f7f81715e019b` subsequently completed REG-06 admission and implementation. Current IRR reconciliation: [`IIPS_v3.0_REG06_OPERATOR_DROP_IMPLEMENTATION_IRR_RECONCILIATION_2026-11-01.md`](IIPS_v3.0_REG06_OPERATOR_DROP_IMPLEMENTATION_IRR_RECONCILIATION_2026-11-01.md). The historical text below is preserved.
+
 **Record:** `IIPS-V3-P08-REG06-IRR-RECONCILIATION-2026-11-01-01`
 **Tracker:** §16.238 / `CV-CORR-218` / `CHG-2026-11-01-17` / `V1888`–`V1899`
 **Date:** 2026-11-01 (Asia/Calcutta)
