@@ -1,0 +1,41 @@
+{
+  "ipd_merge": "e9c2eef6c82ba51814a72ce962cf227e9fd89d56",
+  "historical_ref": "4d3e1cdca3a33da0ec3be8b336b17128108a502c",
+  "historical_exports_present": false,
+  "current_exports": [
+    "./portfolio-ui",
+    "./pit",
+    "./d114-non-production"
+  ],
+  "current_main_module_types": {
+    "main": null,
+    "module": null,
+    "types": null
+  },
+  "operator_drop_export_present": false,
+  "emitted_source_directories": [
+    "contracts",
+    "d114",
+    "engine_adapters",
+    "fundamentals",
+    "identity",
+    "intelligence",
+    "normalization",
+    "pit",
+    "quality",
+    "transports",
+    "ui"
+  ],
+  "operator_drop_emitted": false,
+  "pack_entry_count": 121,
+  "pack_operator_drop_entries": [],
+  "pack_shasum": "cc2aa70186b8fd7bc7255452ac8d8b00d094f53e",
+  "parser_company_id_line": 95,
+  "parser_isin_mentions": 0,
+  "parser_pit_write_mentions": 0,
+  "irr_executable_consumer_hits": 0,
+  "irr_json_evidence_mentions": 3,
+  "ipd_manual_ingestion_hits": 5,
+  "ipd_checkout_status": "",
+  "scope": "Read-only IPD verification; build executed in exported snapshot outside IPD checkout; no product admission."
+}

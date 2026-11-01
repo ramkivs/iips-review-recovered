@@ -385,21 +385,45 @@
   },
   {
     "row": 29,
+    "dimension": "Authority",
+    "baseline": "DEFERRED \u2014 `REG-06`: internal primitive preserved, product admission DEFERRED (fail-closed).",
+    "current": "RESOLVED \u2014 CONTINUED DEFERRAL (REG-06): P-08 assessment closed; product admission remains DEFERRED, fail-closed [E018][E026][E043][E044]."
+  },
+  {
+    "row": 29,
     "dimension": "Integration",
     "baseline": "NI \u2014 no runtime caller outside tests.",
-    "current": "P \u2014 internal OQ failover-harness references and root src/index.ts export exist; package export map exposes only ./portfolio-ui, ./pit, ./d114-non-production; no product runtime admission [E018][E026]."
+    "current": "P \u2014 internal OQ failover-harness references and root src/index.ts barrel only. Current exports map exposes ./portfolio-ui, ./pit, ./d114-non-production; Operator Drop absent from map and published build; no product runtime admission [E018][E026]."
   },
   {
     "row": 29,
     "dimension": "Validation",
     "baseline": "V \u2014 parser suite green.",
-    "current": "V \u2014 executed 2026-10-31 at IPD main@4e275ec9: build:tsc exit 0; guarded runner 941 tests / 940 pass / 0 fail / 1 skip; package-consumer PASS [E007]."
+    "current": "V \u2014 IPD PR #115 merge e9c2eef6: CI 41287576987 PASS; check 124792149559 records 941 executed / 940 pass / 0 fail; exported-source package-consumer and typecheck PASS. Primitive/package checks, not product qualification [E043][E044]."
+  },
+  {
+    "row": 29,
+    "dimension": "Evidence",
+    "baseline": "V \u2014 `REG-06` decision + `GATE-Y-M2` record.",
+    "current": "V \u2014 REG-06 PA decision preserved with dated \u00a75.5 correction; IPD PR #115 continued-deferral record; IRR \u00a716.238 [E018][E026][E043][E044]."
+  },
+  {
+    "row": 29,
+    "dimension": "Governance",
+    "baseline": "V \u2014 decision effective; not commissioned.",
+    "current": "V \u2014 P-08 assessment RESOLVED \u2014 CONTINUED DEFERRAL; PA decision effective, product not commissioned. Future requirement/admission: PA; subsequently authorized implementation: IPD."
+  },
+  {
+    "row": 29,
+    "dimension": "Acceptance",
+    "baseline": "DEFERRED (product admission explicitly deferred).",
+    "current": "DEFERRED \u2014 product acceptance/admission not rendered; resolving P-08 assessment is not product admission."
   },
   {
     "row": 29,
     "dimension": "Evidence Anchor",
     "baseline": "`src/operator_drop/**`; tracker `REG-06`; `evidence/intelligence-data-supply-governance/GATE-Y-M2-\u2026md` M-1.",
-    "current": "IPD main@4e275ec9; src/operator_drop/**; src/oq/synthetic_failover.ts; package.json exports; REG-06 deferred [E018][E026]. P-08. Pending: P-08."
+    "current": "IPD main@e9c2eef6c82ba51814a72ce962cf227e9fd89d56; PR #115; tracker blob efa804097d51263ce91dff4ac7201fb572ef1d8a; src/operator_drop/** uses record.companyId; exports/build exclude Operator Drop; REG-06 continued deferral [E018][E026][E043][E044]. P-08. P-08. Resolved governance deferral: P-08 (assessment closed; product admission deferred)."
   },
   {
     "row": 30,

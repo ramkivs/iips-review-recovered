@@ -7,9 +7,21 @@
   "matrix_columns": 17,
   "headers_preserved": true,
   "row_numbering_preserved": true,
-  "changed_cells": 116,
+  "changed_cells": 120,
   "pending_items": 40,
-  "evidence_items": 42,
+  "register_entries": 40,
+  "resolved_governance_deferrals": [
+    "P-08"
+  ],
+  "p08_amendment": {
+    "date": "2026-11-01",
+    "irr_baseline": "ad7d2362532c146aa023229bae48342eeab646fb",
+    "ipd_merge": "e9c2eef6c82ba51814a72ce962cf227e9fd89d56",
+    "ipd_pr": 115,
+    "ipd_tracker_blob": "efa804097d51263ce91dff4ac7201fb572ef1d8a",
+    "outcome": "RESOLVED \u2014 CONTINUED DEFERRAL (REG-06)"
+  },
+  "evidence_items": 44,
   "disposition_counts": {
     "ACCEPTED": 20,
     "ACCEPTED+FOLLOWUP": 12,
@@ -23,8 +35,9 @@
   },
   "pending_group_counts": {
     "Evidence / certification / verification": 8,
-    "PA decisions / governance": 17,
+    "PA decisions / governance": 16,
     "Cross-repository integration / dependencies": 5,
+    "Resolved governance deferrals": 1,
     "Operator execution": 2,
     "Qualification / admission gates": 5,
     "IRR implementation / deliverables": 1,
@@ -41,9 +54,10 @@
     "Authority": {
       "V": 38,
       "OOS": 7,
-      "DEFERRED": 3,
+      "DEFERRED": 2,
       "P": 2,
-      "NOT AUTHORIZED": 1
+      "NOT AUTHORIZED": 1,
+      "RESOLVED": 1
     },
     "Integration": {
       "V": 32,
@@ -118,20 +132,20 @@
   },
   "files": {
     "IIPS_V3_CAPABILITY_MATRIX_51x17_REASSESSED_2026-10-31.csv": {
-      "bytes": 59094,
-      "sha256": "dbe5b7261031c3e6ba35506be915ef591d8051577c47f2717c02c220d215082c"
+      "bytes": 59762,
+      "sha256": "28f66ecc5712d67b00464c0ab4e8e23e486ae24dc0206947bd4b1d600b3ba1e0"
     },
     "IIPS_V3_OUTSTANDING_PENDING_2026-10-31.csv": {
-      "bytes": 27348,
-      "sha256": "d89467bd559c49c9ccac777886faa5e92c8a8ad920d29de94ce1f551a9008ae7"
+      "bytes": 28096,
+      "sha256": "043625c6d71dda7370b6947db1846ea414db2750dc6e843b2e7d10b26f361a84"
     },
     "IIPS_V3_CAPABILITY_MATRIX_51x17_REASSESSED_2026-10-31.xlsx": {
-      "bytes": 104057,
-      "sha256": "0f3cb372c967943355fd585387e0bd4a9cf4d517c745e3960bceab5f9359669e"
+      "bytes": 105902,
+      "sha256": "a58832d6861230b1c004379f188202fde1116403466225fa9b64897e9e441f75"
     },
     "RECONCILIATION_REPORT.md": {
-      "bytes": 4699,
-      "sha256": "8d7883509aee10646b3a7990980fffddda1bebd4f61c95d9770e5326460d46e5"
+      "bytes": 5900,
+      "sha256": "38005fa049717810eb7b97cd0e77402c885b7d7c75e55be7e72b1f0c4eb87312"
     }
   }
 }
