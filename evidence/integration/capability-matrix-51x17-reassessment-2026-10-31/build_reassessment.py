@@ -8,7 +8,7 @@ The build is deterministic apart from the XLSX core modified timestamp, which is
 from __future__ import annotations
 import csv, json, hashlib, datetime, pathlib, sys, zipfile, io
 import baseline_matrix_data as base
-from reassessment_data import OVERRIDES, EVIDENCE, PENDING, DISPOSITION, IRR, IPD, DATE, MAP, RESOLVED_DEFERRED, P08_IRR_BASELINE, P08_IPD, P08_IPD_TRACKER_BLOB, P08_DATE
+from reassessment_data import OVERRIDES, EVIDENCE, PENDING, DISPOSITION, IRR, IPD, DATE, MAP, RESOLVED_DEFERRED, P08_IRR_BASELINE, P08_IPD, P08_IPD_TRACKER_BLOB, P08_DATE, COMPLETED_RECONCILED, REG06_IRR_BASELINE, REG06_IPD, REG06_IPD_HEAD, REG06_IPD_TRACKER_BLOB, REG06_DATE
 from openpyxl import Workbook
 from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
 from openpyxl.utils import get_column_letter
@@ -33,12 +33,15 @@ import re as _re
 for _row in ROWS:
     _anchor = _re.sub(r"\s*Pending:.*$", "", str(_row[16])).rstrip()
     _ids = MAP.get(_row[0], [])
-    _active = [x for x in _ids if x not in RESOLVED_DEFERRED]
+    _active = [x for x in _ids if x not in RESOLVED_DEFERRED and x not in COMPLETED_RECONCILED]
     _resolved = [x for x in _ids if x in RESOLVED_DEFERRED]
+    _completed = [x for x in _ids if x in COMPLETED_RECONCILED]
     if _active:
         _anchor = _anchor.rstrip('.') + '. Pending: ' + ', '.join(_active) + '.'
     if _resolved:
         _anchor = _anchor.rstrip('.') + '. Resolved governance deferral: ' + ', '.join(_resolved) + ' (assessment closed; product admission deferred).'
+    if _completed:
+        _anchor = _anchor.rstrip('.') + '. Completed/reconciled: ' + ', '.join(_completed) + ' (IPD REG-06 completed; IRR reconciled; separate gates unchanged).'
     _row[16] = _anchor
 
 PENDING_HEADERS = ["Item ID","Group","Capability / matrix reference","Outstanding requirement / action","Current status","What remains pending","Dependency / prerequisite","Dependency owner","Accountable owner (PA/IRR/IPD)","Execution owner","Required decision / authorization","Blocking issue / constraint","Required completion evidence","Repository / branch / commit / artifact references","Recommended next action","Completion criteria"]
@@ -126,18 +129,25 @@ recon_rows = [
  ['Matrix shape', '51 capabilities x 17 dimensions; headers and row numbering preserved exactly'],
  ['Changed matrix cells', len(changed_cells)],
  ['Register entries', len(PENDING)],
- ['Resolved governance deferrals', ', '.join(sorted(RESOLVED_DEFERRED))],
+ ['Resolved governance deferrals (current)', ', '.join(sorted(RESOLVED_DEFERRED)) or 'none'],
+ ['Completed/reconciled items', ', '.join(sorted(COMPLETED_RECONCILED))],
  ['P-08 amendment date', P08_DATE],
  ['P-08 IRR investigation baseline', P08_IRR_BASELINE],
  ['P-08 IPD merge / PR', P08_IPD+' / #115'],
  ['P-08 IPD tracker blob', P08_IPD_TRACKER_BLOB],
- ['P-08 outcome', 'RESOLVED — CONTINUED DEFERRAL (REG-06); not product admission'],
+ ['P-08 historical outcome (PR #115)', 'RESOLVED — CONTINUED DEFERRAL (REG-06); superseded as current state by PR #117'],
+ ['REG-06 amendment date', REG06_DATE],
+ ['REG-06 IRR investigation baseline', REG06_IRR_BASELINE],
+ ['REG-06 IPD merge / PR / head', REG06_IPD+' / #117 / '+REG06_IPD_HEAD],
+ ['REG-06 IPD tracker blob', REG06_IPD_TRACKER_BLOB],
+ ['REG-06 current outcome', 'IPD product admission/implementation COMPLETED; IRR RECONCILED; production/AD-17/M-2 not authorized'],
+ ['REG-06 IPD validation', '987 tests / 986 pass / 0 fail / 1 skip; focused 46/46; package-consumer and installed-tarball smoke PASS'],
  ['Open PRs at original census', 'Historical 2026-10-31 census; IRR #398 subsequently merged; IPD none'],
  ['Open PRs at P-08 amendment census', 'IPD none; IRR #409 merged during this pass as c9e725f6 and preserved'],
  ['IRR branch census', '304 remote branches; 32 non-ancestors of main; 396 PRs inspected'],
  ['IPD branch census', '102 remote branches; 32 non-ancestors of main; 109 PRs inspected'],
  ['IRR current validation', '108 files / 1377 tests / 0 failed; typecheck/replay/build/guard PASS'],
- ['IPD current validation', '941 tests / 940 pass / 0 fail / 1 skip; package-consumer PASS'],
+ ['IPD original reassessment validation (historical)', '941 tests / 940 pass / 0 fail / 1 skip; package-consumer PASS'],
  ['Production boundary', 'Production remains outside scope; no admission, durable:true or 503 lift inferred'],
 ]
 for b,ids in sorted(bucket_counts.items()): recon_rows.append(['Disposition: '+b, ', '.join(map(str,ids))+f' (n={len(ids)})'])
@@ -165,8 +175,9 @@ validation_rows=[
  ['Header order','identical to baseline','PASS'],
  ['Empty matrix cells',sum(1 for r in ROWS for c in r if str(c).strip()==''),'PASS'],
  ['Register entries',len(PENDING),'PASS'],
- ['Resolved governance deferrals',', '.join(sorted(RESOLVED_DEFERRED)),'PASS'],
- ['P-08 outcome','RESOLVED — CONTINUED DEFERRAL (REG-06)','PASS'],
+ ['Resolved governance deferrals (current)',', '.join(sorted(RESOLVED_DEFERRED)) or 'none','PASS'],
+ ['Completed/reconciled items',', '.join(sorted(COMPLETED_RECONCILED)),'PASS'],
+ ['P-08 current outcome','COMPLETED — IPD REG-06; IRR RECONCILED','PASS'],
  ['Pending IDs unique',len({p[0] for p in PENDING})==len(PENDING),'PASS'],
  ['Evidence IDs unique',len({e[0] for e in EVIDENCE})==len(EVIDENCE),'PASS'],
  ['Pending traceability to matrix rows','all pending refs mapped','PASS'],
@@ -187,21 +198,21 @@ assert [[str(c) for c in r] for r in ROWS] == rt[1:]
 # Report
 report = []
 report.append('# IIPS v3.0 — 51 × 17 Capability Matrix Reassessment (2026-10-31)\n')
-report.append(f'**Record:** `IIPS-V3-CAPMATRIX-51X17-REASSESSMENT-2026-10-31-01`\n\n**Original reassessment IRR main:** `{IRR}`\n\n**Original reassessment IPD main:** `{IPD}`\n\n**P-08 amendment (`{P08_DATE}`):** IRR investigation baseline `{P08_IRR_BASELINE}`; IPD merge `{P08_IPD}` (PR #115); tracker blob `{P08_IPD_TRACKER_BLOB}`; outcome **RESOLVED — CONTINUED DEFERRAL (REG-06)**.\n\n**Baseline:** `evidence/integration/capability-matrix-51x17-2026-10-27/` at reference commit `fff8cf98ddcc7af1c6ab58d3ae9a3442a5322935`.\n')
+report.append(f'**Record:** `IIPS-V3-CAPMATRIX-51X17-REASSESSMENT-2026-10-31-01`\n\n**Original reassessment IRR main:** `{IRR}`\n\n**Original reassessment IPD main:** `{IPD}`\n\n**Historical P-08 amendment (`{P08_DATE}`):** IRR investigation baseline `{P08_IRR_BASELINE}`; IPD merge `{P08_IPD}` (PR #115); tracker blob `{P08_IPD_TRACKER_BLOB}`; outcome **RESOLVED — CONTINUED DEFERRAL (REG-06)** (superseded as current state).\n\n**REG-06 implementation amendment (`{REG06_DATE}`):** IRR investigation baseline `{REG06_IRR_BASELINE}`; IPD merge `{REG06_IPD}` (PR #117, head `{REG06_IPD_HEAD}`); tracker blob `{REG06_IPD_TRACKER_BLOB}`; outcome **IPD product admission/implementation COMPLETED; IRR RECONCILED**. Production/AD-17/M-2 not authorized.\n\n**Baseline:** `evidence/integration/capability-matrix-51x17-2026-10-27/` at reference commit `fff8cf98ddcc7af1c6ab58d3ae9a3442a5322935`.\n')
 report.append('## A. Scope and method\n')
 report.append('This reassessment inspected both authoritative repositories, all available remote branches and PRs in full clones, current trackers/decision acts, implementation artifacts, and executed current-head validation. The original 51 capabilities and 17 dimensions are preserved. Statuses are updated only where current evidence supports a change; historical text is retained in the baseline bundle. Production remains outside scope.\n')
 report.append('## B. What changed from the October 27 baseline\n')
-report.append('- **O-05 / row 28:** IPD PR #113 merged a bounded refusing-only broker-import consumer; state-2 code-level limb satisfied, admission limb remains open.\n- **D-9 / row 35:** C4-2 PA act effective; Reports header-claim question closed; F-7 bounded backend acceptance unchanged; G-14 residual recorded.\n- **O-06 / row 45:** closed no action required; all three IPD specifiers guarded.\n- **O-07 / row 48:** closed documentation reconciliation; row 27 re-scoped; O-09 remains open.\n- **P-1 / rows 30/32:** PR #398 merged; P1-F consumption remains NOT RECONCILED and no host execution is inferred.\n- **Validation counts:** IRR 108 files / 1377 tests after S2-DEP-A rev-8 contract-test correction; IPD 941 tests / 940 pass / 1 skip.\n- **Branch distances:** G24 branch 7 ahead / 920 behind; historical Reports branch 28 ahead / 1043 behind.\n- **Runbook:** restamped to 108/1377 with exact frontend-tree pointer.\n- **P-20:** IPD PR #114 merged; IRR pending register no longer lists the resolved IPD documentation conflict.\n- **P-33/G14:** dependency assessment published; final G14 remains blocked by upstream gates.\n- **P-08 / row 29 (dated amendment 2026-11-01):** IPD PR #115 merge `e9c2eef6c82ba51814a72ce962cf227e9fd89d56`, tracker blob `efa804097d51263ce91dff4ac7201fb572ef1d8a`; **RESOLVED — CONTINUED DEFERRAL (REG-06)**. PA §5.5 corrects the historical packaging/identifier observations; export map exists but excludes Operator Drop, build does not emit it, and the identifier is `record.companyId`. No product admission.\n')
+report.append('- **O-05 / row 28:** IPD PR #113 merged a bounded refusing-only broker-import consumer; state-2 code-level limb satisfied, admission limb remains open.\n- **D-9 / row 35:** C4-2 PA act effective; Reports header-claim question closed; F-7 bounded backend acceptance unchanged; G-14 residual recorded.\n- **O-06 / row 45:** closed no action required; all three IPD specifiers guarded.\n- **O-07 / row 48:** closed documentation reconciliation; row 27 re-scoped; O-09 remains open.\n- **P-1 / rows 30/32:** PR #398 merged; P1-F consumption remains NOT RECONCILED and no host execution is inferred.\n- **Validation counts:** IRR 108 files / 1377 tests after S2-DEP-A rev-8 contract-test correction; IPD 941 tests / 940 pass / 1 skip.\n- **Branch distances:** G24 branch 7 ahead / 920 behind; historical Reports branch 28 ahead / 1043 behind.\n- **Runbook:** restamped to 108/1377 with exact frontend-tree pointer.\n- **P-20:** IPD PR #114 merged; IRR pending register no longer lists the resolved IPD documentation conflict.\n- **P-33/G14:** dependency assessment published; final G14 remains blocked by upstream gates.\n- **Historical P-08 / row 29 (PR #115 amendment):** IPD PR #115 merge `e9c2eef6c82ba51814a72ce962cf227e9fd89d56`, tracker blob `efa804097d51263ce91dff4ac7201fb572ef1d8a`; **RESOLVED — CONTINUED DEFERRAL (REG-06)**. PA §5.5 corrects the historical packaging/identifier observations; export map exists but excludes Operator Drop, build does not emit it, and the identifier is `record.companyId`. No product admission at that baseline.\n- **REG-06 / row 29 (current implementation amendment 2026-11-01):** IPD PR #117 merge `eb9289222e2bdfd0e79381d4d81f7f81715e019b` completed durable PIT, series-qualified ingestion, product runtime and emitted `./operator-drop` export. Full suite 987/986/0/1; focused 46/46; package-consumer and installed-tarball smoke PASS. IRR reconciled by §16.242; historical DEFERRED preserved. Production/AD-17/M-2 not authorized; O-05/P-1 gates unchanged.\n')
 report.append('## C. Downgrades / reopened items\n')
 report.append('No accepted capability was reopened without contradictory evidence. Row 47 is restored to verified current figures. Row 48 remains partial because G14 final reconciliation is blocked and P1-F consumption is not reconciled, not because PR #398 or IPD P-20 remains open. Row 19 is upgraded for live-source E2E based on operator-transferred evidence, with a non-blocking browser-rendering residual.\n')
 report.append('## D. Remaining blockers and dependencies\n')
-report.append('The dominant chain remains: PA-09 Gate 4 pin → P-1 runtime execution → S2/Limb A native run → H-12 L2c/S2a → S3 → QE-1..11 → Gate C subset acceptance → Gate 4/U4 acceptance → DQ-4 freeze → Gate 5/CV-52/U5 → U6 write authorization. O-05 admission and DR-2/DR-4r operational closure sit downstream. PA-01/02/03 are documentary conflicts, not P-1 prerequisites. REG-12 mapping, CV-22 expansion, CV-24 F6/TD-7b, REG-06 Operator Drop and D115 wiring are separate governance/dormant items. P-08 is a resolved continued-deferral assessment, not an active documentation conflict or implementation task; future requirement/admission belongs to PA and any subsequently authorized implementation to IPD.\n')
+report.append('The dominant chain remains: PA-09 Gate 4 pin → P-1 runtime execution → S2/Limb A native run → H-12 L2c/S2a → S3 → QE-1..11 → Gate C subset acceptance → Gate 4/U4 acceptance → DQ-4 freeze → Gate 5/CV-52/U5 → U6 write authorization. O-05 admission and DR-2/DR-4r operational closure sit downstream. PA-01/02/03 are documentary conflicts, not P-1 prerequisites. REG-12 mapping, CV-22 expansion, CV-24 F6/TD-7b and D115 wiring remain separate items. REG-06 Operator Drop is completed on IPD and reconciled in IRR; P-08 is a completed/reconciled entry, not an active pending task. Production/AD-17/M-2, O-05 and P-1 gates are not closed by that completion.\n')
 report.append('## E. Responsibility distribution\n')
 for g,n in sorted(group_counts.items()): report.append(f'- {g}: {n} register entr{"y" if n == 1 else "ies"}.\n')
 report.append('## F. Overall position\n')
 report.append(f'- Matrix: 51 × 17 preserved; {len(changed_cells)} cells updated.\n')
 for b,ids in sorted(bucket_counts.items()): report.append(f'- {b}: {len(ids)} rows ({", ".join(map(str,ids))}).\n')
-report.append(f'- Register: {len(PENDING)} entries, including {len(RESOLVED_DEFERRED)} resolved governance deferral (P-08); this is not a count of active implementation tasks. Other completed/OOS rows are excluded unless a distinct residual remains.\n- Open PRs at the original census: none (historical). At the P-08 amendment census: IPD none; IRR #409 merged during this pass as c9e725f6 and preserved.\n')
+report.append(f'- Register: {len(PENDING)} entries, including {len(COMPLETED_RECONCILED)} completed/reconciled item (P-08); this is not a count of active implementation tasks. Other completed/OOS rows are excluded unless a distinct residual remains.\n- Open PRs at the original census: none (historical). At the P-08 amendment census: IPD none; IRR #409 merged during this pass as c9e725f6 and preserved.\n')
 report.append('## G. Evidence and artifacts\n')
 report.append('- Workbook: `IIPS_V3_CAPABILITY_MATRIX_51x17_REASSESSED_2026-10-31.xlsx`\n- Matrix CSV: `IIPS_V3_CAPABILITY_MATRIX_51x17_REASSESSED_2026-10-31.csv`\n- Pending CSV: `IIPS_V3_OUTSTANDING_PENDING_2026-10-31.csv`\n- Raw execution/probe/census logs: `raw/`\n- Evidence register: workbook sheet `Evidence Register` and `reassessment_data.py`.\n')
 report.append('## H. Non-claims\n')
@@ -213,7 +224,7 @@ receipt={
  'record':'IIPS-V3-CAPMATRIX-51X17-REASSESSMENT-2026-10-31-01',
  'date':DATE,'irr_main':IRR,'ipd_main':IPD,
  'matrix_rows':51,'matrix_columns':17,'headers_preserved':True,'row_numbering_preserved':True,
- 'changed_cells':len(changed_cells),'pending_items':len(PENDING),'register_entries':len(PENDING),'resolved_governance_deferrals':sorted(RESOLVED_DEFERRED),'p08_amendment':{'date':P08_DATE,'irr_baseline':P08_IRR_BASELINE,'ipd_merge':P08_IPD,'ipd_pr':115,'ipd_tracker_blob':P08_IPD_TRACKER_BLOB,'outcome':'RESOLVED — CONTINUED DEFERRAL (REG-06)'},'evidence_items':len(EVIDENCE),
+ 'changed_cells':len(changed_cells),'pending_items':len(PENDING),'register_entries':len(PENDING),'resolved_governance_deferrals':sorted(RESOLVED_DEFERRED),'completed_reconciled':sorted(COMPLETED_RECONCILED),'p08_amendment':{'date':P08_DATE,'irr_baseline':P08_IRR_BASELINE,'ipd_merge':P08_IPD,'ipd_pr':115,'ipd_tracker_blob':P08_IPD_TRACKER_BLOB,'outcome':'RESOLVED — CONTINUED DEFERRAL (REG-06)'},'reg06_implementation_amendment':{'date':REG06_DATE,'irr_baseline':REG06_IRR_BASELINE,'ipd_merge':REG06_IPD,'ipd_pr':117,'ipd_head':REG06_IPD_HEAD,'ipd_tracker_blob':REG06_IPD_TRACKER_BLOB,'outcome':'IPD product admission/implementation COMPLETED; IRR RECONCILED'},'evidence_items':len(EVIDENCE),
  'disposition_counts':{k:len(v) for k,v in bucket_counts.items()},'pending_group_counts':group_counts,
  'dimension_counts':dim_counts,
  'files':{}

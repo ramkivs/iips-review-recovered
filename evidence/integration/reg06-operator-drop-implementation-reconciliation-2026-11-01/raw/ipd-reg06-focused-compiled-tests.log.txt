@@ -1,0 +1,355 @@
+TAP version 13
+# (node:3674) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: REG-06 durable PIT store — durability and restart recovery
+    # Subtest: persists a write to the database file and survives a process restart
+    ok 1 - persists a write to the database file and survives a process restart
+      ---
+      duration_ms: 9.20347
+      type: 'test'
+      ...
+    # Subtest: refuses a relative path and an empty path
+    ok 2 - refuses a relative path and an empty path
+      ---
+      duration_ms: 0.436652
+      type: 'test'
+      ...
+    # Subtest: keeps its own migration ledger and leaves GATE3_MIGRATIONS untouched
+    ok 3 - keeps its own migration ledger and leaves GATE3_MIGRATIONS untouched
+      ---
+      duration_ms: 15.932049
+      type: 'test'
+      ...
+    1..3
+ok 1 - REG-06 durable PIT store — durability and restart recovery
+  ---
+  duration_ms: 26.145768
+  type: 'suite'
+  ...
+# Subtest: REG-06 durable PIT store — idempotency
+    # Subtest: treats re-ingesting an identical snapshot as a duplicate, not a new vintage
+    ok 1 - treats re-ingesting an identical snapshot as a duplicate, not a new vintage
+      ---
+      duration_ms: 4.978209
+      type: 'test'
+      ...
+    # Subtest: rejects a differing snapshot at the same identity and instant as a conflict
+    ok 2 - rejects a differing snapshot at the same identity and instant as a conflict
+      ---
+      duration_ms: 5.076763
+      type: 'test'
+      ...
+    # Subtest: still serves reads correctly after a duplicate and a conflict
+    ok 3 - still serves reads correctly after a duplicate and a conflict
+      ---
+      duration_ms: 4.885389
+      type: 'test'
+      ...
+    1..3
+ok 2 - REG-06 durable PIT store — idempotency
+  ---
+  duration_ms: 15.277686
+  type: 'suite'
+  ...
+# Subtest: REG-06 durable PIT store — identity is required and never inferred
+    # Subtest: rejects an envelope with no securityId rather than degrading to company-only
+    ok 1 - rejects an envelope with no securityId rather than degrading to company-only
+      ---
+      duration_ms: 3.610075
+      type: 'test'
+      ...
+    # Subtest: rejects a bare ISIN
+    ok 2 - rejects a bare ISIN
+      ---
+      duration_ms: 3.175037
+      type: 'test'
+      ...
+    # Subtest: rejects a missing series
+    ok 3 - rejects a missing series
+      ---
+      duration_ms: 3.36451
+      type: 'test'
+      ...
+    # Subtest: rejects too many segments
+    ok 4 - rejects too many segments
+      ---
+      duration_ms: 4.299189
+      type: 'test'
+      ...
+    # Subtest: rejects a wrong-length ISIN
+    ok 5 - rejects a wrong-length ISIN
+      ---
+      duration_ms: 3.235099
+      type: 'test'
+      ...
+    # Subtest: rejects a non-ISIN prefix
+    ok 6 - rejects a non-ISIN prefix
+      ---
+      duration_ms: 2.855395
+      type: 'test'
+      ...
+    # Subtest: rejects an unparseable asOf instant instead of rolling the date
+    ok 7 - rejects an unparseable asOf instant instead of rolling the date
+      ---
+      duration_ms: 3.199903
+      type: 'test'
+      ...
+    # Subtest: rejects a payload identity that disagrees with the envelope identity
+    ok 8 - rejects a payload identity that disagrees with the envelope identity
+      ---
+      duration_ms: 2.969515
+      type: 'test'
+      ...
+    # Subtest: refuses an ambiguous legacy company/domain query when several series exist
+    ok 9 - refuses an ambiguous legacy company/domain query when several series exist
+      ---
+      duration_ms: 4.860595
+      type: 'test'
+      ...
+    1..9
+ok 3 - REG-06 durable PIT store — identity is required and never inferred
+  ---
+  duration_ms: 32.179101
+  type: 'suite'
+  ...
+# Subtest: REG-06 durable PIT store — series isolation with no cross-series fallback
+    # Subtest: keeps two series of one ISIN separate and never substitutes one for the other
+    ok 1 - keeps two series of one ISIN separate and never substitutes one for the other
+      ---
+      duration_ms: 5.114073
+      type: 'test'
+      ...
+    # Subtest: returns nothing for an unadmitted series rather than falling back
+    ok 2 - returns nothing for an unadmitted series rather than falling back
+      ---
+      duration_ms: 4.368816
+      type: 'test'
+      ...
+    # Subtest: does not leak a record across domains
+    ok 3 - does not leak a record across domains
+      ---
+      duration_ms: 5.262973
+      type: 'test'
+      ...
+    1..3
+ok 4 - REG-06 durable PIT store — series isolation with no cross-series fallback
+  ---
+  duration_ms: 14.95981
+  type: 'suite'
+  ...
+# Subtest: REG-06 durable PIT store — point-in-time correctness
+    # Subtest: returns the newest vintage at or before asOf, and none before the first
+    ok 1 - returns the newest vintage at or before asOf, and none before the first
+      ---
+      duration_ms: 8.180443
+      type: 'test'
+      ...
+    # Subtest: returns the inclusive historical range in ascending order
+    ok 2 - returns the inclusive historical range in ascending order
+      ---
+      duration_ms: 16.12344
+      type: 'test'
+      ...
+    # Subtest: rejects an invalid asOf on read instead of silently matching nothing
+    ok 3 - rejects an invalid asOf on read instead of silently matching nothing
+      ---
+      duration_ms: 4.137602
+      type: 'test'
+      ...
+    # Subtest: serves the reused PitReadService without a second read implementation
+    ok 4 - serves the reused PitReadService without a second read implementation
+      ---
+      duration_ms: 4.48948
+      type: 'test'
+      ...
+    1..4
+ok 5 - REG-06 durable PIT store — point-in-time correctness
+  ---
+  duration_ms: 33.135994
+  type: 'suite'
+  ...
+# Subtest: REG-06 durable PIT store — failure leaves no partial write
+    # Subtest: rolls back a rejected append and keeps the store usable
+    ok 1 - rolls back a rejected append and keeps the store usable
+      ---
+      duration_ms: 5.823716
+      type: 'test'
+      ...
+    # Subtest: refuses every operation after close
+    ok 2 - refuses every operation after close
+      ---
+      duration_ms: 4.500093
+      type: 'test'
+      ...
+    1..2
+ok 6 - REG-06 durable PIT store — failure leaves no partial write
+  ---
+  duration_ms: 10.455888
+  type: 'suite'
+  ...
+# (node:3681) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: REG-06 package-export admission
+    # Subtest: declares the exact authorized export map, including ./operator-drop
+    ok 1 - declares the exact authorized export map, including ./operator-drop
+      ---
+      duration_ms: 2.312257
+      type: 'test'
+      ...
+    # Subtest: emits both the runtime and the declarations for every subpath
+    ok 2 - emits both the runtime and the declarations for every subpath
+      ---
+      duration_ms: 0.404174
+      type: 'test'
+      ...
+    # Subtest: emits the Operator Drop module into the published package tree
+    ok 3 - emits the Operator Drop module into the published package tree
+      ---
+      duration_ms: 0.211537
+      type: 'test'
+      ...
+    # Subtest: publishes exactly the authorized ./operator-drop surface
+    ok 4 - publishes exactly the authorized ./operator-drop surface
+      ---
+      duration_ms: 13.018247
+      type: 'test'
+      ...
+    # Subtest: publishes the durable PIT store through ./pit as well
+    ok 5 - publishes the durable PIT store through ./pit as well
+      ---
+      duration_ms: 0.983357
+      type: 'test'
+      ...
+    # Subtest: exposes working constructors and functions, not just names
+    ok 6 - exposes working constructors and functions, not just names
+      ---
+      duration_ms: 0.574189
+      type: 'test'
+      ...
+    # Subtest: keeps IPC and provisioning out of the admitted public surface
+    ok 7 - keeps IPC and provisioning out of the admitted public surface
+      ---
+      duration_ms: 0.456601
+      type: 'test'
+      ...
+    1..7
+ok 7 - REG-06 package-export admission
+  ---
+  duration_ms: 19.027801
+  type: 'suite'
+  ...
+# (node:3688) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: REG-06 Operator Drop — identity resolution is explicit and never inferred
+    # Subtest: accepts a complete securityIdentity and separate isin+series
+    ok 1 - accepts a complete securityIdentity and separate isin+series
+      ---
+      duration_ms: 0.869286
+      type: 'test'
+      ...
+    # Subtest: rejects a record with no identity fields, naming the reason
+    ok 2 - rejects a record with no identity fields, naming the reason
+      ---
+      duration_ms: 0.177231
+      type: 'test'
+      ...
+    # Subtest: rejects a bare ISIN only
+    ok 3 - rejects a bare ISIN only
+      ---
+      duration_ms: 0.25558
+      type: 'test'
+      ...
+    # Subtest: rejects a series only
+    ok 4 - rejects a series only
+      ---
+      duration_ms: 0.112953
+      type: 'test'
+      ...
+    # Subtest: rejects a malformed ISIN
+    ok 5 - rejects a malformed ISIN
+      ---
+      duration_ms: 0.102683
+      type: 'test'
+      ...
+    # Subtest: rejects a blank series
+    ok 6 - rejects a blank series
+      ---
+      duration_ms: 0.098677
+      type: 'test'
+      ...
+    # Subtest: rejects a malformed securityIdentity
+    ok 7 - rejects a malformed securityIdentity
+      ---
+      duration_ms: 0.140615
+      type: 'test'
+      ...
+    1..7
+ok 8 - REG-06 Operator Drop — identity resolution is explicit and never inferred
+  ---
+  duration_ms: 2.561487
+  type: 'suite'
+  ...
+# Subtest: REG-06 Operator Drop — end-to-end ingestion to screening
+    # Subtest: ingests a valid package durably and screens it back by series identity
+    ok 1 - ingests a valid package durably and screens it back by series identity
+      ---
+      duration_ms: 16.018037
+      type: 'test'
+      ...
+    # Subtest: survives a restart: screened data comes from disk, not process memory
+    ok 2 - survives a restart: screened data comes from disk, not process memory
+      ---
+      duration_ms: 0.892352
+      type: 'test'
+      ...
+    # Subtest: re-ingesting the identical package is idempotent
+    ok 3 - re-ingesting the identical package is idempotent
+      ---
+      duration_ms: 1.237094
+      type: 'test'
+      ...
+    # Subtest: adds a later vintage and resolves point-in-time correctly across dates
+    ok 4 - adds a later vintage and resolves point-in-time correctly across dates
+      ---
+      duration_ms: 3.100476
+      type: 'test'
+      ...
+    # Subtest: quarantines a record with no identity while admitting the valid ones
+    ok 5 - quarantines a record with no identity while admitting the valid ones
+      ---
+      duration_ms: 5.527398
+      type: 'test'
+      ...
+    # Subtest: refuses a package with a corrupted checksum and writes nothing
+    ok 6 - refuses a package with a corrupted checksum and writes nothing
+      ---
+      duration_ms: 3.512649
+      type: 'test'
+      ...
+    # Subtest: refuses a package whose content is not a JSON array
+    ok 7 - refuses a package whose content is not a JSON array
+      ---
+      duration_ms: 3.553279
+      type: 'test'
+      ...
+    # Subtest: fails closed when screening an unadmitted series instead of substituting
+    ok 8 - fails closed when screening an unadmitted series instead of substituting
+      ---
+      duration_ms: 0.421253
+      type: 'test'
+      ...
+    1..8
+ok 9 - REG-06 Operator Drop — end-to-end ingestion to screening
+  ---
+  duration_ms: 35.505491
+  type: 'suite'
+  ...
+1..9
+# tests 46
+# suites 9
+# pass 46
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 435.126511

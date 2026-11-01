@@ -1,0 +1,74 @@
+{
+  "irr_main": "ed41a4c1f0e1a92cc429b31210794aa2e4b5948b",
+  "artifacts": [
+    {
+      "path": "IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md",
+      "blob": "66eebe4edb0838760fe1d9e2b3301b7109a833e0",
+      "sha256": "40b35126ac7809589f8616b79a7a75cc9418cc9088475ca8b0ebb5b4b5e11cca",
+      "bytes": 3692076
+    },
+    {
+      "path": "docs/integration/IIPS_v3.0_GOVERNANCE_RECONCILIATION_PA_DECISION_2026-10-13.md",
+      "blob": "e089150225a9a04be093bd83aa4f440a0a70165f",
+      "sha256": "c619cf8f9659c94208553fb3119cc97149cac810533c488903e36c3f2b9d0c63",
+      "bytes": 23341
+    },
+    {
+      "path": "docs/integration/IIPS_v3.0_P08_REG06_IRR_RECONCILIATION_2026-11-01.md",
+      "blob": "a0a325139ca8860008c598b729465c0dcb29cf71",
+      "sha256": "d97eb430184d53b1f742fd23f6efb1e8b7724a5752368ac4ad3dffbb81149947",
+      "bytes": 8073
+    },
+    {
+      "path": "evidence/integration/capability-matrix-51x17-reassessment-2026-10-31/IIPS_V3_CAPABILITY_MATRIX_51x17_REASSESSED_2026-10-31.csv",
+      "blob": "094f7baf5afafa1a0ff5aba2d570a72dbd6a47c0",
+      "sha256": "28f66ecc5712d67b00464c0ab4e8e23e486ae24dc0206947bd4b1d600b3ba1e0",
+      "bytes": 59762
+    },
+    {
+      "path": "evidence/integration/capability-matrix-51x17-reassessment-2026-10-31/IIPS_V3_OUTSTANDING_PENDING_2026-10-31.csv",
+      "blob": "b5713d56c6eaf45d4802cd69dc0bcb8fe7af9f23",
+      "sha256": "043625c6d71dda7370b6947db1846ea414db2750dc6e843b2e7d10b26f361a84",
+      "bytes": 28096
+    }
+  ],
+  "matrix_row29": [
+    "29",
+    "Operator Drop (IPD)",
+    "V \u2014 `src/operator_drop/{parser,index}.ts` present.",
+    "RESOLVED \u2014 CONTINUED DEFERRAL (REG-06): P-08 assessment closed; product admission remains DEFERRED, fail-closed [E018][E026][E043][E044].",
+    "P \u2014 internal OQ failover-harness references and root src/index.ts barrel only. Current exports map exposes ./portfolio-ui, ./pit, ./d114-non-production; Operator Drop absent from map and published build; no product runtime admission [E018][E026].",
+    "NI \u2014 no route, no CLI entrypoint published.",
+    "P \u2014 parser-only; no governed dataset commissioned (`M-1` deferred).",
+    "NA \u2014 nothing persisted.",
+    "NA.",
+    "V \u2014 IPD PR #115 merge e9c2eef6: CI 41287576987 PASS; check 124792149559 records 941 executed / 940 pass / 0 fail; exported-source package-consumer and typecheck PASS. Primitive/package checks, not product qualification [E043][E044].",
+    "NA \u2014 deferred surface.",
+    "V \u2014 REG-06 PA decision preserved with dated \u00a75.5 correction; IPD PR #115 continued-deferral record; IRR \u00a716.238 [E018][E026][E043][E044].",
+    "V \u2014 P-08 assessment RESOLVED \u2014 CONTINUED DEFERRAL; PA decision effective, product not commissioned. Future requirement/admission: PA; subsequently authorized implementation: IPD.",
+    "DEFERRED \u2014 product acceptance/admission not rendered; resolving P-08 assessment is not product admission.",
+    "NA.",
+    "V \u2014 deferred; no release action.",
+    "IPD main@e9c2eef6c82ba51814a72ce962cf227e9fd89d56; PR #115; tracker blob efa804097d51263ce91dff4ac7201fb572ef1d8a; src/operator_drop/** uses record.companyId; exports/build exclude Operator Drop; REG-06 continued deferral [E018][E026][E043][E044]. P-08. P-08. Resolved governance deferral: P-08 (assessment closed; product admission deferred)."
+  ],
+  "pending_p08": [
+    "P-08",
+    "Resolved governance deferrals",
+    "Row 29 \u2014 Authority, Acceptance",
+    "Operator Drop product admission assessment",
+    "RESOLVED \u2014 CONTINUED DEFERRAL (REG-06)",
+    "Assessment/documentation discrepancy resolved. Operator Drop remains an internal primitive; product admission is deferred. No active IPD documentation conflict or implementation task.",
+    "Future product change only: approved manual-ingestion requirement + explicit PA admission, then bounded IPD implementation/qualification/acceptance",
+    "PA (future requirement/admission)",
+    "PA (future product requirement/admission)",
+    "IPD (only subsequently authorized implementation)",
+    "No authorization for current assessment closure; future promotion requires express PA act",
+    "All four product prerequisites absent; implementation presence and internal tests are not admission",
+    "Current: IPD PR #115 deferral record + IRR dated correction and consistent matrix/register. Future: PA act + PIT writes + series-qualified ISIN + explicit export + product callers/E2E + acceptance",
+    "IPD main@e9c2eef6c82ba51814a72ce962cf227e9fd89d56; PR #115; tracker blob efa804097d51263ce91dff4ac7201fb572ef1d8a; IRR \u00a716.238 / PA \u00a75.5 [E018][E026][E043][E044]",
+    "No active correction or implementation action. Retain deferral; PA may revisit only with an approved product requirement and explicit admission.",
+    "P-08 assessment resolved as continued deferral; product remains unadmitted. Any future admission is a separate authorized path."
+  ],
+  "section_16_238_sha256": "ea613a7736ecdbbfebab88293ca082e8c8e5ed47f8f0dfa26205adc7564c0264",
+  "pa_section5_sha256": "838587aced2f9ebe599270a544d3d6e01fc7306b82cd67bfb9d71ecfd15c0e46"
+}

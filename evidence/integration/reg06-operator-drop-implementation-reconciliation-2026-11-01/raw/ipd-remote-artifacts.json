@@ -1,0 +1,190 @@
+{
+  "repository": "ramkivs/iips-production-market-data",
+  "ref": "eb9289222e2bdfd0e79381d4d81f7f81715e019b",
+  "artifacts": [
+    {
+      "path": "evidence/cross-repository/IIPS_V3_CAP02_IPD_EXECUTION_TRACKER_2026-10-23.md",
+      "blob": "c1c666149c2d907026df3d9a2d184d2b9a2383c0",
+      "bytes": 288689,
+      "sha256": "a167be71376c4554eb2d55552d2db995730e408b17b791315b01b0ca04021918",
+      "api_raw_equals_git_object": true,
+      "equals_exact_checkout": true
+    },
+    {
+      "path": "package.json",
+      "blob": "99e262d36341e0bd850ea20d103280131f4f2c71",
+      "bytes": 2183,
+      "sha256": "15a7a90faef2f1ba0305505bd64679e6f862b21a2f00265a6d32823b4f8d0a20",
+      "api_raw_equals_git_object": true,
+      "equals_exact_checkout": true
+    },
+    {
+      "path": "scripts/verify-public-package.mjs",
+      "blob": "7b80383a439a86720d2f7d34fb8d54f9831d4154",
+      "bytes": 14431,
+      "sha256": "8107484e86a9e85fdce9f0f7437ccf858ef6568d5da3ad175d31528931fda690",
+      "api_raw_equals_git_object": true,
+      "equals_exact_checkout": true
+    },
+    {
+      "path": "src/operator_drop/drop_ingestion.ts",
+      "blob": "91f56946d2cee8f1054a669730807368ada092df",
+      "bytes": 8949,
+      "sha256": "9aac1aefa036acaaf057357a024ac8b884c67313b0a4a00d188af658e0e87ba6",
+      "api_raw_equals_git_object": true,
+      "equals_exact_checkout": true
+    },
+    {
+      "path": "src/operator_drop/index.ts",
+      "blob": "2dea622866aef1931e1a09a896bf1127942a864a",
+      "bytes": 316,
+      "sha256": "6de9456cd00a224aff9fcff4bd5340daa26cdcac36eb5bad1c565d8c26c9a99c",
+      "api_raw_equals_git_object": true,
+      "equals_exact_checkout": true
+    },
+    {
+      "path": "src/operator_drop/package.ts",
+      "blob": "bf4956702411e147e1449172d3d999da255b7b87",
+      "bytes": 1403,
+      "sha256": "abcc8eb56fd9faad9dca1241677e1a6e00a5390787054f56c2ac947eb536c5a4",
+      "api_raw_equals_git_object": true,
+      "equals_exact_checkout": true
+    },
+    {
+      "path": "src/operator_drop/product_runtime.ts",
+      "blob": "dc50259df90de3ce3128fa95b75a2a06a0fd3b46",
+      "bytes": 4506,
+      "sha256": "718555c2509d3c32a615f5bc7cf2604f3eb99412cc8b34c80a6f29f40fc5992d",
+      "api_raw_equals_git_object": true,
+      "equals_exact_checkout": true
+    },
+    {
+      "path": "src/pit/package.ts",
+      "blob": "cea1cb83a948222d7a441138b3fe36e4abc4b20a",
+      "bytes": 1044,
+      "sha256": "44eff15645e94820ed875e6a3972de0c122ea07ba6792d2fd515a0caaf58e5e6",
+      "api_raw_equals_git_object": true,
+      "equals_exact_checkout": true
+    },
+    {
+      "path": "src/pit/pit_durable_store.ts",
+      "blob": "0f608d64d2feb9807dcda7259475a5bcf830cb14",
+      "bytes": 15647,
+      "sha256": "9c2174d7b3106c8506aa379aa54d5ae7c93d39493ae94128866af0b1f2643d40",
+      "api_raw_equals_git_object": true,
+      "equals_exact_checkout": true
+    },
+    {
+      "path": "src/pit/pit_read_service.ts",
+      "blob": "964912e2560f99e2354a5ccf1fb12ad2bcb4f8cb",
+      "bytes": 4975,
+      "sha256": "e965279bf8fee3ade80a20ecf4ecc185c6960b4bc0d41b8dc6c144458df378ec",
+      "api_raw_equals_git_object": true,
+      "equals_exact_checkout": true
+    },
+    {
+      "path": "src/pit/pit_store.ts",
+      "blob": "5dcb3da7cd69d06a49ffbc9aa481c0abc5d13a4d",
+      "bytes": 7136,
+      "sha256": "3b1e85147ec92d69b6dfd00286fa8347f0d10008d16160c20bc9dcb36ed9ce8b",
+      "api_raw_equals_git_object": true,
+      "equals_exact_checkout": true
+    },
+    {
+      "path": "tests/cap02_pit_d114_package.test.ts",
+      "blob": "b9d7bb59ccca2677064a0325af7baabe3881746d",
+      "bytes": 18618,
+      "sha256": "e6d32fb67c426132af9cf5f4db1b949d29dffcb2698bf7fddb40eab76f1f9858",
+      "api_raw_equals_git_object": true,
+      "equals_exact_checkout": true
+    },
+    {
+      "path": "tests/portfolio_ui_package.test.ts",
+      "blob": "3cc486bc6eac60f5481be754cd6222ebb80c1c04",
+      "bytes": 26636,
+      "sha256": "a5b4c991dd27c08a9ee2b81ab21d83f3a70816629a14f6ac383198bf179bab52",
+      "api_raw_equals_git_object": true,
+      "equals_exact_checkout": true
+    },
+    {
+      "path": "tests/reg06_durable_pit_store.test.ts",
+      "blob": "7e9951c865983fdd6b05a373dc83158b09b998cf",
+      "bytes": 16308,
+      "sha256": "b06b53002c5d04e45ef6141618fd956052023e38acf0c97e698c17b7f13c4954",
+      "api_raw_equals_git_object": true,
+      "equals_exact_checkout": true
+    },
+    {
+      "path": "tests/reg06_operator_drop_package_export.test.ts",
+      "blob": "d6442493343e04e22efbf2620b6f5bccd7eeaa6b",
+      "bytes": 5728,
+      "sha256": "a00eceb44b5be98c1c395a25017731bcdb407049e5bc88f5f0f88a7bcb9f2389",
+      "api_raw_equals_git_object": true,
+      "equals_exact_checkout": true
+    },
+    {
+      "path": "tests/reg06_operator_drop_product_runtime.test.ts",
+      "blob": "c09703d54394069c7955931902bb08bf77230523",
+      "bytes": 11937,
+      "sha256": "d1fe1a0754282a89f13eb29a6326aaa990ad5d63d7ca1d17c5aa74b7ef3b51f1",
+      "api_raw_equals_git_object": true,
+      "equals_exact_checkout": true
+    },
+    {
+      "path": "tsconfig.pit-package.json",
+      "blob": "48728b2d286279b4edaad79e93b5938ba0e24c62",
+      "bytes": 323,
+      "sha256": "f95b9ab1cdf7f0513150d0c9ec7a4b2abf5e362f56d69bb0be2daea82f082aa6",
+      "api_raw_equals_git_object": true,
+      "equals_exact_checkout": true
+    },
+    {
+      "path": "src/persistence/gateAPrimeProvisioning.ts",
+      "blob": "fc3b53e29c5b1b3c90184587669190e5f68b035a",
+      "bytes": 29611,
+      "sha256": "1fe2acb5210e57eb1de5fceabd431170562dab9c843180bd8311b5e0b087bc05",
+      "api_raw_equals_git_object": true,
+      "equals_exact_checkout": true
+    },
+    {
+      "path": "src/persistence/migration_ledger.ts",
+      "blob": "88198b44531777bd6a42bdc4e1094b695c25c270",
+      "bytes": 3468,
+      "sha256": "c4b702401c2ecdf23bcd13bf4431eee2a1d550a0e3b5999065df1ad9b6cf33f4",
+      "api_raw_equals_git_object": true,
+      "equals_exact_checkout": true
+    },
+    {
+      "path": "src/persistence/gateAPrimeValidation.ts",
+      "blob": "df5d48a583c9aaed51af90a90225c15c408fbd33",
+      "bytes": 15688,
+      "sha256": "c307549a38033f9b2ce03973bc0a5e0eacbf7e9132695ea1fc7ae09fa9bbe3ce",
+      "api_raw_equals_git_object": true,
+      "equals_exact_checkout": true
+    },
+    {
+      "path": "src/contracts/types.ts",
+      "blob": "a644c83351b030b0e76d76642475420ea7ef07c0",
+      "bytes": 4318,
+      "sha256": "c227f714e6a2dbc44661009d15719439951e18c53ed934f0197d0cc258b4c16d",
+      "api_raw_equals_git_object": true,
+      "equals_exact_checkout": true
+    },
+    {
+      "path": "src/ipc/entrypoint.ts",
+      "blob": "16d4112ead5f5542080711c1ea168955c622f435",
+      "bytes": 6247,
+      "sha256": "e443893d6da0c40b185da1b0508317a50bb31fdb7021a9b0895fc03c8ebfd2b1",
+      "api_raw_equals_git_object": true,
+      "equals_exact_checkout": true
+    },
+    {
+      "path": "src/operator_drop/parser.ts",
+      "blob": "c9950cd08f9cf9acc0b7e6a44789e76c57b1c971",
+      "bytes": 3810,
+      "sha256": "59cdb88a80ddccf1f87ef56c6bfdaa93122dae0dfcab5ac6565030fd1308a1e6",
+      "api_raw_equals_git_object": true,
+      "equals_exact_checkout": true
+    }
+  ]
+}

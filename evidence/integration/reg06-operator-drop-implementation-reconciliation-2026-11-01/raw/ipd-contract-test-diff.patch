@@ -1,0 +1,70 @@
+diff --git a/scripts/verify-public-package.mjs b/scripts/verify-public-package.mjs
+index e556afd..7b80383 100644
+--- a/scripts/verify-public-package.mjs
++++ b/scripts/verify-public-package.mjs
+@@ -21,7 +21,7 @@ const npmPrefix = process.platform === 'win32'
+   ? [resolve(dirname(process.execPath), 'node_modules', 'npm', 'bin', 'npm-cli.js')]
+   : [];
+ check(process.platform !== 'win32' || existsSync(npmPrefix[0]), 'Node-bundled npm CLI is missing');
+-const expectedExports = ['./portfolio-ui', './pit', './d114-non-production'];
++const expectedExports = ['./portfolio-ui', './pit', './d114-non-production', './operator-drop'];
+ const IRR_PIN = '98cd56a9a568f431ea31d5515e515a1b6cbb91ba';
+ const IRR_IMPORTERS = [
+   'frontend/server/pit/ipdPitReadAdapter.ts',
+diff --git a/tests/cap02_pit_d114_package.test.ts b/tests/cap02_pit_d114_package.test.ts
+index 666f392..b9d7bb5 100644
+--- a/tests/cap02_pit_d114_package.test.ts
++++ b/tests/cap02_pit_d114_package.test.ts
+@@ -354,7 +354,17 @@ describe('CAP-02 B-1R deterministic non-production D114 population', () => {
+ 
+ describe('CAP-02 B-1R public entry and manifest conformance', () => {
+   it('exports exactly the intended runtime symbols from the source entries', () => {
+-    assert.deepStrictEqual(Object.keys(pitPackage).sort(), ['PitReadService', 'PointInTimeStore'].sort());
++    // REG-06 admission (2026-11-01) extended the ./pit surface with durable PIT
++    // market-data persistence; the exact-surface assertion is updated to the
++    // newly authorized contract, not relaxed.
++    assert.deepStrictEqual(Object.keys(pitPackage).sort(), [
++      'DurablePointInTimeStore',
++      'PitDurableStoreError',
++      'PitReadService',
++      'PitSnapshotConflictError',
++      'PointInTimeStore',
++      'computeSnapshotDigest',
++    ].sort());
+     assert.deepStrictEqual(Object.keys(d114Package).sort(), [
+       'createNonProductionD114PitStore',
+       'populateNonProductionD114Pit',
+@@ -373,7 +383,13 @@ describe('CAP-02 B-1R public entry and manifest conformance', () => {
+     const manifest = JSON.parse(readFileSync(resolve(REPO_ROOT, 'package.json'), 'utf8')) as {
+       exports: Record<string, { import: string; types: string }>;
+     };
+-    assert.deepStrictEqual(Object.keys(manifest.exports), ['./portfolio-ui', './pit', './d114-non-production']);
++    // REG-06 admission (2026-11-01) added ./operator-drop to the authorized map.
++    assert.deepStrictEqual(Object.keys(manifest.exports), [
++      './portfolio-ui',
++      './pit',
++      './d114-non-production',
++      './operator-drop',
++    ]);
+     for (const entry of Object.values(manifest.exports)) {
+       assert.ok(existsSync(resolve(REPO_ROOT, entry.import)), `missing ${entry.import}`);
+       assert.ok(existsSync(resolve(REPO_ROOT, entry.types)), `missing ${entry.types}`);
+diff --git a/tests/portfolio_ui_package.test.ts b/tests/portfolio_ui_package.test.ts
+index ecbc365..3cc486b 100644
+--- a/tests/portfolio_ui_package.test.ts
++++ b/tests/portfolio_ui_package.test.ts
+@@ -367,11 +367,14 @@ describe('CAP-02 Increment A — T-PKG-4: package manifest and built artifacts',
+   const builtEntry = resolve(REPO_ROOT, exportEntry?.import ?? '');
+   const builtTypes = resolve(REPO_ROOT, exportEntry?.types ?? '');
+ 
+-  it('declares exactly the three authorized public subpaths', () => {
++  it('declares exactly the authorized public subpaths', () => {
++    // REG-06 admission (2026-11-01) added ./operator-drop. The assertion still
++    // pins the map exactly, so any further subpath must be admitted explicitly.
+     assert.deepEqual(Object.keys(PACKAGE_JSON.exports ?? {}), [
+       './portfolio-ui',
+       './pit',
+       './d114-non-production',
++      './operator-drop',
+     ]);
+   });
