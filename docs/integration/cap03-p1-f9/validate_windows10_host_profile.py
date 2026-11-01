@@ -680,11 +680,17 @@ sample = "56FEA1A5850621B4501D3AFB3221B0F55E9B44B7275E9552B306F8F9C9EEB325  \\di
 require(re.search(dist_hash_pattern.group(1), sample) is not None, "dist hash regex does not match admitted single-separator paths")
 parsed = re.fullmatch(dist_map_pattern.group(1), sample)
 require(parsed is not None and parsed.group(1).upper() == "56FEA1A5850621B4501D3AFB3221B0F55E9B44B7275E9552B306F8F9C9EEB325" and
-        parsed.group(2) == "src\\persistence\\gateAPrimeProvisioning.js",
+        parsed.group(2) == "\\dist\\src\\persistence\\gateAPrimeProvisioning.js",
         "shared inventory parser does not extract exact relative path/hash from admitted line")
-require("$key = $relative.Replace('\\', '/')" in artifact_module and
-        "Test-S2DistArchive -ArchivePath $distArchivePath -ExpectedMap $expectedDistMap -ExpectedCount 1140" in source,
-        "S04 does not normalize paths and independently read back retained archive bytes")
+absolute_sample = "56FEA1A5850621B4501D3AFB3221B0F55E9B44B7275E9552B306F8F9C9EEB325  C:\\iips-work\\iips-production-market-data\\dist\\src\\persistence\\gateAPrimeProvisioning.js"
+absolute_parsed = re.fullmatch(dist_map_pattern.group(1), absolute_sample)
+require(absolute_parsed is not None and "$path -match '^[A-Za-z]:\\\\'" in artifact_module and
+        "$path.StartsWith('\\dist\\'" in artifact_module and
+        "$fullPath.StartsWith($sourceRootPrefix, [System.StringComparison]::OrdinalIgnoreCase)" in artifact_module and
+        "$key = $relative.Replace('\\', '/')" in artifact_module,
+        "shared parser does not validate absolute roots and canonicalize both accepted inventory path forms")
+require("Test-S2DistArchive -ArchivePath $distArchivePath -ExpectedMap $expectedDistMap -ExpectedCount 1140" in source,
+        "S04 does not independently read back retained archive bytes")
 require("$archiveMember -and $archiveSealMember -and $archivePresent" in source and
         "ARCHIVE_HASH_MISMATCH:" in artifact_module and "ARCHIVE_READ_FAILED:" in artifact_module,
         "S04 archive retention/readability/hash gate is not fail-closed")
@@ -709,7 +715,9 @@ require("$SourceDist = 'C:\\iips-work\\iips-production-market-data\\dist'" in re
         "Join-Path $script:IrrRoot 'evidence\\cap03-s2\\s2-original-dist-recovery-2026-10-31'" in corrected_source and
         "S04-CURRENT-DIST-ADMITTED-MATCH" in corrected_source and
         "[string]$localDistMap[$key] -cne [string]$expectedDistMap[$key]" in corrected_source and
-        "ConvertFrom-S2DistInventory -Lines ([System.IO.File]::ReadAllLines($inventoryCopy))" in artifact_module and
+        "ConvertFrom-S2DistInventory -Lines ([System.IO.File]::ReadAllLines($inventoryCopy)) -ExpectedCount $ExpectedCount -SourceDistRoot $ExpectedSourceDist" in artifact_module and
+        "ConvertFrom-S2DistInventory -Lines $inventoryLines -ExpectedCount $ExpectedCount -SourceDistRoot $SourceDist" in artifact_module and
+        "-SourceDistRoot 'C:\\iips-work\\iips-production-market-data\\dist'" in one_pass_script and
         "ExpectedArchiveSha256 '57656309D721A0C6F6A072F14F6A9067A2CC788737EFA92F34AA0997FB5D2D48'" in corrected_source and
         "ExpectedOriginalInventorySha256 'E077A349D3777403D426A0B0F338C53AC6F0E3942F75A9174A6A9B6E42854CBB'" in corrected_source and
         "historical admitted S2 map only for diagnosis" in artifact_module and

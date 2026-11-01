@@ -108,7 +108,7 @@ try {
     if (-not (Test-Path -LiteralPath $inventoryPath -PathType Leaf)) { throw 'S04_ORIGINAL_INVENTORY_MISSING' }
     $inventorySha = (Get-FileHash -Algorithm SHA256 -LiteralPath $inventoryPath).Hash.ToUpperInvariant()
     if ($inventorySha -cne $ExpectedInventorySha256) { throw 'S04_ORIGINAL_INVENTORY_SHA256_MISMATCH' }
-    $originalMap = ConvertFrom-S2DistInventory -Lines ([System.IO.File]::ReadAllLines($inventoryPath)) -ExpectedCount 1140
+    $originalMap = ConvertFrom-S2DistInventory -Lines ([System.IO.File]::ReadAllLines($inventoryPath)) -ExpectedCount 1140 -SourceDistRoot 'C:\iips-work\iips-production-market-data\dist'
     $bundle = Test-S2OriginalDistRecoveryBundle -RecoveryRoot $RecoveryRoot -ExpectedMap $originalMap -ExpectedCount 1140 `
         -ExpectedSourceDist 'C:\iips-work\iips-production-market-data\dist' `
         -ExpectedSourceRunId 's2-a891802e-20261028T192516Z' `

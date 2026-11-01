@@ -5,19 +5,60 @@ function ConvertFrom-S2DistInventory {
     [CmdletBinding()]
     param(
         [Parameter(Mandatory = $true)] [string[]] $Lines,
-        [Parameter(Mandatory = $true)] [int] $ExpectedCount
+        [Parameter(Mandatory = $true)] [int] $ExpectedCount,
+        [string] $SourceDistRoot = ''
     )
-    $map = @{}
+    $map = [System.Collections.Hashtable]::new([System.StringComparer]::OrdinalIgnoreCase)
+    $inventoryFormat = ''
+    $sourceRootFull = ''
+    $sourceRootPrefix = ''
+    if ($SourceDistRoot -ne '') {
+        $sourceRootInput = $SourceDistRoot.TrimEnd([char[]]@('\', '/'))
+        if ($sourceRootInput -notmatch '^[A-Za-z]:\\') { throw 'DIST_INVENTORY_SOURCE_ROOT_INVALID' }
+        $rootSegments = @($sourceRootInput.Substring(3) -split '\\')
+        if (($rootSegments.Count -eq 0) -or
+            @($rootSegments | Where-Object { ($_ -eq '') -or ($_ -eq '.') -or ($_ -eq '..') -or ($_ -match '[:?*"<>|]') -or ($_ -match '[\x00-\x1F]') }).Count -gt 0) {
+            throw ('DIST_INVENTORY_SOURCE_ROOT_INVALID: ' + $SourceDistRoot)
+        }
+        try { $sourceRootFull = [System.IO.Path]::GetFullPath($sourceRootInput).TrimEnd([char[]]@('\', '/')) }
+        catch { throw ('DIST_INVENTORY_SOURCE_ROOT_INVALID: ' + $SourceDistRoot) }
+        $sourceRootPrefix = $sourceRootFull + [System.IO.Path]::DirectorySeparatorChar
+    }
     foreach ($line in $Lines) {
-        if ($line -notmatch '^([0-9A-Fa-f]{64})  \\dist\\(.+)$') {
+        if ($line -notmatch '^([0-9A-Fa-f]{64})  (.+)$') {
             throw ('DIST_INVENTORY_MALFORMED: ' + $line)
         }
         $inventorySha = [string]$Matches[1]
-        $relative = [string]$Matches[2]
+        $path = [string]$Matches[2]
+        $relative = ''
+        if ($path -match '^[A-Za-z]:\\') {
+            if ($SourceDistRoot -eq '') { throw ('DIST_INVENTORY_SOURCE_ROOT_REQUIRED: ' + $path) }
+            if (($inventoryFormat -ne '') -and ($inventoryFormat -cne 'Absolute')) { throw 'DIST_INVENTORY_MIXED_PATH_FORMAT' }
+            $inventoryFormat = 'Absolute'
+            $driveRelative = $path.Substring(3)
+            $pathSegments = @($driveRelative -split '\\')
+            if (($driveRelative -match '[/?:*"<>|]') -or ($driveRelative -match '[\x00-\x1F]') -or
+                ($pathSegments.Count -eq 0) -or
+                @($pathSegments | Where-Object { ($_ -eq '') -or ($_ -eq '.') -or ($_ -eq '..') -or ($_ -match '[:?*"<>|]') -or ($_ -match '[\x00-\x1F]') }).Count -gt 0) {
+                throw ('DIST_INVENTORY_UNSAFE_PATH: ' + $path)
+            }
+            try { $fullPath = [System.IO.Path]::GetFullPath($path) }
+            catch { throw ('DIST_INVENTORY_UNSAFE_PATH: ' + $path) }
+            if (-not $fullPath.StartsWith($sourceRootPrefix, [System.StringComparison]::OrdinalIgnoreCase)) {
+                throw ('DIST_INVENTORY_OUTSIDE_SOURCE_ROOT: ' + $path)
+            }
+            $relative = $fullPath.Substring($sourceRootPrefix.Length)
+        } elseif ($path.StartsWith('\dist\', [System.StringComparison]::OrdinalIgnoreCase)) {
+            if (($inventoryFormat -ne '') -and ($inventoryFormat -cne 'DistRelative')) { throw 'DIST_INVENTORY_MIXED_PATH_FORMAT' }
+            $inventoryFormat = 'DistRelative'
+            $relative = $path.Substring(6)
+        } else {
+            throw ('DIST_INVENTORY_PATH_FORMAT_UNSUPPORTED: ' + $path)
+        }
         $segments = @($relative -split '\\')
-        if (($relative -match '[/?:*"<>|]') -or ($segments.Count -eq 0) -or
-            @($segments | Where-Object { ($_ -eq '') -or ($_ -eq '.') -or ($_ -eq '..') }).Count -gt 0) {
-            throw ('DIST_INVENTORY_UNSAFE_PATH: ' + $relative)
+        if (($relative -match '[/?:*"<>|]') -or ($relative -match '[\x00-\x1F]') -or ($segments.Count -eq 0) -or
+            @($segments | Where-Object { ($_ -eq '') -or ($_ -eq '.') -or ($_ -eq '..') -or ($_ -match '[:?*"<>|]') -or ($_ -match '[\x00-\x1F]') }).Count -gt 0) {
+            throw ('DIST_INVENTORY_UNSAFE_PATH: ' + $path)
         }
         $key = $relative.Replace('\', '/')
         if ($map.ContainsKey($key)) { throw ('DIST_INVENTORY_DUPLICATE_PATH: ' + $key) }
@@ -28,7 +69,6 @@ function ConvertFrom-S2DistInventory {
     }
     return ,$map
 }
-
 function New-S2DistArchive {
     [CmdletBinding()]
     param(
@@ -396,7 +436,7 @@ function Test-S2OriginalDistRecoveryBundle {
             if (($ExpectedOriginalInventorySha256 -ne '') -and ($originalInventorySha256 -cne $ExpectedOriginalInventorySha256.ToUpperInvariant())) {
                 [void]$failures.Add('RECOVERY_BUNDLE_ORIGINAL_INVENTORY_AUTHORITY_MISMATCH')
             }
-            $originalMap = ConvertFrom-S2DistInventory -Lines ([System.IO.File]::ReadAllLines($inventoryCopy)) -ExpectedCount $ExpectedCount
+            $originalMap = ConvertFrom-S2DistInventory -Lines ([System.IO.File]::ReadAllLines($inventoryCopy)) -ExpectedCount $ExpectedCount -SourceDistRoot $ExpectedSourceDist
             # The recovery's copied original inventory is authoritative for its recovered tree and archive.
             # Compare the historical admitted S2 map only for diagnosis; its five reported hash differences
             # must never replace the original inventory or fail the independently verified recovery bundle.
@@ -618,7 +658,7 @@ function Invoke-S2OriginalDistRecovery {
     }
     $inventoryBytes = [System.IO.File]::ReadAllBytes($InventoryPath)
     $inventoryLines = [System.IO.File]::ReadAllLines($InventoryPath)
-    $expectedMap = ConvertFrom-S2DistInventory -Lines $inventoryLines -ExpectedCount $ExpectedCount
+    $expectedMap = ConvertFrom-S2DistInventory -Lines $inventoryLines -ExpectedCount $ExpectedCount -SourceDistRoot $SourceDist
     $inventorySha = (Get-FileHash -Algorithm SHA256 -LiteralPath $InventoryPath).Hash.ToUpperInvariant()
     $verificationSha = ''
     if (-not $waiverMode) { $verificationSha = (Get-FileHash -Algorithm SHA256 -LiteralPath $OriginalVerificationOutputPath).Hash.ToUpperInvariant() }
