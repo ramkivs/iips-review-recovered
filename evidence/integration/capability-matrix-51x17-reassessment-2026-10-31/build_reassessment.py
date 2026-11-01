@@ -133,7 +133,7 @@ recon_rows = [
  ['P-08 IPD tracker blob', P08_IPD_TRACKER_BLOB],
  ['P-08 outcome', 'RESOLVED — CONTINUED DEFERRAL (REG-06); not product admission'],
  ['Open PRs at original census', 'Historical 2026-10-31 census; IRR #398 subsequently merged; IPD none'],
- ['Open PRs at P-08 amendment census', 'IPD none; IRR unrelated #409 open and preserved (not merged by this pass)'],
+ ['Open PRs at P-08 amendment census', 'IPD none; IRR #409 merged during this pass as c9e725f6 and preserved'],
  ['IRR branch census', '304 remote branches; 32 non-ancestors of main; 396 PRs inspected'],
  ['IPD branch census', '102 remote branches; 32 non-ancestors of main; 109 PRs inspected'],
  ['IRR current validation', '108 files / 1377 tests / 0 failed; typecheck/replay/build/guard PASS'],
@@ -201,7 +201,7 @@ for g,n in sorted(group_counts.items()): report.append(f'- {g}: {n} register ent
 report.append('## F. Overall position\n')
 report.append(f'- Matrix: 51 × 17 preserved; {len(changed_cells)} cells updated.\n')
 for b,ids in sorted(bucket_counts.items()): report.append(f'- {b}: {len(ids)} rows ({", ".join(map(str,ids))}).\n')
-report.append(f'- Register: {len(PENDING)} entries, including {len(RESOLVED_DEFERRED)} resolved governance deferral (P-08); this is not a count of active implementation tasks. Other completed/OOS rows are excluded unless a distinct residual remains.\n- Open PRs at the original census: none (historical). At the P-08 amendment census: IPD none; unrelated IRR #409 open and preserved.\n')
+report.append(f'- Register: {len(PENDING)} entries, including {len(RESOLVED_DEFERRED)} resolved governance deferral (P-08); this is not a count of active implementation tasks. Other completed/OOS rows are excluded unless a distinct residual remains.\n- Open PRs at the original census: none (historical). At the P-08 amendment census: IPD none; IRR #409 merged during this pass as c9e725f6 and preserved.\n')
 report.append('## G. Evidence and artifacts\n')
 report.append('- Workbook: `IIPS_V3_CAPABILITY_MATRIX_51x17_REASSESSED_2026-10-31.xlsx`\n- Matrix CSV: `IIPS_V3_CAPABILITY_MATRIX_51x17_REASSESSED_2026-10-31.csv`\n- Pending CSV: `IIPS_V3_OUTSTANDING_PENDING_2026-10-31.csv`\n- Raw execution/probe/census logs: `raw/`\n- Evidence register: workbook sheet `Evidence Register` and `reassessment_data.py`.\n')
 report.append('## H. Non-claims\n')

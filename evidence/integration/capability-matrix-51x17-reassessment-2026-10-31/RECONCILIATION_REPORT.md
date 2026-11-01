@@ -1,9 +1,11 @@
 # IIPS v3.0 — 51 × 17 Capability Matrix Reassessment (2026-10-31)
 **Record:** `IIPS-V3-CAPMATRIX-51X17-REASSESSMENT-2026-10-31-01`
 
-**IRR main:** `7fd824de30d8268ed3eca210bc664dc60749fa8c`
+**Original reassessment IRR main:** `7fd824de30d8268ed3eca210bc664dc60749fa8c`
 
-**IPD main:** `527f811b17edb02caa665b345d9f36102435e1e8`
+**Original reassessment IPD main:** `527f811b17edb02caa665b345d9f36102435e1e8`
+
+**P-08 amendment (`2026-11-01`):** IRR investigation baseline `ad7d2362532c146aa023229bae48342eeab646fb`; IPD merge `e9c2eef6c82ba51814a72ce962cf227e9fd89d56` (PR #115); tracker blob `efa804097d51263ce91dff4ac7201fb572ef1d8a`; outcome **RESOLVED — CONTINUED DEFERRAL (REG-06)**.
 
 **Baseline:** `evidence/integration/capability-matrix-51x17-2026-10-27/` at reference commit `fff8cf98ddcc7af1c6ab58d3ae9a3442a5322935`.
 ## A. Scope and method
@@ -45,7 +47,7 @@ The dominant chain remains: PA-09 Gate 4 pin → P-1 runtime execution → S2/Li
 - OOS: 8 rows (14, 16, 21, 23, 33, 40, 44, 51).
 - VERIFIED: 1 rows (34).
 - Register: 40 entries, including 1 resolved governance deferral (P-08); this is not a count of active implementation tasks. Other completed/OOS rows are excluded unless a distinct residual remains.
-- Open PRs at the original census: none (historical). At the P-08 amendment census: IPD none; unrelated IRR #409 open and preserved.
+- Open PRs at the original census: none (historical). At the P-08 amendment census: IPD none; IRR #409 merged during this pass as c9e725f6 and preserved.
 ## G. Evidence and artifacts
 - Workbook: `IIPS_V3_CAPABILITY_MATRIX_51x17_REASSESSED_2026-10-31.xlsx`
 - Matrix CSV: `IIPS_V3_CAPABILITY_MATRIX_51x17_REASSESSED_2026-10-31.csv`

@@ -1,9 +1,9 @@
 # P-08 / REG-06 — IRR reconciliation and dated technical correction
 
-**Record:** `IIPS-V3-P08-REG06-IRR-RECONCILIATION-2026-11-01-01`  
-**Tracker:** §16.238 / `CV-CORR-218` / `CHG-2026-11-01-17` / `V1888`–`V1899`  
-**Date:** 2026-11-01 (Asia/Calcutta)  
-**Outcome:** **RESOLVED — CONTINUED DEFERRAL (REG-06)**  
+**Record:** `IIPS-V3-P08-REG06-IRR-RECONCILIATION-2026-11-01-01`
+**Tracker:** §16.238 / `CV-CORR-218` / `CHG-2026-11-01-17` / `V1888`–`V1899`
+**Date:** 2026-11-01 (Asia/Calcutta)
+**Outcome:** **RESOLVED — CONTINUED DEFERRAL (REG-06)**
 **Scope:** IRR documentation, matrix and register reconciliation only. IPD read-only.
 
 ## 1. Decision and non-claims
@@ -78,4 +78,4 @@ Validation is documentation/evidence-specific: workbook/CSV round-trip and P-08 
 
 Evidence: `evidence/integration/p08-reg06-irr-reconciliation-2026-11-01/`. The publication receipt records the IRR PR, exact-head checks, merge commit, post-merge checks and independent remote blob read-back. A local file or open PR is not represented as published main.
 
-**Allocation boundary:** unrelated open IRR PR #409 reserves §16.237/CV-CORR-217/V1881–V1887. This correction consumes §16.238/CV-CORR-218/V1888–V1899 and does not merge or alter that PR. Next free: §16.239/CV-CORR-219/CHG-2026-11-01-18/V1900.
+**Allocation boundary:** unrelated IRR PR #409 merged during this pass as `c9e725f66b1cb15b3059bf3f5f5041be56d80270`, consuming §16.237/CV-CORR-217/V1881–V1887. That authoritative-main section is preserved intact. This correction consumes §16.238/CV-CORR-218/V1888–V1899. Next free: §16.239/CV-CORR-219/CHG-2026-11-01-18/V1900.
