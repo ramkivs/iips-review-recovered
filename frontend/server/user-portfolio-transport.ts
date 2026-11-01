@@ -104,7 +104,7 @@ function httpStatusFor(error: G2Error): number {
 }
 
 function safeErrorCode(error: G2Error): string {
-  return error.reason.toLowerCase().replaceAll('_', '-');
+  return error.reason.toLowerCase().replace(/_/g, '-');
 }
 
 function parsePortfolioId(encoded: string): string | null {
