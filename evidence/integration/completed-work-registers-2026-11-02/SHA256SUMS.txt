@@ -1,0 +1,13 @@
+1e04b25d3aa7bee85c0f21a28682c4ec7c24890bce4cdf38545db2bd95b0fb84  docs/integration/completed-work-registers-2026-11-02/A-MASTER-COMPLETED-WORK-AND-ACCEPTANCE-REGISTER.md
+db2388978c11b13a27020e8b67b3f0ec65068a572ca44a14c1396366cb2a017f  docs/integration/completed-work-registers-2026-11-02/A-master-completed-work-and-acceptance-register.csv
+cb727a9cf211210858b3b4d41d5eb52cffababc2c624f8da0a12dcba864d0875  docs/integration/completed-work-registers-2026-11-02/B-WAIVER-AND-AUTHORIZATION-REGISTER.md
+c4379b67f375824a9d18cb59891ef63071a03ff7aee6a0832182bbd7f45523b6  docs/integration/completed-work-registers-2026-11-02/B-waiver-and-authorization-register.csv
+22e816d02ee29aadefd78577ac7ad15f93dd17d61dc5e5b2ee98b66c31b7b800  docs/integration/completed-work-registers-2026-11-02/C-HISTORICAL-STATUS-AND-EVIDENCE-INDEX.md
+5ca609a03c7b30033036fe7651a669dbf11782f4d1cf975788bcd7612e820280  docs/integration/completed-work-registers-2026-11-02/C-historical-status-and-evidence-index.csv
+e81af169f20a753c2f225d2eb25ef353d55e53687cffd2dab4ee200249218de2  docs/integration/completed-work-registers-2026-11-02/D-OUTSTANDING-RESIDUALS-REGISTER.md
+e2a3e1339953ba2e001c842b3e22495f3254353e6c72a26550a255e34067823b  docs/integration/completed-work-registers-2026-11-02/D-outstanding-residuals-register.csv
+c0ab56b68cf4b46c5e322f5d91c4cd36bcfd30aa977bda3f524ed7f7190d5d03  docs/integration/completed-work-registers-2026-11-02/E-FUTURE-ANALYSIS-AND-REUSE-INSTRUCTIONS.md
+6d8b963e3a4b036a3908d7336f5651bb9c9f5410250b5e6567fccb687894b175  docs/integration/completed-work-registers-2026-11-02/PUBLICATION-STATUS.md
+3a73c763c4608db4137a6307fd8bdd51fd40a082e392292b00b22c95f5b558c0  docs/integration/completed-work-registers-2026-11-02/README.md
+64007faf96546ee9aeeae89412af7cc54a4788228c355a94ca8b3eadb2e03c3f  evidence/integration/completed-work-registers-2026-11-02/01-identifier-census.txt
+bc2995a7308f13d7641064bc2cc83c4181ee7f962580c553bd92e0a985428a4b  evidence/integration/completed-work-registers-2026-11-02/registers.json
