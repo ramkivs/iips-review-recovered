@@ -746,6 +746,7 @@ require(one_pass_script.count("& $P1Script -Mode Execute") == 1 and
         "$fetchExitCode = $LASTEXITCODE" in one_pass_script and
         "if ($fetchExitCode -ne 0)" in one_pass_script and
         "$recoveryArgs = @{" in one_pass_script and
+        "$recoveryArgs = @(" not in one_pass_script and
         "RecoveryRoot = $RecoveryRoot" in one_pass_script and
         "$OriginalVerificationOutputPath -ne ''" in one_pass_script and
         "$recoveryArgs['OriginalVerificationOutputPath'] = $OriginalVerificationOutputPath" in one_pass_script and
