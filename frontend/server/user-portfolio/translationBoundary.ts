@@ -1,14 +1,14 @@
 /**
  * G-2 durable user-portfolio owner-context boundary helpers.
  *
- * The first-party HTTP handler currently returns `503 owner-context-unavailable` for every
- * recognized owner-scoped operation and does not call this module. These helpers remain only as
- * domain-contract validation: they do not authenticate requests, inspect credentials, infer an
- * owner, or provision identities. `deriveTenantHint` validates an already supplied trusted caller
- * context and fails closed when it lacks a tenant; it does not establish that context.
+ * The Direct P1 HTTP read routes do not call this principal-oriented module; they use the existing
+ * IPC adapter and IPD's active local binding. These helpers remain domain-contract validation for
+ * trusted internal callers: they do not authenticate requests, inspect credentials, infer an owner,
+ * or provision identities. `deriveTenantHint` validates an already supplied trusted caller context
+ * and fails closed when it lacks a tenant; it does not establish that context.
  *
- * Re-enabling any owner-scoped HTTP operation requires a separately established and authorized
- * non-authentication ownership source. No such source is implemented here.
+ * No write operation is admitted by the Direct P1 HTTP integration. A future principal-oriented
+ * route would require its own authority and cannot be inferred from the local IPC binding.
  */
 import type { Principal } from '../../../iips-platform/src/distributed/EnterpriseRuntime.js';
 import {

@@ -23,11 +23,10 @@
  *      operation fails; it is not served from somewhere else.
  *
  * THE SCOPE PARAMETER IS ACCEPTED AND NEVER TRANSMITTED
- *   `UserPortfolioPort` requires a `G2Scope` on every call. That scope carries a
- *   `tenantHint`, and a tenant hint is IRR-local and **never** crosses the wire
- *   (contract v1 OC-3; G2-D4). This adapter therefore reads no field of `scope` onto
- *   the payload, and `assertHintNotOnWire` plus `encodeRequestFrame`'s C7 scan make
- *   transmission structurally impossible. Ownership is IPD's to resolve, per request,
+ *   `UserPortfolioPort` requires a `G2Scope` on every call. Its optional `tenantHint` is
+ *   IRR-local and **never** crosses the wire (contract v1 OC-3; G2-D4). This adapter reads no
+ *   field of `scope` onto the payload, and `assertHintNotOnWire` plus `encodeRequestFrame`'s C7
+ *   scan make transmission structurally impossible. Ownership is IPD's to resolve, per request,
  *   from its own single `ACTIVE` A-2 binding (OC-2).
  *
  * WRITES
@@ -37,12 +36,11 @@
  *   A write that times out is reported as **outcome-unknown** and is **never**
  *   retried, because resending could duplicate a commit that in fact landed.
  *
- * THE ROUTES STILL RETURN 503
- *   This adapter is not wired into any HTTP surface by this act. Every
- *   `/api/user-portfolios*` route still returns `503 owner-context-unavailable`
- *   without constructing a port (§5.6; `user-portfolio-transport.ts` and
- *   `owner-context-unavailable.ts` are byte-stable). Constructing this adapter
- *   admits nothing.
+ * HTTP COMPOSITION (Direct P1 IRR integration, 2026-11-01)
+ *   The IRR transport composes this adapter for read-only list, detail and revision
+ *   routes after checking the server-owned binding precondition. Context discovery and
+ *   every write route remain unavailable; W-1 is unchanged. The adapter itself still
+ *   has no HTTP listener or request-identity authority.
  */
 import {
   G2Error,
@@ -155,11 +153,14 @@ export function outcomeUnknownMessage(write: boolean, reason: 'TIMEOUT' | 'TRANS
  * revision values are copied from that same entry and are never derived from the
  * current portfolio. No `isSaved` field exists on `G2RevisionEntry`.
  *
- * The IPD provider half remains a separate IPD-locus implementation and publication
- * prerequisite. Until that provider change is merged, the existing IPD shape lacks
- * the authorized fields and these checks continue to fail closed. All
- * `/api/user-portfolios*` routes remain 503-fenced, and this adapter change admits no
- * read pair or activates an endpoint.
+ * The current IPD `main` implementation at the Direct P1 pin carries the authorized
+ * summary/view fields used below. The adapter still validates every source value and
+ * refuses any non-conforming envelope; the recorded pre-closure gap matrix remains
+ * historical evidence, not a reason to default or fabricate fields.
+ *
+ * IRR Direct P1 read-route composition is recorded in `user-portfolio-transport.ts`.
+ * It admits only list/detail/revision reads under the server-owned binding precondition;
+ * writes and context discovery remain unavailable, and this adapter does not authorize them.
  */
 export const V1_TO_G2_ENVELOPE_GAP = Object.freeze({
   portfolioSummary: Object.freeze({
@@ -318,9 +319,8 @@ export class IpcUserPortfolioPort implements UserPortfolioPort {
   /**
    * Proves the scope never reaches the wire.
    *
-   * `UserPortfolioPort` requires a `G2Scope` on every call, and a scope *is* a
-   * tenant hint — so the invariant cannot be "the scope contains no hint". It is
-   * that **nothing from the scope is transmitted**. Two independent checks:
+   * `UserPortfolioPort` requires a `G2Scope` on every call; its tenant hint is optional and
+   * local-only. The invariant is that **nothing from the scope is transmitted**. Two independent checks:
    *
    *   1. `assertHintNotOnWire` over the payload actually built, at any depth; and
    *   2. no *value* of the scope appears anywhere in the serialized payload, which

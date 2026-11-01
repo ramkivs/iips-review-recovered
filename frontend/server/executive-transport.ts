@@ -686,20 +686,21 @@ export async function handleExecutiveReadRequest(
 // response, including the owner-scoped surfaces, and bound with no host argument,
 // which listens on all interfaces (`0.0.0.0`).
 //
-// The remediation is scoped exactly as authorized and no further:
+// The C8 remediation was scoped exactly as authorized at that time:
 //   - the wildcard origin header is NOT set on owner-scoped routes;
 //   - the server binds to loopback only.
-// No route is admitted, no `503` is lifted, no scoring/analytics is wired, and the
-// certified credential-free reads (`/api/portfolio`, `/api/executive`, …) keep their
-// existing behaviour, including the wildcard origin they already had.
+// C8 itself admitted no route. The later Direct P1 IRR integration (2026-11-01) separately
+// composes only same-host IPC list/detail/revision reads under the binding precondition; it
+// changes no CORS rule, loopback bind, certified read, write guard or other owner-scoped route.
 
 /**
- * The owner-scoped API namespaces that fail closed with `owner-context-unavailable` (C8: no
- * wildcard cross-origin grant on any of them).
+ * Owner-scoped API namespaces receive no wildcard cross-origin grant (C8). The namespace list
+ * remains broader than the admitted operations inside each transport.
  *
- * CAP-02 (2026-10-23, `IIPS-V3-CAP02-U1-BROKER-IMPORT-TRANSPORT-AUTHORITY-ACT-EFFECTIVE-2026-10-23-01`):
- * `/api/broker-import` is added as the sixth owner-scoped namespace. The five pre-existing
- * entries are unchanged and every `/api/user-portfolios*` fence is untouched.
+ * CAP-02 (2026-10-23, `IIPS-V3-CAP02-U1-BROKER-IMPORT-TRANSPORT-AUTHORITY-ACT-EFFECTIVE-2026-10-23-01`)
+ * added `/api/broker-import` as the sixth namespace. Direct P1 (2026-11-01) changes only the
+ * user-portfolio transport's explicitly listed read operations; all other namespaces and CORS
+ * handling remain unchanged.
  */
 const OWNER_SCOPED_API_PREFIXES = Object.freeze([
   '/api/reports',
@@ -763,7 +764,7 @@ const server = http.createServer(async (req, res) => {
     })();
     return;
   }
-  // G-2 durable user portfolios: route/method shape remains, owner-scoped operations are unavailable.
+  // Direct P1: only list/detail/revision reads use the existing same-host IPC port; writes and context discovery remain unadmitted.
   if (req.url === '/api/user-portfolios' || req.url?.startsWith('/api/user-portfolios/')) {
     void (async () => {
       try {

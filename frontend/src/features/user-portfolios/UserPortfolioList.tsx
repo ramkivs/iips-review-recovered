@@ -1,9 +1,8 @@
 /**
  * G-2 Durable User Portfolios — list surface (read-only consumer).
  *
- * Renders owner-scoped durable portfolio summaries (GET /api/user-portfolios) using the platform
- * design system. The first-party route currently reports owner context unavailable; it neither
- * creates an identity nor reads or changes owner data. Read-only by construction: no
+ * Renders durable portfolio summaries (GET /api/user-portfolios) returned by the IRR-to-IPD
+ * same-host IPC read boundary. The route creates no identity and performs no writes. Read-only by construction: no
  * create/save/edit/delete/reset/import/upload control exists on this surface, and no portfolio
  * state is persisted client-side.
  *

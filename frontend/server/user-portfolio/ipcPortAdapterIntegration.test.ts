@@ -12,12 +12,11 @@
  * readiness evidence that the seam is ready for a FUTURE authorized composition — it composes
  * nothing itself.
  *
- * WHAT THIS DOES NOT DO (binding): no route is admitted; every `/api/user-portfolios*` route still
- * returns `503 owner-context-unavailable` (`fenceUnchanged.test.ts` guards that separately and
- * byte-stability is untouched here). The adapter is NOT wired into `executive-transport.ts` and
- * this file does not change any production module, dependency, lockfile, pin or fence blob. The
- * v1→G2 envelope gap stays open pending the IPD-provider half; every case below asserts the
- * REFUSAL of an unmappable result, never a fabricated acceptance.
+ * WHAT THIS DOES NOT DO: this test exercises the adapter alone, not the HTTP route composition or
+ * the user's Windows named pipe/database. The Direct P1 HTTP integration is covered separately by
+ * `userPortfolioDirectP1Integration.test.ts`; this synthetic Unix-socket peer creates no database.
+ * The pre-closure v1→G2 gap matrix below remains historical, and every malformed result still
+ * asserts refusal rather than a fabricated acceptance.
  *
  * @vitest-environment node
  */

@@ -1,9 +1,10 @@
 /**
  * G-2 Durable User Portfolio — BOUNDARY (IRR side).
  *
- * Domain boundary retained for the G-2 contract. The first-party HTTP handler does not call it:
- * recognized owner-scoped operations return `503 owner-context-unavailable` until a
- * non-authentication ownership source is established.
+ * Domain boundary retained for the G-2 contract. The Direct P1 HTTP read routes do not call
+ * this principal-taking boundary: they compose the existing IPC port with an empty scope, and IPD
+ * resolves ownership from its own active binding. This boundary remains available for trusted
+ * internal callers with a valid `Principal`; it does not establish one or grant HTTP/write authority.
  *
  * When called by trusted server code with an already established caller context, it validates the
  * request shape, derives the tenant hint through `translationBoundary`, delegates to the
@@ -136,7 +137,7 @@ export async function createPortfolio(
 /**
  * Gate C 2F: inspect native evidence and refuse all unresolved/ambiguous saves.
  * Caller claims cannot confer resolution. No serialization, scope construction
- * or port call occurs; HTTP transport remains independently fenced at 503.
+ * or port call occurs; the Direct P1 HTTP surface does not admit save operations.
  */
 export async function saveHoldings(
   _port: UserPortfolioPort,
