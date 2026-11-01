@@ -1,0 +1,29 @@
+PASS: workbook sheets — Updated Capability Matrix, Outstanding-Pending Items, Reconciliation, Evidence Register, Branch-PR Census, Validation
+PASS: matrix shape 51x17 — 51x17
+PASS: headers preserved
+PASS: row numbering
+PASS: no empty matrix cells
+PASS: matrix CSV shape
+PASS: matrix CSV/XLSX equal
+PASS: pending CSV shape — 40 items x 16
+PASS: pending IDs unique
+PASS: pending traceability
+PASS: matrix filter
+PASS: pending filter
+PASS: matrix table
+PASS: pending table
+PASS: evidence IDs unique
+PASS: cited evidence IDs exist
+PASS: SHA256SUMS
+PASS: P-08 completed/reconciled
+PASS: P-08 current IPD merge/PR/head/blob
+PASS: row 29 IPD completed and IRR reconciled
+PASS: row 29 current technical evidence
+PASS: row 29 not active-pending anchor
+PASS: row 29 separate boundaries
+PASS: P-08 owners
+PASS: six worksheets
+PASS: formula inventory — no formulas in source-derived workbook; CSV/XLSX equality is authoritative
+PASS: no worksheet error cells
+PASS: all tables/filters/freeze panes
+PASS: overall
