@@ -128,6 +128,14 @@ Assert-True ($recoveryScript.Contains('$NonInteractive')) 'one-pass recovery wra
 Assert-True ($onePassScript.Contains('IIPS-V3-CAP03-PA-BLANKET-WAIVER-ONE-PASS-AUTHORIZATION-2026-11-01-01')) 'one-pass runner must bind the explicit PA decision'
 Assert-True ($paAuthorityText.Contains('one fresh P1-F Execute authorization')) 'approved authority text contains the exact fresh-attempt phrase'
 Assert-True ($onePassScript.Contains("'one fresh P1-F Execute authorization'")) 'one-pass authority phrase must match the exact approved authority wording'
+Assert-True ($onePassScript.Contains('$fetchExitCode = $LASTEXITCODE')) 'native fetch must retain explicit LASTEXITCODE validation'
+Assert-True ($onePassScript.Contains('$ErrorActionPreference = ''Continue''')) 'native fetch must tolerate informational stderr under PowerShell 5.1'
+$onePassTokens = $null
+$onePassParseErrors = $null
+$onePassAst = [System.Management.Automation.Language.Parser]::ParseFile($OnePassPath, [ref]$onePassTokens, [ref]$onePassParseErrors)
+$gitFetchFunctionAst = $onePassAst.Find({ param($node) $node -is [System.Management.Automation.Language.FunctionDefinitionAst] -and $node.Name -eq 'Invoke-GitFetchWithNativeStderrCapture' }, $true)
+Assert-True ($null -ne $gitFetchFunctionAst) 'native fetch capture helper exists for controlled fixtures'
+. ([scriptblock]::Create($gitFetchFunctionAst.Extent.Text))
 Assert-True ($onePassScript.Contains('-Mode Execute')) 'one-pass runner invokes only the explicitly authorized Execute mode'
 Assert-True (-not $onePassScript.Contains('-Mode Preflight')) 'one-pass runner must not invoke the separate Preflight path'
 Assert-Equal 1 ([regex]::Matches($onePassScript, '(?m)^\s*& \$P1Script').Count) 'one-pass runner contains exactly one P1-F script invocation'
@@ -143,6 +151,30 @@ Import-Module -Name $SummaryModulePath -Force
 
 # Fixture inventory parsing, duplicate/unsafe/count failures, archive creation and independent readback.
 $temp = Join-Path ([IO.Path]::GetTempPath()) ('CAP03-CONSOLIDATED-' + [guid]::NewGuid().ToString('N'))
+$gitShimRoot = Join-Path $temp 'git-shim'
+[void](New-Item -ItemType Directory -Path $gitShimRoot -Force)
+$gitShimPath = Join-Path $gitShimRoot 'git.cmd'
+$successfulGitShim = @('@echo off', 'echo From fixture: informational fetch stderr 1>&2', 'exit /b 0') -join "`r`n"
+[IO.File]::WriteAllText($gitShimPath, ($successfulGitShim + "`r`n"), [Text.Encoding]::ASCII)
+Assert-True ([IO.File]::ReadAllText($gitShimPath).Contains('1>&2')) 'success fixture sends informational output to native stderr'
+$successfulFetchResult = Invoke-GitFetchWithNativeStderrCapture -RepositoryRoot $temp -GitExecutable $gitShimPath
+Assert-Equal 0 $successfulFetchResult.ExitCode 'successful native fetch with informational stderr returns exit code zero'
+Assert-True ($successfulFetchResult.StandardError.Contains('informational fetch stderr')) 'successful fetch retains informational stderr for diagnostics'
+Assert-Equal 0 $LASTEXITCODE 'successful stderr fixture preserves native exit code zero'
+Assert-Equal 'Stop' $ErrorActionPreference 'fetch helper restores the caller error action preference after success'
+
+$failedGitShim = @('@echo off', 'echo fatal: controlled fetch failure 1>&2', 'exit /b 23') -join "`r`n"
+[IO.File]::WriteAllText($gitShimPath, ($failedGitShim + "`r`n"), [Text.Encoding]::ASCII)
+$fetchFailure = ''
+try { $null = @(Invoke-GitFetchWithNativeStderrCapture -RepositoryRoot $temp -GitExecutable $gitShimPath) }
+catch { $fetchFailure = $_.Exception.Message }
+Assert-True ($fetchFailure.Contains('IRR_MAIN_FETCH_FAILED:')) 'genuine non-zero native fetch still terminates with the fetch failure code'
+Assert-True ($fetchFailure.Contains('exit code 23')) 'fetch failure includes the non-zero native exit code'
+Assert-True ($fetchFailure.Contains('controlled fetch failure')) 'fetch failure retains captured stderr diagnostics'
+Assert-Equal 23 $LASTEXITCODE 'genuine native fetch failure retains its explicit exit code'
+Assert-Equal 'Stop' $ErrorActionPreference 'fetch helper restores the caller error action preference after failure'
+# The GitHub PowerShell shell propagates LASTEXITCODE at script end; clear only after asserting the fixture's non-zero failure.
+$global:LASTEXITCODE = 0
 $distRoot = Join-Path $temp 'dist'
 $archivePath = Join-Path $temp 'dist-artifacts.zip'
 [void](New-Item -ItemType Directory -Path (Join-Path $distRoot 'src\persistence') -Force)

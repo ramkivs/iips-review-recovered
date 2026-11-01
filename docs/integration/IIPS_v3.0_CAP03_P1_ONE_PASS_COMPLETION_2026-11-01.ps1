@@ -35,6 +35,30 @@ $RecoveryRoot = Join-Path $IrrRoot 'evidence\cap03-s2\s2-original-dist-recovery-
 $RecoveryClaim = $RecoveryRoot + '.inprogress'
 $script:OnePassStatus = 'NOT STARTED'
 
+function Invoke-GitFetchWithNativeStderrCapture {
+    param(
+        [Parameter(Mandatory = $true)] [string] $RepositoryRoot,
+        [string] $GitExecutable = 'git'
+    )
+    $savedErrorActionPreference = $ErrorActionPreference
+    $stderrPath = [IO.Path]::GetTempFileName()
+    try {
+        # In Windows PowerShell 5.1, native stderr can become NativeCommandError under Stop.
+        # Redirect it to a temp file rather than through the PowerShell error stream.
+        $ErrorActionPreference = 'Continue'
+        $fetchStdout = @(& $GitExecutable -C $RepositoryRoot fetch --no-tags origin main 2> $stderrPath)
+        $fetchExitCode = $LASTEXITCODE
+        $fetchStderr = [IO.File]::ReadAllText($stderrPath)
+    } finally {
+        $ErrorActionPreference = $savedErrorActionPreference
+        Remove-Item -LiteralPath $stderrPath -Force -ErrorAction SilentlyContinue
+    }
+    if ($fetchExitCode -ne 0) {
+        throw ('IRR_MAIN_FETCH_FAILED: exit code ' + $fetchExitCode + '; stderr=' + $fetchStderr + '; stdout=' + (@($fetchStdout) -join ' '))
+    }
+    return [pscustomobject]@{ ExitCode = [int]$fetchExitCode; StandardOutput = @($fetchStdout); StandardError = $fetchStderr }
+}
+
 try {
     if ($PSVersionTable.PSVersion.Major -ne 5) { throw 'ONE_PASS_REQUIRES_WINDOWS_POWERSHELL_5_1' }
     if (-not (Test-Path -LiteralPath $AuthorityPath -PathType Leaf)) { throw 'PA_AUTHORITY_RECORD_MISSING' }
@@ -43,8 +67,7 @@ try {
     foreach ($authorityPhrase in @($DecisionRef, 'APPROVED', 'one fresh P1-F Execute authorization', 'distinct original verification-output file as a procedural prerequisite', 'must not be relabelled')) {
         if (-not $authorityText.Contains($authorityPhrase)) { throw ('PA_AUTHORITY_RECORD_INVALID: ' + $authorityPhrase) }
     }
-    $fetchOutput = & git -C $IrrRoot fetch --no-tags origin main 2>&1
-    if ($LASTEXITCODE -ne 0) { throw ('IRR_MAIN_FETCH_FAILED: ' + (@($fetchOutput) -join ' ')) }
+    $fetchResult = Invoke-GitFetchWithNativeStderrCapture -RepositoryRoot $IrrRoot
     $localIrrHead = [string](& git -C $IrrRoot rev-parse HEAD 2>&1)
     if ($LASTEXITCODE -ne 0) { throw ('IRR_HEAD_READ_FAILED: ' + $localIrrHead) }
     $remoteIrrMain = [string](& git -C $IrrRoot rev-parse refs/remotes/origin/main 2>&1)

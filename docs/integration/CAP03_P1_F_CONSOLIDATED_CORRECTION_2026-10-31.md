@@ -79,7 +79,7 @@ The PA decision and implementation do not claim a Windows bundle, P1-F execution
 | Corrected P1-F candidate | 136,421 | `0ffaf9fcee14cbcf4e1bfa27825806347c7ce4a6cfe292ceebe043da1258a508` |
 | S04 recovery wrapper | 7,750 | `da3ac5ba9d5b0951124d6e64d4ab3da284090da990403068fee35d1c47321bf1` |
 | Shared S2/S04 artifact module | 60,556 | `c378d8c155394546823b2d1594ed823011e4189426df311aafde78abf0c70bc8` |
-| One-pass Windows launcher | 9,125 | `274c49dcace8b9fcea319fe63cb175c1cc2d78419a4ecd751af100e349f1141b` |
+| One-pass Windows launcher | 10,228 | `4cabbfec5680fc92a099fcf64d631aa36ec8ea28f3cfd5980176f4ad4cd66437` |
 | Approved PA decision | 6,668 | `235487714edf4888df53fc8c7362c0851a2e6c73be5b30e3846aa6b18033cf27` |
 
 The approved decision's exact SHA-256 is pinned in the helper, recovery wrapper, and one-pass runner; `.gitattributes` forces LF checkout for that record. Local IRR static validation, Python 48/48, and frontend 108/1,377 tests/build pass. Exact-head Windows parser/fixtures and remote publication/readback remain pending; no S04 bundle, Windows readback, or Execute is claimed.
