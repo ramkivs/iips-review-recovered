@@ -40,7 +40,7 @@ try {
     if (-not (Test-Path -LiteralPath $AuthorityPath -PathType Leaf)) { throw 'PA_AUTHORITY_RECORD_MISSING' }
     if ((Get-FileHash -Algorithm SHA256 -LiteralPath $AuthorityPath).Hash.ToUpperInvariant() -cne '235487714EDF4888DF53FC8C7362C0851A2E6C73BE5B30E3846AA6B18033CF27') { throw 'PA_AUTHORITY_RECORD_SHA256_MISMATCH' }
     $authorityText = [System.IO.File]::ReadAllText($AuthorityPath)
-    foreach ($authorityPhrase in @($DecisionRef, 'APPROVED', 'FRESH P1-F Execute authorization', 'distinct original verification-output file as a procedural prerequisite', 'must not be relabelled')) {
+    foreach ($authorityPhrase in @($DecisionRef, 'APPROVED', 'one fresh P1-F Execute authorization', 'distinct original verification-output file as a procedural prerequisite', 'must not be relabelled')) {
         if (-not $authorityText.Contains($authorityPhrase)) { throw ('PA_AUTHORITY_RECORD_INVALID: ' + $authorityPhrase) }
     }
     $fetchOutput = & git -C $IrrRoot fetch --no-tags origin main 2>&1

@@ -16,6 +16,7 @@ $S2Path = Join-Path $RepoRoot 'docs\integration\IIPS_v3.0_CAP03_S2_PIN_A891802E_
 $TransferPath = Join-Path $RepoRoot 'docs\integration\IIPS_v3.0_CAP03_S2_DEP_A_HOST_TRANSFER_2026-10-29.ps1'
 $RecoveryPath = Join-Path $RepoRoot 'docs\integration\IIPS_v3.0_CAP03_S2_ORIGINAL_DIST_RECOVERY_2026-10-31.ps1'
 $OnePassPath = Join-Path $RepoRoot 'docs\integration\IIPS_v3.0_CAP03_P1_ONE_PASS_COMPLETION_2026-11-01.ps1'
+$PaAuthorityPath = Join-Path $RepoRoot 'docs\integration\IIPS_v3.0_CAP03_PA_BLANKET_WAIVER_AND_ONE_PASS_AUTHORIZATION_2026-11-01.md'
 $ArtifactModulePath = Join-Path $PSScriptRoot 'CAP03S2DistArtifacts.psm1'
 $SummaryModulePath = Join-Path $PSScriptRoot 'CAP03P1FailureSummary.psm1'
 $TestPath = $PSCommandPath
@@ -52,6 +53,7 @@ $s2 = [IO.File]::ReadAllText($S2Path)
 $transfer = [IO.File]::ReadAllText($TransferPath)
 $recoveryScript = [IO.File]::ReadAllText($RecoveryPath)
 $onePassScript = [IO.File]::ReadAllText($OnePassPath)
+$paAuthorityText = [IO.File]::ReadAllText($PaAuthorityPath)
 $artifactModule = [IO.File]::ReadAllText($ArtifactModulePath)
 $summaryModule = [IO.File]::ReadAllText($SummaryModulePath)
 
@@ -124,6 +126,8 @@ Assert-True ($artifactModule.Contains('RECOVERY_BUNDLE_OUTPUT_WAIVER_NOT_ENABLED
 Assert-True ($artifactModule.Contains('RECOVERY_BUNDLE_WAIVER_MUST_NOT_SUBSTITUTE_ORIGINAL_OUTPUT')) 'waiver path must reject a fabricated or substituted original-output file'
 Assert-True ($recoveryScript.Contains('$NonInteractive')) 'one-pass recovery wrapper must support non-interactive use'
 Assert-True ($onePassScript.Contains('IIPS-V3-CAP03-PA-BLANKET-WAIVER-ONE-PASS-AUTHORIZATION-2026-11-01-01')) 'one-pass runner must bind the explicit PA decision'
+Assert-True ($paAuthorityText.Contains('one fresh P1-F Execute authorization')) 'approved authority text contains the exact fresh-attempt phrase'
+Assert-True ($onePassScript.Contains("'one fresh P1-F Execute authorization'")) 'one-pass authority phrase must match the exact approved authority wording'
 Assert-True ($onePassScript.Contains('-Mode Execute')) 'one-pass runner invokes only the explicitly authorized Execute mode'
 Assert-True (-not $onePassScript.Contains('-Mode Preflight')) 'one-pass runner must not invoke the separate Preflight path'
 Assert-Equal 1 ([regex]::Matches($onePassScript, '(?m)^\s*& \$P1Script').Count) 'one-pass runner contains exactly one P1-F script invocation'

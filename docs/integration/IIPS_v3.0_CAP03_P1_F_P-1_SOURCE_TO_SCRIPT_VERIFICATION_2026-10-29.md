@@ -868,7 +868,7 @@ The PA approved decision `IIPS-V3-CAP03-PA-BLANKET-WAIVER-ONE-PASS-AUTHORIZATION
 | P1-F candidate | 136,421 | `0ffaf9fcee14cbcf4e1bfa27825806347c7ce4a6cfe292ceebe043da1258a508` |
 | Recovery wrapper | 7,750 | `da3ac5ba9d5b0951124d6e64d4ab3da284090da990403068fee35d1c47321bf1` |
 | Shared artifact module | 60,556 | `c378d8c155394546823b2d1594ed823011e4189426df311aafde78abf0c70bc8` |
-| One-pass launcher | 9,121 | `78bf8a923154ea3398b5df8d0951242e9c80236885639c7543e93806b724ab2d` |
+| One-pass launcher | 9,125 | `274c49dcace8b9fcea319fe63cb175c1cc2d78419a4ecd751af100e349f1141b` |
 | PA decision act | 6,668 | `235487714edf4888df53fc8c7362c0851a2e6c73be5b30e3846aa6b18033cf27` |
 
 Python static validation, 48 S2 contract tests, and the frontend's 108-file/1,377-test suite and production build passed locally. Those results do not substitute for exact-head Windows PowerShell parser/fixture CI or actual Windows S04 bundle/readback and Execute. Those host operations have not been performed by Arena; the candidate is not claimed to have executed or produced an operationally provisioned local store.
