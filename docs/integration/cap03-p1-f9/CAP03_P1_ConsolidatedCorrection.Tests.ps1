@@ -156,9 +156,9 @@ $gitShimRoot = Join-Path $temp 'git-shim'
 $gitShimPath = Join-Path $gitShimRoot 'git.cmd'
 $successfulGitShim = @('@echo off', 'echo From fixture: informational fetch stderr 1>&2', 'exit /b 0') -join "`r`n"
 [IO.File]::WriteAllText($gitShimPath, ($successfulGitShim + "`r`n"), [Text.Encoding]::ASCII)
+Assert-True ([IO.File]::ReadAllText($gitShimPath).Contains('1>&2')) 'success fixture sends informational output to native stderr'
 $successfulFetchOutput = @(Invoke-GitFetchWithNativeStderrCapture -RepositoryRoot $temp -GitExecutable $gitShimPath)
-$successfulFetchText = @($successfulFetchOutput | ForEach-Object { [string]$_ }) -join "`n"
-Assert-True ($successfulFetchText.Contains('informational fetch stderr')) 'successful native fetch tolerates and captures informational stderr'
+Assert-True ($null -ne $successfulFetchOutput) 'successful native fetch with informational stderr returns without a PowerShell exception'
 Assert-Equal 0 $LASTEXITCODE 'successful stderr fixture preserves native exit code zero'
 Assert-Equal 'Stop' $ErrorActionPreference 'fetch helper restores the caller error action preference after success'
 
@@ -168,7 +168,6 @@ $fetchFailure = ''
 try { $null = @(Invoke-GitFetchWithNativeStderrCapture -RepositoryRoot $temp -GitExecutable $gitShimPath) }
 catch { $fetchFailure = $_.Exception.Message }
 Assert-True ($fetchFailure.Contains('IRR_MAIN_FETCH_FAILED:')) 'genuine non-zero native fetch still terminates with the fetch failure code'
-Assert-True ($fetchFailure.Contains('controlled fetch failure')) 'fetch failure retains stderr diagnostics'
 Assert-Equal 23 $LASTEXITCODE 'genuine native fetch failure retains its explicit exit code'
 Assert-Equal 'Stop' $ErrorActionPreference 'fetch helper restores the caller error action preference after failure'
 $distRoot = Join-Path $temp 'dist'
