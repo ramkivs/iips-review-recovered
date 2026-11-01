@@ -19240,3 +19240,26 @@ The launcher source identity is **10,255 bytes; SHA-256 `5020d81bd33e7e342c1dbb3
 | `V1880` | Execution/evidence scope fence | PASS — no P1-F, Preflight, S04 recovery, provisioning, IPD/production action, Windows-host operation, or host claim/evidence alteration occurred. |
 
 **Next free after this section:** `§16.237` / `CV-CORR-217` / `CHG-2026-11-01-16` / `V1881`.
+
+
+## §16.237 — `CV-CORR-217`: CAP-03 one-pass recovery named-parameter binding (`2026-11-01`; `CHG-2026-11-01-16`; `V1881`–`V1887`)
+
+**Scope.** Minimal defect correction to the one-pass launcher only; no PA decision, authorization, waiver, recovery procedure, evidence-retention behavior, claim/marker guard, or one-pass execution logic is changed. The S04 recovery script declares `OriginalVerificationOutputPath` before `RecoveryRoot`. The launcher's prior string-array splat therefore supplied `'-RecoveryRoot'` as the first positional value, binding it to `OriginalVerificationOutputPath` rather than treating it as a parameter name. The launcher now constructs a hashtable with named `RecoveryRoot`, adds named `OriginalVerificationOutputPath` only when non-empty, and invokes the same recovery script using hashtable splatting. `-NonInteractive` remains omitted.
+
+When the optional original-output path is empty, the hashtable omits that key; the recovery script's existing empty-string default continues into its existing PA-waiver branch. A controlled PowerShell fixture extracts the launcher's exact conditional invocation block and calls a temporary stub that uses the recovery script's actual parameter order. It checks both empty (PA-waiver) and non-empty output-path cases without running the recovery procedure. The tracked-clean guard remains exactly `if ($trackedChanges.Count -gt 0) { throw 'IRR_TRACKED_FILES_NOT_CLEAN' }`; all other launcher safeguards remain unchanged.
+
+Launcher identity: **10,270 bytes; SHA-256 `ee52676b72285774a10f405f7a83102ad3d949f337b37778bd5da76b455f759f`**. At PR #409 code commit `d8b63dbf1cf0a7afd7ef66872e31a62a4b8c188b`, GitHub Contents API readback returned blob `c8c5482d39a61ca8d425115bed2ecadd464b8439` and exact launcher bytes with this SHA-256. The exact-head Windows PowerShell 5.1 parser/controlled fixtures passed in run `41288537297`; the IRR static workflow passed in run `41288537237`. Local Python compilation, static validation, and `git diff --check` passed. This change does not execute the launcher or any host operation.
+
+### 16.237.1 Verification ledger (`V1881`–`V1887`)
+
+| ID | Verification | Result |
+|---|---|---|
+| `V1881` | Recovery parameter-order root cause and named binding | PASS — inspected wrapper declaration places `OriginalVerificationOutputPath` before `RecoveryRoot`; launcher now uses an explicit hashtable splat, not positional strings. |
+| `V1882` | Empty output-path / PA-waiver branch binding | PASS — controlled stub receives the expected `RecoveryRoot`; optional output key is omitted and stub default remains empty. No recovery operation is run. |
+| `V1883` | Non-empty output-path binding | PASS — controlled stub receives both exact named values using the wrapper's actual parameter order. |
+| `V1884` | PowerShell 5.1 parser and controlled fixtures | PASS — PR #409 code head `d8b63dbf1cf0a7afd7ef66872e31a62a4b8c188b`, Windows workflow `41288537297`; exact invocation block tested with empty and non-empty paths using a temporary stub only. |
+| `V1885` | IRR-only static validation, Python compilation, and diff hygiene | PASS locally — `validate_windows10_host_profile.py`, `python3 -m py_compile`, and `git diff --check`; static workflow `41288537237` also passed. |
+| `V1886` | PR publication, exact remote readback, and CI | PASS — PR #409 code head `d8b63dbf1cf0a7afd7ef66872e31a62a4b8c188b`; GitHub Contents API blob `c8c5482d39a61ca8d425115bed2ecadd464b8439` exactly matched launcher SHA-256 `ee52676b72285774a10f405f7a83102ad3d949f337b37778bd5da76b455f759f`; workflows `41288537297` and `41288537237` passed. Exact merge/main readback remains a post-merge verification.
+| `V1887` | Execution/evidence scope fence | PASS — no P1-F Execute, Preflight, recovery procedure, provisioning, Windows-host operation, or host claim/evidence alteration. |
+
+**Next free after this section:** `§16.238` / `CV-CORR-218` / `CHG-2026-11-01-17` / `V1888`.

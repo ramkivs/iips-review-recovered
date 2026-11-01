@@ -745,7 +745,14 @@ require(one_pass_script.count("& $P1Script -Mode Execute") == 1 and
         "-Mode Preflight" not in one_pass_script and
         "$fetchExitCode = $LASTEXITCODE" in one_pass_script and
         "if ($fetchExitCode -ne 0)" in one_pass_script and
-        "$recoveryArgs = @('-RecoveryRoot', $RecoveryRoot)" in one_pass_script and
+        "$recoveryArgs = @{" in one_pass_script and
+        "$recoveryArgs = @(" not in one_pass_script and
+        "RecoveryRoot = $RecoveryRoot" in one_pass_script and
+        "$OriginalVerificationOutputPath -ne ''" in one_pass_script and
+        "$recoveryArgs['OriginalVerificationOutputPath'] = $OriginalVerificationOutputPath" in one_pass_script and
+        "& $RecoveryScript @recoveryArgs" in one_pass_script and
+        "recovery-argument-binding.ps1" in correction_tests and
+        "empty output path (PA-waiver case)" in correction_tests and
         "'-NonInteractive'" not in one_pass_script and
         "if ($trackedChanges.Count -gt 0) { throw 'IRR_TRACKED_FILES_NOT_CLEAN' }" in one_pass_script and
         "$ErrorActionPreference = 'Continue'" in one_pass_script and

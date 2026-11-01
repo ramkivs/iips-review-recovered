@@ -128,9 +128,13 @@ Assert-True ($recoveryScript.Contains('[string] $RecoveryRoot')) 'recovery scrip
 Assert-True ($recoveryScript.Contains('[string] $OriginalVerificationOutputPath')) 'recovery script declares the optional original-output parameter used by the launcher'
 Assert-True ($recoveryScript.Contains('[switch] $NonInteractive')) 'recovery script retains its optional NonInteractive parameter declaration'
 Assert-True ($recoveryScript.Contains('Read-Host')) 'without NonInteractive the recovery wrapper retains its final interactive pause'
-Assert-True ($onePassScript.Contains('$recoveryArgs = @(''-RecoveryRoot'', $RecoveryRoot)')) 'one-pass recovery call passes the declared recovery root only'
-Assert-True ($onePassScript.Contains('$recoveryArgs += @(''-OriginalVerificationOutputPath'', $OriginalVerificationOutputPath)')) 'one-pass recovery call preserves the declared optional original-output argument'
-Assert-True (-not $onePassScript.Contains("'-NonInteractive'")) 'one-pass recovery call does not pass the removed NonInteractive argument'
+Assert-True ($onePassScript.Contains('$recoveryArgs = @{')) 'recovery arguments are built as a hashtable for named binding'
+Assert-True (-not $onePassScript.Contains('$recoveryArgs = @(')) 'recovery arguments must not regress to positional array splatting'
+Assert-True ($onePassScript.Contains('RecoveryRoot = $RecoveryRoot')) 'recovery root is assigned by its declared parameter name'
+Assert-True ($onePassScript.Contains('$OriginalVerificationOutputPath -ne')) 'optional output parameter is gated on a non-empty value'
+Assert-True ($onePassScript.Contains('$recoveryArgs[''OriginalVerificationOutputPath''] = $OriginalVerificationOutputPath')) 'optional output path is assigned by its declared parameter name'
+Assert-True ($onePassScript.Contains('& $RecoveryScript @recoveryArgs')) 'recovery script receives the named hashtable splat'
+Assert-True (-not $onePassScript.Contains("'-NonInteractive'")) 'one-pass recovery call does not pass the NonInteractive switch'
 Assert-True ($onePassScript.Contains('if ($trackedChanges.Count -gt 0) { throw ''IRR_TRACKED_FILES_NOT_CLEAN'' }')) 'original tracked-clean-tree guard remains exact and fail-closed'
 Assert-True ($onePassScript.Contains('IIPS-V3-CAP03-PA-BLANKET-WAIVER-ONE-PASS-AUTHORIZATION-2026-11-01-01')) 'one-pass runner must bind the explicit PA decision'
 Assert-True ($paAuthorityText.Contains('one fresh P1-F Execute authorization')) 'approved authority text contains the exact fresh-attempt phrase'
@@ -140,6 +144,12 @@ Assert-True ($onePassScript.Contains('$ErrorActionPreference = ''Continue''')) '
 $onePassTokens = $null
 $onePassParseErrors = $null
 $onePassAst = [System.Management.Automation.Language.Parser]::ParseFile($OnePassPath, [ref]$onePassTokens, [ref]$onePassParseErrors)
+$recoveryInvocationAst = $onePassAst.Find({
+    param($node)
+    $node -is [System.Management.Automation.Language.IfStatementAst] -and $node.Extent.Text.Contains('$recoveryArgs = @{')
+}, $true)
+Assert-True ($null -ne $recoveryInvocationAst) 'recovery invocation block is available for a controlled parameter-binding fixture'
+$recoveryInvocation = [scriptblock]::Create($recoveryInvocationAst.Extent.Text)
 $gitFetchFunctionAst = $onePassAst.Find({ param($node) $node -is [System.Management.Automation.Language.FunctionDefinitionAst] -and $node.Name -eq 'Invoke-GitFetchWithNativeStderrCapture' }, $true)
 Assert-True ($null -ne $gitFetchFunctionAst) 'native fetch capture helper exists for controlled fixtures'
 . ([scriptblock]::Create($gitFetchFunctionAst.Extent.Text))
@@ -169,6 +179,31 @@ Import-Module -Name $SummaryModulePath -Force
 $temp = Join-Path ([IO.Path]::GetTempPath()) ('CAP03-CONSOLIDATED-' + [guid]::NewGuid().ToString('N'))
 $gitShimRoot = Join-Path $temp 'git-shim'
 [void](New-Item -ItemType Directory -Path $gitShimRoot -Force)
+$recoveryBindingStubPath = Join-Path $temp 'recovery-argument-binding.ps1'
+$recoveryBindingStub = @'
+param(
+    [string] $OriginalVerificationOutputPath = '',
+    [string] $RecoveryRoot = ''
+)
+[pscustomobject]@{
+    OriginalVerificationOutputPath = $OriginalVerificationOutputPath
+    RecoveryRoot = $RecoveryRoot
+}
+'@
+[IO.File]::WriteAllText($recoveryBindingStubPath, $recoveryBindingStub, (New-Object System.Text.UTF8Encoding($false)))
+$RecoveryScript = $recoveryBindingStubPath
+$RecoveryRoot = Join-Path $temp 'binding-empty-output-root'
+$OriginalVerificationOutputPath = ''
+$emptyOutputBinding = & $recoveryInvocation
+Assert-Equal $RecoveryRoot $emptyOutputBinding.RecoveryRoot 'empty output path (PA-waiver case) binds RecoveryRoot by name, not position'
+Assert-Equal '' $emptyOutputBinding.OriginalVerificationOutputPath 'empty output path omits optional parameter and retains its recovery-script default'
+$fixtureOriginalOutput = Join-Path $temp 'original-verification-output.fixture'
+[IO.File]::WriteAllText($fixtureOriginalOutput, 'controlled fixture only')
+$RecoveryRoot = Join-Path $temp 'binding-nonempty-output-root'
+$OriginalVerificationOutputPath = $fixtureOriginalOutput
+$nonemptyOutputBinding = & $recoveryInvocation
+Assert-Equal $RecoveryRoot $nonemptyOutputBinding.RecoveryRoot 'non-empty output path still binds RecoveryRoot by name'
+Assert-Equal $fixtureOriginalOutput $nonemptyOutputBinding.OriginalVerificationOutputPath 'non-empty output path binds the declared optional parameter by name'
 $gitShimPath = Join-Path $gitShimRoot 'git.cmd'
 $successfulGitShim = @('@echo off', 'echo From fixture: informational fetch stderr 1>&2', 'exit /b 0') -join "`r`n"
 [IO.File]::WriteAllText($gitShimPath, ($successfulGitShim + "`r`n"), [Text.Encoding]::ASCII)
