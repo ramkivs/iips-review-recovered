@@ -1306,7 +1306,7 @@
       "Description": "Direct P1 local SQLite provisioning implementation (IPD-owned)",
       "Consolidated status (controlled vocabulary)": "COMPLETED — REPOSITORY-VERIFIED",
       "Owning repository": "IPD (ramkivs/iips-production-market-data)",
-      "Authoritative record location": "IPD `evidence/cross-repository/completed-work-registers-2026-11-02/A-IPD-COMPLETED-WORK-AND-ACCEPTANCE-REGISTER.md` — row CW-P1-01"
+      "Authoritative record location": "IPD `evidence/cross-repository/completed-work-registers-2026-11-02/A-IPD-COMPLETED-WORK-AND-ACCEPTANCE-REGISTER.md` — row CW-P1-01 (prepared; IPD publication pending — see PUBLICATION-STATUS.md)"
     },
     {
       "Item ID": "CW-P1-03",
@@ -1314,7 +1314,7 @@
       "Description": "IPD Direct P1 handoff read-shape correction and Windows IPC provider startup documentation",
       "Consolidated status (controlled vocabulary)": "COMPLETED — REPOSITORY-VERIFIED",
       "Owning repository": "IPD (ramkivs/iips-production-market-data)",
-      "Authoritative record location": "IPD `evidence/cross-repository/completed-work-registers-2026-11-02/A-IPD-COMPLETED-WORK-AND-ACCEPTANCE-REGISTER.md` — row CW-P1-03"
+      "Authoritative record location": "IPD `evidence/cross-repository/completed-work-registers-2026-11-02/A-IPD-COMPLETED-WORK-AND-ACCEPTANCE-REGISTER.md` — row CW-P1-03 (prepared; IPD publication pending — see PUBLICATION-STATUS.md)"
     },
     {
       "Item ID": "CW-OT-01",
@@ -1322,7 +1322,7 @@
       "Description": "REG-06 Operator Drop product admission and durable PIT market-data implementation",
       "Consolidated status (controlled vocabulary)": "COMPLETE — ACCEPTED",
       "Owning repository": "IPD (ramkivs/iips-production-market-data)",
-      "Authoritative record location": "IPD `evidence/cross-repository/completed-work-registers-2026-11-02/A-IPD-COMPLETED-WORK-AND-ACCEPTANCE-REGISTER.md` — row CW-OT-01"
+      "Authoritative record location": "IPD `evidence/cross-repository/completed-work-registers-2026-11-02/A-IPD-COMPLETED-WORK-AND-ACCEPTANCE-REGISTER.md` — row CW-OT-01 (prepared; IPD publication pending — see PUBLICATION-STATUS.md)"
     },
     {
       "Item ID": "CW-OT-03",
@@ -1330,7 +1330,7 @@
       "Description": "O5-A bounded refusing-only durable broker-import consumer (IPD)",
       "Consolidated status (controlled vocabulary)": "COMPLETE — CONDITIONALLY ACCEPTED",
       "Owning repository": "IPD (ramkivs/iips-production-market-data)",
-      "Authoritative record location": "IPD `evidence/cross-repository/completed-work-registers-2026-11-02/A-IPD-COMPLETED-WORK-AND-ACCEPTANCE-REGISTER.md` — row CW-OT-03"
+      "Authoritative record location": "IPD `evidence/cross-repository/completed-work-registers-2026-11-02/A-IPD-COMPLETED-WORK-AND-ACCEPTANCE-REGISTER.md` — row CW-OT-03 (prepared; IPD publication pending — see PUBLICATION-STATUS.md)"
     },
     {
       "Item ID": "CW-OT-14",
@@ -1338,7 +1338,7 @@
       "Description": "IPD security master, instrument identity mapping and D05 quarantine",
       "Consolidated status (controlled vocabulary)": "COMPLETE — ACCEPTED",
       "Owning repository": "IPD (ramkivs/iips-production-market-data)",
-      "Authoritative record location": "IPD `evidence/cross-repository/completed-work-registers-2026-11-02/A-IPD-COMPLETED-WORK-AND-ACCEPTANCE-REGISTER.md` — row CW-OT-14"
+      "Authoritative record location": "IPD `evidence/cross-repository/completed-work-registers-2026-11-02/A-IPD-COMPLETED-WORK-AND-ACCEPTANCE-REGISTER.md` — row CW-OT-14 (prepared; IPD publication pending — see PUBLICATION-STATUS.md)"
     },
     {
       "Item ID": "CW-OT-15",
@@ -1346,7 +1346,7 @@
       "Description": "IPD engine adapters and CertifiedSectorEngineId bridge (WSD P11 bounded library)",
       "Consolidated status (controlled vocabulary)": "COMPLETE — ACCEPTED",
       "Owning repository": "IPD (ramkivs/iips-production-market-data)",
-      "Authoritative record location": "IPD `evidence/cross-repository/completed-work-registers-2026-11-02/A-IPD-COMPLETED-WORK-AND-ACCEPTANCE-REGISTER.md` — row CW-OT-15"
+      "Authoritative record location": "IPD `evidence/cross-repository/completed-work-registers-2026-11-02/A-IPD-COMPLETED-WORK-AND-ACCEPTANCE-REGISTER.md` — row CW-OT-15 (prepared; IPD publication pending — see PUBLICATION-STATUS.md)"
     },
     {
       "Item ID": "CW-OT-16",
@@ -1354,7 +1354,7 @@
       "Description": "IPD offline shell (data plane + UI) structure acceptance",
       "Consolidated status (controlled vocabulary)": "COMPLETE — CONDITIONALLY ACCEPTED",
       "Owning repository": "IPD (ramkivs/iips-production-market-data)",
-      "Authoritative record location": "IPD `evidence/cross-repository/completed-work-registers-2026-11-02/A-IPD-COMPLETED-WORK-AND-ACCEPTANCE-REGISTER.md` — row CW-OT-16"
+      "Authoritative record location": "IPD `evidence/cross-repository/completed-work-registers-2026-11-02/A-IPD-COMPLETED-WORK-AND-ACCEPTANCE-REGISTER.md` — row CW-OT-16 (prepared; IPD publication pending — see PUBLICATION-STATUS.md)"
     },
     {
       "Item ID": "CW-OT-17",
@@ -1362,7 +1362,7 @@
       "Description": "IPD guarded test runner (zero-test false-green closure)",
       "Consolidated status (controlled vocabulary)": "COMPLETE — ACCEPTED",
       "Owning repository": "IPD (ramkivs/iips-production-market-data)",
-      "Authoritative record location": "IPD `evidence/cross-repository/completed-work-registers-2026-11-02/A-IPD-COMPLETED-WORK-AND-ACCEPTANCE-REGISTER.md` — row CW-OT-17"
+      "Authoritative record location": "IPD `evidence/cross-repository/completed-work-registers-2026-11-02/A-IPD-COMPLETED-WORK-AND-ACCEPTANCE-REGISTER.md` — row CW-OT-17 (prepared; IPD publication pending — see PUBLICATION-STATUS.md)"
     },
     {
       "Item ID": "CW-IPD-01",
@@ -1370,7 +1370,7 @@
       "Description": "U2 Part A identity/atomicity implementation and criterion reconciliation",
       "Consolidated status (controlled vocabulary)": "COMPLETED — REPOSITORY-VERIFIED",
       "Owning repository": "IPD (ramkivs/iips-production-market-data)",
-      "Authoritative record location": "IPD `evidence/cross-repository/completed-work-registers-2026-11-02/A-IPD-COMPLETED-WORK-AND-ACCEPTANCE-REGISTER.md` — row CW-IPD-01"
+      "Authoritative record location": "IPD `evidence/cross-repository/completed-work-registers-2026-11-02/A-IPD-COMPLETED-WORK-AND-ACCEPTANCE-REGISTER.md` — row CW-IPD-01 (prepared; IPD publication pending — see PUBLICATION-STATUS.md)"
     },
     {
       "Item ID": "CW-IPD-02",
@@ -1378,7 +1378,7 @@
       "Description": "U2 Part B provenance/schema migration 004",
       "Consolidated status (controlled vocabulary)": "COMPLETED — REPOSITORY-VERIFIED",
       "Owning repository": "IPD (ramkivs/iips-production-market-data)",
-      "Authoritative record location": "IPD `evidence/cross-repository/completed-work-registers-2026-11-02/A-IPD-COMPLETED-WORK-AND-ACCEPTANCE-REGISTER.md` — row CW-IPD-02"
+      "Authoritative record location": "IPD `evidence/cross-repository/completed-work-registers-2026-11-02/A-IPD-COMPLETED-WORK-AND-ACCEPTANCE-REGISTER.md` — row CW-IPD-02 (prepared; IPD publication pending — see PUBLICATION-STATUS.md)"
     },
     {
       "Item ID": "CW-IPD-03",
@@ -1386,7 +1386,7 @@
       "Description": "U2 write-port wrapper (authority and implementation merged, no write enabled)",
       "Consolidated status (controlled vocabulary)": "COMPLETED — REPOSITORY-VERIFIED",
       "Owning repository": "IPD (ramkivs/iips-production-market-data)",
-      "Authoritative record location": "IPD `evidence/cross-repository/completed-work-registers-2026-11-02/A-IPD-COMPLETED-WORK-AND-ACCEPTANCE-REGISTER.md` — row CW-IPD-03"
+      "Authoritative record location": "IPD `evidence/cross-repository/completed-work-registers-2026-11-02/A-IPD-COMPLETED-WORK-AND-ACCEPTANCE-REGISTER.md` — row CW-IPD-03 (prepared; IPD publication pending — see PUBLICATION-STATUS.md)"
     },
     {
       "Item ID": "CW-IPD-04",
@@ -1394,7 +1394,7 @@
       "Description": "U2 evidence gaps closed (governed-source rejection and T-U2-5 race upgrade)",
       "Consolidated status (controlled vocabulary)": "COMPLETED — REPOSITORY-VERIFIED",
       "Owning repository": "IPD (ramkivs/iips-production-market-data)",
-      "Authoritative record location": "IPD `evidence/cross-repository/completed-work-registers-2026-11-02/A-IPD-COMPLETED-WORK-AND-ACCEPTANCE-REGISTER.md` — row CW-IPD-04"
+      "Authoritative record location": "IPD `evidence/cross-repository/completed-work-registers-2026-11-02/A-IPD-COMPLETED-WORK-AND-ACCEPTANCE-REGISTER.md` — row CW-IPD-04 (prepared; IPD publication pending — see PUBLICATION-STATUS.md)"
     },
     {
       "Item ID": "CW-IPD-05",
@@ -1402,7 +1402,7 @@
       "Description": "U7 provider-side outcome mapping implementation",
       "Consolidated status (controlled vocabulary)": "COMPLETED — REPOSITORY-VERIFIED",
       "Owning repository": "IPD (ramkivs/iips-production-market-data)",
-      "Authoritative record location": "IPD `evidence/cross-repository/completed-work-registers-2026-11-02/A-IPD-COMPLETED-WORK-AND-ACCEPTANCE-REGISTER.md` — row CW-IPD-05"
+      "Authoritative record location": "IPD `evidence/cross-repository/completed-work-registers-2026-11-02/A-IPD-COMPLETED-WORK-AND-ACCEPTANCE-REGISTER.md` — row CW-IPD-05 (prepared; IPD publication pending — see PUBLICATION-STATUS.md)"
     },
     {
       "Item ID": "CW-IPD-06",
@@ -1410,7 +1410,7 @@
       "Description": "Gate A′ successor bounded implementation and Gate 4 Limb A",
       "Consolidated status (controlled vocabulary)": "COMPLETED — REPOSITORY-VERIFIED",
       "Owning repository": "IPD (ramkivs/iips-production-market-data)",
-      "Authoritative record location": "IPD `evidence/cross-repository/completed-work-registers-2026-11-02/A-IPD-COMPLETED-WORK-AND-ACCEPTANCE-REGISTER.md` — row CW-IPD-06"
+      "Authoritative record location": "IPD `evidence/cross-repository/completed-work-registers-2026-11-02/A-IPD-COMPLETED-WORK-AND-ACCEPTANCE-REGISTER.md` — row CW-IPD-06 (prepared; IPD publication pending — see PUBLICATION-STATUS.md)"
     },
     {
       "Item ID": "CW-IPD-07",
@@ -1418,7 +1418,7 @@
       "Description": "S1 identity-value determination and binding commit",
       "Consolidated status (controlled vocabulary)": "COMPLETE — ACCEPTED",
       "Owning repository": "IPD (ramkivs/iips-production-market-data)",
-      "Authoritative record location": "IPD `evidence/cross-repository/completed-work-registers-2026-11-02/A-IPD-COMPLETED-WORK-AND-ACCEPTANCE-REGISTER.md` — row CW-IPD-07"
+      "Authoritative record location": "IPD `evidence/cross-repository/completed-work-registers-2026-11-02/A-IPD-COMPLETED-WORK-AND-ACCEPTANCE-REGISTER.md` — row CW-IPD-07 (prepared; IPD publication pending — see PUBLICATION-STATUS.md)"
     },
     {
       "Item ID": "CW-IPD-08",
@@ -1426,7 +1426,7 @@
       "Description": "Gate 4 H-12 membership amendment (Alternative A)",
       "Consolidated status (controlled vocabulary)": "COMPLETE — ACCEPTED",
       "Owning repository": "IPD (ramkivs/iips-production-market-data)",
-      "Authoritative record location": "IPD `evidence/cross-repository/completed-work-registers-2026-11-02/A-IPD-COMPLETED-WORK-AND-ACCEPTANCE-REGISTER.md` — row CW-IPD-08"
+      "Authoritative record location": "IPD `evidence/cross-repository/completed-work-registers-2026-11-02/A-IPD-COMPLETED-WORK-AND-ACCEPTANCE-REGISTER.md` — row CW-IPD-08 (prepared; IPD publication pending — see PUBLICATION-STATUS.md)"
     },
     {
       "Item ID": "CW-IPD-09",
@@ -1434,7 +1434,7 @@
       "Description": "DR-2 Option A IPD provider read envelope",
       "Consolidated status (controlled vocabulary)": "COMPLETED — REPOSITORY-VERIFIED",
       "Owning repository": "IPD (ramkivs/iips-production-market-data)",
-      "Authoritative record location": "IPD `evidence/cross-repository/completed-work-registers-2026-11-02/A-IPD-COMPLETED-WORK-AND-ACCEPTANCE-REGISTER.md` — row CW-IPD-09"
+      "Authoritative record location": "IPD `evidence/cross-repository/completed-work-registers-2026-11-02/A-IPD-COMPLETED-WORK-AND-ACCEPTANCE-REGISTER.md` — row CW-IPD-09 (prepared; IPD publication pending — see PUBLICATION-STATUS.md)"
     },
     {
       "Item ID": "CW-IPD-10",
@@ -1442,7 +1442,7 @@
       "Description": "DQ-6b IPD-locus decision mirror receipt (effectiveness element 6)",
       "Consolidated status (controlled vocabulary)": "COMPLETED — REPOSITORY-VERIFIED",
       "Owning repository": "IPD (ramkivs/iips-production-market-data)",
-      "Authoritative record location": "IPD `evidence/cross-repository/completed-work-registers-2026-11-02/A-IPD-COMPLETED-WORK-AND-ACCEPTANCE-REGISTER.md` — row CW-IPD-10"
+      "Authoritative record location": "IPD `evidence/cross-repository/completed-work-registers-2026-11-02/A-IPD-COMPLETED-WORK-AND-ACCEPTANCE-REGISTER.md` — row CW-IPD-10 (prepared; IPD publication pending — see PUBLICATION-STATUS.md)"
     },
     {
       "Item ID": "CW-IPD-11",
@@ -1450,7 +1450,7 @@
       "Description": "S2 47-file independent hash verification (IPD-locus)",
       "Consolidated status (controlled vocabulary)": "COMPLETED — REPOSITORY-VERIFIED",
       "Owning repository": "IPD (ramkivs/iips-production-market-data)",
-      "Authoritative record location": "IPD `evidence/cross-repository/completed-work-registers-2026-11-02/A-IPD-COMPLETED-WORK-AND-ACCEPTANCE-REGISTER.md` — row CW-IPD-11"
+      "Authoritative record location": "IPD `evidence/cross-repository/completed-work-registers-2026-11-02/A-IPD-COMPLETED-WORK-AND-ACCEPTANCE-REGISTER.md` — row CW-IPD-11 (prepared; IPD publication pending — see PUBLICATION-STATUS.md)"
     },
     {
       "Item ID": "CW-IPD-12",
@@ -1458,7 +1458,7 @@
       "Description": "IPD 51×17 capability-matrix reconstruction publication",
       "Consolidated status (controlled vocabulary)": "COMPLETED — REPOSITORY-VERIFIED",
       "Owning repository": "IPD (ramkivs/iips-production-market-data)",
-      "Authoritative record location": "IPD `evidence/cross-repository/completed-work-registers-2026-11-02/A-IPD-COMPLETED-WORK-AND-ACCEPTANCE-REGISTER.md` — row CW-IPD-12"
+      "Authoritative record location": "IPD `evidence/cross-repository/completed-work-registers-2026-11-02/A-IPD-COMPLETED-WORK-AND-ACCEPTANCE-REGISTER.md` — row CW-IPD-12 (prepared; IPD publication pending — see PUBLICATION-STATUS.md)"
     },
     {
       "Item ID": "CW-IPD-13",
@@ -1466,7 +1466,7 @@
       "Description": "P-20 dated correction of the stale P-1 authorization footer in the IPD tracker",
       "Consolidated status (controlled vocabulary)": "COMPLETED — REPOSITORY-VERIFIED",
       "Owning repository": "IPD (ramkivs/iips-production-market-data)",
-      "Authoritative record location": "IPD `evidence/cross-repository/completed-work-registers-2026-11-02/A-IPD-COMPLETED-WORK-AND-ACCEPTANCE-REGISTER.md` — row CW-IPD-13"
+      "Authoritative record location": "IPD `evidence/cross-repository/completed-work-registers-2026-11-02/A-IPD-COMPLETED-WORK-AND-ACCEPTANCE-REGISTER.md` — row CW-IPD-13 (prepared; IPD publication pending — see PUBLICATION-STATUS.md)"
     },
     {
       "Item ID": "CW-IPD-14",
@@ -1474,7 +1474,7 @@
       "Description": "P-08 / REG-06 exhaustive all-branch re-verification and correction of one technical finding",
       "Consolidated status (controlled vocabulary)": "SUPERSEDED",
       "Owning repository": "IPD (ramkivs/iips-production-market-data)",
-      "Authoritative record location": "IPD `evidence/cross-repository/completed-work-registers-2026-11-02/A-IPD-COMPLETED-WORK-AND-ACCEPTANCE-REGISTER.md` — row CW-IPD-14"
+      "Authoritative record location": "IPD `evidence/cross-repository/completed-work-registers-2026-11-02/A-IPD-COMPLETED-WORK-AND-ACCEPTANCE-REGISTER.md` — row CW-IPD-14 (prepared; IPD publication pending — see PUBLICATION-STATUS.md)"
     }
   ],
   "register_b": [
@@ -2542,6 +2542,7 @@
     "No S2, P-2, PF, P1-F or Direct P1 activity was re-executed.",
     "No historical record was edited, deleted or reordered.",
     "No Windows host, database, named pipe, claim, marker or evidence root was accessed.",
+    "IPD-owned registers are PREPARED but NOT PUBLISHED: IPD writes return 403 for this session token. See PUBLICATION-STATUS.md.",
     "User-reported execution is kept distinct from repository-verified evidence in every row."
   ]
 }

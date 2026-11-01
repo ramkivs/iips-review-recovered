@@ -73,6 +73,15 @@ Before you do any of the following, you **must** consult Registers A–D and the
 
 The project-wide application E2E audit runs independently and was not disturbed by this consolidation. Where its findings are already published they are cited here (notably the G14 reconciliation and the 51×17 reassessment). This register does **not** duplicate that audit's broader investigation, and the audit should consume these registers rather than re-deriving the statuses in them.
 
-## E.8 Counts at publication
+## E.8 Publication status of the two halves
+
+The **IRR half is published through the ordinary PR route**. The **IPD half is prepared but NOT published**:
+this session's token can write IRR but IPD writes return `403 Resource not accessible by integration`. See
+`PUBLICATION-STATUS.md` for the measured probes, the prepared IPD commit and the remaining steps.
+
+Do not describe the IPD half as published, and do not treat its non-publication as a gap in the underlying
+work: every register row rests on already-published IRR or IPD records that were verified read-only.
+
+## E.9 Counts at publication
 
 Register A: **63** · Register B: **22** · Register C: **28** · Register D: **22**.

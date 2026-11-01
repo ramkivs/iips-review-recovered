@@ -4,7 +4,7 @@
 **Record ID:** `IIPS-V3-COMPLETED-WORK-AND-AUTHORITY-REGISTERS-IRR-2026-11-02-01`
 **Date:** `2026-11-02` (Asia/Calcutta)
 **Owning repository:** `ramkivs/iips-review-recovered` (IRR) — IRR-owned records only
-**Cross-repository counterpart:** `ramkivs/iips-production-market-data` (IPD), `evidence/cross-repository/completed-work-registers-2026-11-02/`
+**Cross-repository counterpart (IPD):** prepared at `evidence/cross-repository/completed-work-registers-2026-11-02/` — **publication status is recorded in `PUBLICATION-STATUS.md`; it is not claimed as published until an IPD merge and remote read-back are achieved**
 **Tracker registration:** §16.248 / `CV-CORR-228` / `CHG-2026-11-01-27` / `V2011`–`V2022`
 **Baselines re-censused at authoring time:** IRR `main@6f347a018dbfacbc7d5e62fe9f773b323ce9d69c` (PR #428); IPD `main@0a3b5f0f038e13305a3b927865acc349e19f043f` (PR #119); **0 open PRs in both repositories**
 
