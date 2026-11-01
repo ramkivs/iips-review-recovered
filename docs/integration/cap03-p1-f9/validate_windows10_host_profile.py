@@ -469,7 +469,20 @@ review_artifact_block = re.search(r"(?s)\$ReviewArtifactPaths\s*=\s*@\((.*?)\)",
 require(review_artifact_block is not None, "S04-correction candidate review-artifact allowlist is missing")
 review_artifact_paths = set(re.findall(r"(?m)^\s*'([^']+)'", review_artifact_block.group(1)))
 p1_path_pattern = re.compile(r"(?i)(P1|P-1|GATE[_-]A[_-]PRIME|PF-?15|PA[_-]RULING)")
-unlisted_p1_paths = [path for path in changed_pr_paths if p1_path_pattern.search(path) and path not in review_artifact_paths]
+# These later Direct P1 artifacts are deliberately NOT added to the P1-F runner's runtime
+# ReviewArtifactPaths. Their presence must keep that legacy freshness guard fail-closed; recognizing
+# them here only lets this read-only repository validator check the intentionally separate path.
+separate_direct_p1_paths = {
+    "docs/integration/IIPS_V3_CAP03_DIRECT_P1_P1F_AUTHORITY_RECONCILIATION_2026-11-01.md",
+    "docs/integration/IIPS_V3_DIRECT_P1_IRR_CONSUMPTION_RECORD_2026-11-01.md",
+    "frontend/server/user-portfolio/userPortfolioDirectP1Integration.test.ts",
+}
+require(separate_direct_p1_paths.issubset(set(changed_pr_paths)),
+        "Direct P1/P1-F reconciliation artifacts are missing from the reviewed main history")
+require(separate_direct_p1_paths.isdisjoint(review_artifact_paths),
+        "Direct P1 artifacts must remain outside the P1-F runtime freshness allowlist")
+unlisted_p1_paths = [path for path in changed_pr_paths if p1_path_pattern.search(path)
+                     and path not in review_artifact_paths and path not in separate_direct_p1_paths]
 require(not unlisted_p1_paths,
         "PR adds P-1-named paths missing from the freshness allowlist: " + ", ".join(unlisted_p1_paths))
 for artifact in (
