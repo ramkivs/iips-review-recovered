@@ -127,6 +127,7 @@ Assert-True ($artifactModule.Contains('RECOVERY_BUNDLE_WAIVER_MUST_NOT_SUBSTITUT
 Assert-True ($recoveryScript.Contains('[string] $RecoveryRoot')) 'recovery script declares the RecoveryRoot parameter used by the launcher'
 Assert-True ($recoveryScript.Contains('[string] $OriginalVerificationOutputPath')) 'recovery script declares the optional original-output parameter used by the launcher'
 Assert-True ($recoveryScript.Contains('[switch] $NonInteractive')) 'recovery script retains its optional NonInteractive parameter declaration'
+Assert-True ($recoveryScript.Contains('Read-Host')) 'without NonInteractive the recovery wrapper retains its final interactive pause'
 Assert-True ($onePassScript.Contains('$recoveryArgs = @(''-RecoveryRoot'', $RecoveryRoot)')) 'one-pass recovery call passes the declared recovery root only'
 Assert-True ($onePassScript.Contains('$recoveryArgs += @(''-OriginalVerificationOutputPath'', $OriginalVerificationOutputPath)')) 'one-pass recovery call preserves the declared optional original-output argument'
 Assert-True (-not $onePassScript.Contains("'-NonInteractive'")) 'one-pass recovery call does not pass the removed NonInteractive argument'
