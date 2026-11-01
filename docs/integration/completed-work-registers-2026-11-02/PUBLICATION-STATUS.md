@@ -16,10 +16,18 @@ dated receipt when the IPD half is actually published.
 | Baseline | `main@6f347a018dbfacbc7d5e62fe9f773b323ce9d69c` (PR #428) |
 | Tracker allocation | §16.248 / `CV-CORR-228` / `CHG-2026-11-01-27` / `V2011`–`V2022` |
 | Required check | `Python compile · source/evidence/tracker validation` |
+| **Merged** | **`2026-11-01T21:26:51Z`** |
+| **Merge commit** | **`14b9945333b59bb5d9170f4bf79db6bb6131c060`** |
+| Merge tree | `f2ea4098b4d56c640da74b146003c803f108b08b` |
+| Parents | `6f347a018dbfacbc7d5e62fe9f773b323ce9d69c` (baseline), then PR head `d2e63c4d3421096b907ef2ec03818688dba366b3` |
+| Exact-head check | `124983616057` — success |
+| Post-merge check / run | `124984175715` — success; run `41352052764` — success |
+| Independent remote read-back | **15/15 changed paths byte-matched** at the exact merge SHA |
+| Read-back evidence | `evidence/integration/completed-work-registers-2026-11-02/02-publication-readback.txt` |
 
-The merge commit, post-merge check result and independent remote read-back are recorded in the tracker's
-post-merge receipt for §16.248. **`V2022` remains `PENDING` until that receipt exists.** Nothing in this
-directory claims an IRR merge that has not happened.
+**Status: IRR HALF PUBLISHED AND REMOTELY VERIFIED.** `V2022` is PASS for the IRR half; the tracker's
+dated post-merge receipt is §16.248.7. The tracker was read back through the Git Blobs API because the
+Contents API omits content above its size limit; the other 14 paths used the Contents API.
 
 ## 2. IPD half — PREPARED, NOT PUBLISHED
 
@@ -74,8 +82,8 @@ in these registers.**
 4. Add a dated receipt here and in the IPD tracker recording the merge commit, tree, check runs and
    read-back identities. Only then may the IPD half be described as published.
 
-Until step 4 is complete, the correct description is: **IRR half published; IPD half prepared and
-publication-blocked.**
+The correct description today is: **IRR half published and remotely verified (PR #429, merge
+`14b9945333b59bb5d9170f4bf79db6bb6131c060`); IPD half prepared and publication-blocked.**
 
 ## 3. Preservation
 

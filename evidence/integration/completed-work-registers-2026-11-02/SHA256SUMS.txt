@@ -7,7 +7,8 @@ c4379b67f375824a9d18cb59891ef63071a03ff7aee6a0832182bbd7f45523b6  docs/integrati
 e81af169f20a753c2f225d2eb25ef353d55e53687cffd2dab4ee200249218de2  docs/integration/completed-work-registers-2026-11-02/D-OUTSTANDING-RESIDUALS-REGISTER.md
 e2a3e1339953ba2e001c842b3e22495f3254353e6c72a26550a255e34067823b  docs/integration/completed-work-registers-2026-11-02/D-outstanding-residuals-register.csv
 c0ab56b68cf4b46c5e322f5d91c4cd36bcfd30aa977bda3f524ed7f7190d5d03  docs/integration/completed-work-registers-2026-11-02/E-FUTURE-ANALYSIS-AND-REUSE-INSTRUCTIONS.md
-6d8b963e3a4b036a3908d7336f5651bb9c9f5410250b5e6567fccb687894b175  docs/integration/completed-work-registers-2026-11-02/PUBLICATION-STATUS.md
+87797ec709950067cf9d97349b9aef45492cffa04deac19dc19c5d1f99417a71  docs/integration/completed-work-registers-2026-11-02/PUBLICATION-STATUS.md
 3a73c763c4608db4137a6307fd8bdd51fd40a082e392292b00b22c95f5b558c0  docs/integration/completed-work-registers-2026-11-02/README.md
 64007faf96546ee9aeeae89412af7cc54a4788228c355a94ca8b3eadb2e03c3f  evidence/integration/completed-work-registers-2026-11-02/01-identifier-census.txt
+5a4f968e1c91088b3daacac96ed8f06dfecde9e463123bb7c401452823c0b260  evidence/integration/completed-work-registers-2026-11-02/02-publication-readback.txt
 bc2995a7308f13d7641064bc2cc83c4181ee7f962580c553bd92e0a985428a4b  evidence/integration/completed-work-registers-2026-11-02/registers.json

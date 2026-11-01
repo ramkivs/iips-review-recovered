@@ -19734,6 +19734,17 @@ Before recommending a rerun, reporting a gap, reopening a decision or re-request
 | `V2019` | No re-execution | PASS — no S2, P-2, PF, P1-F or Direct P1 activity executed; no Windows host, database, named pipe, claim, marker or evidence root accessed. |
 | `V2020` | Gate/pin/fence invariance | PASS — no gate, pin, acceptance, admission, qualification, fence or write-authorization status changed. |
 | `V2021` | Protected pointer compatibility | PASS — the Revision 7 / P1-F compatibility tokens and the current CAP-03 status pointer are unchanged; the IRR-only static validator passes. |
-| `V2022` | Publication and independent remote read-back | PENDING — PR route only; no direct `main` push. The post-merge receipt will be recorded separately. |
+| `V2022` | Publication and independent remote read-back | **PASS for the IRR half** — PR #429 merged `2026-11-01T21:26:51Z` as `14b9945333b59bb5d9170f4bf79db6bb6131c060` (tree `f2ea4098b4d56c640da74b146003c803f108b08b`; parents `6f347a01…` then PR head `d2e63c4d3421096b907ef2ec03818688dba366b3`). Exact-head check `124983616057` success; post-merge check `124984175715` and run `41352052764` success. Independent read-back at the exact merge SHA byte-matched **15/15** changed paths (Git Blobs API for the tracker, Contents API for the rest); identities in `evidence/integration/completed-work-registers-2026-11-02/02-publication-readback.txt`. **The IPD half remains NOT PUBLISHED — see `V2018a`.** |
+
+### 16.248.7 Post-merge publication and read-back receipt (`2026-11-02`)
+
+**The IRR half is published and independently verified.** PR **#429** merged at `2026-11-01T21:26:51Z` as **`14b9945333b59bb5d9170f4bf79db6bb6131c060`**, tree **`f2ea4098b4d56c640da74b146003c803f108b08b`**, with parent order baseline `6f347a018dbfacbc7d5e62fe9f773b323ce9d69c` then PR head `d2e63c4d3421096b907ef2ec03818688dba366b3`. GitHub independently reports `refs/heads/main` at that merge commit.
+
+- **Exact-head check** `124983616057` — success, before merge.
+- **Post-merge check** `124984175715` and **push run** `41352052764` (`CAP-03 Revision 7 IRR-only static checks`) — success.
+- **Independent remote read-back** at the exact merge SHA byte-matched **15/15** changed paths. The tracker was read through the Git Blobs API because the Contents API omits content above its size limit; the other 14 paths were read through the Contents API. Blob IDs, byte counts and SHA-256 values are recorded in `evidence/integration/completed-work-registers-2026-11-02/02-publication-readback.txt`.
+- `V2022` is thereby **PASS for the IRR half**. Its preceding `PENDING` wording was the correct pre-merge state and is preserved as such by this dated receipt.
+
+**The IPD half remains NOT PUBLISHED.** `V2018a` stands: IPD writes are refused for this session's token (`403`), the prepared commit is `20ed8038272ba4f64c11b352fdbf7178054208c2`, and no IPD ref, file, PR or branch was created or altered. `docs/integration/completed-work-registers-2026-11-02/PUBLICATION-STATUS.md` records the measured probes and the exact remaining steps. No qualification, authority or gate status changed.
 
 **Next free after this section:** `§16.249` / `CV-CORR-229` / `CHG-2026-11-02-01` / `V2023`.
