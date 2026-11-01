@@ -19428,6 +19428,10 @@ IRR PR **#412** (head `dfa62adf198150d3af73a12bc075a2d29ff3900c`) merged by merg
 
 **Artifacts.** `docs/integration/IIPS_v3.0_REG06_OPERATOR_DROP_IMPLEMENTATION_IRR_RECONCILIATION_2026-11-01.md`; `evidence/integration/reg06-operator-drop-implementation-reconciliation-2026-11-01`; PA §5.6; living reassessment workbook/CSVs row 29 and P-08. Current-state pointers were added to the historical P-08 reconciliation and 2026-10-27 reconstruction without rewriting their historical bodies.
 
+### 16.242.2 Publication and independent remote read-back
+
+IRR PR **#418** (head `69b9297bab62941cb57f994d29db815570bc858f`) merged `2026-11-01T11:25:40Z` as **`cf579305a6b6eebe715b08feccf544352f23ebef`**. Exact-head IRR-only static workflow `41301776024` and post-merge workflow `41301833471` completed successfully. Eight decisive artifacts were independently fetched from remote main through the GitHub Contents/Blobs API and byte-matched: tracker `dcc5e158151476189df60991766dc3534951b5a5`; PA record `732d045a662a2c30529501cd5e917cc7eb8a4b27`; reconciliation record `057153af2d668cd894209fd9d118f832d5763026`; matrix report `67664ec6931450fafb977e1eef57baec34158a86`; matrix CSV `dc047f4ef23b3faa10c434207e739e165fc44129`; pending CSV `c97054ae791fed09881f1bcaade5aa76985b9986`; workbook `105037b9ff151d964e96b265fbc28a95dece2e0f`; local checks receipt `d66cba7d6b281106784fc24411966a0f77c73d4c`. Full coordinates/hashes: `publication-readback.json` in the evidence bundle. IPD main remained `eb9289222e2bdfd0e79381d4d81f7f81715e019b`; no IPD write. REG-06 remains completed on IPD and reconciled in IRR, not production admission.
+
 ### 16.242.1 Verification ledger (`V1936`–`V1949`)
 
 | ID | Verification | Result |
@@ -19444,5 +19448,5 @@ IRR PR **#412** (head `dfa62adf198150d3af73a12bc075a2d29ff3900c`) merged by merg
 | `V1945` | IPD read-only boundary | PASS — protected paths unchanged; exact checkout clean; no IPD remote write. |
 | `V1946` | Workbook/reference validation | PASS — dimensions, worksheets, tables/filters, formulas, CSV/XLSX equality, evidence references and checksums checked. |
 | `V1947` | IRR static/whitespace checks | PASS — local static validator and whitespace checks; exact-head hosted result recorded in publication receipt. |
-| `V1948` | IRR PR publication | PENDING at preparation — complete only after authorized PR merge and required checks. |
-| `V1949` | Independent merged-main read-back | PENDING at preparation — complete only after remote artifact byte comparison; receipt recorded in evidence bundle. |
+| `V1948` | IRR PR publication | PASS — PR #418 merged `cf579305a6b6eebe715b08feccf544352f23ebef` at `2026-11-01T11:25:40Z`; exact-head static run `41301776024` success. |
+| `V1949` | Independent merged-main read-back | PASS — post-merge static run `41301833471` success; 8 decisive remote main artifacts byte-matched. Receipt: `evidence/integration/reg06-operator-drop-implementation-reconciliation-2026-11-01/publication-readback.json`. |

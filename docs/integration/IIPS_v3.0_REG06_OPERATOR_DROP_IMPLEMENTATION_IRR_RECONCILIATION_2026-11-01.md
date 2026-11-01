@@ -59,6 +59,6 @@ No production admission/deployment, AD-17/M-2 authorization, O-05 admission, IRR
 
 ## 5. Validation and publication
 
-Local validation covers matrix dimensions, worksheets, tables/filters, formula inventory, CSV/XLSX equality, status consistency, historical preservation, evidence references, checksums, Python compilation, the IRR static validator and whitespace. The publication receipt will record the actual IRR PR, exact-head checks, merge commit, post-merge checks and independent remote-main byte read-back. An open PR or local file is not represented as published main.
+Local validation covers matrix dimensions, worksheets, tables/filters, formula inventory, CSV/XLSX equality, status consistency, historical preservation, evidence references, checksums, Python compilation, the IRR static validator and whitespace. Published: IRR PR #418 merged `2026-11-01T11:25:40Z` as `cf579305a6b6eebe715b08feccf544352f23ebef`. Exact-head static run `41301776024` and post-merge run `41301833471` passed. Eight decisive artifacts were independently read back from remote main and byte-matched; full coordinates/hashes are in `evidence/integration/reg06-operator-drop-implementation-reconciliation-2026-11-01/publication-readback.json`. IPD main remained unchanged.
 
 Evidence: `evidence/integration/reg06-operator-drop-implementation-reconciliation-2026-11-01`.

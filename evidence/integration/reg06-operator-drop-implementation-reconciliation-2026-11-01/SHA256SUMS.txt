@@ -1,4 +1,5 @@
 2bd1ea2c6c00874fa133fd172af3b46c509bf4e02c8e4baaa43406f3e4ce727d  INDEX.md
+ea5353bb5bff3858edcc1fee3ccb26b63a21ab297d3534fa6f058f1ff578b150  publication-readback.json
 d10d4985bada40b581b2dc984c2d5bcf93318c77b59716fd7c9f4293d5d604fa  raw/amendment-changed-cells.json
 1f73ed0586d989a43b6e94ea75b1d3ed4fce6eb27c2aa5fc5007710e0965d6f0  raw/ipd-contract-test-diff.patch
 52c61e996fc4b93263fceaaae3e6b1b0fbb04d71e30b7fae004cf341218b8d1b  raw/ipd-exact-checkout-build.log.txt
