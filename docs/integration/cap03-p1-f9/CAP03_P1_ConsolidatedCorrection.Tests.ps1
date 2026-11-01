@@ -111,6 +111,9 @@ Assert-True ($transfer.Contains('Test-S2TransferPathSet -ExpectedPaths $relPaths
 Assert-True ($transfer.Contains('foreach ($a in $artifacts)')) 'transfer must copy every sealed manifest artifact, including the archive'
 Assert-True ($recoveryScript.Contains('$SourceDist = ''C:\iips-work\iips-production-market-data\dist''')) 'recovery wrapper must bind the user-reported original source path'
 Assert-True ($recoveryScript.Contains('$OriginalInventory = ''C:\iips-evidence\cap03-s2\s2-03-dist-sha256-before.txt''')) 'recovery wrapper must bind the original inventory authority'
+Assert-True ($artifactModule.Contains('-ExpectedCount $ExpectedCount -SourceDistRoot $ExpectedSourceDist')) 'bundle verification must parse the original inventory under its designated source root'
+Assert-True ($artifactModule.Contains('-ExpectedCount $ExpectedCount -SourceDistRoot $SourceDist')) 'recovery execution must parse the original inventory under its designated source root'
+Assert-True ($onePassScript.Contains("-SourceDistRoot 'C:\iips-work\iips-production-market-data\dist'")) 'one-pass original-inventory parsing must bind the designated source root'
 Assert-True ($recoveryScript.Contains('-ExpectedCount 1140')) 'recovery wrapper must require the original 1,140-entry count'
 Assert-True ($recoveryScript.Contains('-OriginalVerificationOutputPath $OriginalVerificationOutputPath')) 'recovery must preserve the supplied original verification output'
 Assert-True ($artifactModule.Contains('function Test-S2DistTree')) 'source and copied trees need exact inventory/hash validation'
@@ -234,15 +237,24 @@ $archivePath = Join-Path $temp 'dist-artifacts.zip'
 [IO.File]::WriteAllBytes((Join-Path $distRoot 'src\persistence\migration_ledger.js'), [Text.Encoding]::UTF8.GetBytes('fixture ledger bytes'))
 [IO.File]::WriteAllBytes((Join-Path $distRoot 'src\ipc\dispatch.js'), [Text.Encoding]::UTF8.GetBytes('fixture dispatch bytes'))
 $inventoryLines = @()
+$absoluteInventoryLines = @()
 foreach ($file in @(Get-ChildItem -LiteralPath $distRoot -File -Recurse | Sort-Object FullName)) {
     $relative = $file.FullName.Substring($distRoot.Length).TrimStart('\')
     $relativeWindows = $relative.Replace('/', '\')
     $digest = (Get-FileHash -Algorithm SHA256 -LiteralPath $file.FullName).Hash.ToUpperInvariant()
     $inventoryLines += ($digest + '  \dist\' + $relativeWindows)
+    $absoluteInventoryLines += ($digest + '  ' + $file.FullName)
 }
 $inventory = ConvertFrom-S2DistInventory -Lines $inventoryLines -ExpectedCount 3
-Assert-Equal 3 $inventory.Count 'fixture inventory count'
-Assert-True ($inventory.Contains('src/persistence/gateAPrimeProvisioning.js')) 'inventory parser normalizes a nested Windows path'
+Assert-Equal 3 $inventory.Count 'relative-format fixture inventory count'
+Assert-True ($inventory.Contains('src/persistence/gateAPrimeProvisioning.js')) 'relative inventory parser normalizes a nested Windows path'
+$absoluteInventory = ConvertFrom-S2DistInventory -Lines $absoluteInventoryLines -ExpectedCount 3 -SourceDistRoot $distRoot
+Assert-Equal 3 $absoluteInventory.Count 'absolute-format fixture inventory count'
+Assert-True ($absoluteInventory.Contains('src/persistence/gateAPrimeProvisioning.js')) 'absolute inventory parser maps paths beneath the supplied source dist root'
+Assert-Equal $inventory['src/persistence/gateAPrimeProvisioning.js'] $absoluteInventory['src/persistence/gateAPrimeProvisioning.js'] 'absolute and relative forms normalize to the same key and SHA-256'
+$actualRecoveryPathLine = '14ECC4A4D0FC8D09B1C2E37F7D352FB25A831F7A193F323110729B916D87689D  C:\iips-work\iips-production-market-data\dist\frontend\src\app\App.d.ts'
+$actualRecoveryPathMap = ConvertFrom-S2DistInventory -Lines @($actualRecoveryPathLine) -ExpectedCount 1 -SourceDistRoot 'C:\iips-work\iips-production-market-data\dist'
+Assert-Equal '14ECC4A4D0FC8D09B1C2E37F7D352FB25A831F7A193F323110729B916D87689D' $actualRecoveryPathMap['frontend/src/app/App.d.ts'] 'reported original-inventory absolute path maps to the canonical relative key'
 $runRel = 'evidence/cap03-s2/fixture-run'
 $authorizedPaths = @(
     ($runRel + '/MANIFEST.json'), ($runRel + '/dist-artifacts.zip'), ($runRel + '/RESULT.txt'),
@@ -267,6 +279,19 @@ Assert-True (-not [bool]$transferDuplicate.Passed) 'duplicate staged path fails 
 Assert-Throws { ConvertFrom-S2DistInventory -Lines @($inventoryLines[0], $inventoryLines[0]) -ExpectedCount 2 } 'duplicate inventory path'
 $traversalLine = [string](@($inventoryLines | Where-Object { $_ -like '*src\persistence*' })[0]).Replace('src\persistence', '..\escape')
 Assert-Throws { ConvertFrom-S2DistInventory -Lines @($traversalLine) -ExpectedCount 1 } 'parent traversal inventory path'
+$fixtureDigest = $inventoryLines[0].Substring(0, 64)
+$absoluteTraversalLine = $fixtureDigest + '  ' + $distRoot + '\..\escape.js'
+Assert-Throws { ConvertFrom-S2DistInventory -Lines @($absoluteTraversalLine) -ExpectedCount 1 -SourceDistRoot $distRoot } 'absolute-path traversal inventory entry'
+$absoluteDuplicateLine = $absoluteInventoryLines[0]
+Assert-Throws { ConvertFrom-S2DistInventory -Lines @($absoluteDuplicateLine, $absoluteDuplicateLine) -ExpectedCount 2 -SourceDistRoot $distRoot } 'duplicate absolute inventory path'
+$outsideRootLine = $fixtureDigest + '  ' + (Join-Path (Split-Path $distRoot -Parent) 'dist-unrelated\escape.js')
+Assert-Throws { ConvertFrom-S2DistInventory -Lines @($outsideRootLine) -ExpectedCount 1 -SourceDistRoot $distRoot } 'absolute path outside designated dist root'
+$driveMismatchLine = $fixtureDigest + '  Z:\iips-work\iips-production-market-data\dist\frontend\src\app\App.d.ts'
+Assert-Throws { ConvertFrom-S2DistInventory -Lines @($driveMismatchLine) -ExpectedCount 1 -SourceDistRoot 'C:\iips-work\iips-production-market-data\dist' } 'absolute inventory drive mismatch'
+Assert-Throws { ConvertFrom-S2DistInventory -Lines @($absoluteInventoryLines[0], $inventoryLines[0]) -ExpectedCount 2 -SourceDistRoot $distRoot } 'mixed absolute and relative inventory paths'
+Assert-Throws { ConvertFrom-S2DistInventory -Lines @('Z' + $inventoryLines[0].Substring(1)) -ExpectedCount 1 } 'non-hex inventory digest'
+Assert-Throws { ConvertFrom-S2DistInventory -Lines @($inventoryLines[0].Substring(1)) -ExpectedCount 1 } 'short inventory digest'
+Assert-Throws { ConvertFrom-S2DistInventory -Lines @($inventoryLines[0].Replace('  ', ' ')) -ExpectedCount 1 } 'malformed inventory separator'
 Assert-Throws { ConvertFrom-S2DistInventory -Lines @($inventoryLines[0]) -ExpectedCount 3 } 'incomplete inventory count'
 $created = New-S2DistArchive -DistRoot $distRoot -ArchivePath $archivePath -ExpectedCount 3
 Assert-Equal 3 $created.FileCount 'archive creation file count'
@@ -279,7 +304,7 @@ Assert-Equal 3 $sourceTreeCheck.VerifiedCount 'all source tree fixture files mat
 $inventoryPath = Join-Path $temp 'original-inventory.txt'
 $admittedFormatInventoryPath = Join-Path $temp 'admitted-format-inventory.txt'
 [IO.File]::WriteAllLines($admittedFormatInventoryPath, [string[]]$inventoryLines, (New-Object System.Text.UTF8Encoding($false)))
-$reorderedOriginalInventoryLines = [string[]]$inventoryLines.Clone()
+$reorderedOriginalInventoryLines = [string[]]$absoluteInventoryLines.Clone()
 [Array]::Reverse($reorderedOriginalInventoryLines)
 [IO.File]::WriteAllLines($inventoryPath, $reorderedOriginalInventoryLines, (New-Object System.Text.UTF8Encoding($false)))
 Assert-True ((Get-FileHash -Algorithm SHA256 -LiteralPath $admittedFormatInventoryPath).Hash -cne (Get-FileHash -Algorithm SHA256 -LiteralPath $inventoryPath).Hash) 'original inventory raw bytes may differ from admitted inventory formatting while parsed map remains authoritative'
