@@ -19218,3 +19218,25 @@ No IPD Git content was modified. No Preflight, P1-F Execute, S2 rerun/build, pro
 | `V1874` | Scope fence | PASS — no production, multi-user, IPD Git write, S2 rebuild, Preflight, or unapproved operation is authorized. |
 
 **Next free after this section:** `§16.236` / `CV-CORR-216` / `CHG-2026-11-01-15` / `V1875`.
+
+
+## §16.236 — `CV-CORR-216`: one-pass launcher recovery-argument correction (`2026-11-01`; `CHG-2026-11-01-15`; `V1875`–`V1880`)
+
+**Scope.** Technical launcher correction under the already-effective PA act in §16.235 only; this section grants no authority and changes no PA status. The one-pass launcher no longer passes `'-NonInteractive'` in `$recoveryArgs`; it retains `'-RecoveryRoot'` and the conditional `'-OriginalVerificationOutputPath'` argument. No other launcher logic, PA checks, one-use controls, claims, or evidence protections are changed. The tracked-clean guard remains exactly `if ($trackedChanges.Count -gt 0) { throw 'IRR_TRACKED_FILES_NOT_CLEAN' }`; no dirty-tree allowance, exception, or bypass is introduced.
+
+**Parameter-signature finding.** The recovery script at the current IRR `main` baseline does declare `[string] $RecoveryRoot`, `[string] $OriginalVerificationOutputPath`, and `[switch] $NonInteractive`. Accordingly, the request's premise that `-NonInteractive` is undeclared is not borne out by the inspected source. The remaining arguments match declared parameters. Per the explicit launcher correction, the switch is not passed; the recovery wrapper's existing final `Read-Host` pause is consequently enabled. The recovery wrapper itself was not changed.
+
+The launcher source identity is **10,255 bytes; SHA-256 `5020d81bd33e7e342c1dbb3a75ecb81f5f348d315d9c13966d31f9ce0617014f`**. At PR #408 code commit `a9ff0a04f53cc273471055556c6bbe1564b8813b`, GitHub Contents API readback returned blob `15bf255e188b33ac0aaca79f177208424cd18af8` and exact bytes with this SHA-256. Exact-head Windows PowerShell 5.1 parser/controlled fixtures passed in run `41286851975`; the IRR static workflow passed in run `41286851976`. Local Python compilation, static validation, and `git diff --check` also passed. No launcher or host operation has been run.
+
+### 16.236.1 Verification ledger (`V1875`–`V1880`)
+
+| ID | Verification | Result |
+|---|---|---|
+| `V1875` | Recovery argument / declared parameters | PASS — remaining `RecoveryRoot` and optional `OriginalVerificationOutputPath` arguments are declared; `NonInteractive` is not passed as requested. The recovery wrapper's declared switch and resulting final `Read-Host` pause are explicitly recorded. |
+| `V1876` | Tracked-clean guard and no bypass | PASS — exact required guard retained; no dirty-tree exceptions, allowances, or bypasses added. |
+| `V1877` | PowerShell 5.1 syntax and controlled fixtures | PASS — PR #408 exact code head `a9ff0a04f53cc273471055556c6bbe1564b8813b`, Windows workflow `41286851975`; parser/fixtures only, no launcher execution. |
+| `V1878` | IRR-only static validation and Python compilation | PASS locally — `validate_windows10_host_profile.py` and `python3 -m py_compile`; static validator required full git history, fetched read-only from `origin/main`. |
+| `V1879` | PR publication, exact remote source readback, and applicable hosted checks | PASS — PR #408 head `a9ff0a04f53cc273471055556c6bbe1564b8813b`; remote Contents API blob `15bf255e188b33ac0aaca79f177208424cd18af8` exactly matched local launcher bytes (SHA-256 `5020d81bd33e7e342c1dbb3a75ecb81f5f348d315d9c13966d31f9ce0617014f`); workflows `41286851975` and `41286851976` passed. Main merge/readback is verified separately after merge.
+| `V1880` | Execution/evidence scope fence | PASS — no P1-F, Preflight, S04 recovery, provisioning, IPD/production action, Windows-host operation, or host claim/evidence alteration occurred. |
+
+**Next free after this section:** `§16.237` / `CV-CORR-217` / `CHG-2026-11-01-16` / `V1881`.
