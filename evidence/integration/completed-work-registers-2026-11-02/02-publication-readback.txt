@@ -1,0 +1,43 @@
+INDEPENDENT REMOTE READ-BACK — IRR PR #429
+Merge commit: 14b9945333b59bb5d9170f4bf79db6bb6131c060
+Baseline:     6f347a018dbfacbc7d5e62fe9f773b323ce9d69c
+Method: GitHub Contents API at the exact merge SHA, and the Git Blobs API for the
+        tracker (the Contents API omits content above its size limit). Remote bytes were
+        compared to the local merged bytes for every path.
+Result: 15/15 paths byte-matched.
+Post-merge check: 124984175715 'Python compile · source/evidence/tracker validation' — success
+Post-merge run:   41352052764 'CAP-03 Revision 7 IRR-only static checks' (push, main) — success
+Exact-head check: 124983616057 — success (before merge, at PR head d2e63c4d3421096b907ef2ec03818688dba366b3)
+
+
+MATCH  IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md
+        remote blob d41d309cb755b373df99c41a048acbac0dca50bb  bytes 3762484  sha256 e75b919e0a156f75cf4ccf9d8aa17ca5d368d322112017ea3536b6e5e3abf2f5
+        Method: Git Blobs API (Contents API omits content above its size limit).
+MATCH  docs/integration/completed-work-registers-2026-11-02/A-MASTER-COMPLETED-WORK-AND-ACCEPTANCE-REGISTER.md
+        remote blob d2cfcd6d33100f4e6433cfeca37ce081596c8746  bytes 146409  sha256 1e04b25d3aa7bee85c0f21a28682c4ec7c24890bce4cdf38545db2bd95b0fb84
+MATCH  docs/integration/completed-work-registers-2026-11-02/A-master-completed-work-and-acceptance-register.csv
+        remote blob 0f4b4b0a8e19bec1545434a0762931a9927843a8  bytes 92824  sha256 db2388978c11b13a27020e8b67b3f0ec65068a572ca44a14c1396366cb2a017f
+MATCH  docs/integration/completed-work-registers-2026-11-02/B-WAIVER-AND-AUTHORIZATION-REGISTER.md
+        remote blob 69f486c01b1cb9c2776de320fc0432cc0a5300a3  bytes 48775  sha256 cb727a9cf211210858b3b4d41d5eb52cffababc2c624f8da0a12dcba864d0875
+MATCH  docs/integration/completed-work-registers-2026-11-02/B-waiver-and-authorization-register.csv
+        remote blob 597e5b8b935587c4c21ae235497a571adef2bbfb  bytes 33119  sha256 c4379b67f375824a9d18cb59891ef63071a03ff7aee6a0832182bbd7f45523b6
+MATCH  docs/integration/completed-work-registers-2026-11-02/C-HISTORICAL-STATUS-AND-EVIDENCE-INDEX.md
+        remote blob 1c24e4fc827c27348bee88a3fb18ce5b46600e87  bytes 19107  sha256 22e816d02ee29aadefd78577ac7ad15f93dd17d61dc5e5b2ee98b66c31b7b800
+MATCH  docs/integration/completed-work-registers-2026-11-02/C-historical-status-and-evidence-index.csv
+        remote blob e29b25b31f09c09b1b1144ac1325baa26ce635b7  bytes 16511  sha256 5ca609a03c7b30033036fe7651a669dbf11782f4d1cf975788bcd7612e820280
+MATCH  docs/integration/completed-work-registers-2026-11-02/D-OUTSTANDING-RESIDUALS-REGISTER.md
+        remote blob f1c1e55c8cf76b5d5049ba48ff80ea7ade115aea  bytes 18891  sha256 e81af169f20a753c2f225d2eb25ef353d55e53687cffd2dab4ee200249218de2
+MATCH  docs/integration/completed-work-registers-2026-11-02/D-outstanding-residuals-register.csv
+        remote blob 944eb2fe39fec20d9f540d8b3534228bac122644  bytes 16293  sha256 e2a3e1339953ba2e001c842b3e22495f3254353e6c72a26550a255e34067823b
+MATCH  docs/integration/completed-work-registers-2026-11-02/E-FUTURE-ANALYSIS-AND-REUSE-INSTRUCTIONS.md
+        remote blob 184927bbc61f15c26edafc3a14eb7aa1c674ecfa  bytes 7142  sha256 c0ab56b68cf4b46c5e322f5d91c4cd36bcfd30aa977bda3f524ed7f7190d5d03
+MATCH  docs/integration/completed-work-registers-2026-11-02/PUBLICATION-STATUS.md
+        remote blob bc047f99665af591840564c5adf6f9787a061600  bytes 5013  sha256 6d8b963e3a4b036a3908d7336f5651bb9c9f5410250b5e6567fccb687894b175
+MATCH  docs/integration/completed-work-registers-2026-11-02/README.md
+        remote blob b411f027ebe193521bc86f29691ae0cd62d7a2db  bytes 3739  sha256 3a73c763c4608db4137a6307fd8bdd51fd40a082e392292b00b22c95f5b558c0
+MATCH  evidence/integration/completed-work-registers-2026-11-02/01-identifier-census.txt
+        remote blob 180d13a0aa23752ea82957ad337a5cdcceebbf95  bytes 843  sha256 64007faf96546ee9aeeae89412af7cc54a4788228c355a94ca8b3eadb2e03c3f
+MATCH  evidence/integration/completed-work-registers-2026-11-02/SHA256SUMS.txt
+        remote blob 03664561a2ff0bdebf30fb9e1047aee374514f9f  bytes 2011  sha256 9111dbd6a94f202687951fadbbdab5117c9237f26a405485d8bf5e41c1ba2a9f
+MATCH  evidence/integration/completed-work-registers-2026-11-02/registers.json
+        remote blob 8fc69a15db2fdaa85ae558450dda0187f9d5ab5d  bytes 240709  sha256 bc2995a7308f13d7641064bc2cc83c4181ee7f962580c553bd92e0a985428a4b
