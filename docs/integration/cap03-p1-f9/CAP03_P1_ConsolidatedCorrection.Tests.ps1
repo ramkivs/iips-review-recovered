@@ -139,6 +139,15 @@ Assert-True ($null -ne $gitFetchFunctionAst) 'native fetch capture helper exists
 Assert-True ($onePassScript.Contains('-Mode Execute')) 'one-pass runner invokes only the explicitly authorized Execute mode'
 Assert-True (-not $onePassScript.Contains('-Mode Preflight')) 'one-pass runner must not invoke the separate Preflight path'
 Assert-Equal 1 ([regex]::Matches($onePassScript, '(?m)^\s*& \$P1Script').Count) 'one-pass runner contains exactly one P1-F script invocation'
+Assert-True ($onePassScript.Contains('$mainTracker = $mainTrackerLines -join "`n"')) 'authoritative tracker output retains native line boundaries for the two-pointer predicate'
+$trackerPointerFixture = @(
+    '| **Latest (`CV-CORR-208` | IIPS-V3-CAP03-PA-BLANKET-WAIVER-ONE-PASS-AUTHORIZATION-2026-11-01-01 | FRESH P1-F Execute authorization: AUTHORIZED - ONE ATTEMPT ONLY - NOT EXECUTED - UNSPENT.',
+    '| **Current CAP-03 P-1 / PF-15 status** | IIPS-V3-CAP03-PA-BLANKET-WAIVER-ONE-PASS-AUTHORIZATION-2026-11-01-01 | FRESH P1-F Execute authorization: AUTHORIZED - ONE ATTEMPT ONLY - NOT EXECUTED - UNSPENT.'
+)
+$trackerPointerFixtureText = $trackerPointerFixture -join "`n"
+$fixturePointerRows = @($trackerPointerFixtureText -split "`n" | Where-Object { $_.Contains('**Latest (`CV-CORR-208`') -or $_.Contains('**Current CAP-03 P-1 / PF-15 status**') })
+Assert-Equal 2 $fixturePointerRows.Count 'authoritative tracker predicate sees two distinct current pointer rows'
+Assert-True (@($fixturePointerRows | Where-Object { -not $_.Contains('IIPS-V3-CAP03-PA-BLANKET-WAIVER-ONE-PASS-AUTHORIZATION-2026-11-01-01') -or -not $_.Contains('FRESH P1-F Execute authorization: AUTHORIZED - ONE ATTEMPT ONLY - NOT EXECUTED - UNSPENT') }).Count -eq 0) 'both pointer rows retain the approved ID and exact fresh-attempt status'
 Assert-True ($onePassScript.Contains('S04_BUNDLE_INDEPENDENT_READBACK_FAILED')) 'one-pass runner independently verifies the recovery bundle before the single Execute call'
 Assert-True ($artifactModule.Contains('RECOVERY_SEAL_READBACK_MISMATCH:')) 'recovery bundle seal must be independently read back'
 Assert-True ($artifactModule.Contains('ARCHIVE_ENTRY_MISSING:')) 'archive verifier must fail closed on incomplete bytes'

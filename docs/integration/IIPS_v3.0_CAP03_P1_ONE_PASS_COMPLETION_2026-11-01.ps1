@@ -76,8 +76,9 @@ try {
     $trackedChanges = @(& git -C $IrrRoot status --porcelain --untracked-files=no 2>&1)
     if ($LASTEXITCODE -ne 0) { throw ('IRR_STATUS_READ_FAILED: ' + (@($trackedChanges) -join ' ')) }
     if ($trackedChanges.Count -gt 0) { throw 'IRR_TRACKED_FILES_NOT_CLEAN' }
-    $mainTracker = [string](& git -C $IrrRoot show 'origin/main:IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md' 2>&1)
+    $mainTrackerLines = @(& git -C $IrrRoot show 'origin/main:IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md' 2>&1)
     if ($LASTEXITCODE -ne 0) { throw 'IRR_MAIN_TRACKER_READ_FAILED' }
+    $mainTracker = $mainTrackerLines -join "`n"
     $pointerRows = @($mainTracker -split "`n" | Where-Object { $_.Contains('**Latest (`CV-CORR-208`') -or $_.Contains('**Current CAP-03 P-1 / PF-15 status**') })
     if (($pointerRows.Count -ne 2) -or (-not $mainTracker.Contains($DecisionRef)) -or
         @($pointerRows | Where-Object { -not $_.Contains('FRESH P1-F Execute authorization: AUTHORIZED - ONE ATTEMPT ONLY - NOT EXECUTED - UNSPENT') }).Count -ne 0) {
