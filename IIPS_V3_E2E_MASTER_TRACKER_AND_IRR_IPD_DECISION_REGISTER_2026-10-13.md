@@ -19476,7 +19476,7 @@ IRR PR **#418** (head `69b9297bab62941cb57f994d29db815570bc858f`) merged `2026-1
 | `V1955` | Windows regression coverage | PENDING — hosted PowerShell 5.1 suite must verify exact filesystem hash, both script pins, zero CR bytes and resolved exact-path attribute; no execution invoked. |
 | `V1956` | Static validation and workflow triggers | PASS locally — Python compilation, IRR static validator and `git diff --check`; both relevant workflows trigger on `.gitattributes`. Hosted IRR check pending. |
 | `V1957` | Safety and retry semantics | PASS — source changes are limited to working-tree EOL control, regression checks and documentation; no host/evidence, P1-F, Preflight, S2, Node or IPD action. |
-| `V1958` | PR publication and required checks | PENDING — PR #420 is open on the authorized session branch; require exact-head Windows and IRR checks after synchronizing its base. |
+| `V1958` | PR publication and required checks | PENDING — PR #420 is open on the authorized session branch and synchronized with `main@6e23d10049d8336b67ea75d5ca524f8835128520`; exact-head Windows and IRR checks must pass before merge. |
 | `V1959` | Merge and independent remote readback | PENDING — verify merged `main`, module and script hashes, `.gitattributes`, and post-merge checks before completion. |
 
 **Next free after this section:** `§16.244` / `CV-CORR-224` / `CHG-2026-11-01-23` / `V1960`.
