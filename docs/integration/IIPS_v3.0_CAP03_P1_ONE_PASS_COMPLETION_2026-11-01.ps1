@@ -4,9 +4,10 @@ IIPS v3.0 personal-local one-pass completion runner.
 
 This launcher uses the explicit PA decision IIPS-V3-CAP03-PA-BLANKET-WAIVER-ONE-PASS-AUTHORIZATION-2026-11-01-01.
 It creates or verifies the separately sealed S04 recovery bundle from the original source/inventory and pinned release assets,
-then invokes the corrected P1-F Execute script exactly once. It never invokes Preflight, S2/build, provisioning by any other
-route, or retries. The P1-F script keeps its own authoritative-main S00 guard and one-use claim/marker controls. Any stop is
-preserved; rerunning is not a recovery strategy. A prior claim, Execute directory, or marker blocks the operation.
+then invokes the corrected P1-F Execute script once per invocation. It never invokes Preflight, S2/build, or provisioning by another
+route. The P1-F script permits a later retry only when the published PA pre-start retry policy verifies every prior sealed run,
+claim and summary; any marker or provisioner process-start blocks further retries. Prior claims and evidence are never rewritten
+or released. Any ambiguous or unsealed state remains a technical stop.
 
 Run only on the designated personal Windows host, from the published IRR main after this act and pointer are merged.
 Arena and CI must not run this launcher. It performs no IPD Git write and is not a production procedure.
@@ -20,6 +21,8 @@ Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
 $DecisionRef = 'IIPS-V3-CAP03-PA-BLANKET-WAIVER-ONE-PASS-AUTHORIZATION-2026-11-01-01'
+$RetryDecisionRef = 'IIPS-V3-CAP03-PA-P1F-PRESTART-RETRY-AUTHORIZATION-2026-11-01-01'
+$RetryPointerText = 'FRESH P1-F Execute authorization: AUTHORIZED - PRESTART RETRIES ONLY - NOT EXECUTED - UNSPENT'
 $EvidenceRoot = 'H:\IIPS-P1-EVIDENCE'
 $StorePath = 'C:\iips-data\iips\user-portfolio.sqlite'
 $ActorLabel = 'Ramki'
@@ -28,6 +31,9 @@ $ExpectedInventorySha256 = 'E077A349D3777403D426A0B0F338C53AC6F0E3942F75A9174A6A
 $IrrRoot = [System.IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..\..'))
 $IpdRepoFull = [System.IO.Path]::GetFullPath((Resolve-Path -LiteralPath $IpdRepoRoot).ProviderPath)
 $AuthorityPath = Join-Path $IrrRoot 'docs\integration\IIPS_v3.0_CAP03_PA_BLANKET_WAIVER_AND_ONE_PASS_AUTHORIZATION_2026-11-01.md'
+$RetryAuthorityPath = Join-Path $IrrRoot 'docs\integration\IIPS_v3.0_CAP03_PA_P1F_PRESTART_RETRY_AUTHORIZATION_2026-11-01.md'
+$RetryPolicyModule = Join-Path $IrrRoot 'docs\integration\cap03-p1-f9\CAP03P1PrestartRetry.psm1'
+$RetryPolicyModuleSha256 = 'C4FA71B5DFDF8653139FC8DC5CB4E2F6E624CAB917A68AC99FAC5A0B171DD8C0'
 $RecoveryScript = Join-Path $IrrRoot 'docs\integration\IIPS_v3.0_CAP03_S2_ORIGINAL_DIST_RECOVERY_2026-10-31.ps1'
 $P1Script = Join-Path $IrrRoot 'docs\integration\IIPS_v3.0_CAP03_P1_F_P-1_CORRECTED_EXECUTION_SCRIPT_2026-10-31.ps1'
 $ArtifactModule = Join-Path $IrrRoot 'docs\integration\cap03-p1-f9\CAP03S2DistArtifacts.psm1'
@@ -80,16 +86,25 @@ try {
     if ($LASTEXITCODE -ne 0) { throw 'IRR_MAIN_TRACKER_READ_FAILED' }
     $mainTracker = $mainTrackerLines -join "`n"
     $pointerRows = @($mainTracker -split "`n" | Where-Object { $_.Contains('**Latest (`CV-CORR-208`') -or $_.Contains('**Current CAP-03 P-1 / PF-15 status**') })
-    if (($pointerRows.Count -ne 2) -or (-not $mainTracker.Contains($DecisionRef)) -or
-        @($pointerRows | Where-Object { -not $_.Contains('FRESH P1-F Execute authorization: AUTHORIZED - ONE ATTEMPT ONLY - NOT EXECUTED - UNSPENT') }).Count -ne 0) {
-        throw 'FRESH_P1F_AUTHORITY_NOT_PUBLISHED_ON_AUTHORITATIVE_MAIN'
+    if (($pointerRows.Count -ne 2) -or (-not $mainTracker.Contains($DecisionRef)) -or (-not $mainTracker.Contains($RetryDecisionRef)) -or
+        @($pointerRows | Where-Object { -not $_.Contains($RetryPointerText) }).Count -ne 0) {
+        throw 'P1F_PRESTART_RETRY_AUTHORITY_NOT_PUBLISHED_ON_AUTHORITATIVE_MAIN'
     }
+    if (-not (Test-Path -LiteralPath $RetryAuthorityPath -PathType Leaf)) { throw 'P1F_PRESTART_RETRY_AUTHORITY_RECORD_MISSING' }
+    if ((Get-FileHash -Algorithm SHA256 -LiteralPath $RetryAuthorityPath).Hash.ToUpperInvariant() -cne 'F54C8E11C681E911B6D29B24FF2E3CB5054025E12FCBD822F84E90400EB839F4') { throw 'P1F_PRESTART_RETRY_AUTHORITY_SHA256_MISMATCH' }
+    $retryAuthorityText = [System.IO.File]::ReadAllText($RetryAuthorityPath)
+    foreach ($retryPhrase in @($RetryDecisionRef, 'APPROVED by explicit PA direction', 'only when every prior attempt is positively established', 'execute-claim.json', 'no retry follows', 'p1-exe-20261101T091303265Z-332114a4', 'empty root or missing anchor is ambiguous')) {
+        if (-not $retryAuthorityText.Contains($retryPhrase)) { throw ('P1F_PRESTART_RETRY_AUTHORITY_INVALID: ' + $retryPhrase) }
+    }
+    if (-not (Test-Path -LiteralPath $RetryPolicyModule -PathType Leaf)) { throw 'P1F_PRESTART_RETRY_POLICY_MODULE_MISSING' }
+    if ((Get-FileHash -Algorithm SHA256 -LiteralPath $RetryPolicyModule).Hash.ToUpperInvariant() -cne $RetryPolicyModuleSha256) { throw 'P1F_PRESTART_RETRY_POLICY_MODULE_SHA256_MISMATCH' }
+    Import-Module -Name $RetryPolicyModule -Force -ErrorAction Stop
     if (-not (Test-Path -LiteralPath $RecoveryScript -PathType Leaf)) { throw 'S04_RECOVERY_SCRIPT_MISSING' }
     if (-not (Test-Path -LiteralPath $P1Script -PathType Leaf)) { throw 'P1F_EXECUTION_SCRIPT_MISSING' }
     if (-not (Test-Path -LiteralPath $ArtifactModule -PathType Leaf)) { throw 'S04_ARTIFACT_MODULE_MISSING' }
     if (-not (Test-Path -LiteralPath $EvidenceRoot -PathType Container)) { throw 'DESIGNATED_P1_EVIDENCE_ROOT_MISSING' }
-    if (Test-Path -LiteralPath (Join-Path $EvidenceRoot 'execute-claim.json') -PathType Leaf) { throw 'P1F_EXECUTE_CLAIM_EXISTS_NO_RETRY' }
-    if (@(Get-ChildItem -LiteralPath $EvidenceRoot -Directory -Filter 'p1-exe-*').Count -gt 0) { throw 'PRIOR_P1F_EXECUTE_DIRECTORY_EXISTS_NO_RETRY' }
+    $retryHistory = Get-IipsP1FPrestartRetryReview -EvidenceRoot $EvidenceRoot -ExpectedActId 'IIPS-V3-CAP02-GATE-A-PRIME-SUCCESSOR-PROVISIONING-ACT-2026-10-23-01' -ExpectedStorePath $StorePath
+    if (-not $retryHistory.Eligible) { throw ('P1F_PRIOR_ATTEMPT_NOT_VERIFIABLY_PRESTART: ' + (@($retryHistory.Failures) -join '|')) }
     if (Test-Path -LiteralPath $RecoveryClaim -PathType Leaf) { throw 'S04_RECOVERY_CLAIM_EXISTS_PRESERVE_AND_STOP' }
 
     Import-Module -Name $ArtifactModule -Force -ErrorAction Stop
@@ -120,13 +135,13 @@ try {
     if ([int]$bundle.VerifiedCount -ne 1140) { throw 'S04_BUNDLE_ARCHIVE_ENTRY_COUNT_MISMATCH' }
 
     $beforeRuns = @((Get-ChildItem -LiteralPath $EvidenceRoot -Directory -Filter 'p1-exe-*' | ForEach-Object { $_.FullName }))
-    $script:OnePassStatus = 'P1-F EXECUTE INVOCATION STARTED — ONE ATTEMPT'
+    $script:OnePassStatus = 'P1-F EXECUTE INVOCATION STARTED — verified pre-start retry policy'
     & $P1Script -Mode Execute -RepoRoot $IpdRepoFull -EvidenceRoot $EvidenceRoot `
-        -ActorLabel $ActorLabel -StorePath $StorePath -ConfirmToken 'P1-F-ONE-ATTEMPT'
+        -ActorLabel $ActorLabel -StorePath $StorePath -ConfirmToken 'P1-F-PRESTART-RETRY'
     $afterRuns = @((Get-ChildItem -LiteralPath $EvidenceRoot -Directory -Filter 'p1-exe-*' | ForEach-Object { $_.FullName }))
     $newRuns = @($afterRuns | Where-Object { $beforeRuns -notcontains $_ })
     if ($newRuns.Count -ne 1) {
-        $script:OnePassStatus = 'P1-F SCRIPT RETURNED WITHOUT ONE NEW RUN DIRECTORY; no retry permitted'
+        $script:OnePassStatus = 'P1-F SCRIPT RETURNED WITHOUT ONE NEW RUN DIRECTORY; preserve all evidence and stop'
         throw $script:OnePassStatus
     }
     $runDirectory = $newRuns[0]
