@@ -17,6 +17,8 @@ $TransferPath = Join-Path $RepoRoot 'docs\integration\IIPS_v3.0_CAP03_S2_DEP_A_H
 $RecoveryPath = Join-Path $RepoRoot 'docs\integration\IIPS_v3.0_CAP03_S2_ORIGINAL_DIST_RECOVERY_2026-10-31.ps1'
 $OnePassPath = Join-Path $RepoRoot 'docs\integration\IIPS_v3.0_CAP03_P1_ONE_PASS_COMPLETION_2026-11-01.ps1'
 $PaAuthorityPath = Join-Path $RepoRoot 'docs\integration\IIPS_v3.0_CAP03_PA_BLANKET_WAIVER_AND_ONE_PASS_AUTHORIZATION_2026-11-01.md'
+$RetryAuthorityPath = Join-Path $RepoRoot 'docs\integration\IIPS_v3.0_CAP03_PA_P1F_PRESTART_RETRY_AUTHORIZATION_2026-11-01.md'
+$RetryModulePath = Join-Path $PSScriptRoot 'CAP03P1PrestartRetry.psm1'
 $ArtifactModulePath = Join-Path $PSScriptRoot 'CAP03S2DistArtifacts.psm1'
 $SummaryModulePath = Join-Path $PSScriptRoot 'CAP03P1FailureSummary.psm1'
 $TestPath = $PSCommandPath
@@ -40,7 +42,7 @@ function Assert-Throws {
     if (-not $thrown) { throw ('ASSERTION FAILED: expected exception: ' + $Message) }
 }
 
-$parseTargets = @($P1Path, $HistoricalP1Path, $S2Path, $TransferPath, $RecoveryPath, $OnePassPath, $ArtifactModulePath, $SummaryModulePath, $TestPath)
+$parseTargets = @($P1Path, $HistoricalP1Path, $S2Path, $TransferPath, $RecoveryPath, $OnePassPath, $ArtifactModulePath, $SummaryModulePath, $RetryModulePath, $TestPath)
 foreach ($target in $parseTargets) {
     $tokens = $null
     $errors = $null
@@ -54,6 +56,8 @@ $transfer = [IO.File]::ReadAllText($TransferPath)
 $recoveryScript = [IO.File]::ReadAllText($RecoveryPath)
 $onePassScript = [IO.File]::ReadAllText($OnePassPath)
 $paAuthorityText = [IO.File]::ReadAllText($PaAuthorityPath)
+$retryAuthorityText = [IO.File]::ReadAllText($RetryAuthorityPath)
+$retryModuleText = [IO.File]::ReadAllText($RetryModulePath)
 $artifactModule = [IO.File]::ReadAllText($ArtifactModulePath)
 $summaryModule = [IO.File]::ReadAllText($SummaryModulePath)
 
@@ -64,6 +68,19 @@ Assert-True ($p1.Contains("S01-NODE-EXEC-PATH")) 'P1-F must verify Node reports 
 Assert-Equal 7 ([regex]::Matches($p1, '(?m)-FilePath \$script:Facts\.nodePath').Count) 'all runtime, entrypoint, and forensic Node invocations must use the pinned executable'
 Assert-Equal 0 ([regex]::Matches($p1, "(?m)-FilePath\s+'node'\b").Count) 'P1-F must never resolve Node through PATH'
 Assert-True (-not $p1.Contains("-FilePath 'npm.cmd'") -and -not $p1.Contains("-FilePath 'npx.cmd'")) 'P1-F must not introduce npm/npx PATH launchers; it does not install or rebuild'
+
+# Pre-start retries require verifiable sealed evidence; prior claims are immutable and process-start remains a hard stop.
+Assert-True ($retryAuthorityText.Contains('IIPS-V3-CAP03-PA-P1F-PRESTART-RETRY-AUTHORIZATION-2026-11-01-01')) 'PA retry act has a unique explicit identifier'
+Assert-True ($retryAuthorityText.Contains('only when every prior attempt is positively established')) 'PA retry scope is limited to positively evidenced pre-start stops'
+Assert-True ($retryAuthorityText.Contains('no retry follows')) 'PA act forbids retries after marker/process-start'
+Assert-True ($retryModuleText.Contains('executeCalls') -and $retryModuleText.Contains('executeMarkerWritten')) 'retry verifier requires recorded zero execute calls and no marker'
+Assert-True ($retryModuleText.Contains('SHA256SUMS.txt') -and $retryModuleText.Contains('Get-FileHash')) 'retry verifier independently checks sealed prior-run bytes'
+Assert-True ($retryModuleText.Contains('p1-exe-20261101T091303265Z-332114a4')) 'retry verifier requires the known original-run anchor; an empty root is not a fresh retry'
+Assert-True ($p1.Contains('Get-IipsP1FPrestartRetryReview')) 'P1-F revalidates prior attempt evidence at S00 and before marker'
+Assert-True ($p1.Contains('execute-claim-'' + $script:RunDirName + ''.json')) 'each retry creates a new claim without overwriting the retained original'
+Assert-True ($p1.Contains('Local\IIPS-P1F-EXECUTE-')) 'same-session concurrent P1-F invocations are mutually excluded'
+Assert-True ($onePassScript.Contains('Get-IipsP1FPrestartRetryReview')) 'one-pass launcher validates the retained claim before S04 side effects'
+Assert-True ($onePassScript.Contains("-ConfirmToken 'P1-F-PRESTART-RETRY'")) 'operator confirmation token names the published pre-start retry mode'
 
 # Regressions for the five PowerShell 5.1 array/scalar and quote fixes.
 Assert-True ($p1.Contains('$evGit = @(Get-GitMarkerHits -Chain $evChain)')) 'S00 git marker results must be array-captured'
@@ -169,13 +186,13 @@ Assert-True (-not $onePassScript.Contains('-Mode Preflight')) 'one-pass runner m
 Assert-Equal 1 ([regex]::Matches($onePassScript, '(?m)^\s*& \$P1Script').Count) 'one-pass runner contains exactly one P1-F script invocation'
 Assert-True ($onePassScript.Contains('$mainTracker = $mainTrackerLines -join "`n"')) 'authoritative tracker output retains native line boundaries for the two-pointer predicate'
 $trackerPointerFixture = @(
-    '| **Latest (`CV-CORR-208` | IIPS-V3-CAP03-PA-BLANKET-WAIVER-ONE-PASS-AUTHORIZATION-2026-11-01-01 | FRESH P1-F Execute authorization: AUTHORIZED - ONE ATTEMPT ONLY - NOT EXECUTED - UNSPENT.',
-    '| **Current CAP-03 P-1 / PF-15 status** | IIPS-V3-CAP03-PA-BLANKET-WAIVER-ONE-PASS-AUTHORIZATION-2026-11-01-01 | FRESH P1-F Execute authorization: AUTHORIZED - ONE ATTEMPT ONLY - NOT EXECUTED - UNSPENT.'
+    '| **Latest (`CV-CORR-208` | IIPS-V3-CAP03-PA-P1F-PRESTART-RETRY-AUTHORIZATION-2026-11-01-01 | FRESH P1-F Execute authorization: AUTHORIZED - PRESTART RETRIES ONLY - NOT EXECUTED - UNSPENT.',
+    '| **Current CAP-03 P-1 / PF-15 status** | IIPS-V3-CAP03-PA-P1F-PRESTART-RETRY-AUTHORIZATION-2026-11-01-01 | FRESH P1-F Execute authorization: AUTHORIZED - PRESTART RETRIES ONLY - NOT EXECUTED - UNSPENT.'
 )
 $trackerPointerFixtureText = $trackerPointerFixture -join "`n"
 $fixturePointerRows = @($trackerPointerFixtureText -split "`n" | Where-Object { $_.Contains('**Latest (`CV-CORR-208`') -or $_.Contains('**Current CAP-03 P-1 / PF-15 status**') })
 Assert-Equal 2 $fixturePointerRows.Count 'authoritative tracker predicate sees two distinct current pointer rows'
-Assert-True (@($fixturePointerRows | Where-Object { -not $_.Contains('IIPS-V3-CAP03-PA-BLANKET-WAIVER-ONE-PASS-AUTHORIZATION-2026-11-01-01') -or -not $_.Contains('FRESH P1-F Execute authorization: AUTHORIZED - ONE ATTEMPT ONLY - NOT EXECUTED - UNSPENT') }).Count -eq 0) 'both pointer rows retain the approved ID and exact fresh-attempt status'
+Assert-True (@($fixturePointerRows | Where-Object { -not $_.Contains('IIPS-V3-CAP03-PA-P1F-PRESTART-RETRY-AUTHORIZATION-2026-11-01-01') -or -not $_.Contains('FRESH P1-F Execute authorization: AUTHORIZED - PRESTART RETRIES ONLY - NOT EXECUTED - UNSPENT') }).Count -eq 0) 'both pointer rows retain the approved retry ID and exact current status'
 Assert-True ($onePassScript.Contains('S04_BUNDLE_INDEPENDENT_READBACK_FAILED')) 'one-pass runner independently verifies the recovery bundle before the single Execute call'
 Assert-True ($artifactModule.Contains('RECOVERY_SEAL_READBACK_MISMATCH:')) 'recovery bundle seal must be independently read back'
 Assert-True ($artifactModule.Contains('ARCHIVE_ENTRY_MISSING:')) 'archive verifier must fail closed on incomplete bytes'
@@ -185,6 +202,91 @@ Assert-True ($artifactModule.Contains('function Test-S2TransferPathSet')) 'share
 
 Import-Module -Name $ArtifactModulePath -Force
 Import-Module -Name $SummaryModulePath -Force
+Import-Module -Name $RetryModulePath -Force
+
+# Retry-policy fixtures: a sealed pre-start run is eligible; marker, post-start summary, or tampering fails closed.
+$retryFixtureRoot = Join-Path ([IO.Path]::GetTempPath()) ('CAP03-RETRY-' + [guid]::NewGuid().ToString('N'))
+[void](New-Item -ItemType Directory -Path $retryFixtureRoot -Force)
+try {
+    $emptyRetryHistory = Get-IipsP1FPrestartRetryReview -EvidenceRoot $retryFixtureRoot -ExpectedActId 'IIPS-V3-CAP02-GATE-A-PRIME-SUCCESSOR-PROVISIONING-ACT-2026-10-23-01' -ExpectedStorePath 'C:\iips-data\iips\user-portfolio.sqlite'
+    Assert-True (-not $emptyRetryHistory.Eligible) 'missing required original run/claim is ambiguous, not a fresh retry-eligible state'
+    $retryRunName = 'p1-exe-20261101T091303265Z-332114a4'
+    $retryRunPath = Join-Path $retryFixtureRoot $retryRunName
+    [void](New-Item -ItemType Directory -Path $retryRunPath -Force)
+    $retryClaimName = 'execute-claim.json'
+    $retryClaim = [ordered]@{ claimState='ACQUIRED'; actId='IIPS-V3-CAP02-GATE-A-PRIME-SUCCESSOR-PROVISIONING-ACT-2026-10-23-01'; store='C:\iips-data\iips\user-portfolio.sqlite'; runDirectory=$retryRunName; scriptSha256=('A' * 64) }
+    [IO.File]::WriteAllText((Join-Path $retryFixtureRoot $retryClaimName), (ConvertTo-Json $retryClaim -Compress), (New-Object System.Text.UTF8Encoding($false)))
+    $retrySummary = [ordered]@{ executeMarkerWritten=$false; executeCalls=0; p1fConsumption='NOT CONSUMED (no marker and no process-start request)'; executeClaim=[ordered]@{ acquired=$true; present=$true; file=$retryClaimName }; runDirectory=$retryRunName; scriptSha256=$retryClaim.scriptSha256 }
+    [IO.File]::WriteAllText((Join-Path $retryRunPath 'failure-summary.json'), (ConvertTo-Json $retrySummary -Depth 4 -Compress), (New-Object System.Text.UTF8Encoding($false)))
+    [IO.File]::WriteAllText((Join-Path $retryRunPath '01-S01.stdout.txt'), 'node version check stopped before Execute', (New-Object System.Text.UTF8Encoding($false)))
+    $writeRetrySeal = {
+        $manifestLines = @()
+        foreach ($file in (Get-ChildItem -LiteralPath $retryRunPath -File | Where-Object { $_.Name -cne 'SHA256SUMS.txt' } | Sort-Object Name)) { $manifestLines += ((Get-FileHash -Algorithm SHA256 -LiteralPath $file.FullName).Hash + '  ' + $file.Name) }
+        [IO.File]::WriteAllText((Join-Path $retryRunPath 'SHA256SUMS.txt'), (($manifestLines -join "`r`n") + "`r`n"), (New-Object System.Text.UTF8Encoding($false)))
+    }
+    & $writeRetrySeal
+    $claimHashBefore = (Get-FileHash -Algorithm SHA256 -LiteralPath (Join-Path $retryFixtureRoot $retryClaimName)).Hash
+    $eligibleRetry = Get-IipsP1FPrestartRetryReview -EvidenceRoot $retryFixtureRoot -ExpectedActId $retryClaim.actId -ExpectedStorePath $retryClaim.store
+    Assert-True ($eligibleRetry.Eligible -and ($eligibleRetry.PriorCount -eq 1)) 'sealed claim+summary proving no marker and zero Execute calls permits a retry'
+    $retryRun2Name = 'p1-exe-20261101T091403265Z-deadbeef'
+    $retryRun2Path = Join-Path $retryFixtureRoot $retryRun2Name
+    [void](New-Item -ItemType Directory -Path $retryRun2Path -Force)
+    $retryClaim2Name = 'execute-claim-' + $retryRun2Name + '.json'
+    $retryClaim2 = [ordered]@{ claimState='ACQUIRED'; actId=$retryClaim.actId; store=$retryClaim.store; runDirectory=$retryRun2Name; scriptSha256=('B' * 64) }
+    [IO.File]::WriteAllText((Join-Path $retryFixtureRoot $retryClaim2Name), (ConvertTo-Json $retryClaim2 -Compress), (New-Object System.Text.UTF8Encoding($false)))
+    $retrySummary2 = [ordered]@{ executeMarkerWritten=$false; executeCalls=0; p1fConsumption='NOT CONSUMED (no marker and no process-start request)'; executeClaim=[ordered]@{ acquired=$true; present=$true; file=$retryClaim2Name }; runDirectory=$retryRun2Name; scriptSha256=$retryClaim2.scriptSha256 }
+    [IO.File]::WriteAllText((Join-Path $retryRun2Path 'failure-summary.json'), (ConvertTo-Json $retrySummary2 -Depth 4 -Compress), (New-Object System.Text.UTF8Encoding($false)))
+    [IO.File]::WriteAllText((Join-Path $retryRun2Path '01-S01.stdout.txt'), 'later attempt also stopped before Execute', (New-Object System.Text.UTF8Encoding($false)))
+    $originalRetryRunPath = $retryRunPath
+    $retryRunPath = $retryRun2Path
+    & $writeRetrySeal
+    $multipleEligibleRetry = Get-IipsP1FPrestartRetryReview -EvidenceRoot $retryFixtureRoot -ExpectedActId $retryClaim.actId -ExpectedStorePath $retryClaim.store
+    Assert-True ($multipleEligibleRetry.Eligible -and ($multipleEligibleRetry.PriorCount -eq 2)) 'multiple separately sealed pre-start attempts remain eligible for another retry'
+    $retryRunPath = $originalRetryRunPath
+    Remove-Item -LiteralPath $retryRun2Path -Recurse -Force
+    Remove-Item -LiteralPath (Join-Path $retryFixtureRoot $retryClaim2Name) -Force
+    $duplicateClaimPath = Join-Path $retryFixtureRoot ('execute-claim-' + $retryRunName + '.json')
+    [IO.File]::WriteAllText($duplicateClaimPath, (ConvertTo-Json $retryClaim -Compress), (New-Object System.Text.UTF8Encoding($false)))
+    $duplicateClaimRetry = Get-IipsP1FPrestartRetryReview -EvidenceRoot $retryFixtureRoot -ExpectedActId $retryClaim.actId -ExpectedStorePath $retryClaim.store
+    Assert-True (-not $duplicateClaimRetry.Eligible) 'duplicate claims for one prior run are ambiguous and block retries'
+    Remove-Item -LiteralPath $duplicateClaimPath -Force
+    [IO.File]::WriteAllText((Join-Path $retryRunPath 'EXECUTE-MARKER.json'), '{}', (New-Object System.Text.UTF8Encoding($false)))
+    $markedRetry = Get-IipsP1FPrestartRetryReview -EvidenceRoot $retryFixtureRoot -ExpectedActId $retryClaim.actId -ExpectedStorePath $retryClaim.store
+    Assert-True (-not $markedRetry.Eligible) 'any Execute marker blocks retries even if the summary says pre-start'
+    Remove-Item -LiteralPath (Join-Path $retryRunPath 'EXECUTE-MARKER.json') -Force
+    $retrySummary.executeCalls = 1
+    [IO.File]::WriteAllText((Join-Path $retryRunPath 'failure-summary.json'), (ConvertTo-Json $retrySummary -Depth 4 -Compress), (New-Object System.Text.UTF8Encoding($false)))
+    & $writeRetrySeal
+    $startedRetry = Get-IipsP1FPrestartRetryReview -EvidenceRoot $retryFixtureRoot -ExpectedActId $retryClaim.actId -ExpectedStorePath $retryClaim.store
+    Assert-True (-not $startedRetry.Eligible) 'any recorded Execute process-start blocks retries even without a marker file'
+    $retrySummary.executeCalls = 0
+    $retrySummary.Remove('executeCalls')
+    [IO.File]::WriteAllText((Join-Path $retryRunPath 'failure-summary.json'), (ConvertTo-Json $retrySummary -Depth 4 -Compress), (New-Object System.Text.UTF8Encoding($false)))
+    & $writeRetrySeal
+    $missingCallCountRetry = Get-IipsP1FPrestartRetryReview -EvidenceRoot $retryFixtureRoot -ExpectedActId $retryClaim.actId -ExpectedStorePath $retryClaim.store
+    Assert-True (-not $missingCallCountRetry.Eligible) 'missing Execute call count is ambiguous and blocks retries'
+    $retrySummary.executeCalls = 0
+    $retrySummary.Remove('executeMarkerWritten')
+    [IO.File]::WriteAllText((Join-Path $retryRunPath 'failure-summary.json'), (ConvertTo-Json $retrySummary -Depth 4 -Compress), (New-Object System.Text.UTF8Encoding($false)))
+    & $writeRetrySeal
+    $missingMarkerStateRetry = Get-IipsP1FPrestartRetryReview -EvidenceRoot $retryFixtureRoot -ExpectedActId $retryClaim.actId -ExpectedStorePath $retryClaim.store
+    Assert-True (-not $missingMarkerStateRetry.Eligible) 'missing marker-state field is ambiguous and blocks retries'
+    $retrySummary.executeMarkerWritten = $false
+    $retrySummary.executeClaim.present = $false
+    [IO.File]::WriteAllText((Join-Path $retryRunPath 'failure-summary.json'), (ConvertTo-Json $retrySummary -Depth 4 -Compress), (New-Object System.Text.UTF8Encoding($false)))
+    & $writeRetrySeal
+    $missingClaimRetry = Get-IipsP1FPrestartRetryReview -EvidenceRoot $retryFixtureRoot -ExpectedActId $retryClaim.actId -ExpectedStorePath $retryClaim.store
+    Assert-True (-not $missingClaimRetry.Eligible) 'summary that does not confirm the claim remains present blocks retries'
+    $retrySummary.executeClaim.present = $true
+    [IO.File]::WriteAllText((Join-Path $retryRunPath 'failure-summary.json'), (ConvertTo-Json $retrySummary -Depth 4 -Compress), (New-Object System.Text.UTF8Encoding($false)))
+    & $writeRetrySeal
+    [IO.File]::WriteAllBytes((Join-Path $retryRunPath '01-S01.stdout.txt'), [Text.Encoding]::UTF8.GetBytes('tampered'))
+    $tamperedRetry = Get-IipsP1FPrestartRetryReview -EvidenceRoot $retryFixtureRoot -ExpectedActId $retryClaim.actId -ExpectedStorePath $retryClaim.store
+    Assert-True (-not $tamperedRetry.Eligible) 'tampered prior evidence seal blocks retries'
+    Assert-Equal $claimHashBefore (Get-FileHash -Algorithm SHA256 -LiteralPath (Join-Path $retryFixtureRoot $retryClaimName)).Hash 'retry review never rewrites the original claim'
+} finally {
+    Remove-Item -LiteralPath $retryFixtureRoot -Recurse -Force -ErrorAction SilentlyContinue
+}
 
 # Fixture inventory parsing, duplicate/unsafe/count failures, archive creation and independent readback.
 $temp = Join-Path ([IO.Path]::GetTempPath()) ('CAP03-CONSOLIDATED-' + [guid]::NewGuid().ToString('N'))

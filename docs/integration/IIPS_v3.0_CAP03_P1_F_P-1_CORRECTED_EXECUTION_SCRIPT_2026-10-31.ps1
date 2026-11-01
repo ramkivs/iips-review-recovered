@@ -1,6 +1,6 @@
 #Requires -Version 5.1
 <#
-  IIPS CAP-03 - P-1 corrected execution script, REVISION 7 (PA-authorized Windows 10 personal host profile; admitted S2 evidence reuse; one-pass semantics, Q-CONS-1 reconciliation and one-time capture-only Preflight PA decision, 2026-10-31).
+  IIPS CAP-03 - P-1 corrected execution script, REVISION 7 (PA-authorized Windows 10 personal host profile; admitted S2 evidence reuse; Q-CONS-1 reconciliation; one-time capture-only Preflight and evidence-gated pre-start retry policy, 2026-11-01).
   Authority: P1-F, IRR docs/integration/IIPS_v3.0_CAP03_P1_AUTHORIZATION_ACT_AND_PREREQUISITE_DECISIONS_2026-10-29.md
   (section 6, conditions 1-5), plus the scoped PA implementation direction recorded at master tracker section 16.209.
   Base act: IPD commit a891802e2691bd9c65a67d6abff20d8ce0c26d7d, tree
@@ -9,12 +9,12 @@
   applies only to the personally operated, single-user Windows 10 target; it does not claim production Act section 8
   compliance or create authority to execute P-1. Companion source review: docs/integration/IIPS_v3.0_CAP03_P1_F_P-1_SOURCE_TO_SCRIPT_VERIFICATION_2026-10-29.md
 
-  STATUS OF THIS FILE: Published S04-correction candidate derived from Revision 7. The PA decision IIPS-V3-CAP03-PA-BLANKET-WAIVER-ONE-PASS-AUTHORIZATION-2026-11-01-01 grants one fresh Execute attempt without asserting prior consumption. Execute remains blocked until this decision and its exact fresh-attempt pointer are present on authoritative main and the S04 recovery bundle is created/read back.
+  STATUS OF THIS FILE: Published candidate derived from Revision 7. The blanket waiver act remains the S04 evidence waiver; the separate PA act IIPS-V3-CAP03-PA-P1F-PRESTART-RETRY-AUTHORIZATION-2026-11-01-01 permits retries only after every prior attempt is sealed and proves no marker/process-start. The retained claim is preserved; each new eligible attempt uses a distinct claim file.
   S04 reads and verifies the PA-06-admitted S2 evidence already held in IRR. It does not install dependencies or build.
   During a later authorized run it compares an already-existing pinned-checkout dist read-only; this IRR review did not
   inspect IPD. U-5 remains NOT RUN; this evidence is not represented as U-5 PASS.
 
-  AUTHORITY AND MODE BOUNDARY (inherited Revision 7 controls; current P1-F consumption remains NOT RECONCILED in tracker sections 16.230 and 16.233). P1-F authorizes one provisioning Execute only under its standing act. The distinct
+  AUTHORITY AND MODE BOUNDARY (inherited Revision 7 controls; current P1-F consumption remains historically NOT RECONCILED in tracker sections 16.230 and 16.233). The new PA retry act permits additional P1-F attempts only after complete prior evidence proves that no Execute marker or provisioner process-start occurred. The distinct
   PA decision IIPS-V3-CAP03-P1-REV7-PREFLIGHT-PA-AUTHORIZATION-ACT-2026-10-31-01 authorizes exactly one standalone Revision 7
   -Mode Preflight invocation for capture-only validation and documented run-record evidence. The decision is bound to the
   existing Q-EV designation H:\IIPS-P1-EVIDENCE; PA-13 E10 remains a different optional procedure/root, not a prerequisite.
@@ -33,13 +33,12 @@
   after marker creation but before the run directory leaves the marker as the durable spend record. This marker does not
   block Execute and does not consume P1-F.
 
-  -Mode Execute (only under the existing separate P1-F authority)
-    Writes execute-claim.json exclusively (cross-process exclusion; retained permanently after creation); before the
-    provisioner process-start request it writes EXECUTE-MARKER.json, which consumes the one attempt even if OS process
-    startup fails; performs exactly ONE --mode=execute invocation (S07), then isolated post-invocation evidence
-    operations (S08-S09). A pre-marker stop does not consume P-1 but leaves any claim latched; there is no release,
-    retry, repair, or second execute in this file. Requires -ConfirmToken P1-F-ONE-ATTEMPT. A prior Preflight or
-    operator acceptance file is not a P1-F condition.
+  -Mode Execute (under the existing P1-F authority plus the separately published pre-start retry act)
+    Writes an exclusive claim per attempt and never overwrites/releases earlier claims. Before any later attempt, it
+    verifies each prior run seal, claim-to-run association, summary, zero Execute-call count, and marker absence. The
+    same-session named mutex excludes concurrent invocations. This run performs at most ONE --mode=execute process-start
+    (S07). A marker or process-start blocks all later retries even if the OS process fails. Requires -ConfirmToken
+    P1-F-PRESTART-RETRY. A prior Preflight or operator acceptance file is not a P1-F condition.
 
   Records: run directories are named p1-pre-<UTC>-<guid8> or p1-exe-<UTC>-<guid8> and are created exclusively.
   Files are created exclusively (CreateNew); nothing is overwritten. run-summary.json is written on a normal end;
@@ -79,7 +78,7 @@ $CanonicalOwnerId     = 'ipd-owner-ramki-personal'
 $ExpectedBindingId    = 'c5808abaffd072d6401ce63ad86c6ac0'
 $ExpectedMembershipId = 'd25dcc5370100b00766efc5166f65cf3'
 $EntryRelative        = 'dist\src\persistence\gateAPrimeProvisioning.js'
-$ConfirmRequired      = 'P1-F-ONE-ATTEMPT'
+$ConfirmRequired      = 'P1-F-PRESTART-RETRY'
 $MarkerName           = 'EXECUTE-MARKER.json'
 $ClaimName            = 'execute-claim.json'
 
@@ -106,7 +105,7 @@ $DesignatedStorePath  = 'C:\iips-data\iips\user-portfolio.sqlite'
 $AuthorityRulingRef         = 'IIPS-V3-CAP03-P1-AUTHORIZATION-ACT-2026-10-29-01'
 $DesignatedActorLabel       = 'Ramki' # exact PA identity in the P1-F authorization record; display label only.
 # PA act IIPS-V3-CAP03-P1-QEV-RUN-RECORD-ROOT-PA-DESIGNATION-ACT-2026-10-30-01 designates
-# the one-attempt run-record root. The exact parameter match is required before any caller-path access.
+# the designated run-record root. The exact parameter match is required before any caller-path access.
 # PF-15 F5 (Gate 4) and PA-13 E10 (capture) are not repurposed. Read-only ACL_EVALUATION remains a
 # DACL projection only, never proof of effective or actual writability.
 $EvidenceRootDesignationState = 'DESIGNATED'
@@ -156,8 +155,12 @@ $TrackerPath          = 'IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTE
 # After publication, main must carry this revision's dated status pointers and explicit fresh-attempt act.
 $TrackerPointerMarkers = @('**Latest (`CV-CORR-208`', '**Current CAP-03 P-1 / PF-15 status**')
 $TrackerPointerRequiredText = 'AUTHORIZED'
-$FreshExecuteAuthorityRef = 'IIPS-V3-CAP03-PA-BLANKET-WAIVER-ONE-PASS-AUTHORIZATION-2026-11-01-01'
-$FreshExecuteAuthorityPointerText = 'FRESH P1-F Execute authorization: AUTHORIZED - ONE ATTEMPT ONLY - NOT EXECUTED - UNSPENT'
+$FreshExecuteAuthorityRef = 'IIPS-V3-CAP03-PA-P1F-PRESTART-RETRY-AUTHORIZATION-2026-11-01-01'
+$S04WaiverAuthorityRef = 'IIPS-V3-CAP03-PA-BLANKET-WAIVER-ONE-PASS-AUTHORIZATION-2026-11-01-01'
+$FreshExecuteAuthorityPointerText = 'FRESH P1-F Execute authorization: AUTHORIZED - PRESTART RETRIES ONLY - NOT EXECUTED - UNSPENT'
+$FreshExecuteAuthorityPath = 'docs/integration/IIPS_v3.0_CAP03_PA_P1F_PRESTART_RETRY_AUTHORIZATION_2026-11-01.md'
+$FreshExecuteAuthoritySha256 = 'F54C8E11C681E911B6D29B24FF2E3CB5054025E12FCBD822F84E90400EB839F4'
+$RetryPolicySha256 = 'C4FA71B5DFDF8653139FC8DC5CB4E2F6E624CAB917A68AC99FAC5A0B171DD8C0'
 $P1NamePattern        = '(?i)(P1|P-1|GATE[_-]A[_-]PRIME|PF-?15|PA[_-]RULING)'
 $TrackerP1Term        = '(?i)(P-1|P1-F|CAP-03 P1)'
 $TrackerConsumeTerm   = '(?i)(P-1.{0,120}(authorization revoked|authorization withdrawn|attempted:\s*yes|status:\s*(consumed|spent)|is not authorized)|(authorization revoked|authorization withdrawn|attempted:\s*yes|status:\s*(consumed|spent)|not authorized).{0,120}P-1)'
@@ -184,6 +187,8 @@ $ReviewArtifactPaths  = @(
     'docs/integration/cap03-p1-f9/CAP03S2DistArtifacts.psm1',
     'docs/integration/cap03-p1-f9/CAP03P1FailureSummary.psm1',
     'docs/integration/cap03-p1-f9/CAP03_P1_ConsolidatedCorrection.Tests.ps1',
+    'docs/integration/cap03-p1-f9/CAP03P1PrestartRetry.psm1',
+    'docs/integration/IIPS_v3.0_CAP03_PA_P1F_PRESTART_RETRY_AUTHORIZATION_2026-11-01.md',
     'docs/integration/IIPS_v3.0_CAP03_S2_PIN_A891802E_WINDOWS_RUN_2026-10-28.ps1',
     'docs/integration/IIPS_v3.0_CAP03_S2_DEP_A_HOST_TRANSFER_2026-10-29.ps1',
     'docs/integration/CAP03_P1_F_CONSOLIDATED_CORRECTION_2026-10-31.md',
@@ -211,6 +216,10 @@ $script:StartUtc       = ''
 $script:ScriptPath     = [string]$MyInvocation.MyCommand.Path
 $script:IrrRoot         = [System.IO.Path]::GetFullPath((Join-Path (Split-Path -Parent (Split-Path -Parent (Split-Path -Parent $script:ScriptPath))) '.'))
 Import-Module -Name (Join-Path $PSScriptRoot 'cap03-p1-f9\CAP03P1FailureSummary.psm1') -Force -ErrorAction Stop
+$script:RetryPolicyPath = Join-Path $PSScriptRoot 'cap03-p1-f9\CAP03P1PrestartRetry.psm1'
+$retryPolicyActualSha256 = (Get-FileHash -Algorithm SHA256 -LiteralPath $script:RetryPolicyPath).Hash.ToUpperInvariant()
+if ($retryPolicyActualSha256 -cne $RetryPolicySha256) { throw 'P1F_RETRY_POLICY_MODULE_SHA256_MISMATCH' }
+Import-Module -Name $script:RetryPolicyPath -Force -ErrorAction Stop
 Import-Module -Name (Join-Path $PSScriptRoot 'cap03-p1-f9\CAP03S2DistArtifacts.psm1') -Force -ErrorAction Stop
 $script:Facts          = Initialize-P1Facts -Facts @{ hostProfileRef = $HostProfileRef; expectedProductName = $ExpectedProductName; hostProfileScope = 'PA-authorized personal single-user Windows 10 Home Single Language only'; baseActSection8Product = 'Windows 11 Home Single Language (external Act text unchanged)'; v2A8ProxyPass = $false; v2A8LiteralTest = 'NOT_PERFORMED'; invocationStatus = 'NOT_INVOKED'; evidenceComplete = $false; evidenceRoot = ''; evidenceRootOwnerMatchesCurrentUser = 'NOT_CHECKED'; s2RunId = $S2RunId; s2Admission = $S2AdmissionRef; u5Status = 'NOT RUN'; invocationFailure = $false; evidenceIntegrityFailure = $false }
 $script:ScriptSha256   = ''
@@ -218,6 +227,10 @@ $script:EntryFull     = ''
 $script:ValidatePassAll = $false
 $script:ClaimAcquired  = $false
 $script:ClaimPath      = ''
+$script:ClaimFileName  = ''
+$script:PriorPrestartAttemptCount = 0
+$script:ExecuteMutex = $null
+$script:ExecuteMutexOwned = $false
 $script:PreflightAuthorizationMarkerPath = ''
 $script:PreflightAuthorizationConsumed = $false
 $script:ExecResult     = $null
@@ -544,15 +557,14 @@ function Get-P1Consumption {
     if ($script:MarkerWritten -or $markerOnDisk -or ($script:ExecuteCalls -gt 0)) {
         return 'CONSUMED (durable marker or process-start request; startup failure still consumes; no retry)'
     }
-    return 'NOT CONSUMED (no marker and no process-start request); any acquired/ambiguous claim is retained and blocks this designated root; no automatic release or retry'
+    return 'NOT CONSUMED (no marker and no process-start request); claims remain retained; a further attempt is eligible only after the published PA pre-start retry checks verify all prior sealed run records'
 }
 
 function Write-Summary {
     param([string] $FileName)
     $claimFile = ''
     $claimPresent = $false
-    if ($script:Facts.evidenceRoot -ne '') { $claimPresent = Test-Path -LiteralPath (Join-Path $script:Facts.evidenceRoot $ClaimName) -PathType Leaf }
-    if ($claimPresent) { $claimFile = $ClaimName }
+    if (($script:ClaimPath -ne '') -and (Test-Path -LiteralPath $script:ClaimPath -PathType Leaf)) { $claimPresent = $true; $claimFile = [IO.Path]::GetFileName($script:ClaimPath) } elseif (($Mode -eq 'Preflight') -and ($script:Facts.evidenceRoot -ne '') -and (Test-Path -LiteralPath (Join-Path $script:Facts.evidenceRoot $ClaimName) -PathType Leaf)) { $claimPresent = $true; $claimFile = $ClaimName }
     $summary = [ordered]@{
         act                      = $ActId
         mode                     = $Mode
@@ -572,7 +584,7 @@ function Write-Summary {
         preflightAuthorizationRef = $StandalonePreflightAuthorityRef
         preflightAuthorizationConsumed = [bool]$script:PreflightAuthorizationConsumed
         preflightAuthorizationUseMarker = $PreflightAuthorizationUseMarkerName
-        executeClaim             = [ordered]@{ acquired = [bool]$script:ClaimAcquired; present = [bool]$claimPresent; file = $claimFile; release = 'never automatic; any claim present is preserved and blocks reuse of the designated root'; retention = 'a pre-marker claim does not consume P-1, but remains a permanent local latch under this script' }
+        executeClaim             = [ordered]@{ acquired = [bool]$script:ClaimAcquired; present = [bool]$claimPresent; file = $claimFile; priorPrestartAttempts = [int]$script:PriorPrestartAttemptCount; release = 'never automatic; every prior claim and run record is preserved'; retention = 'pre-marker retries require sealed evidence for every prior run; any marker or process-start blocks further Execute' }
         declaredEffects          = @(Get-DeclaredEffects)
         failure                  = $script:Failure
         postStepFailures         = @($script:PostFailures)
@@ -589,15 +601,15 @@ function Write-Summary {
         s2RunId                  = $S2RunId
         v2A8ProxyPass            = [bool](Get-P1FactValue -Facts $script:Facts -Name 'v2A8ProxyPass' -DefaultValue $false)
         v2A8LiteralTest          = 'NOT_PERFORMED'
-        v2A8Acceptance           = 'SOURCE-ONLY NON-REPEATABILITY ASSURANCE accepted for this one-attempt path from admitted refusal evidence and static call/claim/marker guards; literal second invocation remains NOT PERFORMED and V-A2-8 is NOT reported PASS.'
+        v2A8Acceptance           = 'Pre-start retry eligibility is evidence-gated by sealed prior summaries; the marker and process-start boundary remains non-repeatable after any marker/process start. Literal repeat behavior is not inferred without a run.'
         facts                    = $script:Facts
         checks                   = @($script:Checks)
         notPerformedByScript     = @(
-            'V-A2-8 literal: second-invocation refusal NOT PERFORMED. P1-F condition 2 forbids a second execute. Source-refusal evidence and static single-call guards support the one-attempt path only; v2A8ProxyPass is not a literal refusal test and V-A2-8 is not reported PASS.',
+            'Pre-start retry behavior is authorized only by the published PA retry act and verified sealed run evidence; a marker or process-start spends the root and blocks all later retries. No test simulates a real provisioning operation.',
             'V-A2-7 runtime: the IPC WRITE_NOT_AUTHORIZED path (src/ipc/dispatch.ts 27becc76, line 231) is source-only and NOT PERFORMED here.',
             'Store-directory writability uses read-only ACL_EVALUATION only; effective/actual writability is NOT VERIFIED and no parent/store write probe is performed.',
             'U-5 remains NOT RUN. S04 consumes PA-06-admitted historical S2 records and, if present, compares the existing pinned-checkout dist read-only to its admitted inventory; it runs no install/build or exact entry-closure/migration probe. A separately sealed recovery bundle is validated against its byte-identical original inventory and pinned recovery archive SHA-256; the older admitted S2 map hash comparison is diagnostic only and never substitutes for the recovery inventory. Inventory equality alone is insufficient.',
-            'P-1 consumption: a pre-marker stop with no process-start request is NOT CONSUMED, but any claim is never automatically released and prevents reuse of the canonical root. A durable marker or process-start request consumes the one attempt even if OS process startup fails.',
+            'P-1 consumption: a pre-marker stop with no process-start request is NOT CONSUMED; all claims remain retained and another attempt is allowed only after every prior sealed record verifies that no marker or process-start occurred. A durable marker or process-start request blocks all later retries.',
             'Migration contract: the existing pinned-source review establishes fresh-store migrations 001-004 in order; each migration/ledger update commits independently before the single provisioning BEGIN IMMEDIATE transaction. A later migration failure may leave earlier migrations committed; a provisioning rollback covers provisioning writes only. The marker has already consumed P-1; no automatic repair/retry is permitted.',
             'Path canonicalization: SUBST aliases are detected by listing; reparse points are detected on the chain; drive-letter case is not folded to on-disk case; GetFinalPathNameByHandle is not called. These limits are not closed by this script.',
             'Q-EV is designated as H:\IIPS-P1-EVIDENCE by the effective PA act; S00 requires exact parameter equality and execution-time checks on the already-existing root. No filesystem, owner or host facts were verified in this IRR review. PF-15 F5 Gate 4 and PA-13 E10 are different roots and are not repurposed.',
@@ -735,12 +747,20 @@ function Invoke-GitPin {
 
 function Invoke-PreClaimTrackerPointer {
     # Before any claim or run directory, require the current Revision 7 pointer to be present on authoritative IRR main.
-    # This keeps an unmerged/stale PR branch from latching the one-attempt root before the later full freshness check.
+    # This keeps an unmerged/stale PR branch from latching the designated root before the later full freshness check.
     $ref = Get-GhJson -Label 'gh-preclaim-main-ref' -ApiPath ('repos/' + $IrrRepo + '/git/ref/heads/main')
     $mainSha = [string](Get-Prop -Obj (Get-Prop -Obj $ref -Name 'object') -Name 'sha')
     Require-Check -Id 'S00-MAIN-POINTER-SHA' -Pass ($mainSha -match '^[0-9a-f]{40}$') -Detail ('authoritative IRR main SHA = ' + $mainSha)
     $treeSha = Get-CommitTree -Label 'gh-preclaim-main-commit' -Repo $IrrRepo -Sha $mainSha
     $entries = Get-TreeEntries -Label 'gh-preclaim-main-tree' -TreeSha $treeSha
+    $retryAuthorityEntry = [string]$entries[$FreshExecuteAuthorityPath]
+    Require-Check -Id 'S00-RETRY-AUTHORITY-MAIN-ENTRY' -Pass ($retryAuthorityEntry -match '^100644 blob [0-9a-f]{40}$') -Detail ('pre-start retry authority must be an ordinary tracked blob on current IRR main: ' + $retryAuthorityEntry)
+    if ($retryAuthorityEntry -match '^100644 blob ([0-9a-f]{40})$') {
+        $retryAuthorityText = Get-BlobText -Label 'gh-preclaim-prestart-retry-authority' -Sha $Matches[1]
+        $retryAuthorityHash = Get-Sha256Hex -Bytes ([System.Text.Encoding]::UTF8.GetBytes($retryAuthorityText))
+        Require-Check -Id 'S00-RETRY-AUTHORITY-HASH' -Pass ($retryAuthorityHash -ceq $FreshExecuteAuthoritySha256) -Detail ('published pre-start retry act SHA-256 = ' + $retryAuthorityHash)
+        Require-Check -Id 'S00-RETRY-AUTHORITY-ID' -Pass ($retryAuthorityText.Contains($FreshExecuteAuthorityRef)) -Detail ('published retry act contains exact decision ID ' + $FreshExecuteAuthorityRef)
+    }
     $entry = [string]$entries[$TrackerPath]
     Require-Check -Id 'S00-MAIN-TRACKER-ENTRY' -Pass ($entry -match '^100644 blob [0-9a-f]{40}$') -Detail ('authoritative main tracker entry = ' + $entry)
     $blob = $entry.Split(' ')[2]
@@ -763,7 +783,7 @@ function Invoke-PreClaimTrackerPointer {
     $freshAuthorityPublished = $text.Contains($FreshExecuteAuthorityRef) -and ($freshAuthorityPointerCount -eq $TrackerPointerMarkers.Count)
     $freshAuthorityRequired = ($Mode -eq 'Execute') -and $executeConsumptionUnreconciled
     Require-Check -Id 'S00-P1F-FRESH-AUTHORITY-PUBLISHED' -Pass ((-not $freshAuthorityRequired) -or $freshAuthorityPublished) -Detail ('unreconciled prior consumption is permitted only under the exact published fresh-attempt PA decision and all current tracker pointers; no prior-status inference or implicit bypass')
-    Require-Check -Id 'S00-P1F-CONSUMPTION-RECONCILED' -Pass ((-not $executeConsumptionUnreconciled) -or $freshAuthorityPublished) -Detail ('Execute requires either authoritative consumption reconciliation or the exact newly published one-attempt PA authority; the historical NOT RECONCILED finding remains unchanged')
+    Require-Check -Id 'S00-P1F-CONSUMPTION-RECONCILED' -Pass ((-not $executeConsumptionUnreconciled) -or $freshAuthorityPublished) -Detail ('Execute requires either authoritative consumption reconciliation or the exact published PA pre-start retry authority; the historical NOT RECONCILED finding remains unchanged')
     if ($Mode -eq 'Preflight') {
         $decisionPublished = $text.Contains($StandalonePreflightAuthorityRef)
         Require-Check -Id 'S00-PREFLIGHT-AUTHORITY-PUBLISHED' -Pass $decisionPublished -Detail ('exact one-time Preflight PA decision must appear in the authoritative main tracker: ' + $StandalonePreflightAuthorityRef)
@@ -1052,7 +1072,7 @@ function Invoke-AdmittedS2EvidenceCheck {
         -ExpectedSourceRunId $S2RunId `
         -ExpectedArchiveSha256 '57656309D721A0C6F6A072F14F6A9067A2CC788737EFA92F34AA0997FB5D2D48' `
         -ExpectedOriginalInventorySha256 'E077A349D3777403D426A0B0F338C53AC6F0E3942F75A9174A6A9B6E42854CBB' `
-        -AllowWaivedOriginalVerificationOutput -ExpectedWaiverDecisionRef $FreshExecuteAuthorityRef
+        -AllowWaivedOriginalVerificationOutput -ExpectedWaiverDecisionRef $S04WaiverAuthorityRef
     $archiveOk = ($primaryArchiveOk -or [bool]$recoveryArchiveResult.Passed)
     $archiveDetail = 'original-run archive member=' + [string]$archiveMember + '; sealed=' + [string]$archiveSealMember + '; present=' + [string]$archivePresent
     if ($null -ne $archiveResult) { $archiveDetail += '; primary expected=' + $archiveResult.ExpectedCount + '; archive=' + $archiveResult.ArchiveCount + '; byte-hash-verified=' + $archiveResult.VerifiedCount + '; failures=' + (@($archiveResult.Failures) -join '|') }
@@ -1272,19 +1292,20 @@ function Invoke-PreInvocationRecheck {
     $liveDistLines = @($liveDistLines | Sort-Object)
     $liveDistFingerprint = Get-Sha256Hex -Bytes ([System.Text.Encoding]::UTF8.GetBytes(($liveDistLines -join "`n")))
     Require-Check -Id 'R-CURRENT-DIST-UNCHANGED' -Pass ($liveDistFingerprint -ceq [string]$script:Facts.currentDistFingerprint) -Detail ('existing emitted distribution file set/hashes unchanged since S04; files=' + $liveDistFiles.Count)
+    $priorReview = Get-IipsP1FPrestartRetryReview -EvidenceRoot $script:Facts.evidenceRoot -ExpectedActId $ActId -ExpectedStorePath $StorePath -ExcludeRunDirectory $script:RunDirName -ExcludeClaimPath $script:ClaimPath
+    Require-Check -Id 'R-PRIOR-RETRY-HISTORY' -Pass ($priorReview.Eligible -and ($priorReview.PriorCount -eq $script:PriorPrestartAttemptCount)) -Detail ('prior sealed pre-start attempts=' + $priorReview.PriorCount + '; eligible=' + $priorReview.Eligible + '; issues=' + (@($priorReview.Failures) -join '|'))
     $liveExec = @(Get-ChildItem -LiteralPath $script:Facts.evidenceRoot -Directory -Filter 'p1-exe-*' | ForEach-Object { [string]$_.Name })
-    Require-Check -Id 'R-NO-PRIOR-EXECUTE-RUN' -Pass (($liveExec.Count -eq 1) -and ($liveExec[0] -ceq $script:RunDirName)) -Detail ('p1-exe-* directories = ' + ($liveExec -join ', ') + '; required: exactly this run (' + $script:RunDirName + ')')
-    Require-Check -Id 'R-CLAIM-HELD' -Pass ($script:ClaimAcquired -and (Test-Path -LiteralPath $script:ClaimPath -PathType Leaf)) -Detail 'the execute claim written by this run is still present'
+    Require-Check -Id 'R-NO-PRIOR-EXECUTE-RUN' -Pass (($liveExec.Count -eq ($script:PriorPrestartAttemptCount + 1)) -and ($liveExec -contains $script:RunDirName)) -Detail ('p1-exe-* directories = ' + ($liveExec -join ', ') + '; expected exactly ' + ($script:PriorPrestartAttemptCount + 1) + ' verified prior+current runs')
+    Require-Check -Id 'R-CLAIM-HELD' -Pass ($script:ClaimAcquired -and (Test-Path -LiteralPath $script:ClaimPath -PathType Leaf)) -Detail 'the exclusive per-attempt execute claim written by this run is still present'
     Invoke-Freshness
 }
 
 function Invoke-ExecuteClaim {
-    # The canonical root is fixed by the PA act before execution. Within that
-    # root, FileMode.CreateNew atomically excludes concurrent/repeated Execute runs. A pre-marker stop, including one
-    # after acquisition, does not consume P-1 because no process-start request occurred; the claim remains permanently
-    # retained and no automatic release/retry exists. The marker is the commitment point: after it exists the one attempt
-    # is consumed even when operating-system process startup fails. No code in this script deletes either barrier.
-    $script:ClaimPath = Join-Path $script:Facts.evidenceRoot $ClaimName
+    # Prior claims are immutable. The first attempt uses the compatibility name; each eligible retry writes a
+    # separate exclusive claim named for its unique run directory. The verified-history precheck excludes ambiguity.
+    if ($script:PriorPrestartAttemptCount -eq 0) { $script:ClaimFileName = $ClaimName }
+    else { $script:ClaimFileName = 'execute-claim-' + $script:RunDirName + '.json' }
+    $script:ClaimPath = Join-Path $script:Facts.evidenceRoot $script:ClaimFileName
     $claim = [ordered]@{
         claimState       = 'ACQUIRED'
         utc              = Get-UtcStamp
@@ -1295,16 +1316,16 @@ function Invoke-ExecuteClaim {
         scriptSha256     = $script:ScriptSha256
         runDirectory     = $script:RunDirName
         consumptionRule  = 'claim acquisition alone does not consume P-1; durable marker or process-start request does'
-        preMarkerStop    = 'NOT CONSUMED; claim remains retained and blocks reuse of this designated root'
-        releaseRule      = 'no automatic release or retry exists in this script'
-        retention        = 'never deleted by this script; pre-marker claim does not consume P-1 but permanently blocks reuse of the designated root'
+        preMarkerStop    = 'NOT CONSUMED; a future attempt is eligible only after the published PA policy verifies every prior sealed run and marker/process-start absence'
+        releaseRule      = 'no claim is automatically deleted or overwritten; retries use a distinct per-run claim file'
+        retention        = 'never deleted or rewritten by this script; any marker or process-start blocks later retry'
     }
     try {
         Write-RawFile -Path $script:ClaimPath -Text ($claim | ConvertTo-Json -Depth 4)
     } catch {
         $claimExists = Test-Path -LiteralPath $script:ClaimPath -PathType Leaf
         if ($claimExists) {
-            Stop-Gate 'EXECUTE_CLAIM_EXISTS' ('an execute claim already exists at ' + $script:ClaimPath + '; a prior or concurrent Execute holds it; no retry is permitted')
+            Stop-Gate 'EXECUTE_CLAIM_EXISTS' ('this attempt claim already exists at ' + $script:ClaimPath + '; no claim is overwritten')
         }
         Stop-Gate 'EXECUTE_CLAIM_UNVERIFIABLE' ('the execute claim could not be created: ' + $_.Exception.Message)
     }
@@ -1327,7 +1348,7 @@ function Get-DeclaredEffects {
         [void]$effects.Add('creates durable p1-pre run-record evidence after the separate use marker; no store creation, provisioning record, Execute claim, Execute marker, or --mode=execute process start')
     }
     if ($Mode -eq 'Execute') {
-        [void]$effects.Add('execute-claim.json created exclusively in the designated EvidenceRoot; never auto-released; a pre-marker stop is NOT CONSUMED but the retained claim permanently blocks reuse through this script')
+        [void]$effects.Add('each Execute attempt gets a distinct exclusive claim; all earlier claims remain untouched; another attempt is allowed only when every prior run is sealed and proves marker absent and executeCalls zero; any marker/process-start blocks further retries')
         [void]$effects.Add('EXECUTE-MARKER.json written before the process-start request; this durable marker is the commitment point, including process-start failure')
         [void]$effects.Add('ONE node --mode=execute invocation (S07). It may create the store file and migration state and writes provisioning records in one transaction. A failure can leave the store file in place; that is recorded and never repaired.')
         [void]$effects.Add('S08-S09: validate and read-only dump after the invocation; these steps do not write the store')
@@ -1613,11 +1634,21 @@ function Invoke-PostInvocationForensics {
 # ---------------------------------------------------------------------------
 $script:StartUtc = Get-UtcStamp
 try {
-    # S00 - effective authority references, explicit arguments, path separation, and the no-prior-attempt scan.
+    if ($Mode -eq 'Execute') {
+        $mutexBytes = [System.Text.Encoding]::UTF8.GetBytes($DesignatedEvidenceRoot.ToUpperInvariant())
+        $mutexHasher = [System.Security.Cryptography.SHA256]::Create()
+        try { $mutexHash = [System.BitConverter]::ToString($mutexHasher.ComputeHash($mutexBytes)).Replace('-', '') } finally { $mutexHasher.Dispose() }
+        $mutexName = 'Local\IIPS-P1F-EXECUTE-' + $mutexHash
+        $script:ExecuteMutex = New-Object -TypeName System.Threading.Mutex -ArgumentList @($false, $mutexName)
+        try { $script:ExecuteMutexOwned = $script:ExecuteMutex.WaitOne(0) }
+        catch [System.Threading.AbandonedMutexException] { $script:ExecuteMutexOwned = $true }
+        if (-not $script:ExecuteMutexOwned) { throw 'P1F_EXECUTE_ALREADY_RUNNING_FOR_DESIGNATED_ROOT' }
+    }
+    # S00 - effective authority references, explicit arguments, path separation, and evidence-gated pre-start retry review.
     $script:Phase = 'S00'
     Require-Check -Id 'S00-SCRIPT-PATH' -Pass ((-not [string]::IsNullOrEmpty($script:ScriptPath)) -and (Test-Path -LiteralPath $script:ScriptPath -PathType Leaf)) -Detail 'the script must run from a file; exact bytes are captured in this run record'
     $script:ScriptSha256 = (Get-FileHash -Algorithm SHA256 -LiteralPath $script:ScriptPath).Hash
-    Require-Check -Id 'S00-RULING' -Pass ($AuthorityRulingRef -ceq 'IIPS-V3-CAP03-P1-AUTHORIZATION-ACT-2026-10-29-01') -Detail 'effective P1-F one-attempt authority record is fixed'
+    Require-Check -Id 'S00-RULING' -Pass ($AuthorityRulingRef -ceq 'IIPS-V3-CAP03-P1-AUTHORIZATION-ACT-2026-10-29-01') -Detail 'the underlying P1-F authority act is fixed; separately published PA pre-start retry authority governs only the retry boundary'
     Require-Check -Id 'S00-ACTOR-DESIGNATED' -Pass ($DesignatedActorLabel -ceq 'Ramki') -Detail 'actor label is the named Program Authority/operator (Ramki); metadata only'
     Require-Check -Id 'S00-ACTOR-EQUALS' -Pass ($ActorLabel -ceq [string]$DesignatedActorLabel) -Detail 'ActorLabel must equal the designated actor label'
     Require-Check -Id 'S00-STORE-DESIGNATED' -Pass ($StorePath -ceq $DesignatedStorePath) -Detail ('StorePath must equal the effective PF-15 F4 P-1 $StorePath designation ' + $DesignatedStorePath)
@@ -1650,19 +1681,21 @@ try {
     # blocks every second Preflight even when the first run sealed successfully; it does not block Execute.
     $priorDirs = @(Get-ChildItem -LiteralPath $script:Facts.evidenceRoot -Directory -Filter 'p1-*')
     $priorFiles = @(Get-ChildItem -LiteralPath $script:Facts.evidenceRoot -File -Filter 'p1-*')
-    $priorExec = @($priorDirs | Where-Object { $_.Name -like 'p1-exe-*' })
     $priorUnsealed = @()
     $priorMarked = @()
     foreach ($pd in $priorDirs) {
         if (Test-Path -LiteralPath (Join-Path $pd.FullName $MarkerName) -PathType Leaf) { $priorMarked += $pd.Name }
         if (-not (Test-Path -LiteralPath (Join-Path $pd.FullName 'SHA256SUMS.txt') -PathType Leaf)) { $priorUnsealed += $pd.Name }
     }
-    Require-Check -Id 'S00-NO-PRIOR-EXECUTE-DIRECTORY' -Pass ($priorExec.Count -eq 0) -Detail ('prior p1-exe-* directories = ' + (@($priorExec | ForEach-Object { $_.Name }) -join ', ') + '; any such directory blocks every later run')
-    Require-Check -Id 'S00-NO-PRIOR-MARKER' -Pass ($priorMarked.Count -eq 0) -Detail ('prior run directories with ' + $MarkerName + ' = ' + ($priorMarked -join ', ') + '; the attempt is spent')
+    $retryHistory = Get-IipsP1FPrestartRetryReview -EvidenceRoot $script:Facts.evidenceRoot -ExpectedActId $ActId -ExpectedStorePath $StorePath
+    $script:PriorPrestartAttemptCount = [int]$retryHistory.PriorCount
+    if ($Mode -eq 'Execute') { Require-Check -Id 'S00-PRESTART-RETRY-HISTORY' -Pass $retryHistory.Eligible -Detail ('verified prior pre-start attempts=' + $retryHistory.PriorCount + '; issues=' + (@($retryHistory.Failures) -join '|')) }
+    else { Add-Check -Id 'S00-PRESTART-RETRY-HISTORY-INFO' -Pass $true -Detail ('prior P1-F attempts are informational in non-Execute mode; count=' + $retryHistory.PriorCount) }
+    Require-Check -Id 'S00-NO-PRIOR-MARKER' -Pass ($priorMarked.Count -eq 0) -Detail ('prior run directories with ' + $MarkerName + ' = ' + ($priorMarked -join ', ') + '; any marker blocks all further Execute retries')
     Require-Check -Id 'S00-NO-UNSEALED-PRIOR-RUN' -Pass ($priorUnsealed.Count -eq 0) -Detail ('prior run directories without SHA256SUMS.txt = ' + ($priorUnsealed -join ', ') + '; state unknown, refuse')
     Require-Check -Id 'S00-NO-PRIOR-FILE' -Pass ($priorFiles.Count -eq 0) -Detail ('p1-* files directly under EvidenceRoot = ' + $priorFiles.Count)
     $claimHere = Test-Path -LiteralPath (Join-Path $script:Facts.evidenceRoot $ClaimName) -PathType Leaf
-    if ($Mode -eq 'Execute') { Require-Check -Id 'S00-NO-EXECUTE-CLAIM' -Pass (-not $claimHere) -Detail ($ClaimName + ' exists in the evidence root; a retained claim blocks another Execute under this root') }
+    if ($Mode -eq 'Execute') { Add-Check -Id 'S00-RETAINED-CLAIM-REVIEW' -Pass $retryHistory.Eligible -Detail ('existing claims remain untouched; a fresh per-run claim is allowed only after all prior attempts verify pre-start') }
     if ($Mode -eq 'Preflight') { Add-Check -Id 'S00-EXECUTE-CLAIM-INFO' -Pass $true -Detail ('execute claim present = ' + $claimHere + ' (informational in Preflight)') }
 
     # Create the run directory exclusively. The name is unique by UTC time and a GUID fragment; no existing directory is reused.
@@ -1678,7 +1711,7 @@ try {
     $script:Facts.repoFull = $script:RepoFull
     $script:Facts.psVersion = [string]$PSVersionTable.PSVersion
     Write-Log ('P-1 script revision 7 start; mode={0}; actId={1}; scriptSha256={2}' -f $Mode, $ActId, $script:ScriptSha256)
-    Add-Check -Id 'S00' -Pass $true -Detail 'effective P1-F authority/store/actor values match; arguments absolute; run-record destination is safely contained; no prior execute attempt, marker or unsealed run; run directory created exclusively'
+    Add-Check -Id 'S00' -Pass $true -Detail ('effective P1-F authority/store/actor values match; arguments absolute; run-record destination is safely contained; evidence-verified pre-start attempt history=' + $script:PriorPrestartAttemptCount + '; run directory created exclusively')
 
     # S01 - host, elevation, product, environment, Node, flag-free sqlite (read-only).
     $script:Phase = 'S01'
@@ -1738,14 +1771,14 @@ try {
             executingCommit = $ExpectedCommit
             executingTree   = $ExpectedTree
             runDirectory    = $script:RunDirName
-            note            = 'If this file exists, the single P-1 attempt is spent. No retry, repair, or second execute is permitted.'
+            note            = 'If this file exists, this P-1 attempt has reached the commitment point. No later retry is permitted, regardless of process outcome.'
         }
         Write-RawFile -Path (Join-Path $script:RunDir $MarkerName) -Text ($marker | ConvertTo-Json -Depth 4)
         $script:MarkerWritten = $true
         $script:Outcome = 'INVOCATION_PENDING'
         $script:Phase = 'S07-INVOKE'
         $script:ExecuteCalls = $script:ExecuteCalls + 1
-        if ($script:ExecuteCalls -gt 1) { Stop-Gate 'SECOND_INVOCATION_REFUSED' 'a second --mode=execute invocation is never made' }
+        if ($script:ExecuteCalls -gt 1) { Stop-Gate 'SECOND_INVOCATION_REFUSED' 'this run may request at most one --mode=execute process; only a later separately recorded pre-start retry may invoke again' }
         $script:ExecState = 'STARTING'
         try {
             $exec = Invoke-Capture -Name 'p1-execute-SINGLE-ATTEMPT' -FilePath $script:Facts.nodePath -ArgList $execArgs -WorkDir $script:RepoFull
@@ -1832,5 +1865,11 @@ catch {
                 Write-Host ('SEAL NOT WRITTEN (the run directory stays unsealed; later runs refuse it): ' + $_.Exception.Message)
             }
         }
+    }
+}
+finally {
+    if ($null -ne $script:ExecuteMutex) {
+        if ($script:ExecuteMutexOwned) { try { $script:ExecuteMutex.ReleaseMutex() } catch { } }
+        $script:ExecuteMutex.Dispose()
     }
 }

@@ -15,6 +15,8 @@ ROOT = Path(__file__).resolve().parents[1]
 REPO = ROOT.parent.parent
 SCRIPT = ROOT / "IIPS_v3.0_CAP03_P1_F_P-1_CORRECTED_EXECUTION_SCRIPT_2026-10-29.ps1"
 CORRECTED_SCRIPT = ROOT / "IIPS_v3.0_CAP03_P1_F_P-1_CORRECTED_EXECUTION_SCRIPT_2026-10-31.ps1"
+RETRY_AUTHORITY = ROOT / "IIPS_v3.0_CAP03_PA_P1F_PRESTART_RETRY_AUTHORIZATION_2026-11-01.md"
+RETRY_POLICY = ROOT / "cap03-p1-f9" / "CAP03P1PrestartRetry.psm1"
 RUNNER = ROOT / "cap03-p1-f9" / "CAP03_P1_F9_WindowsFixtureTests.ps1"
 CORRECTION_TESTS = ROOT / "cap03-p1-f9" / "CAP03_P1_ConsolidatedCorrection.Tests.ps1"
 ARTIFACT_MODULE = ROOT / "cap03-p1-f9" / "CAP03S2DistArtifacts.psm1"
@@ -38,7 +40,7 @@ EVIDENCE_ROOT = REPO / "evidence" / "cap03-s2"
 RUN_ID = "s2-a891802e-20261028T192516Z"
 RUN_DIR = EVIDENCE_ROOT / RUN_ID
 EXPECTED_SHA256 = "6639633855300cd645248ce597bb2c867b5cdbf6045947bf4281721bb1cde6d1"
-EXPECTED_CORRECTED_SCRIPT_SHA256 = "2384e0a81816d9cf44f5a946faf1ed209622f83400ccf38303320f8b5899a04c"
+EXPECTED_CORRECTED_SCRIPT_SHA256 = "4e3bbdeef4af436a1cfdb9d024e81ce33f776d20dc8119799e20da8738d60f24"
 PREFLIGHT_AUTHORITY_ID = "IIPS-V3-CAP03-P1-REV7-PREFLIGHT-PA-AUTHORIZATION-ACT-2026-10-31-01"
 EXPECTED_SEAL_SHA256 = "9D3C09DBDB691C2527A45605DEA20826B4EC2BA2F110985EE3F1033783B5225E"
 EXPECTED_DEPOSIT_SHA256 = "FFD0956482427ACB404543E36DAC2705D802B04828E380290232C06129F3AFAD"
@@ -67,6 +69,8 @@ require(all(byte < 0x80 for byte in script_bytes), "Revision 7 source is not ASC
 require(b"\r" not in script_bytes, "Revision 7 source unexpectedly contains CR characters")
 source = script_bytes.decode("ascii")
 corrected_source = CORRECTED_SCRIPT.read_text(encoding="ascii")
+retry_authority = RETRY_AUTHORITY.read_text(encoding="utf-8")
+retry_policy = RETRY_POLICY.read_text(encoding="utf-8")
 runner = RUNNER.read_text(encoding="utf-8")
 correction_tests = CORRECTION_TESTS.read_text(encoding="utf-8")
 artifact_module = ARTIFACT_MODULE.read_text(encoding="utf-8")
@@ -84,6 +88,14 @@ irr_only_workflow = IRR_ONLY_WORKFLOW.read_text(encoding="utf-8")
 generic_ci_workflow = GENERIC_CI_WORKFLOW.read_text(encoding="utf-8")
 post_ci_record = POST_CI_RECORD.read_text(encoding="utf-8")
 script_sha = hashlib.sha256(script_bytes).hexdigest()
+retry_authority_sha256 = hashlib.sha256(RETRY_AUTHORITY.read_bytes()).hexdigest().upper()
+retry_policy_sha256 = hashlib.sha256(RETRY_POLICY.read_bytes()).hexdigest().upper()
+require(("$FreshExecuteAuthoritySha256 = '" + retry_authority_sha256 + "'") in corrected_source and
+        ("-cne '" + retry_authority_sha256 + "'") in one_pass_script,
+        "P1-F and one-pass launcher do not pin the exact PA retry-act bytes")
+require(("$RetryPolicySha256 = '" + retry_policy_sha256 + "'") in corrected_source and
+        ("$RetryPolicyModuleSha256 = '" + retry_policy_sha256 + "'") in one_pass_script,
+        "P1-F and one-pass launcher do not pin the exact retry-verifier module bytes")
 if EXPECTED_SHA256 != "TO_BE_SET_AFTER_FINAL_EDIT":
     require(script_sha == EXPECTED_SHA256, "Revision 7 source SHA-256 differs from the pinned validator identity")
 lines_formatted, bytes_formatted = f"{len(script_bytes.splitlines()):,}", f"{len(script_bytes):,}"
@@ -285,17 +297,17 @@ for text, message in [
     ("$TrackerPointerRequiredText = 'AUTHORIZED'", "freshness check no longer binds an authorized/unspent current pointer"),
 ]:
     require(text in source, message)
-require("NOT CONSUMED (no marker and no process-start request)" in source and
-        "any acquired/ambiguous claim is retained" in source and
-        "no automatic release or retry" in source,
-        "pre-marker consumption/claim-retention decision is missing")
+require("NOT CONSUMED (no marker and no process-start request)" in corrected_source and
+        "claims remain retained" in corrected_source and "Get-IipsP1FPrestartRetryReview" in corrected_source and
+        "never deleted or rewritten by this script" in corrected_source,
+        "pre-marker consumption/retained-claim/pre-start retry policy is missing")
 require("CONSUMED (durable marker or process-start request; startup failure still consumes; no retry)" in source,
         "marker/process-start failure consumption rule is missing")
 require("execute-claim.json' is never deleted" not in source, "unexpected test-only claim wording")
-require("never deleted by this script" in source and "permanently" in source and
-        "preMarkerStop    = 'NOT CONSUMED; claim remains retained" in source and
-        "releaseRule      = 'no automatic release or retry exists in this script'" in source,
-        "claim permanence/no-release/pre-marker contract is missing")
+require("never deleted or rewritten by this script" in corrected_source and
+        "preMarkerStop    = 'NOT CONSUMED; a future attempt is eligible only after the published PA policy" in corrected_source and
+        "releaseRule      = 'no claim is automatically deleted or overwritten" in corrected_source,
+        "claim retention and evidence-gated pre-start retry contract is missing")
 require("SOURCE-ONLY NON-REPEATABILITY ASSURANCE accepted" in source and
         "v2A8LiteralTest          = 'NOT_PERFORMED'" in source and
         "V-A2-8 is NOT reported PASS" in source,
@@ -427,16 +439,32 @@ for artifact in (
     "docs/integration/cap03-p1-f9/CAP03_P1_ConsolidatedCorrection.Tests.ps1",
     "docs/integration/CAP03_P1_F_CONSOLIDATED_CORRECTION_2026-10-31.md",
     "docs/integration/IIPS_v3.0_CAP03_PA_BLANKET_WAIVER_AND_ONE_PASS_AUTHORIZATION_2026-11-01.md",
+    "docs/integration/IIPS_v3.0_CAP03_PA_P1F_PRESTART_RETRY_AUTHORIZATION_2026-11-01.md",
+    "docs/integration/cap03-p1-f9/CAP03P1PrestartRetry.psm1",
     "docs/integration/IIPS_v3.0_CAP03_S2_ORIGINAL_DIST_RECOVERY_2026-10-31.ps1",
     "docs/integration/cap03-p1-f9/CAP03S2DistArtifacts.psm1",
     ".github/workflows/cap03-p1-consolidated-windows.yml",
 ):
     require(artifact in review_artifact_paths, "freshness allowlist misses reviewed PR artifact: " + artifact)
+require(retry_authority.count("IIPS-V3-CAP03-PA-P1F-PRESTART-RETRY-AUTHORIZATION-2026-11-01-01") >= 1 and
+        "no retry follows" in retry_authority.lower() and "every prior attempt" in retry_authority and
+        "p1-exe-20261101T091303265Z-332114a4" in retry_authority and "empty root or missing anchor is ambiguous" in retry_authority,
+        "explicit PA pre-start retry authority or post-marker prohibition is missing")
+for token in ("SHA256SUMS.txt", "executeMarkerWritten", "executeCalls", "execute-claim.json", "scriptSha256",
+              "$markerState -isnot [bool]", "$callCountTyped", "$claimPresent -isnot [bool]", "ReparsePoint",
+              "p1-exe-20261101T091303265Z-332114a4"):
+    require(token in retry_policy, "pre-start retry verifier is missing evidence criterion: " + token)
+require("Get-IipsP1FPrestartRetryReview" in corrected_source and "Local\\IIPS-P1F-EXECUTE-" in corrected_source and
+        "execute-claim-" in corrected_source and "PRESTART-RETRY-HISTORY" in corrected_source,
+        "P1-F retry path lacks review, concurrency exclusion, or per-run claim mechanism")
+
 require("$TrackerPointerRequiredText = 'AUTHORIZED'" in corrected_source and
-        "FRESH P1-F Execute authorization: AUTHORIZED - ONE ATTEMPT ONLY - NOT EXECUTED - UNSPENT" in corrected_source and
+        "FRESH P1-F Execute authorization: AUTHORIZED - PRESTART RETRIES ONLY - NOT EXECUTED - UNSPENT" in corrected_source and
         "S00-P1F-FRESH-AUTHORITY-PUBLISHED" in corrected_source and
-        "IIPS-V3-CAP03-PA-BLANKET-WAIVER-ONE-PASS-AUTHORIZATION-2026-11-01-01" in corrected_source,
-        "candidate pre-claim/freshness matcher does not bind the explicit fresh PA attempt authority")
+        "IIPS-V3-CAP03-PA-P1F-PRESTART-RETRY-AUTHORIZATION-2026-11-01-01" in corrected_source and
+        "Get-IipsP1FPrestartRetryReview" in corrected_source and
+        "S00-RETRY-AUTHORITY-HASH" in corrected_source,
+        "candidate pre-claim/freshness matcher does not bind the explicit pre-start retry PA act")
 
 # Allocation census across all tracked IRR paths at the exact main/branch tips.
 def git_grep_count(revision: str, token: str) -> int:
@@ -516,17 +544,19 @@ require(tracker.count("| `2026-10-30` | `CHG-2026-10-30-11` |") == 1 and
         "Next free after this section: **`§16.222` / `CV-CORR-202` / `CHG-2026-10-30-17` / `V1712`**" in tracker,
         "historical Revision 7 change-log or latest-main/Q-EV allocation is inconsistent")
 first_lines = "\n".join(tracker.splitlines()[:30])
-require("**Latest (`CV-CORR-215`" in first_lines and
-        "**Latest (`CV-CORR-209`, §16.229, `CHG-2026-10-31-08`" in first_lines and
+require("**Latest (`CV-CORR-221`, §16.241, `CHG-2026-11-01-20`" in first_lines and
+        "CV-CORR-209`/§16.229" in first_lines and
         "**Latest (`CV-CORR-208`" in first_lines and
         PREFLIGHT_AUTHORITY_ID in first_lines and "exactly one capture-only" in first_lines and
         "NON-CONSUMING" in first_lines and DESIGNATED_EVIDENCE_ROOT in first_lines,
         "Last Updated pointer does not preserve Revision 7's fixed compatibility token and current one-time PA boundary")
-require("**Current CAP-03 P-1 / PF-15 status** — *pointer (`CV-CORR-210`, §16.230" in first_lines and
+require("**Current CAP-03 P-1 / PF-15 status** — *current pointer (`CV-CORR-221`, §16.241" in first_lines and
         "P1-F consumption state: NOT RECONCILED" in first_lines and
-        "prior §16.229 operator-reported S00 stop" in first_lines and "later separately user-reported S04 stop" in first_lines and
+        "prior §16.229 operator-reported S00 stop" in first_lines and "later user-reported S04 stop" in first_lines and
         "NOT EXECUTED - UNSPENT" in first_lines and
         "FRESH P1-F Execute authorization: AUTHORIZED - ONE ATTEMPT ONLY - NOT EXECUTED - UNSPENT" in first_lines and
+        "FRESH P1-F Execute authorization: AUTHORIZED - PRESTART RETRIES ONLY - NOT EXECUTED - UNSPENT" in first_lines and
+        "IIPS-V3-CAP03-PA-P1F-PRESTART-RETRY-AUTHORIZATION-2026-11-01-01" in first_lines and
         "IIPS-V3-CAP03-PA-BLANKET-WAIVER-ONE-PASS-AUTHORIZATION-2026-11-01-01" in first_lines and
         "P-1-C remains NOT ESTABLISHED" in first_lines and
         "P-1-D remains DESIGNATED / NOT VERIFIED FOR THE ATTEMPT" in first_lines,
@@ -537,8 +567,8 @@ current_status_lines = [line for line in tracker_lines if "**Current CAP-03 P-1 
 require(len(latest_pointer_lines) == 1 and len(current_status_lines) == 1 and
         "AUTHORIZED" in current_status_lines[0] and
         re.search(r"(?i)NOT EXECUTED.*UNSPENT", current_status_lines[0]) is not None and
-        "FRESH P1-F Execute authorization: AUTHORIZED - ONE ATTEMPT ONLY - NOT EXECUTED - UNSPENT" in latest_pointer_lines[0] and
-        "FRESH P1-F Execute authorization: AUTHORIZED - ONE ATTEMPT ONLY - NOT EXECUTED - UNSPENT" in current_status_lines[0],
+        "FRESH P1-F Execute authorization: AUTHORIZED - PRESTART RETRIES ONLY - NOT EXECUTED - UNSPENT" in latest_pointer_lines[0] and
+        "FRESH P1-F Execute authorization: AUTHORIZED - PRESTART RETRIES ONLY - NOT EXECUTED - UNSPENT" in current_status_lines[0],
         "S00 current-pointer cardinality/status or fresh PA authority contract is not satisfied")
 require("## §16.207 — `CV-CORR-187`: O-07 closed" in tracker,
         "origin/main O-07 section was lost in additive merge")
@@ -787,7 +817,9 @@ require(one_pass_script.count("& $P1Script -Mode Execute") == 1 and
         "'one fresh P1-F Execute authorization'" in one_pass_script and
         "S04_BUNDLE_INDEPENDENT_READBACK_FAILED" in one_pass_script and
         "IRR_CHECKOUT_NOT_AT_CURRENT_ORIGIN_MAIN" in one_pass_script and
-        "FRESH_P1F_AUTHORITY_NOT_PUBLISHED_ON_AUTHORITATIVE_MAIN" in one_pass_script and
+        "P1F_PRESTART_RETRY_AUTHORITY_NOT_PUBLISHED_ON_AUTHORITATIVE_MAIN" in one_pass_script and
+        "P1F_PRIOR_ATTEMPT_NOT_VERIFIABLY_PRESTART" in one_pass_script and
+        "IIPS-V3-CAP03-PA-P1F-PRESTART-RETRY-AUTHORIZATION-2026-11-01-01" in one_pass_script and
         '$mainTrackerLines = @(& git -C $IrrRoot show' in one_pass_script and
         '[string](& git -C $IrrRoot show' not in one_pass_script and
         '$mainTracker = $mainTrackerLines -join "`n"' in one_pass_script and
@@ -868,7 +900,7 @@ transcript_text = transcript.decode("utf-8")
 for text in ["Recheck 1 issues: 0", "Recheck 2 issues (published folder): 0", "Final status: PASS", "Evidence record published: yes"]:
     require(text in transcript_text, "S2 publication/recheck transcript incomplete: " + text)
 
-print("PASS: exact PA-authorized Windows 10 profile and preserved P-1 safety/path/one-attempt controls")
+print("PASS: exact PA-authorized Windows 10 profile, evidence-gated pre-start retries, and post-marker no-retry controls")
 print("PASS: S04 source validates PA-06 L2a evidence and defines a read-only current-dist match; no build/install/probe invocation")
 print("PASS: admitted S2 authority, pin, completeness, hashes, build/test/package records and publication transcript verified")
 print("LIMIT: this is IRR-only static validation; no PowerShell parse, IPD inspection, current-dist check, S2 rerun or U-5 PASS")
