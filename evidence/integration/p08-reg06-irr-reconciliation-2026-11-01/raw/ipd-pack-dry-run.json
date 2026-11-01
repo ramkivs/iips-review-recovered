@@ -1,0 +1,621 @@
+[
+  {
+    "id": "iips-production-market-data@1.0.0",
+    "name": "iips-production-market-data",
+    "version": "1.0.0",
+    "size": 239032,
+    "unpackedSize": 2706254,
+    "shasum": "cc2aa70186b8fd7bc7255452ac8d8b00d094f53e",
+    "integrity": "sha512-RlYaRz+MlKA+k5VKGhbLLnvjzOBEPTlfV9KuBLw1b8gj/JEXzQMR/SqqDMsbat2inPvaDbekOW6TjIEFVy46vQ==",
+    "filename": "iips-production-market-data-1.0.0.tgz",
+    "files": [
+      {
+        "path": "dist/package/frontend/src/features/portfolio/BrokerImportModal.d.ts",
+        "size": 2615,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/frontend/src/features/portfolio/BrokerImportModal.js",
+        "size": 34086,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/frontend/src/features/portfolio/import/adapters/csv-parser-helper.d.ts",
+        "size": 1285,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/frontend/src/features/portfolio/import/adapters/csv-parser-helper.js",
+        "size": 3361,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/frontend/src/features/portfolio/import/adapters/dhan-holdings-adapter.d.ts",
+        "size": 1202,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/frontend/src/features/portfolio/import/adapters/dhan-holdings-adapter.js",
+        "size": 8730,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/frontend/src/features/portfolio/import/adapters/groww-holdings-adapter.d.ts",
+        "size": 985,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/frontend/src/features/portfolio/import/adapters/groww-holdings-adapter.js",
+        "size": 7560,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/frontend/src/features/portfolio/import/adapters/index.d.ts",
+        "size": 590,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/frontend/src/features/portfolio/import/adapters/index.js",
+        "size": 590,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/frontend/src/features/portfolio/import/adapters/zerodha-holdings-adapter.d.ts",
+        "size": 916,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/frontend/src/features/portfolio/import/adapters/zerodha-holdings-adapter.js",
+        "size": 6353,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/frontend/src/features/portfolio/import/broker-format-detector.d.ts",
+        "size": 1344,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/frontend/src/features/portfolio/import/broker-format-detector.js",
+        "size": 9377,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/frontend/src/features/portfolio/import/broker-holdings-mapper.d.ts",
+        "size": 1638,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/frontend/src/features/portfolio/import/broker-holdings-mapper.js",
+        "size": 13426,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/frontend/src/features/portfolio/import/broker-import-ingress.d.ts",
+        "size": 1418,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/frontend/src/features/portfolio/import/broker-import-ingress.js",
+        "size": 20310,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/frontend/src/features/portfolio/import/index.d.ts",
+        "size": 771,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/frontend/src/features/portfolio/import/index.js",
+        "size": 771,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/frontend/src/features/portfolio/import/types.d.ts",
+        "size": 7341,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/frontend/src/features/portfolio/import/types.js",
+        "size": 522,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/frontend/src/features/portfolio/import/ui-broker-import-view-model.d.ts",
+        "size": 7361,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/frontend/src/features/portfolio/import/ui-broker-import-view-model.js",
+        "size": 19382,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/frontend/src/features/portfolio/index.d.ts",
+        "size": 397,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/frontend/src/features/portfolio/index.js",
+        "size": 397,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/frontend/src/features/portfolio/portfolio-store.d.ts",
+        "size": 4369,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/frontend/src/features/portfolio/portfolio-store.js",
+        "size": 19634,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/frontend/src/features/portfolio/portfolioStorePort.d.ts",
+        "size": 10242,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/frontend/src/features/portfolio/portfolioStorePort.js",
+        "size": 13106,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/frontend/src/features/portfolio/PortfolioWorkspace.d.ts",
+        "size": 862,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/frontend/src/features/portfolio/PortfolioWorkspace.js",
+        "size": 20514,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/contracts/d01_quotes.d.ts",
+        "size": 938,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/contracts/d01_quotes.js",
+        "size": 3363,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/contracts/d02_ohlcv.d.ts",
+        "size": 888,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/contracts/d02_ohlcv.js",
+        "size": 2414,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/contracts/d06_news.d.ts",
+        "size": 658,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/contracts/d06_news.js",
+        "size": 1711,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/contracts/d07_estimates.d.ts",
+        "size": 725,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/contracts/d07_estimates.js",
+        "size": 1476,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/contracts/d08_macro.d.ts",
+        "size": 758,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/contracts/d08_macro.js",
+        "size": 1191,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/contracts/envelope.d.ts",
+        "size": 1087,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/contracts/envelope.js",
+        "size": 3339,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/contracts/provenance.d.ts",
+        "size": 1507,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/contracts/provenance.js",
+        "size": 5223,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/contracts/types.d.ts",
+        "size": 2565,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/contracts/types.js",
+        "size": 2720,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/d114/cm_udiff_parser.d.ts",
+        "size": 2394,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/d114/cm_udiff_parser.js",
+        "size": 10162,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/d114/legacy_bhavcopy_parser.d.ts",
+        "size": 2420,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/d114/legacy_bhavcopy_parser.js",
+        "size": 7238,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/d114/non_production_package.d.ts",
+        "size": 535,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/d114/non_production_package.js",
+        "size": 375,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/d114/non_production_pit_population.d.ts",
+        "size": 2591,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/d114/non_production_pit_population.js",
+        "size": 4287,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/d114/pit_ingestion_loader.d.ts",
+        "size": 5693,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/d114/pit_ingestion_loader.js",
+        "size": 16750,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/d114/unified_historical_adapter.d.ts",
+        "size": 1064,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/d114/unified_historical_adapter.js",
+        "size": 3808,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/engine_adapters/types.d.ts",
+        "size": 1904,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/engine_adapters/types.js",
+        "size": 650,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/fundamentals/restatement_tracker.d.ts",
+        "size": 1794,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/fundamentals/restatement_tracker.js",
+        "size": 5849,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/fundamentals/ttm_calculator.d.ts",
+        "size": 1265,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/fundamentals/ttm_calculator.js",
+        "size": 3531,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/fundamentals/types.d.ts",
+        "size": 2932,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/fundamentals/types.js",
+        "size": 249,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/identity/d05_broad_universe_data.d.ts",
+        "size": 559,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/identity/d05_broad_universe_data.js",
+        "size": 2255747,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/identity/d05_listing_corrections.d.ts",
+        "size": 1228,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/identity/d05_listing_corrections.js",
+        "size": 1674,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/identity/governed_fixture_master.d.ts",
+        "size": 2798,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/identity/governed_fixture_master.js",
+        "size": 7588,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/identity/index.d.ts",
+        "size": 332,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/identity/index.js",
+        "size": 332,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/identity/mapping_store.d.ts",
+        "size": 1148,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/identity/mapping_store.js",
+        "size": 3051,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/identity/quarantine.d.ts",
+        "size": 742,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/identity/quarantine.js",
+        "size": 512,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/identity/security_master.d.ts",
+        "size": 2085,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/identity/security_master.js",
+        "size": 3596,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/intelligence/altdata_engine.d.ts",
+        "size": 1193,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/intelligence/altdata_engine.js",
+        "size": 2599,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/intelligence/estimates_engine.d.ts",
+        "size": 1445,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/intelligence/estimates_engine.js",
+        "size": 4007,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/intelligence/macro_engine.d.ts",
+        "size": 990,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/intelligence/macro_engine.js",
+        "size": 2310,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/intelligence/news_engine.d.ts",
+        "size": 1051,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/intelligence/news_engine.js",
+        "size": 2861,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/normalization/time_normalizer.d.ts",
+        "size": 605,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/normalization/time_normalizer.js",
+        "size": 2084,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/pit/package.d.ts",
+        "size": 557,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/pit/package.js",
+        "size": 192,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/pit/pit_read_service.d.ts",
+        "size": 1571,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/pit/pit_read_service.js",
+        "size": 3944,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/pit/pit_store.d.ts",
+        "size": 2099,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/pit/pit_store.js",
+        "size": 6028,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/quality/quality_rollup.d.ts",
+        "size": 812,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/quality/quality_rollup.js",
+        "size": 1208,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/transports/fundamentals_dto.d.ts",
+        "size": 1022,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/transports/fundamentals_dto.js",
+        "size": 207,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/transports/intelligence_dto.d.ts",
+        "size": 895,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/transports/intelligence_dto.js",
+        "size": 212,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/transports/market_data_dto.d.ts",
+        "size": 777,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/transports/market_data_dto.js",
+        "size": 212,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/transports/object_resolver.d.ts",
+        "size": 5708,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/transports/object_resolver.js",
+        "size": 8591,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/transports/screener_service.d.ts",
+        "size": 1272,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/transports/screener_service.js",
+        "size": 2667,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/transports/types.d.ts",
+        "size": 922,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/transports/types.js",
+        "size": 439,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/ui/accessibility_engine.d.ts",
+        "size": 2148,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/ui/accessibility_engine.js",
+        "size": 6364,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/ui/portfolio_ui_package.d.ts",
+        "size": 6435,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/ui/portfolio_ui_package.js",
+        "size": 5849,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/ui/responsive_engine.d.ts",
+        "size": 1748,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/ui/responsive_engine.js",
+        "size": 4289,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/ui/types.d.ts",
+        "size": 9300,
+        "mode": 420
+      },
+      {
+        "path": "dist/package/src/ui/types.js",
+        "size": 715,
+        "mode": 420
+      },
+      {
+        "path": "package.json",
+        "size": 2025,
+        "mode": 420
+      }
+    ],
+    "entryCount": 121,
+    "bundled": []
+  }
+]

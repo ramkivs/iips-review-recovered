@@ -1,0 +1,76 @@
+{
+  "repository": "ramkivs/iips-production-market-data",
+  "ref": "e9c2eef6c82ba51814a72ce962cf227e9fd89d56",
+  "artifacts": [
+    {
+      "path": "evidence/cross-repository/IIPS_V3_CAP02_IPD_EXECUTION_TRACKER_2026-10-23.md",
+      "blob": "efa804097d51263ce91dff4ac7201fb572ef1d8a",
+      "bytes": 267714,
+      "sha256": "6241aa2b591ec3cf4673b954b39df32180910afd9d24dea7fec78f8a101849fa",
+      "api_raw_equals_git_object": true
+    },
+    {
+      "path": "package.json",
+      "blob": "51796e63280c1abb368c27bf8811cc6bad46e132",
+      "bytes": 2025,
+      "sha256": "41079f64d3f7a87e92b32ee3d0be34291941ee32398926ff24b6f3528f838363",
+      "api_raw_equals_git_object": true
+    },
+    {
+      "path": "src/operator_drop/parser.ts",
+      "blob": "c9950cd08f9cf9acc0b7e6a44789e76c57b1c971",
+      "bytes": 3810,
+      "sha256": "59cdb88a80ddccf1f87ef56c6bfdaa93122dae0dfcab5ac6565030fd1308a1e6",
+      "api_raw_equals_git_object": true
+    },
+    {
+      "path": "src/operator_drop/index.ts",
+      "blob": "e263a8553a23be0fb27e7f4de3d83660b56e9c98",
+      "bytes": 213,
+      "sha256": "baf625e81acc7b8cfc5ed67d5c4baf4c652f0dd2c3af266dffb2b2b3cbbb4ef4",
+      "api_raw_equals_git_object": true
+    },
+    {
+      "path": "src/index.ts",
+      "blob": "dfae33954e033a8730ff4c59bcba1ed987d9e7e1",
+      "bytes": 1127,
+      "sha256": "36d6ed3fdb915dacea44c604f885c8bb084138fd528782b6a4c37dd0bfbf9f16",
+      "api_raw_equals_git_object": true
+    },
+    {
+      "path": "src/oq/synthetic_failover.ts",
+      "blob": "89a3ac6be71f7a75390120a62213ec93ffaf4671",
+      "bytes": 3626,
+      "sha256": "39030621605f7704ddacf03032d5c76ebeed55ed8a92ecfb7baee8a203ceb743",
+      "api_raw_equals_git_object": true
+    },
+    {
+      "path": "src/oq/oq_suite_runner.ts",
+      "blob": "916b10ca4c16c75fe94c06127ac8ae100b866eeb",
+      "bytes": 13681,
+      "sha256": "a91d03fda6c343040762f2322e8020c63924b7789d2890785171fbebaaa841c9",
+      "api_raw_equals_git_object": true
+    },
+    {
+      "path": "src/ingress/pipeline.ts",
+      "blob": "eb6203578363933f5889bea0162d291a8a86df8b",
+      "bytes": 13199,
+      "sha256": "46c10d44ca8b0dd2cceec6f427b2b7e796e118c123fdc1e6ae3f6573c7c82c07",
+      "api_raw_equals_git_object": true
+    },
+    {
+      "path": "tsconfig.portfolio-ui-package.json",
+      "blob": "b5395d7b79f2ceacf9e0413bd920164d477ff44d",
+      "bytes": 249,
+      "sha256": "c93b4e003bed964a650c212b964aab03f0bded031de3c2575aa30dc252b6fe3a",
+      "api_raw_equals_git_object": true
+    },
+    {
+      "path": "tsconfig.pit-package.json",
+      "blob": "8dc497c0d746b683be1f1a7aa30b4888875ae92c",
+      "bytes": 287,
+      "sha256": "037b0905721342a6282ea98ac8d63fdfe339cfb96c9d7963c9b9248fb74d39ae",
+      "api_raw_equals_git_object": true
+    }
+  ]
+}

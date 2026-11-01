@@ -17,6 +17,8 @@
 
 ---
 
+> **Dated technical correction (`2026-11-01`, `CV-CORR-218`):** §5.2 is a preserved `2026-10-13` snapshot. Its packaging and identifier observations are corrected by §5.5 against IPD PR #115, merge `e9c2eef6c82ba51814a72ce962cf227e9fd89d56`. The REG-06 decision in §§5.1/5.3/5.4 is unchanged: internal primitive retained; product admission **DEFERRED**, fail-closed. This is a technical/documentation correction, not a new PA admission decision.
+
 ## 1. Purpose and Authority
 
 This record disposes of the four remaining bounded governance items carried as `DECISION REQUIRED` in the canonical tracker — `REG-02`, `REG-03`, `REG-05` and `REG-06` — and issues the additive post-publication status clarification called for by the G2-2 follow-on table (H-2, H-3, H-14). It records each decision additively; all historical records named below are preserved byte-for-byte unchanged.
@@ -119,7 +121,9 @@ The two governing records are durably published on IRR `main` and verified there
 
 **`OperatorDropParser` remains an internal IPD library primitive. Product admission is `DEFERRED`.**
 
-### 5.2 Verified facts (IPD `main@4d3e1cd`, 2026-10-13)
+### 5.2 Verified facts (IPD `main@4d3e1cd`, 2026-10-13 — historical snapshot)
+
+> **Read with §5.5 (`2026-11-01`):** the original packaging and identifier wording below is preserved as historical evidence, not asserted as the current implementation. The current verified position and the unchanged admission decision are recorded in §5.5.
 
 | Item | Evidence |
 |---|---|
@@ -138,6 +142,23 @@ The existing authoritative evidence does **not** establish an approved manual-in
 ### 5.4 Not granted
 
 No runtime callers; no package exports; no PIT writes; no company/security-identifier mappings; **no IPD implementation code changes of any kind**. Promotion to a product capability would additionally require PIT store write integration, series-qualified ISIN resolution and package export — none of which is authorized here.
+
+### 5.5 Dated technical correction and P-08 assessment reconciliation (`2026-11-01`)
+
+**Correction ID:** `CV-CORR-218` / `CHG-2026-11-01-17`. **P-08 outcome:** **RESOLVED — CONTINUED DEFERRAL (REG-06)**. This resolves the assessment and the IRR documentation discrepancy; it does **not** admit, implement, expose or qualify a product capability.
+
+**Verified remote basis.** IPD `main` = `e9c2eef6c82ba51814a72ce962cf227e9fd89d56`, the two-parent merge of PR **#115** (head `7cf9afc957170319c0c69b3e60d01a388045207f`, merged `2026-11-01T09:08:24Z`). The changed path is only `evidence/cross-repository/IIPS_V3_CAP02_IPD_EXECUTION_TRACKER_2026-10-23.md`, blob `efa804097d51263ce91dff4ac7201fb572ef1d8a` (267,714 bytes; SHA-256 `6241aa2b591ec3cf4673b954b39df32180910afd9d24dea7fec78f8a101849fa`). Its P-08 section records continued deferral. IPD PR-head CI `41287463022` and post-merge CI `41287576987` passed; post-merge check `124792149559` records 941 executed / 940 passed / 0 failed. These are primitive/package checks, not product admission.
+
+| Topic | Preserved historical observation | Verified current correction |
+|---|---|---|
+| Package manifest | §5.2 observed no `exports` or `main` at `4d3e1cd` on `2026-10-13`. That observation was true at that historical ref. | `package.json` blob `51796e63280c1abb368c27bf8811cc6bad46e132` now has an `exports` map for exactly `./portfolio-ui`, `./pit`, `./d114-non-production`. `main`, `module` and top-level `types` remain unset. **No Operator Drop subpath is exported.** The root `src/index.ts` barrel is not package-export admission. |
+| Published build | No export map existed at the historical snapshot. | A clean exported-source build at the PR #115 merge emits no `dist/package/src/operator_drop`. `npm pack --dry-run --ignore-scripts` lists 121 entries and zero Operator Drop entries. The existing package-consumer check passes without exposing Operator Drop. |
+| Identifier | §5.2 cited an unqualified `symbol` / `isin` record type that is not the implemented drop-path identifier. | `src/operator_drop/parser.ts` blob `c9950cd08f9cf9acc0b7e6a44789e76c57b1c971` reads **`record.companyId`** at line 95 (`String(record.companyId || 'UNKNOWN')`) and passes it at line 99. There is **no series-qualified ISIN resolution** in `operator_drop`. The original technical conclusion is retained with corrected supporting evidence. |
+| Runtime / persistence | Internal OQ harness use only; no product admission. | The only source caller remains the internal OQ synthetic-failover harness (`src/oq/synthetic_failover.ts`, invoked by `src/oq/oq_suite_runner.ts`). The drop path returns envelopes/reports; it has no PIT write integration, product runtime caller or product end-to-end qualification. E018/E026 are corroborated at the current merge. |
+
+**Decision preserved.** No approved manual-ingestion product requirement or express REG-06 promotion/admission authorization was found. PA owns any future product requirement and admission decision; IPD owns only subsequently authorized implementation/integration. Future admission would require the approved requirement and explicit PA act, PIT write integration, series-qualified ISIN resolution, explicit package-export admission, product runtime callers, end-to-end qualification and separate acceptance. None is authorized by this correction. `CV-39` remains distinct: REG-06 governs Operator Drop, not broker/Dhan ingestion.
+
+**Traceability.** IRR tracker §16.238; `docs/integration/IIPS_v3.0_P08_REG06_IRR_RECONCILIATION_2026-11-01.md`; `evidence/integration/p08-reg06-irr-reconciliation-2026-11-01/`. The original PA record blob was `b13b1fc3029f70d61a06d1f2bb0c2b6fce02cc98`; Git history and the quoted historical observations preserve it. No IPD file, ref, branch, PR or issue was modified.
 
 ---
 

@@ -19,20 +19,22 @@ This reassessment inspected both authoritative repositories, all available remot
 - **Runbook:** restamped to 108/1377 with exact frontend-tree pointer.
 - **P-20:** IPD PR #114 merged; IRR pending register no longer lists the resolved IPD documentation conflict.
 - **P-33/G14:** dependency assessment published; final G14 remains blocked by upstream gates.
+- **P-08 / row 29 (dated amendment 2026-11-01):** IPD PR #115 merge `e9c2eef6c82ba51814a72ce962cf227e9fd89d56`, tracker blob `efa804097d51263ce91dff4ac7201fb572ef1d8a`; **RESOLVED — CONTINUED DEFERRAL (REG-06)**. PA §5.5 corrects the historical packaging/identifier observations; export map exists but excludes Operator Drop, build does not emit it, and the identifier is `record.companyId`. No product admission.
 ## C. Downgrades / reopened items
 No accepted capability was reopened without contradictory evidence. Row 47 is restored to verified current figures. Row 48 remains partial because G14 final reconciliation is blocked and P1-F consumption is not reconciled, not because PR #398 or IPD P-20 remains open. Row 19 is upgraded for live-source E2E based on operator-transferred evidence, with a non-blocking browser-rendering residual.
 ## D. Remaining blockers and dependencies
-The dominant chain remains: PA-09 Gate 4 pin → P-1 runtime execution → S2/Limb A native run → H-12 L2c/S2a → S3 → QE-1..11 → Gate C subset acceptance → Gate 4/U4 acceptance → DQ-4 freeze → Gate 5/CV-52/U5 → U6 write authorization. O-05 admission and DR-2/DR-4r operational closure sit downstream. PA-01/02/03 are documentary conflicts, not P-1 prerequisites. REG-12 mapping, CV-22 expansion, CV-24 F6/TD-7b, REG-06 Operator Drop and D115 wiring are separate governance/dormant items.
+The dominant chain remains: PA-09 Gate 4 pin → P-1 runtime execution → S2/Limb A native run → H-12 L2c/S2a → S3 → QE-1..11 → Gate C subset acceptance → Gate 4/U4 acceptance → DQ-4 freeze → Gate 5/CV-52/U5 → U6 write authorization. O-05 admission and DR-2/DR-4r operational closure sit downstream. PA-01/02/03 are documentary conflicts, not P-1 prerequisites. REG-12 mapping, CV-22 expansion, CV-24 F6/TD-7b, REG-06 Operator Drop and D115 wiring are separate governance/dormant items. P-08 is a resolved continued-deferral assessment, not an active documentation conflict or implementation task; future requirement/admission belongs to PA and any subsequently authorized implementation to IPD.
 ## E. Responsibility distribution
-- Cross-repository integration / dependencies: 5 pending item(s).
-- Evidence / certification / verification: 8 pending item(s).
-- External / infrastructure blockers: 2 pending item(s).
-- IRR implementation / deliverables: 1 pending item(s).
-- Operator execution: 2 pending item(s).
-- PA decisions / governance: 17 pending item(s).
-- Qualification / admission gates: 5 pending item(s).
+- Cross-repository integration / dependencies: 5 register entries.
+- Evidence / certification / verification: 8 register entries.
+- External / infrastructure blockers: 2 register entries.
+- IRR implementation / deliverables: 1 register entry.
+- Operator execution: 2 register entries.
+- PA decisions / governance: 16 register entries.
+- Qualification / admission gates: 5 register entries.
+- Resolved governance deferrals: 1 register entry.
 ## F. Overall position
-- Matrix: 51 × 17 preserved; 116 cells updated.
+- Matrix: 51 × 17 preserved; 120 cells updated.
 - ACCEPTED: 20 rows (1, 2, 3, 6, 7, 12, 13, 15, 17, 18, 20, 24, 25, 26, 31, 37, 38, 46, 49, 50).
 - ACCEPTED+FOLLOWUP: 12 rows (4, 5, 9, 10, 11, 19, 27, 35, 39, 45, 47, 48).
 - BLOCKED: 2 rows (30, 32).
@@ -42,8 +44,8 @@ The dominant chain remains: PA-09 Gate 4 pin → P-1 runtime execution → S2/Li
 - IMPLEMENTED: 2 rows (22, 28).
 - OOS: 8 rows (14, 16, 21, 23, 33, 40, 44, 51).
 - VERIFIED: 1 rows (34).
-- Pending register: 40 items; completed/OOS rows are excluded unless a distinct residual remains.
-- Open PRs: none at final census (IRR #398 merged; IPD none).
+- Register: 40 entries, including 1 resolved governance deferral (P-08); this is not a count of active implementation tasks. Other completed/OOS rows are excluded unless a distinct residual remains.
+- Open PRs at the original census: none (historical). At the P-08 amendment census: IPD none; unrelated IRR #409 open and preserved.
 ## G. Evidence and artifacts
 - Workbook: `IIPS_V3_CAPABILITY_MATRIX_51x17_REASSESSED_2026-10-31.xlsx`
 - Matrix CSV: `IIPS_V3_CAPABILITY_MATRIX_51x17_REASSESSED_2026-10-31.csv`

@@ -8,6 +8,11 @@ the Evidence Anchor dimension so the 17-column structure is preserved.
 IRR = "7fd824de30d8268ed3eca210bc664dc60749fa8c"
 IPD = "527f811b17edb02caa665b345d9f36102435e1e8"
 DATE = "2026-10-31"
+# Dated P-08 amendment; retain the original reassessment pins for historical evidence rows.
+P08_IRR_BASELINE = "ad7d2362532c146aa023229bae48342eeab646fb"
+P08_IPD = "e9c2eef6c82ba51814a72ce962cf227e9fd89d56"
+P08_IPD_TRACKER_BLOB = "efa804097d51263ce91dff4ac7201fb572ef1d8a"
+P08_DATE = "2026-11-01"
 
 EVIDENCE = [
     ("E001", "IRR", IRR, "evidence/integration/capability-matrix-51x17-2026-10-27/", "535ef19ca2e2e855e7066b283118872af49b9578 (XLSX blob)", "Original 51x17 baseline bundle; 20/20 blob read-back verified at reference commit."),
@@ -27,7 +32,7 @@ EVIDENCE = [
     ("E015", "IRR", IRR, "docs/integration/IIPS_V3_REPORTS_NP06_C4_2_HEADER_CLAIM_CLARIFICATION_PA_ACT_EFFECTIVE_2026-10-30.md", "fd20a029b7d949fd32c56632d4eb4c11f9cbec98", "D-9 CLOSED; C4-2 effective; header claims ignored/non-authoritative; F-7 statuses unchanged; G-14 residual."),
     ("E016", "IRR", IRR, "IRR tracker §§16.207, 16.211", "CV-CORR-187 / CV-CORR-191", "O-07 closed documentation reconciliation; O-06 closed no action required; all three IPD specifiers guarded."),
     ("E017", "IRR", IRR, "docs/integration/IIPS_v3.0_CV22_OPTION_C_PA_DECISION_2026-10-19.md", "CV-22 Option C", "Governed-universe expansion deferred pending identity/eligibility/roster/mapping/acceptance/authority prerequisites."),
-    ("E018", "IRR+IPD", IRR+" / "+IPD, "IRR tracker REG-06; IPD src/operator_drop/** and package.json", "IPD package exports ./portfolio-ui, ./pit, ./d114-non-production", "Operator Drop internal primitive preserved; product admission deferred; root src/index export is not a package export-map admission."),
+    ("E018", "IRR+IPD", P08_IRR_BASELINE+" / "+P08_IPD, "IRR tracker REG-06 / PA §5.5; IPD src/operator_drop/**, package.json and published build", "package.json blob 51796e63280c1abb368c27bf8811cc6bad46e132; parser blob c9950cd08f9cf9acc0b7e6a44789e76c57b1c971", "Dated correction 2026-11-01: exports map exists for ./portfolio-ui, ./pit, ./d114-non-production; Operator Drop absent from map and emitted/packed build; record.companyId, no series-qualified ISIN resolution; internal primitive retained, admission deferred."),
     ("E019", "IRR", IRR, "IRR tracker CV-24 / §16.199", "CV-24", "F6_INVENTORY_AUTHORIZED and TD-7b production data-directory profile remain reserved PA decisions, non-blocking."),
     ("E020", "IRR", "5eba01b6e8 (branch tip)", "arena/a2df3b85-iips-review-recovered", "7 ahead / 920 behind main", "G24 durable implementation 470cc698 remains branch-only; not an ancestor of IRR main; CV-52 blocked."),
     ("E021", "IRR", "6a8afbb2bb (branch tip)", "arena/01a0f1b3-iips-review-recovered", "28 ahead / 1043 behind main", "Historical Reports lineage branch-only; current main Reports re-implementation is separate and accepted bounded."),
@@ -35,7 +40,7 @@ EVIDENCE = [
     ("E023", "IRR", "7fd824de30d8268ed3eca210bc664dc60749fa8c", "docs/OPERATOR_RUNBOOK.md", "restamped 2026-10-31", "Runbook start path preserved; headline figures restamped to 108 files / 1377 tests with exact frontend-tree verification pointer and raw receipts."),
     ("E024", "IRR", IRR, "frontend/server/broker-import/brokerImportPackageConsumer.test.ts; frontend/server/reports/reports-persistence-integration.test.ts", "0a1e58de96fae755a4d054e2aa319ab51e2caba3 / 4f6024f0ca13f4552507b69e8e1d8224188de6d3", "Three IPD specifiers guarded: primary 8eec74ae, alias 70b24f02, NP-04 2e11fa3b; DQ-6b Path A effective 6/6."),
     ("E025", "IRR", IRR, "frontend/server/d115-runtime.ts; IRR tracker CV-43", "only importer is d115-runtime.test.ts", "D115 boundary retained unwired by disposition; zero runtime consumers; wiring would require a new PA act."),
-    ("E026", "IPD", IPD, "src/index.ts; src/oq/synthetic_failover.ts; package.json", "executed source census", "Operator Drop has internal OQ harness references and root-module export, but no package export-map/product runtime admission."),
+    ("E026", "IPD", P08_IPD, "src/index.ts; src/oq/synthetic_failover.ts; src/oq/oq_suite_runner.ts; package.json", "source blobs dfae33954e033a8730ff4c59bcba1ed987d9e7e1 / 89a3ac6be71f7a75390120a62213ec93ffaf4671 / 916b10ca4c16c75fe94c06127ac8ae100b866eeb", "Current source census corroborates internal OQ harness references and root-module barrel only; no product runtime caller, package-export admission, PIT write integration or product E2E qualification."),
     ("E027", "IRR", IRR, "IRR tracker §§16.29, 16.31, §18.1 row 19", "CV-CORR-17 / CV-CORR-19", "Live-source macro E2E A established on operator-transferred Windows evidence (NAS/CPI/IIP); browser rendering of live observations not observed, non-blocking."),
     ("E028", "IRR", IRR, "IRR tracker §16.190; CV-51 qualification record", "browser-results.json failures:0; MANIFEST 92 PASS", "CV-51 Chromium browser qualification source-recorded 92/92; not re-executed in this reassessment."),
     ("E029", "IRR", IRR, "IRR tracker §16.215.3", "CV-CORR-195", "G-14 operator-side network hardening unevidenced; no isolation claim; not a D-9 blocker."),
@@ -52,6 +57,9 @@ EVIDENCE = [
     ("E040", "IRR", "7fd824de30d8268ed3eca210bc664dc60749fa8c", "docs/integration/IIPS_v3.0_CAP03_G14_DEPENDENCY_ASSESSMENT_2026-10-31.md", "G14 dependency assessment", "G2-G13 reconciled from current evidence; G14 final reconciliation BLOCKED/NOT STARTED because upstream gates remain incomplete."),
     ("E041", "IRR", "7fd824de30d8268ed3eca210bc664dc60749fa8c", "IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md", "§16.230/§16.231/§16.232 allocation census", "Headings unique; V1806-V1834 unique; CHG-09/10/11 reconciled; next free §16.235/CV-CORR-214/CHG-2026-10-31-13/V1835."),
     ("E042", "IRR", "7fd824de30d8268ed3eca210bc664dc60749fa8c", "docs/integration/IIPS_v3.0_P20_IRR_PENDING_REGISTER_CLOSURE_2026-10-31.md", "IRR P-20 closure", "IRR pending register no longer lists the resolved IPD documentation conflict; IPD merge/blob references corrected; IRR/IPD ownership distinction preserved."),
+    ("E043", "IPD", P08_IPD, "PR #115; evidence/cross-repository/IIPS_V3_CAP02_IPD_EXECUTION_TRACKER_2026-10-23.md", P08_IPD_TRACKER_BLOB, "Merged 2026-11-01T09:08:24Z; P-08 RESOLVED — CONTINUED DEFERRAL, not admission; 267714 B / SHA-256 6241aa2b591ec3cf4673b954b39df32180910afd9d24dea7fec78f8a101849fa; CI 41287463022 / 41287576987 PASS."),
+    ("E044", "IRR", P08_IRR_BASELINE, "docs/integration/IIPS_v3.0_P08_REG06_IRR_RECONCILIATION_2026-11-01.md; evidence/integration/p08-reg06-irr-reconciliation-2026-11-01/", "CV-CORR-218 / IRR tracker §16.238", "IRR-only dated correction and remote IPD verification; PA decision preserved; P-08 assessment resolved with future product admission still deferred; publication/read-back receipt in PR and bundle."),
+
 ]
 
 # Dimension indices follow baseline HEADERS: 2 Existence ... 16 Evidence Anchor.
@@ -154,6 +162,17 @@ put(49, 16, "IRR tag program-v1.2.0; GitHub Release published 2026-09-05, not dr
 # Columns: ID, Group, Capability refs, Requirement, Status, What remains, Dependency, Dep owner,
 # Accountable owner, Execution owner, Required decision/authorization, Blocking issue, Completion evidence,
 # Repository/branch/commit/artifact refs, Recommended next action, Completion criteria.
+# P-08 dated reconciliation: assessment resolved, product admission unchanged/deferred.
+OVERRIDES[29] = {
+ 3: "RESOLVED — CONTINUED DEFERRAL (REG-06): P-08 assessment closed; product admission remains DEFERRED, fail-closed [E018][E026][E043][E044].",
+ 4: "P — internal OQ failover-harness references and root src/index.ts barrel only. Current exports map exposes ./portfolio-ui, ./pit, ./d114-non-production; Operator Drop absent from map and published build; no product runtime admission [E018][E026].",
+ 9: "V — IPD PR #115 merge e9c2eef6: CI 41287576987 PASS; check 124792149559 records 941 executed / 940 pass / 0 fail; exported-source package-consumer and typecheck PASS. Primitive/package checks, not product qualification [E043][E044].",
+ 11: "V — REG-06 PA decision preserved with dated §5.5 correction; IPD PR #115 continued-deferral record; IRR §16.238 [E018][E026][E043][E044].",
+ 12: "V — P-08 assessment RESOLVED — CONTINUED DEFERRAL; PA decision effective, product not commissioned. Future requirement/admission: PA; subsequently authorized implementation: IPD.",
+ 13: "DEFERRED — product acceptance/admission not rendered; resolving P-08 assessment is not product admission.",
+ 16: "IPD main@e9c2eef6c82ba51814a72ce962cf227e9fd89d56; PR #115; tracker blob efa804097d51263ce91dff4ac7201fb572ef1d8a; src/operator_drop/** uses record.companyId; exports/build exclude Operator Drop; REG-06 continued deferral [E018][E026][E043][E044]. P-08."
+}
+
 PENDING = [
 ("P-01","Evidence / certification / verification","Row 4 — E2E, Qualification","Sector surface operator browser E2E","PARTIAL — browser E2E pending","Capture operator browser acceptance for the sector surface; component/surface qualification already exists.","Operator browser session","Operator","IRR","Operator","None new if within accepted PKG-08 scope; otherwise PA scope confirmation","No operator browser transcript in this reassessment","Sealed browser/session transcript and acceptance read-back","IRR main@fff8cf98; PKG-08-ROW4 acceptance record [E006][E008]","Schedule operator browser capture under existing bounded scope","Browser E2E transcript accepted; row 4 E2E/Qualification updated by dated evidence"),
 ("P-02","Evidence / certification / verification","Row 5 — E2E, Qualification","Platform→IRR cross-sector pipeline E2E","PARTIAL — platform chain source-reported","Execute or formally accept the platform→IRR pipeline evidence boundary; IRR route E2E alone is not platform pipeline E2E.","Platform chain execution/acceptance","IRR + platform owner","IRR","IRR/platform","PA acceptance if source-reported certificate is to stand as current qualification","Historical v1.1 certificate not re-executed","Current pipeline execution transcript or explicit PA acceptance of historical scope","IRR main@fff8cf98; iips-cross-sector/CSIP_*; program-v1.1-certification [E006][E008]","Decide whether to re-execute or accept historical certificate scope","Either current E2E evidence or dated PA disposition; no inferred qualification"),
@@ -264,3 +283,9 @@ for _row, _dims in OVERRIDES.items():
         _txt = _re.sub(r"Pending:\s*\.?", "", _txt)
         _txt = _re.sub(r"\s+\.", ".", _txt)
         _dims[16] = _txt
+
+# Keep the resolved assessment visible without misclassifying it as active implementation work.
+RESOLVED_DEFERRED = {"P-08"}
+for _i, _p in enumerate(PENDING):
+    if _p[0] == "P-08":
+        PENDING[_i] = ("P-08","Resolved governance deferrals","Row 29 — Authority, Acceptance","Operator Drop product admission assessment","RESOLVED — CONTINUED DEFERRAL (REG-06)","Assessment/documentation discrepancy resolved. Operator Drop remains an internal primitive; product admission is deferred. No active IPD documentation conflict or implementation task.","Future product change only: approved manual-ingestion requirement + explicit PA admission, then bounded IPD implementation/qualification/acceptance","PA (future requirement/admission)","PA (future product requirement/admission)","IPD (only subsequently authorized implementation)","No authorization for current assessment closure; future promotion requires express PA act","All four product prerequisites absent; implementation presence and internal tests are not admission","Current: IPD PR #115 deferral record + IRR dated correction and consistent matrix/register. Future: PA act + PIT writes + series-qualified ISIN + explicit export + product callers/E2E + acceptance","IPD main@e9c2eef6c82ba51814a72ce962cf227e9fd89d56; PR #115; tracker blob efa804097d51263ce91dff4ac7201fb572ef1d8a; IRR §16.238 / PA §5.5 [E018][E026][E043][E044]","No active correction or implementation action. Retain deferral; PA may revisit only with an approved product requirement and explicit admission.","P-08 assessment resolved as continued deferral; product remains unadmitted. Any future admission is a separate authorized path.")

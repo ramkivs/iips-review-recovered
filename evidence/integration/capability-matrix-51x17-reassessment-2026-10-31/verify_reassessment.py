@@ -59,5 +59,13 @@ if sums.exists():
         h,rel=line.split('  ',1); p=HERE/rel
         if not p.exists() or hashlib.sha256(p.read_bytes()).hexdigest()!=h: ok=False; bad.append(rel)
     check('SHA256SUMS', ok, ','.join(bad))
+p08=next(r for r in pr[1:] if r[0]=='P-08')
+check('P-08 resolved continued deferral', p08[4]=='RESOLVED — CONTINUED DEFERRAL (REG-06)' and p08[1]=='Resolved governance deferrals')
+check('P-08 current IPD merge/PR/blob', all(x in p08[13] for x in ['e9c2eef6c82ba51814a72ce962cf227e9fd89d56','PR #115','efa804097d51263ce91dff4ac7201fb572ef1d8a']))
+r29=next(r for r in rows if r[0]==29)
+check('row 29 assessment resolved without admission', r29[3].startswith('RESOLVED — CONTINUED DEFERRAL (REG-06)') and r29[13].startswith('DEFERRED'))
+check('row 29 corrected technical evidence', 'record.companyId' in r29[16] and 'absent from map and published build' in r29[4])
+check('row 29 not active-pending anchor', 'Resolved governance deferral: P-08' in r29[16] and 'Pending: P-08' not in r29[16])
+check('P-08 owners', p08[8].startswith('PA') and p08[9].startswith('IPD'))
 check('overall', not fails)
 sys.exit(1 if fails else 0)
