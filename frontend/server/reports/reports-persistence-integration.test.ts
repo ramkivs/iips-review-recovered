@@ -79,7 +79,7 @@ describe('R3-Option B dependency surface', () => {
       'github:ramkivs/iips-production-market-data#2e11fa3b689d1a3674a5e4ba1f1de9a559e20494',
     );
     expect(manifest.dependencies['iips-production-market-data']).toBe(
-      'github:ramkivs/iips-production-market-data#8eec74ae27cda09f3c368b9c299895eae41554db',
+      'github:ramkivs/iips-production-market-data#279d1eed184f5e23bbabe5c6411085e120ce9e41',
     );
     expect(manifest.dependencies['iips-broker-import']).toBe(
       'github:ramkivs/iips-production-market-data#70b24f029842a7e9b7f615e4d9df7376fd4ff817',

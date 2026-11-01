@@ -1017,9 +1017,9 @@ describe('C9 firstPartySignal — NEVER authentication (§5.1 item 4)', () => {
     expect(vocabulary.signalsUsed).not.toContain('cookie');
   });
 
-  it('a FIRST_PARTY decision is hardening only — it does not admit a fenced route', () => {
-    // The signal has no authority over the 503 fence: `fenceUnchanged.test.ts` proves
-    // the fence reads nothing and admits nothing. Assert the separation here too.
+  it('a FIRST_PARTY decision is hardening only — it does not establish the Direct P1 IPC binding', () => {
+    // C9 remains separate from identity and authorization. The Direct P1 read transport
+    // uses only its server-owned binding precondition, not this request-signal helper.
     const evaluation = evaluateRequestFirstPartySignal(base, 'PUT');
     expect(evaluation.allowed).toBe(true);
     const fenceSource = sourceOf('../user-portfolio-transport.ts');

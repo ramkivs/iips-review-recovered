@@ -44,9 +44,9 @@ async function fence(path: string, method: string) {
   const res = {
     setHeader: vi.fn(),
     writeHead(code: number, value?: unknown) { status = code; headers = value; },
-    end(value: string) { body = value; },
+    end(value?: string) { if (typeof value === 'string') body = value; },
   } as unknown as http.ServerResponse;
-  await handleUserPortfolioRequest(req, res);
+  await handleUserPortfolioRequest(req, res, { env: {} });
   return { status, body, headers };
 }
 
@@ -127,16 +127,15 @@ describe('GC-D2 — Option 2F', () => {
     expect(stub.operations.saveHoldings).not.toHaveBeenCalled();
     expect(stub.writes).toEqual([]);
   });
-  it('T-12 protected fence files keep their pre-implementation blob identities', () => {
+  it('T-12 the shared no-owner response keeps its pre-integration blob identity', () => {
     for (const [path, want] of [
-      ['../user-portfolio-transport.ts', '51704c12a467cd2f718a030b5036bc55c9afa73f'],
       ['../owner-context-unavailable.ts', 'cb8db45d668d28cee7e0a52721001d579a872733'],
     ]) {
       const bytes = readFileSync(new URL(path, import.meta.url));
       expect(createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex')).toBe(want);
     }
   });
-  it('T-13 six routes stay 503 without reading claims/body; 404/405 retained', async () => {
+  it('T-13 reads fail closed without binding; write/context operations stay unadmitted; 404/405 retained', async () => {
     for (const [path, methods] of [
       ['/api/user-portfolios/context', ['GET', 'HEAD']],
       ['/api/user-portfolios', ['GET', 'HEAD', 'POST']],
@@ -148,7 +147,12 @@ describe('GC-D2 — Option 2F', () => {
       for (const method of methods) {
         const out = await fence(path, method);
         expect(out.status).toBe(503);
-        expect(JSON.parse(out.body).error).toBe('owner-context-unavailable');
+        const expected = ['GET', 'HEAD'].includes(method) && !path.endsWith('/context')
+          && !path.endsWith('/holdings') && !path.endsWith('/reset')
+          ? 'owner-context-unavailable'
+          : 'operation-not-admitted';
+        if (method === 'HEAD') expect(out.body).toBe('');
+        else expect(JSON.parse(out.body).error).toBe(expected);
       }
     }
     expect((await fence('/api/user-portfoliosEVIL', 'GET')).status).toBe(404);

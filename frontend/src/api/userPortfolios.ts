@@ -23,9 +23,9 @@
  *   - Presentation-only: value semantics (consolidation arithmetic, weights,
  *     revisions) belong to IPD; this client performs no business logic.
  *
- * Requests are credential-free. The read surfaces remain unavailable where no
- * non-authentication ownership source has been established; this client never
- * fabricates an owner or retries through another identity mechanism.
+ * Requests are credential-free. The read surfaces call the IRR server, which consumes IPD's
+ * same-host IPC under a server-owned binding precondition. If the precondition or IPC is unavailable,
+ * the client fails closed; it never fabricates an owner or retries through another identity mechanism.
  */
 import { noAuthFetch } from '../core/network/noAuthFetch';
 
@@ -149,8 +149,8 @@ async function toApiError(res: Response): Promise<UserPortfolioApiError> {
 }
 
 /**
- * Lists the durable portfolios available to an established owner context
- * (GET /api/user-portfolios → { portfolios: […] }). The current transport responds unavailable.
+ * Lists the durable portfolios available through the IPD-owned local binding
+ * (GET /api/user-portfolios → { portfolios: […] }).
  */
 export async function fetchUserPortfolioSummaries(baseUrl = ''): Promise<readonly UserPortfolioSummary[]> {
   let res: Response;

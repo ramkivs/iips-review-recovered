@@ -33,10 +33,10 @@
  *   treated as absence of assurance, never as assurance.
  *
  * SCOPE NOTE
- *   Under this act every `/api/user-portfolios*` route still returns HTTP `503
- *   owner-context-unavailable` and never reaches a port (§5.6). This signal is
- *   therefore hardening for the boundary, not a live admission rule, and it lifts
- *   nothing.
+ *   Direct P1 admits only same-host IPC read routes under the independent server-owned binding
+ *   precondition. This signal does not establish that binding and is not consulted for identity or
+ *   authorization; writes and context discovery remain unavailable. The C9 helper remains
+ *   available for any separately authorized HTTP write boundary but currently gates no operation.
  */
 
 /* ------------------------------------------------------------------ *

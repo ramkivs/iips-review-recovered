@@ -9,7 +9,7 @@
  * Guards that IRR's IPD dependency pins:
  *   1. Use exact 40-hex immutable commit SHAs on `ramkivs/iips-production-market-data` in both
  *      `package.json` and `package-lock.json`: primary
- *      `8eec74ae27cda09f3c368b9c299895eae41554db`, and the deliberately distinct DB-C1
+ *      `279d1eed184f5e23bbabe5c6411085e120ce9e41`, and the deliberately distinct DB-C1
  *      broker-import alias `70b24f029842a7e9b7f615e4d9df7376fd4ff817`.
  *   2. Simultaneously expose `./portfolio-ui`, `./pit`, and `./d114-non-production` from the
  *      primary package with built runtime `.js` and declaration `.d.ts` artifacts.
@@ -29,7 +29,7 @@ import { describe, expect, it } from 'vitest';
 const here = dirname(fileURLToPath(import.meta.url));
 const frontendRoot = resolve(here, '..', '..');
 
-export const EXPECTED_IPD_PIN_SHA = '8eec74ae27cda09f3c368b9c299895eae41554db';
+export const EXPECTED_IPD_PIN_SHA = '279d1eed184f5e23bbabe5c6411085e120ce9e41';
 
 export const EXPECTED_BROKER_IMPORT_ALIAS_SHA =
   '70b24f029842a7e9b7f615e4d9df7376fd4ff817';

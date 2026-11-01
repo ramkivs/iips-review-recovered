@@ -28,17 +28,17 @@
  * FAIL CLOSED
  *   IRR's configuration is limited to the endpoint setting plus an IRR-local
  *   "binding provisioned" precondition (OC-3). That precondition defaults to
- *   **false**: unless an operator has affirmatively established it, the owner context
- *   is `NOT_ESTABLISHED` and no call is justified. At this act the precondition is
- *   false, because Gate A′ provisioning is APPROVED and **NOT EXECUTED** — IPD's
- *   binding tables are empty and IPD refuses every request Class P.
+ *   **false**: unless an operator affirmatively establishes it, the owner context
+ *   is `NOT_ESTABLISHED` and no read call is justified. The setting is not proof of
+ *   a binding; IPD independently resolves and validates its actual active binding on
+ *   every IPC request.
  *
  * NOT AUTHENTICATION
  *   An established owner context is not a credential, not a session and not an
  *   authorization. It records *where* an owner would come from. IPD remains the only
- *   authority, and the `/api/user-portfolios*` routes stay HTTP `503
- *   owner-context-unavailable` until a separate Gate 5 admission act lifts named
- *   operations (§5.6).
+ *   authority. The Direct P1 integration admits only list/detail/revision reads;
+ *   context discovery and writes remain unavailable, and W-1 remains independently
+ *   enforced by IPD.
  */
 
 /* ------------------------------------------------------------------ *

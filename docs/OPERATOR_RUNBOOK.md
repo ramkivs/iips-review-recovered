@@ -2,7 +2,7 @@
 
 **Audience:** the owner (Ramki) or a new machine. **Purpose:** start the application from a fresh clone with no oral knowledge, and tell apart a working fail-closed surface from a broken one.
 
-Every command and every expected output below was **executed and captured on 2026-10-14** on Linux (Node `v22.22.3`, npm CI install of `frontend/`) at commit `1b2b1948…` + the `CV-CORR-04` changes. Results on another machine differ only where the sandbox has no internet egress (noted inline). This runbook renders no authority, lifts no fence and changes no governed record; it documents the state those records already require.
+The baseline commands and outputs in §§1–2, 4–7 were **executed and captured on 2026-10-14** on Linux (Node `v22.22.3`, npm CI install of `frontend/`) at commit `1b2b1948…` + the `CV-CORR-04` changes. The Direct P1 subsection (§3.1) and its 2026-11-01 integration record are later additions; the Windows provider run is operator-directed and has not been executed by Arena. Historical observations remain dated and are not current-host verification.
 
 ---
 
@@ -11,12 +11,12 @@ Every command and every expected output below was **executed and captured on 202
 | Need | Why | Check |
 |---|---|---|
 | Node ≥ 22.6 | the transports are TypeScript run directly (`tsx` is now a dev dependency, so 22.x is enough) | `node --version` |
-| Network reachability to **GitHub** | `frontend/package.json` pins the runtime data package as `iips-production-market-data: github:ramkivs/iips-production-market-data#8eec74ae27cda09f3c368b9c299895eae41554db`; `npm ci` fetches that tarball from `codeload.github.com` | `npm ci` completes |
+| Network reachability to **GitHub** | `frontend/package.json` pins the runtime data package as `iips-production-market-data: github:ramkivs/iips-production-market-data#279d1eed184f5e23bbabe5c6411085e120ce9e41`; `npm ci` fetches that tarball from `codeload.github.com` | `npm ci` completes |
 | A TLS-intercepting proxy needs the CA exported to Node | otherwise `npm ci` fails with `UNABLE_TO_VERIFY_LEAF_SIGNATURE` on `codeload.github.com` | `export NODE_EXTRA_CA_CERTS=/etc/ssl/certs/ca-certificates.crt` before `npm ci` |
 | Outbound internet for the macro surface only | `/api/macro/NAS` calls the MoSPI source | expect `502 RETRY_BUDGET_EXHAUSTED` when egress is blocked (observed in the Arena sandbox) |
 | Windows is a **separate evidence domain** | ACL/permission and path semantics are Windows-specific | Windows results are recorded in their own evidence files and are never merged into Linux transcripts by implication |
 
-There is **no** authentication, no login, no role, no tenant selection and no environment file to configure beyond the two variables in §2–§3. That is the product scope, not a missing feature.
+There is **no** authentication, login, role, or tenant selection. The existing carrier variables in §2–§3 and the Direct P1 IPC variables in §3.1 are server-owned configuration; they are not a browser-controlled `.env` feature. That is the product scope, not a missing feature.
 
 ## 1. Install
 
@@ -78,6 +78,30 @@ npm run server:dev
 | `NODE_ENV=test` | suppresses `listen()` (used by the suites) | normal boot |
 
 The UI proxies `/api` → `http://localhost:8787` (`vite.config.ts:18`). If you change the port, the proxy target must change too, or every screen will show its error state.
+
+### 3.1 Direct P1 user-portfolio reads (same-host IPC)
+
+The user-portfolio list, detail, and revision GET routes now use IRR's existing IPC client/adapter. IRR never opens the SQLite file. IPD owns the named-pipe server and resolves the active owner binding for each request. The local IRR binding flag is a fail-closed precondition—not proof of the binding; IPD validates its own database binding independently.
+
+On the designated Windows machine, start the IPD G3 IPC provider using IPD's operator instructions (provider runtime Node `>=22.13.0`) with:
+
+```powershell
+$env:IIPS_G3_DATABASE_PATH = 'C:\iips-data\iips\user-portfolio.sqlite'
+$env:IIPS_G2_IPC_ENDPOINT = '\\.\pipe\iips-user-portfolio-v1'
+```
+
+Then start IRR with the consumer endpoint and the operator-established binding precondition:
+
+```powershell
+$env:IIPS_G2_IPC_ENDPOINT = '\\.\pipe\iips-user-portfolio-v1'
+$env:IIPS_G3_IPC_BINDING_PROVISIONED = 'true'
+$env:EXEC_TRANSPORT_PORT = '8787'
+npm run server:dev
+```
+
+The tenant hint is optional and is never transmitted; do not add owner, tenant, principal, or credentials to requests. Without `IIPS_G3_IPC_BINDING_PROVISIONED=true`, read routes fail closed with `503 owner-context-unavailable`. A configured endpoint that is absent or unavailable also fails closed. Context discovery and create/save/reset/delete HTTP operations return `503 operation-not-admitted`; no write is forwarded, and IPD's independent Gate E W-1 refusal remains in force. This does not enable Watchlists, Collaboration, Settings, or any other owner-scoped route.
+
+The operator-reported Direct P1 database execution and the exact IPD source pin are recorded in [`IIPS_V3_DIRECT_P1_IRR_CONSUMPTION_RECORD_2026-11-01.md`](integration/IIPS_V3_DIRECT_P1_IRR_CONSUMPTION_RECORD_2026-11-01.md). That Windows evidence is user-provided, not an Arena observation. No P1-F reprovisioning is required or documented here.
 
 ## 4. Start the UI
 
@@ -156,7 +180,7 @@ Observed on 2026-10-14: `201 / 201 / 404`, journal `1140 bytes / 3 lines` with `
 
 | Surface | Answer at `main` + `CV-CORR-04` (all four probes executed 2026-10-14) | Why this is correct behaviour |
 |---|---|---|
-| `GET`+`POST /api/user-portfolios`, `/api/user-portfolios/summary` | `503` `owner-context-unavailable`, detail “No non-authentication ownership source has been established. No owner is inferred; no data is read or changed.” | Durable user-portfolio work is authorized, implemented and **unadmitted**; `D-1` and the implementation record §8.5 withhold admission, and the seam awaits a designated non-authentication ownership source. The `503` is *by authorization*, not by absence. |
+| Historical pre-Direct-P1 `/api/user-portfolios*` behavior (observed 2026-10-14) | All recognized operations returned `503 owner-context-unavailable` | Historical fence record only. Current read-only list/detail/revision behavior is defined in §3.1 and the 2026-11-01 integration record; writes and context discovery remain unadmitted. |
 | `GET`+`POST /api/reports/artifacts` | `503` — the **same** `owner-context-unavailable` payload | The Reports surface is route-valid but owner-scoped, so it fails closed on the identical carrier contract. |
 | `GET`/`POST /api/reports`, `/api/reports/`, `/api/reports/artifacts/` | `404` `{"error":"not found"}` | `reports-transport.ts` is the ratified fence: it keeps exact route/method validation and never enables the deferred Reports capability — an unknown shape is not “temporarily unavailable”. |
 | `POST /api/pit/market-data?…` | `405` (`found:false`, `reason: INVALID_IDENTITY`) | the PIT seam is read-only; a write attempt is refused at the boundary, not silently accepted. |
@@ -165,7 +189,7 @@ Observed on 2026-10-14: `201 / 201 / 404`, journal `1140 bytes / 3 lines` with `
 | The retired auth stack (login, roles, tenants, admin) | absent, not disabled | retired by decision for this single-user product; reintroducing it would need a new requirement, not a workaround. |
 | `/api/*` client calls | no `authorization` header, ever | `core/network/noAuthFetch.ts`; `App.test.tsx` and the API tests assert it. |
 
-Do not "fix" a `503`/`404` above by editing the fence: the hashes of `reports-transport.ts`, `user-portfolio-transport.ts` and `owner-context-unavailable.ts` are the integrity anchor recorded in the tracker (§16.8 item 8).
+Do not "fix" an unrelated `503`/`404` above by editing its fence. The Direct P1 read-only user-portfolio composition is the explicit 2026-11-01 exception described in §3.1. The shared `owner-context-unavailable.ts` response and the other owner-scoped namespaces retain their fail-closed behavior; the former all-route user-portfolio fence is historical, not an active integrity anchor.
 
 ## 8. Verify the build (proportionate, no ceremony)
 

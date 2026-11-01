@@ -4,8 +4,8 @@
  * Authority: `IIPS-V3-CAP02-U1-BROKER-IMPORT-TRANSPORT-AUTHORITY-ACT-EFFECTIVE-2026-10-23-01`
  * §4.3 — real existing-host route/method behavior, non-2xx denial, no wildcard registration, no
  * stack/provider/owner disclosure; `IIPS-V3-CAP02-BROKER-IMPORT-UI-COMPOSITION-ACT-EFFECTIVE-2026-10-23-03`
- * §8.3 — fail-closed route behavior without the binding precondition and re-assertion of all
- * twelve `/api/user-portfolios*` fence pairs against the same composed server.
+ * §8.3 — fail-closed route behavior without the broker-import binding precondition, plus a
+ * regression check for the Direct P1 read binding and still-unadmitted user-portfolio writes.
  *
  * The real-server section drives the exported `executive-transport.ts` composition (the real
  * route table, including this mount) on an ephemeral loopback port — not a re-implementation.
@@ -396,7 +396,7 @@ describe('brokerImportHttp — real composed host (route admission + fence prese
     expect(preview.status).toBe(404);
   });
 
-  it('keeps every /api/user-portfolios* fence pair at 503 on the same composed host (all twelve)', async () => {
+  it('keeps Direct P1 reads binding-gated and all write/context operations unadmitted', async () => {
     const pairs: ReadonlyArray<readonly [string, readonly string[]]> = [
       ['/api/user-portfolios/context', ['GET', 'HEAD']],
       ['/api/user-portfolios', ['GET', 'HEAD', 'POST']],
@@ -411,7 +411,11 @@ describe('brokerImportHttp — real composed host (route admission + fence prese
         const response = await fetch(`${baseUrl}${path}`, { method });
         expect(response.status, `${method} ${path}`).toBe(503);
         if (method !== 'HEAD') {
-          expect(JSON.parse(await response.text()).error, `${method} ${path}`).toBe('owner-context-unavailable');
+          const expected = ['GET', 'HEAD'].includes(method) && !path.endsWith('/context')
+            && !path.endsWith('/holdings') && !path.endsWith('/reset')
+            ? 'owner-context-unavailable'
+            : 'operation-not-admitted';
+          expect(JSON.parse(await response.text()).error, `${method} ${path}`).toBe(expected);
         }
       }
     }

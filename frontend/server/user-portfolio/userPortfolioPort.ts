@@ -2,20 +2,20 @@
  * G-2 Durable User Portfolio — PORT (IRR side).
  *
  * This is the G-2 domain interface, not an implementation: it carries no store, journal,
- * persistence, mapping table, or portfolio domain logic. The former first-party G24 HTTP adapter
- * has been removed; the current HTTP transport returns owner-context-unavailable without calling
- * this port. Any future implementation requires an established non-authentication owner source.
+ * persistence, mapping table, or portfolio domain logic. The Direct P1 integration composes the
+ * existing IPC adapter for read-only HTTP list/detail/revision routes; it never opens the store.
+ * Other owner-scoped operations remain unavailable, and no write authority follows from this port.
  *
- * TRANSACTION RULE (binding): each operation is exactly ONE upstream request,
- * executed by G24 inside exactly ONE IMMEDIATE transaction (or a single
- * authorized read). The port offers no batch, no read-modify-write, and no
- * multi-step unit of work — there are no distributed transactions across this
- * boundary, and none may be introduced behind it.
+ * TRANSACTION RULE (binding): each call is exactly ONE upstream operation. The historical G24
+ * HTTP lineage executed mutations inside one IMMEDIATE transaction; the current Direct P1 path
+ * sends one IPC operation to IPD, which owns the read/persistence implementation. The port offers
+ * no batch, no read-modify-write, and no multi-step unit of work — there are no distributed
+ * transactions across this boundary, and none may be introduced behind it.
  *
  * SCOPE RULE (binding): every operation takes an explicit `G2Scope`; there is no ambient or
- * default tenant. A live owner context is not currently established, and the HTTP transport never
- * supplies a scope. The retained boundary validation describes the contract only; it does not
- * authenticate or create a tenant binding.
+ * default tenant. The Direct P1 HTTP read transport supplies an empty scope and does not infer a
+ * tenant; IPD resolves the owner and membership from its own binding. The retained principal-based
+ * boundary may supply only a trusted local hint and does not authenticate or create a binding.
  */
 import type {
   G2DeleteResult,
@@ -30,12 +30,13 @@ import type {
 /**
  * The authorized scope of ONE boundary call.
  *
- * `tenantHint` may be supplied only from a separately established trusted owner context. It is a
- * HINT, not an authority. No non-authentication ownership source is currently established, so the
- * first-party HTTP transport does not construct or pass a `G2Scope`.
+ * `tenantHint` is optional local diagnostic context only. The Direct P1 IPC route may pass an
+ * empty scope; IPD resolves owner and tenant from its own active binding, and the hint is never
+ * transmitted. The legacy authenticated domain boundary may still derive a hint from its
+ * already-established principal, but the HTTP consumer does not synthesize one.
  */
 export interface G2Scope {
-  readonly tenantHint: string;
+  readonly tenantHint?: string;
 }
 
 /** Create-portfolio parameters. Instance identity is assigned upstream. */
