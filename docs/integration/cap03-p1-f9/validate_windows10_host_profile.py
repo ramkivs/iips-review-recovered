@@ -750,6 +750,9 @@ require(one_pass_script.count("& $P1Script -Mode Execute") == 1 and
         "S04_BUNDLE_INDEPENDENT_READBACK_FAILED" in one_pass_script and
         "IRR_CHECKOUT_NOT_AT_CURRENT_ORIGIN_MAIN" in one_pass_script and
         "FRESH_P1F_AUTHORITY_NOT_PUBLISHED_ON_AUTHORITATIVE_MAIN" in one_pass_script and
+        '$mainTrackerLines = @(& git -C $IrrRoot show' in one_pass_script and
+        '[string](& git -C $IrrRoot show' not in one_pass_script and
+        '$mainTracker = $mainTrackerLines -join "`n"' in one_pass_script and
         "IIPS-V3-CAP03-PA-BLANKET-WAIVER-ONE-PASS-AUTHORIZATION-2026-11-01-01" in one_pass_script,
         "one-pass runner must gate on published authority, independently read back S04, and make exactly one Execute call")
 
