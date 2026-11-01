@@ -1,0 +1,16 @@
+{
+  "result": "PASS",
+  "source": "actual npm-pack tarball installed into isolated consumer",
+  "subpath": "iips-production-market-data/operator-drop",
+  "durableAppend": 2,
+  "restartRecovery": true,
+  "replayDuplicates": 2,
+  "seriesQualifiedReads": true,
+  "historicalReadFailsClosed": true,
+  "missingIdentityRejected": true,
+  "snapshotConflictRejected": true,
+  "finalRecordCount": 2,
+  "productionDeployment": false
+}
+(node:4183) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)

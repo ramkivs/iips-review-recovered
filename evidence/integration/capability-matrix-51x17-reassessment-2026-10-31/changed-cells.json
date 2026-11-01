@@ -385,45 +385,93 @@
   },
   {
     "row": 29,
+    "dimension": "Existence",
+    "baseline": "V \u2014 `src/operator_drop/{parser,index}.ts` present.",
+    "current": "V \u2014 src/pit/pit_durable_store.ts; src/operator_drop/{parser,index,drop_ingestion,product_runtime,package}.ts; tests/reg06_*.test.ts present [E045][E046]."
+  },
+  {
+    "row": 29,
     "dimension": "Authority",
     "baseline": "DEFERRED \u2014 `REG-06`: internal primitive preserved, product admission DEFERRED (fail-closed).",
-    "current": "RESOLVED \u2014 CONTINUED DEFERRAL (REG-06): P-08 assessment closed; product admission remains DEFERRED, fail-closed [E018][E026][E043][E044]."
+    "current": "V \u2014 IPD product admission and implementation COMPLETED under IIPS_V3_REG06_OPERATOR_DROP_PRODUCT_ADMISSION_2026-11-01 / CHG-2026-11-01; IRR RECONCILED by \u00a716.242. Historical DEFERRED preserved [E047][E048]."
   },
   {
     "row": 29,
     "dimension": "Integration",
     "baseline": "NI \u2014 no runtime caller outside tests.",
-    "current": "P \u2014 internal OQ failover-harness references and root src/index.ts barrel only. Current exports map exposes ./portfolio-ui, ./pit, ./d114-non-production; Operator Drop absent from map and published build; no product runtime admission [E018][E026]."
+    "current": "V \u2014 ./operator-drop export and ./pit durable store integrated; clean build emits eight Operator Drop JS/declaration files; 151-entry tarball includes them [E045][E050]."
+  },
+  {
+    "row": 29,
+    "dimension": "Wiring",
+    "baseline": "NI \u2014 no route, no CLI entrypoint published.",
+    "current": "V \u2014 OperatorDropProductRuntime composes ingestion, durable PIT writes and screening/history reads. No IRR route, CLI or runtime registration added [E045][E049]."
+  },
+  {
+    "row": 29,
+    "dimension": "Data",
+    "baseline": "P \u2014 parser-only; no governed dataset commissioned (`M-1` deferred).",
+    "current": "V \u2014 explicit series-qualified ISIN identity required; missing/ambiguous identity rejected; no company-only or cross-series fallback. No AD-17/M-2 dataset commission inferred [E045][E049]."
+  },
+  {
+    "row": 29,
+    "dimension": "Persistence",
+    "baseline": "NA \u2014 nothing persisted.",
+    "current": "V \u2014 durable append-only SQLite PIT snapshots with isolated migration ledger, idempotent replay and conflict rejection [E045][E046]."
+  },
+  {
+    "row": 29,
+    "dimension": "Recovery",
+    "baseline": "NA.",
+    "current": "V \u2014 restart recovery and transactional rollback verified by focused tests and installed-tarball smoke [E046][E050]."
   },
   {
     "row": 29,
     "dimension": "Validation",
     "baseline": "V \u2014 parser suite green.",
-    "current": "V \u2014 IPD PR #115 merge e9c2eef6: CI 41287576987 PASS; check 124792149559 records 941 executed / 940 pass / 0 fail; exported-source package-consumer and typecheck PASS. Primitive/package checks, not product qualification [E043][E044]."
+    "current": "V \u2014 exact-checkout full suite 987/986/0/1; focused compiled REG-06 46/46; package-consumer/build/typecheck PASS; PR/main CI success [E046]."
+  },
+  {
+    "row": 29,
+    "dimension": "E2E",
+    "baseline": "NA \u2014 deferred surface.",
+    "current": "V \u2014 IPD product runtime ingest\u2192durable write\u2192restart/read\u2192screening verified; not an IRR E2E or production E2E claim [E046][E050]."
   },
   {
     "row": 29,
     "dimension": "Evidence",
     "baseline": "V \u2014 `REG-06` decision + `GATE-Y-M2` record.",
-    "current": "V \u2014 REG-06 PA decision preserved with dated \u00a75.5 correction; IPD PR #115 continued-deferral record; IRR \u00a716.238 [E018][E026][E043][E044]."
+    "current": "V \u2014 IPD admission record, source/package/CI evidence and IRR dated reconciliation preserved; earlier PR #115 assessment remains historical [E047][E048]."
   },
   {
     "row": 29,
     "dimension": "Governance",
     "baseline": "V \u2014 decision effective; not commissioned.",
-    "current": "V \u2014 P-08 assessment RESOLVED \u2014 CONTINUED DEFERRAL; PA decision effective, product not commissioned. Future requirement/admission: PA; subsequently authorized implementation: IPD."
+    "current": "V \u2014 PA authority recorded on IPD; IPD implementation completed; IRR reconciliation completed. Production/AD-17/M-2 not authorized; O-05 and P-1 gates unchanged [E047][E049]."
   },
   {
     "row": 29,
     "dimension": "Acceptance",
     "baseline": "DEFERRED (product admission explicitly deferred).",
-    "current": "DEFERRED \u2014 product acceptance/admission not rendered; resolving P-08 assessment is not product admission."
+    "current": "V \u2014 IPD REG-06 admission/implementation completed and IRR reconciliation verified. No separate IRR product acceptance or production admission is conferred [E047][E048][E049]."
+  },
+  {
+    "row": 29,
+    "dimension": "Qualification",
+    "baseline": "NA.",
+    "current": "V \u2014 bounded automated REG-06 tests and package-consumer qualification passed; not Gate 4/P-1 host qualification [E046][E050]."
+  },
+  {
+    "row": 29,
+    "dimension": "Release-readiness",
+    "baseline": "V \u2014 deferred; no release action.",
+    "current": "V \u2014 IPD main/package publication verified; production deployment/admission remains unauthorized and no IRR pin/runtime registration changed [E045][E049]."
   },
   {
     "row": 29,
     "dimension": "Evidence Anchor",
     "baseline": "`src/operator_drop/**`; tracker `REG-06`; `evidence/intelligence-data-supply-governance/GATE-Y-M2-\u2026md` M-1.",
-    "current": "IPD main@e9c2eef6c82ba51814a72ce962cf227e9fd89d56; PR #115; tracker blob efa804097d51263ce91dff4ac7201fb572ef1d8a; src/operator_drop/** uses record.companyId; exports/build exclude Operator Drop; REG-06 continued deferral [E018][E026][E043][E044]. P-08. P-08. Resolved governance deferral: P-08 (assessment closed; product admission deferred)."
+    "current": "IPD main@eb9289222e2bdfd0e79381d4d81f7f81715e019b; PR #117; head 5b2c03dc8888aa40a4dd967ef6e7f3b76731c01e; tracker blob c1c666149c2d907026df3d9a2d184d2b9a2383c0; governance IIPS_V3_REG06_OPERATOR_DROP_PRODUCT_ADMISSION_2026-11-01 / CHG-2026-11-01-01; IRR \u00a716.242 / PA \u00a75.6 [E045][E046][E047][E048][E049][E050]. Historical PR #115/DEFERRED assessment preserved [E018][E026][E043][E044]. P-08. Completed/reconciled: P-08 (IPD REG-06 completed; IRR reconciled; separate gates unchanged)."
   },
   {
     "row": 30,

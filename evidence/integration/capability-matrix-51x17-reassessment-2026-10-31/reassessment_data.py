@@ -13,6 +13,12 @@ P08_IRR_BASELINE = "ad7d2362532c146aa023229bae48342eeab646fb"
 P08_IPD = "e9c2eef6c82ba51814a72ce962cf227e9fd89d56"
 P08_IPD_TRACKER_BLOB = "efa804097d51263ce91dff4ac7201fb572ef1d8a"
 P08_DATE = "2026-11-01"
+# Dated REG-06 implementation amendment; earlier P-08 pins remain historical.
+REG06_IRR_BASELINE = "ed41a4c1f0e1a92cc429b31210794aa2e4b5948b"
+REG06_IPD = "eb9289222e2bdfd0e79381d4d81f7f81715e019b"
+REG06_IPD_HEAD = "5b2c03dc8888aa40a4dd967ef6e7f3b76731c01e"
+REG06_IPD_TRACKER_BLOB = "c1c666149c2d907026df3d9a2d184d2b9a2383c0"
+REG06_DATE = "2026-11-01"
 
 EVIDENCE = [
     ("E001", "IRR", IRR, "evidence/integration/capability-matrix-51x17-2026-10-27/", "535ef19ca2e2e855e7066b283118872af49b9578 (XLSX blob)", "Original 51x17 baseline bundle; 20/20 blob read-back verified at reference commit."),
@@ -63,6 +69,15 @@ EVIDENCE = [
 ]
 
 # Dimension indices follow baseline HEADERS: 2 Existence ... 16 Evidence Anchor.
+EVIDENCE += [
+    ("E045", "IPD", REG06_IPD, "PR #117; package.json; src/pit/pit_durable_store.ts; src/operator_drop/{drop_ingestion,product_runtime,package}.ts; emitted dist/package/src/operator_drop/**", "package blob 99e262d36341e0bd850ea20d103280131f4f2c71; durable-store blob 0f608d64d2feb9807dcda7259475a5bcf830cb14; runtime blob dc50259df90de3ce3128fa95b75a2a06a0fd3b46", "Current REG-06 implementation: durable PIT, explicit series identity, product runtime, ./operator-drop export and eight emitted JS/declaration files; 151-entry tarball."),
+    ("E046", "IPD", REG06_IPD, "tests/reg06_*.test.ts; exact-checkout full/focused logs; PR CI 41298988402; main CI 41299084025; check 124826327985", "full 987/986/0/1; focused compiled 46/46; package-consumer/build/typecheck PASS", "Executed REG-06 validation and remote CI; not host qualification or production admission."),
+    ("E047", "IPD", REG06_IPD, "evidence/cross-repository/IIPS_V3_CAP02_IPD_EXECUTION_TRACKER_2026-10-23.md", REG06_IPD_TRACKER_BLOB, "IIPS_V3_REG06_OPERATOR_DROP_PRODUCT_ADMISSION_2026-11-01 / CHG-2026-11-01-01; IPD product admission granted; historical DEFERRED preserved; production/AD-17/M-2 and IRR acceptance not granted."),
+    ("E048", "IRR", REG06_IRR_BASELINE, "docs/integration/IIPS_v3.0_REG06_OPERATOR_DROP_IMPLEMENTATION_IRR_RECONCILIATION_2026-11-01.md; evidence/integration/reg06-operator-drop-implementation-reconciliation-2026-11-01; tracker §16.242; PA §5.6", "CV-CORR-222 / CHG-2026-11-01-21 / V1936-V1949", "IRR independent verification/reconciliation; historical P-08/DEFERRED records preserved; only row 29/P-08 current entries amended."),
+    ("E049", "IRR+IPD", REG06_IRR_BASELINE+" / "+REG06_IPD, "evidence/integration/reg06-operator-drop-implementation-reconciliation-2026-11-01/raw/technical-verification.json; protected-path diff; IRR executable-consumer census", "0 IRR executable Operator Drop consumers; protected Gate A-prime/P-1 paths unchanged", "Separate boundaries: production/AD-17/M-2 not authorized; O-05 OPEN; P-1-C NOT ESTABLISHED; P-1-D DESIGNATED, NOT VERIFIED FOR THE ATTEMPT; P-1 ONE ATTEMPT ONLY, NOT EXECUTED, UNSPENT."),
+    ("E050", "IPD", REG06_IPD, "evidence/integration/reg06-operator-drop-implementation-reconciliation-2026-11-01/raw/ipd-tarball-smoke.mjs; ipd-tarball-smoke.log.txt; ipd-pack.json", "tarball shasum 2f45b5acb12baa7db85c0c73b843375ef20927e2; 151 entries", "Independent installed-tarball consumer: durable append/restart, replay, series reads and fail-closed cases PASS."),
+]
+
 OVERRIDES = {}
 
 def put(row, dim, text):
@@ -164,13 +179,21 @@ put(49, 16, "IRR tag program-v1.2.0; GitHub Release published 2026-09-05, not dr
 # Repository/branch/commit/artifact refs, Recommended next action, Completion criteria.
 # P-08 dated reconciliation: assessment resolved, product admission unchanged/deferred.
 OVERRIDES[29] = {
- 3: "RESOLVED — CONTINUED DEFERRAL (REG-06): P-08 assessment closed; product admission remains DEFERRED, fail-closed [E018][E026][E043][E044].",
- 4: "P — internal OQ failover-harness references and root src/index.ts barrel only. Current exports map exposes ./portfolio-ui, ./pit, ./d114-non-production; Operator Drop absent from map and published build; no product runtime admission [E018][E026].",
- 9: "V — IPD PR #115 merge e9c2eef6: CI 41287576987 PASS; check 124792149559 records 941 executed / 940 pass / 0 fail; exported-source package-consumer and typecheck PASS. Primitive/package checks, not product qualification [E043][E044].",
- 11: "V — REG-06 PA decision preserved with dated §5.5 correction; IPD PR #115 continued-deferral record; IRR §16.238 [E018][E026][E043][E044].",
- 12: "V — P-08 assessment RESOLVED — CONTINUED DEFERRAL; PA decision effective, product not commissioned. Future requirement/admission: PA; subsequently authorized implementation: IPD.",
- 13: "DEFERRED — product acceptance/admission not rendered; resolving P-08 assessment is not product admission.",
- 16: "IPD main@e9c2eef6c82ba51814a72ce962cf227e9fd89d56; PR #115; tracker blob efa804097d51263ce91dff4ac7201fb572ef1d8a; src/operator_drop/** uses record.companyId; exports/build exclude Operator Drop; REG-06 continued deferral [E018][E026][E043][E044]. P-08."
+ 2: "V — src/pit/pit_durable_store.ts; src/operator_drop/{parser,index,drop_ingestion,product_runtime,package}.ts; tests/reg06_*.test.ts present [E045][E046].",
+ 3: "V — IPD product admission and implementation COMPLETED under IIPS_V3_REG06_OPERATOR_DROP_PRODUCT_ADMISSION_2026-11-01 / CHG-2026-11-01; IRR RECONCILED by §16.242. Historical DEFERRED preserved [E047][E048].",
+ 4: "V — ./operator-drop export and ./pit durable store integrated; clean build emits eight Operator Drop JS/declaration files; 151-entry tarball includes them [E045][E050].",
+ 5: "V — OperatorDropProductRuntime composes ingestion, durable PIT writes and screening/history reads. No IRR route, CLI or runtime registration added [E045][E049].",
+ 6: "V — explicit series-qualified ISIN identity required; missing/ambiguous identity rejected; no company-only or cross-series fallback. No AD-17/M-2 dataset commission inferred [E045][E049].",
+ 7: "V — durable append-only SQLite PIT snapshots with isolated migration ledger, idempotent replay and conflict rejection [E045][E046].",
+ 8: "V — restart recovery and transactional rollback verified by focused tests and installed-tarball smoke [E046][E050].",
+ 9: "V — exact-checkout full suite 987/986/0/1; focused compiled REG-06 46/46; package-consumer/build/typecheck PASS; PR/main CI success [E046].",
+ 10: "V — IPD product runtime ingest→durable write→restart/read→screening verified; not an IRR E2E or production E2E claim [E046][E050].",
+ 11: "V — IPD admission record, source/package/CI evidence and IRR dated reconciliation preserved; earlier PR #115 assessment remains historical [E047][E048].",
+ 12: "V — PA authority recorded on IPD; IPD implementation completed; IRR reconciliation completed. Production/AD-17/M-2 not authorized; O-05 and P-1 gates unchanged [E047][E049].",
+ 13: "V — IPD REG-06 admission/implementation completed and IRR reconciliation verified. No separate IRR product acceptance or production admission is conferred [E047][E048][E049].",
+ 14: "V — bounded automated REG-06 tests and package-consumer qualification passed; not Gate 4/P-1 host qualification [E046][E050].",
+ 15: "V — IPD main/package publication verified; production deployment/admission remains unauthorized and no IRR pin/runtime registration changed [E045][E049].",
+ 16: "IPD main@"+REG06_IPD+"; PR #117; head "+REG06_IPD_HEAD+"; tracker blob "+REG06_IPD_TRACKER_BLOB+"; governance IIPS_V3_REG06_OPERATOR_DROP_PRODUCT_ADMISSION_2026-11-01 / CHG-2026-11-01-01; IRR §16.242 / PA §5.6 [E045][E046][E047][E048][E049][E050]. Historical PR #115/DEFERRED assessment preserved [E018][E026][E043][E044]."
 }
 
 PENDING = [
@@ -237,7 +260,7 @@ DISPOSITION = {
     8:"DEFERRED",9:"ACCEPTED+FOLLOWUP",10:"ACCEPTED+FOLLOWUP",11:"ACCEPTED+FOLLOWUP",12:"ACCEPTED",13:"ACCEPTED",
     14:"OOS",15:"ACCEPTED",16:"OOS",17:"ACCEPTED",18:"ACCEPTED",19:"ACCEPTED+FOLLOWUP",20:"ACCEPTED",21:"OOS",
     22:"IMPLEMENTED",23:"OOS",24:"ACCEPTED",25:"ACCEPTED",26:"ACCEPTED",27:"ACCEPTED+FOLLOWUP",28:"IMPLEMENTED",
-    29:"DEFERRED",30:"BLOCKED",31:"ACCEPTED",32:"BLOCKED",33:"OOS",34:"VERIFIED",35:"ACCEPTED+FOLLOWUP",
+    29:"VERIFIED",30:"BLOCKED",31:"ACCEPTED",32:"BLOCKED",33:"OOS",34:"VERIFIED",35:"ACCEPTED+FOLLOWUP",
     36:"BRANCH_ONLY",37:"ACCEPTED",38:"ACCEPTED",39:"ACCEPTED+FOLLOWUP",40:"OOS",41:"DEFERRED",42:"HISTORICAL",
     43:"HISTORICAL",44:"OOS",45:"ACCEPTED+FOLLOWUP",46:"ACCEPTED",47:"ACCEPTED+FOLLOWUP",48:"ACCEPTED+FOLLOWUP",
     49:"ACCEPTED",50:"ACCEPTED",51:"OOS",
@@ -284,8 +307,9 @@ for _row, _dims in OVERRIDES.items():
         _txt = _re.sub(r"\s+\.", ".", _txt)
         _dims[16] = _txt
 
-# Keep the resolved assessment visible without misclassifying it as active implementation work.
-RESOLVED_DEFERRED = {"P-08"}
+# Keep the completed/reconciled item visible without misclassifying it as active pending work.
+RESOLVED_DEFERRED = set()
+COMPLETED_RECONCILED = {"P-08"}
 for _i, _p in enumerate(PENDING):
     if _p[0] == "P-08":
-        PENDING[_i] = ("P-08","Resolved governance deferrals","Row 29 — Authority, Acceptance","Operator Drop product admission assessment","RESOLVED — CONTINUED DEFERRAL (REG-06)","Assessment/documentation discrepancy resolved. Operator Drop remains an internal primitive; product admission is deferred. No active IPD documentation conflict or implementation task.","Future product change only: approved manual-ingestion requirement + explicit PA admission, then bounded IPD implementation/qualification/acceptance","PA (future requirement/admission)","PA (future product requirement/admission)","IPD (only subsequently authorized implementation)","No authorization for current assessment closure; future promotion requires express PA act","All four product prerequisites absent; implementation presence and internal tests are not admission","Current: IPD PR #115 deferral record + IRR dated correction and consistent matrix/register. Future: PA act + PIT writes + series-qualified ISIN + explicit export + product callers/E2E + acceptance","IPD main@e9c2eef6c82ba51814a72ce962cf227e9fd89d56; PR #115; tracker blob efa804097d51263ce91dff4ac7201fb572ef1d8a; IRR §16.238 / PA §5.5 [E018][E026][E043][E044]","No active correction or implementation action. Retain deferral; PA may revisit only with an approved product requirement and explicit admission.","P-08 assessment resolved as continued deferral; product remains unadmitted. Any future admission is a separate authorized path.")
+        PENDING[_i] = ("P-08","Completed / reconciled items","Row 29 — Authority, Acceptance","Operator Drop REG-06 admission, implementation and IRR reconciliation","COMPLETED — IPD REG-06; IRR RECONCILED","No active REG-06 implementation/documentation residual. Historical DEFERRED and PR #115 assessment preserved as superseded history.","Separate production admission/deployment, AD-17/M-2, O-05 admission and P-1 execution remain unauthorized/open under their own gates","PA (authority recorded on IPD); IRR (reconciliation)","IRR (verification/reconciliation)","IPD (completed implementation)","No new authority from this reconciliation; production/AD-17/M-2/P-1 require their own explicit gates","None for REG-06 itself. O-05 OPEN; P-1-C NOT ESTABLISHED; P-1-D DESIGNATED, NOT VERIFIED FOR THE ATTEMPT; P-1 ONE ATTEMPT ONLY, NOT EXECUTED, UNSPENT","IPD PR #117 admission record, durable PIT/identity/runtime/export source, emitted package, 987/986/0/1 full suite, 46/46 focused, package-consumer/tarball smoke, IRR §16.242 and consistent matrix/register","IPD main@eb9289222e2bdfd0e79381d4d81f7f81715e019b; PR #117; head 5b2c03dc8888aa40a4dd967ef6e7f3b76731c01e; tracker blob c1c666149c2d907026df3d9a2d184d2b9a2383c0; IRR §16.242 / PA §5.6 [E045][E046][E047][E048][E049][E050]","Protect completed IPD scope and historical records; do not infer production, IRR acceptance, O-05 closure or P-1 execution.","IPD REG-06 admission/implementation completed; IRR verification/reconciliation completed; separate gates remain unchanged.")

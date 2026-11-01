@@ -1,0 +1,1 @@
+42c28ff849017610cae2ba6bed1906833bb92d35817be33605454b888a16d19d  ../raw/iips-production-market-data-1.0.0.tgz

@@ -493,14 +493,15 @@ def git_grep_count(revision: str, token: str) -> int:
     require(result.returncode in (0, 1), "git grep census failed at " + revision + ": " + token)
     return len(result.stdout.splitlines())
 
-for revision in (allocation_history_commit, branch_commit):
-    require(git_grep_count(revision, "## §16.242") == 0 and
-            git_grep_count(revision, "CV-CORR-222") == 0 and
-            git_grep_count(revision, "CHG-2026-11-01-21") == 0,
+retry_integrity_allocation_baseline = "6e23d10049d8336b67ea75d5ca524f8835128520"
+for revision in (allocation_history_commit, branch_commit, retry_integrity_allocation_baseline):
+    require(git_grep_count(revision, "## §16.243 — `CV-CORR-223`") == 0 and
+            git_grep_count(revision, "| `CHG-2026-11-01-22` |") == 0,
             "retry-module integrity allocation already exists at census baseline " + revision)
-    for number in range(1936, 1946):
+    for number in range(1950, 1960):
         require(git_grep_count(revision, f"| `V{number}` |") == 0,
                 "retry-module integrity verification allocation collides at census baseline " + revision)
+for revision in (allocation_history_commit, branch_commit):
     require(git_grep_count(revision, "## §16.222") == 0,
             "§16.222 already had a Q-EV allocation heading at census baseline " + revision)
     require(git_grep_count(revision, QEV_ACT_ID) == 0,
@@ -569,7 +570,7 @@ require(tracker.count("| `2026-10-30` | `CHG-2026-10-30-11` |") == 1 and
         "Next free after this section: **`§16.222` / `CV-CORR-202` / `CHG-2026-10-30-17` / `V1712`**" in tracker,
         "historical Revision 7 change-log or latest-main/Q-EV allocation is inconsistent")
 first_lines = "\n".join(tracker.splitlines()[:30])
-require("**Latest (`CV-CORR-222`, §16.242, `CHG-2026-11-01-21`" in first_lines and
+require("**Latest (`CV-CORR-223`, §16.243, `CHG-2026-11-01-22`" in first_lines and
         "CV-CORR-209`/§16.229" in first_lines and
         "**Latest (`CV-CORR-208`" in first_lines and
         PREFLIGHT_AUTHORITY_ID in first_lines and "exactly one capture-only" in first_lines and
@@ -586,14 +587,15 @@ require("**Current CAP-03 P-1 / PF-15 status** — *current pointer (`CV-CORR-22
         "P-1-C remains NOT ESTABLISHED" in first_lines and
         "P-1-D remains DESIGNATED / NOT VERIFIED FOR THE ATTEMPT" in first_lines,
         "CAP-03 current-state pointer does not preserve distinct-stop provenance or unreconciled consumption")
-retry_integrity_heading = "## §16.242 — `CV-CORR-222`: CAP-03 P1-F retry-policy module working-tree integrity correction"
+retry_integrity_heading = "## §16.243 — `CV-CORR-223`: CAP-03 P1-F retry-policy module working-tree integrity correction"
 require(tracker.count(retry_integrity_heading) == 1 and
         "## §16.241 — `CV-CORR-221`: PA standing authorization" in tracker and
+        "## §16.242 — `CV-CORR-222`: REG-06 Operator Drop implementation admitted on IPD and reconciled in IRR" in tracker and
         "C4FA71B5DFDF8653139FC8DC5CB4E2F6E624CAB917A68AC99FAC5A0B171DD8C0" in tracker and
         "168DF3C2C8CC42313920832A70B289FE88A4FBFC27E403B3987F1D2197F688D8" in tracker and
-        "§16.243` / `CV-CORR-223` / `CHG-2026-11-01-22` / `V1946`" in tracker,
+        "§16.244` / `CV-CORR-224` / `CHG-2026-11-01-23` / `V1960`" in tracker,
         "retry-module integrity correction allocation or exact byte-level finding is incomplete")
-for verification_id in range(1936, 1946):
+for verification_id in range(1950, 1960):
     require(tracker.count(f"| `V{verification_id}` |") == 1,
             "retry-module integrity verification row missing/duplicated: V" + str(verification_id))
 tracker_lines = tracker.splitlines()
