@@ -81,9 +81,28 @@ Completed IRR validation:
 - Full `npm test` — **109 files / 1,365 tests passed**.
 - `npm run build` — passed; 142 modules transformed. Vite emitted only the existing large-chunk advisory.
 - `git diff --check` — passed.
-- Published on IRR branch `arena/2fe4bbb4-iips-review-recovered`; current commit `0e08b4ca754f1789ed189cde1448a49a8796f69c`. PR #424 is open: <https://github.com/ramkivs/iips-review-recovered/pull/424>.
-- GitHub Actions CI run `41329226260` passed all workflow steps on the current code commit, including lockfile install, both typechecks, full Vitest suite, non-zero test guard, and production build. The earlier run exposed a target-library incompatibility (`String.replaceAll` in the replay-server closure); commit `0e08b4c` replaced it with equivalent ES2020-compatible regex normalization, after which the remote run passed.
+- Pre-merge publication snapshot: branch `arena/2fe4bbb4-iips-review-recovered`; PR #424 was open. CI run `41329226260` passed on code commit `0e08b4ca754f1789ed189cde1448a49a8796f69c`; the later, actual PR head and successful CI are reconciled in §7 below.
+- GitHub Actions CI run `41329226260` passed all workflow steps on `0e08b4c`, including lockfile install, both typechecks, full Vitest suite, non-zero test guard, and production build. The first run exposed a target-library incompatibility (`String.replaceAll` in the replay-server closure); commit `0e08b4c` replaced it with equivalent ES2020-compatible regex normalization, after which the remote run passed.
 
 These checks establish IRR code/test behavior against synthetic IPC and the exact source pin, not the user's Windows named-pipe ACL, actual running provider, or live response.
 
 **Next action:** on the designated Windows laptop, start the already-provisioned IPD G3 IPC provider against the reported database path, start IRR with the variables in §4, and request `GET /api/user-portfolios`. Verify the response is HTTP 200 with `{"portfolios":[]}` and that detail/revision reads are only made for IDs actually returned by IPD. Do not reprovision the database or attempt a write. Record this as operator-executed evidence; it is not an Arena observation.
+
+## 7. Post-merge documentation reconciliation (2026-11-01)
+
+**Stale commit/status reference reconciled without changing historical evidence.** The original publication note identified `0e08b4c` as the “current” commit. That is the code commit exercised by CI run `41329226260`, but by the time the publication note was finalized, the PR branch had advanced to `dcd9c27eb8ea0af66b8cab8d90221c8711e4ea99`; run `41329410819` passed on that exact PR head. The note above now preserves `0e08b4c` as the earlier tested code snapshot rather than current main. PR #424 was merged at `2026-11-01T17:22:44Z`.
+
+GitHub independently reports authoritative IRR `main` at merge commit `abb5bdaf9dcae7586b2a2ab1b66c81461eca1f97`, tree `20786750a3756cf16e816a48b1e919fafc45012a`. The PR merge commit has the exact PR-head `dcd9c27…` as its second parent; no application implementation changed after the successful exact-head CI run.
+
+## 8. Downstream status and boundaries
+
+| Status | Item | Disposition |
+|---|---|---|
+| **Completed** | IPD Direct P1 source pin; IRR IPC read composition; PR #424 merge; synthetic Unix-socket end-to-end tests; exact-head GitHub CI | The merged source shape is implemented with closed validation. No duplicate IPD work is needed. |
+| **Pending — operator** | Windows named-pipe smoke test | Start the already-provisioned IPD provider and IRR as in §4; issue the list GET and record status/body. This is the exact next action. Do not rerun provisioning or attempt a write. |
+| **Pending — contract/documentation** | Handoff §3.3 versus exact merged IPD source schema | The discrepancy is recorded in §5. The source implementation remains the current integration basis. Reconcile the handoff/source description before claiming a populated provider response if observed wire data differs; IRR must fail closed on a mismatch. |
+| **Pending — evidence/qualification** | Native endpoint-literal evidence (tracker pending item P-31) | The IRR integration peer uses a synthetic Unix-domain socket; it does not exercise `\\.\pipe\iips-user-portfolio-v1` or Windows ACL behavior. The operator smoke test is not claimed as already satisfying P-31; map and accept that evidence or record the applicable PA disposition. |
+| **Pending — governance record, not a provisioning prerequisite** | Pre-Direct-P1 P1-F / G14 tracker state | The 2026-10-31 consolidated resolution still lists G6 P1-F consumption as unreconciled; its pending register still labels P-10 unspent and P-37 unreconciled. These are dated pre-Direct-P1 records. The user-reported Direct P1 provisioning evidence does not establish the separate P1-F authorization's consumption state. Preserve those historical entries and reconcile through a dated authoritative overlay if needed; do not repeat P1-F or treat it as a prerequisite to the Direct P1 IPC smoke test. |
+| **Blocked — broader program gates; outside this integration** | Final G14 reconciliation / full qualification and admission | The 2026-10-31 assessment leaves G14 partial/blocked: S3, QE (0/11), DQ-4 (8/10), Gate 4 pin/acceptance, Gate 5, and identified PA decisions remain. PR #424 does not close or authorize those broader gates; this narrow personal/local read does not claim full conformance, qualification, admission, or production readiness. |
+| **Not admitted / not a follow-up action** | Context discovery, HTTP writes, certified-analytics integration, other owner-scoped surfaces | Gate E W-1 and the existing fences remain unchanged. No write, broader capability, tenant/identity channel, or production/multi-user behavior is authorized by this integration. |
+| **Optional** | `tenantHint` | It is omitted by this HTTP composition and is not needed for Direct P1 owner resolution. Do not add it to IPC. |
