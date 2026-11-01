@@ -1,0 +1,77 @@
+{
+  "repository": "ramkivs/iips-review-recovered",
+  "pr": 410,
+  "pr_head": "4f0e37d0a93994e31868fb28f7684fee5ea0b408",
+  "merge_commit": "e7473d5200ec690bc0b317ba75eaf5b2e3e62697",
+  "merged_at": "2026-11-01T09:46:19Z",
+  "pr_ci_run": 41290160356,
+  "post_merge_ci_run": 41290247669,
+  "post_merge_ci_conclusion": "success",
+  "artifacts": [
+    {
+      "path": "IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md",
+      "blob": "e0c658cdd1d8de6090843b2d6f0d41e5bf7fa464",
+      "bytes": 3668421,
+      "sha256": "74864e755b8594d717a58c5501bb6827b0d64b05d55fffd259fb8af964ed741c",
+      "remote_equals_local": true
+    },
+    {
+      "path": "docs/integration/IIPS_v3.0_GOVERNANCE_RECONCILIATION_PA_DECISION_2026-10-13.md",
+      "blob": "e089150225a9a04be093bd83aa4f440a0a70165f",
+      "bytes": 23341,
+      "sha256": "c619cf8f9659c94208553fb3119cc97149cac810533c488903e36c3f2b9d0c63",
+      "remote_equals_local": true
+    },
+    {
+      "path": "docs/integration/IIPS_v3.0_P08_REG06_IRR_RECONCILIATION_2026-11-01.md",
+      "blob": "59ad56bd5f80393178b1483a0324d87466ff8a64",
+      "bytes": 7853,
+      "sha256": "492ddb1f788b762d0357628551d1cc688e6ac41e18343e2669545f636552c0e7",
+      "remote_equals_local": true
+    },
+    {
+      "path": "docs/integration/IIPS_v3.0_CAPABILITY_MATRIX_51X17_REASSESSMENT_2026-10-31.md",
+      "blob": "77b0b015da48b44f6ac7607feee8c33b5da6f75d",
+      "bytes": 5900,
+      "sha256": "38005fa049717810eb7b97cd0e77402c885b7d7c75e55be7e72b1f0c4eb87312",
+      "remote_equals_local": true
+    },
+    {
+      "path": "evidence/integration/capability-matrix-51x17-reassessment-2026-10-31/IIPS_V3_OUTSTANDING_PENDING_2026-10-31.csv",
+      "blob": "b5713d56c6eaf45d4802cd69dc0bcb8fe7af9f23",
+      "bytes": 28096,
+      "sha256": "043625c6d71dda7370b6947db1846ea414db2750dc6e843b2e7d10b26f361a84",
+      "remote_equals_local": true
+    },
+    {
+      "path": "evidence/integration/capability-matrix-51x17-reassessment-2026-10-31/IIPS_V3_CAPABILITY_MATRIX_51x17_REASSESSED_2026-10-31.csv",
+      "blob": "094f7baf5afafa1a0ff5aba2d570a72dbd6a47c0",
+      "bytes": 59762,
+      "sha256": "28f66ecc5712d67b00464c0ab4e8e23e486ae24dc0206947bd4b1d600b3ba1e0",
+      "remote_equals_local": true
+    },
+    {
+      "path": "evidence/integration/capability-matrix-51x17-reassessment-2026-10-31/IIPS_V3_CAPABILITY_MATRIX_51x17_REASSESSED_2026-10-31.xlsx",
+      "blob": "a651a9ab5eeb8ec3dc4f300dca601d9977dc9b8e",
+      "bytes": 105902,
+      "sha256": "a58832d6861230b1c004379f188202fde1116403466225fa9b64897e9e441f75",
+      "remote_equals_local": true
+    },
+    {
+      "path": "evidence/integration/p08-reg06-irr-reconciliation-2026-11-01/00-reconciliation-checks.json",
+      "blob": "1dc2847e52d37b8ec8d3a404fd29e64a676451d2",
+      "bytes": 2460,
+      "sha256": "ae2b8158cb654692ac13f38bba4a206e6514e4c7b438ffe213c051d3fa6fc255",
+      "remote_equals_local": true
+    }
+  ],
+  "semantic_checks": {
+    "tracker_symbol_corrected": true,
+    "dated_pa_correction_present": true,
+    "p08_resolved_continued_deferral": true,
+    "matrix_51x17": true
+  },
+  "ipd_main": "e9c2eef6c82ba51814a72ce962cf227e9fd89d56",
+  "ipd_modified": false,
+  "outcome": "RESOLVED \u2014 CONTINUED DEFERRAL (REG-06); not product admission"
+}
