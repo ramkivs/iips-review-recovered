@@ -16,7 +16,7 @@ index 666f392..b9d7bb5 100644
 --- a/tests/cap02_pit_d114_package.test.ts
 +++ b/tests/cap02_pit_d114_package.test.ts
 @@ -354,7 +354,17 @@ describe('CAP-02 B-1R deterministic non-production D114 population', () => {
- 
+
  describe('CAP-02 B-1R public entry and manifest conformance', () => {
    it('exports exactly the intended runtime symbols from the source entries', () => {
 -    assert.deepStrictEqual(Object.keys(pitPackage).sort(), ['PitReadService', 'PointInTimeStore'].sort());
@@ -56,7 +56,7 @@ index ecbc365..3cc486b 100644
 @@ -367,11 +367,14 @@ describe('CAP-02 Increment A — T-PKG-4: package manifest and built artifacts',
    const builtEntry = resolve(REPO_ROOT, exportEntry?.import ?? '');
    const builtTypes = resolve(REPO_ROOT, exportEntry?.types ?? '');
- 
+
 -  it('declares exactly the three authorized public subpaths', () => {
 +  it('declares exactly the authorized public subpaths', () => {
 +    // REG-06 admission (2026-11-01) added ./operator-drop. The assertion still

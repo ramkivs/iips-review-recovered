@@ -12,7 +12,7 @@ Outcome: **IPD product admission/implementation COMPLETED; IRR RECONCILED.** Pro
 | `raw/technical-verification.json` | Source/package/export/protected-path/boundary summary |
 | `raw/ipd-exact-checkout-*.log.txt`, `raw/ipd-reg06-focused-compiled-tests.log.txt` | Full 987/986/0/1, focused 46/46, build/typecheck/package-consumer |
 | `raw/ipd-pack*.json`, `raw/ipd-tarball-smoke.*` | 151-entry tarball and independent installed-package runtime smoke |
-| `raw/ipd-contract-test-diff.patch` | Exact-contract assertions updated, not weakened |
+| `raw/ipd-contract-test-diff.patch` | Exact-contract assertions updated, not weakened (stored copy whitespace-normalized for repository hygiene; regenerate from IPD refs for byte-exact patch) |
 | `raw/irr-pre-correction-state.json`, `raw/pre-correction-*.csv`, `raw/amendment-changed-cells.json` | Historical preservation and only row 29/P-08 amended |
 | `verify_reconciliation.py`, `00-reconciliation-checks.json` | Reproducible local consistency checks |
 | `publication-readback.json` | Post-merge IRR PR/main/CI/blob receipt, populated only after actual publication |
