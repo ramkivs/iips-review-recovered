@@ -1,0 +1,20 @@
+COMPLETED-WORK REGISTERS — IDENTIFIER ALLOCATION CENSUS (2026-11-02)
+IRR baseline main: 6f347a018dbfacbc7d5e62fe9f773b323ce9d69c
+IPD baseline main: 0a3b5f0f038e13305a3b927865acc349e19f043f
+Open PRs at census: IRR 0, IPD 0
+
+Allocated by this record (0 prior occurrences at the baseline, verified with git grep):
+  §16.248 / CV-CORR-228 / CHG-2026-11-01-27 / V2011-V2022
+  IIPS-V3-COMPLETED-WORK-AND-AUTHORITY-REGISTERS-IRR-2026-11-02-01
+
+Counts:
+  Register A (IRR-owned): 63
+  Register A.X (IPD-owned cross-references): 22
+  Register B: 22
+  Register C: 28
+  Register D: 22
+  Register A items requiring no re-execution: 58
+
+Method: read-only. git grep over the full-history IRR checkout at the baseline;
+GitHub API for remote refs and PR state; full clone of IPD read-only.
+No host access. No re-execution of S2, P-2, PF, P1-F or Direct P1.
