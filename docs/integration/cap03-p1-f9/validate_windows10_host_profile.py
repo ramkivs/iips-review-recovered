@@ -271,6 +271,35 @@ required_guards = [
 for guard in required_guards:
     require(guard in source, "required authority/runtime/path/single-attempt guard missing: " + guard)
 
+# Keep current IRR source/authority identity distinct from the PA-designated IPD execution pin and PA-06 S2 evidence.
+incident_irr_main = "35e12853784bebe573c1f37026dade24f37fb8f5"
+require("$ExpectedCommit       = '" + EXPECTED_COMMIT + "'" in corrected_source and
+        "$ExpectedTree         = '" + EXPECTED_TREE + "'" in corrected_source,
+        "P1 execution commit/tree no longer match the PA-designated IPD pin")
+require("$IrrRepo              = 'ramkivs/iips-review-recovered'" in corrected_source and
+        "$IpdRepo              = 'ramkivs/iips-production-market-data'" in corrected_source,
+        "IRR source repository and IPD execution repository must remain separate")
+s02_source = corrected_source[corrected_source.index("function Invoke-GitPin {"):corrected_source.index("function Invoke-PreClaimTrackerPointer {")]
+designated_blob_start = corrected_source.index("# Designated blobs at the pin")
+designated_blob_end = corrected_source.index("# Authorization freshness", designated_blob_start)
+designated_blobs_source = corrected_source[designated_blob_start:designated_blob_end]
+require("$headCommit -ceq $ExpectedCommit" in s02_source and "$headTree -ceq $ExpectedTree" in s02_source and
+        "$treeBlobs[$item.Path] -cne $item.Blob" in s02_source and designated_blobs_source.count("Blob = '") == 15,
+        "S02 no longer fail-closes on the designated IPD commit/tree and all 15 pinned blobs")
+require("an absolute path to an IPD checkout **at** the designated pin" in authority and
+        "A different executing identity is not this authorization." in authority,
+        "P1 authorization does not explicitly require the IPD checkout at PD-1")
+freshness_source = corrected_source[corrected_source.index("function Invoke-Freshness {"):corrected_source.index("function Invoke-PreInvocationRecheck {")]
+require("repos/' + $IrrRepo + '/git/ref/heads/main" in freshness_source and
+        "F-MAIN-SHA" in freshness_source and "F-IPD-PIN-TREE" in freshness_source and
+        "F-P1F-ENTRY" in freshness_source,
+        "current IRR main/source authority and remote IPD pin are not independently checked by freshness")
+admitted_s2_source = corrected_source[corrected_source.index("function Invoke-AdmittedS2EvidenceCheck {"):corrected_source.index("function Invoke-PreStateValidate {")]
+for token in ("$S2RunId", "$ExpectedCommit", "$ExpectedTree", "$S2SealSha256", "S04-S2-SEALED-FILES", "S04-S2-MANIFEST-IDENTITY"):
+    require(token in admitted_s2_source, "S04 no longer binds/verifies PA-06 S2 evidence identity/integrity: " + token)
+require(incident_irr_main != EXPECTED_COMMIT,
+        "incident IRR main must not be substituted for the designated IPD execution commit")
+
 # The current one-pass candidate must launch every Node command through the exact preinstalled Node 22 binary.
 node_invocations = re.findall(r"(?m)Invoke-Capture[^\r\n]*?-FilePath\s+([^\s]+)", corrected_source)
 require(r"$PinnedNodeExe        = 'C:\Node22\node-v22.16.0-win-x64\node.exe'" in corrected_source and
@@ -501,6 +530,14 @@ for revision in (allocation_history_commit, branch_commit, retry_integrity_alloc
     for number in range(1950, 1960):
         require(git_grep_count(revision, f"| `V{number}` |") == 0,
                 "retry-module integrity verification allocation collides at census baseline " + revision)
+s02_pin_allocation_baseline = "35e12853784bebe573c1f37026dade24f37fb8f5"
+for revision in (allocation_history_commit, branch_commit, s02_pin_allocation_baseline):
+    require(git_grep_count(revision, "## §16.244 — `CV-CORR-224`") == 0 and
+            git_grep_count(revision, "| `CHG-2026-11-01-23` |") == 0,
+            "S02 pin-investigation allocation already exists at census baseline " + revision)
+    for number in range(1960, 1973):
+        require(git_grep_count(revision, f"| `V{number}` |") == 0,
+                "S02 pin-investigation verification allocation collides at census baseline " + revision)
 for revision in (allocation_history_commit, branch_commit):
     require(git_grep_count(revision, "## §16.222") == 0,
             "§16.222 already had a Q-EV allocation heading at census baseline " + revision)
@@ -570,7 +607,7 @@ require(tracker.count("| `2026-10-30` | `CHG-2026-10-30-11` |") == 1 and
         "Next free after this section: **`§16.222` / `CV-CORR-202` / `CHG-2026-10-30-17` / `V1712`**" in tracker,
         "historical Revision 7 change-log or latest-main/Q-EV allocation is inconsistent")
 first_lines = "\n".join(tracker.splitlines()[:30])
-require("**Latest (`CV-CORR-223`, §16.243, `CHG-2026-11-01-22`" in first_lines and
+require("**Latest (`CV-CORR-224`, §16.244, `CHG-2026-11-01-23`" in first_lines and
         "CV-CORR-209`/§16.229" in first_lines and
         "**Latest (`CV-CORR-208`" in first_lines and
         PREFLIGHT_AUTHORITY_ID in first_lines and "exactly one capture-only" in first_lines and
@@ -588,16 +625,34 @@ require("**Current CAP-03 P-1 / PF-15 status** — *current pointer (`CV-CORR-22
         "P-1-D remains DESIGNATED / NOT VERIFIED FOR THE ATTEMPT" in first_lines,
         "CAP-03 current-state pointer does not preserve distinct-stop provenance or unreconciled consumption")
 retry_integrity_heading = "## §16.243 — `CV-CORR-223`: CAP-03 P1-F retry-policy module working-tree integrity correction"
-require(tracker.count(retry_integrity_heading) == 1 and
+s02_pin_heading = "## §16.244 — `CV-CORR-224`: CAP-03 P1-F S02 execution-pin identity investigation"
+require(tracker.count(retry_integrity_heading) == 1 and tracker.count(s02_pin_heading) == 1 and
         "## §16.241 — `CV-CORR-221`: PA standing authorization" in tracker and
         "## §16.242 — `CV-CORR-222`: REG-06 Operator Drop implementation admitted on IPD and reconciled in IRR" in tracker and
         "C4FA71B5DFDF8653139FC8DC5CB4E2F6E624CAB917A68AC99FAC5A0B171DD8C0" in tracker and
         "168DF3C2C8CC42313920832A70B289FE88A4FBFC27E403B3987F1D2197F688D8" in tracker and
-        "§16.244` / `CV-CORR-224` / `CHG-2026-11-01-23` / `V1960`" in tracker,
-        "retry-module integrity correction allocation or exact byte-level finding is incomplete")
+        "§16.245` / `CV-CORR-225` / `CHG-2026-11-01-24` / `V1973`" in tracker and
+        "p1-exe-20261101T131605529Z-94200985" in tracker and
+        "retry eligibility remains unestablished" in tracker,
+        "retry-integrity history or new S02 pin investigation/allocation is incomplete")
 for verification_id in range(1950, 1960):
     require(tracker.count(f"| `V{verification_id}` |") == 1,
             "retry-module integrity verification row missing/duplicated: V" + str(verification_id))
+for verification_id in range(1960, 1973):
+    require(tracker.count(f"| `V{verification_id}` |") == 1,
+            "S02 pin-investigation verification row missing/duplicated: V" + str(verification_id))
+require("## S. S02 execution-pin stop: IRR freshness is not an IPD execution checkout" in report and
+        "## 19. S02 pin mismatch: repository identity boundary" in readme,
+        "S02 authority finding is not documented in the source report and CAP-03 README")
+for current_source_sha in (
+    "4E3BBDEEF4AF436A1CFDB9D024E81CE33F776D20DC8119799E20DA8738D60F24",
+    "7E7D20AF257C3503268093D39035EBA74F3903BA8F650F7BCDBBAF5019E81071",
+    "C4FA71B5DFDF8653139FC8DC5CB4E2F6E624CAB917A68AC99FAC5A0B171DD8C0",
+    "F54C8E11C681E911B6D29B24FF2E3CB5054025E12FCBD822F84E90400EB839F4",
+    "451BFA40520E10B467245E2F32DA5BE73D81695C20F48CD0A016F78F9AF599C4",
+):
+    require(current_source_sha in report,
+            "S02 investigation report omits a reviewed current-main source identity: " + current_source_sha)
 tracker_lines = tracker.splitlines()
 latest_pointer_lines = [line for line in tracker_lines if "**Latest (`CV-CORR-208`" in line]
 current_status_lines = [line for line in tracker_lines if "**Current CAP-03 P-1 / PF-15 status**" in line]
@@ -891,7 +946,29 @@ require(len(seal_map) == 16 and set(entries) == set(seal_map) | {"SHA256SUMS.txt
         "S2 sealed-file set is incomplete or contains extras")
 for name, digest in seal_map.items():
     require(digest in eol_digest_candidates(entries[name]), "S2 sealed-file digest mismatch: " + name)
+tampered_result = bytearray(entries["RESULT.txt"])
+tampered_result[0] ^= 1
+require(seal_map["RESULT.txt"] not in eol_digest_candidates(bytes(tampered_result)),
+        "a tampered S2 artifact fixture must fail the unchanged seal digest")
 manifest = json.loads(entries["MANIFEST.json"])
+
+def admitted_s2_identity_matches(candidate: dict) -> bool:
+    pin = candidate.get("pin", {})
+    observed = candidate.get("observed", {})
+    return (candidate.get("run_id") == RUN_ID and pin.get("commit") == EXPECTED_COMMIT and
+            pin.get("tree") == EXPECTED_TREE and observed.get("head") == EXPECTED_COMMIT and
+            observed.get("tree") == EXPECTED_TREE)
+
+require(admitted_s2_identity_matches(manifest), "unmodified PA-06 S2 evidence must match the exact admitted identity")
+wrong_commit_manifest = dict(manifest)
+wrong_commit_manifest["pin"] = dict(manifest["pin"], commit=incident_irr_main)
+wrong_commit_manifest["observed"] = dict(manifest["observed"], head=incident_irr_main)
+require(not admitted_s2_identity_matches(wrong_commit_manifest),
+        "S2 identity fixture with current IRR main substituted for the historical IPD commit must be rejected")
+wrong_tree_manifest = dict(manifest)
+wrong_tree_manifest["pin"] = dict(manifest["pin"], tree="0" * 40)
+require(not admitted_s2_identity_matches(wrong_tree_manifest),
+        "S2 identity fixture with a mismatched historical tree must be rejected")
 require(manifest.get("schema") == "IIPS-V3-CAP03-S2-RUN-MANIFEST-v1" and
         manifest.get("run_id") == RUN_ID and manifest.get("status") == "PASS", "S2 manifest identity/status mismatch")
 require(manifest.get("pin") == {"commit": EXPECTED_COMMIT, "tree": EXPECTED_TREE} and
