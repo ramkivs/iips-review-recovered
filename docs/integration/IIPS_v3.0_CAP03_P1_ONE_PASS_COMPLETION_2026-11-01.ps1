@@ -94,7 +94,7 @@ try {
 
     Import-Module -Name $ArtifactModule -Force -ErrorAction Stop
     if (-not (Test-Path -LiteralPath $RecoveryRoot -PathType Container)) {
-        $recoveryArgs = @('-RecoveryRoot', $RecoveryRoot, '-NonInteractive')
+        $recoveryArgs = @('-RecoveryRoot', $RecoveryRoot)
         if ($OriginalVerificationOutputPath -ne '') {
             $recoveryArgs += @('-OriginalVerificationOutputPath', $OriginalVerificationOutputPath)
         }
