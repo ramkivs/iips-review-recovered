@@ -76,10 +76,13 @@ Completed IRR validation:
 
 - `npm ci --ignore-scripts --no-audit --no-fund` — passed with the documented `NODE_EXTRA_CA_CERTS` trust configuration; the lockfile resolves the primary package to the exact IPD commit above.
 - Focused user-portfolio suite — **11 files / 169 tests passed**.
+- `npm run typecheck:replay-server` — passed (the strict governed Screen replay server import-closure check).
 - `npm run typecheck` — passed.
-- Full `npm test` — **109 files / 1,364 tests passed**.
+- Full `npm test` — **109 files / 1,365 tests passed**.
 - `npm run build` — passed; 142 modules transformed. Vite emitted only the existing large-chunk advisory.
 - `git diff --check` — passed.
+- Published on IRR branch `arena/2fe4bbb4-iips-review-recovered`; current commit `0e08b4ca754f1789ed189cde1448a49a8796f69c`. PR #424 is open: <https://github.com/ramkivs/iips-review-recovered/pull/424>.
+- GitHub Actions CI run `41329226260` passed all workflow steps on the current code commit, including lockfile install, both typechecks, full Vitest suite, non-zero test guard, and production build. The earlier run exposed a target-library incompatibility (`String.replaceAll` in the replay-server closure); commit `0e08b4c` replaced it with equivalent ES2020-compatible regex normalization, after which the remote run passed.
 
 These checks establish IRR code/test behavior against synthetic IPC and the exact source pin, not the user's Windows named-pipe ACL, actual running provider, or live response.
 
