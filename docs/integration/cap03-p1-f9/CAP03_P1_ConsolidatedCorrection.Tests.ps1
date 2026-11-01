@@ -12,6 +12,7 @@ $ErrorActionPreference = 'Stop'
 $RepoRoot = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..\..\..'))
 $GitAttributesPath = Join-Path $RepoRoot '.gitattributes'
 $P1Path = Join-Path $RepoRoot 'docs\integration\IIPS_v3.0_CAP03_P1_F_P-1_CORRECTED_EXECUTION_SCRIPT_2026-10-31.ps1'
+$P1AuthorizationPath = Join-Path $RepoRoot 'docs\integration\IIPS_v3.0_CAP03_P1_AUTHORIZATION_ACT_AND_PREREQUISITE_DECISIONS_2026-10-29.md'
 $HistoricalP1Path = Join-Path $RepoRoot 'docs\integration\IIPS_v3.0_CAP03_P1_F_P-1_CORRECTED_EXECUTION_SCRIPT_2026-10-29.ps1'
 $S2Path = Join-Path $RepoRoot 'docs\integration\IIPS_v3.0_CAP03_S2_PIN_A891802E_WINDOWS_RUN_2026-10-28.ps1'
 $TransferPath = Join-Path $RepoRoot 'docs\integration\IIPS_v3.0_CAP03_S2_DEP_A_HOST_TRANSFER_2026-10-29.ps1'
@@ -52,6 +53,7 @@ foreach ($target in $parseTargets) {
 }
 
 $p1 = [IO.File]::ReadAllText($P1Path)
+$p1AuthorizationText = [IO.File]::ReadAllText($P1AuthorizationPath)
 $s2 = [IO.File]::ReadAllText($S2Path)
 $transfer = [IO.File]::ReadAllText($TransferPath)
 $recoveryScript = [IO.File]::ReadAllText($RecoveryPath)
@@ -69,6 +71,33 @@ Assert-True ($p1.Contains("S01-NODE-EXEC-PATH")) 'P1-F must verify Node reports 
 Assert-Equal 7 ([regex]::Matches($p1, '(?m)-FilePath \$script:Facts\.nodePath').Count) 'all runtime, entrypoint, and forensic Node invocations must use the pinned executable'
 Assert-Equal 0 ([regex]::Matches($p1, "(?m)-FilePath\s+'node'\b").Count) 'P1-F must never resolve Node through PATH'
 Assert-True (-not $p1.Contains("-FilePath 'npm.cmd'") -and -not $p1.Contains("-FilePath 'npx.cmd'")) 'P1-F must not introduce npm/npx PATH launchers; it does not install or rebuild'
+
+# S02 validates the authorized IPD execution checkout; IRR main remains a separate live source/authority identity.
+$s02Start = $p1.IndexOf('function Invoke-GitPin {', [StringComparison]::Ordinal)
+$s02End = $p1.IndexOf('function Invoke-PreClaimTrackerPointer {', $s02Start, [StringComparison]::Ordinal)
+Assert-True (($s02Start -ge 0) -and ($s02End -gt $s02Start)) 'S02 git-pin implementation remains present as a bounded function'
+$s02Source = $p1.Substring($s02Start, $s02End - $s02Start)
+Assert-True ($p1.Contains("`$ExpectedCommit       = 'a891802e2691bd9c65a67d6abff20d8ce0c26d7d'") -and $p1.Contains("`$ExpectedTree         = '76f083d7058e170d8212455c03bad1033136ee68'")) 'P1 execution identity remains the PA-designated historical IPD commit/tree'
+Assert-True ($p1.Contains("`$IrrRepo              = 'ramkivs/iips-review-recovered'") -and $p1.Contains("`$IpdRepo              = 'ramkivs/iips-production-market-data'")) 'current IRR source and designated IPD execution repository remain distinct'
+Assert-True ($s02Source.Contains("`$headCommit -ceq `$ExpectedCommit") -and $s02Source.Contains("`$headTree -ceq `$ExpectedTree") -and $s02Source.Contains("`$treeBlobs[`$item.Path] -cne `$item.Blob")) 'S02 must fail closed on a different commit, tree, or designated IPD blob'
+Assert-True ($p1AuthorizationText.Contains('an absolute path to an IPD checkout **at** the designated pin') -and $p1AuthorizationText.Contains('A different executing identity is not this authorization.')) 'governing P1-F act requires the local IPD checkout at PD-1; no reinterpretation as IRR main'
+$freshnessStart = $p1.IndexOf('function Invoke-Freshness {', [StringComparison]::Ordinal)
+$freshnessEnd = $p1.IndexOf('function Invoke-PreInvocationRecheck {', $freshnessStart, [StringComparison]::Ordinal)
+$freshnessSource = $p1.Substring($freshnessStart, $freshnessEnd - $freshnessStart)
+Assert-True ($freshnessSource.Contains("repos/' + `$IrrRepo + '/git/ref/heads/main") -and $freshnessSource.Contains("F-MAIN-SHA") -and $freshnessSource.Contains("F-IPD-PIN-TREE")) 'live IRR main freshness and remote IPD-pin provenance are checked separately from local S02'
+$admittedS2Start = $p1.IndexOf('function Invoke-AdmittedS2EvidenceCheck {', [StringComparison]::Ordinal)
+$admittedS2End = $p1.IndexOf('function Invoke-PreStateValidate {', $admittedS2Start, [StringComparison]::Ordinal)
+$admittedS2Source = $p1.Substring($admittedS2Start, $admittedS2End - $admittedS2Start)
+Assert-True ($admittedS2Source.Contains("`$S2RunId") -and $admittedS2Source.Contains("`$ExpectedCommit") -and $admittedS2Source.Contains("`$ExpectedTree") -and $admittedS2Source.Contains("`$S2SealSha256")) 'S04 independently binds admitted evidence to its run, historical commit/tree, and seal'
+$currentIrrMainAtIncident = '35e12853784bebe573c1f37026dade24f37fb8f5'
+$designatedS2Commit = 'a891802e2691bd9c65a67d6abff20d8ce0c26d7d'
+Assert-True ($currentIrrMainAtIncident -cne $designatedS2Commit) 'incident IRR main identity must not be substituted for the designated IPD execution pin'
+$validS2IdentityFixture = [pscustomobject]@{ PinCommit = $designatedS2Commit; PinTree = '76f083d7058e170d8212455c03bad1033136ee68'; ObservedCommit = $designatedS2Commit; ObservedTree = '76f083d7058e170d8212455c03bad1033136ee68' }
+$validS2Identity = ($validS2IdentityFixture.PinCommit -ceq $designatedS2Commit) -and ($validS2IdentityFixture.PinTree -ceq '76f083d7058e170d8212455c03bad1033136ee68') -and ($validS2IdentityFixture.ObservedCommit -ceq $designatedS2Commit) -and ($validS2IdentityFixture.ObservedTree -ceq '76f083d7058e170d8212455c03bad1033136ee68')
+$wrongS2IdentityFixture = [pscustomobject]@{ PinCommit = $currentIrrMainAtIncident; PinTree = '76f083d7058e170d8212455c03bad1033136ee68'; ObservedCommit = $currentIrrMainAtIncident; ObservedTree = '76f083d7058e170d8212455c03bad1033136ee68' }
+$wrongS2Identity = ($wrongS2IdentityFixture.PinCommit -ceq $designatedS2Commit) -and ($wrongS2IdentityFixture.PinTree -ceq '76f083d7058e170d8212455c03bad1033136ee68') -and ($wrongS2IdentityFixture.ObservedCommit -ceq $designatedS2Commit) -and ($wrongS2IdentityFixture.ObservedTree -ceq '76f083d7058e170d8212455c03bad1033136ee68')
+Assert-True $validS2Identity 'matching S2 evidence identity fixture is accepted by the equality contract'
+Assert-True (-not $wrongS2Identity) 'mismatched current-IRR-as-IPD evidence fixture is rejected'
 
 # Pre-start retries require verifiable sealed evidence; prior claims are immutable and process-start remains a hard stop.
 Assert-True ($retryAuthorityText.Contains('IIPS-V3-CAP03-PA-P1F-PRESTART-RETRY-AUTHORIZATION-2026-11-01-01')) 'PA retry act has a unique explicit identifier'
