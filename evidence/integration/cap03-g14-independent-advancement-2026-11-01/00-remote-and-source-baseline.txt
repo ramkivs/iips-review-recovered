@@ -1,0 +1,39 @@
+CAP-03 G14 independent advancement reconciliation — evidence baseline
+Date: 2026-11-01 (local date)
+Repository written: ramkivs/iips-review-recovered only
+
+IRR pass-start local branch: arena/df43eb17-iips-review-recovered
+IRR HEAD / origin/main: dd352e1e83be8bd2431196c8fa70a527bf5f67cf
+IRR tree: 64343b2605472c3487e23e7d386d114dcd3ad912 (local tree equals GitHub commit API tree)
+IPD current main: 0a3b5f0f038e13305a3b927865acc349e19f043f
+IPD tree: 45159ce02f4a4c30380463ac15c4d2a7f78b2af6
+IPD current main verified by GitHub commit API and remote ref.
+
+Fresh open-PR census:
+- IRR ramkivs/iips-review-recovered: []
+- IPD ramkivs/iips-production-market-data: []
+
+Latest relevant IPD publication:
+- PR #119, MERGED 2026-11-01T17:51:38Z
+- PR head: 571de7149911ca9a26fa44625dfab306a2ef0d2f
+- Merge: 0a3b5f0f038e13305a3b927865acc349e19f043f
+- Parent order: 279d1eed184f5e23bbabe5c6411085e120ce9e41; 571de7149911ca9a26fa44625dfab306a2ef0d2f
+- Exact-head CI: typecheck · build · test = SUCCESS (run 41333488214)
+- Exact-head executed test count = SUCCESS (run 124928554782)
+- Changed paths: docs/DIRECT_P1_PROVISIONING.md; docs/integration/IIPS_V3_DIRECT_P1_PROVISIONING_AND_IRR_HANDOFF_2026-11-01.md; evidence/cross-repository/IIPS_V3_CAP02_IPD_EXECUTION_TRACKER_2026-10-23.md; tests/direct_p1_handoff_doc_conformance.test.ts.
+- Scope: operator documentation, Direct P1 handoff documentation, IPD execution tracker, and a documentation/source contract conformance test. No src/, package, or runtime configuration path was changed by this PR.
+- Current handoff now matches the source schema at IPD 279d1eed… and documents how to start the local Windows IPC provider. The added conformance test checks docs/contracts; it does not run on the user's host or establish Windows pipe/DACL behavior.
+
+Authoritative IRR sources reviewed read-only before this overlay:
+- IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md through §16.246; next allocation §16.247 / CV-CORR-227 / CHG-2026-11-01-26 / V1995.
+- docs/integration/IIPS_v3.0_CAP03_G14_DEPENDENCY_ASSESSMENT_2026-10-31.md.
+- docs/integration/IIPS_v3.0_CAP03_S2_P1_S3_QE_EXECUTION_AND_EVIDENCE_MATRIX_2026-10-26.md.
+- docs/integration/IIPS_v3.0_CAP03_DQ4_QE_FREEZE_MANIFEST_2026-10-25.md and docs/integration/IIPS_v3.0_CAP03_DQ4_PIN_RECONCILIATION_AND_FREEZE_READINESS_2026-10-25.md.
+- docs/integration/IIPS_v3.0_CAP03_PF15_ENDPOINT_LOCAL_STATE_DESIGNATION_PA_ACT_CORRECTED_2026-10-26.md.
+- docs/integration/IIPS_v3.0_CAP03_G4_H12_R5_PA_ADOPTION_ACT_EFFECTIVE_2026-10-25.md.
+- docs/integration/IIPS_v3.0_CAP03_CONSOLIDATED_PA_DECISION_PACKAGE_PROPOSED_2026-10-29.md and docs/integration/IIPS_v3.0_CAP03_PA_RULINGS_RECORD_PASS2_2026-10-28.md.
+- docs/integration/IIPS_v3.0_CAP03_S2_ACCEPTANCE_DEPOSIT_AND_PR353_PA_RESOLUTION_RECORD_PROPOSED_2026-10-29.md and docs/integration/IIPS_v3.0_CAP03_S2_PIN_A891802E_WINDOWS_RUN_RECORD_2026-10-28.md.
+- docs/integration/IIPS_V3_DIRECT_P1_IRR_CONSUMPTION_RECORD_2026-11-01.md and docs/integration/IIPS_V3_CAP03_DIRECT_P1_P1F_AUTHORITY_RECONCILIATION_2026-11-01.md.
+- evidence/integration/capability-matrix-51x17-reassessment-2026-10-31/ (matrix, pending register, and verifier).
+
+Read-only boundaries observed: no IPD write/ref/PR/comment; no host, pipe, user database, Windows evidence root, P1-F claim/marker/process-start record, S3/QE run, or Gate 4/5 action.
