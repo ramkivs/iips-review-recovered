@@ -19240,3 +19240,26 @@ The launcher source identity is **10,255 bytes; SHA-256 `5020d81bd33e7e342c1dbb3
 | `V1880` | Execution/evidence scope fence | PASS — no P1-F, Preflight, S04 recovery, provisioning, IPD/production action, Windows-host operation, or host claim/evidence alteration occurred. |
 
 **Next free after this section:** `§16.237` / `CV-CORR-217` / `CHG-2026-11-01-16` / `V1881`.
+
+
+## §16.237 — `CV-CORR-217`: CAP-03 one-pass recovery named-parameter binding (`2026-11-01`; `CHG-2026-11-01-16`; `V1881`–`V1887`)
+
+**Scope.** Minimal defect correction to the one-pass launcher only; no PA decision, authorization, waiver, recovery procedure, evidence-retention behavior, claim/marker guard, or one-pass execution logic is changed. The S04 recovery script declares `OriginalVerificationOutputPath` before `RecoveryRoot`. The launcher's prior string-array splat therefore supplied `'-RecoveryRoot'` as the first positional value, binding it to `OriginalVerificationOutputPath` rather than treating it as a parameter name. The launcher now constructs a hashtable with named `RecoveryRoot`, adds named `OriginalVerificationOutputPath` only when non-empty, and invokes the same recovery script using hashtable splatting. `-NonInteractive` remains omitted.
+
+When the optional original-output path is empty, the hashtable omits that key; the recovery script's existing empty-string default continues into its existing PA-waiver branch. A controlled PowerShell fixture extracts the launcher's exact conditional invocation block and calls a temporary stub that uses the recovery script's actual parameter order. It checks both empty (PA-waiver) and non-empty output-path cases without running the recovery procedure. The tracked-clean guard remains exactly `if ($trackedChanges.Count -gt 0) { throw 'IRR_TRACKED_FILES_NOT_CLEAN' }`; all other launcher safeguards remain unchanged.
+
+Launcher identity: **10,270 bytes; SHA-256 `ee52676b72285774a10f405f7a83102ad3d949f337b37778bd5da76b455f759f`**. Local static/Python checks and Windows PowerShell 5.1 controlled fixtures are to be recorded below; this change does not execute the launcher or any host operation.
+
+### 16.237.1 Verification ledger (`V1881`–`V1887`)
+
+| ID | Verification | Result |
+|---|---|---|
+| `V1881` | Recovery parameter-order root cause and named binding | PASS — inspected wrapper declaration places `OriginalVerificationOutputPath` before `RecoveryRoot`; launcher now uses an explicit hashtable splat, not positional strings. |
+| `V1882` | Empty output-path / PA-waiver branch binding | PASS — controlled stub receives the expected `RecoveryRoot`; optional output key is omitted and stub default remains empty. No recovery operation is run. |
+| `V1883` | Non-empty output-path binding | PASS — controlled stub receives both exact named values using the wrapper's actual parameter order. |
+| `V1884` | PowerShell 5.1 parser and controlled fixtures | PENDING — applicable Windows PR workflow; tests invoke only the extracted launcher block with a temporary stub. |
+| `V1885` | IRR-only static validation, Python compilation, and diff hygiene | PENDING local/hosted validation. |
+| `V1886` | PR publication, exact remote readback, and CI | PENDING — ordinary PR only; record exact source/tree and successful checks before merge. |
+| `V1887` | Execution/evidence scope fence | PASS — no P1-F Execute, Preflight, recovery procedure, provisioning, Windows-host operation, or host claim/evidence alteration. |
+
+**Next free after this section:** `§16.238` / `CV-CORR-218` / `CHG-2026-11-01-17` / `V1888`.
