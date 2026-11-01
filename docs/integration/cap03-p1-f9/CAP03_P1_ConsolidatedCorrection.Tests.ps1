@@ -173,6 +173,8 @@ Assert-True ($fetchFailure.Contains('exit code 23')) 'fetch failure includes the
 Assert-True ($fetchFailure.Contains('controlled fetch failure')) 'fetch failure retains captured stderr diagnostics'
 Assert-Equal 23 $LASTEXITCODE 'genuine native fetch failure retains its explicit exit code'
 Assert-Equal 'Stop' $ErrorActionPreference 'fetch helper restores the caller error action preference after failure'
+# The GitHub PowerShell shell propagates LASTEXITCODE at script end; clear only after asserting the fixture's non-zero failure.
+$global:LASTEXITCODE = 0
 $distRoot = Join-Path $temp 'dist'
 $archivePath = Join-Path $temp 'dist-artifacts.zip'
 [void](New-Item -ItemType Directory -Path (Join-Path $distRoot 'src\persistence') -Force)
