@@ -154,27 +154,23 @@ $temp = Join-Path ([IO.Path]::GetTempPath()) ('CAP03-CONSOLIDATED-' + [guid]::Ne
 $gitShimRoot = Join-Path $temp 'git-shim'
 [void](New-Item -ItemType Directory -Path $gitShimRoot -Force)
 $gitShimPath = Join-Path $gitShimRoot 'git.cmd'
-$originalPath = $env:PATH
-try {
-    $env:PATH = $gitShimRoot + [IO.Path]::PathSeparator + $originalPath
-    [IO.File]::WriteAllText($gitShimPath, "@echo off`r`necho From fixture: informational fetch stderr 1>&2`r`nexit /b 0`r`n", [Text.Encoding]::ASCII)
-    $successfulFetchOutput = @(Invoke-GitFetchWithNativeStderrCapture -RepositoryRoot $temp)
-    $successfulFetchText = @($successfulFetchOutput | ForEach-Object { [string]$_.ToString() }) -join "`n"
-    Assert-True ($successfulFetchText.Contains('informational fetch stderr')) 'successful native fetch tolerates and captures informational stderr'
-    Assert-Equal 0 $LASTEXITCODE 'successful stderr fixture preserves native exit code zero'
-    Assert-Equal 'Stop' $ErrorActionPreference 'fetch helper restores the caller error action preference after success'
+$successfulGitShim = @('@echo off', 'echo From fixture: informational fetch stderr 1>&2', 'exit /b 0') -join "`r`n"
+[IO.File]::WriteAllText($gitShimPath, ($successfulGitShim + "`r`n"), [Text.Encoding]::ASCII)
+$successfulFetchOutput = @(Invoke-GitFetchWithNativeStderrCapture -RepositoryRoot $temp -GitExecutable $gitShimPath)
+$successfulFetchText = @($successfulFetchOutput | ForEach-Object { [string]$_ }) -join "`n"
+Assert-True ($successfulFetchText.Contains('informational fetch stderr')) 'successful native fetch tolerates and captures informational stderr'
+Assert-Equal 0 $LASTEXITCODE 'successful stderr fixture preserves native exit code zero'
+Assert-Equal 'Stop' $ErrorActionPreference 'fetch helper restores the caller error action preference after success'
 
-    [IO.File]::WriteAllText($gitShimPath, "@echo off`r`necho fatal: controlled fetch failure 1>&2`r`nexit /b 23`r`n", [Text.Encoding]::ASCII)
-    $fetchFailure = ''
-    try { $null = @(Invoke-GitFetchWithNativeStderrCapture -RepositoryRoot $temp) }
-    catch { $fetchFailure = $_.Exception.Message }
-    Assert-True ($fetchFailure.Contains('IRR_MAIN_FETCH_FAILED:')) 'genuine non-zero native fetch still terminates with the fetch failure code'
-    Assert-True ($fetchFailure.Contains('controlled fetch failure')) 'fetch failure retains stderr diagnostics'
-    Assert-Equal 23 $LASTEXITCODE 'genuine native fetch failure retains its explicit exit code'
-    Assert-Equal 'Stop' $ErrorActionPreference 'fetch helper restores the caller error action preference after failure'
-} finally {
-    $env:PATH = $originalPath
-}
+$failedGitShim = @('@echo off', 'echo fatal: controlled fetch failure 1>&2', 'exit /b 23') -join "`r`n"
+[IO.File]::WriteAllText($gitShimPath, ($failedGitShim + "`r`n"), [Text.Encoding]::ASCII)
+$fetchFailure = ''
+try { $null = @(Invoke-GitFetchWithNativeStderrCapture -RepositoryRoot $temp -GitExecutable $gitShimPath) }
+catch { $fetchFailure = $_.Exception.Message }
+Assert-True ($fetchFailure.Contains('IRR_MAIN_FETCH_FAILED:')) 'genuine non-zero native fetch still terminates with the fetch failure code'
+Assert-True ($fetchFailure.Contains('controlled fetch failure')) 'fetch failure retains stderr diagnostics'
+Assert-Equal 23 $LASTEXITCODE 'genuine native fetch failure retains its explicit exit code'
+Assert-Equal 'Stop' $ErrorActionPreference 'fetch helper restores the caller error action preference after failure'
 $distRoot = Join-Path $temp 'dist'
 $archivePath = Join-Path $temp 'dist-artifacts.zip'
 [void](New-Item -ItemType Directory -Path (Join-Path $distRoot 'src\persistence') -Force)

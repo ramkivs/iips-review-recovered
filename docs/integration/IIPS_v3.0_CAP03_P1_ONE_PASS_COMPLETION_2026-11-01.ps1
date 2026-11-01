@@ -36,13 +36,16 @@ $RecoveryClaim = $RecoveryRoot + '.inprogress'
 $script:OnePassStatus = 'NOT STARTED'
 
 function Invoke-GitFetchWithNativeStderrCapture {
-    param([Parameter(Mandatory = $true)] [string] $RepositoryRoot)
+    param(
+        [Parameter(Mandatory = $true)] [string] $RepositoryRoot,
+        [string] $GitExecutable = 'git'
+    )
     $savedErrorActionPreference = $ErrorActionPreference
     try {
         # Windows PowerShell 5.1 promotes native stderr records under Stop, even when Git exits 0.
         # Temporarily keep those records non-terminating while merging them for diagnostics.
         $ErrorActionPreference = 'Continue'
-        $fetchOutput = @(& git -C $RepositoryRoot fetch --no-tags origin main 2>&1)
+        $fetchOutput = @(& $GitExecutable -C $RepositoryRoot fetch --no-tags origin main 2>&1)
         $fetchExitCode = $LASTEXITCODE
     } finally {
         $ErrorActionPreference = $savedErrorActionPreference
