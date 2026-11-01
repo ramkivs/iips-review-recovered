@@ -19322,15 +19322,27 @@ IRR PR **#410** (head `4f0e37d0a93994e31868fb28f7684fee5ea0b408`) merged `2026-1
 |---|---|---|
 | `V1900` | Allocation and branch scope | PASS — §16.239 / CV-CORR-219 / CHG-2026-11-01-18 / V1900–V1911 is unique; no direct-main write. |
 | `V1901` | Producer/parser contract and source-root authority | PASS — reviewed the recorded absolute-path original-inventory producer, admitted relative-path S2 producer, recovery root and release-audit normalization. The pinned inventory rows were not independently fetched; their reported absolute format remains user-confirmed. |
-| `V1902` | Absolute-path parsing and strict containment | PENDING — require the Windows PowerShell 5.1 controlled fixtures and source-root/root/drive rejection cases. |
-| `V1903` | Relative-format compatibility and rejection fixtures | PENDING — require Windows PowerShell 5.1 execution of the single-separator relative form and malformed/duplicate/traversal/mixed/count cases. |
+| `V1902` | Absolute-path parsing and strict containment | PASS — exact-head and post-merge Windows PowerShell 5.1 fixture workflows passed; the reported absolute row normalizes to its canonical key, and missing/wrong root, root/drive mismatch and traversal cases are rejected. |
+| `V1903` | Relative-format compatibility and rejection fixtures | PASS — exact-head and post-merge Windows PowerShell 5.1 fixtures passed for relative format, equivalent absolute/relative hashes, malformed digest/separator, duplicates, mixed formats, unsafe/traversal paths and count mismatch. |
 | `V1904` | Recovery, bundle and one-pass root context | PASS by source review — recovery execution uses `SourceDist`, bundle readback uses `ExpectedSourceDist`, and one-pass parsing supplies the designated root. |
-| `V1905` | Integrity/safety invariant preservation | PENDING — final diff and test review must confirm SHA-256/count/provenance/archive/reparse checks remain fail-closed and unweakened. |
-| `V1906` | Python static validator compilation and execution | PENDING — compile and run the IRR-only static validator against full history and current tracker. |
-| `V1907` | Release audit and repository hygiene | PENDING — run the pinned release-asset audit, changed-file whitespace/scope checks, and any other applicable repository tests. |
-| `V1908` | Windows PowerShell 5.1 parser/controlled fixture workflow | PENDING — required before merge; fixtures only, no S2 recovery or P1-F execution. |
-| `V1909` | Exact-head hosted checks | PENDING — all required checks must pass on the PR head; no merge before success. |
-| `V1910` | PR merge, main read-back and post-merge checks | PENDING — complete only after PR-only merge, successful post-merge checks and exact remote artifact readback. |
+| `V1905` | Integrity/safety invariant preservation | PASS — diff review and full Windows fixture workflow preserve SHA-256/count/provenance/archive/reparse-point checks; no fail-closed integrity gate was weakened. |
+| `V1906` | Python static validator compilation and execution | PASS — local `py_compile` and IRR-only validator passed; exact-head run `41291041800` and post-merge run `41291084314` also passed. |
+| `V1907` | Release audit and repository hygiene | PASS — hosted pinned release-asset audit and whitespace check passed in runs `41291041800` / `41291084314`; local S2 finalization contract suite passed 48/48; `git diff --check` passed. The local release download separately encountered a TLS EOF and is superseded by the hosted successful audit. |
+| `V1908` | Windows PowerShell 5.1 parser/controlled fixture workflow | PASS — exact-head run `41291041821` and post-merge run `41291084302`; controlled fixtures only, no S2 recovery or P1-F execution. |
+| `V1909` | Exact-head hosted checks | PASS — PR #412 head `dfa62adf198150d3af73a12bc075a2d29ff3900c`; Python/static run `41291041800` and Windows PowerShell 5.1 run `41291041821` both succeeded before merge. |
+| `V1910` | PR merge, main read-back and post-merge checks | PASS — PR #412 merged by merge commit `7c6d6a686ae0c93956ac71bf28d2bf816bfdbcf1` at `2026-11-01T09:58:47Z`; post-merge runs `41291084314` and `41291084302` passed; exact remote main bytes for all five changed files matched the merge commit. |
 | `V1911` | Operation/scope fence | PASS — no original inventory was fabricated or changed; no S2 recovery, S2 build, P1-F Execute, Preflight, Windows host operation, IPD write or production action was run. |
 
-**Publication receipt:** pending. **Next free after this section:** `§16.240` / `CV-CORR-220` / `CHG-2026-11-01-19` / `V1912`.
+### 16.239.2 Publication and exact main read-back
+
+IRR PR **#412** (head `dfa62adf198150d3af73a12bc075a2d29ff3900c`) merged by merge commit **`7c6d6a686ae0c93956ac71bf28d2bf816bfdbcf1`** at `2026-11-01T09:58:47Z`. Exact-head static workflow `41291041800` and Windows PowerShell 5.1 fixtures `41291041821` passed before merge. Post-merge static/release audit `41291084314` and Windows fixtures `41291084302` passed. GitHub main at the merge commit was independently read back through Git Blobs API; every changed file was byte-identical to the merged tree:
+
+| File | Git blob | Bytes | SHA-256 |
+|---|---|---:|---|
+| `IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md` | `499d4e6d15d5477f3ac96df43a38687c61453407` | 3,675,223 | `cfbd75e9a65289a541a1426e68d2ba3daf4413ed0e3f68e74976361b3c24e39c` |
+| `docs/integration/IIPS_v3.0_CAP03_P1_ONE_PASS_COMPLETION_2026-11-01.ps1` | `aad5404d10d826d1b46172d2ef54929c71a735a8` | 10,334 | `5affbcb452da3aa90f20e70951c09bc16672216b6c06d40af65476df8494b88a` |
+| `docs/integration/cap03-p1-f9/CAP03S2DistArtifacts.psm1` | `c03e4456930f424a6f5a6b176c63b25485f461b2` | 63,408 | `ddf45262ffd2cd4e4ae5dc520b6823600b6f9039e8b5bbc3d0d9ce52e7b7c67b` |
+| `docs/integration/cap03-p1-f9/CAP03_P1_ConsolidatedCorrection.Tests.ps1` | `231d94183f3b3857347ebe86f7ca9afa75b53ae7` | 47,564 | `ca1f2af926c6f897be40ae5b893085fab846e4418aac522bd357c42de4700430` |
+| `docs/integration/cap03-p1-f9/validate_windows10_host_profile.py` | `dbfcdb063db56d71ce94fca06c2a307f22ca1e6a` | 62,434 | `caa212ce0b920dfc888f5c61c9ddd07d76bbea74f6504c21f1cc0ab18035f11a` |
+
+**Next free after this section:** `§16.240` / `CV-CORR-220` / `CHG-2026-11-01-19` / `V1912`.
