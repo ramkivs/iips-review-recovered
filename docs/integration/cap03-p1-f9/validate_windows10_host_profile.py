@@ -743,6 +743,9 @@ require("docs/integration/IIPS_v3.0_CAP03_PA_BLANKET_WAIVER_AND_ONE_PASS_AUTHORI
         "pinned PA waiver record must retain LF bytes on Windows checkouts")
 require(one_pass_script.count("& $P1Script -Mode Execute") == 1 and
         "-Mode Preflight" not in one_pass_script and
+        "$fetchExitCode = $LASTEXITCODE" in one_pass_script and
+        "if ($fetchExitCode -ne 0)" in one_pass_script and
+        "$ErrorActionPreference = 'Continue'" in one_pass_script and
         "'one fresh P1-F Execute authorization'" in one_pass_script and
         "S04_BUNDLE_INDEPENDENT_READBACK_FAILED" in one_pass_script and
         "IRR_CHECKOUT_NOT_AT_CURRENT_ORIGIN_MAIN" in one_pass_script and

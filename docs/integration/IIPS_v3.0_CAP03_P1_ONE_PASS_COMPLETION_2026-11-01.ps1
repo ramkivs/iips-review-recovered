@@ -35,6 +35,22 @@ $RecoveryRoot = Join-Path $IrrRoot 'evidence\cap03-s2\s2-original-dist-recovery-
 $RecoveryClaim = $RecoveryRoot + '.inprogress'
 $script:OnePassStatus = 'NOT STARTED'
 
+function Invoke-GitFetchWithNativeStderrCapture {
+    param([Parameter(Mandatory = $true)] [string] $RepositoryRoot)
+    $savedErrorActionPreference = $ErrorActionPreference
+    try {
+        # Windows PowerShell 5.1 promotes native stderr records under Stop, even when Git exits 0.
+        # Temporarily keep those records non-terminating while merging them for diagnostics.
+        $ErrorActionPreference = 'Continue'
+        $fetchOutput = @(& git -C $RepositoryRoot fetch --no-tags origin main 2>&1)
+        $fetchExitCode = $LASTEXITCODE
+    } finally {
+        $ErrorActionPreference = $savedErrorActionPreference
+    }
+    if ($fetchExitCode -ne 0) { throw ('IRR_MAIN_FETCH_FAILED: ' + (@($fetchOutput) -join ' ')) }
+    return $fetchOutput
+}
+
 try {
     if ($PSVersionTable.PSVersion.Major -ne 5) { throw 'ONE_PASS_REQUIRES_WINDOWS_POWERSHELL_5_1' }
     if (-not (Test-Path -LiteralPath $AuthorityPath -PathType Leaf)) { throw 'PA_AUTHORITY_RECORD_MISSING' }
@@ -43,8 +59,7 @@ try {
     foreach ($authorityPhrase in @($DecisionRef, 'APPROVED', 'one fresh P1-F Execute authorization', 'distinct original verification-output file as a procedural prerequisite', 'must not be relabelled')) {
         if (-not $authorityText.Contains($authorityPhrase)) { throw ('PA_AUTHORITY_RECORD_INVALID: ' + $authorityPhrase) }
     }
-    $fetchOutput = & git -C $IrrRoot fetch --no-tags origin main 2>&1
-    if ($LASTEXITCODE -ne 0) { throw ('IRR_MAIN_FETCH_FAILED: ' + (@($fetchOutput) -join ' ')) }
+    $fetchOutput = @(Invoke-GitFetchWithNativeStderrCapture -RepositoryRoot $IrrRoot)
     $localIrrHead = [string](& git -C $IrrRoot rev-parse HEAD 2>&1)
     if ($LASTEXITCODE -ne 0) { throw ('IRR_HEAD_READ_FAILED: ' + $localIrrHead) }
     $remoteIrrMain = [string](& git -C $IrrRoot rev-parse refs/remotes/origin/main 2>&1)
