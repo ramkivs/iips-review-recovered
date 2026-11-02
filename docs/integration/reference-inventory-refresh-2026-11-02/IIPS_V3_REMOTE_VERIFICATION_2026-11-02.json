@@ -1,0 +1,101 @@
+{
+  "verification_time_local": "2026-11-02T12:44:01+05:30",
+  "source_csv": "/tmp/arena-coding-uploads/IIPS_V3_REF_INVENTORY_2026-11-02.csv",
+  "source_rows": 443,
+  "original_columns": [
+    "repo",
+    "ref_kind",
+    "ref_name",
+    "target_commit_sha",
+    "current_main_sha",
+    "relation_to_main",
+    "branch_only_commits",
+    "main_only_commits",
+    "tree_delta_files",
+    "owned_product_code_delta_files",
+    "owned_product_code_path_summary",
+    "matching_prs",
+    "pr_disposition",
+    "source"
+  ],
+  "source_copy_sha256": "d93cc2cc444adb9791b206adfc3744a5639280f9c55e81c29723f86b1eb746db",
+  "method": "Full, non-shallow --mirror clones; exact current remote heads/tags mapped by refname. Branch and lightweight/annotated tags resolved to peeled commit/tree. Current direct snapshot tree/path/blob comparison against verified main; for refs sharing ancestry, separate merge-base-to-target branch-side delta. No branch-side delta asserted for unrelated histories. PR metadata used only for branch association; no PR-census or new PR disposition investigation.",
+  "ownership_rules": {
+    "IRR": "frontend/src/**, frontend/server/**, scripts/windows/**, frontend/package.json and frontend/package-lock.json; tests/fixtures are separate; documentation/evidence paths are separate.",
+    "IPD": "src/**, migrations/**, scripts/windows/**, package.json and package-lock.json are owned-code/contract roots; tests/fixtures and docs/evidence are separate. Recovered frontend/** UI trees stored in IPD refs are separately identified as IPD-owned branch artifacts, not moved or reclassified as IRR."
+  },
+  "repos": {
+    "IRR": {
+      "main_sha": "0468d68629481740ac28d71728beddeccd79d995",
+      "main_tree": "da48b8f3cc8499ccb3151dc4efb6f666fd198860",
+      "remote_heads": 326,
+      "remote_tags": 3,
+      "source_branch_rows": 324,
+      "source_tag_rows": 3,
+      "branch_relations": {
+        "divergent_with_common_base": 29,
+        "ancestor_of_main": 291,
+        "no_common_ancestor": 3,
+        "same_as_main": 1
+      },
+      "tags_verified_to_original_peeled_target": 3,
+      "source_remote_branch_names_missing": 0,
+      "branch_targets_changed_since_inventory": [
+        [
+          "main",
+          "6f347a018dbfacbc7d5e62fe9f773b323ce9d69c",
+          "0468d68629481740ac28d71728beddeccd79d995"
+        ]
+      ],
+      "tree_count_unique_inventory_targets": 325,
+      "target_commit_count_unique_inventory_refs": 328
+    },
+    "IPD": {
+      "main_sha": "56959fc33416ce53b142b39cbe4bd8a7ba5e077d",
+      "main_tree": "ee8b0d4f42d10e92b5811fcfffb5a80a9c09cc32",
+      "remote_heads": 110,
+      "remote_tags": 6,
+      "source_branch_rows": 108,
+      "source_tag_rows": 6,
+      "branch_relations": {
+        "ancestor_of_main": 75,
+        "divergent_with_common_base": 31,
+        "no_common_ancestor": 1,
+        "same_as_main": 1
+      },
+      "tags_verified_to_original_peeled_target": 6,
+      "source_remote_branch_names_missing": 0,
+      "branch_targets_changed_since_inventory": [
+        [
+          "main",
+          "0a3b5f0f038e13305a3b927865acc349e19f043f",
+          "56959fc33416ce53b142b39cbe4bd8a7ba5e077d"
+        ]
+      ],
+      "tree_count_unique_inventory_targets": 109,
+      "target_commit_count_unique_inventory_refs": 111
+    }
+  },
+  "remote_heads_not_represented_in_any_source_branch-like_row": [
+    {
+      "repo": "IRR",
+      "ref_name": "arena/75227efc-iips-review-recovered",
+      "target_sha": "2564f42f17499ac1ff4fd9cb46713079a1dd7eca",
+      "tree_sha": "b3f1fe3eeb896834355fbdc9c964e5d47836c006"
+    },
+    {
+      "repo": "IPD",
+      "ref_name": "operator/ipd-b1r-stale-status-correction-20261102",
+      "target_sha": "42956be11179c0cfa8e34f0e58be0a9c1ffd4804",
+      "tree_sha": "ee8b0d4f42d10e92b5811fcfffb5a80a9c09cc32"
+    },
+    {
+      "repo": "IPD",
+      "ref_name": "operator/ipd-pr5-6-42-reconciliation-20261102",
+      "target_sha": "54c898e753ba84edab69ada8f861b8fc03fb8ac8",
+      "tree_sha": "2643e2cc8d26f90acd74f0ad0eb6c5f8f5f1ab54"
+    }
+  ],
+  "inventory_row_count": 443,
+  "source_file_unchanged": true
+}
