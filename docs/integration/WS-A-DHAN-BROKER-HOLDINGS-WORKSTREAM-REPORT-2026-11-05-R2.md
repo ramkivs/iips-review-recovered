@@ -268,7 +268,7 @@ is authorized and none was exercised.** No real-user durable save occurred.
 | A-14 | Gate 5 / CV-52 / U5 admission | **PA** | A-13 | Effective admission act naming exact qualified commits and lifted fences | **NOT INITIATED / NOT ADMITTED** |
 | A-15 | U6 operational write authorization (`durable:true`, 503 lift, W-1) | **PA** | A-14 | Effective U6 act + qualified durable-write evidence + guard-change authority | **NOT AUTHORIZED — out of scope** |
 | A-17 | Publish the IPD-`main`-movement transcript and its accompanying README / R2 / `SHA256SUMS` updates | IRR | A-2 merged | `11-ipd-main-movement-after-pin.txt` published on IRR `main`; pin and IPD ancestry re-verified against live remote state; no pin change; no IPD write; merged and remotely read back | **COMPLETED / VERIFIED** — see §12 |
-| A-16 | Additive dated master-tracker section registering the pin advance (next free `§16.249` / `CV-CORR-229` / `CHG-2026-11-02-01` / `V2023`), with the historical DQ-4 pin-reconciliation statements preserved unamended and indexed as superseded-for-currency | IRR | A-2 merged and remotely verified | Tracker section added additively; the protected Revision 7 / P1-F compatibility tokens and the CAP-03 status pointer unchanged; the IRR-only static validator green; merged and remotely read back | **EXECUTED — see §13.** `§16.249` / `CV-CORR-229` / `CHG-2026-11-02-01` / `V2023`–`V2039` added as **185 insertions, 0 deletions**; static validator **PASS** locally; `V2039` (publication read-back) left honestly `PENDING` for a dated post-merge receipt |
+| A-16 | Additive dated master-tracker section registering the pin advance (next free `§16.249` / `CV-CORR-229` / `CHG-2026-11-02-01` / `V2023`), with the historical DQ-4 pin-reconciliation statements preserved unamended and indexed as superseded-for-currency | IRR | A-2 merged and remotely verified | Tracker section added additively; the protected Revision 7 / P1-F compatibility tokens and the CAP-03 status pointer unchanged; the IRR-only static validator green; merged and remotely read back | **COMPLETED / VERIFIED — see §13.** `§16.249` / `CV-CORR-229` / `CHG-2026-11-02-01` / `V2023`–`V2039` added as **185 insertions, 0 deletions**; static validator **PASS** locally and on hosted CI (exact-head run `42011983627` pass 34s; post-merge `main` run `42012188918` success). Published as PR #440 → **`7e56cc5ec13240c12b13dc064c85035ed3d825da`**, `2026-11-05T10:36:58Z`; **3/3** changed paths byte-matched at the merge SHA (tracker via the Git Blobs API, blob `49cfed76…`, `3,804,970` bytes). `V2039` satisfied by the §16.249.13 dated receipt; its `PENDING` wording preserved as the correct pre-merge state |
 | A-18 | WS-A-DM milestone review at the then-current pin | IRR + PA | A-7, A-9, A-15 | Nine-pillar review published per §3.2 of the milestone definition; all pillars `IMPLEMENTED-VERIFIED`; pillar-8 and pillar-9 authorities effective and read back | **NOT STARTED — milestone defined, NOT COMPLETE** |
 
 ## 10. Files changed in this pass (IRR only)
@@ -465,3 +465,33 @@ pillars **4, 5, 7 and 9 are `IMPLEMENTED-VERIFIED`**, and pillars **3** and **6*
 for one authority-gated limb each. What remains is *data* IRR cannot obtain (pillar 1) and *authority*
 IRR cannot render (pillars 2, 3, 6, 8). **No further IRR implementation moves WS-A-DM forward until
 A-5, A-8 or A-10 is discharged by someone else.**
+
+### 13.4 Dated post-merge receipt for A-16 (`2026-11-05`)
+
+§13.1's statement above is preserved verbatim as the correct **pre-merge** state. The receipt now
+follows, additively.
+
+**A-16 is published and independently verified.** IRR PR **#440** merged at `2026-11-05T10:36:58Z` as
+**`7e56cc5ec13240c12b13dc064c85035ed3d825da`**, tree **`346a25039421a8333c0c216ac22e222aeeaa5bce`**,
+parent order baseline `1afa1fba1fdf8d1567089b94c25c187b202a9d51` then PR head
+`92a7e55327fa091bc83307602b8bfe02ef2bf4b3`. `git ls-remote` independently reports IRR
+`refs/heads/main` at that merge commit.
+
+| Verification | Result |
+| :--- | :--- |
+| Exact-head static check (before merge) | run `42011983627`, job `127193003680`, `Python compile · source/evidence/tracker validation` — **pass**, 34s |
+| Post-merge `main` push check | run `42012188918`, `CAP-03 Revision 7 IRR-only static checks` on `main@7e56cc5e` — **completed / success** |
+| Tracker read-back at the merge SHA | **Git Blobs API** (the tracker at `3,804,970` bytes exceeds the Contents API size limit) — blob `49cfed76095c1d0d97ce459e71ff353ec2c1b764`, SHA-256 `894163f9d754a48378af1e765e99f75eb44d20e09e6886c9963a3701012dc6ee` — **MATCH** |
+| `…REPORT-2026-11-05-R2.md` read-back | Contents API, `47,082` bytes, SHA-256 `9a93c203c94798a6…` — **MATCH** |
+| `…MILESTONE-DEFINITION-2026-11-05.md` read-back | Contents API, `29,166` bytes, SHA-256 `37494ed6c867f453…` — **MATCH** |
+| Changed paths byte-matched | **3 / 3** |
+| `frontend/**` paths changed by PR #440 | **0** |
+| Pins read back from merged `main` | broker alias `#7bcae35ad18c43cb67a16f30faa55bbdf0fb33fc`, primary `#279d1eed184f5e23bbabe5c6411085e120ce9e41`, `iips-np04-governed-persistence#2e11fa3b689d1a3674a5e4ba1f1de9a559e20494` — **all unchanged** |
+
+`V2039` is thereby **PASS**; its `PENDING` wording is preserved as the correct pre-merge state,
+following the §16.248.7 precedent. The receipt itself is published as **§16.249.13** of the tracker,
+because a receipt cannot be part of the commit it verifies.
+
+**A-16 is COMPLETED / VERIFIED.** No gate, pin, fence, authority act or register count was moved by
+the section or by its receipt. **Workstream A and milestone WS-A-DM remain NOT COMPLETE** — A-5…A-15
+and A-18 outstanding.
