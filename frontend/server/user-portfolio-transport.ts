@@ -1,11 +1,12 @@
 /**
  * G-2 durable user-portfolio HTTP boundary, integrated with IPD Direct P1 over same-host IPC.
  *
- * The only admitted operations are read-only list, detail, and revision reads. They use the
- * existing `IpcUserPortfolioPort`; IPD resolves the owner from its own active local binding on
- * every call. IRR reads no request identity, does not open SQLite, and sends no owner or tenant
- * value over IPC. The server-owned `IIPS_G3_IPC_BINDING_PROVISIONED` setting is only a local
- * fail-closed precondition; IPD independently validates the actual binding.
+ * Admitted operations are read-only list, detail, revision reads, and a separate valuation view.
+ * Portfolio data uses the existing `IpcUserPortfolioPort`; IPD resolves the owner from its own
+ * active local binding on every call. Valuation is a transient IRR projection over that read plus
+ * the authenticated IPD market-data client. IRR reads no request identity, does not open SQLite,
+ * and sends no owner or tenant value over IPC. The server-owned `IIPS_G3_IPC_BINDING_PROVISIONED`
+ * setting is only a local fail-closed precondition; IPD independently validates the actual binding.
  *
  * Context discovery and every create/save/reset/delete operation remain unavailable here. In
  * particular, Gate E W-1 remains authoritative: no HTTP write is forwarded or inferred as
@@ -27,16 +28,18 @@ import {
   readBindingPrecondition,
 } from './user-portfolio/ownerContextFromBinding.js';
 import type { G2Scope, UserPortfolioPort } from './user-portfolio/userPortfolioPort.js';
+import { createUserPortfolioValuation } from './user-portfolio/marketDataValuation.js';
 
 interface UserPortfolioRoute {
   readonly methods: readonly string[];
-  readonly operation: 'context' | 'list' | 'detail' | 'revisions' | 'write';
+  readonly operation: 'context' | 'list' | 'detail' | 'valuation' | 'revisions' | 'write';
 }
 
 const USER_PORTFOLIO_ROUTES: ReadonlyMap<string, UserPortfolioRoute> = new Map([
   ['/api/user-portfolios/context', { methods: ['GET', 'HEAD'], operation: 'context' }],
   ['/api/user-portfolios', { methods: ['GET', 'HEAD', 'POST'], operation: 'list' }],
   ['/api/user-portfolios/:portfolioId', { methods: ['GET', 'HEAD', 'DELETE'], operation: 'detail' }],
+  ['/api/user-portfolios/:portfolioId/valuation', { methods: ['GET'], operation: 'valuation' }],
   ['/api/user-portfolios/:portfolioId/holdings', { methods: ['PUT'], operation: 'write' }],
   ['/api/user-portfolios/:portfolioId/revisions', { methods: ['GET', 'HEAD'], operation: 'revisions' }],
   ['/api/user-portfolios/:portfolioId/reset', { methods: ['POST'], operation: 'write' }],
@@ -175,9 +178,14 @@ export async function handleUserPortfolioRequest(
       sendJson(res, 200, { portfolios }, head);
       return;
     }
-    if (route.operation === 'detail') {
+    if (route.operation === 'detail' || route.operation === 'valuation') {
       const portfolio: G2PortfolioView = await port.getPortfolio({ scope, portfolioId: portfolioId! });
-      sendJson(res, 200, { portfolio }, head);
+      if (route.operation === 'detail') {
+        sendJson(res, 200, { portfolio }, head);
+        return;
+      }
+      const valuation = await createUserPortfolioValuation(portfolio, env);
+      sendJson(res, 200, { valuation }, head);
       return;
     }
     const revisions: readonly G2RevisionEntry[] = await port.revisionHistory({

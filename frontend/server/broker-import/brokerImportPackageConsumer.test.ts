@@ -9,7 +9,7 @@
  * Guards that IRR's IPD dependency pins:
  *   1. Use exact 40-hex immutable commit SHAs on `ramkivs/iips-production-market-data` in both
  *      `package.json` and `package-lock.json`: primary
- *      `7565e4d05e21c83067c60a831b3cc26ddc5304d5` (the reviewed Dhan server package reference),
+ *      `6004ff81dd1064c5b69b15fde1f3a6c4f44981a0` (the reviewed Dhan server package reference),
  *      and the deliberately distinct DB-C1 broker-import alias
  *      `07e86a4f2c105651f3097a96cb519f8611945e30` (the merge commit of IPD PR #128, advanced from
  *      the PR #127 merge commit `7bcae35ad18c43cb67a16f30faa55bbdf0fb33fc`).
@@ -33,7 +33,7 @@ import { describe, expect, it } from 'vitest';
 const here = dirname(fileURLToPath(import.meta.url));
 const frontendRoot = resolve(here, '..', '..');
 
-export const EXPECTED_IPD_PIN_SHA = '7565e4d05e21c83067c60a831b3cc26ddc5304d5';
+export const EXPECTED_IPD_PIN_SHA = '6004ff81dd1064c5b69b15fde1f3a6c4f44981a0';
 
 /**
  * The governed broker-import alias consumption profile. It is the single source of truth shared

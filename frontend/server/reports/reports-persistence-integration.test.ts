@@ -79,7 +79,7 @@ describe('R3-Option B dependency surface', () => {
       'github:ramkivs/iips-production-market-data#2e11fa3b689d1a3674a5e4ba1f1de9a559e20494',
     );
     expect(manifest.dependencies['iips-production-market-data']).toBe(
-      'github:ramkivs/iips-production-market-data#7565e4d05e21c83067c60a831b3cc26ddc5304d5',
+      'github:ramkivs/iips-production-market-data#6004ff81dd1064c5b69b15fde1f3a6c4f44981a0',
     );
     // The broker-import alias is guarded by `broker-import-package-profile.json`, the single source
     // of truth shared with `scripts/materialize-broker-import.mjs` and the CAP-02 B-1R guard.

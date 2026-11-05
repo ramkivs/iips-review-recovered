@@ -94,7 +94,7 @@ async function startPeer(): Promise<Peer> {
 
 describe('Direct P1 IRR HTTP-to-IPC integration', () => {
   it('pins the public IPD package and lockfile to the exact reviewed immutable commit', () => {
-    const expected = 'github:ramkivs/iips-production-market-data#7565e4d05e21c83067c60a831b3cc26ddc5304d5';
+    const expected = 'github:ramkivs/iips-production-market-data#6004ff81dd1064c5b69b15fde1f3a6c4f44981a0';
     const manifest = JSON.parse(readFileSync(new URL('../../package.json', import.meta.url), 'utf8')) as {
       dependencies: Record<string, string>;
     };
@@ -104,7 +104,7 @@ describe('Direct P1 IRR HTTP-to-IPC integration', () => {
     expect(manifest.dependencies['iips-production-market-data']).toBe(expected);
     expect(lock.packages[''].dependencies?.['iips-production-market-data']).toBe(expected);
     expect(lock.packages['node_modules/iips-production-market-data'].resolved)
-      .toContain('#7565e4d05e21c83067c60a831b3cc26ddc5304d5');
+      .toContain('#6004ff81dd1064c5b69b15fde1f3a6c4f44981a0');
   });
 
   let peer: Peer;

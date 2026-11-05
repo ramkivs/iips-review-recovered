@@ -15,8 +15,11 @@ import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import {
   fetchUserPortfolio,
+  fetchUserPortfolioValuation,
   UserPortfolioApiError,
   type UserPortfolioView,
+  type UserPortfolioValuation,
+  type UserPortfolioValuationHolding,
 } from '../../api/userPortfolios';
 import { LoadingState, EmptyState } from '../../components/state/StateComponents';
 import {
@@ -32,6 +35,9 @@ export function UserPortfolioDetail() {
   const { portfolioId } = useParams<{ portfolioId: string }>();
   const [view, setView] = useState<UserPortfolioView | null>(null);
   const [error, setError] = useState<UserPortfolioApiError | null>(null);
+  const [valuation, setValuation] = useState<UserPortfolioValuation | null>(null);
+  const [valuationLoading, setValuationLoading] = useState(true);
+  const [valuationError, setValuationError] = useState<string | null>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -47,6 +53,34 @@ export function UserPortfolioDetail() {
         if (!cancelled) {
           setError(e instanceof UserPortfolioApiError ? e : new UserPortfolioApiError(0, String(e)));
         }
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [portfolioId]);
+
+  useEffect(() => {
+    let cancelled = false;
+    setValuation(null);
+    setValuationError(null);
+    setValuationLoading(true);
+    if (portfolioId === undefined) {
+      setValuationLoading(false);
+      return;
+    }
+    fetchUserPortfolioValuation(portfolioId)
+      .then((result) => {
+        if (!cancelled) setValuation(result);
+      })
+      .catch((e: unknown) => {
+        if (!cancelled) {
+          setValuationError(
+            e instanceof UserPortfolioApiError ? e.message : 'Portfolio valuation is unavailable.',
+          );
+        }
+      })
+      .finally(() => {
+        if (!cancelled) setValuationLoading(false);
       });
     return () => {
       cancelled = true;
@@ -81,8 +115,8 @@ export function UserPortfolioDetail() {
     { key: 'companyId', header: 'Company', render: (row) => row.companyId },
     { key: 'quantity', header: 'Quantity', render: (row) => row.quantity },
     { key: 'averageBuyPrice', header: 'Avg buy price', render: (row) => formatInr(row.averageBuyPrice) },
-    { key: 'currentPrice', header: 'Current price', render: (row) => formatInr(row.currentPrice) },
-    { key: 'marketValue', header: 'Market value', render: (row) => formatInr(row.marketValue) },
+    { key: 'currentPrice', header: 'Snapshot price', render: (row) => formatInr(row.currentPrice) },
+    { key: 'marketValue', header: 'Snapshot value', render: (row) => formatInr(row.marketValue) },
     { key: 'weightPercentage', header: 'Weight', render: (row) => formatPct(row.weightPercentage) },
     { key: 'active', header: 'Active', render: (row) => (row.active ? 'Yes' : 'No') },
     {
@@ -91,6 +125,25 @@ export function UserPortfolioDetail() {
       render: (row) => row.sourceBroker,
     },
     { key: 'lineageDigest', header: 'Lineage', render: (row) => shortDigest(row.lineageDigest) },
+  ];
+
+  const valuationColumns: readonly Column<UserPortfolioValuationHolding>[] = [
+    { key: 'symbol', header: 'Holding', render: (row) => row.symbol },
+    { key: 'pricingStatus', header: 'Pricing status', render: (row) => row.pricingStatus },
+    { key: 'quantity', header: 'Quantity', render: (row) => row.quantity ?? '—' },
+    { key: 'currentMarketPrice', header: 'Quote price', render: (row) => row.currentMarketPrice === null ? '—' : formatInr(row.currentMarketPrice) },
+    { key: 'marketValue', header: 'Quoted value', render: (row) => row.marketValue === null ? '—' : formatInr(row.marketValue) },
+    { key: 'investedValue', header: 'Invested value', render: (row) => row.investedValue === null ? '—' : formatInr(row.investedValue) },
+    { key: 'unrealizedGainLoss', header: 'Unrealized P/L', render: (row) => row.unrealizedGainLoss === null ? '—' : formatInr(row.unrealizedGainLoss) },
+    { key: 'unrealizedGainLossPercentage', header: 'P/L %', render: (row) => row.unrealizedGainLossPercentage === null ? '—' : formatPct(row.unrealizedGainLossPercentage) },
+    { key: 'quoteMode', header: 'Quote mode', render: (row) => row.quote?.mode ?? '—' },
+    { key: 'quoteAsOf', header: 'Quote as of', render: (row) => row.quoteAsOf ?? '—' },
+    { key: 'receivedAt', header: 'Received at', render: (row) => row.quote?.provenance.receivedAt ?? '—' },
+    { key: 'evaluatedAt', header: 'Evaluated at', render: (row) => row.quote?.provenance.evaluatedAt ?? '—' },
+    { key: 'quoteSource', header: 'Source', render: (row) => row.quote?.provenance.sourceClassification ?? '—' },
+    { key: 'quoteFreshness', header: 'Quote quality', render: (row) => row.quote?.provenance.qualityState ?? '—' },
+    { key: 'lineageHash', header: 'Lineage', render: (row) => row.quote?.provenance.lineageHash ?? '—' },
+    { key: 'reason', header: 'Outcome', render: (row) => row.reason ?? row.pricingStatus },
   ];
 
   const contributionColumns: readonly Column<UserPortfolioContribution>[] = [
@@ -110,7 +163,7 @@ export function UserPortfolioDetail() {
       </p>
       <h2>{view.portfolioName}</h2>
       <MetricGroup label="Portfolio">
-        <MetricCard label="Total value" value={view.totalMarketValue} unit="INR" direction={null} />
+        <MetricCard label="Imported snapshot value" value={view.totalMarketValue} unit="INR" direction={null} />
         <MetricCard label="Holdings" value={view.totalHoldingsCount} direction={null} />
         <MetricCard label="Weight sum" value={view.weightSumPercentage} unit="%" direction={null} />
         <MetricCard label="Revision" value={view.revision} direction={null} />
@@ -120,7 +173,64 @@ export function UserPortfolioDetail() {
         Updated {view.lastUpdated}. Provenance {shortDigest(view.provenanceDigest)}.
       </p>
 
-      <h3 style={{ marginTop: 16, fontSize: 14 }}>Holdings</h3>
+      <h3 style={{ marginTop: 16, fontSize: 14 }}>Market valuation</h3>
+      {valuationLoading ? (
+        <p role="status" data-testid="portfolio-valuation-loading">Loading read-only valuation…</p>
+      ) : valuationError !== null ? (
+        <p role="alert" data-testid="portfolio-valuation-unavailable">Market valuation unavailable: {valuationError}</p>
+      ) : valuation === null ? (
+        <p role="status" data-testid="portfolio-valuation-unavailable">Market valuation unavailable.</p>
+      ) : (
+        <div data-testid="portfolio-valuation" data-status={valuation.status}>
+          <p data-testid="portfolio-valuation-freshness">
+            {valuation.status.replace(/_/g, ' ')} · freshness {valuation.freshness.toLowerCase()}.
+            {' '}{valuation.coverage.pricedHoldingCount} of {valuation.coverage.activeHoldingCount} active holdings priced;
+            {' '}{valuation.coverage.unpricedHoldingCount} unpriced,
+            {' '}{valuation.coverage.staleHoldingCount} stale,
+            {' '}{valuation.coverage.unavailableHoldingCount} unavailable,
+            {' '}{valuation.coverage.unresolvedHoldingCount} unresolved.
+          </p>
+          <MetricGroup label="Read-only market valuation">
+            <MetricCard
+              label={valuation.portfolioMarketValue === null ? 'Complete market value (INR)' : 'Market value (INR)'}
+              value={valuation.portfolioMarketValue}
+              unit="INR"
+              direction={null}
+            />
+            <MetricCard
+              label={valuation.portfolioMarketValue === null ? 'Priced subtotal only (INR)' : 'Invested value (INR)'}
+              value={valuation.portfolioMarketValue === null ? valuation.pricedMarketValueSubtotal : valuation.investedValue}
+              unit="INR"
+              direction={null}
+            />
+            {valuation.portfolioMarketValue !== null && (
+              <MetricCard label="Unrealized P/L (INR)" value={valuation.unrealizedGainLoss} unit="INR" direction={null} />
+            )}
+            {valuation.portfolioMarketValue !== null && (
+              <MetricCard label="Unrealized P/L (%)" value={valuation.unrealizedGainLossPercentage} unit="%" direction={null} />
+            )}
+          </MetricGroup>
+          {valuation.status === 'PARTIALLY_PRICED' && (
+            <p role="status">The subtotal excludes unpriced holdings; no complete portfolio total is shown.</p>
+          )}
+          {valuation.status === 'NO_HOLDINGS_PRICED' && (
+            <p role="alert">No active holding has a usable quote. Complete market value is unavailable.</p>
+          )}
+          <p data-testid="portfolio-valuation-provider">
+            {valuation.provider.disclosure} Transport: {valuation.provider.transport.toLowerCase()}.
+            {' '}Qualification: {valuation.provider.qualification.replace(/_/g, ' ').toLowerCase()}.
+            {' '}Live provider connectivity: {valuation.provider.liveProviderConnectivity.replace(/_/g, ' ').toLowerCase()}.
+          </p>
+          <DataTable
+            columns={valuationColumns}
+            rows={valuation.holdings}
+            emptyLabel="No holdings to value."
+          />
+        </div>
+      )}
+
+      <h3 style={{ marginTop: 16, fontSize: 14 }}>Imported holdings snapshot</h3>
+      <p>Snapshot prices and values below are persisted import data, not live market data.</p>
       <DataTable
         columns={holdingColumns}
         rows={view.holdings}

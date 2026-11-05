@@ -11,7 +11,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { UserPortfolioDetail } from './UserPortfolioDetail';
-import type { UserPortfolioView } from '../../api/userPortfolios';
+import type { UserPortfolioValuation, UserPortfolioView } from '../../api/userPortfolios';
 
 const VIEW: UserPortfolioView = {
   portfolioId: 'pf-alpha',
@@ -66,10 +66,93 @@ const VIEW: UserPortfolioView = {
   ],
 };
 
+const VALUATION: UserPortfolioValuation = {
+  status: 'PARTIALLY_PRICED',
+  freshness: 'STALE',
+  coverage: {
+    activeHoldingCount: 2,
+    pricedHoldingCount: 1,
+    unpricedHoldingCount: 1,
+    staleHoldingCount: 1,
+    unavailableHoldingCount: 0,
+    unresolvedHoldingCount: 1,
+    inactiveHoldingCount: 0,
+  },
+  portfolioMarketValue: null,
+  pricedMarketValueSubtotal: 1000,
+  investedValue: null,
+  unrealizedGainLoss: null,
+  unrealizedGainLossPercentage: null,
+  provider: {
+    transport: 'AVAILABLE',
+    qualification: 'SYNTHETIC_ONLY_NOT_LIVE_QUALIFIED',
+    liveProviderConnectivity: 'NOT_CHECKED_PRE_ACCESS',
+    disclosure: 'IPD process health is not live qualification. Identity limitation: response-side series identity is absent.',
+  },
+  holdings: [
+    {
+      position: 0,
+      symbol: 'TCS',
+      quantity: 10,
+      active: true,
+      pricingStatus: 'STALE',
+      identityStatus: 'RESOLVED',
+      currentMarketPrice: 100,
+      marketValue: 1000,
+      investedValue: 900,
+      unrealizedGainLoss: 100,
+      unrealizedGainLossPercentage: 100 / 9,
+      quoteAsOf: '2026-11-05T10:15:00.000Z',
+      quote: {
+        envelopeId: 'd01-envelope-123',
+        domain: 'D01_QUOTES',
+        mode: 'SNAPSHOT',
+        companyId: 'TCS',
+        payload: {
+          companyId: 'TCS', symbol: 'TCS', exchange: 'NSE', currency: 'INR',
+          bid: 99, ask: 101, ltp: 100, open: 98, high: 102, low: 97,
+          previousClose: 98, volume: 1000, change: 2, pctChange: 2.04,
+        },
+        provenance: {
+          sourceClassification: 'SYNTHETIC_PRE_ACCESS',
+          vendorTier: 'PRE_ACCESS_FIXTURE',
+          asOf: '2026-11-05T10:15:00.000Z',
+          receivedAt: '2026-11-05T10:15:01.000Z',
+          evaluatedAt: '2026-11-05T10:15:02.000Z',
+          dataVersion: 'fixture-v1',
+          lineageHash: 'opaque-quote-lineage',
+          qualityState: 'STALE',
+        },
+        timestamp: '2026-11-05T10:15:00.000Z',
+        schemaVersion: 'D01-1.0',
+      },
+    },
+    {
+      position: 1,
+      symbol: 'INFY',
+      quantity: 5,
+      active: true,
+      pricingStatus: 'UNRESOLVED',
+      identityStatus: 'UNRESOLVED',
+      currentMarketPrice: null,
+      marketValue: null,
+      investedValue: 7500,
+      unrealizedGainLoss: null,
+      unrealizedGainLossPercentage: null,
+      quoteAsOf: null,
+      reasonCode: 'IDENTITY_UNRESOLVED',
+      reason: 'A valid persisted ISIN is required.',
+    },
+  ],
+};
+
 beforeEach(() => {
-  globalThis.fetch = vi.fn().mockResolvedValue({
-    ok: true,
-    json: async () => ({ portfolio: VIEW }),
+  globalThis.fetch = vi.fn().mockImplementation(async (input: RequestInfo | URL) => {
+    const url = String(input);
+    return {
+      ok: true,
+      json: async () => url.endsWith('/valuation') ? { valuation: VALUATION } : { portfolio: VIEW },
+    };
   }) as never;
 });
 
@@ -103,6 +186,27 @@ describe('User Portfolio detail (G-2 read-only consumer)', () => {
     expect(screen.getAllByText('INFY').length).toBeGreaterThan(0);
     // Contributions render with their source and file.
     expect(screen.getByText('holdings.csv')).toBeInTheDocument();
+  });
+
+  it('renders stale/partial canonical valuation transparently and calls only the same-origin read route', async () => {
+    renderDetail();
+    expect(await screen.findByTestId('portfolio-valuation')).toHaveAttribute('data-status', 'PARTIALLY_PRICED');
+    expect(screen.getByTestId('portfolio-valuation-freshness')).toHaveTextContent('freshness stale');
+    expect(screen.getByText(/subtotal excludes unpriced holdings/i)).toBeInTheDocument();
+    expect(screen.getByTestId('portfolio-valuation-provider')).toHaveTextContent('synthetic only not live qualified');
+    expect(screen.getByTestId('portfolio-valuation-provider')).toHaveTextContent('response-side series identity is absent');
+    expect(screen.getByText('SNAPSHOT')).toBeInTheDocument();
+    expect(screen.getByText('2026-11-05T10:15:00.000Z')).toBeInTheDocument();
+    expect(screen.getByText('Snapshot price')).toBeInTheDocument();
+    expect(screen.getByText(/not live market data/i)).toBeInTheDocument();
+
+    const call = (globalThis.fetch as unknown as ReturnType<typeof vi.fn>).mock.calls
+      .find(([url]) => url === '/api/user-portfolios/pf-alpha/valuation');
+    expect(call).toBeDefined();
+    const request = call?.[1] as RequestInit;
+    expect(request.credentials).toBe('omit');
+    expect(new Headers(request.headers).has('authorization')).toBe(false);
+    expect(JSON.stringify(call)).not.toContain('IIPS_MARKET_DATA_TRANSPORT_TOKEN');
   });
 
   it('shows the loading state before the transport answers', async () => {

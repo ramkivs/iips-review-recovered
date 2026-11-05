@@ -114,6 +114,35 @@ describe('Direct P1 user-portfolio HTTP composition', () => {
     expect(port.revisionHistory).toHaveBeenCalledWith({ scope: {}, portfolioId: 'pf-1' });
   });
 
+  it('serves a transient valuation read and fails closed when market-data credentials are absent', async () => {
+    const port = recordingPort();
+    port.getPortfolio = vi.fn(async () => ({
+      ...VIEW,
+      holdings: [{
+        symbol: 'TCS', companyId: 'COMP-TCS', isin: 'INE467B01029', exchange: 'NSE',
+        quantity: 10, averageBuyPrice: 90, currentPrice: 88, marketValue: 880,
+        weightPercentage: 100, active: true, sourceBroker: 'GENERIC', lineageDigest: 'opaque',
+        identityStatus: 'RESOLVED', resolutionDisposition: 'CANONICAL_P04',
+      }],
+    }));
+    const result = await request('/api/user-portfolios/pf-1/valuation', 'GET', { port, env: BOUND });
+    expect(result.status).toBe(200);
+    expect(result.body.valuation).toMatchObject({
+      status: 'NO_HOLDINGS_PRICED',
+      portfolioMarketValue: null,
+      coverage: { activeHoldingCount: 1, unavailableHoldingCount: 1 },
+    });
+    expect(JSON.stringify(result.body)).not.toContain('IIPS_MARKET_DATA_TRANSPORT_TOKEN');
+    expect(port.getPortfolio).toHaveBeenCalledWith({ scope: {}, portfolioId: 'pf-1' });
+    expect(port.saveHoldings).not.toHaveBeenCalled();
+    const denied = await request('/api/user-portfolios/pf-1/valuation', 'POST', {
+      port, env: BOUND, body: JSON.stringify({ ownerId: 'hostile' }),
+    });
+    expect(denied.status).toBe(405);
+    expect(port.getPortfolio).toHaveBeenCalledTimes(1);
+    expect(port.saveHoldings).not.toHaveBeenCalled();
+  });
+
   it('ignores caller-supplied credentials and identity claims; no claim becomes an IPC scope', async () => {
     const port = recordingPort();
     const result = await request(

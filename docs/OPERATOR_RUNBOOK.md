@@ -11,7 +11,7 @@ The baseline commands and outputs in §§1–2, 4–7 were **executed and captur
 | Need | Why | Check |
 |---|---|---|
 | Node ≥ 22.6 | the transports are TypeScript run directly (`tsx` is now a dev dependency, so 22.x is enough) | `node --version` |
-| Network reachability to **GitHub** | `frontend/package.json` pins the runtime data package as `iips-production-market-data: github:ramkivs/iips-production-market-data#7565e4d05e21c83067c60a831b3cc26ddc5304d5`; `npm ci` fetches the exact immutable package commit | `npm ci` completes |
+| Network reachability to **GitHub** | `frontend/package.json` pins the runtime data package as `iips-production-market-data: github:ramkivs/iips-production-market-data#6004ff81dd1064c5b69b15fde1f3a6c4f44981a0`; `npm ci` fetches the exact immutable package commit | `npm ci` completes |
 | A TLS-intercepting proxy needs the CA exported to Node | otherwise `npm ci` fails with `UNABLE_TO_VERIFY_LEAF_SIGNATURE` on `codeload.github.com` | `export NODE_EXTRA_CA_CERTS=/etc/ssl/certs/ca-certificates.crt` before `npm ci` |
 | Outbound internet for the macro surface only | `/api/macro/NAS` calls the MoSPI source | expect `502 RETRY_BUDGET_EXHAUSTED` when egress is blocked (observed in the Arena sandbox) |
 | Windows is a **separate evidence domain** | ACL/permission and path semantics are Windows-specific | Windows results are recorded in their own evidence files and are never merged into Linux transcripts by implication |
@@ -102,6 +102,15 @@ npm run server:dev
 The tenant hint is optional and is never transmitted; do not add owner, tenant, principal, or credentials to requests. Without `IIPS_G3_IPC_BINDING_PROVISIONED=true`, read routes fail closed with `503 owner-context-unavailable`. A configured endpoint that is absent or unavailable also fails closed. Context discovery and create/save/reset/delete HTTP operations return `503 operation-not-admitted`; no write is forwarded, and IPD's independent Gate E W-1 refusal remains in force. This does not enable Watchlists, Collaboration, Settings, or any other owner-scoped route.
 
 The operator-reported Direct P1 database execution and the exact IPD source pin are recorded in [`IIPS_V3_DIRECT_P1_IRR_CONSUMPTION_RECORD_2026-11-01.md`](integration/IIPS_V3_DIRECT_P1_IRR_CONSUMPTION_RECORD_2026-11-01.md). That Windows evidence is user-provided, not an Arena observation. No P1-F reprovisioning is required or documented here.
+
+**Prompt 5 read-only valuation.** The detail UI additionally reads `GET /api/user-portfolios/:portfolioId/valuation`. The API server calls the pinned IPD `MarketDataTransportClient`; it never exposes the Dhan transport token to the browser. Configure these two values only in the API server process environment when an IPD-owned transport is actually deployed:
+
+| Variable | Purpose | Omitted or invalid ⇒ |
+|---|---|---|
+| `IIPS_MARKET_DATA_TRANSPORT_URL` | IPD market-data transport base URL (server-side only) | Each active holding is explicitly unavailable; no quote or persisted value is fabricated |
+| `IIPS_MARKET_DATA_TRANSPORT_TOKEN` | Bearer credential for that IPD transport (server-side only; never a Vite/browser variable) | Same fail-closed unavailable view |
+
+The pinned IPD health contract reports `SYNTHETIC_ONLY_NOT_LIVE_QUALIFIED` and `NOT_CHECKED_PRE_ACCESS`; a healthy transport is not evidence of live Dhan access. The UI distinguishes quote mode, stale/partial coverage, persisted import snapshot values, and the series-identity limitation. No live provider qualification is claimed. See [`IRR-DHAN-MARKET-DATA-CONSUMER-BLOCKER-2026-11-06.md`](integration/IRR-DHAN-MARKET-DATA-CONSUMER-BLOCKER-2026-11-06.md) for the exact identity/series gap, scope, and evidence boundary. Do not set these values in the browser environment or use this read-only projection as a persistence/write path.
 
 ### 3.2 NP-06 Reports environment configuration
 

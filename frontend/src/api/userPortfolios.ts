@@ -93,6 +93,101 @@ export interface UserPortfolioView {
   readonly contributions: readonly UserPortfolioContribution[];
 }
 
+/** Safe IRR projection of a canonical D01 envelope; never imports the server-only IPD package. */
+export interface UserPortfolioCanonicalQuote {
+  readonly envelopeId: string;
+  readonly domain: 'D01_QUOTES';
+  readonly mode: 'LIVE' | 'SNAPSHOT' | 'PIT';
+  readonly companyId: string;
+  readonly securityId?: string;
+  readonly payload: {
+    readonly companyId: string;
+    readonly symbol: string;
+    readonly exchange: 'NSE' | 'BSE';
+    readonly currency: 'INR' | 'USD';
+    readonly bid: number;
+    readonly ask: number;
+    readonly ltp: number;
+    readonly open: number;
+    readonly high: number;
+    readonly low: number;
+    readonly close?: number;
+    readonly previousClose: number;
+    readonly volume: number;
+    readonly vwap?: number;
+    readonly turnover?: number;
+    readonly change: number;
+    readonly pctChange: number;
+    readonly tradeCount?: number;
+    readonly securityIdentity?: {
+      readonly securityId: string;
+      readonly isin: string;
+      readonly series: string;
+      readonly isinAuthority: 'NON_AUTHORITATIVE';
+    };
+  };
+  readonly provenance: {
+    readonly sourceClassification: string;
+    readonly vendorTier: string;
+    readonly asOf: string;
+    readonly receivedAt: string;
+    readonly evaluatedAt: string;
+    readonly dataVersion: string;
+    readonly lineageHash: string;
+    readonly qualityState: 'GOOD' | 'STALE' | 'PARTIAL' | 'UNAVAILABLE';
+    readonly quarantineReason?: string;
+  };
+  readonly timestamp: string;
+  readonly schemaVersion: string;
+}
+
+export type UserPortfolioValuationStatus = 'EMPTY' | 'FULLY_PRICED' | 'PARTIALLY_PRICED' | 'NO_HOLDINGS_PRICED';
+export type UserPortfolioQuoteStatus = 'CURRENT' | 'STALE' | 'UNAVAILABLE' | 'UNRESOLVED' | 'INACTIVE';
+
+export interface UserPortfolioValuationHolding {
+  readonly position: number;
+  readonly symbol: string;
+  readonly quantity: number | null;
+  readonly active: boolean;
+  readonly pricingStatus: UserPortfolioQuoteStatus;
+  readonly identityStatus: 'RESOLVED' | 'UNRESOLVED';
+  readonly currentMarketPrice: number | null;
+  readonly marketValue: number | null;
+  readonly investedValue: number | null;
+  readonly unrealizedGainLoss: number | null;
+  readonly unrealizedGainLossPercentage: number | null;
+  readonly quoteAsOf: string | null;
+  readonly quote?: UserPortfolioCanonicalQuote;
+  readonly reasonCode?: string;
+  readonly reason?: string;
+}
+
+export interface UserPortfolioValuation {
+  readonly status: UserPortfolioValuationStatus;
+  readonly freshness: 'CURRENT' | 'STALE' | 'MIXED' | 'UNAVAILABLE' | 'NONE';
+  readonly coverage: {
+    readonly activeHoldingCount: number;
+    readonly pricedHoldingCount: number;
+    readonly unpricedHoldingCount: number;
+    readonly staleHoldingCount: number;
+    readonly unavailableHoldingCount: number;
+    readonly unresolvedHoldingCount: number;
+    readonly inactiveHoldingCount: number;
+  };
+  readonly portfolioMarketValue: number | null;
+  readonly pricedMarketValueSubtotal: number | null;
+  readonly investedValue: number | null;
+  readonly unrealizedGainLoss: number | null;
+  readonly unrealizedGainLossPercentage: number | null;
+  readonly provider: {
+    readonly transport: 'AVAILABLE' | 'UNAVAILABLE' | 'UNKNOWN';
+    readonly qualification: 'SYNTHETIC_ONLY_NOT_LIVE_QUALIFIED' | 'UNKNOWN_NOT_LIVE_QUALIFIED';
+    readonly liveProviderConnectivity: 'NOT_CHECKED_PRE_ACCESS' | 'UNKNOWN';
+    readonly disclosure: string;
+  };
+  readonly holdings: readonly UserPortfolioValuationHolding[];
+}
+
 /**
  * Typed client failure. `status` carries the HTTP status the transport
  * answered with; `0` means the request could not be made at all (network
@@ -186,4 +281,29 @@ export async function fetchUserPortfolio(portfolioId: string, baseUrl = ''): Pro
     throw new UserPortfolioApiError(500, 'user-portfolio transport returned an invalid envelope');
   }
   return body.portfolio;
+}
+
+/**
+ * Fetches an ephemeral, read-only quote valuation for an already-read portfolio.
+ * The browser calls only the same-origin IRR route; IPD tokens and server-only
+ * transport implementation never enter this module.
+ */
+export async function fetchUserPortfolioValuation(
+  portfolioId: string,
+  baseUrl = '',
+): Promise<UserPortfolioValuation> {
+  let res: Response;
+  try {
+    res = await noAuthFetch(
+      `${baseUrl}/api/user-portfolios/${encodeURIComponent(portfolioId)}/valuation`,
+    );
+  } catch {
+    throw new UserPortfolioApiError(0, 'Network error contacting the portfolio valuation transport');
+  }
+  if (!res.ok) throw await toApiError(res);
+  const body = (await res.json()) as { valuation?: UserPortfolioValuation };
+  if (!body?.valuation || !Array.isArray(body.valuation.holdings)) {
+    throw new UserPortfolioApiError(500, 'portfolio valuation transport returned an invalid envelope');
+  }
+  return body.valuation;
 }
