@@ -468,7 +468,21 @@ changed_pr_paths = subprocess.run(
 review_artifact_block = re.search(r"(?s)\$ReviewArtifactPaths\s*=\s*@\((.*?)\)", corrected_source)
 require(review_artifact_block is not None, "S04-correction candidate review-artifact allowlist is missing")
 review_artifact_paths = set(re.findall(r"(?m)^\s*'([^']+)'", review_artifact_block.group(1)))
-p1_path_pattern = re.compile(r"(?i)(P1|P-1|GATE[_-]A[_-]PRIME|PF-?15|PA[_-]RULING)")
+def is_p1_artifact_path(artifact_path: str) -> bool:
+    """Recognize P-1 identity tokens in the complete repository-relative location.
+
+    A P1 namespace component (e.g. cap03-p1-f9) still qualifies every child.
+    NP12 is a different artifact identity, not P1 embedded inside an ordinal.
+    Preserve the repository's PascalCase DirectP1Integration convention as well
+    as delimited P1/P1F identities. Other historical identity aliases are unchanged.
+    This classification never admits a path: the existing allowlist check below does.
+    """
+    return re.search(
+        r"(?<![A-Za-z])(?i:P1)|(?<=[a-z])P1(?=[A-Z])|"
+        r"(?i:P-1|GATE[_-]A[_-]PRIME|PF-?15|PA[_-]RULING)",
+        artifact_path,
+    ) is not None
+
 # These later Direct P1 artifacts are deliberately NOT added to the P1-F runner's runtime
 # ReviewArtifactPaths. Their presence must keep that legacy freshness guard fail-closed; recognizing
 # them here only lets this read-only repository validator check the intentionally separate path.
@@ -481,7 +495,7 @@ require(separate_direct_p1_paths.issubset(set(changed_pr_paths)),
         "Direct P1/P1-F reconciliation artifacts are missing from the reviewed main history")
 require(separate_direct_p1_paths.isdisjoint(review_artifact_paths),
         "Direct P1 artifacts must remain outside the P1-F runtime freshness allowlist")
-unlisted_p1_paths = [path for path in changed_pr_paths if p1_path_pattern.search(path)
+unlisted_p1_paths = [path for path in changed_pr_paths if is_p1_artifact_path(path)
                      and path not in review_artifact_paths and path not in separate_direct_p1_paths]
 require(not unlisted_p1_paths,
         "PR adds P-1-named paths missing from the freshness allowlist: " + ", ".join(unlisted_p1_paths))
