@@ -12,18 +12,20 @@
     "declares `files: [\"dist/package\"]`, so the installed alias publishes ONLY built `.js` plus",
     "`.d.ts` artifacts. Advancing the alias to the PR #127 merge commit therefore requires IRR to",
     "consume the published build output instead of raw sources. That is an IRR-owned build-input",
-    "change; it does not move identity resolution, quarantine or persistence out of IPD."
+    "change; it does not move identity resolution, quarantine or persistence out of IPD.",
+    "The alias is now advanced to the PR #128 merge commit 07e86a4f2c105651f3097a96cb519f8611945e30;",
+    "the published-output contract and the 18-module / 36-artifact profile are unchanged."
   ],
   "aliasDependency": "iips-broker-import",
   "aliasRepository": "ramkivs/iips-production-market-data",
-  "aliasCommit": "7bcae35ad18c43cb67a16f30faa55bbdf0fb33fc",
-  "aliasSpecifier": "github:ramkivs/iips-production-market-data#7bcae35ad18c43cb67a16f30faa55bbdf0fb33fc",
+  "aliasCommit": "07e86a4f2c105651f3097a96cb519f8611945e30",
+  "aliasSpecifier": "github:ramkivs/iips-production-market-data#07e86a4f2c105651f3097a96cb519f8611945e30",
   "aliasProvenance": {
-    "mergedPullRequest": 127,
-    "mergeCommit": "7bcae35ad18c43cb67a16f30faa55bbdf0fb33fc",
-    "headCommit": "beb362d4ca8fb0a4f86e383d1893d031df2638a8",
-    "supersededAliasCommit": "70b24f029842a7e9b7f615e4d9df7376fd4ff817",
-    "record": "docs/integration/WS-A-BROKER-IMPORT-PIN-ADVANCE-TO-IPD-PR127-2026-11-05.md"
+    "mergedPullRequest": 128,
+    "mergeCommit": "07e86a4f2c105651f3097a96cb519f8611945e30",
+    "headCommit": "a89c4e06bb6893dc0ecd00bae1bcd41d1b04cac7",
+    "supersededAliasCommit": "7bcae35ad18c43cb67a16f30faa55bbdf0fb33fc",
+    "record": "docs/integration/WS-A-BROKER-IMPORT-PIN-ADVANCE-TO-IPD-PR128-2026-11-05.md"
   },
   "installedRoot": "node_modules/iips-broker-import",
   "publishedRoot": "dist/package",

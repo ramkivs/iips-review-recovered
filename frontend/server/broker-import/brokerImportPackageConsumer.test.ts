@@ -10,8 +10,8 @@
  *   1. Use exact 40-hex immutable commit SHAs on `ramkivs/iips-production-market-data` in both
  *      `package.json` and `package-lock.json`: primary
  *      `279d1eed184f5e23bbabe5c6411085e120ce9e41`, and the deliberately distinct DB-C1
- *      broker-import alias `7bcae35ad18c43cb67a16f30faa55bbdf0fb33fc` (the merge commit of IPD
- *      PR #127, advanced from the raw-source baseline `70b24f029842a7e9b7f615e4d9df7376fd4ff817`).
+ *      broker-import alias `07e86a4f2c105651f3097a96cb519f8611945e30` (the merge commit of IPD
+ *      PR #128, advanced from the PR #127 merge commit `7bcae35ad18c43cb67a16f30faa55bbdf0fb33fc`).
  *   2. Simultaneously expose `./portfolio-ui`, `./pit`, and `./d114-non-production` from the
  *      primary package with built runtime `.js` and declaration `.d.ts` artifacts.
  *   3. Provide all runtime symbols and TypeScript declaration symbols required by IRR's five
