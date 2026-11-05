@@ -21706,3 +21706,14 @@ EXECUTED. Owner binding, offline confirmation, backup-first, minimal audit, inte
 indefinite retention and all exclusions preserved. Next dated receipt supplies effective coordinates.
 
 Next free: section 16.260, correction 240, dated change suffix 03, ledger V2135.
+
+#### 16.259.1 Reset authority effective (`2026-11-06`)
+
+Act `IIPS-V3-CAP02-OWNER-EVIDENCE-RESET-2026-11-06-01` EFFECTIVE. PR #459 head
+`3b8b3a6cd9e0badeb1339d59843abad507e0328b`, merge `caf7a27a3507b82f61cf788cb3c4b0f7fc8ee5a9`;
+exact-head/main static CI 42089603836/42089771417 SUCCESS; independent remote 5/5 content matches,
+1237 protected blobs unchanged. Separate receipt `WS-A-OWNER-EVIDENCE-RESET-EFFECTIVENESS-RECEIPT-2026-11-06.md`
+under docs/integration records act §5 discharge. Bounded offline implementation AUTHORIZED — NOT
+IMPLEMENTED here, continue in this session after receipt publication/verification. Not permanent erasure,
+no operational evidence reset, no PF-1/live authority/W-1/repository expansion. Receipt's own publication
+coordinates verified in its PR record. No new allocation consumed by this subsection.

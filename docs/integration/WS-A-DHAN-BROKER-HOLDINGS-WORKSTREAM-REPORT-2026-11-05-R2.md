@@ -1362,3 +1362,12 @@ journal reset only; verified local recovery copy retained. Not permanent/all-cop
 resurrect cleared records. PA decision rendered; effectiveness conditional on instrument §5. Implementation
 not started until publication/checks/independent read-back/receipt, then continue in this same session.
 No operational evidence touched. Prior proposal, PF-1, A-8/A-9/retention, W-1 and repositories unchanged.
+
+### 22.1 Effective reset authority (`2026-11-06`)
+
+Act `IIPS-V3-CAP02-OWNER-EVIDENCE-RESET-2026-11-06-01` EFFECTIVE via #459 merge
+`caf7a27a3507b82f61cf788cb3c4b0f7fc8ee5a9`, exact-head/main static CI 42089603836/42089771417 SUCCESS,
+5/5 remote content matches, 1237 frozen/protected blobs unchanged. Separate effectiveness receipt:
+`WS-A-OWNER-EVIDENCE-RESET-EFFECTIVENESS-RECEIPT-2026-11-06.md`. Implementation AUTHORIZED — NOT IMPLEMENTED
+at this receipt; continue same session after its publication/verification. Active-store reset only,
+recovery copy retained, not permanent erasure. All exclusions unchanged. Tracker §16.259.1.
