@@ -1,0 +1,1393 @@
+{
+  "repositories": {
+    "ramkivs/iips-review-recovered": {
+      "id": 1333482008,
+      "branch": "main",
+      "commit": "80737d072829d942fb2f9ec76f6e9122e36530f7",
+      "tree": "e94bb275b43522ce1ea8cba111bd532a5337ac67",
+      "description": "recovered from Arena on 14-08-2026"
+    },
+    "ramkivs/iips-production-market-data": {
+      "id": 1361385667,
+      "branch": "main",
+      "commit": "07e86a4f2c105651f3097a96cb519f8611945e30",
+      "tree": "7c08725665030730802b631e8cfdf751ea16202a",
+      "description": null
+    },
+    "ramkivs/ipo-screening-engine": {
+      "id": 1405223378,
+      "branch": "main",
+      "commit": "d661b5ee99a782566fedcb9aa2b139e756948d27",
+      "tree": "d0fae7b5199ca5ca2e5d099cbfe31076f8af7ca6",
+      "description": "Deterministic, auditable IPO Screening Engine with historical evaluation and Excel reporting"
+    }
+  },
+  "mergedPRs": {
+    "456": {
+      "title": "IID-1 \u2014 identity resolution, corporate actions and coverage (with IID-0 foundations, unmerged on main)",
+      "merged": true,
+      "mergedAt": "2026-11-05T19:06:36Z",
+      "head": "d0229a493a7356e58bd435995a22a0c4b6cfd99c",
+      "merge": "bcc022ed83624da673967730de2e7dd89346de13",
+      "tree": "bbe1c7383cb69a057c7c46b2b9ec444604d19fed",
+      "headCheckRuns": [
+        {
+          "name": "Typecheck \u00b7 Test \u00b7 Build",
+          "conclusion": "success",
+          "url": "https://github.com/ramkivs/iips-review-recovered/actions/runs/42088935422/job/127461495222"
+        }
+      ],
+      "mainCheckRuns": [
+        {
+          "name": "Typecheck \u00b7 Test \u00b7 Build",
+          "conclusion": "success",
+          "url": "https://github.com/ramkivs/iips-review-recovered/actions/runs/42090718155/job/127467697651"
+        }
+      ]
+    },
+    "461": {
+      "title": "IID-2: company assessment engine (evidence-backed valuation, named gaps)",
+      "merged": true,
+      "mergedAt": "2026-11-05T19:09:32Z",
+      "head": "ac3bb6ba21e7d1123e3516a73ef7781571f355ec",
+      "merge": "34c8b39e3ee1d26bba4f9b362ca631c4e42ce863",
+      "tree": "370266adddd7c3f6a91b444c8bc651f55881699c",
+      "headCheckRuns": [],
+      "mainCheckRuns": []
+    },
+    "464": {
+      "title": "feat(iid-3): persistence, read transport and thin slice (M-1)",
+      "merged": true,
+      "mergedAt": "2026-11-05T19:55:33Z",
+      "head": "120b8a9cc141aa22b8eaee125679959c59b0a268",
+      "merge": "f08da401dee12748581cbef5599d8c2e3758c84b",
+      "tree": "06560ddd5809e3a3b30cea3641c9f94f3bd8ba2b",
+      "headCheckRuns": [
+        {
+          "name": "Typecheck \u00b7 Test \u00b7 Build",
+          "conclusion": "success",
+          "url": "https://github.com/ramkivs/iips-review-recovered/actions/runs/42098111372/job/127493407447"
+        }
+      ],
+      "mainCheckRuns": [
+        {
+          "name": "Typecheck \u00b7 Test \u00b7 Build",
+          "conclusion": "success",
+          "url": "https://github.com/ramkivs/iips-review-recovered/actions/runs/42098519223/job/127494826244"
+        }
+      ]
+    },
+    "467": {
+      "title": "docs(iid-3): publication receipt for the merged PR #464",
+      "merged": true,
+      "mergedAt": "2026-11-05T19:59:01Z",
+      "head": "7a32bdd972f11dddbac775b46da874e7cb58dbfe",
+      "merge": "95b95cfe04bbb7f6be200bacce38efc804ace278",
+      "tree": "0554ba4a047e2822f74b599742834f1b7a3b1a1d",
+      "headCheckRuns": [],
+      "mainCheckRuns": []
+    },
+    "468": {
+      "title": "SAIRAM durable holdings: architecture gaps and decision-ready package, W-1 unchanged",
+      "merged": true,
+      "mergedAt": "2026-11-05T20:00:01Z",
+      "head": "635a8e838dc4d6547c64afb65a48f4748bde6666",
+      "merge": "d37ac14e3e09009223de92f436c3dafbde27568f",
+      "tree": "7d92313b3175f6169c64e453d3cb7bfeaee0f2f4",
+      "headCheckRuns": [
+        {
+          "name": "Python compile \u00b7 source/evidence/tracker validation",
+          "conclusion": "success",
+          "url": "https://github.com/ramkivs/iips-review-recovered/actions/runs/42099000839/job/127496530848"
+        }
+      ],
+      "mainCheckRuns": [
+        {
+          "name": "Python compile \u00b7 source/evidence/tracker validation",
+          "conclusion": "success",
+          "url": "https://github.com/ramkivs/iips-review-recovered/actions/runs/42099203142/job/127497237115"
+        }
+      ]
+    },
+    "469": {
+      "title": "SAIRAM holdings readiness receipt: published findings, decisions pending, W-1 unchanged",
+      "merged": true,
+      "mergedAt": "2026-11-05T20:05:46Z",
+      "head": "049fef34fbb0a5bcb2a0adc0d9358cf79115cced",
+      "merge": "80737d072829d942fb2f9ec76f6e9122e36530f7",
+      "tree": "e94bb275b43522ce1ea8cba111bd532a5337ac67",
+      "headCheckRuns": [
+        {
+          "name": "Python compile \u00b7 source/evidence/tracker validation",
+          "conclusion": "success",
+          "url": "https://github.com/ramkivs/iips-review-recovered/actions/runs/42099964032/job/127499858334"
+        }
+      ],
+      "mainCheckRuns": [
+        {
+          "name": "Python compile \u00b7 source/evidence/tracker validation",
+          "conclusion": "success",
+          "url": "https://github.com/ramkivs/iips-review-recovered/actions/runs/42100138142/job/127500453781"
+        }
+      ]
+    },
+    "446": {
+      "title": "WS-A: advance iips-broker-import to IPD PR #128 (07e86a4)",
+      "merged": true,
+      "mergedAt": "2026-11-05T13:35:06Z",
+      "head": "0311eda755fb9923f98380d29d6a677f65e63825",
+      "merge": "d7cd3b658bdcd9e59c7888e8b6a37af7e4646232",
+      "tree": "4e33dcc6ced0c07e1ff23627955512ff081e2dd9",
+      "headCheckRuns": [
+        {
+          "name": "Typecheck \u00b7 Test \u00b7 Build",
+          "conclusion": "success",
+          "url": "https://github.com/ramkivs/iips-review-recovered/actions/runs/42036680980/job/127276537446"
+        },
+        {
+          "name": "Python compile \u00b7 source/evidence/tracker validation",
+          "conclusion": "success",
+          "url": "https://github.com/ramkivs/iips-review-recovered/actions/runs/42036680904/job/127276536654"
+        }
+      ],
+      "mainCheckRuns": [
+        {
+          "name": "Typecheck \u00b7 Test \u00b7 Build",
+          "conclusion": "success",
+          "url": "https://github.com/ramkivs/iips-review-recovered/actions/runs/42037062101/job/127277837823"
+        },
+        {
+          "name": "Python compile \u00b7 source/evidence/tracker validation",
+          "conclusion": "success",
+          "url": "https://github.com/ramkivs/iips-review-recovered/actions/runs/42037062153/job/127277836950"
+        }
+      ]
+    },
+    "454": {
+      "title": "WS-A: authorized live evidence retention and verified A-9 read-back",
+      "merged": true,
+      "mergedAt": "2026-11-05T18:32:30Z",
+      "head": "61d36e367beb3555c00486a60fb228fc1a57c3b0",
+      "merge": "bf252e83d57d0322f9b5938f154ea025978c48ba",
+      "tree": "40aa6eef82caa3b6d39751b0c4f026b35510e6c6",
+      "headCheckRuns": [
+        {
+          "name": "Typecheck \u00b7 Test \u00b7 Build",
+          "conclusion": "success",
+          "url": "https://github.com/ramkivs/iips-review-recovered/actions/runs/42084604002/job/127446960058"
+        },
+        {
+          "name": "Python compile \u00b7 source/evidence/tracker validation",
+          "conclusion": "success",
+          "url": "https://github.com/ramkivs/iips-review-recovered/actions/runs/42084603957/job/127446216293"
+        }
+      ],
+      "mainCheckRuns": [
+        {
+          "name": "Typecheck \u00b7 Test \u00b7 Build",
+          "conclusion": "success",
+          "url": "https://github.com/ramkivs/iips-review-recovered/actions/runs/42085226452/job/127448391884"
+        },
+        {
+          "name": "Python compile \u00b7 source/evidence/tracker validation",
+          "conclusion": "success",
+          "url": "https://github.com/ramkivs/iips-review-recovered/actions/runs/42085226551/job/127448391755"
+        }
+      ]
+    },
+    "455": {
+      "title": "WS-A: live retention publication and end-to-end verification receipt",
+      "merged": true,
+      "mergedAt": "2026-11-05T18:36:45Z",
+      "head": "05a6ec9ed611ff5cbf7722d841ce0d612b6cad47",
+      "merge": "d847de35fb1f1894374b8025e5a8c1008e5bbc3b",
+      "tree": "d956294f003f567028b00d7fb4d478ae3f210a8a",
+      "headCheckRuns": [
+        {
+          "name": "Python compile \u00b7 source/evidence/tracker validation",
+          "conclusion": "success",
+          "url": "https://github.com/ramkivs/iips-review-recovered/actions/runs/42085787753/job/127450379383"
+        }
+      ],
+      "mainCheckRuns": [
+        {
+          "name": "Python compile \u00b7 source/evidence/tracker validation",
+          "conclusion": "success",
+          "url": "https://github.com/ramkivs/iips-review-recovered/actions/runs/42085911094/job/127450822274"
+        }
+      ]
+    },
+    "462": {
+      "title": "WS-A: authorized offline owner evidence reset, verified recovery and interruption safety",
+      "merged": true,
+      "mergedAt": "2026-11-05T19:26:37Z",
+      "head": "7f8bdbf044a3f82feb5af3ebcec911bba7fa5e11",
+      "merge": "a9329dd509be8051f82780059646c0f179d42b74",
+      "tree": "715926143a24cd6297f390cebe7edb591bdc0b6b",
+      "headCheckRuns": [
+        {
+          "name": "Typecheck \u00b7 Test \u00b7 Build",
+          "conclusion": "success",
+          "url": "https://github.com/ramkivs/iips-review-recovered/actions/runs/42093558519/job/127477602187"
+        }
+      ],
+      "mainCheckRuns": [
+        {
+          "name": "Typecheck \u00b7 Test \u00b7 Build",
+          "conclusion": "success",
+          "url": "https://github.com/ramkivs/iips-review-recovered/actions/runs/42093933769/job/127478916073"
+        }
+      ]
+    },
+    "463": {
+      "title": "WS-A reset receipt and tracker: merged implementation verified; inherited CAP-03 static blocker",
+      "merged": true,
+      "mergedAt": "2026-11-05T19:46:03Z",
+      "head": "9d2cb60b6383926e4e7f400f6b36758b5f4eb617",
+      "merge": "26256e741566b3fe088d2f7bb47ce5be7f0f76a5",
+      "tree": "17b87947bf722925af968e21ac384ae4e18bcc2a",
+      "headCheckRuns": [
+        {
+          "name": "Python compile \u00b7 source/evidence/tracker validation",
+          "conclusion": "success",
+          "url": "https://github.com/ramkivs/iips-review-recovered/actions/runs/42096812868/job/127488892168"
+        }
+      ],
+      "mainCheckRuns": [
+        {
+          "name": "Python compile \u00b7 source/evidence/tracker validation",
+          "conclusion": "success",
+          "url": "https://github.com/ramkivs/iips-review-recovered/actions/runs/42097022696/job/127489612778"
+        }
+      ]
+    },
+    "465": {
+      "title": "CAP-03: correct IID-1 NP12 false artifact classification; retain strict admission",
+      "merged": true,
+      "mergedAt": "2026-11-05T19:44:34Z",
+      "head": "eddfbcdde8ad2ae29ecd5f0eafb3866b411ca7cb",
+      "merge": "e925cb68cc68729a862feee647bec66b207a01f0",
+      "tree": "ff42175f5d2c3d6c5126f37ed6d398872db524ca",
+      "headCheckRuns": [
+        {
+          "name": "Python compile \u00b7 source/evidence/tracker validation",
+          "conclusion": "success",
+          "url": "https://github.com/ramkivs/iips-review-recovered/actions/runs/42096640841/job/127488290282"
+        }
+      ],
+      "mainCheckRuns": [
+        {
+          "name": "Python compile \u00b7 source/evidence/tracker validation",
+          "conclusion": "success",
+          "url": "https://github.com/ramkivs/iips-review-recovered/actions/runs/42096783518/job/127488787407"
+        }
+      ]
+    },
+    "466": {
+      "title": "Close owner reset publication: correction and receipt merged, independently verified",
+      "merged": true,
+      "mergedAt": "2026-11-05T19:48:51Z",
+      "head": "a7a8735cc50681744c2de23dcd5e0a8e113b41d1",
+      "merge": "2a55110806599084355b299fb3e0a559471f0c48",
+      "tree": "e6c799d10d05a3258a7b66decb8b1f88faaff7d7",
+      "headCheckRuns": [
+        {
+          "name": "Python compile \u00b7 source/evidence/tracker validation",
+          "conclusion": "success",
+          "url": "https://github.com/ramkivs/iips-review-recovered/actions/runs/42097332209/job/127490704205"
+        }
+      ],
+      "mainCheckRuns": [
+        {
+          "name": "Python compile \u00b7 source/evidence/tracker validation",
+          "conclusion": "success",
+          "url": "https://github.com/ramkivs/iips-review-recovered/actions/runs/42097468948/job/127491173155"
+        }
+      ]
+    }
+  },
+  "R5Coordinates": {
+    "IPD_primary_qe_coordinate": {
+      "repository": "ramkivs/iips-production-market-data",
+      "commit": "8eec74ae27cda09f3c368b9c299895eae41554db",
+      "tree": "4eba29029f8d95cfe483e615a7047426b298ce50",
+      "verifiedAgainstCurrentRemoteObjects": true
+    },
+    "IPD_broker_alias_compatibility_coordinate": {
+      "repository": "ramkivs/iips-production-market-data",
+      "commit": "70b24f029842a7e9b7f615e4d9df7376fd4ff817",
+      "tree": "cc0f0117822850f9046e9a51bd05c1d45f80cd57",
+      "verifiedAgainstCurrentRemoteObjects": true
+    },
+    "IRR_qe_consumer": {
+      "repository": "ramkivs/iips-review-recovered",
+      "commit": "ba64b2d5927c2f872560710cf1474c25a5cde0d5",
+      "tree": "5e4262f1cd75bf13b76ced5b45058f31434b5dad",
+      "verifiedAgainstCurrentRemoteObjects": true
+    }
+  },
+  "R5VerifiedEntries": [
+    {
+      "repository": "ramkivs/iips-production-market-data",
+      "commit": "8eec74ae27cda09f3c368b9c299895eae41554db",
+      "path": "src/ipc/dispatch.ts",
+      "blob": "27becc76749f5b11a37ca4e6254d58132620f57f",
+      "sha256": "62e6f424a85971338d1436af0d65fb4f26b4981188863aeece10f21aaedaa1ce",
+      "bytes": 12670
+    },
+    {
+      "repository": "ramkivs/iips-production-market-data",
+      "commit": "8eec74ae27cda09f3c368b9c299895eae41554db",
+      "path": "src/ipc/endpoint.ts",
+      "blob": "e565aa5b343266f62ffd411d17d74c89b9f29324",
+      "sha256": "e0675f46ebf8c1a06d665a942445662d3e304b81a6ba20d0706688b58399734e",
+      "bytes": 13292
+    },
+    {
+      "repository": "ramkivs/iips-production-market-data",
+      "commit": "8eec74ae27cda09f3c368b9c299895eae41554db",
+      "path": "src/ipc/entrypoint.ts",
+      "blob": "ae3edd12e1199845f6b5fe059fa79fed6245ae32",
+      "sha256": "cb84c19177fe8ddebd300c39a4d6a3f869f5d56b95b4f87bde7e51f6def3abd6",
+      "bytes": 5146
+    },
+    {
+      "repository": "ramkivs/iips-production-market-data",
+      "commit": "8eec74ae27cda09f3c368b9c299895eae41554db",
+      "path": "src/ipc/protocol.ts",
+      "blob": "f4dc72b12ed9d618d1cfde836160f992ff1be9a5",
+      "sha256": "596afe131c81c45003b08c55a423564dfbd189cd3cea7724a1b169b518e63f7b",
+      "bytes": 18089
+    },
+    {
+      "repository": "ramkivs/iips-production-market-data",
+      "commit": "8eec74ae27cda09f3c368b9c299895eae41554db",
+      "path": "src/persistence/audit.ts",
+      "blob": "273ccd3be29d7aca971933b6a28a4b4703504bf2",
+      "sha256": "3a11b42e18ec3116ef85e4333e06bb5f017f79b0e12adc4ee3695207db1f6525",
+      "bytes": 3851
+    },
+    {
+      "repository": "ramkivs/iips-production-market-data",
+      "commit": "8eec74ae27cda09f3c368b9c299895eae41554db",
+      "path": "src/persistence/binding.ts",
+      "blob": "96d0079dd04b75c6f257a2001c8f7eff1ffc560a",
+      "sha256": "5e9e3dd8fe705f0235baeab77894636e94cdfbc0df7dd5d42037100ae114a61b",
+      "bytes": 4112
+    },
+    {
+      "repository": "ramkivs/iips-production-market-data",
+      "commit": "8eec74ae27cda09f3c368b9c299895eae41554db",
+      "path": "src/persistence/connection.ts",
+      "blob": "5169e402707cf1a73f16bfb15ffe0b1d395165ff",
+      "sha256": "51beab4e7b06ce4c44043ca04d678c4b193dd43fe3a0e53e895e481365e38a67",
+      "bytes": 3888
+    },
+    {
+      "repository": "ramkivs/iips-production-market-data",
+      "commit": "8eec74ae27cda09f3c368b9c299895eae41554db",
+      "path": "src/persistence/durablePortfolioStorePort.ts",
+      "blob": "d95608d90b6abe0535f82373b7e621d95aecbae8",
+      "sha256": "bea117ba3f6159fad5cf2c55c3723410a2405dd1a1db505e97c04b4d0547276d",
+      "bytes": 3360
+    },
+    {
+      "repository": "ramkivs/iips-production-market-data",
+      "commit": "8eec74ae27cda09f3c368b9c299895eae41554db",
+      "path": "src/persistence/migration_ledger.ts",
+      "blob": "88198b44531777bd6a42bdc4e1094b695c25c270",
+      "sha256": "c4b702401c2ecdf23bcd13bf4431eee2a1d550a0e3b5999065df1ad9b6cf33f4",
+      "bytes": 3468
+    },
+    {
+      "repository": "ramkivs/iips-production-market-data",
+      "commit": "8eec74ae27cda09f3c368b9c299895eae41554db",
+      "path": "src/persistence/migrations/001_initial_schema.ts",
+      "blob": "f594a18264c45ccdcbfa2381592820a72d3c453b",
+      "sha256": "6aaff75c60053feed639617f42025ef8d58e5a8c8f7d987dd1804e0e2bdab4d3",
+      "bytes": 3548
+    },
+    {
+      "repository": "ramkivs/iips-production-market-data",
+      "commit": "8eec74ae27cda09f3c368b9c299895eae41554db",
+      "path": "src/persistence/migrations/002_audit_event_sequence.ts",
+      "blob": "932af8e603c4be41c9f0d8a6b051f41836c1fee8",
+      "sha256": "bac1fa890eb460c76e380f5e1d4e19067a5b48a9f2b002ca7449d9da484f6056",
+      "bytes": 940
+    },
+    {
+      "repository": "ramkivs/iips-production-market-data",
+      "commit": "8eec74ae27cda09f3c368b9c299895eae41554db",
+      "path": "src/persistence/migrations/003_local_principal_bindings.ts",
+      "blob": "32b125bf962bb76a6ae59d3b262203dbbb988197",
+      "sha256": "30b5eab65f24267e9b7f9992fc5a7fe2978f613a979f033265a228831656df28",
+      "bytes": 1649
+    },
+    {
+      "repository": "ramkivs/iips-production-market-data",
+      "commit": "8eec74ae27cda09f3c368b9c299895eae41554db",
+      "path": "src/persistence/portfolio_store.ts",
+      "blob": "540d49f2deb2c8d600b5b866675d145cf76a1e46",
+      "sha256": "f6e44c8eb2518b57fcd79679dfa2c93593d9cafb1d839685b45f0cdfe72877a5",
+      "bytes": 34084
+    },
+    {
+      "repository": "ramkivs/iips-production-market-data",
+      "commit": "8eec74ae27cda09f3c368b9c299895eae41554db",
+      "path": "src/persistence/provisioning.ts",
+      "blob": "dc844189a1c92f00acc3d7572c22f3e28e138eb6",
+      "sha256": "7f04f86a9c23bd0c94def29d829bb0c54033bed941a8c77e35365c30bdbdba30",
+      "bytes": 4330
+    },
+    {
+      "repository": "ramkivs/iips-production-market-data",
+      "commit": "8eec74ae27cda09f3c368b9c299895eae41554db",
+      "path": "tests/g3_binding_resolution.test.ts",
+      "blob": "c3e130a404b2cf43c368e672aeb7916dfb66f7d9",
+      "sha256": "ffbce91821ec8b6a01e0c2e4c3d79899b28ab0543041c8c77c892522022dbd55",
+      "bytes": 13584
+    },
+    {
+      "repository": "ramkivs/iips-production-market-data",
+      "commit": "8eec74ae27cda09f3c368b9c299895eae41554db",
+      "path": "tests/g3_caller_authority.test.ts",
+      "blob": "ef76ad744e380aeeea01b7a41646b5defc348daf",
+      "sha256": "378312ff41015749c2e81d4bd351973359553dd8bc597c17e91eb5ad6feadc78",
+      "bytes": 5990
+    },
+    {
+      "repository": "ramkivs/iips-production-market-data",
+      "commit": "8eec74ae27cda09f3c368b9c299895eae41554db",
+      "path": "tests/g3_durability_vocabulary.test.ts",
+      "blob": "8a87c33d6ee1a742ec6947ec6829254ff21dbb1c",
+      "sha256": "d4acfdf26291a86dd0db97725dd752c4ce2dc18f7c7ab54f3d91edec31a3fd24",
+      "bytes": 4472
+    },
+    {
+      "repository": "ramkivs/iips-production-market-data",
+      "commit": "8eec74ae27cda09f3c368b9c299895eae41554db",
+      "path": "tests/g3_ipc_framing.test.ts",
+      "blob": "c4a4a88a88052451c69b5b2ae277fa5d85ee7ea5",
+      "sha256": "6ae6a2ac41de1d05022bc8ebc1e950fed675cebe4a43e3512e45da7d5a3506b8",
+      "bytes": 30969
+    },
+    {
+      "repository": "ramkivs/iips-production-market-data",
+      "commit": "8eec74ae27cda09f3c368b9c299895eae41554db",
+      "path": "tests/g3_no_network_listener.test.ts",
+      "blob": "b1e48c70b111c5ef49db8924faeb2728ce093b5e",
+      "sha256": "9f835f8be79f3cc1bee4d57ae479d9a293bc3316698a7bbede873e7c9d59e39f",
+      "bytes": 9248
+    },
+    {
+      "repository": "ramkivs/iips-production-market-data",
+      "commit": "8eec74ae27cda09f3c368b9c299895eae41554db",
+      "path": "tests/g3_portfolio_read_isolation.test.ts",
+      "blob": "69e36f68dc6c3adbd370654cd54e7d3ae83dbba1",
+      "sha256": "a7cfb0422138107b71d786260d1f93c186aec89a2a877fcee2528d36a831884a",
+      "bytes": 7256
+    },
+    {
+      "repository": "ramkivs/iips-production-market-data",
+      "commit": "8eec74ae27cda09f3c368b9c299895eae41554db",
+      "path": "tests/g3_startup_validation.test.ts",
+      "blob": "edd0305e3e5891020b2b045ab2cf082cd6cf788f",
+      "sha256": "d6bfd728c871267732bfc31f307b3fc1bed90b5b09c0bc88ad3999b05548f6e4",
+      "bytes": 15072
+    },
+    {
+      "repository": "ramkivs/iips-production-market-data",
+      "commit": "8eec74ae27cda09f3c368b9c299895eae41554db",
+      "path": "tests/g3_write_gate.test.ts",
+      "blob": "9035cbf129d4c1182d3a85f61eabc821b86433bc",
+      "sha256": "7b8ed49990154525fb4d050ca3e46763a902ee0f5873daf2e996b863752dbd5d",
+      "bytes": 9054
+    },
+    {
+      "repository": "ramkivs/iips-production-market-data",
+      "commit": "8eec74ae27cda09f3c368b9c299895eae41554db",
+      "path": "scripts/run-tests.mjs",
+      "blob": "05a0ea56f62d4f3b614480858c968a728bc24ca4",
+      "sha256": "f467445321ba64162992ec6a4938b48495d6922205582d80cd50c96fe6a0eefd",
+      "bytes": 5015
+    },
+    {
+      "repository": "ramkivs/iips-production-market-data",
+      "commit": "8eec74ae27cda09f3c368b9c299895eae41554db",
+      "path": "tests/g4_run_tests_summary_parsing.test.ts",
+      "blob": "49e901b6ca957a5cc705b42e96cdeaf0365cfbc9",
+      "sha256": "7907087f13053e232e1ae537d6b75de5f5b280728ce9af1e210041c4660b633d",
+      "bytes": 5627
+    },
+    {
+      "repository": "ramkivs/iips-production-market-data",
+      "commit": "8eec74ae27cda09f3c368b9c299895eae41554db",
+      "path": "package.json",
+      "blob": "51796e63280c1abb368c27bf8811cc6bad46e132",
+      "sha256": "41079f64d3f7a87e92b32ee3d0be34291941ee32398926ff24b6f3528f838363",
+      "bytes": 2025
+    },
+    {
+      "repository": "ramkivs/iips-production-market-data",
+      "commit": "8eec74ae27cda09f3c368b9c299895eae41554db",
+      "path": "package-lock.json",
+      "blob": "98ae3c63f403d88b5b13afbc9d9c32676b4716fe",
+      "sha256": "c77775af60ad24bbbd55df024bb92cbcf0f8b3c2bf14f938a5910d2264b216eb",
+      "bytes": 32128
+    },
+    {
+      "repository": "ramkivs/iips-production-market-data",
+      "commit": "8eec74ae27cda09f3c368b9c299895eae41554db",
+      "path": "tsconfig.json",
+      "blob": "6d696ec21b50beddd063376c6f4cdb4463993c23",
+      "sha256": "ecdcea2f07cacbda5f70b036144e41b893bf7cfbc79cfbf6b0b7f017d07cb119",
+      "bytes": 548
+    },
+    {
+      "repository": "ramkivs/iips-production-market-data",
+      "commit": "8eec74ae27cda09f3c368b9c299895eae41554db",
+      "path": "src/identity/security_master.ts",
+      "blob": "60030e0c17f8b2a31977ce598c80b18dc52d6727",
+      "sha256": "00d85e594441d8d1ed737b16a00049fe5f982efbc66e0ab550cc4cb7de8f2ff6",
+      "bytes": 4595
+    },
+    {
+      "repository": "ramkivs/iips-production-market-data",
+      "commit": "8eec74ae27cda09f3c368b9c299895eae41554db",
+      "path": "src/identity/mapping_store.ts",
+      "blob": "eec60c09e08ec45a29979abf25b21efddef448ae",
+      "sha256": "41e6d2ca8f8e2dcaa5d352cb00e7eae0b064de7261b5bfcc4b33339ff946c650",
+      "bytes": 3462
+    },
+    {
+      "repository": "ramkivs/iips-production-market-data",
+      "commit": "8eec74ae27cda09f3c368b9c299895eae41554db",
+      "path": "src/identity/quarantine.ts",
+      "blob": "70c6f6580f6ade66eb31e7dee3adc4b52b10b010",
+      "sha256": "257999e6b7db640d375e6deed445f34b83ebfa1a9354c2f88531b13db1de7f22",
+      "bytes": 919
+    },
+    {
+      "repository": "ramkivs/iips-production-market-data",
+      "commit": "8eec74ae27cda09f3c368b9c299895eae41554db",
+      "path": "frontend/src/features/portfolio/portfolioStorePort.ts",
+      "blob": "fd01731fa3f25cffffd6ac4590ad13c1564c9ef3",
+      "sha256": "5fe9a4e49c76f43bf9515a12b919c702a771a998f0d1b431d2160ead46b00fdf",
+      "bytes": 19997
+    },
+    {
+      "repository": "ramkivs/iips-production-market-data",
+      "commit": "8eec74ae27cda09f3c368b9c299895eae41554db",
+      "path": "frontend/src/features/portfolio/portfolio-store.ts",
+      "blob": "b900a2481b73ed7bd00406b18a39c8f493b4c0cc",
+      "sha256": "10fbb6b9d2f19880419bba351775483773c526d44a76b8cd5b014827613e331f",
+      "bytes": 20161
+    },
+    {
+      "repository": "ramkivs/iips-review-recovered",
+      "commit": "ba64b2d5927c2f872560710cf1474c25a5cde0d5",
+      "path": "frontend/server/user-portfolio/ipcClient.ts",
+      "blob": "c1b885e3173132685090bcd2cbfa4aa8c87fa4ca",
+      "sha256": "144b31d8c24e1d4085b5deb592ddb23b26e04ee333d8449063ae0655a4a25644",
+      "bytes": 26182
+    },
+    {
+      "repository": "ramkivs/iips-review-recovered",
+      "commit": "ba64b2d5927c2f872560710cf1474c25a5cde0d5",
+      "path": "frontend/server/user-portfolio/ownerContextFromBinding.ts",
+      "blob": "296dd5e361bf3a8bac4f45981f667edb344a6e79",
+      "sha256": "127543f2b8fe9f4254f23ea2adee6eb7f83b6a7eb962a77089bfb4cc2b210ccd",
+      "bytes": 10050
+    },
+    {
+      "repository": "ramkivs/iips-review-recovered",
+      "commit": "ba64b2d5927c2f872560710cf1474c25a5cde0d5",
+      "path": "frontend/server/user-portfolio/ipcPortAdapter.ts",
+      "blob": "1e20e98023f20f80ed61d8d32d070fdde677d3c7",
+      "sha256": "8c394c33af889f4045bb54d412f82aa2bfcb32d55140804157511fc0148540f3",
+      "bytes": 27511
+    },
+    {
+      "repository": "ramkivs/iips-review-recovered",
+      "commit": "ba64b2d5927c2f872560710cf1474c25a5cde0d5",
+      "path": "frontend/server/user-portfolio/firstPartySignal.ts",
+      "blob": "d2f0ae721db303af9b23ee8a2a32e4cf72477d57",
+      "sha256": "c0c11e958dbf4155b651b7305a127c1536dcdadcda604b573dc9cec8cbe0304c",
+      "bytes": 14243
+    },
+    {
+      "repository": "ramkivs/iips-review-recovered",
+      "commit": "ba64b2d5927c2f872560710cf1474c25a5cde0d5",
+      "path": "frontend/server/user-portfolio/ipcClient.test.ts",
+      "blob": "33bcd1dbe197c2da42ee26ff3fcf9cf6067a9308",
+      "sha256": "e85af3d1c8e972442c44c4ab434327e4e06171f93f458d22af097b58c18d75f1",
+      "bytes": 28307
+    },
+    {
+      "repository": "ramkivs/iips-review-recovered",
+      "commit": "ba64b2d5927c2f872560710cf1474c25a5cde0d5",
+      "path": "frontend/server/user-portfolio/ownerContextFromBinding.test.ts",
+      "blob": "01cd2ec02190db66dbb3cdb50ad7093682a1ac38",
+      "sha256": "8830c99ea5c6ce21d0645d27ca2a08da0e6c041559a4d6917fbab44aa038500f",
+      "bytes": 10558
+    },
+    {
+      "repository": "ramkivs/iips-review-recovered",
+      "commit": "ba64b2d5927c2f872560710cf1474c25a5cde0d5",
+      "path": "frontend/server/user-portfolio/ipcPortAdapter.test.ts",
+      "blob": "46243a7a79ba3b19cd4d2b8a56df8905aba220f8",
+      "sha256": "eeb12462dd2c78a945796420b87dc950fa9eb66a91bdd91305ca98350c0146af",
+      "bytes": 45566
+    },
+    {
+      "repository": "ramkivs/iips-review-recovered",
+      "commit": "ba64b2d5927c2f872560710cf1474c25a5cde0d5",
+      "path": "frontend/server/user-portfolio/fenceUnchanged.test.ts",
+      "blob": "359ed7cf495b4226268b92a7c5f0a820b7b028e4",
+      "sha256": "69f53b13638612d0c9c7a59c2f38a4650eace0612ee0026de9d135e4ad8b5af6",
+      "bytes": 24549
+    },
+    {
+      "repository": "ramkivs/iips-review-recovered",
+      "commit": "ba64b2d5927c2f872560710cf1474c25a5cde0d5",
+      "path": "frontend/server/user-portfolio/userPortfolioContract.ts",
+      "blob": "e6b57bb8a021d8eb4b9b7572d12affc7de66be0b",
+      "sha256": "15568224c49f09bb5728831e0e9c7faeee58687b9299470e0c9bd8f8f0a12d4e",
+      "bytes": 31585
+    },
+    {
+      "repository": "ramkivs/iips-review-recovered",
+      "commit": "ba64b2d5927c2f872560710cf1474c25a5cde0d5",
+      "path": "frontend/server/executive-transport.ts",
+      "blob": "a438eec0c02287ceb734f6377dca08ce22fa247d",
+      "sha256": "c839392cb247b3ce3fd2383652541485e83ba4fccaf159eaaa8190cd6fb277b9",
+      "bytes": 49611
+    },
+    {
+      "repository": "ramkivs/iips-review-recovered",
+      "commit": "ba64b2d5927c2f872560710cf1474c25a5cde0d5",
+      "path": "frontend/vite.config.ts",
+      "blob": "a4614f498f6d5239af789e2f69b5410f2536d803",
+      "sha256": "1e52a94228e53b714a55c3ec962e84843854bea6aeb777d0569b13c356417b0b",
+      "bytes": 1023
+    },
+    {
+      "repository": "ramkivs/iips-review-recovered",
+      "commit": "ba64b2d5927c2f872560710cf1474c25a5cde0d5",
+      "path": "frontend/server/owner-context-unavailable.ts",
+      "blob": "cb8db45d668d28cee7e0a52721001d579a872733",
+      "sha256": "57e397d44e2a1e2e2c0d5a456a1ad419d5a5728e4a76aaa73bf71d10a164a913",
+      "bytes": 684
+    },
+    {
+      "repository": "ramkivs/iips-review-recovered",
+      "commit": "ba64b2d5927c2f872560710cf1474c25a5cde0d5",
+      "path": "frontend/server/user-portfolio-transport.ts",
+      "blob": "51704c12a467cd2f718a030b5036bc55c9afa73f",
+      "sha256": "515acaae95cdf1d41c72ca040fbbc855ccb28da16a6b2122c1c1ad2225573bb0",
+      "bytes": 2716
+    },
+    {
+      "repository": "ramkivs/iips-review-recovered",
+      "commit": "ba64b2d5927c2f872560710cf1474c25a5cde0d5",
+      "path": "frontend/server/user-portfolio/userPortfolioPort.ts",
+      "blob": "ba0001e88c83b070e4f16a3cdb35d34c82ec0200",
+      "sha256": "1cafe6c2cfbcf6938bcbd0f9b3b764a983c51d06f19c7db088200d1cb9928e9a",
+      "bytes": 4501
+    },
+    {
+      "repository": "ramkivs/iips-review-recovered",
+      "commit": "ba64b2d5927c2f872560710cf1474c25a5cde0d5",
+      "path": "frontend/server/user-portfolio/option2F.test.ts",
+      "blob": "0dc7fd98bd3a2e46e0fda9d08b9ebf8dbabb97fd",
+      "sha256": "c80ce1d36bbf108e4f1525351b7a8f83c0f8606da1517705c2579d967cee45fb",
+      "bytes": 9279
+    },
+    {
+      "repository": "ramkivs/iips-review-recovered",
+      "commit": "ba64b2d5927c2f872560710cf1474c25a5cde0d5",
+      "path": "frontend/server/user-portfolio/userPortfolioContract.test.ts",
+      "blob": "400fe351438c7de794c9b045567ebd7e3f276976",
+      "sha256": "7c92bf9290f923b24464fab432d09e74cfeb6571e42d8b26819b69e8d15781a4",
+      "bytes": 12411
+    },
+    {
+      "repository": "ramkivs/iips-review-recovered",
+      "commit": "ba64b2d5927c2f872560710cf1474c25a5cde0d5",
+      "path": "frontend/server/user-portfolio-transport.test.ts",
+      "blob": "73329e798fb0985bc1358d33e757b96d4e95bb82",
+      "sha256": "50b561650b04738eac100a6b9b6c113736fb2a2a4d8e8ca90677dc107b810563",
+      "bytes": 2984
+    },
+    {
+      "repository": "ramkivs/iips-review-recovered",
+      "commit": "ba64b2d5927c2f872560710cf1474c25a5cde0d5",
+      "path": "frontend/server/user-portfolio/translationBoundary.ts",
+      "blob": "93f602fd7e78395d3cedb77ff504388a4e65012f",
+      "sha256": "b8e1b8e86150396cbb2961afe21983f87c1e1f09f0f52c6c129eaf7a2372a718",
+      "bytes": 7217
+    },
+    {
+      "repository": "ramkivs/iips-review-recovered",
+      "commit": "ba64b2d5927c2f872560710cf1474c25a5cde0d5",
+      "path": "frontend/server/user-portfolio/translationBoundary.test.ts",
+      "blob": "5c3805676c436bdd687606b48ecc523df1ee7ae4",
+      "sha256": "c8435a5cfcc823dc964321b981bd9629d772a13b20f6764b66f5931391b4c28a",
+      "bytes": 2903
+    },
+    {
+      "repository": "ramkivs/iips-review-recovered",
+      "commit": "ba64b2d5927c2f872560710cf1474c25a5cde0d5",
+      "path": "frontend/server/user-portfolio/userPortfolioBoundary.ts",
+      "blob": "b8024c6b6d7a75591a77d032813c7312876a0612",
+      "sha256": "63dd626e137e9062d1aa772b61610925955a3388f7071945478de9d8cc4120a0",
+      "bytes": 7808
+    },
+    {
+      "repository": "ramkivs/iips-review-recovered",
+      "commit": "ba64b2d5927c2f872560710cf1474c25a5cde0d5",
+      "path": "frontend/server/user-portfolio/userPortfolioBoundary.test.ts",
+      "blob": "c4e604d04d7fd371303644a077fa56d8cee7072e",
+      "sha256": "410f258e90675dbf230fb8ae24c981881724536449071d334ae5abce65f024cd",
+      "bytes": 7392
+    },
+    {
+      "repository": "ramkivs/iips-review-recovered",
+      "commit": "ba64b2d5927c2f872560710cf1474c25a5cde0d5",
+      "path": "frontend/package.json",
+      "blob": "83058ea202ece8ec60b2674b05b7532ce9a8684b",
+      "sha256": "11a0db72ea9ad5762ce8cc2bcbde7993a4fdac7a92135f94893200209957cfc9",
+      "bytes": 1888
+    },
+    {
+      "repository": "ramkivs/iips-review-recovered",
+      "commit": "ba64b2d5927c2f872560710cf1474c25a5cde0d5",
+      "path": "frontend/package-lock.json",
+      "blob": "744355e903135fc3ebc0f75b0e122bdf1bbc8358",
+      "sha256": "a058ab8f9681d66f46f8fab82b5c89496a74e2ad0432492f5e2cf9ec1aa530ae",
+      "bytes": 128442
+    },
+    {
+      "repository": "ramkivs/iips-review-recovered",
+      "commit": "ba64b2d5927c2f872560710cf1474c25a5cde0d5",
+      "path": ".github/workflows/ci.yml",
+      "blob": "b95a502a5056dea49d18a34b67b298181b5b98b6",
+      "sha256": "5a3c95e90b3718e44662b0bbb9e0b97092270ba18608193ee2351e1e81392087",
+      "bytes": 4338
+    }
+  ],
+  "R5EntryCount": 56,
+  "R5AliasRawSourceCensus": [
+    {
+      "path": "frontend/src/features/portfolio/import/broker-format-detector.ts",
+      "aliasBlob": "8887457bcd01679381a4f4d9cd2c57f4b6da435d",
+      "primaryBlob": "8887457bcd01679381a4f4d9cd2c57f4b6da435d",
+      "currentBlob": "8887457bcd01679381a4f4d9cd2c57f4b6da435d"
+    },
+    {
+      "path": "frontend/src/features/portfolio/import/broker-holdings-mapper.ts",
+      "aliasBlob": "6c8ab71dc9230d22d0d3fe9a13e1809371f396e4",
+      "primaryBlob": "297e4a593bb575a5f3f8616788f3aa9e599707a4",
+      "currentBlob": "4d0e757b39e3776ad3701e50053696bc52b07b11"
+    },
+    {
+      "path": "frontend/src/features/portfolio/import/broker-import-ingress.ts",
+      "aliasBlob": "12824fbb5bd7323e106616d0a03de76d408321fc",
+      "primaryBlob": "0742401fe2a9bf7a497e94e6bc3973e4327979e0",
+      "currentBlob": "c8ea9d8fa92b9f8a0ec3d67fbc5fa700e4080899"
+    },
+    {
+      "path": "frontend/src/features/portfolio/import/types.ts",
+      "aliasBlob": "cac1a58fc1ff2e088c89b6c95e657af3f5881f7e",
+      "primaryBlob": "cac1a58fc1ff2e088c89b6c95e657af3f5881f7e",
+      "currentBlob": "6e789eca26df0bb8e5320ca66d34aef064b8bd6d"
+    },
+    {
+      "path": "frontend/src/features/portfolio/import/adapters/csv-parser-helper.ts",
+      "aliasBlob": "eb36ce4c0bd82bd6901c2a547511e616ac80c766",
+      "primaryBlob": "eb36ce4c0bd82bd6901c2a547511e616ac80c766",
+      "currentBlob": "eb36ce4c0bd82bd6901c2a547511e616ac80c766"
+    },
+    {
+      "path": "frontend/src/features/portfolio/import/adapters/dhan-holdings-adapter.ts",
+      "aliasBlob": "067ce99328b35acf05a46e37feb4b5abd9908d04",
+      "primaryBlob": "067ce99328b35acf05a46e37feb4b5abd9908d04",
+      "currentBlob": "067ce99328b35acf05a46e37feb4b5abd9908d04"
+    },
+    {
+      "path": "frontend/src/features/portfolio/import/adapters/groww-holdings-adapter.ts",
+      "aliasBlob": "6f7c97fc4321e9dd25f395cbf967065946411d23",
+      "primaryBlob": "6f7c97fc4321e9dd25f395cbf967065946411d23",
+      "currentBlob": "6f7c97fc4321e9dd25f395cbf967065946411d23"
+    },
+    {
+      "path": "frontend/src/features/portfolio/import/adapters/index.ts",
+      "aliasBlob": "ae5422d3ddb6bfc72247b49cda17e1de15575eee",
+      "primaryBlob": "ae5422d3ddb6bfc72247b49cda17e1de15575eee",
+      "currentBlob": "ae5422d3ddb6bfc72247b49cda17e1de15575eee"
+    },
+    {
+      "path": "frontend/src/features/portfolio/import/adapters/zerodha-holdings-adapter.ts",
+      "aliasBlob": "d16bebcd14972faca22c9571a99f77af7767f4ae",
+      "primaryBlob": "d16bebcd14972faca22c9571a99f77af7767f4ae",
+      "currentBlob": "d16bebcd14972faca22c9571a99f77af7767f4ae"
+    },
+    {
+      "path": "src/identity/security_master.ts",
+      "aliasBlob": "e260fd90d05e5bfcd4bdc037524722c6fccee16d",
+      "primaryBlob": "60030e0c17f8b2a31977ce598c80b18dc52d6727",
+      "currentBlob": "60030e0c17f8b2a31977ce598c80b18dc52d6727"
+    },
+    {
+      "path": "src/identity/mapping_store.ts",
+      "aliasBlob": "eec60c09e08ec45a29979abf25b21efddef448ae",
+      "primaryBlob": "eec60c09e08ec45a29979abf25b21efddef448ae",
+      "currentBlob": "eec60c09e08ec45a29979abf25b21efddef448ae"
+    },
+    {
+      "path": "src/identity/quarantine.ts",
+      "aliasBlob": "70c6f6580f6ade66eb31e7dee3adc4b52b10b010",
+      "primaryBlob": "70c6f6580f6ade66eb31e7dee3adc4b52b10b010",
+      "currentBlob": "70c6f6580f6ade66eb31e7dee3adc4b52b10b010"
+    },
+    {
+      "path": "src/contracts/provenance.ts",
+      "aliasBlob": "459c77a430f00e5b20fa1f80cc1a3b780165444a",
+      "primaryBlob": "459c77a430f00e5b20fa1f80cc1a3b780165444a",
+      "currentBlob": "459c77a430f00e5b20fa1f80cc1a3b780165444a"
+    },
+    {
+      "path": "src/contracts/types.ts",
+      "aliasBlob": "11f86dca633bed33da738f525bb8e5c2bb435498",
+      "primaryBlob": "a644c83351b030b0e76d76642475420ea7ef07c0",
+      "currentBlob": "a644c83351b030b0e76d76642475420ea7ef07c0"
+    }
+  ],
+  "currentCoreFootprintComparedToR5": [
+    {
+      "repository": "ramkivs/iips-production-market-data",
+      "path": "src/ipc/dispatch.ts",
+      "adoptedBlob": "27becc76749f5b11a37ca4e6254d58132620f57f",
+      "currentBlob": "27becc76749f5b11a37ca4e6254d58132620f57f",
+      "unchanged": true
+    },
+    {
+      "repository": "ramkivs/iips-production-market-data",
+      "path": "src/ipc/endpoint.ts",
+      "adoptedBlob": "e565aa5b343266f62ffd411d17d74c89b9f29324",
+      "currentBlob": "e565aa5b343266f62ffd411d17d74c89b9f29324",
+      "unchanged": true
+    },
+    {
+      "repository": "ramkivs/iips-production-market-data",
+      "path": "src/ipc/entrypoint.ts",
+      "adoptedBlob": "ae3edd12e1199845f6b5fe059fa79fed6245ae32",
+      "currentBlob": "16d4112ead5f5542080711c1ea168955c622f435",
+      "unchanged": false
+    },
+    {
+      "repository": "ramkivs/iips-production-market-data",
+      "path": "src/ipc/protocol.ts",
+      "adoptedBlob": "f4dc72b12ed9d618d1cfde836160f992ff1be9a5",
+      "currentBlob": "f4dc72b12ed9d618d1cfde836160f992ff1be9a5",
+      "unchanged": true
+    },
+    {
+      "repository": "ramkivs/iips-production-market-data",
+      "path": "src/persistence/audit.ts",
+      "adoptedBlob": "273ccd3be29d7aca971933b6a28a4b4703504bf2",
+      "currentBlob": "273ccd3be29d7aca971933b6a28a4b4703504bf2",
+      "unchanged": true
+    },
+    {
+      "repository": "ramkivs/iips-production-market-data",
+      "path": "src/persistence/binding.ts",
+      "adoptedBlob": "96d0079dd04b75c6f257a2001c8f7eff1ffc560a",
+      "currentBlob": "96d0079dd04b75c6f257a2001c8f7eff1ffc560a",
+      "unchanged": true
+    },
+    {
+      "repository": "ramkivs/iips-production-market-data",
+      "path": "src/persistence/connection.ts",
+      "adoptedBlob": "5169e402707cf1a73f16bfb15ffe0b1d395165ff",
+      "currentBlob": "5169e402707cf1a73f16bfb15ffe0b1d395165ff",
+      "unchanged": true
+    },
+    {
+      "repository": "ramkivs/iips-production-market-data",
+      "path": "src/persistence/durablePortfolioStorePort.ts",
+      "adoptedBlob": "d95608d90b6abe0535f82373b7e621d95aecbae8",
+      "currentBlob": "d95608d90b6abe0535f82373b7e621d95aecbae8",
+      "unchanged": true
+    },
+    {
+      "repository": "ramkivs/iips-production-market-data",
+      "path": "src/persistence/migration_ledger.ts",
+      "adoptedBlob": "88198b44531777bd6a42bdc4e1094b695c25c270",
+      "currentBlob": "88198b44531777bd6a42bdc4e1094b695c25c270",
+      "unchanged": true
+    },
+    {
+      "repository": "ramkivs/iips-production-market-data",
+      "path": "src/persistence/migrations/001_initial_schema.ts",
+      "adoptedBlob": "f594a18264c45ccdcbfa2381592820a72d3c453b",
+      "currentBlob": "f594a18264c45ccdcbfa2381592820a72d3c453b",
+      "unchanged": true
+    },
+    {
+      "repository": "ramkivs/iips-production-market-data",
+      "path": "src/persistence/migrations/002_audit_event_sequence.ts",
+      "adoptedBlob": "932af8e603c4be41c9f0d8a6b051f41836c1fee8",
+      "currentBlob": "932af8e603c4be41c9f0d8a6b051f41836c1fee8",
+      "unchanged": true
+    },
+    {
+      "repository": "ramkivs/iips-production-market-data",
+      "path": "src/persistence/migrations/003_local_principal_bindings.ts",
+      "adoptedBlob": "32b125bf962bb76a6ae59d3b262203dbbb988197",
+      "currentBlob": "32b125bf962bb76a6ae59d3b262203dbbb988197",
+      "unchanged": true
+    },
+    {
+      "repository": "ramkivs/iips-production-market-data",
+      "path": "src/persistence/portfolio_store.ts",
+      "adoptedBlob": "540d49f2deb2c8d600b5b866675d145cf76a1e46",
+      "currentBlob": "540d49f2deb2c8d600b5b866675d145cf76a1e46",
+      "unchanged": true
+    },
+    {
+      "repository": "ramkivs/iips-production-market-data",
+      "path": "src/persistence/provisioning.ts",
+      "adoptedBlob": "dc844189a1c92f00acc3d7572c22f3e28e138eb6",
+      "currentBlob": "dc844189a1c92f00acc3d7572c22f3e28e138eb6",
+      "unchanged": true
+    },
+    {
+      "repository": "ramkivs/iips-production-market-data",
+      "path": "tests/g3_binding_resolution.test.ts",
+      "adoptedBlob": "c3e130a404b2cf43c368e672aeb7916dfb66f7d9",
+      "currentBlob": "c3e130a404b2cf43c368e672aeb7916dfb66f7d9",
+      "unchanged": true
+    },
+    {
+      "repository": "ramkivs/iips-production-market-data",
+      "path": "tests/g3_caller_authority.test.ts",
+      "adoptedBlob": "ef76ad744e380aeeea01b7a41646b5defc348daf",
+      "currentBlob": "ef76ad744e380aeeea01b7a41646b5defc348daf",
+      "unchanged": true
+    },
+    {
+      "repository": "ramkivs/iips-production-market-data",
+      "path": "tests/g3_durability_vocabulary.test.ts",
+      "adoptedBlob": "8a87c33d6ee1a742ec6947ec6829254ff21dbb1c",
+      "currentBlob": "8a87c33d6ee1a742ec6947ec6829254ff21dbb1c",
+      "unchanged": true
+    },
+    {
+      "repository": "ramkivs/iips-production-market-data",
+      "path": "tests/g3_ipc_framing.test.ts",
+      "adoptedBlob": "c4a4a88a88052451c69b5b2ae277fa5d85ee7ea5",
+      "currentBlob": "c4a4a88a88052451c69b5b2ae277fa5d85ee7ea5",
+      "unchanged": true
+    },
+    {
+      "repository": "ramkivs/iips-production-market-data",
+      "path": "tests/g3_no_network_listener.test.ts",
+      "adoptedBlob": "b1e48c70b111c5ef49db8924faeb2728ce093b5e",
+      "currentBlob": "b1e48c70b111c5ef49db8924faeb2728ce093b5e",
+      "unchanged": true
+    },
+    {
+      "repository": "ramkivs/iips-production-market-data",
+      "path": "tests/g3_portfolio_read_isolation.test.ts",
+      "adoptedBlob": "69e36f68dc6c3adbd370654cd54e7d3ae83dbba1",
+      "currentBlob": "69e36f68dc6c3adbd370654cd54e7d3ae83dbba1",
+      "unchanged": true
+    },
+    {
+      "repository": "ramkivs/iips-production-market-data",
+      "path": "tests/g3_startup_validation.test.ts",
+      "adoptedBlob": "edd0305e3e5891020b2b045ab2cf082cd6cf788f",
+      "currentBlob": "edd0305e3e5891020b2b045ab2cf082cd6cf788f",
+      "unchanged": true
+    },
+    {
+      "repository": "ramkivs/iips-production-market-data",
+      "path": "tests/g3_write_gate.test.ts",
+      "adoptedBlob": "9035cbf129d4c1182d3a85f61eabc821b86433bc",
+      "currentBlob": "9035cbf129d4c1182d3a85f61eabc821b86433bc",
+      "unchanged": true
+    },
+    {
+      "repository": "ramkivs/iips-production-market-data",
+      "path": "scripts/run-tests.mjs",
+      "adoptedBlob": "05a0ea56f62d4f3b614480858c968a728bc24ca4",
+      "currentBlob": "05a0ea56f62d4f3b614480858c968a728bc24ca4",
+      "unchanged": true
+    },
+    {
+      "repository": "ramkivs/iips-production-market-data",
+      "path": "tests/g4_run_tests_summary_parsing.test.ts",
+      "adoptedBlob": "49e901b6ca957a5cc705b42e96cdeaf0365cfbc9",
+      "currentBlob": "49e901b6ca957a5cc705b42e96cdeaf0365cfbc9",
+      "unchanged": true
+    },
+    {
+      "repository": "ramkivs/iips-production-market-data",
+      "path": "package.json",
+      "adoptedBlob": "51796e63280c1abb368c27bf8811cc6bad46e132",
+      "currentBlob": "99e262d36341e0bd850ea20d103280131f4f2c71",
+      "unchanged": false
+    },
+    {
+      "repository": "ramkivs/iips-production-market-data",
+      "path": "package-lock.json",
+      "adoptedBlob": "98ae3c63f403d88b5b13afbc9d9c32676b4716fe",
+      "currentBlob": "98ae3c63f403d88b5b13afbc9d9c32676b4716fe",
+      "unchanged": true
+    },
+    {
+      "repository": "ramkivs/iips-production-market-data",
+      "path": "tsconfig.json",
+      "adoptedBlob": "6d696ec21b50beddd063376c6f4cdb4463993c23",
+      "currentBlob": "6d696ec21b50beddd063376c6f4cdb4463993c23",
+      "unchanged": true
+    },
+    {
+      "repository": "ramkivs/iips-production-market-data",
+      "path": "src/identity/security_master.ts",
+      "adoptedBlob": "60030e0c17f8b2a31977ce598c80b18dc52d6727",
+      "currentBlob": "60030e0c17f8b2a31977ce598c80b18dc52d6727",
+      "unchanged": true
+    },
+    {
+      "repository": "ramkivs/iips-production-market-data",
+      "path": "src/identity/mapping_store.ts",
+      "adoptedBlob": "eec60c09e08ec45a29979abf25b21efddef448ae",
+      "currentBlob": "eec60c09e08ec45a29979abf25b21efddef448ae",
+      "unchanged": true
+    },
+    {
+      "repository": "ramkivs/iips-production-market-data",
+      "path": "src/identity/quarantine.ts",
+      "adoptedBlob": "70c6f6580f6ade66eb31e7dee3adc4b52b10b010",
+      "currentBlob": "70c6f6580f6ade66eb31e7dee3adc4b52b10b010",
+      "unchanged": true
+    },
+    {
+      "repository": "ramkivs/iips-production-market-data",
+      "path": "frontend/src/features/portfolio/portfolioStorePort.ts",
+      "adoptedBlob": "fd01731fa3f25cffffd6ac4590ad13c1564c9ef3",
+      "currentBlob": "fd01731fa3f25cffffd6ac4590ad13c1564c9ef3",
+      "unchanged": true
+    },
+    {
+      "repository": "ramkivs/iips-production-market-data",
+      "path": "frontend/src/features/portfolio/portfolio-store.ts",
+      "adoptedBlob": "b900a2481b73ed7bd00406b18a39c8f493b4c0cc",
+      "currentBlob": "b900a2481b73ed7bd00406b18a39c8f493b4c0cc",
+      "unchanged": true
+    },
+    {
+      "repository": "ramkivs/iips-review-recovered",
+      "path": "frontend/server/user-portfolio/ipcClient.ts",
+      "adoptedBlob": "c1b885e3173132685090bcd2cbfa4aa8c87fa4ca",
+      "currentBlob": "c1b885e3173132685090bcd2cbfa4aa8c87fa4ca",
+      "unchanged": true
+    },
+    {
+      "repository": "ramkivs/iips-review-recovered",
+      "path": "frontend/server/user-portfolio/ownerContextFromBinding.ts",
+      "adoptedBlob": "296dd5e361bf3a8bac4f45981f667edb344a6e79",
+      "currentBlob": "57eeb697d6d2e4bc079c514c394258db4fde2595",
+      "unchanged": false
+    },
+    {
+      "repository": "ramkivs/iips-review-recovered",
+      "path": "frontend/server/user-portfolio/ipcPortAdapter.ts",
+      "adoptedBlob": "1e20e98023f20f80ed61d8d32d070fdde677d3c7",
+      "currentBlob": "28ed45322589fffbe2740858a933996e3edcf49e",
+      "unchanged": false
+    },
+    {
+      "repository": "ramkivs/iips-review-recovered",
+      "path": "frontend/server/user-portfolio/firstPartySignal.ts",
+      "adoptedBlob": "d2f0ae721db303af9b23ee8a2a32e4cf72477d57",
+      "currentBlob": "b41533c3ade5a054d833b18b9b7730a1946b373d",
+      "unchanged": false
+    },
+    {
+      "repository": "ramkivs/iips-review-recovered",
+      "path": "frontend/server/user-portfolio/ipcClient.test.ts",
+      "adoptedBlob": "33bcd1dbe197c2da42ee26ff3fcf9cf6067a9308",
+      "currentBlob": "33bcd1dbe197c2da42ee26ff3fcf9cf6067a9308",
+      "unchanged": true
+    },
+    {
+      "repository": "ramkivs/iips-review-recovered",
+      "path": "frontend/server/user-portfolio/ownerContextFromBinding.test.ts",
+      "adoptedBlob": "01cd2ec02190db66dbb3cdb50ad7093682a1ac38",
+      "currentBlob": "01cd2ec02190db66dbb3cdb50ad7093682a1ac38",
+      "unchanged": true
+    },
+    {
+      "repository": "ramkivs/iips-review-recovered",
+      "path": "frontend/server/user-portfolio/ipcPortAdapter.test.ts",
+      "adoptedBlob": "46243a7a79ba3b19cd4d2b8a56df8905aba220f8",
+      "currentBlob": "d41c60cf41bf79ee06e4d36d1b97c79f6003bbea",
+      "unchanged": false
+    },
+    {
+      "repository": "ramkivs/iips-review-recovered",
+      "path": "frontend/server/user-portfolio/fenceUnchanged.test.ts",
+      "adoptedBlob": "359ed7cf495b4226268b92a7c5f0a820b7b028e4",
+      "currentBlob": "31cb9853b0d2e0090e38d631e5813e3362b03d57",
+      "unchanged": false
+    },
+    {
+      "repository": "ramkivs/iips-review-recovered",
+      "path": "frontend/server/user-portfolio/userPortfolioContract.ts",
+      "adoptedBlob": "e6b57bb8a021d8eb4b9b7572d12affc7de66be0b",
+      "currentBlob": "e6b57bb8a021d8eb4b9b7572d12affc7de66be0b",
+      "unchanged": true
+    },
+    {
+      "repository": "ramkivs/iips-review-recovered",
+      "path": "frontend/server/executive-transport.ts",
+      "adoptedBlob": "a438eec0c02287ceb734f6377dca08ce22fa247d",
+      "currentBlob": "713aad91912f8af0ef6b3bd6c4b30e84d88e3a24",
+      "unchanged": false
+    },
+    {
+      "repository": "ramkivs/iips-review-recovered",
+      "path": "frontend/vite.config.ts",
+      "adoptedBlob": "a4614f498f6d5239af789e2f69b5410f2536d803",
+      "currentBlob": "e588d55e32d1cbb24ef244e26e9c2678367ee71a",
+      "unchanged": false
+    },
+    {
+      "repository": "ramkivs/iips-review-recovered",
+      "path": "frontend/server/owner-context-unavailable.ts",
+      "adoptedBlob": "cb8db45d668d28cee7e0a52721001d579a872733",
+      "currentBlob": "cb8db45d668d28cee7e0a52721001d579a872733",
+      "unchanged": true
+    },
+    {
+      "repository": "ramkivs/iips-review-recovered",
+      "path": "frontend/server/user-portfolio-transport.ts",
+      "adoptedBlob": "51704c12a467cd2f718a030b5036bc55c9afa73f",
+      "currentBlob": "4aad3dbd0b852e138e7e4b5fc632d3f76051531f",
+      "unchanged": false
+    },
+    {
+      "repository": "ramkivs/iips-review-recovered",
+      "path": "frontend/server/user-portfolio/userPortfolioPort.ts",
+      "adoptedBlob": "ba0001e88c83b070e4f16a3cdb35d34c82ec0200",
+      "currentBlob": "5ed1ee0779f11dbf25c2629e25b980220f6386a7",
+      "unchanged": false
+    },
+    {
+      "repository": "ramkivs/iips-review-recovered",
+      "path": "frontend/server/user-portfolio/option2F.test.ts",
+      "adoptedBlob": "0dc7fd98bd3a2e46e0fda9d08b9ebf8dbabb97fd",
+      "currentBlob": "2fa3b254df2a482b143175eb3b45814ad9903264",
+      "unchanged": false
+    },
+    {
+      "repository": "ramkivs/iips-review-recovered",
+      "path": "frontend/server/user-portfolio/userPortfolioContract.test.ts",
+      "adoptedBlob": "400fe351438c7de794c9b045567ebd7e3f276976",
+      "currentBlob": "400fe351438c7de794c9b045567ebd7e3f276976",
+      "unchanged": true
+    },
+    {
+      "repository": "ramkivs/iips-review-recovered",
+      "path": "frontend/server/user-portfolio-transport.test.ts",
+      "adoptedBlob": "73329e798fb0985bc1358d33e757b96d4e95bb82",
+      "currentBlob": "3a443bddf25e364ac4f12e4bf4de1954137b3c98",
+      "unchanged": false
+    },
+    {
+      "repository": "ramkivs/iips-review-recovered",
+      "path": "frontend/server/user-portfolio/translationBoundary.ts",
+      "adoptedBlob": "93f602fd7e78395d3cedb77ff504388a4e65012f",
+      "currentBlob": "bc18bde16b829d280c281cfa8c555e59e0231e65",
+      "unchanged": false
+    },
+    {
+      "repository": "ramkivs/iips-review-recovered",
+      "path": "frontend/server/user-portfolio/translationBoundary.test.ts",
+      "adoptedBlob": "5c3805676c436bdd687606b48ecc523df1ee7ae4",
+      "currentBlob": "5c3805676c436bdd687606b48ecc523df1ee7ae4",
+      "unchanged": true
+    },
+    {
+      "repository": "ramkivs/iips-review-recovered",
+      "path": "frontend/server/user-portfolio/userPortfolioBoundary.ts",
+      "adoptedBlob": "b8024c6b6d7a75591a77d032813c7312876a0612",
+      "currentBlob": "4adf8fb43fc9eeff43dc02fbf54812f1263ad754",
+      "unchanged": false
+    },
+    {
+      "repository": "ramkivs/iips-review-recovered",
+      "path": "frontend/server/user-portfolio/userPortfolioBoundary.test.ts",
+      "adoptedBlob": "c4e604d04d7fd371303644a077fa56d8cee7072e",
+      "currentBlob": "c4e604d04d7fd371303644a077fa56d8cee7072e",
+      "unchanged": true
+    },
+    {
+      "repository": "ramkivs/iips-review-recovered",
+      "path": "frontend/package.json",
+      "adoptedBlob": "83058ea202ece8ec60b2674b05b7532ce9a8684b",
+      "currentBlob": "da28767b7e219bd31ab1b20e07a6a2450c098dd8",
+      "unchanged": false
+    },
+    {
+      "repository": "ramkivs/iips-review-recovered",
+      "path": "frontend/package-lock.json",
+      "adoptedBlob": "744355e903135fc3ebc0f75b0e122bdf1bbc8358",
+      "currentBlob": "a8677d626ac407d7fdd9bf37ffd0037818bbfcee",
+      "unchanged": false
+    },
+    {
+      "repository": "ramkivs/iips-review-recovered",
+      "path": ".github/workflows/ci.yml",
+      "adoptedBlob": "b95a502a5056dea49d18a34b67b298181b5b98b6",
+      "currentBlob": "6396c40558143022d61f9f051aa9a049c3a4ed51",
+      "unchanged": false
+    }
+  ],
+  "currentPublishedConsumptionProfile": {
+    "path": "frontend/broker-import-package-profile.json",
+    "blob": "ff5718edc88cf36192672ba856796755a450caab",
+    "aliasCommit": "07e86a4f2c105651f3097a96cb519f8611945e30",
+    "requiredPublishedModules": [
+      "frontend/src/features/portfolio/import/broker-format-detector",
+      "frontend/src/features/portfolio/import/broker-holdings-mapper",
+      "frontend/src/features/portfolio/import/broker-identity-assessment",
+      "frontend/src/features/portfolio/import/broker-import-ingress",
+      "frontend/src/features/portfolio/import/types",
+      "frontend/src/features/portfolio/import/adapters/csv-parser-helper",
+      "frontend/src/features/portfolio/import/adapters/dhan-holdings-adapter",
+      "frontend/src/features/portfolio/import/adapters/groww-holdings-adapter",
+      "frontend/src/features/portfolio/import/adapters/index",
+      "frontend/src/features/portfolio/import/adapters/zerodha-holdings-adapter",
+      "src/contracts/provenance",
+      "src/contracts/types",
+      "src/identity/d05_broad_universe_data",
+      "src/identity/d05_listing_corrections",
+      "src/identity/governed_fixture_master",
+      "src/identity/mapping_store",
+      "src/identity/quarantine",
+      "src/identity/security_master"
+    ],
+    "publishedRoot": "dist/package",
+    "sourceArtifactCountExpectedByProfile": 36,
+    "note": "Profile readback only, not a new installed-package qualification."
+  },
+  "candidateContentCoordinatesNotDesignations": {
+    "G4P1": {
+      "commit": "a891802e2691bd9c65a67d6abff20d8ce0c26d7d",
+      "tree": "76f083d7058e170d8212455c03bad1033136ee68"
+    },
+    "C1alternative": {
+      "commit": "001c3c80618f2ee1d40e9a90912237e1a06e7b58",
+      "tree": "399fa44a5f1953c0f61b452420fefb5985426ef1"
+    },
+    "liveContentCandidateOnly": {
+      "commit": "07e86a4f2c105651f3097a96cb519f8611945e30",
+      "tree": "7c08725665030730802b631e8cfdf751ea16202a"
+    }
+  },
+  "Gate4Act": {
+    "path": "evidence/cross-repository/IIPS_V3_CAP02_GATE4_TARGET_HOST_QUALIFICATION_ACT_EFFECTIVE_2026-10-23.md",
+    "blob": "66b56fd1584890525a7250aadd7da449def621e5",
+    "sha256": "c8c1378622657a320f14f34c008bb27fde2acaf57acc9a73a3489ea6be57c7b6"
+  },
+  "currentDependencyPins": {
+    "iips-broker-import": "github:ramkivs/iips-production-market-data#07e86a4f2c105651f3097a96cb519f8611945e30",
+    "iips-np04-governed-persistence": "github:ramkivs/iips-production-market-data#2e11fa3b689d1a3674a5e4ba1f1de9a559e20494",
+    "iips-production-market-data": "github:ramkivs/iips-production-market-data#279d1eed184f5e23bbabe5c6411085e120ce9e41"
+  },
+  "lineageClassification": {
+    "IPD_broker_alias_compatibility_coordinate": {
+      "commit": "70b24f029842a7e9b7f615e4d9df7376fd4ff817",
+      "blob": "6c8ab71dc9230d22d0d3fe9a13e1809371f396e4",
+      "REAL": 3,
+      "UNCLASSIFIED": 0
+    },
+    "IPD_primary_qe_coordinate": {
+      "commit": "8eec74ae27cda09f3c368b9c299895eae41554db",
+      "blob": "297e4a593bb575a5f3f8616788f3aa9e599707a4",
+      "REAL": 0,
+      "UNCLASSIFIED": 3
+    },
+    "liveBrokerPin": {
+      "commit": "07e86a4f2c105651f3097a96cb519f8611945e30",
+      "blob": "4d0e757b39e3776ad3701e50053696bc52b07b11",
+      "REAL": 0,
+      "UNCLASSIFIED": 3
+    }
+  },
+  "priorHoldingsSourceBlobsUnchanged": [
+    {
+      "path": "src/persistence/connection.ts",
+      "unchanged": true
+    },
+    {
+      "path": "src/persistence/portfolio_store.ts",
+      "unchanged": true
+    },
+    {
+      "path": "src/persistence/brokerImportPersistence.ts",
+      "unchanged": true
+    },
+    {
+      "path": "src/persistence/binding.ts",
+      "unchanged": true
+    },
+    {
+      "path": "src/ipc/dispatch.ts",
+      "unchanged": true
+    },
+    {
+      "path": "src/ipc/endpoint.ts",
+      "unchanged": true
+    },
+    {
+      "path": "src/ipc/brokerImportConsumer.ts",
+      "unchanged": true
+    },
+    {
+      "path": "src/persistence/migrations/001_initial_schema.ts",
+      "unchanged": true
+    },
+    {
+      "path": "src/persistence/migrations/004_portfolio_contribution_provenance.ts",
+      "unchanged": true
+    },
+    {
+      "path": "src/persistence/durablePortfolioStorePort.ts",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/cross-repository/IIPS_V3_G2_GATE_E_PORTFOLIO_WRITE_POLICY_2026-10-18.md",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/cross-repository/IIPS_V3_G2_IPD_IRR_PORTFOLIO_CONSUMER_CONTRACT_V1_2026-10-18.md",
+      "unchanged": true
+    },
+    {
+      "path": "src/persistence/directP1Provisioning.ts",
+      "unchanged": true
+    },
+    {
+      "path": "src/persistence/gateAPrimeValidation.ts",
+      "unchanged": true
+    }
+  ],
+  "openPRs": [],
+  "operationalAccess": false,
+  "IPDMutations": false
+}
