@@ -451,3 +451,77 @@ claim than a re-run.
     are unchanged. No production work, no real-user save, no Gate 4/5 acceptance.
 12. **Workstream A and milestone WS-A-DM remain NOT COMPLETE**, with three independent outstanding
     dependencies.
+
+---
+
+## A-6. Dated additive note — the PA rendered decisions 5, 6 and 7 (`2026-11-05`)
+
+> **Additive. A-0 … A-5 above are preserved VERBATIM and are NOT amended.** In particular **A-2.1**,
+> **A-2.2** and **A-2.3** — the formal wording Arena proposed for the three `TBD-PA` /
+> `PENDING ASSIGNMENT` blanks — remain exactly as written, including every proposed literal and the
+> statement that each occurrence reads `PENDING ASSIGNMENT` until the PA renders it. That was true when
+> written. **What follows records the later state.**
+
+**Instrument of record:**
+`docs/integration/IIPS_v3.0_CAP02_U1_AMEND_01_EVIDENCE_RETRIEVAL_ROUTE_PA_DECISION_ACT_2026-11-05.md`,
+Act ID **`IIPS-V3-CAP02-U1-AMEND-01-EVIDENCE-RETRIEVAL-ROUTE-2026-11-05-01`**.
+
+### A-6.1 Supersession map
+
+| Appendix section | Arena's proposed formal wording | Disposition by the PA's rendering |
+| :--- | :--- | :--- |
+| **A-2.1** — replaces §8.2(7): owner-context carrier | Tenant `irr-broker-evidence-personal`; owner `owner-irr-broker-evidence-personal`; carrier `IIPS_BROKER_EVIDENCE_OWNER_PATH` | **SUPERSEDED as to the two partition-key values.** The PA required *one stable, application-generated canonical owner ID* with *`SAIRAM`* as its human-readable label, so the values are **`irr-personal-073dd1c8`** and **`owner-4dc756b3`**, derived by a documented deterministic rule. **The carrier environment variable `IIPS_BROKER_EVIDENCE_OWNER_PATH` is ADOPTED unchanged.** The fifteen NP-06 R1 §2 dispositions are adopted, adapted to the single-user context. Act §3. |
+| **A-2.2** — replaces §8.3(16): retention and purge | Indefinite; explicit-operator-only purge; never automatic; never HTTP-reachable; raw bytes never retained; documented review at 50 MB | **ADOPTED IN SUBSTANCE AND EXTENDED.** All six elements are carried into the act. Decision 6 **adds** two obligations the proposal did not contain — **storage-usage visibility (O-1)** and **backup/recovery safeguards (O-2)** — and fixes 50 MB as a **warning/review threshold only, never an automatic deletion trigger**, with **no quota**. Act §4. |
+| **A-2.3** — replaces the Act ID | Proposed form `IIPS-V3-CAP02-U1-AMEND-01-EVIDENCE-RETRIEVAL-ROUTE-2026-11-05-01` | **ADOPTED AS PROPOSED.** The PA's Decision 7 directed assignment from the existing convention with a collision check and no invention or reuse; the proposed form was verified to satisfy all three and is **assigned**. Act §5. |
+| **A-2.4** — plain-English ↔ formal concordance | — | **Unchanged in structure**; the formal column now resolves to the act rather than to a drafted placeholder. |
+| **A-1.1 … A-1.4** — the four Gate 4 decisions | G4P-1 content pin; C-1; alias ratification at `7bcae35`; `'UNCLASSIFIED'` | **NOT RENDERED — still PENDING.** Additionally **a change of fact**: concurrent PR #446 merged at `d7cd3b65` and advanced the broker-import pin from `7bcae35` to **`07e86a4f`** (IPD PR #128), so **A-1.3's named coordinate is stale and must be re-censused before the PA signs**. A-0's recorded baselines are preserved as at authoring and are **not rewritten**. Act §11(4). |
+
+### A-6.2 Two findings the appendix did not contain, now recorded
+
+**Finding A-6-A — the amendment form had to change from "appended §8" to "separate instrument".**
+A-2 and the A-8 package both assumed the adopted text would be appended to the U1 act file as §8. **It
+cannot be.** The U1 act's blob **`a3ae368d2a585aae3eea63d5f5e36225b1fcc9d9`** is a published,
+remotely-verified anchor, cited in the effective composition act's **4/4 remote read-back receipt**
+(`IIPS_v3.0_CAP02_BROKER_IMPORT_MODAL_PORT_COMPOSITION_ACT_EFFECTIVE_2026-10-23.md:207`) and in tracker
+`CHG-2026-10-23-18` and verification row `V425`. Appending would change the blob and invalidate those
+anchors. **∴ additive, by separate instrument** — the `G3-AMEND-01` model — with the U1 act preserved
+byte-identical and the amending instrument's §7 numbered clause-for-clause identically to the drafted §8
+so every cross-reference still resolves. Both U1 blobs were re-verified unchanged at authoring:
+effective **`a3ae368d…`** / 13,357 B; prepared **`966891d4c7016a5e993e609a03488c8719499e3e`**.
+
+**Finding A-6-B — the PA's structure is required by an existing conformance rule, not merely preferable.**
+`IIPS_v3.0_OWNER_CONTEXT_F1_F2_VALUE_ACT.md` §4.1 validates partition keys against
+*"Opaque: no personal, username, email, or company identity; no `@` or identity token"*. **`SAIRAM` used
+as `ownerUserId` would FAIL that check.** A case-insensitive census independently found `sairam` in **11
+IRR** and **2 IPD** files, and **every occurrence is the repository owner's e-mail address** in
+commit-author or package-author metadata (`Ramaki <sairam260573@gmail.com>`;
+`"author": "Ramki / Sai <sairam260573@gmail.com>"`; `ramkivs <sairam260573@gmail.com>`) — exactly the
+excluded identity-token class. **∴ the PA's separation of a generated canonical ID from a
+human-readable label satisfies the rule while giving full effect to the naming intent.** Case-sensitive
+uniqueness was nevertheless clean: `SAIRAM` occurs **0** times in the IRR tree, **0** across all IRR
+history, and **0** at IPD `main` — so the exclusion rests on **conformance**, not collision.
+
+### A-6.3 Collision verification actually performed (NP-06 R1 §1(3) test, at the current baselines)
+
+| Literal | IRR tree | IRR full history | IPD `main@07e86a4f` |
+| :--- | :--- | :--- | :--- |
+| `owner-4dc756b3` | **0** | **0** | **0** |
+| `irr-personal-073dd1c8` | **0** | **0** | **0** |
+| `IIPS-V3-PERSONAL-OWNER:SAIRAM` | **0** | **0** | **0** |
+| `SAIRAM` (case-sensitive) | **0** | **0** | **0** |
+| `IIPS_BROKER_EVIDENCE_OWNER_PATH` | 3 — **all this pass's own documents** | 0 foreign | **0** |
+| `IIPS-V3-CAP02-U1-AMEND-01-EVIDENCE-RETRIEVAL-ROUTE-2026-11-05-01` | 3 — **all this pass's own documents, in *proposed* context** | 0 foreign | **0** |
+
+**A-4's verification methods were used, with two additions:** `git grep -I -i` for the case-insensitive
+identity-token census, and a blob-anchor census (`git grep -F a3ae368d`) that produced finding A-6-A.
+
+### A-6.4 A-5's limits, restated for this note
+
+This note claims **no** implementation, **no** effectiveness, **no** runtime test of the new pair, and
+**no** demonstration of restart stability or global uniqueness for it — mirroring the F-1/F-2 act's own
+non-claims. What **is** claimed, and was verified at authoring: conformance to the §4.1 table, literal
+uniqueness across both repositories and all IRR history, deterministic reproducibility from the published
+rule, a valid canonical carrier JSON of **367** bytes hashing to
+**`27e70c10be68f42a7dc90e5d07669b2a4201c3b807ee0b9fb14e9247b06f8b2c`**, and byte-identity of both U1 act
+files. **A-1 … A-4 Gate 4 matters remain PENDING. Workstream A and milestone WS-A-DM remain NOT
+COMPLETE.**

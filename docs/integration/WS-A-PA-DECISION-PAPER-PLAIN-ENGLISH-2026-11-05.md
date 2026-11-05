@@ -1021,13 +1021,36 @@ disables the feature immediately and safely."*
 
 | Item | Proposed | **Your value** (leave as proposed, or replace) |
 | :--- | :--- | :--- |
-| Tenant label | `irr-broker-evidence-personal` | ______________________________ |
-| Owner label | `owner-irr-broker-evidence-personal` | ______________________________ |
-| Carrier setting name | `IIPS_BROKER_EVIDENCE_OWNER_PATH` | ______________________________ |
+| Tenant label | `irr-broker-evidence-personal` | ~~as proposed~~ → **`irr-personal-073dd1c8`** *(see amendment below)* |
+| Owner label | `owner-irr-broker-evidence-personal` | ~~as proposed~~ → **`owner-4dc756b3`** *(see amendment below)* |
+| Carrier setting name | `IIPS_BROKER_EVIDENCE_OWNER_PATH` | **`IIPS_BROKER_EVIDENCE_OWNER_PATH`** — **as proposed, adopted unchanged** |
 
 - [ ] **APPROVED** with the proposed values
-- [ ] **APPROVED AS AMENDED** with the values I have written above
+- [x] **APPROVED AS AMENDED** with the values I have written above — **RENDERED BY THE PA, `2026-11-05`**
 - [ ] **DEFERRED**
+
+> **RENDERED `2026-11-05` — DECISION 5, APPROVED AS AMENDED.** The PA's decision, in the PA's own words:
+> *"Adopt `SAIRAM` as the permanent personal owner identity."* Requirements: use **one stable,
+> application-generated canonical owner ID**; use **`SAIRAM`** as its **human-readable identity label**;
+> bind personal holdings and associated evidence to this owner; **resolve ownership through the trusted
+> application context**; **do not introduce multi-tenant or enterprise identity infrastructure**; and **do
+> not interpret the name as granting another person independent access or ownership authority.**
+> Application context: **personal, single-user application; no production deployment or multi-tenant
+> concept; the personal application principal remains owned by Ramki; no second-user access or
+> shared-account authorization is implied.**
+>
+> **The amendment replaces Arena's two proposed human-readable labels with a different structure**, and
+> that structure turns out to be **required** rather than merely preferred: the existing rule for these
+> labels (`IIPS_v3.0_OWNER_CONTEXT_F1_F2_VALUE_ACT.md` §4.1) demands that they be *"Opaque: no personal,
+> username, email, or company identity"*. **`SAIRAM` is a personal name and would fail that rule if used
+> as the label key.** So `SAIRAM` is adopted as the **identity label** and **excluded from both partition
+> keys**, which are instead **generated** by a documented, reproducible rule:
+> **`owner-4dc756b3`** and **`irr-personal-073dd1c8`**. Both were verified collision-free (0 in the IRR
+> tree, 0 across all IRR history, 0 in the other repository). The carrier setting name is **adopted as
+> Arena proposed it**. `SAIRAM` confers **no access on any person** and is never used to look anything up.
+> Full detail: `IIPS_v3.0_CAP02_U1_AMEND_01_EVIDENCE_RETRIEVAL_ROUTE_PA_DECISION_ACT_2026-11-05.md` §3.
+>
+> **Arena's superseded proposal is preserved above and is not deleted.**
 
 ---
 
@@ -1041,13 +1064,38 @@ a size I set."*
 
 | Item | Proposed | **Your value** |
 | :--- | :--- | :--- |
-| Retention period | Indefinite | ______________________________ |
-| Deletion | Explicit-only, never automatic | ______________________________ |
-| Review trigger size | 50 MB | ______________________________ |
+| Retention period | Indefinite | **INDEFINITE — until explicit deletion by the application owner** |
+| Deletion | Explicit-only, never automatic | **Explicit owner-controlled deletion ONLY** — no automatic expiry or deletion; **no automatic purge or destructive compaction** |
+| Review trigger size | 50 MB | **50 MB retained as a WARNING / REVIEW threshold ONLY — never an automatic deletion trigger** |
 
 - [ ] **APPROVED** with the proposed values
-- [ ] **APPROVED AS AMENDED** with the values I have written above
+- [x] **APPROVED AS AMENDED** with the values I have written above — **RENDERED BY THE PA, `2026-11-05`**
 - [ ] **DEFERRED**
+
+> **RENDERED `2026-11-05` — DECISION 6, APPROVED AS AMENDED.** The PA's decision, in the PA's own words:
+> *"Adopt indefinite retention until explicit deletion by the application owner."* Requirements: **no
+> automatic expiry or deletion**; **no automatic purge or destructive compaction**; **explicit
+> owner-controlled deletion only**; **preserve evidence integrity, import history and associated audit
+> metadata**; **provide storage-usage visibility and appropriate backup/recovery safeguards**; and the
+> **50 MB threshold, if retained, is a warning/review threshold only, never an automatic deletion
+> trigger.**
+>
+> **The amendment adopts Arena's proposal in substance and adds two obligations it did not contain:**
+> **storage-usage visibility (O-1)** and **backup/recovery safeguards (O-2)**. Neither may be delivered by
+> adding a new web address — the permission admits exactly one read-only address and no more — so both are
+> discharged through the responses that already exist, server-side logging, and written owner procedures.
+> **Both are obligations on the eventual implementation and are NOT discharged yet.**
+>
+> **One genuine item remains for the PA (§14.3(1) below):** deletion is authorized **in principle**, but
+> this permission keeps the web address **read-only** and admits **no delete operation anywhere**. As
+> rendered, owner-controlled deletion is exercised **outside** the web surface — an explicit owner action
+> on the local data folder, documented in the runbook. **If the PA wants deletion available inside the
+> product's own screen or address, that needs a further decision.** Arena has not assumed it.
+>
+> **The technical reason automatic deletion remains prohibited** is unchanged and is now reinforced: the
+> **first** retention is authoritative and a repeat import returns it unchanged, so automatic deletion
+> would silently break an existing guarantee and destroy the only row-level record of the 67 unmatched
+> holdings. Full detail: the act's §4.
 
 ---
 
@@ -1058,11 +1106,32 @@ that it can become effective authority once published and verified."*
 
 | Item | Proposed form | **Your assignment** |
 | :--- | :--- | :--- |
-| Reference number | `IIPS-V3-CAP02-U1-AMEND-01-EVIDENCE-RETRIEVAL-ROUTE-2026-11-05-01` | ______________________________ |
+| Reference number | `IIPS-V3-CAP02-U1-AMEND-01-EVIDENCE-RETRIEVAL-ROUTE-2026-11-05-01` | **ASSIGNED as proposed** — `IIPS-V3-CAP02-U1-AMEND-01-EVIDENCE-RETRIEVAL-ROUTE-2026-11-05-01` |
 
-- [ ] **APPROVED** with the proposed form
+- [x] **APPROVED** with the proposed form — **RENDERED BY THE PA, `2026-11-05`**
 - [ ] **APPROVED AS AMENDED** with the number I have assigned above
 - [ ] **DEFERRED**
+
+> **RENDERED `2026-11-05` — DECISION 7, APPROVED.** The PA's direction, in the PA's own words: *"Assign the
+> formal authorization Act ID using the existing governance register and numbering convention. Check for
+> collisions before assignment. Do not invent or reuse an existing ID."*
+>
+> The PA thereby **delegated this clerical assignment**, subject to three constraints, all of which were
+> verified **before** assignment:
+>
+> 1. **Existing convention** — the form was derived from the register's own amendment identifiers
+>    (`…CAP02-G4-AMEND-01-H12-MEMBERSHIP-2026-10-23`,
+>    `…CAP02-GATE-A-PRIME-AMEND-01-DESIGNATED-BLOBS-2026-10-28-01`, `…CAP02-G3-AMEND-02-U2`,
+>    `IIPS-V3-G3-AMEND-01-2026-10-22-01`). `AMEND-01` is correct rather than `02`, because the existing
+>    §7 addition to the same permission carried **no separate reference number**.
+> 2. **Collision check performed** — **0** occurrences in the other repository, and the **only**
+>    occurrences in this repository are in Arena's own proposal documents, in every case explicitly worded
+>    as a *proposal*. **No instrument has ever been issued under it.**
+> 3. **Neither invented nor reused** — it is **derived from the surveyed convention and verified
+>    unassigned**.
+>
+> **The number is therefore ASSIGNED, and is not self-assigned:** the authority to assign comes from the
+> PA's direction, and the value comes from the convention. Full detail: the act's §5.
 
 ---
 
@@ -1081,6 +1150,18 @@ By completing this record, you confirm your understanding that **no decision abo
 - [ ] authorizes any testing on your own computer
 - [ ] makes any proposal in this paper effective before it is published and independently verified
 
+> **Note, `2026-11-05`.** These boxes are **left unticked deliberately.** The PA rendered decisions 5, 6
+> and 7 but did **not** mark this confirmation list, and **Arena will not tick a box on the PA's behalf** —
+> that would be inferring a decision. What Arena has done instead is **verify each item independently** in
+> the instrument of record: `IIPS_v3.0_CAP02_U1_AMEND_01_EVIDENCE_RETRIEVAL_ROUTE_PA_DECISION_ACT_2026-11-05.md`
+> §9 confirms that **none** of the ten items above is done or authorized by decisions 5, 6 or 7 — Gate 4
+> stays **0 of 11**, Gate 5 stays **not initiated**, the write safety catch stays **on**, real-user saving
+> stays **unauthorized**, the software version in use is **unchanged by this act**, production deployment
+> stays **prohibited** (and the PA's own context confirms there is none), no investment is added to the
+> recognised-investments list, the other repository is **unmodified with zero writes**, no testing on the
+> PA's computer is authorized, and **the permission is not effective before publication and independent
+> verification** — its §10 records those steps as **PENDING**.
+
 ---
 
 ### Signature
@@ -1088,14 +1169,18 @@ By completing this record, you confirm your understanding that **no decision abo
 | | |
 | :--- | :--- |
 | **Decision maker** | Program Authority (Ramki) — single owner, sole user |
-| **Date** | ______________________ |
-| **Decisions approved** | ______________________ |
-| **Decisions deferred** | ______________________ |
-| **Recorded by Arena as** | `PENDING — NOT YET RENDERED` |
+| **Date** | **`2026-11-05`** — for decisions **5, 6 and 7** only |
+| **Decisions approved** | **5 — APPROVED AS AMENDED** · **6 — APPROVED AS AMENDED** · **7 — APPROVED** |
+| **Decisions deferred** | **None** of 5, 6, 7. **Decisions 1, 2, 3 and 4 remain `PENDING — NOT RENDERED`.** |
+| **Recorded by Arena as** | **`PARTIALLY RENDERED — DECISIONS 5, 6, 7 RENDERED 2026-11-05; DECISIONS 1–4 PENDING`** |
+| **Instrument of record** | `IIPS_v3.0_CAP02_U1_AMEND_01_EVIDENCE_RETRIEVAL_ROUTE_PA_DECISION_ACT_2026-11-05.md` — Act ID `IIPS-V3-CAP02-U1-AMEND-01-EVIDENCE-RETRIEVAL-ROUTE-2026-11-05-01` |
+| **Effectiveness** | **NOT YET EFFECTIVE** — the instrument's §10 conditions (publication, green checks, independent read-back) are **PENDING**; see §14.2 |
 
-> **Arena will record this decision as `PENDING` until you return it.** On receipt, Arena will publish
-> it additively, verify publication independently, and report separately. **Arena will not infer,
-> assume, extrapolate or act on any decision not explicitly marked above.**
+> **Arena recorded decisions 1–4 as `PENDING` and they remain `PENDING`.** Decisions 5, 6 and 7 were
+> returned by the PA on `2026-11-05` and are recorded above and in the instrument of record. **Arena has
+> not inferred, assumed, extrapolated or acted on any decision not explicitly given** — in particular,
+> decisions 1, 2, 3 and 4 are **not** treated as approved, and the confirmation list above is **not**
+> treated as marked.
 
 ---
 
@@ -1160,3 +1245,92 @@ This paper:
    write fence. Does not initiate production work or any real-user save.
 10. **Does not mark the workstream or the milestone complete.** Both remain **NOT COMPLETE**, with
     three independent outstanding dependencies.
+
+---
+
+## 14. Dated additive note — the PA rendered decisions 5, 6 and 7 (`2026-11-05`)
+
+> **Additive. §§1–13 above are preserved and are NOT rewritten**, including every recommendation, every
+> consequence table and §13's statement of limits. §11's decision record is the one part updated, because
+> updating it is what the PA directed and what a decision record is for; the superseded proposed values
+> are **struck through rather than deleted**, so the earlier state remains legible.
+
+### 14.1 What the PA decided
+
+| Decision | Marking | Effect |
+| :--- | :--- | :--- |
+| **5** — owner identity | **APPROVED AS AMENDED** | `SAIRAM` adopted as the **permanent personal owner identity label**; **one stable, application-generated canonical owner ID** as the key; ownership resolved **through the trusted application context**; **no multi-tenant or enterprise identity infrastructure**; the name grants **no other person** access or ownership authority |
+| **6** — evidence retention | **APPROVED AS AMENDED** | **Indefinite** retention until **explicit deletion by the application owner**; **no** automatic expiry, deletion, purge or destructive compaction; integrity, import history and audit metadata preserved; **storage-usage visibility** and **backup/recovery safeguards** required; **50 MB is a warning/review threshold only** |
+| **7** — reference number | **APPROVED** | Act ID to be **assigned from the existing convention**, collision-checked first, **neither invented nor reused** |
+| **1, 2, 3, 4** | **NOT RENDERED — STILL PENDING** | The four Gate 4 decisions remain open. **Arena has not treated them as approved.** |
+
+**Application context given by the PA, binding on every clause:** personal, single-user application; no
+production deployment or multi-tenant concept; the personal application principal remains owned by Ramki;
+no second-user access or shared-account authorization is implied.
+
+### 14.2 What was produced, and what it does not claim
+
+**Instrument of record:**
+`docs/integration/IIPS_v3.0_CAP02_U1_AMEND_01_EVIDENCE_RETRIEVAL_ROUTE_PA_DECISION_ACT_2026-11-05.md`,
+Act ID **`IIPS-V3-CAP02-U1-AMEND-01-EVIDENCE-RETRIEVAL-ROUTE-2026-11-05-01`**. It reconciles the three
+decisions against the published A-8 proposal and existing U1 / DEC-06 authority, fills all three
+placeholder sets, removes the multi-tenant and production assumptions clause by clause, and preserves every
+existing boundary.
+
+| | |
+| :--- | :--- |
+| **Status** | **RENDERED — EFFECTIVENESS CONDITIONAL — PUBLICATION VERIFICATION PENDING — NOT YET EFFECTIVE** |
+| **Why not effective yet** | The permission's own clause 25 makes effectiveness **conjunctive**: the PA's adopting act *(discharged)* **plus** publication to the authoritative branch **plus** green checks at the exact revision **and** after the merge **plus** independent remote read-back. The last three are **ordinary publication steps, pending**. A receipt cannot be part of the change it verifies, so they are discharged by a **follow-up** record. |
+| **Implementation** | **NOT AUTHORIZED and NOT PERFORMED.** No address, handler, carrier file, test or configuration was created. The retrieval route is **not implemented.** |
+| **Blocker `WS-A-EV-ROUTE-1`** | **Remains OPEN** until effectiveness is recorded. |
+
+### 14.3 Three genuine remaining items — reported precisely, none of them reopening 5, 6 or 7
+
+**(1) The deletion surface — a PA decision is needed if deletion is to exist inside the product.**
+Decision 6 requires explicit owner-controlled deletion; the permission keeps the web address **read-only**
+and admits **no delete operation anywhere**. Both are preserved: deletion is authorized **in principle**
+and is exercisable **outside** the web surface — an explicit owner action on the local data folder, written
+into the runbook. **Making deletion available on a screen or address would need a further decision.** Arena
+has **not** assumed one and has **not** admitted one.
+
+**(2) Decision 6 widened the eventual work.** Storage-usage visibility and backup/recovery safeguards are
+**new obligations** the original proposal did not contain, and they **cannot** be met by adding a new
+address, because the permission forbids any enumeration or collection endpoint. They must be met through
+the responses that already exist, server-side logging and written procedures. **This is a technical
+constraint, not a PA decision** — but the PA should know that completing the retrieval work now includes
+both obligations plus the consent-wording reconciliation.
+
+**(3) "Bind personal holdings" reaches further than this permission does.** Decision 5 asks that personal
+holdings *and* associated evidence be bound to this owner. The instrument gives effect to that **for the
+broker-import evidence journal**, which is what A-8 concerns. **Durable holdings are a different, fenced
+domain** — the safety catch is on, writes are refused, and nothing is saved. **Extending the new owner ID
+to durable holdings is not authorized by this instrument** and would need its own decision. **Reported, not
+assumed.**
+
+### 14.4 One change of fact the PA should know before signing decisions 1–4
+
+**A separate, independently authorized change landed while this work was in progress.** The
+broker-compatibility version in use advanced from **`7bcae35`** to **`07e86a4f`** (the other repository's
+PR #128, merged into this repository by PR #446 at `2026-11-05T13:35:06Z`).
+
+**Consequence for Decision 3:** its *substance* is unchanged — ratify the compatibility copy at whatever
+coordinate is live and authorized, moving nothing — but **the coordinate named in §6 and in the appendix is
+now `07e86a4f`, not `7bcae35`.** **It must be re-checked immediately before the PA signs.** Decision 1 is
+likewise unaffected in substance, but its required statement that the Gate 4 version is *not* the
+broker-import version now refers to `07e86a4f`.
+
+**Arena has not rewritten §6, §5 or the appendix to reflect this**, because they record a state that was
+true when written. The correction is recorded **here** and in the instrument's §11(4).
+
+### 14.5 Boundaries confirmed unchanged by this rendering
+
+The software version in use is **unchanged by this instrument**; Gate 4's permitted scope is **not
+widened**; Gate 5 is **not initiated**; the write safety catch is **still on** — writes and context
+discovery are still refused even with the binding asserted; and **real-user saving is not authorized, not
+implied and not advanced**. The other repository received **zero writes**. The permission document that
+this instrument amends was **not modified at all** — its fingerprint is asserted unchanged, for a concrete
+reason: that fingerprint is a published anchor inside three existing records, and appending to the file
+would have invalidated them. **The amendment is therefore a separate document that governs how the
+existing permission applies, leaving the original byte-for-byte intact.**
+
+**Workstream A and milestone WS-A-DM remain NOT COMPLETE.**
