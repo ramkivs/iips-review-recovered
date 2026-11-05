@@ -20,10 +20,12 @@ describe('Broker Holdings — executable browser-only preview', () => {
     const writes = vi.spyOn(Storage.prototype, 'setItem');
     render(<BrokerHoldingsPreview />);
     select(file());
-    expect(await screen.findByText('DHAN — PARSED_UNRESOLVED')).toBeInTheDocument();
+    // RELIANCE is in the governed master, so the pipeline resolves it; the header states status only.
+    expect(await screen.findByText('DHAN — PARSED_IDENTITIES_RESOLVED')).toBeInTheDocument();
     expect(screen.getByText('RELIANCE')).toBeInTheDocument();
-    expect(screen.getByText('UNRESOLVED')).toBeInTheDocument();
-    expect(screen.getByText(/No canonical company identity/)).toBeInTheDocument();
+    expect(screen.getByText('RESOLVED')).toBeInTheDocument();
+    expect(screen.getByText(/nothing is inferred from/)).toBeInTheDocument();
+    expect(screen.getByText(/1 native rows · 1 individually assessed ·/)).toBeInTheDocument();
     expect(screen.queryByRole('button', { name: /^save/i })).not.toBeInTheDocument();
     expect(network).not.toHaveBeenCalled();
     expect(writes).not.toHaveBeenCalled();

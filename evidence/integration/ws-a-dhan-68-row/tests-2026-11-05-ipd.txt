@@ -1,0 +1,41 @@
+# WS-A test transcript — IPD (2026-11-05)
+
+Baseline: IPD main@b605a61 + local branch arena/63391e87-iips-production-market-data@2f97357.
+This transcript is the only published proof of the IPD-side run: the session's GitHub integration
+is read-only for IPD, so the branch could not be pushed (403).
+
+## npm run build:tsc
+```
+> iips-production-market-data@1.0.0 build:tsc
+> tsc
+
+```
+
+## node --test dist/tests/ws_a_dhan_broker_holdings_identity.test.js
+```
+ok 1 - WS-A / Dhan 68-row import: evidence, identity, P04
+# tests 12
+# pass 12
+# fail 0
+```
+
+## unchanged suites: BI-03/04/05/07/08 + operator bypass
+```
+# tests 93
+# pass 93
+# fail 0
+```
+
+## durable import + consumer + E2E + P04 broad universe
+```
+# tests 49
+# pass 49
+# fail 0
+```
+
+## push attempt (blocked)
+```
+remote: Permission to ramkivs/iips-production-market-data.git denied to ramkivs.
+fatal: unable to access https://github.com/ramkivs/iips-production-market-data.git/: The requested URL returned error: 403
+gh api -X POST repos/ramkivs/iips-production-market-data/git/refs -> {"message":"Resource not accessible by integration","status":"403"}
+```

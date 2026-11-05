@@ -1,4 +1,9 @@
-/** Personal-use native CSV preview. Files stay in memory; no upload, save or identity claim. */
+/** Personal-use native CSV preview. Files stay in memory; no upload, save or identity claim.
+ *
+ * Identity is resolved only by the IPD-owned governed security master, and the counters state
+ * exactly what was measured: native rows, rows individually assessed, rows resolved, rows saved.
+ * A zero is never presented as a resolution result when no per-row outcome was produced.
+ */
 import { useRef, useState } from 'react';
 import { previewBrokerHoldings, type BrokerHoldingsPreview as Preview } from '../../api/brokerHoldingsPreview';
 
@@ -43,8 +48,10 @@ export function BrokerHoldingsPreview() {
     <section aria-label="Broker Holdings preview">
       <h2>Broker Holdings</h2>
       <p>Dhan (Detailed and Web UI), Zerodha and Groww CSV preview. No broker login or live API connection.</p>
-      <p>Files are processed in this browser only, not uploaded or stored. Native rows are unresolved evidence,
-        not normalized or validated portfolio holdings. Parser price defaults may apply. No canonical company identity is assigned.</p>
+      <p>Files are processed in this browser only, not uploaded or stored. Native rows are evidence,
+        not normalized or validated portfolio holdings. Parser price defaults may apply. Canonical identity is
+        assigned only where the IPD-owned governed security master resolves the row; nothing is inferred from
+        company-name similarity, and an unresolved row stays unresolved.</p>
       <p><strong>Preview only — not saved.</strong> Durable portfolio saving remains unavailable.
         This is separate from the certified reference portfolio and its analytics.</p>
       <label htmlFor="broker-csv">Broker CSV (maximum 1 MiB)</label>{' '}
@@ -57,7 +64,10 @@ export function BrokerHoldingsPreview() {
         {preview && <>
           <h3>{preview.broker} — {preview.status}</h3>
           {preview.variant && <p>Format: {preview.variant}</p>}
-          <p>{preview.holdings.length} native rows. Every row remains UNRESOLVED; parsing does not validate values or authorize saving.</p>
+          <p>{preview.counts.nativeRows} native rows · {preview.counts.identityAssessedRows} individually assessed ·
+            {' '}{preview.counts.identityResolvedRows} resolved · {preview.counts.savedRows} saved.</p>
+          <p>Identity authority: {preview.identityAuthority.source} ({preview.identityAuthority.entities} entities).
+            Parsing does not validate values, authorize a save or persist anything.</p>
           <p>Read at: {preview.asOf}. Content digest: <code>{preview.contentDigest}</code></p>
           {preview.holdings.length > 0 && <table>
             <caption>Native broker evidence — unresolved, not saved</caption>

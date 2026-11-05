@@ -1,0 +1,53 @@
+# WS-A test transcript — IRR (2026-11-05)
+
+Baseline: IRR main@9e0a041. Commands run in frontend/.
+
+## npm run typecheck
+```
+exit=0
+```
+
+## npx vitest run src/api/brokerHoldingsPreview.test.ts src/features/broker-holdings/BrokerHoldingsPreview.test.tsx
+```
+ ✓ src/api/brokerHoldingsPreview.test.ts (18 tests) 28ms
+ ✓ src/features/broker-holdings/BrokerHoldingsPreview.test.tsx (6 tests) 143ms
+
+ Test Files  2 passed (2)
+      Tests  24 passed (24)
+   Start at  08:18:15
+   Duration  2.25s (transform 736ms, setup 176ms, collect 1.09s, tests 172ms, environment 495ms, prepare 82ms)
+
+```
+
+## npx vitest run server/broker-import/brokerImportEvidenceStore.test.ts
+```
+ ✓ server/broker-import/brokerImportEvidenceStore.test.ts (7 tests) 50ms
+
+ Test Files  1 passed (1)
+      Tests  7 passed (7)
+   Start at  08:18:18
+   Duration  1.42s (transform 686ms, setup 100ms, collect 863ms, tests 50ms, environment 252ms, prepare 43ms)
+
+```
+
+## npx vitest run server/broker-import/brokerImportEvidenceRestart.test.ts
+```
+ ✓ server/broker-import/brokerImportEvidenceRestart.test.ts (1 test) 2704ms
+   ✓ WS-A durable import evidence — separate-process restart > process B recovers the unresolved 68-row evidence after process A terminates 2703ms
+
+ Test Files  1 passed (1)
+      Tests  1 passed (1)
+   Start at  08:18:20
+   Duration  3.21s (transform 39ms, setup 88ms, collect 33ms, tests 2.70s, environment 239ms, prepare 42ms)
+
+```
+
+## npm test (whole frontend suite)
+```
+
+ Test Files  111 passed (111)
+      Tests  1381 passed (1381)
+   Start at  08:18:23
+   Duration  84.16s (transform 2.91s, setup 9.85s, collect 6.91s, tests 33.94s, environment 18.04s, prepare 4.58s)
+
+```
