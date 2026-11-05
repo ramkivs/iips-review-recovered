@@ -86,3 +86,73 @@ describe('Broker Holdings — executable browser-only preview', () => {
     expect(screen.queryByText('RELIANCE')).not.toBeInTheDocument();
   });
 });
+
+/**
+ * Retention disclosure reconciled per `IIPS-V3-CAP02-U1-AMEND-01-EVIDENCE-RETRIEVAL-ROUTE-2026-11-05-01`
+ * §8.4(18), rendering the PA's Decision 6 of 2026-11-05.
+ *
+ * Clause 18 required the UI copy to be reconciled BEFORE the evidence-retrieval route was implemented,
+ * and it named the exact contradiction: the page told the owner files are "not uploaded or stored"
+ * while parsed evidence IS retained. These assertions run against the RENDERED text, so they prove the
+ * disclosure actually reaches the owner rather than merely existing in source.
+ *
+ * This is a DISCLOSURE obligation, not a request-time consent gate. The route reads no identity from a
+ * request (§8.2(10)), so no consent token, header or checkbox is accepted or required, and the
+ * assertions below deliberately check for wording — not for a control that would imply one.
+ */
+describe('Broker Holdings — evidence retention disclosure (AMEND-01 §8.4(18))', () => {
+  function disclosure(): string {
+    render(<BrokerHoldingsPreview />);
+    return screen.getByRole('region', { name: 'Evidence retention' }).textContent ?? '';
+  }
+
+  it('is visible to the owner without selecting a file', () => {
+    expect(disclosure().length).toBeGreaterThan(0);
+    expect(screen.getByRole('heading', { name: 'What this application retains' })).toBeInTheDocument();
+  });
+
+  it('discloses local retention, an indefinite period and explicit-owner-only deletion (18.1, 18.5)', () => {
+    const text = disclosure();
+    expect(text).toMatch(/is retained locally/);
+    expect(text).toMatch(/data directory/);
+    expect(text).toMatch(/indefinite/);
+    expect(text).toMatch(/explicitly deletes/);
+    expect(text).toMatch(/no automatic deletion or purge/);
+  });
+
+  it('states the 50 MB figure is a warning and review point only, never a deletion trigger (18.5)', () => {
+    const text = disclosure();
+    expect(text).toMatch(/50 MB/);
+    expect(text).toMatch(/warning/);
+    expect(text).toMatch(/deletes nothing/);
+    expect(text).toMatch(/not a quota/);
+  });
+
+  it('discloses that raw CSV bytes are not retained and names the retained equivalent (18.2)', () => {
+    const text = disclosure();
+    expect(text).toMatch(/raw CSV bytes are not retained/);
+    expect(text).toMatch(/parsed row inventory/);
+    expect(text).toMatch(/digest/);
+  });
+
+  it('discloses owner-scope-only service, no third-party transmission and no enumeration route (18.3)', () => {
+    const text = disclosure();
+    expect(text).toMatch(/only within the single personal owner scope/);
+    expect(text).toMatch(/never transmitted to any third party/);
+    expect(text).toMatch(/no route enumerates/);
+  });
+
+  it('discloses that retention is not a save, not a validation and not an authorization (18.4)', () => {
+    const text = disclosure();
+    expect(text).toMatch(/not a save/);
+    expect(text).toMatch(/savedRows/);
+    expect(text).toMatch(/WRITE_NOT_AUTHORIZED/);
+  });
+
+  it('no longer tells the owner that nothing is stored, and keeps the half that was true', () => {
+    render(<BrokerHoldingsPreview />);
+    const page = screen.getByRole('region', { name: 'Broker Holdings preview' }).textContent ?? '';
+    expect(page).not.toContain('not uploaded or stored');
+    expect(page).toMatch(/raw bytes are not uploaded/);
+  });
+});

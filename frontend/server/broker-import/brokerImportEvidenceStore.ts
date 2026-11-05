@@ -42,6 +42,36 @@ import type { BrokerHoldingsPreview } from '../../src/api/brokerHoldingsPreview.
 /** Closed schema id. Any change to the record grammar MUST increment it. */
 export const BROKER_IMPORT_EVIDENCE_SCHEMA = 'IIPS_BROKER_IMPORT_EVIDENCE_V1';
 
+/* ------------------------------------------------------------------ *
+ * Retention policy — FIXED BY PA ACT, NOT BY CODE
+ *
+ * Authority: `IIPS-V3-CAP02-U1-AMEND-01-EVIDENCE-RETRIEVAL-ROUTE-2026-11-05-01` §8.3(16), rendering
+ * the PA's Decision 6 of 2026-11-05. These three constants RECORD that decision; they are not a
+ * policy this module chooses, and code may never be the origin of a change to any of them — a change
+ * requires a new dated PA act.
+ *
+ * NOTHING HERE DELETES ANYTHING. There is no expiry sweep, no purge, no compaction, no scheduled or
+ * size-triggered or count-triggered or import-triggered or restart-triggered or error-triggered or
+ * quota-triggered deletion anywhere in this module. Retention is INDEFINITE. Deletion is
+ * EXPLICIT-OWNER-ONLY and is exercised OUTSIDE the HTTP surface (§8.3(16)(h)); the admitted route is
+ * read-only and no `DELETE` exists anywhere in this namespace. The review threshold below is a
+ * WARNING AND REVIEW point only — crossing it changes no behaviour and destroys no data, and it is
+ * not a quota.
+ * ------------------------------------------------------------------ */
+
+/** §8.3(16)(a) — retention period: INDEFINITE, no expiry, until explicit deletion by the owner. */
+export const BROKER_EVIDENCE_RETENTION_POLICY = 'INDEFINITE';
+
+/** §8.3(16)(b)/(c) — purge basis: EXPLICIT-ONLY, expressly not time-based and not count-based. */
+export const BROKER_EVIDENCE_DELETION_MODE = 'EXPLICIT_OWNER_ONLY';
+
+/**
+ * §8.3(16)(g) and §4.4 — the PA-settable WARNING / REVIEW threshold: 50 MB of retained parsed
+ * evidence in the owner's scope. Surfaced through obligation O-1's permitted means. It is NEVER an
+ * automatic deletion trigger and there is no quota; a later PA act may change the value.
+ */
+export const BROKER_EVIDENCE_REVIEW_THRESHOLD_BYTES = 50 * 1024 * 1024;
+
 export interface BrokerImportEvidenceRow {
   readonly rowIndex: number;
   readonly symbol: string;
@@ -100,6 +130,19 @@ export type RetainedBrokerImportEvidence = {
   readonly record: BrokerImportEvidenceRecord;
 };
 
+/**
+ * Obligation O-1 storage-usage summary for ONE owner scope (AMEND-01 §4.3, §8.3(16)(e)).
+ *
+ * A review aid only. It is never a quota, never a deletion trigger and never a reason to refuse an
+ * import or a read: crossing the review threshold changes no behaviour and destroys no data.
+ */
+export interface BrokerImportEvidenceStorageUsage {
+  /** Number of evidence records retained in this owner scope. */
+  readonly recordCount: number;
+  /** Approximate UTF-8 bytes of the retained payloads — a lower bound, see `describeStorageUsage`. */
+  readonly approximateBytes: number;
+}
+
 export class BrokerImportEvidenceError extends Error {
   constructor(readonly code: 'EVIDENCE_TAMPERED' | 'EVIDENCE_NOT_FOUND' | 'EVIDENCE_INVALID', message: string) {
     super(message);
@@ -118,6 +161,17 @@ function canonicalJson(value: unknown): string {
     .filter(([, v]) => v !== undefined)
     .sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0));
   return `{${entries.map(([k, v]) => `${JSON.stringify(k)}:${canonicalJson(v)}`).join(',')}}`;
+}
+
+/**
+ * Narrow a journal payload to a plain object so its `importId` can be compared.
+ *
+ * Defensive by design: the journal is shared with other Class-C consumers, so a payload is never
+ * assumed to be an evidence record. Anything that is not a plain object simply cannot match, and is
+ * skipped rather than throwing — an unrelated record must not make an evidence read fail.
+ */
+function isRecordPayload(payload: unknown): payload is Record<string, unknown> {
+  return payload !== null && typeof payload === 'object' && !Array.isArray(payload);
 }
 
 export function computeEvidenceRecordDigest(record: Omit<BrokerImportEvidenceRecord, 'recordDigest'>): string {
@@ -230,6 +284,57 @@ export class BrokerImportEvidenceStore {
     const persisted = this.journal.readById(tenantId, ownerUserId, recordId);
     if (!persisted) throw new BrokerImportEvidenceError('EVIDENCE_NOT_FOUND', 'The evidence record is not present for this owner.');
     return this.verify(persisted.payload);
+  }
+
+  /**
+   * Resolve ONE record by `importId`, strictly inside the caller's `(tenantId, ownerUserId)` scope.
+   *
+   * WHY THIS EXISTS. PF-1 exposes `readById(tenant, owner, recordId)` and `exists(tenant, owner,
+   * dedupKey)` but no read-by-dedupKey, and `recordId` is a `randomUUID()` minted at append time —
+   * it is NOT derivable from `importId`. The admitted route addresses evidence by `importId`, so one
+   * scoped resolution step is needed. PF-1 is used through its existing authority only: it is not
+   * modified, not extended and not converted into an access-control boundary (AMEND-01 §8.2(9)).
+   *
+   * OWNER ISOLATION IS STRUCTURAL, NOT A FILTER APPLIED AFTERWARDS. `listOrdered` yields only records
+   * whose `tenantId` AND `ownerUserId` both equal the arguments, so a record retained under any other
+   * scope is never a candidate and can never be returned, compared against or disclosed. Cross-owner
+   * access is impossible by construction, not by a check that could be forgotten.
+   *
+   * NON-ENUMERATION. This resolves AT MOST ONE record and returns no list, no count of candidates and
+   * no neighbouring `importId`. The HTTP surface built on it therefore cannot enumerate
+   * (AMEND-01 §8.1(1), §8.5(19)); the four-segment collection form stays `404`.
+   *
+   * Returns `null` when no record in scope carries that `importId` — the caller maps `null` to the
+   * same opaque `404` used for a malformed or out-of-scope id, so absence is indistinguishable from
+   * non-retention (§8.1(5)). Throws `EVIDENCE_TAMPERED` / `EVIDENCE_INVALID` when a matching record
+   * fails re-verification: a tampered record is NEVER served and NEVER silently treated as absent
+   * (§8.3(15)).
+   */
+  readByImportId(tenantId: string, ownerUserId: string, importId: string): BrokerImportEvidenceRecord | null {
+    const match = this.journal
+      .listOrdered(tenantId, ownerUserId)
+      .find((p) => isRecordPayload(p.payload) && p.payload.importId === importId);
+    if (!match) return null;
+    return this.verify(match.payload);
+  }
+
+  /**
+   * Obligation O-1 (AMEND-01 §4.3, §8.3(16)(e)) — storage-usage visibility for the owner's scope,
+   * WITHOUT any new endpoint. Count and approximate bytes are surfaced through the already-admitted
+   * evidence response and the operator runbook; no collection, metrics or admin route exists.
+   *
+   * `approximateBytes` sums the UTF-8 JSON length of each retained record's payload. It is an
+   * APPROXIMATION and a lower bound: it excludes the journal's per-line envelope and excludes
+   * non-evidence records that share the same Class-C journal file. It is a review aid, never a quota
+   * — nothing here deletes, truncates, refuses or degrades (§8.3(16)(g)).
+   */
+  describeStorageUsage(tenantId: string, ownerUserId: string): BrokerImportEvidenceStorageUsage {
+    const payloads = this.journal.listOrdered(tenantId, ownerUserId).map((p) => p.payload);
+    let approximateBytes = 0;
+    for (const payload of payloads) {
+      approximateBytes += Buffer.byteLength(canonicalJson(payload), 'utf8');
+    }
+    return Object.freeze({ recordCount: payloads.length, approximateBytes });
   }
 
   list(tenantId: string, ownerUserId: string): Array<{ recordId: string; record: BrokerImportEvidenceRecord }> {

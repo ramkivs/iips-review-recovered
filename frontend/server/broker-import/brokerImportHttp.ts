@@ -1,14 +1,20 @@
 /**
- * CAP-02 broker-import HTTP boundary — the single admitted route on the existing IRR Node host.
+ * CAP-02 broker-import HTTP boundary — the admitted routes on the existing IRR Node host.
  *
  * Authority: `IIPS-V3-CAP02-U1-BROKER-IMPORT-TRANSPORT-AUTHORITY-ACT-EFFECTIVE-2026-10-23-01` §2.2
- * and `IIPS-V3-CAP02-BROKER-IMPORT-UI-COMPOSITION-ACT-EFFECTIVE-2026-10-23-03` §3.2/§3.3.
+ * and `IIPS-V3-CAP02-BROKER-IMPORT-UI-COMPOSITION-ACT-EFFECTIVE-2026-10-23-03` §3.2/§3.3, plus
+ * `IIPS-V3-CAP02-U1-AMEND-01-EVIDENCE-RETRIEVAL-ROUTE-2026-11-05-01` §8 (the additive admission of
+ * the evidence-retrieval route, effective 2026-11-05).
  *
- * THE ONE ROUTE
- *   POST /api/broker-import/:portfolioId/holdings
- *   Other methods on that path → 405. Other paths under /api/broker-import/ → 404. Nothing else.
+ * THE ADMITTED ROUTES
+ *   POST /api/broker-import/:portfolioId/holdings                        (U1 §2.2)
+ *   GET  /api/broker-import/:portfolioId/revision                        (U7 §1.4 / U1 §7 / -04 §3.2)
+ *   GET  /api/broker-import/:portfolioId/evidence/:importId              (AMEND-01 §8 — ONE route)
+ *   Other methods on an admitted path → 405. Every other path under /api/broker-import/ → 404,
+ *   INCLUDING the four-segment `…/:portfolioId/evidence` collection form: there is no collection
+ *   endpoint and no enumeration (AMEND-01 §8.1(1), §8.5(19)). Nothing else.
  *
- * HANDLER ORDER (fixed by the effective U1 act)
+ * HANDLER ORDER (fixed by the effective U1 act, preserved and extended by AMEND-01 §8.1(3))
  *   1. exact route/method match;
  *   2. C9 first-party signal (cross-site hardening — never authentication);
  *   3. IRR-local binding precondition — absent ⇒ 503 owner-context-unavailable BEFORE any port,
@@ -17,6 +23,10 @@
  *   5. strict DTO validation (brokerImportBoundary) — typed refusal before any socket;
  *   6. ONE callIpc('portfolio.save', exact-top-level-payload) — zero automatic retries;
  *   7. response mapping below.
+ *   No step may be reordered, skipped or made lazy. The evidence route follows the same order with
+ *   its own steps 4–6: request-shape validation (query string refused, opaque params validated)
+ *   BEFORE ANY I/O, then the owner-carrier resolution, then exactly ONE scoped journal read. It
+ *   performs no IPC call at all — it never touches a portfolio store.
  *
  * RESPONSE MAPPING (effective U1 act §2.2)
  *   v1 receipt            → 200, receipt relayed verbatim (disposition/revision/durability/durable)
@@ -31,12 +41,30 @@
  *   Timeout / fault       → 503 {outcome:'OUTCOME_UNKNOWN', retried:false} — distinct, no resend
  *   Unrepresentable result→ 503 {outcome:'OUTCOME_UNKNOWN', reason:'UNREPRESENTABLE_RESULT'}
  *
+ * EVIDENCE RESPONSE MAPPING (AMEND-01 §8.1(5)–(6), §8.3(15)–(16))
+ *   retained record in scope → 200, the record's EVIDENCE FIELDS ONLY (both partition keys withheld)
+ *                              plus the retention disclosure clause 14 requires and the O-1
+ *                              storage-usage visibility clause 16(e) requires
+ *   absent / malformed / out-of-scope / tombstoned importId
+ *                            → 404 {outcome:'RESOURCE_UNAVAILABLE'} — ONE opaque body for all four,
+ *                              never 403, never a partial record, never an enumeration signal
+ *   query string present     → 400 {error:'invalid-request'} BEFORE any I/O
+ *   other method             → 405 Allow: GET
+ *   carrier absent/malformed/digest-mismatch, or binding precondition absent
+ *                            → 503 owner-context-unavailable (fail closed, non-disclosing)
+ *   EVIDENCE_TAMPERED        → 503 {outcome:'EVIDENCE_TAMPERED'} — digest re-verified on EVERY read;
+ *   EVIDENCE_INVALID           a tampered record is never served and never silently reported absent
+ *   any other storage fault  → 503 {outcome:'UNAVAILABLE'} — retention is never claimed on failure
+ *
  * NON-DISCLOSURE: no stack, provider detail, owner, tenant, socket path or request value is ever
- * echoed. Validation refusals carry a field path and a static reason only.
+ * echoed. Validation refusals carry a field path and a static reason only. The evidence route
+ * additionally withholds BOTH governed partition keys (`tenantId`, `ownerUserId`) from its 200 body:
+ * they are partition keys, not evidence fields, and §8.1(6) admits the evidence fields only.
  */
 import type http from 'node:http';
 
 import { readJsonBody, sendJson } from '../owner-scoped-http.js';
+import { resolveDataDir } from '../persistence/persistence-service.js';
 import { respondOwnerContextUnavailable } from '../owner-context-unavailable.js';
 import {
   ownerContextFromBinding,
@@ -52,6 +80,16 @@ import {
   type BrokerImportSaveDto,
 } from './brokerImportBoundary.js';
 import {
+  BROKER_EVIDENCE_DELETION_MODE,
+  BROKER_EVIDENCE_RETENTION_POLICY,
+  BROKER_EVIDENCE_REVIEW_THRESHOLD_BYTES,
+  BrokerImportEvidenceError,
+  BrokerImportEvidenceStore,
+  type BrokerImportEvidenceRecord,
+  type BrokerImportEvidenceStorageUsage,
+} from './brokerImportEvidenceStore.js';
+import { resolveBrokerEvidenceOwnerContext } from './brokerImportEvidenceOwnerResolver.js';
+import {
   defaultBrokerImportSaveDeps,
   readBrokerImportRevisionViaV1,
   saveBrokerImportHoldingsViaV1,
@@ -66,26 +104,73 @@ export function isBrokerImportPath(url: string | undefined): boolean {
   return path === '/api/broker-import' || path.startsWith('/api/broker-import/');
 }
 
-/** Route dependency injection (tests substitute the IPC client and environment). */
+/** Route dependency injection (tests substitute the IPC client, the evidence reader and the environment). */
 export interface BrokerImportRouteDeps {
   readonly saveAdapterDeps?: BrokerImportSaveAdapterDeps;
+  readonly evidenceReader?: BrokerImportEvidenceReader;
   readonly env?: NodeJS.ProcessEnv;
 }
 
+/**
+ * The read surface the evidence route needs — deliberately narrower than the store.
+ *
+ * It exposes NO `retain`, NO `list` and NO `read`-by-recordId, so the route is structurally incapable
+ * of writing evidence or of enumerating it (AMEND-01 §8.1(1), §8.3(16)(h)). Tests inject a fake.
+ */
+export interface BrokerImportEvidenceReader {
+  readByImportId(
+    tenantId: string,
+    ownerUserId: string,
+    importId: string,
+  ): BrokerImportEvidenceRecord | null;
+  describeStorageUsage(
+    tenantId: string,
+    ownerUserId: string,
+  ): BrokerImportEvidenceStorageUsage;
+}
+
 interface MatchedRoute {
-  readonly kind: 'HOLDINGS' | 'REVISION';
+  readonly kind: 'HOLDINGS' | 'REVISION' | 'EVIDENCE';
   readonly portfolioId: string;
+  /** Present only for `EVIDENCE`; the opaque import identifier from the fifth path segment. */
+  readonly importId?: string;
 }
 
 /**
- * Matches the two admitted routes under `/api/broker-import`:
+ * Matches the three admitted routes under `/api/broker-import`:
  *   - `/api/broker-import/:portfolioId/holdings` (`POST`)
  *   - `/api/broker-import/:portfolioId/revision` (`GET`, admitted under U7 §1.4 / U1 §7 / -04 §3.2)
+ *   - `/api/broker-import/:portfolioId/evidence/:importId` (`GET`, admitted by AMEND-01 §8)
  * Returns null for all other paths in the namespace.
+ *
+ * THE CLOSURE IS EXTENDED BY EXACTLY ONE LEAF AND IS OTHERWISE UNTOUCHED (AMEND-01 §8.5(19)):
+ * `evidence` is admitted ONLY in the five-segment form. The four-segment
+ * `api/broker-import/:portfolioId/evidence` falls through to null ⇒ `404`, so there is no collection
+ * endpoint and no way to enumerate `importId` values. A sixth segment also returns null.
  */
 function matchRoute(path: string): MatchedRoute | null {
   const parts = path.split('/').filter(Boolean);
-  if (parts.length !== 4 || parts[0] !== 'api' || parts[1] !== 'broker-import') {
+  if (parts.length < 4 || parts[0] !== 'api' || parts[1] !== 'broker-import') {
+    return null;
+  }
+
+  // Five-segment evidence form — the only five-segment path admitted in this namespace.
+  if (parts.length === 5) {
+    if (parts[3] !== 'evidence') {
+      return null;
+    }
+    let portfolioId: string;
+    let importId: string;
+    try {
+      portfolioId = decodeURIComponent(parts[2]);
+      importId = decodeURIComponent(parts[4]);
+    } catch {
+      return null;
+    }
+    return { kind: 'EVIDENCE', portfolioId, importId };
+  }
+
+  if (parts.length !== 4) {
     return null;
   }
   const leaf = parts[3];
@@ -102,6 +187,18 @@ function matchRoute(path: string): MatchedRoute | null {
     kind: leaf === 'holdings' ? 'HOLDINGS' : 'REVISION',
     portfolioId,
   };
+}
+
+/**
+ * `importId` is `sha256(broker ‖ contentDigest ‖ readAt)` — exactly 64 lowercase hex characters.
+ *
+ * A value that fails this shape is MALFORMED, and AMEND-01 §8.1(5) requires a malformed `importId` to
+ * be INDISTINGUISHABLE from one that is valid but not retained: the same opaque `404`, never a `400`
+ * that would confirm the shape rule to a prober and never a `403`. So this predicate gates a `404`,
+ * not a `400`. It is a shape check only — it never resolves, mints or derives an identifier.
+ */
+function isImportIdShape(value: string): boolean {
+  return /^[0-9a-f]{64}$/.test(value);
 }
 
 /** Maps a transport outcome to the fixed HTTP response. */
@@ -198,6 +295,72 @@ function respondToRevisionOutcome(
 }
 
 /**
+ * Builds the evidence `200` body: the retained record's EVIDENCE FIELDS ONLY, plus the retention
+ * disclosure AMEND-01 §8.3(14) requires the response to carry, plus the O-1 storage-usage visibility
+ * §8.3(16)(e) requires.
+ *
+ * BOTH GOVERNED PARTITION KEYS ARE WITHHELD. `tenantId` and `ownerUserId` are excluded: §8.1(6)
+ * admits "the retained record's evidence fields only", and partition keys are not evidence — they are
+ * `EQUALITY_PARTITION_ONLY` scope values that have no business on the wire. Consequently `recordDigest`
+ * (computed over the COMPLETE stored record, scope keys included) is verifiable by the owner against
+ * the journal and by the server on every read, but is NOT recomputable from this projection alone.
+ * That is stated in the body rather than left to be discovered.
+ *
+ * No canonical `companyId` (§8.1(6), U1 §2.3) and no raw CSV bytes — none are retained (P-4).
+ * No filesystem path, socket path, stack or provider detail is echoed.
+ */
+function evidenceResponsePayload(
+  record: BrokerImportEvidenceRecord,
+  usage: BrokerImportEvidenceStorageUsage,
+): Record<string, unknown> {
+  return {
+    schema: record.schema,
+    importId: record.importId,
+    portfolioSlot: record.portfolioSlot,
+    broker: record.broker,
+    variant: record.variant,
+    fileName: record.fileName,
+    readAt: record.readAt,
+    contentDigest: record.contentDigest,
+    status: record.status,
+    identityAuthority: record.identityAuthority,
+    counts: record.counts,
+    rows: record.rows,
+    pipelineRefusals: record.pipelineRefusals,
+    warnings: record.warnings,
+    validation: record.validation,
+    saveAuthorization: record.saveAuthorization,
+    persistence: record.persistence,
+    reconciliation: record.reconciliation,
+    limitations: record.limitations,
+    recordDigest: record.recordDigest,
+    // Route-supplied disclosure metadata. EXCLUDED from `recordDigest` by construction, and required
+    // by clause 14 (the volatile-fields limitation must be carried in the response) and by clause
+    // 16(e)/(g) (obligation O-1). It adds NO endpoint: it rides the one admitted read.
+    retention: {
+      policy: BROKER_EVIDENCE_RETENTION_POLICY,
+      deletion: BROKER_EVIDENCE_DELETION_MODE,
+      automaticPurge: false,
+      destructiveCompaction: false,
+      deletionReachableFromHttp: false,
+      reviewThresholdBytes: BROKER_EVIDENCE_REVIEW_THRESHOLD_BYTES,
+      reviewThresholdIsDeletionTrigger: false,
+      storage: {
+        recordCount: usage.recordCount,
+        approximateBytes: usage.approximateBytes,
+        reviewThresholdExceeded: usage.approximateBytes > BROKER_EVIDENCE_REVIEW_THRESHOLD_BYTES,
+      },
+      volatileFields:
+        'P04 quarantine record ids are minted per lookup by the IPD-owned pipeline and are therefore process-specific. The FIRST retention of an import is the authoritative evidence record; a repeated import is a no-op that returns it unchanged.',
+      servedWithinOwnerScopeOnly: true,
+      transmittedToThirdParty: false,
+      enumeratedRoute: false,
+      recordDigestCoversWithheldScopeKeys: true,
+    },
+  };
+}
+
+/**
  * Handles the CAP-02 namespace. Mounted by `executive-transport.ts` for `/api/broker-import`
  * only; this module registers no route anywhere else and never listens.
  */
@@ -206,13 +369,112 @@ export async function handleBrokerImportRequest(
   res: http.ServerResponse,
   deps: BrokerImportRouteDeps = {},
 ): Promise<void> {
-  const path = (req.url ?? '').split('?')[0];
+  const rawUrl = req.url ?? '';
+  const path = rawUrl.split('?')[0];
   const method = (req.method ?? '').toUpperCase();
   res.setHeader('Content-Type', 'application/json');
 
   const route = matchRoute(path);
   if (route === null) {
     sendJson(res, 404, { error: 'not found' });
+    return;
+  }
+
+  if (route.kind === 'EVIDENCE') {
+    // Clause 2: only GET is permitted on this path.
+    if (method !== 'GET') {
+      res.setHeader('Allow', 'GET');
+      sendJson(res, 405, { error: 'method-not-allowed' });
+      return;
+    }
+
+    // Clause 3, step 2: C9 first-party signal FIRST (cross-site hardening — never authentication,
+    // and it yields no owner).
+    const evidenceHost = typeof req.headers.host === 'string' ? req.headers.host : null;
+    const evidenceFirstParty = evaluateRequestFirstPartySignal(req.headers, method, evidenceHost);
+    if (evidenceFirstParty.decision === 'NOT_FIRST_PARTY') {
+      sendJson(res, 403, { error: 'cross-site-request-refused' });
+      return;
+    }
+
+    // Clause 3, step 3: the IRR-local binding precondition, BEFORE any adapter, store or socket is
+    // constructed. Absent ⇒ fail closed, indistinguishable from configuration-absent.
+    const evidenceEnv = deps.env ?? process.env;
+    const evidenceBinding = ownerContextFromBinding(readBindingPrecondition(evidenceEnv), evidenceEnv);
+    if (evidenceBinding.state !== 'IPD_BINDING_RESOLVED' || !evidenceBinding.established) {
+      respondOwnerContextUnavailable(res);
+      return;
+    }
+
+    // Clause 2: ANY query string is refused, before any I/O. Static reason only.
+    if (rawUrl.includes('?')) {
+      sendJson(res, 400, {
+        error: 'invalid-request',
+        field: 'query',
+        reason: 'query-string-not-permitted',
+      });
+      return;
+    }
+
+    // Clause 3, step 4: the opaque route parameters are validated BEFORE any I/O. Shape only — IRR
+    // never resolves identity from them.
+    const evidencePortfolioRefusal = validatePortfolioIdParam(route.portfolioId);
+    if (evidencePortfolioRefusal !== null) {
+      sendJson(res, 400, {
+        error: 'invalid-request',
+        field: evidencePortfolioRefusal.fieldPath,
+        reason: evidencePortfolioRefusal.reason,
+      });
+      return;
+    }
+
+    // Clause 5: a MALFORMED importId is indistinguishable from one that is valid but not retained —
+    // the same opaque 404, never a 400 and never a 403.
+    const importId = route.importId ?? '';
+    if (!isImportIdShape(importId)) {
+      sendJson(res, 404, { outcome: 'RESOURCE_UNAVAILABLE' });
+      return;
+    }
+
+    // Clause 7/§3.7: owner scope comes ONLY from the act-fixed carrier resolved through the
+    // server-owned seam — never from a header, cookie, token, credential or query value (clause 10).
+    // Uncached per-request evaluation, so removing or restoring the carrier takes effect at once.
+    // Absent, unreadable, malformed or digest-mismatched ⇒ null ⇒ fail closed at 503.
+    const evidenceOwner = resolveBrokerEvidenceOwnerContext(evidenceEnv);
+    if (evidenceOwner === null) {
+      respondOwnerContextUnavailable(res);
+      return;
+    }
+
+    // Clause 3, step 5: exactly ONE scoped journal read. Constructed per request and never cached, so
+    // evidence retained by a separate OS process is visible immediately and no stale scope survives a
+    // carrier change. No IPC call is made: this route never touches a portfolio store.
+    const reader = deps.evidenceReader ?? new BrokerImportEvidenceStore({ dataDir: resolveDataDir(evidenceEnv) });
+    let record: BrokerImportEvidenceRecord | null;
+    let usage: BrokerImportEvidenceStorageUsage;
+    try {
+      record = reader.readByImportId(evidenceOwner.tenantId, evidenceOwner.ownerUserId, importId);
+      // O-1: storage-usage visibility for the owner's own scope, carried on the admitted response.
+      usage = reader.describeStorageUsage(evidenceOwner.tenantId, evidenceOwner.ownerUserId);
+    } catch (error) {
+      // Clause 15: the digest is re-verified on EVERY read and tamper fails closed. A tampered or
+      // invalid record is never served, and never silently reported as absent. Static reason only —
+      // no message, stack, path or record detail is echoed.
+      if (error instanceof BrokerImportEvidenceError) {
+        sendJson(res, 503, { outcome: error.code });
+        return;
+      }
+      // Any other storage failure propagates as unavailable: retention is never claimed on failure.
+      sendJson(res, 503, { outcome: 'UNAVAILABLE' });
+      return;
+    }
+
+    if (record === null) {
+      // Absent, tombstoned or outside the single personal owner scope: ONE opaque body.
+      sendJson(res, 404, { outcome: 'RESOURCE_UNAVAILABLE' });
+      return;
+    }
+    sendJson(res, 200, evidenceResponsePayload(record, usage));
     return;
   }
 
