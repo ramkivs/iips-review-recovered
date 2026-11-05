@@ -1,0 +1,112 @@
+# D05 security-master deposition process and DHAN_DETAILED_HOLDINGS_V1 acquisition path
+# Read-only inspection of the IPD-owned authoritative records at the newly pinned commit
+# Captured: 2026-11-05T09:10:46Z UTC
+
+=== IPD evidence/operator_drop inventory at 7bcae35 (the governed D05 deposition locus) ===
+evidence/operator_drop/BLOCK-3L-BROKER-CSV-FULL-RESOLUTION-AUDIT.md
+evidence/operator_drop/NON_PRODUCTION_SINGLE_OPERATOR_IDENTITY_BYPASS.md
+evidence/operator_drop/d05_browser_runtime_hydration_report.json
+evidence/operator_drop/d05_browser_runtime_hydration_report.md
+evidence/operator_drop/d05_security_master_broad_universe.json
+evidence/operator_drop/d05_security_master_manifest.json
+evidence/operator_drop/phase1b_windows_visual_acceptance_20260922/git-head.txt
+evidence/operator_drop/phase1b_windows_visual_acceptance_20260922/git-status.txt
+evidence/operator_drop/phase1b_windows_visual_acceptance_20260922/phase1b-visual-acceptance-result.txt
+evidence/operator_drop/windows_bi08_visual_acceptance_manifest.json
+evidence/operator_drop/windows_bi08_visual_acceptance_manifest.md
+evidence/operator_drop/windows_visual_acceptance_manifest.json
+evidence/operator_drop/windows_visual_acceptance_manifest.md
+
+=== IPD d05_security_master_manifest.json (deposition identity, verbatim) ===
+{
+  "batchId": "BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001",
+  "domain": "D05_SECURITY_MASTER",
+  "fileChecksumSha256": "7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5",
+  "recordCount": 2250,
+  "droppedAt": "2026-09-22T06:00:00.000Z",
+  "operatorId": "OPERATOR_ADMIN_GOVERNED_01",
+  "authorizationRef": "AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001",
+  "operatingMode": "OFFLINE_BOOTSTRAP",
+  "selectedTier": "TIER_2_ACTIVE_NSE_CM",
+  "aiilRuling": "RULING_3_DUAL_EFFECTIVE_DATED_MAPPING"
+}
+=== IPD governed_fixture_master.ts — deposition identity + fail-closed policy (verbatim header) ===
+/**
+ * Institutional Investment Platform System (IIPS)
+ * Governed Offline Fixture & Broad Universe Security Master Provider (P04 / P12)
+ *
+ * Governed under: AD-01..AD-18 / AD-CHARTER-2026-01 / AD-W1-AUTH-2026-01 / BI-07-AUTH-2026-01 / AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001
+ * Execution Mode: NON_PRODUCTION / OFFLINE_BOOTSTRAP / BROWSER_AND_NODE_SAFE
+ *
+ * Provides canonical, deterministic offline reference and Tier-2 expanded broad-universe
+ * Security Master providers populated exclusively with governed, verified entities.
+ *
+ * FAIL-CLOSED GOVERNANCE POLICY:
+ * - Real-world broker securities not present in this authoritative master
+ *   are deliberately LEFT UNMAPPED and fail closed with IdentityAmbiguityError(UNMAPPED_IDENTIFIER).
+ * - Under NO circumstances are identifiers fabricated or inferred via fuzzy matching.
+ * - Browser runtime uses build-time imported canonical D05 dataset with zero dynamic Node fs/path dependencies.
+ */
+
+import { SecurityMaster, SecurityMasterEntity, GovernedSourceRevision } from './security_master.js';
+import { D05_BROAD_UNIVERSE_ENTITIES } from './d05_broad_universe_data.js';
+import { applyD05AiilListingCorrection } from './d05_listing_corrections.js';
+
+export { D05_BROAD_UNIVERSE_ENTITIES };
+
+/**
+ * Governed deposition identity of the D05 broad-universe corpus, transcribed verbatim from
+ * evidence/operator_drop/d05_security_master_manifest.json (equality with the manifest and
+ * with the SHA-256 of the deposited JSON is enforced by
+ * tests/d05_security_master_integrity_semantics.test.ts). Provenance only — this records
+ * which governed revision is resolved, not that any record is real-market (C1/C2/C3).
+ */
+export const D05_BROAD_UNIVERSE_SOURCE_REVISION: Readonly<GovernedSourceRevision> = Object.freeze({
+  batchId: 'BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001',
+  fileChecksumSha256: '7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5',
+  recordCount: 2250,
+  authorizationRef: 'AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001',
+  operatingMode: 'OFFLINE_BOOTSTRAP',
+});
+
+/**
+ * Governed baseline reference entities authorized for offline non-production development
+ * and product qualification.
+ */
+export const GOVERNED_OFFLINE_REFERENCE_ENTITIES: ReadonlyArray<SecurityMasterEntity> = [
+  {
+    companyId: 'EQ_RELIANCE_IN',
+
+=== IPD integrity test that binds the corpus to the manifest ===
+tests/d05_aiil_identity_reconciliation.test.ts
+tests/d05_browser_runtime_hydration.test.ts
+tests/d05_identity_eligibility_characterization.test.ts
+tests/d05_security_master_integrity_semantics.test.ts
+tests/fixtures/d05_fixtures.json
+
+=== Any DHAN_DETAILED_HOLDINGS_V1 artefact in either repository? ===
+-- IPD .csv files at 7bcae35:
+evidence/cross-repository/artifacts/IIPS_V3_CAPABILITY_MATRIX_51x17_2026-10-23.csv
+evidence/integration/ws-a-dhan-68-row/dhan-web-ui-summary-68-reconstructed.csv
+-- IRR .csv files under frontend/ and evidence/integration/ws-a*:
+frontend/server/broker-import/__fixtures__/dhan-web-ui-summary-68.csv
+evidence/integration/ws-a-dhan-68-row/dhan-web-ui-summary-68-reconstructed.csv
+
+=== IRR authorized acquisition path for a broker CSV (no broker login, no live API, no upload) ===
+31:    if (file.size > 1_048_576) { setError('Select a CSV no larger than 1 MiB.'); return; }
+35:      const content = await file.text();
+50:      <p>Dhan (Detailed and Web UI), Zerodha and Groww CSV preview. No broker login or live API connection.</p>
+51:      <p>Files are processed in this browser only, not uploaded or stored. Native rows are evidence,
+
+-- IPD Dhan convergence record, acquisition boundary (verbatim):
+
+### Dhan — individually traceable disposition
+
+Existing capability is **offline CSV**, detailed holdings and Web UI summary variants, with
+XLSX explicitly deferred. No Dhan HTTP client, API endpoint, account login, token acquisition,
+refresh/session handling or live market-data connector was located in the runtime trees inspected.
+The current change makes both CSV variants executable in the IRR browser application through
+IPD's existing implementation. It does **not** implement or demonstrate live API access.
+No broker credentials, account/API entitlement or permission to reach Dhan's host is established
+in this sandbox (egress excludes the broker). Do not place tokens in chat or the tracker.
+

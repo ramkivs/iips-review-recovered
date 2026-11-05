@@ -1,0 +1,982 @@
+{
+  "investigation": "WS-A §4 — DHAN_DETAILED_HOLDINGS_V1 as an authoritative identifier source for the 67 unresolved rows",
+  "generatedFrom": {
+    "governedCorpusModule": "src/identity/d05_broad_universe_data.js (published by the pinned alias, consumed byte-for-byte)",
+    "governedMasterModule": "src/identity/governed_fixture_master.js",
+    "fixture": "server/broker-import/__fixtures__/dhan-web-ui-summary-68.csv",
+    "fixtureSha256": "c44e3cdb06e2d49f88c46d61867444f8a301cdf71a068b0e3aa1d748e6d52f31"
+  },
+  "governedMaster": {
+    "entityCount": 2250,
+    "companyIdsInMaster": 2250,
+    "sourceRevision": {
+      "batchId": "BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001",
+      "fileChecksumSha256": "7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5",
+      "recordCount": 2250,
+      "authorizationRef": "AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001",
+      "operatingMode": "OFFLINE_BOOTSTRAP"
+    },
+    "distinctIsinsInCorpus": 2250
+  },
+  "probeSemantics": [
+    "This is a COVERAGE PROBE, not a mapping. It is deliberately WIDER than the governed master (which resolves on exact keys only) so that a negative result is conclusive.",
+    "Nothing here is deposited, asserted as an identity, or fed back into the pipeline. No ISIN, symbol or companyId was invented."
+  ],
+  "unresolvedRowCount": 67,
+  "unresolvedRowIndices": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    40,
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51,
+    52,
+    53,
+    54,
+    55,
+    56,
+    57,
+    58,
+    59,
+    60,
+    61,
+    62,
+    63,
+    64,
+    65,
+    66,
+    67,
+    68
+  ],
+  "unresolvedRefusalCodes": {
+    "NO_AUTHORITATIVE_IDENTIFIER_MATCH": 67
+  },
+  "presentInGovernedD05CorpusCount": 0,
+  "absentFromGovernedD05CorpusCount": 67,
+  "resolvedReferenceRows": [
+    {
+      "rowIndex": 1,
+      "sourceName": "AGI GREENPAC",
+      "resolvedByPipeline": true,
+      "governedAliasHit": "EQ_AGI_IN",
+      "note": "Resolved by the governed master on an exact governed key/alias. Not part of the unresolved set."
+    }
+  ],
+  "rows": [
+    {
+      "rowIndex": 2,
+      "sourceName": "ASK AUTOMOTIVE",
+      "governedCorpusProbe": {
+        "companyNameExactNormalized": null,
+        "listingSymbolExactNormalized": null,
+        "nseSymbolExactNormalized": null,
+        "bseSymbolExactNormalized": null
+      },
+      "presentInGovernedD05Corpus": false,
+      "couldDetailedExportResolveAgainstCurrentCorpus": false,
+      "preconditionIfAbsent": "A governed D05 deposition of the entity (IPD-owned, authorization-act-governed) is required before any ISIN or exchange-scoped symbol could resolve it."
+    },
+    {
+      "rowIndex": 3,
+      "sourceName": "AJAX ENGINEERING",
+      "governedCorpusProbe": {
+        "companyNameExactNormalized": null,
+        "listingSymbolExactNormalized": null,
+        "nseSymbolExactNormalized": null,
+        "bseSymbolExactNormalized": null
+      },
+      "presentInGovernedD05Corpus": false,
+      "couldDetailedExportResolveAgainstCurrentCorpus": false,
+      "preconditionIfAbsent": "A governed D05 deposition of the entity (IPD-owned, authorization-act-governed) is required before any ISIN or exchange-scoped symbol could resolve it."
+    },
+    {
+      "rowIndex": 4,
+      "sourceName": "ARIHANT CAPITAL MARKETS",
+      "governedCorpusProbe": {
+        "companyNameExactNormalized": null,
+        "listingSymbolExactNormalized": null,
+        "nseSymbolExactNormalized": null,
+        "bseSymbolExactNormalized": null
+      },
+      "presentInGovernedD05Corpus": false,
+      "couldDetailedExportResolveAgainstCurrentCorpus": false,
+      "preconditionIfAbsent": "A governed D05 deposition of the entity (IPD-owned, authorization-act-governed) is required before any ISIN or exchange-scoped symbol could resolve it."
+    },
+    {
+      "rowIndex": 5,
+      "sourceName": "ARKADE DEVELOPERS",
+      "governedCorpusProbe": {
+        "companyNameExactNormalized": null,
+        "listingSymbolExactNormalized": null,
+        "nseSymbolExactNormalized": null,
+        "bseSymbolExactNormalized": null
+      },
+      "presentInGovernedD05Corpus": false,
+      "couldDetailedExportResolveAgainstCurrentCorpus": false,
+      "preconditionIfAbsent": "A governed D05 deposition of the entity (IPD-owned, authorization-act-governed) is required before any ISIN or exchange-scoped symbol could resolve it."
+    },
+    {
+      "rowIndex": 6,
+      "sourceName": "ARROW GREENTECH",
+      "governedCorpusProbe": {
+        "companyNameExactNormalized": null,
+        "listingSymbolExactNormalized": null,
+        "nseSymbolExactNormalized": null,
+        "bseSymbolExactNormalized": null
+      },
+      "presentInGovernedD05Corpus": false,
+      "couldDetailedExportResolveAgainstCurrentCorpus": false,
+      "preconditionIfAbsent": "A governed D05 deposition of the entity (IPD-owned, authorization-act-governed) is required before any ISIN or exchange-scoped symbol could resolve it."
+    },
+    {
+      "rowIndex": 7,
+      "sourceName": "ASHOKA BUILDCON",
+      "governedCorpusProbe": {
+        "companyNameExactNormalized": null,
+        "listingSymbolExactNormalized": null,
+        "nseSymbolExactNormalized": null,
+        "bseSymbolExactNormalized": null
+      },
+      "presentInGovernedD05Corpus": false,
+      "couldDetailedExportResolveAgainstCurrentCorpus": false,
+      "preconditionIfAbsent": "A governed D05 deposition of the entity (IPD-owned, authorization-act-governed) is required before any ISIN or exchange-scoped symbol could resolve it."
+    },
+    {
+      "rowIndex": 8,
+      "sourceName": "BANK OF BARODA",
+      "governedCorpusProbe": {
+        "companyNameExactNormalized": null,
+        "listingSymbolExactNormalized": null,
+        "nseSymbolExactNormalized": null,
+        "bseSymbolExactNormalized": null
+      },
+      "presentInGovernedD05Corpus": false,
+      "couldDetailedExportResolveAgainstCurrentCorpus": false,
+      "preconditionIfAbsent": "A governed D05 deposition of the entity (IPD-owned, authorization-act-governed) is required before any ISIN or exchange-scoped symbol could resolve it."
+    },
+    {
+      "rowIndex": 9,
+      "sourceName": "BHARAT COKING COAL",
+      "governedCorpusProbe": {
+        "companyNameExactNormalized": null,
+        "listingSymbolExactNormalized": null,
+        "nseSymbolExactNormalized": null,
+        "bseSymbolExactNormalized": null
+      },
+      "presentInGovernedD05Corpus": false,
+      "couldDetailedExportResolveAgainstCurrentCorpus": false,
+      "preconditionIfAbsent": "A governed D05 deposition of the entity (IPD-owned, authorization-act-governed) is required before any ISIN or exchange-scoped symbol could resolve it."
+    },
+    {
+      "rowIndex": 10,
+      "sourceName": "BLUE JET HEALTHCARE",
+      "governedCorpusProbe": {
+        "companyNameExactNormalized": null,
+        "listingSymbolExactNormalized": null,
+        "nseSymbolExactNormalized": null,
+        "bseSymbolExactNormalized": null
+      },
+      "presentInGovernedD05Corpus": false,
+      "couldDetailedExportResolveAgainstCurrentCorpus": false,
+      "preconditionIfAbsent": "A governed D05 deposition of the entity (IPD-owned, authorization-act-governed) is required before any ISIN or exchange-scoped symbol could resolve it."
+    },
+    {
+      "rowIndex": 11,
+      "sourceName": "CANARA ROBECO ASSET MANAGEMENT COMPANY",
+      "governedCorpusProbe": {
+        "companyNameExactNormalized": null,
+        "listingSymbolExactNormalized": null,
+        "nseSymbolExactNormalized": null,
+        "bseSymbolExactNormalized": null
+      },
+      "presentInGovernedD05Corpus": false,
+      "couldDetailedExportResolveAgainstCurrentCorpus": false,
+      "preconditionIfAbsent": "A governed D05 deposition of the entity (IPD-owned, authorization-act-governed) is required before any ISIN or exchange-scoped symbol could resolve it."
+    },
+    {
+      "rowIndex": 12,
+      "sourceName": "CREDO BRANDS MARKETING (MUFTI)",
+      "governedCorpusProbe": {
+        "companyNameExactNormalized": null,
+        "listingSymbolExactNormalized": null,
+        "nseSymbolExactNormalized": null,
+        "bseSymbolExactNormalized": null
+      },
+      "presentInGovernedD05Corpus": false,
+      "couldDetailedExportResolveAgainstCurrentCorpus": false,
+      "preconditionIfAbsent": "A governed D05 deposition of the entity (IPD-owned, authorization-act-governed) is required before any ISIN or exchange-scoped symbol could resolve it."
+    },
+    {
+      "rowIndex": 13,
+      "sourceName": "DAM CAPITAL ADVISORS",
+      "governedCorpusProbe": {
+        "companyNameExactNormalized": null,
+        "listingSymbolExactNormalized": null,
+        "nseSymbolExactNormalized": null,
+        "bseSymbolExactNormalized": null
+      },
+      "presentInGovernedD05Corpus": false,
+      "couldDetailedExportResolveAgainstCurrentCorpus": false,
+      "preconditionIfAbsent": "A governed D05 deposition of the entity (IPD-owned, authorization-act-governed) is required before any ISIN or exchange-scoped symbol could resolve it."
+    },
+    {
+      "rowIndex": 14,
+      "sourceName": "ECOS MOBILITY & HOSPITALITY",
+      "governedCorpusProbe": {
+        "companyNameExactNormalized": null,
+        "listingSymbolExactNormalized": null,
+        "nseSymbolExactNormalized": null,
+        "bseSymbolExactNormalized": null
+      },
+      "presentInGovernedD05Corpus": false,
+      "couldDetailedExportResolveAgainstCurrentCorpus": false,
+      "preconditionIfAbsent": "A governed D05 deposition of the entity (IPD-owned, authorization-act-governed) is required before any ISIN or exchange-scoped symbol could resolve it."
+    },
+    {
+      "rowIndex": 15,
+      "sourceName": "EMS",
+      "governedCorpusProbe": {
+        "companyNameExactNormalized": null,
+        "listingSymbolExactNormalized": null,
+        "nseSymbolExactNormalized": null,
+        "bseSymbolExactNormalized": null
+      },
+      "presentInGovernedD05Corpus": false,
+      "couldDetailedExportResolveAgainstCurrentCorpus": false,
+      "preconditionIfAbsent": "A governed D05 deposition of the entity (IPD-owned, authorization-act-governed) is required before any ISIN or exchange-scoped symbol could resolve it."
+    },
+    {
+      "rowIndex": 16,
+      "sourceName": "EPACK PREFAB TECHNOLOGIES",
+      "governedCorpusProbe": {
+        "companyNameExactNormalized": null,
+        "listingSymbolExactNormalized": null,
+        "nseSymbolExactNormalized": null,
+        "bseSymbolExactNormalized": null
+      },
+      "presentInGovernedD05Corpus": false,
+      "couldDetailedExportResolveAgainstCurrentCorpus": false,
+      "preconditionIfAbsent": "A governed D05 deposition of the entity (IPD-owned, authorization-act-governed) is required before any ISIN or exchange-scoped symbol could resolve it."
+    },
+    {
+      "rowIndex": 17,
+      "sourceName": "ELECON ENGINEERING COMPANY",
+      "governedCorpusProbe": {
+        "companyNameExactNormalized": null,
+        "listingSymbolExactNormalized": null,
+        "nseSymbolExactNormalized": null,
+        "bseSymbolExactNormalized": null
+      },
+      "presentInGovernedD05Corpus": false,
+      "couldDetailedExportResolveAgainstCurrentCorpus": false,
+      "preconditionIfAbsent": "A governed D05 deposition of the entity (IPD-owned, authorization-act-governed) is required before any ISIN or exchange-scoped symbol could resolve it."
+    },
+    {
+      "rowIndex": 18,
+      "sourceName": "EMAMI",
+      "governedCorpusProbe": {
+        "companyNameExactNormalized": null,
+        "listingSymbolExactNormalized": null,
+        "nseSymbolExactNormalized": null,
+        "bseSymbolExactNormalized": null
+      },
+      "presentInGovernedD05Corpus": false,
+      "couldDetailedExportResolveAgainstCurrentCorpus": false,
+      "preconditionIfAbsent": "A governed D05 deposition of the entity (IPD-owned, authorization-act-governed) is required before any ISIN or exchange-scoped symbol could resolve it."
+    },
+    {
+      "rowIndex": 19,
+      "sourceName": "ENGINEERS INDIA",
+      "governedCorpusProbe": {
+        "companyNameExactNormalized": null,
+        "listingSymbolExactNormalized": null,
+        "nseSymbolExactNormalized": null,
+        "bseSymbolExactNormalized": null
+      },
+      "presentInGovernedD05Corpus": false,
+      "couldDetailedExportResolveAgainstCurrentCorpus": false,
+      "preconditionIfAbsent": "A governed D05 deposition of the entity (IPD-owned, authorization-act-governed) is required before any ISIN or exchange-scoped symbol could resolve it."
+    },
+    {
+      "rowIndex": 20,
+      "sourceName": "FINEOTEX CHEMICAL",
+      "governedCorpusProbe": {
+        "companyNameExactNormalized": null,
+        "listingSymbolExactNormalized": null,
+        "nseSymbolExactNormalized": null,
+        "bseSymbolExactNormalized": null
+      },
+      "presentInGovernedD05Corpus": false,
+      "couldDetailedExportResolveAgainstCurrentCorpus": false,
+      "preconditionIfAbsent": "A governed D05 deposition of the entity (IPD-owned, authorization-act-governed) is required before any ISIN or exchange-scoped symbol could resolve it."
+    },
+    {
+      "rowIndex": 21,
+      "sourceName": "GHCL",
+      "governedCorpusProbe": {
+        "companyNameExactNormalized": null,
+        "listingSymbolExactNormalized": null,
+        "nseSymbolExactNormalized": null,
+        "bseSymbolExactNormalized": null
+      },
+      "presentInGovernedD05Corpus": false,
+      "couldDetailedExportResolveAgainstCurrentCorpus": false,
+      "preconditionIfAbsent": "A governed D05 deposition of the entity (IPD-owned, authorization-act-governed) is required before any ISIN or exchange-scoped symbol could resolve it."
+    },
+    {
+      "rowIndex": 22,
+      "sourceName": "GMR POWER & URBAN INFRA",
+      "governedCorpusProbe": {
+        "companyNameExactNormalized": null,
+        "listingSymbolExactNormalized": null,
+        "nseSymbolExactNormalized": null,
+        "bseSymbolExactNormalized": null
+      },
+      "presentInGovernedD05Corpus": false,
+      "couldDetailedExportResolveAgainstCurrentCorpus": false,
+      "preconditionIfAbsent": "A governed D05 deposition of the entity (IPD-owned, authorization-act-governed) is required before any ISIN or exchange-scoped symbol could resolve it."
+    },
+    {
+      "rowIndex": 23,
+      "sourceName": "GATEWAY DISTRIPARKS",
+      "governedCorpusProbe": {
+        "companyNameExactNormalized": null,
+        "listingSymbolExactNormalized": null,
+        "nseSymbolExactNormalized": null,
+        "bseSymbolExactNormalized": null
+      },
+      "presentInGovernedD05Corpus": false,
+      "couldDetailedExportResolveAgainstCurrentCorpus": false,
+      "preconditionIfAbsent": "A governed D05 deposition of the entity (IPD-owned, authorization-act-governed) is required before any ISIN or exchange-scoped symbol could resolve it."
+    },
+    {
+      "rowIndex": 24,
+      "sourceName": "GEEKAY WIRES",
+      "governedCorpusProbe": {
+        "companyNameExactNormalized": null,
+        "listingSymbolExactNormalized": null,
+        "nseSymbolExactNormalized": null,
+        "bseSymbolExactNormalized": null
+      },
+      "presentInGovernedD05Corpus": false,
+      "couldDetailedExportResolveAgainstCurrentCorpus": false,
+      "preconditionIfAbsent": "A governed D05 deposition of the entity (IPD-owned, authorization-act-governed) is required before any ISIN or exchange-scoped symbol could resolve it."
+    },
+    {
+      "rowIndex": 25,
+      "sourceName": "GENUS POWER INFRASTRUCTURES",
+      "governedCorpusProbe": {
+        "companyNameExactNormalized": null,
+        "listingSymbolExactNormalized": null,
+        "nseSymbolExactNormalized": null,
+        "bseSymbolExactNormalized": null
+      },
+      "presentInGovernedD05Corpus": false,
+      "couldDetailedExportResolveAgainstCurrentCorpus": false,
+      "preconditionIfAbsent": "A governed D05 deposition of the entity (IPD-owned, authorization-act-governed) is required before any ISIN or exchange-scoped symbol could resolve it."
+    },
+    {
+      "rowIndex": 26,
+      "sourceName": "GRAUER & WEIL",
+      "governedCorpusProbe": {
+        "companyNameExactNormalized": null,
+        "listingSymbolExactNormalized": null,
+        "nseSymbolExactNormalized": null,
+        "bseSymbolExactNormalized": null
+      },
+      "presentInGovernedD05Corpus": false,
+      "couldDetailedExportResolveAgainstCurrentCorpus": false,
+      "preconditionIfAbsent": "A governed D05 deposition of the entity (IPD-owned, authorization-act-governed) is required before any ISIN or exchange-scoped symbol could resolve it."
+    },
+    {
+      "rowIndex": 27,
+      "sourceName": "GUJARAT PIPAVAV PORT",
+      "governedCorpusProbe": {
+        "companyNameExactNormalized": null,
+        "listingSymbolExactNormalized": null,
+        "nseSymbolExactNormalized": null,
+        "bseSymbolExactNormalized": null
+      },
+      "presentInGovernedD05Corpus": false,
+      "couldDetailedExportResolveAgainstCurrentCorpus": false,
+      "preconditionIfAbsent": "A governed D05 deposition of the entity (IPD-owned, authorization-act-governed) is required before any ISIN or exchange-scoped symbol could resolve it."
+    },
+    {
+      "rowIndex": 28,
+      "sourceName": "HIMADRI SPECIALITY CHEMICAL",
+      "governedCorpusProbe": {
+        "companyNameExactNormalized": null,
+        "listingSymbolExactNormalized": null,
+        "nseSymbolExactNormalized": null,
+        "bseSymbolExactNormalized": null
+      },
+      "presentInGovernedD05Corpus": false,
+      "couldDetailedExportResolveAgainstCurrentCorpus": false,
+      "preconditionIfAbsent": "A governed D05 deposition of the entity (IPD-owned, authorization-act-governed) is required before any ISIN or exchange-scoped symbol could resolve it."
+    },
+    {
+      "rowIndex": 29,
+      "sourceName": "IDFC FIRST BANK",
+      "governedCorpusProbe": {
+        "companyNameExactNormalized": null,
+        "listingSymbolExactNormalized": null,
+        "nseSymbolExactNormalized": null,
+        "bseSymbolExactNormalized": null
+      },
+      "presentInGovernedD05Corpus": false,
+      "couldDetailedExportResolveAgainstCurrentCorpus": false,
+      "preconditionIfAbsent": "A governed D05 deposition of the entity (IPD-owned, authorization-act-governed) is required before any ISIN or exchange-scoped symbol could resolve it."
+    },
+    {
+      "rowIndex": 30,
+      "sourceName": "IIFL CAPITAL SERVICES",
+      "governedCorpusProbe": {
+        "companyNameExactNormalized": null,
+        "listingSymbolExactNormalized": null,
+        "nseSymbolExactNormalized": null,
+        "bseSymbolExactNormalized": null
+      },
+      "presentInGovernedD05Corpus": false,
+      "couldDetailedExportResolveAgainstCurrentCorpus": false,
+      "preconditionIfAbsent": "A governed D05 deposition of the entity (IPD-owned, authorization-act-governed) is required before any ISIN or exchange-scoped symbol could resolve it."
+    },
+    {
+      "rowIndex": 31,
+      "sourceName": "INDRAPRASTHA MEDICAL CORPORATION",
+      "governedCorpusProbe": {
+        "companyNameExactNormalized": null,
+        "listingSymbolExactNormalized": null,
+        "nseSymbolExactNormalized": null,
+        "bseSymbolExactNormalized": null
+      },
+      "presentInGovernedD05Corpus": false,
+      "couldDetailedExportResolveAgainstCurrentCorpus": false,
+      "preconditionIfAbsent": "A governed D05 deposition of the entity (IPD-owned, authorization-act-governed) is required before any ISIN or exchange-scoped symbol could resolve it."
+    },
+    {
+      "rowIndex": 32,
+      "sourceName": "INTERNATIONAL CONVEYORS",
+      "governedCorpusProbe": {
+        "companyNameExactNormalized": null,
+        "listingSymbolExactNormalized": null,
+        "nseSymbolExactNormalized": null,
+        "bseSymbolExactNormalized": null
+      },
+      "presentInGovernedD05Corpus": false,
+      "couldDetailedExportResolveAgainstCurrentCorpus": false,
+      "preconditionIfAbsent": "A governed D05 deposition of the entity (IPD-owned, authorization-act-governed) is required before any ISIN or exchange-scoped symbol could resolve it."
+    },
+    {
+      "rowIndex": 33,
+      "sourceName": "INTERNATIONAL GEMOLOGICAL INSTITUTE",
+      "governedCorpusProbe": {
+        "companyNameExactNormalized": null,
+        "listingSymbolExactNormalized": null,
+        "nseSymbolExactNormalized": null,
+        "bseSymbolExactNormalized": null
+      },
+      "presentInGovernedD05Corpus": false,
+      "couldDetailedExportResolveAgainstCurrentCorpus": false,
+      "preconditionIfAbsent": "A governed D05 deposition of the entity (IPD-owned, authorization-act-governed) is required before any ISIN or exchange-scoped symbol could resolve it."
+    },
+    {
+      "rowIndex": 34,
+      "sourceName": "J KUMAR INFRAPROJECTS",
+      "governedCorpusProbe": {
+        "companyNameExactNormalized": null,
+        "listingSymbolExactNormalized": null,
+        "nseSymbolExactNormalized": null,
+        "bseSymbolExactNormalized": null
+      },
+      "presentInGovernedD05Corpus": false,
+      "couldDetailedExportResolveAgainstCurrentCorpus": false,
+      "preconditionIfAbsent": "A governed D05 deposition of the entity (IPD-owned, authorization-act-governed) is required before any ISIN or exchange-scoped symbol could resolve it."
+    },
+    {
+      "rowIndex": 35,
+      "sourceName": "JAI BALAJI INDUSTRIES",
+      "governedCorpusProbe": {
+        "companyNameExactNormalized": null,
+        "listingSymbolExactNormalized": null,
+        "nseSymbolExactNormalized": null,
+        "bseSymbolExactNormalized": null
+      },
+      "presentInGovernedD05Corpus": false,
+      "couldDetailedExportResolveAgainstCurrentCorpus": false,
+      "preconditionIfAbsent": "A governed D05 deposition of the entity (IPD-owned, authorization-act-governed) is required before any ISIN or exchange-scoped symbol could resolve it."
+    },
+    {
+      "rowIndex": 36,
+      "sourceName": "JAMNA AUTO INDUSTRIES",
+      "governedCorpusProbe": {
+        "companyNameExactNormalized": null,
+        "listingSymbolExactNormalized": null,
+        "nseSymbolExactNormalized": null,
+        "bseSymbolExactNormalized": null
+      },
+      "presentInGovernedD05Corpus": false,
+      "couldDetailedExportResolveAgainstCurrentCorpus": false,
+      "preconditionIfAbsent": "A governed D05 deposition of the entity (IPD-owned, authorization-act-governed) is required before any ISIN or exchange-scoped symbol could resolve it."
+    },
+    {
+      "rowIndex": 37,
+      "sourceName": "JIO PLATFORMS",
+      "governedCorpusProbe": {
+        "companyNameExactNormalized": null,
+        "listingSymbolExactNormalized": null,
+        "nseSymbolExactNormalized": null,
+        "bseSymbolExactNormalized": null
+      },
+      "presentInGovernedD05Corpus": false,
+      "couldDetailedExportResolveAgainstCurrentCorpus": false,
+      "preconditionIfAbsent": "A governed D05 deposition of the entity (IPD-owned, authorization-act-governed) is required before any ISIN or exchange-scoped symbol could resolve it."
+    },
+    {
+      "rowIndex": 38,
+      "sourceName": "KM SUGAR MILLS",
+      "governedCorpusProbe": {
+        "companyNameExactNormalized": null,
+        "listingSymbolExactNormalized": null,
+        "nseSymbolExactNormalized": null,
+        "bseSymbolExactNormalized": null
+      },
+      "presentInGovernedD05Corpus": false,
+      "couldDetailedExportResolveAgainstCurrentCorpus": false,
+      "preconditionIfAbsent": "A governed D05 deposition of the entity (IPD-owned, authorization-act-governed) is required before any ISIN or exchange-scoped symbol could resolve it."
+    },
+    {
+      "rowIndex": 39,
+      "sourceName": "KP ENERGY",
+      "governedCorpusProbe": {
+        "companyNameExactNormalized": null,
+        "listingSymbolExactNormalized": null,
+        "nseSymbolExactNormalized": null,
+        "bseSymbolExactNormalized": null
+      },
+      "presentInGovernedD05Corpus": false,
+      "couldDetailedExportResolveAgainstCurrentCorpus": false,
+      "preconditionIfAbsent": "A governed D05 deposition of the entity (IPD-owned, authorization-act-governed) is required before any ISIN or exchange-scoped symbol could resolve it."
+    },
+    {
+      "rowIndex": 40,
+      "sourceName": "KROSS",
+      "governedCorpusProbe": {
+        "companyNameExactNormalized": null,
+        "listingSymbolExactNormalized": null,
+        "nseSymbolExactNormalized": null,
+        "bseSymbolExactNormalized": null
+      },
+      "presentInGovernedD05Corpus": false,
+      "couldDetailedExportResolveAgainstCurrentCorpus": false,
+      "preconditionIfAbsent": "A governed D05 deposition of the entity (IPD-owned, authorization-act-governed) is required before any ISIN or exchange-scoped symbol could resolve it."
+    },
+    {
+      "rowIndex": 41,
+      "sourceName": "LANDMARK CARS",
+      "governedCorpusProbe": {
+        "companyNameExactNormalized": null,
+        "listingSymbolExactNormalized": null,
+        "nseSymbolExactNormalized": null,
+        "bseSymbolExactNormalized": null
+      },
+      "presentInGovernedD05Corpus": false,
+      "couldDetailedExportResolveAgainstCurrentCorpus": false,
+      "preconditionIfAbsent": "A governed D05 deposition of the entity (IPD-owned, authorization-act-governed) is required before any ISIN or exchange-scoped symbol could resolve it."
+    },
+    {
+      "rowIndex": 42,
+      "sourceName": "MATRIMONY.COM",
+      "governedCorpusProbe": {
+        "companyNameExactNormalized": null,
+        "listingSymbolExactNormalized": null,
+        "nseSymbolExactNormalized": null,
+        "bseSymbolExactNormalized": null
+      },
+      "presentInGovernedD05Corpus": false,
+      "couldDetailedExportResolveAgainstCurrentCorpus": false,
+      "preconditionIfAbsent": "A governed D05 deposition of the entity (IPD-owned, authorization-act-governed) is required before any ISIN or exchange-scoped symbol could resolve it."
+    },
+    {
+      "rowIndex": 43,
+      "sourceName": "MONARCH NETWORTH CAPITAL",
+      "governedCorpusProbe": {
+        "companyNameExactNormalized": null,
+        "listingSymbolExactNormalized": null,
+        "nseSymbolExactNormalized": null,
+        "bseSymbolExactNormalized": null
+      },
+      "presentInGovernedD05Corpus": false,
+      "couldDetailedExportResolveAgainstCurrentCorpus": false,
+      "preconditionIfAbsent": "A governed D05 deposition of the entity (IPD-owned, authorization-act-governed) is required before any ISIN or exchange-scoped symbol could resolve it."
+    },
+    {
+      "rowIndex": 44,
+      "sourceName": "NATIONAL STOCK EXCHANGE OF INDIA",
+      "governedCorpusProbe": {
+        "companyNameExactNormalized": null,
+        "listingSymbolExactNormalized": null,
+        "nseSymbolExactNormalized": null,
+        "bseSymbolExactNormalized": null
+      },
+      "presentInGovernedD05Corpus": false,
+      "couldDetailedExportResolveAgainstCurrentCorpus": false,
+      "preconditionIfAbsent": "A governed D05 deposition of the entity (IPD-owned, authorization-act-governed) is required before any ISIN or exchange-scoped symbol could resolve it."
+    },
+    {
+      "rowIndex": 45,
+      "sourceName": "OSWAL PUMPS",
+      "governedCorpusProbe": {
+        "companyNameExactNormalized": null,
+        "listingSymbolExactNormalized": null,
+        "nseSymbolExactNormalized": null,
+        "bseSymbolExactNormalized": null
+      },
+      "presentInGovernedD05Corpus": false,
+      "couldDetailedExportResolveAgainstCurrentCorpus": false,
+      "preconditionIfAbsent": "A governed D05 deposition of the entity (IPD-owned, authorization-act-governed) is required before any ISIN or exchange-scoped symbol could resolve it."
+    },
+    {
+      "rowIndex": 46,
+      "sourceName": "PANAMA PETROCHEM",
+      "governedCorpusProbe": {
+        "companyNameExactNormalized": null,
+        "listingSymbolExactNormalized": null,
+        "nseSymbolExactNormalized": null,
+        "bseSymbolExactNormalized": null
+      },
+      "presentInGovernedD05Corpus": false,
+      "couldDetailedExportResolveAgainstCurrentCorpus": false,
+      "preconditionIfAbsent": "A governed D05 deposition of the entity (IPD-owned, authorization-act-governed) is required before any ISIN or exchange-scoped symbol could resolve it."
+    },
+    {
+      "rowIndex": 47,
+      "sourceName": "PARADEEP PHOSPHATES",
+      "governedCorpusProbe": {
+        "companyNameExactNormalized": null,
+        "listingSymbolExactNormalized": null,
+        "nseSymbolExactNormalized": null,
+        "bseSymbolExactNormalized": null
+      },
+      "presentInGovernedD05Corpus": false,
+      "couldDetailedExportResolveAgainstCurrentCorpus": false,
+      "preconditionIfAbsent": "A governed D05 deposition of the entity (IPD-owned, authorization-act-governed) is required before any ISIN or exchange-scoped symbol could resolve it."
+    },
+    {
+      "rowIndex": 48,
+      "sourceName": "PRECISION WIRES INDIA",
+      "governedCorpusProbe": {
+        "companyNameExactNormalized": null,
+        "listingSymbolExactNormalized": null,
+        "nseSymbolExactNormalized": null,
+        "bseSymbolExactNormalized": null
+      },
+      "presentInGovernedD05Corpus": false,
+      "couldDetailedExportResolveAgainstCurrentCorpus": false,
+      "preconditionIfAbsent": "A governed D05 deposition of the entity (IPD-owned, authorization-act-governed) is required before any ISIN or exchange-scoped symbol could resolve it."
+    },
+    {
+      "rowIndex": 49,
+      "sourceName": "PREMIER POLYFILM",
+      "governedCorpusProbe": {
+        "companyNameExactNormalized": null,
+        "listingSymbolExactNormalized": null,
+        "nseSymbolExactNormalized": null,
+        "bseSymbolExactNormalized": null
+      },
+      "presentInGovernedD05Corpus": false,
+      "couldDetailedExportResolveAgainstCurrentCorpus": false,
+      "preconditionIfAbsent": "A governed D05 deposition of the entity (IPD-owned, authorization-act-governed) is required before any ISIN or exchange-scoped symbol could resolve it."
+    },
+    {
+      "rowIndex": 50,
+      "sourceName": "PUDUMJEE PAPER PRODUCTS",
+      "governedCorpusProbe": {
+        "companyNameExactNormalized": null,
+        "listingSymbolExactNormalized": null,
+        "nseSymbolExactNormalized": null,
+        "bseSymbolExactNormalized": null
+      },
+      "presentInGovernedD05Corpus": false,
+      "couldDetailedExportResolveAgainstCurrentCorpus": false,
+      "preconditionIfAbsent": "A governed D05 deposition of the entity (IPD-owned, authorization-act-governed) is required before any ISIN or exchange-scoped symbol could resolve it."
+    },
+    {
+      "rowIndex": 51,
+      "sourceName": "RADHIKA JEWELTECH",
+      "governedCorpusProbe": {
+        "companyNameExactNormalized": null,
+        "listingSymbolExactNormalized": null,
+        "nseSymbolExactNormalized": null,
+        "bseSymbolExactNormalized": null
+      },
+      "presentInGovernedD05Corpus": false,
+      "couldDetailedExportResolveAgainstCurrentCorpus": false,
+      "preconditionIfAbsent": "A governed D05 deposition of the entity (IPD-owned, authorization-act-governed) is required before any ISIN or exchange-scoped symbol could resolve it."
+    },
+    {
+      "rowIndex": 52,
+      "sourceName": "RAJOO ENGINEERS",
+      "governedCorpusProbe": {
+        "companyNameExactNormalized": null,
+        "listingSymbolExactNormalized": null,
+        "nseSymbolExactNormalized": null,
+        "bseSymbolExactNormalized": null
+      },
+      "presentInGovernedD05Corpus": false,
+      "couldDetailedExportResolveAgainstCurrentCorpus": false,
+      "preconditionIfAbsent": "A governed D05 deposition of the entity (IPD-owned, authorization-act-governed) is required before any ISIN or exchange-scoped symbol could resolve it."
+    },
+    {
+      "rowIndex": 53,
+      "sourceName": "RATEGAIN TRAVEL",
+      "governedCorpusProbe": {
+        "companyNameExactNormalized": null,
+        "listingSymbolExactNormalized": null,
+        "nseSymbolExactNormalized": null,
+        "bseSymbolExactNormalized": null
+      },
+      "presentInGovernedD05Corpus": false,
+      "couldDetailedExportResolveAgainstCurrentCorpus": false,
+      "preconditionIfAbsent": "A governed D05 deposition of the entity (IPD-owned, authorization-act-governed) is required before any ISIN or exchange-scoped symbol could resolve it."
+    },
+    {
+      "rowIndex": 54,
+      "sourceName": "SALASAR TECHNO ENGINEERING",
+      "governedCorpusProbe": {
+        "companyNameExactNormalized": null,
+        "listingSymbolExactNormalized": null,
+        "nseSymbolExactNormalized": null,
+        "bseSymbolExactNormalized": null
+      },
+      "presentInGovernedD05Corpus": false,
+      "couldDetailedExportResolveAgainstCurrentCorpus": false,
+      "preconditionIfAbsent": "A governed D05 deposition of the entity (IPD-owned, authorization-act-governed) is required before any ISIN or exchange-scoped symbol could resolve it."
+    },
+    {
+      "rowIndex": 55,
+      "sourceName": "SHAKTI PUMPS",
+      "governedCorpusProbe": {
+        "companyNameExactNormalized": null,
+        "listingSymbolExactNormalized": null,
+        "nseSymbolExactNormalized": null,
+        "bseSymbolExactNormalized": null
+      },
+      "presentInGovernedD05Corpus": false,
+      "couldDetailedExportResolveAgainstCurrentCorpus": false,
+      "preconditionIfAbsent": "A governed D05 deposition of the entity (IPD-owned, authorization-act-governed) is required before any ISIN or exchange-scoped symbol could resolve it."
+    },
+    {
+      "rowIndex": 56,
+      "sourceName": "SHARDA MOTOR",
+      "governedCorpusProbe": {
+        "companyNameExactNormalized": null,
+        "listingSymbolExactNormalized": null,
+        "nseSymbolExactNormalized": null,
+        "bseSymbolExactNormalized": null
+      },
+      "presentInGovernedD05Corpus": false,
+      "couldDetailedExportResolveAgainstCurrentCorpus": false,
+      "preconditionIfAbsent": "A governed D05 deposition of the entity (IPD-owned, authorization-act-governed) is required before any ISIN or exchange-scoped symbol could resolve it."
+    },
+    {
+      "rowIndex": 57,
+      "sourceName": "SIGMA SOLVE",
+      "governedCorpusProbe": {
+        "companyNameExactNormalized": null,
+        "listingSymbolExactNormalized": null,
+        "nseSymbolExactNormalized": null,
+        "bseSymbolExactNormalized": null
+      },
+      "presentInGovernedD05Corpus": false,
+      "couldDetailedExportResolveAgainstCurrentCorpus": false,
+      "preconditionIfAbsent": "A governed D05 deposition of the entity (IPD-owned, authorization-act-governed) is required before any ISIN or exchange-scoped symbol could resolve it."
+    },
+    {
+      "rowIndex": 58,
+      "sourceName": "SIYARAM SILK MILLS",
+      "governedCorpusProbe": {
+        "companyNameExactNormalized": null,
+        "listingSymbolExactNormalized": null,
+        "nseSymbolExactNormalized": null,
+        "bseSymbolExactNormalized": null
+      },
+      "presentInGovernedD05Corpus": false,
+      "couldDetailedExportResolveAgainstCurrentCorpus": false,
+      "preconditionIfAbsent": "A governed D05 deposition of the entity (IPD-owned, authorization-act-governed) is required before any ISIN or exchange-scoped symbol could resolve it."
+    },
+    {
+      "rowIndex": 59,
+      "sourceName": "STEELCAST",
+      "governedCorpusProbe": {
+        "companyNameExactNormalized": null,
+        "listingSymbolExactNormalized": null,
+        "nseSymbolExactNormalized": null,
+        "bseSymbolExactNormalized": null
+      },
+      "presentInGovernedD05Corpus": false,
+      "couldDetailedExportResolveAgainstCurrentCorpus": false,
+      "preconditionIfAbsent": "A governed D05 deposition of the entity (IPD-owned, authorization-act-governed) is required before any ISIN or exchange-scoped symbol could resolve it."
+    },
+    {
+      "rowIndex": 60,
+      "sourceName": "SUZLON ENERGY",
+      "governedCorpusProbe": {
+        "companyNameExactNormalized": null,
+        "listingSymbolExactNormalized": null,
+        "nseSymbolExactNormalized": null,
+        "bseSymbolExactNormalized": null
+      },
+      "presentInGovernedD05Corpus": false,
+      "couldDetailedExportResolveAgainstCurrentCorpus": false,
+      "preconditionIfAbsent": "A governed D05 deposition of the entity (IPD-owned, authorization-act-governed) is required before any ISIN or exchange-scoped symbol could resolve it."
+    },
+    {
+      "rowIndex": 61,
+      "sourceName": "THYROCARE TECHNOLOGIES",
+      "governedCorpusProbe": {
+        "companyNameExactNormalized": null,
+        "listingSymbolExactNormalized": null,
+        "nseSymbolExactNormalized": null,
+        "bseSymbolExactNormalized": null
+      },
+      "presentInGovernedD05Corpus": false,
+      "couldDetailedExportResolveAgainstCurrentCorpus": false,
+      "preconditionIfAbsent": "A governed D05 deposition of the entity (IPD-owned, authorization-act-governed) is required before any ISIN or exchange-scoped symbol could resolve it."
+    },
+    {
+      "rowIndex": 62,
+      "sourceName": "TITAGARH RAIL SYSTEMS",
+      "governedCorpusProbe": {
+        "companyNameExactNormalized": null,
+        "listingSymbolExactNormalized": null,
+        "nseSymbolExactNormalized": null,
+        "bseSymbolExactNormalized": null
+      },
+      "presentInGovernedD05Corpus": false,
+      "couldDetailedExportResolveAgainstCurrentCorpus": false,
+      "preconditionIfAbsent": "A governed D05 deposition of the entity (IPD-owned, authorization-act-governed) is required before any ISIN or exchange-scoped symbol could resolve it."
+    },
+    {
+      "rowIndex": 63,
+      "sourceName": "UNIVASTU",
+      "governedCorpusProbe": {
+        "companyNameExactNormalized": null,
+        "listingSymbolExactNormalized": null,
+        "nseSymbolExactNormalized": null,
+        "bseSymbolExactNormalized": null
+      },
+      "presentInGovernedD05Corpus": false,
+      "couldDetailedExportResolveAgainstCurrentCorpus": false,
+      "preconditionIfAbsent": "A governed D05 deposition of the entity (IPD-owned, authorization-act-governed) is required before any ISIN or exchange-scoped symbol could resolve it."
+    },
+    {
+      "rowIndex": 64,
+      "sourceName": "VARDHMAN SPECIAL STEELS",
+      "governedCorpusProbe": {
+        "companyNameExactNormalized": null,
+        "listingSymbolExactNormalized": null,
+        "nseSymbolExactNormalized": null,
+        "bseSymbolExactNormalized": null
+      },
+      "presentInGovernedD05Corpus": false,
+      "couldDetailedExportResolveAgainstCurrentCorpus": false,
+      "preconditionIfAbsent": "A governed D05 deposition of the entity (IPD-owned, authorization-act-governed) is required before any ISIN or exchange-scoped symbol could resolve it."
+    },
+    {
+      "rowIndex": 65,
+      "sourceName": "VISHAL MEGA MART",
+      "governedCorpusProbe": {
+        "companyNameExactNormalized": null,
+        "listingSymbolExactNormalized": null,
+        "nseSymbolExactNormalized": null,
+        "bseSymbolExactNormalized": null
+      },
+      "presentInGovernedD05Corpus": false,
+      "couldDetailedExportResolveAgainstCurrentCorpus": false,
+      "preconditionIfAbsent": "A governed D05 deposition of the entity (IPD-owned, authorization-act-governed) is required before any ISIN or exchange-scoped symbol could resolve it."
+    },
+    {
+      "rowIndex": 66,
+      "sourceName": "VISHNU CHEMICALS",
+      "governedCorpusProbe": {
+        "companyNameExactNormalized": null,
+        "listingSymbolExactNormalized": null,
+        "nseSymbolExactNormalized": null,
+        "bseSymbolExactNormalized": null
+      },
+      "presentInGovernedD05Corpus": false,
+      "couldDetailedExportResolveAgainstCurrentCorpus": false,
+      "preconditionIfAbsent": "A governed D05 deposition of the entity (IPD-owned, authorization-act-governed) is required before any ISIN or exchange-scoped symbol could resolve it."
+    },
+    {
+      "rowIndex": 67,
+      "sourceName": "WAAREE RENEWABLE TECHNOLOGIES",
+      "governedCorpusProbe": {
+        "companyNameExactNormalized": null,
+        "listingSymbolExactNormalized": null,
+        "nseSymbolExactNormalized": null,
+        "bseSymbolExactNormalized": null
+      },
+      "presentInGovernedD05Corpus": false,
+      "couldDetailedExportResolveAgainstCurrentCorpus": false,
+      "preconditionIfAbsent": "A governed D05 deposition of the entity (IPD-owned, authorization-act-governed) is required before any ISIN or exchange-scoped symbol could resolve it."
+    },
+    {
+      "rowIndex": 68,
+      "sourceName": "WEBSOL ENERGY SYSTEM",
+      "governedCorpusProbe": {
+        "companyNameExactNormalized": null,
+        "listingSymbolExactNormalized": null,
+        "nseSymbolExactNormalized": null,
+        "bseSymbolExactNormalized": null
+      },
+      "presentInGovernedD05Corpus": false,
+      "couldDetailedExportResolveAgainstCurrentCorpus": false,
+      "preconditionIfAbsent": "A governed D05 deposition of the entity (IPD-owned, authorization-act-governed) is required before any ISIN or exchange-scoped symbol could resolve it."
+    }
+  ]
+}

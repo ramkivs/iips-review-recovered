@@ -39,7 +39,37 @@ const retained = store.retain(record);
 
 // Immediate read-back through the durable journal (not from memory).
 const readBack = store.read(tenantId, ownerUserId, retained.recordId);
-if (readBack.recordDigest !== record.recordDigest) fail('read-back digest mismatch');
+
+/**
+ * Which record is authoritative for the digest comparison.
+ *
+ * On a FIRST retention the freshly built record must round-trip byte-for-byte, so its digest is
+ * the expectation. On a DUPLICATE retention the journal is authoritative and returns the record
+ * retained by the earlier process: the freshly built record cannot be expected to reproduce the
+ * P04 quarantine record ids, which the IPD-owned pipeline mints per lookup instance
+ * (`ident-quar-<epochMillis>-<random>`). Requiring equality there would be asserting a false
+ * property, so the duplicate path compares against the retained record AND additionally proves
+ * that every stable field of the freshly built record still matches what is durably stored.
+ */
+const expected = retained.duplicate ? retained.record : record;
+if (readBack.recordDigest !== expected.recordDigest) fail('read-back digest mismatch');
+
+if (retained.duplicate) {
+  const stableProjection = (r: typeof record): string => {
+    // `recordDigest` is excluded because it is derived from the volatile quarantine ids, and those
+    // ids are excluded because the IPD-owned pipeline mints them per lookup instance. Everything
+    // else — the row inventory, the counts, the refusal codes, the digest, the reconciliation —
+    // must be identical between the retained record and a freshly rebuilt one.
+    const { recordDigest: _recordDigest, ...stable } = r;
+    return JSON.stringify({
+      ...stable,
+      rows: stable.rows.map(({ quarantineIds: _quarantineIds, ...rest }) => rest),
+    });
+  };
+  if (stableProjection(readBack) !== stableProjection(record)) {
+    fail('duplicate retention changed the stable evidence projection');
+  }
+}
 
 const journalPath = `${dataDir}/journal.ndjson`;
 const journalBytes = fs.existsSync(journalPath) ? fs.statSync(journalPath).size : 0;

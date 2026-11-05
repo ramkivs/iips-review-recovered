@@ -1,0 +1,73 @@
+# Authoritative remote state resolved for the WS-A dependency-pin advance
+# Captured: 2026-11-05T09:07:35Z UTC
+
+=== IPD (ramkivs/iips-production-market-data) — PR #127 ===
+number:            127
+title:             Fix Dhan broker holdings per-row identity assessment
+state:             MERGED
+baseRefName:       main
+headRefName:       arena/ws-a-dhan-68-row-identity-20261105
+headRefOid:        beb362d4ca8fb0a4f86e383d1893d031df2638a8   <- SOURCE commit (NOT the merge commit)
+mergeCommit.oid:   7bcae35ad18c43cb67a16f30faa55bbdf0fb33fc   <- MERGED commit on main
+mergedAt:          2026-11-05T08:43:30Z
+url:               https://github.com/ramkivs/iips-production-market-data/pull/127
+
+=== IPD origin/main tip (authoritative) ===
+6df748d397daf965bd5b6e6e35df5043f7fa8c4d	refs/heads/main
+
+=== IPD bare-clone ancestry checks (/tmp/ipd-probe, blobless clone of origin) ===
+main tip                                   = 7bcae35ad18c43cb67a16f30faa55bbdf0fb33fc
+merge commit of PR #127                    = 7bcae35ad18c43cb67a16f30faa55bbdf0fb33fc
+main tip == PR #127 merge commit           = YES
+merge commit parents (base, head)          = b605a61458a655bb555c6f340332fcf77a85c870 beb362d4ca8fb0a4f86e383d1893d031df2638a8
+merge commit tree oid                      = 37d3b4f3a567368df785ddf454740fae4a173446
+previous pin 70b24f0 is an ancestor        = YES
+commits between 70b24f0 and 7bcae35        = 290
+previous pin 70b24f0 commit date/subject   = 2026-10-16 00:48:23 +0530 | Merge pull request #7 from ramkivs/fix/xv-15-derived-macro-vintage-classification
+
+=== PR #127 content diff stat (b605a61 -> beb362d) ===
+ ...N-BROKER-IDENTITY-EVIDENCE-RECORD-2026-11-05.md |   75 +
+ evidence/integration/ws-a-dhan-68-row/README.md    |   35 +
+ .../dhan-web-ui-summary-68-reconstructed.csv       |   69 +
+ .../ws-a-dhan-68-row/identity-outcomes.json        | 4017 ++++++++++++++++++++
+ evidence/integration/ws-a-dhan-68-row/rows.json    | 1677 ++++++++
+ .../portfolio/import/broker-holdings-mapper.ts     |  176 +-
+ .../portfolio/import/broker-identity-assessment.ts |  365 ++
+ .../portfolio/import/broker-import-ingress.ts      |   14 +
+ frontend/src/features/portfolio/import/types.ts    |   12 +
+ tests/ws_a_dhan_broker_holdings_identity.test.ts   |  409 ++
+ 10 files changed, 6806 insertions(+), 43 deletions(-)
+
+=== broker-import module tree at the merged commit ===
+040000 tree 3085e111510c6d3ac706508705c359f91e13aeff	frontend/src/features/portfolio/import/adapters
+100644 blob 8887457bcd01679381a4f4d9cd2c57f4b6da435d	frontend/src/features/portfolio/import/broker-format-detector.ts
+100644 blob 4d0e757b39e3776ad3701e50053696bc52b07b11	frontend/src/features/portfolio/import/broker-holdings-mapper.ts
+100644 blob 401af803ca4342189afe120e256c374301e4aab2	frontend/src/features/portfolio/import/broker-identity-assessment.ts
+100644 blob c8ea9d8fa92b9f8a0ec3d67fbc5fa700e4080899	frontend/src/features/portfolio/import/broker-import-ingress.ts
+100644 blob bfe7ea856351fc48e6d97d283d4a434e0c428d80	frontend/src/features/portfolio/import/index.ts
+100644 blob 6e789eca26df0bb8e5320ca66d34aef064b8bd6d	frontend/src/features/portfolio/import/types.ts
+100644 blob 37cc9c887cece2b1d147cd5d4e84cc57f0c14cf4	frontend/src/features/portfolio/import/ui-broker-import-view-model.ts
+
+=== IPD package.json publish surface at the merged commit ===
+name    : iips-production-market-data
+version : 1.0.0
+files   : ['dist/package']
+exports : ['./portfolio-ui', './pit', './d114-non-production', './operator-drop']
+prepare : npm run build:portfolio-ui-package && npm run build:pit-package
+
+=== IPD package.json publish surface at the RETIRED pin 70b24f0 ===
+name    : iips-production-market-data
+version : 1.0.0
+files   : None
+exports : []
+
+=== IRR (ramkivs/iips-review-recovered) ===
+IRR origin/main tip at investigation       = 182580b33f9107f94d619cbfaf628fb88b67bd21
+IRR session branch                         = arena/0497f3e4-iips-review-recovered
+PR #434: WS-A: truthful Dhan identity reporting and durable import evidence | MERGED | merge 4de48dc6ae28198cf07abf0abfe4d97d7eb12561 | 2026-11-05T08:20:51Z
+PR #435: WS-A: preserve the blocked IPD correction as evidence | MERGED | merge 182580b33f9107f94d619cbfaf628fb88b67bd21 | 2026-11-05T08:21:22Z
+
+=== Broker-import dependency pin BEFORE this change (at IRR origin/main) ===
+24:    "iips-broker-import": "github:ramkivs/iips-production-market-data#70b24f029842a7e9b7f615e4d9df7376fd4ff817",
+25:    "iips-np04-governed-persistence": "github:ramkivs/iips-production-market-data#2e11fa3b689d1a3674a5e4ba1f1de9a559e20494",
+26:    "iips-production-market-data": "github:ramkivs/iips-production-market-data#279d1eed184f5e23bbabe5c6411085e120ce9e41",

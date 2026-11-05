@@ -1,3 +1,15 @@
+// WS-A pin advance — IPD PR #127 merge commit 7bcae35ad18c43cb67a16f30faa55bbdf0fb33fc.
+//
+// This project no longer COMPILES the alias's raw TypeScript sources. The merged IPD manifest
+// declares `files: ["dist/package"]`, so the installed `iips-broker-import` alias publishes only
+// built `.js` plus `.d.ts` artifacts and the former raw-source `include` set has no inputs
+// (`TS18003: No inputs were found`). `scripts/materialize-broker-import.mjs` — run first by the
+// `build:broker-import` script, and therefore by `predev` / `prebuild` / `pretest` / `pretest:ci` /
+// `pretypecheck` — materializes that published output into `.cache/broker-import`.
+//
+// This project is now the strict, fail-closed typecheck of IRR's consumption surface against the
+// pinned package's own published declarations. Identity resolution, P04 quarantine, Gate E W-1 and
+// durable holdings persistence remain IPD-owned: nothing is recompiled, re-derived or copied here.
 {
   "compilerOptions": {
     "target": "ES2022",
@@ -12,22 +24,20 @@
     ],
     "strict": true,
     "skipLibCheck": true,
-    "declaration": true,
-    "noEmitOnError": true,
-    "rootDir": "node_modules/iips-broker-import",
-    "outDir": ".cache/broker-import"
+    "noEmit": true
   },
   "include": [
-    "node_modules/iips-broker-import/frontend/src/features/portfolio/import/broker-*.ts",
-    "node_modules/iips-broker-import/frontend/src/features/portfolio/import/types.ts",
-    "node_modules/iips-broker-import/frontend/src/features/portfolio/import/adapters/*.ts",
-    "node_modules/iips-broker-import/src/identity/security_master.ts",
-    "node_modules/iips-broker-import/src/identity/mapping_store.ts",
-    "node_modules/iips-broker-import/src/identity/quarantine.ts",
-    "node_modules/iips-broker-import/src/contracts/provenance.ts",
-    "node_modules/iips-broker-import/src/contracts/types.ts",
-    "node_modules/iips-broker-import/src/identity/governed_fixture_master.ts",
-    "node_modules/iips-broker-import/src/identity/d05_broad_universe_data.ts",
-    "node_modules/iips-broker-import/src/identity/d05_listing_corrections.ts"
+    ".cache/broker-import/frontend/src/features/portfolio/import/broker-format-detector.d.ts",
+    ".cache/broker-import/frontend/src/features/portfolio/import/broker-holdings-mapper.d.ts",
+    ".cache/broker-import/frontend/src/features/portfolio/import/broker-identity-assessment.d.ts",
+    ".cache/broker-import/frontend/src/features/portfolio/import/broker-import-ingress.d.ts",
+    ".cache/broker-import/frontend/src/features/portfolio/import/types.d.ts",
+    ".cache/broker-import/src/contracts/provenance.d.ts",
+    ".cache/broker-import/src/contracts/types.d.ts",
+    ".cache/broker-import/src/identity/governed_fixture_master.d.ts",
+    ".cache/broker-import/src/identity/mapping_store.d.ts",
+    ".cache/broker-import/src/identity/quarantine.d.ts",
+    ".cache/broker-import/src/identity/security_master.d.ts",
+    "src/api/brokerHoldingsPreview.ts"
   ]
 }

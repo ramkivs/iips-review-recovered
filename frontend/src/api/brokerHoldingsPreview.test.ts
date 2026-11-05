@@ -137,9 +137,31 @@ describe('Broker preview public boundary — native evidence, never a save', () 
     const p = previewBrokerHoldings(summary.replace('RELIANCE', 'UNKNOWN_SECURITY'), 'dhan.csv', at);
     assert.equal(p.holdings[0].symbol, 'UNKNOWN_SECURITY');
     assert.equal(p.holdings[0].identityStatus, 'UNRESOLVED');
-    assert.equal(p.holdings[0].identityBasis, 'FILE_LEVEL_P04_REFUSAL');
+    // The pinned pipeline publishes an INDIVIDUAL outcome for this row, so the basis is the
+    // per-row assessment, not a file-level refusal standing in for a result that was not obtained.
+    assert.equal(p.holdings[0].identityBasis, 'PIPELINE_ASSESSED_UNRESOLVED');
+    assert.equal(p.holdings[0].pipelineIdentityStatus, 'UNRESOLVED');
+    assert.equal(p.holdings[0].identityRefusalCode, 'NO_AUTHORITATIVE_IDENTIFIER_MATCH');
+    assert.equal(p.counts.identityAssessedRows, 1);
     assert.equal(p.status, 'PARSED_UNRESOLVED');
     assert.ok(p.rejections.some((r) => r.reason === 'UNMAPPED_IDENTITY'));
+  });
+
+  it('keeps an exchange-scoped row inside its declared exchange namespace', () => {
+    // A BSE row must never be resolved (or reported) through the NSE namespace, and vice versa.
+    const bse = 'Trading Symbol,ISIN,Exchange,Total Qty,Average Buy Price,Last Traded Price\nUNKNOWN BSE ROW,,BSE,2,100,120';
+    const nse = 'Trading Symbol,ISIN,Exchange,Total Qty,Average Buy Price,Last Traded Price\nUNKNOWN NSE ROW,,NSE,2,100,120';
+    const bsePreview = previewBrokerHoldings(bse, 'dhan-detailed.csv', at);
+    assert.equal(bsePreview.holdings[0].identifierClass, 'EXCHANGE_SCOPED_SYMBOL');
+    assert.deepEqual(bsePreview.holdings[0].lookups.map((l) => l.identifierType), ['BSE_SYMBOL']);
+    assert.equal(bsePreview.holdings[0].identityRefusalCode, 'UNMAPPED_IDENTIFIER');
+    const nsePreview = previewBrokerHoldings(nse, 'dhan-detailed.csv', at);
+    assert.deepEqual(nsePreview.holdings[0].lookups.map((l) => l.identifierType), ['NSE_SYMBOL']);
+    // An ISIN row queries the ISIN namespace alone.
+    const isinOnly = 'Trading Symbol,ISIN,Exchange,Total Qty,Average Buy Price,Last Traded Price\nSOME ROW,INE999Z99999,NSE,2,100,120';
+    const isinPreview = previewBrokerHoldings(isinOnly, 'dhan-detailed.csv', at);
+    assert.equal(isinPreview.holdings[0].identifierClass, 'ISIN');
+    assert.deepEqual(isinPreview.holdings[0].lookups.map((l) => l.identifierType), ['ISIN']);
   });
 
   it('rejects empty and unknown formats, blocks XLSX rather than faking success', () => {
@@ -200,24 +222,86 @@ describe('Broker preview public boundary — native evidence, never a save', () 
       assert.equal(p.holdings.every((h) => h.exchange === null), true);
     });
 
-    it('reports PARSED_UNRESOLVED without claiming a per-row lookup result it did not obtain', () => {
+    it('individually assesses all 68 rows before the single whole-import refusal', () => {
       assert.equal(p.status, 'PARSED_UNRESOLVED');
-      assert.equal(p.counts.identityAssessedRows, 0, 'the pinned pipeline publishes no per-row outcome when it refuses');
-      assert.equal(p.counts.identityResolvedRows, 0);
-      assert.equal(p.counts.identityUnresolvedRows, 68);
+      assert.equal(p.perRowIdentityEvidencePublished, true);
+      assert.equal(p.counts.nativeRows, 68);
+      assert.equal(p.counts.identityAssessedRows, 68, 'every native row must carry an individual outcome');
+      assert.equal(p.counts.identityResolvedRows, 1);
+      assert.equal(p.counts.identityUnresolvedRows, 67);
       assert.equal(p.counts.savedRows, 0);
-      assert.equal(p.holdings.every((h) => h.identityStatus === 'UNRESOLVED'), true);
-      assert.equal(p.holdings.every((h) => h.identityBasis === 'FILE_LEVEL_P04_REFUSAL'), true);
+      assert.equal(p.holdings.every((h) => h.pipelineIdentityStatus !== null), true);
+      assert.equal(p.holdings.filter((h) => h.identityStatus === 'RESOLVED').length, 1);
+      assert.equal(p.holdings.filter((h) => h.identityStatus === 'UNRESOLVED').length, 67);
+      // The pipeline's own aggregate is passed through, never recomputed by IRR.
+      assert.deepEqual(
+        { e: p.identitySummary?.evaluated, r: p.identitySummary?.resolved, u: p.identitySummary?.unresolved,
+          a: p.identitySummary?.ambiguous, n: p.identitySummary?.notEvaluated, x: p.identitySummary?.excluded },
+        { e: 68, r: 1, u: 67, a: 0, n: 0, x: 0 },
+      );
+      assert.equal(p.identitySummary?.identitySource, 'GOVERNED_SECURITY_MASTER');
+      assert.equal(p.identitySummary?.masterRevision,
+        'BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001:7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5');
     });
 
-    it('surfaces the pipeline refusal verbatim instead of paraphrasing it', () => {
+    it('resolves AGI GREENPAC through its governed alias and stops querying weaker namespaces', () => {
+      const row = p.holdings[0];
+      assert.equal(row.symbol, 'AGI GREENPAC');
+      assert.equal(row.identityStatus, 'RESOLVED');
+      assert.equal(row.identityBasis, 'PIPELINE_RESOLVED');
+      assert.equal(row.pipelineIdentityStatus, 'RESOLVED');
+      assert.equal(row.identityRefusalCode, null);
+      assert.equal(row.identifierClass, 'UNSCOPED_NAME_OR_SYMBOL');
+      assert.equal(row.quarantineIds.length, 0);
+      assert.deepEqual(row.lookups.map((l) => [l.identifierType, l.identifierValue, l.outcome]), [
+        ['NSE_SYMBOL', 'AGI GREENPAC', 'RESOLVED'],
+        ['BSE_SYMBOL', 'AGI GREENPAC', 'UNMAPPED_IDENTIFIER'],
+      ]);
+      assert.match(row.lookups[1].details ?? '', /Not queried: the row was already resolved by NSE_SYMBOL/);
+    });
+
+    it('keeps the other 67 rows at NO_AUTHORITATIVE_IDENTIFIER_MATCH with their full lookup evidence', () => {
+      const unresolved = p.holdings.slice(1);
+      assert.equal(unresolved.length, 67);
+      assert.equal(unresolved.every((h) => h.identityStatus === 'UNRESOLVED'), true);
+      assert.equal(unresolved.every((h) => h.identityBasis === 'PIPELINE_ASSESSED_UNRESOLVED'), true);
+      assert.equal(unresolved.every((h) => h.pipelineIdentityStatus === 'UNRESOLVED'), true);
+      assert.equal(unresolved.every((h) => h.identityRefusalCode === 'NO_AUTHORITATIVE_IDENTIFIER_MATCH'), true);
+      assert.equal(unresolved.every((h) => h.identifierClass === 'UNSCOPED_NAME_OR_SYMBOL'), true);
+      assert.deepEqual(p.identitySummary?.refusalCodes, { NO_AUTHORITATIVE_IDENTIFIER_MATCH: 67 });
+      // The surface supplies no ISIN and no exchange, so BOTH symbol namespaces were queried
+      // verbatim in order, each producing its own P04 quarantine record.
+      for (const row of unresolved) {
+        assert.deepEqual(row.lookups.map((l) => [l.identifierType, l.identifierValue, l.outcome]), [
+          ['NSE_SYMBOL', row.symbol, 'UNMAPPED_IDENTIFIER'],
+          ['BSE_SYMBOL', row.symbol, 'UNMAPPED_IDENTIFIER'],
+        ]);
+        assert.equal(row.lookups.every((l) => l.identifierValue === row.symbol), true,
+          'the identifier value must be used verbatim, never rewritten or guessed');
+        assert.equal(row.quarantineIds.length, 2);
+        assert.equal(typeof row.missingEvidence, 'string');
+        assert.match(row.missingEvidence ?? '', /ISIN \(preferred\) or an exchange-scoped trading symbol/);
+      }
+    });
+
+    it('does not let the file-level refusal mask the per-row results, and keeps the refusal in force', () => {
+      // The whole-import P04 refusal (DP-2 Option 2F) is raised once and names only the LAST
+      // authoritative lookup of the FIRST refused row. The complete per-row evidence is published
+      // alongside it, so the refusal text can never be read as the run's identity outcome.
       assert.equal(p.rejections.length, 1);
       assert.equal(p.rejections[0].stage, 'NORMALIZE');
       assert.equal(p.rejections[0].reason, 'UNMAPPED_IDENTITY');
-      // With the governed master supplied, row 1 (AGI GREENPAC) resolves and the first refusal
-      // moves to row 2 — evidence that the governed authority, not an empty master, is in use.
       assert.match(p.rejections[0].details, /ASK AUTOMOTIVE/);
-      assert.match(p.rejections[0].details, /UNMAPPED_IDENTIFIER/);
+      assert.match(p.rejections[0].details, /BSE_SYMBOL:ASK AUTOMOTIVE/);
+      // Row 2 is the first genuinely unmapped row: proof the governed master, not an empty master,
+      // resolved row 1, and proof the refusal is not the whole story.
+      assert.equal(p.holdings[1].symbol, 'ASK AUTOMOTIVE');
+      assert.equal(p.holdings[1].identityRefusalCode, 'NO_AUTHORITATIVE_IDENTIFIER_MATCH');
+      assert.equal(p.holdings[0].identityStatus, 'RESOLVED');
+      // Gate E W-1 / P04 whole-import condition: not saveable while any row is unresolved.
+      assert.equal(p.identitySummary?.saveable, false);
+      assert.equal(p.canSave, false);
+      assert.equal(p.persisted, false);
     });
 
     it('does not claim the observed digest of a file it does not have', () => {

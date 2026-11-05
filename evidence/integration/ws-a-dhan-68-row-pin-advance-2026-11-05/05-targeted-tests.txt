@@ -1,0 +1,135 @@
+# Targeted tests covering broker import, per-row identity assessment, refusal codes and the affected integration
+# Captured: 2026-11-05T09:09:31Z UTC | node v22.22.3 | npm 10.9.8
+# Command: npx vitest run server/broker-import src/api/brokerHoldingsPreview.test.ts src/features/broker-holdings server/reports/reports-persistence-integration.test.ts
+
+
+ RUN  v2.1.9 /home/user/iips-review-recovered/frontend
+
+ ✓ server/broker-import/brokerImportPackageConsumer.test.ts > CAP-02 B-1R package consumer & pin compatibility guard > pins iips-production-market-data to the exact unified main commit SHA in package.json and package-lock.json
+ ✓ server/broker-import/brokerImportPackageConsumer.test.ts > CAP-02 B-1R package consumer & pin compatibility guard > guards the distinct broker-import alias and its required published package build inputs
+ ✓ server/broker-import/brokerImportPackageConsumer.test.ts > CAP-02 B-1R package consumer & pin compatibility guard > materializes the pinned alias build output into .cache/broker-import under the governed pin
+(node:18060) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ✓ server/broker-import/brokerImportPackageConsumer.test.ts > CAP-02 B-1R package consumer & pin compatibility guard > publishes per-row broker identity assessment evidence from the pinned alias
+ ✓ server/broker-import/brokerImportPackageConsumer.test.ts > CAP-02 B-1R package consumer & pin compatibility guard > exposes ./portfolio-ui, ./pit, and ./d114-non-production simultaneously with existing runtime and declaration artifacts
+ ✓ server/broker-import/brokerImportPackageConsumer.test.ts > CAP-02 B-1R package consumer & pin compatibility guard > loads ./pit, ./d114-non-production, and ./portfolio-ui at runtime and verifies all required runtime and declaration symbols
+ ✓ server/broker-import/brokerImportPackageConsumer.test.ts > CAP-02 B-1R package consumer & pin compatibility guard > verifies the 5 direct PIT/D114 importers, classifies src/api/pit.test.ts as comment-only/transitive, and confirms direct ./portfolio-ui type import in src/api/brokerImport.ts
+ ✓ server/broker-import/brokerImportPackageConsumer.test.ts > CAP-02 B-1R package consumer & pin compatibility guard > rejects incompatible package pin descriptors (floating refs, SHA mismatch, missing subpaths, missing symbols, or missing U7 refusal codes)
+ ✓ src/api/brokerHoldingsPreview.test.ts > Broker preview public boundary — native evidence, never a save > reuses DHAN_DETAILED_HOLDINGS_V1 without manufacturing canonical identity
+ ✓ src/api/brokerHoldingsPreview.test.ts > Broker preview public boundary — native evidence, never a save > reuses DHAN_WEB_UI_SUMMARY_V1 without manufacturing canonical identity
+ ✓ src/api/brokerHoldingsPreview.test.ts > Broker preview public boundary — native evidence, never a save > resolves identity only through IPD-owned authority and never labels an unassessed row resolved
+ ✓ src/api/brokerHoldingsPreview.test.ts > Broker preview public boundary — native evidence, never a save > reuses Zerodha and Groww parsers
+ ✓ src/api/brokerHoldingsPreview.test.ts > Broker preview public boundary — native evidence, never a save > executes without Node Buffer in the browser
+ ✓ src/api/brokerHoldingsPreview.test.ts > Broker preview public boundary — native evidence, never a save > does not accept canonical identity embedded in a CSV column
+ ✓ src/api/brokerHoldingsPreview.test.ts > Broker preview public boundary — native evidence, never a save > preserves unknown securities as unresolved native evidence with an honest identity basis
+ ✓ src/api/brokerHoldingsPreview.test.ts > Broker preview public boundary — native evidence, never a save > keeps an exchange-scoped row inside its declared exchange namespace
+ ✓ src/api/brokerHoldingsPreview.test.ts > Broker preview public boundary — native evidence, never a save > rejects empty and unknown formats, blocks XLSX rather than faking success
+ ✓ src/api/brokerHoldingsPreview.test.ts > Broker preview public boundary — native evidence, never a save > bounds inputs before processing
+ ✓ src/api/brokerHoldingsPreview.test.ts > Broker preview public boundary — native evidence, never a save > requires an explicit valid observation timestamp
+ ✓ src/api/brokerHoldingsPreview.test.ts > Broker preview public boundary — native evidence, never a save > raw content digest changes with the bytes, not the filename
+ ✓ src/api/brokerHoldingsPreview.test.ts > Broker preview public boundary — native evidence, never a save > WS-A 68-row Dhan Web UI summary surface > keeps all 68 native rows in order without loss or duplication
+ ✓ src/api/brokerHoldingsPreview.test.ts > Broker preview public boundary — native evidence, never a save > WS-A 68-row Dhan Web UI summary surface > preserves the observed native values of every row
+ ✓ src/api/brokerHoldingsPreview.test.ts > Broker preview public boundary — native evidence, never a save > WS-A 68-row Dhan Web UI summary surface > keeps ISIN and exchange explicitly absent instead of inventing them
+ ✓ src/api/brokerHoldingsPreview.test.ts > Broker preview public boundary — native evidence, never a save > WS-A 68-row Dhan Web UI summary surface > individually assesses all 68 rows before the single whole-import refusal
+ ✓ src/api/brokerHoldingsPreview.test.ts > Broker preview public boundary — native evidence, never a save > WS-A 68-row Dhan Web UI summary surface > resolves AGI GREENPAC through its governed alias and stops querying weaker namespaces
+ ✓ src/api/brokerHoldingsPreview.test.ts > Broker preview public boundary — native evidence, never a save > WS-A 68-row Dhan Web UI summary surface > keeps the other 67 rows at NO_AUTHORITATIVE_IDENTIFIER_MATCH with their full lookup evidence
+ ✓ src/api/brokerHoldingsPreview.test.ts > Broker preview public boundary — native evidence, never a save > WS-A 68-row Dhan Web UI summary surface > does not let the file-level refusal mask the per-row results, and keeps the refusal in force
+ ✓ src/api/brokerHoldingsPreview.test.ts > Broker preview public boundary — native evidence, never a save > WS-A 68-row Dhan Web UI summary surface > does not claim the observed digest of a file it does not have
+ ✓ src/api/brokerHoldingsPreview.test.ts > Broker preview public boundary — native evidence, never a save > WS-A 68-row Dhan Web UI summary surface > never asserts validation, authorization or persistence
+ ✓ server/broker-import/brokerImportModalHostIntegration.test.tsx > CAP-02 Level 3 — Composed IRR HTTP host + BrokerImportModal end-to-end integration > exercises BrokerImportModal against the real composed executive-transport host in default unactivated posture (503 owner-context-unavailable on both POST and GET)
+ ✓ server/broker-import/brokerImportModalHostIntegration.test.tsx > CAP-02 Level 3 — Composed IRR HTTP host + BrokerImportModal end-to-end integration > exercises BrokerImportModal over real HTTP against handleBrokerImportRequest with simulated IPC outcomes (revision read + minimal receipt save)
+ ✓ server/broker-import/brokerImportEvidenceStore.test.ts > WS-A broker-import evidence retention > retains the complete 68-row inventory, digest, metadata and refusal
+ ✓ server/broker-import/brokerImportEvidenceStore.test.ts > WS-A broker-import evidence retention > is idempotent: the same import retains one record and never duplicates
+ ✓ server/broker-import/brokerImportEvidenceStore.test.ts > WS-A broker-import evidence retention > keeps owners isolated and never exposes another owner's evidence
+ ✓ server/broker-import/brokerImportEvidenceStore.test.ts > WS-A broker-import evidence retention > fails closed on a tampered journal record
+ ✓ server/broker-import/brokerImportEvidenceStore.test.ts > WS-A broker-import evidence retention > rejects an incomplete row inventory before it can be retained
+ ✓ server/broker-import/brokerImportEvidenceStore.test.ts > WS-A broker-import evidence retention > fails closed when the journal cannot be written, and reports no retention
+ ✓ server/broker-import/brokerImportEvidenceStore.test.ts > WS-A broker-import evidence retention > survives a store restart in this process
+ ✓ server/broker-import/brokerImportEvidenceRestart.test.ts > WS-A durable import evidence — separate-process restart > process B recovers the unresolved 68-row evidence after process A terminates 7409ms
+ ✓ src/features/broker-holdings/BrokerHoldingsPreview.test.tsx > Broker Holdings — executable browser-only preview > renders the real Dhan pipeline without network, persistence or save controls
+ ✓ src/features/broker-holdings/BrokerHoldingsPreview.test.tsx > Broker Holdings — executable browser-only preview > rejects oversized files and XLSX before reading bytes
+ ✓ src/features/broker-holdings/BrokerHoldingsPreview.test.tsx > Broker Holdings — executable browser-only preview > shows rejected input rather than a successful holding list
+ ✓ src/features/broker-holdings/BrokerHoldingsPreview.test.tsx > Broker Holdings — executable browser-only preview > clear invalidates an in-flight read and a newer file invalidates the old selection
+ ✓ src/features/broker-holdings/BrokerHoldingsPreview.test.tsx > Broker Holdings — executable browser-only preview > a late older selection cannot overwrite a newer file
+ ✓ src/features/broker-holdings/BrokerHoldingsPreview.test.tsx > Broker Holdings — executable browser-only preview > clears an old preview when file reading fails
+ ✓ server/broker-import/brokerImportHttp.test.ts > brokerImportHttp — direct handler contract (injected IPC) > relays a minimal v1 receipt verbatim on 200 (nothing added)
+ ✓ server/broker-import/brokerImportHttp.test.ts > brokerImportHttp — direct handler contract (injected IPC) > maps WRITE_NOT_AUTHORIZED to its fixed non-2xx/typed response
+ ✓ server/broker-import/brokerImportHttp.test.ts > brokerImportHttp — direct handler contract (injected IPC) > maps REVISION_CONFLICT to its fixed non-2xx/typed response
+ ✓ server/broker-import/brokerImportHttp.test.ts > brokerImportHttp — direct handler contract (injected IPC) > maps RESOURCE_UNAVAILABLE to its fixed non-2xx/typed response
+ ✓ server/broker-import/brokerImportHttp.test.ts > brokerImportHttp — direct handler contract (injected IPC) > maps INVALID_REQUEST to its fixed non-2xx/typed response
+ ✓ server/broker-import/brokerImportHttp.test.ts > brokerImportHttp — direct handler contract (injected IPC) > maps REFUSED_UNRESOLVED_IDENTITY to its fixed non-2xx/typed response
+ ✓ server/broker-import/brokerImportHttp.test.ts > brokerImportHttp — direct handler contract (injected IPC) > maps REFUSED_STORE_GUARD to its fixed non-2xx/typed response
+ ✓ server/broker-import/brokerImportHttp.test.ts > brokerImportHttp — direct handler contract (injected IPC) > maps UNAVAILABLE to its fixed non-2xx/typed response
+ ✓ server/broker-import/brokerImportHttp.test.ts > brokerImportHttp — direct handler contract (injected IPC) > maps Class P and a local IPC configuration error to 503 owner-context-unavailable (IRR-2, indistinguishable)
+ ✓ server/broker-import/brokerImportHttp.test.ts > brokerImportHttp — direct handler contract (injected IPC) > maps timeout to a distinct OUTCOME_UNKNOWN with no retry
+ ✓ server/broker-import/brokerImportHttp.test.ts > brokerImportHttp — direct handler contract (injected IPC) > maps an unrepresentable success result to OUTCOME_UNKNOWN / UNREPRESENTABLE_RESULT
+ ✓ server/broker-import/brokerImportHttp.test.ts > brokerImportHttp — direct handler contract (injected IPC) > fails closed with 503 owner-context-unavailable BEFORE any adapter call when the binding precondition is absent
+ ✓ server/broker-import/brokerImportHttp.test.ts > brokerImportHttp — direct handler contract (injected IPC) > refuses validation failures with a field path only — no value echo, no disclosure
+ ✓ server/broker-import/brokerImportHttp.test.ts > brokerImportHttp — direct handler contract (injected IPC) > refuses a body carrying an identity key inside holdings before any call
+ ✓ server/broker-import/brokerImportHttp.test.ts > brokerImportHttp — direct handler contract (injected IPC) > refuses invalid JSON (400) and an oversize body (413)
+ ✓ server/broker-import/brokerImportHttp.test.ts > brokerImportHttp — direct handler contract (injected IPC) > answers 405 with Allow: POST for other methods on the admitted holdings path, 405 with Allow: GET on the admitted revision path, and 404 for other paths in the namespace
+ ✓ server/broker-import/brokerImportHttp.test.ts > brokerImportHttp — direct handler contract (injected IPC) > serves GET /api/broker-import/:portfolioId/revision with { portfolioId, revision } on 200 and maps absent/unavailable/unknown outcomes
+ ✓ server/broker-import/brokerImportHttp.test.ts > brokerImportHttp — direct handler contract (injected IPC) > refuses a cross-site-shaped request before reading the body (C9 hardening)
+ ✓ server/broker-import/brokerImportHttp.test.ts > brokerImportHttp — direct handler contract (injected IPC) > isBrokerImportPath matches the exact namespace and nothing adjacent
+ ✓ server/broker-import/brokerImportHttp.test.ts > brokerImportHttp — real composed host (route admission + fence preservation) > admits the two CAP-02 routes (POST .../holdings and GET .../revision) and fails closed with 503 when binding precondition is absent
+ ✓ server/broker-import/brokerImportHttp.test.ts > brokerImportHttp — real composed host (route admission + fence preservation) > sends no wildcard cross-origin header on the CAP-02 namespace (C8 posture)
+ ✓ server/broker-import/brokerImportHttp.test.ts > brokerImportHttp — real composed host (route admission + fence preservation) > answers 405 for GET on the admitted route and 404 for unknown namespace paths, over the real host
+ ✓ server/broker-import/brokerImportHttp.test.ts > brokerImportHttp — real composed host (route admission + fence preservation) > keeps Direct P1 reads binding-gated and all write/context operations unadmitted
+ ✓ server/broker-import/brokerImportHttp.test.ts > brokerImportHttp — real composed host (route admission + fence preservation) > does not disturb adjacent namespaces (pit mount and certified read still behave)
+ ✓ server/broker-import/brokerImportV1SaveAdapter.test.ts > brokerImportV1SaveAdapter — byte-exact v1 payload > sends the exact top-level payload: no options bag, no sourceBroker, no fileName
+ ✓ server/broker-import/brokerImportV1SaveAdapter.test.ts > brokerImportV1SaveAdapter — byte-exact v1 payload > omits optional keys entirely when absent (exact key set, not undefined-valued)
+ ✓ server/broker-import/brokerImportV1SaveAdapter.test.ts > brokerImportV1SaveAdapter — byte-exact v1 payload > serializes only broker-observed holding fields
+ ✓ server/broker-import/brokerImportV1SaveAdapter.test.ts > brokerImportV1SaveAdapter — one call, zero retries on every outcome > makes exactly one call on timeout (outcome-unknown is never resent)
+ ✓ server/broker-import/brokerImportV1SaveAdapter.test.ts > brokerImportV1SaveAdapter — one call, zero retries on every outcome > makes exactly one call on WRITE_NOT_AUTHORIZED and relays it truthfully
+ ✓ server/broker-import/brokerImportV1SaveAdapter.test.ts > brokerImportV1SaveAdapter — one call, zero retries on every outcome > makes exactly one call on Class P (zero bytes; no reason invented)
+ ✓ server/broker-import/brokerImportV1SaveAdapter.test.ts > brokerImportV1SaveAdapter — minimal receipt preservation > relays a valid minimal receipt verbatim with nothing added
+ ✓ server/broker-import/brokerImportV1SaveAdapter.test.ts > brokerImportV1SaveAdapter — minimal receipt preservation > accepts every admitted disposition and durability spelling
+ ✓ server/broker-import/brokerImportV1SaveAdapter.test.ts > brokerImportV1SaveAdapter — minimal receipt preservation > treats a success frame that is not a minimal receipt as UNREPRESENTABLE, never a fabricated result
+ ✓ server/broker-import/brokerImportV1SaveAdapter.test.ts > brokerImportV1SaveAdapter — minimal receipt preservation > refuses malformed receipts field by field (missing/wrong-typed values)
+ ✓ server/broker-import/brokerImportV1SaveAdapter.test.ts > brokerImportV1SaveAdapter — Class A mapping (every admitted outcome) > maps WRITE_NOT_AUTHORIZED without inventing fields
+ ✓ server/broker-import/brokerImportV1SaveAdapter.test.ts > brokerImportV1SaveAdapter — Class A mapping (every admitted outcome) > maps REVISION_CONFLICT without inventing fields
+ ✓ server/broker-import/brokerImportV1SaveAdapter.test.ts > brokerImportV1SaveAdapter — Class A mapping (every admitted outcome) > maps RESOURCE_UNAVAILABLE without inventing fields
+ ✓ server/broker-import/brokerImportV1SaveAdapter.test.ts > brokerImportV1SaveAdapter — Class A mapping (every admitted outcome) > maps INVALID_REQUEST without inventing fields
+ ✓ server/broker-import/brokerImportV1SaveAdapter.test.ts > brokerImportV1SaveAdapter — Class A mapping (every admitted outcome) > maps REFUSED_UNRESOLVED_IDENTITY without inventing fields
+ ✓ server/broker-import/brokerImportV1SaveAdapter.test.ts > brokerImportV1SaveAdapter — Class A mapping (every admitted outcome) > maps REFUSED_STORE_GUARD without inventing fields
+ ✓ server/broker-import/brokerImportV1SaveAdapter.test.ts > brokerImportV1SaveAdapter — Class A mapping (every admitted outcome) > maps UNAVAILABLE without inventing fields
+ ✓ server/broker-import/brokerImportV1SaveAdapter.test.ts > brokerImportV1SaveAdapter — Class A mapping (every admitted outcome) > maps a transport fault to OUTCOME_UNKNOWN without retry
+ ✓ server/broker-import/brokerImportV1SaveAdapter.test.ts > brokerImportV1SaveAdapter — narrow revision read via portfolio.list (U7 §1.4) > calls portfolio.list once with empty payload and extracts { portfolioId, revision } for DEFAULT_PORTFOLIO
+ ✓ server/broker-import/brokerImportV1SaveAdapter.test.ts > brokerImportV1SaveAdapter — narrow revision read via portfolio.list (U7 §1.4) > returns CLASS_A_REFUSAL / RESOURCE_UNAVAILABLE when the target portfolio is absent from portfolio.list
+ ✓ server/broker-import/brokerImportV1SaveAdapter.test.ts > brokerImportV1SaveAdapter — narrow revision read via portfolio.list (U7 §1.4) > returns UNREPRESENTABLE_RESULT when portfolio.list result is not a valid summary array or revision is malformed
+ ✓ server/broker-import/brokerImportV1SaveAdapter.test.ts > brokerImportV1SaveAdapter — narrow revision read via portfolio.list (U7 §1.4) > maps Class P and timeout on portfolio.list without retrying
+ ✓ server/broker-import/brokerImportBoundary.test.ts > brokerImportBoundary — exact DTO acceptance > accepts the exact v1-shaped DTO and preserves only admitted fields
+ ✓ server/broker-import/brokerImportBoundary.test.ts > brokerImportBoundary — exact DTO acceptance > accepts the DTO without optional contentDigest and broker (exact optional-key omission)
+ ✓ server/broker-import/brokerImportBoundary.test.ts > brokerImportBoundary — exact DTO acceptance > accepts a holding carrying only the required symbol
+ ✓ server/broker-import/brokerImportBoundary.test.ts > brokerImportBoundary — mandatory revision (W-5) > refuses a missing expectedRevision before any I/O
+ ✓ server/broker-import/brokerImportBoundary.test.ts > brokerImportBoundary — mandatory revision (W-5) > refuses a non-integer, negative, fractional or unsafe revision
+ ✓ server/broker-import/brokerImportBoundary.test.ts > brokerImportBoundary — exact top-level key set > refuses every key outside the v1 save payload, including the retired G2 bag
+ ✓ server/broker-import/brokerImportBoundary.test.ts > brokerImportBoundary — exact top-level key set > refuses mode/holdings omissions and a non-admitted mode
+ ✓ server/broker-import/brokerImportBoundary.test.ts > brokerImportBoundary — exact top-level key set > refuses empty, non-array and over-limit holdings vectors
+ ✓ server/broker-import/brokerImportBoundary.test.ts > brokerImportBoundary — broker-observed holding allowlist > refuses canonical identity keys inside holdings (IPD resolves identity, W-6/C7)
+ ✓ server/broker-import/brokerImportBoundary.test.ts > brokerImportBoundary — broker-observed holding allowlist > refuses owner/tenant/credential keys nested at any depth
+ ✓ server/broker-import/brokerImportBoundary.test.ts > brokerImportBoundary — broker-observed holding allowlist > refuses non-allowlisted broker-observed extras (active, rawIdentifier, weightPercentage)
+ ✓ server/broker-import/brokerImportBoundary.test.ts > brokerImportBoundary — broker-observed holding allowlist > refuses a tenantHint inside holdings as an authority key (deep scan), not merely an allowlist extra
+ ✓ server/broker-import/brokerImportBoundary.test.ts > brokerImportBoundary — broker-observed holding allowlist > refuses bad symbol, isin, exchange and numeric holding values without echoing them
+ ✓ server/broker-import/brokerImportBoundary.test.ts > brokerImportBoundary — digest and broker shapes > accepts only the actual provider digest shape (64-char lowercase hex)
+ ✓ server/broker-import/brokerImportBoundary.test.ts > brokerImportBoundary — digest and broker shapes > refuses empty, blank or over-long broker strings
+ ✓ server/broker-import/brokerImportBoundary.test.ts > brokerImportBoundary — opaque route portfolioId > accepts ordinary opaque identifiers and refuses malformed ones
+(node:18341) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ✓ server/reports/reports-persistence-integration.test.ts > R3-Option B dependency surface > admits exactly the decided second specifier and guards the reconciled primary and broker pins
+ ✓ server/reports/reports-persistence-integration.test.ts > R3-Option B dependency surface > fails closed when no server-owned database path is configured
+ ✓ server/reports/reports-persistence-integration.test.ts > five-operation contract against the real governed store > creates, resolves, queries, appends and chains — with cross-owner non-disclosure
+ ✓ server/reports/reports-persistence-integration.test.ts > five-operation contract against the real governed store > survives database close and reopen at the same server-owned path (persistence level)
+ ✓ server/reports/reports-persistence-integration.test.ts > five-operation contract against the real governed store > resolves the admitted port through the runtime resolver when configured
+ ✓ server/broker-import/brokerImportImportSafety.test.ts > brokerImport import safety — structure > no module listens, creates a server, or opens a connection
+ ✓ server/broker-import/brokerImportImportSafety.test.ts > brokerImport import safety — structure > no module registers a process hook or mutates global state at import time
+ ✓ server/broker-import/brokerImportImportSafety.test.ts > brokerImport import safety — structure > the boundary and adapter are the only IPC touchpoints and both stay one-call/no-retry
+ ✓ server/broker-import/brokerImportImportSafety.test.ts > brokerImport import safety — runtime > importing the full composition registers no listener and opens no socket
+ ✓ server/broker-import/brokerImportImportSafety.test.ts > brokerImport import safety — runtime > the handler does not listen when NODE_ENV=test guards the composed server
+
+ Test Files  11 passed (11)
+      Tests  117 passed (117)
+   Start at  09:09:32
+   Duration  22.39s (transform 2.96s, setup 2.15s, collect 3.15s, tests 11.09s, environment 3.22s, prepare 865ms)
+
+TARGETED_EXIT=0

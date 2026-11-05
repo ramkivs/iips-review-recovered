@@ -149,8 +149,11 @@ export function buildBrokerImportEvidence(input: BuildEvidenceInput): BrokerImpo
     currentPrice: h.currentPrice,
     identityStatus: h.identityStatus,
     identityBasis: h.identityBasis,
-    identityRefusalCode: null,
-    quarantineIds: [],
+    // Populated from the pinned pipeline's OWN published per-row assessment. IRR never derives a
+    // refusal code and never mints a quarantine id; when the pipeline published no individual
+    // outcome these stay null/empty, exactly as before the pin advance.
+    identityRefusalCode: h.identityRefusalCode,
+    quarantineIds: [...h.quarantineIds],
   }));
   const withoutDigest: Omit<BrokerImportEvidenceRecord, 'recordDigest'> = {
     schema: BROKER_IMPORT_EVIDENCE_SCHEMA,
@@ -181,7 +184,14 @@ export function buildBrokerImportEvidence(input: BuildEvidenceInput): BrokerImpo
     limitations: [
       'The raw broker file bytes are not retained: the CSV is processed locally and is not uploaded.',
       'The content digest is retained as reported by the ingest; without the raw bytes it cannot be re-verified.',
-      'The pinned pipeline publishes no per-row identity outcome when it refuses a file, so per-row refusal codes are empty and every row records a file-level identity basis.',
+      ...(preview.perRowIdentityEvidencePublished
+        ? [
+            'Per-row refusal codes and P04 quarantine ids are the pinned pipeline\u2019s own published assessment evidence; IRR derives none of them. Identity remains unresolved for every row the governed master did not resolve, and the whole-import P04 refusal remains in force.',
+            'P04 quarantine record ids are minted per lookup by the IPD-owned pipeline and are therefore process-specific. The FIRST retention of an import is the authoritative evidence record; a repeated import is a no-op that returns it unchanged, so the retained record digest is stable even though a freshly rebuilt one is not.',
+          ]
+        : [
+            'The pipeline published no per-row identity outcome for this run, so per-row refusal codes are empty and every row records a file-level identity basis.',
+          ]),
     ],
   };
   return { ...withoutDigest, recordDigest: computeEvidenceRecordDigest(withoutDigest) };
