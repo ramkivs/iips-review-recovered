@@ -941,7 +941,7 @@ the reference dataset is synthetic; nothing here produces an assessment, a valua
 BROKER_PREVIEW 4/1/3/1, WATCHLIST 8/1/7/1 (observed/resolved/unresolved/assessable). State sum equals
 observed. Every unresolved row carries a state, a reason code and display text, and the raw observation.
 
-**Executed:** `tsc --noEmit` exit 0; **192/192** investment tests (101 IID-1 + 91 IID-0 re-run);
+**Executed:** `tsc --noEmit` exit 0; **195/195** investment tests (104 IID-1 + 91 IID-0 re-run);
 **42/42** NP-12 regression tests.
 
 **Delivered code:**

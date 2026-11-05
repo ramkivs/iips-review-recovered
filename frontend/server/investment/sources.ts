@@ -12,7 +12,7 @@
  * turns that into a 503 naming the surface, because a coverage total that silently omits a surface would
  * be a wrong total.
  */
-import { IpcUserPortfolioPort, type IpcPortAdapterOptions } from '../user-portfolio/ipcPortAdapter.js';
+import { IpcUserPortfolioPort } from '../user-portfolio/ipcPortAdapter.js';
 import {
   isOwnerContextEstablished,
   ownerContextFromBinding,
@@ -22,12 +22,14 @@ import type { G2HoldingView, G2PortfolioSummary } from '../user-portfolio/userPo
 import type { G2Scope } from '../user-portfolio/userPortfolioPort.js';
 import { listWatchlists, type Watchlist } from '../watchlists/watchlists-service.js';
 import { resolveOwnerContext } from '../owner-context-resolver.js';
+// One import into IRR: the platform own its file layout and exposes only these adapters.
+import {
+  financialCoverageFromLocalDataset,
+  loadRuntimeIdentitySources,
+} from '../../../iips-platform/src/investment/identity/runtime';
 import { parseSecurityId } from '../../../iips-platform/src/investment/contracts/ids';
-import { openLocalSnapshot } from '../../../iips-platform/src/investment/port/localSnapshotStore.js';
-import { measureCoverage } from '../../../iips-platform/src/investment/coverage/measure.js';
-import { buildFinancialCoverageDisclosure } from '../../../iips-platform/src/investment/identity/coverage.js';
-import type { FinancialCoverageDisclosure } from '../../../iips-platform/src/investment/identity/coverage.js';
-import type { IdentityObservation } from '../../../iips-platform/src/investment/identity/types.js';
+import type { IdentityObservation } from '../../../iips-platform/src/investment/identity/types';
+import type { FinancialCoverageDisclosure } from '../../../iips-platform/src/investment/identity/coverage';
 import type { CoverageTransportProviders } from './coverage-transport.js';
 
 export interface SerialisedRaw {
@@ -158,46 +160,13 @@ export function createWatchlistProvider(options: CoverageSourceOptions = {}) {
 }
 
 /**
- * Disclose the IID-0 position from the local dataset when it exists. Never throws: an absent dataset is
- * disclosed as `NONE`, which is the truthful answer and keeps identity coverage independent of it.
+ * Disclose the IID-0 position from the served dataset. The platform performs the read through its own
+ * port; an absent dataset is disclosed as `NONE`, which is the truthful answer.
  */
 export function createFinancialCoverageProvider(
   options: CoverageSourceOptions = {},
 ): () => FinancialCoverageDisclosure {
-  return () => {
-    try {
-      const port = openLocalSnapshot(options.dataRoot === undefined ? {} : { dataRoot: options.dataRoot });
-      const manifest = port.manifest();
-      const issuers = port.listIssuers();
-      const securities = issuers.flatMap((issuer) => port.securitiesFor(issuer.issuerId));
-      // The real content of the served dataset, read through the IID-0 port: the disclosure must reflect
-      // what has actually been measured, not an assumption about it.
-      const report = measureCoverage(
-        {
-          issuers,
-          securities,
-          listings: issuers.flatMap((issuer) => port.listingsFor(issuer.issuerId)),
-          periods: issuers.flatMap((issuer) => port.periodsFor(issuer.issuerId)),
-          prices: securities.flatMap((security) => port.pricesFor(security.securityId)),
-          corporateActions: issuers.flatMap((issuer) => port.corporateActionsFor(issuer.issuerId)),
-          operatingMetrics: issuers.flatMap((issuer) => port.operatingMetricsFor(issuer.issuerId)),
-          issues: port.issues(),
-        },
-        { datasetVersion: manifest.datasetVersion, generatedAt: manifest.lastImportAt },
-      );
-      const unmapped = port
-        .issues()
-        .filter((issue) => issue.code === 'UNMAPPED_XBRL_TAG')
-        .map((issue) => (/tag "([^"]+)"/.exec(issue.detail)?.[1] ?? issue.detail));
-      return buildFinancialCoverageDisclosure({
-        sectorReport: report,
-        manifest,
-        unmappedTagsObserved: unmapped,
-      });
-    } catch {
-      return buildFinancialCoverageDisclosure({});
-    }
-  };
+  return () => financialCoverageFromLocalDataset(options.dataRoot);
 }
 
 /** Assemble the transport providers from the existing read-only surfaces. */
@@ -205,6 +174,7 @@ export function createCoverageProviders(options: CoverageSourceOptions = {}): Co
   return {
     holdings: createHoldingsProvider(options),
     watchlist: createWatchlistProvider(options),
+    loadSources: () => loadRuntimeIdentitySources(options.dataRoot),
     financialCoverage: createFinancialCoverageProvider(options),
     dataRoot: options.dataRoot,
   };

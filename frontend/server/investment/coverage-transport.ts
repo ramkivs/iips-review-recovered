@@ -24,7 +24,7 @@ import {
   handlePreviewEvaluationRequest,
   type CoverageDependencies,
 } from '../../../iips-platform/src/investment/identity/coverageEndpoint';
-import { resolveIdentityDir, loadIdentitySourcesFromDir } from '../../../iips-platform/src/investment/identity/sources';
+import { loadRuntimeIdentitySources } from '../../../iips-platform/src/investment/identity/runtime';
 import type { FinancialCoverageDisclosure } from '../../../iips-platform/src/investment/identity/coverage';
 import type { SourceLoadResult } from '../../../iips-platform/src/investment/identity/sources';
 import type { IdentityObservation } from '../../../iips-platform/src/investment/identity/types';
@@ -53,7 +53,7 @@ export function defaultToday(): string {
 /** Build the handler's dependencies from injected providers. No I/O happens until a request arrives. */
 export function coverageDependencies(providers: CoverageTransportProviders): CoverageDependencies {
   return {
-    loadSources: providers.loadSources ?? (() => loadIdentitySourcesFromDir(resolveIdentityDir(providers.dataRoot))),
+    loadSources: providers.loadSources ?? (() => loadRuntimeIdentitySources(providers.dataRoot)),
     observations: async (asOf: string) => {
       const collected: IdentityObservation[] = [];
       const failures: string[] = [];

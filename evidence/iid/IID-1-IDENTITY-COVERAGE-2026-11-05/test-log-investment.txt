@@ -3,81 +3,81 @@ TAP version 13
     # Subtest: an absent dataset yields no port and a precise blocker
     ok 1 - an absent dataset yields no port and a precise blocker
       ---
-      duration_ms: 1.971843
+      duration_ms: 1.49784
       type: 'test'
       ...
     # Subtest: a tampered dataset is refused rather than partially served
     ok 2 - a tampered dataset is refused rather than partially served
       ---
-      duration_ms: 23.035753
+      duration_ms: 18.064107
       type: 'test'
       ...
     # Subtest: an unavailable boundary never fabricates observations
     ok 3 - an unavailable boundary never fabricates observations
       ---
-      duration_ms: 0.68183
+      duration_ms: 0.417448
       type: 'test'
       ...
     1..3
 ok 1 - fail-closed resolution
   ---
-  duration_ms: 27.426652
+  duration_ms: 21.036026
   type: 'suite'
   ...
 # Subtest: local snapshot reads
     # Subtest: the manifest served is the one written
     ok 1 - the manifest served is the one written
       ---
-      duration_ms: 0.478495
+      duration_ms: 0.324849
       type: 'test'
       ...
     # Subtest: issuers, securities and listings resolve consistently
     ok 2 - issuers, securities and listings resolve consistently
       ---
-      duration_ms: 1.244959
+      duration_ms: 0.849001
       type: 'test'
       ...
     # Subtest: periods are returned per issuer with filed and derived values separated
     ok 3 - periods are returned per issuer with filed and derived values separated
       ---
-      duration_ms: 0.279901
+      duration_ms: 0.203678
       type: 'test'
       ...
     # Subtest: operating metrics and corporate actions are reachable, with validation state intact
     ok 4 - operating metrics and corporate actions are reachable, with validation state intact
       ---
-      duration_ms: 0.388807
+      duration_ms: 0.257914
       type: 'test'
       ...
     # Subtest: ingestion issues remain visible through the port
     ok 5 - ingestion issues remain visible through the port
       ---
-      duration_ms: 0.414078
+      duration_ms: 0.251989
       type: 'test'
       ...
     # Subtest: the store exposes no write capability
     ok 6 - the store exposes no write capability
       ---
-      duration_ms: 0.880588
+      duration_ms: 0.470091
       type: 'test'
       ...
     1..6
 ok 2 - local snapshot reads
   ---
-  duration_ms: 4.510649
+  duration_ms: 3.010645
   type: 'suite'
   ...
 # Subtest: data location
     # Subtest: an explicit directory wins; a data root composes the standard layout
     ok 1 - an explicit directory wins; a data root composes the standard layout
       ---
-      duration_ms: 0.486592
+      duration_ms: 0.472706
       type: 'test'
       ...
     1..1
 ok 3 - data location
   ---
-  duration_ms: 0.799192
+  duration_ms: 0.590602
   type: 'suite'
   ...
 # ERROR   OPERATING_METRIC_CROSS_FIELD     IN:EQISIN:IN0000000037|2026-03-31|CONSOLIDATED  NNPA (3.1) exceeds GNPA (2.4)
@@ -90,8 +90,8 @@ ok 3 - data location
 # WARNING PER_SHARE_NOT_COMPARABLE         CA-AARAV-RIGHTS-2026  no adjustment factor: per-share series are not comparable across this boundary
 # WARNING UNMAPPED_XBRL_TAG                IN:EQISIN:IN0000000029/BODHI-FY26.xml  tag "DeferredTaxExpense" is not in the line-item map
 # datasetVersion sha256:3686c46a5e2e0059c4d33220ea599160fe4d28f669be6230c6480e3b4a4e49d5
-# dataset        /tmp/iid0-cli2-ZM2Y9E/dataset
-# coverage       /tmp/iid0-cli2-ZM2Y9E/dataset/coverage-report.json
+# dataset        /tmp/iid0-cli2-ZBzmpu/dataset
+# coverage       /tmp/iid0-cli2-ZBzmpu/dataset/coverage-report.json
 # dataset          sha256:3686c46a5e2e0059c4d33220ea599160fe4d28f669be6230c6480e3b4a4e49d5
 # completed        3/13 sectors measured
 #   Auto             UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
@@ -114,8 +114,8 @@ ok 3 - data location
 # WARNING PER_SHARE_NOT_COMPARABLE         CA-AARAV-RIGHTS-2026  no adjustment factor: per-share series are not comparable across this boundary
 # WARNING UNMAPPED_XBRL_TAG                IN:EQISIN:IN0000000029/BODHI-FY26.xml  tag "DeferredTaxExpense" is not in the line-item map
 # datasetVersion sha256:3686c46a5e2e0059c4d33220ea599160fe4d28f669be6230c6480e3b4a4e49d5
-# dataset        /tmp/iid0-cli3-RfcmoX/first
-# coverage       /tmp/iid0-cli3-RfcmoX/first/coverage-report.json
+# dataset        /tmp/iid0-cli3-h21i6s/first
+# coverage       /tmp/iid0-cli3-h21i6s/first/coverage-report.json
 # dataset          sha256:3686c46a5e2e0059c4d33220ea599160fe4d28f669be6230c6480e3b4a4e49d5
 # completed        3/13 sectors measured
 #   Auto             UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
@@ -138,8 +138,8 @@ ok 3 - data location
 # WARNING PER_SHARE_NOT_COMPARABLE         CA-AARAV-RIGHTS-2026  no adjustment factor: per-share series are not comparable across this boundary
 # WARNING UNMAPPED_XBRL_TAG                IN:EQISIN:IN0000000029/BODHI-FY26.xml  tag "DeferredTaxExpense" is not in the line-item map
 # datasetVersion sha256:3686c46a5e2e0059c4d33220ea599160fe4d28f669be6230c6480e3b4a4e49d5
-# dataset        /tmp/iid0-cli3-RfcmoX/second
-# coverage       /tmp/iid0-cli3-RfcmoX/second/coverage-report.json
+# dataset        /tmp/iid0-cli3-h21i6s/second
+# coverage       /tmp/iid0-cli3-h21i6s/second/coverage-report.json
 # dataset          sha256:3686c46a5e2e0059c4d33220ea599160fe4d28f669be6230c6480e3b4a4e49d5
 # completed        3/13 sectors measured
 #   Auto             UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
@@ -161,8 +161,8 @@ ok 3 - data location
 # WARNING PER_SHARE_NOT_COMPARABLE         CA-AARAV-RIGHTS-2026  no adjustment factor: per-share series are not comparable across this boundary
 # WARNING UNMAPPED_XBRL_TAG                IN:EQISIN:IN0000000029/BODHI-FY26.xml  tag "DeferredTaxExpense" is not in the line-item map
 # datasetVersion sha256:19c535abdb59a3e74aab65eef6c7ddcf90ae87139c4e7b10fc079ed1a9b6a3b0
-# dataset        /tmp/iid0-cli4-SOY0fo/dataset
-# coverage       /tmp/iid0-cli4-SOY0fo/dataset/coverage-report.json
+# dataset        /tmp/iid0-cli4-gCD6U6/dataset
+# coverage       /tmp/iid0-cli4-gCD6U6/dataset/coverage-report.json
 # dataset          sha256:19c535abdb59a3e74aab65eef6c7ddcf90ae87139c4e7b10fc079ed1a9b6a3b0
 # completed        3/13 sectors measured
 #   Auto             UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
@@ -184,1429 +184,1461 @@ ok 3 - data location
     # Subtest: a run with an ingestion error writes nothing unless the error is accepted
     ok 1 - a run with an ingestion error writes nothing unless the error is accepted
       ---
-      duration_ms: 18.575695
+      duration_ms: 17.114684
       type: 'test'
       ...
     # Subtest: accepting errors writes a dataset that records them, plus a coverage report
     ok 2 - accepting errors writes a dataset that records them, plus a coverage report
       ---
-      duration_ms: 27.660459
+      duration_ms: 18.093214
       type: 'test'
       ...
     # Subtest: two runs over identical input produce the same version, whatever the clock says
     ok 3 - two runs over identical input produce the same version, whatever the clock says
       ---
-      duration_ms: 32.965014
+      duration_ms: 30.536796
       type: 'test'
       ...
     # Subtest: a clean input (no operating metrics, hence no conflict) exits zero without override
     ok 4 - a clean input (no operating metrics, hence no conflict) exits zero without override
       ---
-      duration_ms: 10.621132
+      duration_ms: 10.495004
       type: 'test'
       ...
     # Subtest: declared XBRL filings must exist and must be declared at all
     ok 5 - declared XBRL filings must exist and must be declared at all
       ---
-      duration_ms: 1.964351
+      duration_ms: 2.166769
       type: 'test'
       ...
     1..5
 ok 4 - ingest CLI
   ---
-  duration_ms: 93.011121
+  duration_ms: 79.595851
   type: 'suite'
   ...
 # Subtest: AC-X2 — no external network
     # Subtest: no IID module imports a network transport
     ok 1 - no IID module imports a network transport
       ---
-      duration_ms: 1.7825
+      duration_ms: 1.731152
       type: 'test'
       ...
     # Subtest: no IID module calls fetch
     ok 2 - no IID module calls fetch
       ---
-      duration_ms: 0.5236
+      duration_ms: 0.542823
       type: 'test'
       ...
     # Subtest: no IID module embeds an http(s) URL as a request target
     ok 3 - no IID module embeds an http(s) URL as a request target
       ---
-      duration_ms: 1.034235
+      duration_ms: 1.197326
       type: 'test'
       ...
     1..3
 ok 5 - AC-X2 — no external network
   ---
-  duration_ms: 4.339802
+  duration_ms: 4.473641
   type: 'suite'
   ...
 # Subtest: boundaries
     # Subtest: no IID module opens a database or imports a persistence driver
     ok 1 - no IID module opens a database or imports a persistence driver
       ---
-      duration_ms: 1.237046
+      duration_ms: 1.044678
       type: 'test'
       ...
     # Subtest: no IID module depends on NP-04, the Reports layer, or the frozen sector engines
     ok 2 - no IID module depends on NP-04, the Reports layer, or the frozen sector engines
       ---
-      duration_ms: 0.945137
+      duration_ms: 0.897281
       type: 'test'
       ...
     # Subtest: every IID source file is accounted for
     ok 3 - every IID source file is accounted for
       ---
-      duration_ms: 0.136767
+      duration_ms: 0.149461
       type: 'test'
       ...
     1..3
 ok 6 - boundaries
   ---
-  duration_ms: 2.574077
+  duration_ms: 2.333303
   type: 'suite'
   ...
 # Subtest: identity
     # Subtest: a sector reference is rejected as an issuer, by pattern and by parser
     ok 1 - a sector reference is rejected as an issuer, by pattern and by parser
       ---
-      duration_ms: 1.595275
+      duration_ms: 1.316236
       type: 'test'
       ...
     # Subtest: issuer ids require a real key basis and a valid ISIN check digit
     ok 2 - issuer ids require a real key basis and a valid ISIN check digit
       ---
-      duration_ms: 0.773249
+      duration_ms: 0.591008
       type: 'test'
       ...
     # Subtest: a listing id carries exchange, symbol, series and instrument type
     ok 3 - a listing id carries exchange, symbol, series and instrument type
       ---
-      duration_ms: 2.188549
+      duration_ms: 1.190592
       type: 'test'
       ...
     1..3
 ok 7 - identity
   ---
-  duration_ms: 5.917124
+  duration_ms: 4.193975
   type: 'suite'
   ...
 # Subtest: observation
     # Subtest: a missing value is missing, and null — never zero
     ok 1 - a missing value is missing, and null — never zero
       ---
-      duration_ms: 0.252629
+      duration_ms: 0.285598
       type: 'test'
       ...
     # Subtest: an observation may not carry a value unless it is present or explicitly imputed
     ok 2 - an observation may not carry a value unless it is present or explicitly imputed
       ---
-      duration_ms: 0.244562
+      duration_ms: 0.191408
       type: 'test'
       ...
     # Subtest: imputation is legal only with a method and an assumption reference
     ok 3 - imputation is legal only with a method and an assumption reference
       ---
-      duration_ms: 0.160436
+      duration_ms: 0.177549
       type: 'test'
       ...
     1..3
 ok 8 - observation
   ---
-  duration_ms: 1.117792
+  duration_ms: 0.908632
   type: 'suite'
   ...
 # Subtest: invariants
     # Subtest: an aggregate is withheld when any declared input is unusable, and names the input
     ok 1 - an aggregate is withheld when any declared input is unusable, and names the input
       ---
-      duration_ms: 0.575599
+      duration_ms: 0.514042
       type: 'test'
       ...
     # Subtest: the aggregate is computed only when every input is usable
     ok 2 - the aggregate is computed only when every input is usable
       ---
-      duration_ms: 0.207365
+      duration_ms: 0.199422
       type: 'test'
       ...
     # Subtest: INSUFFICIENT evidence cannot produce a verdict in either direction
     ok 3 - INSUFFICIENT evidence cannot produce a verdict in either direction
       ---
-      duration_ms: 0.408093
+      duration_ms: 0.389863
       type: 'test'
       ...
     # Subtest: a negative verb requires positive evidence, not absence of evidence
     ok 4 - a negative verb requires positive evidence, not absence of evidence
       ---
-      duration_ms: 0.252319
+      duration_ms: 0.25702
       type: 'test'
       ...
     # Subtest: a price-versus-value claim requires a computed intrinsic value
     ok 5 - a price-versus-value claim requires a computed intrinsic value
       ---
-      duration_ms: 0.12218
+      duration_ms: 0.123936
       type: 'test'
       ...
     1..5
 ok 9 - invariants
   ---
-  duration_ms: 1.938566
+  duration_ms: 1.842631
   type: 'suite'
   ...
 # Subtest: disposition vocabulary
     # Subtest: held and candidate vocabularies are disjoint and exhaustive for their scope
     ok 1 - held and candidate vocabularies are disjoint and exhaustive for their scope
       ---
-      duration_ms: 0.173405
+      duration_ms: 0.169388
       type: 'test'
       ...
     # Subtest: a held position and a new candidate have distinct subject scopes
     ok 2 - a held position and a new candidate have distinct subject scopes
       ---
-      duration_ms: 0.273647
+      duration_ms: 0.223948
       type: 'test'
       ...
     1..2
 ok 10 - disposition vocabulary
   ---
-  duration_ms: 0.534717
+  duration_ms: 0.521739
   type: 'suite'
   ...
 # Subtest: line items
     # Subtest: the table is closed and rejects unknown ids
     ok 1 - the table is closed and rejects unknown ids
       ---
-      duration_ms: 0.209264
+      duration_ms: 0.224106
       type: 'test'
       ...
     # Subtest: derived items are not reportable and sign rules are enforced
     ok 2 - derived items are not reportable and sign rules are enforced
       ---
-      duration_ms: 0.128403
+      duration_ms: 0.092922
       type: 'test'
       ...
     1..2
 ok 11 - line items
   ---
-  duration_ms: 0.475922
+  duration_ms: 0.450904
   type: 'suite'
   ...
 # Subtest: periods
     # Subtest: a cumulative quarter becomes discrete only by subtraction from the prior YTD of the same year
     ok 1 - a cumulative quarter becomes discrete only by subtraction from the prior YTD of the same year
       ---
-      duration_ms: 0.276045
+      duration_ms: 0.272126
       type: 'test'
       ...
     # Subtest: TTM refuses to be approximated from fewer than four usable quarters
     ok 2 - TTM refuses to be approximated from fewer than four usable quarters
       ---
-      duration_ms: 0.178493
+      duration_ms: 0.157974
       type: 'test'
       ...
     # Subtest: scaling is explicit and recorded, and the period key is stable
     ok 3 - scaling is explicit and recorded, and the period key is stable
       ---
-      duration_ms: 0.220182
+      duration_ms: 0.21465
       type: 'test'
       ...
     1..3
 ok 12 - periods
   ---
-  duration_ms: 0.792934
+  duration_ms: 0.757841
   type: 'suite'
   ...
 # Subtest: operating metrics
     # Subtest: range and unit validation reject implausible observations
     ok 1 - range and unit validation reject implausible observations
       ---
-      duration_ms: 0.200691
+      duration_ms: 0.18452
       type: 'test'
       ...
     # Subtest: cross-field checks catch what a range check cannot, and name the metrics involved
     ok 2 - cross-field checks catch what a range check cannot, and name the metrics involved
       ---
-      duration_ms: 0.236812
+      duration_ms: 0.217111
       type: 'test'
       ...
     # Subtest: a vendor observation cannot satisfy a method that demands an operator-entered metric
     ok 3 - a vendor observation cannot satisfy a method that demands an operator-entered metric
       ---
-      duration_ms: 0.093593
+      duration_ms: 0.10536
       type: 'test'
       ...
     1..3
 ok 13 - operating metrics
   ---
-  duration_ms: 0.650232
+  duration_ms: 0.669188
   type: 'suite'
   ...
 # Subtest: completed versus outstanding
     # Subtest: measured sectors are separated from outstanding ones, and an empty sector is UNMEASURED
     ok 1 - measured sectors are separated from outstanding ones, and an empty sector is UNMEASURED
       ---
-      duration_ms: 2.478351
+      duration_ms: 1.293531
       type: 'test'
       ...
     # Subtest: absence of data is never reported as a pass
     ok 2 - absence of data is never reported as a pass
       ---
-      duration_ms: 0.249363
+      duration_ms: 0.240937
       type: 'test'
       ...
     # Subtest: every one of the 13 sectors is reported, measured or not
     ok 3 - every one of the 13 sectors is reported, measured or not
       ---
-      duration_ms: 0.116016
+      duration_ms: 0.136257
       type: 'test'
       ...
     1..3
 ok 14 - completed versus outstanding
   ---
-  duration_ms: 3.735199
+  duration_ms: 3.695374
   type: 'suite'
   ...
 # Subtest: method-level enablement
     # Subtest: an enabled sector still withholds the method whose metric is missing
     ok 1 - an enabled sector still withholds the method whose metric is missing
       ---
-      duration_ms: 0.302723
+      duration_ms: 0.323845
       type: 'test'
       ...
     # Subtest: a sector whose methods all have their inputs is enabled without qualification
     ok 2 - a sector whose methods all have their inputs is enabled without qualification
       ---
-      duration_ms: 0.128124
+      duration_ms: 0.124007
       type: 'test'
       ...
     # Subtest: an unvalidated metric withholds its methods and names the metric
     ok 3 - an unvalidated metric withholds its methods and names the metric
       ---
-      duration_ms: 0.119382
+      duration_ms: 0.119512
       type: 'test'
       ...
     # Subtest: the sector stage is explicitly not a statement about every method
     ok 4 - the sector stage is explicitly not a statement about every method
       ---
-      duration_ms: 0.272062
+      duration_ms: 0.271403
       type: 'test'
       ...
     # Subtest: statement coverage and metric coverage are measured separately
     ok 5 - statement coverage and metric coverage are measured separately
       ---
-      duration_ms: 0.225613
+      duration_ms: 0.243901
       type: 'test'
       ...
     1..5
 ok 15 - method-level enablement
   ---
-  duration_ms: 1.459263
+  duration_ms: 1.571637
   type: 'suite'
   ...
 # Subtest: report properties
     # Subtest: measurement is deterministic for a fixed dataset and clock
     ok 1 - measurement is deterministic for a fixed dataset and clock
       ---
-      duration_ms: 0.8518
+      duration_ms: 0.878534
       type: 'test'
       ...
     # Subtest: every method declared in the matrix appears in some sector
     ok 2 - every method declared in the matrix appears in some sector
       ---
-      duration_ms: 0.462259
+      duration_ms: 0.475816
       type: 'test'
       ...
     # Subtest: sector requirements are the union of the methods that need them
     ok 3 - sector requirements are the union of the methods that need them
       ---
-      duration_ms: 0.145239
+      duration_ms: 0.229171
       type: 'test'
       ...
     # Subtest: the rendered summary states what was and was not measured
     ok 4 - the rendered summary states what was and was not measured
       ---
-      duration_ms: 0.285612
+      duration_ms: 0.330154
       type: 'test'
       ...
     1..4
 ok 16 - report properties
   ---
-  duration_ms: 1.97699
+  duration_ms: 2.297468
   type: 'suite'
   ...
 # Subtest: dataset identity
     # Subtest: the version is the content digest and carries no timestamp
     ok 1 - the version is the content digest and carries no timestamp
       ---
-      duration_ms: 21.831116
+      duration_ms: 22.087495
       type: 'test'
       ...
     # Subtest: re-importing identical content at a different time yields the same version
     ok 2 - re-importing identical content at a different time yields the same version
       ---
-      duration_ms: 21.487474
+      duration_ms: 18.681098
       type: 'test'
       ...
     # Subtest: input ordering does not change identity
     ok 3 - input ordering does not change identity
       ---
-      duration_ms: 6.532586
+      duration_ms: 5.565567
       type: 'test'
       ...
     # Subtest: a changed figure changes identity
     ok 4 - a changed figure changes identity
       ---
-      duration_ms: 8.585661
+      duration_ms: 5.022373
       type: 'test'
       ...
     # Subtest: a changed filing metadata value changes identity but a changed issue order does not
     ok 5 - a changed filing metadata value changes identity but a changed issue order does not
       ---
-      duration_ms: 4.077423
+      duration_ms: 4.311848
       type: 'test'
       ...
     1..5
 ok 17 - dataset identity
   ---
-  duration_ms: 63.917796
+  duration_ms: 56.736277
   type: 'suite'
   ...
 # Subtest: dataset integrity
     # Subtest: a freshly written dataset verifies
     ok 1 - a freshly written dataset verifies
       ---
-      duration_ms: 8.980201
+      duration_ms: 7.656281
       type: 'test'
       ...
     # Subtest: a mutated data file is detected and nothing is returned
     ok 2 - a mutated data file is detected and nothing is returned
       ---
-      duration_ms: 7.749087
+      duration_ms: 7.710791
       type: 'test'
       ...
     # Subtest: a missing file is detected
     ok 3 - a missing file is detected
       ---
-      duration_ms: 8.461359
+      duration_ms: 5.61017
       type: 'test'
       ...
     # Subtest: editing the manifest digest is caught by recomputation
     ok 4 - editing the manifest digest is caught by recomputation
       ---
-      duration_ms: 8.787626
+      duration_ms: 7.432398
       type: 'test'
       ...
     # Subtest: re-reading a written dataset returns the same content it was written from
     ok 5 - re-reading a written dataset returns the same content it was written from
       ---
-      duration_ms: 9.129324
+      duration_ms: 8.875574
       type: 'test'
       ...
     1..5
 ok 18 - dataset integrity
   ---
-  duration_ms: 43.75962
+  duration_ms: 37.730649
   type: 'suite'
   ...
 # Subtest: action lookup
     # Subtest: actions are returned in effective-date then id order, filtered by asOf
     ok 1 - actions are returned in effective-date then id order, filtered by asOf
       ---
-      duration_ms: 9.812314
+      duration_ms: 8.865202
       type: 'test'
       ...
     # Subtest: factor semantics are documented in one place
     ok 2 - factor semantics are documented in one place
       ---
-      duration_ms: 0.227183
+      duration_ms: 0.275397
       type: 'test'
       ...
     1..2
 ok 19 - action lookup
   ---
-  duration_ms: 11.035329
+  duration_ms: 10.047318
   type: 'suite'
   ...
 # Subtest: AC-1.8 — split adjustment preserves per-share consistency
     # Subtest: only points before the action are restated, and the factor is recorded
     ok 1 - only points before the action are restated, and the factor is recorded
       ---
-      duration_ms: 0.642666
+      duration_ms: 0.635987
       type: 'test'
       ...
     # Subtest: price and per-share earnings agree with the declared factor within 0.01 %
     ok 2 - price and per-share earnings agree with the declared factor within 0.01 %
       ---
-      duration_ms: 0.322021
+      duration_ms: 0.263277
       type: 'test'
       ...
     # Subtest: a split that left earnings unadjusted is caught
     ok 3 - a split that left earnings unadjusted is caught
       ---
-      duration_ms: 0.192159
+      duration_ms: 0.191172
       type: 'test'
       ...
     # Subtest: a bonus and a buyback factor both apply, in date order
     ok 4 - a bonus and a buyback factor both apply, in date order
       ---
-      duration_ms: 0.244205
+      duration_ms: 0.183112
       type: 'test'
       ...
     1..4
 ok 20 - AC-1.8 — split adjustment preserves per-share consistency
   ---
-  duration_ms: 1.626831
+  duration_ms: 1.505552
   type: 'suite'
   ...
 # Subtest: comparability boundaries
     # Subtest: a rights issue with no recorded factor makes earlier points NOT_COMPARABLE, never silently kept
     ok 1 - a rights issue with no recorded factor makes earlier points NOT_COMPARABLE, never silently kept
       ---
-      duration_ms: 0.33126
+      duration_ms: 0.322683
       type: 'test'
       ...
     # Subtest: re-keying actions never adjust a per-share value
     ok 2 - re-keying actions never adjust a per-share value
       ---
-      duration_ms: 0.243118
+      duration_ms: 0.208871
       type: 'test'
       ...
     # Subtest: symbol history shows the rename boundary the resolver uses for STALE_REFERENCE
     ok 3 - symbol history shows the rename boundary the resolver uses for STALE_REFERENCE
       ---
-      duration_ms: 0.265448
+      duration_ms: 0.30435
       type: 'test'
       ...
     1..3
 ok 21 - comparability boundaries
   ---
-  duration_ms: 1.283392
+  duration_ms: 1.267005
   type: 'suite'
   ...
 # Subtest: AC-1.7 — demerger and merger successor reconciliation
     # Subtest: an unmapped successor slice stays unresolved while the mapped slice resolves
     ok 1 - an unmapped successor slice stays unresolved while the mapped slice resolves
       ---
-      duration_ms: 0.540221
+      duration_ms: 0.468469
       type: 'test'
       ...
     # Subtest: measured and unmeasured weight reconcile to 1
     ok 2 - measured and unmeasured weight reconcile to 1
       ---
-      duration_ms: 0.134168
+      duration_ms: 0.118272
       type: 'test'
       ...
     # Subtest: a fully mapped merger has no unmeasured weight
     ok 3 - a fully mapped merger has no unmeasured weight
       ---
-      duration_ms: 0.129393
+      duration_ms: 0.152284
       type: 'test'
       ...
     # Subtest: successors are never matched by name: an issuer outside the roster is unmapped even if it looks similar
     ok 4 - successors are never matched by name: an issuer outside the roster is unmapped even if it looks similar
       ---
-      duration_ms: 0.104521
+      duration_ms: 0.156358
       type: 'test'
       ...
     # Subtest: an issuer with no re-keying action yields no reconciliation
     ok 5 - an issuer with no re-keying action yields no reconciliation
       ---
-      duration_ms: 0.076645
+      duration_ms: 0.074775
       type: 'test'
       ...
     1..5
 ok 22 - AC-1.7 — demerger and merger successor reconciliation
   ---
-  duration_ms: 1.150587
+  duration_ms: 1.135598
   type: 'suite'
   ...
 # Subtest: counts
     # Subtest: every state is counted, and the totals are the rows themselves
     ok 1 - every state is counted, and the totals are the rows themselves
       ---
-      duration_ms: 1.866226
+      duration_ms: 1.367031
       type: 'test'
       ...
     # Subtest: counts are broken down by source surface
     ok 2 - counts are broken down by source surface
       ---
-      duration_ms: 0.246275
+      duration_ms: 0.181184
       type: 'test'
       ...
     # Subtest: the status line states what was and was not assessed
     ok 3 - the status line states what was and was not assessed
       ---
-      duration_ms: 0.14238
+      duration_ms: 0.104917
       type: 'test'
       ...
     # Subtest: every unresolved row carries a reason and display text
     ok 4 - every unresolved row carries a reason and display text
       ---
-      duration_ms: 0.425188
+      duration_ms: 0.281569
       type: 'test'
       ...
     # Subtest: an unresolved row exposes the raw observation but no company metric
     ok 5 - an unresolved row exposes the raw observation but no company metric
       ---
-      duration_ms: 0.432216
+      duration_ms: 0.30336
       type: 'test'
       ...
     # Subtest: the summary line names the state for unresolved rows and the basis for resolved ones
     ok 6 - the summary line names the state for unresolved rows and the basis for resolved ones
       ---
-      duration_ms: 0.360716
+      duration_ms: 0.297287
       type: 'test'
       ...
     1..6
 ok 23 - counts
   ---
-  duration_ms: 4.839142
+  duration_ms: 3.568467
   type: 'suite'
   ...
 # Subtest: AC-1.9 — determinism
     # Subtest: 100 shuffled observation orderings produce byte-identical reports
     ok 1 - 100 shuffled observation orderings produce byte-identical reports
       ---
-      duration_ms: 212.033584
+      duration_ms: 156.488863
       type: 'test'
       ...
     # Subtest: reordering the listing map and the roster does not change any resolution
     ok 2 - reordering the listing map and the roster does not change any resolution
       ---
-      duration_ms: 2.704092
+      duration_ms: 1.730807
       type: 'test'
       ...
     # Subtest: resolution follows the requested date, not the wall clock
     ok 3 - resolution follows the requested date, not the wall clock
       ---
-      duration_ms: 1.79455
+      duration_ms: 0.952648
       type: 'test'
       ...
     1..3
 ok 24 - AC-1.9 — determinism
   ---
-  duration_ms: 217.330837
+  duration_ms: 159.954795
   type: 'suite'
   ...
 # Subtest: IID-0 carry-forward disclosures
     # Subtest: financial coverage is disclosed separately and states the measured sector count
     ok 1 - financial coverage is disclosed separately and states the measured sector count
       ---
-      duration_ms: 19.033942
+      duration_ms: 11.853849
       type: 'test'
       ...
     # Subtest: with no dataset at all the disclosure says so instead of assuming coverage
     ok 2 - with no dataset at all the disclosure says so instead of assuming coverage
       ---
-      duration_ms: 0.250465
+      duration_ms: 0.149259
       type: 'test'
       ...
     # Subtest: the report carries the roster data class so synthetic evidence is labelled
     ok 3 - the report carries the roster data class so synthetic evidence is labelled
       ---
-      duration_ms: 0.165968
+      duration_ms: 0.11666
       type: 'test'
       ...
     # Subtest: identity coverage is explicitly distinguished from financial coverage
     ok 4 - identity coverage is explicitly distinguished from financial coverage
       ---
-      duration_ms: 0.168233
+      duration_ms: 0.083136
       type: 'test'
       ...
     # Subtest: successor reconciliation appears in the report even where nobody holds the successor
     ok 5 - successor reconciliation appears in the report even where nobody holds the successor
       ---
-      duration_ms: 0.152694
+      duration_ms: 0.086794
       type: 'test'
       ...
     # Subtest: the status line counts holdings only from the holdings surface
     ok 6 - the status line counts holdings only from the holdings surface
       ---
-      duration_ms: 0.163857
+      duration_ms: 0.093818
       type: 'test'
       ...
     1..6
 ok 25 - IID-0 carry-forward disclosures
   ---
-  duration_ms: 20.316552
+  duration_ms: 12.614121
   type: 'suite'
   ...
 # Subtest: routing
     # Subtest: another path is not ours
     ok 1 - another path is not ours
       ---
-      duration_ms: 0.974627
+      duration_ms: 1.000626
       type: 'test'
       ...
     # Subtest: a method other than GET/HEAD is refused with an Allow header
     ok 2 - a method other than GET/HEAD is refused with an Allow header
       ---
-      duration_ms: 0.265322
+      duration_ms: 0.203482
       type: 'test'
       ...
     # Subtest: an invalid asOf is a 400, not a silent default
     ok 3 - an invalid asOf is a 400, not a silent default
       ---
-      duration_ms: 0.381937
+      duration_ms: 0.398156
       type: 'test'
       ...
     # Subtest: the injected clock supplies asOf when the query omits it
     ok 4 - the injected clock supplies asOf when the query omits it
       ---
-      duration_ms: 15.923226
+      duration_ms: 15.939047
       type: 'test'
       ...
     # Subtest: an explicit asOf is honoured and changes the classification
     ok 5 - an explicit asOf is honoured and changes the classification
       ---
-      duration_ms: 5.202887
+      duration_ms: 3.353608
       type: 'test'
       ...
     1..5
 ok 26 - routing
   ---
-  duration_ms: 24.127505
+  duration_ms: 21.909306
   type: 'suite'
   ...
 # Subtest: JSON response
     # Subtest: the report is served with counts, states and no caching
     ok 1 - the report is served with counts, states and no caching
       ---
-      duration_ms: 2.806767
+      duration_ms: 3.932041
       type: 'test'
       ...
     1..1
 ok 27 - JSON response
   ---
-  duration_ms: 2.972707
+  duration_ms: 4.075548
   type: 'suite'
   ...
 # Subtest: HTML view
     # Subtest: the view shows counts, every row, its reason and the raw observation
     ok 1 - the view shows counts, every row, its reason and the raw observation
       ---
-      duration_ms: 4.135993
+      duration_ms: 3.751741
       type: 'test'
       ...
     # Subtest: the view shows no company metric for an unresolved row
     ok 2 - the view shows no company metric for an unresolved row
       ---
-      duration_ms: 3.893538
+      duration_ms: 2.401935
       type: 'test'
       ...
     # Subtest: successor reconciliation is rendered when present
     ok 3 - successor reconciliation is rendered when present
       ---
-      duration_ms: 2.919424
+      duration_ms: 2.613544
       type: 'test'
       ...
     1..3
 ok 28 - HTML view
   ---
-  duration_ms: 11.512045
+  duration_ms: 9.309823
   type: 'suite'
   ...
 # Subtest: fail-closed
     # Subtest: unavailable identity sources give a 503 naming the file issues
     ok 1 - unavailable identity sources give a 503 naming the file issues
       ---
-      duration_ms: 0.496308
+      duration_ms: 0.34993
       type: 'test'
       ...
     # Subtest: the HTML variant explains the same failure without inventing rows
     ok 2 - the HTML variant explains the same failure without inventing rows
       ---
-      duration_ms: 0.363108
+      duration_ms: 0.295581
       type: 'test'
       ...
     # Subtest: an observation source that throws is a bounded 503
     ok 3 - an observation source that throws is a bounded 503
       ---
-      duration_ms: 1.107688
+      duration_ms: 1.339829
       type: 'test'
       ...
     1..3
 ok 29 - fail-closed
   ---
-  duration_ms: 2.14487
+  duration_ms: 2.160998
   type: 'suite'
   ...
 # Subtest: node:http binding
     # Subtest: serves JSON over a real loopback request, with HEAD carrying no body
     ok 1 - serves JSON over a real loopback request, with HEAD carrying no body
       ---
-      duration_ms: 72.240049
+      duration_ms: 78.594295
       type: 'test'
       ...
     1..1
 ok 30 - node:http binding
   ---
-  duration_ms: 72.427324
+  duration_ms: 78.830951
   type: 'suite'
   ...
 # Subtest: broker-import preview evaluation
     # Subtest: preview rows are evaluated with the same ladder and nothing is persisted
     ok 1 - preview rows are evaluated with the same ladder and nothing is persisted
       ---
-      duration_ms: 2.814971
+      duration_ms: 2.307854
       type: 'test'
       ...
     # Subtest: an upstream "RESOLVED" status cannot make an unknown ISIN resolved
     ok 2 - an upstream "RESOLVED" status cannot make an unknown ISIN resolved
       ---
-      duration_ms: 1.318715
+      duration_ms: 1.070469
       type: 'test'
       ...
     # Subtest: method, body shape and size are all bounded
     ok 3 - method, body shape and size are all bounded
       ---
-      duration_ms: 3.112167
+      duration_ms: 2.506866
       type: 'test'
       ...
     # Subtest: unavailable identity sources refuse the preview rather than classifying it
     ok 4 - unavailable identity sources refuse the preview rather than classifying it
       ---
-      duration_ms: 0.238621
+      duration_ms: 0.22336
       type: 'test'
       ...
     # Subtest: a different path is not the preview route
     ok 5 - a different path is not the preview route
       ---
-      duration_ms: 0.1083
+      duration_ms: 0.122638
       type: 'test'
       ...
     1..5
 ok 31 - broker-import preview evaluation
   ---
-  duration_ms: 7.891032
+  duration_ms: 6.447396
   type: 'suite'
   ...
 # Subtest: AC-1.1 — sector references are not identity
     # Subtest: a sector reference in the company reference is rejected, not treated as a symbol
     ok 1 - a sector reference in the company reference is rejected, not treated as a symbol
       ---
-      duration_ms: 1.923207
+      duration_ms: 1.267504
       type: 'test'
       ...
     # Subtest: every sector-reference form is rejected wherever it appears
     ok 2 - every sector-reference form is rejected wherever it appears
       ---
-      duration_ms: 0.637953
+      duration_ms: 0.441456
       type: 'test'
       ...
     1..2
 ok 32 - AC-1.1 — sector references are not identity
   ---
-  duration_ms: 3.672444
+  duration_ms: 2.555647
   type: 'suite'
   ...
 # Subtest: AC-1.2 — ISIN integrity and no fallback
     # Subtest: a single-character corruption fails the Luhn check and is refused
     ok 1 - a single-character corruption fails the Luhn check and is refused
       ---
-      duration_ms: 0.375225
+      duration_ms: 0.406189
       type: 'test'
       ...
     # Subtest: a structurally impossible ISIN is distinguished from a corrupt one
     ok 2 - a structurally impossible ISIN is distinguished from a corrupt one
       ---
-      duration_ms: 0.345395
+      duration_ms: 0.237238
       type: 'test'
       ...
     # Subtest: no single-character corruption of an eligible ISIN can resolve
     ok 3 - no single-character corruption of an eligible ISIN can resolve
       ---
-      duration_ms: 3.645
+      duration_ms: 2.179066
       type: 'test'
       ...
     # Subtest: a valid but unknown ISIN does not fall back to the symbol, even when the symbol would resolve
     ok 4 - a valid but unknown ISIN does not fall back to the symbol, even when the symbol would resolve
       ---
-      duration_ms: 0.911319
+      duration_ms: 0.439041
       type: 'test'
       ...
     # Subtest: the resolution basis is recorded so a symbol match is never mistaken for an ISIN match
     ok 5 - the resolution basis is recorded so a symbol match is never mistaken for an ISIN match
       ---
-      duration_ms: 10.673822
+      duration_ms: 7.553723
       type: 'test'
       ...
     1..5
 ok 33 - AC-1.2 — ISIN integrity and no fallback
   ---
-  duration_ms: 16.702129
+  duration_ms: 11.303283
   type: 'suite'
   ...
 # Subtest: AC-1.3 — duplicate active symbol
     # Subtest: two active issuers sharing a symbol yield AMBIGUOUS with no issuer
     ok 1 - two active issuers sharing a symbol yield AMBIGUOUS with no issuer
       ---
-      duration_ms: 0.443089
+      duration_ms: 0.30443
       type: 'test'
       ...
     # Subtest: no binding is assessable when the symbol is ambiguous
     ok 2 - no binding is assessable when the symbol is ambiguous
       ---
-      duration_ms: 0.663003
+      duration_ms: 0.461791
       type: 'test'
       ...
     1..2
 ok 34 - AC-1.3 — duplicate active symbol
   ---
-  duration_ms: 1.581557
+  duration_ms: 1.092993
   type: 'suite'
   ...
 # Subtest: AC-1.4 — stale references
     # Subtest: a symbol matched only outside its effective window is STALE_REFERENCE
     ok 1 - a symbol matched only outside its effective window is STALE_REFERENCE
       ---
-      duration_ms: 0.475847
+      duration_ms: 0.311765
       type: 'test'
       ...
     # Subtest: a listing whose window has not started is also stale, with its own reason
     ok 2 - a listing whose window has not started is also stale, with its own reason
       ---
-      duration_ms: 0.219305
+      duration_ms: 0.136431
       type: 'test'
       ...
     # Subtest: the currently effective window still resolves
     ok 3 - the currently effective window still resolves
       ---
-      duration_ms: 0.217488
+      duration_ms: 0.170018
       type: 'test'
       ...
     1..3
 ok 35 - AC-1.4 — stale references
   ---
-  duration_ms: 1.109812
+  duration_ms: 0.740324
   type: 'suite'
   ...
 # Subtest: AC-1.5 — CIN / ISIN disagreement
     # Subtest: an observation whose CIN disagrees with the ISIN issuer is a conflict, not a pick
     ok 1 - an observation whose CIN disagrees with the ISIN issuer is a conflict, not a pick
       ---
-      duration_ms: 0.284589
+      duration_ms: 0.143643
       type: 'test'
       ...
     # Subtest: an agreeing CIN resolves normally
     ok 2 - an agreeing CIN resolves normally
       ---
-      duration_ms: 0.226271
+      duration_ms: 0.111707
       type: 'test'
       ...
     # Subtest: a company reference pointing at a different issuer is also a conflict
     ok 3 - a company reference pointing at a different issuer is also a conflict
       ---
-      duration_ms: 0.253542
+      duration_ms: 0.120542
       type: 'test'
       ...
     1..3
 ok 36 - AC-1.5 — CIN / ISIN disagreement
   ---
-  duration_ms: 1.045078
+  duration_ms: 0.529507
   type: 'suite'
   ...
 # Subtest: AC-1.6 — one issuer, many securities
     # Subtest: equity and preference under one issuer produce two bindings, only equity assessable
     ok 1 - equity and preference under one issuer produce two bindings, only equity assessable
       ---
-      duration_ms: 0.526444
+      duration_ms: 0.339389
       type: 'test'
       ...
     # Subtest: an equity-ISIN-keyed issuer records its key basis
     ok 2 - an equity-ISIN-keyed issuer records its key basis
       ---
-      duration_ms: 0.348473
+      duration_ms: 0.147293
       type: 'test'
       ...
     1..2
 ok 37 - AC-1.6 — one issuer, many securities
   ---
-  duration_ms: 1.03179
+  duration_ms: 0.565073
   type: 'suite'
   ...
 # Subtest: AC-1.10 — names cannot establish identity
     # Subtest: the resolver module reads no name field at all
     ok 1 - the resolver module reads no name field at all
       ---
-      duration_ms: 0.521499
+      duration_ms: 0.333711
       type: 'test'
       ...
     # Subtest: the identity input carries no presentation fields
     ok 2 - the identity input carries no presentation fields
       ---
-      duration_ms: 1.115784
+      duration_ms: 0.714019
       type: 'test'
       ...
     # Subtest: a perfect name match with a wrong identifier stays unresolved
     ok 3 - a perfect name match with a wrong identifier stays unresolved
       ---
-      duration_ms: 0.228271
+      duration_ms: 0.127151
       type: 'test'
       ...
     1..3
 ok 38 - AC-1.10 — names cannot establish identity
   ---
-  duration_ms: 2.136075
+  duration_ms: 1.307678
   type: 'suite'
   ...
 # Subtest: listing identity (Revision 3 §E)
     # Subtest: distinct instruments sharing a symbol are AMBIGUOUS_LISTING, never merged
     ok 1 - distinct instruments sharing a symbol are AMBIGUOUS_LISTING, never merged
       ---
-      duration_ms: 0.313646
+      duration_ms: 0.189319
       type: 'test'
       ...
     # Subtest: one security listed in two series resolves to the EQ series
     ok 2 - one security listed in two series resolves to the EQ series
       ---
-      duration_ms: 0.398347
+      duration_ms: 0.219538
       type: 'test'
       ...
     # Subtest: an explicit series is honoured when supplied
     ok 3 - an explicit series is honoured when supplied
       ---
-      duration_ms: 0.239609
+      duration_ms: 0.200942
       type: 'test'
       ...
     # Subtest: an unsupported exchange is ineligible rather than guessed
     ok 4 - an unsupported exchange is ineligible rather than guessed
       ---
-      duration_ms: 0.163022
+      duration_ms: 0.091483
       type: 'test'
       ...
     # Subtest: a symbol reused by another security is ambiguous, not silently re-pointed
     ok 5 - a symbol reused by another security is ambiguous, not silently re-pointed
       ---
-      duration_ms: 0.203388
+      duration_ms: 0.143608
       type: 'test'
       ...
     # Subtest: a roster security with no listing is ineligible, with that exact reason
     ok 6 - a roster security with no listing is ineligible, with that exact reason
       ---
-      duration_ms: 0.196547
+      duration_ms: 0.090999
       type: 'test'
       ...
     # Subtest: a security the roster marks unlisted is ineligible for that reason, not a listing gap
     ok 7 - a security the roster marks unlisted is ineligible for that reason, not a listing gap
       ---
-      duration_ms: 0.175973
+      duration_ms: 0.101645
       type: 'test'
       ...
     1..7
 ok 39 - listing identity (Revision 3 §E)
   ---
-  duration_ms: 2.10332
+  duration_ms: 1.23476
   type: 'suite'
   ...
 # Subtest: binding records
     # Subtest: a binding references roster, listing map and corporate-action versions with digests
     ok 1 - a binding references roster, listing map and corporate-action versions with digests
       ---
-      duration_ms: 2.138325
+      duration_ms: 1.846156
       type: 'test'
       ...
     # Subtest: an unresolved binding still records provenance and status
     ok 2 - an unresolved binding still records provenance and status
       ---
-      duration_ms: 0.325084
+      duration_ms: 0.229257
       type: 'test'
       ...
     # Subtest: bindings are stable for identical inputs
     ok 3 - bindings are stable for identical inputs
       ---
-      duration_ms: 0.521787
+      duration_ms: 0.356022
       type: 'test'
       ...
     1..3
 ok 40 - binding records
   ---
-  duration_ms: 3.272962
+  duration_ms: 2.548558
+  type: 'suite'
+  ...
+# Subtest: runtime identity sources
+    # Subtest: loads the versioned files from the identity directory of the data domain
+    ok 1 - loads the versioned files from the identity directory of the data domain
+      ---
+      duration_ms: 4.692181
+      type: 'test'
+      ...
+    # Subtest: a missing identity directory is unavailable, with the file named — never an empty roster
+    ok 2 - a missing identity directory is unavailable, with the file named — never an empty roster
+      ---
+      duration_ms: 0.312729
+      type: 'test'
+      ...
+    1..2
+ok 41 - runtime identity sources
+  ---
+  duration_ms: 5.9111
+  type: 'suite'
+  ...
+# Subtest: runtime financial-coverage disclosure
+    # Subtest: an absent dataset is disclosed as NONE rather than as coverage
+    ok 1 - an absent dataset is disclosed as NONE rather than as coverage
+      ---
+      duration_ms: 0.788957
+      type: 'test'
+      ...
+    1..1
+ok 42 - runtime financial-coverage disclosure
+  ---
+  duration_ms: 0.908328
   type: 'suite'
   ...
 # Subtest: roster validation
     # Subtest: the reference roster loads and is versioned by content digest
     ok 1 - the reference roster loads and is versioned by content digest
       ---
-      duration_ms: 2.671498
+      duration_ms: 1.945633
       type: 'test'
       ...
     # Subtest: a duplicate security is rejected
     ok 2 - a duplicate security is rejected
       ---
-      duration_ms: 2.280109
+      duration_ms: 2.116862
       type: 'test'
       ...
     # Subtest: the same CIN claimed by two issuers is a key conflict
     ok 3 - the same CIN claimed by two issuers is a key conflict
       ---
-      duration_ms: 0.79751
+      duration_ms: 0.491629
       type: 'test'
       ...
     # Subtest: an issuer whose issuerId contradicts its CIN is a key conflict
     ok 4 - an issuer whose issuerId contradicts its CIN is a key conflict
       ---
-      duration_ms: 0.712267
+      duration_ms: 0.417443
       type: 'test'
       ...
     # Subtest: an issuer that declares an equity ISIN it does not own is a key conflict
     ok 5 - an issuer that declares an equity ISIN it does not own is a key conflict
       ---
-      duration_ms: 0.652124
+      duration_ms: 0.332886
       type: 'test'
       ...
     # Subtest: a security marked assessable that is not equity is refused
     ok 6 - a security marked assessable that is not equity is refused
       ---
-      duration_ms: 0.816388
+      duration_ms: 0.398645
       type: 'test'
       ...
     # Subtest: a schema mismatch is rejected rather than coerced
     ok 7 - a schema mismatch is rejected rather than coerced
       ---
-      duration_ms: 0.345187
+      duration_ms: 0.181651
       type: 'test'
       ...
     # Subtest: invalid JSON is reported, not thrown
     ok 8 - invalid JSON is reported, not thrown
       ---
-      duration_ms: 0.444345
+      duration_ms: 0.218348
       type: 'test'
       ...
     1..8
-ok 41 - roster validation
+ok 43 - roster validation
   ---
-  duration_ms: 10.944686
+  duration_ms: 7.34676
   type: 'suite'
   ...
 # Subtest: listing map validation
     # Subtest: the reference listing map loads
     ok 1 - the reference listing map loads
       ---
-      duration_ms: 0.744917
+      duration_ms: 0.43859
       type: 'test'
       ...
     # Subtest: an unknown security is rejected
     ok 2 - an unknown security is rejected
       ---
-      duration_ms: 0.791987
+      duration_ms: 0.44573
       type: 'test'
       ...
     # Subtest: a two-part listing id is rejected as incomplete
     ok 3 - a two-part listing id is rejected as incomplete
       ---
-      duration_ms: 0.747943
+      duration_ms: 0.373841
       type: 'test'
       ...
     # Subtest: overlapping windows for one listing key are rejected (Revision 3 §E)
     ok 4 - overlapping windows for one listing key are rejected (Revision 3 §E)
       ---
-      duration_ms: 11.052844
+      duration_ms: 7.45022
       type: 'test'
       ...
     # Subtest: an inverted window is rejected
     ok 5 - an inverted window is rejected
       ---
-      duration_ms: 0.501175
+      duration_ms: 0.331022
       type: 'test'
       ...
     # Subtest: an instrument class that disagrees with the security is rejected
     ok 6 - an instrument class that disagrees with the security is rejected
       ---
-      duration_ms: 0.44324
+      duration_ms: 0.217172
       type: 'test'
       ...
     1..6
-ok 42 - listing map validation
+ok 44 - listing map validation
   ---
-  duration_ms: 14.782538
+  duration_ms: 9.549376
   type: 'suite'
   ...
 # Subtest: corporate-action table validation
     # Subtest: the reference table loads with every action type represented
     ok 1 - the reference table loads with every action type represented
       ---
-      duration_ms: 0.380469
+      duration_ms: 0.24115
       type: 'test'
       ...
     # Subtest: successor ratios must reconcile to 1
     ok 2 - successor ratios must reconcile to 1
       ---
-      duration_ms: 0.350419
+      duration_ms: 0.178011
       type: 'test'
       ...
     # Subtest: a merger or demerger without successors is rejected
     ok 3 - a merger or demerger without successors is rejected
       ---
-      duration_ms: 0.274402
+      duration_ms: 0.250456
       type: 'test'
       ...
     # Subtest: a non-positive adjustment factor is rejected
     ok 4 - a non-positive adjustment factor is rejected
       ---
-      duration_ms: 0.282718
+      duration_ms: 0.187113
       type: 'test'
       ...
     # Subtest: an action against an unknown issuer is rejected
     ok 5 - an action against an unknown issuer is rejected
       ---
-      duration_ms: 0.277466
+      duration_ms: 0.150009
       type: 'test'
       ...
     1..5
-ok 43 - corporate-action table validation
+ok 45 - corporate-action table validation
   ---
-  duration_ms: 1.895435
+  duration_ms: 1.15964
   type: 'suite'
   ...
 # Subtest: fail-closed loading
     # Subtest: one bad file rejects the whole set — there is no partial roster
     ok 1 - one bad file rejects the whole set — there is no partial roster
       ---
-      duration_ms: 0.675495
+      duration_ms: 0.412553
       type: 'test'
       ...
     # Subtest: the reference set loads as a whole
     ok 2 - the reference set loads as a whole
       ---
-      duration_ms: 1.429621
+      duration_ms: 0.9419
       type: 'test'
       ...
     # Subtest: a missing identity directory is reported by file name
     ok 3 - a missing identity directory is reported by file name
       ---
-      duration_ms: 1.011227
+      duration_ms: 0.745116
       type: 'test'
       ...
     # Subtest: loading from disk reproduces the same versions as loading from text
     ok 4 - loading from disk reproduces the same versions as loading from text
       ---
-      duration_ms: 4.415812
+      duration_ms: 2.981807
       type: 'test'
       ...
     # Subtest: the identity directory sits in the existing local data domain
     ok 5 - the identity directory sits in the existing local data domain
       ---
-      duration_ms: 0.204541
+      duration_ms: 0.205834
       type: 'test'
       ...
     1..5
-ok 44 - fail-closed loading
+ok 46 - fail-closed loading
   ---
-  duration_ms: 8.092688
+  duration_ms: 5.506452
   type: 'suite'
   ...
 # Subtest: csv reader
     # Subtest: quotes, doubled quotes and blank trailing lines are handled
     ok 1 - quotes, doubled quotes and blank trailing lines are handled
       ---
-      duration_ms: 1.673405
+      duration_ms: 1.173112
       type: 'test'
       ...
     1..1
-ok 45 - csv reader
+ok 47 - csv reader
   ---
-  duration_ms: 3.057778
+  duration_ms: 2.065552
   type: 'suite'
   ...
 # Subtest: xml reader
     # Subtest: self-closing tags, comments and CDATA are parsed
     ok 1 - self-closing tags, comments and CDATA are parsed
       ---
-      duration_ms: 0.47098
+      duration_ms: 0.303117
       type: 'test'
       ...
     # Subtest: unbalanced markup is an error, not a guess
     ok 2 - unbalanced markup is an error, not a guess
       ---
-      duration_ms: 0.602027
+      duration_ms: 0.440422
       type: 'test'
       ...
     1..2
-ok 46 - xml reader
+ok 48 - xml reader
   ---
-  duration_ms: 1.305761
+  duration_ms: 0.898714
   type: 'suite'
   ...
 # Subtest: periods from CSV
     # Subtest: all five periods are ingested: four from CSV, one from XBRL
     ok 1 - all five periods are ingested: four from CSV, one from XBRL
       ---
-      duration_ms: 0.449355
+      duration_ms: 0.25563
       type: 'test'
       ...
     # Subtest: a crore-scaled value is converted exactly once and the scale is recorded
     ok 2 - a crore-scaled value is converted exactly once and the scale is recorded
       ---
-      duration_ms: 0.343998
+      duration_ms: 0.213758
       type: 'test'
       ...
     # Subtest: per-share values are never scaled
     ok 3 - per-share values are never scaled
       ---
-      duration_ms: 0.247881
+      duration_ms: 0.1893
       type: 'test'
       ...
     # Subtest: a blank cell is MISSING with a reason — never zero
     ok 4 - a blank cell is MISSING with a reason — never zero
       ---
-      duration_ms: 0.476009
+      duration_ms: 0.386726
       type: 'test'
       ...
     # Subtest: derived items are produced from filed components, not accepted as filed
     ok 5 - derived items are produced from filed components, not accepted as filed
       ---
-      duration_ms: 0.394207
+      duration_ms: 0.289947
       type: 'test'
       ...
     # Subtest: a derived item that cannot be computed stays absent, with its missing inputs named
     ok 6 - a derived item that cannot be computed stays absent, with its missing inputs named
       ---
-      duration_ms: 0.253412
+      duration_ms: 0.187872
       type: 'test'
       ...
     1..6
-ok 47 - periods from CSV
+ok 49 - periods from CSV
   ---
-  duration_ms: 2.786343
+  duration_ms: 1.992962
   type: 'suite'
   ...
 # Subtest: XBRL instance ingestion
     # Subtest: mapped tags populate line items, with filing provenance
     ok 1 - mapped tags populate line items, with filing provenance
       ---
-      duration_ms: 0.293907
+      duration_ms: 0.189571
       type: 'test'
       ...
     # Subtest: an instant fact populates a balance-sheet item and nothing else
     ok 2 - an instant fact populates a balance-sheet item and nothing else
       ---
-      duration_ms: 0.147481
+      duration_ms: 0.090317
       type: 'test'
       ...
     # Subtest: an instant item filed against a duration context is refused, and says so
     ok 3 - an instant item filed against a duration context is refused, and says so
       ---
-      duration_ms: 0.139062
+      duration_ms: 0.104624
       type: 'test'
       ...
     # Subtest: a tag outside the closed map is counted, never coerced into a figure
     ok 4 - a tag outside the closed map is counted, never coerced into a figure
       ---
-      duration_ms: 0.338608
+      duration_ms: 0.188007
       type: 'test'
       ...
     # Subtest: line items absent from the filing are explicitly MISSING, not zero
     ok 5 - line items absent from the filing are explicitly MISSING, not zero
       ---
-      duration_ms: 0.107675
+      duration_ms: 0.074575
       type: 'test'
       ...
     # Subtest: the extractor is deterministic and reports what it saw
     ok 6 - the extractor is deterministic and reports what it saw
       ---
-      duration_ms: 1.180635
+      duration_ms: 0.82749
       type: 'test'
       ...
     1..6
-ok 48 - XBRL instance ingestion
+ok 50 - XBRL instance ingestion
   ---
-  duration_ms: 2.524892
+  duration_ms: 3.514964
   type: 'suite'
   ...
 # Subtest: operating metrics
     # Subtest: consistent hospitality metrics are valid and carry their source class
     ok 1 - consistent hospitality metrics are valid and carry their source class
       ---
-      duration_ms: 0.320717
+      duration_ms: 0.286107
       type: 'test'
       ...
     # Subtest: an impossible metric pair is withheld, and its innocent neighbours are not
     ok 2 - an impossible metric pair is withheld, and its innocent neighbours are not
       ---
-      duration_ms: 0.223846
+      duration_ms: 0.201054
       type: 'test'
       ...
     # Subtest: an unknown metric id is an error, not a silently dropped row
     ok 3 - an unknown metric id is an error, not a silently dropped row
       ---
-      duration_ms: 1.861917
+      duration_ms: 1.515903
       type: 'test'
       ...
     # Subtest: two conflicting observations for one metric and period are retained and flagged
     ok 4 - two conflicting observations for one metric and period are retained and flagged
       ---
-      duration_ms: 2.14002
+      duration_ms: 1.428259
       type: 'test'
       ...
     # Subtest: a source class that carries no locator is rejected
     ok 5 - a source class that carries no locator is rejected
       ---
-      duration_ms: 1.714987
+      duration_ms: 1.355089
       type: 'test'
       ...
     1..5
-ok 49 - operating metrics
+ok 51 - operating metrics
   ---
-  duration_ms: 6.569156
+  duration_ms: 5.060685
   type: 'suite'
   ...
 # Subtest: dataset validation
     # Subtest: an unknown line-item column is an error
     ok 1 - an unknown line-item column is an error
       ---
-      duration_ms: 1.138795
+      duration_ms: 0.854284
       type: 'test'
       ...
     # Subtest: a derived item may not be filed by hand
     ok 2 - a derived item may not be filed by hand
       ---
-      duration_ms: 1.136502
+      duration_ms: 0.834529
       type: 'test'
       ...
     # Subtest: a duplicate period is rejected rather than overwritten
     ok 3 - a duplicate period is rejected rather than overwritten
       ---
-      duration_ms: 0.905055
+      duration_ms: 0.710678
       type: 'test'
       ...
     # Subtest: a period for an issuer outside the roster is rejected
     ok 4 - a period for an issuer outside the roster is rejected
       ---
-      duration_ms: 1.075967
+      duration_ms: 0.523401
       type: 'test'
       ...
     # Subtest: overlapping listings for one exchange/symbol/series/instrument are an error
     ok 5 - overlapping listings for one exchange/symbol/series/instrument are an error
       ---
-      duration_ms: 3.178818
+      duration_ms: 1.537222
       type: 'test'
       ...
     # Subtest: a corporate action with no adjustment factor makes per-share series non-comparable
     ok 6 - a corporate action with no adjustment factor makes per-share series non-comparable
       ---
-      duration_ms: 1.391984
+      duration_ms: 1.432991
       type: 'test'
       ...
     # Subtest: issues are emitted in a deterministic order
     ok 7 - issues are emitted in a deterministic order
       ---
-      duration_ms: 2.469043
+      duration_ms: 2.826811
       type: 'test'
       ...
     1..7
-ok 50 - dataset validation
+ok 52 - dataset validation
   ---
-  duration_ms: 11.710633
+  duration_ms: 9.10077
   type: 'suite'
   ...
-1..50
-# tests 192
-# suites 50
-# pass 192
+1..52
+# tests 195
+# suites 52
+# pass 195
 # fail 0
 # cancelled 0
 # skipped 0
 # todo 0
-# duration_ms 3106.333621
+# duration_ms 2814.732309

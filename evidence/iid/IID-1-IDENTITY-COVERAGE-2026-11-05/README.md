@@ -18,6 +18,7 @@ identity.
 | contracts | `iips-platform/src/investment/identity/types.ts` | `IdentityObservation`, `IdentitySources`, `EligibleRoster`, `ListingMap`, `CorporateActionTable`, `CompanyIdentityBinding`, resolution states, `IDENTITY_SCHEMA` |
 | sources | `identity/sources.ts` | roster / listing-map / corporate-action loaders, structural + digest validation, `resolveIdentityDir`, file issues |
 | corporate actions | `identity/corporateActions.ts` | CA table validation, adjustment factors, merger/demerger successor reconciliation, symbol history, per-share consistency |
+| runtime | `identity/runtime.ts` | the two adapters the frontend server may use: versioned identity files, and the financial-coverage disclosure of the served dataset |
 | resolution | `identity/resolver.ts` | pure ladder `(observation, sources, asOf) → IdentityResolution`, `CompanyIdentityBinding` emission |
 | coverage | `identity/coverage.ts` | classification of every observation, per-state and per-source counts, status line, financial-coverage disclosure, deterministic ordering |
 | view | `identity/coverageView.ts` | server-rendered HTML (no JS, CSP-locked) |
@@ -147,12 +148,12 @@ HTML) and asserts the failure modes above.
 | Command | Result |
 |---|---|
 | `cd iips-platform && ./node_modules/.bin/tsc --noEmit` | **clean** (`typecheck-iips-platform.txt`, 0 bytes) |
-| `./node_modules/.bin/tsx --test tests/investment/*.test.ts` | **192 / 192 pass**, 50 suites, 0 fail (`test-log-investment.txt`) |
+| `./node_modules/.bin/tsx --test tests/investment/*.test.ts` | **195 / 195 pass**, 51 suites, 0 fail (`test-log-investment.txt`) |
 | `./node_modules/.bin/tsx --test tests/regression/np12-sector-reference-population.test.ts` | **42 / 42 pass** (`test-log-np12-regression.txt`) |
 | `./node_modules/.bin/tsx scripts/iid1-coverage-report.ts <this dir>` | report, HTML and summary written from the fixture sources |
 
-IID-1 accounts for 101 of the 192 investment tests (30 resolver, 24 sources, 14 corporate actions, 15
-coverage, 18 endpoint); the remaining 91 are the IID-0 suites, re-run but not re-derived.
+IID-1 accounts for 104 of the 195 investment tests (30 resolver, 24 sources, 14 corporate actions, 15
+coverage, 18 endpoint, 3 runtime); the remaining 91 are the IID-0 suites, re-run but not re-derived.
 
 Not executed in this sandbox: the frontend test runner and Vite build (`frontend/` has no
 `node_modules`). The two new server modules and the two new browser modules were type-checked with the
@@ -201,6 +202,6 @@ loopback HTTP tests above. This is recorded as a tooling limitation, not as a pa
 | `coverage-report.json` | full report exactly as the endpoint returns it |
 | `coverage-view.html` | the server-rendered coverage view |
 | `coverage-summary.txt` | human-readable counts, rows, reconciliation and source digests |
-| `test-log-investment.txt` | TAP output, 192/192 |
+| `test-log-investment.txt` | TAP output, 195/195 |
 | `test-log-np12-regression.txt` | TAP output, 42/42 |
 | `typecheck-iips-platform.txt` | `tsc --noEmit` output (empty = clean) |
