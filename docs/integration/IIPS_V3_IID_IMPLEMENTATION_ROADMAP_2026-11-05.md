@@ -189,6 +189,9 @@ committed under `fixtures/` are tiny (<100 KB each) and synthetic or public-doma
 
 ### IID-1 — Identity & coverage
 
+**Status: implemented and evidenced — see §B.J2** (Part B is authoritative; §B.J2 records the actual
+acceptance-criteria results, coverage counts and limits).
+
 **Outcome.** For every security the user holds or watches, either a defensible issuer+security
 binding exists, or the item is refused with a named, displayable state. No silent substitution, ever.
 
@@ -675,8 +678,9 @@ No vendor dependency required for v1.
 Part B corrects it in the nine places raised in review. **Where Part A and Part B differ, Part B wins.**
 Nothing in Part B adds a phase, a repository, a service, a dependency or an approval step.
 
-**Status of this roadmap.** IID-0 is **implemented and evidenced** (§B.J). IID-1 … IID-6 are **not
-started**. The R-16 sector-coverage deliverable is **not** part of IID-0 and remains open (§B.K).
+**Status of this roadmap.** IID-0 and IID-1 are **implemented and evidenced** (§B.J, §B.J2). IID-2 … IID-6
+are **not started**. The R-16 sector-coverage deliverable is **not** part of IID-0 or IID-1 and remains
+open (§B.K).
 
 ## B.0 Reading order
 
@@ -684,6 +688,7 @@ started**. The R-16 sector-coverage deliverable is **not** part of IID-0 and rem
 |---|---|
 | what changed in the phases | §B.A … §B.I (one review finding each) |
 | whether IID-0 is done | §B.J (E-0.1 … E-0.11 with evidence) |
+| whether IID-1 is done | §B.J2 (AC-1.1 … AC-1.10 with evidence) |
 | what is still outstanding | §B.K (C-16.1 … C-16.5) and §B.L |
 | the reasoning behind a correction | design of record, Part III §A … §I |
 
@@ -910,6 +915,57 @@ iips-platform/src/investment/
 **Known limits of IID-0, stated rather than implied:** the XBRL tag map covers 20 tags and the derivation
 set 8 items — both are deliberately small and closed, and unmapped tags are counted so the gap is visible;
 the reference dataset is synthetic; nothing here produces an assessment, a valuation or a disposition.
+
+## B.J2 IID-1 — acceptance criteria and actual status
+
+**Implemented 2026-11-05** on branch `arena/08238a84-iips-review-recovered`, on top of IID-0. Evidence:
+`evidence/iid/IID-1-IDENTITY-COVERAGE-2026-11-05/` (report JSON, rendered view, summary, test logs).
+
+| ID | Criterion | Status | Evidence |
+|---|---|---|---|
+| AC-1.1 | All sector-reference forms rejected as identity input | **PASS** | `identity-resolver.test.ts` (`Banking-H1`, `Technology-H3`, `Capital Markets-R2`, `Utilities-REF12`, sector reference in any position) |
+| AC-1.2 | ISIN Luhn rejects single-character corruption; no ISIN→symbol fallback on a miss | **PASS** | `identity-resolver.test.ts` (exhaustive position × substitution sweep, none resolves; structural vs checksum failure distinguished; unknown-but-valid ISIN never falls back to a resolvable symbol) |
+| AC-1.3 | Two active issuers sharing a symbol ⇒ `AMBIGUOUS`, `issuerId: null`, no assessment | **PASS** | `identity-resolver.test.ts`; row H-04 |
+| AC-1.4 | Symbol matched only outside its effective window ⇒ `STALE_REFERENCE` | **PASS** | `identity-resolver.test.ts`; rows H-06, W-06; date-driven re-resolution |
+| AC-1.5 | CIN/equity-ISIN disagreement ⇒ `ISSUER_KEY_CONFLICT`, never a silent pick | **PASS** | `identity-resolver.test.ts`; row H-03 |
+| AC-1.6 | One issuer with equity + preference ⇒ two bindings, only equity assessable | **PASS** | `identity-resolver.test.ts`; rows W-01 / W-02 |
+| AC-1.7 | Demerger with an unmapped successor: that slice unresolved while mapped slices resolve; measured + unmeasured weight reconcile | **PASS** | `identity-corporate-actions.test.ts`; `CA-BODHI-DEMERGER-2025` (0.6 measured / 0.4 unmeasured) |
+| AC-1.8 | Split adjustment preserves per-share consistency within 0.01 % | **PASS** | `identity-corporate-actions.test.ts` (price **and** per-share earnings; an unadjusted split is caught) |
+| AC-1.9 | Byte-deterministic across 100 shuffled input orderings | **PASS** | `identity-coverage.test.ts` (100 shuffles byte-identical; reversed roster/listing-map orderings identical) |
+| AC-1.10 | No resolved binding from a name match | **PASS** | `identity-resolver.test.ts` (resolver reads no name field; an exact name match with a wrong identifier stays unresolved) |
+| Rev-3 §E | `AMBIGUOUS_LISTING` for one listing carrying several securities | **PASS** | `identity-resolver.test.ts`; row B-04 |
+| Rev-3 | Corporate-action extensions (symbol change, delisting, rights, buybacks, bonus, consolidation) and versioned CA data | **PASS** | `identity-sources.test.ts`, `identity-corporate-actions.test.ts` |
+
+**Coverage measured on the synthetic reference set at `asOf 2026-11-05`:** 18 observed rows — 4 resolved,
+9 unresolved, 6 holdings in scope, 1 out-of-scope security, 4 ineligible; per source HOLDING 6/2/4/2,
+BROKER_PREVIEW 4/1/3/1, WATCHLIST 8/1/7/1 (observed/resolved/unresolved/assessable). State sum equals
+observed. Every unresolved row carries a state, a reason code and display text, and the raw observation.
+
+**Executed:** `tsc --noEmit` exit 0; **192/192** investment tests (101 IID-1 + 91 IID-0 re-run);
+**42/42** NP-12 regression tests.
+
+**Delivered code:**
+
+```
+iips-platform/src/investment/identity/
+  types.ts sources.ts corporateActions.ts resolver.ts coverage.ts coverageView.ts
+  coverageEndpoint.ts index.ts
+iips-platform/scripts/iid1-coverage-report.ts
+frontend/server/investment/coverage-transport.ts
+frontend/server/investment/sources.ts
+frontend/src/api/investmentCoverage.ts
+frontend/src/features/investment/InvestmentCoveragePage.tsx
+```
+
+Routes: `GET /api/investment/coverage`, `GET /investment/coverage` (server-rendered, no JS),
+`POST /api/investment/coverage/preview` (evaluates preview rows held by the client; persists nothing).
+SPA surface `/identity-coverage`.
+
+**Limits carried, not resolved:** reference data is synthetic (`SYNTHETIC_FIXTURE`); R-16 sector coverage
+remains 3 of 13 with ten `outstandingSectors` (C-16.x stays OPEN); the XBRL map stays at 20 tags and the
+derivation set at 8 items; broker-preview coverage is request-scoped; the frontend test runner and Vite
+build were not executable in the implementation sandbox (`frontend/` has no `node_modules`), so those two
+browser modules were type-checked only. Identity coverage is not financial coverage and does not close it.
 
 ## B.K R-16 sector coverage — still outstanding
 

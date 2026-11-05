@@ -1,0 +1,1931 @@
+{
+  "reportVersion": 1,
+  "asOf": "2026-11-05",
+  "generatedAt": "2026-11-05T00:00:00.000Z",
+  "identitySources": {
+    "rosterVersion": "sha256:3d9dc6dbdd555a512340e8e69daa3314bb3ffb8645956ce18607e301e1428704",
+    "listingMapVersion": "sha256:5800969c40aea76071cc1e28ac80709d77c9872058a1195e0265f4db7ed1d864",
+    "corporateActionTableVersion": "sha256:3d37cc4d15a225900b8a3443b29d2a3d8be8f2effd425f3dd0835bbc3be8f242",
+    "rosterLabel": "SYNTHETIC IID-1 reference roster (fixture; not real companies)",
+    "rosterDataClass": "SYNTHETIC_FIXTURE"
+  },
+  "counts": {
+    "observed": 18,
+    "assessable": 4,
+    "RESOLVED": 4,
+    "AMBIGUOUS": 1,
+    "UNMATCHED": 3,
+    "INELIGIBLE": 4,
+    "OUT_OF_SCOPE_SECURITY": 1,
+    "STALE_REFERENCE": 2,
+    "REJECTED_MALFORMED_ISIN": 1,
+    "ISSUER_KEY_CONFLICT": 1,
+    "AMBIGUOUS_LISTING": 1
+  },
+  "bySource": {
+    "HOLDING": {
+      "observed": 6,
+      "resolved": 2,
+      "unresolved": 4,
+      "assessable": 2
+    },
+    "BROKER_PREVIEW": {
+      "observed": 4,
+      "resolved": 1,
+      "unresolved": 3,
+      "assessable": 1
+    },
+    "WATCHLIST": {
+      "observed": 8,
+      "resolved": 1,
+      "unresolved": 7,
+      "assessable": 1
+    }
+  },
+  "items": [
+    {
+      "observationId": "B-01",
+      "source": "BROKER_PREVIEW",
+      "portfolioId": "portfolio-primary",
+      "state": "REJECTED_MALFORMED_ISIN",
+      "reason": "ISIN_CHECK_DIGIT_FAILED",
+      "reasonText": "The ISIN fails its Luhn check digit, which means at least one character is corrupt.",
+      "detail": "\"IN0000000012\" passes the shape check but fails its Luhn check digit, so a character is corrupt",
+      "candidates": [],
+      "binding": {
+        "bindingId": "sha256:d87c133b219e9f88d56ebb9e5f1c9df74d05ad98c47d7bf2423a76dae87aa379",
+        "observationId": "B-01",
+        "source": "BROKER_PREVIEW",
+        "portfolioId": "portfolio-primary",
+        "status": "REJECTED_MALFORMED_ISIN",
+        "reason": "ISIN_CHECK_DIGIT_FAILED",
+        "issuerId": null,
+        "issuerKeyBasis": null,
+        "securityId": null,
+        "listingId": null,
+        "resolutionBasis": null,
+        "assessable": false,
+        "effectiveFrom": null,
+        "effectiveTo": null,
+        "rosterVersion": "sha256:3d9dc6dbdd555a512340e8e69daa3314bb3ffb8645956ce18607e301e1428704",
+        "listingMapVersion": "sha256:5800969c40aea76071cc1e28ac80709d77c9872058a1195e0265f4db7ed1d864",
+        "corporateActionTableVersion": "sha256:3d37cc4d15a225900b8a3443b29d2a3d8be8f2effd425f3dd0835bbc3be8f242",
+        "observedAt": "2026-11-05",
+        "provenance": {
+          "rosterDigest": "sha256:3d9dc6dbdd555a512340e8e69daa3314bb3ffb8645956ce18607e301e1428704",
+          "listingMapDigest": "sha256:5800969c40aea76071cc1e28ac80709d77c9872058a1195e0265f4db7ed1d864",
+          "corporateActionTableDigest": "sha256:3d37cc4d15a225900b8a3443b29d2a3d8be8f2effd425f3dd0835bbc3be8f242",
+          "resolutionBasis": "IDENTITY_FIELDS_ONLY"
+        }
+      },
+      "resolution": {
+        "observationId": "B-01",
+        "state": "REJECTED_MALFORMED_ISIN",
+        "issuerId": null,
+        "securityId": null,
+        "listingId": null,
+        "resolutionBasis": null,
+        "failure": {
+          "state": "REJECTED_MALFORMED_ISIN",
+          "reason": "ISIN_CHECK_DIGIT_FAILED",
+          "detail": "\"IN0000000012\" passes the shape check but fails its Luhn check digit, so a character is corrupt",
+          "candidates": []
+        }
+      },
+      "displayName": "Aarav Systems Limited",
+      "raw": {
+        "symbol": "AARAV",
+        "isin": "IN0000000012",
+        "quantity": 15
+      },
+      "upstreamStatus": "UNRESOLVED"
+    },
+    {
+      "observationId": "B-02",
+      "source": "BROKER_PREVIEW",
+      "portfolioId": "portfolio-primary",
+      "state": "RESOLVED",
+      "reason": null,
+      "reasonText": null,
+      "detail": null,
+      "candidates": [],
+      "binding": {
+        "bindingId": "sha256:3cab7a915cd8ca560d5e9cf50e3083256b3ebbca417c24c31c41b6dae5ba1a99",
+        "observationId": "B-02",
+        "source": "BROKER_PREVIEW",
+        "portfolioId": "portfolio-primary",
+        "status": "RESOLVED",
+        "reason": null,
+        "issuerId": "IN:EQISIN:IN0000000045",
+        "issuerKeyBasis": "EQUITY_ISIN",
+        "securityId": "IN:ISIN:IN0000000045",
+        "listingId": "IN:NSE:DWARKA:EQ:EQUITY",
+        "resolutionBasis": "ISIN",
+        "assessable": true,
+        "effectiveFrom": "2019-09-09",
+        "effectiveTo": null,
+        "rosterVersion": "sha256:3d9dc6dbdd555a512340e8e69daa3314bb3ffb8645956ce18607e301e1428704",
+        "listingMapVersion": "sha256:5800969c40aea76071cc1e28ac80709d77c9872058a1195e0265f4db7ed1d864",
+        "corporateActionTableVersion": "sha256:3d37cc4d15a225900b8a3443b29d2a3d8be8f2effd425f3dd0835bbc3be8f242",
+        "observedAt": "2026-11-05",
+        "provenance": {
+          "rosterDigest": "sha256:3d9dc6dbdd555a512340e8e69daa3314bb3ffb8645956ce18607e301e1428704",
+          "listingMapDigest": "sha256:5800969c40aea76071cc1e28ac80709d77c9872058a1195e0265f4db7ed1d864",
+          "corporateActionTableDigest": "sha256:3d37cc4d15a225900b8a3443b29d2a3d8be8f2effd425f3dd0835bbc3be8f242",
+          "resolutionBasis": "IDENTITY_FIELDS_ONLY"
+        }
+      },
+      "resolution": {
+        "observationId": "B-02",
+        "state": "RESOLVED",
+        "issuerId": "IN:EQISIN:IN0000000045",
+        "securityId": "IN:ISIN:IN0000000045",
+        "listingId": "IN:NSE:DWARKA:EQ:EQUITY",
+        "resolutionBasis": "ISIN",
+        "failure": null
+      },
+      "displayName": "Dwarka Resorts Limited",
+      "raw": {
+        "symbol": "DWARKA",
+        "isin": "IN0000000045",
+        "quantity": 80
+      },
+      "upstreamStatus": "RESOLVED"
+    },
+    {
+      "observationId": "B-03",
+      "source": "BROKER_PREVIEW",
+      "portfolioId": "portfolio-primary",
+      "state": "UNMATCHED",
+      "reason": "ISIN_NOT_IN_ROSTER",
+      "reasonText": "The ISIN is valid but is not in the eligible roster. No symbol fallback is attempted.",
+      "detail": "ISIN IN0000000201 is valid but not in the eligible roster",
+      "candidates": [],
+      "binding": {
+        "bindingId": "sha256:9dbbe99676f6367e26bc52285c9903de17d4feda1d729544158139d13940f087",
+        "observationId": "B-03",
+        "source": "BROKER_PREVIEW",
+        "portfolioId": "portfolio-primary",
+        "status": "UNMATCHED",
+        "reason": "ISIN_NOT_IN_ROSTER",
+        "issuerId": null,
+        "issuerKeyBasis": null,
+        "securityId": null,
+        "listingId": null,
+        "resolutionBasis": null,
+        "assessable": false,
+        "effectiveFrom": null,
+        "effectiveTo": null,
+        "rosterVersion": "sha256:3d9dc6dbdd555a512340e8e69daa3314bb3ffb8645956ce18607e301e1428704",
+        "listingMapVersion": "sha256:5800969c40aea76071cc1e28ac80709d77c9872058a1195e0265f4db7ed1d864",
+        "corporateActionTableVersion": "sha256:3d37cc4d15a225900b8a3443b29d2a3d8be8f2effd425f3dd0835bbc3be8f242",
+        "observedAt": "2026-11-05",
+        "provenance": {
+          "rosterDigest": "sha256:3d9dc6dbdd555a512340e8e69daa3314bb3ffb8645956ce18607e301e1428704",
+          "listingMapDigest": "sha256:5800969c40aea76071cc1e28ac80709d77c9872058a1195e0265f4db7ed1d864",
+          "corporateActionTableDigest": "sha256:3d37cc4d15a225900b8a3443b29d2a3d8be8f2effd425f3dd0835bbc3be8f242",
+          "resolutionBasis": "IDENTITY_FIELDS_ONLY"
+        }
+      },
+      "resolution": {
+        "observationId": "B-03",
+        "state": "UNMATCHED",
+        "issuerId": null,
+        "securityId": null,
+        "listingId": null,
+        "resolutionBasis": null,
+        "failure": {
+          "state": "UNMATCHED",
+          "reason": "ISIN_NOT_IN_ROSTER",
+          "detail": "ISIN IN0000000201 is valid but not in the eligible roster",
+          "candidates": []
+        }
+      },
+      "displayName": "Aarav Systems Limited",
+      "raw": {
+        "symbol": "AARAV",
+        "isin": "IN0000000201",
+        "quantity": 7
+      },
+      "upstreamStatus": "UNRESOLVED"
+    },
+    {
+      "observationId": "B-04",
+      "source": "BROKER_PREVIEW",
+      "portfolioId": null,
+      "state": "AMBIGUOUS_LISTING",
+      "reason": "MULTIPLE_SECURITIES_SHARE_LISTING",
+      "reasonText": "Two distinct securities claim the same exchange, symbol, series and instrument class. Distinct instruments must never collapse into one listing.",
+      "detail": "one issuer lists EQUITY and PREFERENCE under NSE:EESHMIX; distinct instruments never share a listing",
+      "candidates": [
+        "IN:ISIN:IN0000000052",
+        "IN:ISIN:IN0000000060"
+      ],
+      "binding": {
+        "bindingId": "sha256:2bb7f61bbdb0b7acbcaa59486c1a4b9217e6374813f9b7be52358ceabddaea77",
+        "observationId": "B-04",
+        "source": "BROKER_PREVIEW",
+        "portfolioId": null,
+        "status": "AMBIGUOUS_LISTING",
+        "reason": "MULTIPLE_SECURITIES_SHARE_LISTING",
+        "issuerId": null,
+        "issuerKeyBasis": null,
+        "securityId": null,
+        "listingId": null,
+        "resolutionBasis": null,
+        "assessable": false,
+        "effectiveFrom": null,
+        "effectiveTo": null,
+        "rosterVersion": "sha256:3d9dc6dbdd555a512340e8e69daa3314bb3ffb8645956ce18607e301e1428704",
+        "listingMapVersion": "sha256:5800969c40aea76071cc1e28ac80709d77c9872058a1195e0265f4db7ed1d864",
+        "corporateActionTableVersion": "sha256:3d37cc4d15a225900b8a3443b29d2a3d8be8f2effd425f3dd0835bbc3be8f242",
+        "observedAt": "2026-11-05",
+        "provenance": {
+          "rosterDigest": "sha256:3d9dc6dbdd555a512340e8e69daa3314bb3ffb8645956ce18607e301e1428704",
+          "listingMapDigest": "sha256:5800969c40aea76071cc1e28ac80709d77c9872058a1195e0265f4db7ed1d864",
+          "corporateActionTableDigest": "sha256:3d37cc4d15a225900b8a3443b29d2a3d8be8f2effd425f3dd0835bbc3be8f242",
+          "resolutionBasis": "IDENTITY_FIELDS_ONLY"
+        }
+      },
+      "resolution": {
+        "observationId": "B-04",
+        "state": "AMBIGUOUS_LISTING",
+        "issuerId": null,
+        "securityId": null,
+        "listingId": null,
+        "resolutionBasis": null,
+        "failure": {
+          "state": "AMBIGUOUS_LISTING",
+          "reason": "MULTIPLE_SECURITIES_SHARE_LISTING",
+          "detail": "one issuer lists EQUITY and PREFERENCE under NSE:EESHMIX; distinct instruments never share a listing",
+          "candidates": [
+            "IN:ISIN:IN0000000052",
+            "IN:ISIN:IN0000000060"
+          ]
+        }
+      },
+      "displayName": null,
+      "raw": {
+        "symbol": "EESHMIX",
+        "quantity": 12
+      },
+      "upstreamStatus": "UNRESOLVED"
+    },
+    {
+      "observationId": "H-01",
+      "source": "HOLDING",
+      "portfolioId": "portfolio-primary",
+      "state": "RESOLVED",
+      "reason": null,
+      "reasonText": null,
+      "detail": null,
+      "candidates": [],
+      "binding": {
+        "bindingId": "sha256:f532a0f4114b948b94e78fc205702d23835736572788e4187d976bd62ace2794",
+        "observationId": "H-01",
+        "source": "HOLDING",
+        "portfolioId": "portfolio-primary",
+        "status": "RESOLVED",
+        "reason": null,
+        "issuerId": "IN:CIN:L72200KA1981PLC013115",
+        "issuerKeyBasis": "CIN",
+        "securityId": "IN:ISIN:IN0000000011",
+        "listingId": "IN:NSE:AARAV:EQ:EQUITY",
+        "resolutionBasis": "ISIN",
+        "assessable": true,
+        "effectiveFrom": "2020-06-01",
+        "effectiveTo": null,
+        "rosterVersion": "sha256:3d9dc6dbdd555a512340e8e69daa3314bb3ffb8645956ce18607e301e1428704",
+        "listingMapVersion": "sha256:5800969c40aea76071cc1e28ac80709d77c9872058a1195e0265f4db7ed1d864",
+        "corporateActionTableVersion": "sha256:3d37cc4d15a225900b8a3443b29d2a3d8be8f2effd425f3dd0835bbc3be8f242",
+        "observedAt": "2026-11-05",
+        "provenance": {
+          "rosterDigest": "sha256:3d9dc6dbdd555a512340e8e69daa3314bb3ffb8645956ce18607e301e1428704",
+          "listingMapDigest": "sha256:5800969c40aea76071cc1e28ac80709d77c9872058a1195e0265f4db7ed1d864",
+          "corporateActionTableDigest": "sha256:3d37cc4d15a225900b8a3443b29d2a3d8be8f2effd425f3dd0835bbc3be8f242",
+          "resolutionBasis": "IDENTITY_FIELDS_ONLY"
+        }
+      },
+      "resolution": {
+        "observationId": "H-01",
+        "state": "RESOLVED",
+        "issuerId": "IN:CIN:L72200KA1981PLC013115",
+        "securityId": "IN:ISIN:IN0000000011",
+        "listingId": "IN:NSE:AARAV:EQ:EQUITY",
+        "resolutionBasis": "ISIN",
+        "failure": null
+      },
+      "displayName": "Aarav Systems Limited",
+      "raw": {
+        "symbol": "AARAV",
+        "isin": "IN0000000011",
+        "exchange": "NSE",
+        "quantity": 120
+      },
+      "upstreamStatus": "RESOLVED"
+    },
+    {
+      "observationId": "H-02",
+      "source": "HOLDING",
+      "portfolioId": "portfolio-primary",
+      "state": "RESOLVED",
+      "reason": null,
+      "reasonText": null,
+      "detail": null,
+      "candidates": [],
+      "binding": {
+        "bindingId": "sha256:eeb3fd1b67a91b7c397583c65a94d38f901ddb86db465ab5f17f5709215e17f3",
+        "observationId": "H-02",
+        "source": "HOLDING",
+        "portfolioId": "portfolio-primary",
+        "status": "RESOLVED",
+        "reason": null,
+        "issuerId": "IN:CIN:L65110MH1995PLC000002",
+        "issuerKeyBasis": "CIN",
+        "securityId": "IN:ISIN:IN0000000037",
+        "listingId": "IN:NSE:CMBANK:EQ:EQUITY",
+        "resolutionBasis": "EXCHANGE_SYMBOL",
+        "assessable": true,
+        "effectiveFrom": "2018-04-02",
+        "effectiveTo": null,
+        "rosterVersion": "sha256:3d9dc6dbdd555a512340e8e69daa3314bb3ffb8645956ce18607e301e1428704",
+        "listingMapVersion": "sha256:5800969c40aea76071cc1e28ac80709d77c9872058a1195e0265f4db7ed1d864",
+        "corporateActionTableVersion": "sha256:3d37cc4d15a225900b8a3443b29d2a3d8be8f2effd425f3dd0835bbc3be8f242",
+        "observedAt": "2026-11-05",
+        "provenance": {
+          "rosterDigest": "sha256:3d9dc6dbdd555a512340e8e69daa3314bb3ffb8645956ce18607e301e1428704",
+          "listingMapDigest": "sha256:5800969c40aea76071cc1e28ac80709d77c9872058a1195e0265f4db7ed1d864",
+          "corporateActionTableDigest": "sha256:3d37cc4d15a225900b8a3443b29d2a3d8be8f2effd425f3dd0835bbc3be8f242",
+          "resolutionBasis": "IDENTITY_FIELDS_ONLY"
+        }
+      },
+      "resolution": {
+        "observationId": "H-02",
+        "state": "RESOLVED",
+        "issuerId": "IN:CIN:L65110MH1995PLC000002",
+        "securityId": "IN:ISIN:IN0000000037",
+        "listingId": "IN:NSE:CMBANK:EQ:EQUITY",
+        "resolutionBasis": "EXCHANGE_SYMBOL",
+        "failure": null
+      },
+      "displayName": "Chandra Meridian Bank Limited",
+      "raw": {
+        "symbol": "CMBANK",
+        "quantity": 45
+      },
+      "upstreamStatus": "UNRESOLVED"
+    },
+    {
+      "observationId": "H-03",
+      "source": "HOLDING",
+      "portfolioId": "portfolio-primary",
+      "state": "ISSUER_KEY_CONFLICT",
+      "reason": "ISSUER_KEY_CONFLICT",
+      "reasonText": "A CIN and an equity ISIN disagree about the same issuer or security. This is never resolved by picking one.",
+      "detail": "the row declares CIN L72200KA1981PLC013115 but ISIN IN0000000037 belongs to issuer IN:CIN:L65110MH1995PLC000002 (CIN L65110MH1995PLC000002)",
+      "candidates": [
+        "IN:CIN:L65110MH1995PLC000002"
+      ],
+      "binding": {
+        "bindingId": "sha256:b7fcb16192320d92cb5127b44b87a43e88525bc8d8f5f3df0739279db2eae615",
+        "observationId": "H-03",
+        "source": "HOLDING",
+        "portfolioId": "portfolio-primary",
+        "status": "ISSUER_KEY_CONFLICT",
+        "reason": "ISSUER_KEY_CONFLICT",
+        "issuerId": null,
+        "issuerKeyBasis": null,
+        "securityId": null,
+        "listingId": null,
+        "resolutionBasis": null,
+        "assessable": false,
+        "effectiveFrom": null,
+        "effectiveTo": null,
+        "rosterVersion": "sha256:3d9dc6dbdd555a512340e8e69daa3314bb3ffb8645956ce18607e301e1428704",
+        "listingMapVersion": "sha256:5800969c40aea76071cc1e28ac80709d77c9872058a1195e0265f4db7ed1d864",
+        "corporateActionTableVersion": "sha256:3d37cc4d15a225900b8a3443b29d2a3d8be8f2effd425f3dd0835bbc3be8f242",
+        "observedAt": "2026-11-05",
+        "provenance": {
+          "rosterDigest": "sha256:3d9dc6dbdd555a512340e8e69daa3314bb3ffb8645956ce18607e301e1428704",
+          "listingMapDigest": "sha256:5800969c40aea76071cc1e28ac80709d77c9872058a1195e0265f4db7ed1d864",
+          "corporateActionTableDigest": "sha256:3d37cc4d15a225900b8a3443b29d2a3d8be8f2effd425f3dd0835bbc3be8f242",
+          "resolutionBasis": "IDENTITY_FIELDS_ONLY"
+        }
+      },
+      "resolution": {
+        "observationId": "H-03",
+        "state": "ISSUER_KEY_CONFLICT",
+        "issuerId": null,
+        "securityId": null,
+        "listingId": null,
+        "resolutionBasis": null,
+        "failure": {
+          "state": "ISSUER_KEY_CONFLICT",
+          "reason": "ISSUER_KEY_CONFLICT",
+          "detail": "the row declares CIN L72200KA1981PLC013115 but ISIN IN0000000037 belongs to issuer IN:CIN:L65110MH1995PLC000002 (CIN L65110MH1995PLC000002)",
+          "candidates": [
+            "IN:CIN:L65110MH1995PLC000002"
+          ]
+        }
+      },
+      "displayName": "Chandra Meridian Bank Limited",
+      "raw": {
+        "symbol": "CMBANK",
+        "isin": "IN0000000037",
+        "cin": "L72200KA1981PLC013115"
+      },
+      "upstreamStatus": "RESOLVED"
+    },
+    {
+      "observationId": "H-04",
+      "source": "HOLDING",
+      "portfolioId": "portfolio-primary",
+      "state": "AMBIGUOUS",
+      "reason": "DUPLICATE_ACTIVE_SYMBOL",
+      "reasonText": "More than one active issuer currently uses this exchange symbol.",
+      "detail": "2 active issuers use NSE:TWINS (IN:CIN:L72200KA1981PLC013115, IN:CIN:U72200TN2001PLC000005)",
+      "candidates": [
+        "IN:ISIN:IN0000000011",
+        "IN:ISIN:IN0000000029"
+      ],
+      "binding": {
+        "bindingId": "sha256:cb3969fd90fc3d3b29a0f1822fe3bba4eebf40a850fe6b712f32c9bf95c1fcec",
+        "observationId": "H-04",
+        "source": "HOLDING",
+        "portfolioId": "portfolio-primary",
+        "status": "AMBIGUOUS",
+        "reason": "DUPLICATE_ACTIVE_SYMBOL",
+        "issuerId": null,
+        "issuerKeyBasis": null,
+        "securityId": null,
+        "listingId": null,
+        "resolutionBasis": null,
+        "assessable": false,
+        "effectiveFrom": null,
+        "effectiveTo": null,
+        "rosterVersion": "sha256:3d9dc6dbdd555a512340e8e69daa3314bb3ffb8645956ce18607e301e1428704",
+        "listingMapVersion": "sha256:5800969c40aea76071cc1e28ac80709d77c9872058a1195e0265f4db7ed1d864",
+        "corporateActionTableVersion": "sha256:3d37cc4d15a225900b8a3443b29d2a3d8be8f2effd425f3dd0835bbc3be8f242",
+        "observedAt": "2026-11-05",
+        "provenance": {
+          "rosterDigest": "sha256:3d9dc6dbdd555a512340e8e69daa3314bb3ffb8645956ce18607e301e1428704",
+          "listingMapDigest": "sha256:5800969c40aea76071cc1e28ac80709d77c9872058a1195e0265f4db7ed1d864",
+          "corporateActionTableDigest": "sha256:3d37cc4d15a225900b8a3443b29d2a3d8be8f2effd425f3dd0835bbc3be8f242",
+          "resolutionBasis": "IDENTITY_FIELDS_ONLY"
+        }
+      },
+      "resolution": {
+        "observationId": "H-04",
+        "state": "AMBIGUOUS",
+        "issuerId": null,
+        "securityId": null,
+        "listingId": null,
+        "resolutionBasis": null,
+        "failure": {
+          "state": "AMBIGUOUS",
+          "reason": "DUPLICATE_ACTIVE_SYMBOL",
+          "detail": "2 active issuers use NSE:TWINS (IN:CIN:L72200KA1981PLC013115, IN:CIN:U72200TN2001PLC000005)",
+          "candidates": [
+            "IN:ISIN:IN0000000011",
+            "IN:ISIN:IN0000000029"
+          ]
+        }
+      },
+      "displayName": null,
+      "raw": {
+        "symbol": "TWINS",
+        "quantity": 10
+      },
+      "upstreamStatus": "UNRESOLVED"
+    },
+    {
+      "observationId": "H-05",
+      "source": "HOLDING",
+      "portfolioId": "portfolio-primary",
+      "state": "UNMATCHED",
+      "reason": "SECTOR_REFERENCE_NOT_AN_IDENTITY",
+      "reasonText": "This identifier is a sector reference (for example \"Banking-H1\"), not a company or security. It can never be used as identity input.",
+      "detail": "\"Banking-H1\" is a sector reference, not a company or security identifier",
+      "candidates": [],
+      "binding": {
+        "bindingId": "sha256:264629acf14750caee1b8c077c489c195249ebe7e461d86ea2c312d83b56dbfa",
+        "observationId": "H-05",
+        "source": "HOLDING",
+        "portfolioId": "portfolio-primary",
+        "status": "UNMATCHED",
+        "reason": "SECTOR_REFERENCE_NOT_AN_IDENTITY",
+        "issuerId": null,
+        "issuerKeyBasis": null,
+        "securityId": null,
+        "listingId": null,
+        "resolutionBasis": null,
+        "assessable": false,
+        "effectiveFrom": null,
+        "effectiveTo": null,
+        "rosterVersion": "sha256:3d9dc6dbdd555a512340e8e69daa3314bb3ffb8645956ce18607e301e1428704",
+        "listingMapVersion": "sha256:5800969c40aea76071cc1e28ac80709d77c9872058a1195e0265f4db7ed1d864",
+        "corporateActionTableVersion": "sha256:3d37cc4d15a225900b8a3443b29d2a3d8be8f2effd425f3dd0835bbc3be8f242",
+        "observedAt": "2026-11-05",
+        "provenance": {
+          "rosterDigest": "sha256:3d9dc6dbdd555a512340e8e69daa3314bb3ffb8645956ce18607e301e1428704",
+          "listingMapDigest": "sha256:5800969c40aea76071cc1e28ac80709d77c9872058a1195e0265f4db7ed1d864",
+          "corporateActionTableDigest": "sha256:3d37cc4d15a225900b8a3443b29d2a3d8be8f2effd425f3dd0835bbc3be8f242",
+          "resolutionBasis": "IDENTITY_FIELDS_ONLY"
+        }
+      },
+      "resolution": {
+        "observationId": "H-05",
+        "state": "UNMATCHED",
+        "issuerId": null,
+        "securityId": null,
+        "listingId": null,
+        "resolutionBasis": null,
+        "failure": {
+          "state": "UNMATCHED",
+          "reason": "SECTOR_REFERENCE_NOT_AN_IDENTITY",
+          "detail": "\"Banking-H1\" is a sector reference, not a company or security identifier",
+          "candidates": []
+        }
+      },
+      "displayName": "Banking sector reference",
+      "raw": {
+        "companyId": "Banking-H1",
+        "quantity": 0
+      },
+      "upstreamStatus": "UNRESOLVED"
+    },
+    {
+      "observationId": "H-06",
+      "source": "HOLDING",
+      "portfolioId": "portfolio-primary",
+      "state": "STALE_REFERENCE",
+      "reason": "LISTING_WINDOW_EXPIRED",
+      "reasonText": "The symbol matched only outside its listing effective window (delisted or renamed).",
+      "detail": "symbol NSE:OLDCO ended on 2020-05-31 and is not effective at 2026-11-05",
+      "candidates": [
+        "IN:ISIN:IN0000000011"
+      ],
+      "binding": {
+        "bindingId": "sha256:e541cf2aa8875d56aad4487343a998d35b9d126feeab26290558b743b3c596d7",
+        "observationId": "H-06",
+        "source": "HOLDING",
+        "portfolioId": "portfolio-primary",
+        "status": "STALE_REFERENCE",
+        "reason": "LISTING_WINDOW_EXPIRED",
+        "issuerId": null,
+        "issuerKeyBasis": null,
+        "securityId": null,
+        "listingId": null,
+        "resolutionBasis": null,
+        "assessable": false,
+        "effectiveFrom": null,
+        "effectiveTo": null,
+        "rosterVersion": "sha256:3d9dc6dbdd555a512340e8e69daa3314bb3ffb8645956ce18607e301e1428704",
+        "listingMapVersion": "sha256:5800969c40aea76071cc1e28ac80709d77c9872058a1195e0265f4db7ed1d864",
+        "corporateActionTableVersion": "sha256:3d37cc4d15a225900b8a3443b29d2a3d8be8f2effd425f3dd0835bbc3be8f242",
+        "observedAt": "2026-11-05",
+        "provenance": {
+          "rosterDigest": "sha256:3d9dc6dbdd555a512340e8e69daa3314bb3ffb8645956ce18607e301e1428704",
+          "listingMapDigest": "sha256:5800969c40aea76071cc1e28ac80709d77c9872058a1195e0265f4db7ed1d864",
+          "corporateActionTableDigest": "sha256:3d37cc4d15a225900b8a3443b29d2a3d8be8f2effd425f3dd0835bbc3be8f242",
+          "resolutionBasis": "IDENTITY_FIELDS_ONLY"
+        }
+      },
+      "resolution": {
+        "observationId": "H-06",
+        "state": "STALE_REFERENCE",
+        "issuerId": null,
+        "securityId": null,
+        "listingId": null,
+        "resolutionBasis": null,
+        "failure": {
+          "state": "STALE_REFERENCE",
+          "reason": "LISTING_WINDOW_EXPIRED",
+          "detail": "symbol NSE:OLDCO ended on 2020-05-31 and is not effective at 2026-11-05",
+          "candidates": [
+            "IN:ISIN:IN0000000011"
+          ]
+        }
+      },
+      "displayName": "Aarav Systems Limited",
+      "raw": {
+        "symbol": "OLDCO",
+        "quantity": 5
+      },
+      "upstreamStatus": "UNRESOLVED"
+    },
+    {
+      "observationId": "W-01",
+      "source": "WATCHLIST",
+      "portfolioId": null,
+      "state": "RESOLVED",
+      "reason": null,
+      "reasonText": null,
+      "detail": null,
+      "candidates": [],
+      "binding": {
+        "bindingId": "sha256:d6fa5b140641c02738fc0a45b45a030f7d739ee687fe76aac0e1040c27edcdee",
+        "observationId": "W-01",
+        "source": "WATCHLIST",
+        "portfolioId": null,
+        "status": "RESOLVED",
+        "reason": null,
+        "issuerId": "IN:CIN:U66010MH2000PLC000004",
+        "issuerKeyBasis": "CIN",
+        "securityId": "IN:ISIN:IN0000000052",
+        "listingId": "IN:NSE:EESHLIFE:EQ:EQUITY",
+        "resolutionBasis": "ISIN",
+        "assessable": true,
+        "effectiveFrom": "2022-01-10",
+        "effectiveTo": null,
+        "rosterVersion": "sha256:3d9dc6dbdd555a512340e8e69daa3314bb3ffb8645956ce18607e301e1428704",
+        "listingMapVersion": "sha256:5800969c40aea76071cc1e28ac80709d77c9872058a1195e0265f4db7ed1d864",
+        "corporateActionTableVersion": "sha256:3d37cc4d15a225900b8a3443b29d2a3d8be8f2effd425f3dd0835bbc3be8f242",
+        "observedAt": "2026-11-05",
+        "provenance": {
+          "rosterDigest": "sha256:3d9dc6dbdd555a512340e8e69daa3314bb3ffb8645956ce18607e301e1428704",
+          "listingMapDigest": "sha256:5800969c40aea76071cc1e28ac80709d77c9872058a1195e0265f4db7ed1d864",
+          "corporateActionTableDigest": "sha256:3d37cc4d15a225900b8a3443b29d2a3d8be8f2effd425f3dd0835bbc3be8f242",
+          "resolutionBasis": "IDENTITY_FIELDS_ONLY"
+        }
+      },
+      "resolution": {
+        "observationId": "W-01",
+        "state": "RESOLVED",
+        "issuerId": "IN:CIN:U66010MH2000PLC000004",
+        "securityId": "IN:ISIN:IN0000000052",
+        "listingId": "IN:NSE:EESHLIFE:EQ:EQUITY",
+        "resolutionBasis": "ISIN",
+        "failure": null
+      },
+      "displayName": "Eesha Life Insurance Limited",
+      "raw": {
+        "canonicalSecurityId": "IN:ISIN:IN0000000052"
+      },
+      "upstreamStatus": null
+    },
+    {
+      "observationId": "W-02",
+      "source": "WATCHLIST",
+      "portfolioId": null,
+      "state": "OUT_OF_SCOPE_SECURITY",
+      "reason": "INSTRUMENT_NOT_ASSESSABLE",
+      "reasonText": "The instrument class is not assessable in v1 (only listed equity is). It is disclosed, not assessed by proxy.",
+      "detail": "Preference capital is out of scope in v1.",
+      "candidates": [],
+      "binding": {
+        "bindingId": "sha256:3d9582cb53975ebe75865d9815b2b88bf4bdcd8c8cc1368c1be13f5678391f0f",
+        "observationId": "W-02",
+        "source": "WATCHLIST",
+        "portfolioId": null,
+        "status": "OUT_OF_SCOPE_SECURITY",
+        "reason": "INSTRUMENT_NOT_ASSESSABLE",
+        "issuerId": "IN:CIN:U66010MH2000PLC000004",
+        "issuerKeyBasis": "CIN",
+        "securityId": "IN:ISIN:IN0000000060",
+        "listingId": "IN:NSE:EESHPREF:EQ:PREFERENCE",
+        "resolutionBasis": "ISIN",
+        "assessable": false,
+        "effectiveFrom": "2022-01-10",
+        "effectiveTo": null,
+        "rosterVersion": "sha256:3d9dc6dbdd555a512340e8e69daa3314bb3ffb8645956ce18607e301e1428704",
+        "listingMapVersion": "sha256:5800969c40aea76071cc1e28ac80709d77c9872058a1195e0265f4db7ed1d864",
+        "corporateActionTableVersion": "sha256:3d37cc4d15a225900b8a3443b29d2a3d8be8f2effd425f3dd0835bbc3be8f242",
+        "observedAt": "2026-11-05",
+        "provenance": {
+          "rosterDigest": "sha256:3d9dc6dbdd555a512340e8e69daa3314bb3ffb8645956ce18607e301e1428704",
+          "listingMapDigest": "sha256:5800969c40aea76071cc1e28ac80709d77c9872058a1195e0265f4db7ed1d864",
+          "corporateActionTableDigest": "sha256:3d37cc4d15a225900b8a3443b29d2a3d8be8f2effd425f3dd0835bbc3be8f242",
+          "resolutionBasis": "IDENTITY_FIELDS_ONLY"
+        }
+      },
+      "resolution": {
+        "observationId": "W-02",
+        "state": "OUT_OF_SCOPE_SECURITY",
+        "issuerId": "IN:CIN:U66010MH2000PLC000004",
+        "securityId": "IN:ISIN:IN0000000060",
+        "listingId": "IN:NSE:EESHPREF:EQ:PREFERENCE",
+        "resolutionBasis": "ISIN",
+        "failure": {
+          "state": "OUT_OF_SCOPE_SECURITY",
+          "reason": "INSTRUMENT_NOT_ASSESSABLE",
+          "detail": "Preference capital is out of scope in v1.",
+          "candidates": []
+        }
+      },
+      "displayName": "Eesha Life Insurance Limited",
+      "raw": {
+        "canonicalSecurityId": "IN:ISIN:IN0000000060"
+      },
+      "upstreamStatus": null
+    },
+    {
+      "observationId": "W-03",
+      "source": "WATCHLIST",
+      "portfolioId": null,
+      "state": "UNMATCHED",
+      "reason": "SECTOR_REFERENCE_NOT_AN_IDENTITY",
+      "reasonText": "This identifier is a sector reference (for example \"Banking-H1\"), not a company or security. It can never be used as identity input.",
+      "detail": "\"Technology-H3\" is a sector reference, not a company or security identifier",
+      "candidates": [],
+      "binding": {
+        "bindingId": "sha256:f3b3063c960e3c3c40d1942a8f038be7912e4fb6c33efb2aef9f042b30ea6255",
+        "observationId": "W-03",
+        "source": "WATCHLIST",
+        "portfolioId": null,
+        "status": "UNMATCHED",
+        "reason": "SECTOR_REFERENCE_NOT_AN_IDENTITY",
+        "issuerId": null,
+        "issuerKeyBasis": null,
+        "securityId": null,
+        "listingId": null,
+        "resolutionBasis": null,
+        "assessable": false,
+        "effectiveFrom": null,
+        "effectiveTo": null,
+        "rosterVersion": "sha256:3d9dc6dbdd555a512340e8e69daa3314bb3ffb8645956ce18607e301e1428704",
+        "listingMapVersion": "sha256:5800969c40aea76071cc1e28ac80709d77c9872058a1195e0265f4db7ed1d864",
+        "corporateActionTableVersion": "sha256:3d37cc4d15a225900b8a3443b29d2a3d8be8f2effd425f3dd0835bbc3be8f242",
+        "observedAt": "2026-11-05",
+        "provenance": {
+          "rosterDigest": "sha256:3d9dc6dbdd555a512340e8e69daa3314bb3ffb8645956ce18607e301e1428704",
+          "listingMapDigest": "sha256:5800969c40aea76071cc1e28ac80709d77c9872058a1195e0265f4db7ed1d864",
+          "corporateActionTableDigest": "sha256:3d37cc4d15a225900b8a3443b29d2a3d8be8f2effd425f3dd0835bbc3be8f242",
+          "resolutionBasis": "IDENTITY_FIELDS_ONLY"
+        }
+      },
+      "resolution": {
+        "observationId": "W-03",
+        "state": "UNMATCHED",
+        "issuerId": null,
+        "securityId": null,
+        "listingId": null,
+        "resolutionBasis": null,
+        "failure": {
+          "state": "UNMATCHED",
+          "reason": "SECTOR_REFERENCE_NOT_AN_IDENTITY",
+          "detail": "\"Technology-H3\" is a sector reference, not a company or security identifier",
+          "candidates": []
+        }
+      },
+      "displayName": "Technology sector reference",
+      "raw": {
+        "canonicalSecurityId": "Technology-H3"
+      },
+      "upstreamStatus": null
+    },
+    {
+      "observationId": "W-04",
+      "source": "WATCHLIST",
+      "portfolioId": null,
+      "state": "INELIGIBLE",
+      "reason": "ISSUER_NOT_ELIGIBLE",
+      "reasonText": "The issuer exists but is excluded from the eligible roster.",
+      "detail": "Excluded from the eligible roster for this fixture: suspended disclosure.",
+      "candidates": [],
+      "binding": {
+        "bindingId": "sha256:ba21f2cce6dfa59fd248c43d8b1c9e1eafeb0c5cd1190f06b3d002837f0cf0f6",
+        "observationId": "W-04",
+        "source": "WATCHLIST",
+        "portfolioId": null,
+        "status": "INELIGIBLE",
+        "reason": "ISSUER_NOT_ELIGIBLE",
+        "issuerId": "IN:CIN:U45200GJ2010PLC000006",
+        "issuerKeyBasis": "CIN",
+        "securityId": "IN:ISIN:IN0000000078",
+        "listingId": "IN:NSE:EXCLUDED1:EQ:EQUITY",
+        "resolutionBasis": "ISIN",
+        "assessable": false,
+        "effectiveFrom": "2015-01-01",
+        "effectiveTo": null,
+        "rosterVersion": "sha256:3d9dc6dbdd555a512340e8e69daa3314bb3ffb8645956ce18607e301e1428704",
+        "listingMapVersion": "sha256:5800969c40aea76071cc1e28ac80709d77c9872058a1195e0265f4db7ed1d864",
+        "corporateActionTableVersion": "sha256:3d37cc4d15a225900b8a3443b29d2a3d8be8f2effd425f3dd0835bbc3be8f242",
+        "observedAt": "2026-11-05",
+        "provenance": {
+          "rosterDigest": "sha256:3d9dc6dbdd555a512340e8e69daa3314bb3ffb8645956ce18607e301e1428704",
+          "listingMapDigest": "sha256:5800969c40aea76071cc1e28ac80709d77c9872058a1195e0265f4db7ed1d864",
+          "corporateActionTableDigest": "sha256:3d37cc4d15a225900b8a3443b29d2a3d8be8f2effd425f3dd0835bbc3be8f242",
+          "resolutionBasis": "IDENTITY_FIELDS_ONLY"
+        }
+      },
+      "resolution": {
+        "observationId": "W-04",
+        "state": "INELIGIBLE",
+        "issuerId": "IN:CIN:U45200GJ2010PLC000006",
+        "securityId": "IN:ISIN:IN0000000078",
+        "listingId": "IN:NSE:EXCLUDED1:EQ:EQUITY",
+        "resolutionBasis": "ISIN",
+        "failure": {
+          "state": "INELIGIBLE",
+          "reason": "ISSUER_NOT_ELIGIBLE",
+          "detail": "Excluded from the eligible roster for this fixture: suspended disclosure.",
+          "candidates": []
+        }
+      },
+      "displayName": "Fictional Infrastructure Limited",
+      "raw": {
+        "canonicalSecurityId": "IN:ISIN:IN0000000078"
+      },
+      "upstreamStatus": null
+    },
+    {
+      "observationId": "W-05",
+      "source": "WATCHLIST",
+      "portfolioId": null,
+      "state": "INELIGIBLE",
+      "reason": "NON_INDIAN_ISSUER",
+      "reasonText": "The issuer is not an Indian listed issuer, which is outside v1 scope.",
+      "detail": "v1 covers Indian listed issuers only",
+      "candidates": [],
+      "binding": {
+        "bindingId": "sha256:a0f99b72af0baabbb47e28a866deeb1a791e5c4a35d7bd4f2567f0e36d5431ee",
+        "observationId": "W-05",
+        "source": "WATCHLIST",
+        "portfolioId": null,
+        "status": "INELIGIBLE",
+        "reason": "NON_INDIAN_ISSUER",
+        "issuerId": "IN:CIN:U99999MH2015PLC000007",
+        "issuerKeyBasis": "CIN",
+        "securityId": "IN:ISIN:IN0000000086",
+        "listingId": "IN:NSE:FOREIGN1:EQ:EQUITY",
+        "resolutionBasis": "ISIN",
+        "assessable": false,
+        "effectiveFrom": "2016-01-01",
+        "effectiveTo": null,
+        "rosterVersion": "sha256:3d9dc6dbdd555a512340e8e69daa3314bb3ffb8645956ce18607e301e1428704",
+        "listingMapVersion": "sha256:5800969c40aea76071cc1e28ac80709d77c9872058a1195e0265f4db7ed1d864",
+        "corporateActionTableVersion": "sha256:3d37cc4d15a225900b8a3443b29d2a3d8be8f2effd425f3dd0835bbc3be8f242",
+        "observedAt": "2026-11-05",
+        "provenance": {
+          "rosterDigest": "sha256:3d9dc6dbdd555a512340e8e69daa3314bb3ffb8645956ce18607e301e1428704",
+          "listingMapDigest": "sha256:5800969c40aea76071cc1e28ac80709d77c9872058a1195e0265f4db7ed1d864",
+          "corporateActionTableDigest": "sha256:3d37cc4d15a225900b8a3443b29d2a3d8be8f2effd425f3dd0835bbc3be8f242",
+          "resolutionBasis": "IDENTITY_FIELDS_ONLY"
+        }
+      },
+      "resolution": {
+        "observationId": "W-05",
+        "state": "INELIGIBLE",
+        "issuerId": "IN:CIN:U99999MH2015PLC000007",
+        "securityId": "IN:ISIN:IN0000000086",
+        "listingId": "IN:NSE:FOREIGN1:EQ:EQUITY",
+        "resolutionBasis": "ISIN",
+        "failure": {
+          "state": "INELIGIBLE",
+          "reason": "NON_INDIAN_ISSUER",
+          "detail": "v1 covers Indian listed issuers only",
+          "candidates": []
+        }
+      },
+      "displayName": "Overseas Holdings Limited",
+      "raw": {
+        "canonicalSecurityId": "IN:ISIN:IN0000000086"
+      },
+      "upstreamStatus": null
+    },
+    {
+      "observationId": "W-06",
+      "source": "WATCHLIST",
+      "portfolioId": null,
+      "state": "STALE_REFERENCE",
+      "reason": "LISTING_NOT_YET_EFFECTIVE",
+      "reasonText": "The symbol matches a listing whose effective window has not started at the observation date.",
+      "detail": "symbol NSE:FUTURE starts after 2026-11-05",
+      "candidates": [
+        "IN:ISIN:IN0000000094"
+      ],
+      "binding": {
+        "bindingId": "sha256:805c3625d466eb39a5b952e3667b9064f509ff4be526d7de12cbd15a9e08deb4",
+        "observationId": "W-06",
+        "source": "WATCHLIST",
+        "portfolioId": null,
+        "status": "STALE_REFERENCE",
+        "reason": "LISTING_NOT_YET_EFFECTIVE",
+        "issuerId": null,
+        "issuerKeyBasis": null,
+        "securityId": null,
+        "listingId": null,
+        "resolutionBasis": null,
+        "assessable": false,
+        "effectiveFrom": null,
+        "effectiveTo": null,
+        "rosterVersion": "sha256:3d9dc6dbdd555a512340e8e69daa3314bb3ffb8645956ce18607e301e1428704",
+        "listingMapVersion": "sha256:5800969c40aea76071cc1e28ac80709d77c9872058a1195e0265f4db7ed1d864",
+        "corporateActionTableVersion": "sha256:3d37cc4d15a225900b8a3443b29d2a3d8be8f2effd425f3dd0835bbc3be8f242",
+        "observedAt": "2026-11-05",
+        "provenance": {
+          "rosterDigest": "sha256:3d9dc6dbdd555a512340e8e69daa3314bb3ffb8645956ce18607e301e1428704",
+          "listingMapDigest": "sha256:5800969c40aea76071cc1e28ac80709d77c9872058a1195e0265f4db7ed1d864",
+          "corporateActionTableDigest": "sha256:3d37cc4d15a225900b8a3443b29d2a3d8be8f2effd425f3dd0835bbc3be8f242",
+          "resolutionBasis": "IDENTITY_FIELDS_ONLY"
+        }
+      },
+      "resolution": {
+        "observationId": "W-06",
+        "state": "STALE_REFERENCE",
+        "issuerId": null,
+        "securityId": null,
+        "listingId": null,
+        "resolutionBasis": null,
+        "failure": {
+          "state": "STALE_REFERENCE",
+          "reason": "LISTING_NOT_YET_EFFECTIVE",
+          "detail": "symbol NSE:FUTURE starts after 2026-11-05",
+          "candidates": [
+            "IN:ISIN:IN0000000094"
+          ]
+        }
+      },
+      "displayName": "Girish Metals Limited",
+      "raw": {
+        "canonicalSecurityId": "IN:ISIN:IN0000000094"
+      },
+      "upstreamStatus": null
+    },
+    {
+      "observationId": "W-07",
+      "source": "WATCHLIST",
+      "portfolioId": null,
+      "state": "INELIGIBLE",
+      "reason": "SECURITY_NOT_LISTED",
+      "reasonText": "The security is not listed, so it cannot be assessed in v1.",
+      "detail": "Not listed on NSE or BSE.",
+      "candidates": [],
+      "binding": {
+        "bindingId": "sha256:f3eaf399430c1ef0a35f1ae41ed25f5a29bcefa2ad07019f33e97c30d8190ec8",
+        "observationId": "W-07",
+        "source": "WATCHLIST",
+        "portfolioId": null,
+        "status": "INELIGIBLE",
+        "reason": "SECURITY_NOT_LISTED",
+        "issuerId": "IN:CIN:U27100MH2012PLC000008",
+        "issuerKeyBasis": "CIN",
+        "securityId": "IN:ISIN:IN0000000102",
+        "listingId": null,
+        "resolutionBasis": "ISIN",
+        "assessable": false,
+        "effectiveFrom": null,
+        "effectiveTo": null,
+        "rosterVersion": "sha256:3d9dc6dbdd555a512340e8e69daa3314bb3ffb8645956ce18607e301e1428704",
+        "listingMapVersion": "sha256:5800969c40aea76071cc1e28ac80709d77c9872058a1195e0265f4db7ed1d864",
+        "corporateActionTableVersion": "sha256:3d37cc4d15a225900b8a3443b29d2a3d8be8f2effd425f3dd0835bbc3be8f242",
+        "observedAt": "2026-11-05",
+        "provenance": {
+          "rosterDigest": "sha256:3d9dc6dbdd555a512340e8e69daa3314bb3ffb8645956ce18607e301e1428704",
+          "listingMapDigest": "sha256:5800969c40aea76071cc1e28ac80709d77c9872058a1195e0265f4db7ed1d864",
+          "corporateActionTableDigest": "sha256:3d37cc4d15a225900b8a3443b29d2a3d8be8f2effd425f3dd0835bbc3be8f242",
+          "resolutionBasis": "IDENTITY_FIELDS_ONLY"
+        }
+      },
+      "resolution": {
+        "observationId": "W-07",
+        "state": "INELIGIBLE",
+        "issuerId": "IN:CIN:U27100MH2012PLC000008",
+        "securityId": "IN:ISIN:IN0000000102",
+        "listingId": null,
+        "resolutionBasis": "ISIN",
+        "failure": {
+          "state": "INELIGIBLE",
+          "reason": "SECURITY_NOT_LISTED",
+          "detail": "Not listed on NSE or BSE.",
+          "candidates": []
+        }
+      },
+      "displayName": "Girish Metals Limited",
+      "raw": {
+        "canonicalSecurityId": "IN:ISIN:IN0000000102"
+      },
+      "upstreamStatus": null
+    },
+    {
+      "observationId": "W-08",
+      "source": "WATCHLIST",
+      "portfolioId": null,
+      "state": "INELIGIBLE",
+      "reason": "NO_LISTING_FOR_SECURITY",
+      "reasonText": "The security exists in the roster but has no listing in the listing map.",
+      "detail": "security IN:ISIN:IN0000000110 has no listing in the listing map",
+      "candidates": [],
+      "binding": {
+        "bindingId": "sha256:473ede65197a35f7e89afe812105a6eadc640a578d31d4c8c2667a594ab7b33d",
+        "observationId": "W-08",
+        "source": "WATCHLIST",
+        "portfolioId": null,
+        "status": "INELIGIBLE",
+        "reason": "NO_LISTING_FOR_SECURITY",
+        "issuerId": null,
+        "issuerKeyBasis": null,
+        "securityId": null,
+        "listingId": null,
+        "resolutionBasis": null,
+        "assessable": false,
+        "effectiveFrom": null,
+        "effectiveTo": null,
+        "rosterVersion": "sha256:3d9dc6dbdd555a512340e8e69daa3314bb3ffb8645956ce18607e301e1428704",
+        "listingMapVersion": "sha256:5800969c40aea76071cc1e28ac80709d77c9872058a1195e0265f4db7ed1d864",
+        "corporateActionTableVersion": "sha256:3d37cc4d15a225900b8a3443b29d2a3d8be8f2effd425f3dd0835bbc3be8f242",
+        "observedAt": "2026-11-05",
+        "provenance": {
+          "rosterDigest": "sha256:3d9dc6dbdd555a512340e8e69daa3314bb3ffb8645956ce18607e301e1428704",
+          "listingMapDigest": "sha256:5800969c40aea76071cc1e28ac80709d77c9872058a1195e0265f4db7ed1d864",
+          "corporateActionTableDigest": "sha256:3d37cc4d15a225900b8a3443b29d2a3d8be8f2effd425f3dd0835bbc3be8f242",
+          "resolutionBasis": "IDENTITY_FIELDS_ONLY"
+        }
+      },
+      "resolution": {
+        "observationId": "W-08",
+        "state": "INELIGIBLE",
+        "issuerId": null,
+        "securityId": null,
+        "listingId": null,
+        "resolutionBasis": null,
+        "failure": {
+          "state": "INELIGIBLE",
+          "reason": "NO_LISTING_FOR_SECURITY",
+          "detail": "security IN:ISIN:IN0000000110 has no listing in the listing map",
+          "candidates": []
+        }
+      },
+      "displayName": "Bodhi Digital Limited",
+      "raw": {
+        "canonicalSecurityId": "IN:ISIN:IN0000000110"
+      },
+      "upstreamStatus": null
+    }
+  ],
+  "unresolved": [
+    {
+      "observationId": "H-04",
+      "source": "HOLDING",
+      "portfolioId": "portfolio-primary",
+      "state": "AMBIGUOUS",
+      "reason": "DUPLICATE_ACTIVE_SYMBOL",
+      "reasonText": "More than one active issuer currently uses this exchange symbol.",
+      "detail": "2 active issuers use NSE:TWINS (IN:CIN:L72200KA1981PLC013115, IN:CIN:U72200TN2001PLC000005)",
+      "candidates": [
+        "IN:ISIN:IN0000000011",
+        "IN:ISIN:IN0000000029"
+      ],
+      "binding": {
+        "bindingId": "sha256:cb3969fd90fc3d3b29a0f1822fe3bba4eebf40a850fe6b712f32c9bf95c1fcec",
+        "observationId": "H-04",
+        "source": "HOLDING",
+        "portfolioId": "portfolio-primary",
+        "status": "AMBIGUOUS",
+        "reason": "DUPLICATE_ACTIVE_SYMBOL",
+        "issuerId": null,
+        "issuerKeyBasis": null,
+        "securityId": null,
+        "listingId": null,
+        "resolutionBasis": null,
+        "assessable": false,
+        "effectiveFrom": null,
+        "effectiveTo": null,
+        "rosterVersion": "sha256:3d9dc6dbdd555a512340e8e69daa3314bb3ffb8645956ce18607e301e1428704",
+        "listingMapVersion": "sha256:5800969c40aea76071cc1e28ac80709d77c9872058a1195e0265f4db7ed1d864",
+        "corporateActionTableVersion": "sha256:3d37cc4d15a225900b8a3443b29d2a3d8be8f2effd425f3dd0835bbc3be8f242",
+        "observedAt": "2026-11-05",
+        "provenance": {
+          "rosterDigest": "sha256:3d9dc6dbdd555a512340e8e69daa3314bb3ffb8645956ce18607e301e1428704",
+          "listingMapDigest": "sha256:5800969c40aea76071cc1e28ac80709d77c9872058a1195e0265f4db7ed1d864",
+          "corporateActionTableDigest": "sha256:3d37cc4d15a225900b8a3443b29d2a3d8be8f2effd425f3dd0835bbc3be8f242",
+          "resolutionBasis": "IDENTITY_FIELDS_ONLY"
+        }
+      },
+      "resolution": {
+        "observationId": "H-04",
+        "state": "AMBIGUOUS",
+        "issuerId": null,
+        "securityId": null,
+        "listingId": null,
+        "resolutionBasis": null,
+        "failure": {
+          "state": "AMBIGUOUS",
+          "reason": "DUPLICATE_ACTIVE_SYMBOL",
+          "detail": "2 active issuers use NSE:TWINS (IN:CIN:L72200KA1981PLC013115, IN:CIN:U72200TN2001PLC000005)",
+          "candidates": [
+            "IN:ISIN:IN0000000011",
+            "IN:ISIN:IN0000000029"
+          ]
+        }
+      },
+      "displayName": null,
+      "raw": {
+        "symbol": "TWINS",
+        "quantity": 10
+      },
+      "upstreamStatus": "UNRESOLVED"
+    },
+    {
+      "observationId": "B-04",
+      "source": "BROKER_PREVIEW",
+      "portfolioId": null,
+      "state": "AMBIGUOUS_LISTING",
+      "reason": "MULTIPLE_SECURITIES_SHARE_LISTING",
+      "reasonText": "Two distinct securities claim the same exchange, symbol, series and instrument class. Distinct instruments must never collapse into one listing.",
+      "detail": "one issuer lists EQUITY and PREFERENCE under NSE:EESHMIX; distinct instruments never share a listing",
+      "candidates": [
+        "IN:ISIN:IN0000000052",
+        "IN:ISIN:IN0000000060"
+      ],
+      "binding": {
+        "bindingId": "sha256:2bb7f61bbdb0b7acbcaa59486c1a4b9217e6374813f9b7be52358ceabddaea77",
+        "observationId": "B-04",
+        "source": "BROKER_PREVIEW",
+        "portfolioId": null,
+        "status": "AMBIGUOUS_LISTING",
+        "reason": "MULTIPLE_SECURITIES_SHARE_LISTING",
+        "issuerId": null,
+        "issuerKeyBasis": null,
+        "securityId": null,
+        "listingId": null,
+        "resolutionBasis": null,
+        "assessable": false,
+        "effectiveFrom": null,
+        "effectiveTo": null,
+        "rosterVersion": "sha256:3d9dc6dbdd555a512340e8e69daa3314bb3ffb8645956ce18607e301e1428704",
+        "listingMapVersion": "sha256:5800969c40aea76071cc1e28ac80709d77c9872058a1195e0265f4db7ed1d864",
+        "corporateActionTableVersion": "sha256:3d37cc4d15a225900b8a3443b29d2a3d8be8f2effd425f3dd0835bbc3be8f242",
+        "observedAt": "2026-11-05",
+        "provenance": {
+          "rosterDigest": "sha256:3d9dc6dbdd555a512340e8e69daa3314bb3ffb8645956ce18607e301e1428704",
+          "listingMapDigest": "sha256:5800969c40aea76071cc1e28ac80709d77c9872058a1195e0265f4db7ed1d864",
+          "corporateActionTableDigest": "sha256:3d37cc4d15a225900b8a3443b29d2a3d8be8f2effd425f3dd0835bbc3be8f242",
+          "resolutionBasis": "IDENTITY_FIELDS_ONLY"
+        }
+      },
+      "resolution": {
+        "observationId": "B-04",
+        "state": "AMBIGUOUS_LISTING",
+        "issuerId": null,
+        "securityId": null,
+        "listingId": null,
+        "resolutionBasis": null,
+        "failure": {
+          "state": "AMBIGUOUS_LISTING",
+          "reason": "MULTIPLE_SECURITIES_SHARE_LISTING",
+          "detail": "one issuer lists EQUITY and PREFERENCE under NSE:EESHMIX; distinct instruments never share a listing",
+          "candidates": [
+            "IN:ISIN:IN0000000052",
+            "IN:ISIN:IN0000000060"
+          ]
+        }
+      },
+      "displayName": null,
+      "raw": {
+        "symbol": "EESHMIX",
+        "quantity": 12
+      },
+      "upstreamStatus": "UNRESOLVED"
+    },
+    {
+      "observationId": "W-04",
+      "source": "WATCHLIST",
+      "portfolioId": null,
+      "state": "INELIGIBLE",
+      "reason": "ISSUER_NOT_ELIGIBLE",
+      "reasonText": "The issuer exists but is excluded from the eligible roster.",
+      "detail": "Excluded from the eligible roster for this fixture: suspended disclosure.",
+      "candidates": [],
+      "binding": {
+        "bindingId": "sha256:ba21f2cce6dfa59fd248c43d8b1c9e1eafeb0c5cd1190f06b3d002837f0cf0f6",
+        "observationId": "W-04",
+        "source": "WATCHLIST",
+        "portfolioId": null,
+        "status": "INELIGIBLE",
+        "reason": "ISSUER_NOT_ELIGIBLE",
+        "issuerId": "IN:CIN:U45200GJ2010PLC000006",
+        "issuerKeyBasis": "CIN",
+        "securityId": "IN:ISIN:IN0000000078",
+        "listingId": "IN:NSE:EXCLUDED1:EQ:EQUITY",
+        "resolutionBasis": "ISIN",
+        "assessable": false,
+        "effectiveFrom": "2015-01-01",
+        "effectiveTo": null,
+        "rosterVersion": "sha256:3d9dc6dbdd555a512340e8e69daa3314bb3ffb8645956ce18607e301e1428704",
+        "listingMapVersion": "sha256:5800969c40aea76071cc1e28ac80709d77c9872058a1195e0265f4db7ed1d864",
+        "corporateActionTableVersion": "sha256:3d37cc4d15a225900b8a3443b29d2a3d8be8f2effd425f3dd0835bbc3be8f242",
+        "observedAt": "2026-11-05",
+        "provenance": {
+          "rosterDigest": "sha256:3d9dc6dbdd555a512340e8e69daa3314bb3ffb8645956ce18607e301e1428704",
+          "listingMapDigest": "sha256:5800969c40aea76071cc1e28ac80709d77c9872058a1195e0265f4db7ed1d864",
+          "corporateActionTableDigest": "sha256:3d37cc4d15a225900b8a3443b29d2a3d8be8f2effd425f3dd0835bbc3be8f242",
+          "resolutionBasis": "IDENTITY_FIELDS_ONLY"
+        }
+      },
+      "resolution": {
+        "observationId": "W-04",
+        "state": "INELIGIBLE",
+        "issuerId": "IN:CIN:U45200GJ2010PLC000006",
+        "securityId": "IN:ISIN:IN0000000078",
+        "listingId": "IN:NSE:EXCLUDED1:EQ:EQUITY",
+        "resolutionBasis": "ISIN",
+        "failure": {
+          "state": "INELIGIBLE",
+          "reason": "ISSUER_NOT_ELIGIBLE",
+          "detail": "Excluded from the eligible roster for this fixture: suspended disclosure.",
+          "candidates": []
+        }
+      },
+      "displayName": "Fictional Infrastructure Limited",
+      "raw": {
+        "canonicalSecurityId": "IN:ISIN:IN0000000078"
+      },
+      "upstreamStatus": null
+    },
+    {
+      "observationId": "W-05",
+      "source": "WATCHLIST",
+      "portfolioId": null,
+      "state": "INELIGIBLE",
+      "reason": "NON_INDIAN_ISSUER",
+      "reasonText": "The issuer is not an Indian listed issuer, which is outside v1 scope.",
+      "detail": "v1 covers Indian listed issuers only",
+      "candidates": [],
+      "binding": {
+        "bindingId": "sha256:a0f99b72af0baabbb47e28a866deeb1a791e5c4a35d7bd4f2567f0e36d5431ee",
+        "observationId": "W-05",
+        "source": "WATCHLIST",
+        "portfolioId": null,
+        "status": "INELIGIBLE",
+        "reason": "NON_INDIAN_ISSUER",
+        "issuerId": "IN:CIN:U99999MH2015PLC000007",
+        "issuerKeyBasis": "CIN",
+        "securityId": "IN:ISIN:IN0000000086",
+        "listingId": "IN:NSE:FOREIGN1:EQ:EQUITY",
+        "resolutionBasis": "ISIN",
+        "assessable": false,
+        "effectiveFrom": "2016-01-01",
+        "effectiveTo": null,
+        "rosterVersion": "sha256:3d9dc6dbdd555a512340e8e69daa3314bb3ffb8645956ce18607e301e1428704",
+        "listingMapVersion": "sha256:5800969c40aea76071cc1e28ac80709d77c9872058a1195e0265f4db7ed1d864",
+        "corporateActionTableVersion": "sha256:3d37cc4d15a225900b8a3443b29d2a3d8be8f2effd425f3dd0835bbc3be8f242",
+        "observedAt": "2026-11-05",
+        "provenance": {
+          "rosterDigest": "sha256:3d9dc6dbdd555a512340e8e69daa3314bb3ffb8645956ce18607e301e1428704",
+          "listingMapDigest": "sha256:5800969c40aea76071cc1e28ac80709d77c9872058a1195e0265f4db7ed1d864",
+          "corporateActionTableDigest": "sha256:3d37cc4d15a225900b8a3443b29d2a3d8be8f2effd425f3dd0835bbc3be8f242",
+          "resolutionBasis": "IDENTITY_FIELDS_ONLY"
+        }
+      },
+      "resolution": {
+        "observationId": "W-05",
+        "state": "INELIGIBLE",
+        "issuerId": "IN:CIN:U99999MH2015PLC000007",
+        "securityId": "IN:ISIN:IN0000000086",
+        "listingId": "IN:NSE:FOREIGN1:EQ:EQUITY",
+        "resolutionBasis": "ISIN",
+        "failure": {
+          "state": "INELIGIBLE",
+          "reason": "NON_INDIAN_ISSUER",
+          "detail": "v1 covers Indian listed issuers only",
+          "candidates": []
+        }
+      },
+      "displayName": "Overseas Holdings Limited",
+      "raw": {
+        "canonicalSecurityId": "IN:ISIN:IN0000000086"
+      },
+      "upstreamStatus": null
+    },
+    {
+      "observationId": "W-07",
+      "source": "WATCHLIST",
+      "portfolioId": null,
+      "state": "INELIGIBLE",
+      "reason": "SECURITY_NOT_LISTED",
+      "reasonText": "The security is not listed, so it cannot be assessed in v1.",
+      "detail": "Not listed on NSE or BSE.",
+      "candidates": [],
+      "binding": {
+        "bindingId": "sha256:f3eaf399430c1ef0a35f1ae41ed25f5a29bcefa2ad07019f33e97c30d8190ec8",
+        "observationId": "W-07",
+        "source": "WATCHLIST",
+        "portfolioId": null,
+        "status": "INELIGIBLE",
+        "reason": "SECURITY_NOT_LISTED",
+        "issuerId": "IN:CIN:U27100MH2012PLC000008",
+        "issuerKeyBasis": "CIN",
+        "securityId": "IN:ISIN:IN0000000102",
+        "listingId": null,
+        "resolutionBasis": "ISIN",
+        "assessable": false,
+        "effectiveFrom": null,
+        "effectiveTo": null,
+        "rosterVersion": "sha256:3d9dc6dbdd555a512340e8e69daa3314bb3ffb8645956ce18607e301e1428704",
+        "listingMapVersion": "sha256:5800969c40aea76071cc1e28ac80709d77c9872058a1195e0265f4db7ed1d864",
+        "corporateActionTableVersion": "sha256:3d37cc4d15a225900b8a3443b29d2a3d8be8f2effd425f3dd0835bbc3be8f242",
+        "observedAt": "2026-11-05",
+        "provenance": {
+          "rosterDigest": "sha256:3d9dc6dbdd555a512340e8e69daa3314bb3ffb8645956ce18607e301e1428704",
+          "listingMapDigest": "sha256:5800969c40aea76071cc1e28ac80709d77c9872058a1195e0265f4db7ed1d864",
+          "corporateActionTableDigest": "sha256:3d37cc4d15a225900b8a3443b29d2a3d8be8f2effd425f3dd0835bbc3be8f242",
+          "resolutionBasis": "IDENTITY_FIELDS_ONLY"
+        }
+      },
+      "resolution": {
+        "observationId": "W-07",
+        "state": "INELIGIBLE",
+        "issuerId": "IN:CIN:U27100MH2012PLC000008",
+        "securityId": "IN:ISIN:IN0000000102",
+        "listingId": null,
+        "resolutionBasis": "ISIN",
+        "failure": {
+          "state": "INELIGIBLE",
+          "reason": "SECURITY_NOT_LISTED",
+          "detail": "Not listed on NSE or BSE.",
+          "candidates": []
+        }
+      },
+      "displayName": "Girish Metals Limited",
+      "raw": {
+        "canonicalSecurityId": "IN:ISIN:IN0000000102"
+      },
+      "upstreamStatus": null
+    },
+    {
+      "observationId": "W-08",
+      "source": "WATCHLIST",
+      "portfolioId": null,
+      "state": "INELIGIBLE",
+      "reason": "NO_LISTING_FOR_SECURITY",
+      "reasonText": "The security exists in the roster but has no listing in the listing map.",
+      "detail": "security IN:ISIN:IN0000000110 has no listing in the listing map",
+      "candidates": [],
+      "binding": {
+        "bindingId": "sha256:473ede65197a35f7e89afe812105a6eadc640a578d31d4c8c2667a594ab7b33d",
+        "observationId": "W-08",
+        "source": "WATCHLIST",
+        "portfolioId": null,
+        "status": "INELIGIBLE",
+        "reason": "NO_LISTING_FOR_SECURITY",
+        "issuerId": null,
+        "issuerKeyBasis": null,
+        "securityId": null,
+        "listingId": null,
+        "resolutionBasis": null,
+        "assessable": false,
+        "effectiveFrom": null,
+        "effectiveTo": null,
+        "rosterVersion": "sha256:3d9dc6dbdd555a512340e8e69daa3314bb3ffb8645956ce18607e301e1428704",
+        "listingMapVersion": "sha256:5800969c40aea76071cc1e28ac80709d77c9872058a1195e0265f4db7ed1d864",
+        "corporateActionTableVersion": "sha256:3d37cc4d15a225900b8a3443b29d2a3d8be8f2effd425f3dd0835bbc3be8f242",
+        "observedAt": "2026-11-05",
+        "provenance": {
+          "rosterDigest": "sha256:3d9dc6dbdd555a512340e8e69daa3314bb3ffb8645956ce18607e301e1428704",
+          "listingMapDigest": "sha256:5800969c40aea76071cc1e28ac80709d77c9872058a1195e0265f4db7ed1d864",
+          "corporateActionTableDigest": "sha256:3d37cc4d15a225900b8a3443b29d2a3d8be8f2effd425f3dd0835bbc3be8f242",
+          "resolutionBasis": "IDENTITY_FIELDS_ONLY"
+        }
+      },
+      "resolution": {
+        "observationId": "W-08",
+        "state": "INELIGIBLE",
+        "issuerId": null,
+        "securityId": null,
+        "listingId": null,
+        "resolutionBasis": null,
+        "failure": {
+          "state": "INELIGIBLE",
+          "reason": "NO_LISTING_FOR_SECURITY",
+          "detail": "security IN:ISIN:IN0000000110 has no listing in the listing map",
+          "candidates": []
+        }
+      },
+      "displayName": "Bodhi Digital Limited",
+      "raw": {
+        "canonicalSecurityId": "IN:ISIN:IN0000000110"
+      },
+      "upstreamStatus": null
+    },
+    {
+      "observationId": "H-03",
+      "source": "HOLDING",
+      "portfolioId": "portfolio-primary",
+      "state": "ISSUER_KEY_CONFLICT",
+      "reason": "ISSUER_KEY_CONFLICT",
+      "reasonText": "A CIN and an equity ISIN disagree about the same issuer or security. This is never resolved by picking one.",
+      "detail": "the row declares CIN L72200KA1981PLC013115 but ISIN IN0000000037 belongs to issuer IN:CIN:L65110MH1995PLC000002 (CIN L65110MH1995PLC000002)",
+      "candidates": [
+        "IN:CIN:L65110MH1995PLC000002"
+      ],
+      "binding": {
+        "bindingId": "sha256:b7fcb16192320d92cb5127b44b87a43e88525bc8d8f5f3df0739279db2eae615",
+        "observationId": "H-03",
+        "source": "HOLDING",
+        "portfolioId": "portfolio-primary",
+        "status": "ISSUER_KEY_CONFLICT",
+        "reason": "ISSUER_KEY_CONFLICT",
+        "issuerId": null,
+        "issuerKeyBasis": null,
+        "securityId": null,
+        "listingId": null,
+        "resolutionBasis": null,
+        "assessable": false,
+        "effectiveFrom": null,
+        "effectiveTo": null,
+        "rosterVersion": "sha256:3d9dc6dbdd555a512340e8e69daa3314bb3ffb8645956ce18607e301e1428704",
+        "listingMapVersion": "sha256:5800969c40aea76071cc1e28ac80709d77c9872058a1195e0265f4db7ed1d864",
+        "corporateActionTableVersion": "sha256:3d37cc4d15a225900b8a3443b29d2a3d8be8f2effd425f3dd0835bbc3be8f242",
+        "observedAt": "2026-11-05",
+        "provenance": {
+          "rosterDigest": "sha256:3d9dc6dbdd555a512340e8e69daa3314bb3ffb8645956ce18607e301e1428704",
+          "listingMapDigest": "sha256:5800969c40aea76071cc1e28ac80709d77c9872058a1195e0265f4db7ed1d864",
+          "corporateActionTableDigest": "sha256:3d37cc4d15a225900b8a3443b29d2a3d8be8f2effd425f3dd0835bbc3be8f242",
+          "resolutionBasis": "IDENTITY_FIELDS_ONLY"
+        }
+      },
+      "resolution": {
+        "observationId": "H-03",
+        "state": "ISSUER_KEY_CONFLICT",
+        "issuerId": null,
+        "securityId": null,
+        "listingId": null,
+        "resolutionBasis": null,
+        "failure": {
+          "state": "ISSUER_KEY_CONFLICT",
+          "reason": "ISSUER_KEY_CONFLICT",
+          "detail": "the row declares CIN L72200KA1981PLC013115 but ISIN IN0000000037 belongs to issuer IN:CIN:L65110MH1995PLC000002 (CIN L65110MH1995PLC000002)",
+          "candidates": [
+            "IN:CIN:L65110MH1995PLC000002"
+          ]
+        }
+      },
+      "displayName": "Chandra Meridian Bank Limited",
+      "raw": {
+        "symbol": "CMBANK",
+        "isin": "IN0000000037",
+        "cin": "L72200KA1981PLC013115"
+      },
+      "upstreamStatus": "RESOLVED"
+    },
+    {
+      "observationId": "W-02",
+      "source": "WATCHLIST",
+      "portfolioId": null,
+      "state": "OUT_OF_SCOPE_SECURITY",
+      "reason": "INSTRUMENT_NOT_ASSESSABLE",
+      "reasonText": "The instrument class is not assessable in v1 (only listed equity is). It is disclosed, not assessed by proxy.",
+      "detail": "Preference capital is out of scope in v1.",
+      "candidates": [],
+      "binding": {
+        "bindingId": "sha256:3d9582cb53975ebe75865d9815b2b88bf4bdcd8c8cc1368c1be13f5678391f0f",
+        "observationId": "W-02",
+        "source": "WATCHLIST",
+        "portfolioId": null,
+        "status": "OUT_OF_SCOPE_SECURITY",
+        "reason": "INSTRUMENT_NOT_ASSESSABLE",
+        "issuerId": "IN:CIN:U66010MH2000PLC000004",
+        "issuerKeyBasis": "CIN",
+        "securityId": "IN:ISIN:IN0000000060",
+        "listingId": "IN:NSE:EESHPREF:EQ:PREFERENCE",
+        "resolutionBasis": "ISIN",
+        "assessable": false,
+        "effectiveFrom": "2022-01-10",
+        "effectiveTo": null,
+        "rosterVersion": "sha256:3d9dc6dbdd555a512340e8e69daa3314bb3ffb8645956ce18607e301e1428704",
+        "listingMapVersion": "sha256:5800969c40aea76071cc1e28ac80709d77c9872058a1195e0265f4db7ed1d864",
+        "corporateActionTableVersion": "sha256:3d37cc4d15a225900b8a3443b29d2a3d8be8f2effd425f3dd0835bbc3be8f242",
+        "observedAt": "2026-11-05",
+        "provenance": {
+          "rosterDigest": "sha256:3d9dc6dbdd555a512340e8e69daa3314bb3ffb8645956ce18607e301e1428704",
+          "listingMapDigest": "sha256:5800969c40aea76071cc1e28ac80709d77c9872058a1195e0265f4db7ed1d864",
+          "corporateActionTableDigest": "sha256:3d37cc4d15a225900b8a3443b29d2a3d8be8f2effd425f3dd0835bbc3be8f242",
+          "resolutionBasis": "IDENTITY_FIELDS_ONLY"
+        }
+      },
+      "resolution": {
+        "observationId": "W-02",
+        "state": "OUT_OF_SCOPE_SECURITY",
+        "issuerId": "IN:CIN:U66010MH2000PLC000004",
+        "securityId": "IN:ISIN:IN0000000060",
+        "listingId": "IN:NSE:EESHPREF:EQ:PREFERENCE",
+        "resolutionBasis": "ISIN",
+        "failure": {
+          "state": "OUT_OF_SCOPE_SECURITY",
+          "reason": "INSTRUMENT_NOT_ASSESSABLE",
+          "detail": "Preference capital is out of scope in v1.",
+          "candidates": []
+        }
+      },
+      "displayName": "Eesha Life Insurance Limited",
+      "raw": {
+        "canonicalSecurityId": "IN:ISIN:IN0000000060"
+      },
+      "upstreamStatus": null
+    },
+    {
+      "observationId": "B-01",
+      "source": "BROKER_PREVIEW",
+      "portfolioId": "portfolio-primary",
+      "state": "REJECTED_MALFORMED_ISIN",
+      "reason": "ISIN_CHECK_DIGIT_FAILED",
+      "reasonText": "The ISIN fails its Luhn check digit, which means at least one character is corrupt.",
+      "detail": "\"IN0000000012\" passes the shape check but fails its Luhn check digit, so a character is corrupt",
+      "candidates": [],
+      "binding": {
+        "bindingId": "sha256:d87c133b219e9f88d56ebb9e5f1c9df74d05ad98c47d7bf2423a76dae87aa379",
+        "observationId": "B-01",
+        "source": "BROKER_PREVIEW",
+        "portfolioId": "portfolio-primary",
+        "status": "REJECTED_MALFORMED_ISIN",
+        "reason": "ISIN_CHECK_DIGIT_FAILED",
+        "issuerId": null,
+        "issuerKeyBasis": null,
+        "securityId": null,
+        "listingId": null,
+        "resolutionBasis": null,
+        "assessable": false,
+        "effectiveFrom": null,
+        "effectiveTo": null,
+        "rosterVersion": "sha256:3d9dc6dbdd555a512340e8e69daa3314bb3ffb8645956ce18607e301e1428704",
+        "listingMapVersion": "sha256:5800969c40aea76071cc1e28ac80709d77c9872058a1195e0265f4db7ed1d864",
+        "corporateActionTableVersion": "sha256:3d37cc4d15a225900b8a3443b29d2a3d8be8f2effd425f3dd0835bbc3be8f242",
+        "observedAt": "2026-11-05",
+        "provenance": {
+          "rosterDigest": "sha256:3d9dc6dbdd555a512340e8e69daa3314bb3ffb8645956ce18607e301e1428704",
+          "listingMapDigest": "sha256:5800969c40aea76071cc1e28ac80709d77c9872058a1195e0265f4db7ed1d864",
+          "corporateActionTableDigest": "sha256:3d37cc4d15a225900b8a3443b29d2a3d8be8f2effd425f3dd0835bbc3be8f242",
+          "resolutionBasis": "IDENTITY_FIELDS_ONLY"
+        }
+      },
+      "resolution": {
+        "observationId": "B-01",
+        "state": "REJECTED_MALFORMED_ISIN",
+        "issuerId": null,
+        "securityId": null,
+        "listingId": null,
+        "resolutionBasis": null,
+        "failure": {
+          "state": "REJECTED_MALFORMED_ISIN",
+          "reason": "ISIN_CHECK_DIGIT_FAILED",
+          "detail": "\"IN0000000012\" passes the shape check but fails its Luhn check digit, so a character is corrupt",
+          "candidates": []
+        }
+      },
+      "displayName": "Aarav Systems Limited",
+      "raw": {
+        "symbol": "AARAV",
+        "isin": "IN0000000012",
+        "quantity": 15
+      },
+      "upstreamStatus": "UNRESOLVED"
+    },
+    {
+      "observationId": "H-06",
+      "source": "HOLDING",
+      "portfolioId": "portfolio-primary",
+      "state": "STALE_REFERENCE",
+      "reason": "LISTING_WINDOW_EXPIRED",
+      "reasonText": "The symbol matched only outside its listing effective window (delisted or renamed).",
+      "detail": "symbol NSE:OLDCO ended on 2020-05-31 and is not effective at 2026-11-05",
+      "candidates": [
+        "IN:ISIN:IN0000000011"
+      ],
+      "binding": {
+        "bindingId": "sha256:e541cf2aa8875d56aad4487343a998d35b9d126feeab26290558b743b3c596d7",
+        "observationId": "H-06",
+        "source": "HOLDING",
+        "portfolioId": "portfolio-primary",
+        "status": "STALE_REFERENCE",
+        "reason": "LISTING_WINDOW_EXPIRED",
+        "issuerId": null,
+        "issuerKeyBasis": null,
+        "securityId": null,
+        "listingId": null,
+        "resolutionBasis": null,
+        "assessable": false,
+        "effectiveFrom": null,
+        "effectiveTo": null,
+        "rosterVersion": "sha256:3d9dc6dbdd555a512340e8e69daa3314bb3ffb8645956ce18607e301e1428704",
+        "listingMapVersion": "sha256:5800969c40aea76071cc1e28ac80709d77c9872058a1195e0265f4db7ed1d864",
+        "corporateActionTableVersion": "sha256:3d37cc4d15a225900b8a3443b29d2a3d8be8f2effd425f3dd0835bbc3be8f242",
+        "observedAt": "2026-11-05",
+        "provenance": {
+          "rosterDigest": "sha256:3d9dc6dbdd555a512340e8e69daa3314bb3ffb8645956ce18607e301e1428704",
+          "listingMapDigest": "sha256:5800969c40aea76071cc1e28ac80709d77c9872058a1195e0265f4db7ed1d864",
+          "corporateActionTableDigest": "sha256:3d37cc4d15a225900b8a3443b29d2a3d8be8f2effd425f3dd0835bbc3be8f242",
+          "resolutionBasis": "IDENTITY_FIELDS_ONLY"
+        }
+      },
+      "resolution": {
+        "observationId": "H-06",
+        "state": "STALE_REFERENCE",
+        "issuerId": null,
+        "securityId": null,
+        "listingId": null,
+        "resolutionBasis": null,
+        "failure": {
+          "state": "STALE_REFERENCE",
+          "reason": "LISTING_WINDOW_EXPIRED",
+          "detail": "symbol NSE:OLDCO ended on 2020-05-31 and is not effective at 2026-11-05",
+          "candidates": [
+            "IN:ISIN:IN0000000011"
+          ]
+        }
+      },
+      "displayName": "Aarav Systems Limited",
+      "raw": {
+        "symbol": "OLDCO",
+        "quantity": 5
+      },
+      "upstreamStatus": "UNRESOLVED"
+    },
+    {
+      "observationId": "W-06",
+      "source": "WATCHLIST",
+      "portfolioId": null,
+      "state": "STALE_REFERENCE",
+      "reason": "LISTING_NOT_YET_EFFECTIVE",
+      "reasonText": "The symbol matches a listing whose effective window has not started at the observation date.",
+      "detail": "symbol NSE:FUTURE starts after 2026-11-05",
+      "candidates": [
+        "IN:ISIN:IN0000000094"
+      ],
+      "binding": {
+        "bindingId": "sha256:805c3625d466eb39a5b952e3667b9064f509ff4be526d7de12cbd15a9e08deb4",
+        "observationId": "W-06",
+        "source": "WATCHLIST",
+        "portfolioId": null,
+        "status": "STALE_REFERENCE",
+        "reason": "LISTING_NOT_YET_EFFECTIVE",
+        "issuerId": null,
+        "issuerKeyBasis": null,
+        "securityId": null,
+        "listingId": null,
+        "resolutionBasis": null,
+        "assessable": false,
+        "effectiveFrom": null,
+        "effectiveTo": null,
+        "rosterVersion": "sha256:3d9dc6dbdd555a512340e8e69daa3314bb3ffb8645956ce18607e301e1428704",
+        "listingMapVersion": "sha256:5800969c40aea76071cc1e28ac80709d77c9872058a1195e0265f4db7ed1d864",
+        "corporateActionTableVersion": "sha256:3d37cc4d15a225900b8a3443b29d2a3d8be8f2effd425f3dd0835bbc3be8f242",
+        "observedAt": "2026-11-05",
+        "provenance": {
+          "rosterDigest": "sha256:3d9dc6dbdd555a512340e8e69daa3314bb3ffb8645956ce18607e301e1428704",
+          "listingMapDigest": "sha256:5800969c40aea76071cc1e28ac80709d77c9872058a1195e0265f4db7ed1d864",
+          "corporateActionTableDigest": "sha256:3d37cc4d15a225900b8a3443b29d2a3d8be8f2effd425f3dd0835bbc3be8f242",
+          "resolutionBasis": "IDENTITY_FIELDS_ONLY"
+        }
+      },
+      "resolution": {
+        "observationId": "W-06",
+        "state": "STALE_REFERENCE",
+        "issuerId": null,
+        "securityId": null,
+        "listingId": null,
+        "resolutionBasis": null,
+        "failure": {
+          "state": "STALE_REFERENCE",
+          "reason": "LISTING_NOT_YET_EFFECTIVE",
+          "detail": "symbol NSE:FUTURE starts after 2026-11-05",
+          "candidates": [
+            "IN:ISIN:IN0000000094"
+          ]
+        }
+      },
+      "displayName": "Girish Metals Limited",
+      "raw": {
+        "canonicalSecurityId": "IN:ISIN:IN0000000094"
+      },
+      "upstreamStatus": null
+    },
+    {
+      "observationId": "B-03",
+      "source": "BROKER_PREVIEW",
+      "portfolioId": "portfolio-primary",
+      "state": "UNMATCHED",
+      "reason": "ISIN_NOT_IN_ROSTER",
+      "reasonText": "The ISIN is valid but is not in the eligible roster. No symbol fallback is attempted.",
+      "detail": "ISIN IN0000000201 is valid but not in the eligible roster",
+      "candidates": [],
+      "binding": {
+        "bindingId": "sha256:9dbbe99676f6367e26bc52285c9903de17d4feda1d729544158139d13940f087",
+        "observationId": "B-03",
+        "source": "BROKER_PREVIEW",
+        "portfolioId": "portfolio-primary",
+        "status": "UNMATCHED",
+        "reason": "ISIN_NOT_IN_ROSTER",
+        "issuerId": null,
+        "issuerKeyBasis": null,
+        "securityId": null,
+        "listingId": null,
+        "resolutionBasis": null,
+        "assessable": false,
+        "effectiveFrom": null,
+        "effectiveTo": null,
+        "rosterVersion": "sha256:3d9dc6dbdd555a512340e8e69daa3314bb3ffb8645956ce18607e301e1428704",
+        "listingMapVersion": "sha256:5800969c40aea76071cc1e28ac80709d77c9872058a1195e0265f4db7ed1d864",
+        "corporateActionTableVersion": "sha256:3d37cc4d15a225900b8a3443b29d2a3d8be8f2effd425f3dd0835bbc3be8f242",
+        "observedAt": "2026-11-05",
+        "provenance": {
+          "rosterDigest": "sha256:3d9dc6dbdd555a512340e8e69daa3314bb3ffb8645956ce18607e301e1428704",
+          "listingMapDigest": "sha256:5800969c40aea76071cc1e28ac80709d77c9872058a1195e0265f4db7ed1d864",
+          "corporateActionTableDigest": "sha256:3d37cc4d15a225900b8a3443b29d2a3d8be8f2effd425f3dd0835bbc3be8f242",
+          "resolutionBasis": "IDENTITY_FIELDS_ONLY"
+        }
+      },
+      "resolution": {
+        "observationId": "B-03",
+        "state": "UNMATCHED",
+        "issuerId": null,
+        "securityId": null,
+        "listingId": null,
+        "resolutionBasis": null,
+        "failure": {
+          "state": "UNMATCHED",
+          "reason": "ISIN_NOT_IN_ROSTER",
+          "detail": "ISIN IN0000000201 is valid but not in the eligible roster",
+          "candidates": []
+        }
+      },
+      "displayName": "Aarav Systems Limited",
+      "raw": {
+        "symbol": "AARAV",
+        "isin": "IN0000000201",
+        "quantity": 7
+      },
+      "upstreamStatus": "UNRESOLVED"
+    },
+    {
+      "observationId": "H-05",
+      "source": "HOLDING",
+      "portfolioId": "portfolio-primary",
+      "state": "UNMATCHED",
+      "reason": "SECTOR_REFERENCE_NOT_AN_IDENTITY",
+      "reasonText": "This identifier is a sector reference (for example \"Banking-H1\"), not a company or security. It can never be used as identity input.",
+      "detail": "\"Banking-H1\" is a sector reference, not a company or security identifier",
+      "candidates": [],
+      "binding": {
+        "bindingId": "sha256:264629acf14750caee1b8c077c489c195249ebe7e461d86ea2c312d83b56dbfa",
+        "observationId": "H-05",
+        "source": "HOLDING",
+        "portfolioId": "portfolio-primary",
+        "status": "UNMATCHED",
+        "reason": "SECTOR_REFERENCE_NOT_AN_IDENTITY",
+        "issuerId": null,
+        "issuerKeyBasis": null,
+        "securityId": null,
+        "listingId": null,
+        "resolutionBasis": null,
+        "assessable": false,
+        "effectiveFrom": null,
+        "effectiveTo": null,
+        "rosterVersion": "sha256:3d9dc6dbdd555a512340e8e69daa3314bb3ffb8645956ce18607e301e1428704",
+        "listingMapVersion": "sha256:5800969c40aea76071cc1e28ac80709d77c9872058a1195e0265f4db7ed1d864",
+        "corporateActionTableVersion": "sha256:3d37cc4d15a225900b8a3443b29d2a3d8be8f2effd425f3dd0835bbc3be8f242",
+        "observedAt": "2026-11-05",
+        "provenance": {
+          "rosterDigest": "sha256:3d9dc6dbdd555a512340e8e69daa3314bb3ffb8645956ce18607e301e1428704",
+          "listingMapDigest": "sha256:5800969c40aea76071cc1e28ac80709d77c9872058a1195e0265f4db7ed1d864",
+          "corporateActionTableDigest": "sha256:3d37cc4d15a225900b8a3443b29d2a3d8be8f2effd425f3dd0835bbc3be8f242",
+          "resolutionBasis": "IDENTITY_FIELDS_ONLY"
+        }
+      },
+      "resolution": {
+        "observationId": "H-05",
+        "state": "UNMATCHED",
+        "issuerId": null,
+        "securityId": null,
+        "listingId": null,
+        "resolutionBasis": null,
+        "failure": {
+          "state": "UNMATCHED",
+          "reason": "SECTOR_REFERENCE_NOT_AN_IDENTITY",
+          "detail": "\"Banking-H1\" is a sector reference, not a company or security identifier",
+          "candidates": []
+        }
+      },
+      "displayName": "Banking sector reference",
+      "raw": {
+        "companyId": "Banking-H1",
+        "quantity": 0
+      },
+      "upstreamStatus": "UNRESOLVED"
+    },
+    {
+      "observationId": "W-03",
+      "source": "WATCHLIST",
+      "portfolioId": null,
+      "state": "UNMATCHED",
+      "reason": "SECTOR_REFERENCE_NOT_AN_IDENTITY",
+      "reasonText": "This identifier is a sector reference (for example \"Banking-H1\"), not a company or security. It can never be used as identity input.",
+      "detail": "\"Technology-H3\" is a sector reference, not a company or security identifier",
+      "candidates": [],
+      "binding": {
+        "bindingId": "sha256:f3b3063c960e3c3c40d1942a8f038be7912e4fb6c33efb2aef9f042b30ea6255",
+        "observationId": "W-03",
+        "source": "WATCHLIST",
+        "portfolioId": null,
+        "status": "UNMATCHED",
+        "reason": "SECTOR_REFERENCE_NOT_AN_IDENTITY",
+        "issuerId": null,
+        "issuerKeyBasis": null,
+        "securityId": null,
+        "listingId": null,
+        "resolutionBasis": null,
+        "assessable": false,
+        "effectiveFrom": null,
+        "effectiveTo": null,
+        "rosterVersion": "sha256:3d9dc6dbdd555a512340e8e69daa3314bb3ffb8645956ce18607e301e1428704",
+        "listingMapVersion": "sha256:5800969c40aea76071cc1e28ac80709d77c9872058a1195e0265f4db7ed1d864",
+        "corporateActionTableVersion": "sha256:3d37cc4d15a225900b8a3443b29d2a3d8be8f2effd425f3dd0835bbc3be8f242",
+        "observedAt": "2026-11-05",
+        "provenance": {
+          "rosterDigest": "sha256:3d9dc6dbdd555a512340e8e69daa3314bb3ffb8645956ce18607e301e1428704",
+          "listingMapDigest": "sha256:5800969c40aea76071cc1e28ac80709d77c9872058a1195e0265f4db7ed1d864",
+          "corporateActionTableDigest": "sha256:3d37cc4d15a225900b8a3443b29d2a3d8be8f2effd425f3dd0835bbc3be8f242",
+          "resolutionBasis": "IDENTITY_FIELDS_ONLY"
+        }
+      },
+      "resolution": {
+        "observationId": "W-03",
+        "state": "UNMATCHED",
+        "issuerId": null,
+        "securityId": null,
+        "listingId": null,
+        "resolutionBasis": null,
+        "failure": {
+          "state": "UNMATCHED",
+          "reason": "SECTOR_REFERENCE_NOT_AN_IDENTITY",
+          "detail": "\"Technology-H3\" is a sector reference, not a company or security identifier",
+          "candidates": []
+        }
+      },
+      "displayName": "Technology sector reference",
+      "raw": {
+        "canonicalSecurityId": "Technology-H3"
+      },
+      "upstreamStatus": null
+    }
+  ],
+  "successorReconciliations": [
+    {
+      "actionId": "CA-GIRISH-MERGER-2026",
+      "type": "MERGER",
+      "effectiveDate": "2026-04-01",
+      "slices": [
+        {
+          "issuerId": "IN:CIN:L72200KA1981PLC013115",
+          "ratio": 1,
+          "mapped": true,
+          "reason": null
+        }
+      ],
+      "measuredWeight": 1,
+      "unmeasuredWeight": 0,
+      "unresolvedSlices": [],
+      "reconciles": true
+    },
+    {
+      "actionId": "CA-BODHI-DEMERGER-2025",
+      "type": "DEMERGER",
+      "effectiveDate": "2025-04-01",
+      "slices": [
+        {
+          "issuerId": "IN:CIN:U72200TN2001PLC000005",
+          "ratio": 0.6,
+          "mapped": true,
+          "reason": null
+        },
+        {
+          "issuerId": "IN:CIN:U74999MH2019PLC000009",
+          "ratio": 0.4,
+          "mapped": false,
+          "reason": "SUCCESSOR_NOT_IN_ELIGIBLE_ROSTER"
+        }
+      ],
+      "measuredWeight": 0.6,
+      "unmeasuredWeight": 0.4,
+      "unresolvedSlices": [
+        {
+          "issuerId": "IN:CIN:U74999MH2019PLC000009",
+          "ratio": 0.4,
+          "mapped": false,
+          "reason": "SUCCESSOR_NOT_IN_ELIGIBLE_ROSTER"
+        }
+      ],
+      "reconciles": true
+    }
+  ],
+  "financialCoverage": {
+    "measuredSectors": 0,
+    "totalSectors": 0,
+    "outstandingSectors": [],
+    "usableMethods": 0,
+    "withheldMethods": 0,
+    "xbrlMappedTags": 20,
+    "derivationItems": 8,
+    "unmappedTagsObserved": [],
+    "datasetClass": "NONE",
+    "note": "Identity coverage says whether a row has a defensible issuer/security/listing. It says nothing about whether the issuer has usable fundamentals: 0 of 0 sectors have been measured, 20 XBRL tags are mapped and 8 items are derivable. An identity-resolved security is not a covered sector."
+  },
+  "statusLine": "4 of 18 observed rows assessed · 9 unresolved · 6 holdings in scope · 1 out-of-scope security · 4 ineligible",
+  "notes": [
+    "Resolution uses identity fields only (ISIN, exchange, symbol, series, CIN, company reference). Company names are never read by the resolver.",
+    "A resolved identity is not a valuation: IID-2 onwards would produce an assessment, and is not started.",
+    "Rows resolved through EXCHANGE_SYMBOL are labelled as such; a symbol is weaker evidence than an ISIN and is never presented as equivalent.",
+    "The roster in use is a synthetic fixture: the mechanics are verified, real-company identity coverage is not."
+  ]
+}

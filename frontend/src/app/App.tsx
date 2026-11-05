@@ -1,6 +1,7 @@
 /** First-party application routing; product surfaces are mounted directly without a session gate. */
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { AppShell } from './AppShell';
+import { ROUTES } from './routes';
 import { FeatureNotImplemented } from '../components/shell/ShellStates';
 import { ExecutiveDashboard } from '../features/executive/ExecutiveDashboard';
 import { PortfolioWorkspace } from '../features/portfolio/PortfolioWorkspace';
@@ -22,6 +23,7 @@ import { ReplayExplorer } from '../features/replay/ReplayExplorer';
 import { EngineRegistry } from '../features/engines/EngineRegistry';
 import { Screener } from '../features/screener/Screener';
 import { Watchlists } from '../features/watchlists/Watchlists';
+import InvestmentCoveragePage from '../features/investment/InvestmentCoveragePage';
 import { Collaboration } from '../features/collaboration/Collaboration';
 import { Settings } from '../features/settings/Settings';
 import { SectorIntelligence } from '../features/sector/SectorIntelligence';
@@ -45,6 +47,8 @@ export function App() {
         <Route path="/user-portfolios/import" element={<BrokerImportSurface />} />
         <Route path="/user-portfolios/:portfolioId" element={<UserPortfolioDetail />} />
         <Route path="/watchlists" element={<Watchlists />} />
+        {/* IID-1 — investment identity coverage (read-only; identity resolution is server-side). */}
+        <Route path={ROUTES.identityCoverage} element={<InvestmentCoveragePage />} />
         <Route path="/collaboration" element={<Collaboration />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/research" element={<FeaturePlaceholder surface="Research" />} />

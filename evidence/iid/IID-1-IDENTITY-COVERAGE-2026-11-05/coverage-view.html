@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Investment identity coverage — 2026-11-05</title>
+<style>:root { color-scheme: light dark; }
+body { font: 14px/1.5 system-ui, -apple-system, Segoe UI, sans-serif; margin: 2rem; max-width: 1100px; }
+h1 { font-size: 1.4rem; margin-bottom: .25rem; }
+h2 { font-size: 1.05rem; margin-top: 2rem; }
+table { border-collapse: collapse; width: 100%; margin-top: .5rem; }
+th, td { text-align: left; padding: .35rem .5rem; border-bottom: 1px solid rgba(128,128,128,.35); vertical-align: top; }
+code, pre { font: 12px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace; }
+pre { white-space: pre-wrap; word-break: break-word; margin: .25rem 0 0; opacity: .85; }
+.muted { opacity: .75; }
+.state { font-weight: 600; }
+.ok { color: #14713b; }
+.warn { color: #9a5b00; }
+.bad { color: #a12622; }
+.counts td:last-child { text-align: right; font-variant-numeric: tabular-nums; }</style>
+</head>
+<body>
+<h1>Investment identity coverage</h1>
+<p class="muted">as of 2026-11-05 · generated 2026-11-05T00:00:00.000Z · roster
+<code>sha256:3d9dc6dbdd555a51…</code> (SYNTHETIC IID-1 reference roster (fixture; not real companies),
+SYNTHETIC_FIXTURE)</p>
+<p><strong>4 of 18 observed rows assessed · 9 unresolved · 6 holdings in scope · 1 out-of-scope security · 4 ineligible</strong></p>
+
+<h2>Counts by resolution state</h2>
+<table class="counts">
+<tr><th>State</th><th>Rows</th></tr>
+<tr><td class="state">observed</td><td>18</td></tr>
+<tr><td class="state ok">assessable</td><td>4</td></tr>
+<tr><td class="state ok">RESOLVED</td><td>4</td></tr><tr><td class="state bad">AMBIGUOUS</td><td>1</td></tr><tr><td class="state bad">UNMATCHED</td><td>3</td></tr><tr><td class="state warn">INELIGIBLE</td><td>4</td></tr><tr><td class="state warn">OUT_OF_SCOPE_SECURITY</td><td>1</td></tr><tr><td class="state bad">STALE_REFERENCE</td><td>2</td></tr><tr><td class="state bad">REJECTED_MALFORMED_ISIN</td><td>1</td></tr><tr><td class="state bad">ISSUER_KEY_CONFLICT</td><td>1</td></tr><tr><td class="state bad">AMBIGUOUS_LISTING</td><td>1</td></tr>
+</table>
+
+<h2>By source</h2>
+<table>
+<tr><th>Source</th><th>Observed</th><th>Resolved</th><th>Unresolved</th><th>Assessable</th></tr>
+<tr><td>HOLDING</td><td>6</td><td>2</td><td>4</td><td>2</td></tr><tr><td>BROKER_PREVIEW</td><td>4</td><td>1</td><td>3</td><td>1</td></tr><tr><td>WATCHLIST</td><td>8</td><td>1</td><td>7</td><td>1</td></tr>
+</table>
+
+<h2>Every observed row</h2>
+<table>
+<tr><th>State</th><th>Source</th><th>Identity</th><th>Reason / raw observation</th></tr>
+<tr>
+        <td><span class="state bad">REJECTED_MALFORMED_ISIN</span><br><span class="muted">ISIN_CHECK_DIGIT_FAILED</span></td>
+        <td>BROKER_PREVIEW <span class="muted">(portfolio-primary)</span></td>
+        <td><span class="muted">no identity</span></td>
+        <td>The ISIN fails its Luhn check digit, which means at least one character is corrupt.<br><span class="muted">&quot;IN0000000012&quot; passes the shape check but fails its Luhn check digit, so a character is corrupt</span><pre>symbol=AARAV
+isin=IN0000000012
+quantity=15</pre></td>
+      </tr><tr>
+        <td><span class="state ok">RESOLVED</span></td>
+        <td>BROKER_PREVIEW <span class="muted">(portfolio-primary)</span></td>
+        <td><code>IN:EQISIN:IN0000000045</code><br><code>IN:ISIN:IN0000000045</code><br><code>IN:NSE:DWARKA:EQ:EQUITY</code></td>
+        <td><pre>symbol=DWARKA
+isin=IN0000000045
+quantity=80</pre></td>
+      </tr><tr>
+        <td><span class="state bad">UNMATCHED</span><br><span class="muted">ISIN_NOT_IN_ROSTER</span></td>
+        <td>BROKER_PREVIEW <span class="muted">(portfolio-primary)</span></td>
+        <td><span class="muted">no identity</span></td>
+        <td>The ISIN is valid but is not in the eligible roster. No symbol fallback is attempted.<br><span class="muted">ISIN IN0000000201 is valid but not in the eligible roster</span><pre>symbol=AARAV
+isin=IN0000000201
+quantity=7</pre></td>
+      </tr><tr>
+        <td><span class="state bad">AMBIGUOUS_LISTING</span><br><span class="muted">MULTIPLE_SECURITIES_SHARE_LISTING</span></td>
+        <td>BROKER_PREVIEW</td>
+        <td><span class="muted">no identity</span></td>
+        <td>Two distinct securities claim the same exchange, symbol, series and instrument class. Distinct instruments must never collapse into one listing.<br><span class="muted">one issuer lists EQUITY and PREFERENCE under NSE:EESHMIX; distinct instruments never share a listing</span><br><span class="muted">candidates: IN:ISIN:IN0000000052, IN:ISIN:IN0000000060</span><pre>symbol=EESHMIX
+quantity=12</pre></td>
+      </tr><tr>
+        <td><span class="state ok">RESOLVED</span></td>
+        <td>HOLDING <span class="muted">(portfolio-primary)</span></td>
+        <td><code>IN:CIN:L72200KA1981PLC013115</code><br><code>IN:ISIN:IN0000000011</code><br><code>IN:NSE:AARAV:EQ:EQUITY</code></td>
+        <td><pre>symbol=AARAV
+isin=IN0000000011
+exchange=NSE
+quantity=120</pre></td>
+      </tr><tr>
+        <td><span class="state ok">RESOLVED</span></td>
+        <td>HOLDING <span class="muted">(portfolio-primary)</span></td>
+        <td><code>IN:CIN:L65110MH1995PLC000002</code><br><code>IN:ISIN:IN0000000037</code><br><code>IN:NSE:CMBANK:EQ:EQUITY</code></td>
+        <td><pre>symbol=CMBANK
+quantity=45</pre></td>
+      </tr><tr>
+        <td><span class="state bad">ISSUER_KEY_CONFLICT</span><br><span class="muted">ISSUER_KEY_CONFLICT</span></td>
+        <td>HOLDING <span class="muted">(portfolio-primary)</span></td>
+        <td><span class="muted">no identity</span></td>
+        <td>A CIN and an equity ISIN disagree about the same issuer or security. This is never resolved by picking one.<br><span class="muted">the row declares CIN L72200KA1981PLC013115 but ISIN IN0000000037 belongs to issuer IN:CIN:L65110MH1995PLC000002 (CIN L65110MH1995PLC000002)</span><br><span class="muted">candidates: IN:CIN:L65110MH1995PLC000002</span><pre>symbol=CMBANK
+isin=IN0000000037
+cin=L72200KA1981PLC013115</pre></td>
+      </tr><tr>
+        <td><span class="state bad">AMBIGUOUS</span><br><span class="muted">DUPLICATE_ACTIVE_SYMBOL</span></td>
+        <td>HOLDING <span class="muted">(portfolio-primary)</span></td>
+        <td><span class="muted">no identity</span></td>
+        <td>More than one active issuer currently uses this exchange symbol.<br><span class="muted">2 active issuers use NSE:TWINS (IN:CIN:L72200KA1981PLC013115, IN:CIN:U72200TN2001PLC000005)</span><br><span class="muted">candidates: IN:ISIN:IN0000000011, IN:ISIN:IN0000000029</span><pre>symbol=TWINS
+quantity=10</pre></td>
+      </tr><tr>
+        <td><span class="state bad">UNMATCHED</span><br><span class="muted">SECTOR_REFERENCE_NOT_AN_IDENTITY</span></td>
+        <td>HOLDING <span class="muted">(portfolio-primary)</span></td>
+        <td><span class="muted">no identity</span></td>
+        <td>This identifier is a sector reference (for example &quot;Banking-H1&quot;), not a company or security. It can never be used as identity input.<br><span class="muted">&quot;Banking-H1&quot; is a sector reference, not a company or security identifier</span><pre>companyId=Banking-H1
+quantity=0</pre></td>
+      </tr><tr>
+        <td><span class="state bad">STALE_REFERENCE</span><br><span class="muted">LISTING_WINDOW_EXPIRED</span></td>
+        <td>HOLDING <span class="muted">(portfolio-primary)</span></td>
+        <td><span class="muted">no identity</span></td>
+        <td>The symbol matched only outside its listing effective window (delisted or renamed).<br><span class="muted">symbol NSE:OLDCO ended on 2020-05-31 and is not effective at 2026-11-05</span><br><span class="muted">candidates: IN:ISIN:IN0000000011</span><pre>symbol=OLDCO
+quantity=5</pre></td>
+      </tr><tr>
+        <td><span class="state ok">RESOLVED</span></td>
+        <td>WATCHLIST</td>
+        <td><code>IN:CIN:U66010MH2000PLC000004</code><br><code>IN:ISIN:IN0000000052</code><br><code>IN:NSE:EESHLIFE:EQ:EQUITY</code></td>
+        <td><pre>canonicalSecurityId=IN:ISIN:IN0000000052</pre></td>
+      </tr><tr>
+        <td><span class="state warn">OUT_OF_SCOPE_SECURITY</span><br><span class="muted">INSTRUMENT_NOT_ASSESSABLE</span></td>
+        <td>WATCHLIST</td>
+        <td><code>IN:CIN:U66010MH2000PLC000004</code><br><span class="muted">identity known, not assessed</span></td>
+        <td>The instrument class is not assessable in v1 (only listed equity is). It is disclosed, not assessed by proxy.<br><span class="muted">Preference capital is out of scope in v1.</span><pre>canonicalSecurityId=IN:ISIN:IN0000000060</pre></td>
+      </tr><tr>
+        <td><span class="state bad">UNMATCHED</span><br><span class="muted">SECTOR_REFERENCE_NOT_AN_IDENTITY</span></td>
+        <td>WATCHLIST</td>
+        <td><span class="muted">no identity</span></td>
+        <td>This identifier is a sector reference (for example &quot;Banking-H1&quot;), not a company or security. It can never be used as identity input.<br><span class="muted">&quot;Technology-H3&quot; is a sector reference, not a company or security identifier</span><pre>canonicalSecurityId=Technology-H3</pre></td>
+      </tr><tr>
+        <td><span class="state warn">INELIGIBLE</span><br><span class="muted">ISSUER_NOT_ELIGIBLE</span></td>
+        <td>WATCHLIST</td>
+        <td><code>IN:CIN:U45200GJ2010PLC000006</code><br><span class="muted">identity known, not assessed</span></td>
+        <td>The issuer exists but is excluded from the eligible roster.<br><span class="muted">Excluded from the eligible roster for this fixture: suspended disclosure.</span><pre>canonicalSecurityId=IN:ISIN:IN0000000078</pre></td>
+      </tr><tr>
+        <td><span class="state warn">INELIGIBLE</span><br><span class="muted">NON_INDIAN_ISSUER</span></td>
+        <td>WATCHLIST</td>
+        <td><code>IN:CIN:U99999MH2015PLC000007</code><br><span class="muted">identity known, not assessed</span></td>
+        <td>The issuer is not an Indian listed issuer, which is outside v1 scope.<br><span class="muted">v1 covers Indian listed issuers only</span><pre>canonicalSecurityId=IN:ISIN:IN0000000086</pre></td>
+      </tr><tr>
+        <td><span class="state bad">STALE_REFERENCE</span><br><span class="muted">LISTING_NOT_YET_EFFECTIVE</span></td>
+        <td>WATCHLIST</td>
+        <td><span class="muted">no identity</span></td>
+        <td>The symbol matches a listing whose effective window has not started at the observation date.<br><span class="muted">symbol NSE:FUTURE starts after 2026-11-05</span><br><span class="muted">candidates: IN:ISIN:IN0000000094</span><pre>canonicalSecurityId=IN:ISIN:IN0000000094</pre></td>
+      </tr><tr>
+        <td><span class="state warn">INELIGIBLE</span><br><span class="muted">SECURITY_NOT_LISTED</span></td>
+        <td>WATCHLIST</td>
+        <td><code>IN:CIN:U27100MH2012PLC000008</code><br><span class="muted">identity known, not assessed</span></td>
+        <td>The security is not listed, so it cannot be assessed in v1.<br><span class="muted">Not listed on NSE or BSE.</span><pre>canonicalSecurityId=IN:ISIN:IN0000000102</pre></td>
+      </tr><tr>
+        <td><span class="state warn">INELIGIBLE</span><br><span class="muted">NO_LISTING_FOR_SECURITY</span></td>
+        <td>WATCHLIST</td>
+        <td><span class="muted">no identity</span></td>
+        <td>The security exists in the roster but has no listing in the listing map.<br><span class="muted">security IN:ISIN:IN0000000110 has no listing in the listing map</span><pre>canonicalSecurityId=IN:ISIN:IN0000000110</pre></td>
+      </tr>
+</table>
+
+<h2>Corporate-action successor reconciliation</h2>
+<table>
+<tr><th>Action</th><th>Type</th><th>Effective</th><th>Slices</th><th>Measured weight</th><th>Unmeasured weight</th><th>Reconciles</th></tr>
+<tr>
+        <td>CA-GIRISH-MERGER-2026</td>
+        <td>MERGER</td>
+        <td>2026-04-01</td>
+        <td>IN:CIN:L72200KA1981PLC013115 @ 1</td>
+        <td>1</td>
+        <td>0</td>
+        <td>yes</td>
+      </tr><tr>
+        <td>CA-BODHI-DEMERGER-2025</td>
+        <td>DEMERGER</td>
+        <td>2025-04-01</td>
+        <td>IN:CIN:U72200TN2001PLC000005 @ 0.6<br><span class="warn">UNMAPPED slice @ 0.4 (SUCCESSOR_NOT_IN_ELIGIBLE_ROSTER)</span></td>
+        <td>0.6</td>
+        <td>0.4</td>
+        <td>yes</td>
+      </tr>
+</table>
+
+<h2>Financial coverage is not identity coverage</h2>
+<table>
+<tr><td>Sectors measured</td><td>0 of 0</td></tr>
+<tr><td>Outstanding sectors</td><td>none</td></tr>
+<tr><td>Methods usable / withheld</td><td>0 / 0</td></tr>
+<tr><td>XBRL tags mapped</td><td>20</td></tr>
+<tr><td>Derivable line items</td><td>8</td></tr>
+<tr><td>Unmapped tags seen</td><td>none recorded in this run</td></tr>
+<tr><td>Dataset class</td><td>NONE</td></tr>
+</table>
+<p class="muted">Identity coverage says whether a row has a defensible issuer/security/listing. It says nothing about whether the issuer has usable fundamentals: 0 of 0 sectors have been measured, 20 XBRL tags are mapped and 8 items are derivable. An identity-resolved security is not a covered sector.</p>
+
+<h2>Notes</h2>
+<ul><li>Resolution uses identity fields only (ISIN, exchange, symbol, series, CIN, company reference). Company names are never read by the resolver.</li><li>A resolved identity is not a valuation: IID-2 onwards would produce an assessment, and is not started.</li><li>Rows resolved through EXCHANGE_SYMBOL are labelled as such; a symbol is weaker evidence than an ISIN and is never presented as equivalent.</li><li>The roster in use is a synthetic fixture: the mechanics are verified, real-company identity coverage is not.</li></ul>
+<p class="muted">No company metric is shown for a row without an identity, and none for a row whose identity is
+not assessable. This view reports identity only.</p>
+</body>
+</html>
