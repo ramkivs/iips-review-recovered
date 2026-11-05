@@ -1,0 +1,12 @@
+test_entire_existing_history_only_reported_false_positive_changes (test_cap03_artifact_classification.ArtifactClassification.test_entire_existing_history_only_reported_false_positive_changes) ... ok
+test_exact_iid_artifact_and_authoritative_provenance (test_cap03_artifact_classification.ArtifactClassification.test_exact_iid_artifact_and_authoritative_provenance) ... ok
+test_existing_admission_and_separate_direct_boundaries_remain (test_cap03_artifact_classification.ArtifactClassification.test_existing_admission_and_separate_direct_boundaries_remain) ... ok
+test_genuine_identity_families_still_strict (test_cap03_artifact_classification.ArtifactClassification.test_genuine_identity_families_still_strict) ... ok
+test_misplaced_or_unknown_p1_is_not_admitted_by_classifier (test_cap03_artifact_classification.ArtifactClassification.test_misplaced_or_unknown_p1_is_not_admitted_by_classifier) ... ok
+test_real_admission_gate_rejects_misplaced_p1 (test_cap03_artifact_classification.ArtifactClassification.test_real_admission_gate_rejects_misplaced_p1) ... ok
+test_unrelated_identity_and_locations_not_filename_substrings (test_cap03_artifact_classification.ArtifactClassification.test_unrelated_identity_and_locations_not_filename_substrings) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.010s
+
+OK

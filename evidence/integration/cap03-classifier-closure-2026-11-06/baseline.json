@@ -1,0 +1,17 @@
+{
+  "baseline": "a9329dd509be8051f82780059646c0f179d42b74",
+  "changedExistingFiles": [
+    ".github/workflows/cap03-revision7-irr-static.yml",
+    "docs/integration/cap03-p1-f9/validate_windows10_host_profile.py"
+  ],
+  "protected": {
+    "evidence/iid/IID-1-IDENTITY-COVERAGE-2026-11-05/test-log-np12-regression.txt": "5693b0fe9e0ba6db80365ff845426cbdc376749baaa4b41440a3a27173a2e629",
+    "frontend/server/persistence/persistence-service.ts": "d3772cd5b7126ac276c97c5873bbd09cb3ffa7fe11039f31a3f1d9a8ebd84a22",
+    "docs/integration/WS-A-OWNER-EVIDENCE-RESET-PA-ADOPTION-ACT-2026-11-06.md": "a24630c95cc01efe2c92be26f555c6a5a2f8a5518fa7aa219265dd766387e65f",
+    "frontend/server/broker-import/__fixtures__/ownerResetProcess.ts": "97666c0594cd934bb0a6a5d471c9589da6df0712765a35a965223fa615a111f0",
+    "frontend/server/broker-import/ownerEvidenceReset.test.ts": "436d73c60d239f24aced9b9cf0a55bdef37a7550b38d6ae811a60bbe6d4d0dbd",
+    "frontend/server/broker-import/ownerEvidenceReset.ts": "c5e4c32ee5361c51621628e6c03402b760d8ea48cf7654b3051a8c8e5f76c257",
+    "frontend/server/broker-import/ownerEvidenceResetCli.ts": "ac0102f03c75fea837badab31bf33417893df0ea165c6df57f5753bb8614e4fb",
+    "frontend/server/broker-import/ownerEvidenceResetJournal.ts": "86906b32202b977947dcf5e8e8b6bec5462d77e4dae125ea8acd777452a9a1ad"
+  }
+}
