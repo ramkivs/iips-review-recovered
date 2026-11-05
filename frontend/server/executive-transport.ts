@@ -776,6 +776,33 @@ const server = http.createServer(async (req, res) => {
     })();
     return;
   }
+  // IID-1 — investment identity coverage (read-only, IRR-owned).
+  // Identity is resolved against IRR's own versioned eligible roster / listing map / corporate-action
+  // table; holdings arrive through the existing IPC read path and watchlist entries through the existing
+  // watchlists service. Nothing is written: no NP-04 artefact, no new store, no IPD write. A missing or
+  // invalid roster answers 503 with the file-level issues rather than a guessed classification.
+  if (
+    req.url === '/api/investment/coverage' ||
+    req.url?.startsWith('/api/investment/coverage?') ||
+    req.url === '/api/investment/coverage/preview' ||
+    req.url?.startsWith('/api/investment/coverage/preview?') ||
+    req.url === '/investment/coverage' ||
+    req.url?.startsWith('/investment/coverage?')
+  ) {
+    void (async () => {
+      try {
+        const coverage = await import('./investment/coverage-transport');
+        const sources = await import('./investment/sources');
+        await coverage.handleInvestmentCoverageRequest(req, res, sources.createCoverageProviders());
+      } catch {
+        if (!res.headersSent && !res.destroyed) {
+          res.writeHead(503, { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' });
+          res.end(JSON.stringify({ error: 'investment-coverage-unavailable' }));
+        }
+      }
+    })();
+    return;
+  }
   // CAP-02 broker import: the single admitted route POST /api/broker-import/:portfolioId/holdings
   // on this existing host (IIPS-V3-CAP02-U1-BROKER-IMPORT-TRANSPORT-AUTHORITY-ACT-EFFECTIVE-2026-10-23-01).
   // Owner-scoped (C8: added to the owner-scoped prefix list above), first-party-signaled, and

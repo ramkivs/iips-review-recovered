@@ -1,0 +1,181 @@
+/**
+ * IID-1 — the read-only observation sources the coverage view consumes.
+ *
+ * Three surfaces, all consumed through interfaces that already exist:
+ *   1. G3 holdings      — `IpcUserPortfolioPort` (the established same-host IPC read path; no second
+ *                          data access mechanism, no store opened, no write capability used);
+ *   2. watchlist items  — the existing watchlists service (`listWatchlists`);
+ *   3. broker-import preview rows — evaluated from the rows the client holds
+ *                          (`POST /api/investment/coverage/preview`); nothing is persisted.
+ *
+ * Every provider is READ-ONLY and fails loudly. A surface that cannot be read raises, and the transport
+ * turns that into a 503 naming the surface, because a coverage total that silently omits a surface would
+ * be a wrong total.
+ */
+import { IpcUserPortfolioPort } from '../user-portfolio/ipcPortAdapter.js';
+import {
+  isOwnerContextEstablished,
+  ownerContextFromBinding,
+  readBindingPrecondition,
+} from '../user-portfolio/ownerContextFromBinding.js';
+import type { G2HoldingView, G2PortfolioSummary } from '../user-portfolio/userPortfolioContract.js';
+import type { G2Scope } from '../user-portfolio/userPortfolioPort.js';
+import { listWatchlists, type Watchlist } from '../watchlists/watchlists-service.js';
+import { resolveOwnerContext } from '../owner-context-resolver.js';
+// One import into IRR: the platform own its file layout and exposes only these adapters.
+import {
+  financialCoverageFromLocalDataset,
+  loadRuntimeIdentitySources,
+} from '../../../iips-platform/src/investment/identity/runtime';
+import { parseSecurityId } from '../../../iips-platform/src/investment/contracts/ids';
+import type { IdentityObservation } from '../../../iips-platform/src/investment/identity/types';
+import type { FinancialCoverageDisclosure } from '../../../iips-platform/src/investment/identity/coverage';
+import type { CoverageTransportProviders } from './coverage-transport.js';
+
+export interface SerialisedRaw {
+  readonly [key: string]: string | number | boolean | null;
+}
+
+/** A G3 holding row becomes an observation. Nothing is inferred: empty fields stay null. */
+export function toHoldingObservation(
+  portfolioId: string,
+  holding: G2HoldingView,
+  index: number,
+): IdentityObservation {
+  const raw: Record<string, string | number | boolean | null> = {
+    symbol: holding.symbol,
+    companyId: holding.companyId,
+    quantity: holding.quantity,
+    active: holding.active,
+    sourceBroker: holding.sourceBroker,
+  };
+  if (holding.isin !== undefined) raw.isin = holding.isin;
+  if (holding.exchange !== undefined) raw.exchange = holding.exchange;
+  if (holding.identityStatus !== undefined) raw.identityStatus = holding.identityStatus;
+  if (holding.resolutionDisposition !== undefined) raw.resolutionDisposition = holding.resolutionDisposition;
+
+  return {
+    observationId: `holding:${portfolioId}:${String(index + 1).padStart(4, '0')}`,
+    source: 'HOLDING',
+    portfolioId,
+    isin: holding.isin ?? null,
+    symbol: holding.symbol === '' ? null : holding.symbol,
+    exchange: holding.exchange ?? null,
+    series: null,
+    cin: null,
+    // IPD's companyId is a lookup hint at most; the resolver never treats it as proof of identity.
+    companyIdHint: holding.companyId,
+    displayName: null,
+    quantity: Number.isFinite(holding.quantity) ? holding.quantity : null,
+    upstreamStatus: holding.identityStatus ?? null,
+    raw,
+  };
+}
+
+/** A watchlist item becomes an observation. `canonicalSecurityId` is used only if it parses as one. */
+export function toWatchlistObservation(
+  list: Watchlist,
+  itemIndex: number,
+): IdentityObservation {
+  const item = list.items[itemIndex]!;
+  let isin: string | null = null;
+  try {
+    const securityId = parseSecurityId(item.canonicalSecurityId);
+    isin = securityId.slice('IN:ISIN:'.length);
+  } catch {
+    isin = null;
+  }
+  const baseline = item.baseline as Readonly<Record<string, unknown>>;
+  const baselineInstrument =
+    typeof baseline.instrumentType === 'string' ? baseline.instrumentType : null;
+  return {
+    observationId: `watchlist:${list.watchlistId}:${String(itemIndex + 1).padStart(4, '0')}`,
+    source: 'WATCHLIST',
+    portfolioId: null,
+    isin,
+    symbol: null,
+    exchange: null,
+    series: null,
+    cin: null,
+    companyIdHint: isin === null ? item.canonicalSecurityId : null,
+    displayName: null,
+    quantity: null,
+    upstreamStatus: baselineInstrument,
+    raw: {
+      canonicalSecurityId: item.canonicalSecurityId,
+      watchlistId: list.watchlistId,
+      baselineAsOf: item.baselineAsOf,
+      addedAt: item.addedAt,
+    },
+  };
+}
+
+export interface CoverageSourceOptions {
+  readonly env?: NodeJS.ProcessEnv;
+  readonly portFactory?: () => IpcUserPortfolioPort;
+  readonly watchlistsFactory?: () => readonly Watchlist[];
+  /** Data-domain root for the IID-0 dataset used only to disclose financial coverage. */
+  readonly dataRoot?: string;
+}
+
+/** Read-only G3 holdings via the existing IPC port. */
+export function createHoldingsProvider(options: CoverageSourceOptions = {}) {
+  return async (): Promise<readonly IdentityObservation[]> => {
+    const env = options.env ?? process.env;
+    const precondition = readBindingPrecondition(env);
+    if (!isOwnerContextEstablished(ownerContextFromBinding(precondition, env))) {
+      throw new Error('owner context not established: the server-owned binding carrier is not configured');
+    }
+    const port = options.portFactory?.() ?? new IpcUserPortfolioPort({ precondition });
+    // An empty scope is intentional: IPD resolves the owner from its own active binding.
+    const scope: G2Scope = {};
+    const summaries: readonly G2PortfolioSummary[] = await port.listPortfolios({ scope });
+    const observations: IdentityObservation[] = [];
+    for (const summary of summaries) {
+      const view = await port.getPortfolio({ scope, portfolioId: summary.portfolioId });
+      view.holdings.forEach((holding, index) => {
+        observations.push(toHoldingObservation(summary.portfolioId, holding, index));
+      });
+    }
+    return observations;
+  };
+}
+
+/** Read-only watchlist items via the existing watchlists service. */
+export function createWatchlistProvider(options: CoverageSourceOptions = {}) {
+  return async (): Promise<readonly IdentityObservation[]> => {
+    const owner = resolveOwnerContext(options.env ?? process.env);
+    if (owner === null) {
+      throw new Error('owner context not established: the server-owned binding carrier is not configured');
+    }
+    const lists = options.watchlistsFactory?.() ?? listWatchlists(owner.tenantId, owner.ownerUserId);
+    const observations: IdentityObservation[] = [];
+    for (const list of lists) {
+      for (let index = 0; index < list.items.length; index += 1) {
+        observations.push(toWatchlistObservation(list, index));
+      }
+    }
+    return observations;
+  };
+}
+
+/**
+ * Disclose the IID-0 position from the served dataset. The platform performs the read through its own
+ * port; an absent dataset is disclosed as `NONE`, which is the truthful answer.
+ */
+export function createFinancialCoverageProvider(
+  options: CoverageSourceOptions = {},
+): () => FinancialCoverageDisclosure {
+  return () => financialCoverageFromLocalDataset(options.dataRoot);
+}
+
+/** Assemble the transport providers from the existing read-only surfaces. */
+export function createCoverageProviders(options: CoverageSourceOptions = {}): CoverageTransportProviders {
+  return {
+    holdings: createHoldingsProvider(options),
+    watchlist: createWatchlistProvider(options),
+    loadSources: () => loadRuntimeIdentitySources(options.dataRoot),
+    financialCoverage: createFinancialCoverageProvider(options),
+    dataRoot: options.dataRoot,
+  };
+}

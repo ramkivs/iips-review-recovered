@@ -1,0 +1,20 @@
+{
+  "schemaVersion": "IIPS_INVESTMENT_IDENTITY_V1",
+  "entries": [
+    { "listingId": "IN:NSE:AARAV:EQ:EQUITY", "securityId": "IN:ISIN:IN0000000011", "exchange": "NSE", "symbol": "AARAV", "series": "EQ", "instrumentType": "EQUITY", "effectiveFrom": "2020-06-01", "effectiveTo": null, "sourceRef": "fixture symbol-change consequence 2020" },
+    { "listingId": "IN:NSE:OLDCO:EQ:EQUITY", "securityId": "IN:ISIN:IN0000000011", "exchange": "NSE", "symbol": "OLDCO", "series": "EQ", "instrumentType": "EQUITY", "effectiveFrom": "2010-01-01", "effectiveTo": "2020-05-31", "sourceRef": "fixture pre-rename symbol" },
+    { "listingId": "IN:NSE:TWINS:EQ:EQUITY", "securityId": "IN:ISIN:IN0000000011", "exchange": "NSE", "symbol": "TWINS", "series": "EQ", "instrumentType": "EQUITY", "effectiveFrom": "2021-01-01", "effectiveTo": null, "sourceRef": "fixture duplicate active symbol (issuer A)" },
+    { "listingId": "IN:NSE:TWINS:BE:EQUITY", "securityId": "IN:ISIN:IN0000000029", "exchange": "NSE", "symbol": "TWINS", "series": "BE", "instrumentType": "EQUITY", "effectiveFrom": "2021-01-01", "effectiveTo": null, "sourceRef": "fixture duplicate active symbol (issuer B)" },
+    { "listingId": "IN:NSE:BODHI:EQ:EQUITY", "securityId": "IN:ISIN:IN0000000029", "exchange": "NSE", "symbol": "BODHI", "series": "EQ", "instrumentType": "EQUITY", "effectiveFrom": "2021-02-15", "effectiveTo": null, "sourceRef": "fixture listing" },
+    { "listingId": "IN:NSE:CMBANK:EQ:EQUITY", "securityId": "IN:ISIN:IN0000000037", "exchange": "NSE", "symbol": "CMBANK", "series": "EQ", "instrumentType": "EQUITY", "effectiveFrom": "2018-04-02", "effectiveTo": null, "sourceRef": "fixture listing" },
+    { "listingId": "IN:NSE:DWARKA:EQ:EQUITY", "securityId": "IN:ISIN:IN0000000045", "exchange": "NSE", "symbol": "DWARKA", "series": "EQ", "instrumentType": "EQUITY", "effectiveFrom": "2019-09-09", "effectiveTo": null, "sourceRef": "fixture listing" },
+    { "listingId": "IN:NSE:EESHLIFE:EQ:EQUITY", "securityId": "IN:ISIN:IN0000000052", "exchange": "NSE", "symbol": "EESHLIFE", "series": "EQ", "instrumentType": "EQUITY", "effectiveFrom": "2022-01-10", "effectiveTo": null, "sourceRef": "fixture listing" },
+    { "listingId": "IN:NSE:EESHPREF:EQ:PREFERENCE", "securityId": "IN:ISIN:IN0000000060", "exchange": "NSE", "symbol": "EESHPREF", "series": "EQ", "instrumentType": "PREFERENCE", "effectiveFrom": "2022-01-10", "effectiveTo": null, "sourceRef": "fixture preference listing" },
+    { "listingId": "IN:NSE:EESHMIX:EQ:EQUITY", "securityId": "IN:ISIN:IN0000000052", "exchange": "NSE", "symbol": "EESHMIX", "series": "EQ", "instrumentType": "EQUITY", "effectiveFrom": "2023-01-01", "effectiveTo": null, "sourceRef": "fixture shared symbol (equity)" },
+    { "listingId": "IN:NSE:EESHMIX:EQ:PREFERENCE", "securityId": "IN:ISIN:IN0000000060", "exchange": "NSE", "symbol": "EESHMIX", "series": "EQ", "instrumentType": "PREFERENCE", "effectiveFrom": "2023-01-01", "effectiveTo": null, "sourceRef": "fixture shared symbol (preference)" },
+    { "listingId": "IN:NSE:EXCLUDED1:EQ:EQUITY", "securityId": "IN:ISIN:IN0000000078", "exchange": "NSE", "symbol": "EXCLUDED1", "series": "EQ", "instrumentType": "EQUITY", "effectiveFrom": "2015-01-01", "effectiveTo": null, "sourceRef": "fixture listing" },
+    { "listingId": "IN:NSE:FOREIGN1:EQ:EQUITY", "securityId": "IN:ISIN:IN0000000086", "exchange": "NSE", "symbol": "FOREIGN1", "series": "EQ", "instrumentType": "EQUITY", "effectiveFrom": "2016-01-01", "effectiveTo": null, "sourceRef": "fixture listing" },
+    { "listingId": "IN:NSE:FUTURE:EQ:EQUITY", "securityId": "IN:ISIN:IN0000000094", "exchange": "NSE", "symbol": "FUTURE", "series": "EQ", "instrumentType": "EQUITY", "effectiveFrom": "2027-01-01", "effectiveTo": null, "sourceRef": "fixture listing whose window has not started" },
+    { "listingId": "IN:NSE:BODHI:BE:EQUITY", "securityId": "IN:ISIN:IN0000000029", "exchange": "NSE", "symbol": "BODHI", "series": "BE", "instrumentType": "EQUITY", "effectiveFrom": "2022-03-01", "effectiveTo": null, "sourceRef": "fixture second series for one security" }
+  ]
+}

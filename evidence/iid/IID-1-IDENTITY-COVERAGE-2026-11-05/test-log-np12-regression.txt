@@ -1,0 +1,262 @@
+TAP version 13
+# Subtest: G1: canonical sector remains canonical
+ok 1 - G1: canonical sector remains canonical
+  ---
+  duration_ms: 1.240429
+  type: 'test'
+  ...
+# Subtest: G1: all 13 canonical values are accepted
+ok 2 - G1: all 13 canonical values are accepted
+  ---
+  duration_ms: 1.17528
+  type: 'test'
+  ...
+# Subtest: G1: lowercase sector normalizes to canonical
+ok 3 - G1: lowercase sector normalizes to canonical
+  ---
+  duration_ms: 0.189559
+  type: 'test'
+  ...
+# Subtest: G1: uppercase / mixed-case sector normalizes to canonical
+ok 4 - G1: uppercase / mixed-case sector normalizes to canonical
+  ---
+  duration_ms: 0.129152
+  type: 'test'
+  ...
+# Subtest: G1: surrounding whitespace is removed
+ok 5 - G1: surrounding whitespace is removed
+  ---
+  duration_ms: 0.1904
+  type: 'test'
+  ...
+# Subtest: G1: repeated internal whitespace collapses to single spaces
+ok 6 - G1: repeated internal whitespace collapses to single spaces
+  ---
+  duration_ms: 0.104265
+  type: 'test'
+  ...
+# Subtest: G1: documented examples normalize as governed
+ok 7 - G1: documented examples normalize as governed
+  ---
+  duration_ms: 0.176609
+  type: 'test'
+  ...
+# Subtest: G1: aliases are rejected, never silently mapped
+ok 8 - G1: aliases are rejected, never silently mapped
+  ---
+  duration_ms: 0.608868
+  type: 'test'
+  ...
+# Subtest: G1: unknown sector is rejected
+ok 9 - G1: unknown sector is rejected
+  ---
+  duration_ms: 0.484298
+  type: 'test'
+  ...
+# Subtest: G1: blank sector is rejected
+ok 10 - G1: blank sector is rejected
+  ---
+  duration_ms: 0.372686
+  type: 'test'
+  ...
+# Subtest: G1: normalization happens before identity comparison (K-3)
+ok 11 - G1: normalization happens before identity comparison (K-3)
+  ---
+  duration_ms: 0.268006
+  type: 'test'
+  ...
+# Subtest: G1: no permissive fallback to ONTOLOGY_METADATA defaults
+ok 12 - G1: no permissive fallback to ONTOLOGY_METADATA defaults
+  ---
+  duration_ms: 0.159489
+  type: 'test'
+  ...
+# Subtest: G2: uniqueness on the composite is what makes a repeat detectable
+ok 13 - G2: uniqueness on the composite is what makes a repeat detectable
+  ---
+  duration_ms: 0.148742
+  type: 'test'
+  ...
+# Subtest: G2: same sector + different reference id are distinct members
+ok 14 - G2: same sector + different reference id are distinct members
+  ---
+  duration_ms: 0.090184
+  type: 'test'
+  ...
+# Subtest: G2: different sector + same reference id are distinct members
+ok 15 - G2: different sector + same reference id are distinct members
+  ---
+  duration_ms: 0.117661
+  type: 'test'
+  ...
+# Subtest: G2: reference identifier remains opaque and byte-sensitive
+ok 16 - G2: reference identifier remains opaque and byte-sensitive
+  ---
+  duration_ms: 0.118863
+  type: 'test'
+  ...
+# Subtest: G2: opaque reference id containing delimiters does not collide
+ok 17 - G2: opaque reference id containing delimiters does not collide
+  ---
+  duration_ms: 0.074776
+  type: 'test'
+  ...
+# Subtest: G2: uniqueness is enforced across the whole population, not pairwise-locally
+ok 18 - G2: uniqueness is enforced across the whole population, not pairwise-locally
+  ---
+  duration_ms: 0.236984
+  type: 'test'
+  ...
+# Subtest: G3: exact duplicate is rejected
+ok 19 - G3: exact duplicate is rejected
+  ---
+  duration_ms: 0.146221
+  type: 'test'
+  ...
+# Subtest: G3: duplicate after sector normalization is rejected
+ok 20 - G3: duplicate after sector normalization is rejected
+  ---
+  duration_ms: 0.076162
+  type: 'test'
+  ...
+# Subtest: G3: duplicate with different raw sector casing is rejected
+ok 21 - G3: duplicate with different raw sector casing is rejected
+  ---
+  duration_ms: 0.071323
+  type: 'test'
+  ...
+# Subtest: G3: duplicate with surrounding sector whitespace is rejected
+ok 22 - G3: duplicate with surrounding sector whitespace is rejected
+  ---
+  duration_ms: 0.103794
+  type: 'test'
+  ...
+# Subtest: G3: conflicting member values with the same identity are rejected, not merged
+ok 23 - G3: conflicting member values with the same identity are rejected, not merged
+  ---
+  duration_ms: 0.370698
+  type: 'test'
+  ...
+# Subtest: G3: duplicates are not retained, overwritten, or silently deduplicated
+ok 24 - G3: duplicates are not retained, overwritten, or silently deduplicated
+  ---
+  duration_ms: 1.142242
+  type: 'test'
+  ...
+# Subtest: G3: rejection precedes canonicalization (K-2)
+ok 25 - G3: rejection precedes canonicalization (K-2)
+  ---
+  duration_ms: 0.131615
+  type: 'test'
+  ...
+# Subtest: G5: canonical order is (normalized sector ASC, reference identifier ASC)
+ok 26 - G5: canonical order is (normalized sector ASC, reference identifier ASC)
+  ---
+  duration_ms: 0.154778
+  type: 'test'
+  ...
+# Subtest: G5: identical membership in different input orders yields identical canonical representation
+ok 27 - G5: identical membership in different input orders yields identical canonical representation
+  ---
+  duration_ms: 0.284417
+  type: 'test'
+  ...
+# Subtest: G5: canonical order is independent of member values
+ok 28 - G5: canonical order is independent of member values
+  ---
+  duration_ms: 0.127095
+  type: 'test'
+  ...
+# Subtest: G5: canonical ordering is not the RankingEngine presentation order
+ok 29 - G5: canonical ordering is not the RankingEngine presentation order
+  ---
+  duration_ms: 0.947036
+  type: 'test'
+  ...
+# Subtest: G4: the same membership in different input orders produces the same identity
+ok 30 - G4: the same membership in different input orders produces the same identity
+  ---
+  duration_ms: 0.145434
+  type: 'test'
+  ...
+# Subtest: G4: adding a member produces a different identity
+ok 31 - G4: adding a member produces a different identity
+  ---
+  duration_ms: 0.13312
+  type: 'test'
+  ...
+# Subtest: G4: removing a member produces a different identity
+ok 32 - G4: removing a member produces a different identity
+  ---
+  duration_ms: 0.091311
+  type: 'test'
+  ...
+# Subtest: G4: changing a member governed identity produces a different identity
+ok 33 - G4: changing a member governed identity produces a different identity
+  ---
+  duration_ms: 0.088451
+  type: 'test'
+  ...
+# Subtest: G4: changing member values without changing membership does NOT alter identity
+ok 34 - G4: changing member values without changing membership does NOT alter identity
+  ---
+  duration_ms: 0.099552
+  type: 'test'
+  ...
+# Subtest: G4: caller/portfolio identity does not enter population identity
+ok 35 - G4: caller/portfolio identity does not enter population identity
+  ---
+  duration_ms: 0.617605
+  type: 'test'
+  ...
+# Subtest: G4: evaluation context does not enter population identity
+ok 36 - G4: evaluation context does not enter population identity
+  ---
+  duration_ms: 0.42433
+  type: 'test'
+  ...
+# Subtest: G4: materially different populations get different identities (evidenceId collision fixed)
+ok 37 - G4: materially different populations get different identities (evidenceId collision fixed)
+  ---
+  duration_ms: 0.36948
+  type: 'test'
+  ...
+# Subtest: G4: identity is deterministic across repeated runs
+ok 38 - G4: identity is deterministic across repeated runs
+  ---
+  duration_ms: 0.372339
+  type: 'test'
+  ...
+# Subtest: REGRESSION: golden dataset PF-01..PF-06 still reproduce frozen expected outputs
+ok 39 - REGRESSION: golden dataset PF-01..PF-06 still reproduce frozen expected outputs
+  ---
+  duration_ms: 0.739056
+  type: 'test'
+  ...
+# Subtest: REGRESSION: ranking presentation order (conviction DESC, sector ASC) is unchanged
+ok 40 - REGRESSION: ranking presentation order (conviction DESC, sector ASC) is unchanged
+  ---
+  duration_ms: 0.190969
+  type: 'test'
+  ...
+# Subtest: REGRESSION: aggregates are unchanged and duplicate-free populations are unaffected
+ok 41 - REGRESSION: aggregates are unchanged and duplicate-free populations are unaffected
+  ---
+  duration_ms: 0.15611
+  type: 'test'
+  ...
+# Subtest: REGRESSION: an empty population is valid and produces a stable identity
+ok 42 - REGRESSION: an empty population is valid and produces a stable identity
+  ---
+  duration_ms: 0.126988
+  type: 'test'
+  ...
+1..42
+# tests 42
+# suites 0
+# pass 42
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 197.552598

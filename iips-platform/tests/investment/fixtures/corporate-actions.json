@@ -1,0 +1,8 @@
+{
+  "_note": "Deliberate cases: a comparable split with a factor, a tender buyback with a factor, and a rights issue with NO factor (per-share series become non-comparable across the boundary).",
+  "corporateActions": [
+    { "actionId": "CA-AARAV-SPLIT-2024", "type": "SPLIT", "effectiveDate": "2024-11-15", "subjectIssuerId": "IN:EQISIN:IN0000000011", "subjectSecurityId": "IN:ISIN:IN0000000011", "perShareComparable": true, "adjustmentFactor": 0.2, "factorBasis": "1:5 split (face value 10 to 2)", "successors": [], "sourceRef": "NSE circular (synthetic fixture)" },
+    { "actionId": "CA-CMBANK-BUYBACK-2025", "type": "BUYBACK_TENDER", "effectiveDate": "2025-12-01", "subjectIssuerId": "IN:EQISIN:IN0000000037", "subjectSecurityId": "IN:ISIN:IN0000000037", "perShareComparable": true, "adjustmentFactor": 0.97, "factorBasis": "tender buyback at a premium to the then-prevailing price", "successors": [], "sourceRef": "postal ballot (synthetic fixture)" },
+    { "actionId": "CA-AARAV-RIGHTS-2026", "type": "RIGHTS", "effectiveDate": "2026-02-10", "subjectIssuerId": "IN:EQISIN:IN0000000011", "subjectSecurityId": "IN:ISIN:IN0000000011", "perShareComparable": false, "adjustmentFactor": null, "factorBasis": null, "successors": [], "sourceRef": "rights issue letter of offer (synthetic fixture)" }
+  ]
+}

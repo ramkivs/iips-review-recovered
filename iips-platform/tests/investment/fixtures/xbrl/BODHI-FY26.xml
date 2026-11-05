@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SYNTHETIC XBRL instance for IID-0 ingestion tests. Values are fabricated.
+     Deliberate cases: one tag outside the line-item map (must be counted, not guessed),
+     a duration fact on a BS instant item (must be refused), and an instant fact for cash. -->
+<xbrli:xbrl xmlns:xbrli="http://www.xbrl.org/2003/instance" xmlns:in-capmkt="http://www.icai.org/xbrl/taxonomy/in-capmkt/2024-03-31">
+  <xbrli:context id="D-FY26">
+    <xbrli:entity><xbrli:identifier scheme="http://www.mca.gov.in">IN0000000029</xbrli:identifier></xbrli:entity>
+    <xbrli:period><xbrli:startDate>2025-04-01</xbrli:startDate><xbrli:endDate>2026-03-31</xbrli:endDate></xbrli:period>
+  </xbrli:context>
+  <xbrli:context id="I-FY26">
+    <xbrli:entity><xbrli:identifier scheme="http://www.mca.gov.in">IN0000000029</xbrli:identifier></xbrli:entity>
+    <xbrli:period><xbrli:instant>2026-03-31</xbrli:instant></xbrli:period>
+  </xbrli:context>
+  <xbrli:unit id="INR"><xbrli:measure>iso4217:INR</xbrli:measure></xbrli:unit>
+  <in-capmkt:RevenueFromOperations contextRef="D-FY26" unitRef="INR" decimals="0">48000000000</in-capmkt:RevenueFromOperations>
+  <in-capmkt:EmployeeBenefitsExpense contextRef="D-FY26" unitRef="INR" decimals="0">27000000000</in-capmkt:EmployeeBenefitsExpense>
+  <in-capmkt:ProfitBeforeTax contextRef="D-FY26" unitRef="INR" decimals="0">6100000000</in-capmkt:ProfitBeforeTax>
+  <in-capmkt:TaxExpense contextRef="D-FY26" unitRef="INR" decimals="0">1550000000</in-capmkt:TaxExpense>
+  <in-capmkt:ProfitLossForPeriod contextRef="D-FY26" unitRef="INR" decimals="0">4550000000</in-capmkt:ProfitLossForPeriod>
+  <in-capmkt:CashFlowsFromUsedInOperatingActivities contextRef="D-FY26" unitRef="INR" decimals="0">5200000000</in-capmkt:CashFlowsFromUsedInOperatingActivities>
+  <in-capmkt:BasicEarningsLossPerShareFromContinuingAndDiscontinuedOperations contextRef="D-FY26" unitRef="INR" decimals="2">64.5</in-capmkt:BasicEarningsLossPerShareFromContinuingAndDiscontinuedOperations>
+  <in-capmkt:CashAndCashEquivalents contextRef="I-FY26" unitRef="INR" decimals="0">7400000000</in-capmkt:CashAndCashEquivalents>
+  <in-capmkt:Assets contextRef="I-FY26" unitRef="INR" decimals="0">31000000000</in-capmkt:Assets>
+  <!-- Outside the closed line-item map: must be reported as unmapped, never coerced. -->
+  <in-capmkt:DeferredTaxExpense contextRef="D-FY26" unitRef="INR" decimals="0">180000000</in-capmkt:DeferredTaxExpense>
+  <!-- Duration context on a balance-sheet instant item: must be refused with DURATION_KIND_MISMATCH. -->
+  <in-capmkt:PropertyPlantAndEquipment contextRef="D-FY26" unitRef="INR" decimals="0">4100000000</in-capmkt:PropertyPlantAndEquipment>
+</xbrli:xbrl>

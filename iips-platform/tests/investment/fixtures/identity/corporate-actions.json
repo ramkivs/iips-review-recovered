@@ -1,0 +1,116 @@
+{
+  "schemaVersion": "IIPS_INVESTMENT_IDENTITY_V1",
+  "actions": [
+    {
+      "actionId": "CA-AARAV-SPLIT-2024",
+      "type": "SPLIT",
+      "effectiveDate": "2024-11-15",
+      "subjectIssuerId": "IN:CIN:L72200KA1981PLC013115",
+      "subjectSecurityId": "IN:ISIN:IN0000000011",
+      "perShareComparable": true,
+      "adjustmentFactor": 0.2,
+      "factorBasis": "1:5 split (face value 10 to 2)",
+      "successors": [],
+      "sourceRef": "fixture exchange circular"
+    },
+    {
+      "actionId": "CA-AARAV-SYMBOL-2020",
+      "type": "SYMBOL_CHANGE",
+      "effectiveDate": "2020-06-01",
+      "subjectIssuerId": "IN:CIN:L72200KA1981PLC013115",
+      "subjectSecurityId": "IN:ISIN:IN0000000011",
+      "perShareComparable": true,
+      "adjustmentFactor": null,
+      "factorBasis": null,
+      "successors": [],
+      "sourceRef": "fixture symbol change OLDCO to AARAV"
+    },
+    {
+      "actionId": "CA-CMBANK-BONUS-2023",
+      "type": "BONUS",
+      "effectiveDate": "2023-06-01",
+      "subjectIssuerId": "IN:CIN:L65110MH1995PLC000002",
+      "subjectSecurityId": "IN:ISIN:IN0000000037",
+      "perShareComparable": true,
+      "adjustmentFactor": 0.5,
+      "factorBasis": "1:1 bonus",
+      "successors": [],
+      "sourceRef": "fixture board resolution"
+    },
+    {
+      "actionId": "CA-CMBANK-BUYBACK-2025",
+      "type": "BUYBACK_TENDER",
+      "effectiveDate": "2025-12-01",
+      "subjectIssuerId": "IN:CIN:L65110MH1995PLC000002",
+      "subjectSecurityId": "IN:ISIN:IN0000000037",
+      "perShareComparable": true,
+      "adjustmentFactor": 0.97,
+      "factorBasis": "tender buyback at a premium to the then-prevailing price",
+      "successors": [],
+      "sourceRef": "fixture postal ballot"
+    },
+    {
+      "actionId": "CA-DWARKA-RIGHTS-2026",
+      "type": "RIGHTS",
+      "effectiveDate": "2026-02-10",
+      "subjectIssuerId": "IN:EQISIN:IN0000000045",
+      "subjectSecurityId": "IN:ISIN:IN0000000045",
+      "perShareComparable": false,
+      "adjustmentFactor": null,
+      "factorBasis": null,
+      "successors": [],
+      "sourceRef": "fixture letter of offer (terms not recorded: no factor)"
+    },
+    {
+      "actionId": "CA-EXCLUDED-DELIST-2024",
+      "type": "DELISTING",
+      "effectiveDate": "2024-03-31",
+      "subjectIssuerId": "IN:CIN:U45200GJ2010PLC000006",
+      "subjectSecurityId": "IN:ISIN:IN0000000070",
+      "perShareComparable": true,
+      "adjustmentFactor": null,
+      "factorBasis": null,
+      "successors": [],
+      "sourceRef": "fixture delisting notice"
+    },
+    {
+      "actionId": "CA-BODHI-DEMERGER-2025",
+      "type": "DEMERGER",
+      "effectiveDate": "2025-04-01",
+      "subjectIssuerId": "IN:CIN:U72200TN2001PLC000005",
+      "subjectSecurityId": "IN:ISIN:IN0000000029",
+      "perShareComparable": false,
+      "adjustmentFactor": null,
+      "factorBasis": null,
+      "successors": [
+        { "issuerId": "IN:CIN:U72200TN2001PLC000005", "ratio": 0.6 },
+        { "issuerId": "IN:CIN:U74999MH2019PLC000009", "ratio": 0.4 }
+      ],
+      "sourceRef": "fixture scheme of arrangement (one successor not in the roster)"
+    },
+    {
+      "actionId": "CA-GIRISH-MERGER-2026",
+      "type": "MERGER",
+      "effectiveDate": "2026-04-01",
+      "subjectIssuerId": "IN:CIN:U27100MH2012PLC000008",
+      "subjectSecurityId": "IN:ISIN:IN0000000086",
+      "perShareComparable": false,
+      "adjustmentFactor": null,
+      "factorBasis": null,
+      "successors": [{ "issuerId": "IN:CIN:L72200KA1981PLC013115", "ratio": 1 }],
+      "sourceRef": "fixture scheme of arrangement (fully mapped)"
+    },
+    {
+      "actionId": "CA-EESHA-NAME-2021",
+      "type": "NAME_CHANGE",
+      "effectiveDate": "2021-07-01",
+      "subjectIssuerId": "IN:CIN:U66010MH2000PLC000004",
+      "subjectSecurityId": "IN:ISIN:IN0000000052",
+      "perShareComparable": true,
+      "adjustmentFactor": null,
+      "factorBasis": null,
+      "successors": [],
+      "sourceRef": "fixture name change"
+    }
+  ]
+}

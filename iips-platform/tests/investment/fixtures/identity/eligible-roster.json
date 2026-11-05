@@ -1,0 +1,115 @@
+{
+  "schemaVersion": "IIPS_INVESTMENT_IDENTITY_V1",
+  "rosterLabel": "SYNTHETIC IID-1 reference roster (fixture; not real companies)",
+  "issuers": [
+    {
+      "issuerId": "IN:CIN:L72200KA1981PLC013115",
+      "legalName": "Aarav Systems Limited (synthetic)",
+      "cin": "L72200KA1981PLC013115",
+      "equityIsin": "IN0000000011",
+      "issuerKeyBasis": "CIN",
+      "sector": "Technology",
+      "subSegment": "IT services",
+      "status": "ELIGIBLE",
+      "statusReason": null,
+      "foreignIssuer": false
+    },
+    {
+      "issuerId": "IN:CIN:L65110MH1995PLC000002",
+      "legalName": "Chandra Meridian Bank Limited (synthetic)",
+      "cin": "L65110MH1995PLC000002",
+      "equityIsin": "IN0000000037",
+      "issuerKeyBasis": "CIN",
+      "sector": "Banking",
+      "subSegment": "Private bank",
+      "status": "ELIGIBLE",
+      "statusReason": null,
+      "foreignIssuer": false
+    },
+    {
+      "issuerId": "IN:EQISIN:IN0000000045",
+      "legalName": "Dwarka Resorts Limited (synthetic)",
+      "cin": null,
+      "equityIsin": "IN0000000045",
+      "issuerKeyBasis": "EQUITY_ISIN",
+      "sector": "Hospitality",
+      "subSegment": "Hotels",
+      "status": "ELIGIBLE",
+      "statusReason": null,
+      "foreignIssuer": false
+    },
+    {
+      "issuerId": "IN:CIN:U66010MH2000PLC000004",
+      "legalName": "Eesha Life Insurance Limited (synthetic)",
+      "cin": "U66010MH2000PLC000004",
+      "equityIsin": "IN0000000052",
+      "issuerKeyBasis": "CIN",
+      "sector": "Insurance",
+      "subSegment": "Life",
+      "status": "ELIGIBLE",
+      "statusReason": null,
+      "foreignIssuer": false
+    },
+    {
+      "issuerId": "IN:CIN:U72200TN2001PLC000005",
+      "legalName": "Bodhi Digital Limited (synthetic)",
+      "cin": "U72200TN2001PLC000005",
+      "equityIsin": "IN0000000029",
+      "issuerKeyBasis": "CIN",
+      "sector": "Technology",
+      "subSegment": "SaaS",
+      "status": "ELIGIBLE",
+      "statusReason": null,
+      "foreignIssuer": false
+    },
+    {
+      "issuerId": "IN:CIN:U45200GJ2010PLC000006",
+      "legalName": "Fictional Infrastructure Limited (synthetic)",
+      "cin": "U45200GJ2010PLC000006",
+      "equityIsin": "IN0000000078",
+      "issuerKeyBasis": "CIN",
+      "sector": "Industrials",
+      "subSegment": "Construction",
+      "status": "EXCLUDED",
+      "statusReason": "Excluded from the eligible roster for this fixture: suspended disclosure.",
+      "foreignIssuer": false
+    },
+    {
+      "issuerId": "IN:CIN:U99999MH2015PLC000007",
+      "legalName": "Overseas Holdings Limited (synthetic)",
+      "cin": "U99999MH2015PLC000007",
+      "equityIsin": "IN0000000086",
+      "issuerKeyBasis": "CIN",
+      "sector": "Materials",
+      "subSegment": "Diversified",
+      "status": "ELIGIBLE",
+      "statusReason": null,
+      "foreignIssuer": true
+    },
+    {
+      "issuerId": "IN:CIN:U27100MH2012PLC000008",
+      "legalName": "Girish Metals Limited (synthetic)",
+      "cin": "U27100MH2012PLC000008",
+      "equityIsin": "IN0000000094",
+      "issuerKeyBasis": "CIN",
+      "sector": "Materials",
+      "subSegment": "Metals",
+      "status": "ELIGIBLE",
+      "statusReason": null,
+      "foreignIssuer": false
+    }
+  ],
+  "securities": [
+    { "securityId": "IN:ISIN:IN0000000011", "issuerId": "IN:CIN:L72200KA1981PLC013115", "isin": "IN0000000011", "instrumentType": "EQUITY", "status": "ASSESSABLE", "statusReason": null },
+    { "securityId": "IN:ISIN:IN0000000029", "issuerId": "IN:CIN:U72200TN2001PLC000005", "isin": "IN0000000029", "instrumentType": "EQUITY", "status": "ASSESSABLE", "statusReason": null },
+    { "securityId": "IN:ISIN:IN0000000037", "issuerId": "IN:CIN:L65110MH1995PLC000002", "isin": "IN0000000037", "instrumentType": "EQUITY", "status": "ASSESSABLE", "statusReason": null },
+    { "securityId": "IN:ISIN:IN0000000045", "issuerId": "IN:EQISIN:IN0000000045", "isin": "IN0000000045", "instrumentType": "EQUITY", "status": "ASSESSABLE", "statusReason": null },
+    { "securityId": "IN:ISIN:IN0000000052", "issuerId": "IN:CIN:U66010MH2000PLC000004", "isin": "IN0000000052", "instrumentType": "EQUITY", "status": "ASSESSABLE", "statusReason": null },
+    { "securityId": "IN:ISIN:IN0000000060", "issuerId": "IN:CIN:U66010MH2000PLC000004", "isin": "IN0000000060", "instrumentType": "PREFERENCE", "status": "OUT_OF_SCOPE", "statusReason": "Preference capital is out of scope in v1." },
+    { "securityId": "IN:ISIN:IN0000000078", "issuerId": "IN:CIN:U45200GJ2010PLC000006", "isin": "IN0000000078", "instrumentType": "EQUITY", "status": "ASSESSABLE", "statusReason": null },
+    { "securityId": "IN:ISIN:IN0000000086", "issuerId": "IN:CIN:U99999MH2015PLC000007", "isin": "IN0000000086", "instrumentType": "EQUITY", "status": "ASSESSABLE", "statusReason": null },
+    { "securityId": "IN:ISIN:IN0000000094", "issuerId": "IN:CIN:U27100MH2012PLC000008", "isin": "IN0000000094", "instrumentType": "EQUITY", "status": "ASSESSABLE", "statusReason": null },
+    { "securityId": "IN:ISIN:IN0000000102", "issuerId": "IN:CIN:U27100MH2012PLC000008", "isin": "IN0000000102", "instrumentType": "EQUITY", "status": "INELIGIBLE", "statusReason": "Not listed on NSE or BSE." },
+    { "securityId": "IN:ISIN:IN0000000110", "issuerId": "IN:CIN:U72200TN2001PLC000005", "isin": "IN0000000110", "instrumentType": "EQUITY", "status": "ASSESSABLE", "statusReason": null }
+  ]
+}

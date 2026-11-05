@@ -1,0 +1,184 @@
+{
+  "P-1 scope-token acceptance": {
+    "ok": true,
+    "detail": {
+      "co:IN:ISIN:INE009A01021": {
+        "accepted": true,
+        "reportId": "b65a6881",
+        "portfolioIdRoundTrip": true,
+        "reportKey": "62c2a8d0f98d"
+      },
+      "hd:pf-7f3a/IN:ISIN:INE009A01021": {
+        "accepted": true,
+        "reportId": "7f3548ba",
+        "portfolioIdRoundTrip": true,
+        "reportKey": "46f3fa1de725"
+      },
+      "icr:co:IN:ISIN:INE009A01021": {
+        "accepted": true,
+        "reportId": "d207a9f7",
+        "portfolioIdRoundTrip": true,
+        "reportKey": "5d7ac01af9a3"
+      },
+      "co:IN+ISIN+INE009A01021": {
+        "accepted": true,
+        "reportId": "950f76a1",
+        "portfolioIdRoundTrip": true,
+        "reportKey": "49af33262d8f"
+      },
+      "IN:ISIN:INE002A01018": {
+        "accepted": true,
+        "reportId": "e11ed69f",
+        "portfolioIdRoundTrip": true,
+        "reportKey": "e263c06bfe6a"
+      }
+    }
+  },
+  "P-2 duplicate reportKey on createInstance": {
+    "ok": true,
+    "detail": {
+      "acceptedBoth": true,
+      "sameReportKey": true,
+      "distinctReportIds": true,
+      "distinctChains": true,
+      "bothVersion1": true,
+      "note": "no dedupe/uniqueness constraint on (owner, reportKey); each call mints a new v1 chain"
+    }
+  },
+  "P-3 appendVersion behaviour": {
+    "ok": true,
+    "detail": {
+      "versionSequence": [
+        1,
+        2,
+        3
+      ],
+      "chainIdStable": true,
+      "supersedesPointAtPrior": true,
+      "staleAppend": {
+        "rejected": true,
+        "error": "PersistenceSupersessionError"
+      },
+      "unknownParent": {
+        "rejected": true,
+        "error": "PersistenceNotFoundError"
+      },
+      "listSupersededBy": {
+        "currentVersion": 3,
+        "historyVersions": [
+          2,
+          1
+        ]
+      },
+      "priorRowUnchanged": true
+    }
+  },
+  "P-4 IRR artifact-chain validation over NP-04 rows": {
+    "ok": true,
+    "detail": {
+      "single": {
+        "accepted": true,
+        "reportKey": "c1775636dd82",
+        "version": 2
+      },
+      "chainResult": {
+        "accepted": true,
+        "versions": [
+          1,
+          2
+        ]
+      },
+      "ownershipNegative": {
+        "rejected": true,
+        "error": "ReportValidationError"
+      }
+    }
+  },
+  "P-5 independent chains per subject": {
+    "ok": true,
+    "detail": {
+      "totalArtifacts": 3,
+      "distinctChainIds": 3,
+      "perChain": [
+        {
+          "chainId": "e15a3be5",
+          "type": "investment.company-assessment",
+          "headVersion": 2,
+          "history": 1
+        },
+        {
+          "chainId": "bf9ceea3",
+          "type": "investment.holding-disposition",
+          "headVersion": 1,
+          "history": 0
+        },
+        {
+          "chainId": "9d5c7bd7",
+          "type": "investment.change-report",
+          "headVersion": 1,
+          "history": 0
+        }
+      ],
+      "isolation": [
+        "investment.company-assessment:v2",
+        "investment.holding-disposition:v1",
+        "investment.change-report:v1"
+      ]
+    }
+  },
+  "P-6 validation behaviour + content-identity determinism": {
+    "ok": true,
+    "detail": {
+      "probes": {
+        "empty portfolioId": {
+          "rejected": true,
+          "error": "PersistenceValidationError",
+          "message": "portfolioId must be a non-empty string"
+        },
+        "whitespace portfolioId": {
+          "rejected": false
+        },
+        "empty owner": {
+          "rejected": true,
+          "error": "PersistenceOwnershipError",
+          "message": "owner.tenantId must be a non-empty string"
+        },
+        "missing canonicalPayload": {
+          "rejected": true,
+          "error": "PersistenceValidationError",
+          "message": "canonicalPayload must be a string"
+        },
+        "falsy-ish parameter values": {
+          "rejected": false
+        }
+      },
+      "keyDeterministicAcrossStoresAndKeyOrder": true,
+      "note": "portfolioId is TEXT NOT NULL with no format/emptiness constraint at the store; the IRR adapter supplies non-empty validation"
+    }
+  },
+  "P-7 append with unchanged reportKey": {
+    "ok": true,
+    "detail": {
+      "sameKeyAppend": {
+        "accepted": true,
+        "sameKeyAsParent": true,
+        "version": 2
+      },
+      "note": "NP-04 does not suppress an unchanged-content append; the idempotency no-op in the IID design must therefore be enforced by the composer, not the store"
+    }
+  },
+  "P-8 scope-drift within a chain": {
+    "ok": true,
+    "detail": {
+      "storeAcceptsScopeChange": {
+        "accepted": true,
+        "note": "NP-04 permits the scope token to change within one chain"
+      },
+      "irrChainRejects": {
+        "rejected": true,
+        "error": "ReportValidationError",
+        "message": "reportType and portfolioId are fixed across a chain"
+      }
+    }
+  }
+}

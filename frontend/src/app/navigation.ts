@@ -35,6 +35,9 @@ export const NAV: NavItem[] = [
   { label: 'Broker Holdings', path: '/broker-holdings' },
   { label: 'User Portfolios', path: '/user-portfolios' },
   { label: 'Watchlists', path: '/watchlists' },
+  // IID-1: identity coverage over holdings, broker-preview rows and watchlists. Read-only; it renders the
+  // resolution state of every observed row and never substitutes a sector reference for an identity.
+  { label: 'Identity Coverage', path: ROUTES.identityCoverage },
   { label: 'Collaboration', path: '/collaboration' },
   {
     label: 'Research',
