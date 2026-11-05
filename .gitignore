@@ -20,6 +20,10 @@ lib-cov
 
 # Coverage directory used by tools like istanbul
 coverage
+# ... but never a source directory that happens to be called `coverage`: the IID platform keeps its
+# sector method matrix and coverage measurement there, and an ignored source directory publishes a
+# repository that cannot compile.
+!iips-platform/src/investment/coverage/
 *.lcov
 
 # nyc test coverage
