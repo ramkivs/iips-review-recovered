@@ -1043,8 +1043,14 @@ No frontend file, no route and no persisted artifact was added in this phase: II
 ## B.J4 IID-3 — acceptance criteria and actual status
 
 **Implemented 2026-11-06** on branch `arena/e56fe593-iips-review-recovered`, on top of IID-0, IID-1 and IID-2.
+**Published** as PR [#464](https://github.com/ramkivs/iips-review-recovered/pull/464) (feature commit `e627727`,
+merged with `origin/main` as `8fd1c2b`; CI run `42096525519` pass) and **independently re-verified from a fresh
+clone** — the same ten points re-pass and `reportKey` plus both payload/input digests reproduce exactly, with only
+the store-assigned `reportId` differing.
 Evidence: `evidence/iid/IID-3-PERSISTENCE-READ-TRANSPORT-2026-11-06/` (the M-1 demonstration record with its ten
-verification points, the three CLI run summaries, the acceptance matrix and the readiness summary).
+verification points, the three CLI run summaries, the acceptance matrix, the readiness summary and
+`INDEPENDENT-VERIFICATION.md`). Operator procedure: `docs/OPERATOR_RUNBOOK.md` **§14** (the section was renumbered
+from §13 when `origin/main` took that number for the owner-evidence-reset procedure; the content is unchanged).
 Register: `docs/integration/IIPS_V3_IID_LIMITATION_AND_COVERAGE_REGISTER_2026-11-06.md`.
 
 **Scope executed (roadmap §IID-3, tasks 1–7).** `assessmentComposition.ts` turns an IID-2

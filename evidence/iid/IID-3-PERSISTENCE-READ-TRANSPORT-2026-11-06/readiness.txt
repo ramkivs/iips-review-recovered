@@ -1,10 +1,16 @@
 IID-3 — PERSISTENCE, READ TRANSPORT AND THIN SLICE (M-1)
 readiness summary · 2026-11-06 · branch arena/e56fe593-iips-review-recovered
 base commit: 34c8b39e3ee1d26bba4f9b362ca631c4e42ce863 (origin/main after PR #461, IID-2)
+merged with: a9329dd / 26256e7 (origin/main, PR #462 + #463; one documentation-only conflict, runbook
+             section renumbered 13 -> 14) — head 8fd1c2b, pull request #464
 
 TESTS
   iips-platform  tests/investment/*.test.ts ................. 286 / 286 pass  (275 before + 11 scope-token)
-  iips-platform  tests/regression/np12-sector-reference-population ....... 42 / 42 pass
+  iips-platform  tests/regression/** (all suites) ............ 651 / 651 pass
+      np12-sector-reference-population ....... 42
+      np12-n4-a9-screen-runtime .............. 45
+      np12-n4-screen-definition .............. 35
+      np12-n4-screen-producer ................ 45   (needs pinned commit 5ca181c7 in the local clone)
   frontend  server/investment/** ............................. 55 / 55 pass
       assessment-composition.test.ts ......... 15
       investment-artifacts.test.ts ........... 15
@@ -38,6 +44,11 @@ M-1 IDENTITIES (synthetic reference company; new isolated scope)
   real issuer assessment ... NOT PERFORMED — BLOCKED (no approved dataset in the local ingestion path)
 
 M-1 VERIFICATION POINTS .................... 10 / 10 pass (m1-demonstration.json)
+INDEPENDENT VERIFICATION ................... fresh clone of 8fd1c2b from GitHub re-ran every count above and
+                                             reproduced reportKey + both payload/input digests exactly;
+                                             only the store-assigned reportId differs (see
+                                             INDEPENDENT-VERIFICATION.md). CI run 42096525519: pass.
+
 SANITIZATION SWEEP ......................... 4 response bodies, 0 leaks
 MUTATING ROUTES ............................ 0 (8/8 non-GET/HEAD → 405 Allow: GET, HEAD)
 

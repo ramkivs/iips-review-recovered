@@ -3,6 +3,9 @@
 **Date:** 2026-11-06
 **Branch:** `arena/e56fe593-iips-review-recovered`
 **Predecessor:** IID-0 (`cad6371`), IID-1 (`792b805`), IID-2 (`34c8b39`, PR #461)
+**Published:** PR [#464](https://github.com/ramkivs/iips-review-recovered/pull/464); head `8fd1c2b`
+(feature commit `e627727` merged with `origin/main`). CI run `42096525519` — pass.
+Independently re-verified from a fresh clone: `INDEPENDENT-VERIFICATION.md`.
 **Scope:** compose → validate → persist (injected NP-04 port) → read (GET/HEAD only) → thin view, for one issuer,
 in a **new isolated investment-artifact scope**.
 
@@ -48,8 +51,17 @@ Tests (all IID-3 suites):
 
 ```bash
 cd frontend && ./node_modules/.bin/vitest run server/investment src/api/investment.test.ts src/features/investment
-cd iips-platform && ./node_modules/.bin/tsx --test tests/investment/scope-token.test.ts
+cd frontend && ./node_modules/.bin/tsc -p tsconfig.investment-server.json
+cd iips-platform && ./node_modules/.bin/tsx --test tests/investment/*.test.ts
 ```
+
+**Prerequisites for a fresh clone.** `frontend/node_modules` and `frontend/np04-shim` are both gitignored build
+artefacts, and `node_modules/iips-np04-governed-persistence` must be a **real directory** (a copy of `np04-shim`),
+not a symlink to it: as a symlink, Vite resolves it outside `node_modules`, transforms its
+`import { DatabaseSync } from 'node:sqlite'`, and every suite that reaches the store fails to load with
+`Failed to load url sqlite`. The platform regression suite additionally needs pinned commit `5ca181c7…` present in
+the local clone. Both were hit and resolved during independent verification
+(`INDEPENDENT-VERIFICATION.md` §5); neither is a product defect.
 
 ## 3. Files in this directory
 
@@ -61,6 +73,7 @@ cd iips-platform && ./node_modules/.bin/tsx --test tests/investment/scope-token.
 | `runs/changed-input-v2.json` | CLI summary of the changed-input run (`APPENDED`, version 2). |
 | `ACCEPTANCE-MATRIX.md` | `AC-3.1` … `AC-3.8` and the ten M-1 points, each mapped to the test that would fail. |
 | `readiness.txt` | Counts and identities for this commit. |
+| `INDEPENDENT-VERIFICATION.md` | Merge resolution with `origin/main`, CI run `42096525519`, the fresh-clone counts and the reproduced M-1 identities (only the store-assigned `reportId` differs), the environment facts, and what this record does not claim. |
 
 ## 4. What this evidence proves — and what it does not
 
