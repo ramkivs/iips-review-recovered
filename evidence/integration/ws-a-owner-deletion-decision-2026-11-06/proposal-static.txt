@@ -1,0 +1,5 @@
+PASS: 346 runtime/workflow/governance/frozen reference files unchanged
+PASS: merged PR distinct-path reconciliation 24 + 5 - 2 = 27; exact Git diff agrees
+PASS: runbook/tracker/R2 additions preserve all prior bytes
+PASS: docs-only scope; existing evidence unchanged; proposal has no invented/adopted Act ID
+NOT RUN: implementation/deletion/runtime tests. No operational store, backup, carrier or evidence touched.
