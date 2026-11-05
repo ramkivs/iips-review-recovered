@@ -710,3 +710,26 @@ addendum. Workstream A and milestone WS-A-DM remain NOT COMPLETE** — the nine-
 unchanged (**4, 5, 7, 9** IMPLEMENTED-VERIFIED; **3** and **6** partly AWAITING-AUTHORITY; **2**
 NOT-QUALIFIED; **1** BLOCKED-EXTERNAL; **8** AWAITING-AUTHORITY), and WS-A-DM has **three independent
 outstanding dependencies**, so discharging any one of them would not complete the milestone.
+
+### 14.7 Post-merge receipt — discharge of §14.6 (`2026-11-05`)
+
+§14.6's `PENDING` wording is **preserved verbatim above**; this subsection discharges it, following the
+§16.248.7 / PR #430 and §16.249.13 / PR #441 precedents.
+
+| Item | Verified value |
+| :--- | :--- |
+| IRR PR for this addendum and the three packages | **#442**, head **`5beb77b97efd76ab96cc039b9b81c06c442809e1`** |
+| Merge commit / tree | **`b2332d1727e20c71c2c5b776455bc84634169ce2`** / **`68ef57f19907f4f451817e6afbded61dad7b4c45`**, merged `2026-11-05T12:06:45Z`; `git ls-remote` **agrees** |
+| Hosted CI at the exact PR head | **SUCCESS** — `Python compile · source/evidence/tracker validation`, run **`42024256428`**, job `127234379294` |
+| Post-merge `main` CI run | **`42024392810`** — `push` — **`completed` / `success`** |
+| Remote byte read-back of the changed paths | **5 / 5 MATCH** — this R2 report blob `0ad56b5e2c5090de44beff1f5248acb35c406b9d`, **69,906** bytes, SHA-256 `92028c0f5c01abeddaab8729…`; tracker blob `3a3ccda188831cbb6277537cd20bfc7c481da05a`, **3,855,680** bytes; A-10 `d95f31207cfc6dc757706619fc57ba17a460c620` (**54,089**); A-8 `8a6eed7ede30d463728bc02246df9b6e095edb84` (**32,308**); A-5/A-6 `d28c56a4f196e27926c444c77a55902c2387f8a3` (**28,102**) |
+| Tracker section carrying the registration | **§16.251** (`CV-CORR-231`, `CHG-2026-11-05-02`, ledger `V2046`–`V2063`), with its own receipt at **§16.251.16** |
+| Paths changed by PR #442 | **5** (2 `M`, 3 `A`) — **`frontend/**` = 0**, **`evidence/**` = 0** |
+| Pins read back from merged `main` | **UNCHANGED** — broker-import `#7bcae35…`, np04 `#2e11fa3b…`, production-market-data `#279d1eed…` |
+| Validator at merged `main` | **exit `0`**; `U-5` remains **NOT RUN** |
+| Unrelated work | **PR #438 preserved untouched** (MERGED at `bcf0670`); 0 open IRR PRs, 0 open IPD PRs |
+| IPD writes | **ZERO** |
+
+**A-10, A-8, A-5 and A-6 remain NOT closed** — each is *prepared and blocked on a named authority*, per
+§14.5. **No gate, pin, fence, authority act, register count or master revision was moved. Workstream A
+and milestone WS-A-DM remain NOT COMPLETE.**
