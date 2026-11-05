@@ -1,0 +1,113 @@
+{
+  "pr": {
+    "files": [
+      {
+        "path": "IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md",
+        "additions": 23,
+        "deletions": 0
+      },
+      {
+        "path": "docs/integration/IIPS_v3.0_CAP02_U1_AMEND_02_LIVE_EVIDENCE_RETENTION_PA_ADOPTION_ACT_2026-11-05.md",
+        "additions": 84,
+        "deletions": 0
+      },
+      {
+        "path": "docs/integration/WS-A-DHAN-BROKER-HOLDINGS-WORKSTREAM-REPORT-2026-11-05-R2.md",
+        "additions": 18,
+        "deletions": 0
+      },
+      {
+        "path": "evidence/integration/ws-a-live-retention-adoption-2026-11-05/adoption-static.txt",
+        "additions": 4,
+        "deletions": 0
+      },
+      {
+        "path": "evidence/integration/ws-a-live-retention-adoption-2026-11-05/irr-static.txt",
+        "additions": 7,
+        "deletions": 0
+      },
+      {
+        "path": "evidence/integration/ws-a-live-retention-adoption-2026-11-05/rebaseline.json",
+        "additions": 490,
+        "deletions": 0
+      },
+      {
+        "path": "evidence/integration/ws-a-live-retention-adoption-2026-11-05/verify.py",
+        "additions": 29,
+        "deletions": 0
+      }
+    ],
+    "headRefOid": "e24cf5bde5c2d2c89fd1f29753be0b4c71e4b657",
+    "mergeCommit": {
+      "oid": "af05feeba20305ec565973e9a34179ef699f0be4"
+    },
+    "mergedAt": "2026-11-05T18:04:43Z",
+    "state": "MERGED",
+    "url": "https://github.com/ramkivs/iips-review-recovered/pull/452"
+  },
+  "merged_ref": "af05feeba20305ec565973e9a34179ef699f0be4",
+  "remote_content_matches": [
+    {
+      "path": "IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md",
+      "blob": "f3205124f3e89dd1b5898c578df271e82724c247",
+      "sha256": "2fa0290e6373f70d542bf88cdc698ed8db676e0becd8c371a0264634459cf724",
+      "match": true
+    },
+    {
+      "path": "docs/integration/IIPS_v3.0_CAP02_U1_AMEND_02_LIVE_EVIDENCE_RETENTION_PA_ADOPTION_ACT_2026-11-05.md",
+      "blob": "1701a45935cb333116b55831d5796d36caea8ac8",
+      "sha256": "38d6bdc7b209168235d515486fc82685cd54f467e97e33918ef39a034e5d5424",
+      "match": true
+    },
+    {
+      "path": "docs/integration/WS-A-DHAN-BROKER-HOLDINGS-WORKSTREAM-REPORT-2026-11-05-R2.md",
+      "blob": "c76fd439cf898c0cadac0cf475efbfae9621f345",
+      "sha256": "f38984d055554e79b943428bc04655b5cab903021b0bc5b3d3c70f05a52fec65",
+      "match": true
+    },
+    {
+      "path": "evidence/integration/ws-a-live-retention-adoption-2026-11-05/adoption-static.txt",
+      "blob": "aed8ec7c4b41d10a440c4ef9c0635c8bc836bc46",
+      "sha256": "d168245a8c32cd518f66fd702885ac30b4c791054f187eadec8a413f5b3912c8",
+      "match": true
+    },
+    {
+      "path": "evidence/integration/ws-a-live-retention-adoption-2026-11-05/irr-static.txt",
+      "blob": "53ea783aee7cbac4f6e900570251252fdd32cc5e",
+      "sha256": "5421c9aa8298a37ee54a1a496db130496e780756d8bdc77321d00184b668ade7",
+      "match": true
+    },
+    {
+      "path": "evidence/integration/ws-a-live-retention-adoption-2026-11-05/rebaseline.json",
+      "blob": "cd0056195d45aac438072d9ce20894e56ad1824e",
+      "sha256": "2718793399c2b127d697166039b88c9420bc2c5039608dc1b96dde1a4227ca07",
+      "match": true
+    },
+    {
+      "path": "evidence/integration/ws-a-live-retention-adoption-2026-11-05/verify.py",
+      "blob": "b974530339bb6b7a3e14fa1662bc4609992f002c",
+      "sha256": "e95f545d9dd17f1a783dab4cd39a9511a9576dd37397cc0a190b4cf6a93fd597",
+      "match": true
+    },
+    {
+      "path": "docs/integration/WS-A-IMPORT-TIME-RETENTION-PROPOSED-AMENDMENT-2026-11-05.md",
+      "blob": "c6e0a7f4dae3e3ed762312bcf07d1d43b57bd910",
+      "sha256": "7bfb84187397a013b5e2c8edcd12f37705eefea827e24abe1650eceff8f41ac8",
+      "match": true
+    },
+    {
+      "path": "docs/integration/WS-A-IMPORT-TIME-RETENTION-PA-DECISION-PAPER-2026-11-05.md",
+      "blob": "47e8a9df97348a5f58982cb26975e9e78c14df11",
+      "sha256": "53d3fc797cc04134283faffec501f82271cf534dd237dda2844cb8fc82be8cd4",
+      "match": true
+    },
+    {
+      "path": "evidence/integration/ws-a-import-retention-authority-2026-11-05/publication-readback.json",
+      "blob": "acc2c6e78d7582cb6410f2ec31453b0b84b39836",
+      "sha256": "6ff7596952fe2a5f69509411bf161d56f06f7a8201e6db6c3e9b7f6324aef68c",
+      "match": true
+    }
+  ],
+  "remote_tree_protected_matches": 323,
+  "method": "Independent GitHub contents/blob API byte read-back and recursive tree comparisons"
+}
