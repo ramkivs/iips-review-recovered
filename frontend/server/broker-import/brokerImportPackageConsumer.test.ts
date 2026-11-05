@@ -9,9 +9,10 @@
  * Guards that IRR's IPD dependency pins:
  *   1. Use exact 40-hex immutable commit SHAs on `ramkivs/iips-production-market-data` in both
  *      `package.json` and `package-lock.json`: primary
- *      `279d1eed184f5e23bbabe5c6411085e120ce9e41`, and the deliberately distinct DB-C1
- *      broker-import alias `07e86a4f2c105651f3097a96cb519f8611945e30` (the merge commit of IPD
- *      PR #128, advanced from the PR #127 merge commit `7bcae35ad18c43cb67a16f30faa55bbdf0fb33fc`).
+ *      `7565e4d05e21c83067c60a831b3cc26ddc5304d5` (the reviewed Dhan server package reference),
+ *      and the deliberately distinct DB-C1 broker-import alias
+ *      `07e86a4f2c105651f3097a96cb519f8611945e30` (the merge commit of IPD PR #128, advanced from
+ *      the PR #127 merge commit `7bcae35ad18c43cb67a16f30faa55bbdf0fb33fc`).
  *   2. Simultaneously expose `./portfolio-ui`, `./pit`, and `./d114-non-production` from the
  *      primary package with built runtime `.js` and declaration `.d.ts` artifacts.
  *   3. Provide all runtime symbols and TypeScript declaration symbols required by IRR's five
@@ -32,7 +33,7 @@ import { describe, expect, it } from 'vitest';
 const here = dirname(fileURLToPath(import.meta.url));
 const frontendRoot = resolve(here, '..', '..');
 
-export const EXPECTED_IPD_PIN_SHA = '279d1eed184f5e23bbabe5c6411085e120ce9e41';
+export const EXPECTED_IPD_PIN_SHA = '7565e4d05e21c83067c60a831b3cc26ddc5304d5';
 
 /**
  * The governed broker-import alias consumption profile. It is the single source of truth shared
@@ -238,7 +239,7 @@ describe('CAP-02 B-1R package consumer & pin compatibility guard', () => {
     exports?: Record<string, { types?: string; import?: string; default?: string }>;
   };
 
-  it('pins iips-production-market-data to the exact unified main commit SHA in package.json and package-lock.json', () => {
+  it('pins iips-production-market-data to the exact reviewed immutable commit in package.json and package-lock.json', () => {
     const depSpec = irrPkg.dependencies?.['iips-production-market-data'] ?? '';
     const lockResolved = irrLock.packages?.['node_modules/iips-production-market-data']?.resolved ?? '';
 

@@ -11,7 +11,7 @@ The baseline commands and outputs in §§1–2, 4–7 were **executed and captur
 | Need | Why | Check |
 |---|---|---|
 | Node ≥ 22.6 | the transports are TypeScript run directly (`tsx` is now a dev dependency, so 22.x is enough) | `node --version` |
-| Network reachability to **GitHub** | `frontend/package.json` pins the runtime data package as `iips-production-market-data: github:ramkivs/iips-production-market-data#279d1eed184f5e23bbabe5c6411085e120ce9e41`; `npm ci` fetches that tarball from `codeload.github.com` | `npm ci` completes |
+| Network reachability to **GitHub** | `frontend/package.json` pins the runtime data package as `iips-production-market-data: github:ramkivs/iips-production-market-data#7565e4d05e21c83067c60a831b3cc26ddc5304d5`; `npm ci` fetches the exact immutable package commit | `npm ci` completes |
 | A TLS-intercepting proxy needs the CA exported to Node | otherwise `npm ci` fails with `UNABLE_TO_VERIFY_LEAF_SIGNATURE` on `codeload.github.com` | `export NODE_EXTRA_CA_CERTS=/etc/ssl/certs/ca-certificates.crt` before `npm ci` |
 | Outbound internet for the macro surface only | `/api/macro/NAS` calls the MoSPI source | expect `502 RETRY_BUDGET_EXHAUSTED` when egress is blocked (observed in the Arena sandbox) |
 | Windows is a **separate evidence domain** | ACL/permission and path semantics are Windows-specific | Windows results are recorded in their own evidence files and are never merged into Linux transcripts by implication |
