@@ -38,7 +38,7 @@ No IPD file, branch, commit, PR or package guard was modified by this record.
 | `frontend/src/api/brokerHoldingsPreview.ts` | Comment updated to the new alias commit/PR |
 | `frontend/tsconfig.broker-import.json` | Comment updated to the new alias commit/PR |
 | `docs/integration/WS-A-BROKER-IMPORT-PIN-ADVANCE-TO-IPD-PR128-2026-11-05.md` | This record |
-| `IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md` | Tracker §16.251 |
+| `IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md` | Tracker §16.253 (`CV-CORR-233`, `V2080`–`V2085`) |
 
 The alias name, repository identity, package contract, 18-module required list, two runtime entrypoints and materialization design are preserved. No floating branch reference is used.
 
@@ -114,4 +114,4 @@ No full backend regression suite was run. No test was claimed that was not execu
 
 ## 8. Publication
 
-This record is published on branch `arena/1ab376fe-iips-review-recovered` in the IRR pull request for this change. The exact commit, PR number, CI result and post-merge authoritative `main` SHA are recorded in the publication receipt after the remote checks complete. The PR is merged only when the repository's applicable checks and review requirements permit it.
+This record is published on branch `arena/1ab376fe-iips-review-recovered` in IRR PR #446. The exact commit, CI result and post-merge authoritative `main` SHA are recorded in the publication receipt after the remote checks complete. The PR is merged only when the repository's applicable checks and review requirements permit it.

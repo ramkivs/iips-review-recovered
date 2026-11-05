@@ -19977,7 +19977,825 @@ Current roll-up: pillars **4, 5, 7, 9 `IMPLEMENTED-VERIFIED`**; pillar **3** ret
 
 **Next free after this section:** `§16.251` / `CV-CORR-231` / `CHG-2026-11-05-02` / `V2046`.
 
-## §16.251 — `CV-CORR-231`: IRR `iips-broker-import` pin advance to IPD PR #128 (`2026-11-05`; `CHG-2026-11-05-02`; `V2046`–`V2051`)
+---
+
+## §16.251 — `CV-CORR-231`: WS-A A-10 / A-8 / A-5-A-6 prepared decision packages, the Gate 4 §3.2(4) re-designation trigger, and three currency corrections (`2026-11-05`; `CHG-2026-11-05-02`; `V2046`–`V2063`)
+
+**Record ID:** `IIPS-V3-WS-A-A10-A8-A5A6-PREPARED-PACKAGES-TRACKER-REGISTRATION-IRR-2026-11-05-01`.
+
+**Scope.** IRR-owned documentation registration only. This section registers three prepared decision
+packages authored under the Program Authority's written one-pass commission for Workstream A actions
+**A-10**, **A-8** and **A-5/A-6**, and records three **currency corrections** to statements that
+earlier WS-A records carried forward. **It renders no PA act, designates no pin, admits no route,
+deposits no identity, moves no gate, changes no pin and relaxes no fence.** Every finding below is
+measured against the live remotes; nothing is inferred, and no SHA is guessed. Prepared authority is
+recorded as prepared — never as effective.
+
+**Baselines re-censused at authoring time, and re-censused again mid-pass.** IRR `main` moved from
+`4162a9ea665d0e6c35cc8c5a0560ccb69ec085e5` to **`bcf067061bff42c4b69416dbe33205909cd8ce85`** while
+this pass was in flight, when **PR #438** (another session's NP-06 real report persistence work)
+merged at `2026-11-05T16:39:30+05:30`. The allocation census below was therefore **re-run against
+`bcf0670`** before this section was written: PR #438 consumed `§16.250` / `CV-CORR-230` /
+`CHG-2026-11-05-01` / `V2040`–`V2045`, and this section takes the **new** next-free values. IPD
+`main` = `6df748d397daf965bd5b6e6e35df5043f7fa8c4d` (PR #126). Open PRs at authoring: **0** in IRR
+(#438 now merged), **0** in IPD. **PR #438 is preserved untouched; no file it added or modified was
+edited by this pass.**
+
+### 16.251.1 What is registered
+
+| Package | File | Status |
+|---|---|---|
+| **A-10** — Gate 4 QE / H-12 pin designation decision package | `docs/integration/WS-A-G4-QE-H12-PIN-DESIGNATION-DECISION-PACKAGE-2026-11-05.md` | **PREPARED — NOT EFFECTIVE. NOT A PA ACT. NOT A PIN DESIGNATION. NOT A GATE 4 EXECUTION. NOT AN ACCEPTANCE. No Act ID assigned or claimed.** |
+| **A-8** — Evidence-retrieval route additive U1 amendment package | `docs/integration/WS-A-EVIDENCE-RETRIEVAL-ROUTE-U1-S8-AMENDMENT-PACKAGE-2026-11-05.md` | **`PROPOSED — NOT EFFECTIVE`. Act ID `PENDING ASSIGNMENT`. No route added, exposed, registered or mounted; no listener created; no IPC operation added.** |
+| **A-5/A-6** — External identity-data dependency and D05 deposition prerequisites | `docs/integration/WS-A-DHAN-DETAILED-HOLDINGS-EXTERNAL-DEPENDENCY-2026-11-05.md` | **`BLOCKED-EXTERNAL` (A-5) / `NOT STARTED — PENDING AUTHORITY` (A-6). Nothing fabricated, reconstructed, synthesized or deposited. Master revision UNCHANGED.** |
+
+All three are **additive**. None modifies the U1 transport act, DQ-6b Path A, the Gate 4 act, the
+H-12 R5 manifest or its adoption act, the consolidated PA packet, the formal decision record, BLOCK-3L,
+the BI-04 schema document, the D05 corpus, the `WS-A-EVIDENCE-RETRIEVAL-ROUTE-AUTHORITY-GAP` record,
+or any earlier tracker section. Effective acts are **not** rewritten; currency findings are recorded
+additively in the new packages and indexed here.
+
+### 16.251.2 Authoritative commits, and the pins are unchanged
+
+| Coordinate | Identity |
+|---|---|
+| IRR `main` | `bcf067061bff42c4b69416dbe33205909cd8ce85` (PR #438) |
+| IPD `main` | `6df748d397daf965bd5b6e6e35df5043f7fa8c4d`, tree `1c3872bfe368e17245678d15daf1a241aa3602d3` (PR #126, 391 commits) |
+| **IRR broker-import pin** | **`7bcae35ad18c43cb67a16f30faa55bbdf0fb33fc`** — tree `37d3b4f3a567368df785ddf454740fae4a173446`, first-parent merge of IPD PR #127, 5 behind IPD `main` |
+| IRR np04 pin | `2e11fa3b689d1a3674a5e4ba1f1de9a559e20494` |
+| IRR production-market-data pin | `279d1eed184f5e23bbabe5c6411085e120ce9e41` |
+| Retired broker alias | `70b24f029842a7e9b7f615e4d9df7376fd4ff817` — ancestor, **295 behind** IPD `main` |
+| H-12 R5 coordinates (adopted, effective at their own pins) | IPD primary `8eec74ae27cda09f3c368b9c299895eae41554db` / tree `4eba29029f8d95cfe483e615a7047426b298ce50`; IPD broker alias `70b24f029842a7e9b7f615e4d9df7376fd4ff817` / tree `cc0f0117822850f9046e9a51bd05c1d45f80cd57`; IRR consumer `ba64b2d5927c2f872560710cf1474c25a5cde0d5` / tree `5e4262f1cd75bf13b76ced5b45058f31434b5dad` |
+| G4P-1 candidate | `a891802e2691bd9c65a67d6abff20d8ce0c26d7d` / tree `76f083d7058e170d8212455c03bad1033136ee68`, **61 behind** IPD `main` |
+
+**`frontend/package.json` lines 24–26 were verified byte-unchanged at `bcf0670`. NO DEPENDENCY PIN
+WAS CHANGED BY THIS PASS.** Zero IPD writes: every IPD fact was obtained read-only.
+
+### 16.251.3 Gate 4 act §3.2(4): the stop condition is engaged in BOTH repositories — measured
+
+The Gate 4 Target-Host Qualification Authority Act
+(`IIPS-V3-G4-TARGET-HOST-QUALIFICATION-AUTHORITY-ACT-2026-10-23-01`, IPD
+`evidence/cross-repository/IIPS_V3_CAP02_GATE4_TARGET_HOST_QUALIFICATION_ACT_EFFECTIVE_2026-10-23.md`,
+blob `66b56fd1584890525a7250aadd7da449def621e5`) §3.2(4) states: *"**Stop, never silent re-pin.** Any
+non-documentary drift in either pinned repository between this act and execution is a **stop
+condition** requiring explicit PA re-designation."* That blob was verified **byte-identical at
+`a891802e`, `7bcae35` and IPD `main`**, so the rule itself has not drifted.
+
+Measured drift: **IPD** — `a891802e` → `7bcae35` carries **34 non-evidence paths**; `a891802e` is
+**61 commits** behind IPD `main`; `8eec74ae` → `a891802e` carries **4**. **IRR** — `ba64b2d5` →
+`bcf0670` carries **456 commits**, **817 paths**, of which **41** are under `frontend/` (**23
+SOURCE**, **18 TEST/FIXTURE/DOC**).
+
+**Determination: §3.2(4)'s stop condition is engaged, in both repositories, by measurement.** It is
+not engaged by any improper act — every drift item traces to authorized work (the WS-A pin advance
+under the PA's written `2026-11-05` commission; the Direct P1 read integration at IRR `9202e7a`;
+NP-06 report persistence at `bcf0670`). But §3.2(4) does not distinguish authorized from unauthorized
+drift. **PA-09 is therefore not merely an open preference: it is the explicit re-designation that
+§3.2(4) demands.**
+
+The same section also separates two pins the consolidated packet conflates. §3.2(2) defines the **QE
+execution pin** as *"the final post-merge Limb A commit"*, and §3.2's Limitation states *"The IPD QE
+pin cannot exist until Limb A is implemented and merged."* Limb A is **not** implemented (Gate 4
+`AUTHORIZED — NOT STARTED`, QE **0/11**, Gate C and U4 **NOT RENDERED**, and §4.5's C-2 route needs
+IPD implementation authority that is **not granted**). **A PA-09 designation can fix the content pin;
+it cannot produce a QE execution pin and must not be recorded as one.**
+
+### 16.251.4 DQ-6b Path A: interim scope exhausted by AUTHORIZED alias modernization
+
+`IIPS-V3-CAP03-DQ6B-PA-DECISION-2026-10-25-01` (effective, 6/6) admitted the split primary/alias
+baseline *"as an **interim**, guarded configuration"*, preserved the alias at `70b24f02…`, recorded
+*"Alias movement | **None.**"*, expressly **declined Path B** (alias modernization), and declared
+option (i) — re-pin the alias and guard both — *"**technically impossible**: `build:broker-import`
+fails `TS18003` because the modern package publishes only `dist/package` and supplies none of the 14
+required raw sources."* Its §3.1(5) scopes the effect *"**for the interim period only, and only while
+the guards hold**"*, adding that if the guards are relaxed or the alias is moved **without**
+authority, *"the freeze's premise fails and **DQ-4.4's STOP-and-re-designate rule applies**."*
+
+Measured against the current remotes: (1) the alias **was** moved — **with** authority, by the PA's
+written commission, executed as IRR PR #436 merged `51fdcd9567407db88626b3d5ae87e642f869205a`, so the
+literal *"without authority"* STOP trigger is **not** met; (2) the guards were **not relaxed** but
+**strengthened** (raw-source presence assertion replaced by a raw-source **absence** assertion plus
+an 18-published-module identity requirement plus a manifest/lock/resolved triple pin); (3) **but
+option (i), declared technically impossible, was executed** — PR #436 resolved `TS18003` IRR-side by
+materializing the pinned package's published `dist/package` into `.cache/broker-import` and repointing
+`frontend/tsconfig.broker-import.json`.
+
+**Determination: Path A is NOT violated. Its stated interim scope has been EXHAUSTED by authorized
+modernization**, because the guards it named (V690–V695) no longer hold as recorded — see §16.251.5.
+**The alias-coordinate disposition must therefore be re-rendered before any Gate 4 pin designation can
+be defensible.** This is a new decision requirement that the `2026-10-29` consolidated packet does not
+contain (finding **I-4**). Path A remains an effective act and is **not** rewritten; this is an
+additive currency record only.
+
+### 16.251.5 H-12 R5 guard currency: V692 superseded, V694 partly RESOLVED, V695 CHANGED
+
+The adopted manifest `G4-H12-MANIFEST-v2-CANDIDATE-2026-10-25-R5` (blob
+`f4649e36a81c7013287810cd3202b99586dbd951`, 143,813 bytes, adopted **byte-for-byte unmodified** by
+`IIPS-V3-CAP03-G4-H12-R5-PA-ADOPTION-ACT-2026-10-25-01`, **ADOPTED — EFFECTIVE**) is a
+**three-coordinate** instrument: 56 entries (32 IPD + 24 IRR), all `PRESENT`, plus 1 conditional
+entry, 9 `criteria_basis` references, 10 revalidated frozen Gate 3 anchors and a 16-entry
+`delta_from_r4`. Its internal `status` field still reads `PROPOSED CANDIDATE — NOT ADOPTED` **by
+design**, because the act preserved the candidate's bytes; **effectiveness is carried by the act, not
+by the manifest's own field.** No future pass should "correct" that string and thereby break the
+adoption's byte-preservation premise.
+
+| Guard | As recorded by Path A | Measured `2026-11-05` | Currency |
+|---|---|---|---|
+| **V692** | *"the alias is load-bearing: it supplies the 14 raw sources compiled by `tsconfig.broker-import.json`"* — PASS, 14/14 at `70b24f02` | The 14 raw-source paths are present in the **tree** at **all three** coordinates: `70b24f02` **14/14**, `8eec74ae` **14/14**, `7bcae35` **14/14**. But at `7bcae35` the package publishes only `dist/package`, so those sources are **not reachable by IRR through npm** — precisely the `TS18003` condition Path A cited. | **Presence fact holds; the load-bearing characterization is SUPERSEDED.** The live build is supplied by published output, not raw sources. |
+| **V693/V694** | 4 of the 14 alias raw sources diverge; `src/identity/security_master.ts` is both a qualified-tree entry and an alias raw source, so *"the qualified IRR build contains **two distinct `SecurityMaster` byte-sets**"* | `security_master.ts`: `e260fd90…` at `70b24f02`, `60030e0c…` at `8eec74ae`, **`60030e0c…` at `7bcae35`**. `src/contracts/types.ts`: `11f86dca…`, `a644c833…`, **`a644c833…`**. | **PARTLY RESOLVED — a positive consequence.** Two of the four divergences are **eliminated** at the live pin: both are now byte-identical to the R5 primary coordinate. The "two distinct `SecurityMaster` byte-sets" condition **no longer holds** for these paths. |
+| **V693 (residual)** | — | `broker-holdings-mapper.ts`: `6c8ab71d…` / `297e4a59…` / **`4d0e757b39e3776ad3701e50053696bc52b07b11`**. `broker-import-ingress.ts`: `12824fbb…` / `0742401f…` / **`c8ea9d8fa92b9f8a0ec3d67fbc5fa700e4080899`**. | **Two paths carry a THIRD distinct byte-set at the live pin, bound by NO adopted manifest** (finding **I-5**). |
+| **V695** | *"Lineage classification preserved: `REAL` at the alias, `UNCLASSIFIED` at the primary, three sites each"* — PASS | `sourceClassification` in `broker-holdings-mapper.ts`: **`'REAL'` ×3** at `70b24f02` (lines 262, 337, 360); **`'UNCLASSIFIED'` ×3** at `8eec74ae`; **`'UNCLASSIFIED'` ×3** at `7bcae35` (lines 348, 425, 448). | **CHANGED — see §16.251.6.** |
+
+### 16.251.6 Lineage classification `REAL` → `UNCLASSIFIED`: an unrecorded material consequence
+
+Path A's decision table states: *"Lineage classification for QE | **Preserved as-is.** The alias keeps
+`sourceClassification: 'REAL'` at the three mapper sites; the primary keeps `'UNCLASSIFIED'`. **No
+reclassification, no re-acceptance, no requalification is authorized or performed**."* The R5
+manifest's `lineage_note` adds: *"**REAL** is therefore the lineage classification that the **DB-C1
+preview exhibits**."*
+
+**Measured: the live consumption pin `7bcae35` carries `'UNCLASSIFIED'` ×3, not the `'REAL'` that Path
+A expressly preserved.** This is not cosmetic — at all three sites `sourceClassification` is an
+argument to `computeLineageHash(...)`, so it determines **every lineage digest** the mapper emits (the
+empty-provenance digest, the per-holding `lineageDigest`, and the final digest). **Any lineage digest
+recorded from the DB-C1 preview at `70b24f02` is not reproducible at `7bcae35`.**
+
+**Verified documentation gap.** The WS-A R2 report
+(`WS-A-DHAN-BROKER-HOLDINGS-WORKSTREAM-REPORT-2026-11-05-R2.md`) contains **zero** occurrences of
+`sourceClassification`; `frontend/broker-import-package-profile.json` records no lineage or
+classification field; and **no IRR test asserts the value** — the only occurrence of the token
+anywhere under `frontend/` is `frontend/server/pit/nonProductionPitStore.ts:67` (`'DERIVED'`), which
+is unrelated. The change therefore passed PR #436's full validation (`test:ci` 111 files / 1,386 tests
+/ 0 failed) **silently**. Earlier tracker entries record `REAL` → `UNCLASSIFIED` only as Path A's
+*historical* V684/V695 finding, never as a consequence of the `2026-11-05` advance.
+
+**Recorded here; NOT remedied.** Remediation options — re-declaring the QE lineage classification,
+re-accepting DB-C1, re-baselining recorded digests, or adding a classification assertion — are all
+**PA decisions**, and both §4.5 and Path A state that no reclassification, re-acceptance or
+requalification is authorized. Finding **I-6**.
+
+**Do not conflate two classification axes.** The mapper's `sourceClassification` classifies the
+**provenance of the imported holdings data**. The existing finding **C-02** concerns the **origin of
+D05 master records** (§18.1 row 25's *"52 real + 2,198 synthetic"* is an aggregate statement; **no
+governed D05 record carries a per-record `REAL` classification**). A change in one axis is not
+evidence about the other, and **no inference between them is drawn or authorized here.**
+
+### 16.251.7 Currency correction — the `/api/user-portfolios*` fence baseline
+
+Earlier WS-A records, including `WS-A-EVIDENCE-RETRIEVAL-ROUTE-AUTHORITY-GAP-2026-11-05` §1.3, state
+that *"all twelve `/api/user-portfolios*` route-method pairs return HTTP 503 with byte-stable fence
+blobs (`fenceUnchanged.test.ts` re-asserts them)"*. That was true at `ba64b2d5`. **It is not the
+current state.**
+
+IRR commit **`9202e7a`** (`2026-11-01T16:56:53Z`, *"Integrate Direct P1 user portfolio reads over
+IPC"*, preceded by `e9df332` `2026-10-31` *"Authorize one-pass CAP03 P1 completion"*) rewrote
+`fenceUnchanged.test.ts` (**+128 / −462**) and `user-portfolio-transport.ts` (**+152 / −25**). The
+test's own current header records it: *"The historical G-3 all-route 503 fence was **superseded for
+the explicitly authorized read-only list/detail/revision paths** by the Direct P1 IRR integration.
+This suite keeps the fail-closed owner precondition, no-identity, no-write, C8 loopback/CORS, and
+certified-route invariants; it no longer asserts that admitted IPC reads are unreachable."*
+
+| Surface | Current authoritative behaviour at `bcf0670` |
+|---|---|
+| `GET`/`HEAD` `/api/user-portfolios`, `/api/user-portfolios/:portfolioId`, `/api/user-portfolios/:portfolioId/revisions` | **ADMITTED** as read-only IPC reads when the binding precondition is present; **503 `owner-context-unavailable`** when absent. Still fail-closed; still reads no request identity. |
+| `POST /api/user-portfolios`, `DELETE /api/user-portfolios/:portfolioId`, `PUT /api/user-portfolios/:portfolioId/holdings`, `POST /api/user-portfolios/:portfolioId/reset`, `GET /api/user-portfolios/context` | **503 `operation-not-admitted` — unadmitted even WITH a binding assertion.** |
+| `owner-context-unavailable.ts` | Blob **`cb8db45d668d28cee7e0a52721001d579a872733`** asserted byte-identical; frozen; non-disclosing (no `applicationUserId`, `tenantId`, `principal`, `DEFAULT_PORTFOLIO`). |
+| `user-portfolio-transport.ts` recorded blob `51704c12a467cd2f718a030b5036bc55c9afa73f` | Assertion **removed** — the file legitimately changed under the Direct P1 integration. |
+| `/api/broker-import/` namespace | **Unaffected.** `brokerImportHttp.ts` blob **`cd0b42d1c7803f9451586194e42c0357135271d2`** is byte-identical from `ba64b2d5` to `bcf0670` — **unchanged across 456 commits**; still closed at exactly two routes. |
+
+**This is authorized, completed work by another session. It is NOT reopened, questioned, reverted or
+re-audited here**, and PR #438 (`bcf0670`) was verified to touch **neither** the fence nor the
+broker-import surface (`git diff --name-status 4162a9ea…bcf0670 -- frontend/server/user-portfolio/
+frontend/server/broker-import/ frontend/server/user-portfolio-transport.ts` is **empty**). The
+correction is recorded because a designation act or an evidence-route amendment that recites "twelve
+503 pairs byte-stable" would recite a **superseded** baseline.
+
+**THE WRITE FENCE IS INTACT.** No write path was admitted. Gate E **W-1** remains false,
+`evaluatePortSaveGuard()` returns false, `WRITE_NOT_AUTHORIZED` and `storeEffect 'NONE'` are
+unchanged, `savedRows` remains **0**, the **P04 quarantine is IN FORCE**, **DP-2 Option 2F is
+unchanged**, and **Gate 5 remains NOT INITIATED / NOT ADMITTED**. Nothing was weakened, relaxed or
+bypassed. The correction **strengthens** the A-8 premise: Direct P1 supplies an existing, effective
+precedent for a read-only, owner-scoped, fail-closed, no-identity-read IPC route on the same host —
+exactly the shape the evidence route requests.
+
+Statements asserting "twelve `/api/user-portfolios*` 503 pairs byte-stable" are indexed
+**superseded-for-currency** as of `9202e7a`. **Zero register movements; zero historical edits.**
+
+### 16.251.8 A-8 evidence-route amendment package: PROPOSED — NOT EFFECTIVE
+
+The gap record's §4 *minimum required authority* is now rendered as **adoptable instrument text**: a
+proposed additive **§8** to `IIPS-V3-CAP02-U1-BROKER-IMPORT-TRANSPORT-AUTHORITY-ACT-EFFECTIVE-2026-10-23-01`
+under **DEC-06 R-2/R-5**, preserving §§1–7 and §7.1 **verbatim**, in 25 numbered clauses across
+**§8.1** transport admission, **§8.2** owner-context carrier and digest binding, **§8.3** retention
+and purge, **§8.4** reconciled consent, **§8.5** compatibility with the closed two-route boundary,
+**§8.6** what it does not authorize, **§8.7** publication and effectiveness. Ten prerequisites
+(**P-1**…/**P-10**) are verified at current coordinates, and a **non-expansion validation** was
+performed element by element against U1 §§1–7.1: every element is either **identical** to an existing
+admitted pattern, **strictly narrower** than the capability it exposes, or an **additional constraint
+imposed on the adopting act**. **Result: the proposal does not silently expand existing authority.**
+
+The single route requested is `GET /api/broker-import/:portfolioId/evidence/:importId` — **one**
+route, five-segment form only, **no list-and-enumerate variant**, no `DELETE` anywhere in the
+namespace, **no new HTTP/TCP listener and no new IPC operation**, and `/api/evidence/:id` expressly
+**not** reused or widened.
+
+**Three placeholders are deliberately left `TBD-PA` and must NOT be filled by IRR:** the §8.2(7)
+tenant and owner literals (NP-06 R1 requires these to be established **by the act**; inventing an
+owner identity for a personal-financial-evidence read surface is fabrication), the §8.3(16) retention
+period, purge rule and purge basis (no period exists in code — PF-1 **TD-3** records compaction as
+explicitly **NOT** built in v1), and the **Act ID** (`PENDING ASSIGNMENT`). **The proposal is not
+adoptable as published.** Blocker **`WS-A-EV-ROUTE-1`** remains **OPEN**. **No route was added.**
+
+### 16.251.9 A-5/A-6 external dependency: BLOCKED-EXTERNAL, and the ISIN space was never testable
+
+**Required input, specified exactly.** A genuine Dhan **Detailed Holdings** CSV export from the
+operator's own account in the governed **`DHAN_DETAILED_HOLDINGS_V1`** format, whose header signature
+is `Trading Symbol, ISIN, Exchange, Total Qty, DP Qty, Available Qty, Average Buy Price, Last Traded
+Price, Current Value, Profit / Loss, P&L %` and whose **ISIN and Exchange columns are PRESENT**
+(IPD `evidence/bi04/dhan-web-ui-summary-v1-schema.md` §2.1; confirmed identically by BLOCK-3L TASK A).
+Delivery is **browser-local only** — `File.text()`, 1 MiB cap, never uploaded. **XLSX remains
+explicitly blocked** (deferred to BI-06); **live providers: 0 active**.
+
+**Absence verified.** No `DHAN_DETAILED_HOLDINGS_V1` **data artefact** exists in either repository —
+the token appears only in governance, schema and audit **prose** (8 IPD files, 13 IRR files at the
+live coordinates). **No Dhan API, login, token or credential path exists anywhere in IRR**; the only
+nearby occurrence is the UI copy that **denies** it
+(`frontend/src/features/broker-holdings/BrokerHoldingsPreview.tsx:50`: *"No broker login or live API
+connection"*). **The parser already supports the variant — the gap is DATA, not capability.**
+
+**Why 67 of 68 failed**, from IPD's own read-only audit `BLOCK-3L-BROKER-CSV-FULL-RESOLUTION-AUDIT`
+(baseline `d6cb663f37c547bcb7bb42db7a701621ceaa95aa`, `2026-09-22T08:45:00.000Z`, `READ-ONLY / NO CODE
+CHANGE / NO COMMIT / NO PUSH`): the governed 2,250-record master resolves at **100.0%
+(2250/2250)** — 50 Nifty Top-50, `AIIL` (index 20), `AGI` (index 21) and 2,198 synthetic Tier-2
+records (`IT0001`…`CON2198`, indices 52–2249) — while non-D05 equities resolve at **0.0%** with
+`D05_ABSENT` (P04 fail-closed). Its definitive answer: *"The failed securities are **GENUINELY
+ABSENT** from the D05 master package. Every security that **IS** present in D05 resolves with **100%
+precision**. There is **ZERO** systematic failure among present securities."* The observed run used
+`DHAN_WEB_UI_SUMMARY_V1`, which **omits ISIN and Exchange**, forcing the `SYM → NSE → BSE` path.
+
+**Precision correction to an earlier statement.** Earlier WS-A records state that **0 of the 67**
+unresolved securities exist in the governed D05 corpus, probed *"wider than the master"* by normalized
+company name, listing symbol, `nseSymbol` and `bseSymbol`. That is **correct as to the index space
+actually probed**, but `MappingStore` populates **four** indices — ISIN, NSE_SYMBOL, BSE_SYMBOL,
+COMPOSITE_TICKER — and **the ISIN index was structurally unreachable from this input**, because the
+variant omits the column. The ISIN space is therefore **UNTESTED, not tested-and-absent**. This does
+not weaken the conclusion (BLOCK-3L independently establishes genuine absence, and the composition
+argument makes near-total absence expected regardless of lookup path), but the **evidence class must
+be stated accurately**: a **symbol-space measurement plus a composition inference**, not an ISIN-space
+measurement. Recording it otherwise would claim row-level ISIN evidence that does not exist.
+
+**A-5 → A-6 is a STRICT sequence, and A-6 is provably required.** A-5 will **not** by itself resolve
+the 67 rows: switching variants changes the mapper path from `SYM → NSE → BSE` to the `ISIN` lookup,
+and does **not** create presence in the master. What A-5 uniquely supplies is **authoritative ISINs** —
+the only lawful source of the identifiers an A-6 deposition must carry (`companyId`, `isin`,
+`nseSymbol`, `bseSymbol`, and where known `bseScripCode`). **Without A-5, any deposition would have to
+invent ISINs**, forbidden three times over: by the standing instruction; by schema doc §4 (*"Under NO
+circumstances is a `companyId` fabricated from the raw `Name` string, nor is any non-deterministic
+guessing permitted"*); and by BLOCK-3L recommendation 1 (*"do not add ad-hoc un-governed aliases, and
+do not fabricate raw symbols"*). **Corollary, so it is not mistaken for progress: obtaining A-5 will
+most likely NOT raise the resolved count materially.** Its value is that it makes A-6 possible and
+non-fabricated.
+
+**A-6 instrument identified from IPD's own audit.** BLOCK-3L recommendation 3 names it: real
+mid-cap/small-cap equities *"should be formally deposited and governed under a **future authorized
+Security Master Expansion Act** (e.g. `AUTH-D05-EXPANSION-ACT-WAVE2`)"*. The executed precedent is
+`AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001`, which produced the current master
+revision **`BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001`**, `fileChecksumSha256`
+`7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5`, `recordCount` **2250**,
+`operatorId` **`OPERATOR_ADMIN_GOVERNED_01`** — all verified unchanged at the live pin. **That act is
+spent: it authorized the 2026-09-22 batch, not a future one. A NEW Wave-2 act is required. No Act ID
+is assigned or claimed.** Eight prerequisites (**PR-1**…**PR-8**), eight deposition exclusions and a
+ten-stage validation plan (**V-1**…**V-10**, including a no-regression gate requiring **2,250/2,250
+still resolve at 100%**) are prepared in the package. **A-6 is IPD-owned; IRR has no IPD write
+authority and performed no deposition.** **The master revision is UNCHANGED.**
+
+### 16.251.10 Inconsistencies I-1…I-8 preventing a defensible PA-09 designation
+
+| # | Finding | Disposition required |
+|---|---|---|
+| **I-1** | `001c3c80618f2ee1d40e9a90912237e1a06e7b58` is **not** a first-parent commit of IPD `main` (single parent `8eec74ae`; merged via `1e76f4cf`, PR #96). Its only run is `40305148754` CI/**pull_request**; **no post-merge run exists at that exact SHA**. §4.6 obligation 1 requires exact-head **and** post-merge green. | If §4.5 **C-1** is chosen, designate a **first-parent post-merge** coordinate, or expressly waive the literal reading. |
+| **I-2** | §4.6 obligation 5 (fresh L2a S2 evidence and L2c H-12 regeneration **at the designated commit**) is logically impossible **before** designation, yet §4.6 states all six obligations precede it. As drafted, no pin could ever be designated. **PA-10a is NOT ADVANCED and its T-3 artifact requirement survives the PA-19/PA-20 waivers.** | Confirm obligation 5 is a **condition subsequent**, consistent with §3.1 and with PA-10a being what PA-09 unlocks. |
+| **I-3** | PA-09's draft wording carries a **single** commit/tree/blobs triple, but the adopted H-12 R5 manifest is a **three-coordinate** instrument (IPD primary, IPD broker alias, IRR consumer). Naming one commit does not designate the other two; §4.6 obligation 6 (single identity set) would fail the moment a receipt is written. **F3** already records an identity split: R5 binds `8eec74ae`/`ba64b2d5` while G4P-1 names `a891802e`. | The act must name **all three** coordinates, or state which are unchanged. |
+| **I-4** | DQ-6b Path A's interim scope is exhausted (§16.251.4). Path A supplied the alias disposition the H-12 freeze depends on; that disposition is now spent. | Re-render the alias-coordinate disposition — a **fresh DQ-6b-class decision**, separate from PA-09 and not foldable into it silently. |
+| **I-5** | `broker-holdings-mapper.ts` (`4d0e757b…`) and `broker-import-ingress.ts` (`c8ea9d8f…`) carry a **third** distinct byte-set at the live pin, bound by **no** adopted manifest. | Name the two blobs' disposition in the act: qualified set, alias set, or neither. |
+| **I-6** | Lineage classification changed from the preserved `'REAL'` ×3 to `'UNCLASSIFIED'` ×3 at the live pin, feeding `computeLineageHash` at all three sites; undocumented in R2 (**0** occurrences), unrecorded in the package profile, unasserted by any IRR test (§16.251.6). | PA to decide: re-declare the QE lineage classification, re-accept DB-C1, re-baseline recorded digests, or record the divergence as accepted with the non-reproducibility of pre-advance digests stated. **Not remediable by IRR.** |
+| **I-7** | G4P-1 `a891802e` is **61 behind** IPD `main` and **34 non-evidence paths** from IRR's live consumption pin `7bcae35` — spanning WS-A broker identity, Direct P1 provisioning, REG-06 operator drop and the PIT durable store. The packet's G4P-1/2/3 option set **predates the pin advance**. Qualifying G4P-1 would **not** qualify the code IRR consumes. | PA to decide whether the Gate 4 content pin and the WS-A consumption pin are the same object or deliberately different ones — and if different, to record that expressly. A fourth option **G4P-4** (`7bcae35`) is **flagged as existing and measurable, NOT recommended and NOT pre-decided**; adding an option to a PA ballot is itself a PA prerogative. |
+| **I-8** | Obligation 3 has no artifact: QE **0/11**; the QE-1…QE-11 matrix is `PREPARED REFERENCE MATRIX — NOT AN AUTHORIZATION — NOT A QUALIFICATION RESULT`; no native Windows run; host `desktop-no0nhtp` **unreachable**. **PA-19/PA-20 waive Windows and operator evidence but expressly no Gate 4 decision.** | Record designation and execution-readiness as **separate** states. |
+
+### 16.251.11 The exact PA decisions still required
+
+**Decision 1 — PA-09 content-pin designation** (the primary outstanding decision): fill the packet's
+own wording, extended for **I-3** to name **all three** coordinates (IPD primary, IPD broker alias,
+IRR consumer) with commit and tree identities; state the blob disposition required by **I-5**; state
+whether non-Limb-A content is accepted (§4.5 C-1 requires express acceptance); state the QE lineage
+classification required by **I-6**; confirm or reject the condition-subsequent reading required by
+**I-2**; and retain the packet's sentence *"Designation is not Gate 4 execution"*, strengthened with
+§3.2's Limitation. **Decision 2 — the §4.5 choice** (C-1 / C-2 / C-3), which is coupled to Decision 1:
+choosing **C-2** makes G4P-1, G4P-4 and `001c3c80` all inadmissible, since none is Limb A-only.
+**Decision 3 — the alias-coordinate re-render** required by **I-4**. **Decision 4 — the lineage
+classification disposition** required by **I-6**; note that re-declaring `'REAL'` would require an IPD
+change and is therefore **not available without new IPD implementation authority**.
+
+**A-8 requires one instrument:** an additive amendment to the U1 act under DEC-06 R-2/R-5, preserving
+§§1–7 verbatim, adopting the drafted §8, with **Act ID assigned** and the three `TBD-PA` placeholder
+sets filled. **A-6 requires one instrument:** a new Wave-2 Security Master Expansion Act — and cannot
+be rendered meaningfully before **A-5** supplies genuine ISINs.
+
+**Not required from the PA, and not to be inferred as required:** Gate 4 execution; any QE item
+starting; QE 0/11 → 11/11; Gate C or U4 rendering; result acceptance; Gate 5 initiation or admission;
+any `W-1` relaxation; any fence lift; any P04 change; any DP-2 Option 2F change; any real-user durable
+save; any production scope; any IPD write; any dependency-pin change; any D05 deposition; any HTTP
+route implementation.
+
+### 16.251.12 Gates, fences and invariants restated — nothing moved
+
+Gate 4 act `IIPS-V3-G4-TARGET-HOST-QUALIFICATION-AUTHORITY-ACT-2026-10-23-01` = **AUTHORIZED — NOT
+STARTED**; **QE 0/11**; **Gate C and U4 NOT RENDERED**; **PA-09 OPEN**; **H-12 NOT ADOPTED as a
+current-coordinate baseline** (R5 is effective only at its own pins); P-1 **AUTHORIZED — ONE ATTEMPT —
+UNSPENT**; P1-F **NOT RECONCILED / `RETRY_BLOCKED`**; S3 not started; host `desktop-no0nhtp`
+unreachable. **Gate 5 NOT INITIATED / NOT ADMITTED**; **DQ-4 8/10**. Gate E **W-1(3)/W-1(4) false** →
+`evaluatePortSaveGuard()` false → `WRITE_NOT_AUTHORIZED`, `storeEffect 'NONE'`, zero rows saved.
+**P04 quarantine IN FORCE.** **DP-2 Option 2F unchanged.** The twelve `/api/user-portfolios*` pairs
+are now **6 admitted read-only pairs plus 6 still-fenced write/context pairs** per §16.251.7; the
+**write fence is intact**. `IIPS_BROKER_IMPORT_EVIDENCE_V1` unchanged. `/api/broker-import/` still
+closed at exactly two routes. **No pin changed. No IPD write. No production scope. No real-user
+durable save. No HTTP route added. No identity deposited. No PA act fabricated.**
+
+### 16.251.13 WS-A-DM roll-up — unchanged, NOT COMPLETE
+
+Per `WS-A-DURABLE-USER-HOLDINGS-MILESTONE-DEFINITION-2026-11-05.md` §2.1, the nine pillars are
+unchanged by this pass: **4, 5, 7, 9 = IMPLEMENTED-VERIFIED**; **3** retention verified / retrieval
+**AWAITING-AUTHORITY** (criterion 3.3, blocker `WS-A-EV-ROUTE-1`); **6** isolation verified / owner
+carrier **AWAITING-AUTHORITY** (6.2); **2 = NOT-QUALIFIED** (2.4); **1 = BLOCKED-EXTERNAL** (1.7, needs
+A-5 → A-6); **8 = AWAITING-AUTHORITY** (8.1–8.8). **Overall NOT COMPLETE.**
+
+**WS-A-DM has THREE INDEPENDENT outstanding dependencies**, and this pass made that explicit: the
+`A-10 → A-11 → … → A-15` spine blocked on **PA-09 and its three companion decisions**; the
+`A-8 → A-9` spine blocked on the **U1 §8 amendment**; and the `A-5 → A-6 → A-7` spine blocked on an
+**external operator input** that neither repository and neither write authority can supply.
+**Discharging any one of the three would leave the milestone NOT COMPLETE**, and a PA-09 designation
+must not be mistaken for milestone completion. The milestone's non-completion rule stands:
+fixture-scoped persistence and journal restart recovery are **necessary, in hand, and not sufficient**.
+
+### 16.251.14 Outstanding-action register A-1…A-18
+
+| Action | Status | Depends on |
+|---|---|---|
+| A-1 … A-4 | **CLOSED / VERIFIED — not reopened** | — |
+| **A-5** | **`BLOCKED-EXTERNAL — INPUT SPECIFICATION COMPLETE AND PUBLISHED`** | **The operator (Ramki).** No IRR or IPD action can substitute. |
+| **A-6** | **`PREPARED — PREREQUISITES AND VALIDATION PLAN COMPLETE; PENDING AUTHORITY`** (PR-1…PR-8, V-1…V-10, 8 deposition exclusions) | PR-1 (= A-5) → PA for PR-4 → **IPD** for PR-5/PR-6 |
+| **A-7** | **BLOCKED by A-6** | A-6 |
+| **A-8** | **`PREPARED — AMENDMENT PACKAGE COMPLETE; BLOCKED ON PA`** (25-clause drafted §8; P-1…P-10 verified; non-expansion validated) | **PA:** adopt §8, assign Act ID, fill §8.2(7) and §8.3(16) |
+| **A-9** | **BLOCKED by A-8** — cannot start before effectiveness | A-8 |
+| **A-10** | **`PREPARED — DECISION PACKAGE COMPLETE; BLOCKED ON PA`** (obligations 1 and 2 discharged; 3 and 5 measured as gaps; 4 and 6 identified as PA-only; findings I-1…I-8 rendered) | **PA:** Decisions 1–4 |
+| **A-11** | **NOT STARTED** — unblocked to start only on a PA-09 designation | A-10 |
+| **A-12** | **NOT RENDERED** (Gate C / U4) | A-11 |
+| **A-13** | **DQ-4 8/10 → 10/10** not reachable; DQ-4.4's STOP-and-re-designate rule live and, per I-4, engaged in substance | A-12 |
+| **A-14** | **NOT INITIATED** (Gate 5) | A-13 |
+| **A-15** | **NOT AUTHORIZED** (U6) | A-14 |
+| A-16 | **CLOSED / VERIFIED — not reopened** | A-2 |
+| A-17 | **CLOSED / VERIFIED — not reopened** | A-16 |
+| **A-18** | **NOT STARTED** (nine-pillar review) | A-7 + A-9 + A-15 |
+
+**Workstream A and milestone WS-A-DM are NOT COMPLETE.**
+
+### 16.251.15 Verification ledger (`V2046`–`V2063`)
+
+| ID | Check | Result |
+|---|---|---|
+| `V2046` | Baseline and allocation census, re-run mid-pass | **PASS** — IRR `main` moved `4162a9ea` → `bcf0670` (PR #438 merged `2026-11-05T16:39:30+05:30`) while the pass was in flight; census re-run against `bcf0670`; PR #438 had consumed `§16.250`/`CV-CORR-230`/`CHG-2026-11-05-01`/`V2040`–`V2045`, so this section takes `§16.251`/`CV-CORR-231`/`CHG-2026-11-05-02`/`V2046`. 0 open IRR PRs, 0 open IPD PRs. |
+| `V2047` | Three packages authored; no PA act fabricated | **PASS** — all three carry `PROPOSED`/`PREPARED — NOT EFFECTIVE`, `PENDING ASSIGNMENT` or `BLOCKED-EXTERNAL`; no Act ID assigned or claimed; no pin designated; no acceptance asserted. |
+| `V2048` | Gate 4 act §3.2 text and blob stability | **PASS** — IPD blob `66b56fd1584890525a7250aadd7da449def621e5` **identical at `a891802e`, `7bcae35` and `6df748d3`**; §3.2(1)–(4) and the Limitation read verbatim. |
+| `V2049` | Candidate identities resolved, no guessed SHA | **PASS** — every SHA resolved via `git rev-parse --disambiguate` / `git rev-parse <sha>^{tree}` against a real clone and cross-checked against `git ls-remote`; 8 coordinates tabulated with tree, distance, date and subject. |
+| `V2050` | §4.6 obligation 1 — CI at exact SHAs | **PASS with finding I-1** — `a891802e` check-runs both success + run `40640127958` CI/**push**; `8eec74ae` both success + `40196407747` CI/**push**; `7bcae35` both success + `41996684021`; **`001c3c80` has only `40305148754` CI/pull_request and is not first-parent — no post-merge run at its own SHA.** |
+| `V2051` | §4.6 obligation 2 — non-evidence delta classified | **PASS** — `a52b47b0`→`a891802e` **7** non-evidence paths (+88 evidence/doc); `a52b47b0`→`001c3c80` the **same 7** (+29); `8eec74ae`→`a891802e` **4** (+60); `a891802e`→`7bcae35` **34**. Confirms §4.5's recorded Limb A boundary conflict **by measurement**. |
+| `V2052` | G4P-1 versus the live consumption pin (I-7) | **PASS** — `a891802e` is **61** behind IPD `main` and **34 non-evidence paths** from `7bcae35`, spanning WS-A broker identity, Direct P1 provisioning, REG-06 operator drop and the PIT durable store. The packet's option set predates the advance. |
+| `V2053` | H-12 R5 structure (I-3) | **PASS** — blob `f4649e36a81c7013287810cd3202b99586dbd951`; **three** `pinned_bases`; 56 entries all `PRESENT`; 1 conditional; 9 `criteria_basis`; 10 frozen Gate 3 anchors; `delta_from_r4` 16. Internal `status` field intentionally preserved as `PROPOSED CANDIDATE` because the act adopted the bytes unmodified — **effectiveness is carried by the act**. |
+| `V2054` | DQ-6b Path A interim scope (I-4) | **PASS** — act text read verbatim; alias moved **with** authority (PR #436 → `51fdcd95…`); guards **strengthened** not relaxed; **option (i), declared "technically impossible", was executed**. Interim scope **exhausted**; literal STOP trigger **not** met. |
+| `V2055` | Guard V692 currency | **PASS — SUPERSEDED** — the 14 alias raw sources are present in the tree at `70b24f02` **14/14**, `8eec74ae` **14/14** and `7bcae35` **14/14**, but at `7bcae35` only `dist/package` is published, so they are unreachable by IRR via npm. Presence holds; **load-bearing characterization does not**. |
+| `V2056` | Guard V694 currency — partly resolved | **PASS** — `security_master.ts` `60030e0c17f8b2a31977ce598c80b18dc52d6727` and `contracts/types.ts` `a644c83351b030b0e76d76642475420ea7ef07c0` are **byte-identical at `8eec74ae` and `7bcae35`**, differing only at `70b24f02`. **Two of four divergences eliminated.** |
+| `V2057` | Residual divergence (I-5) | **PASS** — `broker-holdings-mapper.ts` `4d0e757b39e3776ad3701e50053696bc52b07b11` and `broker-import-ingress.ts` `c8ea9d8fa92b9f8a0ec3d67fbc5fa700e4080899` are **third** byte-sets at the live pin, matching neither `70b24f02` nor `8eec74ae`, and bound by **no** adopted manifest. |
+| `V2058` | Lineage classification (I-6) and its documentation gap | **PASS** — `'REAL'` ×3 at `70b24f02` (lines 262/337/360) vs **`'UNCLASSIFIED'` ×3 at `7bcae35`** (lines 348/425/448); all three sites feed `computeLineageHash`. R2 report contains **0** occurrences of `sourceClassification`; package profile records no lineage field; only IRR occurrence under `frontend/` is the unrelated `nonProductionPitStore.ts:67` `'DERIVED'`. **Change passed PR #436 validation silently. Recorded, NOT remedied.** |
+| `V2059` | Fence currency correction | **PASS** — change attributed by `git log -- <path>` to **`9202e7a`** (`2026-11-01`, Direct P1 reads) and `e9df332`; `fenceUnchanged.test.ts` **+128/−462**, `user-portfolio-transport.ts` **+152/−25**; writes and context discovery still **503 `operation-not-admitted`** even with a binding assertion; `owner-context-unavailable.ts` blob `cb8db45d668d28cee7e0a52721001d579a872733` still asserted byte-identical. **PR #438 verified to touch neither surface (empty diff).** |
+| `V2060` | Broker-import boundary undrifted | **PASS** — `brokerImportHttp.ts` blob **`cd0b42d1c7803f9451586194e42c0357135271d2`** byte-identical from `ba64b2d5` to `bcf0670`, **unchanged across 456 commits**; `matchRoute()` still admits only `holdings` and `revision`. |
+| `V2061` | A-5 artefact and acquisition path absent | **PASS** — no `DHAN_DETAILED_HOLDINGS_V1` data artefact in IPD (8 prose-only hits) or IRR (13 prose-only hits); **no Dhan API/login/token/credential path in IRR**; `BrokerHoldingsPreview.tsx:50` expressly denies broker login or live API connection. **Gap is data, not capability.** |
+| `V2062` | BLOCK-3L composition, genuine absence, and the untestable ISIN space | **PASS** — 2,250/2,250 resolve at **100.0%**; non-D05 equities **0.0%** `D05_ABSENT`; failed securities **GENUINELY ABSENT** with **ZERO** systematic failure among present entities; `dhan_detailed_holdings.csv` ISIN **YES** / Exchange **YES**; Detailed ISIN path proven (`TCS` → `ISIN:INE467B01029` → `EQ_TCS_IN`). **ISIN index structurally unreachable from `DHAN_WEB_UI_SUMMARY_V1` — UNTESTED, not tested-and-absent.** C-02's aggregate-vs-per-record qualification adopted; the two classification axes expressly **not** conflated. |
+| `V2063` | Pins, boundaries, preservation and validation | **PASS** — `frontend/package.json` lines 24–26 byte-unchanged at `bcf0670` (broker-import `7bcae35…`, np04 `2e11fa3b…`, production-market-data `279d1eed…`); **zero IPD writes**; PR #438 and all earlier records preserved; A-1…A-4/A-16/A-17 **not reopened**; three packages additive; IRR-only static validator green; `git diff --check` clean. |
+
+**Limitation.** IRR-only static validation and read-only cross-repository inspection. No PowerShell
+parse, no IPD write, no current-dist check, no S2 rerun, no QE execution, no native Windows run and
+**no U-5 PASS**. `U-5` remains **NOT RUN**. No gate was moved, no pin changed, no route added, no
+identity deposited and no PA act fabricated by this section.
+
+### 16.251.16 Post-merge publication and read-back receipt (`2026-11-05`)
+
+Discharges **`V2063`**. The `PENDING` wording of any pre-merge statement above is **preserved
+verbatim**, following the §16.248.7 / PR #430 and §16.249.13 / PR #441 precedents: **a receipt cannot
+be part of the commit it verifies.**
+
+| Item | Verified value |
+|---|---|
+| IRR PR | **#442**, head **`5beb77b97efd76ab96cc039b9b81c06c442809e1`** |
+| Merge | **MERGED `2026-11-05T12:06:45Z`** as **`b2332d1727e20c71c2c5b776455bc84634169ce2`**, tree **`68ef57f19907f4f451817e6afbded61dad7b4c45`** |
+| `git ls-remote origin refs/heads/main` | **`b2332d1727e20c71c2c5b776455bc84634169ce2`** — **agrees** with the merge commit |
+| Exact-head CI | `CAP-03 Revision 7 IRR-only static checks`, job **`Python compile · source/evidence/tracker validation`** = **SUCCESS**; run **`42024256428`**, job id `127234379294` |
+| Post-merge `main` CI | run **`42024392810`**, event `push` — **`completed` / `success`** |
+| Independent remote byte read-back | **5 / 5 paths MATCH** (Git Blobs API, base64-decoded and re-hashed; the tracker exceeds the Contents API base64 limit and was read via `git/blobs/<sha>`) |
+| — tracker | blob **`3a3ccda188831cbb6277537cd20bfc7c481da05a`**, **3,855,680** bytes, SHA-256 `0d7632c3a2b815e0e649a8ef…` — **MATCH** |
+| — R2 report | blob **`0ad56b5e2c5090de44beff1f5248acb35c406b9d`**, **69,906** bytes, SHA-256 `92028c0f5c01abeddaab8729…` — **MATCH** |
+| — A-10 package | blob **`d95f31207cfc6dc757706619fc57ba17a460c620`**, **54,089** bytes, SHA-256 `4f63e039da3a04f75cc75ed6…` — **MATCH** |
+| — A-8 package | blob **`8a6eed7ede30d463728bc02246df9b6e095edb84`**, **32,308** bytes, SHA-256 `c16471feee388976ddb859b3…` — **MATCH** |
+| — A-5/A-6 package | blob **`d28c56a4f196e27926c444c77a55902c2387f8a3`**, **28,102** bytes, SHA-256 `a298d3788e2c3b43cd4377ee…` — **MATCH** |
+| Paths changed by PR #442 | **5** (2 `M`, 3 `A`) — **`frontend/**` = 0**, **`evidence/**` = 0** |
+| Pins read back from merged `main` | broker-import **`#7bcae35ad18c43cb67a16f30faa55bbdf0fb33fc`**, np04 **`#2e11fa3b689d1a3674a5e4ba1f1de9a559e20494`**, production-market-data **`#279d1eed184f5e23bbabe5c6411085e120ce9e41`** — **UNCHANGED** |
+| IRR-only static validator at merged `main` | **exit `0`** — PASS on the Windows 10 profile, S04 source and admitted S2 evidence; `LIMIT: IRR-only static validation`; **`U-5` remains NOT RUN** |
+| Unrelated work preserved | **PR #438 MERGED at `bcf067061bff42c4b69416dbe33205909cd8ce85`, untouched**; **0 open IRR PRs**, **0 open IPD PRs** after this merge |
+| IPD writes | **ZERO** |
+
+**`V2063` is thereby PASS.** **No gate, pin, fence, authority act, register count or master revision
+was moved by §16.251 or by this receipt.** A-1…A-4, A-16 and A-17 were **not reopened**. **Workstream
+A and milestone WS-A-DM remain NOT COMPLETE.**
+
+
+**Next free after this section:** `§16.252` / `CV-CORR-232` / `CHG-2026-11-05-03` / `V2064`.
+
+---
+
+## §16.252 — `CV-CORR-232`: WS-A plain-English PA decision paper and technical appendix — seven outstanding decisions rendered with recommendations (`2026-11-05`; `CHG-2026-11-05-03`; `V2064`–`V2079`)
+
+**Record ID:** `IIPS-V3-WS-A-PA-DECISION-PAPER-TRACKER-REGISTRATION-IRR-2026-11-05-01`.
+
+**Scope.** IRR-owned documentation registration only. This section registers a **plain-English decision
+paper** and its **technical appendix** prepared for the Principal Authority, which translate the
+outstanding Workstream A matters into ordinary language and render **seven decisions with
+recommendations**. **It fabricates no PA act, designates no pin, establishes no owner identity, sets no
+retention period, assigns no Act ID, admits no route, deposits no identity, moves no gate, changes no
+pin and relaxes no fence.** Every recommendation is traceable to an already-published authoritative
+record or to a measurement performed this pass. **Prepared authority is recorded as prepared — never as
+effective.**
+
+**Baselines re-censused at authoring time.** IRR `main@2b4a2cee032609805d76298cf33bb66ddd82e96a`
+(PR #443); IPD `main@6df748d397daf965bd5b6e6e35df5043f7fa8c4d` (PR #126). Open PRs: **0** IRR, **0**
+IPD. Allocation re-verified before writing: `§16.252`, `CV-CORR-232`, `CHG-2026-11-05-03` and `V2064`
+each occurred **exactly once** in the tracker — in §16.251's next-free declaration — and are consumed
+here.
+
+### 16.252.1 What is registered
+
+| Document | Identity | Status |
+|---|---|---|
+| **PA decision paper (plain English)** | `docs/integration/WS-A-PA-DECISION-PAPER-PLAIN-ENGLISH-2026-11-05.md` | **PREPARED PROPOSAL + RECOMMENDATIONS — NOT AUTHORIZED, NOT EFFECTIVE.** Contains **no** claim of approval. |
+| **Technical appendix** | `docs/integration/WS-A-PA-DECISION-PAPER-TECHNICAL-APPENDIX-2026-11-05.md` | **PREPARED — NOT EFFECTIVE.** No Act ID assigned; no pin designated; every drafted field still reads `PENDING ASSIGNMENT` or `TBD-PA`. |
+
+Both are **additive**. Neither modifies the U1 act, DQ-6b Path A, the Gate 4 act, the H-12 R5 manifest
+or its adoption act, the NP-06 R1 act, the owner-context value act, the consolidated PA packet, the
+formal decision record, the gap record, the three packages registered at §16.251, BLOCK-3L, the BI-04
+schema document, the D05 corpus, or any earlier tracker section.
+
+**Audience design.** The paper is written so the decision-maker **need not understand Git, commits,
+hashes, repositories or governance terminology**. A translation glossary is provided at its §2; the
+six-stage distinction (**prepared proposal → recommended decision → PA authorization → effective
+authority → implementation → verified completion**) is stated at its §2.1 and never blurred; formal
+wording is confined to the appendix. The paper carries a **completable PA decision record** at its §11
+with `APPROVED` / `APPROVED AS AMENDED` / `DEFERRED` lines, and is recorded by Arena as
+**`PENDING — NOT YET RENDERED`**.
+
+### 16.252.2 The seven decisions and the recommendations rendered
+
+| # | Decision (plain English) | Arena recommendation | Authority class |
+|---|---|---|---|
+| **1** | Name the official version Gate 4 content is measured against | **G4P-1 `a891802e…`**, with a mandatory express statement that it is **not** the broker-import consumption version and that Gate 4 claims **no coverage** of that feature | PA authorization |
+| **2** | Accept that the named version contains out-of-scope material | **C-1**, paired with **G4P-1** and expressly **excluding** the alternative snapshot `001c3c80` | PA authorization |
+| **3** | Formalize the current state of the broker compatibility copy | **Ratify the current state** at `7bcae35…` — a ratification, **not** a change | PA authorization |
+| **4** | The data-origin label changed as a side effect | **Accept `'UNCLASSIFIED'`**, with the fingerprint non-reproducibility recorded and **no** re-acceptance or re-qualification | PA authorization |
+| **5** | Whose data is this — owner and tenant labels | **Create a new distinct pair**, following the NP-06 R1 precedent; proposed values **collision-verified** | **PA's personal decision** |
+| **6** | How long evidence is kept, and when deleted | **Indefinite; explicit-operator-only purge; never automatic; never over HTTP;** review point at a PA-set size | PA authorization |
+| **7** | The formal reference number | **Assign one** in the surveyed house form; proposed form given, **not self-assigned** | PA authorization (clerical) |
+
+**Executive recommendation, and its basis.** The paper identifies **decisions 5 + 6 + 7 as the
+highest-value set**, on a **feasibility** argument rather than a preference: the Gate 4 track
+(decisions 1–4) unlocks A-11…A-15, which **cannot be completed yet** because it requires the operator's
+Windows host `desktop-no0nhtp` (**unreachable**), separate operator authority, and an examination that
+has not started (**QE 0/11**); whereas the evidence track (decisions 5–7) unlocks **A-9, which is
+entirely within existing IRR capability** — no unreachable host, no external file, no IPD write, no
+further authority. **It is the only decision set whose downstream work is fully feasible today.** All
+seven are nonetheless recommended, because decisions 1–4 are inexpensive and discharge a formally
+flagged stop condition.
+
+### 16.252.3 Why each decision is necessary — the three triggering changes of fact
+
+1. **An approved upgrade triggered a mandatory stop rule.** Gate 4 act §3.2(4) makes *"any
+   non-documentary drift in either pinned repository"* a *"stop condition requiring explicit PA
+   re-designation"*, and does **not** exempt approved drift. Measured drift is substantial in **both**
+   repositories (§16.251.3). **Decision 1 is therefore the re-designation §3.2(4) demands.**
+2. **A temporary permission was exhausted by its own terms.** DQ-6b Path A was scoped *"for the interim
+   period only, and only while the guards hold"*, recorded *"Alias movement | None"*, and declared
+   option (i) *"technically impossible"*. The PA-commissioned advance **executed that option
+   successfully**. Guards V692–V695 no longer hold as recorded (§16.251.5). **Decision 3 closes the
+   resulting gap.**
+3. **An unrecorded side effect was surfaced.** The data-origin label changed from `'REAL'` ×3 to
+   `'UNCLASSIFIED'` ×3, and it feeds `computeLineageHash` at all three sites, so pre-advance lineage
+   digests are **not reproducible**. Verified **undocumented and undetected** (§16.251.6). **Decision 4
+   deals with it openly rather than leaving it silent.**
+
+### 16.252.4 Decision 5 — the owner-identity analysis (new measurement this pass)
+
+The paper recommends a **new distinct pair** rather than reuse, on a **technical necessity**
+established by measurement rather than by analogy:
+
+1. **The journal requires two scope keys from its caller.** `brokerImportEvidenceStore.ts` exposes
+   `read(tenantId, ownerUserId, recordId)`, `list(tenantId, ownerUserId)` and
+   `exists(tenantId, ownerUserId, importId)`. Its governing authority PF-1 (`IIPS-V3-PF1`, Class C
+   filesystem journal, TD-2/TD-3/TD-7a) states: *"A trusted CALLER is responsible for supplying
+   tenant/owner scope; this service is a **library authority, not an HTTP identity or access-control
+   boundary**."*
+2. **The existing binding mechanism supplies none.** `frontend/server/user-portfolio/ownerContextFromBinding.ts`
+   (258 lines; authority `IIPS-V3-G3-IMPLEMENTATION-AUTHORITY-ACT-2026-10-19-02` §5.1 item 2, wire
+   contract v1 OC-1…OC-7) records the provenance rule: *"The owner … is resolved **by IPD**, per
+   request … **IRR does not resolve an owner, does not hold one, and cannot supply one**"*, and states
+   that `OwnerContext` carries **no** `applicationUserId`, **no** `tenantId`, no principal, no credential
+   and no scope — *"so 'no caller substitution' holds **by construction** rather than by validation."*
+   `brokerImportHttp.ts` gates on `ownerContextFromBinding(...) === 'IPD_BINDING_RESOLVED'`.
+3. **A third source is prohibited.** Obtaining the keys from IPD per request would require a **new IPC
+   operation**, forbidden by the U1 network invariant, and an **IPD change**, for which no authority
+   exists.
+
+**∴ No existing source supplies the two scope-key strings; they must be act-established.**
+
+**Precedent constraint.** `IIPS-V3-REPORTS-NP06-R1-OWNERSHIP-DECLARATION-PA-DECISION-ACT-2026-10-25-01`
+§1(2) records that *"F-3 value reuse or aliasing `(irr-domain-4b82d6e1, owner-7f3a91c2)` for Reports is
+**explicitly prohibited**. Reports maintains its own distinct ownership declaration and partition
+boundary"*, and §3 gives Reports a **separate** carrier named by `IIPS_REPORTS_OWNER_PATH`, *"distinct
+from `IIPS_OWNER_CONTEXT_PATH` (F-3)"*. **The established principle is one distinct pair, and one
+distinct carrier, per route family.**
+
+**Proposed literals, and the collision verification performed** (satisfying NP-06 R1 §1(3): *"Literal
+uniqueness confirmed: 0 collisions across repository history, F-3 records, and IPD corpus"*):
+
+| Proposed literal | IRR working tree | IRR **full history** (`git log --all -S`) | IPD `main` (`git grep`) |
+|---|---|---|---|
+| `irr-broker-evidence-personal` | **0** | **0** | **0** |
+| `owner-irr-broker-evidence-personal` | **0** | **0** | **0** |
+| `IIPS_BROKER_EVIDENCE_OWNER_PATH` | **0** | — | **0** |
+
+**These are PROPOSALS, clearly labelled, with NO EFFECT.** The paper states expressly that the PA may
+substitute any values, and that Arena **will not invent an owner identity** for a personal-financial-
+evidence read path. For the record, the two existing pairs that must **not** be aliased:
+
+| Family | Tenant | Owner | Carrier setting | Governing act |
+|---|---|---|---|---|
+| Platform-wide (F-3) | `irr-domain-4b82d6e1` | `owner-7f3a91c2` | `IIPS_OWNER_CONTEXT_PATH` | `IIPS-V3-OWNER-CONTEXT-F1-F2-VALUE-ACT-01` §4, blob `f90c9325f49d33f378f3fc0936c28f4979164b2e`, `2026-10-12`; carrier SHA-256 `d5a79efb8f13790834f3e4047c5f19030a46d8d0365fa48b28209b1a988ebbe4` |
+| Reports (NP-06 R1) | `irr-reports-personal` | `owner-irr-reports-personal` | `IIPS_REPORTS_OWNER_PATH` | `IIPS-V3-REPORTS-NP06-R1-OWNERSHIP-DECLARATION-PA-DECISION-ACT-2026-10-25-01` §1 |
+| **Broker evidence** | **PROPOSED ONLY** | **PROPOSED ONLY** | **PROPOSED ONLY** | **NONE — PENDING PA RENDERING** |
+
+The paper further recommends the new permission adopt the **fifteen NP-06 R1 §2 dispositions verbatim**
+— partition keys not identities or credentials; no roles or privileges; exactly one tenant with no
+guessing, no ambient fallback and no client-selected value; fixed 1:1 static mapping with no
+translation layer; operator-only provisioning; PA-governed revocation that disables the route
+immediately and fails closed; audit evidence durable in repository and tests; failure returns
+`503 owner-context-unavailable` with **no data read or changed**.
+
+### 16.252.5 Decision 6 — retention and purge, and why automatic purge is rejected
+
+Recommended: **indefinite retention** in the server-owned local data directory only (`IIPS_DATA_DIR`,
+TD-7a); **explicit-operator-only purge** — no time-based, no count-based, no automatic purge of any
+kind; **purge not reachable from the HTTP surface** (route read-only, **no `DELETE`** admitted in the
+namespace, §7.1(1) closure preserved); a **documented review point** at a PA-set size (proposed
+**50 MB**), where a review is a **recorded PA determination, not an automatic deletion**; **raw CSV
+bytes remain not retained**.
+
+**The decisive technical reason automatic purge is rejected**, established from the merged behaviour:
+**the first retention is authoritative and a duplicate import returns it unchanged.** Deleting a
+first-retained record would silently change what a duplicate import returns — **breaking an existing
+guarantee**. That is recorded in the appendix as §8.3(16)(g).
+
+**Mitigating facts, each verified**, which together justify indefinite retention: locality is
+server-owned local disk only, never a Git tree, network store, third party or browser store; **raw
+bytes are never retained**, so the footprint is the parsed summary; records are tamper-evident and fail
+closed with `EVIDENCE_TAMPERED`; foreign scope is already invisible by test
+(`foreignScopeInvisible: store.list(tenantId, 'some-other-owner').length === 0`); and **no third-party
+transmission path exists**. Compaction is confirmed **NOT built** in v1 (PF-1 **TD-3**), so **no period
+may be inferred from code** — it must be fixed by the act.
+
+**Trade-off recorded honestly:** unbounded local accumulation of parsed personal financial evidence
+versus destruction of the **only row-level record** of the 67 `NO_AUTHORITATIVE_IDENTIFIER_MATCH`
+refusals. **In the absence of any third-party exposure, audit value outweighs accumulation risk, and
+accumulation is bounded by review rather than by silent deletion.**
+
+### 16.252.6 Decision 7 — Act ID convention surveyed, not self-assigned
+
+Proposed form **`IIPS-V3-CAP02-U1-AMEND-01-EVIDENCE-RETRIEVAL-ROUTE-2026-11-05-01`**, derived from the
+existing conventions surveyed this pass:
+`IIPS-V3-CAP02-G4-AMEND-01-H12-MEMBERSHIP-2026-10-23`,
+`IIPS-V3-CAP02-GATE-A-PRIME-AMEND-01-DESIGNATED-BLOBS-2026-10-28-01`,
+`IIPS-V3-G3-AMEND-01-2026-10-22-01`,
+`IIPS-V3-G2-IRR-DP1-IDENTITY-CREDENTIAL-TRUST-AMENDMENT-2026-10-16-01`,
+`IIPS-V3-CAP03-G4-H12-R5-AMENDED-S8-SUPPLEMENT-2026-10-25-01`.
+
+The U1 act is `IIPS-V3-CAP02-U1-BROKER-IMPORT-TRANSPORT-AUTHORITY-ACT-EFFECTIVE-2026-10-23-01`; its §7
+additive amendment carried **no separate Act ID** (rendered as a section of the act, companion to
+composition act `-04`). **`AMEND-01` is therefore the first separately identified amendment to the U1
+act**, which is why the proposed form uses `01` rather than `02`. **No Act ID is assigned or claimed by
+this registration**; every drafted occurrence still reads `PENDING ASSIGNMENT`.
+
+### 16.252.7 Formal wording supplied for each decision
+
+The appendix supplies **adoptable formal text** for all seven decisions, so the PA's plain-English
+responses can be rendered without further drafting: **A-1.1** the extended PA-09 designation naming
+**all three** R5 coordinates (discharging finding **I-3**), the express non-coverage statement
+(**I-7**), the two-pin distinction and the §3.2 Limitation citation, the condition-subsequent reading
+of obligation 5 (**I-2**), and the §3.2(4) discharge; **A-1.2** the C-1 rendering with the **7
+out-of-scope paths named** and `001c3c80` **expressly excluded** (**I-1**); **A-1.3** the DQ-6b
+successor ratification with its four findings of fact and the guard-currency table (**I-4**, **I-5**);
+**A-1.4** the lineage disposition with six findings of fact, four mandatory recorded clauses, the
+rejected alternatives and the **non-conflation clause** (**I-6**); **A-2.1**–**A-2.3** the formal text
+replacing the three `TBD-PA` blanks; **A-2.4** a plain-English ↔ formal concordance.
+
+**Rejected alternatives are recorded with reasons**, not merely listed: restoring `'REAL'` would require
+modifying **IPD source** without authority and would contradict a change IPD already merged; reverting
+the alias to `70b24f02` **would break the live broker-import feature**, since the raw sources are
+unreachable through modern packaging; re-accepting DB-C1 would reopen completed work; and "no labels,
+binding only" is **technically insufficient** because the lookup function requires two concrete values
+the binding mechanism deliberately does not supply.
+
+### 16.252.8 One matter recommended for DEFERRAL, on insufficient evidence
+
+The paper recommends the PA **not** decide now whether to add the 67 unresolved holdings to the
+governed D05 master, because **the evidence to decide it does not exist**. This restates, at decision
+level, the precision correction registered at §16.251.9: earlier records state **0 of 67** exist in the
+corpus, which is **correct for the symbol-space indices actually probed**, but `MappingStore` populates
+**four** indices — ISIN, NSE_SYMBOL, BSE_SYMBOL, COMPOSITE_TICKER — and **the ISIN index was
+structurally unreachable** from `DHAN_WEB_UI_SUMMARY_V1`, which omits the column. The ISIN space is
+therefore **UNTESTED, not tested-and-absent**.
+
+The conclusion is **unaffected**, for two independent reasons: IPD's own `BLOCK-3L` audit establishes
+**genuine absence** (*"the failed securities are GENUINELY ABSENT … ZERO systematic failure among
+present securities"*, 2,250/2,250 at 100.0%), and the composition argument (only **52** real Indian
+equities — 50 Nifty constituents plus `AIIL` index 20 and `AGI` index 21 — against **2,198** synthetic
+Tier-2 records) makes near-total absence expected on **any** lookup path. **But no row-level ISIN
+evidence is claimed, because none exists.**
+
+**The practical corollary is stated so it is not mistaken for progress:** supplying the genuine
+`DHAN_DETAILED_HOLDINGS_V1` export will most likely **not** materially raise the resolved count. Its
+value is that it is the **only lawful source of the ISINs** a future deposition would require; without
+it, any deposition would mean inventing identifiers — prohibited by the standing instruction, by BI-04
+schema §4 (*"Under NO circumstances is a `companyId` fabricated from the raw `Name` string"*), and by
+BLOCK-3L recommendation 1 (*"do not add ad-hoc un-governed aliases, and do not fabricate raw
+symbols"*).
+
+### 16.252.9 The five protections confirmed unchanged by every decision
+
+The paper confirms each individually, with evidence, at its §9.4:
+
+| Protection | Changed by any of the seven decisions? | Basis |
+|---|---|---|
+| **The dependency pin / software version in use** | **NO** | `frontend/package.json` lines 24–26 verified **byte-unchanged** at IRR `main`. Decision 3 **ratifies** the version already in use; decision 1 names a **measuring stick**, not the running system — nothing is rolled back or advanced. |
+| **Gate 4's permitted scope (Limb A)** | **NO** | Decision 2 accepts that a *measuring stick* contains out-of-scope material; it does **not** widen the boundary for any other purpose. |
+| **Gate 5's scope** | **NO** | Gate 5 remains **NOT INITIATED / NOT ADMITTED**. |
+| **The write safety catch (W-1)** | **NO** | Remains **ON**. Writes and context discovery are still refused **even with** the binding asserted (§16.251.7). The proposed route is **read-only** and admits **no `DELETE`**. |
+| **Real-user save authorization** | **NO — not granted, not implied, not advanced** | Expressly excluded in every package and in the paper's §11 confirmation checklist. |
+
+The paper also carries the **§16.251.7 currency correction** into the decision text, so that no
+permission is rendered reciting the superseded *"twelve 503 pairs"* baseline: the current state is **six
+admitted read-only pairs plus six still-fenced write/context pairs**, the write fence **intact**,
+arising from the **authorized Direct P1 read integration** at IRR `9202e7a` (`2026-11-01`) — another
+session's completed work, **preserved, not questioned, not reverted**, and cited as a **supporting
+precedent** for the read-only owner-scoped fail-closed pattern the amendment requests.
+
+### 16.252.10 Dependencies, and what proceeds under existing global approval
+
+**Three independent tracks; deferring one does not affect the others.**
+
+```
+GATE 4 TRACK                          EVIDENCE TRACK                  IDENTITY TRACK
+  D3 ratify alias ─▶ D2 C-1 ─▶          D5 owner/tenant ─┐             operator supplies a genuine
+  D1 name version ─▶ sealed             D6 retention    ─┼─▶ U1 §8     DHAN_DETAILED_HOLDINGS_V1
+  inventory re-created (A-11)           D7 Act ID       ─┘  effective  export ─▶ new Wave-2 act ─▶
+  D4 lineage (independent in            ─▶ route built (A-9)           IPD deposition ─▶ A-7 re-run
+  sequence; before criteria relied on)
+```
+
+| Relation | Detail |
+|---|---|
+| **Gate 4 track: 3 → 2 → 1** | Decision 3 with or before decision 1 (the sealed inventory has three coordinates and the alias is one). Decision 2 must accompany decision 1 — choosing C-2 would make G4P-1 **and** G4P-4 both inadmissible. **In practice: take all four in one sitting.** |
+| **Decision 4** | Independent in sequence; settle **before** the QE criteria are relied on. |
+| **Evidence track: 5 + 6 + 7 together** | All three are blanks in **one** instrument; filling two of three leaves it unadoptable. |
+| **Identity track** | Needs **no PA decision** — it needs a **file** only the operator can supply. |
+
+**Proceeds now under existing global approval, no new authority:** investigation and measurement;
+documentation, decision papers and appendices; commit, publication and independent remote verification
+in IRR; **targeted** testing of code actually changed; preparation of implementation and validation
+plans.
+
+**Cannot proceed without new specific authority:** building the evidence route (decisions 5+6+7
+effective); re-creating the sealed inventory (decisions 1+2+3); **any** part of QE-1…QE-11 (additionally
+requires the operator host, currently **unreachable**, and separate operator authority); any D05
+addition (operator file → new Wave-2 act → IPD work); any pin change; any Gate 4 or Gate 5 acceptance;
+any real-user save; **any IPD write** — Arena has no write authority there and has never attempted it.
+
+### 16.252.11 Gates, fences and invariants restated — nothing moved
+
+Unchanged from §16.251.12, and re-verified at IRR `main@2b4a2cee…`: Gate 4 act
+`IIPS-V3-G4-TARGET-HOST-QUALIFICATION-AUTHORITY-ACT-2026-10-23-01` = **AUTHORIZED — NOT STARTED**;
+**QE 0/11**; **Gate C and U4 NOT RENDERED**; **PA-09 OPEN**; H-12 R5 effective **only at its own pins**;
+P-1 **AUTHORIZED — ONE ATTEMPT — UNSPENT**; P1-F **NOT RECONCILED / `RETRY_BLOCKED`**; S3 not started;
+host `desktop-no0nhtp` **unreachable**. **Gate 5 NOT INITIATED / NOT ADMITTED**; **DQ-4 8/10**. Gate E
+**W-1(3)/W-1(4) false** → `evaluatePortSaveGuard()` false → `WRITE_NOT_AUTHORIZED`, `storeEffect
+'NONE'`, zero rows saved. **P04 quarantine IN FORCE.** **DP-2 Option 2F unchanged.**
+`IIPS_BROKER_IMPORT_EVIDENCE_V1` unchanged. `/api/broker-import/` still closed at exactly two routes —
+`brokerImportHttp.ts` blob **`cd0b42d1c7803f9451586194e42c0357135271d2`** byte-identical from
+`ba64b2d5` to `main`, **unchanged across 456 commits**. D05 master revision
+`BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001` / `fileChecksumSha256`
+`7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5` / `recordCount 2250` / `operatorId
+OPERATOR_ADMIN_GOVERNED_01` — **UNCHANGED**. **No pin changed. No IPD write. No production scope. No
+real-user save. No HTTP route added. No identity deposited. No owner identity established. No retention
+period set. No Act ID assigned. No PA act fabricated.**
+
+### 16.252.12 WS-A-DM roll-up — unchanged, NOT COMPLETE
+
+The nine pillars are **unchanged** by this pass: **4, 5, 7, 9 = IMPLEMENTED-VERIFIED**; **3** retention
+verified / retrieval **AWAITING-AUTHORITY** (criterion 3.3, blocker `WS-A-EV-ROUTE-1`); **6** isolation
+verified / owner carrier **AWAITING-AUTHORITY** (6.2); **2 = NOT-QUALIFIED** (2.4);
+**1 = BLOCKED-EXTERNAL** (1.7, needs A-5 → A-6); **8 = AWAITING-AUTHORITY** (8.1–8.8).
+**Overall NOT COMPLETE.**
+
+This pass **sharpens** the three-independent-dependency finding registered at §16.251.13 by adding a
+**feasibility** ranking: of the three, only the **evidence track** leads to work completable within
+existing capability today. The Gate 4 track additionally requires the operator's **unreachable** host
+and separate operator authority; the identity track additionally requires an **external operator file**
+and a **new Wave-2 act** executed in **IPD**. **Discharging any one dependency would still leave
+WS-A-DM NOT COMPLETE**, and the milestone's non-completion rule stands: fixture-scoped persistence and
+journal restart recovery are **necessary, in hand, and not sufficient**.
+
+### 16.252.13 Outstanding-action register A-1…A-18 — statuses UNCHANGED
+
+No action changed status this pass, because **nothing was authorized**. The register stands exactly as
+registered at §16.251.14: **CLOSED (6)** — A-1, A-2, A-3, A-4, A-16, A-17; **OPEN (12)** — A-5
+`BLOCKED-EXTERNAL`, A-6 `PREPARED / PENDING AUTHORITY`, A-7 blocked by A-6, A-8 `PREPARED / BLOCKED ON
+PA`, A-9 blocked by A-8, A-10 `PREPARED / BLOCKED ON PA`, A-11 `NOT STARTED`, A-12 `NOT RENDERED`,
+A-13 `DQ-4 8/10`, A-14 `NOT INITIATED`, A-15 `NOT AUTHORIZED`, A-18 `NOT STARTED`.
+
+**What this pass adds is not a status change but a decision instrument:** each open action blocked on
+the PA now has a **plain-English decision, a recommendation, its consequences and a formal wording
+ready to render**. A-5's blockage is confirmed to be an **operator action, not a PA decision** — no
+authorization can substitute for the file.
+
+**Workstream A and milestone WS-A-DM are NOT COMPLETE.**
+
+### 16.252.14 Verification ledger (`V2064`–`V2079`)
+
+| ID | Check | Result |
+|---|---|---|
+| `V2064` | Baseline and allocation census | **PASS** — IRR `main@2b4a2cee032609805d76298cf33bb66ddd82e96a`, IPD `main@6df748d397daf965bd5b6e6e35df5043f7fa8c4d`; **0** open IRR PRs, **0** open IPD PRs; `§16.252` / `CV-CORR-232` / `CHG-2026-11-05-03` / `V2064` each occurred **exactly once** (in §16.251's next-free declaration) before this section consumed them. |
+| `V2065` | Two documents authored; status discipline | **PASS** — both carry **PREPARED — NOT EFFECTIVE**; the paper contains **no** claim of approval and records itself `PENDING — NOT YET RENDERED`; the appendix assigns **no** Act ID, designates **no** pin and fills **no** `TBD-PA` field. |
+| `V2066` | Owner-identity technical necessity established | **PASS** — journal API requires two caller-supplied scope keys (`read`/`list`/`exists`); PF-1 is *"a library authority, not an HTTP identity or access-control boundary"*; `ownerContextFromBinding.ts` (258 lines) proves IRR *"does not resolve an owner, does not hold one, and cannot supply one"* and that `OwnerContext` has **no** owner fields **by construction**; a new IPC operation is forbidden by the U1 network invariant. **∴ no existing source; act-establishment required.** |
+| `V2067` | NP-06 R1 precedent read, not assumed | **PASS** — §1(2) prohibits F-3 reuse/aliasing for Reports; §3 gives Reports a **separate** carrier (`IIPS_REPORTS_OWNER_PATH`, distinct from `IIPS_OWNER_CONTEXT_PATH`); §2's **fifteen** dispositions extracted for verbatim adoption; §1(3)'s uniqueness test identified as the criterion to satisfy. |
+| `V2068` | Proposed literals collision-verified | **PASS** — `irr-broker-evidence-personal`, `owner-irr-broker-evidence-personal` and `IIPS_BROKER_EVIDENCE_OWNER_PATH` each return **0** hits in the IRR working tree, **0** across **all IRR history** (`git log --all -S`), and **0** at IPD `main` (`git grep`). Satisfies NP-06 R1 §1(3). **Proposals only — no identity established.** |
+| `V2069` | Existing pairs recorded for the no-aliasing rule | **PASS** — F-3 `irr-domain-4b82d6e1` / `owner-7f3a91c2` (`IIPS_OWNER_CONTEXT_PATH`; act `IIPS-V3-OWNER-CONTEXT-F1-F2-VALUE-ACT-01` §4, blob `f90c9325f49d33f378f3fc0936c28f4979164b2e`, `2026-10-12`; carrier SHA-256 `d5a79efb8f13790834f3e4047c5f19030a46d8d0365fa48b28209b1a988ebbe4`); Reports `irr-reports-personal` / `owner-irr-reports-personal` (`IIPS_REPORTS_OWNER_PATH`). |
+| `V2070` | Gate 4 §3.2 stability and the two-pin distinction | **PASS** — act blob `66b56fd1584890525a7250aadd7da449def621e5` **identical at `a891802e`, `7bcae35` and `6df748d3`**; §3.2(2) defines the **QE execution pin** as *"the final post-merge Limb A commit"* and the Limitation states it *"cannot exist until Limb A is implemented and merged"* — Limb A is **not** implemented (QE **0/11**). **PA-09 fixes the content pin only.** |
+| `V2071` | C-1 pairing and the out-of-scope path set | **PASS** — `a52b47b0` → `a891802e` non-evidence delta is **7** paths (all `M`), enumerated in the appendix and classified: `portfolio_store.ts` + `q1_ipc_read_contract_conformance.test.ts` are **DR-2 Option A**; `verify-public-package.mjs` + `portfolio_ui_package.test.ts` are **PR #96 (A-Q4)** — confirming §4.5's recorded Limb A conflict **by measurement**. `001c3c80` **expressly excluded** per **I-1**. |
+| `V2072` | Alias ratification rests on re-measured guard currency | **PASS** — alias moved **with** authority (PR #436 → `51fdcd95…`) so the literal *"without authority"* STOP trigger is **not** met; guards **strengthened** not relaxed; **option (i), declared "technically impossible", was executed**; V692 **superseded**, V693/V694 **partly resolved**, V693-residual **open** (**I-5**), V695 **changed**. **Ratification changes no coordinate.** |
+| `V2073` | Lineage disposition grounded, and its silence verified | **PASS** — `'REAL'` ×3 at `70b24f02` (lines 262/337/360, blob `6c8ab71d…`) vs **`'UNCLASSIFIED'` ×3 at `7bcae35`** (lines 348/425/448, blob `4d0e757b…`); the value is an argument to `computeLineageHash` at **all three** sites; R2 report **0** occurrences; package profile has **no** lineage field; **no IRR test asserts it** (sole `frontend/` hit is the unrelated `nonProductionPitStore.ts:67` `'DERIVED'`). Restoring `'REAL'` **rejected** — requires unauthorized IPD source change. **Non-conflation clause with C-02 included.** |
+| `V2074` | Retention recommendation grounded in merged behaviour | **PASS** — PF-1 **TD-3** confirms compaction **NOT built** in v1, so **no period inferable from code**; locality TD-7a; raw bytes **never retained**; tamper fails closed `EVIDENCE_TAMPERED`; foreign scope invisible by test. **Decisive reason automatic purge is rejected: the first retention is authoritative and a duplicate import returns it unchanged** — deleting it would silently break an existing guarantee. |
+| `V2075` | Act ID convention surveyed, not self-assigned | **PASS** — five existing amendment IDs enumerated; U1 §7 confirmed to carry **no separate Act ID**, so `AMEND-01` is the **first** separately identified U1 amendment. Proposed form given; **every drafted occurrence still reads `PENDING ASSIGNMENT`.** |
+| `V2076` | The five protections confirmed unchanged | **PASS** — `frontend/package.json` lines 24–26 **byte-unchanged**; Gate 4 Limb A boundary **not widened**; Gate 5 **NOT INITIATED / NOT ADMITTED**; write fence intact (**writes and context discovery still `503 operation-not-admitted` even with the binding asserted**); **real-user save not granted, not implied, not advanced**. |
+| `V2077` | Minimum-set recommendation is a feasibility finding | **PASS** — Gate 4 track additionally requires host `desktop-no0nhtp` (**unreachable**) + separate operator authority + QE **0/11**; identity track additionally requires an **external operator file** + a **new Wave-2 act** + **IPD** work; **evidence track (A-9) requires none of these** and is entirely within existing IRR capability. **∴ decisions 5+6+7 are the minimum set that converts directly into completable work.** |
+| `V2078` | ISIN-space qualification restated; no row-level ISIN evidence claimed | **PASS** — `MappingStore` populates **four** indices; ISIN was **structurally unreachable** from `DHAN_WEB_UI_SUMMARY_V1` (column omitted), so it is **UNTESTED, not tested-and-absent**; conclusion unaffected by BLOCK-3L's **genuine absence** finding (2,250/2,250 at 100.0%) and by composition (52 real vs 2,198 synthetic). **Deferral recommended for the D05 addition question.** |
+| `V2079` | Pins, boundaries, preservation and validation | **PASS** — pins **unchanged**; **zero IPD writes**; PR #438 and the Direct P1 integration at `9202e7a` **preserved, not questioned, not reverted**; A-1…A-4 / A-16 / A-17 **not reopened**; both documents **additive**; no earlier record modified; IRR-only static validator green; `git diff --check` clean. |
+
+**Limitation.** IRR-only static validation and read-only cross-repository inspection. No PowerShell
+parse, no IPD write, no current-dist check, no S2 rerun, no QE execution, no native Windows run and
+**no U-5 PASS**. `U-5` remains **NOT RUN**. No broad regression suite was run and no already-passing
+test was repeated: where the **absence of change** was the relevant fact, drift was measured instead —
+a stronger and cheaper claim than a re-run. No gate was moved, no pin changed, no route added, no
+identity deposited, no owner identity established, no retention period set, no Act ID assigned and no
+PA act fabricated by this section.
+### 16.252.15 Post-merge receipt — **PENDING** (cannot be part of the commit it verifies)
+
+Following the §16.248.7 / §16.249.13 / §16.251.16 and R2 §14.6 → §14.7 precedents, the receipt for this
+section is authored **PENDING** here and **discharged by a follow-up PR**, because a receipt cannot
+verify the commit that contains it.
+
+| Item | Value |
+| :--- | :--- |
+| IRR PR for the decision paper, the appendix, this section and R2 §15 | `PENDING` |
+| Merge commit / tree / `git ls-remote` agreement | `PENDING` |
+| Hosted CI at the exact PR head | `PENDING` |
+| Post-merge `main` CI run | `PENDING` |
+| Remote byte read-back of the four changed paths (Blobs API for the tracker) | `PENDING` |
+| Paths changed / `frontend/**` / `evidence/**` counts | `PENDING` |
+| Pins read back from merged `main` | `PENDING` |
+| Validator at merged `main` | `PENDING` |
+| IPD writes | `PENDING` |
+
+**Until discharged, this section's claims rest on the local verification ledger `V2064`–`V2079` only.**
+
+
+**Next free after this section:** `§16.253` / `CV-CORR-233` / `CHG-2026-11-05-04` / `V2080`.
+
+---
+
+## §16.253 — `CV-CORR-233`: IRR `iips-broker-import` pin advance to IPD PR #128 (`2026-11-05`; `CHG-2026-11-05-04`; `V2080`–`V2085`)
 
 **Authority.** IPD PR #128 merged; the IRR-only task authorized the dependency pin advance, lockfile/profile reconciliation, package verification, frontend startup verification, documentation, publication and remote verification. IPD PR #128 is the authoritative package-side work; this section records only the IRR-side consumption and verification. No IPD object was modified.
 
@@ -19987,15 +20805,15 @@ Current roll-up: pillars **4, 5, 7, 9 `IMPLEMENTED-VERIFIED`**; pillar **3** ret
 
 **Boundaries.** IPD untouched; NP-04 untouched; existing NP-06 reports `8cbe148c…` / `4deea741…` not recreated, modified or read; no Reports-local persistence; no production work; `vite.config.ts` unchanged; no stash dropped or destructive cleanup run. The Windows installed-package discrepancy was not reproducible in the Arena clean-install environment; the materializer fails closed if `dist/package` is absent. Genuine Windows browser/UI verification remains outstanding.
 
-### 16.251.1 Verification ledger (`V2046`–`V2051`)
+### 16.253.1 Verification ledger (`V2080`–`V2085`)
 
 | ID | Verification | Result |
 |---|---|---|
-| `V2046` | IPD PR #128 identity | PASS — `MERGED`; merge `07e86a4f2c105651f3097a96cb519f8611945e30`; implementation head `a89c4e06bb6893dc0ecd00bae1bcd41d1b04cac7`; first parent `6df748d3…`; read-only IPD inspection only. |
-| `V2047` | IRR pin/lockfile/profile consistency | PASS — `package.json`, lockfile root and `node_modules/iips-broker-import` `resolved`, and profile `aliasCommit`/`aliasSpecifier` all `#07e86a4…`; lockfile diff exactly 2 lines; no unrelated dependency movement. |
-| `V2048` | Clean install lifecycle and `dist/package` | PASS — `npm ci --foreground-scripts` exit `0`; `prepare` ran `build:portfolio-ui-package` + `build:pit-package`; `dist/package` 152 files. |
-| `V2049` | 36 required artifacts and materialization | PASS — 18/18 modules, 18/18 `.js`, 18/18 `.d.ts`, 0 missing; materializer 152 files → `.cache/broker-import`; both runtime entrypoints present; `npm run build:broker-import` exit `0`. |
-| `V2050` | Frontend lifecycle, routes and targeted tests | PASS — `npm run dev` predev → materialize → tsc → Vite ready; `/reports` 200, `/broker-holdings` 200, `/` 200; `/api/health` 200; `/api/reports/context` 503 without carrier; targeted tests 8/8 + 21/21 + 6/6 + 36/36; `npm run typecheck` exit `0`. |
-| `V2051` | Publication and boundaries | PASS — branch `arena/1ab376fe-iips-review-recovered`; PR/commit/CI recorded after publication; IPD untouched; NP-04 untouched; existing reports not recreated/modified; no Reports-local persistence; no production work; `vite.config.ts` unchanged; no stash dropped or destructive cleanup. |
+| `V2080` | IPD PR #128 identity | PASS — `MERGED`; merge `07e86a4f2c105651f3097a96cb519f8611945e30`; implementation head `a89c4e06bb6893dc0ecd00bae1bcd41d1b04cac7`; first parent `6df748d3…`; read-only IPD inspection only. |
+| `V2081` | IRR pin/lockfile/profile consistency | PASS — `package.json`, lockfile root and `node_modules/iips-broker-import` `resolved`, and profile `aliasCommit`/`aliasSpecifier` all `#07e86a4…`; lockfile diff exactly 2 lines; no unrelated dependency movement. |
+| `V2082` | Clean install lifecycle and `dist/package` | PASS — `npm ci --foreground-scripts` exit `0`; `prepare` ran `build:portfolio-ui-package` + `build:pit-package`; `dist/package` 152 files. |
+| `V2083` | 36 required artifacts and materialization | PASS — 18/18 modules, 18/18 `.js`, 18/18 `.d.ts`, 0 missing; materializer 152 files → `.cache/broker-import`; both runtime entrypoints present; `npm run build:broker-import` exit `0`. |
+| `V2084` | Frontend lifecycle, routes and targeted tests | PASS — `npm run dev` predev → materialize → tsc → Vite ready; `/reports` 200, `/broker-holdings` 200, `/` 200; `/api/health` 200; `/api/reports/context` 503 without carrier; targeted tests 8/8 + 21/21 + 6/6 + 36/36; `npm run typecheck` exit `0`. |
+| `V2085` | Publication and boundaries | PASS — branch `arena/1ab376fe-iips-review-recovered`; PR/commit/CI recorded after publication; IPD untouched; NP-04 untouched; existing reports not recreated/modified; no Reports-local persistence; no production work; `vite.config.ts` unchanged; no stash dropped or destructive cleanup. |
 
-**Next free after this section:** `§16.252` / `CV-CORR-232` / `CHG-2026-11-05-03` / `V2052`.
+**Next free after this section:** `§16.254` / `CV-CORR-234` / `CHG-2026-11-05-05` / `V2086`.
