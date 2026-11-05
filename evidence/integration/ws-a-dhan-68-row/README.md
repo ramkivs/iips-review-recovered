@@ -27,3 +27,15 @@ Owner repositories: **IRR** (preview, CAP-02 save boundary, import-evidence rete
   never invented. The numeric columns are a documented de-concatenation of each row's digit
   string, with all alternatives listed; identity acts on names/ISIN/exchange, so the identity
   conclusions do not depend on the chosen decomposition.
+
+## IPD correction (unpublished — preserved here)
+
+`ipd-correction-2f97357.patch` is the complete `git format-patch` of the IPD-owned correction
+commit `2f97357` on branch `arena/63391e87-iips-production-market-data`, based on IPD
+`main@b605a61`. It could not be pushed: the session's GitHub integration is read-only for
+`ramkivs/iips-production-market-data` (`remote: Permission … denied`, HTTP 403; the REST refs API
+returns `Resource not accessible by integration`). Both available tokens behave identically.
+
+Apply with `git am` in an IPD checkout once the connection can write to that repository. The patch
+is evidence, not an implementation claimed as published: the owning repository is IPD and the
+authoritative record belongs there.
