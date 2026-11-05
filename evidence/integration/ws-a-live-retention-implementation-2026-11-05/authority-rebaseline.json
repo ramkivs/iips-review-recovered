@@ -1,0 +1,48 @@
+{
+  "main": "9d3f668e457a33afc8ce67f60b2b28d71f1b08a3",
+  "authority_verified": [
+    {
+      "path": "docs/integration/IIPS_v3.0_CAP02_U1_AMEND_02_LIVE_EVIDENCE_RETENTION_PA_ADOPTION_ACT_2026-11-05.md",
+      "blob": "1701a45935cb333116b55831d5796d36caea8ac8",
+      "sha256": "38d6bdc7b209168235d515486fc82685cd54f467e97e33918ef39a034e5d5424"
+    },
+    {
+      "path": "docs/integration/IIPS_v3.0_CAP02_U1_AMEND_02_LIVE_EVIDENCE_RETENTION_EFFECTIVENESS_RECEIPT_2026-11-05.md",
+      "blob": "154da1643726fb98ccc9deeb64586a5647638fc4",
+      "sha256": "33a0b7a001ca7b2a3f90d3934063fb6553f13352557ff97a814ea9bb366779e0"
+    },
+    {
+      "path": "docs/integration/WS-A-IMPORT-TIME-RETENTION-PROPOSED-AMENDMENT-2026-11-05.md",
+      "blob": "c6e0a7f4dae3e3ed762312bcf07d1d43b57bd910",
+      "sha256": "7bfb84187397a013b5e2c8edcd12f37705eefea827e24abe1650eceff8f41ac8"
+    },
+    {
+      "path": "docs/integration/WS-A-IMPORT-TIME-RETENTION-PA-DECISION-PAPER-2026-11-05.md",
+      "blob": "47e8a9df97348a5f58982cb26975e9e78c14df11",
+      "sha256": "53d3fc797cc04134283faffec501f82271cf534dd237dda2844cb8fc82be8cd4"
+    }
+  ],
+  "protected": {
+    ".github/workflows/cap03-p1-consolidated-windows.yml": "dded89cb4e99726d7aa96c2f831cc94d70bce7173e66fafc12061c18cfda592d",
+    ".github/workflows/cap03-revision7-irr-static.yml": "7c5951e3e2821798f12999e80c0e334ac3cdfaccc54cb8383fd0517de18f65c1",
+    ".github/workflows/ci.yml": "c76e84ad0562eea0d88ffc93141a98ce357f2ccd4497dfe388ee280fee6c7b32",
+    "docs/integration/IIPS_V3_O05_PRODUCTION_CONSUMER_PA_DECISION_ACT_EFFECTIVE_2026-10-30.md": "efdf83f18077ad4bfa90b87a6a96fe5c9f7daab10d2b9240149ecfdbde6ecb20",
+    "docs/integration/IIPS_v3.0_CAP02_U1_AMEND_01_EVIDENCE_RETRIEVAL_ROUTE_PA_DECISION_ACT_2026-11-05.md": "45a2be64ce2789014936821fc53051a508c44c4aff89d96c6676ccff7ca90d6a",
+    "docs/integration/IIPS_v3.0_CAP02_U1_AMEND_02_LIVE_EVIDENCE_RETENTION_PA_ADOPTION_ACT_2026-11-05.md": "38d6bdc7b209168235d515486fc82685cd54f467e97e33918ef39a034e5d5424",
+    "docs/integration/IIPS_v3.0_CAP03_G4_H12_R5_PA_ADOPTION_ACT_EFFECTIVE_2026-10-25.md": "d29781bc5be47498a12caf00b797d9adbb3f0d55209039aa2755ebbaf8f5c1fd",
+    "docs/integration/IIPS_v3.0_CAP03_PF15_PA_DECISION_ACT_PREPARED_2026-10-26.md": "4227f5d49ff41a4e4f73440c7604ddbddf783294ce9c8e6a19bf92a821b708bd",
+    "docs/integration/IIPS_v3.0_REPORTS_NP06_CV51_IMPLEMENTATION_AUTHORITY_PA_DECISION_ACT_2026-10-25.md": "6cc71154d200d55aa6d3452b5b218002922170a3e3941f4faccdc2573f325062",
+    "docs/integration/IIPS_v3.0_REPORTS_NP06_CV51_IMPLEMENTATION_AUTHORITY_PA_DECISION_ACT_PROPOSED_2026-10-25.md": "c57b3f1ca5059865f8da6ce5fc7acccc0dc1fefae47d97f0948597d3732c3b56",
+    "docs/integration/IIPS_v3.0_REPORTS_NP06_R1_OWNERSHIP_DECLARATION_PA_DECISION_ACT_2026-10-25.md": "00a212196035bca17a0715385f9100602ee60c5ae90352c95c2412190bbbdd35",
+    "docs/integration/IIPS_v3.0_REPORTS_NP06_R2_CONTRACT_SHAPE_PA_DECISION_ACT_2026-10-25.md": "4fbbc7fbeaa16650c273e7f59c9935ef74dabd2271e7fccd50b3345069916d8e",
+    "docs/integration/WS-A-IMPORT-TIME-RETENTION-PROPOSED-AMENDMENT-2026-11-05.md": "7bfb84187397a013b5e2c8edcd12f37705eefea827e24abe1650eceff8f41ac8",
+    "frontend/server/persistence/consumer-restart-read.test.ts": "89ad0a9b37f37ccd853860afc9065ebdd3d3b939132582c95deb8331f74539de",
+    "frontend/server/persistence/consumer-restart-recoverer.ts": "c2192cc98094e3f83027f782e27e7f19960a69558518e6e1bf4df689968cb6fb",
+    "frontend/server/persistence/consumer-restart-writer.ts": "eb75491b750bc698d936733403798fd5cae197a3a394e59ba5c78c10bd215124",
+    "frontend/server/persistence/persistence-restart-proof.test.ts": "cf957e4b857ec83fa20f78d899d55654242dd0bfaf9f1be9f96da39500b4bc99",
+    "frontend/server/persistence/persistence-service.test.ts": "7514b543583354e3eb952387592f3fc883827cd8e3930fedf25e92ba40f73de4",
+    "frontend/server/persistence/persistence-service.ts": "d3772cd5b7126ac276c97c5873bbd09cb3ffa7fe11039f31a3f1d9a8ebd84a22",
+    "frontend/server/persistence/restart-proof-recoverer.ts": "39a7d69dad8e79ad77e0bda7d042defa5c4d9b47a533b10eb548c1cfd3236f13",
+    "frontend/server/persistence/restart-proof-writer.ts": "676e025cdfc892b43948d6adccf11ea3b45cee6c9763b28fbcc8f14ea793070f"
+  }
+}

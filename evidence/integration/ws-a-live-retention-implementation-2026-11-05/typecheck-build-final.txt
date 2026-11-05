@@ -1,0 +1,44 @@
+
+> @iips/v3-frontend@0.1.0 pretypecheck
+> npm run build:broker-import
+
+
+> @iips/v3-frontend@0.1.0 build:broker-import
+> node scripts/materialize-broker-import.mjs && tsc -p tsconfig.broker-import.json
+
+broker-import alias 07e86a4f2c105651f3097a96cb519f8611945e30 materialized: 152 published files -> .cache/broker-import (published build output; no IPD source recompiled)
+
+> @iips/v3-frontend@0.1.0 typecheck
+> tsc --noEmit
+
+
+> @iips/v3-frontend@0.1.0 typecheck:replay-server
+> tsc -p tsconfig.replay-server.json --noEmit
+
+
+> @iips/v3-frontend@0.1.0 prebuild
+> npm run build:broker-import
+
+
+> @iips/v3-frontend@0.1.0 build:broker-import
+> node scripts/materialize-broker-import.mjs && tsc -p tsconfig.broker-import.json
+
+broker-import alias 07e86a4f2c105651f3097a96cb519f8611945e30 materialized: 152 published files -> .cache/broker-import (published build output; no IPD source recompiled)
+
+> @iips/v3-frontend@0.1.0 build
+> tsc -b && vite build
+
+vite v5.4.21 building for production...
+transforming...
+✓ 148 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                     0.53 kB │ gzip:   0.33 kB
+dist/assets/index-CIWpEpGV.css      1.19 kB │ gzip:   0.61 kB
+dist/assets/index-2XBHrZfg.js   2,793.54 kB │ gzip: 334.81 kB │ map: 8,264.72 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 5.76s

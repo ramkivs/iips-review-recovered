@@ -1,15 +1,27 @@
-/** Personal-use native CSV preview. Files stay in memory; no upload, save or identity claim.
+/** Personal-use preview plus AMEND-02 parsed-evidence retention. Raw files stay in memory.
  *
  * Identity is resolved only by the IPD-owned governed security master, and the counters state
  * exactly what was measured: native rows, rows individually assessed, rows resolved, rows saved.
  * A zero is never presented as a resolution result when no per-row outcome was produced.
  */
 import { useRef, useState } from 'react';
+import { freezeEvidenceSubmission, type EvidenceSubmission } from '../../api/brokerEvidenceSubmission';
+import { retainAndVerifyEvidence, type RetentionResult } from '../../api/brokerEvidenceRetention';
 import { previewBrokerHoldings, type BrokerHoldingsPreview as Preview } from '../../api/brokerHoldingsPreview';
 
 export function BrokerHoldingsPreview() {
   const [preview, setPreview] = useState<Preview | null>(null);
   const [error, setError] = useState('');
+  const [snapshot, setSnapshot] = useState<EvidenceSubmission | null>(null);
+  const [retention, setRetention] = useState<RetentionResult>({ state: 'NOT_RETAINED' });
+  const retaining = retention.state === 'SUBMITTING' || retention.state === 'VERIFYING';
+
+  async function retain(dto: EvidenceSubmission, current: number, lookup = false) {
+    const result = await retainAndVerifyEvidence('DEFAULT_PORTFOLIO', dto, lookup, fetch, state => {
+      if (current === sequence.current) setRetention({ state });
+    });
+    if (current === sequence.current) setRetention(result);
+  }
   const [busy, setBusy] = useState(false);
   const sequence = useRef(0);
   const input = useRef<HTMLInputElement>(null);
@@ -17,6 +29,8 @@ export function BrokerHoldingsPreview() {
   function clear() {
     sequence.current++;
     setPreview(null);
+    setSnapshot(null);
+    setRetention({ state: 'NOT_RETAINED' });
     setError('');
     setBusy(false);
     if (input.current) input.current.value = '';
@@ -25,6 +39,8 @@ export function BrokerHoldingsPreview() {
   async function select(file: File | undefined) {
     const current = ++sequence.current;
     setPreview(null);
+    setSnapshot(null);
+    setRetention({ state: 'NOT_RETAINED' });
     setError('');
     setBusy(false);
     if (!file) return;
@@ -37,6 +53,15 @@ export function BrokerHoldingsPreview() {
       if (current !== sequence.current) return;
       const result = previewBrokerHoldings(content, file.name, new Date().toISOString());
       setPreview(result);
+      if (result.status.startsWith('PARSED_') && result.holdings.length) {
+        try {
+          const dto = freezeEvidenceSubmission(file.name, result);
+          setSnapshot(dto);
+          await retain(dto, current);
+        } catch {
+          if (current === sequence.current) setRetention({ state: 'NOT_RETAINED' });
+        }
+      }
     } catch {
       if (current === sequence.current) setError('Unable to preview this CSV. Check the export format and size.');
     } finally {
@@ -66,8 +91,8 @@ export function BrokerHoldingsPreview() {
       <section aria-label="Evidence retention">
         <h3>What this application retains</h3>
         <ul>
-          <li>Parsed broker-import evidence <strong>is retained locally</strong> in this application's own
-            data directory on this machine, so that an unresolved import survives a restart. Retention is
+          <li>After submission and verified retrieval, parsed broker-import evidence <strong>is retained locally</strong> in this application's own
+            data directory on this machine, so that a retained unresolved import survives a process restart. Check the per-import retention status below; a preview alone is not retained evidence. Retention is
             <strong> indefinite</strong> and ends only when the application owner
             <strong> explicitly deletes</strong> it. There is <strong>no automatic deletion or purge</strong>,
             no expiry and no compaction, and the <strong>50 MB</strong> figure reported with your stored
@@ -89,7 +114,19 @@ export function BrokerHoldingsPreview() {
       <input id="broker-csv" ref={input} type="file" accept=".csv,text/csv"
         onChange={e => { void select(e.target.files?.[0]); }} />{' '}
       <button type="button" onClick={clear}>Clear preview</button>
+      <p>Evidence is a browser pipeline snapshot, not server-authenticated identity. Raw content digests cannot be rechecked without the raw file. Single-writer operation is required; no cross-process lock, explicit fsync or power-loss guarantee is provided.</p>
       <div aria-live="polite">
+        {preview && <p role="status">{({
+          NOT_RETAINED: 'Evidence not retained.', SUBMITTING: 'Submitting parsed evidence…', VERIFYING: 'Verifying evidence through A-9…',
+          VERIFIED: 'Evidence retained and retrievable. Holdings not saved.',
+          UNCONFIRMED: 'Evidence retention unconfirmed. Check retained evidence or explicitly retry the original snapshot.',
+          ACKNOWLEDGED_UNVERIFIED: 'Retention acknowledged; retrieval not verified.',
+          CONFLICT: 'Evidence conflict: the original record was preserved. This snapshot was not accepted.',
+        })[retention.state]}{retention.importId && <> Import ID: <code>{retention.importId}</code></>}</p>}
+        {snapshot && !retaining && retention.state !== 'VERIFIED' && <>
+          <button type="button" onClick={() => { void retain(snapshot, sequence.current, true); }}>Check retained evidence</button>{' '}
+          <button type="button" onClick={() => { void retain(snapshot, sequence.current); }}>Retry original evidence snapshot</button>
+        </>}
         {busy && <p>Reading CSV…</p>}
         {error && <p role="alert">{error}</p>}
         {preview && <>

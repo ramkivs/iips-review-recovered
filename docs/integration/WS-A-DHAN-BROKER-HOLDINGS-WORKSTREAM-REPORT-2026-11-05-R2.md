@@ -1262,3 +1262,28 @@ Owner binding, timestamp-preserving idempotency, integrity, partial-failure reco
 and absent fsync guarantee remain mandatory. PF-1, W-1, holdings, raw bytes, deletion/purge and IPD
 boundaries remain untouched. Receipt publication coordinates are verified in the PR record, not invented
 inside its own content. WS-A-DM remains NOT COMPLETE.
+
+## 20. Live Evidence Retention — implementation (`2026-11-05`)
+
+Current-state overlay to §19.1: **IMPLEMENTED — END-TO-END VERIFIED LOCALLY; PUBLICATION/REMOTE
+VERIFICATION PENDING**, under effective AMEND-02
+`IIPS-V3-CAP02-U1-AMEND-02-IMPORT-EVIDENCE-RETENTION-2026-11-05-01`.
+Start IRR main `9d3f668e457a33afc8ce67f60b2b28d71f1b08a3`; no settled PA decision reopened.
+Full implementation/acceptance record:
+[Live Evidence Retention implementation](WS-A-LIVE-EVIDENCE-RETENTION-IMPLEMENTATION-2026-11-05.md),
+evidence `evidence/integration/ws-a-live-retention-implementation-2026-11-05/`; tracker §16.257.
+
+Exactly one parsed-only evidence POST, trusted opaque owner, strict input limits, frozen original
+snapshot/timestamp retry and conflict handling, serialized existing journal retention/fresh read-back,
+and unchanged A-9 GET verification before UI success. Actual file-selection/HTTP/disk/retrieval UI
+proof and distinct-process SIGKILL/restart proof both pass. Final live tests 33/33; affected regression
+coverage 166 cases passed in preceding targeted run; typechecks/build/static preservation checks pass.
+Existing A-9 contract suite was dependency-relevant because its shared matcher/route closure changed;
+only the three superseded collection-GET 404 assertions become POST-only 405 assertions. No A-9 handler
+or response rebuild. No unrelated local full-suite run; standard hosted CI remains unmodified.
+
+PF-1, evidence schema/digest code, SAIRAM carrier binding `owner-4dc756b3`, W-1, holdings transport,
+frozen acts, pins/lockfile and workflows preserved. No holdings/raw CSV/DELETE/expiry/purge/compaction,
+IPD changes or production activation. Single OS writer/no explicit fsync limitations remain. Milestone
+WS-A-DM is NOT COMPLETE. Publication and end-to-end qualification are separate; §20.1 will record actual
+merge, exact-head/merged-main CI and independent remote verification after they occur.

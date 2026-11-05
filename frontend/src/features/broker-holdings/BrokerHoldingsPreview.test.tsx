@@ -14,8 +14,8 @@ function select(f: File) {
 afterEach(() => { vi.restoreAllMocks(); vi.unstubAllGlobals(); });
 
 describe('Broker Holdings — executable browser-only preview', () => {
-  it('renders the real Dhan pipeline without network, persistence or save controls', async () => {
-    const network = vi.fn(() => { throw new Error('No network permitted'); });
+  it('renders the real pipeline and attempts only parsed-evidence submission, never holdings or raw bytes', async () => {
+    const network = vi.fn((_url: string, _init?: RequestInit) => { throw new Error('submission unavailable'); });
     vi.stubGlobal('fetch', network);
     const writes = vi.spyOn(Storage.prototype, 'setItem');
     render(<BrokerHoldingsPreview />);
@@ -27,7 +27,9 @@ describe('Broker Holdings — executable browser-only preview', () => {
     expect(screen.getByText(/nothing is inferred from/)).toBeInTheDocument();
     expect(screen.getByText(/1 native rows · 1 individually assessed ·/)).toBeInTheDocument();
     expect(screen.queryByRole('button', { name: /^save/i })).not.toBeInTheDocument();
-    expect(network).not.toHaveBeenCalled();
+    await waitFor(() => expect(network).toHaveBeenCalledTimes(1));
+    expect(network.mock.calls[0][0]).toBe('/api/broker-import/DEFAULT_PORTFOLIO/evidence');
+    expect(screen.queryByText('Evidence retained and retrievable. Holdings not saved.')).not.toBeInTheDocument();
     expect(writes).not.toHaveBeenCalled();
     fireEvent.click(screen.getByRole('button', { name: 'Clear preview' }));
     expect(screen.queryByText('RELIANCE')).not.toBeInTheDocument();
@@ -155,4 +157,18 @@ describe('Broker Holdings — evidence retention disclosure (AMEND-01 §8.4(18))
     expect(page).not.toContain('not uploaded or stored');
     expect(page).toMatch(/raw bytes are not uploaded/);
   });
+});
+
+it('clearing while retention is pending prevents a late acknowledgement from restoring evidence or success', async () => {
+  let release!: (response: Response) => void;
+  const network = vi.fn<typeof fetch>(() => new Promise<Response>(r => { release = r; }));
+  vi.stubGlobal('fetch', network);
+  render(<BrokerHoldingsPreview />);
+  select(file());
+  await waitFor(() => expect(network).toHaveBeenCalledTimes(1));
+  fireEvent.click(screen.getByRole('button', { name: 'Clear preview' }));
+  release(new Response('{}', { status: 503 }));
+  await waitFor(() => expect(screen.queryByText(/Evidence retention unconfirmed/)).not.toBeInTheDocument());
+  expect(screen.queryByText('RELIANCE')).not.toBeInTheDocument();
+  expect(network).toHaveBeenCalledTimes(1);
 });

@@ -1,0 +1,44 @@
+
+ RUN  v2.1.9 /home/user/iips-review-recovered/frontend
+
+stdout | server/broker-import/brokerImportLiveEvidence.test.ts > AMEND-02 live evidence submission and A-9 composition > imports the real 68-row CSV via HTTP, then retrieves after complete OS process restart, retrying without duplicates
+LIVE_HTTP_RESTART_PROOF {"importId":"d3097726b7d55b6b58ec894e06dbe2c29f716073c07b2d351e4bb904d8624191","contentDigest":"c44e3cdb06e2d49f88c46d61867444f8a301cdf71a068b0e3aa1d748e6d52f31","recordDigest":"ac61650667166edc2f0dc8d7420ec200f13978e2b1ed18111e5627c656836529","readAt":"2026-11-05T07:50:49.090Z","rows":68,"ownerUserId":"owner-4dc756b3","firstPid":4127,"secondPid":4149,"firstExitSignal":"SIGKILL","journalBytes":26432,"retryJournalUnchanged":true,"retrieval":"VERIFIED"}
+
+ ✓ server/broker-import/brokerImportLiveEvidence.test.ts > AMEND-02 live evidence submission and A-9 composition > imports the real 68-row CSV via HTTP, then retrieves after complete OS process restart, retrying without duplicates 480ms
+ ✓ server/broker-import/brokerImportLiveEvidence.test.ts > AMEND-02 live evidence submission and A-9 composition > serializes simultaneous retries, preserves first digest, and rejects changed filename, row values or portfolio
+ ✓ server/broker-import/brokerImportLiveEvidence.test.ts > AMEND-02 live evidence submission and A-9 composition > resolves trusted owner before body/store; refuses foreign/malformed carriers and request owner keys
+ ✓ server/broker-import/brokerImportLiveEvidence.test.ts > AMEND-02 live evidence submission and A-9 composition > foreign-scope retained evidence is opaque through A-9; no other route or method admitted
+ ✓ server/broker-import/brokerImportLiveEvidence.test.ts > AMEND-02 live evidence submission and A-9 composition > rejects oversize and strict-schema/semantic errors before append
+ ✓ server/broker-import/brokerImportLiveEvidence.test.ts > AMEND-02 live evidence submission and A-9 composition > tampering fails closed for both resubmission and actual A-9 retrieval
+ ✓ server/broker-import/brokerImportLiveEvidence.test.ts > AMEND-02 live evidence submission and A-9 composition > directory/header/append errors never acknowledge retention; a fresh attempt safely recovers
+ ✓ server/broker-import/brokerImportLiveEvidence.test.ts > AMEND-02 live evidence submission and A-9 composition > append-before-ack/read-back failure is unknown; GET and frozen retry reconcile it without replacement
+ ✓ server/broker-import/brokerImportLiveEvidence.test.ts > AMEND-02 live evidence submission and A-9 composition > lost POST acknowledgement after actual HTTP commit recovers by lookup and same-snapshot retry
+ ✓ server/broker-import/brokerImportLiveEvidence.test.ts > AMEND-02 live evidence submission and A-9 composition > truncated final append recovers via existing PF-1; malformed interior fails closed without consumer repair
+ ✓ server/broker-import/brokerImportLiveEvidence.test.ts > AMEND-02 live evidence submission and A-9 composition > accepts actual resolved and unresolved snapshots, never arbitrary identity/count claims
+ ✓ src/features/broker-holdings/BrokerHoldingsPreview.test.tsx > Broker Holdings — executable browser-only preview > renders the real pipeline and attempts only parsed-evidence submission, never holdings or raw bytes
+ ✓ src/features/broker-holdings/BrokerHoldingsPreview.test.tsx > Broker Holdings — executable browser-only preview > rejects oversized files and XLSX before reading bytes
+ ✓ src/features/broker-holdings/BrokerHoldingsPreview.test.tsx > Broker Holdings — executable browser-only preview > shows rejected input rather than a successful holding list
+ ✓ src/features/broker-holdings/BrokerHoldingsPreview.test.tsx > Broker Holdings — executable browser-only preview > clear invalidates an in-flight read and a newer file invalidates the old selection
+ ✓ src/features/broker-holdings/BrokerHoldingsPreview.test.tsx > Broker Holdings — executable browser-only preview > a late older selection cannot overwrite a newer file
+ ✓ src/features/broker-holdings/BrokerHoldingsPreview.test.tsx > Broker Holdings — executable browser-only preview > clears an old preview when file reading fails
+ ✓ src/features/broker-holdings/BrokerHoldingsPreview.test.tsx > Broker Holdings — evidence retention disclosure (AMEND-01 §8.4(18)) > is visible to the owner without selecting a file
+ ✓ src/features/broker-holdings/BrokerHoldingsPreview.test.tsx > Broker Holdings — evidence retention disclosure (AMEND-01 §8.4(18)) > discloses local retention, an indefinite period and explicit-owner-only deletion (18.1, 18.5)
+ ✓ src/features/broker-holdings/BrokerHoldingsPreview.test.tsx > Broker Holdings — evidence retention disclosure (AMEND-01 §8.4(18)) > states the 50 MB figure is a warning and review point only, never a deletion trigger (18.5)
+ ✓ src/features/broker-holdings/BrokerHoldingsPreview.test.tsx > Broker Holdings — evidence retention disclosure (AMEND-01 §8.4(18)) > discloses that raw CSV bytes are not retained and names the retained equivalent (18.2)
+ ✓ src/features/broker-holdings/BrokerHoldingsPreview.test.tsx > Broker Holdings — evidence retention disclosure (AMEND-01 §8.4(18)) > discloses owner-scope-only service, no third-party transmission and no enumeration route (18.3)
+ ✓ src/features/broker-holdings/BrokerHoldingsPreview.test.tsx > Broker Holdings — evidence retention disclosure (AMEND-01 §8.4(18)) > discloses that retention is not a save, not a validation and not an authorization (18.4)
+ ✓ src/features/broker-holdings/BrokerHoldingsPreview.test.tsx > Broker Holdings — evidence retention disclosure (AMEND-01 §8.4(18)) > no longer tells the owner that nothing is stored, and keeps the half that was true
+ ✓ src/features/broker-holdings/BrokerHoldingsPreview.test.tsx > clearing while retention is pending prevents a late acknowledgement from restoring evidence or success
+ ✓ src/features/broker-holdings/BrokerHoldingsLiveEvidence.test.tsx > actual file selection → bounded HTTP POST → disk journal → A-9 GET → verified success, never before GET
+ ✓ src/api/brokerEvidenceRetention.test.ts > AMEND-02 client failure and explicit retry semantics > freezes the snapshot and preserves byte-identical request/timestamp on explicit retry, no automatic resend
+ ✓ src/api/brokerEvidenceRetention.test.ts > AMEND-02 client failure and explicit retry semantics > does not report success on missing read-back after acknowledgement
+ ✓ src/api/brokerEvidenceRetention.test.ts > AMEND-02 client failure and explicit retry semantics > does not report success on wrong-digest read-back after acknowledgement
+ ✓ src/api/brokerEvidenceRetention.test.ts > AMEND-02 client failure and explicit retry semantics > does not report success on wrong-content read-back after acknowledgement
+ ✓ src/api/brokerEvidenceRetention.test.ts > AMEND-02 client failure and explicit retry semantics > does not report success on wrong-time read-back after acknowledgement
+ ✓ src/api/brokerEvidenceRetention.test.ts > AMEND-02 client failure and explicit retry semantics > does not report success on wrong-owner-slot read-back after acknowledgement
+ ✓ src/api/brokerEvidenceRetention.test.ts > AMEND-02 client failure and explicit retry semantics > exposes conflict without GET or retry and performs lookup-only recovery without POST
+
+ Test Files  4 passed (4)
+      Tests  33 passed (33)
+   Start at  18:25:23
+   Duration  6.63s (transform 1.92s, setup 498ms, collect 3.05s, tests 1.25s, environment 1.03s, prepare 234ms)
