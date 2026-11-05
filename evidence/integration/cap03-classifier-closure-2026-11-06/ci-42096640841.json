@@ -1,0 +1,7 @@
+{
+  "conclusion": "success",
+  "event": "pull_request",
+  "headSha": "eddfbcdde8ad2ae29ecd5f0eafb3866b411ca7cb",
+  "name": "CAP-03 Revision 7 IRR-only static checks",
+  "url": "https://github.com/ramkivs/iips-review-recovered/actions/runs/42096640841"
+}

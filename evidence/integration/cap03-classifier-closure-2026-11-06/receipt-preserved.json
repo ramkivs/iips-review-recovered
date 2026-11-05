@@ -1,0 +1,17 @@
+{
+  "originalHead": "60fcd4d04cfda084a5d150e2fab3ce747d7850c3",
+  "updatedHead": "9d2cb60b6383926e4e7f400f6b36758b5f4eb617",
+  "originalReceiptPathsUnchanged": [
+    "IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md",
+    "docs/integration/WS-A-DHAN-BROKER-HOLDINGS-WORKSTREAM-REPORT-2026-11-05-R2.md",
+    "docs/integration/WS-A-OWNER-EVIDENCE-RESET-IMPLEMENTATION-2026-11-06.md",
+    "docs/integration/WS-A-OWNER-EVIDENCE-RESET-IMPLEMENTATION-RECEIPT-2026-11-06.md",
+    "evidence/integration/ws-a-owner-reset-implementation-2026-11-06/ci-head-462.json",
+    "evidence/integration/ws-a-owner-reset-implementation-2026-11-06/ci-main-462.json",
+    "evidence/integration/ws-a-owner-reset-implementation-2026-11-06/remote-head-462.json",
+    "evidence/integration/ws-a-owner-reset-implementation-2026-11-06/remote-merged-462.json",
+    "evidence/integration/ws-a-owner-reset-implementation-2026-11-06/static-baseline-proof.json",
+    "evidence/integration/ws-a-owner-reset-implementation-2026-11-06/verify_remote.py"
+  ],
+  "updateMethod": "GitHub update-branch with expected original head; corrected main merged without editing receipt content"
+}

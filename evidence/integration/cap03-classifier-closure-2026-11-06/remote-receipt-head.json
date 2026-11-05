@@ -1,0 +1,33 @@
+{
+  "pr": 463,
+  "merged": false,
+  "baseline": "a9329dd509be8051f82780059646c0f179d42b74",
+  "head": "9d2cb60b6383926e4e7f400f6b36758b5f4eb617",
+  "observedMain": "e925cb68cc68729a862feee647bec66b207a01f0",
+  "refs": {
+    "head": {
+      "commit": "9d2cb60b6383926e4e7f400f6b36758b5f4eb617",
+      "exactBytesSHA256": {
+        ".github/workflows/cap03-revision7-irr-static.yml": "683fa6932ad5f30c8b25b4ab1e211cbf245a1b5efdd48b6aedcd0fd41e196b5d",
+        "IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md": "52c0f3711bbde6c7e61f75d00e117ca42203a6854181ca408ad01bb9ef7534f7",
+        "docs/integration/CAP03-ARTIFACT-CLASSIFICATION-CORRECTION-2026-11-06.md": "b5e42c179bfd9dbff94204a4c1b593682ccf5295aed9039cb1eed60b42538d49",
+        "docs/integration/WS-A-DHAN-BROKER-HOLDINGS-WORKSTREAM-REPORT-2026-11-05-R2.md": "0ef69f9b625d3c4d8daac757eb1d87862534151a7a5f6c4f046fe6c7da2e341b",
+        "docs/integration/WS-A-OWNER-EVIDENCE-RESET-IMPLEMENTATION-2026-11-06.md": "93461a651173e8fb1e7f156c6a3a0da51adb251cad880681f6317427cc51671c",
+        "docs/integration/WS-A-OWNER-EVIDENCE-RESET-IMPLEMENTATION-RECEIPT-2026-11-06.md": "7be46a0fbc9f78793ad3d8102aed84645d88bc74ee750f40cdd503fff638824f",
+        "docs/integration/cap03-p1-f9/validate_windows10_host_profile.py": "76104f8fa712778282b87fa2dba4ec23a285151aa3e71583f8ba35b1ce3d7fd5",
+        "evidence/integration/cap03-classifier-closure-2026-11-06/baseline.json": "0fb153a3935bd50a9caf29f26f13c488681d48ed8c67923958925cfafbcc7cdd",
+        "evidence/integration/cap03-classifier-closure-2026-11-06/static.txt": "5421c9aa8298a37ee54a1a496db130496e780756d8bdc77321d00184b668ade7",
+        "evidence/integration/cap03-classifier-closure-2026-11-06/tests.txt": "40b3884df1cf93e01138944693e25ba814a366dfc0f117cab358c8ec35ccb942",
+        "evidence/integration/ws-a-owner-reset-implementation-2026-11-06/ci-head-462.json": "424a43802091153d7d6914387e71ec9f4d6f89fb72e4ed54f937267b045c24ec",
+        "evidence/integration/ws-a-owner-reset-implementation-2026-11-06/ci-main-462.json": "00f755e2552cd60e0f19c0d8a13879b80cfc433ecc171db3cfe6f1bc263c041b",
+        "evidence/integration/ws-a-owner-reset-implementation-2026-11-06/remote-head-462.json": "5d9eda37ff9440f241ddac2f680286e7bf7a5b9e1759e92c54e7decad798fe9d",
+        "evidence/integration/ws-a-owner-reset-implementation-2026-11-06/remote-merged-462.json": "dac511673449b516651191758bcf56e50f28549f17435b60b04dd632b20acc4f",
+        "evidence/integration/ws-a-owner-reset-implementation-2026-11-06/static-baseline-proof.json": "00b82ad0c92fec52106f3e3d6dae39490d65cef8f9b1eaf55bbab18f9d59ae15",
+        "evidence/integration/ws-a-owner-reset-implementation-2026-11-06/verify_remote.py": "18cbddbee1ab1b35afcfe9ea1eff0132b46f812636f98a97f0dc19f5c8289304",
+        "tests/validation/test_cap03_artifact_classification.py": "cd692d4920da8440dca4cfd9bc940d4d17fd1b6aa09273f91b918a9b767c984d"
+      },
+      "protectedExistingBlobsUnchanged": 2637,
+      "existingDocumentationAppendOnly": true
+    }
+  }
+}

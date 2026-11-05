@@ -46,3 +46,16 @@ expected head; no local checkout/push to its historical branch, no receipt chang
 Re-run applicable checks, merge #463 only on success, and independently verify its original receipt
 and tracker additions. Later additive reconciliation will supersede historical blocker wording,
 without erasing the original blocked-state record or repeating PA adoption.
+
+## Verified correction and receipt publication
+
+Correction #465 merged `e925cb68cc68729a862feee647bec66b207a01f0` (head
+`eddfbcdde8ad2ae29ecd5f0eafb3866b411ca7cb`), static head/main runs 42096640841 / 42096783518 SUCCESS.
+Independent API exact 7/7 paths at head/merge and 2637 protected existing blobs unchanged.
+#463 safely updated using the expected original head, preserving all ten original receipt-PR paths
+byte-for-byte; updated head `9d2cb60b6383926e4e7f400f6b36758b5f4eb617`.
+Static head/main 42096812868 / 42097022696 SUCCESS; merged
+`26256e741566b3fe088d2f7bb47ce5be7f0f76a5`. Independent API cumulative 17/17 changed paths exact at
+head/merge, same 2637 protected blobs unchanged, existing docs append-only. See committed JSON proofs.
+Later append-only tracker/R2/runbook/receipt closure supersedes the historic blocker without changing
+prior evidence. All operational and authority boundaries remain; no actual owner reset occurred.
