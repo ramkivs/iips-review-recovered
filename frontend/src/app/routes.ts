@@ -19,6 +19,11 @@ export const ROUTES = {
    * can classify a row: identity is resolved by IRR.
    */
   identityCoverage: '/identity-coverage',
+  /**
+   * IID-3 — the company assessment view. Read-only over one persisted assessment chain; the issuer id is
+   * the IID-0 issuer identity (`IN:CIN:…` / `IN:EQISIN:…`), never a symbol and never a sector reference.
+   */
+  companyAssessment: '/investment/company/:issuerId',
   collaboration: '/collaboration',
   settings: '/settings',
   research: '/research',

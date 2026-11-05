@@ -678,9 +678,10 @@ No vendor dependency required for v1.
 Part B corrects it in the nine places raised in review. **Where Part A and Part B differ, Part B wins.**
 Nothing in Part B adds a phase, a repository, a service, a dependency or an approval step.
 
-**Status of this roadmap.** IID-0, IID-1 and IID-2 are **implemented and evidenced** (§B.J, §B.J2, §B.J3).
-IID-3 … IID-6 are **not started**. The R-16 sector-coverage deliverable is **not** part of IID-0, IID-1 or
-IID-2 and remains open (§B.K).
+**Status of this roadmap.** IID-0, IID-1, IID-2 and IID-3 are **implemented and evidenced** (§B.J, §B.J2,
+§B.J3, §B.J4). IID-4 … IID-6 are **not started**. The R-16 sector-coverage deliverable is **not** part of
+IID-0 … IID-3 and remains open (§B.K). Every limitation opened by a delivered phase is carried forward in the
+cumulative register `docs/integration/IIPS_V3_IID_LIMITATION_AND_COVERAGE_REGISTER_2026-11-06.md`.
 
 ## B.0 Reading order
 
@@ -690,6 +691,8 @@ IID-2 and remains open (§B.K).
 | whether IID-0 is done | §B.J (E-0.1 … E-0.11 with evidence) |
 | whether IID-1 is done | §B.J2 (AC-1.1 … AC-1.10 with evidence) |
 | whether IID-2 is done | §B.J3 (AC-2.1 … AC-2.12, AC-A1/A2, INV-1 … INV-6 with evidence) |
+| whether IID-3 is done | §B.J4 (AC-3.1 … AC-3.8, M-1 points 1–10 with evidence) |
+| what is limited, and how badly | the limitation and coverage register (`L-001` … `L-016`) |
 | what is still outstanding | §B.K (C-16.1 … C-16.5) and §B.L |
 | the reasoning behind a correction | design of record, Part III §A … §I |
 
@@ -1037,6 +1040,60 @@ No frontend file, no route and no persisted artifact was added in this phase: II
 6. No persistence, transport or UI: `assessCompany` returns a payload and `view.ts` is an evidence-only renderer.
    IID-3 (persistence / `GET`) and IID-6 (product surface) remain untouched.
 
+## B.J4 IID-3 — acceptance criteria and actual status
+
+**Implemented 2026-11-06** on branch `arena/e56fe593-iips-review-recovered`, on top of IID-0, IID-1 and IID-2.
+**Published** as PR [#464](https://github.com/ramkivs/iips-review-recovered/pull/464) (feature commit `e627727`,
+merged with `origin/main` as `8fd1c2b`; CI run `42096525519` pass) and **independently re-verified from a fresh
+clone** — the same ten points re-pass and `reportKey` plus both payload/input digests reproduce exactly, with only
+the store-assigned `reportId` differing.
+Evidence: `evidence/iid/IID-3-PERSISTENCE-READ-TRANSPORT-2026-11-06/` (the M-1 demonstration record with its ten
+verification points, the three CLI run summaries, the acceptance matrix, the readiness summary and
+`INDEPENDENT-VERIFICATION.md`). Operator procedure: `docs/OPERATOR_RUNBOOK.md` **§14** (the section was renumbered
+from §13 when `origin/main` took that number for the owner-evidence-reset procedure; the content is unchanged).
+Register: `docs/integration/IIPS_V3_IID_LIMITATION_AND_COVERAGE_REGISTER_2026-11-06.md`.
+
+**Scope executed (roadmap §IID-3, tasks 1–7).** `assessmentComposition.ts` turns an IID-2
+`CompanyAssessmentPayload` into canonical `ReportContent` without recomputing anything; `ScopeToken` and the closed
+`ReportTypeRegistry` live in the platform; `investmentArtifacts.ts` binds chains to an **injected** NP-04
+`ReportsPersistencePort` (no store construction, no SQLite, no filesystem); the operator CLI runs the documented
+sequence and emits a machine-readable summary; `investment-transport.ts` serves two `GET`/`HEAD` routes with static
+sanitized failures; and the thin assessment view renders identity, adequacy, evidence, missing values with reasons,
+valuation/sensitivity, risk/dividend/moat, version history, the three clocks and the limitation disclosures. The
+four identities of §B.A are kept distinct: `reportKey` is **stable-only** (the digests live in provenance), a
+changed input appends a version to the same chain, and identical content writes nothing.
+
+| ID | Criterion | Status | Evidence (all in `ACCEPTANCE-MATRIX.md`) |
+|---|---|---|---|
+| AC-3.1 | Scope token validated before any store call (empty / whitespace / malformed / unknown prefix / over-long; report-type binding) | **PASS** | `scope-token.test.ts`; `investment-artifacts.test.ts` (zero port calls); `investment-transport.test.ts` (400 before owner/port) |
+| AC-3.2 | Versions contiguous and chain-valid; scope-drifted or corrupted chain rejected **on read** | **PASS** | `investment-artifacts.test.ts` (drift, corruption, duplicate head); M-1 point 8 |
+| AC-3.3 | Unchanged re-run writes nothing and reports `UNCHANGED` | **PASS** | `investment-artifacts.test.ts`; CLI test (row count unchanged); M-1 point 4 |
+| AC-3.4 | Stored `canonicalPayload` byte-identical after further appends | **PASS** | `investment-artifacts.test.ts` (v1 digest + payload after v2/v3); M-1 point 6 (byte length, separate process) |
+| AC-3.5 | No store construction or SQLite import; port injected | **PASS** | `investment-artifacts.test.ts` (module-graph source scan + boundary-shape refusal) |
+| AC-3.6 | Unresolvable boundary ⇒ static 503 on every route, no substitute store | **PASS** | `investment-transport.test.ts` (exact body); CLI test (no database created); M-1 point 9 |
+| AC-3.7 | No mutating method on any investment route | **PASS** | route-table test; 405 before owner/store; view test (no decision affordance); M-1 point 10 |
+| AC-3.8 | No partition literal, owner pair, path, SQL or stack trace in any response or DOM node | **PASS** | `assertSanitized` on every body; client test; view test; M-1 sanitization sweep (0 leaks) |
+
+**M-1.** One **synthetic** issuer (`IN:EQISIN:IN0000000201`, resolved through the real IID-1 resolver) is
+assessed, composed, persisted into a **new isolated** scope, read back **in a separate process**, re-run with no
+write, versioned when its dataset changed, with version 1 byte-identical afterwards; both versions validate as one
+chain; a tampered copy of the store is refused; the boundary-unavailable path answers the documented static 503;
+and no mutating route exists. All ten points pass, and `m1-demonstration.test.ts` re-runs the demonstration so the
+record cannot drift.
+
+**Limits recorded by this phase (all in the register).** `L-010` chains are located by a bounded head scan (the
+boundary exposes no find-by-chain operation); `L-011` two scope namespaces coexist (`co:`/`hd:`/`hc:`/`icr:` chain
+scope vs the payload's `subjectScope`); `L-012` the store-internal `chainId` is not surfaced (the chain root
+`reportId` stands in); `L-013` idempotency is decided against the chain head only; `L-014` content and input
+identity include the assessment timestamp; `L-015` two chain heads for one scope are refused, not merged; `L-016`
+the NP-04 pin prose and the manifest pins disagree (reported, not changed). **No IID-0/IID-1/IID-2 limitation was
+closed**: `L-001` … `L-009` remain `OPEN` and every response carries them.
+
+**Not done.** No real issuer was assessed — M-1 is a persistence demonstration on synthetic reference data
+(`L-004`, `L-009`); no real-issuer leg was attempted because no approved dataset exists in the local ingestion path
+and downloading or scraping exchange data is out of scope. IID-4, IID-5 and IID-6 were not started, no frozen
+sector engine was touched, no existing NP-04 artifact was modified or recreated, and no pin was changed.
+
 ## B.K R-16 sector coverage — still outstanding
 
 | ID | Criterion | Status |
@@ -1052,6 +1109,8 @@ honest state of R-16, not a failure of IID-0.
 
 ## B.L Explicitly not started
 
-IID-3 (persistence, read transport, thin slice / ★M-1), IID-4 (holding disposition / IID-02), IID-5 (change
-intelligence / IID-03 / ★M-2), IID-6 (product surface / ★M-3). No NP-04 database, persisted report or IPD artefact was created, modified
-or read in this pass; the Q-1 probe was not repeated; no frozen sector engine file was modified.
+IID-4 (holding disposition / IID-02), IID-5 (change intelligence / IID-03 / ★M-2), IID-6 (product surface /
+★M-3). IID-3 created a **new isolated** NP-04 database in a temporary directory for its demonstration and wrote
+nothing to any pre-existing Portfolio Summary or Executive report; no pre-existing artifact was read, modified or
+recreated; the Q-1 probe was not repeated; no frozen sector engine file was modified; no dependency pin was
+changed.
