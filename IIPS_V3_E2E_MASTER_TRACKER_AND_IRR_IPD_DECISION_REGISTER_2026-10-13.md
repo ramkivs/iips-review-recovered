@@ -21779,3 +21779,15 @@ IPD mutation, PF-1 change or production activity. SAIRAM display-only; canonical
 owner-4dc756b3, not request authority. Retention/deletion work not repeated. WS-A-DM remains incomplete.
 
 Next free: section 16.261, correction 241, dated change suffix 04, ledger V2136.
+
+#### 16.260.1 Holdings investigation published; decisions remain pending (`2026-11-06`)
+
+PR #468 head `635a8e838dc4d6547c64afb65a48f4748bde6666`, merge
+`d37ac14e3e09009223de92f436c3dafbde27568f`; head/main static CI
+42099000839 / 42099203142 SUCCESS. Independent API 10/10 changed paths exact at both refs.
+Concurrent IID #464/#467 preserved: merged scope verified against actual first parent `95b95cfe`,
+with separate original-baseline checks of holdings/evidence/PF-1/W-1 source. No unrelated changes are
+attributed to this task. Receipt `SAIRAM-DURABLE-HOLDINGS-READINESS-PUBLICATION-RECEIPT-2026-11-06.md`.
+Investigation/decision preparation COMPLETE; D01–D06 NOT RENDERED, no Act ID assigned. Repository
+conflict, holdings owner extension, lifecycle/contract gaps and qualification/admission remain open.
+W-1 unchanged, no writes enabled, no IPD mutation or operational DB access. No new allocation consumed.

@@ -1431,3 +1431,13 @@ exist and must not be confused with investment transactions. H01–H12 future ac
 proposed PA decisions in `SAIRAM-DURABLE-HOLDINGS-ARCHITECTURE-READINESS-2026-11-06.md` and
 `SAIRAM-DURABLE-HOLDINGS-PA-DECISION-PACKAGE-2026-11-06.md`. No DB opened, writes/provisioning enabled,
 IPD source changed or completed retention/deletion tests repeated. WS-A-DM NOT COMPLETE.
+
+### 23.1 Investigation/proposal publication verified (`2026-11-06`)
+
+PR #468 head `635a8e838dc4d6547c64afb65a48f4748bde6666`, merged
+`d37ac14e3e09009223de92f436c3dafbde27568f`; static head/main
+42099000839 / 42099203142 SUCCESS; independent API 10 changed paths exact head/main. Concurrent IID
+work preserved and proof corrected to actual first parent, with original W-1/evidence/holdings/PF-1
+source checked separately. Tracker §16.260.1; `SAIRAM-DURABLE-HOLDINGS-READINESS-PUBLICATION-RECEIPT-2026-11-06.md`.
+Decision readiness published, not adoption/implementation/admission. D01–D06 pending; no IPD PR before
+repository designation. W-1 unchanged; no holdings writes, data access, migrations or production action.
