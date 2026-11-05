@@ -21557,3 +21557,23 @@ purge, W-1 change or IPD mutation. Existing A-9 retrieval remains IMPLEMENTED; l
 this act's effectiveness and a separate implementation task. WS-A-DM remains NOT COMPLETE.
 
 Next free after this allocation: section 16.257, correction 237, change suffix 08, ledger V2132.
+
+#### 16.256.1 Effectiveness discharge and current authority (`2026-11-05`)
+
+**Act `IIPS-V3-CAP02-U1-AMEND-02-IMPORT-EVIDENCE-RETENTION-2026-11-05-01` is EFFECTIVE.**
+Publication: **PR #452** head `e24cf5bde5c2d2c89fd1f29753be0b4c71e4b657`, merge
+`af05feeba20305ec565973e9a34179ef699f0be4`; exact-head IRR-static run **42080668959 SUCCESS**,
+merged-main run **42080780931 SUCCESS**. Independent GitHub contents/blob read-back **10/10 MATCH**,
+protected remote tree blobs **323/323 unchanged**. All four act §7 conditions discharged; formal receipt:
+`docs/integration/IIPS_v3.0_CAP02_U1_AMEND_02_LIVE_EVIDENCE_RETENTION_EFFECTIVENESS_RECEIPT_2026-11-05.md`.
+Evidence and exact hashes: `evidence/integration/ws-a-live-retention-adoption-2026-11-05/`.
+
+This is the current-state overlay to §16.256's conditional rendering and prior authority-gap statements:
+**Live Evidence Retention AUTHORIZED — NOT IMPLEMENTED.** The separate engineering task is bounded by
+the exact PR #450 proposal §§1–9 and paper §4 acceptance matrix adopted by hash; no wording changed.
+One parsed-evidence POST, A-9 GET verification before final success, original timestamp/snapshot retries,
+owner isolation/digests and failure recovery only. SAIRAM `owner-4dc756b3`, W-1 and single-writer/no-fsync
+limits preserved; no PF-1 change, holdings/raw CSV write/upload, deletion endpoint, expiry/purge or IPD
+mutation. A-9 retrieval remains IMPLEMENTED; WS-A-DM remains NOT COMPLETE. Receipt publication itself
+is independently verified in this publishing session; its own coordinates are recorded in the PR record.
+No new allocation is consumed by this discharge subsection.

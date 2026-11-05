@@ -1244,3 +1244,21 @@ is added by this task. After effectiveness only, a separate task may implement t
 A-9 verified-success composition. Owner `owner-4dc756b3`, digest verification, timestamp-preserving
 retries, owner isolation and partial-failure recovery are mandatory. PF-1 single-writer/no-fsync limits,
 W-1, no holdings/raw uploads/deletion/purge and IRR/IPD boundaries remain unchanged.
+
+### 19.1 Effective adoption — publication and verification discharge (`2026-11-05`)
+
+**U1 AMEND-02 Act `IIPS-V3-CAP02-U1-AMEND-02-IMPORT-EVIDENCE-RETENTION-2026-11-05-01`
+is EFFECTIVE. Live Evidence Retention is AUTHORIZED — NOT IMPLEMENTED.**
+PR **#452** head `e24cf5bde5c2d2c89fd1f29753be0b4c71e4b657`, merge
+`af05feeba20305ec565973e9a34179ef699f0be4`; exact-head CI **42080668959 SUCCESS**,
+merged-main CI **42080780931 SUCCESS**; independent remote read-back **10/10 MATCH**, protected blobs
+**323/323 unchanged**. Formal discharge of all act §7 conditions:
+[IIPS v3.0 U1 AMEND-02 effectiveness receipt](IIPS_v3.0_CAP02_U1_AMEND_02_LIVE_EVIDENCE_RETENTION_EFFECTIVENESS_RECEIPT_2026-11-05.md).
+
+This dated current-state overlay supersedes §18's authority-required state and §19's conditional state,
+not their historical text. The exact immutable PR #450 proposal and paper acceptance criteria govern the
+separate engineering task. A-9 retrieval remains IMPLEMENTED; no import write path has been implemented.
+Owner binding, timestamp-preserving idempotency, integrity, partial-failure recovery, single OS writer
+and absent fsync guarantee remain mandatory. PF-1, W-1, holdings, raw bytes, deletion/purge and IPD
+boundaries remain untouched. Receipt publication coordinates are verified in the PR record, not invented
+inside its own content. WS-A-DM remains NOT COMPLETE.
