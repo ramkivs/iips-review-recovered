@@ -32,6 +32,23 @@ blobless clone were both used. Content verified remotely: PR #127 is 10 files / 
 IPD's `broker-identity-assessment.ts` and `tests/ws_a_dhan_broker_holdings_identity.test.ts`.
 Transcript: `evidence/integration/ws-a-dhan-68-row-pin-advance-2026-11-05/00-authoritative-remote-state.txt`.
 
+> **Dated addendum (A-17, re-measured 2026-11-05) — the table above is preserved unamended.**
+> It records the authoritative state **as resolved during the pin-advance pass**, and was correct
+> then. IPD `origin/main` has since moved: IPD PR #126, *"Add Windows setup and validation bundle
+> with native PowerShell corrections"*, merged at `2026-11-05T08:49:54Z` — about six minutes after
+> PR #127 — putting the IPD tip at **`6df748d397daf965bd5b6e6e35df5043f7fa8c4d`**, whose **first
+> parent is the pinned `7bcae35ad18c43cb67a16f30faa55bbdf0fb33fc`**. The pin target is *defined* as
+> the merged commit of PR #127, so it does not move with IPD's tip, and the movement was measured to
+> be immaterial: `7bcae35` remains an ancestor of IPD `main`; the 5 intervening commits add exactly
+> 16 new files (all status `A`, +4,740/−0, all Windows-setup content) and change **nothing** in
+> `package.json`, `frontend/src/features/portfolio/import`, `src/identity` or `src/contracts`; the
+> publish profile is still `files: ["dist/package"]` with the same four exports at both commits; and
+> `broker-identity-assessment.ts` plus every other consumed module have **identical blob ids** at
+> both. Windows setup, host operations and production acceptance are expressly out of Workstream A
+> scope, so advancing to `6df748d` would import out-of-scope content for zero identity benefit.
+> **No pin change was made and none is required.** Transcript:
+> `evidence/integration/ws-a-dhan-68-row-pin-advance-2026-11-05/11-ipd-main-movement-after-pin.txt`.
+
 ## 2. IRR dependency-pin change — **COMPLETED, PUBLISHED, REMOTELY VERIFIED**
 
 `iips-broker-import`: `70b24f029842a7e9b7f615e4d9df7376fd4ff817` (2026-10-16, ancestor, **290
@@ -250,6 +267,7 @@ is authorized and none was exercised.** No real-user durable save occurred.
 | A-13 | DQ-4 final QE freeze (criteria 7 and 8) | **PA + Operator** | A-11, A-12 | 10/10 criteria evidenced; effective freeze act; drift rule bound | **NOT ESTABLISHED — 8/10** |
 | A-14 | Gate 5 / CV-52 / U5 admission | **PA** | A-13 | Effective admission act naming exact qualified commits and lifted fences | **NOT INITIATED / NOT ADMITTED** |
 | A-15 | U6 operational write authorization (`durable:true`, 503 lift, W-1) | **PA** | A-14 | Effective U6 act + qualified durable-write evidence + guard-change authority | **NOT AUTHORIZED — out of scope** |
+| A-17 | Publish the IPD-`main`-movement transcript and its accompanying README / R2 / `SHA256SUMS` updates | IRR | A-2 merged | `11-ipd-main-movement-after-pin.txt` published on IRR `main`; pin and IPD ancestry re-verified against live remote state; no pin change; no IPD write; merged and remotely read back | **COMPLETED / VERIFIED** — see §12 |
 | A-16 | Additive dated master-tracker section registering the pin advance (next free `§16.249` / `CV-CORR-229` / `CHG-2026-11-02-01` / `V2023`), with the historical DQ-4 pin-reconciliation statements preserved unamended and indexed as superseded-for-currency | IRR | A-2 merged and remotely verified | Tracker section added additively; the protected Revision 7 / P1-F compatibility tokens and the CAP-03 status pointer unchanged; the IRR-only static validator green; merged and remotely read back | **NOT STARTED — deliberately out of this pass's scope** |
 
 ## 10. Files changed in this pass (IRR only)
@@ -273,7 +291,7 @@ is authorized and none was exercised.** No real-user durable save occurred.
 | `docs/integration/WS-A-DHAN-DETAILED-HOLDINGS-SOURCE-INVESTIGATION-2026-11-05.md` | **new** §4 investigation |
 | `docs/integration/WS-A-EVIDENCE-RETRIEVAL-ROUTE-AUTHORITY-GAP-2026-11-05.md` | **new** §5 authority determination + prepared request |
 | `docs/integration/WS-A-DHAN-BROKER-HOLDINGS-WORKSTREAM-REPORT-2026-11-05-R2.md` | **new** this report |
-| `evidence/integration/ws-a-dhan-68-row-pin-advance-2026-11-05/*` | **new** evidence set (13 files) |
+| `evidence/integration/ws-a-dhan-68-row-pin-advance-2026-11-05/*` | **new** evidence set — 13 files published with PR #436 (14 on disk counting `SHA256SUMS.txt`); 15 after PR #437 added `10-postmerge-readback.txt`; **16 after A-17** added `11-ipd-main-movement-after-pin.txt` |
 | `evidence/integration/ws-a-dhan-68-row/README.md` | dated addendum: the preserved IPD correction is now published as PR #127 (original text preserved unamended) |
 
 **Not modified:** anything in IPD; `evaluatePortSaveGuard`; the W-1 conjunction; the twelve
@@ -307,5 +325,74 @@ documentation act and is listed as outstanding action **A-16** below.
 | Gate E W-1 · P04 · DP-2 Option 2F | **IN FORCE — unchanged, not weakened, not bypassed** |
 | Gate 4 qualification | **`AUTHORIZED — NOT STARTED`**, QE **0/11**, acceptance **NOT RENDERED**, PA-09 pin open |
 | Gate 5 admission | **`NOT INITIATED / NOT ADMITTED`**, DQ-4 **8/10** |
+| IPD `main` movement after the pin, and the pin's continued validity | **VERIFIED** — re-measured at A-17; `7bcae35` is IPD `main`'s first parent, consumed surface byte-identical; **no pin change** |
 | Production scope | **NOT AUTHORIZED — none exercised** |
 | **Workstream A overall** | **NOT COMPLETE** — A-5…A-15 outstanding |
+
+---
+
+## 12. Dated addendum — A-17 publication (IRR PR for `11-ipd-main-movement-after-pin.txt`)
+
+**Status: COMPLETED / VERIFIED.** Additive evidence and documentation only. **No dependency pin was
+changed, no IPD write was performed, and no completed test or investigation was repeated.**
+
+### 12.1 Why an addendum was required at all
+
+At the close of the pin-advance pass, remote verification discovered that IPD `origin/main` was no
+longer the PR #127 merge commit. Because "resolve and record the *exact current authoritative*
+commit" is a standing requirement of this workstream, the movement had to be measured and recorded
+rather than left as an unstated assumption a later reader would trip over.
+
+### 12.2 Provenance of this transcript — recorded honestly
+
+An earlier draft of `11-ipd-main-movement-after-pin.txt` was captured at `2026-11-05T09:30:21Z` but
+was left **uncommitted** in the working tree of branch `arena/0497f3e4-iips-review-recovered`. That
+branch was PR-merged (IRR PR #437) and remote access to it closed; the clean A-17 branch
+`arena/dbefb63f-iips-review-recovered` was then cut from `origin/main` `bf92fea`, which discarded the
+uncommitted draft. **It was never committed and never published.**
+
+The correct response was to re-measure, not to reconstruct. Rebuilding a lost transcript from
+recollection would produce a document that *looks* like a measurement but is not one — precisely the
+class of unverified claim this workstream prohibits. Every assertion in the published transcript was
+therefore **re-measured fresh against live authoritative remote state** in the A-17 pass (fresh
+blobless clone of IPD, fresh `git ls-remote` on both repositories, fresh GitHub API reads, fresh blob
+and ancestry comparisons). The transcript states this in its own header. The conclusions are
+unchanged; the timestamps are this capture's, not the lost draft's.
+
+### 12.3 What was re-measured
+
+| Assertion | Method | Result |
+| :--- | :--- | :--- |
+| IRR `refs/heads/main` | `git ls-remote` (anonymous) | `bf92fea14b457bece111ecb6f1f78a5c94eeab79` |
+| IPD `refs/heads/main` | `git ls-remote` (anonymous) | `6df748d397daf965bd5b6e6e35df5043f7fa8c4d` |
+| Identity of the new IPD tip | fresh blobless clone | merge of PR #126, `2026-11-05T14:19:54+05:30` (`08:49:54Z`) |
+| IPD PR #126 | `gh pr view` (read-only) | `MERGED` at `2026-11-05T08:49:54Z`, head `arena/b5b0c6e2-iips-production-market-data`, base `main` |
+| Pin still an ancestor of IPD `main` | `git merge-base --is-ancestor` | **YES** — and `origin/main^1` **is** `7bcae35`, i.e. the pin is the **first parent** |
+| Commits after the pin | `git rev-list --count` | **5** |
+| Changes to the consumed surface | `git diff --stat` restricted to `package.json`, `frontend/src/features/portfolio/import`, `src/identity`, `src/contracts` | **empty — zero changes** |
+| Full change set | `git diff --name-status` + tally | **16 files, all status `A`, +4,740/−0**; nothing modified, deleted or renamed |
+| Publish profile at both commits | `git show <sha>:package.json` | identical: `files: ["dist/package"]`, same four exports |
+| Consumed module blobs | `git rev-parse <sha>:<path>` at both commits | `broker-identity-assessment.ts` **`401af803…` IDENTICAL**; also identical: `broker-import-ingress.ts`, `types.ts`, `adapters/dhan-holdings-adapter.ts`, `broker-holdings-mapper.ts`, `src/identity/governed_fixture_master.ts` |
+| IRR pin on IRR `main` | `git show origin/main:frontend/package.json` | `#7bcae35ad18c43cb67a16f30faa55bbdf0fb33fc` — **UNCHANGED** |
+| IRR consumption profile on IRR `main` | `git show origin/main:frontend/broker-import-package-profile.json` | aliasCommit `7bcae35…`, publishedRoot `dist/package`, materializedRoot `.cache/broker-import`, 18 required modules — **UNCHANGED** |
+
+### 12.4 Determination
+
+The pin is **valid, unaffected and unchanged**. PR #126's content is Windows-setup material that is
+expressly out of Workstream A scope, and it does not touch the publish profile or any module IRR
+consumes, so advancing the pin to `6df748d` would import out-of-scope content for **zero identity
+benefit** while widening the surface the materializer must verify. The pin therefore correctly stays
+at the PR #127 merge commit `7bcae35`, exactly as the workstream specified.
+
+### 12.5 Additive files in this addendum
+
+| File | Change |
+| :--- | :--- |
+| `evidence/integration/ws-a-dhan-68-row-pin-advance-2026-11-05/11-ipd-main-movement-after-pin.txt` | **new** — the re-measured transcript (16 measurements, self-describing provenance header) |
+| `evidence/integration/ws-a-dhan-68-row-pin-advance-2026-11-05/README.md` | **additive only** — new file-table row; three new commit-identity rows; a provenance line under "Limitations recorded, not papered over". No existing text amended |
+| `evidence/integration/ws-a-dhan-68-row-pin-advance-2026-11-05/SHA256SUMS.txt` | regenerated to cover the new transcript (14 → 15 entries) |
+| `docs/integration/WS-A-DHAN-BROKER-HOLDINGS-WORKSTREAM-REPORT-2026-11-05-R2.md` | **additive only** — §1 dated addendum block, §9 row A-17, §10 corrected evidence-set count, §11 status line, and this §12 |
+
+**Not modified:** `frontend/**` in its entirety, both sibling pins, the materializer, the guard, the
+preview, the evidence store, the PF-1 journal, any gate, fence or authority act, anything in IPD, and
+every previously published evidence artefact `00`–`10` (their `SHA256SUMS` digests are unchanged).

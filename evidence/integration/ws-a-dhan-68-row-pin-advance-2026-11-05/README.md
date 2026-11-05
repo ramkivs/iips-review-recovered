@@ -23,6 +23,7 @@ holdings, the D05 security master and its deposition process). **Zero IPD writes
 | `generate-evidence.mts` | Reproducible generator for `03` and `04`. Runs the real preview and the real journal; writes nothing inside either repository worktree except those two files; never opens the authoritative operator data directory. |
 | `probe-d05-coverage.mts` | Reproducible generator for `08`. Takes the unresolved set from the pipeline's own published assessment vector; reads the governed corpus the pinned alias publishes. |
 | `10-postmerge-readback.txt` | **Independent post-merge remote read-back** of IRR PR #436: PR identity, `git ls-remote` ref read-back, merge-commit identity, hosted CI result on the exact merged head, and a byte-level SHA-256 comparison of **33 / 33** changed paths at the merge SHA, plus the published pin and profile read back from `main`. |
+| `11-ipd-main-movement-after-pin.txt` | **IPD `origin/main` moved after the pin was resolved.** IPD PR #126 (a Windows setup bundle — expressly out of Workstream A scope) merged ~6 minutes after PR #127, moving the IPD tip to `6df748d397daf965bd5b6e6e35df5043f7fa8c4d`. Proves the pin `7bcae35` is still an ancestor of IPD `main` **and its first parent**; that the 5 intervening commits add 16 files (all status `A`, +4,740/−0) and change **nothing** in `package.json`, `frontend/src/features/portfolio/import`, `src/identity` or `src/contracts`; that the publish profile and every consumed module blob are identical at both commits; that the IRR pin and consumption profile on IRR `main` are unchanged; and why the pin correctly stays at the PR #127 merge commit. Carries a self-describing provenance header — see the limitations below. |
 | `SHA256SUMS.txt` | SHA-256 of every file in this set. |
 
 The read-back receipt is published as its own dated record in a follow-up PR, following the
@@ -52,7 +53,10 @@ npx tsx ../evidence/integration/ws-a-dhan-68-row-pin-advance-2026-11-05/probe-d0
 | IPD | `70b24f029842a7e9b7f615e4d9df7376fd4ff817` | The **retired** alias pin (2026-10-16), ancestor, 290 commits behind |
 | IRR | `182580b33f9107f94d619cbfaf628fb88b67bd21` | Baseline `origin/main` (PR #435 merged) |
 | IRR | `a3407fbf9582d2ea16d277d4a546ef0849a405a5` | PR #436 head commit (tree `9c322e3c3967e77a8bdee932b6ae7ea1e392da36`) |
-| IRR | `51fdcd9567407db88626b3d5ae87e642f869205a` | **PR #436 merge commit** — IRR `origin/main` tip after this pass |
+| IRR | `51fdcd9567407db88626b3d5ae87e642f869205a` | **PR #436 merge commit** — the implementation, verified by 33/33 byte read-back |
+| IRR | `d5a94f134c4594b0e50f7471e2d7e5d93788652f` | PR #437 head commit — the post-merge read-back receipt |
+| IRR | `bf92fea14b457bece111ecb6f1f78a5c94eeab79` | **PR #437 merge commit** — IRR `origin/main` tip and the base of the A-17 addendum |
+| IPD | `6df748d397daf965bd5b6e6e35df5043f7fa8c4d` | IPD `origin/main` tip at final verification (PR #126, Windows setup — **out of scope**). The pinned `7bcae35` is its **first parent**. See `11-ipd-main-movement-after-pin.txt` |
 
 ## Limitations recorded, not papered over
 
@@ -70,3 +74,14 @@ npx tsx ../evidence/integration/ws-a-dhan-68-row-pin-advance-2026-11-05/probe-d0
   HOLDINGS_V1` export could resolve them today. Nothing was invented to close that gap.
 * The evidence generator writes to an **OS temporary directory** that it removes. The authoritative
   operator data directory was never opened, and **no real-user holdings save occurred**.
+* **`11-ipd-main-movement-after-pin.txt` is a re-measurement, and says so in its own header.** An
+  earlier draft was captured at `2026-11-05T09:30:21Z` but left uncommitted on the PR-merged branch
+  `arena/0497f3e4-iips-review-recovered`; cutting the clean A-17 branch from `origin/main` discarded
+  it. It was never committed or published. Rather than reconstruct the lost draft from recollection —
+  which would be a document that looks like a measurement but is not one — every assertion in the
+  published transcript was re-measured fresh against live remote state (fresh blobless IPD clone,
+  fresh `git ls-remote` on both repositories, fresh GitHub API reads, fresh blob and ancestry
+  comparisons). The conclusions are unchanged; the timestamps are the re-measurement's.
+* The A-17 addendum changes **no** previously published artefact. Digests `00`–`10`,
+  `generate-evidence.mts`, `probe-d05-coverage.mts` and this README's pre-existing text are all
+  unchanged; `SHA256SUMS.txt` grew by exactly one entry.

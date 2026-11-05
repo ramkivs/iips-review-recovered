@@ -1,0 +1,140 @@
+# IPD origin/main moved AFTER PR #127 merged — effect on the pin, measured
+# Captured: 2026-11-05T10:16:28Z UTC  (A-17 publication pass)
+#
+# PROVENANCE OF THIS TRANSCRIPT — recorded, not papered over:
+#   An earlier draft of this transcript was captured at 2026-11-05T09:30:21Z but was left
+#   UNCOMMITTED in the working tree of branch arena/0497f3e4-iips-review-recovered. That branch
+#   was PR-merged (IRR PR #437) and the clean A-17 branch was cut from origin/main bf92fea, which
+#   discarded the uncommitted draft. It was never committed and never published. Rather than
+#   reconstruct the lost draft from recollection — which would be an unverified measurement —
+#   every assertion below was RE-MEASURED FRESH against live authoritative remote state in this
+#   pass. The conclusions are unchanged. The timestamps in this file are this capture's.
+#
+# SCOPE: evidence and documentation only. The dependency pin is NOT changed. No IPD write.
+#
+# Why this record exists: the pin-advance pass resolved IPD origin/main = 7bcae35 (the PR #127
+# merge commit) shortly after PR #127 merged at 2026-11-05T08:43:30Z. During that pass, IPD
+# PR #126 merged and moved the tip. The pin target was specified as 'the actual merged IPD commit
+# from PR #127', which is 7bcae35 and remains 7bcae35; this record proves the pin is still valid
+# and unaffected by the movement.
+
+=== independent ref read-back (git ls-remote, both repositories, anonymous HTTPS) ===
+IRR refs/heads/main : bf92fea14b457bece111ecb6f1f78a5c94eeab79
+IPD refs/heads/main : 6df748d397daf965bd5b6e6e35df5043f7fa8c4d
+
+=== IPD main history at the current tip ===
+  6df748d397daf965bd5b6e6e35df5043f7fa8c4d 2026-11-05T14:19:54+05:30 Merge pull request #126 from ramkivs/arena/b5b0c6e2-iips-production-market-data
+  7bcae35ad18c43cb67a16f30faa55bbdf0fb33fc 2026-11-05T14:13:30+05:30 Merge pull request #127 from ramkivs/arena/ws-a-dhan-68-row-identity-20261105
+  beb362d4ca8fb0a4f86e383d1893d031df2638a8 2026-11-05T14:11:25+05:30 fix(broker-import): per-row identity evidence and unmasked P04 refusals
+  1e2074542fc43caf5dc6ffeb7e400d447b304027 2026-11-05T08:24:42+00:00 Distinguish a port-query failure from an unused port; drop the hardcoded validator path
+
+=== the new tip's identity ===
+commit   6df748d397daf965bd5b6e6e35df5043f7fa8c4d
+tree     1c3872bfe368e17245678d15daf1a241aa3602d3
+parents  7bcae35ad18c43cb67a16f30faa55bbdf0fb33fc 1e2074542fc43caf5dc6ffeb7e400d447b304027
+date     2026-11-05T14:19:54+05:30
+subject  Merge pull request #126 from ramkivs/arena/b5b0c6e2-iips-production-market-data
+
+=== the PR that produced it (GitHub API, read-only) ===
+PR #126 — Add Windows setup and validation bundle with native PowerShell corrections
+state:     MERGED
+mergedAt:  2026-11-05T08:49:54Z
+merge:     6df748d397daf965bd5b6e6e35df5043f7fa8c4d
+headRef:   arena/b5b0c6e2-iips-production-market-data
+baseRef:   main
+
+=== is the PINNED commit still an ancestor of IPD origin/main? ===
+YES — 7bcae35ad18c43cb67a16f30faa55bbdf0fb33fc is on origin/main's history and was not rebased away
+first parent of the new tip: 7bcae35ad18c43cb67a16f30faa55bbdf0fb33fc
+pinned commit              : 7bcae35ad18c43cb67a16f30faa55bbdf0fb33fc
+=> the pinned commit is the FIRST PARENT of IPD origin/main
+
+=== commits added to IPD main after the pin: 5 ===
+  6df748d 2026-11-05T14:19:54+05:30 Merge pull request #126 from ramkivs/arena/b5b0c6e2-iips-production-market-data
+  1e20745 2026-11-05T08:24:42+00:00 Distinguish a port-query failure from an unused port; drop the hardcoded validator path
+  22e6af2 2026-11-05T06:50:32+00:00 Add the consolidated Windows setup remediation report
+  8ed3459 2026-11-05T06:46:58+00:00 Extend the syntax gate, add the IRR port patch and the bundle generator
+  fe66bea 2026-11-05T06:43:02+00:00 Add Windows setup and validation bundle with native PowerShell corrections
+
+=== do those commits touch ANY surface IRR consumes? ===
+--- diff --stat 7bcae35..origin/main, restricted to package.json + the consumed module trees ---
+(no output above = ZERO changes to the publish profile or to any consumed module)
+
+--- full diff --stat 7bcae35..origin/main (tail) ---
+ windows-setup/README.md                          | 306 +++++++++
+ windows-setup/SHA256SUMS.txt                     |  14 +
+ windows-setup/WINDOWS-VALIDATION-CHECKLIST.md    | 388 ++++++++++++
+ 16 files changed, 4740 insertions(+)
+
+--- every path added/changed/deleted after the pin ---
+A	WINDOWS-SETUP-REMEDIATION-REPORT.md
+A	windows-setup/.validate-scripts.py
+A	windows-setup/00-Validate-PowerShell-Syntax.ps1
+A	windows-setup/01-Fresh-Clone-And-Install.ps1
+A	windows-setup/02-Provision-OwnerContext.ps1
+A	windows-setup/03-Start-IipsServers.ps1
+A	windows-setup/04-Validate-BackendEndpoints.ps1
+A	windows-setup/05-Validate-PersistenceRestart.ps1
+A	windows-setup/06-Stop-IipsServers.ps1
+A	windows-setup/IRR-PORT-5176.patch
+A	windows-setup/Iips-Common.ps1
+A	windows-setup/MANIFEST.txt
+A	windows-setup/Make-SetupBundle.ps1
+A	windows-setup/README.md
+A	windows-setup/SHA256SUMS.txt
+A	windows-setup/WINDOWS-VALIDATION-CHECKLIST.md
+
+--- change-type tally (A=added M=modified D=deleted R=renamed) ---
+       16 A
+
+=== publish profile at the new IPD tip (what IRR's materializer checks) ===
+files  : ['dist/package']
+exports: ['./portfolio-ui', './pit', './d114-non-production', './operator-drop']
+=== publish profile at the PINNED commit (for comparison) ===
+files  : ['dist/package']
+exports: ['./portfolio-ui', './pit', './d114-non-production', './operator-drop']
+
+=== blob identity of the module the pin advance exists to consume ===
+broker-identity-assessment.ts @ 7bcae35ad18c43cb67a16f30faa55bbdf0fb33fc (7bcae35) = 401af803ca4342189afe120e256c374301e4aab2
+broker-identity-assessment.ts @ origin/main (6df748d) = 401af803ca4342189afe120e256c374301e4aab2
+IDENTICAL
+  broker-import-ingress.ts : IDENTICAL (c8ea9d8fa92b)
+  types.ts : IDENTICAL (6e789eca26df)
+  adapters/dhan-holdings-adapter.ts : IDENTICAL (067ce99328b3)
+  broker-holdings-mapper.ts : IDENTICAL (4d0e757b39e3)
+  src/identity/governed_fixture_master.ts : IDENTICAL (275953377999)
+
+=== IRR dependency pin as published on IRR origin/main — UNCHANGED by this movement ===
+24:    "iips-broker-import": "github:ramkivs/iips-production-market-data#7bcae35ad18c43cb67a16f30faa55bbdf0fb33fc",
+25:    "iips-np04-governed-persistence": "github:ramkivs/iips-production-market-data#2e11fa3b689d1a3674a5e4ba1f1de9a559e20494",
+26:    "iips-production-market-data": "github:ramkivs/iips-production-market-data#279d1eed184f5e23bbabe5c6411085e120ce9e41",
+
+=== IRR governed consumption profile as published on IRR origin/main — UNCHANGED ===
+aliasCommit      : 7bcae35ad18c43cb67a16f30faa55bbdf0fb33fc
+publishedRoot    : dist/package
+materializedRoot : .cache/broker-import
+requiredModules  : 18
+supersededAlias  : 70b24f029842a7e9b7f615e4d9df7376fd4ff817
+mergedPullRequest: 127
+
+=== CONCLUSION (each line backed by a measurement above) ===
+1. The pin target is unchanged and correct: the merged IPD commit of PR #127 is
+   7bcae35ad18c43cb67a16f30faa55bbdf0fb33fc, and that is what IRR pins on origin/main.
+2. IPD origin/main is now 6df748d397daf965bd5b6e6e35df5043f7fa8c4d (PR #126 merged
+   2026-11-05T08:49:54Z, ~6 minutes after PR #127). The pinned commit is its FIRST PARENT and
+   remains an ancestor of main — it was not rebased away.
+3. PR #126 ('Add Windows setup and validation bundle with native PowerShell corrections') adds
+   exactly 16 new files (+4,740/-0), ALL of status A: 14 visible files under windows-setup/,
+   the hidden windows-setup/.validate-scripts.py, and a root-level
+   WINDOWS-SETUP-REMEDIATION-REPORT.md. It MODIFIES and DELETES nothing. In particular it
+   changes NOTHING in package.json, frontend/src/features/portfolio/import, src/identity or
+   src/contracts.
+4. The IPD publish profile is still files: ["dist/package"] with the same four exports at both
+   the pinned commit and the new tip, so the fail-closed checks in IRR's
+   scripts/materialize-broker-import.mjs still hold. broker-identity-assessment.ts and every
+   other consumed module have IDENTICAL blob ids at both commits.
+5. Windows setup, host operations and production acceptance are expressly OUT OF SCOPE for
+   Workstream A. Advancing the pin to 6df748d would import out-of-scope content for ZERO
+   identity benefit. The pin therefore correctly stays at the PR #127 merge commit, as
+   specified — and this pass changes no pin.
+6. No IRR code change is required by this movement, and none was made. No IPD write was made.
