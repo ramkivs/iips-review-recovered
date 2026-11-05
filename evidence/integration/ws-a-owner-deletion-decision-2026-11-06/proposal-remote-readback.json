@@ -1,0 +1,129 @@
+{
+  "pr": {
+    "files": [
+      {
+        "path": "IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md",
+        "additions": 35,
+        "deletions": 0
+      },
+      {
+        "path": "docs/OPERATOR_RUNBOOK.md",
+        "additions": 37,
+        "deletions": 0
+      },
+      {
+        "path": "docs/integration/WS-A-DHAN-BROKER-HOLDINGS-WORKSTREAM-REPORT-2026-11-05-R2.md",
+        "additions": 27,
+        "deletions": 0
+      },
+      {
+        "path": "docs/integration/WS-A-OWNER-EVIDENCE-DELETION-PA-DECISION-PAPER-2026-11-06.md",
+        "additions": 94,
+        "deletions": 0
+      },
+      {
+        "path": "docs/integration/WS-A-OWNER-EVIDENCE-DELETION-PROPOSED-ADDITIVE-AMENDMENT-2026-11-06.md",
+        "additions": 68,
+        "deletions": 0
+      },
+      {
+        "path": "evidence/integration/ws-a-owner-deletion-decision-2026-11-06/irr-static.txt",
+        "additions": 7,
+        "deletions": 0
+      },
+      {
+        "path": "evidence/integration/ws-a-owner-deletion-decision-2026-11-06/pr455-final-verification-comment.json",
+        "additions": 8,
+        "deletions": 0
+      },
+      {
+        "path": "evidence/integration/ws-a-owner-deletion-decision-2026-11-06/proposal-static.txt",
+        "additions": 5,
+        "deletions": 0
+      },
+      {
+        "path": "evidence/integration/ws-a-owner-deletion-decision-2026-11-06/rebaseline-and-counts.json",
+        "additions": 588,
+        "deletions": 0
+      },
+      {
+        "path": "evidence/integration/ws-a-owner-deletion-decision-2026-11-06/verify.py",
+        "additions": 28,
+        "deletions": 0
+      }
+    ],
+    "headRefOid": "7bd375939108f0c091cf3756e15dd4198f37731c",
+    "mergeCommit": {
+      "oid": "82406dd8828296ac425eb5a4827f581da6c89257"
+    },
+    "mergedAt": "2026-11-05T18:48:12Z",
+    "state": "MERGED",
+    "url": "https://github.com/ramkivs/iips-review-recovered/pull/457"
+  },
+  "verified_remote_main": "82406dd8828296ac425eb5a4827f581da6c89257",
+  "remote_byte_matches": [
+    {
+      "path": "IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md",
+      "blob": "1995f289861476f9d5c0d575c5ff1b4a391ddcdb",
+      "sha256": "adbbbd5626210cfe8b17def93c61bedb08ca259e55e14caa88b87537f7a79ce7",
+      "match": true
+    },
+    {
+      "path": "docs/OPERATOR_RUNBOOK.md",
+      "blob": "8cf099ebbf23c7fce24711960f015a02931cae75",
+      "sha256": "5d5a549dd6a16a280677d11b24cc1f576b2ac07d26f215f6258d55c44b538f4e",
+      "match": true
+    },
+    {
+      "path": "docs/integration/WS-A-DHAN-BROKER-HOLDINGS-WORKSTREAM-REPORT-2026-11-05-R2.md",
+      "blob": "74d65b5b404318ffcfa3c31a006cefa3172537a2",
+      "sha256": "464d874a82d96444bafea2646400b7bf4c95cce8eeb2cb6d580c56c08184b858",
+      "match": true
+    },
+    {
+      "path": "docs/integration/WS-A-OWNER-EVIDENCE-DELETION-PA-DECISION-PAPER-2026-11-06.md",
+      "blob": "e2ee68b9916a9847112744bb440270f34348f27c",
+      "sha256": "0b9f9a9f7101efed23610200890180eadb061536c57c9ac018101c089f7c4063",
+      "match": true
+    },
+    {
+      "path": "docs/integration/WS-A-OWNER-EVIDENCE-DELETION-PROPOSED-ADDITIVE-AMENDMENT-2026-11-06.md",
+      "blob": "e67081dfa72ebbf93ad8c5b46495e0448982d9d7",
+      "sha256": "1adea0dd3f172e65a5bdba612dcee6b4fa4c570a6caba8eb083ca35356de35f5",
+      "match": true
+    },
+    {
+      "path": "evidence/integration/ws-a-owner-deletion-decision-2026-11-06/irr-static.txt",
+      "blob": "53ea783aee7cbac4f6e900570251252fdd32cc5e",
+      "sha256": "5421c9aa8298a37ee54a1a496db130496e780756d8bdc77321d00184b668ade7",
+      "match": true
+    },
+    {
+      "path": "evidence/integration/ws-a-owner-deletion-decision-2026-11-06/pr455-final-verification-comment.json",
+      "blob": "f4db18bb22c1704f4abcb140b510c0edfeaa776b",
+      "sha256": "94459439f625964d2ce7d3f275ec17068671ec0040863f77bc65884c491f1967",
+      "match": true
+    },
+    {
+      "path": "evidence/integration/ws-a-owner-deletion-decision-2026-11-06/proposal-static.txt",
+      "blob": "d194384b606de38ec7d345cfdcd123b074e33e0e",
+      "sha256": "75a049020522c3f89a9ba0fd0a214d68011c6e4e01e37d15d465c4caaec16792",
+      "match": true
+    },
+    {
+      "path": "evidence/integration/ws-a-owner-deletion-decision-2026-11-06/rebaseline-and-counts.json",
+      "blob": "defa757de5bb4d616bc99181e77b1d3e00df6dcc",
+      "sha256": "760c7562b85e21dc733fb390d0a46eb461754ac31b0d3cab4070a834688ee821",
+      "match": true
+    },
+    {
+      "path": "evidence/integration/ws-a-owner-deletion-decision-2026-11-06/verify.py",
+      "blob": "456fe9cf7c45602c35a5a0c770bd5a879ffbdd08",
+      "sha256": "19172ef36fee473536269d1d5c7232833febbdc9852b5c879e72a5733630b0a1",
+      "match": true
+    }
+  ],
+  "protected_remote_tree_matches": 346,
+  "preexisting_evidence_blobs_unchanged": 883,
+  "method": "Independent GitHub contents/blob byte read-back and baseline/merged recursive tree blob comparison"
+}
