@@ -1,9 +1,11 @@
 # IID-3 — independent verification record
 
 **Date:** 2026-11-06 · **Branch:** `arena/e56fe593-iips-review-recovered` · **Pull request:** #464
-**Local head verified:** `e627727` (feature commit) → merged with `origin/main` as `8fd1c2b`
-**Remote head verified:** `8fd1c2b2db75fc83040c1ef35169826c976b1f43` — a **fresh clone fetched from
+**Local head verified:** `e627727` (feature commit) → merged with `origin/main` as `8fd1c2b`, then `120b8a9`
+**Remote head verified:** `8fd1c2b2db75fc83040c1ef35169826c976b1f43` and, after the last merge,
+`120b8a9cc141aa22b8eaee125679959c59b0a268` — **fresh clones fetched from
 `github.com/ramkivs/iips-review-recovered`**, not the working tree that produced the evidence.
+**Merged as:** `f08da401dee12748581cbef5599d8c2e3758c84b` (PR #464) — post-merge clone of `main` re-verified in §7.
 
 This file records what was checked *outside* the authoring checkout, so a reader can separate "the author ran the
 suites" from "an independent copy of the published commit reproduces the same identities".
@@ -106,7 +108,27 @@ Neither of these is a defect in IID-3, and neither is written into the limitatio
    missing path; `vitest run server/broker-import` → 72 tests pass, 7 files fail to collect). Unchanged by IID-3:
    `git diff 34c8b39 HEAD -- frontend/src/api/brokerHoldingsPreview.ts` is empty.
 
-## 6. What this record does **not** claim
+## 6. Post-merge verification of `main` (`f08da40`)
+
+After PR #464 merged, `main` was cloned fresh (`git clone https://github.com/ramkivs/iips-review-recovered.git`,
+HEAD `f08da401dee12748581cbef5599d8c2e3758c84b`) and every count was re-run against the **merged** tree:
+
+| Check | Result |
+|---|---|
+| `vitest run server/investment src/api/investment.test.ts src/features/investment` | **7 files / 76 tests pass** |
+| `vitest run server/reports` | **9 files / 130 tests pass** |
+| `tsc -p tsconfig.investment-server.json` | **clean** |
+| `tsx --test tests/investment/*.test.ts` | **286 / 286 pass** |
+| `tsx --test tests/regression/*.test.ts` | **651 / 651 pass** |
+| `tsc --noEmit` (platform) | **clean** |
+| `m1-demonstration.ts --out <new dir>` | **10 / 10 PASS**; every JSON field identical to the committed record except the store-assigned `reportId` — `reportKey fcf992e0…`, v1 `ecc09e63…` (66,726 B), v2 `7e97edcf…`, input digests `sha256:c74226fe…` / `sha256:0862597…` |
+
+Two merge resolutions were needed while the PR was open, both documentation-only and both in
+`docs/OPERATOR_RUNBOOK.md` (main first claimed §13, then appended `### 13.4` at the same point). The IID-3 section is
+§14 in the merged tree; nothing else in the file changed. Code overlap with the landed main commits (#462, #463,
+#465, #466) is nil.
+
+## 7. What this record does **not** claim
 
 - It is not independent human review; it is the same agent re-running the published commit in a fresh clone.
 - A green `CI` run is not qualification, admission or release (the workflow says so itself), and it does not cover

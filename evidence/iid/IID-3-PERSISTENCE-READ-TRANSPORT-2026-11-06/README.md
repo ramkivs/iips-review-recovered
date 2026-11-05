@@ -3,9 +3,11 @@
 **Date:** 2026-11-06
 **Branch:** `arena/e56fe593-iips-review-recovered`
 **Predecessor:** IID-0 (`cad6371`), IID-1 (`792b805`), IID-2 (`34c8b39`, PR #461)
-**Published:** PR [#464](https://github.com/ramkivs/iips-review-recovered/pull/464); head `8fd1c2b`
-(feature commit `e627727` merged with `origin/main`). CI run `42096525519` — pass.
-Independently re-verified from a fresh clone: `INDEPENDENT-VERIFICATION.md`.
+**Published:** PR [#464](https://github.com/ramkivs/iips-review-recovered/pull/464) — **merged** as `f08da40`
+(2026-11-06; branch head at merge `120b8a9`, feature commit `e627727`, twice merged with `origin/main`).
+CI on the PR head: `42096525519` (`8fd1c2b`), `42097430354` (`b23089d`), `42098111372` (`120b8a9`) — all pass.
+Independently re-verified from fresh clones of the branch **and of the merged `main`**:
+`INDEPENDENT-VERIFICATION.md`.
 **Scope:** compose → validate → persist (injected NP-04 port) → read (GET/HEAD only) → thin view, for one issuer,
 in a **new isolated investment-artifact scope**.
 
