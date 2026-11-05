@@ -44,10 +44,14 @@ M-1 IDENTITIES (synthetic reference company; new isolated scope)
   real issuer assessment ... NOT PERFORMED — BLOCKED (no approved dataset in the local ingestion path)
 
 M-1 VERIFICATION POINTS .................... 10 / 10 pass (m1-demonstration.json)
-INDEPENDENT VERIFICATION ................... fresh clone of 8fd1c2b from GitHub re-ran every count above and
-                                             reproduced reportKey + both payload/input digests exactly;
-                                             only the store-assigned reportId differs (see
-                                             INDEPENDENT-VERIFICATION.md). CI run 42096525519: pass.
+INDEPENDENT VERIFICATION ................... fresh clones of 8fd1c2b and 120b8a9 from GitHub re-ran every count
+                                             above and reproduced reportKey + both payload/input digests
+                                             exactly; only the store-assigned reportId differs (see
+                                             INDEPENDENT-VERIFICATION.md).
+PUBLICATION ................................ PR #464 merged as f08da40; CI 42096525519 / 42097430354 /
+                                             42098111372 all pass; merged main re-verified from a fresh
+                                             clone: 76/76, 130/130, 286/286, 651/651, both typechecks
+                                             clean, M-1 10/10 with identical identities.
 
 SANITIZATION SWEEP ......................... 4 response bodies, 0 leaks
 MUTATING ROUTES ............................ 0 (8/8 non-GET/HEAD → 405 Allow: GET, HEAD)
