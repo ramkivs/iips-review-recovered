@@ -212,4 +212,16 @@ The script refuses duplicate `reportKey`s unless `--force` is supplied. The `--c
 
 ## 6. Publication
 
-This record is published on branch `arena/64350977-iips-review-recovered` in PR #438. The exact commit and remote read-back receipt are recorded after publication; the PR is not merged without the repository's required review process.
+This record is published on branch `arena/64350977-iips-review-recovered` in PR #438. Remote head `46d0d15ae3b90e2c1c6940148d0eb3b17ed9a0f2`. All seven changed paths were read back from the remote at that exact head and matched the local Git blob IDs byte-for-byte:
+
+| Path | Remote Git blob ID |
+|---|---|
+| `IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md` | `b3eac4c1714e676aee12317924802f1977eeccf8` |
+| `docs/OPERATOR_RUNBOOK.md` | `27d07ff33f28a01233a84df7a311ab5ea403c30e` |
+| `docs/integration/IIPS_v3.0_REPORTS_NP06_REAL_REPORT_PERSISTENCE_IMPLEMENTATION_2026-11-05.md` | `c29a13d8efdb640fff85ad51bfd2670bbcfbcc60` |
+| `frontend/server/reports/persist-real-reports.ts` | `291319b78623199c86cccf161441d7ce604493a5` |
+| `frontend/server/reports/real-report-persistence.test.ts` | `490adbd61f63b5ee280eda3e26123e641797217d` |
+| `frontend/src/features/reports/ReportsRealData.test.tsx` | `1b496c41df67b2545b6bf8529f20169fae1c1dd6` |
+| `frontend/tsconfig.replay-server.json` | `b6c882fd2acd33b763c2e2b5e926b3f70e00c4b2` |
+
+CI at the PR head: `Typecheck · Test · Build` **pass** (1m58s); `Python compile · source/evidence/tracker validation` **pass** (34s). PR state: **OPEN**, `MERGEABLE`, `CLEAN`. The PR is not merged without the repository's required review process.
