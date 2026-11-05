@@ -1371,3 +1371,23 @@ Act `IIPS-V3-CAP02-OWNER-EVIDENCE-RESET-2026-11-06-01` EFFECTIVE via #459 merge
 `WS-A-OWNER-EVIDENCE-RESET-EFFECTIVENESS-RECEIPT-2026-11-06.md`. Implementation AUTHORIZED — NOT IMPLEMENTED
 at this receipt; continue same session after its publication/verification. Active-store reset only,
 recovery copy retained, not permanent erasure. All exclusions unchanged. Tracker §16.259.1.
+
+### 22.2 Bounded implementation and isolated acceptance (`2026-11-06`)
+
+Already-effective reset Act implemented on `arena/773aaf95-iips-review-recovered` from main
+`34c8b39e3ee1d26bba4f9b362ca631c4e42ce863`; no repeated PA adoption. Dedicated offline fixed-target
+planner/executor/status and TTY, verified original recovery copy before whole active-file unlink,
+prepared/confirmed/completed deletion-fact audit, no automatic recovery or false successful absence.
+19 synthetic acceptance cases, all seven real SIGKILL checkpoints, actual PTY cancel/confirm/status;
+full regression 1512 PASS / 1 existing skip; strict new closure/frontend/replay typechecks PASS.
+Runbook §13; `WS-A-OWNER-EVIDENCE-RESET-IMPLEMENTATION-2026-11-06.md` acceptance/recovery/support details;
+tracker §16.259.2. Linux/private-local envelope only, no ACL/locking/fsync/power-loss claim.
+Publication receipt follows CI/merge/independent remote readback. No actual owner reset or production
+activation. PF-1/frozen authorities/live HTTP/W-1/IPD untouched; copy retained, restore can resurrect,
+not permanent erasure; all exclusions and indefinite retention preserved.
+
+Publication qualification: the existing CAP-03 static validator fails on a pre-existing IID-1
+`test-log-np12-regression.txt` historical path. It is unchanged and not waived. Implementation/product
+CI publication is separate from the queued tracker/final-receipt PR; that later publication remains
+blocked unless the inherited validator classification is corrected through its own authorized scope.
+Do not read these local results as complete end-to-end publication or operational activation.

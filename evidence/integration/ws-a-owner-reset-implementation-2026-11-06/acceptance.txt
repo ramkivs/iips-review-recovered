@@ -1,0 +1,28 @@
+
+ RUN  v2.1.9 /home/user/iips-review-recovered/frontend
+
+ ✓ server/broker-import/ownerEvidenceReset.test.ts > authorized offline whole-journal reset: synthetic acceptance > AC1 raw read-only planning: full valid PF-1 create/readState, exact bytes/hash/count/owner
+ ✓ server/broker-import/ownerEvidenceReset.test.ts > authorized offline whole-journal reset: synthetic acceptance > AC2 incorrect targets: relative/Git paths, directory, symlink and hardlink all refused
+ ✓ server/broker-import/ownerEvidenceReset.test.ts > authorized offline whole-journal reset: synthetic acceptance > AC3 trusted carrier and OS private access + explicit quiescence are mandatory
+ ✓ server/broker-import/ownerEvidenceReset.test.ts > authorized offline whole-journal reset: synthetic acceptance > AC4 foreign/mixed scope, unknown schema/events, row-order/digest/import tampering and malformed tails preserve every byte
+ ✓ server/broker-import/ownerEvidenceReset.test.ts > authorized offline whole-journal reset: synthetic acceptance > AC5 missing/wrong-plan/final-denied confirmation cancels; attempted plans cannot be reused
+ ✓ server/broker-import/ownerEvidenceReset.test.ts > authorized offline whole-journal reset: synthetic acceptance > AC6 stale source, changed census/carrier or altered plan invalidates the confirmation before removal
+ ✓ server/broker-import/ownerEvidenceReset.test.ts > authorized offline whole-journal reset: synthetic acceptance > AC7/8/9 whole active journal cleared ONLY after original-byte verified copy, PREPARED, fresh confirmation and CONFIRMED audit; copies/audit/unrelated data retained
+ ✓ server/broker-import/ownerEvidenceReset.test.ts > authorized offline whole-journal reset: synthetic acceptance > AC10 fail-closed backup/audit fault: existing-copy
+ ✓ server/broker-import/ownerEvidenceReset.test.ts > authorized offline whole-journal reset: synthetic acceptance > AC10 fail-closed backup/audit fault: corrupt-copy
+ ✓ server/broker-import/ownerEvidenceReset.test.ts > authorized offline whole-journal reset: synthetic acceptance > AC10 fail-closed backup/audit fault: missing-copy
+ ✓ server/broker-import/ownerEvidenceReset.test.ts > authorized offline whole-journal reset: synthetic acceptance > AC10 fail-closed backup/audit fault: audit-start
+ ✓ server/broker-import/ownerEvidenceReset.test.ts > authorized offline whole-journal reset: synthetic acceptance > AC10 fail-closed backup/audit fault: audit-prepare
+ ✓ server/broker-import/ownerEvidenceReset.test.ts > authorized offline whole-journal reset: synthetic acceptance > AC10 fail-closed backup/audit fault: audit-complete
+ ✓ server/broker-import/ownerEvidenceReset.test.ts > authorized offline whole-journal reset: synthetic acceptance > AC10 fail-closed backup/audit fault: audit-late-corruption
+ ✓ server/broker-import/ownerEvidenceReset.test.ts > authorized offline whole-journal reset: synthetic acceptance > AC11 missing and empty/header-only journals are explicit NO_OP; header is not removed
+ ✓ server/broker-import/ownerEvidenceReset.test.ts > authorized offline whole-journal reset: synthetic acceptance > AC12 every phase real process SIGKILL, fresh-process truthful status; no automatic resume/restore, explicit restore only without overwrite 1825ms
+ ✓ server/broker-import/ownerEvidenceReset.test.ts > authorized offline whole-journal reset: synthetic acceptance > AC13 corrupt/missing completion or recreated active state never reports successful reset; no artifact cleanup
+ ✓ server/broker-import/ownerEvidenceReset.test.ts > authorized offline whole-journal reset: synthetic acceptance > AC14 fresh real host: opaque A-9 404 after clear, no HTTP DELETE, exact-byte explicit restore resurrects old IDs
+ ✓ server/broker-import/ownerEvidenceReset.test.ts > authorized offline whole-journal reset: synthetic acceptance > AC15 non-TTY/env-only confirmation cannot execute; no CLI hook/target options; AC16 every operation remains isolated in temp fixtures
+
+ Test Files  1 passed (1)
+      Tests  19 passed (19)
+   Start at  19:23:48
+   Duration  4.04s (transform 980ms, setup 147ms, collect 1.29s, tests 2.40s, environment 0ms, prepare 60ms)
+

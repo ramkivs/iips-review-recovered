@@ -1,0 +1,13 @@
+{
+  "baseline": "34c8b39e3ee1d26bba4f9b362ca631c4e42ce863",
+  "protectedExistingBlobsUnchanged": 2625,
+  "overlaysAppendOnly": [
+    "IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md",
+    "docs/OPERATOR_RUNBOOK.md",
+    "docs/integration/WS-A-DHAN-BROKER-HOLDINGS-WORKSTREAM-REPORT-2026-11-05-R2.md"
+  ],
+  "liveCompositionImports": 0,
+  "soleRemoval": "fixed whole active journal only",
+  "PF1FrozenAndDependenciesAndWorkflows": "UNCHANGED",
+  "operationalEvidenceAccessed": false
+}

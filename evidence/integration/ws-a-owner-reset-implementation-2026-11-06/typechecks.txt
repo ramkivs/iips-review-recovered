@@ -1,0 +1,17 @@
+
+> @iips/v3-frontend@0.1.0 pretypecheck
+> npm run build:broker-import
+
+
+> @iips/v3-frontend@0.1.0 build:broker-import
+> node scripts/materialize-broker-import.mjs && tsc -p tsconfig.broker-import.json
+
+broker-import alias 07e86a4f2c105651f3097a96cb519f8611945e30 materialized: 152 published files -> .cache/broker-import (published build output; no IPD source recompiled)
+
+> @iips/v3-frontend@0.1.0 typecheck
+> tsc --noEmit
+
+
+> @iips/v3-frontend@0.1.0 typecheck:replay-server
+> tsc -p tsconfig.replay-server.json --noEmit
+
