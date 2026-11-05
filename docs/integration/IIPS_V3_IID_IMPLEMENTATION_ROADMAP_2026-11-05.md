@@ -1095,6 +1095,53 @@ closed**: `L-001` … `L-009` remain `OPEN` and every response carries them.
 and downloading or scraping exchange data is out of scope. IID-4, IID-5 and IID-6 were not started, no frozen
 sector engine was touched, no existing NP-04 artifact was modified or recreated, and no pin was changed.
 
+## B.J5 IID-4 — acceptance criteria and actual status
+
+**Implemented 2026-11-06** on top of IID-0 … IID-3, without modifying any of them except by **extension**
+(`investment-artifacts.ts` gained a shared write path and a disposition entry point; the scope-token registry gained
+an admissible-prefix list for `investment.holding-disposition`; nothing was removed or renumbered).
+
+**Scope executed (roadmap §IID-4, tasks 1–8).** The disposition engine lives in
+`iips-platform/src/investment/disposition/` (`types`, `policy`, `limits`, `subject`, `gates`, `verbs`,
+`portfolioImplication`, `rationale`, `engine`); composition and records live in
+`frontend/server/investment/` (`dispositionComposition`, `dispositionService`, `portfolioContext`,
+`disposition-transport`); the operator path is `cli/disposition-demonstration.ts`. Persistence is the **existing**
+NP-04 mechanism through the **existing** IPD adapter: no new store, no SQLite in IRR, no bypass. The read surface
+adds two routes (a portfolio's dispositions, one holding's disposition) plus a candidate route, all GET/HEAD.
+
+| ID | Criterion | Status | Evidence |
+|---|---|---|---|
+| AC-4.1 | A verb exists for every assessable subject, with a table-driven evidence matrix | **PASS** — 31 table rows, boundaries at 15 %, −5 %, −10 %, −25 % | `disposition-matrix.test.ts` |
+| AC-4.2 | No exposure-increasing verb on PARTIAL evidence; WATCH is the PARTIAL candidate state | **PASS** — asserted over every PARTIAL row, plus a 60 %-discount case | `disposition-matrix.test.ts` |
+| AC-4.3 | Corrected subject model: `HELD` has a position key, `CANDIDATE` has none and `quantities: NOT_APPLICABLE`; `hd:`/`hc:` scopes agree with the subject kind | **PASS** | `disposition-subject.test.ts`, `disposition-composition.test.ts` |
+| AC-4.4 | Portfolio context reused, not re-derived; unmeasured weight never zero; sector reference labelled and non-governing | **PASS** | `disposition-portfolio.test.ts`, `portfolio-context.test.ts` |
+| AC-4.5 | Versioned, effective-dated limits; ACCUMULATE→RETAIN and INITIATE→WATCH caps named; caps downward-only | **PASS** | `disposition-limits.test.ts` |
+| AC-4.6 | Rationale with evidence, counter-arguments and falsifiers; every citation resolves | **PASS** — closure enforced in the engine, not only in a test | `disposition-rationale.test.ts` |
+| AC-4.7 | No order, quantity, price, timing or brokerage anywhere in the payload | **PASS** — structural key/prose walk, plus a demonstration scan | `disposition-rationale.test.ts`, demonstration point 7 |
+| AC-4.8 | `INVESTMENT_ASSESSMENT` semantics, `notAnInstruction`, no band for AVOID/WATCH | **PASS** | `disposition-matrix.test.ts`, `disposition-rationale.test.ts` |
+| AC-4.9 | Limits provenance (`SYSTEM_DEFAULT` vs `OPERATOR_CONFIG`), fail-closed on an unreadable policy | **PASS** | `disposition-limits.test.ts`, `disposition-records.test.ts` |
+| AC-4.10 | Determinism, stable chain identity, composer-side idempotency | **PASS** | `disposition-rationale.test.ts`, `disposition-records.test.ts`, demonstration points 1–4 |
+
+**The ten additional scenarios.** Multi-security issuer exposure; missing/stale assessment (refusal:
+`SUBJECT_ASSESSMENT_MISMATCH`, invariance refusal `ASSESSMENT_INVALID`); unresolved and out-of-scope holdings;
+G-1 vs G-3 ordering (first failure decides, later gates `SKIP`); G-1 vs G-3 sector differences via the labelled
+sector reference; synthetic evidence labelling end to end; limits-policy version change; idempotency and versioning;
+chain integrity including tamper refusal; and the `L-010`/`L-012`/`L-013`/`L-015` constraints with `L-014`
+preservation (clock-only re-run appends with an unchanged input digest).
+
+**Independent verification.** The disposition surface was verified from a fresh clone of the branch: platform and
+frontend suites green from a clean checkout, the demonstration's eight points pass, and the stored payload digests
+reproduce. Details in `evidence/iid/IID-4-HOLDING-DISPOSITION-2026-11-06/INDEPENDENT-VERIFICATION.md`.
+
+**Limitations opened.** Eleven (`L-017` … `L-027`). The ones a reader must know before using the output:
+portfolio context is a snapshot and not a risk model (`L-017`); unresolved holdings understate exposures (`L-018`);
+the default caps are placeholders, not the operator's policy (`L-019`); partial sector coverage bounds the sector cap
+(`L-022`); and `L-014` still applies, so a clock-only refresh is a new version (`L-026`).
+
+**Operator procedure.** `docs/OPERATOR_RUNBOOK.md` **§15**.
+
+---
+
 ## B.K R-16 sector coverage — still outstanding
 
 | ID | Criterion | Status |
@@ -1110,11 +1157,16 @@ honest state of R-16, not a failure of IID-0.
 
 ## B.L Explicitly not started
 
-IID-4 (holding disposition / IID-02), IID-5 (change intelligence / IID-03 / ★M-2), IID-6 (product surface /
-★M-3). IID-3 created a **new isolated** NP-04 database in a temporary directory for its demonstration and wrote
-nothing to any pre-existing Portfolio Summary or Executive report; no pre-existing artifact was read, modified or
-recreated; the Q-1 probe was not repeated; no frozen sector engine file was modified; no dependency pin was
-changed.
+**IID-5 (change intelligence / IID-03 / ★M-2) — NOT STARTED.** **IID-6 (product surface / ★M-3) — NOT STARTED.**
+Neither has a line of implementation, a stored artifact, a route or a UI. In particular IID-4 did **not** begin
+change comparison, did **not** build the product surface, and did **not** create a scheduled refresh: the disposition
+surface is engine + persistence integration + read routes only.
+
+IID-4 created **new isolated** NP-04 databases in temporary directories for its tests and its demonstration and
+wrote nothing to any pre-existing Portfolio Summary or Executive report; no pre-existing artifact was read,
+modified or recreated; the Q-1/NP-04 probes were not repeated; no frozen sector engine file was modified; no
+dependency pin was changed; and the IPD persistence implementation was not touched (the disposition surface uses the
+existing adapter and adds no store).
 
 
 ### B.M. Cross-workstream dependency reconciliation (`2026-11-06`; documentation only)
@@ -1137,3 +1189,13 @@ The separate holdings lane still needs genuine Dhan ISIN+Exchange (A-5), explici
 D01–D06, all four Gate 4 decisions, host qualification and operation-specific admission remain unresolved.
 W-1 remains hard-false; IID persistence is not a holdings write credential. Completed evidence retention/clearing
 is preserved with verified recovery-copy/restore-resurrection limits. No concurrent IID work is superseded.
+
+**Addendum (2026-11-06, later the same day) — IID-4 implemented; this overlay's status sentence is superseded in
+part.** IID-4 (holding disposition / IID-02) is now implemented, tested and published (§B.J5): the disposition engine,
+its composition, its `hd:`/`hc:` persistence integration and its GET-only read routes exist. **IID-5 and IID-6 remain
+NOT STARTED**, M-2/M-3 are not delivered, and none of this record's other qualifications is lifted: R-16 remains 3/13
+synthetic sectors, no real issuer has been assessed or dispositioned, no holdings write credential follows from IID
+persistence, the holdings lane (A-5/A-6/A-7, D01–D06, Gate 4) is untouched, `L-001`–`L-016` remain open, no pin was
+changed, and `L-016`'s discrepancy is still explicit. The eleven further entries (`L-017`–`L-027`) record what IID-4
+cannot do; they add to the register and replace nothing in it.
+
