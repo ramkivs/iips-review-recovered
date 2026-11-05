@@ -1,0 +1,1157 @@
+{
+  "retainedThrough": "BrokerImportEvidenceStore -> PF-1 PersistenceService (append-only journal)",
+  "dataDir": "OS temporary directory (throwaway); the authoritative operator data directory was never opened",
+  "retention": {
+    "firstRetentionDuplicate": false,
+    "repeatedRetentionDuplicate": true,
+    "repeatedRetentionSameRecordId": true,
+    "readBackDigestMatchesRetained": true,
+    "journalLineCount": 2,
+    "recordsForScope": 1,
+    "foreignOwnerScopeInvisible": true
+  },
+  "record": {
+    "schema": "IIPS_BROKER_IMPORT_EVIDENCE_V1",
+    "importId": "d3097726b7d55b6b58ec894e06dbe2c29f716073c07b2d351e4bb904d8624191",
+    "tenantId": "T-WS-A-PIN-ADVANCE",
+    "ownerUserId": "U-WS-A-EVIDENCE-GENERATOR",
+    "portfolioSlot": "P1-BROKER",
+    "broker": "DHAN",
+    "variant": "DHAN_WEB_UI_SUMMARY_V1",
+    "fileName": "Portfolio(2).csv",
+    "readAt": "2026-11-05T07:50:49.090Z",
+    "contentDigest": "c44e3cdb06e2d49f88c46d61867444f8a301cdf71a068b0e3aa1d748e6d52f31",
+    "status": "PARSED_UNRESOLVED",
+    "identityAuthority": {
+      "source": "IPD_GOVERNED_D05_SECURITY_MASTER",
+      "entities": 2250
+    },
+    "counts": {
+      "nativeRows": 68,
+      "identityAssessedRows": 68,
+      "identityResolvedRows": 1,
+      "identityUnresolvedRows": 67,
+      "savedRows": 0
+    },
+    "rows": [
+      {
+        "rowIndex": 1,
+        "symbol": "AGI GREENPAC",
+        "isin": null,
+        "exchange": null,
+        "quantity": 25,
+        "averagePrice": 89.65,
+        "currentPrice": 631.65,
+        "identityStatus": "RESOLVED",
+        "identityBasis": "PIPELINE_RESOLVED",
+        "identityRefusalCode": null,
+        "quarantineIds": []
+      },
+      {
+        "rowIndex": 2,
+        "symbol": "ASK AUTOMOTIVE",
+        "isin": null,
+        "exchange": null,
+        "quantity": 7,
+        "averagePrice": 431.29,
+        "currentPrice": 592.95,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+        "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+        "quarantineIds": [
+          "ident-quar-1793869629986-n0z3q",
+          "ident-quar-1793869629987-mavs6"
+        ]
+      },
+      {
+        "rowIndex": 3,
+        "symbol": "AJAX ENGINEERING",
+        "isin": null,
+        "exchange": null,
+        "quantity": 10,
+        "averagePrice": 467.05,
+        "currentPrice": 550.1,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+        "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+        "quarantineIds": [
+          "ident-quar-1793869629993-yna1q",
+          "ident-quar-1793869629999-hxej8"
+        ]
+      },
+      {
+        "rowIndex": 4,
+        "symbol": "ARIHANT CAPITAL MARKETS",
+        "isin": null,
+        "exchange": null,
+        "quantity": 50,
+        "averagePrice": 67.92,
+        "currentPrice": 86.23,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+        "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+        "quarantineIds": [
+          "ident-quar-1793869629999-31lki",
+          "ident-quar-1793869629999-o42i1"
+        ]
+      },
+      {
+        "rowIndex": 5,
+        "symbol": "ARKADE DEVELOPERS",
+        "isin": null,
+        "exchange": null,
+        "quantity": 30,
+        "averagePrice": 115.71,
+        "currentPrice": 106.21,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+        "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+        "quarantineIds": [
+          "ident-quar-1793869630000-g6d30",
+          "ident-quar-1793869630000-ulwlv"
+        ]
+      },
+      {
+        "rowIndex": 6,
+        "symbol": "ARROW GREENTECH",
+        "isin": null,
+        "exchange": null,
+        "quantity": 12,
+        "averagePrice": 388.02,
+        "currentPrice": 715,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+        "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+        "quarantineIds": [
+          "ident-quar-1793869630001-69wuq",
+          "ident-quar-1793869630001-z4sel"
+        ]
+      },
+      {
+        "rowIndex": 7,
+        "symbol": "ASHOKA BUILDCON",
+        "isin": null,
+        "exchange": null,
+        "quantity": 100,
+        "averagePrice": 126.08,
+        "currentPrice": 100.45,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+        "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+        "quarantineIds": [
+          "ident-quar-1793869630001-bs8rf",
+          "ident-quar-1793869630001-7mmkj"
+        ]
+      },
+      {
+        "rowIndex": 8,
+        "symbol": "BANK OF BARODA",
+        "isin": null,
+        "exchange": null,
+        "quantity": 100,
+        "averagePrice": 259.03,
+        "currentPrice": 243.3,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+        "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+        "quarantineIds": [
+          "ident-quar-1793869630002-2nwp3",
+          "ident-quar-1793869630002-s6anl"
+        ]
+      },
+      {
+        "rowIndex": 9,
+        "symbol": "BHARAT COKING COAL",
+        "isin": null,
+        "exchange": null,
+        "quantity": 300,
+        "averagePrice": 36.45,
+        "currentPrice": 30.35,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+        "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+        "quarantineIds": [
+          "ident-quar-1793869630002-uyixc",
+          "ident-quar-1793869630002-zfafp"
+        ]
+      },
+      {
+        "rowIndex": 10,
+        "symbol": "BLUE JET HEALTHCARE",
+        "isin": null,
+        "exchange": null,
+        "quantity": 15,
+        "averagePrice": 411.83,
+        "currentPrice": 496.4,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+        "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+        "quarantineIds": [
+          "ident-quar-1793869630003-t9o6z",
+          "ident-quar-1793869630003-m0uoo"
+        ]
+      },
+      {
+        "rowIndex": 11,
+        "symbol": "CANARA ROBECO ASSET MANAGEMENT COMPANY",
+        "isin": null,
+        "exchange": null,
+        "quantity": 55,
+        "averagePrice": 252.83,
+        "currentPrice": 217.36,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+        "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+        "quarantineIds": [
+          "ident-quar-1793869630003-jjnc3",
+          "ident-quar-1793869630004-3cjqe"
+        ]
+      },
+      {
+        "rowIndex": 12,
+        "symbol": "CREDO BRANDS MARKETING (MUFTI)",
+        "isin": null,
+        "exchange": null,
+        "quantity": 30,
+        "averagePrice": 96.83,
+        "currentPrice": 75.96,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+        "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+        "quarantineIds": [
+          "ident-quar-1793869630004-x5hw9",
+          "ident-quar-1793869630004-n5f0a"
+        ]
+      },
+      {
+        "rowIndex": 13,
+        "symbol": "DAM CAPITAL ADVISORS",
+        "isin": null,
+        "exchange": null,
+        "quantity": 150,
+        "averagePrice": 149.3,
+        "currentPrice": 133.43,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+        "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+        "quarantineIds": [
+          "ident-quar-1793869630004-kca6z",
+          "ident-quar-1793869630005-sm80p"
+        ]
+      },
+      {
+        "rowIndex": 14,
+        "symbol": "ECOS MOBILITY & HOSPITALITY",
+        "isin": null,
+        "exchange": null,
+        "quantity": 100,
+        "averagePrice": 126.42,
+        "currentPrice": 111.07,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+        "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+        "quarantineIds": [
+          "ident-quar-1793869630005-xp7fp",
+          "ident-quar-1793869630005-a8hf3"
+        ]
+      },
+      {
+        "rowIndex": 15,
+        "symbol": "EMS",
+        "isin": null,
+        "exchange": null,
+        "quantity": 15,
+        "averagePrice": 312.52,
+        "currentPrice": 289.15,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+        "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+        "quarantineIds": [
+          "ident-quar-1793869630006-1tn8h",
+          "ident-quar-1793869630006-m4kqy"
+        ]
+      },
+      {
+        "rowIndex": 16,
+        "symbol": "EPACK PREFAB TECHNOLOGIES",
+        "isin": null,
+        "exchange": null,
+        "quantity": 10,
+        "averagePrice": 192.75,
+        "currentPrice": 201.51,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+        "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+        "quarantineIds": [
+          "ident-quar-1793869630006-jkkhw",
+          "ident-quar-1793869630006-4lier"
+        ]
+      },
+      {
+        "rowIndex": 17,
+        "symbol": "ELECON ENGINEERING COMPANY",
+        "isin": null,
+        "exchange": null,
+        "quantity": 22,
+        "averagePrice": 426.02,
+        "currentPrice": 427.95,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+        "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+        "quarantineIds": [
+          "ident-quar-1793869630007-siimr",
+          "ident-quar-1793869630007-dm9ec"
+        ]
+      },
+      {
+        "rowIndex": 18,
+        "symbol": "EMAMI",
+        "isin": null,
+        "exchange": null,
+        "quantity": 25,
+        "averagePrice": 404.23,
+        "currentPrice": 382,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+        "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+        "quarantineIds": [
+          "ident-quar-1793869630007-eqig0",
+          "ident-quar-1793869630008-f4ypg"
+        ]
+      },
+      {
+        "rowIndex": 19,
+        "symbol": "ENGINEERS INDIA",
+        "isin": null,
+        "exchange": null,
+        "quantity": 10,
+        "averagePrice": 168,
+        "currentPrice": 289.25,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+        "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+        "quarantineIds": [
+          "ident-quar-1793869630008-17abv",
+          "ident-quar-1793869630008-pywrk"
+        ]
+      },
+      {
+        "rowIndex": 20,
+        "symbol": "FINEOTEX CHEMICAL",
+        "isin": null,
+        "exchange": null,
+        "quantity": 100,
+        "averagePrice": 22.03,
+        "currentPrice": 49.15,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+        "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+        "quarantineIds": [
+          "ident-quar-1793869630008-orfou",
+          "ident-quar-1793869630009-7ufta"
+        ]
+      },
+      {
+        "rowIndex": 21,
+        "symbol": "GHCL",
+        "isin": null,
+        "exchange": null,
+        "quantity": 27,
+        "averagePrice": 450.31,
+        "currentPrice": 403,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+        "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+        "quarantineIds": [
+          "ident-quar-1793869630009-76jzh",
+          "ident-quar-1793869630009-ku67n"
+        ]
+      },
+      {
+        "rowIndex": 22,
+        "symbol": "GMR POWER & URBAN INFRA",
+        "isin": null,
+        "exchange": null,
+        "quantity": 110,
+        "averagePrice": 98.97,
+        "currentPrice": 91.77,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+        "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+        "quarantineIds": [
+          "ident-quar-1793869630009-2wba0",
+          "ident-quar-1793869630010-o6j4i"
+        ]
+      },
+      {
+        "rowIndex": 23,
+        "symbol": "GATEWAY DISTRIPARKS",
+        "isin": null,
+        "exchange": null,
+        "quantity": 90,
+        "averagePrice": 56.04,
+        "currentPrice": 46.39,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+        "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+        "quarantineIds": [
+          "ident-quar-1793869630010-0ge0w",
+          "ident-quar-1793869630010-1qifa"
+        ]
+      },
+      {
+        "rowIndex": 24,
+        "symbol": "GEEKAY WIRES",
+        "isin": null,
+        "exchange": null,
+        "quantity": 160,
+        "averagePrice": 22.93,
+        "currentPrice": 26.91,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+        "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+        "quarantineIds": [
+          "ident-quar-1793869630010-dgqvt",
+          "ident-quar-1793869630011-qdxp4"
+        ]
+      },
+      {
+        "rowIndex": 25,
+        "symbol": "GENUS POWER INFRASTRUCTURES",
+        "isin": null,
+        "exchange": null,
+        "quantity": 10,
+        "averagePrice": 305,
+        "currentPrice": 270.9,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+        "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+        "quarantineIds": [
+          "ident-quar-1793869630011-v230k",
+          "ident-quar-1793869630011-cdl9d"
+        ]
+      },
+      {
+        "rowIndex": 26,
+        "symbol": "GRAUER & WEIL",
+        "isin": null,
+        "exchange": null,
+        "quantity": 50,
+        "averagePrice": 67.79,
+        "currentPrice": 74.16,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+        "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+        "quarantineIds": [
+          "ident-quar-1793869630011-kt234",
+          "ident-quar-1793869630012-17t76"
+        ]
+      },
+      {
+        "rowIndex": 27,
+        "symbol": "GUJARAT PIPAVAV PORT",
+        "isin": null,
+        "exchange": null,
+        "quantity": 160,
+        "averagePrice": 150.65,
+        "currentPrice": 163.33,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+        "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+        "quarantineIds": [
+          "ident-quar-1793869630012-11n2j",
+          "ident-quar-1793869630012-wpug2"
+        ]
+      },
+      {
+        "rowIndex": 28,
+        "symbol": "HIMADRI SPECIALITY CHEMICAL",
+        "isin": null,
+        "exchange": null,
+        "quantity": 15,
+        "averagePrice": 443.17,
+        "currentPrice": 529,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+        "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+        "quarantineIds": [
+          "ident-quar-1793869630012-mvrgd",
+          "ident-quar-1793869630013-pbswt"
+        ]
+      },
+      {
+        "rowIndex": 29,
+        "symbol": "IDFC FIRST BANK",
+        "isin": null,
+        "exchange": null,
+        "quantity": 50,
+        "averagePrice": 64.33,
+        "currentPrice": 73.2,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+        "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+        "quarantineIds": [
+          "ident-quar-1793869630013-s3uuf",
+          "ident-quar-1793869630013-mdubw"
+        ]
+      },
+      {
+        "rowIndex": 30,
+        "symbol": "IIFL CAPITAL SERVICES",
+        "isin": null,
+        "exchange": null,
+        "quantity": 15,
+        "averagePrice": 314.4,
+        "currentPrice": 347.95,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+        "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+        "quarantineIds": [
+          "ident-quar-1793869630013-7g54f",
+          "ident-quar-1793869630014-xzofy"
+        ]
+      },
+      {
+        "rowIndex": 31,
+        "symbol": "INDRAPRASTHA MEDICAL CORPORATION",
+        "isin": null,
+        "exchange": null,
+        "quantity": 40,
+        "averagePrice": 368.99,
+        "currentPrice": 318.4,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+        "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+        "quarantineIds": [
+          "ident-quar-1793869630014-x6l8e",
+          "ident-quar-1793869630014-ij4ho"
+        ]
+      },
+      {
+        "rowIndex": 32,
+        "symbol": "INTERNATIONAL CONVEYORS",
+        "isin": null,
+        "exchange": null,
+        "quantity": 100,
+        "averagePrice": 78.07,
+        "currentPrice": 75.17,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+        "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+        "quarantineIds": [
+          "ident-quar-1793869630014-pvkmg",
+          "ident-quar-1793869630015-kloov"
+        ]
+      },
+      {
+        "rowIndex": 33,
+        "symbol": "INTERNATIONAL GEMOLOGICAL INSTITUTE",
+        "isin": null,
+        "exchange": null,
+        "quantity": 15,
+        "averagePrice": 314.67,
+        "currentPrice": 407.85,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+        "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+        "quarantineIds": [
+          "ident-quar-1793869630015-jqcb2",
+          "ident-quar-1793869630015-qhsui"
+        ]
+      },
+      {
+        "rowIndex": 34,
+        "symbol": "J KUMAR INFRAPROJECTS",
+        "isin": null,
+        "exchange": null,
+        "quantity": 20,
+        "averagePrice": 448.5,
+        "currentPrice": 405.85,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+        "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+        "quarantineIds": [
+          "ident-quar-1793869630016-863zk",
+          "ident-quar-1793869630016-dp0tn"
+        ]
+      },
+      {
+        "rowIndex": 35,
+        "symbol": "JAI BALAJI INDUSTRIES",
+        "isin": null,
+        "exchange": null,
+        "quantity": 110,
+        "averagePrice": 67.84,
+        "currentPrice": 69.7,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+        "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+        "quarantineIds": [
+          "ident-quar-1793869630016-pdlx1",
+          "ident-quar-1793869630016-kfrjc"
+        ]
+      },
+      {
+        "rowIndex": 36,
+        "symbol": "JAMNA AUTO INDUSTRIES",
+        "isin": null,
+        "exchange": null,
+        "quantity": 33,
+        "averagePrice": 111.61,
+        "currentPrice": 122.98,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+        "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+        "quarantineIds": [
+          "ident-quar-1793869630017-fqhah",
+          "ident-quar-1793869630017-ndah0"
+        ]
+      },
+      {
+        "rowIndex": 37,
+        "symbol": "JIO PLATFORMS",
+        "isin": null,
+        "exchange": null,
+        "quantity": 12,
+        "averagePrice": 1119,
+        "currentPrice": 1437.4,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+        "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+        "quarantineIds": [
+          "ident-quar-1793869630017-walsu",
+          "ident-quar-1793869630017-m3c1x"
+        ]
+      },
+      {
+        "rowIndex": 38,
+        "symbol": "KM SUGAR MILLS",
+        "isin": null,
+        "exchange": null,
+        "quantity": 14,
+        "averagePrice": 227.33,
+        "currentPrice": 32.23,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+        "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+        "quarantineIds": [
+          "ident-quar-1793869630018-qfg3b",
+          "ident-quar-1793869630018-2jhnk"
+        ]
+      },
+      {
+        "rowIndex": 39,
+        "symbol": "KP ENERGY",
+        "isin": null,
+        "exchange": null,
+        "quantity": 40,
+        "averagePrice": 325.12,
+        "currentPrice": 159.38,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+        "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+        "quarantineIds": [
+          "ident-quar-1793869630018-da6id",
+          "ident-quar-1793869630018-q5jbn"
+        ]
+      },
+      {
+        "rowIndex": 40,
+        "symbol": "KROSS",
+        "isin": null,
+        "exchange": null,
+        "quantity": 5,
+        "averagePrice": 161,
+        "currentPrice": 272.2,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+        "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+        "quarantineIds": [
+          "ident-quar-1793869630019-f00l9",
+          "ident-quar-1793869630019-ojfam"
+        ]
+      },
+      {
+        "rowIndex": 41,
+        "symbol": "LANDMARK CARS",
+        "isin": null,
+        "exchange": null,
+        "quantity": 20,
+        "averagePrice": 386.15,
+        "currentPrice": 456.05,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+        "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+        "quarantineIds": [
+          "ident-quar-1793869630019-gd1xr",
+          "ident-quar-1793869630020-61l0u"
+        ]
+      },
+      {
+        "rowIndex": 42,
+        "symbol": "MATRIMONY.COM",
+        "isin": null,
+        "exchange": null,
+        "quantity": 20,
+        "averagePrice": 403.08,
+        "currentPrice": 550,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+        "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+        "quarantineIds": [
+          "ident-quar-1793869630020-1ciis",
+          "ident-quar-1793869630020-hd7hr"
+        ]
+      },
+      {
+        "rowIndex": 43,
+        "symbol": "MONARCH NETWORTH CAPITAL",
+        "isin": null,
+        "exchange": null,
+        "quantity": 10,
+        "averagePrice": 272.5,
+        "currentPrice": 345.7,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+        "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+        "quarantineIds": [
+          "ident-quar-1793869630020-k2xa4",
+          "ident-quar-1793869630021-cade5"
+        ]
+      },
+      {
+        "rowIndex": 44,
+        "symbol": "NATIONAL STOCK EXCHANGE OF INDIA",
+        "isin": null,
+        "exchange": null,
+        "quantity": 8,
+        "averagePrice": 1785,
+        "currentPrice": 1803.8,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+        "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+        "quarantineIds": [
+          "ident-quar-1793869630021-8q4yk",
+          "ident-quar-1793869630021-5se8v"
+        ]
+      },
+      {
+        "rowIndex": 45,
+        "symbol": "OSWAL PUMPS",
+        "isin": null,
+        "exchange": null,
+        "quantity": 35,
+        "averagePrice": 373.99,
+        "currentPrice": 209.54,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+        "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+        "quarantineIds": [
+          "ident-quar-1793869630021-2t8ez",
+          "ident-quar-1793869630022-yokp1"
+        ]
+      },
+      {
+        "rowIndex": 46,
+        "symbol": "PANAMA PETROCHEM",
+        "isin": null,
+        "exchange": null,
+        "quantity": 10,
+        "averagePrice": 295,
+        "currentPrice": 465.85,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+        "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+        "quarantineIds": [
+          "ident-quar-1793869630022-q5pie",
+          "ident-quar-1793869630022-xejtj"
+        ]
+      },
+      {
+        "rowIndex": 47,
+        "symbol": "PARADEEP PHOSPHATES",
+        "isin": null,
+        "exchange": null,
+        "quantity": 20,
+        "averagePrice": 109,
+        "currentPrice": 133.85,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+        "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+        "quarantineIds": [
+          "ident-quar-1793869630022-rut35",
+          "ident-quar-1793869630023-szyzs"
+        ]
+      },
+      {
+        "rowIndex": 48,
+        "symbol": "PRECISION WIRES INDIA",
+        "isin": null,
+        "exchange": null,
+        "quantity": 5,
+        "averagePrice": 214,
+        "currentPrice": 403.6,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+        "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+        "quarantineIds": [
+          "ident-quar-1793869630023-4c3ts",
+          "ident-quar-1793869630023-sq79y"
+        ]
+      },
+      {
+        "rowIndex": 49,
+        "symbol": "PREMIER POLYFILM",
+        "isin": null,
+        "exchange": null,
+        "quantity": 10,
+        "averagePrice": 50.6,
+        "currentPrice": 90.91,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+        "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+        "quarantineIds": [
+          "ident-quar-1793869630024-3f8fa",
+          "ident-quar-1793869630024-w7bin"
+        ]
+      },
+      {
+        "rowIndex": 50,
+        "symbol": "PUDUMJEE PAPER PRODUCTS",
+        "isin": null,
+        "exchange": null,
+        "quantity": 50,
+        "averagePrice": 82.99,
+        "currentPrice": 87.28,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+        "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+        "quarantineIds": [
+          "ident-quar-1793869630024-g31wq",
+          "ident-quar-1793869630024-v0a5k"
+        ]
+      },
+      {
+        "rowIndex": 51,
+        "symbol": "RADHIKA JEWELTECH",
+        "isin": null,
+        "exchange": null,
+        "quantity": 100,
+        "averagePrice": 56.9,
+        "currentPrice": 61.87,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+        "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+        "quarantineIds": [
+          "ident-quar-1793869630025-qlk4i",
+          "ident-quar-1793869630025-og6cq"
+        ]
+      },
+      {
+        "rowIndex": 52,
+        "symbol": "RAJOO ENGINEERS",
+        "isin": null,
+        "exchange": null,
+        "quantity": 200,
+        "averagePrice": 52.6,
+        "currentPrice": 55.48,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+        "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+        "quarantineIds": [
+          "ident-quar-1793869630025-pes93",
+          "ident-quar-1793869630026-888pn"
+        ]
+      },
+      {
+        "rowIndex": 53,
+        "symbol": "RATEGAIN TRAVEL",
+        "isin": null,
+        "exchange": null,
+        "quantity": 10,
+        "averagePrice": 522.5,
+        "currentPrice": 820.25,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+        "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+        "quarantineIds": [
+          "ident-quar-1793869630026-wjk8l",
+          "ident-quar-1793869630026-zohle"
+        ]
+      },
+      {
+        "rowIndex": 54,
+        "symbol": "SALASAR TECHNO ENGINEERING",
+        "isin": null,
+        "exchange": null,
+        "quantity": 33,
+        "averagePrice": 67.11,
+        "currentPrice": 4.1,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+        "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+        "quarantineIds": [
+          "ident-quar-1793869630026-g9rcw",
+          "ident-quar-1793869630027-mkhfv"
+        ]
+      },
+      {
+        "rowIndex": 55,
+        "symbol": "SHAKTI PUMPS",
+        "isin": null,
+        "exchange": null,
+        "quantity": 7,
+        "averagePrice": 483.79,
+        "currentPrice": 357,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+        "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+        "quarantineIds": [
+          "ident-quar-1793869630027-egive",
+          "ident-quar-1793869630027-8vhms"
+        ]
+      },
+      {
+        "rowIndex": 56,
+        "symbol": "SHARDA MOTOR",
+        "isin": null,
+        "exchange": null,
+        "quantity": 10,
+        "averagePrice": 822.6,
+        "currentPrice": 856.4,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+        "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+        "quarantineIds": [
+          "ident-quar-1793869630027-3zszu",
+          "ident-quar-1793869630028-u9yat"
+        ]
+      },
+      {
+        "rowIndex": 57,
+        "symbol": "SIGMA SOLVE",
+        "isin": null,
+        "exchange": null,
+        "quantity": 70,
+        "averagePrice": 46.94,
+        "currentPrice": 43.03,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+        "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+        "quarantineIds": [
+          "ident-quar-1793869630028-tfn3j",
+          "ident-quar-1793869630028-318zb"
+        ]
+      },
+      {
+        "rowIndex": 58,
+        "symbol": "SIYARAM SILK MILLS",
+        "isin": null,
+        "exchange": null,
+        "quantity": 10,
+        "averagePrice": 526.4,
+        "currentPrice": 473.4,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+        "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+        "quarantineIds": [
+          "ident-quar-1793869630029-rmbu8",
+          "ident-quar-1793869630029-sdhyd"
+        ]
+      },
+      {
+        "rowIndex": 59,
+        "symbol": "STEELCAST",
+        "isin": null,
+        "exchange": null,
+        "quantity": 10,
+        "averagePrice": 183.5,
+        "currentPrice": 369.15,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+        "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+        "quarantineIds": [
+          "ident-quar-1793869630029-hfd1b",
+          "ident-quar-1793869630029-yj4cy"
+        ]
+      },
+      {
+        "rowIndex": 60,
+        "symbol": "SUZLON ENERGY",
+        "isin": null,
+        "exchange": null,
+        "quantity": 70,
+        "averagePrice": 43.54,
+        "currentPrice": 35.75,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+        "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+        "quarantineIds": [
+          "ident-quar-1793869630030-379xf",
+          "ident-quar-1793869630030-q35pv"
+        ]
+      },
+      {
+        "rowIndex": 61,
+        "symbol": "THYROCARE TECHNOLOGIES",
+        "isin": null,
+        "exchange": null,
+        "quantity": 13,
+        "averagePrice": 440.89,
+        "currentPrice": 482.9,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+        "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+        "quarantineIds": [
+          "ident-quar-1793869630030-a6n6i",
+          "ident-quar-1793869630030-up0uh"
+        ]
+      },
+      {
+        "rowIndex": 62,
+        "symbol": "TITAGARH RAIL SYSTEMS",
+        "isin": null,
+        "exchange": null,
+        "quantity": 4,
+        "averagePrice": 741.88,
+        "currentPrice": 683.75,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+        "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+        "quarantineIds": [
+          "ident-quar-1793869630031-33m0n",
+          "ident-quar-1793869630031-qzy20"
+        ]
+      },
+      {
+        "rowIndex": 63,
+        "symbol": "UNIVASTU",
+        "isin": null,
+        "exchange": null,
+        "quantity": 20,
+        "averagePrice": 76.8,
+        "currentPrice": 129.14,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+        "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+        "quarantineIds": [
+          "ident-quar-1793869630031-3ux7e",
+          "ident-quar-1793869630032-rw21q"
+        ]
+      },
+      {
+        "rowIndex": 64,
+        "symbol": "VARDHMAN SPECIAL STEELS",
+        "isin": null,
+        "exchange": null,
+        "quantity": 15,
+        "averagePrice": 274.3,
+        "currentPrice": 350.05,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+        "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+        "quarantineIds": [
+          "ident-quar-1793869630032-ddlev",
+          "ident-quar-1793869630032-ypiax"
+        ]
+      },
+      {
+        "rowIndex": 65,
+        "symbol": "VISHAL MEGA MART",
+        "isin": null,
+        "exchange": null,
+        "quantity": 100,
+        "averagePrice": 110.3,
+        "currentPrice": 90.7,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+        "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+        "quarantineIds": [
+          "ident-quar-1793869630032-essiq",
+          "ident-quar-1793869630033-suz1r"
+        ]
+      },
+      {
+        "rowIndex": 66,
+        "symbol": "VISHNU CHEMICALS",
+        "isin": null,
+        "exchange": null,
+        "quantity": 15,
+        "averagePrice": 504.13,
+        "currentPrice": 519.05,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+        "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+        "quarantineIds": [
+          "ident-quar-1793869630033-cuniy",
+          "ident-quar-1793869630033-028kz"
+        ]
+      },
+      {
+        "rowIndex": 67,
+        "symbol": "WAAREE RENEWABLE TECHNOLOGIES",
+        "isin": null,
+        "exchange": null,
+        "quantity": 20,
+        "averagePrice": 951.4,
+        "currentPrice": 697.5,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+        "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+        "quarantineIds": [
+          "ident-quar-1793869630033-ao8g9",
+          "ident-quar-1793869630034-tkk8f"
+        ]
+      },
+      {
+        "rowIndex": 68,
+        "symbol": "WEBSOL ENERGY SYSTEM",
+        "isin": null,
+        "exchange": null,
+        "quantity": 100,
+        "averagePrice": 107.09,
+        "currentPrice": 67.15,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+        "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+        "quarantineIds": [
+          "ident-quar-1793869630034-10dja",
+          "ident-quar-1793869630034-u68sl"
+        ]
+      }
+    ],
+    "pipelineRefusals": [
+      {
+        "reason": "UNMAPPED_IDENTITY",
+        "details": "P04 Identity Ambiguity Quarantine: Identity ambiguity detected for 'ASK AUTOMOTIVE': UNMAPPED_IDENTIFIER (No active mapping found for BSE_SYMBOL:ASK AUTOMOTIVE at asOf 2026-11-05T07:50:49.090Z)",
+        "stage": "NORMALIZE"
+      }
+    ],
+    "warnings": [],
+    "validation": {
+      "performed": false,
+      "reason": "A preview parses broker evidence only. It does not validate values, does not authorize a save and never writes holdings."
+    },
+    "saveAuthorization": {
+      "authorized": false,
+      "reason": "A preview parses broker evidence only. It does not validate values, does not authorize a save and never writes holdings."
+    },
+    "persistence": {
+      "performed": false,
+      "reason": "A preview parses broker evidence only. It does not validate values, does not authorize a save and never writes holdings."
+    },
+    "reconciliation": {
+      "importedRows": 68,
+      "savedRows": 0,
+      "difference": 68,
+      "disposition": "NO_HOLDINGS_SAVED"
+    },
+    "limitations": [
+      "The raw broker file bytes are not retained: the CSV is processed locally and is not uploaded.",
+      "The content digest is retained as reported by the ingest; without the raw bytes it cannot be re-verified.",
+      "Per-row refusal codes and P04 quarantine ids are the pinned pipeline’s own published assessment evidence; IRR derives none of them. Identity remains unresolved for every row the governed master did not resolve, and the whole-import P04 refusal remains in force.",
+      "P04 quarantine record ids are minted per lookup by the IPD-owned pipeline and are therefore process-specific. The FIRST retention of an import is the authoritative evidence record; a repeated import is a no-op that returns it unchanged, so the retained record digest is stable even though a freshly rebuilt one is not."
+    ],
+    "recordDigest": "3f519e1c706c82b1578ae35b94a4cb13153e0fd033bd297515589dc3983b30f4"
+  }
+}

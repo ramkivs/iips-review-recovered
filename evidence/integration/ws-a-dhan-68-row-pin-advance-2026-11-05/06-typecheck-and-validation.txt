@@ -1,0 +1,42 @@
+# Typecheck and the established IRR validation gates affected by the pin advance
+# Captured: 2026-11-05T09:10:09Z UTC | node v22.22.3 | npm 10.9.8
+
+=== npm run build:broker-import (materialize + strict typecheck of the pinned consumption surface) ===
+
+> @iips/v3-frontend@0.1.0 build:broker-import
+> node scripts/materialize-broker-import.mjs && tsc -p tsconfig.broker-import.json
+
+broker-import alias 7bcae35ad18c43cb67a16f30faa55bbdf0fb33fc materialized: 152 published files -> .cache/broker-import (published build output; no IPD source recompiled)
+EXIT=0
+
+=== npm run typecheck  (V2: pretypecheck -> build:broker-import, then tsc --noEmit) ===
+
+> @iips/v3-frontend@0.1.0 pretypecheck
+> npm run build:broker-import
+
+
+> @iips/v3-frontend@0.1.0 build:broker-import
+> node scripts/materialize-broker-import.mjs && tsc -p tsconfig.broker-import.json
+
+broker-import alias 7bcae35ad18c43cb67a16f30faa55bbdf0fb33fc materialized: 152 published files -> .cache/broker-import (published build output; no IPD source recompiled)
+
+> @iips/v3-frontend@0.1.0 typecheck
+> tsc --noEmit
+
+EXIT=0
+
+=== npm run typecheck:replay-server (Stage A strict governed replay-server import closure) ===
+
+> @iips/v3-frontend@0.1.0 typecheck:replay-server
+> tsc -p tsconfig.replay-server.json --noEmit
+
+EXIT=0
+
+=== lockfile-exact reproducible install check (npm ci against the committed lockfile) ===
+Not executed here: the working tree already carries the lockfile-exact install produced by
+'NODE_EXTRA_CA_CERTS=/etc/ssl/certs/ca-certificates.crt npm install --no-audit --no-fund'
+(190 packages). CI reproduces it with 'npm ci --no-audit --no-fund' (.github/workflows/ci.yml).
+
+=== node .ci/assert-tests.js (CV-35 false-green guard, run against 07's report) ===
+assert-tests: OK — 111 test file(s), 1386 test(s), 0 failed
+EXIT=0

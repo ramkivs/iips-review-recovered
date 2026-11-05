@@ -101,7 +101,7 @@ npx tsx server/reports/persist-real-reports.ts --verify --api http://127.0.0.1:8
 | `frontend/src/features/reports/ReportsRealData.test.tsx` | **NEW** — targeted live UI test against the actual persisted artifacts (skipped unless `IIPS_REPORTS_API_URL` is set). |
 | `frontend/tsconfig.replay-server.json` | Include the new server script and test in the Stage A replay-server typecheck. |
 | `docs/OPERATOR_RUNBOOK.md` | Operator note for the new invocation; no database location prescribed. |
-| `IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md` | Governance record §16.249. |
+| `IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md` | Governance record §16.250 (`CV-CORR-230`, `V2040`–`V2045`). |
 | This record | Implementation and verification evidence. |
 
 No Reports implementation, NP-04 implementation, route table, UI write path, carrier, owner pair, or governance decision was changed.

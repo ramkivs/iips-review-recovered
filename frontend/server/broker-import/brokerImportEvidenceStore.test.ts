@@ -70,13 +70,29 @@ describe('WS-A broker-import evidence retention', () => {
     expect(read.pipelineRefusals).toHaveLength(1);
     expect(read.pipelineRefusals[0].reason).toBe('UNMAPPED_IDENTITY');
     expect(read.pipelineRefusals[0].details).toMatch(/UNMAPPED_IDENTIFIER/);
+    // Pin advance to IPD PR #127 (7bcae35): the pipeline now assesses EVERY native row before the
+    // single whole-import P04 refusal, so the retained counts record real per-row outcomes.
     expect(read.counts).toEqual({
       nativeRows: 68,
-      identityAssessedRows: 0,
-      identityResolvedRows: 0,
-      identityUnresolvedRows: 68,
+      identityAssessedRows: 68,
+      identityResolvedRows: 1,
+      identityUnresolvedRows: 67,
       savedRows: 0,
     });
+    // P04 quarantine evidence for the unresolved identities is retained per row.
+    expect(read.rows[0].identityStatus).toBe('RESOLVED');
+    expect(read.rows[0].identityBasis).toBe('PIPELINE_RESOLVED');
+    expect(read.rows[0].identityRefusalCode).toBeNull();
+    expect(read.rows[0].quarantineIds).toEqual([]);
+    const unresolved = read.rows.slice(1);
+    expect(unresolved).toHaveLength(67);
+    expect(unresolved.every((r) => r.identityStatus === 'UNRESOLVED')).toBe(true);
+    expect(unresolved.every((r) => r.identityBasis === 'PIPELINE_ASSESSED_UNRESOLVED')).toBe(true);
+    expect(unresolved.every((r) => r.identityRefusalCode === 'NO_AUTHORITATIVE_IDENTIFIER_MATCH')).toBe(true);
+    expect(unresolved.every((r) => r.quarantineIds.length === 2)).toBe(true);
+    expect(unresolved.every((r) => r.quarantineIds.every((id) => typeof id === 'string' && id.length > 0))).toBe(true);
+    expect(new Set(read.rows.flatMap((r) => r.quarantineIds)).size).toBe(134);
+    expect(read.limitations.some((l) => /Per-row refusal codes and P04 quarantine ids/.test(l))).toBe(true);
     expect(read.validation.performed).toBe(false);
     expect(read.saveAuthorization.authorized).toBe(false);
     expect(read.persistence.performed).toBe(false);

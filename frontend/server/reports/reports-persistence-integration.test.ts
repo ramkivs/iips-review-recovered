@@ -81,9 +81,12 @@ describe('R3-Option B dependency surface', () => {
     expect(manifest.dependencies['iips-production-market-data']).toBe(
       'github:ramkivs/iips-production-market-data#279d1eed184f5e23bbabe5c6411085e120ce9e41',
     );
-    expect(manifest.dependencies['iips-broker-import']).toBe(
-      'github:ramkivs/iips-production-market-data#70b24f029842a7e9b7f615e4d9df7376fd4ff817',
-    );
+    // The broker-import alias is guarded by `broker-import-package-profile.json`, the single source
+    // of truth shared with `scripts/materialize-broker-import.mjs` and the CAP-02 B-1R guard.
+    const brokerProfile = JSON.parse(
+      fs.readFileSync(path.join(frontendRoot, 'broker-import-package-profile.json'), 'utf8'),
+    ) as { aliasSpecifier: string };
+    expect(manifest.dependencies['iips-broker-import']).toBe(brokerProfile.aliasSpecifier);
     expect(NP04_BOUNDARY.pinnedDependency).toBe('iips-np04-governed-persistence');
     expect(NP04_BOUNDARY.pinnedCommit).toBe('2e11fa3b689d1a3674a5e4ba1f1de9a559e20494');
     expect(NP04_BOUNDARY.authoritativeCommit).toBe('2e11fa3b689d1a3674a5e4ba1f1de9a559e20494');

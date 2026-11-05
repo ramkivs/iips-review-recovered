@@ -1,0 +1,57 @@
+# IRR full frontend validation after the iips-broker-import pin advance to IPD PR #127 (7bcae35)
+# Executed: 2026-11-05T09:07:20Z UTC
+# Host: Arena sandbox (Linux), node v22.22.3, npm 10.9.8
+# Command: NODE_EXTRA_CA_CERTS=/etc/ssl/certs/ca-certificates.crt npm run test:ci && node .ci/assert-tests.js .vitest-report.json && npm run build
+
+=== npm run test:ci ===
+
+ ✓ src/features/decision-matrix/DecisionMatrix.test.tsx (6 tests) 171ms
+ ✓ src/api/evidence.test.ts (10 tests) 11ms
+ ✓ src/components/evidence/EvidenceExplorerComponents.test.tsx (11 tests) 75ms
+ ✓ server/collaboration/collaboration-transport.test.ts (3 tests) 57ms
+ ✓ server/watchlists/watchlists-transport.test.ts (3 tests) 48ms
+ ✓ src/components/decision/DecisionComponents.test.tsx (6 tests) 118ms
+ ✓ src/components/data/DataComponents.test.tsx (8 tests) 53ms
+ ✓ src/components/interaction/InteractionComponents.test.tsx (6 tests) 190ms
+ ✓ server/settings/settings-transport.test.ts (5 tests) 48ms
+ ✓ src/components/evidence/EvidenceComponents.test.tsx (5 tests) 75ms
+ ✓ src/components/ui/Badges.test.tsx (5 tests) 45ms
+ ✓ server/executive-read.test.ts (2 tests) 94ms
+ ✓ src/core/network/noAuthFetch.test.ts (2 tests) 8ms
+ ✓ src/components/state/StateComponents.test.tsx (6 tests) 84ms
+ ✓ src/components/shell/ShellStates.test.tsx (5 tests) 106ms
+ ✓ src/components/viz/ChartFoundations.test.tsx (4 tests) 43ms
+ ✓ src/components/company/CompanyHeader.test.tsx (2 tests) 69ms
+
+ Test Files  111 passed (111)
+      Tests  1386 passed (1386)
+   Start at  09:07:22
+   Duration  129.16s (transform 4.41s, setup 15.88s, collect 10.52s, tests 50.85s, environment 29.23s, prepare 7.30s)
+
+JSON report written to /home/user/iips-review-recovered/frontend/.vitest-report.json
+TEST_CI_EXIT=0
+
+=== node .ci/assert-tests.js .vitest-report.json ===
+assert-tests: OK — 111 test file(s), 1386 test(s), 0 failed
+ASSERT_TESTS_EXIT=0
+
+=== npm run build (V4 production build) ===
+
+> @iips/v3-frontend@0.1.0 build
+> tsc -b && vite build
+
+vite v5.4.21 building for production...
+transforming...
+✓ 146 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                     0.53 kB │ gzip:   0.33 kB
+dist/assets/index-CIWpEpGV.css      1.19 kB │ gzip:   0.61 kB
+dist/assets/index-C8Mjp-iy.js   2,782.76 kB │ gzip: 331.45 kB │ map: 8,236.85 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 8.35s
+BUILD_EXIT=0

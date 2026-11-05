@@ -1,0 +1,2240 @@
+{
+  "generatedBy": "evidence/integration/ws-a-dhan-68-row-pin-advance-2026-11-05/generate-evidence.mts",
+  "generatedFrom": {
+    "irrRepository": "ramkivs/iips-review-recovered",
+    "ipdAliasDependency": "iips-broker-import",
+    "ipdAliasCommit": "7bcae35ad18c43cb67a16f30faa55bbdf0fb33fc",
+    "ipdAliasSpecifier": "github:ramkivs/iips-production-market-data#7bcae35ad18c43cb67a16f30faa55bbdf0fb33fc",
+    "ipdMergedPullRequest": 127,
+    "fixture": "server/broker-import/__fixtures__/dhan-web-ui-summary-68.csv",
+    "fixtureSha256": "c44e3cdb06e2d49f88c46d61867444f8a301cdf71a068b0e3aa1d748e6d52f31",
+    "fileName": "Portfolio(2).csv",
+    "asOf": "2026-11-05T07:50:49.090Z",
+    "surface": "DHAN_WEB_UI_SUMMARY_V1"
+  },
+  "identityAuthority": {
+    "source": "IPD_GOVERNED_D05_SECURITY_MASTER",
+    "entities": 2250
+  },
+  "identitySummary": {
+    "evaluated": 68,
+    "resolved": 1,
+    "unresolved": 67,
+    "ambiguous": 0,
+    "notEvaluated": 0,
+    "excluded": 0,
+    "identitySource": "GOVERNED_SECURITY_MASTER",
+    "masterRevision": "BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001:7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5",
+    "saveable": false,
+    "refusalCodes": {
+      "NO_AUTHORITATIVE_IDENTIFIER_MATCH": 67
+    }
+  },
+  "counts": {
+    "nativeRows": 68,
+    "identityAssessedRows": 68,
+    "identityResolvedRows": 1,
+    "identityUnresolvedRows": 67,
+    "savedRows": 0
+  },
+  "status": "PARSED_UNRESOLVED",
+  "perRowIdentityEvidencePublished": true,
+  "contentDigest": "c44e3cdb06e2d49f88c46d61867444f8a301cdf71a068b0e3aa1d748e6d52f31",
+  "wholeImportRefusal": [
+    {
+      "reason": "UNMAPPED_IDENTITY",
+      "details": "P04 Identity Ambiguity Quarantine: Identity ambiguity detected for 'ASK AUTOMOTIVE': UNMAPPED_IDENTIFIER (No active mapping found for BSE_SYMBOL:ASK AUTOMOTIVE at asOf 2026-11-05T07:50:49.090Z)",
+      "stage": "NORMALIZE"
+    }
+  ],
+  "pipelineErrors": [
+    "P04 Identity Ambiguity Quarantine: Identity ambiguity detected for 'ASK AUTOMOTIVE': UNMAPPED_IDENTIFIER (No active mapping found for BSE_SYMBOL:ASK AUTOMOTIVE at asOf 2026-11-05T07:50:49.090Z)"
+  ],
+  "pipelineWarnings": [],
+  "notPerformed": {
+    "validation": "NOT_PERFORMED",
+    "saveAuthorization": "NOT_PERFORMED",
+    "persistence": "NOT_PERFORMED",
+    "reason": "A preview parses broker evidence only. It does not validate values, does not authorize a save and never writes holdings."
+  },
+  "rows": [
+    {
+      "rowIndex": 1,
+      "symbol": "AGI GREENPAC",
+      "isin": null,
+      "exchange": null,
+      "quantity": 25,
+      "averagePrice": 89.65,
+      "currentPrice": 631.65,
+      "identityStatus": "RESOLVED",
+      "identityBasis": "PIPELINE_RESOLVED",
+      "pipelineIdentityStatus": "RESOLVED",
+      "identityRefusalCode": null,
+      "identifierClass": "UNSCOPED_NAME_OR_SYMBOL",
+      "lookups": [
+        {
+          "identifierType": "NSE_SYMBOL",
+          "identifierValue": "AGI GREENPAC",
+          "outcome": "RESOLVED"
+        },
+        {
+          "identifierType": "BSE_SYMBOL",
+          "identifierValue": "AGI GREENPAC",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "details": "Not queried: the row was already resolved by NSE_SYMBOL."
+        }
+      ],
+      "quarantineRecordCount": 0,
+      "missingEvidence": null
+    },
+    {
+      "rowIndex": 2,
+      "symbol": "ASK AUTOMOTIVE",
+      "isin": null,
+      "exchange": null,
+      "quantity": 7,
+      "averagePrice": 431.29,
+      "currentPrice": 592.95,
+      "identityStatus": "UNRESOLVED",
+      "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+      "pipelineIdentityStatus": "UNRESOLVED",
+      "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+      "identifierClass": "UNSCOPED_NAME_OR_SYMBOL",
+      "lookups": [
+        {
+          "identifierType": "NSE_SYMBOL",
+          "identifierValue": "ASK AUTOMOTIVE",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869629986-n0z3q",
+          "details": "No active mapping found for NSE_SYMBOL:ASK AUTOMOTIVE at asOf 2026-11-05T07:50:49.090Z"
+        },
+        {
+          "identifierType": "BSE_SYMBOL",
+          "identifierValue": "ASK AUTOMOTIVE",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869629987-mavs6",
+          "details": "No active mapping found for BSE_SYMBOL:ASK AUTOMOTIVE at asOf 2026-11-05T07:50:49.090Z"
+        }
+      ],
+      "quarantineRecordCount": 2,
+      "missingEvidence": "The broker file supplies neither an ISIN nor an exchange, and the supplied name/symbol is not an exact governed mapping key or governed alias; the ISIN (preferred) or an exchange-scoped trading symbol must be supplied by the broker export."
+    },
+    {
+      "rowIndex": 3,
+      "symbol": "AJAX ENGINEERING",
+      "isin": null,
+      "exchange": null,
+      "quantity": 10,
+      "averagePrice": 467.05,
+      "currentPrice": 550.1,
+      "identityStatus": "UNRESOLVED",
+      "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+      "pipelineIdentityStatus": "UNRESOLVED",
+      "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+      "identifierClass": "UNSCOPED_NAME_OR_SYMBOL",
+      "lookups": [
+        {
+          "identifierType": "NSE_SYMBOL",
+          "identifierValue": "AJAX ENGINEERING",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869629993-yna1q",
+          "details": "No active mapping found for NSE_SYMBOL:AJAX ENGINEERING at asOf 2026-11-05T07:50:49.090Z"
+        },
+        {
+          "identifierType": "BSE_SYMBOL",
+          "identifierValue": "AJAX ENGINEERING",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869629999-hxej8",
+          "details": "No active mapping found for BSE_SYMBOL:AJAX ENGINEERING at asOf 2026-11-05T07:50:49.090Z"
+        }
+      ],
+      "quarantineRecordCount": 2,
+      "missingEvidence": "The broker file supplies neither an ISIN nor an exchange, and the supplied name/symbol is not an exact governed mapping key or governed alias; the ISIN (preferred) or an exchange-scoped trading symbol must be supplied by the broker export."
+    },
+    {
+      "rowIndex": 4,
+      "symbol": "ARIHANT CAPITAL MARKETS",
+      "isin": null,
+      "exchange": null,
+      "quantity": 50,
+      "averagePrice": 67.92,
+      "currentPrice": 86.23,
+      "identityStatus": "UNRESOLVED",
+      "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+      "pipelineIdentityStatus": "UNRESOLVED",
+      "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+      "identifierClass": "UNSCOPED_NAME_OR_SYMBOL",
+      "lookups": [
+        {
+          "identifierType": "NSE_SYMBOL",
+          "identifierValue": "ARIHANT CAPITAL MARKETS",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869629999-31lki",
+          "details": "No active mapping found for NSE_SYMBOL:ARIHANT CAPITAL MARKETS at asOf 2026-11-05T07:50:49.090Z"
+        },
+        {
+          "identifierType": "BSE_SYMBOL",
+          "identifierValue": "ARIHANT CAPITAL MARKETS",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869629999-o42i1",
+          "details": "No active mapping found for BSE_SYMBOL:ARIHANT CAPITAL MARKETS at asOf 2026-11-05T07:50:49.090Z"
+        }
+      ],
+      "quarantineRecordCount": 2,
+      "missingEvidence": "The broker file supplies neither an ISIN nor an exchange, and the supplied name/symbol is not an exact governed mapping key or governed alias; the ISIN (preferred) or an exchange-scoped trading symbol must be supplied by the broker export."
+    },
+    {
+      "rowIndex": 5,
+      "symbol": "ARKADE DEVELOPERS",
+      "isin": null,
+      "exchange": null,
+      "quantity": 30,
+      "averagePrice": 115.71,
+      "currentPrice": 106.21,
+      "identityStatus": "UNRESOLVED",
+      "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+      "pipelineIdentityStatus": "UNRESOLVED",
+      "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+      "identifierClass": "UNSCOPED_NAME_OR_SYMBOL",
+      "lookups": [
+        {
+          "identifierType": "NSE_SYMBOL",
+          "identifierValue": "ARKADE DEVELOPERS",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630000-g6d30",
+          "details": "No active mapping found for NSE_SYMBOL:ARKADE DEVELOPERS at asOf 2026-11-05T07:50:49.090Z"
+        },
+        {
+          "identifierType": "BSE_SYMBOL",
+          "identifierValue": "ARKADE DEVELOPERS",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630000-ulwlv",
+          "details": "No active mapping found for BSE_SYMBOL:ARKADE DEVELOPERS at asOf 2026-11-05T07:50:49.090Z"
+        }
+      ],
+      "quarantineRecordCount": 2,
+      "missingEvidence": "The broker file supplies neither an ISIN nor an exchange, and the supplied name/symbol is not an exact governed mapping key or governed alias; the ISIN (preferred) or an exchange-scoped trading symbol must be supplied by the broker export."
+    },
+    {
+      "rowIndex": 6,
+      "symbol": "ARROW GREENTECH",
+      "isin": null,
+      "exchange": null,
+      "quantity": 12,
+      "averagePrice": 388.02,
+      "currentPrice": 715,
+      "identityStatus": "UNRESOLVED",
+      "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+      "pipelineIdentityStatus": "UNRESOLVED",
+      "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+      "identifierClass": "UNSCOPED_NAME_OR_SYMBOL",
+      "lookups": [
+        {
+          "identifierType": "NSE_SYMBOL",
+          "identifierValue": "ARROW GREENTECH",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630001-69wuq",
+          "details": "No active mapping found for NSE_SYMBOL:ARROW GREENTECH at asOf 2026-11-05T07:50:49.090Z"
+        },
+        {
+          "identifierType": "BSE_SYMBOL",
+          "identifierValue": "ARROW GREENTECH",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630001-z4sel",
+          "details": "No active mapping found for BSE_SYMBOL:ARROW GREENTECH at asOf 2026-11-05T07:50:49.090Z"
+        }
+      ],
+      "quarantineRecordCount": 2,
+      "missingEvidence": "The broker file supplies neither an ISIN nor an exchange, and the supplied name/symbol is not an exact governed mapping key or governed alias; the ISIN (preferred) or an exchange-scoped trading symbol must be supplied by the broker export."
+    },
+    {
+      "rowIndex": 7,
+      "symbol": "ASHOKA BUILDCON",
+      "isin": null,
+      "exchange": null,
+      "quantity": 100,
+      "averagePrice": 126.08,
+      "currentPrice": 100.45,
+      "identityStatus": "UNRESOLVED",
+      "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+      "pipelineIdentityStatus": "UNRESOLVED",
+      "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+      "identifierClass": "UNSCOPED_NAME_OR_SYMBOL",
+      "lookups": [
+        {
+          "identifierType": "NSE_SYMBOL",
+          "identifierValue": "ASHOKA BUILDCON",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630001-bs8rf",
+          "details": "No active mapping found for NSE_SYMBOL:ASHOKA BUILDCON at asOf 2026-11-05T07:50:49.090Z"
+        },
+        {
+          "identifierType": "BSE_SYMBOL",
+          "identifierValue": "ASHOKA BUILDCON",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630001-7mmkj",
+          "details": "No active mapping found for BSE_SYMBOL:ASHOKA BUILDCON at asOf 2026-11-05T07:50:49.090Z"
+        }
+      ],
+      "quarantineRecordCount": 2,
+      "missingEvidence": "The broker file supplies neither an ISIN nor an exchange, and the supplied name/symbol is not an exact governed mapping key or governed alias; the ISIN (preferred) or an exchange-scoped trading symbol must be supplied by the broker export."
+    },
+    {
+      "rowIndex": 8,
+      "symbol": "BANK OF BARODA",
+      "isin": null,
+      "exchange": null,
+      "quantity": 100,
+      "averagePrice": 259.03,
+      "currentPrice": 243.3,
+      "identityStatus": "UNRESOLVED",
+      "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+      "pipelineIdentityStatus": "UNRESOLVED",
+      "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+      "identifierClass": "UNSCOPED_NAME_OR_SYMBOL",
+      "lookups": [
+        {
+          "identifierType": "NSE_SYMBOL",
+          "identifierValue": "BANK OF BARODA",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630002-2nwp3",
+          "details": "No active mapping found for NSE_SYMBOL:BANK OF BARODA at asOf 2026-11-05T07:50:49.090Z"
+        },
+        {
+          "identifierType": "BSE_SYMBOL",
+          "identifierValue": "BANK OF BARODA",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630002-s6anl",
+          "details": "No active mapping found for BSE_SYMBOL:BANK OF BARODA at asOf 2026-11-05T07:50:49.090Z"
+        }
+      ],
+      "quarantineRecordCount": 2,
+      "missingEvidence": "The broker file supplies neither an ISIN nor an exchange, and the supplied name/symbol is not an exact governed mapping key or governed alias; the ISIN (preferred) or an exchange-scoped trading symbol must be supplied by the broker export."
+    },
+    {
+      "rowIndex": 9,
+      "symbol": "BHARAT COKING COAL",
+      "isin": null,
+      "exchange": null,
+      "quantity": 300,
+      "averagePrice": 36.45,
+      "currentPrice": 30.35,
+      "identityStatus": "UNRESOLVED",
+      "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+      "pipelineIdentityStatus": "UNRESOLVED",
+      "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+      "identifierClass": "UNSCOPED_NAME_OR_SYMBOL",
+      "lookups": [
+        {
+          "identifierType": "NSE_SYMBOL",
+          "identifierValue": "BHARAT COKING COAL",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630002-uyixc",
+          "details": "No active mapping found for NSE_SYMBOL:BHARAT COKING COAL at asOf 2026-11-05T07:50:49.090Z"
+        },
+        {
+          "identifierType": "BSE_SYMBOL",
+          "identifierValue": "BHARAT COKING COAL",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630002-zfafp",
+          "details": "No active mapping found for BSE_SYMBOL:BHARAT COKING COAL at asOf 2026-11-05T07:50:49.090Z"
+        }
+      ],
+      "quarantineRecordCount": 2,
+      "missingEvidence": "The broker file supplies neither an ISIN nor an exchange, and the supplied name/symbol is not an exact governed mapping key or governed alias; the ISIN (preferred) or an exchange-scoped trading symbol must be supplied by the broker export."
+    },
+    {
+      "rowIndex": 10,
+      "symbol": "BLUE JET HEALTHCARE",
+      "isin": null,
+      "exchange": null,
+      "quantity": 15,
+      "averagePrice": 411.83,
+      "currentPrice": 496.4,
+      "identityStatus": "UNRESOLVED",
+      "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+      "pipelineIdentityStatus": "UNRESOLVED",
+      "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+      "identifierClass": "UNSCOPED_NAME_OR_SYMBOL",
+      "lookups": [
+        {
+          "identifierType": "NSE_SYMBOL",
+          "identifierValue": "BLUE JET HEALTHCARE",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630003-t9o6z",
+          "details": "No active mapping found for NSE_SYMBOL:BLUE JET HEALTHCARE at asOf 2026-11-05T07:50:49.090Z"
+        },
+        {
+          "identifierType": "BSE_SYMBOL",
+          "identifierValue": "BLUE JET HEALTHCARE",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630003-m0uoo",
+          "details": "No active mapping found for BSE_SYMBOL:BLUE JET HEALTHCARE at asOf 2026-11-05T07:50:49.090Z"
+        }
+      ],
+      "quarantineRecordCount": 2,
+      "missingEvidence": "The broker file supplies neither an ISIN nor an exchange, and the supplied name/symbol is not an exact governed mapping key or governed alias; the ISIN (preferred) or an exchange-scoped trading symbol must be supplied by the broker export."
+    },
+    {
+      "rowIndex": 11,
+      "symbol": "CANARA ROBECO ASSET MANAGEMENT COMPANY",
+      "isin": null,
+      "exchange": null,
+      "quantity": 55,
+      "averagePrice": 252.83,
+      "currentPrice": 217.36,
+      "identityStatus": "UNRESOLVED",
+      "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+      "pipelineIdentityStatus": "UNRESOLVED",
+      "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+      "identifierClass": "UNSCOPED_NAME_OR_SYMBOL",
+      "lookups": [
+        {
+          "identifierType": "NSE_SYMBOL",
+          "identifierValue": "CANARA ROBECO ASSET MANAGEMENT COMPANY",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630003-jjnc3",
+          "details": "No active mapping found for NSE_SYMBOL:CANARA ROBECO ASSET MANAGEMENT COMPANY at asOf 2026-11-05T07:50:49.090Z"
+        },
+        {
+          "identifierType": "BSE_SYMBOL",
+          "identifierValue": "CANARA ROBECO ASSET MANAGEMENT COMPANY",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630004-3cjqe",
+          "details": "No active mapping found for BSE_SYMBOL:CANARA ROBECO ASSET MANAGEMENT COMPANY at asOf 2026-11-05T07:50:49.090Z"
+        }
+      ],
+      "quarantineRecordCount": 2,
+      "missingEvidence": "The broker file supplies neither an ISIN nor an exchange, and the supplied name/symbol is not an exact governed mapping key or governed alias; the ISIN (preferred) or an exchange-scoped trading symbol must be supplied by the broker export."
+    },
+    {
+      "rowIndex": 12,
+      "symbol": "CREDO BRANDS MARKETING (MUFTI)",
+      "isin": null,
+      "exchange": null,
+      "quantity": 30,
+      "averagePrice": 96.83,
+      "currentPrice": 75.96,
+      "identityStatus": "UNRESOLVED",
+      "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+      "pipelineIdentityStatus": "UNRESOLVED",
+      "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+      "identifierClass": "UNSCOPED_NAME_OR_SYMBOL",
+      "lookups": [
+        {
+          "identifierType": "NSE_SYMBOL",
+          "identifierValue": "CREDO BRANDS MARKETING (MUFTI)",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630004-x5hw9",
+          "details": "No active mapping found for NSE_SYMBOL:CREDO BRANDS MARKETING (MUFTI) at asOf 2026-11-05T07:50:49.090Z"
+        },
+        {
+          "identifierType": "BSE_SYMBOL",
+          "identifierValue": "CREDO BRANDS MARKETING (MUFTI)",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630004-n5f0a",
+          "details": "No active mapping found for BSE_SYMBOL:CREDO BRANDS MARKETING (MUFTI) at asOf 2026-11-05T07:50:49.090Z"
+        }
+      ],
+      "quarantineRecordCount": 2,
+      "missingEvidence": "The broker file supplies neither an ISIN nor an exchange, and the supplied name/symbol is not an exact governed mapping key or governed alias; the ISIN (preferred) or an exchange-scoped trading symbol must be supplied by the broker export."
+    },
+    {
+      "rowIndex": 13,
+      "symbol": "DAM CAPITAL ADVISORS",
+      "isin": null,
+      "exchange": null,
+      "quantity": 150,
+      "averagePrice": 149.3,
+      "currentPrice": 133.43,
+      "identityStatus": "UNRESOLVED",
+      "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+      "pipelineIdentityStatus": "UNRESOLVED",
+      "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+      "identifierClass": "UNSCOPED_NAME_OR_SYMBOL",
+      "lookups": [
+        {
+          "identifierType": "NSE_SYMBOL",
+          "identifierValue": "DAM CAPITAL ADVISORS",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630004-kca6z",
+          "details": "No active mapping found for NSE_SYMBOL:DAM CAPITAL ADVISORS at asOf 2026-11-05T07:50:49.090Z"
+        },
+        {
+          "identifierType": "BSE_SYMBOL",
+          "identifierValue": "DAM CAPITAL ADVISORS",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630005-sm80p",
+          "details": "No active mapping found for BSE_SYMBOL:DAM CAPITAL ADVISORS at asOf 2026-11-05T07:50:49.090Z"
+        }
+      ],
+      "quarantineRecordCount": 2,
+      "missingEvidence": "The broker file supplies neither an ISIN nor an exchange, and the supplied name/symbol is not an exact governed mapping key or governed alias; the ISIN (preferred) or an exchange-scoped trading symbol must be supplied by the broker export."
+    },
+    {
+      "rowIndex": 14,
+      "symbol": "ECOS MOBILITY & HOSPITALITY",
+      "isin": null,
+      "exchange": null,
+      "quantity": 100,
+      "averagePrice": 126.42,
+      "currentPrice": 111.07,
+      "identityStatus": "UNRESOLVED",
+      "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+      "pipelineIdentityStatus": "UNRESOLVED",
+      "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+      "identifierClass": "UNSCOPED_NAME_OR_SYMBOL",
+      "lookups": [
+        {
+          "identifierType": "NSE_SYMBOL",
+          "identifierValue": "ECOS MOBILITY & HOSPITALITY",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630005-xp7fp",
+          "details": "No active mapping found for NSE_SYMBOL:ECOS MOBILITY & HOSPITALITY at asOf 2026-11-05T07:50:49.090Z"
+        },
+        {
+          "identifierType": "BSE_SYMBOL",
+          "identifierValue": "ECOS MOBILITY & HOSPITALITY",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630005-a8hf3",
+          "details": "No active mapping found for BSE_SYMBOL:ECOS MOBILITY & HOSPITALITY at asOf 2026-11-05T07:50:49.090Z"
+        }
+      ],
+      "quarantineRecordCount": 2,
+      "missingEvidence": "The broker file supplies neither an ISIN nor an exchange, and the supplied name/symbol is not an exact governed mapping key or governed alias; the ISIN (preferred) or an exchange-scoped trading symbol must be supplied by the broker export."
+    },
+    {
+      "rowIndex": 15,
+      "symbol": "EMS",
+      "isin": null,
+      "exchange": null,
+      "quantity": 15,
+      "averagePrice": 312.52,
+      "currentPrice": 289.15,
+      "identityStatus": "UNRESOLVED",
+      "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+      "pipelineIdentityStatus": "UNRESOLVED",
+      "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+      "identifierClass": "UNSCOPED_NAME_OR_SYMBOL",
+      "lookups": [
+        {
+          "identifierType": "NSE_SYMBOL",
+          "identifierValue": "EMS",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630006-1tn8h",
+          "details": "No active mapping found for NSE_SYMBOL:EMS at asOf 2026-11-05T07:50:49.090Z"
+        },
+        {
+          "identifierType": "BSE_SYMBOL",
+          "identifierValue": "EMS",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630006-m4kqy",
+          "details": "No active mapping found for BSE_SYMBOL:EMS at asOf 2026-11-05T07:50:49.090Z"
+        }
+      ],
+      "quarantineRecordCount": 2,
+      "missingEvidence": "The broker file supplies neither an ISIN nor an exchange, and the supplied name/symbol is not an exact governed mapping key or governed alias; the ISIN (preferred) or an exchange-scoped trading symbol must be supplied by the broker export."
+    },
+    {
+      "rowIndex": 16,
+      "symbol": "EPACK PREFAB TECHNOLOGIES",
+      "isin": null,
+      "exchange": null,
+      "quantity": 10,
+      "averagePrice": 192.75,
+      "currentPrice": 201.51,
+      "identityStatus": "UNRESOLVED",
+      "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+      "pipelineIdentityStatus": "UNRESOLVED",
+      "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+      "identifierClass": "UNSCOPED_NAME_OR_SYMBOL",
+      "lookups": [
+        {
+          "identifierType": "NSE_SYMBOL",
+          "identifierValue": "EPACK PREFAB TECHNOLOGIES",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630006-jkkhw",
+          "details": "No active mapping found for NSE_SYMBOL:EPACK PREFAB TECHNOLOGIES at asOf 2026-11-05T07:50:49.090Z"
+        },
+        {
+          "identifierType": "BSE_SYMBOL",
+          "identifierValue": "EPACK PREFAB TECHNOLOGIES",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630006-4lier",
+          "details": "No active mapping found for BSE_SYMBOL:EPACK PREFAB TECHNOLOGIES at asOf 2026-11-05T07:50:49.090Z"
+        }
+      ],
+      "quarantineRecordCount": 2,
+      "missingEvidence": "The broker file supplies neither an ISIN nor an exchange, and the supplied name/symbol is not an exact governed mapping key or governed alias; the ISIN (preferred) or an exchange-scoped trading symbol must be supplied by the broker export."
+    },
+    {
+      "rowIndex": 17,
+      "symbol": "ELECON ENGINEERING COMPANY",
+      "isin": null,
+      "exchange": null,
+      "quantity": 22,
+      "averagePrice": 426.02,
+      "currentPrice": 427.95,
+      "identityStatus": "UNRESOLVED",
+      "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+      "pipelineIdentityStatus": "UNRESOLVED",
+      "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+      "identifierClass": "UNSCOPED_NAME_OR_SYMBOL",
+      "lookups": [
+        {
+          "identifierType": "NSE_SYMBOL",
+          "identifierValue": "ELECON ENGINEERING COMPANY",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630007-siimr",
+          "details": "No active mapping found for NSE_SYMBOL:ELECON ENGINEERING COMPANY at asOf 2026-11-05T07:50:49.090Z"
+        },
+        {
+          "identifierType": "BSE_SYMBOL",
+          "identifierValue": "ELECON ENGINEERING COMPANY",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630007-dm9ec",
+          "details": "No active mapping found for BSE_SYMBOL:ELECON ENGINEERING COMPANY at asOf 2026-11-05T07:50:49.090Z"
+        }
+      ],
+      "quarantineRecordCount": 2,
+      "missingEvidence": "The broker file supplies neither an ISIN nor an exchange, and the supplied name/symbol is not an exact governed mapping key or governed alias; the ISIN (preferred) or an exchange-scoped trading symbol must be supplied by the broker export."
+    },
+    {
+      "rowIndex": 18,
+      "symbol": "EMAMI",
+      "isin": null,
+      "exchange": null,
+      "quantity": 25,
+      "averagePrice": 404.23,
+      "currentPrice": 382,
+      "identityStatus": "UNRESOLVED",
+      "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+      "pipelineIdentityStatus": "UNRESOLVED",
+      "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+      "identifierClass": "UNSCOPED_NAME_OR_SYMBOL",
+      "lookups": [
+        {
+          "identifierType": "NSE_SYMBOL",
+          "identifierValue": "EMAMI",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630007-eqig0",
+          "details": "No active mapping found for NSE_SYMBOL:EMAMI at asOf 2026-11-05T07:50:49.090Z"
+        },
+        {
+          "identifierType": "BSE_SYMBOL",
+          "identifierValue": "EMAMI",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630008-f4ypg",
+          "details": "No active mapping found for BSE_SYMBOL:EMAMI at asOf 2026-11-05T07:50:49.090Z"
+        }
+      ],
+      "quarantineRecordCount": 2,
+      "missingEvidence": "The broker file supplies neither an ISIN nor an exchange, and the supplied name/symbol is not an exact governed mapping key or governed alias; the ISIN (preferred) or an exchange-scoped trading symbol must be supplied by the broker export."
+    },
+    {
+      "rowIndex": 19,
+      "symbol": "ENGINEERS INDIA",
+      "isin": null,
+      "exchange": null,
+      "quantity": 10,
+      "averagePrice": 168,
+      "currentPrice": 289.25,
+      "identityStatus": "UNRESOLVED",
+      "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+      "pipelineIdentityStatus": "UNRESOLVED",
+      "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+      "identifierClass": "UNSCOPED_NAME_OR_SYMBOL",
+      "lookups": [
+        {
+          "identifierType": "NSE_SYMBOL",
+          "identifierValue": "ENGINEERS INDIA",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630008-17abv",
+          "details": "No active mapping found for NSE_SYMBOL:ENGINEERS INDIA at asOf 2026-11-05T07:50:49.090Z"
+        },
+        {
+          "identifierType": "BSE_SYMBOL",
+          "identifierValue": "ENGINEERS INDIA",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630008-pywrk",
+          "details": "No active mapping found for BSE_SYMBOL:ENGINEERS INDIA at asOf 2026-11-05T07:50:49.090Z"
+        }
+      ],
+      "quarantineRecordCount": 2,
+      "missingEvidence": "The broker file supplies neither an ISIN nor an exchange, and the supplied name/symbol is not an exact governed mapping key or governed alias; the ISIN (preferred) or an exchange-scoped trading symbol must be supplied by the broker export."
+    },
+    {
+      "rowIndex": 20,
+      "symbol": "FINEOTEX CHEMICAL",
+      "isin": null,
+      "exchange": null,
+      "quantity": 100,
+      "averagePrice": 22.03,
+      "currentPrice": 49.15,
+      "identityStatus": "UNRESOLVED",
+      "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+      "pipelineIdentityStatus": "UNRESOLVED",
+      "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+      "identifierClass": "UNSCOPED_NAME_OR_SYMBOL",
+      "lookups": [
+        {
+          "identifierType": "NSE_SYMBOL",
+          "identifierValue": "FINEOTEX CHEMICAL",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630008-orfou",
+          "details": "No active mapping found for NSE_SYMBOL:FINEOTEX CHEMICAL at asOf 2026-11-05T07:50:49.090Z"
+        },
+        {
+          "identifierType": "BSE_SYMBOL",
+          "identifierValue": "FINEOTEX CHEMICAL",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630009-7ufta",
+          "details": "No active mapping found for BSE_SYMBOL:FINEOTEX CHEMICAL at asOf 2026-11-05T07:50:49.090Z"
+        }
+      ],
+      "quarantineRecordCount": 2,
+      "missingEvidence": "The broker file supplies neither an ISIN nor an exchange, and the supplied name/symbol is not an exact governed mapping key or governed alias; the ISIN (preferred) or an exchange-scoped trading symbol must be supplied by the broker export."
+    },
+    {
+      "rowIndex": 21,
+      "symbol": "GHCL",
+      "isin": null,
+      "exchange": null,
+      "quantity": 27,
+      "averagePrice": 450.31,
+      "currentPrice": 403,
+      "identityStatus": "UNRESOLVED",
+      "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+      "pipelineIdentityStatus": "UNRESOLVED",
+      "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+      "identifierClass": "UNSCOPED_NAME_OR_SYMBOL",
+      "lookups": [
+        {
+          "identifierType": "NSE_SYMBOL",
+          "identifierValue": "GHCL",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630009-76jzh",
+          "details": "No active mapping found for NSE_SYMBOL:GHCL at asOf 2026-11-05T07:50:49.090Z"
+        },
+        {
+          "identifierType": "BSE_SYMBOL",
+          "identifierValue": "GHCL",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630009-ku67n",
+          "details": "No active mapping found for BSE_SYMBOL:GHCL at asOf 2026-11-05T07:50:49.090Z"
+        }
+      ],
+      "quarantineRecordCount": 2,
+      "missingEvidence": "The broker file supplies neither an ISIN nor an exchange, and the supplied name/symbol is not an exact governed mapping key or governed alias; the ISIN (preferred) or an exchange-scoped trading symbol must be supplied by the broker export."
+    },
+    {
+      "rowIndex": 22,
+      "symbol": "GMR POWER & URBAN INFRA",
+      "isin": null,
+      "exchange": null,
+      "quantity": 110,
+      "averagePrice": 98.97,
+      "currentPrice": 91.77,
+      "identityStatus": "UNRESOLVED",
+      "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+      "pipelineIdentityStatus": "UNRESOLVED",
+      "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+      "identifierClass": "UNSCOPED_NAME_OR_SYMBOL",
+      "lookups": [
+        {
+          "identifierType": "NSE_SYMBOL",
+          "identifierValue": "GMR POWER & URBAN INFRA",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630009-2wba0",
+          "details": "No active mapping found for NSE_SYMBOL:GMR POWER & URBAN INFRA at asOf 2026-11-05T07:50:49.090Z"
+        },
+        {
+          "identifierType": "BSE_SYMBOL",
+          "identifierValue": "GMR POWER & URBAN INFRA",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630010-o6j4i",
+          "details": "No active mapping found for BSE_SYMBOL:GMR POWER & URBAN INFRA at asOf 2026-11-05T07:50:49.090Z"
+        }
+      ],
+      "quarantineRecordCount": 2,
+      "missingEvidence": "The broker file supplies neither an ISIN nor an exchange, and the supplied name/symbol is not an exact governed mapping key or governed alias; the ISIN (preferred) or an exchange-scoped trading symbol must be supplied by the broker export."
+    },
+    {
+      "rowIndex": 23,
+      "symbol": "GATEWAY DISTRIPARKS",
+      "isin": null,
+      "exchange": null,
+      "quantity": 90,
+      "averagePrice": 56.04,
+      "currentPrice": 46.39,
+      "identityStatus": "UNRESOLVED",
+      "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+      "pipelineIdentityStatus": "UNRESOLVED",
+      "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+      "identifierClass": "UNSCOPED_NAME_OR_SYMBOL",
+      "lookups": [
+        {
+          "identifierType": "NSE_SYMBOL",
+          "identifierValue": "GATEWAY DISTRIPARKS",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630010-0ge0w",
+          "details": "No active mapping found for NSE_SYMBOL:GATEWAY DISTRIPARKS at asOf 2026-11-05T07:50:49.090Z"
+        },
+        {
+          "identifierType": "BSE_SYMBOL",
+          "identifierValue": "GATEWAY DISTRIPARKS",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630010-1qifa",
+          "details": "No active mapping found for BSE_SYMBOL:GATEWAY DISTRIPARKS at asOf 2026-11-05T07:50:49.090Z"
+        }
+      ],
+      "quarantineRecordCount": 2,
+      "missingEvidence": "The broker file supplies neither an ISIN nor an exchange, and the supplied name/symbol is not an exact governed mapping key or governed alias; the ISIN (preferred) or an exchange-scoped trading symbol must be supplied by the broker export."
+    },
+    {
+      "rowIndex": 24,
+      "symbol": "GEEKAY WIRES",
+      "isin": null,
+      "exchange": null,
+      "quantity": 160,
+      "averagePrice": 22.93,
+      "currentPrice": 26.91,
+      "identityStatus": "UNRESOLVED",
+      "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+      "pipelineIdentityStatus": "UNRESOLVED",
+      "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+      "identifierClass": "UNSCOPED_NAME_OR_SYMBOL",
+      "lookups": [
+        {
+          "identifierType": "NSE_SYMBOL",
+          "identifierValue": "GEEKAY WIRES",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630010-dgqvt",
+          "details": "No active mapping found for NSE_SYMBOL:GEEKAY WIRES at asOf 2026-11-05T07:50:49.090Z"
+        },
+        {
+          "identifierType": "BSE_SYMBOL",
+          "identifierValue": "GEEKAY WIRES",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630011-qdxp4",
+          "details": "No active mapping found for BSE_SYMBOL:GEEKAY WIRES at asOf 2026-11-05T07:50:49.090Z"
+        }
+      ],
+      "quarantineRecordCount": 2,
+      "missingEvidence": "The broker file supplies neither an ISIN nor an exchange, and the supplied name/symbol is not an exact governed mapping key or governed alias; the ISIN (preferred) or an exchange-scoped trading symbol must be supplied by the broker export."
+    },
+    {
+      "rowIndex": 25,
+      "symbol": "GENUS POWER INFRASTRUCTURES",
+      "isin": null,
+      "exchange": null,
+      "quantity": 10,
+      "averagePrice": 305,
+      "currentPrice": 270.9,
+      "identityStatus": "UNRESOLVED",
+      "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+      "pipelineIdentityStatus": "UNRESOLVED",
+      "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+      "identifierClass": "UNSCOPED_NAME_OR_SYMBOL",
+      "lookups": [
+        {
+          "identifierType": "NSE_SYMBOL",
+          "identifierValue": "GENUS POWER INFRASTRUCTURES",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630011-v230k",
+          "details": "No active mapping found for NSE_SYMBOL:GENUS POWER INFRASTRUCTURES at asOf 2026-11-05T07:50:49.090Z"
+        },
+        {
+          "identifierType": "BSE_SYMBOL",
+          "identifierValue": "GENUS POWER INFRASTRUCTURES",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630011-cdl9d",
+          "details": "No active mapping found for BSE_SYMBOL:GENUS POWER INFRASTRUCTURES at asOf 2026-11-05T07:50:49.090Z"
+        }
+      ],
+      "quarantineRecordCount": 2,
+      "missingEvidence": "The broker file supplies neither an ISIN nor an exchange, and the supplied name/symbol is not an exact governed mapping key or governed alias; the ISIN (preferred) or an exchange-scoped trading symbol must be supplied by the broker export."
+    },
+    {
+      "rowIndex": 26,
+      "symbol": "GRAUER & WEIL",
+      "isin": null,
+      "exchange": null,
+      "quantity": 50,
+      "averagePrice": 67.79,
+      "currentPrice": 74.16,
+      "identityStatus": "UNRESOLVED",
+      "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+      "pipelineIdentityStatus": "UNRESOLVED",
+      "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+      "identifierClass": "UNSCOPED_NAME_OR_SYMBOL",
+      "lookups": [
+        {
+          "identifierType": "NSE_SYMBOL",
+          "identifierValue": "GRAUER & WEIL",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630011-kt234",
+          "details": "No active mapping found for NSE_SYMBOL:GRAUER & WEIL at asOf 2026-11-05T07:50:49.090Z"
+        },
+        {
+          "identifierType": "BSE_SYMBOL",
+          "identifierValue": "GRAUER & WEIL",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630012-17t76",
+          "details": "No active mapping found for BSE_SYMBOL:GRAUER & WEIL at asOf 2026-11-05T07:50:49.090Z"
+        }
+      ],
+      "quarantineRecordCount": 2,
+      "missingEvidence": "The broker file supplies neither an ISIN nor an exchange, and the supplied name/symbol is not an exact governed mapping key or governed alias; the ISIN (preferred) or an exchange-scoped trading symbol must be supplied by the broker export."
+    },
+    {
+      "rowIndex": 27,
+      "symbol": "GUJARAT PIPAVAV PORT",
+      "isin": null,
+      "exchange": null,
+      "quantity": 160,
+      "averagePrice": 150.65,
+      "currentPrice": 163.33,
+      "identityStatus": "UNRESOLVED",
+      "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+      "pipelineIdentityStatus": "UNRESOLVED",
+      "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+      "identifierClass": "UNSCOPED_NAME_OR_SYMBOL",
+      "lookups": [
+        {
+          "identifierType": "NSE_SYMBOL",
+          "identifierValue": "GUJARAT PIPAVAV PORT",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630012-11n2j",
+          "details": "No active mapping found for NSE_SYMBOL:GUJARAT PIPAVAV PORT at asOf 2026-11-05T07:50:49.090Z"
+        },
+        {
+          "identifierType": "BSE_SYMBOL",
+          "identifierValue": "GUJARAT PIPAVAV PORT",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630012-wpug2",
+          "details": "No active mapping found for BSE_SYMBOL:GUJARAT PIPAVAV PORT at asOf 2026-11-05T07:50:49.090Z"
+        }
+      ],
+      "quarantineRecordCount": 2,
+      "missingEvidence": "The broker file supplies neither an ISIN nor an exchange, and the supplied name/symbol is not an exact governed mapping key or governed alias; the ISIN (preferred) or an exchange-scoped trading symbol must be supplied by the broker export."
+    },
+    {
+      "rowIndex": 28,
+      "symbol": "HIMADRI SPECIALITY CHEMICAL",
+      "isin": null,
+      "exchange": null,
+      "quantity": 15,
+      "averagePrice": 443.17,
+      "currentPrice": 529,
+      "identityStatus": "UNRESOLVED",
+      "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+      "pipelineIdentityStatus": "UNRESOLVED",
+      "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+      "identifierClass": "UNSCOPED_NAME_OR_SYMBOL",
+      "lookups": [
+        {
+          "identifierType": "NSE_SYMBOL",
+          "identifierValue": "HIMADRI SPECIALITY CHEMICAL",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630012-mvrgd",
+          "details": "No active mapping found for NSE_SYMBOL:HIMADRI SPECIALITY CHEMICAL at asOf 2026-11-05T07:50:49.090Z"
+        },
+        {
+          "identifierType": "BSE_SYMBOL",
+          "identifierValue": "HIMADRI SPECIALITY CHEMICAL",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630013-pbswt",
+          "details": "No active mapping found for BSE_SYMBOL:HIMADRI SPECIALITY CHEMICAL at asOf 2026-11-05T07:50:49.090Z"
+        }
+      ],
+      "quarantineRecordCount": 2,
+      "missingEvidence": "The broker file supplies neither an ISIN nor an exchange, and the supplied name/symbol is not an exact governed mapping key or governed alias; the ISIN (preferred) or an exchange-scoped trading symbol must be supplied by the broker export."
+    },
+    {
+      "rowIndex": 29,
+      "symbol": "IDFC FIRST BANK",
+      "isin": null,
+      "exchange": null,
+      "quantity": 50,
+      "averagePrice": 64.33,
+      "currentPrice": 73.2,
+      "identityStatus": "UNRESOLVED",
+      "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+      "pipelineIdentityStatus": "UNRESOLVED",
+      "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+      "identifierClass": "UNSCOPED_NAME_OR_SYMBOL",
+      "lookups": [
+        {
+          "identifierType": "NSE_SYMBOL",
+          "identifierValue": "IDFC FIRST BANK",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630013-s3uuf",
+          "details": "No active mapping found for NSE_SYMBOL:IDFC FIRST BANK at asOf 2026-11-05T07:50:49.090Z"
+        },
+        {
+          "identifierType": "BSE_SYMBOL",
+          "identifierValue": "IDFC FIRST BANK",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630013-mdubw",
+          "details": "No active mapping found for BSE_SYMBOL:IDFC FIRST BANK at asOf 2026-11-05T07:50:49.090Z"
+        }
+      ],
+      "quarantineRecordCount": 2,
+      "missingEvidence": "The broker file supplies neither an ISIN nor an exchange, and the supplied name/symbol is not an exact governed mapping key or governed alias; the ISIN (preferred) or an exchange-scoped trading symbol must be supplied by the broker export."
+    },
+    {
+      "rowIndex": 30,
+      "symbol": "IIFL CAPITAL SERVICES",
+      "isin": null,
+      "exchange": null,
+      "quantity": 15,
+      "averagePrice": 314.4,
+      "currentPrice": 347.95,
+      "identityStatus": "UNRESOLVED",
+      "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+      "pipelineIdentityStatus": "UNRESOLVED",
+      "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+      "identifierClass": "UNSCOPED_NAME_OR_SYMBOL",
+      "lookups": [
+        {
+          "identifierType": "NSE_SYMBOL",
+          "identifierValue": "IIFL CAPITAL SERVICES",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630013-7g54f",
+          "details": "No active mapping found for NSE_SYMBOL:IIFL CAPITAL SERVICES at asOf 2026-11-05T07:50:49.090Z"
+        },
+        {
+          "identifierType": "BSE_SYMBOL",
+          "identifierValue": "IIFL CAPITAL SERVICES",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630014-xzofy",
+          "details": "No active mapping found for BSE_SYMBOL:IIFL CAPITAL SERVICES at asOf 2026-11-05T07:50:49.090Z"
+        }
+      ],
+      "quarantineRecordCount": 2,
+      "missingEvidence": "The broker file supplies neither an ISIN nor an exchange, and the supplied name/symbol is not an exact governed mapping key or governed alias; the ISIN (preferred) or an exchange-scoped trading symbol must be supplied by the broker export."
+    },
+    {
+      "rowIndex": 31,
+      "symbol": "INDRAPRASTHA MEDICAL CORPORATION",
+      "isin": null,
+      "exchange": null,
+      "quantity": 40,
+      "averagePrice": 368.99,
+      "currentPrice": 318.4,
+      "identityStatus": "UNRESOLVED",
+      "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+      "pipelineIdentityStatus": "UNRESOLVED",
+      "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+      "identifierClass": "UNSCOPED_NAME_OR_SYMBOL",
+      "lookups": [
+        {
+          "identifierType": "NSE_SYMBOL",
+          "identifierValue": "INDRAPRASTHA MEDICAL CORPORATION",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630014-x6l8e",
+          "details": "No active mapping found for NSE_SYMBOL:INDRAPRASTHA MEDICAL CORPORATION at asOf 2026-11-05T07:50:49.090Z"
+        },
+        {
+          "identifierType": "BSE_SYMBOL",
+          "identifierValue": "INDRAPRASTHA MEDICAL CORPORATION",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630014-ij4ho",
+          "details": "No active mapping found for BSE_SYMBOL:INDRAPRASTHA MEDICAL CORPORATION at asOf 2026-11-05T07:50:49.090Z"
+        }
+      ],
+      "quarantineRecordCount": 2,
+      "missingEvidence": "The broker file supplies neither an ISIN nor an exchange, and the supplied name/symbol is not an exact governed mapping key or governed alias; the ISIN (preferred) or an exchange-scoped trading symbol must be supplied by the broker export."
+    },
+    {
+      "rowIndex": 32,
+      "symbol": "INTERNATIONAL CONVEYORS",
+      "isin": null,
+      "exchange": null,
+      "quantity": 100,
+      "averagePrice": 78.07,
+      "currentPrice": 75.17,
+      "identityStatus": "UNRESOLVED",
+      "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+      "pipelineIdentityStatus": "UNRESOLVED",
+      "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+      "identifierClass": "UNSCOPED_NAME_OR_SYMBOL",
+      "lookups": [
+        {
+          "identifierType": "NSE_SYMBOL",
+          "identifierValue": "INTERNATIONAL CONVEYORS",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630014-pvkmg",
+          "details": "No active mapping found for NSE_SYMBOL:INTERNATIONAL CONVEYORS at asOf 2026-11-05T07:50:49.090Z"
+        },
+        {
+          "identifierType": "BSE_SYMBOL",
+          "identifierValue": "INTERNATIONAL CONVEYORS",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630015-kloov",
+          "details": "No active mapping found for BSE_SYMBOL:INTERNATIONAL CONVEYORS at asOf 2026-11-05T07:50:49.090Z"
+        }
+      ],
+      "quarantineRecordCount": 2,
+      "missingEvidence": "The broker file supplies neither an ISIN nor an exchange, and the supplied name/symbol is not an exact governed mapping key or governed alias; the ISIN (preferred) or an exchange-scoped trading symbol must be supplied by the broker export."
+    },
+    {
+      "rowIndex": 33,
+      "symbol": "INTERNATIONAL GEMOLOGICAL INSTITUTE",
+      "isin": null,
+      "exchange": null,
+      "quantity": 15,
+      "averagePrice": 314.67,
+      "currentPrice": 407.85,
+      "identityStatus": "UNRESOLVED",
+      "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+      "pipelineIdentityStatus": "UNRESOLVED",
+      "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+      "identifierClass": "UNSCOPED_NAME_OR_SYMBOL",
+      "lookups": [
+        {
+          "identifierType": "NSE_SYMBOL",
+          "identifierValue": "INTERNATIONAL GEMOLOGICAL INSTITUTE",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630015-jqcb2",
+          "details": "No active mapping found for NSE_SYMBOL:INTERNATIONAL GEMOLOGICAL INSTITUTE at asOf 2026-11-05T07:50:49.090Z"
+        },
+        {
+          "identifierType": "BSE_SYMBOL",
+          "identifierValue": "INTERNATIONAL GEMOLOGICAL INSTITUTE",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630015-qhsui",
+          "details": "No active mapping found for BSE_SYMBOL:INTERNATIONAL GEMOLOGICAL INSTITUTE at asOf 2026-11-05T07:50:49.090Z"
+        }
+      ],
+      "quarantineRecordCount": 2,
+      "missingEvidence": "The broker file supplies neither an ISIN nor an exchange, and the supplied name/symbol is not an exact governed mapping key or governed alias; the ISIN (preferred) or an exchange-scoped trading symbol must be supplied by the broker export."
+    },
+    {
+      "rowIndex": 34,
+      "symbol": "J KUMAR INFRAPROJECTS",
+      "isin": null,
+      "exchange": null,
+      "quantity": 20,
+      "averagePrice": 448.5,
+      "currentPrice": 405.85,
+      "identityStatus": "UNRESOLVED",
+      "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+      "pipelineIdentityStatus": "UNRESOLVED",
+      "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+      "identifierClass": "UNSCOPED_NAME_OR_SYMBOL",
+      "lookups": [
+        {
+          "identifierType": "NSE_SYMBOL",
+          "identifierValue": "J KUMAR INFRAPROJECTS",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630016-863zk",
+          "details": "No active mapping found for NSE_SYMBOL:J KUMAR INFRAPROJECTS at asOf 2026-11-05T07:50:49.090Z"
+        },
+        {
+          "identifierType": "BSE_SYMBOL",
+          "identifierValue": "J KUMAR INFRAPROJECTS",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630016-dp0tn",
+          "details": "No active mapping found for BSE_SYMBOL:J KUMAR INFRAPROJECTS at asOf 2026-11-05T07:50:49.090Z"
+        }
+      ],
+      "quarantineRecordCount": 2,
+      "missingEvidence": "The broker file supplies neither an ISIN nor an exchange, and the supplied name/symbol is not an exact governed mapping key or governed alias; the ISIN (preferred) or an exchange-scoped trading symbol must be supplied by the broker export."
+    },
+    {
+      "rowIndex": 35,
+      "symbol": "JAI BALAJI INDUSTRIES",
+      "isin": null,
+      "exchange": null,
+      "quantity": 110,
+      "averagePrice": 67.84,
+      "currentPrice": 69.7,
+      "identityStatus": "UNRESOLVED",
+      "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+      "pipelineIdentityStatus": "UNRESOLVED",
+      "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+      "identifierClass": "UNSCOPED_NAME_OR_SYMBOL",
+      "lookups": [
+        {
+          "identifierType": "NSE_SYMBOL",
+          "identifierValue": "JAI BALAJI INDUSTRIES",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630016-pdlx1",
+          "details": "No active mapping found for NSE_SYMBOL:JAI BALAJI INDUSTRIES at asOf 2026-11-05T07:50:49.090Z"
+        },
+        {
+          "identifierType": "BSE_SYMBOL",
+          "identifierValue": "JAI BALAJI INDUSTRIES",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630016-kfrjc",
+          "details": "No active mapping found for BSE_SYMBOL:JAI BALAJI INDUSTRIES at asOf 2026-11-05T07:50:49.090Z"
+        }
+      ],
+      "quarantineRecordCount": 2,
+      "missingEvidence": "The broker file supplies neither an ISIN nor an exchange, and the supplied name/symbol is not an exact governed mapping key or governed alias; the ISIN (preferred) or an exchange-scoped trading symbol must be supplied by the broker export."
+    },
+    {
+      "rowIndex": 36,
+      "symbol": "JAMNA AUTO INDUSTRIES",
+      "isin": null,
+      "exchange": null,
+      "quantity": 33,
+      "averagePrice": 111.61,
+      "currentPrice": 122.98,
+      "identityStatus": "UNRESOLVED",
+      "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+      "pipelineIdentityStatus": "UNRESOLVED",
+      "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+      "identifierClass": "UNSCOPED_NAME_OR_SYMBOL",
+      "lookups": [
+        {
+          "identifierType": "NSE_SYMBOL",
+          "identifierValue": "JAMNA AUTO INDUSTRIES",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630017-fqhah",
+          "details": "No active mapping found for NSE_SYMBOL:JAMNA AUTO INDUSTRIES at asOf 2026-11-05T07:50:49.090Z"
+        },
+        {
+          "identifierType": "BSE_SYMBOL",
+          "identifierValue": "JAMNA AUTO INDUSTRIES",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630017-ndah0",
+          "details": "No active mapping found for BSE_SYMBOL:JAMNA AUTO INDUSTRIES at asOf 2026-11-05T07:50:49.090Z"
+        }
+      ],
+      "quarantineRecordCount": 2,
+      "missingEvidence": "The broker file supplies neither an ISIN nor an exchange, and the supplied name/symbol is not an exact governed mapping key or governed alias; the ISIN (preferred) or an exchange-scoped trading symbol must be supplied by the broker export."
+    },
+    {
+      "rowIndex": 37,
+      "symbol": "JIO PLATFORMS",
+      "isin": null,
+      "exchange": null,
+      "quantity": 12,
+      "averagePrice": 1119,
+      "currentPrice": 1437.4,
+      "identityStatus": "UNRESOLVED",
+      "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+      "pipelineIdentityStatus": "UNRESOLVED",
+      "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+      "identifierClass": "UNSCOPED_NAME_OR_SYMBOL",
+      "lookups": [
+        {
+          "identifierType": "NSE_SYMBOL",
+          "identifierValue": "JIO PLATFORMS",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630017-walsu",
+          "details": "No active mapping found for NSE_SYMBOL:JIO PLATFORMS at asOf 2026-11-05T07:50:49.090Z"
+        },
+        {
+          "identifierType": "BSE_SYMBOL",
+          "identifierValue": "JIO PLATFORMS",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630017-m3c1x",
+          "details": "No active mapping found for BSE_SYMBOL:JIO PLATFORMS at asOf 2026-11-05T07:50:49.090Z"
+        }
+      ],
+      "quarantineRecordCount": 2,
+      "missingEvidence": "The broker file supplies neither an ISIN nor an exchange, and the supplied name/symbol is not an exact governed mapping key or governed alias; the ISIN (preferred) or an exchange-scoped trading symbol must be supplied by the broker export."
+    },
+    {
+      "rowIndex": 38,
+      "symbol": "KM SUGAR MILLS",
+      "isin": null,
+      "exchange": null,
+      "quantity": 14,
+      "averagePrice": 227.33,
+      "currentPrice": 32.23,
+      "identityStatus": "UNRESOLVED",
+      "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+      "pipelineIdentityStatus": "UNRESOLVED",
+      "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+      "identifierClass": "UNSCOPED_NAME_OR_SYMBOL",
+      "lookups": [
+        {
+          "identifierType": "NSE_SYMBOL",
+          "identifierValue": "KM SUGAR MILLS",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630018-qfg3b",
+          "details": "No active mapping found for NSE_SYMBOL:KM SUGAR MILLS at asOf 2026-11-05T07:50:49.090Z"
+        },
+        {
+          "identifierType": "BSE_SYMBOL",
+          "identifierValue": "KM SUGAR MILLS",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630018-2jhnk",
+          "details": "No active mapping found for BSE_SYMBOL:KM SUGAR MILLS at asOf 2026-11-05T07:50:49.090Z"
+        }
+      ],
+      "quarantineRecordCount": 2,
+      "missingEvidence": "The broker file supplies neither an ISIN nor an exchange, and the supplied name/symbol is not an exact governed mapping key or governed alias; the ISIN (preferred) or an exchange-scoped trading symbol must be supplied by the broker export."
+    },
+    {
+      "rowIndex": 39,
+      "symbol": "KP ENERGY",
+      "isin": null,
+      "exchange": null,
+      "quantity": 40,
+      "averagePrice": 325.12,
+      "currentPrice": 159.38,
+      "identityStatus": "UNRESOLVED",
+      "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+      "pipelineIdentityStatus": "UNRESOLVED",
+      "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+      "identifierClass": "UNSCOPED_NAME_OR_SYMBOL",
+      "lookups": [
+        {
+          "identifierType": "NSE_SYMBOL",
+          "identifierValue": "KP ENERGY",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630018-da6id",
+          "details": "No active mapping found for NSE_SYMBOL:KP ENERGY at asOf 2026-11-05T07:50:49.090Z"
+        },
+        {
+          "identifierType": "BSE_SYMBOL",
+          "identifierValue": "KP ENERGY",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630018-q5jbn",
+          "details": "No active mapping found for BSE_SYMBOL:KP ENERGY at asOf 2026-11-05T07:50:49.090Z"
+        }
+      ],
+      "quarantineRecordCount": 2,
+      "missingEvidence": "The broker file supplies neither an ISIN nor an exchange, and the supplied name/symbol is not an exact governed mapping key or governed alias; the ISIN (preferred) or an exchange-scoped trading symbol must be supplied by the broker export."
+    },
+    {
+      "rowIndex": 40,
+      "symbol": "KROSS",
+      "isin": null,
+      "exchange": null,
+      "quantity": 5,
+      "averagePrice": 161,
+      "currentPrice": 272.2,
+      "identityStatus": "UNRESOLVED",
+      "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+      "pipelineIdentityStatus": "UNRESOLVED",
+      "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+      "identifierClass": "UNSCOPED_NAME_OR_SYMBOL",
+      "lookups": [
+        {
+          "identifierType": "NSE_SYMBOL",
+          "identifierValue": "KROSS",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630019-f00l9",
+          "details": "No active mapping found for NSE_SYMBOL:KROSS at asOf 2026-11-05T07:50:49.090Z"
+        },
+        {
+          "identifierType": "BSE_SYMBOL",
+          "identifierValue": "KROSS",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630019-ojfam",
+          "details": "No active mapping found for BSE_SYMBOL:KROSS at asOf 2026-11-05T07:50:49.090Z"
+        }
+      ],
+      "quarantineRecordCount": 2,
+      "missingEvidence": "The broker file supplies neither an ISIN nor an exchange, and the supplied name/symbol is not an exact governed mapping key or governed alias; the ISIN (preferred) or an exchange-scoped trading symbol must be supplied by the broker export."
+    },
+    {
+      "rowIndex": 41,
+      "symbol": "LANDMARK CARS",
+      "isin": null,
+      "exchange": null,
+      "quantity": 20,
+      "averagePrice": 386.15,
+      "currentPrice": 456.05,
+      "identityStatus": "UNRESOLVED",
+      "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+      "pipelineIdentityStatus": "UNRESOLVED",
+      "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+      "identifierClass": "UNSCOPED_NAME_OR_SYMBOL",
+      "lookups": [
+        {
+          "identifierType": "NSE_SYMBOL",
+          "identifierValue": "LANDMARK CARS",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630019-gd1xr",
+          "details": "No active mapping found for NSE_SYMBOL:LANDMARK CARS at asOf 2026-11-05T07:50:49.090Z"
+        },
+        {
+          "identifierType": "BSE_SYMBOL",
+          "identifierValue": "LANDMARK CARS",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630020-61l0u",
+          "details": "No active mapping found for BSE_SYMBOL:LANDMARK CARS at asOf 2026-11-05T07:50:49.090Z"
+        }
+      ],
+      "quarantineRecordCount": 2,
+      "missingEvidence": "The broker file supplies neither an ISIN nor an exchange, and the supplied name/symbol is not an exact governed mapping key or governed alias; the ISIN (preferred) or an exchange-scoped trading symbol must be supplied by the broker export."
+    },
+    {
+      "rowIndex": 42,
+      "symbol": "MATRIMONY.COM",
+      "isin": null,
+      "exchange": null,
+      "quantity": 20,
+      "averagePrice": 403.08,
+      "currentPrice": 550,
+      "identityStatus": "UNRESOLVED",
+      "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+      "pipelineIdentityStatus": "UNRESOLVED",
+      "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+      "identifierClass": "UNSCOPED_NAME_OR_SYMBOL",
+      "lookups": [
+        {
+          "identifierType": "NSE_SYMBOL",
+          "identifierValue": "MATRIMONY.COM",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630020-1ciis",
+          "details": "No active mapping found for NSE_SYMBOL:MATRIMONY.COM at asOf 2026-11-05T07:50:49.090Z"
+        },
+        {
+          "identifierType": "BSE_SYMBOL",
+          "identifierValue": "MATRIMONY.COM",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630020-hd7hr",
+          "details": "No active mapping found for BSE_SYMBOL:MATRIMONY.COM at asOf 2026-11-05T07:50:49.090Z"
+        }
+      ],
+      "quarantineRecordCount": 2,
+      "missingEvidence": "The broker file supplies neither an ISIN nor an exchange, and the supplied name/symbol is not an exact governed mapping key or governed alias; the ISIN (preferred) or an exchange-scoped trading symbol must be supplied by the broker export."
+    },
+    {
+      "rowIndex": 43,
+      "symbol": "MONARCH NETWORTH CAPITAL",
+      "isin": null,
+      "exchange": null,
+      "quantity": 10,
+      "averagePrice": 272.5,
+      "currentPrice": 345.7,
+      "identityStatus": "UNRESOLVED",
+      "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+      "pipelineIdentityStatus": "UNRESOLVED",
+      "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+      "identifierClass": "UNSCOPED_NAME_OR_SYMBOL",
+      "lookups": [
+        {
+          "identifierType": "NSE_SYMBOL",
+          "identifierValue": "MONARCH NETWORTH CAPITAL",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630020-k2xa4",
+          "details": "No active mapping found for NSE_SYMBOL:MONARCH NETWORTH CAPITAL at asOf 2026-11-05T07:50:49.090Z"
+        },
+        {
+          "identifierType": "BSE_SYMBOL",
+          "identifierValue": "MONARCH NETWORTH CAPITAL",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630021-cade5",
+          "details": "No active mapping found for BSE_SYMBOL:MONARCH NETWORTH CAPITAL at asOf 2026-11-05T07:50:49.090Z"
+        }
+      ],
+      "quarantineRecordCount": 2,
+      "missingEvidence": "The broker file supplies neither an ISIN nor an exchange, and the supplied name/symbol is not an exact governed mapping key or governed alias; the ISIN (preferred) or an exchange-scoped trading symbol must be supplied by the broker export."
+    },
+    {
+      "rowIndex": 44,
+      "symbol": "NATIONAL STOCK EXCHANGE OF INDIA",
+      "isin": null,
+      "exchange": null,
+      "quantity": 8,
+      "averagePrice": 1785,
+      "currentPrice": 1803.8,
+      "identityStatus": "UNRESOLVED",
+      "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+      "pipelineIdentityStatus": "UNRESOLVED",
+      "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+      "identifierClass": "UNSCOPED_NAME_OR_SYMBOL",
+      "lookups": [
+        {
+          "identifierType": "NSE_SYMBOL",
+          "identifierValue": "NATIONAL STOCK EXCHANGE OF INDIA",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630021-8q4yk",
+          "details": "No active mapping found for NSE_SYMBOL:NATIONAL STOCK EXCHANGE OF INDIA at asOf 2026-11-05T07:50:49.090Z"
+        },
+        {
+          "identifierType": "BSE_SYMBOL",
+          "identifierValue": "NATIONAL STOCK EXCHANGE OF INDIA",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630021-5se8v",
+          "details": "No active mapping found for BSE_SYMBOL:NATIONAL STOCK EXCHANGE OF INDIA at asOf 2026-11-05T07:50:49.090Z"
+        }
+      ],
+      "quarantineRecordCount": 2,
+      "missingEvidence": "The broker file supplies neither an ISIN nor an exchange, and the supplied name/symbol is not an exact governed mapping key or governed alias; the ISIN (preferred) or an exchange-scoped trading symbol must be supplied by the broker export."
+    },
+    {
+      "rowIndex": 45,
+      "symbol": "OSWAL PUMPS",
+      "isin": null,
+      "exchange": null,
+      "quantity": 35,
+      "averagePrice": 373.99,
+      "currentPrice": 209.54,
+      "identityStatus": "UNRESOLVED",
+      "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+      "pipelineIdentityStatus": "UNRESOLVED",
+      "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+      "identifierClass": "UNSCOPED_NAME_OR_SYMBOL",
+      "lookups": [
+        {
+          "identifierType": "NSE_SYMBOL",
+          "identifierValue": "OSWAL PUMPS",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630021-2t8ez",
+          "details": "No active mapping found for NSE_SYMBOL:OSWAL PUMPS at asOf 2026-11-05T07:50:49.090Z"
+        },
+        {
+          "identifierType": "BSE_SYMBOL",
+          "identifierValue": "OSWAL PUMPS",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630022-yokp1",
+          "details": "No active mapping found for BSE_SYMBOL:OSWAL PUMPS at asOf 2026-11-05T07:50:49.090Z"
+        }
+      ],
+      "quarantineRecordCount": 2,
+      "missingEvidence": "The broker file supplies neither an ISIN nor an exchange, and the supplied name/symbol is not an exact governed mapping key or governed alias; the ISIN (preferred) or an exchange-scoped trading symbol must be supplied by the broker export."
+    },
+    {
+      "rowIndex": 46,
+      "symbol": "PANAMA PETROCHEM",
+      "isin": null,
+      "exchange": null,
+      "quantity": 10,
+      "averagePrice": 295,
+      "currentPrice": 465.85,
+      "identityStatus": "UNRESOLVED",
+      "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+      "pipelineIdentityStatus": "UNRESOLVED",
+      "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+      "identifierClass": "UNSCOPED_NAME_OR_SYMBOL",
+      "lookups": [
+        {
+          "identifierType": "NSE_SYMBOL",
+          "identifierValue": "PANAMA PETROCHEM",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630022-q5pie",
+          "details": "No active mapping found for NSE_SYMBOL:PANAMA PETROCHEM at asOf 2026-11-05T07:50:49.090Z"
+        },
+        {
+          "identifierType": "BSE_SYMBOL",
+          "identifierValue": "PANAMA PETROCHEM",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630022-xejtj",
+          "details": "No active mapping found for BSE_SYMBOL:PANAMA PETROCHEM at asOf 2026-11-05T07:50:49.090Z"
+        }
+      ],
+      "quarantineRecordCount": 2,
+      "missingEvidence": "The broker file supplies neither an ISIN nor an exchange, and the supplied name/symbol is not an exact governed mapping key or governed alias; the ISIN (preferred) or an exchange-scoped trading symbol must be supplied by the broker export."
+    },
+    {
+      "rowIndex": 47,
+      "symbol": "PARADEEP PHOSPHATES",
+      "isin": null,
+      "exchange": null,
+      "quantity": 20,
+      "averagePrice": 109,
+      "currentPrice": 133.85,
+      "identityStatus": "UNRESOLVED",
+      "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+      "pipelineIdentityStatus": "UNRESOLVED",
+      "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+      "identifierClass": "UNSCOPED_NAME_OR_SYMBOL",
+      "lookups": [
+        {
+          "identifierType": "NSE_SYMBOL",
+          "identifierValue": "PARADEEP PHOSPHATES",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630022-rut35",
+          "details": "No active mapping found for NSE_SYMBOL:PARADEEP PHOSPHATES at asOf 2026-11-05T07:50:49.090Z"
+        },
+        {
+          "identifierType": "BSE_SYMBOL",
+          "identifierValue": "PARADEEP PHOSPHATES",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630023-szyzs",
+          "details": "No active mapping found for BSE_SYMBOL:PARADEEP PHOSPHATES at asOf 2026-11-05T07:50:49.090Z"
+        }
+      ],
+      "quarantineRecordCount": 2,
+      "missingEvidence": "The broker file supplies neither an ISIN nor an exchange, and the supplied name/symbol is not an exact governed mapping key or governed alias; the ISIN (preferred) or an exchange-scoped trading symbol must be supplied by the broker export."
+    },
+    {
+      "rowIndex": 48,
+      "symbol": "PRECISION WIRES INDIA",
+      "isin": null,
+      "exchange": null,
+      "quantity": 5,
+      "averagePrice": 214,
+      "currentPrice": 403.6,
+      "identityStatus": "UNRESOLVED",
+      "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+      "pipelineIdentityStatus": "UNRESOLVED",
+      "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+      "identifierClass": "UNSCOPED_NAME_OR_SYMBOL",
+      "lookups": [
+        {
+          "identifierType": "NSE_SYMBOL",
+          "identifierValue": "PRECISION WIRES INDIA",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630023-4c3ts",
+          "details": "No active mapping found for NSE_SYMBOL:PRECISION WIRES INDIA at asOf 2026-11-05T07:50:49.090Z"
+        },
+        {
+          "identifierType": "BSE_SYMBOL",
+          "identifierValue": "PRECISION WIRES INDIA",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630023-sq79y",
+          "details": "No active mapping found for BSE_SYMBOL:PRECISION WIRES INDIA at asOf 2026-11-05T07:50:49.090Z"
+        }
+      ],
+      "quarantineRecordCount": 2,
+      "missingEvidence": "The broker file supplies neither an ISIN nor an exchange, and the supplied name/symbol is not an exact governed mapping key or governed alias; the ISIN (preferred) or an exchange-scoped trading symbol must be supplied by the broker export."
+    },
+    {
+      "rowIndex": 49,
+      "symbol": "PREMIER POLYFILM",
+      "isin": null,
+      "exchange": null,
+      "quantity": 10,
+      "averagePrice": 50.6,
+      "currentPrice": 90.91,
+      "identityStatus": "UNRESOLVED",
+      "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+      "pipelineIdentityStatus": "UNRESOLVED",
+      "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+      "identifierClass": "UNSCOPED_NAME_OR_SYMBOL",
+      "lookups": [
+        {
+          "identifierType": "NSE_SYMBOL",
+          "identifierValue": "PREMIER POLYFILM",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630024-3f8fa",
+          "details": "No active mapping found for NSE_SYMBOL:PREMIER POLYFILM at asOf 2026-11-05T07:50:49.090Z"
+        },
+        {
+          "identifierType": "BSE_SYMBOL",
+          "identifierValue": "PREMIER POLYFILM",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630024-w7bin",
+          "details": "No active mapping found for BSE_SYMBOL:PREMIER POLYFILM at asOf 2026-11-05T07:50:49.090Z"
+        }
+      ],
+      "quarantineRecordCount": 2,
+      "missingEvidence": "The broker file supplies neither an ISIN nor an exchange, and the supplied name/symbol is not an exact governed mapping key or governed alias; the ISIN (preferred) or an exchange-scoped trading symbol must be supplied by the broker export."
+    },
+    {
+      "rowIndex": 50,
+      "symbol": "PUDUMJEE PAPER PRODUCTS",
+      "isin": null,
+      "exchange": null,
+      "quantity": 50,
+      "averagePrice": 82.99,
+      "currentPrice": 87.28,
+      "identityStatus": "UNRESOLVED",
+      "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+      "pipelineIdentityStatus": "UNRESOLVED",
+      "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+      "identifierClass": "UNSCOPED_NAME_OR_SYMBOL",
+      "lookups": [
+        {
+          "identifierType": "NSE_SYMBOL",
+          "identifierValue": "PUDUMJEE PAPER PRODUCTS",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630024-g31wq",
+          "details": "No active mapping found for NSE_SYMBOL:PUDUMJEE PAPER PRODUCTS at asOf 2026-11-05T07:50:49.090Z"
+        },
+        {
+          "identifierType": "BSE_SYMBOL",
+          "identifierValue": "PUDUMJEE PAPER PRODUCTS",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630024-v0a5k",
+          "details": "No active mapping found for BSE_SYMBOL:PUDUMJEE PAPER PRODUCTS at asOf 2026-11-05T07:50:49.090Z"
+        }
+      ],
+      "quarantineRecordCount": 2,
+      "missingEvidence": "The broker file supplies neither an ISIN nor an exchange, and the supplied name/symbol is not an exact governed mapping key or governed alias; the ISIN (preferred) or an exchange-scoped trading symbol must be supplied by the broker export."
+    },
+    {
+      "rowIndex": 51,
+      "symbol": "RADHIKA JEWELTECH",
+      "isin": null,
+      "exchange": null,
+      "quantity": 100,
+      "averagePrice": 56.9,
+      "currentPrice": 61.87,
+      "identityStatus": "UNRESOLVED",
+      "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+      "pipelineIdentityStatus": "UNRESOLVED",
+      "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+      "identifierClass": "UNSCOPED_NAME_OR_SYMBOL",
+      "lookups": [
+        {
+          "identifierType": "NSE_SYMBOL",
+          "identifierValue": "RADHIKA JEWELTECH",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630025-qlk4i",
+          "details": "No active mapping found for NSE_SYMBOL:RADHIKA JEWELTECH at asOf 2026-11-05T07:50:49.090Z"
+        },
+        {
+          "identifierType": "BSE_SYMBOL",
+          "identifierValue": "RADHIKA JEWELTECH",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630025-og6cq",
+          "details": "No active mapping found for BSE_SYMBOL:RADHIKA JEWELTECH at asOf 2026-11-05T07:50:49.090Z"
+        }
+      ],
+      "quarantineRecordCount": 2,
+      "missingEvidence": "The broker file supplies neither an ISIN nor an exchange, and the supplied name/symbol is not an exact governed mapping key or governed alias; the ISIN (preferred) or an exchange-scoped trading symbol must be supplied by the broker export."
+    },
+    {
+      "rowIndex": 52,
+      "symbol": "RAJOO ENGINEERS",
+      "isin": null,
+      "exchange": null,
+      "quantity": 200,
+      "averagePrice": 52.6,
+      "currentPrice": 55.48,
+      "identityStatus": "UNRESOLVED",
+      "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+      "pipelineIdentityStatus": "UNRESOLVED",
+      "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+      "identifierClass": "UNSCOPED_NAME_OR_SYMBOL",
+      "lookups": [
+        {
+          "identifierType": "NSE_SYMBOL",
+          "identifierValue": "RAJOO ENGINEERS",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630025-pes93",
+          "details": "No active mapping found for NSE_SYMBOL:RAJOO ENGINEERS at asOf 2026-11-05T07:50:49.090Z"
+        },
+        {
+          "identifierType": "BSE_SYMBOL",
+          "identifierValue": "RAJOO ENGINEERS",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630026-888pn",
+          "details": "No active mapping found for BSE_SYMBOL:RAJOO ENGINEERS at asOf 2026-11-05T07:50:49.090Z"
+        }
+      ],
+      "quarantineRecordCount": 2,
+      "missingEvidence": "The broker file supplies neither an ISIN nor an exchange, and the supplied name/symbol is not an exact governed mapping key or governed alias; the ISIN (preferred) or an exchange-scoped trading symbol must be supplied by the broker export."
+    },
+    {
+      "rowIndex": 53,
+      "symbol": "RATEGAIN TRAVEL",
+      "isin": null,
+      "exchange": null,
+      "quantity": 10,
+      "averagePrice": 522.5,
+      "currentPrice": 820.25,
+      "identityStatus": "UNRESOLVED",
+      "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+      "pipelineIdentityStatus": "UNRESOLVED",
+      "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+      "identifierClass": "UNSCOPED_NAME_OR_SYMBOL",
+      "lookups": [
+        {
+          "identifierType": "NSE_SYMBOL",
+          "identifierValue": "RATEGAIN TRAVEL",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630026-wjk8l",
+          "details": "No active mapping found for NSE_SYMBOL:RATEGAIN TRAVEL at asOf 2026-11-05T07:50:49.090Z"
+        },
+        {
+          "identifierType": "BSE_SYMBOL",
+          "identifierValue": "RATEGAIN TRAVEL",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630026-zohle",
+          "details": "No active mapping found for BSE_SYMBOL:RATEGAIN TRAVEL at asOf 2026-11-05T07:50:49.090Z"
+        }
+      ],
+      "quarantineRecordCount": 2,
+      "missingEvidence": "The broker file supplies neither an ISIN nor an exchange, and the supplied name/symbol is not an exact governed mapping key or governed alias; the ISIN (preferred) or an exchange-scoped trading symbol must be supplied by the broker export."
+    },
+    {
+      "rowIndex": 54,
+      "symbol": "SALASAR TECHNO ENGINEERING",
+      "isin": null,
+      "exchange": null,
+      "quantity": 33,
+      "averagePrice": 67.11,
+      "currentPrice": 4.1,
+      "identityStatus": "UNRESOLVED",
+      "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+      "pipelineIdentityStatus": "UNRESOLVED",
+      "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+      "identifierClass": "UNSCOPED_NAME_OR_SYMBOL",
+      "lookups": [
+        {
+          "identifierType": "NSE_SYMBOL",
+          "identifierValue": "SALASAR TECHNO ENGINEERING",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630026-g9rcw",
+          "details": "No active mapping found for NSE_SYMBOL:SALASAR TECHNO ENGINEERING at asOf 2026-11-05T07:50:49.090Z"
+        },
+        {
+          "identifierType": "BSE_SYMBOL",
+          "identifierValue": "SALASAR TECHNO ENGINEERING",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630027-mkhfv",
+          "details": "No active mapping found for BSE_SYMBOL:SALASAR TECHNO ENGINEERING at asOf 2026-11-05T07:50:49.090Z"
+        }
+      ],
+      "quarantineRecordCount": 2,
+      "missingEvidence": "The broker file supplies neither an ISIN nor an exchange, and the supplied name/symbol is not an exact governed mapping key or governed alias; the ISIN (preferred) or an exchange-scoped trading symbol must be supplied by the broker export."
+    },
+    {
+      "rowIndex": 55,
+      "symbol": "SHAKTI PUMPS",
+      "isin": null,
+      "exchange": null,
+      "quantity": 7,
+      "averagePrice": 483.79,
+      "currentPrice": 357,
+      "identityStatus": "UNRESOLVED",
+      "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+      "pipelineIdentityStatus": "UNRESOLVED",
+      "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+      "identifierClass": "UNSCOPED_NAME_OR_SYMBOL",
+      "lookups": [
+        {
+          "identifierType": "NSE_SYMBOL",
+          "identifierValue": "SHAKTI PUMPS",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630027-egive",
+          "details": "No active mapping found for NSE_SYMBOL:SHAKTI PUMPS at asOf 2026-11-05T07:50:49.090Z"
+        },
+        {
+          "identifierType": "BSE_SYMBOL",
+          "identifierValue": "SHAKTI PUMPS",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630027-8vhms",
+          "details": "No active mapping found for BSE_SYMBOL:SHAKTI PUMPS at asOf 2026-11-05T07:50:49.090Z"
+        }
+      ],
+      "quarantineRecordCount": 2,
+      "missingEvidence": "The broker file supplies neither an ISIN nor an exchange, and the supplied name/symbol is not an exact governed mapping key or governed alias; the ISIN (preferred) or an exchange-scoped trading symbol must be supplied by the broker export."
+    },
+    {
+      "rowIndex": 56,
+      "symbol": "SHARDA MOTOR",
+      "isin": null,
+      "exchange": null,
+      "quantity": 10,
+      "averagePrice": 822.6,
+      "currentPrice": 856.4,
+      "identityStatus": "UNRESOLVED",
+      "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+      "pipelineIdentityStatus": "UNRESOLVED",
+      "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+      "identifierClass": "UNSCOPED_NAME_OR_SYMBOL",
+      "lookups": [
+        {
+          "identifierType": "NSE_SYMBOL",
+          "identifierValue": "SHARDA MOTOR",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630027-3zszu",
+          "details": "No active mapping found for NSE_SYMBOL:SHARDA MOTOR at asOf 2026-11-05T07:50:49.090Z"
+        },
+        {
+          "identifierType": "BSE_SYMBOL",
+          "identifierValue": "SHARDA MOTOR",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630028-u9yat",
+          "details": "No active mapping found for BSE_SYMBOL:SHARDA MOTOR at asOf 2026-11-05T07:50:49.090Z"
+        }
+      ],
+      "quarantineRecordCount": 2,
+      "missingEvidence": "The broker file supplies neither an ISIN nor an exchange, and the supplied name/symbol is not an exact governed mapping key or governed alias; the ISIN (preferred) or an exchange-scoped trading symbol must be supplied by the broker export."
+    },
+    {
+      "rowIndex": 57,
+      "symbol": "SIGMA SOLVE",
+      "isin": null,
+      "exchange": null,
+      "quantity": 70,
+      "averagePrice": 46.94,
+      "currentPrice": 43.03,
+      "identityStatus": "UNRESOLVED",
+      "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+      "pipelineIdentityStatus": "UNRESOLVED",
+      "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+      "identifierClass": "UNSCOPED_NAME_OR_SYMBOL",
+      "lookups": [
+        {
+          "identifierType": "NSE_SYMBOL",
+          "identifierValue": "SIGMA SOLVE",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630028-tfn3j",
+          "details": "No active mapping found for NSE_SYMBOL:SIGMA SOLVE at asOf 2026-11-05T07:50:49.090Z"
+        },
+        {
+          "identifierType": "BSE_SYMBOL",
+          "identifierValue": "SIGMA SOLVE",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630028-318zb",
+          "details": "No active mapping found for BSE_SYMBOL:SIGMA SOLVE at asOf 2026-11-05T07:50:49.090Z"
+        }
+      ],
+      "quarantineRecordCount": 2,
+      "missingEvidence": "The broker file supplies neither an ISIN nor an exchange, and the supplied name/symbol is not an exact governed mapping key or governed alias; the ISIN (preferred) or an exchange-scoped trading symbol must be supplied by the broker export."
+    },
+    {
+      "rowIndex": 58,
+      "symbol": "SIYARAM SILK MILLS",
+      "isin": null,
+      "exchange": null,
+      "quantity": 10,
+      "averagePrice": 526.4,
+      "currentPrice": 473.4,
+      "identityStatus": "UNRESOLVED",
+      "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+      "pipelineIdentityStatus": "UNRESOLVED",
+      "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+      "identifierClass": "UNSCOPED_NAME_OR_SYMBOL",
+      "lookups": [
+        {
+          "identifierType": "NSE_SYMBOL",
+          "identifierValue": "SIYARAM SILK MILLS",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630029-rmbu8",
+          "details": "No active mapping found for NSE_SYMBOL:SIYARAM SILK MILLS at asOf 2026-11-05T07:50:49.090Z"
+        },
+        {
+          "identifierType": "BSE_SYMBOL",
+          "identifierValue": "SIYARAM SILK MILLS",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630029-sdhyd",
+          "details": "No active mapping found for BSE_SYMBOL:SIYARAM SILK MILLS at asOf 2026-11-05T07:50:49.090Z"
+        }
+      ],
+      "quarantineRecordCount": 2,
+      "missingEvidence": "The broker file supplies neither an ISIN nor an exchange, and the supplied name/symbol is not an exact governed mapping key or governed alias; the ISIN (preferred) or an exchange-scoped trading symbol must be supplied by the broker export."
+    },
+    {
+      "rowIndex": 59,
+      "symbol": "STEELCAST",
+      "isin": null,
+      "exchange": null,
+      "quantity": 10,
+      "averagePrice": 183.5,
+      "currentPrice": 369.15,
+      "identityStatus": "UNRESOLVED",
+      "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+      "pipelineIdentityStatus": "UNRESOLVED",
+      "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+      "identifierClass": "UNSCOPED_NAME_OR_SYMBOL",
+      "lookups": [
+        {
+          "identifierType": "NSE_SYMBOL",
+          "identifierValue": "STEELCAST",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630029-hfd1b",
+          "details": "No active mapping found for NSE_SYMBOL:STEELCAST at asOf 2026-11-05T07:50:49.090Z"
+        },
+        {
+          "identifierType": "BSE_SYMBOL",
+          "identifierValue": "STEELCAST",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630029-yj4cy",
+          "details": "No active mapping found for BSE_SYMBOL:STEELCAST at asOf 2026-11-05T07:50:49.090Z"
+        }
+      ],
+      "quarantineRecordCount": 2,
+      "missingEvidence": "The broker file supplies neither an ISIN nor an exchange, and the supplied name/symbol is not an exact governed mapping key or governed alias; the ISIN (preferred) or an exchange-scoped trading symbol must be supplied by the broker export."
+    },
+    {
+      "rowIndex": 60,
+      "symbol": "SUZLON ENERGY",
+      "isin": null,
+      "exchange": null,
+      "quantity": 70,
+      "averagePrice": 43.54,
+      "currentPrice": 35.75,
+      "identityStatus": "UNRESOLVED",
+      "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+      "pipelineIdentityStatus": "UNRESOLVED",
+      "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+      "identifierClass": "UNSCOPED_NAME_OR_SYMBOL",
+      "lookups": [
+        {
+          "identifierType": "NSE_SYMBOL",
+          "identifierValue": "SUZLON ENERGY",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630030-379xf",
+          "details": "No active mapping found for NSE_SYMBOL:SUZLON ENERGY at asOf 2026-11-05T07:50:49.090Z"
+        },
+        {
+          "identifierType": "BSE_SYMBOL",
+          "identifierValue": "SUZLON ENERGY",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630030-q35pv",
+          "details": "No active mapping found for BSE_SYMBOL:SUZLON ENERGY at asOf 2026-11-05T07:50:49.090Z"
+        }
+      ],
+      "quarantineRecordCount": 2,
+      "missingEvidence": "The broker file supplies neither an ISIN nor an exchange, and the supplied name/symbol is not an exact governed mapping key or governed alias; the ISIN (preferred) or an exchange-scoped trading symbol must be supplied by the broker export."
+    },
+    {
+      "rowIndex": 61,
+      "symbol": "THYROCARE TECHNOLOGIES",
+      "isin": null,
+      "exchange": null,
+      "quantity": 13,
+      "averagePrice": 440.89,
+      "currentPrice": 482.9,
+      "identityStatus": "UNRESOLVED",
+      "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+      "pipelineIdentityStatus": "UNRESOLVED",
+      "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+      "identifierClass": "UNSCOPED_NAME_OR_SYMBOL",
+      "lookups": [
+        {
+          "identifierType": "NSE_SYMBOL",
+          "identifierValue": "THYROCARE TECHNOLOGIES",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630030-a6n6i",
+          "details": "No active mapping found for NSE_SYMBOL:THYROCARE TECHNOLOGIES at asOf 2026-11-05T07:50:49.090Z"
+        },
+        {
+          "identifierType": "BSE_SYMBOL",
+          "identifierValue": "THYROCARE TECHNOLOGIES",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630030-up0uh",
+          "details": "No active mapping found for BSE_SYMBOL:THYROCARE TECHNOLOGIES at asOf 2026-11-05T07:50:49.090Z"
+        }
+      ],
+      "quarantineRecordCount": 2,
+      "missingEvidence": "The broker file supplies neither an ISIN nor an exchange, and the supplied name/symbol is not an exact governed mapping key or governed alias; the ISIN (preferred) or an exchange-scoped trading symbol must be supplied by the broker export."
+    },
+    {
+      "rowIndex": 62,
+      "symbol": "TITAGARH RAIL SYSTEMS",
+      "isin": null,
+      "exchange": null,
+      "quantity": 4,
+      "averagePrice": 741.88,
+      "currentPrice": 683.75,
+      "identityStatus": "UNRESOLVED",
+      "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+      "pipelineIdentityStatus": "UNRESOLVED",
+      "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+      "identifierClass": "UNSCOPED_NAME_OR_SYMBOL",
+      "lookups": [
+        {
+          "identifierType": "NSE_SYMBOL",
+          "identifierValue": "TITAGARH RAIL SYSTEMS",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630031-33m0n",
+          "details": "No active mapping found for NSE_SYMBOL:TITAGARH RAIL SYSTEMS at asOf 2026-11-05T07:50:49.090Z"
+        },
+        {
+          "identifierType": "BSE_SYMBOL",
+          "identifierValue": "TITAGARH RAIL SYSTEMS",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630031-qzy20",
+          "details": "No active mapping found for BSE_SYMBOL:TITAGARH RAIL SYSTEMS at asOf 2026-11-05T07:50:49.090Z"
+        }
+      ],
+      "quarantineRecordCount": 2,
+      "missingEvidence": "The broker file supplies neither an ISIN nor an exchange, and the supplied name/symbol is not an exact governed mapping key or governed alias; the ISIN (preferred) or an exchange-scoped trading symbol must be supplied by the broker export."
+    },
+    {
+      "rowIndex": 63,
+      "symbol": "UNIVASTU",
+      "isin": null,
+      "exchange": null,
+      "quantity": 20,
+      "averagePrice": 76.8,
+      "currentPrice": 129.14,
+      "identityStatus": "UNRESOLVED",
+      "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+      "pipelineIdentityStatus": "UNRESOLVED",
+      "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+      "identifierClass": "UNSCOPED_NAME_OR_SYMBOL",
+      "lookups": [
+        {
+          "identifierType": "NSE_SYMBOL",
+          "identifierValue": "UNIVASTU",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630031-3ux7e",
+          "details": "No active mapping found for NSE_SYMBOL:UNIVASTU at asOf 2026-11-05T07:50:49.090Z"
+        },
+        {
+          "identifierType": "BSE_SYMBOL",
+          "identifierValue": "UNIVASTU",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630032-rw21q",
+          "details": "No active mapping found for BSE_SYMBOL:UNIVASTU at asOf 2026-11-05T07:50:49.090Z"
+        }
+      ],
+      "quarantineRecordCount": 2,
+      "missingEvidence": "The broker file supplies neither an ISIN nor an exchange, and the supplied name/symbol is not an exact governed mapping key or governed alias; the ISIN (preferred) or an exchange-scoped trading symbol must be supplied by the broker export."
+    },
+    {
+      "rowIndex": 64,
+      "symbol": "VARDHMAN SPECIAL STEELS",
+      "isin": null,
+      "exchange": null,
+      "quantity": 15,
+      "averagePrice": 274.3,
+      "currentPrice": 350.05,
+      "identityStatus": "UNRESOLVED",
+      "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+      "pipelineIdentityStatus": "UNRESOLVED",
+      "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+      "identifierClass": "UNSCOPED_NAME_OR_SYMBOL",
+      "lookups": [
+        {
+          "identifierType": "NSE_SYMBOL",
+          "identifierValue": "VARDHMAN SPECIAL STEELS",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630032-ddlev",
+          "details": "No active mapping found for NSE_SYMBOL:VARDHMAN SPECIAL STEELS at asOf 2026-11-05T07:50:49.090Z"
+        },
+        {
+          "identifierType": "BSE_SYMBOL",
+          "identifierValue": "VARDHMAN SPECIAL STEELS",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630032-ypiax",
+          "details": "No active mapping found for BSE_SYMBOL:VARDHMAN SPECIAL STEELS at asOf 2026-11-05T07:50:49.090Z"
+        }
+      ],
+      "quarantineRecordCount": 2,
+      "missingEvidence": "The broker file supplies neither an ISIN nor an exchange, and the supplied name/symbol is not an exact governed mapping key or governed alias; the ISIN (preferred) or an exchange-scoped trading symbol must be supplied by the broker export."
+    },
+    {
+      "rowIndex": 65,
+      "symbol": "VISHAL MEGA MART",
+      "isin": null,
+      "exchange": null,
+      "quantity": 100,
+      "averagePrice": 110.3,
+      "currentPrice": 90.7,
+      "identityStatus": "UNRESOLVED",
+      "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+      "pipelineIdentityStatus": "UNRESOLVED",
+      "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+      "identifierClass": "UNSCOPED_NAME_OR_SYMBOL",
+      "lookups": [
+        {
+          "identifierType": "NSE_SYMBOL",
+          "identifierValue": "VISHAL MEGA MART",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630032-essiq",
+          "details": "No active mapping found for NSE_SYMBOL:VISHAL MEGA MART at asOf 2026-11-05T07:50:49.090Z"
+        },
+        {
+          "identifierType": "BSE_SYMBOL",
+          "identifierValue": "VISHAL MEGA MART",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630033-suz1r",
+          "details": "No active mapping found for BSE_SYMBOL:VISHAL MEGA MART at asOf 2026-11-05T07:50:49.090Z"
+        }
+      ],
+      "quarantineRecordCount": 2,
+      "missingEvidence": "The broker file supplies neither an ISIN nor an exchange, and the supplied name/symbol is not an exact governed mapping key or governed alias; the ISIN (preferred) or an exchange-scoped trading symbol must be supplied by the broker export."
+    },
+    {
+      "rowIndex": 66,
+      "symbol": "VISHNU CHEMICALS",
+      "isin": null,
+      "exchange": null,
+      "quantity": 15,
+      "averagePrice": 504.13,
+      "currentPrice": 519.05,
+      "identityStatus": "UNRESOLVED",
+      "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+      "pipelineIdentityStatus": "UNRESOLVED",
+      "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+      "identifierClass": "UNSCOPED_NAME_OR_SYMBOL",
+      "lookups": [
+        {
+          "identifierType": "NSE_SYMBOL",
+          "identifierValue": "VISHNU CHEMICALS",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630033-cuniy",
+          "details": "No active mapping found for NSE_SYMBOL:VISHNU CHEMICALS at asOf 2026-11-05T07:50:49.090Z"
+        },
+        {
+          "identifierType": "BSE_SYMBOL",
+          "identifierValue": "VISHNU CHEMICALS",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630033-028kz",
+          "details": "No active mapping found for BSE_SYMBOL:VISHNU CHEMICALS at asOf 2026-11-05T07:50:49.090Z"
+        }
+      ],
+      "quarantineRecordCount": 2,
+      "missingEvidence": "The broker file supplies neither an ISIN nor an exchange, and the supplied name/symbol is not an exact governed mapping key or governed alias; the ISIN (preferred) or an exchange-scoped trading symbol must be supplied by the broker export."
+    },
+    {
+      "rowIndex": 67,
+      "symbol": "WAAREE RENEWABLE TECHNOLOGIES",
+      "isin": null,
+      "exchange": null,
+      "quantity": 20,
+      "averagePrice": 951.4,
+      "currentPrice": 697.5,
+      "identityStatus": "UNRESOLVED",
+      "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+      "pipelineIdentityStatus": "UNRESOLVED",
+      "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+      "identifierClass": "UNSCOPED_NAME_OR_SYMBOL",
+      "lookups": [
+        {
+          "identifierType": "NSE_SYMBOL",
+          "identifierValue": "WAAREE RENEWABLE TECHNOLOGIES",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630033-ao8g9",
+          "details": "No active mapping found for NSE_SYMBOL:WAAREE RENEWABLE TECHNOLOGIES at asOf 2026-11-05T07:50:49.090Z"
+        },
+        {
+          "identifierType": "BSE_SYMBOL",
+          "identifierValue": "WAAREE RENEWABLE TECHNOLOGIES",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630034-tkk8f",
+          "details": "No active mapping found for BSE_SYMBOL:WAAREE RENEWABLE TECHNOLOGIES at asOf 2026-11-05T07:50:49.090Z"
+        }
+      ],
+      "quarantineRecordCount": 2,
+      "missingEvidence": "The broker file supplies neither an ISIN nor an exchange, and the supplied name/symbol is not an exact governed mapping key or governed alias; the ISIN (preferred) or an exchange-scoped trading symbol must be supplied by the broker export."
+    },
+    {
+      "rowIndex": 68,
+      "symbol": "WEBSOL ENERGY SYSTEM",
+      "isin": null,
+      "exchange": null,
+      "quantity": 100,
+      "averagePrice": 107.09,
+      "currentPrice": 67.15,
+      "identityStatus": "UNRESOLVED",
+      "identityBasis": "PIPELINE_ASSESSED_UNRESOLVED",
+      "pipelineIdentityStatus": "UNRESOLVED",
+      "identityRefusalCode": "NO_AUTHORITATIVE_IDENTIFIER_MATCH",
+      "identifierClass": "UNSCOPED_NAME_OR_SYMBOL",
+      "lookups": [
+        {
+          "identifierType": "NSE_SYMBOL",
+          "identifierValue": "WEBSOL ENERGY SYSTEM",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630034-10dja",
+          "details": "No active mapping found for NSE_SYMBOL:WEBSOL ENERGY SYSTEM at asOf 2026-11-05T07:50:49.090Z"
+        },
+        {
+          "identifierType": "BSE_SYMBOL",
+          "identifierValue": "WEBSOL ENERGY SYSTEM",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1793869630034-u68sl",
+          "details": "No active mapping found for BSE_SYMBOL:WEBSOL ENERGY SYSTEM at asOf 2026-11-05T07:50:49.090Z"
+        }
+      ],
+      "quarantineRecordCount": 2,
+      "missingEvidence": "The broker file supplies neither an ISIN nor an exchange, and the supplied name/symbol is not an exact governed mapping key or governed alias; the ISIN (preferred) or an exchange-scoped trading symbol must be supplied by the broker export."
+    }
+  ],
+  "notes": [
+    "Every value above is the pinned IPD pipeline’s own published output. IRR resolves no identity, derives no refusal code and mints no quarantine id.",
+    "P04 quarantine record ids are minted per lookup instance by the IPD-owned pipeline (ident-quar-<epochMillis>-<random>) and are therefore process-specific; they are recorded in 04-evidence-record.json for the run that retained the record and are deliberately not repeated here as though they were stable identifiers.",
+    "The single whole-import refusal names only the LAST authoritative lookup of the FIRST refused row. It does not replace the per-row vector: all 68 rows carry an individual outcome."
+  ]
+}

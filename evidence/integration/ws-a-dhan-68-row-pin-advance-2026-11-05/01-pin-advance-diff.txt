@@ -1,0 +1,1009 @@
+# IRR working-tree diff of the dependency-pin advance and its directly necessary integration references
+# Captured: 2026-11-05T09:08:24Z UTC — BEFORE commit, against IRR origin/main@182580b33f9107f94d619cbfaf628fb88b67bd21
+#
+# SCOPE OF THIS TRANSCRIPT: captured before any commit, so it contains the tracked-file diff and
+# the then-untracked new code files only. The four new dated documentation records and this
+# evidence directory were authored after capture; they are itemised in
+# docs/integration/WS-A-DHAN-BROKER-HOLDINGS-WORKSTREAM-REPORT-2026-11-05-R2.md section 10. The
+# independent post-merge remote read-back receipt is published as a separate dated record,
+# following the established IRR pattern (cf. PR #430 for the 2026-11-02 registers).
+
+=== git status --short ===
+ M frontend/package-lock.json
+ M frontend/package.json
+ M frontend/server/broker-import/brokerImportEvidenceRestart.test.ts
+ M frontend/server/broker-import/brokerImportEvidenceStore.test.ts
+ M frontend/server/broker-import/brokerImportEvidenceStore.ts
+ M frontend/server/broker-import/brokerImportEvidenceWriter.ts
+ M frontend/server/broker-import/brokerImportPackageConsumer.test.ts
+ M frontend/server/reports/reports-persistence-integration.test.ts
+ M frontend/src/api/brokerHoldingsPreview.test.ts
+ M frontend/src/api/brokerHoldingsPreview.ts
+ M frontend/src/features/broker-holdings/BrokerHoldingsPreview.tsx
+ M frontend/tsconfig.broker-import.json
+?? evidence/integration/ws-a-dhan-68-row-pin-advance-2026-11-05/
+?? frontend/broker-import-package-profile.json
+?? frontend/scripts/
+
+=== git diff --stat ===
+ frontend/package-lock.json                         |   6 +-
+ frontend/package.json                              |   4 +-
+ .../brokerImportEvidenceRestart.test.ts            |   8 +-
+ .../brokerImportEvidenceStore.test.ts              |  22 ++-
+ .../broker-import/brokerImportEvidenceStore.ts     |  16 +-
+ .../broker-import/brokerImportEvidenceWriter.ts    |  32 ++-
+ .../brokerImportPackageConsumer.test.ts            | 173 ++++++++++++++---
+ .../reports-persistence-integration.test.ts        |   9 +-
+ frontend/src/api/brokerHoldingsPreview.test.ts     | 106 ++++++++--
+ frontend/src/api/brokerHoldingsPreview.ts          | 216 +++++++++++++++++----
+ .../broker-holdings/BrokerHoldingsPreview.tsx      |  22 ++-
+ frontend/tsconfig.broker-import.json               |  40 ++--
+ 12 files changed, 541 insertions(+), 113 deletions(-)
+
+=== git diff (tracked files) ===
+diff --git a/frontend/package-lock.json b/frontend/package-lock.json
+index 1057a0a..c227802 100644
+--- a/frontend/package-lock.json
++++ b/frontend/package-lock.json
+@@ -8,7 +8,7 @@
+       "name": "@iips/v3-frontend",
+       "version": "0.1.0",
+       "dependencies": {
+-        "iips-broker-import": "github:ramkivs/iips-production-market-data#70b24f029842a7e9b7f615e4d9df7376fd4ff817",
++        "iips-broker-import": "github:ramkivs/iips-production-market-data#7bcae35ad18c43cb67a16f30faa55bbdf0fb33fc",
+         "iips-np04-governed-persistence": "github:ramkivs/iips-production-market-data#2e11fa3b689d1a3674a5e4ba1f1de9a559e20494",
+         "iips-production-market-data": "github:ramkivs/iips-production-market-data#279d1eed184f5e23bbabe5c6411085e120ce9e41",
+         "react": "^18.3.1",
+@@ -2339,8 +2339,8 @@
+     "node_modules/iips-broker-import": {
+       "name": "iips-production-market-data",
+       "version": "1.0.0",
+-      "resolved": "git+ssh://git@github.com/ramkivs/iips-production-market-data.git#70b24f029842a7e9b7f615e4d9df7376fd4ff817",
+-      "integrity": "sha512-BJAUDGzYf53nrqCR3tlzMCi9G4W34bznV+on3YTVuwpOSdKygeM3oSPUhJ1Ez9cS0RzXcGRimJ7a7M/EmIwk9g==",
++      "resolved": "git+ssh://git@github.com/ramkivs/iips-production-market-data.git#7bcae35ad18c43cb67a16f30faa55bbdf0fb33fc",
++      "integrity": "sha512-Kum3z9GOfiXYWH2z5T3vmc0dksLCwfgJBnlh/Z4Q0HLazDovSsgS40FMSc3xNBeJa43vCYwOP+b3ORl05xj31w==",
+       "license": "UNLICENSED",
+       "dependencies": {
+         "react-router-dom": "^6.30.6"
+diff --git a/frontend/package.json b/frontend/package.json
+index b2b7f36..6e12b16 100644
+--- a/frontend/package.json
++++ b/frontend/package.json
+@@ -13,7 +13,7 @@
+     "test:ci": "vitest run --reporter=default --reporter=json --outputFile.json=.vitest-report.json",
+     "server:dev": "tsx server/executive-transport.ts",
+     "typecheck:replay-server": "tsc -p tsconfig.replay-server.json --noEmit",
+-    "build:broker-import": "tsc -p tsconfig.broker-import.json",
++    "build:broker-import": "node scripts/materialize-broker-import.mjs && tsc -p tsconfig.broker-import.json",
+     "predev": "npm run build:broker-import",
+     "prebuild": "npm run build:broker-import",
+     "pretest": "npm run build:broker-import",
+@@ -21,7 +21,7 @@
+     "pretypecheck": "npm run build:broker-import"
+   },
+   "dependencies": {
+-    "iips-broker-import": "github:ramkivs/iips-production-market-data#70b24f029842a7e9b7f615e4d9df7376fd4ff817",
++    "iips-broker-import": "github:ramkivs/iips-production-market-data#7bcae35ad18c43cb67a16f30faa55bbdf0fb33fc",
+     "iips-np04-governed-persistence": "github:ramkivs/iips-production-market-data#2e11fa3b689d1a3674a5e4ba1f1de9a559e20494",
+     "iips-production-market-data": "github:ramkivs/iips-production-market-data#279d1eed184f5e23bbabe5c6411085e120ce9e41",
+     "react": "^18.3.1",
+diff --git a/frontend/server/broker-import/brokerImportEvidenceRestart.test.ts b/frontend/server/broker-import/brokerImportEvidenceRestart.test.ts
+index cf7fbde..511fac1 100644
+--- a/frontend/server/broker-import/brokerImportEvidenceRestart.test.ts
++++ b/frontend/server/broker-import/brokerImportEvidenceRestart.test.ts
+@@ -106,11 +106,13 @@ describe('WS-A durable import evidence — separate-process restart', () => {
+     expect(recovered.recordId).toBe(written.recordId);
+     expect(recovered.recordDigest).toBe(written.recordDigest);
+     expect(recovered.rows).toBe(68);
++    // Pin advance to IPD PR #127 (7bcae35): all 68 rows are individually assessed, AGI GREENPAC
++    // resolves through its governed alias, and the other 67 stay unresolved.
+     expect(recovered.counts).toEqual({
+       nativeRows: 68,
+-      identityAssessedRows: 0,
+-      identityResolvedRows: 0,
+-      identityUnresolvedRows: 68,
++      identityAssessedRows: 68,
++      identityResolvedRows: 1,
++      identityUnresolvedRows: 67,
+       savedRows: 0,
+     });
+     expect(recovered.status).toBe('PARSED_UNRESOLVED');
+diff --git a/frontend/server/broker-import/brokerImportEvidenceStore.test.ts b/frontend/server/broker-import/brokerImportEvidenceStore.test.ts
+index d369b48..f9a670e 100644
+--- a/frontend/server/broker-import/brokerImportEvidenceStore.test.ts
++++ b/frontend/server/broker-import/brokerImportEvidenceStore.test.ts
+@@ -70,13 +70,29 @@ describe('WS-A broker-import evidence retention', () => {
+     expect(read.pipelineRefusals).toHaveLength(1);
+     expect(read.pipelineRefusals[0].reason).toBe('UNMAPPED_IDENTITY');
+     expect(read.pipelineRefusals[0].details).toMatch(/UNMAPPED_IDENTIFIER/);
++    // Pin advance to IPD PR #127 (7bcae35): the pipeline now assesses EVERY native row before the
++    // single whole-import P04 refusal, so the retained counts record real per-row outcomes.
+     expect(read.counts).toEqual({
+       nativeRows: 68,
+-      identityAssessedRows: 0,
+-      identityResolvedRows: 0,
+-      identityUnresolvedRows: 68,
++      identityAssessedRows: 68,
++      identityResolvedRows: 1,
++      identityUnresolvedRows: 67,
+       savedRows: 0,
+     });
++    // P04 quarantine evidence for the unresolved identities is retained per row.
++    expect(read.rows[0].identityStatus).toBe('RESOLVED');
++    expect(read.rows[0].identityBasis).toBe('PIPELINE_RESOLVED');
++    expect(read.rows[0].identityRefusalCode).toBeNull();
++    expect(read.rows[0].quarantineIds).toEqual([]);
++    const unresolved = read.rows.slice(1);
++    expect(unresolved).toHaveLength(67);
++    expect(unresolved.every((r) => r.identityStatus === 'UNRESOLVED')).toBe(true);
++    expect(unresolved.every((r) => r.identityBasis === 'PIPELINE_ASSESSED_UNRESOLVED')).toBe(true);
++    expect(unresolved.every((r) => r.identityRefusalCode === 'NO_AUTHORITATIVE_IDENTIFIER_MATCH')).toBe(true);
++    expect(unresolved.every((r) => r.quarantineIds.length === 2)).toBe(true);
++    expect(unresolved.every((r) => r.quarantineIds.every((id) => typeof id === 'string' && id.length > 0))).toBe(true);
++    expect(new Set(read.rows.flatMap((r) => r.quarantineIds)).size).toBe(134);
++    expect(read.limitations.some((l) => /Per-row refusal codes and P04 quarantine ids/.test(l))).toBe(true);
+     expect(read.validation.performed).toBe(false);
+     expect(read.saveAuthorization.authorized).toBe(false);
+     expect(read.persistence.performed).toBe(false);
+diff --git a/frontend/server/broker-import/brokerImportEvidenceStore.ts b/frontend/server/broker-import/brokerImportEvidenceStore.ts
+index dc03a4d..af0087a 100644
+--- a/frontend/server/broker-import/brokerImportEvidenceStore.ts
++++ b/frontend/server/broker-import/brokerImportEvidenceStore.ts
+@@ -149,8 +149,11 @@ export function buildBrokerImportEvidence(input: BuildEvidenceInput): BrokerImpo
+     currentPrice: h.currentPrice,
+     identityStatus: h.identityStatus,
+     identityBasis: h.identityBasis,
+-    identityRefusalCode: null,
+-    quarantineIds: [],
++    // Populated from the pinned pipeline's OWN published per-row assessment. IRR never derives a
++    // refusal code and never mints a quarantine id; when the pipeline published no individual
++    // outcome these stay null/empty, exactly as before the pin advance.
++    identityRefusalCode: h.identityRefusalCode,
++    quarantineIds: [...h.quarantineIds],
+   }));
+   const withoutDigest: Omit<BrokerImportEvidenceRecord, 'recordDigest'> = {
+     schema: BROKER_IMPORT_EVIDENCE_SCHEMA,
+@@ -181,7 +184,14 @@ export function buildBrokerImportEvidence(input: BuildEvidenceInput): BrokerImpo
+     limitations: [
+       'The raw broker file bytes are not retained: the CSV is processed locally and is not uploaded.',
+       'The content digest is retained as reported by the ingest; without the raw bytes it cannot be re-verified.',
+-      'The pinned pipeline publishes no per-row identity outcome when it refuses a file, so per-row refusal codes are empty and every row records a file-level identity basis.',
++      ...(preview.perRowIdentityEvidencePublished
++        ? [
++            'Per-row refusal codes and P04 quarantine ids are the pinned pipeline\u2019s own published assessment evidence; IRR derives none of them. Identity remains unresolved for every row the governed master did not resolve, and the whole-import P04 refusal remains in force.',
++            'P04 quarantine record ids are minted per lookup by the IPD-owned pipeline and are therefore process-specific. The FIRST retention of an import is the authoritative evidence record; a repeated import is a no-op that returns it unchanged, so the retained record digest is stable even though a freshly rebuilt one is not.',
++          ]
++        : [
++            'The pipeline published no per-row identity outcome for this run, so per-row refusal codes are empty and every row records a file-level identity basis.',
++          ]),
+     ],
+   };
+   return { ...withoutDigest, recordDigest: computeEvidenceRecordDigest(withoutDigest) };
+diff --git a/frontend/server/broker-import/brokerImportEvidenceWriter.ts b/frontend/server/broker-import/brokerImportEvidenceWriter.ts
+index 4a146a0..f8e8368 100644
+--- a/frontend/server/broker-import/brokerImportEvidenceWriter.ts
++++ b/frontend/server/broker-import/brokerImportEvidenceWriter.ts
+@@ -39,7 +39,37 @@ const retained = store.retain(record);
+ 
+ // Immediate read-back through the durable journal (not from memory).
+ const readBack = store.read(tenantId, ownerUserId, retained.recordId);
+-if (readBack.recordDigest !== record.recordDigest) fail('read-back digest mismatch');
++
++/**
++ * Which record is authoritative for the digest comparison.
++ *
++ * On a FIRST retention the freshly built record must round-trip byte-for-byte, so its digest is
++ * the expectation. On a DUPLICATE retention the journal is authoritative and returns the record
++ * retained by the earlier process: the freshly built record cannot be expected to reproduce the
++ * P04 quarantine record ids, which the IPD-owned pipeline mints per lookup instance
++ * (`ident-quar-<epochMillis>-<random>`). Requiring equality there would be asserting a false
++ * property, so the duplicate path compares against the retained record AND additionally proves
++ * that every stable field of the freshly built record still matches what is durably stored.
++ */
++const expected = retained.duplicate ? retained.record : record;
++if (readBack.recordDigest !== expected.recordDigest) fail('read-back digest mismatch');
++
++if (retained.duplicate) {
++  const stableProjection = (r: typeof record): string => {
++    // `recordDigest` is excluded because it is derived from the volatile quarantine ids, and those
++    // ids are excluded because the IPD-owned pipeline mints them per lookup instance. Everything
++    // else — the row inventory, the counts, the refusal codes, the digest, the reconciliation —
++    // must be identical between the retained record and a freshly rebuilt one.
++    const { recordDigest: _recordDigest, ...stable } = r;
++    return JSON.stringify({
++      ...stable,
++      rows: stable.rows.map(({ quarantineIds: _quarantineIds, ...rest }) => rest),
++    });
++  };
++  if (stableProjection(readBack) !== stableProjection(record)) {
++    fail('duplicate retention changed the stable evidence projection');
++  }
++}
+ 
+ const journalPath = `${dataDir}/journal.ndjson`;
+ const journalBytes = fs.existsSync(journalPath) ? fs.statSync(journalPath).size : 0;
+diff --git a/frontend/server/broker-import/brokerImportPackageConsumer.test.ts b/frontend/server/broker-import/brokerImportPackageConsumer.test.ts
+index 3d59a4e..f87b2a3 100644
+--- a/frontend/server/broker-import/brokerImportPackageConsumer.test.ts
++++ b/frontend/server/broker-import/brokerImportPackageConsumer.test.ts
+@@ -10,15 +10,18 @@
+  *   1. Use exact 40-hex immutable commit SHAs on `ramkivs/iips-production-market-data` in both
+  *      `package.json` and `package-lock.json`: primary
+  *      `279d1eed184f5e23bbabe5c6411085e120ce9e41`, and the deliberately distinct DB-C1
+- *      broker-import alias `70b24f029842a7e9b7f615e4d9df7376fd4ff817`.
++ *      broker-import alias `7bcae35ad18c43cb67a16f30faa55bbdf0fb33fc` (the merge commit of IPD
++ *      PR #127, advanced from the raw-source baseline `70b24f029842a7e9b7f615e4d9df7376fd4ff817`).
+  *   2. Simultaneously expose `./portfolio-ui`, `./pit`, and `./d114-non-production` from the
+  *      primary package with built runtime `.js` and declaration `.d.ts` artifacts.
+  *   3. Provide all runtime symbols and TypeScript declaration symbols required by IRR's five
+  *      direct PIT/D114 importers and CAP-02 `./portfolio-ui` consumer surface (including U7
+  *      minimal receipt/outcome types and `WRITE_NOT_AUTHORIZED` / `RESOURCE_UNAVAILABLE`).
+- *   4. Preserve the raw TypeScript source files required by `tsconfig.broker-import.json` in the
+- *      installed broker-import alias. Modern IPD packages publish only `dist/package`, so the
+- *      alias must not be silently advanced without an authorized package/build redesign.
++ *   4. Preserve the broker-import build inputs required by `tsconfig.broker-import.json` in the
++ *      installed alias. The admitted alias is now the modern package profile: it publishes ONLY
++ *      `dist/package` (built `.js` plus `.d.ts`), which `scripts/materialize-broker-import.mjs`
++ *      materializes into `.cache/broker-import`. The former raw-source baseline is explicitly
++ *      retired, so the alias can never be silently advanced without this guard being updated.
+  *   5. Reject any incompatible or floating package pin profile.
+  */
+ import { existsSync, readFileSync } from 'node:fs';
+@@ -31,25 +34,36 @@ const frontendRoot = resolve(here, '..', '..');
+ 
+ export const EXPECTED_IPD_PIN_SHA = '279d1eed184f5e23bbabe5c6411085e120ce9e41';
+ 
+-export const EXPECTED_BROKER_IMPORT_ALIAS_SHA =
+-  '70b24f029842a7e9b7f615e4d9df7376fd4ff817';
++/**
++ * The governed broker-import alias consumption profile. It is the single source of truth shared
++ * with `scripts/materialize-broker-import.mjs`, so this guard and the build step cannot drift.
++ */
++export interface BrokerImportPackageProfile {
++  readonly profileSchema: string;
++  readonly aliasDependency: string;
++  readonly aliasRepository: string;
++  readonly aliasCommit: string;
++  readonly aliasSpecifier: string;
++  readonly installedRoot: string;
++  readonly publishedRoot: string;
++  readonly materializedRoot: string;
++  readonly requiredPublishedModules: readonly string[];
++  readonly requiredRuntimeEntrypoints: readonly string[];
++}
+ 
+-export const REQUIRED_BROKER_IMPORT_SOURCE_FILES = [
+-  'frontend/src/features/portfolio/import/broker-format-detector.ts',
+-  'frontend/src/features/portfolio/import/broker-holdings-mapper.ts',
+-  'frontend/src/features/portfolio/import/broker-import-ingress.ts',
+-  'frontend/src/features/portfolio/import/types.ts',
+-  'frontend/src/features/portfolio/import/adapters/csv-parser-helper.ts',
+-  'frontend/src/features/portfolio/import/adapters/dhan-holdings-adapter.ts',
+-  'frontend/src/features/portfolio/import/adapters/groww-holdings-adapter.ts',
+-  'frontend/src/features/portfolio/import/adapters/index.ts',
+-  'frontend/src/features/portfolio/import/adapters/zerodha-holdings-adapter.ts',
+-  'src/identity/security_master.ts',
+-  'src/identity/mapping_store.ts',
+-  'src/identity/quarantine.ts',
+-  'src/contracts/provenance.ts',
+-  'src/contracts/types.ts',
+-] as const;
++export const BROKER_IMPORT_PACKAGE_PROFILE = JSON.parse(
++  readFileSync(resolve(frontendRoot, 'broker-import-package-profile.json'), 'utf8'),
++) as BrokerImportPackageProfile;
++
++export const EXPECTED_BROKER_IMPORT_ALIAS_SHA = BROKER_IMPORT_PACKAGE_PROFILE.aliasCommit;
++
++/**
++ * The retired raw-source baseline. Its absence from the installed alias is asserted below: the
++ * modern package profile publishes only built artifacts, and IRR must never silently fall back to
++ * compiling IPD sources it was not given.
++ */
++export const RETIRED_BROKER_IMPORT_SOURCE_BASELINE_SHA =
++  '70b24f029842a7e9b7f615e4d9df7376fd4ff817';
+ 
+ export const REQUIRED_SUBPATHS = [
+   './portfolio-ui',
+@@ -232,7 +246,7 @@ describe('CAP-02 B-1R package consumer & pin compatibility guard', () => {
+     expect(lockResolved).toContain(`#${EXPECTED_IPD_PIN_SHA}`);
+   });
+ 
+-  it('guards the distinct broker-import alias and its required raw-source build inputs', () => {
++  it('guards the distinct broker-import alias and its required published package build inputs', () => {
+     const aliasSpec = irrPkg.dependencies?.['iips-broker-import'] ?? '';
+     const aliasLockResolved =
+       irrLock.packages?.['node_modules/iips-broker-import']?.resolved ?? '';
+@@ -242,20 +256,115 @@ describe('CAP-02 B-1R package consumer & pin compatibility guard', () => {
+     };
+ 
+     expect(EXPECTED_BROKER_IMPORT_ALIAS_SHA).not.toBe(EXPECTED_IPD_PIN_SHA);
+-    expect(aliasSpec).toBe(
+-      `github:ramkivs/iips-production-market-data#${EXPECTED_BROKER_IMPORT_ALIAS_SHA}`,
++    expect(EXPECTED_BROKER_IMPORT_ALIAS_SHA).not.toBe(RETIRED_BROKER_IMPORT_SOURCE_BASELINE_SHA);
++    expect(BROKER_IMPORT_PACKAGE_PROFILE.aliasSpecifier).toBe(
++      `github:${BROKER_IMPORT_PACKAGE_PROFILE.aliasRepository}#${EXPECTED_BROKER_IMPORT_ALIAS_SHA}`,
++    );
++    expect(aliasSpec).toBe(BROKER_IMPORT_PACKAGE_PROFILE.aliasSpecifier);
++    expect(irrLock.packages?.['']?.dependencies?.['iips-broker-import']).toBe(
++      BROKER_IMPORT_PACKAGE_PROFILE.aliasSpecifier,
+     );
+     expect(aliasLockResolved).toContain(`#${EXPECTED_BROKER_IMPORT_ALIAS_SHA}`);
+-    // The presently admitted alias is a raw-source compatibility baseline. A modern IPD
+-    // package restricted to `dist/package` cannot satisfy tsconfig.broker-import.json.
+-    expect(aliasPkg.files).toBeUndefined();
+-    for (const relPath of REQUIRED_BROKER_IMPORT_SOURCE_FILES) {
+-      expect(existsSync(resolve(aliasRoot, relPath)), `missing broker-import source: ${relPath}`).toBe(
+-        true,
+-      );
++
++    // The admitted alias is the MODERN package profile: it publishes only `dist/package`. The
++    // retired raw-source baseline (no `files` field) must not be silently reinstated, and the
++    // raw TypeScript sources must not be present, because IRR no longer compiles IPD sources.
++    expect(aliasPkg.files).toEqual([BROKER_IMPORT_PACKAGE_PROFILE.publishedRoot]);
++    for (const modulePath of BROKER_IMPORT_PACKAGE_PROFILE.requiredPublishedModules) {
++      for (const extension of ['.js', '.d.ts']) {
++        const published = resolve(
++          aliasRoot,
++          BROKER_IMPORT_PACKAGE_PROFILE.publishedRoot,
++          `${modulePath}${extension}`,
++        );
++        expect(existsSync(published), `missing published broker-import artifact: ${modulePath}${extension}`).toBe(true);
++      }
++      const rawSource = resolve(aliasRoot, `${modulePath}.ts`);
++      expect(existsSync(rawSource), `raw IPD source must not be consumed: ${modulePath}.ts`).toBe(false);
+     }
+   });
+ 
++  it('materializes the pinned alias build output into .cache/broker-import under the governed pin', () => {
++    const materializedRoot = resolve(frontendRoot, BROKER_IMPORT_PACKAGE_PROFILE.materializedRoot);
++    const manifestPath = resolve(materializedRoot, 'BROKER-IMPORT-MATERIALIZED.json');
++    expect(existsSync(manifestPath), 'run `npm run build:broker-import` before the suite').toBe(true);
++
++    const manifest = JSON.parse(readFileSync(manifestPath, 'utf8')) as {
++      aliasCommit: string;
++      aliasSpecifier: string;
++      consumedAs: string;
++      rawSourcesCompiled: boolean;
++      fileCount: number;
++      files: readonly { path: string; sha256: string }[];
++    };
++    expect(manifest.aliasCommit).toBe(EXPECTED_BROKER_IMPORT_ALIAS_SHA);
++    expect(manifest.aliasSpecifier).toBe(BROKER_IMPORT_PACKAGE_PROFILE.aliasSpecifier);
++    expect(manifest.consumedAs).toBe('published-build-output');
++    expect(manifest.rawSourcesCompiled).toBe(false);
++    expect(manifest.files.length).toBe(manifest.fileCount);
++
++    // Every entrypoint IRR actually imports must be materialized as runtime JS plus declarations,
++    // and the materialized bytes must be the pinned package's own published bytes.
++    for (const entrypoint of BROKER_IMPORT_PACKAGE_PROFILE.requiredRuntimeEntrypoints) {
++      for (const extension of ['.js', '.d.ts']) {
++        const relativePath = `${entrypoint}${extension}`;
++        const materialized = resolve(materializedRoot, relativePath);
++        expect(existsSync(materialized), `missing materialized artifact: ${relativePath}`).toBe(true);
++        const published = resolve(
++          frontendRoot,
++          BROKER_IMPORT_PACKAGE_PROFILE.installedRoot,
++          BROKER_IMPORT_PACKAGE_PROFILE.publishedRoot,
++          relativePath,
++        );
++        expect(readFileSync(materialized).equals(readFileSync(published)), `materialized bytes differ from the pinned package: ${relativePath}`).toBe(true);
++      }
++    }
++  });
++
++  it('publishes per-row broker identity assessment evidence from the pinned alias', async () => {
++    // The whole reason for the pin advance: PR #127's per-row identity assessment must be reachable
++    // through the alias IRR actually consumes, not only in the IPD repository.
++    const assessmentModule = await import(
++      '../../.cache/broker-import/frontend/src/features/portfolio/import/broker-identity-assessment.js'
++    );
++    expect(typeof assessmentModule.assessBrokerRowIdentity).toBe('function');
++    expect(typeof assessmentModule.summariseBrokerIdentity).toBe('function');
++    expect(typeof assessmentModule.BrokerIdentityResolutionError).toBe('function');
++
++    // No master supplied => NOT_EVALUATED, never an unmapped identity claim.
++    const unevaluated = assessmentModule.assessBrokerRowIdentity({
++      rowIndex: 1, symbol: 'ANY NAME', asOf: '2026-11-05T00:00:00.000Z',
++    });
++    expect(unevaluated.status).toBe('NOT_EVALUATED');
++    expect(unevaluated.refusalCode).toBe('IDENTITY_NOT_EVALUATED');
++    expect(unevaluated.lookups).toEqual([]);
++
++    // An exchange-scoped row must query ONLY its declared exchange namespace.
++    const bseScoped = assessmentModule.assessBrokerRowIdentity({
++      rowIndex: 2, symbol: 'SOME SYMBOL', exchange: 'BSE', asOf: '2026-11-05T00:00:00.000Z',
++      master: new (await import('../../.cache/broker-import/src/identity/security_master.js')).SecurityMaster(),
++    });
++    expect(bseScoped.identifierClass).toBe('EXCHANGE_SCOPED_SYMBOL');
++    expect(bseScoped.lookups.map((l: { identifierType: string }) => l.identifierType)).toEqual(['BSE_SYMBOL']);
++    expect(bseScoped.status).toBe('UNRESOLVED');
++    expect(bseScoped.refusalCode).toBe('UNMAPPED_IDENTIFIER');
++
++    // An unscoped name queries both namespaces verbatim and records the exact missing evidence.
++    const unscoped = assessmentModule.assessBrokerRowIdentity({
++      rowIndex: 3, symbol: 'ASK AUTOMOTIVE', asOf: '2026-11-05T00:00:00.000Z',
++      master: new (await import('../../.cache/broker-import/src/identity/security_master.js')).SecurityMaster(),
++    });
++    expect(unscoped.identifierClass).toBe('UNSCOPED_NAME_OR_SYMBOL');
++    expect(unscoped.lookups.map((l: { identifierType: string }) => l.identifierType)).toEqual(['NSE_SYMBOL', 'BSE_SYMBOL']);
++    expect(unscoped.refusalCode).toBe('NO_AUTHORITATIVE_IDENTIFIER_MATCH');
++    expect(typeof unscoped.missingEvidence).toBe('string');
++
++    // The aggregate refuses the whole import while any row is unresolved (P04 / DP-2 Option 2F).
++    const summary = assessmentModule.summariseBrokerIdentity([unevaluated, bseScoped, unscoped]);
++    expect(summary.saveable).toBe(false);
++    expect(summary.resolved).toBe(0);
++  });
++
+   it('exposes ./portfolio-ui, ./pit, and ./d114-non-production simultaneously with existing runtime and declaration artifacts', () => {
+     const exportsMap = ipdPkg.exports ?? {};
+     for (const subpath of REQUIRED_SUBPATHS) {
+diff --git a/frontend/server/reports/reports-persistence-integration.test.ts b/frontend/server/reports/reports-persistence-integration.test.ts
+index 22b137e..962836f 100644
+--- a/frontend/server/reports/reports-persistence-integration.test.ts
++++ b/frontend/server/reports/reports-persistence-integration.test.ts
+@@ -81,9 +81,12 @@ describe('R3-Option B dependency surface', () => {
+     expect(manifest.dependencies['iips-production-market-data']).toBe(
+       'github:ramkivs/iips-production-market-data#279d1eed184f5e23bbabe5c6411085e120ce9e41',
+     );
+-    expect(manifest.dependencies['iips-broker-import']).toBe(
+-      'github:ramkivs/iips-production-market-data#70b24f029842a7e9b7f615e4d9df7376fd4ff817',
+-    );
++    // The broker-import alias is guarded by `broker-import-package-profile.json`, the single source
++    // of truth shared with `scripts/materialize-broker-import.mjs` and the CAP-02 B-1R guard.
++    const brokerProfile = JSON.parse(
++      fs.readFileSync(path.join(frontendRoot, 'broker-import-package-profile.json'), 'utf8'),
++    ) as { aliasSpecifier: string };
++    expect(manifest.dependencies['iips-broker-import']).toBe(brokerProfile.aliasSpecifier);
+     expect(NP04_BOUNDARY.pinnedDependency).toBe('iips-np04-governed-persistence');
+     expect(NP04_BOUNDARY.pinnedCommit).toBe('2e11fa3b689d1a3674a5e4ba1f1de9a559e20494');
+     expect(NP04_BOUNDARY.authoritativeCommit).toBe('2e11fa3b689d1a3674a5e4ba1f1de9a559e20494');
+diff --git a/frontend/src/api/brokerHoldingsPreview.test.ts b/frontend/src/api/brokerHoldingsPreview.test.ts
+index 320954d..6532c02 100644
+--- a/frontend/src/api/brokerHoldingsPreview.test.ts
++++ b/frontend/src/api/brokerHoldingsPreview.test.ts
+@@ -137,11 +137,33 @@ describe('Broker preview public boundary — native evidence, never a save', ()
+     const p = previewBrokerHoldings(summary.replace('RELIANCE', 'UNKNOWN_SECURITY'), 'dhan.csv', at);
+     assert.equal(p.holdings[0].symbol, 'UNKNOWN_SECURITY');
+     assert.equal(p.holdings[0].identityStatus, 'UNRESOLVED');
+-    assert.equal(p.holdings[0].identityBasis, 'FILE_LEVEL_P04_REFUSAL');
++    // The pinned pipeline publishes an INDIVIDUAL outcome for this row, so the basis is the
++    // per-row assessment, not a file-level refusal standing in for a result that was not obtained.
++    assert.equal(p.holdings[0].identityBasis, 'PIPELINE_ASSESSED_UNRESOLVED');
++    assert.equal(p.holdings[0].pipelineIdentityStatus, 'UNRESOLVED');
++    assert.equal(p.holdings[0].identityRefusalCode, 'NO_AUTHORITATIVE_IDENTIFIER_MATCH');
++    assert.equal(p.counts.identityAssessedRows, 1);
+     assert.equal(p.status, 'PARSED_UNRESOLVED');
+     assert.ok(p.rejections.some((r) => r.reason === 'UNMAPPED_IDENTITY'));
+   });
+ 
++  it('keeps an exchange-scoped row inside its declared exchange namespace', () => {
++    // A BSE row must never be resolved (or reported) through the NSE namespace, and vice versa.
++    const bse = 'Trading Symbol,ISIN,Exchange,Total Qty,Average Buy Price,Last Traded Price\nUNKNOWN BSE ROW,,BSE,2,100,120';
++    const nse = 'Trading Symbol,ISIN,Exchange,Total Qty,Average Buy Price,Last Traded Price\nUNKNOWN NSE ROW,,NSE,2,100,120';
++    const bsePreview = previewBrokerHoldings(bse, 'dhan-detailed.csv', at);
++    assert.equal(bsePreview.holdings[0].identifierClass, 'EXCHANGE_SCOPED_SYMBOL');
++    assert.deepEqual(bsePreview.holdings[0].lookups.map((l) => l.identifierType), ['BSE_SYMBOL']);
++    assert.equal(bsePreview.holdings[0].identityRefusalCode, 'UNMAPPED_IDENTIFIER');
++    const nsePreview = previewBrokerHoldings(nse, 'dhan-detailed.csv', at);
++    assert.deepEqual(nsePreview.holdings[0].lookups.map((l) => l.identifierType), ['NSE_SYMBOL']);
++    // An ISIN row queries the ISIN namespace alone.
++    const isinOnly = 'Trading Symbol,ISIN,Exchange,Total Qty,Average Buy Price,Last Traded Price\nSOME ROW,INE999Z99999,NSE,2,100,120';
++    const isinPreview = previewBrokerHoldings(isinOnly, 'dhan-detailed.csv', at);
++    assert.equal(isinPreview.holdings[0].identifierClass, 'ISIN');
++    assert.deepEqual(isinPreview.holdings[0].lookups.map((l) => l.identifierType), ['ISIN']);
++  });
++
+   it('rejects empty and unknown formats, blocks XLSX rather than faking success', () => {
+     assert.equal(previewBrokerHoldings('', 'empty.csv', at).status, 'REJECTED');
+     assert.equal(previewBrokerHoldings('x,y\n1,2', 'unknown.csv', at).status, 'REJECTED');
+@@ -200,24 +222,86 @@ describe('Broker preview public boundary — native evidence, never a save', ()
+       assert.equal(p.holdings.every((h) => h.exchange === null), true);
+     });
+ 
+-    it('reports PARSED_UNRESOLVED without claiming a per-row lookup result it did not obtain', () => {
++    it('individually assesses all 68 rows before the single whole-import refusal', () => {
+       assert.equal(p.status, 'PARSED_UNRESOLVED');
+-      assert.equal(p.counts.identityAssessedRows, 0, 'the pinned pipeline publishes no per-row outcome when it refuses');
+-      assert.equal(p.counts.identityResolvedRows, 0);
+-      assert.equal(p.counts.identityUnresolvedRows, 68);
++      assert.equal(p.perRowIdentityEvidencePublished, true);
++      assert.equal(p.counts.nativeRows, 68);
++      assert.equal(p.counts.identityAssessedRows, 68, 'every native row must carry an individual outcome');
++      assert.equal(p.counts.identityResolvedRows, 1);
++      assert.equal(p.counts.identityUnresolvedRows, 67);
+       assert.equal(p.counts.savedRows, 0);
+-      assert.equal(p.holdings.every((h) => h.identityStatus === 'UNRESOLVED'), true);
+-      assert.equal(p.holdings.every((h) => h.identityBasis === 'FILE_LEVEL_P04_REFUSAL'), true);
++      assert.equal(p.holdings.every((h) => h.pipelineIdentityStatus !== null), true);
++      assert.equal(p.holdings.filter((h) => h.identityStatus === 'RESOLVED').length, 1);
++      assert.equal(p.holdings.filter((h) => h.identityStatus === 'UNRESOLVED').length, 67);
++      // The pipeline's own aggregate is passed through, never recomputed by IRR.
++      assert.deepEqual(
++        { e: p.identitySummary?.evaluated, r: p.identitySummary?.resolved, u: p.identitySummary?.unresolved,
++          a: p.identitySummary?.ambiguous, n: p.identitySummary?.notEvaluated, x: p.identitySummary?.excluded },
++        { e: 68, r: 1, u: 67, a: 0, n: 0, x: 0 },
++      );
++      assert.equal(p.identitySummary?.identitySource, 'GOVERNED_SECURITY_MASTER');
++      assert.equal(p.identitySummary?.masterRevision,
++        'BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001:7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5');
+     });
+ 
+-    it('surfaces the pipeline refusal verbatim instead of paraphrasing it', () => {
++    it('resolves AGI GREENPAC through its governed alias and stops querying weaker namespaces', () => {
++      const row = p.holdings[0];
++      assert.equal(row.symbol, 'AGI GREENPAC');
++      assert.equal(row.identityStatus, 'RESOLVED');
++      assert.equal(row.identityBasis, 'PIPELINE_RESOLVED');
++      assert.equal(row.pipelineIdentityStatus, 'RESOLVED');
++      assert.equal(row.identityRefusalCode, null);
++      assert.equal(row.identifierClass, 'UNSCOPED_NAME_OR_SYMBOL');
++      assert.equal(row.quarantineIds.length, 0);
++      assert.deepEqual(row.lookups.map((l) => [l.identifierType, l.identifierValue, l.outcome]), [
++        ['NSE_SYMBOL', 'AGI GREENPAC', 'RESOLVED'],
++        ['BSE_SYMBOL', 'AGI GREENPAC', 'UNMAPPED_IDENTIFIER'],
++      ]);
++      assert.match(row.lookups[1].details ?? '', /Not queried: the row was already resolved by NSE_SYMBOL/);
++    });
++
++    it('keeps the other 67 rows at NO_AUTHORITATIVE_IDENTIFIER_MATCH with their full lookup evidence', () => {
++      const unresolved = p.holdings.slice(1);
++      assert.equal(unresolved.length, 67);
++      assert.equal(unresolved.every((h) => h.identityStatus === 'UNRESOLVED'), true);
++      assert.equal(unresolved.every((h) => h.identityBasis === 'PIPELINE_ASSESSED_UNRESOLVED'), true);
++      assert.equal(unresolved.every((h) => h.pipelineIdentityStatus === 'UNRESOLVED'), true);
++      assert.equal(unresolved.every((h) => h.identityRefusalCode === 'NO_AUTHORITATIVE_IDENTIFIER_MATCH'), true);
++      assert.equal(unresolved.every((h) => h.identifierClass === 'UNSCOPED_NAME_OR_SYMBOL'), true);
++      assert.deepEqual(p.identitySummary?.refusalCodes, { NO_AUTHORITATIVE_IDENTIFIER_MATCH: 67 });
++      // The surface supplies no ISIN and no exchange, so BOTH symbol namespaces were queried
++      // verbatim in order, each producing its own P04 quarantine record.
++      for (const row of unresolved) {
++        assert.deepEqual(row.lookups.map((l) => [l.identifierType, l.identifierValue, l.outcome]), [
++          ['NSE_SYMBOL', row.symbol, 'UNMAPPED_IDENTIFIER'],
++          ['BSE_SYMBOL', row.symbol, 'UNMAPPED_IDENTIFIER'],
++        ]);
++        assert.equal(row.lookups.every((l) => l.identifierValue === row.symbol), true,
++          'the identifier value must be used verbatim, never rewritten or guessed');
++        assert.equal(row.quarantineIds.length, 2);
++        assert.equal(typeof row.missingEvidence, 'string');
++        assert.match(row.missingEvidence ?? '', /ISIN \(preferred\) or an exchange-scoped trading symbol/);
++      }
++    });
++
++    it('does not let the file-level refusal mask the per-row results, and keeps the refusal in force', () => {
++      // The whole-import P04 refusal (DP-2 Option 2F) is raised once and names only the LAST
++      // authoritative lookup of the FIRST refused row. The complete per-row evidence is published
++      // alongside it, so the refusal text can never be read as the run's identity outcome.
+       assert.equal(p.rejections.length, 1);
+       assert.equal(p.rejections[0].stage, 'NORMALIZE');
+       assert.equal(p.rejections[0].reason, 'UNMAPPED_IDENTITY');
+-      // With the governed master supplied, row 1 (AGI GREENPAC) resolves and the first refusal
+-      // moves to row 2 — evidence that the governed authority, not an empty master, is in use.
+       assert.match(p.rejections[0].details, /ASK AUTOMOTIVE/);
+-      assert.match(p.rejections[0].details, /UNMAPPED_IDENTIFIER/);
++      assert.match(p.rejections[0].details, /BSE_SYMBOL:ASK AUTOMOTIVE/);
++      // Row 2 is the first genuinely unmapped row: proof the governed master, not an empty master,
++      // resolved row 1, and proof the refusal is not the whole story.
++      assert.equal(p.holdings[1].symbol, 'ASK AUTOMOTIVE');
++      assert.equal(p.holdings[1].identityRefusalCode, 'NO_AUTHORITATIVE_IDENTIFIER_MATCH');
++      assert.equal(p.holdings[0].identityStatus, 'RESOLVED');
++      // Gate E W-1 / P04 whole-import condition: not saveable while any row is unresolved.
++      assert.equal(p.identitySummary?.saveable, false);
++      assert.equal(p.canSave, false);
++      assert.equal(p.persisted, false);
+     });
+ 
+     it('does not claim the observed digest of a file it does not have', () => {
+diff --git a/frontend/src/api/brokerHoldingsPreview.ts b/frontend/src/api/brokerHoldingsPreview.ts
+index 2e1140c..73830f8 100644
+--- a/frontend/src/api/brokerHoldingsPreview.ts
++++ b/frontend/src/api/brokerHoldingsPreview.ts
+@@ -2,42 +2,68 @@
+  *
+  * Native broker evidence is not an authoritative security mapping or a save request.
+  *
+- * WHAT THE PREVIEW MAY AND MAY NOT CLAIM (WS-A correction, 2026-11-05)
++ * WHAT THE PREVIEW MAY AND MAY NOT CLAIM (WS-A correction, 2026-11-05; pin advance to IPD PR #127)
+  *   The preview previously handed IPD's ingress an EMPTY `SecurityMaster`, so no row could ever
+  *   resolve, and it then reported `Resolved rows 0 / Unresolved rows 68` as though those were
+- *   lookup results. It also labelled every row `UNRESOLVED` unconditionally. Two claims were
+- *   therefore untrue by construction: (a) that identity had been evaluated, and (b) that the
+- *   zero was a property of the broker file rather than of the empty master.
++ *   lookup results. It also labelled every row `UNRESOLVED` unconditionally, and — because the
++ *   alias pin `70b24f0` predated per-row identity evidence — it could only report a FILE-LEVEL
++ *   identity basis with `identityAssessedRows: 0`.
+  *
+- *   The preview now supplies the IPD-OWNED governed D05 broad-universe security master (identity
+- *   authority stays with IPD; IRR never resolves identity itself), and separates what is measured
+- *   from what is not:
++ *   The `iips-broker-import` alias is now pinned to IPD PR #127's merge commit
++ *   `7bcae35ad18c43cb67a16f30faa55bbdf0fb33fc`, whose mapper assesses EVERY native row before it
++ *   raises the single whole-import P04 refusal, and publishes that evidence as
++ *   `identityAssessments` / `identitySummary` on both the success and the refusal result. This
++ *   module consumes that published evidence verbatim. Identity authority stays with IPD: IRR never
++ *   resolves identity, never ranks a candidate, never widens a namespace, never infers a mapping
++ *   from company-name similarity and never fabricates an identifier.
+  *
+- *     nativeRows            parsed rows (`parseResult.holdings.length`)
+- *     identityAssessedRows  rows for which the pipeline produced an individual identity outcome.
+- *                           The pinned IPD mapper refuses the whole file at the FIRST unresolved
+- *                           security, so this is 0 whenever the import is refused — an honest
+- *                           zero, not a resolution result.
+- *     identityResolvedRows  resolved holdings actually returned by the pipeline (0 while refused)
++ *   The counters now state what the pipeline actually measured:
++ *
++ *     nativeRows            parsed native broker rows (`parseResult.holdings.length`)
++ *     identityAssessedRows  rows for which the pipeline produced an INDIVIDUAL identity outcome
++ *     identityResolvedRows  rows the governed master resolved to a canonical identity
++ *     identityUnresolvedRows rows individually assessed and left unresolved or ambiguous
+  *     savedRows             always 0: the preview can not save and never calls a store
+  *
+- *   `PARSED_UNRESOLVED` therefore means "parsed; canonical identity was not established", never
+- *   "looked up and unmapped for all 68 rows". Per-row identity evidence requires the IPD
+- *   correction `WS-A-DHAN-BROKER-IDENTITY-EVIDENCE-RECORD-2026-11-05` (owner: IPD) to be published
+- *   and this dependency pin advanced; until then the preview reports the refusal it actually got
+- *   and marks the rows' identity basis as file-level.
++ *   `PARSED_UNRESOLVED` still means "parsed; canonical identity was not established for every
++ *   row". It never means "not assessed": with the current pin the assessment vector is published
++ *   even on refusal, so the per-row evidence is reported instead of being masked by the file-level
++ *   refusal. If a future or foreign pin publishes no assessment vector, the preview degrades to
++ *   `FILE_LEVEL_P04_REFUSAL` / `NOT_EVALUATED` and says so, rather than claiming per-row results
++ *   it did not receive.
+  */
+ import { BrokerImportIngressOrchestrator } from '../../.cache/broker-import/frontend/src/features/portfolio/import/broker-import-ingress.js';
+ import { getGovernedBroadSecurityMaster } from '../../.cache/broker-import/src/identity/governed_fixture_master.js';
+ 
+ export type BrokerRowIdentityBasis =
+-  /** The pipeline resolved this row's canonical identity. */
++  /** The pipeline resolved this row's canonical identity through the governed master. */
+   | 'PIPELINE_RESOLVED'
+-  /** The pipeline refused the file; this row's individual outcome was not produced. */
++  /** The pipeline published an individual assessment for this row that did not resolve. */
++  | 'PIPELINE_ASSESSED_UNRESOLVED'
++  /** The pipeline published an individual assessment whose status is AMBIGUOUS. */
++  | 'PIPELINE_ASSESSED_AMBIGUOUS'
++  /** The pipeline assessed this row but excluded it by row-level validation (not an identity result). */
++  | 'PIPELINE_ASSESSED_EXCLUDED'
++  /** The pipeline refused the file and published NO individual outcome for this row. */
+   | 'FILE_LEVEL_P04_REFUSAL'
+   /** The file itself was rejected/blocked before identity resolution. */
+   | 'NOT_EVALUATED';
+ 
++/** One authoritative lookup exactly as the IPD pipeline recorded it. Never re-derived here. */
++export interface BrokerPreviewIdentityLookup {
++  readonly identifierType: string;
++  readonly identifierValue: string;
++  readonly outcome: string;
++  readonly quarantineRecordId?: string;
++  readonly details?: string;
++}
++
++/**
++ * A native broker row plus the pipeline's OWN published identity evidence for it. The canonical
++ * company identity the governed master resolved is deliberately NOT re-exposed here: the preview's
++ * admitted boundary is native evidence, and a canonical identity must never be embedded in or
++ * echoed back through a broker CSV surface.
++ */
+ export interface BrokerPreviewRow {
+   readonly symbol: string;
+   readonly isin: string | null;
+@@ -48,6 +74,33 @@ export interface BrokerPreviewRow {
+   /** Never `RESOLVED` unless the pipeline returned that row as a resolved holding. */
+   readonly identityStatus: 'RESOLVED' | 'UNRESOLVED';
+   readonly identityBasis: BrokerRowIdentityBasis;
++  /** Pipeline assessment status, or null when no individual assessment was published. */
++  readonly pipelineIdentityStatus: string | null;
++  /** Closed-vocabulary refusal code published by the pipeline, or null. */
++  readonly identityRefusalCode: string | null;
++  /** Identifier class the pipeline assigned from what the broker actually supplied. */
++  readonly identifierClass: string | null;
++  /** P04 quarantine record ids produced by this row's lookups, in attempt order. */
++  readonly quarantineIds: readonly string[];
++  /** Every authoritative lookup attempted for this row, in the order attempted. */
++  readonly lookups: readonly BrokerPreviewIdentityLookup[];
++  /** The precise identifier evidence the broker export must supply, or null. */
++  readonly missingEvidence: string | null;
++}
++
++/** The pipeline's own aggregate. Passed through; never recomputed by IRR. */
++export interface BrokerPreviewIdentitySummary {
++  readonly evaluated: number;
++  readonly resolved: number;
++  readonly unresolved: number;
++  readonly ambiguous: number;
++  readonly notEvaluated: number;
++  readonly excluded: number;
++  readonly identitySource: string;
++  readonly masterRevision: string | null;
++  /** True only when EVERY assessed row resolved — the P04 whole-import saveability condition. */
++  readonly saveable: boolean;
++  readonly refusalCodes: Readonly<Record<string, number>>;
+ }
+ 
+ export interface BrokerHoldingsPreview {
+@@ -61,6 +114,8 @@ export interface BrokerHoldingsPreview {
+   readonly asOf: string;
+   /** Which identity authority the pipeline queried. Identity remains IPD-owned. */
+   readonly identityAuthority: { readonly source: 'IPD_GOVERNED_D05_SECURITY_MASTER'; readonly entities: number };
++  /** The pipeline's published per-row aggregate, or null when it published none. */
++  readonly identitySummary: BrokerPreviewIdentitySummary | null;
+   readonly counts: {
+     readonly nativeRows: number;
+     readonly identityAssessedRows: number;
+@@ -78,6 +133,8 @@ export interface BrokerHoldingsPreview {
+   readonly warnings: readonly string[];
+   readonly errors: readonly string[];
+   readonly rejections: readonly { recordIndex?: number; rawIdentifier?: string; reason: string; details: string; stage: string }[];
++  /** True when the pipeline published a per-row assessment vector for this run. */
++  readonly perRowIdentityEvidencePublished: boolean;
+   readonly holdings: readonly BrokerPreviewRow[];
+ }
+ 
+@@ -91,6 +148,24 @@ function identityAuthority() {
+   return cachedAuthority;
+ }
+ 
++interface PipelineAssessment {
++  readonly rowIndex: number;
++  readonly status: string;
++  readonly refusalCode?: string;
++  readonly identifierClass?: string;
++  readonly companyId?: string;
++  readonly missingEvidence?: string;
++  readonly lookups?: readonly {
++    readonly identifierType: string;
++    readonly identifierValue: string;
++    readonly outcome: string;
++    readonly companyId?: string;
++    readonly quarantineRecordId?: string;
++    readonly details?: string;
++  }[];
++  readonly quarantineRecords?: readonly { readonly quarantineId: string }[];
++}
++
+ export function previewBrokerHoldings(content: string, fileName: string, asOf: string): BrokerHoldingsPreview {
+   if (typeof content !== 'string' || typeof fileName !== 'string' || typeof asOf !== 'string'
+       || !Number.isFinite(Date.parse(asOf))) {
+@@ -110,12 +185,44 @@ export function previewBrokerHoldings(content: string, fileName: string, asOf: s
+     executionEnvironment: 'NON_PRODUCTION',
+   });
+   const parsed = result.parseResult;
++  const nativeRows = parsed?.holdings ?? [];
++
++  // The pipeline's own per-row evidence, joined on its 1-based native row index. The assessment
++  // vector is not in row order (excluded rows are recorded during the exclusion pass), so it must
++  // be indexed by `rowIndex`, never by array position.
++  const publishedAssessments = (result.identityAssessments ?? []) as readonly PipelineAssessment[];
++  const perRowIdentityEvidencePublished = publishedAssessments.length > 0;
++  const assessmentByRowIndex = new Map<number, PipelineAssessment>();
++  for (const assessment of publishedAssessments) {
++    if (Number.isInteger(assessment.rowIndex) && !assessmentByRowIndex.has(assessment.rowIndex)) {
++      assessmentByRowIndex.set(assessment.rowIndex, assessment);
++    }
++  }
++
++  // Fallback for a run that published no assessment vector (e.g. a pre-mapping rejection): the
++  // resolved holdings the pipeline actually returned are the only identity evidence available.
+   const resolvedSymbols = new Set((result.userHoldings ?? []).map((h) => h.symbol));
+   const identityRefused = result.rejections.some((r) => r.reason === 'UNMAPPED_IDENTITY' || r.reason === 'IDENTITY_AMBIGUITY');
+-  const pipelineRan = (parsed?.holdings.length ?? 0) > 0;
+ 
+-  const holdings: BrokerPreviewRow[] = (parsed?.holdings ?? []).map((h) => {
+-    const resolved = resolvedSymbols.has(h.symbol);
++  const holdings: BrokerPreviewRow[] = nativeRows.map((h, index) => {
++    const assessment = assessmentByRowIndex.get(index + 1);
++    const pipelineStatus = assessment?.status ?? null;
++    const resolved = assessment
++      ? assessment.status === 'RESOLVED'
++      : resolvedSymbols.has(h.symbol);
++    const basis: BrokerRowIdentityBasis = assessment
++      ? (assessment.status === 'RESOLVED'
++        ? 'PIPELINE_RESOLVED'
++        : assessment.status === 'AMBIGUOUS'
++          ? 'PIPELINE_ASSESSED_AMBIGUOUS'
++          : assessment.status === 'EXCLUDED'
++            ? 'PIPELINE_ASSESSED_EXCLUDED'
++            : assessment.status === 'NOT_EVALUATED'
++              ? 'NOT_EVALUATED'
++              : 'PIPELINE_ASSESSED_UNRESOLVED')
++      : identityRefused
++        ? 'FILE_LEVEL_P04_REFUSAL'
++        : 'NOT_EVALUATED';
+     return {
+       symbol: h.symbol,
+       isin: h.isin ?? null,
+@@ -124,20 +231,57 @@ export function previewBrokerHoldings(content: string, fileName: string, asOf: s
+       averagePrice: h.averagePrice,
+       currentPrice: h.currentPrice ?? null,
+       identityStatus: resolved ? 'RESOLVED' : 'UNRESOLVED',
+-      identityBasis: resolved
+-        ? 'PIPELINE_RESOLVED'
+-        : identityRefused
+-          ? 'FILE_LEVEL_P04_REFUSAL'
+-          : pipelineRan
+-            ? 'NOT_EVALUATED'
+-            : 'NOT_EVALUATED',
++      identityBasis: basis,
++      pipelineIdentityStatus: pipelineStatus,
++      identityRefusalCode: assessment?.refusalCode ?? null,
++      identifierClass: assessment?.identifierClass ?? null,
++      quarantineIds: (assessment?.quarantineRecords ?? []).map((q) => q.quarantineId),
++      lookups: (assessment?.lookups ?? []).map((l) => ({
++        identifierType: l.identifierType,
++        identifierValue: l.identifierValue,
++        outcome: l.outcome,
++        ...(l.quarantineRecordId ? { quarantineRecordId: l.quarantineRecordId } : {}),
++        ...(l.details ? { details: l.details } : {}),
++      })),
++      missingEvidence: assessment?.missingEvidence ?? null,
+     };
+   });
+ 
++  const assessedRows = holdings.filter((h) => h.pipelineIdentityStatus !== null).length;
+   const identityResolvedRows = holdings.filter((h) => h.identityStatus === 'RESOLVED').length;
+-  // The pinned IPD mapper publishes no individual outcome when it refuses the file, so a refusal
+-  // means ZERO rows were individually assessed. Only a completed pipeline assesses every row.
+-  const identityAssessedRows = result.disposition === 'READY_FOR_PORTFOLIO_SAVE' ? holdings.length : 0;
++  const identityUnresolvedRows = holdings.filter(
++    (h) => h.pipelineIdentityStatus === 'UNRESOLVED' || h.pipelineIdentityStatus === 'AMBIGUOUS',
++  ).length;
++
++  const publishedSummary = result.identitySummary as
++    | {
++        readonly evaluated: number;
++        readonly resolved: number;
++        readonly unresolved: number;
++        readonly ambiguous: number;
++        readonly notEvaluated: number;
++        readonly excluded: number;
++        readonly identitySource: string;
++        readonly masterRevision?: string;
++        readonly saveable: boolean;
++        readonly refusalCodes: Readonly<Record<string, number>>;
++      }
++    | undefined;
++  const identitySummary: BrokerPreviewIdentitySummary | null = publishedSummary
++    ? {
++        evaluated: publishedSummary.evaluated,
++        resolved: publishedSummary.resolved,
++        unresolved: publishedSummary.unresolved,
++        ambiguous: publishedSummary.ambiguous,
++        notEvaluated: publishedSummary.notEvaluated,
++        excluded: publishedSummary.excluded,
++        identitySource: publishedSummary.identitySource,
++        masterRevision: publishedSummary.masterRevision ?? null,
++        saveable: publishedSummary.saveable,
++        refusalCodes: { ...publishedSummary.refusalCodes },
++      }
++    : null;
++
+   const status: BrokerHoldingsPreview['status'] = result.disposition === 'BLOCKED'
+     ? 'BLOCKED'
+     : holdings.length === 0
+@@ -156,11 +300,12 @@ export function previewBrokerHoldings(content: string, fileName: string, asOf: s
+     contentDigest: result.provenance.contentDigest,
+     asOf,
+     identityAuthority: authority,
++    identitySummary,
+     counts: {
+       nativeRows: holdings.length,
+-      identityAssessedRows,
++      identityAssessedRows: assessedRows,
+       identityResolvedRows,
+-      identityUnresolvedRows: holdings.length - identityResolvedRows,
++      identityUnresolvedRows,
+       savedRows: 0,
+     },
+     notPerformed: {
+@@ -178,6 +323,7 @@ export function previewBrokerHoldings(content: string, fileName: string, asOf: s
+       details: r.details,
+       stage: r.stage,
+     })),
++    perRowIdentityEvidencePublished,
+     holdings,
+   };
+ }
+diff --git a/frontend/src/features/broker-holdings/BrokerHoldingsPreview.tsx b/frontend/src/features/broker-holdings/BrokerHoldingsPreview.tsx
+index 32a5c12..618fe67 100644
+--- a/frontend/src/features/broker-holdings/BrokerHoldingsPreview.tsx
++++ b/frontend/src/features/broker-holdings/BrokerHoldingsPreview.tsx
+@@ -66,18 +66,36 @@ export function BrokerHoldingsPreview() {
+           {preview.variant && <p>Format: {preview.variant}</p>}
+           <p>{preview.counts.nativeRows} native rows · {preview.counts.identityAssessedRows} individually assessed ·
+             {' '}{preview.counts.identityResolvedRows} resolved · {preview.counts.savedRows} saved.</p>
++          <p>{preview.counts.identityUnresolvedRows} unresolved ·
++            {' '}{preview.perRowIdentityEvidencePublished
++              ? 'every row carries its own identity outcome'
++              : 'the pipeline published no per-row outcome, so rows are marked file-level'} ·
++            {preview.identitySummary && !preview.identitySummary.saveable
++              ? ' the whole import stays refused (P04) while any row is unresolved.'
++              : ' the pipeline reports the import as saveable only when every assessed row resolved.'}</p>
++          {preview.identitySummary && Object.keys(preview.identitySummary.refusalCodes).length > 0 && (
++            <p>Refusal codes: {Object.entries(preview.identitySummary.refusalCodes)
++              .map(([code, n]) => `${code} × ${n}`).join(', ')}.</p>
++          )}
+           <p>Identity authority: {preview.identityAuthority.source} ({preview.identityAuthority.entities} entities).
+             Parsing does not validate values, authorize a save or persist anything.</p>
+           <p>Read at: {preview.asOf}. Content digest: <code>{preview.contentDigest}</code></p>
+           {preview.holdings.length > 0 && <table>
+             <caption>Native broker evidence — unresolved, not saved</caption>
+-            <thead><tr><th>Symbol / name</th><th>ISIN</th><th>Exchange</th><th>Quantity</th><th>Average price</th><th>Current price</th><th>Identity</th></tr></thead>
++            <thead><tr><th>Symbol / name</th><th>ISIN</th><th>Exchange</th><th>Quantity</th><th>Average price</th><th>Current price</th><th>Identity</th><th>Identity evidence</th></tr></thead>
+             <tbody>{preview.holdings.map((h, i) => <tr key={i}>
+               <td>{h.symbol}</td><td>{h.isin ?? '—'}</td><td>{h.exchange ?? '—'}</td>
+               <td>{h.quantity}</td><td>{h.averagePrice}</td><td>{h.currentPrice ?? '—'}</td><td>{h.identityStatus}</td>
++              <td>{h.identityRefusalCode ?? h.identityBasis}
++                {h.lookups.length > 0 && <> · {h.lookups
++                  .map((l) => `${l.identifierType}:${l.outcome}`).join(' · ')}</>}
++                {h.quarantineIds.length > 0 && <> · P04 × {h.quarantineIds.length}</>}</td>
+             </tr>)}</tbody>
+           </table>}
+-          {preview.errors.length > 0 && <><h3>Pipeline refusals</h3><ul>{preview.errors.map((v, i) => <li key={i}>{v}</li>)}</ul></>}
++          {preview.errors.length > 0 && <><h3>Pipeline refusals</h3>
++            <p>The whole-import refusal below names one row only. It does not replace the per-row
++              identity evidence in the table: every row above was individually assessed.</p>
++            <ul>{preview.errors.map((v, i) => <li key={i}>{v}</li>)}</ul></>}
+           {preview.warnings.length > 0 && <><h3>Warnings</h3><ul>{preview.warnings.map((v, i) => <li key={i}>{v}</li>)}</ul></>}
+         </>}
+       </div>
+diff --git a/frontend/tsconfig.broker-import.json b/frontend/tsconfig.broker-import.json
+index 187b7ce..5e42750 100644
+--- a/frontend/tsconfig.broker-import.json
++++ b/frontend/tsconfig.broker-import.json
+@@ -1,3 +1,15 @@
++// WS-A pin advance — IPD PR #127 merge commit 7bcae35ad18c43cb67a16f30faa55bbdf0fb33fc.
++//
++// This project no longer COMPILES the alias's raw TypeScript sources. The merged IPD manifest
++// declares `files: ["dist/package"]`, so the installed `iips-broker-import` alias publishes only
++// built `.js` plus `.d.ts` artifacts and the former raw-source `include` set has no inputs
++// (`TS18003: No inputs were found`). `scripts/materialize-broker-import.mjs` — run first by the
++// `build:broker-import` script, and therefore by `predev` / `prebuild` / `pretest` / `pretest:ci` /
++// `pretypecheck` — materializes that published output into `.cache/broker-import`.
++//
++// This project is now the strict, fail-closed typecheck of IRR's consumption surface against the
++// pinned package's own published declarations. Identity resolution, P04 quarantine, Gate E W-1 and
++// durable holdings persistence remain IPD-owned: nothing is recompiled, re-derived or copied here.
+ {
+   "compilerOptions": {
+     "target": "ES2022",
+@@ -12,22 +24,20 @@
+     ],
+     "strict": true,
+     "skipLibCheck": true,
+-    "declaration": true,
+-    "noEmitOnError": true,
+-    "rootDir": "node_modules/iips-broker-import",
+-    "outDir": ".cache/broker-import"
++    "noEmit": true
+   },
+   "include": [
+-    "node_modules/iips-broker-import/frontend/src/features/portfolio/import/broker-*.ts",
+-    "node_modules/iips-broker-import/frontend/src/features/portfolio/import/types.ts",
+-    "node_modules/iips-broker-import/frontend/src/features/portfolio/import/adapters/*.ts",
+-    "node_modules/iips-broker-import/src/identity/security_master.ts",
+-    "node_modules/iips-broker-import/src/identity/mapping_store.ts",
+-    "node_modules/iips-broker-import/src/identity/quarantine.ts",
+-    "node_modules/iips-broker-import/src/contracts/provenance.ts",
+-    "node_modules/iips-broker-import/src/contracts/types.ts",
+-    "node_modules/iips-broker-import/src/identity/governed_fixture_master.ts",
+-    "node_modules/iips-broker-import/src/identity/d05_broad_universe_data.ts",
+-    "node_modules/iips-broker-import/src/identity/d05_listing_corrections.ts"
++    ".cache/broker-import/frontend/src/features/portfolio/import/broker-format-detector.d.ts",
++    ".cache/broker-import/frontend/src/features/portfolio/import/broker-holdings-mapper.d.ts",
++    ".cache/broker-import/frontend/src/features/portfolio/import/broker-identity-assessment.d.ts",
++    ".cache/broker-import/frontend/src/features/portfolio/import/broker-import-ingress.d.ts",
++    ".cache/broker-import/frontend/src/features/portfolio/import/types.d.ts",
++    ".cache/broker-import/src/contracts/provenance.d.ts",
++    ".cache/broker-import/src/contracts/types.d.ts",
++    ".cache/broker-import/src/identity/governed_fixture_master.d.ts",
++    ".cache/broker-import/src/identity/mapping_store.d.ts",
++    ".cache/broker-import/src/identity/quarantine.d.ts",
++    ".cache/broker-import/src/identity/security_master.d.ts",
++    "src/api/brokerHoldingsPreview.ts"
+   ]
+ }
+
+=== new untracked IRR files in this change ===
+evidence/integration/ws-a-dhan-68-row-pin-advance-2026-11-05/
+frontend/broker-import-package-profile.json
+frontend/scripts/

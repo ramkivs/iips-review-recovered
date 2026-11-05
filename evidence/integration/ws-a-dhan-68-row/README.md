@@ -28,7 +28,30 @@ Owner repositories: **IRR** (preview, CAP-02 save boundary, import-evidence rete
   string, with all alternatives listed; identity acts on names/ISIN/exchange, so the identity
   conclusions do not depend on the chosen decomposition.
 
-## IPD correction (unpublished — preserved here)
+## IPD correction — PUBLISHED (dated addendum, 2026-11-05)
+
+> **STATUS CHANGE.** The correction preserved below is **no longer unpublished**. It was
+> re-authored on an IPD session branch with write access and merged as IPD
+> **[PR #127 — Fix Dhan broker holdings per-row identity assessment](https://github.com/ramkivs/iips-production-market-data/pull/127)**:
+>
+> | Item | Value |
+> | :--- | :--- |
+> | Source branch | `arena/ws-a-dhan-68-row-identity-20261105` |
+> | Source (head) commit | `beb362d4ca8fb0a4f86e383d1893d031df2638a8` |
+> | **Merged commit** | **`7bcae35ad18c43cb67a16f30faa55bbdf0fb33fc`** — also IPD `origin/main`'s tip |
+> | Base parent | `b605a61458a655bb555c6f340332fcf77a85c870` |
+> | Merged at | `2026-11-05T08:43:30Z` |
+>
+> IRR's `iips-broker-import` pin has been advanced to that merged commit and the end-to-end 68-row
+> per-row identity result re-measured: see
+> `../ws-a-dhan-68-row-pin-advance-2026-11-05/README.md` and
+> `docs/integration/WS-A-BROKER-IMPORT-PIN-ADVANCE-TO-IPD-PR127-2026-11-05.md`.
+> The files in *this* directory are preserved **as the historical record of the blocked pass** and
+> are not regenerated: their `identity-outcomes.json` was produced by the local pre-publication
+> commit `2f97357`, whose logic is what PR #127 merged. The published, re-measured evidence lives in
+> the pin-advance directory.
+
+### Original text (preserved unamended)
 
 `ipd-correction-2f97357.patch` is the complete `git format-patch` of the IPD-owned correction
 commit `2f97357` on branch `arena/63391e87-iips-production-market-data`, based on IPD
@@ -39,3 +62,8 @@ returns `Resource not accessible by integration`). Both available tokens behave 
 Apply with `git am` in an IPD checkout once the connection can write to that repository. The patch
 is evidence, not an implementation claimed as published: the owning repository is IPD and the
 authoritative record belongs there.
+
+**Resolution of the blocker:** the connection was not the obstacle that mattered — a later IPD
+session branch with write access carried the same correction to merge as PR #127. The patch file is
+retained because it is the artefact that proved the correction existed while publication was
+blocked; it is superseded by the merged commit above and must not be re-applied.
