@@ -1,0 +1,47 @@
+{
+  "baseline": "2a55110806599084355b299fb3e0a559471f0c48",
+  "pr": 468,
+  "merged": true,
+  "head": "635a8e838dc4d6547c64afb65a48f4748bde6666",
+  "observedMain": "d37ac14e3e09009223de92f436c3dafbde27568f",
+  "refs": {
+    "head": {
+      "commit": "635a8e838dc4d6547c64afb65a48f4748bde6666",
+      "preservationComparisonBase": "2a55110806599084355b299fb3e0a559471f0c48",
+      "exactChangedBytesSHA256": {
+        "IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md": "8d25b1ff975df90b71e82c092d5043010636d41621244204e08d91a0311d6a06",
+        "docs/integration/SAIRAM-DURABLE-HOLDINGS-ARCHITECTURE-READINESS-2026-11-06.md": "7521318b9ee26e703b37b01eeb7746f979c6b6d4110bb7d6fbc3c0c7c67589b9",
+        "docs/integration/SAIRAM-DURABLE-HOLDINGS-PA-DECISION-PACKAGE-2026-11-06.md": "02ead884305757cce18114a2c3117ac9ed899d7f6013644426e1c0f63676345d",
+        "docs/integration/WS-A-DHAN-BROKER-HOLDINGS-WORKSTREAM-REPORT-2026-11-05-R2.md": "39557a53de6fcf0539e5ea0c9d7830fc06fdd617dbf7e085d80ccefb007653e7",
+        "evidence/integration/sairam-holdings-readiness-2026-11-06/cited-portfolio-source-manifest.json": "5d9ee94df61feeea25688984cfbaef4e64c4073580f3c3cbf882eab7e16a7cbd",
+        "evidence/integration/sairam-holdings-readiness-2026-11-06/rebaseline.json": "0ed596d44ea7453dce3184df2310a3239e8b44d1479ccf40a838e5a1c759063b",
+        "evidence/integration/sairam-holdings-readiness-2026-11-06/scope.json": "41ffc7d9e99a80d3def2d514e6ad2f539a7def2621c680feaa54282a22f1bf7c",
+        "evidence/integration/sairam-holdings-readiness-2026-11-06/source-checks.txt": "fd0a28789d75633baf9b8aacfdc6f70a3564dd25efbd9cc8bd8d47e8fd3cbb79",
+        "evidence/integration/sairam-holdings-readiness-2026-11-06/static.txt": "1faeef022a17b33b7b36aaae1c1689c46745363d47e42ad84689349d07197315",
+        "evidence/integration/sairam-holdings-readiness-2026-11-06/verify_scope.py": "a98890c8d47ac1f43e68472ada3a25e7d38d95c74038b24e1204c350935a6eb9"
+      },
+      "protectedExistingBlobsUnchanged": 2662,
+      "existingChangesAppendOnly": true,
+      "W1": "UNCHANGED"
+    },
+    "merge": {
+      "commit": "d37ac14e3e09009223de92f436c3dafbde27568f",
+      "preservationComparisonBase": "95b95cfe04bbb7f6be200bacce38efc804ace278",
+      "exactChangedBytesSHA256": {
+        "IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md": "8d25b1ff975df90b71e82c092d5043010636d41621244204e08d91a0311d6a06",
+        "docs/integration/SAIRAM-DURABLE-HOLDINGS-ARCHITECTURE-READINESS-2026-11-06.md": "7521318b9ee26e703b37b01eeb7746f979c6b6d4110bb7d6fbc3c0c7c67589b9",
+        "docs/integration/SAIRAM-DURABLE-HOLDINGS-PA-DECISION-PACKAGE-2026-11-06.md": "02ead884305757cce18114a2c3117ac9ed899d7f6013644426e1c0f63676345d",
+        "docs/integration/WS-A-DHAN-BROKER-HOLDINGS-WORKSTREAM-REPORT-2026-11-05-R2.md": "39557a53de6fcf0539e5ea0c9d7830fc06fdd617dbf7e085d80ccefb007653e7",
+        "evidence/integration/sairam-holdings-readiness-2026-11-06/cited-portfolio-source-manifest.json": "5d9ee94df61feeea25688984cfbaef4e64c4073580f3c3cbf882eab7e16a7cbd",
+        "evidence/integration/sairam-holdings-readiness-2026-11-06/rebaseline.json": "0ed596d44ea7453dce3184df2310a3239e8b44d1479ccf40a838e5a1c759063b",
+        "evidence/integration/sairam-holdings-readiness-2026-11-06/scope.json": "41ffc7d9e99a80d3def2d514e6ad2f539a7def2621c680feaa54282a22f1bf7c",
+        "evidence/integration/sairam-holdings-readiness-2026-11-06/source-checks.txt": "fd0a28789d75633baf9b8aacfdc6f70a3564dd25efbd9cc8bd8d47e8fd3cbb79",
+        "evidence/integration/sairam-holdings-readiness-2026-11-06/static.txt": "1faeef022a17b33b7b36aaae1c1689c46745363d47e42ad84689349d07197315",
+        "evidence/integration/sairam-holdings-readiness-2026-11-06/verify_scope.py": "a98890c8d47ac1f43e68472ada3a25e7d38d95c74038b24e1204c350935a6eb9"
+      },
+      "protectedExistingBlobsUnchanged": 2692,
+      "existingChangesAppendOnly": true,
+      "W1": "UNCHANGED"
+    }
+  }
+}
