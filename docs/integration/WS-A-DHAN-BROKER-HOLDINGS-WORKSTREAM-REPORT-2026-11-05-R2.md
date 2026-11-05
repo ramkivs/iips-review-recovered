@@ -64,9 +64,11 @@ build artifacts* byte-for-byte (SHA-256 equality proven in `02-materialization-r
 
 | Publication | Value |
 | :--- | :--- |
-| IRR PR | **#436** — `WS-A: advance the broker-import pin to IPD PR #127 and consume per-row identity evidence` |
-| IRR merged commit | see §2 verification line below |
-| Remote verification | `gh pr view 436`, `git ls-remote origin refs/heads/main`, and blob read-back of `frontend/package.json` + `frontend/broker-import-package-profile.json` at the merged commit |
+| IRR PR | [#436 — WS-A: advance the broker-import pin to IPD PR #127 and consume per-row identity evidence](https://github.com/ramkivs/iips-review-recovered/pull/436) |
+| PR head commit | `a3407fbf9582d2ea16d277d4a546ef0849a405a5` (tree `9c322e3c3967e77a8bdee932b6ae7ea1e392da36`) |
+| **IRR merged commit** | **`51fdcd9567407db88626b3d5ae87e642f869205a`**, `MERGED` at `2026-11-05T09:25:46Z`, base `main` |
+| Hosted CI on the exact merged head | **PASS** — `Typecheck · Test · Build`, 1m54s. This is independent of the sandbox: a hosted runner resolved the advanced pin anonymously via `npm ci` against the committed lockfile and ran V2 + the full Vitest suite + the CV-35 guard + the V4 build |
+| Remote verification | `git ls-remote` reports `refs/heads/main` at `51fdcd9567407db88626b3d5ae87e642f869205a`; **33 / 33** changed paths byte-matched at that SHA through the GitHub Contents API; the published `frontend/package.json` pin and `frontend/broker-import-package-profile.json` were read back from `main` and confirmed. Transcript: `evidence/integration/ws-a-dhan-68-row-pin-advance-2026-11-05/10-postmerge-readback.txt` |
 
 ## 3. End-to-end 68-row identity assessment — **COMPLETED AND VERIFIED**
 
@@ -234,7 +236,7 @@ is authorized and none was exercised.** No real-user durable save occurred.
 | # | Action | Owner | Depends on | Completion criteria | Status |
 | --: | :--- | :--- | :--- | :--- | :--- |
 | A-1 | IPD per-row identity correction published | IPD | — | PR #127 merged at `7bcae35`; remote `origin/main` read-back | **COMPLETED / VERIFIED** |
-| A-2 | IRR pin advance + consumption redesign + per-row consumption | IRR | A-1 | Pin `7bcae35` in manifest and lockfile; V2/V3/V4 + guard green; merged IRR PR; remote read-back of the merged blobs | **COMPLETED / VERIFIED** |
+| A-2 | IRR pin advance + consumption redesign + per-row consumption | IRR | A-1 | Pin `7bcae35` in manifest and lockfile; V2/V3/V4 + guard green; merged IRR PR; remote read-back of the merged blobs | **COMPLETED / VERIFIED** — IRR PR #436 merged as `51fdcd9567407db88626b3d5ae87e642f869205a`; hosted CI PASS; 33/33 paths byte-matched at the merge SHA |
 | A-3 | End-to-end 68-row per-row identity verification | IRR | A-2 | 68 assessed / 1 resolved / 67 `NO_AUTHORITATIVE_IDENTIFIER_MATCH`; exchange scoping proven; whole-import refusal in force; reproducible evidence published | **COMPLETED / VERIFIED** |
 | A-4 | Restart, digest, tamper, idempotency re-verification at the new pin | IRR | A-2 | Separate-process recovery of 68 rows; identical digest across three processes; tamper fails closed; no duplication | **COMPLETED / VERIFIED** |
 | A-5 | Obtain authoritative identifiers for the 67 rows | **Operator (Ramki)** | Operator supplies their own `DHAN_DETAILED_HOLDINGS_V1` export locally through the existing browser file path | A detailed export exists and is assessed; rows whose ISIN / exchange-scoped symbol is already an exact governed key resolve; result published row by row | **BLOCKED — source not accessible; no artefact exists in either repository** |
@@ -295,7 +297,7 @@ documentation act and is listed as outstanding action **A-16** below.
 | Line | Status |
 | :--- | :--- |
 | IPD PR #127 merged commit resolved and verified | **COMPLETED / VERIFIED** |
-| IRR dependency-pin advance, published and remotely verified | **COMPLETED / VERIFIED** |
+| IRR dependency-pin advance, published and remotely verified | **COMPLETED / VERIFIED** — PR #436 → `51fdcd9`, CI PASS, 33/33 read-back |
 | End-to-end 68-row per-row identity assessment | **COMPLETED / VERIFIED** |
 | 67 unresolved identities | **BLOCKED** — no accessible authoritative source; 0 of 67 in the governed corpus; nothing invented |
 | Governed D05 deposition | **NOT STARTED — PENDING AUTHORITY** (IPD + PA) |

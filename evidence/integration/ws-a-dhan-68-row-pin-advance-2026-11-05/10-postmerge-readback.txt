@@ -1,0 +1,87 @@
+# Independent post-merge remote read-back — IRR PR #436
+# Captured: 2026-11-05T09:26:34Z UTC
+
+=== PR identity (GitHub API) ===
+PR:          #436
+title:       WS-A: advance the broker-import pin to IPD PR #127 and consume per-row identity evidence
+state:       MERGED
+mergedAt:    2026-11-05T09:25:46Z
+headRefOid:  a3407fbf9582d2ea16d277d4a546ef0849a405a5
+mergeCommit: 51fdcd9567407db88626b3d5ae87e642f869205a
+baseRefName: main
+url:         https://github.com/ramkivs/iips-review-recovered/pull/436
+
+=== independent ref read-back (git ls-remote, not the PR payload) ===
+51fdcd9567407db88626b3d5ae87e642f869205a	refs/heads/main
+
+=== merge commit identity (freshly fetched object) ===
+commit  51fdcd9567407db88626b3d5ae87e642f869205a
+tree    9c322e3c3967e77a8bdee932b6ae7ea1e392da36
+parents 182580b33f9107f94d619cbfaf628fb88b67bd21 a3407fbf9582d2ea16d277d4a546ef0849a405a5
+date    2026-11-05T14:55:45+05:30
+subject Merge pull request #436 from ramkivs/arena/0497f3e4-iips-review-recovered
+
+=== CI checks on the exact merged head ===
+Typecheck · Test · Build	pass	1m54s	https://github.com/ramkivs/iips-review-recovered/actions/runs/42001913262/job/127158970233
+
+=== byte-level read-back of every changed path at the merge SHA ===
+Method: GitHub Contents API (base64) at ref=51fdcd9567407db88626b3d5ae87e642f869205a, decoded and SHA-256-compared with the
+local working-tree file. The master tracker is not in this change set, so no blob-API fallback
+was needed.
+
+#    path                                                                                         bytes      sha256(8)  match
+1    docs/integration/WS-A-BROKER-IMPORT-PIN-ADVANCE-TO-IPD-PR127-2026-11-05.md                   12238      90b81372   MATCH
+2    docs/integration/WS-A-DHAN-BROKER-HOLDINGS-WORKSTREAM-REPORT-2026-11-05-R2.md                32583      1a46e2d4   MATCH
+3    docs/integration/WS-A-DHAN-DETAILED-HOLDINGS-SOURCE-INVESTIGATION-2026-11-05.md              11513      8e3a8b2e   MATCH
+4    docs/integration/WS-A-EVIDENCE-RETRIEVAL-ROUTE-AUTHORITY-GAP-2026-11-05.md                   12525      15f1a826   MATCH
+5    evidence/integration/ws-a-dhan-68-row-pin-advance-2026-11-05/00-authoritative-remote-state.txt 4682       0a11eb05   MATCH
+6    evidence/integration/ws-a-dhan-68-row-pin-advance-2026-11-05/01-pin-advance-diff.txt         60093      2baeb124   MATCH
+7    evidence/integration/ws-a-dhan-68-row-pin-advance-2026-11-05/02-materialization-receipt.txt  3362       6a3aded6   MATCH
+8    evidence/integration/ws-a-dhan-68-row-pin-advance-2026-11-05/03-identity-assessment-68-row.json 101792     abcf27bf   MATCH
+9    evidence/integration/ws-a-dhan-68-row-pin-advance-2026-11-05/04-evidence-record.json         37508      9d53d8b5   MATCH
+10   evidence/integration/ws-a-dhan-68-row-pin-advance-2026-11-05/05-targeted-tests.txt           23942      dd9a452a   MATCH
+11   evidence/integration/ws-a-dhan-68-row-pin-advance-2026-11-05/06-typecheck-and-validation.txt 1803       8880c78c   MATCH
+12   evidence/integration/ws-a-dhan-68-row-pin-advance-2026-11-05/07-full-suite-and-build.txt     2723       5d3c8c01   MATCH
+13   evidence/integration/ws-a-dhan-68-row-pin-advance-2026-11-05/08-d05-coverage-probe.json      41246      28477f43   MATCH
+14   evidence/integration/ws-a-dhan-68-row-pin-advance-2026-11-05/09-d05-deposition-and-source-path.txt 6281       afae82d8   MATCH
+15   evidence/integration/ws-a-dhan-68-row-pin-advance-2026-11-05/README.md                       6629       db15ef8f   MATCH
+16   evidence/integration/ws-a-dhan-68-row-pin-advance-2026-11-05/SHA256SUMS.txt                  1208       e43cebb1   MATCH
+17   evidence/integration/ws-a-dhan-68-row-pin-advance-2026-11-05/generate-evidence.mts           6263       492ee82e   MATCH
+18   evidence/integration/ws-a-dhan-68-row-pin-advance-2026-11-05/probe-d05-coverage.mts          7055       769a6163   MATCH
+19   evidence/integration/ws-a-dhan-68-row/README.md                                              4690       f39acbb4   MATCH
+20   frontend/broker-import-package-profile.json                                                  3083       77271502   MATCH
+21   frontend/package-lock.json                                                                   128442     706ab71b   MATCH
+22   frontend/package.json                                                                        1934       2b35c6e0   MATCH
+23   frontend/scripts/materialize-broker-import.mjs                                               7505       169c9d5d   MATCH
+24   frontend/server/broker-import/brokerImportEvidenceRestart.test.ts                            6056       7ea7e483   MATCH
+25   frontend/server/broker-import/brokerImportEvidenceStore.test.ts                              7726       7299a5db   MATCH
+26   frontend/server/broker-import/brokerImportEvidenceStore.ts                                   13235      4cb6d428   MATCH
+27   frontend/server/broker-import/brokerImportEvidenceWriter.ts                                  4159       30b661cc   MATCH
+28   frontend/server/broker-import/brokerImportPackageConsumer.test.ts                            24905      6656c726   MATCH
+29   frontend/server/reports/reports-persistence-integration.test.ts                              8795       cfdf624b   MATCH
+30   frontend/src/api/brokerHoldingsPreview.test.ts                                               19603      8b75b19e   MATCH
+31   frontend/src/api/brokerHoldingsPreview.ts                                                    15228      c476a9f1   MATCH
+32   frontend/src/features/broker-holdings/BrokerHoldingsPreview.tsx                              6033       a73444c5   MATCH
+33   frontend/tsconfig.broker-import.json                                                         2108       e1152417   MATCH
+
+RESULT: 33 / 33 changed paths byte-matched at the merged commit.
+
+=== the advanced pin as published on main ===
+16:    "build:broker-import": "node scripts/materialize-broker-import.mjs && tsc -p tsconfig.broker-import.json",
+17:    "predev": "npm run build:broker-import",
+18:    "prebuild": "npm run build:broker-import",
+19:    "pretest": "npm run build:broker-import",
+20:    "pretest:ci": "npm run build:broker-import",
+21:    "pretypecheck": "npm run build:broker-import"
+24:    "iips-broker-import": "github:ramkivs/iips-production-market-data#7bcae35ad18c43cb67a16f30faa55bbdf0fb33fc",
+25:    "iips-np04-governed-persistence": "github:ramkivs/iips-production-market-data#2e11fa3b689d1a3674a5e4ba1f1de9a559e20494",
+26:    "iips-production-market-data": "github:ramkivs/iips-production-market-data#279d1eed184f5e23bbabe5c6411085e120ce9e41",
+
+=== the governed consumption profile as published on main ===
+aliasCommit      : 7bcae35ad18c43cb67a16f30faa55bbdf0fb33fc
+aliasSpecifier   : github:ramkivs/iips-production-market-data#7bcae35ad18c43cb67a16f30faa55bbdf0fb33fc
+publishedRoot    : dist/package
+materializedRoot : .cache/broker-import
+requiredModules  : 18
+supersededAlias  : 70b24f029842a7e9b7f615e4d9df7376fd4ff817
+mergedPullRequest: 127

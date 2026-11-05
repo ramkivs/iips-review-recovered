@@ -22,11 +22,12 @@ holdings, the D05 security master and its deposition process). **Zero IPD writes
 | `09-d05-deposition-and-source-path.txt` | The IPD-owned D05 deposition process read verbatim at the pinned commit (operator-drop inventory, `d05_security_master_manifest.json`, the fail-closed policy header, the integrity test), the exhaustive `.csv` inventory of both repositories, and the IRR authorized acquisition path (browser-local file read; no broker login, no live API, no upload). |
 | `generate-evidence.mts` | Reproducible generator for `03` and `04`. Runs the real preview and the real journal; writes nothing inside either repository worktree except those two files; never opens the authoritative operator data directory. |
 | `probe-d05-coverage.mts` | Reproducible generator for `08`. Takes the unresolved set from the pipeline's own published assessment vector; reads the governed corpus the pinned alias publishes. |
+| `10-postmerge-readback.txt` | **Independent post-merge remote read-back** of IRR PR #436: PR identity, `git ls-remote` ref read-back, merge-commit identity, hosted CI result on the exact merged head, and a byte-level SHA-256 comparison of **33 / 33** changed paths at the merge SHA, plus the published pin and profile read back from `main`. |
 | `SHA256SUMS.txt` | SHA-256 of every file in this set. |
 
-The **independent post-merge remote read-back receipt** for the IRR PR that publishes this set is a
-separate dated record, following the established IRR pattern (cf. PR #430 for the 2026-11-02
-completed-work registers).
+The read-back receipt is published as its own dated record in a follow-up PR, following the
+established IRR pattern (cf. PR #430 for the 2026-11-02 completed-work registers): a receipt cannot
+be part of the commit it verifies.
 
 ## Reproduce
 
@@ -50,6 +51,8 @@ npx tsx ../evidence/integration/ws-a-dhan-68-row-pin-advance-2026-11-05/probe-d0
 | IPD | `b605a61458a655bb555c6f340332fcf77a85c870` | PR #127 base parent |
 | IPD | `70b24f029842a7e9b7f615e4d9df7376fd4ff817` | The **retired** alias pin (2026-10-16), ancestor, 290 commits behind |
 | IRR | `182580b33f9107f94d619cbfaf628fb88b67bd21` | Baseline `origin/main` (PR #435 merged) |
+| IRR | `a3407fbf9582d2ea16d277d4a546ef0849a405a5` | PR #436 head commit (tree `9c322e3c3967e77a8bdee932b6ae7ea1e392da36`) |
+| IRR | `51fdcd9567407db88626b3d5ae87e642f869205a` | **PR #436 merge commit** — IRR `origin/main` tip after this pass |
 
 ## Limitations recorded, not papered over
 
