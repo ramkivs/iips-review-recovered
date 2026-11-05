@@ -1,0 +1,63 @@
+{
+  "pr": {
+    "files": [
+      {
+        "path": "IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md",
+        "additions": 17,
+        "deletions": 0
+      },
+      {
+        "path": "docs/integration/WS-A-DHAN-BROKER-HOLDINGS-WORKSTREAM-REPORT-2026-11-05-R2.md",
+        "additions": 10,
+        "deletions": 0
+      },
+      {
+        "path": "docs/integration/WS-A-OWNER-EVIDENCE-RESET-PA-ADOPTION-ACT-2026-11-06.md",
+        "additions": 50,
+        "deletions": 0
+      },
+      {
+        "path": "evidence/integration/ws-a-owner-reset-2026-11-06/adoption-static.txt",
+        "additions": 7,
+        "deletions": 0
+      },
+      {
+        "path": "evidence/integration/ws-a-owner-reset-2026-11-06/rebaseline.json",
+        "additions": 1294,
+        "deletions": 0
+      }
+    ],
+    "headRefOid": "3b8b3a6cd9e0badeb1339d59843abad507e0328b",
+    "mergeCommit": {
+      "oid": "caf7a27a3507b82f61cf788cb3c4b0f7fc8ee5a9"
+    },
+    "state": "MERGED"
+  },
+  "matches": [
+    {
+      "path": "IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md",
+      "sha256": "3a6b465336cb61e1b5feaaa9f9c38454404e59a679daff51fac09fc4bb42cdc7",
+      "blob": "cac42229ff6e68fab8f8a7e71b215c34367b0253"
+    },
+    {
+      "path": "docs/integration/WS-A-DHAN-BROKER-HOLDINGS-WORKSTREAM-REPORT-2026-11-05-R2.md",
+      "sha256": "889c066092740e60792b9234e3ea77dd2996d2de374be9a50d5e7bd290a2348d",
+      "blob": "fc4e235c46ce88a163c1c9174a3115e7c7b3d066"
+    },
+    {
+      "path": "docs/integration/WS-A-OWNER-EVIDENCE-RESET-PA-ADOPTION-ACT-2026-11-06.md",
+      "sha256": "a24630c95cc01efe2c92be26f555c6a5a2f8a5518fa7aa219265dd766387e65f",
+      "blob": "170146f15982a4f3afec9e839d922f7320c2720a"
+    },
+    {
+      "path": "evidence/integration/ws-a-owner-reset-2026-11-06/adoption-static.txt",
+      "sha256": "5421c9aa8298a37ee54a1a496db130496e780756d8bdc77321d00184b668ade7",
+      "blob": "53ea783aee7cbac4f6e900570251252fdd32cc5e"
+    },
+    {
+      "path": "evidence/integration/ws-a-owner-reset-2026-11-06/rebaseline.json",
+      "sha256": "0d61eaa31d99554b82e47b15d770ded05d32df3e0c1ef00b91752a9a0c4023dd",
+      "blob": "706de0d9cb84d69643a32290e1dc5d2393aedbcc"
+    }
+  ]
+}
