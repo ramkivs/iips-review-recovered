@@ -54,7 +54,22 @@ import {
   assertScopeToken,
   validateReportTypeForScope,
   validateScopeToken,
+  type ScopeTokenSubjectKind,
 } from '../../../iips-platform/src/investment/artifacts/scopeToken';
+
+/**
+ * The minimum a composed artifact must carry to be recorded.
+ *
+ * Both the IID-3 assessment composition and the IID-4 disposition composition satisfy it; nothing else is
+ * required, which is what lets one write path serve both report types without a second mechanism.
+ */
+export interface ComposableSubmission {
+  readonly scopeToken: string;
+  readonly reportType: string;
+  readonly content: ReportContent;
+  readonly payloadDigest: string;
+  readonly inputDigest: string;
+}
 
 /** Closed failure vocabulary. The transport maps these; no caller parses prose. */
 export const INVESTMENT_ARTIFACT_ERROR_CODES = Object.freeze([
@@ -394,8 +409,28 @@ export class InvestmentArtifactService {
    * scope cannot even reach the store (AC-3.1).
    */
   recordAssessment(composed: ComposedAssessment): RecordResult {
+    return this.recordComposed(composed, ['ISSUER'], 'a composed assessment is required');
+  }
+
+  /**
+   * Record a composed HOLDING DISPOSITION (IID-4).
+   *
+   * The same write path as an assessment — same validation, same chain lookup, same idempotency, same
+   * read-back verification — with the scope kinds a disposition is allowed to occupy (`hd:` for a held
+   * position, `hc:` for a candidate). There is no second store and no second mechanism: a disposition chain
+   * is a report chain, which is why L-010 … L-015 apply to it unchanged.
+   */
+  recordDisposition(composed: ComposableSubmission): RecordResult {
+    return this.recordComposed(composed, ['HOLDING', 'PORTFOLIO'], 'a composed disposition is required');
+  }
+
+  private recordComposed(
+    composed: ComposableSubmission,
+    allowedScopeKinds: readonly ScopeTokenSubjectKind[],
+    missingMessage: string,
+  ): RecordResult {
     if (composed === null || typeof composed !== 'object') {
-      throw new InvestmentArtifactError('CONTENT_INVALID', 'a composed assessment is required');
+      throw new InvestmentArtifactError('CONTENT_INVALID', missingMessage);
     }
     const { scopeToken, reportType } = composed;
 
@@ -414,10 +449,12 @@ export class InvestmentArtifactService {
         { reason: binding.reason, detail: binding.detail },
       );
     }
-    if (scope.subjectKind !== 'ISSUER') {
-      throw new InvestmentArtifactError('REPORT_TYPE_SCOPE_MISMATCH', 'a company assessment requires an issuer scope', {
-        subjectKind: scope.subjectKind,
-      });
+    if (!allowedScopeKinds.includes(scope.subjectKind)) {
+      throw new InvestmentArtifactError(
+        'REPORT_TYPE_SCOPE_MISMATCH',
+        `this report type cannot be filed under a ${scope.subjectKind} scope`,
+        { subjectKind: scope.subjectKind, allowed: [...allowedScopeKinds] },
+      );
     }
 
     const submission = this.validateSubmission(composed);
@@ -636,7 +673,7 @@ export class InvestmentArtifactService {
    * declared `payloadDigest` does not describe its own canonical payload is refused, because the digest
    * is what idempotency and version arithmetic are decided by.
    */
-  private validateSubmission(composed: ComposedAssessment): InvestmentSubmission {
+  private validateSubmission(composed: ComposableSubmission): InvestmentSubmission {
     const { content } = composed;
     if (content === null || typeof content !== 'object') {
       throw new InvestmentArtifactError('CONTENT_INVALID', 'composed content is required');

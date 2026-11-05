@@ -832,6 +832,30 @@ const server = http.createServer(async (req, res) => {
     })();
     return;
   }
+  // IID-4 — holding disposition read transport (GET/HEAD only, IRR-owned).
+  // Dispositions live on their own chains (`hd:` for a held position, `hc:` for a candidate) and are mounted
+  // separately from the assessment surface so the two report types cannot be confused by path. Read-only for
+  // the same reason as assessments: a browser may not mint a verb. The catch is non-disclosing.
+  if (req.url?.startsWith('/api/investment/portfolio/') || req.url?.startsWith('/api/investment/candidate/')) {
+    void (async () => {
+      try {
+        const disposition = await import('./investment/disposition-transport');
+        await disposition.handleDispositionRequest(req, res);
+      } catch {
+        if (!res.headersSent && !res.destroyed) {
+          res.writeHead(503, { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' });
+          res.end(
+            JSON.stringify({
+              error: 'investment-persistence-unavailable',
+              detail: { reason: 'No governed persistence boundary is available. No data was read or written.' },
+            }),
+          );
+        }
+      }
+    })();
+    return;
+  }
+
   // CAP-02 broker import: the single admitted route POST /api/broker-import/:portfolioId/holdings
   // on this existing host (IIPS-V3-CAP02-U1-BROKER-IMPORT-TRANSPORT-AUTHORITY-ACT-EFFECTIVE-2026-10-23-01).
   // Owner-scoped (C8: added to the owner-scoped prefix list above), first-party-signaled, and

@@ -55,6 +55,17 @@ responsible phase · evidence references · last status update.
 | L-014 | IID-3 | Content/input identity include the assessment timestamp | OPEN | 2026-11-06 |
 | L-015 | IID-3 | Two chain heads for one scope are refused, never merged | OPEN | 2026-11-06 |
 | L-016 | IID-3 (observed) | NP-04 pin prose and manifest pins disagree; no pin changed by IID-3 | OPEN | 2026-11-06 |
+| L-017 | IID-4 | Portfolio context is a read-model snapshot, not a risk model | OPEN | 2026-11-06 |
+| L-018 | IID-4 | Missing or stale holdings become unmeasured weight, never zero | OPEN | 2026-11-06 |
+| L-019 | IID-4 | Limits policy is operator-supplied; the 10 %/30 % defaults are placeholders | OPEN | 2026-11-06 |
+| L-020 | IID-4 | Unsupported subjects (non-equity, unlisted, foreign, merged, delisted) yield no verb | OPEN | 2026-11-06 |
+| L-021 | IID-4 | INSUFFICIENT evidence yields no conclusion; PARTIAL cannot increase exposure | OPEN | 2026-11-06 |
+| L-022 | IID-4 | Sector exposure depends on a sector reference; CSIP scores are absent for user holdings | OPEN | 2026-11-06 |
+| L-023 | IID-4 | A rationale citation that does not resolve is refused or synthesised-and-labelled | OPEN | 2026-11-06 |
+| L-024 | IID-4 | Cap ordering, cap conflicts and hysteresis can hold a less conservative verb briefly | OPEN | 2026-11-06 |
+| L-025 | IID-4 | No disposition history beyond the chain; hysteresis needs a caller-supplied previous | OPEN | 2026-11-06 |
+| L-026 | IID-4 | L-010/L-012/L-013/L-014 apply unchanged to `hd:`/`hc:` chains | OPEN | 2026-11-06 |
+| L-027 | IID-4 | Count-based diversification band and correlation coefficients are not computed | OPEN | 2026-11-06 |
 
 ---
 
@@ -397,3 +408,258 @@ carries them forward.
 here so the boundary is clear: scope tokens are validated before any store call; every read revalidates the whole
 chain and recomputes stored digests from stored bytes; and there is no mutating route at all. Those are acceptance
 criteria (`AC-3.1`…`AC-3.8`), not register entries.
+
+---
+
+## 6. Entries opened by IID-4 (holding disposition)
+
+IID-4 opened eleven entries. They are numbered from **L-017**, and no earlier entry was modified: `L-001` … `L-016`
+appear above exactly as IID-3 left them. Each entry names what the disposition capability cannot do, what the user
+sees as a result, and what would be required to close it.
+
+### L-017 — Portfolio context is a snapshot of the read model, not a risk model
+
+- **Originating phase:** IID-4.
+- **Description:** a disposition's portfolio context is assembled from one `G2PortfolioView` read: the published
+  `weightPercentage` per holding, the published weight sum, the revision and the `lastUpdated` timestamp. It carries
+  no volatility, no drawdown, no beta, no currency exposure and no factor model, because the read model publishes
+  none of those and IID-4 does not derive them. "Concentration" is therefore a weight, not a risk statement.
+- **Affected contracts / outputs:** `PortfolioContextBlock`, `PortfolioFacts`, the G-5 gate, `limits.applied` and
+  `portfolioImplication.projected*`, and every verb that depends on a cap.
+- **Status:** `OPEN`.
+- **Downstream phases affected:** IID-5 (change reports inherit the same context), IID-6 (the surface must render
+  the absence rather than imply a risk metric).
+- **Consequence for user-visible results:** the disposition can say "this position is 9 % of measured portfolio
+  value and its issuer is 12 %" but not "this position is 40 % of portfolio risk". A reader must not read the weight
+  as a risk contribution.
+- **Required resolution / evidence:** a portfolio risk model with its own contract, evidence and limitations —
+  out of scope for this phase, and not approximated here.
+- **Owner / responsible phase:** IID-6 (portfolio analytics), not IID-4.
+- **Evidence:** `frontend/server/investment/portfolioContext.ts`; `portfolio-context.test.ts` ("nothing is
+  fabricated"); register §6 of this document.
+
+### L-018 — Missing or stale holdings become unmeasured weight, never zero
+
+- **Originating phase:** IID-4.
+- **Description:** a holding with `identityStatus: 'UNRESOLVED'`, or one that the read model reports without a
+  finite weight, is excluded from the measured base and its weight appears in `unmeasuredWeightPct` as
+  `present(100 − publishedWeightSum)`. Every percentage in the context block is a percentage of **measured** value, and
+  the block says so in `notes`. Staleness is limited to the `asOf`/`revision` the read model publishes: IID-4 does
+  not detect a stale portfolio beyond that, and does not re-read.
+- **Affected contracts / outputs:** `unmeasuredWeightPct`, `measuredWeightPct`, `holdingsUnresolved`, G-5,
+  every cap check, and `portfolioImplication.currentWeightPct`.
+- **Status:** `OPEN`.
+- **Downstream phases affected:** IID-5, IID-6.
+- **Consequence for user-visible results:** with unresolved holdings the exposures are understated relative to the
+  whole portfolio; the number is honest about its base but is not a whole-portfolio figure. A zero weight is never
+  manufactured for a holding that exists but cannot be measured.
+- **Required resolution / evidence:** identity resolution for every imported holding (IPD/broker-import lineage),
+  plus a staleness rule with an operator-visible warning.
+- **Owner / responsible phase:** IPD (identity and import) with IRR consuming.
+- **Evidence:** `portfolioContext.ts`; `portfolio-context.test.ts` ("reports the shortfall…", "reports a MISSING
+  weight — not a zero"); `disposition-portfolio.test.ts` ("unmeasured weight is carried as an observation…").
+
+### L-019 — The limits policy is operator-supplied; the defaults are placeholders
+
+- **Originating phase:** IID-4.
+- **Description:** the caps are 10 % single-name and 30 % sector in `SYSTEM_DEFAULT_LIMITS`, and every artifact
+  records `limits.basis = SYSTEM_DEFAULT` with a version string ending `+system-default`. They are a **safe
+  placeholder**, not an inference about any operator's risk appetite. An operator policy is read from
+  `${IIPS_DATA_DIR}/investment/policies/limits-policy.json` (R-11); an unreadable or invalid policy **fails closed**
+  (`policy_inputs_unavailable`) rather than silently becoming the defaults, and a policy whose `effectiveFrom` is in
+  the future does not apply and says so in `limits.notes`.
+- **Affected contracts / outputs:** `ResolvedLimits`, `limits.basis`, `limits.digest`, `limits.applied`, the
+  CAPACITY gates, and the ACCUMULATE→RETAIN / INITIATE→WATCH caps.
+- **Status:** `OPEN`.
+- **Downstream phases affected:** IID-5 (a policy change is an input change), IID-6.
+- **Consequence for user-visible results:** out of the box, a disposition is capped at the placeholder limits. A
+  user who never writes a policy gets a disposition measured against numbers nobody chose for them — which is why
+  the basis is on every artifact and every response.
+- **Required resolution / evidence:** an operator-authored policy with an approval trail, plus a test that a version
+  change is visible in `limits.policyVersion`/`digest` (present: "a new policy version changes the caps…").
+- **Owner / responsible phase:** operator (policy author), IRR (validation and disclosure).
+- **Evidence:** `iips-platform/src/investment/disposition/limits.ts`; `disposition-limits.test.ts`; register §6.
+
+### L-020 — Unsupported subjects yield no verb, with a named reason
+
+- **Originating phase:** IID-4.
+- **Description:** a subject whose `securityClass` is not `EQUITY`, whose identity is `UNRESOLVED`/`AMBIGUOUS`, or
+  whose `securityState` is `MERGED`, `DELISTED`, `SUSPENDED` or `UNKNOWN` produces a **withheld** disposition with
+  `identity_unresolved`, `security_class_excluded`, `security_merged`, `security_delisted`,
+  `security_suspended` or `security_state_unknown`. ETFs, REITs, preference shares, unlisted and foreign securities
+  are all excluded by the same closed set: they are not dispositioned at all.
+- **Affected contracts / outputs:** G-1 and G-2, `disposition.withheld.reasons`, `disposition.verb = null`.
+- **Status:** `OPEN`.
+- **Downstream phases affected:** IID-6 (the surface must show "not dispositioned, because…" rather than a blank).
+- **Consequence for user-visible results:** a portfolio containing non-equity instruments shows those holdings
+  without any investment assessment. They still consume weight in the exposures, so caps can be breached by
+  instruments this phase cannot assess.
+- **Required resolution / evidence:** per-security-class assessment methods with their own contracts; until then the
+  exclusion is the correct behaviour.
+- **Owner / responsible phase:** IID-6 (instrument coverage).
+- **Evidence:** `disposition-matrix.test.ts` (identity/class/state rows); `disposition-portfolio.test.ts` (gate
+  ordering).
+
+### L-021 — INSUFFICIENT evidence yields no conclusion; PARTIAL cannot increase exposure
+
+- **Originating phase:** IID-4.
+- **Description:** at `adequacy = INSUFFICIENT` the disposition carries `verb = null`, `confidence = null`, no
+  definition and no band, with `insufficient_data`. At `PARTIAL`, ACCUMULATE and INITIATE are unavailable
+  unconditionally (R-9 / AC-4.2); PARTIAL can support RETAIN, REDUCE, AVOID and WATCH only through an independently
+  evidenced trigger (a limits breach for REDUCE; a discrete disqualifier for AVOID/AVOID_CANDIDATE).
+- **Affected contracts / outputs:** G-3, the verb selector, `disposition.confidence`, the band.
+- **Status:** `OPEN`.
+- **Downstream phases affected:** IID-5, IID-6.
+- **Consequence for user-visible results:** for a company with thin filings the capability says "no conclusion",
+  which is the correct output and a disappointing one. A user cannot use this phase to justify buying more of a
+  company whose evidence is incomplete.
+- **Required resolution / evidence:** better evidence (coverage work), not a weaker rule.
+- **Owner / responsible phase:** IID-0/IID-2 coverage; IID-4 enforces.
+- **Evidence:** `disposition-matrix.test.ts` (PARTIAL and INSUFFICIENT rows, and the AC-4.2 suite);
+  `disposition-behaviour.test.ts` ("an INSUFFICIENT assessment yields no confidence and no definition").
+
+### L-022 — Sector exposure depends on a sector reference, and CSIP scores are absent for user holdings
+
+- **Originating phase:** IID-4.
+- **Description:** sector exposure can only be summed over holdings whose sector is known. The context block
+  publishes `sectorMeasuredWeightPct` and a note stating which share of measured weight the exposure covers. The
+  subject's own sector is taken from its assessment payload, never inferred. CSIP's sector-reference context needs
+  normalized holdings scored by the frozen sector engines; a user portfolio does not carry those scores, so
+  `sectorReferenceContext.normalizedHolding` is `null` and the block is labelled `SECTOR_REFERENCE` with a note that
+  it governs nothing.
+- **Affected contracts / outputs:** `sectorExposurePct`, `sectorMeasuredWeightPct`, `sectorReferenceContext`,
+  CAPACITY_SECTOR, `countBasedSectorExposure`.
+- **Status:** `OPEN`.
+- **Downstream phases affected:** IID-5 (sector-conditioned change attribution), IID-6 (sector panel).
+- **Consequence for user-visible results:** the sector cap is enforced over the part of the portfolio whose sectors
+  are known; when coverage is partial the cap is stricter or looser than it looks, and the note says which. No
+  sector score is displayed for a holding.
+- **Required resolution / evidence:** a security→sector reference with published coverage (L-001 interlock), plus
+  normalized scoring for user-portfolio holdings.
+- **Owner / responsible phase:** IID-0 (sector coverage) → IID-6.
+- **Evidence:** `portfolioContext.ts`; `portfolio-context.test.ts` ("says how much of the measured weight carries a
+  sector reference"); `disposition-portfolio.test.ts` ("the sector reference is labelled…").
+
+### L-023 — A rationale citation is either resolved or refused
+
+- **Originating phase:** IID-4.
+- **Description:** every rationale entry must cite at least one evidence id and one observation reference, and every
+  cited id must resolve inside the payload's evidence list. Where the assessment carries no matching evidence entry
+  the engine synthesises a disposition-level entry labelled `disposition/rationale-citation`; if any citation still
+  fails to resolve after that, the payload is **refused** (`RATIONALE_CITATION_UNRESOLVED`). No observation value is
+  ever fabricated to support a claim.
+- **Affected contracts / outputs:** `rationale[]`, `evidence[]`, `falsifiers[]`, the engine's error vocabulary.
+- **Status:** `OPEN`.
+- **Downstream phases affected:** IID-6 (rendering evidence links).
+- **Consequence for user-visible results:** a synthesised citation is weaker evidence than a field-level one — it
+  points at the rationale's own claim rather than at an observed value — and the label says so. The alternative
+  (dropping the claim) would hide the reasoning entirely.
+- **Required resolution / evidence:** richer assessment evidence so synthesised citations become unnecessary.
+- **Owner / responsible phase:** IID-2 evidence contract → IID-4.
+- **Evidence:** `rationale.ts`; `disposition-rationale.test.ts` ("every cited evidence id resolves…"); engine's
+  citation-closure block.
+
+### L-024 — Cap ordering, cap conflicts and hysteresis can hold a less conservative verb briefly
+
+- **Originating phase:** IID-4.
+- **Description:** three behaviours are deliberate and each has a cost. (a) Caps are applied **downward only**
+  (ACCUMULATE→RETAIN, INITIATE→WATCH) and are named in `disposition.capsApplied` and the rationale; a cap never
+  raises a verb. (b) When two caps bind, the **more conservative** outcome wins by construction, because the
+  selector applies the first failing ceiling and records it. (c) Hysteresis (5 pp MoS, 2 pp weight-vs-cap) suppresses
+  a verb change until the move clears the margin, waived by a hard trigger or a caps-driven change — so for up to
+  one margin the published verb is the PREVIOUS one even though the evidence has already crossed the threshold.
+- **Affected contracts / outputs:** `capsApplied`, `gates`, `previous`, the `decisionPath`, `review.triggers`.
+- **Status:** `OPEN`.
+- **Downstream phases affected:** IID-5 (a suppressed change is not a change report), IID-6 (the surface must show
+  "held by hysteresis" rather than nothing).
+- **Consequence for user-visible results:** a position can sit one point past a threshold and still be shown as
+  RETAIN. The `decisionPath` and the hysteresis detail expose why, but a reader who does not open them sees a
+  slightly stale verb.
+- **Required resolution / evidence:** an operator-visible hysteresis disclosure on the surface, and a recorded
+  decision on whether caps-driven changes should bypass hysteresis entirely (they already do).
+- **Owner / responsible phase:** IID-4 (engine), IID-6 (surface).
+- **Evidence:** `verbs.ts` (`applyHysteresis`); `disposition-behaviour.test.ts` ("a move of less than the MoS margin
+  does not flip RETAIN to ACCUMULATE", "a hard trigger overrides hysteresis immediately").
+
+### L-025 — No disposition history beyond the chain; hysteresis needs a caller-supplied previous
+
+- **Originating phase:** IID-4.
+- **Description:** IID-4 stores versions but does not query them as a time series: there is no "dispositions over the
+  last quarter", no back-test of the verb against outcomes, and no automatic retrieval of the previous verb. The
+  engine accepts a `previous` disposition from the caller (the composition layer reads the chain head and passes it),
+  which is exactly what makes hysteresis possible — and means a caller that omits it gets an undamped classification.
+- **Affected contracts / outputs:** `DispositionEngineInput.previous`, `applyHysteresis`, `review.nextReviewOn`.
+- **Status:** `OPEN`.
+- **Downstream phases affected:** IID-5 (change intelligence is the phase that reads history), IID-6.
+- **Consequence for user-visible results:** two callers with different `previous` inputs can obtain different verbs
+  from identical evidence. The rule is documented and the chain head is the default source, but it is an input, not a
+  derivation.
+- **Required resolution / evidence:** a history read path (IID-5) that supplies `previous` from the chain rather than
+  from the caller.
+- **Owner / responsible phase:** IID-5.
+- **Evidence:** `engine.ts` (`previous` input); `disposition-behaviour.test.ts` (hysteresis suite).
+
+### L-026 — L-010, L-012, L-013 and L-014 apply unchanged to `hd:` and `hc:` chains
+
+- **Originating phase:** IID-4 (inherited; the entries themselves remain IID-3's, untouched).
+- **Description:** a disposition chain uses the same NP-04 mechanism, so it inherits the same four constraints:
+  chains are found by a **bounded head scan** (L-010); the store's `chainId` is **not surfaced** and the root
+  `reportId` is the surrogate (L-012); idempotency is decided against the **head only** (L-013); and content identity
+  covers the generation timestamp, so **a clock-only re-run is a new version** (L-014). IID-4 adds one refinement and
+  one disclosure: the disposition **input digest** excludes the clock, so a clock-only re-run is distinguishable
+  (`APPENDED` with an unchanged `inputDigest`), and both digests plus the limits digest travel in provenance.
+- **Affected contracts / outputs:** `hd:`/`hc:` chain identity, `RecordResult.outcome`, `payloadDigest`,
+  `inputDigest`, provenance.
+- **Status:** `OPEN`.
+- **Downstream phases affected:** IID-5 (scheduled refreshes), IID-6 (storage growth).
+- **Consequence for user-visible results:** a scheduled refresh that finds identical evidence still appends a
+  disposition version whose only difference is its timestamp, and a very long chain costs more to locate because of
+  the bounded scan. Neither is wrong; both are costs.
+- **Required resolution / evidence:** L-014's explicit resolution decision (below) must precede IID-5's
+  scheduled-refresh and historical-comparison work. Until then IID-4 is limited exactly as IID-3 was, which was the
+  condition on which IID-4 was allowed to proceed.
+- **Owner / responsible phase:** IID-3 (contract) → IID-5 (decision).
+- **Evidence:** `disposition-records.test.ts` ("L-014 — the clock inside content identity is preserved, not
+  hidden"); `dispositionComposition.ts` (`dispositionInputDigest` excludes the clock); `LIMITATION-IMPACT.md` in the
+  IID-4 evidence folder.
+
+### L-027 — Count-based diversification and correlation are not computed
+
+- **Originating phase:** IID-4.
+- **Description:** the context block publishes count-based sector exposure and count-based concentration because
+  those are counts over holdings the read model already lists. It does **not** publish a diversification band or
+  correlation coefficients: the frozen CSIP analyzers score normalized holdings by conviction/quality/risk, and a
+  user portfolio carries no such scores. `diversificationBand` is `null`, `correlationFlags` is empty, and
+  `concentrationBand` is `NOT_COMPUTABLE` with a note. No score is invented and no coefficient is defaulted to zero.
+- **Affected contracts / outputs:** `countBasedSectorExposure`, `countBasedConcentrationPct`, `diversificationBand`,
+  `correlationFlags`, `concentrationBand`.
+- **Status:** `OPEN`.
+- **Downstream phases affected:** IID-6 (portfolio surface), and any future use of correlation as a disposition
+  trigger (it is not one today: a correlation flag may only argue against increasing exposure).
+- **Consequence for user-visible results:** the surface cannot say "this portfolio is well diversified" or "these two
+  holdings move together". It can say how many holdings sit in each sector.
+- **Required resolution / evidence:** normalized scoring for user-portfolio holdings, reusing the frozen CSIP
+  analyzers unchanged, with the score provenance published.
+- **Owner / responsible phase:** IPD + IID-6; frozen CSIP owners for the analyzers.
+- **Evidence:** `portfolioContext.ts`; `portfolio-context.test.ts` ("carries no conviction, quality or risk score it
+  was not given", "labels count-based exposure as counts").
+
+---
+
+## 7. What IID-4 changed in this register, and what it did not
+
+**Changed.** Eleven entries (`L-017` … `L-027`) were opened, each with the affected contracts, the user-visible
+consequence, the resolution requirement and a test pointer. Two earlier entries were made **enforced in a new
+place**: `L-004`/`L-009` (synthetic data, no real issuer) now travel on every disposition response and in every
+stored disposition's `datasetClass`; and `L-014`'s consequence is pinned by a test rather than by prose.
+
+**Not changed.** No entry was closed, no status was improved, no numbering moved, no description was softened. In
+particular `L-014` is **still `OPEN`** and IID-4 did not resolve it: it recorded the impact on disposition identity
+and idempotency, and pinned it with a test, which is all a phase that is not the owner of the decision may do. The
+explicit resolution decision remains a prerequisite for IID-5's scheduled refresh and historical comparison.
+
+**L-014 impact on IID-4, stated plainly.** A disposition payload contains `artifact.generatedAt`, so a re-run at a
+new clock produces a new `payloadDigest` and therefore a new chain version. The disposition input digest deliberately
+excludes the clock, so the pair (`APPENDED`, unchanged `inputDigest`) says "only the generation metadata moved" —
+which is a disclosure, not a resolution. Nothing in IID-4 depends on a clock-stable content identity, so the phase
+could proceed under `L-014` unchanged.

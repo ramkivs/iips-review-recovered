@@ -1,0 +1,197 @@
+{
+  "schemaVersion": 1,
+  "phase": "IID-4",
+  "dataClass": "SYNTHETIC_REFERENCE",
+  "issuerId": "IN:EQISIN:IN0000000201",
+  "securityId": "IN:ISIN:IN0000000201",
+  "portfolioId": "pf-iid4-demonstration",
+  "chains": {
+    "held": {
+      "scopeToken": "hd:pf-iid4-demonstration/IN:ISIN:IN0000000201",
+      "reportKey": "910d6db385b32e1bc470a4a37f4faaf020e2549c09b177403c0c183f56e0c7c6",
+      "versionCount": 2
+    },
+    "candidate": {
+      "scopeToken": "hc:pf-iid4-demonstration/IN:ISIN:IN0000000201",
+      "reportKey": "4f68d3c3f0ad755967dbe695ec59c85b7326a1fbe25dd461b3524330500be896",
+      "versionCount": 1
+    }
+  },
+  "verbs": {
+    "held": "AVOID",
+    "candidate": "AVOID_CANDIDATE"
+  },
+  "runs": [
+    {
+      "label": "held/create",
+      "outcome": "CREATED",
+      "wrote": true,
+      "artifactVersion": 1,
+      "versionCount": 1,
+      "scopeToken": "hd:pf-iid4-demonstration/IN:ISIN:IN0000000201"
+    },
+    {
+      "label": "held/rerun-identical",
+      "outcome": "UNCHANGED",
+      "wrote": false,
+      "artifactVersion": 1,
+      "versionCount": 1,
+      "scopeToken": "hd:pf-iid4-demonstration/IN:ISIN:IN0000000201"
+    },
+    {
+      "label": "held/changed-limitations",
+      "outcome": "APPENDED",
+      "wrote": true,
+      "artifactVersion": 2,
+      "versionCount": 2,
+      "scopeToken": "hd:pf-iid4-demonstration/IN:ISIN:IN0000000201"
+    },
+    {
+      "label": "candidate/create",
+      "outcome": "CREATED",
+      "wrote": true,
+      "artifactVersion": 1,
+      "versionCount": 1,
+      "scopeToken": "hc:pf-iid4-demonstration/IN:ISIN:IN0000000201"
+    }
+  ],
+  "reads": [
+    {
+      "url": "/api/investment/portfolio/pf-iid4-demonstration/holding/IN:ISIN:IN0000000201",
+      "httpStatus": 200,
+      "reportType": "investment.holding-disposition",
+      "verb": "AVOID",
+      "noExecutionPath": true,
+      "notAnInstruction": "This is a decision-support implication, not an order or a trade instruction.",
+      "limitations": [
+        "L-001",
+        "L-002",
+        "L-003",
+        "L-004",
+        "L-005",
+        "L-006",
+        "L-007",
+        "L-008",
+        "L-009",
+        "L-010",
+        "L-011",
+        "L-012",
+        "L-013",
+        "L-014",
+        "L-015"
+      ],
+      "sanitized": true
+    },
+    {
+      "url": "/api/investment/candidate/IN:ISIN:IN0000000201?portfolio=pf-iid4-demonstration",
+      "httpStatus": 200,
+      "reportType": "investment.holding-disposition",
+      "verb": "AVOID_CANDIDATE",
+      "noExecutionPath": true,
+      "notAnInstruction": "This is a decision-support implication, not an order or a trade instruction.",
+      "limitations": [
+        "L-001",
+        "L-002",
+        "L-003",
+        "L-004",
+        "L-005",
+        "L-006",
+        "L-007",
+        "L-008",
+        "L-009",
+        "L-010",
+        "L-011",
+        "L-012",
+        "L-013",
+        "L-014",
+        "L-015"
+      ],
+      "sanitized": true
+    },
+    {
+      "url": "/api/investment/portfolio/pf-iid4-demonstration/dispositions",
+      "httpStatus": 200,
+      "reportType": "investment.holding-disposition",
+      "verb": null,
+      "noExecutionPath": null,
+      "notAnInstruction": "This is a decision-support implication, not an order or a trade instruction.",
+      "limitations": [
+        "L-001",
+        "L-002",
+        "L-003",
+        "L-004",
+        "L-005",
+        "L-006",
+        "L-007",
+        "L-008",
+        "L-009",
+        "L-010",
+        "L-011",
+        "L-012",
+        "L-013",
+        "L-014",
+        "L-015"
+      ],
+      "sanitized": true
+    }
+  ],
+  "orderShapedMembers": [],
+  "verification": [
+    {
+      "point": 1,
+      "name": "held disposition created on an hd: chain",
+      "expected": "CREATED, version 1, hd:<portfolio>/<security>",
+      "observed": "CREATED, version 1, hd:pf-iid4-demonstration/IN:ISIN:IN0000000201",
+      "pass": true
+    },
+    {
+      "point": 2,
+      "name": "identical re-run writes nothing",
+      "expected": "UNCHANGED, wrote=false",
+      "observed": "UNCHANGED, wrote=false",
+      "pass": true
+    },
+    {
+      "point": 3,
+      "name": "changed content appends to the same chain",
+      "expected": "APPENDED, version 2, same reportKey",
+      "observed": "APPENDED, version 2, reportKey 910d6db385b32e1bc470a4a37f4faaf020e2549c09b177403c0c183f56e0c7c6",
+      "pass": true
+    },
+    {
+      "point": 4,
+      "name": "candidate created on an independent hc: chain",
+      "expected": "CREATED, hc:<portfolio>/<security>, different reportKey",
+      "observed": "CREATED, hc:pf-iid4-demonstration/IN:ISIN:IN0000000201, reportKey 4f68d3c3f0ad755967dbe695ec59c85b7326a1fbe25dd461b3524330500be896",
+      "pass": true
+    },
+    {
+      "point": 5,
+      "name": "both dispositions read back through the transport",
+      "expected": "200 for the holding, the candidate and the portfolio list",
+      "observed": "200, 200, 200",
+      "pass": true
+    },
+    {
+      "point": 6,
+      "name": "the read payload carries the verb the engine produced",
+      "expected": "held=AVOID, candidate=AVOID_CANDIDATE",
+      "observed": "AVOID, AVOID_CANDIDATE",
+      "pass": true
+    },
+    {
+      "point": 7,
+      "name": "nothing order-shaped is published",
+      "expected": "no quantity/order/price/broker member in either payload",
+      "observed": "none found",
+      "pass": true
+    },
+    {
+      "point": 8,
+      "name": "the two chains stay separate on read",
+      "expected": "HEAD on the holding chain reports version 2; the candidate chain has 1",
+      "observed": "holding head v2, candidate versions 1",
+      "pass": true
+    }
+  ]
+}
