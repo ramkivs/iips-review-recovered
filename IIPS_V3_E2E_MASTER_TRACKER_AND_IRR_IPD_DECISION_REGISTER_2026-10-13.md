@@ -21689,3 +21689,20 @@ indefinite retention remain unchanged. The 24-versus-27 reconciliation is scope-
 evidence/frozen authority/W-1/holdings/IPD change. Receipt-only final publication is independently
 verified in the publishing session and recorded in its PR record. No new allocation consumed here.
 Stop after publication; await PA adoption before any new deletion implementation.
+
+### 16.259 Owner-controlled active evidence reset — PA adoption (`2026-11-06`)
+
+**CV-CORR-239 / CHG-2026-11-06-02 / V2134.** Explicit PA adoption in this session assigns/registers
+new Act ID **`IIPS-V3-CAP02-OWNER-EVIDENCE-RESET-2026-11-06-01`** (baseline census zero prior exact
+occurrences), separate instrument `docs/integration/WS-A-OWNER-EVIDENCE-RESET-PA-ADOPTION-ACT-2026-11-06.md`.
+Start main `eecdb65965fb982707d733ecbea73424d17bb384`, clean active session branch
+`arena/2082c792-iips-review-recovered`. PRs #457/#458 and exact proposal/acceptance hashes remotely
+verified; no investigation/count reconciliation repeated. Recommended offline confirmed whole-active-
+journal reset with verified retained local recovery copy ADOPTED; not per-record or permanent erasure.
+Original proposal, PF-1 and A-8/A-9/retention instruments unchanged. PA adoption RENDERED; effectiveness
+conditional on act §5 publication/checks/read-back/receipt. Implementation NOT STARTED until discharge,
+then explicitly authorized to continue in this same one-pass session. Actual personal-data reset NOT
+EXECUTED. Owner binding, offline confirmation, backup-first, minimal audit, interrupted-state refusal,
+indefinite retention and all exclusions preserved. Next dated receipt supplies effective coordinates.
+
+Next free: section 16.260, correction 240, dated change suffix 03, ledger V2135.
