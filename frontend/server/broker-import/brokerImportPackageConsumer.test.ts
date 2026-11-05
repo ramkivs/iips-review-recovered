@@ -10,15 +10,18 @@
  *   1. Use exact 40-hex immutable commit SHAs on `ramkivs/iips-production-market-data` in both
  *      `package.json` and `package-lock.json`: primary
  *      `279d1eed184f5e23bbabe5c6411085e120ce9e41`, and the deliberately distinct DB-C1
- *      broker-import alias `70b24f029842a7e9b7f615e4d9df7376fd4ff817`.
+ *      broker-import alias `7bcae35ad18c43cb67a16f30faa55bbdf0fb33fc` (the merge commit of IPD
+ *      PR #127, advanced from the raw-source baseline `70b24f029842a7e9b7f615e4d9df7376fd4ff817`).
  *   2. Simultaneously expose `./portfolio-ui`, `./pit`, and `./d114-non-production` from the
  *      primary package with built runtime `.js` and declaration `.d.ts` artifacts.
  *   3. Provide all runtime symbols and TypeScript declaration symbols required by IRR's five
  *      direct PIT/D114 importers and CAP-02 `./portfolio-ui` consumer surface (including U7
  *      minimal receipt/outcome types and `WRITE_NOT_AUTHORIZED` / `RESOURCE_UNAVAILABLE`).
- *   4. Preserve the raw TypeScript source files required by `tsconfig.broker-import.json` in the
- *      installed broker-import alias. Modern IPD packages publish only `dist/package`, so the
- *      alias must not be silently advanced without an authorized package/build redesign.
+ *   4. Preserve the broker-import build inputs required by `tsconfig.broker-import.json` in the
+ *      installed alias. The admitted alias is now the modern package profile: it publishes ONLY
+ *      `dist/package` (built `.js` plus `.d.ts`), which `scripts/materialize-broker-import.mjs`
+ *      materializes into `.cache/broker-import`. The former raw-source baseline is explicitly
+ *      retired, so the alias can never be silently advanced without this guard being updated.
  *   5. Reject any incompatible or floating package pin profile.
  */
 import { existsSync, readFileSync } from 'node:fs';
@@ -31,25 +34,36 @@ const frontendRoot = resolve(here, '..', '..');
 
 export const EXPECTED_IPD_PIN_SHA = '279d1eed184f5e23bbabe5c6411085e120ce9e41';
 
-export const EXPECTED_BROKER_IMPORT_ALIAS_SHA =
-  '70b24f029842a7e9b7f615e4d9df7376fd4ff817';
+/**
+ * The governed broker-import alias consumption profile. It is the single source of truth shared
+ * with `scripts/materialize-broker-import.mjs`, so this guard and the build step cannot drift.
+ */
+export interface BrokerImportPackageProfile {
+  readonly profileSchema: string;
+  readonly aliasDependency: string;
+  readonly aliasRepository: string;
+  readonly aliasCommit: string;
+  readonly aliasSpecifier: string;
+  readonly installedRoot: string;
+  readonly publishedRoot: string;
+  readonly materializedRoot: string;
+  readonly requiredPublishedModules: readonly string[];
+  readonly requiredRuntimeEntrypoints: readonly string[];
+}
 
-export const REQUIRED_BROKER_IMPORT_SOURCE_FILES = [
-  'frontend/src/features/portfolio/import/broker-format-detector.ts',
-  'frontend/src/features/portfolio/import/broker-holdings-mapper.ts',
-  'frontend/src/features/portfolio/import/broker-import-ingress.ts',
-  'frontend/src/features/portfolio/import/types.ts',
-  'frontend/src/features/portfolio/import/adapters/csv-parser-helper.ts',
-  'frontend/src/features/portfolio/import/adapters/dhan-holdings-adapter.ts',
-  'frontend/src/features/portfolio/import/adapters/groww-holdings-adapter.ts',
-  'frontend/src/features/portfolio/import/adapters/index.ts',
-  'frontend/src/features/portfolio/import/adapters/zerodha-holdings-adapter.ts',
-  'src/identity/security_master.ts',
-  'src/identity/mapping_store.ts',
-  'src/identity/quarantine.ts',
-  'src/contracts/provenance.ts',
-  'src/contracts/types.ts',
-] as const;
+export const BROKER_IMPORT_PACKAGE_PROFILE = JSON.parse(
+  readFileSync(resolve(frontendRoot, 'broker-import-package-profile.json'), 'utf8'),
+) as BrokerImportPackageProfile;
+
+export const EXPECTED_BROKER_IMPORT_ALIAS_SHA = BROKER_IMPORT_PACKAGE_PROFILE.aliasCommit;
+
+/**
+ * The retired raw-source baseline. Its absence from the installed alias is asserted below: the
+ * modern package profile publishes only built artifacts, and IRR must never silently fall back to
+ * compiling IPD sources it was not given.
+ */
+export const RETIRED_BROKER_IMPORT_SOURCE_BASELINE_SHA =
+  '70b24f029842a7e9b7f615e4d9df7376fd4ff817';
 
 export const REQUIRED_SUBPATHS = [
   './portfolio-ui',
@@ -232,7 +246,7 @@ describe('CAP-02 B-1R package consumer & pin compatibility guard', () => {
     expect(lockResolved).toContain(`#${EXPECTED_IPD_PIN_SHA}`);
   });
 
-  it('guards the distinct broker-import alias and its required raw-source build inputs', () => {
+  it('guards the distinct broker-import alias and its required published package build inputs', () => {
     const aliasSpec = irrPkg.dependencies?.['iips-broker-import'] ?? '';
     const aliasLockResolved =
       irrLock.packages?.['node_modules/iips-broker-import']?.resolved ?? '';
@@ -242,18 +256,113 @@ describe('CAP-02 B-1R package consumer & pin compatibility guard', () => {
     };
 
     expect(EXPECTED_BROKER_IMPORT_ALIAS_SHA).not.toBe(EXPECTED_IPD_PIN_SHA);
-    expect(aliasSpec).toBe(
-      `github:ramkivs/iips-production-market-data#${EXPECTED_BROKER_IMPORT_ALIAS_SHA}`,
+    expect(EXPECTED_BROKER_IMPORT_ALIAS_SHA).not.toBe(RETIRED_BROKER_IMPORT_SOURCE_BASELINE_SHA);
+    expect(BROKER_IMPORT_PACKAGE_PROFILE.aliasSpecifier).toBe(
+      `github:${BROKER_IMPORT_PACKAGE_PROFILE.aliasRepository}#${EXPECTED_BROKER_IMPORT_ALIAS_SHA}`,
+    );
+    expect(aliasSpec).toBe(BROKER_IMPORT_PACKAGE_PROFILE.aliasSpecifier);
+    expect(irrLock.packages?.['']?.dependencies?.['iips-broker-import']).toBe(
+      BROKER_IMPORT_PACKAGE_PROFILE.aliasSpecifier,
     );
     expect(aliasLockResolved).toContain(`#${EXPECTED_BROKER_IMPORT_ALIAS_SHA}`);
-    // The presently admitted alias is a raw-source compatibility baseline. A modern IPD
-    // package restricted to `dist/package` cannot satisfy tsconfig.broker-import.json.
-    expect(aliasPkg.files).toBeUndefined();
-    for (const relPath of REQUIRED_BROKER_IMPORT_SOURCE_FILES) {
-      expect(existsSync(resolve(aliasRoot, relPath)), `missing broker-import source: ${relPath}`).toBe(
-        true,
-      );
+
+    // The admitted alias is the MODERN package profile: it publishes only `dist/package`. The
+    // retired raw-source baseline (no `files` field) must not be silently reinstated, and the
+    // raw TypeScript sources must not be present, because IRR no longer compiles IPD sources.
+    expect(aliasPkg.files).toEqual([BROKER_IMPORT_PACKAGE_PROFILE.publishedRoot]);
+    for (const modulePath of BROKER_IMPORT_PACKAGE_PROFILE.requiredPublishedModules) {
+      for (const extension of ['.js', '.d.ts']) {
+        const published = resolve(
+          aliasRoot,
+          BROKER_IMPORT_PACKAGE_PROFILE.publishedRoot,
+          `${modulePath}${extension}`,
+        );
+        expect(existsSync(published), `missing published broker-import artifact: ${modulePath}${extension}`).toBe(true);
+      }
+      const rawSource = resolve(aliasRoot, `${modulePath}.ts`);
+      expect(existsSync(rawSource), `raw IPD source must not be consumed: ${modulePath}.ts`).toBe(false);
     }
+  });
+
+  it('materializes the pinned alias build output into .cache/broker-import under the governed pin', () => {
+    const materializedRoot = resolve(frontendRoot, BROKER_IMPORT_PACKAGE_PROFILE.materializedRoot);
+    const manifestPath = resolve(materializedRoot, 'BROKER-IMPORT-MATERIALIZED.json');
+    expect(existsSync(manifestPath), 'run `npm run build:broker-import` before the suite').toBe(true);
+
+    const manifest = JSON.parse(readFileSync(manifestPath, 'utf8')) as {
+      aliasCommit: string;
+      aliasSpecifier: string;
+      consumedAs: string;
+      rawSourcesCompiled: boolean;
+      fileCount: number;
+      files: readonly { path: string; sha256: string }[];
+    };
+    expect(manifest.aliasCommit).toBe(EXPECTED_BROKER_IMPORT_ALIAS_SHA);
+    expect(manifest.aliasSpecifier).toBe(BROKER_IMPORT_PACKAGE_PROFILE.aliasSpecifier);
+    expect(manifest.consumedAs).toBe('published-build-output');
+    expect(manifest.rawSourcesCompiled).toBe(false);
+    expect(manifest.files.length).toBe(manifest.fileCount);
+
+    // Every entrypoint IRR actually imports must be materialized as runtime JS plus declarations,
+    // and the materialized bytes must be the pinned package's own published bytes.
+    for (const entrypoint of BROKER_IMPORT_PACKAGE_PROFILE.requiredRuntimeEntrypoints) {
+      for (const extension of ['.js', '.d.ts']) {
+        const relativePath = `${entrypoint}${extension}`;
+        const materialized = resolve(materializedRoot, relativePath);
+        expect(existsSync(materialized), `missing materialized artifact: ${relativePath}`).toBe(true);
+        const published = resolve(
+          frontendRoot,
+          BROKER_IMPORT_PACKAGE_PROFILE.installedRoot,
+          BROKER_IMPORT_PACKAGE_PROFILE.publishedRoot,
+          relativePath,
+        );
+        expect(readFileSync(materialized).equals(readFileSync(published)), `materialized bytes differ from the pinned package: ${relativePath}`).toBe(true);
+      }
+    }
+  });
+
+  it('publishes per-row broker identity assessment evidence from the pinned alias', async () => {
+    // The whole reason for the pin advance: PR #127's per-row identity assessment must be reachable
+    // through the alias IRR actually consumes, not only in the IPD repository.
+    const assessmentModule = await import(
+      '../../.cache/broker-import/frontend/src/features/portfolio/import/broker-identity-assessment.js'
+    );
+    expect(typeof assessmentModule.assessBrokerRowIdentity).toBe('function');
+    expect(typeof assessmentModule.summariseBrokerIdentity).toBe('function');
+    expect(typeof assessmentModule.BrokerIdentityResolutionError).toBe('function');
+
+    // No master supplied => NOT_EVALUATED, never an unmapped identity claim.
+    const unevaluated = assessmentModule.assessBrokerRowIdentity({
+      rowIndex: 1, symbol: 'ANY NAME', asOf: '2026-11-05T00:00:00.000Z',
+    });
+    expect(unevaluated.status).toBe('NOT_EVALUATED');
+    expect(unevaluated.refusalCode).toBe('IDENTITY_NOT_EVALUATED');
+    expect(unevaluated.lookups).toEqual([]);
+
+    // An exchange-scoped row must query ONLY its declared exchange namespace.
+    const bseScoped = assessmentModule.assessBrokerRowIdentity({
+      rowIndex: 2, symbol: 'SOME SYMBOL', exchange: 'BSE', asOf: '2026-11-05T00:00:00.000Z',
+      master: new (await import('../../.cache/broker-import/src/identity/security_master.js')).SecurityMaster(),
+    });
+    expect(bseScoped.identifierClass).toBe('EXCHANGE_SCOPED_SYMBOL');
+    expect(bseScoped.lookups.map((l: { identifierType: string }) => l.identifierType)).toEqual(['BSE_SYMBOL']);
+    expect(bseScoped.status).toBe('UNRESOLVED');
+    expect(bseScoped.refusalCode).toBe('UNMAPPED_IDENTIFIER');
+
+    // An unscoped name queries both namespaces verbatim and records the exact missing evidence.
+    const unscoped = assessmentModule.assessBrokerRowIdentity({
+      rowIndex: 3, symbol: 'ASK AUTOMOTIVE', asOf: '2026-11-05T00:00:00.000Z',
+      master: new (await import('../../.cache/broker-import/src/identity/security_master.js')).SecurityMaster(),
+    });
+    expect(unscoped.identifierClass).toBe('UNSCOPED_NAME_OR_SYMBOL');
+    expect(unscoped.lookups.map((l: { identifierType: string }) => l.identifierType)).toEqual(['NSE_SYMBOL', 'BSE_SYMBOL']);
+    expect(unscoped.refusalCode).toBe('NO_AUTHORITATIVE_IDENTIFIER_MATCH');
+    expect(typeof unscoped.missingEvidence).toBe('string');
+
+    // The aggregate refuses the whole import while any row is unresolved (P04 / DP-2 Option 2F).
+    const summary = assessmentModule.summariseBrokerIdentity([unevaluated, bseScoped, unscoped]);
+    expect(summary.saveable).toBe(false);
+    expect(summary.resolved).toBe(0);
   });
 
   it('exposes ./portfolio-ui, ./pit, and ./d114-non-production simultaneously with existing runtime and declaration artifacts', () => {

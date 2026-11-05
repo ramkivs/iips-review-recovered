@@ -1,0 +1,55 @@
+{
+  "profileSchema": "IIPS_BROKER_IMPORT_PACKAGE_PROFILE_V1",
+  "comment": [
+    "Single source of truth for the IRR -> IPD `iips-broker-import` alias consumption profile.",
+    "Read by `scripts/materialize-broker-import.mjs` (which materializes the pinned package's",
+    "published build output) and by `server/broker-import/brokerImportPackageConsumer.test.ts`",
+    "(the CAP-02 B-1R pin compatibility guard), so the guard and the build step cannot drift.",
+    "",
+    "WHY THIS EXISTS: at alias pin 70b24f0 the IPD manifest declared no `files` field, so npm",
+    "packed the whole repository and IRR compiled the alias's raw TypeScript sources through",
+    "`tsconfig.broker-import.json`. From the DB-C1 package redesign onwards the IPD manifest",
+    "declares `files: [\"dist/package\"]`, so the installed alias publishes ONLY built `.js` plus",
+    "`.d.ts` artifacts. Advancing the alias to the PR #127 merge commit therefore requires IRR to",
+    "consume the published build output instead of raw sources. That is an IRR-owned build-input",
+    "change; it does not move identity resolution, quarantine or persistence out of IPD."
+  ],
+  "aliasDependency": "iips-broker-import",
+  "aliasRepository": "ramkivs/iips-production-market-data",
+  "aliasCommit": "7bcae35ad18c43cb67a16f30faa55bbdf0fb33fc",
+  "aliasSpecifier": "github:ramkivs/iips-production-market-data#7bcae35ad18c43cb67a16f30faa55bbdf0fb33fc",
+  "aliasProvenance": {
+    "mergedPullRequest": 127,
+    "mergeCommit": "7bcae35ad18c43cb67a16f30faa55bbdf0fb33fc",
+    "headCommit": "beb362d4ca8fb0a4f86e383d1893d031df2638a8",
+    "supersededAliasCommit": "70b24f029842a7e9b7f615e4d9df7376fd4ff817",
+    "record": "docs/integration/WS-A-BROKER-IMPORT-PIN-ADVANCE-TO-IPD-PR127-2026-11-05.md"
+  },
+  "installedRoot": "node_modules/iips-broker-import",
+  "publishedRoot": "dist/package",
+  "materializedRoot": ".cache/broker-import",
+  "requiredPublishedModules": [
+    "frontend/src/features/portfolio/import/broker-format-detector",
+    "frontend/src/features/portfolio/import/broker-holdings-mapper",
+    "frontend/src/features/portfolio/import/broker-identity-assessment",
+    "frontend/src/features/portfolio/import/broker-import-ingress",
+    "frontend/src/features/portfolio/import/types",
+    "frontend/src/features/portfolio/import/adapters/csv-parser-helper",
+    "frontend/src/features/portfolio/import/adapters/dhan-holdings-adapter",
+    "frontend/src/features/portfolio/import/adapters/groww-holdings-adapter",
+    "frontend/src/features/portfolio/import/adapters/index",
+    "frontend/src/features/portfolio/import/adapters/zerodha-holdings-adapter",
+    "src/contracts/provenance",
+    "src/contracts/types",
+    "src/identity/d05_broad_universe_data",
+    "src/identity/d05_listing_corrections",
+    "src/identity/governed_fixture_master",
+    "src/identity/mapping_store",
+    "src/identity/quarantine",
+    "src/identity/security_master"
+  ],
+  "requiredRuntimeEntrypoints": [
+    "frontend/src/features/portfolio/import/broker-import-ingress",
+    "src/identity/governed_fixture_master"
+  ]
+}

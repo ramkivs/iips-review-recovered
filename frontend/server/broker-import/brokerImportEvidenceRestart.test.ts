@@ -106,11 +106,13 @@ describe('WS-A durable import evidence — separate-process restart', () => {
     expect(recovered.recordId).toBe(written.recordId);
     expect(recovered.recordDigest).toBe(written.recordDigest);
     expect(recovered.rows).toBe(68);
+    // Pin advance to IPD PR #127 (7bcae35): all 68 rows are individually assessed, AGI GREENPAC
+    // resolves through its governed alias, and the other 67 stay unresolved.
     expect(recovered.counts).toEqual({
       nativeRows: 68,
-      identityAssessedRows: 0,
-      identityResolvedRows: 0,
-      identityUnresolvedRows: 68,
+      identityAssessedRows: 68,
+      identityResolvedRows: 1,
+      identityUnresolvedRows: 67,
       savedRows: 0,
     });
     expect(recovered.status).toBe('PARSED_UNRESOLVED');

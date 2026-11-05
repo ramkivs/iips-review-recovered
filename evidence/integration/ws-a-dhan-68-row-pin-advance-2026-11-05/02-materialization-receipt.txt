@@ -1,0 +1,48 @@
+# Materialization receipt — the pinned alias as IRR actually consumes it
+# Captured: 2026-11-05T09:08:33Z UTC
+
+=== npm run build:broker-import ===
+
+> @iips/v3-frontend@0.1.0 build:broker-import
+> node scripts/materialize-broker-import.mjs && tsc -p tsconfig.broker-import.json
+
+broker-import alias 7bcae35ad18c43cb67a16f30faa55bbdf0fb33fc materialized: 152 published files -> .cache/broker-import (published build output; no IPD source recompiled)
+BUILD_BROKER_IMPORT_EXIT=0
+
+=== installed alias package.json (publish surface) ===
+name    : iips-production-market-data
+version : 1.0.0
+files   : ['dist/package']
+exports : ['./portfolio-ui', './pit', './d114-non-production', './operator-drop']
+
+=== installed alias: raw TypeScript sources must be ABSENT (IRR no longer compiles IPD sources) ===
+count of *.ts under node_modules/iips-broker-import (excluding *.d.ts): 0
+count of published artifacts under dist/package: 152
+
+=== .cache/broker-import materialized manifest (header) ===
+manifestSchema   : IIPS_BROKER_IMPORT_MATERIALIZED_V1
+aliasCommit      : 7bcae35ad18c43cb67a16f30faa55bbdf0fb33fc
+aliasSpecifier   : github:ramkivs/iips-production-market-data#7bcae35ad18c43cb67a16f30faa55bbdf0fb33fc
+publishedRoot    : dist/package
+materializedRoot : .cache/broker-import
+consumedAs       : published-build-output
+rawSourcesCompiled: False
+fileCount        : 152
+requiredPublishedModules: 18
+
+=== materialized entrypoints IRR imports ===
+-rw-r--r-- 1 user user 11322 Nov  5 09:08 .cache/broker-import/frontend/src/features/portfolio/import/broker-identity-assessment.js
+-rw-r--r-- 1 user user  1418 Nov  5 09:08 .cache/broker-import/frontend/src/features/portfolio/import/broker-import-ingress.d.ts
+-rw-r--r-- 1 user user 21249 Nov  5 09:08 .cache/broker-import/frontend/src/features/portfolio/import/broker-import-ingress.js
+-rw-r--r-- 1 user user  7588 Nov  5 09:08 .cache/broker-import/src/identity/governed_fixture_master.js
+
+=== sha256 of the materialized manifest and of the two runtime entrypoints ===
+0e4f049b66e16aee622da6ff2cd15a9e6294b0c0913d29afca736bf9f31e210c  .cache/broker-import/BROKER-IMPORT-MATERIALIZED.json
+4fdbb67a094a761d4434d9bacee33ba57b94ffbcd0fd232f0a0f2c98a189b713  .cache/broker-import/frontend/src/features/portfolio/import/broker-import-ingress.js
+f4e3c3cb2c9bd2f03d3dcef296d2ced25d7f9fcd1a3e783f4a485f2a25f9bca7  .cache/broker-import/src/identity/governed_fixture_master.js
+
+=== byte-equality of materialized artifacts vs the pinned package's published artifacts ===
+frontend/src/features/portfolio/import/broker-import-ingress.js  published=4fdbb67a094a761d4434d9bacee33ba57b94ffbcd0fd232f0a0f2c98a189b713 materialized=4fdbb67a094a761d4434d9bacee33ba57b94ffbcd0fd232f0a0f2c98a189b713 equal=YES
+frontend/src/features/portfolio/import/broker-identity-assessment.js  published=0f41bd521064a4ad777b928ad6fc8d0a554b34e5cd8f8241aa237e737c2428a6 materialized=0f41bd521064a4ad777b928ad6fc8d0a554b34e5cd8f8241aa237e737c2428a6 equal=YES
+src/identity/governed_fixture_master.js  published=f4e3c3cb2c9bd2f03d3dcef296d2ced25d7f9fcd1a3e783f4a485f2a25f9bca7 materialized=f4e3c3cb2c9bd2f03d3dcef296d2ced25d7f9fcd1a3e783f4a485f2a25f9bca7 equal=YES
+src/identity/security_master.js  published=d99493060b9ac7f66c9ffa3d507f244dc9e47f42dc4f93e57133dcd9e74491e6 materialized=d99493060b9ac7f66c9ffa3d507f244dc9e47f42dc4f93e57133dcd9e74491e6 equal=YES
