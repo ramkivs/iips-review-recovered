@@ -103,6 +103,66 @@ The tenant hint is optional and is never transmitted; do not add owner, tenant, 
 
 The operator-reported Direct P1 database execution and the exact IPD source pin are recorded in [`IIPS_V3_DIRECT_P1_IRR_CONSUMPTION_RECORD_2026-11-01.md`](integration/IIPS_V3_DIRECT_P1_IRR_CONSUMPTION_RECORD_2026-11-01.md). That Windows evidence is user-provided, not an Arena observation. No P1-F reprovisioning is required or documented here.
 
+### 3.2 NP-06 Reports environment configuration
+
+The Reports UI (`/reports`, `/reports/:reportId`) and the `/api/reports/*` routes are served by the **API transport process** — the one started in §3 with `npm run server:dev` (`tsx server/executive-transport.ts`, listening on `:8787`). The Vite UI process (`npm run dev`, §4) does **not** read either variable; it proxies `/api` to the transport. Both variables are read from the **server process environment only** — never from the request body, query string, URL, client identity, or a browser `.env` — and each is evaluated per request.
+
+| Variable | What it names | Required by | Omitted / unusable ⇒ |
+|---|---|---|---|
+| `IIPS_REPORTS_OWNER_PATH` | absolute path to the Reports owner carrier **file** (`reports-owner-context.json`), not the directory | API transport process (§3) | `503 owner-context-unavailable` |
+| `IIPS_NP04_DATABASE_PATH` | absolute path to the NP-04 governed SQLite database file | API transport process (§3) | `503 persistence-unavailable` (once owner context is available) |
+
+**Owner-context availability is not persistence availability.** They are separate preconditions with separate failure surfaces:
+
+- **Owner-context availability** means the server can establish *which* governed Reports partition it serves. It is a file-and-integrity condition: the carrier named by `IIPS_REPORTS_OWNER_PATH` exists, is readable, is byte-exact against the pinned SHA-256, and carries the approved pair. It says nothing about storage. When it holds, `GET /api/reports/context` answers `200` and deliberately does **not** require the database.
+- **Persistence availability** means the server can reach the authoritative NP-04 governed store. It is a storage condition: the pinned `iips-np04-governed-persistence` `./persistence` subpath resolves at runtime and NP-04's `openDatabase` succeeds at the configured path. It says nothing about identity.
+
+The two are independent in both directions: owner context can be available while persistence is unavailable (a `200` from `/api/reports/context` does not mask an artifact `503`), and persistence can be configured while owner context is absent (the owner check runs first, so the answer is `503 owner-context-unavailable`).
+
+**Configuration and path expectations.**
+
+- `IIPS_REPORTS_OWNER_PATH` — an absolute path to the carrier **file**. It must be **outside any Git working tree** (the same rule as §2) and byte-exact: 384 bytes, SHA-256 `b1b78809d1c8d05800b338f73082b4269e6c9fa65b8f35192f4736d6f1a98640`. Materialise it from the governing R1 declaration rather than hand-writing it:
+
+  ```bash
+  RUN=~/.iips-run; mkdir -p "$RUN"
+  cd frontend && node --experimental-strip-types -e "
+  import('./server/reports-owner-carrier.ts').then(m => console.log('carrier written:', m.materialiseReportsOwnerCarrier(process.env.RUN || '$RUN')));
+  "
+  IIPS_REPORTS_OWNER_PATH=$RUN/reports-owner-context.json
+  ```
+
+  This is a **different** file and a **different** approved pair from the §2 F-3 carrier (`IIPS_OWNER_CONTEXT_PATH`); do not point one at the other. Editing the carrier bytes breaks the digest and fails closed.
+
+- `IIPS_NP04_DATABASE_PATH` — an absolute path to the SQLite database file. NP-04 rejects a relative path, so the value must be absolute. It must be distinct from the Gate 3 user-portfolio store and from `IIPS_DATA_DIR` (§3); it is never client-supplied. NP-04's `openDatabase` is called with `createDirectory: true` and `migrate: true`, so **configuring this path can create a database through NP-04 initialization**: NP-04 creates the parent directory, opens (creating it if absent) the database file, applies its pragmas, and runs its pending migrations. Reports owns no schema and no store; NP-04 does.
+
+  This runbook deliberately does **not** prescribe a database location. The bounded non-production durable store is already authorized by the effective R3 decision (`IIPS-V3-REPORTS-NP06-R3-PA-DECISION-2026-10-25-01`) and accepted by the F-7 qualification record (`IIPS-V3-REPORTS-NP06-F7-QUALIFICATION-AND-ACCEPTANCE-2026-10-25-01`); within that authority the operator selects the absolute server-owned path as deployment configuration, not as a new Program Authority designation. The path must remain distinct from the Gate 3 store and `IIPS_DATA_DIR`, must never be client-supplied, and must remain non-production. Production admission is **NOT ADMITTED**; designating a durable store location for production requires a separate Program Authority determination.
+
+**Fail-closed behaviour.** With the Reports owner carrier unavailable, every recognized `/api/reports/*` route and method answers `503 {"error":"owner-context-unavailable"}` and no report data is read or fabricated. With owner context available but persistence unavailable — `IIPS_NP04_DATABASE_PATH` unset, the package not resolvable, or `openDatabase`/store construction failing — every artifact route answers `503 {"error":"persistence-unavailable"}`. No substitute store, Reports-local store, or fallback is constructed. The UI renders a sanitized unavailable state with a `Retry` button and never displays the backend `reason`, a filesystem path, or a SQLite error.
+
+**Retry is not a configuration change.** `Retry` re-issues the request, and the transport re-attempts owner resolution (uncached, per request) and persistence resolution. It cannot change the running process environment: an operator cannot alter `process.env` of a process that is already running. If the cause is a missing, invalid, or changed variable, `Retry` returns the same `503`. After changing either variable, **restart the API transport process** (stop `npm run server:dev` and start it again as in §3) so the new environment takes effect. Restarting does not move or delete the database; it reopens the same configured file. A change to the carrier file's *contents* is re-read per request, but changing the path variable still requires a restart.
+
+**Verify the two preconditions** (expected outcomes from the source contract; not executed for this documentation-only change, and no database was created):
+
+```bash
+# owner context configured, IIPS_NP04_DATABASE_PATH unset:
+curl -s localhost:8787/api/reports/context                              # → 200 (owner context only)
+curl -s -o /dev/null -w '%{http_code}\n' localhost:8787/api/reports/artifacts   # → 503 persistence-unavailable
+
+# after setting IIPS_NP04_DATABASE_PATH to the PA-designated absolute path and restarting the transport:
+curl -s -o /dev/null -w '%{http_code}\n' localhost:8787/api/reports/artifacts   # → 200 (empty page on a fresh database)
+```
+
+**Persisting the certified reports (operator-controlled).** The producer-to-persistence invocation authorized on 2026-11-05 is the one-off script `frontend/server/reports/persist-real-reports.ts`. It reuses `computeCertifiedPlatform()` (the certified frozen-engine execution and its genuine `pr.reports` output), `composeReportContent()`, and the existing `ReportsPersistence.persistNew()` / NP-04 `createInstance` boundary. It is **not** a public write route and adds **no** UI write control; the Reports UI remains read-only.
+
+```bash
+cd frontend
+npx tsx server/reports/persist-real-reports.ts                 # dry run: show the genuine reports, write nothing
+npx tsx server/reports/persist-real-reports.ts --commit        # persist the genuine reports once
+npx tsx server/reports/persist-real-reports.ts --verify        # read back in a new process
+```
+
+The script requires `IIPS_REPORTS_OWNER_PATH` and `IIPS_NP04_DATABASE_PATH` (§3.2), resolves the approved owner pair from the carrier, and refuses to create a duplicate instance for an already-persisted `reportKey` unless `--force` is supplied. `--verify` opens a fresh NP-04 store handle and reads the artifacts back; with `--api <base-url>` it also checks that the running Reports API returns the same artifact count. The persisted reports appear at `/reports` through the existing read-only UI. This is a bounded non-production operator procedure; production admission remains **NOT ADMITTED**.
+
 ## 4. Start the UI
 
 ```bash
@@ -181,7 +241,7 @@ Observed on 2026-10-14: `201 / 201 / 404`, journal `1140 bytes / 3 lines` with `
 | Surface | Answer at `main` + `CV-CORR-04` (all four probes executed 2026-10-14) | Why this is correct behaviour |
 |---|---|---|
 | Historical pre-Direct-P1 `/api/user-portfolios*` behavior (observed 2026-10-14) | All recognized operations returned `503 owner-context-unavailable` | Historical fence record only. Current read-only list/detail/revision behavior is defined in §3.1 and the 2026-11-01 integration record; writes and context discovery remain unadmitted. |
-| `GET`+`POST /api/reports/artifacts` | `503` — the **same** `owner-context-unavailable` payload | The Reports surface is route-valid but owner-scoped, so it fails closed on the identical carrier contract. |
+| `GET`+`POST /api/reports/artifacts` | `503` — the **same** `owner-context-unavailable` payload | The Reports surface is route-valid but owner-scoped, so it fails closed on the identical carrier contract. *(Current `main` adds the second, independent precondition documented in §3.2: with owner context available but persistence unavailable, artifact routes answer `503 persistence-unavailable`, while `/api/reports/context` stays `200`.)* |
 | `GET`/`POST /api/reports`, `/api/reports/`, `/api/reports/artifacts/` | `404` `{"error":"not found"}` | `reports-transport.ts` is the ratified fence: it keeps exact route/method validation and never enables the deferred Reports capability — an unknown shape is not “temporarily unavailable”. |
 | `POST /api/pit/market-data?…` | `405` (`found:false`, `reason: INVALID_IDENTITY`) | the PIT seam is read-only; a write attempt is refused at the boundary, not silently accepted. |
 | `POST /api/engines/:id/execute` for anything not certified | `404` `DENIED` | registry-governed dispatch only; no arbitrary code execution. |
@@ -207,6 +267,7 @@ Expected at the verified current baseline: typecheck exit `0`; vitest **108 file
 | Every screen shows an error state | is the transport on `8787`? `curl localhost:8787/api/health` | Vite proxy target mismatch |
 | Owner-scoped screens `503` with a carrier present | `sha256sum` vs `OWNER_CONTEXT_CARRIER_SHA256`; is `IIPS_OWNER_CONTEXT_PATH` the **file**, not the directory | byte-exact carrier contract |
 | Watchlists empty after a restart | `IIPS_DATA_DIR` identical on both starts | different data home ⇒ different journal |
+| Reports shows “owner context unavailable” or “persistence store unavailable” | §3.2: is `IIPS_REPORTS_OWNER_PATH` the carrier **file** (not the directory) and byte-exact? Is `IIPS_NP04_DATABASE_PATH` an absolute path? Was the API transport restarted after either variable changed? | `Retry` re-attempts resolution but cannot change a running process's environment; restart `npm run server:dev` after configuration changes |
 | `/api/macro/*` `502 RETRY_BUDGET_EXHAUSTED` | outbound TLS to `api.mospi.gov.in:443` (e.g. `curl -sv --max-time 10 https://api.mospi.gov.in/api/cpi/getCPIIndex?limit=1`) | upstream reachability, not the app; a `502` with `code: INDICATOR_NOT_GOVERNED` instead is a governance refusal, which is also correct |
 | A Macro value shown in the UI | none can be | no Macro view exists or is authorized (`DT-15`); use the route responses above |
 | A `404` on a screen you expected | `App.tsx` route table: `/research`, `/research/sector/:id`, `/evidence/snapshots`, `/evidence/replay`, unmatched `/intelligence/*` paths, and the wildcard are honest `FeatureNotImplemented` mounts; `/intelligence/opportunities`, `/intelligence/risks`, `/intelligence/rankings`, and `/intelligence/decision-matrix` are mounted separately, while `/intelligence` remains a group-only navigation heading | later-phase or unmatched surfaces; no data is fabricated for them |

@@ -23,6 +23,8 @@
   },
   "include": [
     "server/executive-transport.ts",
+    "server/reports/persist-real-reports.ts",
+    "server/reports/real-report-persistence.test.ts",
     "server/screener/screener-transport.ts",
     "server/product-transport.test.ts",
     "server/screener/screener-transport.test.ts",
