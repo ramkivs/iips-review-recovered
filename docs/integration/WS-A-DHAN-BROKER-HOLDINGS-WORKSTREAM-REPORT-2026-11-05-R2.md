@@ -1287,3 +1287,22 @@ frozen acts, pins/lockfile and workflows preserved. No holdings/raw CSV/DELETE/e
 IPD changes or production activation. Single OS writer/no explicit fsync limitations remain. Milestone
 WS-A-DM is NOT COMPLETE. Publication and end-to-end qualification are separate; §20.1 will record actual
 merge, exact-head/merged-main CI and independent remote verification after they occur.
+
+### 20.1 Publication and end-to-end verification receipt (`2026-11-05`)
+
+**Live Evidence Retention: IMPLEMENTED — MERGED AND REMOTELY VERIFIED. End-to-end capability: VERIFIED
+IN ISOLATED INTEGRATION ENVIRONMENTS**, not user-host operational acceptance/production activation.
+PR **#454** head `61d36e367beb3555c00486a60fb228fc1a57c3b0`, merge
+`bf252e83d57d0322f9b5938f154ea025978c48ba`. Exact-head product/static CI **42084604002 /
+42084603957 SUCCESS**; merged-main product/static CI **42085226452 / 42085226551 SUCCESS**.
+Independent remote content matches **24/24** and unchanged frozen boundary blobs **28/28**.
+Formal receipt: [Live Evidence Retention publication receipt](WS-A-LIVE-EVIDENCE-RETENTION-PUBLICATION-RECEIPT-2026-11-05.md).
+
+This supersedes the earlier authority-only/unimplemented and local-publication-pending states for the
+current baseline, preserving their historical prose. The genuine UI/import/HTTP/journal/A-9 success
+proof and 68-row SIGKILL/restart/retry proof are separately evidenced, not inferred from merging.
+Owner binding/digests, original timestamp/frozen snapshot idempotency, conflict handling, unknown-outcome
+recovery, single-writer/no-fsync limits and all exclusions remain. No PF-1/holdings/raw CSV/deletion/
+purge/W-1/IPD/production expansion. A-9 was reused, not rebuilt; WS-A-DM remains NOT COMPLETE.
+Tracker §16.257.1 and supporting CI/read-back JSON record the exact coordinates. This receipt's own
+publication is independently verified in the publishing session and recorded in its PR record.
