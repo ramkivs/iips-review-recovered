@@ -1391,3 +1391,13 @@ Publication qualification: the existing CAP-03 static validator fails on a pre-e
 CI publication is separate from the queued tracker/final-receipt PR; that later publication remains
 blocked unless the inherited validator classification is corrected through its own authorized scope.
 Do not read these local results as complete end-to-end publication or operational activation.
+
+### 22.3 Implementation merged / receipt publication separate (`2026-11-06`)
+
+PR #462 head `7f8bdbf044a3f82feb5af3ebcec911bba7fa5e11`, merge
+`a9329dd509be8051f82780059646c0f179d42b74`; product head/main CI
+42093558519 / 42093933769 SUCCESS. Independent API readback: 17/17 changed bytes exact at both
+refs, 2625 protected baseline blobs unchanged. Implementation MERGED / isolated verification PASS /
+operational reset NOT EXECUTED. Separate receipt `WS-A-OWNER-EVIDENCE-RESET-IMPLEMENTATION-RECEIPT-2026-11-06.md`
+records coordinates and the inherited static-publication blocker; tracker/final-receipt is not claimed
+merged while that blocker remains. No new authority or exclusion change.

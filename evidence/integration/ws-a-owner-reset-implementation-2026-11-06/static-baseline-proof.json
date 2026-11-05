@@ -1,0 +1,10 @@
+{
+  "baseline": "34c8b39e3ee1d26bba4f9b362ca631c4e42ce863",
+  "offendingExistingPath": "evidence/iid/IID-1-IDENTITY-COVERAGE-2026-11-05/test-log-np12-regression.txt",
+  "baselineOffendingBlob": "d23edbfb033e1e51e2094185bd71a73d1c4dd564",
+  "mergedMainOffendingBlob": "d23edbfb033e1e51e2094185bd71a73d1c4dd564",
+  "validatorBaselineSHA256": "ade7a42f3317b630b2f7d7bc23dbd949c304c025905e247ff35f7dc1002ccce9",
+  "validatorCurrentSHA256": "ade7a42f3317b630b2f7d7bc23dbd949c304c025905e247ff35f7dc1002ccce9",
+  "validatorHistoricalDiffBase": "235b793dcca944fdfca1da166f3d09cc655afb49",
+  "correctionInResetScope": false
+}
