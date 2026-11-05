@@ -259,8 +259,8 @@ is authorized and none was exercised.** No real-user durable save occurred.
 | A-5 | Obtain authoritative identifiers for the 67 rows | **Operator (Ramki)** | Operator supplies their own `DHAN_DETAILED_HOLDINGS_V1` export locally through the existing browser file path | A detailed export exists and is assessed; rows whose ISIN / exchange-scoped symbol is already an exact governed key resolve; result published row by row | **BLOCKED-EXTERNAL — INPUT SPECIFICATION COMPLETE AND PUBLISHED (§14.3).** No artefact and no acquisition path in either repository; **no Dhan API/login/token anywhere**. The gap is **DATA, not capability** — the parser already supports `DHAN_DETAILED_HOLDINGS_V1` |
 | A-6 | Governed D05 deposition of the missing entities | **IPD + PA** | A-5, plus a new IPD authorization act | New IPD authorization act; operator drop with verbatim identifiers and preserved provenance; `d05_security_master_manifest.json` and `tests/d05_security_master_integrity_semantics.test.ts` re-bound; new `masterRevision` | **PREPARED — PREREQUISITES AND VALIDATION PLAN COMPLETE (§14.3); PENDING AUTHORITY.** Provably required: 0 of 67 resolve in the **symbol-space** indices that were probeable — the **ISIN index was structurally unreachable**, so it is **UNTESTED, not tested-and-absent**. Needs a **NEW Wave-2 Security Master Expansion Act**; the `2026-09-22` act is spent. **Master revision UNCHANGED** |
 | A-7 | Re-run the 68-row identity assessment after any valid deposition | IRR | A-6 | New assessment evidence published with the new `masterRevision`; resolved/unresolved counts re-measured row by row | **NOT STARTED — blocked by A-6** |
-| A-8 | HTTP evidence-retrieval route authority | **PA (Ramki)** | — | Effective additive U1 amendment under DEC-06 R-2/R-5 naming exactly one route, its NP-06-R1-shaped owner carrier and digest binding, the retention period and purge rule, and the reconciled consent statement | **PA-RENDERED — AMENDMENT ADOPTED AS A SEPARATE INSTRUMENT (§16); PUBLICATION VERIFICATION PENDING.** The PA rendered decisions **5, 6, 7** on `2026-11-05`; Act ID **ASSIGNED** (`IIPS-V3-CAP02-U1-AMEND-01-EVIDENCE-RETRIEVAL-ROUTE-2026-11-05-01`); **all three `TBD-PA` sets FILLED**; multi-tenant and production assumptions **removed** clause by clause; U1 act preserved **byte-identical** at `a3ae368d…`. **NOT YET EFFECTIVE** — the instrument's §10 conditions (ii)–(iv) are **PENDING**. **No route added** |
-| A-9 | Implement the evidence route | IRR | A-8 effective, published and remotely read back | U1 §2.2 handler order; the **current** fence baseline byte-stable — **six admitted read-only pairs plus six still-fenced write/context pairs**, the "twelve 503 pairs" baseline having been superseded by the authorized Direct P1 read integration at IRR `9202e7a` (see §14.2 and tracker §16.251.7); import-safety re-asserted; no `companyId` on the wire; merged and remotely verified | **NOT STARTED — implementation NOT AUTHORIZED** until A-8's effectiveness is recorded in a post-merge receipt (§16). Completion criteria now **additionally include** obligations **O-1** (storage-usage visibility) and **O-2** (backup/recovery safeguards) created by the PA's Decision 6, plus the clause-18 consent-copy reconciliation. **Nothing implemented by §16** |
+| A-8 | HTTP evidence-retrieval route authority | **PA (Ramki)** | — | Effective additive U1 amendment under DEC-06 R-2/R-5 naming exactly one route, its NP-06-R1-shaped owner carrier and digest binding, the retention period and purge rule, and the reconciled consent statement | **CLOSED — AUTHORITY EFFECTIVE AND REMOTELY VERIFIED (§16.8).** The PA rendered decisions **5, 6, 7** on `2026-11-05`; Act ID **ASSIGNED** (`IIPS-V3-CAP02-U1-AMEND-01-EVIDENCE-RETRIEVAL-ROUTE-2026-11-05-01`); **all three `TBD-PA` sets FILLED**; multi-tenant and production assumptions **removed** clause by clause; U1 act preserved **byte-identical** at `a3ae368d…` and **re-verified from merged `main`**. **EFFECTIVE** — all four conjunctive §8.7(25) / §10 conditions **DISCHARGED**: published by IRR PR **#447** → **`510ffb00…`**; exact-head CI run **`42042751662`** **SUCCESS** *and* post-merge CI run **`42043198126`** **success**; remote read-back **6 / 6 changed paths MATCH** plus **2 / 2 frozen anchors MATCH**. Determination recorded in **act §14** and **tracker §16.254.17**. Blocker `WS-A-EV-ROUTE-1` **CLOSED**. **No route added by the act** |
+| A-9 | Implement the evidence route | IRR | A-8 effective, published and remotely read back | U1 §2.2 handler order; the **current** fence baseline byte-stable — **six admitted read-only pairs plus six still-fenced write/context pairs**, the "twelve 503 pairs" baseline having been superseded by the authorized Direct P1 read integration at IRR `9202e7a` (see §14.2 and tracker §16.251.7); import-safety re-asserted; no `companyId` on the wire; merged and remotely verified | **AUTHORIZED — NOT STARTED (§16.8).** A-8's effectiveness **is now recorded** in the post-merge receipt (**act §14**; **tracker §16.254.17**), so §12's condition is met: **implementation is authorized and unblocked**. Completion criteria **additionally include** obligations **O-1** (storage-usage visibility) and **O-2** (backup/recovery safeguards) created by the PA's Decision 6, the clause-18 consent-copy reconciliation, and targeted tests for every file actually changed (`405`, `400` on query string, `404` non-enumeration, non-disclosure, tamper fail-closed, fence re-assertion at the six-plus-six baseline, import-safety re-assertion). **NOT performed by §16 or by §16.8** — see §17 for the implementation that followed under this authority. WS-A-DM pillars **3.3** and **6.2** moved to **AUTHORIZED — NOT IMPLEMENTED** at §16.8 |
 | A-10 | PA-09 final Gate 4 QE/H-12 pin and scope designation | **PA (Ramki)** | — | Effective designation act with exact commit, tree, blob set and purpose | **PREPARED — DECISION PACKAGE COMPLETE (§14.1); BLOCKED ON PA.** `PA DECISION REQUIRED` — **four** decisions rendered; findings **I-1…I-8**; Gate 4 act **§3.2(4)** stop condition **engaged in both repositories**. **No pin designated; no PA act fabricated** |
 | A-11 | S2/Limb A native run, H-12 adoption, S3, QE-1…QE-11 | **Operator** | A-10; `P-1` provisioning attempt; `P-1-F` consumption reconciliation | Native transcripts, H-12 adopted at the designated pin, S3 preflight, QE recorded **0/11 → 11/11** with Q11 digest bookends; QE-8 via RV-1 | **NOT STARTED** |
 | A-12 | Gate C subset acceptance, then Gate 4 / U4 result acceptance | **PA** | A-11 | Two separate effective acceptance acts with evidence read-back | **NOT RENDERED** |
@@ -953,3 +953,122 @@ integration at `9202e7a` **preserved untouched**. A-1…A-4, A-16, A-17 **not re
 assigned — was true of PR #445 and is preserved verbatim. It is superseded as current state by this §16:
 an owner identity, a retention rule and an Act ID are now established by a PA rendering, in an instrument
 that is RENDERED but NOT YET EFFECTIVE. Workstream A and milestone WS-A-DM remain NOT COMPLETE.**
+
+## 16.8 Post-merge receipt — discharge of §16 (`2026-11-05`)
+
+> **Additivity.** §16.8 is appended below §16.7. **§§1–16.7 are preserved byte-for-byte and nothing
+> above is modified**, except the two **live status cells** in §9's action register (A-8 and A-9), which
+> §16 itself declared to be live and updatable. Every narrative statement above remains as written.
+
+**§16 recorded the PA's rendering of decisions 5, 6 and 7 and stated, correctly at the time, that the
+instrument was RENDERED but NOT YET EFFECTIVE, with §10's conditions (ii)–(iv) PENDING.** Those conditions
+are now discharged. This receipt records the discharge.
+
+### 16.8.1 Publication coordinates (recorded here, never self-embedded in the act)
+
+Clause 25 of the adopted amendment text requires that publication coordinates be recorded *exclusively* in
+the post-merge tracker receipt and *never* self-embedded in the act. Accordingly the act's own §14 cites
+**this register entry** for them, and the identifiers below are stated here and in **tracker §16.254.17**.
+
+| Item | Value |
+| :--- | :--- |
+| Publishing PR | IRR **#447** — rendering of PA decisions 5/6/7 as the U1-AMEND-01 evidence-retrieval authority |
+| PR head commit | **`70a5c4a234938492e7b4ce6bf0a278298bc9f398`** |
+| Merge | **MERGED** `2026-11-05T14:15:08Z`, method `merge` |
+| Resulting IRR `main` | **`510ffb003ebf9c38d328904051ef303be4b96257`** |
+| Resulting tree | **`4cfa3df99362a9322be75bcf5f5d42e319b0b3af`** |
+| Parents | `d7cd3b658bdcd9e59c7888e8b6a37af7e4646232` + `70a5c4a234938492e7b4ce6bf0a278298bc9f398` |
+| Independent confirmation | `git ls-remote origin refs/heads/main` **agrees** with `510ffb00…` |
+| Paths changed | **6** — one new act, the tracker, this R2 report, the A-8 package, the PA decision paper, the technical appendix. **`frontend/**` = 0. `evidence/**` = 0.** |
+
+### 16.8.2 The four conjunctive conditions of §8.7(25) / §10 — all DISCHARGED
+
+| Condition | Determination | Evidence |
+| :--- | :--- | :--- |
+| **(i)** PA adopting act; Act ID assigned; §8.2(7) and §8.3(16) filled | **DISCHARGED** | Instrument §§3, 4, 5 |
+| **(ii)** Publication to IRR `main` | **DISCHARGED** | PR **#447** → `510ffb00…`, per §16.8.1 |
+| **(iii)** Green exact-head CI **and** green post-merge `main` CI | **DISCHARGED** | Exact head: `CAP-03 Revision 7 IRR-only static checks`, job `Python compile · source/evidence/tracker validation` **SUCCESS** in 1 m 15 s — run **`42042751662`**, job id `127297558147`, event `pull_request`, head_sha `70a5c4a2…`. Post-merge `main`: run **`42043198126`**, event `push`, **`completed` / `success`** |
+| **(iv)** Independent remote read-back **including U1 blob byte-identity** | **DISCHARGED** | **6 / 6 changed paths MATCH** and **2 / 2 frozen anchors MATCH** — base64-decoded remotely via the Git Blobs API and **re-hashed to the same Git blob id**, not compared as metadata alone |
+
+**∴ `IIPS-V3-CAP02-U1-AMEND-01-EVIDENCE-RETRIEVAL-ROUTE-2026-11-05-01` is EFFECTIVE.** The determination is
+recorded in the instrument's own **§14** (appended additively, 66,199 → **75,696** bytes, Git blob
+`ee272b3b…` → `d39f28bad785f0b342e2bc5a554a497165f5ace1`) and in **tracker §16.254.17**.
+
+### 16.8.3 Finding R-1 vindicated by remote evidence
+
+§16.3's Finding R-1 held that appending §8 to the U1 file was **inadmissible**, because U1's blob
+`a3ae368d2a585aae3eea63d5f5e36225b1fcc9d9` is a **published anchor** at three coordinates — tracker
+`CHG-2026-10-23-18` (line 8010), tracker row `V425`, and the modal-port composition act's completed 4/4
+read-back receipt (line 207). The read-back at merged `main` confirms both U1 blobs are **byte-identical**:
+
+| Frozen anchor | Git blob | Bytes | Result |
+| :--- | :--- | :--- | :--- |
+| U1 act (EFFECTIVE `2026-10-23`) | `a3ae368d2a585aae3eea63d5f5e36225b1fcc9d9` | 13,357 | **MATCH — BYTE-IDENTICAL** |
+| U1 act (PREPARED `2026-10-23`) | `966891d4c7016a5e993e609a03488c8719499e3e` | 15,329 | **MATCH — BYTE-IDENTICAL** |
+
+**No published anchor was invalidated by this amendment.** Also read back unchanged:
+`frontend/server/broker-import/brokerImportHttp.ts` blob `cd0b42d1c7803f9451586194e42c0357135271d2`
+(12,499 bytes) — the admitted `/api/broker-import/` route set was **still exactly two routes** at that
+coordinate.
+
+### 16.8.4 Register consequences — the two live §9 cells updated by this receipt
+
+| Row | Was (as authored by §16) | As at this receipt |
+| :--- | :--- | :--- |
+| **A-8** | `PA-RENDERED — AMENDMENT ADOPTED AS A SEPARATE INSTRUMENT; PUBLICATION VERIFICATION PENDING`, `NOT YET EFFECTIVE` | **`CLOSED — AUTHORITY EFFECTIVE AND REMOTELY VERIFIED`** |
+| **A-9** | `NOT STARTED — implementation NOT AUTHORIZED until A-8's effectiveness is recorded in a post-merge receipt` | **`AUTHORIZED — NOT STARTED`** — unblocked; §12's condition met |
+| Blocker `WS-A-EV-ROUTE-1` | **OPEN** (§16.5) | **CLOSED** — the authority it awaited now exists and is verified |
+| WS-A-DM pillars **3.3** (retrieval) and **6.2** (owner carrier) | `AWAITING-AUTHORITY` | **`AUTHORIZED — NOT IMPLEMENTED`** — **neither satisfied; WS-A-DM remains NOT COMPLETE** |
+
+§16.5's row stating that the blocker *"remains OPEN until effectiveness is recorded"* and §16.7's closing
+statement that the instrument was *"RENDERED but NOT YET EFFECTIVE"* are **preserved verbatim**: both were
+true when written. They are superseded **as current state** by this §16.8 only.
+
+> **The A-9 row above states the position AS AT THIS RECEIPT.** Implementation followed under this
+> authority and is recorded at **§17**, which supersedes both the A-9 row here and the §9 A-9 cell as
+> current state. §16.8 is not rewritten to reflect it.
+
+### 16.8.5 Nothing was implemented by §16 or by this receipt
+
+**No route, handler, carrier module, `matchRoute()` extension, test, consent-copy change, runbook entry or
+configuration was written by §16 or by §16.8.** Implementation was deliberately not performed by the
+rendering pass: that pass was scoped to reconciliation, documentation, validation, publication and remote
+verification. Boundaries re-asserted at merged `main`: write scope **NOT AUTHORIZED** (`W-1` unmet,
+`WRITE_NOT_AUTHORIZED`, `savedRows` **0**); fences **UNCHANGED** (six admitted read-only pairs, six
+write/context pairs still 503); **pins unchanged by the act** (broker-import `#07e86a4f…` moved only by the
+separately authorized concurrent PR #446; np04 `#2e11fa3b…` and production-market-data `#279d1eed…`
+unchanged); **zero IPD writes**; Gate 4 still **AUTHORIZED — NOT STARTED**, **QE 0/11**, **PA-09 OPEN**;
+Gate 5 **NOT INITIATED**; **DQ-4 8/10**; **P04 IN FORCE**; **DP-2 Option 2F unchanged**; **`U-5` NOT RUN**;
+no D05 deposition; no real-user save; no production scope.
+
+### 16.8.6 Remaining items — unchanged by effectiveness
+
+The three genuine items at §16.6 / act §11 **survive** this discharge and are restated precisely:
+
+1. **The deletion surface is a genuine open PA decision.** Decision 6 requires explicit owner-controlled
+   deletion; clauses 16(h) and 24 forbid any HTTP `DELETE`. Both are kept: deletion is authorized **in
+   principle** but exercisable only **outside** this route or by a **further act**. **Does NOT block A-9** —
+   the read route admits no deletion capability at all.
+2. **"Bind personal holdings" reaches beyond A-8.** Extending `owner-4dc756b3` to durable holdings touches
+   a fenced domain (`W-1` **ON**) and needs its own decision. **Must not be swept into A-9.**
+3. **Decisions 1–4 remain PENDING**, and **Decision 3's coordinate has moved** to IPD `07e86a4f…`
+   (concurrent PR #446 / IPD PR #128). Substance unchanged; the coordinate must be re-censused before
+   signature.
+
+**O-1, O-2 and the clause-18 consent-copy reconciliation are implementation obligations on A-9, not PA
+decisions. No technical blocker remains to effectiveness, and none remained to A-9.**
+
+### 16.8.7 Publication of this receipt
+
+| Item | Value |
+| :--- | :--- |
+| Author | **PENDING** — a receipt cannot be part of the commit it verifies |
+| Carried by | The same IRR pull request as the A-9 implementation at **§17**, as a **separate commit**, so that the authorization chain reads in order: discharge of §10 first, then the implementation it authorizes |
+| Its own coordinates | Recorded in the **next** receipt; **never self-embedded here** |
+| Files changed by this receipt | **3** — the act (§14), this R2 report (§16.8 plus the two live §9 cells), and the master tracker (§16.254.17) |
+| Scope guards | `frontend/**` = **0**; `evidence/**` = **0**; U1 acts **byte-identical**; `package*.json` **0**; `.github/**` **0** |
+| Validators | `validate_windows10_host_profile.py` → **exit 0**; `py_compile` → **clean**; `git diff --check` → **clean** |
+
+**Workstream A and milestone WS-A-DM remain NOT COMPLETE.** A-8 is **CLOSED**; A-9 became **AUTHORIZED —
+NOT STARTED** at this receipt, and is the only outstanding track with no unreachable host, no external file
+and no IPD dependency.

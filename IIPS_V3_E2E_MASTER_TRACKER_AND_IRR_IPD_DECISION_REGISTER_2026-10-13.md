@@ -21323,4 +21323,52 @@ NOT closed, and A-9 implementation remains NOT AUTHORIZED.**
 
 **Workstream A and milestone WS-A-DM are NOT COMPLETE.**
 
+### 16.254.17 Post-merge publication and read-back receipt — discharge of §16.254.16 (`2026-11-05`)
+
+Discharges the eleven `PENDING` cells of **§16.254.16** and the publication limb of **`V2110`**. The
+`PENDING` wording of §16.254.16 is **preserved verbatim above**, following the §16.248.7 / PR #430,
+§16.249.13 / PR #441, §16.251.16 / PR #443 and §16.252.16 / PR #445 precedents: **a receipt cannot be part
+of the commit it verifies.**
+
+**This is also the register entry that clause 25 of the adopted amendment text requires.** Clause 25
+provides that publication coordinates are recorded *exclusively* in the post-merge tracker receipt and are
+*never* self-embedded in the act. The act's own §14 therefore states the **determination** and cites
+**this section** for the identifiers below, which are deliberately not restated there.
+
+| Item | Verified value |
+|---|---|
+| IRR PR | **#447**, head **`70a5c4a234938492e7b4ce6bf0a278298bc9f398`** — authored, pushed and merged by this session; **#447 was the only open IRR PR at merge time**, so no foreign PR was merged |
+| Merge | **MERGED `2026-11-05T14:15:08Z`** as **`510ffb003ebf9c38d328904051ef303be4b96257`**, tree **`4cfa3df99362a9322be75bcf5f5d42e319b0b3af`**, parents **`d7cd3b658bdcd9e59c7888e8b6a37af7e4646232`** + **`70a5c4a234938492e7b4ce6bf0a278298bc9f398`**, method `merge` |
+| `git ls-remote origin refs/heads/main` | **`510ffb003ebf9c38d328904051ef303be4b96257`** — **agrees** with the merge commit |
+| Exact-head CI | `CAP-03 Revision 7 IRR-only static checks`, job **`Python compile · source/evidence/tracker validation`** = **SUCCESS** in 1 m 15 s; run **`42042751662`**, job id `127297558147`, event `pull_request`, head_sha `70a5c4a2…` |
+| Post-merge `main` CI | run **`42043198126`**, event `push` — **`completed` / `success`** |
+| Independent remote byte read-back | **6 / 6 changed paths MATCH** *and* **2 / 2 frozen anchors MATCH** (Git Blobs API, base64-decoded remotely and **re-hashed to the same Git blob id**, not compared as metadata alone; the tracker exceeds the Contents API base64 limit and was read via `git/blobs/<sha>`) |
+| — master tracker (§16.254) | blob **`6f54c0b20f54ff5e973a2100203809f77b98472b`**, **3,950,068** bytes, SHA-256 `bbf684f1cd87c97e…` — **MATCH** |
+| — AMEND-01 instrument (as published by #447) | blob **`ee272b3b0d3d0d87c360b7904dcc18cb4b0b8763`**, **66,199** bytes, SHA-256 `ae966f2c9b1c61e0a4aea149c0590c5404cdf17fb422425cd2c9890a5a861e1d` — **MATCH** |
+| — R2 workstream report (§16) | blob **`a3c864a65bde7305e586c3bf52b2b853d6ea2f4a`**, **90,871** bytes, SHA-256 `bd22858e2a845578…` — **MATCH** |
+| — A-8 amendment package (§9 note) | blob **`bbe7833d135e041250d37fad61188a8c427f2d0e`**, **38,186** bytes, SHA-256 `d3fbea9f2c806170…` — **MATCH** |
+| — PA decision paper (§11 record + §14) | blob **`22a664baf4f6ac81e3ee8880343a9a55d136e3a6`**, **95,831** bytes, SHA-256 `d43c12d9fdd37b52…` — **MATCH** |
+| — technical appendix (A-6) | blob **`97a2b23ce870ee138bf49f5bce2f589b19a3a456`**, **40,715** bytes, SHA-256 `d72cdca4…` — **MATCH** |
+| — **U1 act (EFFECTIVE `2026-10-23`) — frozen anchor** | blob **`a3ae368d2a585aae3eea63d5f5e36225b1fcc9d9`**, **13,357** bytes — **MATCH, BYTE-IDENTICAL** |
+| — **U1 act (PREPARED `2026-10-23`) — frozen anchor** | blob **`966891d4c7016a5e993e609a03488c8719499e3e`**, **15,329** bytes — **MATCH, BYTE-IDENTICAL** |
+| Paths changed by PR #447 | **6** — all **pure insertions** except the decision paper's decision-record cells and R2's two live §9 cells (`+891/−0`, `+470/−0`, `+143/−2`, `+68/−0`, `+192/−18`, `+74/−0`); **`frontend/**` = 0**, **`evidence/**` = 0** |
+| **Finding R-1 vindicated by remote evidence** | The three anchors that made appending §8 to the U1 file inadmissible — tracker `CHG-2026-10-23-18` (line 8010), tracker row `V425`, and the modal-port composition act's completed 4/4 read-back receipt (line 207) — all still cite **`a3ae368d…`**, and that blob is **unchanged at merged `main`**. **No published anchor was invalidated by this amendment** |
+| Route surface read back from merged `main` | `frontend/server/broker-import/brokerImportHttp.ts` blob **`cd0b42d1c7803f9451586194e42c0357135271d2`**, **12,499** bytes — **UNCHANGED**; the admitted `/api/broker-import/` route set was still **exactly two routes**, so **no route was added by the act** |
+| Pins read back from merged `main` | broker-import **`#07e86a4f2c105651f3097a96cb519f8611945e30`**, np04 **`#2e11fa3b689d1a3674a5e4ba1f1de9a559e20494`**, production-market-data **`#279d1eed184f5e23bbabe5c6411085e120ce9e41`** — **UNCHANGED BY PR #447**; the broker-import pin had been moved only by the separately authorized concurrent PR #446 |
+| IRR-only static validator at merged `main` | **exit `0`** — PASS on the Windows 10 profile, S04 source and admitted S2 evidence; `LIMIT: IRR-only static validation`; `REVISION_7_SCRIPT_SHA256=6639633855300cd645248ce597bb2c867b5cdbf6045947bf4281721bb1cde6d1` |
+| Tracker invariants at merged `main` | head pointer **untouched** (first 30 lines byte-identical to `git show HEAD:`); splice **tail-only**; **0** merge markers; **0** CR bytes; **0** trailing-whitespace additions; `git diff --check` **clean**; **25 / 25** ledger rows `V2086`–`V2110` unique |
+| Allocation discipline | Re-censused **immediately before** splicing at `HEAD@d7cd3b65`: the four tokens reserved by §16.253's closing next-free declaration each occurred exactly once, and the succeeding section-number set occurred zero times. Re-censused **again** before this receipt at `HEAD@510ffb00`, and the same four tokens are described here **by reference only** so that each still occurs exactly once in this file |
+| **AMEND-01 effectiveness conditions (ii)–(iv)** | **ALL DISCHARGED.** Condition **(i)** was discharged at rendering; **(ii)** by publication to IRR `main` at `510ffb00…`; **(iii)** by green exact-head CI `42042751662` **and** green post-merge `main` CI `42043198126`; **(iv)** by the **6 / 6** path read-back **plus 2 / 2** frozen-anchor byte-identity read-back above. **∴ `IIPS-V3-CAP02-U1-AMEND-01-EVIDENCE-RETRIEVAL-ROUTE-2026-11-05-01` is EFFECTIVE**, determined in the instrument's own **§14** (appended additively, 66,199 → **75,696** bytes, Git blob `ee272b3b…` → `d39f28bad785f0b342e2bc5a554a497165f5ace1`, SHA-256 `45a2be64ce2789014936821fc53051a508c44c4aff89d96c6676ccff7ca90d6a`; §§1–13 and the header `STATUS` cell preserved byte-for-byte, per the `IIPS_v3.0_OWNER_CONTEXT_F1_F2_VALUE_ACT.md` §2–§3 precedent) |
+| **Consequent status of blocker `WS-A-EV-ROUTE-1`** | **CLOSED** — the authority it awaited now exists, is published and is remotely verified |
+| Register consequences | **A-8 → `CLOSED — AUTHORITY EFFECTIVE AND REMOTELY VERIFIED`**; **A-9 → `AUTHORIZED — NOT STARTED`**, unblocked, §12's condition met; WS-A-DM pillars **3.3** and **6.2** → **`AUTHORIZED — NOT IMPLEMENTED`**, **neither satisfied**. Both live R2 §9 cells updated; R2 **§16.8** records the same discharge |
+| Unrelated work preserved | **PR #446 MERGED, untouched**; **PR #438 MERGED at `bcf067061bff42c4b69416dbe33205909cd8ce85`, untouched**; the Direct P1 read integration at IRR **`9202e7a`** untouched; **0 open IRR PRs** after the merge |
+| Second validator, environmental limit | `docs/integration/cap03-s2/verify_recovery_release.py` was **not** run to completion locally: its release-asset download resolves to a host outside this sandbox's egress allowlist (TLS EOF). It reads **no file this section changes** — a grep of that script for the tracker filename, the `WS-A-` prefix, `R2` and `docs/integration` returned **0 matches** — and it **is** executed by hosted CI, which passed at the exact head and post-merge |
+| IPD writes | **ZERO** |
+
+**§16.254.16 is thereby discharged and `V2110` is PASS.** **No gate, pin, fence, authority act other than
+the one rendered, register count or master revision was moved by §16.254 or by this receipt.** **No route
+was implemented by the act**; A-9 became **AUTHORIZED — NOT STARTED**. Decisions **1, 2, 3 and 4** remain
+**PENDING** and the decision paper's confirmation checklist remains unmarked. **Workstream A and milestone
+WS-A-DM remain NOT COMPLETE.**
+
 **Next free after this section:** `§16.255` / `CV-CORR-235` / `CHG-2026-11-05-06` / `V2111`.
