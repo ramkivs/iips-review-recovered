@@ -1352,3 +1352,13 @@ erasure remain separate alternatives. #454 24 paths and cumulative #454+#455 27 
 Existing retention, opaque owner/integrity, PF-1, W-1, holdings and repositories remain unchanged; no
 HTTP DELETE, operational evidence alteration or purge. Tracker §16.258.1 records the same status.
 Receipt-only final coordinates are independently verified in its PR record. Stop and await PA adoption.
+
+## 22. Owner-controlled active reset — explicit PA adoption (`2026-11-06`)
+
+Later overlay to §21.1: PA now explicitly adopts the exact PR #457 proposal and paper acceptance criteria,
+using #458 receipt. New registered Act ID `IIPS-V3-CAP02-OWNER-EVIDENCE-RESET-2026-11-06-01`; instrument
+`WS-A-OWNER-EVIDENCE-RESET-PA-ADOPTION-ACT-2026-11-06.md`, tracker §16.259. Offline, confirmed entire-active-
+journal reset only; verified local recovery copy retained. Not permanent/all-copy erasure; restore may
+resurrect cleared records. PA decision rendered; effectiveness conditional on instrument §5. Implementation
+not started until publication/checks/independent read-back/receipt, then continue in this same session.
+No operational evidence touched. Prior proposal, PF-1, A-8/A-9/retention, W-1 and repositories unchanged.
