@@ -733,3 +733,56 @@ outstanding dependencies**, so discharging any one of them would not complete th
 **A-10, A-8, A-5 and A-6 remain NOT closed** — each is *prepared and blocked on a named authority*, per
 §14.5. **No gate, pin, fence, authority act, register count or master revision was moved. Workstream A
 and milestone WS-A-DM remain NOT COMPLETE.**
+
+## §15 — Plain-English PA decision paper and technical appendix (`2026-11-05`)
+
+The three packages registered at §14 are **authoritative and complete**, but they are written for a
+technical reader. This addendum records a further, **additive** layer whose sole purpose is to make the
+seven outstanding decisions **decidable by a non-engineering decision-maker**, and to attach a
+**recommendation** to each.
+
+| Document | Status |
+| :--- | :--- |
+| `docs/integration/WS-A-PA-DECISION-PAPER-PLAIN-ENGLISH-2026-11-05.md` | **PREPARED PROPOSAL + RECOMMENDATIONS — NOT AUTHORIZED, NOT EFFECTIVE** |
+| `docs/integration/WS-A-PA-DECISION-PAPER-TECHNICAL-APPENDIX-2026-11-05.md` | **PREPARED — NOT EFFECTIVE**; no Act ID assigned, no pin designated, every `TBD-PA` field still blank |
+
+### 15.1 What the paper adds beyond §14
+
+1. **A translation layer.** Git, commits, hashes, repositories and governance terms are rendered into
+   ordinary language, with a glossary and a stated six-stage distinction (**prepared proposal →
+   recommended decision → PA authorization → effective authority → implementation → verified
+   completion**) that is never blurred.
+2. **Recommendations, not questions.** Each of the seven decisions carries an issue statement, its
+   necessity, the available choices, the consequences of each, **the recommended choice and why**, what
+   deferral costs, and **the exact boundary of the authorization sought** (implementation? testing?
+   acceptance? production?).
+3. **Three newly developed alternatives**, clearly labelled, where the existing documents defined none:
+   **G4P-4** (the alias coordinate as a Gate 4 content candidate) for A-10; the **distinct-pair**
+   construction with proposed literals for A-8; and an **extended three-coordinate PA-09 form** for the
+   H-12 R5 manifest.
+4. **A completable PA decision record**, in ordinary language, recorded here as
+   **`PENDING — NOT YET RENDERED`**.
+
+### 15.2 The minimum feasible set — a correction to the §14.5 framing
+
+§14.5 listed three **independent** outstanding authorities. That remains true. This pass adds a
+**feasibility ranking** the earlier framing did not contain:
+
+| Track | Decisions | Downstream work | Additional requirements beyond a PA decision |
+| :--- | :--- | :--- | :--- |
+| **Evidence** | **5 + 6 + 7** | **A-9** | **NONE — entirely within existing IRR capability** |
+| Gate 4 | 1 + 2 + 3 + 4 | A-11 … A-15 | Host `desktop-no0nhtp` (**unreachable**), separate operator authority, QE **0/11** |
+| Identity | none | A-5 → A-6 → A-7 | An **external operator file**, a **new Wave-2 act**, **IPD** work |
+
+**∴ Decisions 5 + 6 + 7 are the minimum set that converts a PA signature directly into completable
+work.** All seven are nonetheless recommended in one sitting.
+
+### 15.3 Statuses unchanged
+
+**No action changed status**, because **nothing was authorized**: A-8 remains `PREPARED — BLOCKED ON
+PA`; A-10 remains `PREPARED — BLOCKED ON PA`; A-9 remains blocked by A-8; A-11 remains `NOT STARTED`.
+§14.5's register, §14.6's `PENDING` cells and §14.7's receipt are **preserved verbatim and not
+amended**. The nine pillars are unchanged and **WS-A-DM remains NOT COMPLETE**.
+
+**No gate, pin, fence, authority act, register count or master revision was moved. No owner identity
+was established, no retention period set, no Act ID assigned and no PA act fabricated.**
