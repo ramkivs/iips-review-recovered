@@ -20387,4 +20387,34 @@ parse, no IPD write, no current-dist check, no S2 rerun, no QE execution, no nat
 **no U-5 PASS**. `U-5` remains **NOT RUN**. No gate was moved, no pin changed, no route added, no
 identity deposited and no PA act fabricated by this section.
 
+### 16.251.16 Post-merge publication and read-back receipt (`2026-11-05`)
+
+Discharges **`V2063`**. The `PENDING` wording of any pre-merge statement above is **preserved
+verbatim**, following the §16.248.7 / PR #430 and §16.249.13 / PR #441 precedents: **a receipt cannot
+be part of the commit it verifies.**
+
+| Item | Verified value |
+|---|---|
+| IRR PR | **#442**, head **`5beb77b97efd76ab96cc039b9b81c06c442809e1`** |
+| Merge | **MERGED `2026-11-05T12:06:45Z`** as **`b2332d1727e20c71c2c5b776455bc84634169ce2`**, tree **`68ef57f19907f4f451817e6afbded61dad7b4c45`** |
+| `git ls-remote origin refs/heads/main` | **`b2332d1727e20c71c2c5b776455bc84634169ce2`** — **agrees** with the merge commit |
+| Exact-head CI | `CAP-03 Revision 7 IRR-only static checks`, job **`Python compile · source/evidence/tracker validation`** = **SUCCESS**; run **`42024256428`**, job id `127234379294` |
+| Post-merge `main` CI | run **`42024392810`**, event `push` — **`completed` / `success`** |
+| Independent remote byte read-back | **5 / 5 paths MATCH** (Git Blobs API, base64-decoded and re-hashed; the tracker exceeds the Contents API base64 limit and was read via `git/blobs/<sha>`) |
+| — tracker | blob **`3a3ccda188831cbb6277537cd20bfc7c481da05a`**, **3,855,680** bytes, SHA-256 `0d7632c3a2b815e0e649a8ef…` — **MATCH** |
+| — R2 report | blob **`0ad56b5e2c5090de44beff1f5248acb35c406b9d`**, **69,906** bytes, SHA-256 `92028c0f5c01abeddaab8729…` — **MATCH** |
+| — A-10 package | blob **`d95f31207cfc6dc757706619fc57ba17a460c620`**, **54,089** bytes, SHA-256 `4f63e039da3a04f75cc75ed6…` — **MATCH** |
+| — A-8 package | blob **`8a6eed7ede30d463728bc02246df9b6e095edb84`**, **32,308** bytes, SHA-256 `c16471feee388976ddb859b3…` — **MATCH** |
+| — A-5/A-6 package | blob **`d28c56a4f196e27926c444c77a55902c2387f8a3`**, **28,102** bytes, SHA-256 `a298d3788e2c3b43cd4377ee…` — **MATCH** |
+| Paths changed by PR #442 | **5** (2 `M`, 3 `A`) — **`frontend/**` = 0**, **`evidence/**` = 0** |
+| Pins read back from merged `main` | broker-import **`#7bcae35ad18c43cb67a16f30faa55bbdf0fb33fc`**, np04 **`#2e11fa3b689d1a3674a5e4ba1f1de9a559e20494`**, production-market-data **`#279d1eed184f5e23bbabe5c6411085e120ce9e41`** — **UNCHANGED** |
+| IRR-only static validator at merged `main` | **exit `0`** — PASS on the Windows 10 profile, S04 source and admitted S2 evidence; `LIMIT: IRR-only static validation`; **`U-5` remains NOT RUN** |
+| Unrelated work preserved | **PR #438 MERGED at `bcf067061bff42c4b69416dbe33205909cd8ce85`, untouched**; **0 open IRR PRs**, **0 open IPD PRs** after this merge |
+| IPD writes | **ZERO** |
+
+**`V2063` is thereby PASS.** **No gate, pin, fence, authority act, register count or master revision
+was moved by §16.251 or by this receipt.** A-1…A-4, A-16 and A-17 were **not reopened**. **Workstream
+A and milestone WS-A-DM remain NOT COMPLETE.**
+
+
 **Next free after this section:** `§16.252` / `CV-CORR-232` / `CHG-2026-11-05-03` / `V2064`.
