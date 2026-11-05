@@ -19932,4 +19932,22 @@ Current roll-up: pillars **4, 5, 7, 9 `IMPLEMENTED-VERIFIED`**; pillar **3** ret
 | `V2038` | IPD `main` movement after the pin, and continued pin validity | **PASS** — IPD PR #126 merged `2026-11-05T08:49:54Z` as `6df748d397daf965bd5b6e6e35df5043f7fa8c4d`, whose **first parent is the pinned `7bcae35…`**; the pin remains an ancestor; the 5 intervening commits add exactly **16** new files (all status `A`, `+4,740/−0`, all Windows-setup content) and change **nothing** in `package.json`, `frontend/src/features/portfolio/import`, `src/identity` or `src/contracts`; publish profile identical at both commits; `broker-identity-assessment.ts` blob **`401af803…` IDENTICAL** at both, as are `broker-import-ingress.ts`, `types.ts`, `adapters/dhan-holdings-adapter.ts`, `broker-holdings-mapper.ts` and `src/identity/governed_fixture_master.ts`. **No pin change made or required.** Transcript `11-ipd-main-movement-after-pin.txt`, which records in its own header that an earlier uncommitted draft was discarded at the branch reset and that every assertion was re-measured fresh rather than reconstructed |
 | `V2039` | Publication of this section and independent remote read-back | **PENDING at authoring time** — this section is pre-merge. A dated post-merge receipt subsection will record the PR number, merge commit, tree, parent order, the IRR-only static validator result on the exact merged head, and the byte-level read-back of every changed path at the merge SHA (Git Blobs API for the tracker, which exceeds the Contents API size limit; Contents API for the rest), following the §16.248.7 / PR #430 precedent. Its preceding `PENDING` wording is the correct pre-merge state and will be preserved as such by that receipt |
 
+### 16.249.13 Post-merge publication and read-back receipt (`2026-11-05`)
+
+**This section is published and independently verified.** IRR PR **#440** merged at `2026-11-05T10:36:58Z` as **`7e56cc5ec13240c12b13dc064c85035ed3d825da`**, tree **`346a25039421a8333c0c216ac22e222aeeaa5bce`**, with parent order baseline `1afa1fba1fdf8d1567089b94c25c187b202a9d51` then PR head `92a7e55327fa091bc83307602b8bfe02ef2bf4b3`. `git ls-remote` independently reports IRR `refs/heads/main` at that merge commit.
+
+- **Exact-head check** — run `42011983627`, job `127193003680`, `Python compile · source/evidence/tracker validation` — **pass**, 34s, before merge.
+- **Post-merge push run** — `42012188918`, `CAP-03 Revision 7 IRR-only static checks`, on `main@7e56cc5e` — **completed / success**.
+- **Independent remote read-back** at the exact merge SHA byte-matched **3/3** changed paths:
+
+| Path | Method | Bytes | SHA-256 (first 16) | Result |
+|---|---|---|---|---|
+| `IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md` | **Git Blobs API** — blob `49cfed76095c1d0d97ce459e71ff353ec2c1b764`, because at `3,804,970` bytes the tracker exceeds the Contents API size limit | `3,804,970` | `894163f9d754a483…` | **MATCH** |
+| `docs/integration/WS-A-DHAN-BROKER-HOLDINGS-WORKSTREAM-REPORT-2026-11-05-R2.md` | Contents API | `47,082` | `9a93c203c94798a6…` | **MATCH** |
+| `docs/integration/WS-A-DURABLE-USER-HOLDINGS-MILESTONE-DEFINITION-2026-11-05.md` | Contents API | `29,166` | `37494ed6c867f453…` | **MATCH** |
+
+- **Zero `frontend/**` paths changed** by PR #440, and all three dependency pins read back from merged `main` unchanged: broker alias `#7bcae35ad18c43cb67a16f30faa55bbdf0fb33fc`, primary `#279d1eed184f5e23bbabe5c6411085e120ce9e41`, `iips-np04-governed-persistence#2e11fa3b689d1a3674a5e4ba1f1de9a559e20494`.
+- `V2039` is thereby **PASS**. Its preceding `PENDING` wording was the correct pre-merge state and is preserved as such by this dated receipt, following the §16.248.7 precedent.
+- **A-16 is COMPLETED / VERIFIED.** No gate, pin, fence, authority act or register count was moved by this section or by its receipt. **Workstream A and milestone WS-A-DM remain NOT COMPLETE.**
+
 **Next free after this section:** `§16.250` / `CV-CORR-230` / `CHG-2026-11-05-01` / `V2040`.
