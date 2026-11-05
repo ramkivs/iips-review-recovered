@@ -786,3 +786,29 @@ amended**. The nine pillars are unchanged and **WS-A-DM remains NOT COMPLETE**.
 
 **No gate, pin, fence, authority act, register count or master revision was moved. No owner identity
 was established, no retention period set, no Act ID assigned and no PA act fabricated.**
+
+### 15.4 Post-merge receipt — discharge of §15 (`2026-11-05`)
+
+The status wording of §15 and §15.3 is **preserved verbatim above**; this subsection records publication,
+following the §14.6 → §14.7 precedent. **A receipt cannot be part of the commit it verifies**, so the
+tracker's own receipt was authored `PENDING` at §16.252.15 and discharged by the follow-up PR that
+carries this subsection.
+
+| Item | Verified value |
+| :--- | :--- |
+| IRR PR for §15, the decision paper, the appendix and tracker §16.252 | **#444**, head **`5e73b4fd3fe6505617b320d6aa1ec9e69a48aec1`** — the only open IRR PR at merge time |
+| Merge commit / tree | **`c40fcdfda37c8ccd95c926b978c536066a13d67b`** / **`6e556d02905ab728e9cee2de80db53a70410e671`**, merged `2026-11-05T13:21:07Z`; `git ls-remote` **agrees**; merged tree **identical to the PR head's tree** |
+| Hosted CI at the exact PR head | **SUCCESS** — `Python compile · source/evidence/tracker validation`, run **`42034850537`**, job `127270215191`, 29 s |
+| Post-merge `main` CI run | **`42035004471`** — `push` — **`completed` / `success`** |
+| Remote byte read-back | **4 / 4 MATCH** — decision paper blob `fa134b93cf2ad0eeece955ef4bf507aff115043a` (**80,988** B); appendix blob `9d6f8949386ba92d849d92768b2a6eaf0ca849ad` (**33,813** B); this R2 report blob `af4d186f0a11eacde274c7a7dee3140ff9f85305` (**75,456** B); tracker blob `9b6f92fa68cbb5db1c91d7f2a6d8c787de84550f` (**3,892,340** B, read via the Blobs API) |
+| Paths changed by PR #444 | **4** (2 `M`, 2 `A`), **all pure insertions** — **`frontend/**` = 0**, **`evidence/**` = 0** |
+| Pins read back from merged `main` | **UNCHANGED** — broker-import `#7bcae35…`, np04 `#2e11fa3b…`, production-market-data `#279d1eed…` |
+| Validator at merged `main` | **exit `0`**; `U-5` remains **NOT RUN** |
+| Unrelated work | **PR #438 preserved untouched** (MERGED at `bcf0670`); Direct P1 integration at `9202e7a` untouched; **0 open IRR PRs, 0 open IPD PRs** |
+| IPD writes | **ZERO** |
+
+**The PA decision record remains `PENDING — NOT YET RENDERED`.** A-5, A-6, A-7, A-8, A-9, A-10, A-11,
+A-12, A-13, A-14, A-15 and A-18 **remain open and unchanged**; §14.5's register, §14.6's `PENDING`
+cells and §14.7's receipt are **unamended**. **No gate, pin, fence, authority act, register count or
+master revision was moved. No owner identity was established, no retention period set, no Act ID
+assigned and no PA act fabricated. Workstream A and milestone WS-A-DM remain NOT COMPLETE.**
