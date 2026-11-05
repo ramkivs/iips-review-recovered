@@ -1,0 +1,95 @@
+{
+  "lastOlderReportedBaseline": "2a55110806599084355b299fb3e0a559471f0c48",
+  "currentBaseline": "80737d072829d942fb2f9ec76f6e9122e36530f7",
+  "concurrentMainHistory": [
+    "80737d072829d942fb2f9ec76f6e9122e36530f7 Merge pull request #469 from ramkivs/arena/7d78168f-iips-review-recovered",
+    "d37ac14e3e09009223de92f436c3dafbde27568f Merge pull request #468 from ramkivs/arena/7d78168f-iips-review-recovered",
+    "95b95cfe04bbb7f6be200bacce38efc804ace278 Merge pull request #467 from ramkivs/arena/e56fe593-iips-review-recovered",
+    "f08da401dee12748581cbef5599d8c2e3758c84b Merge pull request #464 from ramkivs/arena/e56fe593-iips-review-recovered"
+  ],
+  "sinceLastReported80737d0": [],
+  "artifactReadback": [
+    {
+      "pr": 456,
+      "merge": "bcc022ed83624da673967730de2e7dd89346de13",
+      "path": "iips-platform/src/investment/identity/resolver.ts",
+      "blob": "83ef567234264a86932a4cca0f47104c0ec6e650",
+      "sha256": "f035fb71b9aff2f011bb83947fb9088bb3a411eee72681e7c369b8fc8f1739f8",
+      "exactRemoteByteReadback": true
+    },
+    {
+      "pr": 456,
+      "merge": "bcc022ed83624da673967730de2e7dd89346de13",
+      "path": "evidence/iid/IID-1-IDENTITY-COVERAGE-2026-11-05/README.md",
+      "blob": "9503b25a20912eada35876a54c8b333b971c78b5",
+      "sha256": "d16c57a95bbf6541800a223256cd19f5c6ff13eccb23bce05d29dd2533e055cc",
+      "exactRemoteByteReadback": true
+    },
+    {
+      "pr": 461,
+      "merge": "34c8b39e3ee1d26bba4f9b362ca631c4e42ce863",
+      "path": "evidence/iid/IID-2-COMPANY-ASSESSMENT-2026-11-06/ACCEPTANCE-MATRIX.md",
+      "blob": "7ed11d37981431e8c55f12aabfc05ffe0ebec559",
+      "sha256": "737eae62c58bba528f5a0224bb0214aaccb5778aa6f083edf12e94e5aa9a2b0d",
+      "exactRemoteByteReadback": true
+    },
+    {
+      "pr": 461,
+      "merge": "34c8b39e3ee1d26bba4f9b362ca631c4e42ce863",
+      "path": "iips-platform/src/investment/assessment/engine.ts",
+      "blob": "c909d3a0e08609a4d023e535213b57dc481e4737",
+      "sha256": "34a39a6b4a290caba5ae1d40e55b1b9c7a02f45134f9f1c41caa5ac015998fa4",
+      "exactRemoteByteReadback": true
+    },
+    {
+      "pr": 464,
+      "merge": "f08da401dee12748581cbef5599d8c2e3758c84b",
+      "path": "evidence/iid/IID-3-PERSISTENCE-READ-TRANSPORT-2026-11-06/ACCEPTANCE-MATRIX.md",
+      "blob": "e31420e3c384a6567e6dff95a1f398a81b418a2d",
+      "sha256": "f4f17094171f2f97696b19a3f97788a2f81561bf9b745a31cc0dfe7564dd5c62",
+      "exactRemoteByteReadback": true
+    },
+    {
+      "pr": 464,
+      "merge": "f08da401dee12748581cbef5599d8c2e3758c84b",
+      "path": "frontend/server/investment/investmentArtifacts.ts",
+      "blob": "bdd22fcfc09834882e06c475ce2c85ffee8f17cc",
+      "sha256": "2fad81b5b4f8495043389a3bededd2d76bca4164e1324aecba1648aa82385b5f",
+      "exactRemoteByteReadback": true
+    },
+    {
+      "pr": 467,
+      "merge": "95b95cfe04bbb7f6be200bacce38efc804ace278",
+      "path": "evidence/iid/IID-3-PERSISTENCE-READ-TRANSPORT-2026-11-06/INDEPENDENT-VERIFICATION.md",
+      "blob": "24959a9a0937b27a13461c4255e562f3212d6583",
+      "sha256": "96f8131642ce58eadae8a59304f15287bd56e777305a6e53e91c5c594ce49180",
+      "exactRemoteByteReadback": true
+    },
+    {
+      "pr": 467,
+      "merge": "95b95cfe04bbb7f6be200bacce38efc804ace278",
+      "path": "docs/integration/IIPS_V3_IID_IMPLEMENTATION_ROADMAP_2026-11-05.md",
+      "blob": "ca00ffb4155c0d173e8feab6482ad84de5fdc971",
+      "sha256": "293b3626e56cdec2be10538e3fb338d22bd3e0af9cb1b2ff6220ac3c4c0f399d",
+      "exactRemoteByteReadback": true
+    },
+    {
+      "pr": 468,
+      "merge": "d37ac14e3e09009223de92f436c3dafbde27568f",
+      "path": "docs/integration/SAIRAM-DURABLE-HOLDINGS-ARCHITECTURE-READINESS-2026-11-06.md",
+      "blob": "5708098ccbe8a32f59c9a2ad3333baa98337d1db",
+      "sha256": "7521318b9ee26e703b37b01eeb7746f979c6b6d4110bb7d6fbc3c0c7c67589b9",
+      "exactRemoteByteReadback": true
+    },
+    {
+      "pr": 469,
+      "merge": "80737d072829d942fb2f9ec76f6e9122e36530f7",
+      "path": "docs/integration/SAIRAM-DURABLE-HOLDINGS-READINESS-PUBLICATION-RECEIPT-2026-11-06.md",
+      "blob": "d06bd446364c807dac71e5a61f1c6d6157f46599",
+      "sha256": "49d9c408810f8b0476a490ca8412d81731397162906010ff65e6ffd97d74e71e",
+      "exactRemoteByteReadback": true
+    }
+  ],
+  "IID4to6OpenImplementationPRs": [],
+  "scopeLimit": "No open PR at initial census; no claim about unpublished/private local drafts. No original product tests rerun."
+}

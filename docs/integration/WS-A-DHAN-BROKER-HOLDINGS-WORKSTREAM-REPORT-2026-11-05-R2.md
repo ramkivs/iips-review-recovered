@@ -1431,3 +1431,42 @@ exist and must not be confused with investment transactions. H01–H12 future ac
 proposed PA decisions in `SAIRAM-DURABLE-HOLDINGS-ARCHITECTURE-READINESS-2026-11-06.md` and
 `SAIRAM-DURABLE-HOLDINGS-PA-DECISION-PACKAGE-2026-11-06.md`. No DB opened, writes/provisioning enabled,
 IPD source changed or completed retention/deletion tests repeated. WS-A-DM NOT COMPLETE.
+
+### 23.1 Investigation/proposal publication verified (`2026-11-06`)
+
+PR #468 head `635a8e838dc4d6547c64afb65a48f4748bde6666`, merged
+`d37ac14e3e09009223de92f436c3dafbde27568f`; static head/main
+42099000839 / 42099203142 SUCCESS; independent API 10 changed paths exact head/main. Concurrent IID
+work preserved and proof corrected to actual first parent, with original W-1/evidence/holdings/PF-1
+source checked separately. Tracker §16.260.1; `SAIRAM-DURABLE-HOLDINGS-READINESS-PUBLICATION-RECEIPT-2026-11-06.md`.
+Decision readiness published, not adoption/implementation/admission. D01–D06 pending; no IPD PR before
+repository designation. W-1 unchanged; no holdings writes, data access, migrations or production action.
+
+
+## 24. Consolidated Gate 4, holdings and identity dependency reconciliation (`2026-11-06`)
+
+Read with §23/23.1 and tracker §16.261 / CV-CORR-241 / V2136:
+`CONSOLIDATED-GATE4-HOLDINGS-IDENTITY-PA-DECISION-PAPER-2026-11-06.md` is the single new paper.
+It preserves/references A-10, D01–D06, Dhan and IID authority; its 15 pending + 8 effective/settled register
+entries are not new effective decisions. Read-only baseline main `80737d0…`; #468/#469 and concurrent IID
+#464/#467 reverified, not overwritten. No later main existed at initial census.
+
+- **Gate 4:** fresh R5 three-coordinate / 56-entry exact remote census; current broker `07e86a4f…`, not
+  historical `7bcae35…`. PA-09 / decisions 1–4 pending; recommend C-3 only, not selected. Alias and lineage
+  disposition remain separate; REAL historical alias vs UNCLASSIFIED live ×3 is hash-significant.
+  No QE execution pin. QE **0/11**, Gate C/U4 **NOT RENDERED**, Gate 5 **NOT INITIATED / NOT ADMITTED**,
+  DQ-4 **8/10**, U6 **NOT AUTHORIZED**. Historical R5 adoption remains effective, current execution basis pending.
+- **Holdings:** D01–D06 pending, including distinct Python IPO vs G-2 portfolio repo, canonical holdings-owner
+  extension, cap/retry/projection/ledger scope, backups/restore/host, exact implementation and result/admission.
+- **Identity:** genuine detailed Dhan ISIN+Exchange remains external A-5 prerequisite; A-6 has no new Wave-2
+  authorization; A-7 follows authorized A-6. Existing 1/68 summary resolution does not establish real coverage;
+  prior 0/67 symbol-space probe is not an unknown-ISIN test. No guessed identifiers or master expansion.
+- **IID:** IID-1/#456, IID-2/#461 and IID-3/#464+#467 remotely merged at documented scope; IID-4/5/6 NOT STARTED.
+  R-16 3/13 synthetic sectors and all L-001–L-016 limitations remain. M-1 is not a real-holdings save or full UI.
+- **Closed scope stays closed:** retention/retrieval and owner active-store-clearing capability completed.
+  A-10's old A-8/A-9-pending wording is historical, not a new blocker. Whole-active offline owner reset retains
+  a verified recovery copy; restore/resubmit may resurrect evidence. No permanent/all-copy erasure claim.
+
+Workstream A / WS-A-DM **NOT COMPLETE**. W-1(3)/(4) remain hard-false. No holdings writes, DB access,
+provisioning/migration, IPD/source mutation, PA act, Gate 4 acceptance, D05 expansion, PF-1 or production change.
+Final PR comment supplies publication checks/readback; publication does not adopt any recommendation.

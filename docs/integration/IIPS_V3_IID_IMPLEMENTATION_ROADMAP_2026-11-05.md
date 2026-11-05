@@ -1167,3 +1167,35 @@ wrote nothing to any pre-existing Portfolio Summary or Executive report; no pre-
 modified or recreated; the Q-1/NP-04 probes were not repeated; no frozen sector engine file was modified; no
 dependency pin was changed; and the IPD persistence implementation was not touched (the disposition surface uses the
 existing adapter and adds no store).
+
+
+### B.M. Cross-workstream dependency reconciliation (`2026-11-06`; documentation only)
+
+This append-only overlay preserves B.J2–B.L and the cumulative L-001–L-016 register. See tracker §16.261 /
+CV-CORR-241 and `CONSOLIDATED-GATE4-HOLDINGS-IDENTITY-PA-DECISION-PAPER-2026-11-06.md`, §§5–7.
+Remote baseline `80737d0…`: IID-1/#456 `bcc022ed…`, IID-2/#461 `34c8b39e…`, IID-3/#464 `f08da401…`
+and independent publication #467 `95b95cfe…` are merged, not merely proposals or unmerged implementations.
+The #456 title's older unmerged-foundations phrase is not current status. No open implementation PR at census;
+no claim is made about unpublished local drafts. IID-4, IID-5, IID-6 remain **NOT STARTED**, M-2/M-3 not delivered.
+
+Recorded IID tests and synthetic M-1 qualify only their evidenced scope, not a real issuer, real 68-row Dhan
+coverage, holdings writes, full product surface or R-16 completion. R-16 remains **3/13 synthetic sectors**,
+10 outstanding; the 2 issuers × 5 years real-data leg is outstanding. **No L-001–L-016 closure**, no dependency
+pin change, no scraping/data generation, no new IID code or phase implementation authorized by this reconciliation.
+L-016's NP-04 prose/pin discrepancy remains explicit pending source/contract reconciliation; Q-1 need not be
+repeated without a changed boundary. Accepted design answers remain settled; this overlay invents no new PA gate.
+
+The separate holdings lane still needs genuine Dhan ISIN+Exchange (A-5), explicitly authorized D05 A-6, then A-7;
+D01–D06, all four Gate 4 decisions, host qualification and operation-specific admission remain unresolved.
+W-1 remains hard-false; IID persistence is not a holdings write credential. Completed evidence retention/clearing
+is preserved with verified recovery-copy/restore-resurrection limits. No concurrent IID work is superseded.
+
+**Addendum (2026-11-06, later the same day) — IID-4 implemented; this overlay's status sentence is superseded in
+part.** IID-4 (holding disposition / IID-02) is now implemented, tested and published (§B.J5): the disposition engine,
+its composition, its `hd:`/`hc:` persistence integration and its GET-only read routes exist. **IID-5 and IID-6 remain
+NOT STARTED**, M-2/M-3 are not delivered, and none of this record's other qualifications is lifted: R-16 remains 3/13
+synthetic sectors, no real issuer has been assessed or dispositioned, no holdings write credential follows from IID
+persistence, the holdings lane (A-5/A-6/A-7, D01–D06, Gate 4) is untouched, `L-001`–`L-016` remain open, no pin was
+changed, and `L-016`'s discrepancy is still explicit. The eleven further entries (`L-017`–`L-027`) record what IID-4
+cannot do; they add to the register and replace nothing in it.
+

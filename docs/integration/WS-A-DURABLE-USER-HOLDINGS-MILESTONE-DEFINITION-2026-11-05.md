@@ -370,3 +370,29 @@ Until all seven hold, the correct report is: **WS-A-DM NOT COMPLETE**, with the 
 
 **This document is a definition and a framework. It authorizes nothing, admits nothing, accepts
 nothing and moves no gate. Workstream A and milestone WS-A-DM remain NOT COMPLETE.**
+
+
+## 5. Current reconciliation overlay — definition preserved (`2026-11-06`)
+
+Read historical criteria/status above with R2 §24, IID roadmap B.M and tracker §16.261 / CV-CORR-241.
+`CONSOLIDATED-GATE4-HOLDINGS-IDENTITY-PA-DECISION-PAPER-2026-11-06.md` consolidates outstanding decisions;
+it does not redefine this milestone, relax criteria, accept results or authorize writes.
+
+Retention/retrieval and owner-controlled active-store-clearing capability are completed published work, not
+new engineering tasks. Historical retrieval-pending/retention-bounded wording is superseded for status by
+AMEND-01/02 and implementation/closure receipts. Preserve indefinite retention until explicit reset, offline
+owner-only whole-active reset, verified retained recovery copy and possible restore/resubmit resurrection;
+no permanent/all-copy erasure, selective rewrite or stronger OS/filesystem guarantee. No operational reset here.
+
+Historical R5 is adopted with **all three coordinates**; do not read older “H-12 NOT ADOPTED” as undoing that act.
+Current PA-09 content/execution-basis disposition and regenerated qualified inventory remain pending. Gate 4
+QE **0/11**, Gate C/U4 **NOT RENDERED**, Gate 5 **NOT INITIATED / NOT ADMITTED**, DQ-4 **8/10**, U6 **NOT AUTHORIZED**.
+Four Gate 4 decisions and D01–D06 remain unrendered; no execution pin. Genuine detailed Dhan identifiers/A-5,
+authorized A-6 and dependent A-7 still block full real identity coverage (summary evidence 1 resolved/67 unresolved).
+Do not portray the old symbol-space probe as tested unknown-ISIN absence.
+
+IID-1/2/3 are remotely merged including concurrent #464/#467; IID-4/5/6 NOT STARTED. Synthetic IID M-1 does not
+complete real-user holdings, R-16 or the full UI. Existing verified fixture recovery/isolation/fail-closed scope
+is retained; no whole-pillar promotion is inferred here. W-1(3)/(4) remain hard-false. D01–D06, identity intake
+and expansion, host qualification, accepted results and named-operation admission remain the real blockers.
+**Workstream A / WS-A-DM remain NOT COMPLETE. No production or real-user holdings operation is authorized.**
