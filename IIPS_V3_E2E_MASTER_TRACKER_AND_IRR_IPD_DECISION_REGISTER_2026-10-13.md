@@ -21759,3 +21759,23 @@ Implementation #462 remains merged/unchanged. Effective reset Act unchanged; no 
 Final receipt's later closure overlay and R2 §22.4 reconcile publication COMPLETE, operational reset
 NOT EXECUTED / deployment NOT ACTIVATED. Runbook §13's qualified offline procedure/limitations remain.
 No PF-1, W-1, IPD, frozen authority, retention or backup-disposition change. No new allocation consumed.
+
+### 16.260 SAIRAM durable holdings — architecture and decision readiness (`2026-11-06`)
+
+**CV-CORR-240 / CHG-2026-11-06-03 / V2135.** Documentation-only investigation from IRR main
+`2a55110806599084355b299fb3e0a559471f0c48`. User-named IPD `ipo-screening-engine` main
+`d661b5ee99a782566fedcb9aa2b139e756948d27` is distinct from G-2-cited portfolio repository
+`iips-production-market-data` main `07e86a4f2c105651f3097a96cb519f8611945e30` (read-only secondary-source
+inspection). Do not silently alias repositories or transfer ownership. Existing G-2 lineage uses SQLite;
+current node:sqlite/local IPC differs from historical G24 HTTP/driver details. Current IPD provisioning
+owner is not `owner-4dc756b3`; holdings extension is explicitly excluded by evidence AMEND-01.
+See `docs/integration/SAIRAM-DURABLE-HOLDINGS-ARCHITECTURE-READINESS-2026-11-06.md` and companion
+`SAIRAM-DURABLE-HOLDINGS-PA-DECISION-PACKAGE-2026-11-06.md`: current gap matrix, minimal reuse design,
+responsibilities/contracts/migration/recovery, H01–H12 future acceptance, D01–D06 exact proposed decisions.
+Four-revision cap, non-idempotent create, projection/admission gaps and absence of trade/cash ledger
+explicitly separated from database transaction support. Publication is decision preparation, not PA
+adoption or gate advancement. W-1 unchanged/hard-false; no holdings write, provisioning, DB access,
+IPD mutation, PF-1 change or production activity. SAIRAM display-only; canonical target owner remains
+owner-4dc756b3, not request authority. Retention/deletion work not repeated. WS-A-DM remains incomplete.
+
+Next free: section 16.261, correction 241, dated change suffix 04, ledger V2136.

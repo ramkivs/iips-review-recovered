@@ -1,0 +1,3 @@
+PASS: 14 immutable API blob/SHA256 source identities verified
+PASS: source guard hard-false; MAX_REVISIONS=4; node:sqlite; BEGIN IMMEDIATE
+LIMIT: source inspection only, not runtime qualification or operational data inspection
