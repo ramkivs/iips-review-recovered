@@ -1,0 +1,21 @@
+PASS: 23 complete entries (15 pending, 8 effective/settled); all three R5 coordinates/56 core/14 alias paths; 38/56 current unchanged; 4 append-only overlays; 2707 protected prior blobs unchanged; documentary-only exact allowlist.
+test_entire_existing_history_only_reported_false_positive_changes (test_cap03_artifact_classification.ArtifactClassification.test_entire_existing_history_only_reported_false_positive_changes) ... ok
+test_exact_iid_artifact_and_authoritative_provenance (test_cap03_artifact_classification.ArtifactClassification.test_exact_iid_artifact_and_authoritative_provenance) ... ok
+test_existing_admission_and_separate_direct_boundaries_remain (test_cap03_artifact_classification.ArtifactClassification.test_existing_admission_and_separate_direct_boundaries_remain) ... ok
+test_genuine_identity_families_still_strict (test_cap03_artifact_classification.ArtifactClassification.test_genuine_identity_families_still_strict) ... ok
+test_misplaced_or_unknown_p1_is_not_admitted_by_classifier (test_cap03_artifact_classification.ArtifactClassification.test_misplaced_or_unknown_p1_is_not_admitted_by_classifier) ... ok
+test_real_admission_gate_rejects_misplaced_p1 (test_cap03_artifact_classification.ArtifactClassification.test_real_admission_gate_rejects_misplaced_p1) ... ok
+test_unrelated_identity_and_locations_not_filename_substrings (test_cap03_artifact_classification.ArtifactClassification.test_unrelated_identity_and_locations_not_filename_substrings) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.009s
+
+OK
+PASS: exact PA-authorized Windows 10 profile, evidence-gated pre-start retries, and post-marker no-retry controls
+PASS: S04 source validates PA-06 L2a evidence and defines a read-only current-dist match; no build/install/probe invocation
+PASS: admitted S2 authority, pin, completeness, hashes, build/test/package records and publication transcript verified
+LIMIT: this is IRR-only static validation; no PowerShell parse, IPD inspection, current-dist check, S2 rerun or U-5 PASS
+DURABLE IRR RETENTION: WAIVER AUTHORIZED — hosted release audit 41220038505 independently verified four release-asset hashes and 1,140 ZIP payload hashes against the original inventory. The distinct original verification-output file may be absent under PA act IIPS-V3-CAP03-PA-BLANKET-WAIVER-ONE-PASS-AUTHORIZATION-2026-11-01-01; the transcript remains separate. A sealed S04 bundle and Windows readback are still NOT PERFORMED by this static validator.
+U-5 remains NOT RUN; exact emitted-entry closure and emitted-migration probes remain NOT RUN
+REVISION_7_SCRIPT_SHA256=6639633855300cd645248ce597bb2c867b5cdbf6045947bf4281721bb1cde6d1
+PASS: whitespace; no operational/product suite executed; no source/pin/authority change.

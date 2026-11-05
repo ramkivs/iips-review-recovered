@@ -21791,3 +21791,41 @@ attributed to this task. Receipt `SAIRAM-DURABLE-HOLDINGS-READINESS-PUBLICATION-
 Investigation/decision preparation COMPLETE; D01–D06 NOT RENDERED, no Act ID assigned. Repository
 conflict, holdings owner extension, lifecycle/contract gaps and qualification/admission remain open.
 W-1 unchanged, no writes enabled, no IPD mutation or operational DB access. No new allocation consumed.
+
+
+### 16.261 Consolidated Gate 4 / durable holdings / identity reconciliation (`2026-11-06`)
+
+**CV-CORR-241 / CHG-2026-11-06-04 / V2136.** From remote main
+`80737d072829d942fb2f9ec76f6e9122e36530f7` on `arena/74604381-iips-review-recovered`.
+One paper: `docs/integration/CONSOLIDATED-GATE4-HOLDINGS-IDENTITY-PA-DECISION-PAPER-2026-11-06.md`;
+source/proof: `evidence/integration/gate4-holdings-identity-reconciliation-2026-11-06/`.
+Reuses A-10, D01–D06, Dhan and IID work; neither frozen acts nor completed implementation replaced.
+Register: **15 pending decision/dependency entries + 8 preserved effective/settled entries**. No PA act rendered.
+
+Remote #468/#469 reverified; concurrent IID #464 `f08da401…` and #467 `95b95cfe…` preserved between
+older `2a551108…` and current `80737d0…`. No later main at initial census. Both read-only portfolio-reference
+mains unchanged: actual G-2 IPD `iips-production-market-data` `07e86a4f…`, named Python IPO engine
+`ipo-screening-engine` `d661b5ee…`; distinct repository IDs, no silent alias or ownership transfer.
+Fresh Gate 4 R5 census confirms **all three commit/tree coordinates and 56 core blob/SHA-256 entries**;
+current broker is `07e86a4f…`, not stale A-10 `7bcae35…`. A-10 decisions 1–4 remain pending, including
+PA-09, C-1/C-2/C-3, DQ-6b-class alias re-render and lineage disposition. C-3 is a recommendation only.
+Historical R5 adoption/Path A remain effective at their named scope; no content or QE execution pin designated.
+**QE 0/11; Gate C/U4 NOT RENDERED; Gate 5 NOT INITIATED / NOT ADMITTED; DQ-4 8/10; U6 NOT AUTHORIZED.**
+
+D01–D06 remain pending: correct repository, canonical holdings-owner extension/trusted local binding,
+four-revision cap/create-unknown retry/duplicate and non-empty projection gaps, snapshot-vs-ledger scope,
+backup/recovery/host qualification and separate result/operation admission. A-5 blocked on genuine detailed
+Dhan ISIN+Exchange; A-6 not started/new D05 authority absent; A-7 depends on authorized A-6. 68 rows remain
+1 resolved/67 unresolved in existing summary evidence, not 67 unknown ISINs tested-absent.
+IID-1/#456, IID-2/#461, IID-3/#464+#467 are remotely merged at their recorded synthetic scope; no IID code
+added. IID-4/5/6 NOT STARTED per Part B; R-16 3/13 sectors and L-001–L-016 stay open. No invented PA blocker
+for already-settled IID design; real data and L-016 reconciliation remain explicit dependencies.
+
+Retention/retrieval and owner whole-active-store-clearing capability remain **COMPLETE**; no reimplementation
+or operational reset. Indefinite retention until explicit reset, verified retained recovery copy and possible
+restore/resubmit resurrection remain; no permanent/all-copy erasure or stronger OS/filesystem guarantee.
+R2 §24, IID B.M and WS-A-DM §5 append the same reconciliation without rewriting historical text.
+**W-1(3)/(4) hard-false; zero holdings writes, operational DB access, provisioning/migration, IPD mutations,
+D05 expansion, production, PF-1 or frozen authority changes.** Workstream A / WS-A-DM remain NOT COMPLETE.
+Publication/remote verification is evidenced by the work item's final PR comment; published preparation is
+not adoption or acceptance. Next free: §16.262 / CV-CORR-242 / CHG-2026-11-06-05 / V2137.
