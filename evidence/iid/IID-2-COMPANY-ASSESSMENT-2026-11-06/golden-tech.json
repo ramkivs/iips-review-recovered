@@ -1,0 +1,3497 @@
+{
+  "schemaVersion": 1,
+  "artifact": {
+    "kind": "CompanyAssessment",
+    "subjectScope": "hc:IN:ISIN:IN0000000201",
+    "modelVersion": "assessment-engine/1.0.0",
+    "policyVersion": "valuation-policy/1.0.0",
+    "generatedAt": "2026-07-25"
+  },
+  "subject": {
+    "issuerId": "IN:ISIN:IN0000000201",
+    "legalName": "Aarav Systems Limited",
+    "sector": "Technology",
+    "sectorSubsegment": null,
+    "reportingCurrency": "INR",
+    "fiscalYearEnd": "03-31",
+    "identity": {
+      "bindingRef": "binding:fixture",
+      "rosterVersion": "sha256:roster-fixture",
+      "listingMapVersion": "sha256:listing-fixture",
+      "corporateActionTableVersion": "sha256:ca-fixture"
+    }
+  },
+  "asOf": {
+    "generatedAt": "2026-07-25",
+    "dataAsOf": "2026-03-31",
+    "knownAsOf": "2026-07-23T17:44:46Z",
+    "stalenessDays": 116,
+    "staleBeyondPolicy": false
+  },
+  "data": {
+    "datasetVersion": "content:fixture-assessment-1",
+    "contentDigest": "sha256:fixture-assessment-1",
+    "provider": "synthetic-fixture",
+    "series": {
+      "statementScope": "CONSOLIDATED",
+      "scopeSubstitution": false,
+      "annualPeriods": 5,
+      "quarterlyPeriods": 4,
+      "excludedForScope": [
+        "2026-03-31:STANDALONE"
+      ]
+    },
+    "restatements": []
+  },
+  "fundamentals": {
+    "annual": [
+      {
+        "periodEnd": "2026-03-31",
+        "periodStart": "2025-04-01",
+        "fiscalYear": 2026,
+        "periodType": "ANNUAL",
+        "statementScope": "CONSOLIDATED",
+        "quarterForm": null,
+        "basis": "AS_FILED",
+        "filedAt": "2026-03-31T18:00:00Z",
+        "filingRef": "filing-IN:ISIN:IN0000000201-2026-03-31",
+        "values": {
+          "REVENUE_FROM_OPERATIONS": {
+            "value": 14600000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2026-03-31",
+              "filedAt": "2026-03-31T18:00:00Z"
+            },
+            "periodEnd": "2026-03-31",
+            "basis": "AS_FILED"
+          },
+          "COST_OF_MATERIALS_CONSUMED": {
+            "value": 4300000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2026-03-31",
+              "filedAt": "2026-03-31T18:00:00Z"
+            },
+            "periodEnd": "2026-03-31",
+            "basis": "AS_FILED"
+          },
+          "EMPLOYEE_BENEFIT_EXPENSE": {
+            "value": 4800000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2026-03-31",
+              "filedAt": "2026-03-31T18:00:00Z"
+            },
+            "periodEnd": "2026-03-31",
+            "basis": "AS_FILED"
+          },
+          "OTHER_EXPENSES": {
+            "value": 1300000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2026-03-31",
+              "filedAt": "2026-03-31T18:00:00Z"
+            },
+            "periodEnd": "2026-03-31",
+            "basis": "AS_FILED"
+          },
+          "FINANCE_COSTS": {
+            "value": 80000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2026-03-31",
+              "filedAt": "2026-03-31T18:00:00Z"
+            },
+            "periodEnd": "2026-03-31",
+            "basis": "AS_FILED"
+          },
+          "DEPRECIATION_AND_AMORTISATION": {
+            "value": 540000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2026-03-31",
+              "filedAt": "2026-03-31T18:00:00Z"
+            },
+            "periodEnd": "2026-03-31",
+            "basis": "AS_FILED"
+          },
+          "PROFIT_BEFORE_TAX": {
+            "value": 3580000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2026-03-31",
+              "filedAt": "2026-03-31T18:00:00Z"
+            },
+            "periodEnd": "2026-03-31",
+            "basis": "AS_FILED"
+          },
+          "TAX_EXPENSE": {
+            "value": 902000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2026-03-31",
+              "filedAt": "2026-03-31T18:00:00Z"
+            },
+            "periodEnd": "2026-03-31",
+            "basis": "AS_FILED"
+          },
+          "NET_PROFIT": {
+            "value": 2678000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2026-03-31",
+              "filedAt": "2026-03-31T18:00:00Z"
+            },
+            "periodEnd": "2026-03-31",
+            "basis": "AS_FILED"
+          },
+          "NET_PROFIT_ATTRIBUTABLE_TO_OWNERS": {
+            "value": 2678000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2026-03-31",
+              "filedAt": "2026-03-31T18:00:00Z"
+            },
+            "periodEnd": "2026-03-31",
+            "basis": "AS_FILED"
+          },
+          "EPS_DILUTED": {
+            "value": 38.26,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2026-03-31",
+              "filedAt": "2026-03-31T18:00:00Z"
+            },
+            "periodEnd": "2026-03-31",
+            "basis": "AS_FILED"
+          },
+          "TOTAL_EQUITY": {
+            "value": 10100000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2026-03-31",
+              "filedAt": "2026-03-31T18:00:00Z"
+            },
+            "periodEnd": "2026-03-31",
+            "basis": "AS_FILED"
+          },
+          "EQUITY_ATTRIBUTABLE_TO_OWNERS": {
+            "value": 10100000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2026-03-31",
+              "filedAt": "2026-03-31T18:00:00Z"
+            },
+            "periodEnd": "2026-03-31",
+            "basis": "AS_FILED"
+          },
+          "TOTAL_ASSETS": {
+            "value": 12800000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2026-03-31",
+              "filedAt": "2026-03-31T18:00:00Z"
+            },
+            "periodEnd": "2026-03-31",
+            "basis": "AS_FILED"
+          },
+          "NON_CONTROLLING_INTEREST": {
+            "value": 0,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2026-03-31",
+              "filedAt": "2026-03-31T18:00:00Z"
+            },
+            "periodEnd": "2026-03-31",
+            "basis": "AS_FILED"
+          },
+          "PREFERENCE_CAPITAL": {
+            "value": 0,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2026-03-31",
+              "filedAt": "2026-03-31T18:00:00Z"
+            },
+            "periodEnd": "2026-03-31",
+            "basis": "AS_FILED"
+          },
+          "SHORT_TERM_BORROWINGS": {
+            "value": 380000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2026-03-31",
+              "filedAt": "2026-03-31T18:00:00Z"
+            },
+            "periodEnd": "2026-03-31",
+            "basis": "AS_FILED"
+          },
+          "CURRENT_MATURITIES_OF_LONG_TERM_DEBT": {
+            "value": 0,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2026-03-31",
+              "filedAt": "2026-03-31T18:00:00Z"
+            },
+            "periodEnd": "2026-03-31",
+            "basis": "AS_FILED"
+          },
+          "LONG_TERM_BORROWINGS": {
+            "value": 900000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2026-03-31",
+              "filedAt": "2026-03-31T18:00:00Z"
+            },
+            "periodEnd": "2026-03-31",
+            "basis": "AS_FILED"
+          },
+          "LEASE_LIABILITIES": {
+            "value": 260000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2026-03-31",
+              "filedAt": "2026-03-31T18:00:00Z"
+            },
+            "periodEnd": "2026-03-31",
+            "basis": "AS_FILED"
+          },
+          "CASH_AND_CASH_EQUIVALENTS": {
+            "value": 2100000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2026-03-31",
+              "filedAt": "2026-03-31T18:00:00Z"
+            },
+            "periodEnd": "2026-03-31",
+            "basis": "AS_FILED"
+          },
+          "CURRENT_INVESTMENTS": {
+            "value": 600000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2026-03-31",
+              "filedAt": "2026-03-31T18:00:00Z"
+            },
+            "periodEnd": "2026-03-31",
+            "basis": "AS_FILED"
+          },
+          "TRADE_RECEIVABLES": {
+            "value": 1800000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2026-03-31",
+              "filedAt": "2026-03-31T18:00:00Z"
+            },
+            "periodEnd": "2026-03-31",
+            "basis": "AS_FILED"
+          },
+          "INVENTORIES": {
+            "value": 0,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2026-03-31",
+              "filedAt": "2026-03-31T18:00:00Z"
+            },
+            "periodEnd": "2026-03-31",
+            "basis": "AS_FILED"
+          },
+          "TRADE_PAYABLES": {
+            "value": 720000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2026-03-31",
+              "filedAt": "2026-03-31T18:00:00Z"
+            },
+            "periodEnd": "2026-03-31",
+            "basis": "AS_FILED"
+          },
+          "PROPERTY_PLANT_AND_EQUIPMENT": {
+            "value": 1900000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2026-03-31",
+              "filedAt": "2026-03-31T18:00:00Z"
+            },
+            "periodEnd": "2026-03-31",
+            "basis": "AS_FILED"
+          },
+          "OPERATING_CASH_FLOW": {
+            "value": 2400000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2026-03-31",
+              "filedAt": "2026-03-31T18:00:00Z"
+            },
+            "periodEnd": "2026-03-31",
+            "basis": "AS_FILED"
+          },
+          "CAPITAL_EXPENDITURE": {
+            "value": 880000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2026-03-31",
+              "filedAt": "2026-03-31T18:00:00Z"
+            },
+            "periodEnd": "2026-03-31",
+            "basis": "AS_FILED"
+          },
+          "DIVIDENDS_PAID": {
+            "value": 300000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2026-03-31",
+              "filedAt": "2026-03-31T18:00:00Z"
+            },
+            "periodEnd": "2026-03-31",
+            "basis": "AS_FILED"
+          }
+        },
+        "derived": {
+          "EBIT": {
+            "value": 3660000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "DATASET",
+              "ref": "derived:EBIT@in-fin/1.0.0"
+            },
+            "periodEnd": "2026-03-31",
+            "basis": "DERIVED",
+            "note": "Profit before tax plus finance costs"
+          },
+          "EBITDA": {
+            "value": 4200000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "DATASET",
+              "ref": "derived:EBITDA@in-fin/1.0.0"
+            },
+            "periodEnd": "2026-03-31",
+            "basis": "DERIVED",
+            "note": "Profit before tax plus finance costs plus depreciation and amortisation"
+          },
+          "NET_DEBT": {
+            "value": -820000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "DATASET",
+              "ref": "derived:NET_DEBT@in-fin/1.0.0"
+            },
+            "periodEnd": "2026-03-31",
+            "basis": "DERIVED",
+            "note": "Borrowings less cash; v0 excludes lease liabilities and current maturities (not reported in v0)"
+          },
+          "FREE_CASH_FLOW": {
+            "value": 1520000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "DATASET",
+              "ref": "derived:FREE_CASH_FLOW@in-fin/1.0.0"
+            },
+            "periodEnd": "2026-03-31",
+            "basis": "DERIVED",
+            "note": "Operating cash flow less capital expenditure"
+          },
+          "DILUTED_SHARES": {
+            "value": 69994772.60846838,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "DATASET",
+              "ref": "derived:DILUTED_SHARES@in-fin/1.0.0"
+            },
+            "periodEnd": "2026-03-31",
+            "basis": "DERIVED",
+            "note": "Attributable profit divided by reported diluted EPS; division by zero is withheld"
+          },
+          "BOOK_VALUE_PER_SHARE": {
+            "value": 144.29648991784913,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "DATASET",
+              "ref": "derived:BOOK_VALUE_PER_SHARE@in-fin/1.0.0"
+            },
+            "periodEnd": "2026-03-31",
+            "basis": "DERIVED",
+            "note": "Equity attributable to owners divided by diluted shares"
+          }
+        }
+      },
+      {
+        "periodEnd": "2025-03-31",
+        "periodStart": "2024-04-01",
+        "fiscalYear": 2025,
+        "periodType": "ANNUAL",
+        "statementScope": "CONSOLIDATED",
+        "quarterForm": null,
+        "basis": "AS_FILED",
+        "filedAt": "2025-03-31T18:00:00Z",
+        "filingRef": "filing-IN:ISIN:IN0000000201-2025-03-31",
+        "values": {
+          "REVENUE_FROM_OPERATIONS": {
+            "value": 12100000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2025-03-31",
+              "filedAt": "2025-03-31T18:00:00Z"
+            },
+            "periodEnd": "2025-03-31",
+            "basis": "AS_FILED"
+          },
+          "COST_OF_MATERIALS_CONSUMED": {
+            "value": 3600000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2025-03-31",
+              "filedAt": "2025-03-31T18:00:00Z"
+            },
+            "periodEnd": "2025-03-31",
+            "basis": "AS_FILED"
+          },
+          "EMPLOYEE_BENEFIT_EXPENSE": {
+            "value": 4100000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2025-03-31",
+              "filedAt": "2025-03-31T18:00:00Z"
+            },
+            "periodEnd": "2025-03-31",
+            "basis": "AS_FILED"
+          },
+          "OTHER_EXPENSES": {
+            "value": 1100000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2025-03-31",
+              "filedAt": "2025-03-31T18:00:00Z"
+            },
+            "periodEnd": "2025-03-31",
+            "basis": "AS_FILED"
+          },
+          "FINANCE_COSTS": {
+            "value": 72000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2025-03-31",
+              "filedAt": "2025-03-31T18:00:00Z"
+            },
+            "periodEnd": "2025-03-31",
+            "basis": "AS_FILED"
+          },
+          "DEPRECIATION_AND_AMORTISATION": {
+            "value": 450000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2025-03-31",
+              "filedAt": "2025-03-31T18:00:00Z"
+            },
+            "periodEnd": "2025-03-31",
+            "basis": "AS_FILED"
+          },
+          "PROFIT_BEFORE_TAX": {
+            "value": 2778000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2025-03-31",
+              "filedAt": "2025-03-31T18:00:00Z"
+            },
+            "periodEnd": "2025-03-31",
+            "basis": "AS_FILED"
+          },
+          "TAX_EXPENSE": {
+            "value": 700000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2025-03-31",
+              "filedAt": "2025-03-31T18:00:00Z"
+            },
+            "periodEnd": "2025-03-31",
+            "basis": "AS_FILED"
+          },
+          "NET_PROFIT": {
+            "value": 2078000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2025-03-31",
+              "filedAt": "2025-03-31T18:00:00Z"
+            },
+            "periodEnd": "2025-03-31",
+            "basis": "AS_FILED"
+          },
+          "NET_PROFIT_ATTRIBUTABLE_TO_OWNERS": {
+            "value": 2078000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2025-03-31",
+              "filedAt": "2025-03-31T18:00:00Z"
+            },
+            "periodEnd": "2025-03-31",
+            "basis": "AS_FILED"
+          },
+          "EPS_DILUTED": {
+            "value": 29.69,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2025-03-31",
+              "filedAt": "2025-03-31T18:00:00Z"
+            },
+            "periodEnd": "2025-03-31",
+            "basis": "AS_FILED"
+          },
+          "TOTAL_EQUITY": {
+            "value": 8100000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2025-03-31",
+              "filedAt": "2025-03-31T18:00:00Z"
+            },
+            "periodEnd": "2025-03-31",
+            "basis": "AS_FILED"
+          },
+          "EQUITY_ATTRIBUTABLE_TO_OWNERS": {
+            "value": 8100000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2025-03-31",
+              "filedAt": "2025-03-31T18:00:00Z"
+            },
+            "periodEnd": "2025-03-31",
+            "basis": "AS_FILED"
+          },
+          "TOTAL_ASSETS": {
+            "value": 10400000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2025-03-31",
+              "filedAt": "2025-03-31T18:00:00Z"
+            },
+            "periodEnd": "2025-03-31",
+            "basis": "AS_FILED"
+          },
+          "NON_CONTROLLING_INTEREST": {
+            "value": 0,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2025-03-31",
+              "filedAt": "2025-03-31T18:00:00Z"
+            },
+            "periodEnd": "2025-03-31",
+            "basis": "AS_FILED"
+          },
+          "PREFERENCE_CAPITAL": {
+            "value": 0,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2025-03-31",
+              "filedAt": "2025-03-31T18:00:00Z"
+            },
+            "periodEnd": "2025-03-31",
+            "basis": "AS_FILED"
+          },
+          "SHORT_TERM_BORROWINGS": {
+            "value": 360000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2025-03-31",
+              "filedAt": "2025-03-31T18:00:00Z"
+            },
+            "periodEnd": "2025-03-31",
+            "basis": "AS_FILED"
+          },
+          "CURRENT_MATURITIES_OF_LONG_TERM_DEBT": {
+            "value": 0,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2025-03-31",
+              "filedAt": "2025-03-31T18:00:00Z"
+            },
+            "periodEnd": "2025-03-31",
+            "basis": "AS_FILED"
+          },
+          "LONG_TERM_BORROWINGS": {
+            "value": 850000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2025-03-31",
+              "filedAt": "2025-03-31T18:00:00Z"
+            },
+            "periodEnd": "2025-03-31",
+            "basis": "AS_FILED"
+          },
+          "LEASE_LIABILITIES": {
+            "value": 240000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2025-03-31",
+              "filedAt": "2025-03-31T18:00:00Z"
+            },
+            "periodEnd": "2025-03-31",
+            "basis": "AS_FILED"
+          },
+          "CASH_AND_CASH_EQUIVALENTS": {
+            "value": 1800000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2025-03-31",
+              "filedAt": "2025-03-31T18:00:00Z"
+            },
+            "periodEnd": "2025-03-31",
+            "basis": "AS_FILED"
+          },
+          "CURRENT_INVESTMENTS": {
+            "value": 520000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2025-03-31",
+              "filedAt": "2025-03-31T18:00:00Z"
+            },
+            "periodEnd": "2025-03-31",
+            "basis": "AS_FILED"
+          },
+          "TRADE_RECEIVABLES": {
+            "value": 1520000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2025-03-31",
+              "filedAt": "2025-03-31T18:00:00Z"
+            },
+            "periodEnd": "2025-03-31",
+            "basis": "AS_FILED"
+          },
+          "INVENTORIES": {
+            "value": 0,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2025-03-31",
+              "filedAt": "2025-03-31T18:00:00Z"
+            },
+            "periodEnd": "2025-03-31",
+            "basis": "AS_FILED"
+          },
+          "TRADE_PAYABLES": {
+            "value": 640000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2025-03-31",
+              "filedAt": "2025-03-31T18:00:00Z"
+            },
+            "periodEnd": "2025-03-31",
+            "basis": "AS_FILED"
+          },
+          "PROPERTY_PLANT_AND_EQUIPMENT": {
+            "value": 1560000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2025-03-31",
+              "filedAt": "2025-03-31T18:00:00Z"
+            },
+            "periodEnd": "2025-03-31",
+            "basis": "AS_FILED"
+          },
+          "OPERATING_CASH_FLOW": {
+            "value": 1980000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2025-03-31",
+              "filedAt": "2025-03-31T18:00:00Z"
+            },
+            "periodEnd": "2025-03-31",
+            "basis": "AS_FILED"
+          },
+          "CAPITAL_EXPENDITURE": {
+            "value": 740000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2025-03-31",
+              "filedAt": "2025-03-31T18:00:00Z"
+            },
+            "periodEnd": "2025-03-31",
+            "basis": "AS_FILED"
+          },
+          "DIVIDENDS_PAID": {
+            "value": 250000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2025-03-31",
+              "filedAt": "2025-03-31T18:00:00Z"
+            },
+            "periodEnd": "2025-03-31",
+            "basis": "AS_FILED"
+          }
+        },
+        "derived": {
+          "EBIT": {
+            "value": 2850000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "DATASET",
+              "ref": "derived:EBIT@in-fin/1.0.0"
+            },
+            "periodEnd": "2025-03-31",
+            "basis": "DERIVED",
+            "note": "Profit before tax plus finance costs"
+          },
+          "EBITDA": {
+            "value": 3300000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "DATASET",
+              "ref": "derived:EBITDA@in-fin/1.0.0"
+            },
+            "periodEnd": "2025-03-31",
+            "basis": "DERIVED",
+            "note": "Profit before tax plus finance costs plus depreciation and amortisation"
+          },
+          "NET_DEBT": {
+            "value": -590000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "DATASET",
+              "ref": "derived:NET_DEBT@in-fin/1.0.0"
+            },
+            "periodEnd": "2025-03-31",
+            "basis": "DERIVED",
+            "note": "Borrowings less cash; v0 excludes lease liabilities and current maturities (not reported in v0)"
+          },
+          "FREE_CASH_FLOW": {
+            "value": 1240000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "DATASET",
+              "ref": "derived:FREE_CASH_FLOW@in-fin/1.0.0"
+            },
+            "periodEnd": "2025-03-31",
+            "basis": "DERIVED",
+            "note": "Operating cash flow less capital expenditure"
+          },
+          "DILUTED_SHARES": {
+            "value": 69989895.58773997,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "DATASET",
+              "ref": "derived:DILUTED_SHARES@in-fin/1.0.0"
+            },
+            "periodEnd": "2025-03-31",
+            "basis": "DERIVED",
+            "note": "Attributable profit divided by reported diluted EPS; division by zero is withheld"
+          },
+          "BOOK_VALUE_PER_SHARE": {
+            "value": 115.73099133782485,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "DATASET",
+              "ref": "derived:BOOK_VALUE_PER_SHARE@in-fin/1.0.0"
+            },
+            "periodEnd": "2025-03-31",
+            "basis": "DERIVED",
+            "note": "Equity attributable to owners divided by diluted shares"
+          }
+        }
+      },
+      {
+        "periodEnd": "2024-03-31",
+        "periodStart": "2023-04-01",
+        "fiscalYear": 2024,
+        "periodType": "ANNUAL",
+        "statementScope": "CONSOLIDATED",
+        "quarterForm": null,
+        "basis": "AS_FILED",
+        "filedAt": "2024-03-31T18:00:00Z",
+        "filingRef": "filing-IN:ISIN:IN0000000201-2024-03-31",
+        "values": {
+          "REVENUE_FROM_OPERATIONS": {
+            "value": 9900000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2024-03-31",
+              "filedAt": "2024-03-31T18:00:00Z"
+            },
+            "periodEnd": "2024-03-31",
+            "basis": "AS_FILED"
+          },
+          "COST_OF_MATERIALS_CONSUMED": {
+            "value": 3000000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2024-03-31",
+              "filedAt": "2024-03-31T18:00:00Z"
+            },
+            "periodEnd": "2024-03-31",
+            "basis": "AS_FILED"
+          },
+          "EMPLOYEE_BENEFIT_EXPENSE": {
+            "value": 3400000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2024-03-31",
+              "filedAt": "2024-03-31T18:00:00Z"
+            },
+            "periodEnd": "2024-03-31",
+            "basis": "AS_FILED"
+          },
+          "OTHER_EXPENSES": {
+            "value": 950000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2024-03-31",
+              "filedAt": "2024-03-31T18:00:00Z"
+            },
+            "periodEnd": "2024-03-31",
+            "basis": "AS_FILED"
+          },
+          "FINANCE_COSTS": {
+            "value": 64000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2024-03-31",
+              "filedAt": "2024-03-31T18:00:00Z"
+            },
+            "periodEnd": "2024-03-31",
+            "basis": "AS_FILED"
+          },
+          "DEPRECIATION_AND_AMORTISATION": {
+            "value": 370000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2024-03-31",
+              "filedAt": "2024-03-31T18:00:00Z"
+            },
+            "periodEnd": "2024-03-31",
+            "basis": "AS_FILED"
+          },
+          "PROFIT_BEFORE_TAX": {
+            "value": 2116000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2024-03-31",
+              "filedAt": "2024-03-31T18:00:00Z"
+            },
+            "periodEnd": "2024-03-31",
+            "basis": "AS_FILED"
+          },
+          "TAX_EXPENSE": {
+            "value": 534000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2024-03-31",
+              "filedAt": "2024-03-31T18:00:00Z"
+            },
+            "periodEnd": "2024-03-31",
+            "basis": "AS_FILED"
+          },
+          "NET_PROFIT": {
+            "value": 1582000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2024-03-31",
+              "filedAt": "2024-03-31T18:00:00Z"
+            },
+            "periodEnd": "2024-03-31",
+            "basis": "AS_FILED"
+          },
+          "NET_PROFIT_ATTRIBUTABLE_TO_OWNERS": {
+            "value": 1582000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2024-03-31",
+              "filedAt": "2024-03-31T18:00:00Z"
+            },
+            "periodEnd": "2024-03-31",
+            "basis": "AS_FILED"
+          },
+          "EPS_DILUTED": {
+            "value": 22.6,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2024-03-31",
+              "filedAt": "2024-03-31T18:00:00Z"
+            },
+            "periodEnd": "2024-03-31",
+            "basis": "AS_FILED"
+          },
+          "TOTAL_EQUITY": {
+            "value": 6600000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2024-03-31",
+              "filedAt": "2024-03-31T18:00:00Z"
+            },
+            "periodEnd": "2024-03-31",
+            "basis": "AS_FILED"
+          },
+          "EQUITY_ATTRIBUTABLE_TO_OWNERS": {
+            "value": 6600000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2024-03-31",
+              "filedAt": "2024-03-31T18:00:00Z"
+            },
+            "periodEnd": "2024-03-31",
+            "basis": "AS_FILED"
+          },
+          "TOTAL_ASSETS": {
+            "value": 8600000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2024-03-31",
+              "filedAt": "2024-03-31T18:00:00Z"
+            },
+            "periodEnd": "2024-03-31",
+            "basis": "AS_FILED"
+          },
+          "NON_CONTROLLING_INTEREST": {
+            "value": 0,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2024-03-31",
+              "filedAt": "2024-03-31T18:00:00Z"
+            },
+            "periodEnd": "2024-03-31",
+            "basis": "AS_FILED"
+          },
+          "PREFERENCE_CAPITAL": {
+            "value": 0,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2024-03-31",
+              "filedAt": "2024-03-31T18:00:00Z"
+            },
+            "periodEnd": "2024-03-31",
+            "basis": "AS_FILED"
+          },
+          "SHORT_TERM_BORROWINGS": {
+            "value": 340000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2024-03-31",
+              "filedAt": "2024-03-31T18:00:00Z"
+            },
+            "periodEnd": "2024-03-31",
+            "basis": "AS_FILED"
+          },
+          "CURRENT_MATURITIES_OF_LONG_TERM_DEBT": {
+            "value": 0,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2024-03-31",
+              "filedAt": "2024-03-31T18:00:00Z"
+            },
+            "periodEnd": "2024-03-31",
+            "basis": "AS_FILED"
+          },
+          "LONG_TERM_BORROWINGS": {
+            "value": 800000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2024-03-31",
+              "filedAt": "2024-03-31T18:00:00Z"
+            },
+            "periodEnd": "2024-03-31",
+            "basis": "AS_FILED"
+          },
+          "LEASE_LIABILITIES": {
+            "value": 220000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2024-03-31",
+              "filedAt": "2024-03-31T18:00:00Z"
+            },
+            "periodEnd": "2024-03-31",
+            "basis": "AS_FILED"
+          },
+          "CASH_AND_CASH_EQUIVALENTS": {
+            "value": 1500000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2024-03-31",
+              "filedAt": "2024-03-31T18:00:00Z"
+            },
+            "periodEnd": "2024-03-31",
+            "basis": "AS_FILED"
+          },
+          "CURRENT_INVESTMENTS": {
+            "value": 450000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2024-03-31",
+              "filedAt": "2024-03-31T18:00:00Z"
+            },
+            "periodEnd": "2024-03-31",
+            "basis": "AS_FILED"
+          },
+          "TRADE_RECEIVABLES": {
+            "value": 1280000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2024-03-31",
+              "filedAt": "2024-03-31T18:00:00Z"
+            },
+            "periodEnd": "2024-03-31",
+            "basis": "AS_FILED"
+          },
+          "INVENTORIES": {
+            "value": 0,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2024-03-31",
+              "filedAt": "2024-03-31T18:00:00Z"
+            },
+            "periodEnd": "2024-03-31",
+            "basis": "AS_FILED"
+          },
+          "TRADE_PAYABLES": {
+            "value": 560000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2024-03-31",
+              "filedAt": "2024-03-31T18:00:00Z"
+            },
+            "periodEnd": "2024-03-31",
+            "basis": "AS_FILED"
+          },
+          "PROPERTY_PLANT_AND_EQUIPMENT": {
+            "value": 1280000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2024-03-31",
+              "filedAt": "2024-03-31T18:00:00Z"
+            },
+            "periodEnd": "2024-03-31",
+            "basis": "AS_FILED"
+          },
+          "OPERATING_CASH_FLOW": {
+            "value": 1600000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2024-03-31",
+              "filedAt": "2024-03-31T18:00:00Z"
+            },
+            "periodEnd": "2024-03-31",
+            "basis": "AS_FILED"
+          },
+          "CAPITAL_EXPENDITURE": {
+            "value": 620000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2024-03-31",
+              "filedAt": "2024-03-31T18:00:00Z"
+            },
+            "periodEnd": "2024-03-31",
+            "basis": "AS_FILED"
+          },
+          "DIVIDENDS_PAID": {
+            "value": 200000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2024-03-31",
+              "filedAt": "2024-03-31T18:00:00Z"
+            },
+            "periodEnd": "2024-03-31",
+            "basis": "AS_FILED"
+          }
+        },
+        "derived": {
+          "EBIT": {
+            "value": 2180000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "DATASET",
+              "ref": "derived:EBIT@in-fin/1.0.0"
+            },
+            "periodEnd": "2024-03-31",
+            "basis": "DERIVED",
+            "note": "Profit before tax plus finance costs"
+          },
+          "EBITDA": {
+            "value": 2550000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "DATASET",
+              "ref": "derived:EBITDA@in-fin/1.0.0"
+            },
+            "periodEnd": "2024-03-31",
+            "basis": "DERIVED",
+            "note": "Profit before tax plus finance costs plus depreciation and amortisation"
+          },
+          "NET_DEBT": {
+            "value": -360000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "DATASET",
+              "ref": "derived:NET_DEBT@in-fin/1.0.0"
+            },
+            "periodEnd": "2024-03-31",
+            "basis": "DERIVED",
+            "note": "Borrowings less cash; v0 excludes lease liabilities and current maturities (not reported in v0)"
+          },
+          "FREE_CASH_FLOW": {
+            "value": 980000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "DATASET",
+              "ref": "derived:FREE_CASH_FLOW@in-fin/1.0.0"
+            },
+            "periodEnd": "2024-03-31",
+            "basis": "DERIVED",
+            "note": "Operating cash flow less capital expenditure"
+          },
+          "DILUTED_SHARES": {
+            "value": 70000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "DATASET",
+              "ref": "derived:DILUTED_SHARES@in-fin/1.0.0"
+            },
+            "periodEnd": "2024-03-31",
+            "basis": "DERIVED",
+            "note": "Attributable profit divided by reported diluted EPS; division by zero is withheld"
+          },
+          "BOOK_VALUE_PER_SHARE": {
+            "value": 94.28571428571429,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "DATASET",
+              "ref": "derived:BOOK_VALUE_PER_SHARE@in-fin/1.0.0"
+            },
+            "periodEnd": "2024-03-31",
+            "basis": "DERIVED",
+            "note": "Equity attributable to owners divided by diluted shares"
+          }
+        }
+      },
+      {
+        "periodEnd": "2023-03-31",
+        "periodStart": "2022-04-01",
+        "fiscalYear": 2023,
+        "periodType": "ANNUAL",
+        "statementScope": "CONSOLIDATED",
+        "quarterForm": null,
+        "basis": "AS_FILED",
+        "filedAt": "2023-03-31T18:00:00Z",
+        "filingRef": "filing-IN:ISIN:IN0000000201-2023-03-31",
+        "values": {
+          "REVENUE_FROM_OPERATIONS": {
+            "value": 8000000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2023-03-31",
+              "filedAt": "2023-03-31T18:00:00Z"
+            },
+            "periodEnd": "2023-03-31",
+            "basis": "AS_FILED"
+          },
+          "COST_OF_MATERIALS_CONSUMED": {
+            "value": 2500000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2023-03-31",
+              "filedAt": "2023-03-31T18:00:00Z"
+            },
+            "periodEnd": "2023-03-31",
+            "basis": "AS_FILED"
+          },
+          "EMPLOYEE_BENEFIT_EXPENSE": {
+            "value": 2900000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2023-03-31",
+              "filedAt": "2023-03-31T18:00:00Z"
+            },
+            "periodEnd": "2023-03-31",
+            "basis": "AS_FILED"
+          },
+          "OTHER_EXPENSES": {
+            "value": 820000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2023-03-31",
+              "filedAt": "2023-03-31T18:00:00Z"
+            },
+            "periodEnd": "2023-03-31",
+            "basis": "AS_FILED"
+          },
+          "FINANCE_COSTS": {
+            "value": 58000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2023-03-31",
+              "filedAt": "2023-03-31T18:00:00Z"
+            },
+            "periodEnd": "2023-03-31",
+            "basis": "AS_FILED"
+          },
+          "DEPRECIATION_AND_AMORTISATION": {
+            "value": 300000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2023-03-31",
+              "filedAt": "2023-03-31T18:00:00Z"
+            },
+            "periodEnd": "2023-03-31",
+            "basis": "AS_FILED"
+          },
+          "PROFIT_BEFORE_TAX": {
+            "value": 1422000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2023-03-31",
+              "filedAt": "2023-03-31T18:00:00Z"
+            },
+            "periodEnd": "2023-03-31",
+            "basis": "AS_FILED"
+          },
+          "TAX_EXPENSE": {
+            "value": 359000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2023-03-31",
+              "filedAt": "2023-03-31T18:00:00Z"
+            },
+            "periodEnd": "2023-03-31",
+            "basis": "AS_FILED"
+          },
+          "NET_PROFIT": {
+            "value": 1063000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2023-03-31",
+              "filedAt": "2023-03-31T18:00:00Z"
+            },
+            "periodEnd": "2023-03-31",
+            "basis": "AS_FILED"
+          },
+          "NET_PROFIT_ATTRIBUTABLE_TO_OWNERS": {
+            "value": 1063000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2023-03-31",
+              "filedAt": "2023-03-31T18:00:00Z"
+            },
+            "periodEnd": "2023-03-31",
+            "basis": "AS_FILED"
+          },
+          "EPS_DILUTED": {
+            "value": 15.18,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2023-03-31",
+              "filedAt": "2023-03-31T18:00:00Z"
+            },
+            "periodEnd": "2023-03-31",
+            "basis": "AS_FILED"
+          },
+          "TOTAL_EQUITY": {
+            "value": 5500000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2023-03-31",
+              "filedAt": "2023-03-31T18:00:00Z"
+            },
+            "periodEnd": "2023-03-31",
+            "basis": "AS_FILED"
+          },
+          "EQUITY_ATTRIBUTABLE_TO_OWNERS": {
+            "value": 5500000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2023-03-31",
+              "filedAt": "2023-03-31T18:00:00Z"
+            },
+            "periodEnd": "2023-03-31",
+            "basis": "AS_FILED"
+          },
+          "TOTAL_ASSETS": {
+            "value": 7300000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2023-03-31",
+              "filedAt": "2023-03-31T18:00:00Z"
+            },
+            "periodEnd": "2023-03-31",
+            "basis": "AS_FILED"
+          },
+          "NON_CONTROLLING_INTEREST": {
+            "value": 0,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2023-03-31",
+              "filedAt": "2023-03-31T18:00:00Z"
+            },
+            "periodEnd": "2023-03-31",
+            "basis": "AS_FILED"
+          },
+          "PREFERENCE_CAPITAL": {
+            "value": 0,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2023-03-31",
+              "filedAt": "2023-03-31T18:00:00Z"
+            },
+            "periodEnd": "2023-03-31",
+            "basis": "AS_FILED"
+          },
+          "SHORT_TERM_BORROWINGS": {
+            "value": 320000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2023-03-31",
+              "filedAt": "2023-03-31T18:00:00Z"
+            },
+            "periodEnd": "2023-03-31",
+            "basis": "AS_FILED"
+          },
+          "CURRENT_MATURITIES_OF_LONG_TERM_DEBT": {
+            "value": 0,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2023-03-31",
+              "filedAt": "2023-03-31T18:00:00Z"
+            },
+            "periodEnd": "2023-03-31",
+            "basis": "AS_FILED"
+          },
+          "LONG_TERM_BORROWINGS": {
+            "value": 750000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2023-03-31",
+              "filedAt": "2023-03-31T18:00:00Z"
+            },
+            "periodEnd": "2023-03-31",
+            "basis": "AS_FILED"
+          },
+          "LEASE_LIABILITIES": {
+            "value": 200000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2023-03-31",
+              "filedAt": "2023-03-31T18:00:00Z"
+            },
+            "periodEnd": "2023-03-31",
+            "basis": "AS_FILED"
+          },
+          "CASH_AND_CASH_EQUIVALENTS": {
+            "value": 1300000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2023-03-31",
+              "filedAt": "2023-03-31T18:00:00Z"
+            },
+            "periodEnd": "2023-03-31",
+            "basis": "AS_FILED"
+          },
+          "CURRENT_INVESTMENTS": {
+            "value": 380000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2023-03-31",
+              "filedAt": "2023-03-31T18:00:00Z"
+            },
+            "periodEnd": "2023-03-31",
+            "basis": "AS_FILED"
+          },
+          "TRADE_RECEIVABLES": {
+            "value": 1050000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2023-03-31",
+              "filedAt": "2023-03-31T18:00:00Z"
+            },
+            "periodEnd": "2023-03-31",
+            "basis": "AS_FILED"
+          },
+          "INVENTORIES": {
+            "value": 0,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2023-03-31",
+              "filedAt": "2023-03-31T18:00:00Z"
+            },
+            "periodEnd": "2023-03-31",
+            "basis": "AS_FILED"
+          },
+          "TRADE_PAYABLES": {
+            "value": 470000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2023-03-31",
+              "filedAt": "2023-03-31T18:00:00Z"
+            },
+            "periodEnd": "2023-03-31",
+            "basis": "AS_FILED"
+          },
+          "PROPERTY_PLANT_AND_EQUIPMENT": {
+            "value": 1050000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2023-03-31",
+              "filedAt": "2023-03-31T18:00:00Z"
+            },
+            "periodEnd": "2023-03-31",
+            "basis": "AS_FILED"
+          },
+          "OPERATING_CASH_FLOW": {
+            "value": 1240000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2023-03-31",
+              "filedAt": "2023-03-31T18:00:00Z"
+            },
+            "periodEnd": "2023-03-31",
+            "basis": "AS_FILED"
+          },
+          "CAPITAL_EXPENDITURE": {
+            "value": 520000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2023-03-31",
+              "filedAt": "2023-03-31T18:00:00Z"
+            },
+            "periodEnd": "2023-03-31",
+            "basis": "AS_FILED"
+          },
+          "DIVIDENDS_PAID": {
+            "value": 160000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2023-03-31",
+              "filedAt": "2023-03-31T18:00:00Z"
+            },
+            "periodEnd": "2023-03-31",
+            "basis": "AS_FILED"
+          }
+        },
+        "derived": {
+          "EBIT": {
+            "value": 1480000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "DATASET",
+              "ref": "derived:EBIT@in-fin/1.0.0"
+            },
+            "periodEnd": "2023-03-31",
+            "basis": "DERIVED",
+            "note": "Profit before tax plus finance costs"
+          },
+          "EBITDA": {
+            "value": 1780000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "DATASET",
+              "ref": "derived:EBITDA@in-fin/1.0.0"
+            },
+            "periodEnd": "2023-03-31",
+            "basis": "DERIVED",
+            "note": "Profit before tax plus finance costs plus depreciation and amortisation"
+          },
+          "NET_DEBT": {
+            "value": -230000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "DATASET",
+              "ref": "derived:NET_DEBT@in-fin/1.0.0"
+            },
+            "periodEnd": "2023-03-31",
+            "basis": "DERIVED",
+            "note": "Borrowings less cash; v0 excludes lease liabilities and current maturities (not reported in v0)"
+          },
+          "FREE_CASH_FLOW": {
+            "value": 720000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "DATASET",
+              "ref": "derived:FREE_CASH_FLOW@in-fin/1.0.0"
+            },
+            "periodEnd": "2023-03-31",
+            "basis": "DERIVED",
+            "note": "Operating cash flow less capital expenditure"
+          },
+          "DILUTED_SHARES": {
+            "value": 70026350.46113308,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "DATASET",
+              "ref": "derived:DILUTED_SHARES@in-fin/1.0.0"
+            },
+            "periodEnd": "2023-03-31",
+            "basis": "DERIVED",
+            "note": "Attributable profit divided by reported diluted EPS; division by zero is withheld"
+          },
+          "BOOK_VALUE_PER_SHARE": {
+            "value": 78.54186265286923,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "DATASET",
+              "ref": "derived:BOOK_VALUE_PER_SHARE@in-fin/1.0.0"
+            },
+            "periodEnd": "2023-03-31",
+            "basis": "DERIVED",
+            "note": "Equity attributable to owners divided by diluted shares"
+          }
+        }
+      },
+      {
+        "periodEnd": "2022-03-31",
+        "periodStart": "2021-04-01",
+        "fiscalYear": 2022,
+        "periodType": "ANNUAL",
+        "statementScope": "CONSOLIDATED",
+        "quarterForm": null,
+        "basis": "AS_FILED",
+        "filedAt": "2022-03-31T18:00:00Z",
+        "filingRef": "filing-IN:ISIN:IN0000000201-2022-03-31",
+        "values": {
+          "REVENUE_FROM_OPERATIONS": {
+            "value": 6400000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2022-03-31",
+              "filedAt": "2022-03-31T18:00:00Z"
+            },
+            "periodEnd": "2022-03-31",
+            "basis": "AS_FILED"
+          },
+          "COST_OF_MATERIALS_CONSUMED": {
+            "value": 2100000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2022-03-31",
+              "filedAt": "2022-03-31T18:00:00Z"
+            },
+            "periodEnd": "2022-03-31",
+            "basis": "AS_FILED"
+          },
+          "EMPLOYEE_BENEFIT_EXPENSE": {
+            "value": 2400000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2022-03-31",
+              "filedAt": "2022-03-31T18:00:00Z"
+            },
+            "periodEnd": "2022-03-31",
+            "basis": "AS_FILED"
+          },
+          "OTHER_EXPENSES": {
+            "value": 700000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2022-03-31",
+              "filedAt": "2022-03-31T18:00:00Z"
+            },
+            "periodEnd": "2022-03-31",
+            "basis": "AS_FILED"
+          },
+          "FINANCE_COSTS": {
+            "value": 50000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2022-03-31",
+              "filedAt": "2022-03-31T18:00:00Z"
+            },
+            "periodEnd": "2022-03-31",
+            "basis": "AS_FILED"
+          },
+          "DEPRECIATION_AND_AMORTISATION": {
+            "value": 240000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2022-03-31",
+              "filedAt": "2022-03-31T18:00:00Z"
+            },
+            "periodEnd": "2022-03-31",
+            "basis": "AS_FILED"
+          },
+          "PROFIT_BEFORE_TAX": {
+            "value": 910000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2022-03-31",
+              "filedAt": "2022-03-31T18:00:00Z"
+            },
+            "periodEnd": "2022-03-31",
+            "basis": "AS_FILED"
+          },
+          "TAX_EXPENSE": {
+            "value": 230000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2022-03-31",
+              "filedAt": "2022-03-31T18:00:00Z"
+            },
+            "periodEnd": "2022-03-31",
+            "basis": "AS_FILED"
+          },
+          "NET_PROFIT": {
+            "value": 680000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2022-03-31",
+              "filedAt": "2022-03-31T18:00:00Z"
+            },
+            "periodEnd": "2022-03-31",
+            "basis": "AS_FILED"
+          },
+          "NET_PROFIT_ATTRIBUTABLE_TO_OWNERS": {
+            "value": 680000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2022-03-31",
+              "filedAt": "2022-03-31T18:00:00Z"
+            },
+            "periodEnd": "2022-03-31",
+            "basis": "AS_FILED"
+          },
+          "EPS_DILUTED": {
+            "value": 9.71,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2022-03-31",
+              "filedAt": "2022-03-31T18:00:00Z"
+            },
+            "periodEnd": "2022-03-31",
+            "basis": "AS_FILED"
+          },
+          "TOTAL_EQUITY": {
+            "value": 4600000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2022-03-31",
+              "filedAt": "2022-03-31T18:00:00Z"
+            },
+            "periodEnd": "2022-03-31",
+            "basis": "AS_FILED"
+          },
+          "EQUITY_ATTRIBUTABLE_TO_OWNERS": {
+            "value": 4600000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2022-03-31",
+              "filedAt": "2022-03-31T18:00:00Z"
+            },
+            "periodEnd": "2022-03-31",
+            "basis": "AS_FILED"
+          },
+          "TOTAL_ASSETS": {
+            "value": 6100000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2022-03-31",
+              "filedAt": "2022-03-31T18:00:00Z"
+            },
+            "periodEnd": "2022-03-31",
+            "basis": "AS_FILED"
+          },
+          "NON_CONTROLLING_INTEREST": {
+            "value": 0,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2022-03-31",
+              "filedAt": "2022-03-31T18:00:00Z"
+            },
+            "periodEnd": "2022-03-31",
+            "basis": "AS_FILED"
+          },
+          "PREFERENCE_CAPITAL": {
+            "value": 0,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2022-03-31",
+              "filedAt": "2022-03-31T18:00:00Z"
+            },
+            "periodEnd": "2022-03-31",
+            "basis": "AS_FILED"
+          },
+          "SHORT_TERM_BORROWINGS": {
+            "value": 300000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2022-03-31",
+              "filedAt": "2022-03-31T18:00:00Z"
+            },
+            "periodEnd": "2022-03-31",
+            "basis": "AS_FILED"
+          },
+          "CURRENT_MATURITIES_OF_LONG_TERM_DEBT": {
+            "value": 0,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2022-03-31",
+              "filedAt": "2022-03-31T18:00:00Z"
+            },
+            "periodEnd": "2022-03-31",
+            "basis": "AS_FILED"
+          },
+          "LONG_TERM_BORROWINGS": {
+            "value": 700000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2022-03-31",
+              "filedAt": "2022-03-31T18:00:00Z"
+            },
+            "periodEnd": "2022-03-31",
+            "basis": "AS_FILED"
+          },
+          "LEASE_LIABILITIES": {
+            "value": 180000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2022-03-31",
+              "filedAt": "2022-03-31T18:00:00Z"
+            },
+            "periodEnd": "2022-03-31",
+            "basis": "AS_FILED"
+          },
+          "CASH_AND_CASH_EQUIVALENTS": {
+            "value": 1100000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2022-03-31",
+              "filedAt": "2022-03-31T18:00:00Z"
+            },
+            "periodEnd": "2022-03-31",
+            "basis": "AS_FILED"
+          },
+          "CURRENT_INVESTMENTS": {
+            "value": 300000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2022-03-31",
+              "filedAt": "2022-03-31T18:00:00Z"
+            },
+            "periodEnd": "2022-03-31",
+            "basis": "AS_FILED"
+          },
+          "TRADE_RECEIVABLES": {
+            "value": 900000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2022-03-31",
+              "filedAt": "2022-03-31T18:00:00Z"
+            },
+            "periodEnd": "2022-03-31",
+            "basis": "AS_FILED"
+          },
+          "INVENTORIES": {
+            "value": 0,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2022-03-31",
+              "filedAt": "2022-03-31T18:00:00Z"
+            },
+            "periodEnd": "2022-03-31",
+            "basis": "AS_FILED"
+          },
+          "TRADE_PAYABLES": {
+            "value": 400000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2022-03-31",
+              "filedAt": "2022-03-31T18:00:00Z"
+            },
+            "periodEnd": "2022-03-31",
+            "basis": "AS_FILED"
+          },
+          "PROPERTY_PLANT_AND_EQUIPMENT": {
+            "value": 900000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2022-03-31",
+              "filedAt": "2022-03-31T18:00:00Z"
+            },
+            "periodEnd": "2022-03-31",
+            "basis": "AS_FILED"
+          },
+          "OPERATING_CASH_FLOW": {
+            "value": 980000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2022-03-31",
+              "filedAt": "2022-03-31T18:00:00Z"
+            },
+            "periodEnd": "2022-03-31",
+            "basis": "AS_FILED"
+          },
+          "CAPITAL_EXPENDITURE": {
+            "value": 420000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2022-03-31",
+              "filedAt": "2022-03-31T18:00:00Z"
+            },
+            "periodEnd": "2022-03-31",
+            "basis": "AS_FILED"
+          },
+          "DIVIDENDS_PAID": {
+            "value": 120000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2022-03-31",
+              "filedAt": "2022-03-31T18:00:00Z"
+            },
+            "periodEnd": "2022-03-31",
+            "basis": "AS_FILED"
+          }
+        },
+        "derived": {
+          "EBIT": {
+            "value": 960000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "DATASET",
+              "ref": "derived:EBIT@in-fin/1.0.0"
+            },
+            "periodEnd": "2022-03-31",
+            "basis": "DERIVED",
+            "note": "Profit before tax plus finance costs"
+          },
+          "EBITDA": {
+            "value": 1200000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "DATASET",
+              "ref": "derived:EBITDA@in-fin/1.0.0"
+            },
+            "periodEnd": "2022-03-31",
+            "basis": "DERIVED",
+            "note": "Profit before tax plus finance costs plus depreciation and amortisation"
+          },
+          "NET_DEBT": {
+            "value": -100000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "DATASET",
+              "ref": "derived:NET_DEBT@in-fin/1.0.0"
+            },
+            "periodEnd": "2022-03-31",
+            "basis": "DERIVED",
+            "note": "Borrowings less cash; v0 excludes lease liabilities and current maturities (not reported in v0)"
+          },
+          "FREE_CASH_FLOW": {
+            "value": 560000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "DATASET",
+              "ref": "derived:FREE_CASH_FLOW@in-fin/1.0.0"
+            },
+            "periodEnd": "2022-03-31",
+            "basis": "DERIVED",
+            "note": "Operating cash flow less capital expenditure"
+          },
+          "DILUTED_SHARES": {
+            "value": 70030895.98352213,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "DATASET",
+              "ref": "derived:DILUTED_SHARES@in-fin/1.0.0"
+            },
+            "periodEnd": "2022-03-31",
+            "basis": "DERIVED",
+            "note": "Attributable profit divided by reported diluted EPS; division by zero is withheld"
+          },
+          "BOOK_VALUE_PER_SHARE": {
+            "value": 65.68529411764708,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "DATASET",
+              "ref": "derived:BOOK_VALUE_PER_SHARE@in-fin/1.0.0"
+            },
+            "periodEnd": "2022-03-31",
+            "basis": "DERIVED",
+            "note": "Equity attributable to owners divided by diluted shares"
+          }
+        }
+      }
+    ],
+    "quarterly": [
+      {
+        "periodEnd": "2025-06-30",
+        "periodStart": "2025-04-01",
+        "fiscalYear": 2025,
+        "periodType": "QUARTER",
+        "statementScope": "CONSOLIDATED",
+        "quarterForm": "DISCRETE",
+        "basis": "AS_FILED",
+        "filedAt": "2025-06-30T18:00:00Z",
+        "filingRef": "filing-IN:ISIN:IN0000000201-2025-06-30-q1",
+        "values": {
+          "REVENUE_FROM_OPERATIONS": {
+            "value": 3300000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2025-06-30-q1",
+              "filedAt": "2025-06-30T18:00:00Z"
+            },
+            "basis": "DERIVED"
+          },
+          "EBITDA": {
+            "value": 800000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2025-06-30-q1",
+              "filedAt": "2025-06-30T18:00:00Z"
+            },
+            "basis": "DERIVED"
+          },
+          "NET_PROFIT": {
+            "value": 600000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2025-06-30-q1",
+              "filedAt": "2025-06-30T18:00:00Z"
+            },
+            "basis": "DERIVED"
+          },
+          "NET_PROFIT_ATTRIBUTABLE_TO_OWNERS": {
+            "value": 600000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2025-06-30-q1",
+              "filedAt": "2025-06-30T18:00:00Z"
+            },
+            "periodEnd": "2025-06-30",
+            "basis": "AS_FILED"
+          },
+          "EPS_DILUTED": {
+            "value": 8.6,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2025-06-30-q1",
+              "filedAt": "2025-06-30T18:00:00Z"
+            },
+            "basis": "DERIVED"
+          },
+          "OPERATING_CASH_FLOW": {
+            "value": 520000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2025-06-30-q1",
+              "filedAt": "2025-06-30T18:00:00Z"
+            },
+            "basis": "DERIVED"
+          }
+        },
+        "derived": {}
+      },
+      {
+        "periodEnd": "2025-09-30",
+        "periodStart": "2025-04-01",
+        "fiscalYear": 2025,
+        "periodType": "QUARTER",
+        "statementScope": "CONSOLIDATED",
+        "quarterForm": "DISCRETE",
+        "basis": "AS_FILED",
+        "filedAt": "2025-09-30T18:00:00Z",
+        "filingRef": "filing-IN:ISIN:IN0000000201-2025-09-30-q2",
+        "values": {
+          "REVENUE_FROM_OPERATIONS": {
+            "value": 3650000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2025-09-30-q2",
+              "filedAt": "2025-09-30T18:00:00Z"
+            },
+            "basis": "DERIVED"
+          },
+          "EBITDA": {
+            "value": 900000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2025-09-30-q2",
+              "filedAt": "2025-09-30T18:00:00Z"
+            },
+            "basis": "DERIVED"
+          },
+          "NET_PROFIT": {
+            "value": 660000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2025-09-30-q2",
+              "filedAt": "2025-09-30T18:00:00Z"
+            },
+            "basis": "DERIVED"
+          },
+          "NET_PROFIT_ATTRIBUTABLE_TO_OWNERS": {
+            "value": 1260000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2025-09-30-q2",
+              "filedAt": "2025-09-30T18:00:00Z"
+            },
+            "periodEnd": "2025-09-30",
+            "basis": "AS_FILED"
+          },
+          "EPS_DILUTED": {
+            "value": 9.4,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2025-09-30-q2",
+              "filedAt": "2025-09-30T18:00:00Z"
+            },
+            "basis": "DERIVED"
+          },
+          "OPERATING_CASH_FLOW": {
+            "value": 600000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2025-09-30-q2",
+              "filedAt": "2025-09-30T18:00:00Z"
+            },
+            "basis": "DERIVED"
+          }
+        },
+        "derived": {}
+      },
+      {
+        "periodEnd": "2025-12-31",
+        "periodStart": "2025-04-01",
+        "fiscalYear": 2025,
+        "periodType": "QUARTER",
+        "statementScope": "CONSOLIDATED",
+        "quarterForm": "DISCRETE",
+        "basis": "AS_FILED",
+        "filedAt": "2025-12-31T18:00:00Z",
+        "filingRef": "filing-IN:ISIN:IN0000000201-2025-12-31-q3",
+        "values": {
+          "REVENUE_FROM_OPERATIONS": {
+            "value": 3550000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2025-12-31-q3",
+              "filedAt": "2025-12-31T18:00:00Z"
+            },
+            "basis": "DERIVED"
+          },
+          "EBITDA": {
+            "value": 880000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2025-12-31-q3",
+              "filedAt": "2025-12-31T18:00:00Z"
+            },
+            "basis": "DERIVED"
+          },
+          "NET_PROFIT": {
+            "value": 660000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2025-12-31-q3",
+              "filedAt": "2025-12-31T18:00:00Z"
+            },
+            "basis": "DERIVED"
+          },
+          "NET_PROFIT_ATTRIBUTABLE_TO_OWNERS": {
+            "value": 1920000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2025-12-31-q3",
+              "filedAt": "2025-12-31T18:00:00Z"
+            },
+            "periodEnd": "2025-12-31",
+            "basis": "AS_FILED"
+          },
+          "EPS_DILUTED": {
+            "value": 9.399999999999999,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2025-12-31-q3",
+              "filedAt": "2025-12-31T18:00:00Z"
+            },
+            "basis": "DERIVED"
+          },
+          "OPERATING_CASH_FLOW": {
+            "value": 600000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2025-12-31-q3",
+              "filedAt": "2025-12-31T18:00:00Z"
+            },
+            "basis": "DERIVED"
+          }
+        },
+        "derived": {}
+      },
+      {
+        "periodEnd": "2026-03-31",
+        "periodStart": "2025-04-01",
+        "fiscalYear": 2026,
+        "periodType": "QUARTER",
+        "statementScope": "CONSOLIDATED",
+        "quarterForm": "DISCRETE",
+        "basis": "AS_FILED",
+        "filedAt": "2026-03-31T18:00:00Z",
+        "filingRef": "filing-IN:ISIN:IN0000000201-2026-03-31-q4",
+        "values": {
+          "REVENUE_FROM_OPERATIONS": {
+            "value": 4100000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2026-03-31-q4",
+              "filedAt": "2026-03-31T18:00:00Z"
+            },
+            "basis": "DERIVED"
+          },
+          "EBITDA": {
+            "value": 1000000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2026-03-31-q4",
+              "filedAt": "2026-03-31T18:00:00Z"
+            },
+            "basis": "DERIVED"
+          },
+          "NET_PROFIT": {
+            "value": 758000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2026-03-31-q4",
+              "filedAt": "2026-03-31T18:00:00Z"
+            },
+            "basis": "DERIVED"
+          },
+          "NET_PROFIT_ATTRIBUTABLE_TO_OWNERS": {
+            "value": 2678000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2026-03-31-q4",
+              "filedAt": "2026-03-31T18:00:00Z"
+            },
+            "periodEnd": "2026-03-31",
+            "basis": "AS_FILED"
+          },
+          "EPS_DILUTED": {
+            "value": 10.86,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2026-03-31-q4",
+              "filedAt": "2026-03-31T18:00:00Z"
+            },
+            "basis": "DERIVED"
+          },
+          "OPERATING_CASH_FLOW": {
+            "value": 680000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000201-2026-03-31-q4",
+              "filedAt": "2026-03-31T18:00:00Z"
+            },
+            "basis": "DERIVED"
+          }
+        },
+        "derived": {}
+      }
+    ],
+    "ttm": {
+      "periodEnd": "2026-03-31",
+      "periodStart": "2025-04-01",
+      "fiscalYear": 2026,
+      "periodType": "TTM",
+      "statementScope": "CONSOLIDATED",
+      "quarterForm": null,
+      "basis": "AS_FILED",
+      "filedAt": "2026-03-31T18:00:00Z",
+      "filingRef": "derived:ttm",
+      "values": {
+        "REVENUE_FROM_OPERATIONS": {
+          "value": 14600000000,
+          "presence": "PRESENT",
+          "source": {
+            "kind": "DERIVED",
+            "ref": "ttm:four-discrete-quarters"
+          },
+          "periodEnd": "2026-03-31",
+          "basis": "DERIVED"
+        },
+        "EBITDA": {
+          "value": 3580000000,
+          "presence": "PRESENT",
+          "source": {
+            "kind": "DERIVED",
+            "ref": "ttm:four-discrete-quarters"
+          },
+          "periodEnd": "2026-03-31",
+          "basis": "DERIVED"
+        },
+        "NET_PROFIT": {
+          "value": 2678000000,
+          "presence": "PRESENT",
+          "source": {
+            "kind": "DERIVED",
+            "ref": "ttm:four-discrete-quarters"
+          },
+          "periodEnd": "2026-03-31",
+          "basis": "DERIVED"
+        },
+        "EPS_DILUTED": {
+          "value": 38.26,
+          "presence": "PRESENT",
+          "source": {
+            "kind": "DERIVED",
+            "ref": "ttm:four-discrete-quarters"
+          },
+          "periodEnd": "2026-03-31",
+          "basis": "DERIVED"
+        },
+        "OPERATING_CASH_FLOW": {
+          "value": 2400000000,
+          "presence": "PRESENT",
+          "source": {
+            "kind": "DERIVED",
+            "ref": "ttm:four-discrete-quarters"
+          },
+          "periodEnd": "2026-03-31",
+          "basis": "DERIVED"
+        }
+      },
+      "derived": {}
+    },
+    "trends": {
+      "revenueCagr3y": {
+        "value": 0.214392,
+        "presence": "PRESENT",
+        "source": {
+          "kind": "DERIVED",
+          "ref": "trends/1.0.0"
+        },
+        "basis": "DERIVED"
+      },
+      "patCagr3y": {
+        "value": 0.301074,
+        "presence": "PRESENT",
+        "source": {
+          "kind": "DERIVED",
+          "ref": "trends/1.0.0"
+        },
+        "basis": "DERIVED"
+      },
+      "roicTrend": {
+        "value": null,
+        "presence": "NOT_APPLICABLE",
+        "reason": "POLICY_INPUTS_UNAVAILABLE"
+      }
+    },
+    "capitalStructure": {
+      "netDebt": {
+        "value": -1160000000,
+        "presence": "PRESENT",
+        "source": {
+          "kind": "DERIVED",
+          "ref": "capital-structure/1.0.0"
+        },
+        "basis": "DERIVED"
+      },
+      "grossDebt": {
+        "value": 1540000000,
+        "presence": "PRESENT",
+        "source": {
+          "kind": "DERIVED",
+          "ref": "capital-structure/1.0.0"
+        },
+        "basis": "DERIVED"
+      },
+      "cashAndInvestments": {
+        "value": 2700000000,
+        "presence": "PRESENT",
+        "source": {
+          "kind": "DERIVED",
+          "ref": "capital-structure/1.0.0"
+        },
+        "basis": "DERIVED"
+      },
+      "leaseLiabilities": {
+        "value": 260000000,
+        "presence": "PRESENT",
+        "source": {
+          "kind": "FILING",
+          "ref": "filing-IN:ISIN:IN0000000201-2026-03-31",
+          "filedAt": "2026-03-31T18:00:00Z"
+        },
+        "periodEnd": "2026-03-31",
+        "basis": "AS_FILED"
+      },
+      "leaseTreatment": "IND_AS_116_CAPITALISED",
+      "pre116Comparative": false,
+      "minorityInterest": {
+        "value": 0,
+        "presence": "PRESENT",
+        "source": {
+          "kind": "FILING",
+          "ref": "filing-IN:ISIN:IN0000000201-2026-03-31",
+          "filedAt": "2026-03-31T18:00:00Z"
+        },
+        "periodEnd": "2026-03-31",
+        "basis": "AS_FILED"
+      },
+      "preferenceCapital": {
+        "value": 0,
+        "presence": "PRESENT",
+        "source": {
+          "kind": "FILING",
+          "ref": "filing-IN:ISIN:IN0000000201-2026-03-31",
+          "filedAt": "2026-03-31T18:00:00Z"
+        },
+        "periodEnd": "2026-03-31",
+        "basis": "AS_FILED"
+      },
+      "associatesAndJV": {
+        "value": null,
+        "presence": "NOT_COMPUTABLE",
+        "reason": "NOT_REPORTED"
+      },
+      "dilutedShares": {
+        "value": 69994772.60846838,
+        "presence": "PRESENT",
+        "source": {
+          "kind": "DATASET",
+          "ref": "derived:DILUTED_SHARES@in-fin/1.0.0"
+        },
+        "periodEnd": "2026-03-31",
+        "basis": "DERIVED"
+      },
+      "shareCountPeriod": "2026-03-31",
+      "shareCountBasis": "REPORTED_EPS",
+      "dilutionProxy": true,
+      "components": {
+        "shortTermBorrowings": {
+          "value": 380000000,
+          "presence": "PRESENT",
+          "source": {
+            "kind": "FILING",
+            "ref": "filing-IN:ISIN:IN0000000201-2026-03-31",
+            "filedAt": "2026-03-31T18:00:00Z"
+          },
+          "periodEnd": "2026-03-31",
+          "basis": "AS_FILED"
+        },
+        "currentMaturities": {
+          "value": 0,
+          "presence": "PRESENT",
+          "source": {
+            "kind": "FILING",
+            "ref": "filing-IN:ISIN:IN0000000201-2026-03-31",
+            "filedAt": "2026-03-31T18:00:00Z"
+          },
+          "periodEnd": "2026-03-31",
+          "basis": "AS_FILED"
+        },
+        "longTermBorrowings": {
+          "value": 900000000,
+          "presence": "PRESENT",
+          "source": {
+            "kind": "FILING",
+            "ref": "filing-IN:ISIN:IN0000000201-2026-03-31",
+            "filedAt": "2026-03-31T18:00:00Z"
+          },
+          "periodEnd": "2026-03-31",
+          "basis": "AS_FILED"
+        },
+        "leaseLiabilities": {
+          "value": 260000000,
+          "presence": "PRESENT",
+          "source": {
+            "kind": "FILING",
+            "ref": "filing-IN:ISIN:IN0000000201-2026-03-31",
+            "filedAt": "2026-03-31T18:00:00Z"
+          },
+          "periodEnd": "2026-03-31",
+          "basis": "AS_FILED"
+        },
+        "cashAndCashEquivalents": {
+          "value": 2100000000,
+          "presence": "PRESENT",
+          "source": {
+            "kind": "FILING",
+            "ref": "filing-IN:ISIN:IN0000000201-2026-03-31",
+            "filedAt": "2026-03-31T18:00:00Z"
+          },
+          "periodEnd": "2026-03-31",
+          "basis": "AS_FILED"
+        },
+        "currentInvestments": {
+          "value": 600000000,
+          "presence": "PRESENT",
+          "source": {
+            "kind": "FILING",
+            "ref": "filing-IN:ISIN:IN0000000201-2026-03-31",
+            "filedAt": "2026-03-31T18:00:00Z"
+          },
+          "periodEnd": "2026-03-31",
+          "basis": "AS_FILED"
+        },
+        "nonControllingInterest": {
+          "value": 0,
+          "presence": "PRESENT",
+          "source": {
+            "kind": "FILING",
+            "ref": "filing-IN:ISIN:IN0000000201-2026-03-31",
+            "filedAt": "2026-03-31T18:00:00Z"
+          },
+          "periodEnd": "2026-03-31",
+          "basis": "AS_FILED"
+        },
+        "preferenceCapital": {
+          "value": 0,
+          "presence": "PRESENT",
+          "source": {
+            "kind": "FILING",
+            "ref": "filing-IN:ISIN:IN0000000201-2026-03-31",
+            "filedAt": "2026-03-31T18:00:00Z"
+          },
+          "periodEnd": "2026-03-31",
+          "basis": "AS_FILED"
+        },
+        "restrictedCash": {
+          "value": null,
+          "presence": "NOT_COMPUTABLE",
+          "reason": "NOT_REPORTED"
+        },
+        "associatesAndJV": {
+          "value": null,
+          "presence": "NOT_COMPUTABLE",
+          "reason": "NOT_REPORTED"
+        }
+      }
+    }
+  },
+  "completeness": {
+    "statementCoverage": {
+      "pnl": {
+        "value": 0.5909090909090909,
+        "presence": "PRESENT",
+        "source": {
+          "kind": "DERIVED",
+          "ref": "adequacy/1.0.0"
+        },
+        "basis": "DERIVED"
+      },
+      "balanceSheet": {
+        "value": 0.8571428571428571,
+        "presence": "PRESENT",
+        "source": {
+          "kind": "DERIVED",
+          "ref": "adequacy/1.0.0"
+        },
+        "basis": "DERIVED"
+      },
+      "cashFlow": {
+        "value": 0.4444444444444444,
+        "presence": "PRESENT",
+        "source": {
+          "kind": "DERIVED",
+          "ref": "adequacy/1.0.0"
+        },
+        "basis": "DERIVED"
+      }
+    },
+    "requiredFieldCoveragePct": 1,
+    "missingFields": [],
+    "adequacy": "SUFFICIENT",
+    "adequacyBasis": [
+      "FIELD_COVERAGE_AT_OR_ABOVE_SUFFICIENT_THRESHOLD",
+      "PERIODS_EXCLUDED_FOR_SCOPE"
+    ]
+  },
+  "quality": {
+    "flags": [],
+    "verdict": "CLEAN"
+  },
+  "valuation": {
+    "methodSelection": {
+      "sector": "Technology",
+      "considered": [
+        {
+          "methodId": "DCF_FCFF",
+          "role": "PRIMARY",
+          "reason": "Free cash flow to firm from statements alone"
+        },
+        {
+          "methodId": "EV_EBITDA",
+          "role": "CROSS_CHECK",
+          "reason": "Enterprise value multiple"
+        },
+        {
+          "methodId": "EV_REVENUE",
+          "role": "CROSS_CHECK",
+          "reason": "Revenue multiple qualified by retention"
+        },
+        {
+          "methodId": "PB_RELATIVE",
+          "role": "NOT_APPLICABLE",
+          "reason": "Asset-light: book value carries no information about earning power"
+        },
+        {
+          "methodId": "PE_RELATIVE",
+          "role": "SECONDARY",
+          "reason": "P/E on reported diluted EPS"
+        }
+      ],
+      "policyVersion": "valuation-policy/1.0.0"
+    },
+    "methods": [
+      {
+        "methodId": "DCF_FCFF",
+        "role": "PRIMARY",
+        "applicable": true,
+        "notApplicableReason": null,
+        "output": {
+          "perShareLow": {
+            "value": 345.5155572664568,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "DERIVED",
+              "ref": "valuation-methods/1.0.0"
+            },
+            "basis": "DERIVED"
+          },
+          "perShareMid": {
+            "value": 430.4410716809049,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "DERIVED",
+              "ref": "capital-structure/1.0.0"
+            },
+            "periodEnd": "2026-03-31",
+            "basis": "DERIVED"
+          },
+          "perShareHigh": {
+            "value": 586.8592544705161,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "DERIVED",
+              "ref": "valuation-methods/1.0.0"
+            },
+            "basis": "DERIVED"
+          },
+          "basis": "FCFF base 1874242333, WACC 10.68%, g 4.00%, 5y horizon"
+        },
+        "inputs": [
+          {
+            "name": "ebit",
+            "observation": {
+              "value": 3660000000,
+              "presence": "PRESENT",
+              "source": {
+                "kind": "DATASET",
+                "ref": "derived:EBIT@in-fin/1.0.0"
+              },
+              "periodEnd": "2026-03-31",
+              "basis": "DERIVED",
+              "note": "Profit before tax plus finance costs"
+            },
+            "role": "PRIMARY"
+          },
+          {
+            "name": "depreciationAndAmortisation",
+            "observation": {
+              "value": 540000000,
+              "presence": "PRESENT",
+              "source": {
+                "kind": "FILING",
+                "ref": "filing-IN:ISIN:IN0000000201-2026-03-31",
+                "filedAt": "2026-03-31T18:00:00Z"
+              },
+              "periodEnd": "2026-03-31",
+              "basis": "AS_FILED"
+            },
+            "role": "PRIMARY"
+          },
+          {
+            "name": "capitalExpenditure",
+            "observation": {
+              "value": 880000000,
+              "presence": "PRESENT",
+              "source": {
+                "kind": "FILING",
+                "ref": "filing-IN:ISIN:IN0000000201-2026-03-31",
+                "filedAt": "2026-03-31T18:00:00Z"
+              },
+              "periodEnd": "2026-03-31",
+              "basis": "AS_FILED"
+            },
+            "role": "PRIMARY"
+          }
+        ],
+        "assumptions": {
+          "wacc": 0.10677961,
+          "terminalGrowth": 0.04,
+          "taxRate": 0.2517,
+          "horizon": 5,
+          "baseFcff": 1874242333
+        },
+        "allowsImputation": false,
+        "formulaId": "DCF_FCFF",
+        "formulaVersion": "1.0.0",
+        "evidenceIds": [
+          "EV-DCF_FCFF"
+        ]
+      },
+      {
+        "methodId": "PE_RELATIVE",
+        "role": "SECONDARY",
+        "applicable": true,
+        "notApplicableReason": null,
+        "output": {
+          "perShareLow": {
+            "value": 531.2266666666668,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "DERIVED",
+              "ref": "valuation-methods/1.0.0"
+            },
+            "basis": "DERIVED"
+          },
+          "perShareMid": {
+            "value": 664.0333333333334,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "DERIVED",
+              "ref": "valuation-methods/1.0.0"
+            },
+            "periodEnd": "2026-03-31",
+            "basis": "DERIVED"
+          },
+          "perShareHigh": {
+            "value": 796.84,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "DERIVED",
+              "ref": "valuation-methods/1.0.0"
+            },
+            "basis": "DERIVED"
+          },
+          "basis": "normalised EPS 30.18 × P/E 22"
+        },
+        "inputs": [
+          {
+            "name": "epsDiluted",
+            "observation": {
+              "value": 38.26,
+              "presence": "PRESENT",
+              "source": {
+                "kind": "FILING",
+                "ref": "filing-IN:ISIN:IN0000000201-2026-03-31",
+                "filedAt": "2026-03-31T18:00:00Z"
+              },
+              "periodEnd": "2026-03-31",
+              "basis": "AS_FILED"
+            },
+            "role": "PRIMARY"
+          }
+        ],
+        "assumptions": {
+          "normalisedEps": 30.1833,
+          "targetMultiple": 22,
+          "multipleBasis": "POLICY_DEFAULT"
+        },
+        "allowsImputation": false,
+        "formulaId": "PE_RELATIVE",
+        "formulaVersion": "1.0.0",
+        "evidenceIds": [
+          "EV-PE_RELATIVE"
+        ]
+      },
+      {
+        "methodId": "EV_EBITDA",
+        "role": "CROSS_CHECK",
+        "applicable": true,
+        "notApplicableReason": null,
+        "output": {
+          "perShareLow": {
+            "value": 476.03554891710223,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "DERIVED",
+              "ref": "valuation-methods/1.0.0"
+            },
+            "basis": "DERIVED"
+          },
+          "perShareMid": {
+            "value": 590.9012696041822,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "DERIVED",
+              "ref": "capital-structure/1.0.0"
+            },
+            "periodEnd": "2026-03-31",
+            "basis": "DERIVED"
+          },
+          "perShareHigh": {
+            "value": 705.766990291262,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "DERIVED",
+              "ref": "valuation-methods/1.0.0"
+            },
+            "basis": "DERIVED"
+          },
+          "basis": "mid-cycle EBITDA 3350000000 × 12 − net debt"
+        },
+        "inputs": [
+          {
+            "name": "ebitda",
+            "observation": {
+              "value": 4200000000,
+              "presence": "PRESENT",
+              "source": {
+                "kind": "DATASET",
+                "ref": "derived:EBITDA@in-fin/1.0.0"
+              },
+              "periodEnd": "2026-03-31",
+              "basis": "DERIVED",
+              "note": "Profit before tax plus finance costs plus depreciation and amortisation"
+            },
+            "role": "PRIMARY"
+          },
+          {
+            "name": "netDebt",
+            "observation": {
+              "value": -1160000000,
+              "presence": "PRESENT",
+              "source": {
+                "kind": "DERIVED",
+                "ref": "capital-structure/1.0.0"
+              },
+              "basis": "DERIVED"
+            },
+            "role": "SECONDARY"
+          }
+        ],
+        "assumptions": {
+          "midCycleEbitda": 3350000000,
+          "targetMultiple": 12,
+          "multipleBasis": "POLICY_DEFAULT"
+        },
+        "allowsImputation": false,
+        "formulaId": "EV_EBITDA",
+        "formulaVersion": "1.0.0",
+        "evidenceIds": [
+          "EV-EV_EBITDA"
+        ]
+      },
+      {
+        "methodId": "EV_REVENUE",
+        "role": "CROSS_CHECK",
+        "applicable": false,
+        "notApplicableReason": "MANDATORY_METRIC_MISSING: TM_NRR",
+        "output": null,
+        "inputs": [],
+        "assumptions": {},
+        "allowsImputation": false,
+        "formulaId": "EV_REVENUE",
+        "formulaVersion": "1.0.0",
+        "evidenceIds": []
+      }
+    ],
+    "intrinsic": {
+      "currency": "INR",
+      "perShare": {
+        "low": {
+          "value": 414.2808892515843,
+          "presence": "PRESENT",
+          "source": {
+            "kind": "DERIVED",
+            "ref": "intrinsic-blend/1.0.0"
+          },
+          "basis": "DERIVED"
+        },
+        "mid": {
+          "value": 516.5647699689612,
+          "presence": "PRESENT",
+          "source": {
+            "kind": "DERIVED",
+            "ref": "intrinsic-blend/1.0.0"
+          },
+          "basis": "DERIVED"
+        },
+        "high": {
+          "value": 661.7442517114358,
+          "presence": "PRESENT",
+          "source": {
+            "kind": "DERIVED",
+            "ref": "intrinsic-blend/1.0.0"
+          },
+          "basis": "DERIVED"
+        }
+      },
+      "weighting": [
+        {
+          "methodId": "DCF_FCFF",
+          "weight": 0.6
+        },
+        {
+          "methodId": "EV_EBITDA",
+          "weight": 0.1
+        },
+        {
+          "methodId": "PE_RELATIVE",
+          "weight": 0.3
+        }
+      ],
+      "spreadPct": {
+        "value": 0.47905582580616335,
+        "presence": "PRESENT",
+        "source": {
+          "kind": "DERIVED",
+          "ref": "intrinsic-blend/1.0.0"
+        },
+        "basis": "DERIVED"
+      },
+      "withheld": null
+    },
+    "marginOfSafety": {
+      "price": {
+        "value": 850,
+        "presence": "PRESENT",
+        "source": {
+          "kind": "MARKET_PRICE",
+          "ref": "eod:2026-07-24",
+          "filedAt": "2026-07-24"
+        },
+        "periodEnd": "2026-07-24",
+        "basis": "AS_FILED"
+      },
+      "priceAsOf": "2026-07-24",
+      "mosVsMid": {
+        "value": -0.6454858120716864,
+        "presence": "PRESENT",
+        "source": {
+          "kind": "DERIVED",
+          "ref": "mos/1.0.0"
+        },
+        "basis": "DERIVED"
+      },
+      "mosVsLow": {
+        "value": -1.0517480338896645,
+        "presence": "PRESENT",
+        "source": {
+          "kind": "DERIVED",
+          "ref": "mos/1.0.0"
+        },
+        "basis": "DERIVED"
+      },
+      "band": "SIGNIFICANT_PREMIUM",
+      "bandPolicyVersion": "mos-policy/1.0.0",
+      "refusal": null
+    },
+    "sensitivity": [
+      {
+        "methodId": "DCF_FCFF",
+        "baseWaccBps": 1068,
+        "baseGrowthBps": 400,
+        "points": [
+          {
+            "waccBps": 968,
+            "growthBps": 300,
+            "value": 443.6345570663666
+          },
+          {
+            "waccBps": 968,
+            "growthBps": 400,
+            "value": 502.61949183937935
+          },
+          {
+            "waccBps": 968,
+            "growthBps": 500,
+            "value": 586.6131175429235
+          },
+          {
+            "waccBps": 1068,
+            "growthBps": 300,
+            "value": 388.12969282281693
+          },
+          {
+            "waccBps": 1068,
+            "growthBps": 400,
+            "value": 430.31569559434536
+          },
+          {
+            "waccBps": 1068,
+            "growthBps": 500,
+            "value": 487.19802370770253
+          },
+          {
+            "waccBps": 1168,
+            "growthBps": 300,
+            "value": 345.43854377188524
+          },
+          {
+            "waccBps": 1168,
+            "growthBps": 400,
+            "value": 376.8570823384112
+          },
+          {
+            "waccBps": 1168,
+            "growthBps": 500,
+            "value": 417.55272327531645
+          }
+        ]
+      }
+    ]
+  },
+  "moat": {
+    "classification": "WIDE",
+    "roicWaccSpread": {
+      "spread": {
+        "value": 0.19957139671140942,
+        "presence": "PRESENT",
+        "source": {
+          "kind": "DERIVED",
+          "ref": "moat/1.0.0"
+        },
+        "periodEnd": "2026-03-31",
+        "basis": "DERIVED"
+      },
+      "consecutiveYearsPositive": 5
+    },
+    "evidence": [
+      {
+        "evidenceId": "MOAT-PRICING-POWER-GROSS-MARGIN",
+        "dimension": "PRICING_POWER",
+        "metric": "grossMargin",
+        "periods": [
+          "2026-03-31",
+          "2025-03-31",
+          "2024-03-31"
+        ],
+        "observed": {
+          "value": 0.7016428292891556,
+          "presence": "PRESENT",
+          "source": {
+            "kind": "DERIVED",
+            "ref": "moat/1.0.0"
+          },
+          "basis": "DERIVED"
+        },
+        "threshold": 0.35,
+        "direction": "ABOVE",
+        "persists": true
+      },
+      {
+        "evidenceId": "MOAT-COST-POSITION-EBITDA-MARGIN",
+        "dimension": "COST_POSITION",
+        "metric": "ebitdaMarginStability",
+        "periods": [
+          "2026-03-31",
+          "2025-03-31",
+          "2024-03-31"
+        ],
+        "observed": {
+          "value": 0.2876712328767123,
+          "presence": "PRESENT",
+          "source": {
+            "kind": "DERIVED",
+            "ref": "moat/1.0.0"
+          },
+          "basis": "DERIVED"
+        },
+        "threshold": 0.15,
+        "direction": "ABOVE",
+        "persists": true
+      },
+      {
+        "evidenceId": "MOAT-RETENTION-RECURRING-REVENUE",
+        "dimension": "RETENTION",
+        "metric": "TM_RECURRING_REVENUE_PCT",
+        "periods": [
+          "2026-03-31"
+        ],
+        "observed": {
+          "value": 0.78,
+          "presence": "PRESENT",
+          "source": {
+            "kind": "DATASET",
+            "ref": "doc:presentation-2026"
+          },
+          "periodEnd": "2026-03-31",
+          "basis": "AS_FILED"
+        },
+        "threshold": 0.9,
+        "direction": "ABOVE",
+        "persists": false
+      }
+    ],
+    "withheld": null
+  },
+  "dividends": {
+    "perShareHistory": [
+      {
+        "periodEnd": "2026-03-31",
+        "dps": {
+          "value": 4.286034353995518,
+          "presence": "PRESENT",
+          "source": {
+            "kind": "DERIVED",
+            "ref": "dividend-sustainability/1.0.0"
+          },
+          "periodEnd": "2026-03-31",
+          "basis": "DERIVED"
+        },
+        "basis": "AS_FILED"
+      },
+      {
+        "periodEnd": "2025-03-31",
+        "dps": {
+          "value": 3.5716952949962653,
+          "presence": "PRESENT",
+          "source": {
+            "kind": "DERIVED",
+            "ref": "dividend-sustainability/1.0.0"
+          },
+          "periodEnd": "2025-03-31",
+          "basis": "DERIVED"
+        },
+        "basis": "AS_FILED"
+      },
+      {
+        "periodEnd": "2024-03-31",
+        "dps": {
+          "value": 2.8573562359970124,
+          "presence": "PRESENT",
+          "source": {
+            "kind": "DERIVED",
+            "ref": "dividend-sustainability/1.0.0"
+          },
+          "periodEnd": "2024-03-31",
+          "basis": "DERIVED"
+        },
+        "basis": "AS_FILED"
+      },
+      {
+        "periodEnd": "2023-03-31",
+        "dps": {
+          "value": 2.28588498879761,
+          "presence": "PRESENT",
+          "source": {
+            "kind": "DERIVED",
+            "ref": "dividend-sustainability/1.0.0"
+          },
+          "periodEnd": "2023-03-31",
+          "basis": "DERIVED"
+        },
+        "basis": "AS_FILED"
+      },
+      {
+        "periodEnd": "2022-03-31",
+        "dps": {
+          "value": 1.7144137415982075,
+          "presence": "PRESENT",
+          "source": {
+            "kind": "DERIVED",
+            "ref": "dividend-sustainability/1.0.0"
+          },
+          "periodEnd": "2022-03-31",
+          "basis": "DERIVED"
+        },
+        "basis": "AS_FILED"
+      }
+    ],
+    "reconciliation": {
+      "dpsDeclared": {
+        "value": null,
+        "presence": "MISSING",
+        "reason": "NOT_REPORTED",
+        "note": "dataset schema v1 carries no dividend declaration record; supply one to corroborate the cash-flow figure"
+      },
+      "dpsImplied": {
+        "value": 4.286034353995518,
+        "presence": "PRESENT",
+        "source": {
+          "kind": "DERIVED",
+          "ref": "dividend-sustainability/1.0.0"
+        },
+        "periodEnd": "2026-03-31",
+        "basis": "DERIVED"
+      },
+      "deltaPct": {
+        "value": null,
+        "presence": "NOT_COMPUTABLE",
+        "reason": "POLICY_INPUTS_UNAVAILABLE"
+      },
+      "status": "NOT_COMPARABLE",
+      "reason": "NO_DECLARATION_RECORD: no dividend declaration is available, so the two sources cannot be compared"
+    },
+    "payoutRatio": {
+      "value": 0.11202389843166542,
+      "presence": "PRESENT",
+      "source": {
+        "kind": "DERIVED",
+        "ref": "dividend-sustainability/1.0.0"
+      },
+      "basis": "DERIVED"
+    },
+    "fcfCoverage": {
+      "value": 5.066666666666666,
+      "presence": "PRESENT",
+      "source": {
+        "kind": "DERIVED",
+        "ref": "dividend-sustainability/1.0.0"
+      },
+      "basis": "DERIVED"
+    },
+    "netDebtToEbitda": {
+      "value": -0.2761904761904762,
+      "presence": "PRESENT",
+      "source": {
+        "kind": "DERIVED",
+        "ref": "dividend-sustainability/1.0.0"
+      },
+      "basis": "DERIVED"
+    },
+    "consecutiveYearsPaid": 5,
+    "verdict": "COVERED",
+    "conflict": null,
+    "withheld": null
+  },
+  "risk": {
+    "factors": [],
+    "aggregate": {
+      "value": null,
+      "presence": "NOT_COMPUTABLE",
+      "reason": "POLICY_INPUTS_UNAVAILABLE"
+    }
+  },
+  "confidence": {
+    "dataConfidence": 1,
+    "modelConfidence": 0.6355,
+    "combined": 0.8371,
+    "caps": [
+      "DILUTION_PROXY"
+    ],
+    "formula": "combined = 0.6 × dataConfidence + 0.4 × modelConfidence, then multiplied by each cap factor (ADEQUACY_PARTIAL 0.85, ADEQUACY_INSUFFICIENT 0.6, STALE_DATA 0.9, DILUTION_PROXY 0.98, DIVIDEND_SOURCE_CONFLICT 0.95, HIGH_METHOD_DISAGREEMENT 0.85), rounded to 4 dp"
+  },
+  "assumptions": {
+    "discountRate": {
+      "value": 0.10677961,
+      "basis": "POLICY_DEFAULT",
+      "components": {
+        "riskFree": 0.069,
+        "equityRiskPremium": 0.055,
+        "beta": 1,
+        "costOfEquity": 0.124,
+        "costOfDebtPostTax": 0.06659870000000001,
+        "weightEquity": 0.7,
+        "weightDebt": 0.3
+      }
+    },
+    "terminalGrowth": 0.04,
+    "forecastHorizonYears": 5,
+    "methodSpecific": [
+      {
+        "methodId": "DCF_FCFF",
+        "assumptions": {
+          "wacc": 0.10677961,
+          "terminalGrowth": 0.04,
+          "taxRate": 0.2517,
+          "horizon": 5,
+          "baseFcff": 1874242333
+        }
+      },
+      {
+        "methodId": "PE_RELATIVE",
+        "assumptions": {
+          "normalisedEps": 30.1833,
+          "targetMultiple": 22,
+          "multipleBasis": "POLICY_DEFAULT"
+        }
+      },
+      {
+        "methodId": "EV_EBITDA",
+        "assumptions": {
+          "midCycleEbitda": 3350000000,
+          "targetMultiple": 12,
+          "multipleBasis": "POLICY_DEFAULT"
+        }
+      }
+    ],
+    "policyVersion": "valuation-policy/1.0.0"
+  },
+  "sectorReferenceView": {
+    "evidenceClass": "SECTOR_REFERENCE",
+    "sectorRefId": "Technology-UNASSIGNED",
+    "engineVerdict": null,
+    "composite": null,
+    "note": "This block is a sector reference, not an identity and not an input to the assessment. It is displayed separately and cannot drive any valuation, moat, dividend or risk field."
+  },
+  "evidence": [
+    {
+      "evidenceId": "EV-DCF_FCFF",
+      "claim": "DCF_FCFF produced a per-share value from 3 present input(s)",
+      "supports": [
+        "valuation.methods[0].output.perShareMid"
+      ],
+      "source": {
+        "kind": "DERIVED",
+        "ref": "DCF_FCFF/1.0.0"
+      },
+      "observationRefs": [
+        "ebit",
+        "depreciationAndAmortisation",
+        "capitalExpenditure"
+      ]
+    },
+    {
+      "evidenceId": "EV-PE_RELATIVE",
+      "claim": "PE_RELATIVE produced a per-share value from 1 present input(s)",
+      "supports": [
+        "valuation.methods[1].output.perShareMid"
+      ],
+      "source": {
+        "kind": "DERIVED",
+        "ref": "PE_RELATIVE/1.0.0"
+      },
+      "observationRefs": [
+        "epsDiluted"
+      ]
+    },
+    {
+      "evidenceId": "EV-EV_EBITDA",
+      "claim": "EV_EBITDA produced a per-share value from 2 present input(s)",
+      "supports": [
+        "valuation.methods[2].output.perShareMid"
+      ],
+      "source": {
+        "kind": "DERIVED",
+        "ref": "EV_EBITDA/1.0.0"
+      },
+      "observationRefs": [
+        "ebitda",
+        "netDebt"
+      ]
+    },
+    {
+      "evidenceId": "MOAT-PRICING-POWER-GROSS-MARGIN",
+      "claim": "moat dimension evidenced above its policy threshold",
+      "supports": [
+        "moat.classification"
+      ],
+      "source": {
+        "kind": "DERIVED",
+        "ref": "moat/1.0.0"
+      },
+      "observationRefs": [
+        "MOAT-PRICING-POWER-GROSS-MARGIN"
+      ]
+    },
+    {
+      "evidenceId": "MOAT-COST-POSITION-EBITDA-MARGIN",
+      "claim": "moat dimension evidenced above its policy threshold",
+      "supports": [
+        "moat.classification"
+      ],
+      "source": {
+        "kind": "DERIVED",
+        "ref": "moat/1.0.0"
+      },
+      "observationRefs": [
+        "MOAT-COST-POSITION-EBITDA-MARGIN"
+      ]
+    },
+    {
+      "evidenceId": "MOAT-RETENTION-RECURRING-REVENUE",
+      "claim": "moat dimension evidenced above its policy threshold",
+      "supports": [
+        "moat.classification"
+      ],
+      "source": {
+        "kind": "DERIVED",
+        "ref": "moat/1.0.0"
+      },
+      "observationRefs": [
+        "MOAT-RETENTION-RECURRING-REVENUE"
+      ]
+    },
+    {
+      "evidenceId": "EV-DIVIDEND-RECONCILIATION",
+      "claim": "dividend sources reconciled with status NOT_COMPARABLE",
+      "supports": [
+        "dividends.reconciliation.status"
+      ],
+      "source": {
+        "kind": "DERIVED",
+        "ref": "dividend-sustainability/1.0.0"
+      },
+      "observationRefs": [
+        "dpsDeclared",
+        "dpsImplied"
+      ]
+    }
+  ],
+  "limitations": [
+    "Dilutive potential shares (ESOP, convertibles) are not present in dataset schema v1, so the diluted count is the EPS-implied count and carries the DILUTION_PROXY cap.",
+    "Net debt subtracts cash and cash equivalents plus liquid investments only; restricted balances, margin money and regulatory balances are excluded from available cash by construction (R-4.1 / Schedule III). Dataset schema v1 carries no restricted-balance line item, so the component is published as NOT_COMPUTABLE rather than as a zero.",
+    "The corporate-action table carries no dividend declaration record in dataset schema v1, so R-15 corroboration is unavailable for this assessment.",
+    "Assessment only: no persistence, no transport and no UI are part of IID-2 (IID-3 and IID-6 own those)."
+  ],
+  "disclosure": {
+    "decisionSupportOnly": true,
+    "noTradeExecution": true,
+    "nonProduction": true
+  }
+}

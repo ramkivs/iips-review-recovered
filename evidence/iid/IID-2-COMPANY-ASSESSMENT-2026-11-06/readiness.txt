@@ -1,0 +1,8 @@
+IID-2 company assessment — synthetic reference issuers (NOT real-company coverage)
+
+TECH IN:ISIN:IN0000000201 sector=Technology adequacy=SUFFICIENT coverage=1 intrinsic=414.28-516.56-661.74 mos=SIGNIFICANT_PREMIUM moat=WIDE dividends=COVERED confidence=0.8371 violations=0
+BANK IN:ISIN:IN0000000301 sector=Banking adequacy=PARTIAL coverage=0.7778 intrinsic=63.14-74.29-85.43 mos=FAIR moat=INSUFFICIENT_EVIDENCE dividends=INSUFFICIENT_EVIDENCE confidence=0.5609 violations=0
+THIN IN:ISIN:IN0000000401 sector=Consumer adequacy=INSUFFICIENT coverage=0.3333 intrinsic=WITHHELD mos=NO_PRICE_OBSERVATION moat=INSUFFICIENT_EVIDENCE dividends=NO_DIVIDEND confidence=0.1176 violations=0
+
+payload digests stable across 3 orderings: true
+payload digests stable across 3 process restarts: true

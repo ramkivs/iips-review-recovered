@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Company assessment — Aarav Systems Limited (2026-03-31)</title>
+<style>
+:root { color-scheme: light dark; }
+body { font: 14px/1.5 system-ui, -apple-system, Segoe UI, sans-serif; margin: 2rem; max-width: 1100px; }
+h1 { font-size: 1.4rem; margin-bottom: .25rem; }
+h2 { font-size: 1.05rem; margin-top: 2rem; border-bottom: 1px solid rgba(128,128,128,.35); padding-bottom: .25rem; }
+table { border-collapse: collapse; width: 100%; margin-top: .5rem; }
+th, td { text-align: left; padding: .3rem .5rem; border-bottom: 1px solid rgba(128,128,128,.25); vertical-align: top; }
+.muted { color: rgba(128,128,128,.95); }
+.absent { color: #a15; font-variant: small-caps; }
+.badge { display: inline-block; padding: .1rem .45rem; border-radius: 3px; border: 1px solid currentColor; font-size: 12px; }
+.ok { color: #17643b; } .warn { color: #8a5a00; } .bad { color: #a1231f; }
+.sector-reference { border: 1px dashed rgba(128,128,128,.6); padding: .75rem; margin-top: .5rem; }
+code { font-size: 12px; }
+</style>
+</head>
+<body>
+<h1>Aarav Systems Limited</h1>
+<p class="muted"><code>IN:ISIN:IN0000000201</code> · Technology · CONSOLIDATED · data as of 2026-03-31 · model assessment-engine/1.0.0 · policy valuation-policy/1.0.0</p>
+<p><span class="badge ok">adequacy: SUFFICIENT</span> <span class="badge">quality: CLEAN</span> <span class="badge">confidence: 0.8371</span> <span class="badge">moat: WIDE</span> <span class="badge">dividends: COVERED</span></p>
+
+<h2>Identity and data</h2>
+<table>
+<tr><th>Issuer</th><td><code>IN:ISIN:IN0000000201</code></td><th>Binding</th><td><code>binding:fixture</code></td></tr>
+<tr><th>Dataset</th><td><code>content:fixture-assessment-1</code></td><th>Provider</th><td>synthetic-fixture</td></tr>
+<tr><th>Annual periods</th><td>5</td><th>Quarterly periods</th><td>4</td></tr>
+<tr><th>Required-field coverage</th><td>100%</td><th>Staleness</th><td>116 days</td></tr>
+</table>
+
+<h2>Valuation</h2>
+<p><strong>Intrinsic value:</strong> 516.56 per share (range 414.28–661.74); spread 47.9%; weights DCF_FCFF 60%, EV_EBITDA 10%, PE_RELATIVE 30%</p>
+<p><strong>Margin of safety:</strong> -64.5% against the midpoint (band SIGNIFICANT_PREMIUM), price as of 2026-07-24</p>
+<table>
+<thead><tr><th>Method</th><th>Role</th><th>Per-share low / mid / high</th><th>Basis</th></tr></thead>
+<tbody><tr><td><code>DCF_FCFF</code></td><td>PRIMARY</td><td>345.52 – 430.44 – 586.86</td><td class="muted">FCFF base 1874242333, WACC 10.68%, g 4.00%, 5y horizon</td></tr><tr><td><code>PE_RELATIVE</code></td><td>SECONDARY</td><td>531.23 – 664.03 – 796.84</td><td class="muted">normalised EPS 30.18 × P/E 22</td></tr><tr><td><code>EV_EBITDA</code></td><td>CROSS_CHECK</td><td>476.04 – 590.90 – 705.77</td><td class="muted">mid-cycle EBITDA 3350000000 × 12 − net debt</td></tr><tr><td><code>EV_REVENUE</code></td><td>CROSS_CHECK</td><td><span class="absent">MANDATORY_METRIC_MISSING: TM_NRR</span></td><td class="muted"></td></tr></tbody>
+</table>
+<h2>Method selection (Technology)</h2>
+<table>
+<thead><tr><th>Method</th><th>Role</th><th>Reason / policy note</th></tr></thead>
+<tbody><tr><td><code>DCF_FCFF</code></td><td>PRIMARY</td><td class="muted">Free cash flow to firm from statements alone</td></tr><tr><td><code>EV_EBITDA</code></td><td>CROSS_CHECK</td><td class="muted">Enterprise value multiple</td></tr><tr><td><code>EV_REVENUE</code></td><td>CROSS_CHECK</td><td class="muted">Revenue multiple qualified by retention</td></tr><tr><td><code>PB_RELATIVE</code></td><td>NOT_APPLICABLE</td><td class="muted">Asset-light: book value carries no information about earning power</td></tr><tr><td><code>PE_RELATIVE</code></td><td>SECONDARY</td><td class="muted">P/E on reported diluted EPS</td></tr></tbody>
+</table>
+<h2>Sensitivity (WACC × terminal growth)</h2>
+<table>
+<thead><tr><th>WACC</th><th>Terminal growth</th><th>Value per share</th></tr></thead>
+<tbody><tr><td>9.68%</td><td>3.00%</td><td>443.63</td></tr><tr><td>9.68%</td><td>4.00%</td><td>502.62</td></tr><tr><td>9.68%</td><td>5.00%</td><td>586.61</td></tr><tr><td>10.68%</td><td>3.00%</td><td>388.13</td></tr><tr><td>10.68%</td><td>4.00%</td><td>430.32</td></tr><tr><td>10.68%</td><td>5.00%</td><td>487.20</td></tr><tr><td>11.68%</td><td>3.00%</td><td>345.44</td></tr><tr><td>11.68%</td><td>4.00%</td><td>376.86</td></tr><tr><td>11.68%</td><td>5.00%</td><td>417.55</td></tr></tbody>
+</table>
+
+<h2>Capital structure</h2>
+<table>
+<tr><th>Net debt</th><td>-1160000000</td><th>Lease treatment</th><td>IND_AS_116_CAPITALISED</td></tr>
+<tr><th>Diluted shares</th><td>69994773</td><th>Share-count period</th><td>2026-03-31</td></tr>
+</table>
+
+<h2>Dividends</h2>
+<p>Verdict <strong>COVERED</strong> · reconciliation NOT_COMPARABLE</p>
+<p class="muted">Declared DPS <span class="absent">NOT_REPORTED</span> · implied DPS 4.286 · delta <span class="absent">POLICY_INPUTS_UNAVAILABLE</span> · NO_DECLARATION_RECORD: no dividend declaration is available, so the two sources cannot be compared</p>
+<table>
+<thead><tr><th>Period end</th><th>DPS</th><th>Basis</th></tr></thead>
+<tbody><tr><td>2026-03-31</td><td>4.29</td><td class="muted">AS_FILED</td></tr><tr><td>2025-03-31</td><td>3.57</td><td class="muted">AS_FILED</td></tr><tr><td>2024-03-31</td><td>2.86</td><td class="muted">AS_FILED</td></tr><tr><td>2023-03-31</td><td>2.29</td><td class="muted">AS_FILED</td></tr><tr><td>2022-03-31</td><td>1.71</td><td class="muted">AS_FILED</td></tr></tbody>
+</table>
+
+<h2>Moat — WIDE</h2>
+<p class="muted">ROIC−WACC spread 0.200 · consecutive positive years 5</p>
+<table>
+<thead><tr><th>Dimension</th><th>Metric</th><th>Observed</th><th>Threshold</th><th>Persistence</th></tr></thead>
+<tbody><tr><td><code>PRICING_POWER</code></td><td>grossMargin</td><td>0.702</td><td>0.35</td><td>persists</td></tr><tr><td><code>COST_POSITION</code></td><td>ebitdaMarginStability</td><td>0.288</td><td>0.15</td><td>persists</td></tr><tr><td><code>RETENTION</code></td><td>TM_RECURRING_REVENUE_PCT</td><td>0.780</td><td>0.9</td><td>not persisting</td></tr></tbody>
+</table>
+
+<h2>Risk</h2>
+<table>
+<thead><tr><th>Factor</th><th>Severity</th><th>Likelihood</th><th>Statement</th></tr></thead>
+<tbody><tr><td class="absent" colspan="4">no risk factor crossed a policy threshold</td></tr></tbody>
+</table>
+
+<h2>Quality and gaps</h2>
+<table>
+<thead><tr><th>Flag</th><th>Severity</th><th>Evidence</th></tr></thead>
+<tbody><tr><td colspan="3">no quality flag</td></tr></tbody>
+</table>
+<table>
+<thead><tr><th>Missing field</th><th>Reason</th></tr></thead>
+<tbody><tr><td colspan="2">no required field missing</td></tr></tbody>
+</table>
+
+<h2>What this says</h2>
+<ul><li>IN:ISIN:IN0000000201 is assessed on 5 annual period(s) of consolidated statements at content:fixture-assessment-1.</li><li>Adequacy is SUFFICIENT (FIELD_COVERAGE_AT_OR_ABOVE_SUFFICIENT_THRESHOLD, PERIODS_EXCLUDED_FOR_SCOPE); required-field coverage is 100%.</li><li>Intrinsic value is 516.56 per share (range 414.28–661.74), a blend of DCF_FCFF 60%, EV_EBITDA 10%, PE_RELATIVE 30%.</li><li>At the 2026-07-24 price the margin of safety is -64.5% against the midpoint (SIGNIFICANT_PREMIUM).</li><li>Moat is WIDE (ROIC−WACC positive for 5 consecutive year(s), 3 dimension(s) evidenced).</li><li>Dividend verdict is COVERED; source reconciliation is NOT_COMPARABLE (NO_DECLARATION_RECORD: no dividend declaration is available, so the two sources cannot be compared).</li><li>Quality verdict is CLEAN with 0 flag(s); combined confidence is 0.8371 with caps DILUTION_PROXY.</li></ul>
+
+<h2>Sector reference — shown separately, never an input</h2>
+<div class="sector-reference">
+<p><strong>Technology-UNASSIGNED</strong> (evidence class: SECTOR_REFERENCE)</p>
+<p class="muted">Engine verdict: none supplied · composite: —</p>
+<p class="muted">This block is a sector reference, not an identity and not an input to the assessment. It is displayed separately and cannot drive any valuation, moat, dividend or risk field.</p>
+</div>
+
+<h2>Limitations</h2>
+<ul><li>Dilutive potential shares (ESOP, convertibles) are not present in dataset schema v1, so the diluted count is the EPS-implied count and carries the DILUTION_PROXY cap.</li><li>Net debt subtracts cash and cash equivalents plus liquid investments only; restricted balances, margin money and regulatory balances are excluded from available cash by construction (R-4.1 / Schedule III). Dataset schema v1 carries no restricted-balance line item, so the component is published as NOT_COMPUTABLE rather than as a zero.</li><li>The corporate-action table carries no dividend declaration record in dataset schema v1, so R-15 corroboration is unavailable for this assessment.</li><li>Assessment only: no persistence, no transport and no UI are part of IID-2 (IID-3 and IID-6 own those).</li></ul>
+
+<p class="muted">Decision support only · no trade execution · non-production. Every figure above is a field of the assessment payload; nothing is computed by this page.</p>
+</body>
+</html>
