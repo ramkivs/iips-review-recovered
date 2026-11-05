@@ -481,3 +481,40 @@ After any suspected corruption, stop the single writer, preserve the original ev
 existing owner-local backup/read-verification procedure (§10). PF-1's already-governed final truncated-
 line recovery is unchanged; malformed interior lines fail closed. Consumer code adds no repair,
 rollback, deletion or purge. Escalate unresolved corruption rather than altering PF-1 or its journal.
+
+## 12. Dated deletion/backup safety clarification (`2026-11-06`) — no new deletion authority
+
+This additive note qualifies the abbreviated historical recipes in §§10.4–10.5. **Do not execute them
+as part of the deletion decision-paper task.** No deletion tool, endpoint or altered retention policy
+has been implemented. Decision-ready proposal:
+`docs/integration/WS-A-OWNER-EVIDENCE-DELETION-PA-DECISION-PAPER-2026-11-06.md`; PA decision pending,
+Act ID unassigned, proposed amendment not effective, new implementation not authorized.
+
+- The current root-file layout separates evidence from Watchlists/Collaboration/Settings subdirectories,
+  but does not prove the actual journal has only the approved owner or schema. Filesystem removal bypasses
+  PF-1 owner checks and can destroy any foreign record in the same file. Do not act on an unverified,
+  mixed-owner, unrelated-schema, malformed or tampered journal. The fixed opaque owner/carrier remains
+  required; SAIRAM or an owner argument is not an OS credential or authorization by itself.
+- Stop **all** writers/hosts and close stale browser imports before any owner-operated snapshot/reset
+  or restore. Do not remove a live journal or overwrite newer history. PF-1 has no cross-process lock
+  or explicit fsync guarantee. Constructing it can rewrite a truncated final line: it is not a
+  byte-preserving inspector. This documentation pass opens no operational store and performs no repair.
+- A pre-delete local copy retains the full evidence. Removing the active file is **active-store reset**,
+  not permanent erasure. Existing backups/snapshots can contain all records. No backup is removed or
+  automatically expired. Removal of backups/all copies requires a distinct explicit PA disposition.
+- Verify whole-file snapshot SHA-256 against its retained manifest as an operator action. A-9 checks
+  per-record integrity, not backup freshness, completeness or a deletion-intent registry. A valid old
+  backup can restore deliberately cleared records; “digest passes” does not prove restore is permitted.
+- Existing manual steps provide no application confirmation or transactional deletion-fact audit. An
+  interruption can leave active + backup, backup only or unknown state. Do not infer successful reset
+  from a missing file, silently resume a destructive action, automatically restore, or edit the journal
+  to manufacture a successful state. Preserve remaining files, stop writers and reconcile deliberately.
+- Re-import advice in §10.5 creates **new evidence**, not restoration of original retained records.
+  Restoring original bytes from a verified backup is the distinct recovery operation in §10.4 and can
+  reverse a reset. A new import or old-snapshot resubmission can recreate state after a whole reset;
+  there is no tombstone/denylist or permanent-ID-suppression mechanism.
+
+The simplest proposed future model is an offline, whole-file scope-checked, owner-confirmed reset with
+verified retained local recovery copy and minimal deletion-fact receipt. That is **only a proposal**.
+No new removal command is provided here. Existing indefinite/explicit-owner-only policy, locality,
+backup protection, owner isolation, digest verification and the 50 MiB warning-only rule remain intact.

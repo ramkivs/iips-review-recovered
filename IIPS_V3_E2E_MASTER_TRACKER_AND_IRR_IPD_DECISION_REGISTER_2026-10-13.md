@@ -21635,3 +21635,38 @@ cross-process locking or explicit fsync/power-loss guarantee. No holdings/raw up
 mutation or production activation. Milestone WS-A-DM remains NOT COMPLETE. Receipt-only publication is
 independently verified in the publishing session, with its own coordinates recorded in its PR record.
 No new ledger allocation is consumed by this discharge subsection.
+
+### 16.258 Owner-controlled evidence deletion — decision preparation (`2026-11-06`)
+
+**CV-CORR-238 / CHG-2026-11-06-01 / V2133.** Baseline live IRR main
+`d847de35fb1f1894374b8025e5a8c1008e5bbc3b`, clean session branch
+`arena/8c0cea0f-iips-review-recovered`. No implementation/test repetition and no operational store opened.
+
+Publication-count clarification: PR #454 changed **24 unique paths**; PR #455 changed **5**, overlapping
+in tracker/R2 (**2**). The final cumulative verification counted **27 = 24 + 5 − 2** distinct paths
+from pre-implementation `9d3f668e…` through `d847de35…`. Both counts are correct at their stated scope;
+no numerical correction or test requalification is needed. Three new receipt paths account for growth.
+Exact PR file sets/Git-diff evidence: `evidence/integration/ws-a-owner-deletion-decision-2026-11-06/`.
+
+Decision paper: `docs/integration/WS-A-OWNER-EVIDENCE-DELETION-PA-DECISION-PAPER-2026-11-06.md`;
+separate draft: `docs/integration/WS-A-OWNER-EVIDENCE-DELETION-PROPOSED-ADDITIVE-AMENDMENT-2026-11-06.md`.
+**INVESTIGATION COMPLETE; PROPOSAL PREPARED (PUBLICATION PENDING); PA DECISION PENDING; ACT ID
+UNASSIGNED; NEW AMENDMENT NOT EFFECTIVE; NEW IMPLEMENTATION NOT AUTHORIZED; DELETION TOOLING NOT
+IMPLEMENTED.** No Act ID or approval is invented/reused. The existing explicit local-owner whole-journal
+principle remains, not expanded. Per-record/tombstone/backup-erasure models need separate authority.
+
+Arena recommends offline, confirmed **all-active-evidence reset with verified retained local recovery
+copy**, strict whole-file ownership/schema/digest/path checks, writer quiescence, minimal deletion-fact
+audit, and explicit interrupted-state reconciliation. This is not all-copy erasure. Filesystem unlink
+bypasses owner partitions; source layout is not a runtime ownership census. Backup restore can resurrect
+cleared records, and current record digests do not establish backup completeness/freshness. Runbook §12
+adds cautions without altering prior prose or providing a new deletion command. PF-1 load may rewrite
+a truncated tail; it is not used as a read-only operational inspector in this task.
+
+All runtime/PF-1/frozen acts/existing evidence unchanged. No DELETE, evidence deletion/mutation, expiry,
+purge/compaction, W-1/holdings/IPD change or policy change. Existing retention remains indefinite under
+its effective acts. Live retention remains implemented/verified per §16.257.1; WS-A-DM not declared
+complete. Applicable static checks and independent proposal publication read-back follow; no deletion
+runtime tests are claimed. Publication coordinates belong in the dated receipt, not a prospective hash.
+
+Next free after this allocation: section 16.259, correction 239, next dated change suffix 02, ledger V2134.

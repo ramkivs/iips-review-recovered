@@ -1306,3 +1306,30 @@ recovery, single-writer/no-fsync limits and all exclusions remain. No PF-1/holdi
 purge/W-1/IPD/production expansion. A-9 was reused, not rebuilt; WS-A-DM remains NOT COMPLETE.
 Tracker §16.257.1 and supporting CI/read-back JSON record the exact coordinates. This receipt's own
 publication is independently verified in the publishing session and recorded in its PR record.
+
+## 21. Owner-controlled deletion — investigation and PA proposal (`2026-11-06`)
+
+Baseline IRR main `d847de35fb1f1894374b8025e5a8c1008e5bbc3b`. Count reconciliation of §20.1 versus
+final verification: #454 **24** unique paths; #455 **5** paths; shared tracker/R2 **2**; cumulative
+**27 = 24 + 5 − 2** from `9d3f668e…` to `d847de35…`. No numerical error: earlier 24 describes the
+implementation increment, later 27 the final union including three new receipt paths. This additive
+scope clarification preserves the original records; implementation/tests were not repeated.
+
+[PA decision paper](WS-A-OWNER-EVIDENCE-DELETION-PA-DECISION-PAPER-2026-11-06.md) and
+[separate proposed additive amendment](WS-A-OWNER-EVIDENCE-DELETION-PROPOSED-ADDITIVE-AMENDMENT-2026-11-06.md)
+are prepared. **INVESTIGATION COMPLETE / PROPOSAL PUBLICATION PENDING / PA DECISION PENDING /
+ACT ID UNASSIGNED / NEW AMENDMENT NOT EFFECTIVE / NEW IMPLEMENTATION NOT AUTHORIZED /
+DELETION TOOLING NOT IMPLEMENTED.** Tracker §16.258; supporting evidence under
+`evidence/integration/ws-a-owner-deletion-decision-2026-11-06/`.
+
+Current capability is explicit outside-HTTP owner action on the whole journal, not an individual record.
+PF-1 exposes no delete/tombstone/compaction; readState is not deletion. Whole-file filesystem action
+bypasses owner scope, and backups can restore removed records. Arena recommends a future offline,
+whole-file-verified, explicitly confirmed active-evidence reset **with recovery copy retained**, minimal
+delete-fact audit and interruption reconciliation. It is not permanent all-copy erasure. Per-record,
+tombstone and backup-destruction alternatives remain unadopted. Runbook §12 adds dated safety cautions;
+no live store was opened, repaired or changed and no new deletion command/functionality is supplied.
+
+Existing indefinite retention and AMEND-01/02 remain effective unchanged. SAIRAM opaque owner binding,
+integrity/isolation, PF-1 single-writer/no-fsync limits, W-1, holdings and repository boundaries remain.
+No HTTP DELETE, automatic expiry/purge/compaction, physical deletion, PF-1 or IPD modification.
