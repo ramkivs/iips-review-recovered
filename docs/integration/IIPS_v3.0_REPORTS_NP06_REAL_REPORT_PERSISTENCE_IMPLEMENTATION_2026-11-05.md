@@ -212,7 +212,7 @@ The script refuses duplicate `reportKey`s unless `--force` is supplied. The `--c
 
 ## 6. Publication
 
-This record is published on branch `arena/64350977-iips-review-recovered` in PR #438. Remote head `46d0d15ae3b90e2c1c6940148d0eb3b17ed9a0f2`. All seven changed paths were read back from the remote at that exact head and matched the local Git blob IDs byte-for-byte:
+This record is published on branch `arena/64350977-iips-review-recovered` in PR #438. Final remote head `fc66ec22762924e0b7b24f72bdfd2cac70f0820f` (merge of `origin/main` into the branch). The implementation head `46d0d15ae3b90e2c1c6940148d0eb3b17ed9a0f2` is the implementation commit in that merge. All seven changed paths were read back from the remote at the implementation head and matched the local Git blob IDs byte-for-byte:
 
 | Path | Remote Git blob ID |
 |---|---|
@@ -224,4 +224,6 @@ This record is published on branch `arena/64350977-iips-review-recovered` in PR 
 | `frontend/src/features/reports/ReportsRealData.test.tsx` | `1b496c41df67b2545b6bf8529f20169fae1c1dd6` |
 | `frontend/tsconfig.replay-server.json` | `b6c882fd2acd33b763c2e2b5e926b3f70e00c4b2` |
 
-CI at the PR head: `Typecheck · Test · Build` **pass** (1m58s); `Python compile · source/evidence/tracker validation` **pass** (34s). PR state: **OPEN**, `MERGEABLE`, `CLEAN`. The PR is not merged without the repository's required review process.
+The merge brought in `origin/main`, including its §16.249. The tracker conflict was resolved by preserving main's §16.249 verbatim and renumbering this record's section to §16.250 (`CV-CORR-230`, `V2040`–`V2045`). An initial merge-resolution truncation of the tracker was corrected by restoring the full 19,960-line tracker from `origin/main` and re-inserting the renumbered section; the IRR-only static validator passes on the final head.
+
+CI at the final head: `Typecheck · Test · Build` **pass** (2m1s); `Python compile · source/evidence/tracker validation` **pass** (34s). PR state: **OPEN**, `MERGEABLE`, `CLEAN`. The PR is not merged without the repository's required review process.
