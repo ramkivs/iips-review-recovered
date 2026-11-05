@@ -152,6 +152,17 @@ curl -s -o /dev/null -w '%{http_code}\n' localhost:8787/api/reports/artifacts   
 curl -s -o /dev/null -w '%{http_code}\n' localhost:8787/api/reports/artifacts   # → 200 (empty page on a fresh database)
 ```
 
+**Persisting the certified reports (operator-controlled).** The producer-to-persistence invocation authorized on 2026-11-05 is the one-off script `frontend/server/reports/persist-real-reports.ts`. It reuses `computeCertifiedPlatform()` (the certified frozen-engine execution and its genuine `pr.reports` output), `composeReportContent()`, and the existing `ReportsPersistence.persistNew()` / NP-04 `createInstance` boundary. It is **not** a public write route and adds **no** UI write control; the Reports UI remains read-only.
+
+```bash
+cd frontend
+npx tsx server/reports/persist-real-reports.ts                 # dry run: show the genuine reports, write nothing
+npx tsx server/reports/persist-real-reports.ts --commit        # persist the genuine reports once
+npx tsx server/reports/persist-real-reports.ts --verify        # read back in a new process
+```
+
+The script requires `IIPS_REPORTS_OWNER_PATH` and `IIPS_NP04_DATABASE_PATH` (§3.2), resolves the approved owner pair from the carrier, and refuses to create a duplicate instance for an already-persisted `reportKey` unless `--force` is supplied. `--verify` opens a fresh NP-04 store handle and reads the artifacts back; with `--api <base-url>` it also checks that the running Reports API returns the same artifact count. The persisted reports appear at `/reports` through the existing read-only UI. This is a bounded non-production operator procedure; production admission remains **NOT ADMITTED**.
+
 ## 4. Start the UI
 
 ```bash
