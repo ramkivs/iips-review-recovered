@@ -21670,3 +21670,22 @@ complete. Applicable static checks and independent proposal publication read-bac
 runtime tests are claimed. Publication coordinates belong in the dated receipt, not a prospective hash.
 
 Next free after this allocation: section 16.259, correction 239, next dated change suffix 02, ledger V2134.
+
+#### 16.258.1 Deletion decision package — published, not adopted (`2026-11-06`)
+
+PR **#457**, exact head `7bd375939108f0c091cf3756e15dd4198f37731c`, merged
+`82406dd8828296ac425eb5a4827f581da6c89257`. Exact-head static CI **42087623456 SUCCESS**;
+merged-main static CI **42087751299 SUCCESS**. Independent remote content matches **10/10** changed
+paths; **346/346** protected baseline blobs and **883/883** pre-existing evidence blobs unchanged.
+Receipt: `docs/integration/WS-A-OWNER-EVIDENCE-DELETION-PROPOSAL-PUBLICATION-RECEIPT-2026-11-06.md`;
+CI/hash evidence under `evidence/integration/ws-a-owner-deletion-decision-2026-11-06/`.
+
+**INVESTIGATION COMPLETE / PROPOSAL PUBLISHED AND VERIFIED / PA DECISION PENDING / ACT ID UNASSIGNED /
+NEW AMENDMENT NOT EFFECTIVE / NEW IMPLEMENTATION NOT AUTHORIZED / DELETION TOOLING NOT IMPLEMENTED.**
+The recommended offline confirmed whole-active-journal reset retains a verified local recovery copy;
+it is not per-record deletion or permanent erasure. Current explicit-local-owner principle and
+indefinite retention remain unchanged. The 24-versus-27 reconciliation is scope-only: #454 24 + #455 5
+− tracker/R2 overlap 2 = final cumulative 27; no implementation or tests repeated. No runtime/PF-1/
+evidence/frozen authority/W-1/holdings/IPD change. Receipt-only final publication is independently
+verified in the publishing session and recorded in its PR record. No new allocation consumed here.
+Stop after publication; await PA adoption before any new deletion implementation.

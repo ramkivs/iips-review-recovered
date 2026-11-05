@@ -1333,3 +1333,22 @@ no live store was opened, repaired or changed and no new deletion command/functi
 Existing indefinite retention and AMEND-01/02 remain effective unchanged. SAIRAM opaque owner binding,
 integrity/isolation, PF-1 single-writer/no-fsync limits, W-1, holdings and repository boundaries remain.
 No HTTP DELETE, automatic expiry/purge/compaction, physical deletion, PF-1 or IPD modification.
+
+### 21.1 Proposal publication receipt — no deletion adoption (`2026-11-06`)
+
+PR **#457** head `7bd375939108f0c091cf3756e15dd4198f37731c`, merge
+`82406dd8828296ac425eb5a4827f581da6c89257`; exact-head / merged-main static CI **42087623456 /
+42087751299 SUCCESS**; remote read-back **10/10 MATCH**, protected blobs **346/346 unchanged**,
+existing evidence blobs **883/883 unchanged**.
+[Formal proposal publication receipt](WS-A-OWNER-EVIDENCE-DELETION-PROPOSAL-PUBLICATION-RECEIPT-2026-11-06.md).
+
+Current overlay: **INVESTIGATION COMPLETE; PROPOSAL PUBLISHED/VERIFIED; PA DECISION PENDING; ACT ID
+UNASSIGNED; NEW AMENDMENT NOT EFFECTIVE; NEW IMPLEMENTATION NOT AUTHORIZED; DELETION TOOLING NOT
+IMPLEMENTED.** No published draft is a PA act. Offline whole-active-evidence reset with verified
+recovery copy retained is recommended, not executed or adopted. Tombstones/per-record removal/backup
+erasure remain separate alternatives. #454 24 paths and cumulative #454+#455 27 paths are both correct
+(24 + 5 − 2 shared paths). Scope clarification is additive; no implementation/test repeated.
+
+Existing retention, opaque owner/integrity, PF-1, W-1, holdings and repositories remain unchanged; no
+HTTP DELETE, operational evidence alteration or purge. Tracker §16.258.1 records the same status.
+Receipt-only final coordinates are independently verified in its PR record. Stop and await PA adoption.

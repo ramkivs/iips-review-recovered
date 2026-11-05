@@ -21,7 +21,7 @@ changed = subprocess.check_output(['git', 'diff', '--name-only', baseline['main'
 for p in changed:
     assert p.startswith(('docs/', 'evidence/')) or p == 'IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md', p
     if p.startswith('evidence/'):
-        assert p.startswith(str(folder) + '/'), p
+        assert p.startswith(folder.resolve().relative_to(Path.cwd()).as_posix() + '/'), p
 proposal = Path('docs/integration/WS-A-OWNER-EVIDENCE-DELETION-PROPOSED-ADDITIVE-AMENDMENT-2026-11-06.md').read_text()
 assert 'Act ID: UNASSIGNED' in proposal and 'NOT EFFECTIVE' in proposal
 print('PASS: docs-only scope; existing evidence unchanged; proposal has no invented/adopted Act ID')
