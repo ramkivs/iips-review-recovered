@@ -92,3 +92,14 @@ the inherited blocker. Until that separate PR can pass/merge, **end-to-end publi
 even if the implementation itself merges and remote readback succeeds. Tracker §16.259.2 references
 are queued until that overlay publishes. Resolving the CAP-03 historical path classification requires
 a separately scoped correction; it is not smuggled into owner reset or frozen P-1 authority.
+
+## Implementation merged and remotely verified (later publication overlay)
+
+PR **#462** head `7f8bdbf044a3f82feb5af3ebcec911bba7fa5e11`, merged
+`a9329dd509be8051f82780059646c0f179d42b74`. Product CI **42093558519** (head) and
+**42093933769** (merged main): SUCCESS. Independent GitHub API tree + decoded blob reads:
+all **17 changed paths** exact bytes at head and merged main; **2625 protected baseline blobs**
+unchanged at both, existing runbook/R2 overlays append-only. Evidence `remote-head-462.json`,
+`remote-merged-462.json`, `ci-head-462.json`, `ci-main-462.json` is in the separate receipt PR.
+Implementation is merged and synthetically verified, not merely a draft. Tracker/final-receipt
+publication remains distinct and blocked by the inherited CAP-03 static issue described above.

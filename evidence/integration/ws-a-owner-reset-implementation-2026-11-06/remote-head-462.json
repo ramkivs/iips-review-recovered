@@ -1,0 +1,103 @@
+{
+  "pr": 462,
+  "url": "https://github.com/ramkivs/iips-review-recovered/pull/462",
+  "baseline": "34c8b39e3ee1d26bba4f9b362ca631c4e42ce863",
+  "localCommittedHead": "7f8bdbf044a3f82feb5af3ebcec911bba7fa5e11",
+  "merged": false,
+  "mergeCommit": "c3b8865d97dc544e864fc6c1d7d52b8146361d11",
+  "observedMain": "34c8b39e3ee1d26bba4f9b362ca631c4e42ce863",
+  "refs": {
+    "head": {
+      "commit": "7f8bdbf044a3f82feb5af3ebcec911bba7fa5e11",
+      "exactChangedByteMatches": [
+        {
+          "path": "docs/OPERATOR_RUNBOOK.md",
+          "blob": "483a1a816b239f24eae922cfe8d867d7dfddc4bb",
+          "sha256": "2242566b0cbc444d8e9c19d537eed96b23bed7608d8b100e3d9b274d071ffa63"
+        },
+        {
+          "path": "docs/integration/WS-A-DHAN-BROKER-HOLDINGS-WORKSTREAM-REPORT-2026-11-05-R2.md",
+          "blob": "148a2e27b5a8416c83707ee645efc435abf65396",
+          "sha256": "20eab9624e2184086ea883b0d2334b32e029086638fbde4cc0aa879dac40cbb6"
+        },
+        {
+          "path": "docs/integration/WS-A-OWNER-EVIDENCE-RESET-IMPLEMENTATION-2026-11-06.md",
+          "blob": "559ceecea1aebcc7152178a21539ac5de7cf5e2f",
+          "sha256": "89d785b7a502c3a153cb6026d797c59e491bb713f33e252efbf2c5739ecc5655"
+        },
+        {
+          "path": "evidence/integration/ws-a-owner-reset-implementation-2026-11-06/acceptance.txt",
+          "blob": "3e617bebdf329720ba971e884487c7a9e974ba12",
+          "sha256": "169729a4e6c4e93b0dde0816d12b9746f803acef80ec8ffa5e6bd69402435ffe"
+        },
+        {
+          "path": "evidence/integration/ws-a-owner-reset-implementation-2026-11-06/boundaries.json",
+          "blob": "f1c0201d42bf58f219b7e86adaa9c1b328ef84dc",
+          "sha256": "6025d3ab349e62b7080fb5f7e1f2e7d401096c79ce7a88d26e6c97b7a301b69b"
+        },
+        {
+          "path": "evidence/integration/ws-a-owner-reset-implementation-2026-11-06/build.txt",
+          "blob": "9a9c8bcabee081444aaa69f553ae89646d37005e",
+          "sha256": "e53dbdd86091598f6968b642c2e647957b48cc03eeecb386ac3ae9c382d69e79"
+        },
+        {
+          "path": "evidence/integration/ws-a-owner-reset-implementation-2026-11-06/regression.txt",
+          "blob": "4320ac654e7e430452bccdc058ed4b97285a835f",
+          "sha256": "fcc59f27934922fa37c40b80da24797eed25d355bd9f6436730248be8e071dfc"
+        },
+        {
+          "path": "evidence/integration/ws-a-owner-reset-implementation-2026-11-06/static.txt",
+          "blob": "41f8e19e43ce0d17ac4070fa564f08c8e91c48c4",
+          "sha256": "8c386b233c10537e7ecc436962e01051fb7fc5451b17eb9a13eaf69ae1f4158b"
+        },
+        {
+          "path": "evidence/integration/ws-a-owner-reset-implementation-2026-11-06/tty.txt",
+          "blob": "fa86cf394abacec715e79bbda7aa8d4c707338f2",
+          "sha256": "8729fbc5a765ee4d48c00295bf1c0291c512de78091a001b36d074f25a136275"
+        },
+        {
+          "path": "evidence/integration/ws-a-owner-reset-implementation-2026-11-06/typechecks.txt",
+          "blob": "44d5c6357c4e1bdc91b8ebc473238faf7452c393",
+          "sha256": "e8f3d48c831561f7f076c95f05399b318ea56415ed46e6e389342ee283f6ca8e"
+        },
+        {
+          "path": "evidence/integration/ws-a-owner-reset-implementation-2026-11-06/verify_boundaries.py",
+          "blob": "071e27c94eba1f2dec014e159404ca7a5dca1a8d",
+          "sha256": "60446f1cd0c07a9572dfa3a8ca2be3f47964eef229600a4f36825dac1bcf017c"
+        },
+        {
+          "path": "evidence/integration/ws-a-owner-reset-implementation-2026-11-06/verify_tty.py",
+          "blob": "5e3a97c1656918cc285d111f9558853ea06f2119",
+          "sha256": "bdaaa77c60640c7763a1e3f0d69c5ced69f8a076ed8e35dfa2b7675e9a0645fa"
+        },
+        {
+          "path": "frontend/server/broker-import/__fixtures__/ownerResetProcess.ts",
+          "blob": "fd0a93962c7ccf41c4b510a888113a059dc43325",
+          "sha256": "97666c0594cd934bb0a6a5d471c9589da6df0712765a35a965223fa615a111f0"
+        },
+        {
+          "path": "frontend/server/broker-import/ownerEvidenceReset.test.ts",
+          "blob": "3fa8b56af59380588b96108c28161d106f48312c",
+          "sha256": "436d73c60d239f24aced9b9cf0a55bdef37a7550b38d6ae811a60bbe6d4d0dbd"
+        },
+        {
+          "path": "frontend/server/broker-import/ownerEvidenceReset.ts",
+          "blob": "0cac4bb53ef0ab29f493d99cf2419cc95283117e",
+          "sha256": "c5e4c32ee5361c51621628e6c03402b760d8ea48cf7654b3051a8c8e5f76c257"
+        },
+        {
+          "path": "frontend/server/broker-import/ownerEvidenceResetCli.ts",
+          "blob": "8ec585083cf0c9080f3525930f9e0a42d1861c8c",
+          "sha256": "ac0102f03c75fea837badab31bf33417893df0ea165c6df57f5753bb8614e4fb"
+        },
+        {
+          "path": "frontend/server/broker-import/ownerEvidenceResetJournal.ts",
+          "blob": "0bc05660cf03e224a0992277e3e987bfa47773e8",
+          "sha256": "86906b32202b977947dcf5e8e8b6bec5462d77e4dae125ea8acd777452a9a1ad"
+        }
+      ],
+      "protectedExistingBlobsUnchanged": 2625,
+      "overlaysAppendOnly": true
+    }
+  }
+}

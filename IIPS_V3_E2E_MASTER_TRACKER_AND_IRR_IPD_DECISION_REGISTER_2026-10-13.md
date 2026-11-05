@@ -21717,3 +21717,45 @@ under docs/integration records act §5 discharge. Bounded offline implementation
 IMPLEMENTED here, continue in this session after receipt publication/verification. Not permanent erasure,
 no operational evidence reset, no PF-1/live authority/W-1/repository expansion. Receipt's own publication
 coordinates verified in its PR record. No new allocation consumed by this subsection.
+
+#### 16.259.2 Owner reset implementation and isolated acceptance (`2026-11-06`)
+
+Later engineering overlay under the already-effective Act (no new allocation/adoption). Starting main
+`34c8b39e3ee1d26bba4f9b362ca631c4e42ce863`; branch `arena/773aaf95-iips-review-recovered`.
+Dedicated offline whole-active-journal planner/executor/status + owner TTY, exact plan binding,
+verified retained copy before removal, minimal phase/outcome audit and truthful interrupted states.
+See `docs/integration/WS-A-OWNER-EVIDENCE-RESET-IMPLEMENTATION-2026-11-06.md` for draft-recovery limitation,
+acceptance matrix, support boundary and exclusions; runbook §13 supplies exact operating/recovery steps.
+19 synthetic acceptance cases, seven actual SIGKILL boundaries, actual PTY cancel/confirm/status,
+full regression 1512 PASS / 1 existing skip; strict new-module/frontend/replay checks PASS.
+Publication pending this implementation PR; final receipt will give verified head/main coordinates.
+No operational owner reset, production activation, PF-1/live route/frozen authority/W-1/IPD change.
+Active-store clearing is not permanent erasure; original-byte recovery copy retained and can resurrect.
+
+#### 16.259.3 Merged implementation; inherited receipt-publication blocker (`2026-11-06`)
+
+PR #462 head `7f8bdbf044a3f82feb5af3ebcec911bba7fa5e11`, merge
+`a9329dd509be8051f82780059646c0f179d42b74`. Product head/main CI
+42093558519 / 42093933769 SUCCESS; independent API head/main 17 changed paths exact bytes,
+2625 protected baseline blobs unchanged, existing documentation overlays append-only.
+See `docs/integration/WS-A-OWNER-EVIDENCE-RESET-IMPLEMENTATION-RECEIPT-2026-11-06.md`.
+Implementation MERGED and isolated synthetic acceptance verified; operational owner reset NOT EXECUTED.
+This tracker/receipt publication is separate: the unchanged CAP-03 validator rejects pre-existing
+IID-1 `test-log-np12-regression.txt` already present on starting main. No validator/runtime allowlist
+or frozen authority alteration, waiver or failed-check bypass is included. Until that independent
+static blocker is resolved and this overlay merges, end-to-end requested publication is INCOMPLETE.
+
+#### 16.259.4 Validator corrected; owner reset publication closed (`2026-11-06`)
+
+Later overlay superseding §16.259.3's inherited blocker: correction #465 merged
+`e925cb68cc68729a862feee647bec66b207a01f0`, head/main static CI
+42096640841 / 42096783518 SUCCESS. Seven classifier regressions and full existing CAP-03 validation
+pass; runtime freshness allowlist/admission gates and IID-1 evidence unchanged.
+PR #463 safely updated with corrected main, original receipt changes byte-identical, then MERGED
+`26256e741566b3fe088d2f7bb47ce5be7f0f76a5`; head/main static CI
+42096812868 / 42097022696 SUCCESS. Independent API exact bytes: correction 7/7 and receipt cumulative
+17/17 paths at head/merge; 2637 protected existing blobs unchanged, overlays append-only.
+Implementation #462 remains merged/unchanged. Effective reset Act unchanged; no PA re-adoption.
+Final receipt's later closure overlay and R2 §22.4 reconcile publication COMPLETE, operational reset
+NOT EXECUTED / deployment NOT ACTIVATED. Runbook §13's qualified offline procedure/limitations remain.
+No PF-1, W-1, IPD, frozen authority, retention or backup-disposition change. No new allocation consumed.
