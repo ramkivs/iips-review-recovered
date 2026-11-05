@@ -438,16 +438,20 @@ export interface CompanyAssessmentPayload {
   };
 }
 
-/** Flat `parameters` mirror (IID-3 persists these so `reportKey` is input-sensitive). */
+/**
+ * SUPERSEDED (IID-3). An earlier sketch had IID-3 persist the discriminating digests into the flat
+ * `parameters` block so that `reportKey` would be input-sensitive. The design of record (roadmap
+ * Revision 3, Part B §B.A) supersedes that: `reportKey` is CHAIN identity and must never be
+ * input-sensitive, or every input change would mint a new chain and version history would be
+ * meaningless. `parameters` therefore carries STABLE-ONLY members; the input digest lives in
+ * provenance and drives versioning instead. The type below is the stable-only set IID-3 persists, and
+ * the name is kept so that no stale definition survives under it.
+ */
 export interface AssessmentParameters {
-  readonly issuerId: string;
-  readonly sector: SectorName;
-  readonly dataAsOf: string;
-  readonly knownAsOf: string;
-  readonly datasetVersion: string;
-  readonly contentDigest: string;
+  readonly assessmentSchemaVersion: number;
   readonly modelVersion: string;
   readonly policyVersion: string;
-  readonly inputDigest: string;
-  readonly adequacy: Adequacy;
+  readonly statementScope: StatementScope;
+  readonly reportingCurrency: 'INR';
+  readonly fiscalYearEnd: string;
 }

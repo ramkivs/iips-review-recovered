@@ -1,0 +1,52 @@
+IID-3 — PERSISTENCE, READ TRANSPORT AND THIN SLICE (M-1)
+readiness summary · 2026-11-06 · branch arena/e56fe593-iips-review-recovered
+base commit: 34c8b39e3ee1d26bba4f9b362ca631c4e42ce863 (origin/main after PR #461, IID-2)
+
+TESTS
+  iips-platform  tests/investment/*.test.ts ................. 286 / 286 pass  (275 before + 11 scope-token)
+  iips-platform  tests/regression/np12-sector-reference-population ....... 42 / 42 pass
+  frontend  server/investment/** ............................. 55 / 55 pass
+      assessment-composition.test.ts ......... 15
+      investment-artifacts.test.ts ........... 15
+      investment-transport.test.ts ........... 14
+      cli/generate-investment-artifacts ...... 10
+      cli/m1-demonstration .................... 1
+  frontend  src/api/investment.test.ts ....................... 13 / 13 pass
+  frontend  src/features/investment/CompanyAssessmentPage .... 8 / 8 pass
+  frontend  server/reports/** (regression) ................... 130 / 130 pass
+  TOTAL IID-3-relevant frontend suites ...................... 76 / 76 pass
+
+TYPECHECK
+  iips-platform  tsc --noEmit ................................ clean
+  frontend  tsc -p tsconfig.investment-server.json ............ clean  (new: server/investment + CLI)
+  frontend  tsc -p tsconfig.replay-server.json ................ no NEW errors (16 pre-existing: unresolved
+                                                                 iips-production-market-data/* subpaths and the
+                                                                 never-materialised .cache/broker-import)
+  frontend  tsc --noEmit (src) ............................... no NEW errors (pre-existing broker-import only)
+
+M-1 IDENTITIES (synthetic reference company; new isolated scope)
+  issuerId ................. IN:EQISIN:IN0000000201   (identity RESOLVED through the IID-1 resolver)
+  chain scope token ........ co:IN:EQISIN:IN0000000201
+  reportType ............... investment.company-assessment
+  reportKey (chain) ........ fcf992e0a1316001059cac7caa21335938f2b63b25c986dfb7c50e8cfc376d2f
+  v1 payloadDigest ......... ecc09e630d16af39…  (66,726 bytes, unchanged after v2)
+  v1 inputDigest ........... sha256:c74226fe7db45…
+  v2 payloadDigest ......... 7e97edcff33583e7…  (changed dataset: latest close +5%)
+  v2 inputDigest ........... sha256:086259792a77c…
+  versions ................. 2, contiguous, chain-validated on every read
+  datasetClass ............. SYNTHETIC_REFERENCE (L-004)
+  real issuer assessment ... NOT PERFORMED — BLOCKED (no approved dataset in the local ingestion path)
+
+M-1 VERIFICATION POINTS .................... 10 / 10 pass (m1-demonstration.json)
+SANITIZATION SWEEP ......................... 4 response bodies, 0 leaks
+MUTATING ROUTES ............................ 0 (8/8 non-GET/HEAD → 405 Allow: GET, HEAD)
+
+LIMITATION REGISTER
+  L-001 … L-009  preserved OPEN, verbatim in intent (no IID-0/IID-1/IID-2 limitation closed)
+  L-010 … L-016  opened by IID-3 (scan-bounded chains, dual scope namespaces, chainId not surfaced,
+                 head-only idempotency, timestamp-inclusive identity, duplicate-head refusal,
+                 observed NP-04 pin-prose drift)
+
+UNTOUCHED
+  frozen sector engines; IID-4/IID-5/IID-6; pre-existing NP-04 artifacts (no read, no write, no recreate);
+  dependency pins (no pin changed; the drift is reported as L-016); iips-platform tsconfig include.

@@ -108,8 +108,13 @@ export function toNp04Content(content: ReportContent): Np04ArtifactContent {
   };
 }
 
-/** Normalize an NP-04 artifact into the canonical Reports artifact shape and validate it. */
-function toCanonicalArtifact(
+/**
+ * Normalize an NP-04 artifact into the canonical Reports artifact shape and validate it.
+ *
+ * Exported for IID-3: the investment chain service reads NP-04's own artifact records and must map them
+ * through exactly this one mapping rather than growing a second, subtly different one.
+ */
+export function toCanonicalArtifact(
   artifact: Np04GovernedArtifact,
   expectedOwner: ReportOwnership,
 ): CanonicalReportArtifact {

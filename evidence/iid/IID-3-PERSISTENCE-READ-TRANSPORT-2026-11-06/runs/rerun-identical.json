@@ -1,0 +1,121 @@
+{
+  "schemaVersion": 1,
+  "status": "OK",
+  "generatedAt": "2026-11-06T00:00:00.000Z",
+  "steps": [
+    {
+      "step": "snapshot",
+      "status": "OK",
+      "detail": "datasetVersion sha256:a61333504911328e41a10d2456b6fb9807f358e1f55aed0a5de575b36684c4ca"
+    },
+    {
+      "step": "identity",
+      "status": "OK",
+      "detail": "RESOLVED via ISIN"
+    },
+    {
+      "step": "assessment",
+      "status": "OK",
+      "detail": "SUFFICIENT / MATERIAL_CONCERNS / confidence 0.6740"
+    },
+    {
+      "step": "compose",
+      "status": "OK",
+      "detail": "reportKey fcf992e0a131… payloadDigest ecc09e630d16…"
+    },
+    {
+      "step": "validate",
+      "status": "OK",
+      "detail": "scope co:IN:EQISIN:IN0000000201 (ISSUER)"
+    },
+    {
+      "step": "chain-head",
+      "status": "OK",
+      "detail": "existing chain at version 1"
+    },
+    {
+      "step": "compare",
+      "status": "OK",
+      "detail": "content and input identical"
+    },
+    {
+      "step": "persist",
+      "status": "OK",
+      "detail": "UNCHANGED (no write)"
+    },
+    {
+      "step": "verify",
+      "status": "OK",
+      "detail": "chain valid: 1 version(s), head v1"
+    }
+  ],
+  "dataset": {
+    "dir": "/tmp/iid3-m1-e1AUto/dataset-v1",
+    "datasetVersion": "sha256:a61333504911328e41a10d2456b6fb9807f358e1f55aed0a5de575b36684c4ca",
+    "contentDigest": "sha256:a61333504911328e41a10d2456b6fb9807f358e1f55aed0a5de575b36684c4ca",
+    "provider": "iid3-m1-synthetic-reference",
+    "datasetClass": "SYNTHETIC_REFERENCE",
+    "dataAsOf": "2026-03-31",
+    "knownAsOf": "2026-11-06T00:00:00.000Z"
+  },
+  "identity": {
+    "state": "RESOLVED",
+    "issuerId": "IN:EQISIN:IN0000000201",
+    "securityId": "IN:ISIN:IN0000000201",
+    "listingId": "IN:NSE:AARAVSYN:EQ:EQUITY",
+    "resolutionBasis": "ISIN",
+    "bindingId": "sha256:2c82bfd84cc445ffb45985de2759714c5174c5c860ddc27f39c678bba08f7ad9",
+    "rosterVersion": "sha256:7610c190e0f65b05695690d93cd68e6c7318a636acd3a3e5e8d2f63ab9fc9353",
+    "listingMapVersion": "sha256:a03fa817a597f4197edef905b71fbacbfd1d37998d9d2a8ba778818163cfd221",
+    "corporateActionTableVersion": "sha256:0b1d3cbfe52c62afbfabffe2a8ed66dd4a0812ca712f05e1ed9a58caa4b75819"
+  },
+  "assessment": {
+    "modelVersion": "assessment-engine/1.0.0",
+    "policyVersion": "valuation-policy/1.0.0",
+    "adequacy": "SUFFICIENT",
+    "qualityVerdict": "MATERIAL_CONCERNS",
+    "confidence": 0.674,
+    "methodCount": 4,
+    "withheldMethodCount": 1,
+    "missingFieldCount": 0,
+    "evidenceCount": 7,
+    "limitationCount": 4
+  },
+  "artifact": {
+    "reportType": "investment.company-assessment",
+    "scopeToken": "co:IN:EQISIN:IN0000000201",
+    "reportKey": "fcf992e0a1316001059cac7caa21335938f2b63b25c986dfb7c50e8cfc376d2f",
+    "payloadDigest": "ecc09e630d16af39b59568e8f79f990c2f96c161be1b99a30b1c0e77c0111fed",
+    "inputDigest": "sha256:c74226fe7db45d131bd728da323f301c144a03e595c2783552321af750522c5e",
+    "outcome": "UNCHANGED",
+    "wrote": false,
+    "reportId": "ee7b4185-3324-41a1-b4d5-84882d2b7f8b",
+    "artifactVersion": 1,
+    "chainRootReportId": "ee7b4185-3324-41a1-b4d5-84882d2b7f8b",
+    "versionCount": 1
+  },
+  "chain": {
+    "versionCount": 1,
+    "versions": [
+      {
+        "reportId": "ee7b4185-3324-41a1-b4d5-84882d2b7f8b",
+        "artifactVersion": 1,
+        "payloadDigest": "ecc09e630d16af39b59568e8f79f990c2f96c161be1b99a30b1c0e77c0111fed",
+        "inputDigest": "sha256:c74226fe7db45d131bd728da323f301c144a03e595c2783552321af750522c5e",
+        "generatedAt": "2026-11-06T00:00:00.000Z"
+      }
+    ]
+  },
+  "limitations": [
+    "L-001 3 of 13 sectors measured; 10 remain in outstandingSectors (sector-analytics coverage, not this milestone)",
+    "L-002 20 XBRL tags mapped; unmapped tags remain visible gaps",
+    "L-003 closed derivation set = 8 items",
+    "L-004 the reference dataset is synthetic: mechanics only, no company validation",
+    "L-009 no real issuer has been assessed through IID-3; M-1 uses synthetic reference data",
+    "L-010 investment artifact chains are validated by scan; NP-04 exposes no find-by-chain operation",
+    "L-011 two scope namespaces exist: co:/hd:/hc:/icr: chain scope vs the payload subjectScope",
+    "L-012 the chain root reportId stands in for NP-04 chainId, which the canonical artifact shape omits",
+    "L-013 idempotency is decided against the chain HEAD only, not against arbitrary historical versions"
+  ],
+  "failure": null
+}

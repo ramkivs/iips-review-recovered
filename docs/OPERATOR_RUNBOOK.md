@@ -518,3 +518,80 @@ The simplest proposed future model is an offline, whole-file scope-checked, owne
 verified retained local recovery copy and minimal deletion-fact receipt. That is **only a proposal**.
 No new removal command is provided here. Existing indefinite/explicit-owner-only policy, locality,
 backup protection, owner isolation, digest verification and the 50 MiB warning-only rule remain intact.
+
+## 13. Investment assessment artifacts (IID-3) — generate, read, and what must never be inferred
+
+**Dated:** 2026-11-06. Read-only transport, operator-only writes, one new isolated scope per demonstration.
+
+### 13.1 What writes, and what can only read
+
+| Surface | Method | Effect |
+|---|---|---|
+| `GET|HEAD /api/investment/company/:issuerId` | read | chain head + version history + assessment payload |
+| `GET|HEAD /api/investment/company/:issuerId/versions/:reportId` | read | one stored version, inside a validated chain |
+| `GET|HEAD /api/investment/coverage` | read | IID-1 identity/coverage disclosure |
+| `tsx server/investment/cli/generate-investment-artifacts.ts` | **write** | creates version 1 or appends a version |
+
+There is no mutating route. A `POST`/`PUT`/`PATCH`/`DELETE` to any investment path answers `405` and
+`Allow: GET, HEAD` **before** an owner or a store is resolved. If you need a new version, run the CLI; that is
+deliberate, because a durable assessment a browser can create is an assessment whose inputs nobody reviewed.
+
+### 13.2 Configure (both required, both fail closed)
+
+```bash
+export IIPS_NP04_DATABASE_PATH=/absolute/path/to/governed.db   # IPD's store; IRR opens nothing itself
+export IIPS_REPORTS_OWNER_PATH=/absolute/path/to/reports-owner-context.json
+```
+
+- Missing database path or an unresolvable NP-04 package ⇒ every investment route answers
+  `503 {"error":"investment-persistence-unavailable", ...}` with a **fixed** body. There is no fallback store, no
+  cache and no partial data. This is the normal state of a checkout that has not built the package.
+- Missing/invalid owner carrier ⇒ `503 {"error":"owner-context-unavailable"}`. No owner is inferred.
+- The carrier is the approved canonical bytes; materialise it with the Reports carrier helper (it refuses to write
+  inside a Git working tree).
+
+### 13.3 Generate one assessment
+
+```bash
+cd frontend
+./node_modules/.bin/tsx server/investment/cli/generate-investment-artifacts.ts \
+  --issuer IN:EQISIN:IN0000000201 \
+  --data-dir /abs/path/to/dataset-snapshot \
+  --identity-dir "${IIPS_DATA_DIR}/investment/identity" \
+  --generated-at 2026-11-06T00:00:00.000Z \
+  --out /abs/path/to/summary.json
+```
+
+Add `--dry-run` to stop after validation (no owner, no store, no file). The steps are printed to stderr; the
+machine-readable summary goes to stdout (and `--out`). Outcomes: `CREATED` (new chain), `APPENDED` (new version in
+the same chain), `UNCHANGED` (identical content to the head — **nothing was written**),
+`INPUT_CHANGED_CONTENT_IDENTICAL` (digests differ, content identical — nothing was written).
+
+### 13.4 Read it back, independently
+
+```bash
+./node_modules/.bin/tsx server/investment/cli/show-investment-chain.ts \
+  --issuer IN:EQISIN:IN0000000201 --version <reportId>   # omit --version for the head
+```
+
+Then open `/investment/company/<issuerId>` in the UI. The view shows the chain, the version history, adequacy,
+missing values **with reasons**, methods **with withholding reasons**, evidence, `dataAsOf`/`knownAsOf`, model and
+dataset identity, and the limitation disclosures.
+
+### 13.5 What must never be inferred from this surface
+
+- **A 503 is not "no data".** It means the read could not be validated. Do not retry into a different store, do not
+  read the database directly, and do not treat an empty page as an absent assessment.
+- **`UNCHANGED` is evidence, not silence.** It means the submitted content equals the chain head, so nothing was
+  written. An operator who expected a new version should check `--generated-at` and the dataset snapshot: content
+  identity covers the assessment timestamp (`L-014`).
+- **A missing value is a reason, never a zero.** `NOT_REPORTED`, `NOT_COMPUTABLE`, `PRICE_UNAVAILABLE` and friends
+  are shown where the number would be. Never substitute a value, and never read an absent dividend/net-debt figure
+  as zero (`L-005`, `L-006`).
+- **No disposition.** This surface produces assessments. It does not recommend, size, execute or record a trade or
+  an order, and no change-intelligence or alert affordance exists on it.
+- **Synthetic is synthetic.** If `datasetClass` says `SYNTHETIC_REFERENCE`, the assessment validates the pipeline
+  and says nothing about any company (`L-004`, `L-009`). No real issuer has been assessed.
+- **Do not repair a chain by hand.** Append-only triggers exist for a reason; a tampered or scope-drifted chain
+  fails closed on read (`503 investment-artifact-integrity-failure`). Two heads for one scope are refused rather
+  than merged (`L-015`); there is no repair tool yet, so treat it as an incident.

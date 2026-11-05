@@ -709,6 +709,9 @@ const OWNER_SCOPED_API_PREFIXES = Object.freeze([
   '/api/watchlists',
   '/api/collaboration',
   '/api/settings',
+  // IID-3 (2026-11-06): investment intelligence is owner-scoped through the same server-owned owner
+  // carrier as Reports, so it takes no wildcard cross-origin grant either.
+  '/api/investment',
 ] as const);
 
 /**
@@ -798,6 +801,32 @@ const server = http.createServer(async (req, res) => {
         if (!res.headersSent && !res.destroyed) {
           res.writeHead(503, { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' });
           res.end(JSON.stringify({ error: 'investment-coverage-unavailable' }));
+        }
+      }
+    })();
+    return;
+  }
+
+  // IID-3 — investment assessment read transport (GET/HEAD only, IRR-owned).
+  // The surface exposes exactly two routes: the chain head for one issuer scope, and one version inside a
+  // validated chain. Creation and versioning happen only through the operator CLI, so a browser can never
+  // mint a durable artifact here. Every response is fully validated before it is written; a corrupted or
+  // scope-drifted chain answers 503 rather than a truncated history. The mount-level catch is
+  // non-disclosing by design: no path, no owner pair, no SQL, no stack trace.
+  if (req.url === '/api/investment/company' || req.url?.startsWith('/api/investment/company/')) {
+    void (async () => {
+      try {
+        const investment = await import('./investment/investment-transport');
+        await investment.handleInvestmentRequest(req, res);
+      } catch {
+        if (!res.headersSent && !res.destroyed) {
+          res.writeHead(503, { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' });
+          res.end(
+            JSON.stringify({
+              error: 'investment-persistence-unavailable',
+              detail: { reason: 'No governed persistence boundary is available. No data was read or written.' },
+            }),
+          );
         }
       }
     })();
