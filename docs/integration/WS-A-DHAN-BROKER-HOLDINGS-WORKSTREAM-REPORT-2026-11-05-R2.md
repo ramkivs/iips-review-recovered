@@ -1497,3 +1497,47 @@ Final PR comment provides head/main CI and independent remote proof; publication
 Concurrency reconciliation: #471 `bc0de0ea9702a4b6a34138db4fbe9ec81bc0f688` is the integration baseline;
 all 42 concurrent paths preserved. IID-4 merged from separate work, not this docket; L-017–L-027 added,
 L-001–L-016 remain open. No new PA choice of these 15 entries or IID implementation authority inferred.
+
+
+## 26. Effective PA decisions and next execution-readiness (`2026-11-06`)
+
+Read §§24–25 as historical preparation; this explicit PA adoption now supplies the three named decisions.
+Tracker §16.263 / CV-CORR-243 / V2138; docket §8 and consolidated paper §10 are current cross-references.
+
+**Current operative status — explicit PA adoption, not recommendations:** G4-2 **ADOPTED (C-3 deferral only)**;
+D01 **ADOPTED (canonical IIPS G-2 portfolio repository: ramkivs/iips-production-market-data)**;
+D04 **ADOPTED (holdings snapshots and contribution lineage; trade/cash/tax-lot accounting excluded)**.
+Authority instrument `IIPS_v3.0_PA_G4_C3_D01_D04_ADOPTION_ACT_2026-11-06.md`, Act ID `IIPS-V3-PA-THREE-DECISION-ADOPTION-2026-11-06-01`.
+Decision authority IDs respectively `IIPS-V3-CAP03-G4-C3-DEFERRAL-2026-11-06-01`,
+`IIPS-V3-G2-PORTFOLIO-REPOSITORY-DESIGNATION-2026-11-06-01`,
+`IIPS-V3-G2-SNAPSHOT-SCOPE-CONFIRMATION-2026-11-06-01`. PA approval/effectiveness date 2026-11-06;
+act §5 requires green exact-head/main publication and independent readback, discharged by the final PR receipt
+comment. No further PA choice is pending for these three. No implementation authority is granted.
+
+Current pending source: `evidence/integration/pa-three-decision-adoption-2026-11-06/current-register.json` — **12**, not 15:
+**G4-1, G4-3, G4-4, D02, D03, D05, D06, A-5, A-6, A-7, IID-DATA, IID-L016**.
+Historical 15-pending/zero-adoption source snapshots remain unchanged as history, not the current register.
+The three adopted records are outside the pending array and cross-reference their authority. Remaining
+classes: seven CONDITIONAL, two DEFERRED, three REQUIRES SEPARATE AUTHORIZATION; none promoted automatically.
+Eight prior effective/settled crosswalks remain preserved.
+
+D01/D04 discharge repository and snapshot-domain ambiguity for D03/D05/D06 planning. D03 may advance exact
+**documentary** lifecycle/revision/overflow/retry/unknown-outcome and non-empty receipt/projection contracts;
+D02 owner-binding extension and D03 semantic disposition remain outstanding. D05 may prepare its exact
+implementation/test/backup/recovery/host envelope, but needs separate explicit implementation authority.
+D06 may prepare snapshot-only operation admission criteria, but requires accepted qualification/results and
+separate named-operation admission. A-6 expansion remains ungranted; A-5 genuine ISIN+Exchange and authorized
+A-6 precede A-7. Missing source ISINs are not tested-absent.
+
+Next documentary readiness work item **WS-A-DH-EXEC-READINESS-02-2026-11-06** is prepared in `DURABLE-HOLDINGS-NEXT-EXECUTION-READINESS-PACKAGE-2026-11-06.md`,
+with owner-binding, lifecycle/retry/projection, backup/recovery/host, H01–H12/QE evidence and admission lanes.
+**ipo-screening-engine is outside IIPS architecture and dependency tracking**; old comparisons are historical
+only, not an alternative repository or qualification input. No transfer, rename or modification of either repository.
+
+G4-2 adoption designates **no content or QE execution pin**. Historical R5/Path A preserved; QE **0/11**,
+Gate C/U4 **NOT RENDERED**, Gate 4 unaccepted; Gate 5 **NOT INITIATED / NOT ADMITTED**, DQ-4 **8/10**,
+U6 **NOT AUTHORIZED**. W-1 remains hard-false. No holdings writes, operational DB access, provisioning/migration,
+IPD mutation, expansion, production, PF-1/frozen-authority or completed retention/clearing implementation change.
+Completed retention/retrieval and offline owner-only whole-active clearing, verified retained recovery copy,
+restore/resubmit resurrection and OS/filesystem limitations remain. IID-1/2/3/4 MERGED (IID-4 via #471),
+IID-5/6 NOT STARTED; R-16/L-001–L-027 not closed. **Workstream A / WS-A-DM NOT COMPLETE.**
