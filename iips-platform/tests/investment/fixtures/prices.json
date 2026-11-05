@@ -1,0 +1,9 @@
+{
+  "_note": "One observation per security; the adjustment field is populated only where a factor exists.",
+  "prices": [
+    { "securityId": "IN:ISIN:IN0000000011", "value": 1480.5, "currency": "INR", "asOf": "2026-10-30", "kind": "CLOSE", "source": "DATASET_EOD", "sourceRef": "fixture-eod-2026-10-30", "adjustment": null },
+    { "securityId": "IN:ISIN:IN0000000029", "value": 612.25, "currency": "INR", "asOf": "2026-10-30", "kind": "CLOSE", "source": "DATASET_EOD", "sourceRef": "fixture-eod-2026-10-30", "adjustment": null },
+    { "securityId": "IN:ISIN:IN0000000037", "value": 402.8, "currency": "INR", "asOf": "2026-10-30", "kind": "CLOSE", "source": "DATASET_EOD", "sourceRef": "fixture-eod-2026-10-30", "adjustment": { "factor": 0.97, "corporateActionId": "CA-CMBANK-BUYBACK-2025" } },
+    { "securityId": "IN:ISIN:IN0000000045", "value": 268.0, "currency": "INR", "asOf": "2026-10-30", "kind": "CLOSE", "source": "DATASET_EOD", "sourceRef": "fixture-eod-2026-10-30", "adjustment": null }
+  ]
+}

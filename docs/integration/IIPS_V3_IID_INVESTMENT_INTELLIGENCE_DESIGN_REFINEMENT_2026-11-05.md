@@ -1975,3 +1975,293 @@ valuation arithmetic, and replaces "best effort" with a reconciliation protocol 
 
 The design is now implementable without further decisions. Sequencing is in the roadmap; the recommended
 starting point is IID-0, and the first user-visible milestone is M-1 at the end of IID-3.
+
+---
+---
+
+# PART III — Revision 3 (2026-11-05): consolidated review correction
+
+Nine corrections (A–I). A is the highest priority: it resolves an identity defect that Revision 2 would
+have carried into implementation. Where a correction supersedes Part I or Part II text, the affected
+section is named. No architecture is reopened.
+
+## A. Artifact-chain and version identity (supersedes Part II §3.1 parameter guidance and §R-5 wording)
+
+Revision 2 put input digests into `parameters` "so that `reportKey` is input-sensitive". That was wrong in
+direction: `reportKey` is derived from `(reportType, portfolioId, scenario, parameters)` **only**, so
+input-sensitive parameters make `reportKey` change on every re-assessment of an unchanged logical report.
+Content identity and input identity are different things, and neither belongs in the chain key.
+
+Four identities, now explicitly separated:
+
+| Identity | Definition | Where it lives | Changes when |
+|---|---|---|---|
+| **Chain identity** | `(reportType, scopeToken)` — the subject and the kind of report. Materialised by NP-04 as `chainId` (the root `reportId`). | `reportType` + `portfolioId` (scope token) | the **subject** or **report type** changes — never on re-assessment |
+| **Version identity** | One stored assessment. NP-04-minted `reportId`, ordinal `artifactVersion`, single-parent `supersedesReportId`. | NP-04 row | every appended version |
+| **Content identity** | `payloadDigest = sha256(canonicalPayload)` — the canonical assessment payload. | `provenance.payloadDigest` | the payload changes by one byte |
+| **Input identity** | `inputDigest = sha256(canonical(inputs))` over everything in §F that fed the assessment. | `provenance.inputDigest` | any identity mapping, table, price, metric, taxonomy map or policy changes |
+
+**`parameters` carries stable identity only.** Closed set, per artefact kind:
+
+```jsonc
+// investment.company-assessment
+{ "subjectKey": "co:IN:CIN:U72000KA1981PLC013115", "issuerId": "IN:CIN:…", "sector": "Technology" }
+// investment.holding-disposition
+{ "subjectKey": "hd:pf-7f3a/IN:ISIN:INE009A01021", "portfolioId": "pf-7f3a", "securityId": "IN:ISIN:…" }
+// investment.change-report
+{ "subjectKey": "icr:co:IN:CIN:…", "subjectKind": "CompanyAssessment" }
+```
+
+No dates, no digests, no model or policy versions, no `adequacy`, no verb. Those are version-scoped facts
+and they live in the payload and in `provenance`.
+
+**Required behaviour, stated as the acceptance rule:**
+
+| Situation | Action | Mechanism |
+|---|---|---|
+| Same subject, same report type, unchanged content | **`UNCHANGED`** — no write | head `provenance.payloadDigest` equals the newly composed digest |
+| Same subject, same report type, changed content | **`appendVersion`** to the existing chain | `payloadDigest` differs; `reportKey` is **identical** (parameters are stable) |
+| Same subject, input changed but payload identical | **`UNCHANGED`**, with `reason: 'INPUT_CHANGED_CONTENT_IDENTICAL'` recorded in the run summary | `inputDigest` differs, `payloadDigest` equal — the assessment is genuinely the same |
+| Different subject, or different report type | **`createInstance`** — independent chain | different `portfolioId` / `reportType` |
+
+**`reportKey` stability is now a tested invariant:** re-assessing the same subject any number of times
+yields one `reportKey` and N versions. Nothing about a version — not its date, not its inputs, not its
+verdict — can move the chain key.
+
+Consequences recorded for implementation: the probe's finding that NP-04 has no `(owner, report_key)`
+uniqueness constraint is now *load-bearing in the right direction* — identical `reportKey` across versions
+is expected and permitted, and the chain, not the key, carries version continuity. The idempotency rule
+compares `payloadDigest`, not `reportKey`.
+
+## B. Method-level enablement (refines Part II §R-3 and roadmap §1.2)
+
+Enablement is per **method**, not per sector. A sector is *enabled* when at least one of its methods is
+available; that never implies the others are.
+
+```ts
+readonly methodAvailability: readonly {
+  readonly methodId: ValuationMethodId;
+  readonly state: 'AVAILABLE' | 'WITHHELD';
+  readonly reason?: WithheldReason;          // MANDATORY_METRIC_MISSING | METRIC_UNVALIDATED |
+                                             // STATEMENT_INPUT_MISSING | SEGMENT_DATA_INSUFFICIENT |
+                                             // POLICY_NEEDS_OPERATOR_INPUT | SECTOR_PROVISIONAL
+  readonly missing: readonly string[];        // exact metric/line-item ids
+}[];
+```
+
+The staged rollout (G1/G2/G3) is retained as an *onboarding order*, not as a usability claim. Every
+assessment publishes `usableMethods[]` and `withheldMethods[]`, so "Technology is enabled" can never be
+read as "Technology is fully valued". A sector in which every method is withheld is `PROVISIONAL`: the
+assessment still publishes fundamentals, dividends, risk and adequacy, with `intrinsic: null`.
+
+## C. Operating-metric ingestion v1 (operator file, no vendor)
+
+A single closed-schema CSV per dataset: `operating-metrics.csv`.
+
+| Column | Rule |
+|---|---|
+| `issuer_id` | `IN:CIN:…` or `IN:EQISIN:…`; must exist in the roster |
+| `metric_id` | from the closed vocabulary (§R-3 metric ids); unknown ⇒ row rejected with a named reason |
+| `value` | numeric; empty ⇒ `MISSING` with `reason: NOT_REPORTED`; never coerced to 0 |
+| `unit` | must equal the metric's declared unit, or be convertible with the recorded factor; mismatch ⇒ row rejected |
+| `period_end`, `period_start` | ISO dates, aligned to a period present in the dataset |
+| `statement_scope` | `CONSOLIDATED \| STANDALONE`; must match the period's scope or yields `SCOPE_MISMATCH` |
+| `source_class` | `COMPUTED_FROM_STATEMENTS \| OPERATOR_ENTERED \| VENDOR` — v1 accepts the first two; `VENDOR` rows are accepted only with a `source_ref` |
+| `source_ref` | required for `OPERATOR_ENTERED` / `VENDOR`: document identifier + locator (page/table) |
+| `observed_at` | ISO date of the document/observation; `entered_at` is recorded automatically |
+| `note` | free text, carried into evidence |
+
+Handling rules:
+
+1. **Validation** — closed range per metric (e.g. occupancy/persistency 0–100, ADR > 0, reserve life > 0)
+   and cross-field checks (GNPA ≥ NNPA, CAR ≥ CET1, RevPAR ≈ occupancy × ADR within tolerance). A failing
+   row is retained as `METRIC_UNVALIDATED` and **cannot satisfy a method's mandatory-input requirement**.
+2. **Missing** — absent or empty values are `Observation` `MISSING` with a `MissingReason`; they never
+   become 0 and never silently satisfy a gate.
+3. **Conflict** — two rows for the same `(issuer, metric, period_end, statement_scope)` with different
+   values are both retained, flagged `SOURCE_CONFLICT_UNRESOLVED`, and **excluded from method gating**
+   until the operator resolves them. The assessment reports the conflict rather than choosing.
+4. **Identity/reproducibility** — the file's content digest is part of `contentDigest` (§D-7 of Part II),
+   and each accepted record contributes to `inputDigest` and to `reproduction.operatingMetricDigest` (§F).
+5. **No vendor dependency** — the mechanism is a file the operator (or a future vendor adapter writing the
+   same file) provides. Ingestion performs no network I/O.
+
+## D. NP-04 runtime injection (clarifies Part II §R-18 obligations)
+
+The composition point already exists and is reused unchanged:
+
+| Concern | Existing component | Behaviour |
+|---|---|---|
+| Package resolution | `frontend/server/reports/persistence-port.ts` → `loadAuthoritativeNp04Persistence()` dynamically resolves `iips-np04-governed-persistence/persistence` | resolution failure is a value, not a throw |
+| Adapter binding | `np04-adapter.ts` → `adaptNp04Store(store)` / `resolveAuthoritativeNp04Port()` returns `{ available: true, port } \| { available: false, reason, boundary }` | never returns a substitute |
+| Port contract | `ReportsPersistencePort` — exactly five operations | shared by CLI and transport |
+| CLI | `persist-real-reports.ts` pattern; IID runs `generate-investment-artifacts.ts` the same way | same port instance, same resolver |
+| Transport | `reports-transport.ts` pattern; IID transport answers the same way | same port instance, same resolver |
+| Fail-closed | no port ⇒ `503` with a static message; no local fallback, no in-memory store, no second database | asserted by test |
+| Ownership of code | IRR constructs nothing; the store is IPD's | asserted by a static scan |
+
+IID-0 implements **none** of this (it begins at IID-3). It is recorded here because the read-port boundary
+built in IID-0 must be shaped to sit beside it without duplicating it: `FundamentalsReadPort` is a
+*separate* port with a *separate* fail-closed resolver, and no IID-0 module imports SQLite, NP-04, or any
+transport.
+
+## E. Listing identity and extended corporate actions (extends Part II §R-1 and Part I §2.6)
+
+**Listing identity is not `(exchange, symbol)`.** A symbol can denote different instruments over time and
+different series simultaneously (`EQ`, `BE`, `BZ`, `N1`, `W1`…) and an exchange may host equity, preference
+and debentures under the same scrip code family. Corrected key:
+
+```ts
+interface ListingIdParts {
+  readonly exchange: 'NSE' | 'BSE';
+  readonly symbol: string;              // uppercased, trimmed
+  readonly series: string;              // 'EQ' | 'BE' | 'BZ' | 'N1' | … (closed set per exchange)
+  readonly instrumentType: InstrumentType;  // EQUITY | PREFERENCE | DEBENTURE | ETF | MF_UNIT |
+                                            // REIT_INVIT | WARRANT | RIGHTS_ENTITLEMENT | OTHER
+}
+type ListingId = string & { __brand: 'ListingId' };  // IN:NSE:INFY:EQ:EQUITY
+```
+
+Rules:
+
+1. Uniqueness is over the full four-part tuple **plus** `effectiveFrom`; a tuple reused after
+   `effectiveTo` requires the intervals not to overlap. Overlap ⇒ `AMBIGUOUS_LISTING`.
+2. `ListingId` parsing rejects a two-part form (`IN:NSE:INFY`) as **incomplete**, so an imprecise key
+   cannot be written by accident.
+3. Two distinct instruments (an equity and its preference series) can never resolve to the same listing,
+   and a holding that names only `(exchange, symbol)` resolves only if exactly one active listing matches —
+   otherwise `AMBIGUOUS`.
+
+**Corporate actions extended** beyond split/bonus/merger/demerger/symbol-change/delisting:
+
+| Action | Effect on identity | Effect on per-share comparability |
+|---|---|---|
+| `RIGHTS` | unchanged | **not comparable across the boundary** unless the theoretical ex-rights factor is applied; entitlement value recorded separately. Default: `perShareComparable: false` |
+| `BUYBACK` (tender) | unchanged | share count falls; per-share series comparable only with the recorded completion factor |
+| `BUYBACK` (open market) | unchanged | no factor applied; count change is a normal period-end difference |
+| `SPLIT` / `BONUS` / `CONSOLIDATION` | unchanged | factor applied; `perShareComparable: true` with `adjustmentFactor` recorded |
+| `PREFERENCE_REDEMPTION` | unchanged, affects capital structure | no per-share effect; recorded for net-debt/preference inputs |
+| `CAPITAL_REDUCTION` | unchanged | treated as `RIGHTS`-like: not comparable unless a factor is recorded |
+| `SCHEME_OF_ARRANGEMENT` | merger/demerger semantics | successor re-keying as Part I §2.6 |
+
+Every action carries `perShareComparable` and, when applicable, `adjustmentFactor` + `factorBasis`. A
+comparison across a boundary where `perShareComparable: false` is reported as `NOT_COMPARABLE`, never as a
+change in performance. Unknown events are *not* applied; they raise
+`POSSIBLE_UNADJUSTED_CORPORATE_ACTION` (Part I §2.6 rule, retained).
+
+## F. Reproducibility record, extended
+
+`reproduction` (Part II §R-12) is extended so that every input capable of changing an assessment is
+identified. Two digests are added alongside it: `inputDigest` (the aggregate) and `payloadDigest` (§A).
+
+| Component | Digest / record |
+|---|---|
+| Identity mappings | `identityMappingDigest` over the issuer/security/listing bindings used |
+| Corporate-action table + factors | `corporateActionTableDigest` + `appliedActions[] { actionId, adjustmentFactor }` |
+| Sector classification + segment allocation | `classificationDigest` (primary sector, segment shares, SOTP eligibility) |
+| Price observations | the full `PriceObservation` objects (value, asOf, kind, source, snapshot/dataset id, adjustment) |
+| Operating-metric observations | `operatingMetricDigest` over the accepted `(metricId, value, periodEnd, scope, sourceClass, sourceRef)` set |
+| Financial normalisation / taxonomy mappings | `normalizationVersion` + `taxonomyMapDigest` |
+| Valuation, disposition, limits, materiality, freshness policies | `valuationPolicyDigest`, `dispositionPolicyDigest`, `limitsPolicyDigest`, `materialityPolicyDigest`, `freshnessPolicyDigest` |
+| Build / runtime | `modelVersion`, `modelBuildDigest`, `platformCommit`, `dependencyPins[]`, `runtime` |
+| Dataset | `datasetVersion` (= `contentDigest`, Part II §R-7) |
+
+`reproduction.result ∈ { EXACT, MISMATCH, UNAVAILABLE }`. Only `EXACT` permits attribution. `MISMATCH`
+and `UNAVAILABLE` force `attribution.status = 'UNAVAILABLE'` and `cause.classification = 'UNATTRIBUTED'`.
+Attribution is never inferred from partial metadata.
+
+## G. Boundary reconciliation states
+
+Four states, each with a precise meaning and display:
+
+| State | Meaning | Produced when | Displayed as |
+|---|---|---|---|
+| `EXPLAINED` | The boundary explanation of record exists on `icr:<subjectScope>` with `comparison.to.reportId == this version` | normal generation | the explanation, with its own model/policy versions |
+| `RECONSTRUCTED` | No contemporaneous explanation existed; a comparison was recovered from the two persisted versions | `reconcile-boundaries` after a gap | the explanation, **explicitly labelled reconstructed**, `attribution` per §F |
+| `UNATTRIBUTED` | A comparison exists but historical attribution cannot be reproduced | comparator ran, `reproduction.result ≠ EXACT` | the observed deltas only; no causal claim |
+| `UNAVAILABLE` | No reliable comparison can be produced at all (e.g. the predecessor version is unreadable, or the subject changed identity) | comparator cannot run | an explicit gap state with the reason; never an empty timeline |
+
+Guarantees: the assessment version is persisted **first** and is never lost to a boundary failure; a
+missing explanation is *visible* (`boundaryCoverage.missing[]`) and *recoverable* (`reconcile-boundaries`);
+`RECONSTRUCTED` is never presented as contemporaneous; and `UNAVAILABLE` never degrades into silence.
+
+## H. Limits as system defaults, and instrument scope
+
+**Limits.** The values in `disposition-policy` are **system defaults**, not user-selected investment
+preferences. Each disposition records `limitsApplied: { policyVersion, basis: 'SYSTEM_DEFAULT' | 'OPERATOR_CONFIG', singleNameMaxPct, sectorMaxPct }`, and the read model exposes the same. A configuration
+path exists (`${IIPS_DATA_DIR}/investment/policies/limits-policy.json`, optional, digest-recorded) which,
+when present, changes `basis` to `OPERATOR_CONFIG`. v1 ships the defaults; the file is documented and read
+if present. No UI for editing it in v1.
+
+**Instrument scope (v1), stated plainly in the product as well as the design:**
+
+| Instrument | v1 status |
+|---|---|
+| Listed equity (`instrumentType: EQUITY`, series `EQ`/`BE`/`BZ`) of an Indian issuer with CIN or equity ISIN | **Assessable** |
+| SME-platform listed equity | **Assessable, data-thin** — will usually be `PARTIAL` |
+| Preference shares | `OUT_OF_SCOPE_SECURITY` (`PREFERENCE_NOT_MODELLED`) |
+| Debentures / NCDs / bonds | `OUT_OF_SCOPE_SECURITY` (`DEBT_NOT_MODELLED`) |
+| ETFs, mutual fund units, REITs/InvITs | `OUT_OF_SCOPE_SECURITY` (`POOLED_VEHICLE_NOT_MODELLED`) |
+| Warrants, rights entitlements, part-paid shares | `OUT_OF_SCOPE_SECURITY` (`DERIVATIVE_OR_PARTIAL_NOT_MODELLED`) |
+| Unlisted / private | `INELIGIBLE` (`NOT_LISTED`) |
+| Foreign issuers (even if ISIN present) | `INELIGIBLE` (`NON_INDIAN_ISSUER_OUT_OF_V1`) |
+
+An out-of-scope security is *resolvable and displayable*, never *assessable*, and never contributes a
+number to an assessment, a weight or a total.
+
+## I. Acceptance criteria and test efficiency (supersedes Part I §6 numbering for IID-0)
+
+Part I's AC-0.x mixed the phase exit with the R-16 coverage programme. Corrected split:
+
+**IID-0 exit criteria (must all pass to leave the phase):** `E-0.1 … E-0.9` (roadmap §2.1).
+**R-16 coverage deliverable (a programme that continues past IID-0):** `C-16.1 … C-16.5` (roadmap §2.1).
+IID-0 completes the *foundation and harness*, measures at least one sector end-to-end, and records the
+remaining sectors as outstanding — it does not claim 13-sector coverage.
+
+Other clarifications, each now an explicit rule:
+
+1. **Local file writes are permitted in IID-0.** The dataset, manifest and coverage report are files under
+   `${IIPS_DATA_DIR}`. *NP-04 artefact persistence begins in IID-3*; no IID-0 module touches NP-04.
+2. **AC-X2 is "zero external network connections".** Loopback (`127.0.0.1`/`::1`) is permitted, because
+   later phases talk to a local transport. What is prohibited is any outbound connection to a non-loopback
+   host, and any exchange-host URL. Verified by a static module-graph scan in IID-0 and by socket-level
+   assertion once a transport exists.
+3. **Data classification.** (a) *User data and artefacts* — under `${IIPS_DATA_DIR}`, gitignored, never
+   committed; (b) *committed fixtures* — synthetic or public-domain extracts, each < 100 KB, no PII; (c)
+   *test evidence* — sanitized summaries (counts, pass/fail, digests), never raw user data or partition
+   literals.
+4. **Targeted tests per phase; integration tests at milestones.** No broad-suite runs as a substitute for
+   targeted proof. IID-0 runs only its own test files plus `tsc --noEmit`.
+5. **Insufficient evidence cannot produce an unsupported conclusion in either direction.** Absence of
+   evidence must never become a negative verdict:
+   - adequacy `INSUFFICIENT` ⇒ no verb, no `AVOID`, no `AVOID_CANDIDATE`, no "overvalued"/"avoid" claim;
+   - valuation withheld ⇒ no statement about price versus value in the rationale;
+   - `AVOID` requires a **positively evidenced** disqualifier (an as-filed fact), never "we could not
+     compute it";
+   - a candidate with `PARTIAL` evidence is `WATCH` — never `AVOID_CANDIDATE` by default.
+   Implemented as a validator rule (`assertNoConclusionFromAbsence`) with tests, so the guard survives
+   future edits.
+
+## J. Status after Revision 3
+
+Design questions are closed. IID-0 proceeds on the roadmap's scope with the above corrections applied; the
+roadmap is amended in the same pass. Nothing in Revision 3 extends scope beyond the review findings.
+
+### J.1 Outcome of the implementation pass (2026-11-05)
+
+IID-0 was then implemented on branch `arena/08238a84-iips-review-recovered`:
+
+| Correction | Where it landed |
+|---|---|
+| §A identity | `reportKey` stability and `UNCHANGED`/append/new-chain rules are stated as invariants; the types themselves belong to IID-3, so IID-0 carries the identity *contracts* (issuer/security/listing) only |
+| §B method-level enablement | `src/investment/coverage/methodMatrix.ts` (38 method declarations, 13 sectors) + `measure.ts` (`AVAILABLE`/`WITHHELD` per method with closed reasons) |
+| §C operating-metric ingestion | `src/investment/contracts/operatingMetrics.ts` (33-id closed vocabulary, ranges, source-class strength, cross-field rules) + `ingestion/builder.ts` (`operating-metrics.csv`, conflicts retained) |
+| §D NP-04 injection | untouched by IID-0; the existing composition point is documented in roadmap §B.D and consumed at IID-3 |
+| §E listing identity, corporate actions | `contracts/ids.ts` four-part listing key, `AMBIGUOUS_LISTING` detection in `ingestion/builder.ts`, 13-action closed set with `perShareComparable`/`adjustmentFactor` |
+| §F reproduction inputs | `fundamentals/manifest.ts` (`contentDigest`, explicit `digestScope`) + `operatingMetricDigest` inputs; the rest arrives with IID-3/IID-5 |
+| §G boundary states | vocabulary fixed in the roadmap (§B.G); implementation belongs to IID-4/IID-5 |
+| §H limits, instrument scope | instrument scope implemented as `SecurityRecord.status` (`ASSESSABLE`/`OUT_OF_SCOPE`/`INELIGIBLE`); limits policy belongs to IID-2 |
+| §I criteria split | roadmap §B.J (E-0.1 … E-0.11, all PASS) separated from §B.K (C-16.1 … C-16.5, all OPEN) |
+
+`tsc --noEmit` clean; 91/91 targeted IID-0 tests pass; 42/42 NP-12 regression tests pass. IID-1 … IID-6
+were not started; no NP-04 database, persisted report or IPD artefact was created, modified or read.

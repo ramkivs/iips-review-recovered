@@ -7,7 +7,8 @@
   "type": "commonjs",
   "scripts": {
     "typecheck": "tsc --noEmit",
-    "test": "tsx --test src/**/*.test.ts tests/regression/*.test.ts"
+    "test": "tsx --test src/**/*.test.ts tests/regression/*.test.ts",
+    "test:iid": "tsx --test tests/investment/*.test.ts"
   },
   "devDependencies": {
     "@types/node": "^26.1.2",

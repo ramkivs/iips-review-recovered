@@ -1,0 +1,26 @@
+{
+  "_note": "SYNTHETIC reference roster for IID-0 tests. Company names, ISINs (IN00000000xx) and CINs are placeholders and do not identify real issuers. Deliberate cases: one issuer per stage of method enablement, one sector with no data at all, one out-of-scope instrument.",
+  "issuers": [
+    { "issuerId": "IN:EQISIN:IN0000000011", "legalName": "Aarav Systems Limited (synthetic)", "issuerKeyBasis": "EQUITY_ISIN", "sector": "Technology", "subSegment": "IT services", "reportingCurrency": "INR", "fiscalYearEnd": "03-31" },
+    { "issuerId": "IN:EQISIN:IN0000000029", "legalName": "Bodhi Digital Limited (synthetic)", "issuerKeyBasis": "EQUITY_ISIN", "sector": "Technology", "subSegment": "SaaS", "reportingCurrency": "INR", "fiscalYearEnd": "03-31" },
+    { "issuerId": "IN:EQISIN:IN0000000037", "legalName": "Chandra Meridian Bank Limited (synthetic)", "issuerKeyBasis": "EQUITY_ISIN", "sector": "Banking", "subSegment": "Private bank", "reportingCurrency": "INR", "fiscalYearEnd": "03-31" },
+    { "issuerId": "IN:EQISIN:IN0000000045", "legalName": "Dwarka Resorts Limited (synthetic)", "issuerKeyBasis": "EQUITY_ISIN", "sector": "Hospitality", "subSegment": "Hotels", "reportingCurrency": "INR", "fiscalYearEnd": "03-31" },
+    { "issuerId": "IN:EQISIN:IN0000000052", "legalName": "Eesha Life Insurance Limited (synthetic)", "issuerKeyBasis": "EQUITY_ISIN", "sector": "Insurance", "subSegment": "Life", "reportingCurrency": "INR", "fiscalYearEnd": "03-31" }
+  ],
+  "securities": [
+    { "securityId": "IN:ISIN:IN0000000011", "issuerId": "IN:EQISIN:IN0000000011", "instrumentType": "EQUITY", "status": "ASSESSABLE", "statusReason": null },
+    { "securityId": "IN:ISIN:IN0000000029", "issuerId": "IN:EQISIN:IN0000000029", "instrumentType": "EQUITY", "status": "ASSESSABLE", "statusReason": null },
+    { "securityId": "IN:ISIN:IN0000000037", "issuerId": "IN:EQISIN:IN0000000037", "instrumentType": "EQUITY", "status": "ASSESSABLE", "statusReason": null },
+    { "securityId": "IN:ISIN:IN0000000045", "issuerId": "IN:EQISIN:IN0000000045", "instrumentType": "EQUITY", "status": "ASSESSABLE", "statusReason": null },
+    { "securityId": "IN:ISIN:IN0000000052", "issuerId": "IN:EQISIN:IN0000000052", "instrumentType": "EQUITY", "status": "ASSESSABLE", "statusReason": null },
+    { "securityId": "IN:ISIN:IN0000000060", "issuerId": "IN:EQISIN:IN0000000011", "instrumentType": "ETF", "status": "OUT_OF_SCOPE", "statusReason": "Exchange traded funds are not assessed in IID v1 (instrument-scope policy, Part III §H)" }
+  ],
+  "listings": [
+    { "listingId": "IN:NSE:AARAV:EQ:EQUITY", "securityId": "IN:ISIN:IN0000000011", "issuerId": "IN:EQISIN:IN0000000011", "exchange": "NSE", "symbol": "AARAV", "series": "EQ", "instrumentType": "EQUITY", "effectiveFrom": "2020-06-01", "effectiveTo": null },
+    { "listingId": "IN:NSE:BODHI:EQ:EQUITY", "securityId": "IN:ISIN:IN0000000029", "issuerId": "IN:EQISIN:IN0000000029", "exchange": "NSE", "symbol": "BODHI", "series": "EQ", "instrumentType": "EQUITY", "effectiveFrom": "2021-02-15", "effectiveTo": null },
+    { "listingId": "IN:NSE:CMBANK:EQ:EQUITY", "securityId": "IN:ISIN:IN0000000037", "issuerId": "IN:EQISIN:IN0000000037", "exchange": "NSE", "symbol": "CMBANK", "series": "EQ", "instrumentType": "EQUITY", "effectiveFrom": "2018-04-02", "effectiveTo": null },
+    { "listingId": "IN:NSE:DWARKA:EQ:EQUITY", "securityId": "IN:ISIN:IN0000000045", "issuerId": "IN:EQISIN:IN0000000045", "exchange": "NSE", "symbol": "DWARKA", "series": "EQ", "instrumentType": "EQUITY", "effectiveFrom": "2019-09-09", "effectiveTo": null },
+    { "listingId": "IN:NSE:EESHLIFE:EQ:EQUITY", "securityId": "IN:ISIN:IN0000000052", "issuerId": "IN:EQISIN:IN0000000052", "exchange": "NSE", "symbol": "EESHLIFE", "series": "EQ", "instrumentType": "EQUITY", "effectiveFrom": "2022-01-10", "effectiveTo": null },
+    { "listingId": "IN:NSE:AARAVETF:EQ:ETF", "securityId": "IN:ISIN:IN0000000060", "issuerId": "IN:EQISIN:IN0000000011", "exchange": "NSE", "symbol": "AARAVETF", "series": "EQ", "instrumentType": "ETF", "effectiveFrom": "2023-03-01", "effectiveTo": null }
+  ]
+}

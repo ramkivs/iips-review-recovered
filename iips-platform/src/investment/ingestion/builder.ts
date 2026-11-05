@@ -1,0 +1,514 @@
+/**
+ * IID-0 — dataset assembly and validation.
+ *
+ * Everything the operator supplies is validated here, once, into a `DatasetContent`. Rules that matter:
+ *   - an unknown line item or metric is an error, never a silent drop;
+ *   - a reported value for a derived item is an error (derived items are produced, not filed);
+ *   - a sign-rule violation is an error and the value is withheld, not "fixed";
+ *   - a conflicting operating-metric observation is retained and marked CONFLICT;
+ *   - a duplicate/overlapping listing is an error (two instruments must never share a listing).
+ */
+import { LINE_ITEMS, isLineItemId, violatesSignRule, type LineItemId } from '../contracts/lineItems';
+import {
+  isMetricId,
+  OPERATING_METRICS,
+  crossFieldIssues,
+  validateMetricValue,
+  type MetricId,
+  type MetricSourceClass,
+  type MetricUnit,
+  type OperatingMetricRecord,
+} from '../contracts/operatingMetrics';
+import { missing, present, type NumericObservation } from '../contracts/observation';
+import { SCALE_FACTOR, type PeriodIdentity, type QuarterForm, type Scale } from '../contracts/period';
+import type {
+  CorporateActionRecord,
+  DatasetContent,
+  IngestionIssue,
+  IssuerRecord,
+  ListingRecord,
+  NormalizedPeriod,
+  PriceRecord,
+  SecurityRecord,
+} from '../fundamentals/types';
+import { deriveLineItems } from '../fundamentals/derive';
+import { parseCsv, rowAsRecord } from './csv';
+import { extractPeriodValues, parseXbrlInstance } from './xbrl';
+
+export interface TextFile {
+  readonly name: string;
+  readonly text: string;
+}
+
+export interface XbrlFileInput extends TextFile {
+  readonly issuerId: string;
+  readonly periodEnd: string;
+  readonly statementScope: 'CONSOLIDATED' | 'STANDALONE';
+  readonly filingRef: string;
+  readonly filedAt: string;
+  readonly basis?: 'AS_FILED' | 'RESTATED';
+  readonly restatementOf?: string | null;
+}
+
+export interface DatasetInputs {
+  readonly issuers: readonly IssuerRecord[];
+  readonly securities: readonly SecurityRecord[];
+  readonly listings: readonly ListingRecord[];
+  readonly corporateActions: readonly CorporateActionRecord[];
+  readonly prices: readonly PriceRecord[];
+  readonly periodCsv: TextFile | null;
+  readonly xbrlFiles: readonly XbrlFileInput[];
+  readonly operatingMetricsCsv: TextFile | null;
+}
+
+const PERIOD_REQUIRED_COLUMNS = [
+  'issuer_id',
+  'period_type',
+  'fiscal_year',
+  'period_start',
+  'period_end',
+  'statement_scope',
+  'taxonomy',
+  'basis',
+  'filing_ref',
+  'filed_at',
+  'source_scale',
+] as const;
+
+/** Columns that are period metadata rather than line items. */
+const PERIOD_METADATA_COLUMNS = new Set([
+  ...PERIOD_REQUIRED_COLUMNS,
+  'quarter_form',
+  'quarter_index',
+  'restatement_of',
+  'normalization_version',
+]);
+
+const METRIC_REQUIRED_COLUMNS = [
+  'issuer_id',
+  'metric_id',
+  'value',
+  'unit',
+  'period_end',
+  'statement_scope',
+  'source_class',
+  'source_ref',
+  'observed_at',
+] as const;
+
+function issue(
+  severity: IngestionIssue['severity'],
+  code: string,
+  subject: string,
+  detail: string,
+): IngestionIssue {
+  return { severity, code, subject, detail };
+}
+
+function requireColumns(table: { header: readonly string[] }, required: readonly string[], file: string): void {
+  const missingColumns = required.filter((column) => !table.header.includes(column));
+  if (missingColumns.length > 0) {
+    throw new Error(`${file}: missing required column(s) ${missingColumns.join(', ')}`);
+  }
+}
+
+function asQuarterForm(value: string): QuarterForm | undefined {
+  if (value === 'YTD' || value === 'DISCRETE') return value;
+  return undefined;
+}
+
+/* ------------------------------------------------------------------ periods */
+
+export function parsePeriodCsv(file: TextFile): { periods: NormalizedPeriod[]; issues: IngestionIssue[] } {
+  const table = parseCsv(file.text);
+  requireColumns(table, PERIOD_REQUIRED_COLUMNS, file.name);
+  const periods: NormalizedPeriod[] = [];
+  const issues: IngestionIssue[] = [];
+
+  for (const [index, row] of table.rows.entries()) {
+    const record = rowAsRecord(table.header, row);
+    const subject = `${record.issuer_id || '<blank>'}#${index + 2}`;
+    const periodType = record.period_type;
+    if (periodType !== 'ANNUAL' && periodType !== 'QUARTER' && periodType !== 'TTM') {
+      issues.push(issue('ERROR', 'INVALID_PERIOD_TYPE', subject, `"${periodType}" is not ANNUAL|QUARTER|TTM`));
+      continue;
+    }
+    const scope = record.statement_scope;
+    if (scope !== 'CONSOLIDATED' && scope !== 'STANDALONE') {
+      issues.push(issue('ERROR', 'INVALID_STATEMENT_SCOPE', subject, `"${scope}" is not CONSOLIDATED|STANDALONE`));
+      continue;
+    }
+    const sourceScale = record.source_scale as Scale;
+    if (SCALE_FACTOR[sourceScale] === undefined) {
+      issues.push(issue('ERROR', 'INVALID_SOURCE_SCALE', subject, `"${record.source_scale}" is not a known scale`));
+      continue;
+    }
+    const quarterForm = asQuarterForm(record.quarter_form ?? '');
+    const quarterIndex = record.quarter_index === undefined || record.quarter_index === ''
+      ? undefined
+      : Number(record.quarter_index);
+    const identity: PeriodIdentity = {
+      fiscalYear: Number(record.fiscal_year),
+      periodType,
+      periodStart: record.period_start,
+      periodEnd: record.period_end,
+      statementScope: scope,
+      ...(periodType === 'QUARTER' && quarterForm !== undefined ? { quarterForm } : {}),
+      ...(periodType === 'QUARTER' && quarterIndex !== undefined ? { quarterIndex } : {}),
+    };
+
+    const values: Partial<Record<LineItemId, NumericObservation>> = {};
+    for (const column of table.header) {
+      if (PERIOD_METADATA_COLUMNS.has(column)) continue;
+      if (!isLineItemId(column)) {
+        issues.push(issue('ERROR', 'UNKNOWN_LINE_ITEM', subject, `column "${column}" is not a closed line item`));
+        continue;
+      }
+      const meta = LINE_ITEMS[column];
+      const raw = record[column] ?? '';
+      if (raw === '') {
+        values[column] = missing('NOT_REPORTED', { periodEnd: identity.periodEnd });
+        continue;
+      }
+      if (!meta.reported) {
+        issues.push(
+          issue('ERROR', 'DERIVED_ITEM_REPORTED', subject, `"${column}" is derived and may not be filed`),
+        );
+        values[column] = missing('NOT_REPORTED', { periodEnd: identity.periodEnd });
+        continue;
+      }
+      const numeric = Number(raw.replace(/,/g, ''));
+      if (!Number.isFinite(numeric)) {
+        issues.push(issue('ERROR', 'NON_NUMERIC_VALUE', subject, `"${column}" value "${raw}" is not numeric`));
+        values[column] = missing('NOT_REPORTED', { periodEnd: identity.periodEnd });
+        continue;
+      }
+      if (violatesSignRule(column, numeric)) {
+        issues.push(
+          issue('WARNING', 'SIGN_RULE_VIOLATION', subject, `"${column}" declared POSITIVE_MAGNITUDE but is ${numeric}`),
+        );
+      }
+      // Only INR-denominated items are scaled: EPS, ratios and share counts are never scaled.
+      const scaled = meta.unit === 'INR' ? numeric * SCALE_FACTOR[sourceScale] : numeric;
+      values[column] = present(
+        scaled,
+        { kind: 'FILING', ref: record.filing_ref, filedAt: record.filed_at },
+        { periodEnd: identity.periodEnd, basis: record.basis === 'RESTATED' ? 'RESTATED' : 'AS_FILED', filingRef: record.filing_ref },
+      );
+    }
+
+    periods.push({
+      issuerId: record.issuer_id,
+      period: identity,
+      taxonomy: record.taxonomy,
+      normalizationVersion: record.normalization_version === undefined || record.normalization_version === ''
+        ? 'in-fin/1.0.0'
+        : record.normalization_version,
+      currency: 'INR',
+      sourceScale,
+      scaleApplied: { from: sourceScale, to: 'UNIT', factor: SCALE_FACTOR[sourceScale] },
+      basis: record.basis === 'RESTATED' ? 'RESTATED' : 'AS_FILED',
+      filingRef: record.filing_ref,
+      filedAt: record.filed_at,
+      restatementOf: record.restatement_of === undefined || record.restatement_of === '' ? null : record.restatement_of,
+      values,
+      derived: deriveLineItems(values, identity.periodEnd).values,
+    });
+  }
+
+  return { periods, issues };
+}
+
+/* --------------------------------------------------------- operating metrics */
+
+export function parseOperatingMetricsCsv(file: TextFile): {
+  records: OperatingMetricRecord[];
+  issues: IngestionIssue[];
+} {
+  const table = parseCsv(file.text);
+  requireColumns(table, METRIC_REQUIRED_COLUMNS, file.name);
+  const records: OperatingMetricRecord[] = [];
+  const issues: IngestionIssue[] = [];
+  const byKey = new Map<string, OperatingMetricRecord[]>();
+
+  for (const [index, row] of table.rows.entries()) {
+    const record = rowAsRecord(table.header, row);
+    const subject = `${record.issuer_id || '<blank>'}/${record.metric_id || '<blank>'}#${index + 2}`;
+    if (!isMetricId(record.metric_id)) {
+      issues.push(issue('ERROR', 'UNKNOWN_METRIC', subject, `"${record.metric_id}" is not a known metric`));
+      continue;
+    }
+    const metricId = record.metric_id as MetricId;
+    const meta = OPERATING_METRICS[metricId];
+    const unit = record.unit as MetricUnit;
+    const sourceClass = record.source_class as MetricSourceClass;
+    if (!['COMPUTED_FROM_STATEMENTS', 'OPERATOR_ENTERED', 'VENDOR'].includes(sourceClass)) {
+      issues.push(issue('ERROR', 'INVALID_SOURCE_CLASS', subject, `"${record.source_class}" is not a source class`));
+      continue;
+    }
+    if ((sourceClass === 'OPERATOR_ENTERED' || sourceClass === 'VENDOR') && record.source_ref === '') {
+      issues.push(issue('ERROR', 'SOURCE_REF_REQUIRED', subject, `${sourceClass} requires a source_ref`));
+      continue;
+    }
+
+    const validationIssues: string[] = [];
+    let observation: NumericObservation;
+    if (record.value === '') {
+      observation = missing('NOT_REPORTED', { periodEnd: record.period_end });
+      validationIssues.push('MISSING_VALUE');
+    } else {
+      const numeric = Number(record.value);
+      const found = validateMetricValue(metricId, numeric, unit);
+      for (const entry of found) validationIssues.push(`${entry.code}: ${entry.detail}`);
+      observation = found.length === 0
+        ? present(numeric, { kind: sourceClass === 'VENDOR' ? 'VENDOR_ENTRY' : 'OPERATOR_ENTRY', ref: record.source_ref }, {
+            periodEnd: record.period_end,
+            basis: sourceClass === 'COMPUTED_FROM_STATEMENTS' ? 'DERIVED' : 'AS_FILED',
+          })
+        : missing(unit !== meta.unit ? 'OPERATING_METRIC_MISSING' : 'OPERATING_METRIC_UNVALIDATED', {
+            periodEnd: record.period_end,
+            note: validationIssues.join('; '),
+          });
+    }
+
+    const metricRecord: OperatingMetricRecord = {
+      issuerId: record.issuer_id,
+      metricId,
+      observation,
+      periodEnd: record.period_end,
+      statementScope: record.statement_scope === 'STANDALONE' ? 'STANDALONE' : 'CONSOLIDATED',
+      sourceClass,
+      unit,
+      sourceRef: record.source_ref,
+      observedAt: record.observed_at,
+      enteredAt: record.entered_at === undefined || record.entered_at === '' ? record.observed_at : record.entered_at,
+      validation: validationIssues.length === 0 ? 'VALID' : 'UNVALIDATED',
+      issues: validationIssues,
+    };
+    records.push(metricRecord);
+
+    const key = `${metricRecord.issuerId}|${metricRecord.metricId}|${metricRecord.periodEnd}|${metricRecord.statementScope}`;
+    const bucket = byKey.get(key) ?? [];
+    bucket.push(metricRecord);
+    byKey.set(key, bucket);
+  }
+
+  // Conflicts are retained, flagged, and excluded from method gating.
+  for (const [key, bucket] of byKey) {
+    if (bucket.length < 2) continue;
+    const values = new Set(bucket.map((entry) => (entry.observation.value === null ? 'null' : String(entry.observation.value))));
+    if (values.size < 2) continue;
+    issues.push(
+      issue('ERROR', 'OPERATING_METRIC_CONFLICT', key, `${bucket.length} observations with ${values.size} distinct values`),
+    );
+    bucket.forEach((entry) => {
+      const position = records.indexOf(entry);
+      records[position] = {
+        ...entry,
+        validation: 'CONFLICT',
+        issues: [...entry.issues, 'SOURCE_CONFLICT_UNRESOLVED'],
+        observation: missing('SOURCE_CONFLICT_UNRESOLVED', { periodEnd: entry.periodEnd }),
+      };
+    });
+  }
+
+  // Cross-field checks per (issuer, periodEnd, scope).
+  const groups = new Map<string, { metricId: MetricId; value: number }[]>();
+  for (const record of records) {
+    const value = record.observation.value;
+    if (record.validation !== 'VALID' || value === null) continue;
+    const key = `${record.issuerId}|${record.periodEnd}|${record.statementScope}`;
+    const bucket = groups.get(key) ?? [];
+    bucket.push({ metricId: record.metricId, value });
+    groups.set(key, bucket);
+  }
+  for (const [key, values] of groups) {
+    for (const violation of crossFieldIssues(values)) {
+      issues.push(issue('ERROR', 'OPERATING_METRIC_CROSS_FIELD', key, violation.detail));
+      const implicated = violation.metrics ?? values.map((value) => value.metricId);
+      for (const record of records) {
+        if (`${record.issuerId}|${record.periodEnd}|${record.statementScope}` !== key) continue;
+        if (!implicated.includes(record.metricId)) continue;
+        const position = records.indexOf(record);
+        if (position < 0) continue;
+        records[position] = {
+          ...record,
+          validation: 'UNVALIDATED',
+          issues: [...record.issues, violation.detail],
+          observation: missing('OPERATING_METRIC_UNVALIDATED', {
+            periodEnd: record.periodEnd,
+            note: violation.detail,
+          }),
+        };
+      }
+    }
+  }
+
+  return { records, issues };
+}
+
+/* ------------------------------------------------------------------- dataset */
+
+/** Overlapping effective windows for the same (exchange, symbol, series, instrument) are an error. */
+export function listingConflicts(listings: readonly ListingRecord[]): IngestionIssue[] {
+  const issues: IngestionIssue[] = [];
+  const groups = new Map<string, ListingRecord[]>();
+  for (const listing of listings) {
+    const key = `${listing.exchange}:${listing.symbol}:${listing.series}:${listing.instrumentType}`;
+    const bucket = groups.get(key) ?? [];
+    bucket.push(listing);
+    groups.set(key, bucket);
+  }
+  for (const [key, bucket] of groups) {
+    const sorted = [...bucket].sort((a, b) => a.effectiveFrom.localeCompare(b.effectiveFrom));
+    for (let i = 1; i < sorted.length; i += 1) {
+      const previous = sorted[i - 1]!;
+      const current = sorted[i]!;
+      const previousEnd = previous.effectiveTo ?? '9999-12-31';
+      if (current.effectiveFrom <= previousEnd) {
+        issues.push(
+          issue('ERROR', 'AMBIGUOUS_LISTING', key, `overlapping windows ${previous.effectiveFrom}..${previousEnd} and ${current.effectiveFrom}..`),
+        );
+      }
+    }
+  }
+  return issues;
+}
+
+export function buildDatasetContent(inputs: DatasetInputs): DatasetContent {
+  const issues: IngestionIssue[] = [];
+  const issuerIds = new Set(inputs.issuers.map((issuer) => issuer.issuerId));
+  const securityIds = new Set(inputs.securities.map((security) => security.securityId));
+
+  let periods: NormalizedPeriod[] = [];
+  if (inputs.periodCsv !== null) {
+    const parsed = parsePeriodCsv(inputs.periodCsv);
+    periods = parsed.periods;
+    issues.push(...parsed.issues);
+  }
+  for (const file of inputs.xbrlFiles) {
+    const instance = parseXbrlInstance(file.text);
+    const extraction = extractPeriodValues(instance, {
+      issuerId: file.issuerId,
+      periodEnd: file.periodEnd,
+      statementScope: file.statementScope,
+      filingRef: file.filingRef,
+      filedAt: file.filedAt,
+    });
+    issues.push(...extraction.issues);
+    for (const tag of extraction.unknownTags) {
+      issues.push(
+        issue('WARNING', 'UNMAPPED_XBRL_TAG', `${file.issuerId}/${file.name}`, `tag "${tag}" is not in the line-item map`),
+      );
+    }
+    periods.push({
+      issuerId: file.issuerId,
+      period: {
+        fiscalYear: Number(file.periodEnd.slice(0, 4)),
+        periodType: 'ANNUAL',
+        periodStart: `${Number(file.periodEnd.slice(0, 4)) - 1}-04-01`,
+        periodEnd: file.periodEnd,
+        statementScope: file.statementScope,
+      },
+      taxonomy: 'INDAS',
+      normalizationVersion: 'in-fin/1.0.0',
+      currency: 'INR',
+      sourceScale: 'UNIT',
+      scaleApplied: { from: 'UNIT', to: 'UNIT', factor: 1 },
+      basis: file.basis ?? 'AS_FILED',
+      filingRef: file.filingRef,
+      filedAt: file.filedAt,
+      restatementOf: file.restatementOf ?? null,
+      values: extraction.values,
+      derived: deriveLineItems(extraction.values, file.periodEnd).values,
+    });
+  }
+
+  // Period referential integrity and duplicates.
+  const seenPeriods = new Set<string>();
+  const retainedPeriods: NormalizedPeriod[] = [];
+  for (const period of periods) {
+    const subject = `${period.issuerId}/${period.period.periodEnd}/${period.period.statementScope}`;
+    if (!issuerIds.has(period.issuerId)) {
+      issues.push(issue('ERROR', 'UNKNOWN_ISSUER', subject, 'period references an issuer not in the roster'));
+      continue;
+    }
+    const key = `${period.issuerId}|${period.period.periodType}|${period.period.periodStart}|${period.period.periodEnd}|${period.period.statementScope}|${period.basis}`;
+    if (seenPeriods.has(key)) {
+      issues.push(issue('ERROR', 'DUPLICATE_PERIOD', subject, 'two records for the same period and basis'));
+      continue;
+    }
+    seenPeriods.add(key);
+    retainedPeriods.push(period);
+  }
+
+  let operatingMetrics: OperatingMetricRecord[] = [];
+  if (inputs.operatingMetricsCsv !== null) {
+    const parsed = parseOperatingMetricsCsv(inputs.operatingMetricsCsv);
+    operatingMetrics = parsed.records;
+    issues.push(...parsed.issues);
+  }
+  for (const record of operatingMetrics) {
+    if (!issuerIds.has(record.issuerId)) {
+      issues.push(issue('ERROR', 'UNKNOWN_ISSUER', `${record.issuerId}/${record.metricId}`, 'metric references an unknown issuer'));
+    }
+    const periodExists = retainedPeriods.some(
+      (period) =>
+        period.issuerId === record.issuerId &&
+        period.period.periodEnd === record.periodEnd &&
+        period.period.statementScope === record.statementScope,
+    );
+    if (!periodExists) {
+      issues.push(
+        issue('WARNING', 'METRIC_PERIOD_NOT_IN_DATASET', `${record.issuerId}/${record.metricId}`, `no period for ${record.periodEnd} (${record.statementScope})`),
+      );
+    }
+  }
+
+  for (const security of inputs.securities) {
+    if (!issuerIds.has(security.issuerId)) {
+      issues.push(issue('ERROR', 'UNKNOWN_ISSUER', security.securityId, 'security references an unknown issuer'));
+    }
+  }
+  for (const listing of inputs.listings) {
+    if (!securityIds.has(listing.securityId)) {
+      issues.push(issue('ERROR', 'UNKNOWN_SECURITY', listing.listingId, 'listing references an unknown security'));
+    }
+  }
+  issues.push(...listingConflicts(inputs.listings));
+
+  for (const price of inputs.prices) {
+    if (!securityIds.has(price.securityId)) {
+      issues.push(issue('ERROR', 'UNKNOWN_SECURITY', price.securityId, 'price references an unknown security'));
+    }
+  }
+  for (const action of inputs.corporateActions) {
+    if (!issuerIds.has(action.subjectIssuerId)) {
+      issues.push(issue('ERROR', 'UNKNOWN_ISSUER', action.actionId, 'corporate action references an unknown issuer'));
+    }
+    if (!action.perShareComparable && action.adjustmentFactor === null) {
+      issues.push(
+        issue('WARNING', 'PER_SHARE_NOT_COMPARABLE', action.actionId, 'no adjustment factor: per-share series are not comparable across this boundary'),
+      );
+    }
+  }
+
+  const sortedIssues = [...issues].sort((a, b) =>
+    `${a.severity}|${a.code}|${a.subject}|${a.detail}`.localeCompare(`${b.severity}|${b.code}|${b.subject}|${b.detail}`),
+  );
+  const byPeriodEnd = (a: NormalizedPeriod, b: NormalizedPeriod): number =>
+    `${a.issuerId}${a.period.periodEnd}${a.period.statementScope}${a.basis}`.localeCompare(
+      `${b.issuerId}${b.period.periodEnd}${b.period.statementScope}${b.basis}`,
+    );
+
+  return {
+    issuers: inputs.issuers,
+    securities: inputs.securities,
+    listings: inputs.listings,
+    periods: [...retainedPeriods].sort(byPeriodEnd),
+    prices: inputs.prices,
+    corporateActions: inputs.corporateActions,
+    operatingMetrics,
+    issues: sortedIssues,
+  };
+}

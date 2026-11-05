@@ -1,0 +1,157 @@
+#!/usr/bin/env tsx
+/**
+ * IID-0 — fundamentals ingestion CLI (file in, files out).
+ *
+ *   tsx src/investment/cli/ingest.ts --input <dir> --dataset-dir <dir> [--now <iso>] [--allow-errors]
+ *
+ * Input directory layout:
+ *   roster.json              { issuers[], securities[], listings[] }   (required)
+ *   periods.csv              normalised statement facts                (optional)
+ *   operating-metrics.csv    operating metric observations              (optional)
+ *   corporate-actions.json   { corporateActions[] }                     (optional)
+ *   prices.json              { prices[] }                               (optional)
+ *   xbrl-filings.json        [{ file, issuerId, periodEnd, statementScope, filingRef, filedAt, basis? }] (optional)
+ *   xbrl/*.xml               XBRL instance documents                     (optional)
+ *
+ * No network calls of any kind. Nothing outside the given directories is read or written.
+ */
+import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
+import { join, resolve } from 'node:path';
+
+import { buildDatasetContent, type DatasetInputs, type TextFile, type XbrlFileInput } from '../ingestion/builder';
+import { COVERAGE_FILE_NAME, writeDataset } from '../ingestion/writer';
+import { canonicalize } from '../fundamentals/canonical';
+import { measureCoverage, renderCoverageSummary } from '../coverage/measure';
+import type { CorporateActionRecord, IssuerRecord, ListingRecord, PriceRecord, SecurityRecord } from '../fundamentals/types';
+
+/** One line of `xbrl-filings.json`: the instance file plus the issuer/period it belongs to. */
+interface XbrlFilingDeclaration {
+  readonly file: string;
+  readonly issuerId: string;
+  readonly periodEnd: string;
+  readonly statementScope: 'CONSOLIDATED' | 'STANDALONE';
+  readonly filingRef: string;
+  readonly filedAt: string;
+  readonly basis?: 'AS_FILED' | 'RESTATED';
+  readonly restatementOf?: string | null;
+}
+
+interface Args {
+  readonly inputDir: string;
+  readonly datasetDir: string;
+  readonly now: string;
+  readonly allowErrors: boolean;
+}
+
+function parseArgs(argv: readonly string[]): Args {
+  const get = (flag: string): string | undefined => {
+    const index = argv.indexOf(flag);
+    return index === -1 ? undefined : argv[index + 1];
+  };
+  const inputDir = get('--input');
+  const datasetDir = get('--dataset-dir');
+  if (inputDir === undefined || datasetDir === undefined) {
+    throw new Error('usage: ingest.ts --input <dir> --dataset-dir <dir> [--now <iso>] [--allow-errors]');
+  }
+  return {
+    inputDir: resolve(inputDir),
+    datasetDir: resolve(datasetDir),
+    now: get('--now') ?? new Date().toISOString(),
+    allowErrors: argv.includes('--allow-errors'),
+  };
+}
+
+function readJson<T>(path: string): T {
+  return JSON.parse(readFileSync(path, 'utf8')) as T;
+}
+
+function readTextFile(path: string): TextFile {
+  return { name: path.split(/[\\/]/).pop() ?? path, text: readFileSync(path, 'utf8') };
+}
+
+export function loadInputs(inputDir: string): DatasetInputs {
+  const rosterPath = join(inputDir, 'roster.json');
+  if (!existsSync(rosterPath)) throw new Error(`roster.json is required in ${inputDir}`);
+  const roster = readJson<{ issuers: IssuerRecord[]; securities: SecurityRecord[]; listings: ListingRecord[] }>(rosterPath);
+
+  const optional = (name: string): string | null => {
+    const path = join(inputDir, name);
+    return existsSync(path) ? path : null;
+  };
+
+  const periodsPath = optional('periods.csv');
+  const metricsPath = optional('operating-metrics.csv');
+  const actionsPath = optional('corporate-actions.json');
+  const pricesPath = optional('prices.json');
+  const filingsPath = optional('xbrl-filings.json');
+
+  const xbrlDir = join(inputDir, 'xbrl');
+  let xbrlFiles: XbrlFileInput[] = [];
+  if (filingsPath !== null) {
+    const filings = readJson<XbrlFilingDeclaration[]>(filingsPath);
+    xbrlFiles = filings.map((filing) => {
+      const path = join(xbrlDir, filing.file);
+      if (!existsSync(path)) throw new Error(`XBRL instance ${filing.file} declared in xbrl-filings.json is missing`);
+      return { ...filing, name: filing.file, text: readFileSync(path, 'utf8') };
+    });
+  } else if (existsSync(xbrlDir) && readdirSync(xbrlDir).some((entry) => entry.endsWith('.xml'))) {
+    throw new Error('xbrl-filings.json is required when xbrl/ contains instance documents (issuer and period must be declared, never inferred)');
+  }
+
+  return {
+    issuers: roster.issuers,
+    securities: roster.securities,
+    listings: roster.listings,
+    corporateActions: actionsPath === null ? [] : readJson<{ corporateActions: CorporateActionRecord[] }>(actionsPath).corporateActions,
+    prices: pricesPath === null ? [] : readJson<{ prices: PriceRecord[] }>(pricesPath).prices,
+    periodCsv: periodsPath === null ? null : readTextFile(periodsPath),
+    operatingMetricsCsv: metricsPath === null ? null : readTextFile(metricsPath),
+    xbrlFiles,
+  };
+}
+
+export function run(argv: readonly string[]): number {
+  const args = parseArgs(argv);
+  const inputs = loadInputs(args.inputDir);
+  const content = buildDatasetContent(inputs);
+
+  const errors = content.issues.filter((issue) => issue.severity === 'ERROR');
+  for (const issue of content.issues) {
+    process.stdout.write(`${issue.severity.padEnd(7)} ${issue.code.padEnd(32)} ${issue.subject}  ${issue.detail}\n`);
+  }
+  if (errors.length > 0 && !args.allowErrors) {
+    process.stderr.write(`\n${errors.length} ingestion error(s); nothing was written. Re-run with --allow-errors to write a partial dataset that records them.\n`);
+    return 1;
+  }
+
+  const written = writeDataset({
+    dir: args.datasetDir,
+    content,
+    provider: 'operator-file-input',
+    licence: 'operator-supplied; not redistributable',
+    now: args.now,
+    importRunId: `run-${args.now}`,
+  });
+
+  const report = measureCoverage(content, { datasetVersion: written.manifest.datasetVersion, generatedAt: args.now });
+  const coveragePath = join(args.datasetDir, COVERAGE_FILE_NAME);
+  writeFileSync(coveragePath, `${JSON.stringify(JSON.parse(canonicalize(report)), null, 2)}\n`, 'utf8');
+
+  process.stdout.write(`\ndatasetVersion ${written.manifest.datasetVersion}\n`);
+  process.stdout.write(`dataset        ${written.dir}\n`);
+  process.stdout.write(`coverage       ${coveragePath}\n\n`);
+  process.stdout.write(`${renderCoverageSummary(report)}\n`);
+  return 0;
+}
+
+const invokedDirectly = process.argv[1] !== undefined && /ingest\.(ts|js)$/.test(process.argv[1]);
+if (invokedDirectly) {
+  try {
+    process.exitCode = run(process.argv.slice(2));
+  } catch (error) {
+    process.stderr.write(`${error instanceof Error ? error.message : String(error)}\n`);
+    process.exitCode = 1;
+  }
+}
+
+export { parseArgs };
