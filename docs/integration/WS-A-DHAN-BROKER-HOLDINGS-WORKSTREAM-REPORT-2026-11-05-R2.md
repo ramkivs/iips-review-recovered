@@ -268,7 +268,8 @@ is authorized and none was exercised.** No real-user durable save occurred.
 | A-14 | Gate 5 / CV-52 / U5 admission | **PA** | A-13 | Effective admission act naming exact qualified commits and lifted fences | **NOT INITIATED / NOT ADMITTED** |
 | A-15 | U6 operational write authorization (`durable:true`, 503 lift, W-1) | **PA** | A-14 | Effective U6 act + qualified durable-write evidence + guard-change authority | **NOT AUTHORIZED — out of scope** |
 | A-17 | Publish the IPD-`main`-movement transcript and its accompanying README / R2 / `SHA256SUMS` updates | IRR | A-2 merged | `11-ipd-main-movement-after-pin.txt` published on IRR `main`; pin and IPD ancestry re-verified against live remote state; no pin change; no IPD write; merged and remotely read back | **COMPLETED / VERIFIED** — see §12 |
-| A-16 | Additive dated master-tracker section registering the pin advance (next free `§16.249` / `CV-CORR-229` / `CHG-2026-11-02-01` / `V2023`), with the historical DQ-4 pin-reconciliation statements preserved unamended and indexed as superseded-for-currency | IRR | A-2 merged and remotely verified | Tracker section added additively; the protected Revision 7 / P1-F compatibility tokens and the CAP-03 status pointer unchanged; the IRR-only static validator green; merged and remotely read back | **NOT STARTED — deliberately out of this pass's scope** |
+| A-16 | Additive dated master-tracker section registering the pin advance (next free `§16.249` / `CV-CORR-229` / `CHG-2026-11-02-01` / `V2023`), with the historical DQ-4 pin-reconciliation statements preserved unamended and indexed as superseded-for-currency | IRR | A-2 merged and remotely verified | Tracker section added additively; the protected Revision 7 / P1-F compatibility tokens and the CAP-03 status pointer unchanged; the IRR-only static validator green; merged and remotely read back | **EXECUTED — see §13.** `§16.249` / `CV-CORR-229` / `CHG-2026-11-02-01` / `V2023`–`V2039` added as **185 insertions, 0 deletions**; static validator **PASS** locally; `V2039` (publication read-back) left honestly `PENDING` for a dated post-merge receipt |
+| A-18 | WS-A-DM milestone review at the then-current pin | IRR + PA | A-7, A-9, A-15 | Nine-pillar review published per §3.2 of the milestone definition; all pillars `IMPLEMENTED-VERIFIED`; pillar-8 and pillar-9 authorities effective and read back | **NOT STARTED — milestone defined, NOT COMPLETE** |
 
 ## 10. Files changed in this pass (IRR only)
 
@@ -328,6 +329,7 @@ documentation act and is listed as outstanding action **A-16** below.
 | IPD `main` movement after the pin, and the pin's continued validity | **VERIFIED** — re-measured at A-17; `7bcae35` is IPD `main`'s first parent, consumed surface byte-identical; **no pin change** |
 | Production scope | **NOT AUTHORIZED — none exercised** |
 | **Workstream A overall** | **NOT COMPLETE** — A-5…A-15 outstanding |
+| Milestone **WS-A-DM** (Durable User Holdings and Evidence Persistence) | **DEFINED, NOT COMPLETE** — pillars 4/5/7/9 `IMPLEMENTED-VERIFIED`; pillar 3 retention verified with retrieval `AWAITING-AUTHORITY`; pillar 6 isolation verified with the owner carrier `AWAITING-AUTHORITY`; pillar 2 `NOT-QUALIFIED`; pillar 1 `BLOCKED-EXTERNAL`; pillar 8 `AWAITING-AUTHORITY` |
 
 ---
 
@@ -396,3 +398,70 @@ at the PR #127 merge commit `7bcae35`, exactly as the workstream specified.
 **Not modified:** `frontend/**` in its entirety, both sibling pins, the materializer, the guard, the
 preview, the evidence store, the PF-1 journal, any gate, fence or authority act, anything in IPD, and
 every previously published evidence artefact `00`–`10` (their `SHA256SUMS` digests are unchanged).
+
+---
+
+## 13. Dated addendum — A-16 tracker registration and the WS-A-DM milestone definition
+
+**Additive documentation only. No code, dependency, pin, gate, fence or authority act changed. No IPD write.**
+
+### 13.1 A-16 executed: `§16.249` / `CV-CORR-229` / `CHG-2026-11-02-01` / `V2023`–`V2039`
+
+The master tracker was deliberately untouched by the pin-advance pass (§10). A-16 discharges that
+deferral with a **purely additive** section — `185` insertions, **`0` deletions** — plus one new
+change-log row at the top of the §5 additive table. Twelve subsections register: the three
+publications and their merge commits; the resolved authoritative commits; the §16.172 `TS18003`
+prediction confirmed exactly **and corrected in one attribution** (the remedy was IRR-owned, not
+IPD-owned, and the failure was blocking at the moment of the advance, not minor); the measured 68-row
+result; the §4 blocked investigation; the §5 authority gap; the PA reconciliation for the `RS-22`
+alias-modernization limb; ten stale alias/pin statements indexed as superseded-for-currency; the
+unchanged gates and fences; the milestone definition pointer; the outstanding-action register; and a
+17-row verification ledger.
+
+**Preservation was proven, not asserted.** Before publication: the diff was confirmed to contain zero
+deleted lines; the protected Revision 7 / P1-F compatibility tokens, the `**Latest (`CV-CORR-208``
+pointer, the `§16.222` and `§16.246` next-free declarations, the §16.248 next-free declaration and
+the single `**Current CAP-03 P-1 / PF-15 status**` row were all confirmed still present; the
+first-30-line window the static validator inspects was confirmed unchanged; each of `V2023`–`V2039`
+was confirmed to appear exactly once as a ledger row; and the **IRR-only static validator
+(`docs/integration/cap03-p1-f9/validate_windows10_host_profile.py`) was run locally and returned exit
+`0`**. The workspace clone had to be unshallowed (`git fetch --unshallow --filter=blob:none`, 1,201
+commits) because that validator reconciles the tracker against historical commits.
+
+`V2039` (publication and independent remote read-back of this section) is left honestly **`PENDING`
+at authoring time**, with a dated post-merge receipt subsection to follow — the §16.248.7 / PR #430
+precedent. A pre-merge record cannot truthfully cite its own merge commit.
+
+### 13.2 One governance finding worth stating plainly
+
+`RS-22` of the 2026-11-02 Register D records **"alias modernization is NOT AUTHORIZED and off the
+critical path"**, with the remaining action **"PA decides only if it commissions the work."** The
+Program Authority did commission exactly this advance in writing in the Workstream A instruction of
+2026-11-05. §16.249.7 therefore records that the `RS-22` alias-modernization limb is **discharged
+for the `70b24f0` → `7bcae35` advance only, by the PA's own written commission** — not by agent
+inference, waiver or steady-state reinterpretation. The other `RS-22` limbs (`CV-24` F6 inventory,
+`TD-7b` production profile, `CV-22` universe expansion) remain reserved and untouched. **Register D
+was not edited**; it is indexed as superseded-for-currency for that one limb. No PA act ID was
+assigned or claimed. And the commission to advance a pin is **not** authorization for real-user
+durable saves, gate movement, fence lifts, D05 deposition, an HTTP evidence route or production
+scope.
+
+### 13.3 The WS-A-DM milestone definition
+
+`docs/integration/WS-A-DURABLE-USER-HOLDINGS-MILESTONE-DEFINITION-2026-11-05.md` defines durability
+as the eventual Workstream A milestone across nine pillars, each with measurable acceptance criteria
+and a controlled five-state classification (`IMPLEMENTED-VERIFIED`, `AWAITING-AUTHORITY`,
+`BLOCKED-EXTERNAL`, `NOT-IMPLEMENTED`, `NOT-QUALIFIED`). It carries a **normative non-completion
+rule**: fixture-based durable persistence plus evidence-journal restart recovery are necessary and
+already in hand, and are **not** sufficient — they are fixture-scoped rather than user-scoped, the
+write path is closed by design rather than by accident, and 67 of 68 identities are unresolved. It
+also fixes the dependency spine (`A-5 → A-6 → A-7` for pillar 1; `A-8 → A-9` for pillars 3 and 6;
+`A-10 → A-11 → A-12 → A-13 → A-14 → A-15` for pillars 8 and 2), a mandatory review procedure, the
+prohibitions carried forward, and the seven conditions that would legitimately allow a `COMPLETE`
+declaration.
+
+**The honest summary of the milestone:** the engineering IRR owns is largely done and verified —
+pillars **4, 5, 7 and 9 are `IMPLEMENTED-VERIFIED`**, and pillars **3** and **6** are verified except
+for one authority-gated limb each. What remains is *data* IRR cannot obtain (pillar 1) and *authority*
+IRR cannot render (pillars 2, 3, 6, 8). **No further IRR implementation moves WS-A-DM forward until
+A-5, A-8 or A-10 is discharged by someone else.**
