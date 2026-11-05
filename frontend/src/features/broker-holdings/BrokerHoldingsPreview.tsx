@@ -48,12 +48,43 @@ export function BrokerHoldingsPreview() {
     <section aria-label="Broker Holdings preview">
       <h2>Broker Holdings</h2>
       <p>Dhan (Detailed and Web UI), Zerodha and Groww CSV preview. No broker login or live API connection.</p>
-      <p>Files are processed in this browser only, not uploaded or stored. Native rows are evidence,
+      <p>Files are parsed in this browser and their raw bytes are not uploaded. Native rows are evidence,
         not normalized or validated portfolio holdings. Parser price defaults may apply. Canonical identity is
         assigned only where the IPD-owned governed security master resolves the row; nothing is inferred from
         company-name similarity, and an unresolved row stays unresolved.</p>
       <p><strong>Preview only — not saved.</strong> Durable portfolio saving remains unavailable.
         This is separate from the certified reference portfolio and its analytics.</p>
+      {/*
+        * Retention disclosure reconciled per IIPS-V3-CAP02-U1-AMEND-01 §8.4(18), rendering the PA's
+        * Decision 6 of 2026-11-05. Clause 18(1) named the contradiction this block removes: the copy
+        * above once said files are "not uploaded or stored" while parsed evidence IS retained. Both
+        * statements are now true and consistent — the raw file bytes are not retained, the parsed
+        * equivalent is. This is a DISCLOSURE obligation, not a request-time consent gate: the route
+        * reads no identity from a request (§8.2(10)), so no consent token, header or checkbox is
+        * accepted or required here, and none may be added without a further act.
+        */}
+      <section aria-label="Evidence retention">
+        <h3>What this application retains</h3>
+        <ul>
+          <li>Parsed broker-import evidence <strong>is retained locally</strong> in this application's own
+            data directory on this machine, so that an unresolved import survives a restart. Retention is
+            <strong> indefinite</strong> and ends only when the application owner
+            <strong> explicitly deletes</strong> it. There is <strong>no automatic deletion or purge</strong>,
+            no expiry and no compaction, and the <strong>50 MB</strong> figure reported with your stored
+            evidence is a <strong>warning</strong> and review point only — crossing it deletes nothing,
+            blocks nothing and is not a quota.</li>
+          <li>The <strong>raw CSV bytes are not retained</strong>. The retained equivalent is the
+            <strong> parsed row inventory</strong>, the content and record <strong>digest</strong> values,
+            the per-row identity evidence and the pipeline's refusal details.</li>
+          <li>Retained evidence is served <strong>only within the single personal owner scope</strong> of
+            this application, is <strong>never transmitted to any third party</strong>, and
+            <strong> no route enumerates</strong> evidence records — one record is retrievable only by its
+            own import identifier, and there is no list endpoint.</li>
+          <li>Retention of evidence is <strong>not a save</strong>, not a validation, not an authorization
+            and not durability of holdings: <code>savedRows</code> stays 0 and
+            <code>WRITE_NOT_AUTHORIZED</code> is unchanged.</li>
+        </ul>
+      </section>
       <label htmlFor="broker-csv">Broker CSV (maximum 1 MiB)</label>{' '}
       <input id="broker-csv" ref={input} type="file" accept=".csv,text/csv"
         onChange={e => { void select(e.target.files?.[0]); }} />{' '}

@@ -889,3 +889,131 @@ Canonical owner ID: `owner-4dc756b3`. Personal tenant scope: `irr-personal-073dd
 
 ***Status: RENDERED BY PA DECISIONS 5/6/7 OF `2026-11-05` — EFFECTIVENESS CONDITIONAL ON §10 —
 (ii)–(iv) PENDING — NOT YET EFFECTIVE — IMPLEMENTATION NOT AUTHORIZED.***
+
+---
+
+## 14. Effectiveness determination (`2026-11-05`) — post-merge, additively appended
+
+> **Additivity.** §14 is appended below the rendered instrument. **§§1–13 above are preserved
+> byte-for-byte and nothing above is modified**, following the precedent set by
+> `IIPS_v3.0_OWNER_CONTEXT_F1_F2_VALUE_ACT.md` §2–§3, which records: *"The adopted artifact is preserved
+> byte-for-byte as the first 12 901 bytes of this amended file (SHA-256 `4970b90b…`); this note adds
+> content below it and modifies nothing above it."*
+>
+> **The header `STATUS` cell and §10's condition table above record the state AT RENDERING and are
+> deliberately left unamended.** They said *(ii)–(iv) PENDING* because that was true when written.
+> **The operative status of this instrument is the one determined here.**
+>
+> **Clause 25 is honoured by this section's omissions.** Clause 25 requires that publication
+> coordinates be recorded *exclusively* in the post-merge tracker receipt and *never* self-embedded in
+> this act. §14 therefore states the **determination** and the **evidence classes** that discharge it,
+> and cites **tracker §16.254.17** as the authoritative register of the PR, merge-commit and `main`
+> coordinates. Those identifiers are deliberately **not** restated here. CI run identifiers are cited
+> because they are evidence of condition (iii), not coordinates of this act's publication.
+
+### 14.1 Determination
+
+| §10 condition | Determination | Evidence |
+| :--- | :--- | :--- |
+| **(i)** PA adopting act; Act ID assigned; §8.2(7) scope literals and §8.3(16) retention values filled | **PERFORMED** | This instrument, §§3, 4, 5 |
+| **(ii)** Publication to IRR `main` | **PERFORMED** | Published by an IRR pull request merged on `2026-11-05`; the PR number, head commit, merge commit, resulting tree and `main` identity are recorded in **tracker §16.254.17** per clause 25, and were independently confirmed by `git ls-remote origin refs/heads/main` |
+| **(iii)** Green **exact-head** CI **and** green **post-merge `main`** CI | **PERFORMED** | Exact head: `CAP-03 Revision 7 IRR-only static checks`, job `Python compile · source/evidence/tracker validation` = **SUCCESS** in 1 m 15 s, run **`42042751662`**, job id `127297558147`, event `pull_request`. Post-merge `main`: run **`42043198126`**, event `push` — **`completed` / `success`** |
+| **(iv)** Independent remote read-back, **including U1 blob byte-identity** | **PERFORMED** | **6 / 6 changed paths MATCH** and **2 / 2 frozen anchors MATCH**, via the Git Blobs API — base64-decoded remotely and **re-hashed to the same Git blob id**, not merely compared as metadata. Detail at §14.2; register entry at **tracker §16.254.17** |
+
+**∴ All four conjunctive conditions of §8.7(25) / §10 are DISCHARGED.**
+
+### 14.2 Remote read-back detail
+
+| Path | Git blob | Bytes | Result |
+| :--- | :--- | :--- | :--- |
+| Master tracker (§16.254) | `6f54c0b20f54ff5e973a2100203809f77b98472b` | 3,950,068 | **MATCH** |
+| **This instrument** | `ee272b3b0d3d0d87c360b7904dcc18cb4b0b8763` | 66,199 | **MATCH** |
+| R2 workstream report (§16) | `a3c864a65bde7305e586c3bf52b2b853d6ea2f4a` | 90,871 | **MATCH** |
+| A-8 amendment package (§9 note) | `bbe7833d135e041250d37fad61188a8c427f2d0e` | 38,186 | **MATCH** |
+| PA decision paper (§11 record + §14) | `22a664baf4f6ac81e3ee8880343a9a55d136e3a6` | 95,831 | **MATCH** |
+| Technical appendix (A-6) | `97a2b23ce870ee138bf49f5bce2f589b19a3a456` | 40,715 | **MATCH** |
+| **U1 act (effective) — frozen anchor** | **`a3ae368d2a585aae3eea63d5f5e36225b1fcc9d9`** | 13,357 | **MATCH — BYTE-IDENTICAL** |
+| **U1 act (prepared) — frozen anchor** | **`966891d4c7016a5e993e609a03488c8719499e3e`** | 15,329 | **MATCH — BYTE-IDENTICAL** |
+
+**Finding R-1 is thereby vindicated by remote evidence:** the three anchors that made appending §8 to the
+U1 file inadmissible — the composition act's 4/4 read-back receipt, tracker `CHG-2026-10-23-18` and tracker
+row `V425` — all still cite **`a3ae368d…`**, and that blob is **unchanged at merged `main`**. **No
+published anchor was invalidated by this amendment.**
+
+Also read back unchanged at merged `main`: **`frontend/server/broker-import/brokerImportHttp.ts`** blob
+**`cd0b42d1c7803f9451586194e42c0357135271d2`** (12,499 bytes) — **the admitted `/api/broker-import/` route
+set was still exactly two routes at that coordinate; no route had been added by this act.**
+
+### 14.3 Operative status
+
+```text
+IIPS-V3-CAP02-U1-AMEND-01-EVIDENCE-RETRIEVAL-ROUTE-2026-11-05-01: EFFECTIVE
+Admitted by text: GET /api/broker-import/:portfolioId/evidence/:importId
+Route registered in code at THIS determination: NO — NOT IMPLEMENTED (see §14.4)
+Owner scope: (irr-personal-073dd1c8, owner-4dc756b3); label SAIRAM — NOT a partition key
+Carrier: IIPS_BROKER_EVIDENCE_OWNER_PATH; canonical bytes 367 B; SHA-256 27e70c10be68f42a7dc90e5d07669b2a4201c3b807ee0b9fb14e9247b06f8b2c
+Retention: INDEFINITE; deletion EXPLICIT-OWNER-ONLY; automatic purge and destructive compaction PROHIBITED
+50 MB: WARNING / REVIEW ONLY — never a deletion trigger; no quota
+Obligations O-1 and O-2: BINDING ON IMPLEMENTATION — NOT DISCHARGED HERE
+Write scope: NOT AUTHORIZED (W-1 unmet; WRITE_NOT_AUTHORIZED; savedRows 0)
+Fences: UNCHANGED (six admitted read-only pairs; six write/context pairs still 503)
+Pins: UNCHANGED BY THIS ACT
+IPD writes: ZERO
+Blocker WS-A-EV-ROUTE-1: CLOSED — the authority it awaited now exists and is verified
+```
+
+**This instrument is now citable as admission authority** for the single route named above, **and only
+for it**. U1 §6's caution is discharged: publication did **not** fail, so the record **may** be cited.
+
+### 14.4 Implementation is authorized but was NOT performed in the rendering pass
+
+**§12's condition is now met**, so **A-9 (implement the evidence route) is AUTHORIZED**. **It had not been
+performed by the rendering pass.** No handler, carrier module, `matchRoute()` extension, test, consent-copy
+change, runbook entry or configuration was written by that pass or by this determination. Reasons, stated
+plainly rather than left implicit:
+
+1. The rendering pass was scoped to **reconciliation, documentation, validation, publication and remote
+   verification**. Implementation is a distinct body of work.
+2. Implementation carries **eleven** prepared steps (§12) plus the two obligations Decision 6 created
+   (**O-1**, **O-2**) plus the **clause-18 consent-copy reconciliation**, and requires **targeted tests**
+   for every file actually changed — `405`, `400` on query string, `404` non-enumeration, non-disclosure,
+   tamper fail-closed, fence re-assertion at the **current** six-plus-six baseline, and import-safety
+   re-assertion.
+3. **Remaining item (2) at §11 — extending `owner-4dc756b3` to durable holdings — is NOT authorized** and
+   must not be swept into an implementation pass. **Remaining item (1) — the deletion surface — is a PA
+   decision that does NOT block the read route**, since the read route admits no deletion capability at
+   all.
+
+**∴ As at this determination A-9 was AUTHORIZED — NOT STARTED, and unblocked.** Milestone WS-A-DM pillar 3
+criterion 3.3 (retrieval) and pillar 6 criterion 6.2 (owner carrier) moved from **AWAITING-AUTHORITY** to
+**AUTHORIZED — NOT IMPLEMENTED**. **Neither was satisfied by this determination, and WS-A-DM remained NOT
+COMPLETE.**
+
+> **Forward note — §14.4 states the position AS AT THIS DETERMINATION and is not amended.** A-9 was
+> subsequently implemented under this authority, in a **separate commit** so that the authorization chain
+> reads in order: the discharge of §10 first, then the implementation it authorizes. That work is recorded
+> in **tracker §16.255** and **R2 §17**, which supersede §14.4 and the §14.3 line *"Route registered in
+> code at THIS determination: NO"* **as current state**. Nothing above is rewritten to reflect the later
+> state.
+
+### 14.5 What this determination does not do
+
+It does **not** implement, register, mount, expose or test any route. It does **not** create the carrier
+file or any carrier module. It does **not** discharge **O-1**, **O-2** or clause 18. It does **not** admit
+any `DELETE`, any destructive operation, any enumeration, any collection endpoint, any new listener, any
+new IPC operation, any visibility or backup endpoint, or any second user. It does **not** authorize any
+write, any durable-success claim, any real-user save, any production scope, any Gate 4 or Gate 5 movement,
+any fence lift, any P04 or DP-2 change, any pin change, any D05 deposition or any IPD change. It does
+**not** extend the canonical owner ID to durable holdings persistence. It does **not** decide the deletion
+surface. It does **not** render decisions **1, 2, 3 or 4**, which remain **PENDING**, and it does **not**
+treat the decision paper's ten-item confirmation checklist as marked. It does **not** rewrite §§1–13 above.
+
+---
+
+*Program Authority: Ramki. Personal, single-user application. Personal owner identity label: `SAIRAM`.
+Canonical owner ID: `owner-4dc756b3`. Personal tenant scope: `irr-personal-073dd1c8`.*
+
+***Status: EFFECTIVE — determined `2026-11-05` at §14 on discharge of all four conjunctive conditions of
+§8.7(25). Implementation NOT performed by this determination; A-9 AUTHORIZED — NOT STARTED as at §14.4,
+subsequently implemented under separate commit (tracker §16.255 / R2 §17). Workstream A and milestone
+WS-A-DM remain NOT COMPLETE.***

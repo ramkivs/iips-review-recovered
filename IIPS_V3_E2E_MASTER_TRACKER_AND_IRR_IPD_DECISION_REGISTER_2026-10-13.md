@@ -21323,4 +21323,167 @@ NOT closed, and A-9 implementation remains NOT AUTHORIZED.**
 
 **Workstream A and milestone WS-A-DM are NOT COMPLETE.**
 
+### 16.254.17 Post-merge publication and read-back receipt — discharge of §16.254.16 (`2026-11-05`)
+
+Discharges the eleven `PENDING` cells of **§16.254.16** and the publication limb of **`V2110`**. The
+`PENDING` wording of §16.254.16 is **preserved verbatim above**, following the §16.248.7 / PR #430,
+§16.249.13 / PR #441, §16.251.16 / PR #443 and §16.252.16 / PR #445 precedents: **a receipt cannot be part
+of the commit it verifies.**
+
+**This is also the register entry that clause 25 of the adopted amendment text requires.** Clause 25
+provides that publication coordinates are recorded *exclusively* in the post-merge tracker receipt and are
+*never* self-embedded in the act. The act's own §14 therefore states the **determination** and cites
+**this section** for the identifiers below, which are deliberately not restated there.
+
+| Item | Verified value |
+|---|---|
+| IRR PR | **#447**, head **`70a5c4a234938492e7b4ce6bf0a278298bc9f398`** — authored, pushed and merged by this session; **#447 was the only open IRR PR at merge time**, so no foreign PR was merged |
+| Merge | **MERGED `2026-11-05T14:15:08Z`** as **`510ffb003ebf9c38d328904051ef303be4b96257`**, tree **`4cfa3df99362a9322be75bcf5f5d42e319b0b3af`**, parents **`d7cd3b658bdcd9e59c7888e8b6a37af7e4646232`** + **`70a5c4a234938492e7b4ce6bf0a278298bc9f398`**, method `merge` |
+| `git ls-remote origin refs/heads/main` | **`510ffb003ebf9c38d328904051ef303be4b96257`** — **agrees** with the merge commit |
+| Exact-head CI | `CAP-03 Revision 7 IRR-only static checks`, job **`Python compile · source/evidence/tracker validation`** = **SUCCESS** in 1 m 15 s; run **`42042751662`**, job id `127297558147`, event `pull_request`, head_sha `70a5c4a2…` |
+| Post-merge `main` CI | run **`42043198126`**, event `push` — **`completed` / `success`** |
+| Independent remote byte read-back | **6 / 6 changed paths MATCH** *and* **2 / 2 frozen anchors MATCH** (Git Blobs API, base64-decoded remotely and **re-hashed to the same Git blob id**, not compared as metadata alone; the tracker exceeds the Contents API base64 limit and was read via `git/blobs/<sha>`) |
+| — master tracker (§16.254) | blob **`6f54c0b20f54ff5e973a2100203809f77b98472b`**, **3,950,068** bytes, SHA-256 `bbf684f1cd87c97e…` — **MATCH** |
+| — AMEND-01 instrument (as published by #447) | blob **`ee272b3b0d3d0d87c360b7904dcc18cb4b0b8763`**, **66,199** bytes, SHA-256 `ae966f2c9b1c61e0a4aea149c0590c5404cdf17fb422425cd2c9890a5a861e1d` — **MATCH** |
+| — R2 workstream report (§16) | blob **`a3c864a65bde7305e586c3bf52b2b853d6ea2f4a`**, **90,871** bytes, SHA-256 `bd22858e2a845578…` — **MATCH** |
+| — A-8 amendment package (§9 note) | blob **`bbe7833d135e041250d37fad61188a8c427f2d0e`**, **38,186** bytes, SHA-256 `d3fbea9f2c806170…` — **MATCH** |
+| — PA decision paper (§11 record + §14) | blob **`22a664baf4f6ac81e3ee8880343a9a55d136e3a6`**, **95,831** bytes, SHA-256 `d43c12d9fdd37b52…` — **MATCH** |
+| — technical appendix (A-6) | blob **`97a2b23ce870ee138bf49f5bce2f589b19a3a456`**, **40,715** bytes, SHA-256 `d72cdca4…` — **MATCH** |
+| — **U1 act (EFFECTIVE `2026-10-23`) — frozen anchor** | blob **`a3ae368d2a585aae3eea63d5f5e36225b1fcc9d9`**, **13,357** bytes — **MATCH, BYTE-IDENTICAL** |
+| — **U1 act (PREPARED `2026-10-23`) — frozen anchor** | blob **`966891d4c7016a5e993e609a03488c8719499e3e`**, **15,329** bytes — **MATCH, BYTE-IDENTICAL** |
+| Paths changed by PR #447 | **6** — all **pure insertions** except the decision paper's decision-record cells and R2's two live §9 cells (`+891/−0`, `+470/−0`, `+143/−2`, `+68/−0`, `+192/−18`, `+74/−0`); **`frontend/**` = 0**, **`evidence/**` = 0** |
+| **Finding R-1 vindicated by remote evidence** | The three anchors that made appending §8 to the U1 file inadmissible — tracker `CHG-2026-10-23-18` (line 8010), tracker row `V425`, and the modal-port composition act's completed 4/4 read-back receipt (line 207) — all still cite **`a3ae368d…`**, and that blob is **unchanged at merged `main`**. **No published anchor was invalidated by this amendment** |
+| Route surface read back from merged `main` | `frontend/server/broker-import/brokerImportHttp.ts` blob **`cd0b42d1c7803f9451586194e42c0357135271d2`**, **12,499** bytes — **UNCHANGED**; the admitted `/api/broker-import/` route set was still **exactly two routes**, so **no route was added by the act** |
+| Pins read back from merged `main` | broker-import **`#07e86a4f2c105651f3097a96cb519f8611945e30`**, np04 **`#2e11fa3b689d1a3674a5e4ba1f1de9a559e20494`**, production-market-data **`#279d1eed184f5e23bbabe5c6411085e120ce9e41`** — **UNCHANGED BY PR #447**; the broker-import pin had been moved only by the separately authorized concurrent PR #446 |
+| IRR-only static validator at merged `main` | **exit `0`** — PASS on the Windows 10 profile, S04 source and admitted S2 evidence; `LIMIT: IRR-only static validation`; `REVISION_7_SCRIPT_SHA256=6639633855300cd645248ce597bb2c867b5cdbf6045947bf4281721bb1cde6d1` |
+| Tracker invariants at merged `main` | head pointer **untouched** (first 30 lines byte-identical to `git show HEAD:`); splice **tail-only**; **0** merge markers; **0** CR bytes; **0** trailing-whitespace additions; `git diff --check` **clean**; **25 / 25** ledger rows `V2086`–`V2110` unique |
+| Allocation discipline | Re-censused **immediately before** splicing at `HEAD@d7cd3b65`: the four tokens reserved by §16.253's closing next-free declaration each occurred exactly once, and the succeeding section-number set occurred zero times. Re-censused **again** before this receipt at `HEAD@510ffb00`, and the same four tokens are described here **by reference only** so that each still occurs exactly once in this file |
+| **AMEND-01 effectiveness conditions (ii)–(iv)** | **ALL DISCHARGED.** Condition **(i)** was discharged at rendering; **(ii)** by publication to IRR `main` at `510ffb00…`; **(iii)** by green exact-head CI `42042751662` **and** green post-merge `main` CI `42043198126`; **(iv)** by the **6 / 6** path read-back **plus 2 / 2** frozen-anchor byte-identity read-back above. **∴ `IIPS-V3-CAP02-U1-AMEND-01-EVIDENCE-RETRIEVAL-ROUTE-2026-11-05-01` is EFFECTIVE**, determined in the instrument's own **§14** (appended additively, 66,199 → **75,696** bytes, Git blob `ee272b3b…` → `d39f28bad785f0b342e2bc5a554a497165f5ace1`, SHA-256 `45a2be64ce2789014936821fc53051a508c44c4aff89d96c6676ccff7ca90d6a`; §§1–13 and the header `STATUS` cell preserved byte-for-byte, per the `IIPS_v3.0_OWNER_CONTEXT_F1_F2_VALUE_ACT.md` §2–§3 precedent) |
+| **Consequent status of blocker `WS-A-EV-ROUTE-1`** | **CLOSED** — the authority it awaited now exists, is published and is remotely verified |
+| Register consequences | **A-8 → `CLOSED — AUTHORITY EFFECTIVE AND REMOTELY VERIFIED`**; **A-9 → `AUTHORIZED — NOT STARTED`**, unblocked, §12's condition met; WS-A-DM pillars **3.3** and **6.2** → **`AUTHORIZED — NOT IMPLEMENTED`**, **neither satisfied**. Both live R2 §9 cells updated; R2 **§16.8** records the same discharge |
+| Unrelated work preserved | **PR #446 MERGED, untouched**; **PR #438 MERGED at `bcf067061bff42c4b69416dbe33205909cd8ce85`, untouched**; the Direct P1 read integration at IRR **`9202e7a`** untouched; **0 open IRR PRs** after the merge |
+| Second validator, environmental limit | `docs/integration/cap03-s2/verify_recovery_release.py` was **not** run to completion locally: its release-asset download resolves to a host outside this sandbox's egress allowlist (TLS EOF). It reads **no file this section changes** — a grep of that script for the tracker filename, the `WS-A-` prefix, `R2` and `docs/integration` returned **0 matches** — and it **is** executed by hosted CI, which passed at the exact head and post-merge |
+| IPD writes | **ZERO** |
+
+**§16.254.16 is thereby discharged and `V2110` is PASS.** **No gate, pin, fence, authority act other than
+the one rendered, register count or master revision was moved by §16.254 or by this receipt.** **No route
+was implemented by the act**; A-9 became **AUTHORIZED — NOT STARTED**. Decisions **1, 2, 3 and 4** remain
+**PENDING** and the decision paper's confirmation checklist remains unmarked. **Workstream A and milestone
+WS-A-DM remain NOT COMPLETE.**
+
 **Next free after this section:** `§16.255` / `CV-CORR-235` / `CHG-2026-11-05-06` / `V2111`.
+
+## §16.255 — `CV-CORR-235`: A-9 — the `AMEND-01` evidence-retrieval route implemented, tested and verified (`2026-11-05`; `CHG-2026-11-05-06`; `V2111`–`V2130`)
+
+**Record ID:** `IIPS-V3-WS-A-A9-AMEND-01-EVIDENCE-RETRIEVAL-ROUTE-IMPLEMENTATION-TRACKER-REGISTRATION-IRR-2026-11-05-01`.
+
+**Scope.** IRR-owned implementation of A-9 under the authority that became **EFFECTIVE** at `2026-11-05` (§16.254.17, act §14). This section records the route admitted, the design determinations the act forced, the targeted verification performed, and the limitations that remain. It is the implementation counterpart to §16.254 (rendering) and §16.254.17 (effectiveness).
+
+**This section adds one route and no other HTTP surface. It adds no `DELETE`, no deletion endpoint, no automatic expiry, purge or destructive compaction, no holdings write, no durable save, no commit receipt, no fabricated `PortfolioRecord`, no second user, no shared account, no role, group or tenant-selection UI, no enterprise identity infrastructure, no storage-visibility endpoint and no backup endpoint.** It changes no pin, writes nothing to IPD, moves no gate, relaxes no fence, authorizes no real-user save, deposits no identity into D05, and reopens none of A-1…A-8.
+
+**Baselines re-censused at authoring time.** IRR `main@510ffb003ebf9c38d328904051ef303be4b96257` (**PR #447**, merged `2026-11-05T14:15:08Z`), plus this branch's own receipt commit `63d5b518ae8e0c6c7e610b4e7f0a43d154fdf40a`; IPD `main@07e86a4f2c105651f3097a96cb519f8611945e30` (**PR #128**, pin unchanged). Open PRs: **0** IRR, **0** IPD. Allocation re-verified immediately before writing: `§16.255`, `CV-CORR-235`, `CHG-2026-11-05-06` and `V2111` each occurred **exactly once** — in §16.254's closing next-free declaration — and are consumed here. The receipt at §16.254.17 describes those four tokens **by reference only**, so consuming them here does not double-count them.
+
+### 16.255.1 Authority discharged
+
+Act §8's route is implemented, and §12's eleven implementation steps are discharged as follows.
+
+| §12 step | Discharged by |
+|---|---|
+| 1 — extend `matchRoute` to the five-segment form | `brokerImportHttp.ts`: `MatchedRoute` widened, `isImportIdShape()` added, the four-part contract preserved byte-for-byte for every pre-existing path |
+| 2 — trusted owner-carrier resolution | **NEW** `brokerImportEvidenceOwnerCarrier.ts` (157 ln) + **NEW** `brokerImportEvidenceOwnerResolver.ts` (200 ln) |
+| 3 — owner-scoped retrieval with digest re-verification | `BrokerImportEvidenceStore.readByImportId()` (**NEW**, +105 ln to the store) over PF-1's `listOrdered` / `verify` |
+| 4 — route-surface tests | **NEW** `brokerImportEvidenceRoute.test.ts` (1,173 ln, **70 tests**) |
+| 5 — fence re-assertion | `fenceUnchanged.test.ts` **+86** (new §8.5(20)); **13 tests, all pass** |
+| 6 — import-safety re-assertion | `brokerImportImportSafety.test.ts` **+104** (new describe, 5 tests, and a `codeOnly()` comment-stripper); **10 tests, all pass** |
+| 7 — consent copy reconciliation (cl.18) | `BrokerHoldingsPreview.tsx` **+32/−1**; `BrokerHoldingsPreview.test.tsx` **+70**; **13 tests, all pass** |
+| 8 — O-1 storage-usage visibility | Response `retention.storage` block + `describeStorageUsage()` + server-side logging at import + `OPERATOR_RUNBOOK.md` §10.3 |
+| 9 — O-2 backup and recovery | `OPERATOR_RUNBOOK.md` §10.4 |
+| 10 — deletion outside HTTP (act §4.5) | `OPERATOR_RUNBOOK.md` §10.5; **no functionality added** |
+| 11 — `vite.config.ts` unchanged | Verified **0** diff lines against `origin/main`; the `/api` proxy already covers the new segment |
+
+### 16.255.2 The route surface, exactly
+
+```
+GET /api/broker-import/:portfolioId/evidence/:importId
+```
+
+**One** route. Clause 19's collection form (`…/:portfolioId/evidence`, four segments) stays **404** — `filter(Boolean)` drops the empty segment, so it fails to match and never reaches the handler. `GET` only: every other method answers **405** with `Allow: GET`, including `DELETE`. Any query string answers **400** before any disk I/O — and, importantly, the query-string refusal was scoped to the **evidence route only**, so the pre-existing preview contract is untouched.
+
+Clause 3's admission order is preserved exactly: first-party C9 check → `IIPS_G3_IPC_BINDING_PROVISIONED` → `validatePortfolioIdParam` → one scoped journal read. Clause 5's indistinguishability is preserved: absent, malformed, tombstoned and out-of-scope all answer the **byte-identical** `404 {"outcome":"RESOURCE_UNAVAILABLE"}`, never `403`, so the route is not an existence oracle. Note the deliberate asymmetry with `portfolioId`, which legitimately answers `400` via `validatePortfolioIdParam` because that is pre-existing behaviour clause 3 requires to be preserved.
+
+### 16.255.3 Design determinations the act forced
+
+1. **`importId` → record resolution could not be derived.** PF-1 mints `recordId = randomUUID()`, exposes no `readByDedupKey`, and its `exists()` is boolean. Resolution therefore goes through owner-scoped `listOrdered(tenantId, ownerUserId)`, selects by `importId`, and calls `verify()`. **No method was added to PF-1** — `frontend/server/persistence/` is byte-unchanged (0 diff lines).
+2. **Both partition keys are withheld from the response body** (`tenantId`, `ownerUserId`), per §8.1(6) and the existing `503` non-disclosure precedent. Consequence: `recordDigest` covers the complete stored record and is **not** recomputable from the projection. This is disclosed in-band rather than left implicit, via `retention.recordDigestCoversWithheldScopeKeys: true`.
+3. **`retention` is route-supplied and excluded from the digest.** It is not stored evidence — it is a policy attestation minted per response. Keeping it out of the digest is what allows the storage counters to be live without invalidating retained records.
+4. **Tampering is distinguished from corruption.** Digest mismatch with a still-schema-valid record → `EVIDENCE_TAMPERED`; schema-invalid → `EVIDENCE_INVALID`. Both are `503`, never `404`, because silently reporting a tampered record as absent would hide the tampering.
+5. **Consent enforcement is disclosure, not a gate.** A request-time consent check would require reading identity from the request, which clause 10 forbids. Clause 18 is discharged by product and UI copy instead.
+6. **The store is constructed per request and never cached** (`new BrokerImportEvidenceStore({ dataDir: resolveDataDir(env) })`). This is why removing the carrier file fails closed on the very next request with no restart — proved against the real composed host.
+7. **Clause 14's P04 volatility is carried in the response**, not merely documented: quarantine ids are process-specific, so the response says so.
+
+### 16.255.4 Finding R-3 — the evidence journal sits at the data root, alone
+
+`BrokerImportEvidenceStore` is the **only** journal consumer in the application that writes at `resolveDataDir()` **without** a dedicated subdirectory. Watchlists uses `watchlists/`, collaboration `collaboration/`, settings `settings/`; broker-import evidence writes `$IIPS_DATA_DIR/journal.ndjson` at the root.
+
+The consequence is **favourable** and is what makes owner-controlled deletion safe to document: that one file contains broker-import evidence and nothing else, so acting on it cannot touch watchlists, collaboration or settings.
+
+The layout is **recorded, not changed**. Relocating the journal would move data Decision 6 requires to be preserved, and the act fixes no directory layout, so a move would need its own decision. **Nothing in this section authorizes one.**
+
+### 16.255.5 Exclusions honored, with evidence
+
+| Exclusion (act §8.6, cl.24) | Evidence it was honored |
+|---|---|
+| No `DELETE`, no deletion endpoint anywhere | Route test asserts `405 Allow: GET` for `DELETE`; import-safety asserts the reader surface exposes only `readByImportId` + `describeStorageUsage` |
+| No automatic expiry, purge or destructive compaction | Import-safety asserts the evidence route contains no `setInterval` / `setTimeout` and no purge/expire path; `retention.automaticPurge` and `destructiveCompaction` are `false` |
+| No holdings write, no `durable:true`, no commit receipt, no fabricated `PortfolioRecord` | No write path added; `W-1` remains `false` ⇒ `WRITE_NOT_AUTHORIZED`, `storeEffect 'NONE'`, `savedRows 0` |
+| No pin change | `frontend/package.json` and `package-lock.json`: **0** diff lines. Pins remain broker-import `07e86a4f…`, np04 `2e11fa3b…`, production-market-data `279d1eed…` |
+| No IPD write | Zero IPD writes performed; IPD read-only reference consumption at `07e86a4f…` |
+| `owner-context-unavailable.ts` byte-identical (cl.21) | `git hash-object` = **`cb8db45d668d28cee7e0a52721001d579a872733`** — MATCH |
+| `/api/user-portfolios*` fence unaffected (cl.20) | `fenceUnchanged.test.ts` 13/13; the six admitted read-only and six still-fenced pairs unchanged; `/api/broker-import` was already owner-scoped, so a prefix match covers the new five-segment form with **no CORS change** |
+| `/api/evidence/:id` untouched (cl.23) | `executive-transport.ts`: **0** diff lines |
+| No `SAIRAM` as a partition key, credential or authorization input | `SAIRAM` is display-only in UI copy; the derived pair is `owner-4dc756b3` / `irr-personal-073dd1c8`; carrier bytes **367**, SHA-256 `27e70c10be68f42a7dc90e5d07669b2a4201c3b807ee0b9fb14e9247b06f8b2c`, re-derived from the act and MATCHING |
+| Gate 4 / Gate 5 status unchanged | Not touched; Gate 4 remains AUTHORIZED — NOT STARTED, Gate 5 NOT INITIATED |
+
+### 16.255.6 Verification ledger
+
+| ID | Check | Result |
+|---|---|---|
+| `V2111` | Baseline and allocation census | **PASS** — IRR `main@510ffb00…`, IPD `main@07e86a4f…`, open PRs 0/0, `§16.255` / `CV-CORR-235` / `CHG-2026-11-05-06` / `V2111` each exactly once before consumption |
+| `V2112` | Act and appendix re-read from merged main | **PASS** — act §7 clause text read at ln 495–690, §4.3 O-1/O-2 at ln 329–360, §4.4 at ln 361–366, §12's eleven steps at ln 837–860; not implemented from the task summary alone |
+| `V2113` | Carrier bytes re-derived from the act | **PASS** — 367 B / SHA-256 `27e70c10…`, MATCH; three-carrier collision check 0/0/0 against F-3 and NP-06 R1 |
+| `V2114` | Type check | **PASS** — `npx tsc --noEmit` exit 0 over the whole frontend project |
+| `V2115` | Route-surface targeted tests | **PASS** — `brokerImportEvidenceRoute.test.ts` **70/70**, including the real-composed-host describe |
+| `V2116` | Correct-owner retrieval | **PASS** — own retained `importId` ⇒ `200` with evidence fields and the `retention` block |
+| `V2117` | Missing / invalid / mismatched carrier fails closed | **PASS** — absent, unreadable, byte-edited and digest-mismatched carriers ⇒ `503 owner-context-unavailable`; carrier removal fails closed with **no restart**, and re-materialisation succeeds with no restart |
+| `V2118` | Cross-owner retrieval impossible | **PASS** — a foreign owner's record is not reachable; out-of-scope answers the same `404` as absent |
+| `V2119` | Digest mismatch and tampering fail closed | **PASS** — `EVIDENCE_TAMPERED` for a digest-only change (`Portfolio(2).csv` → `Portfolio(3).csv`); `EVIDENCE_INVALID` for a schema-invalid change (`nativeRows 68` → `67`) |
+| `V2120` | Consent enforced as disclosure | **PASS** — cl.18 copy reconciled and asserted against **rendered** text; the superseded wording "Files are processed in this browser only, not uploaded or stored." no longer appears in the product |
+| `V2121` | Missing evidence safe | **PASS** — unretained `importId` (`'a'.repeat(64)`) ⇒ `404 RESOURCE_UNAVAILABLE`; no throw, no 500, no leak |
+| `V2122` | No unauthorized route admitted | **PASS** — every other namespace path stays `404`, including `…/preview` and the four-segment `…/evidence` collection form; two-route boundary expanded by exactly the one authorized route |
+| `V2123` | No `DELETE`, no automatic deletion or purge | **PASS** — `DELETE` ⇒ `405 Allow: GET`; no expiry, purge or compaction code path exists |
+| `V2124` | Query-string refusal scoped correctly | **PASS** — evidence route `?…` ⇒ `400 invalid-request`; pre-existing routes unaffected; bare-`?` proved via a direct handler call because `fetch`/undici normalises a trailing `?` away |
+| `V2125` | Write fences intact | **PASS** — `fenceUnchanged.test.ts` **13/13**; `owner-context-unavailable.ts` blob `cb8db45d…` byte-identical |
+| `V2126` | Import safety re-asserted | **PASS** — `brokerImportImportSafety.test.ts` **10/10**; no listener, no `createServer`, no `process.on`, no env mutation, no zero-indentation FS call, no added TCP/Socket resource kind after import |
+| `V2127` | No raw IPD source copied | **PASS** — no IPD source file was copied into IRR; consumption is via the pinned package and the materialised `dist/package` cache only |
+| `V2128` | Pins and IPD artefacts unchanged | **PASS** — `frontend/package.json` and `package-lock.json` **0** diff lines; IPD untouched; `frontend/server/persistence/`, the evidence writer, the recoverer and `vite.config.ts` all **0** diff lines |
+| `V2129` | Blast radius | **PASS** — `npx vitest run server/ src/features/broker-holdings/ src/api/` ⇒ **75 files / 1,148 tests / 0 failures** in 76.24 s |
+| `V2130` | Static validation and diff hygiene | **PASS** — `validate_windows10_host_profile.py` exit 0; `py_compile` clean over all `docs/**/*.py`; `git diff --check` clean; 0 CR and 0 trailing-whitespace lines introduced |
+
+### 16.255.7 Limitations and explicit non-claims
+
+1. **Nothing in the live HTTP import path currently retains evidence.** The retention leg is implemented, restart-proven and exercised by the store's own tests and the separate-process proof, but no production import composes it. **Composing retention is not one of §12's eleven steps and was therefore not done** — doing so would add a write path under authority this act does not grant. Until it is composed under separate authority, the route answers `404` for every `importId`, correctly. **A `404` is not evidence that the route is broken.**
+2. **Per-record deletion does not exist.** PF-1 is append-only with no delete primitive (`append` and `updateReadState` are its only mutations). Decision 6 requires explicit owner-controlled deletion while clauses 16(h) and 24 forbid an HTTP `DELETE`; both are honored, and deletion is exercisable today only at **whole-journal** granularity, outside HTTP (`OPERATOR_RUNBOOK.md` §10.5). Per-record deletion requires a **further act** plus a change to the append-only journal authority. This is a genuine open Program Authority decision — **recorded, not resolved, and not blocking A-9.**
+3. **`approximateBytes` is a lower bound.** It sums UTF-8 `canonicalJson(payload)` lengths over the owner's retained evidence records and excludes the journal's per-line envelope.
+4. **The location limb of O-1 is deliberately not exposed over HTTP.** Act §4.3 requires visibility and clause 24 forbids any storage-visibility endpoint; the location is therefore recorded in the runbook and readable by direct inspection, not served.
+5. **P04 quarantine ids remain process-specific** (cl.14) and are now carried in the response, which discloses the limitation without removing it.
+6. **Decisions 1–4 remain PENDING**; Decision 3's coordinate moved to IPD `07e86a4f…`.
+7. **"Bind personal holdings" reaches beyond A-8/A-9** (`W-1` ON) and was **not** swept into this work.
+8. **A-9 completion does not complete Workstream A or milestone WS-A-DM.** Neither is declared complete here.
+
+### 16.255.8 Post-merge receipt — PENDING
+
+This section is authored **before** the implementing commit is merged, so it cannot contain its own publication coordinates: PR number, head SHA, merged-main SHA, tree SHA, CI run ids and the independent remote read-back are all **PENDING** and will be recorded by a receipt subsection appended after this one, following the §16.254.17 precedent. Clause 25 of the act governs the same discipline for the act itself: publication coordinates are recorded **exclusively** in the tracker receipt and are never self-embedded in the instrument.
+
+No register count, master revision, gate status or acceptance criterion was moved by §16.255. **Workstream A and milestone WS-A-DM remain NOT COMPLETE.**
+
+**Next free after this section:** `§16.256` / `CV-CORR-236` / `CHG-2026-11-05-07` / `V2131`.

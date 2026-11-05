@@ -218,3 +218,89 @@ describe('C8 posture — loopback bind and owner-scoped CORS', () => {
     expect((composedServer!.address() as AddressInfo).address).toBe('127.0.0.1');
   });
 });
+
+/**
+ * AMEND-01 §8.5(20) — fence re-assertion at the CURRENT baseline, after the additive
+ * evidence-retrieval route.
+ *
+ * §8.5(20) of `IIPS-V3-CAP02-U1-AMEND-01-EVIDENCE-RETRIEVAL-ROUTE-2026-11-05-01` requires that the
+ * `/api/user-portfolios*` write fence be UNAFFECTED, and records the current baseline explicitly: the
+ * superseded "twelve 503 pairs" framing was replaced by the authorized Direct P1 read integration at
+ * IRR `9202e7a` with **six admitted read-only pairs plus six still-fenced write/context pairs**. This
+ * block re-asserts that baseline now that a third broker-import route exists, so that "the evidence
+ * route was added" can never be conflated with "a fence was lifted".
+ *
+ * The evidence route admits NO write anywhere: it is `GET`-only, in a different namespace, and it
+ * performs no IPC call at all.
+ */
+describe('AMEND-01 §8.5(20) — the write fence is re-asserted at the current baseline', () => {
+  const admittedReadOnly: ReadonlyArray<readonly [string, string]> = [
+    ['/api/user-portfolios', 'GET'],
+    ['/api/user-portfolios', 'HEAD'],
+    ['/api/user-portfolios/P-1', 'GET'],
+    ['/api/user-portfolios/P-1', 'HEAD'],
+    ['/api/user-portfolios/P-1/revisions', 'GET'],
+    ['/api/user-portfolios/P-1/revisions', 'HEAD'],
+  ];
+
+  const stillFenced: ReadonlyArray<readonly [string, string]> = [
+    ['/api/user-portfolios/context', 'GET'],
+    ['/api/user-portfolios/context', 'HEAD'],
+    ['/api/user-portfolios', 'POST'],
+    ['/api/user-portfolios/P-1', 'DELETE'],
+    ['/api/user-portfolios/P-1/holdings', 'PUT'],
+    ['/api/user-portfolios/P-1/reset', 'POST'],
+  ];
+
+  it('counts the baseline exactly: six admitted read-only pairs plus six still-fenced write/context pairs', () => {
+    expect(admittedReadOnly).toHaveLength(6);
+    expect(stillFenced).toHaveLength(6);
+    expect(admittedReadOnly.length + stillFenced.length).toBe(12);
+  });
+
+  it('keeps ALL SIX fenced write/context pairs at 503 operation-not-admitted even with a binding assertion', async () => {
+    const env = { [BINDING_PRECONDITION_SETTING]: 'true' } as NodeJS.ProcessEnv;
+    for (const [path, method] of stillFenced) {
+      const req = { url: path, method } as http.IncomingMessage;
+      Object.defineProperties(req, {
+        headers: { get() { throw new Error('headers must not be read'); } },
+        on: { value() { throw new Error('body must not be read'); } },
+      });
+      let status = 0;
+      let body = '';
+      const res = {
+        writeHead(code: number) { status = code; return res; },
+        end(value?: string) { if (typeof value === 'string') body = value; },
+      } as unknown as http.ServerResponse;
+      await handleUserPortfolioRequest(req, res, {
+        env,
+        portFactory: () => { throw new Error('must not construct a port'); },
+      });
+      expect(status, `${method} ${path}`).toBe(503);
+      if (method !== 'HEAD') expect(JSON.parse(body).error, `${method} ${path}`).toBe('operation-not-admitted');
+    }
+  });
+
+  it('is a different namespace: the evidence route lifts no user-portfolio fence and is not one', () => {
+    // The admitted evidence path is NOT a user-portfolio path, so this handler refuses it outright.
+    expect(isUserPortfolioPath('/api/broker-import/P1-BROKER/evidence/abc')).toBe(false);
+    expect(isUserPortfolioPath('/api/broker-import')).toBe(false);
+    // And no admitted read-only pair was converted into a write by the amendment.
+    for (const [path] of admittedReadOnly) {
+      expect(isUserPortfolioPath(path), path).toBe(true);
+    }
+  });
+
+  it('admits no DELETE anywhere in the broker-import namespace through the real composed host', async () => {
+    for (const path of [
+      '/api/broker-import/P1-BROKER/evidence/abc',
+      '/api/broker-import/P1-BROKER/evidence',
+      '/api/broker-import/P1-BROKER/holdings',
+      '/api/broker-import/P1-BROKER/revision',
+    ]) {
+      const response = await fetch(`${baseUrl}${path}`, { method: 'DELETE' });
+      expect(response.status, `DELETE ${path}`).toBeLessThan(500);
+      expect([404, 405], `DELETE ${path}`).toContain(response.status);
+    }
+  });
+});
