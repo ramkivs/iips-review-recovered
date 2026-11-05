@@ -1,0 +1,723 @@
+{
+  "note": "Actual output of the corrected IRR preview for the 68-row Dhan surface. Identity is resolved only by the IPD-owned governed master; no row-level outcome exists while the pinned pipeline refuses the file, and the preview says so instead of reporting 68 unmapped lookups.",
+  "preview": {
+    "mode": "NATIVE_BROKER_PREVIEW",
+    "persisted": false,
+    "canSave": false,
+    "broker": "DHAN",
+    "variant": "DHAN_WEB_UI_SUMMARY_V1",
+    "status": "PARSED_UNRESOLVED",
+    "contentDigest": "c44e3cdb06e2d49f88c46d61867444f8a301cdf71a068b0e3aa1d748e6d52f31",
+    "asOf": "2026-11-05T07:50:49.090Z",
+    "identityAuthority": {
+      "source": "IPD_GOVERNED_D05_SECURITY_MASTER",
+      "entities": 2250
+    },
+    "counts": {
+      "nativeRows": 68,
+      "identityAssessedRows": 0,
+      "identityResolvedRows": 0,
+      "identityUnresolvedRows": 68,
+      "savedRows": 0
+    },
+    "notPerformed": {
+      "validation": "NOT_PERFORMED",
+      "saveAuthorization": "NOT_PERFORMED",
+      "persistence": "NOT_PERFORMED",
+      "reason": "A preview parses broker evidence only. It does not validate values, does not authorize a save and never writes holdings."
+    },
+    "warnings": [],
+    "errors": [
+      "P04 Identity Ambiguity Quarantine: Identity ambiguity detected for 'ASK AUTOMOTIVE': UNMAPPED_IDENTIFIER (No active mapping found for BSE_SYMBOL:ASK AUTOMOTIVE at asOf 2026-11-05T07:50:49.090Z)"
+    ],
+    "rejections": [
+      {
+        "reason": "UNMAPPED_IDENTITY",
+        "details": "P04 Identity Ambiguity Quarantine: Identity ambiguity detected for 'ASK AUTOMOTIVE': UNMAPPED_IDENTIFIER (No active mapping found for BSE_SYMBOL:ASK AUTOMOTIVE at asOf 2026-11-05T07:50:49.090Z)",
+        "stage": "NORMALIZE"
+      }
+    ],
+    "holdings": [
+      {
+        "symbol": "AGI GREENPAC",
+        "isin": null,
+        "exchange": null,
+        "quantity": 25,
+        "averagePrice": 89.65,
+        "currentPrice": 631.65,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "FILE_LEVEL_P04_REFUSAL"
+      },
+      {
+        "symbol": "ASK AUTOMOTIVE",
+        "isin": null,
+        "exchange": null,
+        "quantity": 7,
+        "averagePrice": 431.29,
+        "currentPrice": 592.95,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "FILE_LEVEL_P04_REFUSAL"
+      },
+      {
+        "symbol": "AJAX ENGINEERING",
+        "isin": null,
+        "exchange": null,
+        "quantity": 10,
+        "averagePrice": 467.05,
+        "currentPrice": 550.1,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "FILE_LEVEL_P04_REFUSAL"
+      },
+      {
+        "symbol": "ARIHANT CAPITAL MARKETS",
+        "isin": null,
+        "exchange": null,
+        "quantity": 50,
+        "averagePrice": 67.92,
+        "currentPrice": 86.23,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "FILE_LEVEL_P04_REFUSAL"
+      },
+      {
+        "symbol": "ARKADE DEVELOPERS",
+        "isin": null,
+        "exchange": null,
+        "quantity": 30,
+        "averagePrice": 115.71,
+        "currentPrice": 106.21,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "FILE_LEVEL_P04_REFUSAL"
+      },
+      {
+        "symbol": "ARROW GREENTECH",
+        "isin": null,
+        "exchange": null,
+        "quantity": 12,
+        "averagePrice": 388.02,
+        "currentPrice": 715,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "FILE_LEVEL_P04_REFUSAL"
+      },
+      {
+        "symbol": "ASHOKA BUILDCON",
+        "isin": null,
+        "exchange": null,
+        "quantity": 100,
+        "averagePrice": 126.08,
+        "currentPrice": 100.45,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "FILE_LEVEL_P04_REFUSAL"
+      },
+      {
+        "symbol": "BANK OF BARODA",
+        "isin": null,
+        "exchange": null,
+        "quantity": 100,
+        "averagePrice": 259.03,
+        "currentPrice": 243.3,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "FILE_LEVEL_P04_REFUSAL"
+      },
+      {
+        "symbol": "BHARAT COKING COAL",
+        "isin": null,
+        "exchange": null,
+        "quantity": 300,
+        "averagePrice": 36.45,
+        "currentPrice": 30.35,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "FILE_LEVEL_P04_REFUSAL"
+      },
+      {
+        "symbol": "BLUE JET HEALTHCARE",
+        "isin": null,
+        "exchange": null,
+        "quantity": 15,
+        "averagePrice": 411.83,
+        "currentPrice": 496.4,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "FILE_LEVEL_P04_REFUSAL"
+      },
+      {
+        "symbol": "CANARA ROBECO ASSET MANAGEMENT COMPANY",
+        "isin": null,
+        "exchange": null,
+        "quantity": 55,
+        "averagePrice": 252.83,
+        "currentPrice": 217.36,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "FILE_LEVEL_P04_REFUSAL"
+      },
+      {
+        "symbol": "CREDO BRANDS MARKETING (MUFTI)",
+        "isin": null,
+        "exchange": null,
+        "quantity": 30,
+        "averagePrice": 96.83,
+        "currentPrice": 75.96,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "FILE_LEVEL_P04_REFUSAL"
+      },
+      {
+        "symbol": "DAM CAPITAL ADVISORS",
+        "isin": null,
+        "exchange": null,
+        "quantity": 150,
+        "averagePrice": 149.3,
+        "currentPrice": 133.43,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "FILE_LEVEL_P04_REFUSAL"
+      },
+      {
+        "symbol": "ECOS MOBILITY & HOSPITALITY",
+        "isin": null,
+        "exchange": null,
+        "quantity": 100,
+        "averagePrice": 126.42,
+        "currentPrice": 111.07,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "FILE_LEVEL_P04_REFUSAL"
+      },
+      {
+        "symbol": "EMS",
+        "isin": null,
+        "exchange": null,
+        "quantity": 15,
+        "averagePrice": 312.52,
+        "currentPrice": 289.15,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "FILE_LEVEL_P04_REFUSAL"
+      },
+      {
+        "symbol": "EPACK PREFAB TECHNOLOGIES",
+        "isin": null,
+        "exchange": null,
+        "quantity": 10,
+        "averagePrice": 192.75,
+        "currentPrice": 201.51,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "FILE_LEVEL_P04_REFUSAL"
+      },
+      {
+        "symbol": "ELECON ENGINEERING COMPANY",
+        "isin": null,
+        "exchange": null,
+        "quantity": 22,
+        "averagePrice": 426.02,
+        "currentPrice": 427.95,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "FILE_LEVEL_P04_REFUSAL"
+      },
+      {
+        "symbol": "EMAMI",
+        "isin": null,
+        "exchange": null,
+        "quantity": 25,
+        "averagePrice": 404.23,
+        "currentPrice": 382,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "FILE_LEVEL_P04_REFUSAL"
+      },
+      {
+        "symbol": "ENGINEERS INDIA",
+        "isin": null,
+        "exchange": null,
+        "quantity": 10,
+        "averagePrice": 168,
+        "currentPrice": 289.25,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "FILE_LEVEL_P04_REFUSAL"
+      },
+      {
+        "symbol": "FINEOTEX CHEMICAL",
+        "isin": null,
+        "exchange": null,
+        "quantity": 100,
+        "averagePrice": 22.03,
+        "currentPrice": 49.15,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "FILE_LEVEL_P04_REFUSAL"
+      },
+      {
+        "symbol": "GHCL",
+        "isin": null,
+        "exchange": null,
+        "quantity": 27,
+        "averagePrice": 450.31,
+        "currentPrice": 403,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "FILE_LEVEL_P04_REFUSAL"
+      },
+      {
+        "symbol": "GMR POWER & URBAN INFRA",
+        "isin": null,
+        "exchange": null,
+        "quantity": 110,
+        "averagePrice": 98.97,
+        "currentPrice": 91.77,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "FILE_LEVEL_P04_REFUSAL"
+      },
+      {
+        "symbol": "GATEWAY DISTRIPARKS",
+        "isin": null,
+        "exchange": null,
+        "quantity": 90,
+        "averagePrice": 56.04,
+        "currentPrice": 46.39,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "FILE_LEVEL_P04_REFUSAL"
+      },
+      {
+        "symbol": "GEEKAY WIRES",
+        "isin": null,
+        "exchange": null,
+        "quantity": 160,
+        "averagePrice": 22.93,
+        "currentPrice": 26.91,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "FILE_LEVEL_P04_REFUSAL"
+      },
+      {
+        "symbol": "GENUS POWER INFRASTRUCTURES",
+        "isin": null,
+        "exchange": null,
+        "quantity": 10,
+        "averagePrice": 305,
+        "currentPrice": 270.9,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "FILE_LEVEL_P04_REFUSAL"
+      },
+      {
+        "symbol": "GRAUER & WEIL",
+        "isin": null,
+        "exchange": null,
+        "quantity": 50,
+        "averagePrice": 67.79,
+        "currentPrice": 74.16,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "FILE_LEVEL_P04_REFUSAL"
+      },
+      {
+        "symbol": "GUJARAT PIPAVAV PORT",
+        "isin": null,
+        "exchange": null,
+        "quantity": 160,
+        "averagePrice": 150.65,
+        "currentPrice": 163.33,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "FILE_LEVEL_P04_REFUSAL"
+      },
+      {
+        "symbol": "HIMADRI SPECIALITY CHEMICAL",
+        "isin": null,
+        "exchange": null,
+        "quantity": 15,
+        "averagePrice": 443.17,
+        "currentPrice": 529,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "FILE_LEVEL_P04_REFUSAL"
+      },
+      {
+        "symbol": "IDFC FIRST BANK",
+        "isin": null,
+        "exchange": null,
+        "quantity": 50,
+        "averagePrice": 64.33,
+        "currentPrice": 73.2,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "FILE_LEVEL_P04_REFUSAL"
+      },
+      {
+        "symbol": "IIFL CAPITAL SERVICES",
+        "isin": null,
+        "exchange": null,
+        "quantity": 15,
+        "averagePrice": 314.4,
+        "currentPrice": 347.95,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "FILE_LEVEL_P04_REFUSAL"
+      },
+      {
+        "symbol": "INDRAPRASTHA MEDICAL CORPORATION",
+        "isin": null,
+        "exchange": null,
+        "quantity": 40,
+        "averagePrice": 368.99,
+        "currentPrice": 318.4,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "FILE_LEVEL_P04_REFUSAL"
+      },
+      {
+        "symbol": "INTERNATIONAL CONVEYORS",
+        "isin": null,
+        "exchange": null,
+        "quantity": 100,
+        "averagePrice": 78.07,
+        "currentPrice": 75.17,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "FILE_LEVEL_P04_REFUSAL"
+      },
+      {
+        "symbol": "INTERNATIONAL GEMOLOGICAL INSTITUTE",
+        "isin": null,
+        "exchange": null,
+        "quantity": 15,
+        "averagePrice": 314.67,
+        "currentPrice": 407.85,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "FILE_LEVEL_P04_REFUSAL"
+      },
+      {
+        "symbol": "J KUMAR INFRAPROJECTS",
+        "isin": null,
+        "exchange": null,
+        "quantity": 20,
+        "averagePrice": 448.5,
+        "currentPrice": 405.85,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "FILE_LEVEL_P04_REFUSAL"
+      },
+      {
+        "symbol": "JAI BALAJI INDUSTRIES",
+        "isin": null,
+        "exchange": null,
+        "quantity": 110,
+        "averagePrice": 67.84,
+        "currentPrice": 69.7,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "FILE_LEVEL_P04_REFUSAL"
+      },
+      {
+        "symbol": "JAMNA AUTO INDUSTRIES",
+        "isin": null,
+        "exchange": null,
+        "quantity": 33,
+        "averagePrice": 111.61,
+        "currentPrice": 122.98,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "FILE_LEVEL_P04_REFUSAL"
+      },
+      {
+        "symbol": "JIO PLATFORMS",
+        "isin": null,
+        "exchange": null,
+        "quantity": 12,
+        "averagePrice": 1119,
+        "currentPrice": 1437.4,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "FILE_LEVEL_P04_REFUSAL"
+      },
+      {
+        "symbol": "KM SUGAR MILLS",
+        "isin": null,
+        "exchange": null,
+        "quantity": 14,
+        "averagePrice": 227.33,
+        "currentPrice": 32.23,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "FILE_LEVEL_P04_REFUSAL"
+      },
+      {
+        "symbol": "KP ENERGY",
+        "isin": null,
+        "exchange": null,
+        "quantity": 40,
+        "averagePrice": 325.12,
+        "currentPrice": 159.38,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "FILE_LEVEL_P04_REFUSAL"
+      },
+      {
+        "symbol": "KROSS",
+        "isin": null,
+        "exchange": null,
+        "quantity": 5,
+        "averagePrice": 161,
+        "currentPrice": 272.2,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "FILE_LEVEL_P04_REFUSAL"
+      },
+      {
+        "symbol": "LANDMARK CARS",
+        "isin": null,
+        "exchange": null,
+        "quantity": 20,
+        "averagePrice": 386.15,
+        "currentPrice": 456.05,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "FILE_LEVEL_P04_REFUSAL"
+      },
+      {
+        "symbol": "MATRIMONY.COM",
+        "isin": null,
+        "exchange": null,
+        "quantity": 20,
+        "averagePrice": 403.08,
+        "currentPrice": 550,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "FILE_LEVEL_P04_REFUSAL"
+      },
+      {
+        "symbol": "MONARCH NETWORTH CAPITAL",
+        "isin": null,
+        "exchange": null,
+        "quantity": 10,
+        "averagePrice": 272.5,
+        "currentPrice": 345.7,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "FILE_LEVEL_P04_REFUSAL"
+      },
+      {
+        "symbol": "NATIONAL STOCK EXCHANGE OF INDIA",
+        "isin": null,
+        "exchange": null,
+        "quantity": 8,
+        "averagePrice": 1785,
+        "currentPrice": 1803.8,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "FILE_LEVEL_P04_REFUSAL"
+      },
+      {
+        "symbol": "OSWAL PUMPS",
+        "isin": null,
+        "exchange": null,
+        "quantity": 35,
+        "averagePrice": 373.99,
+        "currentPrice": 209.54,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "FILE_LEVEL_P04_REFUSAL"
+      },
+      {
+        "symbol": "PANAMA PETROCHEM",
+        "isin": null,
+        "exchange": null,
+        "quantity": 10,
+        "averagePrice": 295,
+        "currentPrice": 465.85,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "FILE_LEVEL_P04_REFUSAL"
+      },
+      {
+        "symbol": "PARADEEP PHOSPHATES",
+        "isin": null,
+        "exchange": null,
+        "quantity": 20,
+        "averagePrice": 109,
+        "currentPrice": 133.85,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "FILE_LEVEL_P04_REFUSAL"
+      },
+      {
+        "symbol": "PRECISION WIRES INDIA",
+        "isin": null,
+        "exchange": null,
+        "quantity": 5,
+        "averagePrice": 214,
+        "currentPrice": 403.6,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "FILE_LEVEL_P04_REFUSAL"
+      },
+      {
+        "symbol": "PREMIER POLYFILM",
+        "isin": null,
+        "exchange": null,
+        "quantity": 10,
+        "averagePrice": 50.6,
+        "currentPrice": 90.91,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "FILE_LEVEL_P04_REFUSAL"
+      },
+      {
+        "symbol": "PUDUMJEE PAPER PRODUCTS",
+        "isin": null,
+        "exchange": null,
+        "quantity": 50,
+        "averagePrice": 82.99,
+        "currentPrice": 87.28,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "FILE_LEVEL_P04_REFUSAL"
+      },
+      {
+        "symbol": "RADHIKA JEWELTECH",
+        "isin": null,
+        "exchange": null,
+        "quantity": 100,
+        "averagePrice": 56.9,
+        "currentPrice": 61.87,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "FILE_LEVEL_P04_REFUSAL"
+      },
+      {
+        "symbol": "RAJOO ENGINEERS",
+        "isin": null,
+        "exchange": null,
+        "quantity": 200,
+        "averagePrice": 52.6,
+        "currentPrice": 55.48,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "FILE_LEVEL_P04_REFUSAL"
+      },
+      {
+        "symbol": "RATEGAIN TRAVEL",
+        "isin": null,
+        "exchange": null,
+        "quantity": 10,
+        "averagePrice": 522.5,
+        "currentPrice": 820.25,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "FILE_LEVEL_P04_REFUSAL"
+      },
+      {
+        "symbol": "SALASAR TECHNO ENGINEERING",
+        "isin": null,
+        "exchange": null,
+        "quantity": 33,
+        "averagePrice": 67.11,
+        "currentPrice": 4.1,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "FILE_LEVEL_P04_REFUSAL"
+      },
+      {
+        "symbol": "SHAKTI PUMPS",
+        "isin": null,
+        "exchange": null,
+        "quantity": 7,
+        "averagePrice": 483.79,
+        "currentPrice": 357,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "FILE_LEVEL_P04_REFUSAL"
+      },
+      {
+        "symbol": "SHARDA MOTOR",
+        "isin": null,
+        "exchange": null,
+        "quantity": 10,
+        "averagePrice": 822.6,
+        "currentPrice": 856.4,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "FILE_LEVEL_P04_REFUSAL"
+      },
+      {
+        "symbol": "SIGMA SOLVE",
+        "isin": null,
+        "exchange": null,
+        "quantity": 70,
+        "averagePrice": 46.94,
+        "currentPrice": 43.03,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "FILE_LEVEL_P04_REFUSAL"
+      },
+      {
+        "symbol": "SIYARAM SILK MILLS",
+        "isin": null,
+        "exchange": null,
+        "quantity": 10,
+        "averagePrice": 526.4,
+        "currentPrice": 473.4,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "FILE_LEVEL_P04_REFUSAL"
+      },
+      {
+        "symbol": "STEELCAST",
+        "isin": null,
+        "exchange": null,
+        "quantity": 10,
+        "averagePrice": 183.5,
+        "currentPrice": 369.15,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "FILE_LEVEL_P04_REFUSAL"
+      },
+      {
+        "symbol": "SUZLON ENERGY",
+        "isin": null,
+        "exchange": null,
+        "quantity": 70,
+        "averagePrice": 43.54,
+        "currentPrice": 35.75,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "FILE_LEVEL_P04_REFUSAL"
+      },
+      {
+        "symbol": "THYROCARE TECHNOLOGIES",
+        "isin": null,
+        "exchange": null,
+        "quantity": 13,
+        "averagePrice": 440.89,
+        "currentPrice": 482.9,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "FILE_LEVEL_P04_REFUSAL"
+      },
+      {
+        "symbol": "TITAGARH RAIL SYSTEMS",
+        "isin": null,
+        "exchange": null,
+        "quantity": 4,
+        "averagePrice": 741.88,
+        "currentPrice": 683.75,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "FILE_LEVEL_P04_REFUSAL"
+      },
+      {
+        "symbol": "UNIVASTU",
+        "isin": null,
+        "exchange": null,
+        "quantity": 20,
+        "averagePrice": 76.8,
+        "currentPrice": 129.14,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "FILE_LEVEL_P04_REFUSAL"
+      },
+      {
+        "symbol": "VARDHMAN SPECIAL STEELS",
+        "isin": null,
+        "exchange": null,
+        "quantity": 15,
+        "averagePrice": 274.3,
+        "currentPrice": 350.05,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "FILE_LEVEL_P04_REFUSAL"
+      },
+      {
+        "symbol": "VISHAL MEGA MART",
+        "isin": null,
+        "exchange": null,
+        "quantity": 100,
+        "averagePrice": 110.3,
+        "currentPrice": 90.7,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "FILE_LEVEL_P04_REFUSAL"
+      },
+      {
+        "symbol": "VISHNU CHEMICALS",
+        "isin": null,
+        "exchange": null,
+        "quantity": 15,
+        "averagePrice": 504.13,
+        "currentPrice": 519.05,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "FILE_LEVEL_P04_REFUSAL"
+      },
+      {
+        "symbol": "WAAREE RENEWABLE TECHNOLOGIES",
+        "isin": null,
+        "exchange": null,
+        "quantity": 20,
+        "averagePrice": 951.4,
+        "currentPrice": 697.5,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "FILE_LEVEL_P04_REFUSAL"
+      },
+      {
+        "symbol": "WEBSOL ENERGY SYSTEM",
+        "isin": null,
+        "exchange": null,
+        "quantity": 100,
+        "averagePrice": 107.09,
+        "currentPrice": 67.15,
+        "identityStatus": "UNRESOLVED",
+        "identityBasis": "FILE_LEVEL_P04_REFUSAL"
+      }
+    ]
+  }
+}

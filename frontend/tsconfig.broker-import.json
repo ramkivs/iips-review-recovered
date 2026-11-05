@@ -25,6 +25,9 @@
     "node_modules/iips-broker-import/src/identity/mapping_store.ts",
     "node_modules/iips-broker-import/src/identity/quarantine.ts",
     "node_modules/iips-broker-import/src/contracts/provenance.ts",
-    "node_modules/iips-broker-import/src/contracts/types.ts"
+    "node_modules/iips-broker-import/src/contracts/types.ts",
+    "node_modules/iips-broker-import/src/identity/governed_fixture_master.ts",
+    "node_modules/iips-broker-import/src/identity/d05_broad_universe_data.ts",
+    "node_modules/iips-broker-import/src/identity/d05_listing_corrections.ts"
   ]
 }

@@ -40,3 +40,24 @@ export {
   isBrokerImportPath,
   type BrokerImportRouteDeps,
 } from './brokerImportHttp.js';
+
+/**
+ * WS-A import-evidence retention (durable, local, append-only).
+ *
+ * Reachable from trusted-host code as a library. It performs NO portfolio write, no identity
+ * resolution and no save authorization: it retains the evidence a preview produced so that an
+ * unresolved import survives process termination. Mounting it on an HTTP route requires its own
+ * transport authority act (the admitted broker-import route set is closed); until then the host
+ * composes it directly and the WS-A report records the transport gap.
+ */
+export {
+  BROKER_IMPORT_EVIDENCE_SCHEMA,
+  BrokerImportEvidenceError,
+  BrokerImportEvidenceStore,
+  buildBrokerImportEvidence,
+  computeEvidenceRecordDigest,
+  computeImportId,
+  type BrokerImportEvidenceRecord,
+  type BrokerImportEvidenceRow,
+  type RetainedBrokerImportEvidence,
+} from './brokerImportEvidenceStore.js';
