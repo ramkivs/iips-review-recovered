@@ -1,0 +1,47 @@
+{
+  "pr": {
+    "headRefOid": "d0ffa5530973c237071b58d1e78b46a0ad049778",
+    "mergeCommit": {
+      "oid": "8787135e001cf588307cc19cb0773ea5b1eedb44"
+    },
+    "mergedAt": "2026-11-05T17:54:12Z",
+    "state": "MERGED",
+    "url": "https://github.com/ramkivs/iips-review-recovered/pull/450"
+  },
+  "independent_remote_main": "8787135e001cf588307cc19cb0773ea5b1eedb44",
+  "changed_files": [
+    {
+      "path": "docs/integration/WS-A-IMPORT-TIME-RETENTION-PA-DECISION-PAPER-2026-11-05.md",
+      "remote_blob": "47e8a9df97348a5f58982cb26975e9e78c14df11",
+      "sha256": "53d3fc797cc04134283faffec501f82271cf534dd237dda2844cb8fc82be8cd4",
+      "match": true
+    },
+    {
+      "path": "docs/integration/WS-A-IMPORT-TIME-RETENTION-PROPOSED-AMENDMENT-2026-11-05.md",
+      "remote_blob": "c6e0a7f4dae3e3ed762312bcf07d1d43b57bd910",
+      "sha256": "7bfb84187397a013b5e2c8edcd12f37705eefea827e24abe1650eceff8f41ac8",
+      "match": true
+    },
+    {
+      "path": "evidence/integration/ws-a-import-retention-authority-2026-11-05/baseline.json",
+      "remote_blob": "6072fee8664e8d2decfd7a9292a29719e7ae7c09",
+      "sha256": "e3529be3c957b9fff60b5471513691ac6360f6d672736a66916a5c1a20abfd9a",
+      "match": true
+    },
+    {
+      "path": "evidence/integration/ws-a-import-retention-authority-2026-11-05/static-verification.txt",
+      "remote_blob": "058d0a864fe954752de018b39587e2552435eb6a",
+      "sha256": "9ef4b2cdf129fa5871d336b96b4a955d83641ff72ea3708372ffbf27f98024a7",
+      "match": true
+    },
+    {
+      "path": "evidence/integration/ws-a-import-retention-authority-2026-11-05/verify.py",
+      "remote_blob": "6a8eaeb98f32881a1408234c9e51467363b3687d",
+      "sha256": "a974a7792bb6c6ddfae9af6af2d3b75019084e48081aa32fd2d64cb7c2f36147",
+      "match": true
+    }
+  ],
+  "protected_baseline_blobs_unchanged": 11,
+  "exact_head_check_runs": [],
+  "qualification": "Remote API read-back independent of local Git objects; proposal publication only, not adoption or runtime proof. Product CI path-filtered for docs-only change."
+}

@@ -1206,3 +1206,23 @@ A-10…A-15, A-18. **No gate, pin, fence, authority act, register count or maste
 this receipt.** Decisions **1–4 remain PENDING**.
 
 **Workstream A and milestone WS-A-DM remain NOT COMPLETE.**
+
+## 18. Import-time retention authority determination (`2026-11-05`)
+
+The import-to-retention investigation at IRR `8a13aeb` confirms §17.10: PF-1 library authority and
+A-8/A-9 retrieval authority do **not** authorize the missing HTTP evidence writer. No write path was
+implemented. The complete decision package is published by **PR #450**, merge
+`8787135e001cf588307cc19cb0773ea5b1eedb44`:
+
+- [PA decision paper, alternatives and Arena recommendation](WS-A-IMPORT-TIME-RETENTION-PA-DECISION-PAPER-2026-11-05.md).
+- [Proposed additive U1 AMEND-02, exact bounded technical scope](WS-A-IMPORT-TIME-RETENTION-PROPOSED-AMENDMENT-2026-11-05.md).
+- Supporting inventory, reproducible static checks and independent remote read-back:
+  `evidence/integration/ws-a-import-retention-authority-2026-11-05/`.
+
+Remote API read-back matched **5/5** published paths and **11/11** protected baseline blobs.
+No exact-head check runs were registered for the documentation-only publication; product CI is
+path-filtered. No runtime tests were rerun, no runtime success is claimed. The proposal is **not a PA
+act** and its publication is **not adoption**. Import-time retention remains **AUTHORITY REQUIRED / NOT
+IMPLEMENTED**. A-9 retrieval remains implemented. PF-1, owner binding, W-1 and all runtime files are
+unchanged. The recommended increment explicitly excludes PF-1 modifications, concurrent OS writers,
+raw-byte upload, holdings writes, deletion endpoints and automatic purge.
