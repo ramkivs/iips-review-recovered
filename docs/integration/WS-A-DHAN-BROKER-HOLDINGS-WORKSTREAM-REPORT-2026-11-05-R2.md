@@ -1470,3 +1470,30 @@ entries are not new effective decisions. Read-only baseline main `80737d0…`; #
 Workstream A / WS-A-DM **NOT COMPLETE**. W-1(3)/(4) remain hard-false. No holdings writes, DB access,
 provisioning/migration, IPD/source mutation, PA act, Gate 4 acceptance, D05 expansion, PF-1 or production change.
 Final PR comment supplies publication checks/readback; publication does not adopt any recommendation.
+
+
+## 25. Formal PA decision-adoption docket (`2026-11-06`; documentation only)
+
+Companion to §24 and consolidated paper §9:
+`FORMAL-PA-DECISION-ADOPTION-DOCKET-2026-11-06.md`, tracker §16.262 / CV-CORR-242 / V2137.
+Authoritative #470 main `6946bee09395364a8a06ffafb1c4ef91c866e340` independently reverified.
+All 15 pending questions staged: **ADOPTABLE NOW 3** (G4-2 C-3 selection, D01 explicit repository designation,
+D04 snapshots not ledger); **CONDITIONAL 7** (G4-3/G4-4/D03/D06/A-5/A-7/IID-DATA); **DEFERRED 2**
+(G4-1/IID-L016); **REQUIRES SEPARATE AUTHORIZATION 3** (D02/D05/A-6). Per-entry exact wording, evidence,
+alternatives, owners, prerequisites, authority effects and acceptance criteria are in the single docket.
+**Newly adopted 0; no new explicit PA decision supplied, Act ID or implementation authority.** Eight prior
+effective/settled crosswalks preserved, not re-adopted. Explicit later PA disposition/publication is required.
+
+D01's named IPO vs G-2 portfolio repository choice remains PA-pending, no alias/transfer/mutation. D01–D06 all
+pending; A-5 genuine detailed ISIN+Exchange still external, A-6 expansion ungranted, A-7 follows authorized A-6.
+No unknown-ISIN absence assertion. Historical R5/Path A retained; QE **0/11**, Gate C/U4 **NOT RENDERED**,
+Gate 5 **NOT INITIATED / NOT ADMITTED**, DQ-4 **8/10**, U6 **NOT AUTHORIZED**; no QE execution pin.
+IID-1/2/3 MERGED; IID-4 NOT STARTED at #470, now MERGED via concurrent #471; IID-5/6 NOT STARTED; synthetic M-1 not real holdings readiness; all limitations retained.
+Completed retention/retrieval/owner active clearing and verified recovery-copy/restore-resurrection limits
+unchanged. Workstream A / WS-A-DM NOT COMPLETE. W-1 hard-false; no operational database access, writes,
+provisioning/migration, IPD source/authority change, D05 expansion, production, PF-1 or weakened controls.
+Final PR comment provides head/main CI and independent remote proof; publication does not imply adoption.
+
+Concurrency reconciliation: #471 `bc0de0ea9702a4b6a34138db4fbe9ec81bc0f688` is the integration baseline;
+all 42 concurrent paths preserved. IID-4 merged from separate work, not this docket; L-017–L-027 added,
+L-001–L-016 remain open. No new PA choice of these 15 entries or IID implementation authority inferred.

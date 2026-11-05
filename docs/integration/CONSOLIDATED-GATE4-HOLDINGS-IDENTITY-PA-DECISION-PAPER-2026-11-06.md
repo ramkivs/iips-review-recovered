@@ -575,3 +575,24 @@ IID-4–IID-6 completion, real identity resolution, or WS-A completion.
 **Prohibited actions performed: NONE.** W-1(3)/(4) remain hard-false; no holdings writes, operational DB access,
 IPD/source/authority mutation, provisioning/migration, Gate 4 acceptance or execution-pin designation, D05 expansion,
 fabrication/guessed mappings, PF-1/production activity, or weakened ownership/security/retention/clearing controls.
+
+
+## 9. Formal PA adoption-workflow companion (`2026-11-06`; append-only)
+
+The 15 pending entries above are now staged for formal PA disposition in
+[FORMAL-PA-DECISION-ADOPTION-DOCKET-2026-11-06.md](FORMAL-PA-DECISION-ADOPTION-DOCKET-2026-11-06.md),
+using immutable #470 main `6946bee09395364a8a06ffafb1c4ef91c866e340` as the authoritative baseline.
+The companion is the single docket, not a replacement paper or effective act. Classifications: ADOPTABLE NOW
+G4-2/D01/D04; CONDITIONAL G4-3/G4-4/D03/D06/A-5/A-7/IID-DATA; DEFERRED G4-1/IID-L016; REQUIRES SEPARATE
+AUTHORIZATION D02/D05/A-6. Exact questions and eight effective/settled crosswalks are retained.
+**No new explicit PA disposition supplied; newly adopted 0; no implementation authority.**
+Tracker §16.262 / CV-CORR-242 / V2137 and R2 §25 register the workflow. Recommendations and classifications
+remain Arena's, not PA choices. QE 0/11; Gate C/U4 NOT RENDERED; all D01–D06 still pending. A-5 genuine source,
+A-6 exact authority and dependent A-7 remain unresolved; no unknown-ISIN absence claim. IID-1/2/3 MERGED; IID-4 NOT STARTED at #470, now MERGED via concurrent #471;
+IID-5/6 NOT STARTED. Completed retention/clearing unchanged. W-1 hard-false and all safety boundaries above
+remain. Workstream A / WS-A-DM NOT COMPLETE. Future real dispositions must append exact authority/scope and
+meet effectiveness requirements; publishing this companion does not adopt them.
+
+Concurrency reconciliation: #471 `bc0de0ea9702a4b6a34138db4fbe9ec81bc0f688` is the integration baseline;
+all 42 concurrent paths preserved. IID-4 merged from separate work, not this docket; L-017–L-027 added,
+L-001–L-016 remain open. No new PA choice of these 15 entries or IID implementation authority inferred.
