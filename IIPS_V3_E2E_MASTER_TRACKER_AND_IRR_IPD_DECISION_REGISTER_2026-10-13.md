@@ -21744,3 +21744,18 @@ This tracker/receipt publication is separate: the unchanged CAP-03 validator rej
 IID-1 `test-log-np12-regression.txt` already present on starting main. No validator/runtime allowlist
 or frozen authority alteration, waiver or failed-check bypass is included. Until that independent
 static blocker is resolved and this overlay merges, end-to-end requested publication is INCOMPLETE.
+
+#### 16.259.4 Validator corrected; owner reset publication closed (`2026-11-06`)
+
+Later overlay superseding §16.259.3's inherited blocker: correction #465 merged
+`e925cb68cc68729a862feee647bec66b207a01f0`, head/main static CI
+42096640841 / 42096783518 SUCCESS. Seven classifier regressions and full existing CAP-03 validation
+pass; runtime freshness allowlist/admission gates and IID-1 evidence unchanged.
+PR #463 safely updated with corrected main, original receipt changes byte-identical, then MERGED
+`26256e741566b3fe088d2f7bb47ce5be7f0f76a5`; head/main static CI
+42096812868 / 42097022696 SUCCESS. Independent API exact bytes: correction 7/7 and receipt cumulative
+17/17 paths at head/merge; 2637 protected existing blobs unchanged, overlays append-only.
+Implementation #462 remains merged/unchanged. Effective reset Act unchanged; no PA re-adoption.
+Final receipt's later closure overlay and R2 §22.4 reconcile publication COMPLETE, operational reset
+NOT EXECUTED / deployment NOT ACTIVATED. Runbook §13's qualified offline procedure/limitations remain.
+No PF-1, W-1, IPD, frozen authority, retention or backup-disposition change. No new allocation consumed.

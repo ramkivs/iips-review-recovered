@@ -625,3 +625,12 @@ cleanup is authorized. The synthetic acceptance tests demonstrate `COPYFILE_EXCL
 and refusal to overwrite new history. This release deliberately has **no automated restore command**.
 Restoring the original copy reverses clearing and can expose the old IDs again. Retain the recovery
 copy and audit afterward. Restart only after reconciliation; fresh-host GET absence was tested.
+
+### 13.4 Publication reconciliation (2026-11-06)
+
+Implementation #462 remains merged and unchanged. The inherited CAP-03 NP12 filename classification
+blocker was corrected in #465 with seven targeted regressions and full static checks; #463 receipt and
+tracker then passed head/main CI and merged. The receipt's later closure overlay and tracker §16.259.4
+supersede its historical blocked-status text. This closes bounded implementation/receipt publication,
+**not operational activation**: no owner evidence was reset. All §13 support limits, explicit-owner/
+quiescence requirements, retained-copy/resurrection disclosures and exclusions remain unchanged.

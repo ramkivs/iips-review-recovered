@@ -1401,3 +1401,18 @@ refs, 2625 protected baseline blobs unchanged. Implementation MERGED / isolated 
 operational reset NOT EXECUTED. Separate receipt `WS-A-OWNER-EVIDENCE-RESET-IMPLEMENTATION-RECEIPT-2026-11-06.md`
 records coordinates and the inherited static-publication blocker; tracker/final-receipt is not claimed
 merged while that blocker remains. No new authority or exclusion change.
+
+### 22.4 Validator corrected / final receipt merged — publication closed (`2026-11-06`)
+
+This later overlay supersedes the historical inherited-blocker status in §§22.2–22.3.
+Correction #465 merged `e925cb68cc68729a862feee647bec66b207a01f0`; head/main static
+42096640841 / 42096783518 SUCCESS. Receipt/tracker #463 merged
+`26256e741566b3fe088d2f7bb47ce5be7f0f76a5`; head/main static
+42096812868 / 42097022696 SUCCESS. Original receipt contents preserved through safe branch update;
+no CI bypass or runtime allowlist relaxation. Seven targeted classifier tests and full static validation
+PASS. Independent API readback correction 7/7 and receipt cumulative 17/17 bytes at head/merge;
+2637 protected existing blobs unchanged, docs append-only. Implementation #462 unchanged and merged;
+Act IIPS-V3-CAP02-OWNER-EVIDENCE-RESET-2026-11-06-01 remains EFFECTIVE.
+Bounded implementation/receipt publication COMPLETE; operational reset NOT EXECUTED, no deployment.
+Tracker §16.259.4 and receipt later closure overlay; runbook §13 limitations preserved. No PF-1/W-1/IPD/
+frozen authority or retention change. Recovery copy retained, can resurrect; not permanent erasure.

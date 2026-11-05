@@ -69,3 +69,35 @@ It must remain unmerged on failure; **requested one-pass end-to-end completion h
 Needed follow-up is a separately scoped historical validator-classification correction, then successful
 static CI and merge/readback of this receipt/tracker overlay. No further PA adoption for owner reset
 is needed. No operational activation should be inferred from the merged code or this pending receipt.
+
+## Later authoritative closure overlay — 2026-11-06
+
+**The historical BLOCKED/non-completion status above is superseded by this later overlay.**
+No original receipt text was edited to obtain a passing check. The original #463 changes remained
+byte-identical when corrected main was merged into its branch using the expected old head.
+
+- Validator correction **#465** head `eddfbcdde8ad2ae29ecd5f0eafb3866b411ca7cb`, merge
+  `e925cb68cc68729a862feee647bec66b207a01f0`. Static head/main CI
+  **42096640841 / 42096783518 SUCCESS** (including seven new classifier regressions, complete existing
+  CAP-03 validation, independent recovery-release audit and whitespace checks).
+- Receipt/tracker **#463 MERGED**, updated head `9d2cb60b6383926e4e7f400f6b36758b5f4eb617`, merge
+  `26256e741566b3fe088d2f7bb47ce5be7f0f76a5`. Static head/main CI
+  **42096812868 / 42097022696 SUCCESS**. The old failure was not bypassed or waived.
+- Independent GitHub API tree/decoded-blob readback: correction 7/7 changed files at head/merge;
+  receipt cumulative 17/17 changed files at head/merge. **2637 protected starting-main blobs unchanged**
+  in both cases; existing documentation overlays append-only. The full IID-1 evidence, every reset
+  implementation/test file, PF-1, W-1, IPD and frozen authority remain unchanged.
+- Original #462 remains merged at `a9329dd509be8051f82780059646c0f179d42b74`; its previously verified
+  implementation, 1512-test result and limitations are preserved, not rerun without cause.
+- Act **IIPS-V3-CAP02-OWNER-EVIDENCE-RESET-2026-11-06-01 remains EFFECTIVE**. No new adoption.
+  Runbook §13 remains the exact offline procedure: Linux/private-local envelope only, explicitly
+  stopped writers/no-sync, owner TTY plan binding, verified retained copy and fresh final confirmation.
+  No ACL inspection/cross-process lock/fsync/power-loss or permanent-erasure claim is added.
+- **Bounded implementation + receipt publication complete; operational reset NOT EXECUTED,
+  deployment NOT ACTIVATED.** Restore can resurrect evidence; all original exclusions remain.
+
+Reproduction, targeted tests, CI and immutable readbacks:
+`docs/integration/CAP03-ARTIFACT-CLASSIFICATION-CORRECTION-2026-11-06.md` and
+`evidence/integration/cap03-classifier-closure-2026-11-06/`.
+The final additive reconciliation PR's own head/main CI and remote readback are recorded in its PR
+publication record, rather than inventing a self-referential final commit inside this receipt.
