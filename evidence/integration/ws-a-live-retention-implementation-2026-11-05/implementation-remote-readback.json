@@ -1,0 +1,282 @@
+{
+  "pr": {
+    "files": [
+      {
+        "path": "IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md",
+        "additions": 32,
+        "deletions": 0
+      },
+      {
+        "path": "docs/OPERATOR_RUNBOOK.md",
+        "additions": 61,
+        "deletions": 0
+      },
+      {
+        "path": "docs/integration/WS-A-DHAN-BROKER-HOLDINGS-WORKSTREAM-REPORT-2026-11-05-R2.md",
+        "additions": 25,
+        "deletions": 0
+      },
+      {
+        "path": "docs/integration/WS-A-LIVE-EVIDENCE-RETENTION-IMPLEMENTATION-2026-11-05.md",
+        "additions": 80,
+        "deletions": 0
+      },
+      {
+        "path": "evidence/integration/ws-a-live-retention-implementation-2026-11-05/authority-rebaseline.json",
+        "additions": 48,
+        "deletions": 0
+      },
+      {
+        "path": "evidence/integration/ws-a-live-retention-implementation-2026-11-05/boundary-static.txt",
+        "additions": 5,
+        "deletions": 0
+      },
+      {
+        "path": "evidence/integration/ws-a-live-retention-implementation-2026-11-05/irr-static.txt",
+        "additions": 7,
+        "deletions": 0
+      },
+      {
+        "path": "evidence/integration/ws-a-live-retention-implementation-2026-11-05/live-flow-final-tests.txt",
+        "additions": 44,
+        "deletions": 0
+      },
+      {
+        "path": "evidence/integration/ws-a-live-retention-implementation-2026-11-05/targeted-tests.txt",
+        "additions": 206,
+        "deletions": 0
+      },
+      {
+        "path": "evidence/integration/ws-a-live-retention-implementation-2026-11-05/typecheck-build-final.txt",
+        "additions": 44,
+        "deletions": 0
+      },
+      {
+        "path": "evidence/integration/ws-a-live-retention-implementation-2026-11-05/typecheck-build.txt",
+        "additions": 44,
+        "deletions": 0
+      },
+      {
+        "path": "evidence/integration/ws-a-live-retention-implementation-2026-11-05/verify.py",
+        "additions": 28,
+        "deletions": 0
+      },
+      {
+        "path": "frontend/server/broker-import/__fixtures__/liveEvidenceHost.ts",
+        "additions": 9,
+        "deletions": 0
+      },
+      {
+        "path": "frontend/server/broker-import/brokerImportEvidenceRoute.test.ts",
+        "additions": 10,
+        "deletions": 8
+      },
+      {
+        "path": "frontend/server/broker-import/brokerImportEvidenceSubmission.ts",
+        "additions": 76,
+        "deletions": 0
+      },
+      {
+        "path": "frontend/server/broker-import/brokerImportHttp.ts",
+        "additions": 18,
+        "deletions": 12
+      },
+      {
+        "path": "frontend/server/broker-import/brokerImportImportSafety.test.ts",
+        "additions": 1,
+        "deletions": 0
+      },
+      {
+        "path": "frontend/server/broker-import/brokerImportLiveEvidence.test.ts",
+        "additions": 235,
+        "deletions": 0
+      },
+      {
+        "path": "frontend/src/api/brokerEvidenceRetention.test.ts",
+        "additions": 39,
+        "deletions": 0
+      },
+      {
+        "path": "frontend/src/api/brokerEvidenceRetention.ts",
+        "additions": 70,
+        "deletions": 0
+      },
+      {
+        "path": "frontend/src/api/brokerEvidenceSubmission.ts",
+        "additions": 96,
+        "deletions": 0
+      },
+      {
+        "path": "frontend/src/features/broker-holdings/BrokerHoldingsLiveEvidence.test.tsx",
+        "additions": 59,
+        "deletions": 0
+      },
+      {
+        "path": "frontend/src/features/broker-holdings/BrokerHoldingsPreview.test.tsx",
+        "additions": 19,
+        "deletions": 3
+      },
+      {
+        "path": "frontend/src/features/broker-holdings/BrokerHoldingsPreview.tsx",
+        "additions": 40,
+        "deletions": 3
+      }
+    ],
+    "headRefOid": "61d36e367beb3555c00486a60fb228fc1a57c3b0",
+    "mergeCommit": {
+      "oid": "bf252e83d57d0322f9b5938f154ea025978c48ba"
+    },
+    "mergedAt": "2026-11-05T18:32:30Z",
+    "state": "MERGED",
+    "url": "https://github.com/ramkivs/iips-review-recovered/pull/454"
+  },
+  "verified_remote_main": "bf252e83d57d0322f9b5938f154ea025978c48ba",
+  "matches": [
+    {
+      "path": "IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md",
+      "blob": "3beecdef80ba6ff867a52969bb2ff56a1ac1ee53",
+      "sha256": "af52cb41bcd4c46a3b05206674f20f3b3079189742ee735f8d70f0a5f13f1abf",
+      "match": true
+    },
+    {
+      "path": "docs/OPERATOR_RUNBOOK.md",
+      "blob": "03028b9d50420f1017601b989cf7e02a21a620db",
+      "sha256": "677965aca5b7a9b2c6658ecc18a5062b562723d4357169f63c4968881187073f",
+      "match": true
+    },
+    {
+      "path": "docs/integration/WS-A-DHAN-BROKER-HOLDINGS-WORKSTREAM-REPORT-2026-11-05-R2.md",
+      "blob": "54fcf7b1d347686e933f85cb1f49e5426701ae83",
+      "sha256": "43493c56b45f8077d5163d3f00fe50e7d717de80a09e27d76dce9528d2f6da95",
+      "match": true
+    },
+    {
+      "path": "docs/integration/WS-A-LIVE-EVIDENCE-RETENTION-IMPLEMENTATION-2026-11-05.md",
+      "blob": "a73a78448850f5552d941bfafd9332d41795518b",
+      "sha256": "c3c32b77b796880006d50eafcbadf16c39cbe74296decbf5116e03c23bdbb1d4",
+      "match": true
+    },
+    {
+      "path": "evidence/integration/ws-a-live-retention-implementation-2026-11-05/authority-rebaseline.json",
+      "blob": "2ea1a26c3398b2ebb4bfebec9477052eb80137a5",
+      "sha256": "2f4ded2d4acde07ac21d9218ca1b1d9c1b85e190402dbae04c3009102e697d9f",
+      "match": true
+    },
+    {
+      "path": "evidence/integration/ws-a-live-retention-implementation-2026-11-05/boundary-static.txt",
+      "blob": "c97acbdd2dfd3fcfc8b4ce6e8cd93bf90594b7cf",
+      "sha256": "4887f421d8dcc72eaa54792c51747ab2c3e290f0a9b68f72d7b3aba94524da13",
+      "match": true
+    },
+    {
+      "path": "evidence/integration/ws-a-live-retention-implementation-2026-11-05/irr-static.txt",
+      "blob": "53ea783aee7cbac4f6e900570251252fdd32cc5e",
+      "sha256": "5421c9aa8298a37ee54a1a496db130496e780756d8bdc77321d00184b668ade7",
+      "match": true
+    },
+    {
+      "path": "evidence/integration/ws-a-live-retention-implementation-2026-11-05/live-flow-final-tests.txt",
+      "blob": "78d279a8f0c160bc3972aa8e09f0f154b5981dcc",
+      "sha256": "e7f19845d8a20b7c1ab327630aae4454fe709b174b8934333a98ee256fd0ea94",
+      "match": true
+    },
+    {
+      "path": "evidence/integration/ws-a-live-retention-implementation-2026-11-05/targeted-tests.txt",
+      "blob": "1357e4ed951fa19f05fc974af2472e95df1608a9",
+      "sha256": "fbc5b8665cf470c8f258a1e922dd2b14c97028ae0196ff3dfe5da8bd8154b736",
+      "match": true
+    },
+    {
+      "path": "evidence/integration/ws-a-live-retention-implementation-2026-11-05/typecheck-build-final.txt",
+      "blob": "4db8f2d4577b66c1464b37d9e98ce922bad85cdc",
+      "sha256": "2a914c4fd70c2f55c620b013bde202fa3f0da498edbfc47c807638fce6492927",
+      "match": true
+    },
+    {
+      "path": "evidence/integration/ws-a-live-retention-implementation-2026-11-05/typecheck-build.txt",
+      "blob": "45de048f7ac189017a24725af17cbb2467c26ef4",
+      "sha256": "73294828120cba6a60ffe8bd9a03c15ee0ea0b8d5b18730bb0b6093529a68e80",
+      "match": true
+    },
+    {
+      "path": "evidence/integration/ws-a-live-retention-implementation-2026-11-05/verify.py",
+      "blob": "206d5e22b166e8d543d14925c71336506e9c0860",
+      "sha256": "eb80feedbd7f0746e6caa731bcd7312f3edd6dc6fece31efb8a8ea663040916d",
+      "match": true
+    },
+    {
+      "path": "frontend/server/broker-import/__fixtures__/liveEvidenceHost.ts",
+      "blob": "fde33588392eb94b4924b49dab8511836e7dadfa",
+      "sha256": "e1422884e0eee8fe90745f81348f288f2955b06d9c54b378f3cca7eafb484b36",
+      "match": true
+    },
+    {
+      "path": "frontend/server/broker-import/brokerImportEvidenceRoute.test.ts",
+      "blob": "a560693a3c9a8bb57a021fc5d0d9853951e28154",
+      "sha256": "b46cacdb4ed970382832c141e11accbf5c0663309adc06f45c79ab6856d2097b",
+      "match": true
+    },
+    {
+      "path": "frontend/server/broker-import/brokerImportEvidenceSubmission.ts",
+      "blob": "b983c4208e47fd1d66cbe9ebffd7f929f8184195",
+      "sha256": "dd6a096b5f7c2efca206627795ca01a54e6e00f32a1e4a56dc780b77e8a9ca30",
+      "match": true
+    },
+    {
+      "path": "frontend/server/broker-import/brokerImportHttp.ts",
+      "blob": "0a5fdf74db9823da4127b35e4c2e5ea4b10f106e",
+      "sha256": "678efef2a5f7dd459371416f78c7a04407b1b844c8a54365b41065fcc56e457e",
+      "match": true
+    },
+    {
+      "path": "frontend/server/broker-import/brokerImportImportSafety.test.ts",
+      "blob": "14524e719ada665c4e037d1b5a8d214e28e785c6",
+      "sha256": "b5fe08a6dbaa1a8795702d7df1b4928b07d216bf3120199ea970c21bcc945409",
+      "match": true
+    },
+    {
+      "path": "frontend/server/broker-import/brokerImportLiveEvidence.test.ts",
+      "blob": "737c6dc302226d8ba7330bb6b8c7acdd454ad2c5",
+      "sha256": "0360c34260c932b3247ac0f78c1f17e66d68e5e79973d8eb715e3d8da808ad5f",
+      "match": true
+    },
+    {
+      "path": "frontend/src/api/brokerEvidenceRetention.test.ts",
+      "blob": "9c2f972de202397b2bcce55ff3ed5abf58e923c3",
+      "sha256": "5eb23603921e21c68a66189e134b780d26caf4a43242a73b32d7e03f543226fc",
+      "match": true
+    },
+    {
+      "path": "frontend/src/api/brokerEvidenceRetention.ts",
+      "blob": "479c6598cf6362e6f7756448baf0c7e695779644",
+      "sha256": "7c486a401831a99b2eb148256a2ff9af02e4b9ded045e15b98c25b039e2d8479",
+      "match": true
+    },
+    {
+      "path": "frontend/src/api/brokerEvidenceSubmission.ts",
+      "blob": "813a812e3050ed268c27ebb5b38e86c32dcb733d",
+      "sha256": "47f3b2a507617ce59d103e520f645f0779ea1d1043cdf9a1ff5b878a271a1089",
+      "match": true
+    },
+    {
+      "path": "frontend/src/features/broker-holdings/BrokerHoldingsLiveEvidence.test.tsx",
+      "blob": "ed81fec51b46c53412e07faec4abba9da2c75ee1",
+      "sha256": "687bb2e28c384a7b564fba08182f5d2e879deb5926692342d6e8605d917dc657",
+      "match": true
+    },
+    {
+      "path": "frontend/src/features/broker-holdings/BrokerHoldingsPreview.test.tsx",
+      "blob": "8c16281531cd4fff70ebd9d8ff891915b6e8b1ba",
+      "sha256": "8e745013753043fedf73d8630259d326c0e6ed6825929dd316e4e42973b73277",
+      "match": true
+    },
+    {
+      "path": "frontend/src/features/broker-holdings/BrokerHoldingsPreview.tsx",
+      "blob": "c39630f2142c65e92edc8953885cdba50fe7e276",
+      "sha256": "820ed04ceb44373c5acb6a7e308c9ee991537ed7ed8683bd668c701aed2f3f8b",
+      "match": true
+    }
+  ],
+  "protected_remote_tree_matches": 28,
+  "method": "Independent GitHub contents/blob API byte read-back and baseline-vs-merged recursive tree comparison"
+}

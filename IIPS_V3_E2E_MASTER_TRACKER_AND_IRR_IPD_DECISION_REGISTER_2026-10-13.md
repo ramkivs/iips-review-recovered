@@ -21609,3 +21609,29 @@ guarantee. End-to-end test qualification is distinct from publication and operat
 WS-A-DM remains NOT COMPLETE. Post-merge publication coordinates/CI/read-back belong in §16.257.1.
 
 Next free after this allocation: section 16.258, correction 238, change suffix 09, ledger V2133.
+
+#### 16.257.1 Implementation merged and end-to-end capability verified (`2026-11-05`)
+
+**Implementation MERGED / REMOTELY VERIFIED. End-to-end capability VERIFIED IN ISOLATED INTEGRATION
+ENVIRONMENTS.** These are separate facts; neither implies user-host operational acceptance or deployment.
+PR **#454**, exact head `61d36e367beb3555c00486a60fb228fc1a57c3b0`, merge
+`bf252e83d57d0322f9b5938f154ea025978c48ba`. Exact-head product/static CI **42084604002 /
+42084603957 SUCCESS**; merged-main product/static CI **42085226452 / 42085226551 SUCCESS**.
+Independent GitHub contents/blob API read-back **24/24 changed paths MATCH**; frozen boundary tree blobs
+**28/28 unchanged**. Formal receipt:
+`docs/integration/WS-A-LIVE-EVIDENCE-RETENTION-PUBLICATION-RECEIPT-2026-11-05.md`;
+CI and hash manifests in `evidence/integration/ws-a-live-retention-implementation-2026-11-05/`.
+
+Current-state overlay to §16.257 and earlier NOT IMPLEMENTED states: live parsed-evidence retention
+composition is **IMPLEMENTED / MERGED / END-TO-END VERIFIED**, under effective AMEND-02, not a new PA
+authority. Actual rendered file selection→HTTP→journal→A-9 verifies success only after matching GET;
+68-row SIGKILL→fresh-process retrieval/retry proves restart recovery with no duplicate/journal growth.
+Final live tests 33/33, relevant regression cases 166 PASS; configured hosted full-suite/typecheck/build
+and static checks PASS. No false claim that a unit test alone establishes this capability.
+
+PF-1 and A-9 handler/projection/schema/digests unchanged; owner `owner-4dc756b3`, W-1, indefinite retention,
+explicit owner-controlled deletion policy and all exclusions preserved. One OS writer mandatory; no
+cross-process locking or explicit fsync/power-loss guarantee. No holdings/raw upload/deletion/purge/IPD
+mutation or production activation. Milestone WS-A-DM remains NOT COMPLETE. Receipt-only publication is
+independently verified in the publishing session, with its own coordinates recorded in its PR record.
+No new ledger allocation is consumed by this discharge subsection.
