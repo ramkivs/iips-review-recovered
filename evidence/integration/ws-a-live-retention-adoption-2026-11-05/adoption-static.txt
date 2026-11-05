@@ -1,0 +1,4 @@
+PASS: 323 protected runtime/workflow/authority/proposal files byte-identical
+PASS: tracker and R2 changes are additive only; all historical prose retained
+PASS: tracker allocation/whitespace/merge-marker checks
+PASS: bounded docs/evidence/tracker scope; no runtime test or retention success asserted

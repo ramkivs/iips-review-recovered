@@ -21534,3 +21534,26 @@ authority. Decisions **1, 2, 3 and 4** remain **PENDING**. **Workstream A and mi
 NOT COMPLETE.**
 
 **Next free after this section:** `§16.256` / `CV-CORR-236` / `CHG-2026-11-05-07` / `V2131`.
+
+### 16.256 Live Evidence Retention — PA adoption (`2026-11-05`)
+
+**CV-CORR-236 / CHG-2026-11-05-07 / V2131.** PA explicitly adopts Option B of PR #450,
+using PR #451 as the independent publication-verification receipt. New additive Act ID:
+`IIPS-V3-CAP02-U1-AMEND-02-IMPORT-EVIDENCE-RETENTION-2026-11-05-01`.
+Operative instrument:
+`docs/integration/IIPS_v3.0_CAP02_U1_AMEND_02_LIVE_EVIDENCE_RETENTION_PA_ADOPTION_ACT_2026-11-05.md`.
+
+Baseline: live IRR main `61546842a7e9284b07d9cfe6986d12e997a9ea64`; exact PR #450/#451
+merged contents independently re-read. Proposal and acceptance criteria adopted by immutable hashes,
+not edited. **PA decision RENDERED; EFFECTIVENESS CONDITIONAL on act §7 publication and independent
+verification. Live Evidence Retention NOT IMPLEMENTED.** Post-merge coordinates and effective-state
+discharge belong in the additive receipt below, not a fabricated prospective merge hash.
+
+The subsequent engineering envelope is one bounded parsed-evidence POST plus unchanged A-9 retrieval
+verification before final success; original timestamp/snapshot retry identity; owner-scoped first-record
+dedup/conflict checks; explicit partial-failure recovery; one OS writer and no fsync/power-loss claim.
+SAIRAM remains `owner-4dc756b3`. No PF-1 modification, holdings write, raw upload, DELETE, expiry,
+purge, W-1 change or IPD mutation. Existing A-9 retrieval remains IMPLEMENTED; live composition awaits
+this act's effectiveness and a separate implementation task. WS-A-DM remains NOT COMPLETE.
+
+Next free after this allocation: section 16.257, correction 237, change suffix 08, ledger V2132.

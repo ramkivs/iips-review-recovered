@@ -1226,3 +1226,21 @@ act** and its publication is **not adoption**. Import-time retention remains **A
 IMPLEMENTED**. A-9 retrieval remains implemented. PF-1, owner binding, W-1 and all runtime files are
 unchanged. The recommended increment explicitly excludes PF-1 modifications, concurrent OS writers,
 raw-byte upload, holdings writes, deletion endpoints and automatic purge.
+
+## 19. Live Evidence Retention — explicit PA adoption (`2026-11-05`)
+
+Later authority overlay to §18 and the historical A-9 live cell: PA adopts Option B published in
+PR #450 (merge `8787135e001cf588307cc19cb0773ea5b1eedb44`), verified by PR #451
+(merge `61546842a7e9284b07d9cfe6986d12e997a9ea64`). New Act ID:
+`IIPS-V3-CAP02-U1-AMEND-02-IMPORT-EVIDENCE-RETENTION-2026-11-05-01`, rendered in
+[IIPS v3.0 U1 AMEND-02 PA Adoption Act](IIPS_v3.0_CAP02_U1_AMEND_02_LIVE_EVIDENCE_RETENTION_PA_ADOPTION_ACT_2026-11-05.md).
+Proposal wording is preserved byte-identical; exact scope and paper §4 acceptance proofs are adopted
+by hash. A/B/C/D alternatives were reviewed; only bounded parsed-evidence Option B is adopted.
+
+At rendering: **PA DECISION RENDERED — EFFECTIVENESS CONDITIONAL on act §7**. A dated additive
+post-merge receipt will carry actual publication coordinates and effective authority. A-9 retrieval
+remains IMPLEMENTED / MERGED / VERIFIED. **Live Evidence Retention NOT IMPLEMENTED**, and no writer
+is added by this task. After effectiveness only, a separate task may implement the evidence POST and
+A-9 verified-success composition. Owner `owner-4dc756b3`, digest verification, timestamp-preserving
+retries, owner isolation and partial-failure recovery are mandatory. PF-1 single-writer/no-fsync limits,
+W-1, no holdings/raw uploads/deletion/purge and IRR/IPD boundaries remain unchanged.
