@@ -14,6 +14,7 @@ import { fileURLToPath } from 'node:url';
 
 const MODULES = [
   'brokerImportBoundary.ts',
+  'brokerImportEvidenceSubmission.ts',
   'brokerImportV1SaveAdapter.ts',
   'brokerImportHttp.ts',
   'index.ts',

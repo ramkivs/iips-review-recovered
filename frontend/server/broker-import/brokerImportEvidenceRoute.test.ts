@@ -544,12 +544,13 @@ describe('AMEND-01 §8 — evidence route admission, owner isolation and integri
     expect(result.body).not.toContain(importId);
   });
 
-  it('collapses a trailing-slash evidence path to the four-segment collection form, which stays 404', async () => {
+  it('AMEND-02 refuses GET on the four-segment POST submission path, including trailing slash', async () => {
     // `…/evidence/` has an empty fifth segment, so it is the COLLECTION form — not a malformed id.
-    // §8.5(19) keeps that form at 404 with the namespace body; it is never a list endpoint.
+    // AMEND-02 admits POST here; GET is now 405, never a list endpoint.
     const result = await callHandler(`/api/broker-import/${PORTFOLIO}/evidence/`, 'GET', env());
-    expect(result.status).toBe(404);
-    expect(result.json).toEqual({ error: 'not found' });
+    expect(result.status).toBe(405);
+    expect(result.json).toEqual({ error: 'method-not-allowed' });
+    expect(result.headers.allow).toBe('POST');
     expect(result.body).not.toContain(importId);
   });
 
@@ -756,7 +757,7 @@ describe('AMEND-01 §8.5(19) — the closure is extended by exactly one leaf', (
     'a sixth segment',
     'an unknown leaf',
     'a list-ish leaf',
-  ])('admits no enumeration surface: %s stays 404', async (label) => {
+  ])('admits no enumeration surface: %s is refused', async (label) => {
     const paths: Record<string, string> = {
       'the four-segment collection form': `/api/broker-import/${PORTFOLIO}/evidence`,
       'a sixth segment': `/api/broker-import/${PORTFOLIO}/evidence/${importId}/extra`,
@@ -764,7 +765,7 @@ describe('AMEND-01 §8.5(19) — the closure is extended by exactly one leaf', (
       'a list-ish leaf': `/api/broker-import/${PORTFOLIO}/evidence-list`,
     };
     const result = await callHandler(paths[label], 'GET', env());
-    expect(result.status, label).toBe(404);
+    expect(result.status, label).toBe(label === 'the four-segment collection form' ? 405 : 404);
     expect(result.body, label).not.toContain(importId);
   });
 
@@ -1098,9 +1099,10 @@ describe('AMEND-01 §8 — real composed host (route admission through the actua
     expect(body).not.toHaveProperty('ownerUserId');
   });
 
-  it('keeps the four-segment collection form at 404 over the real host — no enumeration surface', async () => {
+  it('AMEND-02 refuses GET on the submission path over the real host — no enumeration surface', async () => {
     const response = await fetch(`${baseUrl}/api/broker-import/${PORTFOLIO}/evidence`, { method: 'GET' });
-    expect(response.status).toBe(404);
+    expect(response.status).toBe(405);
+    expect(response.headers.get('allow')).toBe('POST');
     expect(await response.text()).not.toContain(importId);
   });
 

@@ -1,0 +1,207 @@
+
+ RUN  v2.1.9 /home/user/iips-review-recovered/frontend
+
+ ✓ server/broker-import/brokerImportEvidenceRoute.test.ts > AMEND-01 §3.7 — carrier canonical bytes and integrity pin > reproduces the act-pinned byte length and SHA-256 exactly
+ ✓ server/broker-import/brokerImportEvidenceRoute.test.ts > AMEND-01 §3.7 — carrier canonical bytes and integrity pin > is byte-exact canonical form: UTF-8, no BOM, two-space indent, one trailing LF, valid JSON
+ ✓ server/broker-import/brokerImportEvidenceRoute.test.ts > AMEND-01 §3.7 — carrier canonical bytes and integrity pin > carries the two approved partition values and re-derives them by the act §3.3 rule
+ ✓ server/broker-import/brokerImportEvidenceRoute.test.ts > AMEND-01 §3.7 — carrier canonical bytes and integrity pin > EXCLUDES the label SAIRAM from both keys and from the carrier bytes (Decision 5)
+ ✓ server/broker-import/brokerImportEvidenceRoute.test.ts > AMEND-01 §3.7 — carrier canonical bytes and integrity pin > uses its own seam, distinct from the F-3 and NP-06 R1 carriers (no aliasing)
+ ✓ server/broker-import/brokerImportEvidenceRoute.test.ts > AMEND-01 §3.7 — carrier materialisation and data safety > writes ONLY the approved canonical bytes, byte for byte
+ ✓ server/broker-import/brokerImportEvidenceRoute.test.ts > AMEND-01 §3.7 — carrier materialisation and data safety > is deterministic, so the owner scope survives total loss of the carrier file (obligation O-2)
+ ✓ server/broker-import/brokerImportEvidenceRoute.test.ts > AMEND-01 §3.7 — carrier materialisation and data safety > refuses a target inside a Git working tree, so the carrier can never be committed
+ ✓ server/broker-import/brokerImportEvidenceRoute.test.ts > AMEND-01 §8.2 — owner resolver fails closed > resolves ONLY the approved pair from a correctly materialised carrier
+ ✓ server/broker-import/brokerImportEvidenceRoute.test.ts > AMEND-01 §8.2 — owner resolver fails closed > fails closed with reason path-not-configured and a null context
+ ✓ server/broker-import/brokerImportEvidenceRoute.test.ts > AMEND-01 §8.2 — owner resolver fails closed > fails closed with reason carrier-unreadable and a null context
+ ✓ server/broker-import/brokerImportEvidenceRoute.test.ts > AMEND-01 §8.2 — owner resolver fails closed > fails closed on an empty, oversized, or digest-mismatched carrier
+ ✓ server/broker-import/brokerImportEvidenceRoute.test.ts > AMEND-01 §8.2 — owner resolver fails closed > fails closed on malformed JSON, malformed grammar, and a foreign approved-pair mismatch
+ ✓ server/broker-import/brokerImportEvidenceRoute.test.ts > AMEND-01 §8.2 — owner resolver fails closed > performs UNCACHED per-request evaluation, so removing the carrier takes effect at once
+ ✓ server/broker-import/brokerImportEvidenceRoute.test.ts > AMEND-01 §8 — evidence route admission, owner isolation and integrity > serves the retained record to its own owner on 200, evidence fields only
+ ✓ server/broker-import/brokerImportEvidenceRoute.test.ts > AMEND-01 §8 — evidence route admission, owner isolation and integrity > withholds BOTH governed partition keys from the wire (§8.1(6))
+ ✓ server/broker-import/brokerImportEvidenceRoute.test.ts > AMEND-01 §8 — evidence route admission, owner isolation and integrity > carries the clause-14 volatile-fields limitation and truthful O-1 storage visibility
+ ✓ server/broker-import/brokerImportEvidenceRoute.test.ts > AMEND-01 §8 — evidence route admission, owner isolation and integrity > makes ZERO IPC calls and opens no new listener (§8.1(4))
+ ✓ server/broker-import/brokerImportEvidenceRoute.test.ts > AMEND-01 §8 — evidence route admission, owner isolation and integrity > refuses a absent but well-formed importId with the SAME opaque 404 (full indistinguishability, §8.1(5))
+ ✓ server/broker-import/brokerImportEvidenceRoute.test.ts > AMEND-01 §8 — evidence route admission, owner isolation and integrity > refuses a malformed — too short importId with the SAME opaque 404 (full indistinguishability, §8.1(5))
+ ✓ server/broker-import/brokerImportEvidenceRoute.test.ts > AMEND-01 §8 — evidence route admission, owner isolation and integrity > refuses a malformed — uppercase hex importId with the SAME opaque 404 (full indistinguishability, §8.1(5))
+ ✓ server/broker-import/brokerImportEvidenceRoute.test.ts > AMEND-01 §8 — evidence route admission, owner isolation and integrity > refuses a malformed — not hex importId with the SAME opaque 404 (full indistinguishability, §8.1(5))
+ ✓ server/broker-import/brokerImportEvidenceRoute.test.ts > AMEND-01 §8 — evidence route admission, owner isolation and integrity > AMEND-02 refuses GET on the four-segment POST submission path, including trailing slash
+ ✓ server/broker-import/brokerImportEvidenceRoute.test.ts > AMEND-01 §8 — evidence route admission, owner isolation and integrity > makes an out-of-scope record indistinguishable from an unretained one (cross-owner impossible)
+ ✓ server/broker-import/brokerImportEvidenceRoute.test.ts > AMEND-01 §8 — evidence route admission, owner isolation and integrity > answers 405 Allow: GET for POST on the admitted evidence path (§8.1(2))
+ ✓ server/broker-import/brokerImportEvidenceRoute.test.ts > AMEND-01 §8 — evidence route admission, owner isolation and integrity > answers 405 Allow: GET for PUT on the admitted evidence path (§8.1(2))
+ ✓ server/broker-import/brokerImportEvidenceRoute.test.ts > AMEND-01 §8 — evidence route admission, owner isolation and integrity > answers 405 Allow: GET for PATCH on the admitted evidence path (§8.1(2))
+ ✓ server/broker-import/brokerImportEvidenceRoute.test.ts > AMEND-01 §8 — evidence route admission, owner isolation and integrity > answers 405 Allow: GET for DELETE on the admitted evidence path (§8.1(2))
+ ✓ server/broker-import/brokerImportEvidenceRoute.test.ts > AMEND-01 §8 — evidence route admission, owner isolation and integrity > answers 405 Allow: GET for HEAD on the admitted evidence path (§8.1(2))
+ ✓ server/broker-import/brokerImportEvidenceRoute.test.ts > AMEND-01 §8 — evidence route admission, owner isolation and integrity > answers 405 Allow: GET for OPTIONS on the admitted evidence path (§8.1(2))
+ ✓ server/broker-import/brokerImportEvidenceRoute.test.ts > AMEND-01 §8 — evidence route admission, owner isolation and integrity > refuses ANY query string with 400 BEFORE any I/O (§8.1(2))
+ ✓ server/broker-import/brokerImportEvidenceRoute.test.ts > AMEND-01 §8 — evidence route admission, owner isolation and integrity > refuses even a bare, empty query string when the raw target carries one (§8.1(2))
+ ✓ server/broker-import/brokerImportEvidenceRoute.test.ts > AMEND-01 §8 — evidence route admission, owner isolation and integrity > fails closed at 503 owner-context-unavailable when the binding precondition is absent (§8.1(3))
+ ✓ server/broker-import/brokerImportEvidenceRoute.test.ts > AMEND-01 §8 — evidence route admission, owner isolation and integrity > fails closed at 503 owner-context-unavailable when the carrier not configured (§8.2)
+ ✓ server/broker-import/brokerImportEvidenceRoute.test.ts > AMEND-01 §8 — evidence route admission, owner isolation and integrity > fails closed at 503 owner-context-unavailable when the carrier unreadable (§8.2)
+ ✓ server/broker-import/brokerImportEvidenceRoute.test.ts > AMEND-01 §8 — evidence route admission, owner isolation and integrity > fails closed at 503 when the carrier is tampered — one changed byte refuses the whole route
+ ✓ server/broker-import/brokerImportEvidenceRoute.test.ts > AMEND-01 §8 — evidence route admission, owner isolation and integrity > refuses a cross-site-shaped request before anything else (C9 hardening, §8.1(3))
+ ✓ server/broker-import/brokerImportEvidenceRoute.test.ts > AMEND-01 §8 — evidence route admission, owner isolation and integrity > validates the opaque portfolioId before any I/O and refuses a malformed one with 400
+ ✓ server/broker-import/brokerImportEvidenceRoute.test.ts > AMEND-01 §8 — evidence route admission, owner isolation and integrity > fails closed on a TAMPERED record and never serves or silently hides it (§8.3(15))
+ ✓ server/broker-import/brokerImportEvidenceRoute.test.ts > AMEND-01 §8 — evidence route admission, owner isolation and integrity > fails closed on a structurally INVALID record (§8.3(15))
+ ✓ server/broker-import/brokerImportEvidenceRoute.test.ts > AMEND-01 §8 — evidence route admission, owner isolation and integrity > re-verifies the digest on EVERY read, so repeated reads never weaken integrity
+ ✓ server/broker-import/brokerImportEvidenceRoute.test.ts > AMEND-01 §8 — evidence route admission, owner isolation and integrity > echoes no owner, tenant, socket path, stack or provider detail on any refusal (§8.1(5))
+ ✓ server/broker-import/brokerImportEvidenceRoute.test.ts > AMEND-01 §8.5(19) — the closure is extended by exactly one leaf > admits no enumeration surface: the four-segment collection form is refused
+ ✓ server/broker-import/brokerImportEvidenceRoute.test.ts > AMEND-01 §8.5(19) — the closure is extended by exactly one leaf > admits no enumeration surface: a sixth segment is refused
+ ✓ server/broker-import/brokerImportEvidenceRoute.test.ts > AMEND-01 §8.5(19) — the closure is extended by exactly one leaf > admits no enumeration surface: an unknown leaf is refused
+ ✓ server/broker-import/brokerImportEvidenceRoute.test.ts > AMEND-01 §8.5(19) — the closure is extended by exactly one leaf > admits no enumeration surface: a list-ish leaf is refused
+ ✓ server/broker-import/brokerImportEvidenceRoute.test.ts > AMEND-01 §8.5(19) — the closure is extended by exactly one leaf > preserves the pre-existing closure: preview and unknown paths stay 404, holdings stays POST-only
+ ✓ server/broker-import/brokerImportEvidenceRoute.test.ts > AMEND-01 §8.5(19) — the closure is extended by exactly one leaf > never returns more than one record and never lists importIds
+ ✓ server/broker-import/brokerImportEvidenceRoute.test.ts > AMEND-01 §8.3(16) — indefinite retention, no purge, no DELETE > reads never reduce the record count, shrink the journal, or expire anything
+ ✓ server/broker-import/brokerImportEvidenceRoute.test.ts > AMEND-01 §8.3(16) — indefinite retention, no purge, no DELETE > admits NO DELETE and no destructive method anywhere in the namespace
+ ✓ server/broker-import/brokerImportEvidenceRoute.test.ts > AMEND-01 §8.3(16) — indefinite retention, no purge, no DELETE > contains no deletion, purge, expiry or compaction mechanism in the evidence modules
+ ✓ server/broker-import/brokerImportEvidenceRoute.test.ts > AMEND-01 §8.3(16) — indefinite retention, no purge, no DELETE > exposes no write or enumerate capability through the route reader surface
+ ✓ server/broker-import/brokerImportEvidenceRoute.test.ts > AMEND-01 §8.3(16) — indefinite retention, no purge, no DELETE > treats the 50 MB threshold as a warning only — it never blocks, truncates or deletes
+ ✓ server/broker-import/brokerImportEvidenceRoute.test.ts > AMEND-01 §8.5 — fences, frozen artefacts and import safety > keeps owner-context-unavailable.ts byte-identical at its frozen blob (§8.5(21))
+ ✓ server/broker-import/brokerImportEvidenceRoute.test.ts > AMEND-01 §8.5 — fences, frozen artefacts and import safety > keeps the evidence modules import-safe: no listener, no connection, no global mutation
+ ✓ server/broker-import/brokerImportEvidenceRoute.test.ts > AMEND-01 §8.5 — fences, frozen artefacts and import safety > adds no new HTTP listener, IPC operation or Vite proxy change (§8.1(4))
+ ✓ server/broker-import/brokerImportEvidenceRoute.test.ts > AMEND-01 §8.5 — fences, frozen artefacts and import safety > copies no raw IPD implementation source into IRR
+ ✓ server/broker-import/brokerImportEvidenceRoute.test.ts > AMEND-01 §8.4(18) — consent copy reconciled in the product's own words > no longer claims the file is "not uploaded or stored" while evidence IS retained
+ ✓ server/broker-import/brokerImportEvidenceRoute.test.ts > AMEND-01 §8.4(18) — consent copy reconciled in the product's own words > discloses that parsed evidence is retained locally in the owner's data directory (18.1)
+ ✓ server/broker-import/brokerImportEvidenceRoute.test.ts > AMEND-01 §8.4(18) — consent copy reconciled in the product's own words > discloses that raw CSV bytes are NOT retained and what the retained equivalent is (18.2)
+ ✓ server/broker-import/brokerImportEvidenceRoute.test.ts > AMEND-01 §8.4(18) — consent copy reconciled in the product's own words > discloses owner-scope-only service, no third-party transmission and no enumeration route (18.3)
+ ✓ server/broker-import/brokerImportEvidenceRoute.test.ts > AMEND-01 §8.4(18) — consent copy reconciled in the product's own words > discloses that retention is not a save, not a validation, not an authorization (18.4)
+ ✓ server/broker-import/brokerImportEvidenceRoute.test.ts > AMEND-01 §8.4(18) — consent copy reconciled in the product's own words > discloses indefinite retention, explicit-owner-only deletion and the warning-only 50 MB (18.5)
+ ✓ server/broker-import/brokerImportEvidenceRoute.test.ts > AMEND-01 §8 — real composed host (route admission through the actual route table) > admits the evidence route through the real mount and serves the owner's record
+ ✓ server/broker-import/brokerImportEvidenceRoute.test.ts > AMEND-01 §8 — real composed host (route admission through the actual route table) > AMEND-02 refuses GET on the submission path over the real host — no enumeration surface
+ ✓ server/broker-import/brokerImportEvidenceRoute.test.ts > AMEND-01 §8 — real composed host (route admission through the actual route table) > answers 405 Allow: GET for every non-GET method on the evidence path over the real host
+ ✓ server/broker-import/brokerImportEvidenceRoute.test.ts > AMEND-01 §8 — real composed host (route admission through the actual route table) > sends no wildcard cross-origin header on the evidence path (C8 posture, owner-scoped namespace)
+ ✓ server/broker-import/brokerImportEvidenceRoute.test.ts > AMEND-01 §8 — real composed host (route admission through the actual route table) > leaves the two pre-existing routes exactly as they were — the closure gained one leaf only
+ ✓ server/broker-import/brokerImportEvidenceRoute.test.ts > AMEND-01 §8 — real composed host (route admission through the actual route table) > fails closed over the real host when the evidence carrier is removed, without a restart
+ ✓ server/broker-import/brokerImportEvidenceRoute.test.ts > AMEND-01 §8 — real composed host (route admission through the actual route table) > leaves every fenced user-portfolio write/context pair at 503 over the real host
+ ✓ server/broker-import/brokerImportHttp.test.ts > brokerImportHttp — direct handler contract (injected IPC) > relays a minimal v1 receipt verbatim on 200 (nothing added)
+ ✓ server/broker-import/brokerImportHttp.test.ts > brokerImportHttp — direct handler contract (injected IPC) > maps WRITE_NOT_AUTHORIZED to its fixed non-2xx/typed response
+ ✓ server/broker-import/brokerImportHttp.test.ts > brokerImportHttp — direct handler contract (injected IPC) > maps REVISION_CONFLICT to its fixed non-2xx/typed response
+ ✓ server/broker-import/brokerImportHttp.test.ts > brokerImportHttp — direct handler contract (injected IPC) > maps RESOURCE_UNAVAILABLE to its fixed non-2xx/typed response
+ ✓ server/broker-import/brokerImportHttp.test.ts > brokerImportHttp — direct handler contract (injected IPC) > maps INVALID_REQUEST to its fixed non-2xx/typed response
+ ✓ server/broker-import/brokerImportHttp.test.ts > brokerImportHttp — direct handler contract (injected IPC) > maps REFUSED_UNRESOLVED_IDENTITY to its fixed non-2xx/typed response
+ ✓ server/broker-import/brokerImportHttp.test.ts > brokerImportHttp — direct handler contract (injected IPC) > maps REFUSED_STORE_GUARD to its fixed non-2xx/typed response
+ ✓ server/broker-import/brokerImportHttp.test.ts > brokerImportHttp — direct handler contract (injected IPC) > maps UNAVAILABLE to its fixed non-2xx/typed response
+ ✓ server/broker-import/brokerImportHttp.test.ts > brokerImportHttp — direct handler contract (injected IPC) > maps Class P and a local IPC configuration error to 503 owner-context-unavailable (IRR-2, indistinguishable)
+ ✓ server/broker-import/brokerImportHttp.test.ts > brokerImportHttp — direct handler contract (injected IPC) > maps timeout to a distinct OUTCOME_UNKNOWN with no retry
+ ✓ server/broker-import/brokerImportHttp.test.ts > brokerImportHttp — direct handler contract (injected IPC) > maps an unrepresentable success result to OUTCOME_UNKNOWN / UNREPRESENTABLE_RESULT
+ ✓ server/broker-import/brokerImportHttp.test.ts > brokerImportHttp — direct handler contract (injected IPC) > fails closed with 503 owner-context-unavailable BEFORE any adapter call when the binding precondition is absent
+ ✓ server/broker-import/brokerImportHttp.test.ts > brokerImportHttp — direct handler contract (injected IPC) > refuses validation failures with a field path only — no value echo, no disclosure
+ ✓ server/broker-import/brokerImportHttp.test.ts > brokerImportHttp — direct handler contract (injected IPC) > refuses a body carrying an identity key inside holdings before any call
+ ✓ server/broker-import/brokerImportHttp.test.ts > brokerImportHttp — direct handler contract (injected IPC) > refuses invalid JSON (400) and an oversize body (413)
+ ✓ server/broker-import/brokerImportHttp.test.ts > brokerImportHttp — direct handler contract (injected IPC) > answers 405 with Allow: POST for other methods on the admitted holdings path, 405 with Allow: GET on the admitted revision path, and 404 for other paths in the namespace
+ ✓ server/broker-import/brokerImportHttp.test.ts > brokerImportHttp — direct handler contract (injected IPC) > serves GET /api/broker-import/:portfolioId/revision with { portfolioId, revision } on 200 and maps absent/unavailable/unknown outcomes
+ ✓ server/broker-import/brokerImportHttp.test.ts > brokerImportHttp — direct handler contract (injected IPC) > refuses a cross-site-shaped request before reading the body (C9 hardening)
+ ✓ server/broker-import/brokerImportHttp.test.ts > brokerImportHttp — direct handler contract (injected IPC) > isBrokerImportPath matches the exact namespace and nothing adjacent
+ ✓ server/broker-import/brokerImportHttp.test.ts > brokerImportHttp — real composed host (route admission + fence preservation) > admits the two CAP-02 routes (POST .../holdings and GET .../revision) and fails closed with 503 when binding precondition is absent
+ ✓ server/broker-import/brokerImportHttp.test.ts > brokerImportHttp — real composed host (route admission + fence preservation) > sends no wildcard cross-origin header on the CAP-02 namespace (C8 posture)
+ ✓ server/broker-import/brokerImportHttp.test.ts > brokerImportHttp — real composed host (route admission + fence preservation) > answers 405 for GET on the admitted route and 404 for unknown namespace paths, over the real host
+ ✓ server/broker-import/brokerImportHttp.test.ts > brokerImportHttp — real composed host (route admission + fence preservation) > keeps Direct P1 reads binding-gated and all write/context operations unadmitted
+ ✓ server/broker-import/brokerImportHttp.test.ts > brokerImportHttp — real composed host (route admission + fence preservation) > does not disturb adjacent namespaces (pit mount and certified read still behave)
+ ✓ server/user-portfolio/fenceUnchanged.test.ts > Direct P1 route-boundary regressions > keeps the no-binding response artifact byte-identical and non-disclosing
+ ✓ server/user-portfolio/fenceUnchanged.test.ts > Direct P1 route-boundary regressions > keeps the explicit responder stable at HTTP 503
+ ✓ server/user-portfolio/fenceUnchanged.test.ts > Direct P1 route-boundary regressions > fails closed before IPC when the binding precondition is absent, without reading request identity
+ ✓ server/user-portfolio/fenceUnchanged.test.ts > Direct P1 route-boundary regressions > keeps writes and context discovery unadmitted even with a binding assertion
+ ✓ server/user-portfolio/fenceUnchanged.test.ts > Direct P1 route-boundary regressions > retains exact path and method validation
+ ✓ server/user-portfolio/fenceUnchanged.test.ts > C8 posture — loopback bind and owner-scoped CORS > binds the API transport to loopback and guards wildcard CORS
+ ✓ server/user-portfolio/fenceUnchanged.test.ts > C8 posture — loopback bind and owner-scoped CORS > marks every owner-scoped API namespace and leaves certified reads outside the list
+ ✓ server/user-portfolio/fenceUnchanged.test.ts > C8 posture — loopback bind and owner-scoped CORS > keeps browser API calls relative and the Vite preview host allowlist bounded
+ ✓ server/user-portfolio/fenceUnchanged.test.ts > C8 posture — loopback bind and owner-scoped CORS > the composed server keeps owner routes non-wildcard and certified reads unchanged
+ ✓ server/user-portfolio/fenceUnchanged.test.ts > AMEND-01 §8.5(20) — the write fence is re-asserted at the current baseline > counts the baseline exactly: six admitted read-only pairs plus six still-fenced write/context pairs
+ ✓ server/user-portfolio/fenceUnchanged.test.ts > AMEND-01 §8.5(20) — the write fence is re-asserted at the current baseline > keeps ALL SIX fenced write/context pairs at 503 operation-not-admitted even with a binding assertion
+ ✓ server/user-portfolio/fenceUnchanged.test.ts > AMEND-01 §8.5(20) — the write fence is re-asserted at the current baseline > is a different namespace: the evidence route lifts no user-portfolio fence and is not one
+ ✓ server/user-portfolio/fenceUnchanged.test.ts > AMEND-01 §8.5(20) — the write fence is re-asserted at the current baseline > admits no DELETE anywhere in the broker-import namespace through the real composed host
+ ✓ server/broker-import/brokerImportLiveEvidence.test.ts > AMEND-02 live evidence submission and A-9 composition > imports the real 68-row CSV via HTTP, then retrieves after complete OS process restart, retrying without duplicates 449ms
+ ✓ server/broker-import/brokerImportLiveEvidence.test.ts > AMEND-02 live evidence submission and A-9 composition > serializes simultaneous retries, preserves first digest, and rejects changed filename, row values or portfolio
+ ✓ server/broker-import/brokerImportLiveEvidence.test.ts > AMEND-02 live evidence submission and A-9 composition > resolves trusted owner before body/store; refuses foreign/malformed carriers and request owner keys
+ ✓ server/broker-import/brokerImportLiveEvidence.test.ts > AMEND-02 live evidence submission and A-9 composition > foreign-scope retained evidence is opaque through A-9; no other route or method admitted
+ ✓ server/broker-import/brokerImportLiveEvidence.test.ts > AMEND-02 live evidence submission and A-9 composition > rejects oversize and strict-schema/semantic errors before append
+ ✓ server/broker-import/brokerImportLiveEvidence.test.ts > AMEND-02 live evidence submission and A-9 composition > tampering fails closed for both resubmission and actual A-9 retrieval
+ ✓ server/broker-import/brokerImportLiveEvidence.test.ts > AMEND-02 live evidence submission and A-9 composition > directory/header/append errors never acknowledge retention; a fresh attempt safely recovers
+ ✓ server/broker-import/brokerImportLiveEvidence.test.ts > AMEND-02 live evidence submission and A-9 composition > append-before-ack/read-back failure is unknown; GET and frozen retry reconcile it without replacement
+ ✓ server/broker-import/brokerImportLiveEvidence.test.ts > AMEND-02 live evidence submission and A-9 composition > truncated final append recovers via existing PF-1; malformed interior fails closed without consumer repair
+ ✓ server/broker-import/brokerImportLiveEvidence.test.ts > AMEND-02 live evidence submission and A-9 composition > accepts actual resolved and unresolved snapshots, never arbitrary identity/count claims
+ ✓ server/broker-import/brokerImportImportSafety.test.ts > brokerImport import safety — structure > no module listens, creates a server, or opens a connection
+ ✓ server/broker-import/brokerImportImportSafety.test.ts > brokerImport import safety — structure > no module registers a process hook or mutates global state at import time
+ ✓ server/broker-import/brokerImportImportSafety.test.ts > brokerImport import safety — structure > the boundary and adapter are the only IPC touchpoints and both stay one-call/no-retry
+ ✓ server/broker-import/brokerImportImportSafety.test.ts > brokerImport import safety — runtime > importing the full composition registers no listener and opens no socket
+ ✓ server/broker-import/brokerImportImportSafety.test.ts > brokerImport import safety — runtime > the handler does not listen when NODE_ENV=test guards the composed server
+ ✓ server/broker-import/brokerImportImportSafety.test.ts > brokerImport import safety — AMEND-01 evidence modules > no evidence module listens, creates a server, opens a connection, or mutates global state
+ ✓ server/broker-import/brokerImportImportSafety.test.ts > brokerImport import safety — AMEND-01 evidence modules > performs NO filesystem I/O at module scope — every fs call sits inside a function body
+ ✓ server/broker-import/brokerImportImportSafety.test.ts > brokerImport import safety — AMEND-01 evidence modules > importing the evidence modules starts nothing and adds no socket or TCP handle
+ ✓ server/broker-import/brokerImportImportSafety.test.ts > brokerImport import safety — AMEND-01 evidence modules > keeps the evidence route free of any IPC call, retry, deletion or scheduler
+ ✓ server/broker-import/brokerImportImportSafety.test.ts > brokerImport import safety — AMEND-01 evidence modules > keeps the reader surface the route depends on read-only by construction
+ ✓ src/api/brokerHoldingsPreview.test.ts > Broker preview public boundary — native evidence, never a save > reuses DHAN_DETAILED_HOLDINGS_V1 without manufacturing canonical identity
+ ✓ src/api/brokerHoldingsPreview.test.ts > Broker preview public boundary — native evidence, never a save > reuses DHAN_WEB_UI_SUMMARY_V1 without manufacturing canonical identity
+ ✓ src/api/brokerHoldingsPreview.test.ts > Broker preview public boundary — native evidence, never a save > resolves identity only through IPD-owned authority and never labels an unassessed row resolved
+ ✓ src/api/brokerHoldingsPreview.test.ts > Broker preview public boundary — native evidence, never a save > reuses Zerodha and Groww parsers
+ ✓ src/api/brokerHoldingsPreview.test.ts > Broker preview public boundary — native evidence, never a save > executes without Node Buffer in the browser
+ ✓ src/api/brokerHoldingsPreview.test.ts > Broker preview public boundary — native evidence, never a save > does not accept canonical identity embedded in a CSV column
+ ✓ src/api/brokerHoldingsPreview.test.ts > Broker preview public boundary — native evidence, never a save > preserves unknown securities as unresolved native evidence with an honest identity basis
+ ✓ src/api/brokerHoldingsPreview.test.ts > Broker preview public boundary — native evidence, never a save > keeps an exchange-scoped row inside its declared exchange namespace
+ ✓ src/api/brokerHoldingsPreview.test.ts > Broker preview public boundary — native evidence, never a save > rejects empty and unknown formats, blocks XLSX rather than faking success
+ ✓ src/api/brokerHoldingsPreview.test.ts > Broker preview public boundary — native evidence, never a save > bounds inputs before processing
+ ✓ src/api/brokerHoldingsPreview.test.ts > Broker preview public boundary — native evidence, never a save > requires an explicit valid observation timestamp
+ ✓ src/api/brokerHoldingsPreview.test.ts > Broker preview public boundary — native evidence, never a save > raw content digest changes with the bytes, not the filename
+ ✓ src/api/brokerHoldingsPreview.test.ts > Broker preview public boundary — native evidence, never a save > WS-A 68-row Dhan Web UI summary surface > keeps all 68 native rows in order without loss or duplication
+ ✓ src/api/brokerHoldingsPreview.test.ts > Broker preview public boundary — native evidence, never a save > WS-A 68-row Dhan Web UI summary surface > preserves the observed native values of every row
+ ✓ src/api/brokerHoldingsPreview.test.ts > Broker preview public boundary — native evidence, never a save > WS-A 68-row Dhan Web UI summary surface > keeps ISIN and exchange explicitly absent instead of inventing them
+ ✓ src/api/brokerHoldingsPreview.test.ts > Broker preview public boundary — native evidence, never a save > WS-A 68-row Dhan Web UI summary surface > individually assesses all 68 rows before the single whole-import refusal
+ ✓ src/api/brokerHoldingsPreview.test.ts > Broker preview public boundary — native evidence, never a save > WS-A 68-row Dhan Web UI summary surface > resolves AGI GREENPAC through its governed alias and stops querying weaker namespaces
+ ✓ src/api/brokerHoldingsPreview.test.ts > Broker preview public boundary — native evidence, never a save > WS-A 68-row Dhan Web UI summary surface > keeps the other 67 rows at NO_AUTHORITATIVE_IDENTIFIER_MATCH with their full lookup evidence
+ ✓ src/api/brokerHoldingsPreview.test.ts > Broker preview public boundary — native evidence, never a save > WS-A 68-row Dhan Web UI summary surface > does not let the file-level refusal mask the per-row results, and keeps the refusal in force
+ ✓ src/api/brokerHoldingsPreview.test.ts > Broker preview public boundary — native evidence, never a save > WS-A 68-row Dhan Web UI summary surface > does not claim the observed digest of a file it does not have
+ ✓ src/api/brokerHoldingsPreview.test.ts > Broker preview public boundary — native evidence, never a save > WS-A 68-row Dhan Web UI summary surface > never asserts validation, authorization or persistence
+ ✓ server/persistence/persistence-service.test.ts > PF-1 — append + server-derived identity > creates a durable record with server-derived identity
+ ✓ server/persistence/persistence-service.test.ts > PF-1 — append + server-derived identity > assigns monotonic sequence across appends
+ ✓ server/persistence/persistence-service.test.ts > PF-1 — read / list / ordering > readById returns the record and enforces tenant+owner scoping
+ ✓ server/persistence/persistence-service.test.ts > PF-1 — read / list / ordering > listOrdered returns own records only, createdAt DESC with seq tiebreak
+ ✓ server/persistence/persistence-service.test.ts > PF-1 — dedup + idempotent read-state > duplicate append of the same dedupKey is a no-op returning the existing record
+ ✓ server/persistence/persistence-service.test.ts > PF-1 — dedup + idempotent read-state > dedupKey is scoped per tenant+owner (same key, different owner → distinct records)
+ ✓ server/persistence/persistence-service.test.ts > PF-1 — dedup + idempotent read-state > exists() is tenant+owner scoped
+ ✓ server/persistence/persistence-service.test.ts > PF-1 — dedup + idempotent read-state > updateReadState is idempotent (repeat yields same end-state)
+ ✓ server/persistence/persistence-service.test.ts > PF-1 — dedup + idempotent read-state > updateReadState is tenant+owner scoped (foreign record → undefined)
+ ✓ server/persistence/persistence-service.test.ts > PF-1 — durability / restart / reconstruction > restart reload rebuilds identical state from the journal
+ ✓ server/persistence/persistence-service.test.ts > PF-1 — durability / restart / reconstruction > rebuilt service preserves dedup identity
+ ✓ server/persistence/persistence-service.test.ts > PF-1 — journal failure semantics (TD-3) > unknown journal version → fail closed
+ ✓ server/persistence/persistence-service.test.ts > PF-1 — journal failure semantics (TD-3) > malformed non-final record → fail closed (index reconstruction failure)
+ ✓ server/persistence/persistence-service.test.ts > PF-1 — journal failure semantics (TD-3) > truncated final line → quarantined; valid records served
+ ✓ server/persistence/persistence-service.test.ts > PF-1 — journal failure semantics (TD-3) > empty journal is a valid empty state
+ ✓ server/persistence/persistence-service.test.ts > PF-1 — journal failure semantics (TD-3) > missing journal is a valid first-run state
+ ✓ server/persistence/persistence-service.test.ts > PF-1 — write / index failures > append write failure → WRITE_FAILED (no record reported as persisted)
+ ✓ server/persistence/persistence-service.test.ts > PF-1 — write / index failures > journal read failure on load → INDEX_RECONSTRUCTION_FAILED
+ ✓ server/persistence/persistence-service.test.ts > PF-1 — TD-7a data directory > resolveDataDir honors IIPS_DATA_DIR
+ ✓ server/persistence/persistence-service.test.ts > PF-1 — TD-7a data directory > resolveDataDir defaults to <cwd>/.iips-data
+ ✓ server/persistence/persistence-service.test.ts > PF-1 — TD-7a data directory > does not use frozen certification datasets as writable storage (service writes under its own dataDir)
+ ✓ src/features/broker-holdings/BrokerHoldingsPreview.test.tsx > Broker Holdings — executable browser-only preview > renders the real pipeline and attempts only parsed-evidence submission, never holdings or raw bytes
+ ✓ src/features/broker-holdings/BrokerHoldingsPreview.test.tsx > Broker Holdings — executable browser-only preview > rejects oversized files and XLSX before reading bytes
+ ✓ src/features/broker-holdings/BrokerHoldingsPreview.test.tsx > Broker Holdings — executable browser-only preview > shows rejected input rather than a successful holding list
+ ✓ src/features/broker-holdings/BrokerHoldingsPreview.test.tsx > Broker Holdings — executable browser-only preview > clear invalidates an in-flight read and a newer file invalidates the old selection
+ ✓ src/features/broker-holdings/BrokerHoldingsPreview.test.tsx > Broker Holdings — executable browser-only preview > a late older selection cannot overwrite a newer file
+ ✓ src/features/broker-holdings/BrokerHoldingsPreview.test.tsx > Broker Holdings — executable browser-only preview > clears an old preview when file reading fails
+ ✓ src/features/broker-holdings/BrokerHoldingsPreview.test.tsx > Broker Holdings — evidence retention disclosure (AMEND-01 §8.4(18)) > is visible to the owner without selecting a file
+ ✓ src/features/broker-holdings/BrokerHoldingsPreview.test.tsx > Broker Holdings — evidence retention disclosure (AMEND-01 §8.4(18)) > discloses local retention, an indefinite period and explicit-owner-only deletion (18.1, 18.5)
+ ✓ src/features/broker-holdings/BrokerHoldingsPreview.test.tsx > Broker Holdings — evidence retention disclosure (AMEND-01 §8.4(18)) > states the 50 MB figure is a warning and review point only, never a deletion trigger (18.5)
+ ✓ src/features/broker-holdings/BrokerHoldingsPreview.test.tsx > Broker Holdings — evidence retention disclosure (AMEND-01 §8.4(18)) > discloses that raw CSV bytes are not retained and names the retained equivalent (18.2)
+ ✓ src/features/broker-holdings/BrokerHoldingsPreview.test.tsx > Broker Holdings — evidence retention disclosure (AMEND-01 §8.4(18)) > discloses owner-scope-only service, no third-party transmission and no enumeration route (18.3)
+ ✓ src/features/broker-holdings/BrokerHoldingsPreview.test.tsx > Broker Holdings — evidence retention disclosure (AMEND-01 §8.4(18)) > discloses that retention is not a save, not a validation and not an authorization (18.4)
+ ✓ src/features/broker-holdings/BrokerHoldingsPreview.test.tsx > Broker Holdings — evidence retention disclosure (AMEND-01 §8.4(18)) > no longer tells the owner that nothing is stored, and keeps the half that was true
+ ✓ src/features/broker-holdings/BrokerHoldingsPreview.test.tsx > clearing while retention is pending prevents a late acknowledgement from restoring evidence or success
+ ✓ server/broker-import/brokerImportEvidenceStore.test.ts > WS-A broker-import evidence retention > retains the complete 68-row inventory, digest, metadata and refusal
+ ✓ server/broker-import/brokerImportEvidenceStore.test.ts > WS-A broker-import evidence retention > is idempotent: the same import retains one record and never duplicates
+ ✓ server/broker-import/brokerImportEvidenceStore.test.ts > WS-A broker-import evidence retention > keeps owners isolated and never exposes another owner's evidence
+ ✓ server/broker-import/brokerImportEvidenceStore.test.ts > WS-A broker-import evidence retention > fails closed on a tampered journal record
+ ✓ server/broker-import/brokerImportEvidenceStore.test.ts > WS-A broker-import evidence retention > rejects an incomplete row inventory before it can be retained
+ ✓ server/broker-import/brokerImportEvidenceStore.test.ts > WS-A broker-import evidence retention > fails closed when the journal cannot be written, and reports no retention
+ ✓ server/broker-import/brokerImportEvidenceStore.test.ts > WS-A broker-import evidence retention > survives a store restart in this process
+ ✓ src/features/broker-holdings/BrokerHoldingsLiveEvidence.test.tsx > actual file selection → bounded HTTP POST → disk journal → A-9 GET → verified success, never before GET
+ ✓ src/api/brokerEvidenceRetention.test.ts > AMEND-02 client failure and explicit retry semantics > freezes the snapshot and preserves byte-identical request/timestamp on explicit retry, no automatic resend
+ ✓ src/api/brokerEvidenceRetention.test.ts > AMEND-02 client failure and explicit retry semantics > does not report success on missing read-back after acknowledgement
+ ✓ src/api/brokerEvidenceRetention.test.ts > AMEND-02 client failure and explicit retry semantics > does not report success on wrong-digest read-back after acknowledgement
+ ✓ src/api/brokerEvidenceRetention.test.ts > AMEND-02 client failure and explicit retry semantics > does not report success on wrong-content read-back after acknowledgement
+ ✓ src/api/brokerEvidenceRetention.test.ts > AMEND-02 client failure and explicit retry semantics > does not report success on wrong-time read-back after acknowledgement
+ ✓ src/api/brokerEvidenceRetention.test.ts > AMEND-02 client failure and explicit retry semantics > does not report success on wrong-owner-slot read-back after acknowledgement
+ ✓ src/api/brokerEvidenceRetention.test.ts > AMEND-02 client failure and explicit retry semantics > exposes conflict without GET or retry and performs lookup-only recovery without POST
+
+ Test Files  11 passed (11)
+      Tests  198 passed (198)
+   Start at  18:22:08
+   Duration  13.93s (transform 2.21s, setup 1.33s, collect 3.78s, tests 4.69s, environment 2.12s, prepare 609ms)
+

@@ -21577,3 +21577,35 @@ limits preserved; no PF-1 change, holdings/raw CSV write/upload, deletion endpoi
 mutation. A-9 retrieval remains IMPLEMENTED; WS-A-DM remains NOT COMPLETE. Receipt publication itself
 is independently verified in this publishing session; its own coordinates are recorded in the PR record.
 No new allocation is consumed by this discharge subsection.
+
+### 16.257 Live Evidence Retention — authorized implementation (`2026-11-05`)
+
+**CV-CORR-237 / CHG-2026-11-05-08 / V2132.** Starting authoritative main:
+`9d3f668e457a33afc8ce67f60b2b28d71f1b08a3`; effective authority
+`IIPS-V3-CAP02-U1-AMEND-02-IMPORT-EVIDENCE-RETENTION-2026-11-05-01` independently re-read,
+including exact immutable proposal/paper acceptance references (PRs #450–#453).
+
+Current implementation-stage status: **IMPLEMENTED — END-TO-END VERIFIED LOCALLY; PUBLICATION AND
+REMOTE VERIFICATION PENDING**. This supersedes the earlier NOT IMPLEMENTED state only at this later
+baseline; no frozen authority or historical record is rewritten. Record:
+`docs/integration/WS-A-LIVE-EVIDENCE-RETENTION-IMPLEMENTATION-2026-11-05.md`;
+evidence: `evidence/integration/ws-a-live-retention-implementation-2026-11-05/`.
+
+The new parsed-only `POST /api/broker-import/:portfolioId/evidence` resolves the trusted carrier,
+validates the bounded frozen snapshot, uses existing owner-scoped PF-1 append/dedup and fresh read-back,
+then the UI verifies via the unchanged A-9 GET before displaying success. Original timestamp/retry
+identity, first-record preservation, 409 conflicts, unknown-outcome lookup and failure/tamper refusal
+are verified. Real component file selection→HTTP→journal→GET is demonstrated, not seeded evidence alone.
+The 68-row HTTP proof kills process A after commit and retrieves/retries from fresh process B with no
+duplicate or journal growth. Final live tests **33/33 PASS**; affected regression coverage **166 cases
+PASS** in the preceding targeted run (198 total then; one new lost-ack case added in final live run).
+Typechecks, build and applicable local static checks PASS; build bundle-size warning remains.
+
+SAIRAM remains `owner-4dc756b3`. A-9 handler/projection, evidence schema/digest code, PF-1, W-1,
+holdings transport, frozen acts, dependency pins/lockfile and workflows are unchanged. No holdings or
+transaction write, raw CSV upload, DELETE, expiry/purge/compaction, new production listener, IPD mutation
+or production activation. Single OS writer required; no cross-process lock or explicit fsync/power-loss
+guarantee. End-to-end test qualification is distinct from publication and operational user-host use.
+WS-A-DM remains NOT COMPLETE. Post-merge publication coordinates/CI/read-back belong in §16.257.1.
+
+Next free after this allocation: section 16.258, correction 238, change suffix 09, ledger V2133.

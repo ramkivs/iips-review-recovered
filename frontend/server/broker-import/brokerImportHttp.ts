@@ -10,9 +10,9 @@
  *   POST /api/broker-import/:portfolioId/holdings                        (U1 §2.2)
  *   GET  /api/broker-import/:portfolioId/revision                        (U7 §1.4 / U1 §7 / -04 §3.2)
  *   GET  /api/broker-import/:portfolioId/evidence/:importId              (AMEND-01 §8 — ONE route)
- *   Other methods on an admitted path → 405. Every other path under /api/broker-import/ → 404,
- *   INCLUDING the four-segment `…/:portfolioId/evidence` collection form: there is no collection
- *   endpoint and no enumeration (AMEND-01 §8.1(1), §8.5(19)). Nothing else.
+ *   POST /api/broker-import/:portfolioId/evidence                        (AMEND-02)
+ *   Other methods on an admitted path → 405. Every other namespace path → 404.
+ *   The four-segment evidence path is POST-only, never a collection GET or enumeration.
  *
  * HANDLER ORDER (fixed by the effective U1 act, preserved and extended by AMEND-01 §8.1(3))
  *   1. exact route/method match;
@@ -62,6 +62,7 @@
  * they are partition keys, not evidence fields, and §8.1(6) admits the evidence fields only.
  */
 import type http from 'node:http';
+import { handleEvidenceSubmission, type EvidenceSubmissionDeps } from './brokerImportEvidenceSubmission.js';
 
 import { readJsonBody, sendJson } from '../owner-scoped-http.js';
 import { resolveDataDir } from '../persistence/persistence-service.js';
@@ -105,7 +106,7 @@ export function isBrokerImportPath(url: string | undefined): boolean {
 }
 
 /** Route dependency injection (tests substitute the IPC client, the evidence reader and the environment). */
-export interface BrokerImportRouteDeps {
+export interface BrokerImportRouteDeps extends EvidenceSubmissionDeps {
   readonly saveAdapterDeps?: BrokerImportSaveAdapterDeps;
   readonly evidenceReader?: BrokerImportEvidenceReader;
   readonly env?: NodeJS.ProcessEnv;
@@ -130,23 +131,22 @@ export interface BrokerImportEvidenceReader {
 }
 
 interface MatchedRoute {
-  readonly kind: 'HOLDINGS' | 'REVISION' | 'EVIDENCE';
+  readonly kind: 'HOLDINGS' | 'REVISION' | 'EVIDENCE' | 'SUBMISSION';
   readonly portfolioId: string;
   /** Present only for `EVIDENCE`; the opaque import identifier from the fifth path segment. */
   readonly importId?: string;
 }
 
 /**
- * Matches the three admitted routes under `/api/broker-import`:
+ * Matches the admitted routes under `/api/broker-import`:
  *   - `/api/broker-import/:portfolioId/holdings` (`POST`)
  *   - `/api/broker-import/:portfolioId/revision` (`GET`, admitted under U7 §1.4 / U1 §7 / -04 §3.2)
  *   - `/api/broker-import/:portfolioId/evidence/:importId` (`GET`, admitted by AMEND-01 §8)
  * Returns null for all other paths in the namespace.
  *
- * THE CLOSURE IS EXTENDED BY EXACTLY ONE LEAF AND IS OTHERWISE UNTOUCHED (AMEND-01 §8.5(19)):
- * `evidence` is admitted ONLY in the five-segment form. The four-segment
- * `api/broker-import/:portfolioId/evidence` falls through to null ⇒ `404`, so there is no collection
- * endpoint and no way to enumerate `importId` values. A sixth segment also returns null.
+ * AMEND-02 extends AMEND-01's closure by exactly the four-segment evidence POST.
+ * GET on that path returns 405, not a collection. Five-segment A-9 remains read-only;
+ * there is no way to enumerate importIds. A sixth segment still returns null.
  */
 function matchRoute(path: string): MatchedRoute | null {
   const parts = path.split('/').filter(Boolean);
@@ -174,7 +174,7 @@ function matchRoute(path: string): MatchedRoute | null {
     return null;
   }
   const leaf = parts[3];
-  if (leaf !== 'holdings' && leaf !== 'revision') {
+  if (leaf !== 'holdings' && leaf !== 'revision' && leaf !== 'evidence') {
     return null;
   }
   let portfolioId: string;
@@ -184,7 +184,7 @@ function matchRoute(path: string): MatchedRoute | null {
     return null;
   }
   return {
-    kind: leaf === 'holdings' ? 'HOLDINGS' : 'REVISION',
+    kind: leaf === 'holdings' ? 'HOLDINGS' : leaf === 'revision' ? 'REVISION' : 'SUBMISSION',
     portfolioId,
   };
 }
@@ -377,6 +377,12 @@ export async function handleBrokerImportRequest(
   const route = matchRoute(path);
   if (route === null) {
     sendJson(res, 404, { error: 'not found' });
+    return;
+  }
+
+  // AMEND-02 adds only the bounded POST leaf; A-9's handler below is unchanged.
+  if (route.kind === 'SUBMISSION') {
+    await handleEvidenceSubmission(req, res, route.portfolioId, deps);
     return;
   }
 

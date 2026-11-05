@@ -420,3 +420,64 @@ This is safe and contained: as §10.2 records, that one file holds broker-import
 **This is a genuine open Program Authority decision, recorded and not resolved here.** Decision 6 requires *explicit owner-controlled deletion*; clauses 16(h) and 24 forbid any HTTP `DELETE`. Both are honoured — deletion is authorized in principle and is exercisable today only at whole-journal granularity outside HTTP. Per-record deletion would require a **further act** plus a change to the append-only journal authority, and neither is authorized by AMEND-01. **No deletion functionality of any kind was added to the route, the store or PF-1 by the A-9 implementation.** It does not block retrieval: the read route admits no deletion capability at all.
 
 If you need one record gone today, the only supported route is: back up, delete the whole journal, and re-import the CSVs whose evidence you want to keep — accepting that the re-imported records are new records with new digests, not restorations.
+
+## 11. AMEND-02 live parsed-evidence retention — personal local operation
+
+Authority: `IIPS-V3-CAP02-U1-AMEND-02-IMPORT-EVIDENCE-RETENTION-2026-11-05-01`
+(PR #452 adoption; PR #453 effectiveness). This is evidence retention, not holdings persistence;
+W-1 remains on. No production activation/deployment is performed or authorized by this increment.
+
+The Broker Holdings page submits only its parsed snapshot to
+`POST /api/broker-import/DEFAULT_PORTFOLIO/evidence` and verifies through the existing
+`GET /api/broker-import/DEFAULT_PORTFOLIO/evidence/:importId` before displaying final success.
+Raw CSV bytes are never uploaded or journaled. Browser-reported identity evidence is not server-
+authenticated identity; the original CSV digest cannot be independently recomputed without its bytes.
+The complete stored record digest is verified server-side on every read; A-9 withholds partition keys,
+so the browser compares the returned digest with the POST acknowledgement, not a hash of the projection.
+
+### 11.1 Preconditions and limits
+
+- Exactly **one writer OS process** may use a journal directory. Stop the previous host and confirm it
+  has exited before starting a replacement. Never run a manual/test writer concurrently against that
+  directory. The in-process queue is **not** a cross-process lock. PF-1 has no explicit fsync guarantee:
+  qualified recovery is process-restart recovery, not sudden power-loss/hardware survival.
+- Keep `IIPS_DATA_DIR` and the canonical carrier referenced by `IIPS_BROKER_EVIDENCE_OWNER_PATH` on the
+  owner's server-controlled local filesystem, outside Git, permission-restricted. Existing binding
+  precondition `IIPS_G3_IPC_BINDING_PROVISIONED` must be established by the governed procedure; do not
+  set it merely to bypass an unavailable binding. Preserve the existing SAIRAM carrier bytes/digest:
+  owner `owner-4dc756b3`, mechanical tenant `irr-personal-073dd1c8`. SAIRAM is display-only.
+- No credentials, owner fields, journal paths, raw CSV or canonical company identifiers belong in a
+  submission. JSON is capped at 4 MiB, 10,000 rows, 4,096-character string values and depth 12; filename
+  at 256 characters and browser CSV at 1 MiB. Oversized/invalid submissions are not retained; the
+  ordinary holdings POST's existing 64 KiB limit remains unchanged.
+- Retention is indefinite. The 50 MiB storage warning is a review point only, never a quota, expiry,
+  deletion or append blocker. Existing §10 owner-local backup/recovery safeguards remain applicable.
+  No deletion endpoint/tool, automatic purge or compaction is introduced. Explicit owner-controlled
+  deletion policy is preserved; per-record deletion remains unavailable.
+
+### 11.2 Recovery and truthful UI states
+
+A successful preview alone is not evidence retention. “Submitting” and “Verifying through A-9” are
+not success. “Retention acknowledged; retrieval not verified” means append/read-back was acknowledged
+but the A-9 fetch failed or mismatched; use **Check retained evidence**. “Retention unconfirmed” means
+no outcome was established, **not** proof that no append occurred. An append may have succeeded before
+an acknowledgement was lost. Check the original import ID through A-9, then explicitly retry only the
+**frozen original snapshot**, with its original timestamp and filename. There is no automatic retry.
+
+The mounted page retains that snapshot in memory, not browser durable storage. A new file selection
+creates a new attempt; it is not a retry. Copy the displayed import ID if recovery after browser loss
+is needed. A restarted host can retrieve by known import ID; there is no enumeration endpoint. Do not
+re-import with a new timestamp and call that recovery of the original. Clearing the UI never deletes
+committed evidence and does not reverse an in-flight append.
+
+Duplicate equivalent submission returns the original record/digest with no journal growth. A stable
+payload or portfolio-slot conflict returns 409 and leaves the original unchanged; do not overwrite or
+invent a new ID to hide a conflict. Only documented volatile per-row quarantine IDs are excluded from
+stable comparison. Storage/read-back errors return 503 without a retention-success claim. Tampering
+fails closed. Do not edit the journal, reset the carrier, truncate history or reconstruct a record
+from a digest to make a failing request succeed.
+
+After any suspected corruption, stop the single writer, preserve the original evidence and use the
+existing owner-local backup/read-verification procedure (§10). PF-1's already-governed final truncated-
+line recovery is unchanged; malformed interior lines fail closed. Consumer code adds no repair,
+rollback, deletion or purge. Escalate unresolved corruption rather than altering PF-1 or its journal.
