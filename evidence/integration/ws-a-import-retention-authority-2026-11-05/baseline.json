@@ -1,0 +1,60 @@
+{
+  "baseline": "8a13aeb4525fc228afad495e272eded383a99729",
+  "files": [
+    {
+      "path": "frontend/server/broker-import/brokerImportHttp.ts",
+      "sha256": "95b5a61f930381d85218fb155f169db849fc7c94befde9aecd1bba872261bb8c",
+      "blob": "a62dd8f2df6e8cf00f59b646d63a123e349aa8a8"
+    },
+    {
+      "path": "frontend/server/broker-import/brokerImportEvidenceStore.ts",
+      "sha256": "14de1a55930b7321743df5858e25bca0a0b7108c567c46e77703323d564f196d",
+      "blob": "6f94476bc1567ca8defedb900019a968ac483802"
+    },
+    {
+      "path": "frontend/server/broker-import/brokerImportEvidenceWriter.ts",
+      "sha256": "30b661cc24bccd86326028e19b20e9c983aff6c5d98e19d6d60c2d94f46c77c6",
+      "blob": "f8e8368d2059c652820acb3142ab2dd2c31c97b6"
+    },
+    {
+      "path": "frontend/server/broker-import/brokerImportEvidenceOwnerCarrier.ts",
+      "sha256": "01ed214e9a696d24b99f2ebd9c997ab3402bc7db8511240c03441fd441fb2bf7",
+      "blob": "d3c6527df7c7276a91f12106f2e2f41719f46926"
+    },
+    {
+      "path": "frontend/server/broker-import/brokerImportEvidenceOwnerResolver.ts",
+      "sha256": "4ca3060de260e362b05a36a9ba27639959b8d0317043376f97ddc701c13f752a",
+      "blob": "e3941d9c4e48a8e9b12b585610417f51034b9674"
+    },
+    {
+      "path": "frontend/server/persistence/persistence-service.ts",
+      "sha256": "d3772cd5b7126ac276c97c5873bbd09cb3ffa7fe11039f31a3f1d9a8ebd84a22",
+      "blob": "104cb96738b52913bc2803ec24ecc653c059852f"
+    },
+    {
+      "path": "frontend/src/features/broker-holdings/BrokerHoldingsPreview.tsx",
+      "sha256": "0109053c64d3470e2101b93ceca73a76adff94cf25213b9ce079c3f8546a55aa",
+      "blob": "76afb5a83162b3232a6fb4f73d372e1788ebf5a9"
+    },
+    {
+      "path": "docs/integration/IIPS_v3.0_CAP02_U1_AMEND_01_EVIDENCE_RETRIEVAL_ROUTE_PA_DECISION_ACT_2026-11-05.md",
+      "sha256": "45a2be64ce2789014936821fc53051a508c44c4aff89d96c6676ccff7ca90d6a",
+      "blob": "d39f28bad785f0b342e2bc5a554a497165f5ace1"
+    },
+    {
+      "path": "docs/integration/WS-A-DHAN-BROKER-HOLDINGS-WORKSTREAM-REPORT-2026-11-05-R2.md",
+      "sha256": "2e5bdb32f20c9a04c9e8d9490272b5a1ffa4428b1ca229895e981880bdaee011",
+      "blob": "45395eb11216c30e0d42e590d52cacce79bb6b66"
+    },
+    {
+      "path": "frontend/server/user-portfolio-transport.ts",
+      "sha256": "26645f998359806d848e6ced3b718485b0ce9044dcf517fea18c4eca21b8a330",
+      "blob": "4aad3dbd0b852e138e7e4b5fc632d3f76051531f"
+    },
+    {
+      "path": "frontend/server/owner-context-unavailable.ts",
+      "sha256": "57e397d44e2a1e2e2c0d5a456a1ad419d5a5728e4a76aaa73bf71d10a164a913",
+      "blob": "cb8db45d668d28cee7e0a52721001d579a872733"
+    }
+  ]
+}
