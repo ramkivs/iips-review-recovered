@@ -259,8 +259,8 @@ is authorized and none was exercised.** No real-user durable save occurred.
 | A-5 | Obtain authoritative identifiers for the 67 rows | **Operator (Ramki)** | Operator supplies their own `DHAN_DETAILED_HOLDINGS_V1` export locally through the existing browser file path | A detailed export exists and is assessed; rows whose ISIN / exchange-scoped symbol is already an exact governed key resolve; result published row by row | **BLOCKED-EXTERNAL — INPUT SPECIFICATION COMPLETE AND PUBLISHED (§14.3).** No artefact and no acquisition path in either repository; **no Dhan API/login/token anywhere**. The gap is **DATA, not capability** — the parser already supports `DHAN_DETAILED_HOLDINGS_V1` |
 | A-6 | Governed D05 deposition of the missing entities | **IPD + PA** | A-5, plus a new IPD authorization act | New IPD authorization act; operator drop with verbatim identifiers and preserved provenance; `d05_security_master_manifest.json` and `tests/d05_security_master_integrity_semantics.test.ts` re-bound; new `masterRevision` | **PREPARED — PREREQUISITES AND VALIDATION PLAN COMPLETE (§14.3); PENDING AUTHORITY.** Provably required: 0 of 67 resolve in the **symbol-space** indices that were probeable — the **ISIN index was structurally unreachable**, so it is **UNTESTED, not tested-and-absent**. Needs a **NEW Wave-2 Security Master Expansion Act**; the `2026-09-22` act is spent. **Master revision UNCHANGED** |
 | A-7 | Re-run the 68-row identity assessment after any valid deposition | IRR | A-6 | New assessment evidence published with the new `masterRevision`; resolved/unresolved counts re-measured row by row | **NOT STARTED — blocked by A-6** |
-| A-8 | HTTP evidence-retrieval route authority | **PA (Ramki)** | — | Effective additive U1 amendment under DEC-06 R-2/R-5 naming exactly one route, its NP-06-R1-shaped owner carrier and digest binding, the retention period and purge rule, and the reconciled consent statement | **PREPARED — AMENDMENT PACKAGE COMPLETE (§14.2); BLOCKED ON PA.** 25-clause drafted U1 §8; prerequisites **P-1…P-10** verified; **non-expansion validated** element by element. `PROPOSED — NOT EFFECTIVE`, Act ID `PENDING ASSIGNMENT`, three `TBD-PA` placeholder sets deliberately unfilled. **No route added** |
-| A-9 | Implement the evidence route | IRR | A-8 effective, published and remotely read back | U1 §2.2 handler order; the **current** fence baseline byte-stable — **six admitted read-only pairs plus six still-fenced write/context pairs**, the "twelve 503 pairs" baseline having been superseded by the authorized Direct P1 read integration at IRR `9202e7a` (see §14.2 and tracker §16.251.7); import-safety re-asserted; no `companyId` on the wire; merged and remotely verified | **NOT STARTED — blocked by A-8** |
+| A-8 | HTTP evidence-retrieval route authority | **PA (Ramki)** | — | Effective additive U1 amendment under DEC-06 R-2/R-5 naming exactly one route, its NP-06-R1-shaped owner carrier and digest binding, the retention period and purge rule, and the reconciled consent statement | **PA-RENDERED — AMENDMENT ADOPTED AS A SEPARATE INSTRUMENT (§16); PUBLICATION VERIFICATION PENDING.** The PA rendered decisions **5, 6, 7** on `2026-11-05`; Act ID **ASSIGNED** (`IIPS-V3-CAP02-U1-AMEND-01-EVIDENCE-RETRIEVAL-ROUTE-2026-11-05-01`); **all three `TBD-PA` sets FILLED**; multi-tenant and production assumptions **removed** clause by clause; U1 act preserved **byte-identical** at `a3ae368d…`. **NOT YET EFFECTIVE** — the instrument's §10 conditions (ii)–(iv) are **PENDING**. **No route added** |
+| A-9 | Implement the evidence route | IRR | A-8 effective, published and remotely read back | U1 §2.2 handler order; the **current** fence baseline byte-stable — **six admitted read-only pairs plus six still-fenced write/context pairs**, the "twelve 503 pairs" baseline having been superseded by the authorized Direct P1 read integration at IRR `9202e7a` (see §14.2 and tracker §16.251.7); import-safety re-asserted; no `companyId` on the wire; merged and remotely verified | **NOT STARTED — implementation NOT AUTHORIZED** until A-8's effectiveness is recorded in a post-merge receipt (§16). Completion criteria now **additionally include** obligations **O-1** (storage-usage visibility) and **O-2** (backup/recovery safeguards) created by the PA's Decision 6, plus the clause-18 consent-copy reconciliation. **Nothing implemented by §16** |
 | A-10 | PA-09 final Gate 4 QE/H-12 pin and scope designation | **PA (Ramki)** | — | Effective designation act with exact commit, tree, blob set and purpose | **PREPARED — DECISION PACKAGE COMPLETE (§14.1); BLOCKED ON PA.** `PA DECISION REQUIRED` — **four** decisions rendered; findings **I-1…I-8**; Gate 4 act **§3.2(4)** stop condition **engaged in both repositories**. **No pin designated; no PA act fabricated** |
 | A-11 | S2/Limb A native run, H-12 adoption, S3, QE-1…QE-11 | **Operator** | A-10; `P-1` provisioning attempt; `P-1-F` consumption reconciliation | Native transcripts, H-12 adopted at the designated pin, S3 preflight, QE recorded **0/11 → 11/11** with Q11 digest bookends; QE-8 via RV-1 | **NOT STARTED** |
 | A-12 | Gate C subset acceptance, then Gate 4 / U4 result acceptance | **PA** | A-11 | Two separate effective acceptance acts with evidence read-back | **NOT RENDERED** |
@@ -812,3 +812,144 @@ A-12, A-13, A-14, A-15 and A-18 **remain open and unchanged**; §14.5's register
 cells and §14.7's receipt are **unamended**. **No gate, pin, fence, authority act, register count or
 master revision was moved. No owner identity was established, no retention period set, no Act ID
 assigned and no PA act fabricated. Workstream A and milestone WS-A-DM remain NOT COMPLETE.**
+
+## §16 — The PA rendered A-8 decisions 5, 6 and 7 (`2026-11-05`)
+
+**Additive. §§1–15 above are preserved and NOT rewritten**, including §14.5's register as it stood,
+§14.6's `PENDING` cells, §14.7's receipt, §15.3's "statuses unchanged" statement and §15.4's receipt —
+each of which was **true when written**. §9's A-8 and A-9 rows are **live status cells** and are updated;
+nothing else above is amended.
+
+### 16.1 Instrument of record
+
+| | |
+| :--- | :--- |
+| **Document** | `docs/integration/IIPS_v3.0_CAP02_U1_AMEND_01_EVIDENCE_RETRIEVAL_ROUTE_PA_DECISION_ACT_2026-11-05.md` |
+| **Act ID** | **`IIPS-V3-CAP02-U1-AMEND-01-EVIDENCE-RETRIEVAL-ROUTE-2026-11-05-01`** — assigned under the PA's Decision 7 direction, from the surveyed CAP-02 convention, **collision-checked before assignment** |
+| **Authority** | Standing PA grant (F-3 §1.2, blob `c4c9f7d7…`) as construed by **DEC-06 R-1/R-2/R-3/R-5/R-6/R-7**, plus the **PA direction of `2026-11-05`** |
+| **Baselines** | IRR `main@d7cd3b658bdcd9e59c7888e8b6a37af7e4646232` (PR #446); IPD `main@07e86a4f2c105651f3097a96cb519f8611945e30` (PR #128); **0** open IRR PRs, **0** open IPD PRs |
+| **Status** | **RENDERED — EFFECTIVENESS CONDITIONAL — PUBLICATION VERIFICATION PENDING — NOT YET EFFECTIVE — IMPLEMENTATION NOT AUTHORIZED** |
+
+### 16.2 The three decisions as rendered
+
+| Decision | Marking | Values established |
+| :--- | :--- | :--- |
+| **5** owner identity | **APPROVED AS AMENDED** | Canonical owner ID **`owner-4dc756b3`**; personal tenant scope **`irr-personal-073dd1c8`**; carrier env var **`IIPS_BROKER_EVIDENCE_OWNER_PATH`** (adopted as proposed); human-readable label **`SAIRAM`** — **excluded from both partition keys**; carrier SHA-256 **`27e70c10be68f42a7dc90e5d07669b2a4201c3b807ee0b9fb14e9247b06f8b2c`**, **367** bytes |
+| **6** retention | **APPROVED AS AMENDED** | **Indefinite**; **explicit owner-controlled deletion only**; **no** automatic expiry, deletion, purge or **destructive compaction**; integrity, import history and audit metadata preserved; **50 MB = warning/review only**, never a deletion trigger, **no quota**; **two new obligations O-1 (storage-usage visibility) and O-2 (backup/recovery safeguards)** |
+| **7** Act ID | **APPROVED** | The proposed form **assigned**, verified derived-from-convention and unassigned elsewhere |
+| **1–4** Gate 4 | **NOT RENDERED — STILL PENDING** | Not treated as approved in any respect |
+
+**PA's binding application context:** personal, single-user application; **no production deployment or
+multi-tenant concept**; the personal application principal remains owned by Ramki; **no second-user access
+or shared-account authorization is implied.**
+
+### 16.3 Three findings produced by the reconciliation
+
+**Finding R-1 — the amendment form had to change from "appended U1 §8" to "separate instrument".** The A-8
+package §6 and the drafted §3 both assumed the text would be appended to the U1 act file. **It cannot be:**
+that file's blob **`a3ae368d2a585aae3eea63d5f5e36225b1fcc9d9`** is a **published, remotely-verified
+anchor**, cited in the effective composition act's **4/4 remote read-back receipt**
+(`IIPS_v3.0_CAP02_BROKER_IMPORT_MODAL_PORT_COMPOSITION_ACT_EFFECTIVE_2026-10-23.md:207`) and in tracker
+`CHG-2026-10-23-18` and verification row `V425`. Appending would change the blob and invalidate all three.
+**∴ additive, by separate instrument** — the `G3-AMEND-01` model — with the amending instrument's §7
+numbered **clause-for-clause identically** to the drafted §8 so every existing cross-reference resolves.
+**Both U1 blobs re-verified unchanged at authoring:** effective `a3ae368d…` / 13,357 B; prepared
+`966891d4c7016a5e993e609a03488c8719499e3e`.
+
+**Finding R-2 — the PA's identity structure is *required* by an existing conformance rule, not merely
+preferable.** `IIPS_v3.0_OWNER_CONTEXT_F1_F2_VALUE_ACT.md` §4.1 requires partition keys to be *"Opaque: no
+personal, username, email, or company identity; no `@` or identity token"*. **`SAIRAM` used as
+`ownerUserId` would FAIL that check.** A case-insensitive census found `sairam` in **11 IRR** and **2 IPD**
+files, and **every occurrence is the repository owner's e-mail address** in commit-author or package-author
+metadata (`Ramaki <sairam260573@gmail.com>`; `"author": "Ramki / Sai <sairam260573@gmail.com>"`;
+`ramkivs <sairam260573@gmail.com>`) — precisely the excluded identity-token class, and independent
+corroboration of the PA's context. **∴ `SAIRAM` is adopted as the label and excluded from both keys.**
+Case-sensitive uniqueness was clean regardless (**0 / 0 / 0**), so the exclusion rests on **conformance**,
+not collision. The keys are **generated** by a documented deterministic rule — which also satisfies F-3's
+recovery property that *"re-materialisation from the governing PA declaration is deterministic"*; a random
+value could not be re-materialised after loss. Derivability is **not** a vulnerability: the values are
+`EQUALITY_PARTITION_ONLY; NOT_AUTHENTICATION_OR_AUTHORIZATION_CREDENTIALS`.
+
+**Finding R-3 — the tenant key survives as a mechanical necessity, stripped of multi-tenant meaning.**
+`brokerImportEvidenceStore.ts` declares `exists(tenantId, ownerUserId, importId)` (l.225),
+`read(tenantId, ownerUserId, recordId)` (l.229) and `list(tenantId, ownerUserId)` (l.235), and the record
+type carries both as `readonly … : string` (ll. 63–64, 132–133). PF-1 is *"a library authority, not an
+HTTP identity or access-control boundary"*, and `ownerContextFromBinding.ts` supplies **no** owner fields.
+**∴ the two-key equality partition cannot be removed without changing merged persistence code, which this
+act does not authorize.** It is fixed to **one** permanent personal value, with **no** tenant registry,
+enumeration, selection, switching, provisioning surface, per-tenant policy, second tenant, directory,
+roles, groups, claims, scopes or federated-identity surface.
+
+### 16.4 Multi-tenant and production assumptions removed — with every protection retained
+
+Nine assumptions were removed (act §8). **No protection was weakened by any removal.** Three are worth
+recording here because they could be mistaken for relaxations:
+
+| Removed framing | Protection **retained in full** |
+| :--- | :--- |
+| "foreign … valid-but-unowned `importId`" (presumed multiple owners) | **Full indistinguishability**: any `importId` outside the owner's own scope yields the same opaque **`404`** — never `403`, never a partial record, never an enumeration signal |
+| "no route enumerates **another owner's** records" | The **stronger** single-scope statement: **no route enumerates evidence records at all**; no collection endpoint; four-segment `…/evidence` stays **`404`** |
+| Precautionary production-deployment framing | **Production scope remains expressly prohibited** — the PA's context confirms there is none, so the prohibition is **strengthened** |
+
+Also **added** to the prohibition clause by Decisions 5 and 6: any automatic deletion, purge or destructive
+compaction; any `DELETE` method or destructive HTTP operation in the namespace; any new endpoint for
+storage visibility or backup; any second user, shared account, delegated access, role, group, tenant
+selection or enterprise identity surface; **any use of the label `SAIRAM` as a partition key, credential or
+authorization input**.
+
+### 16.5 Effect on the three independent outstanding dependencies (§14.5, §15.2)
+
+| Track | Before §16 | After §16 |
+| :--- | :--- | :--- |
+| **Evidence** (`A-8 → A-9`) | `A-8 PREPARED — BLOCKED ON PA` | **`A-8 PA-RENDERED — PUBLICATION VERIFICATION PENDING`; `A-9 NOT STARTED — implementation NOT AUTHORIZED`.** Blocker `WS-A-EV-ROUTE-1` **remains OPEN** until effectiveness is recorded. On discharge, **A-9 becomes executable entirely within IRR** — still the only track with no unreachable host, no external file and no IPD dependency |
+| **Gate 4** (`A-10 → A-11…A-15`) | `A-10 PREPARED — BLOCKED ON PA` | **UNCHANGED — decisions 1–4 still PENDING**, and still additionally requiring host `desktop-no0nhtp` (**unreachable**), separate operator authority and QE **0/11** |
+| **Identity** (`A-5 → A-6 → A-7`) | `A-5 BLOCKED-EXTERNAL` | **UNCHANGED** — still requires a genuine `DHAN_DETAILED_HOLDINGS_V1` export from the operator, then a new Wave-2 act, then IPD work |
+
+**WS-A-DM pillar effects, still NOT COMPLETE:** pillar **3** criterion 3.3 (retrieval) and pillar **6**
+criterion 6.2 (owner carrier) move from *awaiting a PA decision* to *awaiting publication verification and
+then implementation* — **neither is satisfied yet**. All other pillars unchanged. **Discharging the
+evidence track alone still would not complete WS-A-DM.**
+
+### 16.6 Three genuine remaining items, reported precisely (act §11)
+
+1. **The deletion surface — a PA decision is required if deletion is to exist inside the product.**
+   Decision 6 requires explicit owner-controlled deletion; the permission keeps the address **read-only**
+   with **no delete operation anywhere**. Both preserved: deletion is authorized **in principle** and
+   exercisable **outside** the HTTP surface (an explicit owner action on the local data directory,
+   documented in the runbook). **Admitting any deletion endpoint requires a further act.** Not assumed, not
+   admitted.
+2. **Decision 5's "bind personal holdings" reaches beyond A-8.** The instrument binds the **broker-import
+   evidence** scope. **Durable holdings persistence is a different, fenced domain** (F-3 / NP-06 / NP-04;
+   `W-1` ON; `WRITE_NOT_AUTHORIZED`; `savedRows` 0). **Extending `owner-4dc756b3` to durable holdings is
+   NOT authorized by this instrument** and would need its own governed decision. **Reported, not assumed.**
+3. **Decision 3's coordinate moved — a change of fact during this pass.** Concurrent **PR #446** merged at
+   `d7cd3b65` (`2026-11-05T13:35:06Z`) and advanced the broker-import pin from **`7bcae35`** to
+   **`07e86a4f`** (IPD PR #128). Decision 3's **substance** is unchanged — ratify the alias at the live
+   authorized coordinate, moving no pin — but **the coordinate named in §14.2 and in appendix A-1.3 is now
+   stale and must be re-censused before the PA signs.** Neither document was rewritten; the correction is
+   recorded here and in the act's §11(4).
+
+**Not remaining items, for the avoidance of doubt:** obligations **O-1** and **O-2** and the clause-18
+consent-copy reconciliation are **implementation obligations on A-9**, not PA decisions. **No technical
+blocker remains to effectiveness** — conditions (ii)–(iv) are ordinary publication and verification steps
+executable under the standing grant (DEC-06 R-1).
+
+### 16.7 Boundaries preserved by §16
+
+**No route implemented. No handler, carrier module, test or configuration written. No HTTP surface
+changed.** `brokerImportHttp.ts` remains at **exactly two** admitted routes and is **unmodified**. The U1
+act and the prepared U1 act are **byte-identical**. **No pin changed by this act** — the broker-import pin
+now reads `#07e86a4f…` **because of the separately authorized concurrent PR #446, not because of this
+work**; np04 `#2e11fa3b…` and production-market-data `#279d1eed…` are unchanged. **Zero IPD writes.** Gate 4
+remains **AUTHORIZED — NOT STARTED**, **QE 0/11**, **PA-09 OPEN**; Gate 5 remains **NOT INITIATED / NOT
+ADMITTED**; **DQ-4 8/10**. `W-1` remains **ON**; `evaluatePortSaveGuard()` false; `WRITE_NOT_AUTHORIZED`;
+`savedRows` **0**. **P04 IN FORCE. DP-2 Option 2F unchanged. `IIPS_BROKER_IMPORT_EVIDENCE_V1` unchanged.
+`U-5` NOT RUN.** No D05 deposition; no fabricated ISIN or D05 row; D05 master revision unchanged. **No
+real-user save authorized, implied or advanced. No production scope.** PR #438 and the Direct P1
+integration at `9202e7a` **preserved untouched**. A-1…A-4, A-16, A-17 **not reopened**. Decisions 1–4
+**not treated as approved**.
+
+**§15.4's closing statement — that no owner identity was established, no retention period set and no Act ID
+assigned — was true of PR #445 and is preserved verbatim. It is superseded as current state by this §16:
+an owner identity, a retention rule and an Act ID are now established by a PA rendering, in an instrument
+that is RENDERED but NOT YET EFFECTIVE. Workstream A and milestone WS-A-DM remain NOT COMPLETE.**

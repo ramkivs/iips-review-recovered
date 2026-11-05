@@ -419,3 +419,71 @@ byte-identically (P-10), so no re-run is warranted by this package.
 **A-8 is NOT closed.** Blocker `WS-A-EV-ROUTE-1` remains **open**. Milestone WS-A-DM pillar 3
 criterion 3.3 (retrieval) remains **AWAITING-AUTHORITY**, and pillar 6 criterion 6.2 (owner carrier)
 remains **AWAITING-AUTHORITY**. **WS-A-DM is NOT COMPLETE.**
+
+---
+
+## 9. Dated additive note — the three placeholders are now filled by a PA rendering (`2026-11-05`)
+
+> **This note is additive. §§1–8 above are preserved VERBATIM and are NOT amended, including §4.1's
+> table of three unfilled placeholders and §7's statements of what this package does not do. Those
+> statements were true when written and remain true of this document. What follows records a later
+> state, in a new dated subsection, per additive discipline.**
+
+**The PA rendered decisions 5, 6 and 7 on `2026-11-05`.** The instrument of record is
+**`docs/integration/IIPS_v3.0_CAP02_U1_AMEND_01_EVIDENCE_RETRIEVAL_ROUTE_PA_DECISION_ACT_2026-11-05.md`**,
+Act ID **`IIPS-V3-CAP02-U1-AMEND-01-EVIDENCE-RETRIEVAL-ROUTE-2026-11-05-01`**.
+
+### 9.1 Disposition of §4.1's three placeholders
+
+| §4.1 placeholder | Disposition |
+| :--- | :--- |
+| Tenant literal, owner literal — §8.2(7) | **FILLED, in an amended structure.** The PA required *one stable, application-generated canonical owner ID* with *`SAIRAM`* as its human-readable label. The values are `irr-personal-073dd1c8` and `owner-4dc756b3`, derived by a documented deterministic rule and collision-verified. **`SAIRAM` is excluded from both partition keys**, because F-1/F-2 §4.1 requires keys to be *"Opaque: no personal, username, email, or company identity"* — a requirement a personal name would fail. See the act's §3. |
+| Retention period, purge rule, purge basis — §8.3(16) | **FILLED.** Indefinite; explicit-owner-controlled deletion only; expressly **not** time-based and **not** count-based; no automatic purge and **no destructive compaction**. Decision 6 additionally creates two obligations this package did not contain — **storage-usage visibility (O-1)** and **backup/recovery safeguards (O-2)** — and fixes the 50 MB figure as a **warning/review threshold only**, never a deletion trigger. See the act's §4. |
+| Act ID — header | **ASSIGNED** under the PA's Decision 7 direction, from the surveyed CAP-02 house convention, collision-verified before assignment: **0** occurrences at IPD `main` and **0** foreign occurrences in the IRR tree or history. See the act's §5. |
+
+### 9.2 One correction to §6's specified amendment form
+
+§6 specified the outstanding authority as *"an additive amendment to the U1 act … adopting §3 above as
+§8"*, and §3's drafting note said the text was drafted so it *"can be appended to the U1 act as §8"*.
+**That form cannot be used.** The U1 act's blob **`a3ae368d2a585aae3eea63d5f5e36225b1fcc9d9`** is a
+**published, remotely-verified anchor**, cited in the effective composition act's 4/4 remote read-back
+receipt (`IIPS_v3.0_CAP02_BROKER_IMPORT_MODAL_PORT_COMPOSITION_ACT_EFFECTIVE_2026-10-23.md:207`) and in
+two tracker records (`CHG-2026-10-23-18`; verification row `V425`). Appending §8 to that file would
+change its blob and invalidate those anchors.
+
+**∴ the amendment is rendered as a SEPARATE INSTRUMENT**, following the model the repository already
+established for `G3-AMEND-01` — *"additive, by separate instrument; the governing act remains
+byte-identical and unamended, with the amendment governing only the application of the act."* The U1 act
+is **not modified**; its blob is asserted unchanged by the act and verified by the post-merge receipt. The
+amending instrument's §7 carries the adopted text with **clause numbering identical** to §3 above, so
+every cross-reference in this package (`§8.2(7)`, `§8.3(16)`, `§7.1(1)`) continues to resolve.
+
+### 9.3 Effect on §8's action register
+
+| Action | §8's recorded status | Status after the PA's rendering |
+| :--- | :--- | :--- |
+| **A-8** | `PREPARED — AMENDMENT PACKAGE COMPLETE; BLOCKED ON PA` | **`PA-RENDERED — AMENDMENT ADOPTED AS A SEPARATE INSTRUMENT; PUBLICATION VERIFICATION PENDING`**. The three placeholder sets are filled; the Act ID is assigned. **Not yet effective** — the instrument's §10 conditions (ii)–(iv) (publication to `main`, green exact-head **and** post-merge CI, independent remote read-back) are **PENDING**, and a receipt cannot be part of the commit it verifies. |
+| **A-9** | `BLOCKED by A-8` | **Still blocked — implementation NOT AUTHORIZED.** A-9 becomes authorized only when A-8's effectiveness is recorded in a post-merge receipt, and its completion criteria now **additionally include obligations O-1 and O-2** and the clause-18 consent-copy reconciliation. |
+
+**Blocker `WS-A-EV-ROUTE-1` remains OPEN** until those conditions are discharged. **This package does not
+claim the amendment is effective, and §7(1) above is not amended by this note.**
+
+### 9.4 Three genuine remaining items, precisely
+
+Recorded here so that §6's phrase *"the precise outstanding authority is one instrument"* is not read as
+*"nothing further remains"*:
+
+1. **The deletion surface.** Decision 6 requires explicit owner-controlled deletion; §8.3(16) prohibits
+   purge being reachable from the HTTP surface. Both are preserved: deletion is authorized **in
+   principle** and is exercisable **only outside** the admitted read-only route, or by a **further act**.
+   **Whether to seek such an act is a PA decision** (act §11(1)).
+2. **Decision 5's "bind personal holdings" reaches beyond A-8.** This rendering binds the **broker-import
+   evidence** scope. Extending `owner-4dc756b3` to **durable holdings persistence** touches a fenced
+   domain under F-3 / NP-06 / NP-04 with `W-1` ON, and is **not authorized** — a separate decision if
+   intended (act §11(3)).
+3. **Decisions 1–4 remain PENDING, and Decision 3's coordinate moved.** Concurrent **PR #446** merged at
+   `d7cd3b65` and advanced the broker-import pin from `7bcae35` to **`07e86a4f`** (IPD PR #128). Decision
+   3's substance is unchanged but **its named coordinate must be re-censused before the PA signs**
+   (act §11(4)).
+
+**WS-A-DM remains NOT COMPLETE.**
