@@ -1,0 +1,68 @@
+I am the PA and explicitly approve the following three decisions from the published Prompt 6 docket:
+
+- G4-2: C-3 deferral.
+- D01: Designate `ramkivs/iips-production-market-data` as the canonical IIPS G-2 portfolio persistence repository.
+- D04: Confirm snapshot-only holdings scope, including contribution lineage, excluding trade, cash and tax-lot accounting.
+
+Execute this as one end-to-end work item.
+
+1. Verify and record PA authority
+
+Rebaseline authoritative IRR `main` and verify PR #472 and the published docket.
+
+Record the three decisions using the established governance format:
+
+- Exact decision wording and scope.
+- PA approval and effective date.
+- Unique decision/Act IDs, following existing conventions.
+- Immutable source reference to the PA instruction and decision docket.
+- Explicit exclusions and implementation-authority consequences.
+
+Do not classify these as recommendations or pending decisions after recording them.
+
+2. Preserve exact boundaries
+
+**G4-2:** C-3 deferral only. Do not designate a content pin or QE execution pin. Gate 4 remains unaccepted; QE remains 0/11 and Gate C/U4 NOT RENDERED.
+
+**D01:** Designate `ramkivs/iips-production-market-data` as the IIPS portfolio persistence repository. Keep `ramkivs/ipo-screening-engine` outside IIPS architecture and dependency tracking. Do not transfer ownership or modify either repository.
+
+**D04:** Holdings snapshots and contribution lineage only. Trade, cash and tax-lot accounting are excluded.
+
+3. Reconcile the remaining register
+
+Update the consolidated docket, IRR tracker, R2 report and WS-A-DM references.
+
+Remove these three decisions from the pending register and cross-reference their effective authority records.
+
+Reassess dependencies affected by D01 and D04. In particular, identify which conditional D03/D05/D06 requirements can now advance and which still require separate authorization or evidence.
+
+Do not automatically promote conditional decisions to adopted status.
+
+4. Advance the next authorized work
+
+Prepare the next consolidated execution-readiness package for durable holdings, using the now-effective repository and snapshot-scope decisions.
+
+It must identify:
+
+- Remaining owner-binding requirements.
+- Lifecycle, revision and retry contracts.
+- Response and contribution-projection gaps.
+- Backup, recovery and host qualification.
+- Required tests and acceptance evidence.
+- Operation-specific authorization still needed.
+
+Do not begin holdings writes, provisioning or migration. D05 and A-6 expansion remain subject to their separate authorization requirements.
+
+Keep W-1 hard-false.
+
+5. Publication
+
+Perform targeted validation, commit and publish all authorized IRR documentation changes, and independently verify the merged remote state.
+
+Do not mutate IPD in this work item.
+
+6. Final report
+
+Report the three effective decisions and their authority IDs, updated pending register, revised dependency status, next execution-readiness work item, PR/commit/CI evidence and explicit confirmation that no holdings writes or unauthorized implementation occurred.
+
+Completion requires effective authority records and verified publication, not merely documentation of approval.
