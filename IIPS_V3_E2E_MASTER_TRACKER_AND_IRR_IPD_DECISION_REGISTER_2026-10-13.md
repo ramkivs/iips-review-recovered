@@ -20790,5 +20790,42 @@ verify the commit that contains it.
 
 **Until discharged, this section's claims rest on the local verification ledger `V2064`–`V2079` only.**
 
+### 16.252.16 Post-merge publication and read-back receipt — discharge of §16.252.15 (`2026-11-05`)
+
+Discharges the nine `PENDING` cells of **§16.252.15** and the publication limb of **`V2079`**. The
+`PENDING` wording of §16.252.15 is **preserved verbatim above**, following the §16.248.7 / PR #430,
+§16.249.13 / PR #441 and §16.251.16 / PR #443 precedents: **a receipt cannot be part of the commit it
+verifies.**
+
+| Item | Verified value |
+|---|---|
+| IRR PR | **#444**, head **`5e73b4fd3fe6505617b320d6aa1ec9e69a48aec1`** — authored, pushed and merged by this session; **#444 was the only open IRR PR at merge time**, so no foreign PR was merged |
+| Merge | **MERGED `2026-11-05T13:21:07Z`** as **`c40fcdfda37c8ccd95c926b978c536066a13d67b`**, tree **`6e556d02905ab728e9cee2de80db53a70410e671`**, parents **`2b4a2cee032609805d76298cf33bb66ddd82e96a`** + **`5e73b4fd3fe6505617b320d6aa1ec9e69a48aec1`** |
+| `git ls-remote origin refs/heads/main` | **`c40fcdfda37c8ccd95c926b978c536066a13d67b`** — **agrees** with the merge commit |
+| Exact-head CI | `CAP-03 Revision 7 IRR-only static checks`, job **`Python compile · source/evidence/tracker validation`** = **SUCCESS** in 29 s; run **`42034850537`**, job id `127270215191`, event `pull_request`, head_sha **`5e73b4fd…`** |
+| Post-merge `main` CI | run **`42035004471`**, event `push` — **`completed` / `success`** |
+| Independent remote byte read-back | **4 / 4 paths MATCH** (Git Blobs API, base64-decoded and re-hashed; the tracker exceeds the Contents API base64 limit and was read via `git/blobs/<sha>`) |
+| — tracker | blob **`9b6f92fa68cbb5db1c91d7f2a6d8c787de84550f`**, **3,892,340** bytes, SHA-256 `ab565edca2bb5b7b3ff472606546057575f18a84747033fa50ff6e8be30090df` — **MATCH** |
+| — R2 report | blob **`af4d186f0a11eacde274c7a7dee3140ff9f85305`**, **75,456** bytes, SHA-256 `35a324be51600f5c0fe24d78598283c4abeb9c90aacb5600ffb958cf98878f53` — **MATCH** |
+| — PA decision paper | blob **`fa134b93cf2ad0eeece955ef4bf507aff115043a`**, **80,988** bytes, SHA-256 `c14ac174038b4fb7566767461498f379af8bff31f19f9e8f2c5a72e21b9b3490` — **MATCH** |
+| — technical appendix | blob **`9d6f8949386ba92d849d92768b2a6eaf0ca849ad`**, **33,813** bytes, SHA-256 `d2b40d37ee2de99c36b0aabb7a6a96115233aa2ad954f06bbb0e89492c64d213` — **MATCH** |
+| Paths changed by PR #444 | **4** (2 `M`, 3 `A` → **2 `M`, 2 `A`**) — all **pure insertions** (`+374/−0`, `+53/−0`, `+1162/−0`, `+453/−0`); **`frontend/**` = 0**, **`evidence/**` = 0** |
+| Merged tree identity | merged tree **`6e556d02…`** is **identical to the PR head's tree**, confirming no concurrent change landed between push and merge |
+| Pins read back from merged `main` | broker-import **`#7bcae35ad18c43cb67a16f30faa55bbdf0fb33fc`**, np04 **`#2e11fa3b689d1a3674a5e4ba1f1de9a559e20494`**, production-market-data **`#279d1eed184f5e23bbabe5c6411085e120ce9e41`** — **UNCHANGED** (read from `frontend/package.json` at the merge commit via the Contents API) |
+| IRR-only static validator at merged `main` | **exit `0`** — PASS on the Windows 10 profile, S04 source and admitted S2 evidence; `LIMIT: IRR-only static validation`; `REVISION_7_SCRIPT_SHA256=6639633855300cd645248ce597bb2c867b5cdbf6045947bf4281721bb1cde6d1`; **`U-5` remains NOT RUN** |
+| Tracker invariants at merged `main` | head pointer **untouched** (first 30 lines byte-identical to `git show HEAD:`); splice **tail-only**; **0** merge markers; **0** CR bytes; **0** trailing-whitespace additions; `git diff --check` **clean**; **16/16** ledger rows `V2064`–`V2079` unique |
+| Allocation discipline | Re-censused **immediately before** splicing at `HEAD@2b4a2cee`: the four tokens reserved by §16.251's closing next-free declaration — the section number, the `CV-CORR` id, the `CHG` id and the first ledger id consumed by §16.252 — each occurred **exactly once**, in that declaration alone; and the four tokens reserved for the **following** section occurred **0** times. Re-censused **again after** the merge and after this splice: the next-free declaration closing §16.252 is **unchanged and unconsumed** by this receipt, and each of its four reserved tokens still occurs **exactly once** in the tracker. This receipt deliberately does **not** name them, so that a future census can identify the declaration uniquely |
+| Unrelated work preserved | **PR #438 MERGED at `bcf067061bff42c4b69416dbe33205909cd8ce85`, untouched**; the Direct P1 read integration at IRR **`9202e7a`** untouched; **0 open IRR PRs**, **0 open IPD PRs** after this merge |
+| Second validator, environmental limit | `docs/integration/cap03-s2/verify_recovery_release.py` was **not** run to completion locally: its release-asset download resolves to a host outside this sandbox's egress allowlist (`TLS/SSL connection has been closed (EOF)`). It reads **no file changed by §16.252 or this receipt** — verified by grep: **0** references to the tracker, the R2 report or either new document — and it **is exercised by hosted CI**, which returned `success` at both the exact PR head and post-merge `main` |
+| IPD writes | **ZERO** |
+
+**§16.252.15 is thereby discharged and `V2079` is PASS.** **No gate, pin, fence, authority act, register
+count or master revision was moved by §16.252 or by this receipt.** **No owner identity was established,
+no retention period set, no Act ID assigned, no PA act fabricated, no route implemented and no
+real-user save authorized or implied.** A-1…A-4, A-16 and A-17 were **not reopened**, and **no
+outstanding action changed status**, because **nothing was authorized**: the PA decision record
+remains **`PENDING — NOT YET RENDERED`**. **Workstream A and milestone WS-A-DM remain NOT COMPLETE.**
+
+
 
 **Next free after this section:** `§16.253` / `CV-CORR-233` / `CHG-2026-11-05-04` / `V2080`.
