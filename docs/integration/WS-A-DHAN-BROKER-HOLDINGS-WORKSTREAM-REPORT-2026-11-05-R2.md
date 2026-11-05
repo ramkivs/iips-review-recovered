@@ -1416,3 +1416,18 @@ Act IIPS-V3-CAP02-OWNER-EVIDENCE-RESET-2026-11-06-01 remains EFFECTIVE.
 Bounded implementation/receipt publication COMPLETE; operational reset NOT EXECUTED, no deployment.
 Tracker §16.259.4 and receipt later closure overlay; runbook §13 limitations preserved. No PF-1/W-1/IPD/
 frozen authority or retention change. Recovery copy retained, can resurrect; not permanent erasure.
+
+## 23. SAIRAM durable holdings — investigation and decision readiness (`2026-11-06`)
+
+Tracker §16.260 registers documentation-only findings/proposal; no implementation or gate advance.
+Named `ipo-screening-engine` is not the G-2 portfolio source repository `iips-production-market-data`;
+exact immutable baselines and repository IDs are in the readiness report. Repository designation must
+be explicit before IPD implementation. Recommend reuse of existing IPD SQLite/local IPC, not new
+technology or IRR persistence. `owner-4dc756b3` is canonical target, SAIRAM display-only; current IPD
+binding constants differ and evidence AMEND-01 explicitly excludes holdings identity extension.
+W-1 remains hard-false. Four-revision cap, create unknown-outcome/duplication, IRR non-empty contribution/
+save-projection gaps, and missing trade/cash ledger are identified; database atomic transactions already
+exist and must not be confused with investment transactions. H01–H12 future acceptance and D01–D06
+proposed PA decisions in `SAIRAM-DURABLE-HOLDINGS-ARCHITECTURE-READINESS-2026-11-06.md` and
+`SAIRAM-DURABLE-HOLDINGS-PA-DECISION-PACKAGE-2026-11-06.md`. No DB opened, writes/provisioning enabled,
+IPD source changed or completed retention/deletion tests repeated. WS-A-DM NOT COMPLETE.

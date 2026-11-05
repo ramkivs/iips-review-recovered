@@ -1,0 +1,31 @@
+{
+  "irrMain": "2a55110806599084355b299fb3e0a559471f0c48",
+  "namedIPD": {
+    "repository": "ramkivs/ipo-screening-engine",
+    "repositoryId": 1405223378,
+    "main": "d661b5ee99a782566fedcb9aa2b139e756948d27",
+    "recursiveTreeEntries": 739,
+    "treeTruncated": false,
+    "description": "Python single-user IPO research, immutable evaluations and post-listing data; not the cited G-2 portfolio source repository"
+  },
+  "citedPortfolioRepository": {
+    "repository": "ramkivs/iips-production-market-data",
+    "repositoryId": 1361385667,
+    "main": "07e86a4f2c105651f3097a96cb519f8611945e30",
+    "role": "existing G-2 lineage cited by IRR; read-only secondary-source inspection, NOT reassignment of user-named repository"
+  },
+  "repositoryDesignation": "UNRESOLVED_NO_ALIAS_ASSUMED",
+  "observedSourceOnly": {
+    "canonicalEvidenceOwner": "owner-4dc756b3",
+    "canonicalTargetOwnerForFutureHoldings": "owner-4dc756b3",
+    "currentIPDProvisioningOwner": "ipd-owner-ramki-personal",
+    "currentIPDTenant": "ipd-personal-local",
+    "evidenceTenant": "irr-personal-073dd1c8",
+    "portfolioWriteGuard": "hard-false W-1(3)/(4)",
+    "maximumStoredRevision": 4,
+    "nodeSQLiteMinimum": "22.13.0"
+  },
+  "newProductCode": false,
+  "operationalDBOpened": false,
+  "IPDMutations": false
+}

@@ -1,0 +1,100 @@
+[
+  {
+    "repository": "ramkivs/iips-production-market-data",
+    "commit": "07e86a4f2c105651f3097a96cb519f8611945e30",
+    "path": "src/persistence/connection.ts",
+    "blob": "5169e402707cf1a73f16bfb15ffe0b1d395165ff",
+    "sha256": "51beab4e7b06ce4c44043ca04d678c4b193dd43fe3a0e53e895e481365e38a67"
+  },
+  {
+    "repository": "ramkivs/iips-production-market-data",
+    "commit": "07e86a4f2c105651f3097a96cb519f8611945e30",
+    "path": "src/persistence/portfolio_store.ts",
+    "blob": "540d49f2deb2c8d600b5b866675d145cf76a1e46",
+    "sha256": "f6e44c8eb2518b57fcd79679dfa2c93593d9cafb1d839685b45f0cdfe72877a5"
+  },
+  {
+    "repository": "ramkivs/iips-production-market-data",
+    "commit": "07e86a4f2c105651f3097a96cb519f8611945e30",
+    "path": "src/persistence/brokerImportPersistence.ts",
+    "blob": "983f68c91423415684260f35aec1aea4dac6f148",
+    "sha256": "929ad6ddf677a439604198d2175a9184e77fff70c329761f9fd8122819a492e3"
+  },
+  {
+    "repository": "ramkivs/iips-production-market-data",
+    "commit": "07e86a4f2c105651f3097a96cb519f8611945e30",
+    "path": "src/persistence/binding.ts",
+    "blob": "96d0079dd04b75c6f257a2001c8f7eff1ffc560a",
+    "sha256": "5e9e3dd8fe705f0235baeab77894636e94cdfbc0df7dd5d42037100ae114a61b"
+  },
+  {
+    "repository": "ramkivs/iips-production-market-data",
+    "commit": "07e86a4f2c105651f3097a96cb519f8611945e30",
+    "path": "src/ipc/dispatch.ts",
+    "blob": "27becc76749f5b11a37ca4e6254d58132620f57f",
+    "sha256": "62e6f424a85971338d1436af0d65fb4f26b4981188863aeece10f21aaedaa1ce"
+  },
+  {
+    "repository": "ramkivs/iips-production-market-data",
+    "commit": "07e86a4f2c105651f3097a96cb519f8611945e30",
+    "path": "src/ipc/endpoint.ts",
+    "blob": "e565aa5b343266f62ffd411d17d74c89b9f29324",
+    "sha256": "e0675f46ebf8c1a06d665a942445662d3e304b81a6ba20d0706688b58399734e"
+  },
+  {
+    "repository": "ramkivs/iips-production-market-data",
+    "commit": "07e86a4f2c105651f3097a96cb519f8611945e30",
+    "path": "src/ipc/brokerImportConsumer.ts",
+    "blob": "308c83ee69168b76b217b4edecf835b24ad3ec0d",
+    "sha256": "9b955596466627a61d7c0a9b477bbb67cfd27255a2d42258b63631a75ff485f2"
+  },
+  {
+    "repository": "ramkivs/iips-production-market-data",
+    "commit": "07e86a4f2c105651f3097a96cb519f8611945e30",
+    "path": "src/persistence/migrations/001_initial_schema.ts",
+    "blob": "f594a18264c45ccdcbfa2381592820a72d3c453b",
+    "sha256": "6aaff75c60053feed639617f42025ef8d58e5a8c8f7d987dd1804e0e2bdab4d3"
+  },
+  {
+    "repository": "ramkivs/iips-production-market-data",
+    "commit": "07e86a4f2c105651f3097a96cb519f8611945e30",
+    "path": "src/persistence/migrations/004_portfolio_contribution_provenance.ts",
+    "blob": "6bad5a5095b6bb94ce91a86a4b65f7ab915c516c",
+    "sha256": "12f32e51a4b7c350ac125b473f7a7b07f4cc7be33f17c6c4e7da39ed0eaafe6a"
+  },
+  {
+    "repository": "ramkivs/iips-production-market-data",
+    "commit": "07e86a4f2c105651f3097a96cb519f8611945e30",
+    "path": "src/persistence/durablePortfolioStorePort.ts",
+    "blob": "d95608d90b6abe0535f82373b7e621d95aecbae8",
+    "sha256": "bea117ba3f6159fad5cf2c55c3723410a2405dd1a1db505e97c04b4d0547276d"
+  },
+  {
+    "repository": "ramkivs/iips-production-market-data",
+    "commit": "07e86a4f2c105651f3097a96cb519f8611945e30",
+    "path": "evidence/cross-repository/IIPS_V3_G2_GATE_E_PORTFOLIO_WRITE_POLICY_2026-10-18.md",
+    "blob": "4a9501bffb49abbbc0ba5b5c4f81d2841812913e",
+    "sha256": "6385345b98fe33dc294212b37592ff455589b7656aa42bf05fdb29e04c57e7cf"
+  },
+  {
+    "repository": "ramkivs/iips-production-market-data",
+    "commit": "07e86a4f2c105651f3097a96cb519f8611945e30",
+    "path": "evidence/cross-repository/IIPS_V3_G2_IPD_IRR_PORTFOLIO_CONSUMER_CONTRACT_V1_2026-10-18.md",
+    "blob": "163eb1f18ce023bb9a06917de99ca279fdb86bf7",
+    "sha256": "c100471bfbe91d7b6ad5a72432530fc2890efe653cb31067b2060c9ca8ea3584"
+  },
+  {
+    "repository": "ramkivs/iips-production-market-data",
+    "commit": "07e86a4f2c105651f3097a96cb519f8611945e30",
+    "path": "src/persistence/directP1Provisioning.ts",
+    "blob": "d75145c18526f07a995cb4ed06300af8478f8348",
+    "sha256": "b2c10bf460704f5b560ddb596c7843806b9ba1cb3d08e4415273fcb6d5cb5898"
+  },
+  {
+    "repository": "ramkivs/iips-production-market-data",
+    "commit": "07e86a4f2c105651f3097a96cb519f8611945e30",
+    "path": "src/persistence/gateAPrimeValidation.ts",
+    "blob": "df5d48a583c9aaed51af90a90225c15c408fbd33",
+    "sha256": "c307549a38033f9b2ce03973bc0a5e0eacbf7e9132695ea1fc7ae09fa9bbe3ce"
+  }
+]
