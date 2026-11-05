@@ -1441,3 +1441,103 @@ work preserved and proof corrected to actual first parent, with original W-1/evi
 source checked separately. Tracker §16.260.1; `SAIRAM-DURABLE-HOLDINGS-READINESS-PUBLICATION-RECEIPT-2026-11-06.md`.
 Decision readiness published, not adoption/implementation/admission. D01–D06 pending; no IPD PR before
 repository designation. W-1 unchanged; no holdings writes, data access, migrations or production action.
+
+
+## 24. Consolidated Gate 4, holdings and identity dependency reconciliation (`2026-11-06`)
+
+Read with §23/23.1 and tracker §16.261 / CV-CORR-241 / V2136:
+`CONSOLIDATED-GATE4-HOLDINGS-IDENTITY-PA-DECISION-PAPER-2026-11-06.md` is the single new paper.
+It preserves/references A-10, D01–D06, Dhan and IID authority; its 15 pending + 8 effective/settled register
+entries are not new effective decisions. Read-only baseline main `80737d0…`; #468/#469 and concurrent IID
+#464/#467 reverified, not overwritten. No later main existed at initial census.
+
+- **Gate 4:** fresh R5 three-coordinate / 56-entry exact remote census; current broker `07e86a4f…`, not
+  historical `7bcae35…`. PA-09 / decisions 1–4 pending; recommend C-3 only, not selected. Alias and lineage
+  disposition remain separate; REAL historical alias vs UNCLASSIFIED live ×3 is hash-significant.
+  No QE execution pin. QE **0/11**, Gate C/U4 **NOT RENDERED**, Gate 5 **NOT INITIATED / NOT ADMITTED**,
+  DQ-4 **8/10**, U6 **NOT AUTHORIZED**. Historical R5 adoption remains effective, current execution basis pending.
+- **Holdings:** D01–D06 pending, including distinct Python IPO vs G-2 portfolio repo, canonical holdings-owner
+  extension, cap/retry/projection/ledger scope, backups/restore/host, exact implementation and result/admission.
+- **Identity:** genuine detailed Dhan ISIN+Exchange remains external A-5 prerequisite; A-6 has no new Wave-2
+  authorization; A-7 follows authorized A-6. Existing 1/68 summary resolution does not establish real coverage;
+  prior 0/67 symbol-space probe is not an unknown-ISIN test. No guessed identifiers or master expansion.
+- **IID:** IID-1/#456, IID-2/#461 and IID-3/#464+#467 remotely merged at documented scope; IID-4/5/6 NOT STARTED.
+  R-16 3/13 synthetic sectors and all L-001–L-016 limitations remain. M-1 is not a real-holdings save or full UI.
+- **Closed scope stays closed:** retention/retrieval and owner active-store-clearing capability completed.
+  A-10's old A-8/A-9-pending wording is historical, not a new blocker. Whole-active offline owner reset retains
+  a verified recovery copy; restore/resubmit may resurrect evidence. No permanent/all-copy erasure claim.
+
+Workstream A / WS-A-DM **NOT COMPLETE**. W-1(3)/(4) remain hard-false. No holdings writes, DB access,
+provisioning/migration, IPD/source mutation, PA act, Gate 4 acceptance, D05 expansion, PF-1 or production change.
+Final PR comment supplies publication checks/readback; publication does not adopt any recommendation.
+
+
+## 25. Formal PA decision-adoption docket (`2026-11-06`; documentation only)
+
+Companion to §24 and consolidated paper §9:
+`FORMAL-PA-DECISION-ADOPTION-DOCKET-2026-11-06.md`, tracker §16.262 / CV-CORR-242 / V2137.
+Authoritative #470 main `6946bee09395364a8a06ffafb1c4ef91c866e340` independently reverified.
+All 15 pending questions staged: **ADOPTABLE NOW 3** (G4-2 C-3 selection, D01 explicit repository designation,
+D04 snapshots not ledger); **CONDITIONAL 7** (G4-3/G4-4/D03/D06/A-5/A-7/IID-DATA); **DEFERRED 2**
+(G4-1/IID-L016); **REQUIRES SEPARATE AUTHORIZATION 3** (D02/D05/A-6). Per-entry exact wording, evidence,
+alternatives, owners, prerequisites, authority effects and acceptance criteria are in the single docket.
+**Newly adopted 0; no new explicit PA decision supplied, Act ID or implementation authority.** Eight prior
+effective/settled crosswalks preserved, not re-adopted. Explicit later PA disposition/publication is required.
+
+D01's named IPO vs G-2 portfolio repository choice remains PA-pending, no alias/transfer/mutation. D01–D06 all
+pending; A-5 genuine detailed ISIN+Exchange still external, A-6 expansion ungranted, A-7 follows authorized A-6.
+No unknown-ISIN absence assertion. Historical R5/Path A retained; QE **0/11**, Gate C/U4 **NOT RENDERED**,
+Gate 5 **NOT INITIATED / NOT ADMITTED**, DQ-4 **8/10**, U6 **NOT AUTHORIZED**; no QE execution pin.
+IID-1/2/3 MERGED; IID-4 NOT STARTED at #470, now MERGED via concurrent #471; IID-5/6 NOT STARTED; synthetic M-1 not real holdings readiness; all limitations retained.
+Completed retention/retrieval/owner active clearing and verified recovery-copy/restore-resurrection limits
+unchanged. Workstream A / WS-A-DM NOT COMPLETE. W-1 hard-false; no operational database access, writes,
+provisioning/migration, IPD source/authority change, D05 expansion, production, PF-1 or weakened controls.
+Final PR comment provides head/main CI and independent remote proof; publication does not imply adoption.
+
+Concurrency reconciliation: #471 `bc0de0ea9702a4b6a34138db4fbe9ec81bc0f688` is the integration baseline;
+all 42 concurrent paths preserved. IID-4 merged from separate work, not this docket; L-017–L-027 added,
+L-001–L-016 remain open. No new PA choice of these 15 entries or IID implementation authority inferred.
+
+
+## 26. Effective PA decisions and next execution-readiness (`2026-11-06`)
+
+Read §§24–25 as historical preparation; this explicit PA adoption now supplies the three named decisions.
+Tracker §16.263 / CV-CORR-243 / V2138; docket §8 and consolidated paper §10 are current cross-references.
+
+**Current operative status — explicit PA adoption, not recommendations:** G4-2 **ADOPTED (C-3 deferral only)**;
+D01 **ADOPTED (canonical IIPS G-2 portfolio repository: ramkivs/iips-production-market-data)**;
+D04 **ADOPTED (holdings snapshots and contribution lineage; trade/cash/tax-lot accounting excluded)**.
+Authority instrument `IIPS_v3.0_PA_G4_C3_D01_D04_ADOPTION_ACT_2026-11-06.md`, Act ID `IIPS-V3-PA-THREE-DECISION-ADOPTION-2026-11-06-01`.
+Decision authority IDs respectively `IIPS-V3-CAP03-G4-C3-DEFERRAL-2026-11-06-01`,
+`IIPS-V3-G2-PORTFOLIO-REPOSITORY-DESIGNATION-2026-11-06-01`,
+`IIPS-V3-G2-SNAPSHOT-SCOPE-CONFIRMATION-2026-11-06-01`. PA approval/effectiveness date 2026-11-06;
+act §5 requires green exact-head/main publication and independent readback, discharged by the final PR receipt
+comment. No further PA choice is pending for these three. No implementation authority is granted.
+
+Current pending source: `evidence/integration/pa-three-decision-adoption-2026-11-06/current-register.json` — **12**, not 15:
+**G4-1, G4-3, G4-4, D02, D03, D05, D06, A-5, A-6, A-7, IID-DATA, IID-L016**.
+Historical 15-pending/zero-adoption source snapshots remain unchanged as history, not the current register.
+The three adopted records are outside the pending array and cross-reference their authority. Remaining
+classes: seven CONDITIONAL, two DEFERRED, three REQUIRES SEPARATE AUTHORIZATION; none promoted automatically.
+Eight prior effective/settled crosswalks remain preserved.
+
+D01/D04 discharge repository and snapshot-domain ambiguity for D03/D05/D06 planning. D03 may advance exact
+**documentary** lifecycle/revision/overflow/retry/unknown-outcome and non-empty receipt/projection contracts;
+D02 owner-binding extension and D03 semantic disposition remain outstanding. D05 may prepare its exact
+implementation/test/backup/recovery/host envelope, but needs separate explicit implementation authority.
+D06 may prepare snapshot-only operation admission criteria, but requires accepted qualification/results and
+separate named-operation admission. A-6 expansion remains ungranted; A-5 genuine ISIN+Exchange and authorized
+A-6 precede A-7. Missing source ISINs are not tested-absent.
+
+Next documentary readiness work item **WS-A-DH-EXEC-READINESS-02-2026-11-06** is prepared in `DURABLE-HOLDINGS-NEXT-EXECUTION-READINESS-PACKAGE-2026-11-06.md`,
+with owner-binding, lifecycle/retry/projection, backup/recovery/host, H01–H12/QE evidence and admission lanes.
+**ipo-screening-engine is outside IIPS architecture and dependency tracking**; old comparisons are historical
+only, not an alternative repository or qualification input. No transfer, rename or modification of either repository.
+
+G4-2 adoption designates **no content or QE execution pin**. Historical R5/Path A preserved; QE **0/11**,
+Gate C/U4 **NOT RENDERED**, Gate 4 unaccepted; Gate 5 **NOT INITIATED / NOT ADMITTED**, DQ-4 **8/10**,
+U6 **NOT AUTHORIZED**. W-1 remains hard-false. No holdings writes, operational DB access, provisioning/migration,
+IPD mutation, expansion, production, PF-1/frozen-authority or completed retention/clearing implementation change.
+Completed retention/retrieval and offline owner-only whole-active clearing, verified retained recovery copy,
+restore/resubmit resurrection and OS/filesystem limitations remain. IID-1/2/3/4 MERGED (IID-4 via #471),
+IID-5/6 NOT STARTED; R-16/L-001–L-027 not closed. **Workstream A / WS-A-DM NOT COMPLETE.**

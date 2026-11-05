@@ -1,0 +1,537 @@
+{
+  "schemaVersion": 1,
+  "artifact": {
+    "kind": "HoldingDisposition",
+    "subjectScope": "hdp:pf-iid4-demonstration#IN:ISIN:IN0000000201",
+    "modelVersion": "disposition-engine/1.0.0",
+    "policyVersion": "disposition-policy/1.0.0",
+    "generatedAt": "2026-11-06T06:00:00.000Z"
+  },
+  "subject": {
+    "kind": "HELD",
+    "portfolioId": "pf-iid4-demonstration",
+    "positionKey": "pf-iid4-demonstration#IN:ISIN:IN0000000201",
+    "securityId": "IN:ISIN:IN0000000201",
+    "issuerId": "IN:EQISIN:IN0000000201",
+    "symbol": "AARAVSYN",
+    "exchange": "NSE",
+    "securityClass": "EQUITY",
+    "heldAsOf": "2026-11-06T05:00:00.000Z",
+    "identityState": "RESOLVED",
+    "securityState": "ACTIVE",
+    "quantities": {
+      "quantity": {
+        "value": 1000,
+        "presence": "PRESENT",
+        "source": {
+          "kind": "OPERATOR_ENTRY",
+          "ref": "portfolio-snapshot",
+          "locator": "row:1"
+        }
+      },
+      "averageCost": {
+        "value": 2400,
+        "presence": "PRESENT",
+        "source": {
+          "kind": "OPERATOR_ENTRY",
+          "ref": "portfolio-snapshot",
+          "locator": "row:1"
+        }
+      },
+      "marketValue": {
+        "value": 2640000,
+        "presence": "PRESENT",
+        "source": {
+          "kind": "DATASET",
+          "ref": "user-portfolio:view"
+        }
+      },
+      "unrealisedGainPct": {
+        "value": 10,
+        "presence": "PRESENT",
+        "source": {
+          "kind": "DERIVED",
+          "ref": "snapshot/unrealised"
+        }
+      }
+    }
+  },
+  "companyAssessmentRef": {
+    "reportId": "bf5a5ed2-fd05-45ee-9029-187eb7837836",
+    "reportKey": "fcf992e0a1316001059cac7caa21335938f2b63b25c986dfb7c50e8cfc376d2f",
+    "artifactVersion": 1,
+    "generatedAt": "2026-11-06T00:00:00.000Z",
+    "adequacy": "SUFFICIENT",
+    "qualityVerdict": "MATERIAL_CONCERNS",
+    "moatClassification": "WIDE",
+    "datasetClass": "SYNTHETIC_REFERENCE",
+    "datasetVersion": "sha256:a61333504911328e41a10d2456b6fb9807f358e1f55aed0a5de575b36684c4ca",
+    "contentDigest": "sha256:a61333504911328e41a10d2456b6fb9807f358e1f55aed0a5de575b36684c4ca",
+    "dataAsOf": "2026-03-31",
+    "knownAsOf": "2026-11-06T00:00:00.000Z",
+    "modelVersion": "assessment-engine/1.0.0",
+    "policyVersion": "valuation-policy/1.0.0"
+  },
+  "portfolioContext": {
+    "portfolioRevision": 3,
+    "asOf": "2026-11-06T05:00:00.000Z",
+    "holdingsMeasured": 1,
+    "holdingsUnresolved": 1,
+    "holdingsOutOfScope": 0,
+    "measuredWeightPct": 60,
+    "unmeasuredWeightPct": {
+      "value": 40,
+      "presence": "PRESENT",
+      "source": {
+        "kind": "DERIVED",
+        "ref": "disposition/portfolio-context"
+      },
+      "note": "100 % minus the published weight sum; never a fabricated zero"
+    },
+    "weightPct": {
+      "value": 60,
+      "presence": "PRESENT",
+      "source": {
+        "kind": "DATASET",
+        "ref": "user-portfolio:view"
+      }
+    },
+    "companyExposurePct": {
+      "value": 0,
+      "presence": "PRESENT",
+      "source": {
+        "kind": "DERIVED",
+        "ref": "disposition/portfolio-context"
+      },
+      "note": "issuer exposure across every listed security of that issuer"
+    },
+    "sectorExposurePct": {
+      "value": 0,
+      "presence": "PRESENT",
+      "source": {
+        "kind": "DERIVED",
+        "ref": "disposition/portfolio-context"
+      },
+      "note": "over holdings with a known sector (0.00% of weight)"
+    },
+    "sectorMeasuredWeightPct": {
+      "value": 0,
+      "presence": "PRESENT",
+      "source": {
+        "kind": "DERIVED",
+        "ref": "disposition/portfolio-context"
+      }
+    },
+    "topHoldingWeightPct": {
+      "value": 60,
+      "presence": "PRESENT",
+      "source": {
+        "kind": "DERIVED",
+        "ref": "disposition/portfolio-context"
+      }
+    },
+    "concentrationBand": {
+      "value": null,
+      "presence": "NOT_COMPUTABLE",
+      "reason": "POLICY_INPUTS_UNAVAILABLE",
+      "note": "no concentration band policy is applied in this phase; the weight is reported instead"
+    },
+    "countBasedSectorExposure": {},
+    "countBasedConcentrationPct": 0,
+    "diversificationBand": null,
+    "correlationFlags": [],
+    "sectorReferenceContext": {
+      "evidenceClass": "SECTOR_REFERENCE",
+      "sector": "Technology",
+      "normalizedHolding": null,
+      "note": "CSIP sector reference is not available for user-portfolio holdings in this phase; this block is labelled context and governs nothing"
+    },
+    "notes": [
+      "sector references cover 0.00% of 60.00% measured weight; the sector exposure below covers only the holdings whose sector is known",
+      "count-based sector exposure and concentration are holding COUNTS, not weights; they are labelled context and drive no verb",
+      "a count-based diversification band and correlation coefficients are NOT computed in this phase: the frozen CSIP engines score holdings from normalized sector-engine outputs that a user portfolio does not carry, and no score is invented here",
+      "1 active holding(s) have unresolved identity and contribute 40.00% of unmeasured weight",
+      "security-class (equity vs other) coverage is not published by the portfolio read model; out-of-scope counts are 0, not zero holdings"
+    ]
+  },
+  "disposition": {
+    "verb": "AVOID",
+    "confidence": 0.674,
+    "horizon": "SHORT_TERM",
+    "adequacy": "SUFFICIENT",
+    "withheld": null,
+    "gates": [
+      {
+        "gateId": "G-1_IDENTITY",
+        "outcome": "PASS",
+        "detail": "RESOLVED + EQUITY (IN:ISIN:IN0000000201)"
+      },
+      {
+        "gateId": "G-2_SECURITY_STATE",
+        "outcome": "PASS",
+        "detail": "securityState=ACTIVE"
+      },
+      {
+        "gateId": "G-3_EVIDENCE_ADEQUACY",
+        "outcome": "PASS",
+        "detail": "adequacy=SUFFICIENT"
+      },
+      {
+        "gateId": "G-4_VALUATION",
+        "outcome": "SKIP",
+        "detail": "valuation withheld, but an independently evidenced trigger permits a negative verb"
+      },
+      {
+        "gateId": "G-5_PORTFOLIO_CONTEXT",
+        "outcome": "PASS",
+        "detail": "weight=60.00% sectorExposure=0.00%"
+      },
+      {
+        "gateId": "G-6_POLICY_CAPACITY",
+        "outcome": "PASS",
+        "detail": "limits policy resolved; caps evaluated at the projected band"
+      }
+    ],
+    "capsApplied": [],
+    "policyVersion": "disposition-policy/1.0.0",
+    "definitionApplied": "The evidence no longer supports continued ownership. This is not an instruction to sell, and implies no timing, price or quantity."
+  },
+  "interpretation": {
+    "nature": "INVESTMENT_ASSESSMENT",
+    "notAnInstruction": "This is an investment assessment, not a trade instruction, order, or recommendation to transact at a price or time.",
+    "noExecutionPath": true,
+    "verbsMean": {
+      "RETAIN": "Continue to own at approximately the current weight; nothing in the evidence justifies changing it.",
+      "ACCUMULATE": "Increase exposure toward a higher target band because price is below assessed intrinsic value by more than policy requires, and the company passes the quality and evidence tests.",
+      "REDUCE": "Decrease exposure toward a lower target band while continuing to own, because price exceeds assessed value, the position exceeds a limit, or a specific deterioration has occurred.",
+      "AVOID": "The evidence no longer supports continued ownership. This is not an instruction to sell, and implies no timing, price or quantity.",
+      "INITIATE": "Meets the same evidence tests as ACCUMULATE, from a zero position, and fits within the sector limit.",
+      "WATCH": "No disqualifying condition, but the evidence or the price does not yet justify a position.",
+      "AVOID_CANDIDATE": "Fails the minimum investment criteria; the evidence does not support initiating a position."
+    }
+  },
+  "limits": {
+    "policyVersion": "limits-policy/1.0.0+system-default",
+    "effectiveFrom": "1970-01-01T00:00:00.000Z",
+    "basis": "SYSTEM_DEFAULT",
+    "singleNameMaxPct": 10,
+    "sectorMaxPct": {
+      "DEFAULT": 30
+    },
+    "defaultSectorMaxPct": 30,
+    "digest": "089a3e88166f9d98eb151a5ca88ec93766dadcc5356aad99e0e20a996944ae47",
+    "applied": [
+      {
+        "limitId": "SINGLE_NAME_MAX",
+        "scope": "SINGLE_SECURITY",
+        "capPct": 10,
+        "basis": "SYSTEM_DEFAULT",
+        "policyVersion": "limits-policy/1.0.0+system-default",
+        "effectiveFrom": "1970-01-01T00:00:00.000Z",
+        "measuredPct": 60,
+        "projectedPct": 75,
+        "breached": true
+      },
+      {
+        "limitId": "SECTOR_MAX",
+        "scope": "Technology",
+        "capPct": 30,
+        "basis": "SYSTEM_DEFAULT",
+        "policyVersion": "limits-policy/1.0.0+system-default",
+        "effectiveFrom": "1970-01-01T00:00:00.000Z",
+        "measuredPct": 0,
+        "projectedPct": 15,
+        "breached": false
+      }
+    ],
+    "notes": [
+      "no operator limits policy is configured; system defaults applied and labelled as such"
+    ]
+  },
+  "rationale": [
+    {
+      "rationaleId": "rat-quality-verdict",
+      "claim": "Quality verdict is MATERIAL_CONCERNS with 1 HIGH-severity flag(s)",
+      "direction": "COUNTERS",
+      "category": "QUALITY",
+      "weight": 0.8,
+      "evidenceIds": [
+        "assessment:quality"
+      ],
+      "observationRefs": [
+        "quality.verdict"
+      ]
+    },
+    {
+      "rationaleId": "rat-moat-classification",
+      "claim": "Moat classification is WIDE with an ROIC−WACC spread of +19.96%",
+      "direction": "SUPPORTS",
+      "category": "MOAT",
+      "weight": 0.6,
+      "evidenceIds": [
+        "MOAT-PRICING-POWER-GROSS-MARGIN"
+      ],
+      "observationRefs": [
+        "MOAT-PRICING-POWER-GROSS-MARGIN"
+      ]
+    },
+    {
+      "rationaleId": "rat-risk-none-material",
+      "claim": "No unresolved risk factor reaches severity 3 in the stored assessment",
+      "direction": "SUPPORTS",
+      "category": "RISK",
+      "weight": 0.4,
+      "evidenceIds": [
+        "assessment:risk"
+      ],
+      "observationRefs": [
+        "risk.factors"
+      ]
+    },
+    {
+      "rationaleId": "rat-dividend-verdict",
+      "claim": "Dividend verdict is COVERED",
+      "direction": "SUPPORTS",
+      "category": "DIVIDEND",
+      "weight": 0.4,
+      "evidenceIds": [
+        "EV-DIVIDEND-RECONCILIATION"
+      ],
+      "observationRefs": [
+        "dpsDeclared",
+        "dpsImplied"
+      ]
+    },
+    {
+      "rationaleId": "rat-portfolio-weight",
+      "claim": "The position is 60.00% of measured portfolio value and its sector is 0.00%",
+      "direction": "SUPPORTS",
+      "category": "PORTFOLIO",
+      "weight": 0.5,
+      "evidenceIds": [
+        "pf:weight:IN:ISIN:IN0000000201"
+      ],
+      "observationRefs": [
+        "portfolioContext.weightPct",
+        "portfolioContext.sectorExposurePct"
+      ]
+    },
+    {
+      "rationaleId": "rat-portfolio-unmeasured",
+      "claim": "1 unresolved holding(s) contribute 40.00% of unmeasured weight; every percentage here is of MEASURED value",
+      "direction": "COUNTERS",
+      "category": "DATA",
+      "weight": 0.3,
+      "evidenceIds": [
+        "pf:weight:IN:ISIN:IN0000000201"
+      ],
+      "observationRefs": [
+        "portfolioContext.unmeasuredWeightPct"
+      ]
+    }
+  ],
+  "falsifiers": [
+    {
+      "statement": "A margin-of-safety move across the policy threshold would change this view",
+      "trigger": "mosVsMid crosses 15% or -10% by more than the hysteresis margin",
+      "observation": "assessment.valuation.marginOfSafety.mosVsMid"
+    },
+    {
+      "statement": "An unresolved risk factor escalating to severity 5, or a new severity ≥ 4 factor, reclassifies immediately",
+      "trigger": "risk.factors[].severity ≥ 4 with status NEW or UNRESOLVED",
+      "observation": "assessment.risk.factors"
+    },
+    {
+      "statement": "Resolution or restatement of the disqualifying fact, with SUFFICIENT evidence, would withdraw AVOID",
+      "trigger": "the cited disqualifier no longer holds in a later as-filed version",
+      "observation": "assessment.quality.verdict + assessment.risk.factors"
+    }
+  ],
+  "portfolioImplication": {
+    "kind": "TARGET_WEIGHT_BAND",
+    "currentWeightPct": {
+      "value": 60,
+      "presence": "PRESENT",
+      "source": {
+        "kind": "DATASET",
+        "ref": "user-portfolio:view"
+      }
+    },
+    "impliedTargetWeightBand": null,
+    "bandBasis": "AVOID: the evidence does not support continued ownership, so no target exposure is asserted (R-10 replaced [0,0])",
+    "projectedSectorExposurePct": {
+      "value": null,
+      "presence": "MISSING",
+      "reason": "POLICY_INPUTS_UNAVAILABLE",
+      "note": "sector exposure or band unavailable"
+    },
+    "projectedSingleNamePct": {
+      "value": null,
+      "presence": "MISSING",
+      "reason": "POLICY_INPUTS_UNAVAILABLE",
+      "note": "no band is asserted, so no projected weight exists"
+    },
+    "projectedTopHoldingPct": {
+      "value": null,
+      "presence": "MISSING",
+      "reason": "POLICY_INPUTS_UNAVAILABLE",
+      "note": "no band is asserted"
+    },
+    "deltaNotes": [
+      "limits in force: single-name 10% (SYSTEM_DEFAULT), sector 30% for Technology (SYSTEM_DEFAULT), policy limits-policy/1.0.0+system-default",
+      "MoS threshold for an exposure increase is 15%; the band is evidence-implied, not a target the product recommends",
+      "AVOID asserts no target exposure; the absence of a band is the statement"
+    ],
+    "notAnInstruction": "This is a decision-support implication, not an order or a trade instruction."
+  },
+  "review": {
+    "nextReviewOn": null,
+    "triggers": [
+      {
+        "triggerId": "TRG-NEXT-DATASET",
+        "condition": "re-evaluated for every position at the next dataset version",
+        "armed": true
+      },
+      {
+        "triggerId": "TRG-MOS-BAND",
+        "condition": "MoS crossing ±15% / −10% / −25% by more than the hysteresis margin",
+        "armed": true
+      },
+      {
+        "triggerId": "TRG-RISK-SEVERITY",
+        "condition": "a new or escalated risk factor at severity ≥ 4",
+        "armed": true
+      }
+    ]
+  },
+  "evidence": [
+    {
+      "evidenceId": "pf:weight:IN:ISIN:IN0000000201",
+      "claim": "Value-weighted portfolio weight and sector exposure for IN:ISIN:IN0000000201",
+      "source": {
+        "kind": "DATASET",
+        "ref": "portfolio-snapshot:2026-11-06T05:00:00.000Z"
+      }
+    },
+    {
+      "evidenceId": "pf:concentration:IN:ISIN:IN0000000201",
+      "claim": "Count-based CSIP concentration and diversification context (labelled, not verb-driving)",
+      "source": {
+        "kind": "DERIVED",
+        "ref": "csip:portfolio-intelligence+diversification"
+      }
+    },
+    {
+      "evidenceId": "lim:limits-policy/1.0.0+system-default",
+      "claim": "Limits in force: single-name 10%, basis SYSTEM_DEFAULT",
+      "source": {
+        "kind": "POLICY",
+        "ref": "limits-policy:limits-policy/1.0.0+system-default"
+      }
+    },
+    {
+      "evidenceId": "EV-DCF_FCFF",
+      "claim": "DCF_FCFF produced a per-share value from 3 present input(s)",
+      "source": {
+        "kind": "DERIVED",
+        "ref": "DCF_FCFF/1.0.0"
+      }
+    },
+    {
+      "evidenceId": "EV-PE_RELATIVE",
+      "claim": "PE_RELATIVE produced a per-share value from 1 present input(s)",
+      "source": {
+        "kind": "DERIVED",
+        "ref": "PE_RELATIVE/1.0.0"
+      }
+    },
+    {
+      "evidenceId": "EV-EV_EBITDA",
+      "claim": "EV_EBITDA produced a per-share value from 2 present input(s)",
+      "source": {
+        "kind": "DERIVED",
+        "ref": "EV_EBITDA/1.0.0"
+      }
+    },
+    {
+      "evidenceId": "MOAT-PRICING-POWER-GROSS-MARGIN",
+      "claim": "moat dimension evidenced above its policy threshold",
+      "source": {
+        "kind": "DERIVED",
+        "ref": "moat/1.0.0"
+      }
+    },
+    {
+      "evidenceId": "MOAT-COST-POSITION-EBITDA-MARGIN",
+      "claim": "moat dimension evidenced above its policy threshold",
+      "source": {
+        "kind": "DERIVED",
+        "ref": "moat/1.0.0"
+      }
+    },
+    {
+      "evidenceId": "MOAT-RETENTION-RECURRING-REVENUE",
+      "claim": "moat dimension evidenced above its policy threshold",
+      "source": {
+        "kind": "DERIVED",
+        "ref": "moat/1.0.0"
+      }
+    },
+    {
+      "evidenceId": "EV-DIVIDEND-RECONCILIATION",
+      "claim": "dividend sources reconciled with status NOT_COMPARABLE",
+      "source": {
+        "kind": "DERIVED",
+        "ref": "dividend-sustainability/1.0.0"
+      }
+    },
+    {
+      "evidenceId": "assessment:quality",
+      "claim": "citation assessment:quality is carried by the disposition rationale and resolved to a disposition-level reference",
+      "source": {
+        "kind": "DERIVED",
+        "ref": "disposition/rationale-citation"
+      }
+    },
+    {
+      "evidenceId": "assessment:risk",
+      "claim": "citation assessment:risk is carried by the disposition rationale and resolved to a disposition-level reference",
+      "source": {
+        "kind": "DERIVED",
+        "ref": "disposition/rationale-citation"
+      }
+    }
+  ],
+  "limitations": [
+    "L-001",
+    "L-002",
+    "L-003",
+    "L-004",
+    "L-005",
+    "L-006",
+    "L-007",
+    "L-008",
+    "L-009",
+    "L-010",
+    "L-011",
+    "L-012",
+    "L-013",
+    "L-014",
+    "L-015",
+    "L-016",
+    "L-017",
+    "L-018",
+    "L-019",
+    "L-020",
+    "L-021",
+    "L-022",
+    "L-023",
+    "L-024",
+    "L-025"
+  ],
+  "disclosure": {
+    "decisionSupportOnly": true,
+    "noTradeExecution": true,
+    "nonProduction": true
+  }
+}

@@ -711,3 +711,79 @@ dataset identity, and the limitation disclosures.
 - **Do not repair a chain by hand.** Append-only triggers exist for a reason; a tampered or scope-drifted chain
   fails closed on read (`503 investment-artifact-integrity-failure`). Two heads for one scope are refused rather
   than merged (`L-015`); there is no repair tool yet, so treat it as an incident.
+
+---
+
+## 15. Holding dispositions (IID-4) — what the verb means, and what it refuses to do
+
+A **disposition** is a decision-support verdict about one subject: a **held position** (RETAIN / ACCUMULATE / REDUCE /
+AVOID) or a **candidate** with no position (INITIATE / WATCH / AVOID_CANDIDATE). It is not an order, not a size, not a
+price, not a timing. Every stored disposition carries `interpretation.noExecutionPath = true`, and its own
+`portfolioImplication.notAnInstruction` says "This is a decision-support implication, not an order or a trade
+instruction." If you find a disposition without them, it did not come from this phase.
+
+### 15.1 What writes, and what can only read
+
+- **Writes.** Only the operator CLI (`server/investment/cli/disposition-demonstration.ts` today, and the same
+  `createDispositionRecordsService().record()` path in any operator script). Writes go through the existing NP-04
+  boundary via the existing IPD adapter; the IRR code holds no store and no SQL.
+- **Reads.** `GET /api/investment/portfolio/:portfolioId/dispositions`,
+  `GET /api/investment/portfolio/:portfolioId/holding/:securityId`,
+  `GET /api/investment/candidate/:securityId?portfolio=<portfolioId>`. GET and HEAD only; every other method is 405
+  before an owner or a store is even resolved.
+
+### 15.2 Chains
+
+| Subject | Chain scope | Why |
+|---|---|---|
+| Held position | `hd:<portfolioId>/<securityId>` | the chain subject is the POSITION (R-8) |
+| Candidate | `hc:<portfolioId>/<securityId>` or `hc:none/<securityId>` | a candidate has no position, so it cannot be filed on a position chain |
+
+Two securities of one issuer have two chains. A candidate that becomes a holding does **not** graduate by appending:
+it gets a position chain, and the candidate chain stays as history.
+
+### 15.3 Limits policy (do this before trusting a cap)
+
+With no policy file, the caps are **placeholders**: 10 % single-name, 30 % sector, recorded as
+`limits.basis = SYSTEM_DEFAULT` with a version ending `+system-default`. To apply your own:
+
+```json
+{
+  "policyVersion": "limits-policy/2026-11",
+  "effectiveFrom": "2026-11-01",
+  "singleNameMaxPct": 8,
+  "sectorMaxPct": { "DEFAULT": 25, "Technology": 20 }
+}
+```
+
+Write it to `${IIPS_DATA_DIR}/investment/policies/limits-policy.json`. An unreadable or invalid policy **fails
+closed** (`policy_inputs_unavailable`); it never silently becomes the defaults. A policy dated in the future does not
+apply and says so in `limits.notes`.
+
+Caps only ever move a verb **down**: ACCUMULATE → RETAIN on a single-name breach, INITIATE → WATCH on a sector
+breach. They are named in `disposition.capsApplied`, in `limits.applied`, and in the rationale.
+
+### 15.4 Reading a withheld disposition
+
+`disposition.verb = null` with `withheld.reasons` is a **result**, not an error. The reasons are a closed vocabulary:
+`insufficient_data`, `identity_unresolved`, `security_class_excluded`, `security_merged`, `security_delisted`,
+`security_suspended`, `security_state_unknown`, `portfolio_context_unavailable`, `valuation_unavailable`,
+`policy_inputs_unavailable`, `no_verb_conditions_met`. Gates G-1 … G-6 are recorded in order, and gates after the
+first failure are `SKIP` — so the FIRST failing gate is the thing that was actually missing.
+
+### 15.5 What must never be inferred from a disposition
+
+- **A verb is not an instruction.** RETAIN does not mean "hold at any price"; AVOID does not mean "sell now". No
+  verb carries a quantity, a price, a timing or a broker, and `impliedTargetWeightBand` is `null` for AVOID and WATCH
+  on purpose.
+- **A band is evidence-implication, not a target.** Where a band exists it is the exposure the evidence would
+  support; when a cap binds, `deltaNotes` says the cap — not the evidence — is the constraint.
+- **A PARTIAL assessment cannot justify buying.** ACCUMULATE and INITIATE are unavailable at `PARTIAL` adequacy, and
+  no verb at all exists at `INSUFFICIENT`. A blank is correct there (`L-021`).
+- **Weights are of MEASURED value.** Unresolved holdings are `unmeasuredWeightPct`, never zero, and sector exposure
+  covers only holdings whose sector is known (`sectorMeasuredWeightPct`) (`L-018`, `L-022`).
+- **No portfolio risk is implied.** There is no volatility, drawdown, beta or correlation here (`L-017`, `L-027`).
+- **A refresh is a new version.** Content identity covers the generation timestamp, so re-running at a new clock
+  appends a version even with identical evidence; the input digest is what stays equal (`L-014`, `L-026`).
+- **Do not repair a disposition chain by hand.** Same rule as §14.5: a tampered or scope-drifted chain fails closed
+  with 503 and no partial history.

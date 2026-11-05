@@ -1,0 +1,109 @@
+{
+  "baselineMain": "6c49a065a5ae6d797f46482303e6804e478a3840",
+  "branch": "arena/eb43a2a5-iips-review-recovered",
+  "sourcePR": 472,
+  "merged": true,
+  "checks": {
+    "head": [
+      {
+        "name": "Python compile \u00b7 source/evidence/tracker validation",
+        "conclusion": "success",
+        "url": "https://github.com/ramkivs/iips-review-recovered/actions/runs/42105875837/job/127520424243"
+      }
+    ],
+    "merged": [
+      {
+        "name": "Python compile \u00b7 source/evidence/tracker validation",
+        "conclusion": "success",
+        "url": "https://github.com/ramkivs/iips-review-recovered/actions/runs/42106066275/job/127521091338"
+      }
+    ]
+  },
+  "sources": [
+    {
+      "path": "docs/integration/FORMAL-PA-DECISION-ADOPTION-DOCKET-2026-11-06.md",
+      "blob": "cdaa3e1162db36cd5351bddbe1c27d26aa3122d9",
+      "sha256": "fecd58857aa7b946da70c9ccd058f6c090185e6dc544487cbff9886ae73c7c12",
+      "bytes": 60566,
+      "url": "https://github.com/ramkivs/iips-review-recovered/blob/6c49a065a5ae6d797f46482303e6804e478a3840/docs/integration/FORMAL-PA-DECISION-ADOPTION-DOCKET-2026-11-06.md",
+      "exact": true
+    },
+    {
+      "path": "docs/integration/CONSOLIDATED-GATE4-HOLDINGS-IDENTITY-PA-DECISION-PAPER-2026-11-06.md",
+      "blob": "8d97aaa5d2586595e7e72c165dd00ef904d7d03e",
+      "sha256": "b787f7597422ec0fa5e0e26b34ac1de3c176a618d0f4f1b84814c4196ca59390",
+      "bytes": 52785,
+      "url": "https://github.com/ramkivs/iips-review-recovered/blob/6c49a065a5ae6d797f46482303e6804e478a3840/docs/integration/CONSOLIDATED-GATE4-HOLDINGS-IDENTITY-PA-DECISION-PAPER-2026-11-06.md",
+      "exact": true
+    },
+    {
+      "path": "evidence/integration/pa-decision-docket-2026-11-06/docket-register.json",
+      "blob": "6d7b2724fb5de194f55792109ae023fb23702e52",
+      "sha256": "e633b99051c29331ff6ea93a0d56cec4c4da6138a91e99a02f7bf16b312cdae9",
+      "bytes": 51123,
+      "url": "https://github.com/ramkivs/iips-review-recovered/blob/6c49a065a5ae6d797f46482303e6804e478a3840/evidence/integration/pa-decision-docket-2026-11-06/docket-register.json",
+      "exact": true
+    },
+    {
+      "path": "evidence/integration/pa-decision-docket-2026-11-06/baseline.json",
+      "blob": "baf2565bd36004cc3c3e4cc2b4f0b1ec0b80111b",
+      "sha256": "c7b2be70bbbe4e0e77d2313261604dc0237ff52670bde3df86f52aa167512e4a",
+      "bytes": 16117,
+      "url": "https://github.com/ramkivs/iips-review-recovered/blob/6c49a065a5ae6d797f46482303e6804e478a3840/evidence/integration/pa-decision-docket-2026-11-06/baseline.json",
+      "exact": true
+    },
+    {
+      "path": "docs/integration/SAIRAM-DURABLE-HOLDINGS-ARCHITECTURE-READINESS-2026-11-06.md",
+      "blob": "5708098ccbe8a32f59c9a2ad3333baa98337d1db",
+      "sha256": "7521318b9ee26e703b37b01eeb7746f979c6b6d4110bb7d6fbc3c0c7c67589b9",
+      "bytes": 20713,
+      "url": "https://github.com/ramkivs/iips-review-recovered/blob/6c49a065a5ae6d797f46482303e6804e478a3840/docs/integration/SAIRAM-DURABLE-HOLDINGS-ARCHITECTURE-READINESS-2026-11-06.md",
+      "exact": true
+    },
+    {
+      "path": "docs/integration/SAIRAM-DURABLE-HOLDINGS-PA-DECISION-PACKAGE-2026-11-06.md",
+      "blob": "fc39f0fb1d5a85f1a9fe9b9d0497b9df3a113e0d",
+      "sha256": "02ead884305757cce18114a2c3117ac9ed899d7f6013644426e1c0f63676345d",
+      "bytes": 11269,
+      "url": "https://github.com/ramkivs/iips-review-recovered/blob/6c49a065a5ae6d797f46482303e6804e478a3840/docs/integration/SAIRAM-DURABLE-HOLDINGS-PA-DECISION-PACKAGE-2026-11-06.md",
+      "exact": true
+    },
+    {
+      "path": "docs/integration/IIPS_V3_IID_IMPLEMENTATION_ROADMAP_2026-11-05.md",
+      "blob": "a5df62d44d4cf8e4841c3aeb89f9ebff5a1fd649",
+      "sha256": "fa080d4b2063083e803269a0b5218d97fe2d4ec3feea3079be1e7d9abf28eddc",
+      "bytes": 84660,
+      "url": "https://github.com/ramkivs/iips-review-recovered/blob/6c49a065a5ae6d797f46482303e6804e478a3840/docs/integration/IIPS_V3_IID_IMPLEMENTATION_ROADMAP_2026-11-05.md",
+      "exact": true
+    }
+  ],
+  "idsWithZeroPriorOccurrences": [
+    "IIPS-V3-PA-THREE-DECISION-ADOPTION-2026-11-06-01",
+    "IIPS-V3-CAP03-G4-C3-DEFERRAL-2026-11-06-01",
+    "IIPS-V3-G2-PORTFOLIO-REPOSITORY-DESIGNATION-2026-11-06-01",
+    "IIPS-V3-G2-SNAPSHOT-SCOPE-CONFIRMATION-2026-11-06-01"
+  ],
+  "instruction": {
+    "path": "evidence/integration/pa-three-decision-adoption-2026-11-06/PA-INSTRUCTION.txt",
+    "blob": "b4de75b2bb014d481f5f75881bb291889464c118",
+    "sha256": "88893a170091f2fecadcecb6c931927cc87ad3b024cec95bf3e1e8fcca9964e3",
+    "bytes": 3189,
+    "provenance": "Verbatim user PA instruction in this session; no external signature/message ID supplied or fabricated."
+  },
+  "architectureRepository": {
+    "name": "ramkivs/iips-production-market-data",
+    "commit": "07e86a4f2c105651f3097a96cb519f8611945e30",
+    "tree": "7c08725665030730802b631e8cfdf751ea16202a",
+    "access": "read-only metadata; previous source investigation reused"
+  },
+  "excludedRepositoryPolicy": "ipo-screening-engine is outside IIPS architecture and dependency tracking; historical comparisons preserved only, no active dependency or qualification input.",
+  "integrationMain": "6f24c8104a92ad825548fefd20aab2fc7c86198f",
+  "concurrentPublication": {
+    "pr": 473,
+    "merge": "6f24c8104a92ad825548fefd20aab2fc7c86198f",
+    "path": "evidence/iid/IID-4-HOLDING-DISPOSITION-2026-11-06/POST-MERGE-VERIFICATION-2026-11-06.md",
+    "blob": "5d19f08cea0690af79db8751b1f644e6891591b9",
+    "sha256": "e33d5c23c14d8a329e829401f3f2ef0a9302f06fa34556e010fee3c64f649ecc",
+    "scope": "Only IID-4 post-merge verification evidence added; preserve exact bytes; no authority or product-source change."
+  }
+}

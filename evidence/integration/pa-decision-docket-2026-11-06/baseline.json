@@ -1,0 +1,279 @@
+{
+  "repository": "ramkivs/iips-review-recovered",
+  "branch": "arena/4ea09d79-iips-review-recovered",
+  "baselineMain": "6946bee09395364a8a06ffafb1c4ef91c866e340",
+  "baselineTree": "0c8ac647e261d9bf8b7e5b4f6afae1bfc711f7b8",
+  "publicationPR": 470,
+  "publicationMerged": true,
+  "publicationHead": "4455b398d9f48c52794d4c63543d51a6018ecd32",
+  "publicationChecks": {
+    "head": [
+      {
+        "name": "Python compile \u00b7 source/evidence/tracker validation",
+        "conclusion": "success",
+        "url": "https://github.com/ramkivs/iips-review-recovered/actions/runs/42103518108/job/127512217598"
+      }
+    ],
+    "merged": [
+      {
+        "name": "Python compile \u00b7 source/evidence/tracker validation",
+        "conclusion": "success",
+        "url": "https://github.com/ramkivs/iips-review-recovered/actions/runs/42103663356/job/127512728051"
+      }
+    ]
+  },
+  "sourceRecords": [
+    {
+      "path": "docs/integration/CONSOLIDATED-GATE4-HOLDINGS-IDENTITY-PA-DECISION-PAPER-2026-11-06.md",
+      "blob": "2ece641c221f2e8d39bdd317107992a1fbc20f70",
+      "sha256": "54417117b37239acd4fa72a03fea013df52263f9533e75f17fa20c3d988b346f",
+      "bytes": 51032,
+      "url": "https://github.com/ramkivs/iips-review-recovered/blob/6946bee09395364a8a06ffafb1c4ef91c866e340/docs/integration/CONSOLIDATED-GATE4-HOLDINGS-IDENTITY-PA-DECISION-PAPER-2026-11-06.md",
+      "exactRemoteByteReadback": true
+    },
+    {
+      "path": "docs/integration/IIPS_v3.0_G2_DURABLE_USER_PORTFOLIO_ARCHITECTURAL_DECISION.md",
+      "blob": "7e83946b470bcc6f4751fb1a67e832ac66128c5c",
+      "sha256": "c728a634c8566e4607e138e1d84783ca0ad34a0827f5a8928ed54c1bcece5960",
+      "bytes": 9390,
+      "url": "https://github.com/ramkivs/iips-review-recovered/blob/6946bee09395364a8a06ffafb1c4ef91c866e340/docs/integration/IIPS_v3.0_G2_DURABLE_USER_PORTFOLIO_ARCHITECTURAL_DECISION.md",
+      "exactRemoteByteReadback": true
+    },
+    {
+      "path": "docs/integration/IIPS_v3.0_G2_DURABLE_USER_PORTFOLIO_IMPLEMENTATION_RECORD.md",
+      "blob": "8486a5708c6a3f616718a6021afa13508a4227ef",
+      "sha256": "dc8c073e6de6c700eda8c3540b27574899d00e747c5253fca6783c43dee0bcaf",
+      "bytes": 13297,
+      "url": "https://github.com/ramkivs/iips-review-recovered/blob/6946bee09395364a8a06ffafb1c4ef91c866e340/docs/integration/IIPS_v3.0_G2_DURABLE_USER_PORTFOLIO_IMPLEMENTATION_RECORD.md",
+      "exactRemoteByteReadback": true
+    },
+    {
+      "path": "docs/integration/IIPS_v3.0_G2_IRR_DP1_IDENTITY_CREDENTIAL_TRUST_AMENDMENT_2026-10-16.md",
+      "blob": "b21a8a88577b06dfcc8615b433dcdb3fbc6407f9",
+      "sha256": "bc366e01d1d580b31f48f54241b346ec0f014f8ddaa89d3f19d09fe19f11dbfa",
+      "bytes": 27831,
+      "url": "https://github.com/ramkivs/iips-review-recovered/blob/6946bee09395364a8a06ffafb1c4ef91c866e340/docs/integration/IIPS_v3.0_G2_IRR_DP1_IDENTITY_CREDENTIAL_TRUST_AMENDMENT_2026-10-16.md",
+      "exactRemoteByteReadback": true
+    },
+    {
+      "path": "docs/integration/IIPS_v3.0_CAP03_G4_H12_R5_PA_ADOPTION_ACT_EFFECTIVE_2026-10-25.md",
+      "blob": "9f3aa377ab6468e8a27ec2d30bb2fc6d9395e1ff",
+      "sha256": "d29781bc5be47498a12caf00b797d9adbb3f0d55209039aa2755ebbaf8f5c1fd",
+      "bytes": 30278,
+      "url": "https://github.com/ramkivs/iips-review-recovered/blob/6946bee09395364a8a06ffafb1c4ef91c866e340/docs/integration/IIPS_v3.0_CAP03_G4_H12_R5_PA_ADOPTION_ACT_EFFECTIVE_2026-10-25.md",
+      "exactRemoteByteReadback": true
+    },
+    {
+      "path": "docs/integration/IIPS_v3.0_CAP03_DQ6B_PA_DECISION_PATH_A_EFFECTIVE_2026-10-25.md",
+      "blob": "b41c76f7ddbacc0caa0a86877561a83d2ba1c2a6",
+      "sha256": "c82c569ad8830ed8c69e44d765a7afc765bab39846e6f916ea21a16933a44b1a",
+      "bytes": 23808,
+      "url": "https://github.com/ramkivs/iips-review-recovered/blob/6946bee09395364a8a06ffafb1c4ef91c866e340/docs/integration/IIPS_v3.0_CAP03_DQ6B_PA_DECISION_PATH_A_EFFECTIVE_2026-10-25.md",
+      "exactRemoteByteReadback": true
+    },
+    {
+      "path": "docs/integration/IIPS_v3.0_CAP02_U1_AMEND_01_EVIDENCE_RETRIEVAL_ROUTE_PA_DECISION_ACT_2026-11-05.md",
+      "blob": "d39f28bad785f0b342e2bc5a554a497165f5ace1",
+      "sha256": "45a2be64ce2789014936821fc53051a508c44c4aff89d96c6676ccff7ca90d6a",
+      "bytes": 75696,
+      "url": "https://github.com/ramkivs/iips-review-recovered/blob/6946bee09395364a8a06ffafb1c4ef91c866e340/docs/integration/IIPS_v3.0_CAP02_U1_AMEND_01_EVIDENCE_RETRIEVAL_ROUTE_PA_DECISION_ACT_2026-11-05.md",
+      "exactRemoteByteReadback": true
+    },
+    {
+      "path": "docs/integration/IIPS_v3.0_CAP02_U1_AMEND_02_LIVE_EVIDENCE_RETENTION_PA_ADOPTION_ACT_2026-11-05.md",
+      "blob": "1701a45935cb333116b55831d5796d36caea8ac8",
+      "sha256": "38d6bdc7b209168235d515486fc82685cd54f467e97e33918ef39a034e5d5424",
+      "bytes": 12156,
+      "url": "https://github.com/ramkivs/iips-review-recovered/blob/6946bee09395364a8a06ffafb1c4ef91c866e340/docs/integration/IIPS_v3.0_CAP02_U1_AMEND_02_LIVE_EVIDENCE_RETENTION_PA_ADOPTION_ACT_2026-11-05.md",
+      "exactRemoteByteReadback": true
+    },
+    {
+      "path": "docs/integration/WS-A-LIVE-EVIDENCE-RETENTION-PUBLICATION-RECEIPT-2026-11-05.md",
+      "blob": "5497d9ee4ec7c9e0d979fa2768992456364708ed",
+      "sha256": "3da28f9bc0cfa57252ac52ab8df217d4bdf2f0f96a543f22569435a35907b108",
+      "bytes": 7592,
+      "url": "https://github.com/ramkivs/iips-review-recovered/blob/6946bee09395364a8a06ffafb1c4ef91c866e340/docs/integration/WS-A-LIVE-EVIDENCE-RETENTION-PUBLICATION-RECEIPT-2026-11-05.md",
+      "exactRemoteByteReadback": true
+    },
+    {
+      "path": "docs/integration/WS-A-OWNER-EVIDENCE-RESET-PA-ADOPTION-ACT-2026-11-06.md",
+      "blob": "170146f15982a4f3afec9e839d922f7320c2720a",
+      "sha256": "a24630c95cc01efe2c92be26f555c6a5a2f8a5518fa7aa219265dd766387e65f",
+      "bytes": 8533,
+      "url": "https://github.com/ramkivs/iips-review-recovered/blob/6946bee09395364a8a06ffafb1c4ef91c866e340/docs/integration/WS-A-OWNER-EVIDENCE-RESET-PA-ADOPTION-ACT-2026-11-06.md",
+      "exactRemoteByteReadback": true
+    },
+    {
+      "path": "docs/integration/WS-A-OWNER-EVIDENCE-RESET-IMPLEMENTATION-RECEIPT-2026-11-06.md",
+      "blob": "97f52d2d97044d92694f134e207df5e76d62f2f7",
+      "sha256": "2f1df21acdd69eb0b59d0cf540be81e3bab40842fc6f96d11e4556e049199ebc",
+      "bytes": 7989,
+      "url": "https://github.com/ramkivs/iips-review-recovered/blob/6946bee09395364a8a06ffafb1c4ef91c866e340/docs/integration/WS-A-OWNER-EVIDENCE-RESET-IMPLEMENTATION-RECEIPT-2026-11-06.md",
+      "exactRemoteByteReadback": true
+    },
+    {
+      "path": "docs/integration/IIPS_V3_IID_IMPLEMENTATION_ROADMAP_2026-11-05.md",
+      "blob": "c7efeaf86ff367e4c26533a99ad38804a06c3294",
+      "sha256": "a46bf9b41f7a5ccbe0e092186b4275e9ccf02a910880fe2379071f0f1a08b3d0",
+      "bytes": 78779,
+      "url": "https://github.com/ramkivs/iips-review-recovered/blob/6946bee09395364a8a06ffafb1c4ef91c866e340/docs/integration/IIPS_V3_IID_IMPLEMENTATION_ROADMAP_2026-11-05.md",
+      "exactRemoteByteReadback": true
+    },
+    {
+      "path": "docs/integration/IIPS_V3_IID_LIMITATION_AND_COVERAGE_REGISTER_2026-11-06.md",
+      "blob": "e231da4a4fa36e310b7a6ccc0cc63f8f54d39e03",
+      "sha256": "26412b61fe4a219ceefa3a91b8b2c8bd616d6842d8bde05a1750a6239cb390ae",
+      "bytes": 29020,
+      "url": "https://github.com/ramkivs/iips-review-recovered/blob/6946bee09395364a8a06ffafb1c4ef91c866e340/docs/integration/IIPS_V3_IID_LIMITATION_AND_COVERAGE_REGISTER_2026-11-06.md",
+      "exactRemoteByteReadback": true
+    },
+    {
+      "path": "docs/integration/WS-A-G4-QE-H12-PIN-DESIGNATION-DECISION-PACKAGE-2026-11-05.md",
+      "blob": "d95f31207cfc6dc757706619fc57ba17a460c620",
+      "sha256": "4f63e039da3a04f75cc75ed68c099d8e455f4a370306aff88e80625ea73cc261",
+      "bytes": 54089,
+      "url": "https://github.com/ramkivs/iips-review-recovered/blob/6946bee09395364a8a06ffafb1c4ef91c866e340/docs/integration/WS-A-G4-QE-H12-PIN-DESIGNATION-DECISION-PACKAGE-2026-11-05.md",
+      "exactRemoteByteReadback": true
+    },
+    {
+      "path": "docs/integration/SAIRAM-DURABLE-HOLDINGS-PA-DECISION-PACKAGE-2026-11-06.md",
+      "blob": "fc39f0fb1d5a85f1a9fe9b9d0497b9df3a113e0d",
+      "sha256": "02ead884305757cce18114a2c3117ac9ed899d7f6013644426e1c0f63676345d",
+      "bytes": 11269,
+      "url": "https://github.com/ramkivs/iips-review-recovered/blob/6946bee09395364a8a06ffafb1c4ef91c866e340/docs/integration/SAIRAM-DURABLE-HOLDINGS-PA-DECISION-PACKAGE-2026-11-06.md",
+      "exactRemoteByteReadback": true
+    },
+    {
+      "path": "docs/integration/WS-A-DHAN-DETAILED-HOLDINGS-EXTERNAL-DEPENDENCY-2026-11-05.md",
+      "blob": "d28c56a4f196e27926c444c77a55902c2387f8a3",
+      "sha256": "a298d3788e2c3b43cd4377ee71dffdf57b58dd259c2ec30ed4f0b6d8ced5f396",
+      "bytes": 28102,
+      "url": "https://github.com/ramkivs/iips-review-recovered/blob/6946bee09395364a8a06ffafb1c4ef91c866e340/docs/integration/WS-A-DHAN-DETAILED-HOLDINGS-EXTERNAL-DEPENDENCY-2026-11-05.md",
+      "exactRemoteByteReadback": true
+    },
+    {
+      "path": "evidence/integration/gate4-holdings-identity-reconciliation-2026-11-06/decision-register.json",
+      "blob": "ad0a7bbe044c38277e2be333581cb9204d7dede5",
+      "sha256": "3d08269701bb2efc34f526a5817b8312f3f1adba9e5e2803ba162d2997c2bbbb",
+      "bytes": 32328,
+      "url": "https://github.com/ramkivs/iips-review-recovered/blob/6946bee09395364a8a06ffafb1c4ef91c866e340/evidence/integration/gate4-holdings-identity-reconciliation-2026-11-06/decision-register.json",
+      "exactRemoteByteReadback": true
+    },
+    {
+      "path": "evidence/integration/gate4-holdings-identity-reconciliation-2026-11-06/remote-census.json",
+      "blob": "bae5f38ed1afbeb7eb7d4ae8386826e0f0183a49",
+      "sha256": "1251bf6ddf69808a77e4c60e68f32d28316eecb57c9bd19db280917480ff7ad3",
+      "bytes": 57189,
+      "url": "https://github.com/ramkivs/iips-review-recovered/blob/6946bee09395364a8a06ffafb1c4ef91c866e340/evidence/integration/gate4-holdings-identity-reconciliation-2026-11-06/remote-census.json",
+      "exactRemoteByteReadback": true
+    },
+    {
+      "path": "evidence/integration/gate4-holdings-identity-reconciliation-2026-11-06/history-and-iid-readback.json",
+      "blob": "9c203cc4dfb2e583317fc6b625b4b4741916e2db",
+      "sha256": "10c35c393bdfc0b918ef0f68322a846e9d970e5ac8bedabfd848dbd23dec82f7",
+      "bytes": 4425,
+      "url": "https://github.com/ramkivs/iips-review-recovered/blob/6946bee09395364a8a06ffafb1c4ef91c866e340/evidence/integration/gate4-holdings-identity-reconciliation-2026-11-06/history-and-iid-readback.json",
+      "exactRemoteByteReadback": true
+    }
+  ],
+  "readOnlyRepositories": {
+    "ramkivs/iips-production-market-data": {
+      "branch": "main",
+      "commit": "07e86a4f2c105651f3097a96cb519f8611945e30",
+      "tree": "7c08725665030730802b631e8cfdf751ea16202a",
+      "access": "read-only; existing source investigation reused"
+    },
+    "ramkivs/ipo-screening-engine": {
+      "branch": "main",
+      "commit": "d661b5ee99a782566fedcb9aa2b139e756948d27",
+      "tree": "d0fae7b5199ca5ca2e5d099cbfe31076f8af7ca6",
+      "access": "read-only; existing source investigation reused"
+    }
+  },
+  "newPADecisionsSupplied": [],
+  "scope": "Prompt 6 adoption workflow only; no implementation, new decision or broad reinvestigation.",
+  "integrationMain": "bc0de0ea9702a4b6a34138db4fbe9ec81bc0f688",
+  "concurrentIID4": {
+    "pr": 471,
+    "head": "f21993c1db736816438eb4230a37198a4c661acd",
+    "merge": "bc0de0ea9702a4b6a34138db4fbe9ec81bc0f688",
+    "changedPaths": [
+      "docs/OPERATOR_RUNBOOK.md",
+      "docs/integration/IIPS_V3_IID_IMPLEMENTATION_ROADMAP_2026-11-05.md",
+      "docs/integration/IIPS_V3_IID_LIMITATION_AND_COVERAGE_REGISTER_2026-11-06.md",
+      "evidence/iid/IID-4-HOLDING-DISPOSITION-2026-11-06/ACCEPTANCE-MATRIX.md",
+      "evidence/iid/IID-4-HOLDING-DISPOSITION-2026-11-06/IID-4-COMPLETION-REPORT.md",
+      "evidence/iid/IID-4-HOLDING-DISPOSITION-2026-11-06/INDEPENDENT-VERIFICATION.md",
+      "evidence/iid/IID-4-HOLDING-DISPOSITION-2026-11-06/LIMITATION-IMPACT.md",
+      "evidence/iid/IID-4-HOLDING-DISPOSITION-2026-11-06/README.md",
+      "evidence/iid/IID-4-HOLDING-DISPOSITION-2026-11-06/TEST-RUN.md",
+      "evidence/iid/IID-4-HOLDING-DISPOSITION-2026-11-06/demo/candidate-payload.json",
+      "evidence/iid/IID-4-HOLDING-DISPOSITION-2026-11-06/demo/held-payload.json",
+      "evidence/iid/IID-4-HOLDING-DISPOSITION-2026-11-06/demo/iid4-disposition-demonstration.json",
+      "frontend/server/executive-transport.ts",
+      "frontend/server/investment/cli/disposition-demonstration.ts",
+      "frontend/server/investment/disposition-composition.test.ts",
+      "frontend/server/investment/disposition-records.test.ts",
+      "frontend/server/investment/disposition-transport.test.ts",
+      "frontend/server/investment/disposition-transport.ts",
+      "frontend/server/investment/dispositionComposition.ts",
+      "frontend/server/investment/dispositionService.ts",
+      "frontend/server/investment/dispositionTestFixtures.ts",
+      "frontend/server/investment/investmentArtifacts.ts",
+      "frontend/server/investment/portfolio-context.test.ts",
+      "frontend/server/investment/portfolioContext.ts",
+      "iips-platform/src/investment/artifacts/scopeToken.ts",
+      "iips-platform/src/investment/disposition/engine.ts",
+      "iips-platform/src/investment/disposition/gates.ts",
+      "iips-platform/src/investment/disposition/index.ts",
+      "iips-platform/src/investment/disposition/limits.ts",
+      "iips-platform/src/investment/disposition/policy.ts",
+      "iips-platform/src/investment/disposition/portfolioImplication.ts",
+      "iips-platform/src/investment/disposition/rationale.ts",
+      "iips-platform/src/investment/disposition/subject.ts",
+      "iips-platform/src/investment/disposition/types.ts",
+      "iips-platform/src/investment/disposition/verbs.ts",
+      "iips-platform/tests/investment/disposition-behaviour.test.ts",
+      "iips-platform/tests/investment/disposition-limits.test.ts",
+      "iips-platform/tests/investment/disposition-matrix.test.ts",
+      "iips-platform/tests/investment/disposition-portfolio.test.ts",
+      "iips-platform/tests/investment/disposition-rationale.test.ts",
+      "iips-platform/tests/investment/disposition-subject.test.ts",
+      "iips-platform/tests/investment/dispositionFixtures.ts"
+    ],
+    "sourceRecords": [
+      {
+        "path": "docs/integration/IIPS_V3_IID_IMPLEMENTATION_ROADMAP_2026-11-05.md",
+        "blob": "a5df62d44d4cf8e4841c3aeb89f9ebff5a1fd649",
+        "sha256": "fa080d4b2063083e803269a0b5218d97fe2d4ec3feea3079be1e7d9abf28eddc",
+        "exactRemoteByteReadback": true
+      },
+      {
+        "path": "docs/integration/IIPS_V3_IID_LIMITATION_AND_COVERAGE_REGISTER_2026-11-06.md",
+        "blob": "8633acba7231c1e1eb411bb29c7598a104ab1786",
+        "sha256": "40eaa9e1c1dd3970a9b674b731cecb35570c1b9b2ed0971413895fcae04e5b21",
+        "exactRemoteByteReadback": true
+      },
+      {
+        "path": "evidence/iid/IID-4-HOLDING-DISPOSITION-2026-11-06/INDEPENDENT-VERIFICATION.md",
+        "blob": "f4e0504d86b5609221d6567100b508efb4c9048d",
+        "sha256": "88542fdd2ddb61644f79bb96bcfde7866c91a96926021bad4aa7e54ec3351c05",
+        "exactRemoteByteReadback": true
+      },
+      {
+        "path": "evidence/iid/IID-4-HOLDING-DISPOSITION-2026-11-06/LIMITATION-IMPACT.md",
+        "blob": "9d2e87814fabcca13e2b09ba79a2f7bda7cfcae6",
+        "sha256": "f7b89c419e8d9dc402ef6c36c5307d50767f48b2c19bd78572fbb31b0816b94a",
+        "exactRemoteByteReadback": true
+      }
+    ],
+    "headCheckRuns": [
+      {
+        "name": "Typecheck \u00b7 Test \u00b7 Build",
+        "conclusion": "success",
+        "url": "https://github.com/ramkivs/iips-review-recovered/actions/runs/42105059021/job/127517551163"
+      }
+    ],
+    "finding": "IID-4 NOT STARTED at #470, now MERGED from independently authorized concurrent #471; IID-5/6 NOT STARTED. Preserve all 42 paths; no IID implementation by Prompt 6. L-017\u2013L-027 added, L-001\u2013L-016 statuses unchanged. Branch verification artifact is pre-merge evidence, not a merged-main rerun."
+  }
+}

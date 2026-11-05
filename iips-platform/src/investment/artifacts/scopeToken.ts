@@ -169,7 +169,13 @@ export const REPORT_TYPE_REGISTRY = Object.freeze({
   }),
   'investment.holding-disposition': Object.freeze({
     subjectKind: 'HOLDING',
+    /**
+     * `hd:` names a HELD position's disposition chain; `hc:` names a CANDIDATE's (R-8 — a candidate has no
+     * position, so it cannot be filed on a position chain). The first prefix stays the canonical one for
+     * routing; `admissiblePrefixes` is the closed set the binding check accepts.
+     */
     scopePrefix: 'hd',
+    admissiblePrefixes: Object.freeze(['hd', 'hc'] as const),
     routeSegment: 'holding',
   }),
   'investment.change-report': Object.freeze({
@@ -191,9 +197,10 @@ export function isRegisteredReportType(value: unknown): value is ReportType {
 
 /** The report type a scope prefix may be used with. Closed: an unknown prefix has no report type. */
 export function reportTypeForPrefix(prefix: ScopeTokenPrefix): ReportType {
-  const entry = (Object.keys(REPORT_TYPE_REGISTRY) as ReportType[]).find(
-    (type) => REPORT_TYPE_REGISTRY[type].scopePrefix === prefix,
-  );
+  const entry = (Object.keys(REPORT_TYPE_REGISTRY) as ReportType[]).find((type) => {
+    const registration: { scopePrefix: string; admissiblePrefixes?: readonly string[] } = REPORT_TYPE_REGISTRY[type];
+    return registration.scopePrefix === prefix || (registration.admissiblePrefixes ?? []).includes(prefix);
+  });
   if (entry === undefined) {
     throw new ScopeTokenError(`no report type registered for prefix "${prefix}"`, 'UNRECOGNISED_PREFIX', prefix);
   }
@@ -213,12 +220,14 @@ export function validateReportTypeForScope(
   if (!scope.ok) {
     return { ok: false, reason: scope.reason, detail: scope.detail };
   }
-  const expected = REPORT_TYPE_REGISTRY[reportType].scopePrefix;
-  if (scope.prefix !== expected) {
+  const registration: { scopePrefix: string; admissiblePrefixes?: readonly string[] } =
+    REPORT_TYPE_REGISTRY[reportType];
+  const expected = registration.admissiblePrefixes ?? [registration.scopePrefix];
+  if (!expected.includes(scope.prefix)) {
     return {
       ok: false,
       reason: 'REPORT_TYPE_SCOPE_MISMATCH',
-      detail: `report type "${reportType}" requires a "${expected}:" scope, received "${scope.prefix}:"`,
+      detail: `report type "${reportType}" requires a ${expected.map((p) => `"${p}:"`).join(' or ')} scope, received "${scope.prefix}:"`,
     };
   }
   return { ok: true, reportType, scope };
