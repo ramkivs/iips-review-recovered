@@ -1,0 +1,3 @@
+PASS actual owner TTY: plan / execute / independent CLI status; final CANCEL preserves active + copy
+PASS actual owner TTY: plan / execute / independent CLI status; final CONFIRM clears active; copy retained
+PASS: synthetic fixtures only, automatically disposed; no operational reset

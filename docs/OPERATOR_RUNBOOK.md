@@ -518,3 +518,110 @@ The simplest proposed future model is an offline, whole-file scope-checked, owne
 verified retained local recovery copy and minimal deletion-fact receipt. That is **only a proposal**.
 No new removal command is provided here. Existing indefinite/explicit-owner-only policy, locality,
 backup protection, owner isolation, digest verification and the 50 MiB warning-only rule remain intact.
+
+## 13. Effective owner-controlled offline active-evidence reset (2026-11-06)
+
+Later overlay to §12's historical proposal status: authority is EFFECTIVE under
+`IIPS-V3-CAP02-OWNER-EVIDENCE-RESET-2026-11-06-01`, published through #459/#460.
+The bounded implementation and isolated verification are described in
+`docs/integration/WS-A-OWNER-EVIDENCE-RESET-IMPLEMENTATION-2026-11-06.md`.
+This is **all active broker evidence**, not one import and **not permanent erasure**.
+Original bytes remain in the retained recovery copy; restoring an old copy, stale-client
+submission or new import can resurrect evidence. Indefinite retention remains until explicit reset.
+
+### 13.1 Supported operating envelope and preflight
+
+- Owner-operated local terminal only; Linux, Node 22 with installed existing frontend dependencies.
+  Supported filesystem type checks: ext, XFS, btrfs, overlay. Actual qualification here was Linux
+  overlay in isolated fixtures; the allowlist is not certification of every mount/provider.
+  Windows/macOS, network/FUSE/unrecognized filesystems fail closed; no Windows readiness claim.
+- A filesystem type alone cannot identify cloud synchronization, snapshots or other writers.
+  **All hosts/writers must be stopped**, stale browser imports closed, and local/no-sync storage
+  explicitly attested on every command. These are enforced operator declarations, not process
+  discovery, OS authentication, ACL inspection or a cross-process lock. Never use concurrently.
+- Configure the exact existing owner directory and server-owned canonical carrier. No default data
+  directory, owner/SAIRAM argument, arbitrary target, backup path, environment-only confirmation or
+  remote deletion exists. Target is exclusively `IIPS_DATA_DIR/journal.ndjson`, outside Git.
+- Directories must be owned by the executing OS user with mode 0700; journal/carrier/control files
+  must be regular, single-linked, same-OS-user-owned mode 0600. Ancestors must be trusted and not
+  unprotected writable directories; root-owned sticky `/tmp` is allowed for fixtures. Symlinks,
+  hardlinks, aliases, foreign/mixed journals, unknown grammar or bad digests are refused.
+  Do not blindly chown/chmod a foreign store or alter carrier bytes to evade refusal. Have the
+  legitimate local owner resolve access/storage issues separately and obtain a new plan.
+- Raw inspection ceiling is 256 MiB per journal/copy; larger files are unsupported by this tool,
+  **not a retention quota or an automatic purge trigger**. No PF-1 constructor is used by planning.
+- No fsync, power-loss atomicity, secure-media erasure, all-backup deletion, production activation
+  or permanent-ID suppression is implemented. Hashes are integrity checks, not signatures against
+  an actor who can rewrite both data and hashes. Keep local plans/audits/copies private and retained.
+
+### 13.2 Exact owner-operated procedure (not executed on operational evidence by this task)
+
+From the repository's `frontend` directory, using the already installed locked dependencies:
+
+```sh
+export IIPS_DATA_DIR='/absolute/canonical/private/owner-data-directory'
+export IIPS_BROKER_EVIDENCE_OWNER_PATH='/absolute/canonical/private/broker-evidence-owner-context.json'
+node --import tsx server/broker-import/ownerEvidenceResetCli.ts plan
+```
+
+Type the displayed owner/quiescence/no-sync/stale-browser attestation exactly. Describe other retained
+copies, or `NONE_KNOWN` when none are known (not a claim of exhaustive discovery). Repeat that exact
+metadata response for this operation's subsequent commands. The planner inventories all recovery
+copies in its own control directory; external copy declarations are metadata, never deletion targets.
+Review the **entire** printed plan: owner/tenant, exact target, source identity (device/inode/size/time),
+records/events/bytes/SHA-256, carrier binding, existing copies, unique retained-copy path and plan hash.
+The journal inspection itself is read-only; saving a private plan writes only maintenance metadata.
+
+```sh
+node --import tsx server/broker-import/ownerEvidenceResetCli.ts execute OPERATION_UUID_FROM_PLAN
+```
+
+After the fresh attestation/disclosure, type the displayed exact phrase:
+`CLEAR ALL ACTIVE EVIDENCE <operation UUID> <plan SHA-256>`.
+This first authorizes preparation. Only after original-byte copy verification and PREPARED audit does
+the terminal ask for the **same exact phrase again immediately before removal**. No default Yes.
+Cancel/EOF/wrong phrase leaves active evidence intact; after preparation it also leaves the recovery
+copy and incomplete audit retained. Stale plans or changed file/identity/census/carrier invalidate the
+attempt. An attempted plan cannot be reused; do not edit the plan/audit to resume it.
+
+The executor creates unique mode-0600 files under private mode-0700
+`IIPS_DATA_DIR/broker-evidence-reset/`: `<UUID>.plan.json`, `<UUID>.recovery.ndjson`,
+`<UUID>.audit.ndjson`. It does not overwrite an existing artifact. Audit phases are
+STARTED → COPY_VERIFIED → PREPARED → CONFIRMED → COMPLETED (or STARTED → NO_OP).
+The audit retains only deletion-fact scope, plan/source hashes, count/bytes, backup basename,
+confirmation fact, phase/outcome/time; no rows, source filenames or import inventory.
+Copy SHA-256, complete raw grammar and record/import digests are checked before the sole active-file
+unlink. Prepared/confirmed audit is read back before unlink. Absence and copy integrity are checked
+before completion is reported. Empty/missing active journal records a confirmed NO_OP; no file removed.
+
+```sh
+node --import tsx server/broker-import/ownerEvidenceResetCli.ts status OPERATION_UUID_FROM_PLAN
+```
+
+### 13.3 Interruption, reconciliation and distinct explicit undo
+
+Keep writers stopped. `status` is read-only, never retries/removes/restores/cleans artifacts.
+- NOT_ATTEMPTED is **not** proof of a reset; a missing active file alone is never success.
+- INCOMPLETE_ACTIVE_UNCHANGED: preserve active + any copy/artifacts. No resume. Only after deliberate
+  reconciliation may the owner make a new plan and new confirmation for a new attempt.
+- INCOMPLETE_ACTIVE_ABSENT_UNKNOWN_NOT_SUCCESS: removal may have occurred, but completion was not
+  established. Keep the verified original copy; do not manufacture a completed receipt or silently retry.
+- INVALID_OR_INTERRUPTED_AUDIT, contradictory/recreated active data, invalid/missing copy, permission
+  refusal or unreadable artifacts: stop, preserve everything, reconcile manually. No false success.
+- COMPLETED_ACTIVE_CLEARED_COPY_RETAINED requires valid ordered completion audit, absent active path
+  and reverified copy. A later recreated/restored journal makes status contradictory, not clear-success.
+  Even a fully completed process-kill case can establish this state only when all these facts survive.
+  This is not a sudden-power-loss guarantee.
+
+Undo requires a **separate explicit local-owner decision**, all writers stopped and no newer active
+history. Verify the retained plan/source hash, record grammar/digests and owner scope again. Do not
+re-import and call it restore. **If any active journal exists, do not overwrite it**; preserve and
+reconcile separately, including a header-only file. For an absent active path only, after explicit
+owner approval and original-copy verification, a local owner can use an exclusive copy, for example
+Python `open(active, 'xb')` with mode 0600, copy the verified recovery bytes, then compare full bytes and
+SHA-256 with the manifest. Never use an overwrite-capable `cp` or restore an unverified/older copy by
+accident. A partial/failed manual restore is not success: preserve it, stop, reconcile; no automatic
+cleanup is authorized. The synthetic acceptance tests demonstrate `COPYFILE_EXCL` original-byte restore
+and refusal to overwrite new history. This release deliberately has **no automated restore command**.
+Restoring the original copy reverses clearing and can expose the old IDs again. Retain the recovery
+copy and audit afterward. Restart only after reconciliation; fresh-host GET absence was tested.
