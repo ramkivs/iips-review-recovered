@@ -1,0 +1,131 @@
+[
+  {
+    "issuer": "IN:ISIN:IN0000000201",
+    "businessKey": "hc:IN:ISIN:IN0000000201|assessment-engine/1.0.0|valuation-policy/1.0.0",
+    "inProcess": [
+      {
+        "ordering": "AS_GIVEN",
+        "payloadSha256": "7035a2ae3f818f93957b8c11d595616017e1601d7f3419f632ae2bd7cc58e3b7",
+        "bytes": 66210
+      },
+      {
+        "ordering": "REVERSED",
+        "payloadSha256": "7035a2ae3f818f93957b8c11d595616017e1601d7f3419f632ae2bd7cc58e3b7",
+        "bytes": 66210
+      },
+      {
+        "ordering": "ROTATED",
+        "payloadSha256": "7035a2ae3f818f93957b8c11d595616017e1601d7f3419f632ae2bd7cc58e3b7",
+        "bytes": 66210
+      }
+    ],
+    "restarts": [
+      {
+        "run": 1,
+        "payloadSha256": "7035a2ae3f818f93957b8c11d595616017e1601d7f3419f632ae2bd7cc58e3b7",
+        "inputDigest": "sha256:3070e61ad1f1343e6b94c1a8ae11ce01c76d6f6172e4d55da96bc2e50a114f52",
+        "bytes": 66210
+      },
+      {
+        "run": 2,
+        "payloadSha256": "7035a2ae3f818f93957b8c11d595616017e1601d7f3419f632ae2bd7cc58e3b7",
+        "inputDigest": "sha256:3070e61ad1f1343e6b94c1a8ae11ce01c76d6f6172e4d55da96bc2e50a114f52",
+        "bytes": 66210
+      },
+      {
+        "run": 3,
+        "payloadSha256": "7035a2ae3f818f93957b8c11d595616017e1601d7f3419f632ae2bd7cc58e3b7",
+        "inputDigest": "sha256:3070e61ad1f1343e6b94c1a8ae11ce01c76d6f6172e4d55da96bc2e50a114f52",
+        "bytes": 66210
+      }
+    ],
+    "identicalAcrossOrderings": true,
+    "identicalAcrossRestarts": true
+  },
+  {
+    "issuer": "IN:ISIN:IN0000000301",
+    "businessKey": "hc:IN:ISIN:IN0000000301|assessment-engine/1.0.0|valuation-policy/1.0.0",
+    "inProcess": [
+      {
+        "ordering": "AS_GIVEN",
+        "payloadSha256": "d4eb4c4d860dea56dc9fc3f0eb07a4da4ca59545ac7376591a2b1a0170ea7b77",
+        "bytes": 35911
+      },
+      {
+        "ordering": "REVERSED",
+        "payloadSha256": "d4eb4c4d860dea56dc9fc3f0eb07a4da4ca59545ac7376591a2b1a0170ea7b77",
+        "bytes": 35911
+      },
+      {
+        "ordering": "ROTATED",
+        "payloadSha256": "d4eb4c4d860dea56dc9fc3f0eb07a4da4ca59545ac7376591a2b1a0170ea7b77",
+        "bytes": 35911
+      }
+    ],
+    "restarts": [
+      {
+        "run": 1,
+        "payloadSha256": "d4eb4c4d860dea56dc9fc3f0eb07a4da4ca59545ac7376591a2b1a0170ea7b77",
+        "inputDigest": "sha256:f5fec798ec42261e0249aa02d4ad9e3e531e0a652c091a0b51b55a10e75eb5ca",
+        "bytes": 35911
+      },
+      {
+        "run": 2,
+        "payloadSha256": "d4eb4c4d860dea56dc9fc3f0eb07a4da4ca59545ac7376591a2b1a0170ea7b77",
+        "inputDigest": "sha256:f5fec798ec42261e0249aa02d4ad9e3e531e0a652c091a0b51b55a10e75eb5ca",
+        "bytes": 35911
+      },
+      {
+        "run": 3,
+        "payloadSha256": "d4eb4c4d860dea56dc9fc3f0eb07a4da4ca59545ac7376591a2b1a0170ea7b77",
+        "inputDigest": "sha256:f5fec798ec42261e0249aa02d4ad9e3e531e0a652c091a0b51b55a10e75eb5ca",
+        "bytes": 35911
+      }
+    ],
+    "identicalAcrossOrderings": true,
+    "identicalAcrossRestarts": true
+  },
+  {
+    "issuer": "IN:ISIN:IN0000000401",
+    "businessKey": "hc:IN:ISIN:IN0000000401|assessment-engine/1.0.0|valuation-policy/1.0.0",
+    "inProcess": [
+      {
+        "ordering": "AS_GIVEN",
+        "payloadSha256": "6508750ec70fd0a3137f3cd267a2ebf6da64ff8d89bbcfd2eb4b07a2552dce40",
+        "bytes": 12938
+      },
+      {
+        "ordering": "REVERSED",
+        "payloadSha256": "6508750ec70fd0a3137f3cd267a2ebf6da64ff8d89bbcfd2eb4b07a2552dce40",
+        "bytes": 12938
+      },
+      {
+        "ordering": "ROTATED",
+        "payloadSha256": "6508750ec70fd0a3137f3cd267a2ebf6da64ff8d89bbcfd2eb4b07a2552dce40",
+        "bytes": 12938
+      }
+    ],
+    "restarts": [
+      {
+        "run": 1,
+        "payloadSha256": "6508750ec70fd0a3137f3cd267a2ebf6da64ff8d89bbcfd2eb4b07a2552dce40",
+        "inputDigest": "sha256:18be9cd7ec8e0eb14b48a6aab2520c18578be823c231c4a1d567ffd0fd655a1a",
+        "bytes": 12938
+      },
+      {
+        "run": 2,
+        "payloadSha256": "6508750ec70fd0a3137f3cd267a2ebf6da64ff8d89bbcfd2eb4b07a2552dce40",
+        "inputDigest": "sha256:18be9cd7ec8e0eb14b48a6aab2520c18578be823c231c4a1d567ffd0fd655a1a",
+        "bytes": 12938
+      },
+      {
+        "run": 3,
+        "payloadSha256": "6508750ec70fd0a3137f3cd267a2ebf6da64ff8d89bbcfd2eb4b07a2552dce40",
+        "inputDigest": "sha256:18be9cd7ec8e0eb14b48a6aab2520c18578be823c231c4a1d567ffd0fd655a1a",
+        "bytes": 12938
+      }
+    ],
+    "identicalAcrossOrderings": true,
+    "identicalAcrossRestarts": true
+  }
+]

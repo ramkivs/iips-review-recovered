@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Company assessment — Cumbank Limited (2026-03-31)</title>
+<style>
+:root { color-scheme: light dark; }
+body { font: 14px/1.5 system-ui, -apple-system, Segoe UI, sans-serif; margin: 2rem; max-width: 1100px; }
+h1 { font-size: 1.4rem; margin-bottom: .25rem; }
+h2 { font-size: 1.05rem; margin-top: 2rem; border-bottom: 1px solid rgba(128,128,128,.35); padding-bottom: .25rem; }
+table { border-collapse: collapse; width: 100%; margin-top: .5rem; }
+th, td { text-align: left; padding: .3rem .5rem; border-bottom: 1px solid rgba(128,128,128,.25); vertical-align: top; }
+.muted { color: rgba(128,128,128,.95); }
+.absent { color: #a15; font-variant: small-caps; }
+.badge { display: inline-block; padding: .1rem .45rem; border-radius: 3px; border: 1px solid currentColor; font-size: 12px; }
+.ok { color: #17643b; } .warn { color: #8a5a00; } .bad { color: #a1231f; }
+.sector-reference { border: 1px dashed rgba(128,128,128,.6); padding: .75rem; margin-top: .5rem; }
+code { font-size: 12px; }
+</style>
+</head>
+<body>
+<h1>Cumbank Limited</h1>
+<p class="muted"><code>IN:ISIN:IN0000000301</code> · Banking · CONSOLIDATED · data as of 2026-03-31 · model assessment-engine/1.0.0 · policy valuation-policy/1.0.0</p>
+<p><span class="badge warn">adequacy: PARTIAL</span> <span class="badge">quality: CLEAN</span> <span class="badge">confidence: 0.5609</span> <span class="badge">moat: INSUFFICIENT_EVIDENCE</span> <span class="badge">dividends: INSUFFICIENT_EVIDENCE</span></p>
+
+<h2>Identity and data</h2>
+<table>
+<tr><th>Issuer</th><td><code>IN:ISIN:IN0000000301</code></td><th>Binding</th><td><code>binding:fixture</code></td></tr>
+<tr><th>Dataset</th><td><code>content:fixture-assessment-1</code></td><th>Provider</th><td>synthetic-fixture</td></tr>
+<tr><th>Annual periods</th><td>4</td><th>Quarterly periods</th><td>0</td></tr>
+<tr><th>Required-field coverage</th><td>78%</td><th>Staleness</th><td>116 days</td></tr>
+</table>
+
+<h2>Valuation</h2>
+<p><strong>Intrinsic value:</strong> 74.29 per share (range 63.14–85.43); spread 30.0%; weights DIVIDEND_DISCOUNT 100%</p>
+<p><strong>Margin of safety:</strong> 3.1% against the midpoint (band FAIR), price as of 2026-07-24</p>
+<table>
+<thead><tr><th>Method</th><th>Role</th><th>Per-share low / mid / high</th><th>Basis</th></tr></thead>
+<tbody><tr><td><code>RESIDUAL_INCOME</code></td><td>PRIMARY</td><td><span class="absent">MANDATORY_METRIC_MISSING: BM_NIM, BM_GNPA, BM_CET1</span></td><td class="muted"></td></tr><tr><td><code>PB_RELATIVE</code></td><td>SECONDARY</td><td><span class="absent">MANDATORY_METRIC_MISSING: BM_GNPA</span></td><td class="muted"></td></tr><tr><td><code>DIVIDEND_DISCOUNT</code></td><td>CROSS_CHECK</td><td>63.14 – 74.29 – 85.43</td><td class="muted">DPS 6.00 two-stage, r 12.40%, g 4.00%</td></tr></tbody>
+</table>
+<h2>Method selection (Banking)</h2>
+<table>
+<thead><tr><th>Method</th><th>Role</th><th>Reason / policy note</th></tr></thead>
+<tbody><tr><td><code>DCF_FCFF</code></td><td>NOT_APPLICABLE</td><td class="muted">Deposit-funded balance sheet: FCFF is not meaningful for a bank, so no free-cash-flow valuation is produced</td></tr><tr><td><code>DIVIDEND_DISCOUNT</code></td><td>CROSS_CHECK</td><td class="muted">DDM</td></tr><tr><td><code>EV_EBITDA</code></td><td>NOT_APPLICABLE</td><td class="muted">Debt is operating raw material for a bank, so an enterprise-value multiple would measure the wrong thing</td></tr><tr><td><code>PB_RELATIVE</code></td><td>SECONDARY</td><td class="muted">P/B qualified by asset quality</td></tr><tr><td><code>RESIDUAL_INCOME</code></td><td>PRIMARY</td><td class="muted">Residual income qualified by NIM, asset quality and capital</td></tr></tbody>
+</table>
+<h2>Sensitivity (WACC × terminal growth)</h2>
+<table>
+<thead><tr><th>WACC</th><th>Terminal growth</th><th>Value per share</th></tr></thead>
+<tbody></tbody>
+</table>
+
+<h2>Capital structure</h2>
+<table>
+<tr><th>Net debt</th><td><span class="absent">NOT_REPORTED</span></td><th>Lease treatment</th><td>OPERATING_LEASE_OFF_BS</td></tr>
+<tr><th>Diluted shares</th><td>150000000</td><th>Share-count period</th><td>2026-03-31</td></tr>
+</table>
+
+<h2>Dividends</h2>
+<p>Verdict <strong>INSUFFICIENT_EVIDENCE</strong> · reconciliation NOT_COMPARABLE</p>
+<p class="muted">Declared DPS <span class="absent">NOT_REPORTED</span> · implied DPS 6.000 · delta <span class="absent">POLICY_INPUTS_UNAVAILABLE</span> · NO_DECLARATION_RECORD: no dividend declaration is available, so the two sources cannot be compared</p>
+<table>
+<thead><tr><th>Period end</th><th>DPS</th><th>Basis</th></tr></thead>
+<tbody><tr><td>2026-03-31</td><td>6.00</td><td class="muted">AS_FILED</td></tr><tr><td>2025-03-31</td><td>5.33</td><td class="muted">AS_FILED</td></tr><tr><td>2024-03-31</td><td>4.67</td><td class="muted">AS_FILED</td></tr><tr><td>2023-03-31</td><td>4.00</td><td class="muted">AS_FILED</td></tr></tbody>
+</table>
+
+<h2>Moat — INSUFFICIENT_EVIDENCE</h2>
+<p class="muted">ROIC−WACC spread <span class="absent">NOT_REPORTED</span> · consecutive positive years 0</p>
+<table>
+<thead><tr><th>Dimension</th><th>Metric</th><th>Observed</th><th>Threshold</th><th>Persistence</th></tr></thead>
+<tbody><tr><td class="absent" colspan="5">no moat evidence available</td></tr></tbody>
+</table>
+
+<h2>Risk</h2>
+<table>
+<thead><tr><th>Factor</th><th>Severity</th><th>Likelihood</th><th>Statement</th></tr></thead>
+<tbody><tr><td><code>RISK-REGULATORY-SECTOR</code></td><td>3</td><td>4</td><td>Banking earnings are set inside a regulatory framework, so a rule change re-prices the business independently of operating performance.</td></tr></tbody>
+</table>
+
+<h2>Quality and gaps</h2>
+<table>
+<thead><tr><th>Flag</th><th>Severity</th><th>Evidence</th></tr></thead>
+<tbody><tr><td colspan="3">no quality flag</td></tr></tbody>
+</table>
+<table>
+<thead><tr><th>Missing field</th><th>Reason</th></tr></thead>
+<tbody><tr><td>2026-03-31:REVENUE_FROM_OPERATIONS</td><td><code>NOT_REPORTED</code></td></tr><tr><td>2026-03-31:EBITDA</td><td><code>NOT_REPORTED</code></td></tr><tr><td>2025-03-31:REVENUE_FROM_OPERATIONS</td><td><code>NOT_REPORTED</code></td></tr><tr><td>2025-03-31:EBITDA</td><td><code>NOT_REPORTED</code></td></tr><tr><td>2024-03-31:REVENUE_FROM_OPERATIONS</td><td><code>NOT_REPORTED</code></td></tr><tr><td>2024-03-31:EBITDA</td><td><code>NOT_REPORTED</code></td></tr></tbody>
+</table>
+
+<h2>What this says</h2>
+<ul><li>IN:ISIN:IN0000000301 is assessed on 4 annual period(s) of consolidated statements at content:fixture-assessment-1.</li><li>Adequacy is PARTIAL (FIELD_COVERAGE_BETWEEN_PARTIAL_AND_SUFFICIENT); required-field coverage is 78%.</li><li>Intrinsic value is 74.29 per share (range 63.14–85.43), a blend of DIVIDEND_DISCOUNT 100%.</li><li>At the 2026-07-24 price the margin of safety is 3.1% against the midpoint (FAIR).</li><li>Moat is INSUFFICIENT_EVIDENCE (ROIC−WACC positive for 0 consecutive year(s), 0 dimension(s) evidenced).</li><li>Dividend verdict is INSUFFICIENT_EVIDENCE; source reconciliation is NOT_COMPARABLE (NO_DECLARATION_RECORD: no dividend declaration is available, so the two sources cannot be compared).</li><li>Quality verdict is CLEAN with 0 flag(s); combined confidence is 0.5609 with caps ADEQUACY_PARTIAL, DILUTION_PROXY.</li></ul>
+
+<h2>Sector reference — shown separately, never an input</h2>
+<div class="sector-reference">
+<p><strong>Banking-UNASSIGNED</strong> (evidence class: SECTOR_REFERENCE)</p>
+<p class="muted">Engine verdict: none supplied · composite: —</p>
+<p class="muted">This block is a sector reference, not an identity and not an input to the assessment. It is displayed separately and cannot drive any valuation, moat, dividend or risk field.</p>
+</div>
+
+<h2>Limitations</h2>
+<ul><li>Dilutive potential shares (ESOP, convertibles) are not present in dataset schema v1, so the diluted count is the EPS-implied count and carries the DILUTION_PROXY cap.</li><li>Net debt subtracts cash and cash equivalents plus liquid investments only; restricted balances, margin money and regulatory balances are excluded from available cash by construction (R-4.1 / Schedule III). Dataset schema v1 carries no restricted-balance line item, so the component is published as NOT_COMPUTABLE rather than as a zero.</li><li>The corporate-action table carries no dividend declaration record in dataset schema v1, so R-15 corroboration is unavailable for this assessment.</li><li>Net debt could not be derived (NOT_REPORTED), so every enterprise-value method is withheld rather than run on a partial bridge.</li><li>Assessment only: no persistence, no transport and no UI are part of IID-2 (IID-3 and IID-6 own those).</li></ul>
+
+<p class="muted">Decision support only · no trade execution · non-production. Every figure above is a field of the assessment payload; nothing is computed by this page.</p>
+</body>
+</html>

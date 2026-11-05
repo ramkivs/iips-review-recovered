@@ -678,9 +678,9 @@ No vendor dependency required for v1.
 Part B corrects it in the nine places raised in review. **Where Part A and Part B differ, Part B wins.**
 Nothing in Part B adds a phase, a repository, a service, a dependency or an approval step.
 
-**Status of this roadmap.** IID-0 and IID-1 are **implemented and evidenced** (§B.J, §B.J2). IID-2 … IID-6
-are **not started**. The R-16 sector-coverage deliverable is **not** part of IID-0 or IID-1 and remains
-open (§B.K).
+**Status of this roadmap.** IID-0, IID-1 and IID-2 are **implemented and evidenced** (§B.J, §B.J2, §B.J3).
+IID-3 … IID-6 are **not started**. The R-16 sector-coverage deliverable is **not** part of IID-0, IID-1 or
+IID-2 and remains open (§B.K).
 
 ## B.0 Reading order
 
@@ -689,6 +689,7 @@ open (§B.K).
 | what changed in the phases | §B.A … §B.I (one review finding each) |
 | whether IID-0 is done | §B.J (E-0.1 … E-0.11 with evidence) |
 | whether IID-1 is done | §B.J2 (AC-1.1 … AC-1.10 with evidence) |
+| whether IID-2 is done | §B.J3 (AC-2.1 … AC-2.12, AC-A1/A2, INV-1 … INV-6 with evidence) |
 | what is still outstanding | §B.K (C-16.1 … C-16.5) and §B.L |
 | the reasoning behind a correction | design of record, Part III §A … §I |
 
@@ -967,6 +968,75 @@ derivation set at 8 items; broker-preview coverage is request-scoped; the fronte
 build were not executable in the implementation sandbox (`frontend/` has no `node_modules`), so those two
 browser modules were type-checked only. Identity coverage is not financial coverage and does not close it.
 
+## B.J3 IID-2 — acceptance criteria and actual status
+
+**Implemented 2026-11-06** on branch `arena/08238a84-iips-review-recovered`, on top of IID-0 and IID-1.
+Evidence: `evidence/iid/IID-2-COMPANY-ASSESSMENT-2026-11-06/` (three golden payloads + HTML views, determinism
+digests, readiness summary, acceptance matrix, module map).
+
+**Scope executed (roadmap §IID-2, tasks 1–11).** Period algebra and scope selection; completeness/adequacy and
+quality gates; the sector method matrix reused unchanged from IID-0's `coverage/methodMatrix.ts`; capital
+structure with net debt, lease treatment, minority interest, preference capital and the share-count guard;
+one implementation per method family in design §A2 with formula id, version, inputs and assumptions; intrinsic
+blend with INV-5 suppression and a 3×3 WACC × growth grid; dividend sustainability with the R-15 reconciliation
+block; moat, risk, confidence and deterministic explanations; a payload validator; and golden assessments for the
+three synthetic reference issuers. Derived metrics are **reused** from IID-0's `fundamentals/derive.ts` — not
+re-implemented. No IPD call, no NP-04 read or write, no persisted artifact, no frozen sector engine touched.
+
+| ID | Criterion | Status | Evidence (all in `ACCEPTANCE-MATRIX.md`) |
+|---|---|---|---|
+| AC-2.1 | Missing mandatory input ⇒ withheld method with a named `MissingReason`; never a substituted 0 | **PASS** | `assessment-valuation.test.ts`, `assessment-capital.test.ts` |
+| AC-2.2 | Consolidated/standalone never mixed; scope recorded per period and in the payload | **PASS** | `assessment-periods.test.ts` (`excludedForScope: ['2026-03-31:STANDALONE']`) |
+| AC-2.3 | YTD→discrete only when the arithmetic is sound; else `DERIVATION_NOT_SUPPORTED` | **PASS** | `assessment-periods.test.ts` (Q1 zero-baseline, Q4 refusal, TTM from four discrete quarters) |
+| AC-2.4 | Per-share withheld on a share-count period mismatch | **PASS** | `assessment-capital.test.ts` (`SHARE_COUNT_PERIOD_MISMATCH`; enterprise figure retained) |
+| AC-2.5 | Bank: no `DCF_FCFF` + stated reason; missing `NRR` withholds the method that requires it | **PASS** | `assessment-valuation.test.ts` |
+| AC-2.6 | Net debt excludes restricted cash, includes lease liabilities; pre-116 flag | **PASS** (first clause structural — §B.J3 limits 2) | `assessment-capital.test.ts` (`PRE_116_FLAGGED`) |
+| AC-2.7 | Sensitivity monotone in WACC and growth within the declared domain | **PASS** | `assessment-valuation.test.ts` (9 points, both directions) |
+| AC-2.8 | `WIDE` moat requires ≥3 consecutive positive spread years **and** ≥2 dimensions | **PASS** | `assessment-moat.test.ts` (each condition removed independently) |
+| AC-2.9 | Dividend verdict requires the corroboration block; divergence raises `DIVIDEND_SOURCE_CONFLICT` with both values visible | **PASS** | `assessment-dividends.test.ts` (CONSISTENT / DIVERGENT / NOT_COMPARABLE / sign contradiction) |
+| AC-2.10 | MoS withheld on a stale or pre-cutoff price; unadjusted split-affected price refused, not adjusted | **PASS** | `assessment-price.test.ts` (four refusals + accepted cases) |
+| AC-2.11 | Byte-identical payload across 3 orderings and 3 restarts | **PASS** | `assessment-engine.test.ts`; `golden-digests.json` |
+| AC-2.12 | Every `evidence[]` entry referenced by ≥1 resolving path | **PASS** | `assessment-engine.test.ts` (includes a tampered payload that must be rejected) |
+| AC-A1 | Banking assessment contains no `DCF_FCFF` and says why | **PASS** | `methodSelection.considered[DCF_FCFF].role = NOT_APPLICABLE` in `golden-bank.json` |
+| AC-A2 | `intrinsic` is `null` unless every weighted method is present and applicable | **PASS** | `assessment-valuation.test.ts`, `assessment-capital.test.ts` |
+| INV-1 … INV-6 | Observation, provenance, no-imputation, refusal-reason, aggregate-completeness and composition-time validation invariants | **PASS** | `assessment-engine.test.ts` (enumerating walk over every observation) + the per-block suites |
+
+**Executed:** `tsc --noEmit` exit 0; **275/275** investment tests (80 IID-2 + 195 IID-0/IID-1 re-run);
+**42/42** NP-12 regression tests; golden emission for three issuers stable across 3 orderings and 3 process
+restarts.
+
+**Delivered code:**
+
+```
+iips-platform/src/investment/assessment/
+  types.ts policy.ts periods.ts capitalStructure.ts methods.ts intrinsic.ts margin.ts dividends.ts
+  moat.ts risk.ts adequacy.ts confidence.ts explain.ts engine.ts view.ts index.ts
+iips-platform/tests/investment/
+  assessmentFixtures.ts assessment-periods.test.ts assessment-valuation.test.ts assessment-capital.test.ts
+  assessment-price.test.ts assessment-dividends.test.ts assessment-moat.test.ts assessment-engine.test.ts
+  assessment-view.test.ts helpers/assessmentRestart.ts
+iips-platform/scripts/iid2-assessment-golden.ts
+```
+
+No frontend file, no route and no persisted artifact was added in this phase: IID-2 ends at a payload.
+
+**Limits carried, not resolved:**
+
+1. Dividend verdict for a bank is withheld (`NET_DEBT_TO_EBITDA_UNAVAILABLE`) because EBITDA is not a reported
+   line item for that sector; a sector-specific leverage measure would be a `valuation-policy` revision.
+2. Restricted cash is excluded from net debt **by construction** (the formula subtracts cash and cash equivalents
+   plus liquid investments only, per R-4.1 / Schedule III), not by an evidenced subtraction: dataset schema v1 has
+   no restricted-balance line item, so `components.restrictedCash` is `NOT_COMPUTABLE: NOT_REPORTED`. Adding that
+   line item is an IID-0 contract amendment and was deliberately not made in this phase.
+3. Dilution is an EPS-implied proxy (`DILUTION_PROXY` cap 0.98 + limitation line); ESOP/convertible dilution is
+   not in schema v1.
+4. `SOTP` has no implementation: segment data is not in schema v1, so R-5's segment test cannot run. Where a
+   sector matrix lists it, it appears as `METHOD_NOT_IMPLEMENTED_IN_ENGINE_V1`.
+5. Reference data is synthetic. No real issuer has been assessed, and **IID-2 does not advance R-16 sector
+   coverage** (§B.K remains OPEN at 3 of 13 sectors, measured on synthetic fixtures).
+6. No persistence, transport or UI: `assessCompany` returns a payload and `view.ts` is an evidence-only renderer.
+   IID-3 (persistence / `GET`) and IID-6 (product surface) remain untouched.
+
 ## B.K R-16 sector coverage — still outstanding
 
 | ID | Criterion | Status |
@@ -982,7 +1052,6 @@ honest state of R-16, not a failure of IID-0.
 
 ## B.L Explicitly not started
 
-IID-1 (identity & coverage), IID-2 (company assessment / IID-01), IID-3 (persistence, read transport,
-thin slice / ★M-1), IID-4 (holding disposition / IID-02), IID-5 (change intelligence / IID-03 / ★M-2),
-IID-6 (product surface / ★M-3). No NP-04 database, persisted report or IPD artefact was created, modified
+IID-3 (persistence, read transport, thin slice / ★M-1), IID-4 (holding disposition / IID-02), IID-5 (change
+intelligence / IID-03 / ★M-2), IID-6 (product surface / ★M-3). No NP-04 database, persisted report or IPD artefact was created, modified
 or read in this pass; the Q-1 probe was not repeated; no frozen sector engine file was modified.

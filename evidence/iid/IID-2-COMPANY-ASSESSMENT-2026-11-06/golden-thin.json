@@ -1,0 +1,669 @@
+{
+  "schemaVersion": 1,
+  "artifact": {
+    "kind": "CompanyAssessment",
+    "subjectScope": "hc:IN:ISIN:IN0000000401",
+    "modelVersion": "assessment-engine/1.0.0",
+    "policyVersion": "valuation-policy/1.0.0",
+    "generatedAt": "2026-07-25"
+  },
+  "subject": {
+    "issuerId": "IN:ISIN:IN0000000401",
+    "legalName": "Dwarka Consumer Limited",
+    "sector": "Consumer",
+    "sectorSubsegment": null,
+    "reportingCurrency": "INR",
+    "fiscalYearEnd": "03-31",
+    "identity": {
+      "bindingRef": "binding:fixture",
+      "rosterVersion": "sha256:roster-fixture",
+      "listingMapVersion": "sha256:listing-fixture",
+      "corporateActionTableVersion": "sha256:ca-fixture"
+    }
+  },
+  "asOf": {
+    "generatedAt": "2026-07-25",
+    "dataAsOf": "2026-03-31",
+    "knownAsOf": "2026-07-23T17:44:46Z",
+    "stalenessDays": 116,
+    "staleBeyondPolicy": false
+  },
+  "data": {
+    "datasetVersion": "content:fixture-assessment-1",
+    "contentDigest": "sha256:fixture-assessment-1",
+    "provider": "synthetic-fixture",
+    "series": {
+      "statementScope": "CONSOLIDATED",
+      "scopeSubstitution": false,
+      "annualPeriods": 2,
+      "quarterlyPeriods": 0,
+      "excludedForScope": []
+    },
+    "restatements": []
+  },
+  "fundamentals": {
+    "annual": [
+      {
+        "periodEnd": "2026-03-31",
+        "periodStart": "2025-04-01",
+        "fiscalYear": 2026,
+        "periodType": "ANNUAL",
+        "statementScope": "CONSOLIDATED",
+        "quarterForm": null,
+        "basis": "AS_FILED",
+        "filedAt": "2026-03-31T18:00:00Z",
+        "filingRef": "filing-IN:ISIN:IN0000000401-2026-03-31",
+        "values": {
+          "REVENUE_FROM_OPERATIONS": {
+            "value": 2300000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000401-2026-03-31",
+              "filedAt": "2026-03-31T18:00:00Z"
+            },
+            "periodEnd": "2026-03-31",
+            "basis": "AS_FILED"
+          },
+          "NET_PROFIT": {
+            "value": 150000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000401-2026-03-31",
+              "filedAt": "2026-03-31T18:00:00Z"
+            },
+            "periodEnd": "2026-03-31",
+            "basis": "AS_FILED"
+          },
+          "TOTAL_EQUITY": {
+            "value": 1000000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000401-2026-03-31",
+              "filedAt": "2026-03-31T18:00:00Z"
+            },
+            "periodEnd": "2026-03-31",
+            "basis": "AS_FILED"
+          }
+        },
+        "derived": {}
+      },
+      {
+        "periodEnd": "2025-03-31",
+        "periodStart": "2024-04-01",
+        "fiscalYear": 2025,
+        "periodType": "ANNUAL",
+        "statementScope": "CONSOLIDATED",
+        "quarterForm": null,
+        "basis": "AS_FILED",
+        "filedAt": "2025-03-31T18:00:00Z",
+        "filingRef": "filing-IN:ISIN:IN0000000401-2025-03-31",
+        "values": {
+          "REVENUE_FROM_OPERATIONS": {
+            "value": 2000000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000401-2025-03-31",
+              "filedAt": "2025-03-31T18:00:00Z"
+            },
+            "periodEnd": "2025-03-31",
+            "basis": "AS_FILED"
+          },
+          "NET_PROFIT": {
+            "value": 120000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000401-2025-03-31",
+              "filedAt": "2025-03-31T18:00:00Z"
+            },
+            "periodEnd": "2025-03-31",
+            "basis": "AS_FILED"
+          },
+          "TOTAL_EQUITY": {
+            "value": 900000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "filing-IN:ISIN:IN0000000401-2025-03-31",
+              "filedAt": "2025-03-31T18:00:00Z"
+            },
+            "periodEnd": "2025-03-31",
+            "basis": "AS_FILED"
+          }
+        },
+        "derived": {}
+      }
+    ],
+    "quarterly": [],
+    "ttm": null,
+    "trends": {
+      "revenueCagr3y": {
+        "value": null,
+        "presence": "NOT_APPLICABLE",
+        "reason": "INSUFFICIENT_HISTORY"
+      },
+      "patCagr3y": {
+        "value": null,
+        "presence": "NOT_APPLICABLE",
+        "reason": "INSUFFICIENT_HISTORY"
+      },
+      "roicTrend": {
+        "value": null,
+        "presence": "NOT_APPLICABLE",
+        "reason": "POLICY_INPUTS_UNAVAILABLE"
+      }
+    },
+    "capitalStructure": {
+      "netDebt": {
+        "value": null,
+        "presence": "MISSING",
+        "reason": "NOT_REPORTED"
+      },
+      "grossDebt": {
+        "value": null,
+        "presence": "MISSING",
+        "reason": "NOT_REPORTED"
+      },
+      "cashAndInvestments": {
+        "value": null,
+        "presence": "MISSING",
+        "reason": "NOT_REPORTED"
+      },
+      "leaseLiabilities": {
+        "value": null,
+        "presence": "MISSING",
+        "reason": "NOT_REPORTED"
+      },
+      "leaseTreatment": "OPERATING_LEASE_OFF_BS",
+      "pre116Comparative": false,
+      "minorityInterest": {
+        "value": null,
+        "presence": "MISSING",
+        "reason": "NOT_REPORTED"
+      },
+      "preferenceCapital": {
+        "value": null,
+        "presence": "MISSING",
+        "reason": "NOT_REPORTED"
+      },
+      "associatesAndJV": {
+        "value": null,
+        "presence": "NOT_COMPUTABLE",
+        "reason": "NOT_REPORTED"
+      },
+      "dilutedShares": {
+        "value": null,
+        "presence": "MISSING",
+        "reason": "NOT_REPORTED"
+      },
+      "shareCountPeriod": null,
+      "shareCountBasis": "UNAVAILABLE",
+      "dilutionProxy": true,
+      "components": {
+        "shortTermBorrowings": {
+          "value": null,
+          "presence": "MISSING",
+          "reason": "NOT_REPORTED"
+        },
+        "currentMaturities": {
+          "value": null,
+          "presence": "MISSING",
+          "reason": "NOT_REPORTED"
+        },
+        "longTermBorrowings": {
+          "value": null,
+          "presence": "MISSING",
+          "reason": "NOT_REPORTED"
+        },
+        "leaseLiabilities": {
+          "value": null,
+          "presence": "MISSING",
+          "reason": "NOT_REPORTED"
+        },
+        "cashAndCashEquivalents": {
+          "value": null,
+          "presence": "MISSING",
+          "reason": "NOT_REPORTED"
+        },
+        "currentInvestments": {
+          "value": null,
+          "presence": "MISSING",
+          "reason": "NOT_REPORTED"
+        },
+        "nonControllingInterest": {
+          "value": null,
+          "presence": "MISSING",
+          "reason": "NOT_REPORTED"
+        },
+        "preferenceCapital": {
+          "value": null,
+          "presence": "MISSING",
+          "reason": "NOT_REPORTED"
+        },
+        "restrictedCash": {
+          "value": null,
+          "presence": "NOT_COMPUTABLE",
+          "reason": "NOT_REPORTED"
+        },
+        "associatesAndJV": {
+          "value": null,
+          "presence": "NOT_COMPUTABLE",
+          "reason": "NOT_REPORTED"
+        }
+      }
+    }
+  },
+  "completeness": {
+    "statementCoverage": {
+      "pnl": {
+        "value": 0.09090909090909091,
+        "presence": "PRESENT",
+        "source": {
+          "kind": "DERIVED",
+          "ref": "adequacy/1.0.0"
+        },
+        "basis": "DERIVED"
+      },
+      "balanceSheet": {
+        "value": 0.047619047619047616,
+        "presence": "PRESENT",
+        "source": {
+          "kind": "DERIVED",
+          "ref": "adequacy/1.0.0"
+        },
+        "basis": "DERIVED"
+      },
+      "cashFlow": {
+        "value": 0,
+        "presence": "PRESENT",
+        "source": {
+          "kind": "DERIVED",
+          "ref": "adequacy/1.0.0"
+        },
+        "basis": "DERIVED"
+      }
+    },
+    "requiredFieldCoveragePct": 0.3333,
+    "missingFields": [
+      {
+        "field": "2026-03-31:EBITDA",
+        "reason": "NOT_REPORTED",
+        "periodEnd": "2026-03-31"
+      },
+      {
+        "field": "2026-03-31:NET_PROFIT_ATTRIBUTABLE_TO_OWNERS",
+        "reason": "NOT_REPORTED",
+        "periodEnd": "2026-03-31"
+      },
+      {
+        "field": "2026-03-31:TOTAL_ASSETS",
+        "reason": "NOT_REPORTED",
+        "periodEnd": "2026-03-31"
+      },
+      {
+        "field": "2026-03-31:OPERATING_CASH_FLOW",
+        "reason": "NOT_REPORTED",
+        "periodEnd": "2026-03-31"
+      },
+      {
+        "field": "2026-03-31:CAPITAL_EXPENDITURE",
+        "reason": "NOT_REPORTED",
+        "periodEnd": "2026-03-31"
+      },
+      {
+        "field": "2026-03-31:EPS_DILUTED",
+        "reason": "NOT_REPORTED",
+        "periodEnd": "2026-03-31"
+      },
+      {
+        "field": "2025-03-31:EBITDA",
+        "reason": "NOT_REPORTED",
+        "periodEnd": "2025-03-31"
+      },
+      {
+        "field": "2025-03-31:NET_PROFIT_ATTRIBUTABLE_TO_OWNERS",
+        "reason": "NOT_REPORTED",
+        "periodEnd": "2025-03-31"
+      },
+      {
+        "field": "2025-03-31:TOTAL_ASSETS",
+        "reason": "NOT_REPORTED",
+        "periodEnd": "2025-03-31"
+      },
+      {
+        "field": "2025-03-31:OPERATING_CASH_FLOW",
+        "reason": "NOT_REPORTED",
+        "periodEnd": "2025-03-31"
+      },
+      {
+        "field": "2025-03-31:CAPITAL_EXPENDITURE",
+        "reason": "NOT_REPORTED",
+        "periodEnd": "2025-03-31"
+      },
+      {
+        "field": "2025-03-31:EPS_DILUTED",
+        "reason": "NOT_REPORTED",
+        "periodEnd": "2025-03-31"
+      }
+    ],
+    "adequacy": "INSUFFICIENT",
+    "adequacyBasis": [
+      "ANNUAL_PERIODS_2_LT_3"
+    ]
+  },
+  "quality": {
+    "flags": [],
+    "verdict": "UNVERIFIED"
+  },
+  "valuation": {
+    "methodSelection": {
+      "sector": "Consumer",
+      "considered": [
+        {
+          "methodId": "DCF_FCFF",
+          "role": "PRIMARY",
+          "reason": "Free cash flow to firm"
+        },
+        {
+          "methodId": "EV_EBITDA",
+          "role": "CROSS_CHECK",
+          "reason": "EV/EBITDA"
+        },
+        {
+          "methodId": "EV_REVENUE",
+          "role": "NOT_APPLICABLE",
+          "reason": "Margin heterogeneity across staples, discretionary and luxury makes a revenue multiple uninformative"
+        },
+        {
+          "methodId": "PE_RELATIVE",
+          "role": "SECONDARY",
+          "reason": "P/E"
+        }
+      ],
+      "policyVersion": "valuation-policy/1.0.0"
+    },
+    "methods": [
+      {
+        "methodId": "DCF_FCFF",
+        "role": "PRIMARY",
+        "applicable": false,
+        "notApplicableReason": "INSUFFICIENT_HISTORY: three annual periods of EBIT, D&A and capex are required for a cash-flow base",
+        "output": null,
+        "inputs": [
+          {
+            "name": "ebit",
+            "observation": {
+              "value": null,
+              "presence": "MISSING",
+              "reason": "NOT_REPORTED"
+            },
+            "role": "PRIMARY"
+          },
+          {
+            "name": "depreciationAndAmortisation",
+            "observation": {
+              "value": null,
+              "presence": "MISSING",
+              "reason": "NOT_REPORTED"
+            },
+            "role": "PRIMARY"
+          },
+          {
+            "name": "capitalExpenditure",
+            "observation": {
+              "value": null,
+              "presence": "MISSING",
+              "reason": "NOT_REPORTED"
+            },
+            "role": "PRIMARY"
+          }
+        ],
+        "assumptions": {},
+        "allowsImputation": false,
+        "formulaId": "DCF_FCFF",
+        "formulaVersion": "1.0.0",
+        "evidenceIds": []
+      },
+      {
+        "methodId": "PE_RELATIVE",
+        "role": "SECONDARY",
+        "applicable": false,
+        "notApplicableReason": "INSUFFICIENT_HISTORY: three annual EPS observations are required for a normalised EPS",
+        "output": null,
+        "inputs": [
+          {
+            "name": "epsDiluted",
+            "observation": {
+              "value": null,
+              "presence": "MISSING",
+              "reason": "NOT_REPORTED"
+            },
+            "role": "PRIMARY"
+          }
+        ],
+        "assumptions": {},
+        "allowsImputation": false,
+        "formulaId": "PE_RELATIVE",
+        "formulaVersion": "1.0.0",
+        "evidenceIds": []
+      },
+      {
+        "methodId": "EV_EBITDA",
+        "role": "CROSS_CHECK",
+        "applicable": false,
+        "notApplicableReason": "INSUFFICIENT_HISTORY: three annual EBITDA observations are required for a mid-cycle figure",
+        "output": null,
+        "inputs": [
+          {
+            "name": "ebitda",
+            "observation": {
+              "value": null,
+              "presence": "MISSING",
+              "reason": "NOT_REPORTED"
+            },
+            "role": "PRIMARY"
+          },
+          {
+            "name": "netDebt",
+            "observation": {
+              "value": null,
+              "presence": "MISSING",
+              "reason": "NOT_REPORTED"
+            },
+            "role": "SECONDARY"
+          }
+        ],
+        "assumptions": {},
+        "allowsImputation": false,
+        "formulaId": "EV_EBITDA",
+        "formulaVersion": "1.0.0",
+        "evidenceIds": []
+      }
+    ],
+    "intrinsic": null,
+    "marginOfSafety": {
+      "price": {
+        "value": null,
+        "presence": "MISSING",
+        "reason": "PRICE_UNAVAILABLE"
+      },
+      "priceAsOf": null,
+      "mosVsMid": {
+        "value": null,
+        "presence": "NOT_COMPUTABLE",
+        "reason": "POLICY_INPUTS_UNAVAILABLE"
+      },
+      "mosVsLow": {
+        "value": null,
+        "presence": "NOT_COMPUTABLE",
+        "reason": "POLICY_INPUTS_UNAVAILABLE"
+      },
+      "band": null,
+      "bandPolicyVersion": "mos-policy/1.0.0",
+      "refusal": "NO_PRICE_OBSERVATION"
+    },
+    "sensitivity": []
+  },
+  "moat": {
+    "classification": "INSUFFICIENT_EVIDENCE",
+    "roicWaccSpread": {
+      "spread": {
+        "value": null,
+        "presence": "NOT_COMPUTABLE",
+        "reason": "NOT_REPORTED"
+      },
+      "consecutiveYearsPositive": 0
+    },
+    "evidence": [],
+    "withheld": {
+      "unmetInputs": [
+        "ROIC_SPREAD_UNAVAILABLE",
+        "MOAT_EVIDENCE_UNAVAILABLE"
+      ]
+    }
+  },
+  "dividends": {
+    "perShareHistory": [
+      {
+        "periodEnd": "2026-03-31",
+        "dps": {
+          "value": null,
+          "presence": "NOT_COMPUTABLE",
+          "reason": "NOT_REPORTED"
+        },
+        "basis": "AS_FILED"
+      },
+      {
+        "periodEnd": "2025-03-31",
+        "dps": {
+          "value": null,
+          "presence": "NOT_COMPUTABLE",
+          "reason": "NOT_REPORTED"
+        },
+        "basis": "AS_FILED"
+      }
+    ],
+    "reconciliation": {
+      "dpsDeclared": {
+        "value": null,
+        "presence": "MISSING",
+        "reason": "NOT_REPORTED",
+        "note": "dataset schema v1 carries no dividend declaration record; supply one to corroborate the cash-flow figure"
+      },
+      "dpsImplied": {
+        "value": null,
+        "presence": "NOT_COMPUTABLE",
+        "reason": "NOT_REPORTED"
+      },
+      "deltaPct": {
+        "value": null,
+        "presence": "NOT_COMPUTABLE",
+        "reason": "POLICY_INPUTS_UNAVAILABLE"
+      },
+      "status": "NOT_COMPARABLE",
+      "reason": "NO_DECLARATION_RECORD: no dividend declaration is available, so the two sources cannot be compared"
+    },
+    "payoutRatio": {
+      "value": null,
+      "presence": "NOT_COMPUTABLE",
+      "reason": "NOT_REPORTED"
+    },
+    "fcfCoverage": {
+      "value": null,
+      "presence": "NOT_COMPUTABLE",
+      "reason": "NOT_REPORTED"
+    },
+    "netDebtToEbitda": {
+      "value": null,
+      "presence": "NOT_COMPUTABLE",
+      "reason": "NOT_REPORTED"
+    },
+    "consecutiveYearsPaid": 0,
+    "verdict": "NO_DIVIDEND",
+    "conflict": null,
+    "withheld": {
+      "unmetInputs": [
+        "FCF_COVERAGE_UNAVAILABLE",
+        "NET_DEBT_TO_EBITDA_UNAVAILABLE"
+      ]
+    }
+  },
+  "risk": {
+    "factors": [],
+    "aggregate": {
+      "value": null,
+      "presence": "NOT_COMPUTABLE",
+      "reason": "POLICY_INPUTS_UNAVAILABLE"
+    }
+  },
+  "confidence": {
+    "dataConfidence": 0.3333,
+    "modelConfidence": 0,
+    "combined": 0.1176,
+    "caps": [
+      "ADEQUACY_INSUFFICIENT",
+      "DILUTION_PROXY"
+    ],
+    "formula": "combined = 0.6 × dataConfidence + 0.4 × modelConfidence, then multiplied by each cap factor (ADEQUACY_PARTIAL 0.85, ADEQUACY_INSUFFICIENT 0.6, STALE_DATA 0.9, DILUTION_PROXY 0.98, DIVIDEND_SOURCE_CONFLICT 0.95, HIGH_METHOD_DISAGREEMENT 0.85), rounded to 4 dp"
+  },
+  "assumptions": {
+    "discountRate": {
+      "value": 0.10677961,
+      "basis": "POLICY_DEFAULT",
+      "components": {
+        "riskFree": 0.069,
+        "equityRiskPremium": 0.055,
+        "beta": 1,
+        "costOfEquity": 0.124,
+        "costOfDebtPostTax": 0.06659870000000001,
+        "weightEquity": 0.7,
+        "weightDebt": 0.3
+      }
+    },
+    "terminalGrowth": 0.04,
+    "forecastHorizonYears": 5,
+    "methodSpecific": [],
+    "policyVersion": "valuation-policy/1.0.0"
+  },
+  "sectorReferenceView": {
+    "evidenceClass": "SECTOR_REFERENCE",
+    "sectorRefId": "Consumer-UNASSIGNED",
+    "engineVerdict": null,
+    "composite": null,
+    "note": "This block is a sector reference, not an identity and not an input to the assessment. It is displayed separately and cannot drive any valuation, moat, dividend or risk field."
+  },
+  "evidence": [
+    {
+      "evidenceId": "EV-DIVIDEND-RECONCILIATION",
+      "claim": "dividend sources reconciled with status NOT_COMPARABLE",
+      "supports": [
+        "dividends.reconciliation.status"
+      ],
+      "source": {
+        "kind": "DERIVED",
+        "ref": "dividend-sustainability/1.0.0"
+      },
+      "observationRefs": [
+        "dpsDeclared",
+        "dpsImplied"
+      ]
+    }
+  ],
+  "limitations": [
+    "Dilutive potential shares (ESOP, convertibles) are not present in dataset schema v1, so the diluted count is the EPS-implied count and carries the DILUTION_PROXY cap.",
+    "Net debt subtracts cash and cash equivalents plus liquid investments only; restricted balances, margin money and regulatory balances are excluded from available cash by construction (R-4.1 / Schedule III). Dataset schema v1 carries no restricted-balance line item, so the component is published as NOT_COMPUTABLE rather than as a zero.",
+    "The corporate-action table carries no dividend declaration record in dataset schema v1, so R-15 corroboration is unavailable for this assessment.",
+    "Net debt could not be derived (NOT_REPORTED), so every enterprise-value method is withheld rather than run on a partial bridge.",
+    "The served dataset is synthetic test data; nothing here describes a real company.",
+    "Assessment only: no persistence, no transport and no UI are part of IID-2 (IID-3 and IID-6 own those)."
+  ],
+  "disclosure": {
+    "decisionSupportOnly": true,
+    "noTradeExecution": true,
+    "nonProduction": true
+  }
+}
