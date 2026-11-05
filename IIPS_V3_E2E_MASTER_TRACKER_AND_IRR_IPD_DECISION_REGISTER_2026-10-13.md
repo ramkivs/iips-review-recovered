@@ -20829,3 +20829,28 @@ remains **`PENDING — NOT YET RENDERED`**. **Workstream A and milestone WS-A-DM
 
 
 **Next free after this section:** `§16.253` / `CV-CORR-233` / `CHG-2026-11-05-04` / `V2080`.
+
+---
+
+## §16.253 — `CV-CORR-233`: IRR `iips-broker-import` pin advance to IPD PR #128 (`2026-11-05`; `CHG-2026-11-05-04`; `V2080`–`V2085`)
+
+**Authority.** IPD PR #128 merged; the IRR-only task authorized the dependency pin advance, lockfile/profile reconciliation, package verification, frontend startup verification, documentation, publication and remote verification. IPD PR #128 is the authoritative package-side work; this section records only the IRR-side consumption and verification. No IPD object was modified.
+
+**Change.** `frontend/package.json` and `frontend/package-lock.json` advance `iips-broker-import` from `7bcae35…` (IPD PR #127 merge commit) to `07e86a4…` (IPD PR #128 merge commit). `frontend/broker-import-package-profile.json` updates `aliasCommit`, `aliasSpecifier`, `aliasProvenance` (PR #128; merge `07e86a4…`; head `a89c4e06…`; superseded `7bcae35…`; record pointer) and the profile comment. Comments in `brokerImportPackageConsumer.test.ts`, `brokerHoldingsPreview.ts` and `tsconfig.broker-import.json` are updated to the new pin. The alias name, repository identity, package contract, 18-module required list, two runtime entrypoints and materialization design are preserved.
+
+**Verification.** Clean install `npm ci --foreground-scripts` exit `0`; npm ran the package `prepare` lifecycle (`build:portfolio-ui-package` + `build:pit-package`); `dist/package` present with 152 files; 18/18 required modules, 18/18 `.js`, 18/18 `.d.ts`, 0 missing. Materializer: 152 published files → `.cache/broker-import`; manifest `aliasCommit 07e86a4…`, `fileCount 152`, `rawSourcesCompiled: false`; both runtime entrypoints present. `npm run build:broker-import` exit `0`; `npm run typecheck` exit `0`. Normal `npm run dev` lifecycle: predev → materialize 152 files → tsc → Vite ready; `/reports` 200, `/broker-holdings` 200, `/` 200; `/api/health` 200; `/api/reports/context` 503 `owner-context-unavailable` without the carrier (expected fail-closed). Targeted tests: `brokerImportPackageConsumer` 8/8; `brokerHoldingsPreview` 21/21; `BrokerHoldingsPreview.test.tsx` 6/6; `Reports.test.tsx` + `App.test.tsx` + `reports-api.test.ts` 36/36. No full backend regression suite.
+
+**Boundaries.** IPD untouched; NP-04 untouched; existing NP-06 reports `8cbe148c…` / `4deea741…` not recreated, modified or read; no Reports-local persistence; no production work; `vite.config.ts` unchanged; no stash dropped or destructive cleanup run. The Windows installed-package discrepancy was not reproducible in the Arena clean-install environment; the materializer fails closed if `dist/package` is absent. Genuine Windows browser/UI verification remains outstanding.
+
+### 16.253.1 Verification ledger (`V2080`–`V2085`)
+
+| ID | Verification | Result |
+|---|---|---|
+| `V2080` | IPD PR #128 identity | PASS — `MERGED`; merge `07e86a4f2c105651f3097a96cb519f8611945e30`; implementation head `a89c4e06bb6893dc0ecd00bae1bcd41d1b04cac7`; first parent `6df748d3…`; read-only IPD inspection only. |
+| `V2081` | IRR pin/lockfile/profile consistency | PASS — `package.json`, lockfile root and `node_modules/iips-broker-import` `resolved`, and profile `aliasCommit`/`aliasSpecifier` all `#07e86a4…`; lockfile diff exactly 2 lines; no unrelated dependency movement. |
+| `V2082` | Clean install lifecycle and `dist/package` | PASS — `npm ci --foreground-scripts` exit `0`; `prepare` ran `build:portfolio-ui-package` + `build:pit-package`; `dist/package` 152 files. |
+| `V2083` | 36 required artifacts and materialization | PASS — 18/18 modules, 18/18 `.js`, 18/18 `.d.ts`, 0 missing; materializer 152 files → `.cache/broker-import`; both runtime entrypoints present; `npm run build:broker-import` exit `0`. |
+| `V2084` | Frontend lifecycle, routes and targeted tests | PASS — `npm run dev` predev → materialize → tsc → Vite ready; `/reports` 200, `/broker-holdings` 200, `/` 200; `/api/health` 200; `/api/reports/context` 503 without carrier; targeted tests 8/8 + 21/21 + 6/6 + 36/36; `npm run typecheck` exit `0`. |
+| `V2085` | Publication and boundaries | PASS — branch `arena/1ab376fe-iips-review-recovered`; PR/commit/CI recorded after publication; IPD untouched; NP-04 untouched; existing reports not recreated/modified; no Reports-local persistence; no production work; `vite.config.ts` unchanged; no stash dropped or destructive cleanup. |
+
+**Next free after this section:** `§16.254` / `CV-CORR-234` / `CHG-2026-11-05-05` / `V2086`.
