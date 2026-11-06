@@ -1,0 +1,89 @@
+POST-D-2 INFOSYS REGRESSION — commands and environment
+======================================================
+
+Run 2026-11-06 against the merged commit, from a clean worktree of `origin/main`:
+
+  git worktree add --detach /tmp/main-checkout origin/main
+  cd /tmp/main-checkout && git rev-parse HEAD
+  -> b3987efad83eac87b4f5823e1800efe54b179b52   ("D-2: nil-by-disclosure … (#487)")
+  git log --oneline -2
+  -> b3987ef D-2 … (#487)
+  -> 1d8fc53 Merge pull request #488 …            (unrelated D06 admission docs)
+
+Dependencies installed in the worktree (not symlinked):
+  cd iips-platform && npm ci --no-audit --no-fund --strict-ssl=false   # 6 packages
+  cd ../frontend  && npm ci --no-audit --no-fund --strict-ssl=false   # 190 packages
+
+1. Ingest the ORIGINAL Work Item 1 input (never the withdrawn nil bundle)
+-----------------------------------------------------------------------
+cd /tmp/main-checkout/iips-platform
+npx tsx src/investment/cli/ingest.ts \
+  --input ../evidence/real-issuer/REL-1-INFOSYS-2026-11-06/ingest-input \
+  --dataset-dir /tmp/reg2/dataset --now 2026-11-06T00:00:00.000Z
+
+  datasetVersion sha256:ca29c8357fd3ae87889af07b27ffc317f09745caaed870b287d7ca1f8fc6d71e
+  Technology     G2_PARTIAL   usable 2  withheld 2  stmt 87.5%  metric 0%
+  issues: []      (verbatim in runs/ingest.txt)
+
+  input digest, recorded separately:
+  sha256sum evidence/real-issuer/REL-1-INFOSYS-2026-11-06/ingest-input/periods.csv
+  -> e2cdba2042a55fc3352e85b8384e014f669e1472deb9011e7be2babd4fbc745c
+
+2. Coverage and manifest
+------------------------
+Extracted from /tmp/reg2/dataset/coverage-report.json and manifest.json into
+runs/coverage-technology.json and runs/dataset-manifest.json.
+
+3. Assessment (four-component debt block, valuation, moat, risk, dividends)
+--------------------------------------------------------------------------
+assessCompany() over /tmp/reg2/dataset with the Work Item 1 identity digests; the script only renders
+payload fields and was deleted after the run. Output: runs/assessment-summary.json.
+
+4. Composed artifact, persisted, and read back in a separate process
+--------------------------------------------------------------------
+cd /tmp/main-checkout/frontend
+npx tsx server/investment/cli/generate-investment-artifacts.ts \
+  --issuer IN:CIN:L85110KA1981PLC013115 \
+  --data-dir /tmp/reg2/dataset \
+  --identity-dir ../evidence/real-issuer/REL-1-INFOSYS-2026-11-06/identity \
+  --db /tmp/reg/store/investment.db \
+  --owner-carrier ../evidence/real-issuer/REL-1-INFOSYS-2026-11-06/runs/owner-carrier.json \
+  --generated-at 2026-11-06T00:00:00.000Z --out runs/cli-persist.json
+
+  OK snapshot / identity (RESOLVED via ISIN) / assessment (SUFFICIENT / MATERIAL_CONCERNS / 0.4939)
+  OK compose   reportKey ed1e54b03e5e… payloadDigest cc91f239197a…
+  OK validate  scope co:IN:CIN:L85110KA1981PLC013115 (ISSUER)
+  OK chain-head "no chain for this scope yet"   <- fresh store
+  SKIPPED compare (no head to compare against)
+  OK persist   CREATED (wrote)
+  OK verify    chain valid: 1 version(s), head v1
+
+Then, separately:
+
+npx tsx server/investment/cli/show-investment-chain.ts --issuer IN:CIN:L85110KA1981PLC013115 \
+  --db /tmp/reg/store/investment.db \
+  --owner-carrier ../evidence/real-issuer/REL-1-INFOSYS-2026-11-06/runs/owner-carrier.json
+
+  status OK, reportKey ed1e54b03e5e…, versionCount 1, payloadBytes 42800, failure null
+  head.payloadDigest cc91f239197a1ed8aca52600ca25ec9c62cd78863e224756c21dfff7ba57cfcd
+  head.datasetVersion sha256:ca29c835…, head.inputDigest sha256:799b7203…
+  captured in runs/chain-read.json (node's ExperimentalWarning lines stripped, nothing else changed)
+
+`readVersionWithPayload` recomputes the stored payload digest on read, so the digest reported above is
+verified against the stored bytes rather than taken from a manifest.
+
+5. Digest comparison against the Work Item 1 artifact
+-----------------------------------------------------
+runs/digest-comparison.json — built by hashing the committed
+evidence/real-issuer/REL-1-INFOSYS-2026-11-06/artifact/assessment-payload-v2.json and comparing it with the
+chain head read in step 4.
+
+6. Targeted checks
+------------------
+runs/tests.txt, from the same worktree: platform tsc clean, `npm run test:iid` 406/406 (102 suites),
+`tests/investment/nil-by-disclosure.test.ts` 29/29, frontend tsc clean, `vitest run server/investment`
+17 files / 205 tests.
+
+Nothing was written to the repository by this run except this bundle. The original Work Item 1 evidence was
+read-only throughout; its files are byte-identical to the merged commit, verified with
+`git status --porcelain evidence/real-issuer/REL-1-INFOSYS-2026-11-06` (empty).

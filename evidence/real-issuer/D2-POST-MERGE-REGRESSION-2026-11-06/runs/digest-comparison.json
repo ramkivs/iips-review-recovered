@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "mergedD2Commit": "b3987efad83eac87b4f5823e1800efe54b179b52",
+  "workItem1Baseline": {
+    "bundle": "evidence/real-issuer/REL-1-INFOSYS-2026-11-06",
+    "inputPeriodsCsvSha256": "e2cdba2042a55fc3352e85b8384e014f669e1472deb9011e7be2babd4fbc745c",
+    "datasetVersion": "sha256:ca29c8357fd3ae87889af07b27ffc317f09745caaed870b287d7ca1f8fc6d71e",
+    "artifactVersion": 2,
+    "reportId": "7220cfa4-fabd-4054-9b82-f0124a6c75e3",
+    "reportKey": "ed1e54b03e5eb5872f3e77bc467859a4e73bfb14a62417a51d7357604e78a681",
+    "payloadDigest": "cc91f239197a1ed8aca52600ca25ec9c62cd78863e224756c21dfff7ba57cfcd",
+    "payloadBytes": 42800,
+    "payloadFileSha256": "cc91f239197a1ed8aca52600ca25ec9c62cd78863e224756c21dfff7ba57cfcd",
+    "chainVersionCount": 2
+  },
+  "postMergeRun": {
+    "repositoryCommit": "b3987efad83eac87b4f5823e1800efe54b179b52",
+    "datasetVersion": "sha256:ca29c8357fd3ae87889af07b27ffc317f09745caaed870b287d7ca1f8fc6d71e",
+    "reportId": "83f55119-28cc-43ab-856c-8c5d6c5f1af2",
+    "reportKey": "ed1e54b03e5eb5872f3e77bc467859a4e73bfb14a62417a51d7357604e78a681",
+    "payloadDigest": "cc91f239197a1ed8aca52600ca25ec9c62cd78863e224756c21dfff7ba57cfcd",
+    "payloadBytes": 42800,
+    "inputDigest": "sha256:799b720377eb10df975351926d2f0929a6785aba9b42a4d597d6367bdd2a0ac1",
+    "chainVersionCount": 1,
+    "chainReadProcess": "separate process (show-investment-chain.ts), digest recomputed on read",
+    "store": "/tmp/reg/store/investment.db (fresh, empty)"
+  },
+  "verdict": {
+    "datasetVersion": "IDENTICAL",
+    "payloadDigest": "IDENTICAL",
+    "payloadBytes": "IDENTICAL",
+    "reportKey": "IDENTICAL",
+    "financialContent": "IDENTICAL",
+    "differences": [
+      "reportId: a fresh, empty store mints a new chain root UUID; the Work Item 1 chain root belongs to its own store.",
+      "chainVersionCount: 1 here versus 2 in the Work Item 1 chain, because that chain recorded a first version before the lease-liability column was added and a second after it; this run starts from the final input.",
+      "store path: /tmp/reg/store/investment.db is a scratch location, not a product store."
+    ]
+  }
+}

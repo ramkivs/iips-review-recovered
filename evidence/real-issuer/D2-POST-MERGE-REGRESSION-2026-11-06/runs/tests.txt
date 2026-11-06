@@ -1,0 +1,33 @@
+# merged main b3987ef — targeted checks, 2026-11-06T12:36:00Z
+
+## iips-platform
+$ npx tsc --noEmit
+clean (exit 0)
+
+$ npm run test:iid
+  duration_ms: 0.69603
+  type: 'suite'
+  ...
+1..102
+# tests 406
+# suites 102
+# pass 406
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 7411.211133
+
+$ npx tsx --test tests/investment/nil-by-disclosure.test.ts
+# tests 29
+# suites 5
+# pass 29
+# fail 0
+
+## frontend
+$ npx tsc -p tsconfig.investment-server.json --noEmit
+clean (exit 0)
+
+$ npx vitest run server/investment
+ Test Files  17 passed (17)
+      Tests  205 passed (205)

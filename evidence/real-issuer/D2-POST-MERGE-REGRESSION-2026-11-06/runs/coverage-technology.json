@@ -1,0 +1,73 @@
+{
+  "datasetVersion": "sha256:ca29c8357fd3ae87889af07b27ffc317f09745caaed870b287d7ca1f8fc6d71e",
+  "generatedAt": "2026-11-06T00:00:00.000Z",
+  "completedMeasurements": [
+    "Technology"
+  ],
+  "technology": {
+    "annualPeriodsConsidered": 3,
+    "issuersConsidered": [
+      "IN:CIN:L85110KA1981PLC013115"
+    ],
+    "measured": true,
+    "methods": [
+      {
+        "issuersAvailable": [
+          "IN:CIN:L85110KA1981PLC013115"
+        ],
+        "issuersConsidered": 1,
+        "methodId": "DCF_FCFF",
+        "missing": [],
+        "reason": null,
+        "role": "PRIMARY",
+        "state": "AVAILABLE"
+      },
+      {
+        "issuersAvailable": [
+          "IN:CIN:L85110KA1981PLC013115"
+        ],
+        "issuersConsidered": 1,
+        "methodId": "PE_RELATIVE",
+        "missing": [],
+        "reason": null,
+        "role": "SECONDARY",
+        "state": "AVAILABLE"
+      },
+      {
+        "issuersAvailable": [],
+        "issuersConsidered": 1,
+        "methodId": "EV_EBITDA",
+        "missing": [
+          "NET_DEBT"
+        ],
+        "reason": "STATEMENT_INPUT_MISSING",
+        "role": "CROSS_CHECK",
+        "state": "WITHHELD"
+      },
+      {
+        "issuersAvailable": [],
+        "issuersConsidered": 1,
+        "methodId": "EV_REVENUE",
+        "missing": [
+          "TM_NRR",
+          "TM_RECURRING_REVENUE_PCT"
+        ],
+        "reason": "MANDATORY_METRIC_MISSING",
+        "role": "CROSS_CHECK",
+        "state": "WITHHELD"
+      }
+    ],
+    "operatingMetricCoveragePct": 0,
+    "sector": "Technology",
+    "stage": "G2_PARTIAL",
+    "statementCoveragePct": 87.5,
+    "usableMethods": [
+      "DCF_FCFF",
+      "PE_RELATIVE"
+    ],
+    "withheldMethods": [
+      "EV_EBITDA",
+      "EV_REVENUE"
+    ]
+  }
+}
