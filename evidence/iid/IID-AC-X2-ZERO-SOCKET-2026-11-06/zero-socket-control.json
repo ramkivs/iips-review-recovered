@@ -1,0 +1,132 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-11-06T10:00:23.686Z",
+  "purpose": "negative control for the AC-X2 probe: proves the instrumentation observes, classifies and (for the prohibited case) refuses outbound attempts",
+  "refusals": [
+    "net.connect: refused (non-loopback)",
+    "net.createConnection: refused (non-loopback)",
+    "tls.connect: refused (non-loopback)",
+    "http.request: refused (non-loopback)",
+    "https.request: refused (non-loopback)",
+    "globalThis.fetch: refused (non-loopback)",
+    "pre-captured net.connect: refused (non-loopback)"
+  ],
+  "preCapturedReferenceCaught": true,
+  "loopbackRoundTrip": "received \"ac-x2-loopback-ok\" over 127.0.0.1:36807",
+  "localhostResolvedTo": "::1",
+  "counts": {
+    "total": 13,
+    "external": 7,
+    "loopback": 4,
+    "listen": 1,
+    "ipc": 0,
+    "localSocket": 1,
+    "unresolved": 0
+  },
+  "attempts": [
+    {
+      "channel": "net.connect",
+      "host": "example.com",
+      "port": 443,
+      "url": null,
+      "classification": "EXTERNAL",
+      "caller": "at __vite_ssr_import_3__.default.createConnection.host (/home/user/iips-review-recovered/frontend/server/investment/zero-socket-control.test.ts:56:35)"
+    },
+    {
+      "channel": "net.createConnection",
+      "host": "203.0.113.10",
+      "port": 443,
+      "url": null,
+      "classification": "EXTERNAL",
+      "caller": "at __vite_ssr_import_4__.default.connect.host (/home/user/iips-review-recovered/frontend/server/investment/zero-socket-control.test.ts:57:44)"
+    },
+    {
+      "channel": "tls.connect",
+      "host": "example.com",
+      "port": 443,
+      "url": null,
+      "classification": "EXTERNAL",
+      "caller": "at /home/user/iips-review-recovered/frontend/server/investment/zero-socket-control.test.ts:58:35"
+    },
+    {
+      "channel": "http.request",
+      "host": "example.com",
+      "port": null,
+      "url": "http://example.com/",
+      "classification": "EXTERNAL",
+      "caller": "at __vite_ssr_import_2__.default.request.protocol (/home/user/iips-review-recovered/frontend/server/investment/zero-socket-control.test.ts:59:37)"
+    },
+    {
+      "channel": "http.request",
+      "host": "example.com",
+      "port": null,
+      "url": "https://example.com",
+      "classification": "EXTERNAL",
+      "caller": "at /home/user/iips-review-recovered/frontend/server/investment/zero-socket-control.test.ts:60:38"
+    },
+    {
+      "channel": "globalThis.fetch",
+      "host": "example.com",
+      "port": null,
+      "url": "https://example.com/",
+      "classification": "EXTERNAL",
+      "caller": "at externalAttempts (/home/user/iips-review-recovered/frontend/server/investment/zero-socket-control.test.ts:61:36)"
+    },
+    {
+      "channel": "net.Socket.prototype.connect",
+      "host": "example.com",
+      "port": 443,
+      "url": null,
+      "classification": "EXTERNAL",
+      "caller": "at Object.connect (node:net:245:17)"
+    },
+    {
+      "channel": "net.Server.listen",
+      "host": "127.0.0.1",
+      "port": 0,
+      "url": null,
+      "classification": "LISTEN",
+      "caller": "at /home/user/iips-review-recovered/frontend/server/investment/zero-socket-control.test.ts:81:57"
+    },
+    {
+      "channel": "dns.lookup",
+      "host": "127.0.0.1",
+      "port": null,
+      "url": null,
+      "classification": "LOOPBACK",
+      "caller": "at lookupAndListen (node:net:2196:7)"
+    },
+    {
+      "channel": "net.connect",
+      "host": "127.0.0.1",
+      "port": 36807,
+      "url": null,
+      "classification": "LOOPBACK",
+      "caller": "at loopbackRoundTrip (/home/user/iips-review-recovered/frontend/server/investment/zero-socket-control.test.ts:85:28)"
+    },
+    {
+      "channel": "net.Socket.prototype.connect",
+      "host": "127.0.0.1",
+      "port": 36807,
+      "url": null,
+      "classification": "LOOPBACK",
+      "caller": "at Object.connect (node:net:245:17)"
+    },
+    {
+      "channel": "dns.lookup",
+      "host": "localhost",
+      "port": null,
+      "url": null,
+      "classification": "LOOPBACK",
+      "caller": "at looked (/home/user/iips-review-recovered/frontend/server/investment/zero-socket-control.test.ts:98:13)"
+    },
+    {
+      "channel": "dgram.createSocket",
+      "host": null,
+      "port": null,
+      "url": null,
+      "classification": "LOCAL_SOCKET",
+      "caller": "at /home/user/iips-review-recovered/frontend/server/investment/zero-socket-control.test.ts:105:25"
+    }
+  ]
+}

@@ -11,6 +11,18 @@ overlay that supersedes it.
 It does **not** reopen, redo or re-plan implementation. IID-6 is merged (`14de785`, PR #481); IID-0 … IID-5 are
 merged; nothing in this record changes a line of product code, a test, a contract, a pin or a limitation.
 
+**Addendum — 2026-11-06, later the same day (`HEAD` `aaf1f0c`).** Two determinations below have since been resolved by
+recorded evidence, and only those two:
+
+- **AC-X2 moves from `OPEN` to `PASS`** on a runtime measurement of the complete assess → persist → read cycle (§6.4;
+  bundle `evidence/iid/IID-AC-X2-ZERO-SOCKET-2026-11-06/`). The gate's own missing artefact (§6.3) now exists.
+- **AC-X6 moves from a qualified `PASS` to `PASS`**, with gap **G-8 closed as not a breach** (§7a): the 100 KB bound
+  governs committed *fixtures*, and the file in question is committed *test evidence*.
+
+Nothing else changed: no limitation (`L-001` … `L-029`), no other qualification (AC-X1 Q-1…Q-4, AC-2.6, AC-2.9,
+AC-4.7), no product code, contract, pin or test. This addendum appends; it does not rewrite §6.1–§6.3, §7 or §8, which
+stand as the record of what was open and why.
+
 ---
 
 ## 1. What "closure" means here, and what it does not
@@ -181,7 +193,7 @@ strongest form the evidence supports.
 
 ---
 
-## 6. AC-X2 — zero-socket evidence (determination: **OPEN**)
+## 6. AC-X2 — zero-socket evidence (determination: **OPEN** when written — **now PASS**, see §6.4)
 
 **Gate as written.** Design §6.8: *"No network access at analysis or read time: a test asserts zero sockets opened
 during a full assess→persist→read cycle."* Roadmap §3: *"Zero sockets opened during a full ingest-free
@@ -239,6 +251,68 @@ To move AC-X2 to PASS, one of the following must be produced **and recorded**, a
 Until one exists, the criterion stays OPEN. Naming the missing artefact precisely is the whole point: it makes the gap
 closable by one bounded act rather than an argument.
 
+*That act has since been performed: both routes now exist, and the first was used. See §6.4.*
+
+### 6.4 Resolution — the runtime measurement, and its result (**PASS**)
+
+The artefact named in §6.3(1) now exists, committed, and the criterion is **PASS**. Bundle:
+`evidence/iid/IID-AC-X2-ZERO-SOCKET-2026-11-06/` (`AC-X2-RUNTIME-EVIDENCE.md`, four JSON run records, and
+`commands-and-outputs.txt` with every command and its verbatim output).
+
+**Scope measured, from the design's own scope clause.** §I.2 rule 2 fixes what "zero sockets" means: *"AC-X2 is 'zero
+external network connections'. Loopback (`127.0.0.1`/`::1`) is permitted … What is prohibited is any outbound connection
+to a non-loopback host, and any exchange-host URL."* Roadmap §B.I.3 repeats it. The measurement therefore asserts
+**zero connections to a non-loopback destination**, classifies loopback separately, and treats a bind and a UNIX domain
+socket as what they are rather than as connections.
+
+**Instrumentation — two independent layers.**
+
+1. *In-process interception* of all 22 Node APIs that can start an outbound connection (`net.connect`,
+   `net.createConnection`, `net.Socket.prototype.connect`, `net.Server.listen`, `tls.connect`, `http(s).request`/`get`,
+   the `dns.lookup`/`dns.resolve*`/`dns.promises` family, `dgram.createSocket`, `globalThis.fetch`). Attempts are
+   classified LOOPBACK / EXTERNAL / LISTEN / IPC / LOCAL_SOCKET / UNRESOLVED, and an EXTERNAL destination **throws
+   instead of connecting**, so the harness cannot perform the thing it is asserting against.
+2. *Process-scoped socket-descriptor census* (`/proc/self/fd` → `socket:[inode]`) before and after the cycle — a
+   different layer, so a path that bypassed the JS patches would still show up.
+
+**Cycle measured** (product order, real store, real validators): `assembleAssessment` (analysis) → `recordAssessment`
+through the governed NP-04 boundary (persistence) → `readChain` + `readVersionWithPayload` (read, service) →
+`handleInvestmentRequest` with a fake request/response pair (read, transport).
+
+**Results**, three executions in two processes, all machine-written:
+
+| Run | Attempts | Socket descriptors |
+|---|---|---|
+| full cycle, plain Node process (`tsx` CLI `write` phase) | total 0 — external 0, loopback 0, listen 0, ipc 0, local-socket 0, unresolved 0 | 4 before, 4 after, **0 new** |
+| read repeated in a **separate process** | total 0 | 4 before, 4 after, **0 new** |
+| full cycle inside the test runner | total 0 | 4 before, 4 after, **0 new** |
+
+Process ids and report ids are in the records themselves, not transcribed here — a reproduction produces its own.
+
+The cycle did real work in each: version 1 written and read back, 66,726 B canonical payload, transport `HEAD` 200 with
+`X-Investment-Artifact-Version: 1`, transport `GET` 200 with `version.artifactVersion = 1`; the separate read process
+resolved the same head report id the writing process had written.
+
+**The zero is not vacuous.** `zero-socket-control.test.ts` drives the probe with attempts that must be seen: seven
+external attempts (including one through a `net.connect` reference captured **before** the probe was installed) — all
+refused, all recorded EXTERNAL; and a real `127.0.0.1` round trip — permitted, recorded LOOPBACK, data received. The
+control found a genuine defect in the instrument (Node passes `socket.connect` a normalised **array**, which the first
+implementation misread as "no host" and would have classified as loopback); the fix recurses into the array and the
+control asserts the pre-captured call is now recorded as EXTERNAL on `net.Socket.prototype.connect`. Product behaviour
+was never affected — no assessed path exercises that channel — but the instrument is now unable to fail silently.
+
+**Regression at the same commit:** whole `frontend` suite 142 files passed / 1 skipped, 1813 tests passed / 1 skipped
+(1814); `npm run typecheck` and `tsc -p tsconfig.investment-server.json` clean. No production file changed; the four new
+files are one probe module, two test files and one CLI used only to produce the evidence.
+
+**Limitations of this evidence, stated rather than smoothed** (full list in the bundle §5): no syscall trace
+(`strace`/`ltrace`/`bpftrace` are not installed here, so the measurement is Node-level plus the descriptor census, and
+the log says so); no listening socket and therefore no loopback connection inside the cycle (the loopback permission is
+exercised by the control instead); the full cycle runs in one process plus a second process for the read half. It says
+nothing about production, multi-user or authenticated behaviour, and it closes neither `L-004` nor `L-009`.
+
+**Therefore AC-X2 is PASS** — on runtime evidence, over the cycle the gate names, with the instrument shown to be live.
+
 ---
 
 ## 7. AC-X3 … AC-X7 (roadmap numbering) — determinations
@@ -248,8 +322,39 @@ closable by one bounded act rather than an argument.
 | AC-X3 — no unpinned dependency, no exchange-domain dependency | **PASS** | IID-6 added no dependency at all: `frontend/package.json` and `package-lock.json` are absent from PR #481's file list (38 files, verified via `gh pr view 481`). Pins in use are the pre-existing `iips-np04-governed-persistence #2e11fa3b`, `iips-production-market-data #279d1eed`, `iips-broker-import #07e86a4f` (design §7.1). No exchange host is contacted by any surface (`read-only-proof.md` §7) |
 | AC-X4 — no edit under `iips-platform/src/sector-engines/` | **PASS** | PR #481 contains **zero** `iips-platform/` paths; `git diff bc0de0e..HEAD -- iips-platform/` is empty, so nothing there has changed since IID-4 |
 | AC-X5 — no new persistence store / second artifact store / SQLite outside IPD | **PASS** | IID-6 adds no table, cache, journal, migration or adapter; the coverage page *names* `ChangeService.reconcile` as an operator action and exposes no control for it (`read-only-proof.md` §5; `iid6ChangeTimeline.test.tsx` asserts every button label). IID-4/IID-5 wrote only through the existing NP-04 record path on `hd:`/`hc:`/`icr:` scopes |
-| AC-X6 — dataset external to git, fixtures small | **PASS (qualified — see G-8)** | No dataset is committed anywhere in the IID record, and every input fixture is small: `iips-platform/tests/investment/fixtures/` totals **37,433 B** with the largest file at 4,100 B (`roster.json`). IID-6 commits no dataset and no artifact; its largest new files are source modules. One **evidence** golden payload, `evidence/iid/IID-2-COMPANY-ASSESSMENT-2026-11-06/golden-tech.json`, is **109,948 B** (107.4 KiB) — above the gate's 100 KiB *fixture* bound. It is an expected-output record, not an input fixture, and it is not under any `fixtures/` path; under the strictest reading of "artifacts external to git" it is an exception, so it is recorded as G-8 rather than smoothed away |
+| AC-X6 — dataset external to git, fixtures small | **PASS** (G-8 closed as not a breach — §7a; the qualification was recorded when this row was first written) | No dataset is committed anywhere in the IID record, and every input fixture is small: `iips-platform/tests/investment/fixtures/` totals **37,433 B** with the largest file at 7,929 B (`identity/observations.json`; re-measured at `aaf1f0c` — this row originally named the largest top-level file, 4,100 B `roster.json`, and missed the `identity/` subdirectory). IID-6 commits no dataset and no artifact; its largest new files are source modules. One **evidence** golden payload, `evidence/iid/IID-2-COMPANY-ASSESSMENT-2026-11-06/golden-tech.json`, is **109,948 B** (107.4 KiB) — above the gate's 100 KiB *fixture* bound. It is an expected-output record, not an input fixture, and it is not under any `fixtures/` path; under the strictest reading of "artifacts external to git" it is an exception, so it is recorded as G-8 rather than smoothed away |
 | AC-X7 — artifacts validate on write and on read | **PASS — referenced prior evidence** | IID-3 `INDEPENDENT-VERIFICATION.md` §4 (chain validation on read, corruption refused with a static 503) and M-1 points 3, 6, 7, 8; IID-4 `POST-MERGE-VERIFICATION` §3. IID-6 writes nothing, so it adds no artifact to validate |
+
+### 7a. AC-X6 / G-8 — the fixture-size bound, and what it governs (**PASS**, G-8 closed)
+
+The bound in the gate — *"committed fixtures each <100 KB"* — is attached to one data **class**, not to every committed
+file. Design §I.2 rule 3 (`:2228–2231`) defines the classes: "(b) *committed fixtures* — synthetic or public-domain
+extracts, **each < 100 KB**, no PII; (c) *test evidence* — sanitized summaries (counts, pass/fail, digests), never raw
+user data or partition literals." Roadmap §B.I.4 (`:888–894`) assigns them locations: class (b) to
+`iips-platform/tests/investment/fixtures/` ("<100 KB total"), class (c) to `evidence/iid/**` — with no size bound.
+
+`evidence/iid/IID-2-COMPANY-ASSESSMENT-2026-11-06/golden-tech.json` (109,948 B) is class (c): committed test evidence, in
+the class (c) location, over the synthetic fixture issuer (`IN:ISIN:IN0000000201`, `Aarav Systems Limited`,
+`bindingRef: fixture`), containing no user data and no partition literals. **The bound does not apply to it**, so G-8 was
+never a breach — the earlier row read the gate's one-line summary as if it covered all committed artefacts, which the
+design's own class definitions show it does not.
+
+The bound is nonetheless met where it does apply, re-measured at `aaf1f0c`
+(`evidence/iid/IID-AC-X2-ZERO-SOCKET-2026-11-06/AC-X6-G8-DETERMINATION.md`, `commands-and-outputs.txt` §8–§9):
+
+| Where | Size |
+|---|---|
+| `iips-platform/tests/investment/fixtures/` (10 files, the directory the roadmap names) | **37,433 B total**, largest file **7,929 B** |
+| `iips-platform/tests/regression/fixtures/` | 61,539 B total, largest file 42,478 B |
+| `ies-010…015/fixtures/`, `iips-cross-sector/fixtures/` | 1,851 B – 6,178 B each |
+| **any** file under **any** committed `fixtures/` directory | **none exceeds 100 KB**; the largest is 42,478 B |
+
+One honest note, offered for a future revision of the design rather than as a failed criterion: class (c) is
+*described* as "summaries", and a full expected-payload dump is broader than that description — it is a golden file,
+the standard way to pin an engine's output, and `golden-digests.json` (4,515 B) already carries the summary form. The
+file was **not** shrunk, moved or regenerated to satisfy a reading of the gate, and `golden-tech.json` remains 109,948 B.
+
+**Therefore AC-X6 is PASS and G-8 closes as *not a breach*.**
 
 ---
 
@@ -257,14 +362,14 @@ closable by one bounded act rather than an argument.
 
 | ID | Item | Status | Exactly what is missing |
 |---|---|---|---|
-| **G-1** | **AC-X2** zero-socket test | **OPEN** | the instrumentation or trace described in §6.3, with committed output |
+| **G-1** | **AC-X2** zero-socket test | **CLOSED** | nothing — the instrumentation and its committed output now exist (§6.4; `evidence/iid/IID-AC-X2-ZERO-SOCKET-2026-11-06/`). What was missing when this row was written: the instrumentation or trace described in §6.3, with committed output |
 | G-2 | AC-X1 literal `npm test` at an IID head (Q-1) | **qualified PASS** | one execution of `npm test` in `iips-platform` at an IID merge; composition is sound but is not a single measured run |
 | G-3 | AC-X1 in-src test component (Q-2) | **qualified PASS** | an IID-era run of `src/**/*.test.ts`; today's support is a pre-IID record with an intact dependency closure |
 | G-4 | IID-5 evidence bundle location | **recorded** | sits under `evidence/integration/` while IID-0…IID-4 and IID-6 sit under `evidence/iid/`. Not moved (moving would break committed cross-references); indexed in `evidence/iid/README.md` |
 | G-5 | Real-issuer validation | **not attempted, out of scope** | an approved real dataset (`L-009`); no real issuer has been assessed, dispositioned or compared |
 | G-6 | R-16 sector coverage | **OPEN by design** | 3 of 13 sectors measured (`L-001`); sector expansion is explicitly out of scope for this work item |
 | G-7 | Windows host-operation evidence | **not produced, out of scope** | no host-operation evidence of any kind is claimed by IID-0…IID-6 |
-| G-8 | AC-X6 fixture-size bound vs one committed golden | **qualified PASS / recorded exception** | `evidence/iid/IID-2-COMPANY-ASSESSMENT-2026-11-06/golden-tech.json` is 109,948 B (107.4 KiB), above the 100 KiB bound that the gate applies to *fixtures*. No dataset is committed and every actual fixture is ≤ 4,100 B (37,433 B in total). If the bound is read to apply to all committed artifacts, this file is a breach and should either be regenerated smaller or moved to external storage — that decision is not taken here |
+| G-8 | AC-X6 fixture-size bound vs one committed golden | **CLOSED — not a breach** | nothing: the bound governs class (b) committed *fixtures*, and this file is class (c) *test evidence* (§7a; `…/AC-X6-G8-DETERMINATION.md`). Every committed fixture is ≤ 42,478 B and the IID fixture corpus is 37,433 B, so the bound is met where it applies. What this row recorded when written: `evidence/iid/IID-2-COMPANY-ASSESSMENT-2026-11-06/golden-tech.json` is 109,948 B (107.4 KiB), above the 100 KiB bound that the gate applies to *fixtures*. No dataset is committed and every actual fixture is ≤ 4,100 B (37,433 B in total). If the bound is read to apply to all committed artifacts, this file is a breach and should either be regenerated smaller or moved to external storage — that decision is not taken here |
 
 ---
 
@@ -313,6 +418,10 @@ lands on the old text is not misled.
 | register L380 (L-014 status history) | "IID-5 not started" (dated entry in a history line) | same line's later entry: "2026-11-06 (IID-5) — implementation shipped and tested; status `RESOLVED`" |
 | `IIPS_V3_IID_L014_SUBSTANTIVE_IDENTITY_DECISION_2026-11-06.md` L497–499 | "IID-5 is NOT STARTED … IID-6 is NOT STARTED" | §B.N, §B.O; the decision document is a point-in-time record and is not amended |
 | roadmap §B.B / design §6.8 gate numbering | design AC-X4/X5 mean different things from roadmap AC-X4/X5 | §4 of this record maps by meaning |
+| roadmap §B.P, AC-X2 paragraph | "**AC-X2 … — OPEN** … The criterion was OPEN before IID-6 and remains OPEN" | §B.Q (roadmap) and §6.4 of this record — the runtime measurement now exists and AC-X2 is **PASS** |
+| roadmap §B.P, AC-X6 clause | "**AC-X6 is a qualified PASS** … one committed evidence golden … exceeds the gate's 100 KiB *fixture* bound" | §B.Q (roadmap) and §7a of this record — the bound governs the fixture class, and G-8 closes as not a breach |
+| register §11, AC-X2 bullet | "**AC-X2 (zero-socket measurement) is `OPEN`.**" | register §12 and §6.4 of this record |
+| register §11, AC-X6 wording | "the closure records … G-8" qualification implied by the register's §11 table | register §12 and §7a of this record |
 
 ---
 
@@ -333,9 +442,10 @@ with the commit it was measured at. Where a claim rests on file identity rather 
 **IID-0 … IID-6 are implementation-complete**, each merged on `main` with an acceptance matrix and an evidence bundle
 (§3), subject to the qualifications in §5.5 and the gaps in §8.
 
-**Open criteria:** **AC-X2** (zero-socket test — §6, missing artefact named in §6.3). **Qualified criteria:** AC-X1
-(§5.5 Q-1…Q-4), AC-X6 (G-8: one committed evidence golden at 107.4 KiB against a 100 KiB fixture bound), AC-2.6, AC-2.9,
-AC-4.7 (§9.3).
+**Open criteria:** none of the cross-cutting gates. **AC-X2 closed on runtime evidence** (§6.4) and **AC-X6 closed with
+G-8 resolved as not a breach** (§7a), both on the 2026-11-06 addendum at `aaf1f0c`. **Qualified criteria:** AC-X1
+(§5.5 Q-1…Q-4), AC-2.6, AC-2.9, AC-4.7 (§9.3). The phase-level gaps in §8 that are not part of those gates remain as
+recorded (G-2, G-3 qualified; G-5, G-7 out of scope by statement; G-6 open by design).
 
 **Not closed by this record:** any limitation, R-16 sector coverage, real-issuer validation, scheduling, Windows host
 evidence, production readiness, admission, release, trade execution, brokerage integration, or multi-user/auth scope.

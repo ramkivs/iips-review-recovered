@@ -87,7 +87,7 @@ mounts the route.
 | Gate | How IID-6 satisfies it | Evidence |
 |---|---|---|
 | AC-X1 | `npm run typecheck` clean; `vitest run src` 57 files / 546 passed (+1 skipped); `vitest run server/investment` 14 files / 199 passed — **the `frontend` half only.** The `iips-platform` half is reconciled in the closure record §5 (see §6 below) | `test-run.txt` |
-| AC-X2 | **CORRECTED — see §6.** The cell previously read "No socket: the surface only calls the local read transport…". That is an architectural argument, not the measurement this gate requires; the criterion is **OPEN** | `read-only-proof.md`; closure record §6 |
+| AC-X2 | **CORRECTED — see §6.** The cell previously read "No socket: the surface only calls the local read transport…". That is an architectural argument, not the measurement this gate requires; the criterion was **OPEN** when this correction was written and is **now PASS** on runtime evidence (`../IID-AC-X2-ZERO-SOCKET-2026-11-06/`; see the banner at §6.1) | `read-only-proof.md`; closure record §6 |
 | AC-X3 | No dependency added; `package.json`/`package-lock.json` untouched in this phase | `changed-files.txt` |
 | AC-X4 | No file under `iips-platform/src/sector-engines/` touched (nor anywhere else in `iips-platform/`) | `changed-files.txt` |
 | AC-X5 | No store, table, cache, journal or adapter added; the coverage page names `ChangeService.reconcile` as an operator action and has no control for it | `read-only-proof.md`, `iid6ChangeTimeline.test.tsx` |
@@ -124,7 +124,12 @@ two rows corrected by pointer. The authoritative reconciliation is
 `docs/integration/IIPS_V3_IID_FORMAL_CLOSURE_2026-11-06.md` §5–§6 and
 `evidence/iid/IID-CLOSURE-2026-11-06/`.
 
-### 6.1 AC-X2 — this matrix overstated the evidence; the criterion is OPEN
+### 6.1 AC-X2 — this matrix overstated the evidence; the criterion was OPEN
+
+> **Superseded on the finding, preserved as history.** The correction below was right when it was written: the row
+> asserted AC-X2 from a static observation, and no measurement existed. A runtime measurement now does —
+> **AC-X2 is PASS** (`../IID-AC-X2-ZERO-SOCKET-2026-11-06/AC-X2-RUNTIME-EVIDENCE.md`; closure §6.4, roadmap §B.Q,
+> register §12). The paragraph below is left unedited as the record of the correction this matrix owed.
 
 The §3 row asserted AC-X2 on the strength of a **static** observation: the IID-6 surfaces call the existing local read
 transport and add no new endpoint. That is true, and it is *not* what the gate asks for. The gate (design §6.8,

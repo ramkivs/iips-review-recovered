@@ -12,7 +12,7 @@ commit it was measured at; where a claim rests on file identity rather than exec
 | `README.md` | This index. |
 | `commands-and-outputs.txt` | Verbatim commands and output used for the reconciliation: history, platform diffs by range, `package.json` scripts, test-file counts, the socket search, the network-import search, and the dependency-closure greps. |
 | `AC-X1-PLATFORM-EVIDENCE.md` | AC-X1 determination: component table with recorded results and commits, the file-identity argument, the four qualifications (Q-1…Q-4). |
-| `AC-X2-ZERO-SOCKET-EVIDENCE.md` | AC-X2 determination: **OPEN**. What exists, why architectural evidence is not the criterion, and the exact artefact that would close it. |
+| `AC-X2-ZERO-SOCKET-EVIDENCE.md` | AC-X2 determination: **OPEN** when written (now superseded — see the banner in that file). What existed, why architectural evidence is not the criterion, and the exact artefact that would close it. That artefact now exists: `../IID-AC-X2-ZERO-SOCKET-2026-11-06/`. |
 
 ## The two determinations, in one line each
 
@@ -22,7 +22,7 @@ commit it was measured at; where a claim rests on file identity rather than exec
   byte-identical at head), the regression suite 651/651 at `f08da40` (unchanged files, investment-free closure) and the
   in-src tests' 648/648 standard-command record at `7524f18` (unchanged files and imports). **No platform suite was
   re-run**; the literal `npm test` command has never been executed at an IID head (Q-1).
-- **AC-X2 — OPEN.** No test, trace or recorded counter anywhere asserts zero sockets for an assess → persist → read
+- **AC-X2 — OPEN when written (now PASS on runtime evidence — see the banner in `AC-X2-ZERO-SOCKET-EVIDENCE.md`).** No test, trace or recorded counter anywhere asserts zero sockets for an assess → persist → read
   cycle. The investment code paths contain no socket construction and no runtime network import, and IID-6 added no
   network path — that is architectural evidence, and the gate asks for a measurement. Missing artefact specified in
   `AC-X2-ZERO-SOCKET-EVIDENCE.md` §6.
