@@ -260,6 +260,14 @@ describe('successful reads', () => {
     const entries = body.dispositions as Array<Record<string, unknown>>;
     expect(entries[0]!.scopeToken).toBe(`hd:${PORTFOLIO_ID}/${SECURITY_ID}`);
     expect(entries[0]!.verb).toBe(heldPayload.disposition.verb);
+    /*
+     * IID-6: the list entry carries the facts the portfolio surface renders. These are assertions on the WIRE shape,
+     * because the client's type declares them and a silent removal would only surface as a blank column.
+     */
+    expect(entries[0]!.confidence).toBe(heldPayload.disposition.confidence);
+    expect(entries[0]!.horizon).toBe(heldPayload.disposition.horizon);
+    expect(entries[0]!.withheld).toBe(false);
+    expect(entries[0]!.issuerId).toBe(ASSESSMENT.subject.issuerId);
   });
 
   it('returns no body for HEAD but reports the version', async () => {

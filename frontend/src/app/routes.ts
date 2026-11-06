@@ -24,6 +24,19 @@ export const ROUTES = {
    * the IID-0 issuer identity (`IN:CIN:…` / `IN:EQISIN:…`), never a symbol and never a sector reference.
    */
   companyAssessment: '/investment/company/:issuerId',
+  /**
+   * IID-6 — the product surface routes.
+   *
+   * `investmentCoverage` is the authoritative IID-6 path from the roadmap's task 7. The IID-1 SPA surface keeps its
+   * own path (`identityCoverage`) so existing navigation keeps working; both render the same read model, and neither
+   * classifies a row.
+   */
+  investmentCoverage: '/investment/coverage',
+  /**
+   * IID-6 — a candidate assessment, addressed by security id because a candidate has no issuer-scoped chain and no
+   * portfolio. Reachable without a portfolio (AC-6.7).
+   */
+  candidateAssessment: '/investment/candidate/:securityId',
   collaboration: '/collaboration',
   settings: '/settings',
   research: '/research',

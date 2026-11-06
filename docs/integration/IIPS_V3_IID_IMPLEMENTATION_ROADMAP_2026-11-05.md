@@ -695,7 +695,9 @@ Part B corrects it in the nine places raised in review. **Where Part A and Part 
 Nothing in Part B adds a phase, a repository, a service, a dependency or an approval step.
 
 **Status of this roadmap.** IID-0, IID-1, IID-2 and IID-3 are **implemented and evidenced** (§B.J, §B.J2,
-§B.J3, §B.J4). IID-4 … IID-6 are **not started**. The R-16 sector-coverage deliverable is **not** part of
+§B.J3, §B.J4); IID-4 and IID-5 are implemented and evidenced (§B.J5, §B.N); IID-6 is implemented and evidenced
+(§B.O). Part A's phase map is complete; what remains open is R-16 sector coverage (§B.K) and the scheduled-operation
+work named in §B.N and §B.O. The R-16 sector-coverage deliverable is **not** part of
 IID-0 … IID-3 and remains open (§B.K). Every limitation opened by a delivered phase is carried forward in the
 cumulative register `docs/integration/IIPS_V3_IID_LIMITATION_AND_COVERAGE_REGISTER_2026-11-06.md`.
 
@@ -1247,3 +1249,51 @@ behaviour they pinned: the IID-4 "a re-run at a new clock appends" test now asse
 operator-invoked reconciliation; no scheduler exists. R-16 remains 3/13 synthetic sectors; no real issuer has been
 assessed, dispositioned or compared. The holdings lane (A-5/A-6/A-7, D01–D06, Gate 4) is untouched, and IID
 persistence still confers no holdings-write credential.
+
+### B.O. IID-6 — product surface implemented (`2026-11-06`; implementation record)
+
+This overlay is append-only. §B.L, §B.J5 and §B.N are preserved verbatim; the sentences in them that read
+*"IID-6 remains NOT STARTED"* are superseded for **IID-6 only**. The evidence bundle is
+`evidence/iid/IID-6-PRODUCT-SURFACE-2026-11-06/`.
+
+**Baseline.** `83f4511e2ebac9d42c7f30f5798e8356c7b23edf` (PR #480, the IID-5 merge on `main`).
+
+**What exists now.** The read-only product surface that joins the three delivered capabilities:
+`/investment/company/:issuerId` promoted into the full assessment page (fundamentals with per-value absence reasons,
+valuation and sensitivity, confidence components with the caps applied, risk taxonomy, dividends, moat, assumptions
+with discount-rate components and method-specific assumptions, evidence/provenance/freshness, version history);
+`DispositionPanel` for a held position or a candidate, including the withheld state with its reasons and unmet inputs;
+`ChangeTimeline` with both versions' `dataAsOf`/`knownAsOf`/model/policy/dataset side by side, all eight categories,
+materiality and direction as words, review triggers and focus questions, attribution as `UNAVAILABLE` where that is
+the truth, and boundary coverage with reconciliation named as an **operator** action; `/investment/coverage` (the
+IID-1 read model at the IID-6 path, `/identity-coverage` retained as an alias) with dataset freshness and a boundary
+explanation; a candidate route reachable without a portfolio; portfolio-detail integration with per-holding
+disposition and links; and a sector-reference disclosure block that is structurally separate from the assessment.
+
+**Reuse, and what that means.** No new backend contract, no new engine, no new comparator, no new persistence adapter.
+The existing `CompanyAssessmentPage` and `InvestmentCoveragePage` were promoted rather than rebuilt, and the existing
+IID-2/IID-3/IID-4/IID-5 transports were consumed as they are. Two GET-only client modules were added
+(`src/api/investmentDisposition.ts`, `src/api/investmentChanges.ts`); five components and one copy module were added
+under `src/features/investment/`. The single server edit adds four facts to the **existing** portfolio disposition
+list projection (`confidence`, `horizon`, `withheld`, `issuerId`), because a portfolio row cannot be rendered without
+them and deriving an issuer id from an ISIN in the browser would be an invented mapping.
+
+**What it does not do.** No write, save, generate, record or reconcile control on any surface; no trade, order,
+quantity-to-trade or price-to-trade; no new persistence, store, table, journal or cache; no IPD change (and no change
+to `UserPortfolioView`); no `iips-platform/` edit of any kind, including `src/sector-engines/`; no new dependency; no
+exchange-domain dependency; no production, multi-user or auth scope; no IPO-screening dependency.
+
+**Acceptance.** AC-6.1 … AC-6.7 and AC-X1 … AC-X7 are mapped to implementing files and to the tests that fail on
+regression in `evidence/iid/IID-6-PRODUCT-SURFACE-2026-11-06/requirement-matrix.md`. The surface adds **79 frontend
+tests** across seven files (546 passed / 1 skipped in `src`), and two server assertions on the extended list
+projection (199 passed in `server/investment`); `npm run typecheck` is clean.
+
+**Corrections.** The coverage client's `assertReport` recursion (a real IID-1 defect: a valid report could not
+render) is fixed and pinned; two bare-dash placeholders written during this phase were replaced with
+`not available — <reason>`; and the IID-3 "no decision affordance" assertion was rewritten rather than weakened,
+because the phase exists to render dispositions. Details: `corrections.md` in the bundle, and §10 of the limitation
+register.
+
+**Not delivered, unchanged.** M-3 as a *product* is delivered as a read-only surface over synthetic data; R-16 remains
+3 of 13 sectors; no real issuer has been assessed, dispositioned or compared; no scheduler exists, so review dates and
+boundary reconciliation remain operator concerns; the holdings lane (A-5/A-6/A-7, D01–D06, Gate 4) is untouched.

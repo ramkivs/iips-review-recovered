@@ -67,6 +67,16 @@ export interface DispositionListEntry {
   readonly artifactVersion: number;
   readonly generatedAt: string;
   readonly verb: string | null;
+  /**
+   * IID-6 read-model extension: the facts a portfolio surface needs to answer "what does this holding say?"
+   * without a second request per row. Read from the SAME head payload `verb` already required, so the list
+   * costs exactly what it cost before. Nulls mean "the head payload could not be read", and render as
+   * not available — never as a verb or a zero confidence.
+   */
+  readonly confidence: number | null;
+  readonly horizon: string | null;
+  readonly withheld: boolean | null;
+  readonly issuerId: string | null;
 }
 
 export interface DispositionRecordsService {
@@ -139,11 +149,33 @@ function parsePayload(payloadText: string): HoldingDispositionPayload {
 export function createDispositionRecordsService(options: DispositionServiceOptions): DispositionRecordsService {
   const artifacts = createInvestmentArtifactService({ port: options.port, owner: options.owner });
 
-  const headVerb = (scopeToken: string): string | null => {
+  /**
+   * The head facts of one chain, or nulls when the head payload cannot be read.
+   *
+   * A list is a discovery surface: one unreadable chain must not hide the rest of the portfolio. The entry stays
+   * in the list and its fields are null, which the UI renders as `not available — <reason>` rather than as a
+   * verb inferred from anything else.
+   */
+  const headFacts = (
+    scopeToken: string,
+  ): {
+    readonly verb: string | null;
+    readonly confidence: number | null;
+    readonly horizon: string | null;
+    readonly withheld: boolean | null;
+    readonly issuerId: string | null;
+  } => {
     try {
-      return read(scopeToken).payload.disposition.verb;
+      const { payload } = read(scopeToken);
+      return {
+        verb: payload.disposition.verb,
+        confidence: payload.disposition.confidence,
+        horizon: payload.disposition.horizon,
+        withheld: payload.disposition.withheld !== null && payload.disposition.withheld !== undefined,
+        issuerId: payload.subject.issuerId,
+      };
     } catch {
-      return null;
+      return { verb: null, confidence: null, horizon: null, withheld: null, issuerId: null };
     }
   };
 
@@ -199,7 +231,7 @@ export function createDispositionRecordsService(options: DispositionServiceOptio
           headReportId: entry.headReportId,
           artifactVersion: entry.headArtifactVersion,
           generatedAt: entry.generatedAt,
-          verb: headVerb(entry.scopeToken),
+          ...headFacts(entry.scopeToken),
         }));
     },
   };

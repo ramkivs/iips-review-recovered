@@ -26,6 +26,7 @@ import {
   assessmentPayloadOf,
   buildPayload,
   candidateSubjectOf,
+  heldSubjectOf,
 } from './dispositionTestFixtures';
 import { M1_NOW, assembleAssessment, prepareM1Environment } from './demo/m1Pipeline';
 
@@ -166,6 +167,52 @@ describe('listing', () => {
     expect(entries[0]!.securityId).toBe(SECURITY_ID);
     expect(entries[0]!.versionCount).toBe(2);
     expect(entries[0]!.verb).toBe(heldPayload.disposition.verb);
+  });
+
+  it('carries the facts the portfolio surface needs, so it never has to guess one', () => {
+    /*
+     * IID-6 adds four fields to the list entry. The portfolio page shows the current verb, its confidence and whether
+     * it was withheld, and it links the row to the issuer that the entry names — none of which it can derive from
+     * `securityId` without inventing a mapping. `null` here means "the head payload could not be read", which the
+     * surface renders as unavailable; it never means "no verb".
+     */
+    const [entry] = service.listPortfolio(PORTFOLIO_ID);
+    expect(entry!.confidence).toBe(heldPayload.disposition.confidence);
+    expect(entry!.horizon).toBe(heldPayload.disposition.horizon);
+    expect(entry!.withheld).toBe(false);
+    expect(entry!.issuerId).toBe(ASSESSMENT.subject.issuerId);
+  });
+
+  it('reports a withheld head as withheld, with no verb and no confidence', () => {
+    /*
+     * A withheld disposition is a recorded FACT, and the portfolio surface must be able to say so. The engine
+     * withholds when the assessment adequacy cannot support any verb (IID-4, `verbs.ts`), so an INSUFFICIENT
+     * assessment is the honest way to produce one.
+     *
+     * A separate portfolio is used so this chain cannot disturb the chains the other assertions in this file read.
+     */
+    const withheldPortfolio = 'pf-iid6-withheld';
+    const insufficient = {
+      ...ASSESSMENT,
+      completeness: { ...ASSESSMENT.completeness, adequacy: 'INSUFFICIENT' },
+    } as typeof ASSESSMENT;
+    const withheldPayload = buildPayload({
+      payload: insufficient,
+      assembly: v1,
+      reportId: REPORT_ID,
+      securityId: SECURITY_ID,
+      subject: heldSubjectOf(insufficient, SECURITY_ID, withheldPortfolio),
+    });
+    expect(withheldPayload.disposition.withheld).not.toBeNull();
+    expect(withheldPayload.disposition.verb).toBeNull();
+
+    service.record(withheldPayload, CONTEXT);
+    const [entry] = service.listPortfolio(withheldPortfolio);
+    expect(entry!.withheld).toBe(true);
+    expect(entry!.verb).toBeNull();
+    expect(entry!.confidence).toBeNull();
+    // The issuer is still named, so the surface can still link the row to the company it is about.
+    expect(entry!.issuerId).toBe(insufficient.subject.issuerId);
   });
 
   it('returns an empty list rather than an error for a portfolio with no dispositions', () => {

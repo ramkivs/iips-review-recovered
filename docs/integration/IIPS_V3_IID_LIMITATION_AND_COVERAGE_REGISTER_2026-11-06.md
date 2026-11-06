@@ -801,5 +801,61 @@ decision-closeout section (§8) is untouched.
   "produces byte-identical content for the same pair").
 - **Responsible phase:** IID-5 (recording), IID-6 / future calibration.
 
-**Status of IID-6.** **IID-6 (product surface / ★M-3) — NOT STARTED.** No product UI, dashboard, chart or portfolio
-screen exists; IID-5 added two GET/HEAD read routes only, and no IID-6 component, route or view.
+**Status of IID-6.** **IID-6 (product surface / ★M-3) — IMPLEMENTED, 2026-11-06** (see §10). No limitation listed
+above changed status because of it: the surface renders read models that already existed, adds no engine and makes no
+new claim about a company. Three specific consequences for this register are recorded there — the coverage
+`assertReport` correction, the pre-existing unused broker-preview `POST`, and the fact that a product surface does not
+convert a synthetic dataset into a real-issuer claim.
+
+---
+
+## 10. What IID-6 changed in this register (2026-11-06)
+
+**Append-only.** `L-001` … `L-029` keep their identifiers, meanings and statuses. Nothing was renumbered, retired or
+silently upgraded, and no new limitation identifier is opened by this phase: a read-only surface cannot create a
+limitation about the *engine*, and it does not cure one either.
+
+### 10.1 What the product surface does to existing limitations
+
+| Limitation | Effect of IID-6 |
+|---|---|
+| `L-001` / R-16 (3 of 13 sectors measured) | Unchanged, and now **visible where the reader needs it**: the coverage page prints `measuredSectors` of `totalSectors` and the outstanding sectors. The surface makes the gap easier to see; it does not reduce it. |
+| `L-004` (synthetic reference dataset) | Unchanged. Every company page prints the dataset class and the payload's dataset notice; no surface labels a synthetic result as real. |
+| `L-009` (no real issuer assessed) | Unchanged, and repeated on the company page's limitations block rather than left to the register. |
+| `L-005` – `L-008`, `L-010` – `L-013` | Unchanged; the company page lists the identifiers the stored envelope actually carries, with the payload's own prose underneath. |
+| `L-014` (clock is content, not substance) | Unchanged. The change timeline shows `CLOCK_ONLY_UNCHANGED` pairs as the classification the server sends and never re-derives a pair client-side. |
+| `L-021` – `L-027` | Unchanged. The disposition panel prints the withheld state, the gates, the caps and the limits exactly as recorded; it never turns `PARTIAL` adequacy into a verb. |
+| `L-028` / `L-029` | Unchanged. The timeline prints `UNAVAILABLE` attribution with its cause and prints the materiality policy version beside every materiality label; it never estimates the split or re-scores a movement. |
+
+### 10.2 A defect fixed, not a limitation opened — `assertReport`
+
+`frontend/src/api/investmentCoverage.ts` ended `assertReport` with a recursive call to itself, and the main read path
+never called it, so the coverage view could not render a valid report (preview path) and silently accepted any body
+(main path). It was found by the first test that ever fed that page a valid report. It is fixed, and the fix is pinned
+by `frontend/src/features/investment/iid6Coverage.test.tsx`. **No limitation entry is added**: a defect that is fixed
+and tested is not a limitation, and listing it as one would misrepresent the register's purpose. The full account is
+`evidence/iid/IID-6-PRODUCT-SURFACE-2026-11-06/corrections.md` §C-1.
+
+### 10.3 An exception stated precisely — the pre-existing broker-preview `POST`
+
+`evaluateBrokerPreview()` in `investmentCoverage.ts` issues `POST /api/investment/coverage/preview`. It predates this
+phase, stores nothing, and is imported by no surface. IID-6 does not use it, does not remove it, and does not route it
+through the GET helper (which would misdescribe a POST). The surfaces this phase delivers issue **GET only**, asserted
+in seven test files. Recorded so that "no investment `POST`" is a precisely scoped claim rather than an averaged one.
+
+### 10.4 What the surface cannot show, and does not pretend to
+
+- **No cross-issuer boundary total.** Boundary coverage exists per assessment chain; the coverage page says so and
+  links to each known issuer instead of printing a number it cannot compute.
+- **No scheduled review.** Review dates and armed triggers are read from the stored disposition; nothing schedules
+  them. Reconciliation of a missing boundary explanation is an operator CLI action (`ChangeService.reconcile`), named
+  in the UI and exposed by no control.
+- **No portfolio action.** The portfolio page gains a disposition column and links; it gains no trade, no rebalance,
+  no target-weight edit, and no persistence. IPD and `UserPortfolioView` are untouched.
+- **No candidate position.** A candidate renders no quantity, no weight and no projected weight, because it has
+  none — `NOT_APPLICABLE` is printed with its reason.
+
+### 10.5 Verification for this section
+
+`vitest run src` → 57 files, 546 passed, 1 skipped; `vitest run server/investment` → 14 files, 199 passed;
+`npm run typecheck` clean. Captured in `evidence/iid/IID-6-PRODUCT-SURFACE-2026-11-06/test-run.txt`.
