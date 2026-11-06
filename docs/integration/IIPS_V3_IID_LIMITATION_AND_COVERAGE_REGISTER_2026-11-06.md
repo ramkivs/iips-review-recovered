@@ -52,7 +52,7 @@ responsible phase · evidence references · last status update.
 | L-011 | IID-3 | Two scope namespaces (`co:`/`hd:`/`hc:`/`icr:` chain scope vs payload `subjectScope`) | OPEN | 2026-11-06 |
 | L-012 | IID-3 | Store-internal `chainId` is not surfaced; chain root `reportId` is the surrogate | OPEN | 2026-11-06 |
 | L-013 | IID-3 | Idempotency is decided against the chain head only | OPEN | 2026-11-06 |
-| L-014 | IID-3 | Content/input identity include the assessment timestamp | OPEN | 2026-11-06 |
+| L-014 | IID-3 | Content/input identity include the assessment timestamp | OPEN (decision resolved; implementation pending in IID-5) | 2026-11-06 |
 | L-015 | IID-3 | Two chain heads for one scope are refused, never merged | OPEN | 2026-11-06 |
 | L-016 | IID-3 (observed) | NP-04 pin prose and manifest pins disagree; no pin changed by IID-3 | OPEN | 2026-11-06 |
 | L-017 | IID-4 | Portfolio context is a read-model snapshot, not a risk model | OPEN | 2026-11-06 |
@@ -341,7 +341,8 @@ responsible phase · evidence references · last status update.
   recomputable from the stored bytes alone, which is what makes a post-hoc store edit detectable.
 - **Affected contracts:** `payloadDigest`, `inputDigest`, `UNCHANGED`/`INPUT_CHANGED_CONTENT_IDENTICAL` outcomes;
   the CLI's `--generated-at`; version counts.
-- **Status:** `OPEN`.
+- **Status:** `OPEN (decision resolved 2026-11-06; implementation pending in IID-5)` — the semantics are decided, the
+  implementation has not begun, so by register rule 3 the status does not improve.
 - **Downstream phases affected:** IID-4, IID-5 (scheduled refreshes), IID-6 (storage growth).
 - **Consequence for user-visible results:** a scheduled refresh that finds identical inputs still appends a version
   whose only difference is its timestamp. The history is not wrong, but it is larger than a content-only digest
@@ -349,9 +350,19 @@ responsible phase · evidence references · last status update.
 - **Required resolution / evidence:** either a versioned "content identity excludes generation metadata" rule with a
   second digest (so byte-level verification survives), or an explicit operator decision that refreshes are
   versions. Must be decided before IID-5's scheduled change reports.
+- **Decision (resolved 2026-11-06):** the first option, decided in
+  `IIPS_V3_IID_L014_SUBSTANTIVE_IDENTITY_DECISION_2026-11-06.md`. Version identity becomes a **`substantiveDigest`**
+  over the canonical payload with a closed, enumerated set of clock-derivable members deleted (grammar
+  `assessment-substantive-identity/1`, `disposition-substantive-identity/1`); `payloadDigest` keeps its byte-integrity
+  job unchanged and is never narrowed; a clock-only re-run yields the new outcome `CLOCK_ONLY_UNCHANGED` and writes
+  nothing. A clock advance that crosses the freshness policy window, or admits a newer price observation, is
+  **substantive** and still mints a version. The decision is resolved; the implementation is IID-5's (nine obligations
+  `O-1`…`O-9` and ten acceptance tests `AC-L14.1`…`AC-L14.10` in §8 of that document). Until IID-5 ships it and its
+  tests pass, this entry stays `OPEN` and the behaviour described above stands unchanged.
 - **Owner / responsible phase:** IID-3 (composition contract) → IID-5.
 - **Last status update:** 2026-11-06 (IID-3) — opened; pinned by
-  `assessment-composition.test.ts` ("moves when only the clock moves").
+  `assessment-composition.test.ts` ("moves when only the clock moves"). 2026-11-06 (L-014 decision closeout) — decision
+  recorded, status qualified, **no status improvement**, no implementation change, IID-5 not started.
 
 ### L-015 — Two chain heads for one scope are refused, never merged
 
@@ -663,3 +674,37 @@ new clock produces a new `payloadDigest` and therefore a new chain version. The 
 excludes the clock, so the pair (`APPENDED`, unchanged `inputDigest`) says "only the generation metadata moved" —
 which is a disclosure, not a resolution. Nothing in IID-4 depends on a clock-stable content identity, so the phase
 could proceed under `L-014` unchanged.
+
+---
+
+## 8. `L-014` decision closeout (2026-11-06; documentation only)
+
+**What was decided.** `L-014`'s two admissible resolutions (§4: "a versioned *content identity excludes generation
+metadata* rule with a second digest, so byte-level verification survives", or "an explicit operator decision that
+refreshes are versions") are resolved in favour of the **first**, in
+`IIPS_V3_IID_L014_SUBSTANTIVE_IDENTITY_DECISION_2026-11-06.md`:
+
+- version identity becomes a **`substantiveDigest`** over the canonical payload with a **closed, enumerated** set of
+  clock-derivable members deleted — `artifact.generatedAt`, `asOf.generatedAt`, `asOf.stalenessDays`,
+  `subject.identity.bindingRef` for assessments; `artifact.generatedAt` and `companyAssessmentRef.generatedAt` for
+  dispositions;
+- `payloadDigest` is **not** narrowed, renamed or redefined: it remains SHA-256 over the stored canonical bytes and
+  keeps its tamper-detection job, so the integrity guarantee IID-3 and IID-4 relied on is preserved exactly;
+- a re-run whose only movement is generation metadata returns the new outcome **`CLOCK_ONLY_UNCHANGED`** and writes
+  nothing;
+- a clock advance that crosses the freshness policy window, or admits a newer price observation, remains
+  **substantive** and still appends a version — these are changes in what was knowable, not metadata.
+
+**What changed in this register.** One at-a-glance row (`L-014`) and one entry field set (§4 `L-014`: status
+qualification, decision pointer, last-status-update line). This section is appended; no earlier section was edited.
+
+**What did not change.** No entry was closed, no status improved (`L-014` remains `OPEN`, now qualified as *decision
+resolved / implementation pending*), no numbering moved, no description softened. `L-001`–`L-013` and `L-015`–`L-027`
+are byte-identical to their previous text. No implementation, test, API, architecture or IPD change accompanies this
+closeout; no stored artifact was rewritten; no historical report was regenerated.
+
+**Not started.** **IID-5 (change intelligence / ★M-2) — NOT STARTED. IID-6 (product surface / ★M-3) — NOT STARTED.**
+The decision is a prerequisite for IID-5, not a beginning of it: the nine obligations (`O-1`…`O-9`) and ten acceptance
+tests (`AC-L14.1`…`AC-L14.10`) that would discharge `L-014` exist only as requirements, and none of them is
+implemented. Until they are implemented and passing, the behaviour recorded in §1 and in §7 of this register remains
+the behaviour of the system.
