@@ -122,7 +122,7 @@ plus the commands.
 ## 4. Mapping and derivation coverage
 
 Measured against the product's own closed tables (52 line items, 20 XBRL tags, 8 derivations), not against an
-aspiration. Per-item detail in `coverage/line-item-coverage-v{1,2}.json`.
+aspiration. Per-item detail in `mapping-coverage/line-item-coverage-v{1,2}.json`.
 
 | Bucket | Count | Meaning |
 | --- | --- | --- |
@@ -381,7 +381,7 @@ consequence (`withheldMethodCount = 2`) with a comment saying to update it when 
 | `dataset/` | snapshot v2 written by IID-0 (the dataset artifact v2 consumed) |
 | `dataset-v1/` | snapshot v1 (the dataset artifact v1 consumed, kept so v1 stays reproducible) |
 | `artifact/assessment-payload-v1.json`, `…-v2.json` | the full assessment payloads, hash-verified against the chain |
-| `coverage/line-item-coverage-v{1,2}.json` | per-item filed/derived/not-available table with tag mapping |
+| `mapping-coverage/line-item-coverage-v{1,2}.json` | per-item filed/derived/not-available table with tag mapping |
 | `runs/commands.txt` | every command run, with observed results |
 | `runs/cli-v1-created-pre-fix.json` | run 1 summary — the D-1 evidence (stale limitation text) |
 | `runs/cli-unchanged-post-text-fix.json` | re-run after D-1: `UNCHANGED`, digests identical |
@@ -390,6 +390,12 @@ consequence (`withheldMethodCount = 2`) with a comment saying to update it when 
 | `runs/chain-read-v{1,2}.txt` | chain reads from separate processes |
 | `runs/owner-carrier.json` | the Art. XI owner-context bytes the CLI requires |
 | `digests.json` | sha256 and size of every committed file **except this README and digests.json itself**, plus the chain digests and the store digest |
+
+**Path note.** `.gitignore` ignores any path component named `coverage` (it is there to keep instrumented test
+outputs out of the tree). The per-item coverage tables were first written to `coverage/` and were therefore silently
+excluded from a push, while `digests.json` listed them — the remote check caught the disagreement. The directory is
+now `mapping-coverage/`, and the lesson is the one the `.gitignore` itself states: an ignored evidence directory
+publishes a silent gap.
 
 ---
 

@@ -130,7 +130,7 @@ Both dumped payloads hash to the chain's recorded digests, recomputable from the
 ## 10 — line-item / tag / derivation coverage table
 
 Generated from the written dataset and the product's own closed tables (`LINE_ITEM_IDS`, `XBRL_TAG_MAP`,
-`DERIVATIONS`) by a temporary script; output committed as `coverage/line-item-coverage-v{1,2}.json`.
+`DERIVATIONS`) by a temporary script; output committed as `mapping-coverage/line-item-coverage-v{1,2}.json`.
 
 ## 11 — targeted verification
 

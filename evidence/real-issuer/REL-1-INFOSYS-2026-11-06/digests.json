@@ -33,16 +33,6 @@
       "sha256": "cc91f239197a1ed8aca52600ca25ec9c62cd78863e224756c21dfff7ba57cfcd"
     },
     {
-      "path": "coverage/line-item-coverage-v1.json",
-      "bytes": 19821,
-      "sha256": "fb2897b3ed3e8be251d41ff286d6edafee3877488e612a4b8f8328f5eb79e333"
-    },
-    {
-      "path": "coverage/line-item-coverage-v2.json",
-      "bytes": 19905,
-      "sha256": "ccf85b1b1205797f81f9f438cf71a8ad5e0e1c77b5b67d6a9d43c1ed97f4a9b7"
-    },
-    {
       "path": "dataset-v1/corporateActions.json",
       "bytes": 3,
       "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
@@ -168,6 +158,16 @@
       "sha256": "426e8478bca1ffc3fd47a6a24995230cfbfc05ccd1df4b92fa774ba15c60f8b4"
     },
     {
+      "path": "mapping-coverage/line-item-coverage-v1.json",
+      "bytes": 19821,
+      "sha256": "fb2897b3ed3e8be251d41ff286d6edafee3877488e612a4b8f8328f5eb79e333"
+    },
+    {
+      "path": "mapping-coverage/line-item-coverage-v2.json",
+      "bytes": 19905,
+      "sha256": "ccf85b1b1205797f81f9f438cf71a8ad5e0e1c77b5b67d6a9d43c1ed97f4a9b7"
+    },
+    {
       "path": "runs/chain-read-v1.txt",
       "bytes": 1532,
       "sha256": "f8491af99da481bc713c271e336eed44531581997d4c186098cc6d3d2690bb9a"
@@ -199,8 +199,8 @@
     },
     {
       "path": "runs/commands.txt",
-      "bytes": 6890,
-      "sha256": "698956a9b98c65de5b7ee7e83f205dd7694bdcf91de8dc9b17b328818e15de37"
+      "bytes": 6898,
+      "sha256": "93b68f9e905ad6df4138feaf2ecc9aede0d14777aef57a3764c212f024f87de5"
     },
     {
       "path": "runs/owner-carrier.json",
