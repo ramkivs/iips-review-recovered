@@ -70,6 +70,18 @@ export type MissingReason =
   | 'OPERATING_METRIC_MISSING'
   | 'OPERATING_METRIC_UNVALIDATED'
   | 'POLICY_INPUTS_UNAVAILABLE'
+  /**
+   * D-3 — the risk dimensions were evaluated and none crossed a policy threshold, so there is no factor whose
+   * severities could be averaged. Distinct from `POLICY_INPUTS_UNAVAILABLE`: here every applicable input *was*
+   * available. Only ever attached to the risk aggregate.
+   */
+  | 'NO_RISK_FACTOR_IDENTIFIED'
+  /**
+   * D-3 — no risk factor was raised, and some applicable dimension could not be evaluated. A partial
+   * evaluation is neither a pass nor "policy inputs unavailable": the evaluated dimensions are reported
+   * individually, and this reason says the aggregate score is absent because the evaluation is incomplete.
+   */
+  | 'RISK_EVALUATION_PARTIAL'
   /** The reason attached to a `NIL_BY_DISCLOSURE` observation: the source says the item is nil. */
   | 'DECLARED_NIL_IN_SOURCE';
 

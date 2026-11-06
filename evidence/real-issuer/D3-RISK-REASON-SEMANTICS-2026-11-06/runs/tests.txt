@@ -1,0 +1,40 @@
+# D-3 — checks on main b982c05 (platform + frontend), 2026-11-06T13:11:55Z
+
+## iips-platform
+$ npx tsc --noEmit
+clean (exit 0)
+
+$ npm run test:iid
+# tests 420
+# suites 111
+# pass 420
+# fail 0
+
+$ npx tsx --test tests/investment/risk-evaluation.test.ts
+# tests 14
+# suites 9
+# pass 14
+# fail 0
+
+## frontend
+$ npm run typecheck
+clean (exit 0)
+$ npm run typecheck:replay-server
+clean (exit 0)
+$ npm run typecheck:investment-server
+clean (exit 0)
+
+$ npx vitest run server/investment
+ Test Files  17 passed (17)
+      Tests  207 passed (207)
+
+$ npx vitest run src/features/investment/iid6CompanyAssessment.test.tsx
+ Test Files  1 passed (1)
+      Tests  16 passed (16)
+
+$ npx vitest run   # full suite
+ Test Files  143 passed | 1 skipped (144)
+      Tests  1821 passed | 1 skipped (1822)
+
+$ npm run build
+✓ built in 6.17s

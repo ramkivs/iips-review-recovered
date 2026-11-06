@@ -267,9 +267,84 @@ export interface RiskFactor {
   readonly evidence: readonly { readonly ref: string; readonly observation: Observation<number> }[];
 }
 
+/**
+ * D-3 — the risk dimensions the taxonomy evaluates. Closed: adding a dimension is a taxonomy version, not an
+ * extra key at a call site.
+ *
+ * The three company dimensions are evaluated from filed data and can pass, raise a concern, or be found
+ * unevaluable. The two sector priors are propositions about the sector the issuer is *in*: they raise a
+ * standing concern when the prior applies and are `NOT_APPLICABLE` when it does not — they are never a
+ * company-specific pass, which is why they are excluded from the completeness fraction.
+ */
+export type RiskDimensionId =
+  | 'FINANCIAL_LEVERAGE'
+  | 'EARNINGS_QUALITY_CASH_CONVERSION'
+  | 'CAPITAL_ALLOCATION_CAPEX_INTENSITY'
+  | 'REGULATORY_FRAMEWORK'
+  | 'CYCLICALITY';
+
+/**
+ * What happened to one dimension.
+ *
+ * `PASSED` and `CONCERN` are *evaluations*: an input was available and a threshold was applied.
+ * `NOT_EVALUABLE` means a required input was absent or unusable — its own reason is carried on `measurement`
+ * and the absent inputs are named, so absence can never be read as a pass. `NOT_APPLICABLE` is a sector prior
+ * that does not apply to this issuer's sector.
+ */
+export type RiskDimensionStatus = 'PASSED' | 'CONCERN' | 'NOT_EVALUABLE' | 'NOT_APPLICABLE';
+
+/** One dimension's outcome, kept whether or not it produced a factor. */
+export interface RiskDimensionResult {
+  readonly dimensionId: RiskDimensionId;
+  readonly category: RiskFactor['category'];
+  readonly status: RiskDimensionStatus;
+  /**
+   * The dimension's own measurement, when it has one: `PRESENT` for `PASSED`/`CONCERN`, and otherwise the
+   * absence with its reason (`NOT_COMPUTABLE` + `reason`). `null` for a sector prior, which measures no number.
+   */
+  readonly measurement: NumericObservation | null;
+  /** The threshold applied, printed so a reader can disagree with it without guessing what it was. */
+  readonly threshold: string;
+  /** The factor this dimension raised, if any. Non-null exactly when `status` is `CONCERN`. */
+  readonly factorId: string | null;
+  /** Payload paths of the inputs whose absence blocked the evaluation. Empty when the dimension was evaluated. */
+  readonly unavailableInputs: readonly string[];
+  /** Deterministic restatement of the outcome. Never prose beyond the numbers. */
+  readonly statement: string;
+}
+
+/** How much of the applicable taxonomy actually ran. Orthogonal to the disposition below. */
+export type RiskEvaluationCompleteness = 'COMPLETE' | 'PARTIAL' | 'NONE';
+
+/**
+ * What the taxonomy found, independent of how much of it could run.
+ *
+ * `INDETERMINATE` exists so a partial evaluation with no concern cannot be read as a pass: `PASSED` is
+ * reserved for "every applicable dimension was evaluated and none crossed a threshold".
+ */
+export type RiskPolicyDisposition = 'PASSED' | 'CONCERNS' | 'INDETERMINATE';
+
+export interface RiskEvaluation {
+  readonly dimensions: readonly RiskDimensionResult[];
+  readonly counts: {
+    readonly applicable: number;
+    readonly evaluated: number;
+    readonly passed: number;
+    readonly concerns: number;
+    readonly notEvaluable: number;
+    readonly notApplicable: number;
+  };
+  readonly completeness: RiskEvaluationCompleteness;
+  readonly disposition: RiskPolicyDisposition;
+  readonly note: string;
+}
+
 export interface RiskBlock {
   readonly factors: readonly RiskFactor[];
+  /** The taxonomy's score where a factor exists to average. `null`/absent reason otherwise — see `evaluation`. */
   readonly aggregate: NumericObservation | null;
+  /** D-3 — per-dimension outcomes and the aggregate completeness/disposition, always published. */
+  readonly evaluation: RiskEvaluation;
 }
 
 /* ----------------------------------------------------------------- confidence */

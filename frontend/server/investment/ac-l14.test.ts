@@ -41,11 +41,20 @@ const OWNER = { tenantId: 'iid5-ac-tenant', userId: 'iid5-ac-owner' } as const;
 const ASSESSMENT = 'investment.company-assessment';
 const DISPOSITION = 'investment.holding-disposition';
 
-/** The reference digests from the L-014 decision, §5. Written as constants on purpose: see the file header. */
+/**
+ * The assessment substantive digests, written as constants on purpose: see the file header.
+ *
+ * These are the L-014 §5 vectors as D-3 leaves them. The decision's own published values (`08ea8d4a…`, `fd9589e4…`,
+ * `34240407…`) are unchanged for the payloads it measured and are asserted, byte for byte, in
+ * `substantive-identity.test.ts` against a reconstruction of the pre-D-3 risk block. They moved here because the
+ * payload gained a semantic member — `risk.evaluation` — and with it a different aggregate reason; the projection,
+ * the exclusion list, the canonicalisation and the hash are untouched, and the disposition digest below does not
+ * move at all.
+ */
 const REF = Object.freeze({
-  C1: '08ea8d4ae1732b5a23de17017aad07cd006ba4d8dcf9f4abc032d016ee3f10e1',
-  C4: 'fd9589e43b33aa07a38f0c0f0a144d1450519b586d17810b64453bcba7b6816c',
-  C5: '34240407c627d631e2166d0ce4c209d7ee119a17e9593d3b62cc54afdf1a5346',
+  C1: '6d29501048a1095584c8327cd4804e9d9684f83d53b1196b20e5f2010bfdbb80',
+  C4: '19a08af33f603315f58b5af226ed786dbcc0b5838e52c9ca99f8845226927370',
+  C5: '0032be68e2de75f94a54430593ecc16112c5b7115525ce04e94fd94703a982f8',
   /**
    * The disposition value THIS repository's M1 held fixture produces. Decision §5.2 publishes `126bd28f…` for a D0
    * fixture it does not print; both readings of the `nextReviewOn` rule were executed against this fixture and

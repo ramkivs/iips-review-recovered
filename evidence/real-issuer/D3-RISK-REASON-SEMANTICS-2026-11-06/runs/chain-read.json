@@ -1,0 +1,36 @@
+{
+  "note": "Independent read of the persisted chain in a separate process (readVersionWithPayload recomputes the payload digest from the stored bytes). Scratch store /tmp/d3/store/investment.db, fresh.",
+  "head": {
+    "reportId": "7c80ffa3-b0d8-4718-b540-5808e635f53b",
+    "artifactVersion": 1,
+    "supersedesReportId": null,
+    "generatedAt": "2026-11-06T00:00:00.000Z",
+    "reportKey": "ed1e54b03e5eb5872f3e77bc467859a4e73bfb14a62417a51d7357604e78a681",
+    "payloadDigest": "8e23f025527e998a735175ea1991b8784a486e91853ff6aa1d3fbe31cfae7978",
+    "inputDigest": "sha256:799b720377eb10df975351926d2f0929a6785aba9b42a4d597d6367bdd2a0ac1",
+    "substantiveDigest": "01a89fb619a8f3730249eed6da47c070a8f8059a9cf173eba41853df18d36877",
+    "substantiveInputDigest": "d7a159039764ab14aa1465c9f6552adb971d67eb66c89e0b646db42b62720266",
+    "substantiveIdentityGrammar": "assessment-substantive-identity/1",
+    "substantiveDigestSource": "RECORDED",
+    "dataAsOf": "2024-03-31",
+    "knownAsOf": "2026-11-06T00:00:00.000Z",
+    "datasetVersion": "sha256:ca29c8357fd3ae87889af07b27ffc317f09745caaed870b287d7ca1f8fc6d71e",
+    "contentDigest": "sha256:ca29c8357fd3ae87889af07b27ffc317f09745caaed870b287d7ca1f8fc6d71e",
+    "modelVersion": "assessment-engine/1.0.0",
+    "policyVersion": "valuation-policy/1.0.0",
+    "adequacy": "SUFFICIENT",
+    "qualityVerdict": "MATERIAL_CONCERNS",
+    "confidence": 0.4939,
+    "evidenceCount": 4,
+    "limitationCount": 5,
+    "datasetClass": "APPROVED_LOCAL_INGESTION"
+  },
+  "workItem1Comparison": {
+    "reportKey": "ed1e54b03e5e\u2026 IDENTICAL to Work Item 1 v2",
+    "payloadDigest": "8e23f025527e\u2026 CHANGED from cc91f239197a\u2026 (expected: the payload gained risk.evaluation and a corrected risk aggregate reason, and nothing else \u2014 see payload-diff.json)",
+    "payloadBytes": "45129 vs 42800 before",
+    "datasetVersion": "sha256:ca29c835\u2026 IDENTICAL",
+    "inputDigest": "sha256:799b7203\u2026 IDENTICAL",
+    "substantiveDigest": "01a89fb6\u2026 \u2014 new; the pre-D-3 payload still digests to its published value (see substantive-identity.test.ts)"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "total": 2,
+  "outsideRisk": [],
+  "insideRisk": [
+    {
+      "path": ".risk.aggregate.reason",
+      "kind": "value",
+      "before": "POLICY_INPUTS_UNAVAILABLE",
+      "after": "RISK_EVALUATION_PARTIAL"
+    },
+    {
+      "path": ".risk.evaluation",
+      "kind": "added",
+      "before": "",
+      "after": "<object>"
+    }
+  ]
+}

@@ -8,6 +8,9 @@ limitation in `L-001` … `L-029` was closed; see register §13.
 | Bundle | Issuer | Sector | Disposition | Evidence |
 |---|---|---|---|---|
 | `REL-1-INFOSYS-2026-11-06/` | Infosys Limited (`IN:CIN:L85110KA1981PLC013115`) | Technology (already measured) | **VALIDATED WITH QUALIFICATIONS** | `README.md` (full report), `digests.json`, `runs/`, `dataset{,-v1}/`, `artifact/` |
+| `D2-NIL-BY-DISCLOSURE-2026-11-06/` | Infosys (same input, unchanged) | Technology | defect **D-2 corrected** — representation only | `README.md`, `withdrawn/` (the unsupported nil declaration, kept inspectable) |
+| `D2-POST-MERGE-REGRESSION-2026-11-06/` | Infosys (same input, unchanged) | Technology | regression after the D-2 merge (`b3987ef`) | `README.md`, `runs/` |
+| `D3-RISK-REASON-SEMANTICS-2026-11-06/` | Infosys (same input, unchanged) | Technology | defect **D-3 corrected** — reporting only | `README.md`, `runs/` |
 
 The disposition word matters:
 
@@ -15,9 +18,18 @@ The disposition word matters:
   derivation set, assessment, composition, persistence, versioning and a separate-process chain read all executed on
   real audited numbers, with zero ingestion errors and payload digests independently recomputable from committed files.
 - **WITH QUALIFICATIONS** — the engine declined to value, grade or rate the company, and the reasons are recorded
-  rather than papered over: two nil-by-disclosure borrowings lines block the enterprise-to-equity bridge (defect
-  D-2), no market price was ingested, and no Ind AS XBRL instance was reachable to exercise the tag-map path. The
-  bundle states each of these with its consequence; it does not claim a verdict it did not produce.
+  rather than papered over: the FY24 consolidated statements present no borrowings line at all, so gross and net debt
+  are `NOT_REPORTED` and the enterprise-to-equity bridge is blocked; no market price was ingested; and no Ind AS XBRL
+  instance was reachable to exercise the tag-map path. The bundle states each of these with its consequence; it does
+  not claim a verdict it did not produce. The nil-by-disclosure reading this paragraph originally carried was
+  withdrawn when the filing was re-read (`D2-NIL-BY-DISCLOSURE-…/withdrawn/WHY-WITHDRAWN.md`): the statements declare
+  no such nil, so the components are `NOT_REPORTED`.
+
+**Two product defects recorded in this directory have since been corrected**, in work items of their own:
+D-2 (`D2-NIL-BY-DISCLOSURE-…`) gave a declared nil its own representation, and D-3
+(`D3-RISK-REASON-SEMANTICS-…`) stopped the risk aggregate from describing evaluated-and-passed dimensions as
+unavailable. Neither correction changed what this issuer's evidence says: the debt position is still blocked, and its
+risk evaluation is still partial. No limitation in `L-001` … `L-029` was closed by either.
 
 **Evidence hygiene.** Every figure traces to a printed page of the issuer's own filing, transcribed into
 `REL-1-…/ingest-input/periods.csv`, which is committed so a reader can check the numbers against the source instead

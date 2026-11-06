@@ -9,7 +9,20 @@
  *   • a withheld intrinsic shows what is missing, never a placeholder number;
  *   • the sector-reference block is visually and structurally separate from every company field.
  */
-import type { CompanyAssessmentPayload, NumericObservation } from './types';
+import type {
+  CompanyAssessmentPayload,
+  NumericObservation,
+  RiskDimensionStatus,
+  RiskEvaluation,
+} from './types';
+
+/** Tones for the D-3 dimension statuses: a pass is not a concern, and neither is "not evaluated". */
+function dimensionTone(status: RiskDimensionStatus): string {
+  if (status === 'PASSED') return 'ok';
+  if (status === 'CONCERN') return 'bad';
+  if (status === 'NOT_EVALUABLE') return 'absent';
+  return 'muted';
+}
 
 function escapeHtml(value: string): string {
   return value
@@ -92,6 +105,29 @@ export function renderAssessmentHtml(payload: CompanyAssessmentPayload, narrativ
       (factor) =>
         `<tr><td><code>${escapeHtml(factor.riskId)}</code></td><td>${factor.severity}</td><td>${factor.likelihood}</td><td>${escapeHtml(factor.statement)}</td></tr>`,
     )
+    .join('');
+
+  /* D-3 — a dimension that passed and a dimension that could not be evaluated are different results, and both
+   * are different from a concern. They are printed as such, with the blocking inputs where there are some. */
+  const evaluation: RiskEvaluation | undefined = payload.risk.evaluation;
+  const riskCompletenessTone =
+    evaluation === undefined || evaluation.completeness === 'NONE'
+      ? 'absent'
+      : evaluation.completeness === 'PARTIAL'
+        ? 'warn'
+        : 'ok';
+  const dimensionRows = (evaluation?.dimensions ?? [])
+    .map((dimension) => {
+      const measurement =
+        dimension.measurement === null
+          ? '<span class="muted">no measurement</span>'
+          : cell(dimension.measurement, 3);
+      const blocked =
+        dimension.unavailableInputs.length === 0
+          ? ''
+          : `<div class="muted">blocked by ${dimension.unavailableInputs.map((path) => `<code>${escapeHtml(path)}</code>`).join(', ')}</div>`;
+      return `<tr><td><code>${escapeHtml(dimension.dimensionId)}</code></td><td class="${dimensionTone(dimension.status)}">${dimension.status}</td><td>${measurement}</td><td>${escapeHtml(dimension.threshold)}</td><td>${escapeHtml(dimension.statement)}${blocked}</td></tr>`;
+    })
     .join('');
 
   const qualityRows = payload.quality.flags
@@ -180,6 +216,12 @@ ${
 </table>
 
 <h2>Risk</h2>
+<p class="muted">evaluation: <span class="${riskCompletenessTone}">${evaluation?.completeness ?? 'not published'}</span> · policy disposition: ${evaluation?.disposition ?? 'not published'}${evaluation === undefined ? '' : ` · ${evaluation.note}`}</p>
+<table>
+<thead><tr><th>Dimension</th><th>Status</th><th>Measurement</th><th>Threshold</th><th>Outcome</th></tr></thead>
+<tbody>${dimensionRows || '<tr><td class="absent" colspan="5">this artefact predates per-dimension reporting; no dimension outcome was published</td></tr>'}</tbody>
+</table>
+<h3>Material risk factors</h3>
 <table>
 <thead><tr><th>Factor</th><th>Severity</th><th>Likelihood</th><th>Statement</th></tr></thead>
 <tbody>${riskRows || '<tr><td class="absent" colspan="4">no risk factor crossed a policy threshold</td></tr>'}</tbody>
