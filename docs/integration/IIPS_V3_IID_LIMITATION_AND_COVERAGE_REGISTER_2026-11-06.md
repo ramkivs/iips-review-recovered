@@ -1208,7 +1208,7 @@ Evidence: `docs/integration/IIPS_V3_IID_WI2_PRICE_OBSERVATION_2026-11-06.md` and
 
 **No entry in `L-001` … `L-033` was closed, renumbered, softened, reinterpreted or re-statused by this section.** It
 records the primary evidence that closes defect D-2's evidence limb for this issuer, the intrinsic valuation that
-evidence unblocks, and the two limitations the publication exposes.
+evidence unblocks, and the three limitations the publication exposes.
 
 **What changed.** Four columns were added to the Work Item 1 statement rows and four cells were declared on the
 2024-03-31 CONSOLIDATED row — `LONG_TERM_BORROWINGS`, `SHORT_TERM_BORROWINGS`,
@@ -1295,7 +1295,43 @@ recommendation; the payload still declares `decisionSupportOnly` and `noTradeExe
   `iips-platform` ingestion grammar for `NIL:` cells.
 - **Last status update:** 2026-11-06 (opened).
 
-### 17.3 What §17 does not change
+### 17.3 L-036 — Associates/JV enter the enterprise-to-equity bridge as a policy zero that the payload never states
+
+- **Originating phase:** IIPS v3.0 Work Item 3 (2026-11-06), found while verifying the newly published intrinsic value
+  against its own published inputs.
+- **Description:** `equityValueFromEnterprise` converts enterprise value to equity value by subtracting net debt, NCI
+  and preference capital and **adding** `associatesAndJV` at carrying value. Design rule R-4.1 requires associates/JV at
+  carrying value; dataset schema v1 has no such line item, so the function's own comment calls the absence "a declared
+  policy zero — published in the method's assumptions, rather than a silent omission", and the function does build the
+  sentence *"associates/JV carrying value is not recorded in dataset schema v1; treated as zero by policy R-4.1 and
+  disclosed"*. That sentence is attached to the **intermediate equity observation**, which `perShare()` replaces with a
+  fresh observation; the composed payload therefore carries **no** such statement. What a reader can see is
+  `capitalStructure.associatesAndJV = NOT_COMPUTABLE: NOT_REPORTED` and nothing that says the bridge used zero for it.
+  The gap cost nothing while the bridge was blocked (Work Item 2); Work Item 3 opens the bridge, so a published
+  per-share value now rests on a substitution the payload does not state.
+- **Affected contracts / outputs:** `valuation.methods[DCF_FCFF|EV_EBITDA|EV_REVENUE].output.perShare*`,
+  `valuation.intrinsic.perShare`, `valuation.marginOfSafety`; `fundamentals.capitalStructure.associatesAndJV`;
+  `limitations`.
+- **Status:** `OPEN`.
+- **Downstream phases affected:** every enterprise-value method on every issuer; IID-6 display of a per-share value
+  whose inputs are claimed to be published.
+- **Consequence for user-visible results:** the intrinsic range is understated by any associates/JV carrying value the
+  issuer reports, and a reader cannot tell from the payload that the term was zero. The size is **unquantified** here:
+  it needs the issuer's non-current investment schedule, which schema v1 has no field for and this bundle does not
+  transcribe.
+- **Required resolution / evidence:** either carry the disclosure through composition (keep the note on the published
+  per-share observation, or add an explicit `POLICY_ZERO_INPUTS` list to the method assumptions), or add an
+  associates/JV line item to the dataset so the term is a reported number. Either is a contract change and neither is
+  in this work item's authority; the payload shape is untouched here.
+- **Owner / responsible phase:** assessment contract (valuation composition) with ingestion schema.
+- **Evidence:** `iips-platform/src/investment/assessment/capitalStructure.ts` lines 243–286 (the note is built, then
+  dropped by `perShare()`); the composed payload
+  `evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/artifact/assessment-payload-wi3.json`, where the strings
+  "associates/JV carrying value" and "treated as zero by policy" occur **zero** times while
+  `capitalStructure.associatesAndJV` is `NOT_COMPUTABLE / NOT_REPORTED`.
+- **Last status update:** 2026-11-06 (opened).
+
+### 17.4 What §17 does not change
 
 | Entry / item | Effect of this section |
 |---|---|
@@ -1308,13 +1344,17 @@ recommendation; the payload still declares `decisionSupportOnly` and `noTradeExe
 | `L-030` (single-exchange price) | untouched: the price is the same single BSE record |
 | `L-031` (empty corporate-action table) | **untouched in status (`OPEN`), materially changed in effect**: a published margin of safety now assumes unverified share-base continuity from 2024-03-31 to 2026-11-06 |
 | `L-033` (freshness unit divergence) | untouched; **no effect** here — the price is 0 days old and inside both the 5-trading-day and 7-calendar-day readings |
+| `L-034`, `L-035` | added by this section and **not** fixed here: no confidence cap was introduced and no declaration grammar was changed |
 | D-2 (nil-by-disclosure, §14) | evidence limb **satisfied for this issuer**: the filing states the nil in words, and the declaration is quoted, hashed and referenced |
 | D-3 (reason-code precision, §13/§15) | untouched by code; its subject matter moved to `COMPLETE` / `PASSED` because the leverage input is no longer missing |
 | Margin of safety | **state changed to computed** — `INTRINSIC_WITHHELD` → `refusal: null`, band `FAIR`, −8.42 % vs mid |
 | R-16 sector coverage | unchanged: 3 of 13 sectors |
 
 **What this section explicitly does not claim.** No investment verdict, recommendation, target price or trade
-instruction. `FAIR` is a distance from the midpoint of a range, published beside the symmetric reference. The
+instruction — and no unconditional conclusion: the margin of safety is conditioned on share-base continuity the
+dataset cannot verify (`L-031`), on a valuation built entirely from policy-default inputs (`L-034`), on a nil
+whose mapping to its component is documentary (`L-035`), and on an associates/JV term the payload silently holds at
+zero (`L-036`). `FAIR` is a distance from the midpoint of a range, published beside the symmetric reference. The
 statements are 950 days old and the valuation is a policy-default valuation; both are stated in the payload and in
 §17.1. No formula, threshold, weight, confidence cap, policy constant or valuation policy version was changed, and the
 Work Item 1, D-2, D-3 and Work Item 2 evidence bundles plus `evidence/iid` are byte-identical to their state on

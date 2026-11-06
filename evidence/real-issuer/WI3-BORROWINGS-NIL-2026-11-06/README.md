@@ -92,7 +92,7 @@ become a back door for a zero.
 | `cashAndInvestments` | ₹27,701 crore | unchanged | cash ₹14,786 crore + current investments ₹12,915 crore |
 | `netDebt` | `MISSING / NOT_REPORTED` | **−₹19,342 crore** (`PRESENT`) | gross debt − cash and liquid investments = **net cash**, ₹46.66 per share |
 | `preferenceCapital` | `MISSING / NOT_REPORTED` | `NIL_BY_DISCLOSURE` | the single-share-class statement |
-| enterprise → equity bridge | blocked | **open** | net debt present, NCI ₹345 crore present, preference nil, associates/JV zero by policy R-4.1 (disclosed in the method assumptions) |
+| enterprise → equity bridge | blocked | **open** | net debt present, NCI ₹345 crore present, preference nil; associates/JV enter as a policy zero that the payload does **not** state — see caveat 7 |
 | `DCF_FCFF` | applicable, no output | **₹990.75** mid (low 798.01, high 1,345.50) | EV = 5-year FCFF DCF at WACC 10.678 % (policy default), g 4 %; base FCFF ₹26,849 crore |
 | `EV_EBITDA` | `applicable: false` | **₹1,133.95** mid (12× mid-cycle EBITDA of ₹37,584 crore) | needed net debt for the equity bridge |
 | `PE_RELATIVE` | ₹1,270.43 | unchanged ₹1,270.43 (22× normalised EPS ₹57.75) | unaffected |
@@ -131,7 +131,7 @@ qualifications a reader must carry:
 | 4 | **The statements are 950 days old** at the run date; the valuation is a FY2024 valuation against a 2026 price. | `staleBeyondPolicy: true`, `STALE_DATA` cap (0.9) | freshness policy — unchanged |
 | 5 | **The price is a single-exchange observation** with no second feed (Work Item 2). | BSE only; NSE unreachable | `L-030 — OPEN` |
 | 6 | **The discount rate is a policy default** (₹ Rf 6.9 %, ERP 5.5 %, β 1.0, 70/30 weights → 10.678 %), not an issuer-specific WACC. | published in `assumptions.discountRate` with components | valuation policy — unchanged |
-| 7 | **Associates/JV are zero by policy** R-4.1 because schema v1 has no carrying-value line item; disclosed in the method assumptions and in the payload limitations. | small (associates are not on the consolidated balance sheet) | as published |
+| 7 | **Associates/JV enter the enterprise-to-equity bridge as a policy zero, and the payload does not say so.** `equityValueFromEnterprise` adds `associatesAndJV` at carrying value; schema v1 has no such line item, so the function's own code comment calls it "a declared policy zero … disclosed", and it builds that disclosure note — but the note is attached to the intermediate equity observation, which `perShare()` replaces, so the composed payload carries no such sentence. What the payload does publish is `associatesAndJV: NOT_COMPUTABLE / NOT_REPORTED`; nothing states that the bridge substituted zero for it. | **unquantified here**: obtaining a carrying value needs the non-current investment schedule, which schema v1 has no field for | **`L-036` — OPEN** |
 | 8 | **Dividend reconciliation is `NOT_COMPARABLE`** — no declaration record in schema v1 — so the `COVERED` verdict rests on the cash-flow figure alone. | verdict published with the reconciliation status beside it | as published |
 | 9 | Buyback activity (₹9,300 crore, completed February 2023) changed the share count before the statement date, not after it; the FY24 count is the filed, post-buyback count. | — | as filed |
 

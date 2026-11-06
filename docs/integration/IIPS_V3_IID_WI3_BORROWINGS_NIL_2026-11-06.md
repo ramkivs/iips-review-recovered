@@ -97,6 +97,9 @@ the dividend coverage verdict, the moat classification, and every stated confide
 **Still not computable, by policy or by missing evidence** — each separately named in the payload:
 
 - `restrictedCash` and `associatesAndJV` remain `NOT_COMPUTABLE: NOT_REPORTED` (schema v1 has no line item). The
+  second of those is worse than an unfilled cell: `equityValueFromEnterprise` adds associates/JV at carrying value as a
+  policy zero, so the bridge uses zero, while the payload publishes only the `NOT_COMPUTABLE` observation and no
+  sentence saying zero was substituted. That is registered as `L-036`. The
   filing's own Note 2.9 says cash includes ₹348 crore of restricted balances, so net cash is overstated by that
   amount — **₹8.40 per share, 0.77 % of intrinsic mid** (register `L-006`).
 - Dividend reconciliation stays `NOT_COMPARABLE` (no declaration record), so `COVERED` rests on the cash-flow figure.
@@ -130,5 +133,5 @@ in the bundle's `runs/05-verification.txt`, `runs/06-payload-verify.json` and `R
 ## 8. Register impact
 
 Register §17 appended. **No entry in `L-001` … `L-033` was closed, renumbered, softened, reinterpreted or
-re-statused.** Two entries are added (`L-034`, `L-035`), both observations that this work item surfaced and neither
-actionable inside it.
+re-statused.** Three entries are added (`L-034`, `L-035`, `L-036`), all observations that this work item surfaced and
+none actionable inside it.
