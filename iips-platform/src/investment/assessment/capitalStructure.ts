@@ -17,6 +17,25 @@
  *
  * `NET_DEBT` as derived by the IID-0 pipeline is a v0 gross borrowing-less-cash figure. It is NOT consumed
  * here; the components are summed instead, so the two can never be confused.
+ *
+ * ## Declared nil (D-2)
+ *
+ * A filer that carries no borrowing line at all is *not* a filer with unreported debt: it is telling us the item
+ * is nil. `NIL_BY_DISCLOSURE` exists to say exactly that (see `contracts/observation.ts`), and this block is the
+ * one aggregation contract that admits it, under rules stated here so a reader can check them:
+ *
+ *  1. Every one of the four debt components must be either `PRESENT` (a reported number, including a reported
+ *     zero) or `NIL_BY_DISCLOSURE` (the filer declared it nil). Anything else — `MISSING`, `NOT_COMPUTABLE`, an
+ *     unmapped or unavailable source — still blocks the aggregate, and the blocking observation is published
+ *     unchanged so the reason survives.
+ *  2. A declared nil contributes zero to the total and is named in the aggregate's note. The nil observation
+ *     itself is NOT rewritten: `components[name]` keeps `NIL_BY_DISCLOSURE`, its filing reference and its period.
+ *  3. All four components must resolve to the **same reporting period end**. A component taken from an older
+ *     period than its siblings would silently mix two balance sheets, so that case is refused with
+ *     `PERIOD_MISMATCH` instead of summing apples and oranges.
+ *  4. Nothing else becomes zero. Cash, investments and the claims below the enterprise value keep the strict rule
+ *     (`PRESENT` only) except where the notes below say otherwise, and `NET_DEBT` in the IID-0 derivation set
+ *     stays reported-numbers-only.
  */
 import type { LineItemId } from '../contracts/lineItems';
 import type { NumericObservation } from '../contracts/observation';
@@ -26,13 +45,81 @@ import { periodObservation } from './periods';
 
 const EMPTY_SOURCE = { kind: 'DERIVED' as const, ref: 'capital-structure/1.0.0' };
 
-/** First period (newest first) in which the item is present. */
+/**
+ * First period (newest first) in which the item carries information: a reported number, or a positive
+ * declaration that it is nil. A declared nil must not be replaced by `MISSING: NOT_REPORTED` — that would erase
+ * the filer's statement and put us back in the state D-2 describes.
+ */
 function latest(series: readonly FinancialPeriodView[], item: LineItemId): { period: FinancialPeriodView; observation: NumericObservation } | null {
   for (const period of series) {
     const observation = periodObservation(period, item);
     if (observation.presence === 'PRESENT' && observation.value !== null) return { period, observation };
+    if (observation.presence === 'NIL_BY_DISCLOSURE') return { period, observation };
   }
   return null;
+}
+
+/**
+ * The newest period that says something *specific* about the item, even when that something is not a number:
+ * `FILING_UNAVAILABLE`, `NOT_TAGGED_IN_FILING`, `SOURCE_CONFLICT_UNRESOLVED`. Without this, `component()` would
+ * invent `NOT_REPORTED` and lose the reason the debt position is blocked — which is the same class of mistake as
+ * inventing a zero, one level quieter.
+ */
+function newestReasoned(
+  series: readonly FinancialPeriodView[],
+  item: LineItemId,
+): { period: FinancialPeriodView; observation: NumericObservation } | null {
+  for (const period of series) {
+    const observation = periodObservation(period, item);
+    const isPlaceholder = observation.presence === 'MISSING' && observation.reason === 'NOT_REPORTED';
+    if (!isPlaceholder) return { period, observation };
+  }
+  return null;
+}
+
+/** A reported number, or a declaration of nil — the only two states that count as information about a component. */
+function carriesInformation(observation: NumericObservation): boolean {
+  return (observation.presence === 'PRESENT' && observation.value !== null) || observation.presence === 'NIL_BY_DISCLOSURE';
+}
+
+/**
+ * Gross debt under the declared-nil permission documented at the top of this file.
+ *
+ * Returns the blocking observation unchanged when any component carries no information (so `MISSING`,
+ * `NOT_COMPUTABLE`, `SOURCE_CONFLICT_UNRESOLVED` and friends keep their reason), `PERIOD_MISMATCH` when the
+ * components come from different balance-sheet instants, and otherwise the sum, naming any component the filer
+ * declared nil. Nothing here can turn an absent value into a zero: the only two inputs that reach the arithmetic
+ * are a `PRESENT` number and an explicit `NIL_BY_DISCLOSURE`.
+ */
+function grossDebtOf(
+  entries: readonly { readonly name: string; readonly periodEnd: string | null; readonly observation: NumericObservation }[],
+): NumericObservation {
+  const blocking = entries.find((entry) => !carriesInformation(entry.observation));
+  if (blocking !== undefined) return blocking.observation;
+
+  const periods = new Set(entries.map((entry) => entry.periodEnd));
+  if (periods.size > 1) {
+    const described = entries.map((entry) => `${entry.name}@${entry.periodEnd ?? 'unknown'}`).join(', ');
+    return notComputable('PERIOD_MISMATCH', {
+      note: `debt components resolve to different period ends (${described}), so no single balance-sheet instant is established`,
+    });
+  }
+
+  const declaredNil = entries
+    .filter((entry) => entry.observation.presence === 'NIL_BY_DISCLOSURE')
+    .map((entry) => entry.name);
+  const total = entries.reduce(
+    (total, entry) => total + (entry.observation.presence === 'PRESENT' ? (entry.observation.value ?? 0) : 0),
+    0,
+  );
+  return present(total, EMPTY_SOURCE, {
+    basis: 'DERIVED',
+    ...(declaredNil.length === 0
+      ? {}
+      : {
+          note: `components declared nil by the filer, counted as zero under the capital-structure aggregation contract: ${declaredNil.join(', ')} — each nil keeps its source and period in components`,
+        }),
+  });
 }
 
 function sum(components: readonly NumericObservation[]): NumericObservation {
@@ -57,8 +144,10 @@ function subtract(minuend: NumericObservation, subtrahend: NumericObservation): 
  */
 function leaseTreatmentOf(series: readonly FinancialPeriodView[]): { treatment: LeaseTreatment; pre116: boolean } {
   const newest = series[0];
-  const newestHasLease = newest !== undefined && periodObservation(newest, 'LEASE_LIABILITIES').presence === 'PRESENT';
-  const anyLease = series.some((period) => periodObservation(period, 'LEASE_LIABILITIES').presence === 'PRESENT');
+  // A declared nil lease line still says the filer is on the capitalised basis (the line exists and is declared
+  // empty); only a line entirely absent from the newest period suggests a pre-Ind-AS-116 presentation.
+  const newestHasLease = newest !== undefined && carriesInformation(periodObservation(newest, 'LEASE_LIABILITIES'));
+  const anyLease = series.some((period) => carriesInformation(periodObservation(period, 'LEASE_LIABILITIES')));
   if (newestHasLease) return { treatment: 'IND_AS_116_CAPITALISED', pre116: false };
   if (anyLease) return { treatment: 'PRE_116_FLAGGED', pre116: true };
   return { treatment: 'OPERATING_LEASE_OFF_BS', pre116: false };
@@ -74,9 +163,13 @@ export function buildCapitalStructure(series: SeriesSelection): CapitalStructure
   const instant = annual.length > 0 ? annual : series.quarterly.slice(-1);
   const components: Record<string, NumericObservation> = {};
 
+  /** The period each component actually resolved to, so the debt sum can refuse a mixed balance sheet. */
+  const componentPeriods: Record<string, string | null> = {};
+
   const component = (name: string, item: LineItemId): NumericObservation => {
-    const found = latest(instant, item);
+    const found = latest(instant, item) ?? newestReasoned(instant, item);
     const observation = found === null ? missing('NOT_REPORTED') : found.observation;
+    componentPeriods[name] = found === null ? null : found.period.periodEnd;
     components[name] = observation;
     return observation;
   };
@@ -96,17 +189,25 @@ export function buildCapitalStructure(series: SeriesSelection): CapitalStructure
   components.restrictedCash = notComputable('NOT_REPORTED');
   components.associatesAndJV = notComputable('NOT_REPORTED');
 
-  const grossDebt = sum([shortTerm, currentMaturities, longTerm, leases]);
+  const grossDebt = grossDebtOf([
+    { name: 'shortTermBorrowings', periodEnd: componentPeriods.shortTermBorrowings ?? null, observation: shortTerm },
+    { name: 'currentMaturities', periodEnd: componentPeriods.currentMaturities ?? null, observation: currentMaturities },
+    { name: 'longTermBorrowings', periodEnd: componentPeriods.longTermBorrowings ?? null, observation: longTerm },
+    { name: 'leaseLiabilities', periodEnd: componentPeriods.leaseLiabilities ?? null, observation: leases },
+  ]);
   const cashAndInvestments = sum([cash, liquidInvestments]);
   const netDebt = subtract(grossDebt, cashAndInvestments);
 
+  // A declared nil share count is not a count: only a reported number may produce per-share values.
   const shares = latest(annual, 'DILUTED_SHARES');
+  const usableShares =
+    shares !== null && shares.observation.presence === 'PRESENT' && shares.observation.value !== null ? shares : null;
   const dilutedShares =
-    shares === null
+    usableShares === null
       ? missing('NOT_REPORTED')
-      : present(shares.observation.value ?? 0, shares.observation.source ?? EMPTY_SOURCE, {
-          basis: shares.observation.basis ?? 'DERIVED',
-          periodEnd: shares.period.periodEnd,
+      : present(usableShares.observation.value as number, usableShares.observation.source ?? EMPTY_SOURCE, {
+          basis: usableShares.observation.basis ?? 'DERIVED',
+          periodEnd: usableShares.period.periodEnd,
         });
 
   const lease = leaseTreatmentOf(annual.length > 0 ? annual : instant);
@@ -122,8 +223,8 @@ export function buildCapitalStructure(series: SeriesSelection): CapitalStructure
     preferenceCapital: preference,
     associatesAndJV: components.associatesAndJV ?? notComputable('NOT_REPORTED'),
     dilutedShares,
-    shareCountPeriod: shares === null ? null : shares.period.periodEnd,
-    shareCountBasis: shares === null ? 'UNAVAILABLE' : 'REPORTED_EPS',
+    shareCountPeriod: usableShares === null ? null : usableShares.period.periodEnd,
+    shareCountBasis: usableShares === null ? 'UNAVAILABLE' : 'REPORTED_EPS',
     // Dilutive potential shares (ESOP, convertibles) are not in the v1 dataset: the count is the
     // EPS-implied basic count and the confidence cap `DILUTION_PROXY` is applied downstream.
     dilutionProxy: true,
@@ -131,17 +232,29 @@ export function buildCapitalStructure(series: SeriesSelection): CapitalStructure
   };
 }
 
-/** Equity value from an enterprise value, per R-4.1. Blocked inputs block the conversion. */
+/**
+ * Equity value from an enterprise value, per R-4.1. Blocked inputs block the conversion.
+ *
+ * The same declared-nil permission as gross debt applies to the claims subtracted here: a filer that states it
+ * carries no minority interest or no preference capital has said something, and treating that statement as a
+ * blocking gap is what made a debt-free company unvaluable (D-2). A `MISSING`/`NOT_COMPUTABLE` claim still blocks
+ * the conversion exactly as before, and a nil claim is named in the note.
+ */
 export function equityValueFromEnterprise(enterpriseValue: NumericObservation, structure: CapitalStructure): NumericObservation {
   if (enterpriseValue.presence !== 'PRESENT' || enterpriseValue.value === null) return enterpriseValue;
   // R-4.1 requires associates/JV at carrying value. Dataset schema v1 has no such line item, so its absence
   // is carried as a declared policy zero — published in the method's assumptions — rather than as a silent
   // omission or as a hard block on every enterprise-value method.
+  const declaredNil: string[] = [];
   for (const [name, observation] of [
     ['netDebt', structure.netDebt],
     ['minorityInterest', structure.minorityInterest],
     ['preferenceCapital', structure.preferenceCapital],
   ] as const) {
+    if (observation.presence === 'NIL_BY_DISCLOSURE') {
+      declaredNil.push(name);
+      continue;
+    }
     if (observation.presence !== 'PRESENT' || observation.value === null) {
       return {
         ...notComputable(observation.reason ?? 'POLICY_INPUTS_UNAVAILABLE'),
@@ -149,16 +262,21 @@ export function equityValueFromEnterprise(enterpriseValue: NumericObservation, s
       };
     }
   }
-  const associates = structure.associatesAndJV.presence === 'PRESENT' ? (structure.associatesAndJV.value ?? 0) : 0;
+  const value = (observation: NumericObservation): number =>
+    observation.presence === 'PRESENT' && observation.value !== null ? observation.value : 0;
+  const associates = value(structure.associatesAndJV);
   const equity =
-    enterpriseValue.value - (structure.netDebt.value ?? 0) - (structure.minorityInterest.value ?? 0) -
-    (structure.preferenceCapital.value ?? 0) + associates;
+    enterpriseValue.value - value(structure.netDebt) - value(structure.minorityInterest) -
+    value(structure.preferenceCapital) + associates;
+  const notes = [
+    declaredNil.length === 0 ? null : `claims declared nil by the filer, subtracted as zero: ${declaredNil.join(', ')}`,
+    structure.associatesAndJV.presence === 'PRESENT'
+      ? null
+      : 'associates/JV carrying value is not recorded in dataset schema v1; treated as zero by policy R-4.1 and disclosed',
+  ].filter((entry): entry is string => entry !== null);
   return present(equity, EMPTY_SOURCE, {
     basis: 'DERIVED',
-    note:
-      structure.associatesAndJV.presence === 'PRESENT'
-        ? undefined
-        : 'associates/JV carrying value is not recorded in dataset schema v1; treated as zero by policy R-4.1 and disclosed',
+    ...(notes.length === 0 ? {} : { note: notes.join('; ') }),
   });
 }
 

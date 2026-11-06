@@ -1,0 +1,207 @@
+TAP version 13
+# Subtest: A — the six states are distinguishable, and a nil cannot exist without provenance
+    # Subtest: a declared nil carries no value, a positive reason, its source and its period
+    ok 1 - a declared nil carries no value, a positive reason, its source and its period
+      ---
+      duration_ms: 1.505039
+      type: 'test'
+      ...
+    # Subtest: a reported zero and a declared nil are different claims and stay distinguishable
+    ok 2 - a reported zero and a declared nil are different claims and stay distinguishable
+      ---
+      duration_ms: 0.212171
+      type: 'test'
+      ...
+    # Subtest: the three absentee states keep their own spelling
+    ok 3 - the three absentee states keep their own spelling
+      ---
+      duration_ms: 0.359927
+      type: 'test'
+      ...
+    # Subtest: a nil without a period end or with no source is refused at construction (INV-7)
+    ok 4 - a nil without a period end or with no source is refused at construction (INV-7)
+      ---
+      duration_ms: 0.451667
+      type: 'test'
+      ...
+    # Subtest: the invariant checker rejects a hand-built nil that has lost its provenance
+    ok 5 - the invariant checker rejects a hand-built nil that has lost its provenance
+      ---
+      duration_ms: 0.153828
+      type: 'test'
+      ...
+    1..5
+ok 1 - A — the six states are distinguishable, and a nil cannot exist without provenance
+  ---
+  duration_ms: 3.629452
+  type: 'suite'
+  ...
+# Subtest: B — the operator input path keeps NIL, blank and 0 apart
+    # Subtest: the cell grammar accepts NIL and NIL: <what the filing says>, and nothing looser
+    ok 1 - the cell grammar accepts NIL and NIL: <what the filing says>, and nothing looser
+      ---
+      duration_ms: 0.520746
+      type: 'test'
+      ...
+    # Subtest: NIL becomes a provenance-bearing nil; blank stays NOT_REPORTED; 0 stays a reported zero
+    ok 2 - NIL becomes a provenance-bearing nil; blank stays NOT_REPORTED; 0 stays a reported zero
+      ---
+      duration_ms: 2.366002
+      type: 'test'
+      ...
+    # Subtest: a nil on a derived item is an error, not a value
+    ok 3 - a nil on a derived item is an error, not a value
+      ---
+      duration_ms: 0.966102
+      type: 'test'
+      ...
+    # Subtest: a nil with no filing reference is refused rather than accepted without provenance
+    ok 4 - a nil with no filing reference is refused rather than accepted without provenance
+      ---
+      duration_ms: 0.609185
+      type: 'test'
+      ...
+    # Subtest: [required] a row that both reports and declares nil for the same item is an error, and neither is used
+    ok 5 - [required] a row that both reports and declares nil for the same item is an error, and neither is used
+      ---
+      duration_ms: 7.708824
+      type: 'test'
+      ...
+    # Subtest: a conflicting dataset blocks the debt position instead of resolving it
+    ok 6 - a conflicting dataset blocks the debt position instead of resolving it
+      ---
+      duration_ms: 8.955161
+      type: 'test'
+      ...
+    1..6
+ok 2 - B — the operator input path keeps NIL, blank and 0 apart
+  ---
+  duration_ms: 21.646001
+  type: 'suite'
+  ...
+# Subtest: C — the four debt components aggregate under one stated permission
+    # Subtest: [required] all four declared nil establishes a complete, zero gross debt with provenance
+    ok 1 - [required] all four declared nil establishes a complete, zero gross debt with provenance
+      ---
+      duration_ms: 4.339304
+      type: 'test'
+      ...
+    # Subtest: [required] four reported zeros are not nils: the aggregate is the same number from different claims
+    ok 2 - [required] four reported zeros are not nils: the aggregate is the same number from different claims
+      ---
+      duration_ms: 4.242396
+      type: 'test'
+      ...
+    # Subtest: [required] a debt-bearing issuer is unchanged: reported borrowings aggregate exactly as before
+    ok 3 - [required] a debt-bearing issuer is unchanged: reported borrowings aggregate exactly as before
+      ---
+      duration_ms: 2.0974
+      type: 'test'
+      ...
+    # Subtest: [required] mixed positive and nil components aggregate, and only the nil ones are named
+    ok 4 - [required] mixed positive and nil components aggregate, and only the nil ones are named
+      ---
+      duration_ms: 2.127574
+      type: 'test'
+      ...
+    # Subtest: [required] one component not reported still blocks the debt position
+    ok 5 - [required] one component not reported still blocks the debt position
+      ---
+      duration_ms: 1.855132
+      type: 'test'
+      ...
+    # Subtest: [required] one component whose source is unavailable still blocks the debt position
+    ok 6 - [required] one component whose source is unavailable still blocks the debt position
+      ---
+      duration_ms: 2.228322
+      type: 'test'
+      ...
+    # Subtest: [required] one unmapped component still blocks the debt position
+    ok 7 - [required] one unmapped component still blocks the debt position
+      ---
+      duration_ms: 1.794718
+      type: 'test'
+      ...
+    # Subtest: [required] a conflicting disclosure blocks the debt position instead of being resolved
+    ok 8 - [required] a conflicting disclosure blocks the debt position instead of being resolved
+      ---
+      duration_ms: 2.225702
+      type: 'test'
+      ...
+    # Subtest: [required] components from different reporting periods are refused, never summed silently
+    ok 9 - [required] components from different reporting periods are refused, never summed silently
+      ---
+      duration_ms: 2.550041
+      type: 'test'
+      ...
+    1..9
+ok 3 - C — the four debt components aggregate under one stated permission
+  ---
+  duration_ms: 23.860842
+  type: 'suite'
+  ...
+# Subtest: D — downstream calculations consume the aggregate only when it is qualified
+    # Subtest: [required] a debt-free issuer now reaches the enterprise-to-equity bridge and per-share values
+    ok 1 - [required] a debt-free issuer now reaches the enterprise-to-equity bridge and per-share values
+      ---
+      duration_ms: 1.721261
+      type: 'test'
+      ...
+    # Subtest: the declared-nil debt is disclosed in the payload prose, with its consequence
+    ok 2 - the declared-nil debt is disclosed in the payload prose, with its consequence
+      ---
+      duration_ms: 1.4567
+      type: 'test'
+      ...
+    # Subtest: moat, leverage and dividend cover consume the resolved block rather than a partial bridge
+    ok 3 - moat, leverage and dividend cover consume the resolved block rather than a partial bridge
+      ---
+      duration_ms: 1.467814
+      type: 'test'
+      ...
+    # Subtest: [required] an unreported component keeps every dependent calculation unavailable
+    ok 4 - [required] an unreported component keeps every dependent calculation unavailable
+      ---
+      duration_ms: 2.526786
+      type: 'test'
+      ...
+    # Subtest: [required] a period mismatch withholds rather than blending two balance sheets
+    ok 5 - [required] a period mismatch withholds rather than blending two balance sheets
+      ---
+      duration_ms: 10.476072
+      type: 'test'
+      ...
+    1..5
+ok 4 - D — downstream calculations consume the aggregate only when it is qualified
+  ---
+  duration_ms: 17.886497
+  type: 'suite'
+  ...
+# Subtest: E — the Work Item 1 real disclosures can be expressed without an inferred zero
+    # Subtest: [required] the filed debt position is expressible: leases reported, three borrowings claims declared nil
+    ok 1 - [required] the filed debt position is expressible: leases reported, three borrowings claims declared nil
+      ---
+      duration_ms: 3.107431
+      type: 'test'
+      ...
+    # Subtest: [required] the bridge resolves and the safety verdict still refuses for want of a price
+    ok 2 - [required] the bridge resolves and the safety verdict still refuses for want of a price
+      ---
+      duration_ms: 2.871398
+      type: 'test'
+      ...
+    1..2
+ok 5 - E — the Work Item 1 real disclosures can be expressed without an inferred zero
+  ---
+  duration_ms: 6.200246
+  type: 'suite'
+  ...
+1..5
+# tests 27
+# suites 5
+# pass 27
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 286.730126

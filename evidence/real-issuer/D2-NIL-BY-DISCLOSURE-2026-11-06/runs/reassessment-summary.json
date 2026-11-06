@@ -1,0 +1,205 @@
+{
+  "datasetVersion": "sha256:cdb29d3406f657c98d1bfa56a560af95f425b5da94c9b99e3e0873395f476813",
+  "ingestionIssues": [],
+  "capitalStructure": {
+    "leaseTreatment": "IND_AS_116_CAPITALISED",
+    "grossDebt": {
+      "presence": "PRESENT",
+      "reason": null,
+      "crore": 8359,
+      "note": "components declared nil by the filer, counted as zero under the capital-structure aggregation contract: shortTermBorrowings, currentMaturities, longTermBorrowings — each nil keeps its source and period in components"
+    },
+    "netDebt": {
+      "presence": "PRESENT",
+      "reason": null,
+      "crore": -19342
+    },
+    "cashAndInvestments": {
+      "presence": "PRESENT",
+      "crore": 27701
+    },
+    "components": {
+      "shortTermBorrowings": {
+        "presence": "NIL_BY_DISCLOSURE",
+        "rupee": null,
+        "reason": "DECLARED_NIL_IN_SOURCE",
+        "source": "INFY-INDAS-CONSOL-FY24",
+        "periodEnd": "2024-03-31"
+      },
+      "currentMaturities": {
+        "presence": "NIL_BY_DISCLOSURE",
+        "rupee": null,
+        "reason": "DECLARED_NIL_IN_SOURCE",
+        "source": "INFY-INDAS-CONSOL-FY24",
+        "periodEnd": "2024-03-31"
+      },
+      "longTermBorrowings": {
+        "presence": "NIL_BY_DISCLOSURE",
+        "rupee": null,
+        "reason": "DECLARED_NIL_IN_SOURCE",
+        "source": "INFY-INDAS-CONSOL-FY24",
+        "periodEnd": "2024-03-31"
+      },
+      "leaseLiabilities": {
+        "presence": "PRESENT",
+        "rupee": 83590000000,
+        "reason": null,
+        "source": "INFY-INDAS-CONSOL-FY24",
+        "periodEnd": "2024-03-31"
+      },
+      "preferenceCapital": {
+        "presence": "NIL_BY_DISCLOSURE",
+        "rupee": null,
+        "reason": "DECLARED_NIL_IN_SOURCE",
+        "source": "INFY-INDAS-CONSOL-FY24",
+        "periodEnd": "2024-03-31"
+      },
+      "nonControllingInterest": {
+        "presence": "PRESENT",
+        "rupee": 3450000000,
+        "reason": null,
+        "source": "INFY-INDAS-CONSOL-FY24",
+        "periodEnd": "2024-03-31"
+      },
+      "cashAndCashEquivalents": {
+        "presence": "PRESENT",
+        "rupee": 147860000000,
+        "reason": null,
+        "source": "INFY-INDAS-CONSOL-FY24",
+        "periodEnd": "2024-03-31"
+      },
+      "currentInvestments": {
+        "presence": "PRESENT",
+        "rupee": 129150000000,
+        "reason": null,
+        "source": "INFY-INDAS-CONSOL-FY24",
+        "periodEnd": "2024-03-31"
+      }
+    }
+  },
+  "valuation": {
+    "methods": [
+      {
+        "methodId": "DCF_FCFF",
+        "applicable": true,
+        "perShareMidPresence": "PRESENT",
+        "perShareMid": 990.7490504210945,
+        "perShareLow": 798.0074864338665,
+        "perShareHigh": 1345.4995871836054
+      },
+      {
+        "methodId": "PE_RELATIVE",
+        "applicable": true,
+        "perShareMidPresence": "PRESENT",
+        "perShareMid": 1270.4266666666667,
+        "perShareLow": 1016.3413333333334,
+        "perShareHigh": 1524.512
+      },
+      {
+        "methodId": "EV_EBITDA",
+        "applicable": true,
+        "perShareMidPresence": "PRESENT",
+        "perShareMid": 1133.9484469942438,
+        "perShareLow": 916.3252283002325,
+        "perShareHigh": 1351.5716656882553
+      },
+      {
+        "methodId": "EV_REVENUE",
+        "applicable": false,
+        "perShareMidPresence": null,
+        "perShareMid": null,
+        "perShareLow": null,
+        "perShareHigh": null
+      }
+    ],
+    "intrinsic": {
+      "currency": "INR",
+      "perShare": {
+        "low": {
+          "value": 875.3394146903431,
+          "presence": "PRESENT",
+          "source": {
+            "kind": "DERIVED",
+            "ref": "intrinsic-blend/1.0.0"
+          },
+          "basis": "DERIVED"
+        },
+        "mid": {
+          "value": 1088.972274952081,
+          "presence": "PRESENT",
+          "source": {
+            "kind": "DERIVED",
+            "ref": "intrinsic-blend/1.0.0"
+          },
+          "basis": "DERIVED"
+        },
+        "high": {
+          "value": 1399.8105188789887,
+          "presence": "PRESENT",
+          "source": {
+            "kind": "DERIVED",
+            "ref": "intrinsic-blend/1.0.0"
+          },
+          "basis": "DERIVED"
+        }
+      },
+      "weighting": [
+        {
+          "methodId": "DCF_FCFF",
+          "weight": 0.6
+        },
+        {
+          "methodId": "EV_EBITDA",
+          "weight": 0.1
+        },
+        {
+          "methodId": "PE_RELATIVE",
+          "weight": 0.3
+        }
+      ],
+      "spreadPct": {
+        "value": 0.48162025448418716,
+        "presence": "PRESENT",
+        "source": {
+          "kind": "DERIVED",
+          "ref": "intrinsic-blend/1.0.0"
+        },
+        "basis": "DERIVED"
+      },
+      "withheld": null
+    },
+    "marginOfSafetyRefusal": "NO_PRICE_OBSERVATION"
+  },
+  "moat": {
+    "classification": "NARROW",
+    "roicSpread": "PRESENT"
+  },
+  "risk": {
+    "factors": [],
+    "aggregate": "NOT_COMPUTABLE",
+    "aggregateReason": "POLICY_INPUTS_UNAVAILABLE"
+  },
+  "dividends": {
+    "netDebtToEbitda": "PRESENT",
+    "payoutRatio": 0.5600579422864331
+  },
+  "adequacy": "SUFFICIENT",
+  "qualityVerdict": "MATERIAL_CONCERNS",
+  "confidence": {
+    "dataConfidence": 0.85,
+    "modelConfidence": 0.6342,
+    "combined": 0.6736,
+    "caps": [
+      "STALE_DATA",
+      "DILUTION_PROXY"
+    ],
+    "formula": "combined = 0.6 × dataConfidence + 0.4 × modelConfidence, then multiplied by each cap factor (ADEQUACY_PARTIAL 0.85, ADEQUACY_INSUFFICIENT 0.6, STALE_DATA 0.9, DILUTION_PROXY 0.98, DIVIDEND_SOURCE_CONFLICT 0.95, HIGH_METHOD_DISAGREEMENT 0.85), rounded to 4 dp"
+  },
+  "limitations": [
+    "Dilutive potential shares (ESOP, convertibles) are not present in dataset schema v1, so the diluted count is the EPS-implied count and carries the DILUTION_PROXY cap.",
+    "Net debt subtracts cash and cash equivalents plus liquid investments only; restricted balances, margin money and regulatory balances are excluded from available cash by construction (R-4.1 / Schedule III). Dataset schema v1 carries no restricted-balance line item, so the component is published as NOT_COMPUTABLE rather than as a zero.",
+    "The corporate-action table carries no dividend declaration record in dataset schema v1, so R-15 corroboration is unavailable for this assessment.",
+    "Gross debt counts 3 component(s) that the filer declared nil as zero (shortTermBorrowings, currentMaturities, longTermBorrowings). Each is published as NIL_BY_DISCLOSURE with its filing reference and period, not as a reported zero, and an unreported or unavailable component would still block the aggregate.",
+    "Assessment only: no persistence, no transport and no UI are part of IID-2 (IID-3 and IID-6 own those)."
+  ]
+}

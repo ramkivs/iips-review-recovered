@@ -1,0 +1,74 @@
+D-2 — nil-by-disclosure: the commands behind runs/
+====================================================
+
+Environment: repository root /home/user/iips-review-recovered, Node 22, `npm ci` in both packages.
+Baseline: main @ 98f3e45 (PR #486 merged). All runs dated 2026-11-06.
+
+1. Work Item 1 input → the D-2 input (four unprinted claims declared nil)
+-----------------------------------------------------------------------
+Source (read-only, byte-identical to the merged commit):
+  evidence/real-issuer/REL-1-INFOSYS-2026-11-06/ingest-input/periods.csv   (44 columns)
+Produced:
+  evidence/real-issuer/D2-NIL-BY-DISCLOSURE-2026-11-06/input/periods.csv   (48 columns)
+
+The four added columns are LONG_TERM_BORROWINGS, SHORT_TERM_BORROWINGS,
+CURRENT_MATURITIES_OF_LONG_TERM_DEBT and PREFERENCE_CAPITAL, each carrying
+  NIL: no such line is presented in the consolidated balance sheet
+for every period. Nothing else changed: the file is the Work Item 1 facts plus four nil declarations.
+
+2. Ingest, corrected input
+--------------------------
+cd iips-platform
+npx tsx src/investment/cli/ingest.ts \
+  --input ../evidence/real-issuer/D2-NIL-BY-DISCLOSURE-2026-11-06/input \
+  --dataset-dir /tmp/d2/data/investment/dataset --now 2026-11-06T00:00:00.000Z
+
+  datasetVersion sha256:cdb29d3406f657c98d1bfa56a560af95f425b5da94c9b99e3e0873395f476813
+  Technology     G2_PARTIAL   usable 2  withheld 2  stmt 87.5%  metric 0%
+  ingestion issues: 0
+
+3. Ingest, UNCHANGED Work Item 1 input (the regression baseline)
+----------------------------------------------------------------
+npx tsx src/investment/cli/ingest.ts \
+  --input ../evidence/real-issuer/REL-1-INFOSYS-2026-11-06/ingest-input \
+  --dataset-dir /tmp/d2wi1/dataset --now 2026-11-06T00:00:00.000Z
+
+  datasetVersion sha256:ca29c8357fd3ae87889af07b27ffc317f09745caaed870b287d7ca1f8fc6d71e
+  (identical to the version the merged Work Item 1 run produced)
+
+4. Assessment summaries
+-----------------------
+A throwaway script called assessCompany() over each dataset with the Work Item 1 identity digests and
+printed the payload summary; the output is captured verbatim as
+  runs/baseline-unchanged-input.json   (dataset ca29c835…)
+  runs/reassessment-summary.json       (dataset cdb29d34…)
+The script was deleted after the run; it is a rendering of payload fields, not part of the product.
+
+5. Composed artifact, dry run (nothing persisted)
+-------------------------------------------------
+cd frontend
+npx tsx server/investment/cli/generate-investment-artifacts.ts \
+  --issuer IN:CIN:L85110KA1981PLC013115 \
+  --data-dir /tmp/d2/data/investment/dataset \
+  --identity-dir /tmp/d2/data/investment/identity \
+  --generated-at 2026-11-06T00:00:00.000Z --dry-run
+
+  OK snapshot / identity / assessment (SUFFICIENT / MATERIAL_CONCERNS / confidence 0.6736)
+  OK compose   reportKey ed1e54b03e5e… payloadDigest 71b0d1f9c981…
+  OK validate  scope co:IN:CIN:L85110KA1981PLC013115 (ISSUER)
+  SKIPPED chain-head, persist (dry run)
+  captured in runs/cli-dry-run.txt
+
+6. Tests
+--------
+cd iips-platform
+npx tsx --test tests/investment/nil-by-disclosure.test.ts     # 27 tests, 27 pass, 0 fail
+npm run test:iid                                              # 404 tests, 404 pass, 0 fail, 102 suites
+
+cd frontend
+npx tsc -p tsconfig.investment-server.json --noEmit           # clean
+npx vitest run server/investment                              # 17 files, 205 tests, all pass
+
+Logs: runs/nil-by-disclosure-tests.txt, runs/investment-suite.txt.
+The AC-X2 zero-socket probe rewrites its own evidence files on every run; those two files were restored
+to their committed bytes after the frontend run so PR #486's published evidence stays identical.

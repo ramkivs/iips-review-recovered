@@ -1,0 +1,12 @@
+  duration_ms: 0.733829
+  type: 'suite'
+  ...
+1..102
+# tests 404
+# suites 102
+# pass 404
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 7737.324154
