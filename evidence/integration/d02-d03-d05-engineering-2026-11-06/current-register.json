@@ -1,0 +1,439 @@
+{
+  "recordType": "CURRENT OPERATIVE DECISION REGISTER \u2014 supersedes historical pending views only",
+  "approvalDate": "2026-11-06",
+  "actId": "IIPS-V3-PA-D02-D03-D05-ENGINEERING-2026-11-06-01",
+  "authorityPath": "docs/integration/IIPS_v3.0_PA_D02_D03_D05_ENGINEERING_ACT_2026-11-06.md",
+  "effectivenessRule": "Approval rendered from explicit PA instruction. Public effectiveness on 2026-11-06 requires act \u00a75 merged governing-main publication, green exact-head/main CI and independent readback; final PR publication comment is the immutable effectiveness receipt. No future approval condition.",
+  "pendingCount": 9,
+  "preservedPriorCrosswalkCount": 8,
+  "sourceHistoricalRegister": "evidence/integration/pa-decision-docket-2026-11-06/docket-register.json",
+  "soleArchitectureRepository": "ramkivs/iips-production-market-data",
+  "implementationAuthorized": "IPD-only bounded synthetic engineering; no operational writes",
+  "adopted_decisions": [
+    {
+      "decision_id": "G4-2",
+      "authority_id": "IIPS-V3-CAP03-G4-C3-DEFERRAL-2026-11-06-01",
+      "act_id": "IIPS-V3-PA-THREE-DECISION-ADOPTION-2026-11-06-01",
+      "authority_path": "docs/integration/IIPS_v3.0_PA_G4_C3_D01_D04_ADOPTION_ACT_2026-11-06.md",
+      "status": "ADOPTED",
+      "approval_date": "2026-11-06",
+      "effective_date": "2026-11-06",
+      "decision_authority": "PA (Ramki), explicit current instruction",
+      "exact_question": "A-10 decision 2: select C-1, C-2 or C-3 for mixed non-Limb-A content?",
+      "operative_wording": "Adopt C-3 deferral as defined in the published A-10/Prompt 6 docket: keep the new Gate 4 content pin undesignated until the CAP-03 chain produces C\u2032. C\u2032 alone does not designate a three-coordinate content basis or discharge the remaining alias, lineage, inventory or effectiveness obligations. No content pin or QE execution pin is designated. Gate 4 remains unaccepted; QE remains 0/11 and Gate C/U4 NOT RENDERED. This is deferral only, not C-1 scope acceptance, C-2 implementation authority, qualification execution or acceptance.",
+      "implementation_authority": false
+    },
+    {
+      "decision_id": "D01",
+      "authority_id": "IIPS-V3-G2-PORTFOLIO-REPOSITORY-DESIGNATION-2026-11-06-01",
+      "act_id": "IIPS-V3-PA-THREE-DECISION-ADOPTION-2026-11-06-01",
+      "authority_path": "docs/integration/IIPS_v3.0_PA_G4_C3_D01_D04_ADOPTION_ACT_2026-11-06.md",
+      "status": "ADOPTED",
+      "approval_date": "2026-11-06",
+      "effective_date": "2026-11-06",
+      "decision_authority": "PA (Ramki), explicit current instruction",
+      "exact_question": "Which distinct GitHub repository is the canonical IPD portfolio owner?",
+      "operative_wording": "Designate ramkivs/iips-production-market-data (repository ID 1361385667) as the canonical IIPS G-2 portfolio domain and persistence repository. IRR remains its consumer. Keep ramkivs/ipo-screening-engine outside IIPS architecture and dependency tracking: it is not an IPD alias, alternative persistence repository, qualification input or implementation target. Preserve historical comparison evidence as historical only. Do not transfer ownership, rename or modify either repository. This designation grants no implementation, provisioning, migration or operational authority.",
+      "implementation_authority": false
+    },
+    {
+      "decision_id": "D04",
+      "authority_id": "IIPS-V3-G2-SNAPSHOT-SCOPE-CONFIRMATION-2026-11-06-01",
+      "act_id": "IIPS-V3-PA-THREE-DECISION-ADOPTION-2026-11-06-01",
+      "authority_path": "docs/integration/IIPS_v3.0_PA_G4_C3_D01_D04_ADOPTION_ACT_2026-11-06.md",
+      "status": "ADOPTED",
+      "approval_date": "2026-11-06",
+      "effective_date": "2026-11-06",
+      "decision_authority": "PA (Ramki), explicit current instruction",
+      "exact_question": "Does transaction-capable mean atomic holdings snapshots or a trade/cash/lot ledger?",
+      "operative_wording": "Confirm durable holdings scope as holdings snapshots, including existing broker contribution lineage, atomically persisted through the existing IPD SQLite transaction architecture. Trade, cash and tax-lot accounting are excluded; do not infer accounting transactions from snapshot differences. No accounting-ledger extension or new storage technology is authorized. This scope confirmation grants no implementation, holdings writes, qualification execution, result acceptance or operation admission.",
+      "implementation_authority": false
+    },
+    {
+      "decision_id": "D02",
+      "authority_id": "IIPS-V3-G2-HOLDINGS-OWNER-BINDING-2026-11-06-01",
+      "status": "ADOPTED",
+      "approval_date": "2026-11-06",
+      "authority_path": "docs/integration/IIPS_v3.0_PA_D02_D03_D05_ENGINEERING_ACT_2026-11-06.md"
+    },
+    {
+      "decision_id": "D03",
+      "authority_id": "IIPS-V3-G2-SNAPSHOT-CONTRACT-V2-2026-11-06-01",
+      "status": "ADOPTED",
+      "approval_date": "2026-11-06",
+      "authority_path": "docs/integration/IIPS_v3.0_PA_D02_D03_D05_ENGINEERING_ACT_2026-11-06.md"
+    },
+    {
+      "decision_id": "D05",
+      "authority_id": "IIPS-V3-G2-BOUNDED-SNAPSHOT-ENGINEERING-2026-11-06-01",
+      "status": "ADOPTED",
+      "approval_date": "2026-11-06",
+      "authority_path": "docs/integration/IIPS_v3.0_PA_D02_D03_D05_ENGINEERING_ACT_2026-11-06.md"
+    }
+  ],
+  "pending_decisions": [
+    {
+      "decision_id": "G4-1",
+      "exact_question": "PA-09: which content commits, trees and blob inventories govern each of the three R5 coordinates?",
+      "current_status": "A-10 decision 1 pending; historical R5 adopted; live consumption drifted. No new designation.",
+      "supporting_evidence": {
+        "source_register_entry": "G4-1",
+        "source_register_url": "https://github.com/ramkivs/iips-review-recovered/blob/6946bee09395364a8a06ffafb1c4ef91c866e340/evidence/integration/gate4-holdings-identity-reconciliation-2026-11-06/decision-register.json",
+        "references": [
+          "docs/integration/WS-A-G4-QE-H12-PIN-DESIGNATION-DECISION-PACKAGE-2026-11-05.md \u00a7\u00a73\u20138",
+          "Gate 4 act \u00a73.2",
+          "remote-census.json"
+        ]
+      },
+      "classification": "DEFERRED",
+      "arena_recommendation": "Retain historical R5 unchanged; defer a new designation until an explicit three-coordinate content ballot and scope are accepted. Recensused live 07e86a4/IRR 80737d0 are candidates only, never QE execution pins.",
+      "recommended_pa_wording": "Defer new PA-09 content designation. Preserve historical R5 and its three roles unchanged; do not infer a new designation from main, a dependency pin or this docket. Return with a complete three-role content ballot after the coupled scope/alias/lineage dispositions are resolved. No QE execution pin is designated.",
+      "alternatives_and_consequences": "C-1 may accept a measured mixed-content candidate with explicit scope; C-2 requires new Limb-A-only authority; deferral preserves the stop.",
+      "prerequisites": [
+        "C-3 deferral remains effective; no new content designation until its governing conditions and a future exact PA designation",
+        "complete primary/alias/IRR content ballot with current consumed/compiled/supplemental inventories",
+        "G4-3 alias and G4-4 lineage/digest dispositions"
+      ],
+      "accountable_owner": "PA decides; IRR/IPD evidence owners prepare the exact ballot. Current 07e86a4 and prior IRR 80737d0 observations are not missing data, but neither is an adopted new basis.",
+      "implementation_authority_result": "No. A later content designation is still not implementation, QE execution or result acceptance.",
+      "acceptance_criteria": [
+        "Act names all three roles with full commit/tree/blob identities, purpose and mixed-content scope",
+        "No QE execution pin asserted; exact effective publication/readback and regenerated digest acceptance required",
+        "Before any adoption: prerequisites documented at exact immutable coordinates, explicit PA wording/scope recorded, applicable publication/effectiveness verified; no approval inferred from this docket."
+      ],
+      "adoption_status": "NOT ADOPTED \u2014 no new explicit PA disposition supplied",
+      "new_authority_record": null,
+      "satisfied_scope_dependencies": [
+        "D01 repository choice settled",
+        "G4-2 now C-3 deferral, not permission to designate"
+      ],
+      "authority_consequence": "No adoption or implementation authority inferred; original outstanding evidence/authorization still required.",
+      "source_prerequisites": [
+        "G4-2 express scope selection",
+        "G4-3 alias disposition",
+        "G4-4 lineage/digest disposition",
+        "complete exact primary/alias/IRR content inventory including supplemental, conditional-helper, compiled and actual consumed dependencies"
+      ]
+    },
+    {
+      "decision_id": "G4-3",
+      "exact_question": "A-10 decision 3: how is the live broker alias coordinate re-rendered under a DQ-6b-class disposition?",
+      "current_status": "Historical Path A effective at 70b24f02; live alias is 07e86a4 published-output materialization. Fresh disposition pending.",
+      "supporting_evidence": {
+        "source_register_entry": "G4-3",
+        "source_register_url": "https://github.com/ramkivs/iips-review-recovered/blob/6946bee09395364a8a06ffafb1c4ef91c866e340/evidence/integration/gate4-holdings-identity-reconciliation-2026-11-06/decision-register.json",
+        "references": [
+          "docs/integration/WS-A-G4-QE-H12-PIN-DESIGNATION-DECISION-PACKAGE-2026-11-05.md \u00a7\u00a76.2,8.3",
+          "DQ-6b Path A act",
+          "remote-census.json currentDependencyPins"
+        ]
+      },
+      "classification": "CONDITIONAL",
+      "arena_recommendation": "Recommend separate additive disposition for observed 07e86a4 alias and materialization/profile, with explicit primary/alias overlap inventory and conditions; do not rewrite Path A.",
+      "recommended_pa_wording": "After the exact new content scope and complete alias profile/inventory are attached and accepted, render a separate DQ-6b-class disposition for broker alias 07e86a4f2c105651f3097a96cb519f8611945e30 and its published-output consumption. Preserve historical Path A at 70b24f029842a7e9b7f615e4d9df7376fd4ff817; do not rewrite it or infer that authorized modernization itself rendered this new disposition. This authorizes no source or dependency change, QE execution or acceptance.",
+      "alternatives_and_consequences": "Retain historical alias for historical qualification only, or authorize modernized/rebased qualification with new acceptance; silently treating old Path A as current is invalid.",
+      "prerequisites": [
+        "C-3 deferral retained; no automatic C-1 or new content-basis acceptance",
+        "exact alias overlap/profile/published/compiled/supplemental inventory and lineage consequences",
+        "separate express alias disposition and applicable effectiveness obligations"
+      ],
+      "accountable_owner": "PA renders separate disposition; IPD/IRR owners bind the exact inventory. Known 18-module profile alone is not regenerated H-12 or qualification.",
+      "implementation_authority_result": "No. Only a future explicitly rendered content/alias disposition; implementation and qualification remain separately bounded.",
+      "acceptance_criteria": [
+        "Full alias commit/tree/blob and published-output/compiled-set inventory",
+        "Explicit source/primary overlap, lineage and qualification consequences",
+        "Independent readback; no implicit Path B",
+        "Before any adoption: prerequisites documented at exact immutable coordinates, explicit PA wording/scope recorded, applicable publication/effectiveness verified; no approval inferred from this docket."
+      ],
+      "adoption_status": "NOT ADOPTED \u2014 no new explicit PA disposition supplied",
+      "new_authority_record": null,
+      "satisfied_scope_dependencies": [
+        "G4-2 settled as C-3; no C-1/current-basis acceptance follows"
+      ],
+      "authority_consequence": "No adoption or implementation authority inferred; original outstanding evidence/authorization still required.",
+      "source_prerequisites": [
+        "G4-2 scope disposition",
+        "primary/alias overlap and complete published/compiled/supplemental inventory for the exact proposed content basis",
+        "recorded lineage/digest consequences and required publication/mirror effectiveness obligations"
+      ]
+    },
+    {
+      "decision_id": "G4-4",
+      "exact_question": "A-10 decision 4: accept which lineage classification and DB-C1 digest reproduction basis?",
+      "current_status": "Historical alias REAL x3; R5 primary and current broker pin UNCLASSIFIED x3. Disposition pending.",
+      "supporting_evidence": {
+        "source_register_entry": "G4-4",
+        "source_register_url": "https://github.com/ramkivs/iips-review-recovered/blob/6946bee09395364a8a06ffafb1c4ef91c866e340/evidence/integration/gate4-holdings-identity-reconciliation-2026-11-06/decision-register.json",
+        "references": [
+          "docs/integration/WS-A-G4-QE-H12-PIN-DESIGNATION-DECISION-PACKAGE-2026-11-05.md \u00a7\u00a76.4,8.4",
+          "remote-census.json lineageClassification"
+        ]
+      },
+      "classification": "CONDITIONAL",
+      "arena_recommendation": "Recommend acknowledge current UNCLASSIFIED as observed content and require explicit new DB-C1/digest acceptance if used for qualification; preserve old REAL evidence as historical.",
+      "recommended_pa_wording": "For the exact accepted candidate basis, accept the explicitly inventoried UNCLASSIFIED lineage classification rather than asserting historical REAL digests are reproducible. Require separately authorized and accepted DB-C1/digest re-baselining evidence before qualification reliance. Preserve historical REAL evidence unchanged; do not restore REAL or alter mapper code under this disposition. No DB-C1 re-acceptance, QE result or Gate C/U4 acceptance is rendered by this text alone.",
+      "alternatives_and_consequences": "REAL restoration requires new IPD implementation authority; divergence-only acceptance must state non-reproducibility and cannot close missing qualification.",
+      "prerequisites": [
+        "exact future accepted candidate basis under C-3 conditions",
+        "explicit authorized DB-C1 re-baseline/digest evidence and PA classification/acceptance disposition"
+      ],
+      "accountable_owner": "PA decides classification/acceptance scope; IPD/IRR evidence owners produce authorized exact-pin digest evidence.",
+      "implementation_authority_result": "No. REAL restoration would need separate IPD implementation authority; future DB-C1 work requires its exact applicable authority.",
+      "acceptance_criteria": [
+        "Named classification, coordinate and digest impact",
+        "Old historical digests preserved",
+        "Any new DB-C1 result separately executed and accepted",
+        "Before any adoption: prerequisites documented at exact immutable coordinates, explicit PA wording/scope recorded, applicable publication/effectiveness verified; no approval inferred from this docket."
+      ],
+      "adoption_status": "NOT ADOPTED \u2014 no new explicit PA disposition supplied",
+      "new_authority_record": null,
+      "satisfied_scope_dependencies": [
+        "D01 repository and D04 snapshot scope settled; no lineage/digest acceptance follows"
+      ],
+      "authority_consequence": "No adoption or implementation authority inferred; original outstanding evidence/authorization still required.",
+      "source_prerequisites": [
+        "G4-1/G4-3 exact candidate-basis and alias scope",
+        "explicit DB-C1 re-baseline/re-acceptance scope with before/after digest evidence and applicable authority",
+        "PA determination of the full classification/digest question, not merely acknowledgement of source literals"
+      ]
+    },
+    {
+      "decision_id": "D06",
+      "exact_question": "When and for which exact operations may qualified real-user writes be admitted?",
+      "current_status": "Pending result acceptance/admission; W-1(3)/(4) hard-false; Gate C/U4 not rendered.",
+      "supporting_evidence": {
+        "source_register_entry": "D06",
+        "source_register_url": "https://github.com/ramkivs/iips-review-recovered/blob/6946bee09395364a8a06ffafb1c4ef91c866e340/evidence/integration/gate4-holdings-identity-reconciliation-2026-11-06/decision-register.json",
+        "references": [
+          "docs/integration/SAIRAM-DURABLE-HOLDINGS-PA-DECISION-PACKAGE-2026-11-06.md D06",
+          "Gate E W-1",
+          "WS-A-DM pillars 8\u20139"
+        ]
+      },
+      "classification": "CONDITIONAL",
+      "arena_recommendation": "Separate accepted host results from exact-commit, operation-specific Gate 5/U6 admission; prefer minimal create/save/readback first.",
+      "recommended_pa_wording": "Keep real-user holdings operations unadmitted. Only after the required exact-commit host qualification and separately accepted results may PA render a distinct operation-specific admission naming permitted operations and effective IRR/IPD coordinates. Source inspection, synthetic fixtures, owner extension and accepted policy do not satisfy admission. W-1 remains hard-false; no guard/fence change, Gate 4 acceptance or U6 permission is supplied here.",
+      "alternatives_and_consequences": "Remain closed; broader reset/delete admission would need all its own lifecycle/recovery evidence.",
+      "prerequisites": [
+        "D05 exact authority and completed authorized qualification",
+        "accepted exact-commit host/QE results and all governing Gate C/U4/DQ requirements",
+        "separate effective named-operation Gate 5/U6 admission; no automatic guard change"
+      ],
+      "accountable_owner": "PA accepts results/admission; designated operator and IRR/IPD owners supply exact authorized host evidence.",
+      "implementation_authority_result": "No. Even satisfied prerequisites do not self-execute admission; a later exact express act is required.",
+      "acceptance_criteria": [
+        "All four W-1 requirements individually met",
+        "QE and IRR/IPD exact commits accepted",
+        "No false saved state; readback and unknown-outcome reconciliation demonstrated",
+        "Before any adoption: prerequisites documented at exact immutable coordinates, explicit PA wording/scope recorded, applicable publication/effectiveness verified; no approval inferred from this docket."
+      ],
+      "adoption_status": "NOT ADOPTED \u2014 no new explicit PA disposition supplied",
+      "new_authority_record": null,
+      "satisfied_scope_dependencies": [
+        "D01 identifies repository for future qualification/admission",
+        "D04 excludes trade/cash/tax-lot operations from candidate admission"
+      ],
+      "authority_consequence": "No adoption or implementation authority inferred; original outstanding evidence/authorization still required.",
+      "source_prerequisites": [
+        "D05 exact authority and completed authorized host qualification",
+        "QE and all required accepted results, Gate C/U4 and DQ-4 requirements under the governing acts",
+        "separate explicit operation-specific Gate 5/U6 admission instrument and independent effective publication"
+      ]
+    },
+    {
+      "decision_id": "A-5",
+      "exact_question": "What genuine external Dhan export is needed before reliable row-level assessment/deposition?",
+      "current_status": "BLOCKED-EXTERNAL; no later genuine detailed export located in reviewed authoritative evidence.",
+      "supporting_evidence": {
+        "source_register_entry": "A-5",
+        "source_register_url": "https://github.com/ramkivs/iips-review-recovered/blob/6946bee09395364a8a06ffafb1c4ef91c866e340/evidence/integration/gate4-holdings-identity-reconciliation-2026-11-06/decision-register.json",
+        "references": [
+          "docs/integration/WS-A-DHAN-DETAILED-HOLDINGS-EXTERNAL-DEPENDENCY-2026-11-05.md \u00a7\u00a71\u20133"
+        ]
+      },
+      "classification": "CONDITIONAL",
+      "arena_recommendation": "Operator supplies provenance-bearing DHAN_DETAILED_HOLDINGS_V1 with actual ISIN and Exchange; preserve file/hash privately under existing authorized intake.",
+      "recommended_pa_wording": "Require genuine operator-provided DHAN_DETAILED_HOLDINGS_V1 in the governed 11-column layout including actual ISIN and Exchange, provenance and raw-byte digest. Do not mark this external input satisfied until authenticated source bytes and governed parsing/row-cell lineage evidence exist under existing intake authority. Do not infer ISIN-path absence from missing source cells or the earlier symbol-space probe.",
+      "alternatives_and_consequences": "Wait for genuine export; synthetic/guessed identifiers or name inference cannot substitute.",
+      "prerequisites": [
+        "Genuine operator-held detailed export with provenance and hash",
+        "governed variant/header/cell traceability validation under existing authorized intake; no new upload route"
+      ],
+      "accountable_owner": "Operator (Ramki) supplies data; IRR validates within existing scope. PA cannot manufacture missing evidence.",
+      "implementation_authority_result": "No new implementation. Existing lawful intake is preserved; supplying a file is not holdings write authority.",
+      "acceptance_criteria": [
+        "Exact governed columns, provenance and hash",
+        "Row/cell lineage retained",
+        "ISIN path only reported tested when actually exercised",
+        "Before any adoption: prerequisites documented at exact immutable coordinates, explicit PA wording/scope recorded, applicable publication/effectiveness verified; no approval inferred from this docket."
+      ],
+      "adoption_status": "NOT ADOPTED \u2014 no new explicit PA disposition supplied",
+      "new_authority_record": null,
+      "satisfied_scope_dependencies": [],
+      "authority_consequence": "No adoption or implementation authority inferred; original outstanding evidence/authorization still required.",
+      "source_prerequisites": [
+        "Genuine operator-held detailed export with provenance and hash",
+        "governed variant/header/cell traceability validation under existing authorized intake; no new upload route"
+      ]
+    },
+    {
+      "decision_id": "A-6",
+      "exact_question": "Is a new D05 expansion/deposition authorized for the residual genuine identities?",
+      "current_status": "NOT STARTED / PENDING explicit expansion authority; existing bootstrap act is not a new Wave-2 grant.",
+      "supporting_evidence": {
+        "source_register_entry": "A-6",
+        "source_register_url": "https://github.com/ramkivs/iips-review-recovered/blob/6946bee09395364a8a06ffafb1c4ef91c866e340/evidence/integration/gate4-holdings-identity-reconciliation-2026-11-06/decision-register.json",
+        "references": [
+          "docs/integration/WS-A-DHAN-DETAILED-HOLDINGS-EXTERNAL-DEPENDENCY-2026-11-05.md \u00a7\u00a73\u20135"
+        ]
+      },
+      "classification": "REQUIRES SEPARATE AUTHORIZATION",
+      "arena_recommendation": "After A-5 and independent identity corroboration, seek the exact IPD-owned Wave-2 expansion act and integrity-bound deposition/test plan.",
+      "recommended_pa_wording": "Keep new D05 Wave-2 expansion ungranted. After genuine A-5 input, exact residual row assessment and independent authoritative identity corroboration, seek a separate IPD-owned expansion act binding the operator drop, identifiers, checksum/count/masterRevision and integrity tests. The bootstrap authorization is not a new expansion grant. No guessed mappings, fuzzy aliases, fabricated ISINs or P04 bypass is permitted.",
+      "alternatives_and_consequences": "No expansion; or exact authorized independently corroborated deposition. No fuzzy aliasing or old-act reuse.",
+      "prerequisites": [
+        "A-5 genuine detailed export",
+        "actual row-level residual assessment, not assumed ISIN failures",
+        "independent authoritative corroboration for every proposed identity",
+        "new exact PA expansion authority and integrity-bound IPD deposition plan"
+      ],
+      "accountable_owner": "PA grants exact expansion authority; designated IPD/operator owns corroboration, deposition and integrity evidence.",
+      "implementation_authority_result": "None now. A future explicit act may permit only its exact corpus/manifest/test deposition; not holdings writes.",
+      "acceptance_criteria": [
+        "Every identifier traces to genuine source cell and corroboration",
+        "New act/drop/checksum/count/masterRevision and integrity tests",
+        "No bypass of P04/2F; no guessed ISINs",
+        "Before any adoption: prerequisites documented at exact immutable coordinates, explicit PA wording/scope recorded, applicable publication/effectiveness verified; no approval inferred from this docket."
+      ],
+      "adoption_status": "NOT ADOPTED \u2014 no new explicit PA disposition supplied",
+      "new_authority_record": null,
+      "satisfied_scope_dependencies": [
+        "D01 identifies sole IPD deposition locus; expansion authority still absent"
+      ],
+      "authority_consequence": "No adoption or implementation authority inferred; original outstanding evidence/authorization still required.",
+      "source_prerequisites": [
+        "A-5 genuine detailed export",
+        "actual row-level residual assessment, not assumed ISIN failures",
+        "independent authoritative corroboration for every proposed identity",
+        "new exact PA expansion authority and integrity-bound IPD deposition plan"
+      ]
+    },
+    {
+      "decision_id": "A-7",
+      "exact_question": "When may downstream consumption of newly resolved Dhan identities be accepted?",
+      "current_status": "BLOCKED by authorized A-6; no downstream success established.",
+      "supporting_evidence": {
+        "source_register_entry": "A-7",
+        "source_register_url": "https://github.com/ramkivs/iips-review-recovered/blob/6946bee09395364a8a06ffafb1c4ef91c866e340/evidence/integration/gate4-holdings-identity-reconciliation-2026-11-06/decision-register.json",
+        "references": [
+          "docs/integration/WS-A-DHAN-DETAILED-HOLDINGS-EXTERNAL-DEPENDENCY-2026-11-05.md \u00a7\u00a74\u20136",
+          "WS-A-DM pillar 1"
+        ]
+      },
+      "classification": "CONDITIONAL",
+      "arena_recommendation": "Keep strict A-5 -> A-6 -> A-7 order; re-assess exact original/approved detailed rows after authorized master change, then separately verify consumption/pin if required.",
+      "recommended_pa_wording": "Keep A-7 blocked until authorized A-6 is completed and verified. Then assess the genuine approved rows against the exact authorized master revision and publish per-row before/after outcomes, quarantine and source lineage; obtain any separately required pin/consumption disposition. Do not infer downstream success from a dependency pin, IID resolver or retention result, and do not infer holdings admission from identity resolution.",
+      "alternatives_and_consequences": "Stay blocked; skipping A-6 would silently bypass identity authority.",
+      "prerequisites": [
+        "Completed expressly authorized A-6 with master revision/checksum/integrity evidence",
+        "genuine approved row inputs and before/after assessment",
+        "exact consumption/pin disposition if required by governing scope"
+      ],
+      "accountable_owner": "IPD/IRR maintainers under exact existing/new applicable authority; PA only for changed scope/pin dispositions.",
+      "implementation_authority_result": "No new implementation authority. Later assessment/consumption proceeds only within its applicable express scope.",
+      "acceptance_criteria": [
+        "Per-row before/after results and quarantine",
+        "Exact approved pin and source revisions",
+        "No claim that newly resolved identities automatically authorize holdings writes",
+        "Before any adoption: prerequisites documented at exact immutable coordinates, explicit PA wording/scope recorded, applicable publication/effectiveness verified; no approval inferred from this docket."
+      ],
+      "adoption_status": "NOT ADOPTED \u2014 no new explicit PA disposition supplied",
+      "new_authority_record": null,
+      "satisfied_scope_dependencies": [],
+      "authority_consequence": "No adoption or implementation authority inferred; original outstanding evidence/authorization still required.",
+      "source_prerequisites": [
+        "Completed expressly authorized A-6 with master revision/checksum/integrity evidence",
+        "genuine approved row inputs and before/after assessment",
+        "exact consumption/pin disposition if required by governing scope"
+      ]
+    },
+    {
+      "decision_id": "IID-DATA",
+      "exact_question": "How will real approved issuer/filing data and R-16 coverage prerequisites be supplied?",
+      "current_status": "EXTERNAL EVIDENCE prerequisite; R-16 open, 3/13 sectors measured on synthetic reference set; no real issuer M-1 proof.",
+      "supporting_evidence": {
+        "source_register_entry": "IID-DATA",
+        "source_register_url": "https://github.com/ramkivs/iips-review-recovered/blob/6946bee09395364a8a06ffafb1c4ef91c866e340/evidence/integration/gate4-holdings-identity-reconciliation-2026-11-06/decision-register.json",
+        "references": [
+          "docs/integration/IIPS_V3_IID_IMPLEMENTATION_ROADMAP_2026-11-05.md \u00a7\u00a7B.J2\u2013B.L",
+          "IID limitation register L-001,L-004,L-009"
+        ]
+      },
+      "classification": "CONDITIONAL",
+      "arena_recommendation": "Use already accepted XBRL-first/CSV fallback and operator-paced approved data, preserving all L-001\u2013L-016 limitations until evidence closes each.",
+      "recommended_pa_wording": "Preserve the settled XBRL-first and first-class CSV fallback design. Keep real-data and R-16 completion unclaimed until approved provenance-bearing issuer/filing inputs and the required per-sector qualification evidence exist. Retain the 3/13 synthetic sector disclosure, 10 outstanding sectors and unfinished real 2-issuers-by-5-years leg, and all open limitations. This creates no new PA design gate and authorizes no IID implementation, scraping or ingestion expansion.",
+      "alternatives_and_consequences": "Continue fixture-only honest disclosures; wider ingestion or sector qualification needs its own applicable scope, not invented approval.",
+      "prerequisites": [
+        "Approved real issuer/filing data, provenance and reproducible normalized inputs",
+        "R-16 per-sector evidence for any coverage promotion",
+        "limitation-specific tests/evidence before any L-001\u2013L-016 closure"
+      ],
+      "accountable_owner": "Operator/data owners supply approved inputs; existing IRR/sector owners retain scoped responsibilities. New PA action only if scope actually changes.",
+      "implementation_authority_result": "No. Already settled design is preserved, not re-adopted as a new implementation grant.",
+      "acceptance_criteria": [
+        "Real inputs provenance and reproducible normalized facts",
+        "Per-sector C-16.x evidence",
+        "No implied closure of unrelated limitations",
+        "Before any adoption: prerequisites documented at exact immutable coordinates, explicit PA wording/scope recorded, applicable publication/effectiveness verified; no approval inferred from this docket."
+      ],
+      "adoption_status": "NOT ADOPTED \u2014 no new explicit PA disposition supplied",
+      "new_authority_record": null,
+      "satisfied_scope_dependencies": [],
+      "authority_consequence": "No adoption or implementation authority inferred; original outstanding evidence/authorization still required.",
+      "source_prerequisites": [
+        "Approved real issuer/filing data, provenance and reproducible normalized inputs",
+        "R-16 per-sector evidence for any coverage promotion",
+        "limitation-specific tests/evidence before any L-001\u2013L-016 closure"
+      ]
+    },
+    {
+      "decision_id": "IID-L016",
+      "exact_question": "How should existing NP-04 prose-vs-manifest pin discrepancy be reconciled?",
+      "current_status": "OPEN L-016; IID-3 changed no dependency pin.",
+      "supporting_evidence": {
+        "source_register_entry": "IID-L016",
+        "source_register_url": "https://github.com/ramkivs/iips-review-recovered/blob/6946bee09395364a8a06ffafb1c4ef91c866e340/evidence/integration/gate4-holdings-identity-reconciliation-2026-11-06/decision-register.json",
+        "references": [
+          "docs/integration/IIPS_V3_IID_IMPLEMENTATION_ROADMAP_2026-11-05.md \u00a7B.J4",
+          "IID limitation register L-016"
+        ]
+      },
+      "classification": "DEFERRED",
+      "arena_recommendation": "Trace actual dependency pin and corresponding contract/source first; correct prose under existing scope if documentary, otherwise obtain exact pin/boundary authority before any change.",
+      "recommended_pa_wording": "Defer L-016 closure pending a traceable comparison of the actual NP-04 dependency manifest/lock pins, referenced prose and corresponding source/contract. Correct prose only if the discrepancy is proved documentary; otherwise return with the exact pin/boundary authority required. Do not silently advance a pin, repeat Q-1 without necessity, or close L-016 through this review.",
+      "alternatives_and_consequences": "Keep disclosed discrepancy; or separately scoped evidence-backed reconciliation. Do not rerun Q-1 without need.",
+      "prerequisites": [
+        "Narrow manifest/lock/prose/source/contract reconciliation proving the discrepancy type",
+        "documentary correction evidence or separately authorized actual pin/boundary delta, as applicable"
+      ],
+      "accountable_owner": "IRR/IPD contract maintainers; PA only for a real authority/pin change, not ordinary documentation.",
+      "implementation_authority_result": "No. No IID code, pin or boundary change is authorized.",
+      "acceptance_criteria": [
+        "Actual pins and prose mismatch explicitly reconciled",
+        "No unadmitted schema/boundary change",
+        "Published targeted verification for any later change",
+        "Before any adoption: prerequisites documented at exact immutable coordinates, explicit PA wording/scope recorded, applicable publication/effectiveness verified; no approval inferred from this docket."
+      ],
+      "adoption_status": "NOT ADOPTED \u2014 no new explicit PA disposition supplied",
+      "new_authority_record": null,
+      "satisfied_scope_dependencies": [],
+      "authority_consequence": "No adoption or implementation authority inferred; original outstanding evidence/authorization still required.",
+      "source_prerequisites": [
+        "Narrow manifest/lock/prose/source/contract reconciliation proving the discrepancy type",
+        "documentary correction evidence or separately authorized actual pin/boundary delta, as applicable"
+      ]
+    }
+  ],
+  "fourRevisionCap": 4,
+  "v1Unchanged": true
+}

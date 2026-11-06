@@ -21956,3 +21956,8 @@ recovery-copy/restore-resurrection limits. **WS-A/WS-A-DM NOT COMPLETE.** Public
 
 R2 §27 and WS-A-DM §7 cross-reference this single versioned specification. Historical records append-only.
 Next free: §16.265 / CV-CORR-245 / CHG-2026-11-06-08 / V2140.
+
+
+### 16.265 Express PA D02/D03/D05 adoption and bounded IPD engineering (`2026-11-06`)
+
+**CV-CORR-245 / CHG-2026-11-06-08 / V2140.** Authority `docs/integration/IIPS_v3.0_PA_D02_D03_D05_ENGINEERING_ACT_2026-11-06.md` / `IIPS-V3-PA-D02-D03-D05-ENGINEERING-2026-11-06-01`; explicit PA approval 2026-11-06. D02/D03/D05 ADOPTED; public effectiveness requires act §4.1 verified main publication before engineering. Current register `evidence/integration/d02-d03-d05-engineering-2026-11-06/current-register.json`: six adopted / nine pending; historical sources preserved. Current four-revision cap explicitly overrides Prompt 8 cap-removal proposal; v2 duplicate-before-cap, stale-first. IPD-only implementation; IRR consumer runtime/pins unchanged. W-1 hard-false, no operational DB/writes/provisioning/migration or D06 admission; QE 0/11, Gate C/U4 NOT RENDERED. Isolated synthetic engineering/tests only after effective authority. No new Act inferred from old request IDs. Actual results and cross-repo receipt append later under this allocation. Next free §16.266 / CV-CORR-246 / CHG-2026-11-06-09 / V2141.
