@@ -1,0 +1,18 @@
+$ npm run test:iid   # tsx --test tests/investment/*.test.ts
+test:iid exit=0
+1..115
+# tests 441
+# suites 115
+# pass 441
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 6400.975035
+
+$ npm run typecheck  # tsc --noEmit
+typecheck exit=0
+
+> @iips/platform@0.1.0 typecheck
+> tsc --noEmit
+

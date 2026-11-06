@@ -1,0 +1,5 @@
+wrote ../evidence/real-issuer/VIII-VALUATION-DECISIONS-2026-11-06/artifact/valuation-decision-scenarios.json
+  baseline confidence 0.6736 · intrinsic mid 1088.972274952081
+  L-034 alternatives documented: 4 · factor null
+  L-036 quantified: false (NO_AUTHORITATIVE_ASSOCIATES_JV_CARRYING_VALUE_IN_COMMITTED_SOURCE_EVIDENCE)
+exit=0

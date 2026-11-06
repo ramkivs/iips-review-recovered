@@ -1,0 +1,55 @@
+# VIII — valuation-integrity decision package: commands, verbatim
+# Run from a clean checkout of arena/f5bc24ff-iips-review-recovered (baseline e31fbc59d8597af1b834a994d7adab47cf62678c).
+
+# 0. Baseline and the commit named in the work request
+git fetch origin --prune
+git rev-parse HEAD origin/main
+git rev-list --count --all            # 1  -> the request's cba812b0… is not reachable in this clone
+git rev-parse cba812b0 2>&1           # "Not a valid commit name"
+
+# 1. Read the register entries this package must not re-status
+sed -n '1238,1300p' docs/integration/IIPS_V3_IID_LIMITATION_AND_COVERAGE_REGISTER_2026-11-06.md   # §17.1 L-034
+sed -n '1327,1390p' docs/integration/IIPS_V3_IID_LIMITATION_AND_COVERAGE_REGISTER_2026-11-06.md   # §17.3 L-036
+
+# 2. Does the committed evidence contain an associates/JV disclosure at all?
+ls evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/source/
+grep -ic 'associate\|joint venture\|JV\|investment' evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/source/quotes.json  # 0
+
+# 3. Is the term representable at all?
+grep -n 'associatesAndJV' iips-platform/src/investment/assessment/capitalStructure.ts
+grep -n 'LINE_ITEM_IDS' iips-platform/src/investment/contracts/lineItems.ts
+grep -n "unknown\|UNKNOWN_LINE_ITEM" iips-platform/src/investment/ingestion/builder.ts | head
+sed -n '46,70p' iips-platform/src/investment/ingestion/xbrl.ts   # XBRL_TAG_MAP, 20 tags, no associates/JV
+
+# 4. The cap mechanism, as committed
+sed -n '51,70p'  iips-platform/src/investment/assessment/confidence.ts   # assumptionCapsOf: one declaration per cap type
+sed -n '122,140p' iips-platform/src/investment/assessment/confidence.ts  # apply loop: combined *= factor per applied declaration
+sed -n '150,170p' iips-platform/src/investment/assessment/engine.ts      # policyDefaultTriggersOf
+grep -n 'policyDefaultAssumptionCaps' -A 6 iips-platform/src/investment/assessment/policy.ts
+
+# 5. Install and reproduce
+cd iips-platform
+npm ci --strict-ssl=false
+
+# 6. Generate the scenario package from the committed WI3 inputs (writes the artifact; throws if the baseline drifted)
+npx tsx scripts/viii-valuation-decisions.ts ../evidence/real-issuer/VIII-VALUATION-DECISIONS-2026-11-06/artifact
+
+# 7. Cross-check the reproduced baseline against the frozen VII payload
+python3 - <<'PY'   # full output in runs/02-baseline-crosscheck.txt
+import json, hashlib
+vii='evidence/real-issuer/VII-VALUATION-INTEGRITY-2026-11-06/artifact/assessment-payload-vii.json'
+print(hashlib.sha256(open(vii,'rb').read()).hexdigest())
+PY
+
+# 8. Targeted regression + the suite that contains it
+npx vitest run tests/investment/viiiValuationDecisions.test.ts          # 10 passed
+npm run test:iid                                                       # 441 passed (431 + 10)
+npm run typecheck                                                      # exit 0
+
+# Not run here, and why: `npm test` (the full platform suite) cannot pass in this sandbox — 30 A13 tests
+# require commit 5ca181c7…, which is not present in this one-commit clone. `test:iid` is the IID-scoped suite.
+# CI does not run iips-platform at all: .github/workflows/ci.yml sets `working-directory: frontend`.
+
+# 9. Publisher hygiene
+git status --porcelain
+git diff --stat

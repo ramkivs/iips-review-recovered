@@ -1,0 +1,59 @@
+{
+  "bundle": "VIII-VALUATION-DECISIONS-2026-11-06",
+  "phase": "VIII",
+  "date": "2026-11-06",
+  "baseline": {
+    "branch": "arena/f5bc24ff-iips-review-recovered",
+    "originMain": "e31fbc59d8597af1b834a994d7adab47cf62678c",
+    "requestedCommit": "cba812b0",
+    "requestedCommitReachable": false,
+    "note": "the work request names cba812b0\u2026; that commit does not exist in this one-commit clone, so every statement is made against e31fbc5"
+  },
+  "issuer": {
+    "legalName": "Infosys Limited",
+    "cin": "L85110KA1981PLC013115",
+    "isin": "INE009A01021"
+  },
+  "artifacts": {
+    "artifact/valuation-decision-scenarios.json": "1d1d422347f9a9d3be36884671e39050187277557fdf11bf824f4ddacea2f4e5"
+  },
+  "inputs": {
+    "evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/ingest-input/periods.csv": "4b660e5d1a507be5638198ce0c618944a2609a8a8d8bf742fab1130bfc8c562c",
+    "evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/ingest-input/roster.json": "426e8478bca1ffc3fd47a6a24995230cfbfc05ccd1df4b92fa774ba15c60f8b4",
+    "evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/ingest-input/prices.json": "d00655bc3f292cb727d2b0e0c8c8a3a7a12be410c0260a2c5987543785f2a11c",
+    "evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/source/quotes.json": "364aa0a1d5b022046755b2d7c771ae23a3b558c2af4c558085e6d65014ae6c33"
+  },
+  "preservedHistorical": {
+    "evidence/real-issuer/VII-VALUATION-INTEGRITY-2026-11-06/artifact/assessment-payload-vii.json": {
+      "sha256": "6a328ef09636c51d069156cad1ea6e0e50c34e62fff0be1d64949f73a1f3504e",
+      "bytes": 54481,
+      "status": "unchanged by this bundle; the reproduced baseline is compared against it field by field"
+    },
+    "evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06": "unchanged; its dataset manifest (IIPS_INVESTMENT_FUNDAMENTALS_V1, sha256:21cf2522\u2026) is re-used, not re-versioned"
+  },
+  "code": {
+    "iips-platform/scripts/viii-valuation-decisions.ts": "1cce5aa5ddf9954343d4663527c9308f658106660241364449ed16c875d5de55",
+    "iips-platform/tests/investment/viiiValuationDecisions.test.ts": "b17888d5c9f0ae75bb3585d7fed3cf6dcd9849a8d2ce661e91b282637caff7e9",
+    "productSourceChanged": false
+  },
+  "verification": {
+    "testIid": {
+      "command": "npm run test:iid",
+      "passed": 441,
+      "failed": 0
+    },
+    "typecheck": {
+      "command": "npm run typecheck",
+      "exitCode": 0
+    },
+    "fullPlatformSuite": {
+      "run": false,
+      "reason": "`npm test` cannot pass in this sandbox: 30 A13 tests require commit 5ca181c7\u2026, which is not present in this clone. `test:iid` is the IID-scoped suite. CI does not run iips-platform at all (.github/workflows/ci.yml uses working-directory: frontend)."
+    }
+  },
+  "readings": {
+    "L-034": "OPEN \u2014 mechanism prepared, requirement unsatisfied, factor and granularity undecided",
+    "L-036": "PARTIALLY RESOLVED \u2014 disclosure corrected; carrying value unrepresentable and unavailable; understatement unquantified",
+    "L-035": "OPEN \u2014 untouched"
+  }
+}

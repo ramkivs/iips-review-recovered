@@ -1448,3 +1448,53 @@ penalty applied). Neither entry is closed, and neither is described as satisfied
 
 **Not changed by §17.5:** `L-035` (still `OPEN`), `L-031`, `L-033`, every other limitation, every stored artifact, and
 every payload digest other than the one this work item newly published.
+
+### 17.6 The `L-034` and `L-036` decisions, prepared but not taken (2026-11-06, VIII)
+
+This section records a **decision package**, not a decision. Its subject is the one thing VII could not supply: the
+**cap factor / granularity** that `L-034` needs, and the **carrying value** that `L-036` cannot hold. Neither is
+invented, and neither entry moves.
+
+**What VIII added.** (a) An exact reproduction of the VII baseline from the committed Work Item 3 inputs — intrinsic
+875.3394 / 1088.9723 / 1399.8105, margin of safety −8.4187 % vs mid, band `FAIR`, confidence `0.6736` — with 21 fields
+checked against the frozen payload, all matching. (b) The four `L-034` alternatives (A no cap until authorised; B one
+aggregate cap; C one cap per cap type; D one cap per triggering assumption) with trigger conditions, application
+order, repeat behaviour, interaction with the six existing caps, effect on this assessment and on other
+configurations, and the code change each requires. (c) The `L-036` source path — which note would disclose the
+figure, what the committed evidence actually contains (**nothing**: the three extracted notes never mention
+associates/JV), and the exact representational gap. (d) A versioned schema proposal. (e) Five proposed decision
+records, each marked as a proposal.
+
+**The finding that changes how `L-034` should be decided.** The prepared mechanism is **already `C`-shaped**:
+`assumptionCapsOf()` builds one declaration per cap *type* and the apply loop multiplies once per applied declaration.
+Setting `factor` therefore selects "one cap per cap type" (`f²` on this assessment) without any further code change,
+while B and D each need an arithmetic and payload change. Setting a number therefore cannot be separated from choosing
+a granularity — they are one decision, which is why the draft record `DR-034-1` carries both fields.
+
+**The finding that bounds `L-036`.** The missing term is worth **₹1.6888 per share per ₹1,000 crore** of carrying value
+(0.155 % of mid, +0.1679 pp of margin of safety), and the published band would not leave `FAIR` below ₹1,77,654 crore.
+That does not make the zero acceptable — R-4.1 requires the term at carrying value and the payload still cannot say how
+much it is missing — but it does mean **blocking the bridge** (which would withhold the intrinsic range entirely, as
+Work Item 2 did) would cost far more than the disclosure of an unquantified substitution.
+
+**Authority, restated because the temptation to skip it is the main risk to this work item.** Four different
+authorities are involved and none of them is a "PA": the policy value (A1) and evidence acceptance (A4) belong to **the
+operator** under R-17's vocabulary; the dataset/schema change (A2) belongs to the operator in the interim IRR-only
+arrangement with **IPD ingestion** as target owner (design D-2/§1.5); the implementation (A3) belongs to IRR and needs
+no separate authorisation (R-17 dropped "authority to implement"). **R-13 does not authorise anything** — it classifies
+the change: setting a factor is a `MODEL` change that must be attributed in the change report, once authorised.
+
+**Statuses after §17.6:** `L-034` is **`OPEN`** — the factor and granularity are an undecided operator policy choice,
+so no penalty is applied and R-4.3's cap half stays unmet. `L-036` is **`PARTIALLY RESOLVED`** — the disclosure is
+corrected and the sensitivity is now quantified, but the carrying value is neither representable in dataset schema v1
+nor present in the committed evidence, so the understatement stays unquantified. `L-035` remains `OPEN`.
+
+**Not changed by §17.6:** every other entry and status, every policy constant, every formula, weight and threshold, the
+dataset schema, every stored artifact and every payload digest. The single new executable file is
+`iips-platform/scripts/viii-valuation-decisions.ts` (investigation only, outside `tsconfig.include`), guarded by
+`iips-platform/tests/investment/viiiValuationDecisions.test.ts`, which fails if the policy factor is set without
+regenerating the package.
+
+Evidence: `docs/integration/IIPS_V3_IID_VIII_VALUATION_DECISIONS_2026-11-06.md`,
+`docs/integration/IIPS_V3_IID_ASSOCIATES_JV_SCHEMA_PROPOSAL_2026-11-06.md` and
+`evidence/real-issuer/VIII-VALUATION-DECISIONS-2026-11-06/`.
