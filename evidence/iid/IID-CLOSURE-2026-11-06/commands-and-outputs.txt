@@ -1,0 +1,93 @@
+# IID formal closure — commands executed and their verbatim output
+# Date: 2026-11-06T06:20:37Z  Repo head: edddfb0ad8ac1bb8ec1f317536a1786ece7cc918  (origin/main)
+
+## $ git log --oneline -6 origin/main
+edddfb0 Merge pull request #482 from ramkivs/arena/8bb7c3e6-iips-review-recovered
+9dc883c IID-6: record the post-merge fresh-clone verification
+14de785 Merge pull request #481 from ramkivs/arena/8bb7c3e6-iips-review-recovered
+cef23be IID-6: read-only investment product surface (AC-6.1…AC-6.7)
+83f4511 Merge pull request #480 from ramkivs/arena/222847c8-iips-review-recovered
+5a3be7b IID-5 remediation: enforce O-5, honour the nextReviewOn rule, deliver AC-L14.4
+
+## $ git rev-parse HEAD
+edddfb0ad8ac1bb8ec1f317536a1786ece7cc918
+
+## $ git diff --stat bc0de0e..HEAD -- iips-platform/   # IID-4 merge .. head
+(no output above = platform tree byte-identical to the IID-4-verified tree)
+
+## $ git diff --stat f08da40..HEAD -- iips-platform/   # IID-3 merge .. head
+ .../src/investment/artifacts/scopeToken.ts         |  21 +-
+ iips-platform/src/investment/disposition/engine.ts | 567 +++++++++++++++++++++
+ iips-platform/src/investment/disposition/gates.ts  | 237 +++++++++
+ iips-platform/src/investment/disposition/index.ts  |  15 +
+ iips-platform/src/investment/disposition/limits.ts | 330 ++++++++++++
+ iips-platform/src/investment/disposition/policy.ts | 131 +++++
+ .../investment/disposition/portfolioImplication.ts | 204 ++++++++
+ .../src/investment/disposition/rationale.ts        | 364 +++++++++++++
+ .../src/investment/disposition/subject.ts          | 269 ++++++++++
+ iips-platform/src/investment/disposition/types.ts  | 320 ++++++++++++
+ iips-platform/src/investment/disposition/verbs.ts  | 348 +++++++++++++
+ .../tests/investment/disposition-behaviour.test.ts | 246 +++++++++
+ .../tests/investment/disposition-limits.test.ts    | 213 ++++++++
+ .../tests/investment/disposition-matrix.test.ts    | 457 +++++++++++++++++
+ .../tests/investment/disposition-portfolio.test.ts | 155 ++++++
+ .../tests/investment/disposition-rationale.test.ts | 220 ++++++++
+ .../tests/investment/disposition-subject.test.ts   | 131 +++++
+ .../tests/investment/dispositionFixtures.ts        | 254 +++++++++
+ 18 files changed, 4476 insertions(+), 6 deletions(-)
+
+## $ git log --oneline f08da40..HEAD -- iips-platform/
+3bc70c3 IID-4: holding disposition engine, composition, records, read transport
+
+## $ git diff --stat f08da40..HEAD -- iips-platform/tests/regression/
+(no output = regression suite unchanged since the 651/651 run)
+
+## $ git diff --stat f08da40..HEAD -- 'iips-platform/src/**/*.test.ts'
+(no output = in-src test files unchanged since the IID-3 merge)
+
+## $ python3 -c 'import json;print(json.load(open("iips-platform/package.json"))["scripts"])'
+{'typecheck': 'tsc --noEmit', 'test': 'tsx --test src/**/*.test.ts tests/regression/*.test.ts', 'test:iid': 'tsx --test tests/investment/*.test.ts'}
+
+## $ ls iips-platform/tests/investment/*.test.ts | wc -l ; ls iips-platform/tests/regression/*.test.ts | wc -l ; find iips-platform/src -name '*.test.ts' | wc -l
+28
+69
+13
+
+## $ grep -rn "socket" evidence/iid/ docs/integration/IIPS_V3_IID_*.md   # zero-socket evidence search
+  evidence/iid/IID-6-PRODUCT-SURFACE-2026-11-06/requirement-matrix.md:90:| AC-X2 | No socket: the surface only calls the local read transport already in use (`/api/investment/...`, `/api/user-portfolios/...`), which IID-6 does not change | `read-only-proof.md` |
+  evidence/iid/IID-CLOSURE-2026-11-06/commands-and-outputs.txt:56:## $ grep -rn "socket" evidence/iid/ docs/integration/IIPS_V3_IID_*.md   # zero-socket evidence search
+  docs/integration/IIPS_V3_IID_IMPLEMENTATION_ROADMAP_2026-11-05.md:634:| AC-X2 | Zero sockets opened during a full ingest-free assess → persist → read cycle. |
+  docs/integration/IIPS_V3_IID_INVESTMENT_INTELLIGENCE_DESIGN_REFINEMENT_2026-11-05.md:1160:| AC-X2 | No network access at analysis or read time: a test asserts zero sockets opened during a full assess→persist→read cycle. |
+  docs/integration/IIPS_V3_IID_INVESTMENT_INTELLIGENCE_DESIGN_REFINEMENT_2026-11-05.md:2227:   host, and any exchange-host URL. Verified by a static module-graph scan in IID-0 and by socket-level
+
+## $ grep -rn "createServer|\.listen(|http.request|net.connect|new Socket" frontend/server/investment/ iips-platform/src/investment/
+(no matches: no runtime server, client or socket construction in the investment code paths)
+
+## $ grep -rn "from 'node:net'|from 'node:http'|axios|undici" frontend/server/investment/ iips-platform/src/investment/
+frontend/server/investment/change-transport.ts:21:import type http from 'node:http';
+frontend/server/investment/change/transport.test.ts:15:import type http from 'node:http';
+frontend/server/investment/cli/disposition-demonstration.ts:24:import type http from 'node:http';
+frontend/server/investment/cli/m1-demonstration.ts:30:import type http from 'node:http';
+frontend/server/investment/coverage-transport.ts:19:import type http from 'node:http';
+frontend/server/investment/disposition-transport.test.ts:14:import type http from 'node:http';
+frontend/server/investment/disposition-transport.ts:19:import type http from 'node:http';
+frontend/server/investment/investment-transport.test.ts:15:import type http from 'node:http';
+frontend/server/investment/investment-transport.ts:22:import type http from 'node:http';
+
+## $ grep -rn "investment" iips-platform/tests/regression/   # does the regression closure include investment code?
+(no matches: regression suites do not reference investment code)
+
+## $ grep -rn "investment" iips-platform/src --include='*.test.ts'   # do in-src tests reference investment code?
+(no matches)
+
+## $ du -sb iips-platform/tests/investment/fixtures/ ; du -b iips-platform/tests/investment/fixtures/* | sort -n | tail -3
+37433	iips-platform/tests/investment/fixtures/
+2759	iips-platform/tests/investment/fixtures/xbrl
+4100	iips-platform/tests/investment/fixtures/roster.json
+21466	iips-platform/tests/investment/fixtures/identity
+
+## $ ls -la evidence/iid/IID-2-COMPANY-ASSESSMENT-2026-11-06/golden-*.json  (AC-X6 G-8)
+57930 evidence/iid/IID-2-COMPANY-ASSESSMENT-2026-11-06/golden-bank.json
+4515 evidence/iid/IID-2-COMPANY-ASSESSMENT-2026-11-06/golden-digests.json
+109948 evidence/iid/IID-2-COMPANY-ASSESSMENT-2026-11-06/golden-tech.json
+19148 evidence/iid/IID-2-COMPANY-ASSESSMENT-2026-11-06/golden-thin.json

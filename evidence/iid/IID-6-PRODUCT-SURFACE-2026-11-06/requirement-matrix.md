@@ -86,8 +86,8 @@ mounts the route.
 
 | Gate | How IID-6 satisfies it | Evidence |
 |---|---|---|
-| AC-X1 | `npm run typecheck` clean; `vitest run src` 57 files / 546 passed (+1 skipped); `vitest run server/investment` 14 files / 199 passed | `test-run.txt` |
-| AC-X2 | No socket: the surface only calls the local read transport already in use (`/api/investment/...`, `/api/user-portfolios/...`), which IID-6 does not change | `read-only-proof.md` |
+| AC-X1 | `npm run typecheck` clean; `vitest run src` 57 files / 546 passed (+1 skipped); `vitest run server/investment` 14 files / 199 passed — **the `frontend` half only.** The `iips-platform` half is reconciled in the closure record §5 (see §6 below) | `test-run.txt` |
+| AC-X2 | **CORRECTED — see §6.** The cell previously read "No socket: the surface only calls the local read transport…". That is an architectural argument, not the measurement this gate requires; the criterion is **OPEN** | `read-only-proof.md`; closure record §6 |
 | AC-X3 | No dependency added; `package.json`/`package-lock.json` untouched in this phase | `changed-files.txt` |
 | AC-X4 | No file under `iips-platform/src/sector-engines/` touched (nor anywhere else in `iips-platform/`) | `changed-files.txt` |
 | AC-X5 | No store, table, cache, journal or adapter added; the coverage page names `ChangeService.reconcile` as an operator action and has no control for it | `read-only-proof.md`, `iid6ChangeTimeline.test.tsx` |
@@ -116,3 +116,40 @@ mounts the route.
 | Boundary total across issuers | no cross-issuer boundary read model exists; a total would be fabricated | `InvestmentCoveragePage` boundary section (says so) |
 | Scheduled change/review | no scheduler exists (M-2 as a scheduled capability) | change section copy; roadmap §B.N |
 | Broker-preview surface | not named in IID-6 ACs; `evaluateBrokerPreview` remains unused | `read-only-proof.md` §4 |
+
+## 6. Formal-closure correction (2026-11-06)
+
+Appended by the IID formal closure work item. The matrix above is left intact — it is the phase's own record — with
+two rows corrected by pointer. The authoritative reconciliation is
+`docs/integration/IIPS_V3_IID_FORMAL_CLOSURE_2026-11-06.md` §5–§6 and
+`evidence/iid/IID-CLOSURE-2026-11-06/`.
+
+### 6.1 AC-X2 — this matrix overstated the evidence; the criterion is OPEN
+
+The §3 row asserted AC-X2 on the strength of a **static** observation: the IID-6 surfaces call the existing local read
+transport and add no new endpoint. That is true, and it is *not* what the gate asks for. The gate (design §6.8,
+roadmap §3) requires **a test that asserts zero sockets were opened during a full assess → persist → read cycle**.
+
+No such test exists anywhere in the repository: no instrumentation, no trace, no recorded socket counter. The M-1
+demonstration's ten verification points do not include one. The gate was therefore OPEN before IID-6, IID-6 did not
+close it, and this matrix's PASS must not be read as closing it.
+
+What IID-6 *can* state, and all it can state: it introduced **no new network path** — the only server change is a
+four-field addition to an existing list projection (`git diff --stat 83f4511..HEAD -- frontend/server/` → three files),
+the two new clients are GET-only by construction, and the only new routes are client-side SPA paths in
+`src/app/routes.ts`. That is an architectural fact about the phase, not a measurement of the cycle.
+
+### 6.2 AC-X1 — the `frontend` half is direct; the `iips-platform` half is referenced evidence
+
+The §3 row's numbers are `frontend` only, which is what this phase executed. AC-X1 also requires `iips-platform`, which
+IID-6 did not run and did not change:
+
+- platform tree byte-identical to the IID-4-verified tree (`git diff --stat bc0de0e..HEAD -- iips-platform/` → empty),
+  where IID-4 recorded `tests/investment` **377/377** and `tsc --noEmit` **clean**;
+- regression suite **651/651** at `f08da40`, unchanged since, with an investment-free dependency closure;
+- in-src tests covered by the **648/648** standard-command record at `7524f18`, files and non-investment imports
+  unchanged since.
+
+The closure record §5 carries this as **PASS — satisfied by explicitly referenced prior evidence**, with four
+qualifications (Q-1: no single `npm test` at an IID head; Q-2: the in-src component's record is pre-IID; Q-3: platform
+suites were not re-run; Q-4: CI covers `frontend` only).

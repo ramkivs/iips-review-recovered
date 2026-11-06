@@ -1297,3 +1297,45 @@ register.
 **Not delivered, unchanged.** M-3 as a *product* is delivered as a read-only surface over synthetic data; R-16 remains
 3 of 13 sectors; no real issuer has been assessed, dispositioned or compared; no scheduler exists, so review dates and
 boundary reconciliation remain operator concerns; the holdings lane (A-5/A-6/A-7, D01–D06, Gate 4) is untouched.
+
+### B.P. IID formal closure (`2026-11-06`; documentation and evidence reconciliation only)
+
+This overlay is append-only. §B.J … §B.O are preserved verbatim; where they still say a phase was "not started", the
+supersession index in the closure record (§10) maps each such sentence to the overlay that supersedes it. No historical
+sentence was rewritten.
+
+**Determination.** **IID-0 … IID-6 are implementation-complete**, each merged on `main` with an acceptance matrix and an
+evidence bundle. The authoritative reconciliation is
+`docs/integration/IIPS_V3_IID_FORMAL_CLOSURE_2026-11-06.md`; its evidence bundle is
+`evidence/iid/IID-CLOSURE-2026-11-06/`; the phase index is now `evidence/iid/README.md`.
+
+**AC-X1 (test suites green + typecheck clean) — PASS, satisfied by explicitly referenced prior evidence, qualified.**
+`frontend` is direct at the phase's own merge (`14de785`: typecheck clean, 546 passed / 1 skipped in `src`, 199 in
+`server/investment`, fresh clone; CI pass on PR #481). `iips-platform` is referenced: `tests/investment` **377/377** and
+`tsc --noEmit` **clean** at `bc0de0e` (IID-4 post-merge verification), and the platform tree is **byte-identical** at the
+IID-6 head (`git diff --stat bc0de0e..HEAD -- iips-platform/` → empty; IID-5 and IID-6 changed no platform file);
+`tests/regression` **651/651** at `f08da40` with the directory unchanged since and no regression test referencing
+investment code; in-src tests covered by the **648/648** standard-command record at `7524f18`, files and
+non-investment imports unchanged. **No platform suite was re-run during IID-6 or during closure, and none is claimed.**
+The literal `npm test` command has never been executed at an IID head — that is qualification Q-1, stated rather than
+smoothed.
+
+**AC-X2 (zero sockets opened during a full assess → persist → read cycle) — OPEN.** The gate requires a *test* that
+asserts the count. No such test, trace or recorded counter exists anywhere in the repository; the M-1 demonstration's
+ten points do not include one. The investment code paths contain no socket construction and no runtime network import,
+and IID-6 added no network path — architectural evidence, not a measurement. The criterion was OPEN before IID-6 and
+remains OPEN. The exact missing artefact is specified in the closure record §6.3.
+
+**AC-X3 … AC-X7 (roadmap numbering) — PASS**, with AC-X7 by referenced prior evidence (IID-3 §4 / M-1 points 3, 6, 7, 8;
+IID-4 post-merge §3); IID-6 writes no artifact. **AC-X6 is a qualified PASS**: no dataset is committed and every input
+fixture is small (`iips-platform/tests/investment/fixtures/` = 37,433 B total, largest file 4,100 B), but one committed
+**evidence golden** — `evidence/iid/IID-2-COMPANY-ASSESSMENT-2026-11-06/golden-tech.json`, 109,948 B — exceeds the gate's
+100 KiB *fixture* bound. Recorded as gap G-8 in the closure record rather than described as compliant. Numbering divergence between the design's §6.8 gate table and this
+roadmap's §3 table is reconciled by meaning in closure §4 — neither table is renumbered.
+
+**Limitations.** `L-001` … `L-029` are unchanged: no identifier, meaning, status or number moved. Phase completion
+closes no limitation, and this closure closes none. `L-014` remains `RESOLVED` as recorded by §B.N.
+
+**What closure is not.** Not production acceptance, admission or release; not real-issuer validation (`L-009`); not
+R-16 sector coverage (still 3/13, `L-001`); no scheduling capability; no Windows host evidence; no trade execution,
+brokerage integration or multi-user/auth scope. Nothing in §B.P begins a future workstream.
