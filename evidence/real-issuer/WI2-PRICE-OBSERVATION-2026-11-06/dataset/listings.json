@@ -1,0 +1,24 @@
+[
+  {
+    "effectiveFrom": "1993-06-01",
+    "effectiveTo": null,
+    "exchange": "NSE",
+    "instrumentType": "EQUITY",
+    "issuerId": "IN:CIN:L85110KA1981PLC013115",
+    "listingId": "IN:NSE:INFY:EQ:EQUITY",
+    "securityId": "IN:ISIN:INE009A01021",
+    "series": "EQ",
+    "symbol": "INFY"
+  },
+  {
+    "effectiveFrom": "1993-06-01",
+    "effectiveTo": null,
+    "exchange": "BSE",
+    "instrumentType": "EQUITY",
+    "issuerId": "IN:CIN:L85110KA1981PLC013115",
+    "listingId": "IN:BSE:500209:EQ:EQUITY",
+    "securityId": "IN:ISIN:INE009A01021",
+    "series": "EQ",
+    "symbol": "500209"
+  }
+]

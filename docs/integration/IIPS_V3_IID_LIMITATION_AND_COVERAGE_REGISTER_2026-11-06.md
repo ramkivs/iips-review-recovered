@@ -68,6 +68,10 @@ responsible phase · evidence references · last status update.
 | L-027 | IID-4 | Count-based diversification band and correlation coefficients are not computed | OPEN | 2026-11-06 |
 | L-028 | IID-5 | Change intelligence covers two report types; cross-model attribution is `UNAVAILABLE` | OPEN | 2026-11-06 |
 | L-029 | IID-5 | Materiality thresholds are published defaults; change reports have no substantive grammar | OPEN | 2026-11-06 |
+| L-030 | WI-2 | Price observation is single-exchange and operator-transcribed; no second feed corroborates it | OPEN | 2026-11-06 |
+| L-031 | WI-2 | Corporate-action table is empty, so "unadjusted price" is a dataset claim, not a verified history | OPEN | 2026-11-06 |
+| L-032 | WI-2 | The alignment rule forces a contemporary price; the margin cannot be run against a period-matched historical price | OPEN | 2026-11-06 |
+| L-033 | WI-2 (observed) | `mos-policy` freshness window: design R-6.4 says five trading days, implementation uses seven calendar days | OPEN | 2026-11-06 |
 
 ---
 
@@ -1061,3 +1065,139 @@ and the post-D-2 regression record are unmodified.
 
 Evidence: `docs/integration/IIPS_V3_IID_D3_RISK_REASON_SEMANTICS_2026-11-06.md` and
 `evidence/real-issuer/D3-RISK-REASON-SEMANTICS-2026-11-06/`.
+
+---
+
+## 16. Work Item 2 — market-price observation (2026-11-06; data evidence only)
+
+**No entry in `L-001` … `L-029` was closed, renumbered, softened, reinterpreted or re-statused by this section.** It
+records the first observation of a market price for the Work Item 1 issuer, the four limitations that observation
+exposes, and what the assessment now says — and does not say.
+
+**What changed.** One dataset record was added to the Work Item 1 inputs: a BSE end-of-day close for ISIN
+`INE009A01021` on trade date `2026-11-06` (₹1,180.65, `ClsPric`), sourced from
+`BhavCopy_BSE_CM_0_0_0_20261106_F_0000.CSV`. The dataset version moves
+`sha256:ca29c835…` → `sha256:0ef4299d…`; the assessment payload moves `8e23f025527e…` → `06be8f6680ec…`; a
+path-by-path comparison against a regenerated pre-WI-2 baseline finds thirteen differences, all inside the run clock,
+the dataset identity and the `valuation.marginOfSafety` block.
+
+**What it buys, and what it does not.** The margin-of-safety refusal moves from `NO_PRICE_OBSERVATION` to
+`INTRINSIC_WITHHELD`: the price limb of that blocker is closed, the value limb is not, because the issuer's borrowings
+remain `NOT_REPORTED` (D-2) and the intrinsic range stays withheld. Nothing about the issuer's risk position, moat,
+dividends, quality verdict or confidence changed — `PARTIAL` / `INDETERMINATE`, `INSUFFICIENT_EVIDENCE` and `0.4939`
+respectively stand exactly as §15 left them.
+
+### 16.1 L-030 — The observation is single-exchange and transcribed
+
+- **Originating phase:** IIPS v3.0 Work Item 2 (2026-11-06).
+- **Description:** the price was read from a BSE end-of-day file fetched by an operator-side tool and committed as a
+  one-row extract. The NSE archive (`sec_bhavdata_full_06112026.csv`) and the NSE quote API both returned HTTP 500
+  from this environment, so **no second feed corroborates the value**, and there is no automatic freshness or
+  reconciliation path — the observation is a verified *row*, not a verified *market*. Internal consistency checks
+  (session range, last-price agreement, implied VWAP, day-move sanity, ISIN/scrip match) pass; they bound, but do not
+  eliminate, transcription risk.
+- **Affected contracts / outputs:** `PriceRecord.source = DATASET_EOD`; `valuation.marginOfSafety` for this issuer; any
+  future claim that a price is "verified" or "provider-backed".
+- **Status:** `OPEN`.
+- **Downstream phases affected:** any real-issuer assessment that uses a price; any IID-6 statement about market-data
+  readiness.
+- **Consequence for user-visible results:** a margin of safety, once computable, will rest on one exchange's file with
+  no independent agreement test. The payload names the exact file and row, so the claim is auditable but not
+  corroborated.
+- **Required resolution / evidence:** a second, independent source for the same instrument and session (NSE bhavcopy,
+  or the IPD point-in-time store once populated with real data) agreeing within an explicit tolerance, plus an
+  acceptance test that fails when they disagree.
+- **Owner / responsible phase:** market-data integration (IPD PIT population), not this work item.
+- **Evidence:** `evidence/real-issuer/WI2-PRICE-OBSERVATION-2026-11-06/source/retrieval.json`
+  (`alternativesAttempted`, `nseCorroboration`).
+- **Last status update:** 2026-11-06 (opened).
+
+### 16.2 L-031 — "Unadjusted" is a statement about an empty table
+
+- **Originating phase:** IIPS v3.0 Work Item 2 (2026-11-06).
+- **Description:** the price record carries `adjustment: null`. The engine refuses a price that straddles a
+  per-share-affecting corporate action without a matching factor, but that guard can only fire on actions the dataset
+  declares — and the dataset's `corporate-actions.json` is empty (`coverage.corporateActions = 0`, `identity/
+  corporate-actions.json` carries `actions: []`). Nothing in this work item verifies Infosys's actual action history
+  between 2024-03-31 and 2026-11-06, and dataset schema v1 has no dividend-declaration record either (already recorded
+  in the payload's `limitations[]`).
+- **Affected contracts / outputs:** `PriceRecord.adjustment`; the `UNADJUSTED_PRICE_ACROSS_CORPORATE_ACTION` refusal;
+  any per-share comparison across an action boundary.
+- **Status:** `OPEN`.
+- **Downstream phases affected:** every per-share valuation and margin of safety on this issuer; any split/bonus
+  handling in a later work item.
+- **Consequence for user-visible results:** a margin of safety computed from this price would be correct only if no
+  per-share-affecting action occurred in the window — an assumption the evidence does not establish.
+- **Required resolution / evidence:** a corporate-action feed (or an operator-declared table) covering the window, with
+  an acceptance test showing the guard fires on a real declared action and that the factor is applied, not guessed.
+- **Owner / responsible phase:** dataset schema / corporate-action ingestion.
+- **Evidence:** `evidence/real-issuer/WI2-PRICE-OBSERVATION-2026-11-06/dataset/corporateActions.json` and
+  `dataset/manifest.json` (`coverage.corporateActions`).
+- **Last status update:** 2026-11-06 (opened).
+
+### 16.3 L-032 — The margin cannot be run against a period-matched historical price
+
+- **Originating phase:** IIPS v3.0 Work Item 2 (2026-11-06).
+- **Description:** design §R-6.4 and `selectPrice()` admit a price only when
+  `knownAsOf ≤ price.asOf ≤ generatedAt` and no older than the freshness window. A close from the statement period
+  (FY2024) is therefore refused by construction (`PRICE_PREDATES_KNOWLEDGE_CUTOFF`), and so is any close older than
+  the window (`PRICE_OUTSIDE_POLICY_WINDOW`). The observation date is consequently the run date, not the period end —
+  which is correct for a contemporary margin of safety, but means the product **cannot** answer "what did the margin
+  look like when the annual report was published" from this contract, and cannot back-test a valuation against the
+  price of the day.
+- **Affected contracts / outputs:** `valuation.marginOfSafety`; any historical/back-testing use of the assessment;
+  `asOf.knownAsOf` as a knowledge cutoff.
+- **Status:** `OPEN`.
+- **Downstream phases affected:** any performance-attribution, back-test or vintage-comparison surface; IID-5 change
+  intelligence where a price change is an input.
+- **Consequence for user-visible results:** a margin of safety is always "today's price against today's value from
+  last-filed statements", with the statements' age published separately as stale. It is not a historical series.
+- **Required resolution / evidence:** an explicit as-of price query path (a PIT store with a real vintage series), with
+  acceptance tests that pin both the admitted window and the refusal of a period-matched price — a *design* decision,
+  not a defect to be repaired by widening the window.
+- **Owner / responsible phase:** valuation policy / PIT integration.
+- **Evidence:** `evidence/real-issuer/WI2-PRICE-OBSERVATION-2026-11-06/README.md` §3;
+  `iips-platform/tests/investment/assessment-price.test.ts`.
+- **Last status update:** 2026-11-06 (opened).
+
+### 16.4 L-033 — Freshness window: design says five trading days, code uses seven calendar days
+
+- **Originating phase:** IIPS v3.0 Work Item 2 (2026-11-06, observed while establishing the alignment rule).
+- **Description:** design §R-6.4 states the default window as "5 trading days"; `VALUATION_POLICY.freshness
+  .priceMaxAgeDays` in `assessment/policy.ts` is **7 calendar days**, and `selectPrice()` measures calendar days. The
+  implementation is the more permissive of the two in wall-clock terms and the less precise in trading terms (a
+  seven-calendar-day window can span a holiday run; a five-trading-day window cannot).
+- **Affected contracts / outputs:** the `PRICE_OUTSIDE_POLICY_WINDOW` refusal; `mos-policy/1.0.0`.
+- **Status:** `OPEN` (recorded, deliberately not changed).
+- **Downstream phases affected:** any consumer that reasons about price freshness or reproduces a refusal boundary.
+- **Consequence for user-visible results:** none for this observation (age is 0 days against either reading), but a
+  price 6–7 days old would be admitted here where the design text says it should be refused.
+- **Required resolution / evidence:** a policy decision on which unit governs, then the version bump and the
+  acceptance test that pins it. **Not** taken here: this work item may not change valuation or risk policy.
+- **Owner / responsible phase:** valuation policy.
+- **Evidence:** `docs/integration/IIPS_V3_IID_INVESTMENT_INTELLIGENCE_DESIGN_REFINEMENT_2026-11-05.md` §R-6.4;
+  `iips-platform/src/investment/assessment/policy.ts` (`freshness.priceMaxAgeDays: 7`).
+- **Last status update:** 2026-11-06 (opened).
+
+### 16.5 What §16 does not change
+
+| Entry / item | Effect of this section |
+|---|---|
+| `L-001` … `L-029` | untouched; no status, identifier, order or wording changes |
+| `L-004` (synthetic reference dataset) | untouched: this is still one issuer through one operator path |
+| `L-006` (restricted cash `NOT_COMPUTABLE`) | untouched: `NOT_REPORTED`, and a price does not supply it |
+| `L-009` (no real issuer assessed) | untouched: one issuer, one path, no real-dataset coverage claim |
+| `L-014` (identity includes the assessment timestamp) | untouched; `RESOLVED` since IID-5 and not revisited |
+| D-2 (nil-by-disclosure, §14) | untouched: the three borrowings components stay `NOT_REPORTED`; **no nil is invented** |
+| D-3 (reason-code precision, §13/§15) | untouched: `PARTIAL` / `INDETERMINATE`, leverage dimension still blocked |
+| R-16 sector coverage | unchanged: 3 of 13 sectors |
+| Margin of safety | **state changed, status not improved**: refusal moves `NO_PRICE_OBSERVATION` → `INTRINSIC_WITHHELD`; still `NOT_COMPUTABLE`, still no band |
+
+**What this section explicitly does not claim.** No valuation, no verdict, no margin of safety, no investment
+conclusion, and no production-readiness or provider-backed market data. The intrinsic range remains withheld because
+the capital structure is incomplete; the price did not unblock it and was never expected to. No formula, threshold,
+weight, confidence cap or risk policy was changed, no IPD implementation was touched, and the Work Item 1, D-2 and
+D-3 evidence bundles plus `evidence/iid` are byte-identical to their state on `main` @ `41c4498`.
+
+Evidence: `docs/integration/IIPS_V3_IID_WI2_PRICE_OBSERVATION_2026-11-06.md` and
+`evidence/real-issuer/WI2-PRICE-OBSERVATION-2026-11-06/`.

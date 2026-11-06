@@ -1,0 +1,167 @@
+{
+  "schemaVersion": 2,
+  "bundle": "WI2-PRICE-OBSERVATION-2026-11-06",
+  "issuerId": "IN:CIN:L85110KA1981PLC013115",
+  "digestAlgorithm": "sha256",
+  "excluded": [
+    "README.md",
+    "digests.json"
+  ],
+  "chain": [
+    {
+      "artifactVersion": 1,
+      "reportId": "1dfb80be-336f-4d41-abda-9f6183d56bf5",
+      "payloadDigest": "06be8f6680ec70caeb73bb83788d730127018076bb39f1a17e43c2c425a04a8f",
+      "payloadFile": "artifact/assessment-payload-wi2.json"
+    }
+  ],
+  "observation": {
+    "securityId": "IN:ISIN:INE009A01021",
+    "exchange": "BSE",
+    "listingId": "IN:BSE:500209:EQ:EQUITY",
+    "tradingDate": "2026-11-06",
+    "field": "ClsPric",
+    "kind": "CLOSE",
+    "value": 1180.65,
+    "currency": "INR",
+    "sourceFile": "BhavCopy_BSE_CM_0_0_0_20261106_F_0000.CSV",
+    "extractSha256": "35886caa8b64aacff0fce69a75c0a0cc353087f30af2957a517cd460916814aa"
+  },
+  "files": [
+    {
+      "path": "artifact/assessment-payload-wi2.json",
+      "bytes": 45302,
+      "sha256": "06be8f6680ec70caeb73bb83788d730127018076bb39f1a17e43c2c425a04a8f"
+    },
+    {
+      "path": "artifact/payload-diff-vs-d3-baseline.json",
+      "bytes": 4331,
+      "sha256": "55a3bd11fb5fe063a31988cdc5a1e2ebe97ee806c57fd6e40a92a0e65b385c13"
+    },
+    {
+      "path": "dataset/corporateActions.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "path": "dataset/coverage-report.json",
+      "bytes": 19447,
+      "sha256": "5c198a85f91fc29e7864af9b0c2f126a66ea2548d8a977f43073c3c326848731"
+    },
+    {
+      "path": "dataset/issuers.json",
+      "bytes": 238,
+      "sha256": "a5c964c83a3c74b482165000fa0f5d4d5aaa6ee186beba4f27d0d581fa82fa34"
+    },
+    {
+      "path": "dataset/issues.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "path": "dataset/listings.json",
+      "bytes": 601,
+      "sha256": "515bae232bdfbbd7b5637aa1ced8253ea44a4318e2e3d6f9a633e010ca25eaa2"
+    },
+    {
+      "path": "dataset/manifest.json",
+      "bytes": 1930,
+      "sha256": "68c931611b2af4e95f1f7b29956dada41d2e22801e75e14ccffcaf4baf06e82b"
+    },
+    {
+      "path": "dataset/operatingMetrics.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "path": "dataset/periods.json",
+      "bytes": 41356,
+      "sha256": "1580f586ec3d406c902ab9f0a4159e5f8dc48083e01a4a9f1e105fd7e90d808c"
+    },
+    {
+      "path": "dataset/prices.json",
+      "bytes": 303,
+      "sha256": "a72eb0fd30d7874ba7e0842d8b8dc97bac76acbc336257094916610054c6b3ef"
+    },
+    {
+      "path": "dataset/securities.json",
+      "bytes": 187,
+      "sha256": "2722930e81b7c89931409d456bf25182de68aad554004af6ccb4b9b63af1db5c"
+    },
+    {
+      "path": "ingest-input/periods.csv",
+      "bytes": 1685,
+      "sha256": "e2cdba2042a55fc3352e85b8384e014f669e1472deb9011e7be2babd4fbc745c"
+    },
+    {
+      "path": "ingest-input/prices.json",
+      "bytes": 341,
+      "sha256": "d00655bc3f292cb727d2b0e0c8c8a3a7a12be410c0260a2c5987543785f2a11c"
+    },
+    {
+      "path": "ingest-input/roster.json",
+      "bytes": 1157,
+      "sha256": "426e8478bca1ffc3fd47a6a24995230cfbfc05ccd1df4b92fa774ba15c60f8b4"
+    },
+    {
+      "path": "runs/01-ingest.txt",
+      "bytes": 1492,
+      "sha256": "2b411313a9e851b83d6ab957a3c1e33723732087204abdbccd414ecaf313a64b"
+    },
+    {
+      "path": "runs/02-generate.txt",
+      "bytes": 5534,
+      "sha256": "780bd39bc6360815de99b7fe67d87220d213122c6f6cdde7235268a5d6448609"
+    },
+    {
+      "path": "runs/03-baseline-ingest.txt",
+      "bytes": 1496,
+      "sha256": "88e34f6acef9ae9ba2a42b93402cf21b1f3604121e26e9165631530ae20d0c62"
+    },
+    {
+      "path": "runs/04-baseline-d3-reconstruction.json",
+      "bytes": 4814,
+      "sha256": "c69b3e7c1549346896a8da89377b2b4fc3b1c6e4ecff1ad262f95690bc3e052e"
+    },
+    {
+      "path": "runs/04-baseline-d3-reconstruction.txt",
+      "bytes": 5536,
+      "sha256": "9cba602b6d228da23f499f44111ace3db7c7077842159daf30f31d9c7d28e261"
+    },
+    {
+      "path": "runs/05-verification.txt",
+      "bytes": 1133,
+      "sha256": "af0231fa6196f85d46aa1ab4c7d19425a862be1466dee37b2a8692e9007bdf23"
+    },
+    {
+      "path": "runs/06-payload-verify.json",
+      "bytes": 1287,
+      "sha256": "94ff15728a8d7cac74d4dbde7180b56a66af3ea9ae8ee4d7171c16c2b0b54b5f"
+    },
+    {
+      "path": "runs/cli-wi2-created.json",
+      "bytes": 4824,
+      "sha256": "1cce805fe2d92a6fffdd91b8c8a896b9f627822760c61b4afd346e5f8a2375dd"
+    },
+    {
+      "path": "runs/cli-wi2-created.replay.json",
+      "bytes": 4812,
+      "sha256": "836ebbf7940d85ed043d8ef19815c84555d154f71178bf71a21549aad82db928"
+    },
+    {
+      "path": "runs/commands.txt",
+      "bytes": 4742,
+      "sha256": "09638d5df004abeae5db26a50ba9659eb8427f209ef3fec27b51fe71cf1ce978"
+    },
+    {
+      "path": "source/bse-bhavcopy-2026-11-06-INFY-extract.csv",
+      "bytes": 482,
+      "sha256": "35886caa8b64aacff0fce69a75c0a0cc353087f30af2957a517cd460916814aa"
+    },
+    {
+      "path": "source/retrieval.json",
+      "bytes": 5155,
+      "sha256": "2d92514ca774ba53c71df43d1d1fa3c38ceaa69f8eedf939f164db98cf0a8488"
+    }
+  ]
+}

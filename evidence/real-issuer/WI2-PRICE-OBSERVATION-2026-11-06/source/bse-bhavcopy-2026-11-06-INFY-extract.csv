@@ -1,0 +1,2 @@
+TradDt,BizDt,Sgmt,Src,FinInstrmTp,FinInstrmId,ISIN,TckrSymb,SctySrs,XpryDt,FininstrmActlXpryDt,StrkPric,OptnTp,FinInstrmNm,OpnPric,HghPric,LwPric,ClsPric,LastPric,PrvsClsgPric,UndrlygPric,SttlmPric,OpnIntrst,ChngInOpnIntrst,TtlTradgVol,TtlTrfVal,TtlNbOfTxsExctd,SsnId,NewBrdLotQty,Rmks,Rsvd1,Rsvd2,Rsvd3,Rsvd4
+2026-11-06,2026-11-06,CM,BSE,STK,500209,INE009A01021,INFY,A,,,,,INFOSYS LTD.,1184.00,1199.00,1163.00,1180.65,1180.65,1166.10,,1181.38,,,637877,751753580.00,17440,F1,1,,,,,
