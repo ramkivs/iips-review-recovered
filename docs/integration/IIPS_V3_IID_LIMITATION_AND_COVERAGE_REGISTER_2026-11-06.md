@@ -737,6 +737,17 @@ this phase: `payloadDigest` is still SHA-256 over the stored canonical bytes and
 engine's own digest. What changed is that version identity is now decided on the clock-free substantive projection, so
 the limitation's consequence is gone.
 
+**Re-audited (post-publication pass, 2026-11-06).** `L-014` stays `RESOLVED`, and the closure statement above was
+re-checked against the decision rather than trusted. Three findings, all fixed: the disposition's citation of the
+assessment's substantive identity was optional where `O-5` makes it mandatory; `review.nextReviewOn` was excluded
+unconditionally instead of "when non-null" as §3.4 specifies; and the decision's own AC-L14.4 pair
+(`2026-04-10`→`2026-11-06`) classified `SUBSTANTIVE` because `confidence.combined` was missing from the
+freshness-consequence set. Details and the digest movements are in the implementation record §13; nothing in this
+register's *design* content changed. One documentation gap in the decision itself is recorded there (§13.4): its §5.2
+disposition vector (`126bd28f…`) cannot be reproduced because the fixture it hashed is not published, while all five of
+its §5.1 assessment vectors reproduce byte-for-byte. That gap does not reopen `L-014` — the grammar is proven on the
+vectors that can be checked — but a reader comparing the two documents should know why that one number does not match.
+
 **Opened.** Two entries, `L-028` and `L-029`, recording what change intelligence genuinely cannot do.
 
 **Not changed.** `L-001`–`L-013` and `L-015`–`L-027` are carried forward with their text, numbers and statuses

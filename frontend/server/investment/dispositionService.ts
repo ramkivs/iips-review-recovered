@@ -76,11 +76,11 @@ export interface DispositionRecordsService {
       readonly assessmentPayloadDigest: string;
       readonly assessmentInputDigest: string;
       /**
-       * IID-5: the assessment's clock-free identity, when the caller has it. Recorded as the disposition's
-       * substantive input identity so a later comparison is not tainted by the assessment's wall clock.
+       * IID-5 / O-5: the assessment's clock-free identity. Required at the composition boundary, because it is
+       * what the disposition input identity must cite; without it the tainted engine digest would propagate again.
        */
-      readonly assessmentSubstantiveDigest?: string;
-      readonly assessmentSubstantiveInputDigest?: string;
+      readonly assessmentSubstantiveDigest: string;
+      readonly assessmentSubstantiveInputDigest: string;
       readonly generatedAt: string;
       readonly datasetClass?: DatasetClass;
     },
@@ -168,12 +168,8 @@ export function createDispositionRecordsService(options: DispositionServiceOptio
         payload,
         inputDigest: dispositionInputDigest(members),
         generatedAt: context.generatedAt,
-        ...(context.assessmentSubstantiveDigest === undefined
-          ? {}
-          : { assessmentSubstantiveDigest: context.assessmentSubstantiveDigest }),
-        ...(context.assessmentSubstantiveInputDigest === undefined
-          ? {}
-          : { assessmentSubstantiveInputDigest: context.assessmentSubstantiveInputDigest }),
+        assessmentSubstantiveDigest: context.assessmentSubstantiveDigest,
+        assessmentSubstantiveInputDigest: context.assessmentSubstantiveInputDigest,
         ...(context.datasetClass === undefined ? {} : { datasetClass: context.datasetClass }),
       });
       const result = artifacts.recordDisposition(composed);

@@ -22,6 +22,7 @@ export const REVIEW_TRIGGER_IDS = Object.freeze([
   'MODEL_OR_POLICY_CHANGE',
   'NEW_HIGH_SEVERITY_RISK',
   'FRESHNESS_TRANSITION',
+  'MATERIAL_CHANGE',
 ] as const);
 export type ReviewTriggerId = (typeof REVIEW_TRIGGER_IDS)[number];
 
@@ -52,6 +53,8 @@ const FOCUS: Readonly<Record<ReviewTriggerId, string>> = Object.freeze({
   MODEL_OR_POLICY_CHANGE: 'Was the change produced by a different model or policy rather than by different data?',
   NEW_HIGH_SEVERITY_RISK: 'What evidence produced the new high-severity risk factor, and is it one-off or recurring?',
   FRESHNESS_TRANSITION: 'Do the underlying statements need refreshing before this assessment is relied on?',
+  MATERIAL_CHANGE:
+    'Which material dimension moved without a domain-specific trigger, and is that movement supported by the prior version evidence?',
 });
 
 function fired(triggerId: ReviewTriggerId, condition: boolean, reason: string): ReviewTrigger {
@@ -82,6 +85,13 @@ export function reviewFor(comparison: DepartmentComparison): ReviewBlock {
     fired('MODEL_OR_POLICY_CHANGE', items.some((item) => item.category === 'MODEL'), 'the model or policy identity changed'),
     fired('NEW_HIGH_SEVERITY_RISK', items.some((item) => item.dimensionId === 'risk.factors' && item.kind === 'SET' && item.added.length > 0 && atLeast(item.materiality, 'MATERIAL')), 'a new high-severity risk factor appeared'),
     fired('FRESHNESS_TRANSITION', comparison.classification === 'FRESHNESS_TRANSITION', 'the pair is a freshness transition'),
+    // A material movement with no named trigger would otherwise produce `required: false` alongside a HIGH
+    // priority, which is the one combination a reader cannot act on consistently.
+    fired(
+      'MATERIAL_CHANGE',
+      items.some((item) => atLeast(item.materiality, 'MATERIAL')),
+      'at least one dimension moved by a material amount',
+    ),
   ];
 
   const firedIds = triggers.filter((trigger) => trigger.fired).map((trigger) => trigger.triggerId);

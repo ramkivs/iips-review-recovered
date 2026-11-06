@@ -11,6 +11,8 @@
  */
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
+import { assessmentSubstantiveIdentity } from './substantiveIdentity';
+
 import { createRequire } from 'node:module';
 
 import { openDatabase, GovernedArtifactStore } from 'iips-np04-governed-persistence/persistence';
@@ -52,9 +54,15 @@ const candidatePayload = buildPayload({
 let database: ReturnType<typeof openDatabase>;
 let service: ReturnType<typeof createDispositionRecordsService>;
 
+// O-5: the disposition input identity cites the ASSESSMENT's substantive identity, so these two values are part
+// of every record call. They are derived from the assessment payload by the same functions the assessment
+// composition uses, never hand-written.
+const ASSESSMENT_SUBSTANTIVE = assessmentSubstantiveIdentity(ASSESSMENT);
 const CONTEXT = {
   assessmentPayloadDigest: v1.composed.payloadDigest,
   assessmentInputDigest: v1.composed.inputDigest,
+  assessmentSubstantiveDigest: ASSESSMENT_SUBSTANTIVE.substantiveDigest,
+  assessmentSubstantiveInputDigest: ASSESSMENT_SUBSTANTIVE.substantiveInputDigest,
   generatedAt: M1_NOW,
   datasetClass: 'SYNTHETIC_REFERENCE' as const,
 };
@@ -71,10 +79,6 @@ function tamper(sql: string, ...params: (string | number | null)[]): void {
 }
 
 beforeAll(() => {
-  if (process.env.IID4_PROBE === '1') {
-    const probe = createDispositionRecordsService({ port: null as never, owner: OWNER });
-    void probe;
-  }
   database = openDatabase({ path: env.dbPath, createDirectory: true, migrate: true });
   service = createDispositionRecordsService({
     port: adaptNp04Store(new GovernedArtifactStore(database)),

@@ -1,6 +1,21 @@
 
  RUN  v2.1.9 /home/user/iips-review-recovered/frontend
 
+(node:3642) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ✓ server/investment/change/store.test.ts > O-2/O-3 — identity decides versioning, not the clock > does NOT append a clock-only re-run, and keeps the head byte-identical
+ ✓ server/investment/change/store.test.ts > O-2/O-3 — identity decides versioning, not the clock > appends a substantive change to the SAME chain and never rewrites an earlier version
+ ✓ server/investment/change/store.test.ts > historical comparison over stored versions > compares every consecutive pair, in order, with EXACT reproduction
+ ✓ server/investment/change/store.test.ts > historical comparison over stored versions > compares two arbitrary versions of one chain, and refuses a backwards or unknown pair
+ ✓ server/investment/change/store.test.ts > historical comparison over stored versions > refuses to compare a single-version chain rather than inventing a predecessor
+ ✓ server/investment/change/store.test.ts > boundary reports — durable, idempotent, stable keys > records one boundary report per pair on the icr: chain and re-running writes nothing
+ ✓ server/investment/change/store.test.ts > boundary reports — durable, idempotent, stable keys > reconciles a gap, then reports complete coverage and creates nothing on a second run 489ms
+ ✓ server/investment/change/store.test.ts > boundary reports — durable, idempotent, stable keys > leaves a real gap when an append fails, and fills only that gap on the next run 480ms
+ ✓ server/investment/change/store.test.ts > O-6/O-8 — integrity, and honest retroactive derivation > refuses to compare a chain whose stored bytes no longer match their recorded digest
+ ✓ server/investment/change/store.test.ts > O-6/O-8 — integrity, and honest retroactive derivation > labels a version written before the implementation as DERIVED and still compares it
+ ✓ server/investment/change/store.test.ts > O-6/O-8 — integrity, and honest retroactive derivation > refuses a submission whose declared substantive digest does not describe its payload
+ ✓ server/investment/change/store.test.ts > a real pre-IID-5 artifact, written through the shared persistence path > is served as DERIVED, compared against a recorded version, and left untouched on disk
+ ✓ server/investment/change/store.test.ts > dispositions are compared on their own grammar > compares two stored disposition versions without assessment clock taint
  ✓ server/investment/change/comparison.test.ts > O-7 — the three-way pair classification, exactly as decided > classifies a clock-only re-run as GENERATION_METADATA_ONLY with ZERO items
  ✓ server/investment/change/comparison.test.ts > O-7 — the three-way pair classification, exactly as decided > reports a serialisation-only difference as zero items (AC-5.7)
  ✓ server/investment/change/comparison.test.ts > O-7 — the three-way pair classification, exactly as decided > classifies a freshness crossing as FRESHNESS_TRANSITION, not as a data change
@@ -31,24 +46,19 @@
  ✓ server/investment/change/comparison.test.ts > change-report composition is deterministic and keyed to the explained version > is addressed on the icr: chain reserved for change reports
  ✓ server/investment/change/comparison.test.ts > change-report composition is deterministic and keyed to the explained version > records the policy, grammar and both source identities in its provenance
  ✓ server/investment/change/comparison.test.ts > change-report composition is deterministic and keyed to the explained version > refuses to compare a version with itself or backwards
-(node:3733) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(node:3683) ExperimentalWarning: SQLite is an experimental feature and might change at any time
 (Use `node --trace-warnings ...` to show where the warning was created)
- ✓ server/investment/change/store.test.ts > O-2/O-3 — identity decides versioning, not the clock > does NOT append a clock-only re-run, and keeps the head byte-identical
- ✓ server/investment/change/store.test.ts > O-2/O-3 — identity decides versioning, not the clock > appends a substantive change to the SAME chain and never rewrites an earlier version
- ✓ server/investment/change/store.test.ts > historical comparison over stored versions > compares every consecutive pair, in order, with EXACT reproduction
- ✓ server/investment/change/store.test.ts > historical comparison over stored versions > compares two arbitrary versions of one chain, and refuses a backwards or unknown pair 309ms
- ✓ server/investment/change/store.test.ts > historical comparison over stored versions > refuses to compare a single-version chain rather than inventing a predecessor
- ✓ server/investment/change/store.test.ts > boundary reports — durable, idempotent, stable keys > records one boundary report per pair on the icr: chain and re-running writes nothing
- ✓ server/investment/change/store.test.ts > boundary reports — durable, idempotent, stable keys > reconciles a gap, then reports complete coverage and creates nothing on a second run 583ms
- ✓ server/investment/change/store.test.ts > boundary reports — durable, idempotent, stable keys > leaves a real gap when an append fails, and fills only that gap on the next run 530ms
- ✓ server/investment/change/store.test.ts > O-6/O-8 — integrity, and honest retroactive derivation > refuses to compare a chain whose stored bytes no longer match their recorded digest
- ✓ server/investment/change/store.test.ts > O-6/O-8 — integrity, and honest retroactive derivation > labels a version written before the implementation as DERIVED and still compares it
- ✓ server/investment/change/store.test.ts > O-6/O-8 — integrity, and honest retroactive derivation > refuses a submission whose declared substantive digest does not describe its payload
- ✓ server/investment/change/store.test.ts > a real pre-IID-5 artifact, written through the shared persistence path > is served as DERIVED, compared against a recorded version, and left untouched on disk
- ✓ server/investment/change/store.test.ts > dispositions are compared on their own grammar > compares two stored disposition versions without assessment clock taint
+ ✓ server/investment/ac-l14.test.ts > AC-L14.1 — a same-day re-run at a new clock mints no version > differs in bytes, agrees in substance, keeps the report key, and writes nothing
+ ✓ server/investment/ac-l14.test.ts > AC-L14.2 — a next-day re-run moves staleness and the binding, not identity > moves stalenessDays and bindingRef, keeps 08ea8d4a…, and writes nothing
+ ✓ server/investment/ac-l14.test.ts > AC-L14.3 — a different dataset appends to the same chain > changes the substantive digest, keeps the report key, and adds exactly one version
+ ✓ server/investment/ac-l14.test.ts > AC-L14.4 — crossing the freshness window is a FRESHNESS_TRANSITION, not a data change > moves the freshness verdict and its dependants, appends, and classifies the pair accordingly
+ ✓ server/investment/ac-l14.test.ts > AC-L14.5 — a model or policy bump is isolated from the data > changes the substantive digest and reports MODEL items only
+ ✓ server/investment/ac-l14.test.ts > AC-L14.6 — a changed financial figure is never swallowed by the exclusion list > changes the substantive digest and produces the FUNDAMENTAL item for that figure
+ ✓ server/investment/ac-l14.test.ts > AC-L14.7 — a disposition re-run cites a clock-free assessment identity > writes nothing for a new clock, and the recomputed assessment keeps its input identity
  ✓ server/investment/substantive-identity.test.ts > O-1 — the published reference digests are reproduced exactly > reproduces C1 for the baseline M1 assessment
  ✓ server/investment/substantive-identity.test.ts > O-1 — the published reference digests are reproduced exactly > reproduces C1 from the canonical payload TEXT, so object and stored bytes agree
- ✓ server/investment/substantive-identity.test.ts > O-1 — the published reference digests are reproduced exactly > reproduces C4 — a later clock does not move the digest
+ ✓ server/investment/substantive-identity.test.ts > O-1 — the published reference digests are reproduced exactly > reproduces C2 and C3 (same day / next day) as metadata-only re-runs
+ ✓ server/investment/substantive-identity.test.ts > O-1 — the published reference digests are reproduced exactly > reproduces C4 — an earlier clock inside the freshness window IS a substantive difference
  ✓ server/investment/substantive-identity.test.ts > O-1 — the published reference digests are reproduced exactly > reproduces C5 — a different dataset does move the digest
  ✓ server/investment/substantive-identity.test.ts > O-1 — the published reference digests are reproduced exactly > records the clock-free input digests
  ✓ server/investment/substantive-identity.test.ts > the exclusion list is closed and versioned (O-1, O-4) > names the two grammars and the policy they were decided under
@@ -59,7 +69,7 @@
  ✓ server/investment/substantive-identity.test.ts > the clock is outside identity — but a freshness TRANSITION inside it keeps it > keeps staleBeyondPolicy, so crossing the freshness window is a substantive change
  ✓ server/investment/substantive-identity.test.ts > the clock is outside identity — but a freshness TRANSITION inside it keeps it > keeps knownAsOf: learning something later is a substantive difference, not clock metadata
  ✓ server/investment/substantive-identity.test.ts > the clock is outside identity — but a freshness TRANSITION inside it keeps it > drops a disposition clock and the cited assessment clock, but not the cited version
- ✓ server/investment/substantive-identity.test.ts > the clock is outside identity — but a freshness TRANSITION inside it keeps it > treats a null and an absent nextReviewOn as the same fact, without deleting a real one
+ ✓ server/investment/substantive-identity.test.ts > the clock is outside identity — but a freshness TRANSITION inside it keeps it > excludes a non-null nextReviewOn (clock-derived) while retaining a null, as §3.4 specifies
  ✓ server/investment/substantive-identity.test.ts > the clock is outside identity — but a freshness TRANSITION inside it keeps it > refuses a payload that is not an object, rather than digesting a non-payload
  ✓ server/investment/substantive-identity.test.ts > the input projection is clock-free and dataset-sensitive (O-5) > moves with the dataset but not with the clock
  ✓ server/investment/substantive-identity.test.ts > the input projection is clock-free and dataset-sensitive (O-5) > is composed of distinct named members, not of a serialized payload
@@ -70,7 +80,7 @@
  ✓ server/investment/substantive-identity.test.ts > O-9 — the member inventory makes payload evolution a test failure > refuses an unknown disposition member and an unknown array item member
  ✓ server/investment/substantive-identity.test.ts > O-9 — the member inventory makes payload evolution a test failure > does not treat an ABSENT member as evolution, and still keeps it inside identity
  ✓ server/investment/substantive-identity.test.ts > O-9 — the member inventory makes payload evolution a test failure > names the offending member paths in the failure, so the fix is a grammar decision
-(node:3773) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(node:3723) ExperimentalWarning: SQLite is an experimental feature and might change at any time
 (Use `node --trace-warnings ...` to show where the warning was created)
  ✓ server/investment/change/transport.test.ts > the change route table is read-only > routes only GET and HEAD and declares no mutating operation
  ✓ server/investment/change/transport.test.ts > the change route table is read-only > claims only the /changes namespace, so it cannot shadow the assessment routes
@@ -83,8 +93,9 @@
  ✓ server/investment/change/transport.test.ts > adjacent comparisons are served read-only > serves boundaries and coverage, and writes nothing
  ✓ server/investment/change/transport.test.ts > adjacent comparisons are served read-only > answers 503 when no governed store is available, without leaking anything
 
- Test Files  4 passed (4)
-      Tests  77 passed (77)
-   Start at  05:02:45
-   Duration  6.70s (transform 654ms, setup 554ms, collect 1.42s, tests 3.92s, environment 1ms, prepare 245ms)
+ Test Files  5 passed (5)
+      Tests  85 passed (85)
+   Start at  05:23:52
+   Duration  7.30s (transform 594ms, setup 602ms, collect 1.53s, tests 4.20s, environment 1ms, prepare 281ms)
 
+vitest exit 0

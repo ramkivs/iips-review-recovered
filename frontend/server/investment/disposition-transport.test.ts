@@ -9,6 +9,8 @@
  * @vitest-environment node
  */
 import { afterAll, afterEach, beforeAll, describe, expect, it } from 'vitest';
+
+import { assessmentSubstantiveIdentity } from './substantiveIdentity';
 import type http from 'node:http';
 
 import { openDatabase, GovernedArtifactStore } from 'iips-np04-governed-persistence/persistence';
@@ -51,9 +53,12 @@ const candidatePayload = buildPayload({
   portfolioFacts: { present: true, weightPct: 0, companyExposurePct: 0, sectorExposurePct: 40, topHoldingWeightPct: 40 },
 });
 
+const ASSESSMENT_SUBSTANTIVE = assessmentSubstantiveIdentity(ASSESSMENT);
 const CONTEXT = {
   assessmentPayloadDigest: v1.composed.payloadDigest,
   assessmentInputDigest: v1.composed.inputDigest,
+  assessmentSubstantiveDigest: ASSESSMENT_SUBSTANTIVE.substantiveDigest,
+  assessmentSubstantiveInputDigest: ASSESSMENT_SUBSTANTIVE.substantiveInputDigest,
   generatedAt: M1_NOW,
   datasetClass: 'SYNTHETIC_REFERENCE' as const,
 };

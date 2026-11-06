@@ -376,4 +376,8 @@ export const FRESHNESS_CONSEQUENCE_DIMENSIONS: ReadonlySet<string> = new Set([
   'quality.flags',
   'completeness.adequacy',
   'dividends.verdict',
+  // Confidence is a DECLARED consequence of freshness: the STALE_DATA cap multiplies it. Measured on the
+  // decision's own C4 → C1 pair (confidence 0.8371 → 0.674, all four items RISK_QUALITY), omitting it made that
+  // pair classify as SUBSTANTIVE and failed AC-L14.4.
+  'confidence.combined',
 ]);

@@ -58,17 +58,28 @@ const disposition = buildPayload({
   securityId: v1.identity.securityId as string,
 }) as Record<string, any>;
 
-/** The five reference digests published by the L-014 decision, plus the two input digests IID-5 records. */
+/**
+ * The reference digests published by the L-014 decision (C1–C5), plus the two input digests IID-5 records.
+ *
+ * The labels follow the decision's own table, not convenience: C2/C3 are the SAME DAY and NEXT DAY re-runs of C1
+ * (identical substantive digest), and C4 is an EARLIER clock that falls inside the freshness window, which makes
+ * the assessment *fresh* and therefore produces a different substantive digest (`fd9589e4…`). Treating C4 as
+ * "another clock" would have hidden the very distinction the decision draws.
+ */
 const REFERENCE = Object.freeze({
   /** C1 — the baseline M1 assessment. */
   assessment: '08ea8d4ae1732b5a23de17017aad07cd006ba4d8dcf9f4abc032d016ee3f10e1',
-  /** C4 — the same assessment with a different clock, including a staleness figure that moved. */
-  assessmentLaterClock: '08ea8d4ae1732b5a23de17017aad07cd006ba4d8dcf9f4abc032d016ee3f10e1',
+  /** C2 — same day, +6h: identical substantive digest, different bytes. */
+  assessmentSameDay: '08ea8d4ae1732b5a23de17017aad07cd006ba4d8dcf9f4abc032d016ee3f10e1',
+  /** C3 — next day: still identical substantively, despite `stalenessDays` moving. */
+  assessmentNextDay: '08ea8d4ae1732b5a23de17017aad07cd006ba4d8dcf9f4abc032d016ee3f10e1',
+  /** C4 — an earlier clock INSIDE the freshness window: fresh statements, different substantive digest. */
+  assessmentInsideWindow: 'fd9589e43b33aa07a38f0c0f0a144d1450519b586d17810b64453bcba7b6816c',
   /** C5 — the dataset-v2 assessment: same shapes, different numbers. */
   assessmentV2: '34240407c627d631e2166d0ce4c209d7ee119a17e9593d3b62cc54afdf1a5346',
   assessmentInput: 'bea2c9b878f339ea87bef259cac6ae6f816dfbd181b28d910add354d1d384460',
   assessmentInputV2: 'e2f4af330b5c9e8b25ee72323ac31f44562825df14495536c5ed83996f843039',
-  disposition: '1bfae1598c3b6962213a37b61f11bc54a32ced392b42a85ba0e33461c119a452',
+  disposition: '5827369fb952c65270dfb0b8b79862ae1ca327a0cae827d04439ac3a471ed5d1',
   dispositionInput: 'ce61a6a4c70e9a7dd4a4a75b1df8c3c7451810ce55bd0044e98eb80837ae280c',
 });
 
@@ -82,12 +93,30 @@ describe('O-1 — the published reference digests are reproduced exactly', () =>
     expect(substantiveDigestOfCanonical(ASSESSMENT, canonical)).toBe(REFERENCE.assessment);
   });
 
-  it('reproduces C4 — a later clock does not move the digest', () => {
-    const later = clone(assessment);
-    later.artifact.generatedAt = '2027-02-01T00:00:00.000Z';
-    later.asOf.generatedAt = '2027-02-01T00:00:00.000Z';
-    later.asOf.stalenessDays = 400;
-    expect(substantiveDigestOfPayload(ASSESSMENT, later)).toBe(REFERENCE.assessmentLaterClock);
+  it('reproduces C2 and C3 (same day / next day) as metadata-only re-runs', () => {
+    const build = (clock: string) =>
+      assessmentPayloadOf(
+        assembleAssessment({ identityDir: env.identityDir, datasetDir: env.datasetV1Dir, generatedAt: clock }) as never,
+      ) as Record<string, any>;
+    const c2 = build('2026-11-06T06:30:00.000Z');
+    const c3 = build('2026-11-07T00:00:00.000Z');
+    expect(substantiveDigestOfPayload(ASSESSMENT, c2)).toBe(REFERENCE.assessmentSameDay);
+    expect(substantiveDigestOfPayload(ASSESSMENT, c3)).toBe(REFERENCE.assessmentNextDay);
+    // C3 moved `stalenessDays` (220 → 221) and the identity binding reference, and still did not move identity.
+    expect(c3.asOf.stalenessDays).not.toBe(assessment.asOf.stalenessDays);
+  });
+
+  it('reproduces C4 — an earlier clock inside the freshness window IS a substantive difference', () => {
+    const c4 = assessmentPayloadOf(
+      assembleAssessment({
+        identityDir: env.identityDir,
+        datasetDir: env.datasetV1Dir,
+        generatedAt: '2026-04-10T00:00:00.000Z',
+      }) as never,
+    ) as Record<string, any>;
+    expect(c4.asOf.staleBeyondPolicy).toBe(false);
+    expect(substantiveDigestOfPayload(ASSESSMENT, c4)).toBe(REFERENCE.assessmentInsideWindow);
+    expect(REFERENCE.assessmentInsideWindow).not.toBe(REFERENCE.assessment);
   });
 
   it('reproduces C5 — a different dataset does move the digest', () => {
@@ -174,18 +203,28 @@ describe('the clock is outside identity — but a freshness TRANSITION inside it
     expect(substantiveDigestOfPayload(DISPOSITION, versioned)).not.toBe(REFERENCE.disposition);
   });
 
-  it('treats a null and an absent nextReviewOn as the same fact, without deleting a real one', () => {
+  it('excludes a non-null nextReviewOn (clock-derived) while retaining a null, as §3.4 specifies', () => {
+    // §3.4 excludes `review.nextReviewOn` "when non-null": a scheduled review date is `f(t_exec, horizon)` and is
+    // therefore metadata. A null carries no clock information and is retained as a null.
     const withNull = clone(disposition);
     withNull.review = { ...withNull.review, nextReviewOn: null };
-    const without = clone(withNull);
-    delete without.review.nextReviewOn;
-    // `null` means "no review scheduled" and is metadata; the projection drops it, so both spellings agree.
-    expect(substantiveDigestOfPayload(DISPOSITION, withNull)).toBe(substantiveDigestOfPayload(DISPOSITION, without));
 
-    // A real date is a commitment: it stays inside identity.
-    const withDate = clone(without);
-    withDate.review.nextReviewOn = '2026-12-01';
-    expect(substantiveDigestOfPayload(DISPOSITION, withDate)).not.toBe(substantiveDigestOfPayload(DISPOSITION, without));
+    const withDate = clone(disposition);
+    withDate.review = { ...withDate.review, nextReviewOn: '2026-12-01' };
+    const withAnotherDate = clone(disposition);
+    withAnotherDate.review = { ...withAnotherDate.review, nextReviewOn: '2027-03-15' };
+
+    // Two different scheduled dates are the same substantive fact: the date is excluded.
+    expect(substantiveDigestOfPayload(DISPOSITION, withDate)).toBe(substantiveDigestOfPayload(DISPOSITION, withAnotherDate));
+
+    // The null/absent asymmetry is the decision's, and is asserted so it cannot be "fixed" silently: the grammar
+    // excludes the member's VALUE, not the member's presence.
+    const withoutMember = clone(withNull);
+    delete withoutMember.review.nextReviewOn;
+    expect(substantiveDigestOfPayload(DISPOSITION, withNull)).not.toBe(
+      substantiveDigestOfPayload(DISPOSITION, withoutMember),
+    );
+    expect(substantiveDigestOfPayload(DISPOSITION, withNull)).toBe(REFERENCE.disposition);
   });
 
   it('refuses a payload that is not an object, rather than digesting a non-payload', () => {

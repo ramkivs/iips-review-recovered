@@ -522,6 +522,13 @@ IID-5 owns the implementation: obligations `O-1`…`O-9` and acceptance tests `A
 document. §B.A's four identities are unchanged and none is merged — the decision refines content and input identity, it
 does not reopen the chain/version separation.
 
+*Implemented 2026-11-06 (PR #479, `17f9395`; re-audited in a post-publication pass the same day).* `L-014` is now
+`RESOLVED`. The implementation record is `IIPS_V3_IID5_HISTORICAL_CHANGE_INTELLIGENCE_2026-11-06.md`; its §13 records
+three obligations the first pass under-delivered (`O-5` made mandatory, the `nextReviewOn` conditional exclusion,
+AC-L14.4's `FRESHNESS_TRANSITION` classification) and answers the decision's open question `Q-1` — `CLOCK_ONLY_UNCHANGED`
+is observable on the run result only, because a run ledger would be a persisted artifact kind the decision does not
+authorise. `IID-6` remains **NOT STARTED**.
+
 **Data sources and persistence.** Stored artifacts only, plus the recorded dataset version for the
 attribution legs. Boundary reports persisted on `icr:` chains; ephemeral reports never persisted.
 

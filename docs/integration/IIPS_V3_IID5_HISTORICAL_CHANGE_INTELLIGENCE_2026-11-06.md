@@ -9,6 +9,8 @@
 acceptance tests `AC-L14.1`…`AC-L14.10`)
 **Design authority:** `IIPS_V3_IID_INVESTMENT_INTELLIGENCE_DESIGN_REFINEMENT_2026-11-05.md`, Appendix A3 (`A3.1`–`A3.5`),
 R-13, R-14, §B.F/B.G of the roadmap
+**Latest pass:** post-publication remediation (2026-11-06) — §13. Three obligations hardened (`O-5`, `O-7`, `D-3`),
+one open question answered (`Q-1`); no change of status.
 **Scope:** IRR only. The Investment Product Domain (IPD) was not modified: no IPD source file, pin, contract or test
 was touched, and the disposition surface continues to use IPD's existing adapter and persistence contract.
 
@@ -107,26 +109,35 @@ A writer that declares a substantive digest its payload does not have is refused
 | O-2 | Minimal projection, canonical form | `substantiveProjection` / `substantiveProjectionText` (reuses `canonicalizePayload`) | "reproduces C1 from the canonical payload TEXT" |
 | O-3 | Version policy: metadata-only ⇒ no new version; substantive ⇒ new version | `investmentArtifacts.recordComposed` idempotency branch | `store.test.ts` "does NOT append a clock-only re-run…"; "appends a substantive change to the SAME chain" |
 | O-4 | Two grammars, one per report type, closed | `substantiveGrammarFor` / `excludedMembersFor` (refuse unknown report types) | "refuses a report type with no grammar instead of defaulting to one" |
-| O-5 | Input identity without the clock | `assessmentSubstantiveInputDigest` (19 named members), `dispositionSubstantiveInputDigest` | "moves with the dataset but not with the clock"; "is composed of distinct named members" |
+| O-5 | Input identity without the clock, **and the disposition's citation of the assessment's** | `assessmentSubstantiveInputDigest` (19 named members), `dispositionSubstantiveInputDigest`, `assessmentSubstantiveIdentity`; `ComposeDispositionInput` and `DispositionRecordsService.record` **require** both assessment substantive digests and write them into provenance unconditionally (§13.1) | "moves with the dataset but not with the clock"; "is composed of distinct named members"; "a disposition builder cannot omit the cited assessment identity"; "records the cited assessment identity even when the clocks agree" |
 | O-6 | Verify recorded digests on read; refuse when untrustworthy | `substantiveViewOf` (read) and `validateSubmission` (write); `reproduce.ts` | "refuses to compare a chain whose stored bytes no longer match their recorded digest"; "refuses a submission whose declared substantive digest does not describe its payload" |
-| O-7 | Three-way pair classification | `compare.ts` (`SUBSTANTIVE` / `GENERATION_METADATA_ONLY` / `FRESHNESS_TRANSITION`) | "classifies a clock-only re-run as GENERATION_METADATA_ONLY with ZERO items"; "…a freshness crossing as FRESHNESS_TRANSITION"; "…a genuine value change as SUBSTANTIVE" |
+| O-7 | Three-way pair classification, and a review block that agrees with it | `compare.ts` (`SUBSTANTIVE` / `GENERATION_METADATA_ONLY` / `FRESHNESS_TRANSITION`), `FRESHNESS_CONSEQUENCE_DIMENSIONS` in `dimensionMap.ts`, `MATERIAL_CHANGE` trigger in `review.ts` (§13.3) | "classifies a clock-only re-run as GENERATION_METADATA_ONLY with ZERO items"; "…a freshness crossing as FRESHNESS_TRANSITION"; "…a genuine value change as SUBSTANTIVE"; `ac-l14.test.ts` AC-L14.4 (asserts the decision's own C4→C1 pair) |
 | O-8 | Retroactive, labelled legacy derivation | `versionViewOf` → `substantiveDigestSource: 'DERIVED'`; `reproduce.ts` `source: 'DERIVED'` | "labels a version written before the implementation as DERIVED and still compares it" (asserts the stored row was **not** rewritten) |
 | O-9 | Closed member inventory per schema | `ASSESSMENT_MEMBER_INVENTORY`, `DISPOSITION_MEMBER_INVENTORY`, `assertPayloadInventory` | "refuses a member that is neither retained nor excluded"; nested-object, closed-array-item and disposition cases; "names the offending member paths" |
 
 ## 6. Acceptance matrix (AC-L14.1 … AC-L14.10)
 
-| AC | Requirement | Evidence |
-|---|---|---|
-| AC-L14.1 | The published reference digests reproduce exactly | `substantive-identity.test.ts` "reproduces C1 / C4 / C5" — constants `08ea8d4a…`, `34240407…` |
-| AC-L14.2 | A clock-only change does not alter substantive identity | "ignores generatedAt, stalenessDays and the identity binding reference" (and asserts the byte digest **does** move) |
-| AC-L14.3 | A clock-only re-run writes no version | `store.test.ts` `CLOCK_ONLY_UNCHANGED`, `versionCount` unchanged, head byte-identical |
-| AC-L14.4 | Crossing the freshness window **is** substantive | "keeps staleBeyondPolicy, so crossing the freshness window is a substantive change"; `FRESHNESS_TRANSITION` classification |
-| AC-L14.5 | `payloadDigest` is unchanged in meaning and value | `investment-artifacts.test.ts` AC-3.4 byte-identity assertions still pass; `store.test.ts` reads version 1 byte-for-byte after two appends |
-| AC-L14.6 | Datasets are inside identity | C5 (`34240407…`), and both substantive input digests differ across datasets |
-| AC-L14.7 | Serialisation-only differences produce no items | `comparison.test.ts` "reports a serialisation-only difference as zero items" |
-| AC-L14.8 | The member inventory is closed and fails on evolution | O-9 tests above |
-| AC-L14.9 | Legacy versions are derived, labelled, and never rewritten | `store.test.ts` "labels a version written before the implementation as DERIVED…" (re-reads the row to prove it still has no digest) |
-| AC-L14.10 | Dispositions have their own grammar and no assessment clock taint | `comparison.test.ts` "treats two dispositions that differ only by their clocks as metadata-only"; `store.test.ts` disposition comparison |
+Keyed to the decision's **own** §8.2 table. The first version of this record organised the same ten criteria by
+property and renumbered them, which made the matrix un-checkable against the decision; `ac-l14.test.ts` now exists so
+each criterion has a test that fails if it regresses, and AC-L14.8–AC-L14.10 point at the store/identity tests that
+already assert them (duplicating them would have created two places to keep true).
+
+| AC (decision §8.2) | Requirement | Test | Result |
+|---|---|---|---|
+| AC-L14.1 | Same dataset, 00:00 → 06:30: bytes differ, substantive identical, `reportKey` unchanged, `CLOCK_ONLY_UNCHANGED`, `wrote: false`, one version | `ac-l14.test.ts` "AC-L14.1 — a same-day re-run at a new clock mints no version" | PASS |
+| AC-L14.2 | Next day: `stalenessDays` 220→221 and `bindingRef` move, substantive still `08ea8d4a…`, no write | "AC-L14.2 — a next-day re-run moves staleness and the binding, not identity" | PASS |
+| AC-L14.3 | Dataset v2: `08ea8d4a…`→`34240407…`, `APPENDED`, same `reportKey`, one new version | "AC-L14.3 — a different dataset appends to the same chain" | PASS |
+| AC-L14.4 | Freshness crossing: `staleBeyondPolicy` false→true, `CLEAN`→`MATERIAL_CONCERNS`, `0.8371`→`0.674`, `fd9589e4…`→`08ea8d4a…`, `APPENDED`, classified `FRESHNESS_TRANSITION` with `RISK_QUALITY` items | "AC-L14.4 — crossing the freshness window is a FRESHNESS_TRANSITION, not a data change" | PASS |
+| AC-L14.5 | Model bump: only `MODEL` items, substantive differs; policy bump likewise | "AC-L14.5 — a model or policy bump is isolated from the data" | PASS |
+| AC-L14.6 | One changed financial figure: substantive differs, `FUNDAMENTAL` item reported | "AC-L14.6 — a changed financial figure is never swallowed by the exclusion list" | PASS |
+| AC-L14.7 | Disposition re-run at a new clock: substantive identical, `CLOCK_ONLY_UNCHANGED`, no write; recomputed assessment keeps `substantiveInputDigest` | "AC-L14.7 — a disposition re-run cites a clock-free assessment identity" | PASS |
+| AC-L14.8 | Pre-decision version: computable, labelled derived, no write, no stored field changed | `change/store.test.ts` "labels a version written before the implementation as DERIVED and still compares it"; "is served as DERIVED, compared against a recorded version, and left untouched on disk" | PASS |
+| AC-L14.9 | Tamper: both digest checks fail closed; a recorded digest that disagrees is refused | `change/store.test.ts` "refuses to compare a chain whose stored bytes no longer match their recorded digest"; "refuses a submission whose declared substantive digest does not describe its payload" | PASS |
+| AC-L14.10 | Inventory: an unlisted member fails the inventory test | `substantive-identity.test.ts` "refuses a member that is neither retained nor excluded"; the nested-object, closed-array-item and disposition cases; "names the offending member paths" | PASS |
+
+The decision's §5.1 assessment vectors (five payload digests, five substantive digests, three engine input digests)
+reproduce byte-for-byte; §5.2's disposition vectors do not reproduce from this repository's fixture, and §13.4 says so
+with the measurement behind it rather than quoting a number no run can obtain.
 
 ## 7. Reproduction, integrity and chain behaviour
 
@@ -167,7 +178,7 @@ The store suite performs the following against a governed NP-04 SQLite store:
 | Command | Result |
 |---|---|
 | `npx tsc -p tsconfig.investment-server.json --noEmit` | clean |
-| `vitest run server/investment` | **189 passed / 13 files** — of which **77 are new IID-5 tests** (`substantive-identity` 24, `change/comparison` 30, `change/store` 13, `change/transport` 10) |
+| `vitest run server/investment` | **197 passed / 14 files** — of which **85 are IID-5 tests** (`substantive-identity` 25, `ac-l14` 7, `change/comparison` 30, `change/store` 13, `change/transport` 10) |
 | Targeted legacy suites re-run after the record-path change | `investment-artifacts` 15, `investment-transport` 14, `disposition-records` 15, `disposition-composition` 16, `disposition-transport` 15, `assessment-composition` 15, `m1-demonstration` 1 — all pass |
 
 Two existing assertions were **updated rather than worked around**, and both are behaviour the decision explicitly
@@ -206,6 +217,119 @@ changed:
 
 ## 12. Status
 
-**IID-5: IMPLEMENTED, TESTED, PUBLISHED.** `L-014`'s implementation obligation is discharged (obligations `O-1`…`O-9`,
+**IID-5: IMPLEMENTED, TESTED, PUBLISHED** — plus the post-publication remediation pass recorded in §13, which
+hardened three obligations without changing the phase's status. `L-014`'s implementation obligation is discharged (obligations `O-1`…`O-9`,
 acceptance tests `AC-L14.1`…`AC-L14.10`, regression tests, and this record plus the evidence bundle). **IID-6 remains
 NOT STARTED.** `L-001`–`L-013` and `L-015`–`L-027` are untouched; `L-028`/`L-029` are appended.
+
+---
+
+## 13. Post-publication remediation pass (2026-11-06)
+
+This phase was published as PR #479 (`17f9395`). A re-issued work item asked for the same phase again, and the honest
+response was **not** to rebuild it: it was to audit the published implementation against the decision's own text and
+its own acceptance table. Two of the checks were passes that merely looked like passes, and one criterion was not
+delivered at all. All three are fixed here; nothing else about the phase changed.
+
+### 13.1 O-5 was optional where the decision makes it mandatory
+
+**The gap.** `O-5` requires that the disposition's input identity cite the assessment's *clock-free* identity, so the
+assessment's execution clock cannot reach the disposition. The published code accepted the two assessment substantive
+digests as **optional** context and wrote them into provenance only when supplied. A caller that omitted them got a
+disposition whose input identity was composed — legally, silently — from the engine's clock-tainted `inputDigest`: the
+`§7.3` defect the decision exists to close, still reachable.
+
+**The fix.** `ComposeDispositionInput` now *requires* `assessmentSubstantiveDigest` and
+`assessmentSubstantiveInputDigest`; `DispositionRecordsService.record` requires them in its context and passes them
+through; the provenance always records `substantiveInputDigest` **and** both cited assessment identities. A new
+`assessmentSubstantiveIdentity(payload)` helper returns the pair, so a caller cannot derive one and forget the other.
+The ripple was mechanical and is part of the pass: `dispositionService.ts`, `cli/disposition-demonstration.ts`, and
+four test files.
+
+**Why this is the right shape.** An optional provenance member is a member that will eventually be missing, and a
+missing citation is indistinguishable from "the clocks agreed". A required one turns the omission into a type error at
+the boundary, which is where it belongs.
+
+### 13.2 D-3's conditional exclusion was implemented as an unconditional one
+
+**The gap.** Decision §3.4 excludes `review.nextReviewOn` **when non-null** — a scheduled review date is a function of
+the execution clock and the review horizon, so it is metadata; a `null` carries no clock information and is retained.
+The published grammar deleted the member unconditionally and its test asserted `null` ≡ absent "because `null` means
+no review scheduled". That is a different, broader projection than the one the decision closed, and the test made it
+look intentional.
+
+**The fix.** The projection drops the member only when its value is non-null. The asymmetry (`null` ≢ absent) is now
+asserted **explicitly**, with the reason written next to it, so a later reader who finds it surprising cannot quietly
+"repair" it into the broader rule: the decision excludes a *value that carries a clock*, not a member that happens to
+be present.
+
+**Honest note.** Neither reading reproduces the decision's disposition vector (§13.4). The literal reading is kept
+because it is what the decision says; the digest difference is a fixture difference, and it is recorded rather than
+resolved by choosing the number that looked closer.
+
+### 13.3 The decision's own AC-L14.4 pair classified as `SUBSTANTIVE`, and a material item could require no review
+
+**The gap, first half.** `FRESHNESS_CONSEQUENCE_DIMENSIONS` listed `asOf.staleBeyondPolicy`, `quality.verdict`,
+`quality.flags`, `completeness.adequacy` and `dividends.verdict` — but not `confidence.combined`. On the decision's own
+C4→C1 pair the four items are those verdicts **plus** confidence (`0.8371`→`0.674`, capped by `STALE_DATA`), so one
+item fell outside the set and the pair classified `SUBSTANTIVE`. AC-L14.4 asks for `FRESHNESS_TRANSITION` "with a
+`RISK_QUALITY` item — not as a data change", and the published evidence table claimed the requirement was met by a
+test that only asserted the substantive digest moved. The claim was wrong and the test did not check it.
+
+**The gap, second half.** With the same pair, no trigger fired: the review block computed `required: false` alongside
+`priority: HIGH` (a `CRITICAL` item). Required-and-priority disagreeing is the one combination a reader cannot act on.
+
+**The fix.** `confidence.combined` joins the freshness-consequence set, so the pair classifies `FRESHNESS_TRANSITION`
+with four `RISK_QUALITY` items and `highestMateriality: CRITICAL`. A catch-all `MATERIAL_CHANGE` trigger fires whenever
+any item is at least `MATERIAL`, so `required` is never false while the priority says otherwise. It is named
+`MATERIAL_CHANGE` and not `MATERIAL_SUBSTANTIVE_CHANGE` deliberately: a freshness transition *is* a difference in
+substantive identity, but it is not a change in the data, and a trigger name must not claim otherwise.
+
+**Verification.** `ac-l14.test.ts` AC-L14.4 asserts the decision's own clocks, its own five numbers, the five
+classification guards (`classification`, `RISK_QUALITY > 0`, `FUNDAMENTAL = 0`, `MODEL = 0`,
+`MARKET_VALUATION = 0`) and the review block's internal consistency. That test fails on the published code.
+
+### 13.4 The disposition digests move, and the decision's D0 vector stays unreproduced
+
+One change moves the disposition's substantive digest, and it is §13.2 — **not** §13.1: the M1 fixture schedules no
+review, so its `nextReviewOn` is `null`, and the published grammar deleted that member while this pass retains it as a
+null. The O-5 members added in §13.1 are *provenance*, not payload, so they are outside the projection and the
+disposition's **input** digest does not move at all. Both statements were checked by recording a disposition through
+`DispositionRecordsService.record` and reading the stored provenance back, not by reasoning about the diff.
+
+| Quantity | Published pass | This pass |
+|---|---|---|
+| Disposition substantive (M1 held) | `1bfae159…` | `5827369f…` |
+| Disposition substantive input (as recorded) | `ce61a6a4…` | **unchanged** |
+| Disposition substantive, no portfolio facts | `7b8b8ecb…` | `57273946…` |
+| Disposition substantive, candidate subject | `ae0327cc…` | `687f54f5…` |
+| Assessment substantive (C1/C2/C3, C4, C5) | `08ea8d4a…`, `fd9589e4…`, `34240407…` | **unchanged** |
+
+The assessment side is unchanged because §13.1 and §13.3 touch the disposition grammar, the freshness set and the
+review trigger list — none of which is in the assessment projection. That the five published assessment vectors still
+reproduce byte-for-byte (payload *and* substantive digests, plus the three engine input digests) is the strongest
+available statement that the grammar, the canonicalisation and the hash are the ones the decision specified.
+
+**On `126bd28f…`.** Decision §5.2 publishes a D0 disposition with `payloadDigest c79cd8cc…` and substantive
+`126bd28f…`. This repository's M1 held fixture produces `e7d8df04…` / `5827369f…`. Both `nextReviewOn` readings were
+executed against the fixture and neither reproduces `126bd28f…`; the §5.2 payload is not printed, so it cannot be
+reconstructed. The record states this instead of adopting a number nothing produces, and AC-L14.7 asserts the value a
+run can obtain here. This is a *documentation* gap in the decision (a vector without its fixture), not a code defect —
+and it is the only one of the decision's published values that does not reproduce.
+
+### 13.5 Q-1 is answered: the run result, not the history
+
+Decision §9 R-1 notes that the capability stores no run ledger, and `Q-1` left open whether `CLOCK_ONLY_UNCHANGED`
+should be observable across run history or only on the run result. **It is the run result only.** A ledger would be a
+new persisted artifact kind, which the decision explicitly does not authorise (§9 R-1, §10). What the result carries is
+now sufficient for a scheduler or an audit to log the run outside the chain: `outcome`, `observedGeneratedAt` (the
+clock that moved), `unpersistedPayloadDigest` (the bytes not written), `headPayloadDigest`, and `substantiveDigest`
+(identical on both sides, by construction — that is the point). AC-L14.1 asserts all four.
+
+### 13.6 What this pass did not change
+
+No `iips-platform/` source, no frozen-engine version, no dependency pin, no `.tsx`, no route, no persistence, no
+IID-3/IID-4 contract. `L-001`–`L-013` and `L-015`–`L-029` are untouched; `L-014` stays `RESOLVED`; `IID-6` remains
+**NOT STARTED**. The one inserted-versus-restated distinction worth stating: this pass *restated* three claims the
+published record made too confidently (§5 O-5, §6, §13.3). A record that corrects itself in place is more useful than
+one that quietly disappears.
