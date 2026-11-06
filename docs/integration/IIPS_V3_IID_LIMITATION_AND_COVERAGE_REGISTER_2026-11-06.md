@@ -1003,3 +1003,18 @@ and version comparison remain a later work item.
 
 Evidence: `docs/integration/IIPS_V3_IID_D2_NIL_BY_DISCLOSURE_2026-11-06.md` and
 `evidence/real-issuer/D2-NIL-BY-DISCLOSURE-2026-11-06/`.
+
+### 14.1 Addendum — PR #487 review (2026-11-06)
+
+The first revision of §14 rested on a nil declaration the FY2024 consolidated statements do not make. The filing
+presents no borrowings row and no borrowings note, so there is no wording to quote and the components are
+`NOT_REPORTED`; the declaration, and the arithmetic that followed from it, have been withdrawn from the D-2 evidence
+bundle. **This addendum changes no register entry**: `L-001` … `L-029` remain untouched in status, identifier, order
+and wording, `L-003`, `L-004`, `L-006`, `L-009` and R-16 remain unaffected, and D-3 remains open and unaddressed.
+
+What the review did change is the product's guard: a declared nil now requires the source's quoted wording
+(`nilByDisclosure` refuses without it, INV-7 checks it, and the operator path refuses a bare `NIL` with
+`NIL_WITHOUT_QUOTED_WORDING`). The D-2 permission therefore applies only where a filer actually states the nil, and
+that case is not present in the evidence in hand — the mechanism is verified on synthetic fixtures only.
+
+Evidence: `evidence/real-issuer/D2-NIL-BY-DISCLOSURE-2026-11-06/README.md` (§1, §2) and `.../withdrawn/WHY-WITHDRAWN.md`.

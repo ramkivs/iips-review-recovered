@@ -1,0 +1,111 @@
+{
+  "role": "rejected attempt to promote the omitted borrowings line to a nil by typing bare NIL cells",
+  "ingestStatus": "refused: 12 NIL_WITHOUT_QUOTED_WORDING errors; the CLI writes nothing without --allow-errors",
+  "allowedErrors": true,
+  "datasetVersion": "sha256:851be7de23397d426001c32b48792ec5af0e9cb2be5b91da6f8de329a9bfe394",
+  "issues": [
+    {
+      "code": "NIL_WITHOUT_QUOTED_WORDING",
+      "subject": "IN:CIN:L85110KA1981PLC013115#2",
+      "detail": "\"CURRENT_MATURITIES_OF_LONG_TERM_DEBT\" is declared nil without the filing wording that states it; an omitted line is NOT_REPORTED, not a nil"
+    },
+    {
+      "code": "NIL_WITHOUT_QUOTED_WORDING",
+      "subject": "IN:CIN:L85110KA1981PLC013115#2",
+      "detail": "\"LONG_TERM_BORROWINGS\" is declared nil without the filing wording that states it; an omitted line is NOT_REPORTED, not a nil"
+    },
+    {
+      "code": "NIL_WITHOUT_QUOTED_WORDING",
+      "subject": "IN:CIN:L85110KA1981PLC013115#2",
+      "detail": "\"PREFERENCE_CAPITAL\" is declared nil without the filing wording that states it; an omitted line is NOT_REPORTED, not a nil"
+    },
+    {
+      "code": "NIL_WITHOUT_QUOTED_WORDING",
+      "subject": "IN:CIN:L85110KA1981PLC013115#2",
+      "detail": "\"SHORT_TERM_BORROWINGS\" is declared nil without the filing wording that states it; an omitted line is NOT_REPORTED, not a nil"
+    },
+    {
+      "code": "NIL_WITHOUT_QUOTED_WORDING",
+      "subject": "IN:CIN:L85110KA1981PLC013115#3",
+      "detail": "\"CURRENT_MATURITIES_OF_LONG_TERM_DEBT\" is declared nil without the filing wording that states it; an omitted line is NOT_REPORTED, not a nil"
+    },
+    {
+      "code": "NIL_WITHOUT_QUOTED_WORDING",
+      "subject": "IN:CIN:L85110KA1981PLC013115#3",
+      "detail": "\"LONG_TERM_BORROWINGS\" is declared nil without the filing wording that states it; an omitted line is NOT_REPORTED, not a nil"
+    },
+    {
+      "code": "NIL_WITHOUT_QUOTED_WORDING",
+      "subject": "IN:CIN:L85110KA1981PLC013115#3",
+      "detail": "\"PREFERENCE_CAPITAL\" is declared nil without the filing wording that states it; an omitted line is NOT_REPORTED, not a nil"
+    },
+    {
+      "code": "NIL_WITHOUT_QUOTED_WORDING",
+      "subject": "IN:CIN:L85110KA1981PLC013115#3",
+      "detail": "\"SHORT_TERM_BORROWINGS\" is declared nil without the filing wording that states it; an omitted line is NOT_REPORTED, not a nil"
+    },
+    {
+      "code": "NIL_WITHOUT_QUOTED_WORDING",
+      "subject": "IN:CIN:L85110KA1981PLC013115#4",
+      "detail": "\"CURRENT_MATURITIES_OF_LONG_TERM_DEBT\" is declared nil without the filing wording that states it; an omitted line is NOT_REPORTED, not a nil"
+    },
+    {
+      "code": "NIL_WITHOUT_QUOTED_WORDING",
+      "subject": "IN:CIN:L85110KA1981PLC013115#4",
+      "detail": "\"LONG_TERM_BORROWINGS\" is declared nil without the filing wording that states it; an omitted line is NOT_REPORTED, not a nil"
+    },
+    {
+      "code": "NIL_WITHOUT_QUOTED_WORDING",
+      "subject": "IN:CIN:L85110KA1981PLC013115#4",
+      "detail": "\"PREFERENCE_CAPITAL\" is declared nil without the filing wording that states it; an omitted line is NOT_REPORTED, not a nil"
+    },
+    {
+      "code": "NIL_WITHOUT_QUOTED_WORDING",
+      "subject": "IN:CIN:L85110KA1981PLC013115#4",
+      "detail": "\"SHORT_TERM_BORROWINGS\" is declared nil without the filing wording that states it; an omitted line is NOT_REPORTED, not a nil"
+    }
+  ],
+  "capitalStructure": {
+    "grossDebt": {
+      "presence": "MISSING",
+      "reason": "NOT_REPORTED",
+      "note": null
+    },
+    "netDebt": {
+      "presence": "MISSING",
+      "reason": "NOT_REPORTED"
+    },
+    "components": {
+      "shortTermBorrowings": {
+        "presence": "MISSING",
+        "reason": "NOT_REPORTED",
+        "value": null
+      },
+      "currentMaturities": {
+        "presence": "MISSING",
+        "reason": "NOT_REPORTED",
+        "value": null
+      },
+      "longTermBorrowings": {
+        "presence": "MISSING",
+        "reason": "NOT_REPORTED",
+        "value": null
+      },
+      "leaseLiabilities": {
+        "presence": "PRESENT",
+        "reason": null,
+        "value": 83590000000
+      },
+      "preferenceCapital": {
+        "presence": "MISSING",
+        "reason": "NOT_REPORTED",
+        "value": null
+      }
+    }
+  },
+  "valuation": {
+    "intrinsic": null,
+    "marginOfSafetyRefusal": "NO_PRICE_OBSERVATION"
+  },
+  "confidence": 0.4939
+}

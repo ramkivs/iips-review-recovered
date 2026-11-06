@@ -3,205 +3,217 @@ TAP version 13
     # Subtest: a declared nil carries no value, a positive reason, its source and its period
     ok 1 - a declared nil carries no value, a positive reason, its source and its period
       ---
-      duration_ms: 1.505039
+      duration_ms: 1.492001
       type: 'test'
       ...
     # Subtest: a reported zero and a declared nil are different claims and stay distinguishable
     ok 2 - a reported zero and a declared nil are different claims and stay distinguishable
       ---
-      duration_ms: 0.212171
+      duration_ms: 0.211709
       type: 'test'
       ...
     # Subtest: the three absentee states keep their own spelling
     ok 3 - the three absentee states keep their own spelling
       ---
-      duration_ms: 0.359927
+      duration_ms: 0.526508
       type: 'test'
       ...
-    # Subtest: a nil without a period end or with no source is refused at construction (INV-7)
-    ok 4 - a nil without a period end or with no source is refused at construction (INV-7)
+    # Subtest: a nil without a period end, with no source, or with no quoted wording is refused at construction (INV-7)
+    ok 4 - a nil without a period end, with no source, or with no quoted wording is refused at construction (INV-7)
       ---
-      duration_ms: 0.451667
+      duration_ms: 0.496969
       type: 'test'
       ...
     # Subtest: the invariant checker rejects a hand-built nil that has lost its provenance
     ok 5 - the invariant checker rejects a hand-built nil that has lost its provenance
       ---
-      duration_ms: 0.153828
+      duration_ms: 0.219896
       type: 'test'
       ...
     1..5
 ok 1 - A — the six states are distinguishable, and a nil cannot exist without provenance
   ---
-  duration_ms: 3.629452
+  duration_ms: 4.045524
   type: 'suite'
   ...
 # Subtest: B — the operator input path keeps NIL, blank and 0 apart
     # Subtest: the cell grammar accepts NIL and NIL: <what the filing says>, and nothing looser
     ok 1 - the cell grammar accepts NIL and NIL: <what the filing says>, and nothing looser
       ---
-      duration_ms: 0.520746
+      duration_ms: 0.576065
       type: 'test'
       ...
     # Subtest: NIL becomes a provenance-bearing nil; blank stays NOT_REPORTED; 0 stays a reported zero
     ok 2 - NIL becomes a provenance-bearing nil; blank stays NOT_REPORTED; 0 stays a reported zero
       ---
-      duration_ms: 2.366002
+      duration_ms: 2.420114
+      type: 'test'
+      ...
+    # Subtest: [required] a nil cell with no quoted filing wording is refused, so an omitted line cannot become a nil
+    ok 3 - [required] a nil cell with no quoted filing wording is refused, so an omitted line cannot become a nil
+      ---
+      duration_ms: 1.418506
       type: 'test'
       ...
     # Subtest: a nil on a derived item is an error, not a value
-    ok 3 - a nil on a derived item is an error, not a value
+    ok 4 - a nil on a derived item is an error, not a value
       ---
-      duration_ms: 0.966102
+      duration_ms: 0.817311
       type: 'test'
       ...
     # Subtest: a nil with no filing reference is refused rather than accepted without provenance
-    ok 4 - a nil with no filing reference is refused rather than accepted without provenance
+    ok 5 - a nil with no filing reference is refused rather than accepted without provenance
       ---
-      duration_ms: 0.609185
+      duration_ms: 0.828301
       type: 'test'
       ...
     # Subtest: [required] a row that both reports and declares nil for the same item is an error, and neither is used
-    ok 5 - [required] a row that both reports and declares nil for the same item is an error, and neither is used
+    ok 6 - [required] a row that both reports and declares nil for the same item is an error, and neither is used
       ---
-      duration_ms: 7.708824
+      duration_ms: 8.812902
       type: 'test'
       ...
     # Subtest: a conflicting dataset blocks the debt position instead of resolving it
-    ok 6 - a conflicting dataset blocks the debt position instead of resolving it
+    ok 7 - a conflicting dataset blocks the debt position instead of resolving it
       ---
-      duration_ms: 8.955161
+      duration_ms: 9.84848
       type: 'test'
       ...
-    1..6
+    1..7
 ok 2 - B — the operator input path keeps NIL, blank and 0 apart
   ---
-  duration_ms: 21.646001
+  duration_ms: 25.233334
   type: 'suite'
   ...
 # Subtest: C — the four debt components aggregate under one stated permission
     # Subtest: [required] all four declared nil establishes a complete, zero gross debt with provenance
     ok 1 - [required] all four declared nil establishes a complete, zero gross debt with provenance
       ---
-      duration_ms: 4.339304
+      duration_ms: 5.520325
       type: 'test'
       ...
     # Subtest: [required] four reported zeros are not nils: the aggregate is the same number from different claims
     ok 2 - [required] four reported zeros are not nils: the aggregate is the same number from different claims
       ---
-      duration_ms: 4.242396
+      duration_ms: 2.608033
       type: 'test'
       ...
     # Subtest: [required] a debt-bearing issuer is unchanged: reported borrowings aggregate exactly as before
     ok 3 - [required] a debt-bearing issuer is unchanged: reported borrowings aggregate exactly as before
       ---
-      duration_ms: 2.0974
+      duration_ms: 2.520305
       type: 'test'
       ...
     # Subtest: [required] mixed positive and nil components aggregate, and only the nil ones are named
     ok 4 - [required] mixed positive and nil components aggregate, and only the nil ones are named
       ---
-      duration_ms: 2.127574
+      duration_ms: 3.870605
       type: 'test'
       ...
     # Subtest: [required] one component not reported still blocks the debt position
     ok 5 - [required] one component not reported still blocks the debt position
       ---
-      duration_ms: 1.855132
+      duration_ms: 2.014556
       type: 'test'
       ...
     # Subtest: [required] one component whose source is unavailable still blocks the debt position
     ok 6 - [required] one component whose source is unavailable still blocks the debt position
       ---
-      duration_ms: 2.228322
+      duration_ms: 1.896278
       type: 'test'
       ...
     # Subtest: [required] one unmapped component still blocks the debt position
     ok 7 - [required] one unmapped component still blocks the debt position
       ---
-      duration_ms: 1.794718
+      duration_ms: 2.338629
       type: 'test'
       ...
     # Subtest: [required] a conflicting disclosure blocks the debt position instead of being resolved
     ok 8 - [required] a conflicting disclosure blocks the debt position instead of being resolved
       ---
-      duration_ms: 2.225702
+      duration_ms: 3.51874
       type: 'test'
       ...
     # Subtest: [required] components from different reporting periods are refused, never summed silently
     ok 9 - [required] components from different reporting periods are refused, never summed silently
       ---
-      duration_ms: 2.550041
+      duration_ms: 3.516212
       type: 'test'
       ...
     1..9
 ok 3 - C — the four debt components aggregate under one stated permission
   ---
-  duration_ms: 23.860842
+  duration_ms: 28.319667
   type: 'suite'
   ...
 # Subtest: D — downstream calculations consume the aggregate only when it is qualified
     # Subtest: [required] a debt-free issuer now reaches the enterprise-to-equity bridge and per-share values
     ok 1 - [required] a debt-free issuer now reaches the enterprise-to-equity bridge and per-share values
       ---
-      duration_ms: 1.721261
+      duration_ms: 3.251063
       type: 'test'
       ...
     # Subtest: the declared-nil debt is disclosed in the payload prose, with its consequence
     ok 2 - the declared-nil debt is disclosed in the payload prose, with its consequence
       ---
-      duration_ms: 1.4567
+      duration_ms: 1.833487
       type: 'test'
       ...
     # Subtest: moat, leverage and dividend cover consume the resolved block rather than a partial bridge
     ok 3 - moat, leverage and dividend cover consume the resolved block rather than a partial bridge
       ---
-      duration_ms: 1.467814
+      duration_ms: 1.688569
       type: 'test'
       ...
     # Subtest: [required] an unreported component keeps every dependent calculation unavailable
     ok 4 - [required] an unreported component keeps every dependent calculation unavailable
       ---
-      duration_ms: 2.526786
+      duration_ms: 2.011425
       type: 'test'
       ...
     # Subtest: [required] a period mismatch withholds rather than blending two balance sheets
     ok 5 - [required] a period mismatch withholds rather than blending two balance sheets
       ---
-      duration_ms: 10.476072
+      duration_ms: 2.503565
       type: 'test'
       ...
     1..5
 ok 4 - D — downstream calculations consume the aggregate only when it is qualified
   ---
-  duration_ms: 17.886497
+  duration_ms: 11.514993
   type: 'suite'
   ...
-# Subtest: E — the Work Item 1 real disclosures can be expressed without an inferred zero
-    # Subtest: [required] the filed debt position is expressible: leases reported, three borrowings claims declared nil
-    ok 1 - [required] the filed debt position is expressible: leases reported, three borrowings claims declared nil
+# Subtest: E — the Work Item 1 filing states nothing about borrowings, so the components stay NOT_REPORTED
+    # Subtest: [required] the filed facts are expressible without an inferred zero: borrowings are NOT_REPORTED, leases are reported
+    ok 1 - [required] the filed facts are expressible without an inferred zero: borrowings are NOT_REPORTED, leases are reported
       ---
-      duration_ms: 3.107431
+      duration_ms: 7.833114
       type: 'test'
       ...
-    # Subtest: [required] the bridge resolves and the safety verdict still refuses for want of a price
-    ok 2 - [required] the bridge resolves and the safety verdict still refuses for want of a price
+    # Subtest: [required] the filing cannot be upgraded to a nil by typing NIL: an unquoted declaration is rejected
+    ok 2 - [required] the filing cannot be upgraded to a nil by typing NIL: an unquoted declaration is rejected
       ---
-      duration_ms: 2.871398
+      duration_ms: 2.739256
       type: 'test'
       ...
-    1..2
-ok 5 - E — the Work Item 1 real disclosures can be expressed without an inferred zero
+    # Subtest: the difference is a quoted statement, not an absent line: only an asserted nil produces the lease-only gross debt
+    ok 3 - the difference is a quoted statement, not an absent line: only an asserted nil produces the lease-only gross debt
+      ---
+      duration_ms: 4.407812
+      type: 'test'
+      ...
+    1..3
+ok 5 - E — the Work Item 1 filing states nothing about borrowings, so the components stay NOT_REPORTED
   ---
-  duration_ms: 6.200246
+  duration_ms: 15.213952
   type: 'suite'
   ...
 1..5
-# tests 27
+# tests 29
 # suites 5
-# pass 27
+# pass 29
 # fail 0
 # cancelled 0
 # skipped 0
 # todo 0
-# duration_ms 286.730126
+# duration_ms 291.571895

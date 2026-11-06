@@ -24,56 +24,64 @@
         "rupee": null,
         "reason": "NOT_REPORTED",
         "source": null,
-        "periodEnd": null
+        "periodEnd": null,
+        "note": null
       },
       "currentMaturities": {
         "presence": "MISSING",
         "rupee": null,
         "reason": "NOT_REPORTED",
         "source": null,
-        "periodEnd": null
+        "periodEnd": null,
+        "note": null
       },
       "longTermBorrowings": {
         "presence": "MISSING",
         "rupee": null,
         "reason": "NOT_REPORTED",
         "source": null,
-        "periodEnd": null
+        "periodEnd": null,
+        "note": null
       },
       "leaseLiabilities": {
         "presence": "PRESENT",
         "rupee": 83590000000,
         "reason": null,
         "source": "INFY-INDAS-CONSOL-FY24",
-        "periodEnd": "2024-03-31"
+        "periodEnd": "2024-03-31",
+        "note": null
       },
       "preferenceCapital": {
         "presence": "MISSING",
         "rupee": null,
         "reason": "NOT_REPORTED",
         "source": null,
-        "periodEnd": null
+        "periodEnd": null,
+        "note": null
       },
       "nonControllingInterest": {
         "presence": "PRESENT",
         "rupee": 3450000000,
         "reason": null,
         "source": "INFY-INDAS-CONSOL-FY24",
-        "periodEnd": "2024-03-31"
+        "periodEnd": "2024-03-31",
+        "note": null
       },
       "cashAndCashEquivalents": {
         "presence": "PRESENT",
         "rupee": 147860000000,
         "reason": null,
         "source": "INFY-INDAS-CONSOL-FY24",
-        "periodEnd": "2024-03-31"
+        "periodEnd": "2024-03-31",
+        "note": null
       },
       "currentInvestments": {
         "presence": "PRESENT",
         "rupee": 129150000000,
         "reason": null,
         "source": "INFY-INDAS-CONSOL-FY24",
-        "periodEnd": "2024-03-31"
+        "periodEnd": "2024-03-31",
+        "note": null
       }
     }
   },
@@ -83,33 +91,25 @@
         "methodId": "DCF_FCFF",
         "applicable": true,
         "perShareMidPresence": "NOT_COMPUTABLE",
-        "perShareMid": null,
-        "perShareLow": null,
-        "perShareHigh": null
+        "perShareMid": null
       },
       {
         "methodId": "PE_RELATIVE",
         "applicable": true,
         "perShareMidPresence": "PRESENT",
-        "perShareMid": 1270.4266666666667,
-        "perShareLow": 1016.3413333333334,
-        "perShareHigh": 1524.512
+        "perShareMid": 1270.4266666666667
       },
       {
         "methodId": "EV_EBITDA",
         "applicable": false,
         "perShareMidPresence": null,
-        "perShareMid": null,
-        "perShareLow": null,
-        "perShareHigh": null
+        "perShareMid": null
       },
       {
         "methodId": "EV_REVENUE",
         "applicable": false,
         "perShareMidPresence": null,
-        "perShareMid": null,
-        "perShareLow": null,
-        "perShareHigh": null
+        "perShareMid": null
       }
     ],
     "intrinsic": null,
@@ -125,8 +125,7 @@
     "aggregateReason": "POLICY_INPUTS_UNAVAILABLE"
   },
   "dividends": {
-    "netDebtToEbitda": "NOT_COMPUTABLE",
-    "payoutRatio": 0.5600579422864331
+    "netDebtToEbitda": "NOT_COMPUTABLE"
   },
   "adequacy": "SUFFICIENT",
   "qualityVerdict": "MATERIAL_CONCERNS",

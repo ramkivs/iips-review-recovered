@@ -28,7 +28,7 @@ import {
 } from '../../src/investment/contracts/observation';
 import { deriveLineItems } from '../../src/investment/fundamentals/derive';
 import type { NormalizedPeriod } from '../../src/investment/fundamentals/types';
-import { buildDatasetContent, parseNilCell } from '../../src/investment/ingestion/builder';
+import { buildDatasetContent, hasQuotedWording, parseNilCell } from '../../src/investment/ingestion/builder';
 import { parseCsv } from '../../src/investment/ingestion/csv';
 import { TECH_ANNUAL, TECH_ISSUER, annualPeriod, techAssessmentInput, techDataset } from './assessmentFixtures';
 import { referenceInputs } from './fixtures';
@@ -39,8 +39,14 @@ const FILING = { kind: 'FILING' as const, ref: 'FIL-TECH-FY26', filedAt: '2026-0
 
 /* ------------------------------------------------------------------ helpers */
 
-const nil = (periodEnd = LATEST, note?: string): NumericObservation =>
-  nilByDisclosure(FILING, { periodEnd, ...(note === undefined ? {} : { note }) });
+/**
+ * A synthetic declared nil. The `statement` is the filer's wording, which the contract now requires: a fixture can
+ * invent one, a filing cannot. Nothing here is evidence about any real company.
+ */
+const nil = (
+  periodEnd = LATEST,
+  statement = 'the filer states that it has no borrowings at the reporting date',
+): NumericObservation => nilByDisclosure(FILING, { periodEnd, statement });
 
 /**
  * The technology fixture with values overridden (`undefined` deletes an item). `scope: 'newest'` touches only the
@@ -167,14 +173,14 @@ function builtFromRows(rows: readonly string[]) {
 
 describe('A — the six states are distinguishable, and a nil cannot exist without provenance', () => {
   test('a declared nil carries no value, a positive reason, its source and its period', () => {
-    const observation = nil(LATEST, 'no borrowings line is presented');
+    const observation = nil(LATEST, 'the Group has no borrowings as at March 31, 2026');
     assert.equal(observation.presence, 'NIL_BY_DISCLOSURE');
     assert.equal(observation.reason, 'DECLARED_NIL_IN_SOURCE');
     assert.equal(observation.value, null);
     assert.equal(isPresent(observation), false, 'a nil is never a value');
     assert.equal(observation.source?.ref, 'FIL-TECH-FY26');
     assert.equal(observation.periodEnd, LATEST);
-    assert.equal(observation.note, 'no borrowings line is presented');
+    assert.equal(observation.note, 'the Group has no borrowings as at March 31, 2026', 'the filer wording travels with it');
     assert.deepEqual(checkObservation(observation, 'test'), [], 'INV-7 is satisfied by construction');
   });
 
@@ -206,9 +212,17 @@ describe('A — the six states are distinguishable, and a nil cannot exist witho
     assert.equal(spellings.size, states.length, 'no two states share a spelling');
   });
 
-  test('a nil without a period end or with no source is refused at construction (INV-7)', () => {
-    assert.throws(() => nilByDisclosure({ kind: 'FILING', ref: '  ' }, { periodEnd: LATEST }), /source reference/);
-    assert.throws(() => nilByDisclosure(FILING, { periodEnd: '   ' }), /reporting period end/);
+  test('a nil without a period end, with no source, or with no quoted wording is refused at construction (INV-7)', () => {
+    assert.throws(
+      () => nilByDisclosure({ kind: 'FILING', ref: '  ' }, { periodEnd: LATEST, statement: 'nil' }),
+      /source reference/,
+    );
+    assert.throws(() => nilByDisclosure(FILING, { periodEnd: '   ', statement: 'nil' }), /reporting period end/);
+    assert.throws(
+      () => nilByDisclosure(FILING, { periodEnd: LATEST, statement: '   ' }),
+      /source wording/,
+      'an omitted line has no wording to quote, so it cannot be a nil',
+    );
   });
 
   test('the invariant checker rejects a hand-built nil that has lost its provenance', () => {
@@ -218,7 +232,11 @@ describe('A — the six states are distinguishable, and a nil cannot exist witho
       reason: 'NOT_REPORTED',
     } as unknown as Observation<number>;
     const violations = checkObservation(broken, 'components.longTermBorrowings');
-    assert.equal(violations.filter((violation) => violation.invariant === 'INV-7').length, 3);
+    assert.equal(
+      violations.filter((violation) => violation.invariant === 'INV-7').length,
+      4,
+      'no source, no period, no quoted wording, and the wrong reason',
+    );
   });
 });
 
@@ -233,6 +251,10 @@ describe('B — the operator input path keeps NIL, blank and 0 apart', () => {
     for (const rejected of ['', '0', 'NILP', 'NIL BY POLICY', 'n.a.']) {
       assert.equal(parseNilCell(rejected).isNil, false, `"${rejected}" must not be read as a nil`);
     }
+    // The prefix alone is never enough: the wording is what makes the cell usable.
+    assert.equal(hasQuotedWording(parseNilCell('NIL')), false);
+    assert.equal(hasQuotedWording(parseNilCell('NIL:   ')), false);
+    assert.equal(hasQuotedWording(parseNilCell('NIL: the Group has no borrowings')), true);
   });
 
   test('NIL becomes a provenance-bearing nil; blank stays NOT_REPORTED; 0 stays a reported zero', () => {
@@ -256,21 +278,39 @@ describe('B — the operator input path keeps NIL, blank and 0 apart', () => {
     assert.equal(values.CURRENT_MATURITIES_OF_LONG_TERM_DEBT!.value, 0);
   });
 
+  test('[required] a nil cell with no quoted filing wording is refused, so an omitted line cannot become a nil', () => {
+    for (const bare of ['NIL', 'NIL:']) {
+      const dataset = builtFromRows([periodRow({ LONG_TERM_BORROWINGS: bare })]);
+      assert.ok(
+        dataset.issues.some((issue) => issue.code === 'NIL_WITHOUT_QUOTED_WORDING' && issue.severity === 'ERROR'),
+        `"${bare}" must be an ingestion error`,
+      );
+      assert.equal(
+        dataset.periods[0]!.values.LONG_TERM_BORROWINGS?.presence,
+        'MISSING',
+        'the cell degrades to not-reported; it never becomes a declared nil',
+      );
+      assert.equal(dataset.periods[0]!.values.LONG_TERM_BORROWINGS?.reason, 'NOT_REPORTED');
+    }
+  });
+
   test('a nil on a derived item is an error, not a value', () => {
-    const dataset = builtFromRows([periodRow({ NET_DEBT: 'NIL' })]);
+    const dataset = builtFromRows([periodRow({ NET_DEBT: 'NIL: the Group presents no net debt' })]);
     assert.ok(dataset.issues.some((issue) => issue.code === 'NIL_ON_DERIVED_ITEM' && issue.severity === 'ERROR'));
     assert.notEqual(dataset.periods[0]!.values.NET_DEBT?.presence, 'NIL_BY_DISCLOSURE');
   });
 
   test('a nil with no filing reference is refused rather than accepted without provenance', () => {
-    const dataset = builtFromRows([periodRow({ filing_ref: '', LONG_TERM_BORROWINGS: 'NIL' })]);
+    const dataset = builtFromRows([
+      periodRow({ filing_ref: '', LONG_TERM_BORROWINGS: 'NIL: the Group presents no long-term borrowings' }),
+    ]);
     assert.ok(dataset.issues.some((issue) => issue.code === 'NIL_WITHOUT_PROVENANCE'));
     assert.equal(dataset.periods[0]!.values.LONG_TERM_BORROWINGS?.presence, 'MISSING');
   });
 
   test('[required] a row that both reports and declares nil for the same item is an error, and neither is used', () => {
     const dataset = builtFromRows([
-      periodRow({ LONG_TERM_BORROWINGS: 'NIL' }),
+      periodRow({ LONG_TERM_BORROWINGS: 'NIL: the Group presents no long-term borrowings' }),
       periodRow({ LONG_TERM_BORROWINGS: '900' }),
     ]);
     assert.ok(dataset.issues.some((issue) => issue.code === 'CONFLICTING_OBSERVATION' && issue.severity === 'ERROR'));
@@ -284,7 +324,7 @@ describe('B — the operator input path keeps NIL, blank and 0 apart', () => {
 
   test('a conflicting dataset blocks the debt position instead of resolving it', () => {
     const dataset = builtFromRows([
-      periodRow({ LONG_TERM_BORROWINGS: 'NIL' }),
+      periodRow({ LONG_TERM_BORROWINGS: 'NIL: the Group presents no long-term borrowings' }),
       periodRow({ LONG_TERM_BORROWINGS: '900' }),
     ]);
     const { payload } = assessCompany(
@@ -449,82 +489,98 @@ describe('D — downstream calculations consume the aggregate only when it is qu
 });
 
 /* ---------------------------------------------------------------------- E */
-
-describe('E — the Work Item 1 real disclosures can be expressed without an inferred zero', () => {
+describe('E — the Work Item 1 filing states nothing about borrowings, so the components stay NOT_REPORTED', () => {
   const evidenceDir = join(process.cwd(), '..', 'evidence', 'real-issuer', 'REL-1-INFOSYS-2026-11-06');
-  const NIL_COLUMNS: Record<string, string> = {
-    LONG_TERM_BORROWINGS: 'NIL: no such line is presented in the consolidated balance sheet',
-    SHORT_TERM_BORROWINGS: 'NIL: no such line is presented in the consolidated balance sheet',
-    CURRENT_MATURITIES_OF_LONG_TERM_DEBT: 'NIL: no such line is presented in the consolidated balance sheet',
-    PREFERENCE_CAPITAL: 'NIL: no such line is presented in the consolidated balance sheet',
-  };
+  const periodCsvText = (): string => readFileSync(join(evidenceDir, 'ingest-input', 'periods.csv'), 'utf8');
+  const BORROWINGS: readonly LineItemId[] = [
+    'SHORT_TERM_BORROWINGS',
+    'CURRENT_MATURITIES_OF_LONG_TERM_DEBT',
+    'LONG_TERM_BORROWINGS',
+  ];
 
-  /**
-   * The committed Work Item 1 input with the four unprinted claims declared nil. The evidence file itself is
-   * read-only here: the columns are appended in memory, so the historical bundle stays byte-identical.
-   */
-  function infosysPeriods(): NormalizedPeriod[] {
-    const table = parseCsv(readFileSync(join(evidenceDir, 'ingest-input', 'periods.csv'), 'utf8'));
-    const header = [...table.header];
-    const added = Object.keys(NIL_COLUMNS).filter((column) => !header.includes(column));
+  /** Append columns carrying `cell` for every row. Used to show what a declaration would or would not do. */
+  function withColumns(header: readonly string[], rows: readonly (readonly string[])[], columns: readonly string[], cell: string) {
+    const added = columns.filter((column) => !header.includes(column));
     const fullHeader = [...header, ...added];
-    const body = table.rows.map((row) => {
-      const cells = [...row];
-      for (const column of Object.keys(NIL_COLUMNS)) {
-        const index = header.indexOf(column);
-        if (index >= 0) cells[index] = NIL_COLUMNS[column]!;
-      }
-      return [...cells, ...added.map((column) => NIL_COLUMNS[column]!)].map(csvCell).join(',');
-    });
-    const dataset = buildDatasetContent(
-      csvInputs(
-        'IN:CIN:L85110KA1981PLC013115',
-        'Infosys Limited',
-        `${fullHeader.map(csvCell).join(',')}\n${body.join('\n')}\n`,
-      ),
-    );
-    assert.deepEqual(
-      dataset.issues.filter((issue) => issue.severity === 'ERROR'),
-      [],
-      'the declared nils introduce no ingestion error',
-    );
-    return dataset.periods;
+    const body = rows.map((row) => [...row, ...added.map(() => cell)].map(csvCell).join(','));
+    return `${fullHeader.map(csvCell).join(',')}\n${body.join('\n')}\n`;
   }
 
-  const assessInfosys = () => {
+  function built(text: string) {
+    return buildDatasetContent(csvInputs('IN:CIN:L85110KA1981PLC013115', 'Infosys Limited', text));
+  }
+
+  const capitalOfDataset = (periods: readonly NormalizedPeriod[]) => {
     const { payload } = assessCompany(
       techAssessmentInput({
         issuerId: 'IN:CIN:L85110KA1981PLC013115',
         legalName: 'Infosys Limited',
         securityId: 'IN:ISIN:INE009A01021',
-        dataset: techDataset({ periods: infosysPeriods(), prices: [], corporateActions: [], metrics: [] }),
+        dataset: techDataset({ periods: [...periods], prices: [], corporateActions: [], metrics: [] }),
       }),
     );
-    return payload;
+    return payload.fundamentals.capitalStructure;
   };
 
-  test('[required] the filed debt position is expressible: leases reported, three borrowings claims declared nil', () => {
-    const capital = assessInfosys().fundamentals.capitalStructure;
+  test('[required] the filed facts are expressible without an inferred zero: borrowings are NOT_REPORTED, leases are reported', () => {
+    const dataset = built(periodCsvText());
+    assert.deepEqual(
+      dataset.issues.filter((issue) => issue.severity === 'ERROR'),
+      [],
+      'the Work Item 1 input is unchanged and ingests cleanly',
+    );
+    const capital = capitalOfDataset(dataset.periods);
+
     assert.equal(capital.leaseTreatment, 'IND_AS_116_CAPITALISED');
     assert.equal(capital.components.leaseLiabilities!.presence, 'PRESENT');
-    assert.equal(capital.components.leaseLiabilities!.value, 83_590_000_000, '8,359 crore');
+    assert.equal(capital.components.leaseLiabilities!.value, 83_590_000_000, '8,359 crore of Ind AS 116 lease liabilities');
+
     for (const name of ['shortTermBorrowings', 'currentMaturities', 'longTermBorrowings', 'preferenceCapital'] as const) {
-      assert.equal(capital.components[name]!.presence, 'NIL_BY_DISCLOSURE', `${name} keeps the filer's statement`);
-      assert.equal(capital.components[name]!.periodEnd, '2024-03-31');
-      assert.equal(capital.components[name]!.source?.ref, 'INFY-INDAS-CONSOL-FY24');
+      const observation = capital.components[name]!;
+      assert.equal(observation.presence, 'MISSING', `${name}: an omitted line is not a declaration`);
+      assert.equal(observation.reason, 'NOT_REPORTED', `${name}: the filing never says the item is nil`);
+      assert.equal(observation.value, null, `${name}: and it is certainly not a zero`);
     }
-    assert.equal(capital.grossDebt.presence, 'PRESENT');
-    assert.equal(capital.grossDebt.value, 83_590_000_000, 'gross debt is the lease liability and nothing invented');
-    assert.equal(capital.netDebt.presence, 'PRESENT');
-    assert.equal(capital.netDebt.value, -193_420_000_000, 'net cash: 8,359 − cash and investments');
+
+    assert.equal(capital.grossDebt.presence, 'MISSING');
+    assert.equal(capital.grossDebt.reason, 'NOT_REPORTED', 'gross debt stays blocked, exactly as before D-2');
+    assert.equal(capital.netDebt.presence, 'MISSING');
+    assert.equal(capital.netDebt.reason, 'NOT_REPORTED');
+
+    const dcf = payloadOf([...dataset.periods]).valuation.methods.find((entry) => entry.methodId === 'DCF_FCFF')!;
+    assert.notEqual(dcf.output?.perShareMid.presence, 'PRESENT', 'the bridge stays blocked for want of a filed debt position');
+    assert.equal(payloadOf([...dataset.periods]).valuation.intrinsic, null);
   });
 
-  test('[required] the bridge resolves and the safety verdict still refuses for want of a price', () => {
-    const payload = assessInfosys();
-    const dcf = payload.valuation.methods.find((entry) => entry.methodId === 'DCF_FCFF')!;
-    assert.equal(dcf.applicable, true);
-    assert.equal(dcf.output?.perShareMid.presence, 'PRESENT');
-    assert.notEqual(payload.valuation.intrinsic, null);
-    assert.equal(payload.valuation.marginOfSafety.refusal, 'NO_PRICE_OBSERVATION', 'no market price was observed');
+  test('[required] the filing cannot be upgraded to a nil by typing NIL: an unquoted declaration is rejected', () => {
+    const table = parseCsv(periodCsvText());
+    const text = withColumns(table.header, table.rows, BORROWINGS, 'NIL');
+    const dataset = built(text);
+
+    const refusals = dataset.issues.filter((issue) => issue.code === 'NIL_WITHOUT_QUOTED_WORDING');
+    assert.equal(refusals.length, BORROWINGS.length * dataset.periods.length, 'every bare NIL cell is an error');
+    for (const period of dataset.periods) {
+      for (const id of BORROWINGS) {
+        assert.equal(period.values[id]?.presence, 'MISSING');
+        assert.equal(period.values[id]?.reason, 'NOT_REPORTED');
+      }
+    }
+    assert.equal(capitalOfDataset(dataset.periods).grossDebt.reason, 'NOT_REPORTED');
+  });
+
+  test('the difference is a quoted statement, not an absent line: only an asserted nil produces the lease-only gross debt', () => {
+    // This is a mechanism demonstration on the same facts, NOT a claim about the filing: the wording below does not
+    // appear anywhere in the FY24 consolidated statements, which is exactly why the filed classification is
+    // NOT_REPORTED.
+    const table = parseCsv(periodCsvText());
+    const text = withColumns(table.header, table.rows, BORROWINGS, 'NIL: the Group has no borrowings (demonstration only)');
+    const dataset = built(text);
+
+    assert.deepEqual(dataset.issues.filter((issue) => issue.severity === 'ERROR'), []);
+    const capital = capitalOfDataset(dataset.periods);
+    assert.equal(capital.grossDebt.presence, 'PRESENT');
+    assert.equal(capital.grossDebt.value, 83_590_000_000, 'three nil components contribute zero; leases are the whole total');
+    assert.match(capital.grossDebt.note ?? '', /shortTermBorrowings, currentMaturities, longTermBorrowings/);
+    assert.doesNotMatch(capital.grossDebt.note ?? '', /leaseLiabilities/, 'the reported lease line is not a nil');
   });
 });

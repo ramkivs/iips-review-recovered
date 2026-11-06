@@ -5,8 +5,9 @@
  *   - an unknown line item or metric is an error, never a silent drop;
  *   - a reported value for a derived item is an error (derived items are produced, not filed);
  *   - a sign-rule violation is an error and the value is withheld, not "fixed";
- *   - a cell may declare an item NIL (see `parseNilCell`); nil is a statement by the filer, never a zero, and
- *     a row that both reports and declares nil for the same item is an error rather than a silent tie-break;
+ *   - a cell may declare an item NIL (see `parseNilCell`); nil is a statement by the filer, never a zero, it must
+ *     quote the wording that states the nil, and a row that both reports and declares nil for the same item is an
+ *     error rather than a silent tie-break;
  *   - a conflicting operating-metric observation is retained and marked CONFLICT;
  *   - a duplicate/overlapping listing is an error (two instruments must never share a listing).
  */
@@ -123,11 +124,13 @@ function asQuarterForm(value: string): QuarterForm | undefined {
 
 /**
  * A cell may state that the filer declares the item nil, in which case it is `NIL_BY_DISCLOSURE` and not a
- * number. Grammar: `NIL`, or `NIL: <what the filing says>` — the text after the colon becomes the note on the
- * observation, so the declaration carries the filer's own words as well as the row's filing reference.
+ * number. Grammar: `NIL: <what the filing says>`. The text after the colon is mandatory and becomes the note on
+ * the observation, so the declaration carries the filer's own words as well as the row's filing reference.
  *
- * `0` is NOT this: a reported zero is `PRESENT` with a source. A blank cell is NOT this either: blank means
- * "not disclosed" (`MISSING: NOT_REPORTED`). Keeping those three apart is the whole point of D-2.
+ * A bare `NIL`, or `NIL:` with nothing after it, is refused downstream (`NIL_WITHOUT_QUOTED_WORDING`) because a
+ * filing that merely omits a line has stated nothing — that case is `MISSING: NOT_REPORTED`. `0` is NOT this
+ * either: a reported zero is `PRESENT` with a source. A blank cell is NOT this either. Keeping these four apart
+ * is the whole point of D-2.
  */
 export function parseNilCell(raw: string): { readonly isNil: boolean; readonly note?: string } {
   const trimmed = raw.trim();
@@ -135,6 +138,11 @@ export function parseNilCell(raw: string): { readonly isNil: boolean; readonly n
   const colon = trimmed.indexOf(':');
   const note = colon === -1 ? undefined : trimmed.slice(colon + 1).trim();
   return note === undefined || note === '' ? { isNil: true } : { isNil: true, note };
+}
+
+/** A nil cell is only usable when it quotes the wording that states the nil. */
+export function hasQuotedWording(cell: { readonly isNil: boolean; readonly note?: string }): boolean {
+  return cell.isNil && cell.note !== undefined && cell.note.trim() !== '';
 }
 
 /* ------------------------------------------------------------------ periods */
@@ -197,6 +205,18 @@ export function parsePeriodCsv(file: TextFile): { periods: NormalizedPeriod[]; i
       const classificationKey = `${record.issuer_id}|${identity.periodEnd}|${identity.statementScope}|${identity.periodType}|${column}`;
       const nilCell = parseNilCell(raw);
       if (nilCell.isNil) {
+        if (!hasQuotedWording(nilCell)) {
+          issues.push(
+            issue(
+              'ERROR',
+              'NIL_WITHOUT_QUOTED_WORDING',
+              subject,
+              `"${column}" is declared nil without the filing wording that states it; an omitted line is NOT_REPORTED, not a nil`,
+            ),
+          );
+          values[column] = missing('NOT_REPORTED', { periodEnd: identity.periodEnd });
+          continue;
+        }
         if (!meta.reported) {
           issues.push(issue('ERROR', 'NIL_ON_DERIVED_ITEM', subject, `"${column}" is derived and cannot be declared nil`));
           values[column] = missing('NOT_REPORTED', { periodEnd: identity.periodEnd });
@@ -228,9 +248,9 @@ export function parsePeriodCsv(file: TextFile): { periods: NormalizedPeriod[]; i
           { kind: 'FILING', ref: record.filing_ref, filedAt: record.filed_at },
           {
             periodEnd: identity.periodEnd,
+            statement: nilCell.note as string,
             basis: record.basis === 'RESTATED' ? 'RESTATED' : 'AS_FILED',
             filingRef: record.filing_ref,
-            ...(nilCell.note === undefined ? {} : { note: nilCell.note }),
           },
         );
         continue;
