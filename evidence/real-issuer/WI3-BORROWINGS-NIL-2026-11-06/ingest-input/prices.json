@@ -1,0 +1,14 @@
+{
+  "prices": [
+    {
+      "securityId": "IN:ISIN:INE009A01021",
+      "value": 1180.65,
+      "currency": "INR",
+      "asOf": "2026-11-06",
+      "kind": "CLOSE",
+      "source": "DATASET_EOD",
+      "sourceRef": "BSE:BhavCopy_BSE_CM_0_0_0_20261106_F_0000.CSV:2026-11-06:500209:INE009A01021:ClsPric",
+      "adjustment": null
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+### iips-platform - capital structure, valuation, dividends, moat, price (targeted)
+# pass 47 / # fail 0   (exit 0)
+
+### typechecks (exit codes captured directly, no pipes)
+iips-platform  npx tsc --noEmit                                  exit=0
+frontend       npm run typecheck (tsc --noEmit, src)             exit=0
+frontend       npm run typecheck:investment-server (Stage A)     exit=0
+frontend       npm run typecheck:replay-server                    exit=2 — PRE-EXISTING, ENVIRONMENTAL:
+    src/api/brokerHoldingsPreview.ts cannot resolve ../../.cache/broker-import/... because the generated
+    .cache/broker-import/ tree does not exist in this sandbox (it is a snapshot-excluded directory). The
+    failing file is not touched by this work item and is not in the changed set; CI runs the same script
+    from a checkout where that tree exists and passes.
+
+### frontend suites
+vitest server/investment/cli/wi3BorrowingsNil.test.ts                        10 passed (exit 0)
+vitest server/investment/cli/wi2PriceObservation.test.ts                      6 passed (exit 0)
+vitest server/investment/cli/realIssuerValidation.test.ts +
+       server/investment/cli/generate-investment-artifacts.test.ts           14 passed (exit 0)
+
+### end-to-end replay from the committed bundle (final head)
+ingest into an empty dataset dir: datasetVersion sha256:21cf2522…  issues []  exit=0
+generate-investment-artifacts:    payloadDigest 83644bc68e3d…  persist CREATED  verify head v1  exit=0
+  -> the provenance-only edit to source/quotes.json does not perturb the chain: quotes.json is not an
+     ingestion input, so the dataset and payload identities are unchanged.
+
+### digests.json
+30 files pinned; every sha256 and byte length matches after the final re-pin.
+
+### the two WI-3 test additions made at final review
+  - every declared cell in the committed statement rows equals source/quotes.json's quoted wording, and
+    each quote's own sha256 matches (the cell is 'NIL: <wording>' with a positional column lookup that
+    fails loudly if a quote ever contains a comma);
+  - the retrieval record states an ordering bound instead of a placeholder clock reading.

@@ -1,0 +1,91 @@
+# WI-2 — commands actually run
+
+Working directory `frontend/` unless stated; `iips-platform/` for the ingestion CLI. `npm ci` in both packages.
+Nothing below touches the network: the exchange file was fetched once, outside the product, and committed as
+`source/` evidence before any of these commands ran.
+
+## 1 — ingest: the Work Item 1 inputs plus one price record
+
+    cd iips-platform
+    npx tsx src/investment/cli/ingest.ts \
+      --input ../evidence/real-issuer/WI2-PRICE-OBSERVATION-2026-11-06/ingest-input \
+      --dataset-dir /tmp/wi2/data/investment/dataset \
+      --now 2026-11-06T13:45:00.000Z
+    # datasetVersion sha256:0ef4299dde504a202b96bce06183b91f38081e0f83f7d9a2d64ec7fc204d0579
+    # issues.json [] · coverage.prices 1            (stdout: runs/01-ingest.txt)
+
+## 2 — stage the identity directory beside the dataset
+
+    cp evidence/real-issuer/REL-1-INFOSYS-2026-11-06/identity/*.json /tmp/wi2/data/investment/identity/
+
+Byte-identical to the committed Work Item 1 identity files.
+
+## 3 — owner carrier (required by the artifact CLI, unchanged from Work Item 1)
+
+    cp evidence/real-issuer/REL-1-INFOSYS-2026-11-06/runs/owner-carrier.json /tmp/wi2/reports-owner-context.json
+
+## 4 — generate -> assess -> compose -> validate -> persist -> verify
+
+    cd frontend
+    IIPS_NP04_DATABASE_PATH=/tmp/wi2/data/investment/investment.db \
+    npx tsx server/investment/cli/generate-investment-artifacts.ts \
+      --issuer         IN:CIN:L85110KA1981PLC013115 \
+      --data-dir       /tmp/wi2/data/investment/dataset \
+      --identity-dir   /tmp/wi2/data/investment/identity \
+      --db             /tmp/wi2/data/investment/investment.db \
+      --owner-carrier  /tmp/wi2/reports-owner-context.json \
+      --generated-at   2026-11-06T13:45:00.000Z \
+      --out            .../runs/cli-wi2-created.json
+
+    # summary: SUFFICIENT / MATERIAL_CONCERNS / confidence 0.4939
+    #          compose payloadDigest 06be8f6680ec… · persist CREATED · verify 1 version(s), head v1
+    #          (stdout: runs/02-generate.txt)
+
+## 5 — replay into a second, empty store (determinism, not a second result)
+
+    ... same flags, --db /tmp/wi2/log-db.sqlite, --out .../runs/cli-wi2-created.replay.json
+
+    # identical steps, identical dataset version, identical payloadDigest
+
+## 6 — baseline (pre-WI-2) reconstruction from the committed Work Item 1 inputs
+
+    cd iips-platform
+    npx tsx src/investment/cli/ingest.ts \
+      --input ../evidence/real-issuer/REL-1-INFOSYS-2026-11-06/ingest-input \
+      --dataset-dir /tmp/wi2/base3/dataset --now 2026-11-06T00:00:00.000Z
+    # datasetVersion sha256:ca29c835…c6d71e        (stdout: runs/03-baseline-ingest.txt)
+
+    cd ../frontend
+    IIPS_NP04_DATABASE_PATH=/tmp/wi2/base3/investment.db \
+    npx tsx server/investment/cli/generate-investment-artifacts.ts \
+      --issuer IN:CIN:L85110KA1981PLC013115 \
+      --data-dir /tmp/wi2/base3/dataset --identity-dir /tmp/wi2/base3/identity \
+      --db /tmp/wi2/base3/investment.db --owner-carrier /tmp/wi2/reports-owner-context.json \
+      --generated-at 2026-11-06T00:00:00.000Z \
+      --out .../runs/04-baseline-d3-reconstruction.json
+    # payloadDigest 8e23f025527e…  == the payload D-3 merged into main
+    #          (stdout: runs/04-baseline-d3-reconstruction.txt)
+
+## 7 — payload re-read through the service read path
+
+Temporary `frontend/.tmp-wi2-dump.ts` driver (deleted after use; a `tsx -e` one-liner does not resolve these ESM
+imports): `loadAuthoritativeNp04Persistence` -> `createInvestmentArtifactService` -> `readVersionWithPayload`.
+
+    sha256sum artifact/assessment-payload-wi2.json   # 06be8f66…  = chain head payloadDigest
+    # recorded in runs/06-payload-verify.json
+
+## 8 — targeted verification
+
+    cd iips-platform && npx tsx --test tests/investment/assessment-price.test.ts        # 10 passed
+    cd iips-platform && npx tsc --noEmit                                              # clean
+    cd frontend && npx vitest run server/investment/cli/wi2PriceObservation.test.ts    # 6 passed
+    cd frontend && npx vitest run server/investment/cli/realIssuerValidation.test.ts \
+                                  server/investment/cli/generate-investment-artifacts.test.ts  # 14 passed
+    cd frontend && npm run typecheck:investment-server                                 # clean
+    # captured in runs/05-verification.txt
+
+## 9 — payload diff against the reconstructed baseline
+
+Structural walk of `artifact/assessment-payload-wi2.json` vs the payload produced by step 6: 13 changed paths, each
+attributed to RUN_CLOCK, DATASET_IDENTITY or PRICE_OBSERVATION; output committed as
+`artifact/payload-diff-vs-d3-baseline.json`. An unattributed path fails the generation of that file.

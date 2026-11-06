@@ -1,0 +1,124 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Evidence that the price observation moves the margin-of-safety block and the dataset identity, and nothing else in the assessment payload.",
+  "baseline": {
+    "label": "post-D-3 head of main, Work Item 1 inputs (no price)",
+    "reconstruction": "runs/04-baseline-d3-reconstruction.json",
+    "payloadDigest": "8e23f025527e998a735175ea1991b8784a486e91853ff6aa1d3fbe31cfae7978",
+    "payloadBytes": 45129,
+    "note": "regenerated on this branch from the committed REL-1 ingest-input, identity and owner carrier; the digest equals the payload D-3 merged into main, so the baseline is not a re-typed claim"
+  },
+  "candidate": {
+    "label": "Work Item 2 dataset (same inputs + one BSE close)",
+    "payloadFile": "artifact/assessment-payload-wi2.json",
+    "payloadDigest": "06be8f6680ec70caeb73bb83788d730127018076bb39f1a17e43c2c425a04a8f",
+    "payloadBytes": 45302,
+    "chainHeadPayloadDigest": "06be8f6680ec70caeb73bb83788d730127018076bb39f1a17e43c2c425a04a8f"
+  },
+  "changedPaths": [
+    {
+      "path": ".artifact.generatedAt",
+      "attribution": "RUN_CLOCK",
+      "before": "2026-11-06T00:00:00.000Z",
+      "after": "2026-11-06T13:45:00.000Z"
+    },
+    {
+      "path": ".asOf.generatedAt",
+      "attribution": "RUN_CLOCK",
+      "before": "2026-11-06T00:00:00.000Z",
+      "after": "2026-11-06T13:45:00.000Z"
+    },
+    {
+      "path": ".asOf.knownAsOf",
+      "attribution": "RUN_CLOCK",
+      "before": "2026-11-06T00:00:00.000Z",
+      "after": "2026-11-06T13:45:00.000Z"
+    },
+    {
+      "path": ".data.contentDigest",
+      "attribution": "DATASET_IDENTITY",
+      "before": "sha256:ca29c8357fd3ae87889af07b27ffc317f09745caaed870b287d7ca1f8fc6d71e",
+      "after": "sha256:0ef4299dde504a202b96bce06183b91f38081e0f83f7d9a2d64ec7fc204d0579"
+    },
+    {
+      "path": ".data.datasetVersion",
+      "attribution": "DATASET_IDENTITY",
+      "before": "sha256:ca29c8357fd3ae87889af07b27ffc317f09745caaed870b287d7ca1f8fc6d71e",
+      "after": "sha256:0ef4299dde504a202b96bce06183b91f38081e0f83f7d9a2d64ec7fc204d0579"
+    },
+    {
+      "path": ".valuation.marginOfSafety.price.basis",
+      "attribution": "PRICE_OBSERVATION",
+      "before": null,
+      "after": "AS_FILED"
+    },
+    {
+      "path": ".valuation.marginOfSafety.price.periodEnd",
+      "attribution": "PRICE_OBSERVATION",
+      "before": null,
+      "after": "2026-11-06"
+    },
+    {
+      "path": ".valuation.marginOfSafety.price.presence",
+      "attribution": "PRICE_OBSERVATION",
+      "before": "MISSING",
+      "after": "PRESENT"
+    },
+    {
+      "path": ".valuation.marginOfSafety.price.reason",
+      "attribution": "PRICE_OBSERVATION",
+      "before": "PRICE_UNAVAILABLE",
+      "after": null
+    },
+    {
+      "path": ".valuation.marginOfSafety.price.source",
+      "attribution": "PRICE_OBSERVATION",
+      "before": null,
+      "after": {
+        "filedAt": "2026-11-06",
+        "kind": "MARKET_PRICE",
+        "ref": "BSE:BhavCopy_BSE_CM_0_0_0_20261106_F_0000.CSV:2026-11-06:500209:INE009A01021:ClsPric"
+      }
+    },
+    {
+      "path": ".valuation.marginOfSafety.price.value",
+      "attribution": "PRICE_OBSERVATION",
+      "before": null,
+      "after": 1180.65
+    },
+    {
+      "path": ".valuation.marginOfSafety.priceAsOf",
+      "attribution": "PRICE_OBSERVATION",
+      "before": null,
+      "after": "2026-11-06"
+    },
+    {
+      "path": ".valuation.marginOfSafety.refusal",
+      "attribution": "PRICE_OBSERVATION",
+      "before": "NO_PRICE_OBSERVATION",
+      "after": "INTRINSIC_WITHHELD"
+    }
+  ],
+  "changedPathCount": 13,
+  "unchanged": [
+    "risk",
+    "quality",
+    "confidence",
+    "valuation.methods",
+    "valuation.intrinsic",
+    "valuation.sensitivity",
+    "fundamentals",
+    "moat",
+    "dividends",
+    "evidence",
+    "disclosure",
+    "limitations",
+    "sectorReferenceView"
+  ],
+  "reading": {
+    "priceAccepted": true,
+    "valuationComputable": false,
+    "marginOfSafetyComputable": false,
+    "reason": "the margin block now carries a PRESENT price; it is still withheld because the intrinsic range is withheld, and the intrinsic is withheld because gross/net debt stay NOT_REPORTED. The refusal code moves from NO_PRICE_OBSERVATION to INTRINSIC_WITHHELD \u2014 the price limb of the blocker is closed, the capital-structure limb is not."
+  }
+}

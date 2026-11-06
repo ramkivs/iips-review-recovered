@@ -1,0 +1,101 @@
+{
+  "schemaVersion": 1,
+  "recordKind": "EXCHANGE_EOD_BHAVCOPY_ROW_EXTRACT",
+  "purpose": "Raw, reproducible source evidence for the WI-2 Infosys market-price observation. Nothing here is derived; the row is quoted byte-for-byte from the exchange file.",
+  "exchange": "BSE",
+  "segment": "CM",
+  "fileName": "BhavCopy_BSE_CM_0_0_0_20261106_F_0000.CSV",
+  "url": "https://www.bseindia.com/download/BhavCopy/Equity/BhavCopy_BSE_CM_0_0_0_20261106_F_0000.CSV",
+  "httpStatus": 200,
+  "publication": {
+    "tradeDate": "2026-11-06",
+    "publishedAt": null,
+    "publishedAtNote": "BSE does not stamp the file itself with a publication time; the file is the end-of-day bhavcopy for the 2026-11-06 session and was already retrievable at 2026-11-06T13:42:45Z, which bounds publication from above."
+  },
+  "retrieval": {
+    "instrument": "assistant fetch tool (proxied HTTP GET of the exchange file)",
+    "openedAt": "2026-11-06T13:42:45Z",
+    "closedAt": "2026-11-06T13:44:25Z",
+    "note": "The two timestamps are `date -u` reads taken immediately before the first BSE fetch and immediately after the last one; the fetch tool does not report a per-request timestamp, so retrieval is recorded as that bounded interval rather than a fabricated instant.",
+    "chunk": {
+      "index": 2,
+      "totalChunks": 108,
+      "note": "the exchange file was read in the tool's transport chunks; the INFY row was located in chunk 2"
+    }
+  },
+  "headerLine": "TradDt,BizDt,Sgmt,Src,FinInstrmTp,FinInstrmId,ISIN,TckrSymb,SctySrs,XpryDt,FininstrmActlXpryDt,StrkPric,OptnTp,FinInstrmNm,OpnPric,HghPric,LwPric,ClsPric,LastPric,PrvsClsgPric,UndrlygPric,SttlmPric,OpnIntrst,ChngInOpnIntrst,TtlTradgVol,TtlTrfVal,TtlNbOfTxsExctd,SsnId,NewBrdLotQty,Rmks,Rsvd1,Rsvd2,Rsvd3,Rsvd4",
+  "rawLine": "2026-11-06,2026-11-06,CM,BSE,STK,500209,INE009A01021,INFY,A,,,,,INFOSYS LTD.,1184.00,1199.00,1163.00,1180.65,1180.65,1166.10,,1181.38,,,637877,751753580.00,17440,F1,1,,,,,",
+  "context": {
+    "previousLineInFile": "2026-11-06,2026-11-06,CM,BSE,STK,500207,INE156A01020,INDORAMA,B,,,,,INDO RAMA SYNTHETICS (INDIA) L,78.00,79.97,75.00,76.22,76.20,78.93,,76.55,,,32058,2471334.00,451,F1,1,,,,,",
+    "nextLineInFile": "2026-11-06,2026-11-06,CM,BSE,STK,500210,INE177A01018,INGERRAND,B,,,,,INGERSOLL-RAND (INDIA) LTD.,3995.00,4010.00,3895.00,3977.70,3982.00,3994.05,,3968.32,,,507,1988664.00,161,F1,1,,,,,",
+    "note": "the file is ordered by BSE scrip code, so these two anchors fix the INFY row's position for anyone repeating the extraction"
+  },
+  "digests": {
+    "algorithm": "sha256",
+    "extractFile": "source/bse-bhavcopy-2026-11-06-INFY-extract.csv",
+    "extractFileSha256": "35886caa8b64aacff0fce69a75c0a0cc353087f30af2957a517cd460916814aa",
+    "rawLineSha256": "5b35ec46252ea93e44af664c1bde6a873b5da2c2439f51195354838f64ee31ae",
+    "headerLineSha256": "ec79fe2b3450a97e32b52a6b80c0260159acd8503211d32b7089d70ed04f6349"
+  },
+  "fieldMapping": {
+    "TradDt": "2026-11-06",
+    "BizDt": "2026-11-06",
+    "Sgmt": "CM",
+    "Src": "BSE",
+    "FinInstrmTp": "STK",
+    "FinInstrmId": "500209",
+    "ISIN": "INE009A01021",
+    "TckrSymb": "INFY",
+    "SctySrs": "A",
+    "FinInstrmNm": "INFOSYS LTD.",
+    "ClsPric": "1180.65",
+    "LastPric": "1180.65",
+    "PrvsClsgPric": "1166.10",
+    "HghPric": "1199.00",
+    "LwPric": "1163.00",
+    "TtlTradgVol": "637877",
+    "TtlTrfVal": "751753580.00",
+    "TtlNbOfTxsExctd": "17440"
+  },
+  "internalConsistency": [
+    {
+      "check": "close inside the session range",
+      "detail": "1163.0 <= 1180.65 <= 1199.0",
+      "pass": true
+    },
+    {
+      "check": "close equals last traded price",
+      "detail": "ClsPric 1180.65 == LastPric 1180.65",
+      "pass": true
+    },
+    {
+      "check": "implied session VWAP inside the range",
+      "detail": "TtlTrfVal/TtlTradgVol = 1178.52",
+      "pass": true
+    },
+    {
+      "check": "day change consistent with previous close",
+      "detail": "1180.65 vs 1166.1 (1.25%)",
+      "pass": true
+    },
+    {
+      "check": "identity matches the roster listing",
+      "detail": "ISIN INE009A01021 / scrip 500209 / symbol row INFY == roster listing IN:BSE:500209:EQ:EQUITY",
+      "pass": true
+    }
+  ],
+  "seriesNote": "the row's SctySrs is BSE group 'A' (the exchange's main board group); the roster normalises the listing series to 'EQ'. Same security, same ISIN; the label difference is BSE's own series vocabulary, not a second instrument.",
+  "alternativesAttempted": [
+    {
+      "source": "NSE archives, sec_bhavdata_full_06112026.csv",
+      "url": "https://nsearchives.nseindia.com/products/content/sec_bhavdata_full_06112026.csv",
+      "result": "HTTP 500 from this environment; no NSE row obtained"
+    },
+    {
+      "source": "NSE quote API",
+      "url": "https://www.nseindia.com/api/quote-equity?symbol=INFY",
+      "result": "HTTP 500 from this environment; no NSE quote obtained"
+    }
+  ],
+  "nseCorroboration": "NOT OBTAINED. The observation is therefore single-exchange (BSE). NSE is the first listing in the roster and the deeper book; the absence of an NSE row is recorded as a limitation, not worked around with an indicative or cached quote."
+}

@@ -1,0 +1,28 @@
+{
+  "schemaVersion": "IIPS_INVESTMENT_IDENTITY_V1",
+  "rosterLabel": "REL-1 operator-supplied roster (one real issuer, Infosys Limited)",
+  "issuers": [
+    {
+      "issuerId": "IN:CIN:L85110KA1981PLC013115",
+      "legalName": "Infosys Limited",
+      "cin": "L85110KA1981PLC013115",
+      "equityIsin": "INE009A01021",
+      "issuerKeyBasis": "CIN",
+      "sector": "Technology",
+      "subSegment": null,
+      "status": "ELIGIBLE",
+      "statusReason": null,
+      "foreignIssuer": false
+    }
+  ],
+  "securities": [
+    {
+      "securityId": "IN:ISIN:INE009A01021",
+      "issuerId": "IN:CIN:L85110KA1981PLC013115",
+      "isin": "INE009A01021",
+      "instrumentType": "EQUITY",
+      "status": "ASSESSABLE",
+      "statusReason": null
+    }
+  ]
+}

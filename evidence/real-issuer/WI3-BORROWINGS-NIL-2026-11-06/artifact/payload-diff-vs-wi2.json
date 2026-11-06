@@ -1,0 +1,649 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Evidence that the four declared nils move the capital structure and everything downstream of it, and nothing that is not downstream of it.",
+  "baseline": {
+    "label": "Work Item 2 payload (price observed, debt NOT_REPORTED)",
+    "payloadDigest": "06be8f6680ec70caeb73bb83788d730127018076bb39f1a17e43c2c425a04a8f",
+    "payloadBytes": 45302
+  },
+  "candidate": {
+    "label": "Work Item 3 payload (four declared nils from the FY24 consolidated statements)",
+    "payloadDigest": "83644bc68e3d68f3f714fb205179eae63c6da2ff9d5cdcf77d0a3d5c573d493d",
+    "payloadBytes": 51196,
+    "chainHeadPayloadDigest": "83644bc68e3d68f3f714fb205179eae63c6da2ff9d5cdcf77d0a3d5c573d493d"
+  },
+  "changedPathCount": 96,
+  "attributionCounts": {
+    "RUN_CLOCK": 3,
+    "NARRATIVE": 3,
+    "CONFIDENCE_INPUTS_COMPLETE": 2,
+    "DATASET_IDENTITY": 2,
+    "DIVIDEND_COVERAGE_UNBLOCKED": 7,
+    "DERIVED_SERIES": 1,
+    "DEBT_DECLARATION": 46,
+    "MOAT_UNBLOCKED": 9,
+    "RISK_EVALUATION_UNBLOCKED": 8,
+    "VALUATION_UNBLOCKED": 15
+  },
+  "changedPaths": [
+    {
+      "path": ".artifact.generatedAt",
+      "attribution": "RUN_CLOCK",
+      "before": "2026-11-06T13:45:00.000Z",
+      "after": "2026-11-06T14:05:00.000Z"
+    },
+    {
+      "path": ".asOf.generatedAt",
+      "attribution": "RUN_CLOCK",
+      "before": "2026-11-06T13:45:00.000Z",
+      "after": "2026-11-06T14:05:00.000Z"
+    },
+    {
+      "path": ".asOf.knownAsOf",
+      "attribution": "RUN_CLOCK",
+      "before": "2026-11-06T13:45:00.000Z",
+      "after": "2026-11-06T14:05:00.000Z"
+    },
+    {
+      "path": ".assumptions.methodSpecific",
+      "attribution": "NARRATIVE",
+      "before": "<collection>",
+      "after": "<collection>"
+    },
+    {
+      "path": ".confidence.combined",
+      "attribution": "CONFIDENCE_INPUTS_COMPLETE",
+      "before": 0.4939,
+      "after": 0.6736
+    },
+    {
+      "path": ".confidence.modelConfidence",
+      "attribution": "CONFIDENCE_INPUTS_COMPLETE",
+      "before": 0.125,
+      "after": 0.6342
+    },
+    {
+      "path": ".data.contentDigest",
+      "attribution": "DATASET_IDENTITY",
+      "before": "sha256:0ef4299dde504a202b96bce06183b91f38081e0f83f7d9a2d64ec7fc204d0579",
+      "after": "sha256:21cf25222fcdf0ac31d8e285c631b272f8d3d5e8567f2ed9594e4fff81725847"
+    },
+    {
+      "path": ".data.datasetVersion",
+      "attribution": "DATASET_IDENTITY",
+      "before": "sha256:0ef4299dde504a202b96bce06183b91f38081e0f83f7d9a2d64ec7fc204d0579",
+      "after": "sha256:21cf25222fcdf0ac31d8e285c631b272f8d3d5e8567f2ed9594e4fff81725847"
+    },
+    {
+      "path": ".dividends.netDebtToEbitda.basis",
+      "attribution": "DIVIDEND_COVERAGE_UNBLOCKED",
+      "before": "<absent>",
+      "after": "DERIVED"
+    },
+    {
+      "path": ".dividends.netDebtToEbitda.presence",
+      "attribution": "DIVIDEND_COVERAGE_UNBLOCKED",
+      "before": "NOT_COMPUTABLE",
+      "after": "PRESENT"
+    },
+    {
+      "path": ".dividends.netDebtToEbitda.reason",
+      "attribution": "DIVIDEND_COVERAGE_UNBLOCKED",
+      "before": "NOT_REPORTED",
+      "after": "<absent>"
+    },
+    {
+      "path": ".dividends.netDebtToEbitda.source",
+      "attribution": "DIVIDEND_COVERAGE_UNBLOCKED",
+      "before": "<absent>",
+      "after": "<collection>"
+    },
+    {
+      "path": ".dividends.netDebtToEbitda.value",
+      "attribution": "DIVIDEND_COVERAGE_UNBLOCKED",
+      "before": null,
+      "after": -0.47019642162582653
+    },
+    {
+      "path": ".dividends.verdict",
+      "attribution": "DIVIDEND_COVERAGE_UNBLOCKED",
+      "before": "INSUFFICIENT_EVIDENCE",
+      "after": "COVERED"
+    },
+    {
+      "path": ".dividends.withheld",
+      "attribution": "DIVIDEND_COVERAGE_UNBLOCKED",
+      "before": "<collection>",
+      "after": null
+    },
+    {
+      "path": ".evidence",
+      "attribution": "NARRATIVE",
+      "before": "<collection>",
+      "after": "<collection>"
+    },
+    {
+      "path": ".fundamentals.annual",
+      "attribution": "DERIVED_SERIES",
+      "before": "<collection>",
+      "after": "<collection>"
+    },
+    {
+      "path": ".fundamentals.capitalStructure.components.currentMaturities.basis",
+      "attribution": "DEBT_DECLARATION",
+      "before": "<absent>",
+      "after": "AS_FILED"
+    },
+    {
+      "path": ".fundamentals.capitalStructure.components.currentMaturities.filingRef",
+      "attribution": "DEBT_DECLARATION",
+      "before": "<absent>",
+      "after": "INFY-INDAS-CONSOL-FY24"
+    },
+    {
+      "path": ".fundamentals.capitalStructure.components.currentMaturities.note",
+      "attribution": "DEBT_DECLARATION",
+      "before": "<absent>",
+      "after": "The Group has no outstanding borrowings."
+    },
+    {
+      "path": ".fundamentals.capitalStructure.components.currentMaturities.periodEnd",
+      "attribution": "DEBT_DECLARATION",
+      "before": "<absent>",
+      "after": "2024-03-31"
+    },
+    {
+      "path": ".fundamentals.capitalStructure.components.currentMaturities.presence",
+      "attribution": "DEBT_DECLARATION",
+      "before": "MISSING",
+      "after": "NIL_BY_DISCLOSURE"
+    },
+    {
+      "path": ".fundamentals.capitalStructure.components.currentMaturities.reason",
+      "attribution": "DEBT_DECLARATION",
+      "before": "NOT_REPORTED",
+      "after": "DECLARED_NIL_IN_SOURCE"
+    },
+    {
+      "path": ".fundamentals.capitalStructure.components.currentMaturities.source",
+      "attribution": "DEBT_DECLARATION",
+      "before": "<absent>",
+      "after": "<collection>"
+    },
+    {
+      "path": ".fundamentals.capitalStructure.components.longTermBorrowings.basis",
+      "attribution": "DEBT_DECLARATION",
+      "before": "<absent>",
+      "after": "AS_FILED"
+    },
+    {
+      "path": ".fundamentals.capitalStructure.components.longTermBorrowings.filingRef",
+      "attribution": "DEBT_DECLARATION",
+      "before": "<absent>",
+      "after": "INFY-INDAS-CONSOL-FY24"
+    },
+    {
+      "path": ".fundamentals.capitalStructure.components.longTermBorrowings.note",
+      "attribution": "DEBT_DECLARATION",
+      "before": "<absent>",
+      "after": "The Group has no outstanding borrowings."
+    },
+    {
+      "path": ".fundamentals.capitalStructure.components.longTermBorrowings.periodEnd",
+      "attribution": "DEBT_DECLARATION",
+      "before": "<absent>",
+      "after": "2024-03-31"
+    },
+    {
+      "path": ".fundamentals.capitalStructure.components.longTermBorrowings.presence",
+      "attribution": "DEBT_DECLARATION",
+      "before": "MISSING",
+      "after": "NIL_BY_DISCLOSURE"
+    },
+    {
+      "path": ".fundamentals.capitalStructure.components.longTermBorrowings.reason",
+      "attribution": "DEBT_DECLARATION",
+      "before": "NOT_REPORTED",
+      "after": "DECLARED_NIL_IN_SOURCE"
+    },
+    {
+      "path": ".fundamentals.capitalStructure.components.longTermBorrowings.source",
+      "attribution": "DEBT_DECLARATION",
+      "before": "<absent>",
+      "after": "<collection>"
+    },
+    {
+      "path": ".fundamentals.capitalStructure.components.preferenceCapital.basis",
+      "attribution": "DEBT_DECLARATION",
+      "before": "<absent>",
+      "after": "AS_FILED"
+    },
+    {
+      "path": ".fundamentals.capitalStructure.components.preferenceCapital.filingRef",
+      "attribution": "DEBT_DECLARATION",
+      "before": "<absent>",
+      "after": "INFY-INDAS-CONSOL-FY24"
+    },
+    {
+      "path": ".fundamentals.capitalStructure.components.preferenceCapital.note",
+      "attribution": "DEBT_DECLARATION",
+      "before": "<absent>",
+      "after": "The Company has only one class of shares referred to as equity shares having a par value of ₹5/-."
+    },
+    {
+      "path": ".fundamentals.capitalStructure.components.preferenceCapital.periodEnd",
+      "attribution": "DEBT_DECLARATION",
+      "before": "<absent>",
+      "after": "2024-03-31"
+    },
+    {
+      "path": ".fundamentals.capitalStructure.components.preferenceCapital.presence",
+      "attribution": "DEBT_DECLARATION",
+      "before": "MISSING",
+      "after": "NIL_BY_DISCLOSURE"
+    },
+    {
+      "path": ".fundamentals.capitalStructure.components.preferenceCapital.reason",
+      "attribution": "DEBT_DECLARATION",
+      "before": "NOT_REPORTED",
+      "after": "DECLARED_NIL_IN_SOURCE"
+    },
+    {
+      "path": ".fundamentals.capitalStructure.components.preferenceCapital.source",
+      "attribution": "DEBT_DECLARATION",
+      "before": "<absent>",
+      "after": "<collection>"
+    },
+    {
+      "path": ".fundamentals.capitalStructure.components.shortTermBorrowings.basis",
+      "attribution": "DEBT_DECLARATION",
+      "before": "<absent>",
+      "after": "AS_FILED"
+    },
+    {
+      "path": ".fundamentals.capitalStructure.components.shortTermBorrowings.filingRef",
+      "attribution": "DEBT_DECLARATION",
+      "before": "<absent>",
+      "after": "INFY-INDAS-CONSOL-FY24"
+    },
+    {
+      "path": ".fundamentals.capitalStructure.components.shortTermBorrowings.note",
+      "attribution": "DEBT_DECLARATION",
+      "before": "<absent>",
+      "after": "The Group has no outstanding borrowings."
+    },
+    {
+      "path": ".fundamentals.capitalStructure.components.shortTermBorrowings.periodEnd",
+      "attribution": "DEBT_DECLARATION",
+      "before": "<absent>",
+      "after": "2024-03-31"
+    },
+    {
+      "path": ".fundamentals.capitalStructure.components.shortTermBorrowings.presence",
+      "attribution": "DEBT_DECLARATION",
+      "before": "MISSING",
+      "after": "NIL_BY_DISCLOSURE"
+    },
+    {
+      "path": ".fundamentals.capitalStructure.components.shortTermBorrowings.reason",
+      "attribution": "DEBT_DECLARATION",
+      "before": "NOT_REPORTED",
+      "after": "DECLARED_NIL_IN_SOURCE"
+    },
+    {
+      "path": ".fundamentals.capitalStructure.components.shortTermBorrowings.source",
+      "attribution": "DEBT_DECLARATION",
+      "before": "<absent>",
+      "after": "<collection>"
+    },
+    {
+      "path": ".fundamentals.capitalStructure.grossDebt.basis",
+      "attribution": "DEBT_DECLARATION",
+      "before": "<absent>",
+      "after": "DERIVED"
+    },
+    {
+      "path": ".fundamentals.capitalStructure.grossDebt.note",
+      "attribution": "DEBT_DECLARATION",
+      "before": "<absent>",
+      "after": "components declared nil by the filer, counted as zero under the capital-structure aggregation contract: shortTermBorrowings, currentMaturities, longTermBorrowings — each nil keeps its source and period in components"
+    },
+    {
+      "path": ".fundamentals.capitalStructure.grossDebt.presence",
+      "attribution": "DEBT_DECLARATION",
+      "before": "MISSING",
+      "after": "PRESENT"
+    },
+    {
+      "path": ".fundamentals.capitalStructure.grossDebt.reason",
+      "attribution": "DEBT_DECLARATION",
+      "before": "NOT_REPORTED",
+      "after": "<absent>"
+    },
+    {
+      "path": ".fundamentals.capitalStructure.grossDebt.source",
+      "attribution": "DEBT_DECLARATION",
+      "before": "<absent>",
+      "after": "<collection>"
+    },
+    {
+      "path": ".fundamentals.capitalStructure.grossDebt.value",
+      "attribution": "DEBT_DECLARATION",
+      "before": null,
+      "after": 83590000000
+    },
+    {
+      "path": ".fundamentals.capitalStructure.netDebt.basis",
+      "attribution": "DEBT_DECLARATION",
+      "before": "<absent>",
+      "after": "DERIVED"
+    },
+    {
+      "path": ".fundamentals.capitalStructure.netDebt.presence",
+      "attribution": "DEBT_DECLARATION",
+      "before": "MISSING",
+      "after": "PRESENT"
+    },
+    {
+      "path": ".fundamentals.capitalStructure.netDebt.reason",
+      "attribution": "DEBT_DECLARATION",
+      "before": "NOT_REPORTED",
+      "after": "<absent>"
+    },
+    {
+      "path": ".fundamentals.capitalStructure.netDebt.source",
+      "attribution": "DEBT_DECLARATION",
+      "before": "<absent>",
+      "after": "<collection>"
+    },
+    {
+      "path": ".fundamentals.capitalStructure.netDebt.value",
+      "attribution": "DEBT_DECLARATION",
+      "before": null,
+      "after": -193420000000
+    },
+    {
+      "path": ".fundamentals.capitalStructure.preferenceCapital.basis",
+      "attribution": "DEBT_DECLARATION",
+      "before": "<absent>",
+      "after": "AS_FILED"
+    },
+    {
+      "path": ".fundamentals.capitalStructure.preferenceCapital.filingRef",
+      "attribution": "DEBT_DECLARATION",
+      "before": "<absent>",
+      "after": "INFY-INDAS-CONSOL-FY24"
+    },
+    {
+      "path": ".fundamentals.capitalStructure.preferenceCapital.note",
+      "attribution": "DEBT_DECLARATION",
+      "before": "<absent>",
+      "after": "The Company has only one class of shares referred to as equity shares having a par value of ₹5/-."
+    },
+    {
+      "path": ".fundamentals.capitalStructure.preferenceCapital.periodEnd",
+      "attribution": "DEBT_DECLARATION",
+      "before": "<absent>",
+      "after": "2024-03-31"
+    },
+    {
+      "path": ".fundamentals.capitalStructure.preferenceCapital.presence",
+      "attribution": "DEBT_DECLARATION",
+      "before": "MISSING",
+      "after": "NIL_BY_DISCLOSURE"
+    },
+    {
+      "path": ".fundamentals.capitalStructure.preferenceCapital.reason",
+      "attribution": "DEBT_DECLARATION",
+      "before": "NOT_REPORTED",
+      "after": "DECLARED_NIL_IN_SOURCE"
+    },
+    {
+      "path": ".fundamentals.capitalStructure.preferenceCapital.source",
+      "attribution": "DEBT_DECLARATION",
+      "before": "<absent>",
+      "after": "<collection>"
+    },
+    {
+      "path": ".limitations",
+      "attribution": "NARRATIVE",
+      "before": "<collection>",
+      "after": "<collection>"
+    },
+    {
+      "path": ".moat.classification",
+      "attribution": "MOAT_UNBLOCKED",
+      "before": "INSUFFICIENT_EVIDENCE",
+      "after": "NARROW"
+    },
+    {
+      "path": ".moat.roicWaccSpread.consecutiveYearsPositive",
+      "attribution": "MOAT_UNBLOCKED",
+      "before": 0,
+      "after": 3
+    },
+    {
+      "path": ".moat.roicWaccSpread.spread.basis",
+      "attribution": "MOAT_UNBLOCKED",
+      "before": "<absent>",
+      "after": "DERIVED"
+    },
+    {
+      "path": ".moat.roicWaccSpread.spread.periodEnd",
+      "attribution": "MOAT_UNBLOCKED",
+      "before": "<absent>",
+      "after": "2024-03-31"
+    },
+    {
+      "path": ".moat.roicWaccSpread.spread.presence",
+      "attribution": "MOAT_UNBLOCKED",
+      "before": "NOT_COMPUTABLE",
+      "after": "PRESENT"
+    },
+    {
+      "path": ".moat.roicWaccSpread.spread.reason",
+      "attribution": "MOAT_UNBLOCKED",
+      "before": "NOT_REPORTED",
+      "after": "<absent>"
+    },
+    {
+      "path": ".moat.roicWaccSpread.spread.source",
+      "attribution": "MOAT_UNBLOCKED",
+      "before": "<absent>",
+      "after": "<collection>"
+    },
+    {
+      "path": ".moat.roicWaccSpread.spread.value",
+      "attribution": "MOAT_UNBLOCKED",
+      "before": null,
+      "after": 0.28792403733286076
+    },
+    {
+      "path": ".moat.withheld",
+      "attribution": "MOAT_UNBLOCKED",
+      "before": "<collection>",
+      "after": null
+    },
+    {
+      "path": ".risk.aggregate.reason",
+      "attribution": "RISK_EVALUATION_UNBLOCKED",
+      "before": "RISK_EVALUATION_PARTIAL",
+      "after": "NO_RISK_FACTOR_IDENTIFIED"
+    },
+    {
+      "path": ".risk.evaluation.completeness",
+      "attribution": "RISK_EVALUATION_UNBLOCKED",
+      "before": "PARTIAL",
+      "after": "COMPLETE"
+    },
+    {
+      "path": ".risk.evaluation.counts.evaluated",
+      "attribution": "RISK_EVALUATION_UNBLOCKED",
+      "before": 2,
+      "after": 3
+    },
+    {
+      "path": ".risk.evaluation.counts.notEvaluable",
+      "attribution": "RISK_EVALUATION_UNBLOCKED",
+      "before": 1,
+      "after": 0
+    },
+    {
+      "path": ".risk.evaluation.counts.passed",
+      "attribution": "RISK_EVALUATION_UNBLOCKED",
+      "before": 2,
+      "after": 3
+    },
+    {
+      "path": ".risk.evaluation.dimensions",
+      "attribution": "RISK_EVALUATION_UNBLOCKED",
+      "before": "<collection>",
+      "after": "<collection>"
+    },
+    {
+      "path": ".risk.evaluation.disposition",
+      "attribution": "RISK_EVALUATION_UNBLOCKED",
+      "before": "INDETERMINATE",
+      "after": "PASSED"
+    },
+    {
+      "path": ".risk.evaluation.note",
+      "attribution": "RISK_EVALUATION_UNBLOCKED",
+      "before": "2 of 3 applicable risk dimensions were evaluated and 1 could not be. No concern was raised by the dimensions that ran, and a partial evaluation is not a pass: the dimension that could not be evaluated is reported with its blocking inputs.",
+      "after": "All 3 applicable risk dimensions were evaluated and none crossed a policy threshold. That is a result of this taxonomy on these inputs, not a statement that no risk exists."
+    },
+    {
+      "path": ".valuation.intrinsic",
+      "attribution": "VALUATION_UNBLOCKED",
+      "before": null,
+      "after": "<collection>"
+    },
+    {
+      "path": ".valuation.marginOfSafety.band",
+      "attribution": "VALUATION_UNBLOCKED",
+      "before": null,
+      "after": "FAIR"
+    },
+    {
+      "path": ".valuation.marginOfSafety.mosVsLow.basis",
+      "attribution": "VALUATION_UNBLOCKED",
+      "before": "<absent>",
+      "after": "DERIVED"
+    },
+    {
+      "path": ".valuation.marginOfSafety.mosVsLow.presence",
+      "attribution": "VALUATION_UNBLOCKED",
+      "before": "NOT_COMPUTABLE",
+      "after": "PRESENT"
+    },
+    {
+      "path": ".valuation.marginOfSafety.mosVsLow.reason",
+      "attribution": "VALUATION_UNBLOCKED",
+      "before": "POLICY_INPUTS_UNAVAILABLE",
+      "after": "<absent>"
+    },
+    {
+      "path": ".valuation.marginOfSafety.mosVsLow.source",
+      "attribution": "VALUATION_UNBLOCKED",
+      "before": "<absent>",
+      "after": "<collection>"
+    },
+    {
+      "path": ".valuation.marginOfSafety.mosVsLow.value",
+      "attribution": "VALUATION_UNBLOCKED",
+      "before": null,
+      "after": -0.3487910862755592
+    },
+    {
+      "path": ".valuation.marginOfSafety.mosVsMid.basis",
+      "attribution": "VALUATION_UNBLOCKED",
+      "before": "<absent>",
+      "after": "DERIVED"
+    },
+    {
+      "path": ".valuation.marginOfSafety.mosVsMid.presence",
+      "attribution": "VALUATION_UNBLOCKED",
+      "before": "NOT_COMPUTABLE",
+      "after": "PRESENT"
+    },
+    {
+      "path": ".valuation.marginOfSafety.mosVsMid.reason",
+      "attribution": "VALUATION_UNBLOCKED",
+      "before": "POLICY_INPUTS_UNAVAILABLE",
+      "after": "<absent>"
+    },
+    {
+      "path": ".valuation.marginOfSafety.mosVsMid.source",
+      "attribution": "VALUATION_UNBLOCKED",
+      "before": "<absent>",
+      "after": "<collection>"
+    },
+    {
+      "path": ".valuation.marginOfSafety.mosVsMid.value",
+      "attribution": "VALUATION_UNBLOCKED",
+      "before": null,
+      "after": -0.08418738213693565
+    },
+    {
+      "path": ".valuation.marginOfSafety.refusal",
+      "attribution": "VALUATION_UNBLOCKED",
+      "before": "INTRINSIC_WITHHELD",
+      "after": null
+    },
+    {
+      "path": ".valuation.methods",
+      "attribution": "VALUATION_UNBLOCKED",
+      "before": "<collection>",
+      "after": "<collection>"
+    },
+    {
+      "path": ".valuation.sensitivity",
+      "attribution": "VALUATION_UNBLOCKED",
+      "before": "<collection>",
+      "after": "<collection>"
+    }
+  ],
+  "numbers": {
+    "grossDebtINR": 83590000000,
+    "grossDebtIsLeasesOnly": true,
+    "cashAndInvestmentsINR": 277010000000,
+    "netDebtINR": -193420000000,
+    "intrinsicPerShare": {
+      "low": 875.3394146903431,
+      "mid": 1088.972274952081,
+      "high": 1399.8105188789887
+    },
+    "weights": {
+      "DCF_FCFF": 0.6,
+      "EV_EBITDA": 0.1,
+      "PE_RELATIVE": 0.3
+    },
+    "priceINR": 1180.65,
+    "mosVsMid": -0.08418738213693565,
+    "mosVsLow": -0.3487910862755592,
+    "band": "FAIR",
+    "confidence": {
+      "before": 0.4939,
+      "after": 0.6736
+    }
+  },
+  "reading": {
+    "priceAccepted": true,
+    "intrinsicComputable": true,
+    "marginOfSafetyComputable": true,
+    "why": "the three borrowing components and the preference-capital component are NIL_BY_DISCLOSURE with the filer's own wording; gross debt = Ind AS 116 lease liabilities ₹8,359 crore; net debt = gross debt − (cash + liquid investments) = −₹19,342 crore (net cash); the enterprise-to-equity bridge is no longer blocked, so DCF_FCFF and EV_EBITDA produce per-share values and every weighted method has an output (INV-5), which is what makes the intrinsic blend exist"
+  },
+  "notChanged": [
+    "subject",
+    "artifact scope and report type",
+    "datasetClass",
+    "adequacy",
+    "qualityVerdict",
+    "fundamentals.ttm",
+    "fundamentals.quarterly",
+    "fundamentals.trends",
+    "sectorReferenceView",
+    "the price observation itself (value, date, source ref)",
+    "every policy version id"
+  ]
+}

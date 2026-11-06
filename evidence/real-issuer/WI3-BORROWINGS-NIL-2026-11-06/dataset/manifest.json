@@ -1,0 +1,55 @@
+{
+  "completenessPct": 100,
+  "contentDigest": "sha256:21cf25222fcdf0ac31d8e285c631b272f8d3d5e8567f2ed9594e4fff81725847",
+  "coverage": {
+    "annualPeriods": 3,
+    "corporateActions": 0,
+    "earliestPeriodEnd": "2022-03-31",
+    "issuers": 1,
+    "latestPeriodEnd": "2024-03-31",
+    "listings": 2,
+    "operatingMetricRecords": 0,
+    "prices": 1,
+    "quarterlyPeriods": 0,
+    "securities": 1
+  },
+  "dataAsOf": "2024-03-31",
+  "datasetSchema": "IIPS_INVESTMENT_FUNDAMENTALS_V1",
+  "datasetVersion": "sha256:21cf25222fcdf0ac31d8e285c631b272f8d3d5e8567f2ed9594e4fff81725847",
+  "digestScope": {
+    "excluded": [
+      "lastImportAt",
+      "importRunId",
+      "inputFileNames",
+      "fileOrder",
+      "fileMtimes",
+      "elapsedMillis"
+    ],
+    "included": [
+      "issuers",
+      "securities",
+      "listings",
+      "periods",
+      "prices",
+      "corporateActions",
+      "operatingMetrics",
+      "issues"
+    ]
+  },
+  "files": {
+    "corporateActions.json": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "issuers.json": "a5c964c83a3c74b482165000fa0f5d4d5aaa6ee186beba4f27d0d581fa82fa34",
+    "issues.json": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "listings.json": "515bae232bdfbbd7b5637aa1ced8253ea44a4318e2e3d6f9a633e010ca25eaa2",
+    "operatingMetrics.json": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "periods.json": "11d4787bd21d4812488b5514028091edc6f209be21b9bcdfe654ccd04576d7ab",
+    "prices.json": "a72eb0fd30d7874ba7e0842d8b8dc97bac76acbc336257094916610054c6b3ef",
+    "securities.json": "2722930e81b7c89931409d456bf25182de68aad554004af6ccb4b9b63af1db5c"
+  },
+  "importRunId": "run-2026-11-06T14:05:00.000Z",
+  "knownAsOf": "2026-11-06T14:05:00.000Z",
+  "lastImportAt": "2026-11-06T14:05:00.000Z",
+  "licence": "operator-supplied; not redistributable",
+  "provider": "operator-file-input",
+  "quality": "good"
+}

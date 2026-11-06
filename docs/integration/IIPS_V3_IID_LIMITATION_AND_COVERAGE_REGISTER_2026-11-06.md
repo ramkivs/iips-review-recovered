@@ -68,6 +68,10 @@ responsible phase · evidence references · last status update.
 | L-027 | IID-4 | Count-based diversification band and correlation coefficients are not computed | OPEN | 2026-11-06 |
 | L-028 | IID-5 | Change intelligence covers two report types; cross-model attribution is `UNAVAILABLE` | OPEN | 2026-11-06 |
 | L-029 | IID-5 | Materiality thresholds are published defaults; change reports have no substantive grammar | OPEN | 2026-11-06 |
+| L-030 | WI-2 | Price observation is single-exchange and operator-transcribed; no second feed corroborates it | OPEN | 2026-11-06 |
+| L-031 | WI-2 | Corporate-action table is empty, so "unadjusted price" is a dataset claim, not a verified history | OPEN | 2026-11-06 |
+| L-032 | WI-2 | The alignment rule forces a contemporary price; the margin cannot be run against a period-matched historical price | OPEN | 2026-11-06 |
+| L-033 | WI-2 (observed) | `mos-policy` freshness window: design R-6.4 says five trading days, implementation uses seven calendar days | OPEN | 2026-11-06 |
 
 ---
 
@@ -1061,3 +1065,300 @@ and the post-D-2 regression record are unmodified.
 
 Evidence: `docs/integration/IIPS_V3_IID_D3_RISK_REASON_SEMANTICS_2026-11-06.md` and
 `evidence/real-issuer/D3-RISK-REASON-SEMANTICS-2026-11-06/`.
+
+---
+
+## 16. Work Item 2 — market-price observation (2026-11-06; data evidence only)
+
+**No entry in `L-001` … `L-029` was closed, renumbered, softened, reinterpreted or re-statused by this section.** It
+records the first observation of a market price for the Work Item 1 issuer, the four limitations that observation
+exposes, and what the assessment now says — and does not say.
+
+**What changed.** One dataset record was added to the Work Item 1 inputs: a BSE end-of-day close for ISIN
+`INE009A01021` on trade date `2026-11-06` (₹1,180.65, `ClsPric`), sourced from
+`BhavCopy_BSE_CM_0_0_0_20261106_F_0000.CSV`. The dataset version moves
+`sha256:ca29c835…` → `sha256:0ef4299d…`; the assessment payload moves `8e23f025527e…` → `06be8f6680ec…`; a
+path-by-path comparison against a regenerated pre-WI-2 baseline finds thirteen differences, all inside the run clock,
+the dataset identity and the `valuation.marginOfSafety` block.
+
+**What it buys, and what it does not.** The margin-of-safety refusal moves from `NO_PRICE_OBSERVATION` to
+`INTRINSIC_WITHHELD`: the price limb of that blocker is closed, the value limb is not, because the issuer's borrowings
+remain `NOT_REPORTED` (D-2) and the intrinsic range stays withheld. Nothing about the issuer's risk position, moat,
+dividends, quality verdict or confidence changed — `PARTIAL` / `INDETERMINATE`, `INSUFFICIENT_EVIDENCE` and `0.4939`
+respectively stand exactly as §15 left them.
+
+### 16.1 L-030 — The observation is single-exchange and transcribed
+
+- **Originating phase:** IIPS v3.0 Work Item 2 (2026-11-06).
+- **Description:** the price was read from a BSE end-of-day file fetched by an operator-side tool and committed as a
+  one-row extract. The NSE archive (`sec_bhavdata_full_06112026.csv`) and the NSE quote API both returned HTTP 500
+  from this environment, so **no second feed corroborates the value**, and there is no automatic freshness or
+  reconciliation path — the observation is a verified *row*, not a verified *market*. Internal consistency checks
+  (session range, last-price agreement, implied VWAP, day-move sanity, ISIN/scrip match) pass; they bound, but do not
+  eliminate, transcription risk.
+- **Affected contracts / outputs:** `PriceRecord.source = DATASET_EOD`; `valuation.marginOfSafety` for this issuer; any
+  future claim that a price is "verified" or "provider-backed".
+- **Status:** `OPEN`.
+- **Downstream phases affected:** any real-issuer assessment that uses a price; any IID-6 statement about market-data
+  readiness.
+- **Consequence for user-visible results:** a margin of safety, once computable, will rest on one exchange's file with
+  no independent agreement test. The payload names the exact file and row, so the claim is auditable but not
+  corroborated.
+- **Required resolution / evidence:** a second, independent source for the same instrument and session (NSE bhavcopy,
+  or the IPD point-in-time store once populated with real data) agreeing within an explicit tolerance, plus an
+  acceptance test that fails when they disagree.
+- **Owner / responsible phase:** market-data integration (IPD PIT population), not this work item.
+- **Evidence:** `evidence/real-issuer/WI2-PRICE-OBSERVATION-2026-11-06/source/retrieval.json`
+  (`alternativesAttempted`, `nseCorroboration`).
+- **Last status update:** 2026-11-06 (opened).
+
+### 16.2 L-031 — "Unadjusted" is a statement about an empty table
+
+- **Originating phase:** IIPS v3.0 Work Item 2 (2026-11-06).
+- **Description:** the price record carries `adjustment: null`. The engine refuses a price that straddles a
+  per-share-affecting corporate action without a matching factor, but that guard can only fire on actions the dataset
+  declares — and the dataset's `corporate-actions.json` is empty (`coverage.corporateActions = 0`, `identity/
+  corporate-actions.json` carries `actions: []`). Nothing in this work item verifies Infosys's actual action history
+  between 2024-03-31 and 2026-11-06, and dataset schema v1 has no dividend-declaration record either (already recorded
+  in the payload's `limitations[]`).
+- **Affected contracts / outputs:** `PriceRecord.adjustment`; the `UNADJUSTED_PRICE_ACROSS_CORPORATE_ACTION` refusal;
+  any per-share comparison across an action boundary.
+- **Status:** `OPEN`.
+- **Downstream phases affected:** every per-share valuation and margin of safety on this issuer; any split/bonus
+  handling in a later work item.
+- **Consequence for user-visible results:** a margin of safety computed from this price would be correct only if no
+  per-share-affecting action occurred in the window — an assumption the evidence does not establish.
+- **Required resolution / evidence:** a corporate-action feed (or an operator-declared table) covering the window, with
+  an acceptance test showing the guard fires on a real declared action and that the factor is applied, not guessed.
+- **Owner / responsible phase:** dataset schema / corporate-action ingestion.
+- **Evidence:** `evidence/real-issuer/WI2-PRICE-OBSERVATION-2026-11-06/dataset/corporateActions.json` and
+  `dataset/manifest.json` (`coverage.corporateActions`).
+- **Last status update:** 2026-11-06 (opened).
+
+### 16.3 L-032 — The margin cannot be run against a period-matched historical price
+
+- **Originating phase:** IIPS v3.0 Work Item 2 (2026-11-06).
+- **Description:** design §R-6.4 and `selectPrice()` admit a price only when
+  `knownAsOf ≤ price.asOf ≤ generatedAt` and no older than the freshness window. A close from the statement period
+  (FY2024) is therefore refused by construction (`PRICE_PREDATES_KNOWLEDGE_CUTOFF`), and so is any close older than
+  the window (`PRICE_OUTSIDE_POLICY_WINDOW`). The observation date is consequently the run date, not the period end —
+  which is correct for a contemporary margin of safety, but means the product **cannot** answer "what did the margin
+  look like when the annual report was published" from this contract, and cannot back-test a valuation against the
+  price of the day.
+- **Affected contracts / outputs:** `valuation.marginOfSafety`; any historical/back-testing use of the assessment;
+  `asOf.knownAsOf` as a knowledge cutoff.
+- **Status:** `OPEN`.
+- **Downstream phases affected:** any performance-attribution, back-test or vintage-comparison surface; IID-5 change
+  intelligence where a price change is an input.
+- **Consequence for user-visible results:** a margin of safety is always "today's price against today's value from
+  last-filed statements", with the statements' age published separately as stale. It is not a historical series.
+- **Required resolution / evidence:** an explicit as-of price query path (a PIT store with a real vintage series), with
+  acceptance tests that pin both the admitted window and the refusal of a period-matched price — a *design* decision,
+  not a defect to be repaired by widening the window.
+- **Owner / responsible phase:** valuation policy / PIT integration.
+- **Evidence:** `evidence/real-issuer/WI2-PRICE-OBSERVATION-2026-11-06/README.md` §3;
+  `iips-platform/tests/investment/assessment-price.test.ts`.
+- **Last status update:** 2026-11-06 (opened).
+
+### 16.4 L-033 — Freshness window: design says five trading days, code uses seven calendar days
+
+- **Originating phase:** IIPS v3.0 Work Item 2 (2026-11-06, observed while establishing the alignment rule).
+- **Description:** design §R-6.4 states the default window as "5 trading days"; `VALUATION_POLICY.freshness
+  .priceMaxAgeDays` in `assessment/policy.ts` is **7 calendar days**, and `selectPrice()` measures calendar days. The
+  implementation is the more permissive of the two in wall-clock terms and the less precise in trading terms (a
+  seven-calendar-day window can span a holiday run; a five-trading-day window cannot).
+- **Affected contracts / outputs:** the `PRICE_OUTSIDE_POLICY_WINDOW` refusal; `mos-policy/1.0.0`.
+- **Status:** `OPEN` (recorded, deliberately not changed).
+- **Downstream phases affected:** any consumer that reasons about price freshness or reproduces a refusal boundary.
+- **Consequence for user-visible results:** none for this observation (age is 0 days against either reading), but a
+  price 6–7 days old would be admitted here where the design text says it should be refused.
+- **Required resolution / evidence:** a policy decision on which unit governs, then the version bump and the
+  acceptance test that pins it. **Not** taken here: this work item may not change valuation or risk policy.
+- **Owner / responsible phase:** valuation policy.
+- **Evidence:** `docs/integration/IIPS_V3_IID_INVESTMENT_INTELLIGENCE_DESIGN_REFINEMENT_2026-11-05.md` §R-6.4;
+  `iips-platform/src/investment/assessment/policy.ts` (`freshness.priceMaxAgeDays: 7`).
+- **Last status update:** 2026-11-06 (opened).
+
+### 16.5 What §16 does not change
+
+| Entry / item | Effect of this section |
+|---|---|
+| `L-001` … `L-029` | untouched; no status, identifier, order or wording changes |
+| `L-004` (synthetic reference dataset) | untouched: this is still one issuer through one operator path |
+| `L-006` (restricted cash `NOT_COMPUTABLE`) | untouched: `NOT_REPORTED`, and a price does not supply it |
+| `L-009` (no real issuer assessed) | untouched: one issuer, one path, no real-dataset coverage claim |
+| `L-014` (identity includes the assessment timestamp) | untouched; `RESOLVED` since IID-5 and not revisited |
+| D-2 (nil-by-disclosure, §14) | untouched: the three borrowings components stay `NOT_REPORTED`; **no nil is invented** |
+| D-3 (reason-code precision, §13/§15) | untouched: `PARTIAL` / `INDETERMINATE`, leverage dimension still blocked |
+| R-16 sector coverage | unchanged: 3 of 13 sectors |
+| Margin of safety | **state changed, status not improved**: refusal moves `NO_PRICE_OBSERVATION` → `INTRINSIC_WITHHELD`; still `NOT_COMPUTABLE`, still no band |
+
+**What this section explicitly does not claim.** No valuation, no verdict, no margin of safety, no investment
+conclusion, and no production-readiness or provider-backed market data. The intrinsic range remains withheld because
+the capital structure is incomplete; the price did not unblock it and was never expected to. No formula, threshold,
+weight, confidence cap or risk policy was changed, no IPD implementation was touched, and the Work Item 1, D-2 and
+D-3 evidence bundles plus `evidence/iid` are byte-identical to their state on `main` @ `41c4498`.
+
+Evidence: `docs/integration/IIPS_V3_IID_WI2_PRICE_OBSERVATION_2026-11-06.md` and
+`evidence/real-issuer/WI2-PRICE-OBSERVATION-2026-11-06/`.
+
+---
+
+## 17. Work Item 3 — borrowings declared nil, and the intrinsic chain (2026-11-06; primary evidence)
+
+**No entry in `L-001` … `L-033` was closed, renumbered, softened, reinterpreted or re-statused by this section.** It
+records the primary evidence that closes defect D-2's evidence limb for this issuer, the intrinsic valuation that
+evidence unblocks, and the three limitations the publication exposes.
+
+**What changed.** Four columns were added to the Work Item 1 statement rows and four cells were declared on the
+2024-03-31 CONSOLIDATED row — `LONG_TERM_BORROWINGS`, `SHORT_TERM_BORROWINGS`,
+`CURRENT_MATURITIES_OF_LONG_TERM_DEBT` and `PREFERENCE_CAPITAL` — each carrying the filer's own sentence from the
+FY2024 audited consolidated statements (Note 2.11: “The Group has no outstanding borrowings.”; Note 2.12: “The Company
+has only one class of shares referred to as equity shares having a par value of ₹5/-.”). Dataset version moves
+`sha256:0ef4299d…` → `sha256:21cf2522…`; payload moves `06be8f66…` → `83644bc6…` (51,196 B). A structural comparison
+against the Work Item 2 payload finds 96 changed paths, every one attributed to the declaration or to a block
+downstream of it, the dataset identity, the run clock or the narrative list.
+
+**What it buys.** Gross debt resolves to ₹8,359 crore (Ind AS 116 lease liabilities; the three declared nils are named
+in its note and counted as zero), net debt to **−₹19,342 crore**, and the enterprise-to-equity bridge opens. The
+intrinsic range is computed for the first time — ₹875.34 / ₹1,088.97 / ₹1,399.81 per share, spread 48.16 % — and the
+margin of safety moves from `INTRINSIC_WITHHELD` to **computed**: −8.42 % vs mid, −34.88 % vs low, band `FAIR`,
+`refusal: null`, against the unchanged Work Item 2 close of ₹1,180.65. Two other outputs blocked on the same missing
+input also resolve by their published rules: the leverage risk dimension (`PASSED`, −0.47× net debt / EBITDA) and the
+dividend coverage verdict (`COVERED`); the moat classification moves `INSUFFICIENT_EVIDENCE` → `NARROW`. Confidence
+moves `0.4939` → `0.6736` with the same two caps (`STALE_DATA`, `DILUTION_PROXY`).
+
+**What it does not buy.** No valuation formula, threshold, weight, confidence cap, policy version or dataset schema
+changed. No nil was invented: every declaration quotes the filer, the grammar refuses a bare `NIL`
+(`NIL_WITHOUT_QUOTED_WORDING`), a nil without provenance (`NIL_WITHOUT_PROVENANCE`) and a nil on a derived item
+(`NIL_ON_DERIVED_ITEM`), and the Work Item 1 and Work Item 2 datasets still publish `NOT_REPORTED`. `restrictedCash`
+and `associatesAndJV` remain `NOT_COMPUTABLE: NOT_REPORTED`. The band is a distance from a midpoint, not a
+recommendation; the payload still declares `decisionSupportOnly` and `noTradeExecution`.
+
+### 17.1 L-034 — The published valuation rests entirely on policy-default inputs, and the design's cap for that is not implemented
+
+- **Originating phase:** IIPS v3.0 Work Item 3 (2026-11-06).
+- **Description:** now that an intrinsic value is published, its inputs deserve the same audit as its arithmetic. All
+  three weighted methods use `POLICY_DEFAULT` parameters: the discount rate is the policy WACC (Rf 6.9 %, ERP 5.5 %,
+  β 1.0, 70/30 weights → 10.677961 %), the terminal growth is 4 %, `PE_RELATIVE` uses a 22× target multiple and
+  `EV_EBITDA` a 12× multiple, both flagged `multipleBasis: 'POLICY_DEFAULT'` in `assumptions.methodSpecific`. The
+  design requires that a `POLICY_DEFAULT` discount rate “caps confidence” (§R-4.3, design line 1631) and that a
+  `POLICY_DEFAULT` target multiple “caps confidence” (line 1634). `assessment/confidence.ts` implements six caps —
+  `ADEQUACY_PARTIAL`, `ADEQUACY_INSUFFICIENT`, `STALE_DATA`, `DILUTION_PROXY`, `DIVIDEND_SOURCE_CONFLICT`,
+  `HIGH_METHOD_DISAGREEMENT` — and **none of them is a policy-default penalty**; the published formula string lists
+  the same six. The components are published, so the disclosure half of §R-4.3 is satisfied; the cap half is not.
+- **Affected contracts / outputs:** `confidence.caps` and `confidence.combined` for every assessment whose rate or
+  multiples are policy defaults — which, on this dataset, is all of them; `assumptions.discountRate.basis`;
+  `assumptions.methodSpecific[*].multipleBasis`.
+- **Status:** `OPEN`.
+- **Downstream phases affected:** any consumer that treats `confidence.combined` as a proxy for valuation reliability;
+  IID-6 display of confidence next to a published intrinsic value.
+- **Consequence for user-visible results:** the confidence of 0.6736 does **not** carry a penalty for the fact that the
+  value is a policy-default value rather than an issuer-modelled one. Two assessments, one with an
+  operator-supplied WACC and one with the policy default, can currently report the same confidence.
+- **Required resolution / evidence:** a policy decision on the cap's name and factor (it is a policy constant, not an
+  implementation detail), the corresponding branch in `confidence.ts` and clause in the published formula, plus an
+  acceptance test that pins the difference between an `OPERATOR_SET`/`WACC_DERIVED` rate and a `POLICY_DEFAULT` one.
+  **Not** taken here: this work item may not change a confidence cap or add a policy constant.
+- **Owner / responsible phase:** valuation and confidence policy.
+- **Evidence:** `docs/integration/IIPS_V3_IID_INVESTMENT_INTELLIGENCE_DESIGN_REFINEMENT_2026-11-05.md` lines 1631,
+  1634; `iips-platform/src/investment/assessment/confidence.ts` (formula and cap list);
+  `iips-platform/src/investment/assessment/policy.ts` lines 102–131; the payload's `assumptions` block in
+  `evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/artifact/assessment-payload-wi3.json`.
+- **Last status update:** 2026-11-06 (opened).
+
+### 17.2 L-035 — A nil declaration is documentary: the link from the quoted sentence to the component it fills is not machine-checked
+
+- **Originating phase:** IIPS v3.0 Work Item 3 (2026-11-06).
+- **Description:** `NIL_BY_DISCLOSURE` guarantees three things mechanically — that wording was supplied, that a
+  `filing_ref` and a period exist, and that the item is not a derived one. It does **not** check that the wording is
+  *about* that component. Here two mappings are interpretive: a group-level sentence (“The Group has no outstanding
+  borrowings.”) is applied to each of three components, and a parent-level sentence about share classes (“The Company
+  has only one class of shares …”) is applied to the consolidated `PREFERENCE_CAPITAL` block. Both are argued in
+  `source/quotes.json` (`directOrDerived`, `scopeNuance`) and in the bundle README, so a reader can audit them — but a
+  later operator could declare, say, a nil long-term borrowing from a sentence about trade payables, and the ingester
+  would accept it.
+- **Affected contracts / outputs:** `components[*].presence = NIL_BY_DISCLOSURE`, `grossDebt`, `netDebt`, and
+  everything downstream of them (`valuation.intrinsic`, `marginOfSafety`, leverage risk dimension, dividend coverage,
+  moat).
+- **Status:** `OPEN`.
+- **Downstream phases affected:** every future real-issuer declaration, and any IID-4/IID-6 surface that presents a
+  declaration to a user as established fact.
+- **Consequence for user-visible results:** the nil is as good as the operator's mapping. The evidence trail makes a
+  wrong mapping *visible* (quoted wording, hashed extract, `filing_ref`, period) but not *impossible*.
+- **Required resolution / evidence:** a declaration grammar that binds a nil to a statement section and a line-item
+  class (or a review step that records who accepted the mapping), plus acceptance tests for a mismatched
+  section/component pair. Not a formula change and not attempted here.
+- **Owner / responsible phase:** ingestion grammar (D-2 lineage) with investment research review.
+- **Evidence:** `evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/source/quotes.json`;
+  `frontend/server/investment/cli/wi3BorrowingsNil.test.ts` (bare-`NIL` refusal);
+  `iips-platform` ingestion grammar for `NIL:` cells.
+- **Last status update:** 2026-11-06 (opened).
+
+### 17.3 L-036 — Associates/JV enter the enterprise-to-equity bridge as a policy zero that the payload never states
+
+- **Originating phase:** IIPS v3.0 Work Item 3 (2026-11-06), found while verifying the newly published intrinsic value
+  against its own published inputs.
+- **Description:** `equityValueFromEnterprise` converts enterprise value to equity value by subtracting net debt, NCI
+  and preference capital and **adding** `associatesAndJV` at carrying value. Design rule R-4.1 requires associates/JV at
+  carrying value; dataset schema v1 has no such line item, so the function's own comment calls the absence "a declared
+  policy zero — published in the method's assumptions, rather than a silent omission", and the function does build the
+  sentence *"associates/JV carrying value is not recorded in dataset schema v1; treated as zero by policy R-4.1 and
+  disclosed"*. That sentence is attached to the **intermediate equity observation**, which `perShare()` replaces with a
+  fresh observation; the composed payload therefore carries **no** such statement. What a reader can see is
+  `capitalStructure.associatesAndJV = NOT_COMPUTABLE: NOT_REPORTED` and nothing that says the bridge used zero for it.
+  The gap cost nothing while the bridge was blocked (Work Item 2); Work Item 3 opens the bridge, so a published
+  per-share value now rests on a substitution the payload does not state.
+- **Affected contracts / outputs:** `valuation.methods[DCF_FCFF|EV_EBITDA|EV_REVENUE].output.perShare*`,
+  `valuation.intrinsic.perShare`, `valuation.marginOfSafety`; `fundamentals.capitalStructure.associatesAndJV`;
+  `limitations`.
+- **Status:** `OPEN`.
+- **Downstream phases affected:** every enterprise-value method on every issuer; IID-6 display of a per-share value
+  whose inputs are claimed to be published.
+- **Consequence for user-visible results:** the intrinsic range is understated by any associates/JV carrying value the
+  issuer reports, and a reader cannot tell from the payload that the term was zero. The size is **unquantified** here:
+  it needs the issuer's non-current investment schedule, which schema v1 has no field for and this bundle does not
+  transcribe.
+- **Required resolution / evidence:** either carry the disclosure through composition (keep the note on the published
+  per-share observation, or add an explicit `POLICY_ZERO_INPUTS` list to the method assumptions), or add an
+  associates/JV line item to the dataset so the term is a reported number. Either is a contract change and neither is
+  in this work item's authority; the payload shape is untouched here.
+- **Owner / responsible phase:** assessment contract (valuation composition) with ingestion schema.
+- **Evidence:** `iips-platform/src/investment/assessment/capitalStructure.ts` lines 243–286 (the note is built, then
+  dropped by `perShare()`); the composed payload
+  `evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/artifact/assessment-payload-wi3.json`, where the strings
+  "associates/JV carrying value" and "treated as zero by policy" occur **zero** times while
+  `capitalStructure.associatesAndJV` is `NOT_COMPUTABLE / NOT_REPORTED`.
+- **Last status update:** 2026-11-06 (opened).
+
+### 17.4 What §17 does not change
+
+| Entry / item | Effect of this section |
+|---|---|
+| `L-001` … `L-033` | untouched; no status, identifier, order or wording changes |
+| `L-003` (derived items are never nil) | untouched and still enforced; all four declarations are on as-filed items |
+| `L-004` (synthetic reference dataset) | untouched: still one issuer through one operator path |
+| `L-006` (restricted cash `NOT_COMPUTABLE`) | untouched: still `NOT_COMPUTABLE`, and now **quantified** — the filing's ₹348 crore of restricted balances equals ₹8.40/share, 0.77 % of intrinsic mid |
+| `L-007` (diluted count is an EPS proxy) | untouched; `DILUTION_PROXY` cap still applied |
+| `L-009` (no real-issuer coverage claim) | untouched: one issuer, 3 of 13 sectors |
+| `L-030` (single-exchange price) | untouched: the price is the same single BSE record |
+| `L-031` (empty corporate-action table) | **untouched in status (`OPEN`), materially changed in effect**: a published margin of safety now assumes unverified share-base continuity from 2024-03-31 to 2026-11-06 |
+| `L-033` (freshness unit divergence) | untouched; **no effect** here — the price is 0 days old and inside both the 5-trading-day and 7-calendar-day readings |
+| `L-034`, `L-035` | added by this section and **not** fixed here: no confidence cap was introduced and no declaration grammar was changed |
+| D-2 (nil-by-disclosure, §14) | evidence limb **satisfied for this issuer**: the filing states the nil in words, and the declaration is quoted, hashed and referenced |
+| D-3 (reason-code precision, §13/§15) | untouched by code; its subject matter moved to `COMPLETE` / `PASSED` because the leverage input is no longer missing |
+| Margin of safety | **state changed to computed** — `INTRINSIC_WITHHELD` → `refusal: null`, band `FAIR`, −8.42 % vs mid |
+| R-16 sector coverage | unchanged: 3 of 13 sectors |
+
+**What this section explicitly does not claim.** No investment verdict, recommendation, target price or trade
+instruction — and no unconditional conclusion: the margin of safety is conditioned on share-base continuity the
+dataset cannot verify (`L-031`), on a valuation built entirely from policy-default inputs (`L-034`), on a nil
+whose mapping to its component is documentary (`L-035`), and on an associates/JV term the payload silently holds at
+zero (`L-036`). `FAIR` is a distance from the midpoint of a range, published beside the symmetric reference. The
+statements are 950 days old and the valuation is a policy-default valuation; both are stated in the payload and in
+§17.1. No formula, threshold, weight, confidence cap, policy constant or valuation policy version was changed, and the
+Work Item 1, D-2, D-3 and Work Item 2 evidence bundles plus `evidence/iid` are byte-identical to their state on
+`main` @ `41c4498`.
+
+Evidence: `docs/integration/IIPS_V3_IID_WI3_BORROWINGS_NIL_2026-11-06.md` and
+`evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/`.
