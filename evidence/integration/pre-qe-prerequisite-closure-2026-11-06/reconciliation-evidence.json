@@ -1,0 +1,295 @@
+{
+  "date": "2026-11-06",
+  "baselineIRR": "41c4498b4aacae07ddeaa02b5bc81b852e9cb993",
+  "baselineIPD": "f9dac560b821476c417b963c83c80ad0e7747dc7",
+  "IPDInspection": "READ_ONLY_GITHUB_API_NO_CODE_EXECUTION",
+  "IPD130Tree": "e933652dd2c0f486d905de5b5346c8389eebae35",
+  "IPD130FirstParent": "1cde2324ed4b4d636248af9ea3d87b10cac3d031",
+  "readbacks": [
+    {
+      "repository": "iips-production-market-data",
+      "commit": "f9dac560b821476c417b963c83c80ad0e7747dc7",
+      "path": "evidence/cross-repository/IIPS_V3_D02_D03_D05_PR129_DEVIATION_CORRECTIONS_2026-11-06.md",
+      "blob": "1c0b683574419d97f13c5e28f5e8db6b68843ce4",
+      "sha256": "b15344937d392a2561c4b3a8ca4ba5ceac2d84d3003a50169f4f4c9bf1ef171f"
+    },
+    {
+      "repository": "iips-production-market-data",
+      "commit": "f9dac560b821476c417b963c83c80ad0e7747dc7",
+      "path": "evidence/cross-repository/IIPS_V3_D02_D03_D05_RECONSTRUCTION_IPD_IMPLEMENTATION_EVIDENCE_2026-11-06.md",
+      "blob": "e539bcdf500d0abc504dbe7c2842752a5caf14bf",
+      "sha256": "e4deff7815f60bf7ef1b204052f455e746f62e7a725459e139105653aabbd672"
+    },
+    {
+      "repository": "iips-production-market-data",
+      "commit": "f9dac560b821476c417b963c83c80ad0e7747dc7",
+      "path": "src/persistence/brokerImportPersistence.ts",
+      "blob": "49f5ecb3cff4675c500ca67f37378279ac69eda6",
+      "sha256": "4a575b127a9e043459e843431c9f0bbfae12a84778ca89614974f59cac118804"
+    },
+    {
+      "repository": "iips-production-market-data",
+      "commit": "f9dac560b821476c417b963c83c80ad0e7747dc7",
+      "path": "src/persistence/portfolio_store.ts",
+      "blob": "5c12c3842ecbb41647766549dee8af250ea4b3b4",
+      "sha256": "a9e4a8595ab603b2b2dc02fc5c474cb19526433c94d9dfad3ed1c6521db6e664"
+    },
+    {
+      "repository": "iips-production-market-data",
+      "commit": "f9dac560b821476c417b963c83c80ad0e7747dc7",
+      "path": "tests/durable_holdings_contract_v1.test.ts",
+      "blob": "109267322f50b92039463330fe273d5a6f70f022",
+      "sha256": "18a1ccfb4c08c2f0f4ebac52776ccbaa9bbd263af26fee467fca5b2f0a963909"
+    },
+    {
+      "repository": "iips-production-market-data",
+      "commit": "f9dac560b821476c417b963c83c80ad0e7747dc7",
+      "path": "tests/durable_holdings_recovery_v1.test.ts",
+      "blob": "71b44db94e4c7800fe5ebbf5bdd6ccf347a3677c",
+      "sha256": "47076bae45bdc74e33ce35fdbdeafbc5cff8d7ef765a6b2ebbd75125bc0e5f1d"
+    }
+  ],
+  "runs": [
+    {
+      "repository": "iips-production-market-data",
+      "id": 42169525038,
+      "event": "push",
+      "headSha": "1cde2324ed4b4d636248af9ea3d87b10cac3d031",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "repository": "iips-production-market-data",
+      "id": 42169388318,
+      "event": "pull_request",
+      "headSha": "2411f56510c9b178156974cc112046116eb45365",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "repository": "iips-production-market-data",
+      "id": 42220197722,
+      "event": "pull_request",
+      "headSha": "9f33937cfdf64dc509d55e80b10cf59af9ccecf6",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "repository": "iips-production-market-data",
+      "id": 42227275305,
+      "event": "push",
+      "headSha": "f9dac560b821476c417b963c83c80ad0e7747dc7",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "repository": "iips-review-recovered",
+      "id": 42216429847,
+      "event": "push",
+      "headSha": "1d8fc539a2e7cac8b19609b3164839dae1aaa69a",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "repository": "iips-review-recovered",
+      "id": 42216313190,
+      "event": "pull_request",
+      "headSha": "5652294ea2e132d2739525f103f3de0c609163ae",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "repository": "iips-review-recovered",
+      "id": 42213464762,
+      "event": "pull_request",
+      "headSha": "9505201c31ffc53862b3daa15c161724cd250772",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "repository": "iips-review-recovered",
+      "id": 42213959490,
+      "event": "push",
+      "headSha": "bd6387441a7a8c5a1992ac2d7685a1632b594c7c",
+      "status": "completed",
+      "conclusion": "success"
+    }
+  ],
+  "governingSources": [
+    {
+      "path": "docs/integration/IIPS_v3.0_PA_D02_D03_D05_ENGINEERING_ACT_2026-11-06.md",
+      "commit": "41c4498b4aacae07ddeaa02b5bc81b852e9cb993",
+      "blob": "cea7fed5618ed08683cf9d12d22b0a6e02c557f4",
+      "sha256": "8f1cc9c6d37b4797cb1d9f506136c9004eba7f6a84c9a7a360aea1b7a2510dc9"
+    },
+    {
+      "path": "docs/integration/IIPS_v3.0_PA_G4_C3_D01_D04_ADOPTION_ACT_2026-11-06.md",
+      "commit": "41c4498b4aacae07ddeaa02b5bc81b852e9cb993",
+      "blob": "71b6666a6038c9637e1729a4f8935d06a58cd169",
+      "sha256": "8d9848201ea2651c1922371233af03f30bfcd631507cc01f4fa86a95eae2e985"
+    },
+    {
+      "path": "docs/integration/DURABLE-HOLDINGS-CONTRACT-AND-QUALIFICATION-SPEC-v1-2026-11-06.md",
+      "commit": "41c4498b4aacae07ddeaa02b5bc81b852e9cb993",
+      "blob": "38c435995fe4b3d9e434ec02432c59f944c49a7a",
+      "sha256": "4f478ebd8158c0032b1041afca9cfae5e9dec7036eed067b8169cf6697e7ee40"
+    },
+    {
+      "path": "docs/integration/WS-A-G4-QE-H12-PIN-DESIGNATION-DECISION-PACKAGE-2026-11-05.md",
+      "commit": "41c4498b4aacae07ddeaa02b5bc81b852e9cb993",
+      "blob": "d95f31207cfc6dc757706619fc57ba17a460c620",
+      "sha256": "4f63e039da3a04f75cc75ed68c099d8e455f4a370306aff88e80625ea73cc261"
+    },
+    {
+      "path": "docs/integration/IIPS_v3.0_CAP02_QE_EXECUTION_MATRIX_AND_HOST_PREREQUISITES_2026-10-26.md",
+      "commit": "41c4498b4aacae07ddeaa02b5bc81b852e9cb993",
+      "blob": "28a623ace212fdaaab5dc621f46895856c700ebb",
+      "sha256": "8959c31a53df3ba6566ffebd1eb731d73b92cb99d0948b0f9308b003be6b33ab"
+    },
+    {
+      "path": "docs/integration/IIPS_v3.0_CAP02_QE8_RV1_REVOCATION_PROCEDURE_PA_ACT_EFFECTIVE_2026-10-26.md",
+      "commit": "41c4498b4aacae07ddeaa02b5bc81b852e9cb993",
+      "blob": "eaf8dda5e868a8a72814a65b8e11f2ffaa53fba4",
+      "sha256": "3eff1d875aa6ba563d2240e4fa93733e05b5e2dae1063104c4ae524cdf41279b"
+    },
+    {
+      "path": "docs/integration/WS-A-LIVE-EVIDENCE-RETENTION-PUBLICATION-RECEIPT-2026-11-05.md",
+      "commit": "41c4498b4aacae07ddeaa02b5bc81b852e9cb993",
+      "blob": "5497d9ee4ec7c9e0d979fa2768992456364708ed",
+      "sha256": "3da28f9bc0cfa57252ac52ab8df217d4bdf2f0f96a543f22569435a35907b108"
+    },
+    {
+      "path": "docs/integration/WS-A-OWNER-EVIDENCE-RESET-IMPLEMENTATION-RECEIPT-2026-11-06.md",
+      "commit": "41c4498b4aacae07ddeaa02b5bc81b852e9cb993",
+      "blob": "97f52d2d97044d92694f134e207df5e76d62f2f7",
+      "sha256": "2f1df21acdd69eb0b59d0cf540be81e3bab40842fc6f96d11e4556e049199ebc"
+    },
+    {
+      "path": "evidence/integration/d02-d03-d05-engineering-2026-11-06/current-register.json",
+      "commit": "41c4498b4aacae07ddeaa02b5bc81b852e9cb993",
+      "blob": "bde84f8a9bf92b836b80b3ab0d46ef8a185042bd",
+      "sha256": "66c8f7c723cd2061a960108500942a0996e0824a3615e1023094586442399af8"
+    },
+    {
+      "path": "evidence/integration/d02-d03-d05-engineering-2026-11-06/PA-INSTRUCTION-OPERATIVE-TRANSCRIPT.txt",
+      "commit": "41c4498b4aacae07ddeaa02b5bc81b852e9cb993",
+      "blob": "920c4dcff0a2488eca3ddf02ec147d00e01b811b",
+      "sha256": "c14d862198bf56281e7c5470d5a15a70d67559724ff4feec649c408b5adcdb6d"
+    },
+    {
+      "path": "evidence/integration/d02-d03-d05-engineering-2026-11-06/IPD-LOCAL-RESULTS.json",
+      "commit": "41c4498b4aacae07ddeaa02b5bc81b852e9cb993",
+      "blob": "6dce16dd133967c24976a1ff272887b16645bc5a",
+      "sha256": "e9dd2949b80fbe370522b9678a4a96e5222756e55c853619e33c948977fd4469"
+    },
+    {
+      "path": "evidence/integration/d02-d03-d05-engineering-2026-11-06/IPD-RECONSTRUCTION-PUBLICATION-RECEIPT-2026-11-06.md",
+      "commit": "41c4498b4aacae07ddeaa02b5bc81b852e9cb993",
+      "blob": "7d440c5da3e65149b6523ab92d0784357d0d144f",
+      "sha256": "db23b198caa2379e09cadce0a87af85f80d34b69fb879b3d7c0b11ac3ff8339e"
+    },
+    {
+      "path": "evidence/integration/d02-d03-d05-engineering-2026-11-06/IPD-RECONSTRUCTION-RESULTS-2026-11-06.json",
+      "commit": "41c4498b4aacae07ddeaa02b5bc81b852e9cb993",
+      "blob": "a6de68c09bc2cb90848a52f95869227d2d22473b",
+      "sha256": "72d95334307b2e930fd5bb35c4864d1f3e32904c25836898e2faf63b1361c048"
+    },
+    {
+      "path": "frontend/package.json",
+      "commit": "41c4498b4aacae07ddeaa02b5bc81b852e9cb993",
+      "blob": "da28767b7e219bd31ab1b20e07a6a2450c098dd8",
+      "sha256": "f158b5b0116582241b6427dbc0c51ef485f6df5dd9a1a5eeeb456ce301e19253"
+    },
+    {
+      "path": "frontend/package-lock.json",
+      "commit": "41c4498b4aacae07ddeaa02b5bc81b852e9cb993",
+      "blob": "a8677d626ac407d7fdd9bf37ffd0037818bbfcee",
+      "sha256": "67813bb64a4bc6d4b89ca05185279a30daf99e05d8d917d9e4cb265401bd409a"
+    },
+    {
+      "path": "frontend/broker-import-package-profile.json",
+      "commit": "41c4498b4aacae07ddeaa02b5bc81b852e9cb993",
+      "blob": "ff5718edc88cf36192672ba856796755a450caab",
+      "sha256": "dbd2e564fd6350af9f0a22f9ad0315647eaef17ac0af24f434ffcfecec51aa2a"
+    },
+    {
+      "path": "frontend/server/user-portfolio/ipcPortAdapter.ts",
+      "commit": "41c4498b4aacae07ddeaa02b5bc81b852e9cb993",
+      "blob": "28ed45322589fffbe2740858a933996e3edcf49e",
+      "sha256": "ff7ba7ee26d604eceea69f57da09613aa08c9c7ec96d9438cc4d4c66cd9f78b3"
+    }
+  ],
+  "F1": "CLOSED_BOUNDED_ENGINEERING_NOT_QUALIFIED",
+  "F2": "PARTIAL_CORRECTION_RESIDUAL_BLOCKED",
+  "F3": "NO_MANDATORY_NEW_HASH_PERSISTENCE_REQUIREMENT_RETAINED_RECORD_LINK_UNPROVEN",
+  "F4": "INTERNAL_RESULT_NOT_WIRE_VIOLATION_PAIRED_V2_UNQUALIFIED",
+  "H01-H12": {
+    "H01": "NOT QUALIFIED",
+    "H02": "NOT QUALIFIED",
+    "H03": "NOT QUALIFIED",
+    "H04": "NOT QUALIFIED",
+    "H05": "NOT QUALIFIED",
+    "H06": "NOT QUALIFIED",
+    "H07": "NOT QUALIFIED",
+    "H08": "NOT QUALIFIED",
+    "H09": "NOT QUALIFIED",
+    "H10": "NOT QUALIFIED",
+    "H11": "NOT QUALIFIED",
+    "H12": "NOT QUALIFIED"
+  },
+  "H-12": "HISTORICAL_R5_EFFECTIVE_FINAL_REGENERATION_AND_ADOPTION_BLOCKED",
+  "QE": {
+    "QE-1": "NOT EXECUTED",
+    "QE-2": "NOT EXECUTED",
+    "QE-3": "NOT EXECUTED",
+    "QE-4": "NOT EXECUTED",
+    "QE-5": "NOT EXECUTED",
+    "QE-6": "NOT EXECUTED",
+    "QE-7": "NOT EXECUTED",
+    "QE-8": "NOT EXECUTED",
+    "QE-9": "NOT EXECUTED",
+    "QE-10": "NOT EXECUTED",
+    "QE-11": "NOT EXECUTED"
+  },
+  "DQ4": {
+    "satisfied": 8,
+    "required": 10,
+    "missing": [
+      7,
+      8
+    ]
+  },
+  "D06": "BLOCKED / NOT ADMITTED",
+  "W1Authorized": false,
+  "performedOperationalActions": [],
+  "IPD130Checks": [
+    {
+      "id": 127900546590,
+      "headSha": "9f33937cfdf64dc509d55e80b10cf59af9ccecf6",
+      "name": "executed test count",
+      "conclusion": "success",
+      "summary": "**1056 tests executed \u2014 1055 passed, 0 failed.** Guard: a run that executes zero tests fails (CV-35). Head: `9f33937cfdf64dc509d55e80b10cf59af9ccecf6`."
+    },
+    {
+      "id": 127900026774,
+      "headSha": "9f33937cfdf64dc509d55e80b10cf59af9ccecf6",
+      "name": "typecheck \u00b7 build \u00b7 test",
+      "conclusion": "success",
+      "summary": null
+    },
+    {
+      "id": 127924393757,
+      "headSha": "f9dac560b821476c417b963c83c80ad0e7747dc7",
+      "name": "executed test count",
+      "conclusion": "success",
+      "summary": "**1056 tests executed \u2014 1055 passed, 0 failed.** Guard: a run that executes zero tests fails (CV-35). Head: `f9dac560b821476c417b963c83c80ad0e7747dc7`."
+    },
+    {
+      "id": 127923841696,
+      "headSha": "f9dac560b821476c417b963c83c80ad0e7747dc7",
+      "name": "typecheck \u00b7 build \u00b7 test",
+      "conclusion": "success",
+      "summary": null
+    }
+  ]
+}
