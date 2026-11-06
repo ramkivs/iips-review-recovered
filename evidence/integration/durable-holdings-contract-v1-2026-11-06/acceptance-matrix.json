@@ -1,0 +1,218 @@
+[
+  {
+    "id": "H01",
+    "requirement": "Correct repo/runtime/schema/consumed inventory, protected foundations",
+    "verification_method": "Source identities plus separately authorized native host and artifact inventory audit",
+    "tests": [
+      "T01",
+      "T02"
+    ],
+    "required_artifacts": [
+      "T01.json",
+      "T02.json"
+    ],
+    "expected_result": "Matching exact blobs/pins/runtime; drift stops",
+    "dependency": "D05 exact scope; G4 pin/host conditions",
+    "accountable_owner": "IPD/IRR maintainers + operator",
+    "current_status": "SOURCE_VERIFIED_HOST_UNQUALIFIED",
+    "completion_criteria": "Exact authorized test/host evidence at named commits, expected invariants actually observed, limitations retained and required PA result acceptance separately rendered; schema/spec validation alone is not completion."
+  },
+  {
+    "id": "H02",
+    "requirement": "Trusted owner and membership; absent/foreign/revoked/multiple or injected identity denied",
+    "verification_method": "Negative identity and serialized revocation fixtures",
+    "tests": [
+      "T03",
+      "T04"
+    ],
+    "required_artifacts": [
+      "T03.json",
+      "T04.json"
+    ],
+    "expected_result": "Zero bytes Class P; zero domain delta; foreign equals missing",
+    "dependency": "D02 effective owner extension",
+    "accountable_owner": "IPD owner/operator",
+    "current_status": "BLOCKED_D02",
+    "completion_criteria": "Exact authorized test/host evidence at named commits, expected invariants actually observed, limitations retained and required PA result acceptance separately rendered; schema/spec validation alone is not completion."
+  },
+  {
+    "id": "H03",
+    "requirement": "Stable snapshot persistence across process restarts",
+    "verification_method": "Authorized create/save/restart/readback fixture and later accepted host proof",
+    "tests": [
+      "T05",
+      "T06"
+    ],
+    "required_artifacts": [
+      "T05.json",
+      "T06.json"
+    ],
+    "expected_result": "Stable ID, revision and exact non-empty holdings/contribution lineage",
+    "dependency": "D05 authority and D02/D03 contracts",
+    "accountable_owner": "IPD + IRR + operator",
+    "current_status": "DEFINED_NOT_EXECUTED",
+    "completion_criteria": "Exact authorized test/host evidence at named commits, expected invariants actually observed, limitations retained and required PA result acceptance separately rendered; schema/spec validation alone is not completion."
+  },
+  {
+    "id": "H04",
+    "requirement": "Canonical identity and whole-import refusal",
+    "verification_method": "Negative/positive resolver and input guards, separate genuine input leg",
+    "tests": [
+      "T07",
+      "T08"
+    ],
+    "required_artifacts": [
+      "T07.json",
+      "T08.json"
+    ],
+    "expected_result": "No partial save; no guessed identifiers; zero delta on refusal",
+    "dependency": "D05 fixtures; A5/A6/A7 for real data",
+    "accountable_owner": "IPD identity/store owner",
+    "current_status": "DEFINED_REAL_DATA_BLOCKED",
+    "completion_criteria": "Exact authorized test/host evidence at named commits, expected invariants actually observed, limitations retained and required PA result acceptance separately rendered; schema/spec validation alone is not completion."
+  },
+  {
+    "id": "H05",
+    "requirement": "Serialized optimistic concurrency and duplicate protection",
+    "verification_method": "Races/busy/stale/revocation fault vectors",
+    "tests": [
+      "T09",
+      "T10"
+    ],
+    "required_artifacts": [
+      "T09.json",
+      "T10.json"
+    ],
+    "expected_result": "One committed revision at most; no write retry or cached authority",
+    "dependency": "D03 ordering and D05 test authority",
+    "accountable_owner": "IPD transaction owner",
+    "current_status": "DEFINED_NOT_EXECUTED",
+    "completion_criteria": "Exact authorized test/host evidence at named commits, expected invariants actually observed, limitations retained and required PA result acceptance separately rendered; schema/spec validation alone is not completion."
+  },
+  {
+    "id": "H06",
+    "requirement": "Atomic failure handling, unknown outcome and startup integrity",
+    "verification_method": "Faults at every mutation/commit/ack boundary in isolated stores",
+    "tests": [
+      "T11",
+      "T12"
+    ],
+    "required_artifacts": [
+      "T11.json",
+      "T12.json"
+    ],
+    "expected_result": "Complete revision or none; UNKNOWN if not provable; tamper refused",
+    "dependency": "D05 isolated fault-injection authority",
+    "accountable_owner": "IPD transaction owner + IRR",
+    "current_status": "DEFINED_NOT_EXECUTED",
+    "completion_criteria": "Exact authorized test/host evidence at named commits, expected invariants actually observed, limitations retained and required PA result acceptance separately rendered; schema/spec validation alone is not completion."
+  },
+  {
+    "id": "H07",
+    "requirement": "Duplicate/lineage and mode semantics are exact",
+    "verification_method": "Original/equivalent/earlier digest and baseline-vs-successor cap tests",
+    "tests": [
+      "T13",
+      "T14"
+    ],
+    "required_artifacts": [
+      "T13.json",
+      "T14.json"
+    ],
+    "expected_result": "No-op preserves original lineage; unadmitted replace/reset/delete stay refused",
+    "dependency": "D03 exact semantics, D05 scope",
+    "accountable_owner": "IPD/IRR contract owners",
+    "current_status": "DEFINED_PA_CONTRACT_REQUIRED",
+    "completion_criteria": "Exact authorized test/host evidence at named commits, expected invariants actually observed, limitations retained and required PA result acceptance separately rendered; schema/spec validation alone is not completion."
+  },
+  {
+    "id": "H08",
+    "requirement": "Cap successor and retained immutable revision lifecycle",
+    "verification_method": "Beyond-four and safe-integer tests; old-history comparison",
+    "tests": [
+      "T15",
+      "T16"
+    ],
+    "required_artifacts": [
+      "T15.json",
+      "T16.json"
+    ],
+    "expected_result": "Monotonic 1-based revisions, no purge/compaction; explicit overflow refusal",
+    "dependency": "D03 lifecycle adoption + D05 authority",
+    "accountable_owner": "IPD store owner",
+    "current_status": "BLOCKED_D03_D05",
+    "completion_criteria": "Exact authorized test/host evidence at named commits, expected invariants actually observed, limitations retained and required PA result acceptance separately rendered; schema/spec validation alone is not completion."
+  },
+  {
+    "id": "H09",
+    "requirement": "Consistent backup, isolated recovery and refusal of unsafe restore",
+    "verification_method": "Quiescent copy/hash/manifest/restore and corruption/collision tests",
+    "tests": [
+      "T17",
+      "T18"
+    ],
+    "required_artifacts": [
+      "T17.json",
+      "T18.json"
+    ],
+    "expected_result": "Exact history integrity and revoked-owner refusal; no overwrite of new data",
+    "dependency": "D05 host/backup scope; separately authorized operational restore",
+    "accountable_owner": "Operator + IPD",
+    "current_status": "DEFINED_HOST_EVIDENCE_REQUIRED",
+    "completion_criteria": "Exact authorized test/host evidence at named commits, expected invariants actually observed, limitations retained and required PA result acceptance separately rendered; schema/spec validation alone is not completion."
+  },
+  {
+    "id": "H10",
+    "requirement": "Actual receipt and non-empty contribution/readback/browser mapping",
+    "verification_method": "Schema vectors plus later consumer/IPC/UI conformance tests",
+    "tests": [
+      "T19",
+      "T20"
+    ],
+    "required_artifacts": [
+      "T19.json",
+      "T20.json"
+    ],
+    "expected_result": "No fake fields/counts/durability, no NULL coercion or false saved state",
+    "dependency": "D03 projection/DR4r amendment; D05 implementation; D06 admission",
+    "accountable_owner": "IRR/IPD contract owners",
+    "current_status": "SCHEMAS_VALIDATED_RUNTIME_UNQUALIFIED",
+    "completion_criteria": "Exact authorized test/host evidence at named commits, expected invariants actually observed, limitations retained and required PA result acceptance separately rendered; schema/spec validation alone is not completion."
+  },
+  {
+    "id": "H11",
+    "requirement": "Existing governing QE and independent qualification/result/admission requirements",
+    "verification_method": "Exact prescribed QE set and ID-specific D06 evidence gate",
+    "tests": [
+      "T21",
+      "T22"
+    ],
+    "required_artifacts": [
+      "T21.json",
+      "T22.json"
+    ],
+    "expected_result": "Required outcomes actually accepted; no fixture or Linux-only substitute",
+    "dependency": "C3/G4 and D05/D06 formal authorities",
+    "accountable_owner": "PA accepts; operator executes",
+    "current_status": "BLOCKED_G4_D05_D06",
+    "completion_criteria": "Exact authorized test/host evidence at named commits, expected invariants actually observed, limitations retained and required PA result acceptance separately rendered; schema/spec validation alone is not completion."
+  },
+  {
+    "id": "H12",
+    "requirement": "Unrelated/frozen/PF1/W1/evidence controls and no ledger remain intact",
+    "verification_method": "Strict source/authority scope audit now; future negative runtime regressions",
+    "tests": [
+      "T23",
+      "T24"
+    ],
+    "required_artifacts": [
+      "T23.json",
+      "T24.json"
+    ],
+    "expected_result": "No weakened fence/ownership/control, accounting or synthetic-real substitution",
+    "dependency": "Existing frozen controls and D05 exact change allowlist",
+    "accountable_owner": "IRR/IPD maintainers; PA scope",
+    "current_status": "SOURCE_PRESERVED_RUNTIME_NOT_EXECUTED",
+    "completion_criteria": "Exact authorized test/host evidence at named commits, expected invariants actually observed, limitations retained and required PA result acceptance separately rendered; schema/spec validation alone is not completion."
+  }
+]

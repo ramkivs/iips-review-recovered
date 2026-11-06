@@ -1,0 +1,867 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:iips:durable-snapshots:spec:1.0.0",
+  "title": "Candidate D03 schemas; NOT an admitted wire change or runtime validator",
+  "$comment": "Candidate consumer contract 2.0.0 / frame v=2, requiring D03 express approval and exact paired deployment. Existing v1 remains unchanged. JSON validation is not authorization, identity resolution, integrity or qualification.",
+  "$defs": {
+    "ObservedHolding": {
+      "type": "object",
+      "properties": {
+        "symbol": {
+          "type": "string",
+          "minLength": 1
+        },
+        "isin": {
+          "type": "string",
+          "minLength": 1
+        },
+        "exchange": {
+          "enum": [
+            "NSE",
+            "BSE"
+          ]
+        },
+        "quantity": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "averageBuyPrice": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "currentPrice": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "marketValue": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "weightPercentage": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "active": {
+          "type": "boolean"
+        },
+        "sourceBroker": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "symbol",
+        "quantity",
+        "averageBuyPrice",
+        "currentPrice",
+        "marketValue",
+        "weightPercentage",
+        "active",
+        "sourceBroker"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "active": {
+                "const": true
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "quantity": {
+                "exclusiveMinimum": 0
+              }
+            }
+          }
+        }
+      ]
+    },
+    "ReadHolding": {
+      "type": "object",
+      "properties": {
+        "symbol": {
+          "type": "string",
+          "minLength": 1
+        },
+        "quantity": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "averageBuyPrice": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "currentPrice": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "marketValue": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "weightPercentage": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "active": {
+          "type": "boolean"
+        },
+        "sourceBroker": {
+          "type": "string",
+          "minLength": 1
+        },
+        "companyId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "lineageDigest": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "identityStatus": {
+          "type": "string",
+          "minLength": 1
+        },
+        "resolutionDisposition": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "symbol",
+        "quantity",
+        "averageBuyPrice",
+        "currentPrice",
+        "marketValue",
+        "weightPercentage",
+        "active",
+        "sourceBroker",
+        "companyId",
+        "lineageDigest",
+        "identityStatus",
+        "resolutionDisposition"
+      ],
+      "additionalProperties": false
+    },
+    "SourceEvidence": {
+      "type": "object",
+      "properties": {
+        "fileName": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sourceBroker": {
+          "type": "string",
+          "minLength": 1
+        },
+        "importedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "evidenceRecordDigest": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      },
+      "required": [
+        "fileName",
+        "sourceBroker",
+        "importedAt",
+        "evidenceRecordDigest"
+      ],
+      "additionalProperties": false
+    },
+    "Contribution": {
+      "type": "object",
+      "properties": {
+        "contributionId": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "amount": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "contributedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "fileName": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sourceBroker": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "contentDigest": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "lineageDigest": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "importedAt": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "semantics": {
+          "enum": [
+            "SAVED_NEW_BATCH",
+            "MERGED_INTO_EXISTING",
+            "RESET",
+            "REPLACE",
+            null
+          ]
+        }
+      },
+      "required": [
+        "contributionId",
+        "amount",
+        "contributedAt",
+        "createdAt",
+        "fileName",
+        "sourceBroker",
+        "contentDigest",
+        "lineageDigest",
+        "importedAt",
+        "semantics"
+      ],
+      "additionalProperties": false
+    },
+    "Detail": {
+      "type": "object",
+      "properties": {
+        "portfolioId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "portfolioName": {
+          "type": "string",
+          "minLength": 1
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "holdingsCount": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "totalMarketValue": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "lastUpdated": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "weightSumPercentage": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "provenanceDigest": {
+          "type": "string"
+        },
+        "isSaved": {
+          "type": "boolean"
+        },
+        "holdings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ReadHolding"
+          }
+        },
+        "contributions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Contribution"
+          }
+        }
+      },
+      "required": [
+        "portfolioId",
+        "portfolioName",
+        "revision",
+        "holdingsCount",
+        "totalMarketValue",
+        "lastUpdated",
+        "weightSumPercentage",
+        "provenanceDigest",
+        "isSaved",
+        "holdings",
+        "contributions"
+      ],
+      "additionalProperties": false
+    },
+    "Summary": {
+      "type": "object",
+      "properties": {
+        "portfolioId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "portfolioName": {
+          "type": "string",
+          "minLength": 1
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "holdingsCount": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "totalMarketValue": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "lastUpdated": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "weightSumPercentage": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "provenanceDigest": {
+          "type": "string"
+        },
+        "isSaved": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "portfolioId",
+        "portfolioName",
+        "revision",
+        "holdingsCount",
+        "totalMarketValue",
+        "lastUpdated",
+        "weightSumPercentage",
+        "provenanceDigest",
+        "isSaved"
+      ],
+      "additionalProperties": false
+    },
+    "ListRequest": {
+      "type": "object",
+      "properties": {
+        "v": {
+          "const": 2
+        },
+        "op": {
+          "const": "portfolio.list"
+        },
+        "requestId": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "v",
+        "op"
+      ],
+      "additionalProperties": false
+    },
+    "GetRequest": {
+      "type": "object",
+      "properties": {
+        "v": {
+          "const": 2
+        },
+        "op": {
+          "const": "portfolio.get"
+        },
+        "requestId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "payload": {
+          "type": "object",
+          "properties": {
+            "portfolioId": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "portfolioId"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "v",
+        "op",
+        "payload"
+      ],
+      "additionalProperties": false
+    },
+    "RevisionsRequest": {
+      "type": "object",
+      "properties": {
+        "v": {
+          "const": 2
+        },
+        "op": {
+          "const": "portfolio.revisions"
+        },
+        "requestId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "payload": {
+          "type": "object",
+          "properties": {
+            "portfolioId": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "portfolioId"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "v",
+        "op",
+        "payload"
+      ],
+      "additionalProperties": false
+    },
+    "CreateRequest": {
+      "type": "object",
+      "properties": {
+        "v": {
+          "const": 2
+        },
+        "op": {
+          "const": "portfolio.create"
+        },
+        "requestId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "payload": {
+          "type": "object",
+          "properties": {
+            "portfolioName": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "v",
+        "op",
+        "payload"
+      ],
+      "additionalProperties": false
+    },
+    "SaveRequest": {
+      "type": "object",
+      "properties": {
+        "v": {
+          "const": 2
+        },
+        "op": {
+          "const": "portfolio.save"
+        },
+        "requestId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "payload": {
+          "type": "object",
+          "properties": {
+            "portfolioId": {
+              "type": "string",
+              "minLength": 1
+            },
+            "expectedRevision": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            "mode": {
+              "const": "MERGE"
+            },
+            "holdings": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "$ref": "#/$defs/ObservedHolding"
+              }
+            },
+            "contentDigest": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "broker": {
+              "type": "string",
+              "minLength": 1
+            },
+            "sourceEvidence": {
+              "$ref": "#/$defs/SourceEvidence"
+            }
+          },
+          "required": [
+            "portfolioId",
+            "expectedRevision",
+            "mode",
+            "holdings",
+            "contentDigest",
+            "broker",
+            "sourceEvidence"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "v",
+        "op",
+        "payload"
+      ],
+      "additionalProperties": false
+    },
+    "SaveReceipt": {
+      "type": "object",
+      "properties": {
+        "disposition": {
+          "enum": [
+            "SAVED_NEW_BATCH",
+            "MERGED_INTO_EXISTING",
+            "ALREADY_IMPORTED_NO_OP"
+          ]
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "durability": {
+          "enum": [
+            "SESSION_ONLY",
+            "DURABLE"
+          ]
+        },
+        "durable": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "disposition",
+        "revision",
+        "durability",
+        "durable"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "durability": {
+                "const": "DURABLE"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "durable": {
+                "const": true
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "durable": {
+                "const": false
+              }
+            }
+          }
+        }
+      ]
+    },
+    "Revision": {
+      "type": "object",
+      "properties": {
+        "revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "operation": {
+          "enum": [
+            "INITIAL",
+            "MERGE",
+            "REPLACE",
+            "RESET",
+            "DELETE"
+          ]
+        },
+        "committedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "contentDigest": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "totalMarketValue": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "provenanceDigest": {
+          "type": "string"
+        },
+        "holdingsCount": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "revision",
+        "operation",
+        "committedAt",
+        "totalMarketValue",
+        "provenanceDigest",
+        "holdingsCount"
+      ],
+      "additionalProperties": false
+    },
+    "SaveSuccess": {
+      "type": "object",
+      "properties": {
+        "v": {
+          "const": 2
+        },
+        "ok": {
+          "const": true
+        },
+        "op": {
+          "const": "portfolio.save"
+        },
+        "requestId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "result": {
+          "$ref": "#/$defs/SaveReceipt"
+        }
+      },
+      "required": [
+        "v",
+        "ok",
+        "op",
+        "result"
+      ],
+      "additionalProperties": false
+    },
+    "DetailSuccess": {
+      "type": "object",
+      "properties": {
+        "v": {
+          "const": 2
+        },
+        "ok": {
+          "const": true
+        },
+        "op": {
+          "enum": [
+            "portfolio.get",
+            "portfolio.create"
+          ]
+        },
+        "requestId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "result": {
+          "$ref": "#/$defs/Detail"
+        }
+      },
+      "required": [
+        "v",
+        "ok",
+        "op",
+        "result"
+      ],
+      "additionalProperties": false
+    },
+    "AuthorizedRefusal": {
+      "type": "object",
+      "properties": {
+        "v": {
+          "const": 2
+        },
+        "ok": {
+          "const": false
+        },
+        "op": {
+          "enum": [
+            "portfolio.create",
+            "portfolio.save",
+            "portfolio.list",
+            "portfolio.get",
+            "portfolio.revisions"
+          ]
+        },
+        "requestId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "outcome": {
+          "enum": [
+            "RESOURCE_UNAVAILABLE",
+            "INVALID_REQUEST",
+            "REVISION_CONFLICT",
+            "REFUSED_UNRESOLVED_IDENTITY",
+            "REFUSED_STORE_GUARD",
+            "WRITE_NOT_AUTHORIZED",
+            "UNAVAILABLE"
+          ]
+        },
+        "detail": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "v",
+        "ok",
+        "op",
+        "outcome"
+      ],
+      "additionalProperties": false
+    },
+    "ListSuccess": {
+      "type": "object",
+      "properties": {
+        "v": {
+          "const": 2
+        },
+        "ok": {
+          "const": true
+        },
+        "op": {
+          "const": "portfolio.list"
+        },
+        "requestId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "result": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Summary"
+          }
+        }
+      },
+      "required": [
+        "v",
+        "ok",
+        "op",
+        "result"
+      ],
+      "additionalProperties": false
+    },
+    "RevisionsSuccess": {
+      "type": "object",
+      "properties": {
+        "v": {
+          "const": 2
+        },
+        "ok": {
+          "const": true
+        },
+        "op": {
+          "const": "portfolio.revisions"
+        },
+        "requestId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "result": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Revision"
+          }
+        }
+      },
+      "required": [
+        "v",
+        "ok",
+        "op",
+        "result"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

@@ -441,3 +441,38 @@ IPD mutation, expansion, production, PF-1/frozen-authority or completed retentio
 Completed retention/retrieval and offline owner-only whole-active clearing, verified retained recovery copy,
 restore/resubmit resurrection and OS/filesystem limitations remain. IID-1/2/3/4 MERGED (IID-4 via #471),
 IID-5/6 NOT STARTED; R-16/L-001–L-027 not closed. **Workstream A / WS-A-DM NOT COMPLETE.**
+
+
+## 7. Prompt 8 — contract/readiness advance, no qualification promotion (`2026-11-06`)
+
+Read original criteria with effective-authority overlay §6 and tracker §16.264 / CV-CORR-244 / V2139,
+R2 §27. This is a versioned specification cross-reference, not a changed milestone definition.
+
+Specification `DURABLE-HOLDINGS-CONTRACT-AND-QUALIFICATION-SPEC-v1-2026-11-06.md`, version **1.0.0**,
+work item **WS-A-DH-CONTRACT-READINESS-03-2026-11-06**, and machine appendices at
+`evidence/integration/durable-holdings-contract-v1-2026-11-06/` complete documentary contract/test readiness.
+G4-2/D01/D04 remain EFFECTIVE from #474; no re-adoption or new Act ID. Canonical IPD repository and snapshot/
+contribution scope remain unchanged. D02 prospective owner/technical-tenant proposal, D03 precise lifecycle/
+API semantics, D05 named file/test/backup/host envelope and D06 admission gates are now explicit.
+
+New provenance/observed fields are a proposed **consumer contract 2.0.0 / frame v=2** amendment, not admitted
+v1 behavior. Existing v1/refusals stay unchanged. D03 choices include empty INITIAL creation, safe-integer
+cap successor/stale-first duplicate ordering, complete observed snapshot (no additive cross-broker union),
+no automatic retry and exact minimal-receipt/non-empty nullable contribution/readback mapping. PA must
+expressly decide the semantic/projection/DR/version amendments; this specification grants no runtime change.
+D02 request prospectively proposes owner-4dc756b3 with retained IPD technical tenant ipd-personal-local;
+evidence tenant/carrier is not holdings authority. Existing data requires separate exact disposition.
+
+P8-D02/D03/D05/D06-REQ-01 are **request IDs only**, not rendered acts. D02 NOT ADOPTED; D03 CONDITIONAL /
+PROPOSED; D04 EFFECTIVE; D05 separate implementation authority UNGRANTED; D06 CONDITIONAL / NOT ADMITTED.
+The operative authority register remains **3 effective / 12 pending**. H01–H12 all specified individually;
+20 synthetic JSON-schema vectors validated, **24 runtime test definitions NOT EXECUTED**. No H criterion
+is promoted to qualified/complete; real broker/host evidence remains distinct. D05/A-6 separate authority,
+A-5 genuine detailed ISIN/Exchange/provenance and A-7 after authorized A-6 remain outstanding. Missing source
+ISINs are unknown, not tested-absent. IID-1–4 MERGED, IID-5/6 NOT STARTED at rebaseline; R-16/L-001–L-027 retained.
+
+**READY for a subsequent bounded authorization decision; NOT authorized to implement or operate.**
+W-1 hard-false; QE **0/11**, Gate C/U4 **NOT RENDERED**; no Gate 4 acceptance/execution pin, holdings writes,
+operational DB access, IPD source/docs mutation, provisioning/migration, expansion, admission or production.
+PF-1, frozen authorities/owner isolation and completed retention/clearing unchanged, including retained
+recovery-copy/restore-resurrection limits. **WS-A/WS-A-DM NOT COMPLETE.** Publication CI/readback proof in final PR comment.

@@ -1,0 +1,165 @@
+{
+  "initialMain": "3d97b8bfa58316cc1d5bd703396569e5ba171696",
+  "integrationMain": "3d97b8bfa58316cc1d5bd703396569e5ba171696",
+  "branch": "arena/17ff8669-iips-review-recovered",
+  "authorityPR": 474,
+  "authorityReceipt": {
+    "id": 6669327470,
+    "url": "https://github.com/ramkivs/iips-review-recovered/pull/474#issuecomment-6669327470",
+    "bodySha256": "ffce5e6ce61cc04ead90dec9df97ea6e67a2d2422efb178ec6cb56d316a2c1de",
+    "body": "## EFFECTIVENESS RECEIPT \u2014 express PA adoption, 2026-11-06 (Asia/Calcutta)\n\n**Act `IIPS-V3-PA-THREE-DECISION-ADOPTION-2026-11-06-01` \u00a75 is DISCHARGED. The following three PA decisions are ADOPTED AND EFFECTIVE, not recommendations or pending choices.** Approval date and effective date: **2026-11-06**. The approval source is the actual explicit PA instruction, not this comment or the PR merge. This receipt supplies independent governing-publication evidence and no broader implementation authority.\n\n| Source decision | Effective authority ID | Exact bounded consequence |\n|---|---|---|\n| G4-2 | `IIPS-V3-CAP03-G4-C3-DEFERRAL-2026-11-06-01` | C-3 deferral only; no content/QE execution pin or acceptance. |\n| D01 | `IIPS-V3-G2-PORTFOLIO-REPOSITORY-DESIGNATION-2026-11-06-01` | Canonical IIPS G-2 portfolio repository is ramkivs/iips-production-market-data; IPO engine outside IIPS architecture/dependency tracking, no transfer or mutation. |\n| D04 | `IIPS-V3-G2-SNAPSHOT-SCOPE-CONFIRMATION-2026-11-06-01` | Holdings snapshots and contribution lineage only; trade/cash/tax-lot accounting excluded. |\n\n### Immutable instruction, authority and source\n\n- Express PA instruction [exact published bytes](https://github.com/ramkivs/iips-review-recovered/blob/3d97b8bfa58316cc1d5bd703396569e5ba171696/evidence/integration/pa-three-decision-adoption-2026-11-06/PA-INSTRUCTION.txt); Git blob `b4de75b2bb014d481f5f75881bb291889464c118`; SHA-256 `88893a170091f2fecadcecb6c931927cc87ad3b024cec95bf3e1e8fcca9964e3`. No message ID/signature/precise approval timestamp fabricated.\n- [Effective additive instrument](https://github.com/ramkivs/iips-review-recovered/blob/3d97b8bfa58316cc1d5bd703396569e5ba171696/docs/integration/IIPS_v3.0_PA_G4_C3_D01_D04_ADOPTION_ACT_2026-11-06.md), with exact wording, approval/effective date, three unique decision IDs and exclusions. All four IDs were unused in tracked authoritative baseline before rendering.\n- Source docket #472 verified at `6c49a065a5ae6d797f46482303e6804e478a3840`; immutable docket blob/SHA-256 and seven exact source readbacks are in baseline.json. Initial source baseline is not confused with the actual merge parent.\n- Operating branch `arena/eb43a2a5-iips-review-recovered`. Exact source head `58056d67915e9e81a9fa86412d922e7f4e98823a`, tree `96c8487e326dfb3a8d42ab56382d67d6a00b67a2`.\n- Merged/current authoritative main `3d97b8bfa58316cc1d5bd703396569e5ba171696`, tree `96c8487e326dfb3a8d42ab56382d67d6a00b67a2`. Actual first parent `6f24c8104a92ad825548fefd20aab2fc7c86198f` preserves concurrent #473's sole IID-4 post-merge verification file without changes.\n\n### \u00a75 publication/effectiveness conditions \u2014 all PASS\n\n1. Governing main contains the exact act/instruction/current register/readiness package/overlays: **13/13 exact paths at head and 13/13 at merge**. Independently API-read raw bytes match committed files; Git blob/SHA-256 identities checked. Task paths match head/merge. Branch still names the verified head and main the verified merge.\n2. Exact-head [CI 42108066174](https://github.com/ramkivs/iips-review-recovered/actions/runs/42108066174) **SUCCESS**; exact merged-main [CI 42108233504](https://github.com/ramkivs/iips-review-recovered/actions/runs/42108233504) **SUCCESS**, including pinned recovery-release audit. Required targeted checks PASS: Python compile, authority/instruction/ID/wording/register/readiness/scope, seven classification tests, CAP-03 static and whitespace. No product-suite rerun or operational tests.\n3. **2,758 prior blobs unchanged**, five overlays append-only. Historical acts and Prompt 5/6 evidence remain exact, with historical zero-adoption/pending snapshots superseded only for current status. Concurrent IID code/evidence, pins, workflows, PF-1, W-1 and retention/clearing implementations preserved.\n4. This publication comment records the above exact coordinates/evidence and discharges the act's receipt requirement. **No additional PA approval, IPD mirror write, implementation or receipt-commit loop is required for these IRR-locus documentary decisions.**\n\n### Current register and readiness\n\n[Current operative register](https://github.com/ramkivs/iips-review-recovered/blob/3d97b8bfa58316cc1d5bd703396569e5ba171696/evidence/integration/pa-three-decision-adoption-2026-11-06/current-register.json): **3 adopted/effective; 12 pending**, with the three removed from the pending array. Eight prior effective/settled crosswalks retained. Pending IDs and classes:\n\n| Pending ID | Unchanged classification |\n|---|---|\n| G4-1 | DEFERRED |\n| G4-3 | CONDITIONAL |\n| G4-4 | CONDITIONAL |\n| D02 | REQUIRES SEPARATE AUTHORIZATION |\n| D03 | CONDITIONAL |\n| D05 | REQUIRES SEPARATE AUTHORIZATION |\n| D06 | CONDITIONAL |\n| A-5 | CONDITIONAL |\n| A-6 | REQUIRES SEPARATE AUTHORIZATION |\n| A-7 | CONDITIONAL |\n| IID-DATA | CONDITIONAL |\n| IID-L016 | DEFERRED |\n\n[Next consolidated readiness package](https://github.com/ramkivs/iips-review-recovered/blob/3d97b8bfa58316cc1d5bd703396569e5ba171696/docs/integration/DURABLE-HOLDINGS-NEXT-EXECUTION-READINESS-PACKAGE-2026-11-06.md): **WS-A-DH-EXEC-READINESS-02-2026-11-06 PREPARED**. D01/D04 settle locus and snapshot domain: D03 exact semantic/test-vector preparation, D05 exact file/schema/test/backup/recovery/host envelope preparation and D06 snapshot-operation admission checklist can advance documentarily. D02 owner extension, D03 semantic approval, D05 separate explicit implementation authority, accepted host/QE results and distinct D06 operation admission still required. No conditional entry automatically adopted. A-6 expansion remains separately ungranted.\n\nRegistration: tracker \u00a716.263/CV-CORR-243/CHG-2026-11-06-06/V2138; docket \u00a78; consolidated paper \u00a710; R2 \u00a726; WS-A-DM \u00a76, all consistent and append-only. IPO historical comparisons remain historical only, excluded from active architecture/dependency tracking; no new IPO source inspection or dependency monitoring. Canonical IPD head remains `07e86a4f2c105651f3097a96cb519f8611945e30` and was only read, never mutated.\n\n**Safety status:** W-1 hard-false. Gate 4 unaccepted; QE 0/11; Gate C/U4 NOT RENDERED; Gate 5 NOT INITIATED/NOT ADMITTED; DQ-4 8/10; U6 NOT AUTHORIZED. No holdings writes, operational DB access, provisioning/migration, IPD/source mutation, D05 implementation, A-6 expansion, content/QE execution pin, production/activation, accounting ledger or ownership transfer. No frozen-authority/PF-1/control weakening or completed retention/clearing implementation changes. Verified retained recovery-copy/restore-resurrection and OS/filesystem limits preserved. IID-1\u20134 merged, IID-5/6 not started; no IID implementation or limitation closure. Workstream A/WS-A-DM NOT COMPLETE.\n\n### Exact remote path identities (head = merge)\n\n| Path | Git blob | Raw SHA-256 |\n|---|---|---|\n| `IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md` | `c0771b1465be330b4cb302d25b5b18b4e36eaed5` | `6d0ca2a71d6d3e7ced80c436f0a476b5b252e916fc35c87dc7307cff326acd0a` |\n| `docs/integration/CONSOLIDATED-GATE4-HOLDINGS-IDENTITY-PA-DECISION-PAPER-2026-11-06.md` | `918dc08cd3ac9ed769e935c4f6f90ee5ae2388f4` | `419c545289cc0777c2cad6a267baa98669ccca46c9fd60c5f4ccdc91008b8638` |\n| `docs/integration/DURABLE-HOLDINGS-NEXT-EXECUTION-READINESS-PACKAGE-2026-11-06.md` | `b2ac1e135ad6a019160cd517ca1bdacf05caa43b` | `25bedfe7b03ba6e2e3838f3189aeedec067144732069367109f9600dc4e961c2` |\n| `docs/integration/FORMAL-PA-DECISION-ADOPTION-DOCKET-2026-11-06.md` | `d1b8cefc3bdbb1f0feac3d42b001f73928c97f04` | `e9bfc4c62f0db2d294a4ff71b096289e9c930912ad03d3d728c26e4fe0be2f99` |\n| `docs/integration/IIPS_v3.0_PA_G4_C3_D01_D04_ADOPTION_ACT_2026-11-06.md` | `71b6666a6038c9637e1729a4f8935d06a58cd169` | `8d9848201ea2651c1922371233af03f30bfcd631507cc01f4fa86a95eae2e985` |\n| `docs/integration/WS-A-DHAN-BROKER-HOLDINGS-WORKSTREAM-REPORT-2026-11-05-R2.md` | `6241702ad96a29488de7adb8059512e88eec8f41` | `850c9558f648af1c9e68a45d0e9f531e2ce9b92de1720d62d62cf1fce7a2a8f1` |\n| `docs/integration/WS-A-DURABLE-USER-HOLDINGS-MILESTONE-DEFINITION-2026-11-05.md` | `419898546bd8b76798ce27fca7fb7e99d55dd65a` | `79ed237c6fdc1af487470368bae66c19446acc251739dc36b3e0db1dccf360c6` |\n| `evidence/integration/pa-three-decision-adoption-2026-11-06/PA-INSTRUCTION.txt` | `b4de75b2bb014d481f5f75881bb291889464c118` | `88893a170091f2fecadcecb6c931927cc87ad3b024cec95bf3e1e8fcca9964e3` |\n| `evidence/integration/pa-three-decision-adoption-2026-11-06/baseline.json` | `22027fbc2fda978dacede81d072eba77fc83e964` | `79bc3c711b0f62e7d9b3c82bd40773bee3038c3f6ae72700e81ca1e24908462c` |\n| `evidence/integration/pa-three-decision-adoption-2026-11-06/current-register.json` | `3c74891c21d996db3d3e821dc12d9fca8369a986` | `5405e52f5af866f853c603c20b29883a424b66b6e36a0647951afd6703aeceeb` |\n| `evidence/integration/pa-three-decision-adoption-2026-11-06/validate_scope.py` | `b1ea4455855711931220e99d0f8da4b3520e6c21` | `92827fe09719f52fdaead449e280e39b27709afe34c784a0cf2ae0621e4b8b71` |\n| `evidence/integration/pa-three-decision-adoption-2026-11-06/validation.txt` | `34382f51d1196838457899851b424b6eb79b885b` | `54413820b16de0725fd2773c82041410234623239d4c18726dca474180ae4757` |\n| `evidence/integration/pa-three-decision-adoption-2026-11-06/verify_remote.py` | `381c43aea69dddb256fc494634188fe3aa215e37` | `83f170cfdb28300abbac804395ce237edc416b14cd650e9a88091020cc2b56d6` |\n\n<details><summary>Independent merged API readback summary</summary>\n\n```json\n{\n  \"pr\": 474,\n  \"mode\": \"merged\",\n  \"branch\": \"arena/eb43a2a5-iips-review-recovered\",\n  \"sha\": \"3d97b8bfa58316cc1d5bd703396569e5ba171696\",\n  \"tree\": \"96c8487e326dfb3a8d42ab56382d67d6a00b67a2\",\n  \"comparisonParent\": \"6f24c8104a92ad825548fefd20aab2fc7c86198f\",\n  \"changedCount\": 13,\n  \"protectedPriorBlobCount\": 2758,\n  \"allProtectedPriorBlobsUnchanged\": true,\n  \"appendOnlyOverlayCount\": 5,\n  \"checkRuns\": [\n    {\n      \"name\": \"Python compile \\\u00b7 source/evidence/tracker validation\",\n      \"conclusion\": \"success\",\n      \"url\": \"https://github.com/ramkivs/iips-review-recovered/actions/runs/42108233504/job/127528650748\"\n    }\n  ],\n  \"canonicalIPDHeadUnchanged\": true,\n  \"authorityEffectivenessRule\": \"Act section 5; final receipt discharges verified governing publication\",\n  \"threeDecisionsAdopted\": true,\n  \"holdingsImplementationOrOperation\": false\n}\n```\n</details>\n"
+  },
+  "mainChecks": [
+    {
+      "name": "Python compile \u00b7 source/evidence/tracker validation",
+      "conclusion": "success",
+      "url": "https://github.com/ramkivs/iips-review-recovered/actions/runs/42108233504/job/127528650748"
+    }
+  ],
+  "canonicalIPD": {
+    "repository": "ramkivs/iips-production-market-data",
+    "commit": "07e86a4f2c105651f3097a96cb519f8611945e30",
+    "sourceManifest": [
+      {
+        "repository": "ramkivs/iips-production-market-data",
+        "commit": "07e86a4f2c105651f3097a96cb519f8611945e30",
+        "path": "src/persistence/connection.ts",
+        "blob": "5169e402707cf1a73f16bfb15ffe0b1d395165ff",
+        "sha256": "51beab4e7b06ce4c44043ca04d678c4b193dd43fe3a0e53e895e481365e38a67"
+      },
+      {
+        "repository": "ramkivs/iips-production-market-data",
+        "commit": "07e86a4f2c105651f3097a96cb519f8611945e30",
+        "path": "src/persistence/portfolio_store.ts",
+        "blob": "540d49f2deb2c8d600b5b866675d145cf76a1e46",
+        "sha256": "f6e44c8eb2518b57fcd79679dfa2c93593d9cafb1d839685b45f0cdfe72877a5"
+      },
+      {
+        "repository": "ramkivs/iips-production-market-data",
+        "commit": "07e86a4f2c105651f3097a96cb519f8611945e30",
+        "path": "src/persistence/brokerImportPersistence.ts",
+        "blob": "983f68c91423415684260f35aec1aea4dac6f148",
+        "sha256": "929ad6ddf677a439604198d2175a9184e77fff70c329761f9fd8122819a492e3"
+      },
+      {
+        "repository": "ramkivs/iips-production-market-data",
+        "commit": "07e86a4f2c105651f3097a96cb519f8611945e30",
+        "path": "src/persistence/binding.ts",
+        "blob": "96d0079dd04b75c6f257a2001c8f7eff1ffc560a",
+        "sha256": "5e9e3dd8fe705f0235baeab77894636e94cdfbc0df7dd5d42037100ae114a61b"
+      },
+      {
+        "repository": "ramkivs/iips-production-market-data",
+        "commit": "07e86a4f2c105651f3097a96cb519f8611945e30",
+        "path": "src/ipc/dispatch.ts",
+        "blob": "27becc76749f5b11a37ca4e6254d58132620f57f",
+        "sha256": "62e6f424a85971338d1436af0d65fb4f26b4981188863aeece10f21aaedaa1ce"
+      },
+      {
+        "repository": "ramkivs/iips-production-market-data",
+        "commit": "07e86a4f2c105651f3097a96cb519f8611945e30",
+        "path": "src/ipc/endpoint.ts",
+        "blob": "e565aa5b343266f62ffd411d17d74c89b9f29324",
+        "sha256": "e0675f46ebf8c1a06d665a942445662d3e304b81a6ba20d0706688b58399734e"
+      },
+      {
+        "repository": "ramkivs/iips-production-market-data",
+        "commit": "07e86a4f2c105651f3097a96cb519f8611945e30",
+        "path": "src/ipc/brokerImportConsumer.ts",
+        "blob": "308c83ee69168b76b217b4edecf835b24ad3ec0d",
+        "sha256": "9b955596466627a61d7c0a9b477bbb67cfd27255a2d42258b63631a75ff485f2"
+      },
+      {
+        "repository": "ramkivs/iips-production-market-data",
+        "commit": "07e86a4f2c105651f3097a96cb519f8611945e30",
+        "path": "src/persistence/migrations/001_initial_schema.ts",
+        "blob": "f594a18264c45ccdcbfa2381592820a72d3c453b",
+        "sha256": "6aaff75c60053feed639617f42025ef8d58e5a8c8f7d987dd1804e0e2bdab4d3"
+      },
+      {
+        "repository": "ramkivs/iips-production-market-data",
+        "commit": "07e86a4f2c105651f3097a96cb519f8611945e30",
+        "path": "src/persistence/migrations/004_portfolio_contribution_provenance.ts",
+        "blob": "6bad5a5095b6bb94ce91a86a4b65f7ab915c516c",
+        "sha256": "12f32e51a4b7c350ac125b473f7a7b07f4cc7be33f17c6c4e7da39ed0eaafe6a"
+      },
+      {
+        "repository": "ramkivs/iips-production-market-data",
+        "commit": "07e86a4f2c105651f3097a96cb519f8611945e30",
+        "path": "src/persistence/durablePortfolioStorePort.ts",
+        "blob": "d95608d90b6abe0535f82373b7e621d95aecbae8",
+        "sha256": "bea117ba3f6159fad5cf2c55c3723410a2405dd1a1db505e97c04b4d0547276d"
+      },
+      {
+        "repository": "ramkivs/iips-production-market-data",
+        "commit": "07e86a4f2c105651f3097a96cb519f8611945e30",
+        "path": "evidence/cross-repository/IIPS_V3_G2_GATE_E_PORTFOLIO_WRITE_POLICY_2026-10-18.md",
+        "blob": "4a9501bffb49abbbc0ba5b5c4f81d2841812913e",
+        "sha256": "6385345b98fe33dc294212b37592ff455589b7656aa42bf05fdb29e04c57e7cf"
+      },
+      {
+        "repository": "ramkivs/iips-production-market-data",
+        "commit": "07e86a4f2c105651f3097a96cb519f8611945e30",
+        "path": "evidence/cross-repository/IIPS_V3_G2_IPD_IRR_PORTFOLIO_CONSUMER_CONTRACT_V1_2026-10-18.md",
+        "blob": "163eb1f18ce023bb9a06917de99ca279fdb86bf7",
+        "sha256": "c100471bfbe91d7b6ad5a72432530fc2890efe653cb31067b2060c9ca8ea3584"
+      },
+      {
+        "repository": "ramkivs/iips-production-market-data",
+        "commit": "07e86a4f2c105651f3097a96cb519f8611945e30",
+        "path": "src/persistence/directP1Provisioning.ts",
+        "blob": "d75145c18526f07a995cb4ed06300af8478f8348",
+        "sha256": "b2c10bf460704f5b560ddb596c7843806b9ba1cb3d08e4415273fcb6d5cb5898"
+      },
+      {
+        "repository": "ramkivs/iips-production-market-data",
+        "commit": "07e86a4f2c105651f3097a96cb519f8611945e30",
+        "path": "src/persistence/gateAPrimeValidation.ts",
+        "blob": "df5d48a583c9aaed51af90a90225c15c408fbd33",
+        "sha256": "c307549a38033f9b2ce03973bc0a5e0eacbf7e9132695ea1fc7ae09fa9bbe3ce"
+      }
+    ],
+    "additionalContractSources": [
+      {
+        "path": "src/ipc/protocol.ts",
+        "blob": "f4dc72b12ed9d618d1cfde836160f992ff1be9a5",
+        "sha256": "596afe131c81c45003b08c55a423564dfbd189cd3cea7724a1b169b518e63f7b"
+      }
+    ]
+  },
+  "scope": "Read-only source review and IRR documentation/schema/test definitions; no operations or IPD changes.",
+  "irrConsumerSources": [
+    {
+      "path": "frontend/server/user-portfolio/ipcPortAdapter.ts",
+      "blob": "28ed45322589fffbe2740858a933996e3edcf49e",
+      "sha256": "ff7ba7ee26d604eceea69f57da09613aa08c9c7ec96d9438cc4d4c66cd9f78b3"
+    },
+    {
+      "path": "frontend/server/user-portfolio/userPortfolioContract.ts",
+      "blob": "e6b57bb8a021d8eb4b9b7572d12affc7de66be0b",
+      "sha256": "15568224c49f09bb5728831e0e9c7faeee58687b9299470e0c9bd8f8f0a12d4e"
+    },
+    {
+      "path": "frontend/server/user-portfolio/userPortfolioPort.ts",
+      "blob": "5ed1ee0779f11dbf25c2629e25b980220f6386a7",
+      "sha256": "0103a041ddbea72e2a5168120bae6f4e0ecebf4a7bece2f54c5387ea458ee7e1"
+    }
+  ],
+  "authoritySources": [
+    {
+      "path": "docs/integration/IIPS_v3.0_PA_G4_C3_D01_D04_ADOPTION_ACT_2026-11-06.md",
+      "blob": "71b6666a6038c9637e1729a4f8935d06a58cd169",
+      "sha256": "8d9848201ea2651c1922371233af03f30bfcd631507cc01f4fa86a95eae2e985"
+    },
+    {
+      "path": "docs/integration/DURABLE-HOLDINGS-NEXT-EXECUTION-READINESS-PACKAGE-2026-11-06.md",
+      "blob": "b2ac1e135ad6a019160cd517ca1bdacf05caa43b",
+      "sha256": "25bedfe7b03ba6e2e3838f3189aeedec067144732069367109f9600dc4e961c2"
+    },
+    {
+      "path": "evidence/integration/pa-three-decision-adoption-2026-11-06/current-register.json",
+      "blob": "3c74891c21d996db3d3e821dc12d9fca8369a986",
+      "sha256": "5405e52f5af866f853c603c20b29883a424b66b6e36a0647951afd6703aeceeb"
+    }
+  ]
+}
