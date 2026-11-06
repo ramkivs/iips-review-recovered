@@ -1,0 +1,188 @@
+{
+  "datasetVersion": "sha256:ca29c8357fd3ae87889af07b27ffc317f09745caaed870b287d7ca1f8fc6d71e",
+  "dataAsOf": "2024-03-31",
+  "issuer": {
+    "issuerId": "IN:CIN:L85110KA1981PLC013115",
+    "sector": "Technology"
+  },
+  "ingestionIssues": [],
+  "capitalStructure": {
+    "leaseTreatment": "IND_AS_116_CAPITALISED",
+    "grossDebt": {
+      "presence": "MISSING",
+      "reason": "NOT_REPORTED",
+      "value": null
+    },
+    "netDebt": {
+      "presence": "MISSING",
+      "reason": "NOT_REPORTED",
+      "value": null
+    },
+    "cashAndInvestments": {
+      "presence": "PRESENT",
+      "value": 277010000000
+    },
+    "components": {
+      "shortTermBorrowings": {
+        "presence": "MISSING",
+        "value": null,
+        "reason": "NOT_REPORTED",
+        "source": null,
+        "periodEnd": null,
+        "note": null
+      },
+      "currentMaturities": {
+        "presence": "MISSING",
+        "value": null,
+        "reason": "NOT_REPORTED",
+        "source": null,
+        "periodEnd": null,
+        "note": null
+      },
+      "longTermBorrowings": {
+        "presence": "MISSING",
+        "value": null,
+        "reason": "NOT_REPORTED",
+        "source": null,
+        "periodEnd": null,
+        "note": null
+      },
+      "leaseLiabilities": {
+        "presence": "PRESENT",
+        "value": 83590000000,
+        "reason": null,
+        "source": "INFY-INDAS-CONSOL-FY24",
+        "periodEnd": "2024-03-31",
+        "note": null
+      },
+      "preferenceCapital": {
+        "presence": "MISSING",
+        "value": null,
+        "reason": "NOT_REPORTED",
+        "source": null,
+        "periodEnd": null,
+        "note": null
+      },
+      "cashAndCashEquivalents": {
+        "presence": "PRESENT",
+        "value": 147860000000,
+        "reason": null,
+        "source": "INFY-INDAS-CONSOL-FY24",
+        "periodEnd": "2024-03-31",
+        "note": null
+      },
+      "currentInvestments": {
+        "presence": "PRESENT",
+        "value": 129150000000,
+        "reason": null,
+        "source": "INFY-INDAS-CONSOL-FY24",
+        "periodEnd": "2024-03-31",
+        "note": null
+      }
+    }
+  },
+  "valuation": {
+    "methods": [
+      {
+        "methodId": "DCF_FCFF",
+        "applicable": true,
+        "perShareMid": "NOT_COMPUTABLE",
+        "reason": "NOT_REPORTED"
+      },
+      {
+        "methodId": "PE_RELATIVE",
+        "applicable": true,
+        "perShareMid": "PRESENT",
+        "reason": null
+      },
+      {
+        "methodId": "EV_EBITDA",
+        "applicable": false,
+        "perShareMid": null,
+        "reason": "CAPITAL_STRUCTURE_INCOMPLETE: net debt is unavailable"
+      },
+      {
+        "methodId": "EV_REVENUE",
+        "applicable": false,
+        "perShareMid": null,
+        "reason": "MANDATORY_METRIC_MISSING: TM_NRR, TM_RECURRING_REVENUE_PCT"
+      }
+    ],
+    "intrinsic": null,
+    "marginOfSafety": {
+      "refusal": "NO_PRICE_OBSERVATION",
+      "conclusion": null
+    },
+    "priceValue": null
+  },
+  "moat": {
+    "classification": "INSUFFICIENT_EVIDENCE",
+    "roicSpread": "NOT_COMPUTABLE"
+  },
+  "risk": {
+    "factors": [],
+    "aggregatePresence": "NOT_COMPUTABLE",
+    "aggregateReason": "POLICY_INPUTS_UNAVAILABLE"
+  },
+  "dividends": {
+    "netDebtToEbitda": "NOT_COMPUTABLE",
+    "payoutRatio": 0.5600579422864331
+  },
+  "completeness": {
+    "statementCoverage": {
+      "pnl": {
+        "value": 0.6818181818181818,
+        "presence": "PRESENT",
+        "source": {
+          "kind": "DERIVED",
+          "ref": "adequacy/1.0.0"
+        },
+        "basis": "DERIVED"
+      },
+      "balanceSheet": {
+        "value": 0.7142857142857143,
+        "presence": "PRESENT",
+        "source": {
+          "kind": "DERIVED",
+          "ref": "adequacy/1.0.0"
+        },
+        "basis": "DERIVED"
+      },
+      "cashFlow": {
+        "value": 0.8888888888888888,
+        "presence": "PRESENT",
+        "source": {
+          "kind": "DERIVED",
+          "ref": "adequacy/1.0.0"
+        },
+        "basis": "DERIVED"
+      }
+    },
+    "requiredFieldCoveragePct": 1,
+    "missingFields": [],
+    "adequacy": "SUFFICIENT",
+    "adequacyBasis": [
+      "FIELD_COVERAGE_AT_OR_ABOVE_SUFFICIENT_THRESHOLD"
+    ]
+  },
+  "quality": {
+    "verdict": "MATERIAL_CONCERNS"
+  },
+  "confidence": {
+    "dataConfidence": 0.85,
+    "modelConfidence": 0.125,
+    "combined": 0.4939,
+    "caps": [
+      "STALE_DATA",
+      "DILUTION_PROXY"
+    ],
+    "formula": "combined = 0.6 × dataConfidence + 0.4 × modelConfidence, then multiplied by each cap factor (ADEQUACY_PARTIAL 0.85, ADEQUACY_INSUFFICIENT 0.6, STALE_DATA 0.9, DILUTION_PROXY 0.98, DIVIDEND_SOURCE_CONFLICT 0.95, HIGH_METHOD_DISAGREEMENT 0.85), rounded to 4 dp"
+  },
+  "limitations": [
+    "Dilutive potential shares (ESOP, convertibles) are not present in dataset schema v1, so the diluted count is the EPS-implied count and carries the DILUTION_PROXY cap.",
+    "Net debt subtracts cash and cash equivalents plus liquid investments only; restricted balances, margin money and regulatory balances are excluded from available cash by construction (R-4.1 / Schedule III). Dataset schema v1 carries no restricted-balance line item, so the component is published as NOT_COMPUTABLE rather than as a zero.",
+    "The corporate-action table carries no dividend declaration record in dataset schema v1, so R-15 corroboration is unavailable for this assessment.",
+    "Net debt could not be derived (NOT_REPORTED), so every enterprise-value method is withheld rather than run on a partial bridge.",
+    "Assessment only: no persistence, no transport and no UI are part of IID-2 (IID-3 and IID-6 own those)."
+  ]
+}

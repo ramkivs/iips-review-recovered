@@ -1,0 +1,34 @@
+{
+  "status": "OK",
+  "scopeToken": "co:IN:CIN:L85110KA1981PLC013115",
+  "reportType": "investment.company-assessment",
+  "reportKey": "ed1e54b03e5eb5872f3e77bc467859a4e73bfb14a62417a51d7357604e78a681",
+  "chainRootReportId": "83f55119-28cc-43ab-856c-8c5d6c5f1af2",
+  "versionCount": 1,
+  "head": {
+    "reportId": "83f55119-28cc-43ab-856c-8c5d6c5f1af2",
+    "artifactVersion": 1,
+    "payloadDigest": "cc91f239197a1ed8aca52600ca25ec9c62cd78863e224756c21dfff7ba57cfcd",
+    "inputDigest": "sha256:799b720377eb10df975351926d2f0929a6785aba9b42a4d597d6367bdd2a0ac1",
+    "generatedAt": "2026-11-06T00:00:00.000Z",
+    "dataAsOf": "2024-03-31",
+    "knownAsOf": "2026-11-06T00:00:00.000Z",
+    "datasetVersion": "sha256:ca29c8357fd3ae87889af07b27ffc317f09745caaed870b287d7ca1f8fc6d71e",
+    "modelVersion": "assessment-engine/1.0.0",
+    "adequacy": "SUFFICIENT",
+    "qualityVerdict": "MATERIAL_CONCERNS",
+    "evidenceCount": 4
+  },
+  "versions": [
+    {
+      "reportId": "83f55119-28cc-43ab-856c-8c5d6c5f1af2",
+      "artifactVersion": 1,
+      "supersedesReportId": null,
+      "payloadDigest": "cc91f239197a1ed8aca52600ca25ec9c62cd78863e224756c21dfff7ba57cfcd",
+      "inputDigest": "sha256:799b720377eb10df975351926d2f0929a6785aba9b42a4d597d6367bdd2a0ac1",
+      "generatedAt": "2026-11-06T00:00:00.000Z"
+    }
+  ],
+  "payloadBytes": 42800,
+  "failure": null
+}
