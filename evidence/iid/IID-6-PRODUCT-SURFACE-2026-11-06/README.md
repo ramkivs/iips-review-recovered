@@ -28,6 +28,7 @@ disposition without them.
 | `test-run.txt` | Captured output: `npm run typecheck`, `vitest run src`, `vitest run server/investment`. |
 | `changed-files.txt` | `git diff --stat` plus the untracked list at the time the bundle was written. |
 | `corrections.md` | The defects found while building the surface and what was done about each (including the coverage `assertReport` recursion). |
+| `fresh-clone-verification.md` | The post-merge verification from a clean clone of `main`: install, typecheck, and both targeted suites. |
 
 ## What is delivered
 
