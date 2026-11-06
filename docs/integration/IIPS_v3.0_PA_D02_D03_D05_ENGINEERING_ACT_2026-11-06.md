@@ -11,6 +11,8 @@ Current explicit session PA direction is captured as an **operative transcript, 
 **Explicit precedence:** current PA says FOUR-REVISION CAP. This overrides Prompt 8's proposed cap removal. Cap stays 4; v2 duplicate no-op is checked before cap rejection (but after stale revision). v1 existing behavior stays unchanged. Current instruction says implementation exclusively in IPD: IRR runtime/pins are NOT changed; its current v1 consumer remains intact. These are deliberate narrowing corrections, not silent deviations.
 Baseline IRR `2721da162e28cc2c34d27b24f2733919f7628a3c`, canonical IPD `07e86a4f2c105651f3097a96cb519f8611945e30`; G4-2/D01/D04 effectiveness from #474 preserved. Unique-ID baseline census: all four IDs absent before this record.
 
+Full verbatim PA instruction is additionally preserved at `evidence/integration/d02-d03-d05-engineering-2026-11-06/PA-INSTRUCTION.txt`, Git blob `0e29c68a713d70d9f6bae68bcd961f5ff8badebf`, SHA-256 `6324ebd94592ed4186c16f3c149ed16e0af7901a3bcb9d4efd43eee34100f7c5`. The preceding operative transcript is an index only; this full instruction is the controlling source.
+
 ## 2. Operative decisions and authority IDs
 
 ### D02 — `IIPS-V3-G2-HOLDINGS-OWNER-BINDING-2026-11-06-01` — ADOPTED

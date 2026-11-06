@@ -3,7 +3,7 @@
   "approvalDate": "2026-11-06",
   "actId": "IIPS-V3-PA-D02-D03-D05-ENGINEERING-2026-11-06-01",
   "authorityPath": "docs/integration/IIPS_v3.0_PA_D02_D03_D05_ENGINEERING_ACT_2026-11-06.md",
-  "effectivenessRule": "Approval rendered from explicit PA instruction. Public effectiveness on 2026-11-06 requires act \u00a75 merged governing-main publication, green exact-head/main CI and independent readback; final PR publication comment is the immutable effectiveness receipt. No future approval condition.",
+  "effectivenessRule": "Current explicit PA decision rendered; new D02/D03/D05 publication effectiveness requires engineering act section 4.1 governing IRR main, green head/main and independent readback; no implementation until receipt discharges conditions.",
   "pendingCount": 9,
   "preservedPriorCrosswalkCount": 8,
   "sourceHistoricalRegister": "evidence/integration/pa-decision-docket-2026-11-06/docket-register.json",
@@ -54,21 +54,24 @@
       "authority_id": "IIPS-V3-G2-HOLDINGS-OWNER-BINDING-2026-11-06-01",
       "status": "ADOPTED",
       "approval_date": "2026-11-06",
-      "authority_path": "docs/integration/IIPS_v3.0_PA_D02_D03_D05_ENGINEERING_ACT_2026-11-06.md"
+      "authority_path": "docs/integration/IIPS_v3.0_PA_D02_D03_D05_ENGINEERING_ACT_2026-11-06.md",
+      "effective_date": "2026-11-06"
     },
     {
       "decision_id": "D03",
       "authority_id": "IIPS-V3-G2-SNAPSHOT-CONTRACT-V2-2026-11-06-01",
       "status": "ADOPTED",
       "approval_date": "2026-11-06",
-      "authority_path": "docs/integration/IIPS_v3.0_PA_D02_D03_D05_ENGINEERING_ACT_2026-11-06.md"
+      "authority_path": "docs/integration/IIPS_v3.0_PA_D02_D03_D05_ENGINEERING_ACT_2026-11-06.md",
+      "effective_date": "2026-11-06"
     },
     {
       "decision_id": "D05",
       "authority_id": "IIPS-V3-G2-BOUNDED-SNAPSHOT-ENGINEERING-2026-11-06-01",
       "status": "ADOPTED",
       "approval_date": "2026-11-06",
-      "authority_path": "docs/integration/IIPS_v3.0_PA_D02_D03_D05_ENGINEERING_ACT_2026-11-06.md"
+      "authority_path": "docs/integration/IIPS_v3.0_PA_D02_D03_D05_ENGINEERING_ACT_2026-11-06.md",
+      "effective_date": "2026-11-06"
     }
   ],
   "pending_decisions": [
