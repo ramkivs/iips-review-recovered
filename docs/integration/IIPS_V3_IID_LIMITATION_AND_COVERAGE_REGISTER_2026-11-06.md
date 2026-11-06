@@ -52,7 +52,7 @@ responsible phase · evidence references · last status update.
 | L-011 | IID-3 | Two scope namespaces (`co:`/`hd:`/`hc:`/`icr:` chain scope vs payload `subjectScope`) | OPEN | 2026-11-06 |
 | L-012 | IID-3 | Store-internal `chainId` is not surfaced; chain root `reportId` is the surrogate | OPEN | 2026-11-06 |
 | L-013 | IID-3 | Idempotency is decided against the chain head only | OPEN | 2026-11-06 |
-| L-014 | IID-3 | Content/input identity include the assessment timestamp | OPEN (decision resolved; implementation pending in IID-5) | 2026-11-06 |
+| L-014 | IID-3 | Content/input identity include the assessment timestamp | RESOLVED (2026-11-06, IID-5) | 2026-11-06 |
 | L-015 | IID-3 | Two chain heads for one scope are refused, never merged | OPEN | 2026-11-06 |
 | L-016 | IID-3 (observed) | NP-04 pin prose and manifest pins disagree; no pin changed by IID-3 | OPEN | 2026-11-06 |
 | L-017 | IID-4 | Portfolio context is a read-model snapshot, not a risk model | OPEN | 2026-11-06 |
@@ -66,6 +66,8 @@ responsible phase · evidence references · last status update.
 | L-025 | IID-4 | No disposition history beyond the chain; hysteresis needs a caller-supplied previous | OPEN | 2026-11-06 |
 | L-026 | IID-4 | L-010/L-012/L-013/L-014 apply unchanged to `hd:`/`hc:` chains | OPEN | 2026-11-06 |
 | L-027 | IID-4 | Count-based diversification band and correlation coefficients are not computed | OPEN | 2026-11-06 |
+| L-028 | IID-5 | Change intelligence covers two report types; cross-model attribution is `UNAVAILABLE` | OPEN | 2026-11-06 |
+| L-029 | IID-5 | Materiality thresholds are published defaults; change reports have no substantive grammar | OPEN | 2026-11-06 |
 
 ---
 
@@ -341,8 +343,8 @@ responsible phase · evidence references · last status update.
   recomputable from the stored bytes alone, which is what makes a post-hoc store edit detectable.
 - **Affected contracts:** `payloadDigest`, `inputDigest`, `UNCHANGED`/`INPUT_CHANGED_CONTENT_IDENTICAL` outcomes;
   the CLI's `--generated-at`; version counts.
-- **Status:** `OPEN (decision resolved 2026-11-06; implementation pending in IID-5)` — the semantics are decided, the
-  implementation has not begun, so by register rule 3 the status does not improve.
+- **Status:** `RESOLVED (2026-11-06, IID-5)` — implementation, acceptance tests and durable evidence are present, so
+  register rule 3 is satisfied (see *Evidence* and *Implementation* below).
 - **Downstream phases affected:** IID-4, IID-5 (scheduled refreshes), IID-6 (storage growth).
 - **Consequence for user-visible results:** a scheduled refresh that finds identical inputs still appends a version
   whose only difference is its timestamp. The history is not wrong, but it is larger than a content-only digest
@@ -359,10 +361,24 @@ responsible phase · evidence references · last status update.
   **substantive** and still mints a version. The decision is resolved; the implementation is IID-5's (nine obligations
   `O-1`…`O-9` and ten acceptance tests `AC-L14.1`…`AC-L14.10` in §8 of that document). Until IID-5 ships it and its
   tests pass, this entry stays `OPEN` and the behaviour described above stands unchanged.
+- **Implementation (2026-11-06, IID-5):** `substantiveIdentity.ts` (both grammars, closed exclusion lists, minimal
+  projection, both digests, both input projections, the O-9 member inventory); the record path in
+  `investmentArtifacts.ts` now decides versioning on substantive identity and reports `CLOCK_ONLY_UNCHANGED`; every
+  read recomputes and verifies both digests; pre-IID-5 versions are derived on read and labelled `DERIVED`, never
+  rewritten. `payloadDigest` and the engine `inputDigest` still cover the clock **by decision** — that is the
+  residue the decision preserves, not a remaining gap: the limitation's user-visible consequence (a refresh at a new
+  clock appends a version that says nothing new) no longer occurs.
+- **Evidence:** `IIPS_V3_IID5_HISTORICAL_CHANGE_INTELLIGENCE_2026-11-06.md` §5/§6 (O and AC matrices);
+  `evidence/integration/iid5-historical-change-intelligence-2026-11-06/` (test run, digests, demonstration);
+  `substantive-identity.test.ts` (reference digests `08ea8d4a…`, `34240407…`, both grammars, inventory);
+  `investment-artifacts.test.ts` ("reports INPUT_CHANGED_CONTENT_IDENTICAL…"); `disposition-records.test.ts`
+  ("a re-run at a new clock is NOT a new version"); `change/store.test.ts` (CLOCK_ONLY_UNCHANGED, append, integrity,
+  DERIVED).
 - **Owner / responsible phase:** IID-3 (composition contract) → IID-5.
 - **Last status update:** 2026-11-06 (IID-3) — opened; pinned by
   `assessment-composition.test.ts` ("moves when only the clock moves"). 2026-11-06 (L-014 decision closeout) — decision
   recorded, status qualified, **no status improvement**, no implementation change, IID-5 not started.
+  2026-11-06 (IID-5) — implementation shipped and tested; status `RESOLVED`.
 
 ### L-015 — Two chain heads for one scope are refused, never merged
 
@@ -708,3 +724,243 @@ The decision is a prerequisite for IID-5, not a beginning of it: the nine obliga
 tests (`AC-L14.1`…`AC-L14.10`) that would discharge `L-014` exist only as requirements, and none of them is
 implemented. Until they are implemented and passing, the behaviour recorded in §1 and in §7 of this register remains
 the behaviour of the system.
+
+---
+
+## 9. What IID-5 changed in this register (2026-11-06)
+
+**Closed.** `L-014` — `RESOLVED`. The decision's nine obligations (`O-1`…`O-9`) and ten acceptance tests
+(`AC-L14.1`…`AC-L14.10`) are implemented and passing; the implementation record is
+`IIPS_V3_IID5_HISTORICAL_CHANGE_INTELLIGENCE_2026-11-06.md`, and the evidence bundle is
+`evidence/integration/iid5-historical-change-intelligence-2026-11-06/`. Nothing about `L-014`'s *design* changed in
+this phase: `payloadDigest` is still SHA-256 over the stored canonical bytes and the engine `inputDigest` is still the
+engine's own digest. What changed is that version identity is now decided on the clock-free substantive projection, so
+the limitation's consequence is gone.
+
+**Re-audited (post-publication pass, 2026-11-06).** `L-014` stays `RESOLVED`, and the closure statement above was
+re-checked against the decision rather than trusted. Three findings, all fixed: the disposition's citation of the
+assessment's substantive identity was optional where `O-5` makes it mandatory; `review.nextReviewOn` was excluded
+unconditionally instead of "when non-null" as §3.4 specifies; and the decision's own AC-L14.4 pair
+(`2026-04-10`→`2026-11-06`) classified `SUBSTANTIVE` because `confidence.combined` was missing from the
+freshness-consequence set. Details and the digest movements are in the implementation record §13; nothing in this
+register's *design* content changed. One documentation gap in the decision itself is recorded there (§13.4): its §5.2
+disposition vector (`126bd28f…`) cannot be reproduced because the fixture it hashed is not published, while all five of
+its §5.1 assessment vectors reproduce byte-for-byte. That gap does not reopen `L-014` — the grammar is proven on the
+vectors that can be checked — but a reader comparing the two documents should know why that one number does not match.
+
+**Opened.** Two entries, `L-028` and `L-029`, recording what change intelligence genuinely cannot do.
+
+**Not changed.** `L-001`–`L-013` and `L-015`–`L-027` are carried forward with their text, numbers and statuses
+intact. No entry was renumbered, merged or softened; `L-014`'s original description is byte-identical and the
+decision-closeout section (§8) is untouched.
+
+### L-028 — Change intelligence covers two report types; cross-model attribution is `UNAVAILABLE`
+
+- **Originating phase:** IID-5.
+- **Description:** historical comparison is implemented for `investment.company-assessment` and
+  `investment.holding-disposition`, the only two artifact types whose substantive grammars the L-014 decision
+  defines. A pair whose model or policy identity differs cannot be attributed: computing the 2×2 split needs the
+  OLD model run against the NEW data, and this repository holds exactly one build of the frozen engine
+  (`assessment-engine/1.0.0`). The comparison still reports every observed delta; only the *split* degrades, to
+  `UNAVAILABLE` / `UNATTRIBUTED` with a stated reason. No leg is estimated.
+- **Affected contracts:** `attribution.status`, `attribution.cause`, `attribution.legs.model`;
+  `reproduction.modelBuildDigest` / `platformCommit` (recorded as `null`).
+- **Status:** `OPEN`.
+- **Downstream phases affected:** IID-6 (a surface must render `UNAVAILABLE` as unavailable), and any future
+  model-version migration, which will produce version pairs nobody can attribute after the fact.
+- **Consequence for user-visible results:** a model or policy upgrade shows as a change whose cause is honestly
+  unknown. The report says "the model differed and cannot be re-executed here" rather than attributing the movement
+  to data.
+- **Required resolution / evidence:** durable, executable model builds (or recorded per-version model outputs at both
+  inputs) so legs A and B can be evaluated. Evidence today: `change/attribute.ts`;
+  `change/comparison.test.ts` ("degrades to UNAVAILABLE when the model or policy identity differs, and estimates no
+  leg").
+- **Responsible phase:** IID-5 (recording), IID-6 (presentation), platform (engine build retention).
+
+### L-029 — Materiality thresholds are published defaults; change reports have no substantive grammar
+
+- **Originating phase:** IID-5.
+- **Description:** two deliberate residues. (a) `materiality-policy/1.0.0`'s thresholds (for example ±5/±10/±25 %
+  relative, ±100/±200/±400 basis points, ±2/±5/±10 points of confidence) are design-published defaults, not
+  calibrated against realised outcomes; they are versioned and recorded in every report so a reader can disagree with
+  the policy rather than with a hidden constant, but the policy itself makes no claim to optimality. (b) The L-014
+  decision defines substantive grammars for assessments and dispositions only, so a change report's identity is its
+  bytes. Two boundary reports with the same input are byte-identical and idempotent; a change report cannot claim a
+  clock-free identity, and none is invented for it.
+- **Affected contracts:** `materiality-policy/1.0.0`; `change-comparator/1.0.0`; change-report `payloadDigest`
+  (byte identity); `investment.change-report` provenance (`substantive*` members absent).
+- **Status:** `OPEN`.
+- **Downstream phases affected:** IID-6 (a surface may want user-adjustable materiality), and any future calibration
+  work.
+- **Consequence for user-visible results:** a movement can be labelled `NOTABLE` where an operator would have called it
+  `IMMATERIAL`, and the reverse. The label is always accompanied by the policy version and the observed delta, so the
+  disagreement is auditable.
+- **Required resolution / evidence:** an outcome-calibrated materiality policy with its own decision record, and — if
+  change reports ever need clock-free identity — an extension of the L-014 grammar set. Evidence today:
+  `change/materiality.ts`; `change/comparison.test.ts` ("is a versioned policy with declared thresholds per mode",
+  "produces byte-identical content for the same pair").
+- **Responsible phase:** IID-5 (recording), IID-6 / future calibration.
+
+**Status of IID-6.** **IID-6 (product surface / ★M-3) — IMPLEMENTED, 2026-11-06** (see §10). No limitation listed
+above changed status because of it: the surface renders read models that already existed, adds no engine and makes no
+new claim about a company. Three specific consequences for this register are recorded there — the coverage
+`assertReport` correction, the pre-existing unused broker-preview `POST`, and the fact that a product surface does not
+convert a synthetic dataset into a real-issuer claim.
+
+---
+
+## 10. What IID-6 changed in this register (2026-11-06)
+
+**Append-only.** `L-001` … `L-029` keep their identifiers, meanings and statuses. Nothing was renumbered, retired or
+silently upgraded, and no new limitation identifier is opened by this phase: a read-only surface cannot create a
+limitation about the *engine*, and it does not cure one either.
+
+### 10.1 What the product surface does to existing limitations
+
+| Limitation | Effect of IID-6 |
+|---|---|
+| `L-001` / R-16 (3 of 13 sectors measured) | Unchanged, and now **visible where the reader needs it**: the coverage page prints `measuredSectors` of `totalSectors` and the outstanding sectors. The surface makes the gap easier to see; it does not reduce it. |
+| `L-004` (synthetic reference dataset) | Unchanged. Every company page prints the dataset class and the payload's dataset notice; no surface labels a synthetic result as real. |
+| `L-009` (no real issuer assessed) | Unchanged, and repeated on the company page's limitations block rather than left to the register. |
+| `L-005` – `L-008`, `L-010` – `L-013` | Unchanged; the company page lists the identifiers the stored envelope actually carries, with the payload's own prose underneath. |
+| `L-014` (clock is content, not substance) | Unchanged. The change timeline shows `CLOCK_ONLY_UNCHANGED` pairs as the classification the server sends and never re-derives a pair client-side. |
+| `L-021` – `L-027` | Unchanged. The disposition panel prints the withheld state, the gates, the caps and the limits exactly as recorded; it never turns `PARTIAL` adequacy into a verb. |
+| `L-028` / `L-029` | Unchanged. The timeline prints `UNAVAILABLE` attribution with its cause and prints the materiality policy version beside every materiality label; it never estimates the split or re-scores a movement. |
+
+### 10.2 A defect fixed, not a limitation opened — `assertReport`
+
+`frontend/src/api/investmentCoverage.ts` ended `assertReport` with a recursive call to itself, and the main read path
+never called it, so the coverage view could not render a valid report (preview path) and silently accepted any body
+(main path). It was found by the first test that ever fed that page a valid report. It is fixed, and the fix is pinned
+by `frontend/src/features/investment/iid6Coverage.test.tsx`. **No limitation entry is added**: a defect that is fixed
+and tested is not a limitation, and listing it as one would misrepresent the register's purpose. The full account is
+`evidence/iid/IID-6-PRODUCT-SURFACE-2026-11-06/corrections.md` §C-1.
+
+### 10.3 An exception stated precisely — the pre-existing broker-preview `POST`
+
+`evaluateBrokerPreview()` in `investmentCoverage.ts` issues `POST /api/investment/coverage/preview`. It predates this
+phase, stores nothing, and is imported by no surface. IID-6 does not use it, does not remove it, and does not route it
+through the GET helper (which would misdescribe a POST). The surfaces this phase delivers issue **GET only**, asserted
+in seven test files. Recorded so that "no investment `POST`" is a precisely scoped claim rather than an averaged one.
+
+### 10.4 What the surface cannot show, and does not pretend to
+
+- **No cross-issuer boundary total.** Boundary coverage exists per assessment chain; the coverage page says so and
+  links to each known issuer instead of printing a number it cannot compute.
+- **No scheduled review.** Review dates and armed triggers are read from the stored disposition; nothing schedules
+  them. Reconciliation of a missing boundary explanation is an operator CLI action (`ChangeService.reconcile`), named
+  in the UI and exposed by no control.
+- **No portfolio action.** The portfolio page gains a disposition column and links; it gains no trade, no rebalance,
+  no target-weight edit, and no persistence. IPD and `UserPortfolioView` are untouched.
+- **No candidate position.** A candidate renders no quantity, no weight and no projected weight, because it has
+  none — `NOT_APPLICABLE` is printed with its reason.
+
+### 10.5 Verification for this section
+
+`vitest run src` → 57 files, 546 passed, 1 skipped; `vitest run server/investment` → 14 files, 199 passed;
+`npm run typecheck` clean. Captured in `evidence/iid/IID-6-PRODUCT-SURFACE-2026-11-06/test-run.txt`.
+
+---
+
+## 11. IID formal closure — what it does to this register (2026-11-06; documentation only)
+
+**Nothing in `L-001` …. `L-029` changed.** This section is a pointer, not an amendment: no identifier, wording, status
+or ordering was touched by the closure work item, and no limitation was closed because the programme's implementation
+phases finished.
+
+| Item | Effect |
+|---|---|
+| `L-001` … `L-013`, `L-015` … `L-027` | untouched; `OPEN` exactly as recorded |
+| `L-014` | untouched; `RESOLVED` as recorded by §9 (IID-5 implementation), not by the closure |
+| `L-028`, `L-029` | untouched; IID-6 renders them honestly (attribution `UNAVAILABLE` with its cause; materiality policy version printed beside every materiality label) and weakens neither |
+| R-16 sector coverage | unchanged: 3 of 13 sectors (`L-001`); no expansion began |
+| Production / admission / release | no claim; see closure §1 and §12 |
+
+**Two evidence qualifications the closure records, neither of which is a limitation entry.** They belong to the
+*verification* record, not to the product's limitations, and adding them here as limitations would misrepresent the
+register's purpose — so they are recorded in the closure document and its bundle instead:
+
+- **AC-X2 (zero-socket measurement) is `OPEN`.** No test asserts zero sockets over an assess → persist → read cycle.
+  See `docs/integration/IIPS_V3_IID_FORMAL_CLOSURE_2026-11-06.md` §6 and
+  `evidence/iid/IID-CLOSURE-2026-11-06/AC-X2-ZERO-SOCKET-EVIDENCE.md`.
+- **AC-X1 is a qualified PASS** (`frontend` direct; `iips-platform` by explicitly referenced prior evidence, with no
+  single `npm test` run at an IID head). See closure §5, qualifications Q-1 … Q-4.
+
+The authoritative closure record is `docs/integration/IIPS_V3_IID_FORMAL_CLOSURE_2026-11-06.md`; the phase evidence
+index is `evidence/iid/README.md`.
+
+---
+
+## 12. IID remaining acceptance evidence — pointer (2026-11-06; documentation and evidence only)
+
+**Nothing in `L-001` … `L-029` changed.** This section is a pointer, not an amendment: no identifier, wording, status or
+ordering was touched. It supersedes **two verification statements in §11** — the AC-X2 bullet ("is `OPEN`") and the
+AC-X6 qualification it summarises — and nothing else.
+
+| Item | Effect |
+|---|---|
+| `L-001` … `L-013`, `L-015` … `L-027` | untouched; `OPEN` exactly as recorded |
+| `L-014` | untouched; `RESOLVED` as recorded by §9 (IID-5 implementation) |
+| `L-028`, `L-029` | untouched; IID-6 renders them honestly |
+| R-16 sector coverage | unchanged: 3 of 13 sectors (`L-001`); no expansion began |
+| Production / admission / release | no claim |
+
+**The two verification points raised in §11, now resolved:**
+
+- **AC-X2 — `OPEN` in §11, now `PASS` on runtime evidence.** A complete assess → persist → read cycle, run under
+  instrumentation in both the test suite and two plain Node processes, opened **no connection to a non-loopback
+  destination** and created **no new socket descriptor**, while doing the cycle's real work. A negative control proves
+  the instrument registers what it claims. The limitation entries do not move: this closes a verification gate, not a
+  limitation, and `L-004` (synthetic dataset) and `L-009` (no real issuer) are untouched by it. See
+  `evidence/iid/IID-AC-X2-ZERO-SOCKET-2026-11-06/AC-X2-RUNTIME-EVIDENCE.md` and closure §6.4.
+- **AC-X6 — qualified in §11, now `PASS` with gap G-8 closed as not a breach.** The 100 KB bound governs committed
+  *fixtures* (design §I.2 rule 3(b)), and `golden-tech.json` is committed *test evidence* (rule 3(c)); every committed
+  fixture is ≤ 42,478 B and the IID fixture corpus is 37,433 B. See
+  `evidence/iid/IID-AC-X2-ZERO-SOCKET-2026-11-06/AC-X6-G8-DETERMINATION.md` and closure §7a.
+- **AC-X1 remains a qualified PASS** (Q-1…Q-4, `iips-platform` by referenced prior evidence with no single `npm test` run
+  at an IID head). AC-2.6, AC-2.9 and AC-4.7 remain qualified. Nothing above promotes them.
+
+The authoritative closure record is `docs/integration/IIPS_V3_IID_FORMAL_CLOSURE_2026-11-06.md`; the phase evidence index
+is `evidence/iid/README.md`; the roadmap overlay for this work item is §B.Q.
+
+---
+
+## 13. Work Item 1 — real-issuer validation (2026-11-06; evidence only)
+
+**Nothing in `L-001` … `L-029` changed status, identifier, ordering or meaning.** One real Indian listed issuer
+(Infosys Limited) was taken from its own audited consolidated Ind AS filings through ingestion, identity, assessment,
+composition, persistence and a separate-process read. That is a statement about the *path*; it is not real-dataset
+coverage, not a sector measurement and not a production claim, and it closes nothing.
+
+| Item | Effect |
+|---|---|
+| `L-001` … `L-013`, `L-015` … `L-029` | untouched; unchanged status exactly as recorded |
+| `L-004` | **status `OPEN`, wording unchanged in the register.** The artifact CLI now restates this sentence for runs whose snapshot reports `datasetClass = APPROVED_LOCAL_INGESTION`, because on such a run the sentence would be false about the data in hand. The product still ships a synthetic reference dataset, so the limitation itself is untouched — see the justification below |
+| `L-009` | **status `OPEN`, wording unchanged in the register**, restated for `APPROVED_LOCAL_INGESTION` on the same grounds. One issuer reached through one operator-supplied path is not general real-issuer coverage, and the product still ships no real dataset |
+| `L-014` | untouched; `RESOLVED` as recorded by §9 |
+| `L-028`, `L-029` | untouched |
+| R-16 sector coverage | unchanged: 3 of 13 sectors; `Technology` was chosen *because* it was already measured, so no expansion began |
+| Production / admission / release | no claim |
+
+**Why a restatement is not a modification.** The published summary carried two fixed sentences that asserted the
+dataset is synthetic and that no real issuer had been assessed. Both were true of every run before this work item and
+false of this one. `L-004`/`L-009` keep their identifiers, subject and direction; only the sentence describing the
+data class in hand varies, and the synthetic wording is asserted unchanged by
+`frontend/server/investment/cli/realIssuerValidation.test.ts`. The pre-fix output is preserved as evidence so the
+defect remains inspectable. Re-running the same command after the change produced `persist UNCHANGED` with identical
+payload and input digests: no artifact byte moved.
+
+**Two product defects recorded, deliberately not fixed here** (both need a contract or definition decision that this
+evidence-only item does not carry):
+
+- **D-2 — a debt-free issuer cannot be valued or graded.** The capital structure requires all four debt components
+  before it will sum them, and dataset schema v1 has no way to say "nil by disclosure". For an issuer that presents
+  no borrowings line, gross and net debt are `NOT_COMPUTABLE`, which blocks the DCF enterprise-to-equity bridge, both
+  EV methods, intrinsic value, margin of safety, the ROIC−WACC moat dimension and the leverage risk factor. Entering
+  `0` was refused: an inferred zero is indistinguishable from a filed zero in the artifact.
+- **D-3 — reason-code precision.** With no risk factor generated, the aggregate reports `POLICY_INPUTS_UNAVAILABLE`,
+  which states the one dimension that could not be evaluated (leverage) and not the several that were evaluated and
+  passed. The reason vocabulary is published and appears in goldens, so it needs its own change.
+
+Evidence: `evidence/real-issuer/REL-1-INFOSYS-2026-11-06/README.md` (disposition, coverage, defects, verification) and
+`evidence/real-issuer/README.md` (bundle index).

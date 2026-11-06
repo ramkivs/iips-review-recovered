@@ -1,0 +1,46 @@
+{
+  "issuers": [
+    {
+      "issuerId": "IN:CIN:L85110KA1981PLC013115",
+      "legalName": "Infosys Limited",
+      "issuerKeyBasis": "CIN",
+      "sector": "Technology",
+      "subSegment": null,
+      "reportingCurrency": "INR",
+      "fiscalYearEnd": "03-31"
+    }
+  ],
+  "securities": [
+    {
+      "securityId": "IN:ISIN:INE009A01021",
+      "issuerId": "IN:CIN:L85110KA1981PLC013115",
+      "instrumentType": "EQUITY",
+      "status": "ASSESSABLE",
+      "statusReason": null
+    }
+  ],
+  "listings": [
+    {
+      "listingId": "IN:NSE:INFY:EQ:EQUITY",
+      "securityId": "IN:ISIN:INE009A01021",
+      "issuerId": "IN:CIN:L85110KA1981PLC013115",
+      "exchange": "NSE",
+      "symbol": "INFY",
+      "series": "EQ",
+      "instrumentType": "EQUITY",
+      "effectiveFrom": "1993-06-01",
+      "effectiveTo": null
+    },
+    {
+      "listingId": "IN:BSE:500209:EQ:EQUITY",
+      "securityId": "IN:ISIN:INE009A01021",
+      "issuerId": "IN:CIN:L85110KA1981PLC013115",
+      "exchange": "BSE",
+      "symbol": "500209",
+      "series": "EQ",
+      "instrumentType": "EQUITY",
+      "effectiveFrom": "1993-06-01",
+      "effectiveTo": null
+    }
+  ]
+}

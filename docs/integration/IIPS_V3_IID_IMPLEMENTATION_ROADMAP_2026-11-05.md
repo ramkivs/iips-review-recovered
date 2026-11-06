@@ -522,6 +522,13 @@ IID-5 owns the implementation: obligations `O-1`…`O-9` and acceptance tests `A
 document. §B.A's four identities are unchanged and none is merged — the decision refines content and input identity, it
 does not reopen the chain/version separation.
 
+*Implemented 2026-11-06 (PR #479, `17f9395`; re-audited in a post-publication pass the same day).* `L-014` is now
+`RESOLVED`. The implementation record is `IIPS_V3_IID5_HISTORICAL_CHANGE_INTELLIGENCE_2026-11-06.md`; its §13 records
+three obligations the first pass under-delivered (`O-5` made mandatory, the `nextReviewOn` conditional exclusion,
+AC-L14.4's `FRESHNESS_TRANSITION` classification) and answers the decision's open question `Q-1` — `CLOCK_ONLY_UNCHANGED`
+is observable on the run result only, because a run ledger would be a persisted artifact kind the decision does not
+authorise. `IID-6` remains **NOT STARTED**.
+
 **Data sources and persistence.** Stored artifacts only, plus the recorded dataset version for the
 attribution legs. Boundary reports persisted on `icr:` chains; ephemeral reports never persisted.
 
@@ -688,7 +695,9 @@ Part B corrects it in the nine places raised in review. **Where Part A and Part 
 Nothing in Part B adds a phase, a repository, a service, a dependency or an approval step.
 
 **Status of this roadmap.** IID-0, IID-1, IID-2 and IID-3 are **implemented and evidenced** (§B.J, §B.J2,
-§B.J3, §B.J4). IID-4 … IID-6 are **not started**. The R-16 sector-coverage deliverable is **not** part of
+§B.J3, §B.J4); IID-4 and IID-5 are implemented and evidenced (§B.J5, §B.N); IID-6 is implemented and evidenced
+(§B.O). Part A's phase map is complete; what remains open is R-16 sector coverage (§B.K) and the scheduled-operation
+work named in §B.N and §B.O. The R-16 sector-coverage deliverable is **not** part of
 IID-0 … IID-3 and remains open (§B.K). Every limitation opened by a delivered phase is carried forward in the
 cumulative register `docs/integration/IIPS_V3_IID_LIMITATION_AND_COVERAGE_REGISTER_2026-11-06.md`.
 
@@ -1208,3 +1217,177 @@ persistence, the holdings lane (A-5/A-6/A-7, D01–D06, Gate 4) is untouched, `L
 changed, and `L-016`'s discrepancy is still explicit. The eleven further entries (`L-017`–`L-027`) record what IID-4
 cannot do; they add to the register and replace nothing in it.
 
+### B.N. IID-5 — historical change intelligence implemented (`2026-11-06`; implementation record)
+
+This overlay is append-only. §B.L is preserved verbatim; the sentence in it that reads *"IID-5 … NOT STARTED"* is
+superseded for **IID-5 only**, and **IID-6 remains NOT STARTED**. The implementation record is
+`IIPS_V3_IID5_HISTORICAL_CHANGE_INTELLIGENCE_2026-11-06.md`; the evidence bundle is
+`evidence/integration/iid5-historical-change-intelligence-2026-11-06/`.
+
+**Baseline.** `ffb80ce` (PR #478 merge on `main`). The phase was built directly on it; no dependency pin, no IPD
+source file, no frozen engine file and no historical artifact was modified.
+
+**What exists now.** A clock-free substantive identity for assessments and dispositions (both closed grammars from
+the L-014 decision, plus the O-9 member inventory); versioning decided on that identity, so a clock-only re-run
+returns `CLOCK_ONLY_UNCHANGED` and writes nothing while `payloadDigest` keeps its byte-integrity job unchanged; a
+declared semantic dimension map with eight categories; `materiality-policy/1.0.0`; a 2×2 attribution that degrades to
+`UNAVAILABLE` rather than estimating; read-time reproduction of both digests from stored bytes; a closed review-trigger
+set expressed as questions; durable boundary reports on the pre-existing `icr:` scope via the existing record path;
+coverage and reconciliation over consecutive pairs; and two GET/HEAD read routes.
+
+**What it does not do.** No IID-6 surface, no new persistence, no rewritten history, no re-executed old model, no
+trading or order concept, no invented model build identity for historical versions. `L-001`–`L-013` and
+`L-015`–`L-027` are untouched; `L-014` is `RESOLVED`; `L-028` and `L-029` record what change intelligence cannot do.
+
+**Verified.** `tsc -p tsconfig.investment-server.json --noEmit` clean; `vitest run server/investment` **189 passed /
+13 files**, of which **77 are new IID-5 tests**. The L-014 reference digests (`08ea8d4a…`, `34240407…`) reproduce
+exactly as constants. Two legacy assertions were updated rather than worked around, because the decision changed the
+behaviour they pinned: the IID-4 "a re-run at a new clock appends" test now asserts `CLOCK_ONLY_UNCHANGED`, and the
+`INPUT_CHANGED_CONTENT_IDENTICAL` fixture now moves the substantive input identity.
+
+**Not delivered, unchanged.** M-2 as a *scheduled* capability is delivered only as an on-demand read plus an
+operator-invoked reconciliation; no scheduler exists. R-16 remains 3/13 synthetic sectors; no real issuer has been
+assessed, dispositioned or compared. The holdings lane (A-5/A-6/A-7, D01–D06, Gate 4) is untouched, and IID
+persistence still confers no holdings-write credential.
+
+### B.O. IID-6 — product surface implemented (`2026-11-06`; implementation record)
+
+This overlay is append-only. §B.L, §B.J5 and §B.N are preserved verbatim; the sentences in them that read
+*"IID-6 remains NOT STARTED"* are superseded for **IID-6 only**. The evidence bundle is
+`evidence/iid/IID-6-PRODUCT-SURFACE-2026-11-06/`.
+
+**Baseline.** `83f4511e2ebac9d42c7f30f5798e8356c7b23edf` (PR #480, the IID-5 merge on `main`).
+
+**What exists now.** The read-only product surface that joins the three delivered capabilities:
+`/investment/company/:issuerId` promoted into the full assessment page (fundamentals with per-value absence reasons,
+valuation and sensitivity, confidence components with the caps applied, risk taxonomy, dividends, moat, assumptions
+with discount-rate components and method-specific assumptions, evidence/provenance/freshness, version history);
+`DispositionPanel` for a held position or a candidate, including the withheld state with its reasons and unmet inputs;
+`ChangeTimeline` with both versions' `dataAsOf`/`knownAsOf`/model/policy/dataset side by side, all eight categories,
+materiality and direction as words, review triggers and focus questions, attribution as `UNAVAILABLE` where that is
+the truth, and boundary coverage with reconciliation named as an **operator** action; `/investment/coverage` (the
+IID-1 read model at the IID-6 path, `/identity-coverage` retained as an alias) with dataset freshness and a boundary
+explanation; a candidate route reachable without a portfolio; portfolio-detail integration with per-holding
+disposition and links; and a sector-reference disclosure block that is structurally separate from the assessment.
+
+**Reuse, and what that means.** No new backend contract, no new engine, no new comparator, no new persistence adapter.
+The existing `CompanyAssessmentPage` and `InvestmentCoveragePage` were promoted rather than rebuilt, and the existing
+IID-2/IID-3/IID-4/IID-5 transports were consumed as they are. Two GET-only client modules were added
+(`src/api/investmentDisposition.ts`, `src/api/investmentChanges.ts`); five components and one copy module were added
+under `src/features/investment/`. The single server edit adds four facts to the **existing** portfolio disposition
+list projection (`confidence`, `horizon`, `withheld`, `issuerId`), because a portfolio row cannot be rendered without
+them and deriving an issuer id from an ISIN in the browser would be an invented mapping.
+
+**What it does not do.** No write, save, generate, record or reconcile control on any surface; no trade, order,
+quantity-to-trade or price-to-trade; no new persistence, store, table, journal or cache; no IPD change (and no change
+to `UserPortfolioView`); no `iips-platform/` edit of any kind, including `src/sector-engines/`; no new dependency; no
+exchange-domain dependency; no production, multi-user or auth scope; no IPO-screening dependency.
+
+**Acceptance.** AC-6.1 … AC-6.7 and AC-X1 … AC-X7 are mapped to implementing files and to the tests that fail on
+regression in `evidence/iid/IID-6-PRODUCT-SURFACE-2026-11-06/requirement-matrix.md`. The surface adds **79 frontend
+tests** across seven files (546 passed / 1 skipped in `src`), and two server assertions on the extended list
+projection (199 passed in `server/investment`); `npm run typecheck` is clean.
+
+**Corrections.** The coverage client's `assertReport` recursion (a real IID-1 defect: a valid report could not
+render) is fixed and pinned; two bare-dash placeholders written during this phase were replaced with
+`not available — <reason>`; and the IID-3 "no decision affordance" assertion was rewritten rather than weakened,
+because the phase exists to render dispositions. Details: `corrections.md` in the bundle, and §10 of the limitation
+register.
+
+**Not delivered, unchanged.** M-3 as a *product* is delivered as a read-only surface over synthetic data; R-16 remains
+3 of 13 sectors; no real issuer has been assessed, dispositioned or compared; no scheduler exists, so review dates and
+boundary reconciliation remain operator concerns; the holdings lane (A-5/A-6/A-7, D01–D06, Gate 4) is untouched.
+
+### B.P. IID formal closure (`2026-11-06`; documentation and evidence reconciliation only)
+
+This overlay is append-only. §B.J … §B.O are preserved verbatim; where they still say a phase was "not started", the
+supersession index in the closure record (§10) maps each such sentence to the overlay that supersedes it. No historical
+sentence was rewritten.
+
+**Determination.** **IID-0 … IID-6 are implementation-complete**, each merged on `main` with an acceptance matrix and an
+evidence bundle. The authoritative reconciliation is
+`docs/integration/IIPS_V3_IID_FORMAL_CLOSURE_2026-11-06.md`; its evidence bundle is
+`evidence/iid/IID-CLOSURE-2026-11-06/`; the phase index is now `evidence/iid/README.md`.
+
+**AC-X1 (test suites green + typecheck clean) — PASS, satisfied by explicitly referenced prior evidence, qualified.**
+`frontend` is direct at the phase's own merge (`14de785`: typecheck clean, 546 passed / 1 skipped in `src`, 199 in
+`server/investment`, fresh clone; CI pass on PR #481). `iips-platform` is referenced: `tests/investment` **377/377** and
+`tsc --noEmit` **clean** at `bc0de0e` (IID-4 post-merge verification), and the platform tree is **byte-identical** at the
+IID-6 head (`git diff --stat bc0de0e..HEAD -- iips-platform/` → empty; IID-5 and IID-6 changed no platform file);
+`tests/regression` **651/651** at `f08da40` with the directory unchanged since and no regression test referencing
+investment code; in-src tests covered by the **648/648** standard-command record at `7524f18`, files and
+non-investment imports unchanged. **No platform suite was re-run during IID-6 or during closure, and none is claimed.**
+The literal `npm test` command has never been executed at an IID head — that is qualification Q-1, stated rather than
+smoothed.
+
+**AC-X2 (zero sockets opened during a full assess → persist → read cycle) — OPEN.** The gate requires a *test* that
+asserts the count. No such test, trace or recorded counter exists anywhere in the repository; the M-1 demonstration's
+ten points do not include one. The investment code paths contain no socket construction and no runtime network import,
+and IID-6 added no network path — architectural evidence, not a measurement. The criterion was OPEN before IID-6 and
+remains OPEN. The exact missing artefact is specified in the closure record §6.3.
+
+**AC-X3 … AC-X7 (roadmap numbering) — PASS**, with AC-X7 by referenced prior evidence (IID-3 §4 / M-1 points 3, 6, 7, 8;
+IID-4 post-merge §3); IID-6 writes no artifact. **AC-X6 is a qualified PASS**: no dataset is committed and every input
+fixture is small (`iips-platform/tests/investment/fixtures/` = 37,433 B total, largest file 4,100 B), but one committed
+**evidence golden** — `evidence/iid/IID-2-COMPANY-ASSESSMENT-2026-11-06/golden-tech.json`, 109,948 B — exceeds the gate's
+100 KiB *fixture* bound. Recorded as gap G-8 in the closure record rather than described as compliant. Numbering divergence between the design's §6.8 gate table and this
+roadmap's §3 table is reconciled by meaning in closure §4 — neither table is renumbered.
+
+**Limitations.** `L-001` … `L-029` are unchanged: no identifier, meaning, status or number moved. Phase completion
+closes no limitation, and this closure closes none. `L-014` remains `RESOLVED` as recorded by §B.N.
+
+**What closure is not.** Not production acceptance, admission or release; not real-issuer validation (`L-009`); not
+R-16 sector coverage (still 3/13, `L-001`); no scheduling capability; no Windows host evidence; no trade execution,
+brokerage integration or multi-user/auth scope. Nothing in §B.P begins a future workstream.
+
+---
+
+### B.Q. IID remaining acceptance evidence — AC-X2 and AC-X6 (`2026-11-06`; verification and evidence only)
+
+Append-only overlay. §B.P is preserved verbatim; where it still says AC-X2 is `OPEN` and AC-X6 is a *qualified* PASS,
+this section supersedes those two sentences and nothing else. Reconciled head: `aaf1f0c` (PR #483 merge). No product
+code, contract, pin or test from any IID phase was changed; four files were added, all of them verification
+scaffolding.
+
+**AC-X2 (zero sockets opened during a full ingest-free assess → persist → read cycle) — PASS, on runtime evidence.**
+The scope is the design's own, not a reading of the one-line gate: §I.2 rule 2 says *"AC-X2 is 'zero external network
+connections'. Loopback … is permitted … What is prohibited is any outbound connection to a non-loopback host, and any
+exchange-host URL … Verified by a static module-graph scan in IID-0 and by **socket-level assertion once a transport
+exists**"*, and §B.I.3 above says the same. The assertion now exists:
+
+- `frontend/server/investment/demo/zeroSocketProbe.ts` — instruments all 22 Node APIs that can start an outbound
+  connection (`net`, `net.Socket.prototype`, `tls`, `http(s)`, the `dns` family and `dns.promises`, `dgram`,
+  `globalThis.fetch`), classifies each attempt (LOOPBACK / EXTERNAL / LISTEN / IPC / LOCAL_SOCKET / UNRESOLVED),
+  **refuses** an external destination instead of connecting, and censuses `/proc/self/fd` socket descriptors before and
+  after the cycle as an independent second layer.
+- `frontend/server/investment/zero-socket.test.ts` — the gate as a test: analysis → persistence → read through the
+  service → read through the HTTP-shape transport handler, asserting four completed steps and zero external attempts.
+- `frontend/server/investment/zero-socket-control.test.ts` — the negative control that makes the zero meaningful:
+  seven external attempts refused (including one through a reference captured before installation) and a real loopback
+  round trip permitted and recorded.
+- `frontend/server/investment/cli/zero-socket-cycle.ts` — the same cycle in plain Node, split across two processes.
+
+Result: **0 external attempts, 0 DNS calls, 0 `http(s)` requests, 0 new socket descriptors**, in three executions across
+two processes, while the cycle wrote version 1, read the chain back through both read paths, and returned a 66,726 B
+payload (transport `HEAD`/`GET` 200, `X-Investment-Artifact-Version: 1`). Whole `frontend` suite at the same head: 142
+files passed / 1 skipped, 1813 tests passed / 1 skipped; both typechecks clean. Evidence:
+`evidence/iid/IID-AC-X2-ZERO-SOCKET-2026-11-06/` (`AC-X2-RUNTIME-EVIDENCE.md`; four JSON records; verbatim
+`commands-and-outputs.txt`). Honest limit recorded there: no syscall trace was possible in this environment
+(`strace`, `ltrace`, `bpftrace` absent), so the measurement is Node-level instrumentation plus the descriptor census, and
+the log names that rather than implying a kernel trace.
+
+**AC-X6 (dataset and artifacts external to git; committed fixtures each <100 KB) — PASS; G-8 closed as not a breach.**
+The bound belongs to a data *class*: design §I.2 rule 3 calls class (b) *"committed fixtures — synthetic or
+public-domain extracts, each < 100 KB, no PII"* and class (c) *"test evidence — sanitized summaries …"*, and §B.I.4
+assigns them locations — (b) to `iips-platform/tests/investment/fixtures/` ("<100 KB total"), (c) to `evidence/iid/**`
+with no size bound. `golden-tech.json` (109,948 B) is class (c), so the fixture bound never applied to it. Re-measured at
+`aaf1f0c`: the IID fixture corpus is 37,433 B with the largest file at 7,929 B, the regression fixture corpus is
+61,539 B, and **no file under any committed `fixtures/` directory exceeds 100 KB** (largest 42,478 B). The file was not
+shrunk or moved. One note for a future revision of the design: class (c) is *described* as "summaries" and a golden
+expected-payload dump is broader than that — recorded, not argued away. Evidence:
+`evidence/iid/IID-AC-X2-ZERO-SOCKET-2026-11-06/AC-X6-G8-DETERMINATION.md`.
+
+**Everything else stands.** `L-001` … `L-029` are unchanged (identical identifiers, meanings, statuses and order;
+`L-014` remains `RESOLVED` by §B.N). AC-X1 stays a qualified PASS with Q-1…Q-4, and AC-2.6, AC-2.9 and AC-4.7 stay
+qualified. AC-X3, AC-X4, AC-X5 and AC-X7 are unchanged. No criterion was promoted without evidence in this section, and
+no limitation was closed by it.

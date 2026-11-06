@@ -1,0 +1,42 @@
+ .../server/investment/disposition-records.test.ts  |  47 ++
+ .../investment/disposition-transport.test.ts       |   8 +
+ frontend/server/investment/dispositionService.ts   |  40 +-
+ frontend/src/api/investment.ts                     |  40 +-
+ frontend/src/api/investmentCoverage.ts             |  16 +-
+ frontend/src/app/App.tsx                           |   4 +
+ frontend/src/app/navigation.ts                     |   2 +
+ frontend/src/app/routes.ts                         |  13 +
+ .../investment/CompanyAssessmentPage.test.tsx      |  17 +-
+ .../features/investment/CompanyAssessmentPage.tsx  | 522 +++++++++++++++++----
+ .../features/investment/InvestmentCoveragePage.tsx |  79 +++-
+ .../user-portfolios/UserPortfolioDetail.tsx        | 123 +++++
+ 12 files changed, 814 insertions(+), 97 deletions(-)
+ M frontend/server/investment/disposition-records.test.ts
+ M frontend/server/investment/disposition-transport.test.ts
+ M frontend/server/investment/dispositionService.ts
+ M frontend/src/api/investment.ts
+ M frontend/src/api/investmentCoverage.ts
+ M frontend/src/app/App.tsx
+ M frontend/src/app/navigation.ts
+ M frontend/src/app/routes.ts
+ M frontend/src/features/investment/CompanyAssessmentPage.test.tsx
+ M frontend/src/features/investment/CompanyAssessmentPage.tsx
+ M frontend/src/features/investment/InvestmentCoveragePage.tsx
+ M frontend/src/features/user-portfolios/UserPortfolioDetail.tsx
+?? evidence/iid/IID-6-PRODUCT-SURFACE-2026-11-06/
+?? frontend/src/api/iid6InvestmentClients.test.ts
+?? frontend/src/api/investmentChanges.ts
+?? frontend/src/api/investmentDisposition.ts
+?? frontend/src/app/iid6Routes.test.tsx
+?? frontend/src/features/investment/CandidateAssessmentPage.tsx
+?? frontend/src/features/investment/ChangeTimeline.tsx
+?? frontend/src/features/investment/DispositionPanel.tsx
+?? frontend/src/features/investment/InvestmentStates.tsx
+?? frontend/src/features/investment/SectorReferenceDisclosure.tsx
+?? frontend/src/features/investment/iid6ChangeTimeline.test.tsx
+?? frontend/src/features/investment/iid6CompanyAssessment.test.tsx
+?? frontend/src/features/investment/iid6Coverage.test.tsx
+?? frontend/src/features/investment/iid6Disposition.test.tsx
+?? frontend/src/features/investment/iid6Fixtures.ts
+?? frontend/src/features/investment/investmentCopy.ts
+?? frontend/src/features/user-portfolios/iid6PortfolioIntegration.test.tsx

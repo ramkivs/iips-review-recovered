@@ -135,7 +135,14 @@ function assertReport(payload: unknown): InvestmentCoverageReport {
     typeof record.statusLine === 'string' &&
     Array.isArray(record.notes);
   if (!shapeOk) throw new Error('coverage report shape not recognised');
-  return assertReport(payload);
+  /*
+   * IID-6 CORRECTION. This line was `return assertReport(payload)`, which recursed on every valid payload and blew
+   * the stack: the coverage surface could therefore never render a report it had received, and the failure looked
+   * like a client error rather than a defect. It was found while extending the page (the page had no test that fed it
+   * a valid report), and the fix is the obvious one — validate, then return the payload. Nothing about the shape
+   * gate changed.
+   */
+  return payload as InvestmentCoverageReport;
 }
 
 async function readPayload(response: Response): Promise<unknown> {
@@ -163,7 +170,12 @@ export async function fetchInvestmentCoverage(asOf?: string): Promise<Investment
       record.issues ?? [],
     );
   }
-  return payload as InvestmentCoverageReport;
+  /*
+   * IID-6 CORRECTION. `assertReport` existed but was never called on the main read path, so a malformed body was
+   * cast into `InvestmentCoverageReport` unchecked. It is now applied, which is what the doc comment above always
+   * claimed happened.
+   */
+  return assertReport(payload);
 }
 
 export interface PreviewRowPayload {

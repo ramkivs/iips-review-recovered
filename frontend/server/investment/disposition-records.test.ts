@@ -11,6 +11,8 @@
  */
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
+import { assessmentSubstantiveIdentity } from './substantiveIdentity';
+
 import { createRequire } from 'node:module';
 
 import { openDatabase, GovernedArtifactStore } from 'iips-np04-governed-persistence/persistence';
@@ -24,6 +26,7 @@ import {
   assessmentPayloadOf,
   buildPayload,
   candidateSubjectOf,
+  heldSubjectOf,
 } from './dispositionTestFixtures';
 import { M1_NOW, assembleAssessment, prepareM1Environment } from './demo/m1Pipeline';
 
@@ -52,9 +55,15 @@ const candidatePayload = buildPayload({
 let database: ReturnType<typeof openDatabase>;
 let service: ReturnType<typeof createDispositionRecordsService>;
 
+// O-5: the disposition input identity cites the ASSESSMENT's substantive identity, so these two values are part
+// of every record call. They are derived from the assessment payload by the same functions the assessment
+// composition uses, never hand-written.
+const ASSESSMENT_SUBSTANTIVE = assessmentSubstantiveIdentity(ASSESSMENT);
 const CONTEXT = {
   assessmentPayloadDigest: v1.composed.payloadDigest,
   assessmentInputDigest: v1.composed.inputDigest,
+  assessmentSubstantiveDigest: ASSESSMENT_SUBSTANTIVE.substantiveDigest,
+  assessmentSubstantiveInputDigest: ASSESSMENT_SUBSTANTIVE.substantiveInputDigest,
   generatedAt: M1_NOW,
   datasetClass: 'SYNTHETIC_REFERENCE' as const,
 };
@@ -71,10 +80,6 @@ function tamper(sql: string, ...params: (string | number | null)[]): void {
 }
 
 beforeAll(() => {
-  if (process.env.IID4_PROBE === '1') {
-    const probe = createDispositionRecordsService({ port: null as never, owner: OWNER });
-    void probe;
-  }
   database = openDatabase({ path: env.dbPath, createDirectory: true, migrate: true });
   service = createDispositionRecordsService({
     port: adaptNp04Store(new GovernedArtifactStore(database)),
@@ -164,17 +169,67 @@ describe('listing', () => {
     expect(entries[0]!.verb).toBe(heldPayload.disposition.verb);
   });
 
+  it('carries the facts the portfolio surface needs, so it never has to guess one', () => {
+    /*
+     * IID-6 adds four fields to the list entry. The portfolio page shows the current verb, its confidence and whether
+     * it was withheld, and it links the row to the issuer that the entry names — none of which it can derive from
+     * `securityId` without inventing a mapping. `null` here means "the head payload could not be read", which the
+     * surface renders as unavailable; it never means "no verb".
+     */
+    const [entry] = service.listPortfolio(PORTFOLIO_ID);
+    expect(entry!.confidence).toBe(heldPayload.disposition.confidence);
+    expect(entry!.horizon).toBe(heldPayload.disposition.horizon);
+    expect(entry!.withheld).toBe(false);
+    expect(entry!.issuerId).toBe(ASSESSMENT.subject.issuerId);
+  });
+
+  it('reports a withheld head as withheld, with no verb and no confidence', () => {
+    /*
+     * A withheld disposition is a recorded FACT, and the portfolio surface must be able to say so. The engine
+     * withholds when the assessment adequacy cannot support any verb (IID-4, `verbs.ts`), so an INSUFFICIENT
+     * assessment is the honest way to produce one.
+     *
+     * A separate portfolio is used so this chain cannot disturb the chains the other assertions in this file read.
+     */
+    const withheldPortfolio = 'pf-iid6-withheld';
+    const insufficient = {
+      ...ASSESSMENT,
+      completeness: { ...ASSESSMENT.completeness, adequacy: 'INSUFFICIENT' },
+    } as typeof ASSESSMENT;
+    const withheldPayload = buildPayload({
+      payload: insufficient,
+      assembly: v1,
+      reportId: REPORT_ID,
+      securityId: SECURITY_ID,
+      subject: heldSubjectOf(insufficient, SECURITY_ID, withheldPortfolio),
+    });
+    expect(withheldPayload.disposition.withheld).not.toBeNull();
+    expect(withheldPayload.disposition.verb).toBeNull();
+
+    service.record(withheldPayload, CONTEXT);
+    const [entry] = service.listPortfolio(withheldPortfolio);
+    expect(entry!.withheld).toBe(true);
+    expect(entry!.verb).toBeNull();
+    expect(entry!.confidence).toBeNull();
+    // The issuer is still named, so the surface can still link the row to the company it is about.
+    expect(entry!.issuerId).toBe(insufficient.subject.issuerId);
+  });
+
   it('returns an empty list rather than an error for a portfolio with no dispositions', () => {
     expect(service.listPortfolio('pf-with-nothing')).toEqual([]);
   });
 });
 
-describe('L-014 — the clock inside content identity is preserved, not hidden', () => {
-  it('a re-run at a new clock is a new version whose recorded input digest did not change', () => {
-    // This is L-014 carried into dispositions, and it is asserted rather than described: the payload contains
-    // `artifact.generatedAt`, so the content digest moves with the clock while the INPUT digest does not. The
-    // disposition input digest deliberately excludes the clock, which is what makes the pair informative —
-    // `APPENDED` with an unchanged input digest says "only the generation metadata moved".
+describe('L-014 — the clock is inside content identity and outside substantive identity', () => {
+  it('a re-run at a new clock is NOT a new version: CLOCK_ONLY_UNCHANGED, and nothing is written', () => {
+    // IID-4 asserted the opposite (`APPENDED`): the clock lived in the payload, so a re-run minted a version
+    // that said nothing new. L-014 decided that the clock must not create a version, and IID-5 implements it.
+    //
+    // What is asserted here is the whole mechanism, not just the label:
+    //   · the submitted payload BYTES differ (the clock moved), so this is not the byte-identical `UNCHANGED`;
+    //   · the substantive identity does NOT differ, because the disposition grammar excludes `artifact.generatedAt`
+    //     and the cited assessment's `generatedAt`;
+    //   · the chain therefore stays at its current head, and `wrote` is false.
     const before = service.readHolding(PORTFOLIO_ID, SECURITY_ID);
     const rerun = buildPayload({
       payload: ASSESSMENT,
@@ -188,9 +243,15 @@ describe('L-014 — the clock inside content identity is preserved, not hidden',
       { ...rerun, limitations: [...rerun.limitations, 'L-020'] },
       { ...CONTEXT, generatedAt: '2026-11-06T09:00:00.000Z' },
     );
-    expect(result.outcome).toBe('APPENDED');
+    expect(result.outcome).toBe('CLOCK_ONLY_UNCHANGED');
+    expect(result.wrote).toBe(false);
+    expect(result.chain.versionCount).toBe(before.chain.versionCount);
+    expect(result.head.payloadDigest).toBe(before.version.payloadDigest);
     expect(result.head.inputDigest).toBe(before.version.inputDigest);
-    expect(result.head.payloadDigest).not.toBe(before.version.payloadDigest);
+    // The bytes that were NOT written are identifiable, and they are genuinely different bytes.
+    expect(result.unpersistedPayloadDigest).toBeDefined();
+    expect(result.unpersistedPayloadDigest).not.toBe(before.version.payloadDigest);
+    expect(result.head.substantiveDigest).toBe(before.version.substantiveDigest);
   });
 });
 

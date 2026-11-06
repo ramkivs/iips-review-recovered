@@ -807,6 +807,31 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
+  // IID-5 — change-intelligence read transport (GET/HEAD only, IRR-owned).
+  // Mounted BEFORE the IID-3 assessment surface because its paths live under
+  // `/api/investment/company/:issuerId/changes`, which IID-3's parser would otherwise reject as malformed.
+  // Comparisons are computed on read from stored versions; this surface cannot mint a change report any more
+  // than the assessment surface can mint an assessment. The catch is non-disclosing.
+  if (typeof req.url === 'string' && /^\/api\/investment\/company\/[^/?#]+\/changes(?:[/?#]|$)/.test(req.url)) {
+    void (async () => {
+      try {
+        const change = await import('./investment/change-transport');
+        await change.handleChangeRequest(req, res);
+      } catch {
+        if (!res.headersSent && !res.destroyed) {
+          res.writeHead(503, { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' });
+          res.end(
+            JSON.stringify({
+              error: 'change-integrity-failure',
+              detail: { reason: 'Stored investment artifacts failed validation and no comparison was served.' },
+            }),
+          );
+        }
+      }
+    })();
+    return;
+  }
+
   // IID-3 — investment assessment read transport (GET/HEAD only, IRR-owned).
   // The surface exposes exactly two routes: the chain head for one issuer scope, and one version inside a
   // validated chain. Creation and versioning happen only through the operator CLI, so a browser can never

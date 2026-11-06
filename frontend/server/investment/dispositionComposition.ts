@@ -24,6 +24,16 @@ import {
 import { ReportValidationError } from '../reports/artifact.js';
 import { canonicalizePayload, type CanonicalParameterValue } from '../reports/canonical.js';
 import { composeReportContent } from '../reports/composition.js';
+import {
+  DISPOSITION_SUBSTANTIVE_GRAMMAR,
+  PROVENANCE_SUBSTANTIVE_DIGEST,
+  PROVENANCE_SUBSTANTIVE_GRAMMAR,
+  PROVENANCE_SUBSTANTIVE_INPUT_DIGEST,
+  PROVENANCE_SUBSTANTIVE_POLICY,
+  SUBSTANTIVE_IDENTITY_POLICY,
+  dispositionSubstantiveInputDigest,
+  substantiveDigestOfPayload,
+} from './substantiveIdentity.js';
 import { validateReportTypeForScope, type ScopeTokenAccepted } from '../../../iips-platform/src/investment/artifacts/scopeToken.js';
 
 /** The one report type this module composes. The registry is the authority; this is the binding. */
@@ -48,6 +58,17 @@ export interface ComposeDispositionInput {
   readonly datasetClass?: DatasetClass;
   /** Override the derived subject scope token. Validated, not trusted. */
   readonly scopeToken?: string;
+  /**
+   * IID-5 / L-014 O-5: the SUBSTANTIVE identity of the assessment version this disposition rests on.
+   *
+   * Required, not optional. §7.3 of the decision states the defect exactly: IID-4 composed the disposition input
+   * identity from the assessment's engine `inputDigest`, which carries the assessment's execution clock, so
+   * re-assessing at a new clock moved a disposition input that had not changed. The repair is to cite the
+   * assessment's clock-free identity instead. An optional parameter would leave the tainted path reachable, so a
+   * composition without it is refused rather than silently reverting to the defect.
+   */
+  readonly assessmentSubstantiveDigest: string;
+  readonly assessmentSubstantiveInputDigest: string;
 }
 
 export interface ComposedDisposition {
@@ -235,6 +256,25 @@ export function composeDispositionArtifact(input: ComposeDispositionInput): Comp
     // The two digests live here, NOT in `parameters`: provenance is not a chain member.
     inputDigest,
     payloadDigest,
+    // IID-5 / L-014: the clock-free identity of the disposition, recorded beside the byte identity. The
+    // disposition grammar excludes only metadata (its own clock and the cited assessment's clock), so two
+    // dispositions that differ solely because a re-run happened cannot become two substantive versions.
+    [PROVENANCE_SUBSTANTIVE_DIGEST]: substantiveDigestOfPayload(DISPOSITION_REPORT_TYPE, payload),
+    [PROVENANCE_SUBSTANTIVE_GRAMMAR]: DISPOSITION_SUBSTANTIVE_GRAMMAR,
+    [PROVENANCE_SUBSTANTIVE_POLICY]: SUBSTANTIVE_IDENTITY_POLICY,
+    // O-5: the disposition's clock-free INPUT identity cites the assessment's substantive digests. The engine's
+    // `inputDigest` above is still recorded unchanged as engine provenance (R-2) — it is simply no longer what
+    // decides whether a disposition version is warranted.
+    [PROVENANCE_SUBSTANTIVE_INPUT_DIGEST]: dispositionSubstantiveInputDigest({
+      payload,
+      assessmentSubstantiveDigest: input.assessmentSubstantiveDigest,
+      assessmentSubstantiveInputDigest: input.assessmentSubstantiveInputDigest,
+      assessmentArtifactVersion: payload.companyAssessmentRef.artifactVersion,
+    }),
+    // The cited assessment identity travels with the disposition, so a reader can tell WHICH assessment identity
+    // a verb rested on without holding that assessment.
+    assessmentSubstantiveDigest: input.assessmentSubstantiveDigest,
+    assessmentSubstantiveInputDigest: input.assessmentSubstantiveInputDigest,
   };
 
   const content = composeReportContent({

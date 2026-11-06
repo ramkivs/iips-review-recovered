@@ -8,6 +8,7 @@
  * assessable. There is no client-side classification: the server resolves, this page renders.
  */
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import {
   CoverageUnavailableError,
@@ -36,6 +37,13 @@ function tone(state: string): string {
   return STATE_TONE[state] ?? 'bad';
 }
 
+/**
+ * IID-6: an identity that is known becomes a way IN, and an identity that is not known offers nothing to click.
+ *
+ * The links are the only reason this cell knows about routing: `RESOLVED` + `assessable` opens the stored company
+ * assessment for the issuer, and every known securityId opens the candidate view (which itself says whether a
+ * disposition exists). Nothing here decides that an assessment exists — the destination page reports that honestly.
+ */
 function IdentityCell({ item }: { readonly item: CoverageItemView }): JSX.Element {
   const { binding } = item;
   if (item.state === 'RESOLVED') {
@@ -45,6 +53,16 @@ function IdentityCell({ item }: { readonly item: CoverageItemView }): JSX.Elemen
         <code>{binding.securityId}</code>
         <code>{binding.listingId}</code>
         <span className="muted">via {binding.resolutionBasis === 'ISIN' ? 'ISIN' : 'exchange symbol'}</span>
+        {binding.issuerId !== null && binding.assessable ? (
+          <span>
+            <Link to={`/investment/company/${encodeURIComponent(binding.issuerId)}`}>Company assessment →</Link>
+          </span>
+        ) : null}
+        {binding.securityId !== null ? (
+          <span>
+            <Link to={`/investment/candidate/${encodeURIComponent(binding.securityId)}`}>Candidate view →</Link>
+          </span>
+        ) : null}
       </div>
     );
   }
@@ -53,6 +71,9 @@ function IdentityCell({ item }: { readonly item: CoverageItemView }): JSX.Elemen
       <div className="identity">
         <code>{binding.issuerId}</code>
         <span className="muted">identity known, not assessed</span>
+        <span>
+          <Link to={`/investment/company/${encodeURIComponent(binding.issuerId)}`}>Company assessment →</Link>
+        </span>
       </div>
     );
   }
@@ -149,7 +170,7 @@ export default function InvestmentCoveragePage(): JSX.Element {
   return (
     <section className="investment-coverage">
       <header>
-        <h1>Investment identity coverage</h1>
+        <h1>Investment coverage</h1>
         <p className="muted">
           as of {report.asOf} · roster {report.identitySources.rosterLabel} (
           {report.identitySources.rosterDataClass})
@@ -312,6 +333,62 @@ export default function InvestmentCoveragePage(): JSX.Element {
         </tbody>
       </table>
       <p className="muted">{report.financialCoverage.note}</p>
+
+      <h2>Dataset freshness</h2>
+      <table>
+        <caption>What this coverage read was computed from, and how old it is</caption>
+        <tbody>
+          <tr>
+            <th scope="row">Coverage as of</th>
+            <td>{report.asOf}</td>
+          </tr>
+          <tr>
+            <th scope="row">Report generated at</th>
+            <td>{report.generatedAt}</td>
+          </tr>
+          <tr>
+            <th scope="row">Identity roster</th>
+            <td>
+              {report.identitySources.rosterLabel} ({report.identitySources.rosterDataClass}) ·{' '}
+              <code>{report.identitySources.rosterVersion.slice(0, 16)}…</code>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">Listing map</th>
+            <td>
+              <code>{report.identitySources.listingMapVersion.slice(0, 16)}…</code>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">Corporate actions</th>
+            <td>
+              <code>{report.identitySources.corporateActionTableVersion.slice(0, 16)}…</code>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">Financial dataset class</th>
+            <td>{report.financialCoverage.datasetClass}</td>
+          </tr>
+        </tbody>
+      </table>
+      <p className="muted">
+        Per-security statement freshness is a fact about a stored assessment, not about this coverage read. It is
+        shown on each company page as <code>dataAsOf</code>, <code>knownAsOf</code> and the staleness verdict; this
+        page does not estimate it for a security it has not assessed.
+      </p>
+
+      <h2>Boundary coverage and missing explanations</h2>
+      <p className="muted">
+        Boundary coverage is a property of one company&rsquo;s assessment chain: it counts the consecutive version
+        pairs that have a stored explanation. There is no cross-issuer boundary read model, so this page does not
+        total it — a total it could not compute would be a fabricated number. Open a company&rsquo;s change history to
+        see its coverage and any missing explanation; the identity rows above link to each known issuer.
+      </p>
+      <p className="muted">
+        Filling a missing explanation is an operator reconciliation action against the governed store
+        (<code>ChangeService.reconcile</code>, report kind <code>VERSION_BOUNDARY_RECONSTRUCTED</code>). It is not
+        exposed to the browser and no surface here can trigger it.
+      </p>
 
       <h2>Notes</h2>
       <ul>

@@ -25,6 +25,7 @@ import { Screener } from '../features/screener/Screener';
 import { Watchlists } from '../features/watchlists/Watchlists';
 import InvestmentCoveragePage from '../features/investment/InvestmentCoveragePage';
 import CompanyAssessmentPage from '../features/investment/CompanyAssessmentPage';
+import CandidateAssessmentPage from '../features/investment/CandidateAssessmentPage';
 import { Collaboration } from '../features/collaboration/Collaboration';
 import { Settings } from '../features/settings/Settings';
 import { SectorIntelligence } from '../features/sector/SectorIntelligence';
@@ -52,6 +53,9 @@ export function App() {
         <Route path={ROUTES.identityCoverage} element={<InvestmentCoveragePage />} />
         {/* IID-3 — persisted company assessment (GET-only; the server owns persistence). */}
         <Route path={ROUTES.companyAssessment} element={<CompanyAssessmentPage />} />
+        {/* IID-6 — coverage at its authoritative path, and the candidate flow (no portfolio required). */}
+        <Route path={ROUTES.investmentCoverage} element={<InvestmentCoveragePage />} />
+        <Route path={ROUTES.candidateAssessment} element={<CandidateAssessmentPage />} />
         <Route path="/collaboration" element={<Collaboration />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/research" element={<FeaturePlaceholder surface="Research" />} />

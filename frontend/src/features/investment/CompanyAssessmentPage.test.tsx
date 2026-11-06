@@ -312,20 +312,29 @@ describe('the view shows what qualifies an assessment', () => {
 });
 
 describe('the view offers no decision affordance', () => {
-  it('renders no order, trade, disposition or change-intelligence control', async () => {
+  /**
+   * IID-6 CHANGED WHAT THIS TEST MAY ASSERT, AND THIS IS THE HONEST VERSION OF IT. The surface now legitimately
+   * renders a disposition panel and a change timeline — the phase exists to put them together — so banning the
+   * substring "dispos" would ban the requirement. What must never appear is a WRITE affordance or an execution
+   * instruction: no form control, no button that could persist anything, and no buy/sell/order-ticket language.
+   * "no order, quantity or price is published here" is a disclosure, not an affordance, and is asserted as present.
+   */
+  it('renders no write control and no execution language, only read selectors', async () => {
     stubFetch(() => new Response(JSON.stringify(ENVELOPE), { status: 200 }));
     const { container } = renderPage();
     await screen.findByRole('heading', { name: /Chandra Meridian Bank/i });
 
+    // The only buttons are the version selector: the timeline could not be read here, so it adds none.
     const buttons = screen.getAllByRole('button');
     expect(buttons.map((button) => button.textContent)).toEqual(['v1', 'v2']);
     expect(container.querySelectorAll('input, select, textarea, form')).toHaveLength(0);
     const text = (container.textContent ?? '').toLowerCase();
-    for (const forbidden of ['buy', 'sell', 'order', 'trade now', 'dispos', 'recommend']) {
+    for (const forbidden of ['buy', 'sell', 'place order', 'trade now', 'recommend', 'add to portfolio']) {
       expect(text).not.toContain(forbidden);
     }
-    // The only interactive element is the version selector, and it changes which stored version is read.
-    expect(screen.queryByRole('link', { name: /generate|create|append|publish/i })).toBeNull();
+    expect(text).toContain('no order, quantity or price is published here');
+    expect(screen.queryByRole('link', { name: /generate|create|append|publish|save|record|submit/i })).toBeNull();
+    expect(screen.queryByRole('button', { name: /generate|create|append|publish|save|record|submit/i })).toBeNull();
   });
 });
 

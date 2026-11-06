@@ -27,6 +27,7 @@ import { openDatabase, GovernedArtifactStore } from 'iips-np04-governed-persiste
 import { adaptNp04Store } from '../../reports/np04-adapter.js';
 import { createInvestmentArtifactService } from '../investmentArtifacts.js';
 import { createDispositionRecordsService } from '../dispositionService.js';
+import { assessmentSubstantiveIdentity } from '../substantiveIdentity.js';
 import { handleDispositionRequest } from '../disposition-transport.js';
 import { buildPortfolioContext, candidatePortfolioFacts } from '../portfolioContext.js';
 // Module-specific imports, not the barrel: `tsx` resolves the barrel's re-exports inconsistently for a file
@@ -263,9 +264,14 @@ export async function runDemonstration(outDir: string): Promise<{ evidence: Disp
   });
 
   const dispositions = createDispositionRecordsService({ port, owner: OWNER });
+  // O-5: the disposition input identity cites the assessment's substantive identity, computed from the payload the
+  // demonstration actually assessed. The engine `inputDigest` is still recorded as engine provenance.
+  const assessmentIdentity = assessmentSubstantiveIdentity(assessment);
   const context = {
     assessmentPayloadDigest: assembly.composed.payloadDigest,
     assessmentInputDigest: assembly.composed.inputDigest,
+    assessmentSubstantiveDigest: assessmentIdentity.substantiveDigest,
+    assessmentSubstantiveInputDigest: assessmentIdentity.substantiveInputDigest,
     generatedAt: CLOCK,
     datasetClass: 'SYNTHETIC_REFERENCE' as const,
   };

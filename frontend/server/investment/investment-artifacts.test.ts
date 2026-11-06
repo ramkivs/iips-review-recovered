@@ -24,7 +24,8 @@ import { join } from 'node:path';
 import { openDatabase, GovernedArtifactStore } from 'iips-np04-governed-persistence/persistence';
 import { adaptNp04Store } from '../reports/np04-adapter';
 import { recomputeReportKey } from '../reports/persistence';
-import { canonicalizePayload } from '../reports/canonical';
+import { canonicalizePayload } from '../reports/canonical'
+import { assessmentSubstantiveInputDigest, substantiveDigestOfPayload } from './substantiveIdentity';
 import {
   InvestmentArtifactError,
   createInvestmentArtifactService,
@@ -273,7 +274,15 @@ describe('AC-3.2/3.3/3.4 — create, idempotency, versioning', () => {
           ...v2.composed.content,
           canonicalPayload: canonical,
           generatedAt: '2026-11-06T00:20:00.000Z',
-          provenance: { ...v2.composed.content.provenance, payloadDigest: sha256(canonical) },
+          // IID-5: a payload edit must carry a matching substantive identity. The recorder refuses a declared
+          // digest (of either kind) that its payload does not have, so the fixture recomputes both here rather
+          // than relying on the write path to re-derive them.
+          provenance: {
+            ...v2.composed.content.provenance,
+            payloadDigest: sha256(canonical),
+            substantiveDigest: substantiveDigestOfPayload('investment.company-assessment', payload),
+            substantiveInputDigest: assessmentSubstantiveInputDigest(payload),
+          },
         },
       });
       expect(third.outcome).toBe('APPENDED');
@@ -296,7 +305,15 @@ describe('AC-3.2/3.3/3.4 — create, idempotency, versioning', () => {
         inputDigest: `sha256:${'b'.repeat(64)}`,
         content: {
           ...v1.composed.content,
-          provenance: { ...v1.composed.content.provenance, inputDigest: `sha256:${'b'.repeat(64)}` },
+          provenance: {
+            ...v1.composed.content.provenance,
+            inputDigest: `sha256:${'b'.repeat(64)}`,
+            // IID-5: the CONTENT is byte-identical, and the clock-free input identity is what now distinguishes
+            // "same content, different inputs" from "same content, same inputs". Patching only the engine
+            // `inputDigest` would describe a metadata-only difference, so the substantive input digest — which
+            // the recorder never re-derives from the payload, because it cannot — is what the fixture moves.
+            substantiveInputDigest: `sha256:${'b'.repeat(64)}`,
+          },
         },
       };
       const result = service.recordAssessment(identicalContentDifferentInput);
