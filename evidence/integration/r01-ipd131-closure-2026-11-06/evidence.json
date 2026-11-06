@@ -1,0 +1,140 @@
+{
+  "date": "2026-11-06",
+  "IRRBaseline": "accf9c1055d5aa301ecae93f075f8c4c9676ca7e",
+  "scope": "R01_F2_V2_BOUNDED_ENGINEERING_ONLY",
+  "status": "CLOSED / VERIFIED",
+  "IPDPR": 131,
+  "IPDHead": "9e348adbd894c56584ce944d5cfe0964bb1c894e",
+  "IPDMerge": "58fc8fb7f033650f40d61078d70e951f21dd033f",
+  "IPDTree": "9dee4bfd1491fb51756b3d5ad3a512c1cb0e9636",
+  "IPDParents": [
+    "f9dac560b821476c417b963c83c80ad0e7747dc7",
+    "9e348adbd894c56584ce944d5cfe0964bb1c894e"
+  ],
+  "merged": true,
+  "readbacks": [
+    {
+      "path": "evidence/cross-repository/IIPS_V3_D02_D03_D05_PR129_DEVIATION_CORRECTIONS_2026-11-06.md",
+      "commit": "58fc8fb7f033650f40d61078d70e951f21dd033f",
+      "blob": "5f82806a42a09c0d9a3161f3e5e5a64321af4468",
+      "sha256": "8c0bf019577619e73ef28afc256b3979128bf1db38ded04902b31102747e4fa7"
+    },
+    {
+      "path": "evidence/cross-repository/IIPS_V3_R01_IPD_RECONCILIATION_IMPLEMENTATION_EVIDENCE_2026-11-06.md",
+      "commit": "58fc8fb7f033650f40d61078d70e951f21dd033f",
+      "blob": "90c82d709307d117be136dbf44ac40d2817c8363",
+      "sha256": "e8a22a74fc2ecc620752888fa7f6b2030255e7688d062dbb6ef7ac869d0f25ab"
+    },
+    {
+      "path": "evidence/cross-repository/IIPS_V3_R01_IPD_RECONCILIATION_INVESTIGATION_2026-11-06.md",
+      "commit": "58fc8fb7f033650f40d61078d70e951f21dd033f",
+      "blob": "57287ef62fa854bd53b8b414a91bfcfe6d8e817a",
+      "sha256": "423c47882d9c0e11ef6bc76c6b95fdc036de9789d8080963a9078b07ba67fd3b"
+    },
+    {
+      "path": "src/persistence/brokerImportPersistence.ts",
+      "commit": "58fc8fb7f033650f40d61078d70e951f21dd033f",
+      "blob": "3a0a261484b68a074c766b4632f979682695700e",
+      "sha256": "9b8ecf76b830ddc76f0864b0b01a16398c25e6c34277904493159286c31f2aaf"
+    },
+    {
+      "path": "src/persistence/portfolio_store.ts",
+      "commit": "58fc8fb7f033650f40d61078d70e951f21dd033f",
+      "blob": "722d566e74b8b5a1a082d684c37ce94a14e74c3e",
+      "sha256": "5147df19f4fdd0ab5c192d138ff953938455be30fd76539b23b3c7befa31032d"
+    },
+    {
+      "path": "tests/durable_holdings_recovery_v1.test.ts",
+      "commit": "58fc8fb7f033650f40d61078d70e951f21dd033f",
+      "blob": "dc512cbff5b7cfe869ce069c75d794784a2ee90a",
+      "sha256": "36e91b2527c1a9919eb8ace2645386839dc9f0e62222556b7de2b15e6d3e86b3"
+    }
+  ],
+  "ci": {
+    "head": {
+      "runs": [
+        {
+          "id": 42236349898,
+          "headSha": "9e348adbd894c56584ce944d5cfe0964bb1c894e",
+          "event": "pull_request",
+          "conclusion": "success",
+          "url": "https://github.com/ramkivs/iips-production-market-data/actions/runs/42236349898"
+        }
+      ],
+      "checks": [
+        {
+          "id": 127955381091,
+          "name": "executed test count",
+          "conclusion": "success",
+          "summary": "**1068 tests executed — 1067 passed, 0 failed.** Guard: a run that executes zero tests fails (CV-35). Head: `9e348adbd894c56584ce944d5cfe0964bb1c894e`."
+        },
+        {
+          "id": 127954853425,
+          "name": "typecheck · build · test",
+          "conclusion": "success",
+          "summary": null
+        }
+      ]
+    },
+    "main": {
+      "runs": [
+        {
+          "id": 42236557560,
+          "headSha": "58fc8fb7f033650f40d61078d70e951f21dd033f",
+          "event": "push",
+          "conclusion": "success",
+          "url": "https://github.com/ramkivs/iips-production-market-data/actions/runs/42236557560"
+        }
+      ],
+      "checks": [
+        {
+          "id": 127956014146,
+          "name": "executed test count",
+          "conclusion": "success",
+          "summary": "**1068 tests executed — 1067 passed, 0 failed.** Guard: a run that executes zero tests fails (CV-35). Head: `58fc8fb7f033650f40d61078d70e951f21dd033f`."
+        },
+        {
+          "id": 127955573742,
+          "name": "typecheck · build · test",
+          "conclusion": "success",
+          "summary": null
+        }
+      ]
+    }
+  },
+  "tests": {
+    "R01-T1": "PASS (pinned IPD implementation evidence §3)",
+    "R01-T2": "PASS (pinned IPD implementation evidence §3)",
+    "R01-T3": "PASS (pinned IPD implementation evidence §3)",
+    "R01-T4": "PASS (pinned IPD implementation evidence §3)",
+    "R01-T5": "PASS (pinned IPD implementation evidence §3)",
+    "R01-T6": "PASS (pinned IPD implementation evidence §3)",
+    "R01-T7": "PASS (pinned IPD implementation evidence §3)",
+    "R01-T8": "PASS (pinned IPD implementation evidence §3)",
+    "R01-T9": "PASS (pinned IPD implementation evidence §3)",
+    "R01-T10": "PASS (pinned IPD implementation evidence §3)",
+    "R01-T11": "PASS (pinned IPD implementation evidence §3)",
+    "R01-T12": "PASS (pinned IPD implementation evidence §3)"
+  },
+  "guardedSuite": {
+    "executed": 1068,
+    "passed": 1067,
+    "failed": 0,
+    "skipped": 1,
+    "source": "Pinned IPD implementation evidence §4; not rerun in IRR"
+  },
+  "cleanCloneReproduction": {
+    "status": "USER_REPORTED_NOT_INDEPENDENTLY_RETRIEVED",
+    "explanation": "User reports completion-report clean-clone reproduction. Pinned implementation evidence §7 defers post-merge facts to a completion receipt; PR131 has zero comments at inspection and no R01 completion report found in current main tree. No IPD clone/build/test executed in this IRR task."
+  },
+  "oldEvidenceDisposition": "pre-qe-prerequisite-closure-2026-11-06/reconciliation-evidence.json F2 remains a frozen #130 snapshot, superseded for current R01/F2 by this record",
+  "priorIRRReceipt": {
+    "PR": 491,
+    "merge": "e482cda4ae7add8f94db041048a172f9941475c9",
+    "comment": 6686597212,
+    "sha256": "6c5e76039a4c85b02d60c7f3897f2b9d3575fa4b20165cf5573c29b601d72af4"
+  },
+  "otherStatusesChanged": false,
+  "IPDChangesPerformed": false,
+  "operationalActions": []
+}
