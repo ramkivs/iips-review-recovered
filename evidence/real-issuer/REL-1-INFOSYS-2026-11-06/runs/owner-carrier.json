@@ -1,0 +1,10 @@
+{
+  "carrierSchemaVersion": 1,
+  "ownerUserId": "owner-irr-reports-personal",
+  "tenantId": "irr-reports-personal",
+  "governedBy": {
+    "recordId": "IIPS-V3-REPORTS-NP06-R1-OWNERSHIP-DECLARATION-PA-DECISION-ACT-2026-10-25-01",
+    "recordPath": "docs/integration/IIPS_v3.0_REPORTS_NP06_R1_OWNERSHIP_DECLARATION_PA_DECISION_ACT_2026-10-25.md",
+    "decisionDate": "2026-10-25"
+  }
+}

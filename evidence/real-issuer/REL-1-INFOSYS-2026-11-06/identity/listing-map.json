@@ -1,0 +1,29 @@
+{
+  "schemaVersion": "IIPS_INVESTMENT_IDENTITY_V1",
+  "entries": [
+    {
+      "listingId": "IN:NSE:INFY:EQ:EQUITY",
+      "securityId": "IN:ISIN:INE009A01021",
+      "issuerId": "IN:CIN:L85110KA1981PLC013115",
+      "exchange": "NSE",
+      "symbol": "INFY",
+      "series": "EQ",
+      "instrumentType": "EQUITY",
+      "effectiveFrom": "1993-06-01",
+      "effectiveTo": null,
+      "sourceRef": "https://www.infosys.com/investors/shareholder-services/faqs.html (ISIN) and NSE symbol INFY"
+    },
+    {
+      "listingId": "IN:BSE:500209:EQ:EQUITY",
+      "securityId": "IN:ISIN:INE009A01021",
+      "issuerId": "IN:CIN:L85110KA1981PLC013115",
+      "exchange": "BSE",
+      "symbol": "500209",
+      "series": "EQ",
+      "instrumentType": "EQUITY",
+      "effectiveFrom": "1993-06-01",
+      "effectiveTo": null,
+      "sourceRef": "https://www.infosys.com/investors/shareholder-services/faqs.html (ISIN) and BSE scrip code 500209"
+    }
+  ]
+}

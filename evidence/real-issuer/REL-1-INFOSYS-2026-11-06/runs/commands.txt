@@ -1,0 +1,142 @@
+# REL-1 — commands actually run
+
+Working directory `frontend/` unless stated. `tsx` and `vitest` come from `npm ci` in `frontend/`; the ingestion
+CLI comes from `iips-platform/` (`npm ci` there too). Nothing below touches the network.
+
+Paths under `/tmp/rel1/**` are ephemeral. Everything a reader needs to reproduce the run is committed in this
+bundle: the inputs (`ingest-input/`, `identity/`), the dataset the run consumed (`dataset/`, `dataset-v1/`), the
+artifacts and payloads (`runs/`, `artifact/`), and the digests (`digests.json`).
+
+## 0 — dependency install (both packages, once per session)
+
+    cd iips-platform && npm ci --no-audit --no-fund --strict-ssl=false
+    cd ../frontend  && npm ci --no-audit --no-fund --strict-ssl=false
+
+## 1 — ingest the filed disclosures into an IID-0 dataset (snapshot v1)
+
+    cd iips-platform
+    npx tsx src/investment/cli/ingest.ts \
+      --input       ../evidence/real-issuer/REL-1-INFOSYS-2026-11-06/ingest-input \
+      --dataset-dir /tmp/rel1/data/investment/dataset \
+      --now 2026-11-06T00:00:00.000Z
+
+Observed: no `ERROR` and no `WARN` line, `issues.json` written as `[]`.
+
+    datasetVersion sha256:9be1a83ef198393b97465e104bef9270287bdc01a400c140a9f70927cdfa96e0
+
+Coverage printed by the same run: line items 52, Technology `G2_PARTIAL` usable 2 / withheld 2, statements
+87.5 %, metrics 0 % (`OPERATING_METRIC_MISSING`).
+
+## 2 — stage the IID-1 identity directory beside the dataset
+
+    cp evidence/real-issuer/REL-1-INFOSYS-2026-11-06/identity/*.json /tmp/rel1/data/investment/identity/
+
+The three files are byte-identical to the copies committed in `identity/` (see `digests.json`).
+
+## 3 — owner carrier (Art. XI owner context, required by the artifact CLI)
+
+`frontend/server/reports-owner-carrier.ts` publishes `CANONICAL_REPORTS_CARRIER_TEXT`; the carrier file must
+contain exactly those bytes (sha256 `b1b78809d1c8…`, 384 B). Written once, committed as `runs/owner-carrier.json`.
+
+## 4 — generate → assess → compose → validate → persist → verify (artifact v1)
+
+    cd frontend
+    IIPS_NP04_DATABASE_PATH=/tmp/rel1/data/investment/investment.db \
+    npx tsx server/investment/cli/generate-investment-artifacts.ts \
+      --issuer         IN:CIN:L85110KA1981PLC013115 \
+      --data-dir       /tmp/rel1/data/investment/dataset \
+      --identity-dir   /tmp/rel1/data/investment/identity \
+      --db             /tmp/rel1/data/investment/investment.db \
+      --owner-carrier  /tmp/rel1/reports-owner-context.json \
+      --generated-at   2026-11-06T00:00:00.000Z \
+      --out            runs/cli-v1-created-pre-fix.json
+
+Observed: `status OK`, `persist CREATED (wrote)`, `verify chain valid: 1 version(s), head v1`.
+This summary is kept verbatim because it is the **D-1 evidence**: its `limitations[]` calls the dataset synthetic
+while the run is reading real disclosures.
+
+## 5 — re-run the identical command after the D-1 text fix (artifact v1 again)
+
+    npx tsx server/investment/cli/generate-investment-artifacts.ts \
+      (same flags as §4, --out runs/cli-unchanged-post-text-fix.json)
+
+Observed: `compare OK`, `persist UNCHANGED (wrote=false)`, still `1 version(s), head v1`, identical
+`payloadDigest` and `inputDigest`. The text correction provably does not move the artifact.
+
+## 6 — dataset snapshot v2: add the filed Ind AS 116 lease liabilities
+
+The balance sheet presents lease liabilities as two lines (non-current + current); the canonical item is the
+total, so the two filed lines are summed per period and nothing else is added:
+
+| period end | non-current | current | `LEASE_LIABILITIES` |
+| --- | --- | --- | --- |
+| 2024-03-31 | 6,400 | 1,959 | 8,359 |
+| 2023-03-31 | 7,057 | 1,242 | 8,299 |
+| 2022-03-31 | 4,602 | 872 | 5,474 |
+
+    cd iips-platform
+    npx tsx src/investment/cli/ingest.ts \
+      --input       ../evidence/real-issuer/REL-1-INFOSYS-2026-11-06/ingest-input \
+      --dataset-dir /tmp/rel1/data/investment/dataset \
+      --now 2026-11-06T00:00:00.000Z
+
+Observed: still zero issues; `datasetVersion` moves to
+`sha256:ca29c8357fd3ae87889af07b27ffc317f09745caaed870b287d7ca1f8fc6d71e`. Snapshot v1 is preserved as
+`dataset-v1/` so the v1 artifact stays reproducible.
+
+## 7 — re-run the artifact CLI against dataset v2 (artifact v2 appended)
+
+    npx tsx server/investment/cli/generate-investment-artifacts.ts \
+      --issuer IN:CIN:L85110KA1981PLC013115 \
+      --data-dir /tmp/rel1/data/investment/dataset \
+      --identity-dir /tmp/rel1/data/investment/identity \
+      --db /tmp/rel1/data/investment/investment.db \
+      --owner-carrier /tmp/rel1/reports-owner-context.json \
+      --generated-at 2026-11-06T00:00:00.000Z \
+      --out runs/cli-v2-created-after-lease-addition.json
+
+Observed: `chain-head existing chain at version 1` → `compare content changed` → `persist APPENDED (wrote)` →
+`verify chain valid: 2 version(s), head v2`.
+
+The recorded APPENDED summary predates a wording refinement of the two restated limitation sentences (the first
+draft said "real issuers" where exactly one issuer was assessed). The final published wording is captured by an
+identical re-run:
+
+    ... --out runs/cli-v2-unchanged-final.json
+
+Observed: `compare content and input identical` → `persist UNCHANGED (no write)` → `2 version(s), head v2`.
+
+## 8 — read the chain back in a separate process (durability, not a cache)
+
+    IIPS_NP04_DATABASE_PATH=/tmp/rel1/data/investment/investment.db \
+    npx tsx server/investment/cli/show-investment-chain.ts \
+      --issuer        IN:CIN:L85110KA1981PLC013115 \
+      --owner-carrier /tmp/rel1/reports-owner-context.json \
+      > runs/chain-read-v2.txt
+
+Observed (v1 read kept as `runs/chain-read-v1.txt`): `versionCount 2`, head `7220cfa4-…` at v2, both versions
+listed with their digests, `failure null`.
+
+## 9 — read the full payload through the service read path
+
+    # temporary .ts driver (deleted after use); a `tsx -e` one-liner does not resolve these ESM imports
+    npx tsx .tmp-dump-payload.ts   # createInvestmentArtifactService → readVersionWithPayload
+
+Both dumped payloads hash to the chain's recorded digests, recomputable from the committed files:
+
+    sha256sum artifact/assessment-payload-v1.json   # 610eca02a651…  = v1 payloadDigest
+    sha256sum artifact/assessment-payload-v2.json   # cc91f239197a…  = v2 payloadDigest
+
+## 10 — line-item / tag / derivation coverage table
+
+Generated from the written dataset and the product's own closed tables (`LINE_ITEM_IDS`, `XBRL_TAG_MAP`,
+`DERIVATIONS`) by a temporary script; output committed as `coverage/line-item-coverage-v{1,2}.json`.
+
+## 11 — targeted verification
+
+    cd frontend
+    npx vitest run server/investment/cli/realIssuerValidation.test.ts
+    npx vitest run server/investment/cli/generate-investment-artifacts.test.ts
+    npx tsc -p tsconfig.investment-server.json --noEmit
+
+All clean; see README §9.

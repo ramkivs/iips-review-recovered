@@ -1,0 +1,1436 @@
+[
+  {
+    "basis": "AS_FILED",
+    "currency": "INR",
+    "derived": {
+      "BOOK_VALUE_PER_SHARE": {
+        "basis": "DERIVED",
+        "note": "Equity attributable to owners divided by diluted shares",
+        "periodEnd": "2022-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "kind": "DATASET",
+          "ref": "derived:BOOK_VALUE_PER_SHARE@in-fin/1.0.0"
+        },
+        "value": 178.61119402985074
+      },
+      "DILUTED_SHARES": {
+        "basis": "DERIVED",
+        "note": "Attributable profit divided by reported diluted EPS; division by zero is withheld",
+        "periodEnd": "2022-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "kind": "DATASET",
+          "ref": "derived:DILUTED_SHARES@in-fin/1.0.0"
+        },
+        "value": 4218660560.961649
+      },
+      "EBIT": {
+        "basis": "DERIVED",
+        "note": "Profit before tax plus finance costs",
+        "periodEnd": "2022-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "kind": "DATASET",
+          "ref": "derived:EBIT@in-fin/1.0.0"
+        },
+        "value": 303100000000
+      },
+      "EBITDA": {
+        "basis": "DERIVED",
+        "note": "Profit before tax plus finance costs plus depreciation and amortisation",
+        "periodEnd": "2022-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "kind": "DATASET",
+          "ref": "derived:EBITDA@in-fin/1.0.0"
+        },
+        "value": 337860000000
+      },
+      "FREE_CASH_FLOW": {
+        "basis": "DERIVED",
+        "note": "Operating cash flow less capital expenditure",
+        "periodEnd": "2022-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "kind": "DATASET",
+          "ref": "derived:FREE_CASH_FLOW@in-fin/1.0.0"
+        },
+        "value": 217240000000
+      }
+    },
+    "filedAt": "2023-04-13",
+    "filingRef": "INFY-INDAS-CONSOL-FY23",
+    "issuerId": "IN:CIN:L85110KA1981PLC013115",
+    "normalizationVersion": "in-fin/1.0.0",
+    "period": {
+      "fiscalYear": 2022,
+      "periodEnd": "2022-03-31",
+      "periodStart": "2021-04-01",
+      "periodType": "ANNUAL",
+      "statementScope": "CONSOLIDATED"
+    },
+    "restatementOf": null,
+    "scaleApplied": {
+      "factor": 10000000,
+      "from": "CRORE",
+      "to": "UNIT"
+    },
+    "sourceScale": "CRORE",
+    "taxonomy": "INDAS",
+    "values": {
+      "CAPITAL_EXPENDITURE": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY23",
+        "periodEnd": "2022-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2023-04-13",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY23"
+        },
+        "value": 21610000000
+      },
+      "CAPITAL_WORK_IN_PROGRESS": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY23",
+        "periodEnd": "2022-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2023-04-13",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY23"
+        },
+        "value": 4160000000
+      },
+      "CASH_AND_CASH_EQUIVALENTS": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY23",
+        "periodEnd": "2022-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2023-04-13",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY23"
+        },
+        "value": 174720000000
+      },
+      "CURRENT_INVESTMENTS": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY23",
+        "periodEnd": "2022-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2023-04-13",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY23"
+        },
+        "value": 66730000000
+      },
+      "DEPRECIATION_AND_AMORTISATION": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY23",
+        "periodEnd": "2022-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2023-04-13",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY23"
+        },
+        "value": 34760000000
+      },
+      "DIVIDENDS_PAID": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY23",
+        "periodEnd": "2022-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2023-04-13",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY23"
+        },
+        "value": 126520000000
+      },
+      "EMPLOYEE_BENEFIT_EXPENSE": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY23",
+        "periodEnd": "2022-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2023-04-13",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY23"
+        },
+        "value": 639860000000
+      },
+      "EPS_BASIC": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY23",
+        "periodEnd": "2022-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2023-04-13",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY23"
+        },
+        "value": 52.52
+      },
+      "EPS_DILUTED": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY23",
+        "periodEnd": "2022-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2023-04-13",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY23"
+        },
+        "value": 52.41
+      },
+      "EQUITY_ATTRIBUTABLE_TO_OWNERS": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY23",
+        "periodEnd": "2022-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2023-04-13",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY23"
+        },
+        "value": 753500000000
+      },
+      "FINANCE_COSTS": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY23",
+        "periodEnd": "2022-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2023-04-13",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY23"
+        },
+        "value": 2000000000
+      },
+      "FINANCING_CASH_FLOW": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY23",
+        "periodEnd": "2022-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2023-04-13",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY23"
+        },
+        "value": -246420000000
+      },
+      "GOODWILL": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY23",
+        "periodEnd": "2022-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2023-04-13",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY23"
+        },
+        "value": 61950000000
+      },
+      "INCOME_TAX_PAID": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY23",
+        "periodEnd": "2022-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2023-04-13",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY23"
+        },
+        "value": 76120000000
+      },
+      "INTANGIBLE_ASSETS": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY23",
+        "periodEnd": "2022-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2023-04-13",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY23"
+        },
+        "value": 17070000000
+      },
+      "INVESTING_CASH_FLOW": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY23",
+        "periodEnd": "2022-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2023-04-13",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY23"
+        },
+        "value": -64160000000
+      },
+      "LEASE_LIABILITIES": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY23",
+        "periodEnd": "2022-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2023-04-13",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY23"
+        },
+        "value": 54740000000
+      },
+      "NET_CASH_FLOW": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY23",
+        "periodEnd": "2022-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2023-04-13",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY23"
+        },
+        "value": -71730000000
+      },
+      "NET_PROFIT": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY23",
+        "periodEnd": "2022-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2023-04-13",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY23"
+        },
+        "value": 221460000000
+      },
+      "NET_PROFIT_ATTRIBUTABLE_TO_OWNERS": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY23",
+        "periodEnd": "2022-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2023-04-13",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY23"
+        },
+        "value": 221100000000
+      },
+      "NON_CONTROLLING_INTEREST": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY23",
+        "periodEnd": "2022-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2023-04-13",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY23"
+        },
+        "value": 3860000000
+      },
+      "OPERATING_CASH_FLOW": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY23",
+        "periodEnd": "2022-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2023-04-13",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY23"
+        },
+        "value": 238850000000
+      },
+      "OTHER_EXPENSES": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY23",
+        "periodEnd": "2022-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2023-04-13",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY23"
+        },
+        "value": 34240000000
+      },
+      "OTHER_INCOME": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY23",
+        "periodEnd": "2022-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2023-04-13",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY23"
+        },
+        "value": 22950000000
+      },
+      "PROFIT_BEFORE_TAX": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY23",
+        "periodEnd": "2022-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2023-04-13",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY23"
+        },
+        "value": 301100000000
+      },
+      "PROPERTY_PLANT_AND_EQUIPMENT": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY23",
+        "periodEnd": "2022-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2023-04-13",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY23"
+        },
+        "value": 130750000000
+      },
+      "REVENUE_FROM_OPERATIONS": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY23",
+        "periodEnd": "2022-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2023-04-13",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY23"
+        },
+        "value": 1216410000000
+      },
+      "TAX_EXPENSE": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY23",
+        "periodEnd": "2022-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2023-04-13",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY23"
+        },
+        "value": 79640000000
+      },
+      "TOTAL_ASSETS": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY23",
+        "periodEnd": "2022-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2023-04-13",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY23"
+        },
+        "value": 1178850000000
+      },
+      "TOTAL_EQUITY": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY23",
+        "periodEnd": "2022-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2023-04-13",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY23"
+        },
+        "value": 757360000000
+      },
+      "TOTAL_INCOME": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY23",
+        "periodEnd": "2022-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2023-04-13",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY23"
+        },
+        "value": 1239360000000
+      },
+      "TRADE_PAYABLES": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY23",
+        "periodEnd": "2022-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2023-04-13",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY23"
+        },
+        "value": 41340000000
+      },
+      "TRADE_RECEIVABLES": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY23",
+        "periodEnd": "2022-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2023-04-13",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY23"
+        },
+        "value": 226980000000
+      }
+    }
+  },
+  {
+    "basis": "AS_FILED",
+    "currency": "INR",
+    "derived": {
+      "BOOK_VALUE_PER_SHARE": {
+        "basis": "DERIVED",
+        "note": "Equity attributable to owners divided by diluted shares",
+        "periodEnd": "2023-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "kind": "DATASET",
+          "ref": "derived:BOOK_VALUE_PER_SHARE@in-fin/1.0.0"
+        },
+        "value": 180.07548371031334
+      },
+      "DILUTED_SHARES": {
+        "basis": "DERIVED",
+        "note": "Attributable profit divided by reported diluted EPS; division by zero is withheld",
+        "periodEnd": "2023-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "kind": "DATASET",
+          "ref": "derived:DILUTED_SHARES@in-fin/1.0.0"
+        },
+        "value": 4187521724.0180745
+      },
+      "EBIT": {
+        "basis": "DERIVED",
+        "note": "Profit before tax plus finance costs",
+        "periodEnd": "2023-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "kind": "DATASET",
+          "ref": "derived:EBIT@in-fin/1.0.0"
+        },
+        "value": 336060000000
+      },
+      "EBITDA": {
+        "basis": "DERIVED",
+        "note": "Profit before tax plus finance costs plus depreciation and amortisation",
+        "periodEnd": "2023-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "kind": "DATASET",
+          "ref": "derived:EBITDA@in-fin/1.0.0"
+        },
+        "value": 378310000000
+      },
+      "FREE_CASH_FLOW": {
+        "basis": "DERIVED",
+        "note": "Operating cash flow less capital expenditure",
+        "periodEnd": "2023-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "kind": "DATASET",
+          "ref": "derived:FREE_CASH_FLOW@in-fin/1.0.0"
+        },
+        "value": 198880000000
+      }
+    },
+    "filedAt": "2023-04-13",
+    "filingRef": "INFY-INDAS-CONSOL-FY23",
+    "issuerId": "IN:CIN:L85110KA1981PLC013115",
+    "normalizationVersion": "in-fin/1.0.0",
+    "period": {
+      "fiscalYear": 2023,
+      "periodEnd": "2023-03-31",
+      "periodStart": "2022-04-01",
+      "periodType": "ANNUAL",
+      "statementScope": "CONSOLIDATED"
+    },
+    "restatementOf": null,
+    "scaleApplied": {
+      "factor": 10000000,
+      "from": "CRORE",
+      "to": "UNIT"
+    },
+    "sourceScale": "CRORE",
+    "taxonomy": "INDAS",
+    "values": {
+      "CAPITAL_EXPENDITURE": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY23",
+        "periodEnd": "2023-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2023-04-13",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY23"
+        },
+        "value": 25790000000
+      },
+      "CAPITAL_WORK_IN_PROGRESS": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY23",
+        "periodEnd": "2023-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2023-04-13",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY23"
+        },
+        "value": 2880000000
+      },
+      "CASH_AND_CASH_EQUIVALENTS": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY23",
+        "periodEnd": "2023-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2023-04-13",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY23"
+        },
+        "value": 121730000000
+      },
+      "CURRENT_INVESTMENTS": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY23",
+        "periodEnd": "2023-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2023-04-13",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY23"
+        },
+        "value": 69090000000
+      },
+      "DEPRECIATION_AND_AMORTISATION": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY23",
+        "periodEnd": "2023-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2023-04-13",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY23"
+        },
+        "value": 42250000000
+      },
+      "DIVIDENDS_PAID": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY23",
+        "periodEnd": "2023-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2023-04-13",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY23"
+        },
+        "value": 136310000000
+      },
+      "EMPLOYEE_BENEFIT_EXPENSE": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY23",
+        "periodEnd": "2023-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2023-04-13",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY23"
+        },
+        "value": 783590000000
+      },
+      "EPS_BASIC": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY23",
+        "periodEnd": "2023-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2023-04-13",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY23"
+        },
+        "value": 57.63
+      },
+      "EPS_DILUTED": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY23",
+        "periodEnd": "2023-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2023-04-13",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY23"
+        },
+        "value": 57.54
+      },
+      "EQUITY_ATTRIBUTABLE_TO_OWNERS": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY23",
+        "periodEnd": "2023-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2023-04-13",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY23"
+        },
+        "value": 754070000000
+      },
+      "FINANCE_COSTS": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY23",
+        "periodEnd": "2023-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2023-04-13",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY23"
+        },
+        "value": 2840000000
+      },
+      "FINANCING_CASH_FLOW": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY23",
+        "periodEnd": "2023-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2023-04-13",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY23"
+        },
+        "value": -266950000000
+      },
+      "GOODWILL": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY23",
+        "periodEnd": "2023-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2023-04-13",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY23"
+        },
+        "value": 72480000000
+      },
+      "INCOME_TAX_PAID": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY23",
+        "periodEnd": "2023-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2023-04-13",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY23"
+        },
+        "value": 87940000000
+      },
+      "INTANGIBLE_ASSETS": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY23",
+        "periodEnd": "2023-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2023-04-13",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY23"
+        },
+        "value": 17490000000
+      },
+      "INVESTING_CASH_FLOW": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY23",
+        "periodEnd": "2023-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2023-04-13",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY23"
+        },
+        "value": -12090000000
+      },
+      "LEASE_LIABILITIES": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY23",
+        "periodEnd": "2023-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2023-04-13",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY23"
+        },
+        "value": 82990000000
+      },
+      "NET_CASH_FLOW": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY23",
+        "periodEnd": "2023-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2023-04-13",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY23"
+        },
+        "value": -54370000000
+      },
+      "NET_PROFIT": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY23",
+        "periodEnd": "2023-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2023-04-13",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY23"
+        },
+        "value": 241080000000
+      },
+      "NET_PROFIT_ATTRIBUTABLE_TO_OWNERS": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY23",
+        "periodEnd": "2023-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2023-04-13",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY23"
+        },
+        "value": 240950000000
+      },
+      "NON_CONTROLLING_INTEREST": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY23",
+        "periodEnd": "2023-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2023-04-13",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY23"
+        },
+        "value": 3880000000
+      },
+      "OPERATING_CASH_FLOW": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY23",
+        "periodEnd": "2023-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2023-04-13",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY23"
+        },
+        "value": 224670000000
+      },
+      "OTHER_EXPENSES": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY23",
+        "periodEnd": "2023-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2023-04-13",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY23"
+        },
+        "value": 43920000000
+      },
+      "OTHER_INCOME": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY23",
+        "periodEnd": "2023-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2023-04-13",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY23"
+        },
+        "value": 27010000000
+      },
+      "PROFIT_BEFORE_TAX": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY23",
+        "periodEnd": "2023-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2023-04-13",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY23"
+        },
+        "value": 333220000000
+      },
+      "PROPERTY_PLANT_AND_EQUIPMENT": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY23",
+        "periodEnd": "2023-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2023-04-13",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY23"
+        },
+        "value": 133460000000
+      },
+      "REVENUE_FROM_OPERATIONS": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY23",
+        "periodEnd": "2023-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2023-04-13",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY23"
+        },
+        "value": 1467670000000
+      },
+      "TAX_EXPENSE": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY23",
+        "periodEnd": "2023-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2023-04-13",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY23"
+        },
+        "value": 92140000000
+      },
+      "TOTAL_ASSETS": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY23",
+        "periodEnd": "2023-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2023-04-13",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY23"
+        },
+        "value": 1258160000000
+      },
+      "TOTAL_EQUITY": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY23",
+        "periodEnd": "2023-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2023-04-13",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY23"
+        },
+        "value": 757950000000
+      },
+      "TOTAL_INCOME": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY23",
+        "periodEnd": "2023-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2023-04-13",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY23"
+        },
+        "value": 1494680000000
+      },
+      "TRADE_PAYABLES": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY23",
+        "periodEnd": "2023-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2023-04-13",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY23"
+        },
+        "value": 38650000000
+      },
+      "TRADE_RECEIVABLES": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY23",
+        "periodEnd": "2023-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2023-04-13",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY23"
+        },
+        "value": 254240000000
+      }
+    }
+  },
+  {
+    "basis": "AS_FILED",
+    "currency": "INR",
+    "derived": {
+      "BOOK_VALUE_PER_SHARE": {
+        "basis": "DERIVED",
+        "note": "Equity attributable to owners divided by diluted shares",
+        "periodEnd": "2024-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "kind": "DATASET",
+          "ref": "derived:BOOK_VALUE_PER_SHARE@in-fin/1.0.0"
+        },
+        "value": 212.58954904128387
+      },
+      "DILUTED_SHARES": {
+        "basis": "DERIVED",
+        "note": "Attributable profit divided by reported diluted EPS; division by zero is withheld",
+        "periodEnd": "2024-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "kind": "DATASET",
+          "ref": "derived:DILUTED_SHARES@in-fin/1.0.0"
+        },
+        "value": 4144888607.994944
+      },
+      "EBIT": {
+        "basis": "DERIVED",
+        "note": "Profit before tax plus finance costs",
+        "periodEnd": "2024-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "kind": "DATASET",
+          "ref": "derived:EBIT@in-fin/1.0.0"
+        },
+        "value": 364580000000
+      },
+      "EBITDA": {
+        "basis": "DERIVED",
+        "note": "Profit before tax plus finance costs plus depreciation and amortisation",
+        "periodEnd": "2024-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "kind": "DATASET",
+          "ref": "derived:EBITDA@in-fin/1.0.0"
+        },
+        "value": 411360000000
+      },
+      "FREE_CASH_FLOW": {
+        "basis": "DERIVED",
+        "note": "Operating cash flow less capital expenditure",
+        "periodEnd": "2024-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "kind": "DATASET",
+          "ref": "derived:FREE_CASH_FLOW@in-fin/1.0.0"
+        },
+        "value": 230090000000
+      }
+    },
+    "filedAt": "2024-04-18",
+    "filingRef": "INFY-INDAS-CONSOL-FY24",
+    "issuerId": "IN:CIN:L85110KA1981PLC013115",
+    "normalizationVersion": "in-fin/1.0.0",
+    "period": {
+      "fiscalYear": 2024,
+      "periodEnd": "2024-03-31",
+      "periodStart": "2023-04-01",
+      "periodType": "ANNUAL",
+      "statementScope": "CONSOLIDATED"
+    },
+    "restatementOf": null,
+    "scaleApplied": {
+      "factor": 10000000,
+      "from": "CRORE",
+      "to": "UNIT"
+    },
+    "sourceScale": "CRORE",
+    "taxonomy": "INDAS",
+    "values": {
+      "CAPITAL_EXPENDITURE": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY24",
+        "periodEnd": "2024-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2024-04-18",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY24"
+        },
+        "value": 22010000000
+      },
+      "CAPITAL_WORK_IN_PROGRESS": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY24",
+        "periodEnd": "2024-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2024-04-18",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY24"
+        },
+        "value": 2930000000
+      },
+      "CASH_AND_CASH_EQUIVALENTS": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY24",
+        "periodEnd": "2024-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2024-04-18",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY24"
+        },
+        "value": 147860000000
+      },
+      "CURRENT_INVESTMENTS": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY24",
+        "periodEnd": "2024-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2024-04-18",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY24"
+        },
+        "value": 129150000000
+      },
+      "DEPRECIATION_AND_AMORTISATION": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY24",
+        "periodEnd": "2024-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2024-04-18",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY24"
+        },
+        "value": 46780000000
+      },
+      "DIVIDENDS_PAID": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY24",
+        "periodEnd": "2024-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2024-04-18",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY24"
+        },
+        "value": 146920000000
+      },
+      "EMPLOYEE_BENEFIT_EXPENSE": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY24",
+        "periodEnd": "2024-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2024-04-18",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY24"
+        },
+        "value": 826200000000
+      },
+      "EPS_BASIC": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY24",
+        "periodEnd": "2024-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2024-04-18",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY24"
+        },
+        "value": 63.39
+      },
+      "EPS_DILUTED": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY24",
+        "periodEnd": "2024-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2024-04-18",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY24"
+        },
+        "value": 63.29
+      },
+      "EQUITY_ATTRIBUTABLE_TO_OWNERS": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY24",
+        "periodEnd": "2024-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2024-04-18",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY24"
+        },
+        "value": 881160000000
+      },
+      "FINANCE_COSTS": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY24",
+        "periodEnd": "2024-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2024-04-18",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY24"
+        },
+        "value": 4700000000
+      },
+      "FINANCING_CASH_FLOW": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY24",
+        "periodEnd": "2024-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2024-04-18",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY24"
+        },
+        "value": -175040000000
+      },
+      "GOODWILL": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY24",
+        "periodEnd": "2024-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2024-04-18",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY24"
+        },
+        "value": 73030000000
+      },
+      "INCOME_TAX_PAID": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY24",
+        "periodEnd": "2024-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2024-04-18",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY24"
+        },
+        "value": 92310000000
+      },
+      "INTANGIBLE_ASSETS": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY24",
+        "periodEnd": "2024-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2024-04-18",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY24"
+        },
+        "value": 13970000000
+      },
+      "INVESTING_CASH_FLOW": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY24",
+        "periodEnd": "2024-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2024-04-18",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY24"
+        },
+        "value": -50090000000
+      },
+      "LEASE_LIABILITIES": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY24",
+        "periodEnd": "2024-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2024-04-18",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY24"
+        },
+        "value": 83590000000
+      },
+      "NET_CASH_FLOW": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY24",
+        "periodEnd": "2024-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2024-04-18",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY24"
+        },
+        "value": 26970000000
+      },
+      "NET_PROFIT": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY24",
+        "periodEnd": "2024-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2024-04-18",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY24"
+        },
+        "value": 262480000000
+      },
+      "NET_PROFIT_ATTRIBUTABLE_TO_OWNERS": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY24",
+        "periodEnd": "2024-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2024-04-18",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY24"
+        },
+        "value": 262330000000
+      },
+      "NON_CONTROLLING_INTEREST": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY24",
+        "periodEnd": "2024-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2024-04-18",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY24"
+        },
+        "value": 3450000000
+      },
+      "OPERATING_CASH_FLOW": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY24",
+        "periodEnd": "2024-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2024-04-18",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY24"
+        },
+        "value": 252100000000
+      },
+      "OTHER_EXPENSES": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY24",
+        "periodEnd": "2024-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2024-04-18",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY24"
+        },
+        "value": 47160000000
+      },
+      "OTHER_INCOME": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY24",
+        "periodEnd": "2024-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2024-04-18",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY24"
+        },
+        "value": 47110000000
+      },
+      "PROFIT_BEFORE_TAX": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY24",
+        "periodEnd": "2024-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2024-04-18",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY24"
+        },
+        "value": 359880000000
+      },
+      "PROPERTY_PLANT_AND_EQUIPMENT": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY24",
+        "periodEnd": "2024-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2024-04-18",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY24"
+        },
+        "value": 123700000000
+      },
+      "REVENUE_FROM_OPERATIONS": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY24",
+        "periodEnd": "2024-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2024-04-18",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY24"
+        },
+        "value": 1536700000000
+      },
+      "TAX_EXPENSE": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY24",
+        "periodEnd": "2024-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2024-04-18",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY24"
+        },
+        "value": 97400000000
+      },
+      "TOTAL_ASSETS": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY24",
+        "periodEnd": "2024-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2024-04-18",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY24"
+        },
+        "value": 1378140000000
+      },
+      "TOTAL_EQUITY": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY24",
+        "periodEnd": "2024-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2024-04-18",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY24"
+        },
+        "value": 884610000000
+      },
+      "TOTAL_INCOME": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY24",
+        "periodEnd": "2024-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2024-04-18",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY24"
+        },
+        "value": 1583810000000
+      },
+      "TRADE_PAYABLES": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY24",
+        "periodEnd": "2024-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2024-04-18",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY24"
+        },
+        "value": 39560000000
+      },
+      "TRADE_RECEIVABLES": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY24",
+        "periodEnd": "2024-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2024-04-18",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY24"
+        },
+        "value": 301930000000
+      }
+    }
+  }
+]

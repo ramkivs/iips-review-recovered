@@ -1,0 +1,219 @@
+{
+  "schemaVersion": 2,
+  "bundle": "REL-1-INFOSYS-2026-11-06",
+  "issuerId": "IN:CIN:L85110KA1981PLC013115",
+  "digestAlgorithm": "sha256",
+  "excluded": [
+    "README.md",
+    "digests.json"
+  ],
+  "chain": [
+    {
+      "artifactVersion": 1,
+      "reportId": "9a29e7bc-33ba-4dbc-9f8e-dd989a32dfb7",
+      "payloadDigest": "610eca02a651fc04f013d92cdc14e547bec8649ae102f89386ef3b63000cb1b0",
+      "payloadFile": "artifact/assessment-payload-v1.json"
+    },
+    {
+      "artifactVersion": 2,
+      "reportId": "7220cfa4-fabd-4054-9b82-f0124a6c75e3",
+      "payloadDigest": "cc91f239197a1ed8aca52600ca25ec9c62cd78863e224756c21dfff7ba57cfcd",
+      "payloadFile": "artifact/assessment-payload-v2.json"
+    }
+  ],
+  "files": [
+    {
+      "path": "artifact/assessment-payload-v1.json",
+      "bytes": 41835,
+      "sha256": "610eca02a651fc04f013d92cdc14e547bec8649ae102f89386ef3b63000cb1b0"
+    },
+    {
+      "path": "artifact/assessment-payload-v2.json",
+      "bytes": 42800,
+      "sha256": "cc91f239197a1ed8aca52600ca25ec9c62cd78863e224756c21dfff7ba57cfcd"
+    },
+    {
+      "path": "coverage/line-item-coverage-v1.json",
+      "bytes": 19821,
+      "sha256": "fb2897b3ed3e8be251d41ff286d6edafee3877488e612a4b8f8328f5eb79e333"
+    },
+    {
+      "path": "coverage/line-item-coverage-v2.json",
+      "bytes": 19905,
+      "sha256": "ccf85b1b1205797f81f9f438cf71a8ad5e0e1c77b5b67d6a9d43c1ed97f4a9b7"
+    },
+    {
+      "path": "dataset-v1/corporateActions.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "path": "dataset-v1/coverage-report.json",
+      "bytes": 19447,
+      "sha256": "bf8420f36c6f555a5ac881f12b01e89146bed1c047f63cdce096e48b57ffddec"
+    },
+    {
+      "path": "dataset-v1/issuers.json",
+      "bytes": 238,
+      "sha256": "a5c964c83a3c74b482165000fa0f5d4d5aaa6ee186beba4f27d0d581fa82fa34"
+    },
+    {
+      "path": "dataset-v1/issues.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "path": "dataset-v1/listings.json",
+      "bytes": 601,
+      "sha256": "515bae232bdfbbd7b5637aa1ced8253ea44a4318e2e3d6f9a633e010ca25eaa2"
+    },
+    {
+      "path": "dataset-v1/manifest.json",
+      "bytes": 1930,
+      "sha256": "d089418c9f970a2c74b3c50d648feaf9bf469a78cf332492b1dc8fb959fb4272"
+    },
+    {
+      "path": "dataset-v1/operatingMetrics.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "path": "dataset-v1/periods.json",
+      "bytes": 40321,
+      "sha256": "14f3ee41ae65fa385d70fc2094aee69c397c87c5018181ee98ebee85c56c0346"
+    },
+    {
+      "path": "dataset-v1/prices.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "path": "dataset-v1/securities.json",
+      "bytes": 187,
+      "sha256": "2722930e81b7c89931409d456bf25182de68aad554004af6ccb4b9b63af1db5c"
+    },
+    {
+      "path": "dataset/corporateActions.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "path": "dataset/coverage-report.json",
+      "bytes": 19447,
+      "sha256": "76f68cd11b04675d376eeb7fc0f3920755a7e8d4da4d9814a8c9df4752036764"
+    },
+    {
+      "path": "dataset/issuers.json",
+      "bytes": 238,
+      "sha256": "a5c964c83a3c74b482165000fa0f5d4d5aaa6ee186beba4f27d0d581fa82fa34"
+    },
+    {
+      "path": "dataset/issues.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "path": "dataset/listings.json",
+      "bytes": 601,
+      "sha256": "515bae232bdfbbd7b5637aa1ced8253ea44a4318e2e3d6f9a633e010ca25eaa2"
+    },
+    {
+      "path": "dataset/manifest.json",
+      "bytes": 1930,
+      "sha256": "7ba2970194d55459329eb3fea2fcdc9e2ab325e50de65f45e707920204e1ebcf"
+    },
+    {
+      "path": "dataset/operatingMetrics.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "path": "dataset/periods.json",
+      "bytes": 41356,
+      "sha256": "1580f586ec3d406c902ab9f0a4159e5f8dc48083e01a4a9f1e105fd7e90d808c"
+    },
+    {
+      "path": "dataset/prices.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "path": "dataset/securities.json",
+      "bytes": 187,
+      "sha256": "2722930e81b7c89931409d456bf25182de68aad554004af6ccb4b9b63af1db5c"
+    },
+    {
+      "path": "identity/corporate-actions.json",
+      "bytes": 70,
+      "sha256": "d6bc14d1b676260bb0f1c2280e62956d3f6a7e07b9b9265a73b49f821185ffcd"
+    },
+    {
+      "path": "identity/eligible-roster.json",
+      "bytes": 755,
+      "sha256": "f38334a45fcee8bc81bd9902afae9deda659ec9373778d4e113c20151b876065"
+    },
+    {
+      "path": "identity/listing-map.json",
+      "bytes": 948,
+      "sha256": "5bc4780b67cb79164909e05177fc8d80981cd947cc71d956fcf58b9442c2e507"
+    },
+    {
+      "path": "ingest-input/periods.csv",
+      "bytes": 1685,
+      "sha256": "e2cdba2042a55fc3352e85b8384e014f669e1472deb9011e7be2babd4fbc745c"
+    },
+    {
+      "path": "ingest-input/roster.json",
+      "bytes": 1157,
+      "sha256": "426e8478bca1ffc3fd47a6a24995230cfbfc05ccd1df4b92fa774ba15c60f8b4"
+    },
+    {
+      "path": "runs/chain-read-v1.txt",
+      "bytes": 1532,
+      "sha256": "f8491af99da481bc713c271e336eed44531581997d4c186098cc6d3d2690bb9a"
+    },
+    {
+      "path": "runs/chain-read-v2.txt",
+      "bytes": 1934,
+      "sha256": "123a58f495fd2443b273010d27f391a788dd6c1d1fe198178f34d653e9f396d3"
+    },
+    {
+      "path": "runs/cli-unchanged-post-text-fix.json",
+      "bytes": 4827,
+      "sha256": "be194a3a5601f55c03c8ff9e9a714bcebe548ba7d097d5deed1e3df703b79d8b"
+    },
+    {
+      "path": "runs/cli-v1-created-pre-fix.json",
+      "bytes": 4451,
+      "sha256": "e45581b6c5b58306943aa11a5a93197d8976d52dad44c16e78a95a52aa0722d9"
+    },
+    {
+      "path": "runs/cli-v2-created-after-lease-addition.json",
+      "bytes": 5157,
+      "sha256": "cdd48e7c0dae1cdbc7ecafea81f3057a217d56161d445feb62000f86eb8a1f52"
+    },
+    {
+      "path": "runs/cli-v2-unchanged-final.json",
+      "bytes": 5177,
+      "sha256": "2c72d95af881dca74b80a08ff8ff4275975331c3fab48b99cddeeb627ddabda6"
+    },
+    {
+      "path": "runs/commands.txt",
+      "bytes": 6890,
+      "sha256": "698956a9b98c65de5b7ee7e83f205dd7694bdcf91de8dc9b17b328818e15de37"
+    },
+    {
+      "path": "runs/owner-carrier.json",
+      "bytes": 384,
+      "sha256": "b1b78809d1c8d05800b338f73082b4269e6c9fa65b8f35192f4736d6f1a98640"
+    }
+  ],
+  "external": [
+    {
+      "path": "external:/tmp/rel1/data/investment/investment.db",
+      "bytes": 131072,
+      "sha256": "4f718aea307334426f061c9808ac112c07ff240431f8bf47b1c6a26201ec51e9",
+      "note": "SQLite store for this run; not committed (ephemeral path), reproducible from the committed dataset plus runs/commands.txt"
+    }
+  ]
+}
