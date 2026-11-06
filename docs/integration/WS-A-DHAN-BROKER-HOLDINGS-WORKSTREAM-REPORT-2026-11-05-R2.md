@@ -1576,3 +1576,7 @@ W-1 hard-false; QE **0/11**, Gate C/U4 **NOT RENDERED**; no Gate 4 acceptance/ex
 operational DB access, IPD source/docs mutation, provisioning/migration, expansion, admission or production.
 PF-1, frozen authorities/owner isolation and completed retention/clearing unchanged, including retained
 recovery-copy/restore-resurrection limits. **WS-A/WS-A-DM NOT COMPLETE.** Publication CI/readback proof in final PR comment.
+
+## 28. Current pre-QE prerequisite-closure pointer (`2026-11-06`)
+
+The single current reconciliation is `PRE-QE-PREREQUISITE-CLOSURE-REPORT-2026-11-06.md`, tracker §16.268 / CV-CORR-248. D02/D03/D05 and earlier G4-2/D01/D04 are effective; no repeat approval required. IPD #129 reconstruction and #130 corrective publication are VERIFIED; F1 bounded engineering closed, F2 residual exact-settlement/cross-evidence proof remains blocked. F3 does not mandate a new hash/storage design; F4 does not establish a malformed successful wire receipt. Completed retention/persistence/duplicate protection/owner clearing are not reopened. Historical pending/publication-blocker snapshots above remain dated history. H01–H12 NOT QUALIFIED; historical H-12 adoption effective at original coordinates, final basis/regeneration pending; operator/host/P1/PF15 and PA-only dependencies remain. QE0/11, DQ4 8/10, GateC/U4 NOT RENDERED, Gate5/D06 NOT ADMITTED, U6 NOT AUTHORIZED, W1 hard-false. No operational action or IID/pin/status expansion by this pointer.
