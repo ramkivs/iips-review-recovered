@@ -453,8 +453,13 @@ export const ASSESSMENT_MEMBER_INVENTORY: InventoryNode = object({
       object({
         cap: SCALAR,
         basis: SCALAR,
+        /** `L-034` (authorized 2026-11-06): the distinct assumption category the additive penalty is charged to. */
+        category: SCALAR,
         applied: SCALAR,
+        /** Retained: no single factor is applied under the additive-category policy. */
         factor: OPEN,
+        /** This category's additive contribution, before the aggregate ceiling. */
+        penaltyRate: OPEN,
         triggers: array(object({ methodId: SCALAR, assumption: SCALAR })),
         reason: OPEN,
       }),

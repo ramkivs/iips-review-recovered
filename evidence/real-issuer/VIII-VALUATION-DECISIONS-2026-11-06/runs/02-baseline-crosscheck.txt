@@ -1,0 +1,29 @@
+VII payload bytes: 54481 sha256: 6a328ef09636c51d069156cad1ea6e0e50c34e62fff0be1d64949f73a1f3504e
+recorded digest in package: 6a328ef09636c51d069156cad1ea6e0e50c34e62fff0be1d64949f73a1f3504e
+
+OK  intrinsic low                                  package=           875.3394146903431 vii=875.3394146903431
+OK  intrinsic mid                                  package=           1088.972274952081 vii=1088.972274952081
+OK  intrinsic high                                 package=          1399.8105188789887 vii=1399.8105188789887
+OK  spread                                         package=         0.48162025448418716 vii=0.48162025448418716
+OK  mos vs mid                                     package=        -0.08418738213693565 vii=-0.08418738213693565
+OK  mos vs low                                     package=         -0.3487910862755592 vii=-0.3487910862755592
+OK  band                                           package=                      'FAIR' vii='FAIR'
+OK  price                                          package=                     1180.65 vii=1180.65
+OK  dataConfidence                                 package=                        0.85 vii=0.85
+OK  modelConfidence                                package=                      0.6342 vii=0.6342
+OK  combined                                       package=                      0.6736 vii=0.6736
+OK  caps                                           package=('STALE_DATA', 'DILUTION_PROXY') vii=('STALE_DATA', 'DILUTION_PROXY')
+OK  dilutedShares                                  package=           4144888607.994944 vii=4144888607.994944
+OK  shareCountPeriod                               package=                '2024-03-31' vii='2024-03-31'
+OK  netDebt                                        package=               -193420000000 vii=-193420000000
+OK  nonControllingInterest                         package=                  3450000000 vii=3450000000
+OK  associates presence                            package=            'NOT_COMPUTABLE' vii='NOT_COMPUTABLE'
+OK  associates reason                              package=              'NOT_REPORTED' vii='NOT_REPORTED'
+OK  associates value                               package=                        None vii=None
+OK  bridge treatment                               package=   'POLICY_ZERO_UNAVAILABLE' vii='POLICY_ZERO_UNAVAILABLE'
+OK  bridge policyVersion                           package='associates-treatment/1.0.0' vii='associates-treatment/1.0.0'
+
+assumptionCaps (both): [{"applied": false, "basis": "POLICY_DEFAULT", "cap": "POLICY_DEFAULT_WACC", "factor": null, "reason": "CAP_FACTOR_NOT_SET_IN_POLICY: R-4.3 requires this cap and specifies no magnitude; policy confidence-policy-defaults/1.0.0 carries factor: null, so the cap is declared and no penalty is applied", "triggers": [{"assumption": "discountRate", "methodId": "DCF_FCFF"}]}, {"applied": false, "basis": "P
+package declarationState == payload assumptionCaps: True
+
+ALL BASELINE FIELDS MATCH: True

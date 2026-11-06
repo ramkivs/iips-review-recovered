@@ -59,8 +59,13 @@ export interface EquityBridgeView {
 export interface AssumptionCapView {
   readonly cap: string;
   readonly basis: string;
+  /** `DISCOUNT_RATE` | `TARGET_MULTIPLE` — the assumption category the additive penalty is charged against. */
+  readonly category?: string;
   readonly applied: boolean;
+  /** No single factor is applied under the additive-category policy; the aggregate is the ceiling. */
   readonly factor: number | null;
+  /** This category's additive contribution, before the aggregate ceiling. */
+  readonly penaltyRate?: number;
   readonly triggers: readonly { readonly methodId: string; readonly assumption: string }[];
   readonly reason: string | null;
 }

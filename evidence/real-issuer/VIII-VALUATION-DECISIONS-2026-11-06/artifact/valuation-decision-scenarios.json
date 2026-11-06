@@ -1,0 +1,393 @@
+{
+  "schemaVersion": 1,
+  "phase": "VIII",
+  "generatedAt": "2026-11-06T14:05:00.000Z",
+  "status": "INVESTIGATION_ONLY — no policy value set, no cap applied, no schema field added",
+  "baseline": {
+    "issuerId": "IN:CIN:L85110KA1981PLC013115",
+    "inputBundle": "evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06",
+    "datasetVersion": "sha256:21cf25222fcdf0ac31d8e285c631b272f8d3d5e8567f2ed9594e4fff81725847",
+    "runClock": "2026-11-06T14:05:00.000Z",
+    "dilutedShares": 4144888607.994944,
+    "shareCountPeriod": "2024-03-31",
+    "netDebt": -193420000000,
+    "nonControllingInterest": 3450000000,
+    "preferenceCapital": {
+      "presence": "NIL_BY_DISCLOSURE",
+      "value": null
+    },
+    "associatesAndJV": {
+      "presence": "NOT_COMPUTABLE",
+      "reason": "NOT_REPORTED",
+      "value": null,
+      "treatment": "POLICY_ZERO_UNAVAILABLE",
+      "policyVersion": "associates-treatment/1.0.0"
+    },
+    "bridgeOffset": 189970000000,
+    "bridgeFormula": "equityValue = enterpriseValue − netDebt − minorityInterest − preferenceCapital + associatesAndJV",
+    "enterpriseMethods": [
+      {
+        "methodId": "DCF_FCFF",
+        "weight": 0.6,
+        "equityValue": 4106544452472.203,
+        "enterpriseValue": 3916574452472.203,
+        "perShareMid": 990.7490504210945
+      },
+      {
+        "methodId": "EV_EBITDA",
+        "weight": 0.1,
+        "equityValue": 4700090000000,
+        "enterpriseValue": 4510120000000,
+        "perShareMid": 1133.9484469942438
+      }
+    ],
+    "intrinsic": {
+      "low": 875.3394146903431,
+      "mid": 1088.972274952081,
+      "high": 1399.8105188789887,
+      "spreadPct": 0.48162025448418716,
+      "weighting": [
+        {
+          "methodId": "DCF_FCFF",
+          "weight": 0.6
+        },
+        {
+          "methodId": "EV_EBITDA",
+          "weight": 0.1
+        },
+        {
+          "methodId": "PE_RELATIVE",
+          "weight": 0.3
+        }
+      ]
+    },
+    "price": {
+      "value": 1180.65,
+      "asOf": "2026-11-06"
+    },
+    "marginOfSafety": {
+      "mosVsMid": -0.08418738213693565,
+      "mosVsLow": -0.3487910862755592,
+      "band": "FAIR",
+      "refusal": null
+    },
+    "confidence": {
+      "dataConfidence": 0.85,
+      "modelConfidence": 0.6342,
+      "combined": 0.6736,
+      "caps": [
+        "STALE_DATA",
+        "DILUTION_PROXY"
+      ],
+      "assumptionCaps": [
+        {
+          "cap": "POLICY_DEFAULT_WACC",
+          "basis": "POLICY_DEFAULT",
+          "applied": false,
+          "factor": null,
+          "triggers": [
+            {
+              "methodId": "DCF_FCFF",
+              "assumption": "discountRate"
+            }
+          ],
+          "reason": "CAP_FACTOR_NOT_SET_IN_POLICY: R-4.3 requires this cap and specifies no magnitude; policy confidence-policy-defaults/1.0.0 carries factor: null, so the cap is declared and no penalty is applied"
+        },
+        {
+          "cap": "POLICY_DEFAULT_MULTIPLE",
+          "basis": "POLICY_DEFAULT",
+          "applied": false,
+          "factor": null,
+          "triggers": [
+            {
+              "methodId": "PE_RELATIVE",
+              "assumption": "targetMultiple"
+            },
+            {
+              "methodId": "EV_EBITDA",
+              "assumption": "targetMultiple"
+            }
+          ],
+          "reason": "CAP_FACTOR_NOT_SET_IN_POLICY: R-4.3 requires this cap and specifies no magnitude; policy confidence-policy-defaults/1.0.0 carries factor: null, so the cap is declared and no penalty is applied"
+        }
+      ]
+    },
+    "reproducedAgainstVII": {
+      "payloadDigestRecorded": "6a328ef09636c51d069156cad1ea6e0e50c34e62fff0be1d64949f73a1f3504e",
+      "intrinsicMidMatches": true,
+      "combinedMatches": true,
+      "mosMatches": true,
+      "bandMatches": true
+    }
+  },
+  "l034": {
+    "policyVersion": "confidence-policy-defaults/1.0.0",
+    "factor": null,
+    "waccCap": "POLICY_DEFAULT_WACC",
+    "multipleCap": "POLICY_DEFAULT_MULTIPLE",
+    "declarationState": [
+      {
+        "cap": "POLICY_DEFAULT_WACC",
+        "basis": "POLICY_DEFAULT",
+        "applied": false,
+        "factor": null,
+        "triggers": [
+          {
+            "methodId": "DCF_FCFF",
+            "assumption": "discountRate"
+          }
+        ],
+        "reason": "CAP_FACTOR_NOT_SET_IN_POLICY: R-4.3 requires this cap and specifies no magnitude; policy confidence-policy-defaults/1.0.0 carries factor: null, so the cap is declared and no penalty is applied"
+      },
+      {
+        "cap": "POLICY_DEFAULT_MULTIPLE",
+        "basis": "POLICY_DEFAULT",
+        "applied": false,
+        "factor": null,
+        "triggers": [
+          {
+            "methodId": "PE_RELATIVE",
+            "assumption": "targetMultiple"
+          },
+          {
+            "methodId": "EV_EBITDA",
+            "assumption": "targetMultiple"
+          }
+        ],
+        "reason": "CAP_FACTOR_NOT_SET_IN_POLICY: R-4.3 requires this cap and specifies no magnitude; policy confidence-policy-defaults/1.0.0 carries factor: null, so the cap is declared and no penalty is applied"
+      }
+    ],
+    "appliedCaps": [
+      "STALE_DATA",
+      "DILUTION_PROXY"
+    ],
+    "triggers": [
+      {
+        "cap": "POLICY_DEFAULT_WACC",
+        "triggers": [
+          {
+            "methodId": "DCF_FCFF",
+            "assumption": "discountRate"
+          }
+        ],
+        "triggerCount": 1
+      },
+      {
+        "cap": "POLICY_DEFAULT_MULTIPLE",
+        "triggers": [
+          {
+            "methodId": "PE_RELATIVE",
+            "assumption": "targetMultiple"
+          },
+          {
+            "methodId": "EV_EBITDA",
+            "assumption": "targetMultiple"
+          }
+        ],
+        "triggerCount": 2
+      }
+    ],
+    "triggerTotal": 3,
+    "capTypesTriggered": 2,
+    "triggerCondition": "a trigger exists when a method with output publishes `wacc` and the assessment-level discount-rate basis is POLICY_DEFAULT, or publishes `multipleBasis === 'POLICY_DEFAULT'`",
+    "applicationOrder": "ADEQUACY_PARTIAL|ADEQUACY_INSUFFICIENT → STALE_DATA → DILUTION_PROXY → DIVIDEND_SOURCE_CONFLICT → HIGH_METHOD_DISAGREEMENT → assumption caps in declaration order (WACC, then MULTIPLE); one rounding at the end, and the result is clamped to [0, 1]",
+    "publishedValues": {
+      "dataConfidence": 0.85,
+      "modelConfidence": 0.6342,
+      "combined": 0.6736,
+      "preRoundCombined": 0.67356576,
+      "existingCapFactors": [
+        {
+          "cap": "STALE_DATA",
+          "factor": 0.9
+        },
+        {
+          "cap": "DILUTION_PROXY",
+          "factor": 0.98
+        }
+      ]
+    },
+    "alternatives": [
+      {
+        "id": "A_NO_CAP_UNTIL_AUTHORISED",
+        "description": "current state: the caps are declared by name, the factor is null, nothing is applied",
+        "formula": "combined = round4(preRound)",
+        "multiplicity": 0,
+        "combinedNow": 0.6736
+      },
+      {
+        "id": "B_ONE_CAP_WHEN_ANY_TRIGGER",
+        "description": "the factor applies once when at least one trigger exists, regardless of how many",
+        "formula": "combined = round4(preRound × f)",
+        "multiplicity": 1,
+        "combinedNow": null
+      },
+      {
+        "id": "C_ONE_CAP_PER_CAP_TYPE",
+        "description": "the WACC cap and the MULTIPLE cap each apply once, independently",
+        "formula": "combined = round4(preRound × f²)",
+        "multiplicity": 2,
+        "combinedNow": null
+      },
+      {
+        "id": "D_ONE_CAP_PER_TRIGGERING_ASSUMPTION",
+        "description": "every triggering method/assumption pair applies the factor",
+        "formula": "combined = round4(preRound × f³)",
+        "multiplicity": 3,
+        "combinedNow": null
+      }
+    ],
+    "illustrativeArithmetic": [
+      {
+        "illustrativeFactor": 0.98,
+        "label": "ILLUSTRATIVE_ARITHMETIC_NOT_A_PROPOSAL",
+        "once": 0.6601,
+        "perCapType": 0.6469,
+        "perTrigger": 0.634
+      },
+      {
+        "illustrativeFactor": 0.95,
+        "label": "ILLUSTRATIVE_ARITHMETIC_NOT_A_PROPOSAL",
+        "once": 0.6399,
+        "perCapType": 0.6079,
+        "perTrigger": 0.5775
+      },
+      {
+        "illustrativeFactor": 0.9,
+        "label": "ILLUSTRATIVE_ARITHMETIC_NOT_A_PROPOSAL",
+        "once": 0.6062,
+        "perCapType": 0.5456,
+        "perTrigger": 0.491
+      },
+      {
+        "illustrativeFactor": 0.85,
+        "label": "ILLUSTRATIVE_ARITHMETIC_NOT_A_PROPOSAL",
+        "once": 0.5725,
+        "perCapType": 0.4867,
+        "perTrigger": 0.4137
+      },
+      {
+        "illustrativeFactor": 0.8,
+        "label": "ILLUSTRATIVE_ARITHMETIC_NOT_A_PROPOSAL",
+        "once": 0.5389,
+        "perCapType": 0.4311,
+        "perTrigger": 0.3449
+      }
+    ],
+    "quantified": false,
+    "unquantifiedReason": "CAP_FACTOR_NOT_SET_IN_POLICY"
+  },
+  "l036": {
+    "treatmentNow": "POLICY_ZERO_UNAVAILABLE",
+    "policyVersion": "associates-treatment/1.0.0",
+    "substitutedInputs": [
+      {
+        "input": "associatesAndJV",
+        "presence": "NOT_COMPUTABLE",
+        "reason": "NOT_REPORTED",
+        "treatment": "POLICY_ZERO"
+      }
+    ],
+    "schemaGap": {
+      "datasetSchema": "IIPS_INVESTMENT_FUNDAMENTALS_V1",
+      "closedLineItemCount": 52,
+      "associatesItemPresent": false,
+      "note": "the engine hard-codes `components.associatesAndJV = NOT_COMPUTABLE(NOT_REPORTED)`; the closed line-item table has no associates/JV item, so no dataset column can populate the term even if a filing stated it"
+    },
+    "unitSensitivity": {
+      "perSharePerCrore": 0.001688827049898982,
+      "perSharePerThousandCrore": 1.6888270498989821,
+      "percentageOfMidPerThousandCrore": 0.15508448550476614,
+      "mosPercentagePointsPerThousandCrore": 0.16788028607154087,
+      "bridgedWeight": 0.7,
+      "methodIds": [
+        "DCF_FCFF",
+        "EV_EBITDA"
+      ],
+      "derivation": "deltaMid = weight(bridged methods) × (carryingValue / dilutedShares); exact, not a linearisation"
+    },
+    "bandBoundary": {
+      "fairUpperBoundMid": 1389.0000000000002,
+      "carryingValueCroreToReachBoundary": 177654.49994767993,
+      "note": "an arithmetic statement about the published band under the committed inputs, not a forecast and not a view on any issuer: the band stays FAIR until the carrying value reaches this amount"
+    },
+    "hypotheticalScenarios": [
+      {
+        "associatesCarryingValueCrore": 0,
+        "label": "HYPOTHETICAL_ARITHMETIC_NOT_AN_ISSUER_VALUE",
+        "intrinsicMid": 1088.972274952081,
+        "deltaMidVsBaseline": 0,
+        "mosVsMid": -0.08418738213693565,
+        "mosDeltaPercentagePoints": 0,
+        "band": "FAIR",
+        "inputValidity": "NO_AUTHORITATIVE_CARRYING_VALUE_EXISTS_IN_COMMITTED_EVIDENCE"
+      },
+      {
+        "associatesCarryingValueCrore": 100,
+        "label": "HYPOTHETICAL_ARITHMETIC_NOT_AN_ISSUER_VALUE",
+        "intrinsicMid": 1089.1411576570708,
+        "deltaMidVsBaseline": 0.16888270498975544,
+        "mosVsMid": -0.08401926756654798,
+        "mosDeltaPercentagePoints": 0.016811457038766464,
+        "band": "FAIR",
+        "inputValidity": "NO_AUTHORITATIVE_CARRYING_VALUE_EXISTS_IN_COMMITTED_EVIDENCE"
+      },
+      {
+        "associatesCarryingValueCrore": 500,
+        "label": "HYPOTHETICAL_ARITHMETIC_NOT_AN_ISSUER_VALUE",
+        "intrinsicMid": 1089.8166884770305,
+        "deltaMidVsBaseline": 0.8444135249494593,
+        "mosVsMid": -0.08334733032020733,
+        "mosDeltaPercentagePoints": 0.08400518167283183,
+        "band": "FAIR",
+        "inputValidity": "NO_AUTHORITATIVE_CARRYING_VALUE_EXISTS_IN_COMMITTED_EVIDENCE"
+      },
+      {
+        "associatesCarryingValueCrore": 1000,
+        "label": "HYPOTHETICAL_ARITHMETIC_NOT_AN_ISSUER_VALUE",
+        "intrinsicMid": 1090.66110200198,
+        "deltaMidVsBaseline": 1.6888270498989186,
+        "mosVsMid": -0.08250857927622024,
+        "mosDeltaPercentagePoints": 0.16788028607154087,
+        "band": "FAIR",
+        "inputValidity": "NO_AUTHORITATIVE_CARRYING_VALUE_EXISTS_IN_COMMITTED_EVIDENCE"
+      },
+      {
+        "associatesCarryingValueCrore": 2500,
+        "label": "HYPOTHETICAL_ARITHMETIC_NOT_AN_ISSUER_VALUE",
+        "intrinsicMid": 1093.1943425768286,
+        "deltaMidVsBaseline": 4.222067624747524,
+        "mosVsMid": -0.08000010063812162,
+        "mosDeltaPercentagePoints": 0.4187281498814033,
+        "band": "FAIR",
+        "inputValidity": "NO_AUTHORITATIVE_CARRYING_VALUE_EXISTS_IN_COMMITTED_EVIDENCE"
+      },
+      {
+        "associatesCarryingValueCrore": 5000,
+        "label": "HYPOTHETICAL_ARITHMETIC_NOT_AN_ISSUER_VALUE",
+        "intrinsicMid": 1097.416410201576,
+        "deltaMidVsBaseline": 8.44413524949482,
+        "mosVsMid": -0.0758450384235968,
+        "mosDeltaPercentagePoints": 0.8342343713338849,
+        "band": "FAIR",
+        "inputValidity": "NO_AUTHORITATIVE_CARRYING_VALUE_EXISTS_IN_COMMITTED_EVIDENCE"
+      },
+      {
+        "associatesCarryingValueCrore": 10000,
+        "label": "HYPOTHETICAL_ARITHMETIC_NOT_AN_ISSUER_VALUE",
+        "intrinsicMid": 1105.860545451071,
+        "deltaMidVsBaseline": 16.88827049898987,
+        "mosVsMid": -0.06763009572642197,
+        "mosDeltaPercentagePoints": 1.6557286410513683,
+        "band": "FAIR",
+        "inputValidity": "NO_AUTHORITATIVE_CARRYING_VALUE_EXISTS_IN_COMMITTED_EVIDENCE"
+      }
+    ],
+    "quantified": false,
+    "unquantifiedReason": "NO_AUTHORITATIVE_ASSOCIATES_JV_CARRYING_VALUE_IN_COMMITTED_SOURCE_EVIDENCE"
+  },
+  "readings": {
+    "l034": "OPEN — mechanism prepared, requirement unsatisfied, factor and granularity undecided",
+    "l036": "PARTIALLY RESOLVED — disclosure corrected; carrying value unavailable; understatement unquantified"
+  }
+}

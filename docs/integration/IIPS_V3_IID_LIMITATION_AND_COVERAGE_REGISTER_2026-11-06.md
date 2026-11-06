@@ -1250,11 +1250,17 @@ recommendation; the payload still declares `decisionSupportOnly` and `noTradeExe
 - **Affected contracts / outputs:** `confidence.caps` and `confidence.combined` for every assessment whose rate or
   multiples are policy defaults — which, on this dataset, is all of them; `assumptions.discountRate.basis`;
   `assumptions.methodSpecific[*].multipleBasis`.
-- **Status:** `OPEN` (2026-11-06, VII — **mechanism prepared; the requirement is NOT satisfied**). The design's cap
-  still does not cap anything: `factor` is `null`, no penalty is applied, and `confidence.combined` is unchanged. What
-  VII added is the place to put the factor, the trigger detection, and a payload member that says so out loud. Closing
-  this entry needs the authorised policy decision below, which this work item does not have. See §17.5 for what the
-  mechanism cost the payload grammar.
+- **Status:** `RESOLVED` (2026-11-06, **IX** — the authorised policy is in force). The owner's four decisions of
+  2026-11-06 supply the value and the rule the entry was waiting for, and the engine now applies them: policy
+  `confidence-policy-defaults/1.1.0`, additive by **distinct assumption category**, one aggregate ceiling of **0.35**
+  applied once, **no floor**, zero valid. On the committed Infosys assessment the published confidence moves
+  `0.6736 → 0.4378`; the two categories charge 0.20 (`DISCOUNT_RATE`, `DCF_FCFF`) and 0.15 (`TARGET_MULTIPLE`,
+  `PE_RELATIVE` + `EV_EBITDA` — three triggers, two charges), the sum reaches the ceiling without exceeding it, and the
+  payload publishes the category, the rate, the applied flag and the single-ceiling arithmetic. The intrinsic range,
+  every method weight and every other cap are unchanged: the penalty prices the *provenance* of the assumption, it does
+  not re-value the company. Evidence: §17.7 and `evidence/real-issuer/IX-AUTHORIZED-VALUATION-POLICY-2026-11-06/`.
+  **This entry is closed on the mechanism being in force, not on the penalty being "right" in any absolute sense** — it
+  is the authorised magnitude, which is what R-4.3 asked the operator to choose.
 - **Downstream phases affected:** any consumer that treats `confidence.combined` as a proxy for valuation reliability;
   IID-6 display of confidence next to a published intrinsic value.
 - **Consequence for user-visible results:** the confidence of 0.6736 does **not** carry a penalty for the fact that the
@@ -1341,21 +1347,32 @@ recommendation; the payload still declares `decisionSupportOnly` and `noTradeExe
 - **Affected contracts / outputs:** `valuation.methods[DCF_FCFF|EV_EBITDA|EV_REVENUE].output.perShare*`,
   `valuation.intrinsic.perShare`, `valuation.marginOfSafety`; `fundamentals.capitalStructure.associatesAndJV`;
   `limitations`.
-- **Status:** `PARTIALLY RESOLVED` (2026-11-06, VII) — **the disclosure-propagation defect described above is
-  corrected**: the treatment now reaches the persisted payload, the per-share observations and `limitations[]`, with its
-  policy version. The **limitation itself is not closed**: the associates/JV carrying value is still unavailable in
-  dataset schema v1, so the bridge still substitutes zero and the potential understatement remains **unquantified**.
-  Closing the entry needs a carrying-value line item in the dataset, not a disclosure. See §17.5.
+- **Status:** `PARTIALLY RESOLVED` (updated 2026-11-06, **IX**; first narrowed by VII). Three separate facts, kept
+  separate on purpose:
+  1. **Disclosure — correct.** The treatment reaches the persisted payload, the per-share observations and
+     `limitations[]` with `associates-treatment/1.0.0`, and the payload distinguishes a **policy substitution**
+     (`POLICY_ZERO_UNAVAILABLE`) from an **issuer-reported nil** (`DECLARED_NIL`, quoted wording required) and from a
+     **filed carrying value** (`CARRYING_VALUE_REPORTED`). IX widened the bridge note to all three treatments, so a
+     filed value that lifts each enterprise-derived per-share figure says so on the figure it moved.
+  2. **Control — in force.** 180 calendar days from the **source-evidence date** (newest balance-sheet instant, basis
+     `DATASET_PERIOD_END`), never from an execution timestamp: the Infosys evidence is 950 days old at the assessment
+     clock, so `status` is `REVIEW_DUE` with `reviewRequired: true` and the reason names `2024-09-27`. The flag is inert
+     — no value, no nil, no penalty, no confidence, no formula, no verdict — and it is **clock-free in the payload** (the
+     age is derived at render time) so the review control cannot mint a version every midnight.
+  3. **Quantification — NOT closed.** The carrying value is still unavailable **in the committed issuer evidence**: V2
+     can now hold it, but no filing in this bundle states one, so the bridge still substitutes zero and the
+     understatement remains unquantified for this issuer. No value is asserted, and no sentence here claims the carrying
+     value was established. See §17.7.
 - **Downstream phases affected:** every enterprise-value method on every issuer; IID-6 display of a per-share value
   whose inputs are claimed to be published.
 - **Consequence for user-visible results:** the intrinsic range is understated by any associates/JV carrying value the
   issuer reports, and a reader cannot tell from the payload that the term was zero. The size is **unquantified** here:
   it needs the issuer's non-current investment schedule, which schema v1 has no field for and this bundle does not
   transcribe.
-- **Required resolution / evidence:** either carry the disclosure through composition (keep the note on the published
-  per-share observation, or add an explicit `POLICY_ZERO_INPUTS` list to the method assumptions), or add an
-  associates/JV line item to the dataset so the term is a reported number. Either is a contract change and neither is
-  in this work item's authority; the payload shape is untouched here.
+- **Required resolution / evidence:** either carry the disclosure through composition (done in VII), or add an
+  associates/JV line item to the dataset so the term is a reported number (**done in IX**: schema V2). Both contract
+  changes are now in place; what the entry still needs is the issuer's filed carrying value, plus the 180-day review
+  control that IX put in force as the standing prompt for it.
 - **Owner / responsible phase:** assessment contract (valuation composition) with ingestion schema.
 - **Evidence:** `iips-platform/src/investment/assessment/capitalStructure.ts` lines 243–286 (the note is built, then
   dropped by `perShare()`); the composed payload
@@ -1375,11 +1392,14 @@ recommendation; the payload still declares `decisionSupportOnly` and `noTradeExe
   `readVersionWithPayload`, not on the engine's object. Evidence: `evidence/real-issuer/VII-VALUATION-INTEGRITY-2026-11-06/`
   (`artifact/assessment-payload-vii.json`, `artifact/payload-diff-vs-wi3.json`); the same bundle's `numbersUnchanged`
   shows intrinsic, margin of safety and band byte-identical to Work Item 3.
-- **Residue that keeps this entry open:** `capitalStructure.associatesAndJV` remains
+- **Residue that keeps this entry open (updated by IX, 2026-11-06):** `capitalStructure.associatesAndJV` remains
   `NOT_COMPUTABLE: NOT_REPORTED` and `equityBridge.treatment` remains `POLICY_ZERO_UNAVAILABLE` on the published
-  payload, so equity value is still understated by an amount **nobody has quantified**, and the payload now says so
-  instead of holding a silent zero. The magnitude needs the issuer's non-current investment schedule, which dataset
-  schema v1 has no field for; that is an ingestion-schema change and is not in this work item's authority.
+  payload, so equity value is still understated by an amount **nobody has quantified**, and the payload says so instead
+  of holding a silent zero. IX removed the *representational* half of this residue: dataset schema **V2** can hold
+  `INVESTMENTS_IN_ASSOCIATES_AND_JOINT_VENTURES` (and the XBRL reader maps the two component captions), so the field
+  the magnitude needs now exists and a V2 carrying value flows to the bridge — demonstrated at
+  ₹1.6888/share per ₹1,000 crore, with the review control closing. What remains is **the issuer's figure**, which the
+  committed filing evidence does not contain. No value was estimated and none is asserted here.
 - **Last status update:** 2026-11-06 (opened); 2026-11-06 (VII — disclosure-propagation defect corrected;
   `PARTIALLY RESOLVED`, carrying value still unavailable).
 
@@ -1396,7 +1416,7 @@ recommendation; the payload still declares `decisionSupportOnly` and `noTradeExe
 | `L-030` (single-exchange price) | untouched: the price is the same single BSE record |
 | `L-031` (empty corporate-action table) | **untouched in status (`OPEN`), materially changed in effect**: a published margin of safety now assumes unverified share-base continuity from 2024-03-31 to 2026-11-06 |
 | `L-033` (freshness unit divergence) | untouched; **no effect** here — the price is 0 days old and inside both the 5-trading-day and 7-calendar-day readings |
-| `L-034`, `L-035` | added by this section and **not** fixed here: no confidence cap was introduced and no declaration grammar was changed. *(Updated for `L-034` only by §17.5 and VII: the cap *mechanism* is now prepared and declared in the payload **without a factor**, so `L-034` remains `OPEN`; `L-035` also remains `OPEN`.)* |
+| `L-034`, `L-035` | added by this section and **not** fixed here: no confidence cap was introduced and no declaration grammar was changed. *(Updated for `L-034` only by §17.5 and VII: the cap *mechanism* is now prepared and declared in the payload **without a factor**. **§17.7 and IX then applied the owner's authorised rates, so `L-034` is `RESOLVED`; `L-035` remains `OPEN`.**)* |
 | D-2 (nil-by-disclosure, §14) | evidence limb **satisfied for this issuer**: the filing states the nil in words, and the declaration is quoted, hashed and referenced |
 | D-3 (reason-code precision, §13/§15) | untouched by code; its subject matter moved to `COMPLETE` / `PASSED` because the leverage input is no longer missing |
 | Margin of safety | **state changed to computed** — `INTRINSIC_WITHHELD` → `refusal: null`, band `FAIR`, −8.42 % vs mid |
@@ -1448,3 +1468,140 @@ penalty applied). Neither entry is closed, and neither is described as satisfied
 
 **Not changed by §17.5:** `L-035` (still `OPEN`), `L-031`, `L-033`, every other limitation, every stored artifact, and
 every payload digest other than the one this work item newly published.
+
+### 17.6 The `L-034` and `L-036` decisions, prepared but not taken (2026-11-06, VIII)
+
+This section records a **decision package**, not a decision. Its subject is the one thing VII could not supply: the
+**cap factor / granularity** that `L-034` needs, and the **carrying value** that `L-036` cannot hold. Neither is
+invented, and neither entry moves.
+
+**What VIII added.** (a) An exact reproduction of the VII baseline from the committed Work Item 3 inputs — intrinsic
+875.3394 / 1088.9723 / 1399.8105, margin of safety −8.4187 % vs mid, band `FAIR`, confidence `0.6736` — with 21 fields
+checked against the frozen payload, all matching. (b) The four `L-034` alternatives (A no cap until authorised; B one
+aggregate cap; C one cap per cap type; D one cap per triggering assumption) with trigger conditions, application
+order, repeat behaviour, interaction with the six existing caps, effect on this assessment and on other
+configurations, and the code change each requires. (c) The `L-036` source path — which note would disclose the
+figure, what the committed evidence actually contains (**nothing**: the three extracted notes never mention
+associates/JV), and the exact representational gap. (d) A versioned schema proposal. (e) Five proposed decision
+records, each marked as a proposal.
+
+**The finding that changes how `L-034` should be decided.** The prepared mechanism is **already `C`-shaped**:
+`assumptionCapsOf()` builds one declaration per cap *type* and the apply loop multiplies once per applied declaration.
+Setting `factor` therefore selects "one cap per cap type" (`f²` on this assessment) without any further code change,
+while B and D each need an arithmetic and payload change. Setting a number therefore cannot be separated from choosing
+a granularity — they are one decision, which is why the draft record `DR-034-1` carries both fields.
+
+**The finding that bounds `L-036`.** The missing term is worth **₹1.6888 per share per ₹1,000 crore** of carrying value
+(0.155 % of mid, +0.1679 pp of margin of safety), and the published band would not leave `FAIR` below ₹1,77,654 crore.
+That does not make the zero acceptable — R-4.1 requires the term at carrying value and the payload still cannot say how
+much it is missing — but it does mean **blocking the bridge** (which would withhold the intrinsic range entirely, as
+Work Item 2 did) would cost far more than the disclosure of an unquantified substitution.
+
+**Authority, restated because the temptation to skip it is the main risk to this work item.** Four different
+authorities are involved and none of them is a "PA": the policy value (A1) and evidence acceptance (A4) belong to **the
+operator** under R-17's vocabulary; the dataset/schema change (A2) belongs to the operator in the interim IRR-only
+arrangement with **IPD ingestion** as target owner (design D-2/§1.5); the implementation (A3) belongs to IRR and needs
+no separate authorisation (R-17 dropped "authority to implement"). **R-13 does not authorise anything** — it classifies
+the change: setting a factor is a `MODEL` change that must be attributed in the change report, once authorised.
+
+**Statuses after §17.6:** `L-034` is **`OPEN`** — the factor and granularity are an undecided operator policy choice,
+so no penalty is applied and R-4.3's cap half stays unmet. `L-036` is **`PARTIALLY RESOLVED`** — the disclosure is
+corrected and the sensitivity is now quantified, but the carrying value is neither representable in dataset schema v1
+nor present in the committed evidence, so the understatement stays unquantified. `L-035` remains `OPEN`.
+
+**Not changed by §17.6:** every other entry and status, every policy constant, every formula, weight and threshold, the
+dataset schema, every stored artifact and every payload digest. The single new executable file is
+`iips-platform/scripts/viii-valuation-decisions.ts` (investigation only, outside `tsconfig.include`), guarded by
+`iips-platform/tests/investment/viiiValuationDecisions.test.ts`, which fails if the policy factor is set without
+regenerating the package.
+
+Evidence: `docs/integration/IIPS_V3_IID_VIII_VALUATION_DECISIONS_2026-11-06.md`,
+`docs/integration/IIPS_V3_IID_ASSOCIATES_JV_SCHEMA_PROPOSAL_2026-11-06.md` and
+`evidence/real-issuer/VIII-VALUATION-DECISIONS-2026-11-06/`.
+
+### 17.7 The authorised policy is implemented, and `L-034` closes (2026-11-06, IX)
+
+Section 17.6 stopped at a decision package because the two things `L-034` and `L-036` needed — a **policy value** and an
+**issuer figure** — are not IRR's to invent. Both have now been supplied, and they were supplied by different
+authorities, which is the reason this section separates them as sharply as it can:
+
+| What was missing | Who supplied it | What it is now |
+|---|---|---|
+| the `POLICY_DEFAULT` penalty magnitude and its application rule (`L-034`) | **the owner**, four decisions of 2026-11-06 | policy `confidence-policy-defaults/1.1.0`: additive by distinct assumption category, one aggregate ceiling of **0.35**, **no floor**, zero valid |
+| the associates/JV carrying value (`L-036`) | **nobody** — no filed figure exists in the committed evidence | a V2 dataset *can* hold it; the committed Infosys evidence still does not, and no value is asserted |
+
+**`L-034` — closed, because the mechanism is now in force rather than prepared.** The requirement was that a
+`POLICY_DEFAULT` assumption must carry a published confidence consequence. The engine previously declared the cap and
+applied nothing (`factor: null`, `applied: false`); it now applies a named reduction per distinct category and
+publishes the arithmetic. On the same Infosys assessment, at the same clock, with the same evidence:
+
+| | before IX | after IX |
+|---|---|---|
+| published `confidence.combined` | `0.6736` | **`0.4378`** |
+| applied caps | `STALE_DATA`, `DILUTION_PROXY` | `STALE_DATA`, `DILUTION_PROXY`, `POLICY_DEFAULT_WACC`, `POLICY_DEFAULT_MULTIPLE` |
+| `assumptionCaps[].applied` | `false` (declared, unapplied) | `true`, with `category` and `penaltyRate` published |
+| intrinsic mid / MoS / band | `1088.972274952081` / −8.4187 % / `FAIR` | **unchanged** |
+
+Three triggers, two charges: `DCF_FCFF` carries the `DISCOUNT_RATE` category (0.20) and `PE_RELATIVE` +
+`EV_EBITDA` share the single `TARGET_MULTIPLE` category (0.15). The categories sum exactly to the ceiling, so the
+ceiling is applied once and is not exceeded; `L-034`'s requirement that a category must not double-charge is satisfied
+by construction, not by a guard. `confidenceFloor` is `null`: zero remains a publishable confidence, and the payload
+formula says so.
+
+**`L-036` — updated, and deliberately not closed.** Three distinct facts stay distinct, and the register will not
+merge them:
+
+1. **The disclosure is correct and now complete.** `associates-treatment/1.0.0` is unchanged, the payload still
+   distinguishes a **policy substitution** (`POLICY_ZERO_UNAVAILABLE`) from an **issuer-reported nil**
+   (`DECLARED_NIL`, quoted wording required) and from a **filed carrying value** (`CARRYING_VALUE_REPORTED`), and the
+   bridge note now travels onto every enterprise-derived per-share figure for all three treatments — a filed value
+   that lifts each figure by `carryingValue / shares` says so on the figure it moved, exactly as a policy zero that
+   understates it does.
+2. **The review control is in force.** 180 calendar days from the **source-evidence date** (`clockStart`, the newest
+   balance-sheet instant, basis `DATASET_PERIOD_END`), never from an execution timestamp; the Infosys evidence is
+   **950 days** old at the assessment clock, so `status` is `REVIEW_DUE`, `reviewRequired` is `true`, and the reason
+   names the date it fell due (`2024-09-27`). The flag is inert: it changes no carrying value, converts no unavailable
+   input into a nil, applies no penalty, moves no confidence, formula or verdict.
+3. **The carrying value is still not established.** Not for want of a flag, and not for want of a schema — V2 exists —
+   but because the committed filing evidence contains no filed associates/JV figure. `L-036` therefore stays
+   **`PARTIALLY RESOLVED`**: the *representational* and *control* defects are fixed; the *quantification* defect is not,
+   and no register sentence claims it is.
+
+**One architectural consequence worth recording, because it contradicts the obvious design.** The review block in the
+payload is **clock-free**: it publishes `clockStart`, `reviewAgeDays`, `reviewDueOn`, `status`, `reviewRequired` and the
+reason, but *not* `elapsedDays`, and not the measurement clock. A day count is a pure function of the execution clock,
+and a payload member that moves every midnight would mint a version on every re-run — the precise defect
+`assessment-substantive-identity/1` closes (L-014, AC-L14.1/AC-L14.2). The age is therefore derived at render time
+from `clockStart` and the report's own `asOf`, both of which the payload carries; the *status* stays, because it is a
+policy verdict on the evidence (like `asOf.staleBeyondPolicy`) and moves only when the review crosses its date, which is
+a disclosure change worth one version. Widening the exclusion set instead was rejected: the identity grammar forbids a
+silent extension, and a grammar bump would invalidate every stored `/1` payload.
+
+**V2, and what it does and does not cost.** `INVESTMENTS_IN_ASSOCIATES_AND_JOINT_VENTURES` is `BS` / `INSTANT` /
+`INR` / positive magnitude, `reported: true`, and absent from V1. V1 is unchanged — 52 items, same bytes, same digest,
+never backfilled — and V2 adds exactly one item (53). Absence is `NOT_REPORTED` (never zero); a nil needs the filer's
+quoted wording; a derived value cannot be nil; a V1 dataset that carries the item is refused **by name**
+(`LINE_ITEM_REQUIRES_DATASET_SCHEMA_V2`), and a build that does not know V2 refuses the whole dataset rather than
+dropping the member. The XBRL reader gained the two component captions (`InvestmentsInAssociates`,
+`InvestmentsInJointVentures`) and adds them when both are filed — arithmetic on filed facts, reflected in the coverage
+disclosure's mapped-tag count (20 → 22). **No IPD write was made**, no new persistence was added and no stored artifact
+changed.
+
+**The blank-scope statement, restated because the temptation is to over-claim.** A V2 carrying value on the Infosys
+datasets demonstrates the *schema*, not the *issuer*: ₹1,000 crore of carrying value moves intrinsic mid by
+**₹1.6888/share** (`0.7 × carrying value / shares`, the exact bridge arithmetic) and closes the review control, while
+`dataConfidence`, the quality verdict, adequacy and the applied-cap list do not move. `modelConfidence` does move
+(`0.6342 → 0.6346`), because it is a function of the published per-share spread — arithmetic on published outputs, not a
+penalty — and the bundle labels it that way rather than hiding it.
+
+**Statuses after §17.7:** `L-034` → **`RESOLVED`**. `L-036` → **`PARTIALLY RESOLVED`** (unchanged status; the reason
+narrows to the missing issuer figure alone). `L-035` → `OPEN`. `L-001` … `L-033` unchanged.
+
+**Not changed by §17.7:** every other entry and status; every D-2/D-3 semantic; the disposition's own adequacy
+haircut (which is not the `POLICY_DEFAULT` penalty and does not double-count it); every method weight, threshold and
+formula other than the confidence aggregate the owner authorised; every stored artifact and every historical payload
+digest; every WI1/WI2/WI3 evidence file.
+
+Evidence: `docs/integration/IIPS_V3_IID_IX_AUTHORIZED_VALUATION_POLICY_2026-11-06.md`,
+`evidence/real-issuer/IX-AUTHORIZED-VALUATION-POLICY-2026-11-06/` (regenerable, guarded by
+`iips-platform/tests/investment/ixAuthorizedPolicy.test.ts`).

@@ -279,12 +279,19 @@ describe('AC-D3.8 — the synthetic goldens keep the behaviour they were recorde
   });
 });
 
-describe('AC-D3.6 — confidence, adequacy and the disposition gates are untouched', () => {
-  test('the confidence block and its caps are identical to the recorded goldens', () => {
+describe('AC-D3.6 — adequacy and the disposition gates are untouched', () => {
+  test('the confidence block reflects the authorized R-4.3 penalty, and adequacy is unchanged', () => {
     const tech = assessCompany(techAssessmentInput()).payload;
     const thin = assessCompany(thinAssessmentInput()).payload;
-    assert.equal(tech.confidence.combined, 0.8371);
-    assert.deepEqual([...tech.confidence.caps], ['DILUTION_PROXY']);
+    // VIII (2026-11-06): the owner authorized the R-4.3 policy-default penalty, so the goldens move by exactly that
+    // arithmetic — 0.8371 × (1 − 0.35) for `tech`, whose three methods lean on both assumption categories — and for
+    // no other reason. `thin` has no method with output, so it triggers neither category and does not move.
+    assert.equal(tech.confidence.combined, 0.5441);
+    assert.deepEqual([...tech.confidence.caps], [
+      'DILUTION_PROXY',
+      'POLICY_DEFAULT_WACC',
+      'POLICY_DEFAULT_MULTIPLE',
+    ]);
     assert.equal(tech.completeness.adequacy, 'SUFFICIENT');
     assert.equal(tech.quality.verdict, 'CLEAN');
     assert.equal(thin.confidence.combined, 0.1176);

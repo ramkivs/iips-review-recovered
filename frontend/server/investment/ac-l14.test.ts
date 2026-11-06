@@ -53,19 +53,21 @@ const DISPOSITION = 'investment.holding-disposition';
  */
 const REF = Object.freeze({
   /**
-   * `L-034`/`L-036` moved these three again, and only these three.
+   * `L-034`/`L-036` moved these three once more, and only these three.
    *
-   * The payload now carries `confidence.assumptionCaps` and `fundamentals.capitalStructure.equityBridge`, one extra
-   * clause in the confidence formula, two `limitations` sentences and the associates note on each enterprise-derived
-   * per-share observation. Both earlier layers are still reproduced byte for byte in
-   * `substantive-identity.test.ts`: the decision's published values (`08ea8d4a…`, `fd9589e4…`, `34240407…`) through
-   * `preD3(undoDisclosure(...))`, and the post-D-3 values (`6d295010…`, `19a08af3…`, `0032be68…`) through
-   * `undoDisclosure(...)`. The two input digests and the disposition digest do not move, because the engine takes no
-   * new input and no disposition member changed.
+   * The payload now carries the authorised penalty contract: `confidence.assumptionCaps` gains one `applied`
+   * member per declaration plus the category ledger, the formula carries the `(1 − min(0.35, Σ category))` clause,
+   * `confidence.combined` and `confidence.caps` follow it, `associatesJVReview` publishes the 180-day control, and
+   * the associates note on each enterprise-derived per-share observation says which payload it came from. Every
+   * earlier layer is still reproduced byte for byte in `substantive-identity.test.ts`: the decision's published
+   * values (`08ea8d4a…`, `fd9589e4…`, `34240407…`) through `preD3(undoDisclosure(undoIX(...)))`, the post-D-3 values
+   * (`6d295010…`, `19a08af3…`, `0032be68…`) through `undoDisclosure(undoIX(...))`, and the post-disclosure values
+   * (`33c02caa…`, `df2cacd8…`, `7e4251bc…`) through `undoIX(...)`. The two input digests do not move — the engine
+   * takes no new input — and the disposition digest moves only because it renders the assessment's confidence.
    */
-  C1: '33c02caa98219de531e6cc5206830020fab3b56ce1559fc079290145d6f8818c',
-  C4: 'df2cacd8978dba5b09f0649604a35ada47dfa604aa5f229d070e85b9f914dd08',
-  C5: '7e4251bc9d488e2240b7ce7d2299a338bc5db15bd73f08e0ad60a95524cd6cac',
+  C1: 'c010909145475703b5cf2b2bf8495fb18c8427a6ab2969beb69bc4a0705a6dab',
+  C4: '6d1838e4392baa98617cd57ef4071ed081dc18a4e9570678e3b6d76f1ec4bb00',
+  C5: 'abe6c02fbd56361648b7dd384873de97058ce1bd399b6c3dd8f73a32dd825a06',
   /**
    * The disposition value THIS repository's M1 held fixture produces. Decision §5.2 publishes `126bd28f…` for a D0
    * fixture it does not print; both readings of the `nextReviewOn` rule were executed against this fixture and
@@ -73,7 +75,7 @@ const REF = Object.freeze({
    * reproduces all five assessment vectors byte-for-byte. AC-L14.7 is therefore asserted against the value a run
    * can obtain here, and the record says so (§13.4 of the implementation record).
    */
-  disposition: '5827369fb952c65270dfb0b8b79862ae1ca327a0cae827d04439ac3a471ed5d1',
+  disposition: '85a64c7d665868adf49adfca02e138059bb3685741aec3061df61060a909e5a5',
 });
 
 const env = prepareM1Environment();
@@ -216,8 +218,11 @@ describe('AC-L14.4 — crossing the freshness window is a FRESHNESS_TRANSITION, 
       expect(c1.asOf.staleBeyondPolicy).toBe(true);
       expect(c4.quality.verdict).toBe('CLEAN');
       expect(c1.quality.verdict).toBe('MATERIAL_CONCERNS');
-      expect(c4.confidence.combined).toBeCloseTo(0.8371, 4);
-      expect(c1.confidence.combined).toBeCloseTo(0.674, 4);
+      // The authorised R-4.3 penalty is multiplicative ONCE, after the evidence caps, at the single aggregate
+      // ceiling (DISCOUNT_RATE 0.20 + TARGET_MULTIPLE 0.15 = 0.35, so ×0.65): C4 = 0.8371 × 0.65 = 0.5441, and the
+      // stale C1 is the same arithmetic with the 0.9 STALE_DATA cap in front of it.
+      expect(c4.confidence.combined).toBeCloseTo(0.5441, 4);
+      expect(c1.confidence.combined).toBeCloseTo(0.4381, 4);
       expect(substantiveDigestOfPayload(ASSESSMENT, c4)).toBe(REF.C4);
       expect(substantiveDigestOfPayload(ASSESSMENT, c1)).toBe(REF.C1);
 

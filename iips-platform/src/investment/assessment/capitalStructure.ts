@@ -37,6 +37,7 @@
  *     (`PRESENT` only) except where the notes below say otherwise, and `NET_DEBT` in the IID-0 derivation set
  *     stays reported-numbers-only.
  */
+import type { DatasetSchema } from '../contracts/lineItems';
 import type { LineItemId } from '../contracts/lineItems';
 import type { NumericObservation } from '../contracts/observation';
 import { missing, notComputable, present } from '../contracts/observation';
@@ -49,6 +50,7 @@ import type {
 } from './types';
 import { periodObservation } from './periods';
 import { VALUATION_POLICY } from './policy';
+import { describeAssociatesReview } from './policyReview';
 
 const EMPTY_SOURCE = { kind: 'DERIVED' as const, ref: 'capital-structure/1.0.0' };
 
@@ -165,7 +167,17 @@ function leaseTreatmentOf(series: readonly FinancialPeriodView[]): { treatment: 
  * instant the series contains; instant items are taken from the same period so the block is internally
  * consistent.
  */
-export function buildCapitalStructure(series: SeriesSelection): CapitalStructure {
+export interface CapitalStructureOptions {
+  /** The assessment clock (`generatedAt`), used only to age the review control. Never the wall clock. */
+  readonly asOf: string;
+  /**
+   * The dataset's declared schema. `V2` can represent a filed associates/JV carrying value, so the term is read
+   * from the dataset; under `V1` the term is not representable at all and is published as `NOT_COMPUTABLE`.
+   */
+  readonly datasetSchema?: DatasetSchema;
+}
+
+export function buildCapitalStructure(series: SeriesSelection, options: CapitalStructureOptions): CapitalStructure {
   const annual = series.annual;
   const instant = annual.length > 0 ? annual : series.quarterly.slice(-1);
   const components: Record<string, NumericObservation> = {};
@@ -194,7 +206,14 @@ export function buildCapitalStructure(series: SeriesSelection): CapitalStructure
   // rather than by a separate subtraction. The absence of a restricted-balance line item is still recorded,
   // so the block shows "not reported" where a reader would look for it — never a zero.
   components.restrictedCash = notComputable('NOT_REPORTED');
-  components.associatesAndJV = notComputable('NOT_REPORTED');
+  // `L-036` — dataset schema V1 cannot represent an associates/JV investment at all, so the term is
+  // `NOT_COMPUTABLE` (the schema is the obstacle, not the filing). Under V2 the item exists: the standard
+  // component lookup then yields `PRESENT` for a filed carrying value, `NIL_BY_DISCLOSURE` for a filer's declared
+  // nil, and `MISSING: NOT_REPORTED` when the row simply does not carry it. Absence is never zero.
+  components.associatesAndJV =
+    options.datasetSchema === 'IIPS_INVESTMENT_FUNDAMENTALS_V2'
+      ? component('associatesAndJV', 'INVESTMENTS_IN_ASSOCIATES_AND_JOINT_VENTURES')
+      : notComputable('NOT_REPORTED');
 
   const grossDebt = grossDebtOf([
     { name: 'shortTermBorrowings', periodEnd: componentPeriods.shortTermBorrowings ?? null, observation: shortTerm },
@@ -219,6 +238,19 @@ export function buildCapitalStructure(series: SeriesSelection): CapitalStructure
 
   const lease = leaseTreatmentOf(annual.length > 0 ? annual : instant);
 
+  const associatesTerm = components.associatesAndJV ?? notComputable('NOT_REPORTED');
+  const equityBridge = describeEquityBridge({ associatesAndJV: associatesTerm });
+  /**
+   * The source-evidence date for the associates/JV term: the newest balance-sheet instant the block was built
+   * from. A declared nil carries its own period, so that is preferred where it exists — the review clock should
+   * age the *statement*, not the series.
+   */
+  const newestInstant = instant.reduce<string | null>(
+    (newest, period) => (newest === null || period.periodEnd > newest ? period.periodEnd : newest),
+    null,
+  );
+  const bridgePeriod = associatesTerm.periodEnd ?? newestInstant;
+
   return {
     netDebt,
     grossDebt,
@@ -228,7 +260,7 @@ export function buildCapitalStructure(series: SeriesSelection): CapitalStructure
     pre116Comparative: lease.pre116,
     minorityInterest: minority,
     preferenceCapital: preference,
-    associatesAndJV: components.associatesAndJV ?? notComputable('NOT_REPORTED'),
+    associatesAndJV: associatesTerm,
     dilutedShares,
     shareCountPeriod: usableShares === null ? null : usableShares.period.periodEnd,
     shareCountBasis: usableShares === null ? 'UNAVAILABLE' : 'REPORTED_EPS',
@@ -236,7 +268,15 @@ export function buildCapitalStructure(series: SeriesSelection): CapitalStructure
     // EPS-implied basic count and the confidence cap `DILUTION_PROXY` is applied downstream.
     dilutionProxy: true,
     components,
-    equityBridge: describeEquityBridge({ associatesAndJV: components.associatesAndJV ?? notComputable('NOT_REPORTED') }),
+    equityBridge,
+    associatesJVReview: describeAssociatesReview({
+      treatment: equityBridge.treatment,
+      treatmentPolicyVersion: equityBridge.policyVersion,
+      // The clock starts at the evidence date the bridge drew its inputs from, never at the run.
+      clockStart: bridgePeriod,
+      asOf: options.asOf,
+      policy: VALUATION_POLICY.associatesReview,
+    }),
   };
 }
 
@@ -255,28 +295,36 @@ export function buildCapitalStructure(series: SeriesSelection): CapitalStructure
  */
 export function describeEquityBridge(structure: Pick<CapitalStructure, 'associatesAndJV'>): EquityBridgeDisclosure {
   const policy = VALUATION_POLICY.associatesTreatment;
-  const reported = structure.associatesAndJV.presence === 'PRESENT' && structure.associatesAndJV.value !== null;
-  const substituted = reported
-    ? []
-    : [
-        {
-          input: 'associatesAndJV',
-          presence: structure.associatesAndJV.presence,
-          reason: structure.associatesAndJV.reason ?? null,
-          treatment: 'POLICY_ZERO' as const,
-        },
-      ];
+  const observation = structure.associatesAndJV;
+  const reported = observation.presence === 'PRESENT' && observation.value !== null;
+  // D-2: a filer's declared nil is a statement, not an absence. It is neither a carrying value nor a policy zero.
+  const declaredNil = observation.presence === 'NIL_BY_DISCLOSURE';
+  const substituted =
+    reported || declaredNil
+      ? []
+      : [
+          {
+            input: 'associatesAndJV',
+            presence: observation.presence,
+            reason: observation.reason ?? null,
+            treatment: 'POLICY_ZERO' as const,
+          },
+        ];
+  const treatment = reported ? 'CARRYING_VALUE_REPORTED' : declaredNil ? 'DECLARED_NIL' : 'POLICY_ZERO_UNAVAILABLE';
+  const note = reported
+    ? `Associates/JV enter the enterprise-to-equity bridge at carrying value ${observation.value} (policy ${policy.policyVersion}, basis ${policy.basis}).`
+    : declaredNil
+      ? `Associates/JV are nil by disclosure: the filer states the balance is nil${observation.note === undefined ? '' : ` (“${observation.note}”)`}, so the enterprise-to-equity bridge adds zero. This is the issuer's statement, not a policy substitution (policy ${policy.policyVersion}).`
+      : `Associates/JV carrying value is not recorded in the dataset schema (${observation.presence}${
+          observation.reason === undefined ? '' : `: ${observation.reason}`
+        }), so the enterprise-to-equity bridge substitutes zero for that term under policy ${policy.policyVersion}. This is a policy substitution, not an issuer-reported nil: equity value is understated by any associates/JV carrying value the issuer reports.`;
   return {
     formula:
       'equityValue = enterpriseValue − netDebt − minorityInterest − preferenceCapital + associatesAndJV',
     policyVersion: policy.policyVersion,
-    treatment: reported ? 'CARRYING_VALUE_REPORTED' : 'POLICY_ZERO_UNAVAILABLE',
+    treatment,
     substitutedInputs: substituted,
-    note: reported
-      ? `Associates/JV enter the enterprise-to-equity bridge at carrying value ${structure.associatesAndJV.value} (policy ${policy.policyVersion}, basis ${policy.basis}).`
-      : `Associates/JV carrying value is not recorded in dataset schema v1 (${structure.associatesAndJV.presence}${
-          structure.associatesAndJV.reason === undefined ? '' : `: ${structure.associatesAndJV.reason}`
-        }), so the enterprise-to-equity bridge substitutes zero for that term under policy ${policy.policyVersion}. This is a policy substitution, not an issuer-reported nil: equity value is understated by any associates/JV carrying value the issuer reports.`,
+    note,
   };
 }
 
@@ -309,9 +357,11 @@ export function equityValueFromEnterprise(enterpriseValue: NumericObservation, s
     value(structure.preferenceCapital) + associates;
   const notes = [
     declaredNil.length === 0 ? null : `claims declared nil by the filer, subtracted as zero: ${declaredNil.join(', ')}`,
-    // The associates sentence comes from the recorded disclosure, so the conversion and the payload say the
-    // same thing about the same policy version.
-    structure.equityBridge.treatment === 'POLICY_ZERO_UNAVAILABLE' ? structure.equityBridge.note : null,
+    // The associates sentence comes from the recorded disclosure, so the conversion and the payload say the same
+    // thing about the same policy version — for ALL THREE treatments: a filed carrying value that lifts every
+    // enterprise-derived per-share figure by `carryingValue / shares` must say so on the figure it moved, exactly as
+    // a policy zero that understates it does (L-036: disclose the treatment, whichever it is).
+    structure.equityBridge.note,
   ].filter((entry): entry is string => entry !== null);
   return present(equity, EMPTY_SOURCE, {
     basis: 'DERIVED',

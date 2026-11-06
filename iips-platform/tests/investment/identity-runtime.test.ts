@@ -57,7 +57,8 @@ describe('runtime financial-coverage disclosure', () => {
     assert.equal(disclosure.datasetClass, 'NONE');
     assert.equal(disclosure.measuredSectors, 0);
     // The IID-0 limits stay visible even with no dataset: they describe the mechanism, not a dataset.
-    assert.equal(disclosure.xbrlMappedTags, 20);
+    // 20 tags before `L-036`/V2; the associates/JV caption adds the two component tags (22).
+    assert.equal(disclosure.xbrlMappedTags, 22);
     assert.equal(disclosure.derivationItems, 8);
     assert.match(disclosure.note, /Identity coverage says whether a row has a defensible issuer/);
   });

@@ -178,7 +178,8 @@ describe('IID-0 carry-forward disclosures', () => {
       assert.equal(fin.outstandingSectors.length, 10);
       assert.ok(fin.outstandingSectors.includes('Insurance'));
       assert.equal(fin.xbrlMappedTags, Object.keys(XBRL_TAG_MAP).length);
-      assert.equal(fin.xbrlMappedTags, 20);
+      // 20 tags before `L-036`/V2; the associates/JV caption adds the two component tags (22).
+      assert.equal(fin.xbrlMappedTags, 22);
       assert.equal(fin.derivationItems, DERIVATIONS.length);
       assert.equal(fin.derivationItems, 8);
       assert.deepEqual(fin.unmappedTagsObserved, ['DeferredTaxExpense']);

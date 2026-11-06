@@ -10,6 +10,7 @@
  * over a canonical form of the inputs actually consumed, so two runs on the same inputs are byte-identical
  * regardless of dataset ordering or process restarts.
  */
+import { ITEMS_INTRODUCED_BY_V2, LEGACY_DATASET_SCHEMA, assertSupportedDatasetSchema } from '../contracts/lineItems';
 import { digestOf } from '../fundamentals/canonical';
 import type { DatasetContent } from '../fundamentals/types';
 import type { Adequacy, Violation } from '../contracts/invariants';
@@ -19,7 +20,7 @@ import { notApplicable } from '../contracts/observation';
 import { buildCompleteness, buildQuality } from './adequacy';
 import { buildCapitalStructure } from './capitalStructure';
 import { buildConfidence } from './confidence';
-import type { PolicyDefaultTrigger } from './confidence';
+import { policyDefaultPenaltyOf, type PolicyDefaultTrigger } from './confidence';
 import { buildDividends } from './dividends';
 import { assessmentNarrative } from './explain';
 import { buildIntrinsic, buildSensitivity } from './intrinsic';
@@ -164,10 +165,33 @@ function policyDefaultTriggersOf(
   return triggers;
 }
 
+/**
+ * Refuse a dataset that carries an item its declared schema cannot represent.
+ *
+ * The closed line-item table already stops an *unknown* column at ingestion; this is the complementary check for a
+ * dataset assembled by hand or by an older build. It is the `L-036` failure mode in the other direction: a V2
+ * carrying value must never be silently dropped and replaced by a policy zero, so it is refused by name instead.
+ */
+export function assertDatasetItemsSupported(dataset: DatasetContent): void {
+  const schema = dataset.datasetSchema ?? LEGACY_DATASET_SCHEMA;
+  if (schema === 'IIPS_INVESTMENT_FUNDAMENTALS_V2') return;
+  for (const period of dataset.periods) {
+    const carried = ITEMS_INTRODUCED_BY_V2.filter((item) => period.values[item] !== undefined);
+    if (carried.length > 0) {
+      throw new Error(
+        `dataset declares ${schema} but carries ${carried.join(', ')} (introduced by dataset schema V2) in ${period.issuerId}/${period.period.periodEnd}; refusing the dataset rather than dropping the figure`,
+      );
+    }
+  }
+}
+
 /** Assess one issuer. Deterministic for identical inputs. */
 export function assessCompany(input: AssessCompanyInput): AssessCompanyResult {
+  // Fail closed on a schema this build does not know, before anything is derived from it.
+  const datasetSchema = assertSupportedDatasetSchema(input.dataset.datasetSchema);
+  assertDatasetItemsSupported(input.dataset);
   const series: SeriesSelection = selectSeries(input.dataset.periods, input.issuerId);
-  const structure = buildCapitalStructure(series);
+  const structure = buildCapitalStructure(series, { asOf: input.generatedAt, datasetSchema });
   const metrics = input.dataset.operatingMetrics
     .filter((record) => record.issuerId === input.issuerId)
     .slice()
@@ -210,7 +234,7 @@ export function assessCompany(input: AssessCompanyInput): AssessCompanyResult {
   const stalenessDays = dataAsOf === '' ? 0 : daysBetween(dataAsOf, input.generatedAt.slice(0, 10));
   const staleBeyondPolicy = stalenessDays > VALUATION_POLICY.freshness.pnlDays;
 
-  const completeness = buildCompleteness(series);
+  const completeness = buildCompleteness(series, { datasetSchema });
   const shareCountMismatch =
     structure.shareCountPeriod !== null &&
     series.annual[0] !== undefined &&
@@ -232,6 +256,7 @@ export function assessCompany(input: AssessCompanyInput): AssessCompanyResult {
   });
 
   const applicableMethods = methods.filter((method) => method.applicable);
+  const policyDefaultTriggers = policyDefaultTriggersOf(methods, assumption.basis);
   const confidence = buildConfidence({
     completeness,
     quality,
@@ -240,7 +265,7 @@ export function assessCompany(input: AssessCompanyInput): AssessCompanyResult {
     dilutionProxy: structure.dilutionProxy,
     dividendConflict: dividends.conflict !== null,
     applicability: { applicable: applicableMethods.length, considered: methods.length },
-    policyDefaultAssumptions: policyDefaultTriggersOf(methods, assumption.basis),
+    policyDefaultAssumptions: policyDefaultTriggers,
     policyDefaultCaps: VALUATION_POLICY.policyDefaultAssumptionCaps,
   });
 
@@ -299,16 +324,28 @@ export function assessCompany(input: AssessCompanyInput): AssessCompanyResult {
   if (structure.equityBridge.treatment === 'POLICY_ZERO_UNAVAILABLE') {
     limitations.push(structure.equityBridge.note);
   }
-  // L-034: R-4.3 declares a cap for policy-default assumptions and specifies no magnitude. The payload names the
-  // caps in force and says plainly that no penalty was applied, so a reader never mistakes 0.6736 for a number
-  // that already carries a policy-default penalty.
-  const declaredCaps = confidence.assumptionCaps.filter((declaration) => !declaration.applied);
-  if (declaredCaps.length > 0) {
-    const triggers = [...new Set(declaredCaps.flatMap((declaration) => declaration.triggers.map((trigger) => `${trigger.methodId}/${trigger.assumption}`)))];
+  // L-034 (authorized 2026-11-06): the policy-default penalty is applied, additively by assumption category, under
+  // one aggregate ceiling. The sentence states the arithmetic a reader needs to recompute it, and names the
+  // categories rather than the trigger count — two methods sharing a category are one penalty.
+  const appliedCaps = confidence.assumptionCaps.filter((declaration) => declaration.applied);
+  if (appliedCaps.length > 0) {
+    const penalty = policyDefaultPenaltyOf(policyDefaultTriggers, VALUATION_POLICY.policyDefaultAssumptionCaps);
+    const triggers = appliedCaps.flatMap((declaration) =>
+      declaration.triggers.map((trigger) => `${trigger.methodId}/${trigger.assumption}`),
+    );
     limitations.push(
-      `R-4.3 declares a confidence cap for policy-default valuation assumptions (${declaredCaps
-        .map((declaration) => declaration.cap)
-        .join(', ')}) triggered by ${triggers.join(', ')}. The design of record specifies no factor, so the caps are declared in confidence.assumptionCaps and NOT applied: the published confidence carries no policy-default penalty.`,
+      `R-4.3's policy-default penalty is applied: the valuation leans on ${appliedCaps.length} distinct assumption category(ies) (${appliedCaps
+        .map((declaration) => `${declaration.cap} ${declaration.penaltyRate}`)
+        .join(', ')}) triggered by ${triggers.join(', ')}. The reductions are additive and capped once at ${penalty.ceiling}, so the published confidence carries a ${penalty.totalReduction} reduction (×${Number(
+        penalty.multiplier.toFixed(4),
+      )}); multiple methods sharing one assumption category carry one penalty, and no minimum-confidence floor exists.`,
+    );
+  }
+  // L-036 review control: the flag travels in prose as well as in `capitalStructure.associatesJVReview`, because a
+  // reader who never expands the block would otherwise miss the one thing the control exists to say.
+  if (structure.associatesJVReview.reviewRequired) {
+    limitations.push(
+      `Associates/JV review required (${structure.associatesJVReview.status}): ${structure.associatesJVReview.reason} A review flag is not a carrying value: no figure has been established, no unavailable input has been converted into a nil, and the flag changes no valuation output.`,
     );
   }
   const unimplemented = methods.filter((method) => method.notApplicableReason?.startsWith('METHOD_NOT_IMPLEMENTED_IN_ENGINE_V1'));

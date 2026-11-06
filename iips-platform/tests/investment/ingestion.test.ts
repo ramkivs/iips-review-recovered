@@ -155,6 +155,68 @@ describe('XBRL instance ingestion', () => {
   });
 });
 
+describe('XBRL — the V2 associates/JV caption', () => {
+  const instanceOf = (facts: string): string => `<?xml version="1.0"?>
+<xbrli:xbrl xmlns:xbrli="http://www.xbrl.org/2003/instance">
+  <xbrli:context id="I-2026">
+    <xbrli:entity><xbrli:identifier scheme="IN">IN:EQISIN:IN0000000029</xbrli:identifier></xbrli:entity>
+    <xbrli:period><xbrli:instant>2026-03-31</xbrli:instant></xbrli:period>
+  </xbrli:context>
+  <xbrli:unit id="INR"><xbrli:measure>iso4217:INR</xbrli:measure></xbrli:unit>
+${facts}
+</xbrli:xbrl>`;
+  const extract = (facts: string, datasetSchema: 'IIPS_INVESTMENT_FUNDAMENTALS_V1' | 'IIPS_INVESTMENT_FUNDAMENTALS_V2' = 'IIPS_INVESTMENT_FUNDAMENTALS_V2') =>
+    extractPeriodValues(parseXbrlInstance(instanceOf(facts)), {
+      issuerId: BODHI,
+      periodEnd: '2026-03-31',
+      statementScope: 'CONSOLIDATED',
+      filingRef: 'FIL-BODHI-FY26-XBRL',
+      filedAt: '2026-05-16',
+      datasetSchema,
+    });
+  const fact = (name: string, value: string) =>
+    `  <${name} contextRef="I-2026" unitRef="INR">${value}</${name}>`;
+
+  test('both component captions are ADDED into the one closed line item, and say so', () => {
+    const extraction = extract(`${fact('InvestmentsInAssociates', '6400000000')}\n${fact('InvestmentsInJointVentures', '1600000000')}`);
+    const item = extraction.values.INVESTMENTS_IN_ASSOCIATES_AND_JOINT_VENTURES;
+    assert.equal(item?.value, 8_000_000_000);
+    assert.equal(item?.presence, 'PRESENT');
+    assert.equal(item?.source?.kind, 'FILING');
+    assert.match(item?.note ?? '', /sum of the filed/);
+    assert.ok(extraction.issues.some((issue) => issue.code === 'ASSOCIATES_JV_COMPONENTS_SUMMED'));
+    // Nothing else was invented, and no second figure was written under another item.
+    assert.equal(extraction.values.CASH_AND_CASH_EQUIVALENTS?.presence, 'MISSING');
+  });
+
+  test('a single combined caption is used as filed, with no summation claimed', () => {
+    const extraction = extract(fact('InvestmentsInAssociates', '8000000000'));
+    const item = extraction.values.INVESTMENTS_IN_ASSOCIATES_AND_JOINT_VENTURES;
+    assert.equal(item?.value, 8_000_000_000);
+    assert.equal(item?.note, undefined);
+    assert.equal(extraction.issues.some((issue) => issue.code === 'ASSOCIATES_JV_COMPONENTS_SUMMED'), false);
+  });
+
+  test('a V1 build refuses the caption by name instead of reading it under a schema it cannot hold', () => {
+    const extraction = extract(fact('InvestmentsInAssociates', '8000000000'), 'IIPS_INVESTMENT_FUNDAMENTALS_V1');
+    // No member at all — not a value, not a MISSING placeholder that would make a V1 dataset unreadable.
+    assert.equal(extraction.values.INVESTMENTS_IN_ASSOCIATES_AND_JOINT_VENTURES, undefined);
+    assert.ok(
+      extraction.issues.some(
+        (issue) => issue.code === 'LINE_ITEM_REQUIRES_DATASET_SCHEMA_V2' && issue.severity === 'ERROR',
+      ),
+    );
+  });
+
+  test('neither caption present is NOT_TAGGED_IN_FILING — never a zero', () => {
+    const extraction = extract(fact('CashAndCashEquivalents', '7400000000'));
+    const item = extraction.values.INVESTMENTS_IN_ASSOCIATES_AND_JOINT_VENTURES;
+    assert.equal(item?.presence, 'MISSING');
+    assert.equal(item?.reason, 'NOT_TAGGED_IN_FILING');
+    assert.equal(item?.value, null);
+  });
+});
+
 describe('operating metrics', () => {
   const content = referenceContent();
 

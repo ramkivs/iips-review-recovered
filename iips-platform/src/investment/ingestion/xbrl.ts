@@ -8,7 +8,14 @@
  * No network. No taxonomy package. If a filing uses a tag this map does not know, the item is simply
  * absent (`MISSING`), which is the honest representation.
  */
-import { LINE_ITEMS, isLineItemId, type LineItemId } from '../contracts/lineItems';
+import {
+  ITEMS_INTRODUCED_BY_V2,
+  LEGACY_DATASET_SCHEMA,
+  LINE_ITEMS,
+  isLineItemId,
+  type DatasetSchema,
+  type LineItemId,
+} from '../contracts/lineItems';
 import { missing, present, type NumericObservation } from '../contracts/observation';
 import type { IngestionIssue } from '../fundamentals/types';
 import { findAll, localName, parseXml, type XmlElement } from './xml';
@@ -34,6 +41,19 @@ export interface XbrlInstance {
   readonly facts: readonly XbrlFact[];
 }
 
+/**
+ * `L-036` / V2 — the two filed captions that feed ONE closed line item.
+ *
+ * A filer may present a single combined caption (`InvestmentsInAssociates`) or both components, and the published
+ * schema proposal's rule is: use whichever is present, and **add the components when both are presented**. Adding
+ * two filed figures is arithmetic on the filing; it is not an inference, and no figure is created when neither tag
+ * is present (`NOT_TAGGED_IN_FILING`, never zero).
+ */
+export const ASSOCIATES_JV_COMPONENT_TAGS: readonly string[] = Object.freeze([
+  'InvestmentsInAssociates',
+  'InvestmentsInJointVentures',
+]);
+
 /** Truncated tag map: local name → closed line item. Extend here, never at the call site. */
 export const XBRL_TAG_MAP: Readonly<Record<string, LineItemId>> = Object.freeze({
   RevenueFromOperations: 'REVENUE_FROM_OPERATIONS',
@@ -56,6 +76,9 @@ export const XBRL_TAG_MAP: Readonly<Record<string, LineItemId>> = Object.freeze(
   BorrowingsNoncurrent: 'LONG_TERM_BORROWINGS',
   Equity: 'TOTAL_EQUITY',
   Assets: 'TOTAL_ASSETS',
+  // V2. Two captions, one line item: see `ASSOCIATES_JV_COMPONENT_TAGS` for the summation rule.
+  InvestmentsInAssociates: 'INVESTMENTS_IN_ASSOCIATES_AND_JOINT_VENTURES',
+  InvestmentsInJointVentures: 'INVESTMENTS_IN_ASSOCIATES_AND_JOINT_VENTURES',
 });
 
 export function parseXbrlInstance(text: string): XbrlInstance {
@@ -101,6 +124,11 @@ export function parseXbrlInstance(text: string): XbrlInstance {
 
 export interface XbrlExtractionOptions {
   readonly issuerId: string;
+  /**
+   * The dataset schema the build declares. Defaults to the legacy schema: a V1 build must not emit a placeholder
+   * for an item V1 cannot hold, or every V1 dataset read from a filing would carry a V2 member it cannot represent.
+   */
+  readonly datasetSchema?: DatasetSchema;
   readonly periodEnd: string;
   readonly statementScope: 'CONSOLIDATED' | 'STANDALONE';
   readonly filingRef: string;
@@ -127,6 +155,7 @@ export function extractPeriodValues(
   instance: XbrlInstance,
   options: XbrlExtractionOptions,
 ): XbrlExtraction {
+  const datasetSchema = options.datasetSchema ?? LEGACY_DATASET_SCHEMA;
   const issues: IngestionIssue[] = [];
   const values: Partial<Record<LineItemId, NumericObservation>> = {};
   const unknown = new Set<string>();
@@ -138,6 +167,17 @@ export function extractPeriodValues(
     const lineItem = XBRL_TAG_MAP[fact.localName];
     if (lineItem === undefined) {
       unknown.add(fact.localName);
+      continue;
+    }
+    // A V1 build cannot hold a V2 item: refuse the fact by name rather than read it and record a schema the
+    // dataset cannot represent.
+    if (datasetSchema !== 'IIPS_INVESTMENT_FUNDAMENTALS_V2' && ITEMS_INTRODUCED_BY_V2.includes(lineItem)) {
+      issues.push({
+        severity: 'ERROR',
+        code: 'LINE_ITEM_REQUIRES_DATASET_SCHEMA_V2',
+        subject: `${options.issuerId}/${lineItem}`,
+        detail: `tag "${fact.localName}" maps to an item introduced by dataset schema V2 but this build declares ${datasetSchema}`,
+      });
       continue;
     }
     const context = fact.contextRef === null ? undefined : contextById.get(fact.contextRef);
@@ -186,6 +226,28 @@ export function extractPeriodValues(
       continue;
     }
     if (values[lineItem] !== undefined) {
+      const existing = values[lineItem];
+      const isComponent = ASSOCIATES_JV_COMPONENT_TAGS.includes(fact.localName);
+      // The associates/JV caption is the ONE item with two legitimate tags: an issuer that presents both
+      // components has stated the whole, in parts. Any other second fact for a populated item is still ignored.
+      if (isComponent && existing?.presence === 'PRESENT' && typeof existing.value === 'number') {
+        // The first component's provenance is kept and the note names both captions; the issue trail records the
+        // arithmetic, so a reader can see that this figure is a sum rather than a single filed caption.
+        values[lineItem] = present(existing.value + numeric, existing.source!, {
+          periodEnd: options.periodEnd,
+          basis: 'AS_FILED',
+          filingRef: options.filingRef,
+          note: 'sum of the filed InvestmentsInAssociates and InvestmentsInJointVentures captions',
+        });
+        issues.push({
+          severity: 'WARNING',
+          code: 'ASSOCIATES_JV_COMPONENTS_SUMMED',
+          subject: `${options.issuerId}/${lineItem}`,
+          detail: 'both component captions were present; the filed figures were added',
+        });
+        mapped += 1;
+        continue;
+      }
       issues.push({
         severity: 'WARNING',
         code: 'DUPLICATE_FACT',
@@ -206,6 +268,9 @@ export function extractPeriodValues(
   for (const id of Object.keys(LINE_ITEMS) as LineItemId[]) {
     if (values[id] !== undefined) continue;
     if (!LINE_ITEMS[id].reported) continue;
+    // A V1 dataset has no member for a V2 item: not even a MISSING placeholder, which would make the dataset
+    // claim a schema it cannot represent (and refuse itself downstream).
+    if (datasetSchema !== 'IIPS_INVESTMENT_FUNDAMENTALS_V2' && ITEMS_INTRODUCED_BY_V2.includes(id)) continue;
     values[id] = missing(isLineItemId(id) ? 'NOT_TAGGED_IN_FILING' : 'NOT_REPORTED', {
       periodEnd: options.periodEnd,
     });

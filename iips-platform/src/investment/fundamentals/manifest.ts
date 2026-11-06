@@ -6,7 +6,9 @@
  */
 import type { IssuerRecord } from './types';
 import { canonicalize, digestOf, sha256Hex } from './canonical';
+import type { DatasetSchema } from '../contracts/lineItems';
 
+/** Legacy (V1) schema identifier. V2 is additive and is selected per build — see `DatasetSchema`. */
 export const DATASET_SCHEMA = 'IIPS_INVESTMENT_FUNDAMENTALS_V1' as const;
 
 /** Explicit, auditable statement of what identity covers. */
@@ -45,7 +47,7 @@ export interface DatasetCoverage {
 }
 
 export interface DatasetManifest {
-  readonly datasetSchema: typeof DATASET_SCHEMA;
+  readonly datasetSchema: DatasetSchema;
   /** Identity. Equal to `contentDigest`; carries no timestamp. */
   readonly datasetVersion: string;
   readonly contentDigest: string;
@@ -99,6 +101,8 @@ export function buildManifest(
     readonly importRunId: string;
     readonly files: Readonly<Record<string, string>>;
     readonly quality?: DatasetManifest['quality'];
+    /** Declared dataset schema for this build. Defaults to the legacy V1 identifier, so existing datasets do not move. */
+    readonly datasetSchema?: DatasetSchema;
   },
 ): DatasetManifest {
   const contentDigest = computeContentDigest(content);
@@ -124,7 +128,7 @@ export function buildManifest(
     (issue) => issue.severity === 'ERROR',
   ).length;
   return {
-    datasetSchema: DATASET_SCHEMA,
+    datasetSchema: options.datasetSchema ?? DATASET_SCHEMA,
     datasetVersion: contentDigest,
     contentDigest,
     provider: options.provider,

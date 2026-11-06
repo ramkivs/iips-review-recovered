@@ -1,0 +1,5 @@
+wrote ../evidence/real-issuer/IX-AUTHORIZED-VALUATION-POLICY-2026-11-06/artifact/authorized-policy-evidence.json
+  L-034: confidence 0.6736 → 0.4378 (reduction 0.35)
+  L-034: caps STALE_DATA, DILUTION_PROXY, POLICY_DEFAULT_WACC, POLICY_DEFAULT_MULTIPLE
+  L-036: review REVIEW_DUE at 950 days
+  L-036: a ₹1,000 crore filed carrying value moves mid by 1.6888270498989186/share

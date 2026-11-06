@@ -1,0 +1,225 @@
+{
+  "schemaVersion": 1,
+  "phase": "IX",
+  "generatedAt": "2026-11-06T14:05:00.000Z",
+  "status": "IMPLEMENTED — the authorised policy is in force and reproduced from committed inputs",
+  "authorisation": {
+    "decidedOn": "2026-11-06",
+    "authority": "owner (IRR), one-pass implementation",
+    "decisions": {
+      "maximumAggregateReduction": 0.35,
+      "application": "ADDITIVE_BY_CATEGORY",
+      "confidenceFloor": null,
+      "associatesReviewAgeDays": 180
+    }
+  },
+  "policyRecord": {
+    "version": "confidence-policy-defaults/1.1.0",
+    "categories": {
+      "DISCOUNT_RATE": 0.2,
+      "TARGET_MULTIPLE": 0.15
+    },
+    "ceiling": 0.35,
+    "ceilingBinding": false,
+    "singleFactor": null,
+    "formula": "combined = (0.6·dataConfidence + 0.4·modelConfidence) × Π evidence caps × (1 − min(0.35, Σ category penalty rates)), rounded to 4 dp once, clamped to [0, 1], no floor",
+    "rounding": "once, at the end; zero is a legitimate published confidence",
+    "order": [
+      "ADEQUACY_PARTIAL or ADEQUACY_INSUFFICIENT",
+      "STALE_DATA",
+      "DILUTION_PROXY",
+      "DIVIDEND_SOURCE_CONFLICT",
+      "HIGH_METHOD_DISAGREEMENT",
+      "the R-4.3 aggregate penalty, applied once"
+    ]
+  },
+  "l034": {
+    "registerStatus": "RESOLVED",
+    "triggers": [
+      {
+        "methodId": "DCF_FCFF",
+        "assumption": "discountRate"
+      },
+      {
+        "methodId": "PE_RELATIVE",
+        "assumption": "targetMultiple"
+      },
+      {
+        "methodId": "EV_EBITDA",
+        "assumption": "targetMultiple"
+      }
+    ],
+    "triggerCount": 3,
+    "categoriesCharged": [
+      {
+        "category": "DISCOUNT_RATE",
+        "cap": "POLICY_DEFAULT_WACC",
+        "penaltyRate": 0.2,
+        "methods": [
+          "DCF_FCFF"
+        ],
+        "chargeCount": 1
+      },
+      {
+        "category": "TARGET_MULTIPLE",
+        "cap": "POLICY_DEFAULT_MULTIPLE",
+        "penaltyRate": 0.15,
+        "methods": [
+          "PE_RELATIVE",
+          "EV_EBITDA"
+        ],
+        "chargeCount": 1
+      }
+    ],
+    "summedReduction": 0.35,
+    "totalReduction": 0.35,
+    "multiplier": 0.65,
+    "ceilingBinding": false,
+    "confidence": {
+      "before": 0.6736,
+      "dataConfidence": 0.85,
+      "modelConfidence": 0.6342,
+      "prePenalty": 0.6736,
+      "after": 0.4378,
+      "published": 0.4378,
+      "absoluteReduction": 0.23579999999999995,
+      "relativeReduction": 0.350059
+    },
+    "caps": [
+      "STALE_DATA",
+      "DILUTION_PROXY",
+      "POLICY_DEFAULT_WACC",
+      "POLICY_DEFAULT_MULTIPLE"
+    ],
+    "declarations": [
+      {
+        "cap": "POLICY_DEFAULT_WACC",
+        "category": "DISCOUNT_RATE",
+        "applied": true,
+        "penaltyRate": 0.2,
+        "triggers": [
+          "DCF_FCFF"
+        ]
+      },
+      {
+        "cap": "POLICY_DEFAULT_MULTIPLE",
+        "category": "TARGET_MULTIPLE",
+        "applied": true,
+        "penaltyRate": 0.15,
+        "triggers": [
+          "PE_RELATIVE",
+          "EV_EBITDA"
+        ]
+      }
+    ],
+    "invariants": {
+      "oneChargePerCategory": true,
+      "ceilingAppliedOnce": "not binding (sum below the ceiling)",
+      "floor": null,
+      "intrinsicMidUnchanged": true
+    }
+  },
+  "l036": {
+    "registerStatus": "PARTIALLY RESOLVED",
+    "treatment": "POLICY_ZERO_UNAVAILABLE",
+    "treatmentPolicyVersion": "associates-treatment/1.0.0",
+    "reviewPolicyVersion": "associates-review/1.0.0",
+    "review": {
+      "status": "REVIEW_DUE",
+      "reviewRequired": true,
+      "clockStart": "2024-03-31",
+      "clockStartBasis": "DATASET_PERIOD_END",
+      "reviewAgeDays": 180,
+      "reviewDueOn": "2024-09-27",
+      "elapsedDaysAtRun": 950,
+      "elapsedDaysInPayload": null,
+      "payloadIsClockFree": true,
+      "reason": "The associates/JV carrying value has been unavailable since the evidence date 2024-03-31, and the 180-day treatment review fell due on 2024-09-27. The owner must obtain current issuer evidence for the carrying value, or explicitly reconsider the POLICY_ZERO treatment; the flag itself changes no value, no nil and no confidence."
+    },
+    "carryingValue": {
+      "established": false,
+      "presence": "NOT_COMPUTABLE",
+      "reason": "NOT_REPORTED",
+      "value": null
+    },
+    "v2Dataset": {
+      "schema": "IIPS_INVESTMENT_FUNDAMENTALS_V2",
+      "presence": "PRESENT",
+      "carryingValueCrore": 1000,
+      "treatment": "CARRYING_VALUE_REPORTED",
+      "substitutedInputs": [],
+      "reviewStatus": "NOT_APPLICABLE",
+      "reviewRequired": false,
+      "schemaOnlyChanges": {
+        "intrinsicMidBefore": 1088.972274952081,
+        "intrinsicMidAfter": 1090.66110200198,
+        "deltaMid": 1.6888270498989186,
+        "bridgedWeight": 0.7,
+        "dilutedShares": 4144888607.994944,
+        "derivation": "deltaMid = bridgedWeight × carryingValue / dilutedShares (exact bridge arithmetic)",
+        "bandBefore": "FAIR",
+        "bandAfter": "FAIR",
+        "mosBefore": -0.08418738213693565,
+        "mosAfter": -0.08250857927622024
+      },
+      "unchangedBySchema": [
+        "dataConfidence",
+        "quality",
+        "adequacy",
+        "requiredFieldCoveragePct",
+        "confidence.caps"
+      ],
+      "derivedFromTheBridgedOutput": {
+        "modelConfidenceBefore": 0.6342,
+        "modelConfidenceAfter": 0.6346,
+        "combinedBefore": 0.4378,
+        "combinedAfter": 0.4379,
+        "why": "model confidence is a function of the published per-share spread, so a carrying value that widens the range moves it; the movement is arithmetic on published outputs and applies no penalty of its own"
+      }
+    },
+    "quantified": true,
+    "quantifiedBasis": "the costs of the policy zero are now measurable from a V2 dataset, but the committed Infosys evidence carries no filed carrying value, so no issuer figure is asserted here"
+  },
+  "regression": {
+    "priorPackage": "VIII-VALUATION-DECISIONS-2026-11-06",
+    "priorRecorded": {
+      "payloadDigest": "6a328ef09636c51d069156cad1ea6e0e50c34e62fff0be1d64949f73a1f3504e",
+      "combined": 0.6736,
+      "caps": [
+        "STALE_DATA",
+        "DILUTION_PROXY"
+      ],
+      "dataConfidence": 0.85,
+      "intrinsicLow": 875.3394146903431,
+      "intrinsicMid": 1088.972274952081,
+      "intrinsicHigh": 1399.8105188789887,
+      "mosVsMid": -0.08418738213693565,
+      "band": "FAIR"
+    },
+    "structuralDigestV1": "f2329b501528113ef9bf51f8438b9defcf70bb1dc876f6c3c7e710b228409e8f",
+    "structuralDigestV2": "22b33b92aac900d9c9a89157e4216b47cace2ee447a43b20aea04d450d6ffb9a",
+    "structuralDigestNote": "sha256 over the payload JSON as this reproduction builds it; the NP-04 canonical payload digest is minted at the composition boundary and is asserted by the frontend store suite, not here",
+    "attributableToPolicy": [
+      "confidence.combined (0.6736 → 0.4378)",
+      "confidence.caps gained POLICY_DEFAULT_WACC and POLICY_DEFAULT_MULTIPLE",
+      "confidence.formula gained the R-4.3 clause",
+      "confidence.assumptionCaps: applied true, category and penaltyRate published",
+      "fundamentals.capitalStructure.associatesJVReview published (clock-free)",
+      "limitations gained the review sentence"
+    ],
+    "attributableToIssuerData": [
+      "fundamentals.capitalStructure.associatesAndJV: NOT_COMPUTABLE (POLICY_ZERO) → PRESENT (filed carrying value)",
+      "valuation.intrinsic per-share legs (+ deltaMid) on the two bridged methods",
+      "marginOfSafety.mosVsMid and its band",
+      "associatesJVReview.status: REVIEW_DUE → NOT_APPLICABLE"
+    ],
+    "unchanged": [
+      "dataConfidence",
+      "modelConfidence",
+      "intrinsic per-share legs on the V1 dataset (the policy moves confidence, never a valuation)",
+      "quality verdict",
+      "adequacy and completeness",
+      "every method selection and weight"
+    ]
+  }
+}

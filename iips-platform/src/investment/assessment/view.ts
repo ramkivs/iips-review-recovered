@@ -9,6 +9,7 @@
  *   • a withheld intrinsic shows what is missing, never a placeholder number;
  *   • the sector-reference block is visually and structurally separate from every company field.
  */
+import { calendarDaysBetween } from './policyReview';
 import type {
   CompanyAssessmentPayload,
   NumericObservation,
@@ -30,6 +31,21 @@ function escapeHtml(value: string): string {
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;');
+}
+
+/**
+ * `L-036` review badge, with the elapsed age DERIVED at render time.
+ *
+ * The persisted block carries no day count on purpose: a member that moves every midnight would mint a version on
+ * every re-run, which is the defect the substantive-identity grammar closes (L-014). The disclosure still shows the
+ * age, because rendering has a clock — the report's own `asOf`.
+ */
+function reviewBadgeOf(payload: CompanyAssessmentPayload): string {
+  const review = payload.fundamentals.capitalStructure.associatesJVReview;
+  if (!review.reviewRequired) return '';
+  const elapsedDays = calendarDaysBetween(review.clockStart, payload.asOf.generatedAt);
+  const age = elapsedDays === null ? 'age unavailable' : `${elapsedDays} day(s)`;
+  return ` <span class="badge">associates/JV review: ${escapeHtml(review.status)} · ${escapeHtml(age)}</span>`;
 }
 
 function num(value: number | null | undefined, decimals = 2): string {
@@ -153,7 +169,9 @@ export function renderAssessmentHtml(payload: CompanyAssessmentPayload, narrativ
 <body>
 <h1>${escapeHtml(payload.subject.legalName)}</h1>
 <p class="muted"><code>${escapeHtml(payload.subject.issuerId)}</code> · ${escapeHtml(payload.subject.sector)} · ${escapeHtml(payload.data.series.statementScope)} · data as of ${escapeHtml(payload.asOf.dataAsOf)} · model ${escapeHtml(payload.artifact.modelVersion)} · policy ${escapeHtml(payload.artifact.policyVersion)}</p>
-<p><span class="badge ${adequacyTone}">adequacy: ${payload.completeness.adequacy}</span> <span class="badge">quality: ${payload.quality.verdict}</span> <span class="badge">confidence: ${payload.confidence.combined}</span> <span class="badge">moat: ${payload.moat.classification}</span> <span class="badge">dividends: ${payload.dividends.verdict}</span></p>
+<p><span class="badge ${adequacyTone}">adequacy: ${payload.completeness.adequacy}</span> <span class="badge">quality: ${payload.quality.verdict}</span> <span class="badge">confidence: ${payload.confidence.combined}</span> <span class="badge">moat: ${payload.moat.classification}</span> <span class="badge">dividends: ${payload.dividends.verdict}</span>${
+  reviewBadgeOf(payload)
+}</p>
 
 <h2>Identity and data</h2>
 <table>

@@ -4,6 +4,7 @@
  * Sentences are generated from the payload's own fields, so an explanation cannot say something the payload
  * does not contain. No model, no free text, no adjectives that the numbers do not support.
  */
+import { calendarDaysBetween } from './policyReview';
 import type { CompanyAssessmentPayload } from './types';
 
 export function assessmentNarrative(payload: CompanyAssessmentPayload): readonly string[] {
@@ -45,9 +46,30 @@ export function assessmentNarrative(payload: CompanyAssessmentPayload): readonly
     `Dividend verdict is ${payload.dividends.verdict}; source reconciliation is ${payload.dividends.reconciliation.status}${payload.dividends.reconciliation.reason === null ? '' : ` (${payload.dividends.reconciliation.reason})`}.`,
   );
 
+  const appliedPolicyCaps = payload.confidence.assumptionCaps.filter((declaration) => declaration.applied);
   lines.push(
-    `Quality verdict is ${payload.quality.verdict} with ${payload.quality.flags.length} flag(s); combined confidence is ${payload.confidence.combined}${payload.confidence.caps.length === 0 ? '' : ` with caps ${payload.confidence.caps.join(', ')}`}.`,
+    `Quality verdict is ${payload.quality.verdict} with ${payload.quality.flags.length} flag(s); combined confidence is ${payload.confidence.combined}${payload.confidence.caps.length === 0 ? '' : ` with caps ${payload.confidence.caps.join(', ')}`}${
+      appliedPolicyCaps.length === 0
+        ? ''
+        : `, including the R-4.3 policy-default penalty (${appliedPolicyCaps
+            .map((declaration) => `${declaration.category} ${declaration.penaltyRate}`)
+            .join(' + ')})`
+    }.`,
   );
+
+  // `L-036`: an outstanding review is a fact about the assessment, so it belongs in the narrative a reader sees
+  // without expanding the capital-structure block.
+  //
+  // The age is DERIVED here rather than read from the payload: the persisted block is clock-free by contract (a day
+  // count in the payload would mint a version on every midnight re-run), so the narrative measures `clockStart`
+  // against the report's own `asOf` — the clock the report was generated at, which is what a reader is asking about.
+  const review = payload.fundamentals.capitalStructure.associatesJVReview;
+  if (review.reviewRequired) {
+    const elapsedDays = calendarDaysBetween(review.clockStart, payload.asOf.generatedAt);
+    lines.push(
+      `Associates/JV review ${review.status}: the POLICY_ZERO treatment has run ${String(elapsedDays ?? 'an unmeasurable number of')} day(s) from the evidence date ${String(review.clockStart ?? '(unavailable)')}, against a ${review.reviewAgeDays}-day review age. ${review.reason}`,
+    );
+  }
 
   return lines;
 }
