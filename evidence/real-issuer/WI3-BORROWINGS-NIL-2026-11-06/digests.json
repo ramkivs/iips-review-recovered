@@ -30,7 +30,7 @@
     "quoteDigests": "166a81eb781c62090d5fd35fdf0253d920351bf06c4bbb2892031a4b575d3067"
   },
   "datasetVersion": "sha256:21cf25222fcdf0ac31d8e285c631b272f8d3d5e8567f2ed9594e4fff81725847",
-  "fileCount": 29,
+  "fileCount": 30,
   "files": {
     "artifact/assessment-payload-wi3.json": {
       "sha256": "83644bc68e3d68f3f714fb205179eae63c6da2ff9d5cdcf77d0a3d5c573d493d",
@@ -119,6 +119,10 @@
     "runs/06-payload-verify.json": {
       "sha256": "4e92cfdf94b6d724e9bf61a7d3c497f3c69953d135e423969b0a37ea97a5b076",
       "bytes": 1753
+    },
+    "runs/07-clean-clone.txt": {
+      "sha256": "d036239c64fdf633a1bb20aacfe79ca7d544f13f2137d63ff5bd2384350f73ff",
+      "bytes": 1859
     },
     "runs/cli-wi3-created.json": {
       "sha256": "9561b754097aabdde3a06bf44e60146e5386eb7defe0a9eacf07ae13f7ff55b3",

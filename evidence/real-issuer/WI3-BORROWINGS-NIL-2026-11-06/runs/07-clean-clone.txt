@@ -1,0 +1,33 @@
+# WI-3 clean-clone verification — independent clone of the published branch (2026-11-06)
+
+## clone
+git clone --branch arena/e62e22d2-iips-review-recovered --single-branch https://github.com/ramkivs/iips-review-recovered.git /tmp/wi3-verify
+HEAD 90cd71380d44fa9aec3b50a95ec34e1fe4b8a9f6 WI-3: declare the borrowings nil from the FY24 statements — intrinsic and MoS compute
+note: node_modules symlinked from the working checkout (dependencies are not part of the source-of-truth here); every input below is read from the clone.
+
+## bundle digests re-checked against the clone's own files
+files pinned: 29 | mismatches: []
+
+## fresh ingest from the committed input only
+generated-at / --now 2026-11-06T14:05:00.000Z   dataset dir /tmp/wi3-clean/dataset
+datasetVersion: sha256:21cf25222fcdf0ac31d8e285c631b272f8d3d5e8567f2ed9594e4fff81725847
+issues: []
+
+## generate -> assess -> compose -> persist -> verify, from the clone
+verdict: SUFFICIENT / MATERIAL_CONCERNS / confidence 0.6736 | persist CREATED | verify chain valid: 1 version(s), head v1
+payloadDigest: 83644bc68e3d68f3f714fb205179eae63c6da2ff9d5cdcf77d0a3d5c573d493d
+reportId     : a780a5f4-76b5-4826-8fa3-031d7240afde
+matches published chain head: True
+
+## determinism note
+payloadDigest is the content identity and is reproduced byte-exactly here, in the in-tree replay
+(runs/cli-wi3-created.replay.json) and in the published run. reportId is a UUID minted per persist operation
+and is NOT content-derived: it differs between every write (29658038… published, 6b2a5a1a… replay,
+a780a5f4… this clone) while the payload bytes do not. Nothing in this bundle treats reportId as a hash.
+
+## tests from the clone
+ Test Files  1 passed (1)
+      Tests  8 passed (8)
+   Start at  14:17:27
+   Duration  1.04s (transform 280ms, setup 126ms, collect 324ms, tests 41ms, environment 331ms, prepare 59ms)
+

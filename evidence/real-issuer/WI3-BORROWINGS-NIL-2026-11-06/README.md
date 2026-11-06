@@ -158,9 +158,13 @@ qualifications a reader must carry:
 | ingest | `issues.json = []`, `coverage.prices = 1`, three annual periods unchanged |
 | payload re-read through the service | `sha256` = chain head `83644bc68e3d…` |
 | determinism | identical run into a second empty store: identical steps and digests |
+| independent clean clone of the published branch | `git clone` of `90cd713…`, all 29 pinned files match `digests.json`, fresh ingest reproduces `21cf2522…` with `issues: []`, the CLI reproduces **payloadDigest `83644bc6…`**, and the WI-3 test passes 8/8 from the clone (`runs/07-clean-clone.txt`) |
 | structural diff vs Work Item 2 | **96 paths, all attributed** (46 DEBT_DECLARATION, 15 VALUATION_UNBLOCKED, 9 MOAT_UNBLOCKED, 8 RISK_EVALUATION_UNBLOCKED, 7 DIVIDEND_COVERAGE_UNBLOCKED, 3 NARRATIVE, 3 RUN_CLOCK, 2 CONFIDENCE, 2 DATASET_IDENTITY, 1 DERIVED_SERIES), none unattributed |
 
 Reproduction: `runs/commands.txt` (§1–§8). Re-running §2 and §4 must reproduce `21cf2522…` and `83644bc6…`.
+`payloadDigest` is content-derived and reproduces exactly; **`reportId` is a UUID minted per persist** and differs on
+every write (published `29658038…`, in-tree replay `6b2a5a1a…`, clean clone `a780a5f4…`) — it identifies a version,
+it is not a hash, and nothing here compares it.
 
 ## 9. File inventory
 
