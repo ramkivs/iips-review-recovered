@@ -964,3 +964,57 @@ evidence-only item does not carry):
 
 Evidence: `evidence/real-issuer/REL-1-INFOSYS-2026-11-06/README.md` (disposition, coverage, defects, verification) and
 `evidence/real-issuer/README.md` (bundle index).
+
+---
+
+## 14. D-2 nil-by-disclosure — clarification appended (2026-11-06; representation change only)
+
+**No entry in `L-001` … `L-029` was closed, renumbered, reinterpreted or re-statused by this section.** It records
+what the D-2 work item changed about the *spelling* of an undisclosed item, and what it did not change about the
+limitations recorded above.
+
+**What changed.** Dataset schema v1 had one spelling for "no number here", so a filer that says an item is nil and a
+filer whose filing could not be read produced the same observation. A positive declaration of nil is now its own
+state — `presence: 'NIL_BY_DISCLOSURE'`, `reason: 'DECLARED_NIL_IN_SOURCE'`, a source reference, the period end and
+`value: null` (INV-7) — kept apart from `NOT_REPORTED`, `SOURCE_UNAVAILABLE` (`FILING_UNAVAILABLE`,
+`PERIOD_NOT_COVERED`, `STATEMENT_OUT_OF_SCOPE`), `UNMAPPED` (`NOT_TAGGED_IN_FILING`), `NOT_COMPUTABLE` and a
+reported zero. One aggregation states the only permission under which a nil may contribute zero (the four debt
+components, all from one balance sheet, each nil named in the aggregate's note and published unchanged); the two
+claims subtracted in the enterprise-to-equity bridge admit it on the same terms. Everything else still blocks.
+
+**What that means for the register.** The D-2 entry recorded in §13 was a *representation* defect, and it is
+corrected. The limitations it was adjacent to are not:
+
+| Entry | Effect of this section |
+|---|---|
+| `L-001` … `L-029` | untouched; no status, identifier, order or wording changes in the register |
+| `L-003` (closed derivation set) | untouched: no derivation was added, and a derived item still cannot be declared nil (`NIL_ON_DERIVED_ITEM`) |
+| `L-006` (restricted cash `NOT_COMPUTABLE`) | untouched: it is a *missing line item*, not a declared nil, and it stays `NOT_COMPUTABLE: NOT_REPORTED` |
+| `L-009` (no real issuer assessed) | untouched: the D-2 evidence is one issuer's own facts, not real-dataset coverage |
+| `L-004` (synthetic reference dataset) | untouched |
+| R-16 sector coverage | unchanged: 3 of 13 sectors; `Technology` was used because it was already measured |
+| D-3 (reason-code precision, §13) | **still open.** The leverage dimension is now evaluated where net debt resolves, but no factor is emitted for a company that passes, and the aggregate still says `POLICY_INPUTS_UNAVAILABLE`. That vocabulary change needs its own work item |
+
+**What this section explicitly does not claim.** No valuation, no verdict and no real-issuer validation: no market
+price is observed in this work item, so the margin of safety still refuses with `NO_PRICE_OBSERVATION`, and the
+intrinsic band that now resolves for the Work Item 1 issuer is the already-published policy blend, not a validated
+estimate. No artifact was persisted; the Work Item 1 chain and its evidence are unchanged. The Infosys reassessment
+and version comparison remain a later work item.
+
+Evidence: `docs/integration/IIPS_V3_IID_D2_NIL_BY_DISCLOSURE_2026-11-06.md` and
+`evidence/real-issuer/D2-NIL-BY-DISCLOSURE-2026-11-06/`.
+
+### 14.1 Addendum — PR #487 review (2026-11-06)
+
+The first revision of §14 rested on a nil declaration the FY2024 consolidated statements do not make. The filing
+presents no borrowings row and no borrowings note, so there is no wording to quote and the components are
+`NOT_REPORTED`; the declaration, and the arithmetic that followed from it, have been withdrawn from the D-2 evidence
+bundle. **This addendum changes no register entry**: `L-001` … `L-029` remain untouched in status, identifier, order
+and wording, `L-003`, `L-004`, `L-006`, `L-009` and R-16 remain unaffected, and D-3 remains open and unaddressed.
+
+What the review did change is the product's guard: a declared nil now requires the source's quoted wording
+(`nilByDisclosure` refuses without it, INV-7 checks it, and the operator path refuses a bare `NIL` with
+`NIL_WITHOUT_QUOTED_WORDING`). The D-2 permission therefore applies only where a filer actually states the nil, and
+that case is not present in the evidence in hand — the mechanism is verified on synthetic fixtures only.
+
+Evidence: `evidence/real-issuer/D2-NIL-BY-DISCLOSURE-2026-11-06/README.md` (§1, §2) and `.../withdrawn/WHY-WITHDRAWN.md`.

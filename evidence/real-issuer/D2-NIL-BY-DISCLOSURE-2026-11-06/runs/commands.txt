@@ -1,0 +1,72 @@
+D-2 — nil-by-disclosure: the commands behind runs/ (revised 2026-11-06, PR #487 review)
+========================================================================================
+
+Environment: repository root /home/user/iips-review-recovered, Node 22, `npm ci` in both packages.
+Baseline: main @ 98f3e45 (PR #486 merged). The first revision of this bundle carried an unsupported nil
+declaration; see withdrawn/WHY-WITHDRAWN.md. Nothing below depends on it.
+
+1. Input — the filing's own facts, no declaration
+-------------------------------------------------
+  input/periods.csv  = byte-identical copy of
+                       evidence/real-issuer/REL-1-INFOSYS-2026-11-06/ingest-input/periods.csv
+  sha256             = e2cdba2042a55fc3352e85b8384e014f669e1472deb9011e7be2babd4fbc745c (both files)
+  input/roster.json  = byte-identical copy of the Work Item 1 roster
+                       sha256 = 426e8478bca1ffc3fd47a6a24995230cfbfc05ccd1df4b92fa774ba15c60f8b4
+
+  The FY24 consolidated balance sheet (page 1) lists, under "FINANCIAL LIABILITIES", lease liabilities
+  (non-current 6,400 / current 1,959) and other financial liabilities, trade payables and provisions.
+  It presents no borrowings row, and the notes index contains no borrowings note. There is therefore no
+  sentence in the filing that states borrowings are nil, and no nil declaration is made here.
+
+2. Ingest, filing evidence only
+-------------------------------
+cd iips-platform
+npx tsx src/investment/cli/ingest.ts \
+  --input ../evidence/real-issuer/D2-NIL-BY-DISCLOSURE-2026-11-06/input \
+  --dataset-dir /tmp/d2f/dataset --now 2026-11-06T00:00:00.000Z
+
+  datasetVersion sha256:ca29c8357fd3ae87889af07b27ffc317f09745caaed870b287d7ca1f8fc6d71e
+  Technology     G2_PARTIAL   usable 2  withheld 2  stmt 87.5%  metric 0%
+  ingestion issues: 0        (identical to the merged Work Item 1 dataset)
+
+3. Assessment and composed artifact on that dataset
+---------------------------------------------------
+The summary in runs/outcome-on-filing-evidence.json comes from assessCompany() over /tmp/d2f/dataset with the
+Work Item 1 identity digests; the script is a rendering of payload fields and was deleted after the run.
+
+cd frontend
+npx tsx server/investment/cli/generate-investment-artifacts.ts --issuer IN:CIN:L85110KA1981PLC013115 \
+  --data-dir /tmp/d2f/dataset --identity-dir /tmp/d2/data/investment/identity \
+  --generated-at 2026-11-06T00:00:00.000Z --dry-run > runs/cli-dry-run-filing-evidence.txt
+
+  OK snapshot / identity / assessment (SUFFICIENT / MATERIAL_CONCERNS / confidence 0.4939)
+  OK compose   reportKey ed1e54b03e5e… payloadDigest cc91f239197a…   (the merged Work Item 1 payload)
+  OK validate  scope co:IN:CIN:L85110KA1981PLC013115 (ISSUER)
+
+4. The rejected attempt: promote the omitted line to a nil without quoting anything
+----------------------------------------------------------------------------------
+The same 44-column file with four added columns whose every cell is a bare `NIL`:
+
+npx tsx src/investment/cli/ingest.ts --input /tmp/d2bare/input --dataset-dir /tmp/d2bare/dataset --now ...
+
+  12 ingestion error(s); nothing was written. Re-run with --allow-errors to write a partial dataset that
+  records them.                                    <- NIL_WITHOUT_QUOTED_WORDING, 4 cells × 3 periods
+
+Re-run with --allow-errors into /tmp/d2bare/partial and assessed: the components stay MISSING/NOT_REPORTED,
+gross debt stays MISSING/NOT_REPORTED, intrinsic stays null, confidence stays 0.4939. Captured in
+runs/bare-nil-attempt.json.
+
+5. Tests
+--------
+cd iips-platform
+npx tsx --test tests/investment/nil-by-disclosure.test.ts   # 29 tests, 29 pass, 0 fail
+npm run test:iid                                            # 406 tests, 406 pass, 0 fail, 102 suites
+npx tsc --noEmit                                            # clean
+
+cd frontend
+npx tsc -p tsconfig.investment-server.json --noEmit          # clean
+npx vitest run server/investment                             # 17 files, 205 tests, all pass
+
+Logs: runs/nil-by-disclosure-tests.txt, runs/investment-suite.txt.
+The AC-X2 zero-socket probe rewrites its own evidence files on every run; those two files were restored to
+their committed bytes before committing, so PR #486's published evidence stays identical.

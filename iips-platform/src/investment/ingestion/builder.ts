@@ -5,6 +5,9 @@
  *   - an unknown line item or metric is an error, never a silent drop;
  *   - a reported value for a derived item is an error (derived items are produced, not filed);
  *   - a sign-rule violation is an error and the value is withheld, not "fixed";
+ *   - a cell may declare an item NIL (see `parseNilCell`); nil is a statement by the filer, never a zero, it must
+ *     quote the wording that states the nil, and a row that both reports and declares nil for the same item is an
+ *     error rather than a silent tie-break;
  *   - a conflicting operating-metric observation is retained and marked CONFLICT;
  *   - a duplicate/overlapping listing is an error (two instruments must never share a listing).
  */
@@ -19,7 +22,7 @@ import {
   type MetricUnit,
   type OperatingMetricRecord,
 } from '../contracts/operatingMetrics';
-import { missing, present, type NumericObservation } from '../contracts/observation';
+import { missing, nilByDisclosure, notComputable, present, type NumericObservation } from '../contracts/observation';
 import { SCALE_FACTOR, type PeriodIdentity, type QuarterForm, type Scale } from '../contracts/period';
 import type {
   CorporateActionRecord,
@@ -117,6 +120,31 @@ function asQuarterForm(value: string): QuarterForm | undefined {
   return undefined;
 }
 
+/* -------------------------------------------------------------- nil cells */
+
+/**
+ * A cell may state that the filer declares the item nil, in which case it is `NIL_BY_DISCLOSURE` and not a
+ * number. Grammar: `NIL: <what the filing says>`. The text after the colon is mandatory and becomes the note on
+ * the observation, so the declaration carries the filer's own words as well as the row's filing reference.
+ *
+ * A bare `NIL`, or `NIL:` with nothing after it, is refused downstream (`NIL_WITHOUT_QUOTED_WORDING`) because a
+ * filing that merely omits a line has stated nothing — that case is `MISSING: NOT_REPORTED`. `0` is NOT this
+ * either: a reported zero is `PRESENT` with a source. A blank cell is NOT this either. Keeping these four apart
+ * is the whole point of D-2.
+ */
+export function parseNilCell(raw: string): { readonly isNil: boolean; readonly note?: string } {
+  const trimmed = raw.trim();
+  if (!/^nil(\s*:.*)?$/i.test(trimmed)) return { isNil: false };
+  const colon = trimmed.indexOf(':');
+  const note = colon === -1 ? undefined : trimmed.slice(colon + 1).trim();
+  return note === undefined || note === '' ? { isNil: true } : { isNil: true, note };
+}
+
+/** A nil cell is only usable when it quotes the wording that states the nil. */
+export function hasQuotedWording(cell: { readonly isNil: boolean; readonly note?: string }): boolean {
+  return cell.isNil && cell.note !== undefined && cell.note.trim() !== '';
+}
+
 /* ------------------------------------------------------------------ periods */
 
 export function parsePeriodCsv(file: TextFile): { periods: NormalizedPeriod[]; issues: IngestionIssue[] } {
@@ -124,6 +152,10 @@ export function parsePeriodCsv(file: TextFile): { periods: NormalizedPeriod[]; i
   requireColumns(table, PERIOD_REQUIRED_COLUMNS, file.name);
   const periods: NormalizedPeriod[] = [];
   const issues: IngestionIssue[] = [];
+  /** How each (issuer, period, scope, type, item) was classified, so a nil and a number can never be merged. */
+  const nilDeclarations = new Map<string, 'NIL' | 'VALUE'>();
+  /** Keys whose rows contradict each other. Resolved for the WHOLE dataset at the end, never per row. */
+  const conflicting = new Set<string>();
 
   for (const [index, row] of table.rows.entries()) {
     const record = rowAsRecord(table.header, row);
@@ -170,6 +202,59 @@ export function parsePeriodCsv(file: TextFile): { periods: NormalizedPeriod[]; i
         values[column] = missing('NOT_REPORTED', { periodEnd: identity.periodEnd });
         continue;
       }
+      const classificationKey = `${record.issuer_id}|${identity.periodEnd}|${identity.statementScope}|${identity.periodType}|${column}`;
+      const nilCell = parseNilCell(raw);
+      if (nilCell.isNil) {
+        if (!hasQuotedWording(nilCell)) {
+          issues.push(
+            issue(
+              'ERROR',
+              'NIL_WITHOUT_QUOTED_WORDING',
+              subject,
+              `"${column}" is declared nil without the filing wording that states it; an omitted line is NOT_REPORTED, not a nil`,
+            ),
+          );
+          values[column] = missing('NOT_REPORTED', { periodEnd: identity.periodEnd });
+          continue;
+        }
+        if (!meta.reported) {
+          issues.push(issue('ERROR', 'NIL_ON_DERIVED_ITEM', subject, `"${column}" is derived and cannot be declared nil`));
+          values[column] = missing('NOT_REPORTED', { periodEnd: identity.periodEnd });
+          continue;
+        }
+        if (record.filing_ref === undefined || record.filing_ref === '') {
+          issues.push(
+            issue('ERROR', 'NIL_WITHOUT_PROVENANCE', subject, `"${column}" is declared nil but the row carries no filing_ref`),
+          );
+          values[column] = missing('NOT_REPORTED', { periodEnd: identity.periodEnd });
+          continue;
+        }
+        if (nilDeclarations.get(classificationKey) === 'VALUE') {
+          issues.push(
+            issue(
+              'ERROR',
+              'CONFLICTING_OBSERVATION',
+              subject,
+              `"${column}" is both reported and declared nil for ${identity.periodEnd}; neither is used`,
+            ),
+          );
+          conflicting.add(classificationKey);
+          values[column] = notComputable('SOURCE_CONFLICT_UNRESOLVED', { periodEnd: identity.periodEnd });
+          nilDeclarations.set(classificationKey, 'NIL');
+          continue;
+        }
+        nilDeclarations.set(classificationKey, 'NIL');
+        values[column] = nilByDisclosure(
+          { kind: 'FILING', ref: record.filing_ref, filedAt: record.filed_at },
+          {
+            periodEnd: identity.periodEnd,
+            statement: nilCell.note as string,
+            basis: record.basis === 'RESTATED' ? 'RESTATED' : 'AS_FILED',
+            filingRef: record.filing_ref,
+          },
+        );
+        continue;
+      }
       if (!meta.reported) {
         issues.push(
           issue('ERROR', 'DERIVED_ITEM_REPORTED', subject, `"${column}" is derived and may not be filed`),
@@ -183,6 +268,21 @@ export function parsePeriodCsv(file: TextFile): { periods: NormalizedPeriod[]; i
         values[column] = missing('NOT_REPORTED', { periodEnd: identity.periodEnd });
         continue;
       }
+      if (nilDeclarations.get(classificationKey) === 'NIL') {
+        issues.push(
+          issue(
+            'ERROR',
+            'CONFLICTING_OBSERVATION',
+            subject,
+            `"${column}" is both declared nil and reported for ${identity.periodEnd}; neither is used`,
+          ),
+        );
+        conflicting.add(classificationKey);
+        values[column] = notComputable('SOURCE_CONFLICT_UNRESOLVED', { periodEnd: identity.periodEnd });
+        nilDeclarations.set(classificationKey, 'VALUE');
+        continue;
+      }
+      nilDeclarations.set(classificationKey, 'VALUE');
       if (violatesSignRule(column, numeric)) {
         issues.push(
           issue('WARNING', 'SIGN_RULE_VIOLATION', subject, `"${column}" declared POSITIVE_MAGNITUDE but is ${numeric}`),
@@ -214,6 +314,23 @@ export function parsePeriodCsv(file: TextFile): { periods: NormalizedPeriod[]; i
       values,
       derived: deriveLineItems(values, identity.periodEnd).values,
     });
+  }
+
+  // A contradiction is resolved for the whole dataset: whichever row survived, no observation for a
+  // contradictory key may be used, and neither value nor nil is preferred over the other.
+  if (conflicting.size > 0) {
+    for (const [index, period] of periods.entries()) {
+      const poisoned: LineItemId[] = [];
+      for (const [id, observation] of Object.entries(period.values) as [LineItemId, NumericObservation | undefined][]) {
+        if (observation === undefined) continue;
+        const key = `${period.issuerId}|${period.period.periodEnd}|${period.period.statementScope}|${period.period.periodType}|${id}`;
+        if (conflicting.has(key)) poisoned.push(id);
+      }
+      if (poisoned.length === 0) continue;
+      const values: Partial<Record<LineItemId, NumericObservation>> = { ...period.values };
+      for (const id of poisoned) values[id] = notComputable('SOURCE_CONFLICT_UNRESOLVED', { periodEnd: period.period.periodEnd });
+      periods[index] = { ...period, values };
+    }
   }
 
   return { periods, issues };

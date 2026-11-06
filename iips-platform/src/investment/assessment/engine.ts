@@ -260,6 +260,15 @@ export function assessCompany(input: AssessCompanyInput): AssessCompanyResult {
       `Net debt could not be derived (${structure.netDebt.reason ?? 'NOT_REPORTED'}), so every enterprise-value method is withheld rather than run on a partial bridge.`,
     );
   }
+  // Declared nil (D-2): the aggregation admits it, so the payload says so in prose as well as in the observation.
+  const declaredNilDebt = ['shortTermBorrowings', 'currentMaturities', 'longTermBorrowings', 'leaseLiabilities'].filter(
+    (name) => structure.components[name]?.presence === 'NIL_BY_DISCLOSURE',
+  );
+  if (declaredNilDebt.length > 0) {
+    limitations.push(
+      `Gross debt counts ${declaredNilDebt.length} component(s) that the filer declared nil as zero (${declaredNilDebt.join(', ')}). Each is published as NIL_BY_DISCLOSURE with its filing reference and period, not as a reported zero, and an unreported or unavailable component would still block the aggregate.`,
+    );
+  }
   const unimplemented = methods.filter((method) => method.notApplicableReason?.startsWith('METHOD_NOT_IMPLEMENTED_IN_ENGINE_V1'));
   if (unimplemented.length > 0) {
     limitations.push(

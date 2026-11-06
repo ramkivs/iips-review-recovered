@@ -8,6 +8,9 @@
  * INV-5  a derived aggregate is null unless every declared required input is present, and
  *        names the unmet set when it is withheld
  * INV-6  an imputed input may only be consumed by a method that declares `allowsImputation`
+ * INV-7  NIL_BY_DISCLOSURE  ⇒  a source reference, the reporting period end it was declared for, and the
+ *        source's quoted wording that states the nil — and never a numeric value (a declared nil is
+ *        provenance-bearing information, not a zero; an omitted line is NOT_REPORTED, not a nil)
  *
  * Plus the conclusion guard required by design of record Part III §I.5: absence of evidence may
  * never become a negative conclusion.
@@ -15,7 +18,16 @@
 import { isPresent, type MissingReason, type Observation } from './observation';
 import type { CandidateVerb, DispositionVerb } from './disposition';
 
-export type InvariantId = 'INV-1' | 'INV-2' | 'INV-3' | 'INV-4' | 'INV-5' | 'INV-6' | 'CONCL-1' | 'CONCL-2';
+export type InvariantId =
+  | 'INV-1'
+  | 'INV-2'
+  | 'INV-3'
+  | 'INV-4'
+  | 'INV-5'
+  | 'INV-6'
+  | 'INV-7'
+  | 'CONCL-1'
+  | 'CONCL-2';
 
 export interface Violation {
   readonly invariant: InvariantId;
@@ -55,6 +67,28 @@ export function checkObservation(observation: Observation<unknown>, path: string
     }
     if (observation.source === undefined) {
       violations.push({ invariant: 'INV-3', path, detail: 'IMPUTED without a source reference' });
+    }
+  }
+  if (observation.presence === 'NIL_BY_DISCLOSURE') {
+    if (observation.source === undefined || observation.source.ref.trim() === '') {
+      violations.push({ invariant: 'INV-7', path, detail: 'NIL_BY_DISCLOSURE without a source reference' });
+    }
+    if (observation.periodEnd === undefined || observation.periodEnd.trim() === '') {
+      violations.push({ invariant: 'INV-7', path, detail: 'NIL_BY_DISCLOSURE without a reporting period end' });
+    }
+    if (observation.note === undefined || observation.note.trim() === '') {
+      violations.push({
+        invariant: 'INV-7',
+        path,
+        detail: 'NIL_BY_DISCLOSURE without the source wording that states the item is nil',
+      });
+    }
+    if (observation.reason !== 'DECLARED_NIL_IN_SOURCE') {
+      violations.push({
+        invariant: 'INV-7',
+        path,
+        detail: `NIL_BY_DISCLOSURE carries reason "${observation.reason ?? 'none'}" instead of DECLARED_NIL_IN_SOURCE`,
+      });
     }
   }
   if (typeof observation.value === 'number' && !Number.isFinite(observation.value)) {
