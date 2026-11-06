@@ -177,7 +177,12 @@ export interface EquityBridgeDisclosure {
   readonly formula: string;
   /** `associates-treatment/1.0.0`. Recorded because the design says it must be. */
   readonly policyVersion: string;
-  readonly treatment: 'CARRYING_VALUE_REPORTED' | 'POLICY_ZERO_UNAVAILABLE';
+  /**
+   * `CARRYING_VALUE_REPORTED` — the dataset carried a filed carrying value.
+   * `DECLARED_NIL` — the filer stated in words that the balance is nil (D-2); the zero is the issuer's, not policy's.
+   * `POLICY_ZERO_UNAVAILABLE` — nothing was reported, so policy substitutes zero **and says so**.
+   */
+  readonly treatment: 'CARRYING_VALUE_REPORTED' | 'DECLARED_NIL' | 'POLICY_ZERO_UNAVAILABLE';
   /** Every input substituted with a policy zero, with the reason it could not be reported. */
   readonly substitutedInputs: readonly {
     readonly input: string;
@@ -205,6 +210,48 @@ export interface CapitalStructure {
   readonly dilutionProxy: boolean;
   readonly components: Readonly<Record<string, NumericObservation>>;
   readonly equityBridge: EquityBridgeDisclosure;
+  /** `L-036` review control: is the `POLICY_ZERO` treatment overdue for re-examination by its evidence date? */
+  readonly associatesJVReview: AssociatesJVReview;
+}
+
+/**
+ * `L-036` review control (authorized 2026-11-06, IX).
+ *
+ * This is a **review** flag, not a value and not a penalty. It records when the treatment clock started, the review
+ * age and the date it falls due, whether the 180-day review is due, and why. It changes no carrying value, converts
+ * nothing into a nil, and does not touch confidence, formulas or the verdict.
+ *
+ * **Clock-free on purpose.** Every member here is a function of the dataset and the policy, never of the execution
+ * timestamp: `asOf` and `elapsedDays` live on `AssociatesReviewAssessment` and are dropped before publication, so a
+ * re-run that only moves the clock cannot mint a version (L-014 AC-L14.1/AC-L14.2). The elapsed age is derived at
+ * render time from `clockStart` and the report's own `asOf`, both of which are already in the payload.
+ */
+export interface AssociatesJVReview {
+  readonly reviewPolicyVersion: string;
+  readonly treatmentPolicyVersion: string;
+  /** The treatment the bridge applied: `POLICY_ZERO` when nothing was reported. */
+  readonly treatment: 'POLICY_ZERO' | 'CARRYING_VALUE_REPORTED' | 'DECLARED_NIL';
+  readonly reviewAgeDays: number;
+  /** Where the clock starts: the source-evidence date, never the application's execution time. */
+  readonly clockStart: string | null;
+  readonly clockStartBasis: 'DATASET_PERIOD_END' | 'UNAVAILABLE';
+  /** The date the review became (or will become) due: `clockStart + reviewAgeDays`. */
+  readonly reviewDueOn: string | null;
+  readonly status: 'NOT_DUE' | 'REVIEW_DUE' | 'CLOCK_UNAVAILABLE' | 'NOT_APPLICABLE';
+  readonly reviewRequired: boolean;
+  readonly reason: string;
+}
+
+/**
+ * The assessed control: the published block plus the two clock-derived members.
+ *
+ * `assessAssociatesReview` returns this so the age boundary (179 / 180 / 181 days, or an unmeasurable clock) can be
+ * asserted directly; `describeAssociatesReview` strips the two members to produce the payload block.
+ */
+export interface AssociatesReviewAssessment extends AssociatesJVReview {
+  /** The assessment clock the age is measured to (the caller-supplied `generatedAt`). */
+  readonly asOf: string;
+  readonly elapsedDays: number | null;
 }
 
 /* ------------------------------------------------------------------ dividends */
@@ -384,8 +431,13 @@ export interface RiskBlock {
 export interface AssumptionCapDeclaration {
   readonly cap: string;
   readonly basis: string;
+  /** `DISCOUNT_RATE` or `TARGET_MULTIPLE` — the distinct assumption category the penalty is charged against. */
+  readonly category: 'DISCOUNT_RATE' | 'TARGET_MULTIPLE';
   readonly applied: boolean;
+  /** Retained as the explicit record that no *single* factor is applied; the aggregate is the ceiling. */
   readonly factor: number | null;
+  /** This category's contribution to the additive aggregate, before the ceiling. */
+  readonly penaltyRate: number;
   readonly triggers: readonly {
     readonly methodId: string;
     readonly assumption: 'discountRate' | 'targetMultiple';

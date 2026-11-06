@@ -5,8 +5,8 @@
  * from the series that will actually be used — never from the dataset's own self-description — and it names
  * the gates that fired. Quality flags are observations about the data, not opinions about the company.
  */
-import type { LineItemId } from '../contracts/lineItems';
-import { LINE_ITEMS, lineItemsForStatement } from '../contracts/lineItems';
+import type { DatasetSchema, LineItemId } from '../contracts/lineItems';
+import { LINE_ITEMS, itemsPermittedBy, lineItemsForStatement } from '../contracts/lineItems';
 import type { NumericObservation } from '../contracts/observation';
 import { present } from '../contracts/observation';
 import { periodObservation } from './periods';
@@ -43,10 +43,23 @@ function coverageOf(
   return present(items.length === 0 ? 0 : presentCount / items.length, DERIVED, { basis: 'DERIVED' });
 }
 
-export function buildCompleteness(series: SeriesSelection): CompletenessBlock {
-  const pnl = lineItemsForStatement('PNL').map((meta) => meta.id);
-  const balanceSheet = lineItemsForStatement('BS').map((meta) => meta.id);
-  const cashFlow = lineItemsForStatement('CF').map((meta) => meta.id);
+export interface CompletenessOptions {
+  /** The dataset's declared schema. Coverage counts the items that schema can carry, so V1 is never re-scored by V2. */
+  readonly datasetSchema?: DatasetSchema;
+}
+
+export function buildCompleteness(series: SeriesSelection, options: CompletenessOptions = {}): CompletenessBlock {
+  // A schema may only be scored on the items it can represent. Counting a V2 item against a V1 dataset would
+  // silently penalise every historical dataset for a field its schema never had — an additive change with a
+  // non-additive effect, which is exactly what `L-036`'s dataset decision promised not to do.
+  const permitted = new Set(itemsPermittedBy(options.datasetSchema ?? 'IIPS_INVESTMENT_FUNDAMENTALS_V1'));
+  const itemsFor = (statement: 'PNL' | 'BS' | 'CF'): LineItemId[] =>
+    lineItemsForStatement(statement)
+      .map((meta) => meta.id)
+      .filter((id) => permitted.has(id));
+  const pnl = itemsFor('PNL');
+  const balanceSheet = itemsFor('BS');
+  const cashFlow = itemsFor('CF');
 
   const missingFields: { field: string; reason: NonNullable<NumericObservation['reason']>; periodEnd: string }[] = [];
   let required = 0;

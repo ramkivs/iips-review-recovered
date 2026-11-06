@@ -54,6 +54,12 @@ export type LineItemId =
   | 'CAPITAL_WORK_IN_PROGRESS'
   | 'GOODWILL'
   | 'INTANGIBLE_ASSETS'
+  /**
+   * Dataset schema **V2** only. The carrying amount of the group's investments in associates and joint ventures
+   * (Ind AS 28 / Ind AS 111) presented in the consolidated balance sheet. R-4.1 adds exactly this term in the
+   * enterprise-to-equity bridge; before V2 the engine could not read it from any dataset, which is `L-036`.
+   */
+  | 'INVESTMENTS_IN_ASSOCIATES_AND_JOINT_VENTURES'
   // Cash flow (duration)
   | 'OPERATING_CASH_FLOW'
   | 'CAPITAL_EXPENDITURE'
@@ -139,6 +145,14 @@ export const LINE_ITEMS: Readonly<Record<LineItemId, LineItemMeta>> = Object.fre
   CAPITAL_WORK_IN_PROGRESS: item('CAPITAL_WORK_IN_PROGRESS', BS, INSTANT, 'INR'),
   GOODWILL: item('GOODWILL', BS, INSTANT, 'INR'),
   INTANGIBLE_ASSETS: item('INTANGIBLE_ASSETS', BS, INSTANT, 'INR'),
+  // `L-036` / V2 — positive magnitude: the equity-method carrying amount does not go below nil (Ind AS 28 limits
+  // losses to the investment unless a legal obligation exists, which would be a liability caption, not this one).
+  INVESTMENTS_IN_ASSOCIATES_AND_JOINT_VENTURES: item(
+    'INVESTMENTS_IN_ASSOCIATES_AND_JOINT_VENTURES',
+    BS,
+    INSTANT,
+    'INR',
+  ),
   OPERATING_CASH_FLOW: item('OPERATING_CASH_FLOW', CF, DURATION, 'INR', SIGNED),
   CAPITAL_EXPENDITURE: item('CAPITAL_EXPENDITURE', CF, DURATION, 'INR'),
   INVESTING_CASH_FLOW: item('INVESTING_CASH_FLOW', CF, DURATION, 'INR', SIGNED),
@@ -156,6 +170,52 @@ export const LINE_ITEMS: Readonly<Record<LineItemId, LineItemMeta>> = Object.fre
 });
 
 export const LINE_ITEM_IDS = Object.keys(LINE_ITEMS) as readonly LineItemId[];
+
+/* ------------------------------------------------------------ dataset schema versions */
+
+/**
+ * Dataset schema versions this repository can read.
+ *
+ * V1 is the original closed table. V2 is **additive**: it adds `INVESTMENTS_IN_ASSOCIATES_AND_JOINT_VENTURES`
+ * and changes nothing else, so a V1 dataset is a valid V2 dataset whose new item is absent. Nothing is ever
+ * backfilled: a V1 dataset keeps its version, its bytes and its digest.
+ */
+export type DatasetSchema = 'IIPS_INVESTMENT_FUNDAMENTALS_V1' | 'IIPS_INVESTMENT_FUNDAMENTALS_V2';
+
+export const CURRENT_DATASET_SCHEMA: DatasetSchema = 'IIPS_INVESTMENT_FUNDAMENTALS_V2';
+export const LEGACY_DATASET_SCHEMA: DatasetSchema = 'IIPS_INVESTMENT_FUNDAMENTALS_V1';
+export const SUPPORTED_DATASET_SCHEMAS: readonly DatasetSchema[] = Object.freeze([
+  LEGACY_DATASET_SCHEMA,
+  CURRENT_DATASET_SCHEMA,
+]);
+
+/** The only item V2 introduces. A V1 dataset may not carry it; a V2 dataset may. */
+export const ITEMS_INTRODUCED_BY_V2: readonly LineItemId[] = Object.freeze(['INVESTMENTS_IN_ASSOCIATES_AND_JOINT_VENTURES']);
+
+export function itemsPermittedBy(schema: DatasetSchema): readonly LineItemId[] {
+  const introduced = schema === 'IIPS_INVESTMENT_FUNDAMENTALS_V2' ? ITEMS_INTRODUCED_BY_V2 : [];
+  return LINE_ITEM_IDS.filter((id) => !ITEMS_INTRODUCED_BY_V2.includes(id) || introduced.includes(id));
+}
+
+/**
+ * Fail closed on a schema this build does not know.
+ *
+ * An older build given a V2 dataset must *refuse* it: silently ignoring a field it cannot represent would replace
+ * a filed carrying value with a policy zero, which is the precise defect `L-036` exists to expose.
+ */
+export function assertSupportedDatasetSchema(
+  schema: string | undefined,
+  supported: readonly string[] = SUPPORTED_DATASET_SCHEMAS,
+): DatasetSchema {
+  const declared = schema ?? LEGACY_DATASET_SCHEMA;
+  if (!supported.includes(declared)) {
+    throw new LineItemError(
+      `dataset schema "${declared}" is not supported by this build (supported: ${supported.join(', ')}); refusing the dataset rather than discarding members it cannot represent`,
+      declared,
+    );
+  }
+  return declared as DatasetSchema;
+}
 
 export class LineItemError extends Error {
   constructor(message: string, readonly id: string) {

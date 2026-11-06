@@ -8,6 +8,7 @@ import type { NumericObservation } from '../contracts/observation';
 import type { LineItemId } from '../contracts/lineItems';
 import type { PeriodIdentity, ReportingCurrency, Scale, ScaleApplied } from '../contracts/period';
 import type { OperatingMetricRecord, SectorName } from '../contracts/operatingMetrics';
+import type { DatasetSchema } from '../contracts/lineItems';
 
 export type InstrumentStatus = 'ASSESSABLE' | 'OUT_OF_SCOPE' | 'INELIGIBLE';
 
@@ -108,6 +109,11 @@ export interface IngestionIssue {
 
 /** The dataset content. `manifest` is computed from this and is not part of it. */
 export interface DatasetContent {
+  /**
+   * The schema the dataset declares. Optional so hand-built fixtures keep compiling; an absent value means V1,
+   * which is the conservative reading (a V1 build cannot represent the V2 associates/JV item).
+   */
+  readonly datasetSchema?: DatasetSchema;
   readonly issuers: readonly IssuerRecord[];
   readonly securities: readonly SecurityRecord[];
   readonly listings: readonly ListingRecord[];

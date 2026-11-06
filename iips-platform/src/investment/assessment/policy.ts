@@ -129,22 +129,69 @@ export const VALUATION_POLICY = Object.freeze({
   }),
 
   /**
+   * `L-036` review control — authorized 2026-11-06 (owner decision, IX).
+   *
+   * `POLICY_ZERO` is retained, and it is **not** a permanent answer: if the carrying value is still unavailable
+   * after 180 calendar days, the assessment must raise a review flag. The clock starts from the source-evidence
+   * date (the dataset's newest balance-sheet instant), never from whenever the application happened to run; a
+   * missing or unparseable evidence date escalates rather than passing silently.
+   *
+   * The control is deliberately inert where it matters: it changes no carrying value, converts no unavailable
+   * figure into a nil, applies no confidence penalty and moves no valuation output. It only makes the outstanding
+   * question impossible to forget.
+   */
+  associatesReview: Object.freeze({
+    policyVersion: 'associates-review/1.0.0',
+    /** Calendar days after the evidence date at which the treatment must be reviewed. */
+    reviewAgeDays: 180,
+  }),
+
+  /**
    * R-4.3, `discountRate`: "a `POLICY_DEFAULT` must be recorded with its components and caps confidence";
    * R-4.3, `targetMultiple`: "`POLICY_DEFAULT` caps confidence".
    *
-   * The design fixes **that** a cap exists and leaves **how much** it moves the score unstated: no cap name and
-   * no factor appear anywhere in the design of record, and this file is where a policy value would have to live.
-   * `factor: null` therefore records the honest state — the cap is declared by name on every
-   * assessment that triggers it, and no penalty is applied, because applying one would mean inventing a policy
-   * number. Setting this value is a MODEL change (R-4.3 closing rule, R-13), not an implementation detail, and it
-   * activates `assessment/confidence.ts`'s already-tested factor path with no further code change.
+   * **Authorized policy, 2026-11-06 (owner decision, IX).** The design fixes *that* a cap exists and states no
+   * magnitude; that magnitude was decided by the owner and is recorded here, in the one place the engine reads:
+   *
+   *   • the penalty is **additive by distinct assumption category**, not multiplicative and not per trigger;
+   *   • the categories are the two assumptions R-4.3 names — `DISCOUNT_RATE` (the WACC, which enters every
+   *     forecast year and the terminal value) and `TARGET_MULTIPLE` (a point multiple used by the relative
+   *     methods). Two methods sharing the `targetMultiple` category are **one** category, so they carry one
+   *     penalty, which is why `PE_RELATIVE` and `EV_EBITDA` do not double-charge;
+   *   • the category rates are 0.20 and 0.15. Their sum is exactly the authorized ceiling of 0.35, so the
+   *     ceiling binds only when both categories are used and never silently discards a category's contribution;
+   *   • the summed reduction is applied **once**, capped at `maxAggregateReduction`, so the worst case is
+   *     `combined × (1 − 0.35) = combined × 0.65`;
+   *   • there is **no confidence floor**: `confidenceFloor: null` is a decision, not an omission, and zero
+   *     confidence stays a valid published value.
+   *
+   * Setting these numbers is a MODEL change (R-4.3 closing rule, R-13) and is attributed as one in the change
+   * report. `factor: null` remains the honest record that no *single* factor is applied: the aggregate lives in
+   * `maxAggregateReduction`, and each category's contribution is published as `penaltyRate` on its declaration.
    */
   policyDefaultAssumptionCaps: Object.freeze({
-    policyVersion: 'confidence-policy-defaults/1.0.0',
-    /** The names travel in `confidence.assumptionCaps[]`; they are not silently folded into `caps[]`. */
+    policyVersion: 'confidence-policy-defaults/1.1.0',
+    /** The names travel in `confidence.assumptionCaps[]` and, when applied, in `confidence.caps[]`. */
     waccCap: 'POLICY_DEFAULT_WACC',
     multipleCap: 'POLICY_DEFAULT_MULTIPLE',
+    /** No per-cap factor exists under the additive-category policy; the aggregate is `maxAggregateReduction`. */
     factor: null as number | null,
+    /** Application rule. Additive by category, one ceiling, no floor. */
+    application: 'ADDITIVE_BY_CATEGORY' as const,
+    /** The authorized maximum aggregate confidence reduction (35%). */
+    maxAggregateReduction: 0.35,
+    /**
+     * Deterministic per-category reductions. The mapping is exhaustive over the assumption categories the engine
+     * can observe: `discountRate` → `DISCOUNT_RATE`, `targetMultiple` → `TARGET_MULTIPLE`. Any new trigger
+     * assumption is a compile-time change to that mapping and to this record, so a category cannot appear with
+     * no rate beside it.
+     */
+    categoryPenalties: Object.freeze({
+      DISCOUNT_RATE: 0.2,
+      TARGET_MULTIPLE: 0.15,
+    }),
+    /** Authorized: no artificial floor. `null` means zero confidence is a valid published value. */
+    confidenceFloor: null as number | null,
   }),
 
   /** R-4.3 hard cap: terminal growth above long-run nominal GDP growth is a rejection, not a warning. */

@@ -11,7 +11,16 @@
  *   - a conflicting operating-metric observation is retained and marked CONFLICT;
  *   - a duplicate/overlapping listing is an error (two instruments must never share a listing).
  */
-import { LINE_ITEMS, isLineItemId, violatesSignRule, type LineItemId } from '../contracts/lineItems';
+import {
+  ITEMS_INTRODUCED_BY_V2,
+  LEGACY_DATASET_SCHEMA,
+  LINE_ITEMS,
+  assertSupportedDatasetSchema,
+  isLineItemId,
+  violatesSignRule,
+  type DatasetSchema,
+  type LineItemId,
+} from '../contracts/lineItems';
 import {
   isMetricId,
   OPERATING_METRICS,
@@ -54,6 +63,12 @@ export interface XbrlFileInput extends TextFile {
 }
 
 export interface DatasetInputs {
+  /**
+   * Declared dataset schema. Defaults to V1 so every existing caller, fixture and committed dataset is unchanged:
+   * a V2 build is an explicit act, never an inference. A V1 build refuses the V2-only associates/JV column rather
+   * than reading it and then claiming a schema that cannot represent it.
+   */
+  readonly datasetSchema?: DatasetSchema;
   readonly issuers: readonly IssuerRecord[];
   readonly securities: readonly SecurityRecord[];
   readonly listings: readonly ListingRecord[];
@@ -147,7 +162,10 @@ export function hasQuotedWording(cell: { readonly isNil: boolean; readonly note?
 
 /* ------------------------------------------------------------------ periods */
 
-export function parsePeriodCsv(file: TextFile): { periods: NormalizedPeriod[]; issues: IngestionIssue[] } {
+export function parsePeriodCsv(
+  file: TextFile,
+  datasetSchema: DatasetSchema = LEGACY_DATASET_SCHEMA,
+): { periods: NormalizedPeriod[]; issues: IngestionIssue[] } {
   const table = parseCsv(file.text);
   requireColumns(table, PERIOD_REQUIRED_COLUMNS, file.name);
   const periods: NormalizedPeriod[] = [];
@@ -194,6 +212,19 @@ export function parsePeriodCsv(file: TextFile): { periods: NormalizedPeriod[]; i
       if (PERIOD_METADATA_COLUMNS.has(column)) continue;
       if (!isLineItemId(column)) {
         issues.push(issue('ERROR', 'UNKNOWN_LINE_ITEM', subject, `column "${column}" is not a closed line item`));
+        continue;
+      }
+      // `L-036` / V2 — an item introduced by V2 may not appear in a V1 dataset. Silently reading it would let a
+      // dataset claim a schema that cannot represent the figure, so the column is refused by name.
+      if (datasetSchema !== 'IIPS_INVESTMENT_FUNDAMENTALS_V2' && ITEMS_INTRODUCED_BY_V2.includes(column)) {
+        issues.push(
+          issue(
+            'ERROR',
+            'LINE_ITEM_REQUIRES_DATASET_SCHEMA_V2',
+            subject,
+            `column "${column}" is introduced by dataset schema V2 but this dataset declares ${datasetSchema}`,
+          ),
+        );
         continue;
       }
       const meta = LINE_ITEMS[column];
@@ -494,12 +525,13 @@ export function listingConflicts(listings: readonly ListingRecord[]): IngestionI
 
 export function buildDatasetContent(inputs: DatasetInputs): DatasetContent {
   const issues: IngestionIssue[] = [];
+  const datasetSchema = assertSupportedDatasetSchema(inputs.datasetSchema);
   const issuerIds = new Set(inputs.issuers.map((issuer) => issuer.issuerId));
   const securityIds = new Set(inputs.securities.map((security) => security.securityId));
 
   let periods: NormalizedPeriod[] = [];
   if (inputs.periodCsv !== null) {
-    const parsed = parsePeriodCsv(inputs.periodCsv);
+    const parsed = parsePeriodCsv(inputs.periodCsv, datasetSchema);
     periods = parsed.periods;
     issues.push(...parsed.issues);
   }
@@ -511,6 +543,7 @@ export function buildDatasetContent(inputs: DatasetInputs): DatasetContent {
       statementScope: file.statementScope,
       filingRef: file.filingRef,
       filedAt: file.filedAt,
+      datasetSchema,
     });
     issues.push(...extraction.issues);
     for (const tag of extraction.unknownTags) {
@@ -619,6 +652,7 @@ export function buildDatasetContent(inputs: DatasetInputs): DatasetContent {
     );
 
   return {
+    datasetSchema,
     issuers: inputs.issuers,
     securities: inputs.securities,
     listings: inputs.listings,
