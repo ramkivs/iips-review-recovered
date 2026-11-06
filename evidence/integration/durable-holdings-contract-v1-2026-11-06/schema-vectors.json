@@ -1,0 +1,608 @@
+[
+  {
+    "id": "SV-01",
+    "definition": "SaveRequest",
+    "valid": true,
+    "fixtureClass": "SCHEMA_ONLY_SYNTHETIC_NOT_BROKER_EVIDENCE",
+    "value": {
+      "v": 2,
+      "op": "portfolio.save",
+      "requestId": "SCHEMA_TEST_CORRELATION",
+      "payload": {
+        "portfolioId": "SYNTHETIC_PORTFOLIO_A",
+        "expectedRevision": 1,
+        "mode": "MERGE",
+        "holdings": [
+          {
+            "symbol": "SYNTHETIC_EQ_A",
+            "quantity": 2,
+            "averageBuyPrice": 10,
+            "currentPrice": 12,
+            "marketValue": 24,
+            "weightPercentage": 100,
+            "active": true,
+            "sourceBroker": "SCHEMA_TEST_ONLY"
+          }
+        ],
+        "contentDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "broker": "SCHEMA_TEST_ONLY",
+        "sourceEvidence": {
+          "fileName": "synthetic-contract-vector.csv",
+          "sourceBroker": "SCHEMA_TEST_ONLY",
+          "importedAt": "2026-11-06T00:00:00Z",
+          "evidenceRecordDigest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        }
+      }
+    }
+  },
+  {
+    "id": "SV-02",
+    "definition": "CreateRequest",
+    "valid": true,
+    "fixtureClass": "SCHEMA_ONLY_SYNTHETIC_NOT_BROKER_EVIDENCE",
+    "value": {
+      "v": 2,
+      "op": "portfolio.create",
+      "payload": {}
+    }
+  },
+  {
+    "id": "SV-03",
+    "definition": "SaveRequest",
+    "valid": false,
+    "fixtureClass": "SCHEMA_ONLY_SYNTHETIC_NOT_BROKER_EVIDENCE",
+    "value": {
+      "v": 2,
+      "op": "portfolio.save",
+      "requestId": "SCHEMA_TEST_CORRELATION",
+      "payload": {
+        "portfolioId": "SYNTHETIC_PORTFOLIO_A",
+        "expectedRevision": 1,
+        "mode": "MERGE",
+        "holdings": [
+          {
+            "symbol": "SYNTHETIC_EQ_A",
+            "quantity": 2,
+            "averageBuyPrice": 10,
+            "currentPrice": 12,
+            "marketValue": 24,
+            "weightPercentage": 100,
+            "active": true,
+            "sourceBroker": "SCHEMA_TEST_ONLY"
+          }
+        ],
+        "contentDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "broker": "SCHEMA_TEST_ONLY",
+        "sourceEvidence": {
+          "fileName": "synthetic-contract-vector.csv",
+          "sourceBroker": "SCHEMA_TEST_ONLY",
+          "importedAt": "2026-11-06T00:00:00Z",
+          "evidenceRecordDigest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        },
+        "ownerId": "attacker"
+      }
+    }
+  },
+  {
+    "id": "SV-04",
+    "definition": "SaveRequest",
+    "valid": false,
+    "fixtureClass": "SCHEMA_ONLY_SYNTHETIC_NOT_BROKER_EVIDENCE",
+    "value": {
+      "v": 2,
+      "op": "portfolio.save",
+      "requestId": "SCHEMA_TEST_CORRELATION",
+      "payload": {
+        "portfolioId": "SYNTHETIC_PORTFOLIO_A",
+        "expectedRevision": 1,
+        "mode": "MERGE",
+        "holdings": [
+          {
+            "symbol": "SYNTHETIC_EQ_A",
+            "quantity": 2,
+            "averageBuyPrice": 10,
+            "currentPrice": 12,
+            "marketValue": 24,
+            "weightPercentage": 100,
+            "active": true,
+            "sourceBroker": "SCHEMA_TEST_ONLY",
+            "companyId": "attacker"
+          }
+        ],
+        "contentDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "broker": "SCHEMA_TEST_ONLY",
+        "sourceEvidence": {
+          "fileName": "synthetic-contract-vector.csv",
+          "sourceBroker": "SCHEMA_TEST_ONLY",
+          "importedAt": "2026-11-06T00:00:00Z",
+          "evidenceRecordDigest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        }
+      }
+    }
+  },
+  {
+    "id": "SV-05",
+    "definition": "SaveRequest",
+    "valid": false,
+    "fixtureClass": "SCHEMA_ONLY_SYNTHETIC_NOT_BROKER_EVIDENCE",
+    "value": {
+      "v": 2,
+      "op": "portfolio.save",
+      "requestId": "SCHEMA_TEST_CORRELATION",
+      "payload": {
+        "portfolioId": "SYNTHETIC_PORTFOLIO_A",
+        "expectedRevision": 1,
+        "mode": "MERGE",
+        "holdings": [
+          {
+            "symbol": "SYNTHETIC_EQ_A",
+            "quantity": 2,
+            "averageBuyPrice": 10,
+            "currentPrice": 12,
+            "marketValue": 24,
+            "weightPercentage": 100,
+            "active": true,
+            "sourceBroker": "SCHEMA_TEST_ONLY"
+          }
+        ],
+        "contentDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "broker": "SCHEMA_TEST_ONLY",
+        "sourceEvidence": {
+          "fileName": "synthetic-contract-vector.csv",
+          "sourceBroker": "SCHEMA_TEST_ONLY",
+          "importedAt": "2026-11-06T00:00:00Z",
+          "evidenceRecordDigest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        },
+        "tenantId": "attacker"
+      }
+    }
+  },
+  {
+    "id": "SV-06",
+    "definition": "SaveRequest",
+    "valid": false,
+    "fixtureClass": "SCHEMA_ONLY_SYNTHETIC_NOT_BROKER_EVIDENCE",
+    "value": {
+      "v": 2,
+      "op": "portfolio.save",
+      "requestId": "SCHEMA_TEST_CORRELATION",
+      "payload": {
+        "portfolioId": "SYNTHETIC_PORTFOLIO_A",
+        "expectedRevision": 1,
+        "mode": "MERGE",
+        "holdings": [
+          {
+            "symbol": "SYNTHETIC_EQ_A",
+            "quantity": 2,
+            "averageBuyPrice": 10,
+            "currentPrice": 12,
+            "marketValue": 24,
+            "weightPercentage": 100,
+            "active": true,
+            "sourceBroker": "SCHEMA_TEST_ONLY"
+          }
+        ],
+        "contentDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "broker": "SCHEMA_TEST_ONLY",
+        "sourceEvidence": {
+          "fileName": "synthetic-contract-vector.csv",
+          "sourceBroker": "SCHEMA_TEST_ONLY",
+          "importedAt": "2026-11-06T00:00:00Z",
+          "evidenceRecordDigest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "scope": "attacker"
+        }
+      }
+    }
+  },
+  {
+    "id": "SV-07",
+    "definition": "SaveRequest",
+    "valid": false,
+    "fixtureClass": "SCHEMA_ONLY_SYNTHETIC_NOT_BROKER_EVIDENCE",
+    "value": {
+      "v": 2,
+      "op": "portfolio.save",
+      "requestId": "SCHEMA_TEST_CORRELATION",
+      "payload": {
+        "portfolioId": "SYNTHETIC_PORTFOLIO_A",
+        "expectedRevision": 0,
+        "mode": "MERGE",
+        "holdings": [
+          {
+            "symbol": "SYNTHETIC_EQ_A",
+            "quantity": 2,
+            "averageBuyPrice": 10,
+            "currentPrice": 12,
+            "marketValue": 24,
+            "weightPercentage": 100,
+            "active": true,
+            "sourceBroker": "SCHEMA_TEST_ONLY"
+          }
+        ],
+        "contentDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "broker": "SCHEMA_TEST_ONLY",
+        "sourceEvidence": {
+          "fileName": "synthetic-contract-vector.csv",
+          "sourceBroker": "SCHEMA_TEST_ONLY",
+          "importedAt": "2026-11-06T00:00:00Z",
+          "evidenceRecordDigest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        }
+      }
+    }
+  },
+  {
+    "id": "SV-08",
+    "definition": "SaveRequest",
+    "valid": false,
+    "fixtureClass": "SCHEMA_ONLY_SYNTHETIC_NOT_BROKER_EVIDENCE",
+    "value": {
+      "v": 2,
+      "op": "portfolio.save",
+      "requestId": "SCHEMA_TEST_CORRELATION",
+      "payload": {
+        "portfolioId": "SYNTHETIC_PORTFOLIO_A",
+        "expectedRevision": 9007199254740992,
+        "mode": "MERGE",
+        "holdings": [
+          {
+            "symbol": "SYNTHETIC_EQ_A",
+            "quantity": 2,
+            "averageBuyPrice": 10,
+            "currentPrice": 12,
+            "marketValue": 24,
+            "weightPercentage": 100,
+            "active": true,
+            "sourceBroker": "SCHEMA_TEST_ONLY"
+          }
+        ],
+        "contentDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "broker": "SCHEMA_TEST_ONLY",
+        "sourceEvidence": {
+          "fileName": "synthetic-contract-vector.csv",
+          "sourceBroker": "SCHEMA_TEST_ONLY",
+          "importedAt": "2026-11-06T00:00:00Z",
+          "evidenceRecordDigest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        }
+      }
+    }
+  },
+  {
+    "id": "SV-09",
+    "definition": "SaveRequest",
+    "valid": false,
+    "fixtureClass": "SCHEMA_ONLY_SYNTHETIC_NOT_BROKER_EVIDENCE",
+    "value": {
+      "v": 2,
+      "op": "portfolio.save",
+      "requestId": "SCHEMA_TEST_CORRELATION",
+      "payload": {
+        "portfolioId": "SYNTHETIC_PORTFOLIO_A",
+        "expectedRevision": 1,
+        "mode": "REPLACE",
+        "holdings": [
+          {
+            "symbol": "SYNTHETIC_EQ_A",
+            "quantity": 2,
+            "averageBuyPrice": 10,
+            "currentPrice": 12,
+            "marketValue": 24,
+            "weightPercentage": 100,
+            "active": true,
+            "sourceBroker": "SCHEMA_TEST_ONLY"
+          }
+        ],
+        "contentDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "broker": "SCHEMA_TEST_ONLY",
+        "sourceEvidence": {
+          "fileName": "synthetic-contract-vector.csv",
+          "sourceBroker": "SCHEMA_TEST_ONLY",
+          "importedAt": "2026-11-06T00:00:00Z",
+          "evidenceRecordDigest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        }
+      }
+    }
+  },
+  {
+    "id": "SV-10",
+    "definition": "SaveRequest",
+    "valid": false,
+    "fixtureClass": "SCHEMA_ONLY_SYNTHETIC_NOT_BROKER_EVIDENCE",
+    "value": {
+      "v": 2,
+      "op": "portfolio.save",
+      "requestId": "SCHEMA_TEST_CORRELATION",
+      "payload": {
+        "portfolioId": "SYNTHETIC_PORTFOLIO_A",
+        "expectedRevision": 1,
+        "mode": "MERGE",
+        "holdings": [
+          {
+            "symbol": "SYNTHETIC_EQ_A",
+            "quantity": 2,
+            "averageBuyPrice": 10,
+            "currentPrice": 12,
+            "marketValue": 24,
+            "weightPercentage": 100,
+            "active": true,
+            "sourceBroker": "SCHEMA_TEST_ONLY"
+          }
+        ],
+        "contentDigest": "not-a-hash",
+        "broker": "SCHEMA_TEST_ONLY",
+        "sourceEvidence": {
+          "fileName": "synthetic-contract-vector.csv",
+          "sourceBroker": "SCHEMA_TEST_ONLY",
+          "importedAt": "2026-11-06T00:00:00Z",
+          "evidenceRecordDigest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        }
+      }
+    }
+  },
+  {
+    "id": "SV-11",
+    "definition": "SaveRequest",
+    "valid": false,
+    "fixtureClass": "SCHEMA_ONLY_SYNTHETIC_NOT_BROKER_EVIDENCE",
+    "value": {
+      "v": 2,
+      "op": "portfolio.save",
+      "requestId": "SCHEMA_TEST_CORRELATION",
+      "payload": {
+        "portfolioId": "SYNTHETIC_PORTFOLIO_A",
+        "expectedRevision": 1,
+        "mode": "MERGE",
+        "holdings": [],
+        "contentDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "broker": "SCHEMA_TEST_ONLY",
+        "sourceEvidence": {
+          "fileName": "synthetic-contract-vector.csv",
+          "sourceBroker": "SCHEMA_TEST_ONLY",
+          "importedAt": "2026-11-06T00:00:00Z",
+          "evidenceRecordDigest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        }
+      }
+    }
+  },
+  {
+    "id": "SV-12",
+    "definition": "SaveRequest",
+    "valid": false,
+    "fixtureClass": "SCHEMA_ONLY_SYNTHETIC_NOT_BROKER_EVIDENCE",
+    "value": {
+      "v": 2,
+      "op": "portfolio.save",
+      "requestId": "SCHEMA_TEST_CORRELATION",
+      "payload": {
+        "portfolioId": "SYNTHETIC_PORTFOLIO_A",
+        "expectedRevision": 1,
+        "mode": "MERGE",
+        "holdings": [
+          {
+            "symbol": "SYNTHETIC_EQ_A",
+            "quantity": 2,
+            "averageBuyPrice": 10,
+            "currentPrice": 12,
+            "marketValue": 24,
+            "weightPercentage": 100,
+            "active": true,
+            "sourceBroker": "SCHEMA_TEST_ONLY"
+          }
+        ],
+        "contentDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "broker": "SCHEMA_TEST_ONLY",
+        "sourceEvidence": {
+          "fileName": "synthetic-contract-vector.csv",
+          "sourceBroker": "SCHEMA_TEST_ONLY",
+          "importedAt": "not-a-time",
+          "evidenceRecordDigest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        }
+      }
+    }
+  },
+  {
+    "id": "SV-13",
+    "definition": "Contribution",
+    "valid": true,
+    "fixtureClass": "SCHEMA_ONLY_SYNTHETIC_NOT_BROKER_EVIDENCE",
+    "value": {
+      "contributionId": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "amount": 24,
+      "contributedAt": "2026-11-06T00:00:00Z",
+      "createdAt": "2026-11-06T00:00:00Z",
+      "fileName": null,
+      "sourceBroker": null,
+      "contentDigest": null,
+      "lineageDigest": null,
+      "importedAt": null,
+      "semantics": null
+    }
+  },
+  {
+    "id": "SV-14",
+    "definition": "Contribution",
+    "valid": false,
+    "fixtureClass": "SCHEMA_ONLY_SYNTHETIC_NOT_BROKER_EVIDENCE",
+    "value": {
+      "contributionId": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "amount": "24",
+      "contributedAt": "2026-11-06T00:00:00Z",
+      "createdAt": "2026-11-06T00:00:00Z",
+      "fileName": null,
+      "sourceBroker": null,
+      "contentDigest": null,
+      "lineageDigest": null,
+      "importedAt": null,
+      "semantics": null
+    }
+  },
+  {
+    "id": "SV-15",
+    "definition": "SaveReceipt",
+    "valid": true,
+    "fixtureClass": "SCHEMA_ONLY_SYNTHETIC_NOT_BROKER_EVIDENCE",
+    "value": {
+      "disposition": "MERGED_INTO_EXISTING",
+      "revision": 2,
+      "durability": "DURABLE",
+      "durable": true
+    }
+  },
+  {
+    "id": "SV-16",
+    "definition": "SaveReceipt",
+    "valid": false,
+    "fixtureClass": "SCHEMA_ONLY_SYNTHETIC_NOT_BROKER_EVIDENCE",
+    "value": {
+      "disposition": "MERGED_INTO_EXISTING",
+      "revision": 2,
+      "durability": "DURABLE",
+      "durable": false
+    }
+  },
+  {
+    "id": "SV-17",
+    "definition": "Detail",
+    "valid": true,
+    "fixtureClass": "SCHEMA_ONLY_SYNTHETIC_NOT_BROKER_EVIDENCE",
+    "value": {
+      "portfolioId": "SYNTHETIC_PORTFOLIO_A",
+      "portfolioName": "Schema fixture",
+      "revision": 2,
+      "holdingsCount": 1,
+      "totalMarketValue": 24,
+      "lastUpdated": "2026-11-06T00:00:00Z",
+      "weightSumPercentage": 100,
+      "provenanceDigest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "isSaved": true,
+      "holdings": [
+        {
+          "symbol": "SYNTHETIC_EQ_A",
+          "quantity": 2,
+          "averageBuyPrice": 10,
+          "currentPrice": 12,
+          "marketValue": 24,
+          "weightPercentage": 100,
+          "active": true,
+          "sourceBroker": "SCHEMA_TEST_ONLY",
+          "companyId": "SYNTHETIC_SERVER_RESOLVED_A",
+          "lineageDigest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "identityStatus": "RESOLVED",
+          "resolutionDisposition": "CANONICAL_P04"
+        }
+      ],
+      "contributions": [
+        {
+          "contributionId": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "amount": 24,
+          "contributedAt": "2026-11-06T00:00:00Z",
+          "createdAt": "2026-11-06T00:00:00Z",
+          "fileName": null,
+          "sourceBroker": null,
+          "contentDigest": null,
+          "lineageDigest": null,
+          "importedAt": null,
+          "semantics": null
+        }
+      ]
+    }
+  },
+  {
+    "id": "SV-18",
+    "definition": "Detail",
+    "valid": false,
+    "fixtureClass": "SCHEMA_ONLY_SYNTHETIC_NOT_BROKER_EVIDENCE",
+    "value": {
+      "portfolioId": "SYNTHETIC_PORTFOLIO_A",
+      "portfolioName": "Schema fixture",
+      "revision": 2,
+      "holdingsCount": 1,
+      "totalMarketValue": 24,
+      "lastUpdated": "2026-11-06T00:00:00Z",
+      "weightSumPercentage": 100,
+      "provenanceDigest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "isSaved": true,
+      "holdings": [
+        {
+          "symbol": "SYNTHETIC_EQ_A",
+          "quantity": 2,
+          "averageBuyPrice": 10,
+          "currentPrice": 12,
+          "marketValue": 24,
+          "weightPercentage": 100,
+          "active": true,
+          "sourceBroker": "SCHEMA_TEST_ONLY",
+          "companyId": "SYNTHETIC_SERVER_RESOLVED_A",
+          "lineageDigest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "identityStatus": "RESOLVED",
+          "resolutionDisposition": "CANONICAL_P04"
+        }
+      ],
+      "contributions": [
+        {
+          "contributionId": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "amount": 24,
+          "contributedAt": "2026-11-06T00:00:00Z",
+          "createdAt": "2026-11-06T00:00:00Z",
+          "fileName": null,
+          "sourceBroker": null,
+          "contentDigest": null,
+          "lineageDigest": null,
+          "importedAt": null,
+          "semantics": null
+        }
+      ],
+      "durability": "DURABLE"
+    }
+  },
+  {
+    "id": "SV-19",
+    "definition": "SaveRequest",
+    "valid": false,
+    "fixtureClass": "SCHEMA_ONLY_SYNTHETIC_NOT_BROKER_EVIDENCE",
+    "value": {
+      "v": 2,
+      "op": "portfolio.save",
+      "requestId": "SCHEMA_TEST_CORRELATION",
+      "payload": {
+        "portfolioId": "SYNTHETIC_PORTFOLIO_A",
+        "expectedRevision": 1,
+        "mode": "MERGE",
+        "holdings": [
+          {
+            "symbol": "SYNTHETIC_EQ_A",
+            "quantity": 2,
+            "averageBuyPrice": 10,
+            "currentPrice": 12,
+            "marketValue": 24,
+            "weightPercentage": 100,
+            "active": true,
+            "sourceBroker": "SCHEMA_TEST_ONLY"
+          }
+        ],
+        "contentDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "broker": "SCHEMA_TEST_ONLY",
+        "sourceEvidence": {
+          "fileName": "synthetic-contract-vector.csv",
+          "sourceBroker": "SCHEMA_TEST_ONLY",
+          "importedAt": "2026-11-06T00:00:00Z",
+          "evidenceRecordDigest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        },
+        "options": {
+          "mode": "MERGE"
+        }
+      }
+    }
+  },
+  {
+    "id": "SV-20",
+    "definition": "AuthorizedRefusal",
+    "valid": true,
+    "fixtureClass": "SCHEMA_ONLY_SYNTHETIC_NOT_BROKER_EVIDENCE",
+    "value": {
+      "v": 2,
+      "ok": false,
+      "op": "portfolio.save",
+      "outcome": "WRITE_NOT_AUTHORIZED"
+    }
+  }
+]
