@@ -1,0 +1,125 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-11-06T09:58:37.024Z",
+  "requirement": {
+    "id": "AC-X2",
+    "statement": "Zero external network connections during a full assess→persist→read cycle: no outbound connection to a non-loopback host and no exchange-host URL. Loopback is permitted (design §I.2, roadmap §B.I.3).",
+    "cycle": "analysis (assessment assembly) → persistence (governed NP-04 record) → read (chain read through the service and through the HTTP-shape transport handler)"
+  },
+  "environment": {
+    "node": "v22.22.3",
+    "platform": "linux",
+    "arch": "x64",
+    "cwd": "/home/user/iips-review-recovered/frontend",
+    "pid": 7158,
+    "commit": "aaf1f0cb5c9be2ab00607c1ee9292c2fd129bb1f"
+  },
+  "instrumentation": {
+    "mode": "in-process pass-through interception of every Node outbound-connection API; a non-loopback destination is refused, not connected",
+    "channels": [
+      "net.connect",
+      "net.createConnection",
+      "net.Socket.prototype.connect",
+      "net.Server.listen",
+      "tls.connect",
+      "http.request",
+      "http.get",
+      "https.request",
+      "https.get",
+      "dns.lookup",
+      "dns.resolve",
+      "dns.resolve4",
+      "dns.resolve6",
+      "dns.resolveAny",
+      "dns.resolveSrv",
+      "dns.resolveTxt",
+      "dns.promises.lookup",
+      "dns.promises.resolve",
+      "dns.promises.resolve4",
+      "dns.promises.resolve6",
+      "dgram.createSocket",
+      "globalThis.fetch"
+    ],
+    "syscallTracing": "unavailable in this environment: strace, ltrace and bpftrace are not installed, so no kernel-level syscall trace was produced"
+  },
+  "kind": "full-cycle",
+  "cycle": {
+    "steps": [
+      {
+        "step": "analysis: assembleAssessment",
+        "detail": "issuer IN:EQISIN:IN0000000201; scope co:IN:EQISIN:IN0000000201; adequacy SUFFICIENT; violations 0",
+        "ok": true
+      },
+      {
+        "step": "persistence: recordAssessment",
+        "detail": "outcome CREATED; wrote true; version 1",
+        "ok": true
+      },
+      {
+        "step": "read: readChain + readVersionWithPayload",
+        "detail": "versions 1; head 18489072-ed5f-4d1f-ad9f-7a4420e1d746; payload 66726 bytes; digest 356614f37ba607ce…8210",
+        "ok": true
+      },
+      {
+        "step": "read: handleInvestmentRequest (HTTP shape, no socket)",
+        "detail": "HEAD 200 (version header 1); GET 200 (version 1, 69638 bytes)",
+        "ok": true
+      }
+    ],
+    "versions": 1,
+    "headReportId": "18489072-ed5f-4d1f-ad9f-7a4420e1d746",
+    "payloadBytes": 66726,
+    "payloadDigest": "356614f37ba607ce…8210",
+    "transportStatus": 200,
+    "transportVersionHeader": "1",
+    "transportBodyBytes": 69638,
+    "transportBodyVersion": 1
+  },
+  "observation": {
+    "totalAttempts": 0,
+    "external": 0,
+    "loopback": 0,
+    "listen": 0,
+    "ipc": 0,
+    "localSocket": 0,
+    "unresolved": 0,
+    "attempts": []
+  },
+  "socketFdCensus": {
+    "before": {
+      "available": true,
+      "socketFds": [
+        "21:socket:[25985]",
+        "22:socket:[25986]",
+        "29:socket:[25193]",
+        "31:socket:[25195]"
+      ],
+      "reason": null
+    },
+    "after": {
+      "available": true,
+      "socketFds": [
+        "21:socket:[25985]",
+        "22:socket:[25986]",
+        "29:socket:[25193]",
+        "31:socket:[25195]"
+      ],
+      "reason": null
+    },
+    "newSocketFds": [],
+    "verdict": "no new socket descriptor appeared during the cycle"
+  },
+  "determination": {
+    "pass": true,
+    "basis": "the full-cycle ran to its last step, no connection to a non-loopback destination was attempted, and no new socket descriptor appeared",
+    "externalDestinations": []
+  },
+  "limitations": [
+    "The measurement is in-process: it speaks for this Node process, not for the kernel. Syscall-level tracing was unavailable (no strace/ltrace/bpftrace in this environment) and is named as missing rather than approximated.",
+    "No HTTP server is started, so the cycle contains no listening socket and no loopback connection: the transport is exercised through the same handler with a fake request/response pair, exactly as the M-1 demonstration does.",
+    "A loopback connection is permitted by design §I.2 and roadmap §B.I.3 and is classified separately. None occurred in the cycle, so that permission was not exercised by it.",
+    "Layered APIs can report one would-be connection on more than one channel (for example `http.request` and the `net.Socket` beneath it), so the counts bound attempts rather than count connections.",
+    "If some module captured a `net`/`http` function reference before the probe was installed, that reference would not be intercepted; `net.Socket.prototype.connect` is patched as well, which catches the socket every such path eventually creates, and the descriptor census is the backstop for anything that slipped past both. The negative control exercises the pre-captured-reference path explicitly.",
+    "This says nothing about production, multi-user or authenticated behaviour, and it closes neither L-004 (synthetic dataset) nor L-009 (no real issuer)."
+  ]
+}

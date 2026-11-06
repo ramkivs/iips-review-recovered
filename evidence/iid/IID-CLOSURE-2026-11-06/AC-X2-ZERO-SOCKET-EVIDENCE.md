@@ -1,3 +1,9 @@
+> **Superseded on the finding, preserved as history.** This file recorded AC-X2 as `OPEN` because no runtime
+> measurement existed when the closure bundle was written. One now does: **AC-X2 is PASS** on the runtime evidence in
+> `../IID-AC-X2-ZERO-SOCKET-2026-11-06/AC-X2-RUNTIME-EVIDENCE.md`, reconciled in closure §6.4, roadmap §B.Q and register
+> §12. Read this file for *why it was open* and *what was missing*; read the newer bundle for the measurement itself.
+> Nothing below was edited.
+
 # AC-X2 — zero-socket evidence (reconciled): **OPEN**
 
 **Determination:** **OPEN — the required verification does not exist in this repository.**

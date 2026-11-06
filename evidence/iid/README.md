@@ -1,8 +1,9 @@
 # `evidence/iid/` — IID phase evidence index
 
 **Status of the programme:** IID-0 … IID-6 are **implementation-complete**, closed by
-`docs/integration/IIPS_V3_IID_FORMAL_CLOSURE_2026-11-06.md`, with **AC-X2 OPEN** and AC-X1 qualified. Completion is not
-production acceptance and does not close any limitation.
+`docs/integration/IIPS_V3_IID_FORMAL_CLOSURE_2026-11-06.md`. **AC-X2 is now PASS on runtime evidence** and **AC-X6 PASS
+with gap G-8 closed** (addendum at `aaf1f0c`; bundle `IID-AC-X2-ZERO-SOCKET-2026-11-06/`), and AC-X1 remains qualified
+(Q-1…Q-4). Completion is not production acceptance and does not close any limitation.
 
 This index exists because the directory previously had none, so a reader had to guess which bundle belonged to which
 phase and where IID-5's evidence lived.
@@ -17,6 +18,7 @@ phase and where IID-5's evidence lived.
 | IID-5 — historical change intelligence | **`../integration/iid5-historical-change-intelligence-2026-11-06/`** | `RESULTS.md`, roadmap §B.N | #479, #480 |
 | IID-6 — product surface | `IID-6-PRODUCT-SURFACE-2026-11-06/` | `requirement-matrix.md` (+§6 correction), roadmap §B.O | #481 `14de785`, #482 `edddfb0` |
 | **Closure** | `IID-CLOSURE-2026-11-06/` | `docs/integration/IIPS_V3_IID_FORMAL_CLOSURE_2026-11-06.md` | this work item |
+| **Remaining acceptance evidence** | `IID-AC-X2-ZERO-SOCKET-2026-11-06/` | `AC-X2-RUNTIME-EVIDENCE.md` (AC-X2 → PASS), `AC-X6-G8-DETERMINATION.md` (AC-X6 → PASS, G-8 closed), `commands-and-outputs.txt` | addendum to the closure, roadmap §B.Q |
 
 Also present: `Q1-NP04-COMPATIBILITY-PROBE-2026-11-05/` — the NP-04 compatibility probe that preceded IID-0's persistence
 work; it is not an IID phase and carries no IID acceptance criteria.

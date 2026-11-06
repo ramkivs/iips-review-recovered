@@ -1,0 +1,182 @@
+# AC-X2 runtime evidence — commands and outputs (verbatim)
+
+Repository: ramkivs/iips-review-recovered
+Branch at capture: arena/fdab4c27-iips-review-recovered
+HEAD at capture:   aaf1f0cb5c9be2ab00607c1ee9292c2fd129bb1f
+Host: Linux 6.1.158+ x86_64
+Node: v22.22.3   npm: 10.9.8
+Captured: 2026-11-06T09:58:18Z
+
+## 0. Syscall tracing availability (this is why the evidence is in-process)
+$ command -v strace ltrace bpftrace
+[no path printed above: none of strace, ltrace or bpftrace is installed in this environment]
+
+## 1. Server typecheck
+$ cd frontend && npx tsc -p tsconfig.investment-server.json --noEmit
+[exit 0]
+
+## 2. Frontend typecheck (project script; includes the server sources)
+$ cd frontend && npm run typecheck
+
+broker-import alias 07e86a4f2c105651f3097a96cb519f8611945e30 materialized: 152 published files -> .cache/broker-import (published build output; no IPD source recompiled)
+
+> @iips/v3-frontend@0.1.0 typecheck
+> tsc --noEmit
+
+
+## 3. The AC-X2 test and its negative control
+$ cd frontend && npx vitest run server/investment/zero-socket.test.ts server/investment/zero-socket-control.test.ts
+
+ RUN  v2.1.9 /home/user/iips-review-recovered/frontend
+
+(node:7086) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ✓ server/investment/zero-socket-control.test.ts (1 test) 26ms
+(node:7111) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+stdout | server/investment/zero-socket.test.ts > AC-X2 — zero external network connections over assess → persist → read > runs the whole cycle and attempts no connection to a non-loopback destination
+
+AC-X2 zero external network — PASS [full-cycle, pid 7111]
+cycle: analysis: assembleAssessment [ok] → persistence: recordAssessment [ok] → read: readChain + readVersionWithPayload [ok] → read: handleInvestmentRequest (HTTP shape, no socket) [ok]
+versions 1; head 7218655e-6f0d-4351-94b0-886f1d38de01; payload 66726 bytes; transport 200
+attempts: total 0 · external 0 · loopback 0 · listen 0 · ipc 0 · local-socket 0 · unresolved 0
+socket-fd census: before 4 · after 4 · new 0 — no new socket descriptor appeared during the cycle
+instrumented channels: net.connect, net.createConnection, net.Socket.prototype.connect, net.Server.listen, tls.connect, http.request, http.get, https.request, https.get, dns.lookup, dns.resolve, dns.resolve4, dns.resolve6, dns.resolveAny, dns.resolveSrv, dns.resolveTxt, dns.promises.lookup, dns.promises.resolve, dns.promises.resolve4, dns.promises.resolve6, dgram.createSocket, globalThis.fetch
+
+
+ ✓ server/investment/zero-socket.test.ts (1 test) 184ms
+
+ Test Files  2 passed (2)
+      Tests  2 passed (2)
+   Start at  09:58:33
+   Duration  2.29s (transform 495ms, setup 277ms, collect 661ms, tests 210ms, environment 733ms, prepare 125ms)
+
+[exit 0]
+
+## 4. The same cycle through plain Node processes: write, then read in a SEPARATE process
+$ cd frontend && GIT_COMMIT=$(git rev-parse HEAD) npx tsx server/investment/cli/zero-socket-cycle.ts write \
+      --handoff <bundle>/handoff.json --record <bundle>/zero-socket-run.json
+
+AC-X2 zero external network — PASS [full-cycle, pid 7158]
+cycle: analysis: assembleAssessment [ok] → persistence: recordAssessment [ok] → read: readChain + readVersionWithPayload [ok] → read: handleInvestmentRequest (HTTP shape, no socket) [ok]
+versions 1; head 18489072-ed5f-4d1f-ad9f-7a4420e1d746; payload 66726 bytes; transport 200
+attempts: total 0 · external 0 · loopback 0 · listen 0 · ipc 0 · local-socket 0 · unresolved 0
+socket-fd census: before 4 · after 4 · new 0 — no new socket descriptor appeared during the cycle
+instrumented channels: net.connect, net.createConnection, net.Socket.prototype.connect, net.Server.listen, tls.connect, http.request, http.get, https.request, https.get, dns.lookup, dns.resolve, dns.resolve4, dns.resolve6, dns.resolveAny, dns.resolveSrv, dns.resolveTxt, dns.promises.lookup, dns.promises.resolve, dns.promises.resolve4, dns.promises.resolve6, dgram.createSocket, globalThis.fetch
+
+handoff: ../evidence/iid/IID-AC-X2-ZERO-SOCKET-2026-11-06/handoff.json
+record:  ../evidence/iid/IID-AC-X2-ZERO-SOCKET-2026-11-06/zero-socket-run.json
+[exit 0]
+
+$ cd frontend && GIT_COMMIT=$(git rev-parse HEAD) npx tsx server/investment/cli/zero-socket-cycle.ts read \
+      --handoff <bundle>/handoff.json --record <bundle>/zero-socket-read.json
+
+AC-X2 zero external network — PASS [read-only-process, pid 7203]
+cycle: read (separate process): open store from disk [ok] → read (separate process): readChain + readVersionWithPayload [ok]
+versions 1; head 18489072-ed5f-4d1f-ad9f-7a4420e1d746; payload 66726 bytes; transport 0
+attempts: total 0 · external 0 · loopback 0 · listen 0 · ipc 0 · local-socket 0 · unresolved 0
+socket-fd census: before 4 · after 4 · new 0 — no new socket descriptor appeared during the cycle
+instrumented channels: net.connect, net.createConnection, net.Socket.prototype.connect, net.Server.listen, tls.connect, http.request, http.get, https.request, https.get, dns.lookup, dns.resolve, dns.resolve4, dns.resolve6, dns.resolveAny, dns.resolveSrv, dns.resolveTxt, dns.promises.lookup, dns.promises.resolve, dns.promises.resolve4, dns.promises.resolve6, dgram.createSocket, globalThis.fetch
+
+read head 18489072-ed5f-4d1f-ad9f-7a4420e1d746 == written head 18489072-ed5f-4d1f-ad9f-7a4420e1d746
+record: ../evidence/iid/IID-AC-X2-ZERO-SOCKET-2026-11-06/zero-socket-read.json
+[exit 0]
+
+## 5. Whole frontend suite at this commit (regression check; the two new files are included)
+$ cd frontend && npx vitest run
+ ✓ src/components/viz/ChartFoundations.test.tsx (4 tests) 43ms
+ ✓ src/components/company/CompanyHeader.test.tsx (2 tests) 43ms
+
+ Test Files  142 passed | 1 skipped (143)
+      Tests  1813 passed | 1 skipped (1814)
+   Start at  09:58:38
+   Duration  155.85s (transform 5.85s, setup 18.01s, collect 15.43s, tests 66.32s, environment 30.52s, prepare 8.06s)
+
+
+## 6. The committed records and their hashes
+$ ls -l <bundle>
+total 72
+-rw-r--r-- 1 user user 14884 Nov  6 09:56 AC-X2-RUNTIME-EVIDENCE.md
+-rw-r--r-- 1 user user  5477 Nov  6 09:56 AC-X6-G8-DETERMINATION.md
+-rw-r--r-- 1 user user  3089 Nov  6 09:56 README.md
+-rw-r--r-- 1 user user  6163 Nov  6 10:01 commands-and-outputs.txt
+-rw-r--r-- 1 user user   240 Nov  6 09:58 handoff.json
+-rw-r--r-- 1 user user  4433 Nov  6 10:00 zero-socket-control.json
+-rw-r--r-- 1 user user  4751 Nov  6 09:58 zero-socket-read.json
+-rw-r--r-- 1 user user  5112 Nov  6 09:58 zero-socket-run.json
+-rw-r--r-- 1 user user  5067 Nov  6 10:00 zero-socket-test.json
+$ sha256sum <bundle>/*.json
+0b52752f726953db3fe222cb9ffab86779ba7871a2b2f2d3b2a444f3281c0bca  evidence/iid/IID-AC-X2-ZERO-SOCKET-2026-11-06/handoff.json
+eb48cc45f78885ead89483c729fa74bfef805f7dca7f4dbd9e6fba2fcf020b17  evidence/iid/IID-AC-X2-ZERO-SOCKET-2026-11-06/zero-socket-control.json
+3bf2bc2a322484a390e2b187fe9e724364d2e383ac3a299a0335bda1f76c321e  evidence/iid/IID-AC-X2-ZERO-SOCKET-2026-11-06/zero-socket-read.json
+1975fb53cb124c2515c01d15768fd727b8af30d2909bc213cb5bfe8330b4a8a3  evidence/iid/IID-AC-X2-ZERO-SOCKET-2026-11-06/zero-socket-run.json
+1d4a81795e47806dd1d284049f95e4a39218107708adea37bfc0b37012ec312f  evidence/iid/IID-AC-X2-ZERO-SOCKET-2026-11-06/zero-socket-test.json
+
+## 7. What the records say, read back out of the JSON (not transcribed by hand)
+$ python3 - <<PY   # one block per record: kind, process, verdict, counters, census
+zero-socket-control.json   negative-control  pre-captured reference caught=True  total=13 external=7 loopback=4 listen=1 ipc=0 localSocket=1 unresolved=0
+                           loopback round trip: received "ac-x2-loopback-ok" over 127.0.0.1:36807
+                             net.connect: refused (non-loopback)
+                             net.createConnection: refused (non-loopback)
+                             tls.connect: refused (non-loopback)
+                             http.request: refused (non-loopback)
+                             https.request: refused (non-loopback)
+                             globalThis.fetch: refused (non-loopback)
+                             pre-captured net.connect: refused (non-loopback)
+zero-socket-read.json      kind=read-only-process  pid=7203   pass=True  totalAttempts=0 external=0 loopback=0 listen=0 ipc=0 localSocket=0 unresolved=0
+                           head=18489072-ed5f-4d1f-ad9f-7a4420e1d746  versions=1  payload=66726B  transport HEAD version=None GET status=0 body=0B
+                           census: no new socket descriptor appeared during the cycle (before 4, after 4)
+                             [ok] read (separate process): open store from disk :: iid3-m1-Ww9xHn/investment.db opened read-only in pid 7203
+                             [ok] read (separate process): readChain + readVersionWithPayload :: versions 1; head 18489072-ed5f-4d1f-ad9f-7a4420e1d746; payload 66726 bytes
+zero-socket-run.json       kind=full-cycle         pid=7158   pass=True  totalAttempts=0 external=0 loopback=0 listen=0 ipc=0 localSocket=0 unresolved=0
+                           head=18489072-ed5f-4d1f-ad9f-7a4420e1d746  versions=1  payload=66726B  transport HEAD version=1 GET status=200 body=69638B
+                           census: no new socket descriptor appeared during the cycle (before 4, after 4)
+                             [ok] analysis: assembleAssessment :: issuer IN:EQISIN:IN0000000201; scope co:IN:EQISIN:IN0000000201; adequacy SUFFICIENT; violations 0
+                             [ok] persistence: recordAssessment :: outcome CREATED; wrote true; version 1
+                             [ok] read: readChain + readVersionWithPayload :: versions 1; head 18489072-ed5f-4d1f-ad9f-7a4420e1d746; payload 66726 bytes; digest 356614f37ba607ce…8210
+                             [ok] read: handleInvestmentRequest (HTTP shape, no socket) :: HEAD 200 (version header 1); GET 200 (version 1, 69638 bytes)
+zero-socket-test.json      kind=full-cycle         pid=10378  pass=True  totalAttempts=0 external=0 loopback=0 listen=0 ipc=0 localSocket=0 unresolved=0
+                           head=e3262360-d78c-40f5-8e47-71bfc88e8ff1  versions=1  payload=66726B  transport HEAD version=1 GET status=200 body=69638B
+                           census: no new socket descriptor appeared during the cycle (before 4, after 4)
+                             [ok] analysis: assembleAssessment :: issuer IN:EQISIN:IN0000000201; scope co:IN:EQISIN:IN0000000201; adequacy SUFFICIENT; violations 0
+                             [ok] persistence: recordAssessment :: outcome CREATED; wrote true; version 1
+                             [ok] read: readChain + readVersionWithPayload :: versions 1; head e3262360-d78c-40f5-8e47-71bfc88e8ff1; payload 66726 bytes; digest 356614f37ba607ce…8210
+                             [ok] read: handleInvestmentRequest (HTTP shape, no socket) :: HEAD 200 (version header 1); GET 200 (version 1, 69638 bytes)
+
+## 8. AC-X6 / G-8 — the size facts, re-measured at this commit
+$ find iips-platform/tests/investment/fixtures -type f | wc -l ; du -sb iips-platform/tests/investment/fixtures
+10
+37433	iips-platform/tests/investment/fixtures
+$ find iips-platform/tests/investment/fixtures -type f -printf "%s %p\n" | sort -rn | head -5
+7929 iips-platform/tests/investment/fixtures/identity/observations.json
+5357 iips-platform/tests/investment/fixtures/identity/eligible-roster.json
+4100 iips-platform/tests/investment/fixtures/roster.json
+4085 iips-platform/tests/investment/fixtures/identity/listing-map.json
+3967 iips-platform/tests/investment/fixtures/identity/corporate-actions.json
+$ ls -l evidence/iid/IID-2-COMPANY-ASSESSMENT-2026-11-06/golden-*.json | awk "{print \$5, \$9}"
+57930 evidence/iid/IID-2-COMPANY-ASSESSMENT-2026-11-06/golden-bank.json
+4515 evidence/iid/IID-2-COMPANY-ASSESSMENT-2026-11-06/golden-digests.json
+109948 evidence/iid/IID-2-COMPANY-ASSESSMENT-2026-11-06/golden-tech.json
+19148 evidence/iid/IID-2-COMPANY-ASSESSMENT-2026-11-06/golden-thin.json
+$ find evidence/iid -type f -size +100k -printf "%s %p\n"
+109948 evidence/iid/IID-2-COMPANY-ASSESSMENT-2026-11-06/golden-tech.json
+
+## 9. Every committed fixtures/ directory, so the bound is checked where fixtures actually are
+$ for d in $(find . -path ./frontend/node_modules -prune -o -type d -name fixtures -print | sort); do echo "$(du -sb $d | cut -f1) $d"; done
+1851 ./ies-010-hospitality/fixtures
+1873 ./ies-011-energy/fixtures
+2286 ./ies-012-utilities/fixtures
+2188 ./ies-013-consumer/fixtures
+2153 ./ies-014-industrials/fixtures
+6178 ./ies-015-technology/fixtures
+2496 ./iips-cross-sector/fixtures
+37433 ./iips-platform/tests/investment/fixtures
+61539 ./iips-platform/tests/regression/fixtures
+$ find <all fixtures dirs> -type f -printf "%s %p\n" | sort -rn | head -5
+42478 ./iips-platform/tests/regression/fixtures/np12-n4-a9-screen-runtime-format1.json
+18933 ./iips-platform/tests/regression/fixtures/np12-n4-screen-definition-format1.json
+7929 ./iips-platform/tests/investment/fixtures/identity/observations.json
+6118 ./ies-015-technology/fixtures/technology-validation-fixtures-1.0.0.json
+5357 ./iips-platform/tests/investment/fixtures/identity/eligible-roster.json
+$ find <all fixtures dirs> -type f -size +100k | wc -l
+0

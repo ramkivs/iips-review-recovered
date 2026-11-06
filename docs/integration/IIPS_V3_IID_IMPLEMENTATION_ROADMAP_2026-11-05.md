@@ -1339,3 +1339,55 @@ closes no limitation, and this closure closes none. `L-014` remains `RESOLVED` a
 **What closure is not.** Not production acceptance, admission or release; not real-issuer validation (`L-009`); not
 R-16 sector coverage (still 3/13, `L-001`); no scheduling capability; no Windows host evidence; no trade execution,
 brokerage integration or multi-user/auth scope. Nothing in §B.P begins a future workstream.
+
+---
+
+### B.Q. IID remaining acceptance evidence — AC-X2 and AC-X6 (`2026-11-06`; verification and evidence only)
+
+Append-only overlay. §B.P is preserved verbatim; where it still says AC-X2 is `OPEN` and AC-X6 is a *qualified* PASS,
+this section supersedes those two sentences and nothing else. Reconciled head: `aaf1f0c` (PR #483 merge). No product
+code, contract, pin or test from any IID phase was changed; four files were added, all of them verification
+scaffolding.
+
+**AC-X2 (zero sockets opened during a full ingest-free assess → persist → read cycle) — PASS, on runtime evidence.**
+The scope is the design's own, not a reading of the one-line gate: §I.2 rule 2 says *"AC-X2 is 'zero external network
+connections'. Loopback … is permitted … What is prohibited is any outbound connection to a non-loopback host, and any
+exchange-host URL … Verified by a static module-graph scan in IID-0 and by **socket-level assertion once a transport
+exists**"*, and §B.I.3 above says the same. The assertion now exists:
+
+- `frontend/server/investment/demo/zeroSocketProbe.ts` — instruments all 22 Node APIs that can start an outbound
+  connection (`net`, `net.Socket.prototype`, `tls`, `http(s)`, the `dns` family and `dns.promises`, `dgram`,
+  `globalThis.fetch`), classifies each attempt (LOOPBACK / EXTERNAL / LISTEN / IPC / LOCAL_SOCKET / UNRESOLVED),
+  **refuses** an external destination instead of connecting, and censuses `/proc/self/fd` socket descriptors before and
+  after the cycle as an independent second layer.
+- `frontend/server/investment/zero-socket.test.ts` — the gate as a test: analysis → persistence → read through the
+  service → read through the HTTP-shape transport handler, asserting four completed steps and zero external attempts.
+- `frontend/server/investment/zero-socket-control.test.ts` — the negative control that makes the zero meaningful:
+  seven external attempts refused (including one through a reference captured before installation) and a real loopback
+  round trip permitted and recorded.
+- `frontend/server/investment/cli/zero-socket-cycle.ts` — the same cycle in plain Node, split across two processes.
+
+Result: **0 external attempts, 0 DNS calls, 0 `http(s)` requests, 0 new socket descriptors**, in three executions across
+two processes, while the cycle wrote version 1, read the chain back through both read paths, and returned a 66,726 B
+payload (transport `HEAD`/`GET` 200, `X-Investment-Artifact-Version: 1`). Whole `frontend` suite at the same head: 142
+files passed / 1 skipped, 1813 tests passed / 1 skipped; both typechecks clean. Evidence:
+`evidence/iid/IID-AC-X2-ZERO-SOCKET-2026-11-06/` (`AC-X2-RUNTIME-EVIDENCE.md`; four JSON records; verbatim
+`commands-and-outputs.txt`). Honest limit recorded there: no syscall trace was possible in this environment
+(`strace`, `ltrace`, `bpftrace` absent), so the measurement is Node-level instrumentation plus the descriptor census, and
+the log names that rather than implying a kernel trace.
+
+**AC-X6 (dataset and artifacts external to git; committed fixtures each <100 KB) — PASS; G-8 closed as not a breach.**
+The bound belongs to a data *class*: design §I.2 rule 3 calls class (b) *"committed fixtures — synthetic or
+public-domain extracts, each < 100 KB, no PII"* and class (c) *"test evidence — sanitized summaries …"*, and §B.I.4
+assigns them locations — (b) to `iips-platform/tests/investment/fixtures/` ("<100 KB total"), (c) to `evidence/iid/**`
+with no size bound. `golden-tech.json` (109,948 B) is class (c), so the fixture bound never applied to it. Re-measured at
+`aaf1f0c`: the IID fixture corpus is 37,433 B with the largest file at 7,929 B, the regression fixture corpus is
+61,539 B, and **no file under any committed `fixtures/` directory exceeds 100 KB** (largest 42,478 B). The file was not
+shrunk or moved. One note for a future revision of the design: class (c) is *described* as "summaries" and a golden
+expected-payload dump is broader than that — recorded, not argued away. Evidence:
+`evidence/iid/IID-AC-X2-ZERO-SOCKET-2026-11-06/AC-X6-G8-DETERMINATION.md`.
+
+**Everything else stands.** `L-001` … `L-029` are unchanged (identical identifiers, meanings, statuses and order;
+`L-014` remains `RESOLVED` by §B.N). AC-X1 stays a qualified PASS with Q-1…Q-4, and AC-2.6, AC-2.9 and AC-4.7 stay
+qualified. AC-X3, AC-X4, AC-X5 and AC-X7 are unchanged. No criterion was promoted without evidence in this section, and
+no limitation was closed by it.

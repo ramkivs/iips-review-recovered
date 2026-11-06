@@ -888,3 +888,37 @@ register's purpose — so they are recorded in the closure document and its bund
 
 The authoritative closure record is `docs/integration/IIPS_V3_IID_FORMAL_CLOSURE_2026-11-06.md`; the phase evidence
 index is `evidence/iid/README.md`.
+
+---
+
+## 12. IID remaining acceptance evidence — pointer (2026-11-06; documentation and evidence only)
+
+**Nothing in `L-001` … `L-029` changed.** This section is a pointer, not an amendment: no identifier, wording, status or
+ordering was touched. It supersedes **two verification statements in §11** — the AC-X2 bullet ("is `OPEN`") and the
+AC-X6 qualification it summarises — and nothing else.
+
+| Item | Effect |
+|---|---|
+| `L-001` … `L-013`, `L-015` … `L-027` | untouched; `OPEN` exactly as recorded |
+| `L-014` | untouched; `RESOLVED` as recorded by §9 (IID-5 implementation) |
+| `L-028`, `L-029` | untouched; IID-6 renders them honestly |
+| R-16 sector coverage | unchanged: 3 of 13 sectors (`L-001`); no expansion began |
+| Production / admission / release | no claim |
+
+**The two verification points raised in §11, now resolved:**
+
+- **AC-X2 — `OPEN` in §11, now `PASS` on runtime evidence.** A complete assess → persist → read cycle, run under
+  instrumentation in both the test suite and two plain Node processes, opened **no connection to a non-loopback
+  destination** and created **no new socket descriptor**, while doing the cycle's real work. A negative control proves
+  the instrument registers what it claims. The limitation entries do not move: this closes a verification gate, not a
+  limitation, and `L-004` (synthetic dataset) and `L-009` (no real issuer) are untouched by it. See
+  `evidence/iid/IID-AC-X2-ZERO-SOCKET-2026-11-06/AC-X2-RUNTIME-EVIDENCE.md` and closure §6.4.
+- **AC-X6 — qualified in §11, now `PASS` with gap G-8 closed as not a breach.** The 100 KB bound governs committed
+  *fixtures* (design §I.2 rule 3(b)), and `golden-tech.json` is committed *test evidence* (rule 3(c)); every committed
+  fixture is ≤ 42,478 B and the IID fixture corpus is 37,433 B. See
+  `evidence/iid/IID-AC-X2-ZERO-SOCKET-2026-11-06/AC-X6-G8-DETERMINATION.md` and closure §7a.
+- **AC-X1 remains a qualified PASS** (Q-1…Q-4, `iips-platform` by referenced prior evidence with no single `npm test` run
+  at an IID head). AC-2.6, AC-2.9 and AC-4.7 remain qualified. Nothing above promotes them.
+
+The authoritative closure record is `docs/integration/IIPS_V3_IID_FORMAL_CLOSURE_2026-11-06.md`; the phase evidence index
+is `evidence/iid/README.md`; the roadmap overlay for this work item is §B.Q.
