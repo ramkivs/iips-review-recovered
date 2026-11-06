@@ -1,0 +1,155 @@
+{
+  "date": "2026-11-06",
+  "fixtureClass": "SYNTHETIC_DISPOSABLE_ONLY",
+  "host": {
+    "os": "Linux",
+    "node": "22.22.3",
+    "npm": "10.9.8"
+  },
+  "ipdBaseline": "07e86a4f2c105651f3097a96cb519f8611945e30",
+  "irrAuthorityMerge": "85a348f59686e7fecfe6afe389dd6456049c2137",
+  "authorityReceipt": "https://github.com/ramkivs/iips-review-recovered/pull/477#issuecomment-6676618817",
+  "contract": "2.0.0 / frame v=2",
+  "revisionCap": 4,
+  "typecheck": "PASS npx tsc --noEmit",
+  "isolatedTests": {
+    "executed": 9,
+    "pass": 9,
+    "fail": 0
+  },
+  "relevantRegressions": {
+    "executed": 123,
+    "pass": 123,
+    "fail": 0
+  },
+  "initialRaceDiagnostic": "initial-race-diagnostic.tap retains initial assertion failure; no product defect suppressed; safe busy or stale refusal accepted with exactly one commit",
+  "qualification": "NOT QUALIFIED; bounded synthetic engineering only",
+  "W1": false,
+  "D06": "NOT ADMITTED",
+  "operationalDatabaseAccess": false,
+  "productionActivation": false,
+  "H01-H12": [
+    {
+      "id": "H01",
+      "isolatedStatus": "PASS",
+      "actual": "typecheck; unchanged connection/migrations/provisioning/guard/package/workflow source audit",
+      "artifact": "isolated-tests.tap",
+      "qualificationStatus": "BLOCKED_NOT_QUALIFIED",
+      "remaining": "Native Windows/operator host and consumed inventory qualification absent"
+    },
+    {
+      "id": "H02",
+      "isolatedStatus": "PASS",
+      "actual": "V2-C03/C04; existing g3_binding_resolution: fresh canonical binding, membership mismatch, revoked/foreign/missing identity and recursive C7 zero bytes; storage uniqueness",
+      "artifact": "isolated-tests.tap; relevant-regressions.tap",
+      "qualificationStatus": "BLOCKED_NOT_QUALIFIED",
+      "remaining": "Native host binding/security acceptance not performed"
+    },
+    {
+      "id": "H03",
+      "isolatedStatus": "PASS",
+      "actual": "V2-C01/R03: empty UUID INITIAL then nonempty snapshot/contribution and separate-process pre/post-commit exit/reopen",
+      "artifact": "isolated-tests.tap",
+      "qualificationStatus": "BLOCKED_NOT_QUALIFIED",
+      "remaining": "Actual operator-host restart/durability qualification absent"
+    },
+    {
+      "id": "H04",
+      "isolatedStatus": "PASS",
+      "actual": "V2-C02: numeric/evidence/forged identity and unresolved whole-import zero-delta refusal; existing broker identity regressions",
+      "artifact": "isolated-tests.tap; relevant-regressions.tap",
+      "qualificationStatus": "BLOCKED_NOT_QUALIFIED",
+      "remaining": "Genuine detailed broker exports/A5-A6-A7 unresolved; synthetic data is not real holdings qualification"
+    },
+    {
+      "id": "H05",
+      "isolatedStatus": "PASS",
+      "actual": "V2-C01/C03/R04: duplicate/stale ordering, revoked owner, busy no retry and two independent SQLite processes race; exactly one commit",
+      "artifact": "isolated-tests.tap",
+      "qualificationStatus": "BLOCKED_NOT_QUALIFIED",
+      "remaining": "Native host contention and serialized operational revocation qualification absent"
+    },
+    {
+      "id": "H06",
+      "isolatedStatus": "PASS",
+      "actual": "V2-R01/R02/R03/R05: mutation rollback, commit-ack uncertainty, settled exact readback, process exit and migration/integrity tamper rejection",
+      "artifact": "isolated-tests.tap",
+      "qualificationStatus": "BLOCKED_NOT_QUALIFIED",
+      "remaining": "Actual power-loss/OS failure and operator startup/restore acceptance absent; no fsync/power-loss guarantee"
+    },
+    {
+      "id": "H07",
+      "isolatedStatus": "PASS",
+      "actual": "V2-C01/C02/C04: prior digest no-op before cap with exact zero delta; whole snapshots, no mode activation; all IPC writes refused",
+      "artifact": "isolated-tests.tap",
+      "qualificationStatus": "BLOCKED_NOT_QUALIFIED",
+      "remaining": "Paired consumer/host acceptance absent"
+    },
+    {
+      "id": "H08",
+      "isolatedStatus": "PASS",
+      "actual": "V2-C01/C02: INITIAL counts as 1, immutable revisions 1-4, duplicate at 4 no-op, fresh at 4 rejected, unsafe/noninteger expected revision refused",
+      "artifact": "isolated-tests.tap",
+      "qualificationStatus": "BLOCKED_NOT_QUALIFIED",
+      "remaining": "Latest cap FOUR supersedes historical beyond-four-success definitions; accepted host lifecycle evidence absent"
+    },
+    {
+      "id": "H09",
+      "isolatedStatus": "PASS",
+      "actual": "V2-R05: closed DELETE-journal exclusive copy/SHA256/new-path restore/domain equality, SQLite/FK/checksum checks, collision/hash tamper/revoked owner refusal",
+      "artifact": "isolated-tests.tap",
+      "qualificationStatus": "BLOCKED_NOT_QUALIFIED",
+      "remaining": "Actual operational backup locations, native host restore and authorized recovery qualification absent"
+    },
+    {
+      "id": "H10",
+      "isolatedStatus": "BLOCKED",
+      "actual": "V2-C01/C04/R02: minimal post-COMMIT receipt, nonempty nullable ten-field contribution readback, detail durability absence, UNKNOWN settlement verified in synthetic service/socket",
+      "artifact": "isolated-tests.tap",
+      "qualificationStatus": "BLOCKED_NOT_QUALIFIED",
+      "remaining": "Browser and paired IRR v2 implementation prohibited in this scope; current consumer remains v1; no consumer rollout or full UI conformance claim"
+    },
+    {
+      "id": "H11",
+      "isolatedStatus": "BLOCKED",
+      "actual": "No QE/native-Windows/production-admission test executed; synthetic tests do not substitute",
+      "artifact": "results.json",
+      "qualificationStatus": "BLOCKED_NOT_QUALIFIED",
+      "remaining": "Governing QE 0/11/Gate C-U4 NOT RENDERED; D06 NOT ADMITTED and separate acceptance required"
+    },
+    {
+      "id": "H12",
+      "isolatedStatus": "PASS",
+      "actual": "V2-C04 plus 123 relevant regressions and exact five-source-file scope audit; unchanged hard-false guard and write refusal, no operational access",
+      "artifact": "isolated-tests.tap; relevant-regressions.tap",
+      "qualificationStatus": "BLOCKED_NOT_QUALIFIED",
+      "remaining": "Separate qualification/result acceptance not inferred; IRR source/pins untouched"
+    }
+  ],
+  "sourceTestSha256": {
+    "src/ipc/protocol.ts": "c322d68a6335eac348f14b4f2ce317ca86c026388f80dc5adad6c85468c084c5",
+    "src/ipc/dispatch.ts": "5fcde2d873fdae22a89979b6495e8d52081fe5f99efc9d777d8d9cda3702180a",
+    "src/persistence/binding.ts": "4257077c4e75be6ebcf10dd30415be9d163614550660f0fcd1974c28e2533987",
+    "src/persistence/portfolio_store.ts": "16a42dba139c171c1889c2c6e84cc45c41e5a42b483508d8b49e73fa0f4d2d4c",
+    "src/persistence/brokerImportPersistence.ts": "fe1eaf9d9f228ccc3aad0abb70427729c312dda5a20d220459fad2331bcc54ee",
+    "tests/durable_holdings_contract_v1.test.ts": "e2f8110aae0e8bf1263ce20e824626c113d064f577b8f483900d4886e4d80744",
+    "tests/durable_holdings_recovery_v1.test.ts": "779926314053f20b431ae6babb9ee2b7585913b46e399295e931f429b1843dfc"
+  },
+  "protectedSha256": {
+    "src/persistence/connection.ts": "51beab4e7b06ce4c44043ca04d678c4b193dd43fe3a0e53e895e481365e38a67",
+    "src/persistence/migration_ledger.ts": "c4b702401c2ecdf23bcd13bf4431eee2a1d550a0e3b5999065df1ad9b6cf33f4",
+    "src/persistence/provisioning.ts": "7f04f86a9c23bd0c94def29d829bb0c54033bed941a8c77e35365c30bdbdba30",
+    "package.json": "15a7a90faef2f1ba0305505bd64679e6f862b21a2f00265a6d32823b4f8d0a20",
+    "package-lock.json": "c77775af60ad24bbbd55df024bb92cbcf0f8b3c2bf14f938a5910d2264b216eb",
+    ".github/workflows/ci.yml": "a2dba24f47aaead2b6b5c235ae9f33dc8a98641a5bcd1d5080bb3e202d724f86",
+    "src/persistence/migrations/001_initial_schema.ts": "6aaff75c60053feed639617f42025ef8d58e5a8c8f7d987dd1804e0e2bdab4d3",
+    "src/persistence/migrations/002_audit_event_sequence.ts": "bac1fa890eb460c76e380f5e1d4e19067a5b48a9f2b002ca7449d9da484f6056",
+    "src/persistence/migrations/003_local_principal_bindings.ts": "30b5eab65f24267e9b7f9992fc5a7fe2978f613a979f033265a228831656df28",
+    "src/persistence/migrations/004_portfolio_contribution_provenance.ts": "12f32e51a4b7c350ac125b473f7a7b07f4cc7be33f17c6c4e7da39ed0eaafe6a"
+  },
+  "artifactSha256": {
+    "isolated-tests.tap": "1b35e31eb9ad3460087fc93e7ef8ef77beeaa2d308f61360cf78b838eb77748b",
+    "relevant-regressions.tap": "5e80879ed362fbc3244ebebbc9d36c29471e9119b2eb954ad2184303f3377d27",
+    "initial-race-diagnostic.tap": "ae3158d226e27240f53a14ecb020abd96dbea4e184ad20808bb0dba59600a06d"
+  }
+}
