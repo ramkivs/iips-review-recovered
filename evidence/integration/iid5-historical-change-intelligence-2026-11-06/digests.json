@@ -2,6 +2,8 @@
   "recordId": "IIPS-V3-IID5-HISTORICAL-CHANGE-INTELLIGENCE",
   "date": "2026-11-06",
   "startingCommit": "ffb80ce",
+  "auditedAgainst": "IIPS_V3_IID_L014_SUBSTANTIVE_IDENTITY_DECISION_2026-11-06.md §3.2–§3.8, §5, §8.2",
+  "generatedBy": "server/investment/evidence-probe.test.ts (a run, not a transcription); the probe was deleted after this file was written",
   "grammars": {
     "assessment": "assessment-substantive-identity/1",
     "disposition": "disposition-substantive-identity/1",
@@ -11,46 +13,175 @@
   },
   "exclusions": {
     "assessment": [
-      "artifact.generatedAt",
-      "asOf.generatedAt",
-      "asOf.stalenessDays",
-      "subject.identity.bindingRef"
+      [
+        "artifact",
+        "generatedAt"
+      ],
+      [
+        "asOf",
+        "generatedAt"
+      ],
+      [
+        "asOf",
+        "stalenessDays"
+      ],
+      [
+        "subject",
+        "identity",
+        "bindingRef"
+      ]
     ],
     "disposition": [
-      "artifact.generatedAt",
-      "companyAssessmentRef.generatedAt",
-      "review.nextReviewOn (only when null)"
+      [
+        "artifact",
+        "generatedAt"
+      ],
+      [
+        "companyAssessmentRef",
+        "generatedAt"
+      ],
+      [
+        "review",
+        "nextReviewOn",
+        null
+      ]
+    ],
+    "note": "disposition excludes `review.nextReviewOn` WHEN NON-NULL (decision §3.4). A null is retained, so a null and an absent member are different facts; substantive-identity.test.ts asserts that asymmetry so it cannot be \"fixed\" silently."
+  },
+  "decisionVectorConformance": {
+    "assessmentPayloadDigests": "5/5 reproduce the decision §5.1 exactly (C1 356614f3…, C2 bdf0e7d1…, C3 9f0719e6…, C4 90b7ae56…, C5 027a5d80…)",
+    "assessmentSubstantiveDigests": "5/5 reproduce the decision §5.1 exactly (C1/C2/C3 08ea8d4a…, C4 fd9589e4…, C5 34240407…)",
+    "engineInputDigests": "3/3 reproduce the decision §5.1 text (C1 sha256:c74226fe…, C2 sha256:1a5ae081…, C3 sha256:fd5173c3…)",
+    "dispositionVectors": "NOT reproducible from this repository's fixture — see dispositionFixtureNote"
+  },
+  "dispositionFixtureNote": "Decision §5.2 publishes a D0 disposition fixture (payloadDigest c79cd8cc…, substantiveDigest 126bd28f…). This repository's M1 held fixture produces e7d8df04… / 5827369f… instead. Both readings of the nextReviewOn rule (exclude when non-null, exclude always) were executed against the fixture and NEITHER reproduces 126bd28f…, so the difference is fixture construction (the decision does not publish the disposition payload it hashed), not the grammar: the same code path reproduces all five assessment vectors byte-for-byte. AC-L14.7 therefore asserts the value this repository produces, and the record says so rather than quoting a number no run can obtain.",
+  "referenceDigests": {
+    "C1_assessment_m1_baseline": "08ea8d4ae1732b5a23de17017aad07cd006ba4d8dcf9f4abc032d016ee3f10e1",
+    "C2_assessment_m1_same_day": "08ea8d4ae1732b5a23de17017aad07cd006ba4d8dcf9f4abc032d016ee3f10e1",
+    "C3_assessment_m1_next_day": "08ea8d4ae1732b5a23de17017aad07cd006ba4d8dcf9f4abc032d016ee3f10e1",
+    "C4_assessment_m1_inside_window": "fd9589e43b33aa07a38f0c0f0a144d1450519b586d17810b64453bcba7b6816c",
+    "C5_assessment_m1_dataset_v2": "34240407c627d631e2166d0ce4c209d7ee119a17e9593d3b62cc54afdf1a5346",
+    "assessment_input_v1": "bea2c9b878f339ea87bef259cac6ae6f816dfbd181b28d910add354d1d384460",
+    "assessment_input_v2": "e2f4af330b5c9e8b25ee72323ac31f44562825df14495536c5ed83996f843039",
+    "disposition_m1_held": "5827369fb952c65270dfb0b8b79862ae1ca327a0cae827d04439ac3a471ed5d1",
+    "disposition_m1_held_input": "ce61a6a4c70e9a7dd4a4a75b1df8c3c7451810ce55bd0044e98eb80837ae280c"
+  },
+  "byteDigests": {
+    "C1": "356614f37ba607ceff82024bc871dbdf04349140619fd1ca47474fc9a79d8210",
+    "C2": "bdf0e7d18721f818c8968d173b2772e95894779d2f1e3a9850aba563f472101d",
+    "C3": "9f0719e6f9b6cb974a64e3cc0fee6f1474f55fe3534506b21443f67289cf1dab",
+    "C4": "90b7ae562e8be56ed663c758b635e1989cd788e497599724ff177463af2e2681",
+    "C5": "027a5d80e549b347562b03999a14062addd142eba2e4ddd586b67ea977d625a5",
+    "disposition_at_0600": "e7d8df0454b8958bdaaba8021d9df2170ef1e929239340ee26b9e543df35574b",
+    "disposition_at_0900": "107bba6812af1d7e4e2bf6dc4861552b666d54014a8c865fe817adf812f9d73f",
+    "disposition_at_m1_now": "0cf6a69d3aac2ed0351c39d31ade8594db80d0ada22513714a5bc10be721679a"
+  },
+  "reportKeys": {
+    "assessment": "fcf992e0a1316001059cac7caa21335938f2b63b25c986dfb7c50e8cfc376d2f",
+    "note": "identical in every clock row; chain identity is untouched by L-014"
+  },
+  "observedFacts": {
+    "stalenessDays": {
+      "C1": 220,
+      "C3": 221
+    },
+    "staleBeyondPolicy": {
+      "C4": false,
+      "C1": true
+    },
+    "qualityVerdict": {
+      "C4": "CLEAN",
+      "C1": "MATERIAL_CONCERNS"
+    },
+    "confidence": {
+      "C4": 0.8371,
+      "C1": 0.674
+    },
+    "dispositionNextReviewOn": null
+  },
+  "dispositionVariants": {
+    "held_with_portfolio_facts": "5827369fb952c65270dfb0b8b79862ae1ca327a0cae827d04439ac3a471ed5d1",
+    "held_without_portfolio_facts": "572739464797edd42dbf531a250c49888b62ff8e4545530b9e3fa0d564c762a9",
+    "candidate": "687f54f5b0b0d6d6fae5a80f376c0c105d8025e9766b5daca4a32287c8456783",
+    "note": "the clock varies across at0600/at0900/atM1Now while the substantive digest does not"
+  },
+  "freshnessTransitionC4toC1": {
+    "classification": "FRESHNESS_TRANSITION",
+    "items": [
+      {
+        "dimensionId": "quality.verdict",
+        "category": "RISK_QUALITY",
+        "materiality": "MATERIAL",
+        "direction": "WORSENED"
+      },
+      {
+        "dimensionId": "quality.flags",
+        "category": "RISK_QUALITY",
+        "materiality": "MATERIAL",
+        "direction": "WORSENED"
+      },
+      {
+        "dimensionId": "confidence.combined",
+        "category": "RISK_QUALITY",
+        "materiality": "CRITICAL",
+        "direction": "WORSENED"
+      },
+      {
+        "dimensionId": "asOf.staleBeyondPolicy",
+        "category": "RISK_QUALITY",
+        "materiality": "MATERIAL",
+        "direction": "WORSENED"
+      }
+    ],
+    "byCategory": {
+      "FUNDAMENTAL": 0,
+      "MARKET_VALUATION": 0,
+      "RISK_QUALITY": 4,
+      "DISPOSITION": 0,
+      "PORTFOLIO": 0,
+      "DATA_CORRECTION_RESTATEMENT": 0,
+      "MODEL": 0,
+      "IDENTITY_MAPPING": 0
+    },
+    "byMateriality": {
+      "IMMATERIAL": 0,
+      "NOTABLE": 0,
+      "MATERIAL": 3,
+      "CRITICAL": 1
+    },
+    "highestMateriality": "CRITICAL",
+    "reviewRequired": true,
+    "reviewPriority": "HIGH",
+    "reviewFiredTriggers": [
+      "FRESHNESS_TRANSITION",
+      "MATERIAL_CHANGE"
     ]
   },
-  "referenceDigests": {
-    "note": "C1/C4/C5 are the L-014 decision's published reference digests and are asserted as constants in substantive-identity.test.ts. 'derived' values are the two input identities IID-5 records in provenance.",
-    "C1_assessment_m1_baseline": "08ea8d4ae1732b5a23de17017aad07cd006ba4d8dcf9f4abc032d016ee3f10e1",
-    "C4_assessment_m1_later_clock": "08ea8d4ae1732b5a23de17017aad07cd006ba4d8dcf9f4abc032d016ee3f10e1",
-    "C5_assessment_m1_dataset_v2": "34240407c627d631e2166d0ce4c209d7ee119a17e9593d3b62cc54afdf1a5346",
-    "derived_assessment_input_baseline": "bea2c9b878f339ea87bef259cac6ae6f816dfbd181b28d910add354d1d384460",
-    "derived_assessment_input_dataset_v2": "e2f4af330b5c9e8b25ee72323ac31f44562825df14495536c5ed83996f843039",
-    "disposition_m1_held": "1bfae1598c3b6962213a37b61f11bc54a32ced392b42a85ba0e33461c119a452",
-    "derived_disposition_input": "ce61a6a4c70e9a7dd4a4a75b1df8c3c7451810ce55bd0044e98eb80837ae280c",
-    "byteDigest_assessment_m1_baseline_for_comparison": "356614f37ba607ceff82024bc871dbdf04349140619fd1ca47474fc9a79d8210"
-  },
   "behaviourProved": {
-    "clockOnlyRerun": "CLOCK_ONLY_UNCHANGED (wrote=false, versionCount unchanged)",
+    "clockOnlyRerun": "CLOCK_ONLY_UNCHANGED (wrote=false, versionCount unchanged), with observedGeneratedAt, unpersistedPayloadDigest and headPayloadDigest on the run result",
     "substantiveChange": "APPENDED to the same chain, same reportKey",
     "serialisationOnly": "zero items, GENERATION_METADATA_ONLY",
-    "freshnessCrossing": "FRESHNESS_TRANSITION, MATERIAL, WORSENED",
+    "freshnessCrossing": "FRESHNESS_TRANSITION, all four items RISK_QUALITY, highest CRITICAL, review required at HIGH",
     "attributionSameModel": "EXACT / DATA, modelEffect 0, additivityResidual 0",
     "attributionDifferentModel": "UNAVAILABLE / UNATTRIBUTED, no estimated leg",
     "legacyVersion": "DERIVED, stored row still contains no substantive digest",
     "tamperedBytes": "read and comparison both refuse (CONTENT_DIGEST_MISMATCH)",
-    "boundaryReport": "deterministic; second write is UNCHANGED with the same report id"
+    "boundaryReport": "deterministic; second write is UNCHANGED with the same report id",
+    "qu1Resolution": "the clock-only outcome is observable on the RUN RESULT only — no run ledger, because a ledger would be a new persisted artifact kind, which decision §9 R-1 does not authorise"
   },
   "testCounts": {
-    "substantive-identity": 24,
+    "substantive-identity": 25,
+    "ac-l14": 7,
     "change/comparison": 30,
     "change/store": 13,
     "change/transport": 10,
-    "iid5Total": 77,
-    "investmentServerTotal": 189,
-    "investmentServerFiles": 13
+    "iid5Total": 85,
+    "investmentServerTotal": 197,
+    "investmentServerFiles": 14
+  },
+  "dispositionDigestMovement": {
+    "substantive": "changed 1bfae159… → 5827369f… because §13.2 retains a null `review.nextReviewOn` (the M1 fixture has no scheduled review); the member is inside the projection either way",
+    "input": "unchanged (ce61a6a4…) — the O-5 provenance members added in §13.1 are provenance, not payload, so they do not enter the payload projection",
+    "note": "the recorded value below is read back from a disposition written through DispositionRecordsService.record, not computed from a bare payload"
   }
 }

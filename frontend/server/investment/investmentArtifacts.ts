@@ -203,6 +203,18 @@ export interface RecordResult {
   readonly substantiveDigest?: string | null;
   /** For `CLOCK_ONLY_UNCHANGED`: the payload bytes that were NOT written, because only metadata moved. */
   readonly unpersistedPayloadDigest?: string;
+  /**
+   * For `CLOCK_ONLY_UNCHANGED`: THIS run's execution clock.
+   *
+   * Decision Q-1 asked whether the clock-only outcome should be observable across the run history or only on the
+   * run result. It is answered here — run result only, because a run ledger would be a new persisted artifact
+   * kind, which the decision does not authorise. The result therefore carries everything a scheduler or audit
+   * needs to log the run itself: the clock that moved, both byte digests, and the substantive digest (identical on
+   * both sides by construction).
+   */
+  readonly observedGeneratedAt?: string;
+  /** For `CLOCK_ONLY_UNCHANGED`: the head's byte digest, so the pair is nameable without re-reading the chain. */
+  readonly headPayloadDigest?: string;
   readonly reportType: string;
   readonly scopeToken: string;
   readonly reportKey: string;
@@ -622,7 +634,13 @@ export class InvestmentArtifactService {
         ...(outcome === 'INPUT_CHANGED_CONTENT_IDENTICAL'
           ? { unpersistedInputDigest: submission.inputDigest }
           : {}),
-        ...(outcome === 'CLOCK_ONLY_UNCHANGED' ? { unpersistedPayloadDigest: submission.payloadDigest } : {}),
+        ...(outcome === 'CLOCK_ONLY_UNCHANGED'
+          ? {
+              unpersistedPayloadDigest: submission.payloadDigest,
+              observedGeneratedAt: submission.content.generatedAt,
+              headPayloadDigest: headView.payloadDigest,
+            }
+          : {}),
       };
     }
 

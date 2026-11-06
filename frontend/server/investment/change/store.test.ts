@@ -39,6 +39,7 @@ import {
   substantiveDigestOfPayload,
 } from '../substantiveIdentity';
 import { createChangeService, type ChangeService } from '../changeService';
+import { assessmentSubstantiveIdentity } from '../substantiveIdentity';
 import { buildPayload, assessmentPayloadOf } from '../dispositionTestFixtures';
 import { M1_NOW, assembleAssessment, prepareM1Environment } from '../demo/m1Pipeline';
 import { CHANGE_REPORT_TYPE } from '../changeComposition';
@@ -477,10 +478,13 @@ describe('dispositions are compared on their own grammar', () => {
 
       const first = withVerb('RETAIN', '2026-11-01T00:00:00.000Z');
       // Compose through the disposition composer: it owns the contract and derives the scope token.
+      const assessmentIdentity = assessmentSubstantiveIdentity(BASE_PAYLOAD);
       const composedFirst = composeDispositionArtifact({
         payload: first as never,
         inputDigest: `sha256:${'c'.repeat(64)}`,
         generatedAt: '2026-11-01T00:00:00.000Z',
+        assessmentSubstantiveDigest: assessmentIdentity.substantiveDigest,
+        assessmentSubstantiveInputDigest: assessmentIdentity.substantiveInputDigest,
       });
       expect(composedFirst.reportType).toBe(DISPOSITION);
       dispositionScope = composedFirst.scopeToken;
@@ -493,6 +497,8 @@ describe('dispositions are compared on their own grammar', () => {
         payload: withVerb('RETAIN', '2027-01-01T00:00:00.000Z') as never,
         inputDigest: `sha256:${'c'.repeat(64)}`,
         generatedAt: '2027-01-01T00:00:00.000Z',
+        assessmentSubstantiveDigest: assessmentIdentity.substantiveDigest,
+        assessmentSubstantiveInputDigest: assessmentIdentity.substantiveInputDigest,
       });
       const rerun = artifacts.recordDisposition(clockOnly);
       expect(rerun.outcome).toBe('CLOCK_ONLY_UNCHANGED');
@@ -503,6 +509,8 @@ describe('dispositions are compared on their own grammar', () => {
         payload: withVerb('AVOID', '2027-02-01T00:00:00.000Z') as never,
         inputDigest: `sha256:${'c'.repeat(64)}`,
         generatedAt: '2027-02-01T00:00:00.000Z',
+        assessmentSubstantiveDigest: assessmentIdentity.substantiveDigest,
+        assessmentSubstantiveInputDigest: assessmentIdentity.substantiveInputDigest,
       });
       const appended = artifacts.recordDisposition(changed);
       expect(appended.outcome).toBe('APPENDED');

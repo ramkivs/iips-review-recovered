@@ -110,10 +110,14 @@ function deleteMember(target: unknown, path: MemberPath): void {
     if (node === null || typeof node !== 'object' || Array.isArray(node)) return;
     const record = node as Record<string, unknown>;
     if (index === segments.length - 1) {
-      // A conditional exclusion drops the member ONLY when it carries the sentinel value: `nextReviewOn: null`
-      // means "no review scheduled", which is metadata, while a real date is a semantic commitment that must
-      // stay inside identity. Deleting unconditionally would make a scheduled review look unscheduled.
-      if (conditional && record[key] !== null && record[key] !== undefined) return;
+      // A conditional exclusion applies to the member's VALUE, exactly as the grammar's table states
+      // ("`review.nextReviewOn` — when non-null"): a scheduled review date is `f(t_exec, horizon)`, so it is
+      // clock-derived metadata and is deleted; a `null` carries no information and is retained as a null.
+      //
+      // This asymmetry is the decision's, not an optimisation. The alternative — deleting the member in every
+      // form — would widen the closed exclusion list beyond §3.4 and change every stored disposition's
+      // substantive digest, which is exactly what the register forbids.
+      if (conditional && (record[key] === null || record[key] === undefined)) return;
       delete record[key];
       return;
     }
@@ -186,6 +190,26 @@ function optionalString(value: unknown, field: string): string {
   if (value === null || value === undefined) return '';
   if (typeof value !== 'string') throw new ReportValidationError(`${field} must be a string`, { field });
   return value;
+}
+
+/**
+ * The assessment's substantive identity, as a caller needs it to cite in a disposition (O-5).
+ *
+ * One function so a call site cannot pair a digest with the wrong grammar or forget the input identity: the three
+ * values are always produced together, from the same payload.
+ */
+export function assessmentSubstantiveIdentity(payload: unknown): {
+  readonly substantiveDigest: string;
+  readonly substantiveInputDigest: string;
+  readonly substantiveIdentityGrammar: string;
+  readonly substantiveIdentityPolicy: string;
+} {
+  return {
+    substantiveDigest: substantiveDigestOfPayload('investment.company-assessment', payload),
+    substantiveInputDigest: assessmentSubstantiveInputDigest(payload),
+    substantiveIdentityGrammar: ASSESSMENT_SUBSTANTIVE_GRAMMAR,
+    substantiveIdentityPolicy: SUBSTANTIVE_IDENTITY_POLICY,
+  };
 }
 
 /**

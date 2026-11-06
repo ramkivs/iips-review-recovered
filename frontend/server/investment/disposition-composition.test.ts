@@ -25,6 +25,7 @@ import {
   heldSubjectOf,
 } from './dispositionTestFixtures';
 import { M1_ISSUER_ID } from './demo/m1Data';
+import { assessmentSubstantiveIdentity } from './substantiveIdentity';
 import { M1_NOW, assembleAssessment, prepareM1Environment } from './demo/m1Pipeline';
 
 const env = prepareM1Environment();
@@ -55,6 +56,12 @@ const candidatePayload = buildPayload({
   portfolioFacts: { present: true, weightPct: 0, companyExposurePct: 0, sectorExposurePct: 40, topHoldingWeightPct: 40 },
 });
 
+/**
+ * IID-5 / O-5: every composition now cites the assessment's substantive identity. The test derives it from the
+ * same assessment payload the fixture was built from, so a hand-written digest cannot drift from the grammar.
+ */
+const ASSESSMENT_SUBSTANTIVE = assessmentSubstantiveIdentity(ASSESSMENT);
+
 function compose(payload = heldPayload, generatedAt = M1_NOW) {
   const inputDigestValue = dispositionInputDigest(
     dispositionInputMembers({
@@ -63,7 +70,14 @@ function compose(payload = heldPayload, generatedAt = M1_NOW) {
       assessmentInputDigest: v1.composed.inputDigest,
     }),
   );
-  return composeDispositionArtifact({ payload, inputDigest: inputDigestValue, generatedAt, datasetClass: 'SYNTHETIC_REFERENCE' });
+  return composeDispositionArtifact({
+    payload,
+    inputDigest: inputDigestValue,
+    generatedAt,
+    datasetClass: 'SYNTHETIC_REFERENCE',
+    assessmentSubstantiveDigest: ASSESSMENT_SUBSTANTIVE.substantiveDigest,
+    assessmentSubstantiveInputDigest: ASSESSMENT_SUBSTANTIVE.substantiveInputDigest,
+  });
 }
 
 describe('chain scope (AC-4.3)', () => {
@@ -104,6 +118,8 @@ describe('chain scope (AC-4.3)', () => {
         inputDigest: inputDigestValue,
         generatedAt: M1_NOW,
         scopeToken: `hc:${PORTFOLIO_ID}/${SECURITY_ID}`,
+        assessmentSubstantiveDigest: ASSESSMENT_SUBSTANTIVE.substantiveDigest,
+        assessmentSubstantiveInputDigest: ASSESSMENT_SUBSTANTIVE.substantiveInputDigest,
       }),
     ).toThrow(/does not name the payload subject/);
   });
@@ -170,6 +186,8 @@ describe('refusals', () => {
         payload: { artifact: { kind: 'CompanyAssessment' } } as never,
         inputDigest: 'a'.repeat(64),
         generatedAt: M1_NOW,
+        assessmentSubstantiveDigest: ASSESSMENT_SUBSTANTIVE.substantiveDigest,
+        assessmentSubstantiveInputDigest: ASSESSMENT_SUBSTANTIVE.substantiveInputDigest,
       }),
     ).toThrow(/not a HoldingDisposition/);
   });
@@ -180,20 +198,38 @@ describe('refusals', () => {
       interpretation: { ...heldPayload.interpretation, noExecutionPath: false as never },
     };
     expect(() =>
-      composeDispositionArtifact({ payload: stripped, inputDigest: 'a'.repeat(64), generatedAt: M1_NOW }),
+      composeDispositionArtifact({
+        payload: stripped,
+        inputDigest: 'a'.repeat(64),
+        generatedAt: M1_NOW,
+        assessmentSubstantiveDigest: ASSESSMENT_SUBSTANTIVE.substantiveDigest,
+        assessmentSubstantiveInputDigest: ASSESSMENT_SUBSTANTIVE.substantiveInputDigest,
+      }),
     ).toThrow(/no-execution-path/);
   });
 
   it('refuses a candidate whose quantities are not NOT_APPLICABLE', () => {
     const forged = { ...candidatePayload, subject: { ...candidatePayload.subject, quantities: 0 } };
     expect(() =>
-      composeDispositionArtifact({ payload: forged as never, inputDigest: 'a'.repeat(64), generatedAt: M1_NOW }),
+      composeDispositionArtifact({
+        payload: forged as never,
+        inputDigest: 'a'.repeat(64),
+        generatedAt: M1_NOW,
+        assessmentSubstantiveDigest: ASSESSMENT_SUBSTANTIVE.substantiveDigest,
+        assessmentSubstantiveInputDigest: ASSESSMENT_SUBSTANTIVE.substantiveInputDigest,
+      }),
     ).toThrow(/NOT_APPLICABLE/);
   });
 
   it('refuses a malformed input digest', () => {
     expect(() =>
-      composeDispositionArtifact({ payload: heldPayload, inputDigest: 'not-a-digest', generatedAt: M1_NOW }),
+      composeDispositionArtifact({
+        payload: heldPayload,
+        inputDigest: 'not-a-digest',
+        generatedAt: M1_NOW,
+        assessmentSubstantiveDigest: ASSESSMENT_SUBSTANTIVE.substantiveDigest,
+        assessmentSubstantiveInputDigest: ASSESSMENT_SUBSTANTIVE.substantiveInputDigest,
+      }),
     ).toThrow(/SHA-256 digest/);
   });
 });
