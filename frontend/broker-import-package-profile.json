@@ -13,19 +13,19 @@
     "`.d.ts` artifacts. Advancing the alias to the PR #127 merge commit therefore requires IRR to",
     "consume the published build output instead of raw sources. That is an IRR-owned build-input",
     "change; it does not move identity resolution, quarantine or persistence out of IPD.",
-    "The alias is now advanced to the PR #128 merge commit 07e86a4f2c105651f3097a96cb519f8611945e30;",
-    "the published-output contract and the 18-module / 36-artifact profile are unchanged."
+    "The alias is advanced to IPD PR #131 merge 58fc8fb7f033650f40d61078d70e951f21dd033f (includes #129/#130).",
+    "The published-output contract and 18-module / 36-required-artifact profile remain unchanged."
   ],
   "aliasDependency": "iips-broker-import",
   "aliasRepository": "ramkivs/iips-production-market-data",
-  "aliasCommit": "07e86a4f2c105651f3097a96cb519f8611945e30",
-  "aliasSpecifier": "github:ramkivs/iips-production-market-data#07e86a4f2c105651f3097a96cb519f8611945e30",
+  "aliasCommit": "58fc8fb7f033650f40d61078d70e951f21dd033f",
+  "aliasSpecifier": "github:ramkivs/iips-production-market-data#58fc8fb7f033650f40d61078d70e951f21dd033f",
   "aliasProvenance": {
-    "mergedPullRequest": 128,
-    "mergeCommit": "07e86a4f2c105651f3097a96cb519f8611945e30",
-    "headCommit": "a89c4e06bb6893dc0ecd00bae1bcd41d1b04cac7",
-    "supersededAliasCommit": "7bcae35ad18c43cb67a16f30faa55bbdf0fb33fc",
-    "record": "docs/integration/WS-A-BROKER-IMPORT-PIN-ADVANCE-TO-IPD-PR128-2026-11-05.md"
+    "mergedPullRequest": 131,
+    "mergeCommit": "58fc8fb7f033650f40d61078d70e951f21dd033f",
+    "headCommit": "9e348adbd894c56584ce944d5cfe0964bb1c894e",
+    "supersededAliasCommit": "07e86a4f2c105651f3097a96cb519f8611945e30",
+    "record": "docs/integration/WS-A-BROKER-IMPORT-PIN-ADVANCE-TO-IPD-PR131-2026-11-06.md"
   },
   "installedRoot": "node_modules/iips-broker-import",
   "publishedRoot": "dist/package",
