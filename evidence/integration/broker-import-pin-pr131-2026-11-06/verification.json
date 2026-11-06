@@ -1,0 +1,36 @@
+{
+  "IRRBase": "4fa8f6c7de860df722cdbea3595cbac7a5e75557",
+  "targetIPD": "58fc8fb7f033650f40d61078d70e951f21dd033f",
+  "installedFiles": 152,
+  "freshGitReproductionFiles": 152,
+  "all152FilesByteEqual": true,
+  "materializedFilesByteEqual": true,
+  "requiredModules": 18,
+  "requiredArtifacts": 36,
+  "exportsVerified": 4,
+  "packageJsonMatchesRemote": true,
+  "publicationManifestSha256": "0599d3ba788763ad3fcf434aeeca7f45e7c65ddacaa6a825058db35bc75c7b99",
+  "materializedManifestSha256": "fa5578ddc56e2b743d172f4b33edbc509820632db2262f1b81b14922b3ce6909",
+  "publishedInventorySha256": "dea8c1c68e4be36c6840a188ffdc31ea73171b55c23cdf8be66469e2974ddda9",
+  "archiveSRIClaimed": false,
+  "npmGitIntegrity": "npm records sha512 in the Git lock entry but warns it skips Git integrity checks; fresh-install alias lock entry exactly matches; full publication SHA256 proof used",
+  "installEnvironment": "Node22.22.3/npm10.9.8/Linux; NODE_EXTRA_CA_CERTS local e2b-ca.crt only; no TLS verification disabled or repo/CI config change",
+  "freshGitReproduction": "Separate new npm project installed exact Git commit; upstream prepare lifecycle only,not IPD implementation or test execution",
+  "tests": {
+    "targeted": "44/44 PASS (9 package,21 API,14 UI)",
+    "clientTypecheck": "PASS",
+    "replayServerTypecheck": "PASS",
+    "productionBuild": "PASS",
+    "finalFullSuite": {
+      "numTotalTests": 1839,
+      "numPassedTests": 1838,
+      "numFailedTests": 0,
+      "numPendingTests": 1
+    },
+    "zeroTestFailureGuard": "PASS",
+    "IRRStatic": "PASS"
+  },
+  "operationalActions": [],
+  "freshInstallLockEntryMatches": true,
+  "gitLockIntegrity": "sha512-Kum3z9GOfiXYWH2z5T3vmc0dksLCwfgJBnlh/Z4Q0HLazDovSsgS40FMSc3xNBeJa43vCYwOP+b3ORl05xj31w=="
+}

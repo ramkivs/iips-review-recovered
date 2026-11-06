@@ -10,8 +10,8 @@
  *   1. Use exact 40-hex immutable commit SHAs on `ramkivs/iips-production-market-data` in both
  *      `package.json` and `package-lock.json`: primary
  *      `279d1eed184f5e23bbabe5c6411085e120ce9e41`, and the deliberately distinct DB-C1
- *      broker-import alias `07e86a4f2c105651f3097a96cb519f8611945e30` (the merge commit of IPD
- *      PR #128, advanced from the PR #127 merge commit `7bcae35ad18c43cb67a16f30faa55bbdf0fb33fc`).
+ *      broker-import alias `58fc8fb7f033650f40d61078d70e951f21dd033f` (the merge commit of IPD
+ *      PR #131, includes PRs #129/#130; advanced from #128 `07e86a4f2c105651f3097a96cb519f8611945e30`).
  *   2. Simultaneously expose `./portfolio-ui`, `./pit`, and `./d114-non-production` from the
  *      primary package with built runtime `.js` and declaration `.d.ts` artifacts.
  *   3. Provide all runtime symbols and TypeScript declaration symbols required by IRR's five
@@ -24,7 +24,8 @@
  *      retired, so the alias can never be silently advanced without this guard being updated.
  *   5. Reject any incompatible or floating package pin profile.
  */
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync } from 'node:fs';
+import { createHash } from 'node:crypto';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
@@ -529,5 +530,42 @@ describe('CAP-02 B-1R package consumer & pin compatibility guard', () => {
     });
     expect(missingU7Code.ok).toBe(false);
     expect(missingU7Code.errors).toContain('missing ./portfolio-ui declaration symbol or refusal code: WRITE_NOT_AUTHORIZED');
+  });
+});
+
+
+// Pin-specific bytes independently reproduced by a fresh exact-Git installation.
+// Package consumption integrity only: not qualification or activation of snapshot writes.
+describe('broker-import authoritative publication integrity', () => {
+  it('matches all published/materialized bytes, exports and the inventory digest', () => {
+    const expected = JSON.parse(readFileSync(resolve(frontendRoot, 'broker-import-publication-manifest.json'), 'utf8'));
+    const profile = BROKER_IMPORT_PACKAGE_PROFILE;
+    expect(expected.commit).toBe(profile.aliasCommit);
+    const installed = resolve(frontendRoot, profile.installedRoot);
+    const hash = (bytes: Buffer | string) => createHash('sha256').update(bytes).digest('hex');
+    const packageBytes = readFileSync(resolve(installed, 'package.json'));
+    expect(hash(packageBytes)).toBe(expected.packageJsonSha256);
+    const manifest = JSON.parse(packageBytes.toString('utf8'));
+    expect(manifest.files).toEqual(['dist/package']);
+    expect(manifest.exports).toEqual(expected.exports);
+    for (const entry of Object.values(manifest.exports) as { types: string; import: string }[]) {
+      expect(existsSync(resolve(installed, entry.types))).toBe(true);
+      expect(existsSync(resolve(installed, entry.import))).toBe(true);
+    }
+    const walk = (dir: string, prefix = ''): string[] => readdirSync(dir, { withFileTypes: true }).flatMap(entry => {
+      const name = prefix + entry.name;
+      return entry.isDirectory() ? walk(resolve(dir, entry.name), name + '/') : [name];
+    }).sort();
+    expect(walk(resolve(installed, profile.publishedRoot))).toEqual(expected.files.map((f: {path: string}) => f.path));
+    expect(expected.files).toHaveLength(expected.fileCount);
+    for (const file of expected.files) {
+      const published = readFileSync(resolve(installed, profile.publishedRoot, file.path));
+      const materialized = readFileSync(resolve(frontendRoot, profile.materializedRoot, file.path));
+      expect(published.length).toBe(file.bytes);
+      expect(hash(published)).toBe(file.sha256);
+      expect(materialized.equals(published)).toBe(true);
+    }
+    const canonical = expected.files.map((f: {bytes: number; path: string; sha256: string}) => ({bytes: f.bytes, path: f.path, sha256: f.sha256}));
+    expect(hash(JSON.stringify(canonical))).toBe(expected.publishedInventorySha256);
   });
 });
