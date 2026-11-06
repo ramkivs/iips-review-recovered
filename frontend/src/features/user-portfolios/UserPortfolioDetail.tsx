@@ -130,6 +130,7 @@ export function UserPortfolioDetail() {
   const valuationColumns: readonly Column<UserPortfolioValuationHolding>[] = [
     { key: 'symbol', header: 'Holding', render: (row) => row.symbol },
     { key: 'pricingStatus', header: 'Pricing status', render: (row) => row.pricingStatus },
+    { key: 'identityDisposition', header: 'Quote disposition', render: (row) => row.identityDisposition },
     { key: 'quantity', header: 'Quantity', render: (row) => row.quantity ?? '—' },
     { key: 'currentMarketPrice', header: 'Quote price', render: (row) => row.currentMarketPrice === null ? '—' : formatInr(row.currentMarketPrice) },
     { key: 'marketValue', header: 'Quoted value', render: (row) => row.marketValue === null ? '—' : formatInr(row.marketValue) },

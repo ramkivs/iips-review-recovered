@@ -23,6 +23,12 @@ const VIEW: UserPortfolioView = {
       companyId: 'TCS',
       isin: 'INE467B01029',
       exchange: 'NSE',
+      securityIdentity: {
+        securityId: 'ISIN:INE467B01029:EQ',
+        isin: 'INE467B01029',
+        series: 'EQ',
+        isinAuthority: 'NON_AUTHORITATIVE',
+      },
       quantity: 10,
       averageBuyPrice: 3800,
       currentPrice: 4010.25,
@@ -67,27 +73,27 @@ const VIEW: UserPortfolioView = {
 };
 
 const VALUATION: UserPortfolioValuation = {
-  status: 'NO_HOLDINGS_PRICED',
-  freshness: 'UNAVAILABLE',
+  status: 'PARTIALLY_PRICED',
+  freshness: 'CURRENT',
   coverage: {
     activeHoldingCount: 2,
-    pricedHoldingCount: 0,
-    unpricedHoldingCount: 2,
+    pricedHoldingCount: 1,
+    unpricedHoldingCount: 1,
     staleHoldingCount: 0,
-    unavailableHoldingCount: 0,
-    unresolvedHoldingCount: 2,
+    unavailableHoldingCount: 1,
+    unresolvedHoldingCount: 0,
     inactiveHoldingCount: 0,
   },
   portfolioMarketValue: null,
-  pricedMarketValueSubtotal: null,
-  investedValue: 8400,
+  pricedMarketValueSubtotal: 40102.5,
+  investedValue: 45500,
   unrealizedGainLoss: null,
   unrealizedGainLossPercentage: null,
   provider: {
     transport: 'AVAILABLE',
     qualification: 'SYNTHETIC_ONLY_NOT_LIVE_QUALIFIED',
     liveProviderConnectivity: 'NOT_CHECKED_PRE_ACCESS',
-    disclosure: 'Exact D114 security-series identity is unavailable: persisted G-2 holdings carry no securityId/series and the pinned IPD QuoteRequest cannot carry one. No Dhan quote is requested.',
+    disclosure: 'Quotes are requested only for holdings with an explicit persisted D114 identity; IPD resolves exact identity. This synthetic test does not establish live Dhan connectivity or tradability.',
   },
   holdings: [
     {
@@ -95,32 +101,32 @@ const VALUATION: UserPortfolioValuation = {
       symbol: 'TCS',
       quantity: 10,
       active: true,
-      pricingStatus: 'UNRESOLVED',
-      identityStatus: 'UNRESOLVED',
-      currentMarketPrice: null,
-      marketValue: null,
-      investedValue: 900,
-      unrealizedGainLoss: null,
-      unrealizedGainLossPercentage: null,
-      quoteAsOf: null,
-      reasonCode: 'SERIES_IDENTITY_UNAVAILABLE',
-      reason: 'The persisted holding has no exact D114 securityId/series, and the pinned IPD QuoteRequest cannot carry one. No quote was requested.',
+      pricingStatus: 'CURRENT',
+      identityStatus: 'RESOLVED',
+      identityDisposition: 'QUOTE_ELIGIBLE',
+      currentMarketPrice: 4010.25,
+      marketValue: 40102.5,
+      investedValue: 38000,
+      unrealizedGainLoss: 2102.5,
+      unrealizedGainLossPercentage: 5.532894736842105,
+      quoteAsOf: '2026-11-05T10:15:00.000Z',
     },
     {
       position: 1,
       symbol: 'INFY',
       quantity: 5,
       active: true,
-      pricingStatus: 'UNRESOLVED',
-      identityStatus: 'UNRESOLVED',
+      pricingStatus: 'UNAVAILABLE',
+      identityStatus: 'RESOLVED',
+      identityDisposition: 'NO_QUALIFIED_DHAN_MAPPING',
       currentMarketPrice: null,
       marketValue: null,
       investedValue: 7500,
       unrealizedGainLoss: null,
       unrealizedGainLossPercentage: null,
       quoteAsOf: null,
-      reasonCode: 'IDENTITY_UNRESOLVED',
-      reason: 'A valid persisted ISIN is required.',
+      reasonCode: 'NO_QUALIFIED_DHAN_MAPPING',
+      reason: 'IPD has no active exact qualified Dhan mapping for this canonical security and listing.',
     },
   ],
 };
@@ -167,17 +173,19 @@ describe('User Portfolio detail (G-2 read-only consumer)', () => {
     expect(screen.getByText('holdings.csv')).toBeInTheDocument();
   });
 
-  it('renders the fail-closed series identity result and calls only the same-origin read route', async () => {
+  it('renders partial quote coverage, reason-coded dispositions, and only same-origin read routes', async () => {
     renderDetail();
-    expect(await screen.findByTestId('portfolio-valuation')).toHaveAttribute('data-status', 'NO_HOLDINGS_PRICED');
-    expect(screen.getByTestId('portfolio-valuation-freshness')).toHaveTextContent('freshness unavailable');
-    expect(screen.getByText(/no active holding has a usable quote/i)).toBeInTheDocument();
+    expect(await screen.findByTestId('portfolio-valuation')).toHaveAttribute('data-status', 'PARTIALLY_PRICED');
+    expect(screen.getByTestId('portfolio-valuation-freshness')).toHaveTextContent('1 of 2 active holdings priced');
+    expect(screen.getByText(/subtotal excludes unpriced holdings/i)).toBeInTheDocument();
     expect(screen.getByTestId('portfolio-valuation-provider')).toHaveTextContent('synthetic only not live qualified');
-    expect(screen.getByTestId('portfolio-valuation-provider')).toHaveTextContent('No Dhan quote is requested');
+    expect(screen.getByTestId('portfolio-valuation-provider')).toHaveTextContent('does not establish live Dhan connectivity');
     expect(screen.getByText('Snapshot price')).toBeInTheDocument();
     expect(screen.getByText(/not live market data/i)).toBeInTheDocument();
-    expect(screen.queryByText('SNAPSHOT')).not.toBeInTheDocument();
-    expect(screen.queryByText('2026-11-05T10:15:00.000Z')).not.toBeInTheDocument();
+    expect(screen.getByText('QUOTE_ELIGIBLE')).toBeInTheDocument();
+    expect(screen.getByText('NO_QUALIFIED_DHAN_MAPPING')).toBeInTheDocument();
+    expect(screen.getByText(/IPD has no active exact qualified Dhan mapping/i)).toBeInTheDocument();
+    expect(screen.getByText('2026-11-05T10:15:00.000Z')).toBeInTheDocument();
 
     const call = (globalThis.fetch as unknown as ReturnType<typeof vi.fn>).mock.calls
       .find(([url]) => url === '/api/user-portfolios/pf-alpha/valuation');

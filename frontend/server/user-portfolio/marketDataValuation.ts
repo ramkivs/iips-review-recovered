@@ -3,10 +3,9 @@
  *
  * IRR consumes only IPD's authenticated MarketDataTransportClient. It never
  * constructs provider objects, persists quote results, caches them, or retries.
- * G2HoldingView carries companyId/ISIN/listing/P04 disposition but no D114
- * securityId/series, and the pinned IPD QuoteRequest has no series field. This
- * module therefore refuses all quotes for the current G-2 holding contract;
- * it never treats companyId + ISIN + listing as a series binding.
+ * A holding is quote-requestable only when G-2 returns an explicit, valid,
+ * persisted D114 securityIdentity and P04 identity disposition; IPD then owns
+ * exact P6/P7 company + segment + ISIN + series resolution.
  */
 import {
   MARKET_DATA_TRANSPORT_TOKEN_ENV,
@@ -23,6 +22,14 @@ export const MARKET_DATA_TRANSPORT_URL_ENV = 'IIPS_MARKET_DATA_TRANSPORT_URL';
 export const DEFAULT_MARKET_DATA_CLIENT_TIMEOUT_MS = 12_000;
 
 export type QuoteFreshness = 'CURRENT' | 'STALE';
+export type HoldingIdentityDisposition =
+  | 'QUOTE_ELIGIBLE'
+  | 'IDENTITY_MISSING'
+  | 'IDENTITY_INVALID'
+  | 'IDENTITY_AMBIGUOUS'
+  | 'NO_QUALIFIED_DHAN_MAPPING'
+  | 'TRANSPORT_UNAVAILABLE'
+  | 'OTHER_BLOCKED';
 export type HoldingPricingStatus = QuoteFreshness | 'UNAVAILABLE' | 'UNRESOLVED' | 'INACTIVE';
 export type PortfolioCoverageStatus = 'EMPTY' | 'FULLY_PRICED' | 'PARTIALLY_PRICED' | 'NO_HOLDINGS_PRICED';
 export type PortfolioFreshnessStatus = 'CURRENT' | 'STALE' | 'MIXED' | 'UNAVAILABLE' | 'NONE';
@@ -82,6 +89,7 @@ export interface UserPortfolioValuationHolding {
   readonly active: boolean;
   readonly pricingStatus: HoldingPricingStatus;
   readonly identityStatus: 'RESOLVED' | 'UNRESOLVED';
+  readonly identityDisposition: HoldingIdentityDisposition;
   readonly currentMarketPrice: number | null;
   readonly marketValue: number | null;
   readonly investedValue: number | null;
@@ -137,6 +145,7 @@ interface SecurityRefusal {
   readonly ok: false;
   readonly code: string;
   readonly reason: string;
+  readonly disposition: Exclude<HoldingIdentityDisposition, 'QUOTE_ELIGIBLE'>;
 }
 type SecurityResolution = SecurityRequest | SecurityRefusal;
 
@@ -155,6 +164,7 @@ interface QuoteFailure {
   readonly ok: false;
   readonly code: string;
   readonly reason: string;
+  readonly disposition?: Exclude<HoldingIdentityDisposition, 'QUOTE_ELIGIBLE'>;
 }
 type QuoteOutcome = QuoteSuccess | QuoteFailure;
 
@@ -177,31 +187,51 @@ function validTimestamp(value: unknown): value is string {
   return typeof value === 'string' && value.length > 0 && Number.isFinite(Date.parse(value));
 }
 
+function isD114SecurityIdentity(value: unknown): value is QuoteRequest['securityIdentity'] {
+  if (!isRecord(value)) return false;
+  const isin = value.isin;
+  const series = value.series;
+  const securityId = value.securityId;
+  return typeof isin === 'string' && isin === isin.trim() && /^[A-Za-z0-9]{12}$/.test(isin) &&
+    typeof series === 'string' && series.length > 0 && series === series.trim() && !series.includes(':') &&
+    value.isinAuthority === 'NON_AUTHORITATIVE' && securityId === `ISIN:${isin}:${series}`;
+}
+
+function refusal(
+  code: string,
+  reason: string,
+  disposition: Exclude<HoldingIdentityDisposition, 'QUOTE_ELIGIBLE'>,
+): SecurityRefusal {
+  return { ok: false, code, reason, disposition };
+}
+
 function resolveHoldingSecurity(holding: G2HoldingView): SecurityResolution {
+  const rawIdentity: unknown = holding.securityIdentity;
+  if (rawIdentity === undefined || rawIdentity === null) {
+    return refusal('IDENTITY_MISSING', 'No durable D114 security identity is stored for this holding; no identity was inferred.', 'IDENTITY_MISSING');
+  }
+  if (!isD114SecurityIdentity(rawIdentity)) {
+    return refusal('IDENTITY_INVALID', 'The stored security identity does not conform to the canonical D114 ISIN-and-series contract.', 'IDENTITY_INVALID');
+  }
   if (holding.identityStatus !== 'RESOLVED' || holding.resolutionDisposition !== 'CANONICAL_P04') {
-    return {
-      ok: false,
-      code: 'IDENTITY_UNRESOLVED',
-      reason: 'The persisted holding is not marked as resolved by canonical P04 identity.',
-    };
+    return refusal('IDENTITY_AMBIGUOUS', 'The stored security identity is not accompanied by a resolved canonical P04 disposition.', 'IDENTITY_AMBIGUOUS');
   }
   if (typeof holding.companyId !== 'string' || holding.companyId.trim().length === 0) {
-    return { ok: false, code: 'IDENTITY_UNRESOLVED', reason: 'Canonical company identity is missing.' };
+    return refusal('IDENTITY_INVALID', 'Canonical company identity is missing.', 'IDENTITY_INVALID');
   }
-  if (typeof holding.isin !== 'string' || !/^[A-Za-z0-9]{12}$/.test(holding.isin.trim())) {
-    return { ok: false, code: 'IDENTITY_UNRESOLVED', reason: 'A valid persisted ISIN is required; no symbol/name fallback is used.' };
+  if (holding.isin !== undefined && (typeof holding.isin !== 'string' || holding.isin.trim().toUpperCase() !== rawIdentity.isin.toUpperCase())) {
+    return refusal('IDENTITY_INVALID', 'The separately persisted ISIN conflicts with the D114 security identity.', 'IDENTITY_INVALID');
   }
-  if (holding.exchange !== 'NSE' && holding.exchange !== 'BSE') {
-    return { ok: false, code: 'IDENTITY_UNRESOLVED', reason: 'A persisted NSE or BSE listing is required.' };
+  if (holding.exchange !== undefined && holding.exchange !== 'NSE' && holding.exchange !== 'BSE') {
+    return refusal('IDENTITY_INVALID', 'The persisted exchange is not an admissible NSE or BSE listing.', 'IDENTITY_INVALID');
   }
-  // The actual G-2 view has no persisted D114 securityId/series, while the
-  // pinned IPD QuoteRequest has no series field. P04 company/ISIN/listing
-  // resolution is not a series-level binding, so do not invoke the provider.
-  return {
-    ok: false,
-    code: 'SERIES_IDENTITY_UNAVAILABLE',
-    reason: 'The persisted holding has no exact D114 securityId/series, and the pinned IPD QuoteRequest cannot carry one. No quote was requested. Add the governed series identity to the persisted G-2 contract and series-aware IPD request/resolution before enabling this holding.',
+  const request: QuoteRequest = {
+    companyId: holding.companyId,
+    securityIdentity: rawIdentity,
+    ...(holding.exchange === 'NSE' ? { exchangeSegment: 'NSE_EQ' as const } : {}),
+    ...(holding.exchange === 'BSE' ? { exchangeSegment: 'BSE_EQ' as const } : {}),
   };
+  return { ok: true, request };
 }
 
 export interface MarketDataTransportConfiguration {
@@ -250,24 +280,39 @@ export function readMarketDataTransportConfiguration(
   return { ok: true, baseUrl: parsed.toString().replace(/\/+$/, ''), token };
 }
 
-function safeProviderFailure(code: unknown): QuoteFailure {
+function safeProviderFailure(code: unknown, message?: unknown): QuoteFailure {
   const upstreamCode = typeof code === 'string' ? code : '';
   if (upstreamCode === 'UNAUTHENTICATED') {
-    return { ok: false, code: 'TRANSPORT_AUTHENTICATION_FAILED', reason: 'The IPD market-data transport rejected server authentication.' };
+    return { ok: false, code: 'TRANSPORT_AUTHENTICATION_FAILED', reason: 'The authenticated IPD transport rejected server authentication.', disposition: 'TRANSPORT_UNAVAILABLE' };
   }
   if (upstreamCode === 'REQUEST_TIMEOUT' || upstreamCode === 'TIMEOUT') {
-    return { ok: false, code: 'TRANSPORT_TIMEOUT', reason: 'The IPD market-data request timed out.' };
+    return { ok: false, code: 'TRANSPORT_TIMEOUT', reason: 'The IPD market-data request timed out.', disposition: 'TRANSPORT_UNAVAILABLE' };
+  }
+  if (upstreamCode === 'TRANSPORT_FAILURE') {
+    return { ok: false, code: 'TRANSPORT_UNAVAILABLE', reason: 'The IPD market-data service could not reach its upstream transport.', disposition: 'TRANSPORT_UNAVAILABLE' };
+  }
+  if (upstreamCode === 'UNRESOLVED_INSTRUMENT') {
+    const resolutionReason = typeof message === 'string'
+      ? /^(NO_MAPPING_DATA_LOADED|UNMAPPED_COMPANY_ID|INSTRUMENT_INACTIVE|AMBIGUOUS_MAPPING)(?::|$)/.exec(message)?.[1]
+      : undefined;
+    if (resolutionReason === 'AMBIGUOUS_MAPPING') {
+      return { ok: false, code: 'IDENTITY_AMBIGUOUS', reason: 'IPD found more than one exact listing candidate; no quote was requested.', disposition: 'IDENTITY_AMBIGUOUS' };
+    }
+    return { ok: false, code: 'NO_QUALIFIED_DHAN_MAPPING', reason: 'IPD has no active exact qualified Dhan mapping for this canonical security and listing.', disposition: 'NO_QUALIFIED_DHAN_MAPPING' };
+  }
+  if (upstreamCode === 'IDENTITY_RESOLUTION_FAILURE') {
+    return { ok: false, code: 'IDENTITY_AMBIGUOUS', reason: 'IPD could not establish an unambiguous exact canonical security mapping.', disposition: 'IDENTITY_AMBIGUOUS' };
+  }
+  if (upstreamCode === 'MISSING_REQUIRED_FIELD') {
+    return { ok: false, code: 'IDENTITY_INVALID', reason: 'IPD rejected the canonical quote request because a required identity field was invalid or absent.', disposition: 'IDENTITY_INVALID' };
   }
   if (upstreamCode === 'RATE_LIMITED') {
-    return { ok: false, code: 'PROVIDER_THROTTLED', reason: 'The IPD market-data service deferred this quote request.' };
-  }
-  if (upstreamCode === 'UNRESOLVED_INSTRUMENT' || upstreamCode === 'IDENTITY_RESOLUTION_FAILURE') {
-    return { ok: false, code: 'IDENTITY_UNRESOLVED', reason: 'IPD could not resolve this exact canonical security/listing.' };
+    return { ok: false, code: 'PROVIDER_THROTTLED', reason: 'The IPD market-data service deferred this quote request.', disposition: 'OTHER_BLOCKED' };
   }
   if (upstreamCode === 'CREDENTIALS_UNAVAILABLE' || upstreamCode === 'CONFIGURATION_INCOMPLETE') {
-    return { ok: false, code: 'PROVIDER_NOT_CONFIGURED', reason: 'The IPD provider is not configured for this request.' };
+    return { ok: false, code: 'PROVIDER_NOT_CONFIGURED', reason: 'The IPD provider is not configured for this request.', disposition: 'OTHER_BLOCKED' };
   }
-  return { ok: false, code: 'PROVIDER_UNAVAILABLE', reason: 'The IPD market-data service did not provide a usable quote.' };
+  return { ok: false, code: 'PROVIDER_UNAVAILABLE', reason: 'The IPD market-data service did not provide a usable quote.', disposition: 'OTHER_BLOCKED' };
 }
 
 function safeEnvelope(value: unknown, freshnessValue: unknown, expected: QuoteRequest): QuoteSuccess | QuoteFailure {
@@ -276,7 +321,9 @@ function safeEnvelope(value: unknown, freshnessValue: unknown, expected: QuoteRe
   }
   const payload = value.payload;
   const provenance = value.provenance;
-  const expectedExchange = expected.exchangeSegment === 'NSE_EQ' ? 'NSE' : 'BSE';
+  // IPD's QuoteRequest defaults an omitted segment to NSE_EQ; validate the
+  // canonical response against that same documented server contract.
+  const expectedExchange = expected.exchangeSegment === 'BSE_EQ' ? 'BSE' : 'NSE';
   const requiredQuoteNumbers = ['bid', 'ask', 'ltp', 'open', 'high', 'low', 'previousClose', 'volume', 'change', 'pctChange'];
   const optionalQuoteNumbers = ['close', 'vwap', 'turnover', 'tradeCount'];
   const nonnegativeQuoteNumbers = ['bid', 'ask', 'ltp', 'open', 'high', 'low', 'previousClose', 'volume', 'close', 'vwap', 'turnover', 'tradeCount'];
@@ -322,13 +369,7 @@ function safeEnvelope(value: unknown, freshnessValue: unknown, expected: QuoteRe
   // credentials, trace IDs or tenant values from reaching the browser.
   const hasSecurityIdentity = payload.securityIdentity !== undefined;
   const rawIdentity = isRecord(payload.securityIdentity) ? payload.securityIdentity : null;
-  const securityIdentity = rawIdentity &&
-    typeof rawIdentity.securityId === 'string' &&
-    typeof rawIdentity.isin === 'string' &&
-    /^[A-Za-z0-9]{12}$/.test(rawIdentity.isin) &&
-    typeof rawIdentity.series === 'string' && /^[A-Za-z0-9]+$/.test(rawIdentity.series) &&
-    rawIdentity.isinAuthority === 'NON_AUTHORITATIVE' &&
-    rawIdentity.securityId === `ISIN:${rawIdentity.isin.toUpperCase()}:${rawIdentity.series}`
+  const securityIdentity = isD114SecurityIdentity(rawIdentity)
     ? {
         securityId: rawIdentity.securityId,
         isin: rawIdentity.isin,
@@ -338,17 +379,15 @@ function safeEnvelope(value: unknown, freshnessValue: unknown, expected: QuoteRe
     : undefined;
   const rawSecurityId = value.securityId;
   const securityId = typeof rawSecurityId === 'string' ? rawSecurityId : undefined;
-  const securityIdMatches = rawSecurityId === undefined || (
-    typeof rawSecurityId === 'string' && expected.isin !== undefined &&
-    rawSecurityId.startsWith(`ISIN:${expected.isin.toUpperCase()}:`) &&
-    /^ISIN:[A-Za-z0-9]{12}:[A-Za-z0-9]+$/.test(rawSecurityId)
-  );
+  const securityIdMatches = rawSecurityId === undefined || rawSecurityId === expected.securityIdentity.securityId;
   if (
     (hasSecurityIdentity && securityIdentity === undefined) || !securityIdMatches ||
-    (securityIdentity !== undefined && expected.isin !== undefined && securityIdentity.isin.toUpperCase() !== expected.isin.toUpperCase()) ||
+    (securityIdentity !== undefined && securityIdentity.securityId !== expected.securityIdentity.securityId) ||
+    (securityIdentity !== undefined && securityIdentity.isin !== expected.securityIdentity.isin) ||
+    (securityIdentity !== undefined && securityIdentity.series !== expected.securityIdentity.series) ||
     (securityIdentity !== undefined && securityId !== undefined && securityIdentity.securityId !== securityId)
   ) {
-    return { ok: false, code: 'CANONICAL_IDENTITY_MISMATCH', reason: 'The canonical series-aware identity did not match the persisted ISIN.' };
+    return { ok: false, code: 'CANONICAL_IDENTITY_MISMATCH', reason: 'The canonical series-aware identity did not match the persisted D114 request.', disposition: 'IDENTITY_AMBIGUOUS' };
   }
   const safePayload: PublicCanonicalQuoteEnvelope['payload'] = {
     companyId: payload.companyId as string,
@@ -408,23 +447,23 @@ function parseQuoteResponse(raw: unknown, expected: QuoteRequest): QuoteOutcome 
   if (raw.ok === false) {
     const failure = isRecord(raw.failure) ? raw.failure : null;
     return typeof failure?.code === 'string'
-      ? safeProviderFailure(failure.code)
-      : { ok: false, code: 'MALFORMED_TRANSPORT_RESPONSE', reason: 'The IPD transport returned an incomplete failure response.' };
+      ? safeProviderFailure(failure.code, failure.message)
+      : { ok: false, code: 'MALFORMED_TRANSPORT_RESPONSE', reason: 'The IPD transport returned an incomplete failure response.', disposition: 'OTHER_BLOCKED' };
   }
   // The published client returns parsed JSON without exposing HTTP status. The
   // IPD server's authenticated error contract is { error: { code, message } }.
-  if (isRecord(raw.error) && typeof raw.error.code === 'string') return safeProviderFailure(raw.error.code);
+  if (isRecord(raw.error) && typeof raw.error.code === 'string') return safeProviderFailure(raw.error.code, raw.error.message);
   if (raw.ok !== true) {
     return { ok: false, code: 'MALFORMED_TRANSPORT_RESPONSE', reason: 'The IPD transport returned an invalid response discriminator.' };
   }
   return safeEnvelope(raw.envelope, raw.freshness, expected);
 }
 
-const SERIES_IDENTITY_DISCLOSURE =
-  'Exact D114 security-series identity is unavailable: persisted G-2 holdings carry no securityId/series and the pinned IPD QuoteRequest cannot carry one. No Dhan quote is requested until both contracts can bind the persisted holding to that exact series.';
+const EXACT_IDENTITY_DISCLOSURE =
+  'Quotes are requested only for holdings with an explicit persisted D114 identity; IPD resolves the exact company, listing, ISIN, and series and fails closed when no unique qualified mapping exists. Process readiness does not establish live Dhan connectivity or tradability.';
 
 function withIdentityDisclosure(view: ProviderHealthView): ProviderHealthView {
-  return { ...view, disclosure: `${view.disclosure} ${SERIES_IDENTITY_DISCLOSURE}` };
+  return { ...view, disclosure: `${view.disclosure} ${EXACT_IDENTITY_DISCLOSURE}` };
 }
 
 function parseHealth(raw: unknown): ProviderHealthView {
@@ -452,17 +491,17 @@ function parseHealth(raw: unknown): ProviderHealthView {
 }
 
 function configFailureOutcome(config: MarketDataTransportConfigurationFailure): QuoteFailure {
-  return { ok: false, code: config.code, reason: config.reason };
+  return { ok: false, code: config.code, reason: config.reason, disposition: 'TRANSPORT_UNAVAILABLE' };
 }
 
 function thrownFailure(error: unknown): QuoteFailure {
   if (error instanceof SyntaxError) {
-    return { ok: false, code: 'MALFORMED_TRANSPORT_RESPONSE', reason: 'The IPD transport response was not valid JSON.' };
+    return { ok: false, code: 'MALFORMED_TRANSPORT_RESPONSE', reason: 'The IPD transport response was not valid JSON.', disposition: 'OTHER_BLOCKED' };
   }
   if (error instanceof Error && (error.name === 'TimeoutError' || error.name === 'MarketDataTimeoutError')) {
-    return { ok: false, code: 'TRANSPORT_TIMEOUT', reason: 'The IPD market-data request exceeded the client timeout.' };
+    return { ok: false, code: 'TRANSPORT_TIMEOUT', reason: 'The IPD market-data request exceeded the client timeout.', disposition: 'TRANSPORT_UNAVAILABLE' };
   }
-  return { ok: false, code: 'TRANSPORT_UNAVAILABLE', reason: 'The IPD market-data transport could not be reached.' };
+  return { ok: false, code: 'TRANSPORT_UNAVAILABLE', reason: 'The IPD market-data transport could not be reached.', disposition: 'TRANSPORT_UNAVAILABLE' };
 }
 
 async function withTimeout<T>(work: Promise<T>, timeoutMs: number): Promise<T> {
@@ -511,38 +550,55 @@ function makeHoldingResult(
 ): UserPortfolioValuationHolding {
   const quantity = isFiniteNumber(holding.quantity) && holding.quantity >= 0 ? holding.quantity : null;
   const investedValue = computeCostBasis(holding);
+  const disposition = outcome.ok ? undefined : outcome.disposition ?? 'OTHER_BLOCKED';
+  const identityUnresolved = disposition === 'IDENTITY_MISSING' ||
+    disposition === 'IDENTITY_INVALID' || disposition === 'IDENTITY_AMBIGUOUS';
+
   if (!holding.active) {
     return {
-      position, symbol: holding.symbol, quantity, active: false, pricingStatus: 'INACTIVE', identityStatus: 'UNRESOLVED',
+      position, symbol: holding.symbol, quantity, active: false, pricingStatus: 'INACTIVE',
+      identityStatus: identityUnresolved ? 'UNRESOLVED' : 'RESOLVED', identityDisposition: 'OTHER_BLOCKED',
       currentMarketPrice: null, marketValue: null, investedValue, unrealizedGainLoss: null,
       unrealizedGainLossPercentage: null, quoteAsOf: null, reasonCode: 'INACTIVE_HOLDING',
       reason: 'Inactive persisted holdings are not included in the current valuation.',
     };
   }
+
+  // Preserve an identity refusal even if another stored field, such as quantity,
+  // is also invalid. Identity audit is per holding and never inferred from quotes.
+  if (!outcome.ok && identityUnresolved) {
+    return {
+      position, symbol: holding.symbol, quantity, active: true, pricingStatus: 'UNRESOLVED',
+      identityStatus: 'UNRESOLVED', identityDisposition: disposition,
+      currentMarketPrice: null, marketValue: null, investedValue, unrealizedGainLoss: null,
+      unrealizedGainLossPercentage: null, quoteAsOf: null, reasonCode: outcome.code, reason: outcome.reason,
+    };
+  }
+
   if (quantity === null) {
     return {
-      position, symbol: holding.symbol, quantity: null, active: true, pricingStatus: 'UNAVAILABLE', identityStatus: 'RESOLVED',
+      position, symbol: holding.symbol, quantity: null, active: true, pricingStatus: 'UNAVAILABLE',
+      identityStatus: 'RESOLVED', identityDisposition: 'OTHER_BLOCKED',
       currentMarketPrice: null, marketValue: null, investedValue: null, unrealizedGainLoss: null,
       unrealizedGainLossPercentage: null, quoteAsOf: null, reasonCode: 'INVALID_QUANTITY',
       reason: 'Persisted quantity is not a finite non-negative number.',
     };
   }
+
   if (!outcome.ok) {
-    const unresolved = outcome.code === 'IDENTITY_UNRESOLVED' ||
-      outcome.code === 'CANONICAL_IDENTITY_MISMATCH' ||
-      outcome.code === 'SERIES_IDENTITY_UNAVAILABLE';
     return {
-      position, symbol: holding.symbol, quantity, active: true,
-      pricingStatus: unresolved ? 'UNRESOLVED' : 'UNAVAILABLE', identityStatus: unresolved ? 'UNRESOLVED' : 'RESOLVED',
+      position, symbol: holding.symbol, quantity, active: true, pricingStatus: 'UNAVAILABLE',
+      identityStatus: 'RESOLVED', identityDisposition: disposition ?? 'OTHER_BLOCKED',
       currentMarketPrice: null, marketValue: null, investedValue, unrealizedGainLoss: null,
       unrealizedGainLossPercentage: null, quoteAsOf: null, reasonCode: outcome.code, reason: outcome.reason,
     };
   }
+
   const marketValue = quantity * outcome.price;
   if (!Number.isFinite(marketValue)) {
     return {
       position, symbol: holding.symbol, quantity, active: true, pricingStatus: 'UNAVAILABLE', identityStatus: 'RESOLVED',
-      currentMarketPrice: null, marketValue: null, investedValue, unrealizedGainLoss: null,
+      identityDisposition: 'OTHER_BLOCKED', currentMarketPrice: null, marketValue: null, investedValue, unrealizedGainLoss: null,
       unrealizedGainLossPercentage: null, quoteAsOf: null, reasonCode: 'VALUATION_OVERFLOW',
       reason: 'The holding value is outside the supported numeric range.',
     };
@@ -550,7 +606,7 @@ function makeHoldingResult(
   const gain = investedValue === null ? null : marketValue - investedValue;
   return {
     position, symbol: holding.symbol, quantity, active: true, pricingStatus: outcome.freshness, identityStatus: 'RESOLVED',
-    currentMarketPrice: outcome.price, marketValue, investedValue,
+    identityDisposition: 'QUOTE_ELIGIBLE', currentMarketPrice: outcome.price, marketValue, investedValue,
     unrealizedGainLoss: gain,
     unrealizedGainLossPercentage: investedValue !== null && investedValue > 0 && gain !== null
       ? gain / investedValue * 100
@@ -568,16 +624,16 @@ export function projectUserPortfolioValuation(
   portfolio: G2PortfolioView,
   quoteOutcomes: readonly (QuoteOutcome | undefined)[],
   providerView: ProviderHealthView,
-  fallback: QuoteFailure = { ok: false, code: 'TRANSPORT_UNAVAILABLE', reason: 'No quote was returned for this holding.' },
+  fallback: QuoteFailure = { ok: false, code: 'TRANSPORT_UNAVAILABLE', reason: 'No quote was returned for this holding.', disposition: 'TRANSPORT_UNAVAILABLE' },
 ): UserPortfolioValuation {
   const holdings = portfolio.holdings.map((holding, position) => {
-    if (!holding.active) return makeHoldingResult(holding, position, fallback);
     const identity = resolveHoldingSecurity(holding);
+    if (!holding.active) return makeHoldingResult(holding, position, identity.ok ? fallback : identity);
     if (!identity.ok) {
-      return makeHoldingResult(holding, position, { ok: false, code: identity.code, reason: identity.reason });
+      return makeHoldingResult(holding, position, identity);
     }
     if (!isFiniteNumber(holding.quantity) || holding.quantity < 0) {
-      return makeHoldingResult(holding, position, { ok: false, code: 'INVALID_QUANTITY', reason: 'Persisted quantity is not a finite non-negative number.' });
+      return makeHoldingResult(holding, position, { ok: false, code: 'INVALID_QUANTITY', reason: 'Persisted quantity is not a finite non-negative number.', disposition: 'OTHER_BLOCKED' });
     }
     return makeHoldingResult(holding, position, priceOutcome(quoteOutcomes[position], fallback));
   });
@@ -645,10 +701,10 @@ export function projectUserPortfolioValuation(
 }
 
 /**
- * Calls the actual exported IPD transport client for readiness only. The
- * current persisted G-2 and pinned IPD contracts cannot carry a series binding,
- * so every active holding fails closed before any quote request. No IRR cache,
- * retry, limiter, or historical request (current valuation has no D02 use case).
+ * Uses only the exported authenticated IPD transport. Each holding is independently
+ * preflighted; invalid or absent D114 identities are not requested, while exact
+ * identities continue independently through IPD P6/P7 resolution. No IRR cache,
+ * retry, persistence, or historical request (current valuation has no D02 use case).
  */
 export async function createUserPortfolioValuation(
   portfolio: G2PortfolioView,
@@ -678,9 +734,9 @@ export async function createUserPortfolioValuation(
   const outcomesPromise = Promise.all(portfolio.holdings.map(async (holding): Promise<QuoteOutcome | undefined> => {
     if (!holding.active) return undefined;
     const identity = resolveHoldingSecurity(holding);
-    if (!identity.ok) return { ok: false, code: identity.code, reason: identity.reason };
+    if (!identity.ok) return identity;
     if (!isFiniteNumber(holding.quantity) || holding.quantity < 0) {
-      return { ok: false, code: 'INVALID_QUANTITY', reason: 'Persisted quantity is not a finite non-negative number.' };
+      return { ok: false, code: 'INVALID_QUANTITY', reason: 'Persisted quantity is not a finite non-negative number.', disposition: 'OTHER_BLOCKED' };
     }
     try {
       const raw = await withTimeout(client.getQuote(identity.request), timeoutMs);

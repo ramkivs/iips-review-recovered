@@ -119,10 +119,10 @@ describe('Direct P1 user-portfolio HTTP composition', () => {
     port.getPortfolio = vi.fn(async () => ({
       ...VIEW,
       holdings: [{
-        symbol: 'TCS', companyId: 'COMP-TCS', isin: 'INE467B01029', exchange: 'NSE',
+        symbol: 'TCS', companyId: 'COMP-TCS', isin: 'INE467B01029', exchange: 'NSE' as const,
         quantity: 10, averageBuyPrice: 90, currentPrice: 88, marketValue: 880,
         weightPercentage: 100, active: true, sourceBroker: 'GENERIC', lineageDigest: 'opaque',
-        identityStatus: 'RESOLVED', resolutionDisposition: 'CANONICAL_P04',
+        identityStatus: 'RESOLVED' as const, resolutionDisposition: 'CANONICAL_P04' as const,
       }],
     }));
     const result = await request('/api/user-portfolios/pf-1/valuation', 'GET', { port, env: BOUND });
@@ -132,7 +132,7 @@ describe('Direct P1 user-portfolio HTTP composition', () => {
       portfolioMarketValue: null,
       coverage: { activeHoldingCount: 1, pricedHoldingCount: 0, unresolvedHoldingCount: 1 },
       holdings: [{
-        pricingStatus: 'UNRESOLVED', reasonCode: 'SERIES_IDENTITY_UNAVAILABLE',
+        pricingStatus: 'UNRESOLVED', identityDisposition: 'IDENTITY_MISSING', reasonCode: 'IDENTITY_MISSING',
         currentMarketPrice: null, marketValue: null,
       }],
     });

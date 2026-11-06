@@ -166,7 +166,7 @@ describe('GC-D2 — Option 2F', () => {
     expect(reads).toBe(0);
   });
   it('T-15 IRR revision leaves the upstream lineage immutable', () => {
-    expect(G2_CONTRACT_VERSION).toBe('2');
+    expect(G2_CONTRACT_VERSION).toBe('3');
     expect(G2_LINEAGE.commit).toBe('6828155ec6e882bbb4cabcd96b5a841d8c8a6bc4');
     expect(Object.isFrozen(G2_LINEAGE)).toBe(true);
   });

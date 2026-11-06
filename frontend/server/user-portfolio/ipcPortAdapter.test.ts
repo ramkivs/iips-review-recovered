@@ -620,6 +620,33 @@ describe('ipcPortAdapter — the revisions operation', () => {
     }
   });
 
+  it('projects durable D114 identities while stripping provider-only metadata', async () => {
+    const identity = {
+      securityId: 'ISIN:INE467B01029:EQ',
+      isin: 'INE467B01029',
+      series: 'EQ',
+      isinAuthority: 'NON_AUTHORITATIVE',
+      dhanSecurityId: 'provider-only-test-value',
+    };
+    const row = {
+      ...WIRE_HOLDING,
+      securityIdentity: identity,
+      dhanSecurityId: 'provider-only-test-value',
+    };
+    const { port } = adapter(success(wireView({ holdings: [row, { ...WIRE_HOLDING, symbol: 'NOID', securityIdentity: null }] }), 'portfolio.get'));
+    const view = await port.getPortfolio({ scope: SCOPE, portfolioId: 'p-1' });
+
+    expect(view.holdings[0]?.securityIdentity).toEqual({
+      securityId: 'ISIN:INE467B01029:EQ',
+      isin: 'INE467B01029',
+      series: 'EQ',
+      isinAuthority: 'NON_AUTHORITATIVE',
+    });
+    expect(view.holdings[1]?.securityIdentity).toBeNull();
+    expect(JSON.stringify(view)).not.toContain('provider-only-test-value');
+    expect(view.holdings[0]).not.toHaveProperty('dhanSecurityId');
+  });
+
   it('maps each historical revision from that row and never adds current isSaved', async () => {
     const rows = [
       { revision: 0, operation: 'INITIAL', committedAt: '2026-10-20T00:00:00.000Z', totalMarketValue: 0, provenanceDigest: '', holdingsCount: 0 },
@@ -710,8 +737,8 @@ describe('ipcPortAdapter — the revisions operation', () => {
  * ------------------------------------------------------------------ */
 
 describe('ipcPortAdapter — V5 contract supersession', () => {
-  it('leaves G2_CONTRACT_VERSION at 2 — there is no invented numeric bump', () => {
-    expect(G2_CONTRACT_VERSION).toBe('2');
+  it('records the additive persisted D114 read-field contract revision', () => {
+    expect(G2_CONTRACT_VERSION).toBe('3');
   });
 
   it('leaves the G24 HTTP lineage pin immutable and frozen', () => {

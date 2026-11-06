@@ -143,20 +143,20 @@ export function outcomeUnknownMessage(write: boolean, reason: 'TIMEOUT' | 'TRANS
 
 /**
  * Records the exact fields and renames covered by the 2026-10-25 CAP-03 DR-2 / DQ-1
- * Option A decision. The G2 types stay frozen: the adapter maps only these approved
- * values, validates every required source value, and refuses rather than defaults
- * if the IPD provider is still at the pre-closure shape or returns malformed data.
+ * Option A decision. Its mapped fields remain frozen; G2 contract v3 adds only the
+ * explicit nullable persisted D114 identity. The adapter maps approved values and
+ * refuses rather than defaults if the IPD provider returns malformed data.
  *
- * The list is a historical gap matrix, not authority to add or rename any other
- * field. `holdingsCount` maps to `totalHoldingsCount` only on summary/detail; the
+ * The list is a historical gap matrix, not authority to add or rename unrelated
+ * fields. `holdingsCount` maps to `totalHoldingsCount` only on summary/detail; the
  * `committedAt` → `createdAt` mapping applies only to revision entries. Historical
  * revision values are copied from that same entry and are never derived from the
  * current portfolio. No `isSaved` field exists on `G2RevisionEntry`.
  *
- * The current IPD `main` implementation at the Direct P1 pin carries the authorized
- * summary/view fields used below. The adapter still validates every source value and
- * refuses any non-conforming envelope; the recorded pre-closure gap matrix remains
- * historical evidence, not a reason to default or fabricate fields.
+ * The P7-pinned IPD package also returns nullable persisted D114 `securityIdentity`
+ * on each holding. IRR copies only the G-2 allowlist and the four canonical identity
+ * fields; provider-only mapping data is discarded. P6/P7 resolution remains wholly
+ * IPD-owned. The historical gap matrix is not a reason to default or fabricate fields.
  *
  * IRR Direct P1 read-route composition is recorded in `user-portfolio-transport.ts`.
  * It admits only list/detail/revision reads under the server-owned binding precondition;
@@ -406,7 +406,7 @@ export class IpcUserPortfolioPort implements UserPortfolioPort {
     }
   }
 
-  /* ---- validated v1 result → frozen G2 shape; no defaults or extra mappings ---- */
+  /* ---- validated v1 result → G2 read projection; no defaults or identity inference ---- */
 
   private toG2Summary(row: unknown): G2PortfolioSummary {
     const record = asRecord(row);
@@ -489,7 +489,9 @@ export class IpcUserPortfolioPort implements UserPortfolioPort {
       portfolioId: record.portfolioId as string,
       portfolioName: record.portfolioName as string,
       revision: record.revision as number,
-      holdings: record.holdings as G2PortfolioView['holdings'],
+      // Explicit allowlist prevents upstream/provider-only metadata from entering
+      // IRR's public G-2 view while preserving the persisted nullable D114 identity.
+      holdings: (record.holdings as unknown[]).map((holding) => this.toG2Holding(holding)),
       totalMarketValue: record.totalMarketValue as number,
       totalHoldingsCount: record.holdingsCount as number,
       weightSumPercentage: record.weightSumPercentage as number,
@@ -498,6 +500,23 @@ export class IpcUserPortfolioPort implements UserPortfolioPort {
       isSaved: record.isSaved as boolean,
       contributions: record.contributions as G2PortfolioView['contributions'],
     };
+  }
+
+  private toG2Holding(value: unknown): G2PortfolioView['holdings'][number] {
+    const record = asRecord(value);
+    const allowed = [
+      'symbol', 'companyId', 'isin', 'exchange', 'quantity', 'averageBuyPrice', 'currentPrice',
+      'marketValue', 'weightPercentage', 'active', 'sourceBroker', 'lineageDigest',
+      'identityStatus', 'resolutionDisposition',
+    ] as const;
+    const projected: Record<string, unknown> = {};
+    for (const key of allowed) {
+      if (Object.prototype.hasOwnProperty.call(record, key)) projected[key] = record[key];
+    }
+    if (Object.prototype.hasOwnProperty.call(record, 'securityIdentity')) {
+      projected.securityIdentity = projectD114Identity(record.securityIdentity);
+    }
+    return projected as unknown as G2PortfolioView['holdings'][number];
   }
 
   private toG2DeleteResult(value: unknown): G2DeleteResult {
@@ -520,6 +539,24 @@ function asRecord(value: unknown): Record<string, unknown> {
     throw new G2Error('UPSTREAM_UNAVAILABLE', 'The upstream result is not an object (contract-envelope violation).');
   }
   return value as Record<string, unknown>;
+}
+
+function projectD114Identity(value: unknown): unknown {
+  if (value === null) return null;
+  const invalid = { securityId: '', isin: '', series: '', isinAuthority: 'NON_AUTHORITATIVE' } as const;
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return invalid;
+  const candidate = value as Record<string, unknown>;
+  const { securityId, isin, series, isinAuthority } = candidate;
+  if (
+    typeof isin === 'string' && isin === isin.trim() && /^[A-Za-z0-9]{12}$/.test(isin) &&
+    typeof series === 'string' && series.length > 0 && series === series.trim() && !series.includes(':') &&
+    isinAuthority === 'NON_AUTHORITATIVE' && securityId === `ISIN:${isin}:${series}`
+  ) {
+    return { securityId, isin, series, isinAuthority };
+  }
+  // Retain an invalid marker for server-side reason coding without forwarding
+  // malformed/provider-specific values from the source row to browser JSON.
+  return invalid;
 }
 
 function requireSummaryBase(record: Record<string, unknown>, shape: string): void {

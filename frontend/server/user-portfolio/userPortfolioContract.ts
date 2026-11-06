@@ -1,5 +1,6 @@
 /**
- * G-2 Durable User Portfolio — IRR ↔ IPD CONSUMPTION CONTRACT (v1).
+ * G-2 Durable User Portfolio — IRR ↔ IPD CONSUMPTION CONTRACT.
+ * The contract began at v1; current IRR read projection is version 3.
  *
  * This module is the sole definition of the request/response shape that crosses the
  * IRR → IPD durable user-portfolio boundary. It is the G-2 §5 consumption contract:
@@ -49,9 +50,10 @@
  *   …/portfolio/portfolio-store.ts     abef96e13ed9f9ae2b0a69fb07aabff0b6bb330e
  *
  * OWNERSHIP RULES (what IRR may and may not do)
- *   - IRR owns TRANSPORT SHAPE validation only (this file): required fields, closed
- *     string sets, integer revisions, non-blank identifiers. Anything malformed fails
- *     closed here and never reaches IPD.
+ *   - IRR owns G-2 transport-shape validation and the minimal D114 grammar check
+ *     required to safely construct a quote request. It does not resolve P04, P6, or
+ *     P7 identities; those value semantics remain IPD-owned. Malformed G-2/read data
+ *     fails closed and never reaches the quote transport.
  *   - IPD owns ALL VALUE SEMANTICS: consolidation arithmetic, MERGE/REPLACE behavior,
  *     defaults, weight rules, duplicate detection, revision numbering, tombstones,
  *     provenance digests, contribution history. IRR never recomputes, re-stamps,
@@ -84,8 +86,10 @@
  *   against the pinned lineage — never a silent accommodation.
  */
 
-/** IRR contract revision: v2 adds effective GC-D2/2F refusal; G24 wire/pin unchanged. */
-export const G2_CONTRACT_VERSION = '2';
+import type { QuoteRequest } from 'iips-production-market-data/dhan-server';
+
+/** IRR contract revision: v3 adds the persisted nullable D114 identity to G-2 reads. */
+export const G2_CONTRACT_VERSION = '3';
 
 /** Gate C GC-D2 / Option 2F: IRR refusal policy, NOT an upstream API or lineage change. */
 export const G2_UNRESOLVED_WRITE_MESSAGE =
@@ -98,15 +102,10 @@ export type G2UnresolvedHoldingEvidence =
   };
 
 /**
- * Frozen lineage pin. The adapter speaks ONLY to this G24 state.
- *
- * 2026-10-19 (Gate 3, contract v1 V-5): HISTORICAL FOR THE IPC PATH. This pin
- * describes the former first-party G24 **HTTP** lineage. For the same-host IPC path
- * added by `IIPS-V3-G3-IMPLEMENTATION-AUTHORITY-ACT-2026-10-19-02` §5, the accepted
- * IPD-owned wire contract v1 supersedes the HTTP-era wire description; this object
- * is retained unchanged as the record of that earlier lineage and is not rewritten,
- * re-pinned or conflated with the contract version. `G2_CONTRACT_VERSION` stays
- * `'2'` — there is no invented numeric bump.
+ * Historical G24 lineage pin. The adapter speaks through the current IPD-owned
+ * same-host IPC contract; this object remains unchanged as the record of the earlier
+ * first-party G24 HTTP lineage and is not rewritten or conflated with the contract
+ * version. Contract v2 preceded the additive nullable D114 identity in the current v3.
  */
 export const G2_LINEAGE = Object.freeze({
   repository: 'ramkivs/iips-production-market-data',
@@ -157,10 +156,9 @@ export const G2_PERSISTENCE = Object.freeze({
 // Gate 3 additive seam (2026-10-19) — the ONLY new export added by
 // `IIPS-V3-G3-IMPLEMENTATION-AUTHORITY-ACT-2026-10-19-02` §5.2.
 //
-// Strictly additive: no existing export, value, type, interface or behaviour above
-// or below is changed. `G2_CONTRACT_VERSION` remains `'2'`; `G2_LINEAGE` remains
-// pinned to `6828155e…`; `G2_PERSISTENCE` is not rewritten; no new wire or schema
-// field is invented; and there is deliberately NO tenant-hint transmission constant
+// Historical Gate 3 details remain unchanged. The current additive P7 D114 read
+// projection is recorded by G2_CONTRACT_VERSION v3; G2_LINEAGE remains pinned to
+// `6828155e…` and G2_PERSISTENCE is not rewritten. No tenant-hint transmission constant
 // here, because the tenant hint is IRR-local and never crosses the wire (contract v1
 // OC-3/G2-D4).
 // ---------------------------------------------------------------------------
@@ -276,6 +274,8 @@ export interface G2HoldingView {
   readonly lineageDigest: string;
   readonly identityStatus?: 'RESOLVED' | 'UNRESOLVED';
   readonly resolutionDisposition?: 'CANONICAL_P04' | 'NON_PRODUCTION_OPERATOR_BYPASS';
+  /** Nullable durable P04 D114 identity; null means unresolved and is never inferred here. */
+  readonly securityIdentity?: QuoteRequest['securityIdentity'] | null;
 }
 
 /** Contribution record as returned by G24 (mirror of `BrokerContributionRecord`). */

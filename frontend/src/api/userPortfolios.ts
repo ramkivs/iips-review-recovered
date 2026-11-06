@@ -46,7 +46,15 @@ export interface UserPortfolioSummary {
   readonly isSaved: boolean;
 }
 
-/** Holding as returned on the full view (mirror of `G2HoldingView`, 15 fields). */
+/** Provider-neutral mirror of the persisted P04 D114 identity returned by G-2. */
+export interface UserPortfolioSecurityIdentity {
+  readonly securityId: string;
+  readonly isin: string;
+  readonly series: string;
+  readonly isinAuthority: 'NON_AUTHORITATIVE';
+}
+
+/** Holding as returned on the full view (mirror of `G2HoldingView`). */
 export interface UserPortfolioHolding {
   readonly symbol: string;
   readonly companyId: string;
@@ -62,6 +70,8 @@ export interface UserPortfolioHolding {
   readonly lineageDigest: string;
   readonly identityStatus?: 'RESOLVED' | 'UNRESOLVED';
   readonly resolutionDisposition?: 'CANONICAL_P04' | 'NON_PRODUCTION_OPERATOR_BYPASS';
+  /** Nullable stored D114 identity; never synthesized from symbol, ISIN, or exchange. */
+  readonly securityIdentity?: UserPortfolioSecurityIdentity | null;
 }
 
 /** Contribution record as returned on the full view (mirror of `G2Contribution`, 7 fields). */
@@ -143,6 +153,14 @@ export interface UserPortfolioCanonicalQuote {
 
 export type UserPortfolioValuationStatus = 'EMPTY' | 'FULLY_PRICED' | 'PARTIALLY_PRICED' | 'NO_HOLDINGS_PRICED';
 export type UserPortfolioQuoteStatus = 'CURRENT' | 'STALE' | 'UNAVAILABLE' | 'UNRESOLVED' | 'INACTIVE';
+export type UserPortfolioIdentityDisposition =
+  | 'QUOTE_ELIGIBLE'
+  | 'IDENTITY_MISSING'
+  | 'IDENTITY_INVALID'
+  | 'IDENTITY_AMBIGUOUS'
+  | 'NO_QUALIFIED_DHAN_MAPPING'
+  | 'TRANSPORT_UNAVAILABLE'
+  | 'OTHER_BLOCKED';
 
 export interface UserPortfolioValuationHolding {
   readonly position: number;
@@ -151,6 +169,7 @@ export interface UserPortfolioValuationHolding {
   readonly active: boolean;
   readonly pricingStatus: UserPortfolioQuoteStatus;
   readonly identityStatus: 'RESOLVED' | 'UNRESOLVED';
+  readonly identityDisposition: UserPortfolioIdentityDisposition;
   readonly currentMarketPrice: number | null;
   readonly marketValue: number | null;
   readonly investedValue: number | null;
