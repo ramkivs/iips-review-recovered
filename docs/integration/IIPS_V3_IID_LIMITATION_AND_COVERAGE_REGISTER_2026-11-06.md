@@ -859,3 +859,32 @@ in seven test files. Recorded so that "no investment `POST`" is a precisely scop
 
 `vitest run src` → 57 files, 546 passed, 1 skipped; `vitest run server/investment` → 14 files, 199 passed;
 `npm run typecheck` clean. Captured in `evidence/iid/IID-6-PRODUCT-SURFACE-2026-11-06/test-run.txt`.
+
+---
+
+## 11. IID formal closure — what it does to this register (2026-11-06; documentation only)
+
+**Nothing in `L-001` …. `L-029` changed.** This section is a pointer, not an amendment: no identifier, wording, status
+or ordering was touched by the closure work item, and no limitation was closed because the programme's implementation
+phases finished.
+
+| Item | Effect |
+|---|---|
+| `L-001` … `L-013`, `L-015` … `L-027` | untouched; `OPEN` exactly as recorded |
+| `L-014` | untouched; `RESOLVED` as recorded by §9 (IID-5 implementation), not by the closure |
+| `L-028`, `L-029` | untouched; IID-6 renders them honestly (attribution `UNAVAILABLE` with its cause; materiality policy version printed beside every materiality label) and weakens neither |
+| R-16 sector coverage | unchanged: 3 of 13 sectors (`L-001`); no expansion began |
+| Production / admission / release | no claim; see closure §1 and §12 |
+
+**Two evidence qualifications the closure records, neither of which is a limitation entry.** They belong to the
+*verification* record, not to the product's limitations, and adding them here as limitations would misrepresent the
+register's purpose — so they are recorded in the closure document and its bundle instead:
+
+- **AC-X2 (zero-socket measurement) is `OPEN`.** No test asserts zero sockets over an assess → persist → read cycle.
+  See `docs/integration/IIPS_V3_IID_FORMAL_CLOSURE_2026-11-06.md` §6 and
+  `evidence/iid/IID-CLOSURE-2026-11-06/AC-X2-ZERO-SOCKET-EVIDENCE.md`.
+- **AC-X1 is a qualified PASS** (`frontend` direct; `iips-platform` by explicitly referenced prior evidence, with no
+  single `npm test` run at an IID head). See closure §5, qualifications Q-1 … Q-4.
+
+The authoritative closure record is `docs/integration/IIPS_V3_IID_FORMAL_CLOSURE_2026-11-06.md`; the phase evidence
+index is `evidence/iid/README.md`.
