@@ -401,9 +401,26 @@ publishes a silent gap.
 
 ## 11. Commit, pull request, remote verification
 
-- Branch: `arena/2ebc5e44-iips-review-recovered`
-- Commit and PR: recorded in §11 below once pushed, and in the PR body.
-- Remote verification: performed from a fresh clone of the PR head (see §11 note).
+- **Branch:** `arena/2ebc5e44-iips-review-recovered` (based on `main` = `ea28399`, the merged AC-X2/AC-X6 head).
+- **Commits:** `93abbce` (validation, D-1 fix, regression test, evidence bundle) → `fcd17b6` (coverage tables moved
+  out of the ignored `coverage` path; digests regenerated). Code head for CI: **`fcd17b6`**.
+- **Pull request:** **#486** — https://github.com/ramkivs/iips-review-recovered/pull/486
+- **CI:** `Typecheck · Test · Build` — **success** on `fcd17b6` (the frontend workflow, which includes the new
+  regression test). The first push's run was superseded by the second; no run was skipped or bypassed.
+- **Remote verification** (fresh `git clone --depth 1` of the PR branch into a clean directory, independent of the
+  working tree):
+  - the committed tree is byte-identical to the verified local tree (same blob hashes, file by file);
+  - `digests.json` self-check in the clone: **37 files, 0 mismatches**, no unlisted file on disk and no listed file
+    missing — this is what caught the `.gitignore`d `coverage/` directory, which was invisible locally and absent
+    remotely, and is why the tables now live in `mapping-coverage/`;
+  - `sha256sum` of both committed payload files equals the chain's recorded `payloadDigest` (`610eca02…` v1,
+    `cc91f239…` v2) — the read path is verified against bytes, in a clean clone, not against prose;
+  - the limitation register diff against `main` is **42 added / 0 removed** (pure append; `L-001` … `L-029`
+    untouched);
+  - coverage counts in the clone reproduce this document: 33 filed, 5 derived, 14 not available, 18 of 33 tagged.
+
+**Not claimed anywhere in this bundle:** production acceptance, multi-user or hosted behaviour, sector coverage beyond
+`Technology`, a real-dataset product, or any valuation/return expectation for the issuer.
 
 ---
 
