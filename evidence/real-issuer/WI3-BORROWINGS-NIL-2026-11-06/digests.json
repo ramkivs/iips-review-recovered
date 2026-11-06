@@ -113,8 +113,8 @@
       "bytes": 5534
     },
     "runs/05-verification.txt": {
-      "sha256": "179c6cb0accbe583c8f9f7ef60241a96e184b0a9c00db264a55271a92867fb77",
-      "bytes": 1506
+      "sha256": "d08ce30398d87b1aec9b5b3c23ea1384b89b96807e86bc35cfe9e36dde13b328",
+      "bytes": 2164
     },
     "runs/06-payload-verify.json": {
       "sha256": "4e92cfdf94b6d724e9bf61a7d3c497f3c69953d135e423969b0a37ea97a5b076",
@@ -149,8 +149,8 @@
       "bytes": 1143
     },
     "source/quotes.json": {
-      "sha256": "abe57b5bae74b9f82fe324c0bc367c9de3b2e76d7215706ea721cb1d2df9f56c",
-      "bytes": 11167
+      "sha256": "364aa0a1d5b022046755b2d7c771ae23a3b558c2af4c558085e6d65014ae6c33",
+      "bytes": 11384
     }
   }
 }

@@ -15,6 +15,7 @@
  *   5. the Work Item 2 dataset — same filings, no declarations — still refuses. The difference is the evidence.
  */
 import { afterAll, describe, expect, it } from 'vitest';
+import { createHash } from 'node:crypto';
 import { mkdtempSync, readFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
@@ -128,7 +129,8 @@ describe('the four declarations are nil, not zeros', () => {
   it('refuses a bare NIL, so a declaration cannot be made without the wording that states it', () => {
     const csv = text(join(WI3_DIR, 'ingest-input', 'periods.csv'))
       .split('\n')
-      .map((line) => (line.includes('NIL: The Group has no outstanding borrowings.') ? line.replaceAll(`NIL: ${BORROWINGS_QUOTE}`, 'NIL') : line))
+      // split/join rather than replaceAll: the Stage A closure compiles at lib ES2020, which has no replaceAll
+      .map((line) => (line.includes('NIL: The Group has no outstanding borrowings.') ? line.split(`NIL: ${BORROWINGS_QUOTE}`).join('NIL') : line))
       .join('\n');
     const content = buildDatasetContent(inputsOf(WI3_DIR, csv));
     const errors = content.issues.filter((issue) => issue.severity === 'ERROR');
@@ -137,6 +139,68 @@ describe('the four declarations are nil, not zeros', () => {
     const fy24 = content.periods.find((period) => period.period.periodEnd === '2024-03-31')!;
     expect(fy24.values.LONG_TERM_BORROWINGS?.presence).toBe('MISSING');
     expect(fy24.values.LONG_TERM_BORROWINGS?.value).toBeNull();
+  });
+});
+
+describe('the committed provenance record matches the committed declarations', () => {
+  interface Quotes {
+    readonly document: { readonly filingRef: string; readonly retrievedAt: string; readonly statementScope: string };
+    readonly declarations: ReadonlyArray<{
+      readonly component: string;
+      readonly reportedValue: number | null;
+      readonly quotedWording: string;
+      readonly quotedWordingSha256: string;
+      readonly reportingPeriodEnd: string;
+      readonly locator: string;
+      readonly directOrDerived: string;
+    }>;
+  }
+
+  function quotes(): Quotes {
+    return JSON.parse(text(join(WI3_DIR, 'source', 'quotes.json'))) as Quotes;
+  }
+
+  it('every declared cell is the recorded wording, hash for hash', () => {
+    const record = quotes();
+    const rows = text(join(WI3_DIR, 'ingest-input', 'periods.csv')).split('\n');
+    const header = rows[0]!.split(',');
+    const fy24 = rows.find((line) => line.includes('2024-03-31'))!;
+    const cells = fy24.split(',');
+    // the column lookup below is positional, so a quote containing a comma must fail loudly here rather than
+    // silently shifting every cell after it
+    expect(cells.length).toBe(header.length);
+    const cellOf = (column: string): string => cells[header.indexOf(column)]!;
+
+    expect(record.declarations.map((declaration) => declaration.component).sort()).toEqual([
+      'CURRENT_MATURITIES_OF_LONG_TERM_DEBT',
+      'LONG_TERM_BORROWINGS',
+      'PREFERENCE_CAPITAL',
+      'SHORT_TERM_BORROWINGS',
+    ]);
+
+    for (const declaration of record.declarations) {
+      // the cell is `NIL: <wording>`, and the wording is the filer's, byte for byte
+      expect(cellOf(declaration.component)).toBe(`NIL: ${declaration.quotedWording}`);
+      expect(createHash('sha256').update(declaration.quotedWording).digest('hex')).toBe(declaration.quotedWordingSha256);
+      // no value is asserted anywhere: a nil is not a zero
+      expect(declaration.reportedValue).toBeNull();
+      // the period and the filing are named, and the locator is a note/section, not a page guess
+      expect(declaration.reportingPeriodEnd).toBe('2024-03-31');
+      expect(declaration.locator).toMatch(/^Note 2\.(11|12)/);
+      // the scope of the sentence is stated for every declaration (L-035)
+      expect(declaration.directOrDerived.length).toBeGreaterThan(40);
+      expect(declaration.directOrDerived).toMatch(/group level|parent Company/);
+    }
+    expect(record.document.filingRef).toBe('INFY-INDAS-CONSOL-FY24');
+    expect(record.document.statementScope).toBe('CONSOLIDATED');
+  });
+
+  it('the retrieval record states an ordering bound rather than a placeholder instant', () => {
+    const retrievedAt = quotes().document.retrievedAt;
+    // a garbled clock reading ("13:5xZ") is not provenance; the bundle must state a bound it can defend
+    expect(retrievedAt).not.toMatch(/\d{2}:\d{2}x|T\d{2}:\d{1,2}x/i);
+    expect(retrievedAt).toContain('2026-11-06');
+    expect(retrievedAt).toContain('14:05:00.000Z');
   });
 });
 

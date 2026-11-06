@@ -11,7 +11,7 @@
     "publicationDate": "2024-04-18",
     "publicationNote": "the statements are signed and dated April 18, 2024 in the signature block of the balance sheet and the profit and loss statement; the Q4/FY24 results were announced that day",
     "auditor": "Deloitte Haskins & Sells LLP, Chartered Accountants (Firm's Registration No. 117366W/W-100018)",
-    "retrievedAt": "2026-11-06T13:5xZ (fetch tool has no per-request stamp; the WI-3 retrieval followed the WI-2 interval and preceded the ingest at 2026-11-06T14:05:00.000Z)",
+    "retrievedAt": "2026-11-06, bounded by ordering rather than by a clock reading: after the Work Item 2 price retrieval closed (2026-11-06T13:44:25Z, recorded in WI2-PRICE-OBSERVATION-2026-11-06/source/retrieval.json) and before the Work Item 3 ingest at 2026-11-06T14:05:00.000Z. The fetch tool stamps no per-request time, so the ordering bound is recorded instead of an invented instant.",
     "parse": {
       "totalChunks": 17,
       "locatorNote": "the PDF parser returns transport chunks, not printed page numbers, so each quote is anchored by note/section plus chunk index; the document's own index places Note 2.11 at pages 20-26 and Note 2.12 at pages 26-31"

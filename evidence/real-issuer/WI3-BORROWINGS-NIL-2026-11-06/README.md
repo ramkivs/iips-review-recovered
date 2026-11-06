@@ -62,7 +62,7 @@ stayed `NOT_REPORTED`; the four that are declared each carry the filer's own wor
 | URL | `https://www.infosys.com/investors/reports-filings/quarterly-results/2023-2024/q4/documents/consolidated/consol-fy24-annual-finstatement.pdf` |
 | Auditor | Deloitte Haskins & Sells LLP, Chartered Accountants (FRN 117366W/W-100018) |
 | Publication / availability | statements signed and dated **2024-04-18**; Q4/FY24 results announced that day |
-| Retrieval | 2026-11-06, before the ingest at `2026-11-06T14:05:00.000Z` (the fetch tool stamps no per-request time — the bundle records the ordering, not an invented instant) |
+| Retrieval | 2026-11-06, bounded by ordering rather than by a clock reading: after the Work Item 2 price retrieval closed (`2026-11-06T13:44:25Z`) and before the ingest at `2026-11-06T14:05:00.000Z`. The fetch tool stamps no per-request time, so a bound the bundle can defend is recorded instead of an invented instant |
 | Locator granularity | the PDF parser emits transport chunks, not printed page numbers: each quote is anchored by **note + section + chunk index** (2.11 → chunk 13 of 17; 2.12 → chunk 14; 2.9 → chunk 9), and the document's own index places Notes 2.11 and 2.12 at pages 20–26 and 26–31 |
 | Raw extracts | `source/consol-fy24-note-2.11-liquidity-risk.txt`, `...-2.12-equity-share-capital.txt`, `...-2.9-cash-restricted.txt` |
 | Machine-readable provenance | `source/quotes.json` — per-component value/nature/period/date/locator/direct-or-derived/validation, plus `sha256` of each quoted sentence and of each extract file |
@@ -152,7 +152,7 @@ qualifications a reader must carry:
 | Check | Result |
 |---|---|
 | `npx tsx --test assessment-{capital,valuation,dividends,moat,price}.test.ts` (platform) | **47 passed**, 0 failed |
-| `npx vitest run server/investment/cli/wi3BorrowingsNil.test.ts` (new) | **8 passed** — nil-not-zero, bare-`NIL` refusal, gross/net debt, INV-5 blend, MoS arithmetic, "evidence is the difference", no verdict |
+| `npx vitest run server/investment/cli/wi3BorrowingsNil.test.ts` (new) | **10 passed** — nil-not-zero, bare-`NIL` refusal, committed-cell-to-quote identity (hash for hash), the retrieval bound, gross/net debt, INV-5 blend, MoS arithmetic, "evidence is the difference", no verdict |
 | Work Item 2 price test + real-issuer + artifact-CLI regressions | **6 + 14 passed** |
 | `npx tsc --noEmit` (platform) · `npm run typecheck:investment-server` (frontend) | clean |
 | ingest | `issues.json = []`, `coverage.prices = 1`, three annual periods unchanged |

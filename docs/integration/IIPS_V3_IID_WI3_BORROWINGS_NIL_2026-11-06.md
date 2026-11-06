@@ -122,7 +122,7 @@ the dividend coverage verdict, the moat classification, and every stated confide
 
 ## 7. Verification performed
 
-47 platform tests (`assessment-{capital,valuation,dividends,moat,price}`) and 28 frontend tests (8 new WI-3, 6 WI-2,
+47 platform tests (`assessment-{capital,valuation,dividends,moat,price}`) and 30 frontend tests (10 new WI-3, 6 WI-2,
 14 real-issuer/artifact-CLI) pass; both typechecks are clean; ingestion raises no issues; the payload re-read through
 the service hashes to the chain head; a second run into an empty store reproduces the same steps and digests. Details
 in the bundle's `runs/05-verification.txt`, `runs/06-payload-verify.json` and `README.md` §8.
