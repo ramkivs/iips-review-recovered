@@ -20,6 +20,10 @@ on:
       - 'docs/integration/IIPS_v3.0_CAP03_P1_QEV_RUN_RECORD_ROOT_PA_ACT_2026-10-30.md'
       - 'docs/integration/IIPS_v3.0_CAP03_P1_QEV_OPERATOR_VERIFICATION_DACL_ACCEPTANCE_2026-10-30.md'
       - 'docs/integration/cap03-p1-f9/**'
+      # PR #485 publishes only these receipts; keep it on IRR-only CI, never npm/IPD CI.
+      - 'evidence/integration/d02-d03-d05-engineering-2026-11-06/IPD-RECONSTRUCTION-PUBLICATION-RECEIPT-2026-11-06.md'
+      - 'evidence/integration/d02-d03-d05-engineering-2026-11-06/IPD-RECONSTRUCTION-RESULTS-2026-11-06.json'
+      - 'tests/validation/test_irr_workflow_triggers.py'
       - 'tests/validation/test_cap03_artifact_classification.py'
       - 'docs/integration/cap03-s2/verify_recovery_release.py'
       - 'docs/integration/IIPS_v3.0_CAP03_P1_REV7_POST_CI_BOUNDARY_RECONCILIATION_2026-10-30.md'
@@ -42,6 +46,10 @@ on:
       - 'docs/integration/IIPS_v3.0_CAP03_P1_QEV_RUN_RECORD_ROOT_PA_ACT_2026-10-30.md'
       - 'docs/integration/IIPS_v3.0_CAP03_P1_QEV_OPERATOR_VERIFICATION_DACL_ACCEPTANCE_2026-10-30.md'
       - 'docs/integration/cap03-p1-f9/**'
+      # PR #485 publishes only these receipts; keep it on IRR-only CI, never npm/IPD CI.
+      - 'evidence/integration/d02-d03-d05-engineering-2026-11-06/IPD-RECONSTRUCTION-PUBLICATION-RECEIPT-2026-11-06.md'
+      - 'evidence/integration/d02-d03-d05-engineering-2026-11-06/IPD-RECONSTRUCTION-RESULTS-2026-11-06.json'
+      - 'tests/validation/test_irr_workflow_triggers.py'
       - 'tests/validation/test_cap03_artifact_classification.py'
       - 'docs/integration/cap03-s2/verify_recovery_release.py'
       - 'docs/integration/IIPS_v3.0_CAP03_P1_REV7_POST_CI_BOUNDARY_RECONCILIATION_2026-10-30.md'
@@ -69,6 +77,8 @@ jobs:
         run: python -m py_compile docs/integration/cap03-p1-f9/validate_windows10_host_profile.py
       - name: Test artifact identity classification (no runtime authority change)
         run: python -m unittest discover -s tests/validation -p test_cap03_artifact_classification.py -v
+      - name: Test receipt workflow routing (standard library only)
+        run: python -m unittest discover -s tests/validation -p test_irr_workflow_triggers.py -v
       - name: Validate Revision 7 source, admitted IRR evidence, and tracker
         run: python docs/integration/cap03-p1-f9/validate_windows10_host_profile.py
       - name: Download and independently verify the CAP-03 recovery release assets
