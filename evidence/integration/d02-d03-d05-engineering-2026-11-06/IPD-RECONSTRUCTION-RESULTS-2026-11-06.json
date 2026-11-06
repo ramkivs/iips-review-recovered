@@ -1,0 +1,48 @@
+{
+  "record": "IIPS_V3_D02_D03_D05_RECONSTRUCTION_RESULTS",
+  "preparedUtc": "2026-11-06T10:15:08Z",
+  "recordStatus": "re-authored (second re-authoring) after two sandbox workspace resets; content re-authored from the surviving verification record; not byte-identical to any prior version",
+  "scope": "D02/D03/D05 IPD reconstruction publication receipt",
+  "ipd": {
+    "repository": "ramkivs/iips-production-market-data",
+    "pullRequest": 129,
+    "mergedAtUtc": "2026-11-06T05:37:28Z",
+    "mergeCommit": "1cde2324ed4b4d636248af9ea3d87b10cac3d031",
+    "firstParentRecordedPrefix": "07e86a4f",
+    "tree": "d74a5de2a4e73abe87e3ca7a876f394f5ccfe1b5",
+    "ciRun": 42169388318,
+    "executedCountCheckRun": 127733651056,
+    "testsExecuted": 1054,
+    "testsPassed": 1053,
+    "testsFailed": 0,
+    "ciHead": "2411f56510c9b178156974cc112046116eb45365"
+  },
+  "reconstructionNotOriginal": true,
+  "lostOriginalBuildPrefix": "4b126987",
+  "baseCommit": "83f4511e2ebac9d42c7f30f5798e8356c7b23edf",
+  "irrRecordsUnchanged": {
+    "PA-INSTRUCTION-OPERATIVE-TRANSCRIPT.txt": "920c4dcff0a2488eca3ddf02ec147d00e01b811b",
+    "current-register.json": "bde84f8a9bf92b836b80b3ab0d46ef8a185042bd",
+    "IPD-LOCAL-RESULTS.json": "6dce16dd133967c24976a1ff272887b16645bc5a",
+    "publication-status": "72de9513748cd4a783aae92e87ca6b0de1a3a6c6"
+  },
+  "h01ToH12": {
+    "H01": "NOT QUALIFIED", "H02": "NOT QUALIFIED", "H03": "NOT QUALIFIED",
+    "H04": "NOT QUALIFIED", "H05": "NOT QUALIFIED", "H06": "NOT QUALIFIED",
+    "H07": "NOT QUALIFIED", "H08": "NOT QUALIFIED", "H09": "NOT QUALIFIED",
+    "H10": "NOT QUALIFIED", "H11": "NOT QUALIFIED", "H12": "NOT QUALIFIED"
+  },
+  "hardLimits": [
+    "no direct push to main; publish only via dedicated branch and one pull request",
+    "merge only after all required CI checks pass; no --admin, no --auto, no force-push",
+    "no operational holdings write or activation; no D06 admission",
+    "no QE, Gate 4 or PA acceptance claim",
+    "IPD-LOCAL-RESULTS.json, current-register.json and the operative transcript remain byte-identical"
+  ],
+  "lossHistoryUtc": [
+    "2026-11-06 original receipt commit d54f050cfc326548c37848621c588f04c2dcf0fa, bundle sha256 29dfeafb44b7e99200b0adcc77c0eb59f83bee01717b2e2e1e09daafbbd95a2d — lost in first workspace reset; never pushed",
+    "2026-11-06T~10:14Z first re-creation commit f98bdea251b9f2370edff73d48b7ad16e753aa32, bundle sha256 40105da72970aa9be02b88eaccf98c4de2b11138960425655bc64a36540d1cc2 — lost in second workspace reset; never pushed",
+    "2026-11-06T10:15:08Z this re-authoring; carrying commit and bundle are pinned in the accompanying publication script (iips-d02-d03-d05-irr-publish.ps1)"
+  ],
+  "branchNameDiscrepancy": "carrier branch arena/e64b5e72-iips-review-recovered is named for the IRR review-recovered namespace, not the IPD session worktree branch; deliberate — the receipt lives in IRR"
+}
