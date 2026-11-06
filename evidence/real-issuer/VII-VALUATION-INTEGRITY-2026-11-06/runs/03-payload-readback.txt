@@ -1,0 +1,9 @@
+{
+  "scopeToken": "co:IN:CIN:L85110KA1981PLC013115",
+  "reportId": "2ec681bd-0047-4d71-8b32-332c5172e485",
+  "artifactVersion": 1,
+  "payloadDigest": "6a328ef09636c51d069156cad1ea6e0e50c34e62fff0be1d64949f73a1f3504e",
+  "payloadBytes": 54481,
+  "chainVersions": 1
+}
+readback exit: 0

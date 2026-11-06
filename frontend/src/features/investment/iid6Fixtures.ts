@@ -99,6 +99,20 @@ export const ASSESSMENT_ENVELOPE = {
         },
       ],
       trends: { revenueCagr3y: obs(0.1412), patCagr3y: obs(null, 'NOT_COMPUTABLE') },
+      capitalStructure: {
+        // `L-036` — the associates/JV term is a named policy zero, and the fixture says so exactly as the payload
+        // does, so the page test proves the disclosure is rendered rather than that it exists.
+        associatesAndJV: { value: null, presence: 'NOT_COMPUTABLE' as const, reason: 'NOT_REPORTED' },
+        equityBridge: {
+          formula: 'equityValue = enterpriseValue − netDebt − minorityInterest − preferenceCapital + associatesAndJV',
+          policyVersion: 'associates-treatment/1.0.0',
+          treatment: 'POLICY_ZERO_UNAVAILABLE',
+          substitutedInputs: [
+            { input: 'associatesAndJV', presence: 'NOT_COMPUTABLE', reason: 'NOT_REPORTED', treatment: 'POLICY_ZERO' },
+          ],
+          note: 'Associates/JV carrying value is not recorded in dataset schema v1 (NOT_COMPUTABLE: NOT_REPORTED), so the enterprise-to-equity bridge substitutes zero for that term under policy associates-treatment/1.0.0. This is a policy substitution, not an issuer-reported nil: equity value is understated by any associates/JV carrying value the issuer reports.',
+        },
+      },
     },
     completeness: {
       requiredFieldCoveragePct: 82.5,
@@ -173,6 +187,25 @@ export const ASSESSMENT_ENVELOPE = {
       modelConfidence: 0.6355,
       combined: 0.674,
       caps: ['STALE_DATA', 'DILUTION_PROXY'],
+      // `L-034` — declared for the policy-default rate and multiple, and not applied: the design fixes no factor.
+      assumptionCaps: [
+        {
+          cap: 'POLICY_DEFAULT_WACC',
+          basis: 'POLICY_DEFAULT',
+          applied: false,
+          factor: null,
+          triggers: [{ methodId: 'DCF_FCFF', assumption: 'discountRate' }],
+          reason: 'CAP_FACTOR_NOT_SET_IN_POLICY: R-4.3 requires this cap and specifies no magnitude',
+        },
+        {
+          cap: 'POLICY_DEFAULT_MULTIPLE',
+          basis: 'POLICY_DEFAULT',
+          applied: false,
+          factor: null,
+          triggers: [{ methodId: 'PE_RELATIVE', assumption: 'targetMultiple' }],
+          reason: 'CAP_FACTOR_NOT_SET_IN_POLICY: R-4.3 requires this cap and specifies no magnitude',
+        },
+      ],
       formula: 'combined = 0.6 × dataConfidence + 0.4 × modelConfidence, then multiplied by each cap factor',
     },
     assumptions: {

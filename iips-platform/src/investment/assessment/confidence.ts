@@ -5,7 +5,24 @@
  * stated in the payload so a reader can recompute the number from the components instead of trusting it.
  */
 import type { Adequacy } from '../contracts/invariants';
-import type { CompletenessBlock, ConfidenceBlock, IntrinsicRange, QualityBlock } from './types';
+import type { AssumptionCapDeclaration, CompletenessBlock, ConfidenceBlock, IntrinsicRange, QualityBlock } from './types';
+
+/** A valuation assumption that was taken from policy rather than from this issuer (R-4.3). */
+export interface PolicyDefaultTrigger {
+  readonly methodId: string;
+  readonly assumption: 'discountRate' | 'targetMultiple';
+}
+
+/**
+ * The R-4.3 policy-default cap record. `factor` is the policy number applied when a trigger fires; it is `null`
+ * when policy has not set one, in which case the caps are still *declared* by name and no penalty is applied.
+ */
+export interface PolicyDefaultCapPolicy {
+  readonly policyVersion: string;
+  readonly waccCap: string;
+  readonly multipleCap: string;
+  readonly factor: number | null;
+}
 
 export interface ConfidenceInputs {
   readonly completeness: CompletenessBlock;
@@ -15,12 +32,49 @@ export interface ConfidenceInputs {
   readonly dilutionProxy: boolean;
   readonly dividendConflict: boolean;
   readonly applicability: { readonly applicable: number; readonly considered: number };
+  /** R-4.3: which methods leaned on a `POLICY_DEFAULT` discount rate or target multiple. */
+  readonly policyDefaultAssumptions: readonly PolicyDefaultTrigger[];
+  readonly policyDefaultCaps: PolicyDefaultCapPolicy;
 }
 
 const FORMULA =
   'combined = 0.6 × dataConfidence + 0.4 × modelConfidence, then multiplied by each cap factor ' +
   '(ADEQUACY_PARTIAL 0.85, ADEQUACY_INSUFFICIENT 0.6, STALE_DATA 0.9, DILUTION_PROXY 0.98, ' +
   'DIVIDEND_SOURCE_CONFLICT 0.95, HIGH_METHOD_DISAGREEMENT 0.85), rounded to 4 dp';
+
+/**
+ * R-4.3 declares that a `POLICY_DEFAULT` discount rate and a `POLICY_DEFAULT` target multiple cap confidence, and
+ * states no magnitude. This builds one declaration per cap, naming the methods that triggered it, and reports
+ * `applied: false` with a reason when policy has not set a factor — rather than inventing a penalty, or quietly
+ * folding an un-applied cap into `caps[]` as though it had been applied.
+ */
+function assumptionCapsOf(input: ConfidenceInputs): readonly AssumptionCapDeclaration[] {
+  const { policyDefaultCaps: policy, policyDefaultAssumptions: triggers } = input;
+  const build = (cap: string, assumption: PolicyDefaultTrigger['assumption']): AssumptionCapDeclaration => {
+    const mine = triggers.filter((trigger) => trigger.assumption === assumption);
+    const applied = mine.length > 0 && policy.factor !== null;
+    return {
+      cap,
+      basis: 'POLICY_DEFAULT',
+      applied,
+      factor: policy.factor,
+      triggers: mine.map((trigger) => ({ methodId: trigger.methodId, assumption: trigger.assumption })),
+      reason:
+        mine.length === 0
+          ? null
+          : applied
+            ? null
+            : `CAP_FACTOR_NOT_SET_IN_POLICY: R-4.3 requires this cap and specifies no magnitude; policy ${policy.policyVersion} carries factor: null, so the cap is declared and no penalty is applied`,
+    };
+  };
+  const declarations = [
+    build(policy.waccCap, 'discountRate'),
+    build(policy.multipleCap, 'targetMultiple'),
+  ];
+  // A declaration with no trigger is not a cap in force: it is absent from the payload, and `caps[]` stays the
+  // list of penalties actually applied.
+  return declarations.filter((declaration) => declaration.triggers.length > 0);
+}
 
 function round4(value: number): number {
   return Number(Math.min(1, Math.max(0, value)).toFixed(4));
@@ -66,11 +120,26 @@ export function buildConfidence(input: ConfidenceInputs): ConfidenceBlock {
     combined *= 0.85;
   }
 
+  const assumptionCaps = assumptionCapsOf(input);
+  for (const declaration of assumptionCaps) {
+    if (!declaration.applied || declaration.factor === null) continue;
+    caps.push(declaration.cap);
+    combined *= declaration.factor;
+  }
+
+  const declaredButUnapplied = assumptionCaps.filter((declaration) => !declaration.applied).map((declaration) => declaration.cap);
+  const formula =
+    declaredButUnapplied.length === 0
+      ? FORMULA
+      : `${FORMULA}; R-4.3 also declares ${declaredButUnapplied.join(' and ')} for POLICY_DEFAULT assumptions — ` +
+        'declared in assumptionCaps[] but NOT applied, because the design of record specifies no factor';
+
   return {
     dataConfidence,
     modelConfidence,
     combined: round4(combined),
     caps,
-    formula: FORMULA,
+    assumptionCaps,
+    formula,
   };
 }

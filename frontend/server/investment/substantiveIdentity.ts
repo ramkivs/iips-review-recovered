@@ -436,7 +436,33 @@ export const ASSESSMENT_MEMBER_INVENTORY: InventoryNode = object({
       note: SCALAR,
     }),
   }),
-  confidence: object({ combined: SCALAR, caps: OPEN, dataConfidence: OPEN, modelConfidence: OPEN, formula: OPEN }),
+  /**
+   * `L-034` — the policy-default cap declaration.
+   *
+   * Enumerated rather than folded into `caps: OPEN`, because the distinction the block exists for is exactly the one
+   * `caps` cannot express: `caps` lists the penalties that were applied, and this member names caps that are
+   * *required by the design and not applied*, with the reason and the triggering methods. A declaration is a
+   * semantic member — a payload that carries it says something a payload without it does not — so it belongs inside
+   * substantive identity (E-2) and is pinned here, per AC-L14.10. Adding it is the grammar decision that test asks
+   * for; see the register's §17.5 note recording the evolution and the digests it moved.
+   */
+  confidence: object({
+    combined: SCALAR,
+    caps: OPEN,
+    assumptionCaps: array(
+      object({
+        cap: SCALAR,
+        basis: SCALAR,
+        applied: SCALAR,
+        factor: OPEN,
+        triggers: array(object({ methodId: SCALAR, assumption: SCALAR })),
+        reason: OPEN,
+      }),
+    ),
+    dataConfidence: OPEN,
+    modelConfidence: OPEN,
+    formula: OPEN,
+  }),
   completeness: object({
     adequacy: SCALAR,
     adequacyBasis: OPEN,

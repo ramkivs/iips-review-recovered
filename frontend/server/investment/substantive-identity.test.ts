@@ -116,10 +116,54 @@ function preD3(payload: Record<string, any>): Record<string, any> {
   return clone;
 }
 
+/**
+ * Undo the `L-034`/`L-036` disclosure, leaving the post-D-3 payload shape.
+ *
+ * The same device as `preD3`, for the same reason: a grammar or projection change must be distinguishable from a
+ * payload change, and the only way to show that the *rules* did not move is to reconstruct the older payload from
+ * the newer one and reproduce the older digest exactly. The disclosure adds exactly six things — two members
+ * (`confidence.assumptionCaps`, `fundamentals.capitalStructure.equityBridge`), one clause in the confidence formula,
+ * two `limitations` sentences and the associates note now carried on each enterprise-derived per-share observation —
+ * so removing exactly those reproduces the pre-change payload byte for byte.
+ */
+/** Paths whose JSON value differs between two payloads, flattened as `a.b[0].c`. */
+function changedPaths(a: unknown, b: unknown, prefix = ''): string[] {
+  const strip = (path: string) => path.replace(/^\./, '');
+  if (a === b) return [];
+  if (typeof a !== 'object' || typeof b !== 'object' || a === null || b === null) return [strip(prefix)];
+  const left = a as Record<string, unknown>;
+  const right = b as Record<string, unknown>;
+  if (Array.isArray(left) !== Array.isArray(right)) return [strip(prefix)];
+  if (Array.isArray(left) && Array.isArray(right)) {
+    if (left.length !== right.length) return [strip(prefix)];
+    return left.flatMap((item, index) => changedPaths(item, right[index], `${prefix}[${index}]`));
+  }
+  const keys = [...new Set([...Object.keys(left), ...Object.keys(right)])].sort();
+  return keys.flatMap((key) => changedPaths(left[key], right[key], `${prefix}.${key}`));
+}
+
+function undoDisclosure(payload: Record<string, any>): Record<string, any> {
+  const clone = JSON.parse(JSON.stringify(payload)) as Record<string, any>;
+  const bridge = clone.fundamentals.capitalStructure.equityBridge as { note: string } | undefined;
+  delete clone.fundamentals.capitalStructure.equityBridge;
+  delete clone.confidence.assumptionCaps;
+  clone.confidence.formula = String(clone.confidence.formula).replace(/; R-4\.3 also declares[\s\S]*$/, '');
+  clone.limitations = (clone.limitations as string[]).filter(
+    (line) => line !== bridge?.note && !line.startsWith('R-4.3 declares a confidence cap'),
+  );
+  for (const method of clone.valuation.methods as Record<string, any>[]) {
+    for (const key of ['perShareMid', 'perShareLow', 'perShareHigh']) {
+      const observation = (method.output as Record<string, any> | null)?.[key] as Record<string, any> | undefined;
+      if (observation !== undefined) delete observation.note;
+    }
+  }
+  return clone;
+}
+
 describe('D-3 — stored history is not reinterpreted by the new risk block', () => {
   it('still reproduces the decision\'s published digests for the payload shape they measured', () => {
-    expect(substantiveDigestOfPayload(ASSESSMENT, preD3(assessment))).toBe(REFERENCE.assessment);
-    expect(substantiveDigestOfPayload(ASSESSMENT, preD3(assessmentV2))).toBe(REFERENCE.assessmentV2);
+    expect(substantiveDigestOfPayload(ASSESSMENT, preD3(undoDisclosure(assessment)))).toBe(REFERENCE.assessment);
+    expect(substantiveDigestOfPayload(ASSESSMENT, preD3(undoDisclosure(assessmentV2)))).toBe(REFERENCE.assessmentV2);
     const c4 = assessmentPayloadOf(
       assembleAssessment({
         identityDir: env.identityDir,
@@ -127,24 +171,104 @@ describe('D-3 — stored history is not reinterpreted by the new risk block', ()
         generatedAt: '2026-04-10T00:00:00.000Z',
       }) as never,
     ) as Record<string, any>;
-    expect(substantiveDigestOfPayload(ASSESSMENT, preD3(c4))).toBe(REFERENCE.assessmentInsideWindow);
+    expect(substantiveDigestOfPayload(ASSESSMENT, preD3(undoDisclosure(c4)))).toBe(REFERENCE.assessmentInsideWindow);
   });
 
   it('digests a post-D-3 payload differently, because it publishes a semantic member it did not have', () => {
-    expect(substantiveDigestOfPayload(ASSESSMENT, assessment)).toBe(CURRENT.assessment);
-    expect(substantiveDigestOfPayload(ASSESSMENT, assessment)).not.toBe(REFERENCE.assessment);
+    expect(substantiveDigestOfPayload(ASSESSMENT, undoDisclosure(assessment))).toBe(CURRENT.assessment);
+    expect(substantiveDigestOfPayload(ASSESSMENT, undoDisclosure(assessment))).not.toBe(REFERENCE.assessment);
     expect(assessmentSubstantiveInputDigest(assessment)).toBe(REFERENCE.assessmentInput);
     expect(substantiveDigestOfPayload(DISPOSITION, disposition)).toBe(REFERENCE.disposition);
   });
 });
 
+/**
+ * The disclosure moved the payload, and therefore the digests — the fourth time the vocabulary of this projection
+ * has had to say "the payload changed, the rules did not" (D-2, D-3, and now `L-034`/`L-036`).
+ *
+ * The values below are the post-disclosure digests of the same five vectors. They are constants for the same reason
+ * `REFERENCE` is: a digest asserted against the implementation is a tautology. `CURRENT` keeps the shape the D-3
+ * tests reconstruct, so a reader can still find both earlier layers reproduced byte for byte.
+ */
+const POST_DISCLOSURE = Object.freeze({
+  C1: '33c02caa98219de531e6cc5206830020fab3b56ce1559fc079290145d6f8818c',
+  C4: 'df2cacd8978dba5b09f0649604a35ada47dfa604aa5f229d070e85b9f914dd08',
+  C5: '7e4251bc9d488e2240b7ce7d2299a338bc5db15bd73f08e0ad60a95524cd6cac',
+});
+
+describe('L-034/L-036 — the disclosure is a payload evolution, not a reinterpretation', () => {
+  it('reconstructs the pre-disclosure payload exactly, so the rules provably did not move', () => {
+    // The reconstruction must remove exactly the disclosed channels and nothing else.
+    const changed = changedPaths(assessment, undoDisclosure(assessment));
+    expect(changed).toEqual(
+      expect.arrayContaining(['confidence.assumptionCaps', 'confidence.formula', 'fundamentals.capitalStructure.equityBridge', 'limitations']),
+    );
+    for (const path of changed) {
+      expect(
+        ['confidence.assumptionCaps', 'confidence.formula', 'fundamentals.capitalStructure.equityBridge', 'limitations'].includes(path) ||
+          /^valuation\.methods\[\d+\]\.output\.perShare(Mid|Low|High)\.note$/.test(path),
+      ).toBe(true);
+    }
+    expect(substantiveDigestOfPayload(ASSESSMENT, undoDisclosure(assessment))).toBe(CURRENT.assessment);
+    expect(substantiveDigestOfPayload(ASSESSMENT, undoDisclosure(assessmentV2))).toBe(CURRENT.assessmentV2);
+    expect(substantiveDigestOfPayload(ASSESSMENT, undoDisclosure(assessment))).not.toBe(POST_DISCLOSURE.C1);
+  });
+
+  it('digests the post-disclosure payload at the new values, and only because it says something new', () => {
+    expect(substantiveDigestOfPayload(ASSESSMENT, assessment)).toBe(POST_DISCLOSURE.C1);
+    const c4 = assessmentPayloadOf(
+      assembleAssessment({
+        identityDir: env.identityDir,
+        datasetDir: env.datasetV1Dir,
+        generatedAt: '2026-04-10T00:00:00.000Z',
+      }) as never,
+    ) as Record<string, any>;
+    expect(substantiveDigestOfPayload(ASSESSMENT, c4)).toBe(POST_DISCLOSURE.C4);
+    expect(substantiveDigestOfPayload(ASSESSMENT, assessmentV2)).toBe(POST_DISCLOSURE.C5);
+    expect(POST_DISCLOSURE.C1).not.toBe(CURRENT.assessment);
+  });
+
+  it('keeps the clock-free input digests where they were: the engine takes no new input', () => {
+    expect(assessmentSubstantiveInputDigest(assessment)).toBe(REFERENCE.assessmentInput);
+    expect(assessmentSubstantiveInputDigest(assessmentV2)).toBe(REFERENCE.assessmentInputV2);
+  });
+
+  it('puts both new members INSIDE identity, as E-2 requires of a semantic member', () => {
+    const withoutCaps = clone(assessment);
+    delete withoutCaps.confidence.assumptionCaps;
+    expect(substantiveDigestOfPayload(ASSESSMENT, withoutCaps)).not.toBe(POST_DISCLOSURE.C1);
+
+    const withoutBridge = clone(assessment);
+    delete withoutBridge.fundamentals.capitalStructure.equityBridge;
+    expect(substantiveDigestOfPayload(ASSESSMENT, withoutBridge)).not.toBe(POST_DISCLOSURE.C1);
+
+    const differentTreatment = clone(assessment);
+    differentTreatment.fundamentals.capitalStructure.equityBridge.treatment = 'CARRYING_VALUE_REPORTED';
+    expect(substantiveDigestOfPayload(ASSESSMENT, differentTreatment)).not.toBe(POST_DISCLOSURE.C1);
+  });
+
+  it('passes the O-9 inventory with the disclosed members declared, and still refuses an undeclared one', () => {
+    expect(() => assertPayloadInventory(ASSESSMENT, assessment)).not.toThrow();
+    const undeclared = clone(assessment);
+    undeclared.confidence.assumptionCap = undeclared.confidence.assumptionCaps;
+    expect(() => assertPayloadInventory(ASSESSMENT, undeclared)).toThrow(/assumptionCap\b/);
+  });
+
+  it('does not treat the disclosure as a metadata-only re-run: it mints a version', () => {
+    // The disclosure is content, so two runs that differ only by it are SUBSTANTIVE, not CLOCK_ONLY.
+    expect(substantiveDigestOfPayload(ASSESSMENT, undoDisclosure(assessment))).not.toBe(
+      substantiveDigestOfPayload(ASSESSMENT, assessment),
+    );
+  });
+});
+
 describe('O-1 — the published reference digests are reproduced exactly', () => {
   it('reproduces C1 for the baseline M1 assessment', () => {
-    expect(substantiveDigestOfPayload(ASSESSMENT, assessment)).toBe(CURRENT.assessment);
+    expect(substantiveDigestOfPayload(ASSESSMENT, undoDisclosure(assessment))).toBe(CURRENT.assessment);
   });
 
   it('reproduces C1 from the canonical payload TEXT, so object and stored bytes agree', () => {
-    const canonical = canonicalizePayload(assessment);
+    const canonical = canonicalizePayload(undoDisclosure(assessment));
     expect(substantiveDigestOfCanonical(ASSESSMENT, canonical)).toBe(CURRENT.assessment);
   });
 
@@ -155,8 +279,8 @@ describe('O-1 — the published reference digests are reproduced exactly', () =>
       ) as Record<string, any>;
     const c2 = build('2026-11-06T06:30:00.000Z');
     const c3 = build('2026-11-07T00:00:00.000Z');
-    expect(substantiveDigestOfPayload(ASSESSMENT, c2)).toBe(CURRENT.assessment);
-    expect(substantiveDigestOfPayload(ASSESSMENT, c3)).toBe(CURRENT.assessment);
+    expect(substantiveDigestOfPayload(ASSESSMENT, undoDisclosure(c2))).toBe(CURRENT.assessment);
+    expect(substantiveDigestOfPayload(ASSESSMENT, undoDisclosure(c3))).toBe(CURRENT.assessment);
     // C3 moved `stalenessDays` (220 → 221) and the identity binding reference, and still did not move identity.
     expect(c3.asOf.stalenessDays).not.toBe(assessment.asOf.stalenessDays);
   });
@@ -170,12 +294,12 @@ describe('O-1 — the published reference digests are reproduced exactly', () =>
       }) as never,
     ) as Record<string, any>;
     expect(c4.asOf.staleBeyondPolicy).toBe(false);
-    expect(substantiveDigestOfPayload(ASSESSMENT, c4)).toBe(CURRENT.assessmentInsideWindow);
+    expect(substantiveDigestOfPayload(ASSESSMENT, undoDisclosure(c4))).toBe(CURRENT.assessmentInsideWindow);
     expect(CURRENT.assessmentInsideWindow).not.toBe(CURRENT.assessment);
   });
 
   it('reproduces C5 — a different dataset does move the digest', () => {
-    expect(substantiveDigestOfPayload(ASSESSMENT, assessmentV2)).toBe(CURRENT.assessmentV2);
+    expect(substantiveDigestOfPayload(ASSESSMENT, undoDisclosure(assessmentV2))).toBe(CURRENT.assessmentV2);
   });
 
   it('records the clock-free input digests', () => {
@@ -230,7 +354,7 @@ describe('the clock is outside identity — but a freshness TRANSITION inside it
     shifted.asOf.generatedAt = '2030-01-01T00:00:00.000Z';
     shifted.asOf.stalenessDays = 9999;
     shifted.subject.identity.bindingRef = 'a-different-binding-reference';
-    expect(substantiveDigestOfPayload(ASSESSMENT, shifted)).toBe(CURRENT.assessment);
+    expect(substantiveDigestOfPayload(ASSESSMENT, undoDisclosure(shifted))).toBe(CURRENT.assessment);
     // ...while the byte identity does move. The two identities are different questions.
     expect(sha(canonicalizePayload(shifted))).not.toBe(sha(canonicalizePayload(assessment)));
   });
@@ -238,7 +362,7 @@ describe('the clock is outside identity — but a freshness TRANSITION inside it
   it('keeps staleBeyondPolicy, so crossing the freshness window is a substantive change', () => {
     const fresh = clone(assessment);
     fresh.asOf.staleBeyondPolicy = !assessment.asOf.staleBeyondPolicy;
-    expect(substantiveDigestOfPayload(ASSESSMENT, fresh)).not.toBe(CURRENT.assessment);
+    expect(substantiveDigestOfPayload(ASSESSMENT, undoDisclosure(fresh))).not.toBe(CURRENT.assessment);
   });
 
   it('keeps knownAsOf: learning something later is a substantive difference, not clock metadata', () => {

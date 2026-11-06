@@ -115,6 +115,38 @@ export const VALUATION_POLICY = Object.freeze({
     value: 0.7 * (0.069 + 1.0 * 0.055) + 0.3 * (0.069 + 0.02) * (1 - 0.2517),
   }),
 
+  /**
+   * R-4.1, `associatesAndJV`: "Policy: included at carrying value; the policy version is recorded." The dataset
+   * schema has no carrying-value line item, so the policy is stated here and its version travels in the payload's
+   * equity-bridge disclosure. Recording the treatment is a disclosure act: no valuation output moves because of it.
+   */
+  associatesTreatment: Object.freeze({
+    policyVersion: 'associates-treatment/1.0.0',
+    /** What R-4.1 asks for when the figure is available. */
+    basis: 'CARRYING_VALUE' as const,
+    /** What the bridge does when it is not: the input is substituted with zero **and named** in the payload. */
+    whenUnavailable: 'POLICY_ZERO' as const,
+  }),
+
+  /**
+   * R-4.3, `discountRate`: "a `POLICY_DEFAULT` must be recorded with its components and caps confidence";
+   * R-4.3, `targetMultiple`: "`POLICY_DEFAULT` caps confidence".
+   *
+   * The design fixes **that** a cap exists and leaves **how much** it moves the score unstated: no cap name and
+   * no factor appear anywhere in the design of record, and this file is where a policy value would have to live.
+   * `factor: null` therefore records the honest state — the cap is declared by name on every
+   * assessment that triggers it, and no penalty is applied, because applying one would mean inventing a policy
+   * number. Setting this value is a MODEL change (R-4.3 closing rule, R-13), not an implementation detail, and it
+   * activates `assessment/confidence.ts`'s already-tested factor path with no further code change.
+   */
+  policyDefaultAssumptionCaps: Object.freeze({
+    policyVersion: 'confidence-policy-defaults/1.0.0',
+    /** The names travel in `confidence.assumptionCaps[]`; they are not silently folded into `caps[]`. */
+    waccCap: 'POLICY_DEFAULT_WACC',
+    multipleCap: 'POLICY_DEFAULT_MULTIPLE',
+    factor: null as number | null,
+  }),
+
   /** R-4.3 hard cap: terminal growth above long-run nominal GDP growth is a rejection, not a warning. */
   terminalGrowthCap: 0.055,
   terminalGrowthDefault: 0.04,

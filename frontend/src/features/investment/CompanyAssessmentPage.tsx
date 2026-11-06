@@ -249,6 +249,26 @@ function ConfidenceSection({ assessment }: { readonly assessment: AssessmentEnve
           ))}
         </ul>
       )}
+      <h3>Caps declared but not applied</h3>
+      {(confidence.assumptionCaps ?? []).filter((cap) => !cap.applied).length === 0 ? (
+        <p className="muted">
+          No unapplied cap is declared on this version. A cap the policy does not quantify would be listed here
+          rather than counted among the caps applied.
+        </p>
+      ) : (
+        <ul>
+          {(confidence.assumptionCaps ?? [])
+            .filter((cap) => !cap.applied)
+            .map((cap) => (
+              <li key={cap.cap}>
+                <code>{cap.cap}</code> · declared, factor{' '}
+                {cap.factor === null ? 'not set in policy' : formatRatio4(cap.factor)} · triggered by{' '}
+                {cap.triggers.map((trigger) => `${trigger.methodId}/${trigger.assumption}`).join(', ')}
+                {cap.reason === null ? null : <span className="muted"> — {cap.reason}</span>}
+              </li>
+            ))}
+        </ul>
+      )}
       {confidence.formula === undefined ? null : <p className="muted">{confidence.formula}</p>}
     </SurfaceSection>
   );
@@ -518,6 +538,9 @@ export default function CompanyAssessmentPage(): JSX.Element {
 
   const { envelope } = state;
   const { assessment, version, versions, scope } = envelope;
+  // `L-036` — absent on versions composed before the disclosure existed, which is why it is read defensively and
+  // rendered as an absent value rather than silently omitted.
+  const bridge = assessment.fundamentals?.capitalStructure?.equityBridge;
 
   return (
     <section className="company-assessment">
@@ -631,6 +654,32 @@ export default function CompanyAssessmentPage(): JSX.Element {
         assessment.valuation.intrinsic?.withheld !== undefined ? (
           <p className="muted">withheld inputs: {assessment.valuation.intrinsic.withheld.unmetInputs.join(', ')}</p>
         ) : null}
+        <h3>Enterprise-to-equity bridge</h3>
+        {bridge === undefined ? (
+          <p>
+            <AbsentValue reason="this version records no enterprise-to-equity disclosure" />
+          </p>
+        ) : (
+          <>
+            <p>
+              <code>{bridge.formula}</code>
+            </p>
+            <p>
+              treatment <code>{bridge.treatment}</code> · policy <code>{bridge.policyVersion}</code>
+              {bridge.substitutedInputs.length === 0
+                ? ' · every term came from a reported figure'
+                : ` · substituted by policy: ${bridge.substitutedInputs
+                    .map(
+                      (entry) =>
+                        `${entry.input} (${entry.treatment}; ${entry.presence}${
+                          entry.reason === null ? '' : `: ${entry.reason}`
+                        })`,
+                    )
+                    .join(', ')}`}
+            </p>
+            <p className="muted">{bridge.note}</p>
+          </>
+        )}
         <h3>Methods considered</h3>
         <table>
           <thead>
