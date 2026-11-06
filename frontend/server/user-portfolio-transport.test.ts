@@ -130,7 +130,11 @@ describe('Direct P1 user-portfolio HTTP composition', () => {
     expect(result.body.valuation).toMatchObject({
       status: 'NO_HOLDINGS_PRICED',
       portfolioMarketValue: null,
-      coverage: { activeHoldingCount: 1, unavailableHoldingCount: 1 },
+      coverage: { activeHoldingCount: 1, pricedHoldingCount: 0, unresolvedHoldingCount: 1 },
+      holdings: [{
+        pricingStatus: 'UNRESOLVED', reasonCode: 'SERIES_IDENTITY_UNAVAILABLE',
+        currentMarketPrice: null, marketValue: null,
+      }],
     });
     expect(JSON.stringify(result.body)).not.toContain('IIPS_MARKET_DATA_TRANSPORT_TOKEN');
     expect(port.getPortfolio).toHaveBeenCalledWith({ scope: {}, portfolioId: 'pf-1' });

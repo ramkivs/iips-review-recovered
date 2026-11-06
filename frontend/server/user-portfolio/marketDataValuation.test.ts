@@ -1,17 +1,16 @@
-/** Focused Prompt 5 consumer tests against the exact pinned IPD transport client. */
-import { afterEach, describe, expect, it, vi } from 'vitest';
+/** Focused identity-gate tests against the exact pinned IPD transport contract. */
+import { afterEach, describe, expect, expectTypeOf, it, vi } from 'vitest';
 import http from 'node:http';
 import type { AddressInfo } from 'node:net';
+import type { QuoteRequest } from 'iips-production-market-data/dhan-server';
 import type { G2HoldingView, G2PortfolioView } from './userPortfolioContract.js';
 import {
   createUserPortfolioValuation,
-  DEFAULT_MARKET_DATA_CLIENT_TIMEOUT_MS,
   MARKET_DATA_TRANSPORT_URL_ENV,
   readMarketDataTransportConfiguration,
 } from './marketDataValuation.js';
 
 const TOKEN = 'server-only-test-token-not-for-output';
-const AS_OF = '2026-11-05T10:15:00.000Z';
 
 function holding(overrides: Partial<G2HoldingView> = {}): G2HoldingView {
   return {
@@ -46,54 +45,6 @@ function portfolio(holdings: readonly G2HoldingView[]): G2PortfolioView {
     provenanceDigest: 'opaque-portfolio-provenance',
     isSaved: true,
     contributions: [],
-  };
-}
-
-function quoteResponse(options: {
-  freshness?: 'CURRENT' | 'STALE';
-  quality?: 'GOOD' | 'STALE' | 'PARTIAL' | 'UNAVAILABLE';
-} = {}) {
-  return {
-    ok: true,
-    envelope: {
-      envelopeId: 'd01-envelope-123',
-      domain: 'D01_QUOTES',
-      mode: 'SNAPSHOT',
-      companyId: 'COMP-TCS',
-      payload: {
-        companyId: 'COMP-TCS',
-        symbol: 'TCS',
-        exchange: 'NSE',
-        currency: 'INR',
-        bid: 99,
-        ask: 101,
-        ltp: 100,
-        open: 98,
-        high: 102,
-        low: 97,
-        close: 99,
-        previousClose: 98,
-        volume: 1000,
-        vwap: 99.5,
-        turnover: 99500,
-        change: 2,
-        pctChange: 2.04,
-        tradeCount: 25,
-      },
-      provenance: {
-        sourceClassification: 'SYNTHETIC_PRE_ACCESS',
-        vendorTier: 'PRE_ACCESS_FIXTURE',
-        asOf: AS_OF,
-        receivedAt: '2026-11-05T10:15:01.000Z',
-        evaluatedAt: '2026-11-05T10:15:02.000Z',
-        dataVersion: 'fixture-v1',
-        lineageHash: 'opaque-quote-lineage',
-        qualityState: options.quality ?? 'GOOD',
-      },
-      timestamp: AS_OF,
-      schemaVersion: 'D01-1.0',
-    },
-    freshness: options.freshness ?? 'CURRENT',
   };
 }
 
@@ -134,6 +85,11 @@ async function withTransport<T>(
   }
 }
 
+function json(res: http.ServerResponse, value: unknown, status = 200): void {
+  res.writeHead(status, { 'content-type': 'application/json' });
+  res.end(JSON.stringify(value));
+}
+
 function healthResponse() {
   return {
     service: 'UP',
@@ -143,20 +99,22 @@ function healthResponse() {
   };
 }
 
-function json(res: http.ServerResponse, value: unknown, status = 200): void {
-  res.writeHead(status, { 'content-type': 'application/json' });
-  res.end(JSON.stringify(value));
-}
-
 const envFor = (baseUrl: string): NodeJS.ProcessEnv => ({
   [MARKET_DATA_TRANSPORT_URL_ENV]: baseUrl,
   IIPS_MARKET_DATA_TRANSPORT_TOKEN: TOKEN,
 });
 
+type HasSeriesOrSecurityId<T> = Extract<keyof T, 'series' | 'securityId' | 'securityIdentity'> extends never ? false : true;
+
 afterEach(() => vi.restoreAllMocks());
 
-describe('G-2 market-data valuation consumer', () => {
-  it('fails closed when server-owned transport configuration is absent or unsafe', async () => {
+describe('G-2 market-data series identity gate', () => {
+  it('confirms the pinned request and G-2 holding contracts cannot carry D114 series identity', () => {
+    expectTypeOf<HasSeriesOrSecurityId<QuoteRequest>>().toEqualTypeOf<false>();
+    expectTypeOf<HasSeriesOrSecurityId<G2HoldingView>>().toEqualTypeOf<false>();
+  });
+
+  it('fails closed without transport configuration and preserves the actionable identity reason', async () => {
     expect(readMarketDataTransportConfiguration({}).ok).toBe(false);
     expect(readMarketDataTransportConfiguration({
       [MARKET_DATA_TRANSPORT_URL_ENV]: 'https://user:password@example.test',
@@ -170,175 +128,115 @@ describe('G-2 market-data valuation consumer', () => {
       [MARKET_DATA_TRANSPORT_URL_ENV]: 'https://market-data.example.test',
       IIPS_MARKET_DATA_TRANSPORT_TOKEN: 'bad\ntoken',
     })).toMatchObject({ ok: false, code: 'TRANSPORT_NOT_CONFIGURED' });
+
     const fetchSpy = vi.spyOn(globalThis, 'fetch');
     const result = await createUserPortfolioValuation(portfolio([holding()]), {});
     expect(fetchSpy).not.toHaveBeenCalled();
-    expect(result.status).toBe('NO_HOLDINGS_PRICED');
-    expect(result.portfolioMarketValue).toBeNull();
-    expect(result.holdings[0]?.pricingStatus).toBe('UNAVAILABLE');
+    expect(result).toMatchObject({
+      status: 'NO_HOLDINGS_PRICED',
+      portfolioMarketValue: null,
+      pricedMarketValueSubtotal: null,
+      coverage: { activeHoldingCount: 1, pricedHoldingCount: 0, unresolvedHoldingCount: 1 },
+    });
+    expect(result.holdings[0]).toMatchObject({
+      pricingStatus: 'UNRESOLVED',
+      identityStatus: 'UNRESOLVED',
+      currentMarketPrice: null,
+      marketValue: null,
+      reasonCode: 'SERIES_IDENTITY_UNAVAILABLE',
+    });
+    expect(result.holdings[0]?.reason).toContain('No quote was requested');
     expect(JSON.stringify(result)).not.toContain(TOKEN);
   });
 
-  it('uses the exact pinned client, server-only bearer token, exact ISIN/listing request, and preserves canonical data', async () => {
+  it('uses only the actual pinned health client and never sends a company/ISIN/listing-only quote request', async () => {
     await withTransport((request, res) => {
-      if (request.url === '/v1/health') return json(res, healthResponse());
-      if (request.url === '/v1/quotes') return json(res, quoteResponse());
+      if (request.method === 'GET' && request.url === '/v1/health') return json(res, healthResponse());
+      // If the gate regresses, a plausible but unbound quote is available here.
+      // The consumer must not call this endpoint or accept that response.
+      if (request.method === 'POST' && request.url === '/v1/quotes') {
+        return json(res, { ok: true, envelope: { companyId: 'COMP-OTHER', securityId: 'ISIN:INE999A01011:EQ' } });
+      }
       return json(res, { error: { code: 'NOT_FOUND', message: 'not found' } }, 404);
     }, async (baseUrl, requests) => {
       const source = portfolio([holding()]);
       const sourceBefore = structuredClone(source);
       const result = await createUserPortfolioValuation(source, envFor(baseUrl));
-      expect(source).toEqual(sourceBefore); // projection is read-only
+      expect(source).toEqual(sourceBefore);
       expect(result).toMatchObject({
-        status: 'FULLY_PRICED',
-        freshness: 'CURRENT',
-        portfolioMarketValue: 1000,
+        status: 'NO_HOLDINGS_PRICED',
+        freshness: 'UNAVAILABLE',
+        portfolioMarketValue: null,
+        pricedMarketValueSubtotal: null,
         investedValue: 900,
-        unrealizedGainLoss: 100,
-        coverage: { activeHoldingCount: 1, pricedHoldingCount: 1, unpricedHoldingCount: 0 },
+        unrealizedGainLoss: null,
+        coverage: { activeHoldingCount: 1, pricedHoldingCount: 0, unpricedHoldingCount: 1, unresolvedHoldingCount: 1 },
       });
-      expect(result.holdings[0]?.quote).toMatchObject({
-        domain: 'D01_QUOTES',
-        mode: 'SNAPSHOT',
-        envelopeId: 'd01-envelope-123',
-        provenance: {
-          asOf: AS_OF,
-          receivedAt: '2026-11-05T10:15:01.000Z',
-          evaluatedAt: '2026-11-05T10:15:02.000Z',
-          lineageHash: 'opaque-quote-lineage',
-          qualityState: 'GOOD',
-        },
+      expect(result.holdings[0]).toMatchObject({
+        pricingStatus: 'UNRESOLVED',
+        identityStatus: 'UNRESOLVED',
+        currentMarketPrice: null,
+        marketValue: null,
+        quoteAsOf: null,
+        reasonCode: 'SERIES_IDENTITY_UNAVAILABLE',
       });
-      expect(result.holdings[0]?.quoteAsOf).toBe(AS_OF);
+      expect(result.holdings[0]).not.toHaveProperty('quote');
       expect(result.provider).toMatchObject({
         qualification: 'SYNTHETIC_ONLY_NOT_LIVE_QUALIFIED',
         liveProviderConnectivity: 'NOT_CHECKED_PRE_ACCESS',
       });
-      expect(result.provider.disclosure).toContain('response-side series identity');
+      expect(result.provider.disclosure).toContain('No Dhan quote is requested');
       expect(result.provider.disclosure).toContain('not live-qualified');
-      expect(requests.map(({ method, url }) => [method, url])).toEqual([
-        ['GET', '/v1/health'],
-        ['POST', '/v1/quotes'],
-      ]);
+      expect(requests.map(({ method, url }) => [method, url])).toEqual([['GET', '/v1/health']]);
       expect(requests.every((request) => request.authorization === `Bearer ${TOKEN}`)).toBe(true);
-      expect(requests[1]?.body).toEqual({
-        companyId: 'COMP-TCS',
-        isin: 'INE467B01029',
-        exchangeSegment: 'NSE_EQ',
-      });
-      expect(requests.some((request) => request.url?.includes(TOKEN))).toBe(false);
+      expect(requests.some((request) => JSON.stringify(request.body ?? '').includes(TOKEN))).toBe(false);
       expect(JSON.stringify(result)).not.toContain(TOKEN);
+      // The input still holds the imported snapshot values; market data is read-only.
+      expect(source.holdings[0]).toMatchObject({ currentPrice: 88, marketValue: 880 });
     });
   });
 
-  it('isolates unresolved identities and stale quotes; incomplete coverage never becomes a total', async () => {
+  it('isolates each holding refusal and never treats a neighboring company/ISIN as a series match', async () => {
     await withTransport((request, res) => {
-      if (request.url === '/v1/health') return json(res, healthResponse());
-      if (request.url === '/v1/quotes') return json(res, quoteResponse({ freshness: 'STALE' }));
-      return json(res, { error: { code: 'NOT_FOUND', message: 'not found' } }, 404);
+      if (request.method === 'GET' && request.url === '/v1/health') return json(res, healthResponse());
+      return json(res, { ok: true, envelope: { companyId: 'COMP-OTHER' } });
     }, async (baseUrl, requests) => {
       const source = portfolio([
         holding(),
-        holding({ symbol: 'UNKNOWN', companyId: 'COMP-UNKNOWN', isin: undefined, exchange: undefined }),
+        holding({ symbol: 'UNKNOWN', companyId: 'COMP-UNKNOWN', isin: undefined, exchange: undefined, currentPrice: 0, marketValue: 0 }),
       ]);
       const result = await createUserPortfolioValuation(source, envFor(baseUrl));
-      expect(result.status).toBe('PARTIALLY_PRICED');
-      expect(result.freshness).toBe('STALE');
+      expect(result.status).toBe('NO_HOLDINGS_PRICED');
       expect(result.portfolioMarketValue).toBeNull();
-      expect(result.pricedMarketValueSubtotal).toBe(1000);
+      expect(result.pricedMarketValueSubtotal).toBeNull();
       expect(result.coverage).toMatchObject({
         activeHoldingCount: 2,
-        pricedHoldingCount: 1,
-        unpricedHoldingCount: 1,
-        staleHoldingCount: 1,
-        unresolvedHoldingCount: 1,
+        pricedHoldingCount: 0,
+        unpricedHoldingCount: 2,
+        unresolvedHoldingCount: 2,
       });
-      expect(result.holdings[0]?.pricingStatus).toBe('STALE');
-      expect(result.holdings[0]?.quoteAsOf).toBe(AS_OF);
-      expect(result.holdings[1]?.pricingStatus).toBe('UNRESOLVED');
-      expect(requests.filter((request) => request.url === '/v1/quotes')).toHaveLength(1);
+      expect(result.holdings.map(({ pricingStatus, reasonCode, marketValue }) => ({ pricingStatus, reasonCode, marketValue }))).toEqual([
+        { pricingStatus: 'UNRESOLVED', reasonCode: 'SERIES_IDENTITY_UNAVAILABLE', marketValue: null },
+        { pricingStatus: 'UNRESOLVED', reasonCode: 'IDENTITY_UNRESOLVED', marketValue: null },
+      ]);
+      expect(requests.map(({ method, url }) => [method, url])).toEqual([['GET', '/v1/health']]);
     });
   });
 
-  it('rejects a response-side identity mismatch and a PARTIAL-quality quote', async () => {
-    await withTransport((request, res) => {
-      if (request.url === '/v1/health') return json(res, healthResponse());
-      const response = quoteResponse();
-      const envelope = response.envelope as unknown as Record<string, unknown>;
-      const payload = envelope.payload as Record<string, unknown>;
-      envelope.securityId = 'ISIN:INE999A01011:EQ';
-      payload.securityIdentity = {
-        securityId: 'ISIN:INE999A01011:EQ',
-        isin: 'INE999A01011',
-        series: 'EQ',
-        isinAuthority: 'NON_AUTHORITATIVE',
-      };
-      return json(res, response);
-    }, async (baseUrl) => {
+  it('keeps identity unresolved even when transport health fails; health cannot qualify a quote', async () => {
+    await withTransport((_request, res) => {
+      json(res, { error: { code: 'UNAUTHENTICATED', message: TOKEN } }, 401);
+    }, async (baseUrl, requests) => {
       const result = await createUserPortfolioValuation(portfolio([holding()]), envFor(baseUrl));
       expect(result.holdings[0]).toMatchObject({
         pricingStatus: 'UNRESOLVED',
-        identityStatus: 'UNRESOLVED',
-        reasonCode: 'CANONICAL_IDENTITY_MISMATCH',
+        reasonCode: 'SERIES_IDENTITY_UNAVAILABLE',
+        currentMarketPrice: null,
+        marketValue: null,
       });
-      expect(result.portfolioMarketValue).toBeNull();
-    });
-
-    await withTransport((request, res) => {
-      if (request.url === '/v1/health') return json(res, healthResponse());
-      return json(res, quoteResponse({ quality: 'PARTIAL' }));
-    }, async (baseUrl) => {
-      const result = await createUserPortfolioValuation(portfolio([holding()]), envFor(baseUrl));
-      expect(result.holdings[0]).toMatchObject({
-        pricingStatus: 'UNAVAILABLE',
-        reasonCode: 'QUOTE_QUALITY_UNAVAILABLE',
-      });
-      expect(result.portfolioMarketValue).toBeNull();
-    });
-  });
-
-  it('maps an upstream auth rejection to a non-disclosing unavailable holding', async () => {
-    await withTransport((request, res) => {
-      if (request.url === '/v1/health') return json(res, healthResponse());
-      return json(res, { error: { code: 'UNAUTHENTICATED', message: TOKEN } }, 401);
-    }, async (baseUrl) => {
-      const result = await createUserPortfolioValuation(portfolio([holding()]), envFor(baseUrl));
-      expect(result.status).toBe('NO_HOLDINGS_PRICED');
-      expect(result.holdings[0]).toMatchObject({
-        pricingStatus: 'UNAVAILABLE',
-        reasonCode: 'TRANSPORT_AUTHENTICATION_FAILED',
-      });
+      expect(result.provider.liveProviderConnectivity).toBe('UNKNOWN');
+      expect(requests.map(({ method, url }) => [method, url])).toEqual([['GET', '/v1/health']]);
       expect(JSON.stringify(result)).not.toContain(TOKEN);
-      expect(JSON.stringify(result)).not.toContain('UNAUTHENTICATED');
-    });
-  });
-
-  it('fails closed for malformed canonical envelopes and invalid persisted quantities', async () => {
-    await withTransport((request, res) => {
-      if (request.url === '/v1/health') return json(res, healthResponse());
-      return json(res, { ok: true, envelope: { domain: 'D01_QUOTES' }, freshness: 'CURRENT' });
-    }, async (baseUrl) => {
-      const result = await createUserPortfolioValuation(portfolio([
-        holding(), holding({ symbol: 'BADQTY', companyId: 'COMP-BAD', quantity: Number.NaN }),
-      ]), envFor(baseUrl));
-      expect(result.status).toBe('NO_HOLDINGS_PRICED');
-      expect(result.holdings[0]?.reasonCode).toBe('MALFORMED_CANONICAL_RESPONSE');
-      expect(result.holdings[1]).toMatchObject({ pricingStatus: 'UNAVAILABLE', reasonCode: 'INVALID_QUANTITY' });
-    });
-  });
-
-  it('bounds transport requests with the fixed production timeout and reports a stale/unavailable outcome', async () => {
-    expect(DEFAULT_MARKET_DATA_CLIENT_TIMEOUT_MS).toBe(12_000);
-    await withTransport((request, res) => {
-      if (request.url === '/v1/health') return json(res, healthResponse());
-      // Deliberately leave quote response pending to exercise the consumer timeout.
-    }, async (baseUrl) => {
-      const result = await createUserPortfolioValuation(portfolio([holding()]), envFor(baseUrl), { requestTimeoutMs: 20 });
-      expect(result.holdings[0]).toMatchObject({
-        pricingStatus: 'UNAVAILABLE',
-        reasonCode: 'TRANSPORT_TIMEOUT',
-      });
-      expect(result.portfolioMarketValue).toBeNull();
     });
   });
 });

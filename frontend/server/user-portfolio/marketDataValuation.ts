@@ -3,10 +3,10 @@
  *
  * IRR consumes only IPD's authenticated MarketDataTransportClient. It never
  * constructs provider objects, persists quote results, caches them, or retries.
- * G2HoldingView carries companyId/ISIN/listing/P04 disposition but no series;
- * this module does not infer one. The IPD request carries companyId + ISIN +
- * exchange segment, but does not return independently verifiable series identity;
- * the limitation is disclosed in every valuation result and in the G-2 UI.
+ * G2HoldingView carries companyId/ISIN/listing/P04 disposition but no D114
+ * securityId/series, and the pinned IPD QuoteRequest has no series field. This
+ * module therefore refuses all quotes for the current G-2 holding contract;
+ * it never treats companyId + ISIN + listing as a series binding.
  */
 import {
   MARKET_DATA_TRANSPORT_TOKEN_ENV,
@@ -194,16 +194,13 @@ function resolveHoldingSecurity(holding: G2HoldingView): SecurityResolution {
   if (holding.exchange !== 'NSE' && holding.exchange !== 'BSE') {
     return { ok: false, code: 'IDENTITY_UNRESOLVED', reason: 'A persisted NSE or BSE listing is required.' };
   }
-  // The frozen G2 holding view does not include series. Do not synthesize one;
-  // the authenticated IPD service receives the exact ISIN/listing pair and owns
-  // its canonical/P04-to-provider mapping and ambiguity refusal.
+  // The actual G-2 view has no persisted D114 securityId/series, while the
+  // pinned IPD QuoteRequest has no series field. P04 company/ISIN/listing
+  // resolution is not a series-level binding, so do not invoke the provider.
   return {
-    ok: true,
-    request: {
-      companyId: holding.companyId,
-      isin: holding.isin.trim().toUpperCase(),
-      exchangeSegment: holding.exchange === 'NSE' ? 'NSE_EQ' : 'BSE_EQ',
-    },
+    ok: false,
+    code: 'SERIES_IDENTITY_UNAVAILABLE',
+    reason: 'The persisted holding has no exact D114 securityId/series, and the pinned IPD QuoteRequest cannot carry one. No quote was requested. Add the governed series identity to the persisted G-2 contract and series-aware IPD request/resolution before enabling this holding.',
   };
 }
 
@@ -424,7 +421,7 @@ function parseQuoteResponse(raw: unknown, expected: QuoteRequest): QuoteOutcome 
 }
 
 const SERIES_IDENTITY_DISCLOSURE =
-  'Identity limitation: the pinned IPD quote request and Dhan normalizer do not provide independently verifiable response-side series identity. Requests use persisted companyId, ISIN, and listing only; series-level matching is not proven.';
+  'Exact D114 security-series identity is unavailable: persisted G-2 holdings carry no securityId/series and the pinned IPD QuoteRequest cannot carry one. No Dhan quote is requested until both contracts can bind the persisted holding to that exact series.';
 
 function withIdentityDisclosure(view: ProviderHealthView): ProviderHealthView {
   return { ...view, disclosure: `${view.disclosure} ${SERIES_IDENTITY_DISCLOSURE}` };
@@ -531,7 +528,9 @@ function makeHoldingResult(
     };
   }
   if (!outcome.ok) {
-    const unresolved = outcome.code === 'IDENTITY_UNRESOLVED' || outcome.code === 'CANONICAL_IDENTITY_MISMATCH';
+    const unresolved = outcome.code === 'IDENTITY_UNRESOLVED' ||
+      outcome.code === 'CANONICAL_IDENTITY_MISMATCH' ||
+      outcome.code === 'SERIES_IDENTITY_UNAVAILABLE';
     return {
       position, symbol: holding.symbol, quantity, active: true,
       pricingStatus: unresolved ? 'UNRESOLVED' : 'UNAVAILABLE', identityStatus: unresolved ? 'UNRESOLVED' : 'RESOLVED',
@@ -646,9 +645,10 @@ export function projectUserPortfolioValuation(
 }
 
 /**
- * Calls the actual exported IPD transport client. One health request and
- * independent per-holding quote calls; no IRR cache, retry, limiter, or
- * historical request (current portfolio valuation has no D02 use case).
+ * Calls the actual exported IPD transport client for readiness only. The
+ * current persisted G-2 and pinned IPD contracts cannot carry a series binding,
+ * so every active holding fails closed before any quote request. No IRR cache,
+ * retry, limiter, or historical request (current valuation has no D02 use case).
  */
 export async function createUserPortfolioValuation(
   portfolio: G2PortfolioView,
@@ -657,8 +657,12 @@ export async function createUserPortfolioValuation(
 ): Promise<UserPortfolioValuation> {
   const config = readMarketDataTransportConfiguration(env);
   if (!config.ok) {
-    const provider = noTransportHealth(config.reason);
-    const failures: (QuoteOutcome | undefined)[] = portfolio.holdings.map(() => configFailureOutcome(config));
+    const provider = withIdentityDisclosure(noTransportHealth(config.reason));
+    const failures: (QuoteOutcome | undefined)[] = portfolio.holdings.map((holding) => {
+      if (!holding.active) return undefined;
+      const identity = resolveHoldingSecurity(holding);
+      return identity.ok ? configFailureOutcome(config) : identity;
+    });
     return projectUserPortfolioValuation(portfolio, failures, provider, configFailureOutcome(config));
   }
   const client = new MarketDataTransportClient(config.baseUrl, config.token);
