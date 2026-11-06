@@ -14,6 +14,11 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import {
+  fetchPortfolioDispositions,
+  type PortfolioDispositionEntry,
+} from '../../api/investmentDisposition';
+import { formatRatio4, notAvailable } from '../investment/investmentCopy';
+import {
   fetchUserPortfolio,
   UserPortfolioApiError,
   type UserPortfolioView,
@@ -28,10 +33,102 @@ import {
 import type { UserPortfolioHolding, UserPortfolioContribution } from '../../api/userPortfolios';
 import { UserPortfolioErrorState, formatInr, formatPct, shortDigest } from './UserPortfolioStates';
 
+/**
+ * IID-6 — one holding's disposition, as the portfolio list reports it.
+ *
+ * The list route reports facts read from each stored chain head. A null verb on an entry means the head could not be
+ * read, which is rendered as unavailable — never as a neutral verdict and never as "no disposition" if the entry
+ * exists.
+ */
+function dispositionFor(
+  holding: UserPortfolioHolding,
+  entries: readonly PortfolioDispositionEntry[],
+): PortfolioDispositionEntry | null {
+  if (holding.isin === undefined) return null;
+  const securityId = `IN:ISIN:${holding.isin}`;
+  return entries.find((entry) => entry.securityId === securityId) ?? null;
+}
+
+function DispositionCell({
+  holding,
+  entry,
+  dispositionsRead,
+}: {
+  readonly holding: UserPortfolioHolding;
+  readonly entry: PortfolioDispositionEntry | null;
+  readonly dispositionsRead: boolean;
+}): JSX.Element {
+  if (holding.identityStatus === 'UNRESOLVED' || holding.identityStatus === undefined) {
+    return <span className="muted">{notAvailable('identity unresolved, so no disposition is keyed')}</span>;
+  }
+  if (!dispositionsRead) {
+    return <span className="muted">{notAvailable('disposition read unavailable')}</span>;
+  }
+  if (entry === null) {
+    return <span className="muted">{notAvailable('no stored disposition for this security')}</span>;
+  }
+  if (entry.verb === null) {
+    return <span className="muted">{notAvailable('stored disposition head could not be read')}</span>;
+  }
+  return (
+    <span>
+      <strong>{entry.verb}</strong>
+      {entry.withheld === true ? ' (withheld)' : ''}
+      <div className="muted">
+        confidence{' '}
+        {entry.confidence === null ? notAvailable('not recorded') : formatRatio4(entry.confidence)}
+      </div>
+    </span>
+  );
+}
+
+function LinksCell({
+  portfolioId,
+  holding,
+  entry,
+}: {
+  readonly portfolioId: string | undefined;
+  readonly holding: UserPortfolioHolding;
+  readonly entry: PortfolioDispositionEntry | null;
+}): JSX.Element {
+  const issuerId = entry?.issuerId ?? null;
+  const securityId = holding.isin === undefined ? null : `IN:ISIN:${holding.isin}`;
+  if (issuerId === null && securityId === null) {
+    return <span className="muted">{notAvailable('no resolved identity to link')}</span>;
+  }
+  /**
+   * The company link carries the portfolio and security context so the company page can render THAT holding's
+   * disposition beside the assessment. Without the context the company page says so explicitly rather than showing
+   * a disposition it cannot address.
+   */
+  const companyHref =
+    issuerId === null
+      ? null
+      : `/investment/company/${encodeURIComponent(issuerId)}${
+          portfolioId === undefined || securityId === null
+            ? ''
+            : `?portfolioId=${encodeURIComponent(portfolioId)}&securityId=${encodeURIComponent(securityId)}`
+        }`;
+  return (
+    <span>
+      {companyHref === null ? null : (
+        <>
+          <Link to={companyHref}>Company assessment →</Link>{' '}
+          <Link to={`${companyHref}#change-timeline`}>Change history →</Link>{' '}
+        </>
+      )}
+      {securityId === null ? null : (
+        <Link to={`/investment/candidate/${encodeURIComponent(securityId)}`}>Candidate view →</Link>
+      )}
+    </span>
+  );
+}
+
 export function UserPortfolioDetail() {
   const { portfolioId } = useParams<{ portfolioId: string }>();
   const [view, setView] = useState<UserPortfolioView | null>(null);
   const [error, setError] = useState<UserPortfolioApiError | null>(null);
+  const [dispositions, setDispositions] = useState<readonly PortfolioDispositionEntry[] | null>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -47,6 +144,14 @@ export function UserPortfolioDetail() {
         if (!cancelled) {
           setError(e instanceof UserPortfolioApiError ? e : new UserPortfolioApiError(0, String(e)));
         }
+      });
+    // A failed disposition read must not hide the portfolio: it degrades each row to "not available — reason".
+    fetchPortfolioDispositions(portfolioId)
+      .then((list) => {
+        if (!cancelled) setDispositions(list.dispositions);
+      })
+      .catch(() => {
+        if (!cancelled) setDispositions(null);
       });
     return () => {
       cancelled = true;
@@ -91,6 +196,24 @@ export function UserPortfolioDetail() {
       render: (row) => row.sourceBroker,
     },
     { key: 'lineageDigest', header: 'Lineage', render: (row) => shortDigest(row.lineageDigest) },
+    {
+      key: 'disposition',
+      header: 'Disposition',
+      render: (row) => (
+        <DispositionCell
+          holding={row}
+          entry={dispositionFor(row, dispositions ?? [])}
+          dispositionsRead={dispositions !== null}
+        />
+      ),
+    },
+    {
+      key: 'investmentLinks',
+      header: 'Company, candidate and history',
+      render: (row) => (
+        <LinksCell portfolioId={portfolioId} holding={row} entry={dispositionFor(row, dispositions ?? [])} />
+      ),
+    },
   ];
 
   const contributionColumns: readonly Column<UserPortfolioContribution>[] = [

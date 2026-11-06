@@ -172,12 +172,48 @@ export interface CompanyAssessmentView {
     };
     readonly withheld: { readonly unmetInputs: readonly string[] } | null;
   };
-  readonly confidence: { readonly dataConfidence: number; readonly modelConfidence: number; readonly combined: number };
+  readonly confidence: {
+    readonly dataConfidence: number;
+    readonly modelConfidence: number;
+    readonly combined: number;
+    /** The caps applied after the weighted combination, in the order the policy applied them. */
+    readonly caps?: readonly string[];
+    readonly formula?: string;
+  };
   readonly assumptions: {
-    readonly discountRate: { readonly value: number; readonly basis: string } | null;
+    readonly discountRate: {
+      readonly value: number;
+      readonly basis: string;
+      readonly components?: Readonly<Record<string, number>>;
+    } | null;
     readonly terminalGrowth: number | null;
     readonly forecastHorizonYears: number | null;
     readonly policyVersion: string;
+    readonly methodSpecific?: readonly {
+      readonly methodId: string;
+      readonly assumptions: Readonly<Record<string, string | number>>;
+    }[];
+  };
+  /**
+   * IID-6 read-model addition. The transport has always sent the whole canonical payload; these members were
+   * simply not declared on the client type, so the surface could not render the fundamentals it was already
+   * receiving. Declaring them is a UI-side view-model change: no route, projection or server value changed.
+   */
+  readonly fundamentals?: {
+    readonly annual: readonly {
+      readonly periodEnd?: string;
+      readonly periodStart?: string;
+      readonly basis?: string;
+      readonly values?: Readonly<Record<string, NumericObservationView>>;
+      readonly derived?: Readonly<Record<string, NumericObservationView>>;
+    }[];
+    readonly quarterly?: readonly {
+      readonly periodEnd?: string;
+      readonly values?: Readonly<Record<string, NumericObservationView>>;
+    }[];
+    readonly ttm?: { readonly periodEnd?: string; readonly values?: Readonly<Record<string, NumericObservationView>> } | null;
+    readonly trends?: Readonly<Record<string, NumericObservationView | string | number | null>>;
+    readonly capitalStructure?: Readonly<Record<string, NumericObservationView | string | number | null>>;
   };
   readonly sectorReferenceView: {
     readonly evidenceClass: string;
