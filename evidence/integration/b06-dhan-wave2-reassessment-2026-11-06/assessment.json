@@ -1,0 +1,3787 @@
+{
+  "task": "B-06",
+  "status": "REASSESSMENT_COMPLETE_NOT_ALL_IDENTITIES_RESOLVED",
+  "sourcePath": "evidence/integration/b04-dhan-isin-nse-2026-11-06/source.csv",
+  "sourceSha256": "2dc1d1fba6e183cfa657652d0dab98daac570df6e3ef3adbbc8f2a397fcabd0d",
+  "masterCommit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+  "corpusRevision": {
+    "batchId": "BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001",
+    "fileChecksumSha256": "7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5",
+    "recordCount": 2250,
+    "authorizationRef": "AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001",
+    "operatingMode": "OFFLINE_BOOTSTRAP"
+  },
+  "wave2DispositionRevision": "BATCH-D05-TIER2-BROAD-UNIVERSE-WAVE2-DISPOSITION-2026-11-06-001",
+  "dispositionKind": "DISPOSITION_ONLY__NO_DEPOSITION__CORPUS_BYTE_IDENTICAL",
+  "incorporatedByB05": 0,
+  "asOfConvention": {
+    "start": "2026-11-06T00:00:00+05:30",
+    "end": "2026-11-06T23:59:59.999+05:30"
+  },
+  "counts": {
+    "rows": 68,
+    "columns": 9,
+    "resolved": 1,
+    "unresolved": 67,
+    "ambiguous": 0,
+    "statusChangesFromB04": 0
+  },
+  "historicalQuarantinePreservation": "All historical134 outcomes and B-04 actual67 records remain unchanged; B-05 carries B-04 IDs, not 67 additional replacements.",
+  "outstandingRegister": [
+    {
+      "id": "O-02",
+      "status": "OUTSTANDING / NOT COMPLETED BY B-06",
+      "action": "Separate additive IRR receipt must register BOTH IPD #131 and #132 and correct stale #491/R2 §28 F2 status. Existing #494/#495 evidence is not deemed combined completion by B-06.",
+      "scope": "Broker-import O-02, not unrelated capability-matrix O-02 provisioning"
+    }
+  ],
+  "operationalActions": [],
+  "rows": [
+    {
+      "row": 1,
+      "source": {
+        "Scrip Name": "Himadri Speciality Chemical",
+        "ISIN Code": "INE019C01026",
+        "Quantity": "15",
+        "Avg. Buy Rate": "443.17",
+        "Buy Value": "6647.50",
+        "LTP": "568.15",
+        "Current Value": "8522.25",
+        "P&L": "1874.75",
+        "P&L%": "28.20"
+      },
+      "exchange": "NSE",
+      "primaryKey": "INE019C01026+NSE",
+      "masterCommit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+      "corpusRevision": {
+        "batchId": "BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001",
+        "fileChecksumSha256": "7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5",
+        "recordCount": 2250,
+        "authorizationRef": "AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001",
+        "operatingMode": "OFFLINE_BOOTSTRAP"
+      },
+      "wave2DispositionRevision": "BATCH-D05-TIER2-BROAD-UNIVERSE-WAVE2-DISPOSITION-2026-11-06-001",
+      "resolutionStatus": "UNRESOLVED",
+      "matchedSecurityIdentifier": null,
+      "matchedSecurityName": null,
+      "exactISINRecordCount": 0,
+      "depositPointers": [],
+      "activeNSEListings": [],
+      "eligibility": "NOT_EVALUABLE_NO_MASTER_RECORD",
+      "reason": "UNMAPPED_IDENTIFIER: zero exact ISIN records in unchanged 2250-record corpus; B-05 added zero and retained UNRESOLVED.",
+      "b04": {
+        "row": 1,
+        "status": "UNRESOLVED",
+        "quarantineId": "ident-quar-1793982992262-ooh0g"
+      },
+      "b05": {
+        "row": 2,
+        "disposition": "UNRESOLVED",
+        "reasonCode": "AUTHORITATIVE_RECORD_UNAVAILABLE",
+        "missingAuthoritativeEvidence": [
+          "NSE trading symbol (or any exchange symbol) — absent from the source; cannot be manufactured",
+          "CIN (MCA master data) — absent from the source",
+          "lotSize, tickSize, faceValue — absent from the source",
+          "industry and sector — absent from the source (UNCLASSIFIED sentinel only exists for the synthetic fixture, not for governed deposition)",
+          "listingStatus with evidence that the security is ACTIVE on the NSE equity CM segment — absent from the source",
+          "independent exchange/depository or issuer verification — not performed (B-04 output is a local name/ISIN match only)"
+        ],
+        "quarantineId": "ident-quar-1793982992262-ooh0g"
+      },
+      "newB06QuarantineId": "ident-quar-1793985835461-qabi1",
+      "statusChangedFromB04": false,
+      "ownership": "NOT_EVALUATED_NO_OPERATIONAL_CONTEXT; identity lookup is not ownership/save authorization"
+    },
+    {
+      "row": 2,
+      "source": {
+        "Scrip Name": "Vishal Mega Mart",
+        "ISIN Code": "INE01EA01019",
+        "Quantity": "100",
+        "Avg. Buy Rate": "110.30",
+        "Buy Value": "11029.82",
+        "LTP": "94.00",
+        "Current Value": "9400.00",
+        "P&L": "-1629.82",
+        "P&L%": "-14.78"
+      },
+      "exchange": "NSE",
+      "primaryKey": "INE01EA01019+NSE",
+      "masterCommit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+      "corpusRevision": {
+        "batchId": "BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001",
+        "fileChecksumSha256": "7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5",
+        "recordCount": 2250,
+        "authorizationRef": "AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001",
+        "operatingMode": "OFFLINE_BOOTSTRAP"
+      },
+      "wave2DispositionRevision": "BATCH-D05-TIER2-BROAD-UNIVERSE-WAVE2-DISPOSITION-2026-11-06-001",
+      "resolutionStatus": "UNRESOLVED",
+      "matchedSecurityIdentifier": null,
+      "matchedSecurityName": null,
+      "exactISINRecordCount": 0,
+      "depositPointers": [],
+      "activeNSEListings": [],
+      "eligibility": "NOT_EVALUABLE_NO_MASTER_RECORD",
+      "reason": "UNMAPPED_IDENTIFIER: zero exact ISIN records in unchanged 2250-record corpus; B-05 added zero and retained UNRESOLVED.",
+      "b04": {
+        "row": 2,
+        "status": "UNRESOLVED",
+        "quarantineId": "ident-quar-1793982992263-0856m"
+      },
+      "b05": {
+        "row": 3,
+        "disposition": "UNRESOLVED",
+        "reasonCode": "AUTHORITATIVE_RECORD_UNAVAILABLE",
+        "missingAuthoritativeEvidence": [
+          "NSE trading symbol (or any exchange symbol) — absent from the source; cannot be manufactured",
+          "CIN (MCA master data) — absent from the source",
+          "lotSize, tickSize, faceValue — absent from the source",
+          "industry and sector — absent from the source (UNCLASSIFIED sentinel only exists for the synthetic fixture, not for governed deposition)",
+          "listingStatus with evidence that the security is ACTIVE on the NSE equity CM segment — absent from the source",
+          "independent exchange/depository or issuer verification — not performed (B-04 output is a local name/ISIN match only)"
+        ],
+        "quarantineId": "ident-quar-1793982992263-0856m"
+      },
+      "newB06QuarantineId": "ident-quar-1793985835463-one4v",
+      "statusChangedFromB04": false,
+      "ownership": "NOT_EVALUATED_NO_OPERATIONAL_CONTEXT; identity lookup is not ownership/save authorization"
+    },
+    {
+      "row": 3,
+      "source": {
+        "Scrip Name": "Bank of Baroda",
+        "ISIN Code": "INE028A01039",
+        "Quantity": "100",
+        "Avg. Buy Rate": "259.03",
+        "Buy Value": "25903.10",
+        "LTP": "250.31",
+        "Current Value": "25031.00",
+        "P&L": "-872.10",
+        "P&L%": "-3.37"
+      },
+      "exchange": "NSE",
+      "primaryKey": "INE028A01039+NSE",
+      "masterCommit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+      "corpusRevision": {
+        "batchId": "BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001",
+        "fileChecksumSha256": "7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5",
+        "recordCount": 2250,
+        "authorizationRef": "AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001",
+        "operatingMode": "OFFLINE_BOOTSTRAP"
+      },
+      "wave2DispositionRevision": "BATCH-D05-TIER2-BROAD-UNIVERSE-WAVE2-DISPOSITION-2026-11-06-001",
+      "resolutionStatus": "UNRESOLVED",
+      "matchedSecurityIdentifier": null,
+      "matchedSecurityName": null,
+      "exactISINRecordCount": 0,
+      "depositPointers": [],
+      "activeNSEListings": [],
+      "eligibility": "NOT_EVALUABLE_NO_MASTER_RECORD",
+      "reason": "UNMAPPED_IDENTIFIER: zero exact ISIN records in unchanged 2250-record corpus; B-05 added zero and retained UNRESOLVED.",
+      "b04": {
+        "row": 3,
+        "status": "UNRESOLVED",
+        "quarantineId": "ident-quar-1793982992264-qenr8"
+      },
+      "b05": {
+        "row": 4,
+        "disposition": "UNRESOLVED",
+        "reasonCode": "AUTHORITATIVE_RECORD_UNAVAILABLE",
+        "missingAuthoritativeEvidence": [
+          "NSE trading symbol (or any exchange symbol) — absent from the source; cannot be manufactured",
+          "CIN (MCA master data) — absent from the source",
+          "lotSize, tickSize, faceValue — absent from the source",
+          "industry and sector — absent from the source (UNCLASSIFIED sentinel only exists for the synthetic fixture, not for governed deposition)",
+          "listingStatus with evidence that the security is ACTIVE on the NSE equity CM segment — absent from the source",
+          "independent exchange/depository or issuer verification — not performed (B-04 output is a local name/ISIN match only)"
+        ],
+        "quarantineId": "ident-quar-1793982992264-qenr8"
+      },
+      "newB06QuarantineId": "ident-quar-1793985835464-41y7y",
+      "statusChangedFromB04": false,
+      "ownership": "NOT_EVALUATED_NO_OPERATIONAL_CONTEXT; identity lookup is not ownership/save authorization"
+    },
+    {
+      "row": 4,
+      "source": {
+        "Scrip Name": "Jamna Auto Industries",
+        "ISIN Code": "INE039C01032",
+        "Quantity": "33",
+        "Avg. Buy Rate": "111.61",
+        "Buy Value": "3683.00",
+        "LTP": "136.94",
+        "Current Value": "4519.02",
+        "P&L": "836.02",
+        "P&L%": "22.70"
+      },
+      "exchange": "NSE",
+      "primaryKey": "INE039C01032+NSE",
+      "masterCommit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+      "corpusRevision": {
+        "batchId": "BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001",
+        "fileChecksumSha256": "7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5",
+        "recordCount": 2250,
+        "authorizationRef": "AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001",
+        "operatingMode": "OFFLINE_BOOTSTRAP"
+      },
+      "wave2DispositionRevision": "BATCH-D05-TIER2-BROAD-UNIVERSE-WAVE2-DISPOSITION-2026-11-06-001",
+      "resolutionStatus": "UNRESOLVED",
+      "matchedSecurityIdentifier": null,
+      "matchedSecurityName": null,
+      "exactISINRecordCount": 0,
+      "depositPointers": [],
+      "activeNSEListings": [],
+      "eligibility": "NOT_EVALUABLE_NO_MASTER_RECORD",
+      "reason": "UNMAPPED_IDENTIFIER: zero exact ISIN records in unchanged 2250-record corpus; B-05 added zero and retained UNRESOLVED.",
+      "b04": {
+        "row": 4,
+        "status": "UNRESOLVED",
+        "quarantineId": "ident-quar-1793982992265-qf6f5"
+      },
+      "b05": {
+        "row": 5,
+        "disposition": "UNRESOLVED",
+        "reasonCode": "AUTHORITATIVE_RECORD_UNAVAILABLE",
+        "missingAuthoritativeEvidence": [
+          "NSE trading symbol (or any exchange symbol) — absent from the source; cannot be manufactured",
+          "CIN (MCA master data) — absent from the source",
+          "lotSize, tickSize, faceValue — absent from the source",
+          "industry and sector — absent from the source (UNCLASSIFIED sentinel only exists for the synthetic fixture, not for governed deposition)",
+          "listingStatus with evidence that the security is ACTIVE on the NSE equity CM segment — absent from the source",
+          "independent exchange/depository or issuer verification — not performed (B-04 output is a local name/ISIN match only)"
+        ],
+        "quarantineId": "ident-quar-1793982992265-qf6f5"
+      },
+      "newB06QuarantineId": "ident-quar-1793985835464-rrfbs",
+      "statusChangedFromB04": false,
+      "ownership": "NOT_EVALUATED_NO_OPERATIONAL_CONTEXT; identity lookup is not ownership/save authorization"
+    },
+    {
+      "row": 5,
+      "source": {
+        "Scrip Name": "Suzlon Energy",
+        "ISIN Code": "INE040H01021",
+        "Quantity": "70",
+        "Avg. Buy Rate": "43.54",
+        "Buy Value": "3047.72",
+        "LTP": "38.80",
+        "Current Value": "2716.00",
+        "P&L": "-331.72",
+        "P&L%": "-10.88"
+      },
+      "exchange": "NSE",
+      "primaryKey": "INE040H01021+NSE",
+      "masterCommit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+      "corpusRevision": {
+        "batchId": "BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001",
+        "fileChecksumSha256": "7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5",
+        "recordCount": 2250,
+        "authorizationRef": "AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001",
+        "operatingMode": "OFFLINE_BOOTSTRAP"
+      },
+      "wave2DispositionRevision": "BATCH-D05-TIER2-BROAD-UNIVERSE-WAVE2-DISPOSITION-2026-11-06-001",
+      "resolutionStatus": "UNRESOLVED",
+      "matchedSecurityIdentifier": null,
+      "matchedSecurityName": null,
+      "exactISINRecordCount": 0,
+      "depositPointers": [],
+      "activeNSEListings": [],
+      "eligibility": "NOT_EVALUABLE_NO_MASTER_RECORD",
+      "reason": "UNMAPPED_IDENTIFIER: zero exact ISIN records in unchanged 2250-record corpus; B-05 added zero and retained UNRESOLVED.",
+      "b04": {
+        "row": 5,
+        "status": "UNRESOLVED",
+        "quarantineId": "ident-quar-1793982992265-92jak"
+      },
+      "b05": {
+        "row": 6,
+        "disposition": "UNRESOLVED",
+        "reasonCode": "AUTHORITATIVE_RECORD_UNAVAILABLE",
+        "missingAuthoritativeEvidence": [
+          "NSE trading symbol (or any exchange symbol) — absent from the source; cannot be manufactured",
+          "CIN (MCA master data) — absent from the source",
+          "lotSize, tickSize, faceValue — absent from the source",
+          "industry and sector — absent from the source (UNCLASSIFIED sentinel only exists for the synthetic fixture, not for governed deposition)",
+          "listingStatus with evidence that the security is ACTIVE on the NSE equity CM segment — absent from the source",
+          "independent exchange/depository or issuer verification — not performed (B-04 output is a local name/ISIN match only)"
+        ],
+        "quarantineId": "ident-quar-1793982992265-92jak"
+      },
+      "newB06QuarantineId": "ident-quar-1793985835465-1tx3q",
+      "statusChangedFromB04": false,
+      "ownership": "NOT_EVALUATED_NO_OPERATIONAL_CONTEXT; identity lookup is not ownership/save authorization"
+    },
+    {
+      "row": 6,
+      "source": {
+        "Scrip Name": "Fineotex Chemical",
+        "ISIN Code": "INE045J01034",
+        "Quantity": "100",
+        "Avg. Buy Rate": "22.02",
+        "Buy Value": "2202.50",
+        "LTP": "51.55",
+        "Current Value": "5155.00",
+        "P&L": "2952.50",
+        "P&L%": "134.05"
+      },
+      "exchange": "NSE",
+      "primaryKey": "INE045J01034+NSE",
+      "masterCommit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+      "corpusRevision": {
+        "batchId": "BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001",
+        "fileChecksumSha256": "7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5",
+        "recordCount": 2250,
+        "authorizationRef": "AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001",
+        "operatingMode": "OFFLINE_BOOTSTRAP"
+      },
+      "wave2DispositionRevision": "BATCH-D05-TIER2-BROAD-UNIVERSE-WAVE2-DISPOSITION-2026-11-06-001",
+      "resolutionStatus": "UNRESOLVED",
+      "matchedSecurityIdentifier": null,
+      "matchedSecurityName": null,
+      "exactISINRecordCount": 0,
+      "depositPointers": [],
+      "activeNSEListings": [],
+      "eligibility": "NOT_EVALUABLE_NO_MASTER_RECORD",
+      "reason": "UNMAPPED_IDENTIFIER: zero exact ISIN records in unchanged 2250-record corpus; B-05 added zero and retained UNRESOLVED.",
+      "b04": {
+        "row": 6,
+        "status": "UNRESOLVED",
+        "quarantineId": "ident-quar-1793982992265-ia1r6"
+      },
+      "b05": {
+        "row": 7,
+        "disposition": "UNRESOLVED",
+        "reasonCode": "AUTHORITATIVE_RECORD_UNAVAILABLE",
+        "missingAuthoritativeEvidence": [
+          "NSE trading symbol (or any exchange symbol) — absent from the source; cannot be manufactured",
+          "CIN (MCA master data) — absent from the source",
+          "lotSize, tickSize, faceValue — absent from the source",
+          "industry and sector — absent from the source (UNCLASSIFIED sentinel only exists for the synthetic fixture, not for governed deposition)",
+          "listingStatus with evidence that the security is ACTIVE on the NSE equity CM segment — absent from the source",
+          "independent exchange/depository or issuer verification — not performed (B-04 output is a local name/ISIN match only)"
+        ],
+        "quarantineId": "ident-quar-1793982992265-ia1r6"
+      },
+      "newB06QuarantineId": "ident-quar-1793985835468-fdbai",
+      "statusChangedFromB04": false,
+      "ownership": "NOT_EVALUATED_NO_OPERATIONAL_CONTEXT; identity lookup is not ownership/save authorization"
+    },
+    {
+      "row": 7,
+      "source": {
+        "Scrip Name": "Vardhman Special Steels",
+        "ISIN Code": "INE050M01012",
+        "Quantity": "15",
+        "Avg. Buy Rate": "274.30",
+        "Buy Value": "4114.50",
+        "LTP": "362.25",
+        "Current Value": "5433.75",
+        "P&L": "1319.25",
+        "P&L%": "32.06"
+      },
+      "exchange": "NSE",
+      "primaryKey": "INE050M01012+NSE",
+      "masterCommit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+      "corpusRevision": {
+        "batchId": "BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001",
+        "fileChecksumSha256": "7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5",
+        "recordCount": 2250,
+        "authorizationRef": "AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001",
+        "operatingMode": "OFFLINE_BOOTSTRAP"
+      },
+      "wave2DispositionRevision": "BATCH-D05-TIER2-BROAD-UNIVERSE-WAVE2-DISPOSITION-2026-11-06-001",
+      "resolutionStatus": "UNRESOLVED",
+      "matchedSecurityIdentifier": null,
+      "matchedSecurityName": null,
+      "exactISINRecordCount": 0,
+      "depositPointers": [],
+      "activeNSEListings": [],
+      "eligibility": "NOT_EVALUABLE_NO_MASTER_RECORD",
+      "reason": "UNMAPPED_IDENTIFIER: zero exact ISIN records in unchanged 2250-record corpus; B-05 added zero and retained UNRESOLVED.",
+      "b04": {
+        "row": 7,
+        "status": "UNRESOLVED",
+        "quarantineId": "ident-quar-1793982992266-40184"
+      },
+      "b05": {
+        "row": 8,
+        "disposition": "UNRESOLVED",
+        "reasonCode": "AUTHORITATIVE_RECORD_UNAVAILABLE",
+        "missingAuthoritativeEvidence": [
+          "NSE trading symbol (or any exchange symbol) — absent from the source; cannot be manufactured",
+          "CIN (MCA master data) — absent from the source",
+          "lotSize, tickSize, faceValue — absent from the source",
+          "industry and sector — absent from the source (UNCLASSIFIED sentinel only exists for the synthetic fixture, not for governed deposition)",
+          "listingStatus with evidence that the security is ACTIVE on the NSE equity CM segment — absent from the source",
+          "independent exchange/depository or issuer verification — not performed (B-04 output is a local name/ISIN match only)"
+        ],
+        "quarantineId": "ident-quar-1793982992266-40184"
+      },
+      "newB06QuarantineId": "ident-quar-1793985835468-qk31p",
+      "statusChangedFromB04": false,
+      "ownership": "NOT_EVALUATED_NO_OPERATIONAL_CONTEXT; identity lookup is not ownership/save authorization"
+    },
+    {
+      "row": 8,
+      "source": {
+        "Scrip Name": "Bharat Coking Coal",
+        "ISIN Code": "INE05XR01022",
+        "Quantity": "300",
+        "Avg. Buy Rate": "36.45",
+        "Buy Value": "10933.51",
+        "LTP": "31.56",
+        "Current Value": "9468.00",
+        "P&L": "-1465.51",
+        "P&L%": "-13.40"
+      },
+      "exchange": "NSE",
+      "primaryKey": "INE05XR01022+NSE",
+      "masterCommit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+      "corpusRevision": {
+        "batchId": "BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001",
+        "fileChecksumSha256": "7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5",
+        "recordCount": 2250,
+        "authorizationRef": "AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001",
+        "operatingMode": "OFFLINE_BOOTSTRAP"
+      },
+      "wave2DispositionRevision": "BATCH-D05-TIER2-BROAD-UNIVERSE-WAVE2-DISPOSITION-2026-11-06-001",
+      "resolutionStatus": "UNRESOLVED",
+      "matchedSecurityIdentifier": null,
+      "matchedSecurityName": null,
+      "exactISINRecordCount": 0,
+      "depositPointers": [],
+      "activeNSEListings": [],
+      "eligibility": "NOT_EVALUABLE_NO_MASTER_RECORD",
+      "reason": "UNMAPPED_IDENTIFIER: zero exact ISIN records in unchanged 2250-record corpus; B-05 added zero and retained UNRESOLVED.",
+      "b04": {
+        "row": 8,
+        "status": "UNRESOLVED",
+        "quarantineId": "ident-quar-1793982992266-2vh6r"
+      },
+      "b05": {
+        "row": 9,
+        "disposition": "UNRESOLVED",
+        "reasonCode": "AUTHORITATIVE_RECORD_UNAVAILABLE",
+        "missingAuthoritativeEvidence": [
+          "NSE trading symbol (or any exchange symbol) — absent from the source; cannot be manufactured",
+          "CIN (MCA master data) — absent from the source",
+          "lotSize, tickSize, faceValue — absent from the source",
+          "industry and sector — absent from the source (UNCLASSIFIED sentinel only exists for the synthetic fixture, not for governed deposition)",
+          "listingStatus with evidence that the security is ACTIVE on the NSE equity CM segment — absent from the source",
+          "independent exchange/depository or issuer verification — not performed (B-04 output is a local name/ISIN match only)"
+        ],
+        "quarantineId": "ident-quar-1793982992266-2vh6r"
+      },
+      "newB06QuarantineId": "ident-quar-1793985835469-xohpd",
+      "statusChangedFromB04": false,
+      "ownership": "NOT_EVALUATED_NO_OPERATIONAL_CONTEXT; identity lookup is not ownership/save authorization"
+    },
+    {
+      "row": 9,
+      "source": {
+        "Scrip Name": "ECOS Mobility & Hospitality",
+        "ISIN Code": "INE06HJ01020",
+        "Quantity": "100",
+        "Avg. Buy Rate": "126.42",
+        "Buy Value": "12642.14",
+        "LTP": "115.78",
+        "Current Value": "11578.00",
+        "P&L": "-1064.14",
+        "P&L%": "-8.42"
+      },
+      "exchange": "NSE",
+      "primaryKey": "INE06HJ01020+NSE",
+      "masterCommit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+      "corpusRevision": {
+        "batchId": "BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001",
+        "fileChecksumSha256": "7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5",
+        "recordCount": 2250,
+        "authorizationRef": "AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001",
+        "operatingMode": "OFFLINE_BOOTSTRAP"
+      },
+      "wave2DispositionRevision": "BATCH-D05-TIER2-BROAD-UNIVERSE-WAVE2-DISPOSITION-2026-11-06-001",
+      "resolutionStatus": "UNRESOLVED",
+      "matchedSecurityIdentifier": null,
+      "matchedSecurityName": null,
+      "exactISINRecordCount": 0,
+      "depositPointers": [],
+      "activeNSEListings": [],
+      "eligibility": "NOT_EVALUABLE_NO_MASTER_RECORD",
+      "reason": "UNMAPPED_IDENTIFIER: zero exact ISIN records in unchanged 2250-record corpus; B-05 added zero and retained UNRESOLVED.",
+      "b04": {
+        "row": 9,
+        "status": "UNRESOLVED",
+        "quarantineId": "ident-quar-1793982992269-651nq"
+      },
+      "b05": {
+        "row": 10,
+        "disposition": "UNRESOLVED",
+        "reasonCode": "AUTHORITATIVE_RECORD_UNAVAILABLE",
+        "missingAuthoritativeEvidence": [
+          "NSE trading symbol (or any exchange symbol) — absent from the source; cannot be manufactured",
+          "CIN (MCA master data) — absent from the source",
+          "lotSize, tickSize, faceValue — absent from the source",
+          "industry and sector — absent from the source (UNCLASSIFIED sentinel only exists for the synthetic fixture, not for governed deposition)",
+          "listingStatus with evidence that the security is ACTIVE on the NSE equity CM segment — absent from the source",
+          "independent exchange/depository or issuer verification — not performed (B-04 output is a local name/ISIN match only)"
+        ],
+        "quarantineId": "ident-quar-1793982992269-651nq"
+      },
+      "newB06QuarantineId": "ident-quar-1793985835470-53vg2",
+      "statusChangedFromB04": false,
+      "ownership": "NOT_EVALUATED_NO_OPERATIONAL_CONTEXT; identity lookup is not ownership/save authorization"
+    },
+    {
+      "row": 10,
+      "source": {
+        "Scrip Name": "Siyaram Silk Mills",
+        "ISIN Code": "INE076B01028",
+        "Quantity": "10",
+        "Avg. Buy Rate": "526.40",
+        "Buy Value": "5264.00",
+        "LTP": "499.30",
+        "Current Value": "4993.00",
+        "P&L": "-271.00",
+        "P&L%": "-5.15"
+      },
+      "exchange": "NSE",
+      "primaryKey": "INE076B01028+NSE",
+      "masterCommit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+      "corpusRevision": {
+        "batchId": "BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001",
+        "fileChecksumSha256": "7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5",
+        "recordCount": 2250,
+        "authorizationRef": "AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001",
+        "operatingMode": "OFFLINE_BOOTSTRAP"
+      },
+      "wave2DispositionRevision": "BATCH-D05-TIER2-BROAD-UNIVERSE-WAVE2-DISPOSITION-2026-11-06-001",
+      "resolutionStatus": "UNRESOLVED",
+      "matchedSecurityIdentifier": null,
+      "matchedSecurityName": null,
+      "exactISINRecordCount": 0,
+      "depositPointers": [],
+      "activeNSEListings": [],
+      "eligibility": "NOT_EVALUABLE_NO_MASTER_RECORD",
+      "reason": "UNMAPPED_IDENTIFIER: zero exact ISIN records in unchanged 2250-record corpus; B-05 added zero and retained UNRESOLVED.",
+      "b04": {
+        "row": 10,
+        "status": "UNRESOLVED",
+        "quarantineId": "ident-quar-1793982992269-ej92x"
+      },
+      "b05": {
+        "row": 11,
+        "disposition": "UNRESOLVED",
+        "reasonCode": "AUTHORITATIVE_RECORD_UNAVAILABLE",
+        "missingAuthoritativeEvidence": [
+          "NSE trading symbol (or any exchange symbol) — absent from the source; cannot be manufactured",
+          "CIN (MCA master data) — absent from the source",
+          "lotSize, tickSize, faceValue — absent from the source",
+          "industry and sector — absent from the source (UNCLASSIFIED sentinel only exists for the synthetic fixture, not for governed deposition)",
+          "listingStatus with evidence that the security is ACTIVE on the NSE equity CM segment — absent from the source",
+          "independent exchange/depository or issuer verification — not performed (B-04 output is a local name/ISIN match only)"
+        ],
+        "quarantineId": "ident-quar-1793982992269-ej92x"
+      },
+      "newB06QuarantineId": "ident-quar-1793985835470-rzx64",
+      "statusChangedFromB04": false,
+      "ownership": "NOT_EVALUATED_NO_OPERATIONAL_CONTEXT; identity lookup is not ownership/save authorization"
+    },
+    {
+      "row": 11,
+      "source": {
+        "Scrip Name": "Gateway Distriparks",
+        "ISIN Code": "INE079J01017",
+        "Quantity": "90",
+        "Avg. Buy Rate": "56.04",
+        "Buy Value": "5043.20",
+        "LTP": "46.98",
+        "Current Value": "4228.20",
+        "P&L": "-815.00",
+        "P&L%": "-16.16"
+      },
+      "exchange": "NSE",
+      "primaryKey": "INE079J01017+NSE",
+      "masterCommit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+      "corpusRevision": {
+        "batchId": "BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001",
+        "fileChecksumSha256": "7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5",
+        "recordCount": 2250,
+        "authorizationRef": "AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001",
+        "operatingMode": "OFFLINE_BOOTSTRAP"
+      },
+      "wave2DispositionRevision": "BATCH-D05-TIER2-BROAD-UNIVERSE-WAVE2-DISPOSITION-2026-11-06-001",
+      "resolutionStatus": "UNRESOLVED",
+      "matchedSecurityIdentifier": null,
+      "matchedSecurityName": null,
+      "exactISINRecordCount": 0,
+      "depositPointers": [],
+      "activeNSEListings": [],
+      "eligibility": "NOT_EVALUABLE_NO_MASTER_RECORD",
+      "reason": "UNMAPPED_IDENTIFIER: zero exact ISIN records in unchanged 2250-record corpus; B-05 added zero and retained UNRESOLVED.",
+      "b04": {
+        "row": 11,
+        "status": "UNRESOLVED",
+        "quarantineId": "ident-quar-1793982992269-x5oek"
+      },
+      "b05": {
+        "row": 12,
+        "disposition": "UNRESOLVED",
+        "reasonCode": "AUTHORITATIVE_RECORD_UNAVAILABLE",
+        "missingAuthoritativeEvidence": [
+          "NSE trading symbol (or any exchange symbol) — absent from the source; cannot be manufactured",
+          "CIN (MCA master data) — absent from the source",
+          "lotSize, tickSize, faceValue — absent from the source",
+          "industry and sector — absent from the source (UNCLASSIFIED sentinel only exists for the synthetic fixture, not for governed deposition)",
+          "listingStatus with evidence that the security is ACTIVE on the NSE equity CM segment — absent from the source",
+          "independent exchange/depository or issuer verification — not performed (B-04 output is a local name/ISIN match only)"
+        ],
+        "quarantineId": "ident-quar-1793982992269-x5oek"
+      },
+      "newB06QuarantineId": "ident-quar-1793985835470-benm7",
+      "statusChangedFromB04": false,
+      "ownership": "NOT_EVALUATED_NO_OPERATIONAL_CONTEXT; identity lookup is not ownership/save authorization"
+    },
+    {
+      "row": 12,
+      "source": {
+        "Scrip Name": "Paradeep Phosphates",
+        "ISIN Code": "INE088F01024",
+        "Quantity": "20",
+        "Avg. Buy Rate": "109.00",
+        "Buy Value": "2180.00",
+        "LTP": "142.32",
+        "Current Value": "2846.40",
+        "P&L": "666.40",
+        "P&L%": "30.57"
+      },
+      "exchange": "NSE",
+      "primaryKey": "INE088F01024+NSE",
+      "masterCommit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+      "corpusRevision": {
+        "batchId": "BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001",
+        "fileChecksumSha256": "7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5",
+        "recordCount": 2250,
+        "authorizationRef": "AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001",
+        "operatingMode": "OFFLINE_BOOTSTRAP"
+      },
+      "wave2DispositionRevision": "BATCH-D05-TIER2-BROAD-UNIVERSE-WAVE2-DISPOSITION-2026-11-06-001",
+      "resolutionStatus": "UNRESOLVED",
+      "matchedSecurityIdentifier": null,
+      "matchedSecurityName": null,
+      "exactISINRecordCount": 0,
+      "depositPointers": [],
+      "activeNSEListings": [],
+      "eligibility": "NOT_EVALUABLE_NO_MASTER_RECORD",
+      "reason": "UNMAPPED_IDENTIFIER: zero exact ISIN records in unchanged 2250-record corpus; B-05 added zero and retained UNRESOLVED.",
+      "b04": {
+        "row": 12,
+        "status": "UNRESOLVED",
+        "quarantineId": "ident-quar-1793982992270-nhlmo"
+      },
+      "b05": {
+        "row": 13,
+        "disposition": "UNRESOLVED",
+        "reasonCode": "AUTHORITATIVE_RECORD_UNAVAILABLE",
+        "missingAuthoritativeEvidence": [
+          "NSE trading symbol (or any exchange symbol) — absent from the source; cannot be manufactured",
+          "CIN (MCA master data) — absent from the source",
+          "lotSize, tickSize, faceValue — absent from the source",
+          "industry and sector — absent from the source (UNCLASSIFIED sentinel only exists for the synthetic fixture, not for governed deposition)",
+          "listingStatus with evidence that the security is ACTIVE on the NSE equity CM segment — absent from the source",
+          "independent exchange/depository or issuer verification — not performed (B-04 output is a local name/ISIN match only)"
+        ],
+        "quarantineId": "ident-quar-1793982992270-nhlmo"
+      },
+      "newB06QuarantineId": "ident-quar-1793985835471-fn27u",
+      "statusChangedFromB04": false,
+      "ownership": "NOT_EVALUATED_NO_OPERATIONAL_CONTEXT; identity lookup is not ownership/save authorization"
+    },
+    {
+      "row": 13,
+      "source": {
+        "Scrip Name": "Jai Balaji Industries",
+        "ISIN Code": "INE091G01026",
+        "Quantity": "110",
+        "Avg. Buy Rate": "67.84",
+        "Buy Value": "7461.98",
+        "LTP": "67.29",
+        "Current Value": "7401.90",
+        "P&L": "-60.08",
+        "P&L%": "-0.81"
+      },
+      "exchange": "NSE",
+      "primaryKey": "INE091G01026+NSE",
+      "masterCommit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+      "corpusRevision": {
+        "batchId": "BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001",
+        "fileChecksumSha256": "7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5",
+        "recordCount": 2250,
+        "authorizationRef": "AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001",
+        "operatingMode": "OFFLINE_BOOTSTRAP"
+      },
+      "wave2DispositionRevision": "BATCH-D05-TIER2-BROAD-UNIVERSE-WAVE2-DISPOSITION-2026-11-06-001",
+      "resolutionStatus": "UNRESOLVED",
+      "matchedSecurityIdentifier": null,
+      "matchedSecurityName": null,
+      "exactISINRecordCount": 0,
+      "depositPointers": [],
+      "activeNSEListings": [],
+      "eligibility": "NOT_EVALUABLE_NO_MASTER_RECORD",
+      "reason": "UNMAPPED_IDENTIFIER: zero exact ISIN records in unchanged 2250-record corpus; B-05 added zero and retained UNRESOLVED.",
+      "b04": {
+        "row": 13,
+        "status": "UNRESOLVED",
+        "quarantineId": "ident-quar-1793982992270-sippa"
+      },
+      "b05": {
+        "row": 14,
+        "disposition": "UNRESOLVED",
+        "reasonCode": "AUTHORITATIVE_RECORD_UNAVAILABLE",
+        "missingAuthoritativeEvidence": [
+          "NSE trading symbol (or any exchange symbol) — absent from the source; cannot be manufactured",
+          "CIN (MCA master data) — absent from the source",
+          "lotSize, tickSize, faceValue — absent from the source",
+          "industry and sector — absent from the source (UNCLASSIFIED sentinel only exists for the synthetic fixture, not for governed deposition)",
+          "listingStatus with evidence that the security is ACTIVE on the NSE equity CM segment — absent from the source",
+          "independent exchange/depository or issuer verification — not performed (B-04 output is a local name/ISIN match only)"
+        ],
+        "quarantineId": "ident-quar-1793982992270-sippa"
+      },
+      "newB06QuarantineId": "ident-quar-1793985835471-jyx40",
+      "statusChangedFromB04": false,
+      "ownership": "NOT_EVALUATED_NO_OPERATIONAL_CONTEXT; identity lookup is not ownership/save authorization"
+    },
+    {
+      "row": 14,
+      "source": {
+        "Scrip Name": "IDFC First Bank",
+        "ISIN Code": "INE092T01019",
+        "Quantity": "50",
+        "Avg. Buy Rate": "64.33",
+        "Buy Value": "3216.35",
+        "LTP": "77.33",
+        "Current Value": "3866.50",
+        "P&L": "650.15",
+        "P&L%": "20.21"
+      },
+      "exchange": "NSE",
+      "primaryKey": "INE092T01019+NSE",
+      "masterCommit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+      "corpusRevision": {
+        "batchId": "BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001",
+        "fileChecksumSha256": "7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5",
+        "recordCount": 2250,
+        "authorizationRef": "AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001",
+        "operatingMode": "OFFLINE_BOOTSTRAP"
+      },
+      "wave2DispositionRevision": "BATCH-D05-TIER2-BROAD-UNIVERSE-WAVE2-DISPOSITION-2026-11-06-001",
+      "resolutionStatus": "UNRESOLVED",
+      "matchedSecurityIdentifier": null,
+      "matchedSecurityName": null,
+      "exactISINRecordCount": 0,
+      "depositPointers": [],
+      "activeNSEListings": [],
+      "eligibility": "NOT_EVALUABLE_NO_MASTER_RECORD",
+      "reason": "UNMAPPED_IDENTIFIER: zero exact ISIN records in unchanged 2250-record corpus; B-05 added zero and retained UNRESOLVED.",
+      "b04": {
+        "row": 14,
+        "status": "UNRESOLVED",
+        "quarantineId": "ident-quar-1793982992270-e0xf2"
+      },
+      "b05": {
+        "row": 15,
+        "disposition": "UNRESOLVED",
+        "reasonCode": "AUTHORITATIVE_RECORD_UNAVAILABLE",
+        "missingAuthoritativeEvidence": [
+          "NSE trading symbol (or any exchange symbol) — absent from the source; cannot be manufactured",
+          "CIN (MCA master data) — absent from the source",
+          "lotSize, tickSize, faceValue — absent from the source",
+          "industry and sector — absent from the source (UNCLASSIFIED sentinel only exists for the synthetic fixture, not for governed deposition)",
+          "listingStatus with evidence that the security is ACTIVE on the NSE equity CM segment — absent from the source",
+          "independent exchange/depository or issuer verification — not performed (B-04 output is a local name/ISIN match only)"
+        ],
+        "quarantineId": "ident-quar-1793982992270-e0xf2"
+      },
+      "newB06QuarantineId": "ident-quar-1793985835472-wz8bf",
+      "statusChangedFromB04": false,
+      "ownership": "NOT_EVALUATED_NO_OPERATIONAL_CONTEXT; identity lookup is not ownership/save authorization"
+    },
+    {
+      "row": 15,
+      "source": {
+        "Scrip Name": "Sigma Solve",
+        "ISIN Code": "INE0A0S01028",
+        "Quantity": "70",
+        "Avg. Buy Rate": "46.94",
+        "Buy Value": "3285.91",
+        "LTP": "41.32",
+        "Current Value": "2892.40",
+        "P&L": "-393.51",
+        "P&L%": "-11.98"
+      },
+      "exchange": "NSE",
+      "primaryKey": "INE0A0S01028+NSE",
+      "masterCommit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+      "corpusRevision": {
+        "batchId": "BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001",
+        "fileChecksumSha256": "7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5",
+        "recordCount": 2250,
+        "authorizationRef": "AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001",
+        "operatingMode": "OFFLINE_BOOTSTRAP"
+      },
+      "wave2DispositionRevision": "BATCH-D05-TIER2-BROAD-UNIVERSE-WAVE2-DISPOSITION-2026-11-06-001",
+      "resolutionStatus": "UNRESOLVED",
+      "matchedSecurityIdentifier": null,
+      "matchedSecurityName": null,
+      "exactISINRecordCount": 0,
+      "depositPointers": [],
+      "activeNSEListings": [],
+      "eligibility": "NOT_EVALUABLE_NO_MASTER_RECORD",
+      "reason": "UNMAPPED_IDENTIFIER: zero exact ISIN records in unchanged 2250-record corpus; B-05 added zero and retained UNRESOLVED.",
+      "b04": {
+        "row": 15,
+        "status": "UNRESOLVED",
+        "quarantineId": "ident-quar-1793982992271-1yvoj"
+      },
+      "b05": {
+        "row": 16,
+        "disposition": "UNRESOLVED",
+        "reasonCode": "AUTHORITATIVE_RECORD_UNAVAILABLE",
+        "missingAuthoritativeEvidence": [
+          "NSE trading symbol (or any exchange symbol) — absent from the source; cannot be manufactured",
+          "CIN (MCA master data) — absent from the source",
+          "lotSize, tickSize, faceValue — absent from the source",
+          "industry and sector — absent from the source (UNCLASSIFIED sentinel only exists for the synthetic fixture, not for governed deposition)",
+          "listingStatus with evidence that the security is ACTIVE on the NSE equity CM segment — absent from the source",
+          "independent exchange/depository or issuer verification — not performed (B-04 output is a local name/ISIN match only)"
+        ],
+        "quarantineId": "ident-quar-1793982992271-1yvoj"
+      },
+      "newB06QuarantineId": "ident-quar-1793985835472-ntu8a",
+      "statusChangedFromB04": false,
+      "ownership": "NOT_EVALUATED_NO_OPERATIONAL_CONTEXT; identity lookup is not ownership/save authorization"
+    },
+    {
+      "row": 16,
+      "source": {
+        "Scrip Name": "Jio Platforms",
+        "ISIN Code": "INE0BJO01010",
+        "Quantity": "12",
+        "Avg. Buy Rate": "1119.00",
+        "Buy Value": "13428.00",
+        "LTP": "1406.40",
+        "Current Value": "16876.80",
+        "P&L": "3448.80",
+        "P&L%": "25.68"
+      },
+      "exchange": "NSE",
+      "primaryKey": "INE0BJO01010+NSE",
+      "masterCommit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+      "corpusRevision": {
+        "batchId": "BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001",
+        "fileChecksumSha256": "7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5",
+        "recordCount": 2250,
+        "authorizationRef": "AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001",
+        "operatingMode": "OFFLINE_BOOTSTRAP"
+      },
+      "wave2DispositionRevision": "BATCH-D05-TIER2-BROAD-UNIVERSE-WAVE2-DISPOSITION-2026-11-06-001",
+      "resolutionStatus": "UNRESOLVED",
+      "matchedSecurityIdentifier": null,
+      "matchedSecurityName": null,
+      "exactISINRecordCount": 0,
+      "depositPointers": [],
+      "activeNSEListings": [],
+      "eligibility": "NOT_EVALUABLE_NO_MASTER_RECORD",
+      "reason": "UNMAPPED_IDENTIFIER: zero exact ISIN records in unchanged 2250-record corpus; B-05 added zero and retained UNRESOLVED.",
+      "b04": {
+        "row": 16,
+        "status": "UNRESOLVED",
+        "quarantineId": "ident-quar-1793982992271-xekmj"
+      },
+      "b05": {
+        "row": 17,
+        "disposition": "UNRESOLVED",
+        "reasonCode": "AUTHORITATIVE_RECORD_UNAVAILABLE",
+        "missingAuthoritativeEvidence": [
+          "NSE trading symbol (or any exchange symbol) — absent from the source; cannot be manufactured",
+          "CIN (MCA master data) — absent from the source",
+          "lotSize, tickSize, faceValue — absent from the source",
+          "industry and sector — absent from the source (UNCLASSIFIED sentinel only exists for the synthetic fixture, not for governed deposition)",
+          "listingStatus with evidence that the security is ACTIVE on the NSE equity CM segment — absent from the source",
+          "independent exchange/depository or issuer verification — not performed (B-04 output is a local name/ISIN match only)"
+        ],
+        "quarantineId": "ident-quar-1793982992271-xekmj"
+      },
+      "newB06QuarantineId": "ident-quar-1793985835473-l3g19",
+      "statusChangedFromB04": false,
+      "ownership": "NOT_EVALUATED_NO_OPERATIONAL_CONTEXT; identity lookup is not ownership/save authorization"
+    },
+    {
+      "row": 17,
+      "source": {
+        "Scrip Name": "Oswal Pumps",
+        "ISIN Code": "INE0BYP01024",
+        "Quantity": "35",
+        "Avg. Buy Rate": "373.99",
+        "Buy Value": "13089.60",
+        "LTP": "229.29",
+        "Current Value": "8025.15",
+        "P&L": "-5064.45",
+        "P&L%": "-38.69"
+      },
+      "exchange": "NSE",
+      "primaryKey": "INE0BYP01024+NSE",
+      "masterCommit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+      "corpusRevision": {
+        "batchId": "BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001",
+        "fileChecksumSha256": "7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5",
+        "recordCount": 2250,
+        "authorizationRef": "AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001",
+        "operatingMode": "OFFLINE_BOOTSTRAP"
+      },
+      "wave2DispositionRevision": "BATCH-D05-TIER2-BROAD-UNIVERSE-WAVE2-DISPOSITION-2026-11-06-001",
+      "resolutionStatus": "UNRESOLVED",
+      "matchedSecurityIdentifier": null,
+      "matchedSecurityName": null,
+      "exactISINRecordCount": 0,
+      "depositPointers": [],
+      "activeNSEListings": [],
+      "eligibility": "NOT_EVALUABLE_NO_MASTER_RECORD",
+      "reason": "UNMAPPED_IDENTIFIER: zero exact ISIN records in unchanged 2250-record corpus; B-05 added zero and retained UNRESOLVED.",
+      "b04": {
+        "row": 17,
+        "status": "UNRESOLVED",
+        "quarantineId": "ident-quar-1793982992271-gfasf"
+      },
+      "b05": {
+        "row": 18,
+        "disposition": "UNRESOLVED",
+        "reasonCode": "AUTHORITATIVE_RECORD_UNAVAILABLE",
+        "missingAuthoritativeEvidence": [
+          "NSE trading symbol (or any exchange symbol) — absent from the source; cannot be manufactured",
+          "CIN (MCA master data) — absent from the source",
+          "lotSize, tickSize, faceValue — absent from the source",
+          "industry and sector — absent from the source (UNCLASSIFIED sentinel only exists for the synthetic fixture, not for governed deposition)",
+          "listingStatus with evidence that the security is ACTIVE on the NSE equity CM segment — absent from the source",
+          "independent exchange/depository or issuer verification — not performed (B-04 output is a local name/ISIN match only)"
+        ],
+        "quarantineId": "ident-quar-1793982992271-gfasf"
+      },
+      "newB06QuarantineId": "ident-quar-1793985835473-3mile",
+      "statusChangedFromB04": false,
+      "ownership": "NOT_EVALUATED_NO_OPERATIONAL_CONTEXT; identity lookup is not ownership/save authorization"
+    },
+    {
+      "row": 18,
+      "source": {
+        "Scrip Name": "RateGain Travel",
+        "ISIN Code": "INE0CLI01024",
+        "Quantity": "10",
+        "Avg. Buy Rate": "522.50",
+        "Buy Value": "5225.00",
+        "LTP": "726.35",
+        "Current Value": "7263.50",
+        "P&L": "2038.50",
+        "P&L%": "39.01"
+      },
+      "exchange": "NSE",
+      "primaryKey": "INE0CLI01024+NSE",
+      "masterCommit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+      "corpusRevision": {
+        "batchId": "BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001",
+        "fileChecksumSha256": "7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5",
+        "recordCount": 2250,
+        "authorizationRef": "AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001",
+        "operatingMode": "OFFLINE_BOOTSTRAP"
+      },
+      "wave2DispositionRevision": "BATCH-D05-TIER2-BROAD-UNIVERSE-WAVE2-DISPOSITION-2026-11-06-001",
+      "resolutionStatus": "UNRESOLVED",
+      "matchedSecurityIdentifier": null,
+      "matchedSecurityName": null,
+      "exactISINRecordCount": 0,
+      "depositPointers": [],
+      "activeNSEListings": [],
+      "eligibility": "NOT_EVALUABLE_NO_MASTER_RECORD",
+      "reason": "UNMAPPED_IDENTIFIER: zero exact ISIN records in unchanged 2250-record corpus; B-05 added zero and retained UNRESOLVED.",
+      "b04": {
+        "row": 18,
+        "status": "UNRESOLVED",
+        "quarantineId": "ident-quar-1793982992271-91p99"
+      },
+      "b05": {
+        "row": 19,
+        "disposition": "UNRESOLVED",
+        "reasonCode": "AUTHORITATIVE_RECORD_UNAVAILABLE",
+        "missingAuthoritativeEvidence": [
+          "NSE trading symbol (or any exchange symbol) — absent from the source; cannot be manufactured",
+          "CIN (MCA master data) — absent from the source",
+          "lotSize, tickSize, faceValue — absent from the source",
+          "industry and sector — absent from the source (UNCLASSIFIED sentinel only exists for the synthetic fixture, not for governed deposition)",
+          "listingStatus with evidence that the security is ACTIVE on the NSE equity CM segment — absent from the source",
+          "independent exchange/depository or issuer verification — not performed (B-04 output is a local name/ISIN match only)"
+        ],
+        "quarantineId": "ident-quar-1793982992271-91p99"
+      },
+      "newB06QuarantineId": "ident-quar-1793985835474-zfr03",
+      "statusChangedFromB04": false,
+      "ownership": "NOT_EVALUATED_NO_OPERATIONAL_CONTEXT; identity lookup is not ownership/save authorization"
+    },
+    {
+      "row": 19,
+      "source": {
+        "Scrip Name": "GMR Power & Urban Infra",
+        "ISIN Code": "INE0CU601026",
+        "Quantity": "110",
+        "Avg. Buy Rate": "98.97",
+        "Buy Value": "10887.04",
+        "LTP": "92.21",
+        "Current Value": "10143.10",
+        "P&L": "-743.94",
+        "P&L%": "-6.83"
+      },
+      "exchange": "NSE",
+      "primaryKey": "INE0CU601026+NSE",
+      "masterCommit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+      "corpusRevision": {
+        "batchId": "BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001",
+        "fileChecksumSha256": "7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5",
+        "recordCount": 2250,
+        "authorizationRef": "AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001",
+        "operatingMode": "OFFLINE_BOOTSTRAP"
+      },
+      "wave2DispositionRevision": "BATCH-D05-TIER2-BROAD-UNIVERSE-WAVE2-DISPOSITION-2026-11-06-001",
+      "resolutionStatus": "UNRESOLVED",
+      "matchedSecurityIdentifier": null,
+      "matchedSecurityName": null,
+      "exactISINRecordCount": 0,
+      "depositPointers": [],
+      "activeNSEListings": [],
+      "eligibility": "NOT_EVALUABLE_NO_MASTER_RECORD",
+      "reason": "UNMAPPED_IDENTIFIER: zero exact ISIN records in unchanged 2250-record corpus; B-05 added zero and retained UNRESOLVED.",
+      "b04": {
+        "row": 19,
+        "status": "UNRESOLVED",
+        "quarantineId": "ident-quar-1793982992272-1mmjy"
+      },
+      "b05": {
+        "row": 20,
+        "disposition": "UNRESOLVED",
+        "reasonCode": "AUTHORITATIVE_RECORD_UNAVAILABLE",
+        "missingAuthoritativeEvidence": [
+          "NSE trading symbol (or any exchange symbol) — absent from the source; cannot be manufactured",
+          "CIN (MCA master data) — absent from the source",
+          "lotSize, tickSize, faceValue — absent from the source",
+          "industry and sector — absent from the source (UNCLASSIFIED sentinel only exists for the synthetic fixture, not for governed deposition)",
+          "listingStatus with evidence that the security is ACTIVE on the NSE equity CM segment — absent from the source",
+          "independent exchange/depository or issuer verification — not performed (B-04 output is a local name/ISIN match only)"
+        ],
+        "quarantineId": "ident-quar-1793982992272-1mmjy"
+      },
+      "newB06QuarantineId": "ident-quar-1793985835474-l6evj",
+      "statusChangedFromB04": false,
+      "ownership": "NOT_EVALUATED_NO_OPERATIONAL_CONTEXT; identity lookup is not ownership/save authorization"
+    },
+    {
+      "row": 20,
+      "source": {
+        "Scrip Name": "Blue Jet Healthcare",
+        "ISIN Code": "INE0KBH01020",
+        "Quantity": "15",
+        "Avg. Buy Rate": "411.83",
+        "Buy Value": "6177.50",
+        "LTP": "553.80",
+        "Current Value": "8307.00",
+        "P&L": "2129.50",
+        "P&L%": "34.47"
+      },
+      "exchange": "NSE",
+      "primaryKey": "INE0KBH01020+NSE",
+      "masterCommit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+      "corpusRevision": {
+        "batchId": "BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001",
+        "fileChecksumSha256": "7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5",
+        "recordCount": 2250,
+        "authorizationRef": "AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001",
+        "operatingMode": "OFFLINE_BOOTSTRAP"
+      },
+      "wave2DispositionRevision": "BATCH-D05-TIER2-BROAD-UNIVERSE-WAVE2-DISPOSITION-2026-11-06-001",
+      "resolutionStatus": "UNRESOLVED",
+      "matchedSecurityIdentifier": null,
+      "matchedSecurityName": null,
+      "exactISINRecordCount": 0,
+      "depositPointers": [],
+      "activeNSEListings": [],
+      "eligibility": "NOT_EVALUABLE_NO_MASTER_RECORD",
+      "reason": "UNMAPPED_IDENTIFIER: zero exact ISIN records in unchanged 2250-record corpus; B-05 added zero and retained UNRESOLVED.",
+      "b04": {
+        "row": 20,
+        "status": "UNRESOLVED",
+        "quarantineId": "ident-quar-1793982992272-iqs33"
+      },
+      "b05": {
+        "row": 21,
+        "disposition": "UNRESOLVED",
+        "reasonCode": "AUTHORITATIVE_RECORD_UNAVAILABLE",
+        "missingAuthoritativeEvidence": [
+          "NSE trading symbol (or any exchange symbol) — absent from the source; cannot be manufactured",
+          "CIN (MCA master data) — absent from the source",
+          "lotSize, tickSize, faceValue — absent from the source",
+          "industry and sector — absent from the source (UNCLASSIFIED sentinel only exists for the synthetic fixture, not for governed deposition)",
+          "listingStatus with evidence that the security is ACTIVE on the NSE equity CM segment — absent from the source",
+          "independent exchange/depository or issuer verification — not performed (B-04 output is a local name/ISIN match only)"
+        ],
+        "quarantineId": "ident-quar-1793982992272-iqs33"
+      },
+      "newB06QuarantineId": "ident-quar-1793985835475-r5jff",
+      "statusChangedFromB04": false,
+      "ownership": "NOT_EVALUATED_NO_OPERATIONAL_CONTEXT; identity lookup is not ownership/save authorization"
+    },
+    {
+      "row": 21,
+      "source": {
+        "Scrip Name": "EPack Prefab Technologies",
+        "ISIN Code": "INE0MLS01022",
+        "Quantity": "10",
+        "Avg. Buy Rate": "192.75",
+        "Buy Value": "1927.50",
+        "LTP": "192.57",
+        "Current Value": "1925.70",
+        "P&L": "-1.80",
+        "P&L%": "-0.09"
+      },
+      "exchange": "NSE",
+      "primaryKey": "INE0MLS01022+NSE",
+      "masterCommit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+      "corpusRevision": {
+        "batchId": "BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001",
+        "fileChecksumSha256": "7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5",
+        "recordCount": 2250,
+        "authorizationRef": "AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001",
+        "operatingMode": "OFFLINE_BOOTSTRAP"
+      },
+      "wave2DispositionRevision": "BATCH-D05-TIER2-BROAD-UNIVERSE-WAVE2-DISPOSITION-2026-11-06-001",
+      "resolutionStatus": "UNRESOLVED",
+      "matchedSecurityIdentifier": null,
+      "matchedSecurityName": null,
+      "exactISINRecordCount": 0,
+      "depositPointers": [],
+      "activeNSEListings": [],
+      "eligibility": "NOT_EVALUABLE_NO_MASTER_RECORD",
+      "reason": "UNMAPPED_IDENTIFIER: zero exact ISIN records in unchanged 2250-record corpus; B-05 added zero and retained UNRESOLVED.",
+      "b04": {
+        "row": 21,
+        "status": "UNRESOLVED",
+        "quarantineId": "ident-quar-1793982992273-ibc3z"
+      },
+      "b05": {
+        "row": 22,
+        "disposition": "UNRESOLVED",
+        "reasonCode": "AUTHORITATIVE_RECORD_UNAVAILABLE",
+        "missingAuthoritativeEvidence": [
+          "NSE trading symbol (or any exchange symbol) — absent from the source; cannot be manufactured",
+          "CIN (MCA master data) — absent from the source",
+          "lotSize, tickSize, faceValue — absent from the source",
+          "industry and sector — absent from the source (UNCLASSIFIED sentinel only exists for the synthetic fixture, not for governed deposition)",
+          "listingStatus with evidence that the security is ACTIVE on the NSE equity CM segment — absent from the source",
+          "independent exchange/depository or issuer verification — not performed (B-04 output is a local name/ISIN match only)"
+        ],
+        "quarantineId": "ident-quar-1793982992273-ibc3z"
+      },
+      "newB06QuarantineId": "ident-quar-1793985835475-29rvl",
+      "statusChangedFromB04": false,
+      "ownership": "NOT_EVALUATED_NO_OPERATIONAL_CONTEXT; identity lookup is not ownership/save authorization"
+    },
+    {
+      "row": 22,
+      "source": {
+        "Scrip Name": "Kross",
+        "ISIN Code": "INE0O6601022",
+        "Quantity": "5",
+        "Avg. Buy Rate": "161.00",
+        "Buy Value": "805.00",
+        "LTP": "291.00",
+        "Current Value": "1455.00",
+        "P&L": "650.00",
+        "P&L%": "80.75"
+      },
+      "exchange": "NSE",
+      "primaryKey": "INE0O6601022+NSE",
+      "masterCommit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+      "corpusRevision": {
+        "batchId": "BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001",
+        "fileChecksumSha256": "7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5",
+        "recordCount": 2250,
+        "authorizationRef": "AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001",
+        "operatingMode": "OFFLINE_BOOTSTRAP"
+      },
+      "wave2DispositionRevision": "BATCH-D05-TIER2-BROAD-UNIVERSE-WAVE2-DISPOSITION-2026-11-06-001",
+      "resolutionStatus": "UNRESOLVED",
+      "matchedSecurityIdentifier": null,
+      "matchedSecurityName": null,
+      "exactISINRecordCount": 0,
+      "depositPointers": [],
+      "activeNSEListings": [],
+      "eligibility": "NOT_EVALUABLE_NO_MASTER_RECORD",
+      "reason": "UNMAPPED_IDENTIFIER: zero exact ISIN records in unchanged 2250-record corpus; B-05 added zero and retained UNRESOLVED.",
+      "b04": {
+        "row": 22,
+        "status": "UNRESOLVED",
+        "quarantineId": "ident-quar-1793982992273-c5e2t"
+      },
+      "b05": {
+        "row": 23,
+        "disposition": "UNRESOLVED",
+        "reasonCode": "AUTHORITATIVE_RECORD_UNAVAILABLE",
+        "missingAuthoritativeEvidence": [
+          "NSE trading symbol (or any exchange symbol) — absent from the source; cannot be manufactured",
+          "CIN (MCA master data) — absent from the source",
+          "lotSize, tickSize, faceValue — absent from the source",
+          "industry and sector — absent from the source (UNCLASSIFIED sentinel only exists for the synthetic fixture, not for governed deposition)",
+          "listingStatus with evidence that the security is ACTIVE on the NSE equity CM segment — absent from the source",
+          "independent exchange/depository or issuer verification — not performed (B-04 output is a local name/ISIN match only)"
+        ],
+        "quarantineId": "ident-quar-1793982992273-c5e2t"
+      },
+      "newB06QuarantineId": "ident-quar-1793985835476-zrero",
+      "statusChangedFromB04": false,
+      "ownership": "NOT_EVALUATED_NO_OPERATIONAL_CONTEXT; identity lookup is not ownership/save authorization"
+    },
+    {
+      "row": 23,
+      "source": {
+        "Scrip Name": "EMS",
+        "ISIN Code": "INE0OV601013",
+        "Quantity": "15",
+        "Avg. Buy Rate": "312.52",
+        "Buy Value": "4687.85",
+        "LTP": "303.20",
+        "Current Value": "4548.00",
+        "P&L": "-139.85",
+        "P&L%": "-2.98"
+      },
+      "exchange": "NSE",
+      "primaryKey": "INE0OV601013+NSE",
+      "masterCommit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+      "corpusRevision": {
+        "batchId": "BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001",
+        "fileChecksumSha256": "7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5",
+        "recordCount": 2250,
+        "authorizationRef": "AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001",
+        "operatingMode": "OFFLINE_BOOTSTRAP"
+      },
+      "wave2DispositionRevision": "BATCH-D05-TIER2-BROAD-UNIVERSE-WAVE2-DISPOSITION-2026-11-06-001",
+      "resolutionStatus": "UNRESOLVED",
+      "matchedSecurityIdentifier": null,
+      "matchedSecurityName": null,
+      "exactISINRecordCount": 0,
+      "depositPointers": [],
+      "activeNSEListings": [],
+      "eligibility": "NOT_EVALUABLE_NO_MASTER_RECORD",
+      "reason": "UNMAPPED_IDENTIFIER: zero exact ISIN records in unchanged 2250-record corpus; B-05 added zero and retained UNRESOLVED.",
+      "b04": {
+        "row": 23,
+        "status": "UNRESOLVED",
+        "quarantineId": "ident-quar-1793982992273-z1cul"
+      },
+      "b05": {
+        "row": 24,
+        "disposition": "UNRESOLVED",
+        "reasonCode": "AUTHORITATIVE_RECORD_UNAVAILABLE",
+        "missingAuthoritativeEvidence": [
+          "NSE trading symbol (or any exchange symbol) — absent from the source; cannot be manufactured",
+          "CIN (MCA master data) — absent from the source",
+          "lotSize, tickSize, faceValue — absent from the source",
+          "industry and sector — absent from the source (UNCLASSIFIED sentinel only exists for the synthetic fixture, not for governed deposition)",
+          "listingStatus with evidence that the security is ACTIVE on the NSE equity CM segment — absent from the source",
+          "independent exchange/depository or issuer verification — not performed (B-04 output is a local name/ISIN match only)"
+        ],
+        "quarantineId": "ident-quar-1793982992273-z1cul"
+      },
+      "newB06QuarantineId": "ident-quar-1793985835477-nioro",
+      "statusChangedFromB04": false,
+      "ownership": "NOT_EVALUATED_NO_OPERATIONAL_CONTEXT; identity lookup is not ownership/save authorization"
+    },
+    {
+      "row": 24,
+      "source": {
+        "Scrip Name": "International Gemological Institute",
+        "ISIN Code": "INE0Q9301021",
+        "Quantity": "15",
+        "Avg. Buy Rate": "314.67",
+        "Buy Value": "4720.00",
+        "LTP": "407.40",
+        "Current Value": "6111.00",
+        "P&L": "1391.00",
+        "P&L%": "29.47"
+      },
+      "exchange": "NSE",
+      "primaryKey": "INE0Q9301021+NSE",
+      "masterCommit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+      "corpusRevision": {
+        "batchId": "BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001",
+        "fileChecksumSha256": "7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5",
+        "recordCount": 2250,
+        "authorizationRef": "AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001",
+        "operatingMode": "OFFLINE_BOOTSTRAP"
+      },
+      "wave2DispositionRevision": "BATCH-D05-TIER2-BROAD-UNIVERSE-WAVE2-DISPOSITION-2026-11-06-001",
+      "resolutionStatus": "UNRESOLVED",
+      "matchedSecurityIdentifier": null,
+      "matchedSecurityName": null,
+      "exactISINRecordCount": 0,
+      "depositPointers": [],
+      "activeNSEListings": [],
+      "eligibility": "NOT_EVALUABLE_NO_MASTER_RECORD",
+      "reason": "UNMAPPED_IDENTIFIER: zero exact ISIN records in unchanged 2250-record corpus; B-05 added zero and retained UNRESOLVED.",
+      "b04": {
+        "row": 24,
+        "status": "UNRESOLVED",
+        "quarantineId": "ident-quar-1793982992274-vnhb2"
+      },
+      "b05": {
+        "row": 25,
+        "disposition": "UNRESOLVED",
+        "reasonCode": "AUTHORITATIVE_RECORD_UNAVAILABLE",
+        "missingAuthoritativeEvidence": [
+          "NSE trading symbol (or any exchange symbol) — absent from the source; cannot be manufactured",
+          "CIN (MCA master data) — absent from the source",
+          "lotSize, tickSize, faceValue — absent from the source",
+          "industry and sector — absent from the source (UNCLASSIFIED sentinel only exists for the synthetic fixture, not for governed deposition)",
+          "listingStatus with evidence that the security is ACTIVE on the NSE equity CM segment — absent from the source",
+          "independent exchange/depository or issuer verification — not performed (B-04 output is a local name/ISIN match only)"
+        ],
+        "quarantineId": "ident-quar-1793982992274-vnhb2"
+      },
+      "newB06QuarantineId": "ident-quar-1793985835477-25nid",
+      "statusChangedFromB04": false,
+      "ownership": "NOT_EVALUATED_NO_OPERATIONAL_CONTEXT; identity lookup is not ownership/save authorization"
+    },
+    {
+      "row": 25,
+      "source": {
+        "Scrip Name": "Arkade Developers",
+        "ISIN Code": "INE0QRL01017",
+        "Quantity": "30",
+        "Avg. Buy Rate": "115.71",
+        "Buy Value": "3471.30",
+        "LTP": "111.24",
+        "Current Value": "3337.20",
+        "P&L": "-134.10",
+        "P&L%": "-3.86"
+      },
+      "exchange": "NSE",
+      "primaryKey": "INE0QRL01017+NSE",
+      "masterCommit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+      "corpusRevision": {
+        "batchId": "BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001",
+        "fileChecksumSha256": "7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5",
+        "recordCount": 2250,
+        "authorizationRef": "AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001",
+        "operatingMode": "OFFLINE_BOOTSTRAP"
+      },
+      "wave2DispositionRevision": "BATCH-D05-TIER2-BROAD-UNIVERSE-WAVE2-DISPOSITION-2026-11-06-001",
+      "resolutionStatus": "UNRESOLVED",
+      "matchedSecurityIdentifier": null,
+      "matchedSecurityName": null,
+      "exactISINRecordCount": 0,
+      "depositPointers": [],
+      "activeNSEListings": [],
+      "eligibility": "NOT_EVALUABLE_NO_MASTER_RECORD",
+      "reason": "UNMAPPED_IDENTIFIER: zero exact ISIN records in unchanged 2250-record corpus; B-05 added zero and retained UNRESOLVED.",
+      "b04": {
+        "row": 25,
+        "status": "UNRESOLVED",
+        "quarantineId": "ident-quar-1793982992274-i75we"
+      },
+      "b05": {
+        "row": 26,
+        "disposition": "UNRESOLVED",
+        "reasonCode": "AUTHORITATIVE_RECORD_UNAVAILABLE",
+        "missingAuthoritativeEvidence": [
+          "NSE trading symbol (or any exchange symbol) — absent from the source; cannot be manufactured",
+          "CIN (MCA master data) — absent from the source",
+          "lotSize, tickSize, faceValue — absent from the source",
+          "industry and sector — absent from the source (UNCLASSIFIED sentinel only exists for the synthetic fixture, not for governed deposition)",
+          "listingStatus with evidence that the security is ACTIVE on the NSE equity CM segment — absent from the source",
+          "independent exchange/depository or issuer verification — not performed (B-04 output is a local name/ISIN match only)"
+        ],
+        "quarantineId": "ident-quar-1793982992274-i75we"
+      },
+      "newB06QuarantineId": "ident-quar-1793985835478-9y1dx",
+      "statusChangedFromB04": false,
+      "ownership": "NOT_EVALUATED_NO_OPERATIONAL_CONTEXT; identity lookup is not ownership/save authorization"
+    },
+    {
+      "row": 26,
+      "source": {
+        "Scrip Name": "Steelcast",
+        "ISIN Code": "INE124E01038",
+        "Quantity": "10",
+        "Avg. Buy Rate": "183.50",
+        "Buy Value": "1835.00",
+        "LTP": "361.10",
+        "Current Value": "3611.00",
+        "P&L": "1776.00",
+        "P&L%": "96.78"
+      },
+      "exchange": "NSE",
+      "primaryKey": "INE124E01038+NSE",
+      "masterCommit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+      "corpusRevision": {
+        "batchId": "BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001",
+        "fileChecksumSha256": "7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5",
+        "recordCount": 2250,
+        "authorizationRef": "AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001",
+        "operatingMode": "OFFLINE_BOOTSTRAP"
+      },
+      "wave2DispositionRevision": "BATCH-D05-TIER2-BROAD-UNIVERSE-WAVE2-DISPOSITION-2026-11-06-001",
+      "resolutionStatus": "UNRESOLVED",
+      "matchedSecurityIdentifier": null,
+      "matchedSecurityName": null,
+      "exactISINRecordCount": 0,
+      "depositPointers": [],
+      "activeNSEListings": [],
+      "eligibility": "NOT_EVALUABLE_NO_MASTER_RECORD",
+      "reason": "UNMAPPED_IDENTIFIER: zero exact ISIN records in unchanged 2250-record corpus; B-05 added zero and retained UNRESOLVED.",
+      "b04": {
+        "row": 26,
+        "status": "UNRESOLVED",
+        "quarantineId": "ident-quar-1793982992274-mo0oc"
+      },
+      "b05": {
+        "row": 27,
+        "disposition": "UNRESOLVED",
+        "reasonCode": "AUTHORITATIVE_RECORD_UNAVAILABLE",
+        "missingAuthoritativeEvidence": [
+          "NSE trading symbol (or any exchange symbol) — absent from the source; cannot be manufactured",
+          "CIN (MCA master data) — absent from the source",
+          "lotSize, tickSize, faceValue — absent from the source",
+          "industry and sector — absent from the source (UNCLASSIFIED sentinel only exists for the synthetic fixture, not for governed deposition)",
+          "listingStatus with evidence that the security is ACTIVE on the NSE equity CM segment — absent from the source",
+          "independent exchange/depository or issuer verification — not performed (B-04 output is a local name/ISIN match only)"
+        ],
+        "quarantineId": "ident-quar-1793982992274-mo0oc"
+      },
+      "newB06QuarantineId": "ident-quar-1793985835478-zvmzk",
+      "statusChangedFromB04": false,
+      "ownership": "NOT_EVALUATED_NO_OPERATIONAL_CONTEXT; identity lookup is not ownership/save authorization"
+    },
+    {
+      "row": 27,
+      "source": {
+        "Scrip Name": "KP Energy",
+        "ISIN Code": "INE127T01021",
+        "Quantity": "40",
+        "Avg. Buy Rate": "325.12",
+        "Buy Value": "13004.80",
+        "LTP": "166.75",
+        "Current Value": "6670.00",
+        "P&L": "-6334.80",
+        "P&L%": "-48.71"
+      },
+      "exchange": "NSE",
+      "primaryKey": "INE127T01021+NSE",
+      "masterCommit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+      "corpusRevision": {
+        "batchId": "BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001",
+        "fileChecksumSha256": "7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5",
+        "recordCount": 2250,
+        "authorizationRef": "AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001",
+        "operatingMode": "OFFLINE_BOOTSTRAP"
+      },
+      "wave2DispositionRevision": "BATCH-D05-TIER2-BROAD-UNIVERSE-WAVE2-DISPOSITION-2026-11-06-001",
+      "resolutionStatus": "UNRESOLVED",
+      "matchedSecurityIdentifier": null,
+      "matchedSecurityName": null,
+      "exactISINRecordCount": 0,
+      "depositPointers": [],
+      "activeNSEListings": [],
+      "eligibility": "NOT_EVALUABLE_NO_MASTER_RECORD",
+      "reason": "UNMAPPED_IDENTIFIER: zero exact ISIN records in unchanged 2250-record corpus; B-05 added zero and retained UNRESOLVED.",
+      "b04": {
+        "row": 27,
+        "status": "UNRESOLVED",
+        "quarantineId": "ident-quar-1793982992274-m5136"
+      },
+      "b05": {
+        "row": 28,
+        "disposition": "UNRESOLVED",
+        "reasonCode": "AUTHORITATIVE_RECORD_UNAVAILABLE",
+        "missingAuthoritativeEvidence": [
+          "NSE trading symbol (or any exchange symbol) — absent from the source; cannot be manufactured",
+          "CIN (MCA master data) — absent from the source",
+          "lotSize, tickSize, faceValue — absent from the source",
+          "industry and sector — absent from the source (UNCLASSIFIED sentinel only exists for the synthetic fixture, not for governed deposition)",
+          "listingStatus with evidence that the security is ACTIVE on the NSE equity CM segment — absent from the source",
+          "independent exchange/depository or issuer verification — not performed (B-04 output is a local name/ISIN match only)"
+        ],
+        "quarantineId": "ident-quar-1793982992274-m5136"
+      },
+      "newB06QuarantineId": "ident-quar-1793985835478-dryrc",
+      "statusChangedFromB04": false,
+      "ownership": "NOT_EVALUATED_NO_OPERATIONAL_CONTEXT; identity lookup is not ownership/save authorization"
+    },
+    {
+      "row": 28,
+      "source": {
+        "Scrip Name": "KM Sugar Mills",
+        "ISIN Code": "INE157H01023",
+        "Quantity": "142",
+        "Avg. Buy Rate": "27.33",
+        "Buy Value": "3881.10",
+        "LTP": "32.95",
+        "Current Value": "4678.90",
+        "P&L": "797.80",
+        "P&L%": "20.56"
+      },
+      "exchange": "NSE",
+      "primaryKey": "INE157H01023+NSE",
+      "masterCommit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+      "corpusRevision": {
+        "batchId": "BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001",
+        "fileChecksumSha256": "7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5",
+        "recordCount": 2250,
+        "authorizationRef": "AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001",
+        "operatingMode": "OFFLINE_BOOTSTRAP"
+      },
+      "wave2DispositionRevision": "BATCH-D05-TIER2-BROAD-UNIVERSE-WAVE2-DISPOSITION-2026-11-06-001",
+      "resolutionStatus": "UNRESOLVED",
+      "matchedSecurityIdentifier": null,
+      "matchedSecurityName": null,
+      "exactISINRecordCount": 0,
+      "depositPointers": [],
+      "activeNSEListings": [],
+      "eligibility": "NOT_EVALUABLE_NO_MASTER_RECORD",
+      "reason": "UNMAPPED_IDENTIFIER: zero exact ISIN records in unchanged 2250-record corpus; B-05 added zero and retained UNRESOLVED.",
+      "b04": {
+        "row": 28,
+        "status": "UNRESOLVED",
+        "quarantineId": "ident-quar-1793982992275-4ca22"
+      },
+      "b05": {
+        "row": 29,
+        "disposition": "UNRESOLVED",
+        "reasonCode": "AUTHORITATIVE_RECORD_UNAVAILABLE",
+        "missingAuthoritativeEvidence": [
+          "NSE trading symbol (or any exchange symbol) — absent from the source; cannot be manufactured",
+          "CIN (MCA master data) — absent from the source",
+          "lotSize, tickSize, faceValue — absent from the source",
+          "industry and sector — absent from the source (UNCLASSIFIED sentinel only exists for the synthetic fixture, not for governed deposition)",
+          "listingStatus with evidence that the security is ACTIVE on the NSE equity CM segment — absent from the source",
+          "independent exchange/depository or issuer verification — not performed (B-04 output is a local name/ISIN match only)"
+        ],
+        "quarantineId": "ident-quar-1793982992275-4ca22"
+      },
+      "newB06QuarantineId": "ident-quar-1793985835478-v142r",
+      "statusChangedFromB04": false,
+      "ownership": "NOT_EVALUATED_NO_OPERATIONAL_CONTEXT; identity lookup is not ownership/save authorization"
+    },
+    {
+      "row": 29,
+      "source": {
+        "Scrip Name": "Salasar Techno Engineering",
+        "ISIN Code": "INE170V01027",
+        "Quantity": "336",
+        "Avg. Buy Rate": "7.11",
+        "Buy Value": "2387.75",
+        "LTP": "4.20",
+        "Current Value": "1411.20",
+        "P&L": "-976.55",
+        "P&L%": "-40.90"
+      },
+      "exchange": "NSE",
+      "primaryKey": "INE170V01027+NSE",
+      "masterCommit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+      "corpusRevision": {
+        "batchId": "BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001",
+        "fileChecksumSha256": "7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5",
+        "recordCount": 2250,
+        "authorizationRef": "AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001",
+        "operatingMode": "OFFLINE_BOOTSTRAP"
+      },
+      "wave2DispositionRevision": "BATCH-D05-TIER2-BROAD-UNIVERSE-WAVE2-DISPOSITION-2026-11-06-001",
+      "resolutionStatus": "UNRESOLVED",
+      "matchedSecurityIdentifier": null,
+      "matchedSecurityName": null,
+      "exactISINRecordCount": 0,
+      "depositPointers": [],
+      "activeNSEListings": [],
+      "eligibility": "NOT_EVALUABLE_NO_MASTER_RECORD",
+      "reason": "UNMAPPED_IDENTIFIER: zero exact ISIN records in unchanged 2250-record corpus; B-05 added zero and retained UNRESOLVED.",
+      "b04": {
+        "row": 29,
+        "status": "UNRESOLVED",
+        "quarantineId": "ident-quar-1793982992275-8ko3q"
+      },
+      "b05": {
+        "row": 30,
+        "disposition": "UNRESOLVED",
+        "reasonCode": "AUTHORITATIVE_RECORD_UNAVAILABLE",
+        "missingAuthoritativeEvidence": [
+          "NSE trading symbol (or any exchange symbol) — absent from the source; cannot be manufactured",
+          "CIN (MCA master data) — absent from the source",
+          "lotSize, tickSize, faceValue — absent from the source",
+          "industry and sector — absent from the source (UNCLASSIFIED sentinel only exists for the synthetic fixture, not for governed deposition)",
+          "listingStatus with evidence that the security is ACTIVE on the NSE equity CM segment — absent from the source",
+          "independent exchange/depository or issuer verification — not performed (B-04 output is a local name/ISIN match only)"
+        ],
+        "quarantineId": "ident-quar-1793982992275-8ko3q"
+      },
+      "newB06QuarantineId": "ident-quar-1793985835479-kwcsr",
+      "statusChangedFromB04": false,
+      "ownership": "NOT_EVALUATED_NO_OPERATIONAL_CONTEXT; identity lookup is not ownership/save authorization"
+    },
+    {
+      "row": 30,
+      "source": {
+        "Scrip Name": "Elecon Engineering Company",
+        "ISIN Code": "INE205B01031",
+        "Quantity": "22",
+        "Avg. Buy Rate": "426.02",
+        "Buy Value": "9372.45",
+        "LTP": "418.95",
+        "Current Value": "9216.90",
+        "P&L": "-155.55",
+        "P&L%": "-1.66"
+      },
+      "exchange": "NSE",
+      "primaryKey": "INE205B01031+NSE",
+      "masterCommit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+      "corpusRevision": {
+        "batchId": "BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001",
+        "fileChecksumSha256": "7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5",
+        "recordCount": 2250,
+        "authorizationRef": "AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001",
+        "operatingMode": "OFFLINE_BOOTSTRAP"
+      },
+      "wave2DispositionRevision": "BATCH-D05-TIER2-BROAD-UNIVERSE-WAVE2-DISPOSITION-2026-11-06-001",
+      "resolutionStatus": "UNRESOLVED",
+      "matchedSecurityIdentifier": null,
+      "matchedSecurityName": null,
+      "exactISINRecordCount": 0,
+      "depositPointers": [],
+      "activeNSEListings": [],
+      "eligibility": "NOT_EVALUABLE_NO_MASTER_RECORD",
+      "reason": "UNMAPPED_IDENTIFIER: zero exact ISIN records in unchanged 2250-record corpus; B-05 added zero and retained UNRESOLVED.",
+      "b04": {
+        "row": 30,
+        "status": "UNRESOLVED",
+        "quarantineId": "ident-quar-1793982992275-04wd6"
+      },
+      "b05": {
+        "row": 31,
+        "disposition": "UNRESOLVED",
+        "reasonCode": "AUTHORITATIVE_RECORD_UNAVAILABLE",
+        "missingAuthoritativeEvidence": [
+          "NSE trading symbol (or any exchange symbol) — absent from the source; cannot be manufactured",
+          "CIN (MCA master data) — absent from the source",
+          "lotSize, tickSize, faceValue — absent from the source",
+          "industry and sector — absent from the source (UNCLASSIFIED sentinel only exists for the synthetic fixture, not for governed deposition)",
+          "listingStatus with evidence that the security is ACTIVE on the NSE equity CM segment — absent from the source",
+          "independent exchange/depository or issuer verification — not performed (B-04 output is a local name/ISIN match only)"
+        ],
+        "quarantineId": "ident-quar-1793982992275-04wd6"
+      },
+      "newB06QuarantineId": "ident-quar-1793985835479-sn2cn",
+      "statusChangedFromB04": false,
+      "ownership": "NOT_EVALUATED_NO_OPERATIONAL_CONTEXT; identity lookup is not ownership/save authorization"
+    },
+    {
+      "row": 31,
+      "source": {
+        "Scrip Name": "Canara Robeco Asset Management Company",
+        "ISIN Code": "INE218I01013",
+        "Quantity": "55",
+        "Avg. Buy Rate": "252.83",
+        "Buy Value": "13905.85",
+        "LTP": "224.12",
+        "Current Value": "12326.60",
+        "P&L": "-1579.25",
+        "P&L%": "-11.36"
+      },
+      "exchange": "NSE",
+      "primaryKey": "INE218I01013+NSE",
+      "masterCommit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+      "corpusRevision": {
+        "batchId": "BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001",
+        "fileChecksumSha256": "7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5",
+        "recordCount": 2250,
+        "authorizationRef": "AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001",
+        "operatingMode": "OFFLINE_BOOTSTRAP"
+      },
+      "wave2DispositionRevision": "BATCH-D05-TIER2-BROAD-UNIVERSE-WAVE2-DISPOSITION-2026-11-06-001",
+      "resolutionStatus": "UNRESOLVED",
+      "matchedSecurityIdentifier": null,
+      "matchedSecurityName": null,
+      "exactISINRecordCount": 0,
+      "depositPointers": [],
+      "activeNSEListings": [],
+      "eligibility": "NOT_EVALUABLE_NO_MASTER_RECORD",
+      "reason": "UNMAPPED_IDENTIFIER: zero exact ISIN records in unchanged 2250-record corpus; B-05 added zero and retained UNRESOLVED.",
+      "b04": {
+        "row": 31,
+        "status": "UNRESOLVED",
+        "quarantineId": "ident-quar-1793982992276-27mrf"
+      },
+      "b05": {
+        "row": 32,
+        "disposition": "UNRESOLVED",
+        "reasonCode": "AUTHORITATIVE_RECORD_UNAVAILABLE",
+        "missingAuthoritativeEvidence": [
+          "NSE trading symbol (or any exchange symbol) — absent from the source; cannot be manufactured",
+          "CIN (MCA master data) — absent from the source",
+          "lotSize, tickSize, faceValue — absent from the source",
+          "industry and sector — absent from the source (UNCLASSIFIED sentinel only exists for the synthetic fixture, not for governed deposition)",
+          "listingStatus with evidence that the security is ACTIVE on the NSE equity CM segment — absent from the source",
+          "independent exchange/depository or issuer verification — not performed (B-04 output is a local name/ISIN match only)"
+        ],
+        "quarantineId": "ident-quar-1793982992276-27mrf"
+      },
+      "newB06QuarantineId": "ident-quar-1793985835480-fdvpg",
+      "statusChangedFromB04": false,
+      "ownership": "NOT_EVALUATED_NO_OPERATIONAL_CONTEXT; identity lookup is not ownership/save authorization"
+    },
+    {
+      "row": 32,
+      "source": {
+        "Scrip Name": "Credo Brands Marketing (Mufti)",
+        "ISIN Code": "INE220Q01020",
+        "Quantity": "30",
+        "Avg. Buy Rate": "96.83",
+        "Buy Value": "2905.00",
+        "LTP": "76.55",
+        "Current Value": "2296.50",
+        "P&L": "-608.50",
+        "P&L%": "-20.95"
+      },
+      "exchange": "NSE",
+      "primaryKey": "INE220Q01020+NSE",
+      "masterCommit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+      "corpusRevision": {
+        "batchId": "BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001",
+        "fileChecksumSha256": "7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5",
+        "recordCount": 2250,
+        "authorizationRef": "AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001",
+        "operatingMode": "OFFLINE_BOOTSTRAP"
+      },
+      "wave2DispositionRevision": "BATCH-D05-TIER2-BROAD-UNIVERSE-WAVE2-DISPOSITION-2026-11-06-001",
+      "resolutionStatus": "UNRESOLVED",
+      "matchedSecurityIdentifier": null,
+      "matchedSecurityName": null,
+      "exactISINRecordCount": 0,
+      "depositPointers": [],
+      "activeNSEListings": [],
+      "eligibility": "NOT_EVALUABLE_NO_MASTER_RECORD",
+      "reason": "UNMAPPED_IDENTIFIER: zero exact ISIN records in unchanged 2250-record corpus; B-05 added zero and retained UNRESOLVED.",
+      "b04": {
+        "row": 32,
+        "status": "UNRESOLVED",
+        "quarantineId": "ident-quar-1793982992276-rkil5"
+      },
+      "b05": {
+        "row": 33,
+        "disposition": "UNRESOLVED",
+        "reasonCode": "AUTHORITATIVE_RECORD_UNAVAILABLE",
+        "missingAuthoritativeEvidence": [
+          "NSE trading symbol (or any exchange symbol) — absent from the source; cannot be manufactured",
+          "CIN (MCA master data) — absent from the source",
+          "lotSize, tickSize, faceValue — absent from the source",
+          "industry and sector — absent from the source (UNCLASSIFIED sentinel only exists for the synthetic fixture, not for governed deposition)",
+          "listingStatus with evidence that the security is ACTIVE on the NSE equity CM segment — absent from the source",
+          "independent exchange/depository or issuer verification — not performed (B-04 output is a local name/ISIN match only)"
+        ],
+        "quarantineId": "ident-quar-1793982992276-rkil5"
+      },
+      "newB06QuarantineId": "ident-quar-1793985835480-asvnt",
+      "statusChangedFromB04": false,
+      "ownership": "NOT_EVALUATED_NO_OPERATIONAL_CONTEXT; identity lookup is not ownership/save authorization"
+    },
+    {
+      "row": 33,
+      "source": {
+        "Scrip Name": "Grauer & Weil",
+        "ISIN Code": "INE266D01021",
+        "Quantity": "50",
+        "Avg. Buy Rate": "67.79",
+        "Buy Value": "3389.50",
+        "LTP": "76.25",
+        "Current Value": "3812.50",
+        "P&L": "423.00",
+        "P&L%": "12.48"
+      },
+      "exchange": "NSE",
+      "primaryKey": "INE266D01021+NSE",
+      "masterCommit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+      "corpusRevision": {
+        "batchId": "BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001",
+        "fileChecksumSha256": "7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5",
+        "recordCount": 2250,
+        "authorizationRef": "AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001",
+        "operatingMode": "OFFLINE_BOOTSTRAP"
+      },
+      "wave2DispositionRevision": "BATCH-D05-TIER2-BROAD-UNIVERSE-WAVE2-DISPOSITION-2026-11-06-001",
+      "resolutionStatus": "UNRESOLVED",
+      "matchedSecurityIdentifier": null,
+      "matchedSecurityName": null,
+      "exactISINRecordCount": 0,
+      "depositPointers": [],
+      "activeNSEListings": [],
+      "eligibility": "NOT_EVALUABLE_NO_MASTER_RECORD",
+      "reason": "UNMAPPED_IDENTIFIER: zero exact ISIN records in unchanged 2250-record corpus; B-05 added zero and retained UNRESOLVED.",
+      "b04": {
+        "row": 33,
+        "status": "UNRESOLVED",
+        "quarantineId": "ident-quar-1793982992276-hcq3i"
+      },
+      "b05": {
+        "row": 34,
+        "disposition": "UNRESOLVED",
+        "reasonCode": "AUTHORITATIVE_RECORD_UNAVAILABLE",
+        "missingAuthoritativeEvidence": [
+          "NSE trading symbol (or any exchange symbol) — absent from the source; cannot be manufactured",
+          "CIN (MCA master data) — absent from the source",
+          "lotSize, tickSize, faceValue — absent from the source",
+          "industry and sector — absent from the source (UNCLASSIFIED sentinel only exists for the synthetic fixture, not for governed deposition)",
+          "listingStatus with evidence that the security is ACTIVE on the NSE equity CM segment — absent from the source",
+          "independent exchange/depository or issuer verification — not performed (B-04 output is a local name/ISIN match only)"
+        ],
+        "quarantineId": "ident-quar-1793982992276-hcq3i"
+      },
+      "newB06QuarantineId": "ident-quar-1793985835481-umqfo",
+      "statusChangedFromB04": false,
+      "ownership": "NOT_EVALUATED_NO_OPERATIONAL_CONTEXT; identity lookup is not ownership/save authorization"
+    },
+    {
+      "row": 34,
+      "source": {
+        "Scrip Name": "Vishnu Chemicals",
+        "ISIN Code": "INE270I01022",
+        "Quantity": "15",
+        "Avg. Buy Rate": "504.13",
+        "Buy Value": "7562.00",
+        "LTP": "551.10",
+        "Current Value": "8266.50",
+        "P&L": "704.50",
+        "P&L%": "9.32"
+      },
+      "exchange": "NSE",
+      "primaryKey": "INE270I01022+NSE",
+      "masterCommit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+      "corpusRevision": {
+        "batchId": "BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001",
+        "fileChecksumSha256": "7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5",
+        "recordCount": 2250,
+        "authorizationRef": "AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001",
+        "operatingMode": "OFFLINE_BOOTSTRAP"
+      },
+      "wave2DispositionRevision": "BATCH-D05-TIER2-BROAD-UNIVERSE-WAVE2-DISPOSITION-2026-11-06-001",
+      "resolutionStatus": "UNRESOLVED",
+      "matchedSecurityIdentifier": null,
+      "matchedSecurityName": null,
+      "exactISINRecordCount": 0,
+      "depositPointers": [],
+      "activeNSEListings": [],
+      "eligibility": "NOT_EVALUABLE_NO_MASTER_RECORD",
+      "reason": "UNMAPPED_IDENTIFIER: zero exact ISIN records in unchanged 2250-record corpus; B-05 added zero and retained UNRESOLVED.",
+      "b04": {
+        "row": 34,
+        "status": "UNRESOLVED",
+        "quarantineId": "ident-quar-1793982992277-b4ls5"
+      },
+      "b05": {
+        "row": 35,
+        "disposition": "UNRESOLVED",
+        "reasonCode": "AUTHORITATIVE_RECORD_UNAVAILABLE",
+        "missingAuthoritativeEvidence": [
+          "NSE trading symbol (or any exchange symbol) — absent from the source; cannot be manufactured",
+          "CIN (MCA master data) — absent from the source",
+          "lotSize, tickSize, faceValue — absent from the source",
+          "industry and sector — absent from the source (UNCLASSIFIED sentinel only exists for the synthetic fixture, not for governed deposition)",
+          "listingStatus with evidence that the security is ACTIVE on the NSE equity CM segment — absent from the source",
+          "independent exchange/depository or issuer verification — not performed (B-04 output is a local name/ISIN match only)"
+        ],
+        "quarantineId": "ident-quar-1793982992277-b4ls5"
+      },
+      "newB06QuarantineId": "ident-quar-1793985835481-bxphg",
+      "statusChangedFromB04": false,
+      "ownership": "NOT_EVALUATED_NO_OPERATIONAL_CONTEXT; identity lookup is not ownership/save authorization"
+    },
+    {
+      "row": 35,
+      "source": {
+        "Scrip Name": "Ajax Engineering",
+        "ISIN Code": "INE274Y01021",
+        "Quantity": "10",
+        "Avg. Buy Rate": "467.05",
+        "Buy Value": "4670.50",
+        "LTP": "556.65",
+        "Current Value": "5566.50",
+        "P&L": "896.00",
+        "P&L%": "19.18"
+      },
+      "exchange": "NSE",
+      "primaryKey": "INE274Y01021+NSE",
+      "masterCommit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+      "corpusRevision": {
+        "batchId": "BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001",
+        "fileChecksumSha256": "7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5",
+        "recordCount": 2250,
+        "authorizationRef": "AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001",
+        "operatingMode": "OFFLINE_BOOTSTRAP"
+      },
+      "wave2DispositionRevision": "BATCH-D05-TIER2-BROAD-UNIVERSE-WAVE2-DISPOSITION-2026-11-06-001",
+      "resolutionStatus": "UNRESOLVED",
+      "matchedSecurityIdentifier": null,
+      "matchedSecurityName": null,
+      "exactISINRecordCount": 0,
+      "depositPointers": [],
+      "activeNSEListings": [],
+      "eligibility": "NOT_EVALUABLE_NO_MASTER_RECORD",
+      "reason": "UNMAPPED_IDENTIFIER: zero exact ISIN records in unchanged 2250-record corpus; B-05 added zero and retained UNRESOLVED.",
+      "b04": {
+        "row": 35,
+        "status": "UNRESOLVED",
+        "quarantineId": "ident-quar-1793982992277-n1mbl"
+      },
+      "b05": {
+        "row": 36,
+        "disposition": "UNRESOLVED",
+        "reasonCode": "AUTHORITATIVE_RECORD_UNAVAILABLE",
+        "missingAuthoritativeEvidence": [
+          "NSE trading symbol (or any exchange symbol) — absent from the source; cannot be manufactured",
+          "CIN (MCA master data) — absent from the source",
+          "lotSize, tickSize, faceValue — absent from the source",
+          "industry and sector — absent from the source (UNCLASSIFIED sentinel only exists for the synthetic fixture, not for governed deposition)",
+          "listingStatus with evidence that the security is ACTIVE on the NSE equity CM segment — absent from the source",
+          "independent exchange/depository or issuer verification — not performed (B-04 output is a local name/ISIN match only)"
+        ],
+        "quarantineId": "ident-quar-1793982992277-n1mbl"
+      },
+      "newB06QuarantineId": "ident-quar-1793985835482-47mdc",
+      "statusChangedFromB04": false,
+      "ownership": "NOT_EVALUATED_NO_OPERATIONAL_CONTEXT; identity lookup is not ownership/save authorization"
+    },
+    {
+      "row": 36,
+      "source": {
+        "Scrip Name": "DAM Capital Advisors",
+        "ISIN Code": "INE284H01025",
+        "Quantity": "150",
+        "Avg. Buy Rate": "149.30",
+        "Buy Value": "22394.27",
+        "LTP": "139.47",
+        "Current Value": "20920.50",
+        "P&L": "-1473.77",
+        "P&L%": "-6.58"
+      },
+      "exchange": "NSE",
+      "primaryKey": "INE284H01025+NSE",
+      "masterCommit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+      "corpusRevision": {
+        "batchId": "BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001",
+        "fileChecksumSha256": "7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5",
+        "recordCount": 2250,
+        "authorizationRef": "AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001",
+        "operatingMode": "OFFLINE_BOOTSTRAP"
+      },
+      "wave2DispositionRevision": "BATCH-D05-TIER2-BROAD-UNIVERSE-WAVE2-DISPOSITION-2026-11-06-001",
+      "resolutionStatus": "UNRESOLVED",
+      "matchedSecurityIdentifier": null,
+      "matchedSecurityName": null,
+      "exactISINRecordCount": 0,
+      "depositPointers": [],
+      "activeNSEListings": [],
+      "eligibility": "NOT_EVALUABLE_NO_MASTER_RECORD",
+      "reason": "UNMAPPED_IDENTIFIER: zero exact ISIN records in unchanged 2250-record corpus; B-05 added zero and retained UNRESOLVED.",
+      "b04": {
+        "row": 36,
+        "status": "UNRESOLVED",
+        "quarantineId": "ident-quar-1793982992278-kj3iu"
+      },
+      "b05": {
+        "row": 37,
+        "disposition": "UNRESOLVED",
+        "reasonCode": "AUTHORITATIVE_RECORD_UNAVAILABLE",
+        "missingAuthoritativeEvidence": [
+          "NSE trading symbol (or any exchange symbol) — absent from the source; cannot be manufactured",
+          "CIN (MCA master data) — absent from the source",
+          "lotSize, tickSize, faceValue — absent from the source",
+          "industry and sector — absent from the source (UNCLASSIFIED sentinel only exists for the synthetic fixture, not for governed deposition)",
+          "listingStatus with evidence that the security is ACTIVE on the NSE equity CM segment — absent from the source",
+          "independent exchange/depository or issuer verification — not performed (B-04 output is a local name/ISIN match only)"
+        ],
+        "quarantineId": "ident-quar-1793982992278-kj3iu"
+      },
+      "newB06QuarantineId": "ident-quar-1793985835483-f2nsn",
+      "statusChangedFromB04": false,
+      "ownership": "NOT_EVALUATED_NO_OPERATIONAL_CONTEXT; identity lookup is not ownership/save authorization"
+    },
+    {
+      "row": 37,
+      "source": {
+        "Scrip Name": "Waaree Renewable Technologies",
+        "ISIN Code": "INE299N01021",
+        "Quantity": "20",
+        "Avg. Buy Rate": "951.40",
+        "Buy Value": "19028.00",
+        "LTP": "733.35",
+        "Current Value": "14667.00",
+        "P&L": "-4361.00",
+        "P&L%": "-22.92"
+      },
+      "exchange": "NSE",
+      "primaryKey": "INE299N01021+NSE",
+      "masterCommit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+      "corpusRevision": {
+        "batchId": "BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001",
+        "fileChecksumSha256": "7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5",
+        "recordCount": 2250,
+        "authorizationRef": "AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001",
+        "operatingMode": "OFFLINE_BOOTSTRAP"
+      },
+      "wave2DispositionRevision": "BATCH-D05-TIER2-BROAD-UNIVERSE-WAVE2-DISPOSITION-2026-11-06-001",
+      "resolutionStatus": "UNRESOLVED",
+      "matchedSecurityIdentifier": null,
+      "matchedSecurityName": null,
+      "exactISINRecordCount": 0,
+      "depositPointers": [],
+      "activeNSEListings": [],
+      "eligibility": "NOT_EVALUABLE_NO_MASTER_RECORD",
+      "reason": "UNMAPPED_IDENTIFIER: zero exact ISIN records in unchanged 2250-record corpus; B-05 added zero and retained UNRESOLVED.",
+      "b04": {
+        "row": 37,
+        "status": "UNRESOLVED",
+        "quarantineId": "ident-quar-1793982992278-g7upv"
+      },
+      "b05": {
+        "row": 38,
+        "disposition": "UNRESOLVED",
+        "reasonCode": "AUTHORITATIVE_RECORD_UNAVAILABLE",
+        "missingAuthoritativeEvidence": [
+          "NSE trading symbol (or any exchange symbol) — absent from the source; cannot be manufactured",
+          "CIN (MCA master data) — absent from the source",
+          "lotSize, tickSize, faceValue — absent from the source",
+          "industry and sector — absent from the source (UNCLASSIFIED sentinel only exists for the synthetic fixture, not for governed deposition)",
+          "listingStatus with evidence that the security is ACTIVE on the NSE equity CM segment — absent from the source",
+          "independent exchange/depository or issuer verification — not performed (B-04 output is a local name/ISIN match only)"
+        ],
+        "quarantineId": "ident-quar-1793982992278-g7upv"
+      },
+      "newB06QuarantineId": "ident-quar-1793985835483-rq8g3",
+      "statusChangedFromB04": false,
+      "ownership": "NOT_EVALUATED_NO_OPERATIONAL_CONTEXT; identity lookup is not ownership/save authorization"
+    },
+    {
+      "row": 38,
+      "source": {
+        "Scrip Name": "Panama Petrochem",
+        "ISIN Code": "INE305C01029",
+        "Quantity": "10",
+        "Avg. Buy Rate": "295.00",
+        "Buy Value": "2950.00",
+        "LTP": "438.25",
+        "Current Value": "4382.50",
+        "P&L": "1432.50",
+        "P&L%": "48.56"
+      },
+      "exchange": "NSE",
+      "primaryKey": "INE305C01029+NSE",
+      "masterCommit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+      "corpusRevision": {
+        "batchId": "BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001",
+        "fileChecksumSha256": "7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5",
+        "recordCount": 2250,
+        "authorizationRef": "AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001",
+        "operatingMode": "OFFLINE_BOOTSTRAP"
+      },
+      "wave2DispositionRevision": "BATCH-D05-TIER2-BROAD-UNIVERSE-WAVE2-DISPOSITION-2026-11-06-001",
+      "resolutionStatus": "UNRESOLVED",
+      "matchedSecurityIdentifier": null,
+      "matchedSecurityName": null,
+      "exactISINRecordCount": 0,
+      "depositPointers": [],
+      "activeNSEListings": [],
+      "eligibility": "NOT_EVALUABLE_NO_MASTER_RECORD",
+      "reason": "UNMAPPED_IDENTIFIER: zero exact ISIN records in unchanged 2250-record corpus; B-05 added zero and retained UNRESOLVED.",
+      "b04": {
+        "row": 38,
+        "status": "UNRESOLVED",
+        "quarantineId": "ident-quar-1793982992279-lw6js"
+      },
+      "b05": {
+        "row": 39,
+        "disposition": "UNRESOLVED",
+        "reasonCode": "AUTHORITATIVE_RECORD_UNAVAILABLE",
+        "missingAuthoritativeEvidence": [
+          "NSE trading symbol (or any exchange symbol) — absent from the source; cannot be manufactured",
+          "CIN (MCA master data) — absent from the source",
+          "lotSize, tickSize, faceValue — absent from the source",
+          "industry and sector — absent from the source (UNCLASSIFIED sentinel only exists for the synthetic fixture, not for governed deposition)",
+          "listingStatus with evidence that the security is ACTIVE on the NSE equity CM segment — absent from the source",
+          "independent exchange/depository or issuer verification — not performed (B-04 output is a local name/ISIN match only)"
+        ],
+        "quarantineId": "ident-quar-1793982992279-lw6js"
+      },
+      "newB06QuarantineId": "ident-quar-1793985835483-lg03a",
+      "statusChangedFromB04": false,
+      "ownership": "NOT_EVALUATED_NO_OPERATIONAL_CONTEXT; identity lookup is not ownership/save authorization"
+    },
+    {
+      "row": 39,
+      "source": {
+        "Scrip Name": "Premier Polyfilm",
+        "ISIN Code": "INE309M01020",
+        "Quantity": "10",
+        "Avg. Buy Rate": "50.60",
+        "Buy Value": "506.00",
+        "LTP": "91.40",
+        "Current Value": "914.00",
+        "P&L": "408.00",
+        "P&L%": "80.63"
+      },
+      "exchange": "NSE",
+      "primaryKey": "INE309M01020+NSE",
+      "masterCommit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+      "corpusRevision": {
+        "batchId": "BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001",
+        "fileChecksumSha256": "7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5",
+        "recordCount": 2250,
+        "authorizationRef": "AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001",
+        "operatingMode": "OFFLINE_BOOTSTRAP"
+      },
+      "wave2DispositionRevision": "BATCH-D05-TIER2-BROAD-UNIVERSE-WAVE2-DISPOSITION-2026-11-06-001",
+      "resolutionStatus": "UNRESOLVED",
+      "matchedSecurityIdentifier": null,
+      "matchedSecurityName": null,
+      "exactISINRecordCount": 0,
+      "depositPointers": [],
+      "activeNSEListings": [],
+      "eligibility": "NOT_EVALUABLE_NO_MASTER_RECORD",
+      "reason": "UNMAPPED_IDENTIFIER: zero exact ISIN records in unchanged 2250-record corpus; B-05 added zero and retained UNRESOLVED.",
+      "b04": {
+        "row": 39,
+        "status": "UNRESOLVED",
+        "quarantineId": "ident-quar-1793982992279-x8dml"
+      },
+      "b05": {
+        "row": 40,
+        "disposition": "UNRESOLVED",
+        "reasonCode": "AUTHORITATIVE_RECORD_UNAVAILABLE",
+        "missingAuthoritativeEvidence": [
+          "NSE trading symbol (or any exchange symbol) — absent from the source; cannot be manufactured",
+          "CIN (MCA master data) — absent from the source",
+          "lotSize, tickSize, faceValue — absent from the source",
+          "industry and sector — absent from the source (UNCLASSIFIED sentinel only exists for the synthetic fixture, not for governed deposition)",
+          "listingStatus with evidence that the security is ACTIVE on the NSE equity CM segment — absent from the source",
+          "independent exchange/depository or issuer verification — not performed (B-04 output is a local name/ISIN match only)"
+        ],
+        "quarantineId": "ident-quar-1793982992279-x8dml"
+      },
+      "newB06QuarantineId": "ident-quar-1793985835484-hoj32",
+      "statusChangedFromB04": false,
+      "ownership": "NOT_EVALUATED_NO_OPERATIONAL_CONTEXT; identity lookup is not ownership/save authorization"
+    },
+    {
+      "row": 40,
+      "source": {
+        "Scrip Name": "Precision Wires India",
+        "ISIN Code": "INE372C01037",
+        "Quantity": "5",
+        "Avg. Buy Rate": "214.00",
+        "Buy Value": "1070.00",
+        "LTP": "401.45",
+        "Current Value": "2007.25",
+        "P&L": "937.25",
+        "P&L%": "87.59"
+      },
+      "exchange": "NSE",
+      "primaryKey": "INE372C01037+NSE",
+      "masterCommit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+      "corpusRevision": {
+        "batchId": "BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001",
+        "fileChecksumSha256": "7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5",
+        "recordCount": 2250,
+        "authorizationRef": "AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001",
+        "operatingMode": "OFFLINE_BOOTSTRAP"
+      },
+      "wave2DispositionRevision": "BATCH-D05-TIER2-BROAD-UNIVERSE-WAVE2-DISPOSITION-2026-11-06-001",
+      "resolutionStatus": "UNRESOLVED",
+      "matchedSecurityIdentifier": null,
+      "matchedSecurityName": null,
+      "exactISINRecordCount": 0,
+      "depositPointers": [],
+      "activeNSEListings": [],
+      "eligibility": "NOT_EVALUABLE_NO_MASTER_RECORD",
+      "reason": "UNMAPPED_IDENTIFIER: zero exact ISIN records in unchanged 2250-record corpus; B-05 added zero and retained UNRESOLVED.",
+      "b04": {
+        "row": 40,
+        "status": "UNRESOLVED",
+        "quarantineId": "ident-quar-1793982992279-lxx6f"
+      },
+      "b05": {
+        "row": 41,
+        "disposition": "UNRESOLVED",
+        "reasonCode": "AUTHORITATIVE_RECORD_UNAVAILABLE",
+        "missingAuthoritativeEvidence": [
+          "NSE trading symbol (or any exchange symbol) — absent from the source; cannot be manufactured",
+          "CIN (MCA master data) — absent from the source",
+          "lotSize, tickSize, faceValue — absent from the source",
+          "industry and sector — absent from the source (UNCLASSIFIED sentinel only exists for the synthetic fixture, not for governed deposition)",
+          "listingStatus with evidence that the security is ACTIVE on the NSE equity CM segment — absent from the source",
+          "independent exchange/depository or issuer verification — not performed (B-04 output is a local name/ISIN match only)"
+        ],
+        "quarantineId": "ident-quar-1793982992279-lxx6f"
+      },
+      "newB06QuarantineId": "ident-quar-1793985835484-o87as",
+      "statusChangedFromB04": false,
+      "ownership": "NOT_EVALUATED_NO_OPERATIONAL_CONTEXT; identity lookup is not ownership/save authorization"
+    },
+    {
+      "row": 41,
+      "source": {
+        "Scrip Name": "AGI Greenpac",
+        "ISIN Code": "INE415A01038",
+        "Quantity": "2",
+        "Avg. Buy Rate": "589.65",
+        "Buy Value": "1179.30",
+        "LTP": "645.55",
+        "Current Value": "1291.10",
+        "P&L": "111.80",
+        "P&L%": "9.48"
+      },
+      "exchange": "NSE",
+      "primaryKey": "INE415A01038+NSE",
+      "masterCommit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+      "corpusRevision": {
+        "batchId": "BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001",
+        "fileChecksumSha256": "7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5",
+        "recordCount": 2250,
+        "authorizationRef": "AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001",
+        "operatingMode": "OFFLINE_BOOTSTRAP"
+      },
+      "wave2DispositionRevision": "BATCH-D05-TIER2-BROAD-UNIVERSE-WAVE2-DISPOSITION-2026-11-06-001",
+      "resolutionStatus": "RESOLVED",
+      "matchedSecurityIdentifier": "EQ_AGI_IN",
+      "matchedSecurityName": "AGI Greenpac Limited",
+      "exactISINRecordCount": 1,
+      "depositPointers": [
+        "/21"
+      ],
+      "activeNSEListings": [
+        {
+          "exchange": "NSE",
+          "symbol": "AGI",
+          "status": "ACTIVE",
+          "lotSize": 1,
+          "tickSize": 0.05
+        },
+        {
+          "exchange": "NSE",
+          "symbol": "AGI GREENPAC",
+          "status": "ACTIVE",
+          "lotSize": 1,
+          "tickSize": 0.05
+        }
+      ],
+      "eligibility": "ACTIVE_NSE_AND_EFFECTIVE_ENTIRE_PORTFOLIO_DATE",
+      "reason": "Unique exact ISIN+NSE; same AGI company as B-04, active/effective; excluded from B-05 unresolved scope.",
+      "b04": {
+        "row": 41,
+        "status": "RESOLVED",
+        "quarantineId": null
+      },
+      "b05": {
+        "disposition": "EXCLUDED_ALREADY_RESOLVED_AGI"
+      },
+      "newB06QuarantineId": null,
+      "statusChangedFromB04": false,
+      "ownership": "NOT_EVALUATED_NO_OPERATIONAL_CONTEXT; identity lookup is not ownership/save authorization"
+    },
+    {
+      "row": 42,
+      "source": {
+        "Scrip Name": "Arihant Capital Markets",
+        "ISIN Code": "INE420B01036",
+        "Quantity": "50",
+        "Avg. Buy Rate": "67.92",
+        "Buy Value": "3395.75",
+        "LTP": "92.43",
+        "Current Value": "4621.50",
+        "P&L": "1225.75",
+        "P&L%": "36.10"
+      },
+      "exchange": "NSE",
+      "primaryKey": "INE420B01036+NSE",
+      "masterCommit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+      "corpusRevision": {
+        "batchId": "BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001",
+        "fileChecksumSha256": "7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5",
+        "recordCount": 2250,
+        "authorizationRef": "AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001",
+        "operatingMode": "OFFLINE_BOOTSTRAP"
+      },
+      "wave2DispositionRevision": "BATCH-D05-TIER2-BROAD-UNIVERSE-WAVE2-DISPOSITION-2026-11-06-001",
+      "resolutionStatus": "UNRESOLVED",
+      "matchedSecurityIdentifier": null,
+      "matchedSecurityName": null,
+      "exactISINRecordCount": 0,
+      "depositPointers": [],
+      "activeNSEListings": [],
+      "eligibility": "NOT_EVALUABLE_NO_MASTER_RECORD",
+      "reason": "UNMAPPED_IDENTIFIER: zero exact ISIN records in unchanged 2250-record corpus; B-05 added zero and retained UNRESOLVED.",
+      "b04": {
+        "row": 42,
+        "status": "UNRESOLVED",
+        "quarantineId": "ident-quar-1793982992281-q0wb8"
+      },
+      "b05": {
+        "row": 43,
+        "disposition": "UNRESOLVED",
+        "reasonCode": "AUTHORITATIVE_RECORD_UNAVAILABLE",
+        "missingAuthoritativeEvidence": [
+          "NSE trading symbol (or any exchange symbol) — absent from the source; cannot be manufactured",
+          "CIN (MCA master data) — absent from the source",
+          "lotSize, tickSize, faceValue — absent from the source",
+          "industry and sector — absent from the source (UNCLASSIFIED sentinel only exists for the synthetic fixture, not for governed deposition)",
+          "listingStatus with evidence that the security is ACTIVE on the NSE equity CM segment — absent from the source",
+          "independent exchange/depository or issuer verification — not performed (B-04 output is a local name/ISIN match only)"
+        ],
+        "quarantineId": "ident-quar-1793982992281-q0wb8"
+      },
+      "newB06QuarantineId": "ident-quar-1793985835486-fk49o",
+      "statusChangedFromB04": false,
+      "ownership": "NOT_EVALUATED_NO_OPERATIONAL_CONTEXT; identity lookup is not ownership/save authorization"
+    },
+    {
+      "row": 43,
+      "source": {
+        "Scrip Name": "Ashoka Buildcon",
+        "ISIN Code": "INE442H01029",
+        "Quantity": "100",
+        "Avg. Buy Rate": "126.08",
+        "Buy Value": "12608.35",
+        "LTP": "102.06",
+        "Current Value": "10206.00",
+        "P&L": "-2402.35",
+        "P&L%": "-19.05"
+      },
+      "exchange": "NSE",
+      "primaryKey": "INE442H01029+NSE",
+      "masterCommit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+      "corpusRevision": {
+        "batchId": "BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001",
+        "fileChecksumSha256": "7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5",
+        "recordCount": 2250,
+        "authorizationRef": "AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001",
+        "operatingMode": "OFFLINE_BOOTSTRAP"
+      },
+      "wave2DispositionRevision": "BATCH-D05-TIER2-BROAD-UNIVERSE-WAVE2-DISPOSITION-2026-11-06-001",
+      "resolutionStatus": "UNRESOLVED",
+      "matchedSecurityIdentifier": null,
+      "matchedSecurityName": null,
+      "exactISINRecordCount": 0,
+      "depositPointers": [],
+      "activeNSEListings": [],
+      "eligibility": "NOT_EVALUABLE_NO_MASTER_RECORD",
+      "reason": "UNMAPPED_IDENTIFIER: zero exact ISIN records in unchanged 2250-record corpus; B-05 added zero and retained UNRESOLVED.",
+      "b04": {
+        "row": 43,
+        "status": "UNRESOLVED",
+        "quarantineId": "ident-quar-1793982992282-zdbkf"
+      },
+      "b05": {
+        "row": 44,
+        "disposition": "UNRESOLVED",
+        "reasonCode": "AUTHORITATIVE_RECORD_UNAVAILABLE",
+        "missingAuthoritativeEvidence": [
+          "NSE trading symbol (or any exchange symbol) — absent from the source; cannot be manufactured",
+          "CIN (MCA master data) — absent from the source",
+          "lotSize, tickSize, faceValue — absent from the source",
+          "industry and sector — absent from the source (UNCLASSIFIED sentinel only exists for the synthetic fixture, not for governed deposition)",
+          "listingStatus with evidence that the security is ACTIVE on the NSE equity CM segment — absent from the source",
+          "independent exchange/depository or issuer verification — not performed (B-04 output is a local name/ISIN match only)"
+        ],
+        "quarantineId": "ident-quar-1793982992282-zdbkf"
+      },
+      "newB06QuarantineId": "ident-quar-1793985835487-civws",
+      "statusChangedFromB04": false,
+      "ownership": "NOT_EVALUATED_NO_OPERATIONAL_CONTEXT; identity lookup is not ownership/save authorization"
+    },
+    {
+      "row": 44,
+      "source": {
+        "Scrip Name": "IIFL Capital Services",
+        "ISIN Code": "INE489L01022",
+        "Quantity": "15",
+        "Avg. Buy Rate": "314.40",
+        "Buy Value": "4716.00",
+        "LTP": "349.80",
+        "Current Value": "5247.00",
+        "P&L": "531.00",
+        "P&L%": "11.26"
+      },
+      "exchange": "NSE",
+      "primaryKey": "INE489L01022+NSE",
+      "masterCommit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+      "corpusRevision": {
+        "batchId": "BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001",
+        "fileChecksumSha256": "7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5",
+        "recordCount": 2250,
+        "authorizationRef": "AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001",
+        "operatingMode": "OFFLINE_BOOTSTRAP"
+      },
+      "wave2DispositionRevision": "BATCH-D05-TIER2-BROAD-UNIVERSE-WAVE2-DISPOSITION-2026-11-06-001",
+      "resolutionStatus": "UNRESOLVED",
+      "matchedSecurityIdentifier": null,
+      "matchedSecurityName": null,
+      "exactISINRecordCount": 0,
+      "depositPointers": [],
+      "activeNSEListings": [],
+      "eligibility": "NOT_EVALUABLE_NO_MASTER_RECORD",
+      "reason": "UNMAPPED_IDENTIFIER: zero exact ISIN records in unchanged 2250-record corpus; B-05 added zero and retained UNRESOLVED.",
+      "b04": {
+        "row": 44,
+        "status": "UNRESOLVED",
+        "quarantineId": "ident-quar-1793982992282-xai50"
+      },
+      "b05": {
+        "row": 45,
+        "disposition": "UNRESOLVED",
+        "reasonCode": "AUTHORITATIVE_RECORD_UNAVAILABLE",
+        "missingAuthoritativeEvidence": [
+          "NSE trading symbol (or any exchange symbol) — absent from the source; cannot be manufactured",
+          "CIN (MCA master data) — absent from the source",
+          "lotSize, tickSize, faceValue — absent from the source",
+          "industry and sector — absent from the source (UNCLASSIFIED sentinel only exists for the synthetic fixture, not for governed deposition)",
+          "listingStatus with evidence that the security is ACTIVE on the NSE equity CM segment — absent from the source",
+          "independent exchange/depository or issuer verification — not performed (B-04 output is a local name/ISIN match only)"
+        ],
+        "quarantineId": "ident-quar-1793982992282-xai50"
+      },
+      "newB06QuarantineId": "ident-quar-1793985835488-5jqvl",
+      "statusChangedFromB04": false,
+      "ownership": "NOT_EVALUATED_NO_OPERATIONAL_CONTEXT; identity lookup is not ownership/save authorization"
+    },
+    {
+      "row": 45,
+      "source": {
+        "Scrip Name": "ASK Automotive",
+        "ISIN Code": "INE491J01022",
+        "Quantity": "7",
+        "Avg. Buy Rate": "431.29",
+        "Buy Value": "3019.00",
+        "LTP": "614.90",
+        "Current Value": "4304.30",
+        "P&L": "1285.30",
+        "P&L%": "42.57"
+      },
+      "exchange": "NSE",
+      "primaryKey": "INE491J01022+NSE",
+      "masterCommit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+      "corpusRevision": {
+        "batchId": "BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001",
+        "fileChecksumSha256": "7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5",
+        "recordCount": 2250,
+        "authorizationRef": "AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001",
+        "operatingMode": "OFFLINE_BOOTSTRAP"
+      },
+      "wave2DispositionRevision": "BATCH-D05-TIER2-BROAD-UNIVERSE-WAVE2-DISPOSITION-2026-11-06-001",
+      "resolutionStatus": "UNRESOLVED",
+      "matchedSecurityIdentifier": null,
+      "matchedSecurityName": null,
+      "exactISINRecordCount": 0,
+      "depositPointers": [],
+      "activeNSEListings": [],
+      "eligibility": "NOT_EVALUABLE_NO_MASTER_RECORD",
+      "reason": "UNMAPPED_IDENTIFIER: zero exact ISIN records in unchanged 2250-record corpus; B-05 added zero and retained UNRESOLVED.",
+      "b04": {
+        "row": 45,
+        "status": "UNRESOLVED",
+        "quarantineId": "ident-quar-1793982992282-wqrn8"
+      },
+      "b05": {
+        "row": 46,
+        "disposition": "UNRESOLVED",
+        "reasonCode": "AUTHORITATIVE_RECORD_UNAVAILABLE",
+        "missingAuthoritativeEvidence": [
+          "NSE trading symbol (or any exchange symbol) — absent from the source; cannot be manufactured",
+          "CIN (MCA master data) — absent from the source",
+          "lotSize, tickSize, faceValue — absent from the source",
+          "industry and sector — absent from the source (UNCLASSIFIED sentinel only exists for the synthetic fixture, not for governed deposition)",
+          "listingStatus with evidence that the security is ACTIVE on the NSE equity CM segment — absent from the source",
+          "independent exchange/depository or issuer verification — not performed (B-04 output is a local name/ISIN match only)"
+        ],
+        "quarantineId": "ident-quar-1793982992282-wqrn8"
+      },
+      "newB06QuarantineId": "ident-quar-1793985835488-m8h7u",
+      "statusChangedFromB04": false,
+      "ownership": "NOT_EVALUATED_NO_OPERATIONAL_CONTEXT; identity lookup is not ownership/save authorization"
+    },
+    {
+      "row": 46,
+      "source": {
+        "Scrip Name": "Engineers India",
+        "ISIN Code": "INE510A01028",
+        "Quantity": "10",
+        "Avg. Buy Rate": "168.00",
+        "Buy Value": "1680.00",
+        "LTP": "292.70",
+        "Current Value": "2927.00",
+        "P&L": "1247.00",
+        "P&L%": "74.23"
+      },
+      "exchange": "NSE",
+      "primaryKey": "INE510A01028+NSE",
+      "masterCommit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+      "corpusRevision": {
+        "batchId": "BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001",
+        "fileChecksumSha256": "7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5",
+        "recordCount": 2250,
+        "authorizationRef": "AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001",
+        "operatingMode": "OFFLINE_BOOTSTRAP"
+      },
+      "wave2DispositionRevision": "BATCH-D05-TIER2-BROAD-UNIVERSE-WAVE2-DISPOSITION-2026-11-06-001",
+      "resolutionStatus": "UNRESOLVED",
+      "matchedSecurityIdentifier": null,
+      "matchedSecurityName": null,
+      "exactISINRecordCount": 0,
+      "depositPointers": [],
+      "activeNSEListings": [],
+      "eligibility": "NOT_EVALUABLE_NO_MASTER_RECORD",
+      "reason": "UNMAPPED_IDENTIFIER: zero exact ISIN records in unchanged 2250-record corpus; B-05 added zero and retained UNRESOLVED.",
+      "b04": {
+        "row": 46,
+        "status": "UNRESOLVED",
+        "quarantineId": "ident-quar-1793982992283-it1p5"
+      },
+      "b05": {
+        "row": 47,
+        "disposition": "UNRESOLVED",
+        "reasonCode": "AUTHORITATIVE_RECORD_UNAVAILABLE",
+        "missingAuthoritativeEvidence": [
+          "NSE trading symbol (or any exchange symbol) — absent from the source; cannot be manufactured",
+          "CIN (MCA master data) — absent from the source",
+          "lotSize, tickSize, faceValue — absent from the source",
+          "industry and sector — absent from the source (UNCLASSIFIED sentinel only exists for the synthetic fixture, not for governed deposition)",
+          "listingStatus with evidence that the security is ACTIVE on the NSE equity CM segment — absent from the source",
+          "independent exchange/depository or issuer verification — not performed (B-04 output is a local name/ISIN match only)"
+        ],
+        "quarantineId": "ident-quar-1793982992283-it1p5"
+      },
+      "newB06QuarantineId": "ident-quar-1793985835489-a24wc",
+      "statusChangedFromB04": false,
+      "ownership": "NOT_EVALUATED_NO_OPERATIONAL_CONTEXT; identity lookup is not ownership/save authorization"
+    },
+    {
+      "row": 47,
+      "source": {
+        "Scrip Name": "Gujarat Pipavav Port",
+        "ISIN Code": "INE517F01014",
+        "Quantity": "160",
+        "Avg. Buy Rate": "150.65",
+        "Buy Value": "24104.37",
+        "LTP": "166.49",
+        "Current Value": "26638.40",
+        "P&L": "2534.03",
+        "P&L%": "10.51"
+      },
+      "exchange": "NSE",
+      "primaryKey": "INE517F01014+NSE",
+      "masterCommit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+      "corpusRevision": {
+        "batchId": "BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001",
+        "fileChecksumSha256": "7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5",
+        "recordCount": 2250,
+        "authorizationRef": "AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001",
+        "operatingMode": "OFFLINE_BOOTSTRAP"
+      },
+      "wave2DispositionRevision": "BATCH-D05-TIER2-BROAD-UNIVERSE-WAVE2-DISPOSITION-2026-11-06-001",
+      "resolutionStatus": "UNRESOLVED",
+      "matchedSecurityIdentifier": null,
+      "matchedSecurityName": null,
+      "exactISINRecordCount": 0,
+      "depositPointers": [],
+      "activeNSEListings": [],
+      "eligibility": "NOT_EVALUABLE_NO_MASTER_RECORD",
+      "reason": "UNMAPPED_IDENTIFIER: zero exact ISIN records in unchanged 2250-record corpus; B-05 added zero and retained UNRESOLVED.",
+      "b04": {
+        "row": 47,
+        "status": "UNRESOLVED",
+        "quarantineId": "ident-quar-1793982992283-g25vj"
+      },
+      "b05": {
+        "row": 48,
+        "disposition": "UNRESOLVED",
+        "reasonCode": "AUTHORITATIVE_RECORD_UNAVAILABLE",
+        "missingAuthoritativeEvidence": [
+          "NSE trading symbol (or any exchange symbol) — absent from the source; cannot be manufactured",
+          "CIN (MCA master data) — absent from the source",
+          "lotSize, tickSize, faceValue — absent from the source",
+          "industry and sector — absent from the source (UNCLASSIFIED sentinel only exists for the synthetic fixture, not for governed deposition)",
+          "listingStatus with evidence that the security is ACTIVE on the NSE equity CM segment — absent from the source",
+          "independent exchange/depository or issuer verification — not performed (B-04 output is a local name/ISIN match only)"
+        ],
+        "quarantineId": "ident-quar-1793982992283-g25vj"
+      },
+      "newB06QuarantineId": "ident-quar-1793985835489-pudhn",
+      "statusChangedFromB04": false,
+      "ownership": "NOT_EVALUATED_NO_OPERATIONAL_CONTEXT; identity lookup is not ownership/save authorization"
+    },
+    {
+      "row": 48,
+      "source": {
+        "Scrip Name": "Rajoo Engineers",
+        "ISIN Code": "INE535F01024",
+        "Quantity": "200",
+        "Avg. Buy Rate": "52.60",
+        "Buy Value": "10520.75",
+        "LTP": "55.42",
+        "Current Value": "11084.00",
+        "P&L": "563.25",
+        "P&L%": "5.35"
+      },
+      "exchange": "NSE",
+      "primaryKey": "INE535F01024+NSE",
+      "masterCommit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+      "corpusRevision": {
+        "batchId": "BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001",
+        "fileChecksumSha256": "7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5",
+        "recordCount": 2250,
+        "authorizationRef": "AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001",
+        "operatingMode": "OFFLINE_BOOTSTRAP"
+      },
+      "wave2DispositionRevision": "BATCH-D05-TIER2-BROAD-UNIVERSE-WAVE2-DISPOSITION-2026-11-06-001",
+      "resolutionStatus": "UNRESOLVED",
+      "matchedSecurityIdentifier": null,
+      "matchedSecurityName": null,
+      "exactISINRecordCount": 0,
+      "depositPointers": [],
+      "activeNSEListings": [],
+      "eligibility": "NOT_EVALUABLE_NO_MASTER_RECORD",
+      "reason": "UNMAPPED_IDENTIFIER: zero exact ISIN records in unchanged 2250-record corpus; B-05 added zero and retained UNRESOLVED.",
+      "b04": {
+        "row": 48,
+        "status": "UNRESOLVED",
+        "quarantineId": "ident-quar-1793982992283-snj62"
+      },
+      "b05": {
+        "row": 49,
+        "disposition": "UNRESOLVED",
+        "reasonCode": "AUTHORITATIVE_RECORD_UNAVAILABLE",
+        "missingAuthoritativeEvidence": [
+          "NSE trading symbol (or any exchange symbol) — absent from the source; cannot be manufactured",
+          "CIN (MCA master data) — absent from the source",
+          "lotSize, tickSize, faceValue — absent from the source",
+          "industry and sector — absent from the source (UNCLASSIFIED sentinel only exists for the synthetic fixture, not for governed deposition)",
+          "listingStatus with evidence that the security is ACTIVE on the NSE equity CM segment — absent from the source",
+          "independent exchange/depository or issuer verification — not performed (B-04 output is a local name/ISIN match only)"
+        ],
+        "quarantineId": "ident-quar-1793982992283-snj62"
+      },
+      "newB06QuarantineId": "ident-quar-1793985835489-tekg5",
+      "statusChangedFromB04": false,
+      "ownership": "NOT_EVALUATED_NO_OPERATIONAL_CONTEXT; identity lookup is not ownership/save authorization"
+    },
+    {
+      "row": 49,
+      "source": {
+        "Scrip Name": "GHCL",
+        "ISIN Code": "INE539A01019",
+        "Quantity": "27",
+        "Avg. Buy Rate": "450.31",
+        "Buy Value": "12158.40",
+        "LTP": "417.10",
+        "Current Value": "11261.70",
+        "P&L": "-896.70",
+        "P&L%": "-7.38"
+      },
+      "exchange": "NSE",
+      "primaryKey": "INE539A01019+NSE",
+      "masterCommit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+      "corpusRevision": {
+        "batchId": "BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001",
+        "fileChecksumSha256": "7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5",
+        "recordCount": 2250,
+        "authorizationRef": "AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001",
+        "operatingMode": "OFFLINE_BOOTSTRAP"
+      },
+      "wave2DispositionRevision": "BATCH-D05-TIER2-BROAD-UNIVERSE-WAVE2-DISPOSITION-2026-11-06-001",
+      "resolutionStatus": "UNRESOLVED",
+      "matchedSecurityIdentifier": null,
+      "matchedSecurityName": null,
+      "exactISINRecordCount": 0,
+      "depositPointers": [],
+      "activeNSEListings": [],
+      "eligibility": "NOT_EVALUABLE_NO_MASTER_RECORD",
+      "reason": "UNMAPPED_IDENTIFIER: zero exact ISIN records in unchanged 2250-record corpus; B-05 added zero and retained UNRESOLVED.",
+      "b04": {
+        "row": 49,
+        "status": "UNRESOLVED",
+        "quarantineId": "ident-quar-1793982992284-jquy4"
+      },
+      "b05": {
+        "row": 50,
+        "disposition": "UNRESOLVED",
+        "reasonCode": "AUTHORITATIVE_RECORD_UNAVAILABLE",
+        "missingAuthoritativeEvidence": [
+          "NSE trading symbol (or any exchange symbol) — absent from the source; cannot be manufactured",
+          "CIN (MCA master data) — absent from the source",
+          "lotSize, tickSize, faceValue — absent from the source",
+          "industry and sector — absent from the source (UNCLASSIFIED sentinel only exists for the synthetic fixture, not for governed deposition)",
+          "listingStatus with evidence that the security is ACTIVE on the NSE equity CM segment — absent from the source",
+          "independent exchange/depository or issuer verification — not performed (B-04 output is a local name/ISIN match only)"
+        ],
+        "quarantineId": "ident-quar-1793982992284-jquy4"
+      },
+      "newB06QuarantineId": "ident-quar-1793985835490-jmegc",
+      "statusChangedFromB04": false,
+      "ownership": "NOT_EVALUATED_NO_OPERATIONAL_CONTEXT; identity lookup is not ownership/save authorization"
+    },
+    {
+      "row": 50,
+      "source": {
+        "Scrip Name": "Emami",
+        "ISIN Code": "INE548C01032",
+        "Quantity": "25",
+        "Avg. Buy Rate": "404.23",
+        "Buy Value": "10105.75",
+        "LTP": "387.20",
+        "Current Value": "9680.00",
+        "P&L": "-425.75",
+        "P&L%": "-4.21"
+      },
+      "exchange": "NSE",
+      "primaryKey": "INE548C01032+NSE",
+      "masterCommit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+      "corpusRevision": {
+        "batchId": "BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001",
+        "fileChecksumSha256": "7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5",
+        "recordCount": 2250,
+        "authorizationRef": "AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001",
+        "operatingMode": "OFFLINE_BOOTSTRAP"
+      },
+      "wave2DispositionRevision": "BATCH-D05-TIER2-BROAD-UNIVERSE-WAVE2-DISPOSITION-2026-11-06-001",
+      "resolutionStatus": "UNRESOLVED",
+      "matchedSecurityIdentifier": null,
+      "matchedSecurityName": null,
+      "exactISINRecordCount": 0,
+      "depositPointers": [],
+      "activeNSEListings": [],
+      "eligibility": "NOT_EVALUABLE_NO_MASTER_RECORD",
+      "reason": "UNMAPPED_IDENTIFIER: zero exact ISIN records in unchanged 2250-record corpus; B-05 added zero and retained UNRESOLVED.",
+      "b04": {
+        "row": 50,
+        "status": "UNRESOLVED",
+        "quarantineId": "ident-quar-1793982992284-ys64g"
+      },
+      "b05": {
+        "row": 51,
+        "disposition": "UNRESOLVED",
+        "reasonCode": "AUTHORITATIVE_RECORD_UNAVAILABLE",
+        "missingAuthoritativeEvidence": [
+          "NSE trading symbol (or any exchange symbol) — absent from the source; cannot be manufactured",
+          "CIN (MCA master data) — absent from the source",
+          "lotSize, tickSize, faceValue — absent from the source",
+          "industry and sector — absent from the source (UNCLASSIFIED sentinel only exists for the synthetic fixture, not for governed deposition)",
+          "listingStatus with evidence that the security is ACTIVE on the NSE equity CM segment — absent from the source",
+          "independent exchange/depository or issuer verification — not performed (B-04 output is a local name/ISIN match only)"
+        ],
+        "quarantineId": "ident-quar-1793982992284-ys64g"
+      },
+      "newB06QuarantineId": "ident-quar-1793985835490-2g5lp",
+      "statusChangedFromB04": false,
+      "ownership": "NOT_EVALUATED_NO_OPERATIONAL_CONTEXT; identity lookup is not ownership/save authorization"
+    },
+    {
+      "row": 51,
+      "source": {
+        "Scrip Name": "Landmark Cars",
+        "ISIN Code": "INE559R01029",
+        "Quantity": "20",
+        "Avg. Buy Rate": "386.14",
+        "Buy Value": "7722.90",
+        "LTP": "466.50",
+        "Current Value": "9330.00",
+        "P&L": "1607.10",
+        "P&L%": "20.81"
+      },
+      "exchange": "NSE",
+      "primaryKey": "INE559R01029+NSE",
+      "masterCommit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+      "corpusRevision": {
+        "batchId": "BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001",
+        "fileChecksumSha256": "7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5",
+        "recordCount": 2250,
+        "authorizationRef": "AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001",
+        "operatingMode": "OFFLINE_BOOTSTRAP"
+      },
+      "wave2DispositionRevision": "BATCH-D05-TIER2-BROAD-UNIVERSE-WAVE2-DISPOSITION-2026-11-06-001",
+      "resolutionStatus": "UNRESOLVED",
+      "matchedSecurityIdentifier": null,
+      "matchedSecurityName": null,
+      "exactISINRecordCount": 0,
+      "depositPointers": [],
+      "activeNSEListings": [],
+      "eligibility": "NOT_EVALUABLE_NO_MASTER_RECORD",
+      "reason": "UNMAPPED_IDENTIFIER: zero exact ISIN records in unchanged 2250-record corpus; B-05 added zero and retained UNRESOLVED.",
+      "b04": {
+        "row": 51,
+        "status": "UNRESOLVED",
+        "quarantineId": "ident-quar-1793982992284-ze055"
+      },
+      "b05": {
+        "row": 52,
+        "disposition": "UNRESOLVED",
+        "reasonCode": "AUTHORITATIVE_RECORD_UNAVAILABLE",
+        "missingAuthoritativeEvidence": [
+          "NSE trading symbol (or any exchange symbol) — absent from the source; cannot be manufactured",
+          "CIN (MCA master data) — absent from the source",
+          "lotSize, tickSize, faceValue — absent from the source",
+          "industry and sector — absent from the source (UNCLASSIFIED sentinel only exists for the synthetic fixture, not for governed deposition)",
+          "listingStatus with evidence that the security is ACTIVE on the NSE equity CM segment — absent from the source",
+          "independent exchange/depository or issuer verification — not performed (B-04 output is a local name/ISIN match only)"
+        ],
+        "quarantineId": "ident-quar-1793982992284-ze055"
+      },
+      "newB06QuarantineId": "ident-quar-1793985835490-3em8c",
+      "statusChangedFromB04": false,
+      "ownership": "NOT_EVALUATED_NO_OPERATIONAL_CONTEXT; identity lookup is not ownership/save authorization"
+    },
+    {
+      "row": 52,
+      "source": {
+        "Scrip Name": "Univastu",
+        "ISIN Code": "INE562X01013",
+        "Quantity": "20",
+        "Avg. Buy Rate": "76.80",
+        "Buy Value": "1536.00",
+        "LTP": "143.90",
+        "Current Value": "2878.00",
+        "P&L": "1342.00",
+        "P&L%": "87.37"
+      },
+      "exchange": "NSE",
+      "primaryKey": "INE562X01013+NSE",
+      "masterCommit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+      "corpusRevision": {
+        "batchId": "BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001",
+        "fileChecksumSha256": "7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5",
+        "recordCount": 2250,
+        "authorizationRef": "AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001",
+        "operatingMode": "OFFLINE_BOOTSTRAP"
+      },
+      "wave2DispositionRevision": "BATCH-D05-TIER2-BROAD-UNIVERSE-WAVE2-DISPOSITION-2026-11-06-001",
+      "resolutionStatus": "UNRESOLVED",
+      "matchedSecurityIdentifier": null,
+      "matchedSecurityName": null,
+      "exactISINRecordCount": 0,
+      "depositPointers": [],
+      "activeNSEListings": [],
+      "eligibility": "NOT_EVALUABLE_NO_MASTER_RECORD",
+      "reason": "UNMAPPED_IDENTIFIER: zero exact ISIN records in unchanged 2250-record corpus; B-05 added zero and retained UNRESOLVED.",
+      "b04": {
+        "row": 52,
+        "status": "UNRESOLVED",
+        "quarantineId": "ident-quar-1793982992285-4g0bw"
+      },
+      "b05": {
+        "row": 53,
+        "disposition": "UNRESOLVED",
+        "reasonCode": "AUTHORITATIVE_RECORD_UNAVAILABLE",
+        "missingAuthoritativeEvidence": [
+          "NSE trading symbol (or any exchange symbol) — absent from the source; cannot be manufactured",
+          "CIN (MCA master data) — absent from the source",
+          "lotSize, tickSize, faceValue — absent from the source",
+          "industry and sector — absent from the source (UNCLASSIFIED sentinel only exists for the synthetic fixture, not for governed deposition)",
+          "listingStatus with evidence that the security is ACTIVE on the NSE equity CM segment — absent from the source",
+          "independent exchange/depository or issuer verification — not performed (B-04 output is a local name/ISIN match only)"
+        ],
+        "quarantineId": "ident-quar-1793982992285-4g0bw"
+      },
+      "newB06QuarantineId": "ident-quar-1793985835491-lcegb",
+      "statusChangedFromB04": false,
+      "ownership": "NOT_EVALUATED_NO_OPERATIONAL_CONTEXT; identity lookup is not ownership/save authorization"
+    },
+    {
+      "row": 53,
+      "source": {
+        "Scrip Name": "Arrow Greentech",
+        "ISIN Code": "INE570D01018",
+        "Quantity": "12",
+        "Avg. Buy Rate": "388.02",
+        "Buy Value": "4656.25",
+        "LTP": "723.20",
+        "Current Value": "8678.40",
+        "P&L": "4022.15",
+        "P&L%": "86.38"
+      },
+      "exchange": "NSE",
+      "primaryKey": "INE570D01018+NSE",
+      "masterCommit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+      "corpusRevision": {
+        "batchId": "BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001",
+        "fileChecksumSha256": "7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5",
+        "recordCount": 2250,
+        "authorizationRef": "AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001",
+        "operatingMode": "OFFLINE_BOOTSTRAP"
+      },
+      "wave2DispositionRevision": "BATCH-D05-TIER2-BROAD-UNIVERSE-WAVE2-DISPOSITION-2026-11-06-001",
+      "resolutionStatus": "UNRESOLVED",
+      "matchedSecurityIdentifier": null,
+      "matchedSecurityName": null,
+      "exactISINRecordCount": 0,
+      "depositPointers": [],
+      "activeNSEListings": [],
+      "eligibility": "NOT_EVALUABLE_NO_MASTER_RECORD",
+      "reason": "UNMAPPED_IDENTIFIER: zero exact ISIN records in unchanged 2250-record corpus; B-05 added zero and retained UNRESOLVED.",
+      "b04": {
+        "row": 53,
+        "status": "UNRESOLVED",
+        "quarantineId": "ident-quar-1793982992285-56d1y"
+      },
+      "b05": {
+        "row": 54,
+        "disposition": "UNRESOLVED",
+        "reasonCode": "AUTHORITATIVE_RECORD_UNAVAILABLE",
+        "missingAuthoritativeEvidence": [
+          "NSE trading symbol (or any exchange symbol) — absent from the source; cannot be manufactured",
+          "CIN (MCA master data) — absent from the source",
+          "lotSize, tickSize, faceValue — absent from the source",
+          "industry and sector — absent from the source (UNCLASSIFIED sentinel only exists for the synthetic fixture, not for governed deposition)",
+          "listingStatus with evidence that the security is ACTIVE on the NSE equity CM segment — absent from the source",
+          "independent exchange/depository or issuer verification — not performed (B-04 output is a local name/ISIN match only)"
+        ],
+        "quarantineId": "ident-quar-1793982992285-56d1y"
+      },
+      "newB06QuarantineId": "ident-quar-1793985835492-ghycz",
+      "statusChangedFromB04": false,
+      "ownership": "NOT_EVALUATED_NO_OPERATIONAL_CONTEXT; identity lookup is not ownership/save authorization"
+    },
+    {
+      "row": 54,
+      "source": {
+        "Scrip Name": "International Conveyors",
+        "ISIN Code": "INE575C01027",
+        "Quantity": "100",
+        "Avg. Buy Rate": "78.07",
+        "Buy Value": "7806.70",
+        "LTP": "76.66",
+        "Current Value": "7666.00",
+        "P&L": "-140.70",
+        "P&L%": "-1.80"
+      },
+      "exchange": "NSE",
+      "primaryKey": "INE575C01027+NSE",
+      "masterCommit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+      "corpusRevision": {
+        "batchId": "BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001",
+        "fileChecksumSha256": "7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5",
+        "recordCount": 2250,
+        "authorizationRef": "AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001",
+        "operatingMode": "OFFLINE_BOOTSTRAP"
+      },
+      "wave2DispositionRevision": "BATCH-D05-TIER2-BROAD-UNIVERSE-WAVE2-DISPOSITION-2026-11-06-001",
+      "resolutionStatus": "UNRESOLVED",
+      "matchedSecurityIdentifier": null,
+      "matchedSecurityName": null,
+      "exactISINRecordCount": 0,
+      "depositPointers": [],
+      "activeNSEListings": [],
+      "eligibility": "NOT_EVALUABLE_NO_MASTER_RECORD",
+      "reason": "UNMAPPED_IDENTIFIER: zero exact ISIN records in unchanged 2250-record corpus; B-05 added zero and retained UNRESOLVED.",
+      "b04": {
+        "row": 54,
+        "status": "UNRESOLVED",
+        "quarantineId": "ident-quar-1793982992285-l01zh"
+      },
+      "b05": {
+        "row": 55,
+        "disposition": "UNRESOLVED",
+        "reasonCode": "AUTHORITATIVE_RECORD_UNAVAILABLE",
+        "missingAuthoritativeEvidence": [
+          "NSE trading symbol (or any exchange symbol) — absent from the source; cannot be manufactured",
+          "CIN (MCA master data) — absent from the source",
+          "lotSize, tickSize, faceValue — absent from the source",
+          "industry and sector — absent from the source (UNCLASSIFIED sentinel only exists for the synthetic fixture, not for governed deposition)",
+          "listingStatus with evidence that the security is ACTIVE on the NSE equity CM segment — absent from the source",
+          "independent exchange/depository or issuer verification — not performed (B-04 output is a local name/ISIN match only)"
+        ],
+        "quarantineId": "ident-quar-1793982992285-l01zh"
+      },
+      "newB06QuarantineId": "ident-quar-1793985835492-aukqu",
+      "statusChangedFromB04": false,
+      "ownership": "NOT_EVALUATED_NO_OPERATIONAL_CONTEXT; identity lookup is not ownership/save authorization"
+    },
+    {
+      "row": 55,
+      "source": {
+        "Scrip Name": "J Kumar Infraprojects",
+        "ISIN Code": "INE576I01022",
+        "Quantity": "20",
+        "Avg. Buy Rate": "448.50",
+        "Buy Value": "8970.00",
+        "LTP": "414.40",
+        "Current Value": "8288.00",
+        "P&L": "-682.00",
+        "P&L%": "-7.60"
+      },
+      "exchange": "NSE",
+      "primaryKey": "INE576I01022+NSE",
+      "masterCommit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+      "corpusRevision": {
+        "batchId": "BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001",
+        "fileChecksumSha256": "7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5",
+        "recordCount": 2250,
+        "authorizationRef": "AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001",
+        "operatingMode": "OFFLINE_BOOTSTRAP"
+      },
+      "wave2DispositionRevision": "BATCH-D05-TIER2-BROAD-UNIVERSE-WAVE2-DISPOSITION-2026-11-06-001",
+      "resolutionStatus": "UNRESOLVED",
+      "matchedSecurityIdentifier": null,
+      "matchedSecurityName": null,
+      "exactISINRecordCount": 0,
+      "depositPointers": [],
+      "activeNSEListings": [],
+      "eligibility": "NOT_EVALUABLE_NO_MASTER_RECORD",
+      "reason": "UNMAPPED_IDENTIFIER: zero exact ISIN records in unchanged 2250-record corpus; B-05 added zero and retained UNRESOLVED.",
+      "b04": {
+        "row": 55,
+        "status": "UNRESOLVED",
+        "quarantineId": "ident-quar-1793982992286-r0v4r"
+      },
+      "b05": {
+        "row": 56,
+        "disposition": "UNRESOLVED",
+        "reasonCode": "AUTHORITATIVE_RECORD_UNAVAILABLE",
+        "missingAuthoritativeEvidence": [
+          "NSE trading symbol (or any exchange symbol) — absent from the source; cannot be manufactured",
+          "CIN (MCA master data) — absent from the source",
+          "lotSize, tickSize, faceValue — absent from the source",
+          "industry and sector — absent from the source (UNCLASSIFIED sentinel only exists for the synthetic fixture, not for governed deposition)",
+          "listingStatus with evidence that the security is ACTIVE on the NSE equity CM segment — absent from the source",
+          "independent exchange/depository or issuer verification — not performed (B-04 output is a local name/ISIN match only)"
+        ],
+        "quarantineId": "ident-quar-1793982992286-r0v4r"
+      },
+      "newB06QuarantineId": "ident-quar-1793985835493-kge5q",
+      "statusChangedFromB04": false,
+      "ownership": "NOT_EVALUATED_NO_OPERATIONAL_CONTEXT; identity lookup is not ownership/save authorization"
+    },
+    {
+      "row": 56,
+      "source": {
+        "Scrip Name": "Radhika Jeweltech",
+        "ISIN Code": "INE583V01021",
+        "Quantity": "100",
+        "Avg. Buy Rate": "56.90",
+        "Buy Value": "5689.64",
+        "LTP": "61.71",
+        "Current Value": "6171.00",
+        "P&L": "481.36",
+        "P&L%": "8.46"
+      },
+      "exchange": "NSE",
+      "primaryKey": "INE583V01021+NSE",
+      "masterCommit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+      "corpusRevision": {
+        "batchId": "BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001",
+        "fileChecksumSha256": "7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5",
+        "recordCount": 2250,
+        "authorizationRef": "AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001",
+        "operatingMode": "OFFLINE_BOOTSTRAP"
+      },
+      "wave2DispositionRevision": "BATCH-D05-TIER2-BROAD-UNIVERSE-WAVE2-DISPOSITION-2026-11-06-001",
+      "resolutionStatus": "UNRESOLVED",
+      "matchedSecurityIdentifier": null,
+      "matchedSecurityName": null,
+      "exactISINRecordCount": 0,
+      "depositPointers": [],
+      "activeNSEListings": [],
+      "eligibility": "NOT_EVALUABLE_NO_MASTER_RECORD",
+      "reason": "UNMAPPED_IDENTIFIER: zero exact ISIN records in unchanged 2250-record corpus; B-05 added zero and retained UNRESOLVED.",
+      "b04": {
+        "row": 56,
+        "status": "UNRESOLVED",
+        "quarantineId": "ident-quar-1793982992286-fzjt4"
+      },
+      "b05": {
+        "row": 57,
+        "disposition": "UNRESOLVED",
+        "reasonCode": "AUTHORITATIVE_RECORD_UNAVAILABLE",
+        "missingAuthoritativeEvidence": [
+          "NSE trading symbol (or any exchange symbol) — absent from the source; cannot be manufactured",
+          "CIN (MCA master data) — absent from the source",
+          "lotSize, tickSize, faceValue — absent from the source",
+          "industry and sector — absent from the source (UNCLASSIFIED sentinel only exists for the synthetic fixture, not for governed deposition)",
+          "listingStatus with evidence that the security is ACTIVE on the NSE equity CM segment — absent from the source",
+          "independent exchange/depository or issuer verification — not performed (B-04 output is a local name/ISIN match only)"
+        ],
+        "quarantineId": "ident-quar-1793982992286-fzjt4"
+      },
+      "newB06QuarantineId": "ident-quar-1793985835493-ktb0j",
+      "statusChangedFromB04": false,
+      "ownership": "NOT_EVALUATED_NO_OPERATIONAL_CONTEXT; identity lookup is not ownership/save authorization"
+    },
+    {
+      "row": 57,
+      "source": {
+        "Scrip Name": "Thyrocare Technologies",
+        "ISIN Code": "INE594H01019",
+        "Quantity": "13",
+        "Avg. Buy Rate": "440.89",
+        "Buy Value": "5731.55",
+        "LTP": "493.10",
+        "Current Value": "6410.30",
+        "P&L": "678.75",
+        "P&L%": "11.84"
+      },
+      "exchange": "NSE",
+      "primaryKey": "INE594H01019+NSE",
+      "masterCommit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+      "corpusRevision": {
+        "batchId": "BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001",
+        "fileChecksumSha256": "7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5",
+        "recordCount": 2250,
+        "authorizationRef": "AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001",
+        "operatingMode": "OFFLINE_BOOTSTRAP"
+      },
+      "wave2DispositionRevision": "BATCH-D05-TIER2-BROAD-UNIVERSE-WAVE2-DISPOSITION-2026-11-06-001",
+      "resolutionStatus": "UNRESOLVED",
+      "matchedSecurityIdentifier": null,
+      "matchedSecurityName": null,
+      "exactISINRecordCount": 0,
+      "depositPointers": [],
+      "activeNSEListings": [],
+      "eligibility": "NOT_EVALUABLE_NO_MASTER_RECORD",
+      "reason": "UNMAPPED_IDENTIFIER: zero exact ISIN records in unchanged 2250-record corpus; B-05 added zero and retained UNRESOLVED.",
+      "b04": {
+        "row": 57,
+        "status": "UNRESOLVED",
+        "quarantineId": "ident-quar-1793982992286-u623s"
+      },
+      "b05": {
+        "row": 58,
+        "disposition": "UNRESOLVED",
+        "reasonCode": "AUTHORITATIVE_RECORD_UNAVAILABLE",
+        "missingAuthoritativeEvidence": [
+          "NSE trading symbol (or any exchange symbol) — absent from the source; cannot be manufactured",
+          "CIN (MCA master data) — absent from the source",
+          "lotSize, tickSize, faceValue — absent from the source",
+          "industry and sector — absent from the source (UNCLASSIFIED sentinel only exists for the synthetic fixture, not for governed deposition)",
+          "listingStatus with evidence that the security is ACTIVE on the NSE equity CM segment — absent from the source",
+          "independent exchange/depository or issuer verification — not performed (B-04 output is a local name/ISIN match only)"
+        ],
+        "quarantineId": "ident-quar-1793982992286-u623s"
+      },
+      "newB06QuarantineId": "ident-quar-1793985835494-rwqbs",
+      "statusChangedFromB04": false,
+      "ownership": "NOT_EVALUATED_NO_OPERATIONAL_CONTEXT; identity lookup is not ownership/save authorization"
+    },
+    {
+      "row": 58,
+      "source": {
+        "Scrip Name": "Sharda Motor",
+        "ISIN Code": "INE597I01028",
+        "Quantity": "10",
+        "Avg. Buy Rate": "822.60",
+        "Buy Value": "8226.00",
+        "LTP": "865.85",
+        "Current Value": "8658.50",
+        "P&L": "432.50",
+        "P&L%": "5.26"
+      },
+      "exchange": "NSE",
+      "primaryKey": "INE597I01028+NSE",
+      "masterCommit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+      "corpusRevision": {
+        "batchId": "BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001",
+        "fileChecksumSha256": "7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5",
+        "recordCount": 2250,
+        "authorizationRef": "AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001",
+        "operatingMode": "OFFLINE_BOOTSTRAP"
+      },
+      "wave2DispositionRevision": "BATCH-D05-TIER2-BROAD-UNIVERSE-WAVE2-DISPOSITION-2026-11-06-001",
+      "resolutionStatus": "UNRESOLVED",
+      "matchedSecurityIdentifier": null,
+      "matchedSecurityName": null,
+      "exactISINRecordCount": 0,
+      "depositPointers": [],
+      "activeNSEListings": [],
+      "eligibility": "NOT_EVALUABLE_NO_MASTER_RECORD",
+      "reason": "UNMAPPED_IDENTIFIER: zero exact ISIN records in unchanged 2250-record corpus; B-05 added zero and retained UNRESOLVED.",
+      "b04": {
+        "row": 58,
+        "status": "UNRESOLVED",
+        "quarantineId": "ident-quar-1793982992287-rathw"
+      },
+      "b05": {
+        "row": 59,
+        "disposition": "UNRESOLVED",
+        "reasonCode": "AUTHORITATIVE_RECORD_UNAVAILABLE",
+        "missingAuthoritativeEvidence": [
+          "NSE trading symbol (or any exchange symbol) — absent from the source; cannot be manufactured",
+          "CIN (MCA master data) — absent from the source",
+          "lotSize, tickSize, faceValue — absent from the source",
+          "industry and sector — absent from the source (UNCLASSIFIED sentinel only exists for the synthetic fixture, not for governed deposition)",
+          "listingStatus with evidence that the security is ACTIVE on the NSE equity CM segment — absent from the source",
+          "independent exchange/depository or issuer verification — not performed (B-04 output is a local name/ISIN match only)"
+        ],
+        "quarantineId": "ident-quar-1793982992287-rathw"
+      },
+      "newB06QuarantineId": "ident-quar-1793985835494-qdfu0",
+      "statusChangedFromB04": false,
+      "ownership": "NOT_EVALUATED_NO_OPERATIONAL_CONTEXT; identity lookup is not ownership/save authorization"
+    },
+    {
+      "row": 59,
+      "source": {
+        "Scrip Name": "Titagarh Rail Systems",
+        "ISIN Code": "INE615H01020",
+        "Quantity": "4",
+        "Avg. Buy Rate": "741.88",
+        "Buy Value": "2967.50",
+        "LTP": "677.85",
+        "Current Value": "2711.40",
+        "P&L": "-256.10",
+        "P&L%": "-8.63"
+      },
+      "exchange": "NSE",
+      "primaryKey": "INE615H01020+NSE",
+      "masterCommit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+      "corpusRevision": {
+        "batchId": "BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001",
+        "fileChecksumSha256": "7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5",
+        "recordCount": 2250,
+        "authorizationRef": "AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001",
+        "operatingMode": "OFFLINE_BOOTSTRAP"
+      },
+      "wave2DispositionRevision": "BATCH-D05-TIER2-BROAD-UNIVERSE-WAVE2-DISPOSITION-2026-11-06-001",
+      "resolutionStatus": "UNRESOLVED",
+      "matchedSecurityIdentifier": null,
+      "matchedSecurityName": null,
+      "exactISINRecordCount": 0,
+      "depositPointers": [],
+      "activeNSEListings": [],
+      "eligibility": "NOT_EVALUABLE_NO_MASTER_RECORD",
+      "reason": "UNMAPPED_IDENTIFIER: zero exact ISIN records in unchanged 2250-record corpus; B-05 added zero and retained UNRESOLVED.",
+      "b04": {
+        "row": 59,
+        "status": "UNRESOLVED",
+        "quarantineId": "ident-quar-1793982992287-lkbe9"
+      },
+      "b05": {
+        "row": 60,
+        "disposition": "UNRESOLVED",
+        "reasonCode": "AUTHORITATIVE_RECORD_UNAVAILABLE",
+        "missingAuthoritativeEvidence": [
+          "NSE trading symbol (or any exchange symbol) — absent from the source; cannot be manufactured",
+          "CIN (MCA master data) — absent from the source",
+          "lotSize, tickSize, faceValue — absent from the source",
+          "industry and sector — absent from the source (UNCLASSIFIED sentinel only exists for the synthetic fixture, not for governed deposition)",
+          "listingStatus with evidence that the security is ACTIVE on the NSE equity CM segment — absent from the source",
+          "independent exchange/depository or issuer verification — not performed (B-04 output is a local name/ISIN match only)"
+        ],
+        "quarantineId": "ident-quar-1793982992287-lkbe9"
+      },
+      "newB06QuarantineId": "ident-quar-1793985835494-s8zjp",
+      "statusChangedFromB04": false,
+      "ownership": "NOT_EVALUATED_NO_OPERATIONAL_CONTEXT; identity lookup is not ownership/save authorization"
+    },
+    {
+      "row": 60,
+      "source": {
+        "Scrip Name": "Geekay Wires",
+        "ISIN Code": "INE669X01032",
+        "Quantity": "160",
+        "Avg. Buy Rate": "22.93",
+        "Buy Value": "3668.87",
+        "LTP": "26.93",
+        "Current Value": "4308.80",
+        "P&L": "639.93",
+        "P&L%": "17.44"
+      },
+      "exchange": "NSE",
+      "primaryKey": "INE669X01032+NSE",
+      "masterCommit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+      "corpusRevision": {
+        "batchId": "BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001",
+        "fileChecksumSha256": "7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5",
+        "recordCount": 2250,
+        "authorizationRef": "AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001",
+        "operatingMode": "OFFLINE_BOOTSTRAP"
+      },
+      "wave2DispositionRevision": "BATCH-D05-TIER2-BROAD-UNIVERSE-WAVE2-DISPOSITION-2026-11-06-001",
+      "resolutionStatus": "UNRESOLVED",
+      "matchedSecurityIdentifier": null,
+      "matchedSecurityName": null,
+      "exactISINRecordCount": 0,
+      "depositPointers": [],
+      "activeNSEListings": [],
+      "eligibility": "NOT_EVALUABLE_NO_MASTER_RECORD",
+      "reason": "UNMAPPED_IDENTIFIER: zero exact ISIN records in unchanged 2250-record corpus; B-05 added zero and retained UNRESOLVED.",
+      "b04": {
+        "row": 60,
+        "status": "UNRESOLVED",
+        "quarantineId": "ident-quar-1793982992287-a5wbu"
+      },
+      "b05": {
+        "row": 61,
+        "disposition": "UNRESOLVED",
+        "reasonCode": "AUTHORITATIVE_RECORD_UNAVAILABLE",
+        "missingAuthoritativeEvidence": [
+          "NSE trading symbol (or any exchange symbol) — absent from the source; cannot be manufactured",
+          "CIN (MCA master data) — absent from the source",
+          "lotSize, tickSize, faceValue — absent from the source",
+          "industry and sector — absent from the source (UNCLASSIFIED sentinel only exists for the synthetic fixture, not for governed deposition)",
+          "listingStatus with evidence that the security is ACTIVE on the NSE equity CM segment — absent from the source",
+          "independent exchange/depository or issuer verification — not performed (B-04 output is a local name/ISIN match only)"
+        ],
+        "quarantineId": "ident-quar-1793982992287-a5wbu"
+      },
+      "newB06QuarantineId": "ident-quar-1793985835495-nxhu8",
+      "statusChangedFromB04": false,
+      "ownership": "NOT_EVALUATED_NO_OPERATIONAL_CONTEXT; identity lookup is not ownership/save authorization"
+    },
+    {
+      "row": 61,
+      "source": {
+        "Scrip Name": "Indraprastha Medical Corporation",
+        "ISIN Code": "INE681B01017",
+        "Quantity": "40",
+        "Avg. Buy Rate": "368.99",
+        "Buy Value": "14759.70",
+        "LTP": "330.20",
+        "Current Value": "13208.00",
+        "P&L": "-1551.70",
+        "P&L%": "-10.51"
+      },
+      "exchange": "NSE",
+      "primaryKey": "INE681B01017+NSE",
+      "masterCommit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+      "corpusRevision": {
+        "batchId": "BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001",
+        "fileChecksumSha256": "7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5",
+        "recordCount": 2250,
+        "authorizationRef": "AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001",
+        "operatingMode": "OFFLINE_BOOTSTRAP"
+      },
+      "wave2DispositionRevision": "BATCH-D05-TIER2-BROAD-UNIVERSE-WAVE2-DISPOSITION-2026-11-06-001",
+      "resolutionStatus": "UNRESOLVED",
+      "matchedSecurityIdentifier": null,
+      "matchedSecurityName": null,
+      "exactISINRecordCount": 0,
+      "depositPointers": [],
+      "activeNSEListings": [],
+      "eligibility": "NOT_EVALUABLE_NO_MASTER_RECORD",
+      "reason": "UNMAPPED_IDENTIFIER: zero exact ISIN records in unchanged 2250-record corpus; B-05 added zero and retained UNRESOLVED.",
+      "b04": {
+        "row": 61,
+        "status": "UNRESOLVED",
+        "quarantineId": "ident-quar-1793982992287-qwfta"
+      },
+      "b05": {
+        "row": 62,
+        "disposition": "UNRESOLVED",
+        "reasonCode": "AUTHORITATIVE_RECORD_UNAVAILABLE",
+        "missingAuthoritativeEvidence": [
+          "NSE trading symbol (or any exchange symbol) — absent from the source; cannot be manufactured",
+          "CIN (MCA master data) — absent from the source",
+          "lotSize, tickSize, faceValue — absent from the source",
+          "industry and sector — absent from the source (UNCLASSIFIED sentinel only exists for the synthetic fixture, not for governed deposition)",
+          "listingStatus with evidence that the security is ACTIVE on the NSE equity CM segment — absent from the source",
+          "independent exchange/depository or issuer verification — not performed (B-04 output is a local name/ISIN match only)"
+        ],
+        "quarantineId": "ident-quar-1793982992287-qwfta"
+      },
+      "newB06QuarantineId": "ident-quar-1793985835496-wnv7i",
+      "statusChangedFromB04": false,
+      "ownership": "NOT_EVALUATED_NO_OPERATIONAL_CONTEXT; identity lookup is not ownership/save authorization"
+    },
+    {
+      "row": 62,
+      "source": {
+        "Scrip Name": "National Stock Exchange of India ",
+        "ISIN Code": "INE721I01024",
+        "Quantity": "8",
+        "Avg. Buy Rate": "1785.00",
+        "Buy Value": "14280.00",
+        "LTP": "1908.35",
+        "Current Value": "15266.80",
+        "P&L": "986.80",
+        "P&L%": "6.91"
+      },
+      "exchange": "NSE",
+      "primaryKey": "INE721I01024+NSE",
+      "masterCommit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+      "corpusRevision": {
+        "batchId": "BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001",
+        "fileChecksumSha256": "7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5",
+        "recordCount": 2250,
+        "authorizationRef": "AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001",
+        "operatingMode": "OFFLINE_BOOTSTRAP"
+      },
+      "wave2DispositionRevision": "BATCH-D05-TIER2-BROAD-UNIVERSE-WAVE2-DISPOSITION-2026-11-06-001",
+      "resolutionStatus": "UNRESOLVED",
+      "matchedSecurityIdentifier": null,
+      "matchedSecurityName": null,
+      "exactISINRecordCount": 0,
+      "depositPointers": [],
+      "activeNSEListings": [],
+      "eligibility": "NOT_EVALUABLE_NO_MASTER_RECORD",
+      "reason": "UNMAPPED_IDENTIFIER: zero exact ISIN records in unchanged 2250-record corpus; B-05 added zero and retained UNRESOLVED.",
+      "b04": {
+        "row": 62,
+        "status": "UNRESOLVED",
+        "quarantineId": "ident-quar-1793982992288-nr9k1"
+      },
+      "b05": {
+        "row": 63,
+        "disposition": "UNRESOLVED",
+        "reasonCode": "AUTHORITATIVE_RECORD_UNAVAILABLE",
+        "missingAuthoritativeEvidence": [
+          "NSE trading symbol (or any exchange symbol) — absent from the source; cannot be manufactured",
+          "CIN (MCA master data) — absent from the source",
+          "lotSize, tickSize, faceValue — absent from the source",
+          "industry and sector — absent from the source (UNCLASSIFIED sentinel only exists for the synthetic fixture, not for governed deposition)",
+          "listingStatus with evidence that the security is ACTIVE on the NSE equity CM segment — absent from the source",
+          "independent exchange/depository or issuer verification — not performed (B-04 output is a local name/ISIN match only)"
+        ],
+        "quarantineId": "ident-quar-1793982992288-nr9k1"
+      },
+      "newB06QuarantineId": "ident-quar-1793985835496-9gm12",
+      "statusChangedFromB04": false,
+      "ownership": "NOT_EVALUATED_NO_OPERATIONAL_CONTEXT; identity lookup is not ownership/save authorization"
+    },
+    {
+      "row": 63,
+      "source": {
+        "Scrip Name": "Websol Energy System",
+        "ISIN Code": "INE855C01023",
+        "Quantity": "100",
+        "Avg. Buy Rate": "107.09",
+        "Buy Value": "10709.06",
+        "LTP": "71.89",
+        "Current Value": "7189.00",
+        "P&L": "-3520.06",
+        "P&L%": "-32.87"
+      },
+      "exchange": "NSE",
+      "primaryKey": "INE855C01023+NSE",
+      "masterCommit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+      "corpusRevision": {
+        "batchId": "BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001",
+        "fileChecksumSha256": "7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5",
+        "recordCount": 2250,
+        "authorizationRef": "AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001",
+        "operatingMode": "OFFLINE_BOOTSTRAP"
+      },
+      "wave2DispositionRevision": "BATCH-D05-TIER2-BROAD-UNIVERSE-WAVE2-DISPOSITION-2026-11-06-001",
+      "resolutionStatus": "UNRESOLVED",
+      "matchedSecurityIdentifier": null,
+      "matchedSecurityName": null,
+      "exactISINRecordCount": 0,
+      "depositPointers": [],
+      "activeNSEListings": [],
+      "eligibility": "NOT_EVALUABLE_NO_MASTER_RECORD",
+      "reason": "UNMAPPED_IDENTIFIER: zero exact ISIN records in unchanged 2250-record corpus; B-05 added zero and retained UNRESOLVED.",
+      "b04": {
+        "row": 63,
+        "status": "UNRESOLVED",
+        "quarantineId": "ident-quar-1793982992288-n00gv"
+      },
+      "b05": {
+        "row": 64,
+        "disposition": "UNRESOLVED",
+        "reasonCode": "AUTHORITATIVE_RECORD_UNAVAILABLE",
+        "missingAuthoritativeEvidence": [
+          "NSE trading symbol (or any exchange symbol) — absent from the source; cannot be manufactured",
+          "CIN (MCA master data) — absent from the source",
+          "lotSize, tickSize, faceValue — absent from the source",
+          "industry and sector — absent from the source (UNCLASSIFIED sentinel only exists for the synthetic fixture, not for governed deposition)",
+          "listingStatus with evidence that the security is ACTIVE on the NSE equity CM segment — absent from the source",
+          "independent exchange/depository or issuer verification — not performed (B-04 output is a local name/ISIN match only)"
+        ],
+        "quarantineId": "ident-quar-1793982992288-n00gv"
+      },
+      "newB06QuarantineId": "ident-quar-1793985835497-us5r4",
+      "statusChangedFromB04": false,
+      "ownership": "NOT_EVALUATED_NO_OPERATIONAL_CONTEXT; identity lookup is not ownership/save authorization"
+    },
+    {
+      "row": 64,
+      "source": {
+        "Scrip Name": "Pudumjee Paper Products",
+        "ISIN Code": "INE865T01018",
+        "Quantity": "50",
+        "Avg. Buy Rate": "82.99",
+        "Buy Value": "4149.69",
+        "LTP": "87.80",
+        "Current Value": "4390.00",
+        "P&L": "240.31",
+        "P&L%": "5.79"
+      },
+      "exchange": "NSE",
+      "primaryKey": "INE865T01018+NSE",
+      "masterCommit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+      "corpusRevision": {
+        "batchId": "BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001",
+        "fileChecksumSha256": "7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5",
+        "recordCount": 2250,
+        "authorizationRef": "AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001",
+        "operatingMode": "OFFLINE_BOOTSTRAP"
+      },
+      "wave2DispositionRevision": "BATCH-D05-TIER2-BROAD-UNIVERSE-WAVE2-DISPOSITION-2026-11-06-001",
+      "resolutionStatus": "UNRESOLVED",
+      "matchedSecurityIdentifier": null,
+      "matchedSecurityName": null,
+      "exactISINRecordCount": 0,
+      "depositPointers": [],
+      "activeNSEListings": [],
+      "eligibility": "NOT_EVALUABLE_NO_MASTER_RECORD",
+      "reason": "UNMAPPED_IDENTIFIER: zero exact ISIN records in unchanged 2250-record corpus; B-05 added zero and retained UNRESOLVED.",
+      "b04": {
+        "row": 64,
+        "status": "UNRESOLVED",
+        "quarantineId": "ident-quar-1793982992289-q6ibf"
+      },
+      "b05": {
+        "row": 65,
+        "disposition": "UNRESOLVED",
+        "reasonCode": "AUTHORITATIVE_RECORD_UNAVAILABLE",
+        "missingAuthoritativeEvidence": [
+          "NSE trading symbol (or any exchange symbol) — absent from the source; cannot be manufactured",
+          "CIN (MCA master data) — absent from the source",
+          "lotSize, tickSize, faceValue — absent from the source",
+          "industry and sector — absent from the source (UNCLASSIFIED sentinel only exists for the synthetic fixture, not for governed deposition)",
+          "listingStatus with evidence that the security is ACTIVE on the NSE equity CM segment — absent from the source",
+          "independent exchange/depository or issuer verification — not performed (B-04 output is a local name/ISIN match only)"
+        ],
+        "quarantineId": "ident-quar-1793982992289-q6ibf"
+      },
+      "newB06QuarantineId": "ident-quar-1793985835497-a2xb9",
+      "statusChangedFromB04": false,
+      "ownership": "NOT_EVALUATED_NO_OPERATIONAL_CONTEXT; identity lookup is not ownership/save authorization"
+    },
+    {
+      "row": 65,
+      "source": {
+        "Scrip Name": "Matrimony.com",
+        "ISIN Code": "INE866R01028",
+        "Quantity": "20",
+        "Avg. Buy Rate": "403.08",
+        "Buy Value": "8061.65",
+        "LTP": "548.50",
+        "Current Value": "10970.00",
+        "P&L": "2908.35",
+        "P&L%": "36.08"
+      },
+      "exchange": "NSE",
+      "primaryKey": "INE866R01028+NSE",
+      "masterCommit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+      "corpusRevision": {
+        "batchId": "BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001",
+        "fileChecksumSha256": "7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5",
+        "recordCount": 2250,
+        "authorizationRef": "AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001",
+        "operatingMode": "OFFLINE_BOOTSTRAP"
+      },
+      "wave2DispositionRevision": "BATCH-D05-TIER2-BROAD-UNIVERSE-WAVE2-DISPOSITION-2026-11-06-001",
+      "resolutionStatus": "UNRESOLVED",
+      "matchedSecurityIdentifier": null,
+      "matchedSecurityName": null,
+      "exactISINRecordCount": 0,
+      "depositPointers": [],
+      "activeNSEListings": [],
+      "eligibility": "NOT_EVALUABLE_NO_MASTER_RECORD",
+      "reason": "UNMAPPED_IDENTIFIER: zero exact ISIN records in unchanged 2250-record corpus; B-05 added zero and retained UNRESOLVED.",
+      "b04": {
+        "row": 65,
+        "status": "UNRESOLVED",
+        "quarantineId": "ident-quar-1793982992289-7skm5"
+      },
+      "b05": {
+        "row": 66,
+        "disposition": "UNRESOLVED",
+        "reasonCode": "AUTHORITATIVE_RECORD_UNAVAILABLE",
+        "missingAuthoritativeEvidence": [
+          "NSE trading symbol (or any exchange symbol) — absent from the source; cannot be manufactured",
+          "CIN (MCA master data) — absent from the source",
+          "lotSize, tickSize, faceValue — absent from the source",
+          "industry and sector — absent from the source (UNCLASSIFIED sentinel only exists for the synthetic fixture, not for governed deposition)",
+          "listingStatus with evidence that the security is ACTIVE on the NSE equity CM segment — absent from the source",
+          "independent exchange/depository or issuer verification — not performed (B-04 output is a local name/ISIN match only)"
+        ],
+        "quarantineId": "ident-quar-1793982992289-7skm5"
+      },
+      "newB06QuarantineId": "ident-quar-1793985835498-xplxg",
+      "statusChangedFromB04": false,
+      "ownership": "NOT_EVALUATED_NO_OPERATIONAL_CONTEXT; identity lookup is not ownership/save authorization"
+    },
+    {
+      "row": 66,
+      "source": {
+        "Scrip Name": "Monarch Networth Capital",
+        "ISIN Code": "INE903D01011",
+        "Quantity": "10",
+        "Avg. Buy Rate": "272.50",
+        "Buy Value": "2725.00",
+        "LTP": "345.45",
+        "Current Value": "3454.50",
+        "P&L": "729.50",
+        "P&L%": "26.77"
+      },
+      "exchange": "NSE",
+      "primaryKey": "INE903D01011+NSE",
+      "masterCommit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+      "corpusRevision": {
+        "batchId": "BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001",
+        "fileChecksumSha256": "7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5",
+        "recordCount": 2250,
+        "authorizationRef": "AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001",
+        "operatingMode": "OFFLINE_BOOTSTRAP"
+      },
+      "wave2DispositionRevision": "BATCH-D05-TIER2-BROAD-UNIVERSE-WAVE2-DISPOSITION-2026-11-06-001",
+      "resolutionStatus": "UNRESOLVED",
+      "matchedSecurityIdentifier": null,
+      "matchedSecurityName": null,
+      "exactISINRecordCount": 0,
+      "depositPointers": [],
+      "activeNSEListings": [],
+      "eligibility": "NOT_EVALUABLE_NO_MASTER_RECORD",
+      "reason": "UNMAPPED_IDENTIFIER: zero exact ISIN records in unchanged 2250-record corpus; B-05 added zero and retained UNRESOLVED.",
+      "b04": {
+        "row": 66,
+        "status": "UNRESOLVED",
+        "quarantineId": "ident-quar-1793982992289-x1exo"
+      },
+      "b05": {
+        "row": 67,
+        "disposition": "UNRESOLVED",
+        "reasonCode": "AUTHORITATIVE_RECORD_UNAVAILABLE",
+        "missingAuthoritativeEvidence": [
+          "NSE trading symbol (or any exchange symbol) — absent from the source; cannot be manufactured",
+          "CIN (MCA master data) — absent from the source",
+          "lotSize, tickSize, faceValue — absent from the source",
+          "industry and sector — absent from the source (UNCLASSIFIED sentinel only exists for the synthetic fixture, not for governed deposition)",
+          "listingStatus with evidence that the security is ACTIVE on the NSE equity CM segment — absent from the source",
+          "independent exchange/depository or issuer verification — not performed (B-04 output is a local name/ISIN match only)"
+        ],
+        "quarantineId": "ident-quar-1793982992289-x1exo"
+      },
+      "newB06QuarantineId": "ident-quar-1793985835498-932v2",
+      "statusChangedFromB04": false,
+      "ownership": "NOT_EVALUATED_NO_OPERATIONAL_CONTEXT; identity lookup is not ownership/save authorization"
+    },
+    {
+      "row": 67,
+      "source": {
+        "Scrip Name": "Shakti Pumps",
+        "ISIN Code": "INE908D01010",
+        "Quantity": "7",
+        "Avg. Buy Rate": "483.79",
+        "Buy Value": "3386.50",
+        "LTP": "348.65",
+        "Current Value": "2440.55",
+        "P&L": "-945.95",
+        "P&L%": "-27.93"
+      },
+      "exchange": "NSE",
+      "primaryKey": "INE908D01010+NSE",
+      "masterCommit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+      "corpusRevision": {
+        "batchId": "BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001",
+        "fileChecksumSha256": "7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5",
+        "recordCount": 2250,
+        "authorizationRef": "AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001",
+        "operatingMode": "OFFLINE_BOOTSTRAP"
+      },
+      "wave2DispositionRevision": "BATCH-D05-TIER2-BROAD-UNIVERSE-WAVE2-DISPOSITION-2026-11-06-001",
+      "resolutionStatus": "UNRESOLVED",
+      "matchedSecurityIdentifier": null,
+      "matchedSecurityName": null,
+      "exactISINRecordCount": 0,
+      "depositPointers": [],
+      "activeNSEListings": [],
+      "eligibility": "NOT_EVALUABLE_NO_MASTER_RECORD",
+      "reason": "UNMAPPED_IDENTIFIER: zero exact ISIN records in unchanged 2250-record corpus; B-05 added zero and retained UNRESOLVED.",
+      "b04": {
+        "row": 67,
+        "status": "UNRESOLVED",
+        "quarantineId": "ident-quar-1793982992290-rr3kw"
+      },
+      "b05": {
+        "row": 68,
+        "disposition": "UNRESOLVED",
+        "reasonCode": "AUTHORITATIVE_RECORD_UNAVAILABLE",
+        "missingAuthoritativeEvidence": [
+          "NSE trading symbol (or any exchange symbol) — absent from the source; cannot be manufactured",
+          "CIN (MCA master data) — absent from the source",
+          "lotSize, tickSize, faceValue — absent from the source",
+          "industry and sector — absent from the source (UNCLASSIFIED sentinel only exists for the synthetic fixture, not for governed deposition)",
+          "listingStatus with evidence that the security is ACTIVE on the NSE equity CM segment — absent from the source",
+          "independent exchange/depository or issuer verification — not performed (B-04 output is a local name/ISIN match only)"
+        ],
+        "quarantineId": "ident-quar-1793982992290-rr3kw"
+      },
+      "newB06QuarantineId": "ident-quar-1793985835498-brnys",
+      "statusChangedFromB04": false,
+      "ownership": "NOT_EVALUATED_NO_OPERATIONAL_CONTEXT; identity lookup is not ownership/save authorization"
+    },
+    {
+      "row": 68,
+      "source": {
+        "Scrip Name": "Genus Power Infrastructures",
+        "ISIN Code": "INE955D01029",
+        "Quantity": "10",
+        "Avg. Buy Rate": "305.00",
+        "Buy Value": "3050.00",
+        "LTP": "286.75",
+        "Current Value": "2867.50",
+        "P&L": "-182.50",
+        "P&L%": "-5.98"
+      },
+      "exchange": "NSE",
+      "primaryKey": "INE955D01029+NSE",
+      "masterCommit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+      "corpusRevision": {
+        "batchId": "BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001",
+        "fileChecksumSha256": "7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5",
+        "recordCount": 2250,
+        "authorizationRef": "AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001",
+        "operatingMode": "OFFLINE_BOOTSTRAP"
+      },
+      "wave2DispositionRevision": "BATCH-D05-TIER2-BROAD-UNIVERSE-WAVE2-DISPOSITION-2026-11-06-001",
+      "resolutionStatus": "UNRESOLVED",
+      "matchedSecurityIdentifier": null,
+      "matchedSecurityName": null,
+      "exactISINRecordCount": 0,
+      "depositPointers": [],
+      "activeNSEListings": [],
+      "eligibility": "NOT_EVALUABLE_NO_MASTER_RECORD",
+      "reason": "UNMAPPED_IDENTIFIER: zero exact ISIN records in unchanged 2250-record corpus; B-05 added zero and retained UNRESOLVED.",
+      "b04": {
+        "row": 68,
+        "status": "UNRESOLVED",
+        "quarantineId": "ident-quar-1793982992290-tka4a"
+      },
+      "b05": {
+        "row": 69,
+        "disposition": "UNRESOLVED",
+        "reasonCode": "AUTHORITATIVE_RECORD_UNAVAILABLE",
+        "missingAuthoritativeEvidence": [
+          "NSE trading symbol (or any exchange symbol) — absent from the source; cannot be manufactured",
+          "CIN (MCA master data) — absent from the source",
+          "lotSize, tickSize, faceValue — absent from the source",
+          "industry and sector — absent from the source (UNCLASSIFIED sentinel only exists for the synthetic fixture, not for governed deposition)",
+          "listingStatus with evidence that the security is ACTIVE on the NSE equity CM segment — absent from the source",
+          "independent exchange/depository or issuer verification — not performed (B-04 output is a local name/ISIN match only)"
+        ],
+        "quarantineId": "ident-quar-1793982992290-tka4a"
+      },
+      "newB06QuarantineId": "ident-quar-1793985835499-ixwf9",
+      "statusChangedFromB04": false,
+      "ownership": "NOT_EVALUATED_NO_OPERATIONAL_CONTEXT; identity lookup is not ownership/save authorization"
+    }
+  ]
+}

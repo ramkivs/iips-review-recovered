@@ -1,0 +1,80 @@
+[
+  {
+    "path": "src/identity/governed_fixture_master.ts",
+    "commit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+    "blob": "2759533779994d04c7945b9a1166571071f628d2",
+    "sha256": "6f63385840f4907a3f1ca565903b324d9b6656d649772dc86b04dcbd80357794"
+  },
+  {
+    "path": "src/identity/security_master.ts",
+    "commit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+    "blob": "60030e0c17f8b2a31977ce598c80b18dc52d6727",
+    "sha256": "00d85e594441d8d1ed737b16a00049fe5f982efbc66e0ab550cc4cb7de8f2ff6"
+  },
+  {
+    "path": "src/identity/mapping_store.ts",
+    "commit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+    "blob": "eec60c09e08ec45a29979abf25b21efddef448ae",
+    "sha256": "41e6d2ca8f8e2dcaa5d352cb00e7eae0b064de7261b5bfcc4b33339ff946c650"
+  },
+  {
+    "path": "src/identity/quarantine.ts",
+    "commit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+    "blob": "70c6f6580f6ade66eb31e7dee3adc4b52b10b010",
+    "sha256": "257999e6b7db640d375e6deed445f34b83ebfa1a9354c2f88531b13db1de7f22"
+  },
+  {
+    "path": "src/identity/d05_broad_universe_data.ts",
+    "commit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+    "blob": "ad097ab511b947e318f07d8ce60ea9732e1f921e",
+    "sha256": "6810c28e548cf37d3efd7f06a9488cc23aca7ba05fdc06085b33870dd83a24d5"
+  },
+  {
+    "path": "src/identity/d05_listing_corrections.ts",
+    "commit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+    "blob": "1c6b42483240e59e21fe73f8bb4a5ec26fb75774",
+    "sha256": "4d02b23cdd221dfa1f85542f3842b3a8b3576d1879bc2643cbd3425581153303"
+  },
+  {
+    "path": "evidence/operator_drop/d05_security_master_broad_universe.json",
+    "commit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+    "blob": "b76f2c3a1f0ab027ffc855b49739871688417ddd",
+    "sha256": "7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5"
+  },
+  {
+    "path": "evidence/operator_drop/d05_security_master_manifest.json",
+    "commit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+    "blob": "ad4758869e1c92c225f4660a0308174f16c92f44",
+    "sha256": "063288b329e09aa937899e0071ae5ff77321791501aab57766e8ce215156d51c"
+  },
+  {
+    "path": "evidence/operator_drop/d05_security_master_wave2_disposition_manifest.json",
+    "commit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+    "blob": "8e8c07e469c90beb08f92257904477dad87c6da7",
+    "sha256": "21a6b47316753755897bf8dabce84c88bc069d13b3d6ecbc83dc272218ada63c"
+  },
+  {
+    "path": "evidence/operator_drop/wave2-2026-11-06/disposition-2026-11-06.json",
+    "commit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+    "blob": "db82d26226e59fedcf3609b97ebeec74145aa5c2",
+    "sha256": "2186087ce3b0c2c1c2cd7f3d3b51898a3e0e71eda40b918372c00f5c8fe8814d"
+  },
+  {
+    "path": "evidence/operator_drop/wave2-2026-11-06/assessment.json",
+    "commit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+    "blob": "699954356109d2fe911da0510b49b63829079da3",
+    "sha256": "3211fbc607b29632e77ffbb9ef88eb9c9e594ea392a48cac813ad74f155d23e4"
+  },
+  {
+    "path": "evidence/operator_drop/wave2-2026-11-06/source.csv",
+    "commit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+    "blob": "57378fe563a64db0b38edcdb223fed31f749ea60",
+    "sha256": "2dc1d1fba6e183cfa657652d0dab98daac570df6e3ef3adbbc8f2a397fcabd0d"
+  },
+  {
+    "path": "evidence/cross-repository/IIPS_V3_D05_WAVE2_BROAD_UNIVERSE_DISPOSITION_2026-11-06.md",
+    "commit": "943309e4e84614bb8edc8d5631cd0292c7716807",
+    "blob": "b2d1186cfb77944ec052a4cc04f67fb4897e7a2c",
+    "sha256": "8bc69473faf3c99d596ff6a8973d5b6a1aad999de65390661556a0e7b5468702"
+  }
+]
