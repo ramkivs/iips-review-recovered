@@ -83,14 +83,69 @@ const REFERENCE = Object.freeze({
   dispositionInput: 'ce61a6a4c70e9a7dd4a4a75b1df8c3c7451810ce55bd0044e98eb80837ae280c',
 });
 
+/**
+ * D-3 moved three of those five, and nothing else.
+ *
+ * `REFERENCE` above stays exactly as the decision published it: it is true of the payload it measured, and a
+ * reader comparing the record to this file should still find the record reproduced. What changed is the payload,
+ * not the projection — D-3 adds `risk.evaluation` (a semantic member, so it belongs INSIDE identity by E-2) and
+ * changes the risk aggregate's reason from `POLICY_INPUTS_UNAVAILABLE` to `NO_RISK_FACTOR_IDENTIFIED` on these
+ * fixtures, because every applicable dimension was evaluated and passed.
+ *
+ * The proof that the *rules* did not move is the test below, which reconstructs the pre-D-3 risk block from the
+ * fresh payload and reproduces `REFERENCE` byte for byte. So stored artifacts keep their published digests; only
+ * a payload generated after D-3 digests differently — which is the correct answer, because it says something new.
+ * The two input digests and the disposition digest are unchanged (`assessCompany`'s inputs did not move).
+ */
+const CURRENT = Object.freeze({
+  /** C1/C2/C3 after D-3 — same values as each other, as before. */
+  assessment: '6d29501048a1095584c8327cd4804e9d9684f83d53b1196b20e5f2010bfdbb80',
+  /** C4 after D-3. */
+  assessmentInsideWindow: '19a08af33f603315f58b5af226ed786dbcc0b5838e52c9ca99f8845226927370',
+  /** C5 after D-3. */
+  assessmentV2: '0032be68e2de75f94a54430593ecc16112c5b7115525ce04e94fd94703a982f8',
+});
+
+/** The risk block as every pre-D-3 artifact carries it: no `evaluation`, and the reason it used then. */
+function preD3(payload: Record<string, any>): Record<string, any> {
+  const clone = JSON.parse(JSON.stringify(payload)) as Record<string, any>;
+  delete clone.risk.evaluation;
+  if (clone.risk.aggregate !== null && clone.risk.aggregate.value === null) {
+    clone.risk.aggregate.reason = 'POLICY_INPUTS_UNAVAILABLE';
+  }
+  return clone;
+}
+
+describe('D-3 — stored history is not reinterpreted by the new risk block', () => {
+  it('still reproduces the decision\'s published digests for the payload shape they measured', () => {
+    expect(substantiveDigestOfPayload(ASSESSMENT, preD3(assessment))).toBe(REFERENCE.assessment);
+    expect(substantiveDigestOfPayload(ASSESSMENT, preD3(assessmentV2))).toBe(REFERENCE.assessmentV2);
+    const c4 = assessmentPayloadOf(
+      assembleAssessment({
+        identityDir: env.identityDir,
+        datasetDir: env.datasetV1Dir,
+        generatedAt: '2026-04-10T00:00:00.000Z',
+      }) as never,
+    ) as Record<string, any>;
+    expect(substantiveDigestOfPayload(ASSESSMENT, preD3(c4))).toBe(REFERENCE.assessmentInsideWindow);
+  });
+
+  it('digests a post-D-3 payload differently, because it publishes a semantic member it did not have', () => {
+    expect(substantiveDigestOfPayload(ASSESSMENT, assessment)).toBe(CURRENT.assessment);
+    expect(substantiveDigestOfPayload(ASSESSMENT, assessment)).not.toBe(REFERENCE.assessment);
+    expect(assessmentSubstantiveInputDigest(assessment)).toBe(REFERENCE.assessmentInput);
+    expect(substantiveDigestOfPayload(DISPOSITION, disposition)).toBe(REFERENCE.disposition);
+  });
+});
+
 describe('O-1 — the published reference digests are reproduced exactly', () => {
   it('reproduces C1 for the baseline M1 assessment', () => {
-    expect(substantiveDigestOfPayload(ASSESSMENT, assessment)).toBe(REFERENCE.assessment);
+    expect(substantiveDigestOfPayload(ASSESSMENT, assessment)).toBe(CURRENT.assessment);
   });
 
   it('reproduces C1 from the canonical payload TEXT, so object and stored bytes agree', () => {
     const canonical = canonicalizePayload(assessment);
-    expect(substantiveDigestOfCanonical(ASSESSMENT, canonical)).toBe(REFERENCE.assessment);
+    expect(substantiveDigestOfCanonical(ASSESSMENT, canonical)).toBe(CURRENT.assessment);
   });
 
   it('reproduces C2 and C3 (same day / next day) as metadata-only re-runs', () => {
@@ -100,8 +155,8 @@ describe('O-1 — the published reference digests are reproduced exactly', () =>
       ) as Record<string, any>;
     const c2 = build('2026-11-06T06:30:00.000Z');
     const c3 = build('2026-11-07T00:00:00.000Z');
-    expect(substantiveDigestOfPayload(ASSESSMENT, c2)).toBe(REFERENCE.assessmentSameDay);
-    expect(substantiveDigestOfPayload(ASSESSMENT, c3)).toBe(REFERENCE.assessmentNextDay);
+    expect(substantiveDigestOfPayload(ASSESSMENT, c2)).toBe(CURRENT.assessment);
+    expect(substantiveDigestOfPayload(ASSESSMENT, c3)).toBe(CURRENT.assessment);
     // C3 moved `stalenessDays` (220 → 221) and the identity binding reference, and still did not move identity.
     expect(c3.asOf.stalenessDays).not.toBe(assessment.asOf.stalenessDays);
   });
@@ -115,12 +170,12 @@ describe('O-1 — the published reference digests are reproduced exactly', () =>
       }) as never,
     ) as Record<string, any>;
     expect(c4.asOf.staleBeyondPolicy).toBe(false);
-    expect(substantiveDigestOfPayload(ASSESSMENT, c4)).toBe(REFERENCE.assessmentInsideWindow);
-    expect(REFERENCE.assessmentInsideWindow).not.toBe(REFERENCE.assessment);
+    expect(substantiveDigestOfPayload(ASSESSMENT, c4)).toBe(CURRENT.assessmentInsideWindow);
+    expect(CURRENT.assessmentInsideWindow).not.toBe(CURRENT.assessment);
   });
 
   it('reproduces C5 — a different dataset does move the digest', () => {
-    expect(substantiveDigestOfPayload(ASSESSMENT, assessmentV2)).toBe(REFERENCE.assessmentV2);
+    expect(substantiveDigestOfPayload(ASSESSMENT, assessmentV2)).toBe(CURRENT.assessmentV2);
   });
 
   it('records the clock-free input digests', () => {
@@ -175,7 +230,7 @@ describe('the clock is outside identity — but a freshness TRANSITION inside it
     shifted.asOf.generatedAt = '2030-01-01T00:00:00.000Z';
     shifted.asOf.stalenessDays = 9999;
     shifted.subject.identity.bindingRef = 'a-different-binding-reference';
-    expect(substantiveDigestOfPayload(ASSESSMENT, shifted)).toBe(REFERENCE.assessment);
+    expect(substantiveDigestOfPayload(ASSESSMENT, shifted)).toBe(CURRENT.assessment);
     // ...while the byte identity does move. The two identities are different questions.
     expect(sha(canonicalizePayload(shifted))).not.toBe(sha(canonicalizePayload(assessment)));
   });
@@ -183,13 +238,13 @@ describe('the clock is outside identity — but a freshness TRANSITION inside it
   it('keeps staleBeyondPolicy, so crossing the freshness window is a substantive change', () => {
     const fresh = clone(assessment);
     fresh.asOf.staleBeyondPolicy = !assessment.asOf.staleBeyondPolicy;
-    expect(substantiveDigestOfPayload(ASSESSMENT, fresh)).not.toBe(REFERENCE.assessment);
+    expect(substantiveDigestOfPayload(ASSESSMENT, fresh)).not.toBe(CURRENT.assessment);
   });
 
   it('keeps knownAsOf: learning something later is a substantive difference, not clock metadata', () => {
     const retimed = clone(assessment);
     retimed.asOf.knownAsOf = '2026-12-31T00:00:00.000Z';
-    expect(substantiveDigestOfPayload(ASSESSMENT, retimed)).not.toBe(REFERENCE.assessment);
+    expect(substantiveDigestOfPayload(ASSESSMENT, retimed)).not.toBe(CURRENT.assessment);
   });
 
   it('drops a disposition clock and the cited assessment clock, but not the cited version', () => {

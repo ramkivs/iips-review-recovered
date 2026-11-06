@@ -15,6 +15,7 @@ import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 
+import type { AssessmentEnvelope } from '../../api/investment';
 import CompanyAssessmentPage from './CompanyAssessmentPage';
 import { ASSESSMENT_ENVELOPE, ISSUER } from './iid6Fixtures';
 
@@ -114,6 +115,73 @@ describe('confidence, assumptions and risk are shown with their qualifiers', () 
     expect(within(section).getByText('riskFree')).toBeInTheDocument();
     expect(within(section).getByText(/DCF_FCFF assumptions/)).toBeInTheDocument();
     expect(within(section).getByText('valuation-policy/1.0.0')).toBeInTheDocument();
+  });
+
+  it('D-3: shows evaluation completeness separately from the disposition, and names a blocked dimension', async () => {
+    const base = structuredClone(ASSESSMENT_ENVELOPE) as AssessmentEnvelope;
+    const withEvaluation: AssessmentEnvelope = {
+      ...base,
+      assessment: {
+        ...base.assessment,
+        risk: {
+          factors: [],
+          aggregate: { value: null, presence: 'NOT_COMPUTABLE', reason: 'RISK_EVALUATION_PARTIAL' },
+          evaluation: {
+            dimensions: [
+              {
+                dimensionId: 'FINANCIAL_LEVERAGE',
+                category: 'FINANCIAL',
+                status: 'NOT_EVALUABLE',
+                measurement: { value: null, presence: 'NOT_COMPUTABLE', reason: 'NOT_REPORTED' },
+                threshold: 'concern at net debt / EBITDA ≥ 3.00×',
+                factorId: null,
+                unavailableInputs: ['fundamentals.capitalStructure.netDebt'],
+                statement: 'Not evaluated: NOT_REPORTED for fundamentals.capitalStructure.netDebt.',
+              },
+              {
+                dimensionId: 'EARNINGS_QUALITY_CASH_CONVERSION',
+                category: 'EARNINGS_QUALITY',
+                status: 'PASSED',
+                measurement: { value: 0.961, presence: 'PRESENT' },
+                threshold: 'concern below 80% operating cash flow / net profit (severity 4 below 50%)',
+                factorId: null,
+                unavailableInputs: [],
+                statement: 'Operating cash flow covers 96% of reported profit, at or above the 80% policy floor.',
+              },
+            ],
+            counts: { applicable: 3, evaluated: 2, passed: 2, concerns: 0, notEvaluable: 1, notApplicable: 2 },
+            completeness: 'PARTIAL',
+            disposition: 'INDETERMINATE',
+            note: '2 of 3 applicable risk dimensions were evaluated and 1 could not be.',
+          },
+        },
+      },
+    };
+    stub(() => jsonOk(withEvaluation));
+    renderAt(`/investment/company/${encodeURIComponent(ISSUER)}`);
+
+    await screen.findByRole('heading', { name: /Aarav Systems Limited/ });
+    const section = document.getElementById('risk') as HTMLElement;
+    // Completeness and disposition are two separate statements, never one word standing for both.
+    expect(within(section).getByText('PARTIAL')).toBeInTheDocument();
+    expect(within(section).getByText('INDETERMINATE')).toBeInTheDocument();
+    // A blocked dimension keeps its own reason and names the input that blocked it...
+    expect(within(section).getByText('NOT_EVALUABLE')).toBeInTheDocument();
+    expect(within(section).getByText(/not available — NOT_REPORTED/)).toBeInTheDocument();
+    expect(within(section).getByText(/blocked by fundamentals.capitalStructure.netDebt/)).toBeInTheDocument();
+    // ...and a dimension that passed is still visibly a pass, with its measurement.
+    expect(within(section).getByText('PASSED')).toBeInTheDocument();
+    expect(within(section).getByText('0.961')).toBeInTheDocument();
+  });
+
+  it('D-3: a version stored before per-dimension reporting says so instead of implying a pass', async () => {
+    stub(() => jsonOk(ASSESSMENT_ENVELOPE));
+    renderAt(`/investment/company/${encodeURIComponent(ISSUER)}`);
+
+    await screen.findByRole('heading', { name: /Aarav Systems Limited/ });
+    const section = document.getElementById('risk') as HTMLElement;
+    expect(within(section).getByText(/produced before per-dimension risk reporting existed/)).toBeInTheDocument();
+    expect(within(section).getByText(/not available — not published in this version/)).toBeInTheDocument();
   });
 
   it('groups risk factors by their declared category and keeps the summary counts', async () => {

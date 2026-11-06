@@ -1018,3 +1018,46 @@ What the review did change is the product's guard: a declared nil now requires t
 that case is not present in the evidence in hand — the mechanism is verified on synthetic fixtures only.
 
 Evidence: `evidence/real-issuer/D2-NIL-BY-DISCLOSURE-2026-11-06/README.md` (§1, §2) and `.../withdrawn/WHY-WITHDRAWN.md`.
+
+---
+
+## 15. D-3 risk reason-code semantics — clarification appended (2026-11-06; reporting semantics only)
+
+**No entry in `L-001` … `L-029` was closed, renumbered, reinterpreted or re-statused by this section.** It records
+what the D-3 work item changed about the *spelling of a risk outcome*, and what it did not change about the
+limitations recorded above.
+
+**What changed.** The risk taxonomy published a factor only when a dimension failed. A dimension that passed and a
+dimension that could not be evaluated both emitted nothing, so the aggregate had one code — `POLICY_INPUTS_UNAVAILABLE`
+— for two opposite situations. Every dimension now publishes its own outcome, and the aggregate separates *how much
+ran* (`COMPLETE` / `PARTIAL` / `NONE`) from *what it found* (`PASSED` / `CONCERNS` / `INDETERMINATE`). Two codes were
+added where the vocabulary had no accurate spelling — `NO_RISK_FACTOR_IDENTIFIED` and `RISK_EVALUATION_PARTIAL` — and
+`POLICY_INPUTS_UNAVAILABLE` is retained, now used only where it is true: nothing could be evaluated.
+
+**What that means for the register.** The D-3 entry recorded in §13 (and left open by §14 and §14.1) was a
+*reporting* defect, and it is corrected. The limitations it was adjacent to are not:
+
+| Entry | Effect of this section |
+|---|---|
+| `L-001` … `L-029` | untouched; no status, identifier, order or wording changes in the register |
+| `L-006` (restricted cash `NOT_COMPUTABLE`) | untouched: still a missing line item, still `NOT_COMPUTABLE: NOT_REPORTED`. The new dimension reporting surfaces it *more* clearly, it does not remove it |
+| `L-009` (no real issuer assessed) | untouched: the D-3 evidence is one issuer's own facts through one path, not real-dataset coverage |
+| `L-016` (thin IID-3 read slice) | untouched |
+| `L-004` (synthetic reference dataset) | untouched |
+| R-16 sector coverage | unchanged: 3 of 13 sectors; `Technology` was used because it was already measured |
+| D-3 (reason-code precision, §13) | **corrected.** Per-dimension status, measurement, blocking reason and inputs are published; completeness and disposition are separate fields; the aggregate reason distinguishes complete, partial and absent evaluation. The permission D-3 *does not* grant: a missing input still cannot pass, be zero, or be neutral |
+
+**The Infosys consequence, recorded as a limitation rather than a result.** On the merged D-2 baseline the
+assessment said `POLICY_INPUTS_UNAVAILABLE`; it now says `PARTIAL` / `INDETERMINATE` with two dimensions evaluated and
+passed and the leverage dimension blocked by a net debt the filing does not present. **The issuer's risk position is
+still not assessable** — this section changes what the product says about that, not whether it is true. No risk score,
+no risk grade and no investment conclusion is published for this issuer.
+
+**What this section explicitly does not claim.** No valuation, no verdict, no real-issuer validation, no change to any
+formula, threshold, weight, confidence cap or disposition gate. The payload digest of the assessed artifact moves
+(`cc91f239197a…` → `8e23f025527e…`) because the payload now carries a field it did not have; a path-by-path
+comparison with the Work Item 1 artifact finds exactly two differences, both inside `risk`. The Work Item 1 evidence
+and the post-D-2 regression record are unmodified.
+
+Evidence: `docs/integration/IIPS_V3_IID_D3_RISK_REASON_SEMANTICS_2026-11-06.md` and
+`evidence/real-issuer/D3-RISK-REASON-SEMANTICS-2026-11-06/`.

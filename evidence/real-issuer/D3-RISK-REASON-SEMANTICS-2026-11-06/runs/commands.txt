@@ -1,0 +1,55 @@
+D-3 — commands
+===============
+
+Baseline: `main` at b982c05 (the merge of PR #489, the post-D-2 Infosys regression record).
+No dependency changed; `npm ci` in both packages from the committed lockfiles.
+
+1. Ingest the original Work Item 1 input (never the withdrawn nil bundle)
+-------------------------------------------------------------------------
+cd iips-platform
+npx tsx src/investment/cli/ingest.ts \
+  --input ../evidence/real-issuer/REL-1-INFOSYS-2026-11-06/ingest-input \
+  --dataset-dir /tmp/d3/data/investment/dataset --now 2026-11-06T00:00:00.000Z
+  -> datasetVersion sha256:ca29c835…c6d71e (identical to Work Item 1), 0 issues,
+     Technology G2_PARTIAL usable 2 withheld 2 stmt 87.5% metric 0%     [runs/ingest.txt]
+
+2. Assessment over that dataset
+-------------------------------
+A throwaway tsx probe (deleted after the run) called `assessCompany` over the read dataset with
+generatedAt 2026-11-06T00:00:00.000Z and wrote the block it returns:
+  -> runs/assessment-summary.json (capital structure components, valuation, moat, risk, dividends,
+     completeness, quality, confidence, limitations; 0 invariant violations)
+
+3. Composed artifact, persisted and read back in a separate process
+------------------------------------------------------------------
+cd frontend
+npx tsx server/investment/cli/generate-investment-artifacts.ts \
+  --issuer IN:CIN:L85110KA1981PLC013115 \
+  --data-dir /tmp/d3/data/investment/dataset \
+  --identity-dir ../evidence/real-issuer/REL-1-INFOSYS-2026-11-06/identity \
+  --db /tmp/d3/store/investment.db \
+  --owner-carrier ../evidence/real-issuer/REL-1-INFOSYS-2026-11-06/runs/owner-carrier.json \
+  --generated-at 2026-11-06T00:00:00.000Z --out runs/cli-persist.json
+
+  OK snapshot / identity (RESOLVED via ISIN) / assessment (SUFFICIENT / MATERIAL_CONCERNS / 0.4939)
+  OK compose   reportKey ed1e54b03e5e… payloadDigest 8e23f025527e…   (was cc91f239197a…)
+  OK validate / chain-head "no chain for this scope yet" / persist CREATED / verify 1 version
+
+A second throwaway script read the chain with `service.readVersionWithPayload(scope, head.reportId)`
+under the same owner carrier, wrote the payload text and recorded the head metadata:
+  -> runs/chain-read.json      (digest recomputed from the stored bytes on read)
+  -> the payload text was then compared, path by path, with the committed Work Item 1 artifact:
+     runs/payload-diff.json    (2 differences, both inside risk)
+
+4. Checks
+---------
+cd iips-platform  && npx tsc --noEmit && npm run test:iid && npx tsx --test tests/investment/risk-evaluation.test.ts
+cd frontend       && npm run typecheck && npm run typecheck:replay-server && npm run typecheck:investment-server
+                     npx vitest run server/investment && npx vitest run && npm run build
+  -> runs/tests.txt
+
+5. What was NOT run, and why
+----------------------------
+No change to ingestion, identity, valuation, moat, dividends, disposition or persistence, so their
+suites were not re-read individually beyond what `test:iid` and `vitest run` execute in full.
+No price was observed, no second issuer was added, no sector was enabled.

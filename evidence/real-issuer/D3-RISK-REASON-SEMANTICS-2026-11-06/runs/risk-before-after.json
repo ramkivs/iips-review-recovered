@@ -1,0 +1,118 @@
+{
+  "schemaVersion": 1,
+  "issuer": "IN:CIN:L85110KA1981PLC013115 (Infosys Limited, Technology)",
+  "datasetVersion": "sha256:ca29c8357fd3ae87889af07b27ffc317f09745caaed870b287d7ca1f8fc6d71e",
+  "input": "evidence/real-issuer/REL-1-INFOSYS-2026-11-06/ingest-input (the original Work Item 1 input)",
+  "before": {
+    "source": "evidence/real-issuer/D2-POST-MERGE-REGRESSION-2026-11-06/runs/assessment-summary.json (merged D-2 b3987ef)",
+    "risk": {
+      "factors": [],
+      "aggregatePresence": "NOT_COMPUTABLE",
+      "aggregateReason": "POLICY_INPUTS_UNAVAILABLE",
+      "evaluation": "not published before D-3"
+    }
+  },
+  "after": {
+    "source": "this run, post-D-3, merged main baseline",
+    "risk": {
+      "factors": [],
+      "aggregate": {
+        "value": null,
+        "presence": "NOT_COMPUTABLE",
+        "reason": "RISK_EVALUATION_PARTIAL"
+      },
+      "evaluation": {
+        "dimensions": [
+          {
+            "dimensionId": "FINANCIAL_LEVERAGE",
+            "category": "FINANCIAL",
+            "status": "NOT_EVALUABLE",
+            "measurement": {
+              "value": null,
+              "presence": "NOT_COMPUTABLE",
+              "reason": "NOT_REPORTED"
+            },
+            "threshold": "concern at net debt / EBITDA \u2265 3.00\u00d7",
+            "factorId": null,
+            "unavailableInputs": [
+              "fundamentals.capitalStructure.netDebt"
+            ],
+            "statement": "Not evaluated: NOT_REPORTED for fundamentals.capitalStructure.netDebt."
+          },
+          {
+            "dimensionId": "EARNINGS_QUALITY_CASH_CONVERSION",
+            "category": "EARNINGS_QUALITY",
+            "status": "PASSED",
+            "measurement": {
+              "value": 0.9610033164334998,
+              "presence": "PRESENT",
+              "source": {
+                "kind": "DERIVED",
+                "ref": "risk-taxonomy/1.1.0"
+              },
+              "basis": "DERIVED"
+            },
+            "threshold": "concern below 80% operating cash flow / net profit (severity 4 below 50%)",
+            "factorId": null,
+            "unavailableInputs": [],
+            "statement": "Operating cash flow covers 96% of reported profit, at or above the 80% policy floor."
+          },
+          {
+            "dimensionId": "CAPITAL_ALLOCATION_CAPEX_INTENSITY",
+            "category": "CAPITAL_ALLOCATION",
+            "status": "PASSED",
+            "measurement": {
+              "value": 0.014322899720179605,
+              "presence": "PRESENT",
+              "source": {
+                "kind": "DERIVED",
+                "ref": "risk-taxonomy/1.1.0"
+              },
+              "basis": "DERIVED"
+            },
+            "threshold": "concern above 20% capital expenditure / revenue (severity 4 above 35%)",
+            "factorId": null,
+            "unavailableInputs": [],
+            "statement": "Capital expenditure is 1% of revenue, at or below the 20% policy ceiling."
+          },
+          {
+            "dimensionId": "REGULATORY_FRAMEWORK",
+            "category": "REGULATORY_LEGAL",
+            "status": "NOT_APPLICABLE",
+            "measurement": null,
+            "threshold": "standing concern for a regulated sector",
+            "factorId": null,
+            "unavailableInputs": [],
+            "statement": "Technology is not a regulated sector, so the regulatory-framework prior does not apply."
+          },
+          {
+            "dimensionId": "CYCLICALITY",
+            "category": "CYCLICALITY",
+            "status": "NOT_APPLICABLE",
+            "measurement": null,
+            "threshold": "standing concern for a cyclical sector",
+            "factorId": null,
+            "unavailableInputs": [],
+            "statement": "Technology is not classified as cyclical, so the cyclicality prior does not apply."
+          }
+        ],
+        "counts": {
+          "applicable": 3,
+          "evaluated": 2,
+          "passed": 2,
+          "concerns": 0,
+          "notEvaluable": 1,
+          "notApplicable": 2
+        },
+        "completeness": "PARTIAL",
+        "disposition": "INDETERMINATE",
+        "note": "2 of 3 applicable risk dimensions were evaluated and 1 could not be. No concern was raised by the dimensions that ran, and a partial evaluation is not a pass: the dimension that could not be evaluated is reported with its blocking inputs."
+      }
+    }
+  },
+  "reading": {
+    "misleading_before": "POLICY_INPUTS_UNAVAILABLE said that the policy inputs were unavailable. On this issuer two of the three applicable dimensions had been evaluated and had passed; only leverage was blocked, by a net debt the filing does not present.",
+    "corrected_after": "completeness PARTIAL and disposition INDETERMINATE, with each dimension reported separately: EARNINGS_QUALITY_CASH_CONVERSION PASSED at 0.9610 (96% cash conversion), CAPITAL_ALLOCATION_CAPEX_INTENSITY PASSED at 0.0143 (1% of revenue), FINANCIAL_LEVERAGE NOT_EVALUABLE because fundamentals.capitalStructure.netDebt is NOT_REPORTED, and both sector priors NOT_APPLICABLE.",
+    "unchanged": "no factor is raised in either run, the position is still blocked on the same missing input, and the aggregate still carries no value."
+  }
+}

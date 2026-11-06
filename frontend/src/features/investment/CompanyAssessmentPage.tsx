@@ -257,6 +257,7 @@ function ConfidenceSection({ assessment }: { readonly assessment: AssessmentEnve
 /** Risk taxonomy and the material risk factors the assessment recorded. */
 function RiskSection({ assessment }: { readonly assessment: AssessmentEnvelope['assessment'] }): JSX.Element {
   const aggregate = assessment.risk.aggregate;
+  const evaluation = assessment.risk.evaluation;
   const byCategory = new Map<string, { count: number; highestSeverity: number }>();
   for (const factor of assessment.risk.factors) {
     const current = byCategory.get(factor.category) ?? { count: 0, highestSeverity: 0 };
@@ -274,6 +275,60 @@ function RiskSection({ assessment }: { readonly assessment: AssessmentEnvelope['
         </p>
       ) : (
         <p>aggregate risk {numeric(aggregate)}</p>
+      )}
+      {evaluation === undefined ? (
+        <p className="muted">
+          This version was produced before per-dimension risk reporting existed, so which dimensions were evaluated is{' '}
+          <AbsentValue reason="not published in this version" />. The absence of a factor is not evidence of a pass.
+        </p>
+      ) : (
+        <>
+          <p>
+            evaluation <code>{evaluation.completeness}</code> · policy disposition <code>{evaluation.disposition}</code> —{' '}
+            {evaluation.counts.evaluated} of {evaluation.counts.applicable} applicable dimensions evaluated,{' '}
+            {evaluation.counts.passed} passed, {evaluation.counts.concerns} with a concern,{' '}
+            {evaluation.counts.notEvaluable} not evaluable
+            {evaluation.counts.notApplicable === 0 ? '' : `, ${evaluation.counts.notApplicable} not applicable`}.
+          </p>
+          <p className="muted">{evaluation.note}</p>
+          <table>
+            <caption>Every risk dimension, whether or not it produced a factor</caption>
+            <thead>
+              <tr>
+                <th scope="col">Dimension</th>
+                <th scope="col">Status</th>
+                <th scope="col">Measurement</th>
+                <th scope="col">Threshold</th>
+                <th scope="col">Outcome</th>
+              </tr>
+            </thead>
+            <tbody>
+              {evaluation.dimensions.map((dimension) => (
+                <tr key={dimension.dimensionId}>
+                  <th scope="row">
+                    <code>{dimension.dimensionId}</code>
+                  </th>
+                  <td>{dimension.status}</td>
+                  <td>
+                    {dimension.measurement === null
+                      ? 'no measurement'
+                      : observed(dimension.measurement)}
+                  </td>
+                  <td>{dimension.threshold}</td>
+                  <td>
+                    {dimension.statement}
+                    {dimension.unavailableInputs.length === 0 ? null : (
+                      <>
+                        {' '}
+                        <span className="muted">blocked by {dimension.unavailableInputs.join(', ')}</span>
+                      </>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </>
       )}
       {byCategory.size === 0 ? (
         <p className="muted">No risk factor was evidenced. That is not a statement that none exists.</p>

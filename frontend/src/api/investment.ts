@@ -154,6 +154,34 @@ export interface CompanyAssessmentView {
       readonly statement: string;
     }[];
     readonly aggregate: NumericObservationView | null;
+    /**
+     * D-3 — per-dimension outcomes and aggregate completeness/disposition. Optional because the read
+     * transport also serves payloads persisted before D-3, which carry no such block; a renderer must say
+     * "not published" rather than assume a pass.
+     */
+    readonly evaluation?: {
+      readonly dimensions: readonly {
+        readonly dimensionId: string;
+        readonly category: string;
+        readonly status: string;
+        readonly measurement: NumericObservationView | null;
+        readonly threshold: string;
+        readonly factorId: string | null;
+        readonly unavailableInputs: readonly string[];
+        readonly statement: string;
+      }[];
+      readonly counts: {
+        readonly applicable: number;
+        readonly evaluated: number;
+        readonly passed: number;
+        readonly concerns: number;
+        readonly notEvaluable: number;
+        readonly notApplicable: number;
+      };
+      readonly completeness: string;
+      readonly disposition: string;
+      readonly note: string;
+    };
   };
   readonly dividends: {
     readonly verdict: string;

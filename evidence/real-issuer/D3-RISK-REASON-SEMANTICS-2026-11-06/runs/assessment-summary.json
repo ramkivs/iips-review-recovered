@@ -1,0 +1,322 @@
+{
+  "issuer": {
+    "issuerId": "IN:CIN:L85110KA1981PLC013115",
+    "legalName": "Infosys Limited",
+    "sector": "Technology"
+  },
+  "datasetVersion": "sha256:ca29c8357fd3ae87889af07b27ffc317f09745caaed870b287d7ca1f8fc6d71e",
+  "periodsConsidered": 3,
+  "violations": 0,
+  "capitalStructure": {
+    "components": {
+      "shortTermBorrowings": {
+        "value": null,
+        "presence": "MISSING",
+        "reason": "NOT_REPORTED"
+      },
+      "currentMaturities": {
+        "value": null,
+        "presence": "MISSING",
+        "reason": "NOT_REPORTED"
+      },
+      "longTermBorrowings": {
+        "value": null,
+        "presence": "MISSING",
+        "reason": "NOT_REPORTED"
+      },
+      "leaseLiabilities": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY24",
+        "periodEnd": "2024-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2024-04-18",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY24"
+        },
+        "value": 83590000000
+      },
+      "cashAndCashEquivalents": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY24",
+        "periodEnd": "2024-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2024-04-18",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY24"
+        },
+        "value": 147860000000
+      },
+      "currentInvestments": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY24",
+        "periodEnd": "2024-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2024-04-18",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY24"
+        },
+        "value": 129150000000
+      },
+      "nonControllingInterest": {
+        "basis": "AS_FILED",
+        "filingRef": "INFY-INDAS-CONSOL-FY24",
+        "periodEnd": "2024-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "filedAt": "2024-04-18",
+          "kind": "FILING",
+          "ref": "INFY-INDAS-CONSOL-FY24"
+        },
+        "value": 3450000000
+      },
+      "preferenceCapital": {
+        "value": null,
+        "presence": "MISSING",
+        "reason": "NOT_REPORTED"
+      },
+      "restrictedCash": {
+        "value": null,
+        "presence": "NOT_COMPUTABLE",
+        "reason": "NOT_REPORTED"
+      },
+      "associatesAndJV": {
+        "value": null,
+        "presence": "NOT_COMPUTABLE",
+        "reason": "NOT_REPORTED"
+      }
+    },
+    "preferenceCapital": {
+      "value": null,
+      "presence": "MISSING",
+      "reason": "NOT_REPORTED"
+    },
+    "leaseLiabilities": {
+      "basis": "AS_FILED",
+      "filingRef": "INFY-INDAS-CONSOL-FY24",
+      "periodEnd": "2024-03-31",
+      "presence": "PRESENT",
+      "source": {
+        "filedAt": "2024-04-18",
+        "kind": "FILING",
+        "ref": "INFY-INDAS-CONSOL-FY24"
+      },
+      "value": 83590000000
+    },
+    "leaseTreatment": "IND_AS_116_CAPITALISED",
+    "grossDebt": {
+      "value": null,
+      "presence": "MISSING",
+      "reason": "NOT_REPORTED"
+    },
+    "netDebt": {
+      "value": null,
+      "presence": "MISSING",
+      "reason": "NOT_REPORTED"
+    }
+  },
+  "valuation": {
+    "intrinsic": null,
+    "marginOfSafety": {
+      "price": {
+        "value": null,
+        "presence": "MISSING",
+        "reason": "PRICE_UNAVAILABLE"
+      },
+      "priceAsOf": null,
+      "mosVsMid": {
+        "value": null,
+        "presence": "NOT_COMPUTABLE",
+        "reason": "POLICY_INPUTS_UNAVAILABLE"
+      },
+      "mosVsLow": {
+        "value": null,
+        "presence": "NOT_COMPUTABLE",
+        "reason": "POLICY_INPUTS_UNAVAILABLE"
+      },
+      "band": null,
+      "bandPolicyVersion": "mos-policy/1.0.0",
+      "refusal": "NO_PRICE_OBSERVATION"
+    },
+    "methods": [
+      {
+        "methodId": "DCF_FCFF",
+        "applicable": true,
+        "notApplicableReason": null,
+        "perShareMid": {
+          "value": null,
+          "presence": "NOT_COMPUTABLE",
+          "reason": "NOT_REPORTED",
+          "note": "enterprise-to-equity conversion blocked by netDebt"
+        }
+      },
+      {
+        "methodId": "PE_RELATIVE",
+        "applicable": true,
+        "notApplicableReason": null,
+        "perShareMid": {
+          "value": 1270.4266666666667,
+          "presence": "PRESENT",
+          "source": {
+            "kind": "DERIVED",
+            "ref": "valuation-methods/1.0.0"
+          },
+          "periodEnd": "2024-03-31",
+          "basis": "DERIVED"
+        }
+      },
+      {
+        "methodId": "EV_EBITDA",
+        "applicable": false,
+        "notApplicableReason": "CAPITAL_STRUCTURE_INCOMPLETE: net debt is unavailable",
+        "perShareMid": null
+      },
+      {
+        "methodId": "EV_REVENUE",
+        "applicable": false,
+        "notApplicableReason": "MANDATORY_METRIC_MISSING: TM_NRR, TM_RECURRING_REVENUE_PCT",
+        "perShareMid": null
+      }
+    ]
+  },
+  "moat": {
+    "classification": "INSUFFICIENT_EVIDENCE",
+    "roicWaccSpread": {
+      "value": null,
+      "presence": "NOT_COMPUTABLE",
+      "reason": "NOT_REPORTED"
+    }
+  },
+  "risk": {
+    "factors": [],
+    "aggregate": {
+      "value": null,
+      "presence": "NOT_COMPUTABLE",
+      "reason": "RISK_EVALUATION_PARTIAL"
+    },
+    "evaluation": {
+      "dimensions": [
+        {
+          "dimensionId": "FINANCIAL_LEVERAGE",
+          "category": "FINANCIAL",
+          "status": "NOT_EVALUABLE",
+          "measurement": {
+            "value": null,
+            "presence": "NOT_COMPUTABLE",
+            "reason": "NOT_REPORTED"
+          },
+          "threshold": "concern at net debt / EBITDA ≥ 3.00×",
+          "factorId": null,
+          "unavailableInputs": [
+            "fundamentals.capitalStructure.netDebt"
+          ],
+          "statement": "Not evaluated: NOT_REPORTED for fundamentals.capitalStructure.netDebt."
+        },
+        {
+          "dimensionId": "EARNINGS_QUALITY_CASH_CONVERSION",
+          "category": "EARNINGS_QUALITY",
+          "status": "PASSED",
+          "measurement": {
+            "value": 0.9610033164334998,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "DERIVED",
+              "ref": "risk-taxonomy/1.1.0"
+            },
+            "basis": "DERIVED"
+          },
+          "threshold": "concern below 80% operating cash flow / net profit (severity 4 below 50%)",
+          "factorId": null,
+          "unavailableInputs": [],
+          "statement": "Operating cash flow covers 96% of reported profit, at or above the 80% policy floor."
+        },
+        {
+          "dimensionId": "CAPITAL_ALLOCATION_CAPEX_INTENSITY",
+          "category": "CAPITAL_ALLOCATION",
+          "status": "PASSED",
+          "measurement": {
+            "value": 0.014322899720179605,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "DERIVED",
+              "ref": "risk-taxonomy/1.1.0"
+            },
+            "basis": "DERIVED"
+          },
+          "threshold": "concern above 20% capital expenditure / revenue (severity 4 above 35%)",
+          "factorId": null,
+          "unavailableInputs": [],
+          "statement": "Capital expenditure is 1% of revenue, at or below the 20% policy ceiling."
+        },
+        {
+          "dimensionId": "REGULATORY_FRAMEWORK",
+          "category": "REGULATORY_LEGAL",
+          "status": "NOT_APPLICABLE",
+          "measurement": null,
+          "threshold": "standing concern for a regulated sector",
+          "factorId": null,
+          "unavailableInputs": [],
+          "statement": "Technology is not a regulated sector, so the regulatory-framework prior does not apply."
+        },
+        {
+          "dimensionId": "CYCLICALITY",
+          "category": "CYCLICALITY",
+          "status": "NOT_APPLICABLE",
+          "measurement": null,
+          "threshold": "standing concern for a cyclical sector",
+          "factorId": null,
+          "unavailableInputs": [],
+          "statement": "Technology is not classified as cyclical, so the cyclicality prior does not apply."
+        }
+      ],
+      "counts": {
+        "applicable": 3,
+        "evaluated": 2,
+        "passed": 2,
+        "concerns": 0,
+        "notEvaluable": 1,
+        "notApplicable": 2
+      },
+      "completeness": "PARTIAL",
+      "disposition": "INDETERMINATE",
+      "note": "2 of 3 applicable risk dimensions were evaluated and 1 could not be. No concern was raised by the dimensions that ran, and a partial evaluation is not a pass: the dimension that could not be evaluated is reported with its blocking inputs."
+    }
+  },
+  "dividends": {
+    "verdict": "INSUFFICIENT_EVIDENCE",
+    "netDebtToEbitda": {
+      "value": null,
+      "presence": "NOT_COMPUTABLE",
+      "reason": "NOT_REPORTED"
+    }
+  },
+  "completeness": {
+    "adequacy": "SUFFICIENT",
+    "requiredFieldCoveragePct": 1
+  },
+  "quality": {
+    "verdict": "MATERIAL_CONCERNS",
+    "flags": [
+      "STALE_STATEMENTS"
+    ]
+  },
+  "confidence": {
+    "dataConfidence": 0.85,
+    "modelConfidence": 0.125,
+    "combined": 0.4939,
+    "caps": [
+      "STALE_DATA",
+      "DILUTION_PROXY"
+    ],
+    "formula": "combined = 0.6 × dataConfidence + 0.4 × modelConfidence, then multiplied by each cap factor (ADEQUACY_PARTIAL 0.85, ADEQUACY_INSUFFICIENT 0.6, STALE_DATA 0.9, DILUTION_PROXY 0.98, DIVIDEND_SOURCE_CONFLICT 0.95, HIGH_METHOD_DISAGREEMENT 0.85), rounded to 4 dp"
+  },
+  "limitations": [
+    "Dilutive potential shares (ESOP, convertibles) are not present in dataset schema v1, so the diluted count is the EPS-implied count and carries the DILUTION_PROXY cap.",
+    "Net debt subtracts cash and cash equivalents plus liquid investments only; restricted balances, margin money and regulatory balances are excluded from available cash by construction (R-4.1 / Schedule III). Dataset schema v1 carries no restricted-balance line item, so the component is published as NOT_COMPUTABLE rather than as a zero.",
+    "The corporate-action table carries no dividend declaration record in dataset schema v1, so R-15 corroboration is unavailable for this assessment.",
+    "Net debt could not be derived (NOT_REPORTED), so every enterprise-value method is withheld rather than run on a partial bridge.",
+    "Assessment only: no persistence, no transport and no UI are part of IID-2 (IID-3 and IID-6 own those)."
+  ]
+}

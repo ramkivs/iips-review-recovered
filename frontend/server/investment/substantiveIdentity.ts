@@ -403,7 +403,39 @@ export const ASSESSMENT_MEMBER_INVENTORY: InventoryNode = object({
   }),
   moat: object({ classification: SCALAR, roicWaccSpread: OPEN, evidence: array(OPEN), withheld: OPEN }),
   dividends: OPEN,
-  risk: object({ aggregate: OPEN, factors: array(OPEN) }),
+  risk: object({
+    aggregate: OPEN,
+    factors: array(OPEN),
+    /**
+     * D-3 — the per-dimension outcomes. Enumerated rather than `OPEN`, because this is a fixed member set the
+     * engine emits per assessment: a new dimension member is a contract change and must fail closed here first.
+     */
+    evaluation: object({
+      dimensions: array(
+        object({
+          dimensionId: SCALAR,
+          category: SCALAR,
+          status: SCALAR,
+          measurement: OPEN,
+          threshold: SCALAR,
+          factorId: SCALAR,
+          unavailableInputs: array(SCALAR),
+          statement: SCALAR,
+        }),
+      ),
+      counts: object({
+        applicable: SCALAR,
+        evaluated: SCALAR,
+        passed: SCALAR,
+        concerns: SCALAR,
+        notEvaluable: SCALAR,
+        notApplicable: SCALAR,
+      }),
+      completeness: SCALAR,
+      disposition: SCALAR,
+      note: SCALAR,
+    }),
+  }),
   confidence: object({ combined: SCALAR, caps: OPEN, dataConfidence: OPEN, modelConfidence: OPEN, formula: OPEN }),
   completeness: object({
     adequacy: SCALAR,
