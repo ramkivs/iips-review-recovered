@@ -1,0 +1,52 @@
+{
+  "IRRBase": "0a0aac2bba517be933dae7a91a89af2943996b51",
+  "IPDMain": "943309e4e84614bb8edc8d5631cd0292c7716807",
+  "B04RemoteReadbacks": [
+    {
+      "path": "evidence/integration/b04-dhan-isin-nse-2026-11-06/source.csv",
+      "commit": "0a0aac2bba517be933dae7a91a89af2943996b51",
+      "blob": "57378fe563a64db0b38edcdb223fed31f749ea60",
+      "sha256": "2dc1d1fba6e183cfa657652d0dab98daac570df6e3ef3adbbc8f2a397fcabd0d"
+    },
+    {
+      "path": "evidence/integration/b04-dhan-isin-nse-2026-11-06/assessment.json",
+      "commit": "0a0aac2bba517be933dae7a91a89af2943996b51",
+      "blob": "699954356109d2fe911da0510b49b63829079da3",
+      "sha256": "3211fbc607b29632e77ffbb9ef88eb9c9e594ea392a48cac813ad74f155d23e4"
+    },
+    {
+      "path": "evidence/integration/b04-dhan-isin-nse-2026-11-06/new-quarantine.json",
+      "commit": "0a0aac2bba517be933dae7a91a89af2943996b51",
+      "blob": "80f98c4c78f64f5597f0cc4ce92979646ad4d967",
+      "sha256": "f1c4d6bff6916e6db6b81dcee7e3c64ac2eb360fda0e53edf2253831dcd9d67b"
+    }
+  ],
+  "B05CI": {
+    "head": [
+      {
+        "id": 42259879732,
+        "headSha": "5c6a0181c9c2252e32d3d2db84c32bde5821e50c",
+        "conclusion": "success"
+      }
+    ],
+    "main": [
+      {
+        "id": 42260110704,
+        "headSha": "943309e4e84614bb8edc8d5631cd0292c7716807",
+        "conclusion": "success"
+      }
+    ]
+  },
+  "B05CopiesEqualPublishedB04": true,
+  "corpusByteIdenticalToB04": true,
+  "checks": {
+    "sourceRows": 68,
+    "sourceColumns": 9,
+    "sourceIssueCount": 0,
+    "sourceSha256": "2dc1d1fba6e183cfa657652d0dab98daac570df6e3ef3adbbc8f2a397fcabd0d",
+    "dispositionReportSha256": "2186087ce3b0c2c1c2cd7f3d3b51898a3e0e71eda40b918372c00f5c8fe8814d",
+    "pureMasterCompile": "TypeScript5.9.3 ES2022/NodeNext strict PASS",
+    "actualResolver": "1 RESOLVED /67 UNRESOLVED /0 AMBIGUOUS",
+    "operationalActions": []
+  }
+}

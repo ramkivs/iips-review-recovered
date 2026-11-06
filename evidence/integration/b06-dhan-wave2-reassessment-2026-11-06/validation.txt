@@ -1,0 +1,12 @@
+2026-11-06 — B-06 bounded read-only reassessment
+PASS: B-04 source/assessment/actual quarantine read independently from immutable IRR#496 merge0a0aac2bba517be933dae7a91a89af2943996b51 and equal local original bytes.68 data rows/nine columns,all original values retained,valid unique ISIN+NSE source keys; no upload.
+PASS: latest IPD main943309e4e84614bb8edc8d5631cd0292c7716807/B-05#133 verified; head42259879732/main42260110704 CI SUCCESS.13 remote source/corpus/disposition blobs Git identity+SHA256 verified.
+PASS: disposition manifest kind/zero-incorporated/source/assessment/report bindings;2250-record corpus checksum equal B-04 and runtime TS array. Runtime corpus revision unchanged; Wave-2 revision is disposition-only,not expanded corpus.
+PASS: strict TypeScript5.9.3 ES2022/NodeNext compile of pure fetched master closure outside Git; actual isolated master ISIN resolver/NSE/effective eligibility run.68 assessed,1 AGI resolved,67 UNMAPPED_IDENTIFIER,0 ambiguous,0 status changes.
+PASS: all67 B-05 dispositions/quarantine IDs reconcile to B-04,AGI excluded; old134 outcomes+actual67 B-04 records unchanged; new67 B-06 lookup quarantines additive.
+PASS:5 targeted standard-library tests(source/bindings,all68 rows/quarantine crosswalk,negative disposition-as-expansion checks,O-02 open,history/scope).
+PASS: independent --remote validation rereads latest main and13 pinned blobs; corpus/runtime/source/disposition bindings and all68 candidate counts verified.
+PASS:4 routing tests;7 artifact-classification tests;Python compile;existing IRR static validator;git diff --check. Shallow history prerequisite resolved by unshallow fetch,no validator bypass.
+O-02 OUTSTANDING / NOT COMPLETED BY B-06: separate combined IPD#131+#132 receipt and stale #491/R2§28 F2 correction still required. No silent completion.
+No IPD/master/further-expansion,completed B-01/B-02/B-04/B-05,pin/runtime,operational write,QE/qualification/admission or unrelated changes. Full product suite not applicable/claimed.
+Final IRR PR receipt records actual head/merge/main CI and independent remote artifacts/counts/revisions/O-02 verification after success.
