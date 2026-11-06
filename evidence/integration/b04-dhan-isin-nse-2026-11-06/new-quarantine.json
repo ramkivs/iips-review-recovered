@@ -1,0 +1,609 @@
+{
+  "context": "ISOLATED_IN_MEMORY_B04_READ_ONLY_ASSESSMENT",
+  "asOf": "2026-11-06T00:00:00+05:30",
+  "records": [
+    {
+      "quarantineId": "ident-quar-1793982992262-ooh0g",
+      "identifierType": "ISIN",
+      "rawIdentifier": "INE019C01026",
+      "reason": "UNMAPPED_IDENTIFIER",
+      "asOf": "2026-11-06T00:00:00+05:30",
+      "receivedAt": "2026-11-06T16:36:32.262Z",
+      "details": "No active mapping found for ISIN:INE019C01026 at asOf 2026-11-06T00:00:00+05:30"
+    },
+    {
+      "quarantineId": "ident-quar-1793982992263-0856m",
+      "identifierType": "ISIN",
+      "rawIdentifier": "INE01EA01019",
+      "reason": "UNMAPPED_IDENTIFIER",
+      "asOf": "2026-11-06T00:00:00+05:30",
+      "receivedAt": "2026-11-06T16:36:32.263Z",
+      "details": "No active mapping found for ISIN:INE01EA01019 at asOf 2026-11-06T00:00:00+05:30"
+    },
+    {
+      "quarantineId": "ident-quar-1793982992264-qenr8",
+      "identifierType": "ISIN",
+      "rawIdentifier": "INE028A01039",
+      "reason": "UNMAPPED_IDENTIFIER",
+      "asOf": "2026-11-06T00:00:00+05:30",
+      "receivedAt": "2026-11-06T16:36:32.264Z",
+      "details": "No active mapping found for ISIN:INE028A01039 at asOf 2026-11-06T00:00:00+05:30"
+    },
+    {
+      "quarantineId": "ident-quar-1793982992265-qf6f5",
+      "identifierType": "ISIN",
+      "rawIdentifier": "INE039C01032",
+      "reason": "UNMAPPED_IDENTIFIER",
+      "asOf": "2026-11-06T00:00:00+05:30",
+      "receivedAt": "2026-11-06T16:36:32.265Z",
+      "details": "No active mapping found for ISIN:INE039C01032 at asOf 2026-11-06T00:00:00+05:30"
+    },
+    {
+      "quarantineId": "ident-quar-1793982992265-92jak",
+      "identifierType": "ISIN",
+      "rawIdentifier": "INE040H01021",
+      "reason": "UNMAPPED_IDENTIFIER",
+      "asOf": "2026-11-06T00:00:00+05:30",
+      "receivedAt": "2026-11-06T16:36:32.265Z",
+      "details": "No active mapping found for ISIN:INE040H01021 at asOf 2026-11-06T00:00:00+05:30"
+    },
+    {
+      "quarantineId": "ident-quar-1793982992265-ia1r6",
+      "identifierType": "ISIN",
+      "rawIdentifier": "INE045J01034",
+      "reason": "UNMAPPED_IDENTIFIER",
+      "asOf": "2026-11-06T00:00:00+05:30",
+      "receivedAt": "2026-11-06T16:36:32.265Z",
+      "details": "No active mapping found for ISIN:INE045J01034 at asOf 2026-11-06T00:00:00+05:30"
+    },
+    {
+      "quarantineId": "ident-quar-1793982992266-40184",
+      "identifierType": "ISIN",
+      "rawIdentifier": "INE050M01012",
+      "reason": "UNMAPPED_IDENTIFIER",
+      "asOf": "2026-11-06T00:00:00+05:30",
+      "receivedAt": "2026-11-06T16:36:32.266Z",
+      "details": "No active mapping found for ISIN:INE050M01012 at asOf 2026-11-06T00:00:00+05:30"
+    },
+    {
+      "quarantineId": "ident-quar-1793982992266-2vh6r",
+      "identifierType": "ISIN",
+      "rawIdentifier": "INE05XR01022",
+      "reason": "UNMAPPED_IDENTIFIER",
+      "asOf": "2026-11-06T00:00:00+05:30",
+      "receivedAt": "2026-11-06T16:36:32.266Z",
+      "details": "No active mapping found for ISIN:INE05XR01022 at asOf 2026-11-06T00:00:00+05:30"
+    },
+    {
+      "quarantineId": "ident-quar-1793982992269-651nq",
+      "identifierType": "ISIN",
+      "rawIdentifier": "INE06HJ01020",
+      "reason": "UNMAPPED_IDENTIFIER",
+      "asOf": "2026-11-06T00:00:00+05:30",
+      "receivedAt": "2026-11-06T16:36:32.269Z",
+      "details": "No active mapping found for ISIN:INE06HJ01020 at asOf 2026-11-06T00:00:00+05:30"
+    },
+    {
+      "quarantineId": "ident-quar-1793982992269-ej92x",
+      "identifierType": "ISIN",
+      "rawIdentifier": "INE076B01028",
+      "reason": "UNMAPPED_IDENTIFIER",
+      "asOf": "2026-11-06T00:00:00+05:30",
+      "receivedAt": "2026-11-06T16:36:32.269Z",
+      "details": "No active mapping found for ISIN:INE076B01028 at asOf 2026-11-06T00:00:00+05:30"
+    },
+    {
+      "quarantineId": "ident-quar-1793982992269-x5oek",
+      "identifierType": "ISIN",
+      "rawIdentifier": "INE079J01017",
+      "reason": "UNMAPPED_IDENTIFIER",
+      "asOf": "2026-11-06T00:00:00+05:30",
+      "receivedAt": "2026-11-06T16:36:32.269Z",
+      "details": "No active mapping found for ISIN:INE079J01017 at asOf 2026-11-06T00:00:00+05:30"
+    },
+    {
+      "quarantineId": "ident-quar-1793982992270-nhlmo",
+      "identifierType": "ISIN",
+      "rawIdentifier": "INE088F01024",
+      "reason": "UNMAPPED_IDENTIFIER",
+      "asOf": "2026-11-06T00:00:00+05:30",
+      "receivedAt": "2026-11-06T16:36:32.270Z",
+      "details": "No active mapping found for ISIN:INE088F01024 at asOf 2026-11-06T00:00:00+05:30"
+    },
+    {
+      "quarantineId": "ident-quar-1793982992270-sippa",
+      "identifierType": "ISIN",
+      "rawIdentifier": "INE091G01026",
+      "reason": "UNMAPPED_IDENTIFIER",
+      "asOf": "2026-11-06T00:00:00+05:30",
+      "receivedAt": "2026-11-06T16:36:32.270Z",
+      "details": "No active mapping found for ISIN:INE091G01026 at asOf 2026-11-06T00:00:00+05:30"
+    },
+    {
+      "quarantineId": "ident-quar-1793982992270-e0xf2",
+      "identifierType": "ISIN",
+      "rawIdentifier": "INE092T01019",
+      "reason": "UNMAPPED_IDENTIFIER",
+      "asOf": "2026-11-06T00:00:00+05:30",
+      "receivedAt": "2026-11-06T16:36:32.270Z",
+      "details": "No active mapping found for ISIN:INE092T01019 at asOf 2026-11-06T00:00:00+05:30"
+    },
+    {
+      "quarantineId": "ident-quar-1793982992271-1yvoj",
+      "identifierType": "ISIN",
+      "rawIdentifier": "INE0A0S01028",
+      "reason": "UNMAPPED_IDENTIFIER",
+      "asOf": "2026-11-06T00:00:00+05:30",
+      "receivedAt": "2026-11-06T16:36:32.271Z",
+      "details": "No active mapping found for ISIN:INE0A0S01028 at asOf 2026-11-06T00:00:00+05:30"
+    },
+    {
+      "quarantineId": "ident-quar-1793982992271-xekmj",
+      "identifierType": "ISIN",
+      "rawIdentifier": "INE0BJO01010",
+      "reason": "UNMAPPED_IDENTIFIER",
+      "asOf": "2026-11-06T00:00:00+05:30",
+      "receivedAt": "2026-11-06T16:36:32.271Z",
+      "details": "No active mapping found for ISIN:INE0BJO01010 at asOf 2026-11-06T00:00:00+05:30"
+    },
+    {
+      "quarantineId": "ident-quar-1793982992271-gfasf",
+      "identifierType": "ISIN",
+      "rawIdentifier": "INE0BYP01024",
+      "reason": "UNMAPPED_IDENTIFIER",
+      "asOf": "2026-11-06T00:00:00+05:30",
+      "receivedAt": "2026-11-06T16:36:32.271Z",
+      "details": "No active mapping found for ISIN:INE0BYP01024 at asOf 2026-11-06T00:00:00+05:30"
+    },
+    {
+      "quarantineId": "ident-quar-1793982992271-91p99",
+      "identifierType": "ISIN",
+      "rawIdentifier": "INE0CLI01024",
+      "reason": "UNMAPPED_IDENTIFIER",
+      "asOf": "2026-11-06T00:00:00+05:30",
+      "receivedAt": "2026-11-06T16:36:32.271Z",
+      "details": "No active mapping found for ISIN:INE0CLI01024 at asOf 2026-11-06T00:00:00+05:30"
+    },
+    {
+      "quarantineId": "ident-quar-1793982992272-1mmjy",
+      "identifierType": "ISIN",
+      "rawIdentifier": "INE0CU601026",
+      "reason": "UNMAPPED_IDENTIFIER",
+      "asOf": "2026-11-06T00:00:00+05:30",
+      "receivedAt": "2026-11-06T16:36:32.272Z",
+      "details": "No active mapping found for ISIN:INE0CU601026 at asOf 2026-11-06T00:00:00+05:30"
+    },
+    {
+      "quarantineId": "ident-quar-1793982992272-iqs33",
+      "identifierType": "ISIN",
+      "rawIdentifier": "INE0KBH01020",
+      "reason": "UNMAPPED_IDENTIFIER",
+      "asOf": "2026-11-06T00:00:00+05:30",
+      "receivedAt": "2026-11-06T16:36:32.272Z",
+      "details": "No active mapping found for ISIN:INE0KBH01020 at asOf 2026-11-06T00:00:00+05:30"
+    },
+    {
+      "quarantineId": "ident-quar-1793982992273-ibc3z",
+      "identifierType": "ISIN",
+      "rawIdentifier": "INE0MLS01022",
+      "reason": "UNMAPPED_IDENTIFIER",
+      "asOf": "2026-11-06T00:00:00+05:30",
+      "receivedAt": "2026-11-06T16:36:32.273Z",
+      "details": "No active mapping found for ISIN:INE0MLS01022 at asOf 2026-11-06T00:00:00+05:30"
+    },
+    {
+      "quarantineId": "ident-quar-1793982992273-c5e2t",
+      "identifierType": "ISIN",
+      "rawIdentifier": "INE0O6601022",
+      "reason": "UNMAPPED_IDENTIFIER",
+      "asOf": "2026-11-06T00:00:00+05:30",
+      "receivedAt": "2026-11-06T16:36:32.273Z",
+      "details": "No active mapping found for ISIN:INE0O6601022 at asOf 2026-11-06T00:00:00+05:30"
+    },
+    {
+      "quarantineId": "ident-quar-1793982992273-z1cul",
+      "identifierType": "ISIN",
+      "rawIdentifier": "INE0OV601013",
+      "reason": "UNMAPPED_IDENTIFIER",
+      "asOf": "2026-11-06T00:00:00+05:30",
+      "receivedAt": "2026-11-06T16:36:32.273Z",
+      "details": "No active mapping found for ISIN:INE0OV601013 at asOf 2026-11-06T00:00:00+05:30"
+    },
+    {
+      "quarantineId": "ident-quar-1793982992274-vnhb2",
+      "identifierType": "ISIN",
+      "rawIdentifier": "INE0Q9301021",
+      "reason": "UNMAPPED_IDENTIFIER",
+      "asOf": "2026-11-06T00:00:00+05:30",
+      "receivedAt": "2026-11-06T16:36:32.274Z",
+      "details": "No active mapping found for ISIN:INE0Q9301021 at asOf 2026-11-06T00:00:00+05:30"
+    },
+    {
+      "quarantineId": "ident-quar-1793982992274-i75we",
+      "identifierType": "ISIN",
+      "rawIdentifier": "INE0QRL01017",
+      "reason": "UNMAPPED_IDENTIFIER",
+      "asOf": "2026-11-06T00:00:00+05:30",
+      "receivedAt": "2026-11-06T16:36:32.274Z",
+      "details": "No active mapping found for ISIN:INE0QRL01017 at asOf 2026-11-06T00:00:00+05:30"
+    },
+    {
+      "quarantineId": "ident-quar-1793982992274-mo0oc",
+      "identifierType": "ISIN",
+      "rawIdentifier": "INE124E01038",
+      "reason": "UNMAPPED_IDENTIFIER",
+      "asOf": "2026-11-06T00:00:00+05:30",
+      "receivedAt": "2026-11-06T16:36:32.274Z",
+      "details": "No active mapping found for ISIN:INE124E01038 at asOf 2026-11-06T00:00:00+05:30"
+    },
+    {
+      "quarantineId": "ident-quar-1793982992274-m5136",
+      "identifierType": "ISIN",
+      "rawIdentifier": "INE127T01021",
+      "reason": "UNMAPPED_IDENTIFIER",
+      "asOf": "2026-11-06T00:00:00+05:30",
+      "receivedAt": "2026-11-06T16:36:32.274Z",
+      "details": "No active mapping found for ISIN:INE127T01021 at asOf 2026-11-06T00:00:00+05:30"
+    },
+    {
+      "quarantineId": "ident-quar-1793982992275-4ca22",
+      "identifierType": "ISIN",
+      "rawIdentifier": "INE157H01023",
+      "reason": "UNMAPPED_IDENTIFIER",
+      "asOf": "2026-11-06T00:00:00+05:30",
+      "receivedAt": "2026-11-06T16:36:32.275Z",
+      "details": "No active mapping found for ISIN:INE157H01023 at asOf 2026-11-06T00:00:00+05:30"
+    },
+    {
+      "quarantineId": "ident-quar-1793982992275-8ko3q",
+      "identifierType": "ISIN",
+      "rawIdentifier": "INE170V01027",
+      "reason": "UNMAPPED_IDENTIFIER",
+      "asOf": "2026-11-06T00:00:00+05:30",
+      "receivedAt": "2026-11-06T16:36:32.275Z",
+      "details": "No active mapping found for ISIN:INE170V01027 at asOf 2026-11-06T00:00:00+05:30"
+    },
+    {
+      "quarantineId": "ident-quar-1793982992275-04wd6",
+      "identifierType": "ISIN",
+      "rawIdentifier": "INE205B01031",
+      "reason": "UNMAPPED_IDENTIFIER",
+      "asOf": "2026-11-06T00:00:00+05:30",
+      "receivedAt": "2026-11-06T16:36:32.275Z",
+      "details": "No active mapping found for ISIN:INE205B01031 at asOf 2026-11-06T00:00:00+05:30"
+    },
+    {
+      "quarantineId": "ident-quar-1793982992276-27mrf",
+      "identifierType": "ISIN",
+      "rawIdentifier": "INE218I01013",
+      "reason": "UNMAPPED_IDENTIFIER",
+      "asOf": "2026-11-06T00:00:00+05:30",
+      "receivedAt": "2026-11-06T16:36:32.276Z",
+      "details": "No active mapping found for ISIN:INE218I01013 at asOf 2026-11-06T00:00:00+05:30"
+    },
+    {
+      "quarantineId": "ident-quar-1793982992276-rkil5",
+      "identifierType": "ISIN",
+      "rawIdentifier": "INE220Q01020",
+      "reason": "UNMAPPED_IDENTIFIER",
+      "asOf": "2026-11-06T00:00:00+05:30",
+      "receivedAt": "2026-11-06T16:36:32.276Z",
+      "details": "No active mapping found for ISIN:INE220Q01020 at asOf 2026-11-06T00:00:00+05:30"
+    },
+    {
+      "quarantineId": "ident-quar-1793982992276-hcq3i",
+      "identifierType": "ISIN",
+      "rawIdentifier": "INE266D01021",
+      "reason": "UNMAPPED_IDENTIFIER",
+      "asOf": "2026-11-06T00:00:00+05:30",
+      "receivedAt": "2026-11-06T16:36:32.276Z",
+      "details": "No active mapping found for ISIN:INE266D01021 at asOf 2026-11-06T00:00:00+05:30"
+    },
+    {
+      "quarantineId": "ident-quar-1793982992277-b4ls5",
+      "identifierType": "ISIN",
+      "rawIdentifier": "INE270I01022",
+      "reason": "UNMAPPED_IDENTIFIER",
+      "asOf": "2026-11-06T00:00:00+05:30",
+      "receivedAt": "2026-11-06T16:36:32.277Z",
+      "details": "No active mapping found for ISIN:INE270I01022 at asOf 2026-11-06T00:00:00+05:30"
+    },
+    {
+      "quarantineId": "ident-quar-1793982992277-n1mbl",
+      "identifierType": "ISIN",
+      "rawIdentifier": "INE274Y01021",
+      "reason": "UNMAPPED_IDENTIFIER",
+      "asOf": "2026-11-06T00:00:00+05:30",
+      "receivedAt": "2026-11-06T16:36:32.277Z",
+      "details": "No active mapping found for ISIN:INE274Y01021 at asOf 2026-11-06T00:00:00+05:30"
+    },
+    {
+      "quarantineId": "ident-quar-1793982992278-kj3iu",
+      "identifierType": "ISIN",
+      "rawIdentifier": "INE284H01025",
+      "reason": "UNMAPPED_IDENTIFIER",
+      "asOf": "2026-11-06T00:00:00+05:30",
+      "receivedAt": "2026-11-06T16:36:32.278Z",
+      "details": "No active mapping found for ISIN:INE284H01025 at asOf 2026-11-06T00:00:00+05:30"
+    },
+    {
+      "quarantineId": "ident-quar-1793982992278-g7upv",
+      "identifierType": "ISIN",
+      "rawIdentifier": "INE299N01021",
+      "reason": "UNMAPPED_IDENTIFIER",
+      "asOf": "2026-11-06T00:00:00+05:30",
+      "receivedAt": "2026-11-06T16:36:32.278Z",
+      "details": "No active mapping found for ISIN:INE299N01021 at asOf 2026-11-06T00:00:00+05:30"
+    },
+    {
+      "quarantineId": "ident-quar-1793982992279-lw6js",
+      "identifierType": "ISIN",
+      "rawIdentifier": "INE305C01029",
+      "reason": "UNMAPPED_IDENTIFIER",
+      "asOf": "2026-11-06T00:00:00+05:30",
+      "receivedAt": "2026-11-06T16:36:32.279Z",
+      "details": "No active mapping found for ISIN:INE305C01029 at asOf 2026-11-06T00:00:00+05:30"
+    },
+    {
+      "quarantineId": "ident-quar-1793982992279-x8dml",
+      "identifierType": "ISIN",
+      "rawIdentifier": "INE309M01020",
+      "reason": "UNMAPPED_IDENTIFIER",
+      "asOf": "2026-11-06T00:00:00+05:30",
+      "receivedAt": "2026-11-06T16:36:32.279Z",
+      "details": "No active mapping found for ISIN:INE309M01020 at asOf 2026-11-06T00:00:00+05:30"
+    },
+    {
+      "quarantineId": "ident-quar-1793982992279-lxx6f",
+      "identifierType": "ISIN",
+      "rawIdentifier": "INE372C01037",
+      "reason": "UNMAPPED_IDENTIFIER",
+      "asOf": "2026-11-06T00:00:00+05:30",
+      "receivedAt": "2026-11-06T16:36:32.279Z",
+      "details": "No active mapping found for ISIN:INE372C01037 at asOf 2026-11-06T00:00:00+05:30"
+    },
+    {
+      "quarantineId": "ident-quar-1793982992281-q0wb8",
+      "identifierType": "ISIN",
+      "rawIdentifier": "INE420B01036",
+      "reason": "UNMAPPED_IDENTIFIER",
+      "asOf": "2026-11-06T00:00:00+05:30",
+      "receivedAt": "2026-11-06T16:36:32.281Z",
+      "details": "No active mapping found for ISIN:INE420B01036 at asOf 2026-11-06T00:00:00+05:30"
+    },
+    {
+      "quarantineId": "ident-quar-1793982992282-zdbkf",
+      "identifierType": "ISIN",
+      "rawIdentifier": "INE442H01029",
+      "reason": "UNMAPPED_IDENTIFIER",
+      "asOf": "2026-11-06T00:00:00+05:30",
+      "receivedAt": "2026-11-06T16:36:32.282Z",
+      "details": "No active mapping found for ISIN:INE442H01029 at asOf 2026-11-06T00:00:00+05:30"
+    },
+    {
+      "quarantineId": "ident-quar-1793982992282-xai50",
+      "identifierType": "ISIN",
+      "rawIdentifier": "INE489L01022",
+      "reason": "UNMAPPED_IDENTIFIER",
+      "asOf": "2026-11-06T00:00:00+05:30",
+      "receivedAt": "2026-11-06T16:36:32.282Z",
+      "details": "No active mapping found for ISIN:INE489L01022 at asOf 2026-11-06T00:00:00+05:30"
+    },
+    {
+      "quarantineId": "ident-quar-1793982992282-wqrn8",
+      "identifierType": "ISIN",
+      "rawIdentifier": "INE491J01022",
+      "reason": "UNMAPPED_IDENTIFIER",
+      "asOf": "2026-11-06T00:00:00+05:30",
+      "receivedAt": "2026-11-06T16:36:32.282Z",
+      "details": "No active mapping found for ISIN:INE491J01022 at asOf 2026-11-06T00:00:00+05:30"
+    },
+    {
+      "quarantineId": "ident-quar-1793982992283-it1p5",
+      "identifierType": "ISIN",
+      "rawIdentifier": "INE510A01028",
+      "reason": "UNMAPPED_IDENTIFIER",
+      "asOf": "2026-11-06T00:00:00+05:30",
+      "receivedAt": "2026-11-06T16:36:32.283Z",
+      "details": "No active mapping found for ISIN:INE510A01028 at asOf 2026-11-06T00:00:00+05:30"
+    },
+    {
+      "quarantineId": "ident-quar-1793982992283-g25vj",
+      "identifierType": "ISIN",
+      "rawIdentifier": "INE517F01014",
+      "reason": "UNMAPPED_IDENTIFIER",
+      "asOf": "2026-11-06T00:00:00+05:30",
+      "receivedAt": "2026-11-06T16:36:32.283Z",
+      "details": "No active mapping found for ISIN:INE517F01014 at asOf 2026-11-06T00:00:00+05:30"
+    },
+    {
+      "quarantineId": "ident-quar-1793982992283-snj62",
+      "identifierType": "ISIN",
+      "rawIdentifier": "INE535F01024",
+      "reason": "UNMAPPED_IDENTIFIER",
+      "asOf": "2026-11-06T00:00:00+05:30",
+      "receivedAt": "2026-11-06T16:36:32.283Z",
+      "details": "No active mapping found for ISIN:INE535F01024 at asOf 2026-11-06T00:00:00+05:30"
+    },
+    {
+      "quarantineId": "ident-quar-1793982992284-jquy4",
+      "identifierType": "ISIN",
+      "rawIdentifier": "INE539A01019",
+      "reason": "UNMAPPED_IDENTIFIER",
+      "asOf": "2026-11-06T00:00:00+05:30",
+      "receivedAt": "2026-11-06T16:36:32.284Z",
+      "details": "No active mapping found for ISIN:INE539A01019 at asOf 2026-11-06T00:00:00+05:30"
+    },
+    {
+      "quarantineId": "ident-quar-1793982992284-ys64g",
+      "identifierType": "ISIN",
+      "rawIdentifier": "INE548C01032",
+      "reason": "UNMAPPED_IDENTIFIER",
+      "asOf": "2026-11-06T00:00:00+05:30",
+      "receivedAt": "2026-11-06T16:36:32.284Z",
+      "details": "No active mapping found for ISIN:INE548C01032 at asOf 2026-11-06T00:00:00+05:30"
+    },
+    {
+      "quarantineId": "ident-quar-1793982992284-ze055",
+      "identifierType": "ISIN",
+      "rawIdentifier": "INE559R01029",
+      "reason": "UNMAPPED_IDENTIFIER",
+      "asOf": "2026-11-06T00:00:00+05:30",
+      "receivedAt": "2026-11-06T16:36:32.284Z",
+      "details": "No active mapping found for ISIN:INE559R01029 at asOf 2026-11-06T00:00:00+05:30"
+    },
+    {
+      "quarantineId": "ident-quar-1793982992285-4g0bw",
+      "identifierType": "ISIN",
+      "rawIdentifier": "INE562X01013",
+      "reason": "UNMAPPED_IDENTIFIER",
+      "asOf": "2026-11-06T00:00:00+05:30",
+      "receivedAt": "2026-11-06T16:36:32.285Z",
+      "details": "No active mapping found for ISIN:INE562X01013 at asOf 2026-11-06T00:00:00+05:30"
+    },
+    {
+      "quarantineId": "ident-quar-1793982992285-56d1y",
+      "identifierType": "ISIN",
+      "rawIdentifier": "INE570D01018",
+      "reason": "UNMAPPED_IDENTIFIER",
+      "asOf": "2026-11-06T00:00:00+05:30",
+      "receivedAt": "2026-11-06T16:36:32.285Z",
+      "details": "No active mapping found for ISIN:INE570D01018 at asOf 2026-11-06T00:00:00+05:30"
+    },
+    {
+      "quarantineId": "ident-quar-1793982992285-l01zh",
+      "identifierType": "ISIN",
+      "rawIdentifier": "INE575C01027",
+      "reason": "UNMAPPED_IDENTIFIER",
+      "asOf": "2026-11-06T00:00:00+05:30",
+      "receivedAt": "2026-11-06T16:36:32.285Z",
+      "details": "No active mapping found for ISIN:INE575C01027 at asOf 2026-11-06T00:00:00+05:30"
+    },
+    {
+      "quarantineId": "ident-quar-1793982992286-r0v4r",
+      "identifierType": "ISIN",
+      "rawIdentifier": "INE576I01022",
+      "reason": "UNMAPPED_IDENTIFIER",
+      "asOf": "2026-11-06T00:00:00+05:30",
+      "receivedAt": "2026-11-06T16:36:32.286Z",
+      "details": "No active mapping found for ISIN:INE576I01022 at asOf 2026-11-06T00:00:00+05:30"
+    },
+    {
+      "quarantineId": "ident-quar-1793982992286-fzjt4",
+      "identifierType": "ISIN",
+      "rawIdentifier": "INE583V01021",
+      "reason": "UNMAPPED_IDENTIFIER",
+      "asOf": "2026-11-06T00:00:00+05:30",
+      "receivedAt": "2026-11-06T16:36:32.286Z",
+      "details": "No active mapping found for ISIN:INE583V01021 at asOf 2026-11-06T00:00:00+05:30"
+    },
+    {
+      "quarantineId": "ident-quar-1793982992286-u623s",
+      "identifierType": "ISIN",
+      "rawIdentifier": "INE594H01019",
+      "reason": "UNMAPPED_IDENTIFIER",
+      "asOf": "2026-11-06T00:00:00+05:30",
+      "receivedAt": "2026-11-06T16:36:32.286Z",
+      "details": "No active mapping found for ISIN:INE594H01019 at asOf 2026-11-06T00:00:00+05:30"
+    },
+    {
+      "quarantineId": "ident-quar-1793982992287-rathw",
+      "identifierType": "ISIN",
+      "rawIdentifier": "INE597I01028",
+      "reason": "UNMAPPED_IDENTIFIER",
+      "asOf": "2026-11-06T00:00:00+05:30",
+      "receivedAt": "2026-11-06T16:36:32.287Z",
+      "details": "No active mapping found for ISIN:INE597I01028 at asOf 2026-11-06T00:00:00+05:30"
+    },
+    {
+      "quarantineId": "ident-quar-1793982992287-lkbe9",
+      "identifierType": "ISIN",
+      "rawIdentifier": "INE615H01020",
+      "reason": "UNMAPPED_IDENTIFIER",
+      "asOf": "2026-11-06T00:00:00+05:30",
+      "receivedAt": "2026-11-06T16:36:32.287Z",
+      "details": "No active mapping found for ISIN:INE615H01020 at asOf 2026-11-06T00:00:00+05:30"
+    },
+    {
+      "quarantineId": "ident-quar-1793982992287-a5wbu",
+      "identifierType": "ISIN",
+      "rawIdentifier": "INE669X01032",
+      "reason": "UNMAPPED_IDENTIFIER",
+      "asOf": "2026-11-06T00:00:00+05:30",
+      "receivedAt": "2026-11-06T16:36:32.287Z",
+      "details": "No active mapping found for ISIN:INE669X01032 at asOf 2026-11-06T00:00:00+05:30"
+    },
+    {
+      "quarantineId": "ident-quar-1793982992287-qwfta",
+      "identifierType": "ISIN",
+      "rawIdentifier": "INE681B01017",
+      "reason": "UNMAPPED_IDENTIFIER",
+      "asOf": "2026-11-06T00:00:00+05:30",
+      "receivedAt": "2026-11-06T16:36:32.287Z",
+      "details": "No active mapping found for ISIN:INE681B01017 at asOf 2026-11-06T00:00:00+05:30"
+    },
+    {
+      "quarantineId": "ident-quar-1793982992288-nr9k1",
+      "identifierType": "ISIN",
+      "rawIdentifier": "INE721I01024",
+      "reason": "UNMAPPED_IDENTIFIER",
+      "asOf": "2026-11-06T00:00:00+05:30",
+      "receivedAt": "2026-11-06T16:36:32.288Z",
+      "details": "No active mapping found for ISIN:INE721I01024 at asOf 2026-11-06T00:00:00+05:30"
+    },
+    {
+      "quarantineId": "ident-quar-1793982992288-n00gv",
+      "identifierType": "ISIN",
+      "rawIdentifier": "INE855C01023",
+      "reason": "UNMAPPED_IDENTIFIER",
+      "asOf": "2026-11-06T00:00:00+05:30",
+      "receivedAt": "2026-11-06T16:36:32.288Z",
+      "details": "No active mapping found for ISIN:INE855C01023 at asOf 2026-11-06T00:00:00+05:30"
+    },
+    {
+      "quarantineId": "ident-quar-1793982992289-q6ibf",
+      "identifierType": "ISIN",
+      "rawIdentifier": "INE865T01018",
+      "reason": "UNMAPPED_IDENTIFIER",
+      "asOf": "2026-11-06T00:00:00+05:30",
+      "receivedAt": "2026-11-06T16:36:32.289Z",
+      "details": "No active mapping found for ISIN:INE865T01018 at asOf 2026-11-06T00:00:00+05:30"
+    },
+    {
+      "quarantineId": "ident-quar-1793982992289-7skm5",
+      "identifierType": "ISIN",
+      "rawIdentifier": "INE866R01028",
+      "reason": "UNMAPPED_IDENTIFIER",
+      "asOf": "2026-11-06T00:00:00+05:30",
+      "receivedAt": "2026-11-06T16:36:32.289Z",
+      "details": "No active mapping found for ISIN:INE866R01028 at asOf 2026-11-06T00:00:00+05:30"
+    },
+    {
+      "quarantineId": "ident-quar-1793982992289-x1exo",
+      "identifierType": "ISIN",
+      "rawIdentifier": "INE903D01011",
+      "reason": "UNMAPPED_IDENTIFIER",
+      "asOf": "2026-11-06T00:00:00+05:30",
+      "receivedAt": "2026-11-06T16:36:32.289Z",
+      "details": "No active mapping found for ISIN:INE903D01011 at asOf 2026-11-06T00:00:00+05:30"
+    },
+    {
+      "quarantineId": "ident-quar-1793982992290-rr3kw",
+      "identifierType": "ISIN",
+      "rawIdentifier": "INE908D01010",
+      "reason": "UNMAPPED_IDENTIFIER",
+      "asOf": "2026-11-06T00:00:00+05:30",
+      "receivedAt": "2026-11-06T16:36:32.290Z",
+      "details": "No active mapping found for ISIN:INE908D01010 at asOf 2026-11-06T00:00:00+05:30"
+    },
+    {
+      "quarantineId": "ident-quar-1793982992290-tka4a",
+      "identifierType": "ISIN",
+      "rawIdentifier": "INE955D01029",
+      "reason": "UNMAPPED_IDENTIFIER",
+      "asOf": "2026-11-06T00:00:00+05:30",
+      "receivedAt": "2026-11-06T16:36:32.290Z",
+      "details": "No active mapping found for ISIN:INE955D01029 at asOf 2026-11-06T00:00:00+05:30"
+    }
+  ]
+}

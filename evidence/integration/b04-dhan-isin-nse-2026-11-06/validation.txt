@@ -1,0 +1,11 @@
+2026-11-06 — B-04 read-only ISIN+NSE reassessment
+PASS before matching: exactly68 data rows/nine columns,all source strings retained,68 unique keys,valid ISIN syntax/checksums,finite numerics,quantity×LTP=current value,current−buy=P&L. No parsing/data issue. Rounded average-buy values not used to overwrite supplied buy amounts.
+PASS: read-only exact remote main749d42067edc86e74d2cf35deb4562c4549687a0; nine source/manifest/corpus Git blob identities and SHA256 verified.2250-record deposition matches governed manifest checksum; runtime TS data equals JSON deposit.
+PASS: TypeScript5.9.3 strict ES2022/NodeNext compile of pure fetched identity-provider closure only (outside IRR Git tree). Actual provider/ISIN resolver assessment in isolated memory:68 evaluated,1 resolved,67 unresolved,0 ambiguous. NSE/effective-date eligibility checked; no name lookup fallback.
+PASS: actual67 new in-memory P04 quarantine records retained; all134 prior outcomes and original evidence untouched;68 historical row labels uniquely cross-referenced;0 status changes.
+PASS:8 targeted standard-library tests including missing-row/extra-column/duplicate-key/checksum/numeric-corruption negatives,source/result/quarantine alignment and history/scope preservation.
+PASS: independent --remote validator rereads current main and nine pinned blobs; confirms corpus/runtime equality and all68 exact-identifier candidate counts.
+PASS:4 workflow-routing tests;7 artifact-classification tests;Python compile;existing CAP03 IRR-only source/evidence/tracker static validator;git diff --check.
+Historical classification/static checks initially lacked a baseline object in shallow checkout; unshallow fetch resolved prerequisite,then all checks PASS. No validator bypass/change.
+No frontend/runtime/pin changes; full product suite not applicable or claimed. No IPD modifications,master changes,Wave-2 initiation,operational DB/ownership access,provisioning,holdings writes,QE,qualification/admission or unrelated work.
+Final publishing PR receipt records actual head/merge/main CI,source checksum/count,master revision/results and independent remote artifact readback after successful publication.

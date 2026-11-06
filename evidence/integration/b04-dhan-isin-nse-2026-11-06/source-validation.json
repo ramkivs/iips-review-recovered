@@ -1,0 +1,68 @@
+{
+  "validationPhase": "COMPLETED_BEFORE_MATCHING",
+  "sourceSha256": "2dc1d1fba6e183cfa657652d0dab98daac570df6e3ef3adbbc8f2a397fcabd0d",
+  "dataRows": 68,
+  "columns": [
+    "Scrip Name",
+    "ISIN Code",
+    "Quantity",
+    "Avg. Buy Rate",
+    "Buy Value",
+    "LTP",
+    "Current Value",
+    "P&L",
+    "P&L%"
+  ],
+  "allNumericFieldsFinite": true,
+  "all68ISINChecksumsValid": true,
+  "uniqueKeys": 68,
+  "quantityTimesLTPMatchesCurrentValue": true,
+  "currentMinusBuyMatchesPnL": true,
+  "avgBuyTimesQuantityNotEnforced": "Source averages may be rounded; supplied buy values retained, not recomputed.",
+  "sourceIssues": [],
+  "retainedTrailingNameSpace": "'National Stock Exchange of India '",
+  "IRRBaseline": "e31fbc59d8597af1b834a994d7adab47cf62678c",
+  "masterSource": "Read-only GitHub main observed749d42067edc86e74d2cf35deb4562c4549687a0; no locally pinned dependency used",
+  "previousEvidence": [
+    {
+      "path": "evidence/integration/ws-a-dhan-68-row-pin-advance-2026-11-05/03-identity-assessment-68-row.json",
+      "sha256": "abcf27bf92171d066b2b0e7aba7d1a2e77abc26dd173dd13e43f465a458f0f18"
+    },
+    {
+      "path": "evidence/integration/ws-a-dhan-68-row-pin-advance-2026-11-05/04-evidence-record.json",
+      "sha256": "9d53d8b52a70f834d76d5d0e56826739915b52cab51814ea4ff37f09d1046c20"
+    },
+    {
+      "path": "evidence/integration/ws-a-dhan-68-row-pin-advance-2026-11-05/08-d05-coverage-probe.json",
+      "sha256": "28477f43bde33e638c84f82a10fd6bc744d94df65beeff4a1f7fe8afdb9dc6c6"
+    }
+  ],
+  "compiledReadOnlyMaster": [
+    {
+      "path": "d05_broad_universe_data.js",
+      "sha256": "770400a0f1fe09b9ea01c0b6c1b62be9737cd2473ea663b0c34a609a8d13d685"
+    },
+    {
+      "path": "d05_listing_corrections.js",
+      "sha256": "b290cecb1da526c3237b4d2966fc6bbc2553b35a999bbeca009b119077a54002"
+    },
+    {
+      "path": "governed_fixture_master.js",
+      "sha256": "f4e3c3cb2c9bd2f03d3dcef296d2ced25d7f9fcd1a3e783f4a485f2a25f9bca7"
+    },
+    {
+      "path": "mapping_store.js",
+      "sha256": "44a3c881246ba27af940ffe222646cf82b923b7b53afdfb83ce8c7e3864d0e3a"
+    },
+    {
+      "path": "quarantine.js",
+      "sha256": "12e9fb3d180308a72ecfce63c0e57da5c4f0854d15ad93a0e5eb9d4f388f7599"
+    },
+    {
+      "path": "security_master.js",
+      "sha256": "d99493060b9ac7f66c9ffa3d507f244dc9e47f42dc4f93e57133dcd9e74491e6"
+    }
+  ],
+  "compiler": "TypeScript5.9.3 --target ES2022 --module NodeNext --moduleResolution NodeNext --strict",
+  "sourceFilesChangedInIPD": []
+}
