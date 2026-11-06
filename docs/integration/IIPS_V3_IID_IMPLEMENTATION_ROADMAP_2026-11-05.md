@@ -513,6 +513,15 @@ selection pattern; `canonicalizePayload` for reproduction digests.
 `DISPOSITION` category. Assessment-only change reports can be built before IID-4 completes — the
 `DISPOSITION` category simply has no items until then.
 
+*Prerequisite decided 2026-11-06 (was `L-014`, which stays `OPEN` until implemented).*
+`IIPS_V3_IID_L014_SUBSTANTIVE_IDENTITY_DECISION_2026-11-06.md` settles how a version is decided: version identity is a
+**`substantiveDigest`** over the canonical payload with a closed set of clock-derivable members removed, `payloadDigest`
+keeps its byte-integrity job unchanged, a clock-only re-run returns **`CLOCK_ONLY_UNCHANGED`** and writes nothing, and a
+clock advance that crosses the freshness window or admits a newer price observation is substantive and still appends.
+IID-5 owns the implementation: obligations `O-1`…`O-9` and acceptance tests `AC-L14.1`…`AC-L14.10` in §8 of that
+document. §B.A's four identities are unchanged and none is merged — the decision refines content and input identity, it
+does not reopen the chain/version separation.
+
 **Data sources and persistence.** Stored artifacts only, plus the recorded dataset version for the
 attribution legs. Boundary reports persisted on `icr:` chains; ephemeral reports never persisted.
 
