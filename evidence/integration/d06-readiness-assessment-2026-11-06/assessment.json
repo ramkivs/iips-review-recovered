@@ -1,0 +1,238 @@
+{
+  "record": "D06_OPERATION_ADMISSION_READINESS_ASSESSMENT",
+  "date": "2026-11-06",
+  "assessmentComplete": true,
+  "operationAdmission": "BLOCKED \u2014 NOT ADMITTED",
+  "authorityGrant": false,
+  "baselineIRR": "bd6387441a7a8c5a1992ac2d7685a1632b594c7c",
+  "baselineIPD": "1cde2324ed4b4d636248af9ea3d87b10cac3d031",
+  "boundedEngineeringPublication": "COMPLETE / VERIFIED reconstruction, not original lost build; no qualification acceptance",
+  "H01-H12": [
+    {
+      "id": "H01",
+      "criterion": "Source/runtime/schema inventory",
+      "status": "NOT QUALIFIED",
+      "observed": "Read-only 8 IPD blobs + CI verified; immutable migrations/connection not changed by PR129",
+      "remaining": "Exact designated native host, final content/execution inventory and accepted result",
+      "owner": "IPD/IRR evidence owners; designated operator supplies host evidence; PA accepts results"
+    },
+    {
+      "id": "H02",
+      "criterion": "Trusted owner / isolation",
+      "status": "NOT QUALIFIED",
+      "observed": "Holdings binding resolver and V2-C03/C04 synthetic coverage reported",
+      "remaining": "Authorized operational binding and revocation/isolation proofs on designated host; no transfer from old identity",
+      "owner": "IPD/IRR evidence owners; designated operator supplies host evidence; PA accepts results"
+    },
+    {
+      "id": "H03",
+      "criterion": "Persistence across restart",
+      "status": "NOT QUALIFIED",
+      "observed": "V2-R03 separate child-process exit/reopen synthetic evidence reported",
+      "remaining": "Real paired IRR/IPD processes and accepted host persistence evidence",
+      "owner": "IPD/IRR evidence owners; designated operator supplies host evidence; PA accepts results"
+    },
+    {
+      "id": "H04",
+      "criterion": "Canonical identity / whole import refusal",
+      "status": "NOT QUALIFIED",
+      "observed": "V2-C02 fixtures with stubbed resolver, not genuine broker exports",
+      "remaining": "A5 genuine detailed data; A6 separately authorized master expansion if required; A7 row-level reassessment",
+      "owner": "IPD/IRR evidence owners; designated operator supplies host evidence; PA accepts results"
+    },
+    {
+      "id": "H05",
+      "criterion": "Concurrency / stale / duplicate",
+      "status": "NOT QUALIFIED",
+      "observed": "V2-C01/R04 synthetic cap/stale/lock/two-writer evidence reported",
+      "remaining": "Designated-host race/revocation results; resolve F1 stale-priority conformance gap",
+      "owner": "IPD/IRR evidence owners; designated operator supplies host evidence; PA accepts results"
+    },
+    {
+      "id": "H06",
+      "criterion": "Atomicity / unknown outcome / integrity",
+      "status": "NOT QUALIFIED",
+      "observed": "V2-R01/R02/R03/R05 synthetic rollback/lost-ack/restart/tamper evidence reported",
+      "remaining": "Resolve F2 exact settled reconciliation gap; accepted host failure evidence; no power-loss claim",
+      "owner": "IPD/IRR evidence owners; designated operator supplies host evidence; PA accepts results"
+    },
+    {
+      "id": "H07",
+      "criterion": "Lineage / idempotency / mode",
+      "status": "NOT QUALIFIED",
+      "observed": "Duplicate before cap and complete-snapshot behavior reported; writes remain refused",
+      "remaining": "Resolve F3 evidence-record lineage binding and exact original-lineage proof at paired pins",
+      "owner": "IPD/IRR evidence owners; designated operator supplies host evidence; PA accepts results"
+    },
+    {
+      "id": "H08",
+      "criterion": "Four-revision lifecycle",
+      "status": "NOT QUALIFIED",
+      "observed": "INITIAL=1, revisions through 4, duplicate no-op before cap; immutable history reported",
+      "remaining": "Accepted host lifecycle evidence; cap-four overrides old beyond-four-success definitions",
+      "owner": "IPD/IRR evidence owners; designated operator supplies host evidence; PA accepts results"
+    },
+    {
+      "id": "H09",
+      "criterion": "Backup / recovery",
+      "status": "NOT QUALIFIED",
+      "observed": "V2-R05 quiescent exclusive-copy/hash/restore synthetic procedure reported",
+      "remaining": "Operational policy and authorized host/filesystem/backup/recovery evidence; no active-store restore",
+      "owner": "IPD/IRR evidence owners; designated operator supplies host evidence; PA accepts results"
+    },
+    {
+      "id": "H10",
+      "criterion": "Receipt / contributions / UI",
+      "status": "NOT QUALIFIED",
+      "observed": "Nullable nonempty getV2 and synthetic service/socket tests reported",
+      "remaining": "F4 service superset is not exact wire conformance; paired IRR v2 consumer/UI not implemented/admitted; detail durability absent",
+      "owner": "IPD/IRR evidence owners; designated operator supplies host evidence; PA accepts results"
+    },
+    {
+      "id": "H11",
+      "criterion": "Governing QE / admission",
+      "status": "NOT QUALIFIED",
+      "observed": "No qualifying execution supplied",
+      "remaining": "QE-1 through QE-11, Gate C/U4 result acceptance, separately effective named-operation admission",
+      "owner": "IPD/IRR evidence owners; designated operator supplies host evidence; PA accepts results"
+    },
+    {
+      "id": "H12",
+      "criterion": "Frozen boundaries / guard / no ledger",
+      "status": "NOT QUALIFIED",
+      "observed": "W1 hard-false in inspected source; no accounting/schema/guard expansion by PR129",
+      "remaining": "Accepted exact-pin regression scope and qualification; NOT the separate H-12 digest-manifest adoption",
+      "owner": "IPD/IRR evidence owners; designated operator supplies host evidence; PA accepts results"
+    }
+  ],
+  "H-12": {
+    "historicalR5": "ADOPTED / EFFECTIVE only at original three coordinates",
+    "finalRegeneration": "BLOCKED",
+    "finalAdoption": "REQUIRES PA AUTHORIZATION"
+  },
+  "QE-1-QE-11": [
+    {
+      "id": "QE-1",
+      "criterion": "Canonical match, zero/conflicting identity refusal/quarantine",
+      "status": "NOT EXECUTED",
+      "qualificationCredit": 0,
+      "requiredEvidence": "Raw host resolver/refusal/quarantine and caller-authority results",
+      "owner": "Designated operator Ramki; PA separately accepts results"
+    },
+    {
+      "id": "QE-2",
+      "criterion": "DP-2 Option 2F whole-request refusal/no bypass",
+      "status": "NOT EXECUTED",
+      "qualificationCredit": 0,
+      "requiredEvidence": "Host bypass-absence scan and zero partial revisions",
+      "owner": "Designated operator Ramki; PA separately accepts results"
+    },
+    {
+      "id": "QE-3",
+      "criterion": "Revision/stale/tombstone/reset/delete lifecycle",
+      "status": "NOT EXECUTED",
+      "qualificationCredit": 0,
+      "requiredEvidence": "Exact governing host scenarios with row counts; v2 modes remain excluded, no new permission inferred",
+      "owner": "Designated operator Ramki; PA separately accepts results"
+    },
+    {
+      "id": "QE-4",
+      "criterion": "Create/commit; stop and restart BOTH real processes",
+      "status": "NOT EXECUTED",
+      "qualificationCredit": 0,
+      "requiredEvidence": "Paired IRR/IPD raw dumps/hashes/PIDs; no OS reboot substitution",
+      "owner": "Designated operator Ramki; PA separately accepts results"
+    },
+    {
+      "id": "QE-5",
+      "criterion": "Same/earlier contentDigest no-op before and after restart",
+      "status": "NOT EXECUTED",
+      "qualificationCredit": 0,
+      "requiredEvidence": "Host result envelopes and revision/contribution counts",
+      "owner": "Designated operator Ramki; PA separately accepts results"
+    },
+    {
+      "id": "QE-6",
+      "criterion": "SHA256 lineage/broker attribution across restart/REPLACE/RESET",
+      "status": "NOT EXECUTED",
+      "qualificationCredit": 0,
+      "requiredEvidence": "Exact governing tier controls and preserved history; no v2 mode activation",
+      "owner": "Designated operator Ramki; PA separately accepts results"
+    },
+    {
+      "id": "QE-7",
+      "criterion": "Forced termination full revision or none; tampered migration refusal",
+      "status": "NOT EXECUTED",
+      "qualificationCredit": 0,
+      "requiredEvidence": "Authorized disposable-copy crash/startup transcripts, integrity and hashes",
+      "owner": "Designated operator Ramki; PA separately accepts results"
+    },
+    {
+      "id": "QE-8",
+      "criterion": "Revocation read/write refusal incl restart and racing write",
+      "status": "NOT EXECUTED",
+      "qualificationCredit": 0,
+      "requiredEvidence": "Approved RV-1 disposable-copy procedure and isolated provenance; never revoke sole operational binding",
+      "owner": "Designated operator Ramki; PA separately accepts results"
+    },
+    {
+      "id": "QE-9",
+      "criterion": "Each W-15 refusal has its own class and no effect",
+      "status": "NOT EXECUTED",
+      "qualificationCredit": 0,
+      "requiredEvidence": "Raw per-condition matrix and row-count pairs, not generic W1 substitution",
+      "owner": "Designated operator Ramki; PA separately accepts results"
+    },
+    {
+      "id": "QE-10",
+      "criterion": "Timeout after send/no IRR auto-retry/reconcile-by-read",
+      "status": "NOT EXECUTED",
+      "qualificationCredit": 0,
+      "requiredEvidence": "Actual separate-process consumer/endpoint logs and exact settled readback, resolve F2",
+      "owner": "Designated operator Ramki; PA separately accepts results"
+    },
+    {
+      "id": "QE-11",
+      "criterion": "Gate C Q1-Q4/Q9-Q11 measured AND separately accepted",
+      "status": "NOT EXECUTED",
+      "qualificationCredit": 0,
+      "requiredEvidence": "Q11-before -> Q2 -> Q10 -> Q9 -> Q3 -> Q4 -> Q1 -> Q11-after; Q9 >=10 cold+10 warm, zero bytes; Q1 records-only; separate Gate C acceptance",
+      "owner": "Designated operator Ramki; PA separately accepts results"
+    }
+  ],
+  "QECompleted": 0,
+  "QERequired": 11,
+  "Gate4Acceptance": "NOT RENDERED",
+  "Gate5Admission": "NOT INITIATED / NOT ADMITTED",
+  "DQ4": "8/10; final freeze NOT ESTABLISHED",
+  "W1Authorized": false,
+  "P1": "AUTHORIZED \u2014 ONE ATTEMPT \u2014 UNSPENT; P-1-F NOT RECONCILED / RETRY_BLOCKED",
+  "host": "desktop-no0nhtp; current readiness NOT VERIFIED / NOT QUALIFIED",
+  "excludedActionsPerformed": [],
+  "reviewFindings": [
+    {
+      "id": "F1",
+      "status": "BLOCKED",
+      "finding": "Validation before stale check: service brokerImportPersistence.ts:548-577 and store portfolio_store.ts:1150 precede transaction stale comparison at1153",
+      "owner": "IPD contract maintainer; PA only for semantic amendment"
+    },
+    {
+      "id": "F2",
+      "status": "BLOCKED",
+      "finding": "reconcileSnapshotV2ByRead lines639-663 accepts optional successor and digest-only result; no mandatory settlement, same-revision digest/provenance/snapshot check",
+      "owner": "IPD/IRR contract maintainers; no auto retry permitted"
+    },
+    {
+      "id": "F3",
+      "status": "BLOCKED",
+      "finding": "evidenceRecordDigest validated at brokerImportPersistence.ts:520 and portfolio_store.ts:1074; not included by computeBrokerImportProvenance or stored contribution insert1251-1266",
+      "owner": "IPD evidence/contract maintainer; resolve exact lineage conformance"
+    },
+    {
+      "id": "F4",
+      "status": "NOT QUALIFIED",
+      "finding": "Evidence pack section5 discloses service receipt superset and stricter timestamp acceptance; current product writes refuse, so this is not demonstrated wire conformance",
+      "owner": "IPD/IRR contract maintainers; PA for any proposed contract change"
+    }
+  ]
+}

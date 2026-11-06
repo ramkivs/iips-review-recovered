@@ -1,0 +1,327 @@
+{
+  "baselineIRR": "bd6387441a7a8c5a1992ac2d7685a1632b594c7c",
+  "baselineIPD": "1cde2324ed4b4d636248af9ea3d87b10cac3d031",
+  "method": "GitHub REST read-only exact-commit contents/blobs and PR/checks/actions APIs; no IPD execution or writes",
+  "readbacks": [
+    {
+      "repo": "iips-production-market-data",
+      "pr": 129,
+      "commit": "1cde2324ed4b4d636248af9ea3d87b10cac3d031",
+      "path": "evidence/cross-repository/IIPS_V3_D02_D03_D05_RECONSTRUCTION_IPD_IMPLEMENTATION_EVIDENCE_2026-11-06.md",
+      "blob": "a3495f6615ed6b0b65878d2968c1f575762e0207",
+      "sha256": "c5842ca4933c681e6156af66fbfc57320d02adef7ffff40a41a6878097c7793b"
+    },
+    {
+      "repo": "iips-production-market-data",
+      "pr": 129,
+      "commit": "1cde2324ed4b4d636248af9ea3d87b10cac3d031",
+      "path": "src/ipc/dispatch.ts",
+      "blob": "823e310077b59189a3a5a6084321107a37ca9495",
+      "sha256": "2aebe60b80fc7565c903afc6f84ca4e225571b80746635853118f7ba70bd1419"
+    },
+    {
+      "repo": "iips-production-market-data",
+      "pr": 129,
+      "commit": "1cde2324ed4b4d636248af9ea3d87b10cac3d031",
+      "path": "src/ipc/protocol.ts",
+      "blob": "aede136221315eba292799b78f156e86ba21e6be",
+      "sha256": "0d9a684fe9ec7542aa3d99cacf64d6adab63fd6f99a2e2faa9ad6b33007b15a2"
+    },
+    {
+      "repo": "iips-production-market-data",
+      "pr": 129,
+      "commit": "1cde2324ed4b4d636248af9ea3d87b10cac3d031",
+      "path": "src/persistence/binding.ts",
+      "blob": "fa6cd3e94363ef9c9b353298d90535c571a9e177",
+      "sha256": "61dfeb55c57dbaffa11b89a25ed1d6f80e24c588fbeee6dc5848737d50834603"
+    },
+    {
+      "repo": "iips-production-market-data",
+      "pr": 129,
+      "commit": "1cde2324ed4b4d636248af9ea3d87b10cac3d031",
+      "path": "src/persistence/brokerImportPersistence.ts",
+      "blob": "03512aecf4cd1987b43b095664998286ebf27af9",
+      "sha256": "926d9c8be43afc80a1e3d4869b940dbf6b3eaea781fcd53366d75effc1986442"
+    },
+    {
+      "repo": "iips-production-market-data",
+      "pr": 129,
+      "commit": "1cde2324ed4b4d636248af9ea3d87b10cac3d031",
+      "path": "src/persistence/portfolio_store.ts",
+      "blob": "d67e0a10b833eee2e3f083d9f7a317f73e298531",
+      "sha256": "fc773c9f0640db01d7384f3510f547a19accb06b322925d1f4c45d0dab63638e"
+    },
+    {
+      "repo": "iips-production-market-data",
+      "pr": 129,
+      "commit": "1cde2324ed4b4d636248af9ea3d87b10cac3d031",
+      "path": "tests/durable_holdings_contract_v1.test.ts",
+      "blob": "41a359e1540946e7a1e7c957b0faca4f9be72622",
+      "sha256": "3c5935539ce1994a4f6ea6a31e678d26119b6e97660bc6e43f9480675ec3ff67"
+    },
+    {
+      "repo": "iips-production-market-data",
+      "pr": 129,
+      "commit": "1cde2324ed4b4d636248af9ea3d87b10cac3d031",
+      "path": "tests/durable_holdings_recovery_v1.test.ts",
+      "blob": "b950cf3ce14f2f2dc06b6cf05ac822e05a322d1c",
+      "sha256": "1b1000bde70b76b1dfd5ecfffeea69538b9bda6f799d4ca60e3eb50ff06fb787"
+    },
+    {
+      "repo": "iips-review-recovered",
+      "pr": 485,
+      "commit": "bd6387441a7a8c5a1992ac2d7685a1632b594c7c",
+      "path": ".github/workflows/cap03-revision7-irr-static.yml",
+      "blob": "becb36b87a48135fd714141ca2aeb68341ab1522",
+      "sha256": "3b35cb4e52b635f57c28257df0b5e1b51f5e033879137a3fdac92a5474812c00"
+    },
+    {
+      "repo": "iips-review-recovered",
+      "pr": 485,
+      "commit": "bd6387441a7a8c5a1992ac2d7685a1632b594c7c",
+      "path": "evidence/integration/d02-d03-d05-engineering-2026-11-06/IPD-RECONSTRUCTION-PUBLICATION-RECEIPT-2026-11-06.md",
+      "blob": "7d440c5da3e65149b6523ab92d0784357d0d144f",
+      "sha256": "db23b198caa2379e09cadce0a87af85f80d34b69fb879b3d7c0b11ac3ff8339e"
+    },
+    {
+      "repo": "iips-review-recovered",
+      "pr": 485,
+      "commit": "bd6387441a7a8c5a1992ac2d7685a1632b594c7c",
+      "path": "evidence/integration/d02-d03-d05-engineering-2026-11-06/IPD-RECONSTRUCTION-RESULTS-2026-11-06.json",
+      "blob": "a6de68c09bc2cb90848a52f95869227d2d22473b",
+      "sha256": "72d95334307b2e930fd5bb35c4864d1f3e32904c25836898e2faf63b1361c048"
+    },
+    {
+      "repo": "iips-review-recovered",
+      "pr": 485,
+      "commit": "bd6387441a7a8c5a1992ac2d7685a1632b594c7c",
+      "path": "tests/validation/test_irr_workflow_triggers.py",
+      "blob": "cc9e99c4fb4bd4209b6e041f6957e5d02daeceb2",
+      "sha256": "34029383bbb05a688a6437fb02c81f0bd461e12e2c36468538859ec373040619"
+    }
+  ],
+  "publicationChecks": [
+    {
+      "identity": "iips-production-market-data-1cde2324ed4b4d636248af9ea3d87b10cac3d031-checks.json",
+      "checks": [
+        {
+          "id": 127734186411,
+          "name": "executed test count",
+          "conclusion": "success",
+          "headSha": "1cde2324ed4b4d636248af9ea3d87b10cac3d031"
+        },
+        {
+          "id": 127733803393,
+          "name": "typecheck \u00b7 build \u00b7 test",
+          "conclusion": "success",
+          "headSha": "1cde2324ed4b4d636248af9ea3d87b10cac3d031"
+        }
+      ],
+      "runs": [
+        {
+          "id": 42169525038,
+          "event": "push",
+          "headSha": "1cde2324ed4b4d636248af9ea3d87b10cac3d031",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "identity": "iips-production-market-data-2411f56510c9b178156974cc112046116eb45365-checks.json",
+      "checks": [
+        {
+          "id": 127733651056,
+          "name": "executed test count",
+          "conclusion": "success",
+          "headSha": "2411f56510c9b178156974cc112046116eb45365"
+        },
+        {
+          "id": 127733368454,
+          "name": "typecheck \u00b7 build \u00b7 test",
+          "conclusion": "success",
+          "headSha": "2411f56510c9b178156974cc112046116eb45365"
+        }
+      ],
+      "runs": [
+        {
+          "id": 42169388318,
+          "event": "pull_request",
+          "headSha": "2411f56510c9b178156974cc112046116eb45365",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "identity": "iips-review-recovered-3d97b8bfa58316cc1d5bd703396569e5ba171696-checks.json",
+      "checks": [
+        {
+          "id": 127528650748,
+          "name": "Python compile \u00b7 source/evidence/tracker validation",
+          "conclusion": "success",
+          "headSha": "3d97b8bfa58316cc1d5bd703396569e5ba171696"
+        }
+      ],
+      "runs": [
+        {
+          "id": 42108233504,
+          "event": "push",
+          "headSha": "3d97b8bfa58316cc1d5bd703396569e5ba171696",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "identity": "iips-review-recovered-423d8dd23509e41d4f7497e31532846579455b1c-checks.json",
+      "checks": [
+        {
+          "id": 127704937067,
+          "name": "Python compile \u00b7 source/evidence/tracker validation",
+          "conclusion": "success",
+          "headSha": "423d8dd23509e41d4f7497e31532846579455b1c"
+        }
+      ],
+      "runs": [
+        {
+          "id": 42160555831,
+          "event": "pull_request",
+          "headSha": "423d8dd23509e41d4f7497e31532846579455b1c",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "identity": "iips-review-recovered-58056d67915e9e81a9fa86412d922e7f4e98823a-checks.json",
+      "checks": [
+        {
+          "id": 127528065123,
+          "name": "Python compile \u00b7 source/evidence/tracker validation",
+          "conclusion": "success",
+          "headSha": "58056d67915e9e81a9fa86412d922e7f4e98823a"
+        }
+      ],
+      "runs": [
+        {
+          "id": 42108066174,
+          "event": "pull_request",
+          "headSha": "58056d67915e9e81a9fa86412d922e7f4e98823a",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "identity": "iips-review-recovered-85a348f59686e7fecfe6afe389dd6456049c2137-checks.json",
+      "checks": [
+        {
+          "id": 127705252893,
+          "name": "Python compile \u00b7 source/evidence/tracker validation",
+          "conclusion": "success",
+          "headSha": "85a348f59686e7fecfe6afe389dd6456049c2137"
+        }
+      ],
+      "runs": [
+        {
+          "id": 42160653145,
+          "event": "push",
+          "headSha": "85a348f59686e7fecfe6afe389dd6456049c2137",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "identity": "iips-review-recovered-9505201c31ffc53862b3daa15c161724cd250772-checks.json",
+      "checks": [
+        {
+          "id": 127877550194,
+          "name": "Python compile \u00b7 source/evidence/tracker validation",
+          "conclusion": "success",
+          "headSha": "9505201c31ffc53862b3daa15c161724cd250772"
+        }
+      ],
+      "runs": [
+        {
+          "id": 42213464762,
+          "event": "pull_request",
+          "headSha": "9505201c31ffc53862b3daa15c161724cd250772",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "identity": "iips-review-recovered-bd6387441a7a8c5a1992ac2d7685a1632b594c7c-checks.json",
+      "checks": [
+        {
+          "id": 127879214720,
+          "name": "Python compile \u00b7 source/evidence/tracker validation",
+          "conclusion": "success",
+          "headSha": "bd6387441a7a8c5a1992ac2d7685a1632b594c7c"
+        }
+      ],
+      "runs": [
+        {
+          "id": 42213959490,
+          "event": "push",
+          "headSha": "bd6387441a7a8c5a1992ac2d7685a1632b594c7c",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    }
+  ],
+  "governingIRRSources": [
+    {
+      "commit": "bd6387441a7a8c5a1992ac2d7685a1632b594c7c",
+      "path": "docs/integration/IIPS_v3.0_PA_D02_D03_D05_ENGINEERING_ACT_2026-11-06.md",
+      "blob": "cea7fed5618ed08683cf9d12d22b0a6e02c557f4",
+      "sha256": "8f1cc9c6d37b4797cb1d9f506136c9004eba7f6a84c9a7a360aea1b7a2510dc9"
+    },
+    {
+      "commit": "bd6387441a7a8c5a1992ac2d7685a1632b594c7c",
+      "path": "docs/integration/IIPS_v3.0_PA_G4_C3_D01_D04_ADOPTION_ACT_2026-11-06.md",
+      "blob": "71b6666a6038c9637e1729a4f8935d06a58cd169",
+      "sha256": "8d9848201ea2651c1922371233af03f30bfcd631507cc01f4fa86a95eae2e985"
+    },
+    {
+      "commit": "bd6387441a7a8c5a1992ac2d7685a1632b594c7c",
+      "path": "docs/integration/DURABLE-HOLDINGS-CONTRACT-AND-QUALIFICATION-SPEC-v1-2026-11-06.md",
+      "blob": "38c435995fe4b3d9e434ec02432c59f944c49a7a",
+      "sha256": "4f478ebd8158c0032b1041afca9cfae5e9dec7036eed067b8169cf6697e7ee40"
+    },
+    {
+      "commit": "bd6387441a7a8c5a1992ac2d7685a1632b594c7c",
+      "path": "docs/integration/WS-A-G4-QE-H12-PIN-DESIGNATION-DECISION-PACKAGE-2026-11-05.md",
+      "blob": "d95f31207cfc6dc757706619fc57ba17a460c620",
+      "sha256": "4f63e039da3a04f75cc75ed68c099d8e455f4a370306aff88e80625ea73cc261"
+    },
+    {
+      "commit": "bd6387441a7a8c5a1992ac2d7685a1632b594c7c",
+      "path": "docs/integration/IIPS_v3.0_CAP02_QE_EXECUTION_MATRIX_AND_HOST_PREREQUISITES_2026-10-26.md",
+      "blob": "28a623ace212fdaaab5dc621f46895856c700ebb",
+      "sha256": "8959c31a53df3ba6566ffebd1eb731d73b92cb99d0948b0f9308b003be6b33ab"
+    },
+    {
+      "commit": "bd6387441a7a8c5a1992ac2d7685a1632b594c7c",
+      "path": "docs/integration/WS-A-DURABLE-USER-HOLDINGS-MILESTONE-DEFINITION-2026-11-05.md",
+      "blob": "ab5c2ac4302eca5da280053cf3450a163df31c9d",
+      "sha256": "b3c6fea800d3568d332f0df20df47e8ae1b4e2c8f6ece5aec81d0c28d16b128f"
+    },
+    {
+      "commit": "bd6387441a7a8c5a1992ac2d7685a1632b594c7c",
+      "path": "docs/integration/WS-A-DHAN-BROKER-HOLDINGS-WORKSTREAM-REPORT-2026-11-05-R2.md",
+      "blob": "fd94be80f1741600e8209c8d2539cb098a4a1509",
+      "sha256": "111af5a3d59774c336c56d0c03485944fc603141677dd38b47541b173af04251"
+    },
+    {
+      "commit": "bd6387441a7a8c5a1992ac2d7685a1632b594c7c",
+      "path": "evidence/integration/d02-d03-d05-engineering-2026-11-06/current-register.json",
+      "blob": "bde84f8a9bf92b836b80b3ab0d46ef8a185042bd",
+      "sha256": "66c8f7c723cd2061a960108500942a0996e0824a3615e1023094586442399af8"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+D06 readiness assessment — 2026-11-06 — IRR-only documentary validation
+python evidence/integration/d06-readiness-assessment-2026-11-06/validate_assessment.py — PASS
+  All 12 H rows NOT QUALIFIED; all 11 QE rows NOT EXECUTED/zero credit;
+  unchanged governing sources/receipts, no admission/authority, append-only tracker.
+python -m unittest discover -s tests/validation -p test_irr_workflow_triggers.py -v — 4/4 PASS
+python -m unittest discover -s tests/validation -p test_cap03_artifact_classification.py -v — 7/7 PASS
+python -m py_compile docs/integration/cap03-p1-f9/validate_windows10_host_profile.py — PASS
+python docs/integration/cap03-p1-f9/validate_windows10_host_profile.py — PASS
+  existing IRR-only source/admitted-evidence/tracker checks; no host qualification.
+git diff --check — PASS
+Read-only GitHub API: IPD129 8 changed blobs and IRR485 4 changed blobs fetched
+at exact merge commits; PR-head and main checks/runs all SUCCESS (source-readback.json).
+No IPD code/test execution, operational database access, provisioning, migration,
+QE, Gate4 acceptance, Gate5 admission, production activation or W1 change.
+These local validation results are publication checks, NOT operation/QE evidence.
