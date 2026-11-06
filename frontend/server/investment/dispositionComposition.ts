@@ -24,6 +24,16 @@ import {
 import { ReportValidationError } from '../reports/artifact.js';
 import { canonicalizePayload, type CanonicalParameterValue } from '../reports/canonical.js';
 import { composeReportContent } from '../reports/composition.js';
+import {
+  DISPOSITION_SUBSTANTIVE_GRAMMAR,
+  PROVENANCE_SUBSTANTIVE_DIGEST,
+  PROVENANCE_SUBSTANTIVE_GRAMMAR,
+  PROVENANCE_SUBSTANTIVE_INPUT_DIGEST,
+  PROVENANCE_SUBSTANTIVE_POLICY,
+  SUBSTANTIVE_IDENTITY_POLICY,
+  dispositionSubstantiveInputDigest,
+  substantiveDigestOfPayload,
+} from './substantiveIdentity.js';
 import { validateReportTypeForScope, type ScopeTokenAccepted } from '../../../iips-platform/src/investment/artifacts/scopeToken.js';
 
 /** The one report type this module composes. The registry is the authority; this is the binding. */
@@ -48,6 +58,12 @@ export interface ComposeDispositionInput {
   readonly datasetClass?: DatasetClass;
   /** Override the derived subject scope token. Validated, not trusted. */
   readonly scopeToken?: string;
+  /**
+   * IID-5 / L-014: the substantive identity of the assessment version this disposition rests on. Supplied by a
+   * caller that has the assessment in hand (a comparison does). Omitted when unavailable — never guessed.
+   */
+  readonly assessmentSubstantiveDigest?: string;
+  readonly assessmentSubstantiveInputDigest?: string;
 }
 
 export interface ComposedDisposition {
@@ -235,6 +251,26 @@ export function composeDispositionArtifact(input: ComposeDispositionInput): Comp
     // The two digests live here, NOT in `parameters`: provenance is not a chain member.
     inputDigest,
     payloadDigest,
+    // IID-5 / L-014: the clock-free identity of the disposition, recorded beside the byte identity. The
+    // disposition grammar excludes only metadata (its own clock and the cited assessment's clock), so two
+    // dispositions that differ solely because a re-run happened cannot become two substantive versions.
+    [PROVENANCE_SUBSTANTIVE_DIGEST]: substantiveDigestOfPayload(DISPOSITION_REPORT_TYPE, payload),
+    [PROVENANCE_SUBSTANTIVE_GRAMMAR]: DISPOSITION_SUBSTANTIVE_GRAMMAR,
+    [PROVENANCE_SUBSTANTIVE_POLICY]: SUBSTANTIVE_IDENTITY_POLICY,
+    // The clock-free INPUT identity is recorded only when the caller can supply the assessment identity the
+    // disposition rested on. Recording a guess — or copying today's assessment identity onto an old verb —
+    // would be an invented provenance trail, so the member is omitted instead (and the reader falls back to
+    // the engine `inputDigest`, exactly as a pre-IID-5 version does).
+    ...(input.assessmentSubstantiveDigest !== undefined && input.assessmentSubstantiveInputDigest !== undefined
+      ? {
+          [PROVENANCE_SUBSTANTIVE_INPUT_DIGEST]: dispositionSubstantiveInputDigest({
+            payload,
+            assessmentSubstantiveDigest: input.assessmentSubstantiveDigest,
+            assessmentSubstantiveInputDigest: input.assessmentSubstantiveInputDigest,
+            assessmentArtifactVersion: payload.companyAssessmentRef.artifactVersion,
+          }),
+        }
+      : {}),
   };
 
   const content = composeReportContent({

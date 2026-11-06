@@ -1,0 +1,90 @@
+
+ RUN  v2.1.9 /home/user/iips-review-recovered/frontend
+
+ ✓ server/investment/change/comparison.test.ts > O-7 — the three-way pair classification, exactly as decided > classifies a clock-only re-run as GENERATION_METADATA_ONLY with ZERO items
+ ✓ server/investment/change/comparison.test.ts > O-7 — the three-way pair classification, exactly as decided > reports a serialisation-only difference as zero items (AC-5.7)
+ ✓ server/investment/change/comparison.test.ts > O-7 — the three-way pair classification, exactly as decided > classifies a freshness crossing as FRESHNESS_TRANSITION, not as a data change
+ ✓ server/investment/change/comparison.test.ts > O-7 — the three-way pair classification, exactly as decided > classifies a genuine value change as SUBSTANTIVE
+ ✓ server/investment/change/comparison.test.ts > semantic dimensions — only declared facts produce items, each with a level > reports a materiality level for every item, including IMMATERIAL ones
+ ✓ server/investment/change/comparison.test.ts > semantic dimensions — only declared facts produce items, each with a level > renders a vanished observation as a PRESENCE change, never as a zero value
+ ✓ server/investment/change/comparison.test.ts > semantic dimensions — only declared facts produce items, each with a level > reports an ordinal downgrade as WORSENED and an upgrade as IMPROVED
+ ✓ server/investment/change/comparison.test.ts > semantic dimensions — only declared facts produce items, each with a level > ranks a newly added high-severity risk factor as material, and a severity-5 one as critical
+ ✓ server/investment/change/comparison.test.ts > semantic dimensions — only declared facts produce items, each with a level > never reports a MODEL change as an investment change without naming it as one
+ ✓ server/investment/change/comparison.test.ts > semantic dimensions — only declared facts produce items, each with a level > reports an identity re-mapping in IDENTITY_MAPPING, so it cannot read as a fundamental collapse
+ ✓ server/investment/change/comparison.test.ts > materiality policy — versioned, explicit, and total > is a versioned policy with declared thresholds per mode
+ ✓ server/investment/change/comparison.test.ts > materiality policy — versioned, explicit, and total > classifies each mode at its own boundaries, inclusively
+ ✓ server/investment/change/comparison.test.ts > materiality policy — versioned, explicit, and total > does not fabricate a percentage against a zero reference
+ ✓ server/investment/change/comparison.test.ts > materiality policy — versioned, explicit, and total > orders levels and never reports a lower level than either input
+ ✓ server/investment/change/comparison.test.ts > attribution — EXACT when computable, UNAVAILABLE when not, never estimated > splits the delta as a data effect under one model and policy identity
+ ✓ server/investment/change/comparison.test.ts > attribution — EXACT when computable, UNAVAILABLE when not, never estimated > degrades to UNAVAILABLE when the model or policy identity differs, and estimates no leg
+ ✓ server/investment/change/comparison.test.ts > attribution — EXACT when computable, UNAVAILABLE when not, never estimated > degrades to UNAVAILABLE when a version does not reproduce, even with one model identity
+ ✓ server/investment/change/comparison.test.ts > attribution — EXACT when computable, UNAVAILABLE when not, never estimated > is NOT_APPLICABLE for a pair with no substantive change
+ ✓ server/investment/change/comparison.test.ts > reproduction — recomputes both digests from the stored bytes > is EXACT for an untampered payload and names the legs it did not attempt
+ ✓ server/investment/change/comparison.test.ts > reproduction — recomputes both digests from the stored bytes > is MISMATCH when the bytes do not hash to the recorded payload digest
+ ✓ server/investment/change/comparison.test.ts > reproduction — recomputes both digests from the stored bytes > labels a pre-IID-5 version DERIVED rather than pretending it recorded a digest
+ ✓ server/investment/change/comparison.test.ts > review triggers — questions, never actions > flags a material intrinsic change at LOW priority and suggests focus, with no verb
+ ✓ server/investment/change/comparison.test.ts > review triggers — questions, never actions > raises HIGH priority when a critical item is present
+ ✓ server/investment/change/comparison.test.ts > disposition comparison uses its own grammar, without assessment clock taint > reports verb movement at CRITICAL when it moves into AVOID
+ ✓ server/investment/change/comparison.test.ts > disposition comparison uses its own grammar, without assessment clock taint > treats two dispositions that differ only by their clocks as metadata-only
+ ✓ server/investment/change/comparison.test.ts > the dimension map is closed and declared > exposes a stable dimension id per fact and refuses an unknown report type
+ ✓ server/investment/change/comparison.test.ts > change-report composition is deterministic and keyed to the explained version > produces byte-identical content for the same pair, so re-running reconciliation writes nothing
+ ✓ server/investment/change/comparison.test.ts > change-report composition is deterministic and keyed to the explained version > is addressed on the icr: chain reserved for change reports
+ ✓ server/investment/change/comparison.test.ts > change-report composition is deterministic and keyed to the explained version > records the policy, grammar and both source identities in its provenance
+ ✓ server/investment/change/comparison.test.ts > change-report composition is deterministic and keyed to the explained version > refuses to compare a version with itself or backwards
+(node:3733) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ✓ server/investment/change/store.test.ts > O-2/O-3 — identity decides versioning, not the clock > does NOT append a clock-only re-run, and keeps the head byte-identical
+ ✓ server/investment/change/store.test.ts > O-2/O-3 — identity decides versioning, not the clock > appends a substantive change to the SAME chain and never rewrites an earlier version
+ ✓ server/investment/change/store.test.ts > historical comparison over stored versions > compares every consecutive pair, in order, with EXACT reproduction
+ ✓ server/investment/change/store.test.ts > historical comparison over stored versions > compares two arbitrary versions of one chain, and refuses a backwards or unknown pair 309ms
+ ✓ server/investment/change/store.test.ts > historical comparison over stored versions > refuses to compare a single-version chain rather than inventing a predecessor
+ ✓ server/investment/change/store.test.ts > boundary reports — durable, idempotent, stable keys > records one boundary report per pair on the icr: chain and re-running writes nothing
+ ✓ server/investment/change/store.test.ts > boundary reports — durable, idempotent, stable keys > reconciles a gap, then reports complete coverage and creates nothing on a second run 583ms
+ ✓ server/investment/change/store.test.ts > boundary reports — durable, idempotent, stable keys > leaves a real gap when an append fails, and fills only that gap on the next run 530ms
+ ✓ server/investment/change/store.test.ts > O-6/O-8 — integrity, and honest retroactive derivation > refuses to compare a chain whose stored bytes no longer match their recorded digest
+ ✓ server/investment/change/store.test.ts > O-6/O-8 — integrity, and honest retroactive derivation > labels a version written before the implementation as DERIVED and still compares it
+ ✓ server/investment/change/store.test.ts > O-6/O-8 — integrity, and honest retroactive derivation > refuses a submission whose declared substantive digest does not describe its payload
+ ✓ server/investment/change/store.test.ts > a real pre-IID-5 artifact, written through the shared persistence path > is served as DERIVED, compared against a recorded version, and left untouched on disk
+ ✓ server/investment/change/store.test.ts > dispositions are compared on their own grammar > compares two stored disposition versions without assessment clock taint
+ ✓ server/investment/substantive-identity.test.ts > O-1 — the published reference digests are reproduced exactly > reproduces C1 for the baseline M1 assessment
+ ✓ server/investment/substantive-identity.test.ts > O-1 — the published reference digests are reproduced exactly > reproduces C1 from the canonical payload TEXT, so object and stored bytes agree
+ ✓ server/investment/substantive-identity.test.ts > O-1 — the published reference digests are reproduced exactly > reproduces C4 — a later clock does not move the digest
+ ✓ server/investment/substantive-identity.test.ts > O-1 — the published reference digests are reproduced exactly > reproduces C5 — a different dataset does move the digest
+ ✓ server/investment/substantive-identity.test.ts > O-1 — the published reference digests are reproduced exactly > records the clock-free input digests
+ ✓ server/investment/substantive-identity.test.ts > the exclusion list is closed and versioned (O-1, O-4) > names the two grammars and the policy they were decided under
+ ✓ server/investment/substantive-identity.test.ts > the exclusion list is closed and versioned (O-1, O-4) > refuses a report type with no grammar instead of defaulting to one
+ ✓ server/investment/substantive-identity.test.ts > the exclusion list is closed and versioned (O-1, O-4) > carries exactly the decided assessment exclusions, no more
+ ✓ server/investment/substantive-identity.test.ts > the exclusion list is closed and versioned (O-1, O-4) > carries exactly the decided disposition exclusions, including the conditional one
+ ✓ server/investment/substantive-identity.test.ts > the clock is outside identity — but a freshness TRANSITION inside it keeps it > ignores generatedAt, stalenessDays and the identity binding reference
+ ✓ server/investment/substantive-identity.test.ts > the clock is outside identity — but a freshness TRANSITION inside it keeps it > keeps staleBeyondPolicy, so crossing the freshness window is a substantive change
+ ✓ server/investment/substantive-identity.test.ts > the clock is outside identity — but a freshness TRANSITION inside it keeps it > keeps knownAsOf: learning something later is a substantive difference, not clock metadata
+ ✓ server/investment/substantive-identity.test.ts > the clock is outside identity — but a freshness TRANSITION inside it keeps it > drops a disposition clock and the cited assessment clock, but not the cited version
+ ✓ server/investment/substantive-identity.test.ts > the clock is outside identity — but a freshness TRANSITION inside it keeps it > treats a null and an absent nextReviewOn as the same fact, without deleting a real one
+ ✓ server/investment/substantive-identity.test.ts > the clock is outside identity — but a freshness TRANSITION inside it keeps it > refuses a payload that is not an object, rather than digesting a non-payload
+ ✓ server/investment/substantive-identity.test.ts > the input projection is clock-free and dataset-sensitive (O-5) > moves with the dataset but not with the clock
+ ✓ server/investment/substantive-identity.test.ts > the input projection is clock-free and dataset-sensitive (O-5) > is composed of distinct named members, not of a serialized payload
+ ✓ server/investment/substantive-identity.test.ts > O-9 — the member inventory makes payload evolution a test failure > accepts both live payloads
+ ✓ server/investment/substantive-identity.test.ts > O-9 — the member inventory makes payload evolution a test failure > is large enough to be a real inventory, and closed rather than open
+ ✓ server/investment/substantive-identity.test.ts > O-9 — the member inventory makes payload evolution a test failure > refuses a member that is neither retained nor excluded
+ ✓ server/investment/substantive-identity.test.ts > O-9 — the member inventory makes payload evolution a test failure > refuses a new member nested inside an already-inventoried object
+ ✓ server/investment/substantive-identity.test.ts > O-9 — the member inventory makes payload evolution a test failure > refuses an unknown disposition member and an unknown array item member
+ ✓ server/investment/substantive-identity.test.ts > O-9 — the member inventory makes payload evolution a test failure > does not treat an ABSENT member as evolution, and still keeps it inside identity
+ ✓ server/investment/substantive-identity.test.ts > O-9 — the member inventory makes payload evolution a test failure > names the offending member paths in the failure, so the fix is a grammar decision
+(node:3773) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ✓ server/investment/change/transport.test.ts > the change route table is read-only > routes only GET and HEAD and declares no mutating operation
+ ✓ server/investment/change/transport.test.ts > the change route table is read-only > claims only the /changes namespace, so it cannot shadow the assessment routes
+ ✓ server/investment/change/transport.test.ts > the change route table is read-only > parses explicit selectors and rejects anything malformed
+ ✓ server/investment/change/transport.test.ts > the change route table is read-only > answers 405 for every mutating method, before resolving an owner or a store
+ ✓ server/investment/change/transport.test.ts > the change route table is read-only > answers 400 for a malformed issuer scope
+ ✓ server/investment/change/transport.test.ts > adjacent comparisons are served read-only > serves both pairs with dimensions, materiality, attribution and disclosures
+ ✓ server/investment/change/transport.test.ts > adjacent comparisons are served read-only > selects one explicit pair by artifactVersion, and refuses a backwards selection
+ ✓ server/investment/change/transport.test.ts > adjacent comparisons are served read-only > answers 404 for an unknown version selector and for a scope with no chain
+ ✓ server/investment/change/transport.test.ts > adjacent comparisons are served read-only > serves boundaries and coverage, and writes nothing
+ ✓ server/investment/change/transport.test.ts > adjacent comparisons are served read-only > answers 503 when no governed store is available, without leaking anything
+
+ Test Files  4 passed (4)
+      Tests  77 passed (77)
+   Start at  05:02:45
+   Duration  6.70s (transform 654ms, setup 554ms, collect 1.42s, tests 3.92s, environment 1ms, prepare 245ms)
+

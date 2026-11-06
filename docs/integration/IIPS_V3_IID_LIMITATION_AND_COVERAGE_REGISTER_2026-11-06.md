@@ -52,7 +52,7 @@ responsible phase · evidence references · last status update.
 | L-011 | IID-3 | Two scope namespaces (`co:`/`hd:`/`hc:`/`icr:` chain scope vs payload `subjectScope`) | OPEN | 2026-11-06 |
 | L-012 | IID-3 | Store-internal `chainId` is not surfaced; chain root `reportId` is the surrogate | OPEN | 2026-11-06 |
 | L-013 | IID-3 | Idempotency is decided against the chain head only | OPEN | 2026-11-06 |
-| L-014 | IID-3 | Content/input identity include the assessment timestamp | OPEN (decision resolved; implementation pending in IID-5) | 2026-11-06 |
+| L-014 | IID-3 | Content/input identity include the assessment timestamp | RESOLVED (2026-11-06, IID-5) | 2026-11-06 |
 | L-015 | IID-3 | Two chain heads for one scope are refused, never merged | OPEN | 2026-11-06 |
 | L-016 | IID-3 (observed) | NP-04 pin prose and manifest pins disagree; no pin changed by IID-3 | OPEN | 2026-11-06 |
 | L-017 | IID-4 | Portfolio context is a read-model snapshot, not a risk model | OPEN | 2026-11-06 |
@@ -66,6 +66,8 @@ responsible phase · evidence references · last status update.
 | L-025 | IID-4 | No disposition history beyond the chain; hysteresis needs a caller-supplied previous | OPEN | 2026-11-06 |
 | L-026 | IID-4 | L-010/L-012/L-013/L-014 apply unchanged to `hd:`/`hc:` chains | OPEN | 2026-11-06 |
 | L-027 | IID-4 | Count-based diversification band and correlation coefficients are not computed | OPEN | 2026-11-06 |
+| L-028 | IID-5 | Change intelligence covers two report types; cross-model attribution is `UNAVAILABLE` | OPEN | 2026-11-06 |
+| L-029 | IID-5 | Materiality thresholds are published defaults; change reports have no substantive grammar | OPEN | 2026-11-06 |
 
 ---
 
@@ -341,8 +343,8 @@ responsible phase · evidence references · last status update.
   recomputable from the stored bytes alone, which is what makes a post-hoc store edit detectable.
 - **Affected contracts:** `payloadDigest`, `inputDigest`, `UNCHANGED`/`INPUT_CHANGED_CONTENT_IDENTICAL` outcomes;
   the CLI's `--generated-at`; version counts.
-- **Status:** `OPEN (decision resolved 2026-11-06; implementation pending in IID-5)` — the semantics are decided, the
-  implementation has not begun, so by register rule 3 the status does not improve.
+- **Status:** `RESOLVED (2026-11-06, IID-5)` — implementation, acceptance tests and durable evidence are present, so
+  register rule 3 is satisfied (see *Evidence* and *Implementation* below).
 - **Downstream phases affected:** IID-4, IID-5 (scheduled refreshes), IID-6 (storage growth).
 - **Consequence for user-visible results:** a scheduled refresh that finds identical inputs still appends a version
   whose only difference is its timestamp. The history is not wrong, but it is larger than a content-only digest
@@ -359,10 +361,24 @@ responsible phase · evidence references · last status update.
   **substantive** and still mints a version. The decision is resolved; the implementation is IID-5's (nine obligations
   `O-1`…`O-9` and ten acceptance tests `AC-L14.1`…`AC-L14.10` in §8 of that document). Until IID-5 ships it and its
   tests pass, this entry stays `OPEN` and the behaviour described above stands unchanged.
+- **Implementation (2026-11-06, IID-5):** `substantiveIdentity.ts` (both grammars, closed exclusion lists, minimal
+  projection, both digests, both input projections, the O-9 member inventory); the record path in
+  `investmentArtifacts.ts` now decides versioning on substantive identity and reports `CLOCK_ONLY_UNCHANGED`; every
+  read recomputes and verifies both digests; pre-IID-5 versions are derived on read and labelled `DERIVED`, never
+  rewritten. `payloadDigest` and the engine `inputDigest` still cover the clock **by decision** — that is the
+  residue the decision preserves, not a remaining gap: the limitation's user-visible consequence (a refresh at a new
+  clock appends a version that says nothing new) no longer occurs.
+- **Evidence:** `IIPS_V3_IID5_HISTORICAL_CHANGE_INTELLIGENCE_2026-11-06.md` §5/§6 (O and AC matrices);
+  `evidence/integration/iid5-historical-change-intelligence-2026-11-06/` (test run, digests, demonstration);
+  `substantive-identity.test.ts` (reference digests `08ea8d4a…`, `34240407…`, both grammars, inventory);
+  `investment-artifacts.test.ts` ("reports INPUT_CHANGED_CONTENT_IDENTICAL…"); `disposition-records.test.ts`
+  ("a re-run at a new clock is NOT a new version"); `change/store.test.ts` (CLOCK_ONLY_UNCHANGED, append, integrity,
+  DERIVED).
 - **Owner / responsible phase:** IID-3 (composition contract) → IID-5.
 - **Last status update:** 2026-11-06 (IID-3) — opened; pinned by
   `assessment-composition.test.ts` ("moves when only the clock moves"). 2026-11-06 (L-014 decision closeout) — decision
   recorded, status qualified, **no status improvement**, no implementation change, IID-5 not started.
+  2026-11-06 (IID-5) — implementation shipped and tested; status `RESOLVED`.
 
 ### L-015 — Two chain heads for one scope are refused, never merged
 
@@ -708,3 +724,71 @@ The decision is a prerequisite for IID-5, not a beginning of it: the nine obliga
 tests (`AC-L14.1`…`AC-L14.10`) that would discharge `L-014` exist only as requirements, and none of them is
 implemented. Until they are implemented and passing, the behaviour recorded in §1 and in §7 of this register remains
 the behaviour of the system.
+
+---
+
+## 9. What IID-5 changed in this register (2026-11-06)
+
+**Closed.** `L-014` — `RESOLVED`. The decision's nine obligations (`O-1`…`O-9`) and ten acceptance tests
+(`AC-L14.1`…`AC-L14.10`) are implemented and passing; the implementation record is
+`IIPS_V3_IID5_HISTORICAL_CHANGE_INTELLIGENCE_2026-11-06.md`, and the evidence bundle is
+`evidence/integration/iid5-historical-change-intelligence-2026-11-06/`. Nothing about `L-014`'s *design* changed in
+this phase: `payloadDigest` is still SHA-256 over the stored canonical bytes and the engine `inputDigest` is still the
+engine's own digest. What changed is that version identity is now decided on the clock-free substantive projection, so
+the limitation's consequence is gone.
+
+**Opened.** Two entries, `L-028` and `L-029`, recording what change intelligence genuinely cannot do.
+
+**Not changed.** `L-001`–`L-013` and `L-015`–`L-027` are carried forward with their text, numbers and statuses
+intact. No entry was renumbered, merged or softened; `L-014`'s original description is byte-identical and the
+decision-closeout section (§8) is untouched.
+
+### L-028 — Change intelligence covers two report types; cross-model attribution is `UNAVAILABLE`
+
+- **Originating phase:** IID-5.
+- **Description:** historical comparison is implemented for `investment.company-assessment` and
+  `investment.holding-disposition`, the only two artifact types whose substantive grammars the L-014 decision
+  defines. A pair whose model or policy identity differs cannot be attributed: computing the 2×2 split needs the
+  OLD model run against the NEW data, and this repository holds exactly one build of the frozen engine
+  (`assessment-engine/1.0.0`). The comparison still reports every observed delta; only the *split* degrades, to
+  `UNAVAILABLE` / `UNATTRIBUTED` with a stated reason. No leg is estimated.
+- **Affected contracts:** `attribution.status`, `attribution.cause`, `attribution.legs.model`;
+  `reproduction.modelBuildDigest` / `platformCommit` (recorded as `null`).
+- **Status:** `OPEN`.
+- **Downstream phases affected:** IID-6 (a surface must render `UNAVAILABLE` as unavailable), and any future
+  model-version migration, which will produce version pairs nobody can attribute after the fact.
+- **Consequence for user-visible results:** a model or policy upgrade shows as a change whose cause is honestly
+  unknown. The report says "the model differed and cannot be re-executed here" rather than attributing the movement
+  to data.
+- **Required resolution / evidence:** durable, executable model builds (or recorded per-version model outputs at both
+  inputs) so legs A and B can be evaluated. Evidence today: `change/attribute.ts`;
+  `change/comparison.test.ts` ("degrades to UNAVAILABLE when the model or policy identity differs, and estimates no
+  leg").
+- **Responsible phase:** IID-5 (recording), IID-6 (presentation), platform (engine build retention).
+
+### L-029 — Materiality thresholds are published defaults; change reports have no substantive grammar
+
+- **Originating phase:** IID-5.
+- **Description:** two deliberate residues. (a) `materiality-policy/1.0.0`'s thresholds (for example ±5/±10/±25 %
+  relative, ±100/±200/±400 basis points, ±2/±5/±10 points of confidence) are design-published defaults, not
+  calibrated against realised outcomes; they are versioned and recorded in every report so a reader can disagree with
+  the policy rather than with a hidden constant, but the policy itself makes no claim to optimality. (b) The L-014
+  decision defines substantive grammars for assessments and dispositions only, so a change report's identity is its
+  bytes. Two boundary reports with the same input are byte-identical and idempotent; a change report cannot claim a
+  clock-free identity, and none is invented for it.
+- **Affected contracts:** `materiality-policy/1.0.0`; `change-comparator/1.0.0`; change-report `payloadDigest`
+  (byte identity); `investment.change-report` provenance (`substantive*` members absent).
+- **Status:** `OPEN`.
+- **Downstream phases affected:** IID-6 (a surface may want user-adjustable materiality), and any future calibration
+  work.
+- **Consequence for user-visible results:** a movement can be labelled `NOTABLE` where an operator would have called it
+  `IMMATERIAL`, and the reverse. The label is always accompanied by the policy version and the observed delta, so the
+  disagreement is auditable.
+- **Required resolution / evidence:** an outcome-calibrated materiality policy with its own decision record, and — if
+  change reports ever need clock-free identity — an extension of the L-014 grammar set. Evidence today:
+  `change/materiality.ts`; `change/comparison.test.ts` ("is a versioned policy with declared thresholds per mode",
+  "produces byte-identical content for the same pair").
+- **Responsible phase:** IID-5 (recording), IID-6 / future calibration.
+
+**Status of IID-6.** **IID-6 (product surface / ★M-3) — NOT STARTED.** No product UI, dashboard, chart or portfolio
+screen exists; IID-5 added two GET/HEAD read routes only, and no IID-6 component, route or view.
