@@ -1250,8 +1250,11 @@ recommendation; the payload still declares `decisionSupportOnly` and `noTradeExe
 - **Affected contracts / outputs:** `confidence.caps` and `confidence.combined` for every assessment whose rate or
   multiples are policy defaults — which, on this dataset, is all of them; `assumptions.discountRate.basis`;
   `assumptions.methodSpecific[*].multipleBasis`.
-- **Status:** `RESOLVED` (2026-11-06, VII) — **declaration resolved; the factor is a named policy decision, not an
-  implementation choice.** See §17.5 for what the resolution cost the payload grammar.
+- **Status:** `OPEN` (2026-11-06, VII — **mechanism prepared; the requirement is NOT satisfied**). The design's cap
+  still does not cap anything: `factor` is `null`, no penalty is applied, and `confidence.combined` is unchanged. What
+  VII added is the place to put the factor, the trigger detection, and a payload member that says so out loud. Closing
+  this entry needs the authorised policy decision below, which this work item does not have. See §17.5 for what the
+  mechanism cost the payload grammar.
 - **Downstream phases affected:** any consumer that treats `confidence.combined` as a proxy for valuation reliability;
   IID-6 display of confidence next to a published intrinsic value.
 - **Consequence for user-visible results:** the confidence of 0.6736 does **not** carry a penalty for the fact that the
@@ -1260,13 +1263,15 @@ recommendation; the payload still declares `decisionSupportOnly` and `noTradeExe
 - **Required resolution / evidence:** a policy decision on the cap's name and factor (it is a policy constant, not an
   implementation detail), the corresponding branch in `confidence.ts` and clause in the published formula, plus an
   acceptance test that pins the difference between an `OPERATOR_SET`/`WACC_DERIVED` rate and a `POLICY_DEFAULT` one.
-  **Not** taken here: this work item may not change a confidence cap or add a policy constant.
+  **Not** taken by Work Item 3, which wrote this entry: it may not change a confidence cap or add a policy constant.
+  *(VII's authorisation covers the declaration block and the trigger mechanism recorded below; it does **not** cover a
+  factor, which is why the status stays `OPEN`.)*
 - **Owner / responsible phase:** valuation and confidence policy.
 - **Evidence:** `docs/integration/IIPS_V3_IID_INVESTMENT_INTELLIGENCE_DESIGN_REFINEMENT_2026-11-05.md` lines 1631,
   1634; `iips-platform/src/investment/assessment/confidence.ts` (formula and cap list);
   `iips-platform/src/investment/assessment/policy.ts` lines 102–131; the payload's `assumptions` block in
   `evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/artifact/assessment-payload-wi3.json`.
-- **Resolution (VII, 2026-11-06):** `VALUATION_POLICY.policyDefaultAssumptionCaps` declares both caps the design names
+- **Disposition (VII, 2026-11-06) — mechanism only, status `OPEN`:** `VALUATION_POLICY.policyDefaultAssumptionCaps` declares both caps the design names
   (`POLICY_DEFAULT_WACC`, `POLICY_DEFAULT_MULTIPLE`) with `policyVersion: 'confidence-policy-defaults/1.0.0'` and
   **`factor: null`**; `confidence.assumptionCaps` publishes, per triggered cap, the basis, `applied: false`, the
   triggering `methodId`/`assumption` pairs and the reason `CAP_FACTOR_NOT_SET_IN_POLICY`; the published formula gains a
@@ -1280,10 +1285,16 @@ recommendation; the payload still declares `decisionSupportOnly` and `noTradeExe
   triggers both. Evidence: `evidence/real-issuer/VII-VALUATION-INTEGRITY-2026-11-06/` (`runs/05-verification.txt`,
   `artifact/payload-diff-vs-wi3.json`); `iips-platform/tests/investment/assessment-valuation-integrity.test.ts`;
   `frontend/server/investment/cli/valuationIntegrity.test.ts`.
-- **Still open inside this entry:** the cap's **magnitude** and whether an all-default assessment is capped once or once
-  per cap. `VALUATION_POLICY.policyDefaultAssumptionCaps.factor` is the single place it is set; doing so is a model
-  change (R-13) that moves the published confidence of every assessment and is **not** taken here.
-- **Last status update:** 2026-11-06 (opened); 2026-11-06 (VII — resolved as a declaration, factor left to policy).
+- **What remains open, exactly:** the cap's **magnitude** *and* whether an all-default assessment is capped once or
+  once per triggering assumption. Both are policy decisions, not implementation details: the design names the caps
+  (lines 585/930) and specifies no factor, and no authorised R-13 decision supplies one. `VALUATION_POLICY.
+  policyDefaultAssumptionCaps.factor` is the single place it would be set; setting it is a **model change** that moves
+  the published confidence of every assessment. Until that decision exists, the requirement of R-4.3 is **unmet**, the
+  payload says `CAP_FACTOR_NOT_SET_IN_POLICY`, and no cap may be described as applied.
+- **This work item does not:** invent a factor, select one from an adjacent cap, apply a cap to `confidence.ts`, or
+  describe the R-4.3 requirement as satisfied.
+- **Last status update:** 2026-11-06 (opened); 2026-11-06 (VII — mechanism prepared and declared in the payload;
+  **status stays `OPEN`**, pending an authorised R-13 policy decision).
 
 ### 17.2 L-035 — A nil declaration is documentary: the link from the quoted sentence to the component it fills is not machine-checked
 
@@ -1330,8 +1341,11 @@ recommendation; the payload still declares `decisionSupportOnly` and `noTradeExe
 - **Affected contracts / outputs:** `valuation.methods[DCF_FCFF|EV_EBITDA|EV_REVENUE].output.perShare*`,
   `valuation.intrinsic.perShare`, `valuation.marginOfSafety`; `fundamentals.capitalStructure.associatesAndJV`;
   `limitations`.
-- **Status:** `RESOLVED` (2026-11-06, VII) — the disclosure is carried through composition to the persisted payload.
-  The size of the understatement remains unquantified, which is a *dataset* limitation, not this one. See §17.5.
+- **Status:** `PARTIALLY RESOLVED` (2026-11-06, VII) — **the disclosure-propagation defect described above is
+  corrected**: the treatment now reaches the persisted payload, the per-share observations and `limitations[]`, with its
+  policy version. The **limitation itself is not closed**: the associates/JV carrying value is still unavailable in
+  dataset schema v1, so the bridge still substitutes zero and the potential understatement remains **unquantified**.
+  Closing the entry needs a carrying-value line item in the dataset, not a disclosure. See §17.5.
 - **Downstream phases affected:** every enterprise-value method on every issuer; IID-6 display of a per-share value
   whose inputs are claimed to be published.
 - **Consequence for user-visible results:** the intrinsic range is understated by any associates/JV carrying value the
@@ -1348,7 +1362,7 @@ recommendation; the payload still declares `decisionSupportOnly` and `noTradeExe
   `evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/artifact/assessment-payload-wi3.json`, where the strings
   "associates/JV carrying value" and "treated as zero by policy" occur **zero** times while
   `capitalStructure.associatesAndJV` is `NOT_COMPUTABLE / NOT_REPORTED`.
-- **Resolution (VII, 2026-11-06):** the treatment is now recorded where composition reads it.
+- **Disposition (VII, 2026-11-06) — `PARTIALLY RESOLVED`, disclosure only:** the treatment is now recorded where composition reads it.
   `VALUATION_POLICY.associatesTreatment` (`associates-treatment/1.0.0`, basis `CARRYING_VALUE`, `whenUnavailable:
   POLICY_ZERO`) is the single statement of the policy; `describeEquityBridge()` converts it into a
   `capitalStructure.equityBridge` block (`treatment`, `policyVersion`, `substitutedInputs[]`, `note`); `perShare()` now
@@ -1361,7 +1375,13 @@ recommendation; the payload still declares `decisionSupportOnly` and `noTradeExe
   `readVersionWithPayload`, not on the engine's object. Evidence: `evidence/real-issuer/VII-VALUATION-INTEGRITY-2026-11-06/`
   (`artifact/assessment-payload-vii.json`, `artifact/payload-diff-vs-wi3.json`); the same bundle's `numbersUnchanged`
   shows intrinsic, margin of safety and band byte-identical to Work Item 3.
-- **Last status update:** 2026-11-06 (opened); 2026-11-06 (VII — resolved at source; dataset gap unchanged).
+- **Residue that keeps this entry open:** `capitalStructure.associatesAndJV` remains
+  `NOT_COMPUTABLE: NOT_REPORTED` and `equityBridge.treatment` remains `POLICY_ZERO_UNAVAILABLE` on the published
+  payload, so equity value is still understated by an amount **nobody has quantified**, and the payload now says so
+  instead of holding a silent zero. The magnitude needs the issuer's non-current investment schedule, which dataset
+  schema v1 has no field for; that is an ingestion-schema change and is not in this work item's authority.
+- **Last status update:** 2026-11-06 (opened); 2026-11-06 (VII — disclosure-propagation defect corrected;
+  `PARTIALLY RESOLVED`, carrying value still unavailable).
 
 ### 17.4 What §17 does not change
 
@@ -1376,7 +1396,7 @@ recommendation; the payload still declares `decisionSupportOnly` and `noTradeExe
 | `L-030` (single-exchange price) | untouched: the price is the same single BSE record |
 | `L-031` (empty corporate-action table) | **untouched in status (`OPEN`), materially changed in effect**: a published margin of safety now assumes unverified share-base continuity from 2024-03-31 to 2026-11-06 |
 | `L-033` (freshness unit divergence) | untouched; **no effect** here — the price is 0 days old and inside both the 5-trading-day and 7-calendar-day readings |
-| `L-034`, `L-035` | added by this section and **not** fixed here: no confidence cap was introduced and no declaration grammar was changed. *(Superseded for `L-034` only by §17.5, which resolves it as a declaration without a factor; `L-035` remains `OPEN`.)* |
+| `L-034`, `L-035` | added by this section and **not** fixed here: no confidence cap was introduced and no declaration grammar was changed. *(Updated for `L-034` only by §17.5 and VII: the cap *mechanism* is now prepared and declared in the payload **without a factor**, so `L-034` remains `OPEN`; `L-035` also remains `OPEN`.)* |
 | D-2 (nil-by-disclosure, §14) | evidence limb **satisfied for this issuer**: the filing states the nil in words, and the declaration is quoted, hashed and referenced |
 | D-3 (reason-code precision, §13/§15) | untouched by code; its subject matter moved to `COMPLETE` / `PASSED` because the leverage input is no longer missing |
 | Margin of safety | **state changed to computed** — `INTRINSIC_WITHHELD` → `refusal: null`, band `FAIR`, −8.42 % vs mid |
@@ -1395,9 +1415,11 @@ Work Item 1, D-2, D-3 and Work Item 2 evidence bundles plus `evidence/iid` are b
 Evidence: `docs/integration/IIPS_V3_IID_WI3_BORROWINGS_NIL_2026-11-06.md` and
 `evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/`.
 
-### 17.5 What resolving L-034 and L-036 cost the payload grammar (2026-11-06, VII)
+### 17.5 What the L-034 and L-036 corrections cost the payload grammar (2026-11-06, VII)
 
-Both corrections add **semantic members** to `investment.company-assessment`, and that is not free: IID-5 pins the
+Both corrections — one of which (`L-036`) corrects a defect while leaving its limitation open, and the other of which
+(`L-034`) prepares a mechanism while leaving its requirement unmet — add **semantic members** to
+`investment.company-assessment`, and that is not free: IID-5 pins the
 payload's member inventory (O-9) and its reference digests (O-1) precisely so that payload evolution cannot happen
 silently. The evolution is taken openly here, in the shape the D-3 precedent established.
 
@@ -1419,6 +1441,10 @@ before.
 
 This is the same cost D-3 paid when `risk.evaluation` was added, and the same answer: a grammar decision, a
 reconstruction proof, and constants that state the new values instead of reading them back from the implementation.
+
+**Statuses after §17.5:** `L-036` is `PARTIALLY RESOLVED` (disclosure-propagation defect corrected; carrying value
+still unavailable, understatement unquantified) and `L-034` is `OPEN` (mechanism prepared; cap factor undecided, no
+penalty applied). Neither entry is closed, and neither is described as satisfied.
 
 **Not changed by §17.5:** `L-035` (still `OPEN`), `L-031`, `L-033`, every other limitation, every stored artifact, and
 every payload digest other than the one this work item newly published.

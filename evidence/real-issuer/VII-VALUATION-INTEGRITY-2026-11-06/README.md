@@ -2,8 +2,9 @@
 
 **Issuer:** Infosys Limited · CIN `L85110KA1981PLC013115` · ISIN `INE009A01021` (the only real issuer in scope).
 **Baseline:** `origin/main` at `accf9c1055d5aa301ecae93f075f8c4c9676ca7e`; the Work Item 3 payload `83644bc6…`.
-**Limitations closed:** `L-036` (associates/JV policy zero never stated) and `L-034` (policy-default confidence cap required by
-the design and never implemented).
+**Limitations addressed — neither is closed:** `L-036` is `PARTIALLY RESOLVED` (the disclosure-propagation defect is
+corrected; the carrying value is still unavailable and the understatement unquantified) and `L-034` stays **`OPEN`**
+(the cap mechanism is prepared and declared, the factor is undecided, no penalty is applied).
 **Question:** the published intrinsic value rests on two things a reader cannot see — a zero substituted for the
 associates/JV term, and a confidence figure with no penalty for being a policy-default value. Can both be corrected
 without moving a single number?
@@ -16,7 +17,7 @@ without moving a single number?
 | Question | Work Item 3 | Now |
 |---|---|---|
 | Associates/JV treatment stated in the payload? | **no** — `NOT_COMPUTABLE: NOT_REPORTED`, nothing said about the bridge | **yes** — `capitalStructure.equityBridge` + the sentence on every enterprise-derived per-share figure + a `limitations` line |
-| Policy-default cap implemented? | **no** — six unrelated caps, no policy-default penalty | **declared, not applied** — `confidence.assumptionCaps` names both caps, the trigger and `CAP_FACTOR_NOT_SET_IN_POLICY` |
+| Policy-default cap | **no mechanism, no declaration** — six unrelated caps, no policy-default penalty | **mechanism prepared, requirement still unmet** (`L-034` `OPEN`) — `confidence.assumptionCaps` names both caps, the trigger and `CAP_FACTOR_NOT_SET_IN_POLICY`; no cap is applied |
 | Intrinsic / MoS / band / confidence | 875.3394 / 1088.9723 / 1399.8105 · −8.4187 % · `FAIR` · 0.6736 | **identical** |
 | Payload digest | `83644bc6…` | `6a328ef0…` (moved by disclosure only; the WI-3 digest is preserved, not overwritten) |
 | Verdict published? | no | **no — decision support only; no unconditional valuation or investment claim** |
@@ -109,10 +110,14 @@ On this dataset both caps trigger: the WACC is the policy rate (Rf 6.9 %, ERP 5.
 10.677961 %) and both multiples are flagged `POLICY_DEFAULT`. They are declared and not applied, so `combined` stays
 `0.6736` and `caps` stays `['STALE_DATA', 'DILUTION_PROXY']`.
 
-**The single unresolved decision, stated exactly.** The *factor* (and whether an all-default assessment should be capped
-once or once per cap) is not in the design of record. `VALUATION_POLICY.policyDefaultAssumptionCaps.factor` is the one
-place it would be set; setting it is a **model change** (R-13) that moves every published confidence figure, so it is
-not taken here. Until it is set, the payload says so in words a reader cannot mistake for a penalty.
+**The single unresolved decision, stated exactly — and why `L-034` stays `OPEN`.** The *factor* (and whether an
+all-default assessment should be capped once or once per triggering assumption) is not in the design of record.
+`VALUATION_POLICY.policyDefaultAssumptionCaps.factor` is the one place it would be set; setting it is a **model change**
+(R-13) that moves every published confidence figure, so it is not taken here and no factor was selected from an adjacent
+cap. The mechanism is prepared — trigger detection, the application branch behind `factor !== null`, and the payload
+member that states the gap — but **the R-4.3 requirement is not satisfied**, and this work item does not describe it as
+satisfied. Until the authorised decision exists, the payload says `CAP_FACTOR_NOT_SET_IN_POLICY` in words a reader cannot
+mistake for a penalty.
 
 ## 4. Combined regression on the committed Work Item 3 inputs (deliverable 4)
 
@@ -200,19 +205,24 @@ happened.
 | **AC-034.2** no invented cap value | `policyDefaultAssumptionCaps.factor === null` asserted; `applied: false` and `CAP_FACTOR_NOT_SET_IN_POLICY` asserted |
 | **AC-034.3** non-triggering behaviour preserved; existing penalties not weakened | `assessment-valuation-integrity.test.ts` → *policy carries no factor…*, *existing penalties are untouched…*, *an operator-supplied discount rate keeps the WACC trigger off* |
 | **AC-034.4** deterministic and testable; triggering assumptions documented | *when policy does set a factor the same path applies it* (0.9 × 0.9, exact) and *the engine detects the trigger from the assumptions the methods publish* |
-| **AC-034.5** the Infosys default configuration | `valuationIntegrity.test.ts` → the stored payload declares both caps for `DCF_FCFF/discountRate`, `PE_RELATIVE/targetMultiple`, `EV_EBITDA/targetMultiple` and applies none |
+| **AC-034.5** the Infosys default configuration | `valuationIntegrity.test.ts` → the stored payload declares both caps for `DCF_FCFF/discountRate`, `PE_RELATIVE/targetMultiple`, `EV_EBITDA/targetMultiple` and applies none. **The *requirement* of R-4.3 is not thereby satisfied** — `L-034` stays `OPEN` (§8) |
 | **AC-C.1** every changed path attributed | `payload-diff-vs-wi3.json`: six paths, five causes, `unattributedPathCount: 0` |
 | **AC-C.2** no intrinsic output moved | `numbersUnchanged` — intrinsic, MoS, band, confidence, net debt, completeness |
 | **AC-C.3** each fix verified separately, then together | §4; separate unit suites, then the combined run |
 | **AC-C.4** historical artifacts preserved | §5: WI-3 digest, IID evidence, D-2/D-3, `L-001`…`L-035`; `undoDisclosure` reproduces the earlier payloads byte for byte |
 | **AC-C.5** no verdict manufactured | §4; token assertion on the stored payload |
 
-## 8. The one decision this work item cannot take (deliverable 8)
+## 8. What this work item does not close (deliverable 8)
 
-**Unresolved:** the magnitude of the R-4.3 policy-default cap — and whether an assessment whose rate *and* multiples are
-policy defaults is capped once or once per cap. The design of record names the caps and specifies no factor. It is
-recorded in `VALUATION_POLICY.policyDefaultAssumptionCaps.factor` (`null` today), and setting it is a model change that
-moves the published confidence of every assessment. Everything supportable without that decision is done and tested.
+| Entry | Status after this work item | Why it is not closed |
+|---|---|---|
+| `L-036` | **`PARTIALLY RESOLVED`** | the disclosure-propagation defect is corrected and tested on the stored payload; the associates/JV **carrying value is still unavailable** in dataset schema v1, the bridge still substitutes zero, and the understatement stays **unquantified** |
+| `L-034` | **`OPEN`** | the cap **mechanism** is prepared (trigger detection, application branch behind `factor !== null`, payload declaration) but the **factor is undecided** and **no penalty is applied**; R-4.3's requirement is unmet until an authorised R-13 policy decision supplies magnitude and granularity |
+
+Two decisions this work item cannot take: the cap's **magnitude** and whether an all-policy-default assessment is capped
+**once or once per triggering assumption**; and, for `L-036`, the carrying value itself, which needs a dataset schema
+change (ingestion), not a disclosure. Everything supportable without those decisions is implemented and tested, and
+nothing is described as satisfied.
 
 ## 9. Files in this bundle
 

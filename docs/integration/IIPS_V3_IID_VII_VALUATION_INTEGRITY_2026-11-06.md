@@ -4,7 +4,14 @@
 scope. **Baseline:** `origin/main` @ `accf9c1055d5aa301ecae93f075f8c4c9676ca7e`; Work Item 3 payload `83644bc6…`.
 **Evidence:** `evidence/real-issuer/VII-VALUATION-INTEGRITY-2026-11-06/` (payload read back from the store, attributed
 diff, run transcripts, verification log).
-**Register:** §17.1 and §17.3 change status; §17.5 records the payload-grammar cost.
+**Register:** §17.3 moves to `PARTIALLY RESOLVED`; §17.1 **stays `OPEN`**; §17.5 records the payload-grammar cost.
+
+| Entry | Status after VII | What that means |
+|---|---|---|
+| `L-036` | `PARTIALLY RESOLVED` | the **disclosure-propagation defect is corrected** and tested on the stored payload. The limitation itself stands: the associates/JV carrying value is still unavailable in dataset schema v1, the bridge still substitutes zero, and the understatement is **unquantified** |
+| `L-034` | `OPEN` | the cap **mechanism is prepared** (trigger detection, application branch behind `factor !== null`, payload declaration with `CAP_FACTOR_NOT_SET_IN_POLICY`) but **awaits an authorised R-13 policy decision**: the factor's magnitude and whether the cap applies once or once per triggering assumption. No penalty is applied and none is described as applied |
+
+Neither entry is closed, and this document does not claim that the R-4.3 requirement is satisfied.
 
 ## 1. Two defects, two shapes
 
@@ -45,9 +52,11 @@ byte for byte by reconstruction (`preD3(undoDisclosure(…))` → the L-014 publ
 
 ## 5. What remains open
 
-- **The cap factor.** R-4.3 requires a cap and states no magnitude; the register already called it a policy decision.
-  `VALUATION_POLICY.policyDefaultAssumptionCaps.factor` is the single place to set it. Setting it is a **model change**
-  (R-13) that moves every published confidence figure, and it was not guessed here.
+- **`L-034` — the cap factor.** R-4.3 requires a cap and states no magnitude; the register already called it a policy
+  decision. `VALUATION_POLICY.policyDefaultAssumptionCaps.factor` is the single place to set it. Setting it is a **model
+  change** (R-13) that moves every published confidence figure, and it was not guessed here. The same decision must say
+  whether an all-default assessment is capped once or once per triggering assumption. **The implementation mechanism is
+  prepared and tested; the requirement remains unmet until that decision is authorised.**
 - **The size of the associates/JV understatement.** Unquantified, because dataset schema v1 has no field for a carrying
   value; the payload now says so instead of holding a silent zero.
 - `L-035` and every other limitation are untouched.
