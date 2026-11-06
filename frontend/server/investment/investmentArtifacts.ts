@@ -51,6 +51,14 @@ import {
 import type { ComposedAssessment } from './assessmentComposition.js';
 import { ASSESSMENT_REPORT_TYPE, isDigest } from './assessmentComposition.js';
 import {
+  PROVENANCE_SUBSTANTIVE_DIGEST,
+  PROVENANCE_SUBSTANTIVE_GRAMMAR,
+  PROVENANCE_SUBSTANTIVE_INPUT_DIGEST,
+  substantiveDigestOfCanonical,
+  substantiveGrammarFor,
+  type SubstantiveReportType,
+} from './substantiveIdentity.js';
+import {
   assertScopeToken,
   validateReportTypeForScope,
   validateScopeToken,
@@ -125,6 +133,13 @@ export const RECORD_OUTCOMES = Object.freeze([
   'UNCHANGED',
   /** Inputs changed but content identity is identical: nothing was written, and that is recorded. */
   'INPUT_CHANGED_CONTENT_IDENTICAL',
+  /**
+   * IID-5 / L-014: the payload bytes moved but the SUBSTANTIVE identity did not, so nothing was written.
+   *
+   * This is the outcome the decision exists to create. The clock is inside the stored payload but outside
+   * substantive identity, so a re-run at a new clock lands here instead of appending an empty version.
+   */
+  'CLOCK_ONLY_UNCHANGED',
 ] as const);
 
 export type RecordOutcome = (typeof RECORD_OUTCOMES)[number];
@@ -139,6 +154,22 @@ export interface InvestmentVersionView {
   readonly payloadDigest: string;
   /** The engine's input digest, as recorded in provenance at write time. */
   readonly inputDigest: string;
+  /**
+   * IID-5 / L-014 substantive identity of this version, RECOMPUTED on this read from the stored bytes.
+   *
+   * `null` for a report type that has no substantive grammar (change reports). `substantiveDigestSource`
+   * says whether the value was persisted at write time (`RECORDED`), derived now for a version written
+   * before the L-014 implementation (`DERIVED`), or not applicable.
+   */
+  readonly substantiveDigest: string | null;
+  /**
+   * The clock-free input identity, when the writer recorded one. `null` for versions written before the
+   * implementation: it is NOT reconstructed, because an input digest cannot be derived from an output
+   * payload with certainty — only the substantive output digest can (decision §7).
+   */
+  readonly substantiveInputDigest: string | null;
+  readonly substantiveIdentityGrammar: string | null;
+  readonly substantiveDigestSource: 'RECORDED' | 'DERIVED' | 'NOT_APPLICABLE';
   readonly dataAsOf: string;
   readonly knownAsOf: string;
   readonly datasetVersion: string;
@@ -168,6 +199,10 @@ export interface InvestmentChainView {
 
 export interface RecordResult {
   readonly outcome: RecordOutcome;
+  /** The substantive identity of the submitted content, when the report type has a grammar. */
+  readonly substantiveDigest?: string | null;
+  /** For `CLOCK_ONLY_UNCHANGED`: the payload bytes that were NOT written, because only metadata moved. */
+  readonly unpersistedPayloadDigest?: string;
   readonly reportType: string;
   readonly scopeToken: string;
   readonly reportKey: string;
@@ -258,6 +293,7 @@ function versionViewOf(artifact: CanonicalReportArtifact): InvestmentVersionView
     });
   }
   const confidence = artifact.provenance.confidence;
+  const substantive = substantiveViewOf(artifact);
   return {
     reportId: artifact.reportId,
     artifactVersion: artifact.artifactVersion,
@@ -266,6 +302,10 @@ function versionViewOf(artifact: CanonicalReportArtifact): InvestmentVersionView
     reportKey: artifact.reportKey,
     payloadDigest: computed,
     inputDigest,
+    substantiveDigest: substantive.digest,
+    substantiveInputDigest: substantive.inputDigest,
+    substantiveIdentityGrammar: substantive.grammar,
+    substantiveDigestSource: substantive.source,
     dataAsOf: provenanceString(artifact, 'dataAsOf'),
     knownAsOf: provenanceString(artifact, 'knownAsOf'),
     datasetVersion: provenanceString(artifact, 'datasetVersion'),
@@ -280,6 +320,67 @@ function versionViewOf(artifact: CanonicalReportArtifact): InvestmentVersionView
       typeof artifact.provenance.limitationCount === 'number' ? artifact.provenance.limitationCount : 0,
     datasetClass: provenanceString(artifact, 'datasetClass'),
   };
+}
+
+/**
+ * The input identity to compare for idempotency: the writer's clock-free digest when one was recorded, and the
+ * engine's `inputDigest` otherwise. Falling back rather than inventing keeps historical chains comparable with
+ * themselves without pretending they recorded something they did not.
+ */
+function substantiveInputOf(provenance: Readonly<Record<string, unknown>>, fallback: string): string {
+  const recorded = provenance[PROVENANCE_SUBSTANTIVE_INPUT_DIGEST];
+  return typeof recorded === 'string' && isDigest(recorded) ? recorded : fallback;
+}
+
+/**
+ * The substantive view of one stored artifact, with read-time verification (O-6).
+ *
+ * Three cases, and the third is deliberate:
+ *
+ *   · the writer recorded a digest and it recomputes → `RECORDED`;
+ *   · the writer recorded nothing (an IID-3/IID-4 version) → `DERIVED`, labelled as such, never persisted;
+ *   · the writer recorded a digest and it does NOT recompute → `CONTENT_DIGEST_MISMATCH`, and the read fails.
+ *
+ * A version whose canonical bytes no longer hash to what was recorded is not a version that had a bad day:
+ * it is one whose meaning cannot be established, and every comparison that touched it would be a guess.
+ */
+function substantiveViewOf(artifact: CanonicalReportArtifact): {
+  readonly digest: string | null;
+  readonly inputDigest: string | null;
+  readonly grammar: string | null;
+  readonly source: InvestmentVersionView['substantiveDigestSource'];
+} {
+  let grammar: string | null;
+  try {
+    grammar = substantiveGrammarFor(artifact.reportType);
+  } catch {
+    return { digest: null, inputDigest: null, grammar: null, source: 'NOT_APPLICABLE' };
+  }
+  const recordedGrammar = artifact.provenance[PROVENANCE_SUBSTANTIVE_GRAMMAR];
+  if (recordedGrammar !== undefined && recordedGrammar !== grammar) {
+    throw new InvestmentArtifactError('CONTENT_DIGEST_MISMATCH', 'recorded substantive grammar is not the grammar for this report type', {
+      reportId: artifact.reportId,
+      recorded: recordedGrammar,
+      expected: grammar,
+    });
+  }
+  const computed = substantiveDigestOfCanonical(artifact.reportType as SubstantiveReportType, artifact.canonicalPayload);
+  const recorded = artifact.provenance[PROVENANCE_SUBSTANTIVE_DIGEST];
+  let source: InvestmentVersionView['substantiveDigestSource'];
+  if (recorded === undefined) {
+    source = 'DERIVED';
+  } else if (typeof recorded !== 'string' || recorded !== computed) {
+    throw new InvestmentArtifactError(
+      'CONTENT_DIGEST_MISMATCH',
+      'stored payload does not match the substantiveDigest recorded at write time',
+      { reportId: artifact.reportId, declared: recorded, computed },
+    );
+  } else {
+    source = 'RECORDED';
+  }
+  const recordedInput = artifact.provenance[PROVENANCE_SUBSTANTIVE_INPUT_DIGEST];
+  const inputDigest = typeof recordedInput === 'string' && isDigest(recordedInput) ? recordedInput : null;
+  return { digest: computed, inputDigest, grammar, source };
 }
 
 function chainViewOf(scopeToken: string, reportType: string, ascending: readonly CanonicalReportArtifact[]): InvestmentChainView {
@@ -481,10 +582,33 @@ export class InvestmentArtifactService {
     const head = existing[existing.length - 1]!;
     const headView = chain.head;
 
-    // --- idempotency: identical content writes nothing -----------------------------------------
-    if (headView.payloadDigest === submission.payloadDigest) {
-      const outcome: RecordOutcome =
-        headView.inputDigest === submission.inputDigest ? 'UNCHANGED' : 'INPUT_CHANGED_CONTENT_IDENTICAL';
+    // --- idempotency: identical MEANING writes nothing (IID-5 / O-2, O-3) ----------------------
+    //
+    // Before L-014 this branch compared payload bytes, so a re-run at a new clock — or with a restated
+    // knownAsOf — appended a version that said nothing new. Identity is now substantive: the head's digest
+    // and the submission's digest are both computed from the MINIMAL projection that excludes the clock and
+    // the other declared metadata members, so a difference in those members cannot create a version.
+    //
+    // Report types without a grammar (change reports) keep byte identity: they are derived commentary, and
+    // their bytes are their identity.
+    const submittedSubstantive = this.substantiveDigestOf(reportType, submission.content.canonicalPayload);
+    const headSubstantive = headView.substantiveDigest;
+    const sameSubstantive =
+      submittedSubstantive !== null && headSubstantive !== null
+        ? submittedSubstantive === headSubstantive
+        : headView.payloadDigest === submission.payloadDigest;
+
+    if (sameSubstantive) {
+      const submittedInput = substantiveInputOf(submission.content.provenance, submission.inputDigest);
+      const headInput = headView.substantiveInputDigest ?? headView.inputDigest;
+      const bytesIdentical = headView.payloadDigest === submission.payloadDigest;
+      let outcome: RecordOutcome;
+      if (bytesIdentical) {
+        outcome = headInput === submittedInput ? 'UNCHANGED' : 'INPUT_CHANGED_CONTENT_IDENTICAL';
+      } else {
+        // The bytes moved but the meaning did not. This is the clock-only case the decision exists for.
+        outcome = 'CLOCK_ONLY_UNCHANGED';
+      }
       return {
         outcome,
         reportType,
@@ -494,9 +618,11 @@ export class InvestmentArtifactService {
         head: headView,
         written: null,
         chain,
+        substantiveDigest: submittedSubstantive,
         ...(outcome === 'INPUT_CHANGED_CONTENT_IDENTICAL'
           ? { unpersistedInputDigest: submission.inputDigest }
           : {}),
+        ...(outcome === 'CLOCK_ONLY_UNCHANGED' ? { unpersistedPayloadDigest: submission.payloadDigest } : {}),
       };
     }
 
@@ -518,7 +644,33 @@ export class InvestmentArtifactService {
       head: verified.head,
       written: versionViewOf(appended),
       chain: verified,
+      substantiveDigest: submittedSubstantive,
     };
+  }
+
+  /**
+   * Record a composed CHANGE REPORT (IID-5).
+   *
+   * Boundary reports live on the `icr:` chain reserved for them by the closed registry, and go through the
+   * same validation, chain lookup, idempotency and read-back verification as every other investment artifact.
+   * There is no separate store, no side table and no reconciliation journal: the chain IS the journal.
+   */
+  recordChangeReport(composed: ComposableSubmission): RecordResult {
+    return this.recordComposed(composed, ['INVESTMENT_CHANGE_REPORT'], 'a composed change report is required');
+  }
+
+  /**
+   * The substantive digest of a canonical payload, or `null` when the report type has no grammar.
+   */
+  private substantiveDigestOf(reportType: string, canonicalPayload: string): string | null {
+    let grammar: string | null;
+    try {
+      grammar = substantiveGrammarFor(reportType);
+    } catch {
+      return null;
+    }
+    if (grammar === null) return null;
+    return substantiveDigestOfCanonical(reportType as SubstantiveReportType, canonicalPayload);
   }
 
   /**
@@ -534,6 +686,36 @@ export class InvestmentArtifactService {
       throw new InvestmentArtifactError('CHAIN_NOT_FOUND', 'no artifact chain exists for this scope', { scopeToken });
     }
     return this.validatedChainFrom(scopeToken, reportType, artifacts);
+  }
+
+  /**
+   * Read a whole chain AND every version's canonical payload, from a SINGLE chain read.
+   *
+   * IID-5 compares successive versions, so it needs payloads, not just views. Reading them here — from the
+   * same validated chain read that produced the views, and asserting each payload still hashes to its view's
+   * digest — means a comparison can never be built from a payload that belongs to a different read.
+   */
+  readChainWithPayloads(
+    scopeToken: string,
+    reportType: string = ASSESSMENT_REPORT_TYPE,
+  ): { readonly chain: InvestmentChainView; readonly payloads: ReadonlyMap<string, string> } {
+    this.assertScope(scopeToken, reportType);
+    const artifacts = this.findChainArtifacts(scopeToken, reportType);
+    if (artifacts.length === 0) {
+      throw new InvestmentArtifactError('CHAIN_NOT_FOUND', 'no artifact chain exists for this scope', { scopeToken });
+    }
+    const chain = this.validatedChainFrom(scopeToken, reportType, artifacts);
+    const payloads = new Map<string, string>();
+    for (const artifact of artifacts) {
+      payloads.set(artifact.reportId, artifact.canonicalPayload);
+      const view = chain.versions.find((version) => version.reportId === artifact.reportId);
+      if (view === undefined || storedPayloadDigest(artifact) !== view.payloadDigest) {
+        throw new InvestmentArtifactError('CONTENT_DIGEST_MISMATCH', 'chain payload does not match its version view', {
+          reportId: artifact.reportId,
+        });
+      }
+    }
+    return { chain, payloads };
   }
 
   /**
@@ -687,6 +869,37 @@ export class InvestmentArtifactService {
     }
     if (!isDigest(composed.inputDigest)) {
       throw new InvestmentArtifactError('CONTENT_INVALID', 'inputDigest must be a SHA-256 hex digest');
+    }
+    // O-6 on the WRITE path, before the store is touched: a submission that declares a substantive identity its
+    // own payload does not have is refused here rather than discovered at read-back (or, worse, served later).
+    let expectedGrammar: string | null = null;
+    try {
+      expectedGrammar = substantiveGrammarFor(content.reportType);
+    } catch {
+      expectedGrammar = null;
+    }
+    if (expectedGrammar !== null) {
+      const declaredGrammar = content.provenance[PROVENANCE_SUBSTANTIVE_GRAMMAR];
+      if (declaredGrammar !== undefined && declaredGrammar !== expectedGrammar) {
+        throw new InvestmentArtifactError('CONTENT_DIGEST_MISMATCH', 'declared substantiveIdentityGrammar does not match the report type', {
+          declared: declaredGrammar,
+          expected: expectedGrammar,
+        });
+      }
+      const declaredSubstantive = content.provenance[PROVENANCE_SUBSTANTIVE_DIGEST];
+      if (declaredSubstantive !== undefined) {
+        const computedSubstantive = substantiveDigestOfCanonical(
+          content.reportType as SubstantiveReportType,
+          content.canonicalPayload,
+        );
+        if (declaredSubstantive !== computedSubstantive) {
+          throw new InvestmentArtifactError(
+            'CONTENT_DIGEST_MISMATCH',
+            'declared substantiveDigest does not describe the submitted payload',
+            { declared: declaredSubstantive, computed: computedSubstantive },
+          );
+        }
+      }
     }
     try {
       validateArtifact(

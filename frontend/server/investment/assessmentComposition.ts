@@ -44,6 +44,16 @@ import {
 } from '../reports/artifact.js';
 import { canonicalizePayload, type CanonicalParameterValue } from '../reports/canonical.js';
 import { composeReportContent } from '../reports/composition.js';
+import {
+  ASSESSMENT_SUBSTANTIVE_GRAMMAR,
+  PROVENANCE_SUBSTANTIVE_DIGEST,
+  PROVENANCE_SUBSTANTIVE_GRAMMAR,
+  PROVENANCE_SUBSTANTIVE_INPUT_DIGEST,
+  PROVENANCE_SUBSTANTIVE_POLICY,
+  SUBSTANTIVE_IDENTITY_POLICY,
+  assessmentSubstantiveInputDigest,
+  substantiveDigestOfPayload,
+} from './substantiveIdentity.js';
 
 /** The one report type this module composes. The registry is the authority; this is the binding. */
 export const ASSESSMENT_REPORT_TYPE = 'investment.company-assessment' as const;
@@ -278,6 +288,13 @@ export function composeAssessmentArtifact(input: ComposeAssessmentInput): Compos
     // recording them cannot disturb `reportKey`.
     inputDigest,
     payloadDigest,
+    // IID-5 / L-014. `payloadDigest` above is untouched: it remains the byte identity of this version and the
+    // key the existing `UNCHANGED` path uses. The substantive identity is a SECOND, clock-free identity recorded
+    // alongside it, so a reader can always tell "same bytes" from "same investment meaning".
+    [PROVENANCE_SUBSTANTIVE_DIGEST]: substantiveDigestOfPayload(ASSESSMENT_REPORT_TYPE, payload),
+    [PROVENANCE_SUBSTANTIVE_INPUT_DIGEST]: assessmentSubstantiveInputDigest(payload),
+    [PROVENANCE_SUBSTANTIVE_GRAMMAR]: ASSESSMENT_SUBSTANTIVE_GRAMMAR,
+    [PROVENANCE_SUBSTANTIVE_POLICY]: SUBSTANTIVE_IDENTITY_POLICY,
   };
 
   const content = composeReportContent({

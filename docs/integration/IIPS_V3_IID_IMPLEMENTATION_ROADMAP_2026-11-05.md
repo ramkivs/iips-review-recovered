@@ -1208,3 +1208,35 @@ persistence, the holdings lane (A-5/A-6/A-7, D01–D06, Gate 4) is untouched, `L
 changed, and `L-016`'s discrepancy is still explicit. The eleven further entries (`L-017`–`L-027`) record what IID-4
 cannot do; they add to the register and replace nothing in it.
 
+### B.N. IID-5 — historical change intelligence implemented (`2026-11-06`; implementation record)
+
+This overlay is append-only. §B.L is preserved verbatim; the sentence in it that reads *"IID-5 … NOT STARTED"* is
+superseded for **IID-5 only**, and **IID-6 remains NOT STARTED**. The implementation record is
+`IIPS_V3_IID5_HISTORICAL_CHANGE_INTELLIGENCE_2026-11-06.md`; the evidence bundle is
+`evidence/integration/iid5-historical-change-intelligence-2026-11-06/`.
+
+**Baseline.** `ffb80ce` (PR #478 merge on `main`). The phase was built directly on it; no dependency pin, no IPD
+source file, no frozen engine file and no historical artifact was modified.
+
+**What exists now.** A clock-free substantive identity for assessments and dispositions (both closed grammars from
+the L-014 decision, plus the O-9 member inventory); versioning decided on that identity, so a clock-only re-run
+returns `CLOCK_ONLY_UNCHANGED` and writes nothing while `payloadDigest` keeps its byte-integrity job unchanged; a
+declared semantic dimension map with eight categories; `materiality-policy/1.0.0`; a 2×2 attribution that degrades to
+`UNAVAILABLE` rather than estimating; read-time reproduction of both digests from stored bytes; a closed review-trigger
+set expressed as questions; durable boundary reports on the pre-existing `icr:` scope via the existing record path;
+coverage and reconciliation over consecutive pairs; and two GET/HEAD read routes.
+
+**What it does not do.** No IID-6 surface, no new persistence, no rewritten history, no re-executed old model, no
+trading or order concept, no invented model build identity for historical versions. `L-001`–`L-013` and
+`L-015`–`L-027` are untouched; `L-014` is `RESOLVED`; `L-028` and `L-029` record what change intelligence cannot do.
+
+**Verified.** `tsc -p tsconfig.investment-server.json --noEmit` clean; `vitest run server/investment` **189 passed /
+13 files**, of which **77 are new IID-5 tests**. The L-014 reference digests (`08ea8d4a…`, `34240407…`) reproduce
+exactly as constants. Two legacy assertions were updated rather than worked around, because the decision changed the
+behaviour they pinned: the IID-4 "a re-run at a new clock appends" test now asserts `CLOCK_ONLY_UNCHANGED`, and the
+`INPUT_CHANGED_CONTENT_IDENTICAL` fixture now moves the substantive input identity.
+
+**Not delivered, unchanged.** M-2 as a *scheduled* capability is delivered only as an on-demand read plus an
+operator-invoked reconciliation; no scheduler exists. R-16 remains 3/13 synthetic sectors; no real issuer has been
+assessed, dispositioned or compared. The holdings lane (A-5/A-6/A-7, D01–D06, Gate 4) is untouched, and IID
+persistence still confers no holdings-write credential.

@@ -1,0 +1,56 @@
+{
+  "recordId": "IIPS-V3-IID5-HISTORICAL-CHANGE-INTELLIGENCE",
+  "date": "2026-11-06",
+  "startingCommit": "ffb80ce",
+  "grammars": {
+    "assessment": "assessment-substantive-identity/1",
+    "disposition": "disposition-substantive-identity/1",
+    "policy": "substantive-identity-policy/1.0.0",
+    "materiality": "materiality-policy/1.0.0",
+    "comparator": "change-comparator/1.0.0"
+  },
+  "exclusions": {
+    "assessment": [
+      "artifact.generatedAt",
+      "asOf.generatedAt",
+      "asOf.stalenessDays",
+      "subject.identity.bindingRef"
+    ],
+    "disposition": [
+      "artifact.generatedAt",
+      "companyAssessmentRef.generatedAt",
+      "review.nextReviewOn (only when null)"
+    ]
+  },
+  "referenceDigests": {
+    "note": "C1/C4/C5 are the L-014 decision's published reference digests and are asserted as constants in substantive-identity.test.ts. 'derived' values are the two input identities IID-5 records in provenance.",
+    "C1_assessment_m1_baseline": "08ea8d4ae1732b5a23de17017aad07cd006ba4d8dcf9f4abc032d016ee3f10e1",
+    "C4_assessment_m1_later_clock": "08ea8d4ae1732b5a23de17017aad07cd006ba4d8dcf9f4abc032d016ee3f10e1",
+    "C5_assessment_m1_dataset_v2": "34240407c627d631e2166d0ce4c209d7ee119a17e9593d3b62cc54afdf1a5346",
+    "derived_assessment_input_baseline": "bea2c9b878f339ea87bef259cac6ae6f816dfbd181b28d910add354d1d384460",
+    "derived_assessment_input_dataset_v2": "e2f4af330b5c9e8b25ee72323ac31f44562825df14495536c5ed83996f843039",
+    "disposition_m1_held": "1bfae1598c3b6962213a37b61f11bc54a32ced392b42a85ba0e33461c119a452",
+    "derived_disposition_input": "ce61a6a4c70e9a7dd4a4a75b1df8c3c7451810ce55bd0044e98eb80837ae280c",
+    "byteDigest_assessment_m1_baseline_for_comparison": "356614f37ba607ceff82024bc871dbdf04349140619fd1ca47474fc9a79d8210"
+  },
+  "behaviourProved": {
+    "clockOnlyRerun": "CLOCK_ONLY_UNCHANGED (wrote=false, versionCount unchanged)",
+    "substantiveChange": "APPENDED to the same chain, same reportKey",
+    "serialisationOnly": "zero items, GENERATION_METADATA_ONLY",
+    "freshnessCrossing": "FRESHNESS_TRANSITION, MATERIAL, WORSENED",
+    "attributionSameModel": "EXACT / DATA, modelEffect 0, additivityResidual 0",
+    "attributionDifferentModel": "UNAVAILABLE / UNATTRIBUTED, no estimated leg",
+    "legacyVersion": "DERIVED, stored row still contains no substantive digest",
+    "tamperedBytes": "read and comparison both refuse (CONTENT_DIGEST_MISMATCH)",
+    "boundaryReport": "deterministic; second write is UNCHANGED with the same report id"
+  },
+  "testCounts": {
+    "substantive-identity": 24,
+    "change/comparison": 30,
+    "change/store": 13,
+    "change/transport": 10,
+    "iid5Total": 77,
+    "investmentServerTotal": 189,
+    "investmentServerFiles": 13
+  }
+}

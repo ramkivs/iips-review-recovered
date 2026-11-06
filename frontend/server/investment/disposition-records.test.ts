@@ -169,12 +169,16 @@ describe('listing', () => {
   });
 });
 
-describe('L-014 — the clock inside content identity is preserved, not hidden', () => {
-  it('a re-run at a new clock is a new version whose recorded input digest did not change', () => {
-    // This is L-014 carried into dispositions, and it is asserted rather than described: the payload contains
-    // `artifact.generatedAt`, so the content digest moves with the clock while the INPUT digest does not. The
-    // disposition input digest deliberately excludes the clock, which is what makes the pair informative —
-    // `APPENDED` with an unchanged input digest says "only the generation metadata moved".
+describe('L-014 — the clock is inside content identity and outside substantive identity', () => {
+  it('a re-run at a new clock is NOT a new version: CLOCK_ONLY_UNCHANGED, and nothing is written', () => {
+    // IID-4 asserted the opposite (`APPENDED`): the clock lived in the payload, so a re-run minted a version
+    // that said nothing new. L-014 decided that the clock must not create a version, and IID-5 implements it.
+    //
+    // What is asserted here is the whole mechanism, not just the label:
+    //   · the submitted payload BYTES differ (the clock moved), so this is not the byte-identical `UNCHANGED`;
+    //   · the substantive identity does NOT differ, because the disposition grammar excludes `artifact.generatedAt`
+    //     and the cited assessment's `generatedAt`;
+    //   · the chain therefore stays at its current head, and `wrote` is false.
     const before = service.readHolding(PORTFOLIO_ID, SECURITY_ID);
     const rerun = buildPayload({
       payload: ASSESSMENT,
@@ -188,9 +192,15 @@ describe('L-014 — the clock inside content identity is preserved, not hidden',
       { ...rerun, limitations: [...rerun.limitations, 'L-020'] },
       { ...CONTEXT, generatedAt: '2026-11-06T09:00:00.000Z' },
     );
-    expect(result.outcome).toBe('APPENDED');
+    expect(result.outcome).toBe('CLOCK_ONLY_UNCHANGED');
+    expect(result.wrote).toBe(false);
+    expect(result.chain.versionCount).toBe(before.chain.versionCount);
+    expect(result.head.payloadDigest).toBe(before.version.payloadDigest);
     expect(result.head.inputDigest).toBe(before.version.inputDigest);
-    expect(result.head.payloadDigest).not.toBe(before.version.payloadDigest);
+    // The bytes that were NOT written are identifiable, and they are genuinely different bytes.
+    expect(result.unpersistedPayloadDigest).toBeDefined();
+    expect(result.unpersistedPayloadDigest).not.toBe(before.version.payloadDigest);
+    expect(result.head.substantiveDigest).toBe(before.version.substantiveDigest);
   });
 });
 
