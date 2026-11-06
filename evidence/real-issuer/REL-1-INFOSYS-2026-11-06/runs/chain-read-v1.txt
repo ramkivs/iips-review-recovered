@@ -1,0 +1,36 @@
+{
+  "status": "OK",
+  "scopeToken": "co:IN:CIN:L85110KA1981PLC013115",
+  "reportType": "investment.company-assessment",
+  "reportKey": "ed1e54b03e5eb5872f3e77bc467859a4e73bfb14a62417a51d7357604e78a681",
+  "chainRootReportId": "9a29e7bc-33ba-4dbc-9f8e-dd989a32dfb7",
+  "versionCount": 1,
+  "head": {
+    "reportId": "9a29e7bc-33ba-4dbc-9f8e-dd989a32dfb7",
+    "artifactVersion": 1,
+    "payloadDigest": "610eca02a651fc04f013d92cdc14e547bec8649ae102f89386ef3b63000cb1b0",
+    "inputDigest": "sha256:5328f326880fb290565264d6608c80f3e0824c4db680482210696e5178d8e20b",
+    "generatedAt": "2026-11-06T00:00:00.000Z",
+    "dataAsOf": "2024-03-31",
+    "knownAsOf": "2026-11-06T00:00:00.000Z",
+    "datasetVersion": "sha256:9be1a83ef198393b97465e104bef9270287bdc01a400c140a9f70927cdfa96e0",
+    "modelVersion": "assessment-engine/1.0.0",
+    "adequacy": "SUFFICIENT",
+    "qualityVerdict": "MATERIAL_CONCERNS",
+    "evidenceCount": 4
+  },
+  "versions": [
+    {
+      "reportId": "9a29e7bc-33ba-4dbc-9f8e-dd989a32dfb7",
+      "artifactVersion": 1,
+      "supersedesReportId": null,
+      "payloadDigest": "610eca02a651fc04f013d92cdc14e547bec8649ae102f89386ef3b63000cb1b0",
+      "inputDigest": "sha256:5328f326880fb290565264d6608c80f3e0824c4db680482210696e5178d8e20b",
+      "generatedAt": "2026-11-06T00:00:00.000Z"
+    }
+  ],
+  "payloadBytes": 41835,
+  "failure": null
+}
+(node:2790) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)

@@ -266,6 +266,37 @@ function summarise(chain: InvestmentChainView | null): CliSummary['chain'] {
 }
 
 /**
+ * The limitation lines this CLI publishes in its summary.
+ *
+ * L-004 and L-009 describe the *shipped reference dataset* and the historical absence of a real-issuer run. When
+ * this CLI is pointed at operator-supplied real data (`APPROVED_LOCAL_INGESTION`) those two sentences would be
+ * false about the run in hand, so they are restated for that data class. Neither limitation is closed or
+ * renumbered: the identifiers, the subject and the direction of both limitations are unchanged, and the shipped
+ * reference dataset stays synthetic either way. See `LIMITATION_AND_COVERAGE_REGISTER` for the dated entry.
+ *
+ * `datasetClass === null` means no dataset was read yet (a run that fails before the snapshot step): the
+ * historical wording is kept so a broken run never claims more than it knows.
+ */
+export function limitationsForDatasetClass(datasetClass: DatasetClass | null): readonly string[] {
+  const real = datasetClass === 'APPROVED_LOCAL_INGESTION';
+  return [
+    'L-001 3 of 13 sectors measured; 10 remain in outstandingSectors (sector-analytics coverage, not this milestone)',
+    'L-002 20 XBRL tags mapped; unmapped tags remain visible gaps',
+    'L-003 closed derivation set = 8 items',
+    real
+      ? 'L-004 the reference dataset shipped with the product is synthetic: mechanics only, no company validation. This run read operator-supplied real data (APPROVED_LOCAL_INGESTION) instead, so the limitation attaches to the reference dataset, not to this run'
+      : 'L-004 the reference dataset is synthetic: mechanics only, no company validation',
+    real
+      ? 'L-009 no real issuer had been assessed through IID-3 before this work item, and the product still ships no real dataset. This run assessed one real issuer from operator-supplied data (APPROVED_LOCAL_INGESTION); that is one issuer reached through one path, not general real-issuer coverage'
+      : 'L-009 no real issuer has been assessed through IID-3; M-1 uses synthetic reference data',
+    'L-010 investment artifact chains are validated by scan; NP-04 exposes no find-by-chain operation',
+    'L-011 two scope namespaces exist: co:/hd:/hc:/icr: chain scope vs the payload subjectScope',
+    'L-012 the chain root reportId stands in for NP-04 chainId, which the canonical artifact shape omits',
+    'L-013 idempotency is decided against the chain HEAD only, not against arbitrary historical versions',
+  ];
+}
+
+/**
  * Run the CLI. Returns the summary and an exit code; never throws for an expected failure.
  *
  * The summary is the machine-readable contract: a caller can assert on `status`, on each step's status, and
@@ -278,17 +309,8 @@ export async function runCli(
   const env = deps.env ?? process.env;
   const now = deps.now ?? ((): Date => new Date());
   const steps: CliStep[] = [];
-  const limitations = [
-    'L-001 3 of 13 sectors measured; 10 remain in outstandingSectors (sector-analytics coverage, not this milestone)',
-    'L-002 20 XBRL tags mapped; unmapped tags remain visible gaps',
-    'L-003 closed derivation set = 8 items',
-    'L-004 the reference dataset is synthetic: mechanics only, no company validation',
-    'L-009 no real issuer has been assessed through IID-3; M-1 uses synthetic reference data',
-    'L-010 investment artifact chains are validated by scan; NP-04 exposes no find-by-chain operation',
-    'L-011 two scope namespaces exist: co:/hd:/hc:/icr: chain scope vs the payload subjectScope',
-    'L-012 the chain root reportId stands in for NP-04 chainId, which the canonical artifact shape omits',
-    'L-013 idempotency is decided against the chain HEAD only, not against arbitrary historical versions',
-  ];
+  // Restated once the dataset class is known: a real-data run must not publish "the dataset is synthetic".
+  let limitations: readonly string[] = limitationsForDatasetClass(null);
 
   let generatedAt = now().toISOString();
   let dataset: CliSummary['dataset'] = null;
@@ -314,6 +336,7 @@ export async function runCli(
       manifest.provider.includes('synthetic') || manifest.provider.includes('fixture')
         ? 'SYNTHETIC_REFERENCE'
         : 'APPROVED_LOCAL_INGESTION';
+    limitations = limitationsForDatasetClass(datasetClass);
     dataset = {
       dir: datasetRead.dir,
       datasetVersion: manifest.datasetVersion,

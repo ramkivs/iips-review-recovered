@@ -922,3 +922,45 @@ AC-X6 qualification it summarises — and nothing else.
 
 The authoritative closure record is `docs/integration/IIPS_V3_IID_FORMAL_CLOSURE_2026-11-06.md`; the phase evidence index
 is `evidence/iid/README.md`; the roadmap overlay for this work item is §B.Q.
+
+---
+
+## 13. Work Item 1 — real-issuer validation (2026-11-06; evidence only)
+
+**Nothing in `L-001` … `L-029` changed status, identifier, ordering or meaning.** One real Indian listed issuer
+(Infosys Limited) was taken from its own audited consolidated Ind AS filings through ingestion, identity, assessment,
+composition, persistence and a separate-process read. That is a statement about the *path*; it is not real-dataset
+coverage, not a sector measurement and not a production claim, and it closes nothing.
+
+| Item | Effect |
+|---|---|
+| `L-001` … `L-013`, `L-015` … `L-029` | untouched; unchanged status exactly as recorded |
+| `L-004` | **status `OPEN`, wording unchanged in the register.** The artifact CLI now restates this sentence for runs whose snapshot reports `datasetClass = APPROVED_LOCAL_INGESTION`, because on such a run the sentence would be false about the data in hand. The product still ships a synthetic reference dataset, so the limitation itself is untouched — see the justification below |
+| `L-009` | **status `OPEN`, wording unchanged in the register**, restated for `APPROVED_LOCAL_INGESTION` on the same grounds. One issuer reached through one operator-supplied path is not general real-issuer coverage, and the product still ships no real dataset |
+| `L-014` | untouched; `RESOLVED` as recorded by §9 |
+| `L-028`, `L-029` | untouched |
+| R-16 sector coverage | unchanged: 3 of 13 sectors; `Technology` was chosen *because* it was already measured, so no expansion began |
+| Production / admission / release | no claim |
+
+**Why a restatement is not a modification.** The published summary carried two fixed sentences that asserted the
+dataset is synthetic and that no real issuer had been assessed. Both were true of every run before this work item and
+false of this one. `L-004`/`L-009` keep their identifiers, subject and direction; only the sentence describing the
+data class in hand varies, and the synthetic wording is asserted unchanged by
+`frontend/server/investment/cli/realIssuerValidation.test.ts`. The pre-fix output is preserved as evidence so the
+defect remains inspectable. Re-running the same command after the change produced `persist UNCHANGED` with identical
+payload and input digests: no artifact byte moved.
+
+**Two product defects recorded, deliberately not fixed here** (both need a contract or definition decision that this
+evidence-only item does not carry):
+
+- **D-2 — a debt-free issuer cannot be valued or graded.** The capital structure requires all four debt components
+  before it will sum them, and dataset schema v1 has no way to say "nil by disclosure". For an issuer that presents
+  no borrowings line, gross and net debt are `NOT_COMPUTABLE`, which blocks the DCF enterprise-to-equity bridge, both
+  EV methods, intrinsic value, margin of safety, the ROIC−WACC moat dimension and the leverage risk factor. Entering
+  `0` was refused: an inferred zero is indistinguishable from a filed zero in the artifact.
+- **D-3 — reason-code precision.** With no risk factor generated, the aggregate reports `POLICY_INPUTS_UNAVAILABLE`,
+  which states the one dimension that could not be evaluated (leverage) and not the several that were evaluated and
+  passed. The reason vocabulary is published and appears in goldens, so it needs its own change.
+
+Evidence: `evidence/real-issuer/REL-1-INFOSYS-2026-11-06/README.md` (disposition, coverage, defects, verification) and
+`evidence/real-issuer/README.md` (bundle index).

@@ -1,0 +1,882 @@
+{
+  "schemaVersion": 1,
+  "issuerId": "IN:CIN:L85110KA1981PLC013115",
+  "datasetVersion": "sha256:9be1a83ef198393b97465e104bef9270287bdc01a400c140a9f70927cdfa96e0",
+  "lineItemCount": 52,
+  "xbrlTagCount": 20,
+  "derivationCount": 8,
+  "counts": {
+    "filedAllPeriods": 32,
+    "filedPartial": 0,
+    "derivedOnlyAllPeriods": 5,
+    "notAvailable": 15
+  },
+  "xbrlMappedFiledItems": 18,
+  "filedItems": 32,
+  "rows": [
+    {
+      "lineItemId": "REVENUE_FROM_OPERATIONS",
+      "statement": "PNL",
+      "inClosedDerivationSet": false,
+      "xbrlTags": [
+        "RevenueFromOperations"
+      ],
+      "filedPeriods": 3,
+      "derivedPeriods": 0,
+      "status": "FILED_ALL_PERIODS",
+      "periods": {
+        "filed": [
+          "2022-03-31",
+          "2023-03-31",
+          "2024-03-31"
+        ],
+        "derived": []
+      }
+    },
+    {
+      "lineItemId": "OTHER_INCOME",
+      "statement": "PNL",
+      "inClosedDerivationSet": false,
+      "xbrlTags": [
+        "OtherIncome"
+      ],
+      "filedPeriods": 3,
+      "derivedPeriods": 0,
+      "status": "FILED_ALL_PERIODS",
+      "periods": {
+        "filed": [
+          "2022-03-31",
+          "2023-03-31",
+          "2024-03-31"
+        ],
+        "derived": []
+      }
+    },
+    {
+      "lineItemId": "TOTAL_INCOME",
+      "statement": "PNL",
+      "inClosedDerivationSet": false,
+      "xbrlTags": [],
+      "filedPeriods": 3,
+      "derivedPeriods": 0,
+      "status": "FILED_ALL_PERIODS",
+      "periods": {
+        "filed": [
+          "2022-03-31",
+          "2023-03-31",
+          "2024-03-31"
+        ],
+        "derived": []
+      }
+    },
+    {
+      "lineItemId": "INTEREST_EARNED",
+      "statement": "PNL",
+      "inClosedDerivationSet": false,
+      "xbrlTags": [],
+      "filedPeriods": 0,
+      "derivedPeriods": 0,
+      "status": "NOT_AVAILABLE",
+      "periods": {
+        "filed": [],
+        "derived": []
+      }
+    },
+    {
+      "lineItemId": "INTEREST_EXPENDED",
+      "statement": "PNL",
+      "inClosedDerivationSet": false,
+      "xbrlTags": [],
+      "filedPeriods": 0,
+      "derivedPeriods": 0,
+      "status": "NOT_AVAILABLE",
+      "periods": {
+        "filed": [],
+        "derived": []
+      }
+    },
+    {
+      "lineItemId": "FEE_AND_COMMISSION_INCOME",
+      "statement": "PNL",
+      "inClosedDerivationSet": false,
+      "xbrlTags": [],
+      "filedPeriods": 0,
+      "derivedPeriods": 0,
+      "status": "NOT_AVAILABLE",
+      "periods": {
+        "filed": [],
+        "derived": []
+      }
+    },
+    {
+      "lineItemId": "COST_OF_MATERIALS_CONSUMED",
+      "statement": "PNL",
+      "inClosedDerivationSet": false,
+      "xbrlTags": [],
+      "filedPeriods": 0,
+      "derivedPeriods": 0,
+      "status": "NOT_AVAILABLE",
+      "periods": {
+        "filed": [],
+        "derived": []
+      }
+    },
+    {
+      "lineItemId": "PURCHASES_OF_STOCK_IN_TRADE",
+      "statement": "PNL",
+      "inClosedDerivationSet": false,
+      "xbrlTags": [],
+      "filedPeriods": 0,
+      "derivedPeriods": 0,
+      "status": "NOT_AVAILABLE",
+      "periods": {
+        "filed": [],
+        "derived": []
+      }
+    },
+    {
+      "lineItemId": "CHANGES_IN_INVENTORIES",
+      "statement": "PNL",
+      "inClosedDerivationSet": false,
+      "xbrlTags": [],
+      "filedPeriods": 0,
+      "derivedPeriods": 0,
+      "status": "NOT_AVAILABLE",
+      "periods": {
+        "filed": [],
+        "derived": []
+      }
+    },
+    {
+      "lineItemId": "EMPLOYEE_BENEFIT_EXPENSE",
+      "statement": "PNL",
+      "inClosedDerivationSet": false,
+      "xbrlTags": [
+        "EmployeeBenefitsExpense"
+      ],
+      "filedPeriods": 3,
+      "derivedPeriods": 0,
+      "status": "FILED_ALL_PERIODS",
+      "periods": {
+        "filed": [
+          "2022-03-31",
+          "2023-03-31",
+          "2024-03-31"
+        ],
+        "derived": []
+      }
+    },
+    {
+      "lineItemId": "OTHER_EXPENSES",
+      "statement": "PNL",
+      "inClosedDerivationSet": false,
+      "xbrlTags": [],
+      "filedPeriods": 3,
+      "derivedPeriods": 0,
+      "status": "FILED_ALL_PERIODS",
+      "periods": {
+        "filed": [
+          "2022-03-31",
+          "2023-03-31",
+          "2024-03-31"
+        ],
+        "derived": []
+      }
+    },
+    {
+      "lineItemId": "OPERATING_EXPENSES",
+      "statement": "PNL",
+      "inClosedDerivationSet": false,
+      "xbrlTags": [],
+      "filedPeriods": 0,
+      "derivedPeriods": 0,
+      "status": "NOT_AVAILABLE",
+      "periods": {
+        "filed": [],
+        "derived": []
+      }
+    },
+    {
+      "lineItemId": "FINANCE_COSTS",
+      "statement": "PNL",
+      "inClosedDerivationSet": false,
+      "xbrlTags": [
+        "FinanceCosts"
+      ],
+      "filedPeriods": 3,
+      "derivedPeriods": 0,
+      "status": "FILED_ALL_PERIODS",
+      "periods": {
+        "filed": [
+          "2022-03-31",
+          "2023-03-31",
+          "2024-03-31"
+        ],
+        "derived": []
+      }
+    },
+    {
+      "lineItemId": "DEPRECIATION_AND_AMORTISATION",
+      "statement": "PNL",
+      "inClosedDerivationSet": false,
+      "xbrlTags": [
+        "DepreciationDepreciationAmortisationAndImpairmentLoss"
+      ],
+      "filedPeriods": 3,
+      "derivedPeriods": 0,
+      "status": "FILED_ALL_PERIODS",
+      "periods": {
+        "filed": [
+          "2022-03-31",
+          "2023-03-31",
+          "2024-03-31"
+        ],
+        "derived": []
+      }
+    },
+    {
+      "lineItemId": "PROFIT_BEFORE_TAX",
+      "statement": "PNL",
+      "inClosedDerivationSet": false,
+      "xbrlTags": [
+        "ProfitBeforeTax"
+      ],
+      "filedPeriods": 3,
+      "derivedPeriods": 0,
+      "status": "FILED_ALL_PERIODS",
+      "periods": {
+        "filed": [
+          "2022-03-31",
+          "2023-03-31",
+          "2024-03-31"
+        ],
+        "derived": []
+      }
+    },
+    {
+      "lineItemId": "TAX_EXPENSE",
+      "statement": "PNL",
+      "inClosedDerivationSet": false,
+      "xbrlTags": [
+        "TaxExpense"
+      ],
+      "filedPeriods": 3,
+      "derivedPeriods": 0,
+      "status": "FILED_ALL_PERIODS",
+      "periods": {
+        "filed": [
+          "2022-03-31",
+          "2023-03-31",
+          "2024-03-31"
+        ],
+        "derived": []
+      }
+    },
+    {
+      "lineItemId": "NET_PROFIT",
+      "statement": "PNL",
+      "inClosedDerivationSet": false,
+      "xbrlTags": [
+        "ProfitLossForPeriod"
+      ],
+      "filedPeriods": 3,
+      "derivedPeriods": 0,
+      "status": "FILED_ALL_PERIODS",
+      "periods": {
+        "filed": [
+          "2022-03-31",
+          "2023-03-31",
+          "2024-03-31"
+        ],
+        "derived": []
+      }
+    },
+    {
+      "lineItemId": "NET_PROFIT_ATTRIBUTABLE_TO_OWNERS",
+      "statement": "PNL",
+      "inClosedDerivationSet": false,
+      "xbrlTags": [
+        "ProfitLossAttributableToOwnersOfParent"
+      ],
+      "filedPeriods": 3,
+      "derivedPeriods": 0,
+      "status": "FILED_ALL_PERIODS",
+      "periods": {
+        "filed": [
+          "2022-03-31",
+          "2023-03-31",
+          "2024-03-31"
+        ],
+        "derived": []
+      }
+    },
+    {
+      "lineItemId": "EPS_BASIC",
+      "statement": "PNL",
+      "inClosedDerivationSet": false,
+      "xbrlTags": [
+        "BasicEarningsLossPerShareFromContinuingAndDiscontinuedOperations"
+      ],
+      "filedPeriods": 3,
+      "derivedPeriods": 0,
+      "status": "FILED_ALL_PERIODS",
+      "periods": {
+        "filed": [
+          "2022-03-31",
+          "2023-03-31",
+          "2024-03-31"
+        ],
+        "derived": []
+      }
+    },
+    {
+      "lineItemId": "EPS_DILUTED",
+      "statement": "PNL",
+      "inClosedDerivationSet": false,
+      "xbrlTags": [
+        "DilutedEarningsLossPerShareFromContinuingAndDiscontinuedOperations"
+      ],
+      "filedPeriods": 3,
+      "derivedPeriods": 0,
+      "status": "FILED_ALL_PERIODS",
+      "periods": {
+        "filed": [
+          "2022-03-31",
+          "2023-03-31",
+          "2024-03-31"
+        ],
+        "derived": []
+      }
+    },
+    {
+      "lineItemId": "TOTAL_ASSETS",
+      "statement": "BS",
+      "inClosedDerivationSet": false,
+      "xbrlTags": [
+        "Assets"
+      ],
+      "filedPeriods": 3,
+      "derivedPeriods": 0,
+      "status": "FILED_ALL_PERIODS",
+      "periods": {
+        "filed": [
+          "2022-03-31",
+          "2023-03-31",
+          "2024-03-31"
+        ],
+        "derived": []
+      }
+    },
+    {
+      "lineItemId": "TOTAL_EQUITY",
+      "statement": "BS",
+      "inClosedDerivationSet": false,
+      "xbrlTags": [
+        "Equity"
+      ],
+      "filedPeriods": 3,
+      "derivedPeriods": 0,
+      "status": "FILED_ALL_PERIODS",
+      "periods": {
+        "filed": [
+          "2022-03-31",
+          "2023-03-31",
+          "2024-03-31"
+        ],
+        "derived": []
+      }
+    },
+    {
+      "lineItemId": "EQUITY_ATTRIBUTABLE_TO_OWNERS",
+      "statement": "BS",
+      "inClosedDerivationSet": false,
+      "xbrlTags": [],
+      "filedPeriods": 3,
+      "derivedPeriods": 0,
+      "status": "FILED_ALL_PERIODS",
+      "periods": {
+        "filed": [
+          "2022-03-31",
+          "2023-03-31",
+          "2024-03-31"
+        ],
+        "derived": []
+      }
+    },
+    {
+      "lineItemId": "NON_CONTROLLING_INTEREST",
+      "statement": "BS",
+      "inClosedDerivationSet": false,
+      "xbrlTags": [],
+      "filedPeriods": 3,
+      "derivedPeriods": 0,
+      "status": "FILED_ALL_PERIODS",
+      "periods": {
+        "filed": [
+          "2022-03-31",
+          "2023-03-31",
+          "2024-03-31"
+        ],
+        "derived": []
+      }
+    },
+    {
+      "lineItemId": "PREFERENCE_CAPITAL",
+      "statement": "BS",
+      "inClosedDerivationSet": false,
+      "xbrlTags": [],
+      "filedPeriods": 0,
+      "derivedPeriods": 0,
+      "status": "NOT_AVAILABLE",
+      "periods": {
+        "filed": [],
+        "derived": []
+      }
+    },
+    {
+      "lineItemId": "SHORT_TERM_BORROWINGS",
+      "statement": "BS",
+      "inClosedDerivationSet": false,
+      "xbrlTags": [
+        "BorrowingsCurrent"
+      ],
+      "filedPeriods": 0,
+      "derivedPeriods": 0,
+      "status": "NOT_AVAILABLE",
+      "periods": {
+        "filed": [],
+        "derived": []
+      }
+    },
+    {
+      "lineItemId": "CURRENT_MATURITIES_OF_LONG_TERM_DEBT",
+      "statement": "BS",
+      "inClosedDerivationSet": false,
+      "xbrlTags": [],
+      "filedPeriods": 0,
+      "derivedPeriods": 0,
+      "status": "NOT_AVAILABLE",
+      "periods": {
+        "filed": [],
+        "derived": []
+      }
+    },
+    {
+      "lineItemId": "LONG_TERM_BORROWINGS",
+      "statement": "BS",
+      "inClosedDerivationSet": false,
+      "xbrlTags": [
+        "BorrowingsNoncurrent"
+      ],
+      "filedPeriods": 0,
+      "derivedPeriods": 0,
+      "status": "NOT_AVAILABLE",
+      "periods": {
+        "filed": [],
+        "derived": []
+      }
+    },
+    {
+      "lineItemId": "LEASE_LIABILITIES",
+      "statement": "BS",
+      "inClosedDerivationSet": false,
+      "xbrlTags": [],
+      "filedPeriods": 0,
+      "derivedPeriods": 0,
+      "status": "NOT_AVAILABLE",
+      "periods": {
+        "filed": [],
+        "derived": []
+      }
+    },
+    {
+      "lineItemId": "CASH_AND_CASH_EQUIVALENTS",
+      "statement": "BS",
+      "inClosedDerivationSet": false,
+      "xbrlTags": [
+        "CashAndCashEquivalents"
+      ],
+      "filedPeriods": 3,
+      "derivedPeriods": 0,
+      "status": "FILED_ALL_PERIODS",
+      "periods": {
+        "filed": [
+          "2022-03-31",
+          "2023-03-31",
+          "2024-03-31"
+        ],
+        "derived": []
+      }
+    },
+    {
+      "lineItemId": "CURRENT_INVESTMENTS",
+      "statement": "BS",
+      "inClosedDerivationSet": false,
+      "xbrlTags": [],
+      "filedPeriods": 3,
+      "derivedPeriods": 0,
+      "status": "FILED_ALL_PERIODS",
+      "periods": {
+        "filed": [
+          "2022-03-31",
+          "2023-03-31",
+          "2024-03-31"
+        ],
+        "derived": []
+      }
+    },
+    {
+      "lineItemId": "INVENTORIES",
+      "statement": "BS",
+      "inClosedDerivationSet": false,
+      "xbrlTags": [],
+      "filedPeriods": 0,
+      "derivedPeriods": 0,
+      "status": "NOT_AVAILABLE",
+      "periods": {
+        "filed": [],
+        "derived": []
+      }
+    },
+    {
+      "lineItemId": "TRADE_RECEIVABLES",
+      "statement": "BS",
+      "inClosedDerivationSet": false,
+      "xbrlTags": [],
+      "filedPeriods": 3,
+      "derivedPeriods": 0,
+      "status": "FILED_ALL_PERIODS",
+      "periods": {
+        "filed": [
+          "2022-03-31",
+          "2023-03-31",
+          "2024-03-31"
+        ],
+        "derived": []
+      }
+    },
+    {
+      "lineItemId": "TRADE_PAYABLES",
+      "statement": "BS",
+      "inClosedDerivationSet": false,
+      "xbrlTags": [],
+      "filedPeriods": 3,
+      "derivedPeriods": 0,
+      "status": "FILED_ALL_PERIODS",
+      "periods": {
+        "filed": [
+          "2022-03-31",
+          "2023-03-31",
+          "2024-03-31"
+        ],
+        "derived": []
+      }
+    },
+    {
+      "lineItemId": "PROPERTY_PLANT_AND_EQUIPMENT",
+      "statement": "BS",
+      "inClosedDerivationSet": false,
+      "xbrlTags": [
+        "PropertyPlantAndEquipment"
+      ],
+      "filedPeriods": 3,
+      "derivedPeriods": 0,
+      "status": "FILED_ALL_PERIODS",
+      "periods": {
+        "filed": [
+          "2022-03-31",
+          "2023-03-31",
+          "2024-03-31"
+        ],
+        "derived": []
+      }
+    },
+    {
+      "lineItemId": "CAPITAL_WORK_IN_PROGRESS",
+      "statement": "BS",
+      "inClosedDerivationSet": false,
+      "xbrlTags": [],
+      "filedPeriods": 3,
+      "derivedPeriods": 0,
+      "status": "FILED_ALL_PERIODS",
+      "periods": {
+        "filed": [
+          "2022-03-31",
+          "2023-03-31",
+          "2024-03-31"
+        ],
+        "derived": []
+      }
+    },
+    {
+      "lineItemId": "GOODWILL",
+      "statement": "BS",
+      "inClosedDerivationSet": false,
+      "xbrlTags": [],
+      "filedPeriods": 3,
+      "derivedPeriods": 0,
+      "status": "FILED_ALL_PERIODS",
+      "periods": {
+        "filed": [
+          "2022-03-31",
+          "2023-03-31",
+          "2024-03-31"
+        ],
+        "derived": []
+      }
+    },
+    {
+      "lineItemId": "INTANGIBLE_ASSETS",
+      "statement": "BS",
+      "inClosedDerivationSet": false,
+      "xbrlTags": [],
+      "filedPeriods": 3,
+      "derivedPeriods": 0,
+      "status": "FILED_ALL_PERIODS",
+      "periods": {
+        "filed": [
+          "2022-03-31",
+          "2023-03-31",
+          "2024-03-31"
+        ],
+        "derived": []
+      }
+    },
+    {
+      "lineItemId": "OPERATING_CASH_FLOW",
+      "statement": "CF",
+      "inClosedDerivationSet": false,
+      "xbrlTags": [
+        "CashFlowsFromUsedInOperatingActivities"
+      ],
+      "filedPeriods": 3,
+      "derivedPeriods": 0,
+      "status": "FILED_ALL_PERIODS",
+      "periods": {
+        "filed": [
+          "2022-03-31",
+          "2023-03-31",
+          "2024-03-31"
+        ],
+        "derived": []
+      }
+    },
+    {
+      "lineItemId": "CAPITAL_EXPENDITURE",
+      "statement": "CF",
+      "inClosedDerivationSet": false,
+      "xbrlTags": [
+        "PurchaseOfPropertyPlantAndEquipmentClassifiedAsInvestingActivities"
+      ],
+      "filedPeriods": 3,
+      "derivedPeriods": 0,
+      "status": "FILED_ALL_PERIODS",
+      "periods": {
+        "filed": [
+          "2022-03-31",
+          "2023-03-31",
+          "2024-03-31"
+        ],
+        "derived": []
+      }
+    },
+    {
+      "lineItemId": "INVESTING_CASH_FLOW",
+      "statement": "CF",
+      "inClosedDerivationSet": false,
+      "xbrlTags": [],
+      "filedPeriods": 3,
+      "derivedPeriods": 0,
+      "status": "FILED_ALL_PERIODS",
+      "periods": {
+        "filed": [
+          "2022-03-31",
+          "2023-03-31",
+          "2024-03-31"
+        ],
+        "derived": []
+      }
+    },
+    {
+      "lineItemId": "FINANCING_CASH_FLOW",
+      "statement": "CF",
+      "inClosedDerivationSet": false,
+      "xbrlTags": [],
+      "filedPeriods": 3,
+      "derivedPeriods": 0,
+      "status": "FILED_ALL_PERIODS",
+      "periods": {
+        "filed": [
+          "2022-03-31",
+          "2023-03-31",
+          "2024-03-31"
+        ],
+        "derived": []
+      }
+    },
+    {
+      "lineItemId": "DIVIDENDS_PAID",
+      "statement": "CF",
+      "inClosedDerivationSet": false,
+      "xbrlTags": [
+        "DividendPaidClassifiedAsFinancingActivities"
+      ],
+      "filedPeriods": 3,
+      "derivedPeriods": 0,
+      "status": "FILED_ALL_PERIODS",
+      "periods": {
+        "filed": [
+          "2022-03-31",
+          "2023-03-31",
+          "2024-03-31"
+        ],
+        "derived": []
+      }
+    },
+    {
+      "lineItemId": "INTEREST_PAID",
+      "statement": "CF",
+      "inClosedDerivationSet": false,
+      "xbrlTags": [],
+      "filedPeriods": 0,
+      "derivedPeriods": 0,
+      "status": "NOT_AVAILABLE",
+      "periods": {
+        "filed": [],
+        "derived": []
+      }
+    },
+    {
+      "lineItemId": "INCOME_TAX_PAID",
+      "statement": "CF",
+      "inClosedDerivationSet": false,
+      "xbrlTags": [],
+      "filedPeriods": 3,
+      "derivedPeriods": 0,
+      "status": "FILED_ALL_PERIODS",
+      "periods": {
+        "filed": [
+          "2022-03-31",
+          "2023-03-31",
+          "2024-03-31"
+        ],
+        "derived": []
+      }
+    },
+    {
+      "lineItemId": "NET_CASH_FLOW",
+      "statement": "CF",
+      "inClosedDerivationSet": false,
+      "xbrlTags": [],
+      "filedPeriods": 3,
+      "derivedPeriods": 0,
+      "status": "FILED_ALL_PERIODS",
+      "periods": {
+        "filed": [
+          "2022-03-31",
+          "2023-03-31",
+          "2024-03-31"
+        ],
+        "derived": []
+      }
+    },
+    {
+      "lineItemId": "EBITDA",
+      "statement": "PNL",
+      "inClosedDerivationSet": false,
+      "xbrlTags": [],
+      "filedPeriods": 0,
+      "derivedPeriods": 3,
+      "status": "DERIVED_ALL_PERIODS",
+      "periods": {
+        "filed": [],
+        "derived": [
+          "2022-03-31",
+          "2023-03-31",
+          "2024-03-31"
+        ]
+      }
+    },
+    {
+      "lineItemId": "EBIT",
+      "statement": "PNL",
+      "inClosedDerivationSet": false,
+      "xbrlTags": [],
+      "filedPeriods": 0,
+      "derivedPeriods": 3,
+      "status": "DERIVED_ALL_PERIODS",
+      "periods": {
+        "filed": [],
+        "derived": [
+          "2022-03-31",
+          "2023-03-31",
+          "2024-03-31"
+        ]
+      }
+    },
+    {
+      "lineItemId": "FREE_CASH_FLOW",
+      "statement": "CF",
+      "inClosedDerivationSet": false,
+      "xbrlTags": [],
+      "filedPeriods": 0,
+      "derivedPeriods": 3,
+      "status": "DERIVED_ALL_PERIODS",
+      "periods": {
+        "filed": [],
+        "derived": [
+          "2022-03-31",
+          "2023-03-31",
+          "2024-03-31"
+        ]
+      }
+    },
+    {
+      "lineItemId": "NET_DEBT",
+      "statement": "BS",
+      "inClosedDerivationSet": false,
+      "xbrlTags": [],
+      "filedPeriods": 0,
+      "derivedPeriods": 0,
+      "status": "NOT_AVAILABLE",
+      "periods": {
+        "filed": [],
+        "derived": []
+      }
+    },
+    {
+      "lineItemId": "DILUTED_SHARES",
+      "statement": "BS",
+      "inClosedDerivationSet": false,
+      "xbrlTags": [],
+      "filedPeriods": 0,
+      "derivedPeriods": 3,
+      "status": "DERIVED_ALL_PERIODS",
+      "periods": {
+        "filed": [],
+        "derived": [
+          "2022-03-31",
+          "2023-03-31",
+          "2024-03-31"
+        ]
+      }
+    },
+    {
+      "lineItemId": "BOOK_VALUE_PER_SHARE",
+      "statement": "BS",
+      "inClosedDerivationSet": false,
+      "xbrlTags": [],
+      "filedPeriods": 0,
+      "derivedPeriods": 3,
+      "status": "DERIVED_ALL_PERIODS",
+      "periods": {
+        "filed": [],
+        "derived": [
+          "2022-03-31",
+          "2023-03-31",
+          "2024-03-31"
+        ]
+      }
+    }
+  ]
+}
