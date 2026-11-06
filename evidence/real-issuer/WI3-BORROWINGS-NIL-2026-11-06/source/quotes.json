@@ -1,0 +1,129 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Primary evidence for the four nil declarations that unblock gross/net debt in the WI-3 dataset. Every quote is verbatim from the audited consolidated financial statements of the issuer; nothing is paraphrased, estimated or taken from another issuer.",
+  "document": {
+    "title": "Infosys Limited and Subsidiaries — Consolidated Financial Statements under Indian Accounting Standards (Ind AS) for the year ended March 31, 2024",
+    "url": "https://www.infosys.com/investors/reports-filings/quarterly-results/2023-2024/q4/documents/consolidated/consol-fy24-annual-finstatement.pdf",
+    "filingRef": "INFY-INDAS-CONSOL-FY24",
+    "statementScope": "CONSOLIDATED",
+    "taxonomy": "INDAS",
+    "signedOn": "2024-04-18",
+    "publicationDate": "2024-04-18",
+    "publicationNote": "the statements are signed and dated April 18, 2024 in the signature block of the balance sheet and the profit and loss statement; the Q4/FY24 results were announced that day",
+    "auditor": "Deloitte Haskins & Sells LLP, Chartered Accountants (Firm's Registration No. 117366W/W-100018)",
+    "retrievedAt": "2026-11-06T13:5xZ (fetch tool has no per-request stamp; the WI-3 retrieval followed the WI-2 interval and preceded the ingest at 2026-11-06T14:05:00.000Z)",
+    "parse": {
+      "totalChunks": 17,
+      "locatorNote": "the PDF parser returns transport chunks, not printed page numbers, so each quote is anchored by note/section plus chunk index; the document's own index places Note 2.11 at pages 20-26 and Note 2.12 at pages 26-31"
+    }
+  },
+  "declarations": [
+    {
+      "reportedValue": null,
+      "valueNature": "NIL — no amount is reported; the filing states the class of liability does not exist",
+      "currency": "INR (statement currency; no amount to denominate)",
+      "reportingPeriodEnd": "2024-03-31",
+      "fiscalYear": 2024,
+      "statementDate": "2024-04-18",
+      "basis": "AS_FILED",
+      "directOrDerived": "DIRECT at group level — the sentence is the filer's own statement about borrowings as a whole. Applying it to this individual component is a MAPPING decision (a component of a class the filer says is empty), recorded here rather than hidden in arithmetic.",
+      "quotedWording": "The Group has no outstanding borrowings.",
+      "quotedWordingSha256": "166a81eb781c62090d5fd35fdf0253d920351bf06c4bbb2892031a4b575d3067",
+      "surroundingContext": "The Group's principal sources of liquidity are cash and cash equivalents and the cash flow that is generated from operations. The Group has no outstanding borrowings. The Group believes that the working capital is sufficient to meet its current requirements.",
+      "locator": "Note 2.11 FINANCIAL INSTRUMENTS -> Financial risk management -> Liquidity risk (document pages 20-26; parse chunk 13 of 17)",
+      "corroboration": "As of March 31, 2024, the Company has only one class of equity shares and has no debt.",
+      "validation": [
+        "the balance sheet (page 1) carries no borrowings line under financial liabilities — consistent with the sentence",
+        "the contractual-maturity table in the same section lists only trade payables and other financial liabilities — no borrowing maturity",
+        "the finance cost line (₹470 crore) is lease interest per Note 2.21, not borrowing interest"
+      ],
+      "component": "LONG_TERM_BORROWINGS",
+      "lineItemId": "LONG_TERM_BORROWINGS",
+      "whyThisComponent": "long-term borrowings are a subset of borrowings; the filer states there are none outstanding"
+    },
+    {
+      "reportedValue": null,
+      "valueNature": "NIL — no amount is reported; the filing states the class of liability does not exist",
+      "currency": "INR (statement currency; no amount to denominate)",
+      "reportingPeriodEnd": "2024-03-31",
+      "fiscalYear": 2024,
+      "statementDate": "2024-04-18",
+      "basis": "AS_FILED",
+      "directOrDerived": "DIRECT at group level — the sentence is the filer's own statement about borrowings as a whole. Applying it to this individual component is a MAPPING decision (a component of a class the filer says is empty), recorded here rather than hidden in arithmetic.",
+      "quotedWording": "The Group has no outstanding borrowings.",
+      "quotedWordingSha256": "166a81eb781c62090d5fd35fdf0253d920351bf06c4bbb2892031a4b575d3067",
+      "surroundingContext": "The Group's principal sources of liquidity are cash and cash equivalents and the cash flow that is generated from operations. The Group has no outstanding borrowings. The Group believes that the working capital is sufficient to meet its current requirements.",
+      "locator": "Note 2.11 FINANCIAL INSTRUMENTS -> Financial risk management -> Liquidity risk (document pages 20-26; parse chunk 13 of 17)",
+      "corroboration": "As of March 31, 2024, the Company has only one class of equity shares and has no debt.",
+      "validation": [
+        "the balance sheet (page 1) carries no borrowings line under financial liabilities — consistent with the sentence",
+        "the contractual-maturity table in the same section lists only trade payables and other financial liabilities — no borrowing maturity",
+        "the finance cost line (₹470 crore) is lease interest per Note 2.21, not borrowing interest"
+      ],
+      "component": "SHORT_TERM_BORROWINGS",
+      "lineItemId": "SHORT_TERM_BORROWINGS",
+      "whyThisComponent": "short-term borrowings are a subset of borrowings; the filer states there are none outstanding"
+    },
+    {
+      "reportedValue": null,
+      "valueNature": "NIL — no amount is reported; the filing states the class of liability does not exist",
+      "currency": "INR (statement currency; no amount to denominate)",
+      "reportingPeriodEnd": "2024-03-31",
+      "fiscalYear": 2024,
+      "statementDate": "2024-04-18",
+      "basis": "AS_FILED",
+      "directOrDerived": "DIRECT at group level — the sentence is the filer's own statement about borrowings as a whole. Applying it to this individual component is a MAPPING decision (a component of a class the filer says is empty), recorded here rather than hidden in arithmetic.",
+      "quotedWording": "The Group has no outstanding borrowings.",
+      "quotedWordingSha256": "166a81eb781c62090d5fd35fdf0253d920351bf06c4bbb2892031a4b575d3067",
+      "surroundingContext": "The Group's principal sources of liquidity are cash and cash equivalents and the cash flow that is generated from operations. The Group has no outstanding borrowings. The Group believes that the working capital is sufficient to meet its current requirements.",
+      "locator": "Note 2.11 FINANCIAL INSTRUMENTS -> Financial risk management -> Liquidity risk (document pages 20-26; parse chunk 13 of 17)",
+      "corroboration": "As of March 31, 2024, the Company has only one class of equity shares and has no debt.",
+      "validation": [
+        "the balance sheet (page 1) carries no borrowings line under financial liabilities — consistent with the sentence",
+        "the contractual-maturity table in the same section lists only trade payables and other financial liabilities — no borrowing maturity",
+        "the finance cost line (₹470 crore) is lease interest per Note 2.21, not borrowing interest"
+      ],
+      "component": "CURRENT_MATURITIES_OF_LONG_TERM_DEBT",
+      "lineItemId": "CURRENT_MATURITIES_OF_LONG_TERM_DEBT",
+      "whyThisComponent": "a current maturity is a slice of long-term debt; with no long-term borrowing outstanding there is no maturity to reclassify"
+    },
+    {
+      "component": "PREFERENCE_CAPITAL",
+      "lineItemId": "PREFERENCE_CAPITAL",
+      "reportedValue": null,
+      "valueNature": "NIL — the filer states a single share class, so no preference capital exists",
+      "currency": "INR (statement currency; no amount to denominate)",
+      "reportingPeriodEnd": "2024-03-31",
+      "fiscalYear": 2024,
+      "statementDate": "2024-04-18",
+      "basis": "AS_FILED",
+      "directOrDerived": "DIRECT as a statement of share classes (parent Company); applied to the consolidated capital block by mapping — see scopeNuance",
+      "quotedWording": "The Company has only one class of shares referred to as equity shares having a par value of ₹5/-.",
+      "quotedWordingSha256": "8deca4008e3db12cb5a336caa294cb4c8c19dd6dbeea0339d381e81bbb390119",
+      "surroundingContext": "The Company has only one class of shares referred to as equity shares having a par value of ₹5/-. Each holder of equity shares is entitled to one vote per share. The equity shares represented by American Depositary Shares (ADS) carry similar rights to voting and dividends as the other equity shares. Each ADS represents one underlying equity share.",
+      "locator": "Note 2.12 EQUITY -> EQUITY SHARE CAPITAL (document pages 26-31; parse chunk 14 of 17)",
+      "corroboration": "As of March 31, 2024, the Company has only one class of equity shares and has no debt.",
+      "scopeNuance": "the sentence speaks of 'the Company' (parent). It is applied to the consolidated block because consolidated owners' equity comprises only equity share capital (₹2,071 crore) and other equity (₹86,045 crore), with non-controlling interests (₹345 crore) separately presented, and no preference instrument appears in the consolidated balance sheet or in the authorised share capital (480,00,00,000 equity shares of ₹5 each only).",
+      "validation": [
+        "authorised share capital lists equity shares only (₹2,400 crore)",
+        "no preference share line in the consolidated balance sheet",
+        "no dividend or liquidation preference other than the irrevocable controlled trusts' corpus noted in the same section"
+      ]
+    }
+  ],
+  "relatedObservations": [
+    {
+      "topic": "restricted cash inside the cash line",
+      "quotedWording": "Cash and cash equivalents as at March 31, 2024 and March 31, 2023 include restricted cash and bank balances of ₹348 crore and ₹362 crore respectively.",
+      "quotedWordingSha256": "7cdd1fb54d869f0fe0720c16dd838d142c0a7f8c499181e8791fa082a8cf1d0d",
+      "locator": "Note 2.9 CASH AND CASH EQUIVALENTS (document pages 19-20; parse chunk 9 of 17)",
+      "consequence": "the filed cash and cash equivalents used by the net-debt block include ₹348 crore the filing calls restricted; schema v1 cannot separate it (L-006), so net cash is overstated by that amount and the bundle states the size of the effect"
+    }
+  ],
+  "files": {
+    "consol-fy24-note-2.11-liquidity-risk.txt": "8f06dd15c98f08a88d0be6b403547b207a05076af8efc0866fad53f6683cfa08",
+    "consol-fy24-note-2.12-equity-share-capital.txt": "7745be8092e3d0e75869dcdbf7b46293b8f187ff97d00cd0a1566f224e82d277",
+    "consol-fy24-note-2.9-cash-restricted.txt": "9f5b035873efe0a7beee97d1b3daad911bfa914fe4564e5c532e78dd58756a37"
+  },
+  "declarationGrammar": "each declaration enters the dataset as a `periods.csv` cell of the form `NIL: <quoted wording>` on the 2024-03-31 CONSOLIDATED row, with filing_ref INFY-INDAS-CONSOL-FY24; the ingester refuses a bare NIL (NIL_WITHOUT_QUOTED_WORDING) and a nil without a filing_ref (NIL_WITHOUT_PROVENANCE)"
+}

@@ -1,0 +1,152 @@
+{
+  "schemaVersion": 2,
+  "bundle": "WI3-BORROWINGS-NIL-2026-11-06",
+  "issuerId": "IN:CIN:L85110KA1981PLC013115",
+  "digestAlgorithm": "sha256",
+  "excluded": [
+    "README.md",
+    "digests.json"
+  ],
+  "chain": [
+    {
+      "artifactVersion": 1,
+      "reportId": "29658038-e568-4684-848d-06381fb8187c",
+      "payloadDigest": "83644bc68e3d68f3f714fb205179eae63c6da2ff9d5cdcf77d0a3d5c573d493d",
+      "payloadFile": "artifact/assessment-payload-wi3.json"
+    }
+  ],
+  "declarations": {
+    "periodEnd": "2024-03-31",
+    "filingRef": "INFY-INDAS-CONSOL-FY24",
+    "components": [
+      "LONG_TERM_BORROWINGS",
+      "SHORT_TERM_BORROWINGS",
+      "CURRENT_MATURITIES_OF_LONG_TERM_DEBT",
+      "PREFERENCE_CAPITAL"
+    ],
+    "presence": "NIL_BY_DISCLOSURE",
+    "reason": "DECLARED_NIL_IN_SOURCE",
+    "sourceDocument": "consol-fy24-annual-finstatement.pdf (Infosys consolidated Ind AS, year ended 2024-03-31, signed 2024-04-18)",
+    "quoteDigests": "166a81eb781c62090d5fd35fdf0253d920351bf06c4bbb2892031a4b575d3067"
+  },
+  "datasetVersion": "sha256:21cf25222fcdf0ac31d8e285c631b272f8d3d5e8567f2ed9594e4fff81725847",
+  "fileCount": 29,
+  "files": {
+    "artifact/assessment-payload-wi3.json": {
+      "sha256": "83644bc68e3d68f3f714fb205179eae63c6da2ff9d5cdcf77d0a3d5c573d493d",
+      "bytes": 51196
+    },
+    "artifact/payload-diff-vs-wi2.json": {
+      "sha256": "8f60672f4f48d433b3294e4fd59539b206132afe2bade72870531bf312a12726",
+      "bytes": 20646
+    },
+    "dataset/corporateActions.json": {
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "bytes": 3
+    },
+    "dataset/coverage-report.json": {
+      "sha256": "ce97789e45ee4fdae3ce81671de12a634f9231def573898cb589af0bbe7b0452",
+      "bytes": 19447
+    },
+    "dataset/issuers.json": {
+      "sha256": "a5c964c83a3c74b482165000fa0f5d4d5aaa6ee186beba4f27d0d581fa82fa34",
+      "bytes": 238
+    },
+    "dataset/issues.json": {
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "bytes": 3
+    },
+    "dataset/listings.json": {
+      "sha256": "515bae232bdfbbd7b5637aa1ced8253ea44a4318e2e3d6f9a633e010ca25eaa2",
+      "bytes": 601
+    },
+    "dataset/manifest.json": {
+      "sha256": "c8d0e3665ea4cbf36f79768b06084a8dbb60f555e7ac9d101ee70ea24635412d",
+      "bytes": 1930
+    },
+    "dataset/operatingMetrics.json": {
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "bytes": 3
+    },
+    "dataset/periods.json": {
+      "sha256": "11d4787bd21d4812488b5514028091edc6f209be21b9bcdfe654ccd04576d7ab",
+      "bytes": 44584
+    },
+    "dataset/prices.json": {
+      "sha256": "a72eb0fd30d7874ba7e0842d8b8dc97bac76acbc336257094916610054c6b3ef",
+      "bytes": 303
+    },
+    "dataset/securities.json": {
+      "sha256": "2722930e81b7c89931409d456bf25182de68aad554004af6ccb4b9b63af1db5c",
+      "bytes": 187
+    },
+    "identity/corporate-actions.json": {
+      "sha256": "d6bc14d1b676260bb0f1c2280e62956d3f6a7e07b9b9265a73b49f821185ffcd",
+      "bytes": 70
+    },
+    "identity/eligible-roster.json": {
+      "sha256": "f38334a45fcee8bc81bd9902afae9deda659ec9373778d4e113c20151b876065",
+      "bytes": 755
+    },
+    "identity/listing-map.json": {
+      "sha256": "5bc4780b67cb79164909e05177fc8d80981cd947cc71d956fcf58b9442c2e507",
+      "bytes": 948
+    },
+    "ingest-input/periods.csv": {
+      "sha256": "4b660e5d1a507be5638198ce0c618944a2609a8a8d8bf742fab1130bfc8c562c",
+      "bytes": 2035
+    },
+    "ingest-input/prices.json": {
+      "sha256": "d00655bc3f292cb727d2b0e0c8c8a3a7a12be410c0260a2c5987543785f2a11c",
+      "bytes": 341
+    },
+    "ingest-input/roster.json": {
+      "sha256": "426e8478bca1ffc3fd47a6a24995230cfbfc05ccd1df4b92fa774ba15c60f8b4",
+      "bytes": 1157
+    },
+    "runs/01-ingest.txt": {
+      "sha256": "6d0e4027171f9835183b33e15a5d1ab7df7c4a87ef20b3f348aac56af0ecee2e",
+      "bytes": 1492
+    },
+    "runs/02-generate.txt": {
+      "sha256": "0e1ae8576fee23a08a72806c71095eab7840c5a7e879a6c676f2fc8179754870",
+      "bytes": 5534
+    },
+    "runs/05-verification.txt": {
+      "sha256": "179c6cb0accbe583c8f9f7ef60241a96e184b0a9c00db264a55271a92867fb77",
+      "bytes": 1506
+    },
+    "runs/06-payload-verify.json": {
+      "sha256": "4e92cfdf94b6d724e9bf61a7d3c497f3c69953d135e423969b0a37ea97a5b076",
+      "bytes": 1753
+    },
+    "runs/cli-wi3-created.json": {
+      "sha256": "9561b754097aabdde3a06bf44e60146e5386eb7defe0a9eacf07ae13f7ff55b3",
+      "bytes": 4824
+    },
+    "runs/cli-wi3-created.replay.json": {
+      "sha256": "1b7aa6d9f72bfb8f181833660ec29bfcbfc4117bf18f0962c30f9b536c9d9f82",
+      "bytes": 4812
+    },
+    "runs/commands.txt": {
+      "sha256": "75548eab47817fd7abef6037acc7a8e40c7bbb6f0c8c2ed954f2cc7d46493d54",
+      "bytes": 4535
+    },
+    "source/consol-fy24-note-2.11-liquidity-risk.txt": {
+      "sha256": "8f06dd15c98f08a88d0be6b403547b207a05076af8efc0866fad53f6683cfa08",
+      "bytes": 2174
+    },
+    "source/consol-fy24-note-2.12-equity-share-capital.txt": {
+      "sha256": "7745be8092e3d0e75869dcdbf7b46293b8f187ff97d00cd0a1566f224e82d277",
+      "bytes": 3021
+    },
+    "source/consol-fy24-note-2.9-cash-restricted.txt": {
+      "sha256": "9f5b035873efe0a7beee97d1b3daad911bfa914fe4564e5c532e78dd58756a37",
+      "bytes": 1143
+    },
+    "source/quotes.json": {
+      "sha256": "abe57b5bae74b9f82fe324c0bc367c9de3b2e76d7215706ea721cb1d2df9f56c",
+      "bytes": 11167
+    }
+  }
+}

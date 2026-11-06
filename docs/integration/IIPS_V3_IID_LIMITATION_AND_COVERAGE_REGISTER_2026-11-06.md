@@ -1201,3 +1201,124 @@ D-3 evidence bundles plus `evidence/iid` are byte-identical to their state on `m
 
 Evidence: `docs/integration/IIPS_V3_IID_WI2_PRICE_OBSERVATION_2026-11-06.md` and
 `evidence/real-issuer/WI2-PRICE-OBSERVATION-2026-11-06/`.
+
+---
+
+## 17. Work Item 3 — borrowings declared nil, and the intrinsic chain (2026-11-06; primary evidence)
+
+**No entry in `L-001` … `L-033` was closed, renumbered, softened, reinterpreted or re-statused by this section.** It
+records the primary evidence that closes defect D-2's evidence limb for this issuer, the intrinsic valuation that
+evidence unblocks, and the two limitations the publication exposes.
+
+**What changed.** Four columns were added to the Work Item 1 statement rows and four cells were declared on the
+2024-03-31 CONSOLIDATED row — `LONG_TERM_BORROWINGS`, `SHORT_TERM_BORROWINGS`,
+`CURRENT_MATURITIES_OF_LONG_TERM_DEBT` and `PREFERENCE_CAPITAL` — each carrying the filer's own sentence from the
+FY2024 audited consolidated statements (Note 2.11: “The Group has no outstanding borrowings.”; Note 2.12: “The Company
+has only one class of shares referred to as equity shares having a par value of ₹5/-.”). Dataset version moves
+`sha256:0ef4299d…` → `sha256:21cf2522…`; payload moves `06be8f66…` → `83644bc6…` (51,196 B). A structural comparison
+against the Work Item 2 payload finds 96 changed paths, every one attributed to the declaration or to a block
+downstream of it, the dataset identity, the run clock or the narrative list.
+
+**What it buys.** Gross debt resolves to ₹8,359 crore (Ind AS 116 lease liabilities; the three declared nils are named
+in its note and counted as zero), net debt to **−₹19,342 crore**, and the enterprise-to-equity bridge opens. The
+intrinsic range is computed for the first time — ₹875.34 / ₹1,088.97 / ₹1,399.81 per share, spread 48.16 % — and the
+margin of safety moves from `INTRINSIC_WITHHELD` to **computed**: −8.42 % vs mid, −34.88 % vs low, band `FAIR`,
+`refusal: null`, against the unchanged Work Item 2 close of ₹1,180.65. Two other outputs blocked on the same missing
+input also resolve by their published rules: the leverage risk dimension (`PASSED`, −0.47× net debt / EBITDA) and the
+dividend coverage verdict (`COVERED`); the moat classification moves `INSUFFICIENT_EVIDENCE` → `NARROW`. Confidence
+moves `0.4939` → `0.6736` with the same two caps (`STALE_DATA`, `DILUTION_PROXY`).
+
+**What it does not buy.** No valuation formula, threshold, weight, confidence cap, policy version or dataset schema
+changed. No nil was invented: every declaration quotes the filer, the grammar refuses a bare `NIL`
+(`NIL_WITHOUT_QUOTED_WORDING`), a nil without provenance (`NIL_WITHOUT_PROVENANCE`) and a nil on a derived item
+(`NIL_ON_DERIVED_ITEM`), and the Work Item 1 and Work Item 2 datasets still publish `NOT_REPORTED`. `restrictedCash`
+and `associatesAndJV` remain `NOT_COMPUTABLE: NOT_REPORTED`. The band is a distance from a midpoint, not a
+recommendation; the payload still declares `decisionSupportOnly` and `noTradeExecution`.
+
+### 17.1 L-034 — The published valuation rests entirely on policy-default inputs, and the design's cap for that is not implemented
+
+- **Originating phase:** IIPS v3.0 Work Item 3 (2026-11-06).
+- **Description:** now that an intrinsic value is published, its inputs deserve the same audit as its arithmetic. All
+  three weighted methods use `POLICY_DEFAULT` parameters: the discount rate is the policy WACC (Rf 6.9 %, ERP 5.5 %,
+  β 1.0, 70/30 weights → 10.677961 %), the terminal growth is 4 %, `PE_RELATIVE` uses a 22× target multiple and
+  `EV_EBITDA` a 12× multiple, both flagged `multipleBasis: 'POLICY_DEFAULT'` in `assumptions.methodSpecific`. The
+  design requires that a `POLICY_DEFAULT` discount rate “caps confidence” (§R-4.3, design line 1631) and that a
+  `POLICY_DEFAULT` target multiple “caps confidence” (line 1634). `assessment/confidence.ts` implements six caps —
+  `ADEQUACY_PARTIAL`, `ADEQUACY_INSUFFICIENT`, `STALE_DATA`, `DILUTION_PROXY`, `DIVIDEND_SOURCE_CONFLICT`,
+  `HIGH_METHOD_DISAGREEMENT` — and **none of them is a policy-default penalty**; the published formula string lists
+  the same six. The components are published, so the disclosure half of §R-4.3 is satisfied; the cap half is not.
+- **Affected contracts / outputs:** `confidence.caps` and `confidence.combined` for every assessment whose rate or
+  multiples are policy defaults — which, on this dataset, is all of them; `assumptions.discountRate.basis`;
+  `assumptions.methodSpecific[*].multipleBasis`.
+- **Status:** `OPEN`.
+- **Downstream phases affected:** any consumer that treats `confidence.combined` as a proxy for valuation reliability;
+  IID-6 display of confidence next to a published intrinsic value.
+- **Consequence for user-visible results:** the confidence of 0.6736 does **not** carry a penalty for the fact that the
+  value is a policy-default value rather than an issuer-modelled one. Two assessments, one with an
+  operator-supplied WACC and one with the policy default, can currently report the same confidence.
+- **Required resolution / evidence:** a policy decision on the cap's name and factor (it is a policy constant, not an
+  implementation detail), the corresponding branch in `confidence.ts` and clause in the published formula, plus an
+  acceptance test that pins the difference between an `OPERATOR_SET`/`WACC_DERIVED` rate and a `POLICY_DEFAULT` one.
+  **Not** taken here: this work item may not change a confidence cap or add a policy constant.
+- **Owner / responsible phase:** valuation and confidence policy.
+- **Evidence:** `docs/integration/IIPS_V3_IID_INVESTMENT_INTELLIGENCE_DESIGN_REFINEMENT_2026-11-05.md` lines 1631,
+  1634; `iips-platform/src/investment/assessment/confidence.ts` (formula and cap list);
+  `iips-platform/src/investment/assessment/policy.ts` lines 102–131; the payload's `assumptions` block in
+  `evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/artifact/assessment-payload-wi3.json`.
+- **Last status update:** 2026-11-06 (opened).
+
+### 17.2 L-035 — A nil declaration is documentary: the link from the quoted sentence to the component it fills is not machine-checked
+
+- **Originating phase:** IIPS v3.0 Work Item 3 (2026-11-06).
+- **Description:** `NIL_BY_DISCLOSURE` guarantees three things mechanically — that wording was supplied, that a
+  `filing_ref` and a period exist, and that the item is not a derived one. It does **not** check that the wording is
+  *about* that component. Here two mappings are interpretive: a group-level sentence (“The Group has no outstanding
+  borrowings.”) is applied to each of three components, and a parent-level sentence about share classes (“The Company
+  has only one class of shares …”) is applied to the consolidated `PREFERENCE_CAPITAL` block. Both are argued in
+  `source/quotes.json` (`directOrDerived`, `scopeNuance`) and in the bundle README, so a reader can audit them — but a
+  later operator could declare, say, a nil long-term borrowing from a sentence about trade payables, and the ingester
+  would accept it.
+- **Affected contracts / outputs:** `components[*].presence = NIL_BY_DISCLOSURE`, `grossDebt`, `netDebt`, and
+  everything downstream of them (`valuation.intrinsic`, `marginOfSafety`, leverage risk dimension, dividend coverage,
+  moat).
+- **Status:** `OPEN`.
+- **Downstream phases affected:** every future real-issuer declaration, and any IID-4/IID-6 surface that presents a
+  declaration to a user as established fact.
+- **Consequence for user-visible results:** the nil is as good as the operator's mapping. The evidence trail makes a
+  wrong mapping *visible* (quoted wording, hashed extract, `filing_ref`, period) but not *impossible*.
+- **Required resolution / evidence:** a declaration grammar that binds a nil to a statement section and a line-item
+  class (or a review step that records who accepted the mapping), plus acceptance tests for a mismatched
+  section/component pair. Not a formula change and not attempted here.
+- **Owner / responsible phase:** ingestion grammar (D-2 lineage) with investment research review.
+- **Evidence:** `evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/source/quotes.json`;
+  `frontend/server/investment/cli/wi3BorrowingsNil.test.ts` (bare-`NIL` refusal);
+  `iips-platform` ingestion grammar for `NIL:` cells.
+- **Last status update:** 2026-11-06 (opened).
+
+### 17.3 What §17 does not change
+
+| Entry / item | Effect of this section |
+|---|---|
+| `L-001` … `L-033` | untouched; no status, identifier, order or wording changes |
+| `L-003` (derived items are never nil) | untouched and still enforced; all four declarations are on as-filed items |
+| `L-004` (synthetic reference dataset) | untouched: still one issuer through one operator path |
+| `L-006` (restricted cash `NOT_COMPUTABLE`) | untouched: still `NOT_COMPUTABLE`, and now **quantified** — the filing's ₹348 crore of restricted balances equals ₹8.40/share, 0.77 % of intrinsic mid |
+| `L-007` (diluted count is an EPS proxy) | untouched; `DILUTION_PROXY` cap still applied |
+| `L-009` (no real-issuer coverage claim) | untouched: one issuer, 3 of 13 sectors |
+| `L-030` (single-exchange price) | untouched: the price is the same single BSE record |
+| `L-031` (empty corporate-action table) | **untouched in status (`OPEN`), materially changed in effect**: a published margin of safety now assumes unverified share-base continuity from 2024-03-31 to 2026-11-06 |
+| `L-033` (freshness unit divergence) | untouched; **no effect** here — the price is 0 days old and inside both the 5-trading-day and 7-calendar-day readings |
+| D-2 (nil-by-disclosure, §14) | evidence limb **satisfied for this issuer**: the filing states the nil in words, and the declaration is quoted, hashed and referenced |
+| D-3 (reason-code precision, §13/§15) | untouched by code; its subject matter moved to `COMPLETE` / `PASSED` because the leverage input is no longer missing |
+| Margin of safety | **state changed to computed** — `INTRINSIC_WITHHELD` → `refusal: null`, band `FAIR`, −8.42 % vs mid |
+| R-16 sector coverage | unchanged: 3 of 13 sectors |
+
+**What this section explicitly does not claim.** No investment verdict, recommendation, target price or trade
+instruction. `FAIR` is a distance from the midpoint of a range, published beside the symmetric reference. The
+statements are 950 days old and the valuation is a policy-default valuation; both are stated in the payload and in
+§17.1. No formula, threshold, weight, confidence cap, policy constant or valuation policy version was changed, and the
+Work Item 1, D-2, D-3 and Work Item 2 evidence bundles plus `evidence/iid` are byte-identical to their state on
+`main` @ `41c4498`.
+
+Evidence: `docs/integration/IIPS_V3_IID_WI3_BORROWINGS_NIL_2026-11-06.md` and
+`evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/`.

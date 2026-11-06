@@ -12,6 +12,7 @@ limitation in `L-001` … `L-029` was closed; see register §13.
 | `D2-POST-MERGE-REGRESSION-2026-11-06/` | Infosys (same input, unchanged) | Technology | regression after the D-2 merge (`b3987ef`) | `README.md`, `runs/` |
 | `D3-RISK-REASON-SEMANTICS-2026-11-06/` | Infosys (same input, unchanged) | Technology | defect **D-3 corrected** — reporting only | `README.md`, `runs/` |
 | `WI2-PRICE-OBSERVATION-2026-11-06/` | Infosys (same input **plus one BSE close**) | Technology | Work Item 2 — **price accepted, valuation still withheld** | `README.md`, `source/`, `dataset/`, `artifact/`, `runs/`, `digests.json` |
+| `WI3-BORROWINGS-NIL-2026-11-06/` | Infosys (same input **plus four declared nils**) | Technology | Work Item 3 — **debt resolved, intrinsic and margin of safety computed** | `README.md`, `source/`, `dataset/`, `artifact/` (payload + attributed diff), `runs/`, `digests.json` |
 
 The disposition word matters:
 
@@ -46,5 +47,20 @@ roster and the same three filed periods, adds one BSE end-of-day close (ISIN `IN
 from `NO_PRICE_OBSERVATION` to `INTRINSIC_WITHHELD`, because the borrower's debt position is still unreported.
 It closes no register entry and re-statuses none; the limitations it exposes are `L-030` … `L-033` (register §16).
 The Work Item 1 / D-2 / D-3 bundles are byte-identical to their state on `main` @ `41c4498`.
+
+**Work Item 3 adds one more bundle and rewrites nothing above.** `WI3-BORROWINGS-NIL-2026-11-06/` keeps the same
+roster, the same three filed periods and the same single BSE close, and appends four columns to the statement rows,
+declaring on the 2024-03-31 row — with the filer's own sentences and the FY2024 consolidated filing reference — that
+long-term borrowings, short-term borrowings, current maturities of long-term debt and preference capital are nil. The
+sentence is the point: Note 2.11 of the audited consolidated statements says “The Group has no outstanding borrowings.”,
+which is a declaration, not the *absence* of a line that the withdrawn Work Item 1 reading mistook for one. Gross debt
+therefore resolves to ₹8,359 crore of Ind AS 116 lease liabilities, net debt to −₹19,342 crore, and the intrinsic
+range (₹875.34 / ₹1,088.97 / ₹1,399.81) and margin of safety (−8.42 % vs mid, band `FAIR`, `refusal: null`) are
+computed against the unchanged price of ₹1,180.65. The earlier bundles stay byte-identical: this bundle is new
+evidence about the same issuer, not an edit of theirs, so their summaries continue to describe what they recorded at
+the time. It closes no register entry and re-statuses none; it adds `L-034` (policy-default valuation inputs carry no
+confidence cap) and `L-035` (a nil declaration's mapping to its component is documentary), and it makes `L-031`
+material without changing it — the published margin of safety now assumes share-base continuity the dataset does not
+verify. See register §17 and `docs/integration/IIPS_V3_IID_WI3_BORROWINGS_NIL_2026-11-06.md`.
 
 **No investment conclusion is stated anywhere in this directory.**

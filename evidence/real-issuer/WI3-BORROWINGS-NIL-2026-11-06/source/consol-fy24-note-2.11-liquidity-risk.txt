@@ -1,0 +1,37 @@
+Source: INFOSYS LIMITED AND SUBSIDIARIES — Consolidated Financial Statements under Indian Accounting Standards (Ind AS)
+for the year ended March 31, 2024.
+URL: https://www.infosys.com/investors/reports-filings/quarterly-results/2023-2024/q4/documents/consolidated/consol-fy24-annual-finstatement.pdf
+Locator: Note 2.11 FINANCIAL INSTRUMENTS -> Financial risk management -> Liquidity risk (document pages 20-26)
+Retrieved: parse chunk 13 of 17, 2026-11-06.
+
+--- verbatim extract begins ---
+
+Liquidity risk
+Liquidity risk is defined as the risk that the Group will not be able to settle or meet its obligations on time.
+
+The Group's principal sources of liquidity are cash and cash equivalents and the cash flow that is generated from
+operations. The Group has no outstanding borrowings. The Group believes that the working capital is sufficient to meet
+its current requirements.
+
+As at March 31, 2024, the Group had a working capital of ₹50,638 crore including cash and cash equivalents of
+₹14,786 crore and current investments of ₹12,915 crore. As at March 31, 2023, the Group had a working capital of
+₹31,695 crore including cash and cash equivalents of ₹12,173 crore and current investments of ₹6,909 crore.
+
+The table below provides details regarding the contractual maturities of significant financial liabilities as at
+March 31, 2024:
+
+| Particulars | Less than 1 year | 1-2 years | 2-4 years | 4-7 years | Total |
+| Trade payables | 3,956 | - | - | - | 3,956 |
+| Other financial liabilities (excluding liability towards contingent consideration) on an undiscounted basis
+  (Refer to Note 2.13) | 13,820 | 1,321 | 570 | 67 | 15,778 |
+| Financial liability under option arrangements on an undiscounted basis (Refer to Note 2.13) | 554 | - | - | 136 | 690 |
+
+--- verbatim extract ends ---
+
+READING NOTE. The maturity table lists trade payables and other financial liabilities only: no borrowing line appears
+in it. The sentence that is used for the nil declaration is, verbatim:
+
+    The Group has no outstanding borrowings.
+
+It is a group-level statement (the note is in the Consolidated Financial Statements) about the balance sheet as at
+March 31, 2024.

@@ -1,0 +1,49 @@
+Source: INFOSYS LIMITED AND SUBSIDIARIES — Consolidated Financial Statements under Indian Accounting Standards (Ind AS)
+for the year ended March 31, 2024.
+URL: https://www.infosys.com/investors/reports-filings/quarterly-results/2023-2024/q4/documents/consolidated/consol-fy24-annual-finstatement.pdf
+Locator: Note 2.12 EQUITY -> EQUITY SHARE CAPITAL and -> Capital allocation policy / capital management
+         (document pages 26-31)
+Retrieved: parse chunk 14 of 17, 2026-11-06.
+
+--- verbatim extract begins ---
+
+EQUITY SHARE CAPITAL
+
+| Particulars | As at March 31, 2024 | As at March 31, 2023 |
+| Authorized | | |
+| Equity shares, ₹5 par value | | |
+| 480,00,00,000 (480,00,00,000) equity shares | 2,400 | 2,400 |
+| Issued, Subscribed and Paid-Up | | |
+| Equity shares, ₹5 par value | 2,071 | 2,069 |
+| 4,13,99,50,635 (4,13,63,87,925) equity shares fully paid-up | | |
+| Note: Forfeited shares amounted to ₹1,500 (₹1,500) | | |
+
+The Company has only one class of shares referred to as equity shares having a par value of ₹5/-. Each holder of
+equity shares is entitled to one vote per share. The equity shares represented by American Depositary Shares (ADS)
+carry similar rights to voting and dividends as the other equity shares. Each ADS represents one underlying equity
+share.
+
+In the period of five years immediately preceding March 31, 2024, the Company had purchased and extinguished a total of
+21,41,00,951 fully paid-up equity shares of face value ₹5/- each from the stock exchange. The Company has only one
+class of equity shares.
+
+...
+
+The Company's objective when managing capital is to safeguard its ability to continue as a going concern and to
+maintain an optimal capital structure so as to maximize shareholder value. In order to maintain or achieve an optimal
+capital structure, the Company may adjust the amount of dividend payment, return capital to shareholders, issue new
+shares or buy back issued shares. As of March 31, 2024, the Company has only one class of equity shares and has no
+debt. Consequent to the above capital structure there are no externally imposed capital requirements.
+
+--- verbatim extract ends ---
+
+READING NOTE. The nil used for `PREFERENCE_CAPITAL` is the first quoted sentence:
+
+    The Company has only one class of shares referred to as equity shares having a par value of ₹5/-.
+
+SCOPE NUANCE, recorded so it is not glossed: that sentence is about "the Company" (the parent), while the capital
+block it feeds is the consolidated one. It is applied to the consolidated block because the consolidated statement of
+equity and liabilities shows exactly two equity lines for the owners — equity share capital (₹2,071 crore) and other
+equity (₹86,045 crore) — plus non-controlling interests (₹345 crore), and no preference instrument appears anywhere in
+the consolidated balance sheet. The capital-management paragraph immediately above adds, for the same date, "As of
+March 31, 2024, the Company has only one class of equity shares and has no debt."

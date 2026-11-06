@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "payload": {
+    "path": "artifact/assessment-payload-wi3.json",
+    "sha256": "83644bc68e3d68f3f714fb205179eae63c6da2ff9d5cdcf77d0a3d5c573d493d",
+    "bytes": 51196,
+    "chainHeadPayloadDigest": "83644bc68e3d68f3f714fb205179eae63c6da2ff9d5cdcf77d0a3d5c573d493d",
+    "inputDigest": "sha256:dfa4b77be4aeed4a63c2b8be43580d412a0ba674b174abcf5357a6717642837d"
+  },
+  "matchesChainHead": true,
+  "dataset": {
+    "datasetVersion": "sha256:21cf25222fcdf0ac31d8e285c631b272f8d3d5e8567f2ed9594e4fff81725847",
+    "manifestSha256": "c8d0e3665ea4cbf36f79768b06084a8dbb60f555e7ac9d101ee70ea24635412d",
+    "knownAsOf": "2026-11-06T14:05:00.000Z",
+    "prices": 1,
+    "corporateActions": 0
+  },
+  "declarations": {
+    "count": 4,
+    "components": [
+      "LONG_TERM_BORROWINGS",
+      "SHORT_TERM_BORROWINGS",
+      "CURRENT_MATURITIES_OF_LONG_TERM_DEBT",
+      "PREFERENCE_CAPITAL"
+    ],
+    "periodEnd": "2024-03-31",
+    "filingRef": "INFY-INDAS-CONSOL-FY24"
+  },
+  "diff": {
+    "path": "artifact/payload-diff-vs-wi2.json",
+    "changedPathCount": 96,
+    "attributionCounts": {
+      "RUN_CLOCK": 3,
+      "NARRATIVE": 3,
+      "CONFIDENCE_INPUTS_COMPLETE": 2,
+      "DATASET_IDENTITY": 2,
+      "DIVIDEND_COVERAGE_UNBLOCKED": 7,
+      "DERIVED_SERIES": 1,
+      "DEBT_DECLARATION": 46,
+      "MOAT_UNBLOCKED": 9,
+      "RISK_EVALUATION_UNBLOCKED": 8,
+      "VALUATION_UNBLOCKED": 15
+    }
+  },
+  "headline": {
+    "grossDebtINR": 83590000000,
+    "netDebtINR": -193420000000,
+    "intrinsicPerShareMid": 1088.972274952081,
+    "priceINR": 1180.65,
+    "mosVsMid": -0.08418738213693565,
+    "band": "FAIR"
+  },
+  "note": "every number here is recomputable with sha256sum and a re-run of the two commands in runs/commands.txt"
+}

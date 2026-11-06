@@ -1,0 +1,17 @@
+Source: INFOSYS LIMITED AND SUBSIDIARIES — Consolidated Financial Statements (Ind AS) for the year ended March 31, 2024.
+URL: https://www.infosys.com/investors/reports-filings/quarterly-results/2023-2024/q4/documents/consolidated/consol-fy24-annual-finstatement.pdf
+Locator: Note 2.9 CASH AND CASH EQUIVALENTS (document pages 19-20)
+Retrieved: parse chunk 9 of 17, 2026-11-06.
+
+--- verbatim extract begins ---
+
+Cash and cash equivalents as at March 31, 2024 and March 31, 2023 include restricted cash and bank balances of
+₹348 crore and ₹362 crore respectively. The restrictions are primarily on account of bank balances held by
+irrevocable trusts controlled by the company.
+
+--- verbatim extract ends ---
+
+WHY IT IS HERE, NOT IN THE DECLARATION. This is the residual accuracy limit on the now-published net debt: the filed
+"cash and cash equivalents" line (₹14,786 crore) *contains* ₹348 crore that the filing itself calls restricted, and
+dataset schema v1 has no restricted-balance line item, so the block cannot subtract it. Register entry L-006 covers it;
+the effect is quantified in the bundle README rather than adjusted away.
