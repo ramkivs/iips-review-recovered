@@ -52,9 +52,20 @@ const DISPOSITION = 'investment.holding-disposition';
  * move at all.
  */
 const REF = Object.freeze({
-  C1: '6d29501048a1095584c8327cd4804e9d9684f83d53b1196b20e5f2010bfdbb80',
-  C4: '19a08af33f603315f58b5af226ed786dbcc0b5838e52c9ca99f8845226927370',
-  C5: '0032be68e2de75f94a54430593ecc16112c5b7115525ce04e94fd94703a982f8',
+  /**
+   * `L-034`/`L-036` moved these three again, and only these three.
+   *
+   * The payload now carries `confidence.assumptionCaps` and `fundamentals.capitalStructure.equityBridge`, one extra
+   * clause in the confidence formula, two `limitations` sentences and the associates note on each enterprise-derived
+   * per-share observation. Both earlier layers are still reproduced byte for byte in
+   * `substantive-identity.test.ts`: the decision's published values (`08ea8d4a…`, `fd9589e4…`, `34240407…`) through
+   * `preD3(undoDisclosure(...))`, and the post-D-3 values (`6d295010…`, `19a08af3…`, `0032be68…`) through
+   * `undoDisclosure(...)`. The two input digests and the disposition digest do not move, because the engine takes no
+   * new input and no disposition member changed.
+   */
+  C1: '33c02caa98219de531e6cc5206830020fab3b56ce1559fc079290145d6f8818c',
+  C4: 'df2cacd8978dba5b09f0649604a35ada47dfa604aa5f229d070e85b9f914dd08',
+  C5: '7e4251bc9d488e2240b7ce7d2299a338bc5db15bd73f08e0ad60a95524cd6cac',
   /**
    * The disposition value THIS repository's M1 held fixture produces. Decision §5.2 publishes `126bd28f…` for a D0
    * fixture it does not print; both readings of the `nextReviewOn` rule were executed against this fixture and

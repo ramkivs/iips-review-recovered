@@ -309,3 +309,59 @@ describe('the only controls are read selectors', () => {
     expect(section.textContent).not.toMatch(/\bACCUMULATE\b|\bAVOID_CANDIDATE\b/);
   });
 });
+
+describe('L-034/L-036 — the assessment surface shows what the valuation rests on', () => {
+  it('renders the enterprise-to-equity treatment, its policy version and the substituted input', async () => {
+    stub(() => jsonOk(ASSESSMENT_ENVELOPE));
+    renderAt(`/investment/company/${encodeURIComponent(ISSUER)}`);
+
+    await screen.findByRole('heading', { name: /Aarav Systems Limited/ });
+    const section = document.getElementById('valuation') as HTMLElement;
+    expect(within(section).getByRole('heading', { name: /Enterprise-to-equity bridge/ })).toBeInTheDocument();
+    expect(within(section).getByText('POLICY_ZERO_UNAVAILABLE')).toBeInTheDocument();
+    expect(within(section).getByText('associates-treatment/1.0.0')).toBeInTheDocument();
+    expect(within(section).getByText(/associatesAndJV \(POLICY_ZERO; NOT_COMPUTABLE: NOT_REPORTED\)/)).toBeInTheDocument();
+    // The sentence that stops a reader mistaking the zero for an issuer nil is on the page, not just in the payload.
+    expect(
+      within(section).getByText(/This is a policy substitution, not an issuer-reported nil: equity value is understated/),
+    ).toBeInTheDocument();
+  });
+
+  it('lists the policy-default caps as declared and NOT applied, separately from the caps applied', async () => {
+    stub(() => jsonOk(ASSESSMENT_ENVELOPE));
+    renderAt(`/investment/company/${encodeURIComponent(ISSUER)}`);
+
+    await screen.findByRole('heading', { name: /Aarav Systems Limited/ });
+    const section = document.getElementById('confidence') as HTMLElement;
+    const declared = within(section).getByRole('heading', { name: /Caps declared but not applied/ });
+    expect(declared).toBeInTheDocument();
+    expect(within(section).getByText('POLICY_DEFAULT_WACC')).toBeInTheDocument();
+    expect(within(section).getByText('POLICY_DEFAULT_MULTIPLE')).toBeInTheDocument();
+    expect(within(section).getAllByText(/factor not set in policy/).length).toBe(2);
+    expect(within(section).getAllByText(/DCF_FCFF\/discountRate/).length).toBe(1);
+
+    // The applied list still says exactly what was applied, and nothing else.
+    const capsApplied = within(section).getByRole('heading', { name: /Caps applied/ });
+    const appliedList = capsApplied.nextElementSibling as HTMLElement;
+    expect(appliedList.textContent).toContain('STALE_DATA');
+    expect(appliedList.textContent).not.toContain('POLICY_DEFAULT_WACC');
+  });
+
+  it('does not turn a missing disclosure into a zero or a blank (AC-6.3)', async () => {
+    const withoutDisclosure = JSON.parse(JSON.stringify(ASSESSMENT_ENVELOPE)) as typeof ASSESSMENT_ENVELOPE;
+    const payload = withoutDisclosure.assessment as {
+      fundamentals?: { capitalStructure?: Record<string, unknown> };
+      confidence: Record<string, unknown>;
+    };
+    delete payload.fundamentals?.capitalStructure?.equityBridge;
+    delete payload.confidence.assumptionCaps;
+    stub(() => jsonOk(withoutDisclosure));
+    renderAt(`/investment/company/${encodeURIComponent(ISSUER)}`);
+
+    await screen.findByRole('heading', { name: /Aarav Systems Limited/ });
+    const valuation = document.getElementById('valuation') as HTMLElement;
+    expect(within(valuation).getByText(/no enterprise-to-equity disclosure/)).toBeInTheDocument();
+    const confidence = document.getElementById('confidence') as HTMLElement;
+    expect(within(confidence).getByText(/No unapplied cap is declared on this version/)).toBeInTheDocument();
+  });
+});

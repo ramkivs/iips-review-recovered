@@ -30,6 +30,41 @@ export interface NumericObservationView {
   readonly source?: { readonly kind: string; readonly ref: string; readonly filedAt?: string };
 }
 
+/**
+ * `L-036` — the enterprise-to-equity bridge as the payload publishes it.
+ *
+ * The disclosure states what the bridge did with a term the dataset cannot supply. It is rendered rather than
+ * summarised: the treatment, the policy version and the substituted input are the provenance a reader needs to
+ * know that a per-share value rests on a policy zero.
+ */
+export interface EquityBridgeView {
+  readonly formula: string;
+  readonly policyVersion: string;
+  readonly treatment: string;
+  readonly substitutedInputs: readonly {
+    readonly input: string;
+    readonly presence: string;
+    readonly reason: string | null;
+    readonly treatment: string;
+  }[];
+  readonly note: string;
+}
+
+/**
+ * `L-034` — a cap the design requires and the policy does not quantify.
+ *
+ * `caps` lists the penalties that were applied; this member names the ones that were NOT, with the reason and the
+ * methods that triggered them. Keeping the two apart is the point: declaring a cap is not applying one.
+ */
+export interface AssumptionCapView {
+  readonly cap: string;
+  readonly basis: string;
+  readonly applied: boolean;
+  readonly factor: number | null;
+  readonly triggers: readonly { readonly methodId: string; readonly assumption: string }[];
+  readonly reason: string | null;
+}
+
 export interface AssessmentVersionView {
   readonly reportId: string;
   readonly artifactVersion: number;
@@ -206,6 +241,11 @@ export interface CompanyAssessmentView {
     readonly combined: number;
     /** The caps applied after the weighted combination, in the order the policy applied them. */
     readonly caps?: readonly string[];
+    /**
+     * `L-034` — caps the design requires and the policy leaves unquantified. They are declared here and are NOT
+     * part of `caps`, because no penalty was applied. Absent on versions written before the declaration existed.
+     */
+    readonly assumptionCaps?: readonly AssumptionCapView[];
     readonly formula?: string;
   };
   readonly assumptions: {
@@ -241,7 +281,12 @@ export interface CompanyAssessmentView {
     }[];
     readonly ttm?: { readonly periodEnd?: string; readonly values?: Readonly<Record<string, NumericObservationView>> } | null;
     readonly trends?: Readonly<Record<string, NumericObservationView | string | number | null>>;
-    readonly capitalStructure?: Readonly<Record<string, NumericObservationView | string | number | null>>;
+    readonly capitalStructure?: Readonly<
+      Record<string, NumericObservationView | string | number | null | EquityBridgeView>
+    > & {
+      /** `L-036` — stated treatment and provenance for the associates/JV term. Absent before the disclosure. */
+      readonly equityBridge?: EquityBridgeView;
+    };
   };
   readonly sectorReferenceView: {
     readonly evidenceClass: string;

@@ -1,0 +1,74 @@
+# VII — verification actually run (2026-11-06)
+
+Every command below was executed in this working tree with the L-034/L-036 changes applied. Exit codes were captured
+directly, never through a pipe, so a failure could not be masked by the log tail.
+
+## 1 — platform investment suite  (cd iips-platform && npm run test:iid)
+
+  # tests 431
+  # pass 431
+  # fail 0
+  exit: 0
+
+## 2 — platform typecheck  (cd iips-platform && npm run typecheck)
+  exit: 0
+  output: clean (tsc emitted nothing)
+
+## 3 — frontend application typecheck  (cd frontend && npm run typecheck)
+  exit: 0
+  output: clean (tsc emitted nothing)
+
+## 4 — frontend investment-server typecheck  (cd frontend && npm run typecheck:investment-server)
+  exit: 0
+  output: clean
+
+## 5 — the tests this work item adds or re-bases
+
+  (a) platform: describeEquityBridge, perShare() note propagation, assumptionCapsOf
+
+      npx tsx --test tests/investment/assessment-valuation-integrity.test.ts
+    # tests 11
+    # pass 11
+    # fail 0
+    exit: 0
+
+  (b) frontend: the payload the store returns  (AC-036.3, AC-036.5, AC-034.5)
+
+      npx vitest run server/investment/cli/valuationIntegrity.test.ts
+          Tests  9 passed (9)
+    exit: 0
+
+  (c) frontend: substantive identity and the L-014 acceptance tests after the payload evolution
+
+      npx vitest run server/investment/substantive-identity.test.ts server/investment/ac-l14.test.ts
+          Tests  40 passed (40)
+    exit: 0
+
+## 6 — full frontend suite  (cd frontend && npx vitest run)
+
+   Test Files  146 passed | 1 skipped (147)
+        Tests  1855 passed | 1 skipped (1856)
+  exit: 0
+
+## 7 — what this suite does to stored evidence, and how that was handled
+
+  Two files under evidence/iid/IID-AC-X2-ZERO-SOCKET-2026-11-06/ are rewritten by that suite as part of its own
+  fixture regeneration. They were restored with 'git checkout -- evidence/iid/' immediately afterwards, and
+  'git status --short evidence/' then reported no modification under evidence/iid/ other than this bundle.
+
+## 8 — not run, and why
+
+  'cd iips-platform && npm test' (the whole platform suite) fails 30 A13 protected-surface regression tests in
+  this checkout because they resolve a pinned commit that the clone does not contain:
+    Command failed: git --no-replace-objects rev-parse 5ca181c7564a063a01265efdfdc5996563888d49^{tree}
+    fatal: ambiguous argument ... unknown revision or path not in the working tree
+  That is an environment limit of the sandbox clone, not a result of these changes, and it is demonstrated rather
+  than assumed:
+
+    git rev-list --count --all                                   -> 1        (the checkout has one commit)
+    git cat-file -e 5ca181c7564a063a01265efdfdc5996563888d49^{tree} -> exit 128 (object absent, tree-independent)
+
+  A test that resolves a historical commit cannot pass in a one-commit clone whatever the working tree contains, so
+  those failures carry no information about this change. The work item's gate (tests/investment) is green; the
+  protected-surface tests are unaffected by a change confined to assessment/ and the IRR composition layer, and are
+  left to CI, where history is complete.

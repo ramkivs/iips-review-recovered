@@ -1,0 +1,84 @@
+# VII — commands actually run
+
+Working directory `frontend/` unless stated; `iips-platform/` for ingestion. Nothing here touches the network and no
+statement text was re-read: the inputs are the **committed Work Item 3 evidence**, byte for byte, and this bundle
+records their digests rather than re-deriving the issuer's figures.
+
+    B=evidence/real-issuer/VII-VALUATION-INTEGRITY-2026-11-06
+    W=evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06
+
+## 1 — inputs (not re-authored)
+
+`$W/ingest-input/{periods.csv,roster.json,prices.json}`, `$W/identity/*.json` and
+`$W/runs/owner-carrier.json` (from `REL-1-INFOSYS-2026-11-06`) are used exactly as committed. Their sha256 values are
+recorded in `digests.json` under `inputs`, and `inputsIdenticalToWorkItem3: true` is asserted there by comparing the
+computed values with the digests recorded in the Work Item 3 bundle. No input file was edited.
+
+## 2 — ingest (rebuilds the dataset from those inputs)
+
+    cd iips-platform
+    npx tsx src/investment/cli/ingest.ts \
+      --input ../$W/ingest-input \
+      --dataset-dir /tmp/vii2/data/investment/dataset \
+      --now 2026-11-06T14:05:00.000Z
+    # datasetVersion sha256:21cf25222fcdf0ac31d8e285c631b272f8d3d5e8567f2ed9594e4fff81725847  (identical to WI-3)
+    # issues.json []                                    (stdout: runs/01-ingest.txt, exit 0)
+
+## 3 — identity and owner carrier
+
+    cp $W/identity/*.json /tmp/vii2/data/investment/identity/
+    cp evidence/real-issuer/REL-1-INFOSYS-2026-11-06/runs/owner-carrier.json /tmp/vii2/owner.json
+
+## 4 — generate -> assess -> compose -> validate -> persist -> verify
+
+    cd frontend
+    IIPS_NP04_DATABASE_PATH=/tmp/vii2/data/investment/investment.db \
+    npx tsx server/investment/cli/generate-investment-artifacts.ts \
+      --issuer         IN:CIN:L85110KA1981PLC013115 \
+      --data-dir       /tmp/vii2/data/investment/dataset \
+      --identity-dir   /tmp/vii2/data/investment/identity \
+      --db             /tmp/vii2/data/investment/investment.db \
+      --owner-carrier  /tmp/vii2/owner.json \
+      --generated-at   2026-11-06T14:05:00.000Z \
+      --out            $B/runs/cli-vii-created.json
+
+    # assessment SUFFICIENT / MATERIAL_CONCERNS / confidence 0.6736      (unchanged)
+    # compose    reportKey ed1e54b03e5e… payloadDigest 6a328ef09636…      (reportKey unchanged, digest moved)
+    # persist    CREATED (wrote) · verify chain valid: 1 version(s), head v1
+    #                                                    (stdout: runs/02-generate.txt, exit 0)
+
+The run clock is the Work Item 3 clock, deliberately: a different clock would move `generatedAt`, `knownAsOf` and
+`stalenessDays` and make the payload diff report changes that have nothing to do with this work item.
+
+## 5 — replay into a second, empty store (determinism, not a second result)
+
+    # same flags, --db /tmp/vii2/replay.db, --out $B/runs/cli-vii-replay.json
+    # identical payloadDigest and reportKey; only the instance reportId differs
+    #                                                    (stdout: runs/04-replay.txt, exit 0)
+
+## 6 — payload re-read through the service read path
+
+Temporary `frontend/.tmp-vii-dump.ts` driver (deleted after use, as in WI-3):
+`loadAuthoritativeNp04Persistence` -> `createInvestmentArtifactService` -> `readVersionWithPayload`.
+
+    sha256sum $B/artifact/assessment-payload-vii.json
+    # 6a328ef09636c51d069156cad1ea6e0e50c34e62fff0be1d64949f73a1f3504e  = the chain head's payloadDigest
+    #                                                    (stdout: runs/03-payload-readback.txt, exit 0)
+
+The payload in this bundle is therefore the **stored** payload, not the engine's in-memory object — which is the whole
+point for L-036, a defect that lived exactly in the gap between the two.
+
+## 7 — structural diff against the Work Item 3 payload
+
+A structural walk of the two payloads, with every changed path attributed to one of five causes
+(`L036_BRIDGE_DISCLOSURE`, `L036_NOTE_PROPAGATION`, `L034_CAP_DECLARATION`, `L034_FORMULA_CLAUSE`,
+`DISCLOSURE_PROSE`). The generator aborts on an unattributed path, so the file cannot quietly absorb an unexplained
+change; the run reported `unattributedPathCount: 0` over six paths.
+`artifact/payload-diff-vs-wi3.json` also records the eight headline outputs and that each is byte-identical.
+
+## 8 — verification
+
+See `runs/05-verification.txt`: platform `test:iid` 431/431, platform typecheck clean, frontend typecheck clean,
+frontend investment-server typecheck clean, the three new/re-based test files green, and the full frontend suite
+1855 passed / 1 skipped over 146 files. That file also records the one suite that cannot run in this checkout and the
+`git cat-file` evidence that the failure is environmental.

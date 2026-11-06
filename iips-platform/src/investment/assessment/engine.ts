@@ -19,6 +19,7 @@ import { notApplicable } from '../contracts/observation';
 import { buildCompleteness, buildQuality } from './adequacy';
 import { buildCapitalStructure } from './capitalStructure';
 import { buildConfidence } from './confidence';
+import type { PolicyDefaultTrigger } from './confidence';
 import { buildDividends } from './dividends';
 import { assessmentNarrative } from './explain';
 import { buildIntrinsic, buildSensitivity } from './intrinsic';
@@ -141,6 +142,28 @@ function methodsWithOutput(methods: readonly ValuationMethodResult[]): readonly 
   return methods.filter((method) => method.applicable && method.output !== null);
 }
 
+/**
+ * R-4.3: which methods built their number on a `POLICY_DEFAULT` assumption. Read from the published assumptions of
+ * the methods that actually produced an output, so the disclosure and the arithmetic cannot diverge: the WACC is a
+ * policy default when the operator supplied no rate, and a multiple is a policy default whenever the method says so.
+ */
+function policyDefaultTriggersOf(
+  methods: readonly ValuationMethodResult[],
+  waccBasis: 'WACC_DERIVED' | 'OPERATOR_SET' | 'POLICY_DEFAULT',
+): readonly PolicyDefaultTrigger[] {
+  const triggers: PolicyDefaultTrigger[] = [];
+  for (const method of methodsWithOutput(methods)) {
+    const assumptions = method.assumptions ?? {};
+    if ('wacc' in assumptions && waccBasis === 'POLICY_DEFAULT') {
+      triggers.push({ methodId: method.methodId, assumption: 'discountRate' });
+    }
+    if (assumptions.multipleBasis === 'POLICY_DEFAULT') {
+      triggers.push({ methodId: method.methodId, assumption: 'targetMultiple' });
+    }
+  }
+  return triggers;
+}
+
 /** Assess one issuer. Deterministic for identical inputs. */
 export function assessCompany(input: AssessCompanyInput): AssessCompanyResult {
   const series: SeriesSelection = selectSeries(input.dataset.periods, input.issuerId);
@@ -217,6 +240,8 @@ export function assessCompany(input: AssessCompanyInput): AssessCompanyResult {
     dilutionProxy: structure.dilutionProxy,
     dividendConflict: dividends.conflict !== null,
     applicability: { applicable: applicableMethods.length, considered: methods.length },
+    policyDefaultAssumptions: policyDefaultTriggersOf(methods, assumption.basis),
+    policyDefaultCaps: VALUATION_POLICY.policyDefaultAssumptionCaps,
   });
 
   const trends = buildTrends(series);
@@ -267,6 +292,23 @@ export function assessCompany(input: AssessCompanyInput): AssessCompanyResult {
   if (declaredNilDebt.length > 0) {
     limitations.push(
       `Gross debt counts ${declaredNilDebt.length} component(s) that the filer declared nil as zero (${declaredNilDebt.join(', ')}). Each is published as NIL_BY_DISCLOSURE with its filing reference and period, not as a reported zero, and an unreported or unavailable component would still block the aggregate.`,
+    );
+  }
+  // L-036: the bridge substitutes a policy zero for an unreported associates/JV carrying value, so the sentence
+  // travels in the payload's own prose as well as in `capitalStructure.equityBridge` and on each per-share figure.
+  if (structure.equityBridge.treatment === 'POLICY_ZERO_UNAVAILABLE') {
+    limitations.push(structure.equityBridge.note);
+  }
+  // L-034: R-4.3 declares a cap for policy-default assumptions and specifies no magnitude. The payload names the
+  // caps in force and says plainly that no penalty was applied, so a reader never mistakes 0.6736 for a number
+  // that already carries a policy-default penalty.
+  const declaredCaps = confidence.assumptionCaps.filter((declaration) => !declaration.applied);
+  if (declaredCaps.length > 0) {
+    const triggers = [...new Set(declaredCaps.flatMap((declaration) => declaration.triggers.map((trigger) => `${trigger.methodId}/${trigger.assumption}`)))];
+    limitations.push(
+      `R-4.3 declares a confidence cap for policy-default valuation assumptions (${declaredCaps
+        .map((declaration) => declaration.cap)
+        .join(', ')}) triggered by ${triggers.join(', ')}. The design of record specifies no factor, so the caps are declared in confidence.assumptionCaps and NOT applied: the published confidence carries no policy-default penalty.`,
     );
   }
   const unimplemented = methods.filter((method) => method.notApplicableReason?.startsWith('METHOD_NOT_IMPLEMENTED_IN_ENGINE_V1'));

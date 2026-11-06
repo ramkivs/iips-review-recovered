@@ -40,8 +40,15 @@
 import type { LineItemId } from '../contracts/lineItems';
 import type { NumericObservation } from '../contracts/observation';
 import { missing, notComputable, present } from '../contracts/observation';
-import type { CapitalStructure, FinancialPeriodView, LeaseTreatment, SeriesSelection } from './types';
+import type {
+  CapitalStructure,
+  EquityBridgeDisclosure,
+  FinancialPeriodView,
+  LeaseTreatment,
+  SeriesSelection,
+} from './types';
 import { periodObservation } from './periods';
+import { VALUATION_POLICY } from './policy';
 
 const EMPTY_SOURCE = { kind: 'DERIVED' as const, ref: 'capital-structure/1.0.0' };
 
@@ -229,6 +236,7 @@ export function buildCapitalStructure(series: SeriesSelection): CapitalStructure
     // EPS-implied basic count and the confidence cap `DILUTION_PROXY` is applied downstream.
     dilutionProxy: true,
     components,
+    equityBridge: describeEquityBridge({ associatesAndJV: components.associatesAndJV ?? notComputable('NOT_REPORTED') }),
   };
 }
 
@@ -240,11 +248,42 @@ export function buildCapitalStructure(series: SeriesSelection): CapitalStructure
  * blocking gap is what made a debt-free company unvaluable (D-2). A `MISSING`/`NOT_COMPUTABLE` claim still blocks
  * the conversion exactly as before, and a nil claim is named in the note.
  */
+/**
+ * R-4.1's enterprise-to-equity step, described once so the sentence a reader sees cannot drift from the arithmetic
+ * that was performed. Built at capital-structure time, not at conversion time, so it is present in the payload even
+ * when no enterprise-value method runs.
+ */
+export function describeEquityBridge(structure: Pick<CapitalStructure, 'associatesAndJV'>): EquityBridgeDisclosure {
+  const policy = VALUATION_POLICY.associatesTreatment;
+  const reported = structure.associatesAndJV.presence === 'PRESENT' && structure.associatesAndJV.value !== null;
+  const substituted = reported
+    ? []
+    : [
+        {
+          input: 'associatesAndJV',
+          presence: structure.associatesAndJV.presence,
+          reason: structure.associatesAndJV.reason ?? null,
+          treatment: 'POLICY_ZERO' as const,
+        },
+      ];
+  return {
+    formula:
+      'equityValue = enterpriseValue − netDebt − minorityInterest − preferenceCapital + associatesAndJV',
+    policyVersion: policy.policyVersion,
+    treatment: reported ? 'CARRYING_VALUE_REPORTED' : 'POLICY_ZERO_UNAVAILABLE',
+    substitutedInputs: substituted,
+    note: reported
+      ? `Associates/JV enter the enterprise-to-equity bridge at carrying value ${structure.associatesAndJV.value} (policy ${policy.policyVersion}, basis ${policy.basis}).`
+      : `Associates/JV carrying value is not recorded in dataset schema v1 (${structure.associatesAndJV.presence}${
+          structure.associatesAndJV.reason === undefined ? '' : `: ${structure.associatesAndJV.reason}`
+        }), so the enterprise-to-equity bridge substitutes zero for that term under policy ${policy.policyVersion}. This is a policy substitution, not an issuer-reported nil: equity value is understated by any associates/JV carrying value the issuer reports.`,
+  };
+}
+
 export function equityValueFromEnterprise(enterpriseValue: NumericObservation, structure: CapitalStructure): NumericObservation {
   if (enterpriseValue.presence !== 'PRESENT' || enterpriseValue.value === null) return enterpriseValue;
-  // R-4.1 requires associates/JV at carrying value. Dataset schema v1 has no such line item, so its absence
-  // is carried as a declared policy zero — published in the method's assumptions — rather than as a silent
-  // omission or as a hard block on every enterprise-value method.
+  // R-4.1 requires associates/JV at carrying value; where the dataset cannot supply it the term is a *named*
+  // policy zero (see `describeEquityBridge`), never a silent omission and never a reported nil.
   const declaredNil: string[] = [];
   for (const [name, observation] of [
     ['netDebt', structure.netDebt],
@@ -270,9 +309,9 @@ export function equityValueFromEnterprise(enterpriseValue: NumericObservation, s
     value(structure.preferenceCapital) + associates;
   const notes = [
     declaredNil.length === 0 ? null : `claims declared nil by the filer, subtracted as zero: ${declaredNil.join(', ')}`,
-    structure.associatesAndJV.presence === 'PRESENT'
-      ? null
-      : 'associates/JV carrying value is not recorded in dataset schema v1; treated as zero by policy R-4.1 and disclosed',
+    // The associates sentence comes from the recorded disclosure, so the conversion and the payload say the
+    // same thing about the same policy version.
+    structure.equityBridge.treatment === 'POLICY_ZERO_UNAVAILABLE' ? structure.equityBridge.note : null,
   ].filter((entry): entry is string => entry !== null);
   return present(equity, EMPTY_SOURCE, {
     basis: 'DERIVED',
@@ -298,5 +337,11 @@ export function perShare(
   }
   const shares = structure.dilutedShares.value;
   if (!Number.isFinite(shares) || shares <= 0) return notComputable('DIVISION_BY_ZERO');
-  return present(value.value / shares, EMPTY_SOURCE, { basis: 'DERIVED', periodEnd: numeratorPeriodEnd ?? undefined });
+  // The note is not decoration: an enterprise-level disclosure that vanished on division is exactly the defect
+  // `L-036` records. Whatever the numerator explained, the per-share figure explains too.
+  return present(value.value / shares, EMPTY_SOURCE, {
+    basis: 'DERIVED',
+    periodEnd: numeratorPeriodEnd ?? undefined,
+    ...(value.note === undefined ? {} : { note: value.note }),
+  });
 }

@@ -1,0 +1,113 @@
+{
+  "schemaVersion": 2,
+  "bundle": "VII-VALUATION-INTEGRITY-2026-11-06",
+  "issuerId": "IN:CIN:L85110KA1981PLC013115",
+  "digestAlgorithm": "sha256",
+  "excluded": [
+    "README.md",
+    "digests.json"
+  ],
+  "chain": [
+    {
+      "artifactVersion": 1,
+      "reportId": "2ec681bd-0047-4d71-8b32-332c5172e485",
+      "payloadDigest": "6a328ef09636c51d069156cad1ea6e0e50c34e62fff0be1d64949f73a1f3504e",
+      "payloadFile": "artifact/assessment-payload-vii.json",
+      "payloadBytes": 54481,
+      "reportKey": "ed1e54b03e5eb5872f3e77bc467859a4e73bfb14a62417a51d7357604e78a681"
+    }
+  ],
+  "preservedHistorical": [
+    {
+      "bundle": "WI3-BORROWINGS-NIL-2026-11-06",
+      "payloadDigest": "83644bc68e3d68f3f714fb205179eae63c6da2ff9d5cdcf77d0a3d5c573d493d",
+      "status": "unchanged; the WI-3 bundle, its payload and its digest are not touched by this work item"
+    }
+  ],
+  "dataset": {
+    "datasetVersion": "sha256:21cf25222fcdf0ac31d8e285c631b272f8d3d5e8567f2ed9594e4fff81725847",
+    "identicalToWorkItem3": true
+  },
+  "inputs": {
+    "ingest-input/periods.csv": {
+      "sha256": "4b660e5d1a507be5638198ce0c618944a2609a8a8d8bf742fab1130bfc8c562c",
+      "bytes": 2035,
+      "recordedInWorkItem3": "4b660e5d1a507be5638198ce0c618944a2609a8a8d8bf742fab1130bfc8c562c",
+      "matchesWorkItem3": true
+    },
+    "ingest-input/roster.json": {
+      "sha256": "426e8478bca1ffc3fd47a6a24995230cfbfc05ccd1df4b92fa774ba15c60f8b4",
+      "bytes": 1157,
+      "recordedInWorkItem3": "426e8478bca1ffc3fd47a6a24995230cfbfc05ccd1df4b92fa774ba15c60f8b4",
+      "matchesWorkItem3": true
+    },
+    "ingest-input/prices.json": {
+      "sha256": "d00655bc3f292cb727d2b0e0c8c8a3a7a12be410c0260a2c5987543785f2a11c",
+      "bytes": 341,
+      "recordedInWorkItem3": "d00655bc3f292cb727d2b0e0c8c8a3a7a12be410c0260a2c5987543785f2a11c",
+      "matchesWorkItem3": true
+    },
+    "identity/corporate-actions.json": {
+      "sha256": "d6bc14d1b676260bb0f1c2280e62956d3f6a7e07b9b9265a73b49f821185ffcd",
+      "bytes": 70,
+      "recordedInWorkItem3": "d6bc14d1b676260bb0f1c2280e62956d3f6a7e07b9b9265a73b49f821185ffcd",
+      "matchesWorkItem3": true
+    },
+    "identity/eligible-roster.json": {
+      "sha256": "f38334a45fcee8bc81bd9902afae9deda659ec9373778d4e113c20151b876065",
+      "bytes": 755,
+      "recordedInWorkItem3": "f38334a45fcee8bc81bd9902afae9deda659ec9373778d4e113c20151b876065",
+      "matchesWorkItem3": true
+    },
+    "identity/listing-map.json": {
+      "sha256": "5bc4780b67cb79164909e05177fc8d80981cd947cc71d956fcf58b9442c2e507",
+      "bytes": 948,
+      "recordedInWorkItem3": "5bc4780b67cb79164909e05177fc8d80981cd947cc71d956fcf58b9442c2e507",
+      "matchesWorkItem3": true
+    }
+  },
+  "inputsIdenticalToWorkItem3": true,
+  "inputsMismatches": [],
+  "files": {
+    "artifact/assessment-payload-vii.json": {
+      "sha256": "6a328ef09636c51d069156cad1ea6e0e50c34e62fff0be1d64949f73a1f3504e",
+      "bytes": 54481
+    },
+    "artifact/payload-diff-vs-wi3.json": {
+      "sha256": "09a8af400d0bd330b7d85ad61ff7fb6d27a1bdb79cadb78a6617f8556566252a",
+      "bytes": 8717
+    },
+    "runs/01-ingest.txt": {
+      "sha256": "b590126971d1d14153ed60cc8252d0c66ae34f9769d8723c6894f60c7aa9e87d",
+      "bytes": 1533
+    },
+    "runs/02-generate.txt": {
+      "sha256": "4bde3ba35a41b7ba095852db1b0d96ecd0d073da284099f893008db075293132",
+      "bytes": 5565
+    },
+    "runs/03-payload-readback.txt": {
+      "sha256": "480b60739946af4f907f57984f4c36b85c3783e6348c6fbcf70b854fd58a4b1c",
+      "bytes": 283
+    },
+    "runs/04-replay.txt": {
+      "sha256": "a85c41379d11452b8f13a6d8c81ef75d56d02dc6ac7d35041fe45c01e9ebc8af",
+      "bytes": 5563
+    },
+    "runs/05-verification.txt": {
+      "sha256": "db6df2ceaef1294609f77eb52c54b87486767aa38f09cd2225179ab23e2b1b4c",
+      "bytes": 3164
+    },
+    "runs/cli-vii-created.json": {
+      "sha256": "a31c6c1596eca5a995b68347ab66b6de8ea2d61bd49bc5e747db2288299170d9",
+      "bytes": 4825
+    },
+    "runs/cli-vii-replay.json": {
+      "sha256": "fd3a7823bf590a758a1e1c888572f22de63d57085bafbc14391e48d07806bcea",
+      "bytes": 4825
+    },
+    "runs/commands.txt": {
+      "sha256": "4fcaccd0f8b2f169b1209dec5c894a0e7777d1a2f4d9388016df84a250579dad",
+      "bytes": 4763
+    }
+  }
+}

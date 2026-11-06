@@ -1,0 +1,211 @@
+{
+  "schemaVersion": 1,
+  "bundle": "VII-VALUATION-INTEGRITY-2026-11-06",
+  "issuerId": "IN:CIN:L85110KA1981PLC013115",
+  "baseline": {
+    "bundle": "WI3-BORROWINGS-NIL-2026-11-06",
+    "payloadFile": "artifact/assessment-payload-wi3.json",
+    "payloadDigest": "83644bc68e3d68f3f714fb205179eae63c6da2ff9d5cdcf77d0a3d5c573d493d",
+    "note": "recorded unchanged; this bundle does not overwrite it"
+  },
+  "current": {
+    "payloadFile": "artifact/assessment-payload-vii.json",
+    "payloadDigest": "6a328ef09636c51d069156cad1ea6e0e50c34e62fff0be1d64949f73a1f3504e"
+  },
+  "attributionRules": {
+    "L036_BRIDGE_DISCLOSURE": "the new capitalStructure.equityBridge block (L-036)",
+    "L036_NOTE_PROPAGATION": "the associates/JV sentence now carried by perShare() onto each enterprise-derived per-share observation (L-036)",
+    "L034_CAP_DECLARATION": "the new confidence.assumptionCaps member (L-034)",
+    "L034_FORMULA_CLAUSE": "the clause naming POLICY_DEFAULT_WACC and POLICY_DEFAULT_MULTIPLE as declared and not applied (L-034)",
+    "DISCLOSURE_PROSE": "the two limitations[] sentences the engine now emits (one per defect)"
+  },
+  "unattributedPathCount": 0,
+  "changedPathCount": 6,
+  "changes": [
+    {
+      "path": ".confidence.assumptionCaps",
+      "cause": "L034_CAP_DECLARATION",
+      "before": "<absent>",
+      "after": "<2 entries>"
+    },
+    {
+      "path": ".confidence.formula",
+      "cause": "L034_FORMULA_CLAUSE",
+      "before": "combined = 0.6 × dataConfidence + 0.4 × modelConfidence, then multiplied by each cap factor (ADEQUACY_PARTIAL 0.85, ADEQUACY_INSUFFICIENT 0.6, STALE_DATA 0.9, DILUTION_PROXY 0.98, DIVIDEND_SOURCE_CONFLICT 0.95, HIGH_METHOD_DISAGREEMENT 0.85), rounded to 4 dp",
+      "after": "combined = 0.6 × dataConfidence + 0.4 × modelConfidence, then multiplied by each cap factor (ADEQUACY_PARTIAL 0.85, ADEQUACY_INSUFFICIENT 0.6, STALE_DATA 0.9, DILUTION_PROXY 0.98, DIVIDEND_SOURCE_CONFLICT 0.95, HIGH_METHOD_DISAGREEMENT 0.85), rounded to 4 dp; R-4.3 also declares POLICY_DEFAULT_WACC and POLICY_DEFAULT_MULTIPLE for POLICY_DEFAULT assumptions — declared in assumptionCaps[] but NOT applied, because the design of record specifies no factor"
+    },
+    {
+      "path": ".fundamentals.capitalStructure.equityBridge",
+      "cause": "L036_BRIDGE_DISCLOSURE",
+      "before": "<absent>",
+      "after": {
+        "formula": "equityValue = enterpriseValue − netDebt − minorityInterest − preferenceCapital + associatesAndJV",
+        "note": "Associates/JV carrying value is not recorded in dataset schema v1 (NOT_COMPUTABLE: NOT_REPORTED), so the enterprise-to-equity bridge substitutes zero for that term under policy associates-treatment/1.0.0. This is a policy substitution, not an issuer-reported nil: equity value is understated by any associates/JV carrying value the issuer reports.",
+        "policyVersion": "associates-treatment/1.0.0",
+        "substitutedInputs": [
+          {
+            "input": "associatesAndJV",
+            "presence": "NOT_COMPUTABLE",
+            "reason": "NOT_REPORTED",
+            "treatment": "POLICY_ZERO"
+          }
+        ],
+        "treatment": "POLICY_ZERO_UNAVAILABLE"
+      }
+    },
+    {
+      "path": ".limitations",
+      "cause": "DISCLOSURE_PROSE",
+      "before": "<5 entries>",
+      "after": "<7 entries>"
+    },
+    {
+      "path": ".valuation.methods[0].output.perShareMid.note",
+      "cause": "L036_NOTE_PROPAGATION",
+      "before": "<absent>",
+      "after": "claims declared nil by the filer, subtracted as zero: preferenceCapital; Associates/JV carrying value is not recorded in dataset schema v1 (NOT_COMPUTABLE: NOT_REPORTED), so the enterprise-to-equity bridge substitutes zero for that term under policy associates-treatment/1.0.0. This is a policy substitution, not an issuer-reported nil: equity value is understated by any associates/JV carrying value the issuer reports."
+    },
+    {
+      "path": ".valuation.methods[2].output.perShareMid.note",
+      "cause": "L036_NOTE_PROPAGATION",
+      "before": "<absent>",
+      "after": "claims declared nil by the filer, subtracted as zero: preferenceCapital; Associates/JV carrying value is not recorded in dataset schema v1 (NOT_COMPUTABLE: NOT_REPORTED), so the enterprise-to-equity bridge substitutes zero for that term under policy associates-treatment/1.0.0. This is a policy substitution, not an issuer-reported nil: equity value is understated by any associates/JV carrying value the issuer reports."
+    }
+  ],
+  "numbersUnchanged": {
+    "valuation.intrinsic.perShare": {
+      "before": {
+        "high": {
+          "basis": "DERIVED",
+          "presence": "PRESENT",
+          "source": {
+            "kind": "DERIVED",
+            "ref": "intrinsic-blend/1.0.0"
+          },
+          "value": 1399.8105188789887
+        },
+        "low": {
+          "basis": "DERIVED",
+          "presence": "PRESENT",
+          "source": {
+            "kind": "DERIVED",
+            "ref": "intrinsic-blend/1.0.0"
+          },
+          "value": 875.3394146903431
+        },
+        "mid": {
+          "basis": "DERIVED",
+          "presence": "PRESENT",
+          "source": {
+            "kind": "DERIVED",
+            "ref": "intrinsic-blend/1.0.0"
+          },
+          "value": 1088.972274952081
+        }
+      },
+      "after": {
+        "high": {
+          "basis": "DERIVED",
+          "presence": "PRESENT",
+          "source": {
+            "kind": "DERIVED",
+            "ref": "intrinsic-blend/1.0.0"
+          },
+          "value": 1399.8105188789887
+        },
+        "low": {
+          "basis": "DERIVED",
+          "presence": "PRESENT",
+          "source": {
+            "kind": "DERIVED",
+            "ref": "intrinsic-blend/1.0.0"
+          },
+          "value": 875.3394146903431
+        },
+        "mid": {
+          "basis": "DERIVED",
+          "presence": "PRESENT",
+          "source": {
+            "kind": "DERIVED",
+            "ref": "intrinsic-blend/1.0.0"
+          },
+          "value": 1088.972274952081
+        }
+      },
+      "identical": true
+    },
+    "valuation.marginOfSafety.mosVsMid": {
+      "before": {
+        "basis": "DERIVED",
+        "presence": "PRESENT",
+        "source": {
+          "kind": "DERIVED",
+          "ref": "mos/1.0.0"
+        },
+        "value": -0.08418738213693565
+      },
+      "after": {
+        "basis": "DERIVED",
+        "presence": "PRESENT",
+        "source": {
+          "kind": "DERIVED",
+          "ref": "mos/1.0.0"
+        },
+        "value": -0.08418738213693565
+      },
+      "identical": true
+    },
+    "valuation.marginOfSafety.band": {
+      "before": "FAIR",
+      "after": "FAIR",
+      "identical": true
+    },
+    "confidence.combined": {
+      "before": 0.6736,
+      "after": 0.6736,
+      "identical": true
+    },
+    "confidence.caps": {
+      "before": [
+        "STALE_DATA",
+        "DILUTION_PROXY"
+      ],
+      "after": [
+        "STALE_DATA",
+        "DILUTION_PROXY"
+      ],
+      "identical": true
+    },
+    "fundamentals.capitalStructure.netDebt.value": {
+      "before": -193420000000,
+      "after": -193420000000,
+      "identical": true
+    },
+    "completeness.adequacy": {
+      "before": "SUFFICIENT",
+      "after": "SUFFICIENT",
+      "identical": true
+    },
+    "quality.verdict": {
+      "before": "MATERIAL_CONCERNS",
+      "after": "MATERIAL_CONCERNS",
+      "identical": true
+    }
+  },
+  "conclusion": "Six payload paths changed and every one of them is disclosure. No arithmetic, weight, threshold, cap factor, band, verdict or completeness state moved: intrinsic 875.3394/1088.9723/1399.8105, MoS -8.4187 % vs mid, band FAIR, confidence 0.6736 (caps unchanged), net debt -193420000000, SUFFICIENT / MATERIAL_CONCERNS.",
+  "limitationsDetail": {
+    "before": 5,
+    "after": 7,
+    "removed": [],
+    "added": [
+      {
+        "cause": "L036_BRIDGE_DISCLOSURE",
+        "line": "Associates/JV carrying value is not recorded in dataset schema v1 (NOT_COMPUTABLE: NOT_REPORTED), so the enterprise-to-equity bridge substitutes zero for that term under policy associates-treatment/1.0.0. This is a policy substitution, not an issuer-reported nil: equity value is understated by any associates/JV carrying value the issuer reports."
+      },
+      {
+        "cause": "L034_CAP_DECLARATION",
+        "line": "R-4.3 declares a confidence cap for policy-default valuation assumptions (POLICY_DEFAULT_WACC, POLICY_DEFAULT_MULTIPLE) triggered by DCF_FCFF/discountRate, PE_RELATIVE/targetMultiple, EV_EBITDA/targetMultiple. The design of record specifies no factor, so the caps are declared in confidence.assumptionCaps and NOT applied: the published confidence carries no policy-default penalty."
+      }
+    ]
+  }
+}

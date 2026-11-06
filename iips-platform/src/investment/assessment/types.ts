@@ -164,6 +164,31 @@ export interface SensitivityGrid {
 
 export type LeaseTreatment = 'IND_AS_116_CAPITALISED' | 'PRE_116_FLAGGED' | 'OPERATING_LEASE_OFF_BS';
 
+/**
+ * The enterprise-to-equity step, recorded as a first-class block (R-4.1, `associatesAndJV`).
+ *
+ * The design requires that the associates/JV treatment carry a **recorded policy version**. Attaching that
+ * record to the *intermediate* equity observation was not enough: `perShare()` returns a new observation, so the
+ * sentence never reached the payload (register `L-036`). It lives here instead, where composition transcribes it
+ * and no per-share division can replace it — and the same sentence is also carried on each per-share output.
+ */
+export interface EquityBridgeDisclosure {
+  /** R-4.1's equation, verbatim, so a reader can check which terms were applied. */
+  readonly formula: string;
+  /** `associates-treatment/1.0.0`. Recorded because the design says it must be. */
+  readonly policyVersion: string;
+  readonly treatment: 'CARRYING_VALUE_REPORTED' | 'POLICY_ZERO_UNAVAILABLE';
+  /** Every input substituted with a policy zero, with the reason it could not be reported. */
+  readonly substitutedInputs: readonly {
+    readonly input: string;
+    readonly presence: Presence;
+    readonly reason: MissingReason | null;
+    readonly treatment: 'POLICY_ZERO';
+  }[];
+  /** The full sentence, identical to the one carried on the per-share outputs. */
+  readonly note: string;
+}
+
 export interface CapitalStructure {
   readonly netDebt: NumericObservation;
   readonly grossDebt: NumericObservation;
@@ -179,6 +204,7 @@ export interface CapitalStructure {
   readonly shareCountBasis: 'REPORTED_EPS' | 'UNAVAILABLE';
   readonly dilutionProxy: boolean;
   readonly components: Readonly<Record<string, NumericObservation>>;
+  readonly equityBridge: EquityBridgeDisclosure;
 }
 
 /* ------------------------------------------------------------------ dividends */
@@ -349,11 +375,30 @@ export interface RiskBlock {
 
 /* ----------------------------------------------------------------- confidence */
 
+/**
+ * A cap the design declares for a policy-default assumption (R-4.3), with the assumptions that triggered it and
+ * whether a factor was available to apply. `applied: false` is a first-class outcome, not an omission: the design
+ * says a `POLICY_DEFAULT` discount rate and multiple cap confidence, and specifies no magnitude, so the payload
+ * says the cap is in force by name and that no penalty was applied (`L-034`).
+ */
+export interface AssumptionCapDeclaration {
+  readonly cap: string;
+  readonly basis: string;
+  readonly applied: boolean;
+  readonly factor: number | null;
+  readonly triggers: readonly {
+    readonly methodId: string;
+    readonly assumption: 'discountRate' | 'targetMultiple';
+  }[];
+  readonly reason: string | null;
+}
+
 export interface ConfidenceBlock {
   readonly dataConfidence: number;
   readonly modelConfidence: number;
   readonly combined: number;
   readonly caps: readonly string[];
+  readonly assumptionCaps: readonly AssumptionCapDeclaration[];
   readonly formula: string;
 }
 
