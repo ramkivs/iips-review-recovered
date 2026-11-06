@@ -1,0 +1,12 @@
+2026-11-06 — IRR-only R01/F2 additive receipt
+PASS: validate_receipt.py — bounded CLOSED status,twelve named recorded tests,pinned IPD head/main CI,explicit clean-clone provenance limitation,five append-only records,frozen #491 evidence and IRR-only changed-path allowlist.
+PASS: 4/4 existing workflow-routing tests.
+PASS: 7/7 existing CAP03 artifact-classification tests.
+PASS: Python compile of receipt validator and existing IRR static validator.
+PASS: existing CAP03 IRR-only source/evidence/tracker static validator.
+PASS: git diff --check.
+Read-only GitHub API verified IPD131 merged/head/main CI and six changed blob identities/SHA256,including all four declared source/test/correction-document authoring hashes.
+Pinned IPD implementation evidence §3 records R01-T1…T12 PASS; §4 records guarded1068 executed/1067 passed/0 failed/1 skipped and recovery18/18/package-consumer PASS. Exact head/main executed-count check summaries corroborate1068/1067/0. No IPD test run here.
+Clean-clone reproduction is user-reported,not independently retrieved; pinned implementation evidence §7 defers that completion report,PR131 comments were empty,Actions log download failed on redirected host. No invented independent reproduction claim.
+No IPD changes,operational access/writes,provisioning,QE,gate acceptance/admission,pin/runtime/authority expansion or unrelated status changes.
+Actual IRR PR head/merge/main checks and independent remote blob readback are recorded in the final publication PR receipt after success,not invented here.
