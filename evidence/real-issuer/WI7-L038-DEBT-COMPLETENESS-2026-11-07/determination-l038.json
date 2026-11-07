@@ -340,9 +340,27 @@
   "contractQuestion": {
     "id": "DEBT-COMPONENT-PERIOD-ALIGNMENT",
     "status": "UNDECIDED \u2014 documented, not acted on",
-    "question": "When every debt component is disclosed but not at one balance-sheet instant, the contract refuses with PERIOD_MISMATCH and the payload can name only one reason. Should the contract (a) permit a bridge built entirely on the newest instant at which all four components carry numbers \u2014 here 2023-03-31, which would produce gross debt 608 crore and net debt -177 crore on 2023 cash \u2014 and if so, must the valuation's own inputs move with it; or (b) keep refusing, on the ground that a valuation dated 2024-03-31 cannot use 2023 borrowings?",
+    "question": "When every debt component is disclosed but not at one balance-sheet instant, the contract refuses with PERIOD_MISMATCH and the payload can name only one reason. Should the contract (a) permit a bridge built entirely on the newest instant at which all four components carry numbers, here 2023-03-31 \u2014 at which gross debt is 608 crore (2 + 473 + 0 + 133) against cash and current investments of 785 crore (207 + 578), i.e. net debt -177 crore \u2014 and if so, must the cash side and the valuation's own inputs move with it; or (b) keep refusing, on the ground that a valuation dated 2024-03-31 cannot use 2023 borrowings?",
     "whyNotDecidedHere": "either answer changes what the bridge may do with a filing's disclosed figures; it is a valuation-contract decision for the register owner, not an evidence question. It is deliberately left undecided, and the aggregation code was not touched.",
-    "distinctFrom": "L-039's cash-side nil-propagation finding, which is untouched by this work item"
+    "distinctFrom": "L-039's cash-side nil-propagation finding, which is untouched by this work item",
+    "reconciliation": {
+      "period": "2023-03-31",
+      "grossDebtCrore": 608,
+      "grossDebtDerivation": "longTermBorrowings 2 + shortTermBorrowings 473 + currentMaturities 0 + leaseLiabilities 133 (91 + 42)",
+      "cashAndInvestmentsCrore": 785,
+      "cashAndInvestmentsDerivation": "cashAndCashEquivalents 207 + currentInvestments 578",
+      "netDebtCrore": -177,
+      "note": "same instant, governed definitions on both sides: 608 - 785 = -177",
+      "payloadCashAndInvestments": {
+        "value": 4870000000,
+        "crore": 487,
+        "periodEnd": "2024-03-31",
+        "derivation": "cashAndCashEquivalents 228 + currentInvestments 259",
+        "note": "the payload's cash side is a 2024-03-31 amount; 608 - 487 = +121 crore subtracts a 2024 balance from a 2023 one and is not a net-debt figure at any date"
+      },
+      "recomputedIn": "runs/10-net-debt-reconciliation.txt",
+      "correctsEarlierWording": "an earlier revision of the register, tracker, report and this determination quoted the 608 / -177 pair without the 785 crore cash figure, which read as inconsistent with the published 487 crore"
+    }
   },
   "whatWouldCloseL038": [
     "a filing that prints an amount (or a zero) for non-current borrowings AND current maturities at the valuation's balance-sheet instant \u2014 the ordinary route and the only purely evidentiary one, OR",
@@ -371,5 +389,14 @@
     "presence": "MISSING",
     "reason": "NOT_REPORTED",
     "why": "the enterprise-to-equity conversion requires preference capital to be a number or a declared nil; it is neither. A closed debt side would therefore still not have produced a per-share value. Recorded so the blocker is not mistaken for a single one."
+  },
+  "cashSideAlignment": {
+    "id": "CASH-SIDE-PERIOD-ALIGNMENT",
+    "status": "UNDECIDED \u2014 documented, not acted on",
+    "observation": "capitalStructure.ts enforces the same-instant rule among the four debt components only (grossDebtOf, line 121). The cash side is cashAndInvestments = sum([cash, currentInvestments]) (line 224) and netDebt = subtract(grossDebt, cashAndInvestments) (line 225), with no comparison of the cash periods against the debt periods.",
+    "whyItMattersHere": "On Marico the path is never reached: grossDebt is NOT_COMPUTABLE, so subtract() returns the blocked minuend and no net-debt number is published. But if DEBT-COMPONENT-PERIOD-ALIGNMENT were granted as originally worded, the published net debt would be 608 - 487 = +121 crore, the 2024 cash side against the 2023 debt side \u2014 the cross-period arithmetic the bridge exists to refuse.",
+    "notActedOn": "no aggregation code, policy, dataset value, payload or period-alignment rule was changed; the finding is recorded only",
+    "distinctFrom": "L-039 (cash-side nil propagation), which is untouched",
+    "recomputedIn": "runs/10-net-debt-reconciliation.txt"
   }
 }

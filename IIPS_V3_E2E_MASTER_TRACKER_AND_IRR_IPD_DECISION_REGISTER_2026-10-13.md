@@ -22221,10 +22221,10 @@ history and artifacts, new issuers or sectors, IPD, production scope.
 with per-page provenance (`source/`, `page-map.json`), the one-cell correction and its manifest (`ingest-input/`), the
 governed run and separate-process readback (`runs/01`–`runs/03`), the payload diff against WI-7 (`runs/04`), suite,
 typecheck and post-manifest transcripts (`runs/05`–`runs/07`, `commands.txt`), the machine-readable determination
-(`determination-l038.json`) and a 29-file `digests.json`. Record
+(`determination-l038.json`) and a 30-file `digests.json`. Record
 `docs/integration/IIPS_V3_IID_LIMITATION_AND_COVERAGE_REGISTER_2026-11-06.md` §17.18 and
 `docs/integration/IIPS_V3_IID_WI7_CONSUMER_MARICO_2026-11-07.md` §10; guard
-`iips-platform/tests/investment/l038MaricoDebtCompleteness.test.ts` (25 tests).
+`iips-platform/tests/investment/l038MaricoDebtCompleteness.test.ts` (26 tests).
 
 **Result: one component recovered, a second blocker found, `L-038` stays `OPEN`.** Note 13(a) I **does** print a
 current-maturities caption — *"Within one year (Current maturities of long term debt)"* — at PDF p.191 (FY2024) and p.149
@@ -22253,13 +22253,29 @@ unchanged at 4,870,000,000; the DCF enterprise value computes and every per-shar
 persistence mechanism was touched — `capitalStructure.ts` is byte-identical — and no new issuer, sector or dataset was
 added.
 
-**One contract question, recorded and left undecided.** `DEBT-COMPONENT-PERIOD-ALIGNMENT`: should the bridge be allowed to
-run wholly on 2023-03-31 (gross 608 crore, net −177 crore against that date's cash) or keep refusing? The governed code
-keeps refusing; choosing otherwise would silently change period-alignment semantics, so the question is **`UNDECIDED`**
-and is distinct from `L-039`, which is untouched.
+**One contract question, and one distinct finding, both recorded and left undecided.** `DEBT-COMPONENT-PERIOD-ALIGNMENT`:
+should the bridge be allowed to run wholly on 2023-03-31 or keep refusing? The governed code keeps refusing; choosing
+otherwise would silently change period-alignment semantics, so the question is **`UNDECIDED`** and is distinct from
+`L-039`, which is untouched.
 
-**Verification.** Focused and full, local only: `l038MaricoDebtCompleteness.test.ts` **25/25**; the investment suite
-**679/679** in **156** suites; `tsc --noEmit` on the package project exits 0; all **27** digested files re-hash clean with
+**The arithmetic behind that hypothetical, corrected on review.** An earlier revision wrote "gross 608 crore, net −177
+crore against that date's cash" without printing the cash figure, which reads as inconsistent with the **₹487 crore** the
+payload publishes. It is not, but the sentence was incomplete: at **2023-03-31** gross debt is **608 crore**
+(2 + 473 + 0 + 133) and cash plus current investments is **785 crore** (207 + 578), so net debt is **−177 crore** at that
+same instant; the payload's **487 crore** is `228 + 259` at **2024-03-31**, and `608 − 487 = +121` is not a net-debt
+figure at any date. All four amounts and both dates are now stated in the bundle, the register and
+`determination-l038.json`, and recomputed in `runs/10-net-debt-reconciliation.txt`.
+
+**The check exposed a second, distinct question — `CASH-SIDE-PERIOD-ALIGNMENT`, `UNDECIDED`.** `capitalStructure.ts`
+enforces the same-instant rule among the four debt components only; the cash side is summed
+(`cashAndInvestments = sum([cash, currentInvestments])`, line 224) and subtracted
+(`netDebt = subtract(grossDebt, cashAndInvestments)`, line 225) with no comparison of cash periods against debt periods.
+Marico never reaches that path — `grossDebt` is blocked, and `subtract()` returns the blocked minuend — but it means
+relaxing the debt rule alone would publish **+121 crore** rather than −177 crore. It is recorded, **not decided**, and
+**no code, policy, dataset value or payload was changed**; it is distinct from `L-039`'s cash-side nil propagation.
+
+**Verification.** Focused and full, local only: `l038MaricoDebtCompleteness.test.ts` **26/26**; the investment suite
+**680/680** in **156** suites; `tsc --noEmit` on the package project exits 0; all **30** digested files re-hash clean with
 0 undigested, and the WI-7 guard still passes **27/27**. Local tests are reported separately from CI; the path-filtered
 `CAP-03 Revision 7 IRR-only static checks` run ids for this pull request are cited in its receipt, and no npm, frontend or
 IPD run is claimed.

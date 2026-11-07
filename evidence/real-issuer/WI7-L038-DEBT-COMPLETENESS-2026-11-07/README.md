@@ -167,9 +167,36 @@ which is the only form of "rolled back" that does not require rewriting history.
 
 **`DEBT-COMPONENT-PERIOD-ALIGNMENT`.** When every component is disclosed but not at one instant, the contract refuses
 (`PERIOD_MISMATCH`) and the payload can name only one reason. Should the bridge instead be allowed to run entirely on
-the newest instant at which all four components carry numbers — here **2023-03-31**, which would give gross debt
-**608 crore** and net debt **−177 crore** against 2023 cash — and must the valuation's own inputs move with it? Or is it
-right that a valuation dated 2024-03-31 may not use 2023 borrowings?
+the newest instant at which all four components carry numbers — here **2023-03-31** — and must the valuation's own
+inputs move with it? Or is it right that a valuation dated 2024-03-31 may not use 2023 borrowings?
+
+### 7.1 The arithmetic behind the hypothetical, stated in full
+
+An earlier draft of this section quoted "gross debt 608 crore and net debt −177 crore against 2023 cash" without
+printing the cash figure, which reads as an inconsistency against the **₹487 crore** the payload reports. It is not
+one, but the draft was incomplete and is corrected here. Every figure below is recomputed in
+`runs/10-net-debt-reconciliation.txt` from `ingest-input/data-extraction.json` and the payload itself.
+
+| Figure | Value | Where it comes from |
+|---|---|---|
+| gross debt **@2023-03-31** | **₹608 crore** | 2 (long-term) + 473 (current) + 0 (current maturities) + 133 (leases, 91 + 42) |
+| cash + investments **@2023-03-31** | **₹785 crore** | 207 (cash and cash equivalents) + 578 (current investments) — *the figure the earlier draft omitted* |
+| net debt **@2023-03-31** | **−₹177 crore** | 608 − 785, same instant, governed definitions on both sides |
+| cash + investments **@2024-03-31** | **₹487 crore** | 228 + 259 — what the payload publishes as `cashAndInvestments` = 4,870,000,000 |
+
+So `608 − 785 = −177` holds, and `608 − 487 = +121` is **not a net-debt figure at any date**: it subtracts a
+2024-03-31 balance from a 2023-03-31 one. That cross-period arithmetic is precisely what the bridge refuses, and the
+payload publishes no net-debt number at all.
+
+**A distinct finding falls out of that check — `CASH-SIDE-PERIOD-ALIGNMENT`, `UNDECIDED`.** `capitalStructure.ts`
+enforces the same-instant rule among the four *debt* components only (`grossDebtOf`, line 121); the cash side is
+`sum([cash, currentInvestments])` (line 224) and `netDebt = subtract(grossDebt, cashAndInvestments)` (line 225) with
+**no comparison of the cash periods against the debt periods**. On Marico it never bites, because `grossDebt` is
+already blocked and `subtract()` returns the blocked minuend. But it means option (a) above, if granted as originally
+worded, would publish **+₹121 crore** — the 2024 cash side against the 2023 debt side — rather than −₹177 crore.
+Relaxing the debt rule alone would therefore **create** the very inconsistency this section is correcting. Aligning
+the cash side is a separate contract decision, recorded here and **not taken**, and it is distinct from `L-039` (nil
+propagation on the cash side), which is untouched.
 
 Either answer changes what the bridge may do with disclosed figures. It is a valuation-contract decision for the
 register owner, so it is **recorded and not decided** here, and **no aggregation code was touched**. It is distinct from
@@ -179,10 +206,10 @@ register owner, so it is **recorded and not decided** here, and **no aggregation
 
 | Check | Result |
 |---|---|
-| `npx tsx --test tests/investment/l038MaricoDebtCompleteness.test.ts` | 25/25 (`runs/05-tests.txt`) |
-| `npx tsx --test tests/investment/*.test.ts` | 679/679, 156 suites (`runs/05-tests.txt`, re-run in `runs/07`) |
+| `npx tsx --test tests/investment/l038MaricoDebtCompleteness.test.ts` | 26/26 (`runs/05-tests.txt`) |
+| `npx tsx --test tests/investment/*.test.ts` | 680/680, 156 suites (`runs/05-tests.txt`, re-run in `runs/07`) |
 | `npx tsc --noEmit -p tsconfig.json` | 0 diagnostics (`runs/06-typecheck.txt`) |
-| `digests.json` re-hash | 29 files re-hashed, 0 mismatches, 0 undigested (`runs/07-post-manifest-verification.txt`) |
+| `digests.json` re-hash | 30 files re-hashed, 0 mismatches, 0 undigested (`runs/07-post-manifest-verification.txt`) |
 | separate-process readback | `runs/03-readback.json` — recomputed digest equals stored digest and chain head |
 | reproduction from the committed input | `runs/09-reproduce-from-committed-input.txt` — `sha256:433358f3…` and payload `1a873047…` both re-derived |
 | clean clone of the pushed branch | `runs/08-clean-clone.txt` — 27/27 and 30/30 digested files re-hash from GitHub's bytes, payloads identical, guard 52/52 |
@@ -209,8 +236,9 @@ guard test asserts that every other shipped file is digested.
 | `runs/05-tests.txt`, `runs/06-typecheck.txt`, `runs/07-post-manifest-verification.txt` | the suite, the typecheck, and the post-manifest re-run |
 | `runs/08-clean-clone.txt` | the same checks re-run against a fresh clone of the pushed ref |
 | `runs/09-reproduce-from-committed-input.txt` | the two governed CLI stages re-run from the committed input alone: dataset version and payload digest both reproduce |
+| `runs/10-net-debt-reconciliation.txt` | the 608 / −177 / 487 crore arithmetic recomputed from the committed input and the payload |
 | `runs/commands.txt` | the exact command sequence |
-| `digests.json` | sha256 and byte length of all 29 shipped files (everything but itself and the three certifying transcripts) |
+| `digests.json` | sha256 and byte length of all 30 shipped files (everything but itself and the three certifying transcripts) |
 | `artifact/assessment-payload-marico-l038.json` | the persisted canonical payload, read back |
 | `digests.json` | every file above by sha256, except itself and `runs/07` |
 

@@ -4,16 +4,16 @@
   "note": "every shipped file is digested except this manifest and the three transcripts that certify it (runs/05 tests, runs/06 typecheck, runs/07 post-manifest verification) \u2014 a manifest cannot digest the runs that report on it; runs/07 re-hashes every digested file and reports zero mismatches",
   "files": {
     "README.md": {
-      "sha256": "2326737e4e530f2064aaed753f0066ee4176275b6907b4902198cedae2e9f337",
-      "bytes": 18810
+      "sha256": "114be3ad6bc30f193e9a27e17620172ea665bcd3f5842c4b568dc4eedaa6bb8f",
+      "bytes": 21218
     },
     "artifact/assessment-payload-marico-l038.json": {
       "sha256": "1a873047087d9ba40431289ed6705b26a47cf0273edb3055fddf3352d3bc6d59",
       "bytes": 54705
     },
     "determination-l038.json": {
-      "sha256": "7b22b81f3931aefa289bc3ab12c91a247082dbe0a0bdb050f426b2b984e4bd0e",
-      "bytes": 21246
+      "sha256": "4bd74ab81a6bca1a3a5591645f662c2eed462958e1d96443657e2318a9d7c988",
+      "bytes": 23625
     },
     "ingest-input/data-extraction.json": {
       "sha256": "db849adc44c9454ce51114209e01323188f7851330b60de7e9fe58651829d0a5",
@@ -62,6 +62,10 @@
     "runs/09-reproduce-from-committed-input.txt": {
       "sha256": "3ce1c498dc7d15722d6d10c3b931ab0e02f15179508ba094356b889d2fe2aa30",
       "bytes": 2002
+    },
+    "runs/10-net-debt-reconciliation.txt": {
+      "sha256": "8844f635b3874e346aaaf2daaafa05495a331f04e0145bf64253ef1929bd0b62",
+      "bytes": 3873
     },
     "runs/commands.txt": {
       "sha256": "4709465875ba4e1a9d967f1fc32c1b39388b04b56f3637e7a6492f8ddf2ea165",

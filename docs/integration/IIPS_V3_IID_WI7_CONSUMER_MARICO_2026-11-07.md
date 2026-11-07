@@ -296,7 +296,7 @@ A second pass over the same two audited consolidated reports asked whether the *
 FY2023 and FY2022 supports a period-aligned four-component debt breakdown, and whether any caption had been missed rather
 than truly absent. Full record: register **§17.18**, evidence bundle
 `evidence/real-issuer/WI7-L038-DEBT-COMPLETENESS-2026-11-07/`, guard
-`iips-platform/tests/investment/l038MaricoDebtCompleteness.test.ts` (25 tests).
+`iips-platform/tests/investment/l038MaricoDebtCompleteness.test.ts` (26 tests).
 
 **One caption was missed, and it closes one cell.** Note 13(a) I carries *"Within one year (Current maturities of long
 term debt)"*: FY2023 prints `0` (PDF p.150), FY2024 and FY2022 print dashes (pp.191, 149). A printed zero is a

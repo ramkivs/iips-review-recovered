@@ -2395,12 +2395,32 @@ at all, so the WI-7 grid is now superseded for that second reason as well as the
 
 **A contract question this raises, recorded and left undecided — not `L-039`.** The one period at which the component set is
 complete is 2023-03-31. Two honest readings follow, and neither is taken here: (a) compute the bridge on that period end and
-label it — gross debt would be 608 crore and net debt −177 crore against that date's cash — or (b) keep refusing, as the
-governed rule does now. Choosing (a) would be a silent change to period-alignment semantics, which the contract forbids
-without authority; the governed code chooses (b), and the register records the alternative as the open question
-**`DEBT-COMPONENT-PERIOD-ALIGNMENT`** (`UNDECIDED`, undecided-by-design). This is **distinct** from `L-039`, which is a
-cash-side nil-propagation question on a different issuer: `L-039`'s finding is not modified here, and nothing in this work
-item constrains it.
+label it, or (b) keep refusing, as the governed rule does now. Choosing (a) would be a silent change to period-alignment
+semantics, which the contract forbids without authority; the governed code chooses (b), and the register records the
+alternative as the open question **`DEBT-COMPONENT-PERIOD-ALIGNMENT`** (`UNDECIDED`, undecided-by-design). This is
+**distinct** from `L-039`, which is a cash-side nil-propagation question on a different issuer: `L-039`'s finding is not
+modified here, and nothing in this work item constrains it.
+
+**The arithmetic behind that hypothetical, corrected on review.** An earlier revision of this section wrote "gross debt
+608 crore and net debt −177 crore against that date's cash" without printing the cash figure, which reads as an
+inconsistency against the **₹487 crore** the payload publishes for `cashAndInvestments`. It is not an inconsistency, but
+the sentence was incomplete and is corrected here; every figure is recomputed in
+`runs/10-net-debt-reconciliation.txt` from `ingest-input/data-extraction.json` and the payload. At **2023-03-31** gross
+debt is **608 crore** (2 long-term + 473 current + 0 current maturities + 133 leases) and cash plus current investments is
+**785 crore** (207 + 578) — a figure the earlier revision never stated — so net debt is 608 − 785 = **−177 crore** at that
+same instant. The payload's **487 crore** is `228 + 259` at **2024-03-31**: subtracting it from the 2023 gross debt gives
+**+121 crore**, which is not a net-debt figure at any date. The report, the tracker and `determination-l038.json` now carry
+both dates and all four amounts.
+
+**A distinct finding that check exposes — `CASH-SIDE-PERIOD-ALIGNMENT`, `UNDECIDED`.** `capitalStructure.ts` applies the
+same-instant rule among the four *debt* components only (`grossDebtOf`, line 121); the cash side is
+`sum([cash, currentInvestments])` (line 224) and `netDebt = subtract(grossDebt, cashAndInvestments)` (line 225) with no
+comparison of the cash periods against the debt periods. Marico never reaches that path, because `grossDebt` is blocked and
+`subtract()` returns the blocked minuend — which is why the payload's refusal is honest and why the −177 crore figure is a
+hypothetical rather than a governed output. But it means option (a) as originally worded would publish **+121 crore**, the
+2024 cash side against the 2023 debt side: relaxing the debt rule alone would create the cross-period arithmetic this
+entry refuses. Nothing is decided or changed here — no code, no policy, no dataset value — and the finding is **distinct**
+from `L-039`'s nil propagation, which is untouched.
 
 **Statuses after §17.18.** `L-038` stays **`OPEN`** — the completion standard ("resolve only if the required debt components
 are supported and the governed calculation chain is verified") is unmet on two independent components, and the entry now
@@ -2417,8 +2437,9 @@ description of the refusal rather than the number that was hoped for.
 **Evidence.** `evidence/real-issuer/WI7-L038-DEBT-COMPLETENESS-2026-11-07/` — `README.md`, `determination-l038.json`,
 `source/` (nine verbatim page extracts with provenance, `page-map.json`, `fetch-log.txt`, `caption-search-log.txt`,
 `source-bytes.json`), `ingest-input/` (the single corrected cell and its corrections manifest), `runs/` (01 ingest, 02
-generate, 03 readback, 04 payload diff, 05 tests, 06 typecheck, 07 post-manifest verification, `commands.txt`),
-`artifact/assessment-payload-marico-l038.json`, `digests.json` (29 files) — guarded by
-`iips-platform/tests/investment/l038MaricoDebtCompleteness.test.ts` (25 tests). The WI-7 bundle is untouched and its guard
+generate, 03 readback, 04 payload diff, 05 tests, 06 typecheck, 07 post-manifest verification, 08 clean clone, 09
+reproduction, 10 net-debt reconciliation, `commands.txt`),
+`artifact/assessment-payload-marico-l038.json`, `digests.json` (30 files) — guarded by
+`iips-platform/tests/investment/l038MaricoDebtCompleteness.test.ts` (26 tests). The WI-7 bundle is untouched and its guard
 still passes; the WI-3, WI-5, WI-6, WI-6A, WI-6A-S1, WI-6A-S2, WI-8 and WI-8/`L-039` bundles are byte-identical and still
 verify.

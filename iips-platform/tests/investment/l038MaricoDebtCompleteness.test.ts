@@ -395,6 +395,64 @@ describe('L-038 — the superseded artifact is preserved, and the determination 
     assert.equal(old.fundamentals.capitalStructure.grossDebt.reason, 'NOT_REPORTED');
   });
 
+  test('the 608 / -177 / 487 crore figures reconcile, and only at their own period ends', () => {
+    const extraction = readJson('ingest-input/data-extraction.json');
+    const crore = (text: string): number => Number(text.replace(/,/g, ''));
+    const lease = (fy: string): number => crore(extraction.derivedItems.LEASE_LIABILITIES[fy].split('=')[1].split('(')[0].trim());
+
+    // 2023-03-31 is the only instant at which all four debt components carry information.
+    const grossDebt2023 =
+      crore(extraction.items.LONG_TERM_BORROWINGS.values.FY23) +
+      crore(extraction.items.SHORT_TERM_BORROWINGS.values.FY23) +
+      crore(extraction.items.CURRENT_MATURITIES_OF_LONG_TERM_DEBT.values.FY23) +
+      lease('FY23');
+    assert.equal(grossDebt2023, 608, 'the 2023 gross-debt arithmetic moved');
+
+    const cash2023 =
+      crore(extraction.items.CASH_AND_CASH_EQUIVALENTS.values.FY23) +
+      crore(extraction.items.CURRENT_INVESTMENTS.values.FY23);
+    assert.equal(cash2023, 785, 'the 2023 cash-and-investments arithmetic moved');
+    assert.equal(grossDebt2023 - cash2023, -177, '608 - 785 must be the -177 the documents quote');
+
+    // The payload's cash side is a 2024-03-31 amount, and both of its components say so.
+    const cs = payload.fundamentals.capitalStructure;
+    assert.equal(cs.cashAndInvestments.value, 4_870_000_000);
+    assert.equal(cs.cashAndInvestments.value / 10_000_000, 487);
+    assert.equal(cs.components.cashAndCashEquivalents.periodEnd, '2024-03-31');
+    assert.equal(cs.components.currentInvestments.periodEnd, '2024-03-31');
+    const cash2024 =
+      crore(extraction.items.CASH_AND_CASH_EQUIVALENTS.values.FY24) +
+      crore(extraction.items.CURRENT_INVESTMENTS.values.FY24);
+    assert.equal(cash2024, 487, 'the 2024 cash-and-investments arithmetic moved');
+
+    // Subtracting the 2024 cash from the 2023 gross debt is a cross-period number, not a net-debt figure.
+    assert.equal(grossDebt2023 - cash2024, 121);
+    assert.notEqual(grossDebt2023 - cash2024, -177);
+    assert.equal(cs.netDebt.presence, 'NOT_COMPUTABLE');
+    assert.equal(cs.netDebt.value, null);
+
+    // The documents must carry both dates and all four amounts, and must not juxtapose -177 with 487.
+    const report = read('README.md');
+    assert.ok(report.includes('₹608 crore'), 'the report does not state the 608 crore gross debt');
+    assert.ok(report.includes('₹785 crore'), 'the report does not state the 785 crore cash figure');
+    assert.ok(report.includes('−₹177 crore'), 'the report does not state the -177 crore net debt');
+    assert.ok(report.includes('₹487 crore'), 'the report does not state the 487 crore payload cash');
+    assert.ok(report.includes('+₹121 crore'), 'the report does not name the cross-period +121 crore');
+    assert.ok(
+      determination.contractQuestion.reconciliation.cashAndInvestmentsCrore === 785 &&
+        determination.contractQuestion.reconciliation.netDebtCrore === -177 &&
+        determination.contractQuestion.reconciliation.payloadCashAndInvestments.crore === 487,
+      'the determination does not carry the reconciled amounts',
+    );
+    assert.equal(determination.contractQuestion.reconciliation.payloadCashAndInvestments.periodEnd, '2024-03-31');
+
+    // The cash-side period-alignment gap is recorded as a distinct, undecided finding and nothing was changed.
+    assert.equal(determination.cashSideAlignment.id, 'CASH-SIDE-PERIOD-ALIGNMENT');
+    assert.equal(determination.cashSideAlignment.status.startsWith('UNDECIDED'), true);
+    assert.equal(determination.cashSideAlignment.notActedOn.startsWith('no aggregation code'), true);
+    assert.equal(determination.integrity.aggregationCodeUntouched, true);
+  });
+
   test('the determination records the outcome, the correction and the undecided question', () => {
     assert.equal(determination.recordId, 'L-038');
     assert.equal(determination.outcome.limitationStatus, 'OPEN (unchanged)');

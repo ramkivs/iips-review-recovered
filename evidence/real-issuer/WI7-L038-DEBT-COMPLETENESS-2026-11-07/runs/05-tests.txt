@@ -1,16 +1,16 @@
 # L-038 — 2026-11-07 — the guard file, then the whole investment suite
 # cd iips-platform && npx tsx --test tests/investment/l038MaricoDebtCompleteness.test.ts
-# tests 25
+# tests 26
 # suites 5
-# pass 25
+# pass 26
 # fail 0
-# duration_ms 286.407539
+# duration_ms 369.033838
 
 # cd iips-platform && npx tsx --test tests/investment/*.test.ts
-# tests 679
+# tests 680
 # suites 156
-# pass 679
+# pass 680
 # fail 0
 # cancelled 0
 # skipped 0
-# duration_ms 8678.265284
+# duration_ms 14163.584237
