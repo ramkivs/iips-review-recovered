@@ -1,0 +1,82 @@
+Transformative. Innovative. Purpose-led                                                                                                                          Marico Limited                                                                                     Corporate           Statutory            Financial
+                                                                                                                                                                                                                                                                    Overview             Reports            Statements
+
+
+
+
+Notes                                                                                                                                                                              Notes
+To Financial Statements for the year ended 31st March, 2023                                                                                                                        To Financial Statements for the year ended 31st March, 2023
+
+
+
+31st March 2023                                                                                                                                                    ( H in Crore)   28 Capital Management
+ Type of hedge and            Nominal value           Carrying amount of               Maturity date Hedge ratio               Weighted Changes in Change in the value             (a) Risk management
+              risks                                   Hedging Instrument                                                   average strike   fair value     of hedged item
+                                                                                                                               price/rate of hedging     used as the basis
+                                                                                                                                          instrument       for recognising                Capital management is driven by company’s policy to maintain a sound capital base to support the continued
+                                                                                                                                                       hedge effectiveness                development of its business. The Board of Directors seeks to maintain a prudent balance between different components
+                             Assets    Liabilities Assets             Liabilities                                                                                                         of the Company’s capital. The Management monitors the capital structure and the net ﬁnancial debt at individual level
+                                                                                                                                                                                          currency. Net ﬁnancial debt is deﬁned as current and non current borrowings.
+ Cash flow Hedge
+                                                                                                                                                                                          The debt equity ratio highlights the ability of a business to repay its debts. Refer below for net Debt equity ratio.
+ Foreign Exchange
+ Risk                                                                                                                                                                                     The Company complies with all statutory requirement as per the extant regulations.
+ Foreign Exchange                                                                                                              USD=82.42                                                                                                                                                                          (H in Crore)
+                                                                                          April 2023
+ Forward Contracts                91           122          (0)                   0                                 1:1        EUR=89.38               (0)                     0
+                                                                                        -March 2024
+                                                                                                                              GBP= 98.51                                            Particulars                                                                                      As at                      As at
+ Foreign Exchange                                                                         April 2023
+                                                                                                                                                                                                                                                                         31st March, 2023           31st March, 2022
+                                  75              6           1                   0                                 1:1        USD=81.43               (1)                     1
+ Options Contracts                                                                      -March 2024                                                                                 Net debt                                                                                                59                           95
+ Net Investment                                                                                                                                                                     Total equity                                                                                        3,677                      3,049
+ Hedge
+                                                                                                                                                                                    Net debt to equity ratio                                                                             0.02                        0.03
+
+ 31st March 2022                                                                                                                                                  ( H in Crore)
+                                                                                                                                                                                   (b) Dividends
+Type of hedge and risks          Nominal value            Carrying amount of              Maturity date     Hedge ratio           Weighted     Changes in        Change in the
+                                                          Hedging Instrument                                                  average strike    fair value     value of hedged
+                                                                                                                                  price/rate   of hedging          item used as     Particulars                                                                                      As at                      As at
+                                                                                                                                               instrument          the basis for
+                                                                                                                                                             recognising hedge
+                                                                                                                                                                                                                                                                         31st March, 2023           31st March, 2022
+                                                                                                                                                                  effectiveness
+                                                                                                                                                                                    (i) Equity shares
+                                 Assets     Liabilities     Assets      Liabilities
+                                                                                                                                                                                    Interim dividend for the year                                                                        582                       1,195
+ Cash flow Hedge
+
+ Foreign Exchange
+ Risk
+                                                                                                                                                                                   29 Segment Information
+ Foreign Exchange                   68            65              1              (0)                April            1:1        USD=77.57                0                   (0)   (i)    In accordance with Indian Accounting Standard IND AS 108, the Company has disclosed Consolidated Segment
+ Forward Contracts                                                                        2022-March                            EUR=86.54                                                 information in Consolidated Financial statement
+                                                                                                    2023
+
+ Foreign Exchange                   67            39              0               1                 April            1:1        USD=75.31                1                   (1)   (ii)   Operating segments are reported in a manner consistent with the internal reporting provided to the Chief Operating
+ Options Contracts                                                                        2022-March                                                                                      Decision Maker (“CODM”) of the company. The CODM, who is responsible for allocating resources and assessing
+                                                                                                    2023                                                                                  performance of the operating segments, has been identified as the Managing Director and CEO of the Company. The
+Disclosure of effects of Hedge Accounting on Financial Performance                                                                                                                        Company operates only in one business segment i.e. manufacturing and sale of consumer products within India, hence
+                                                                                                                                                                                          does not have any reportable segment as per Indian Accounting Standard 108 “operating segments” in Standalone.
+                                       Change in the value of the
+                                                                                                                        Amount reclassified                                               The company while presenting the consolidated financial statements has disclosed the segment information as required
+                                          hedging instrument        Hedge ineffectiveness
+                                          recognised in other     recognised in profit or loss
+                                                                                                                      from cash flow hedging            Line item affected                under Indian Accounting Standard 108 “operating segments”.
+                                                                                                                      reserve to profit or loss          in Statement of
+Type of hedge                           comprehensive income                                                                                              Profit and Loss
+                                                As at             As at                 As at             As at            As at             As at        because of the           (iii) The amount of the company’s revenue from external customers broken down by each product and service is shown in
+                                                                                                                                                          reclassification
+                                          31st March,       31st March,           31st March,       31st March,      31st March,       31st March,                                       the table below.
+                                                2023              2022                  2023              2022             2023              2022
+ Cash Flow
+
+ Foreign Exchange Risk                                (0)                  (0)                  -               -                  0               1           Other expenses
+
+
+
+
+414                  Integrated Annual Report 2022-23                                                                                                                                                                                                                    Integrated Annual Report 2022-23                415
+

@@ -1,0 +1,94 @@
+Transformative. Innovative. Purpose-led                                                                                    Marico Limited                                                                                       Corporate            Statutory            Financial
+                                                                                                                                                                                                                                Overview              Reports            Statements
+
+
+
+
+Notes
+To Consolidated Financial Statements for the year ended 31st March, 2023
+                                                                                                                                            Notes
+                                                                                                                                            To Consolidated Financial Statements for the year ended 31st March, 2023
+
+
+
+Background and operations                                                  •   certain financial instruments (including derivative               Dividends received or receivable from associates and                   and loss, within finance costs. All other foreign exchange
+                                                                               instruments) and contingent consideration that are                joint ventures are recognised as a reduction in the                    gains and losses are presented in the Statement of Profit
+Marico Limited (herein after referred to as ‘the Company’),                    measured at fair value (Refer Note 27);                           carrying amount of the investment.                                     and Loss on a net basis.
+headquartered in Mumbai, Maharashtra, India, together
+with its subsidiaries is referred as ‘Marico’ or ‘Group’.                  •   assets held for sale measured at lower of cost or fair            When the group’s share of losses in an equity- accounted                Non-monetary foreign currency items are carried at
+Marico carries on business in branded consumer products.                       value less cost to sell;                                          investment equals or exceeds its interest in the entity,           cost and accordingly the investments in shares of foreign
+In India, Marico manufactures and markets products under                                                                                         including any other unsecured long-term receivables,               subsidiaries are expressed in Indian currency at the rate of
+the brands such as Parachute, Parachute Advansed, Nihar,                   •   defined benefit plan assets / liabilities measured at             the group does not recognise further losses, unless it has         exchange prevailing at the time when the original investments
+Nihar Naturals, Saffola, Hair & Care, Revive, Mediker, Livon,                  fair value; and                                                   incurred obligations or made payments on behalf of the             are made or fair values determined.
+Set-wet, etc. Marico’s international portfolio includes brands                                                                                   other entity.
+                                                                           •   share-based payments liability measured at fair                                                                                      iii) Group Companies:
+such as Parachute, Parachute Advansed, Fiancée, Hair Code,
+                                                                               value                                                        iv. Changes in ownership interests
+Caivil, Hercules, Black Chic, Code 10, Ingwe, X-men, Thuan
+                                                                                                                                                                                                                        The results and financial position of foreign operations
+Phat etc.                                                             b) Principles of           consolidation         and     equity            The group treats transactions with non-controlling
+                                                                                                                                                                                                                        that have a functional currency different from the
+                                                                         accounting                                                              interests that do not result in a loss of control as
+Note 1: Significant accounting policies:                                                                                                                                                                                presentation currency are translated into the presentation
+                                                                                                                                                 transactions with equity owners of the group. A change
+                                                                                                                                                                                                                        currency as follows:
+                                                                      i.   Subsidiaries                                                          in ownership interest results in an adjustment between the
+This note provides a list of the significant accounting policies
+adopted in preparation of these consolidated financial                                                                                           carrying amounts of the controlling and non-controlling                •    assets and liabilities are translated at the closing rate
+                                                                           Subsidiaries are all entities over which the group has                interests to reflect their relative interests in the subsidiary.
+statements. These policies have been consistently applied to                                                                                                                                                                 as on that balance sheet date.
+                                                                           control. The group controls an entity when the group                  Any difference between the amount of the adjustment to
+all the years presented unless otherwise stated.
+                                                                           is exposed to, or has rights to, variable returns from its            non-controlling interests and any consideration paid or                •    income and expenses are translated at average
+The consolidated financial statements of the Group for the                 involvement with the entity and has the ability to affect             received is recognised within equity.                                       exchange rates, and
+year ended March 31, 2023 were approved for issue in                       those returns through its power to direct the relevant
+                                                                           activities of the entity. Subsidiaries are fully consolidated    c)   Segment Reporting:                                                     •    All resulting exchange differences are recognised in
+accordance with the resolution of the Board of Directors on
+May 5, 2023.                                                               from the date on which control is transferred to the                                                                                              other comprehensive income
+                                                                                                                                                 Operating segments are reported in a manner consistent
+                                                                           group. They are deconsolidated from the date that
+                                                                                                                                                 with internal reporting provided to the Chief Operating                When a foreign operation is sold, the associated
+a) Basis of preparation:                                                   control ceases.                                                       Decision Maker (CODM). The Managing Director and                       exchange differences are reclassified to profit or loss, as
+i.    Compliance with IND AS :                                             The acquisition method of accounting is used to account               CEO is designated as the CODM.                                         part of the gain or loss on sale.
+                                                                           for business combinations by the group. The group                d) Foreign currency transactions:
+      These consolidated financial statements comply in all                                                                                                                                                             Goodwill and fair value adjustments arising on the
+                                                                           combines the financial statements of the parent and
+      material aspects with Indian Accounting Standards (Ind                                                                                i)   Functional and presentation currencies:                                acquisition of a foreign operation are treated as assets
+                                                                           its subsidiaries line by line adding together like items
+      AS) notified under Section 133 of the Companies Act,                                                                                                                                                              and liabilities of the foreign operation and translated at
+                                                                           of assets, liabilities, equity, income and expenses.                  Items included in the consolidated financial statements
+      2013 (the Act) read with rule 4 of the Companies (Indian                                                                                                                                                          the closing rate.
+                                                                           Intercompany transactions, balances and unrealised                    of the Group are measured using the currency of the
+      Accounting standards) Rules, 2015 & other relevant
+      provisions of the Act.                                               gains on transactions between group companies are                     primary economic environment in which the entity                   e) Revenue recognition:
+                                                                           eliminated.                                                           operates (‘the functional currency’). The consolidated
+ii. Current versus non-current classification:                                                                                                   financial statements are presented in H which is the                   Revenue from sale of goods is recognised when control
+                                                                      ii. Joint ventures                                                                                                                                of the products being sold is transferred to our customer
+                                                                                                                                                 functional and presentation currency for Marico Limited.
+      All assets and liabilities have been classified as current or
+                                                                           Interests in joint ventures are accounted for using the                                                                                      and when there are no longer any unfulfilled obligations.
+      non-current as per the Groups normal operating cycle and                                                                              ii) Transactions & Balances:
+                                                                           equity method (see (iii) below), after initially being                                                                                       The Performance Obligations in our contracts are fulfilled
+      other criteria set out in the Schedule III to the Companies
+                                                                           recognised at cost in the consolidated balance sheet.                 Foreign currency transactions are translated into the                  at a point in time i.e at the time of dispatch, delivery
+      Act, 2013. Based on the nature of products and the time
+                                                                                                                                                 functional currency at the exchange rates on the date                  or upon formal customer acceptance depending on
+      taken between acquisition of assets for processing and
+                                                                      iii. Equity method                                                         of transaction. Foreign exchange gains and losses                      customer terms.
+      their realization in cash and cash equivalents, the Group
+      has ascertained its operating cycle as twelve months for                                                                                   resulting from settlement of such transactions and from
+                                                                           Under the equity method of accounting, the investments                                                                                       Revenue towards satisfaction of a performance obligation
+      the purpose of the classification of assets and liabilities                                                                                translation of monetary assets and liabilities at the year-
+                                                                           are initially recognised at cost and adjusted thereafter to                                                                                  is measured at the amount of transaction price (net of
+      into current and non-current.                                                                                                              end exchange rates are generally recognized in the
+                                                                           recognise the group’s share of the post-acquisition profits                                                                                  variable consideration) allocated to that performance
+                                                                                                                                                 Statement of Profit and Loss. They are deferred in equity
+                                                                           or losses of the investee in consolidated profit and loss,                                                                                   obligation. The transaction price of goods sold and
+iii. Historical cost convention :                                                                                                                if they relate to qualifying cash flow hedges.
+                                                                           and the group’s share of other comprehensive income                                                                                          services rendered is net of variable consideration on
+      The consolidated financial statements have been prepared             of the investee in consolidated other comprehensive                   Foreign exchange differences regarded as an adjustment                 account of various discounts and schemes offered by the
+      on a historical cost basis, except for the following:                income.                                                               to borrowing costs are presented in the statement of profit            Company as part of the contract.
+
+
+260                 Integrated Annual Report 2022-23                                                                                                                                                                                  Integrated Annual Report 2022-23                261
+

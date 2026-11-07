@@ -1,0 +1,126 @@
+== fy24 Marico_Annual_Report_FY24.pdf (259 pages)
+fy24 p26: maturities=1
+fy24 p41: borrowings=2, net_cash=1
+fy24 p67: maturities=1
+fy24 p87: maturities=1
+fy24 p103: maturities=1
+fy24 p130: maturities=1
+fy24 p134: maturities=1
+fy24 p140: maturities=1
+fy24 p143: maturities=1
+fy24 p152: debenture=1
+fy24 p155: debenture=1
+fy24 p171: net_cash=2
+fy24 p176: maturities=1, borrowings=7, net_cash=3, lease_liabilit=5
+fy24 p180: maturities=2, borrowings=9
+fy24 p181: maturities=1
+fy24 p187: maturities=2
+fy24 p189: preference=2
+fy24 p191: current_maturities=1, maturities=3, scheduled=1, long_term_borrow=1, borrowings=5, note_13=1  [MATURITY-SCHEDULE PAGE KEPT]
+fy24 p192: maturities=1, borrowings=6, note_13=3
+fy24 p194: maturities=1
+fy24 p196: maturities=1
+fy24 p198: borrowings=3, debenture=1, lease_liabilit=1
+fy24 p200: maturities=3, borrowings=2, lease_liabilit=2
+fy24 p201: borrowings=7, debenture=1
+fy24 p202: maturities=2, borrowings=1
+fy24 p208: maturities=2
+fy24 p209: current_maturities=1, maturities=1, long_term_borrow=1, borrowings=3  [MATURITY-SCHEDULE PAGE KEPT]
+fy24 p210: borrowings=2, net_cash=1, lease_liabilit=2
+fy24 p211: borrowings=1, net_cash=1, lease_liabilit=1
+fy24 p212: net_cash=1
+fy24 p216: borrowings=1, debenture=1
+fy24 p221: maturities=1, borrowings=6, net_cash=3, lease_liabilit=5
+fy24 p224: maturities=2, borrowings=1, lease_liabilit=7
+fy24 p226: maturities=1
+fy24 p231: maturities=2
+fy24 p233: preference=2
+fy24 p235: maturities=1, borrowings=7, note_13=1
+fy24 p239: maturities=2
+fy24 p241: borrowings=2, debenture=1, lease_liabilit=1
+fy24 p243: maturities=3, borrowings=2, lease_liabilit=2
+fy24 p244: borrowings=8, debenture=1
+fy24 p245: maturities=2, borrowings=1
+fy24 p252: maturities=2
+fy24 p254: preference=2
+fy24 p257: net_cash=1
+== fy23 Marico_Annual_Report_FY23.pdf (224 pages)
+fy23 p28: borrowings=2, net_cash=1
+fy23 p57: maturities=1
+fy23 p89: maturities=1
+fy23 p93: maturities=1
+fy23 p99: maturities=1
+fy23 p101: maturities=1
+fy23 p110: debenture=1
+fy23 p112: debenture=1
+fy23 p127: net_cash=2
+fy23 p131: maturities=1, borrowings=8, net_cash=3, lease_liabilit=5
+fy23 p135: maturities=2
+fy23 p137: maturities=1
+fy23 p143: debenture=2
+fy23 p144: maturities=2
+fy23 p146: preference=2
+fy23 p149: current_maturities=1, maturities=4, scheduled=1, long_term_borrow=1, borrowings=5, note_13=1  [MATURITY-SCHEDULE PAGE KEPT]
+fy23 p150: current_maturities=1, maturities=2, borrowings=5, note_13=4  [MATURITY-SCHEDULE PAGE KEPT]
+fy23 p153: maturities=1
+fy23 p155: maturities=1
+fy23 p158: borrowings=1, debenture=2, lease_liabilit=1, note_13=1
+fy23 p159: borrowings=1, debenture=2
+fy23 p160: maturities=3, borrowings=2, lease_liabilit=2
+fy23 p161: borrowings=6, debenture=1
+fy23 p162: maturities=2, borrowings=1, debenture=1
+fy23 p163: borrowings=1, net_debt=2
+fy23 p169: maturities=2
+fy23 p170: current_maturities=1, maturities=1, long_term_borrow=1, borrowings=3  [MATURITY-SCHEDULE PAGE KEPT]
+fy23 p176: debenture=1
+fy23 p180: maturities=1, borrowings=6, net_cash=3, lease_liabilit=5
+fy23 p184: maturities=2, borrowings=9
+fy23 p185: maturities=1
+fy23 p191: debenture=2
+fy23 p193: maturities=2
+fy23 p195: preference=2
+fy23 p197: maturities=1, borrowings=6, note_13=2
+fy23 p201: maturities=1
+fy23 p202: maturities=1
+fy23 p205: borrowings=1, debenture=2, lease_liabilit=1
+fy23 p206: maturities=2, borrowings=2, lease_liabilit=1
+fy23 p207: maturities=1, borrowings=1, lease_liabilit=1
+fy23 p208: long_term_borrow=1, borrowings=8, debenture=2
+fy23 p209: maturities=2, borrowings=1, net_debt=3
+fy23 p215: maturities=2
+fy23 p218: preference=2
+fy23 p222: net_cash=1
+
+PAGES KEPT
+fy23-p028
+fy23-p125
+fy23-p127
+fy23-p129
+fy23-p130
+fy23-p131
+fy23-p132
+fy23-p149
+fy23-p150
+fy23-p163
+fy23-p170
+fy23-p172
+fy23-p180
+fy23-p197
+fy23-p209
+fy23-p222
+fy24-p041
+fy24-p169
+fy24-p171
+fy24-p174
+fy24-p176
+fy24-p191
+fy24-p192
+fy24-p202
+fy24-p209
+fy24-p210
+fy24-p211
+fy24-p212
+fy24-p221
+fy24-p235
+fy24-p245
+fy24-p257

@@ -1,0 +1,75 @@
+        I n te gr a te d An n ua l R e p or t 2 0 2 3 -2 4                                                                                                                                              • Corporate Overview • Statutory Reports • Financial Statements
+416     Marico Limited
+                                                                                                                                                                                                                                                                          417
+
+
+
+
+Notes
+to the Consolidated financial statements for the year ended 31st March 2024
+                                                                                                                                     Notes
+                                                                                                                                     to the Consolidated financial statements for the year ended 31st March 2024
+
+
+		         The following table summaries the recognised amounts of assets acquired and liabilities assumed at the acquition date           b.   Goodwill
+                                                                                                                      (H in crore)                                                                                                                                  (H in crore)
+           Particulars                                                                                                   Amount                 Particulars                                                                                                            Amount
+
+           ASSETS                                                                                                                               Consideration transferred                                                                                                  153
+           Non-current assets                                                                                                                   Non-controlled interest in the acquired entity, based on their proportionate interest in the                               219
+               Property, plant and equipment                                                                                   1                recognised amounts of identifiable net assets of Plix
+               Capital work-in-progress                                                                                        0                Less: Net Identifiable assets acquired                                                                                     326
+               Right of use assets                                                                                             3                Goodwill                                                                                                                    46
+               Intangible assets                                                                                             363
+                                                                                                                                     		         The goodwill is mainly attributable to the synergies expected to be achieved from integrating the Plix business into the
+               Financial assets
+                                                                                                                                                Group's existing business. The goodwill is not expected to be deductible for tax purposes.
+               (i) Other financial assets                                                                                      1
+               Current tax assets (net)                                                                                        2           c.   Disclosure of the revenue and profit for current reporting period.
+               Other non-current assets                                                                                        -                                                                                                                                    (H in crore)
+           Total non-current assets                                                                                          369                                                                                                                   Amount
+           Current assets                                                                                                                       Particulars
+                                                                                                                                                                                                                                               Revenue                    (Loss)
+               Inventories                                                                                                    11
+               Financial assets                                                                                                                 i. Since the acquisition date                                                                     105                       (2)
+               (i) Investments                                                                                                 -                ii. Had it been at the beginning of the reporting period                                          155                       (9)
+               (ii) Trade receivables                                                                                          3
+                                                                                                                                           d.   Analysis of cash flow of acquisition
+               (iii) Cash and cash equivalents                                                                                51
+                                                                                                                                                                                                                                                                    (H in crore)
+               (iv) Bank balances other than cash & cash equivalents                                                          11
+                                                                                                                                                Particulars                                                                                                            Amount
+               (vi) Other financial assets                                                                                     0
+               Other current assets                                                                                            4                Cash paid on acquisition of controlling stake                                                                              153
+           Total current assets                                                                                               79                Cash and cash equivalents acquired from Plix                                                                                51
+           Fair value of assets acquired                                                                                     448                Net cash paid                                                                                                              103
+
+           LIABILITIES                                                                                                                     e.   Liability towards obligation to acquire non-controlling interest
+           Non-current liabilities                                                                                                   		         Pursuant to the acquisition, the Group has an obligation to acquire the non-controlling interest contingent on achievement of
+               Financial liabilities                                                                                                            certain business milestones at a future date. The obligation has been accounted for as a liability in the consolidated financial
+               (i) Borrowings                                                                                                   -               statements on the acquisition date at its present value of H 348 crore with a corresponding debit to other equity.
+           		(ia) Lease liabilities                                                                                             2
+               Provisions                                                                                                       0
+                                                                                                                                     II.   HW Wellness Solutions Private Limited
+               Total non-current liabilities                                                                                    2          On May 23, 2022, the Group has acquired 53.98% stake and gained control of HW Wellness Solutions Private Limited ("True
+               Current liabilities                                                                                                         Elements") as a subsidiary for a consideration of H 168 crore as subsidiary.
+               Financial liabilities
+               (i) Borrowings                                                                                                  -           At May 23, 2022, the fair value of assets and liabilities acquired have been determined by the Group and accounted for in
+               (ii) Lease liabilities                                                                                          0           accordance with IND AS 103 – “Business Combination”.
+               (iii) Trade payables                                                                                            -
+                                                                                                                                           Taking control of HW Wellness Solutions Private Limited, which owns the brand "True Elements", a clean label, digital-first
+           		 Total outstanding dues of micro enterprises and small enterprises                                                -
+                                                                                                                                           brand playing in the rapidly growing healthy breakfast and snacks segment in India, will enable the Group to expand its total
+           		 Total outstanding dues of creditors other than micro enterprises and small enterprises                          23
+                                                                                                                                           addressable market in the healthy foods segment.
+               (iv) Other financial liabilities                                                                                0
+               Other current liabilities                                                                                       1           a.   Details of purchase consideration, net assets acquired and goodwill
+               Provisions                                                                                                      -
+               Employee benefit liability                                                                                      0     		         Acquisition related cost
+           Total current liabilities                                                                                          26     		         The Group incurred acquisition related cost of H 5 crore on legal fees. These costs have been included in “other expenses”.
+           Fair value of liabilities acquired                                                                                 28
+           Deferred Tax on acquisition                                                                                        94
+           Total Identifiable net assets / (liabilities) acquired                                                            326
+
+		Note : The fair value of Trade receivable and other receivables is the same as mentioned in above table
+

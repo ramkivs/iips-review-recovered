@@ -1,0 +1,91 @@
+Transformative. Innovative. Purpose-led                                                                              Marico Limited                                                                                                     Corporate             Statutory                   Financial
+                                                                                                                                                                                                                                        Overview               Reports                   Statements
+
+
+
+
+Statement of Cash Flows
+For the year ended 31st March, 2023
+
+                                                                                                                       ( H in Crore)                                                                                                                                                          ( H in Crore)
+                                                                                                  Year ended         Year ended                                                                                                                           Year ended                   Year ended
+Particulars                                                                                                    31st March, 2022        Particulars                                                                                                                               31st March, 2022
+                                                                                            31st March, 2023                                                                                                                                        31st March, 2023
+ A      CASH FLOW FROM OPERATING ACTIVITIES                                                                                             C      CASH FLOW FROM FINANCING ACTIVITIES
+        PROFIT BEFORE INCOME TAX                                                                      1,492                1,413               Proceeds from issuance of share capital                                                                                 9                                41
+        Adjustments for:                                                                                                                       Purchase of investments by WEOMA trust (net)                                                                            4                                (8)
+        Depreciation and amortization expense                                                           109                    97              Other borrowings (repaid) / taken (net) (refer note 1 below)                                                        (36)                                (47)
+        Finance costs                                                                                    36                    30              Interest paid (refer note 1 below)                                                                                  (27)                                (22)
+                                                                                                                                               Repayment of Principal portion of lease liabilities (refer note1 below)                                             (36)                                (28)
+        Dividend income from subsidiary                                                                (220)                (248)
+                                                                                                                                               Interest paid on lease liabilities (refer note 1 below)                                                                 (8)                              (8)
+        Interest income from financial assets                                                           (29)                 (44)
+                                                                                                                                               Dividends paid to company's shareholders                                                                          (582)                          (1,195)
+        (Gain)/ Loss on disposal of property, plant and equipment and Right of Use asset                 (0)                   (0)
+                                                                                                                                               Net cash utilised in financing activities (C)                                                                     (676)                         (1,267)
+        Net fair value changes in financial assets and profit on sale of investments                    (50)                 (30)
+                                                                                                                                        D      NET INCREASE / (DECREASE) IN CASH & CASH EQUIVALENTS (A+B+C+D)                                                      (20)                                 15
+        Employees stock option charge                                                                    16                    10
+                                                                                                                                        E      Cash and cash equivalents at the beginning of the financial year                                                         31                              16
+        Provision for doubtful debts                                                                      0                      8
+                                                                                                                                        F      Cash and cash equivalents at end of the year (Refer note 6 (d))                                                         11                               31
+                                                                                                      1,353               1,236
+        Change in operating assets and liabilities:                                                                                    The cash flow statement has been prepared under the indirect method as set out in Indian Accounting Standard (Ind AS 7) statement of cash flows.
+        (Increase) / Decrease in inventories                                                            198                 (220)      The above consolidated statement of Cash Flows should be read in conjunction with the accompanying notes.
+        (Increase) / Decrease in trade receivables                                                     (283)                (252)
+        (Increase)  / Decrease  in other financials assets                                               24                    (7)
+        (Increase) / Decrease in other non-current assets                                                (0)                     0     Note 1 : Reconcliation of the movements liabilities  to cash flow arising from financing activities
+                                                                                                                                                                                                                                                                                              ( H in Crore)
+        (Increase) / Decrease in other current assets                                                   (23)                   16
+                                                                                                                                                                                                            Year ended 31 March, 2023
+                                                                                                                                                                                                                            st
+                                                                                                                                                                                                                                                            Year ended 31 March, 2022
+                                                                                                                                                                                                                                                                                 st
+        (Increase) / Decrease in loans                                                                    1                    (0)
+                                                                                                                                       Particulars                                                           Lease                                           Lease
+        (Decrease) / Increase in provisions                                                               1                    (0)                                                                                     Borrowings           Total                            Borrowings               Total
+                                                                                                                                                                                                         Liabilities                                     Liabilities
+        (Decrease) / Increase in employee benefit obligations                                             6                  (13)      Balance at April 1,                                                      104               95          199              127                    142              269
+        (Decrease) / Increase in other current liabilities                                              (16)                 (13)      Changes from financing cash flows
+
+        (Decrease) / Increase in trade payables                                                           7                  158       Repayment of lease liabilities - principal portion                       (36)                -         (36)             (28)                      -             (28)
+                                                                                                                                       Payment of interest on lease liabilities                                  (8)                -          (8)               (8)                     -              (8)
+        (Decrease)  / Increase in other financial liabilities                                            (7)                     4
+                                                                                                                                       Other borrowings (repaid) / taken (net)                                     -             (36)         (36)                 -                  (47)             (47)
+                                                                                                                                       Payment of interest on borrowings from banks and financial
+        Changes in working capital                                                                      (93)               (327)                                                                                   -             (27)         (27)                 -                  (22)             (22)
+                                                                                                                                       institutions
+        Cash generated from operations                                                                1,260                  909       Total changes from financing cash flows                                 (44)              (63)       (107)              (36)               (69)                (105)
+
+        Income taxes paid (net of refunds)                                                            (258)                (253)       Other changes
+                                                                                                                                       New leases net off closures/disposals                                     38                 -          38                 5                      -               5
+        NET CASH GENERATED FROM OPERATING ACTIVITIES (A)                                              1,002                  656
+                                                                                                                                       Interest expense on lease liabilities                                      8                 -           8                 8                      -               8
+ B      CASH FLOW FROM INVESTING ACTIVITIES
+                                                                                                                                       Interest expense on borrowings from banks and financial
+        Payment for property, plant and equipment and intangible assets                                (129)                 (97)                                                                                  -              27           27                  -                   22               22
+                                                                                                                                       institutions
+        Proceeds from sale of property, plant and equipment                                               0                      1     Total changes                                                             46               27           73               13                     22               35
+
+        (Payment for) / Proceeds from purchase/sale of investments (net)                               (127)                (146)      Balance at March 31, 2023                                               106                59         165                104                     95             199
+
+        Investment in Subsidiaries                                                                     (188)                 (55)
+        (Given to)/Repayment of loan from Subsidiaries                                                     -                   58      As per our report of even date
+                                                                                                                                       For B S R & Co. LLP                    For and on behalf of the Board of Directors
+        (Purchase)/ Redemption of Inter-corporate deposits (net)                                        (90)                 215       Chartered Accountants
+        (Investment) in/Redemption of Bank deposits (having original maturity more than 3                                              Firm Registration No. 101248W/W-100022			
+                                                                                                        129                  359       SADASHIV SHETTY                                              HARSH MARIWALA                                    SAUGATA GUPTA
+        months) (net)                                                                                                                  Partner                                                      Chairman                                          Managing Director and CEO
+        Dividend income from subsidiary                                                                  32                  248       Membership No. 048648                                        [DIN 00210342]                                    [DIN 05251806]
+
+        Interest received                                                                                27                    43                          PAWAN AGRAWAL                                                                              VINAY M A
+                                                                                                                                                           Chief Financial Officer                                                                    Company Secretary
+        NET CASH GENERATED FROM / (UTILISED IN) INVESTING ACTIVITIES (B)                              (346)                  626       		                                                                                                             [Membership No. FCS 11362]
+                                                                                                                                       Place : Mumbai      Place : Mumbai
+                                                                                                                                       Date : May 05, 2023 Date : May 05, 2023
+
+
+
+
+356                 Integrated Annual Report 2022-23                                                                                                                                                                                         Integrated Annual Report 2022-23                           357
+
