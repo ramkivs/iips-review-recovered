@@ -4,6 +4,11 @@
 # PDF page 131 of 224 (printed page 258-259)
 # extractor: pdftotext -layout (poppler-utils) on a throwaway GitHub Actions runner, 2026-11-07;
 # the page text below is verbatim tool output, including the repeated running header and footer.
+# NOTE (whitespace): the text below is verbatim apart from whitespace normalisation required by this repository's
+#       whitespace policy (`git diff --check` runs on every change): tab characters were expanded to spaces at
+#       eight-column stops and trailing blanks were stripped. No word, number, punctuation mark, column entry or
+#       line break was added, removed or reordered. Re-extracting the cited page reproduces this text up to that
+#       normalisation.
 # ----------------------------------------------------------------------------------------------
 Transformative. Innovative. Purpose-led                                                                             Marico Limited                                                                                                         Corporate                Statutory               Financial
                                                                                                                                                                                                                                            Overview                  Reports               Statements
@@ -73,20 +78,20 @@ Particulars                                                                     
         Interest received                                                                                48                   57
                                                                                                                                       Balance at March 31, 2023                                               131              476              607                 134                 345             479
         NET CASH GENERATED FROM / (UTILISED IN) INVESTING ACTIVITIES (B)                              (929)                 425
-                                                                                                                                      The above consolidated Balance Sheet should be read in conjunction with the accompanying notes.			
+                                                                                                                                      The above consolidated Balance Sheet should be read in conjunction with the accompanying notes.
                                                                                                                                       As per our report of even date
                                                                                                                                       For B S R & Co. LLP                    For and on behalf of the Board of Directors
                                                                                                                                       Chartered Accountants
-                                                                                                                                      Firm Registration No. 101248W/W-100022			
+                                                                                                                                      Firm Registration No. 101248W/W-100022
                                                                                                                                       SADASHIV SHETTY                                              HARSH MARIWALA                                           SAUGATA GUPTA
                                                                                                                                       Partner                                                      Chairman                                                 Managing Director and CEO
                                                                                                                                       Membership No. 048648                                        [DIN 00210342]                                           [DIN 05251806]
 
                                                                                                                                                           PAWAN AGRAWAL           VINAY M A
                                                                                                                                                           Chief Financial Officer Company Secretary
-                                                                                                                                      		                                          [Membership No. FCS 11362]
+                                                                                                                                                                                          [Membership No. FCS 11362]
                                                                                                                                       Place : Mumbai      Place : Mumbai
-                                                                                                                                      Date : May 05, 2023 Date : May 05, 2023		
+                                                                                                                                      Date : May 05, 2023 Date : May 05, 2023
 
 
 

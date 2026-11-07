@@ -4,6 +4,11 @@
 # PDF page 176 of 259 (printed page 348-349)
 # extractor: pdftotext -layout (poppler-utils) on a throwaway GitHub Actions runner, 2026-11-07;
 # the page text below is verbatim tool output, including the repeated running header and footer.
+# NOTE (whitespace): the text below is verbatim apart from whitespace normalisation required by this repository's
+#       whitespace policy (`git diff --check` runs on every change): tab characters were expanded to spaces at
+#       eight-column stops and trailing blanks were stripped. No word, number, punctuation mark, column entry or
+#       line break was added, removed or reordered. Re-extracting the cited page reproduces this text up to that
+#       normalisation.
 # ----------------------------------------------------------------------------------------------
          I n te gr a te d An n ua l R e p or t 2 0 2 3 -2 4                                                                                                                                         • Corporate Overview • Statutory Reports • Financial Statements
 348      Marico Limited
@@ -71,7 +76,7 @@ C   CASH FLOW FROM FINANCING ACTIVITIES
     Acquisition of non controlling interest                                                      (141)                   -
                                                                                                                                                    Chief Financial Officer                                                                  Company Secretary
     Interest paid                                                                                 (54)                (42)
-                                                                                                                               		                                                                                                           [Membership No. FCS 11362]
+                                                                                                                                                                                                                                                   [Membership No. FCS 11362]
     Repayment of principal portion of lease liabilities                                           (52)                (41)
                                                                                                                                Place : Mumbai      Place : Mumbai
     Interest on lease liabilities                                                                 (11)                (11)

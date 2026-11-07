@@ -4,6 +4,11 @@
 # PDF page 129 of 224 (printed page 254-255)
 # extractor: pdftotext -layout (poppler-utils) on a throwaway GitHub Actions runner, 2026-11-07;
 # the page text below is verbatim tool output, including the repeated running header and footer.
+# NOTE (whitespace): the text below is verbatim apart from whitespace normalisation required by this repository's
+#       whitespace policy (`git diff --check` runs on every change): tab characters were expanded to spaces at
+#       eight-column stops and trailing blanks were stripped. No word, number, punctuation mark, column entry or
+#       line break was added, removed or reordered. Re-extracting the cited page reproduces this text up to that
+#       normalisation.
 # ----------------------------------------------------------------------------------------------
 Transformative. Innovative. Purpose-led                                                                                                            Marico Limited                                                                                                         Corporate           Statutory            Financial
                                                                                                                                                                                                                                                                           Overview             Reports            Statements
@@ -79,8 +84,8 @@ as at 31 March 2023
  Financial liabilities                                                                                                                                                Non-controlling interests                                                                                                            0                      0
         (i)   Borrowings                                                                                   13(a)                    473                     345
         (ii)  Trade payables                                                                               13(c)                                                                                                                                                                                       (32)                      35
- 		           Total outstanding dues of micro enterprises and small enterprises                                                      68                      76       Total comprehensive income attributable to:
- 		           Total outstanding dues of creditors other than micro enterprises and small enterprises                              1,384                   1,268       Owners                                                                                                                         1,270                    1,260
+                           Total outstanding dues of micro enterprises and small enterprises                                                      68                      76       Total comprehensive income attributable to:
+                           Total outstanding dues of creditors other than micro enterprises and small enterprises                              1,384                   1,268       Owners                                                                                                                         1,270                    1,260
         (iii) Lease Liabilities                                                                                                      42                      43
                                                                                                                                                                       Non-controlling interests                                                                                                         20                       30
         (iv) Other financial liabilities                                                                   13(b)                     40                      45
@@ -94,20 +99,20 @@ as at 31 March 2023
                                                                                                                                                                       Critical estimates and judgements                                                                        2
  Significant accounting policies                                                                       1
  Critical estimates and judgements                                                                     2
-The above consolidated Balance Sheet should be read in conjunction with the accompanying notes.			                                                                   The above consolidated Balance Sheet should be read in conjunction with the accompanying notes.			
+The above consolidated Balance Sheet should be read in conjunction with the accompanying notes.                                                                                    The above consolidated Balance Sheet should be read in conjunction with the accompanying notes.
 As per our report of even date                                                                                                                                       As per our report of even date
 For B S R & Co. LLP                    For and on behalf of the Board of Directors                                                                                   For B S R & Co. LLP                    For and on behalf of the Board of Directors
 Chartered Accountants                                                                                                                                                Chartered Accountants
-Firm Registration No. 101248W/W-100022			                                                                                                                            Firm Registration No. 101248W/W-100022			
+Firm Registration No. 101248W/W-100022                                                                                                                                              Firm Registration No. 101248W/W-100022
 SADASHIV SHETTY                                                    HARSH MARIWALA                                  SAUGATA GUPTA                                     SADASHIV SHETTY                                                  HARSH MARIWALA                                  SAUGATA GUPTA
 Partner                                                            Chairman                                        Managing Director and CEO                         Partner                                                          Chairman                                        Managing Director and CEO
 Membership No. 048648                                              [DIN 00210342]                                  [DIN 05251806]                                    Membership No. 048648                                            [DIN 00210342]                                  [DIN 05251806]
 
                     PAWAN AGRAWAL           VINAY M A                                                                                                                                    PAWAN AGRAWAL           VINAY M A
                     Chief Financial Officer Company Secretary                                                                                                                            Chief Financial Officer Company Secretary
-		                                          [Membership No. FCS 11362]                                                                                               		                                          [Membership No. FCS 11362]
+                                                          [Membership No. FCS 11362]                                                                                                                                                      [Membership No. FCS 11362]
 Place : Mumbai      Place : Mumbai                                                                                                                                   Place : Mumbai      Place : Mumbai
-Date : May 05, 2023 Date : May 05, 2023		                                                                                                                            Date : May 05, 2023 Date : May 05, 2023		
+Date : May 05, 2023 Date : May 05, 2023                                                                                                                                     Date : May 05, 2023 Date : May 05, 2023
 
 
 

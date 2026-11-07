@@ -4,6 +4,11 @@
 # PDF page 174 of 259 (printed page 344-345)
 # extractor: pdftotext -layout (poppler-utils) on a throwaway GitHub Actions runner, 2026-11-07;
 # the page text below is verbatim tool output, including the repeated running header and footer.
+# NOTE (whitespace): the text below is verbatim apart from whitespace normalisation required by this repository's
+#       whitespace policy (`git diff --check` runs on every change): tab characters were expanded to spaces at
+#       eight-column stops and trailing blanks were stripped. No word, number, punctuation mark, column entry or
+#       line break was added, removed or reordered. Re-extracting the cited page reproduces this text up to that
+#       normalisation.
 # ----------------------------------------------------------------------------------------------
               I n te gr a te d An n ua l R e p or t 2 0 2 3 -2 4                                                                                                                                                                                                             • Corporate Overview • Statutory Reports • Financial Statements
 344           Marico Limited
@@ -100,8 +105,8 @@ Material accounting policies                                                    
                                                                                                                                                                         Material accounting policies                                                                                        1
 Critical estimates and judgements                                                                              2
                                                                                                                                                                         Critical estimates and judgements                                                                                   2
-The accompanying notes are an integral part of these consolidated financial statements			
-                                                                                                                                                                        The accompanying notes are an integral part of these consolidated financial statements			
+The accompanying notes are an integral part of these consolidated financial statements
+                                                                                                                                                                        The accompanying notes are an integral part of these consolidated financial statements
 As per our attached report of even date
                                                                                                                                                                         As per our attached report of even date
 For B S R & Co. LLP                                                      For and on behalf of the Board of Directors
@@ -120,8 +125,8 @@ Membership No. 048648                                                      [DIN 
                                                                                                                                                                                             PAWAN AGRAWAL                                                                                                      VINAY M A
                     Chief Financial Officer                                                                            Company Secretary
                                                                                                                                                                                             Chief Financial Officer                                                                                            Company Secretary
-		                                                                                                                     [Membership No. FCS 11362]
-                                                                                                                                                                        		                                                                                                                                     [Membership No. FCS 11362]
+                                                                                                                                     [Membership No. FCS 11362]
+                                                                                                                                                                                                                                                                                                                             [Membership No. FCS 11362]
 Place : Mumbai      Place : Mumbai
                                                                                                                                                                         Place : Mumbai      Place : Mumbai
 Date : May 06, 2024 Date : May 06, 2024

@@ -4,6 +4,11 @@
 # PDF page 115 of 259 (printed page 226-227)
 # extractor: pdftotext -layout (poppler-utils) on a throwaway GitHub Actions runner, 2026-11-07;
 # the page text below is verbatim tool output, including the repeated running header and footer.
+# NOTE (whitespace): the text below is verbatim apart from whitespace normalisation required by this repository's
+#       whitespace policy (`git diff --check` runs on every change): tab characters were expanded to spaces at
+#       eight-column stops and trailing blanks were stripped. No word, number, punctuation mark, column entry or
+#       line break was added, removed or reordered. Re-extracting the cited page reproduces this text up to that
+#       normalisation.
 # ----------------------------------------------------------------------------------------------
             I n te gr a te d An n ua l R e p or t 2 0 2 3 -2 4                                                                                                                                                              • Corporate Overview • Statutory Reports • Financial Statements
 226         Marico Limited
@@ -24,11 +29,11 @@ I.    Details of the listed entity
       I-3        Year of incorporation                                                        : 13-10-1988
                                                                                                                                                               b.    What is the contribution of exports as a percentage of the total turnover of the entity?
       I-4        Registered office address                                                    : 7th Floor, Grande Palladium, 175 CST Road, Kalina,
-                                                                                                Santacruz (East), Mumbai 400098                          		4.6%
+                                                                                                Santacruz (East), Mumbai 400098                                         4.6%
 
       I-5        Corporate address                                                            : 7th Floor, Grande Palladium, 175 CST Road, Kalina,            c.    A brief on types of customers
                                                                                                 Santacruz (East), Mumbai 400098
-                                                                                                                                                         		         Marico is one of India’s leading consumer products companies in the global beauty and wellness space. It operates in
+                                                                                                                                                                                 Marico is one of India’s leading consumer products companies in the global beauty and wellness space. It operates in
       I-6        E-mail                                                                       : investor@marico.com
                                                                                                                                                                     product categories such as Coconut Oil, Refined Edible Oils, Value Added Hair Oils, Leave-in Hair Conditioners, Male
       I-7        Telephone                                                                    : 022 - 66480480                                                      Grooming and Packaged Foods, among others. Marico’s product portfolio caters to a diverse range of consumer needs and
