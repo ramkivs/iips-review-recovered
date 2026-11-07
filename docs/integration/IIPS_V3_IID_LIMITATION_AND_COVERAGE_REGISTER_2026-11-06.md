@@ -2241,3 +2241,96 @@ idempotency, chain read, readback, findings, commands, guard test, typecheck, cl
 `docs/integration/IIPS_V3_IID_L040_VALUATION_OUTPUT_CORRECTION_2026-11-07.md`. Record:
 `docs/integration/IIPS_V3_IID_WI8_INDUSTRIALS_KEC_2026-11-07.md`. The WI-3, WI-5, WI-6, WI-6A, WI-6A-S1, WI-6A-S2 and WI-7
 bundles are byte-identical and still verify.
+
+## 17.17 WI-8 / `L-039` — KEC International: the current-investments caption is not printed at all, in any of the three periods (2026-11-07; primary evidence only, no code or dataset change)
+
+**Question.** §17.16 opened `L-039` because the enterprise-to-equity bridge needs a `currentInvestments` amount and KEC's
+consolidated balance sheet prints none. §17.16 answered that question from the pages it had already read. The limitation
+was not closed, so this work item asked the narrower, harder question the entry left open: **is the caption genuinely
+absent from the audited consolidated disclosures, or was it merely unread — and if an amount exists anywhere, in what
+form, and does it map to the governed data model without inference?**
+
+**Answer: genuinely absent.** Not "not found in the pages we happened to extract": both reports were converted page by
+page and searched as a whole. 421 printed pages (FY2025-26, 215 pages, sha256 `ba638897…c820`, 18,566,481 B; FY2024-25,
+206 pages, sha256 `29dfdf83…c1c6`, 14,873,309 B) were tested for `NOTE 10`, `NOTE 17`, `NOTE 18`, `NOTE 19`,
+`current investment`, `non-current investment` and `mutual fund`; the hit report is
+`evidence/real-issuer/WI8-L039-CASH-SIDE-2026-11-07/source/caption-search-log.txt`. **No page of either report carries a
+"current investments" caption.** The `current investment` string occurs only inside Ind AS 107 classification tables,
+where it classifies the *non-current* equity investment and the cash and bank balances; the only `mutual fund` hits are
+the **shareholding pattern** — mutual funds holding KEC shares, an ownership fact about the issuer and not an asset of it.
+
+**What the statements do print.** The consolidated balance sheet (FY2026: PDF p.117, printed 230–231; FY2025/FY2024:
+FY2024-25 report, PDF p.110) presents exactly four current financial-asset captions — trade receivables
+`6,474.21 / 5,051.10 / 4,136.62`; cash and cash equivalents `411.26 / 545.69 / 205.10`; bank balances other than (ii)
+`100.67 / 110.24 / 68.18`; other financial assets `276.90 / 144.42 / 148.51` — and there is no fifth caption and no
+`Loans`. Note 10 (printed 254–255) is headed **"Non-current:"** and contains one unquoted equity holding of 4,900 shares
+in the RP Goenka Group Employees Welfare Association, carrying `*` = *"less than rounding off norms adopted by the
+Group"*. Note 18 (258–259) itemises the ₹100.67 crore as unpaid-dividend earmarkings `3.06`, three-to-twelve-month bank
+deposits `3.20` and margin money / security `94.41`. Note 19 (260–261) itemises sundry deposits `107.53`, interest accrued
+on fixed deposits `7.59`, insurance claims `1.25`, marked-to-market forwards and commodity contracts `104.19`,
+contractually reimbursable expenses `63.60` and an ECL allowance `(7.26)`. Note 54 (286–287; FY2025 270–271), the Ind AS
+107 instrument-level classification of the whole balance sheet, names exactly one investment line — **"Non-current
+investment" (`*`)** — and totals cash and bank balances at `511.93` (= `411.26 + 100.67`). The cash-flow statements
+(FY2026 p.118, FY2025 p.111) carry capital expenditure, sale-and-leaseback and sale of PPE, and **no investment purchase
+or sale line in either year**.
+
+**Mappings considered and refused, each recorded in the bundle:** Note 18 bank balances (a different Schedule III caption
+for different instruments; it would import margin money the bridge excludes); Note 10 non-current investments (wrong
+caption, non-current, below rounding); Note 19 other financial assets (deposits, accrued interest, insurance claims,
+derivatives, reimbursables — no investment instrument); and the two synthetic routes, **`0`** (D-2 and `L-040`: an omitted
+caption is `NOT_REPORTED`, never zero) and **`grossDebt − cash` = 49,665,000,000** as a stand-in for net debt (not
+published anywhere in the payload; the readback walks every number in it to prove it). **No mapping was applied, no zero
+was substituted, and nothing was inferred from totals, prior periods, market data or arithmetic residuals.**
+
+**Outcome: `L-039` stays `OPEN`, unchanged, and nothing else moves.** The re-run used the *same* WI-8 ingest input, the
+same `--generated-at` instant and the same governed CLI, so the only possible cause of a difference would have been a code
+change and there was none: `datasetVersion` `sha256:0df73ead…82ab` before and after, payload digest `fc50c53e…f370`
+before and after (52,760 B, chain length 1, stored equal to recomputed, read back in a separate process),
+`grossDebt` `PRESENT` ₹5,377.76 crore, `cashAndCashEquivalents` `PRESENT` ₹411.26 crore, and
+`currentInvestments` / `cashAndInvestments` / `netDebt` all `MISSING` / `NOT_REPORTED`. Every dependent output stays
+withheld exactly as §17.16 recorded: `intrinsic` `null`; the `DCF_FCFF` per-share leg `NOT_COMPUTABLE` (*"enterprise-to-
+equity conversion blocked by netDebt"*) while its enterprise value stands at 9,184,155,840; the sensitivity grid withheld;
+`EV_EBITDA` `CAPITAL_STRUCTURE_INCOMPLETE`; `EV_REVENUE` `MANDATORY_METRIC_MISSING: IN_BOOK_TO_BILL`; `FINANCIAL_LEVERAGE`
+`NOT_EVALUABLE`; `netDebtToEbitda` `NOT_COMPUTABLE`; margin of safety `NO_PRICE_OBSERVATION`. The WI-8 payload
+(`4f89f0ec…`), the `L-040` corrected payload and every earlier bundle are byte-untouched.
+
+**One behavioural finding, recorded and not acted on.** The two governed aggregations treat a declared nil differently:
+`grossDebtOf` counts a component the filer declared nil as zero and names it in a note under the capital-structure
+aggregation contract, while `sum` — which builds `cashAndInvestments` from cash and current investments — returns the nil
+itself, so `cashAndInvestments` and `netDebt` become `NIL_BY_DISCLOSURE`. A filer that states "no current investments" in
+its own words therefore still gets no net debt. That is the same family of over-refusal as `L-039`, and accepting a
+declared nil as zero on the cash side is a **register-owner decision about the cash-aggregation contract**, not an
+evidence question, so it is **not** taken here and no aggregation code was touched. The guard test pins the present
+behaviour so that any future change has to be deliberate. It does not affect KEC: KEC declares nothing, so its
+`currentInvestments` is `NOT_REPORTED`, not nil.
+
+**What would close `L-039`.** (i) a filing that prints the caption with an amount — the ordinary route and the only one
+that is purely evidentiary; (ii) a filing that declares the caption nil in its own words *together with* the cash-side
+decision above; or (iii) a register-owner decision to add a governed "the balance sheet presents no such caption" state
+distinct from `NOT_REPORTED`, which is a D-2 grammar decision this work item deliberately does not take. Until one of
+those happens the honest output is the one already published: gross debt printed, the cash side refused, the blocking
+component named, and no number invented.
+
+**Verification.** The bundle `evidence/real-issuer/WI8-L039-CASH-SIDE-2026-11-07/` carries the eleven page extracts with
+per-page provenance (`source/`, `page-map.json`, `source-bytes.json`), the re-ingest and re-generate transcripts
+(`runs/01`, `runs/02`), the separate-process readback (`runs/03-readback.json`), the suite transcripts (`runs/04`,
+`runs/05`, `runs/06`), the machine-readable determination (`determination-l039.json`) and a 22-file `digests.json`. The
+guard `iips-platform/tests/investment/l039CashSideEvidence.test.ts` passes 18/18 and fails if any of the above claims
+stops being true — including a control page with the caption absent (the bridge refuses) against the same fixture with
+the caption present (the bridge closes), so the gate is the evidence rather than the code. The full investment suite
+passes **654/654** in 151 suites and `tsc --noEmit` is clean. Local tests are reported separately from CI; the run ids of
+the path-filtered `CAP-03` check are cited in the pull-request receipt, and no npm, frontend or IPD run is claimed.
+
+**Statuses after §17.17.** `L-039` remains **`OPEN`** — this entry narrows it from "no caption was found" to "no caption
+is printed, the absence was searched for exhaustively across 421 pages, and no existing governed state can honestly say
+so". `L-040` stays **`RESOLVED`**, `L-036` **`PARTIALLY RESOLVED`**, `L-038`/`L-035`/`L-037` **`OPEN`**, `L-034`
+**`RESOLVED`**, `L-002`…`L-033` and `L-001` untouched. No limitation status, meaning or criterion was redefined, and D-2
+and IX policy were not modified.
+
+**Boundary this adds.** WI-3 taught what a nil needs, WI-5 that a scoped sentence cannot carry one, WI-6 that an
+unreadable filing cannot, WI-6A that an unreadable filing must not become a negative finding, WI-7 that a legible filing
+can fail the debt half, and WI-8 that it can fail the cash half after closing the debt half. This work item adds the
+seventh shape: **an absence can itself be established as a fact — exhaustively, with the captions that were looked for and
+the ones that were found — and still not be a number.** The register gains no new state and no borrowed total: it gains a
+searched, hashed, reproducible record that the caption does not exist, which is what any future owner decision about
+`L-039` should be argued from.

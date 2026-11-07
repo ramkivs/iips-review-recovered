@@ -22136,3 +22136,67 @@ formulas; no re-read of issuer sources, no re-extraction, no dataset or ingest e
 the historical WI-8 payload, the earlier WI-3/WI-5/WI-6/WI-6A/WI-6A-S1/WI-6A-S2/WI-7 bundles, or any earlier limitation
 status; no new persistence mechanism, no unrelated refactoring, no IPD write and no production scope. Next free
 §16.275 / CV-CORR-253 / CHG-2026-11-06-16 / V2148.
+
+### 16.275 IID WI-8 / L-039 follow-up — KEC's current-investments caption established absent across 421 pages; no mapping, no dataset or payload change (`2026-11-07`)
+
+**No IPD act, no IPD change.** This is an IRR-only IID investigation continuing WI-8 (§16.274). It performs no IPD
+modification, so it carries **no** CV-CORR / CHG / V number; the sequence at the end of §16.274
+(`CV-CORR-253` / `CHG-2026-11-06-16` / `V2148`) is **not spent** here and remains the next free IPD act reference. Only
+the tracker section number advances.
+
+**Scope.** `L-039` — opened by WI-8 because the enterprise-to-equity bridge needs a `currentInvestments` amount and
+KEC International's consolidated balance sheet prints none. The question was whether the caption is genuinely absent or
+merely unread, whether any amount exists in a mapable form, and — only if it does — whether the governed cash
+aggregation and net-debt bridge could then be computed. Explicitly out of scope, and untouched: D-2 and IX policy, every
+other limitation's status and meaning, WI-8's history and artifacts, new issuers or sectors, IPD, production scope.
+
+**Evidence.** `evidence/real-issuer/WI8-L039-CASH-SIDE-2026-11-07/` — both annual reports as hashed bytes (re-read on a
+hosted runner; `ba638897…c820` 18,566,481 B / 215 pages and `29dfdf83…c1c6` 14,873,309 B / 206 pages, recorded in
+`source/source-bytes.json`), **421 pages searched** for the captions that would carry the line
+(`source/caption-search-log.txt`), eleven verbatim page extracts with per-page provenance (`source/`, `page-map.json`),
+the re-ingest and re-generate transcripts on the **unchanged** WI-8 ingest input (`runs/01`, `runs/02`), the
+separate-process readback (`runs/03-readback.json`), suite and typecheck transcripts (`runs/04`–`runs/06`), the
+machine-readable determination (`determination-l039.json`) and a 22-file `digests.json`. Record
+`docs/integration/IIPS_V3_IID_LIMITATION_AND_COVERAGE_REGISTER_2026-11-06.md` §17.17 and
+`docs/integration/IIPS_V3_IID_WI8_INDUSTRIALS_KEC_2026-11-07.md` §9.1; guard
+`iips-platform/tests/investment/l039CashSideEvidence.test.ts`.
+
+**Result: the caption is genuinely absent, so nothing is mapped and nothing moves.** No page of either report carries a
+current-investments caption. The consolidated balance sheet prints four current financial-asset captions and no fifth —
+trade receivables `6,474.21`, cash and cash equivalents `411.26`, bank balances other than cash `100.67`, other financial
+assets `276.90` (FY2026, ₹ crore) — and no `Loans`. Note 10 is headed "Non-current:" only, with one sub-rounding equity
+holding marked `*`; Note 18 itemises an unpaid-dividend earmarking, a 3–12-month bank deposit and margin money; Note 19
+itemises deposits, accrued interest, insurance claims, derivatives and reimbursables; Note 54, the Ind AS 107
+classification of the whole balance sheet, names exactly one investment line and it is non-current; the cash-flow
+investing sections carry no investment purchase or sale. Four candidate mappings and two synthetic routes were refused
+and recorded (Note 18, Note 10, Note 19, `0`, and `grossDebt − cash` = 49,665,000,000, which the readback proves is
+published nowhere in the payload). **No zero was substituted and nothing was inferred from totals, prior periods, market
+data or arithmetic residuals.**
+
+**Preserved and re-verified.** `datasetVersion` `sha256:0df73ead…82ab` and payload digest `fc50c53e…f370` (52,760 B,
+chain length 1, stored equal to recomputed, separate-process readback) are **identical before and after**;
+`grossDebt` `PRESENT` ₹5,377.76 crore and `cashAndCashEquivalents` `PRESENT` ₹411.26 crore; `currentInvestments`,
+`cashAndInvestments` and `netDebt` all `MISSING`/`NOT_REPORTED`; `intrinsic` `null`, the DCF per-share leg
+`NOT_COMPUTABLE` (enterprise value 9,184,155,840 retained), the sensitivity grid withheld, `EV_EBITDA`
+`CAPITAL_STRUCTURE_INCOMPLETE`, `EV_REVENUE` withheld for `IN_BOOK_TO_BILL`, `FINANCIAL_LEVERAGE` `NOT_EVALUABLE`,
+`netDebtToEbitda` `NOT_COMPUTABLE`, MoS `NO_PRICE_OBSERVATION`. The WI-8 payload (`4f89f0ec…`), the `L-040` corrected
+payload and all earlier bundles are byte-untouched.
+
+**One behavioural finding, not acted on.** `grossDebtOf` counts a filer-declared nil as zero and notes it; the cash-side
+`sum` propagates the nil, so a filer that declares "no current investments" would still get `cashAndInvestments` and
+`netDebt` at `NIL_BY_DISCLOSURE`. Closing that is a register-owner decision about the cash-aggregation contract, not an
+evidence question, so **no aggregation code was changed**; the guard test pins the present behaviour. It does not affect
+KEC, which declares nothing.
+
+**Verification.** Focused only: `l039CashSideEvidence.test.ts` 18/18; the full investment suite **654/654** in 151
+suites; `tsc --noEmit` on the package project exits 0; every one of the bundle's 22 digested files re-hashes clean and the
+guard asserts that no shipped file lacks a digest (except the manifest itself and the post-manifest verification run,
+which cannot be inside the manifest it verifies). Local tests are reported separately from CI; the path-filtered
+`CAP-03 Revision 7 IRR-only static checks` run ids for this pull request are cited in its receipt, and no npm, frontend or
+IPD run is claimed.
+
+**Boundaries held.** `L-039` remains **`OPEN`** — narrowed from "no caption was found" to "no caption is printed, and the
+absence was searched for exhaustively and recorded so that no governed state can yet say so honestly"; `L-040` stays
+`RESOLVED`, `L-036` `PARTIALLY RESOLVED`, `L-038`/`L-035`/`L-037` `OPEN`, `L-034` `RESOLVED`. No D-2 or IX policy change,
+no new persistence mechanism, no new issuer or sector, no IPD write, no production scope, no unrelated refactoring, no
+redefinition of any limitation. Next free §16.276 / CV-CORR-253 / CHG-2026-11-06-16 / V2148.

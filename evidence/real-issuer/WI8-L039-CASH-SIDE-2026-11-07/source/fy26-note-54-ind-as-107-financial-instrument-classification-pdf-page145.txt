@@ -1,0 +1,88 @@
+# KEC International Limited — FY2025-26 annual report (consolidated)
+# What this page is: Note 54 — Ind AS 107 category-wise classification of every financial asset and liability (the instrument-level proof no current investment exists)
+# source PDF: KEC_Annual_Report_2025-26.pdf  bytes=18566481  sha256=ba638897313ac1fe5b7da42d7a95dac5f9efec1d1a203f88d9f963622ba3c820  pages=215
+# URL: https://www.kecrpg.com/public/media/annualReportMedia/KEC_Annual_Report_2025-26.pdf
+# PDF page 145 of 215  (printed pages 286-287)
+# extractor: pdftotext -layout (poppler-utils) on a throwaway GitHub Actions runner, 2026-11-07.
+# NOTE (whitespace): the text below is verbatim apart from whitespace normalisation required by this
+#       repository's whitespace policy (git diff --check runs on every change): tab characters were expanded
+#       to spaces at eight-column stops and trailing blanks were stripped. No word, number, punctuation mark,
+#       column entry or line break was added, removed or reordered.
+# -----------------------------------------------------------------------------------------------------
+                                                                                                                                                                                                                                                      FINANCIAL STATEMENTS
+                                                                                                       KEC International Limited                                                                                                                                   Consolidated
+
+
+
+
+Notes                                                                                                                               Notes
+forming part of the Consolidated Financial Statements as at and for the year ended March 31, 2026                                   forming part of the Consolidated Financial Statements as at and for the year ended March 31, 2026
+
+
+
+NOTE 54 DISCLOSURE AS PER IND AS 107                                                                                                II.    Assets and liabilities which are measured at amortised cost for which fair values are disclosed
+A     Fair Value Measurement                                                                                                                                                                                                                                          ` in crore
+I.    Category-wise classification of financial assets and financial liabilities                                                           Particulars                                                       As at March 31, 2026                 As at March 31, 2025
+
+                                                                                                                       ` in Crore                                                                            Fair Value          Carrying         Fair Value          Carrying
+                                                                                                                                                                                                                                 Amount                               Amount
+      Particulars                                    As at March 31, 2026                      As at March 31, 2025
+                                                                                                                                           Non-current financial assets
+                                            FVPL       FVOCI     Amortised Used for    FVPL      FVOCI    Amortised Used for
+                                                                     Cost hedging                             Cost hedging                 Trade receivables                                                      25.95             31.45             160.71            214.93
+      Financial assets                                                                                                                     Other Financial Assets                                                 53.41             65.38              54.59              66.07
+      Non-current investment                                                                                                               Non current financial liabilities
+         -      Investment in equity                            *                                        *                                    Borrowings                                                            661.37            661.37             358.46            358.46
+             instruments
+      Trade receivables                          -           -    6,505.66         -       -          -    5,266.03             -          During the periods mentioned above, there have been no transfers amongst the levels of hierarchy.
+
+      Cash and bank balances                     -           -      511.93         -       -          -      655.93             -
+                                                                                                                                        The fair values of current trade receivables, current financial assets, cash and bank balances, loans, trade payables,
+      Other financial assets                                                                                                          current borrowings, current financial liabilities and current lease liabilities are considered to be approximately equal to their
+         - Derivative instruments                                                                                                     carrying amounts.
+                     i)         Foreign currency           1.82            -           -    34.48    5.31           -            -        8.72
+                  forward contracts                                                                                                        The fair value of non current borrowings is considered to be equal to the carrying amount as the same is at variable rate of interest.
+                     ii)        Over the counter              -           -           -    67.90        -          -            -        9.91
+                   (OTC) commodity                                                                                                  III.   Assets and liabilities which are measured at FVPL or FVOCI
+                   contracts                                                                                                            This note provides information about how the Group determines fair values of various financial assets and financial liabilities.
+         - Others                                -           -      238.09         -       -          -      186.55             -     Fair value of the Group’s financial assets and financial liabilities are measured on a recurring basis at the end of each
+      Financial liabilities                                                                                                           reporting period.
+      Borrowings (including interest             -           -    5,113.14         -       -          -    3,706.66             -
+      accrued)                                                                                                                          The following table gives information about how the fair values of these financial assets and financial liabilities are determined
+                                                                                                                                      (in particular, the valuation technique(s) and inputs used).
+      Lease Liabilities                          -           -      274.53         -       -          -      256.38             -
+      Trade payables                             -           -    8,703.25         -       -          -    8,996.21             -                                                                                                                                    ` in Crore
+      Trade acceptances                          -           -    2,120.74         -       -          -    1,507.27             -          Financial assets/ financial                        Fair values as at           Fair value Valuation technique(s) and key
+                                                                                                                                           liabilities                                March 31, 2026       March 31, 2025 hierarchy input(s)
+      Other financial liabilities
+      - Derivative instruments                                                                                                             1)   Derivative instruments (Foreign                  Asset               Asset     Level 2      Future cash flows are estimated
+                                                                                                                                                currency forward contracts                      ` 1.81              ` 5.32                  based on maturity converted at
+         i)     Foreign currency              16.26            -           -    18.98    5.99           -            -        7.52
+                                                                                                                                                not designated in hedge                                                                     forward exchange rate at the end
+              forward contracts
+                                                                                                                                                accounting relationships)                                                                   of reporting period.
+         ii)    Over the counter (OTC)            -           -           -    11.75        -          -            -       49.95
+                                                                                                                                           2)   Derivative instruments (Foreign                Liability           Liability   Level 2      Future cash flows are estimated
+               commodity derivative
+                                                                                                                                                currency forward contracts                     ` 16.26              ` 5.99                  based on maturity converted at
+               contracts
+                                                                                                                                                not designated in hedge                                                                     forward exchange rate at the end
+      - Others                                   -           -       58.90         -       -          -       28.26             -               accounting relationships)                                                                   of reporting period.
+      * less than rounding off norms adopted by the group.                                                                                 3)   Derivative instruments                            Asset               Asset     Level 2      Future cash flows are estimated
+      FVPL - Fair Value Through Profit or Loss                                                                                                 (designated in hedge                             ` 0.97              ` 8.72                  based on maturity converted at
+                                                                                                                                               accounting relationships :                                                                   forward exchange rate at the end
+      FVOCI - Fair Value Through Other Comprehensive Income
+                                                                                                                                               Hedges of Highly Forecasted                                                                  of reporting period.
+                                                                                                                                               Sales using foreign currency
+                                                                                                                                               forward contracts)
+                                                                                                                                           4)   Derivative instruments                          Liability           Liability   Level 2      Future cash flows are estimated
+                                                                                                                                               (designated in hedge                            ` 10.90              ` 0.68                  based on maturity converted at
+                                                                                                                                               accounting relationships :                                                                   forward exchange rate at the end
+                                                                                                                                               Hedges of Highly Forecasted                                                                  of reporting period.
+                                                                                                                                               Sales using foreign currency
+                                                                                                                                               forward contracts)
+
+
+
+
+286     Integrated Annual Report 2025-26                                                                                                                                                                                              Integrated Annual Report 2025-26      287

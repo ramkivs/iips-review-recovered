@@ -1,0 +1,73 @@
+# KEC International Limited — FY2025-26 annual report (consolidated)
+# What this page is: Note 10 investments (consolidated) and the sub-rounding footnote
+# source PDF: KEC_Annual_Report_2025-26.pdf  bytes=18566481  sha256=ba638897313ac1fe5b7da42d7a95dac5f9efec1d1a203f88d9f963622ba3c820  pages=215
+# URL: https://www.kecrpg.com/public/media/annualReportMedia/KEC_Annual_Report_2025-26.pdf
+# PDF page 129 of 215  (printed pages 254-255)
+# extractor: pdftotext -layout (poppler-utils) on a throwaway GitHub Actions runner, 2026-11-07.
+# NOTE (whitespace): the text below is verbatim apart from whitespace normalisation required by this
+#       repository's whitespace policy (git diff --check runs on every change): tab characters were expanded
+#       to spaces at eight-column stops and trailing blanks were stripped. No word, number, punctuation mark,
+#       column entry or line break was added, removed or reordered.
+# -----------------------------------------------------------------------------------------------------
+                                                                                                                                                                                                                                                     FINANCIAL STATEMENTS
+                                                                                                         KEC International Limited                                                                                                                                Consolidated
+
+Notes                                                                                                                                 Notes
+forming part of the Consolidated Financial Statements as at and for the year ended March 31, 2026                                     forming part of the Consolidated Financial Statements as at and for the year ended March 31, 2026
+
+NOTE 9 - INTANGIBLE ASSETS                                                                                                            NOTE 10 - INVESTMENTS
+                                                                                                                        ` in Crore                                                                                                                                   ` in Crore
+Particulars                                                      Brands         Computer      Non Compete Fees               Total     Particulars                                                                                               As at                 As at
+                                                         (Refer Note 9.1)       softwares        (Refer Note 9.2)                                                                                                                       March 31, 2026        March 31, 2025
+Gross carrying amount                                                                                                                 Non-current:
+As at March 31, 2024                                               240.00            97.92                    0.58         338.50     Investment in equity shares (at fair value through other comprehensive income)
+Additions                                                                -            0.55                        -          0.55     Unquoted
+Disposal                                                                 -            0.37                        -          0.37       4900 Fully paid Equity Shares of ` 10 each of RP Goenka Group of Companies                                      *                     *
+Adjustments (Refer note 9.3)                                             -            3.01                        -          3.01       Employees Welfare Association
+As at March 31, 2025                                               240.00          101.11                     0.58         341.69                                                                                                                       *                     *
+Additions                                                                -            0.90                        -          0.90      Aggregate book value of unquoted investments                                                                     *                     *
+Disposal                                                                 -            0.42                        -          0.42      Aggregate provision for diminution in value of investments                                                       -                     -
+Adjustments (Refer note 9.3)                                             -            2.71                        -          2.71     * less than rounding off norms adopted by the Group.
+As at March 31, 2026                                               240.00          104.30                     0.58         344.88
+Accumulated amortisation                                                                                                              As per Article of Association of ‘RP Goenka Group of Companies Employees Welfare Association (Entity)’, no portion of income
+As at March 31, 2024                                               228.00            90.34                    0.48         318.82     or property shall be paid or transferred directly or indirectly, by way of dividend, bonus or otherwise by way of profit to members
+                                                                                                                                      of the Entity. Any surplus upon winding up or dissolution of the Entity shall not be distributed amongst the members of the Entity
+Amortisation expense (Refer note 46)                                12.00             3.20                    0.10          15.30
+                                                                                                                                      but shall be given or transferred to such other Companies having objects similar to the objects of this Entity, to be determined by
+Disposal                                                                 -            3.51                        -          3.51
+                                                                                                                                      the members of the Entity at or before the time of dissolution or in default thereof, by the High Court of Judicature that has or may
+Adjustments (Refer note 9.3)                                             -            6.25                        -          6.25     acquire jurisdiction in the matter.
+As at March 31, 2025                                               240.00            96.28                    0.58         336.86
+Amortisation expense (Refer note 46)                                     -            2.57                        -          2.57     As, there are significant restrictions on the ability of the Entity to transfer funds to the Group in the form of cash dividends, the fair
+Disposal                                                                 -            0.16                        -          0.16     value of the Group’s interest in the Entity is concluded to be equal to cost.
+
+Adjustments (Refer note 9.3)                                             -            2.69                        -          2.69
+                                                                                                                                      NOTE 11 - TRADE RECEIVABLES
+As at March 31, 2026                                               240.00          101.38                     0.58         341.96
+                                                                                                                                                                                                                                                                    ` in Crore
+Net carrying amount
+                                                                                                                                      Particulars                                                                                               As at                  As at
+As at March 31, 2025                                                     -            4.83                        -          4.83                                                                                                      March 31, 2026         March 31, 2025
+As at March 31, 2026                                                     -            2.92                        -          2.92     Non-current trade receivables - Unsecured
+                                                                                                                                            (a)   Considered good                                                                                  35.60               351.06
+Note 9.1
+                                                                                                                                            (b)   Credit impaired                                                                                       -                     -
+Brands include brand of the power transmission business amounting ` 40 crore which was acquired by the Company under the
+                                                                                                                                                                                                                                                   35.60               351.06
+High Court approved Composite Scheme of Arrangement (the ‘Scheme’) in an earlier year. In terms of the Scheme, the brand is
+being amortised by the Company over its useful life, which based on an expert opinion is estimated to be of 20 years. The remaining   Less: Allowance for expected credit losses*                                                                   4.15               136.13
+amortisation period is NIL (as at March 31, 2025 - Nil).                                                                                                                                                                                           31.45               214.93
+
+Note 9.2                                                                                                                              * Movement in the allowance for expected credit losses. (Refer Note - 54B.3)
+Non Compete fees paid on acquisition of KEC Spur Infrastructure Private Limited (formerly known as Spur Infrastructure Private        Particulars                                                                                                                   ` in Crore
+Limited) are amortized on a straight line basis over the term of Non Compete agreement i.e. 3 years. The remaining amortisation
+                                                                                                                                      Balance as at March 31, 2024                                                                                                       57.34
+period is Nil. (as at March 31, 2025 Nil).
+                                                                                                                                      Add: Created during the year                                                                                                       78.79
+Note 9.3                                                                                                                              Balance as at March 31, 2025                                                                                                      136.13
+Adjustments represents foreign currency exchange translation adjustment on account of foreign subsidiaries which have a different     Add: Created during the year                                                                                                       30.72
+functional currency.                                                                                                                  Less: Utilised during the year                                                                                                     51.63
+                                                                                                                                      Less: Transfer to current trade receivable (Refer Note 16)                                                                        111.07
+                                                                                                                                      Balance as at March 31, 2026                                                                                                        4.15
+
+254    Integrated Annual Report 2025-26                                                                                                                                                                                               Integrated Annual Report 2025-26     255

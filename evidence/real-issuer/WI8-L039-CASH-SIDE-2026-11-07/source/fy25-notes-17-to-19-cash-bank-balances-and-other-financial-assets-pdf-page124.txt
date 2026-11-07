@@ -1,0 +1,96 @@
+# KEC International Limited — FY2024-25 annual report (consolidated)
+# What this page is: Notes 17–19 — cash and cash equivalents, bank balances other than cash and cash equivalents, other financial assets (FY2025 and FY2024 columns)
+# source PDF: KEC_Annual_Report_2024-25.pdf  bytes=14873309  sha256=29dfdf83bd8e7915500a7fd9447a0782af651cc0f2ea43bd8e05ee9ea46ce1c6  pages=206
+# URL: https://www.kecrpg.com/public/media/annualReportMedia/KEC_Annual_Report_2024-25.pdf
+# PDF page 124 of 206  (printed pages 244-245)
+# extractor: pdftotext -layout (poppler-utils) on a throwaway GitHub Actions runner, 2026-11-07.
+# NOTE (whitespace): the text below is verbatim apart from whitespace normalisation required by this
+#       repository's whitespace policy (git diff --check runs on every change): tab characters were expanded
+#       to spaces at eight-column stops and trailing blanks were stripped. No word, number, punctuation mark,
+#       column entry or line break was added, removed or reordered.
+# -----------------------------------------------------------------------------------------------------
+                                                                                                      Integrated Annual Report 2024-25   Integrated Annual Report 2024-25                              CORPORATE OVERVIEW        STATUTORY REPORTS         FINANCIAL STATEMENTS
+
+                                                                                                                                                                                                                                                                   Consolidated
+
+
+
+
+Notes                                                                                                                                    Notes
+forming part of the Consolidated Financial Statements as at and for the year ended March 31, 2025                                        forming part of the Consolidated Financial Statements as at and for the year ended March 31, 2025
+
+
+
+*Movement in the Allowance for expected credit losses (Refer Note 54B.3)                                                                 NOTE 17 - CASH AND CASH EQUIVALENTS
+Particulars                                                                                                                ` in Crore                                                                                                                               ` in Crore
+Balance as at March 31, 2023                                                                                                    84.20                                                                                                            As at                   As at
+Add: Created during the year                                                                                                    27.80    Particulars
+                                                                                                                                                                                                                                        March 31, 2025         March 31, 2024
+Less: Transfer to non current trade receivables                                                                                 12.14    (a)     Balances with banks
+Less: Released during the year                                                                                                  14.40
+                                                                                                                                                 (i)  In current accounts*                                                                       523.40                   113.96
+Add: Exchange flactuation                                                                                                       (0.41)
+                                                                                                                                                 (ii) In deposit accounts                                                                         12.63                    82.46
+Balance as at March 31, 2024                                                                                                    85.05
+                                                                                                                                                                                                                                                 536.03                   196.42
+Add: Created during the year                                                                                                    31.16
+Less: Released during the year                                                                                                   4.61    (b)     Cash on hand*                                                                                     9.66                     8.68
+Less: Exchange flactuation                                                                                                       2.78                                                                                                            545.69                   205.10
+Balance as at March 31, 2025                                                                                                   108.82    *There are restrictions on repatriations with regards to cash and cash equivalents as at March 31, 2025 of ` 3.48 crore (as at March 31,
+                                                                                                                                         2024, ` 1.50 crore)
+Note 16.1: Transfer of financial assets
+The Group has discounted trade receivables with an aggregate carrying amount of ` 63.14 crore (` 321.29 crore during the previous        NOTE 18 - BANK BALANCES OTHER THAN CASH AND CASH EQUIVALENTS
+year ended March 31, 2024) with banks for cash proceeds of ` 62.41 crore during the current year (during the previous year                                                                                                                                            ` in Crore
+ended March 31, 2024 is ` 314.87 crore). These arrangements are “non-recourse” to the Group and accordingly, the Group has
+                                                                                                                                                                                                                                                 As at                  As at
+derecognised these receivables as at March 31, 2025 and 2024. Amount charged to profit and loss with respect to the underlying           Particulars
+                                                                                                                                                                                                                                        March 31, 2025         March 31, 2024
+trade receivables (purchased by bank) is ` 0.74 crore. (during the previous year ` 6.42 crore).
+                                                                                                                                         (i)      Earmarked balances with banks - unpaid dividend accounts                                          3.02                    2.97
+Further the Group has discounted certain trade receivables with the banks “with recourse” to the Group. The carrying amount of           (ii)     Bank deposit with original maturity of more than 3 months but less than 12                       27.48                    0.46
+such receivables as at March 31, 2025 ` 1.30 crore (as at March 31, 2025 ` 29.70 crore) are recognised as trade receivables and                   months
+corresponding carrying amount of associated liabilities of ` 1.30 crore (as at March 31, 2024 ` 29.70 crore) are recognised as secured
+                                                                                                                                         (iii)    Balances with banks to the extent held as margin money or security against                       79.74                   64.75
+borrowings (Note 30) and there are restriction on further selling and pledging of these receivables.
+                                                                                                                                                  the borrowings, guarantees and other commitments.
+Note 16.2                                                                                                                                                                                                                                        110.24                    68.18
+Receivable from related parties is ` 9.45 crore (As at March 31, 2024 ` 7.07 crore).
+                                                                                                                                         NOTE 19 - OTHER FINANCIAL ASSETS
+Note 16.3: Trade receivables ageing
+                                                                                                                                                                                                                                                                      ` in Crore
+As at March 31, 2025
+                                                                                                                                                                                                                                                 As at                  As at
+                                                                                                                           ` in Crore    Particulars
+                                                                                                                                                                                                                                        March 31, 2025         March 31, 2024
+Particulars                                          Less than      6 months                                  More than
+                                         Not Due                                 1 - 2 Years    2 - 3 Years                     Total    Unsecured, considered good
+                                                     6 months        - 1 years                                  3 years
+Undisputed – considered good             3,271.21     1,417.50          266.29         124.33        18.57        43.27     5,141.17     (i)     Sundry deposits                                                                                   68.73                   57.27
+Undisputed –Credit Impaired                     -            -               -              -            -            -            -     (ii)    Interest accrued on fixed deposits                                                                 4.38                    2.38
+Disputed – considered good                   6.69         1.05            0.66           0.35         0.20         9.80        18.75
+                                                                                                                                         (iii)   Insurance claims                                                                                   0.94                    0.20
+Disputed –Credit Impaired                       -            -               -              -            -            -            -
+                                                                                                                                         (iv)    Mark to market gain on forward and commodity contracts (Refer note 54C)                           23.94                   39.79
+Total                                    3,277.90     1,418.55          266.95         124.68        18.77        53.07     5,159.92
+Less: Allowance for expected                                                                                                  108.82     (v)     Contractually reimbursable expenses                                                               51.24                   48.87
+credit loss                                                                                                                                      Less: Allowance for expected credit losses (Refer Note 19.1)                                       5.68                       -
+Total                                                                                                                       5,051.10                                                                                                               45.56                   48.87
+                                                                                                                                         (vi)    Others                                                                                             0.87                       -
+As at March 31, 2024
+                                                                                                                           ` in Crore                                                                                                            144.42                   148.51
+Particulars                                          Less than      6 months                                  More than
+                                         Not Due                                 1 - 2 Years    2 - 3 Years                     Total    Note 19.1 Movement in Allowance for expected credit losses (Refer note 54B.3)
+                                                     6 months        - 1 years                                  3 years
+Undisputed – considered good             2,697.54       905.52          140.45         256.80       157.60        13.55     4,171.46     Particulars                                                                                                                  ` in Crore
+Undisputed – credit Impaired                    -            -               -              -            -            -            -
+                                                                                                                                         Balance as at March 31, 2024                                                                                                          -
+Disputed – considered good                   6.69         0.28            0.05           0.26         3.88        39.05        50.21
+Disputed – credit Impaired                      -            -               -              -            -            -            -     Add: Created during the year                                                                                                       5.68
+Total                                    2,704.23       905.80          140.50         257.06       161.48        52.60     4,221.67     Balance as at March 31, 2025                                                                                                       5.68
+Less: Allowance for expected                                                                                                   85.05
+credit loss
+Total                                                                                                                       4,136.62
+
+
+244                                                                                                                                                                                                                                                                          245
+         KEC International Limited                                                                                                                                                                                                            KEC International Limited

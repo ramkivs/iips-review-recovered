@@ -1,0 +1,260 @@
+{
+  "schemaVersion": 1,
+  "record": "L-039 cash-side determination \u2014 KEC International Limited",
+  "recordId": "IIPS-V3-IID-L039-CASH-SIDE-DETERMINATION-2026-11-07",
+  "date": "2026-11-07",
+  "workItem": "WI-8 continuation \u2014 L-039 (Industrials / KEC International Limited)",
+  "branch": "arena/f70342d9-iips-review-recovered",
+  "baselineCommit": "67caec12894026cc0ca9c5b237653b72f70da6d9",
+  "question": "Does the issuer's audited consolidated financial statements disclose a current-investments amount that would let cashAndInvestments and netDebt be computed on the existing governed path?",
+  "answer": "No. Across FY2024, FY2025 and FY2026 the consolidated balance sheet prints no current-investments caption at all \u2014 not a number, not a dash, not a nil declaration. The only 'Investments' caption is non-current (Note 10), and it carries an amount below the Group's rounding-off norms for all three periods. The only other liquid captions are Note 17 cash and cash equivalents and Note 18 bank balances other than cash and cash equivalents, and Note 18's components are an unpaid-dividend earmarking, a 3-to-12-month bank deposit and margin money \u2014 none of them an investment, and all of them balances the bridge deliberately excludes.",
+  "governingRule": "Unavailable inputs must remain unavailable. They must never silently become zero and produce an apparently valid valuation or sensitivity result. An omitted Schedule III caption is NOT_REPORTED; only the filer's own quoted wording can make it a nil (D-2).",
+  "outcome": {
+    "limitationStatus": "OPEN (unchanged)",
+    "mappingApplied": false,
+    "datasetChanged": false,
+    "payloadChanged": false,
+    "reason": "No primary evidence of a current-investments amount exists in the filing, so there is nothing to map. Current investments remain MISSING: NOT_REPORTED and every dependent output remains withheld."
+  },
+  "captionsExamined": [
+    {
+      "period": "FY2026",
+      "statement": "Consolidated balance sheet",
+      "caption": "Non-current assets \u2014 Financial assets \u2014 (i) Investments (Note 10)",
+      "printedPage": "230-231",
+      "pdfPage": 117,
+      "amountFY2026": "*-",
+      "amountFY2025": "*-",
+      "disposition": "REJECTED as current investments \u2014 the caption sits under Non-current assets, and the asterisk footnote (p.254) defines it as 'less than rounding off norms adopted by the Group'"
+    },
+    {
+      "period": "FY2026",
+      "statement": "Consolidated balance sheet",
+      "caption": "Current assets \u2014 Financial assets \u2014 (i) Trade receivables, (ii) Cash and cash equivalents, (iii) Bank balances other than (ii) above, (iv) Other financial assets",
+      "printedPage": "230-231",
+      "pdfPage": 117,
+      "amountFY2026": "6,474.21 / 411.26 / 100.67 / 276.90",
+      "amountFY2025": "5,051.10 / 545.69 / 110.24 / 144.42",
+      "disposition": "NO CURRENT-INVESTMENTS CAPTION PRESENT \u2014 the current financial-asset block enumerates exactly four captions, neither of them investments (and neither of them loans)"
+    },
+    {
+      "period": "FY2026",
+      "statement": "Note 10 \u2014 Investments",
+      "caption": "Non-current: Investment in equity shares (at fair value through OCI), Unquoted \u2014 4900 fully paid equity shares of Rs 10 each of RP Goenka Group of Companies Employees Welfare Association; aggregate book value of unquoted investments",
+      "printedPage": "254-255",
+      "pdfPage": 129,
+      "amountFY2026": "*",
+      "amountFY2025": "*",
+      "disposition": "REJECTED \u2014 the note is headed 'Non-current:' only, and the amount is sub-rounding ('* less than rounding off norms adopted by the Group'); there is no current section to read"
+    },
+    {
+      "period": "FY2026",
+      "statement": "Note 17 \u2014 Cash and cash equivalents",
+      "caption": "(a) Balances with banks (i) in current accounts, (ii) in deposit accounts with original maturity of less than 3 months; (b) cash on hand",
+      "printedPage": "258-259",
+      "pdfPage": 131,
+      "amountFY2026": "411.26",
+      "amountFY2025": "545.69",
+      "disposition": "ACCEPTED as CASH_AND_CASH_EQUIVALENTS (already ingested) \u2014 not current investments; the note also discloses 1.54 crore of repatriation restrictions at 2026-03-31 (2025: 3.48), which is L-006 territory and untouched"
+    },
+    {
+      "period": "FY2026",
+      "statement": "Note 18 \u2014 Bank balances other than cash and cash equivalents",
+      "caption": "(i) Earmarked balances with banks \u2014 unpaid dividend accounts; (ii) bank deposits with original maturity of more than 3 months but less than 12 months; (iii) balances with banks to the extent held as margin money or security against borrowings, guarantees and other commitments",
+      "printedPage": "258-259",
+      "pdfPage": 131,
+      "amountFY2026": "3.06 / 3.20 / 94.41 = 100.67",
+      "amountFY2025": "3.02 / 27.48 / 79.74 = 110.24",
+      "disposition": "REJECTED as current investments \u2014 earmarked dividends, term deposits beyond the 3-month cash-equivalent window and margin money are bank balances, not investments; the bridge excludes them by the definition of its two subtracted items (restricted cash is not among them)"
+    },
+    {
+      "period": "FY2026",
+      "statement": "Note 19 \u2014 Other financial assets",
+      "caption": "Sundry deposits, interest accrued on fixed deposits, insurance claims, mark-to-market gain on forward and commodity contracts, contractually reimbursable expenses, less allowance for expected credit losses",
+      "printedPage": "260-261",
+      "pdfPage": 132,
+      "amountFY2026": "276.90 (net of 7.26 allowance)",
+      "amountFY2025": "144.42 (net of 5.68)",
+      "disposition": "REJECTED \u2014 the note's components are deposits, accrued interest, insurance claims, derivatives and reimbursable expenses; no investment instrument is present"
+    },
+    {
+      "period": "FY2026",
+      "statement": "Note 54 \u2014 Ind AS 107 category-wise classification of financial assets",
+      "caption": "Non-current financial assets: trade receivables, other financial assets, non-current investment (Investment in equity instruments, FVOCI); current: trade receivables 6,505.66, cash and bank balances 511.93, other financial assets (derivatives 1.82 / OTC 67.90 / others 238.09)",
+      "printedPage": "286-287",
+      "pdfPage": 145,
+      "amountFY2026": "* (non-current investment only)",
+      "amountFY2025": "* (non-current investment only)",
+      "disposition": "REJECTED \u2014 the instrument-level classification of EVERY financial asset names exactly one investment line, and it is non-current"
+    },
+    {
+      "period": "FY2026",
+      "statement": "Consolidated statement of cash flows \u2014 investing activities",
+      "caption": "Capital expenditure on PPE and intangible assets; proceeds from sale and lease back; proceeds from sale of PPE; bank balances (including non-current) not considered as cash and cash equivalents",
+      "printedPage": "232-233",
+      "pdfPage": 118,
+      "amountFY2026": "no investment purchase or sale line",
+      "amountFY2025": "no investment purchase or sale line",
+      "disposition": "CORROBORATES the balance sheet \u2014 nothing was bought or sold in investments during the year, and no investing line carries an investment caption"
+    },
+    {
+      "period": "FY2025 / FY2024",
+      "statement": "Consolidated balance sheet (FY2024-25 annual report, FY2025 and FY2024 columns)",
+      "caption": "Non-current Investments (Note 10) '*-' in both columns; current financial assets: trade receivables 5,051.10 / 4,136.62, cash and cash equivalents 545.69 / 205.10, bank balances other than (ii) 110.24 / 68.18, other financial assets 144.42 / 148.51",
+      "printedPage": "not printed on the sheet (PDF page 110 of 206)",
+      "pdfPage": 110,
+      "disposition": "NO CURRENT-INVESTMENTS CAPTION PRESENT in either column"
+    },
+    {
+      "period": "FY2025 / FY2024",
+      "statement": "Notes 17\u201319 (FY2024-25 annual report)",
+      "caption": "Cash and cash equivalents; bank balances other than cash and cash equivalents; other financial assets",
+      "printedPage": "244-245",
+      "pdfPage": 124,
+      "disposition": "NO CURRENT-INVESTMENTS NOTE \u2014 the same three captions as FY2026, no fourth"
+    },
+    {
+      "period": "FY2025 / FY2024",
+      "statement": "Note 54 (FY2024-25 annual report) \u2014 Ind AS 107 classification",
+      "caption": "Non-current investment \u2014 Investment in equity instruments (FVOCI) '*' in both columns",
+      "printedPage": "270-271",
+      "pdfPage": 137,
+      "disposition": "REJECTED \u2014 again the only investment line, again non-current"
+    }
+  ],
+  "exhaustiveSearch": {
+    "method": "every page of both annual reports converted with pdftotext -layout and tested for NOTE 10 / NOTE 17 / NOTE 18 / NOTE 19, 'current investment', 'non-current investment' and 'mutual fund'",
+    "pagesSearched": 421,
+    "pdfs": {
+      "KEC_Annual_Report_2025-26.pdf": {
+        "sha256": "ba638897313ac1fe5b7da42d7a95dac5f9efec1d1a203f88d9f963622ba3c820",
+        "bytes": 18566481,
+        "pages": 215
+      },
+      "KEC_Annual_Report_2024-25.pdf": {
+        "sha256": "29dfdf83bd8e7915500a7fd9447a0782af651cc0f2ea43bd8e05ee9ea46ce1c6",
+        "bytes": 14873309,
+        "pages": 206
+      }
+    },
+    "result": "no page of either report carries a 'Current investments' caption; the 'current investment' string appears only in Ind AS 107 classification tables, where it classifies the non-current equity investment and the cash and bank balances; the only 'mutual fund' hits are the shareholding pattern (mutual funds holding KEC shares, printed pages 108 and 101 of the two reports) and are not asset disclosures",
+    "log": "source/caption-search-log.txt"
+  },
+  "rejectedMappings": [
+    {
+      "candidate": "bank balances other than cash and cash equivalents (Note 18, 100.67 crore)",
+      "whyRejected": "a different Schedule III caption for a different instrument (earmarked dividend, 3-to-12-month deposit, margin money); mapping it into CURRENT_INVESTMENTS would relabel a bank balance as an investment and would also import margin money the bridge deliberately excludes"
+    },
+    {
+      "candidate": "non-current investments, Note 10 (sub-rounding asterisk, sub-rounding)",
+      "whyRejected": "wrong caption and non-current; a sub-rounding non-current FVOCI equity stake in an employees' welfare association is not a liquid current investment"
+    },
+    {
+      "candidate": "other financial assets (Note 19, 276.90 crore)",
+      "whyRejected": "deposits, accrued interest, insurance claims, derivatives and reimbursable expenses \u2014 no investment instrument"
+    },
+    {
+      "candidate": "0 for current investments, or gross debt minus cash as net debt",
+      "whyRejected": "D-2 and L-040: an omitted caption is NOT_REPORTED, never zero; gross debt less cash (49,665,000,000) is not published anywhere in the payload and is not a net-debt figure the filing supports"
+    }
+  ],
+  "acceptedMappings": [],
+  "results": {
+    "before": {
+      "grossDebt": {
+        "presence": "PRESENT",
+        "value": 53777600000
+      },
+      "cashAndCashEquivalents": {
+        "presence": "PRESENT",
+        "value": 4112600000
+      },
+      "currentInvestments": {
+        "presence": "MISSING",
+        "reason": "NOT_REPORTED"
+      },
+      "cashAndInvestments": {
+        "presence": "MISSING",
+        "reason": "NOT_REPORTED"
+      },
+      "netDebt": {
+        "presence": "MISSING",
+        "reason": "NOT_REPORTED"
+      }
+    },
+    "after": {
+      "grossDebt": {
+        "presence": "PRESENT",
+        "value": 53777600000
+      },
+      "cashAndCashEquivalents": {
+        "presence": "PRESENT",
+        "value": 4112600000
+      },
+      "currentInvestments": {
+        "presence": "MISSING",
+        "reason": "NOT_REPORTED"
+      },
+      "cashAndInvestments": {
+        "presence": "MISSING",
+        "reason": "NOT_REPORTED"
+      },
+      "netDebt": {
+        "presence": "MISSING",
+        "reason": "NOT_REPORTED"
+      }
+    },
+    "changed": false,
+    "downstreamWithheld": {
+      "intrinsic": null,
+      "dcfPerShareMid": "NOT_COMPUTABLE (NOT_REPORTED) \u2014 enterprise-to-equity conversion blocked by netDebt",
+      "dcfEnterpriseValue": 9184155840,
+      "sensitivityGrid": "withheld (L-040 behaviour intact)",
+      "evEbitda": "not applicable \u2014 CAPITAL_STRUCTURE_INCOMPLETE: net debt is unavailable",
+      "evRevenue": "not applicable \u2014 MANDATORY_METRIC_MISSING: IN_BOOK_TO_BILL",
+      "financialLeverageRiskDimension": "NOT_EVALUABLE \u2014 Not evaluated: NOT_REPORTED for fundamentals.capitalStructure.netDebt",
+      "netDebtToEbitda": "NOT_COMPUTABLE (NOT_REPORTED)",
+      "marginOfSafety": "NO_PRICE_OBSERVATION"
+    },
+    "zeroSubstitutionControl": {
+      "grossDebtLessCash": 49665000000,
+      "publishedAnywhereInPayload": false
+    }
+  },
+  "whatWouldCloseL039": [
+    "a filing that prints a current-investments caption with an amount (the ordinary route), OR",
+    "a filing that declares current investments nil in its own words (D-2 can record NIL_BY_DISCLOSURE) AND a decision that the cash sum accepts a declared nil as zero, which today it does not (see behaviouralFindings), OR",
+    "a register-owner decision to add a governed 'the balance sheet presents no such caption' state distinct from NOT_REPORTED, which is a D-2 grammar decision this work item does not take"
+  ],
+  "integrity": {
+    "datasetVersionBefore": "sha256:0df73eadcc3a751572ae03aa6d9711d94650fb2cb0567b990dc4242cf19782ab",
+    "datasetVersionAfter": "sha256:0df73eadcc3a751572ae03aa6d9711d94650fb2cb0567b990dc4242cf19782ab",
+    "payloadDigestBefore": "fc50c53e08814d7851d7b9bb569ddf1eb4eec19ad7508c3c16db9b13a943f370",
+    "payloadDigestAfter": "fc50c53e08814d7851d7b9bb569ddf1eb4eec19ad7508c3c16db9b13a943f370",
+    "historicalPayloadsUntouched": [
+      "artifact/assessment-payload-kec-wi8.json (4f89f0ec..., the original WI-8 run)",
+      "artifact/assessment-payload-kec-wi8-l040-corrected.json (fc50c53e..., the L-040 correction)"
+    ],
+    "sourceBytesReread": false,
+    "ingestInputEdited": false
+  },
+  "behaviouralFindings": [
+    {
+      "id": "CASH-SUM-DECLARED-NIL",
+      "observed": "sum([cash, liquidInvestments]) returns the declared-nil observation itself, so cashAndInvestments and netDebt become NIL_BY_DISCLOSURE",
+      "contrast": "grossDebtOf counts a declared-nil debt component as zero and records it in a note under the capital-structure aggregation contract",
+      "code": [
+        "iips-platform/src/investment/assessment/capitalStructure.ts:134 sum()",
+        "iips-platform/src/investment/assessment/capitalStructure.ts:103 grossDebtOf()"
+      ],
+      "impactOnKec": "none \u2014 KEC declares nothing, so currentInvestments is MISSING: NOT_REPORTED, not NIL_BY_DISCLOSURE",
+      "actionTaken": "documented and pinned by iips-platform/tests/investment/l039CashSideEvidence.test.ts; no code change, because accepting a declared nil as zero changes the cash-side aggregation contract and is a register-owner decision"
+    }
+  ],
+  "verification": {
+    "guardTest": "iips-platform/tests/investment/l039CashSideEvidence.test.ts \u2014 18/18",
+    "investmentSuite": "654/654 in 151 suites (runs/04-tests.txt, re-run in runs/06-post-manifest-verification.txt)",
+    "typecheck": "npx tsc --noEmit -p tsconfig.json \u2014 0 diagnostics (runs/05-typecheck.txt)",
+    "manifest": "digests.json \u2014 22 files, 0 mismatches on re-hash; every shipped file except digests.json and runs/06-* is digested"
+  }
+}

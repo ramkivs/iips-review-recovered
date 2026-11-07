@@ -254,6 +254,32 @@ from the original in exactly 20 paths (`runs/12-l040-payload-diff.json`): one ev
 cells each gaining a diagnostic `enterpriseValue`, and one grid-level `withheld` block. Neither payload is a valuation
 of the issuer: both refuse one, and the corrected one refuses without publishing a number.
 
+### 9.1 `L-039` follow-up — the absence of the caption, established by search (2026-11-07)
+
+`L-039` was opened here from the pages this work item happened to read. It was then investigated as its own work item, and
+the result is that **the caption is genuinely not printed**, not merely unread: both reports were converted page by page
+and searched as a whole — 421 pages, test strings `NOTE 10`/`17`/`18`/`19`, `current investment`,
+`non-current investment`, `mutual fund` — and **no page carries a current-investments caption**. The `current investment`
+string appears only inside Ind AS 107 classification tables, classifying the *non-current* equity investment and the cash
+and bank balances; the only `mutual fund` hits are the shareholding pattern (funds holding KEC shares, not an asset of
+KEC). Note 54 names exactly one investment line — "Non-current investment (`*`)" — and the cash-flow statements carry no
+investment purchase or sale line in either year.
+
+Every candidate mapping was refused and recorded: Note 18 bank balances (different Schedule III caption; would import
+margin money), Note 10 non-current investments (wrong caption, non-current, below rounding), Note 19 other financial
+assets (no investment instrument), `0` (D-2 and `L-040`), and `grossDebt − cash` = 49,665,000,000 (published nowhere in
+the payload). Nothing was mapped and nothing was inferred.
+
+**Nothing in this record changes.** The re-run on the unchanged ingest input reproduced `datasetVersion` `0df73ead…82ab`
+and payload digest `fc50c53e…f370`, and every withheld dependent output stayed withheld. `L-039` stays **`OPEN`**; the
+governed cash aggregation and net-debt bridge were not modified. One behavioural finding is recorded there and not acted
+on: `grossDebtOf` counts a declared nil as zero while the cash-side `sum` propagates it, so an issuer that declares "no
+current investments" would still get no net debt — a register-owner decision about the cash-aggregation contract, pinned
+by a test rather than changed. Evidence: `evidence/real-issuer/WI8-L039-CASH-SIDE-2026-11-07/` (`README.md`,
+`determination-l039.json`, `source/`, `runs/01`–`runs/06`, 22-file `digests.json`); guard
+`iips-platform/tests/investment/l039CashSideEvidence.test.ts` (18/18; the full investment suite 654/654, `tsc` clean).
+The register records it at **§17.17** and the master tracker at **§16.275**.
+
 **Tracker.** The master tracker carries this work item at **§16.274**, with no CV-CORR / CHG / V number because WI-8
 performed no IPD work and spends no IPD act reference. It follows the WI-4 … WI-7 pattern: one pointer, nothing
 reinterpreted, no earlier entry reopened.

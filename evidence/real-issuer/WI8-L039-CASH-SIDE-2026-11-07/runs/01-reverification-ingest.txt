@@ -1,0 +1,26 @@
+# L-039 determination — 2026-11-07 — re-ingest of the UNCHANGED WI-8 ingest input
+# purpose: prove the dataset the bridge reads is byte-identical after the L-040 correction, so the L-039 refusal is a property of the FILING, not of any code change
+# cd iips-platform && npx tsx src/investment/cli/ingest.ts --input <WI-8 bundle>/ingest-input --dataset-dir /tmp/l039/data/investment/dataset --now 2026-11-07T08:30:00.000Z
+
+
+datasetVersion sha256:0df73eadcc3a751572ae03aa6d9711d94650fb2cb0567b990dc4242cf19782ab
+dataset        /tmp/l039/data/investment/dataset
+coverage       /tmp/l039/data/investment/dataset/coverage-report.json
+
+dataset          sha256:0df73eadcc3a751572ae03aa6d9711d94650fb2cb0567b990dc4242cf19782ab
+completed        1/13 sectors measured
+  Auto             UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+  Banking          UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+  Capital Markets  UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+  Consumer         UNMEASURED   usable 0  withheld 3  stmt 0%  metric 100%
+  Energy           UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+  Healthcare       UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+  Hospitality      UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+  Industrials      G2_PARTIAL   usable 2  withheld 1  stmt 100%  metric 0%
+  Insurance        UNMEASURED   usable 0  withheld 2  stmt 0%  metric 0%
+  Materials        UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+  Technology       UNMEASURED   usable 0  withheld 4  stmt 0%  metric 0%
+  Telecom          UNMEASURED   usable 0  withheld 2  stmt 0%  metric 0%
+  Utilities        UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+outstanding      Auto, Banking, Capital Markets, Consumer, Energy, Healthcare, Hospitality, Insurance, Materials, Technology, Telecom, Utilities
+methods declared 38 across 13 sectors; metric ids in vocabulary 33; line items 53

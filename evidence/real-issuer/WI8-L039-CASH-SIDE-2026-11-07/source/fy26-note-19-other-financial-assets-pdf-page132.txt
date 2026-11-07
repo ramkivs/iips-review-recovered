@@ -1,0 +1,94 @@
+# KEC International Limited — FY2025-26 annual report (consolidated)
+# What this page is: Note 19 — other financial assets (current and non-current), with notes 20–21 alongside
+# source PDF: KEC_Annual_Report_2025-26.pdf  bytes=18566481  sha256=ba638897313ac1fe5b7da42d7a95dac5f9efec1d1a203f88d9f963622ba3c820  pages=215
+# URL: https://www.kecrpg.com/public/media/annualReportMedia/KEC_Annual_Report_2025-26.pdf
+# PDF page 132 of 215  (printed pages 260-261)
+# extractor: pdftotext -layout (poppler-utils) on a throwaway GitHub Actions runner, 2026-11-07.
+# NOTE (whitespace): the text below is verbatim apart from whitespace normalisation required by this
+#       repository's whitespace policy (git diff --check runs on every change): tab characters were expanded
+#       to spaces at eight-column stops and trailing blanks were stripped. No word, number, punctuation mark,
+#       column entry or line break was added, removed or reordered.
+# -----------------------------------------------------------------------------------------------------
+                                                                                                                                                                                                                                               FINANCIAL STATEMENTS
+                                                                                                        KEC International Limited                                                                                                                         Consolidated
+
+
+
+
+Notes                                                                                                                                Notes
+forming part of the Consolidated Financial Statements as at and for the year ended March 31, 2026                                    forming part of the Consolidated Financial Statements as at and for the year ended March 31, 2026
+
+
+
+NOTE 19 - OTHER FINANCIAL ASSETS                                                                                                     NOTE 21 - CURRENT TAX ASSETS (NET)
+                                                                                                                       ` in Crore                                                                                                                           ` in Crore
+Particulars                                                                                          As at                As at      Particulars                                                                                             As at              As at
+                                                                                            March 31, 2026       March 31, 2025                                                                                                     March 31, 2026     March 31, 2025
+Unsecured, considered good                                                                                                           Income tax net of provisions                                                                            26.57                16.70
+(i)     Sundry deposits                                                                              107.53                68.73                                                                                                             26.57                16.70
+(ii)    Interest accrued on fixed deposits                                                             7.59                 4.38
+(iii)   Insurance claims                                                                               1.25                 0.94     NOTE 22 - OTHER CURRENT ASSETS
+
+(iv)    Mark to market gain on forward and commodity contracts (Refer note 54C)                      104.19                23.94                                                                                                                            ` in Crore
+
+(v)     Contractually reimbursable expenses                                                           63.60                51.24     Particulars                                                                                             As at              As at
+                                                                                                                                                                                                                                    March 31, 2026     March 31, 2025
+        Less: Allowance for expected credit losses (Refer Note 19.1)                                  (7.26)               (5.68)
+                                                                                                                                     Advances to suppliers                                                                                  356.53             473.76
+                                                                                                      56.34                45.56
+                                                                                                                                     Less: Allowance for expected credit losses (Refer Note 22.1)                                           (1.12 )               (1.01)
+(vi)    Others                                                                                             -                0.87
+                                                                                                                                                                                                                                            355.41             472.75
+                                                                                                     276.90               144.42
+                                                                                                                                     Employee advances                                                                                        6.53                16.51
+Note 19.1 Movement in Allowance for expected credit losses (Refer note 54B.3)                                                        VAT credit / Works Contract Tax receivables                                                            225.59             148.75
+                                                                                                                                     GST receivable                                                                                         400.00             409.31
+Particulars                                                                                                            ` in Crore
+                                                                                                                                     GST/Excise rebate receivable on exports                                                                 51.07                81.78
+Balance as at March 31, 2024                                                                                                    -
+                                                                                                                                     Prepaid expenses                                                                                       206.21             185.64
+Add: Created during the year                                                                                                5.68
+                                                                                                                                     Export benefits                                                                                         14.36                19.78
+Balance as at March 31, 2025                                                                                                5.68
+                                                                                                                                                                                                                                          1,259.17           1,334.52
+Add: Created during the year                                                                                                2.85
+Less: Utilised during the year                                                                                              1.90     Note 22.1 Movement in Allowance for expected credit losses.
+Add: Exchange fluctuation                                                                                                   0.63
+                                                                                                                                                                                                                                                            ` in Crore
+Balance as at March 31, 2026                                                                                                7.26
+                                                                                                                                     Particulars                                                                                             As at              As at
+                                                                                                                                                                                                                                    March 31, 2026     March 31, 2025
+NOTE 20 -CONTRACT ASSETS
+                                                                                                                                     Opening balance                                                                                          1.01                 1.88
+                                                                                                                       ` in Crore
+                                                                                                                                     Add: Created during the year                                                                             0.11                     -
+Particulars                                                                                          As at                As at
+                                                                                                                                     Less: Utilised during the year                                                                               -                0.87
+                                                                                            March 31, 2026       March 31, 2025
+                                                                                                                                     Closing balance                                                                                          1.12                 1.01
+Unsecured, considered good
+                           Amount receivable from customers for contract works                                    7,408.59            7,508.78     NOTE 23 - SHARE CAPITAL
+                Retention receivables                                                                             4,922.51            3,669.63
+                                                                                                                                     Particulars                                                     As at March 31, 2026                  As at March 31, 2025
+Less:        Allowance for expected credit losses (Refer Note 20.1)                                  203.54               134.90
+                                                                                                                                                                                                          Nos.        ` in crore                Nos.        ` in crore
+                                                                                                  12,127.56            11,043.51
+                                                                                                                                     Authorised:
+Note 20.1 Movement in Allowance for expected credit losses (Refer note 54B.3)                                                        Equity Shares:
+
+                                                                                                                       ` in Crore    Equity Shares of ` 2 each                                      570,000,000          114.00          570,000,000           114.00
+
+Particulars                                                                                          As at                As at      Preference Shares
+                                                                                            March 31, 2026       March 31, 2025      Redeemable Preference Shares of ` 100 each                       1,500,000             15.00          1,500,000              15.00
+Opening balance                                                                                      134.90                43.28     Issued, Subscribed and Paid-up
+Additions                                                                                             68.64                91.62     Equity Shares:
+Closing balance                                                                                      203.54               134.90     Equity Shares of ` 2 each fully paid up                        266,200,000             53.24        266,200,000              53.24
+                                                                                                                                                                                                    266,200,000             53.24        266,200,000              53.24
+The contract assets represents amounts receivable from customers, primarily relate to the Company’s rights to consideration for
+work executed. The contract assets are transferred to trade receivables when the rights to collection becomes unconditional due to
+passage of time.
+
+
+
+
+260      Integrated Annual Report 2025-26                                                                                                                                                                                      Integrated Annual Report 2025-26     261

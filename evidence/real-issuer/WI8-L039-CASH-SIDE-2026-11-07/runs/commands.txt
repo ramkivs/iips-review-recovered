@@ -1,0 +1,92 @@
+WI-8 / L-039 — exact command sequence behind source/ and runs/01–runs/06
+
+Ran 2026-11-07 from branch `arena/f70342d9-iips-review-recovered` at baseline
+`67caec12894026cc0ca9c5b237653b72f70da6d9` (the verified merge of PR #505, which carried WI-8 and the L-040 correction).
+
+## 0 — reading the annual reports at all
+
+`kecrpg.com` is not reachable from the development sandbox, so the two reports were read on a GitHub-hosted runner by a
+throwaway workflow, exactly as WI-8 did:
+
+    .github/workflows/temp-l039-discover.yml          # deleted before this pull request
+      curl -sSL -o fy26.pdf https://www.kecrpg.com/public/media/annualReportMedia/KEC_Annual_Report_2025-26.pdf
+      curl -sSL -o fy25.pdf https://www.kecrpg.com/public/media/annualReportMedia/KEC_Annual_Report_2024-25.pdf
+      sha256sum fy26.pdf fy25.pdf
+      # 18,566,481 bytes  ba638897313ac1fe5b7da42d7a95dac5f9efec1d1a203f88d9f963622ba3c820  (215 pages)
+      # 14,873,309 bytes  29dfdf83bd8e7915500a7fd9447a0782af651cc0f2ea43bd8e05ee9ea46ce1c6  (206 pages)
+      # then, for EVERY page of both documents:
+      pdftotext -layout -f <page> -l <page> <report>.pdf -
+
+The workflow tested every page for `NOTE 10`, `NOTE 17`, `NOTE 18`, `NOTE 19`, `current investment`,
+`non-current investment` and `mutual fund`, wrote a hit report, and committed the matching pages into a scratch
+directory on the branch (artifact downloads are not reachable from the sandbox). Run `42375363922`. The hit report is
+`source/caption-search-log.txt`; the scratch directory and the workflow were deleted before publication.
+
+## 1 — re-ingest the UNCHANGED WI-8 input
+
+    cd iips-platform
+    npx tsx src/investment/cli/ingest.ts \
+      --input ../evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/ingest-input \
+      --dataset-dir /tmp/l039/data/investment/dataset \
+      --now 2026-11-07T08:30:00.000Z
+    # -> runs/01-reverification-ingest.txt
+    # datasetVersion sha256:0df73eadcc3a751572ae03aa6d9711d94650fb2cb0567b990dc4242cf19782ab   (unchanged)
+    # Industrials G2_PARTIAL  usable 2  withheld 1  stmt 100%  metric 0%
+
+## 2 — generate, assess, compose, validate, persist, verify
+
+    cd frontend
+    IIPS_NP04_DATABASE_PATH=/tmp/l039/data/investment/investment.db \
+    npx tsx server/investment/cli/generate-investment-artifacts.ts \
+      --issuer         IN:CIN:L45200MH2005PLC152061 \
+      --data-dir       /tmp/l039/data/investment/dataset \
+      --identity-dir   /tmp/l039/data/investment/identity \
+      --db             /tmp/l039/data/investment/investment.db \
+      --owner-carrier  /tmp/l039/owner.json \
+      --generated-at   2026-11-07T08:30:00.000Z \
+      --out            /tmp/l039/cli.json
+    # -> runs/02-reverification-generate.txt
+    # payloadDigest fc50c53e08814d7851d7b9bb569ddf1eb4eec19ad7508c3c16db9b13a943f370   (the L-040-corrected payload, unchanged)
+
+## 3 — separate-process readback, including the L-039 facts
+
+Temporary `frontend/.tmp-l039-readback.ts` (deleted after use): `loadAuthoritativeNp04Persistence` →
+`createInvestmentArtifactService` → `readChain` → `readVersionWithPayload`, re-hashing the payload bytes, then reading
+the capital-structure block, the valuation outputs and the dependent surfaces out of that payload, and walking every
+number in it to prove that `grossDebt − cash` is not published anywhere.
+
+    IIPS_NP04_DATABASE_PATH=/tmp/l039/data/investment/investment.db \
+    npx tsx .tmp-l039-readback.ts /tmp/l039/readback.json
+    # -> runs/03-readback.json
+    # digestMatch true; stored and recomputed both sha256:fc50c53e…f370; 52,760 bytes; chain length 1
+    # currentInvestments MISSING/NOT_REPORTED, cashAndInvestments MISSING/NOT_REPORTED, netDebt MISSING/NOT_REPORTED
+    # grossDebt PRESENT 53,777,600,000; cash PRESENT 4,112,600,000
+    # grossDebt - cash = 49,665,000,000; published anywhere in the payload: false
+
+## 4 — targeted tests and typecheck
+
+    cd iips-platform
+    npx tsx --test tests/investment/l039CashSideEvidence.test.ts     # 18/18
+    npx tsx --test tests/investment/*.test.ts                        # 654/654 in 151 suites
+    npx tsc --noEmit -p tsconfig.json                                # 0 diagnostics
+    # -> runs/04-tests.txt, runs/05-typecheck.txt
+
+Only `tsx` can run these files (bare `node --test` cannot parse TypeScript/ESM in this workspace).
+
+## 5 — the bundle manifest
+
+`digests.json` is written last, by hashing every shipped file except itself and `runs/06-*`:
+
+    cd evidence/real-issuer/WI8-L039-CASH-SIDE-2026-11-07
+    # { "files": { "<relative path>": { "sha256": ..., "bytes": ... } } }   # 22 files
+
+## 6 — post-manifest verification
+
+    cd iips-platform
+    npx tsx --test tests/investment/*.test.ts                        # 654/654
+    npx tsc --noEmit -p tsconfig.json                                # 0 diagnostics
+    # re-hash all 22 digested files: 0 mismatches
+    # -> runs/06-post-manifest-verification.txt
+
+`runs/06` is deliberately outside the manifest — a manifest cannot digest the run that verifies it — and the guard
+test fails if any other shipped file lacks a digest.

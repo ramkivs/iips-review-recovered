@@ -1,0 +1,11 @@
+# L-039 — 2026-11-07 — the investment-platform suite over the whole work item
+# cd iips-platform && npx tsx --test tests/investment/*.test.ts
+1..151
+# tests 654
+# suites 151
+# pass 654
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 11769.111004

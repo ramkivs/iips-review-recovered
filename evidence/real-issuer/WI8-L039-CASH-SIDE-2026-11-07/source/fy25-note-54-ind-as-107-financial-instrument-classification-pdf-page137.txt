@@ -1,0 +1,87 @@
+# KEC International Limited — FY2024-25 annual report (consolidated)
+# What this page is: Note 54 — Ind AS 107 category-wise classification, FY2025 and FY2024 columns
+# source PDF: KEC_Annual_Report_2024-25.pdf  bytes=14873309  sha256=29dfdf83bd8e7915500a7fd9447a0782af651cc0f2ea43bd8e05ee9ea46ce1c6  pages=206
+# URL: https://www.kecrpg.com/public/media/annualReportMedia/KEC_Annual_Report_2024-25.pdf
+# PDF page 137 of 206  (printed pages 270-271)
+# extractor: pdftotext -layout (poppler-utils) on a throwaway GitHub Actions runner, 2026-11-07.
+# NOTE (whitespace): the text below is verbatim apart from whitespace normalisation required by this
+#       repository's whitespace policy (git diff --check runs on every change): tab characters were expanded
+#       to spaces at eight-column stops and trailing blanks were stripped. No word, number, punctuation mark,
+#       column entry or line break was added, removed or reordered.
+# -----------------------------------------------------------------------------------------------------
+                                                                                                   Integrated Annual Report 2024-25    Integrated Annual Report 2024-25                               CORPORATE OVERVIEW        STATUTORY REPORTS       FINANCIAL STATEMENTS
+
+                                                                                                                                                                                                                                                                  Consolidated
+
+
+
+
+Notes                                                                                                                                  Notes
+forming part of the Consolidated Financial Statements as at and for the year ended March 31, 2025                                      forming part of the Consolidated Financial Statements as at and for the year ended March 31, 2025
+
+
+
+During the year ended March 31, 2024, the Group has distributed the final dividend of ` 4 per equity share for the year ended          II.    Assets and liabilities which are measured at amortised cost for which fair values are disclosed (It is categorised under
+March 31, 2024 amounting to ` 102.84 crore.                                                                                                   Level 3 of fair value hierarchy)
+                                                                                                                                                                                                                                                                    ` in crore
+The Board of directors, at their meeting held on May 26, 2025 recommended the final dividend of ` 5.50 per equity share for the year                                                                           As at March 31, 2025               As at March 31, 2024
+ended March 31, 2025, subject to approval from shareholders. On approval, the total dividend outgo is expected to be ` 146.41 crore
+                                                                                                                                              Particulars                                                                     Carrying                               Carrying
+based on number of shares outstanding as at March 31, 2025.                                                                                                                                                 Fair Value                            Fair Value
+                                                                                                                                                                                                                              Amount                                 Amount
+                                                                                                                                              Non-current financial assets
+NOTE 54 DISCLOSURE AS PER IND AS 107
+                                                                                                                                              Trade receivables                                                    160.71           214.93           288.34              288.34
+A     : Fair Value Measurement
+                                                                                                                                              Other Financial Assets                                                54.59            66.07             61.94              61.94
+I.    Category-wise classification of financial assets and financial liabilities
+                                                                                                                                              Non current financial liabilities
+                                                                                                                         ` in Crore           Borrowings                                                           358.46           358.46           236.01              236.01
+                                                   As at March 31, 2025                         As at March 31, 2024
+      Particulars                                            Amortised    Used for                        Amortised       Used for            During the periods mentioned above, there have been no transfers amongst the levels of hierarchy.
+                                          FVPL     FVOCI                               FVPL     FVOCI
+                                                                 Cost     hedging                             Cost        hedging
+      Financial assets                                                                                                                        The fair values of current trade receivables, current financial assets, cash and bank balances, loans, trade payables,
+                                                                                                                                              current borrowings, current financial liabilities and current lease liabilities are considered to be approximately equal to their
+      Non-current investment
+                                                                                                                                              carrying amounts.
+      -   Investment in equity                           *                                            *
+          instruments
+                                                                                                                                       III.   Assets and liabilities which are measured at FVPL or FVOCI
+      Trade receivables                        -         -    5,266.03             -        -         -     4,424.96              -
+                                                                                                                                              This note provides information about how the Group determines fair values of various financial assets and financial liabilities.
+      Cash and bank balances                   -         -      655.93             -        -         -       273.28              -
+                                                                                                                                              Fair value of the Group’s financial assets and financial liabilities are measured on a recurring basis at the end of each
+      Other financial assets                                                                                                                  reporting period.
+      -   Derivative instruments
+          i)   Foreign currency            5.31          -           -        8.72      5.25          -             -         0.52
+               forward contracts
+          ii) Over the counter                 -         -           -        9.91                                  -        34.02
+              (OTC) commodity
+              contracts
+      -   Others                               -         -      186.55             -        -         -       170.65              -
+      Financial liabilities
+      Borrowings (including interest           -         -    3,706.66             -        -         -     3,802.08              -
+      accrued)
+      Lease Liabilities                        -         -      256.38             -        -         -       172.71              -
+      Trade payables                           -         -    8,996.21             -        -         -     7,670.22              -
+      Trade acceptances                        -         -    1,507.27             -        -         -     1,560.79              -
+      Other financial liabilities
+      -   Derivative instruments
+          i)   Foreign currency            5.99          -           -        7.52      0.18                        -         0.70
+               forward contracts
+          ii) Over the counter                 -         -           -       49.95          -                       -         1.06
+              (OTC) commodity
+              derivative contracts
+      -   Others                               -         -       28.26             -        -         -        13.95              -
+
+      * less than rounding off norms adopted by the group.
+      FVPL - Fair Value Through Profit or Loss
+
+      FVOCI - Fair Value Through Other Comprehensive Income
+
+
+
+
+270                                                                                                                                                                                                                                                                         271
+          KEC International Limited                                                                                                                                                                                                          KEC International Limited
