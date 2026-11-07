@@ -1,0 +1,29 @@
+SOURCE EXTRACT — eClerx Services Limited, Annual Report 2023-24, consolidated Note 40 "Financial risk
+management objectives and policies", printed page 245 (continues to page 248).
+
+Document: https://eclerx.com/wp-content/uploads/2024/09/Annual-Report-2023-24.pdf
+Text layer read through https://r.jina.ai/<document>, chunk 100.
+
+--- verbatim (text layer, opening paragraphs) ---
+
+40. Financial risk management objectives and policies
+
+The Group's principal financial liabilities, other than derivatives and lease liabilities comprises
+trade and other payables. The main purpose of these financial liabilities is to finance the Group's
+operations. The Group's principal financial assets include trade and other receivables, and cash and
+cash equivalents and other bank balances that derive directly from its operations. The Group also
+holds FVTPL investments and enters into derivative transactions. The Group is exposed to market risk,
+credit risk and liquidity risk. [...]
+
+--- what this establishes ---
+
+The note characterises the Group's financial liabilities as derivatives, lease liabilities and trade
+and other payables. It does not say the Group "has no borrowings": the exclusions are grammatical, not
+a declared nil, and a dash balance in the balance sheet is a filed zero rather than a statement.
+
+--- why this matters to WI-5 ---
+
+This is the reason WI-5 declares no nil on LONG_TERM_BORROWINGS, SHORT_TERM_BORROWINGS or
+CURRENT_MATURITIES_OF_LONG_TERM_DEBT for this issuer. Reading a nil out of an exclusion list would be
+exactly the inference D-2 refuses (NIL_WITHOUT_QUOTED_WORDING at the grammar level, and an inferred
+zero at the evidence level).

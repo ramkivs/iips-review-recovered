@@ -1,0 +1,35 @@
+SOURCE EXTRACT — eClerx Services Limited, Annual Report 2023-24, audited consolidated balance sheet
+as at March 31, 2024 (with March 31, 2023 comparatives), printed pages 195-196.
+
+Document: https://eclerx.com/wp-content/uploads/2024/09/Annual-Report-2023-24.pdf
+Text layer read through https://r.jina.ai/<document>, chunk 79-80 (printed pages 195-196).
+
+--- verbatim (text layer, borrowings captions only) ---
+
+Non-current liabilities
+Financial Liabilities
+Lease liabilities 34.a. 2,248.31 1,501.92
+Borrowings 17 - 6.77
+Other financial liabilities 0.50 -
+
+Current liabilities
+Financial liabilities
+Lease liabilities 34.a. 409.09 423.81
+Derivative instruments 7 - 128.00
+Borrowings 17 - 3.08
+
+--- what this establishes ---
+
+As filed at March 31, 2024 the borrowings captions carry a dash ("-") in both the non-current and the
+current section: an explicitly filed zero balance, not a stated nil and not a missing caption. At
+March 31, 2023 the same captions carry 6.77 and 3.08 (Rs million).
+
+The dataset records the dash as a REPORTED ZERO (value 0, presence PRESENT) and the comparative as
+6.77 / 3.08, because observation.ts keeps "an explicitly reported zero" apart from "a declared nil":
+"An explicitly reported zero stays a reported zero (PRESENT, value 0, with a source) and is never
+re-spelled as nil".
+
+--- what this does NOT establish ---
+
+The consolidated statements present no "current maturities of long term debt" caption and no sentence
+declaring borrowings nil. No nil is declared for any borrowings line item of this issuer.

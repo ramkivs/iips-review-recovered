@@ -1,0 +1,66 @@
+TAP version 13
+# Subtest: WI-5 — one declaration, on one period, in the filer's words
+    # Subtest: exactly one cell in the dataset is a nil declaration, and it is FY2024 PREFERENCE_CAPITAL
+    ok 1 - exactly one cell in the dataset is a nil declaration, and it is FY2024 PREFERENCE_CAPITAL
+      ---
+      duration_ms: 1.549164
+      type: 'test'
+      ...
+    # Subtest: the nil carries the wording quoted from Note 13, and that wording is in the committed extract
+    ok 2 - the nil carries the wording quoted from Note 13, and that wording is in the committed extract
+      ---
+      duration_ms: 1.744053
+      type: 'test'
+      ...
+    # Subtest: the nil row carries provenance: a filing reference and a filing date
+    ok 3 - the nil row carries provenance: a filing reference and a filing date
+      ---
+      duration_ms: 0.372969
+      type: 'test'
+      ...
+    # Subtest: three consecutive audited consolidated periods of one issuer, in one scale and taxonomy
+    ok 4 - three consecutive audited consolidated periods of one issuer, in one scale and taxonomy
+      ---
+      duration_ms: 1.382641
+      type: 'test'
+      ...
+    # Subtest: no borrowings cell is a nil: the filed dash is an explicit zero, the older periods are numbers
+    ok 5 - no borrowings cell is a nil: the filed dash is an explicit zero, the older periods are numbers
+      ---
+      duration_ms: 0.387214
+      type: 'test'
+      ...
+    # Subtest: the borrowings evidence separates a dash from a declaration and from an exclusion
+    ok 6 - the borrowings evidence separates a dash from a declaration and from an exclusion
+      ---
+      duration_ms: 0.779394
+      type: 'test'
+      ...
+    # Subtest: current maturities are empty in all three periods — an absent caption is not a zero
+    ok 7 - current maturities are empty in all three periods — an absent caption is not a zero
+      ---
+      duration_ms: 0.456825
+      type: 'test'
+      ...
+    # Subtest: every committed file in the bundle still hashes to the digest recorded beside it
+    ok 8 - every committed file in the bundle still hashes to the digest recorded beside it
+      ---
+      duration_ms: 1.818159
+      type: 'test'
+      ...
+    1..8
+ok 1 - WI-5 — one declaration, on one period, in the filer's words
+  ---
+  duration_ms: 10.421956
+  type: 'suite'
+  ...
+1..1
+# tests 8
+# suites 1
+# pass 8
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 255.982133
+exit 0

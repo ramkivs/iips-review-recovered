@@ -1788,3 +1788,40 @@ Evidence: `evidence/real-issuer/WI4-ASSOCIATES-CARRYING-VALUE-2026-11-06/` — s
 `source/quotes.json`, and the `residualReview` block in `artifact/investigation.json`; guarded by
 `iips-platform/tests/investment/wi4AssociatesEvidence.test.ts`, which also asserts that the documentation no longer
 contains the superseded "unstated" phrasing and that the payload really does disclose the treatment.
+
+## 17.10 WI-5 — second issuer validation: explicit nil-by-disclosure (eClerx Services Limited)
+
+**Date.** 2026-11-07. **Scope.** Technology only, one issuer only, no sector expansion, no policy change, no
+persistence change, no change to valuation or confidence arithmetic.
+
+**What was validated.** That the D-2 nil path works for an issuer other than Infosys. eClerx Services Limited
+(`L72200MH2000PLC125319`) declares one governed line item nil in its audited consolidated statements: `PREFERENCE_CAPITAL`,
+on the filer's sentence *"The Company has only one class of equity shares having a par value of Rs 10 per share."*
+(Note 13, p.223, AR 2023-24; auditor S.R. Batliboi & Associates LLP, 2024-05-16). Three consecutive audited consolidated
+periods (FY2024, FY2023, FY2022) were ingested as `MILLION`/`INDAS`/`AS_FILED`; the nil arrives in the persisted payload
+as `NIL_BY_DISCLOSURE` / `DECLARED_NIL_IN_SOURCE` with its wording, filing reference and period attached, and the payload
+re-read in a separate process matches the chain head digest (`287622ae69fb…`, artifact v1).
+
+**What was refused.** No nil was declared on any borrowings line for this issuer: the consolidated balance sheet carries
+a filed dash (`Borrowings 17 - 6.77`), which is an explicitly reported zero and not a declaration, and the notes contain
+no borrowings-nil sentence (Note 40 characterises financial liabilities by exclusion). No `current maturities of long
+term debt` caption exists in any of the three filings, so those cells are `NOT_REPORTED`, not zero. This is the same D-2
+discipline WI-3 applied in the opposite direction.
+
+**Measured effect.** `preferenceCapital` stays a nil (never a number, never counted as zero in the aggregate), and the
+capital-structure aggregate is therefore `NOT_REPORTED`: `grossDebt` and `netDebt` carry no value, so enterprise-value
+methods cannot run; margins of safety are `NOT_COMPUTABLE` and the run's combined confidence is **0.3210**
+(`SUFFICIENT` / `MATERIAL_CONCERNS`, the stale-statement flag being the 951-day gap between 2024-03-31 and the run clock).
+The nil did not improve confidence.
+
+**Recorded finding, not fixed here.** An issuer that *declares* nil (Infosys: `grossDebt` and `netDebt` `DERIVED`/
+`PRESENT`, net cash ₹19,342 crore) keeps a usable debt position, while an issuer that merely files a dash and presents no
+current-maturities caption loses it. Refusing to treat an unreported component as zero is correct under D-2; changing the
+aggregation contract is outside this work item and was not done.
+
+**Statuses.** `L-036` remains **`PARTIALLY RESOLVED`**; `L-035` remains **`OPEN`**; `L-001` … `L-034` untouched; the
+180-day `associates-review/1.0.0` control remains due. One nil on one line item for one further issuer does not resolve
+any other nil case and is not claimed to.
+
+**Evidence.** `evidence/real-issuer/WI5-PREFERENCE-CAPITAL-NIL-2026-11-07/` (20 files, `digests.json`), guarded by
+`iips-platform/tests/investment/wi5PreferenceCapitalNil.test.ts` (8 tests) with `tsc --noEmit` clean.

@@ -1,0 +1,71 @@
+{
+  "schemaVersion": "IIPS_INVESTMENT_WI5_QUOTES_V1",
+  "issuer": {
+    "issuerId": "IN:CIN:L72200MH2000PLC125319",
+    "legalName": "eClerx Services Limited",
+    "sector": "Technology"
+  },
+  "quotes": [
+    {
+      "quoteId": "Q1",
+      "governedLineItem": "PREFERENCE_CAPITAL",
+      "filingRef": "ECLERX-INDAS-CONSOL-FY24",
+      "filing": "eClerx Services Limited, Annual Report 2023-24, audited consolidated financial statements for the year ended March 31, 2024",
+      "documentUrl": "https://eclerx.com/wp-content/uploads/2024/09/Annual-Report-2023-24.pdf",
+      "documentDigestNote": "digest recorded in digests.json for the committed extract; the PDF itself is not committed",
+      "period": "2024-03-31",
+      "statementScope": "CONSOLIDATED",
+      "note": "Note 13 Share capital",
+      "page": 223,
+      "sourceLocator": "Annual Report 2023-24 -> Consolidated Financial Statements -> Notes forming part of the consolidated financial statements -> Note 13 -> 'Terms / rights attached to equity shares'",
+      "exactWording": "The Company has only one class of equity shares having a par value of Rs 10 per share.",
+      "supportingWording": "Authorised share capital 100,000,000 (March 31, 2023: 100,000,000) shares of Rs. 10 each 1,000.00 1,000.00",
+      "appliesToConsolidatedEntity": true,
+      "kind": "EXPLICIT_CLASS_STATEMENT",
+      "establishes": "no preference share capital is authorised, issued, subscribed or paid up; the Company has one class of shares, equity",
+      "doesNotEstablish": "anything about borrowings, debt, leases, or any line item other than share capital"
+    },
+    {
+      "quoteId": "Q2",
+      "governedLineItem": "LONG_TERM_BORROWINGS / SHORT_TERM_BORROWINGS",
+      "filingRef": "ECLERX-INDAS-CONSOL-FY24",
+      "period": "2024-03-31",
+      "statementScope": "CONSOLIDATED",
+      "note": "Consolidated balance sheet, note 17 caption",
+      "page": 195,
+      "sourceLocator": "Consolidated Balance Sheet as at March 31, 2024 -> Non-current liabilities -> Financial Liabilities -> Borrowings 17",
+      "exactWording": "Borrowings 17 - 6.77",
+      "kind": "FILED_ZERO_NOT_A_NIL",
+      "establishes": "an explicitly filed zero balance at 2024-03-31 (dash), and 6.77 at 2023-03-31",
+      "doesNotEstablish": "a declared nil; no wording declares borrowings nil, so no nil is recorded"
+    },
+    {
+      "quoteId": "Q3",
+      "governedLineItem": "LONG_TERM_BORROWINGS / SHORT_TERM_BORROWINGS",
+      "filingRef": "ECLERX-INDAS-CONSOL-FY23",
+      "period": "2023-03-31",
+      "statementScope": "CONSOLIDATED",
+      "note": "Consolidated balance sheet, note 17 caption",
+      "page": 186,
+      "sourceLocator": "Consolidated Balance Sheet as at March 31, 2023 -> Borrowings 17",
+      "exactWording": "Borrowings 17 6.77 0.50",
+      "kind": "REPORTED_VALUE",
+      "establishes": "6.77 at 2023-03-31 and 0.50 at 2022-03-31 (non-current)",
+      "doesNotEstablish": "any nil for any period: the captions are populated numbers, and the same filing contains no sentence declaring borrowings nil"
+    },
+    {
+      "quoteId": "Q4",
+      "governedLineItem": "LONG_TERM_BORROWINGS / SHORT_TERM_BORROWINGS",
+      "filingRef": "ECLERX-INDAS-CONSOL-FY24",
+      "period": "2024-03-31",
+      "statementScope": "CONSOLIDATED",
+      "note": "Note 40 Financial risk management objectives and policies",
+      "page": 245,
+      "sourceLocator": "Consolidated notes -> Note 40 -> opening paragraph",
+      "exactWording": "The Group's principal financial liabilities, other than derivatives and lease liabilities comprises trade and other payables.",
+      "kind": "EXCLUSION_NOT_A_NIL",
+      "establishes": "the filer's own characterisation of its financial liabilities",
+      "doesNotEstablish": "a nil declaration for borrowings; recorded here as the evidence for NOT declaring one"
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+SOURCE EXTRACT — eClerx Services Limited, Annual Report 2023-24 (audited consolidated financial
+statements for the year ended March 31, 2024), "Notes forming part of the consolidated financial
+statements", Note 13 "Share capital", printed page 223.
+
+Document: https://eclerx.com/wp-content/uploads/2024/09/Annual-Report-2023-24.pdf (254 pages)
+Auditor: S.R. Batliboi & Associates LLP (ICAI FRN 101049W/E300004), report dated May 16, 2024.
+Text layer read through https://r.jina.ai/<document>, chunk 91 (printed pages 221-223).
+
+--- verbatim (text layer) ---
+
+13. Share capital Authorised share capital (Rupees in Million)
+
+As at March 31, 2024 As at March 31, 2023
+
+Authorised share capital 100,000,000 (March 31, 2023: 100,000,000) shares of Rs. 10 each 1,000.00 1,000.00
+Issued, subscribed and fully paid up 48,232,242 (March 31, 2023: 48,033,979) shares of Rs. 10 each fully paid up 482.32 480.34
+223 ECLERX SERVICES LIMITED | Consolidated Financial Statements
+
+Terms / rights attached to equity shares
+
+The Company has only one class of equity shares having a par value of Rs 10 per share. Each holder of
+equity shares is entitled to one vote per equity share. The Company declares and pays dividends in
+Indian rupees. The dividend proposed by the Board of Directors is subject to the approval of the
+shareholders in the ensuing Annual General Meeting.
+
+--- what this establishes ---
+
+The authorised share capital of the Company consists of a single class: equity shares of Rs. 10 each.
+No preference share capital is authorised, issued, subscribed or paid up in either period presented,
+and the note states in the filer's own words that the Company has only one class of equity shares.
+
+--- what this does NOT establish ---
+
+It says nothing about borrowings, debt, or any other governed line item. It does not state that
+preference capital is nil in the word "nil"; it states the class position, which is the same form of
+wording that WI-3 accepted for Infosys ("The Company has only one class of shares referred to as
+equity shares having a par value of Rs 5/-.").

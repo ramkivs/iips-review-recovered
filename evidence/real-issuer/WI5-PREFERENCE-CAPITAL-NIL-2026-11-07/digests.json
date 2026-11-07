@@ -1,0 +1,126 @@
+{
+  "schemaVersion": 1,
+  "bundle": "WI5-PREFERENCE-CAPITAL-NIL-2026-11-07",
+  "issuerId": "IN:CIN:L72200MH2000PLC125319",
+  "digestAlgorithm": "sha256",
+  "excluded": [
+    "digests.json (this file)"
+  ],
+  "documents": [
+    {
+      "documentId": "ECLERX-INDAS-CONSOL-FY24",
+      "title": "eClerx Services Limited, Annual Report 2023-24, audited consolidated financial statements for the year ended March 31, 2024",
+      "url": "https://eclerx.com/wp-content/uploads/2024/09/Annual-Report-2023-24.pdf",
+      "pages": 254,
+      "auditor": "S.R. Batliboi & Associates LLP (FRN 101049W/E300004)",
+      "auditReportDate": "2024-05-16",
+      "committed": false,
+      "note": "page-anchored extracts committed under source/; the PDF itself is not committed"
+    },
+    {
+      "documentId": "ECLERX-INDAS-CONSOL-FY23",
+      "title": "eClerx Services Limited, Annual Report 2022-23, audited consolidated financial statements for the year ended March 31, 2023",
+      "url": "https://eclerx.com/wp-content/uploads/2024/07/eClerx_Annual_Report_2023_Composite-1.pdf",
+      "auditor": "S.R. Batliboi & Associates LLP (FRN 101049W/E300004)",
+      "auditReportDate": "2023-05-25",
+      "committed": false,
+      "note": "page-anchored extracts committed under source/; the PDF itself is not committed"
+    }
+  ],
+  "chain": {
+    "datasetVersion": "sha256:00db79c1fbcabd959079db1331b3f6c192b613ad92a1c41c12919068f0fe3839",
+    "reportId": "c6d9d573-6e6e-468f-ae27-b037cf84b6e8",
+    "payloadDigest": "287622ae69fbe39bc2cfb7804983877042a32fbfbf7ffbbad3b711aaf9b00eb3",
+    "artifactVersion": 1,
+    "scope": "co:IN:CIN:L72200MH2000PLC125319"
+  },
+  "decision": {
+    "nilDeclared": "PREFERENCE_CAPITAL only, FY2024 only",
+    "borrowingsNil": false,
+    "borrowingsReason": "the audited consolidated notes contain no sentence declaring borrowings nil; the balance sheet carries a filed dash (an explicit zero) and Note 40 characterises financial liabilities by exclusion",
+    "currentMaturities": "no caption in any of the three filings; left empty (NOT_REPORTED), not zeroed"
+  },
+  "fileCount": 20,
+  "files": {
+    "README.md": {
+      "sha256": "9b76cf6ec7f7b1103d0a2b528f7d002836bb07a56cad8c21899b2703cbddb704",
+      "bytes": 3976
+    },
+    "artifact/assessment-payload-wi5.json": {
+      "sha256": "cb645fc99677bf599300132641085ec6098f779c299421f17ab063c0e38432d7",
+      "bytes": 53154
+    },
+    "identity/corporate-actions.json": {
+      "sha256": "d6bc14d1b676260bb0f1c2280e62956d3f6a7e07b9b9265a73b49f821185ffcd",
+      "bytes": 70
+    },
+    "identity/eligible-roster.json": {
+      "sha256": "93383ba0d98c0bfc226e7196c0114e1f23dd1ab53f14b532c7e6f3d7fa117165",
+      "bytes": 770
+    },
+    "identity/listing-map.json": {
+      "sha256": "a7552b1a1e8a835d59c2b4d539edeb7f89a7dd518a91c9aaf7e992e3b4766ac0",
+      "bytes": 1387
+    },
+    "ingest-input/periods.csv": {
+      "sha256": "594264d5b8bec457e55d64815a09627340811a90f4344ca629445546fa8e50f5",
+      "bytes": 2131
+    },
+    "ingest-input/prices.json": {
+      "sha256": "99ed6edf2cb901313c6132fd10e04c9060ee9180ccdaaa44771d37eb48003400",
+      "bytes": 413
+    },
+    "ingest-input/roster.json": {
+      "sha256": "05918c1942d840a65dc21b7d80a1207697e6bf86602fe83eee6bc5ce2c90d5d9",
+      "bytes": 1169
+    },
+    "runs/01-ingest.txt": {
+      "sha256": "8d1062d7f67bd3a6cbd90dda8429ef310b345e779bcd1fc1c9a0661d35b5887f",
+      "bytes": 1515
+    },
+    "runs/02-generate.txt": {
+      "sha256": "d4e12f88b4c795127ab69dc1e3f49afe38adce21510ad9a6bc97d336cd2a789d",
+      "bytes": 5545
+    },
+    "runs/03-guard-test.txt": {
+      "sha256": "3e3d13dea96efe2408c6703ce1886dada2b537ebb5eec2b9309b2464b9f884e8",
+      "bytes": 2444
+    },
+    "runs/04-typecheck.txt": {
+      "sha256": "cbf7de6a7ab22aa8f3b63eed31368677222a5389d4a0bcaa112a952910051cec",
+      "bytes": 11
+    },
+    "runs/06-payload-verify.json": {
+      "sha256": "f7ddf14cdda93e8eefa3f088cb3940130419c708b4af32e25ac086daf38fe657",
+      "bytes": 11450
+    },
+    "runs/cli-wi5-created.json": {
+      "sha256": "48e8a6394b021cd352d64d8679702c27e41a2e92e49fb73cf0eda79d0eace1cc",
+      "bytes": 4823
+    },
+    "runs/commands.txt": {
+      "sha256": "deb98ff18a63148d802e090a08f5ae524ef5e0710d61fa07f49427dbe98e6018",
+      "bytes": 4724
+    },
+    "source/consol-fy23-balance-sheet-borrowings.txt": {
+      "sha256": "2e68991e84aac61f4f16cc5e3252c1c04507d5c9e2538a179ce3aac842a76312",
+      "bytes": 943
+    },
+    "source/consol-fy24-balance-sheet-borrowings.txt": {
+      "sha256": "62c0534c08b14f5b46d4caa503464301b4684de4e3f63e25434e04035db39c4d",
+      "bytes": 1543
+    },
+    "source/consol-fy24-note-13-share-capital.txt": {
+      "sha256": "5e014d627001ab06c70474c7f8ab165b3c073184aa5ed51fd711e8dc4cdb46d7",
+      "bytes": 2073
+    },
+    "source/consol-fy24-note-40-financial-risk-management.txt": {
+      "sha256": "40667de03c12ce89ec99061d78bdc02beca5c39715001b7bc1ec00c13f8ee12a",
+      "bytes": 1666
+    },
+    "source/quotes.json": {
+      "sha256": "41e8b1b3d76586b32ff5e83fe2a5b5db57326095fb56df7760e121d9d6b25d98",
+      "bytes": 3860
+    }
+  }
+}

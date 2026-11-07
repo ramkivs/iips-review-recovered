@@ -1,0 +1,46 @@
+{
+  "issuers": [
+    {
+      "issuerId": "IN:CIN:L72200MH2000PLC125319",
+      "legalName": "eClerx Services Limited",
+      "issuerKeyBasis": "CIN",
+      "sector": "Technology",
+      "subSegment": null,
+      "reportingCurrency": "INR",
+      "fiscalYearEnd": "03-31"
+    }
+  ],
+  "securities": [
+    {
+      "securityId": "IN:ISIN:INE738I01010",
+      "issuerId": "IN:CIN:L72200MH2000PLC125319",
+      "instrumentType": "EQUITY",
+      "status": "ASSESSABLE",
+      "statusReason": null
+    }
+  ],
+  "listings": [
+    {
+      "listingId": "IN:NSE:ECLERX:EQ:EQUITY",
+      "securityId": "IN:ISIN:INE738I01010",
+      "issuerId": "IN:CIN:L72200MH2000PLC125319",
+      "exchange": "NSE",
+      "symbol": "ECLERX",
+      "series": "EQ",
+      "instrumentType": "EQUITY",
+      "effectiveFrom": "2007-12-05",
+      "effectiveTo": null
+    },
+    {
+      "listingId": "IN:BSE:532927:EQ:EQUITY",
+      "securityId": "IN:ISIN:INE738I01010",
+      "issuerId": "IN:CIN:L72200MH2000PLC125319",
+      "exchange": "BSE",
+      "symbol": "532927",
+      "series": "EQ",
+      "instrumentType": "EQUITY",
+      "effectiveFrom": "2007-12-05",
+      "effectiveTo": null
+    }
+  ]
+}
