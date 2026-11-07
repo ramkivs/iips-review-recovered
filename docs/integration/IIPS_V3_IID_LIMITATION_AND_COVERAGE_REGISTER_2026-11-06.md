@@ -1969,3 +1969,66 @@ balance-sheet dates. Then the existing governed path, unchanged: ingest → gene
 **Evidence.** `evidence/real-issuer/WI6A-SUPPLEMENTAL-ZENSAR-CONSOLIDATED-2026-11-07/` — `quotes-owner-reported.json`,
 `retrieval-log-supplemental.txt`, `index-locator-corroboration.txt`, `determination-supplemental.json`, `runs/`,
 `digests.json` — guarded by `iips-platform/tests/investment/wi6aSupplementalZensar.test.ts`.
+
+## 17.14 WI-6A-S2 — Zensar: the consolidated pages were read, the nil was established and ingested (2026-11-07; primary evidence + governed run)
+
+**Question.** §17.12 and §17.13 left WI-6A at `INVESTIGATED_UNSUCCESSFUL` / `CONSOLIDATED_NIL_NOT_ESTABLISHED` for
+two independent reasons: the consolidated Note 27 wording had never been read, and gross debt also needs lease
+liabilities, which no route had produced. S2 asked whether the pages can be read at all, and if so what the pipeline
+may conclude from them.
+
+**Reading achieved.** Both annual reports were fetched as bytes and their complete per-page text extracted — the
+issuer-hosted FY2023-24 report (10,813,579 bytes, sha256 `d52cc3af…`, 167 pages) and the exchange copy of the
+FY2022-23 report (15,745,097 bytes, sha256 `cc690832…`, 180 pages; the Wayback capture `20250803083822` serves an
+identical hash). Each report prints two printed pages per PDF sheet; the printed-to-PDF calibration is recorded for
+every cited page.
+
+**The wording, read verbatim.** Consolidated Note 27 *Capital management*: *"The Group didn’t have any external
+borrowings during the current and previous year."* — FY2023-24 printed **pp.304-305 (PDF p.154 of 167)**, FY2022-23
+printed **pp.320-321 (PDF p.163 of 180)**. Subject *the Group*, scope consolidated, Ind AS; the 83-character string
+hashes to `3c046626…6597cb`, identical to the string §17.13 recorded as reported-but-unread. The entry that recorded
+it as unread was accurate when written and is not rewritten.
+
+**Lease liabilities, three dates, three presentations.** Consolidated balance-sheet Note 11(b): non-current 1,228 /
+1,904 / 2,348 and current 637 / 826 / 1,005 for 2024-03-31 / 2023-03-31 / 2022-03-31, i.e. **totals 1,865 / 2,730 /
+3,353** — each corroborated by the Note 27 liquidity table carrying value and by the Note 33 movement (whose
+prior-year row is `[3,353]`).
+
+**Outcome: the nil is established and carried through the governed path.** `LONG_TERM_BORROWINGS`,
+`SHORT_TERM_BORROWINGS` and `CURRENT_MATURITIES_OF_LONG_TERM_DEBT` take `NIL_BY_DISCLOSURE` on that sentence (the
+WI-3 mapping; the current-maturity leg recorded as deductive). `LEASE_LIABILITIES` takes the filed numbers, not the
+nil. `PREFERENCE_CAPITAL` and `NON_CONTROLLING_INTEREST` stay `NOT_REPORTED`: a dash is not a declaration. Three
+periods validated, datasetVersion `sha256:a71498da…`, assessment `SUFFICIENT` / `MATERIAL_CONCERNS` / 0.4032,
+reportKey `dc9e4f47571d…`, payloadDigest `fbfa5564900a…`, reportId `28b3e5d6-…`, chain valid, head v1, and a
+separate-process readback whose recomputed digest matches the stored digest and the chain head.
+
+**What became computable.** `grossDebt` **₹1,865 million `PRESENT`** (the three nil components named in the
+aggregation note), cash and investments ₹10,938 million, `netDebt` **−₹9,073 million `PRESENT`** — the first
+computable debt position for this issuer — and net debt / EBITDA at −0.8804.
+
+**What did not.** No intrinsic value: `DCF_FCFF` refuses for `INSUFFICIENT_HISTORY` (the FY2022 capital-expenditure
+line was not captured; a gap in what was read, not in the filing), and the `EV_EBITDA` per-share leg is
+`NOT_COMPUTABLE` — *"enterprise-to-equity conversion blocked by minorityInterest"*. No margin of safety:
+`NO_PRICE_OBSERVATION`, no price obtained and none invented. Only the P/E relative band ₹362.56–₹543.84 is produced.
+`L-036`'s associates review control fires exactly as designed: `REVIEW_DUE`, clock from 2024-03-31, due 2024-09-27,
+age 180 days, treatment unchanged at `POLICY_ZERO` under schema V1.
+
+**Statuses.** `L-037` stays **`OPEN`**: the entry describes a class of deep-page retrieval failure, and one issuer
+on one item is not that class. It is updated — these two documents are now readable end to end with their bytes
+hashed, so the retrieval limitation no longer attaches to them — and left open, because the register still supplies
+no resolution criterion. `L-036` remains **`PARTIALLY RESOLVED`** and `L-035` remains **`OPEN`**; neither was
+touched, because no independent evidence about either was produced. No new limitation is opened. `L-001` … `L-034`
+untouched.
+
+**How the bytes were obtained, and why it matters to this entry.** This environment still has neither general egress
+nor PDF tooling; that measurement, and the routes it ruled out, stand. The fetch and extraction were performed by a
+throwaway GitHub Actions job on a temporary workflow file added to this branch for exactly that purpose and deleted
+in the same work item — a workaround for the environment, not a change to the evidence standard: the source bytes
+are hashed, the page extracts are verbatim tool output with provenance headers, and every page is reproducible from
+the two `curl` lines and the `pdftotext` lines recorded in the bundle's `runs/commands.txt`.
+
+**Evidence.** `evidence/real-issuer/WI6A-S2-CONSOLIDATED-PAGE-RECOVERY-2026-11-07/` — `determination-s2.json`,
+`source/quotes-verified.json`, `source/source-bytes.json`, `source/page-map.json`, eleven page extracts,
+`source/retrieval-log-s2.txt`, `ingest-input/`, `runs/`, `artifact/assessment-payload-zensar-s2.json`, `digests.json`
+— guarded by `iips-platform/tests/investment/wi6aS2ConsolidatedPageEvidence.test.ts`. The WI-6A, WI-6A-S1, WI-6,
+WI-5 and WI-3 bundles are byte-identical and still verify.

@@ -1,3 +1,0 @@
-fy24_rpg|http=200|bytes=10813579|sha256=d52cc3af3b074f5b288d7f887cca0887a046e7f2b04abebfb4ab1fd45035990d|magic=%PDF|url=https://www.rpggroup.com/assets/investors/pdfs/zensar-annual-report-fy241743584822.pdf|err=
-fy23_bse|http=200|bytes=15745097|sha256=cc690832facf9fbb57973a650f11d1c9ac90ba5aec797021e7184b8b9333dd2c|magic=%PDF|url=https://www.bseindia.com/xml-data/corpfiling/AttachHis/f1a251aa-69c1-4a16-baad-67c3b12cde24.pdf|err=
-fy23_wayback|http=429|bytes=620|sha256=e859c18f0c0cc71ffed35c4e7ebc87cbb4f136116156f2de1588aeb71449533e|magic=Your|url=https://web.archive.org/web/20250803083822id_/https://www.bseindia.com/xml-data/corpfiling/AttachHis/f1a251aa-69c1-4a16-baad-67c3b12cde24.pdf|err=

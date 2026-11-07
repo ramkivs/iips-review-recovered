@@ -1,0 +1,125 @@
+{
+  "schemaVersion": 1,
+  "bundle": "WI6A-S2-CONSOLIDATED-PAGE-RECOVERY-2026-11-07",
+  "note": "sha256 and byte count of every committed file in this bundle. `digests.json` does not digest itself, and the three run logs produced after this manifest (03-guard-test, 04-typecheck, 05-clean-clone) are recorded by the run that produced them rather than digested here.",
+  "algorithm": "sha256",
+  "count": 29,
+  "files": {
+    "README.md": {
+      "sha256": "f1655fb6c9141d86395114f5d7b8d213e0485caf3f2dd72f724d655bd2ea7a96",
+      "bytes": 14090
+    },
+    "artifact/assessment-payload-zensar-s2.json": {
+      "sha256": "fbfa5564900a0105d286918dd9572f337358c5c4d6eb0d4df5ef94ec18160f9e",
+      "bytes": 54578
+    },
+    "determination-s2.json": {
+      "sha256": "0a915cfd3536ef0716e6a73b5302448f380763d895e7fd6a7ce99bccc2cdd17b",
+      "bytes": 12697
+    },
+    "ingest-input/identity/corporate-actions.json": {
+      "sha256": "d6bc14d1b676260bb0f1c2280e62956d3f6a7e07b9b9265a73b49f821185ffcd",
+      "bytes": 70
+    },
+    "ingest-input/identity/eligible-roster.json": {
+      "sha256": "9f88dff271ac0960cf49802c71e018326f309b8f6414800b00ad491145fb7027",
+      "bytes": 782
+    },
+    "ingest-input/identity/listing-map.json": {
+      "sha256": "3f9cc8fcf0b308e858aa62b21750128b11fd2c238e3457183302ad17f0761ea8",
+      "bytes": 1920
+    },
+    "ingest-input/periods.csv": {
+      "sha256": "89d503a27683d2f848d7051b56e00f1719122558e33693d59dcb6b09d352284d",
+      "bytes": 2593
+    },
+    "ingest-input/roster.json": {
+      "sha256": "e121a463c1e77a8e73abbfba43a9f88b479421b356bd8de5959915d7d831d9c9",
+      "bytes": 2375
+    },
+    "runs/01-ingest.txt": {
+      "sha256": "0c2c760c49e6525dd8b74bc12c93e395e3f8e1c88e177c2c90c4be011f636083",
+      "bytes": 1514
+    },
+    "runs/02-generate.txt": {
+      "sha256": "86b293b201519ab165fbe0d9d296934111ed2462053e85661a404eab2e228d35",
+      "bytes": 5545
+    },
+    "runs/cli-s2.json": {
+      "sha256": "5e67f4a0534fb0500c5720dd2fbceae708afdfaded56d3f5837f596c32627016",
+      "bytes": 4823
+    },
+    "runs/commands.txt": {
+      "sha256": "dae20089f7fded310d30d18858d347a97f7d5f75877643c9a648282baa21e44a",
+      "bytes": 5106
+    },
+    "runs/readback-stdout.txt": {
+      "sha256": "d04b4577ff815cde0849d3aa1a117f3f9d10607cbbc5e29b8bf2600feb52bdf8",
+      "bytes": 16603
+    },
+    "runs/readback.json": {
+      "sha256": "3623e2b93f9ede8754280bc537cbad5656fa93f7f4b52c455768575da7e8fd26",
+      "bytes": 16434
+    },
+    "source/fy23-consolidated-balance-sheet-and-profit-and-loss.txt": {
+      "sha256": "c4b86f2d436590d152c97ecb38d0c6f9c22558f82f5520ada1aaf2b99a88bdc1",
+      "bytes": 21062
+    },
+    "source/fy23-consolidated-note-11b-lease-liabilities.txt": {
+      "sha256": "e7bf92ce216843de5fd9212a79bc1de2623cdb6787cb62441b7063ed9e4f844b",
+      "bytes": 12202
+    },
+    "source/fy23-consolidated-note-27-capital-management.txt": {
+      "sha256": "adde6484f15ac3d7363c6ccb8ba23614005c8c652802fb12cf5088716e5e40be",
+      "bytes": 12630
+    },
+    "source/fy23-consolidated-statement-of-cash-flows.txt": {
+      "sha256": "cc1ad5a0d3439a4a19c850a515a01b028d9123aa2562394887c54471c307fe9c",
+      "bytes": 12588
+    },
+    "source/fy23-isin-and-listing-identifiers.txt": {
+      "sha256": "f12dc34f2e10f9fb859db58060950992805fd6b8fa8e8fa0ff9ee4e9891dc0a6",
+      "bytes": 15224
+    },
+    "source/fy24-consolidated-balance-sheet-and-profit-and-loss.txt": {
+      "sha256": "e1111119f49c11da4b1c716fe711928df65443699f494c2d7730778686dbfee7",
+      "bytes": 21599
+    },
+    "source/fy24-consolidated-note-11b-lease-liabilities.txt": {
+      "sha256": "4f9abea2fa58df3ab386da049c838e140e3ba49d965f783426f997a6e2a8b4f9",
+      "bytes": 12898
+    },
+    "source/fy24-consolidated-note-27-capital-management.txt": {
+      "sha256": "21fa1206e6a22beb758b5f8a96e8a56bd2b5a9981888d8fe6f431bed915b958f",
+      "bytes": 14171
+    },
+    "source/fy24-consolidated-note-33-lease-movement.txt": {
+      "sha256": "7d3e9a63a8a8ce072351147f9f2c4fc66ccbe185eb64c61c6558302be6147e60",
+      "bytes": 14596
+    },
+    "source/fy24-consolidated-statement-of-cash-flows.txt": {
+      "sha256": "2d361e265176246a92ede271f3eadbaf9c7e5879ac7a280aa34935c3482a3cbb",
+      "bytes": 10518
+    },
+    "source/fy24-isin-and-listing-identifiers.txt": {
+      "sha256": "750c2074a19a93c890436dd8a99ccf8772f292599afa475df15b8da126fc4659",
+      "bytes": 22947
+    },
+    "source/page-map.json": {
+      "sha256": "841ff38aafbf8eeeee35fb34ad80dc41de2c1384c75bee9053cea19a9a76a777",
+      "bytes": 4252
+    },
+    "source/quotes-verified.json": {
+      "sha256": "4b4cffcd26d6b47a4e75542402f24836f77e4c0a494476bbbe5ab18f44b99198",
+      "bytes": 5808
+    },
+    "source/retrieval-log-s2.txt": {
+      "sha256": "badd1c2e584e71b705addfdb515b02b5832371dc08f47d6f4e62d7c739e1f7de",
+      "bytes": 4621
+    },
+    "source/source-bytes.json": {
+      "sha256": "17a4b950af81a35c7072a4fca19dad8ab7ab17f4644e8bd997a5d146e3c71a28",
+      "bytes": 3294
+    }
+  }
+}

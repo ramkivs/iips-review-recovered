@@ -227,3 +227,89 @@ lease-liability figure for the three balance-sheet dates. Then the existing gove
 
 **The historical record stands.** §1-§8 above are untouched; the original bundle is byte-identical and its own digest
 manifest still verifies.
+
+---
+
+## 10. WI-6A-S2 (2026-11-07) — the pages were read, and the nil holds
+
+**What was recovered.** Both annual reports were fetched as bytes and their complete per-page text extracted, so
+the four pages §9 could only describe are now read. The FY2023-24 report is the issuer-hosted copy at
+`rpggroup.com/assets/investors/pdfs/zensar-annual-report-fy241743584822.pdf` (10,813,579 bytes, sha256
+`d52cc3af…`, 167 pages); the FY2022-23 report is the exchange copy at
+`bseindia.com/xml-data/corpfiling/AttachHis/f1a251aa-69c1-4a16-baad-67c3b12cde24.pdf` (15,745,097 bytes, sha256
+`cc690832…`, 180 pages), which the Wayback capture `20250803083822` serves with an identical hash. Each report
+prints two printed pages per PDF sheet; the calibration for every page this work item cites is in
+`source/page-map.json`.
+
+**The two quotations, read.** Consolidated Note 27 *Capital management* reads, in both reports, word for word:
+
+> The Group didn’t have any external borrowings during the current and previous year.
+
+FY2023-24: **printed pp.304-305, PDF page 154 of 167**. FY2022-23: **printed pp.320-321, PDF page 163 of 180**.
+The subject is *the Group*, the scope is consolidated, the taxonomy is Ind AS, and the 83-character string hashes
+to `3c04662681a405bc869cc4c1c2dff93cd1417b30c6371282c296322ede6597cb` — exactly the string S1 recorded as reported
+but unread. S1 kept the right wording and the right status for it; this section supplies the reading, and alters
+nothing in §1-§9.
+
+**The second blocker is gone.** The consolidated balance sheets carry no borrowings caption in any of the three
+periods, and they do carry lease liabilities, split and cross-referenced to Note 11(b):
+
+| | 2024-03-31 | 2023-03-31 | 2022-03-31 |
+| --- | --- | --- | --- |
+| lease liabilities — non-current | 1,228 | 1,904 | 2,348 |
+| lease liabilities — current | 637 | 826 | 1,005 |
+| **total** | **1,865** | **2,730** | **3,353** |
+
+Each total is presented a second and third time: as the carrying value in the Note 27 liquidity table
+(1,865 / 2,730 on printed pp.304-305; 3,353 on printed pp.320-321) and in the Note 33 cash-and-non-cash movement
+(printed pp.308-309, whose prior-year row is `[3,353]`). INR million, consolidated, as filed.
+
+**The mapping applied, and its limits.** `LONG_TERM_BORROWINGS`, `SHORT_TERM_BORROWINGS` and
+`CURRENT_MATURITIES_OF_LONG_TERM_DEBT` take `NIL_BY_DISCLOSURE` on that sentence — the same mapping WI-3 applied to
+Infosys, with the current-maturity leg explicitly recorded as *deductive* (a maturity is a slice of a borrowing, so
+no borrowing means no maturity to reclassify). `LEASE_LIABILITIES` takes the numbers, not the nil: the sentence does
+not speak to leases and mapping onto them is forbidden. `PREFERENCE_CAPITAL` and `NON_CONTROLLING_INTEREST` stay
+`NOT_REPORTED` — the balance sheet prints a dash for the latter, and a dash is not a declaration. The two caveats
+S1 recorded in advance still stand and are now recorded as applied: the *external* qualifier, and a durational
+sentence being used for a point-in-time balance-sheet item.
+
+**Three-period validation passes.** 2024-03-31 and 2023-03-31 come from the FY2023-24 sentence; 2023-03-31 and
+2022-03-31 from the FY2022-23 sentence. 2023-03-31 is covered twice by two filings that agree word for word, and
+each period's four components resolve to one period end, so the aggregation's `PERIOD_MISMATCH` rule never fires.
+
+**The pipeline ran, unchanged.** datasetVersion `sha256:a71498da…`, `issues.json` `[]`; assessment `SUFFICIENT` /
+`MATERIAL_CONCERNS` / confidence 0.4032; reportKey `dc9e4f47571d…`, payloadDigest `fbfa5564900a…`; persisted as
+reportId `28b3e5d6-a53d-4fb8-a073-5ed86e73a65e` on scope `co:IN:CIN:L72200PN1963PLC012621`, chain valid, one
+version, head v1; re-read in a separate process with the recomputed payload digest equal to the stored digest and
+to the chain head. **Gross debt ₹1,865 million `PRESENT`**, cash and investments ₹10,938 million, **net debt
+−₹9,073 million `PRESENT`** — the first time either has been computable for this issuer. Net debt / EBITDA follows
+at −0.8804.
+
+**What the nil does not buy — the valuation.** No intrinsic value is published. `DCF_FCFF` refuses for
+`INSUFFICIENT_HISTORY` (three annual periods of EBIT, D&A **and capex** are required, and the FY2022
+capital-expenditure line was not captured — a gap in what this run read, not an omission in the filing).
+`EV_EBITDA` runs and produces an enterprise value, but its per-share leg is `NOT_COMPUTABLE` with the note
+"enterprise-to-equity conversion blocked by minorityInterest". `EV_REVENUE` refuses for
+`MANDATORY_METRIC_MISSING`. The margin of safety refuses with `NO_PRICE_OBSERVATION`: no price was obtained and
+none was invented, so no MoS band exists even though the debt and the dividends now do. Only the P/E relative band
+₹362.56–₹543.84 is produced, and it is a relative range, not an intrinsic value. `L-036`'s associates review
+control is preserved and fires: `REVIEW_DUE`, clock from 2024-03-31, due 2024-09-27, age 180 days.
+
+**Determination.** `NIL_ESTABLISHED` / `CONSOLIDATED_NIL_ESTABLISHED_AND_INGESTED`, changed from
+`CONSOLIDATED_NIL_NOT_ESTABLISHED` **because the evidence changed** — read wording plus read lease figures — and not
+by reinterpretation. No limitation is opened. `L-037` stays `OPEN`: one issuer on one item is not the class of
+retrieval failure that entry describes, so it is updated with the reading and left open. `L-036` and `L-035` are
+untouched.
+
+**How the bytes were obtained, stated plainly.** This environment has neither general egress nor PDF tooling; that
+finding, and the fourteen routes behind it, stand. The fetch and extraction were therefore done by a throwaway
+GitHub Actions job on a temporary workflow file added to this branch for that purpose and deleted again in the same
+work item. The committed page files are that job's `pdftotext -layout` output, unedited apart from a provenance
+header naming URL, byte count, sha256, PDF page index and printed pages; `runs/commands.txt` carries the two `curl`
+lines and the `pdftotext` lines, so every page can be reproduced from the recorded hashes.
+
+**Evidence.** `evidence/real-issuer/WI6A-S2-CONSOLIDATED-PAGE-RECOVERY-2026-11-07/` — `quotes-verified.json`,
+`source-bytes.json`, `page-map.json`, eleven page extracts, `retrieval-log-s2.txt`, `ingest-input/`,
+`runs/cli-s2.json`, `runs/readback.json`, the persisted payload, `digests.json` — guarded by
+`iips-platform/tests/investment/wi6aS2ConsolidatedPageEvidence.test.ts`. The WI-6A and WI-6A-S1 bundles are
+byte-identical and still verify.

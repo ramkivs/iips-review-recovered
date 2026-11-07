@@ -1,0 +1,28 @@
+{
+  "schemaVersion": "IIPS_INVESTMENT_IDENTITY_V1",
+  "rosterLabel": "WI-6A-S2 operator-supplied roster (one real issuer, Zensar Technologies Limited)",
+  "issuers": [
+    {
+      "issuerId": "IN:CIN:L72200PN1963PLC012621",
+      "legalName": "Zensar Technologies Limited",
+      "cin": "L72200PN1963PLC012621",
+      "equityIsin": "INE520A01027",
+      "issuerKeyBasis": "CIN",
+      "sector": "Technology",
+      "subSegment": null,
+      "status": "ELIGIBLE",
+      "statusReason": null,
+      "foreignIssuer": false
+    }
+  ],
+  "securities": [
+    {
+      "securityId": "IN:ISIN:INE520A01027",
+      "issuerId": "IN:CIN:L72200PN1963PLC012621",
+      "isin": "INE520A01027",
+      "instrumentType": "EQUITY",
+      "status": "ASSESSABLE",
+      "statusReason": null
+    }
+  ]
+}

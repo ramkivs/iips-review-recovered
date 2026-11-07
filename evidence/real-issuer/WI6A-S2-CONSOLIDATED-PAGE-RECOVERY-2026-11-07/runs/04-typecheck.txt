@@ -1,0 +1,4 @@
+# WI-6A-S2 — typecheck
+# command: npx tsc --noEmit   (cwd iips-platform)
+# exit status: 0 — no diagnostics. The S2 change is evidence, documentation and one test file;
+# no product source file was modified.
