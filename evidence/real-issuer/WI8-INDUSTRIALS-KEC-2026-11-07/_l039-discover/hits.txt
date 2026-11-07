@@ -1,0 +1,19 @@
+== fy26 KEC_Annual_Report_2025-26.pdf (215 pages)
+fy26 p108: mutual_fund=1 | investments=1 bank_balances=0 cash=0
+fy26 p119: note_17=2 | investments=0 bank_balances=0 cash=3
+fy26 p129: note_10=1 | investments=4 bank_balances=0 cash=0
+fy26 p131: note_17=1, note_18=1 | investments=0 bank_balances=1 cash=3
+fy26 p132: note_19=3 | investments=0 bank_balances=0 cash=0
+fy26 p145: current_investment=1, non_current_investment=1 | investments=2 bank_balances=2 cash=0
+fy26 p184: note_10=2 | investments=0 bank_balances=0 cash=0
+fy26 p186: note_17=1, note_18=3, note_19=3 | investments=0 bank_balances=1 cash=3
+fy26 p198: current_investment=1, non_current_investment=1 | investments=2 bank_balances=1 cash=2
+== fy25 KEC_Annual_Report_2024-25.pdf (206 pages)
+fy25 p101: mutual_fund=1 | investments=1 bank_balances=0 cash=0
+fy25 p122: note_10=1 | investments=4 bank_balances=0 cash=0
+fy25 p124: note_17=1, note_18=1, note_19=3 | investments=0 bank_balances=1 cash=3
+fy25 p137: current_investment=1, non_current_investment=1 | investments=2 bank_balances=2 cash=0
+fy25 p175: note_10=2 | investments=1 bank_balances=0 cash=0
+fy25 p177: note_17=1, note_18=3, note_19=2 | investments=0 bank_balances=1 cash=3
+fy25 p178: note_19=1 | investments=0 bank_balances=0 cash=0
+fy25 p189: current_investment=1, non_current_investment=1 | investments=3 bank_balances=2 cash=1

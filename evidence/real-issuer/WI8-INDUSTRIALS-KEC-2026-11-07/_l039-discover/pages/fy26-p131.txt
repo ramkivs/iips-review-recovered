@@ -1,0 +1,75 @@
+                                                                                                                                                                                                                                                   FINANCIAL STATEMENTS
+                                                                                                        KEC International Limited                                                                                                                             Consolidated
+
+
+
+
+Notes                                                                                                                               Notes
+forming part of the Consolidated Financial Statements as at and for the year ended March 31, 2026                                   forming part of the Consolidated Financial Statements as at and for the year ended March 31, 2026
+
+
+
+NOTE 15 - INVENTORIES                                                                                                               Note 16.3: Trade receivables ageing
+                                                                                                                      ` in Crore    As at March 31, 2026
+Particulars                                                                                           As at              As at                                                                                                                                     ` in Crore
+                                                                                             March 31, 2026     March 31, 2025      Particulars                                      Not Due     Less than    6 months        1-2           2-3      More than          Total
+Inventories (lower of cost and net realisable value)                                                                                                                                             6 months       - 1 year     Years         Years       3 years
+(a)   Raw materials                                                                                                                 Undisputed – considered good                     3,335.62     2,179.48       678.70      200.90        78.29         219.25 6,692.24
+      (i)    in stock                                                                                921.75              863.61     Undisputed – Credit impaired                             -            -           1.73        -         0.12           0.89         2.74
+      (ii)   in-transit                                                                               48.32               45.89     Disputed – considered good                           2.22         0.47               -     0.56         0.30           4.19         7.74
+                                                                                                     970.07              909.50     Disputed – Credit impaired                               -            -       11.27        7.55        13.64           9.87        42.33
+(b)   Work-in-progress                                                                               115.24               63.67     Total                                            3,337.84     2,179.95       691.70      209.01        92.35        234.20 6,745.05
+(c)   Finished goods (including goods in transit)                                                    373.68               99.93     Less: Allowance for expected credit loss                                                                                          270.84
+(d)   Stores and spares                                                                               49.93               47.65     Total                                                                                                                           6,474.21
+(e)   Scrap                                                                                           23.82               19.71
+                                                                                                                                    As at March 31, 2025
+                                                                                                    1,532.74           1,140.46
+                                                                                                                                                                                                                                                                   ` in Crore
+NOTE 16 - TRADE RECEIVABLES                                                                                                         Particulars                                      Not Due     Less than    6 months        1-2           2-3      More than         Total
+                                                                                                                                                                                                 6 months       - 1 year     Years         Years       3 years
+                                                                                                                      ` in Crore
+                                                                                                                                    Undisputed – considered good                     3,271.21     1,417.50       266.29      124.33        18.57          43.27 5,141.17
+Particulars                                                                                           As at              As at
+                                                                                             March 31, 2026     March 31, 2025      Undisputed – credit impaired                             -            -              -        -            -               -            -
+
+Trade receivables - Unsecured (Refer note 54B.3)                                                                                    Disputed – considered good                           6.69         1.05            0.66     0.35         0.20           9.80        18.75
+
+(a)   Considered good                                                                               6,745.05           5,159.92     Disputed – credit impaired                               -            -              -        -            -               -            -
+
+(b)   Credit impaired                                                                                      -                   -    Total                                            3,277.90     1,418.55       266.95      124.68        18.77          53.07 5,159.92
+
+                                                                                                    6,745.05           5,159.92     Less: Allowance for expected credit loss                                                                                          108.82
+
+Less: Allowance for expected credit losses*                                                          270.84              108.82     Total                                                                                                                           5,051.10
+
+                                                                                                    6,474.21           5,051.10
+                                                                                                                                    NOTE 17 - CASH AND CASH EQUIVALENTS
+*Movement in the Allowance for expected credit losses (Refer Note 54B.3)                                                                                                                                                                                           ` in Crore
+                                                                                                                                    Particulars                                                                                                As at               As at
+Particulars                                                                                                           ` in Crore                                                                                                      March 31, 2026      March 31, 2025
+Balance as at March 31, 2024                                                                                              85.05     (a)     Balances with banks
+Add: Created during the year                                                                                              31.16             (i)    In current accounts*                                                                       306.35                 523.40
+Less: Utilised during the year                                                                                             4.61             (ii)   In deposit accounts with original maturity of less than 3 months                            92.89                   12.63
+Less: Exchange fluctuation                                                                                                 2.78                                                                                                               399.24                 536.03
+Balance as at March 31, 2025                                                                                             108.82     (b )    Cash on hand*                                                                                      10.82                    9.66
+Add: Created during the year                                                                                              60.90                                                                                                               411.26                 545.69
+Add: Transfer from non current trade receivable                                                                          111.07
+                                                                                                                                    *There are restrictions on repatriations with regards to cash and cash equivalents as at March 31, 2026 of ` 1.54 crore (as at March 31,
+Less: Utilised during the year                                                                                            17.53     2025, ` 3.48 crore)
+Add: Exchange fluctuation                                                                                                  7.58
+Balance as at March 31, 2026                                                                                             270.84     NOTE 18 - BANK BALANCES OTHER THAN CASH AND CASH EQUIVALENTS
+                                                                                                                                                                                                                                                                   ` in Crore
+Note 16.1: Transfer of financial assets                                                                                             Particulars                                                                                                As at               As at
+The Group has discounted trade receivables with an aggregate carrying amount of ` Nil (` 63.14 crore during the previous year                                                                                                         March 31, 2026      March 31, 2025
+ended March 31, 2025) with banks for cash proceeds of ` Nil during the current year (during the previous year ended March 31,       (i)     Earmarked balances with banks - unpaid dividend accounts                                            3.06                    3.02
+2025 is ` 62.41 crore). These arrangements are “non-recourse” to the Group and accordingly, the Group has derecognised these        (ii)    Bank deposit with original maturity of more than 3 months but less than 12                          3.20                   27.48
+receivables as at March 31, 2026 and 2025. Amount charged to profit and loss with respect to the underlying trade receivables               months
+(purchased by bank) is ` Nil. (during the previous year ` 0.74 crore).                                                              (iii)   Balances with banks to the extent held as margin money or security against the                     94.41                   79.74
+                                                                                                                                            borrowings, guarantees and other commitments.
+Note 16.2
+                                                                                                                                                                                                                                              100.67                 110.24
+Trade receivable from related parties is ` 2.20 crore (As at March 31, 2025 ` 5.91 crore).
+
+
+258     Integrated Annual Report 2025-26                                                                                                                                                                                          Integrated Annual Report 2025-26       259
+

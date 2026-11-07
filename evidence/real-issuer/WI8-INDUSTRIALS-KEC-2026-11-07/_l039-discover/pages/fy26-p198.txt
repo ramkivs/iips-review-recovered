@@ -1,0 +1,79 @@
+                                                                                                                                                                                                                                                       FINANCIAL STATEMENTS
+                                                                                                               KEC International Limited                                                                                                                             Standalone
+
+
+
+
+Notes                                                                                                                                         Notes
+forming part of the Financial Statements as at and for the year ended March 31, 2026                                                          forming part of the Financial Statements as at and for the year ended March 31, 2026
+
+
+
+      (a)   Total cash outflow for leases during current financial year is ` 52.27 crore (previous year : ` 30.78 crore)                      NOTE 53 DISCLOSURE AS PER IND AS 107
+                                                                                                                                              A    Fair Value Measurement
+      (b)	Additions to the right of use assets during the current financial year is ` 51.97 crore (previous year : ` 128.18 crore)
+                                                                                                                                              I.   Category-wise classification of financial assets and financial liabilities
+      (c)	During the previous year ended 31st March 2025, the Company has sold and leased back assets with written down value
+                                                                                                                                                                                                                                                                     ` in Crore
+           aggregating ` 69.08 crore for a sale consideration of ` 70.07 crore. The assets were leased back for a lease term of 5
+                                                                                                                                                   Particulars                                    As at March 31, 2026                      As at March 31, 2025
+           years and all the payments in the lease agreements have been included in the measurement of lease liabilities. As per the
+           requirements of Ind AS 116, the right of use assets was recognised to the extent of the written down value of the assets                                                      FVPL       FVOCI    Amortised Used for      FVPL     FVOCI     Amortised Used for
+                                                                                                                                                                                                                 Cost hedging                               Cost hedging
+           and no profit or loss has been recognised in respect of this transaction. The cash flow from sale of assets have been
+           presented separately as part of investing activity in the Statement of cash flows.                                                      Financial assets
+                                                                                                                                                   Non-current investment
+      (d)	Payments associated with short-term leases of equipment and vehicles are recognised on straight line basis as an
+                                                                                                                                                   - Investment in equity                    -          *           -          -       -          *             -            -
+           expense in profit or loss.
+                                                                                                                                                     instruments (other than
+      (e) 	Short term leases are leases with a lease term of 12 months or less. There are no leases of low value assets during the                  investment in subsidiaries)
+            current and previous year.                                                                                                             Trade receivables                          -          -    5,625.91          -       -          -      4,436.97            -
+                                                                                                                                                   Cash and bank balances                     -          -      384.36          -       -          -        580.97            -
+      (f)	When measuring lease liabilities for leases that were classified as operating leases, the Company discounted lease
+                                                                                                                                                   Other financial assets
+           payments using its incremental borrowing rate. The weighted average incremental borrowing rate applied is 8.96% p.a.
+           (Previous year: 9.10% p.a.)                                                                                                             - Derivative instruments
+                                                                                                                                                   i) 	Foreign currency forward          1.51           -           -    30.52      1.88          -             -        8.72
+NOTE 52 - CAPITAL MANAGEMENT                                                                                                                            contracts
+The Company manages its capital to ensure that the Company will be able to continue as a going concern while maximising the                        ii) 	Over the counter (OTC)               -          -           -    36.65         -          -             -        8.21
+return to shareholders through the optimisation of the debt and equity. The capital structure of the Company consists of net debt                        commodity derivative
+(borrowings as detailed in Notes 24 and 29 offset by cash and cash equivalents in Note 16) and total equity of the Company.                              contracts
+The Company is not subject to any externally imposed capital requirements.The Company monitors capital using a gearing ratio,                      - Others                                   -          -      211.88          -       -          -        170.74            -
+which is net debt divided by total equity.                                                                                                         Financial liabilities
+                                                                                                                                                   Borrowings (including interest             -          -    4,501.69          -       -          -      3,175.26            -
+The Company sets the amount of capital in proportion to its overall financing structure, i.e. equity and financial liabilities. The Company
+                                                                                                                                                   accrued)
+manages the capital structure and makes adjustments to it in the light of changes in economic conditions and the risk characteristics
+                                                                                                                                                   Lease Liabilities                          -          -      136.37          -       -          -        123.14            -
+of the underlying assets.
+                                                                                                                                                   Trade payables                             -          -    8,407.86          -       -          -      8,233.49            -
+Gearing ratio                                                                                                                                      Trade Acceptances                                          1,400.13          -                         1,209.91            -
+The gearing ratio at end of the reporting period is as follows.                                                                                    Other financial liabilities
+                                                                                                                                ` in Crore         - Derivative instruments
+Particulars                                                                                                As at                    As at             i) 	Foreign currency              11.05           -           -    18.82      5.59          -             -        6.68
+                                                                                                  March 31, 2026           March 31, 2025                  forward contracts
+Debt *                                                                              A                     4,638.06               3,298.40             ii) 	Over the counter (OTC)            -          -           -     1.43         -          -             -       43.17
+                                                                                                                                                            commodity derivative
+Cash and cash equivalents                                                           B                      (286.15)               (478.51)
+                                                                                                                                                            contracts
+Net debt                                                                         C=A+B                    4,351.91               2,819.89
+                                                                                                                                                   - Others                                   -          -       31.58          -       -          -         21.12            -
+Total equity                                                                        D                     5,505.96               5,097.12
+Net debt to equity ratio                                                         E=C/D                         0.79                   0.55         * less than rounding off norms adopted by the Company
+                                                                                                                                                   FVPL - Fair Value Through Profit or Loss
+* Debt is defined as long-term and short-term borrowings (excluding derivative and financial guarantee contracts), as described in Notes 24        FVOCI - Fair Value Through Other Comprehensive Income
+and 29 and includes interest accrued thereon as per Note 33 and lease liabilities as per Note 25 and 30.
+
+During the year ended March 31, 2025, the Company has distributed the final dividend of ` 5.50 per equity share for the year ended
+March 31, 2025 amounting to ` 146.41 crore.
+
+The Board of directors, at their meeting held on May 16, 2026 recommended the final dividend of ` 5.50 per equity share for the year
+ended March 31, 2026, subject to approval from shareholders. On approval, the total dividend outgo is expected to be ` 146.42 crore
+based on number of shares outstanding as at March 31, 2026.
+
+
+
+
+392      Integrated Annual Report 2025-26                                                                                                                                                                                             Integrated Annual Report 2025-26     393
+
